@@ -58,7 +58,7 @@ void get_city_citizen_types(struct city *pcity, int index,
 			    struct citizen_type *citizens);
 void city_rotate_specialist(struct city *pcity, int citizen_index);
 
-void activate_all_units(int map_x, int map_y);
+void activate_all_units(struct tile *ptile);
 
 int city_change_production(struct city *pcity, bool is_unit, int build_id);
 int city_set_worklist(struct city *pcity, struct worklist *pworklist);

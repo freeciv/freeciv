@@ -363,7 +363,7 @@ void update_menus(void)
       Terrain_type_id  ttype;
       struct tile_type *      tinfo;
 
-      ttype = map_get_tile(punit->x, punit->y)->terrain;
+      ttype = punit->tile->terrain;
       tinfo = get_tile_type(ttype);
 
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_CITY,
@@ -398,13 +398,13 @@ void update_menus(void)
 			   get_transporter_capacity(punit)>0);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_LOAD,
 	can_unit_load(punit, find_transporter_for_unit(punit,
-						       punit->x, punit->y)));
+						       punit->tile)));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_UNLOAD,
 	(can_unit_unload(punit, find_unit_by_id(punit->transported_by))
-	 && can_unit_exist_at_tile(punit, punit->x, punit->y)));
+	 && can_unit_exist_at_tile(punit, punit->tile)));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_WAKEUP_OTHERS, 
 			   is_unit_activity_on_tile(ACTIVITY_SENTRY,
-				punit->x,punit->y));
+				punit->tile));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_SETTLER,
 			   (can_unit_do_auto(punit)
 			    && unit_flag(punit, F_SETTLERS)));
@@ -432,11 +432,11 @@ void update_menus(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_DIPLOMAT_DLG,
 			   (is_diplomat_unit(punit)
 			    && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-						      punit->x, punit->y)));
+						      punit->tile)));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_NUKE,
                            unit_flag(punit, F_NUCLEAR));
 
-      if (unit_flag(punit, F_CITIES) && map_get_city(punit->x, punit->y)) {
+      if (unit_flag(punit, F_CITIES) && map_get_city(punit->tile)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
 			  TEXT_ORDER_CITY_ADD_TO, NULL);
       } else {
@@ -450,7 +450,7 @@ void update_menus(void)
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
 			  (get_tile_type(tinfo->irrigation_result))->terrain_name);
       }
-      else if (map_has_special(punit->x, punit->y, S_IRRIGATION) &&
+      else if (map_has_special(punit->tile, S_IRRIGATION) &&
 	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_FARMLAND, NULL);
@@ -487,7 +487,7 @@ void update_menus(void)
 			  TEXT_ORDER_POLLUTION_POLLUTION, NULL);
       }
 
-      if (map_has_special(punit->x, punit->y, S_ROAD)) {
+      if (map_has_special(punit->tile, S_ROAD)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_ROAD,
 			  TEXT_ORDER_ROAD_RAILROAD, NULL);
       } else {

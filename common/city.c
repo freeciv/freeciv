@@ -74,11 +74,10 @@ bool is_valid_city_coords(const int city_x, const int city_y)
   center. Returns whether the map position is inside of the city map.
 **************************************************************************/
 static bool base_map_to_city_map(int *city_map_x, int *city_map_y,
-				 int city_center_x, int city_center_y,
-				 int map_x, int map_y)
+				 const struct tile *city_tile,
+				 const struct tile *map_tile)
 {
-  map_distance_vector(city_map_x, city_map_y,
-		      city_center_x, city_center_y, map_x, map_y);
+  map_distance_vector(city_map_x, city_map_y, city_tile, map_tile);
   *city_map_x += CITY_MAP_RADIUS;
   *city_map_y += CITY_MAP_RADIUS;
   return is_valid_city_coords(*city_map_x, *city_map_y);
@@ -89,42 +88,40 @@ Finds the city map coordinate for a given map position and a
 city. Returns whether the map position is inside of the city map.
 **************************************************************************/
 bool map_to_city_map(int *city_map_x, int *city_map_y,
-		    const struct city *const pcity, int map_x, int map_y)
+		     const struct city *const pcity,
+		     const struct tile *map_tile)
 {
-  return base_map_to_city_map(city_map_x,
-			      city_map_y, pcity->x, pcity->y,
-			      map_x, map_y);
+  return base_map_to_city_map(city_map_x, city_map_y, pcity->tile, map_tile);
 }
 
 /**************************************************************************
 Finds the map position for a given city map coordinate of a certain
 city. Returns true if the map position found is real.
 **************************************************************************/
-bool base_city_map_to_map(int *map_x, int *map_y,
-			 int city_center_x, int city_center_y,
-			 int city_map_x, int city_map_y)
+struct tile *base_city_map_to_map(const struct tile *city_tile,
+				  int city_map_x, int city_map_y)
 {
+  int x, y;
+
   assert(is_valid_city_coords(city_map_x, city_map_y));
-  *map_x = city_center_x + city_map_x - CITY_MAP_SIZE / 2;
-  *map_y = city_center_y + city_map_y - CITY_MAP_SIZE / 2;
+  x = city_tile->x + city_map_x - CITY_MAP_SIZE / 2;
+  y = city_tile->y + city_map_y - CITY_MAP_SIZE / 2;
 
-  /* We check the border first to avoid doing an unnecessary
-   * normalization; this is just an optimization. */
-  return (!IS_BORDER_MAP_POS(city_center_x, city_center_y,
-                            CITY_MAP_SIZE / 2)
-         || normalize_map_pos(map_x, map_y));
+  if (normalize_map_pos(&x, &y)) {
+    return map_pos_to_tile(x, y);
+  } else {
+    return NULL;
+  }
 }
 
 /**************************************************************************
 Finds the map position for a given city map coordinate of a certain
 city. Returns true if the map position found is real.
 **************************************************************************/
-bool city_map_to_map(int *map_x, int *map_y,
-		    const struct city *const pcity,
-		    int city_map_x, int city_map_y)
+struct tile *city_map_to_map(const struct city *const pcity,
+			     int city_map_x, int city_map_y)
 {
-  return base_city_map_to_map(map_x, map_y,
-			      pcity->x, pcity->y, city_map_x, city_map_y);
+  return base_city_map_to_map(pcity->tile, city_map_x, city_map_y);
 }
 
 /**************************************************************************
@@ -218,11 +215,9 @@ void generate_city_map_indices(void)
 void set_worker_city(struct city *pcity, int city_x, int city_y,
 		     enum city_tile_type type)
 {
-  int map_x, map_y;
+  struct tile *ptile;
 
-  if (city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
-    struct tile *ptile = map_get_tile(map_x, map_y);
-
+  if ((ptile = city_map_to_map(pcity, city_x, city_y))) {
     if (pcity->city_map[city_x][city_y] == C_TILE_WORKER
 	&& ptile->worked == pcity) {
       ptile->worked = NULL;
@@ -336,13 +331,15 @@ bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id)
   }
 
   for (;*spec_gate!=S_NO_SPECIAL;spec_gate++) {
-    if (map_has_special(pcity->x, pcity->y, *spec_gate) ||
-        is_special_near_tile(pcity->x,pcity->y,*spec_gate)) return TRUE;
+    if (map_has_special(pcity->tile, *spec_gate) ||
+        is_special_near_tile(pcity->tile, *spec_gate)) {
+      return TRUE;
+    }
   }
 
   for (; *terr_gate != T_NONE; terr_gate++) {
-    if (map_get_terrain(pcity->x,pcity->y) == *terr_gate
-        || is_terrain_near_tile(pcity->x,pcity->y,*terr_gate)) {
+    if (pcity->tile->terrain == *terr_gate
+        || is_terrain_near_tile(pcity->tile, *terr_gate)) {
       return TRUE;
     }
   }
@@ -432,7 +429,7 @@ bool can_build_unit_direct(const struct city *pcity, Unit_Type_id id)
   }
 
   /* You can't build naval units inland. */
-  if (!is_ocean_near_tile(pcity->x, pcity->y) && is_water_unit(id)) {
+  if (!is_ocean_near_tile(pcity->tile) && is_water_unit(id)) {
     return FALSE;
   }
   return TRUE;
@@ -468,7 +465,7 @@ bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id)
 
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
-  if (!is_ocean_near_tile(pcity->x, pcity->y) && is_water_unit(id)) {
+  if (!is_ocean_near_tile(pcity->tile) && is_water_unit(id)) {
     return FALSE;
   }
 
@@ -528,13 +525,12 @@ int improvement_upkeep(const struct city *pcity, Impr_Type_id i)
   (city_x, city_y) must be valid city coordinates and is_celebrating tells
   whether the city is celebrating.
 **************************************************************************/
-static int base_get_shields_tile(int map_x, int map_y,
+static int base_get_shields_tile(const struct tile *ptile,
 				 const struct city *pcity,
 				 int city_x, int city_y, bool is_celebrating)
 {
-  enum tile_special_type spec_t = map_get_special(map_x, map_y);
-  Terrain_type_id tile_t = map_get_terrain(map_x, map_y);
-  struct tile *ptile = map_get_tile(map_x, map_y);
+  enum tile_special_type spec_t = map_get_special(ptile);
+  Terrain_type_id tile_t = ptile->terrain;
   int s;
 
   if (contains_special(spec_t, S_SPECIAL_1)) {
@@ -593,9 +589,9 @@ static int base_get_shields_tile(int map_x, int map_y,
   Calculate the shields produced by the tile.  This obviously won't take
   into account any city or government bonuses.
 **************************************************************************/
-int get_shields_tile(int map_x, int map_y)
+int get_shields_tile(const struct tile *ptile)
 {
-  return base_get_shields_tile(map_x, map_y, NULL, -1, -1, FALSE);
+  return base_get_shields_tile(ptile, NULL, -1, -1, FALSE);
 }
 
 /**************************************************************************
@@ -618,14 +614,14 @@ int base_city_get_shields_tile(int city_x, int city_y,
 			       const struct city *pcity,
 			       bool is_celebrating)
 {
-  int map_x, map_y;
+  struct tile *ptile;
 
-  if (!city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
+  if (!(ptile = city_map_to_map(pcity, city_x, city_y))) {
     assert(0);
     return 0;
   }
 
-  return base_get_shields_tile(map_x, map_y, pcity,
+  return base_get_shields_tile(ptile, pcity,
 			       city_x, city_y, is_celebrating);
 }
 
@@ -634,12 +630,12 @@ int base_city_get_shields_tile(int city_x, int city_y,
   (city_x, city_y) must be valid city coordinates and is_celebrating tells
   whether the city is celebrating.
 **************************************************************************/
-static int base_get_trade_tile(int map_x, int map_y, const struct city *pcity,
+static int base_get_trade_tile(const struct tile *ptile,
+			       const struct city *pcity,
 			       int city_x, int city_y, bool is_celebrating)
 {
-  enum tile_special_type spec_t = map_get_special(map_x, map_y);
-  Terrain_type_id tile_t = map_get_terrain(map_x, map_y);
-  struct tile *ptile = map_get_tile(map_x, map_y);
+  enum tile_special_type spec_t = map_get_special(ptile);
+  Terrain_type_id tile_t = ptile->terrain;
   int t;
 
   if (contains_special(spec_t, S_SPECIAL_1)) {
@@ -704,9 +700,9 @@ static int base_get_trade_tile(int map_x, int map_y, const struct city *pcity,
   Calculate the trade produced by the tile.  This obviously won't take
   into account any city or government bonuses.
 **************************************************************************/
-int get_trade_tile(int map_x, int map_y)
+int get_trade_tile(const struct tile *ptile)
 {
-  return base_get_trade_tile(map_x, map_y, NULL, -1, -1, FALSE);
+  return base_get_trade_tile(ptile, NULL, -1, -1, FALSE);
 }
 
 /**************************************************************************
@@ -728,15 +724,14 @@ int city_get_trade_tile(int city_x, int city_y, const struct city *pcity)
 int base_city_get_trade_tile(int city_x, int city_y,
 			     const struct city *pcity, bool is_celebrating)
 {
-  int map_x, map_y;
+  struct tile *ptile;
 
-  if (!city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
+  if (!(ptile = city_map_to_map(pcity, city_x, city_y))) {
     assert(0);
     return 0;
   }
 
-  return base_get_trade_tile(map_x, map_y,
-			     pcity, city_x, city_y, is_celebrating);
+  return base_get_trade_tile(ptile, pcity, city_x, city_y, is_celebrating);
 }
 
 /**************************************************************************
@@ -744,11 +739,12 @@ int base_city_get_trade_tile(int city_x, int city_y,
   (city_x, city_y) must be valid city coordinates and is_celebrating tells
   whether the city is celebrating.
 **************************************************************************/
-static int base_get_food_tile(int map_x, int map_y, const struct city *pcity,
+static int base_get_food_tile(const struct tile *ptile,
+			      const struct city *pcity,
 			      int city_x, int city_y, bool is_celebrating)
 {
-  const enum tile_special_type spec_t = map_get_special(map_x, map_y);
-  const Terrain_type_id tile_t = map_get_terrain(map_x, map_y);
+  const enum tile_special_type spec_t = map_get_special(ptile);
+  const Terrain_type_id tile_t = ptile->terrain;
   struct tile_type *type = get_tile_type(tile_t);
   struct tile tile;
   int f;
@@ -823,9 +819,9 @@ static int base_get_food_tile(int map_x, int map_y, const struct city *pcity,
   Calculate the food produced by the tile.  This obviously won't take
   into account any city or government bonuses.
 **************************************************************************/
-int get_food_tile(int map_x, int map_y)
+int get_food_tile(const struct tile *ptile)
 {
-  return base_get_food_tile(map_x, map_y, NULL, -1, -1, FALSE);
+  return base_get_food_tile(ptile, NULL, -1, -1, FALSE);
 }
 
 /**************************************************************************
@@ -847,15 +843,14 @@ int city_get_food_tile(int city_x, int city_y, const struct city *pcity)
 int base_city_get_food_tile(int city_x, int city_y, const struct city *pcity,
 			    bool is_celebrating)
 {
-  int map_x, map_y;
+  struct tile *ptile;
 
-  if (!city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
+  if (!(ptile = city_map_to_map(pcity, city_x, city_y))) {
     assert(0);
     return 0;
   }
 
-  return base_get_food_tile(map_x, map_y, pcity,
-			    city_x, city_y, is_celebrating);
+  return base_get_food_tile(ptile, pcity, city_x, city_y, is_celebrating);
 }
 
 /**************************************************************************
@@ -863,16 +858,16 @@ int base_city_get_food_tile(int city_x, int city_y, const struct city *pcity,
   coordinates.  punit is the founding unit, which may be NULL in some
   cases (e.g., cities from huts).
 **************************************************************************/
-bool city_can_be_built_here(int x, int y, struct unit *punit)
+bool city_can_be_built_here(const struct tile *ptile, struct unit *punit)
 {
-  if (terrain_has_flag(map_get_terrain(x, y), TER_NO_CITIES)) {
+  if (terrain_has_flag(ptile->terrain, TER_NO_CITIES)) {
     /* No cities on this terrain. */
     return FALSE;
   }
 
   if (punit) {
     enum unit_move_type move_type = unit_type(punit)->move_type;
-    Terrain_type_id t = map_get_terrain(x, y);
+    Terrain_type_id t = ptile->terrain;
 
     /* We allow land units to build land cities and sea units to build
      * ocean cities. */
@@ -883,8 +878,8 @@ bool city_can_be_built_here(int x, int y, struct unit *punit)
   }
 
   /* game.rgame.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
-  square_iterate(x, y, game.rgame.min_dist_bw_cities - 1, x1, y1) {
-    if (map_get_city(x1, y1)) {
+  square_iterate(ptile, game.rgame.min_dist_bw_cities - 1, ptile1) {
+    if (ptile1->city) {
       return FALSE;
     }
   } square_iterate_end;
@@ -902,7 +897,7 @@ bool can_cities_trade(const struct city *pc1, const struct city *pc2)
 {
   return (pc1 && pc2 && pc1 != pc2
           && (pc1->owner != pc2->owner
-	      || map_distance(pc1->x, pc1->y, pc2->x, pc2->y) > 8));
+	      || map_distance(pc1->tile, pc2->tile) > 8));
 }
 
 /**************************************************************************
@@ -980,8 +975,7 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
     bonus = (pc1->tile_trade + pc2->tile_trade + 4) / 8;
 
     /* Double if on different continents. */
-    if (map_get_continent(pc1->x, pc1->y) !=
-	map_get_continent(pc2->x, pc2->y)) {
+    if (map_get_continent(pc1->tile) != map_get_continent(pc2->tile)) {
       bonus *= 2;
     }
 
@@ -1019,7 +1013,7 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
   int i, tb;
 
   /* Should this be real_map_distance? */
-  tb = map_distance(pc1->x, pc1->y, pc2->x, pc2->y) + 10;
+  tb = map_distance(pc1->tile, pc2->tile) + 10;
   tb = (tb * (pc1->trade_prod + pc2->trade_prod)) / 24;
 
   /*  fudge factor to more closely approximate Civ2 behavior (Civ2 is
@@ -1438,7 +1432,8 @@ bool city_can_grow_to(const struct city *pcity, int pop_size)
 /**************************************************************************
  is there an enemy city on this tile?
 **************************************************************************/
-struct city *is_enemy_city_tile(struct tile *ptile, struct player *pplayer)
+struct city *is_enemy_city_tile(const struct tile *ptile,
+				struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
@@ -1451,7 +1446,7 @@ struct city *is_enemy_city_tile(struct tile *ptile, struct player *pplayer)
 /**************************************************************************
  is there an friendly city on this tile?
 **************************************************************************/
-struct city *is_allied_city_tile(struct tile *ptile,
+struct city *is_allied_city_tile(const struct tile *ptile,
 				 struct player *pplayer)
 {
   struct city *pcity = ptile->city;
@@ -1465,7 +1460,7 @@ struct city *is_allied_city_tile(struct tile *ptile,
 /**************************************************************************
  is there an enemy city on this tile?
 **************************************************************************/
-struct city *is_non_attack_city_tile(struct tile *ptile,
+struct city *is_non_attack_city_tile(const struct tile *ptile,
 				     struct player *pplayer)
 {
   struct city *pcity = ptile->city;
@@ -1479,7 +1474,7 @@ struct city *is_non_attack_city_tile(struct tile *ptile,
 /**************************************************************************
  is there an non_allied city on this tile?
 **************************************************************************/
-struct city *is_non_allied_city_tile(struct tile *ptile,
+struct city *is_non_allied_city_tile(const struct tile *ptile,
 				     struct player *pplayer)
 {
   struct city *pcity = ptile->city;
@@ -1495,16 +1490,16 @@ struct city *is_non_allied_city_tile(struct tile *ptile,
 **************************************************************************/
 bool is_unit_near_a_friendly_city(struct unit *punit)
 {
-  return is_friendly_city_near(unit_owner(punit), punit->x, punit->y);
+  return is_friendly_city_near(unit_owner(punit), punit->tile);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-bool is_friendly_city_near(struct player *owner, int x, int y)
+bool is_friendly_city_near(struct player *owner, const struct tile *ptile)
 {
-  square_iterate (x, y, 3, x1, y1) {
-    struct city * pcity = map_get_city (x1, y1);
+  square_iterate(ptile, 3, ptile1) {
+    struct city * pcity = ptile1->city;
     if (pcity && pplayers_allied(owner, city_owner(pcity)))
       return TRUE;
   } square_iterate_end;
@@ -1516,11 +1511,12 @@ bool is_friendly_city_near(struct player *owner, int x, int y)
   Return true iff a city exists within a city radius of the given 
   location. may_be_on_center determines if a city at x,y counts.
 **************************************************************************/
-bool city_exists_within_city_radius(int x, int y, bool may_be_on_center)
+bool city_exists_within_city_radius(const struct tile *ptile,
+				    bool may_be_on_center)
 {
-  map_city_radius_iterate(x, y, x1, y1) {
-    if (may_be_on_center || !same_pos(x, y, x1, y1)) {
-      if (map_get_city(x1, y1)) {
+  map_city_radius_iterate(ptile, ptile1) {
+    if (may_be_on_center || !same_pos(ptile, ptile1)) {
+      if (ptile1->city) {
 	return TRUE;
       }
     }
@@ -2022,7 +2018,7 @@ static inline void city_support(struct city *pcity,
    */
   if (g->martial_law_max > 0) {
     int city_units = 0;
-    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+    unit_list_iterate(pcity->tile->units, punit) {
       if (city_units < g->martial_law_max && is_military_unit(punit)
 	  && punit->owner == pcity->owner)
 	city_units++;
@@ -2212,7 +2208,7 @@ int city_corruption(const struct city *pcity, int trade)
     if (!capital)
       dist = g->corruption_max_distance_cap;
     else {
-      int tmp = real_map_distance(capital->x, capital->y, pcity->x, pcity->y);
+      int tmp = real_map_distance(capital->tile, pcity->tile);
       dist = MIN(g->corruption_max_distance_cap, tmp);
     }
   }
@@ -2249,7 +2245,7 @@ int city_waste(const struct city *pcity, int shields)
     if (!capital) {
       dist = g->waste_max_distance_cap;
     } else {
-      int tmp = real_map_distance(capital->x, capital->y, pcity->x, pcity->y);
+      int tmp = real_map_distance(capital->tile, pcity->tile);
       dist = MIN(g->waste_max_distance_cap, tmp);
     }
   }
@@ -2319,7 +2315,7 @@ void city_add_improvement(struct city *pcity, Impr_Type_id impr)
   }
 
   improvements_update_redundant(pplayer, pcity, 
-                                map_get_continent(pcity->x, pcity->y),
+                                map_get_continent(pcity->tile),
                                 improvement_types[impr].equiv_range);
 }
 
@@ -2338,7 +2334,7 @@ void city_remove_improvement(struct city *pcity,Impr_Type_id impr)
   mark_improvement(pcity, impr, I_NONE);
 
   improvements_update_redundant(pplayer, pcity,
-                                map_get_continent(pcity->x, pcity->y),
+                                map_get_continent(pcity->tile),
                                 improvement_types[impr].equiv_range);
 }
 
@@ -2348,13 +2344,11 @@ of a given map position. If the status is C_TILE_WORKER the city which
 uses this tile is also returned. If status isn't C_TILE_WORKER the
 city pointer is set to NULL.
 **************************************************************************/
-void get_worker_on_map_position(int map_x, int map_y, enum city_tile_type
-				*result_city_tile_type,
+void get_worker_on_map_position(const struct tile *ptile,
+				enum city_tile_type *result_city_tile_type,
 				struct city **result_pcity)
 {
-  CHECK_MAP_POS(map_x, map_y);
-
-  *result_pcity = map_get_tile(map_x, map_y)->worked;
+  *result_pcity = ptile->worked;
   if (*result_pcity) {
     *result_city_tile_type = C_TILE_WORKER;
   } else {
@@ -2393,8 +2387,8 @@ void city_styles_free(void)
   Create virtual skeleton for a city.  It does not register the city so 
   the id is set to 0.  All other values are more or less sane defaults.
 **************************************************************************/
-struct city *create_city_virtual(struct player *pplayer, const int x,
-                                 const int y, const char *name)
+struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
+				 const char *name)
 {
   int i;
   struct city *pcity;
@@ -2403,8 +2397,7 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
 
   pcity->id = 0;
   pcity->owner = pplayer->player_no;
-  pcity->x = x;
-  pcity->y = y;
+  pcity->tile = ptile;
   sz_strlcpy(pcity->name, name);
   pcity->size = 1;
   specialist_type_iterate(sp) {

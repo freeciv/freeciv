@@ -85,7 +85,7 @@ int player_distance_to_player(struct player *pplayer, struct player *target)
     int min_dist = FC_INFINITY;
 
     city_list_iterate(target->cities, c2) {
-      int dist = real_map_distance(c2->x, c2->y, pcity->x, pcity->y);
+      int dist = real_map_distance(c2->tile, pcity->tile);
 
       if (min_dist > dist) {
         min_dist = dist;
@@ -107,7 +107,7 @@ int city_gold_worth(struct city *pcity)
 
   worth = pcity->size * 150; /* reasonable base cost */
   unit_list_iterate(pcity->units_supported, punit) {
-    if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+    if (same_pos(punit->tile, pcity->tile)) {
       if (can_build_unit_direct(pcity, unit_type(punit)->obsoleted_by)) {
         worth += unit_disband_shields(punit->type) / 2; /* obsolete */
       } else {

@@ -37,9 +37,9 @@
 **************************************************************************/
 static void check_specials(void)
 {
-  whole_map_iterate(x, y) {
-    Terrain_type_id terrain = map_get_terrain(x, y);
-    enum tile_special_type special = map_get_special(x, y);
+  whole_map_iterate(ptile) {
+    Terrain_type_id terrain = map_get_terrain(ptile);
+    enum tile_special_type special = map_get_special(ptile);
 
     if (contains_special(special, S_RAILROAD))
       assert(contains_special(special, S_ROAD));
@@ -62,16 +62,16 @@ static void check_specials(void)
 **************************************************************************/
 static void check_fow(void)
 {
-  whole_map_iterate(x, y) {
+  whole_map_iterate(ptile) {
     players_iterate(pplayer) {
-      struct player_tile *plr_tile = map_get_player_tile(x, y, pplayer);
+      struct player_tile *plr_tile = map_get_player_tile(ptile, pplayer);
       /* underflow of unsigned int */
       assert(plr_tile->seen < 60000);
       assert(plr_tile->own_seen < 60000);
       assert(plr_tile->pending_seen < 60000);
 
       assert(plr_tile->own_seen <= plr_tile->seen);
-      if (map_is_known(x, y, pplayer)) {
+      if (map_is_known(ptile, pplayer)) {
 	assert(plr_tile->pending_seen == 0);
       }
     } players_iterate_end;
@@ -99,33 +99,42 @@ static void check_misc(void)
 **************************************************************************/
 static void check_map(void)
 {
-  whole_map_iterate(x, y) {
-    struct tile *ptile = map_get_tile(x, y);
-    struct city *pcity = map_get_city(x, y);
-    int cont = map_get_continent(x, y);
+  whole_map_iterate(ptile) {
+    struct city *pcity = map_get_city(ptile);
+    int cont = map_get_continent(ptile), x, y;
 
-    if (is_ocean(map_get_terrain(x, y))) {
+    CHECK_INDEX(ptile->index);
+    CHECK_MAP_POS(ptile->x, ptile->y);
+    CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
+
+    index_to_map_pos(&x, &y, ptile->index);
+    assert(x == ptile->x && y == ptile->y);
+
+    index_to_native_pos(&x, &y, ptile->index);
+    assert(x == ptile->nat_x && y == ptile->nat_y);
+
+    if (is_ocean(map_get_terrain(ptile))) {
       assert(cont < 0);
-      adjc_iterate(x, y, x1, y1) {
-	if (is_ocean(map_get_terrain(x1, y1))) {
-	  assert(map_get_continent(x1, y1) == cont);
+      adjc_iterate(ptile, tile1) {
+	if (is_ocean(map_get_terrain(tile1))) {
+	  assert(map_get_continent(tile1) == cont);
 	}
       } adjc_iterate_end;
     } else {
       assert(cont > 0);
-      adjc_iterate(x, y, x1, y1) {
-	if (!is_ocean(map_get_terrain(x1, y1))) {
-	  assert(map_get_continent(x1, y1) == cont);
+      adjc_iterate(ptile, tile1) {
+	if (!is_ocean(map_get_terrain(tile1))) {
+	  assert(map_get_continent(tile1) == cont);
 	}
       } adjc_iterate_end;
     }
 
     if (pcity) {
-      assert(same_pos(pcity->x, pcity->y, x, y));
+      assert(same_pos(pcity->tile, ptile));
     }
 
     unit_list_iterate(ptile->units, punit) {
-      assert(same_pos(punit->x, punit->y, x, y));
+      assert(same_pos(punit->tile, ptile));
 
       /* Check diplomatic status of stacked units. */
       unit_list_iterate(ptile->units, punit2) {
@@ -147,8 +156,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   struct player *pplayer = city_owner(pcity);
 
   assert(pcity->size >= 1);
-  assert(is_normal_map_pos(pcity->x, pcity->y));
-  assert(!terrain_has_flag(map_get_terrain(pcity->x, pcity->y),
+  assert(!terrain_has_flag(map_get_terrain(pcity->tile),
 			   TER_NO_CITIES));
 
   unit_list_iterate(pcity->units_supported, punit) {
@@ -159,67 +167,66 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   /* Note that cities may be found on land or water. */
 
   city_map_iterate(x, y) {
-    int map_x, map_y;
+    struct tile *ptile;
 
-    if (city_map_to_map(&map_x, &map_y, pcity, x, y)) {
-      struct tile *ptile = map_get_tile(map_x, map_y);
-      struct player *owner = map_get_owner(map_x, map_y);
+    if ((ptile = city_map_to_map(pcity, x, y))) {
+      struct player *owner = map_get_owner(ptile);
 
       switch (get_worker_city(pcity, x, y)) {
       case C_TILE_EMPTY:
-	if (map_get_tile(map_x, map_y)->worked) {
+	if (ptile->worked) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "empty but worked by %s!",
-		  pcity->name, x, y,
-		  map_get_tile(map_x, map_y)->worked->name);
+		  pcity->name, TILE_XY(ptile),
+		  (ptile)->worked->name);
 	}
 	if (is_enemy_unit_tile(ptile, pplayer)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "empty but occupied by an enemy unit!",
-		  pcity->name, x, y);
+		  pcity->name, TILE_XY(ptile));
 	}
 	if (game.borders > 0
 	    && owner && owner->player_no != pcity->owner) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "empty but in enemy territory!",
-		  pcity->name, x, y);
+		  pcity->name, TILE_XY(ptile));
 	}
 	if (!city_can_work_tile(pcity, x, y)) {
 	  /* Complete check. */
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "empty but is unavailable!",
-		  pcity->name, x, y);
+		  pcity->name, TILE_XY(ptile));
 	}
 	break;
       case C_TILE_WORKER:
-	if (map_get_tile(map_x, map_y)->worked != pcity) {
+	if ((ptile)->worked != pcity) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "worked but main map disagrees!",
-		  pcity->name, x, y);
+		  pcity->name, TILE_XY(ptile));
 	}
 	if (is_enemy_unit_tile(ptile, pplayer)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "worked but occupied by an enemy unit!",
-		  pcity->name, x, y);
+		  pcity->name, TILE_XY(ptile));
 	}
 	if (game.borders > 0
 	    && owner && owner->player_no != pcity->owner) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "worked but in enemy territory!",
-		  pcity->name, x, y);
+		  pcity->name, TILE_XY(ptile));
 	}
 	if (!city_can_work_tile(pcity, x, y)) {
 	  /* Complete check. */
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "worked but is unavailable!",
-		  pcity->name, x, y);
+		  pcity->name, TILE_XY(ptile));
 	}
 	break;
       case C_TILE_UNAVAILABLE:
 	if (city_can_work_tile(pcity, x, y)) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "unavailable but seems to be available!",
-		  pcity->name, x, y);
+		  pcity->name, TILE_XY(ptile));
 	}
 	break;
       }
@@ -254,21 +261,20 @@ static void check_cities(void)
     } city_list_iterate_end;
   } players_iterate_end;
 
-  whole_map_iterate(x, y) {
-    struct tile *ptile = map_get_tile(x, y);
+  whole_map_iterate(ptile) {
     if (ptile->worked) {
       struct city *pcity = ptile->worked;
       int city_x, city_y;
       bool is_valid;
 
-      is_valid = map_to_city_map(&city_x, &city_y, pcity, x, y);
+      is_valid = map_to_city_map(&city_x, &city_y, pcity, ptile);
       assert(is_valid);
 
       if (pcity->city_map[city_x][city_y] != C_TILE_WORKER) {
 	freelog(LOG_ERROR, "%d,%d is listed as being worked by %s "
 		"on the map, but %s lists the tile %d,%d as having "
 		"status %d\n",
-		x, y, pcity->name, pcity->name, city_x, city_y,
+		TILE_XY(ptile), pcity->name, pcity->name, city_x, city_y,
 		pcity->city_map[city_x][city_y]);
       }
     }
@@ -281,12 +287,10 @@ static void check_cities(void)
 static void check_units(void) {
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
-      int x = punit->x;
-      int y = punit->y;
+      struct tile *ptile = punit->tile;
       struct city *pcity;
 
       assert(unit_owner(punit) == pplayer);
-      CHECK_MAP_POS(x, y);
 
       if (punit->homecity != 0) {
 	pcity = player_find_city_by_id(pplayer, punit->homecity);
@@ -298,15 +302,15 @@ static void check_units(void) {
 	freelog(LOG_ERROR, "%s at %d,%d (%s) has activity %s, "
 		"which it can't continue!",
 		unit_type(punit)->name,
-		x, y, map_get_tile_info_text(x, y),
+		TILE_XY(ptile), map_get_tile_info_text(ptile),
 		get_activity_text(punit->activity));
       }
 
-      pcity = map_get_city(x, y);
+      pcity = map_get_city(ptile);
       if (pcity) {
 	assert(pplayers_allied(city_owner(pcity), pplayer));
-      } else if (is_ocean(map_get_terrain(x, y))) {
-	assert(ground_unit_transporter_capacity(x, y, pplayer) >= 0);
+      } else if (is_ocean(map_get_terrain(ptile))) {
+	assert(ground_unit_transporter_capacity(ptile, pplayer) >= 0);
       }
 
       assert(punit->moves_left >= 0);
@@ -314,7 +318,7 @@ static void check_units(void) {
 
       /* Check for ground units in the ocean. */
       if (!pcity
-	  && is_ocean(map_get_terrain(punit->x, punit->y))
+	  && is_ocean(map_get_terrain(punit->tile))
 	  && is_ground_unit(punit)) {
 	assert(punit->transported_by != -1);
 	assert(!is_ground_unit(find_unit_by_id(punit->transported_by)));

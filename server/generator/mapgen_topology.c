@@ -29,7 +29,7 @@ int ice_base_colatitude = 0 ;
   functions instead (x,y) coordinate to place terrains
   colatitude is 0 at poles and MAX_COLATITUDE at equator
 ****************************************************************************/
-int map_colatitude(int map_x, int map_y)
+int map_colatitude(const struct tile *ptile)
 {
   double x, y;
   
@@ -40,7 +40,7 @@ int map_colatitude(int map_x, int map_y)
     return MAX_COLATITUDE / 2;
   }
 
-  do_in_natural_pos(ntl_x, ntl_y, map_x, map_y) {
+  do_in_natural_pos(ntl_x, ntl_y, ptile->x, ptile->y) {
     if (!topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
       /* A FLAT (unwrapped) map 
        *
@@ -160,9 +160,9 @@ int map_colatitude(int map_x, int map_y)
   Return TRUE if the map in a city radius is SINGULAR.  This is used to
   avoid putting (non-polar) land near the edge of the map.
 ****************************************************************************/
-bool near_singularity(int map_x, int map_y)
+bool near_singularity(const struct tile *ptile)
 {
-  return is_singular_map_pos(map_x, map_y, CITY_MAP_RADIUS);
+  return is_singular_tile(ptile, CITY_MAP_RADIUS);
 }
 
 

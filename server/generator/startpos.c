@@ -29,34 +29,33 @@ struct isledata *islands;
 /****************************************************************************
   Return an approximation of the goodness of a tile to a civilization.
 ****************************************************************************/
-static int get_tile_value(int x, int y)
+static int get_tile_value(struct tile *ptile)
 {
-  struct tile *ptile = map_get_tile(x, y);
   Terrain_type_id old_terrain;
   enum tile_special_type old_special;
   int value, irrig_bonus, mine_bonus;
 
   /* Give one point for each food / shield / trade produced. */
-  value = (get_food_tile(x, y)
-	   + get_shields_tile(x, y)
-	   + get_trade_tile(x, y));
+  value = (get_food_tile(ptile)
+	   + get_shields_tile(ptile)
+	   + get_trade_tile(ptile));
 
   old_terrain = ptile->terrain;
   old_special = ptile->special;
 
-  map_set_special(x, y, S_ROAD);
-  map_irrigate_tile(x, y);
-  irrig_bonus = (get_food_tile(x, y)
-		 + get_shields_tile(x, y)
-		 + get_trade_tile(x, y)) - value;
+  map_set_special(ptile, S_ROAD);
+  map_irrigate_tile(ptile);
+  irrig_bonus = (get_food_tile(ptile)
+		 + get_shields_tile(ptile)
+		 + get_trade_tile(ptile)) - value;
 
   ptile->terrain = old_terrain;
   ptile->special = old_special;
-  map_set_special(x, y, S_ROAD);
-  map_mine_tile(x, y);
-  mine_bonus = (get_food_tile(x, y)
-		 + get_shields_tile(x, y)
-		 + get_trade_tile(x, y)) - value;
+  map_set_special(ptile, S_ROAD);
+  map_mine_tile(ptile);
+  mine_bonus = (get_food_tile(ptile)
+		 + get_shields_tile(ptile)
+		 + get_trade_tile(ptile)) - value;
 
   ptile->terrain = old_terrain;
   ptile->special = old_special;
@@ -82,7 +81,7 @@ static void setup_isledata(void)
   islands = fc_calloc((map.num_continents + 1), sizeof(struct isledata));
 
   /* add up all the resources of the map */
-  whole_map_iterate(x, y) {
+  whole_map_iterate(ptile) {
     /* number of different continents seen from (x,y) */
     int seen_conts = 0;
     /* list of seen continents */
@@ -91,16 +90,16 @@ static void setup_isledata(void)
     
     /* add tile's value to each continent that is within city 
      * radius distance */
-    map_city_radius_iterate(x, y, x1, y1) {
+    map_city_radius_iterate(ptile, tile1) {
       /* (x1,y1) is possible location of a future city which will
        * be able to get benefit of the tile (x,y) */
-      if (is_ocean(map_get_terrain(x1, y1)) 
-	  || map_colatitude(x1, y1) <= 2 * ICE_BASE_LEVEL) { 
+      if (is_ocean(map_get_terrain(tile1)) 
+	  || map_colatitude(tile1) <= 2 * ICE_BASE_LEVEL) { 
 	/* Not land, or too cold. */
         continue;
       }
       for (j = 0; j < seen_conts; j++) {
-	if (map_get_continent(x1, y1) == conts[j]) {
+	if (map_get_continent(tile1) == conts[j]) {
           /* Continent of (x1,y1) is already in the list */
 	  break;
         }
@@ -108,14 +107,14 @@ static void setup_isledata(void)
       if (j >= seen_conts) { 
 	/* we have not seen this continent yet */
 	assert(seen_conts < CITY_TILES);
-	conts[seen_conts] = map_get_continent(x1, y1);
+	conts[seen_conts] = map_get_continent(tile1);
 	seen_conts++;
       }
     } map_city_radius_iterate_end;
     
     /* Now actually add the tile's value to all these continents */
     for (j = 0; j < seen_conts; j++) {
-      islands[conts[j]].goodies += get_tile_value(x, y);
+      islands[conts[j]].goodies += get_tile_value(ptile);
     }
   } whole_map_iterate_end;
   
@@ -190,17 +189,17 @@ struct start_filter_data {
     'nr' is the number of other start positions in
     map.start_positions to check for too closeness.
 **************************************************************************/
-static bool is_valid_start_pos(int x, int y, void *dataptr)
+static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
 {
-  struct start_filter_data *data = dataptr;
+  const struct start_filter_data *data = dataptr;
   int i;
-  Terrain_type_id t = map_get_terrain(x, y);
+  Terrain_type_id t = map_get_terrain(ptile);
 
-  if (is_ocean(map_get_terrain(x, y))) {
+  if (is_ocean(map_get_terrain(ptile))) {
     return FALSE;
   }
 
-  if (islands[(int)map_get_continent(x, y)].starters == 0) {
+  if (islands[(int)map_get_continent(ptile)].starters == 0) {
     return FALSE;
   }
 
@@ -210,7 +209,7 @@ static bool is_valid_start_pos(int x, int y, void *dataptr)
   }
   
   /* Don't start on a hut. */
-  if (map_has_special(x, y, S_HUT)) {
+  if (map_has_special(ptile, S_HUT)) {
     return FALSE;
   }
   
@@ -218,11 +217,10 @@ static bool is_valid_start_pos(int x, int y, void *dataptr)
 
   /* Don't start too close to someone else. */
   for (i = 0; i < data->count; i++) {
-    int x1 = map.start_positions[i].x;
-    int y1 = map.start_positions[i].y;
+    struct tile *tile1 = map.start_positions[i].tile;
 
-    if (map_get_continent(x, y) == map_get_continent(x1, y1)
-	&& real_map_distance(x, y, x1, y1) < data->dist) {
+    if (map_get_continent(ptile) == map_get_continent(tile1)
+	&& real_map_distance(ptile, tile1) < data->dist) {
       return FALSE;
     }
   }
@@ -236,7 +234,8 @@ static bool is_valid_start_pos(int x, int y, void *dataptr)
 **************************************************************************/
 void create_start_positions(void)
 {
-  int x, y, k, sum;
+  struct tile *ptile;
+  int k, sum;
   struct start_filter_data data;
   
   if (!islands) {
@@ -260,13 +259,12 @@ void create_start_positions(void)
 				   game.nplayers
 				   * sizeof(*map.start_positions));
   while (data.count < game.nplayers) {
-    if (rand_map_pos_filtered(&x, &y, &data, is_valid_start_pos)) {
-      islands[(int)map_get_continent(x, y)].starters--;
-      map.start_positions[data.count].x = x;
-      map.start_positions[data.count].y = y;
+    if ((ptile = rand_map_pos_filtered(&data, is_valid_start_pos))) {
+      islands[(int)map_get_continent(ptile)].starters--;
+      map.start_positions[data.count].tile = ptile;
       map.start_positions[data.count].nation = NO_NATION_SELECTED;
       freelog(LOG_DEBUG, "Adding %d,%d as starting position %d.",
-	      x, y, data.count);
+	      ptile->x, ptile->y, data.count);
       data.count++;
 
     } else {

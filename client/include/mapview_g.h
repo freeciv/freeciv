@@ -73,7 +73,7 @@ void gui_flush(void);
 void update_map_canvas_scrollbars(void);
 void update_map_canvas_scrollbars_size(void);
 
-void put_cross_overlay_tile(int x,int y);
+void put_cross_overlay_tile(struct tile *ptile);
 void put_city_worker(struct canvas *pcanvas,
 		     enum color_std color, enum city_tile_type worker,
 		     int canvas_x, int canvas_y);

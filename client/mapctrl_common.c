@@ -60,8 +60,7 @@ static bool clipboard_is_unit;
 /* Goto with drag and drop. */
 bool keyboardless_goto_button_down = FALSE;
 bool keyboardless_goto_active = FALSE;
-int keyboardless_goto_start_x = -1,
-    keyboardless_goto_start_y = -1;
+struct tile *keyboardless_goto_start_tile;
 
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
@@ -85,7 +84,8 @@ void anchor_selection_rectangle(int canvas_x, int canvas_y)
   int tile_x, tile_y;
 
   canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y);
-  map_to_canvas_pos(&rec_anchor_x, &rec_anchor_y, tile_x, tile_y);
+  map_to_canvas_pos(&rec_anchor_x, &rec_anchor_y,
+		    nearest_real_tile(tile_x, tile_y));
   rec_anchor_x += NORMAL_TILE_WIDTH / 2;
   rec_anchor_y += NORMAL_TILE_HEIGHT / 2;
   /* FIXME: This may be off-by-one. */
@@ -138,7 +138,7 @@ static void define_tiles_within_rectangle(void)
       /*  "Half-tile" indentation must match, or we'll process
        *  some tiles twice in the case of rectangular shape tiles.
        */
-      map_to_canvas_pos(&x2, &y2, tile_x, tile_y);
+      map_to_canvas_pos(&x2, &y2, nearest_real_tile(tile_x, tile_y));
 
       if ((yy % 2) != 0 && ((rec_corner_x % W) ^ abs(x2 % W)) != 0) {
 	continue;
@@ -146,7 +146,7 @@ static void define_tiles_within_rectangle(void)
 
       /*  Tile passed all tests; process it.
        */
-      ptile = map_get_tile(tile_x, tile_y);
+      ptile = map_pos_to_tile(tile_x, tile_y);
       pcity = ptile->city;
       if (pcity && pcity->owner == game.player_idx) {
         ptile->client.hilite = HILITE_CITY;
@@ -189,7 +189,7 @@ void update_selection_rectangle(int canvas_x, int canvas_y)
 
   /*  Fix canvas coords to the center of the tile.
    */
-  map_to_canvas_pos(&canvas_x, &canvas_y, tile_x, tile_y);
+  map_to_canvas_pos(&canvas_x, &canvas_y, nearest_real_tile(tile_x, tile_y));
   canvas_x += half_W;
   canvas_y += half_H;
 
@@ -243,7 +243,7 @@ void update_selection_rectangle(int canvas_x, int canvas_y)
 **************************************************************************/
 bool is_city_hilited(struct city *pcity)
 {
-  return map_get_tile(pcity->x, pcity->y)->client.hilite == HILITE_CITY;
+  return pcity->tile->client.hilite == HILITE_CITY;
 }
 
 /**************************************************************************
@@ -254,8 +254,8 @@ void cancel_tile_hiliting(void)
   if (tiles_hilited_cities)  {
     tiles_hilited_cities = FALSE;
 
-    whole_map_iterate(x, y) {
-      map_get_tile(x, y)->client.hilite = HILITE_NONE;
+    whole_map_iterate(ptile) {
+      ptile->client.hilite = HILITE_NONE;
     } whole_map_iterate_end;
 
     update_map_canvas_visible();
@@ -281,9 +281,8 @@ void release_right_button(int canvas_x, int canvas_y)
 /**************************************************************************
  Left Mouse Button in Area Selection mode.
 **************************************************************************/
-void toggle_tile_hilite(int tile_x, int tile_y)
+void toggle_tile_hilite(struct tile *ptile)
 {
-  struct tile *ptile = map_get_tile(tile_x, tile_y);
   struct city *pcity = ptile->city;
 
   if (ptile->client.hilite == HILITE_CITY) {
@@ -301,7 +300,7 @@ void toggle_tile_hilite(int tile_x, int tile_y)
     return;
   }
 
-  refresh_tile_mapcanvas(tile_x, tile_y, TRUE);
+  refresh_tile_mapcanvas(ptile, TRUE);
 }
 
 /**************************************************************************
@@ -315,8 +314,8 @@ void key_city_overlay(int canvas_x, int canvas_y)
   if (can_client_change_view()
       && canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
     struct unit *punit;
-    struct city *pcity = find_city_or_settler_near_tile(map_x, map_y,
-							&punit);
+    struct tile *ptile = map_pos_to_tile(map_x, map_y);
+    struct city *pcity = find_city_or_settler_near_tile(ptile, &punit);
 
     if (pcity) {
       toggle_city_color(pcity);
@@ -329,10 +328,9 @@ void key_city_overlay(int canvas_x, int canvas_y)
 /**************************************************************************
  Shift-Left-Click on owned city or any visible unit to copy.
 **************************************************************************/
-void clipboard_copy_production(int tile_x, int tile_y)
+void clipboard_copy_production(struct tile *ptile)
 {
   char msg[MAX_LEN_MSG];
-  struct tile *ptile = map_get_tile(tile_x, tile_y);
   struct city *pcity = ptile->city;
 
   if (pcity) {
@@ -436,13 +434,13 @@ void release_goto_button(int canvas_x, int canvas_y)
       canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y)) {
     struct unit *punit =
         player_find_unit_by_id(game.player_ptr, hover_unit);
-    do_unit_goto(tile_x, tile_y);
+    do_unit_goto(map_pos_to_tile(tile_x, tile_y));
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
     update_unit_info_label(punit);
   }
   keyboardless_goto_active = FALSE;
   keyboardless_goto_button_down = FALSE;
-  keyboardless_goto_start_x = keyboardless_goto_start_y = -1;
+  keyboardless_goto_start_tile = NULL;
 }
 
 /**************************************************************************
@@ -453,12 +451,11 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
 {
   int tile_x, tile_y;
 
-  if (get_unit_in_focus() &&
-      canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y) &&
-      !same_pos(keyboardless_goto_start_x,
-                keyboardless_goto_start_y,
-                tile_x, tile_y) &&
-      can_client_issue_orders()) {
+  if (get_unit_in_focus()
+      && canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y)
+      && !same_pos(keyboardless_goto_start_tile,
+		   map_pos_to_tile(tile_x, tile_y))
+      && can_client_issue_orders()) {
     keyboardless_goto_active = TRUE;
     request_unit_goto();
   }
@@ -508,7 +505,7 @@ void action_button_pressed(int canvas_x, int canvas_y,
     /* FIXME: Some actions here will need to check can_client_issue_orders.
      * But all we can check is the lowest common requirement. */
     if (canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
-      do_map_click(map_x, map_y, qtype);
+      do_map_click(map_pos_to_tile(map_x, map_y), qtype);
     }
   }
 }
@@ -522,7 +519,7 @@ void wakeup_button_pressed(int canvas_x, int canvas_y)
 
   if (can_client_issue_orders()) {
     if (canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
-      wakeup_sentried_units(map_x, map_y);
+      wakeup_sentried_units(map_pos_to_tile(map_x, map_y));
     }
   }
 }
@@ -533,14 +530,15 @@ void wakeup_button_pressed(int canvas_x, int canvas_y)
 void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 {
   int map_x, map_y, city_x, city_y;
-  struct city *pcity;
   enum city_tile_type worker;
 
   if (can_client_issue_orders()) {
     if (canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
-      pcity = find_city_near_tile(map_x, map_y);
+      struct tile *ptile = map_pos_to_tile(map_x, map_y);
+      struct city *pcity = find_city_near_tile(ptile);
+
       if (pcity && !cma_is_city_under_agent(pcity, NULL)) {
-	if (!map_to_city_map(&city_x, &city_y, pcity, map_x, map_y)) {
+	if (!map_to_city_map(&city_x, &city_y, pcity, ptile)) {
 	  assert(0);
 	}
 
@@ -573,12 +571,15 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
 void recenter_button_pressed(int canvas_x, int canvas_y)
 {
   int map_x, map_y;
+  struct tile *ptile;
 
   if (can_client_change_view()) {
-    if (!canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
-      nearest_real_pos(&map_x, &map_y);
+    if (canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
+      ptile = map_pos_to_tile(map_x, map_y);
+    } else {
+      ptile = nearest_real_tile(map_x, map_y);
     }
-    center_tile_mapcanvas(map_x, map_y);
+    center_tile_mapcanvas(ptile);
   }
 }
 
@@ -629,15 +630,18 @@ void update_line(int canvas_x, int canvas_y)
        || hover_state == HOVER_PATROL
        || hover_state == HOVER_CONNECT)
       && draw_goto_line) {
-    int x, y, old_x, old_y;
+    struct tile *ptile, *old_tile;
+    int x, y;
 
-    if (!canvas_to_map_pos(&x, &y, canvas_x, canvas_y)) {
-      nearest_real_pos(&x, &y);
+    if (canvas_to_map_pos(&x, &y, canvas_x, canvas_y)) {
+      ptile = map_pos_to_tile(x, y);
+    } else {
+      ptile = nearest_real_tile(x, y);
     }
 
-    get_line_dest(&old_x, &old_y);
-    if (!same_pos(old_x, old_y, x, y)) {
-      draw_line(x, y);
+    old_tile = get_line_dest();
+    if (!same_pos(old_tile, ptile)) {
+      draw_line(ptile);
     }
   }
 }
@@ -651,13 +655,15 @@ void overview_update_line(int overview_x, int overview_y)
        || hover_state == HOVER_PATROL
        || hover_state == HOVER_CONNECT)
       && draw_goto_line) {
-    int x, y, old_x, old_y;
+    struct tile *ptile, *old_tile;
+    int x, y;
 
     overview_to_map_pos(&x, &y, overview_x, overview_y);
+    ptile = map_pos_to_tile(x, y);
 
-    get_line_dest(&old_x, &old_y);
-    if (!same_pos(old_x, old_y, x, y)) {
-      draw_line(x, y);
+    old_tile = get_line_dest();
+    if (!same_pos(ptile, old_tile)) {
+      draw_line(ptile);
     }
   }
 }
@@ -667,14 +673,13 @@ void overview_update_line(int overview_x, int overview_y)
   given tile.  Return FALSE if the values cannot be determined (e.g., no
   units on the tile).
 **************************************************************************/
-bool get_chance_to_win(int *att_chance, int *def_chance,
-		       int map_x, int map_y)
+bool get_chance_to_win(int *att_chance, int *def_chance, struct tile *ptile)
 {
   struct unit *my_unit, *defender, *attacker;
 
   if (!(my_unit = get_unit_in_focus())
-      || !(defender = get_defender(my_unit, map_x, map_y))
-      || !(attacker = get_attacker(my_unit, map_x, map_y))) {
+      || !(defender = get_defender(my_unit, ptile))
+      || !(attacker = get_attacker(my_unit, ptile))) {
     return FALSE;
   }
 

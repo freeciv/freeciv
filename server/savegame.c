@@ -71,19 +71,20 @@
  * Note: don't use this macro DIRECTLY, use 
  * SAVE_NORMAL_MAP_DATA or SAVE_PLAYER_MAP_DATA instead.
  */
-#define SAVE_MAP_DATA(map_x, map_y, nat_x, nat_y, line,                     \
+#define SAVE_MAP_DATA(ptile, line,					    \
                       GET_XY_CHAR, SECFILE_INSERT_LINE)                     \
 {                                                                           \
   char line[map.xsize + 1];                                                 \
-  int nat_x, nat_y, map_x, map_y;                                           \
+  int _nat_x, _nat_y;							    \
                                                                             \
-  for (nat_y = 0; nat_y < map.ysize; nat_y++) {                             \
-    for (nat_x = 0; nat_x < map.xsize; nat_x++) {                           \
-      NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);                      \
-      line[nat_x] = (GET_XY_CHAR);                                          \
-      if (!my_isprint(line[nat_x] & 0x7f)) {                                \
+  for (_nat_y = 0; _nat_y < map.ysize; _nat_y++) {			    \
+    for (_nat_x = 0; _nat_x < map.xsize; _nat_x++) {			    \
+      struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		    \
+									    \
+      line[_nat_x] = (GET_XY_CHAR);                                         \
+      if (!my_isprint(line[_nat_x] & 0x7f)) {                               \
           die("Trying to write invalid map "                                \
-              "data: '%c' %d", line[nat_x], line[nat_x]);                   \
+              "data: '%c' %d", line[_nat_x], line[_nat_x]);                 \
       }                                                                     \
     }                                                                       \
     line[map.xsize] = '\0';                                                 \
@@ -98,13 +99,13 @@
  *
  * SAVE_PLAYER_MAP_DATA saves a line of map data from a playermap.
  */
-#define SAVE_NORMAL_MAP_DATA(map_x, map_y, secfile, secname, GET_XY_CHAR)   \
-  SAVE_MAP_DATA(map_x, map_y, _nat_x, _nat_y, _line, GET_XY_CHAR,           \
+#define SAVE_NORMAL_MAP_DATA(ptile, secfile, secname, GET_XY_CHAR)	    \
+  SAVE_MAP_DATA(ptile, _line, GET_XY_CHAR,				    \
 		secfile_insert_str(secfile, _line, secname, _nat_y))
 
-#define SAVE_PLAYER_MAP_DATA(map_x, map_y, secfile, secname, plrno,         \
+#define SAVE_PLAYER_MAP_DATA(ptile, secfile, secname, plrno,		    \
 			     GET_XY_CHAR)                                   \
-  SAVE_MAP_DATA(map_x, map_y, _nat_x, _nat_y, _line, GET_XY_CHAR,           \
+  SAVE_MAP_DATA(ptile, _line, GET_XY_CHAR,				    \
 		secfile_insert_str(secfile, _line, secname, plrno, _nat_y))
 
 /*
@@ -129,13 +130,14 @@
  * we let any map data type to be empty, and just print an
  * informative warning message about it.
  */
-#define LOAD_MAP_DATA(ch, map_x, map_y, nat_x, nat_y,                       \
+#define LOAD_MAP_DATA(ch, nat_y, ptile,					    \
 		      SECFILE_LOOKUP_LINE, SET_XY_CHAR)                     \
 {                                                                           \
-  int nat_x, nat_y;                                                         \
+  int _nat_x, _nat_y;							    \
                                                                             \
   bool _warning_printed = FALSE;                                            \
-  for (nat_y = 0; nat_y < map.ysize; nat_y++) {                             \
+  for (_nat_y = 0; _nat_y < map.ysize; _nat_y++) {			    \
+    const int nat_y = _nat_y;						    \
     const char *_line = (SECFILE_LOOKUP_LINE);                              \
                                                                             \
     if (!_line || strlen(_line) != map.xsize) {                             \
@@ -161,11 +163,10 @@
       }                                                                     \
       continue;                                                             \
     }                                                                       \
-    for (nat_x = 0; nat_x < map.xsize; nat_x++) {                           \
-      int map_x, map_y;                                                     \
-      const char ch = _line[nat_x];                                         \
+    for (_nat_x = 0; _nat_x < map.xsize; _nat_x++) {			    \
+      const char ch = _line[_nat_x];                                        \
+      struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		    \
                                                                             \
-      NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);                      \
       (SET_XY_CHAR);                                                        \
     }                                                                       \
   }                                                                         \
@@ -336,8 +337,7 @@ static void map_startpos_load(struct section_file *file)
     nat_x = secfile_lookup_int(file, "map.r%dsx", i);
     nat_y = secfile_lookup_int(file, "map.r%dsy", i);
 
-    NATIVE_TO_MAP_POS(&map.start_positions[i].x, &map.start_positions[i].y,
-		      nat_x, nat_y);
+    map.start_positions[i].tile = native_pos_to_tile(nat_x, nat_y);
 
     if (nation) {
       /* This will fall back to NO_NATION_SELECTED if the string doesn't
@@ -380,20 +380,16 @@ static void map_tiles_load(struct section_file *file)
   map_allocate();
 
   /* get the terrain type */
-  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
-		secfile_lookup_str(file, "map.t%03d", nat_y),
-		map_get_tile(x, y)->terrain = char2terrain(ch));
+  LOAD_MAP_DATA(ch, line, ptile,
+		secfile_lookup_str(file, "map.t%03d", line),
+		ptile->terrain = char2terrain(ch));
 
   assign_continent_numbers();
 
-  whole_map_iterate(mx, my) {
-    struct tile *ptile = map_get_tile(mx, my);
-    int nx, ny;
-
-    MAP_TO_NATIVE_POS(&nx, &ny, mx, my);
-
+  whole_map_iterate(ptile) {
     ptile->spec_sprite = secfile_lookup_str_default(file, NULL,
-				"map.spec_sprite_%d_%d", nx, ny);
+				"map.spec_sprite_%d_%d",
+				ptile->nat_x, ptile->nat_y);
     if (ptile->spec_sprite) {
       ptile->spec_sprite = mystrdup(ptile->spec_sprite);
     }
@@ -413,10 +409,9 @@ static void map_rivers_overlay_load(struct section_file *file)
 {
   /* Get the bits of the special flags which contain the river special
      and extract the rivers overlay from them. */
-  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
-		secfile_lookup_str_default(file, NULL, "map.n%03d", nat_y),
-		map_get_tile(x, y)->special |=
-		(ascii_hex2bin(ch, 2) & S_RIVER));
+  LOAD_MAP_DATA(ch, line, ptile,
+		secfile_lookup_str_default(file, NULL, "map.n%03d", line),
+		ptile->special |= (ascii_hex2bin(ch, 2) & S_RIVER));
   map.have_rivers_overlay = TRUE;
 }
 
@@ -440,49 +435,49 @@ static void map_load(struct section_file *file)
   }
 
   /* get 4-bit segments of 16-bit "special" field. */
-  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+  LOAD_MAP_DATA(ch, nat_y, ptile,
 		secfile_lookup_str(file, "map.l%03d", nat_y),
-		map_get_tile(x, y)->special = ascii_hex2bin(ch, 0));
-  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		ptile->special = ascii_hex2bin(ch, 0));
+  LOAD_MAP_DATA(ch, nat_y, ptile,
 		secfile_lookup_str(file, "map.u%03d", nat_y),
-		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 1));
-  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		ptile->special |= ascii_hex2bin(ch, 1));
+  LOAD_MAP_DATA(ch, nat_y, ptile,
 		secfile_lookup_str_default(file, NULL, "map.n%03d", nat_y),
-		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 2));
-  LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		ptile->special |= ascii_hex2bin(ch, 2));
+  LOAD_MAP_DATA(ch, nat_y, ptile,
 		secfile_lookup_str_default(file, NULL, "map.f%03d", nat_y),
-		map_get_tile(x, y)->special |= ascii_hex2bin(ch, 3));
+		ptile->special |= ascii_hex2bin(ch, 3));
 
   if (secfile_lookup_bool_default(file, TRUE, "game.save_known")) {
 
     /* get 4-bit segments of the first half of the 32-bit "known" field */
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.a%03d", nat_y),
-		  map_get_tile(x, y)->known = ascii_hex2bin(ch, 0));
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  ptile->known = ascii_hex2bin(ch, 0));
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.b%03d", nat_y),
-		  map_get_tile(x, y)->known |= ascii_hex2bin(ch, 1));
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  ptile->known |= ascii_hex2bin(ch, 1));
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.c%03d", nat_y),
-		  map_get_tile(x, y)->known |= ascii_hex2bin(ch, 2));
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		  ptile->known |= ascii_hex2bin(ch, 2));
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.d%03d", nat_y),
-		  map_get_tile(x, y)->known |= ascii_hex2bin(ch, 3));
+		  ptile->known |= ascii_hex2bin(ch, 3));
 
     if (has_capability("known32fix", savefile_options)) {
       /* get 4-bit segments of the second half of the 32-bit "known" field */
-      LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+      LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.e%03d", nat_y),
-		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 4));
-      LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		    ptile->known |= ascii_hex2bin(ch, 4));
+      LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.g%03d", nat_y),
-		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 5));
-      LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		    ptile->known |= ascii_hex2bin(ch, 5));
+      LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.h%03d", nat_y),
-		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 6));
-      LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+		    ptile->known |= ascii_hex2bin(ch, 6));
+      LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.i%03d", nat_y),
-		    map_get_tile(x, y)->known |= ascii_hex2bin(ch, 7));
+		    ptile->known |= ascii_hex2bin(ch, 7));
     }
   }
 
@@ -507,11 +502,10 @@ static void map_save(struct section_file *file)
   secfile_insert_bool(file, game.save_options.save_starts, "game.save_starts");
   if (game.save_options.save_starts) {
     for (i=0; i<map.num_start_positions; i++) {
-      do_in_native_pos(nat_x, nat_y,
-		       map.start_positions[i].x, map.start_positions[i].y) {
-	secfile_insert_int(file, nat_x, "map.r%dsx", i);
-	secfile_insert_int(file, nat_y, "map.r%dsy", i);
-      } do_in_native_pos_end;
+      struct tile *ptile = map.start_positions[i].tile;
+
+      secfile_insert_int(file, ptile->nat_x, "map.r%dsx", i);
+      secfile_insert_int(file, ptile->nat_y, "map.r%dsy", i);
 
       if (map.start_positions[i].nation != NO_NATION_SELECTED) {
 	const char *nation = get_nation_name(map.start_positions[i].nation);
@@ -522,8 +516,8 @@ static void map_save(struct section_file *file)
   }
     
   /* put the terrain type */
-  SAVE_NORMAL_MAP_DATA(x, y, file, "map.t%03d",
-		       terrain2char(map_get_tile(x, y)->terrain));
+  SAVE_NORMAL_MAP_DATA(ptile, file, "map.t%03d",
+		       terrain2char(ptile->terrain));
 
   if (!map.have_specials) {
     if (map.have_rivers_overlay) {
@@ -534,54 +528,50 @@ static void map_save(struct section_file *file)
        */
 
       /* bits 8-11 of special flags field */
-      SAVE_NORMAL_MAP_DATA(x, y, file, "map.n%03d",
-			   bin2ascii_hex(map_get_tile(x, y)->special, 2));
+      SAVE_NORMAL_MAP_DATA(ptile, file, "map.n%03d",
+			   bin2ascii_hex(ptile->special, 2));
     }
     return;
   }
 
   /* put 4-bit segments of 12-bit "special flags" field */
-  SAVE_NORMAL_MAP_DATA(x, y, file, "map.l%03d",
-		       bin2ascii_hex(map_get_tile(x, y)->special, 0));
-  SAVE_NORMAL_MAP_DATA(x, y, file, "map.u%03d",
-		       bin2ascii_hex(map_get_tile(x, y)->special, 1));
-  SAVE_NORMAL_MAP_DATA(x, y, file, "map.n%03d",
-		       bin2ascii_hex(map_get_tile(x, y)->special, 2));
+  SAVE_NORMAL_MAP_DATA(ptile, file, "map.l%03d",
+		       bin2ascii_hex(ptile->special, 0));
+  SAVE_NORMAL_MAP_DATA(ptile, file, "map.u%03d",
+		       bin2ascii_hex(ptile->special, 1));
+  SAVE_NORMAL_MAP_DATA(ptile, file, "map.n%03d",
+		       bin2ascii_hex(ptile->special, 2));
 
   secfile_insert_bool(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
     /* put the top 4 bits (bits 12-15) of special flags */
-    SAVE_NORMAL_MAP_DATA(x, y, file, "map.f%03d",
-			 bin2ascii_hex(map_get_tile(x, y)->special, 3));
+    SAVE_NORMAL_MAP_DATA(ptile, file, "map.f%03d",
+			 bin2ascii_hex(ptile->special, 3));
 
     /* put 4-bit segments of the 32-bit "known" field */
-    SAVE_NORMAL_MAP_DATA(x, y, file, "map.a%03d",
-			 bin2ascii_hex(map_get_tile(x, y)->known, 0));
-    SAVE_NORMAL_MAP_DATA(x, y, file, "map.b%03d",
-			 bin2ascii_hex(map_get_tile(x, y)->known, 1));
-    SAVE_NORMAL_MAP_DATA(x, y, file, "map.c%03d",
-			 bin2ascii_hex(map_get_tile(x, y)->known, 2));
-    SAVE_NORMAL_MAP_DATA(x, y, file, "map.d%03d",
-			 bin2ascii_hex(map_get_tile(x, y)->known, 3));
-    SAVE_NORMAL_MAP_DATA(x, y, file, "map.e%03d",
-			 bin2ascii_hex(map_get_tile(x, y)->known, 4));
-    SAVE_NORMAL_MAP_DATA(x, y, file, "map.g%03d",
-			 bin2ascii_hex(map_get_tile(x, y)->known, 5));
-    SAVE_NORMAL_MAP_DATA(x, y, file, "map.h%03d",
-			 bin2ascii_hex(map_get_tile(x, y)->known, 6));
-    SAVE_NORMAL_MAP_DATA(x, y, file, "map.i%03d",
-			 bin2ascii_hex(map_get_tile(x, y)->known, 7));
+    SAVE_NORMAL_MAP_DATA(ptile, file, "map.a%03d",
+			 bin2ascii_hex(ptile->known, 0));
+    SAVE_NORMAL_MAP_DATA(ptile, file, "map.b%03d",
+			 bin2ascii_hex(ptile->known, 1));
+    SAVE_NORMAL_MAP_DATA(ptile, file, "map.c%03d",
+			 bin2ascii_hex(ptile->known, 2));
+    SAVE_NORMAL_MAP_DATA(ptile, file, "map.d%03d",
+			 bin2ascii_hex(ptile->known, 3));
+    SAVE_NORMAL_MAP_DATA(ptile, file, "map.e%03d",
+			 bin2ascii_hex(ptile->known, 4));
+    SAVE_NORMAL_MAP_DATA(ptile, file, "map.g%03d",
+			 bin2ascii_hex(ptile->known, 5));
+    SAVE_NORMAL_MAP_DATA(ptile, file, "map.h%03d",
+			 bin2ascii_hex(ptile->known, 6));
+    SAVE_NORMAL_MAP_DATA(ptile, file, "map.i%03d",
+			 bin2ascii_hex(ptile->known, 7));
   }
 
-  whole_map_iterate(mx, my) {
-    struct tile *ptile = map_get_tile(mx, my);
-
+  whole_map_iterate(ptile) {
     if (ptile->spec_sprite) {
-      int nx, ny;
-
-      MAP_TO_NATIVE_POS(&nx, &ny, mx, my);
       secfile_insert_str(file, ptile->spec_sprite, 
-			 "map.spec_sprite_%d_%d", nx, ny);
+			 "map.spec_sprite_%d_%d",
+			 ptile->nat_x, ptile->nat_y);
     }
   } whole_map_iterate_end;
 }
@@ -1250,7 +1240,7 @@ static void load_player_units(struct player *plr, int plrno,
 
     nat_x = secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
     nat_y = secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
-    NATIVE_TO_MAP_POS(&punit->x, &punit->y, nat_x, nat_y);
+    punit->tile = native_pos_to_tile(nat_x, nat_y);
 
     punit->foul
       = secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
@@ -1298,12 +1288,10 @@ static void load_player_units(struct player *plr, int plrno,
 				    "player%d.u%d.go", plrno, i)) {
       int nat_x = secfile_lookup_int(file, "player%d.u%d.goto_x", plrno, i);
       int nat_y = secfile_lookup_int(file, "player%d.u%d.goto_y", plrno, i);
-      int map_x, map_y;
 
-      NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
-      set_goto_dest(punit, map_x, map_y);
+      punit->goto_tile = native_pos_to_tile(nat_x, nat_y);
     } else {
-      clear_goto_dest(punit);
+      punit->goto_tile = NULL;
     }
 
     punit->ai.control
@@ -1385,24 +1373,24 @@ static void load_player_units(struct player *plr, int plrno,
        * watchtowers? */
       int range = unit_type(punit)->vision_range;
 
-      square_iterate(punit->x, punit->y, range, x1, y1) {
-	map_set_known(x1, y1, plr);
+      square_iterate(punit->tile, range, tile1) {
+	map_set_known(tile1, plr);
       } square_iterate_end;
     }
 
     /* allocate the unit's contribution to fog of war */
     if (unit_profits_of_watchtower(punit)
-	&& map_has_special(punit->x, punit->y, S_FORTRESS)) {
-      unfog_area(unit_owner(punit), punit->x, punit->y,
+	&& map_has_special(punit->tile, S_FORTRESS)) {
+      unfog_area(unit_owner(punit), punit->tile,
 		 get_watchtower_vision(punit));
     } else {
-      unfog_area(unit_owner(punit), punit->x, punit->y,
+      unfog_area(unit_owner(punit), punit->tile,
 		 unit_type(punit)->vision_range);
     }
 
     unit_list_insert_back(&plr->units, punit);
 
-    unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
+    unit_list_insert(&punit->tile->units, punit);
   }
 }
 
@@ -1765,12 +1753,11 @@ static void player_load(struct player *plr, int plrno,
     struct city *pcity;
     int nat_x = secfile_lookup_int(file, "player%d.c%d.x", plrno, i);
     int nat_y = secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
-    int map_x, map_y;
+    struct tile *ptile = native_pos_to_tile(nat_x, nat_y);
     const char* name;
     int id, k;
 
-    NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
-    pcity = create_city_virtual(plr, map_x, map_y,
+    pcity = create_city_virtual(plr, ptile,
                       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
 
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
@@ -1895,13 +1882,13 @@ static void player_load(struct player *plr, int plrno,
     /* Fix for old buggy savegames. */
     if (!has_capability("known32fix", savefile_options)
 	&& plrno >= 16) {
-      map_city_radius_iterate(pcity->x, pcity->y, x1, y1) {
-	map_set_known(x1, y1, plr);
+      map_city_radius_iterate(pcity->tile, tile1) {
+	map_set_known(tile1, plr);
       } map_city_radius_iterate_end;
     }
     
     /* adding the cities contribution to fog-of-war */
-    map_unfog_pseudo_city_area(&game.players[plrno],pcity->x,pcity->y);
+    map_unfog_pseudo_city_area(&game.players[plrno], pcity->tile);
 
     unit_list_init(&pcity->units_supported);
 
@@ -1919,19 +1906,15 @@ static void player_load(struct player *plr, int plrno,
 	pcity->city_map[x][y] =
 	    is_valid_city_coords(x, y) ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
 	if (*p == '0') {
-	  int map_x, map_y;
-
 	  set_worker_city(pcity, x, y,
-			  city_map_to_map(&map_x, &map_y, pcity, x, y) ?
+			  city_map_to_map(pcity, x, y) ?
 			  C_TILE_EMPTY : C_TILE_UNAVAILABLE);
 	} else if (*p=='1') {
-	  int map_x, map_y;
-	  bool is_real;
+	  struct tile *ptile;
 
-	  is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
-	  assert(is_real);
+	  ptile = city_map_to_map(pcity, x, y);
 
-	  if (map_get_tile(map_x, map_y)->worked) {
+	  if (ptile->worked) {
 	    /* oops, inconsistent savegame; minimal fix: */
 	    freelog(LOG_VERBOSE, "Inconsistent worked for %s (%d,%d), "
 		    "converting to elvis", pcity->name, x, y);
@@ -1994,7 +1977,7 @@ static void player_load(struct player *plr, int plrno,
     pcity->ai.urgency = secfile_lookup_int_default(file, 0, 
 				"player%d.c%d.ai.urgency", plrno, i);
 
-    map_set_city(pcity->x, pcity->y, pcity);
+    map_set_city(pcity->tile, pcity);
 
     city_list_insert_back(&plr->cities, pcity);
   }
@@ -2061,8 +2044,8 @@ static void player_map_load(struct player *plr, int plrno,
   int i;
 
   if (!plr->is_alive)
-    whole_map_iterate(x, y) {
-      map_change_seen(x, y, plr, +1);
+    whole_map_iterate(ptile) {
+      map_change_seen(ptile, plr, +1);
     } whole_map_iterate_end;
 
   /* load map if:
@@ -2074,49 +2057,49 @@ static void player_map_load(struct player *plr, int plrno,
       && game.fogofwar == TRUE
       && secfile_lookup_int_default(file, -1,"player%d.total_ncities", plrno) != -1
       && secfile_lookup_bool_default(file, TRUE, "game.save_private_map")) {
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "player%d.map_t%03d",
 				     plrno, nat_y),
-		  map_get_player_tile(x, y, plr)->terrain =
+		  map_get_player_tile(ptile, plr)->terrain =
 		  char2terrain(ch));
 
     /* get 4-bit segments of 12-bit "special" field. */
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "player%d.map_l%03d",
 				     plrno, nat_y),
-		  map_get_player_tile(x, y, plr)->special =
+		  map_get_player_tile(ptile, plr)->special =
 		  ascii_hex2bin(ch, 0));
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "player%d.map_u%03d",
 				     plrno, nat_y),
-		  map_get_player_tile(x, y, plr)->special |=
+		  map_get_player_tile(ptile, plr)->special |=
 		  ascii_hex2bin(ch, 1));
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str_default
 		  (file, NULL, "player%d.map_n%03d", plrno, nat_y),
-		  map_get_player_tile(x, y, plr)->special |=
+		  map_get_player_tile(ptile, plr)->special |=
 		  ascii_hex2bin(ch, 2));
 
     /* get 4-bit segments of 16-bit "updated" field */
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str
 		  (file, "player%d.map_ua%03d", plrno, nat_y),
-		  map_get_player_tile(x, y, plr)->last_updated =
+		  map_get_player_tile(ptile, plr)->last_updated =
 		  ascii_hex2bin(ch, 0));
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str
 		  (file, "player%d.map_ub%03d", plrno, nat_y),
-		  map_get_player_tile(x, y, plr)->last_updated |=
+		  map_get_player_tile(ptile, plr)->last_updated |=
 		  ascii_hex2bin(ch, 1));
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str
 		  (file, "player%d.map_uc%03d", plrno, nat_y),
-		  map_get_player_tile(x, y, plr)->last_updated |=
+		  map_get_player_tile(ptile, plr)->last_updated |=
 		  ascii_hex2bin(ch, 2));
-    LOAD_MAP_DATA(ch, x, y, nat_x, nat_y,
+    LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str
 		  (file, "player%d.map_ud%03d", plrno, nat_y),
-		  map_get_player_tile(x, y, plr)->last_updated |=
+		  map_get_player_tile(ptile, plr)->last_updated |=
 		  ascii_hex2bin(ch, 3));
 
     {
@@ -2124,13 +2107,15 @@ static void player_map_load(struct player *plr, int plrno,
       struct dumb_city *pdcity;
       i = secfile_lookup_int(file, "player%d.total_ncities", plrno);
       for (j = 0; j < i; j++) {
-	int nat_x, nat_y, map_x, map_y;
+	int nat_x, nat_y;
+	struct tile *ptile;
+
+	nat_x = secfile_lookup_int(file, "player%d.dc%d.x", plrno, j);
+	nat_y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
+	ptile = native_pos_to_tile(nat_x, nat_y);
 
 	pdcity = fc_malloc(sizeof(struct dumb_city));
 	pdcity->id = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
-	nat_x = secfile_lookup_int(file, "player%d.dc%d.x", plrno, j);
-	nat_y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
-	NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
 	sz_strlcpy(pdcity->name, secfile_lookup_str(file, "player%d.dc%d.name", plrno, j));
 	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
 	pdcity->has_walls = secfile_lookup_bool(file, "player%d.dc%d.has_walls", plrno, j);    
@@ -2141,19 +2126,19 @@ static void player_map_load(struct player *plr, int plrno,
 	pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.unhappy", plrno, j);
 	pdcity->owner = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
-	map_get_player_tile(map_x, map_y, plr)->city = pdcity;
+	map_get_player_tile(ptile, plr)->city = pdcity;
 	alloc_id(pdcity->id);
       }
     }
 
     /* This shouldn't be neccesary if the savegame was consistent, but there
        is a bug in some pre-1.11 savegames. Anyway, it can't hurt */
-    whole_map_iterate(x, y) {
-      if (map_is_known_and_seen(x, y, plr)) {
-	update_player_tile_knowledge(plr, x, y);
-	reality_check_city(plr, x, y);
-	if (map_get_city(x, y)) {
-	  update_dumb_city(plr, map_get_city(x, y));
+    whole_map_iterate(ptile) {
+      if (map_is_known_and_seen(ptile, plr)) {
+	update_player_tile_knowledge(plr, ptile);
+	reality_check_city(plr, ptile);
+	if (map_get_city(ptile)) {
+	  update_dumb_city(plr, map_get_city(ptile));
 	}
       }
     } whole_map_iterate_end;
@@ -2162,11 +2147,11 @@ static void player_map_load(struct player *plr, int plrno,
     /* We have an old savegame or fog of war was turned off; the
        players private knowledge is set to be what he could see
        without fog of war */
-    whole_map_iterate(x, y) {
-      if (map_is_known(x, y, plr)) {
-	struct city *pcity = map_get_city(x, y);
-	update_player_tile_last_seen(plr, x, y);
-	update_player_tile_knowledge(plr, x, y);
+    whole_map_iterate(ptile) {
+      if (map_is_known(ptile, plr)) {
+	struct city *pcity = map_get_city(ptile);
+	update_player_tile_last_seen(plr, ptile);
+	update_player_tile_knowledge(plr, ptile);
 	if (pcity)
 	  update_dumb_city(plr, pcity);
       }
@@ -2412,10 +2397,8 @@ static void player_save(struct player *plr, int plrno,
   unit_list_iterate(plr->units, punit) {
     i++;
     secfile_insert_int(file, punit->id, "player%d.u%d.id", plrno, i);
-    do_in_native_pos(nat_x, nat_y, punit->x, punit->y) {
-      secfile_insert_int(file, nat_x, "player%d.u%d.x", plrno, i);
-      secfile_insert_int(file, nat_y, "player%d.u%d.y", plrno, i);
-    } do_in_native_pos_end;
+    secfile_insert_int(file, punit->tile->nat_x, "player%d.u%d.x", plrno, i);
+    secfile_insert_int(file, punit->tile->nat_y, "player%d.u%d.y", plrno, i);
     secfile_insert_int(file, punit->veteran, "player%d.u%d.veteran", 
 				plrno, i);
     secfile_insert_bool(file, punit->foul, "player%d.u%d.foul", 
@@ -2445,13 +2428,12 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->fuel, "player%d.u%d.fuel",
 		                plrno, i);
 
-    if (is_goto_dest_set(punit)) {
+    if (punit->goto_tile) {
       secfile_insert_bool(file, TRUE, "player%d.u%d.go", plrno, i);
-      do_in_native_pos(nat_x, nat_y,
-		       goto_dest_x(punit), goto_dest_y(punit)) {
-	secfile_insert_int(file, nat_x, "player%d.u%d.goto_x", plrno, i);
-	secfile_insert_int(file, nat_y, "player%d.u%d.goto_y", plrno, i);
-      } do_in_native_pos_end;
+      secfile_insert_int(file, punit->goto_tile->nat_x,
+			 "player%d.u%d.goto_x", plrno, i);
+      secfile_insert_int(file, punit->goto_tile->nat_y,
+			 "player%d.u%d.goto_y", plrno, i);
     } else {
       secfile_insert_bool(file, FALSE, "player%d.u%d.go", plrno, i);
       /* for compatibility with older servers */
@@ -2515,10 +2497,8 @@ static void player_save(struct player *plr, int plrno,
 
     i++;
     secfile_insert_int(file, pcity->id, "player%d.c%d.id", plrno, i);
-    do_in_native_pos(nat_x, nat_y, pcity->x, pcity->y) {
-      secfile_insert_int(file, nat_x, "player%d.c%d.x", plrno, i);
-      secfile_insert_int(file, nat_y, "player%d.c%d.y", plrno, i);
-    } do_in_native_pos_end;
+    secfile_insert_int(file, pcity->tile->nat_x, "player%d.c%d.x", plrno, i);
+    secfile_insert_int(file, pcity->tile->nat_y, "player%d.c%d.y", plrno, i);
     secfile_insert_str(file, pcity->name, "player%d.c%d.name", plrno, i);
     secfile_insert_int(file, pcity->original, "player%d.c%d.original", 
 		       plrno, i);
@@ -2645,47 +2625,47 @@ static void player_save(struct player *plr, int plrno,
       && game.save_options.save_private_map) {
 
     /* put the terrain type */
-    SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_t%03d", plrno, 
+    SAVE_PLAYER_MAP_DATA(ptile, file,"player%d.map_t%03d", plrno, 
 			 terrain2char(map_get_player_tile
-				      (x, y, plr)->terrain));
+				      (ptile, plr)->terrain));
 
     /* put 4-bit segments of 12-bit "special flags" field */
-    SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_l%03d", plrno,
-			 bin2ascii_hex(map_get_player_tile(x, y, plr)->
+    SAVE_PLAYER_MAP_DATA(ptile, file,"player%d.map_l%03d", plrno,
+			 bin2ascii_hex(map_get_player_tile(ptile, plr)->
 				       special, 0));
-    SAVE_PLAYER_MAP_DATA(x, y, file, "player%d.map_u%03d", plrno,
-			 bin2ascii_hex(map_get_player_tile(x, y, plr)->
+    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_u%03d", plrno,
+			 bin2ascii_hex(map_get_player_tile(ptile, plr)->
 				       special, 1));
-    SAVE_PLAYER_MAP_DATA(x, y, file, "player%d.map_n%03d", plrno,
-			 bin2ascii_hex(map_get_player_tile(x, y, plr)->
+    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_n%03d", plrno,
+			 bin2ascii_hex(map_get_player_tile(ptile, plr)->
 				       special, 2));
 
     /* put 4-bit segments of 16-bit "updated" field */
-    SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_ua%03d", plrno,
+    SAVE_PLAYER_MAP_DATA(ptile, file,"player%d.map_ua%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile
-				       (x, y, plr)->last_updated, 0));
-    SAVE_PLAYER_MAP_DATA(x, y, file, "player%d.map_ub%03d", plrno,
+				       (ptile, plr)->last_updated, 0));
+    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_ub%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile
-				       (x, y, plr)->last_updated, 1));
-    SAVE_PLAYER_MAP_DATA(x, y, file,"player%d.map_uc%03d", plrno,
+				       (ptile, plr)->last_updated, 1));
+    SAVE_PLAYER_MAP_DATA(ptile, file,"player%d.map_uc%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile
-				       (x, y, plr)->last_updated, 2));
-    SAVE_PLAYER_MAP_DATA(x, y, file, "player%d.map_ud%03d", plrno,
+				       (ptile, plr)->last_updated, 2));
+    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_ud%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile
-				       (x, y, plr)->last_updated, 3));
+				       (ptile, plr)->last_updated, 3));
 
     if (TRUE) {
       struct dumb_city *pdcity;
       i = 0;
       
-      whole_map_iterate(x, y) {
-	if ((pdcity = map_get_player_tile(x, y, plr)->city)) {
+      whole_map_iterate(ptile) {
+	if ((pdcity = map_get_player_tile(ptile, plr)->city)) {
 	  secfile_insert_int(file, pdcity->id, "player%d.dc%d.id", plrno,
 			     i);
-	  do_in_native_pos(nat_x, nat_y, x, y) {
-	    secfile_insert_int(file, nat_x, "player%d.dc%d.x", plrno, i);
-	    secfile_insert_int(file, nat_y, "player%d.dc%d.y", plrno, i);
-	  } do_in_native_pos_end;
+	  secfile_insert_int(file, ptile->nat_x,
+			     "player%d.dc%d.x", plrno, i);
+	  secfile_insert_int(file, ptile->nat_y,
+			     "player%d.dc%d.y", plrno, i);
 	  secfile_insert_str(file, pdcity->name, "player%d.dc%d.name",
 			     plrno, i);
 	  secfile_insert_int(file, pdcity->size, "player%d.dc%d.size",
@@ -2766,9 +2746,9 @@ static void calc_unit_ordering(void)
     } city_list_iterate_end;
   } players_iterate_end;
 
-  whole_map_iterate(x, y) {
+  whole_map_iterate(ptile) {
     j = 0;
-    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    unit_list_iterate(ptile->units, punit) {
       punit->ord_map = j++;
     } unit_list_iterate_end;
   } whole_map_iterate_end;
@@ -2787,8 +2767,8 @@ static void apply_unit_ordering(void)
     city_list_iterate_end;
   } players_iterate_end;
 
-  whole_map_iterate(x, y) {
-    unit_list_sort_ord_map(&map_get_tile(x, y)->units);
+  whole_map_iterate(ptile) {
+    unit_list_sort_ord_map(&ptile->units);
   } whole_map_iterate_end;
 }
 
@@ -2808,18 +2788,16 @@ static void check_city(struct city *pcity)
       break;
     case C_TILE_WORKER:
       if (!res) {
-	int map_x, map_y;
-	bool is_real;
+	struct tile *ptile;
 
 	pcity->specialists[SP_ELVIS]++;
 	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	freelog(LOG_DEBUG, "Worked tile was unavailable!");
 
-	is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
-	assert(is_real);
+	ptile = city_map_to_map(pcity, x, y);
 
-	map_city_radius_iterate(map_x, map_y, x2, y2) {
-	  struct city *pcity2 = map_get_city(x2, y2);
+	map_city_radius_iterate(ptile, tile2) {
+	  struct city *pcity2 = map_get_city(tile2);
 	  if (pcity2)
 	    check_city(pcity2);
 	} map_city_radius_iterate_end;
@@ -3346,10 +3324,10 @@ void game_load(struct section_file *file)
     unit_list_iterate_safe(pplayer->units, punit) {
       struct unit *ferry = find_unit_by_id(punit->transported_by);
 
-      if (is_ocean(map_get_terrain(punit->x, punit->y))
+      if (is_ocean(map_get_terrain(punit->tile))
           && is_ground_unit(punit) && !ferry) {
         freelog(LOG_ERROR, "Removing %s's unferried %s in ocean at (%d, %d)",
-                pplayer->name, unit_name(punit->type), punit->x, punit->y);
+                pplayer->name, unit_name(punit->type), TILE_XY(punit->tile));
         bounce_unit(punit, TRUE);
       }
     } unit_list_iterate_safe_end;

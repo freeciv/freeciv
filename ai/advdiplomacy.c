@@ -90,7 +90,7 @@ static void notify(struct player *pplayer, const char *text, ...)
     struct conn_list *dest = (struct conn_list*)&pplayer->connections;
 
     va_start(ap, text);
-    vnotify_conn_ex(dest, -1, -1, E_DIPLOMACY, text, ap);
+    vnotify_conn_ex(dest, NULL, E_DIPLOMACY, text, ap);
     va_end(ap);
   }
 }

@@ -45,8 +45,8 @@
 extern int ice_base_colatitude;
 #define ICE_BASE_LEVEL ice_base_colatitude
 
-int map_colatitude(int map_x, int map_y);
-bool near_singularity(int map_x, int map_y);
+int map_colatitude(const struct tile *ptile);
+bool near_singularity(const struct tile *ptile);
 void generator_init_topology(bool autosize);
 
 #endif  /* FC__MAPGEN_TOPOLOGY_H */

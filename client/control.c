@@ -100,8 +100,9 @@ Center on the focus unit, if off-screen and auto_center_on_unit is true.
 void auto_center_on_focus_unit(void)
 {
   if (punit_focus && auto_center_on_unit &&
-      !tile_visible_and_not_on_border_mapcanvas(punit_focus->x, punit_focus->y))
-    center_tile_mapcanvas(punit_focus->x, punit_focus->y);
+      !tile_visible_and_not_on_border_mapcanvas(punit_focus->tile)) {
+    center_tile_mapcanvas(punit_focus->tile);
+  }
 }
 
 /**************************************************************************
@@ -137,7 +138,7 @@ void set_unit_focus(struct unit *punit)
     auto_center_on_focus_unit();
 
     punit->focus_status=FOCUS_AVAIL;
-    refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
+    refresh_tile_mapcanvas(punit->tile, FALSE);
 
     if (unit_has_orders(punit)) {
       /* Clear the focus unit's orders. */
@@ -153,9 +154,8 @@ void set_unit_focus(struct unit *punit)
   
   /* avoid the old focus unit disappearing: */
   if (punit_old_focus
-      && (!punit || !same_pos(punit_old_focus->x, punit_old_focus->y,
-				   punit->x, punit->y))) {
-    refresh_tile_mapcanvas(punit_old_focus->x, punit_old_focus->y, FALSE);
+      && (!punit || !same_pos(punit_old_focus->tile, punit->tile))) {
+    refresh_tile_mapcanvas(punit_old_focus->tile, FALSE);
   }
 
   update_unit_info_label(punit);
@@ -169,7 +169,7 @@ void set_unit_focus_and_select(struct unit *punit)
 {
   set_unit_focus(punit);
   if (punit) {
-    put_cross_overlay_tile(punit->x, punit->y);
+    put_cross_overlay_tile(punit->tile);
   }
 }
 
@@ -273,13 +273,12 @@ static struct unit *find_best_focus_candidate(bool accept_current)
 {
   struct unit *best_candidate;
   int best_dist = 99999;
-  int x, y;
+  struct tile *ptile;
 
   if (punit_focus)  {
-    x = punit_focus->x;
-    y = punit_focus->y;
+    ptile = punit_focus->tile;
   } else {
-    get_center_tile_mapcanvas(&x, &y);
+    ptile = get_center_tile_mapcanvas();
   }
 
   best_candidate = NULL;
@@ -291,7 +290,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
       && punit->moves_left > 0
       && !punit->done_moving
       && !punit->ai.control) {
-        int d = sq_map_distance(punit->x, punit->y, x, y);
+        int d = sq_map_distance(punit->tile, ptile);
         if (d < best_dist) {
           best_candidate = punit;
           best_dist = d;
@@ -314,21 +313,21 @@ struct unit *find_visible_unit(struct tile *ptile)
   }
 
   /* If a unit is attacking we should show that on top */
-  if (punit_attacking && map_get_tile(punit_attacking->x,punit_attacking->y) == ptile) {
+  if (punit_attacking && same_pos(punit_attacking->tile, ptile)) {
     unit_list_iterate(ptile->units, punit)
       if(punit == punit_attacking) return punit;
     unit_list_iterate_end;
   }
 
   /* If a unit is defending we should show that on top */
-  if (punit_defending && map_get_tile(punit_defending->x,punit_defending->y) == ptile) {
+  if (punit_defending && same_pos(punit_defending->tile, ptile)) {
     unit_list_iterate(ptile->units, punit)
       if(punit == punit_defending) return punit;
     unit_list_iterate_end;
   }
 
   /* If the unit in focus is at this tile, show that on top */
-  if (punit_focus && map_get_tile(punit_focus->x,punit_focus->y) == ptile) {
+  if (punit_focus && same_pos(punit_focus->tile, ptile)) {
     unit_list_iterate(ptile->units, punit)
       if(punit == punit_focus) return punit;
     unit_list_iterate_end;
@@ -383,10 +382,10 @@ void blink_active_unit(void)
     }
     if(is_shown) {
       set_focus_unit_hidden_state(TRUE);
-      refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
+      refresh_tile_mapcanvas(punit->tile, TRUE);
       set_focus_unit_hidden_state(FALSE);
     } else {
-      refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
+      refresh_tile_mapcanvas(punit->tile, TRUE);
     }
     is_shown=!is_shown;
   }
@@ -431,7 +430,7 @@ void update_unit_pix_label(struct unit *punit)
     }
 
     i = 0;			/* index into unit_below_canvas */
-    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
+    unit_list_iterate(punit->tile->units, aunit) {
       if (aunit != punit) {
 	if (i < num_units_below) {
 	  set_unit_icon(i, aunit);
@@ -515,7 +514,7 @@ void process_caravan_arrival(struct unit *punit)
     if (punit && (unit_can_help_build_wonder_here(punit)
 		  || unit_can_est_traderoute_here(punit))
 	&& (!game.player_ptr->ai.control || ai_popup_windows)) {
-      struct city *pcity_dest = map_get_city(punit->x, punit->y);
+      struct city *pcity_dest = map_get_city(punit->tile);
       struct city *pcity_homecity = find_city_by_id(punit->homecity);
       if (pcity_dest && pcity_homecity) {
 	popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
@@ -577,17 +576,17 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 
     if (punit
 	&& is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
-					punit->x, punit->y)
+					punit->tile)
 	&& diplomat_can_do_action(pdiplomat, DIPLOMAT_ANY_ACTION,
-				  punit->x, punit->y)) {
-      popup_diplomat_dialog(pdiplomat, punit->x, punit->y);
+				  punit->tile)) {
+      popup_diplomat_dialog(pdiplomat, punit->tile);
       return;
     } else if (pcity
 	       && is_diplomat_action_available(pdiplomat, DIPLOMAT_ANY_ACTION,
-					       pcity->x, pcity->y)
+					       pcity->tile)
 	       && diplomat_can_do_action(pdiplomat, DIPLOMAT_ANY_ACTION,
-					 pcity->x, pcity->y)) {
-      popup_diplomat_dialog(pdiplomat, pcity->x, pcity->y);
+					 pcity->tile)) {
+      popup_diplomat_dialog(pdiplomat, pcity->tile);
       return;
     }
   }
@@ -628,7 +627,7 @@ void request_unit_goto(void)
 bool can_unit_do_connect (struct unit *punit, enum unit_activity activity) 
 {
   struct player *pplayer = unit_owner(punit);
-  Terrain_type_id terrain = map_get_terrain(punit->x, punit->y);
+  Terrain_type_id terrain = map_get_terrain(punit->tile);
   struct tile_type *ttype = get_tile_type(terrain);
 
   if (!can_unit_do_activity(punit, activity)) {
@@ -682,7 +681,7 @@ void request_unit_connect(enum unit_activity activity)
 **************************************************************************/
 void request_unit_unload_all(struct unit *punit)
 {
-  struct tile *ptile = map_get_tile(punit->x, punit->y);
+  struct tile *ptile = punit->tile;
   struct unit *plast = NULL;
 
   if(get_transporter_capacity(punit) == 0) {
@@ -751,7 +750,7 @@ void request_unit_return(struct unit *punit)
 **************************************************************************/
 void request_unit_wakeup(struct unit *punit)
 {
-  wakeup_sentried_units(punit->x,punit->y);
+  wakeup_sentried_units(punit->tile);
 }
 
 /**************************************************************************
@@ -768,9 +767,9 @@ void request_diplomat_action(enum diplomat_actions action, int dipl_id,
   dsend_packet_unit_diplomat_action(&aconnection, dipl_id,action,target_id,value);
 }
 
-void wakeup_sentried_units(int x, int y)
+void wakeup_sentried_units(struct tile *ptile)
 {
-  unit_list_iterate(map_get_tile(x,y)->units, punit) {
+  unit_list_iterate(ptile->units, punit) {
     if(punit->activity==ACTIVITY_SENTRY && game.player_idx==punit->owner) {
       request_new_unit_activity(punit, ACTIVITY_IDLE);
     }
@@ -808,18 +807,20 @@ void request_unit_build_city(struct unit *punit)
 **************************************************************************/
 void request_move_unit_direction(struct unit *punit, int dir)
 {
-  int dest_x, dest_y;
+  struct tile *dest_tile;
 
   /* Catches attempts to move off map */
-  if (!MAPSTEP(dest_x, dest_y, punit->x, punit->y, dir)) {
+  dest_tile = mapstep(punit->tile, dir);
+  if (!dest_tile) {
     return;
   }
 
   if (punit->moves_left > 0) {
-    dsend_packet_unit_move(&aconnection, punit->id, dest_x,dest_y);
+    dsend_packet_unit_move(&aconnection, punit->id,
+			   dest_tile->x, dest_tile->y);
   } else {
     /* Initiate a "goto" with direction keys for exhausted units. */
-    send_goto_unit(punit, dest_x, dest_y);
+    send_goto_unit(punit, dest_tile);
   }
 }
 
@@ -841,12 +842,12 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
   case ACTIVITY_IDLE:
     ptrans = find_unit_by_id(punit->transported_by);
     if (can_unit_unload(punit, ptrans)
-	&& can_unit_survive_at_tile(punit, punit->x, punit->y)) {
+	&& can_unit_survive_at_tile(punit, punit->tile)) {
       dsend_packet_unit_unload(&aconnection, punit->id, ptrans->id);
     }
     break;
   case ACTIVITY_SENTRY:
-    ptrans = find_transporter_for_unit(punit, punit->x, punit->y);
+    ptrans = find_transporter_for_unit(punit, punit->tile);
     if (can_unit_load(punit, ptrans)) {
       dsend_packet_unit_load(&aconnection, punit->id, ptrans->id);
     }
@@ -882,7 +883,7 @@ void request_unit_disband(struct unit *punit)
 **************************************************************************/
 void request_unit_change_homecity(struct unit *punit)
 {
-  struct city *pcity=map_get_city(punit->x, punit->y);
+  struct city *pcity=map_get_city(punit->tile);
   
   if (pcity) {
     dsend_packet_unit_change_homecity(&aconnection, punit->id, pcity->id);
@@ -894,7 +895,7 @@ void request_unit_change_homecity(struct unit *punit)
 **************************************************************************/
 void request_unit_upgrade(struct unit *punit)
 {
-  struct city *pcity=map_get_city(punit->x, punit->y);
+  struct city *pcity=map_get_city(punit->tile);
 
   if (pcity) {
     dsend_packet_unit_upgrade(&aconnection, punit->id);
@@ -922,7 +923,7 @@ void request_unit_auto(struct unit *punit)
 void request_unit_load(struct unit *pcargo, struct unit *ptrans)
 {
   if (!ptrans) {
-    ptrans = find_transporter_for_unit(pcargo, pcargo->x, pcargo->y);
+    ptrans = find_transporter_for_unit(pcargo, pcargo->tile);
   }
 
   if (can_client_issue_orders()
@@ -947,7 +948,7 @@ void request_unit_unload(struct unit *pcargo)
   if (can_client_issue_orders()
       && ptrans
       && can_unit_unload(pcargo, ptrans)
-      && can_unit_survive_at_tile(pcargo, pcargo->x, pcargo->y)) {
+      && can_unit_survive_at_tile(pcargo, pcargo->tile)) {
     dsend_packet_unit_unload(&aconnection, pcargo->id, ptrans->id);
   }
 }
@@ -957,7 +958,7 @@ void request_unit_unload(struct unit *pcargo)
 **************************************************************************/
 void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 {
-  if (!map_get_city(punit->x, punit->y)) {
+  if (!map_get_city(punit->tile)) {
     return;
   }
 
@@ -1055,10 +1056,10 @@ void request_unit_fortify(struct unit *punit)
 **************************************************************************/
 void request_unit_pillage(struct unit *punit)
 {
-  struct tile *ptile = map_get_tile(punit->x, punit->y);
+  struct tile *ptile = punit->tile;
   enum tile_special_type pspresent = get_tile_infrastructure_set(ptile);
   enum tile_special_type psworking =
-      get_unit_tile_pillage_set(punit->x, punit->y);
+      get_unit_tile_pillage_set(punit->tile);
   enum tile_special_type what =
       get_preferred_pillage(pspresent & (~psworking));
   enum tile_special_type would =
@@ -1300,7 +1301,7 @@ void request_toggle_fog_of_war(void)
 void request_center_focus_unit(void)
 {
   if (punit_focus) {
-    center_tile_mapcanvas(punit_focus->x, punit_focus->y);
+    center_tile_mapcanvas(punit_focus->tile);
   }
 }
 
@@ -1335,15 +1336,13 @@ void request_unit_move_done(void)
 **************************************************************************/
 void do_move_unit(struct unit *punit, struct unit *target_unit)
 {
-  int x, y;
+  struct tile *ptile;
   bool was_teleported, do_animation;
 
-  was_teleported = !is_tiles_adjacent(punit->x, punit->y,
-				      target_unit->x, target_unit->y);
+  was_teleported = !is_tiles_adjacent(punit->tile, target_unit->tile);
   do_animation = (!was_teleported && smooth_move_unit_msec > 0);
 
-  x = punit->x;
-  y = punit->y;
+  ptile = punit->tile;
 
   if (!was_teleported
       && punit->activity != ACTIVITY_SENTRY
@@ -1352,16 +1351,15 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 		     unit_type(punit)->sound_move_alt);
   }
 
-  unit_list_unlink(&map_get_tile(x, y)->units, punit);
+  unit_list_unlink(&ptile->units, punit);
 
   if (game.player_idx == punit->owner
       && auto_center_on_unit
       && !unit_has_orders(punit)
       && punit->activity != ACTIVITY_GOTO
       && punit->activity != ACTIVITY_SENTRY
-      && !tile_visible_and_not_on_border_mapcanvas(target_unit->x,
-                                                   target_unit->y)) {
-    center_tile_mapcanvas(target_unit->x, target_unit->y);
+      && !tile_visible_and_not_on_border_mapcanvas(target_unit->tile)) {
+    center_tile_mapcanvas(target_unit->tile);
   }
 
   if (punit->transported_by == -1) {
@@ -1375,12 +1373,12 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
       int height = get_citydlg_canvas_height();
       int canvas_x, canvas_y;
 
-      map_to_canvas_pos(&canvas_x, &canvas_y, x, y);
+      map_to_canvas_pos(&canvas_x, &canvas_y, ptile);
       update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 			canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 			width, height);
     } else {
-      refresh_tile_mapcanvas(x, y, FALSE);
+      refresh_tile_mapcanvas(ptile, FALSE);
     }
 
     if (do_animation) {
@@ -1388,16 +1386,15 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
       /* For the duration of the animation the unit exists at neither
        * tile. */
-      map_distance_vector(&dx, &dy, punit->x, punit->y,
-			  target_unit->x, target_unit->y);
-      move_unit_map_canvas(punit, x, y, dx, dy);
+      map_distance_vector(&dx, &dy, punit->tile,
+			  target_unit->tile);
+      move_unit_map_canvas(punit, ptile, dx, dy);
     }
   }
     
-  punit->x = target_unit->x;
-  punit->y = target_unit->y;
+  punit->tile = target_unit->tile;
 
-  unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
+  unit_list_insert(&punit->tile->units, punit);
 
   if (punit_focus == punit) update_menus();
 }
@@ -1405,10 +1402,9 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 /**************************************************************************
  Handles everything when the user clicked a tile
 **************************************************************************/
-void do_map_click(int xtile, int ytile, enum quickselect_type qtype)
+void do_map_click(struct tile *ptile, enum quickselect_type qtype)
 {
-  struct city *pcity = map_get_city(xtile, ytile);
-  struct tile *ptile = map_get_tile(xtile, ytile);
+  struct city *pcity = map_get_city(ptile);
   struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
   bool maybe_goto = FALSE;
 
@@ -1417,27 +1413,27 @@ void do_map_click(int xtile, int ytile, enum quickselect_type qtype)
     case HOVER_NONE:
       die("well; shouldn't get here :)");
     case HOVER_GOTO:
-      do_unit_goto(xtile, ytile);
+      do_unit_goto(ptile);
       break;
     case HOVER_NUKE:
-      if (3 * real_map_distance(punit->x, punit->y, xtile, ytile)
+      if (3 * real_map_distance(punit->tile, ptile)
 	  > punit->moves_left) {
         append_output_window(_("Game: Too far for this unit."));
       } else {
-	do_unit_goto(xtile, ytile);
+	do_unit_goto(ptile);
 	/* note that this will be executed by the server after the goto */
 	if (!pcity)
 	  do_unit_nuke(punit);
       }
       break;
     case HOVER_PARADROP:
-      do_unit_paradrop_to(punit, xtile, ytile);
+      do_unit_paradrop_to(punit, ptile);
       break;
     case HOVER_CONNECT:
-      do_unit_connect(punit, xtile, ytile, connect_activity);
+      do_unit_connect(punit, ptile, connect_activity);
       break;
     case HOVER_PATROL:
-      do_unit_patrol_to(punit, xtile, ytile);
+      do_unit_patrol_to(punit, ptile);
       break;	
     }
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
@@ -1484,8 +1480,7 @@ void do_map_click(int xtile, int ytile, enum quickselect_type qtype)
   }
 
   /* See mapctrl_common.c */
-  keyboardless_goto_start_x = maybe_goto ? xtile : -1;
-  keyboardless_goto_start_y = maybe_goto ? ytile : -1;
+  keyboardless_goto_start_tile = maybe_goto ? ptile : NULL;
   keyboardless_goto_button_down = maybe_goto;
   keyboardless_goto_active = FALSE;
 }
@@ -1612,7 +1607,7 @@ static struct unit *quickselect(struct tile *ptile,
  Finish the goto mode and let the unit which is stored in hover_unit move
  to a given location.
 **************************************************************************/
-void do_unit_goto(int x, int y)
+void do_unit_goto(struct tile *ptile)
 {
   struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
 
@@ -1621,12 +1616,13 @@ void do_unit_goto(int x, int y)
 
   if (punit) {
     if (!draw_goto_line) {
-      send_goto_unit(punit, x, y);
+      send_goto_unit(punit, ptile);
     } else {
-      int dest_x, dest_y;
-      draw_line(x, y);
-      get_line_dest(&dest_x, &dest_y);
-      if (same_pos(dest_x, dest_y, x, y)) {
+      struct tile *dest_tile;
+
+      draw_line(ptile);
+      dest_tile = get_line_dest();
+      if (ptile == dest_tile) {
 	send_goto_route(punit);
       } else {
 	append_output_window(_("Game: Didn't find a route to the destination!"));
@@ -1648,24 +1644,25 @@ void do_unit_nuke(struct unit *punit)
 /**************************************************************************
   Paradrop to a location.
 **************************************************************************/
-void do_unit_paradrop_to(struct unit *punit, int x, int y)
+void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 {
-  dsend_packet_unit_paradrop_to(&aconnection, punit->id, x, y);
+  dsend_packet_unit_paradrop_to(&aconnection, punit->id, ptile->x, ptile->y);
 }
  
 /**************************************************************************
   Patrol to a location.
 **************************************************************************/
-void do_unit_patrol_to(struct unit *punit, int x, int y)
+void do_unit_patrol_to(struct unit *punit, struct tile *ptile)
 {
   if (is_air_unit(punit)) {
     append_output_window(_("Game: Sorry, airunit patrol not yet implemented."));
     return;
   } else {
-    int dest_x, dest_y;
-    draw_line(x, y);
-    get_line_dest(&dest_x, &dest_y);
-    if (same_pos(dest_x, dest_y, x, y)) {
+    struct tile *dest_tile;
+
+    draw_line(ptile);
+    dest_tile = get_line_dest();
+    if (ptile == dest_tile) {
       send_patrol_route(punit);
     } else {
       append_output_window(_("Game: Didn't find a route to the destination!"));
@@ -1678,18 +1675,18 @@ void do_unit_patrol_to(struct unit *punit, int x, int y)
 /**************************************************************************
   "Connect" to the given location.
 **************************************************************************/
-void do_unit_connect(struct unit *punit, int x, int y,
+void do_unit_connect(struct unit *punit, struct tile *ptile,
 		     enum unit_activity activity)
 {
   if (is_air_unit(punit)) {
     append_output_window(_("Game: Sorry, airunit connect "
 			   "not yet implemented."));
   } else {
-    int dest_x, dest_y;
+    struct tile *dest_tile;
 
-    draw_line(x, y);
-    get_line_dest(&dest_x, &dest_y);
-    if (same_pos(dest_x, dest_y, x, y)) {
+    draw_line(ptile);
+    dest_tile = get_line_dest();
+    if (same_pos(dest_tile, ptile)) {
       send_connect_route(punit, activity);
     } else {
       append_output_window(_("Game: Didn't find a route to "
@@ -1721,8 +1718,7 @@ void key_cancel_action(void)
 
     keyboardless_goto_button_down = FALSE;
     keyboardless_goto_active = FALSE;
-    keyboardless_goto_start_x =
-    keyboardless_goto_start_y = -1;
+    keyboardless_goto_start_tile = NULL;
   }
 }
 
@@ -1735,8 +1731,8 @@ void key_center_capital(void)
 
   if (capital)  {
     /* Center on the tile, and pop up the crosshair overlay. */
-    center_tile_mapcanvas(capital->x, capital->y);
-    put_cross_overlay_tile(capital->x, capital->y);
+    center_tile_mapcanvas(capital->tile);
+    put_cross_overlay_tile(capital->tile);
   } else {
     append_output_window(_("Game: Oh my! You seem to have no capital!"));
   }
@@ -1812,10 +1808,10 @@ void key_unit_diplomat_actions(void)
   struct city *pcity;		/* need pcity->id */
   if (punit_focus
      && is_diplomat_unit(punit_focus)
-     && (pcity = map_get_city(punit_focus->x, punit_focus->y))
+     && (pcity = map_get_city(punit_focus->tile))
      && !diplomat_dialog_is_open()    /* confusing otherwise? */
      && diplomat_can_do_action(punit_focus, DIPLOMAT_ANY_ACTION,
-			       punit_focus->x, punit_focus->y))
+			       punit_focus->tile))
      process_diplomat_arrival(punit_focus, pcity->id);
 }
 
@@ -2230,8 +2226,7 @@ void key_quickselect(enum quickselect_type qtype)
   struct unit *punit;
 
   if(punit_focus) {
-    punit = quickselect(map_get_tile(punit_focus->x, punit_focus->y),
-                        qtype);
+    punit = quickselect(punit_focus->tile, qtype);
     set_unit_focus_and_select(punit);
   }
 }

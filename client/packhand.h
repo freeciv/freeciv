@@ -24,6 +24,7 @@ void notify_about_outgoing_packet(struct connection *pc,
 				  int request_id);
 void set_reports_thaw_request(int request_id);
 
+void play_sound_for_event(enum event_type type);
 void target_government_init(void);
 void set_government_choice(int government);
 void start_revolution(void);

@@ -209,7 +209,7 @@ void update_unit_info_label(struct unit *punit)
 		(punit->veteran) ? _("(veteran)") : "",
 		(hover_unit==punit->id) ? 
 		_("Select destination") : unit_activity_text(punit), 
-		map_get_tile_info_text(punit->x, punit->y),
+		map_get_tile_info_text(punit->tile),
 		pcity ? pcity->name : "");
     xaw_set_label(unit_info_label, buffer);
 
@@ -784,11 +784,11 @@ static void pixmap_put_overlay_tile(Pixmap pixmap, int canvas_x, int canvas_y,
 /**************************************************************************
  Draws a cross-hair overlay on a tile
 **************************************************************************/
-void put_cross_overlay_tile(int x,int y)
+void put_cross_overlay_tile(struct tile *ptile)
 {
   int canvas_x, canvas_y;
 
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(XtWindow(map_canvas), canvas_x, canvas_y,
 			    sprites.user.attention);
   }

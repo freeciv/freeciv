@@ -64,38 +64,36 @@ static gboolean popit_button_release(GtkWidget *w, GdkEventButton *event)
 /**************************************************************************
 ...
 **************************************************************************/
-static void popit(GdkEventButton *event, int xtile, int ytile)
+static void popit(GdkEventButton *event, struct tile *ptile)
 {
   GtkWidget *p;
-  static struct map_position cross_list[2 + 1];
-  struct map_position *cross_head = cross_list;
+  static struct tile *cross_list[2 + 1];
+  struct tile **cross_head = cross_list;
   int i;
   int popx, popy;
   struct unit *punit;
   bool is_orders;
 
-  if(tile_get_known(xtile, ytile) >= TILE_KNOWN_FOGGED) {
+  if (tile_get_known(ptile) >= TILE_KNOWN_FOGGED) {
     p=gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_set_app_paintable(p, TRUE);
     gtk_container_set_border_width(GTK_CONTAINER(p), 4);
-    gtk_container_add(GTK_CONTAINER(p), gtk_label_new(popup_info_text(xtile, ytile)));
+    gtk_container_add(GTK_CONTAINER(p), gtk_label_new(popup_info_text(ptile)));
     
-    punit = find_visible_unit(map_get_tile(xtile, ytile));
+    punit = find_visible_unit(ptile);
 
     is_orders = show_unit_orders(punit);
 
-    if (punit && is_goto_dest_set(punit)) {
-      cross_head->x = goto_dest_x(punit);
-      cross_head->y = goto_dest_y(punit);
+    if (punit && punit->goto_tile) {
+      *cross_head = punit->goto_tile;
       cross_head++;
     }
-    cross_head->x = xtile;
-    cross_head->y = ytile;
+    *cross_head = ptile;
     cross_head++;
 
-    cross_head->x = -1;
-    for (i = 0; cross_list[i].x >= 0; i++) {
-      put_cross_overlay_tile(cross_list[i].x, cross_list[i].y);
+    *cross_head = NULL;
+    for (i = 0; cross_list[i]; i++) {
+      put_cross_overlay_tile(cross_list[i]);
     }
     g_signal_connect(p, "destroy",
 		     G_CALLBACK(popupinfo_popdown_callback),
@@ -189,17 +187,17 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int xtile, ytile;
-  bool is_real;
   struct city *pcity = NULL;
+  struct tile *ptile = NULL;
 
   if (!can_client_change_view()) {
     return TRUE;
   }
 
   gtk_widget_grab_focus(map_canvas);
-  is_real = canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y);
-  if (is_real) {
-    pcity = map_get_city(xtile, ytile);
+  if (canvas_to_map_pos(&xtile, &ytile, ev->x, ev->y)) {
+    ptile = map_pos_to_tile(xtile, ytile);
+    pcity = map_get_city(ptile);
   }
 
   switch (ev->button) {
@@ -215,13 +213,13 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
       action_button_pressed(ev->x, ev->y, SELECT_SEA);
     }
     /* <SHIFT> + LMB: Copy Production. */
-    else if(is_real && (ev->state & GDK_SHIFT_MASK)) {
-      clipboard_copy_production(xtile, ytile);
+    else if (ptile && (ev->state & GDK_SHIFT_MASK)) {
+      clipboard_copy_production(ptile);
     }
     /* LMB in Area Selection mode. */
     else if(tiles_hilited_cities) {
-      if (is_real) {
-        toggle_tile_hilite(xtile, ytile);
+      if (ptile) {
+        toggle_tile_hilite(ptile);
       }
     }
     /* Plain LMB click. */
@@ -237,8 +235,8 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
       wakeup_button_pressed(ev->x, ev->y);
     }
     /* Plain Middle click. */
-    else if(is_real) {
-      popit(ev, xtile, ytile);
+    else if (ptile) {
+      popit(ev, ptile);
     }
     break;
 
@@ -249,7 +247,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
       action_button_pressed(ev->x, ev->y, SELECT_LAND);
     }
     /* <SHIFT> + RMB: Paste Production. */
-    else if(ev->state & GDK_SHIFT_MASK) {
+    else if ((ev->state & GDK_SHIFT_MASK) && pcity) {
       clipboard_paste_production(pcity);
       cancel_tile_hiliting();
     }
@@ -352,9 +350,9 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer dat
   overview_to_map_pos(&xtile, &ytile, ev->x, ev->y);
 
   if (can_client_change_view() && (ev->button == 3)) {
-    center_tile_mapcanvas(xtile, ytile);
+    center_tile_mapcanvas(map_pos_to_tile(xtile, ytile));
   } else if (can_client_issue_orders() && (ev->button == 1)) {
-    do_map_click(xtile, ytile, SELECT_POPUP);
+    do_map_click(map_pos_to_tile(xtile, ytile), SELECT_POPUP);
   }
 
   return TRUE;

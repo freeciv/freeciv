@@ -18,7 +18,7 @@
 
 #include "hand_gen.h"
 
-bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
+bool handle_unit_move_request(struct unit *punit, struct tile *ptile,
 			     bool igzoc, bool move_diplomat_city);
 void handle_unit_activity_request(struct unit *punit, 
 				  enum unit_activity new_activity);

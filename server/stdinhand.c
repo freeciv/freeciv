@@ -1499,7 +1499,7 @@ static bool explain_option(struct connection *caller, char *str, bool check)
 static bool wall(char *str, bool check)
 {
   if (!check) {
-    notify_conn_ex(&game.game_connections, -1, -1, E_MESSAGE_WALL,
+    notify_conn_ex(&game.game_connections, NULL, E_MESSAGE_WALL,
  		   _("Server Operator: %s"), str);
   }
   return TRUE;
@@ -2160,7 +2160,7 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Bad map coordinates."));
       goto cleanup;
     }
-    pcity = map_get_city(x, y);
+    pcity = map_get_city(map_pos_to_tile(x, y));
     if (!pcity) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("No city at this coordinate."));
       goto cleanup;
@@ -2189,7 +2189,7 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Bad map coordinates."));
       goto cleanup;
     }
-    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    unit_list_iterate(map_pos_to_tile(x, y)->units, punit) {
       if (punit->debug) {
         punit->debug = FALSE;
         cmd_reply(CMD_DEBUG, caller, C_OK, _("%s's %s no longer debugged."),

@@ -311,7 +311,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog, int u
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
   } else {
-    plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
+    plist = &(map_get_tile(pdialog->pcity->tile)->units);
   }
   myiter = plist->list.head_link; 
   
@@ -1294,7 +1294,7 @@ static void supported_units_activate_close_callback(HWND w, void * data){
 
 static void activate_callback(struct city_dialog *pdialog)
 {
-  activate_all_units(pdialog->pcity->x, pdialog->pcity->y);
+  activate_all_units(pdialog->pcity->tile);
 }      
 
 /****************************************************************
@@ -1302,7 +1302,7 @@ static void activate_callback(struct city_dialog *pdialog)
 *****************************************************************/
 static void show_units_callback(struct city_dialog *pdialog)
 {
-  struct tile *ptile = map_get_tile(pdialog->pcity->x, pdialog->pcity->y);
+  struct tile *ptile = map_get_tile(pdialog->pcity->tile);
  
   if(unit_list_size(&ptile->units))
     popup_unit_select_dialog(ptile);
@@ -1371,7 +1371,7 @@ static void present_units_activate_close_callback(HWND w, void * data)
  
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)data))) {
     set_unit_focus(punit);
-    if((pcity=map_get_city(punit->x, punit->y)))
+    if((pcity=map_get_city(punit->tile)))
       if((pdialog=get_city_dialog(pcity)))
        CityDlgClose(pdialog);
   }
@@ -1500,7 +1500,7 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
   HWND wd;
   if((punit=player_find_unit_by_id(game.player_ptr, 
 				   pdialog->present_unit_ids[n])) &&
-     (pcity=map_get_city(punit->x, punit->y)) &&
+     (pcity=map_get_city(punit->tile)) &&
      (pdialog=get_city_dialog(pcity))) {   
      wd=popup_message_dialog(NULL,
                            /*"presentunitsdialog"*/_("Unit Commands"),
@@ -1939,7 +1939,7 @@ refresh_unit_city_dialogs(struct unit *punit)
   struct city *pcity_sup, *pcity_pre;
   struct city_dialog *pdialog;      
   pcity_sup=player_find_city_by_id(game.player_ptr, punit->homecity);
-  pcity_pre=map_get_city(punit->x, punit->y);     
+  pcity_pre=map_get_city(punit->tile);     
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))     
     {

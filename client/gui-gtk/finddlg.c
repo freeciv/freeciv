@@ -44,7 +44,7 @@ static void find_center_command_callback(GtkWidget *w, gpointer data);
 static void find_cancel_command_callback(GtkWidget *w, gpointer data);
 static void find_list_callback(GtkWidget *w, gint row, gint column);
 
-static int original_x, original_y;
+struct tile *original_tile;
 
 /****************************************************************
 popup the dialog 10% inside the main-window 
@@ -54,7 +54,7 @@ void popup_find_dialog(void)
   GtkWidget *scrolled;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
-  get_center_tile_mapcanvas(&original_x, &original_y);
+  original_tile = get_center_tile_mapcanvas();
 
   gtk_widget_set_sensitive(top_vbox, FALSE);
   
@@ -174,7 +174,7 @@ static void find_center_command_callback(GtkWidget *w, gpointer data)
     gtk_clist_get_text(GTK_CLIST(find_list), row, 0, &string);
 
     if(string&&(pcity=game_find_city_by_name(string)))
-      center_tile_mapcanvas(pcity->x, pcity->y);
+      center_tile_mapcanvas(pcity->tile);
   }
   
   popdown_find_dialog();
@@ -185,7 +185,7 @@ static void find_center_command_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void find_cancel_command_callback(GtkWidget *w, gpointer data)
 {
-  center_tile_mapcanvas(original_x, original_y);
+  center_tile_mapcanvas(original_tile);
   popdown_find_dialog();
 }
 
@@ -200,5 +200,5 @@ static void find_list_callback(GtkWidget *w, gint row, gint column)
   gtk_clist_get_text(GTK_CLIST(find_list), row, 0, &string);
 
   if(string&&(pcity=game_find_city_by_name(string)))
-	center_tile_mapcanvas(pcity->x, pcity->y);
+	center_tile_mapcanvas(pcity->tile);
 }

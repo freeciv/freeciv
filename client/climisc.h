@@ -102,9 +102,11 @@ int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first,
 int num_present_units_in_city(struct city* pcity);
 int num_supported_units_in_city(struct city* pcity);	
 
-void create_event(int x, int y, enum event_type event,
+void handle_event(char *message, struct tile *ptile,
+		  enum event_type event, int conn_id);
+void create_event(struct tile *ptile, enum event_type event,
 		  const char *format, ...)
-     fc__attribute((format (printf, 4, 5)));
+     fc__attribute((format (printf, 3, 4)));
 void write_chatline_content(const char *txt);
 
 void reports_freeze(void);

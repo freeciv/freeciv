@@ -222,7 +222,7 @@ static bool is_game_over(void)
 
   /* quit if we are past the year limit */
   if (game.year > game.end_year) {
-    notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END, 
+    notify_conn_ex(&game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in a draw as end year exceeded"));
     gamelog(GAMELOG_NORMAL, _("Game ended in a draw as end year exceeded"));
     return TRUE;
@@ -254,7 +254,7 @@ static bool is_game_over(void)
   /* quit if we have team victory */
   team_iterate(pteam) {
     if (team_count_members_alive(pteam->id) == alive) {
-      notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END,
+      notify_conn_ex(&game.est_connections, NULL, E_GAME_END,
 		     _("Team victory to %s"), pteam->name);
       gamelog(GAMELOG_NORMAL, _("Team victory to %s"), pteam->name);
       gamelog(GAMELOG_TEAM, "TEAMVICTORY %s", pteam->name);
@@ -264,14 +264,14 @@ static bool is_game_over(void)
 
   /* quit if only one player is left alive */
   if (alive == 1) {
-    notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END,
+    notify_conn_ex(&game.est_connections, NULL, E_GAME_END,
 		   _("Game ended in victory for %s"), victor->name);
     gamelog(GAMELOG_NORMAL, _("Game ended in victory for %s"), 
         victor->name);
     gamelog(GAMELOG_TEAM, "SINGLEWINNER %s", victor->name);
     return TRUE;
   } else if (alive == 0) {
-    notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END, 
+    notify_conn_ex(&game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in a draw"));
     gamelog(GAMELOG_NORMAL, _("Game ended in a draw"));
     gamelog(GAMELOG_TEAM, "NOWINNER");
@@ -295,7 +295,7 @@ static bool is_game_over(void)
     }
   } players_iterate_end;
   if (all_allied) {
-    notify_conn_ex(&game.est_connections, -1, -1, E_GAME_END, 
+    notify_conn_ex(&game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in allied victory"));
     gamelog(GAMELOG_NORMAL, _("Game ended in allied victory"));
     gamelog(GAMELOG_TEAM, "ALLIEDVICTORY");
@@ -337,7 +337,7 @@ static void do_reveal_effects(void)
     if (get_player_bonus(pplayer, EFT_REVEAL_CITIES) > 0) {
       players_iterate(other_player) {
 	city_list_iterate(other_player->cities, pcity) {
-	  show_area(pplayer, pcity->x, pcity->y, 0);
+	  show_area(pplayer, pcity->tile, 0);
 	} city_list_iterate_end;
       } players_iterate_end;
     }
@@ -362,7 +362,7 @@ static void do_have_embassies_effect(void)
 	/* Note this gives pplayer contact with pother, but doesn't give
 	 * pother contact with pplayer.  This may cause problems in other
 	 * parts of the code if we're not careful. */
-	make_contact(pplayer, pother, -1, -1);
+	make_contact(pplayer, pother, NULL);
       } players_iterate_end;
     }
   } players_iterate_end;
@@ -378,8 +378,8 @@ static void update_environmental_upset(enum tile_special_type cause,
   int count;
 
   count = 0;
-  whole_map_iterate(x, y) {
-    if (map_has_special(x, y, cause)) {
+  whole_map_iterate(ptile) {
+    if (map_has_special(ptile, cause)) {
       count++;
     }
   } whole_map_iterate_end;
@@ -1126,7 +1126,7 @@ void handle_nation_select_req(struct player *pplayer,
 
   name[0] = my_toupper(name[0]);
 
-  notify_conn_ex(&game.game_connections, -1, -1, E_NATION_SELECTED,
+  notify_conn_ex(&game.game_connections, NULL, E_NATION_SELECTED,
 		 _("Game: %s is the %s ruler %s."), pplayer->username,
 		 get_nation_name(nation_no), name);
 

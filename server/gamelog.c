@@ -112,13 +112,14 @@ void gamelog(int level, const char *message, ...)
 **************************************************************************/
 void gamelog_map(void)
 {
-  int nat_x, nat_y, map_x, map_y;
+  int nat_x, nat_y;
   char *hline = fc_calloc(map.xsize + 1, sizeof(char));
 
   for (nat_y = 0; nat_y < map.ysize; nat_y++) {
     for (nat_x = 0; nat_x < map.xsize; nat_x++) {
-      NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
-      hline[nat_x] = is_ocean(map_get_terrain(map_x, map_y)) ? ' ' : '.';
+      struct tile *ptile = native_pos_to_tile(nat_x, nat_y);
+
+      hline[nat_x] = is_ocean(map_get_terrain(ptile)) ? ' ' : '.';
     }
     gamelog(GAMELOG_MAP, "%s", hline);
   }

@@ -24,11 +24,13 @@
  */
 #define POWER_FACTOR	10
 
-bool can_player_attack_tile(struct player *pplayer, int x, int y);
+bool can_player_attack_tile(struct player *pplayer,
+			    const struct tile *ptile);
 bool can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
-                                  int dest_x, int dest_y);
-bool can_unit_attack_all_at_tile(struct unit *punit, int x, int y);
-bool can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
+				  const struct tile *dest_tile);
+bool can_unit_attack_all_at_tile(struct unit *punit,
+				 const struct tile *ptile);
+bool can_unit_attack_tile(struct unit *punit, const struct tile *ptile);
 
 double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp);
 
@@ -38,7 +40,8 @@ double unit_win_chance(struct unit *attacker, struct unit *defender);
 
 bool unit_really_ignores_citywalls(struct unit *punit);
 bool unit_on_fortress(struct unit *punit);
-struct city *sdi_defense_close(struct player *owner, int x, int y);
+struct city *sdi_defense_close(struct player *owner,
+			       const struct tile *ptile);
 
 int get_attack_power(struct unit *punit);
 int base_get_attack_power(Unit_Type_id type, int veteran, int moves_left);
@@ -46,11 +49,12 @@ int base_get_defense_power(struct unit *punit);
 int get_defense_power(struct unit *punit);
 int get_total_defense_power(struct unit *attacker, struct unit *defender);
 int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
-			      int x, int y, bool fortified, int veteran);
+			      const struct tile *ptile,
+			      bool fortified, int veteran);
 int get_total_attack_power(struct unit *attacker, struct unit *defender);
 
-struct unit *get_defender(struct unit *attacker, int x, int y);
-struct unit *get_attacker(struct unit *defender, int x, int y);
+struct unit *get_defender(struct unit *attacker, const struct tile *ptile);
+struct unit *get_attacker(struct unit *defender, const struct tile *ptile);
 
-bool is_stack_vulnerable(int x, int y);
+bool is_stack_vulnerable(const struct tile *ptile);
 #endif /* FC__COMBAT_H */

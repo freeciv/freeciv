@@ -51,7 +51,7 @@ static bool overview_dirty = FALSE;
 
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
 				   int canvas_x, int canvas_y);
-static void center_tile_overviewcanvas(int map_x, int map_y);
+static void center_tile_overviewcanvas(struct tile *ptile);
 static void get_mapview_corners(int x[4], int y[4]);
 static void redraw_overview(void);
 static void dirty_overview(void);
@@ -60,16 +60,11 @@ static void flush_dirty_overview(void);
 /**************************************************************************
  Refreshes a single tile on the map canvas.
 **************************************************************************/
-void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
+void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
 {
   int canvas_x, canvas_y;
 
-  assert(is_real_map_pos(x, y));
-  if (!normalize_map_pos(&x, &y)) {
-    return;
-  }
-
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     canvas_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
     update_map_canvas(canvas_x, canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
@@ -77,44 +72,34 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
       flush_dirty();
     }
   }
-  overview_update_tile(x, y);
+  overview_update_tile(ptile);
 }
 
 /**************************************************************************
 Returns the color the grid should have between tile (x1,y1) and
 (x2,y2).
 **************************************************************************/
-enum color_std get_grid_color(int x1, int y1, int x2, int y2)
+enum color_std get_grid_color(struct tile *tile1, enum direction8 dir)
 {
   enum city_tile_type city_tile_type1, city_tile_type2;
   struct city *dummy_pcity;
-  bool pos1_is_in_city_radius =
-      player_in_city_radius(game.player_ptr, x1, y1);
+  bool pos1_is_in_city_radius;
   bool pos2_is_in_city_radius = FALSE;
+  struct tile *tile2;
 
-  assert(is_real_map_pos(x1, y1));
-
-  /* If the second position isn't real or is not adjacent to the first
-   * position (this is possible with hex topologies) use a fallback
-   * value. */
-  if (normalize_map_pos(&x2, &y2)
-      && is_tiles_adjacent(x1, y1, x2, y2)) {
-    if (map_get_tile(x2, y2)->known == TILE_UNKNOWN) {
-      return COLOR_STD_BLACK;
-    }
-
-    pos2_is_in_city_radius =
-	player_in_city_radius(game.player_ptr, x2, y2);
-    get_worker_on_map_position(x2, y2, &city_tile_type2, &dummy_pcity);
-  } else {
-    city_tile_type2 = C_TILE_UNAVAILABLE;
+  if (!(tile2 = mapstep(tile1, dir))) {
+    return COLOR_STD_BLACK;
   }
+
+  pos1_is_in_city_radius = player_in_city_radius(game.player_ptr, tile1);
+  pos2_is_in_city_radius = player_in_city_radius(game.player_ptr, tile2);
 
   if (!pos1_is_in_city_radius && !pos2_is_in_city_radius) {
     return COLOR_STD_BLACK;
   }
 
-  get_worker_on_map_position(x1, y1, &city_tile_type1, &dummy_pcity);
+  get_worker_on_map_position(tile1, &city_tile_type1, &dummy_pcity);
+  get_worker_on_map_position(tile2, &city_tile_type2, &dummy_pcity);
 
   if (city_tile_type1 == C_TILE_WORKER || city_tile_type2 == C_TILE_WORKER) {
     return COLOR_STD_RED;
@@ -242,7 +227,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
   parts of the code assume NORMAL_TILE_WIDTH and NORMAL_TILE_HEIGHT
   to be even numbers.
 **************************************************************************/
-bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
+bool map_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile)
 {
   int center_map_x, center_map_y, dx, dy;
 
@@ -255,11 +240,10 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
   base_canvas_to_map_pos(&center_map_x, &center_map_y,
 			 mapview_canvas.width / 2,
 			 mapview_canvas.height / 2);
-  map_distance_vector(&dx, &dy, center_map_x, center_map_y, map_x, map_y);
-  map_x = center_map_x + dx;
-  map_y = center_map_y + dy;
+  base_map_distance_vector(&dx, &dy,
+			   center_map_x, center_map_y, ptile->x, ptile->y);
 
-  map_to_gui_pos(canvas_x, canvas_y, map_x, map_y);
+  map_to_gui_pos(canvas_x, canvas_y, center_map_x + dx, center_map_y + dy);
   *canvas_x -= mapview_canvas.gui_x0;
   *canvas_y -= mapview_canvas.gui_y0;
 
@@ -373,7 +357,7 @@ static void gui_distance_vector(int *gui_dx, int *gui_dy,
 
   /* Next we find the map distance vector and convert this into a GUI
    * vector. */
-  map_distance_vector(&map_dx, &map_dy, map_x0, map_y0, map_x1, map_y1);
+  base_map_distance_vector(&map_dx, &map_dy, map_x0, map_y0, map_x1, map_y1);
   map_to_gui_pos(gui_dx, gui_dy, map_dx, map_dy);
 
   /* Finally we add on the difference in offsets to retain pixel
@@ -408,7 +392,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
    * to do unnecessary redraws in update_map_canvas.  This makes for ugly
    * code but speeds up the mapview by a large factor. */
   if (mapview_canvas.gui_x0 != gui_x0 || mapview_canvas.gui_y0 != gui_y0) {
-    int map_center_x, map_center_y, old_gui_x0, old_gui_y0, dx, dy;
+    int old_gui_x0, old_gui_y0, dx, dy;
     const int width = mapview_canvas.store_width;
     const int height = mapview_canvas.store_height;
     int common_x0, common_x1, common_y0, common_y1;
@@ -478,8 +462,7 @@ void set_mapview_origin(int gui_x0, int gui_y0)
       update_map_canvas_visible();
     }
 
-    get_center_tile_mapcanvas(&map_center_x, &map_center_y);
-    center_tile_overviewcanvas(map_center_x, map_center_y);
+    center_tile_overviewcanvas(get_center_tile_mapcanvas());
     update_map_canvas_scrollbars();
     if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
       create_line_at_mouse_pos();
@@ -631,25 +614,28 @@ void set_mapview_scroll_pos(int scroll_x, int scroll_y)
 /**************************************************************************
   Finds the current center tile of the mapcanvas.
 **************************************************************************/
-void get_center_tile_mapcanvas(int *map_x, int *map_y)
+struct tile *get_center_tile_mapcanvas(void)
 {
+  int map_x, map_y;
+
   /* This sets the pointers map_x and map_y */
-  if (!canvas_to_map_pos(map_x, map_y,
-          mapview_canvas.width / 2, mapview_canvas.height / 2)) {
-    nearest_real_pos(map_x, map_y);
+  if (canvas_to_map_pos(&map_x, &map_y,
+			mapview_canvas.width / 2,
+			mapview_canvas.height / 2)) {
+    return map_pos_to_tile(map_x, map_y);
+  } else {
+    return nearest_real_tile(map_x, map_y);
   }
 }
 
 /**************************************************************************
   Centers the mapview around (map_x, map_y).
 **************************************************************************/
-void center_tile_mapcanvas(int map_center_x, int map_center_y)
+void center_tile_mapcanvas(struct tile *ptile)
 {
   int gui_x, gui_y;
 
-  CHECK_MAP_POS(map_center_x, map_center_y);
-
-  map_to_gui_pos(&gui_x, &gui_y, map_center_x, map_center_y);
+  map_to_gui_pos(&gui_x, &gui_y, ptile->x, ptile->y);
 
   /* Put the center pixel of the tile at the exact center of the mapview. */
   gui_x -= (mapview_canvas.width - NORMAL_TILE_WIDTH) / 2;
@@ -662,11 +648,11 @@ void center_tile_mapcanvas(int map_center_x, int map_center_y)
   Return TRUE iff the given map position has a tile visible on the
   map canvas.
 **************************************************************************/
-bool tile_visible_mapcanvas(int map_x, int map_y)
+bool tile_visible_mapcanvas(struct tile *ptile)
 {
   int dummy_x, dummy_y;		/* well, it needs two pointers... */
 
-  return map_to_canvas_pos(&dummy_x, &dummy_y, map_x, map_y);
+  return map_to_canvas_pos(&dummy_x, &dummy_y, ptile);
 }
 
 /**************************************************************************
@@ -680,7 +666,7 @@ bool tile_visible_mapcanvas(int map_x, int map_y)
 
   This function is only correct for the current topology.
 **************************************************************************/
-bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
+bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile)
 {
   int canvas_x, canvas_y;
   int xmin, ymin, xmax, ymax, xsize, ysize, scroll_x, scroll_y;
@@ -693,7 +679,7 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
 
-  if (!map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)) {
+  if (!map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     /* The tile isn't visible at all. */
     return FALSE;
   }
@@ -731,9 +717,10 @@ static void put_path_length(void)
     int length = get_goto_turns();
     int units = length % NUM_TILES_DIGITS;
     int tens = (length / 10) % NUM_TILES_DIGITS;
-    int canvas_x, canvas_y, map_x, map_y;
+    int canvas_x, canvas_y;
+    struct tile *ptile;
 
-    get_line_dest(&map_x, &map_y);
+    ptile = get_line_dest();
     length = get_goto_turns();
 
     if (length >= 100) {
@@ -741,7 +728,7 @@ static void put_path_length(void)
 			   "Report this bug to bugs@freeciv.freeciv.org."));
     }
 
-    if (map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)) {
+    if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
       if (sprites.path.turns[units]) {
 	canvas_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y,
 			       sprites.path.turns[units]);
@@ -799,7 +786,7 @@ static void put_drawn_sprites(struct canvas *pcanvas,
     case DRAWN_GRID:
       /*** Grid (map grid, borders, coastline, etc.) ***/
       tile_draw_grid(pcanvas,
-		     pdrawn[i].data.grid.map_x, pdrawn[i].data.grid.map_y,
+		     pdrawn[i].data.grid.tile,
 		     canvas_x, canvas_y,
 		     pdrawn[i].data.grid.citymode);
       break;
@@ -830,8 +817,7 @@ void put_unit(struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];
-  int count = fill_sprite_array(drawn_sprites, -1, -1, NULL,
-				punit, NULL, FALSE);
+  int count = fill_sprite_array(drawn_sprites, NULL, punit, NULL, FALSE);
 
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
   put_drawn_sprites(pcanvas, canvas_x, canvas_y,
@@ -846,8 +832,7 @@ void put_city(struct city *pcity,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];
-  int count = fill_sprite_array(drawn_sprites, -1, -1, NULL,
-				NULL, pcity, FALSE);
+  int count = fill_sprite_array(drawn_sprites, NULL, NULL, pcity, FALSE);
 
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
   put_drawn_sprites(pcanvas, canvas_x, canvas_y,
@@ -859,13 +844,11 @@ void put_city(struct city *pcity,
   The area of drawing is UNIT_TILE_HEIGHT x UNIT_TILE_WIDTH (even though
   most tiles are not this tall).
 **************************************************************************/
-void put_terrain(int map_x, int map_y,
+void put_terrain(struct tile *ptile,
 		 struct canvas *pcanvas, int canvas_x, int canvas_y)
 {
   struct drawn_sprite drawn_sprites[40];
-  struct tile *ptile = map_get_tile(map_x, map_y);
-  int count = fill_sprite_array(drawn_sprites, map_x, map_y, ptile,
-				NULL, NULL, FALSE);
+  int count = fill_sprite_array(drawn_sprites, ptile, NULL, NULL, FALSE);
 
   /* Use full tile height, even for terrains. */
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
@@ -973,7 +956,7 @@ void toggle_city_color(struct city *pcity)
 
   pcity->client.color = (pcity->client.color + 1) % NUM_CITY_COLORS;
 
-  map_to_canvas_pos(&canvas_x, &canvas_y, pcity->x, pcity->y);
+  map_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
   update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 		    canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 		    width, height);
@@ -992,7 +975,7 @@ void toggle_unit_color(struct unit *punit)
 
   punit->client.color = (punit->client.color + 1) % NUM_CITY_COLORS;
 
-  map_to_canvas_pos(&canvas_x, &canvas_y, punit->x, punit->y);
+  map_to_canvas_pos(&canvas_x, &canvas_y, punit->tile);
   update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 		    canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 		    width, height);
@@ -1179,7 +1162,7 @@ void put_red_frame_tile(struct canvas *pcanvas,
 /****************************************************************************
   Animate the nuke explosion at map(x, y).
 ****************************************************************************/
-void put_nuke_mushroom_pixmaps(int map_x, int map_y)
+void put_nuke_mushroom_pixmaps(struct tile *ptile)
 {
   int canvas_x, canvas_y;
   struct Sprite *mysprite = sprites.explode.nuke;
@@ -1187,7 +1170,7 @@ void put_nuke_mushroom_pixmaps(int map_x, int map_y)
 
   /* We can't count on the return value of map_to_canvas_pos since the
    * sprite may span multiple tiles. */
-  (void) map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y);
+  (void) map_to_canvas_pos(&canvas_x, &canvas_y, ptile);
   get_sprite_dimensions(mysprite, &width, &height);
 
   canvas_x += (NORMAL_TILE_WIDTH - width) / 2;
@@ -1209,10 +1192,10 @@ void put_nuke_mushroom_pixmaps(int map_x, int map_y)
    Draw the borders of the given map tile at the given canvas position.
 **************************************************************************/
 static void tile_draw_borders(struct canvas *pcanvas,
-			      int map_x, int map_y,
+			      struct tile *ptile,
 			      int canvas_x, int canvas_y)
 {
-  struct player *this_owner = map_get_owner(map_x, map_y), *adjc_owner;
+  struct player *this_owner = map_get_owner(ptile), *adjc_owner;
   int start_x, start_y, end_x, end_y;
 
   if (!draw_borders || game.borders == 0) {
@@ -1227,13 +1210,13 @@ static void tile_draw_borders(struct canvas *pcanvas,
      * themselves overwrite units and cities.  The only real solution is
      * to do the drawing in layers rather than per-tile.  In the meantime
      * we use this hack. */
-    adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
+    adjc_dir_iterate(ptile, adjc_tile, dir) {
       if ((dir == DIR8_WEST || dir == DIR8_NORTHWEST
 	   || dir == DIR8_NORTH || dir == DIR8_SOUTHWEST)
 	  && get_tile_boundaries(dir, 0, BORDER_WIDTH,
 				  &start_x, &start_y, &end_x, &end_y)
-	  && tile_get_known(adjc_x, adjc_y) != TILE_UNKNOWN
-	  && this_owner != (adjc_owner = map_get_owner(adjc_x, adjc_y))) {
+	  && tile_get_known(adjc_tile) != TILE_UNKNOWN
+	  && this_owner != (adjc_owner = map_get_owner(adjc_tile))) {
 	if (this_owner) {
 	  canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
 			  canvas_x + start_x, canvas_y + start_y,
@@ -1251,11 +1234,11 @@ static void tile_draw_borders(struct canvas *pcanvas,
     if (!this_owner) {
       return;
     }
-    adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
+    adjc_dir_iterate(ptile, adjc_tile, dir) {
       if (get_tile_boundaries(dir, 0, BORDER_WIDTH,
 			      &start_x, &start_y, &end_x, &end_y)
-	  && tile_get_known(adjc_x, adjc_y) != TILE_UNKNOWN
-	  && this_owner != (adjc_owner = map_get_owner(adjc_x, adjc_y))) {
+	  && tile_get_known(adjc_tile) != TILE_UNKNOWN
+	  && this_owner != (adjc_owner = map_get_owner(adjc_tile))) {
 	canvas_put_line(pcanvas, player_color(this_owner), LINE_BORDER,
 			canvas_x + start_x, canvas_y + start_y,
 			end_x - start_x, end_y - start_y);
@@ -1268,16 +1251,15 @@ static void tile_draw_borders(struct canvas *pcanvas,
   Draw the given map tile at the given canvas position in non-isometric
   view.
 **************************************************************************/
-void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
+void put_one_tile(struct canvas *pcanvas, struct tile *ptile,
 		  int canvas_x, int canvas_y, bool citymode)
 {
-  if (normalize_map_pos(&map_x, &map_y)
-      && tile_get_known(map_x, map_y) != TILE_UNKNOWN) {
+  if (tile_get_known(ptile) != TILE_UNKNOWN) {
     struct drawn_sprite tile_sprs[80];
-    int count = fill_sprite_array(tile_sprs, map_x, map_y,
-				  map_get_tile(map_x, map_y),
-				  get_drawable_unit(map_x, map_y, citymode),
-				  map_get_city(map_x, map_y), citymode);
+
+    int count = fill_sprite_array(tile_sprs, ptile,
+				  get_drawable_unit(ptile, citymode),
+				  map_get_city(ptile), citymode);
 
     put_drawn_sprites(pcanvas, canvas_x, canvas_y,
 		      count, tile_sprs, FALSE);
@@ -1294,14 +1276,14 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
   The coordinates have not been normalized, and are not guaranteed to be
   real (we have to draw unreal tiles too).
 **************************************************************************/
-static void put_tile(int map_x, int map_y)
+static void put_tile(struct tile *ptile)
 {
   int canvas_x, canvas_y;
 
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
-	    map_x, map_y, canvas_x, canvas_y);
-    put_one_tile(mapview_canvas.store, map_x, map_y,
+	    TILE_XY(ptile), canvas_x, canvas_y);
+    put_one_tile(mapview_canvas.store, ptile,
 		 canvas_x, canvas_y, FALSE);
   }
 }
@@ -1310,7 +1292,7 @@ static void put_tile(int map_x, int map_y)
    Draw the map grid around the given map tile at the given canvas position.
 ****************************************************************************/
 static void tile_draw_map_grid(struct canvas *pcanvas,
-			       int map_x, int map_y,
+			       struct tile *ptile,
 			       int canvas_x, int canvas_y)
 {
   enum direction8 dir;
@@ -1320,13 +1302,12 @@ static void tile_draw_map_grid(struct canvas *pcanvas,
   }
 
   for (dir = 0; dir < 8; dir++) {
-    int start_x, start_y, end_x, end_y, dx, dy;
+    int start_x, start_y, end_x, end_y;
 
     if (get_tile_boundaries(dir, 0, 1,
 			    &start_x, &start_y, &end_x, &end_y)) {
-      DIRSTEP(dx, dy, dir);
       canvas_put_line(pcanvas,
-		      get_grid_color(map_x, map_y, map_x + dx, map_y + dy),
+		      get_grid_color(ptile, dir),
 		      LINE_NORMAL,
 		      canvas_x + start_x, canvas_y + start_y,
 		      end_x - start_x, end_y - start_y);
@@ -1340,21 +1321,21 @@ static void tile_draw_map_grid(struct canvas *pcanvas,
   If the map grid is drawn this will cover it up.
 ****************************************************************************/
 static void tile_draw_coastline(struct canvas *pcanvas,
-				int map_x, int map_y,
+				struct tile *ptile,
 				int canvas_x, int canvas_y)
 {
-  Terrain_type_id t1 = map_get_terrain(map_x, map_y), t2;
+  Terrain_type_id t1 = map_get_terrain(ptile), t2;
 
   if (!draw_coastline || draw_terrain || t1 == T_UNKNOWN) {
     return;
   }
 
-  adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
+  adjc_dir_iterate(ptile, adjc_tile, dir) {
     int start_x, start_y, end_x, end_y;
 
     if (get_tile_boundaries(dir, 0, 1,
 			    &start_x, &start_y, &end_x, &end_y)) {
-      t2 = map_get_terrain(adjc_x, adjc_y);
+      t2 = map_get_terrain(adjc_tile);
       if (t2 != T_UNKNOWN && (is_ocean(t1) ^ is_ocean(t2))) {
 	canvas_put_line(pcanvas, COLOR_STD_OCEAN, LINE_NORMAL,
 			canvas_x + start_x, canvas_y + start_y,
@@ -1369,7 +1350,7 @@ static void tile_draw_coastline(struct canvas *pcanvas,
    position.
 ****************************************************************************/
 static void tile_draw_selection(struct canvas *pcanvas,
-				int map_x, int map_y,
+				struct tile *ptile,
 				int canvas_x, int canvas_y, bool citymode)
 {
   const int inset = (is_isometric ? 0 : 1);
@@ -1380,7 +1361,8 @@ static void tile_draw_selection(struct canvas *pcanvas,
   }
 
   for (dir = 0; dir < 8; dir++) {
-    int start_x, start_y, end_x, end_y, adjc_x, adjc_y;
+    int start_x, start_y, end_x, end_y;
+    struct tile *adjc_tile;
 
     /* In non-iso view we draw the rectangle with an inset of 1.  This makes
      * it easy to distinguish from the map grid.
@@ -1390,10 +1372,10 @@ static void tile_draw_selection(struct canvas *pcanvas,
      * map grid if it is drawn. */
     if (get_tile_boundaries(dir, inset, 1,
 			    &start_x, &start_y, &end_x, &end_y)) {
-      if (map_get_tile(map_x, map_y)->client.hilite == HILITE_CITY
+      if (ptile->client.hilite == HILITE_CITY
 	  || (is_isometric
-	      && MAPSTEP(adjc_x, adjc_y, map_x, map_y, dir)
-	      && map_get_tile(adjc_x, adjc_y)->client.hilite == HILITE_CITY)) {
+	      && (adjc_tile = mapstep(ptile, dir))
+	      && adjc_tile->client.hilite == HILITE_CITY)) {
 	canvas_put_line(pcanvas, COLOR_STD_YELLOW, LINE_NORMAL,
 			canvas_x + start_x, canvas_y + start_y,
 			end_x - start_x, end_y - start_y);
@@ -1407,26 +1389,24 @@ static void tile_draw_selection(struct canvas *pcanvas,
    Draw the grid lines of the given map tile at the given canvas position
    in isometric view.  (This include the map grid, borders, and coastline).
 ****************************************************************************/
-void tile_draw_grid(struct canvas *pcanvas, int map_x, int map_y,
-			int canvas_x, int canvas_y,
-		    bool citymode)
+void tile_draw_grid(struct canvas *pcanvas, struct tile *ptile,
+		    int canvas_x, int canvas_y, bool citymode)
 {
-  tile_draw_map_grid(pcanvas, map_x, map_y, canvas_x, canvas_y);
-  tile_draw_borders(pcanvas, map_x, map_y, canvas_x, canvas_y);
-  tile_draw_coastline(pcanvas, map_x, map_y, canvas_x, canvas_y);
-  tile_draw_selection(pcanvas, map_x, map_y, canvas_x, canvas_y, citymode);
+  tile_draw_map_grid(pcanvas, ptile, canvas_x, canvas_y);
+  tile_draw_borders(pcanvas, ptile, canvas_x, canvas_y);
+  tile_draw_coastline(pcanvas, ptile, canvas_x, canvas_y);
+  tile_draw_selection(pcanvas, ptile, canvas_x, canvas_y, citymode);
 }
 
 /**************************************************************************
   Draw some or all of a tile onto the canvas, in iso-view.
 **************************************************************************/
-void put_one_tile_iso(struct canvas *pcanvas, int map_x, int map_y,
+void put_one_tile_iso(struct canvas *pcanvas, struct tile *ptile,
 		      int canvas_x, int canvas_y, bool citymode)
 {
   struct drawn_sprite tile_sprs[80];
-  struct tile *ptile = map_get_tile(map_x, map_y);
-  int count = fill_sprite_array(tile_sprs, map_x, map_y, ptile,
-				get_drawable_unit(map_x, map_y, citymode),
+  int count = fill_sprite_array(tile_sprs, ptile,
+				get_drawable_unit(ptile, citymode),
 				ptile->city, citymode);
   bool fog = ptile->known == TILE_KNOWN_FOGGED && draw_fog_of_war;
 
@@ -1439,22 +1419,17 @@ void put_one_tile_iso(struct canvas *pcanvas, int map_x, int map_y,
   The coordinates have not been normalized, and are not guaranteed to be
   real (we have to draw unreal tiles too).
 **************************************************************************/
-static void put_tile_iso(int map_x, int map_y)
+static void put_tile_iso(struct tile *ptile)
 {
   int canvas_x, canvas_y;
 
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     freelog(LOG_DEBUG, "putting (%d,%d) at (%d,%d)",
-	    map_x, map_y, canvas_x, canvas_y);
+	    TILE_XY(ptile), canvas_x, canvas_y);
 
-    if (normalize_map_pos(&map_x, &map_y)) {
-      put_one_tile_iso(mapview_canvas.store,
-		       map_x, map_y, canvas_x, canvas_y,
-		       FALSE);
-    } else {
-      canvas_put_sprite_full(mapview_canvas.store, canvas_x, canvas_y,
-			     sprites.black_tile);
-    }
+    put_one_tile_iso(mapview_canvas.store,
+		     ptile, canvas_x, canvas_y,
+		     FALSE);
   }
 }
 
@@ -1518,17 +1493,17 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    * cleared. */
   if (is_isometric) {
     gui_rect_iterate(gui_x0, gui_y0, width, height + NORMAL_TILE_HEIGHT / 2,
-		     map_x, map_y) {
-      put_tile_iso(map_x, map_y);
+		     ptile) {
+      put_tile_iso(ptile);
     } gui_rect_iterate_end;
   } else {
     /* not isometric */
-    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y) {
+    gui_rect_iterate(gui_x0, gui_y0, width, height, ptile) {
       /*
        * We don't normalize until later because we want to draw
        * black tiles for unreal positions.
        */
-      put_tile(map_x, map_y);
+      put_tile(ptile);
     } gui_rect_iterate_end;
   }
 
@@ -1540,29 +1515,26 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    * from adjacent tiles (if they're close enough). */
   gui_rect_iterate(gui_x0 - GOTO_WIDTH, gui_y0 - GOTO_WIDTH,
 		   width + 2 * GOTO_WIDTH, height + 2 * GOTO_WIDTH,
-		   map_x, map_y) {
-    if (normalize_map_pos(&map_x, &map_y)) {
-      adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
-	if (is_drawn_line(map_x, map_y, dir)) {
-	  draw_segment(map_x, map_y, dir);
-	}
-      } adjc_dir_iterate_end;
-    }
+		   ptile) {
+    adjc_dir_iterate(ptile, adjc_tile, dir) {
+      if (is_drawn_line(ptile, dir)) {
+	draw_segment(ptile, dir);
+      }
+    } adjc_dir_iterate_end;
   } gui_rect_iterate_end;
 
   /* Draw citymap overlays on top. */
-  gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y) {
-    if (normalize_map_pos(&map_x, &map_y)
-	&& tile_get_known(map_x, map_y) != TILE_UNKNOWN) {
+  gui_rect_iterate(gui_x0, gui_y0, width, height, ptile) {
+    if (tile_get_known(ptile) != TILE_UNKNOWN) {
       struct unit *punit;
       struct city *pcity;
       int city_x, city_y, canvas_x2, canvas_y2;
 
-      pcity = find_city_or_settler_near_tile(map_x, map_y, &punit);
+      pcity = find_city_or_settler_near_tile(ptile, &punit);
       if (pcity
 	  && city_colors[pcity->client.color] != COLOR_STD_LAST
-	  && map_to_city_map(&city_x, &city_y, pcity, map_x, map_y)
-	  && map_to_canvas_pos(&canvas_x2, &canvas_y2, map_x, map_y)) {
+	  && map_to_city_map(&city_x, &city_y, pcity, ptile)
+	  && map_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
 	enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
 
 	put_city_worker(mapview_canvas.store,
@@ -1574,8 +1546,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 	}
       } else if (punit
 		 && city_colors[punit->client.color] != COLOR_STD_LAST
-		 && map_to_canvas_pos(&canvas_x2, &canvas_y2,
-				      map_x, map_y)) {
+		 && map_to_canvas_pos(&canvas_x2, &canvas_y2, ptile)) {
 	/* Draw citymap overlay for settlers. */
 	put_city_worker(mapview_canvas.store,
 			city_colors[punit->client.color], C_TILE_EMPTY,
@@ -1632,7 +1603,7 @@ void update_city_description(struct city *pcity)
   /* We update the entire map canvas area that this city description
    * might be covering.  This may, for instance, redraw other city
    * descriptions that overlap with this one. */
-  (void) map_to_canvas_pos(&canvas_x, &canvas_y, pcity->x, pcity->y);
+  (void) map_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
   update_map_canvas(canvas_x - (max_desc_width - NORMAL_TILE_WIDTH) / 2,
 		    canvas_y + NORMAL_TILE_HEIGHT,
 		    max_desc_width, max_desc_height);
@@ -1673,15 +1644,14 @@ void show_city_descriptions(int canvas_x, int canvas_y,
   gui_rect_iterate(mapview_canvas.gui_x0 + canvas_x - dx / 2,
 		   mapview_canvas.gui_y0 + canvas_y - dy,
 		   width + dx, height + dy - NORMAL_TILE_HEIGHT,
-		   map_x, map_y) {
+		   ptile) {
     int canvas_x, canvas_y;
-    struct city *pcity;
+    struct city *pcity = ptile->city;
 
-    if (normalize_map_pos(&map_x, &map_y)
-	&& (pcity = map_get_city(map_x, map_y))) {
+    if (pcity) {
       int width = 0, height = 0;
 
-      (void) map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y);
+      (void) map_to_canvas_pos(&canvas_x, &canvas_y, ptile);
       show_city_desc(mapview_canvas.store, canvas_x, canvas_y,
 		     pcity, &width, &height);
 
@@ -1699,7 +1669,8 @@ void show_city_descriptions(int canvas_x, int canvas_y,
 bool show_unit_orders(struct unit *punit)
 {
   if (punit && unit_has_orders(punit)) {
-    int unit_x = punit->x, unit_y = punit->y, i;
+    struct tile *ptile = punit->tile, *tile1;
+    int i;
 
     for (i = 0; i < punit->orders.length; i++) {
       int index = (punit->orders.index + i) % punit->orders.length;
@@ -1714,8 +1685,9 @@ bool show_unit_orders(struct unit *punit)
 
       switch (order->order) {
       case ORDER_MOVE:
-	draw_segment(unit_x, unit_y, order->dir);
-	if (!MAPSTEP(unit_x, unit_y, unit_x, unit_y, order->dir)) {
+	draw_segment(ptile, order->dir);
+	tile1 = mapstep(ptile, order->dir);
+	if (!tile1) {
 	  /* This shouldn't happen unless the server gives us invalid
 	   * data.  To avoid disaster we need to break out of the
 	   * switch and the enclosing for loop. */
@@ -1740,12 +1712,12 @@ bool show_unit_orders(struct unit *punit)
   Draw a goto line at the given location and direction.  The line goes from
   the source tile to the adjacent tile in the given direction.
 ****************************************************************************/
-void draw_segment(int src_x, int src_y, enum direction8 dir)
+void draw_segment(struct tile *src_tile, enum direction8 dir)
 {
   int canvas_x, canvas_y, canvas_dx, canvas_dy;
 
   /* Determine the source position of the segment. */
-  (void) map_to_canvas_pos(&canvas_x, &canvas_y, src_x, src_y);
+  (void) map_to_canvas_pos(&canvas_x, &canvas_y, src_tile);
   canvas_x += NORMAL_TILE_WIDTH / 2;
   canvas_y += NORMAL_TILE_HEIGHT / 2;
 
@@ -1774,21 +1746,17 @@ void draw_segment(int src_x, int src_y, enum direction8 dir)
   Remove the line from src_x, src_y in the given direction, and redraw
   the change if necessary.
 **************************************************************************/
-void undraw_segment(int src_x, int src_y, int dir)
+void undraw_segment(struct tile *src_tile, enum direction8 dir)
 {
-  int dest_x, dest_y, canvas_x, canvas_y, canvas_dx, canvas_dy;
+  int canvas_x, canvas_y, canvas_dx, canvas_dy;
 
-  assert(!is_drawn_line(src_x, src_y, dir));
-
-  if (!MAPSTEP(dest_x, dest_y, src_x, src_y, dir)) {
-    assert(0);
-  }
+  assert(!is_drawn_line(src_tile, dir));
 
   /* Note that if source and dest tiles are not adjacent (because the
    * mapview wraps around) this will not give the correct behavior.  This is
    * consistent with the current design which fails when the size of the
    * mapview approaches the size of the map. */
-  (void) map_to_canvas_pos(&canvas_x, &canvas_y, src_x, src_y);
+  (void) map_to_canvas_pos(&canvas_x, &canvas_y, src_tile);
   map_to_gui_vector(&canvas_dx, &canvas_dy, DIR_DX[dir], DIR_DY[dir]);
 
   update_map_canvas(MIN(canvas_x, canvas_x + canvas_dx),
@@ -1817,10 +1785,10 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
     if (myrand(diff0 + diff1) < diff0) {
       punit0->hp--;
-      refresh_tile_mapcanvas(punit0->x, punit0->y, FALSE);
+      refresh_tile_mapcanvas(punit0->tile, FALSE);
     } else {
       punit1->hp--;
-      refresh_tile_mapcanvas(punit1->x, punit1->y, FALSE);
+      refresh_tile_mapcanvas(punit1->tile, FALSE);
     }
 
     flush_dirty();
@@ -1831,8 +1799,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   if (num_tiles_explode_unit > 0
       && map_to_canvas_pos(&canvas_x, &canvas_y,
-			   losing_unit->x, losing_unit->y)) {
-    refresh_tile_mapcanvas(losing_unit->x, losing_unit->y, FALSE);
+			   losing_unit->tile)) {
+    refresh_tile_mapcanvas(losing_unit->tile, FALSE);
     canvas_copy(mapview_canvas.tmp_store, mapview_canvas.store,
 		canvas_x, canvas_y, canvas_x, canvas_y,
 		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
@@ -1863,8 +1831,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   }
 
   set_units_in_combat(NULL, NULL);
-  refresh_tile_mapcanvas(punit0->x, punit0->y, FALSE);
-  refresh_tile_mapcanvas(punit1->x, punit1->y, FALSE);
+  refresh_tile_mapcanvas(punit0->tile, FALSE);
+  refresh_tile_mapcanvas(punit1->tile, FALSE);
 }
 
 /**************************************************************************
@@ -1872,9 +1840,10 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   Note: Works only for adjacent-tile moves.
 **************************************************************************/
 void move_unit_map_canvas(struct unit *punit,
-			  int map_x, int map_y, int dx, int dy)
+			  struct tile *src_tile, int dx, int dy)
 {
   static struct timer *anim_timer = NULL;
+  struct tile *dest_tile;
   int dest_x, dest_y;
 
   /* only works for adjacent-square moves */
@@ -1890,14 +1859,15 @@ void move_unit_map_canvas(struct unit *punit,
     update_unit_info_label(punit);
   }
 
-  dest_x = map_x + dx;
-  dest_y = map_y + dy;
+  dest_x = src_tile->x + dx;
+  dest_y = src_tile->y + dy;
   if (!normalize_map_pos(&dest_x, &dest_y)) {
-    assert(0);
+    return;
   }
+  dest_tile = map_pos_to_tile(dest_x, dest_y);
 
-  if (tile_visible_mapcanvas(map_x, map_y)
-      || tile_visible_mapcanvas(dest_x, dest_y)) {
+  if (tile_visible_mapcanvas(src_tile)
+      || tile_visible_mapcanvas(dest_tile)) {
     int start_x, start_y;
     int canvas_dx, canvas_dy;
     double timing_sec = (double)smooth_move_unit_msec / 1000.0, mytime;
@@ -1906,7 +1876,7 @@ void move_unit_map_canvas(struct unit *punit,
 
     map_to_gui_vector(&canvas_dx, &canvas_dy, dx, dy);
 
-    map_to_canvas_pos(&start_x, &start_y, map_x, map_y);
+    map_to_canvas_pos(&start_x, &start_y, src_tile);
     if (is_isometric) {
       start_y -= NORMAL_TILE_HEIGHT / 2;
     }
@@ -1957,10 +1927,10 @@ void move_unit_map_canvas(struct unit *punit,
         closest one (only if punit != NULL).
     g.  If nobody can work it, return NULL.
 **************************************************************************/
-struct city *find_city_or_settler_near_tile(int x, int y,
+struct city *find_city_or_settler_near_tile(struct tile *ptile,
 					    struct unit **punit)
 {
-  struct city *pcity = map_get_tile(x, y)->worked, *closest_city;
+  struct city *pcity = ptile->worked, *closest_city;
   struct unit *closest_settler = NULL, *best_settler = NULL;
 
   if (punit) {
@@ -1980,8 +1950,8 @@ struct city *find_city_or_settler_near_tile(int x, int y,
   /* rule e */
   closest_city = NULL;
 
-  city_map_checked_iterate(x, y, city_x, city_y, map_x, map_y) {
-    pcity = map_get_city(map_x, map_y);
+  city_map_checked_iterate(ptile, city_x, city_y, tile1) {
+    pcity = map_get_city(tile1);
     if (pcity && pcity->owner == game.player_idx
 	&& get_worker_city(pcity, CITY_MAP_SIZE - 1 - city_x,
 			   CITY_MAP_SIZE - 1 - city_y) == C_TILE_EMPTY) {
@@ -1992,7 +1962,7 @@ struct city *find_city_or_settler_near_tile(int x, int y,
        * causing it to be marked as C_TILE_UNAVAILABLE.
        */
       
-      if (map_get_tile(pcity->x, pcity->y)->client.hilite == HILITE_CITY) {
+      if (pcity->tile->client.hilite == HILITE_CITY) {
 	/* rule c */
 	return pcity;
       }
@@ -2008,16 +1978,13 @@ struct city *find_city_or_settler_near_tile(int x, int y,
   }
 
   city_map_iterate_outwards(city_x, city_y) {
-    int new_x = x + city_x - CITY_MAP_RADIUS;
-    int new_y = y + city_y - CITY_MAP_RADIUS;
+    struct tile *tile1 = base_city_map_to_map(ptile, city_x, city_y);;
 
-    if (normalize_map_pos(&new_x, &new_y)) {
-      struct tile *ptile = map_get_tile(new_x, new_y);
-
-      unit_list_iterate(ptile->units, psettler) {
+    if (tile1) {
+      unit_list_iterate(tile1->units, psettler) {
 	if (psettler->owner == game.player_idx
 	    && unit_flag(psettler, F_CITIES)
-	    && city_can_be_built_here(psettler->x, psettler->y, psettler)) {
+	    && city_can_be_built_here(psettler->tile, psettler)) {
 	  if (!closest_settler) {
 	    closest_settler = psettler;
 	  }
@@ -2044,9 +2011,9 @@ struct city *find_city_or_settler_near_tile(int x, int y,
 /**************************************************************************
   Find the nearest/best city that owns the tile.
 **************************************************************************/
-struct city *find_city_near_tile(int x, int y)
+struct city *find_city_near_tile(struct tile *ptile)
 {
-  return find_city_or_settler_near_tile(x, y, NULL);
+  return find_city_or_settler_near_tile(ptile, NULL);
 }
 
 /**************************************************************************
@@ -2238,11 +2205,11 @@ static void flush_dirty_overview(void)
 /**************************************************************************
   Center the overview around the mapview.
 **************************************************************************/
-static void center_tile_overviewcanvas(int map_x, int map_y)
+static void center_tile_overviewcanvas(struct tile *ptile)
 {
   /* The overview coordinates are equivalent to (scaled) natural
    * coordinates. */
-  do_in_natural_pos(ntl_x, ntl_y, map_x, map_y) {
+  do_in_natural_pos(ntl_x, ntl_y, ptile->x, ptile->y) {
     /* NOTE: this embeds the map wrapping in the overview code.  This is
      * basically necessary for the overview to be efficiently
      * updated. */
@@ -2383,8 +2350,8 @@ static void get_mapview_corners(int x[4], int y[4])
 **************************************************************************/
 void refresh_overview_canvas(void)
 {
-  whole_map_iterate(x, y) {
-    overview_update_tile(x, y);
+  whole_map_iterate(ptile) {
+    overview_update_tile(ptile);
   } whole_map_iterate_end;
   redraw_overview();
 }
@@ -2392,11 +2359,11 @@ void refresh_overview_canvas(void)
 /**************************************************************************
   Redraw the given map position in the overview canvas.
 **************************************************************************/
-void overview_update_tile(int map_x, int map_y)
+void overview_update_tile(struct tile *ptile)
 {
   /* Base overview positions are just like natural positions, but scaled to
    * the overview tile dimensions. */
-  do_in_natural_pos(ntl_x, ntl_y, map_x, map_y) {
+  do_in_natural_pos(ntl_x, ntl_y, ptile->x, ptile->y) {
     int overview_y = ntl_y * OVERVIEW_TILE_SIZE;
     int overview_x = ntl_x * OVERVIEW_TILE_SIZE;
 
@@ -2406,7 +2373,7 @@ void overview_update_tile(int map_x, int map_y)
 	  /* This tile is shown half on the left and half on the right
 	   * side of the overview.  So we have to draw it in two parts. */
 	  canvas_put_rectangle(overview.store, 
-			       overview_tile_color(map_x, map_y),
+			       overview_tile_color(ptile),
 			       overview_x - overview.width, overview_y,
 			       OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT); 
 	}     
@@ -2418,7 +2385,7 @@ void overview_update_tile(int map_x, int map_y)
     } 
     
     canvas_put_rectangle(overview.store,
-			 overview_tile_color(map_x, map_y),
+			 overview_tile_color(ptile),
 			 overview_x, overview_y,
 			 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
 

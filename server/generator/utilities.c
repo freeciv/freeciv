@@ -54,44 +54,44 @@ void destroy_placed_map(void)
 
 
 
-#define pmap(x, y) (placed_map[map_pos_to_index(x, y)])
+#define pmap(ptile) (placed_map[(ptile)->index])
 
 /* Checks if land has not yet been placed on pmap at (x, y) */
-bool not_placed(int x, int y)
+bool not_placed(const struct tile *ptile)
 {
-  return !pmap((x), (y));
+  return !pmap(ptile);
 }
 
 /* set has placed or not placed position in the pmap */
-void map_set_placed(int x, int y)
+void map_set_placed(struct tile *ptile)
 {
-  pmap((x), (y)) = TRUE;
+  pmap(ptile) = TRUE;
 }
 
-void map_unset_placed(int x, int y)
+void map_unset_placed(struct tile *ptile)
 {
-  pmap((x), (y)) = FALSE;
+  pmap(ptile) = FALSE;
 }
 
 /**************************************************************************** 
   set all oceanics tiles in placed_map
 ****************************************************************************/
 void set_all_ocean_tiles_placed(void) 
-{                               
-  whole_map_iterate(x, y) {     
-    if (is_ocean(map_get_terrain(x,y))) { 
-      map_set_placed(x, y);     
-    }                           
-  } whole_map_iterate_end;      
+{
+  whole_map_iterate(ptile) {
+    if (is_ocean(map_get_terrain(ptile))) {
+      map_set_placed(ptile);
+    }
+  } whole_map_iterate_end;
 }
 
 /****************************************************************************
   Set all nearby tiles as placed on pmap. 
 ****************************************************************************/
-void set_placed_near_pos(int x, int y, int dist)
+void set_placed_near_pos(struct tile *ptile, int dist)
 {
-  square_iterate(x, y, dist, x1, y1) {
-    map_set_placed(x1, y1);
+  square_iterate(ptile, dist, tile1) {
+    map_set_placed(tile1);
   } square_iterate_end;
 }
 
@@ -106,10 +106,10 @@ void adjust_int_map(int *int_map, int int_map_max)
   int minval = *int_map, maxval = minval;
 
   /* Determine minimum and maximum value. */
-  whole_map_iterate_index(j) {
-    maxval = MAX(maxval, int_map[j]);
-    minval = MIN(minval, int_map[j]);
-  } whole_map_iterate_index_end;
+  whole_map_iterate(ptile) {
+    maxval = MAX(maxval, int_map[ptile->index]);
+    minval = MIN(minval, int_map[ptile->index]);
+  } whole_map_iterate_end;
 
   {
     int const size = 1 + maxval - minval;
@@ -120,10 +120,10 @@ void adjust_int_map(int *int_map, int int_map_max)
     /* Translate value so the minimum value is 0
        and count the number of occurencies of all values to initialize the 
        frequencies[] */
-    whole_map_iterate_index(j) {
-      int_map[j] = (int_map[j] - minval);
-      frequencies[int_map[j]]++;
-    } whole_map_iterate_index_end ;
+    whole_map_iterate(ptile) {
+      int_map[ptile->index] = (int_map[ptile->index] - minval);
+      frequencies[int_map[ptile->index]]++;
+    } whole_map_iterate_end;
 
     /* create the linearize function as "incremental" frequencies */
     for(i =  0; i < size; i++) {
@@ -132,9 +132,9 @@ void adjust_int_map(int *int_map, int int_map_max)
     }
 
     /* apply the linearize function */
-    whole_map_iterate_index(j) {
-      int_map[j] = frequencies[int_map[j]];
-    } whole_map_iterate_index_end;
+    whole_map_iterate(ptile) {
+      int_map[ptile->index] = frequencies[int_map[ptile->index]];
+    } whole_map_iterate_end;
   }
 }
 bool normalize_nat_pos(int *x, int  *y) 
@@ -151,9 +151,8 @@ bool normalize_nat_pos(int *x, int  *y)
 
 bool is_normal_nat_pos(int x, int y)
 {
-  do_in_map_pos(map_x, map_y, x, y) {
-    return is_normal_map_pos(map_x, map_y);
-  } do_in_map_pos_end;
+  NATIVE_TO_MAP_POS(&x, &y, x, y);
+  return is_normal_map_pos(x, y);
 }
 
 /****************************************************************************
@@ -177,17 +176,17 @@ bool is_normal_nat_pos(int x, int y)
   source_map = int_map;
 
   do {
-    whole_map_iterate_index( j ) {
+    whole_map_iterate(ptile) {
       int  N = 0, D = 0;
-      iterate_axe(j1, i, j, 2, axe) {
+      iterate_axe(tile1, i, ptile, 2, axe) {
 	D += weight[i + 2];
-	N += weight[i + 2] * source_map[j1];
+	N += weight[i + 2] * source_map[tile1->index];
       } iterate_axe_end;
       if(zeroes_at_edges) {
 	D = total_weight;
       }
-      target_map[j] = N / D;
-    } whole_map_iterate_index_end;
+      target_map[ptile->index] = N / D;
+    } whole_map_iterate_end;
 
     if (topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX)) {
     weight[0] = weight[4] = 0.5;
@@ -202,4 +201,3 @@ bool is_normal_nat_pos(int x, int y)
 
   } while ( !axe );
 }
-

@@ -408,7 +408,7 @@ static void tilespec_free_toplevel(void)
 void tilespec_reread(const char *tileset_name)
 {
   int id;
-  int center_x, center_y;
+  struct tile *center_tile;
   enum client_states state = get_client_state();
 
   freelog(LOG_NORMAL, "Loading tileset %s.", tileset_name);
@@ -417,7 +417,7 @@ void tilespec_reread(const char *tileset_name)
    *
    * We record the current mapcanvas center, etc.
    */
-  get_center_tile_mapcanvas(&center_x, &center_y);
+  center_tile = get_center_tile_mapcanvas();
 
   /* Step 1:  Cleanup.
    *
@@ -496,7 +496,7 @@ void tilespec_reread(const char *tileset_name)
   }
   generate_citydlg_dimensions();
   tileset_changed();
-  center_tile_mapcanvas(center_x, center_y);
+  center_tile_mapcanvas(center_tile);
 }
 
 /**************************************************************************
@@ -1892,10 +1892,9 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
 #define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, DRAW_NORMAL, TRUE, 0, 0)
 #define ADD_SPRITE_FULL(s) ADD_SPRITE(s, DRAW_FULL, TRUE, 0, 0)
 
-#define ADD_GRID(x, y, mode)						    \
+#define ADD_GRID(ptile, mode)						    \
   (sprs->type = DRAWN_GRID,						    \
-   sprs->data.grid.map_x = (x),						    \
-   sprs->data.grid.map_y = (y),						    \
+   sprs->data.grid.tile = (ptile),					    \
    sprs->data.grid.citymode = (mode),					    \
    sprs++)
 
@@ -1913,7 +1912,7 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
     ttype_near     : terrain types of all adjacent terrain
     tspecial_near  : specials of all adjacent terrain
 **************************************************************************/
-static void build_tile_data(int map_x, int map_y,
+static void build_tile_data(struct tile *ptile,
 			    Terrain_type_id *ttype,
 			    enum tile_special_type *tspecial,
 			    Terrain_type_id *ttype_near,
@@ -1921,17 +1920,16 @@ static void build_tile_data(int map_x, int map_y,
 {
   enum direction8 dir;
 
-  *tspecial = map_get_special(map_x, map_y);
-  *ttype = map_get_terrain(map_x, map_y);
+  *tspecial = map_get_special(ptile);
+  *ttype = map_get_terrain(ptile);
 
   /* Loop over all adjacent tiles.  We should have an iterator for this. */
   for (dir = 0; dir < 8; dir++) {
-    int x1, y1;
+    struct tile *tile1 = mapstep(ptile, dir);
 
-    if (MAPSTEP(x1, y1, map_x, map_y, dir)
-	&& tile_get_known(x1, y1) != TILE_UNKNOWN) {
-      tspecial_near[dir] = map_get_special(x1, y1);
-      ttype_near[dir] = map_get_terrain(x1, y1);
+    if (tile1 && tile_get_known(tile1) != TILE_UNKNOWN) {
+      tspecial_near[dir] = map_get_special(tile1);
+      ttype_near[dir] = map_get_terrain(tile1);
     } else {
       /* We draw the edges of the (known) map as if the same terrain just
        * continued off the edge of the map. */
@@ -2389,11 +2387,11 @@ static int fill_irrigation_sprite_array(struct drawn_sprite *sprs,
   Fill in the sprite array for blended terrain.
 ****************************************************************************/
 static int fill_blending_sprite_array(struct drawn_sprite *sprs,
-				      int map_x, int map_y,
+				      struct tile *ptile,
 				      Terrain_type_id *ttype_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  Terrain_type_id ttype = map_get_terrain(map_x, map_y);
+  Terrain_type_id ttype = map_get_terrain(ptile);
 
   if (is_isometric && sprites.terrain[ttype]->is_blended) {
     enum direction4 dir;
@@ -2408,11 +2406,11 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
      * get the "unknown" dither along the edge of the map.
      */
     for (dir = 0; dir < 4; dir++) {
-      int x1, y1;
+      struct tile *tile1 = mapstep(ptile, DIR4_TO_DIR8[dir]);
       Terrain_type_id other = ttype_near[DIR4_TO_DIR8[dir]];
 
-      if (!MAPSTEP(x1, y1, map_x, map_y, DIR4_TO_DIR8[dir])
-	  || tile_get_known(x1, y1) == TILE_UNKNOWN
+      if (!tile1
+	  || tile_get_known(tile1) == TILE_UNKNOWN
 	  || other == ttype
 	  || !sprites.terrain[other]->is_blended) {
 	continue;
@@ -2431,15 +2429,15 @@ static int fill_blending_sprite_array(struct drawn_sprite *sprs,
   include specials or rivers.
 ****************************************************************************/
 static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
-				     int map_x, int map_y,
+				     struct tile *ptile,
 				     Terrain_type_id *ttype_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
   struct Sprite *sprite;
-  struct tile *ptile = map_get_tile(map_x, map_y);
   Terrain_type_id ttype = ptile->terrain;
   struct terrain_drawing_data *draw = sprites.terrain[ttype];
-  int l, adjc_x, adjc_y, i, tileno;
+  int l, i, tileno;
+  struct tile *adjc_tile;
 
   if (!draw_terrain) {
     return 0;
@@ -2460,7 +2458,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 #define SMALL_PRIME 1009
       assert(count < SMALL_PRIME);
       assert((int)(LARGE_PRIME * MAX_MAP_INDEX) > 0);
-      count = ((map_pos_to_index(map_x, map_y)
+      count = ((ptile->index
 		* LARGE_PRIME) % SMALL_PRIME) % count;
       ADD_SPRITE(draw->layer[l].base.p[count],
 		 draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
@@ -2546,15 +2544,15 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 
     /* Add blending on top of the first layer. */
     if (l == 0 && draw->is_blended) {
-      sprs += fill_blending_sprite_array(sprs, map_x, map_y, ttype_near);
+      sprs += fill_blending_sprite_array(sprs, ptile, ttype_near);
     }
 
     /* Add darkness on top of the first layer.  Note that darkness is always
      * drawn, even in citymode, etc. */
     if (l == 0) {
 #define UNKNOWN(dir)                                        \
-      (MAPSTEP(adjc_x, adjc_y, map_x, map_y, (dir))	    \
-       && tile_get_known(adjc_x, adjc_y) == TILE_UNKNOWN)
+      ((adjc_tile = mapstep(ptile, (dir)))		    \
+       && tile_get_known(adjc_tile) == TILE_UNKNOWN)
 
       switch (darkness_style) {
       case DARKNESS_NONE:
@@ -2619,8 +2617,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
   citymode specifies whether this is part of a citydlg.  If so some drawing
   is done differently.
 ****************************************************************************/
-int fill_sprite_array(struct drawn_sprite *sprs,
-		      int map_x, int map_y, struct tile *ptile,
+int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
 		      struct unit *punit, struct city *pcity,
 		      bool citymode)
 {
@@ -2630,7 +2627,7 @@ int fill_sprite_array(struct drawn_sprite *sprs,
   struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;
 
-  if (ptile && tile_get_known(map_x, map_y) == TILE_UNKNOWN) {
+  if (ptile && tile_get_known(ptile) == TILE_UNKNOWN) {
     ADD_BG(COLOR_STD_BLACK);
     return sprs - save_sprs;
   }
@@ -2648,10 +2645,10 @@ int fill_sprite_array(struct drawn_sprite *sprs,
 
   /* Terrain and specials. */
   if (ptile) {
-    build_tile_data(map_x, map_y,
+    build_tile_data(ptile,
 		    &ttype, &tspecial, ttype_near, tspecial_near);
 
-    sprs += fill_terrain_sprite_array(sprs, map_x, map_y, ttype_near);
+    sprs += fill_terrain_sprite_array(sprs, ptile, ttype_near);
 
     if (is_ocean(ttype) && draw_terrain) {
       for (dir = 0; dir < 4; dir++) {
@@ -2708,7 +2705,7 @@ int fill_sprite_array(struct drawn_sprite *sprs,
 
   if (ptile && is_isometric) {
     /* Add grid.  In classic view this is done later. */
-    ADD_GRID(map_x, map_y, citymode);
+    ADD_GRID(ptile, citymode);
   }
 
   /* City.  Some city sprites are drawn later. */
@@ -2744,7 +2741,7 @@ int fill_sprite_array(struct drawn_sprite *sprs,
   }
 
   if (!is_isometric && draw_fog_of_war
-      && ptile && tile_get_known(map_x, map_y) == TILE_KNOWN_FOGGED) {
+      && ptile && tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
     /* Fogging in non-iso is done this way. */
     ADD_SPRITE_SIMPLE(sprites.tx.fog);
   }
@@ -2777,7 +2774,7 @@ int fill_sprite_array(struct drawn_sprite *sprs,
 
   if (ptile && !is_isometric) {
     /* Add grid.  In iso-view this is done earlier. */
-    ADD_GRID(map_x, map_y, citymode);
+    ADD_GRID(ptile, citymode);
   }
 
   return sprs - save_sprs;
@@ -2932,16 +2929,15 @@ enum color_std player_color(struct player *pplayer)
 /**********************************************************************
   Return color for overview map tile.
 ***********************************************************************/
-enum color_std overview_tile_color(int x, int y)
+enum color_std overview_tile_color(struct tile *ptile)
 {
   enum color_std color;
-  struct tile *ptile=map_get_tile(x, y);
   struct unit *punit;
   struct city *pcity;
 
-  if (tile_get_known(x, y) == TILE_UNKNOWN) {
+  if (tile_get_known(ptile) == TILE_UNKNOWN) {
     color=COLOR_STD_BLACK;
-  } else if((pcity=map_get_city(x, y))) {
+  } else if((pcity=map_get_city(ptile))) {
     if(pcity->owner==game.player_idx)
       color=COLOR_STD_WHITE;
     else
@@ -2952,13 +2948,13 @@ enum color_std overview_tile_color(int x, int y)
     else
       color=COLOR_STD_RED;
   } else if (is_ocean(ptile->terrain)) {
-    if (tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
+    if (tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
       color = COLOR_STD_RACE4;
     } else {
       color = COLOR_STD_OCEAN;
     }
   } else {
-    if (tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
+    if (tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
       color = COLOR_STD_BACKGROUND;
     } else {
       color = COLOR_STD_GROUND;
@@ -2979,9 +2975,9 @@ void set_focus_unit_hidden_state(bool hide)
 /**********************************************************************
 ...
 ***********************************************************************/
-struct unit *get_drawable_unit(int x, int y, bool citymode)
+struct unit *get_drawable_unit(struct tile *ptile, bool citymode)
 {
-  struct unit *punit = find_visible_unit(map_get_tile(x, y));
+  struct unit *punit = find_visible_unit(ptile);
   struct unit *pfocus = get_unit_in_focus();
 
   if (!punit)
@@ -2992,7 +2988,7 @@ struct unit *get_drawable_unit(int x, int y, bool citymode)
 
   if (punit != pfocus
       || !focus_unit_hidden
-      || !same_pos(punit->x, punit->y, pfocus->x, pfocus->y))
+      || !same_pos(punit->tile, pfocus->tile))
     return punit;
   else
     return NULL;

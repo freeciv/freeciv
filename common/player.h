@@ -236,7 +236,7 @@ bool player_has_embassy(struct player *pplayer, struct player *pplayer2);
 
 bool can_player_see_unit(struct player *pplayer, struct unit *punit);
 bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
-			    int x, int y);
+			    struct tile *ptile);
 
 bool can_player_see_units_in_city(struct player *pplayer,
 				  struct city *pcity);
@@ -250,7 +250,7 @@ struct city *player_find_city_by_id(const struct player *pplayer,
 struct unit *player_find_unit_by_id(const struct player *pplayer,
 				    int unit_id);
 
-bool player_in_city_radius(struct player *pplayer, int x, int y);
+bool player_in_city_radius(struct player *pplayer, struct tile *ptile);
 bool player_knows_improvement_tech(struct player *pplayer,
 				   Impr_Type_id id);
 bool player_knows_techs_with_flag(struct player *pplayer,

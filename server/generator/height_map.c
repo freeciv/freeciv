@@ -31,16 +31,16 @@ int hmap_shore_level = 0, hmap_mountain_level = 0;
 ****************************************************************************/
 void normalize_hmap_poles(void)
 {
-  whole_map_iterate(x, y) {
-    if (near_singularity(x, y)) {
-      hmap(x, y) = 0;
-    } else if (map_colatitude(x, y) < 2 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= map_colatitude(x, y) / (2.5 * ICE_BASE_LEVEL);
+  whole_map_iterate(ptile) {
+    if (near_singularity(ptile)) {
+      hmap(ptile) = 0;
+    } else if (map_colatitude(ptile) < 2 * ICE_BASE_LEVEL) {
+      hmap(ptile) *= map_colatitude(ptile) / (2.5 * ICE_BASE_LEVEL);
     } else if (map.separatepoles 
-	       && map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= 0.1;
-    } else if (map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= map_colatitude(x, y) / (2.5 * ICE_BASE_LEVEL);
+	       && map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(ptile) *= 0.1;
+    } else if (map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(ptile) *= map_colatitude(ptile) / (2.5 * ICE_BASE_LEVEL);
     }
   } whole_map_iterate_end;
 }
@@ -51,16 +51,16 @@ void normalize_hmap_poles(void)
 ****************************************************************************/
 void renormalize_hmap_poles(void)
 {
-  whole_map_iterate(x, y) {
-    if (hmap(x, y) == 0 || map_colatitude(x, y) == 0) {
+  whole_map_iterate(ptile) {
+    if (hmap(ptile) == 0 || map_colatitude(ptile) == 0) {
       /* Nothing. */
-    } else if (map_colatitude(x, y) < 2 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) / map_colatitude(x, y);
+    } else if (map_colatitude(ptile) < 2 * ICE_BASE_LEVEL) {
+      hmap(ptile) *= (2.5 * ICE_BASE_LEVEL) / map_colatitude(ptile);
     } else if (map.separatepoles 
-	       && map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= 10;
-    } else if (map_colatitude(x, y) <= 2.5 * ICE_BASE_LEVEL) {
-      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) /  map_colatitude(x, y);
+	       && map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(ptile) *= 10;
+    } else if (map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(ptile) *= (2.5 * ICE_BASE_LEVEL) /  map_colatitude(ptile);
     }
   } whole_map_iterate_end;
 }
@@ -106,21 +106,22 @@ static void gen5rec(int step, int x0, int y0, int x1, int y1)
   if (y1 == map.ysize)
     y1wrap = 0;
 
-  val[0][0] = hnat(x0, y0);
-  val[0][1] = hnat(x0, y1wrap);
-  val[1][0] = hnat(x1wrap, y0);
-  val[1][1] = hnat(x1wrap, y1wrap);
+  val[0][0] = hmap(native_pos_to_tile(x0, y0));
+  val[0][1] = hmap(native_pos_to_tile(x0, y1wrap));
+  val[1][0] = hmap(native_pos_to_tile(x1wrap, y0));
+  val[1][1] = hmap(native_pos_to_tile(x1wrap, y1wrap));
 
   /* set midpoints of sides to avg of side's vertices plus a random factor */
   /* unset points are zero, don't reset if set */
 #define set_midpoints(X, Y, V)						\
-  do_in_map_pos(map_x, map_y, (X), (Y)) {                               \
-    if (!near_singularity(map_x, map_y)					\
-	&& map_colatitude(map_x, map_y) >  ICE_BASE_LEVEL/2		\
-	&& hnat((X), (Y)) == 0) {					\
-      hnat((X), (Y)) = (V);						\
+  {									\
+    struct tile *ptile = native_pos_to_tile((X), (Y));			\
+    if (!near_singularity(ptile)					\
+	&& map_colatitude(ptile) >  ICE_BASE_LEVEL/2			\
+	&& hmap(ptile) == 0) {						\
+      hmap(ptile) = (V);						\
     }									\
-  } do_in_map_pos_end;
+  }
 
   set_midpoints((x0 + x1) / 2, y0,
 		(val[0][0] + val[1][0]) / 2 + myrand(step) - step / 2);
@@ -187,18 +188,18 @@ void make_pseudofractal1_hmap(void)
   /* set initial points */
   for (xn = 0; xn < xdiv2; xn++) {
     for (yn = 0; yn < ydiv2; yn++) {
-      do_in_map_pos(x, y, (xn * xmax / xdiv), (yn * ymax / ydiv)) {
+      do_in_map_pos(ptile, (xn * xmax / xdiv), (yn * ymax / ydiv)) {
 	/* set initial points */
-	hmap(x, y) = myrand(2 * step) - (2 * step) / 2;
+	hmap(ptile) = myrand(2 * step) - (2 * step) / 2;
 
-	if (near_singularity(x, y)) {
+	if (near_singularity(ptile)) {
 	  /* avoid edges (topological singularities) */
-	  hmap(x, y) -= avoidedge;
+	  hmap(ptile) -= avoidedge;
 	}
 
-	if (map_colatitude(x, y) <= ICE_BASE_LEVEL / 2 ) {
+	if (map_colatitude(ptile) <= ICE_BASE_LEVEL / 2 ) {
 	  /* separate poles and avoid too much land at poles */
-	  hmap(x, y) -= myrand(avoidedge);
+	  hmap(ptile) -= myrand(avoidedge);
 	}
       } do_in_map_pos_end;
     }
@@ -213,8 +214,8 @@ void make_pseudofractal1_hmap(void)
   }
 
   /* put in some random fuzz */
-  whole_map_iterate(x, y) {
-    hmap(x, y) = 8 * hmap(x, y) + myrand(4) - 2;
+  whole_map_iterate(ptile) {
+    hmap(ptile) = 8 * hmap(ptile) + myrand(4) - 2;
   } whole_map_iterate_end;
 
   adjust_int_map(height_map, hmap_max_level);

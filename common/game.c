@@ -139,7 +139,8 @@ void game_remove_unit(struct unit *punit)
   freelog(LOG_DEBUG, "game_remove_unit %d", punit->id);
   freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	  punit->id, get_nation_name(unit_owner(punit)->nation),
-	  unit_name(punit->type), punit->x, punit->y, punit->homecity);
+	  unit_name(punit->type), punit->tile->x, punit->tile->y,
+	  punit->homecity);
 
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
   if (pcity) {
@@ -148,11 +149,11 @@ void game_remove_unit(struct unit *punit)
 
   if (pcity) {
     freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	    get_nation_name(city_owner(pcity)->nation), pcity->x,
-	    pcity->y);
+	    get_nation_name(city_owner(pcity)->nation), pcity->tile->x,
+	    pcity->tile->y);
   }
 
-  unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
+  unit_list_unlink(&punit->tile->units, punit);
   unit_list_unlink(&unit_owner(punit)->units, punit);
 
   idex_unregister_unit(punit);
@@ -170,13 +171,14 @@ void game_remove_city(struct city *pcity)
 {
   freelog(LOG_DEBUG, "game_remove_city %d", pcity->id);
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
-	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
+	   get_nation_name(city_owner(pcity)->nation), pcity->tile->x,
+	  pcity->tile->y);
 
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, mx, my) {
+  city_map_checked_iterate(pcity->tile, x, y, map_tile) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   } city_map_checked_iterate_end;
   city_list_unlink(&city_owner(pcity)->cities, pcity);
-  map_set_city(pcity->x, pcity->y, NULL);
+  map_set_city(pcity->tile, NULL);
   idex_unregister_city(pcity);
   remove_city_virtual(pcity);
 }

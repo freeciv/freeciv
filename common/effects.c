@@ -838,7 +838,7 @@ static int num_continent_buildings(const struct player *pplayer,
     const struct city *pcity;
 
     pcity = player_find_city_by_id(pplayer, game.global_wonders[building]);
-    if (pcity && map_get_continent(pcity->x, pcity->y) == continent) {
+    if (pcity && map_get_continent(pcity->tile) == continent) {
       return 1;
     }
   } else {
@@ -930,7 +930,7 @@ static int count_sources_in_range(enum target_type target,
     return num_player_buildings(target_player, source);
   case EFR_CONTINENT:
     {
-      int continent = map_get_continent(target_city->x, target_city->y);
+      int continent = map_get_continent(target_city->tile);
 
       return num_continent_buildings(target_player, continent, source);
     }

@@ -916,7 +916,7 @@ static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
     itree_get(&it, 0, &res, -1);
     pcity = res;
 
-    if (is_ocean_near_tile(pcity->x, pcity->y)) {
+    if (is_ocean_near_tile(pcity->tile)) {
       itree_select(city_selection, &it);
     }
   }
@@ -941,8 +941,8 @@ static void same_island_iterate(GtkTreeModel *model, GtkTreePath *path,
     itree_get(&it, 0, &res, -1);
     pcity = res;
 
-    if (map_get_continent(pcity->x, pcity->y)
-    	    == map_get_continent(selectedcity->x, selectedcity->y)) {
+    if (map_get_continent(pcity->tile)
+	== map_get_continent(selectedcity->tile)) {
       itree_select(city_selection, &it);
     }
   }
@@ -1016,7 +1016,7 @@ static void center_iterate(GtkTreeModel *model, GtkTreePath *path,
 
   gtk_tree_model_get(model, it, 0, &res, -1);
   pcity = res;
-  center_tile_mapcanvas(pcity->x, pcity->y);
+  center_tile_mapcanvas(pcity->tile);
 }
 
 /****************************************************************
@@ -1040,7 +1040,7 @@ static void popup_iterate(GtkTreeModel *model, GtkTreePath *path,
   pcity = res;
 
   if (center_when_popup_city) {
-    center_tile_mapcanvas(pcity->x, pcity->y);
+    center_tile_mapcanvas(pcity->tile);
   }
 
   popup_city_dialog(pcity, 0);

@@ -16,7 +16,7 @@
 
 void simple_historian_init(void);
 
-struct tile* sha_tile_recall(int x, int y);
+struct tile* sha_tile_recall(struct tile *ptile);
 struct unit* sha_unit_recall(int id);
 
 #endif /* header guard */

@@ -36,24 +36,24 @@ void kill_dying_players(void);
 void update_revolution(struct player *pplayer);
 void do_tech_parasite_effect(struct player *pplayer);
 void check_player_government_rates(struct player *pplayer);
-void make_contact(struct player *pplayer1, struct player *pplayer2, int x,
-		  int y);
-void maybe_make_contact(int x, int y, struct player *pplayer);
+void make_contact(struct player *pplayer1, struct player *pplayer2,
+		  struct tile *ptile);
+void maybe_make_contact(struct tile *ptile, struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);
 
-void notify_conn_ex(struct conn_list *dest, int x, int y,
+void notify_conn_ex(struct conn_list *dest, struct tile *ptile,
 		    enum event_type event, const char *format, ...)
-                    fc__attribute((format (printf, 5, 6)));
-void vnotify_conn_ex(struct conn_list *dest, int x, int y,
+                    fc__attribute((format (printf, 4, 5)));
+void vnotify_conn_ex(struct conn_list *dest, struct tile *ptile,
 		     enum event_type event, const char *format,
 		     va_list vargs);
 void notify_conn(struct conn_list *dest, const char *format, ...) 
                  fc__attribute((format (printf, 2, 3)));
-void notify_player_ex(const struct player *pplayer, int x, int y,
+void notify_player_ex(const struct player *pplayer, struct tile *ptile,
 		      enum event_type event, const char *format, ...)
-                      fc__attribute((format (printf, 5, 6)));
+                      fc__attribute((format (printf, 4, 5)));
 void notify_player(const struct player *pplayer, const char *format, ...)
                    fc__attribute((format (printf, 2, 3)));
 void notify_embassies(struct player *pplayer, struct player *exclude,

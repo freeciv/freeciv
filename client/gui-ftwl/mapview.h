@@ -18,8 +18,8 @@
 
 void mapview_update_actions(void);
 
-void set_focus_tile(int x, int y);
+void set_focus_tile(struct tile *ptile);
 void clear_focus_tile(void);
-bool get_focus_tile(int *x, int *y);
+struct tile *get_focus_tile(void);
 
 #endif				/* FC__MAPVIEW_H */

@@ -86,7 +86,7 @@ static char *dummy_city_list[]={
 
 static int ncities_total = 0;
 static char **city_name_ptrs = NULL;
-static int original_x, original_y;
+static struct tile *original_tile;
 
 
 /****************************************************************
@@ -104,7 +104,7 @@ void popup_goto_dialog(void)
   if(get_unit_in_focus()==0)
     return;
 
-  get_center_tile_mapcanvas(&original_x, &original_y);
+  original_tile = get_center_tile_mapcanvas();
   
   XtSetSensitive(main_form, FALSE);
   
@@ -261,7 +261,7 @@ void goto_list_callback(Widget w, XtPointer client_data, XtPointer call_data)
     struct city *pdestcity;
     if((pdestcity=get_selected_city())) {
       struct unit *punit=get_unit_in_focus();
-      center_tile_mapcanvas(pdestcity->x, pdestcity->y);
+      center_tile_mapcanvas(pdestcity->tile);
       if(punit && unit_can_airlift_to(punit, pdestcity)) {
 	XtSetSensitive(goto_airlift_command, True);
 	return;
@@ -306,7 +306,7 @@ void goto_goto_command_callback(Widget w, XtPointer client_data,
   if (pdestcity) {
     struct unit *punit = get_unit_in_focus();
     if (punit) {
-      send_goto_unit(punit, pdestcity->x, pdestcity->y);
+      send_goto_unit(punit, pdestcity->tile);
     }
   }
   popdown_goto_dialog();
@@ -318,7 +318,7 @@ void goto_goto_command_callback(Widget w, XtPointer client_data,
 void goto_cancel_command_callback(Widget w, XtPointer client_data, 
 				  XtPointer call_data)
 {
-  center_tile_mapcanvas(original_x, original_y);
+  center_tile_mapcanvas(original_tile);
   popdown_goto_dialog();
 }
 

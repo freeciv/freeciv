@@ -51,7 +51,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   struct player *pplayer = city_owner(pcity);
   /* Continent where the city is --- we won't be aiding any wonder 
    * construction on another continent */
-  Continent_id continent = map_get_continent(pcity->x, pcity->y);
+  Continent_id continent = map_get_continent(pcity->tile);
   /* Total count of caravans available or already being built 
    * on this continent */
   int caravans = 0;
@@ -66,7 +66,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   /* Count existing caravans */
   unit_list_iterate(pplayer->units, punit) {
     if (unit_flag(punit, F_HELP_WONDER)
-        && map_get_continent(punit->x, punit->y) == continent)
+        && map_get_continent(punit->tile) == continent)
       caravans++;
   } unit_list_iterate_end;
 
@@ -76,7 +76,7 @@ static void ai_choose_help_wonder(struct city *pcity,
         && unit_type_flag(acity->currently_building, F_HELP_WONDER)
         && (acity->shield_stock
 	    >= unit_build_shield_cost(acity->currently_building))
-        && map_get_continent(acity->x, acity->y) == continent) {
+        && map_get_continent(acity->tile) == continent) {
       caravans++;
     }
   } city_list_iterate_end;
@@ -98,7 +98,7 @@ static void ai_choose_help_wonder(struct city *pcity,
      * to finish the wonder. */
     if (!acity->is_building_unit
         && is_wonder(acity->currently_building)
-        && map_get_continent(acity->x, acity->y) == continent
+        && map_get_continent(acity->tile) == continent
         && acity != pcity
         && (build_points_left(acity)
 	    > unit_build_shield_cost(unit_type) * caravans)) {

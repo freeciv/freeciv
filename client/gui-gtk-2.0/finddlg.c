@@ -43,7 +43,7 @@ static void find_destroy_callback(GtkWidget *w, gpointer data);
 static void find_selection_callback(GtkTreeSelection *selection,
 				    GtkTreeModel *model);
 
-static int pos_x, pos_y;
+static struct tile *pos;
 
 /****************************************************************
 popup the dialog 10% inside the main-window 
@@ -62,7 +62,7 @@ void popup_find_dialog(void)
     return;
   }
 
-  get_center_tile_mapcanvas(&pos_x, &pos_y);
+  pos = get_center_tile_mapcanvas();
 
   shell = gtk_dialog_new_with_buttons(_("Find City"),
   	NULL,
@@ -172,8 +172,7 @@ static void find_command_callback(GtkWidget *w, gint response_id)
       gtk_tree_model_get(model, &it, 1, &pcity, -1);
 
       if (pcity) {
-        pos_x = pcity->x;
-        pos_y = pcity->y;
+	pos = pcity->tile;
       }
     }
   }
@@ -185,7 +184,7 @@ static void find_command_callback(GtkWidget *w, gint response_id)
 **************************************************************************/
 static void find_destroy_callback(GtkWidget *w, gpointer data)
 {
-  center_tile_mapcanvas(pos_x, pos_y);
+  center_tile_mapcanvas(pos);
   find_dialog_shell = NULL;
 }
 
@@ -204,5 +203,5 @@ static void find_selection_callback(GtkTreeSelection *selection,
   gtk_tree_model_get(model, &it, 1, &pcity, -1);
 
   if (pcity)
-    center_tile_mapcanvas(pcity->x, pcity->y);
+    center_tile_mapcanvas(pcity->tile);
 }

@@ -384,7 +384,7 @@ static void control_callback(ULONG * value)
 	struct unit *punit;
 	if ((punit = get_unit_in_focus()))
 	{
-	  struct city *pcity = map_get_city(punit->x, punit->y);
+	  struct city *pcity = map_get_city(punit->tile);
 	  if (pcity)
 	  {
 	    popup_city_dialog(pcity, 0);
@@ -397,7 +397,7 @@ static void control_callback(ULONG * value)
 	struct unit *punit;
 	if ((punit = get_unit_in_focus()))
 	{
-	  struct tile *ptile = map_get_tile(punit->x, punit->y);
+	  struct tile *ptile = map_get_tile(punit->tile);
 	  if (ptile)
 	  {
 	    popup_unit_select_dialog(ptile);
@@ -1259,7 +1259,7 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_PILLAGE, can_unit_do_activity(punit, ACTIVITY_PILLAGE));
       menu_entry_sensitive(MENU_ORDER_HOMECITY, can_unit_change_homecity(punit));
       menu_entry_sensitive(MENU_ORDER_UNLOAD, get_transporter_capacity(punit) > 0);
-      menu_entry_sensitive(MENU_ORDER_WAKEUP_OTHERS, is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->x, punit->y));
+      menu_entry_sensitive(MENU_ORDER_WAKEUP_OTHERS, is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->tile));
       menu_entry_sensitive(MENU_ORDER_AUTO_SETTLER, (can_unit_do_auto(punit) && unit_flag(punit, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER_AUTO_ATTACK, (can_unit_do_auto(punit) && !unit_flag(punit, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER_AUTO_EXPLORE, can_unit_do_activity(punit, ACTIVITY_EXPLORE));
@@ -1269,9 +1269,9 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_TRADEROUTE, unit_can_est_traderoute_here(punit));
       menu_entry_sensitive(MENU_ORDER_NUKE, unit_flag(punit, F_NUCLEAR));
       menu_entry_sensitive(MENU_ORDER_DIPLOMAT_DLG, is_diplomat_unit(punit) &&
-        diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, punit->x, punit->y));
+        diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, punit->tile));
 
-      if (unit_flag(punit, F_CITIES) && map_get_city(punit->x, punit->y))
+      if (unit_flag(punit, F_CITIES) && map_get_city(punit->tile))
       {
 	menu_entry_rename(MENU_ORDER_BUILD_CITY, _("Add to City"), FALSE);
       }
@@ -1280,13 +1280,13 @@ void update_menus(void) /* from menu.c */
 	menu_entry_rename(MENU_ORDER_BUILD_CITY, _("Build City"), FALSE);
       }
 
-      ttype = map_get_tile(punit->x, punit->y)->terrain;
+      ttype = map_get_tile(punit->tile)->terrain;
       tinfo = get_tile_type(ttype);
       if ((tinfo->irrigation_result != T_NONE)
 	  && (tinfo->irrigation_result != ttype)) {
 	my_snprintf(irrtext, sizeof(irrtext), chgfmt,
 		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
-      } else if (map_has_special(punit->x, punit->y, S_IRRIGATION)
+      } else if (map_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
 	sz_strlcpy(irrtext, _("Build Farmland"));
@@ -1310,7 +1310,7 @@ void update_menus(void) /* from menu.c */
         sz_strlcpy(transtext, _("Transform Terrain"));
       }
 
-      if (map_has_special(punit->x, punit->y, S_ROAD)) {
+      if (map_has_special(punit->tile, S_ROAD)) {
 	menu_entry_rename(MENU_ORDER_ROAD, _("Build Railroad"), FALSE);
       } else {
 	menu_entry_rename(MENU_ORDER_ROAD, _("Build Road"), FALSE);

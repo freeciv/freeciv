@@ -107,10 +107,10 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
 
   /* We start with i = 1 for i = 0 is our present position */
   for (i = 1; i < path->length; i++) {
-    int x = path->positions[i].x, y = path->positions[i].y;
+    struct tile *ptile = path->positions[i].tile;
     int id = punit->id;
 
-    if (same_pos(punit->x, punit->y, x, y)) {
+    if (same_pos(punit->tile, ptile)) {
       UNIT_LOG(LOG_DEBUG, punit, "execute_path: waiting this turn");
       return TRUE;
     }
@@ -120,16 +120,16 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
      * shows up. Any enemy on the target tile is expected to
      * be our target and any attack there intentional. */
     if (i == path->length - 1) {
-      (void) ai_unit_attack(punit, x, y);
+      (void) ai_unit_attack(punit, ptile);
     } else {
-      (void) ai_unit_move(punit, x, y);
+      (void) ai_unit_move(punit, ptile);
     }
     if (!find_unit_by_id(id)) {
       /* Died... */
       return FALSE;
     }
 
-    if (!same_pos(punit->x, punit->y, x, y)) {
+    if (!same_pos(punit->tile, ptile)) {
       /* Stopped (or maybe fought) */
       return TRUE;
     }
@@ -143,7 +143,7 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
   be facing at our destination and tries to find/request a bodyguard if 
   needed.
 ****************************************************************************/
-static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
+static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
 {
   struct player *pplayer = unit_owner(punit);
   struct ai_data *ai = ai_data_get(pplayer);
@@ -158,12 +158,12 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
   }
 
   /* Estimate enemy attack power. */
-  unit_list_iterate(map_get_tile(dest_x, dest_y)->units, aunit) {
+  unit_list_iterate(dest_tile->units, aunit) {
     if (HOSTILE_PLAYER(pplayer, ai, unit_owner(aunit))) {
       danger += unit_att_rating(aunit);
     }
   } unit_list_iterate_end;
-  dcity = map_get_city(dest_x, dest_y);
+  dcity = map_get_city(dest_tile);
   if (dcity && HOSTILE_PLAYER(pplayer, ai, city_owner(dcity))) {
     /* Assume enemy will build another defender, add it's attack strength */
     int d_type = ai_choose_defender_versus(dcity, punit->type);
@@ -179,7 +179,7 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
     danger /= 1.5;
   }
 
-  ptile = map_get_tile(punit->x, punit->y);
+  ptile = punit->tile;
   /* We look for the bodyguard where we stand. */
   if (!unit_list_find(&ptile->units, punit->ai.bodyguard)) {
     int my_def = (punit->hp 
@@ -190,7 +190,7 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
     if (danger >= my_def) {
       UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
                "want bodyguard @(%d, %d) danger=%d, my_def=%d", 
-               dest_x, dest_y, danger, my_def);
+               dest_tile, danger, my_def);
       punit->ai.bodyguard = BODYGUARD_WANTED;
     } else {
       punit->ai.bodyguard = BODYGUARD_NONE;
@@ -214,33 +214,34 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
   find_beachhead to work here. This requirement should be removed.
 ****************************************************************************/
 bool ai_gothere(struct player *pplayer, struct unit *punit,
-                int dest_x, int dest_y)
+                struct tile *dest_tile)
 {
   CHECK_UNIT(punit);
 
-  if (same_pos(dest_x, dest_y, punit->x, punit->y)) {
+  if (same_pos(dest_tile, punit->tile)) {
     /* Nowhere to go */
     return TRUE;
   }
 
   /* See if we need a bodyguard at our destination */
   /* FIXME: If bodyguard is _really_ necessary, don't go anywhere */
-  ai_gothere_bodyguard(punit, dest_x, dest_y);
+  ai_gothere_bodyguard(punit, dest_tile);
 
   if (punit->transported_by > 0 
-      || !goto_is_sane(punit, dest_x, dest_y, TRUE)) {
+      || !goto_is_sane(punit, dest_tile, TRUE)) {
     /* Must go by boat, call an aiferryboat function */
-    if (!aiferry_gobyboat(pplayer, punit, dest_x, dest_y)) {
+    if (!aiferry_gobyboat(pplayer, punit, dest_tile)) {
       return FALSE;
     }
   }
 
   /* Go where we should be going if we can, and are at our destination 
    * if we are on a ferry */
-  if (goto_is_sane(punit, dest_x, dest_y, TRUE) && punit->moves_left > 0) {
-    set_goto_dest(punit, dest_x, dest_y);
-    UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Walking to (%d,%d)", dest_x, dest_y);
-    if (!ai_unit_goto(punit, dest_x, dest_y)) {
+  if (goto_is_sane(punit, dest_tile, TRUE) && punit->moves_left > 0) {
+    punit->goto_tile = dest_tile;
+    UNIT_LOG(LOGLEVEL_GOTHERE, punit, "Walking to (%d,%d)",
+	     dest_tile->x, dest_tile->y);
+    if (!ai_unit_goto(punit, dest_tile)) {
       /* died */
       return FALSE;
     }
@@ -258,8 +259,8 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
   /* Dead unit shouldn't reach this point */
   CHECK_UNIT(punit);
   
-  return (same_pos(punit->x, punit->y, dest_x, dest_y) 
-          || is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y));
+  return (same_pos(punit->tile, dest_tile) 
+          || is_tiles_adjacent(punit->tile, dest_tile));
 }
 
 /**************************************************************************
@@ -268,30 +269,22 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 
   FIXME: add some logging functionality to replace GOTO_LOG()
 **************************************************************************/
-bool ai_unit_goto(struct unit *punit, int x, int y)
+bool ai_unit_goto(struct unit *punit, struct tile *ptile)
 {
   enum goto_result result;
-  int oldx = -1, oldy = -1;
+  struct tile *old_tile;
   enum unit_activity activity = punit->activity;
-  bool is_set = is_goto_dest_set(punit);
 
-  if (is_set) {
-    oldx = goto_dest_x(punit);
-    oldy = goto_dest_y(punit);
-  }
+  old_tile = punit->goto_tile; /* May be NULL. */
 
   CHECK_UNIT(punit);
   /* TODO: log error on same_pos with punit->x|y */
-  set_goto_dest(punit, x, y);
+  punit->goto_tile = ptile;
   handle_unit_activity_request(punit, ACTIVITY_GOTO);
   result = do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
   if (result != GR_DIED) {
     handle_unit_activity_request(punit, activity);
-    if (is_set) {
-      set_goto_dest(punit, oldx, oldy);
-    } else {
-      clear_goto_dest(punit);
-    }
+    punit->goto_tile = old_tile; /* May be NULL. */
     return TRUE;
   }
   return FALSE;
@@ -304,7 +297,8 @@ bool ai_unit_goto(struct unit *punit, int x, int y)
   reserve its target, and try to load it with cruise missiles or nukes
   to bring along.
 **************************************************************************/
-void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
+void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
+		      struct tile *ptile)
 {
   struct unit *charge = find_unit_by_id(punit->ai.charge);
   struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
@@ -326,8 +320,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
   }
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-    assert(is_normal_map_pos(goto_dest_x(punit), goto_dest_y(punit)));
-    citymap_free_city_spot(goto_dest_x(punit), goto_dest_y(punit), punit->id);
+    citymap_free_city_spot(punit->goto_tile, punit->id);
   }
 
   if (punit->ai.ai_role == AIUNIT_HUNTER) {
@@ -351,21 +344,15 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 
   /* Verify and set the goto destination.  Eventually this can be a lot more
    * stringent, but for now we don't want to break things too badly. */
-  if (x == -1 && y == -1) {
-    /* No goto_dest. */
-    clear_goto_dest(punit);
-  } else {
-    set_goto_dest(punit, x, y);
-  }
+  punit->goto_tile = ptile; /* May be NULL. */
 
   if (punit->ai.ai_role == AIUNIT_NONE && bodyguard) {
-    ai_unit_new_role(bodyguard, AIUNIT_NONE, -1, -1);
+    ai_unit_new_role(bodyguard, AIUNIT_NONE, NULL);
   }
 
   /* Reserve city spot, _unless_ we want to add ourselves to a city. */
-  if (punit->ai.ai_role == AIUNIT_BUILD_CITY && !map_get_city(x, y)) {
-    assert(is_normal_map_pos(x, y));
-    citymap_reserve_city_spot(x, y, punit->id);
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY && !map_get_city(ptile)) {
+    citymap_reserve_city_spot(ptile, punit->id);
   }
   if (punit->ai.ai_role == AIUNIT_HUNTER) {
     /* Set victim's hunted bit - the hunt is on! */
@@ -378,14 +365,14 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
     /* Grab missiles lying around and bring them along */
     if (unit_flag(punit, F_MISSILE_CARRIER)
         || unit_flag(punit, F_CARRIER)) {
-      unit_list_iterate(map_get_tile(punit->x, punit->y)->units, missile) {
+      unit_list_iterate(punit->tile->units, missile) {
         if (missile->ai.ai_role != AIUNIT_ESCORT
             && missile->transported_by == -1
             && missile->owner == punit->owner
             && unit_flag(missile, F_MISSILE)
             && can_unit_load(missile, punit)) {
           UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
-          ai_unit_new_role(missile, AIUNIT_ESCORT, target->x, target->y);
+          ai_unit_new_role(missile, AIUNIT_ESCORT, target->tile);
           load_unit_onto_transporter(missile, punit);
         }
       } unit_list_iterate_end;
@@ -425,7 +412,7 @@ bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
   bodyguard has not. This is an ai_unit_* auxiliary function, do not use 
   elsewhere.
 **************************************************************************/
-static void ai_unit_bodyguard_move(int unitid, int x, int y)
+static void ai_unit_bodyguard_move(int unitid, struct tile *ptile)
 {
   struct unit *bodyguard = find_unit_by_id(unitid);
   struct unit *punit;
@@ -440,7 +427,7 @@ static void ai_unit_bodyguard_move(int unitid, int x, int y)
   assert(punit->ai.bodyguard == bodyguard->id);
   assert(bodyguard->ai.charge == punit->id);
 
-  if (!is_tiles_adjacent(x, y, bodyguard->x, bodyguard->y)) {
+  if (!is_tiles_adjacent(ptile, bodyguard->tile)) {
     return;
   }
 
@@ -451,7 +438,7 @@ static void ai_unit_bodyguard_move(int unitid, int x, int y)
   }
 
   handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
-  (void) ai_unit_move(bodyguard, x, y);
+  (void) ai_unit_move(bodyguard, ptile);
 }
 
 /**************************************************************************
@@ -480,23 +467,22 @@ static bool has_bodyguard(struct unit *punit)
 /**************************************************************************
   Move and attack with an ai unit. We do not wait for server reply.
 **************************************************************************/
-bool ai_unit_attack(struct unit *punit, int x, int y)
+bool ai_unit_attack(struct unit *punit, struct tile *ptile)
 {
   int sanity = punit->id;
   bool alive;
 
   CHECK_UNIT(punit);
   assert(unit_owner(punit)->ai.control);
-  assert(is_normal_map_pos(x, y));
-  assert(is_tiles_adjacent(punit->x, punit->y, x, y));
+  assert(is_tiles_adjacent(punit->tile, ptile));
 
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  (void) handle_unit_move_request(punit, x, y, FALSE, FALSE);
+  (void) handle_unit_move_request(punit, ptile, FALSE, FALSE);
   alive = (find_unit_by_id(sanity) != NULL);
 
-  if (alive && same_pos(x, y, punit->x, punit->y)
+  if (alive && same_pos(ptile, punit->tile)
       && has_bodyguard(punit)) {
-    ai_unit_bodyguard_move(punit->ai.bodyguard, x, y);
+    ai_unit_bodyguard_move(punit->ai.bodyguard, ptile);
     /* Clumsy bodyguard might trigger an auto-attack */
     alive = (find_unit_by_id(sanity) != NULL);
   }
@@ -511,17 +497,15 @@ bool ai_unit_attack(struct unit *punit, int x, int y)
   we can tell the calling function what happened to the move request.
   (Right now it is not a big problem, since we call the server directly.)
 **************************************************************************/
-bool ai_unit_move(struct unit *punit, int x, int y)
+bool ai_unit_move(struct unit *punit, struct tile *ptile)
 {
   struct unit *bodyguard;
   int sanity = punit->id;
   struct player *pplayer = unit_owner(punit);
-  struct tile *ptile = map_get_tile(x,y);
 
   CHECK_UNIT(punit);
   assert(unit_owner(punit)->ai.control);
-  assert(is_normal_map_pos(x, y));
-  assert(is_tiles_adjacent(punit->x, punit->y, x, y));
+  assert(is_tiles_adjacent(punit->tile, ptile));
 
   /* if enemy, stop and let ai attack function take this case */
   if (is_enemy_unit_tile(ptile, pplayer)
@@ -538,7 +522,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
   /* don't leave bodyguard behind */
   if (has_bodyguard(punit)
       && (bodyguard = find_unit_by_id(punit->ai.bodyguard))
-      && same_pos(punit->x, punit->y, bodyguard->x, bodyguard->y)
+      && same_pos(punit->tile, bodyguard->tile)
       && bodyguard->moves_left == 0) {
     UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "does not want to leave "
              "its bodyguard");
@@ -546,22 +530,22 @@ bool ai_unit_move(struct unit *punit, int x, int y)
   }
 
   /* Try not to end move next to an enemy if we can avoid it by waiting */
-  if (punit->moves_left <= map_move_cost(punit, x, y)
-      && unit_move_rate(punit) > map_move_cost(punit, x, y)
-      && enemies_at(punit, x, y)
-      && !enemies_at(punit, punit->x, punit->y)) {
+  if (punit->moves_left <= map_move_cost(punit, ptile)
+      && unit_move_rate(punit) > map_move_cost(punit, ptile)
+      && enemies_at(punit, ptile)
+      && !enemies_at(punit, punit->tile)) {
     UNIT_LOG(LOG_DEBUG, punit, "ending move early to stay out of trouble");
     return FALSE;
   }
 
   /* go */
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  (void) handle_unit_move_request(punit, x, y, FALSE, TRUE);
+  (void) handle_unit_move_request(punit, ptile, FALSE, TRUE);
 
   /* handle the results */
-  if (find_unit_by_id(sanity) && same_pos(x, y, punit->x, punit->y)) {
+  if (find_unit_by_id(sanity) && same_pos(ptile, punit->tile)) {
     if (has_bodyguard(punit)) {
-      ai_unit_bodyguard_move(punit->ai.bodyguard, x, y);
+      ai_unit_bodyguard_move(punit->ai.bodyguard, ptile);
     }
     return TRUE;
   }
@@ -575,12 +559,12 @@ unless (everywhere != 0)
 If (enemy != 0) it looks only for enemy cities
 If (pplayer != NULL) it looks for cities known to pplayer
 **************************************************************************/
-struct city *dist_nearest_city(struct player *pplayer, int x, int y,
+struct city *dist_nearest_city(struct player *pplayer, struct tile *ptile,
                                bool everywhere, bool enemy)
 { 
   struct city *pc=NULL;
   int best_dist = -1;
-  Continent_id con = map_get_continent(x, y);
+  Continent_id con = map_get_continent(ptile);
 
   players_iterate(pplay) {
     /* If "enemy" is set, only consider cities whose owner we're at
@@ -590,14 +574,14 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
     }
 
     city_list_iterate(pplay->cities, pcity) {
-      int city_dist = real_map_distance(x, y, pcity->x, pcity->y);
+      int city_dist = real_map_distance(ptile, pcity->tile);
 
       /* Find the closest city known to the player with a matching
        * continent. */
       if ((best_dist == -1 || city_dist < best_dist)
 	  && (everywhere || con == 0
-	      || con == map_get_continent(pcity->x, pcity->y))
-	  && (!pplayer || map_is_known(pcity->x, pcity->y, pplayer))) {
+	      || con == map_get_continent(pcity->tile))
+	  && (!pplayer || map_is_known(pcity->tile, pplayer))) {
 	best_dist = city_dist;
         pc = pcity;
       }
@@ -616,9 +600,9 @@ int stack_cost(struct unit *pdef)
 {
   int victim_cost = 0;
 
-  if (is_stack_vulnerable(pdef->x, pdef->y)) {
+  if (is_stack_vulnerable(pdef->tile)) {
     /* lotsa people die */
-    unit_list_iterate(map_get_tile(pdef->x, pdef->y)->units, aunit) {
+    unit_list_iterate(pdef->tile->units, aunit) {
       victim_cost += unit_build_shield_cost(aunit->type);
     } unit_list_iterate_end;
   } else {
@@ -708,8 +692,8 @@ static bool is_building_other_wonder(struct city *pcity)
     if (pcity != acity
 	&& !acity->is_building_unit
 	&& is_wonder(acity->currently_building)
-	&& (map_get_continent(acity->x, acity->y)
-	    == map_get_continent(pcity->x, pcity->y))) {
+	&& (map_get_continent(acity->tile)
+	    == map_get_continent(pcity->tile))) {
       return TRUE;
     }
   } city_list_iterate_end;

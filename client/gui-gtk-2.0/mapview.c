@@ -856,11 +856,11 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 /**************************************************************************
  Draws a cross-hair overlay on a tile
 **************************************************************************/
-void put_cross_overlay_tile(int x, int y)
+void put_cross_overlay_tile(struct tile *ptile)
 {
   int canvas_x, canvas_y;
 
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(map_canvas->window,
 			    canvas_x, canvas_y,
 			    sprites.user.attention);

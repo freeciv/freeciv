@@ -41,10 +41,9 @@
  */
 struct part {
   int start_moves_left;
-  int start_x, start_y;
+  struct tile *start_tile, *end_tile;
   int end_moves_left;
   int time;
-  int end_x, end_y;
   struct pf_path *path;
   struct pf_map *map;
 };
@@ -69,10 +68,10 @@ static struct {
   struct pf_parameter template;
 } goto_map;
 
-#define DRAWN(x, y, dir) (goto_map.tiles[map_pos_to_index(x, y)].drawn[dir])
+#define DRAWN(ptile, dir) (goto_map.tiles[(ptile)->index].drawn[dir])
 
-static void increment_drawn(int src_x, int src_y, enum direction8 dir);
-static void decrement_drawn(int src_x, int src_y, enum direction8 dir);
+static void increment_drawn(struct tile *src_tile, enum direction8 dir);
+static void decrement_drawn(struct tile *src_tile, enum direction8 dir);
 static void reset_last_part(void);
 
 
@@ -97,13 +96,12 @@ void init_client_goto(void)
   goto_map.parts = NULL;
   goto_map.num_parts = 0;
   goto_map.unit_id = -1;
-  whole_map_iterate(x, y) {
+  whole_map_iterate(ptile) {
     int dir;
     for (dir = 0; dir < 4; dir++) {
-      DRAWN(x, y, dir) = 0;
+      DRAWN(ptile, dir) = 0;
     }
-  }
-  whole_map_iterate_end;
+  } whole_map_iterate_end;
   initialize_move_costs();
 
   is_init = TRUE;
@@ -112,7 +110,7 @@ void init_client_goto(void)
 /********************************************************************** 
   Deallocate goto structures.
 ***********************************************************************/
-void free_client_goto()
+void free_client_goto(void)
 {
   if (is_init) {
     free(goto_map.tiles);
@@ -130,15 +128,16 @@ void free_client_goto()
   Change the destination of the last part to the given position if a
   path can be found. If not the destination is set to the start.
 ***********************************************************************/
-static void update_last_part(int x, int y)
+static void update_last_part(struct tile *ptile)
 {
   struct part *p = &goto_map.parts[goto_map.num_parts - 1];
   struct pf_path *new_path;
-  int i, start_index = 0, old_x = p->start_x, old_y = p->start_y;
+  struct tile *old_tile = p->start_tile;
+  int i, start_index = 0;
 
-  freelog(LOG_DEBUG, "update_last_part(%d,%d) old (%d,%d)-(%d,%d)", x, y,
-          p->start_x, p->start_y, p->end_x, p->end_y);
-  new_path = pf_get_path(p->map, x, y);
+  freelog(LOG_DEBUG, "update_last_part(%d,%d) old (%d,%d)-(%d,%d)",
+          TILE_XY(ptile), TILE_XY(p->start_tile), TILE_XY(p->end_tile));
+  new_path = pf_get_path(p->map, ptile);
 
   if (!new_path) {
     freelog(PATH_LOG_LEVEL, "  no path found");
@@ -157,7 +156,7 @@ static void update_last_part(int x, int y)
       struct pf_position *b = &new_path->positions[i];
 
       if (a->dir_to_next_pos != b->dir_to_next_pos
-          || !same_pos(a->x, a->y, b->x, b->y)) {
+          || !same_pos(a->tile, b->tile)) {
         break;
       }
     }
@@ -168,18 +167,16 @@ static void update_last_part(int x, int y)
       struct pf_position *a = &p->path->positions[i];
 
       if (is_valid_dir(a->dir_to_next_pos)) {
-	decrement_drawn(a->x, a->y, a->dir_to_next_pos);
+	decrement_drawn(a->tile, a->dir_to_next_pos);
       } else {
 	assert(i < p->path->length - 1
-	       && a->x == p->path->positions[i + 1].x
-	       && a->y == p->path->positions[i + 1].y);
+	       && a->tile == p->path->positions[i + 1].tile);
       }
     }
     pf_destroy_path(p->path);
     p->path = NULL;
 
-    old_x = p->end_x;
-    old_y = p->end_y;
+    old_tile = p->end_tile;
   }
 
   /* Draw the new path */
@@ -187,16 +184,14 @@ static void update_last_part(int x, int y)
     struct pf_position *a = &new_path->positions[i];
 
     if (is_valid_dir(a->dir_to_next_pos)) {
-      increment_drawn(a->x, a->y, a->dir_to_next_pos);
+      increment_drawn(a->tile, a->dir_to_next_pos);
     } else {
       assert(i < new_path->length - 1
-	     && a->x == new_path->positions[i + 1].x
-	     && a->y == new_path->positions[i + 1].y);
+	     && a->tile == new_path->positions[i + 1].tile);
     }
   }
   p->path = new_path;
-  p->end_x = x;
-  p->end_y = y;
+  p->end_tile = ptile;
   p->end_moves_left = pf_last_position(p->path)->moves_left;
 
   if (hover_state == HOVER_CONNECT) {
@@ -208,15 +203,15 @@ static void update_last_part(int x, int y)
       p->time += connect_initial;
     }
     freelog(PATH_LOG_LEVEL, "To (%d,%d) MC: %d, connect_initial: %d",
-            x, y, moves, connect_initial);
+            TILE_XY(ptile), moves, connect_initial);
 
   } else {
     p->time = pf_last_position(p->path)->turn;
   }
 
   /* Refresh tiles so turn information is shown. */
-  refresh_tile_mapcanvas(old_x, old_y, FALSE);
-  refresh_tile_mapcanvas(x, y, FALSE);
+  refresh_tile_mapcanvas(old_tile, FALSE);
+  refresh_tile_mapcanvas(ptile, FALSE);
 }
 
 /********************************************************************** 
@@ -227,9 +222,9 @@ static void reset_last_part(void)
 {
   struct part *p = &goto_map.parts[goto_map.num_parts - 1];
 
-  if (!same_pos(p->start_x, p->start_y, p->end_x, p->end_y)) {
+  if (!same_pos(p->start_tile, p->end_tile)) {
     /* Otherwise no need to update */
-    update_last_part(p->start_x, p->start_y);
+    update_last_part(p->start_tile);
   }
 }
 
@@ -253,23 +248,20 @@ static void add_part(void)
     /* first part */
     struct unit *punit = find_unit_by_id(goto_map.unit_id);
 
-    p->start_x = punit->x;
-    p->start_y = punit->y;
+    p->start_tile = punit->tile;
     p->start_moves_left = punit->moves_left;
   } else {
     struct part *prev = &goto_map.parts[goto_map.num_parts - 2];
 
-    p->start_x = prev->end_x;
-    p->start_y = prev->end_y;
+    p->start_tile = prev->end_tile;
     p->start_moves_left = prev->end_moves_left;
     parameter.moves_left_initially = p->start_moves_left;
   }
   p->path = NULL;
-  p->end_x = p->start_x;
-  p->end_y = p->start_y;
+  p->end_tile = p->start_tile;
   p->time = 0;
-  parameter.start_x = p->start_x;
-  parameter.start_y = p->start_y;
+  parameter.start_tile = p->start_tile;
+  parameter.moves_left_initially = p->start_moves_left;
   p->map = pf_create_map(&parameter);
 }
 
@@ -302,7 +294,7 @@ void goto_add_waypoint(void)
   assert(find_unit_by_id(goto_map.unit_id)
 	 && find_unit_by_id(goto_map.unit_id) == get_unit_in_focus());
 
-  if (!same_pos(p->start_x, p->start_y, p->end_x, p->end_y)) {
+  if (!same_pos(p->start_tile, p->end_tile)) {
     /* Otherwise the last part has zero length. */
     add_part();
   }
@@ -315,7 +307,7 @@ void goto_add_waypoint(void)
 bool goto_pop_waypoint(void)
 {
   struct part *p = &goto_map.parts[goto_map.num_parts - 1];
-  int end_x = p->end_x, end_y = p->end_y;
+  struct tile *end_tile = p->end_tile;
 
   assert(is_active);
   assert(find_unit_by_id(goto_map.unit_id)
@@ -333,7 +325,7 @@ bool goto_pop_waypoint(void)
    * end position of the last part (now gone). I.e. redraw a line to
    * the mouse position. 
    */
-  update_last_part(end_x, end_y);
+  update_last_part(end_tile);
   return TRUE;
 }
 
@@ -341,7 +333,7 @@ bool goto_pop_waypoint(void)
   PF callback to get the path with the minimal number of steps (out of 
   all shortest paths).
 ***********************************************************************/
-static int get_EC(int x, int y, enum known_type known,
+static int get_EC(const struct tile *ptile, enum known_type known,
 		  struct pf_parameter *param)
 {
   return 1;
@@ -351,11 +343,10 @@ static int get_EC(int x, int y, enum known_type known,
   PF callback to prohibit going into the unknown.  Also makes sure we 
   don't plan our route through enemy city/tile.
 ***********************************************************************/
-static enum tile_behavior get_TB_aggr(int x, int y, enum known_type known,
+static enum tile_behavior get_TB_aggr(const struct tile *ptile,
+				      enum known_type known,
                                       struct pf_parameter *param)
 {
-  struct tile *ptile = map_get_tile(x, y);
-
   if (known == TILE_UNKNOWN) {
     return TB_IGNORE;
   }
@@ -371,11 +362,10 @@ static enum tile_behavior get_TB_aggr(int x, int y, enum known_type known,
   PF callback for caravans. Caravans doesn't go into the unknown and
   don't attack enemy units but enter enemy cities.
 ***********************************************************************/
-static enum tile_behavior get_TB_caravan(int x, int y, enum known_type known,
+static enum tile_behavior get_TB_caravan(const struct tile *ptile,
+					 enum known_type known,
 					 struct pf_parameter *param)
 {
-  struct tile *ptile = map_get_tile(x, y);
-
   if (known == TILE_UNKNOWN) {
     return TB_IGNORE;
   } else if (is_non_allied_city_tile(ptile, param->owner)) {
@@ -395,9 +385,9 @@ static enum tile_behavior get_TB_caravan(int x, int y, enum known_type known,
   Return the number of MP needed to do the connect activity at this
   position.  A negative number means it's impossible.
 ****************************************************************************/
-static int get_activity_time(int map_x, int map_y, struct player *pplayer)
+static int get_activity_time(const struct tile *ptile,
+			     struct player *pplayer)
 {
-  struct tile *ptile = map_get_tile(map_x, map_y);
   struct tile_type *ttype = get_tile_type(ptile->terrain);
   int activity_mc = 0;
 
@@ -409,7 +399,7 @@ static int get_activity_time(int map_x, int map_y, struct player *pplayer)
     if (ttype->irrigation_time == 0) {
       return -1;
     }
-    if (map_has_special(map_x, map_y, S_MINE)) {
+    if (map_has_special(ptile, S_MINE)) {
       /* Don't overwrite mines. */
       return -1;
     }
@@ -449,10 +439,11 @@ static int get_activity_time(int map_x, int map_y, struct player *pplayer)
   When building a road or a railroad, we don't want to go next to 
   nonallied cities
 ****************************************************************************/
-static bool is_non_allied_city_adjacent(struct player *pplayer, int x, int y)
+static bool is_non_allied_city_adjacent(struct player *pplayer,
+					const struct tile *ptile)
 {
-  adjc_iterate(x, y, x1, y1) {
-    if (is_non_allied_city_tile(map_get_tile(x1, y1), pplayer)) {
+  adjc_iterate(ptile, tile1) {
+    if (is_non_allied_city_tile(tile1, pplayer)) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -469,8 +460,8 @@ static bool is_non_allied_city_adjacent(struct player *pplayer, int x, int y)
 
   param->data should contain the result of get_settler_speed(punit) / 10.
 ****************************************************************************/
-static int get_connect_road(int src_x, int src_y, enum direction8 dir,
-			    int dest_x, int dest_y, 
+static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
+			    const struct tile *dest_tile,
 			    int src_cost, int src_extra,
 			    int *dest_cost, int *dest_extra,
 			    struct pf_parameter *param)
@@ -478,21 +469,21 @@ static int get_connect_road(int src_x, int src_y, enum direction8 dir,
   int activity_time, move_cost, moves_left;
   int total_cost, total_extra;
 
-  if (map_get_known(dest_x, dest_y, param->owner) == TILE_UNKNOWN) {
+  if (map_get_known(dest_tile, param->owner) == TILE_UNKNOWN) {
     return -1;
   }
 
-  activity_time = get_activity_time(dest_x, dest_y, param->owner);  
+  activity_time = get_activity_time(dest_tile, param->owner);  
   if (activity_time < 0) {
     return -1;
   }
 
-  move_cost = param->get_MC(src_x, src_y, dir, dest_x, dest_y, param);
+  move_cost = param->get_MC(src_tile, dir, dest_tile, param);
   if (move_cost == PF_IMPOSSIBLE_MC) {
     return -1;
   }
 
-  if (is_non_allied_city_adjacent(param->owner, dest_x, dest_y)) {
+  if (is_non_allied_city_adjacent(param->owner, dest_tile)) {
     /* We don't want to build roads to enemies plus get ZoC problems */
     return -1;
   }
@@ -504,11 +495,11 @@ static int get_connect_road(int src_x, int src_y, enum direction8 dir,
 
   /* Special cases: get_MC function doesn't know that we would have built
    * a road (railroad) on src tile by that time */
-  if (map_has_special(dest_x, dest_y, S_ROAD)) {
+  if (map_has_special(dest_tile, S_ROAD)) {
     move_cost = MOVE_COST_ROAD;
   }
   if (connect_activity == ACTIVITY_RAILROAD
-      && map_has_special(dest_x, dest_y, S_RAILROAD)) {
+      && map_has_special(dest_tile, S_RAILROAD)) {
     move_cost = MOVE_COST_RAIL;
   }
 
@@ -569,19 +560,20 @@ static int get_connect_road(int src_x, int src_y, enum direction8 dir,
 
   param->data should contain the result of get_settler_speed(punit) / 10.
 ****************************************************************************/
-static int get_connect_irrig(int src_x, int src_y, enum direction8 dir,
-                             int dest_x, int dest_y, 
+static int get_connect_irrig(const struct tile *src_tile,
+			     enum direction8 dir,
+			     const struct tile *dest_tile,
                              int src_cost, int src_extra,
                              int *dest_cost, int *dest_extra,
                              struct pf_parameter *param)
 {
   int activity_time, move_cost, moves_left, total_cost;
 
-  if (map_get_known(dest_x, dest_y, param->owner) == TILE_UNKNOWN) {
+  if (map_get_known(dest_tile, param->owner) == TILE_UNKNOWN) {
     return -1;
   }
 
-  activity_time = get_activity_time(dest_x, dest_y, param->owner);  
+  activity_time = get_activity_time(dest_tile, param->owner);  
   if (activity_time < 0) {
     return -1;
   }
@@ -590,12 +582,12 @@ static int get_connect_irrig(int src_x, int src_y, enum direction8 dir,
     return -1;
   }
 
-  move_cost = param->get_MC(src_x, src_y, dir, dest_x, dest_y, param);
+  move_cost = param->get_MC(src_tile, dir, dest_tile, param);
   if (move_cost == PF_IMPOSSIBLE_MC) {
     return -1;
   }
 
-  if (is_non_allied_city_adjacent(param->owner, dest_x, dest_y)) {
+  if (is_non_allied_city_adjacent(param->owner, dest_tile)) {
     /* We don't want to build irrigation for enemies plus get ZoC problems */
     return -1;
   }
@@ -661,7 +653,7 @@ static void fill_client_goto_parameter(struct unit *punit,
     parameter->data = &speed;
 
     /* Take into account the activity time at the origin */
-    connect_initial = get_activity_time(punit->x, punit->y, 
+    connect_initial = get_activity_time(punit->tile, 
                                         unit_owner(punit)) / speed;
     assert(connect_initial >= 0);
     if (connect_initial > 0) {
@@ -684,9 +676,7 @@ static void fill_client_goto_parameter(struct unit *punit,
   /* Note that in connect mode the "time" does not correspond to any actual
    * move rate. */
   parameter->turn_mode = TM_WORST_TIME;
-
-  parameter->start_x = punit->x;
-  parameter->start_y = punit->y;
+  parameter->start_tile = punit->tile;
 
   /* Omniscience is always FALSE in the client */
   parameter->omniscience = FALSE;
@@ -738,14 +728,13 @@ bool goto_is_active(void)
 /********************************************************************** 
   Return the current end of the drawn goto line.
 ***********************************************************************/
-void get_line_dest(int *x, int *y)
+struct tile *get_line_dest(void)
 {
   struct part *p = &goto_map.parts[goto_map.num_parts - 1];
 
   assert(is_active);
 
-  *x = p->end_x;
-  *y = p->end_y;
+  return p->end_tile;
 }
 
 /**************************************************************************
@@ -763,19 +752,15 @@ int get_goto_turns(void)
 }
 
 /********************************************************************** 
-  Puts a line to dest_x, dest_y on the map according to the current
+  Puts a line to dest_tile on the map according to the current
   goto_map.
   If there is no route to the dest then don't draw anything.
 ***********************************************************************/
-void draw_line(int dest_x, int dest_y)
+void draw_line(struct tile *dest_tile)
 {
   assert(is_active);
 
-  /* FIXME: Replace with check for is_normal_tile later */
-  assert(is_real_map_pos(dest_x, dest_y));
-  normalize_map_pos(&dest_x, &dest_y);
-
-  update_last_part(dest_x, dest_y);
+  update_last_part(dest_tile);
 
   /* Update goto data in info label. */
   update_unit_info_label(get_unit_in_focus());
@@ -794,8 +779,8 @@ void request_orders_cleared(struct unit *punit)
   p.unit_id = punit->id;
   p.repeat = p.vigilant = FALSE;
   p.length = 0;
-  p.dest_x = punit->x;
-  p.dest_y = punit->y;
+  p.dest_x = punit->tile->x;
+  p.dest_y = punit->tile->y;
   send_packet_unit_orders(&aconnection, &p);
 }
 
@@ -807,7 +792,8 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 			     enum unit_activity final_activity)
 {
   struct packet_unit_orders p;
-  int i, old_x, old_y;
+  int i;
+  struct tile *old_tile;
 
   p.unit_id = punit->id;
   p.repeat = repeat;
@@ -818,32 +804,30 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   /* We skip the start position. */
   p.length = path->length - 1;
   assert(p.length < MAX_LEN_ROUTE);
-  old_x = path->positions[0].x;
-  old_y = path->positions[0].y;
+  old_tile = path->positions[0].tile;
 
   freelog(PACKET_LOG_LEVEL, "  Repeat: %d.  Vigilant: %d.  Length: %d",
 	  p.repeat, p.vigilant, p.length);
 
   /* If the path has n positions it takes n-1 steps. */
   for (i = 0; i < path->length - 1; i++) {
-    int new_x = path->positions[i + 1].x;
-    int new_y = path->positions[i + 1].y;
+    struct tile *new_tile = path->positions[i + 1].tile;
 
-    if (same_pos(new_x, new_y, old_x, old_y)) {
+    if (same_pos(new_tile, old_tile)) {
       p.orders[i] = ORDER_FINISH_TURN;
       p.dir[i] = -1;
       freelog(PACKET_LOG_LEVEL, "  packet[%d] = wait: %d,%d",
-	      i, old_x, old_y);
+	      i, TILE_XY(old_tile));
     } else {
       p.orders[i] = ORDER_MOVE;
-      p.dir[i] = get_direction_for_step(old_x, old_y, new_x, new_y);
+      p.dir[i] = get_direction_for_step(old_tile, new_tile);
       p.activity[i] = ACTIVITY_LAST;
       freelog(PACKET_LOG_LEVEL, "  packet[%d] = move %s: %d,%d => %d,%d",
- 	      i, dir_get_name(p.dir[i]), old_x, old_y, new_x, new_y);
+ 	      i, dir_get_name(p.dir[i]),
+	      TILE_XY(old_tile), TILE_XY(new_tile));
       p.activity[i] = ACTIVITY_LAST;
     }
-    old_x = new_x;
-    old_y = new_y;
+    old_tile = new_tile;
   }
 
   if (final_activity != ACTIVITY_LAST) {
@@ -853,8 +837,8 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     p.length++;
   }
 
-  p.dest_x = old_x;
-  p.dest_y = old_y;
+  p.dest_x = old_tile->x;
+  p.dest_y = old_tile->y;
 
   send_packet_unit_orders(&aconnection, &p);
 }
@@ -882,13 +866,11 @@ void send_patrol_route(struct unit *punit)
   assert(is_active);
   assert(punit->id == goto_map.unit_id);
 
-  parameter.start_x = goto_map.parts[goto_map.num_parts - 1].end_x;
-  parameter.start_y = goto_map.parts[goto_map.num_parts - 1].end_y;
+  parameter.start_tile = goto_map.parts[goto_map.num_parts - 1].end_tile;
   parameter.moves_left_initially
     = goto_map.parts[goto_map.num_parts - 1].end_moves_left;
   map = pf_create_map(&parameter);
-  return_path = pf_get_path(map, goto_map.parts[0].start_x,
-			    goto_map.parts[0].start_y);
+  return_path = pf_get_path(map, goto_map.parts[0].start_tile);
   if (!return_path) {
     die("No return path found!");
   }
@@ -915,7 +897,7 @@ void send_connect_route(struct unit *punit, enum unit_activity activity)
   struct pf_path *path = NULL;
   int i;
   struct packet_unit_orders p;
-  int old_x, old_y;
+  struct tile *old_tile;
 
   assert(is_active);
   assert(punit->id == goto_map.unit_id);
@@ -931,13 +913,12 @@ void send_connect_route(struct unit *punit, enum unit_activity activity)
   p.vigilant = FALSE; /* Should be TRUE? */
 
   p.length = 0;
-  old_x = path->positions[0].x;
-  old_y = path->positions[0].y;
+  old_tile = path->positions[0].tile;
 
   for (i = 0; i < path->length; i++) {
     switch (activity) {
     case ACTIVITY_IRRIGATE:
-      if (!map_has_special(old_x, old_y, S_IRRIGATION)) {
+      if (!map_has_special(old_tile, S_IRRIGATION)) {
 	/* Assume the unit can irrigate or we wouldn't be here. */
 	p.orders[p.length] = ORDER_ACTIVITY;
 	p.activity[p.length] = ACTIVITY_IRRIGATE;
@@ -946,14 +927,14 @@ void send_connect_route(struct unit *punit, enum unit_activity activity)
       break;
     case ACTIVITY_ROAD:
     case ACTIVITY_RAILROAD:
-      if (!map_has_special(old_x, old_y, S_ROAD)) {
+      if (!map_has_special(old_tile, S_ROAD)) {
 	/* Assume the unit can build the road or we wouldn't be here. */
 	p.orders[p.length] = ORDER_ACTIVITY;
 	p.activity[p.length] = ACTIVITY_ROAD;
 	p.length++;
       }
       if (activity == ACTIVITY_RAILROAD) {
-	if (!map_has_special(old_x, old_y, S_RAILROAD)) {
+	if (!map_has_special(old_tile, S_RAILROAD)) {
 	  /* Assume the unit can build the rail or we wouldn't be here. */
 	  p.orders[p.length] = ORDER_ACTIVITY;
 	  p.activity[p.length] = ACTIVITY_RAILROAD;
@@ -967,22 +948,20 @@ void send_connect_route(struct unit *punit, enum unit_activity activity)
     }
 
     if (i != path->length - 1) {
-      int new_x = path->positions[i + 1].x;
-      int new_y = path->positions[i + 1].y;
+      struct tile *new_tile = path->positions[i + 1].tile;
 
-      assert(!same_pos(new_x, new_y, old_x, old_y));
+      assert(!same_pos(new_tile, old_tile));
 
       p.orders[p.length] = ORDER_MOVE;
-      p.dir[p.length] = get_direction_for_step(old_x, old_y, new_x, new_y);
+      p.dir[p.length] = get_direction_for_step(old_tile, new_tile);
       p.length++;
 
-      old_x = new_x;
-      old_y = new_y;
+      old_tile = new_tile;
     }
   }
 
-  p.dest_x = old_x;
-  p.dest_y = old_y;
+  p.dest_x = old_tile->x;
+  p.dest_y = old_tile->y;
 
   send_packet_unit_orders(&aconnection, &p);
 }
@@ -1016,41 +995,30 @@ void send_goto_route(struct unit *punit)
   correct char. This function is for internal use only. Use get_drawn
   when in doubt.
 ***********************************************************************/
-static unsigned char *get_drawn_char(int x, int y, enum direction8 dir)
+static unsigned char *get_drawn_char(struct tile *ptile, enum direction8 dir)
 {
-  int x1, y1;
-  bool is_real;
+  struct tile *tile1;
 
-  assert(is_valid_dir(dir));
-
-  /* FIXME: Replace with check for is_normal_tile later */
-  assert(is_real_map_pos(x, y));
-  normalize_map_pos(&x, &y);
-
-  is_real = MAPSTEP(x1, y1, x, y, dir);
-
-  /* It makes no sense to draw a goto line to a non-existent tile. */
-  assert(is_real);
+  tile1 = mapstep(ptile, dir);
 
   if (dir >= 4) {
-    x = x1;
-    y = y1;
+    ptile = tile1;
     dir = DIR_REVERSE(dir);
   }
 
-  return &DRAWN(x, y, dir);
+  return &DRAWN(ptile, dir);
 }
 
 /**************************************************************************
   Increments the number of segments at the location, and draws the
   segment if necessary.
 **************************************************************************/
-static void increment_drawn(int src_x, int src_y, enum direction8 dir)
+static void increment_drawn(struct tile *src_tile, enum direction8 dir)
 {
-  unsigned char *count = get_drawn_char(src_x, src_y, dir);
+  unsigned char *count = get_drawn_char(src_tile, dir);
 
   freelog(LOG_DEBUG, "increment_drawn(src=(%d,%d) dir=%s)",
-          src_x, src_y, dir_get_name(dir));
+          TILE_XY(src_tile), dir_get_name(dir));
 
   if (*count < 255) {
     (*count)++;
@@ -1060,7 +1028,7 @@ static void increment_drawn(int src_x, int src_y, enum direction8 dir)
   }
 
   if (*count == 1) {
-    draw_segment(src_x, src_y, dir);
+    draw_segment(src_tile, dir);
   }
 }
 
@@ -1068,12 +1036,12 @@ static void increment_drawn(int src_x, int src_y, enum direction8 dir)
   Decrements the number of segments at the location, and clears the
   segment if necessary.
 **************************************************************************/
-static void decrement_drawn(int src_x, int src_y, enum direction8 dir)
+static void decrement_drawn(struct tile *src_tile, enum direction8 dir)
 {
-  unsigned char *count = get_drawn_char(src_x, src_y, dir);
+  unsigned char *count = get_drawn_char(src_tile, dir);
 
   freelog(LOG_DEBUG, "decrement_drawn(src=(%d,%d) dir=%s)",
-          src_x, src_y, dir_get_name(dir));
+          TILE_XY(src_tile), dir_get_name(dir));
 
   if (*count > 0) {
     (*count)--;
@@ -1083,7 +1051,7 @@ static void decrement_drawn(int src_x, int src_y, enum direction8 dir)
   }
 
   if (*count == 0) {
-    undraw_segment(src_x, src_y, dir);
+    undraw_segment(src_tile, dir);
   }
 }
 
@@ -1091,15 +1059,13 @@ static void decrement_drawn(int src_x, int src_y, enum direction8 dir)
   Return TRUE if there is a line drawn from (x,y) in the given direction.
   This is used by mapview to determine whether to draw a goto line.
 ****************************************************************************/
-bool is_drawn_line(int x, int y, int dir)
+bool is_drawn_line(struct tile *ptile, int dir)
 {
-  int dummy_x, dummy_y;
-
-  if (!MAPSTEP(dummy_x, dummy_y, x, y, dir)) {
+  if (!mapstep(ptile, dir)) {
     return 0;
   }
 
-  return (*get_drawn_char(x, y, dir) != 0);
+  return (*get_drawn_char(ptile, dir) != 0);
 }
 
 /**************************************************************************
@@ -1113,8 +1079,7 @@ struct pf_path *path_to_nearest_allied_city(struct unit *punit)
   struct pf_map *map;
   struct pf_path *path = NULL;
 
-  if ((pcity = is_allied_city_tile(map_get_tile(punit->x, punit->y),
-				   game.player_ptr))) {
+  if ((pcity = is_allied_city_tile(punit->tile, game.player_ptr))) {
     /* We're already on a city - don't go anywhere. */
     return NULL;
   }
@@ -1127,8 +1092,7 @@ struct pf_path *path_to_nearest_allied_city(struct unit *punit)
 
     pf_next_get_position(map, &pos);
 
-    if ((pcity = is_allied_city_tile(map_get_tile(pos.x, pos.y),
-				     game.player_ptr))) {
+    if ((pcity = is_allied_city_tile(pos.tile, game.player_ptr))) {
       break;
     }
   }

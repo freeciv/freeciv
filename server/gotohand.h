@@ -36,16 +36,16 @@ enum goto_result do_unit_goto(struct unit *punit,
 void generate_warmap(struct city *pcity, struct unit *punit);
 void really_generate_warmap(struct city *pcity, struct unit *punit,
 			    enum unit_move_type move_type);
-int calculate_move_cost(struct unit *punit, int dest_x, int dest_y);
-int air_can_move_between(int moves, int src_x, int src_y,
-			 int dest_x, int dest_y, struct player *pplayer);
+int calculate_move_cost(struct unit *punit, struct tile *dst_tile);
+int air_can_move_between(int moves, struct tile *src_tile,
+			 struct tile *dst_tile, struct player *pplayer);
 
 /* all other functions are internal */
 
 #define THRESHOLD 12
 
 
-bool goto_is_sane(struct unit *punit, int x, int y, bool omni);
+bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni);
 
 struct move_cost_map {
   unsigned char *cost;
@@ -55,13 +55,13 @@ struct move_cost_map {
 
   struct city *warcity; /* so we know what we're dealing with here */
   struct unit *warunit; /* so we know what we're dealing with here */
-  int orig_x, orig_y;
+  struct tile *orig_tile;
 };
 
 extern struct move_cost_map warmap;
 
-#define WARMAP_COST(x, y) (warmap.cost[map_pos_to_index(x, y)])
-#define WARMAP_SEACOST(x, y) (warmap.seacost[map_pos_to_index(x, y)])
-#define WARMAP_VECTOR(x, y) (warmap.vector[map_pos_to_index(x, y)])
+#define WARMAP_COST(ptile) (warmap.cost[(ptile)->index])
+#define WARMAP_SEACOST(ptile) (warmap.seacost[(ptile)->index])
+#define WARMAP_VECTOR(ptile) (warmap.vector[(ptile)->index])
 
 #endif  /* FC__GOTOHAND_H */

@@ -160,7 +160,7 @@ void ai_data_turn_init(struct player *pplayer)
      * enough to warrant city walls. Concentrate instead on 
      * coastal fortresses and hunting down enemy transports. */
     city_list_iterate(aplayer->cities, acity) {
-      Continent_id continent = map_get_continent(acity->x, acity->y);
+      Continent_id continent = map_get_continent(acity->tile);
       ai->threats.continent[continent] = TRUE;
     } city_list_iterate_end;
 
@@ -179,13 +179,13 @@ void ai_data_turn_init(struct player *pplayer)
         /* The idea is that while our enemies don't have any offensive
          * seaborne units, we don't have to worry. Go on the offensive! */
         if (unit_type(punit)->attack_strength > 1) {
-	  if (is_ocean(map_get_terrain(punit->x, punit->y))) {
-	    Continent_id continent = map_get_continent(punit->x, punit->y);
+	  if (is_ocean(map_get_terrain(punit->tile))) {
+	    Continent_id continent = map_get_continent(punit->tile);
 	    ai->threats.ocean[-continent] = TRUE;
 	  } else {
-	    adjc_iterate(punit->x, punit->y, x2, y2) {
-	      if (is_ocean(map_get_terrain(x2, y2))) {
-	        Continent_id continent = map_get_continent(x2, y2);
+	    adjc_iterate(punit->tile, tile2) {
+	      if (is_ocean(map_get_terrain(tile2))) {
+	        Continent_id continent = map_get_continent(tile2);
 	        ai->threats.ocean[-continent] = TRUE;
 	      }
 	    } adjc_iterate_end;
@@ -231,13 +231,12 @@ void ai_data_turn_init(struct player *pplayer)
   ai->explore.sea_done = TRUE;
   ai->explore.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
   ai->explore.ocean = fc_calloc(ai->num_oceans + 1, sizeof(bool));
-  whole_map_iterate(x, y) {
-    struct tile *ptile = map_get_tile(x, y);
-    Continent_id continent = map_get_continent(x, y);
+  whole_map_iterate(ptile) {
+    Continent_id continent = map_get_continent(ptile);
 
     if (is_ocean(ptile->terrain)) {
       if (ai->explore.sea_done && ai_handicap(pplayer, H_TARGETS) 
-          && !map_is_known(x, y, pplayer)) {
+          && !map_is_known(ptile, pplayer)) {
 	/* We're not done there. */
         ai->explore.sea_done = FALSE;
         ai->explore.ocean[-continent] = TRUE;
@@ -249,14 +248,14 @@ void ai_data_turn_init(struct player *pplayer)
       /* we don't need more explaining, we got the point */
       continue;
     }
-    if (map_has_special(x, y, S_HUT) 
+    if (map_has_special(ptile, S_HUT) 
         && (!ai_handicap(pplayer, H_HUTS)
-             || map_is_known(x, y, pplayer))) {
+             || map_is_known(ptile, pplayer))) {
       ai->explore.land_done = FALSE;
       ai->explore.continent[continent] = TRUE;
       continue;
     }
-    if (ai_handicap(pplayer, H_TARGETS) && !map_is_known(x, y, pplayer)) {
+    if (ai_handicap(pplayer, H_TARGETS) && !map_is_known(ptile, pplayer)) {
       /* this AI must explore */
       ai->explore.land_done = FALSE;
       ai->explore.continent[continent] = TRUE;
@@ -269,21 +268,21 @@ void ai_data_turn_init(struct player *pplayer)
   ai->stats.cities = fc_calloc(ai->num_continents + 1, sizeof(int));
   ai->stats.average_production = 0;
   city_list_iterate(pplayer->cities, pcity) {
-    ai->stats.cities[(int)map_get_continent(pcity->x, pcity->y)]++;
+    ai->stats.cities[(int)map_get_continent(pcity->tile)]++;
     ai->stats.average_production += pcity->shield_surplus;
   } city_list_iterate_end;
   ai->stats.average_production /= MAX(1, city_list_size(&pplayer->cities));
   BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
-    struct tile *ptile = map_get_tile(punit->x, punit->y);
+    struct tile *ptile = punit->tile;
 
     if (!is_ocean(ptile->terrain) && unit_flag(punit, F_SETTLERS)) {
-      ai->stats.workers[(int)map_get_continent(punit->x, punit->y)]++;
+      ai->stats.workers[(int)map_get_continent(punit->tile)]++;
     }
     if (unit_flag(punit, F_DIPLOMAT) && punit->ai.ai_role == AIUNIT_ATTACK) {
       /* Heading somewhere on a mission, reserve target. */
-      struct city *pcity = map_get_city(goto_dest_x(punit),
-					goto_dest_y(punit));;
+      struct city *pcity = map_get_city(punit->goto_tile);
+
       if (pcity) {
         BV_SET(ai->stats.diplomat_reservations, pcity->id);
       }
@@ -398,8 +397,7 @@ void ai_data_turn_init(struct player *pplayer)
         punit->ai.prev_struct = punit->ai.cur_struct;
         punit->ai.prev_pos = &punit->ai.prev_struct;
       }
-      punit->ai.cur_pos->x = punit->x;
-      punit->ai.cur_pos->y = punit->y;
+      *punit->ai.cur_pos = punit->tile;
     } unit_list_iterate_end;
   } players_iterate_end;
 }

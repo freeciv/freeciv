@@ -25,7 +25,7 @@ extern bool tiles_hilited_cities;
 
 extern bool keyboardless_goto_button_down;
 extern bool keyboardless_goto_active;
-extern int keyboardless_goto_start_x, keyboardless_goto_start_y;
+extern struct tile *keyboardless_goto_start_tile;
 
 void anchor_selection_rectangle(int canvas_x, int canvas_y);
 void update_selection_rectangle(int canvas_x, int canvas_y);
@@ -33,11 +33,11 @@ void update_selection_rectangle(int canvas_x, int canvas_y);
 bool is_city_hilited(struct city *pcity);
 
 void cancel_tile_hiliting(void);
-void toggle_tile_hilite(int tile_x, int tile_y);
+void toggle_tile_hilite(struct tile *ptile);
 
 void key_city_overlay(int canvas_x, int canvas_y);
 
-void clipboard_copy_production(int tile_x, int tile_y);
+void clipboard_copy_production(struct tile *ptile);
 void clipboard_paste_production(struct city *pcity);
 void upgrade_canvas_clipboard(void);
 
@@ -58,7 +58,7 @@ void update_line(int canvas_x, int canvas_y);
 void overview_update_line(int overview_x, int overview_y);
 
 bool get_chance_to_win(int *att_chance, int *def_chance,
-		       int map_x, int map_y);
+		       struct tile *ptile);
 
 void fill_tile_unit_list(struct tile *ptile, struct unit **unit_list);
 

@@ -46,7 +46,7 @@ static GtkWidget *view;
 static GtkWidget *all_toggle;
 static GtkListStore *store;
 static GtkTreeSelection *selection;
-static int original_x, original_y;
+struct tile *original_tile;
 
 static void update_goto_dialog(GtkToggleButton *button);
 static void goto_selection_callback(GtkTreeSelection *selection, gpointer data);
@@ -72,7 +72,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 {
   switch (arg) {
   case GTK_RESPONSE_CANCEL:
-    center_tile_mapcanvas(original_x, original_y);
+    center_tile_mapcanvas(original_tile);
     break;
 
   case CMD_AIRLIFT:
@@ -97,7 +97,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
         struct unit *punit = get_unit_in_focus();
 
         if (punit) {
-          send_goto_unit(punit, pdestcity->x, pdestcity->y);
+          send_goto_unit(punit, pdestcity->tile);
         }
       }
     }
@@ -193,7 +193,7 @@ static void create_goto_dialog(void)
   gtk_widget_show_all(GTK_DIALOG(dshell)->action_area);
 
 
-  get_center_tile_mapcanvas(&original_x, &original_y);
+  original_tile = get_center_tile_mapcanvas();
 
   update_goto_dialog(GTK_TOGGLE_BUTTON(all_toggle));
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
@@ -269,7 +269,7 @@ static void goto_selection_callback(GtkTreeSelection *selection, gpointer data)
 
   if((pdestcity = get_selected_city())) {
     struct unit *punit = get_unit_in_focus();
-    center_tile_mapcanvas(pdestcity->x, pdestcity->y);
+    center_tile_mapcanvas(pdestcity->tile);
     if(punit && unit_can_airlift_to(punit, pdestcity)) {
       gtk_dialog_set_response_sensitive(GTK_DIALOG(dshell), CMD_AIRLIFT, TRUE);
       return;

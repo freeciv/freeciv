@@ -24,7 +24,7 @@
 
 static int *temperature_map;
 
-#define tmap(x, y) (temperature_map[map_pos_to_index(x, y)])
+#define tmap(ptile) (temperature_map[(ptile)->index])
 
 /**************************************************************
   Return TRUE if temperateure_map is initialized
@@ -36,18 +36,18 @@ bool temperature_is_initialized(void)
 /*********************************************************
  return true if the tile has tt temperature type
 **********************************************************/
-bool tmap_is(int x, int y, temperature_type tt)
+bool tmap_is(const struct tile *ptile, temperature_type tt)
 {
-  return BOOL_VAL(tmap((x), (y)) & (tt));
+  return BOOL_VAL(tmap(ptile) & (tt));
 }
 
 /*****************************************************************
  return true if at last one tile has tt temperature type
 ****************************************************************/
-bool is_temperature_type_near(int x, int y, temperature_type tt) 
+bool is_temperature_type_near(const struct tile *ptile, temperature_type tt) 
 {
-  adjc_iterate(x, y, x1, y1) {
-    if (BOOL_VAL(tmap((x1), (y1)) & (tt))) {
+  adjc_iterate(ptile, tile1) {
+    if (BOOL_VAL(tmap(tile1) & (tt))) {
       return TRUE;
     };
   } adjc_iterate_end;
@@ -81,22 +81,22 @@ void create_tmap(bool real)
   }
 
   temperature_map = fc_malloc(sizeof(int) * MAX_MAP_INDEX);
-  whole_map_iterate(x, y) {
+  whole_map_iterate(ptile) {
   
      /* the base temperature is equal to base map_colatitude */
-    int t = map_colatitude(x, y) ;
+    int t = map_colatitude(ptile);
     if (!real) {
-      tmap(x, y) =  t;
+      tmap(ptile) = t;
     } else {
       /* height land can be 30% collest */
-      float height = - 0.3 * MAX(0, hmap(x,y) - hmap_shore_level) 
+      float height = - 0.3 * MAX(0, hmap(ptile) - hmap_shore_level) 
 	  / (hmap_max_level - hmap_shore_level); 
       /* near ocean temperature can be 15 % more "temperate" */
       float temperate = 0.15 * (map.temperature / 100 - t / MAX_COLATITUDE) * 
-	  2 * MIN (50 ,count_ocean_near_tile(x, y, FALSE, TRUE)) /
+	  2 * MIN (50 ,count_ocean_near_tile(ptile, FALSE, TRUE)) /
 	  100;
       
-      tmap(x, y) =  t * (1.0 + temperate) * (1.0 + height);
+      tmap(ptile) =  t * (1.0 + temperate) * (1.0 + height);
     }
   } whole_map_iterate_end;
   /* adjust to get well sizes frequencies */

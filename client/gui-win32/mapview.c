@@ -263,7 +263,7 @@ update_unit_info_label(struct unit *punit)
     /* FIXME */         
     my_snprintf(buffer2, sizeof(buffer2), "%s\n%s\n%s\n%s",buffer,
 		unit_activity_text(punit),
-		map_get_tile_info_text(punit->x, punit->y),
+		map_get_tile_info_text(punit->tile),
 		pcity ? pcity->name : "");     
     SetWindowText(unitinfo_win,buffer2);
     }

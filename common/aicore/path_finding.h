@@ -269,7 +269,7 @@ enum turn_mode {
 
 /* Full specification of a position and time to reach it. */
 struct pf_position {
-  int x, y;			/* Coordinates of the position */
+  struct tile *tile;
   int turn, moves_left;		/* See definitions above */
 
   int total_MC;			/* Total MC to reach this point */
@@ -293,7 +293,7 @@ struct pf_path {
  *
  * Examples of callbacks can be found in pf_tools.c*/
 struct pf_parameter {
-  int start_x, start_y;		/* Initial position */
+  struct tile *start_tile;	/* Initial position */
   int moves_left_initially;
   int move_rate;		/* Move rate of the virtual unit */
 
@@ -309,19 +309,20 @@ struct pf_parameter {
    * calculate (to_x, to_y) by itself based on (from_x, from_y) and
    * dir. Excessive information (to_x, to_y) is provided to ease the 
    * implementation of the callback. */
-  int (*get_MC) (int from_x, int from_y, enum direction8 dir,
-		 int to_x, int to_y, struct pf_parameter * param);
+  int (*get_MC) (const struct tile *from_tile, enum direction8 dir,
+		 const struct tile *to_tile, struct pf_parameter * param);
 
   /* Callback which determines the behavior of a tile. If NULL
    * TB_NORMAL is assumed. It can be assumed that the implementation
    * of path_finding.h will cache this value. */
-  enum tile_behavior (*get_TB) (int x, int y, enum known_type known,
+  enum tile_behavior (*get_TB) (const struct tile *ptile,
+				enum known_type known,
 				struct pf_parameter * param);
 
   /* Callback which can be used to provide extra costs depending on
    * the tile. Can be NULL. It can be assumed that the implementation
    * of path_finding.h will cache this value. */
-  int (*get_EC) (int x, int y, enum known_type known,
+  int (*get_EC) (const struct tile *ptile, enum known_type known,
 		 struct pf_parameter * param);
 
   /* Although the rules governing ZoC are universal, the amount of
@@ -331,12 +332,12 @@ struct pf_parameter {
    * ZoC for strategic planning purposes (take into account enemy cities 
    * but not units for example).
    * If this callback is NULL, ZoC are ignored.*/
-  bool (*get_zoc) (struct player *pplayer, int x, int y);
+  bool (*get_zoc) (struct player *pplayer, const struct tile *ptile);
 
   /* If this callback is non-NULL and returns TRUE this position is
    * dangerous. The unit will never end a turn at a dangerous
    * position. Can be NULL. */
-  bool (*is_pos_dangerous) (int x, int y, enum known_type,
+  bool (*is_pos_dangerous) (const struct tile *ptile, enum known_type,
                             struct pf_parameter * param);
 
   /* This is a jumbo callback which overrides all previous ones.  It takes 
@@ -358,9 +359,9 @@ struct pf_parameter {
    * - if new costs are better, record them in to_cost/to_extra and return
    *   the cost-of-the-path which is the overall measure of goodness of the 
    *   path (less is better) and used to order newly discovered locations. */
-  int (*get_costs) (int from_x, int from_y, 
+  int (*get_costs) (const struct tile *from_tile,
 		    enum direction8 dir,
-		    int to_x, int to_y, 
+		    const struct tile *to_tile,
 		    int from_cost, int from_extra,
 		    int *to_cost, int *to_extra,
 		    struct pf_parameter *param);
@@ -384,12 +385,12 @@ struct pf_map *pf_create_map(const struct pf_parameter *const parameter);
  * If NULL is returned no path could be found.  The pf_last_position of such 
  * path would be the same (almost) as the result of the call to 
  * pf_get_position(pf_map, x, y, &pos) */
-struct pf_path *pf_get_path(struct pf_map *pf_map, int x, int y);
+struct pf_path *pf_get_path(struct pf_map *pf_map, struct tile *ptile);
 
 /* Iterates the map until it reaches (x, y).  Then fills the info
  * about it into pos.  Returns FALSE if position is unreachable.
  * Contents of pos in this case is not defined. */
-bool pf_get_position(struct pf_map *pf_map, int x, int y,
+bool pf_get_position(struct pf_map *pf_map, struct tile *ptile,
 		     struct pf_position *pos);
 
 /* Iterates the path-finding algorithm one step further, to the next 

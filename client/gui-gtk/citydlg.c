@@ -420,7 +420,7 @@ void refresh_city_dialog(struct city *pcity)
 
   if (city_owner(pcity) == game.player_ptr) {
     bool have_present_units =
-	(unit_list_size(&map_get_tile(pcity->x, pcity->y)->units) > 0);
+	(unit_list_size(&pcity->tile->units) > 0);
 
     update_worklist_editor(pdialog->wl_editor);
 
@@ -460,7 +460,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city_dialog *pdialog;
 
   pcity_sup = find_city_by_id(punit->homecity);
-  pcity_pre = map_get_city(punit->x, punit->y);
+  pcity_pre = map_get_city(punit->tile);
 
   if (pcity_sup && (pdialog = get_city_dialog(pcity_sup)))
     city_dialog_update_supported_units(pdialog);
@@ -2048,7 +2048,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
   if (pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
   } else {
-    plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
+    plist = &(pdialog->pcity->tile->units);
   }
 
   size = (plist->list.nelements - 1) / NUM_UNITS_SHOWN;
@@ -2308,7 +2308,7 @@ static void activate_all_units_callback(GtkWidget * w, gpointer data)
 {
   struct city_dialog *pdialog = data;
 
-  activate_all_units(pdialog->pcity->x, pdialog->pcity->y);
+  activate_all_units(pdialog->pcity->tile);
 }
 
 /****************************************************************
@@ -2317,8 +2317,8 @@ static void activate_all_units_callback(GtkWidget * w, gpointer data)
 static void sentry_all_units_callback(GtkWidget * w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  int x = pdialog->pcity->x, y = pdialog->pcity->y;
-  struct unit_list *punit_list = &map_get_tile(x, y)->units;
+  struct tile *ptile = pdialog->pcity->tile;
+  struct unit_list *punit_list = &ptile->units;
 
   unit_list_iterate(*punit_list, punit) {
     if (game.player_idx == punit->owner) {
@@ -2338,7 +2338,7 @@ static void sentry_all_units_callback(GtkWidget * w, gpointer data)
 static void show_units_callback(GtkWidget * w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  struct tile *ptile = map_get_tile(pdialog->pcity->x, pdialog->pcity->y);
+  struct tile *ptile = pdialog->pcity->tile;
 
   if (unit_list_size(&ptile->units))
     popup_unit_select_dialog(ptile);
@@ -2392,7 +2392,7 @@ static gint present_unit_callback(GtkWidget * w, GdkEventButton * ev,
   GtkWidget *wd;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)) &&
-      (pcity = map_get_city(punit->x, punit->y)) &&
+      (pcity = map_get_city(punit->tile)) &&
       (pdialog = get_city_dialog(pcity))) {
 
     if (ev->button == 2 || ev->button == 3 || !can_client_issue_orders()) {
@@ -2448,7 +2448,7 @@ static gint present_unit_middle_callback(GtkWidget * w,
   struct city_dialog *pdialog;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)) &&
-      (pcity = map_get_city(punit->x, punit->y)) &&
+      (pcity = map_get_city(punit->tile)) &&
       (pdialog = get_city_dialog(pcity)) && can_client_issue_orders() && 
       (ev->button == 2 || ev->button == 3)) {
     set_unit_focus(punit);
@@ -2521,7 +2521,7 @@ static void present_unit_activate_close_callback(gpointer data)
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     set_unit_focus(punit);
-    if ((pcity = map_get_city(punit->x, punit->y)))
+    if ((pcity = map_get_city(punit->tile)))
       if ((pdialog = get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
   }
@@ -2618,7 +2618,7 @@ static void unit_center_callback(gpointer data)
   struct unit *punit;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
-    center_tile_mapcanvas(punit->x, punit->y);
+    center_tile_mapcanvas(punit->tile);
   }
 }
 
@@ -3442,7 +3442,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   pdialog->wl_editor->pwl = &new_pcity->worklist;
   pdialog->wl_editor->user_data = (void *) pdialog;
 
-  center_tile_mapcanvas(pdialog->pcity->x, pdialog->pcity->y);
+  center_tile_mapcanvas(pdialog->pcity->tile);
   set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */
   refresh_city_dialog(pdialog->pcity);
   select_impr_list_callback(NULL, 0, 0, NULL, pdialog); /* unselects clist */

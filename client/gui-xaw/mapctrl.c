@@ -96,22 +96,22 @@ void popup_newcity_dialog(struct unit *punit, char *suggestname)
 /**************************************************************************
 ...
 **************************************************************************/
-static void popit(int xin, int yin, int xtile, int ytile)
+static void popit(int xin, int yin, struct tile *ptile)
 {
   Position x, y;
   int dw, dh;
   Dimension w, h, b;
-  static struct map_position cross_list[2+1];
-  struct map_position *cross_head = cross_list;
+  static struct tile *cross_list[2+1];
+  struct tile **cross_head = cross_list;
   int i;
   struct unit *punit;
   char *content;
   static bool is_orders;
   
-  if (tile_get_known(xtile, ytile)>=TILE_KNOWN_FOGGED) {
+  if (tile_get_known(ptile)>=TILE_KNOWN_FOGGED) {
     Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass,
 				map_canvas, NULL, 0);
-    content = (char *) popup_info_text(xtile, ytile);
+    content = (char *) popup_info_text(ptile);
     /* content is provided to us as a single string with multiple lines,
        but xaw doens't support multi-line labels.  So we break it up.
        We mangle it in the process, but who cares?  It's never going to be
@@ -129,15 +129,13 @@ static void popit(int xin, int yin, int xtile, int ytile)
       }
     }
 
-    punit = find_visible_unit(map_get_tile(xtile, ytile));
+    punit = find_visible_unit(ptile);
     is_orders = show_unit_orders(punit);
-    if (punit && is_goto_dest_set(punit)) {
-      cross_head->x = goto_dest_x(punit);
-      cross_head->y = goto_dest_y(punit);
+    if (punit && punit->goto_tile) {
+      *cross_head = punit->goto_tile;
       cross_head++;
     }
-    cross_head->x = xtile;
-    cross_head->y = ytile;
+    *cross_head = ptile;
     cross_head++;
 
     xin /= NORMAL_TILE_WIDTH;
@@ -160,9 +158,9 @@ static void popit(int xin, int yin, int xtile, int ytile)
     if (y < 0) y = 0;
     XtVaSetValues(p, XtNx, x, XtNy, y, NULL);
 
-    cross_head->x = -1;
-    for (i = 0; cross_list[i].x >= 0; i++) {
-      put_cross_overlay_tile(cross_list[i].x,cross_list[i].y);
+    *cross_head = NULL;
+    for (i = 0; cross_list[i] >= 0; i++) {
+      put_cross_overlay_tile(cross_list[i]);
     }
     XtAddCallback(p,XtNpopdownCallback,popupinfo_popdown_callback,
 		  (XtPointer)&is_orders);
@@ -215,7 +213,7 @@ void mapctrl_btn_mapcanvas(XEvent *event)
     action_button_pressed(ev->x, ev->y, SELECT_POPUP);
   } else if (ev->button == Button2 &&
              canvas_to_map_pos(&x, &y, ev->x, ev->y)) {
-    popit(ev->x, ev->y, x, y);
+    popit(ev->x, ev->y, map_pos_to_tile(x, y));
   } else if (ev->button == Button3 && (ev->state & ControlMask)) {
     action_button_pressed(ev->x, ev->y, SELECT_LAND);
   } else if (ev->button == Button3) {
@@ -267,19 +265,24 @@ void mapctrl_key_city_workers(XEvent *event)
 **************************************************************************/
 void mapctrl_btn_overviewcanvas(XEvent *event)
 {
-  int xtile, ytile;
+  int map_x, map_y;
+  struct tile *ptile;
   XButtonEvent *ev = &event->xbutton;
 
   if (!can_client_change_view()) {
     return;
   }
 
-  overview_to_map_pos(&xtile, &ytile, event->xbutton.x, event->xbutton.y);
+  overview_to_map_pos(&map_x, &map_y, event->xbutton.x, event->xbutton.y);
+  if (!normalize_map_pos(&map_x, &map_y)) {
+    return;
+  }
+  ptile = map_pos_to_tile(map_x, map_y);
 
   if(ev->button==Button1)
-    do_map_click(xtile, ytile, SELECT_POPUP);
+    do_map_click(ptile, SELECT_POPUP);
   else if(ev->button==Button3)
-    center_tile_mapcanvas(xtile, ytile);
+    center_tile_mapcanvas(ptile);
 }
 
 /**************************************************************************

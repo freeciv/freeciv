@@ -62,28 +62,28 @@ static void init_game_id(void)
 /****************************************************************************
   Place a starting unit for the player.
 ****************************************************************************/
-static void place_starting_unit(int x, int y, struct player *pplayer,
+static void place_starting_unit(struct tile *ptile, struct player *pplayer,
 				char crole)
 {
   Unit_Type_id utype;
   enum unit_flag_id role;
 
-  assert(!is_non_allied_unit_tile(map_get_tile(x, y), pplayer));
+  assert(!is_non_allied_unit_tile(ptile, pplayer));
 
   /* For scenarios or dispersion, huts may coincide with player starts (in 
    * other cases, huts are avoided as start positions).  Remove any such hut,
    * and make sure to tell the client, since we may have already sent this
    * tile (with the hut) earlier: */
-  if (map_has_special(x, y, S_HUT)) {
-    map_clear_special(x, y, S_HUT);
-    update_tile_knowledge(x, y);
+  if (map_has_special(ptile, S_HUT)) {
+    map_clear_special(ptile, S_HUT);
+    update_tile_knowledge(ptile);
     freelog(LOG_VERBOSE, "Removed hut on start position for %s",
 	    pplayer->name);
   }
 
   /* Expose visible area. */
-  circle_iterate(x, y, game.rgame.init_vis_radius_sq, cx, cy) {
-    show_area(pplayer, cx, cy, 0);
+  circle_iterate(ptile, game.rgame.init_vis_radius_sq, ctile) {
+    show_area(pplayer, ctile, 0);
   } circle_iterate_end;
 
   switch(crole) {
@@ -128,7 +128,7 @@ static void place_starting_unit(int x, int y, struct player *pplayer,
     if (utype == U_LAST) {
       utype = get_role_unit(role, 0);
     }
-    (void) create_unit(pplayer, x, y, utype, FALSE, 0, -1);
+    (void) create_unit(pplayer, ptile, utype, FALSE, 0, -1);
   }
 }
 
@@ -154,7 +154,8 @@ void init_new_game(void)
 
     pos_used[i] = FALSE;
     freelog(LOG_VERBOSE, "%3d : (%2d,%2d) : %d : %s",
-	    i, map.start_positions[i].x, map.start_positions[i].y,
+	    i, map.start_positions[i].tile->x,
+	    map.start_positions[i].tile->y,
 	    n, (n >= 0 ? get_nation_name(n) : ""));
   }
   players_iterate(pplayer) {
@@ -211,12 +212,13 @@ void init_new_game(void)
     }
 
     /* Place the first unit. */
-    place_starting_unit(pos.x, pos.y, pplayer, game.start_units[0]);
+    place_starting_unit(pos.tile, pplayer, game.start_units[0]);
   } players_iterate_end;
 
   /* Place all other units. */
   players_iterate(pplayer) {
     int i, x, y;
+    struct tile *ptile;
     struct start_position p
       = map.start_positions[start_pos[pplayer->player_no]];
 
@@ -227,17 +229,17 @@ void init_new_game(void)
 
     for (i = 1; i < strlen(game.start_units); i++) {
       do {
-	x = p.x + myrand(2 * game.dispersion + 1) - game.dispersion;
-	y = p.y + myrand(2 * game.dispersion + 1) - game.dispersion;
+	x = p.tile->x + myrand(2 * game.dispersion + 1) - game.dispersion;
+	y = p.tile->y + myrand(2 * game.dispersion + 1) - game.dispersion;
       } while (!(normalize_map_pos(&x, &y)
-		 && map_get_continent(p.x, p.y) == map_get_continent(x, y)
-		 && !is_ocean(map_get_terrain(x, y))
-		 && !is_non_allied_unit_tile(map_get_tile(x, y),
-					     pplayer)));
+		 && (ptile = map_pos_to_tile(x, y))
+		 && map_get_continent(p.tile) == map_get_continent(ptile)
+		 && !is_ocean(map_get_terrain(ptile))
+		 && !is_non_allied_unit_tile(ptile, pplayer)));
 
 
       /* Create the unit of an appropriate type. */
-      place_starting_unit(x, y, pplayer, game.start_units[i]);
+      place_starting_unit(ptile, pplayer, game.start_units[i]);
     }
   } players_iterate_end;
 
@@ -273,7 +275,7 @@ void send_year_to_clients(int year)
   lsend_packet_new_year(&game.game_connections, &apacket);
 
   /* Hmm, clients could add this themselves based on above packet? */
-  notify_conn_ex(&game.game_connections, -1, -1, E_NEXT_YEAR, _("Year: %s"),
+  notify_conn_ex(&game.game_connections, NULL, E_NEXT_YEAR, _("Year: %s"),
 		 textyear(year));
 }
 
@@ -373,7 +375,7 @@ int update_timeout(void)
     game.timeoutint += game.timeoutintinc;
 
     if (game.timeout > GAME_MAX_TIMEOUT) {
-      notify_conn_ex(&game.game_connections, -1, -1, E_NOEVENT,
+      notify_conn_ex(&game.game_connections, NULL, E_NOEVENT,
 		     _("The turn timeout has exceeded its maximum value, "
 		       "fixing at its maximum"));
       freelog(LOG_DEBUG, "game.timeout exceeded maximum value");
@@ -381,7 +383,7 @@ int update_timeout(void)
       game.timeoutint = 0;
       game.timeoutinc = 0;
     } else if (game.timeout < 0) {
-      notify_conn_ex(&game.game_connections, -1, -1, E_NOEVENT,
+      notify_conn_ex(&game.game_connections, NULL, E_NOEVENT,
 		     _("The turn timeout is smaller than zero, "
 		       "fixing at zero."));
       freelog(LOG_DEBUG, "game.timeout less than zero");

@@ -100,7 +100,7 @@ static void goto_ok(void)
     struct unit *punit = get_unit_in_focus();
     if (punit)
     {
-      send_goto_unit(punit, pcity->x, pcity->y);
+      send_goto_unit(punit, pcity->tile);
     }
   }
   set(goto_wnd, MUIA_Window_Open, FALSE);

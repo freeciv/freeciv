@@ -47,7 +47,7 @@
  * which has a negative value.
  */
 
-int citymap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+int citymap[MAP_MAX_WIDTH * MAP_MAX_HEIGHT];
 
 #define LOG_CITYMAP LOG_DEBUG
 
@@ -60,13 +60,11 @@ void citymap_turn_init(struct player *pplayer)
   memset(citymap, 0, sizeof(citymap));
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      map_city_radius_iterate(pcity->x, pcity->y, x1, y1) {
-        struct tile *ptile = map_get_tile(x1, y1);
-
+      map_city_radius_iterate(pcity->tile, ptile) {
         if (ptile->worked) {
-          citymap[x1][y1] = -(ptile->worked->id);
+          citymap[ptile->index] = -(ptile->worked->id);
         } else {
-          citymap[x1][y1] = citymap[x1][y1]++;
+          citymap[ptile->index] = citymap[ptile->index]++;
         }
       } map_city_radius_iterate_end;
     } city_list_iterate_end;
@@ -74,12 +72,12 @@ void citymap_turn_init(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     if (unit_flag(punit, F_CITIES)
         && punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-      map_city_radius_iterate(goto_dest_x(punit), goto_dest_y(punit), x1, y1) {
-        if (citymap[x1][y1] >= 0) {
-          citymap[x1][y1]++;
+      map_city_radius_iterate(punit->goto_tile, ptile) {
+        if (citymap[ptile->index] >= 0) {
+          citymap[ptile->index]++;
         }
       } map_city_radius_iterate_end;
-      citymap[goto_dest_x(punit)][goto_dest_y(punit)] = -(punit->id);
+      citymap[punit->goto_tile->index] = -(punit->id);
     }
   } unit_list_iterate_end;
 }
@@ -89,43 +87,38 @@ void citymap_turn_init(struct player *pplayer)
   a settler's or a city's id. Then it 'crowds' tiles that this city can 
   use to make them less attractive to other cities we may consider making.
 **************************************************************************/
-void citymap_reserve_city_spot(int x, int y, int id)
+void citymap_reserve_city_spot(struct tile *ptile, int id)
 {
 #ifdef DEBUG
-  assert(is_normal_map_pos(x, y));
   freelog(LOG_CITYMAP, "id %d reserving (%d, %d), was %d", 
-          id, x, y, citymap[x][y]);
-  assert(citymap[x][y] >= 0);
+          id, TILE_XY(ptile), citymap[ptile->index]);
+  assert(citymap[ptile->index] >= 0);
 #endif
 
   /* Tiles will now be "reserved" by actual workers, so free excess
    * reservations. Also mark tiles for city overlapping, or 
    * 'crowding'. */
-  map_city_radius_iterate(x, y, x1, y1) {
-    if (citymap[x1][y1] == -id) {
-      citymap[x1][y1] = 0;
+  map_city_radius_iterate(ptile, ptile1) {
+    if (citymap[ptile1->index] == -id) {
+      citymap[ptile1->index] = 0;
     }
-    if (citymap[x1][y1] >= 0) {
-      citymap[x1][y1]++;
+    if (citymap[ptile1->index] >= 0) {
+      citymap[ptile1->index]++;
     }
   } map_city_radius_iterate_end;
-  citymap[x][y] = -(id);
+  citymap[ptile->index] = -(id);
 }
 
 /**************************************************************************
   Reverse any reservations we have made in the surrounding area.
 **************************************************************************/
-void citymap_free_city_spot(int x, int y, int id)
+void citymap_free_city_spot(struct tile *ptile, int id)
 {
-#ifdef DEBUG
-  assert(is_normal_map_pos(x, y));
-#endif
-
-  map_city_radius_iterate(x, y, x1, y1) {
-    if (citymap[x1][y1] == -(id)) {
-      citymap[x1][y1] = 0;
-    } else if (citymap[x1][y1] > 0) {
-      citymap[x1][y1]--;
+  map_city_radius_iterate(ptile, ptile1) {
+    if (citymap[ptile1->index] == -(id)) {
+      citymap[ptile1->index] = 0;
+    } else if (citymap[ptile1->index] > 0) {
+      citymap[ptile1->index]--;
     }
   } map_city_radius_iterate_end;
 }
@@ -134,12 +127,11 @@ void citymap_free_city_spot(int x, int y, int id)
   Reserve additional tiles as desired (eg I would reserve best available
   food tile in addition to adjacent tiles)
 **************************************************************************/
-void citymap_reserve_tile(int x, int y, int id)
+void citymap_reserve_tile(struct tile *ptile, int id)
 {
 #ifdef DEBUG
-  assert(is_normal_map_pos(x, y));
-  assert(!citymap_is_reserved(x,y));
+  assert(!citymap_is_reserved(ptile));
 #endif
 
-  citymap[x][y] = -id;
+  citymap[ptile->index] = -id;
 }

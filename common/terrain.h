@@ -108,28 +108,31 @@ Terrain_type_id get_flag_terrain(enum terrain_flag_id flag);
 void tile_types_free(void);
 
 /* Functions to operate on a general terrain type. */
-bool is_terrain_near_tile(int map_x, int map_y, Terrain_type_id t);
-int count_terrain_near_tile(int map_x, int map_y,
+bool is_terrain_near_tile(const struct tile *ptile, Terrain_type_id t);
+int count_terrain_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
 			    Terrain_type_id t);
 
 /* Functions to operate on a terrain special. */
-bool is_special_near_tile(int map_x, int map_y, enum tile_special_type spe);
-int count_special_near_tile(int map_x, int map_y,
+bool is_special_near_tile(const struct tile *ptile,
+			  enum tile_special_type spe);
+int count_special_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
 			    enum tile_special_type spe);
 
 /* Functions to operate on a terrain flag. */
-bool is_terrain_flag_near_tile(int x, int y, enum terrain_flag_id flag);
-int count_terrain_flag_near_tile(int x, int y,
+bool is_terrain_flag_near_tile(const struct tile *ptile,
+			       enum terrain_flag_id flag);
+int count_terrain_flag_near_tile(const struct tile *ptile,
 				 bool cardinal_only, bool percentage,
 				 enum terrain_flag_id flag);
 
 /* Terrain-specific functions. */
 #define is_ocean(x) (terrain_has_flag((x), TER_OCEANIC))
-#define is_ocean_near_tile(x, y) is_terrain_flag_near_tile(x, y, TER_OCEANIC)
-#define count_ocean_near_tile(x, y, cardinal_only, percentage)		\
-  count_terrain_flag_near_tile(x, y, cardinal_only, percentage, TER_OCEANIC)
+#define is_ocean_near_tile(ptile) \
+  is_terrain_flag_near_tile(ptile, TER_OCEANIC)
+#define count_ocean_near_tile(ptile, cardinal_only, percentage)		\
+  count_terrain_flag_near_tile(ptile, cardinal_only, percentage, TER_OCEANIC)
 
 /* This iterator iterates over all terrain types. */
 #define terrain_type_iterate(id)                                            \

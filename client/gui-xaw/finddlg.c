@@ -69,7 +69,7 @@ static char *dummy_city_list[]={
 
 static int ncities_total;
 static char **city_name_ptrs;
-static int original_x, original_y;
+static struct tile *original_tile;
 
 /****************************************************************
 popup the dialog 10% inside the main-window 
@@ -79,7 +79,7 @@ void popup_find_dialog(void)
   Position x, y;
   Dimension width, height;
 
-  get_center_tile_mapcanvas(&original_x, &original_y);
+  original_tile = get_center_tile_mapcanvas();
 
   XtSetSensitive(main_form, FALSE);
   
@@ -195,7 +195,7 @@ void find_center_command_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE)
     if((pcity=game_find_city_by_name(ret->string)))
-      center_tile_mapcanvas(pcity->x, pcity->y);
+      center_tile_mapcanvas(pcity->tile);
   
   popdown_find_dialog();
 }
@@ -206,7 +206,7 @@ void find_center_command_callback(Widget w, XtPointer client_data,
 void find_cancel_command_callback(Widget w, XtPointer client_data, 
 				  XtPointer call_data)
 {
-  center_tile_mapcanvas(original_x, original_y);
+  center_tile_mapcanvas(original_tile);
   popdown_find_dialog();
 }
 
@@ -222,5 +222,5 @@ void find_list_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   if(ret->list_index!=XAW_LIST_NONE)
     if((pcity=game_find_city_by_name(ret->string)))
-      center_tile_mapcanvas(pcity->x, pcity->y);
+      center_tile_mapcanvas(pcity->tile);
 }

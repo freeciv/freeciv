@@ -227,12 +227,12 @@ struct player *find_player_by_user(const char *name)
   (e) the unit isn't in a transporter, or we can see the transporter
 ****************************************************************************/
 bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
-			    int x, int y)
+			    struct tile *ptile)
 {
   struct city *pcity;
 
   /* If the player can't even see the tile... */
-  if (map_get_known(x, y, pplayer) != TILE_KNOWN) {
+  if (map_get_known(ptile, pplayer) != TILE_KNOWN) {
     return FALSE;
   }
 
@@ -245,7 +245,7 @@ bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
   }
 
   /* Units in cities may be hidden. */
-  pcity = map_get_city(x, y);
+  pcity = map_get_city(ptile);
   if (pcity && !can_player_see_units_in_city(pplayer, pcity)) {
     return FALSE;
   }
@@ -258,12 +258,12 @@ bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
 
   /* Hiding units may only be seen by adjacent allied units or cities. */
   /* FIXME: shouldn't a check for shared vision be done here? */
-  adjc_iterate(x, y, x1, y1) {
-    struct city *pcity = map_get_city(x1, y1);
+  adjc_iterate(ptile, ptile1) {
+    struct city *pcity = map_get_city(ptile1);
     if (pcity && pplayers_allied(city_owner(pcity), pplayer)) {
       return TRUE;
     }  
-    unit_list_iterate(map_get_tile(x1, y1)->units, punit2) {
+    unit_list_iterate(ptile1->units, punit2) {
       if (pplayers_allied(unit_owner(punit2), pplayer)) {
 	return TRUE;
       }
@@ -281,7 +281,7 @@ bool can_player_see_unit_at(struct player *pplayer, struct unit *punit,
 ****************************************************************************/
 bool can_player_see_unit(struct player *pplayer, struct unit *punit)
 {
-  return can_player_see_unit_at(pplayer, punit, punit->x, punit->y);
+  return can_player_see_unit_at(pplayer, punit, punit->tile);
 }
 
 /****************************************************************************
@@ -358,11 +358,11 @@ struct unit *player_find_unit_by_id(const struct player *pplayer,
 /*************************************************************************
 Return 1 if x,y is inside any of the player's city radii.
 **************************************************************************/
-bool player_in_city_radius(struct player *pplayer, int x, int y)
+bool player_in_city_radius(struct player *pplayer, struct tile *ptile)
 {
   struct city *pcity;
-  map_city_radius_iterate(x, y, x1, y1) {
-    pcity = map_get_city(x1, y1);
+  map_city_radius_iterate(ptile, ptile1) {
+    pcity = map_get_city(ptile1);
     if (pcity && (pcity->owner == pplayer->player_no))
       return TRUE;
   } map_city_radius_iterate_end;
@@ -767,7 +767,7 @@ int player_in_territory(struct player *pplayer, struct player *pplayer2)
    * to see if they're owned by the enemy. */
   unit_list_iterate(pplayer2->units, punit) {
     /* Get the owner of the tile/territory. */
-    struct player *owner = map_get_owner(punit->x, punit->y);
+    struct player *owner = map_get_owner(punit->tile);
 
     if (owner == pplayer && can_player_see_unit(pplayer, punit)) {
       /* Found one! */

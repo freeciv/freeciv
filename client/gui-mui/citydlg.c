@@ -331,7 +331,7 @@ bool city_dialog_is_open(struct city *pcity)
 static void refresh_this_city_dialog(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
-  int units = (unit_list_size(&map_get_tile(pcity->x, pcity->y)->units) ? TRUE : FALSE);
+  int units = (unit_list_size(&map_get_tile(pcity->tile)->units) ? TRUE : FALSE);
 
   city_dialog_update_improvement_list(pdialog);
   city_dialog_update_title(pdialog);
@@ -403,7 +403,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city_dialog *pdialog;
 
   pcity_sup = player_find_city_by_id(game.player_ptr, punit->homecity);
-  pcity_pre = map_get_city(punit->x, punit->y);
+  pcity_pre = map_get_city(punit->tile);
 
   if (pcity_sup && (pdialog = get_city_dialog(pcity_sup)))
     city_dialog_update_supported_units(pdialog, 0);
@@ -781,7 +781,7 @@ static void city_rename_callback(struct city_dialog **ppdialog)
 static void city_unitlist(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
-  struct tile *ptile = map_get_tile(pdialog->pcity->x, pdialog->pcity->y);
+  struct tile *ptile = map_get_tile(pdialog->pcity->tile);
 
   if (unit_list_size(&ptile->units))
     popup_unit_select_dialog(ptile);
@@ -794,7 +794,7 @@ static void city_activate_units(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
 
-  activate_all_units(pdialog->pcity->x, pdialog->pcity->y);
+  activate_all_units(pdialog->pcity->tile);
 }
 
 /**************************************************************************
@@ -1971,7 +1971,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
   } else {
-    plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
+    plist = &(map_get_tile(pdialog->pcity->tile)->units);
   }
 
   genlist_iterator_init(&myiter, &(plist->list), 0);
@@ -1997,7 +1997,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
   } else {
-    plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
+    plist = &(map_get_tile(pdialog->pcity->tile)->units);
   }
 
   genlist_iterator_init(&myiter, &(plist->list), 0);

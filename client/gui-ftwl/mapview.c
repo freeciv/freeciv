@@ -245,7 +245,7 @@ static void overview_mouse_press_callback(struct sw_widget *widget,
   overview_to_map_pos(&xtile,&ytile,pos->x,pos->y);
   freelog(LOG_NORMAL, " --> (%d,%d)", xtile, ytile);
   if (can_client_change_view() && button == 3) {
-    center_tile_mapcanvas(xtile, ytile);
+    center_tile_mapcanvas(map_pos_to_tile(xtile, ytile));
   }
   /* FIXME else if (can_client_issue_orders() && ev->button == 1) {
      do_unit_goto(xtile, ytile);
@@ -591,9 +591,8 @@ void prepare_show_city_descriptions(void)
 /**************************************************************************
   Draw a cross-hair overlay on a tile.
 **************************************************************************/
-void put_cross_overlay_tile(int map_x, int map_y)
+void put_cross_overlay_tile(struct tile *ptile)
 {
-  freelog(LOG_NORMAL, "put_cross_overlay_tile(%d,%d)", map_x, map_y);
   /* PORTME */
 }
 
@@ -638,7 +637,7 @@ static struct osda *unit_to_osda(struct unit *punit)
 /**************************************************************************
   ...
 **************************************************************************/
-static struct osda *terrain_to_osda(int x, int y)
+static struct osda *terrain_to_osda(struct tile *ptile)
 {
   struct osda *result = be_create_osda(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
   struct canvas *store = fc_malloc(sizeof(*store));
@@ -646,7 +645,7 @@ static struct osda *terrain_to_osda(int x, int y)
   store->osda = result;
   store->widget = NULL;
 
-  put_terrain(x, y, store, 0, 0);
+  put_terrain(ptile, store, 0, 0);
 
   free(store);
   return result;
@@ -736,12 +735,13 @@ static void tile_list_select(int new_index)
 **************************************************************************/
 static void update_focus_tile_list(void)
 {
-  int i,x, y;
+  int i;
+  struct tile *ptile;
 
   set_unit_focus(NULL);
 
-  get_focus_tile(&x, &y);
-  unit_list_iterate(map_get_tile(x, y)->units, aunit) {
+  ptile = get_focus_tile();
+  unit_list_iterate(ptile->units, aunit) {
     if (game.player_idx == aunit->owner) {
       set_unit_focus(aunit);
       break;
@@ -764,15 +764,15 @@ static void update_focus_tile_list(void)
     tile_list.items++;
 
     item->type = TLI_TERRAIN;
-    item->unselected = terrain_to_osda(x, y);
+    item->unselected = terrain_to_osda(ptile);
     item->selected = create_selected_osda(item->unselected);
     item->button = NULL;
-    item->tooltip=mystrdup(mapview_get_terrain_tooltip_text(x,y));
-    item->info_text=mystrdup(mapview_get_terrain_info_text(x,y));
+    item->tooltip=mystrdup(mapview_get_terrain_tooltip_text(ptile));
+    item->info_text=mystrdup(mapview_get_terrain_info_text(ptile));
   }
 
-  if(map_get_city(x,y)) {
-      struct city *pcity=map_get_city(x,y);
+  if(map_get_city(ptile)) {
+      struct city *pcity=map_get_city(ptile);
     struct tile_list_item *item = &tile_list.item[tile_list.items];
 
     tile_list.items++;
@@ -786,7 +786,7 @@ static void update_focus_tile_list(void)
     item->info_text=mystrdup(mapview_get_city_info_text(pcity));
   }
 
-  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+  unit_list_iterate(ptile->units, punit) {
     struct tile_list_item *item = &tile_list.item[tile_list.items];
 
     tile_list.items++;
@@ -834,7 +834,7 @@ static void canvas_mouse_press_callback(struct sw_widget *widget,
   canvas_to_map_pos(&xtile, &ytile, pos->x, pos->y);
 
   if (button == BE_MB_LEFT) {
-    set_focus_tile(xtile,ytile);
+    set_focus_tile(map_pos_to_tile(xtile, ytile));
     update_focus_tile_list();
   } else if (button == BE_MB_MIDDLE) {
     //popit(ev, xtile, ytile);
@@ -1422,7 +1422,7 @@ static void fill_actions(void)
     }
 
     if (can_unit_add_or_build_city(punit)) {
-      if (map_get_city(punit->x, punit->y)) {
+      if (map_get_city(punit->tile)) {
 	ADD("unit_add_to_city");
       } else {
 	ADD("unit_build_city");
@@ -1440,7 +1440,7 @@ static void fill_actions(void)
     if (get_transporter_capacity(punit) > 0) {
       ADD("unit_unload");
     }
-    if (is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->x, punit->y)) {
+    if (is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->tile)) {
       ADD("unit_wake_others");
     }
     if (can_unit_do_connect(punit, ACTIVITY_IDLE)) {
@@ -1457,7 +1457,7 @@ static void fill_actions(void)
     }
     if ((is_diplomat_unit(punit)
 	 && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-				   punit->x, punit->y))) {
+				   punit->tile))) {
       ADD("unit_spy");
     }
     
@@ -1608,23 +1608,22 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
   /* PORTME */
 }
 
-static struct map_position focus_tile = { -1, -1 };
+struct tile *focus_tile;
 
 /****************************************************************************
   Set the position of the focus tile, and update the mapview.
 ****************************************************************************/
-void set_focus_tile(int x, int y)
+void set_focus_tile(struct tile *ptile)
 {
-  struct map_position old = focus_tile;
+  struct tile *old = focus_tile;
 
-  CHECK_MAP_POS(x, y);
-  focus_tile.x = x;
-  focus_tile.y = y;
+  assert(ptile != NULL);
+  focus_tile = ptile;
 
-  if (old.x >= 0) {
-    refresh_tile_mapcanvas(old.x, old.y, TRUE);
+  if (old) {
+    refresh_tile_mapcanvas(old, TRUE);
   }
-  refresh_tile_mapcanvas(focus_tile.x, focus_tile.y, TRUE);
+  refresh_tile_mapcanvas(focus_tile, TRUE);
 }
 
 /****************************************************************************
@@ -1632,27 +1631,19 @@ void set_focus_tile(int x, int y)
 ****************************************************************************/
 void clear_focus_tile(void)
 {
-  struct map_position old = focus_tile;
+  struct tile *old = focus_tile;
 
-  focus_tile.x = -1;
-  focus_tile.y = -1;
+  focus_tile = NULL;
 
-  if (map_exists() && is_normal_map_pos(old.x, old.x)) {
-    refresh_tile_mapcanvas(old.x, old.y, TRUE);
+  if (map_exists() && old) {
+    refresh_tile_mapcanvas(old, TRUE);
   }
 }
 
 /****************************************************************************
   Find the focus tile.  Returns FALSE if there is no focus tile.
 ****************************************************************************/
-bool get_focus_tile(int *x, int *y)
+struct tile *get_focus_tile(void)
 {
-  if (focus_tile.x < 0) {
-    *x = *y = -1;
-    return FALSE;
-  } else {
-    *x = focus_tile.x;
-    *y = focus_tile.y;
-    return TRUE;
-  }
+  return focus_tile;
 }

@@ -245,12 +245,12 @@ void update_unit_info_label(struct unit *punit)
     settextf(main_unitname_text, "%s%s", unit_type(punit)->name,
 	     (punit->veteran) ? _(" (veteran)") : "");
     settext(main_moves_text, (hover_unit == punit->id) ? _("Select destination") : unit_activity_text(punit));
-    settext(main_terrain_text, map_get_tile_info_text(punit->x, punit->y));
+    settext(main_terrain_text, map_get_tile_info_text(punit->tile));
     settext(main_hometown_text, pcity ? pcity->name : "");
 
 
     /* Count the number of units */
-    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
+    unit_list_iterate(map_get_tile(punit->tile)->units, aunit) {
       if (aunit != punit) {
 	units++;
       }
@@ -263,7 +263,7 @@ void update_unit_info_label(struct unit *punit)
       Object *cstate = (Object *)child_list->lh_Head;
       Object *child;
 
-      unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
+      unit_list_iterate(map_get_tile(punit->tile)->units, aunit) {
         if (aunit != punit) {
           if ((child = (Object*)NextObject(&cstate))) {
             set(child, MUIA_Unit_Unit, aunit);
@@ -280,7 +280,7 @@ void update_unit_info_label(struct unit *punit)
       DoMethod(main_below_group, MUIM_Group_InitChange);
       DoMethod(main_below_group, MUIM_AutoGroup_DisposeChilds);
 
-      unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit) {
+      unit_list_iterate(map_get_tile(punit->tile)->units, aunit) {
         if (aunit != punit) {
 	  if ((obj = UnitObject, MUIA_InputMode, MUIV_InputMode_RelVerify, MUIA_Unit_Unit, aunit, End)) {
 	    DoMethod(main_below_group, OM_ADDMEMBER, obj);

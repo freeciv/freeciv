@@ -141,18 +141,19 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 /* Iterate over all known tiles in the city.  This iteration follows the
  * painter's algorithm and can be used for drawing. */
 #define citydlg_known_iterate(pcity, city_x, city_y,			    \
-			      map_x, map_y, canvas_x, canvas_y)		    \
+			      ptile, canvas_x, canvas_y)		    \
 {                                                                           \
   int _itr;								    \
                                                                             \
   /* We must go in order to preserve the painter's algorithm. */	    \
   for (_itr = 0; _itr < CITY_MAP_SIZE * CITY_MAP_SIZE; _itr++) {            \
     int city_x = _itr / CITY_MAP_SIZE, city_y = _itr % CITY_MAP_SIZE;	    \
-    int map_x, map_y, canvas_x, canvas_y;				    \
+    int canvas_x, canvas_y;						    \
+    struct tile *ptile;							    \
                                                                             \
     if (is_valid_city_coords(city_x, city_y)				    \
-	&& city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)	    \
-	&& tile_get_known(map_x, map_y)					    \
+	&& (ptile = city_map_to_map(pcity, city_x, city_y))		    \
+	&& tile_get_known(ptile)					    \
 	&& city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {	    \
 
 #define citydlg_known_iterate_end                                           \
@@ -173,21 +174,18 @@ void city_dialog_redraw_map(struct city *pcity,
 		       get_citydlg_canvas_height());
 
   citydlg_known_iterate(pcity, city_x, city_y,
-			map_x, map_y, canvas_x, canvas_y) {
+			ptile, canvas_x, canvas_y) {
     if (is_isometric) {
-      put_one_tile_iso(pcanvas, map_x, map_y,
-		       canvas_x, canvas_y,
-		       TRUE);
+      put_one_tile_iso(pcanvas, ptile, canvas_x, canvas_y, TRUE);
     } else {
-      put_one_tile(pcanvas, map_x, map_y,
-		   canvas_x, canvas_y, TRUE);
+      put_one_tile(pcanvas, ptile, canvas_x, canvas_y, TRUE);
     }
   } citydlg_known_iterate_end;
 
   /* We have to put the output afterwards or it will be covered
    * in iso-view. */
   citydlg_known_iterate(pcity, city_x, city_y,
-			map_x, map_y, canvas_x, canvas_y) {
+			ptile, canvas_x, canvas_y) {
     if (pcity->city_map[city_x][city_y] == C_TILE_WORKER) {
       put_city_tile_output(pcity, city_x, city_y,
 			   pcanvas, canvas_x, canvas_y);
@@ -199,7 +197,7 @@ void city_dialog_redraw_map(struct city *pcity,
    * put_one_tile to fix this, but maybe it wouldn't be a good idea because
    * the lines would get obscured. */
   citydlg_known_iterate(pcity, city_x, city_y,
-			map_x, map_y, canvas_x, canvas_y) {
+			ptile, canvas_x, canvas_y) {
     if (pcity->city_map[city_x][city_y] == C_TILE_UNAVAILABLE) {
       put_red_frame_tile(pcanvas, canvas_x, canvas_y);
     }
@@ -451,9 +449,9 @@ void city_rotate_specialist(struct city *pcity, int citizen_index)
 /**************************************************************************
   Activate all units on the given map tile.
 **************************************************************************/
-void activate_all_units(int map_x, int map_y)
+void activate_all_units(struct tile *ptile)
 {
-  struct unit_list *punit_list = &map_get_tile(map_x, map_y)->units;
+  struct unit_list *punit_list = &ptile->units;
   struct unit *pmyunit = NULL;
 
   unit_list_iterate((*punit_list), punit) {

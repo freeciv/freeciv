@@ -77,23 +77,25 @@ static struct unit *search_best_target(struct player *pplayer,
   
   freelog(LOG_DEBUG, "doing autoattack for %s (%d/%d) in %s,"
 	  " range %d(%d), city_options %d",
-	  unit_name(punit->type), punit->x, punit->y, pcity->name,
+	  unit_name(punit->type), punit->tile->x, punit->tile->y,
+	  pcity->name,
 	  range, punit->moves_left, pcity->city_options);
   
-  square_iterate(punit->x, punit->y, range, x, y) {
-    if (same_pos(punit->x, punit->y, x, y))
+  square_iterate(punit->tile, range, ptile) {
+    if (same_pos(punit->tile, ptile))
       continue;
 
-    if (map_get_city(x, y)) continue;
+    if (map_get_city(ptile)) continue;
     /* don't attack enemy cities (or our own ;-) --dwp */
 
-    targets = &(map_get_tile(x, y)->units);
+    targets = &(ptile->units);
     if (unit_list_size(targets) == 0) continue;
-    if (!is_enemy_unit_tile(map_get_tile(x, y), pplayer))
+    if (!is_enemy_unit_tile(ptile, pplayer))
       continue;
 
-    freelog(LOG_DEBUG,  "found enemy unit/stack at %d,%d", x, y);
-    enemy = get_defender(punit, x, y);
+    freelog(LOG_DEBUG,  "found enemy unit/stack at %d,%d",
+	    ptile->x, ptile->y);
+    enemy = get_defender(punit, ptile);
     if (!enemy) {
       continue;
     }
@@ -105,7 +107,7 @@ static struct unit *search_best_target(struct player *pplayer,
       continue;
     }
 
-    mv_cost = calculate_move_cost(punit, x, y);
+    mv_cost = calculate_move_cost(punit, ptile);
     if (mv_cost > range) {
       freelog(LOG_DEBUG, "too far away: %d", mv_cost);
       continue;
@@ -123,7 +125,7 @@ static struct unit *search_best_target(struct player *pplayer,
     if (ai_handicap(pplayer, H_TARGETS)
 	&& !can_player_see_unit(pplayer, enemy)) {
       freelog(LOG_DEBUG, "can't see %s at (%d,%d)", unit_name(enemy->type),
-              x, y);
+              ptile->x, ptile->y);
       continue;
     }
 
@@ -132,9 +134,10 @@ static struct unit *search_best_target(struct player *pplayer,
      * get triggered by fighters and bombers and end up being wasted when they
      * cannot engage.
      */
-    if (!can_unit_attack_all_at_tile(punit, x, y)) {
+    if (!can_unit_attack_all_at_tile(punit, ptile)) {
       freelog(LOG_DEBUG, "%s at (%d,%d) cannot attack at (%d,%d)",
-	      unit_name(punit->type), punit->x, punit->y, x, y);
+	      unit_name(punit->type), punit->tile->x, punit->tile->y,
+	      ptile->x, ptile->y);
       continue;
     }
 
@@ -155,11 +158,11 @@ static struct unit *search_best_target(struct player *pplayer,
   enemy = best_enemy;
   
   freelog(LOG_DEBUG, "chosen target=%s (%d/%d)",
-	  get_unit_name(enemy->type), enemy->x,enemy->y);
+	  get_unit_name(enemy->type), enemy->tile->x, enemy->tile->y);
 
   if((unit_type(enemy)->defense_strength) >
      unit_type(punit)->attack_strength*1.5) {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
 		     _("Game: Auto-Attack: %s's %s found a too "
 		       "tough enemy (%s)"),
 		     pcity->name, unit_name(punit->type),
@@ -188,13 +191,13 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   
   freelog(LOG_DEBUG, "launching attack");
   
-  notify_player_ex(pplayer, enemy->x, enemy->y, E_NOEVENT,
+  notify_player_ex(pplayer, enemy->tile, E_NOEVENT,
 		   _("Game: Auto-Attack: %s's %s attacking %s's %s"),
 		   pcity->name, unit_name(punit->type),
 		   unit_owner(enemy)->name, unit_name(enemy->type));
   
   set_unit_activity(punit, ACTIVITY_GOTO);
-  set_goto_dest(punit, enemy->x, enemy->y);
+  punit->goto_tile = enemy->tile;
   
   send_unit_info(NULL, punit);
   (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
@@ -203,12 +206,12 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
   
   if (punit) {
     set_unit_activity(punit, ACTIVITY_GOTO);
-    set_goto_dest(punit, pcity->x, pcity->y);
+    punit->goto_tile = pcity->tile;
     send_unit_info(NULL, punit);
     
     (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
     
-    if (unit_list_find(&map_get_tile(pcity->x, pcity->y)->units, id)) {
+    if (unit_list_find(&pcity->tile->units, id)) {
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
     }
   }
@@ -221,7 +224,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 static void auto_attack_city(struct player *pplayer, struct city *pcity)
 {
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+  unit_list_iterate(pcity->tile->units, punit) {
     if (punit->ai.control
 	&& punit->activity == ACTIVITY_IDLE
 	&& is_military_unit(punit)) {

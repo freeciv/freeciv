@@ -766,7 +766,7 @@ city_select_coastal_callback(GtkWidget *w, gpointer data)
   for (i = 0; i < GTK_CLIST(city_list)->rows; i++) {
     struct city* pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), i);
     
-    if (is_ocean_near_tile(pcity->x, pcity->y)) {
+    if (is_ocean_near_tile(pcity->tile)) {
       gtk_clist_select_row(GTK_CLIST(city_list), i, 0);
     }
   }
@@ -795,8 +795,8 @@ city_select_same_island_callback(GtkWidget *w, gpointer data)
       for(; current; current = g_list_next(current))
 	{
 	  struct city* selectedcity = current->data;
-          if (map_get_continent(pcity->x, pcity->y)
-              == map_get_continent(selectedcity->x, selectedcity->y))
+          if (map_get_continent(pcity->tile)
+              == map_get_continent(selectedcity->tile))
 	    {
 	      gtk_clist_select_row(GTK_CLIST(city_list),i,0);
 	      break;
@@ -1182,7 +1182,7 @@ static void city_center_callback(GtkWidget *w, gpointer data)
       return;
 
   pcity = city_from_glist (current);
-    center_tile_mapcanvas(pcity->x, pcity->y);
+    center_tile_mapcanvas(pcity->tile);
 }
 
 /****************************************************************
@@ -1199,7 +1199,7 @@ static void city_popup_callback(GtkWidget *w, gpointer data)
 
   pcity = city_from_glist (current);
   if (center_when_popup_city) {
-    center_tile_mapcanvas(pcity->x, pcity->y);
+    center_tile_mapcanvas(pcity->tile);
   }
 
   /* We have to copy the list as the popup_city_dialog destroys the data */

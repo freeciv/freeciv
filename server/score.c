@@ -44,7 +44,7 @@ struct claim_map {
   struct claim_cell *claims;
   int *player_landarea;
   int *player_owndarea;
-  struct map_position *edges;
+  struct tile **edges;
 };
 
 /**************************************************************************
@@ -157,15 +157,13 @@ static void build_landarea_map_new(struct claim_map *pcmap)
   pcmap->player_owndarea = fc_malloc(nbytes);
   memset(pcmap->player_owndarea, 0, nbytes);
 
-  nbytes = 2 * map.xsize * map.ysize * sizeof(struct map_position);
+  nbytes = 2 * map.xsize * map.ysize * sizeof(*pcmap->edges);
   pcmap->edges = fc_malloc(nbytes);
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      map_city_radius_iterate(pcity->x, pcity->y, x, y) {
-	int i = map_pos_to_index(x, y);
-
-	pcmap->claims[i].cities |= (1u << pcity->owner);
+      map_city_radius_iterate(pcity->tile, tile1) {
+	pcmap->claims[tile1->index].cities |= (1u << pcity->owner);
       } map_city_radius_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
@@ -177,15 +175,14 @@ static void build_landarea_map_new(struct claim_map *pcmap)
 static void build_landarea_map_turn_0(struct claim_map *pcmap)
 {
   int turn, owner;
-  struct map_position *nextedge;
+  struct tile **nextedge;
   struct claim_cell *pclaim;
-  struct tile *ptile;
 
   turn = 0;
   nextedge = pcmap->edges;
 
-  whole_map_iterate(x, y) {
-    int i = map_pos_to_index(x, y);
+  whole_map_iterate(ptile) {
+    int i = ptile->index;
 
     pclaim = &pcmap->claims[i];
     ptile = &map.tiles[i];
@@ -198,8 +195,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
       owner = ptile->city->owner;
       pclaim->when = turn + 1;
       pclaim->whom = owner;
-      nextedge->x = x;
-      nextedge->y = y;
+      *nextedge = ptile;
       nextedge++;
       pcmap->player_landarea[owner]++;
       pcmap->player_owndarea[owner]++;
@@ -208,8 +204,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
       owner = ptile->worked->owner;
       pclaim->when = turn + 1;
       pclaim->whom = owner;
-      nextedge->x = x;
-      nextedge->y = y;
+      *nextedge = ptile;
       nextedge++;
       pcmap->player_landarea[owner]++;
       pcmap->player_owndarea[owner]++;
@@ -218,8 +213,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
       owner = (unit_list_get(&ptile->units, 0))->owner;
       pclaim->when = turn + 1;
       pclaim->whom = owner;
-      nextedge->x = x;
-      nextedge->y = y;
+      *nextedge = ptile;
       nextedge++;
       pcmap->player_landarea[owner]++;
       if (TEST_BIT(pclaim->cities, owner)) {
@@ -233,7 +227,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
     }
   } whole_map_iterate_end;
 
-  nextedge->x = -1;
+  *nextedge = NULL;
 
 #if LAND_AREA_DEBUG >= 2
   print_landarea_map(pcmap, turn);
@@ -245,10 +239,10 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
 **************************************************************************/
 static void build_landarea_map_expand(struct claim_map *pcmap)
 {
-  struct map_position *midedge;
+  struct tile **midedge;
   int turn, accum, other;
-  struct map_position *thisedge;
-  struct map_position *nextedge;
+  struct tile **thisedge;
+  struct tile **nextedge;
 
   midedge = &pcmap->edges[map.xsize * map.ysize];
 
@@ -256,23 +250,21 @@ static void build_landarea_map_expand(struct claim_map *pcmap)
     thisedge = ((turn & 0x1) == 1) ? pcmap->edges : midedge;
     nextedge = ((turn & 0x1) == 1) ? midedge : pcmap->edges;
 
-    for (accum = 0; thisedge->x >= 0; thisedge++) {
-      int x = thisedge->x;
-      int y = thisedge->y;
-      int i = map_pos_to_index (x, y);
+    for (accum = 0; *thisedge; thisedge++) {
+      struct tile *ptile = *thisedge;
+      int i = ptile->index;
       int owner = pcmap->claims[i].whom;
 
       if (owner != no_owner) {
-	adjc_iterate(x, y, mx, my) {
-	  int j = map_pos_to_index(mx, my);
+	adjc_iterate(ptile, tile1) {
+	  int j = tile1->index;
 	  struct claim_cell *pclaim = &pcmap->claims[j];
 
 	  if (TEST_BIT(pclaim->know, owner)) {
 	    if (pclaim->when == 0) {
 	      pclaim->when = turn + 1;
 	      pclaim->whom = owner;
-	      nextedge->x = mx;
-	      nextedge->y = my;
+	      *nextedge = tile1;
 	      nextedge++;
 	      pcmap->player_landarea[owner]++;
 	      if (TEST_BIT(pclaim->cities, owner)) {
@@ -295,7 +287,7 @@ static void build_landarea_map_expand(struct claim_map *pcmap)
       }
     }
 
-    nextedge->x = -1;
+    *nextedge = NULL;
 
 #if LAND_AREA_DEBUG >= 2
     print_landarea_map(pcmap, turn);

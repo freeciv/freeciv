@@ -179,7 +179,7 @@ void handle_spaceship_launch(struct player *pplayer)
   ship->launch_year = game.year;
   arrival = ship->launch_year + (int) ship->travel_time;
 
-  notify_player_ex(NULL, -1, -1, E_SPACESHIP,
+  notify_player_ex(NULL, NULL, E_SPACESHIP,
 		   _("Game: The %s have launched a spaceship!  "
 		     "It is estimated to arrive on Alpha Centauri in %s."),
 		   get_nation_name_plural(pplayer->nation),
@@ -332,7 +332,7 @@ void handle_spaceship_place(struct player *pplayer,
 **************************************************************************/
 void spaceship_lost(struct player *pplayer)
 {
-  notify_player_ex(NULL, -1, -1, E_SPACESHIP,
+  notify_player_ex(NULL, NULL, E_SPACESHIP,
 		   _("Game: Without guidance from the capital, the %s "
 		     "spaceship is lost!"),
 		   get_nation_name(pplayer->nation));
@@ -363,7 +363,7 @@ void check_spaceship_arrivals(void)
   if (best_pplayer) {
     best_pplayer->spaceship.state = SSHIP_ARRIVED;
     server_state = GAME_OVER_STATE;
-    notify_player_ex(NULL, -1, -1, E_SPACESHIP,
+    notify_player_ex(NULL, NULL, E_SPACESHIP,
 		     _("Game: The %s spaceship has arrived "
 		       "at Alpha Centauri."),
 		     get_nation_name(best_pplayer->nation));

@@ -361,10 +361,10 @@ void refresh_city_dialog(struct city *pcity)
     XtSetSensitive(pdialog->trade_command,
     		   city_num_trade_routes(pcity)?True:False);
     XtSetSensitive(pdialog->activate_command,
-		   unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)
+		   unit_list_size(&pcity->tile->units)
 		   ?True:False);
     XtSetSensitive(pdialog->show_units_command,
-                   unit_list_size(&map_get_tile(pcity->x,pcity->y)->units)
+                   unit_list_size(&pcity->tile->units)
 		   ?True:False);
     XtSetSensitive(pdialog->cma_command, True);
     XtSetSensitive(pdialog->cityopt_command, True);
@@ -397,7 +397,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
   struct city_dialog *pdialog;
 
   pcity_sup=player_find_city_by_id(game.player_ptr, punit->homecity);
-  pcity_pre=map_get_city(punit->x, punit->y);
+  pcity_pre=map_get_city(punit->tile);
   
   if(pcity_sup && (pdialog=get_city_dialog(pcity_sup)))
     city_dialog_update_supported_units(pdialog, 0);
@@ -1086,7 +1086,7 @@ void activate_callback(Widget w, XtPointer client_data,
 {
   struct city_dialog *pdialog = (struct city_dialog *)client_data;
 
-  activate_all_units(pdialog->pcity->x, pdialog->pcity->y);
+  activate_all_units(pdialog->pcity->tile);
 }
 
 
@@ -1097,7 +1097,7 @@ void show_units_callback(Widget w, XtPointer client_data,
                         XtPointer call_data)
 {
   struct city_dialog *pdialog = (struct city_dialog *)client_data;
-  struct tile *ptile = map_get_tile(pdialog->pcity->x, pdialog->pcity->y);
+  struct tile *ptile = pdialog->pcity->tile;
 
   if( unit_list_size(&ptile->units) )
     popup_unit_select_dialog(ptile);
@@ -1152,7 +1152,7 @@ static void present_units_activate_callback(Widget w, XtPointer client_data,
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
     set_unit_focus(punit);
-    if((pcity=map_get_city(punit->x, punit->y)))
+    if((pcity=map_get_city(punit->tile)))
       if((pdialog=get_city_dialog(pcity)))
 	city_dialog_update_present_units(pdialog, 0);
   }
@@ -1173,7 +1173,7 @@ static void supported_units_activate_callback(Widget w, XtPointer client_data,
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
     set_unit_focus(punit);
-    if((pcity=map_get_city(punit->x, punit->y)))
+    if((pcity=map_get_city(punit->tile)))
       if((pdialog=get_city_dialog(pcity)))
 	city_dialog_update_supported_units(pdialog, 0);
   }
@@ -1197,7 +1197,7 @@ static void present_units_activate_close_callback(Widget w,
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))  {
     set_unit_focus(punit);
-    if((pcity=map_get_city(punit->x, punit->y)))
+    if((pcity=map_get_city(punit->tile)))
       if((pdialog=get_city_dialog(pcity)))
 	close_city_dialog(pdialog);
   }
@@ -1308,7 +1308,7 @@ void present_units_callback(Widget w, XtPointer client_data,
   XEvent *e = (XEvent*)call_data;
   
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)) &&
-     (pcity=map_get_city(punit->x, punit->y)) &&
+     (pcity=map_get_city(punit->tile)) &&
      (pdialog=get_city_dialog(pcity))) {
     
     if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
@@ -1720,7 +1720,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
   } else {
-    plist = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
+    plist = &pdialog->pcity->tile->units;
   }
 
   adj_base=

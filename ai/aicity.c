@@ -57,12 +57,12 @@
  * (city_here) that exist within a given city list. */
 #define city_range_iterate(city_here, list, range, city)            \
 {                                                                   \
-  Continent_id continent = map_get_continent(pcity->x, pcity->y);   \
+  Continent_id continent = map_get_continent(pcity->tile);	    \
   city_list_iterate(list, city) {                                   \
     if ((range == EFR_CITY && city == city_here)                    \
         || (range == EFR_LOCAL && acity == city_here)               \
         || (range == EFR_CONTINENT                                  \
-            && map_get_continent(city->x, city->y) == continent)    \
+            && map_get_continent(city->tile) == continent)	    \
         || (range == EFR_PLAYER)) {
 #define city_range_iterate_end \
   } } } city_list_iterate_end;
@@ -202,7 +202,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
   int nplayers = game.nplayers
                  - team_count_members_alive(pplayer->team);
   struct ai_data *ai = ai_data_get(pplayer);
-  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+  struct tile *ptile = pcity->tile;
   bool capital = is_capital(pcity);
   struct government *gov = get_gov_pplayer(pplayer);
 
@@ -261,7 +261,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
           /* WAG evaluated effects */
 	  case EFT_INCITE_DIST_PCT:
             if (palace) {
-              v += real_map_distance(pcity->x, pcity->y, palace->x, palace->y);
+              v += real_map_distance(pcity->tile, palace->tile);
             }
             break;
 	  case EFT_MAKE_HAPPY:
@@ -417,13 +417,13 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    if (ai_handicap(pplayer, H_DEFENSIVE)) {
 	      v += amount / 10; /* make AI slow */
 	    }
-            if (is_ocean(map_get_terrain(pcity->x, pcity->y))) {
-              v += ai->threats.ocean[-map_get_continent(pcity->x, pcity->y)]
+            if (is_ocean(map_get_terrain(pcity->tile))) {
+              v += ai->threats.ocean[-map_get_continent(pcity->tile)]
                    ? amount/5 : amount/20;
             } else {
-              adjc_iterate(pcity->x, pcity->y, x2, y2) {
-                if (is_ocean(map_get_terrain(x2, y2))) {
-                  if (ai->threats.ocean[-map_get_continent(x2, y2)]) {
+              adjc_iterate(pcity->tile, tile2) {
+                if (is_ocean(map_get_terrain(tile2))) {
+                  if (ai->threats.ocean[-map_get_continent(tile2)]) {
                     v += amount/5;
 		    break;
                   }
@@ -455,7 +455,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    if (ai->threats.continent[ptile->continent]
 		|| capital
 		|| (ai->threats.invasions
-		  && is_water_adjacent_to_tile(pcity->x, pcity->y))) {
+		  && is_water_adjacent_to_tile(pcity->tile))) {
               v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
 	    }
 	    v += (1 + ai->threats.invasions + !ai->threats.igwall) * c;
@@ -572,16 +572,16 @@ static void establish_city_distances(struct player *pplayer,
                                      : get_unit_type(freight)->move_rate;
 
   if (!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
-    wonder_continent = map_get_continent(pcity->x, pcity->y);
+    wonder_continent = map_get_continent(pcity->tile);
   } else {
     wonder_continent = 0;
   }
 
   pcity->ai.downtown = 0;
   city_list_iterate(pplayer->cities, othercity) {
-    distance = WARMAP_COST(othercity->x, othercity->y);
+    distance = WARMAP_COST(othercity->tile);
     if (wonder_continent != 0
-        && map_get_continent(othercity->x, othercity->y) == wonder_continent) {
+        && map_get_continent(othercity->tile) == wonder_continent) {
       othercity->ai.distance_to_wonder_city = distance;
     }
 
@@ -702,7 +702,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     if (!pcity->is_building_unit && is_wonder(pcity->currently_building) 
 	&& (is_unit_choice_type(pcity->ai.choice.type) 
 	    || pcity->ai.choice.choice != pcity->currently_building))
-      notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_STOPPED,
+      notify_player_ex(NULL, pcity->tile, E_WONDER_STOPPED,
 		       _("Game: The %s have stopped building The %s in %s."),
 		       get_nation_name_plural(pplayer->nation),
 		       get_impr_name_ex(pcity, pcity->currently_building),
@@ -712,7 +712,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 	&& is_wonder(pcity->ai.choice.choice)
 	&& (pcity->is_building_unit 
 	    || pcity->currently_building != pcity->ai.choice.choice)) {
-      notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_STARTED,
+      notify_player_ex(NULL, pcity->tile, E_WONDER_STARTED,
 		       _("Game: The %s have started building The %s in %s."),
 		       get_nation_name_plural(city_owner(pcity)->nation),
 		       get_impr_name_ex(pcity, pcity->ai.choice.choice),
@@ -762,7 +762,7 @@ static void increase_maxbuycost(struct player *pplayer, int new_value)
 static void ai_upgrade_units(struct city *pcity, int limit, bool military)
 {
   struct player *pplayer = city_owner(pcity);
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+  unit_list_iterate(pcity->tile->units, punit) {
     int id = can_upgrade_unittype(pplayer, punit->type);
     if (military && (!is_military_unit(punit) || !is_ground_unit(punit))) {
       /* Only upgrade military units this round */
@@ -803,7 +803,7 @@ static void ai_spend_gold(struct player *pplayer)
    * FIXME: This is a hack, and should be removed once we
    * learn how to ferry explorers to new land. */
   city_list_iterate(pplayer->cities, pcity) {
-    struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+    struct tile *ptile = pcity->tile;
     unit_list_iterate_safe(ptile->units, punit) {
       if (unit_has_role(punit->type, L_EXPLORER)
           && pcity->id == punit->homecity
@@ -1006,7 +1006,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
        && (is_building_replaced(pcity, i)
 	   || building_unwanted(city_owner(pcity), i))) {
       do_sell_building(pplayer, pcity, i);
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD,
+      notify_player_ex(pplayer, pcity->tile, E_IMP_SOLD,
 		       _("Game: %s is selling %s (not needed) for %d."), 
 		       pcity->name, get_improvement_name(i), 
 		       impr_sell_gold(i));
@@ -1046,19 +1046,19 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
           pcity->food_surplus, pcity->shield_surplus);
 
   city_list_init(&minilist);
-  map_city_radius_iterate(pcity->x, pcity->y, x, y) {
-    struct city *acity = map_get_tile(x,y)->worked;
+  map_city_radius_iterate(pcity->tile, ptile) {
+    struct city *acity = ptile->worked;
     int city_map_x, city_map_y;
     bool is_valid;
 
     if (acity && acity != pcity && acity->owner == pcity->owner)  {
-      if (same_pos(acity->x, acity->y, x, y)) {
+      if (same_pos(acity->tile, ptile)) {
         /* can't stop working city center */
         continue;
       }
       freelog(LOG_DEBUG, "%s taking over %s's square in (%d, %d)",
-              pcity->name, acity->name, x, y);
-      is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, x, y);
+              pcity->name, acity->name, ptile->x, ptile->y);
+      is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, ptile);
       assert(is_valid);
       server_remove_worker_city(acity, city_map_x, city_map_y);
       acity->specialists[SP_ELVIS]++;

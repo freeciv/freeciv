@@ -18,19 +18,19 @@ struct citytile {
 };
 
 struct cityresult {
-  int x, y;               /* coords */
+  struct tile *tile;
   int total;              /* total value of position */
   int result;             /* amortized and adjusted total value */
   int corruption, waste;
   bool overseas;          /* have to use boat to get there */
   bool virt_boat;         /* virtual boat was used in search, 
 			   * so need to build one */
-  int other_x, other_y;   /* coords to best other tile */
+  struct tile *other_tile;/* coords to best other tile */
   int o_x, o_y;           /* city-relative coords for other tile */
   int city_center;        /* value of city center */
   int best_other;         /* value of best other tile */
   int remaining;          /* value of all other tiles */
-  struct citytile tile[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  struct citytile citymap[CITY_MAP_SIZE][CITY_MAP_SIZE];
 };
 
 void cityresult_fill(struct player *pplayer,

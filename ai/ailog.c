@@ -95,7 +95,7 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
 
   my_snprintf(buffer, sizeof(buffer), "%s's %s(%d,%d) [s%d d%d u%d g%d] ",
               city_owner(pcity)->name, pcity->name,
-              pcity->x, pcity->y, pcity->size,
+              pcity->tile->x, pcity->tile->y, pcity->size,
               pcity->ai.danger, pcity->ai.urgency,
               pcity->ai.grave_danger);
 
@@ -130,7 +130,7 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
   } else {
     /* Are we a virtual unit evaluated in a debug city?. */
     if (punit->id == 0) {
-      struct city *pcity = map_get_city(punit->x, punit->y);
+      struct city *pcity = map_get_city(punit->tile);
 
       if (pcity && pcity->debug) {
         minlevel = LOG_NORMAL;
@@ -142,16 +142,16 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
     }
   }
 
-  if (is_goto_dest_set(punit)) {
-    gx = goto_dest_x(punit);
-    gy = goto_dest_y(punit);
+  if (punit->goto_tile) {
+    gx = punit->goto_tile->x;
+    gy = punit->goto_tile->y;
   } else {
     gx = gy = -1;
   }
   
   my_snprintf(buffer, sizeof(buffer), "%s's %s[%d] (%d,%d)->(%d,%d){%d,%d} ",
               unit_owner(punit)->name, unit_type(punit)->name,
-              punit->id, punit->x, punit->y,
+              punit->id, punit->tile->x, punit->tile->y,
 	      gx, gy,
               punit->ai.bodyguard, punit->ai.ferryboat);
 
@@ -177,7 +177,8 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
   int minlevel = MIN(LOGLEVEL_BODYGUARD, level);
   struct unit *pcharge;
   struct city *pcity;
-  int x = -1, y = -1, id = -1;
+  int id = -1;
+  struct tile *ptile = NULL;
   const char *s = "none";
 
   if (punit->debug) {
@@ -189,20 +190,19 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
   pcity = find_city_by_id(punit->ai.charge);
   pcharge = find_unit_by_id(punit->ai.charge);
   if (pcharge) {
-    x = pcharge->x;
-    y = pcharge->y;
+    ptile = pcharge->tile;
     id = pcharge->id;
     s = unit_type(pcharge)->name;
   } else if (pcity) {
-    x = pcity->x;
-    y = pcity->y;
+    ptile = pcity->tile;
     id = pcity->id;
     s = pcity->name;
   }
   my_snprintf(buffer, sizeof(buffer),
               "%s's bodyguard %s[%d] (%d,%d){%s:%d@%d,%d} ",
               unit_owner(punit)->name, unit_type(punit)->name,
-              punit->id, punit->x, punit->y, s, id, x, y);
+              punit->id, punit->tile->x, punit->tile->y,
+	      s, id, ptile->x, ptile->y);
   cat_snprintf(buffer, sizeof(buffer), msg);
   if (punit->debug) {
     notify_conn(&game.est_connections, buffer);

@@ -1692,7 +1692,7 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		  Map_InsertCommand(&list, _("Explode Nuclear"), PACK_USERDATA(punit, MENU_ORDER_NUKE));
 		if (get_transporter_capacity(punit) > 0)
 		  Map_InsertCommand(&list, _("Unload"), PACK_USERDATA(punit, MENU_ORDER_UNLOAD));
-		if (is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->x, punit->y))
+		if (is_unit_activity_on_tile(ACTIVITY_SENTRY, punit->tile))
 		  Map_InsertCommand(&list, _("Wake up"), PACK_USERDATA(punit, MENU_ORDER_WAKEUP_OTHERS));
 		if (punit != focus)
 		  Map_InsertCommand(&list, _("Activate"), PACK_USERDATA(punit, UNIT_ACTIVATE));
@@ -1700,7 +1700,7 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 		if (can_unit_do_activity(punit, ACTIVITY_IRRIGATE))
 		{
 		  static char irrtext[64];
-		  if (map_has_special(punit->x, punit->y, S_IRRIGATION) &&
+		  if (map_has_special(punit->tile, S_IRRIGATION) &&
 		      player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
 		  {
 		    sz_strlcpy(irrtext, _("Build Farmland"));
@@ -2139,7 +2139,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
          that overlaps another fogged tile, as on the main map, as no tiles in
          the city radius can be fogged. */
 
-      city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+      city_map_checked_iterate(pcity->tile, x, y, map_x, map_y) {
 	int canvas_x, canvas_y;
 
 	if (tile_get_known(map_x, map_y)
@@ -2150,7 +2150,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
       } city_map_checked_iterate_end;
 
       /* We have to put the output afterwards or it will be covered. */
-      city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+      city_map_checked_iterate(pcity->tile, x, y, map_x, map_y) {
 	int canvas_x, canvas_y;
 
 	if (tile_get_known(map_x, map_y)
@@ -2168,7 +2168,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
          unit pixmap. This should maybe be moved to put_one_tile_pixmap()
          to fix this, but maybe it wouldn't be a good idea because the
          lines would get obscured. */
-      city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
+      city_map_checked_iterate(pcity->tile, x, y, map_x, map_y) {
 	int canvas_x, canvas_y;
 
 	if (tile_get_known(map_x, map_y)
@@ -2926,7 +2926,7 @@ static ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct
       if (context_menu)
       {
       	Object *entry;
-      	struct city *pcity = map_get_city(punit->x,punit->y);
+      	struct city *pcity = map_get_city(punit->tile);
 
 	if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Activate"), NULL, MUIO_Menuitem_CopyStrings, 0)))
 	{

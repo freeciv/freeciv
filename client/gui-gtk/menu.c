@@ -1163,13 +1163,13 @@ void update_menus(void)
 			  get_transporter_capacity(punit)>0);
       menus_set_sensitive("<main>/_Orders/Load",
 	can_unit_load(punit, find_transporter_for_unit(punit,
-						       punit->x, punit->y)));
+						       punit->tile)));
       menus_set_sensitive("<main>/_Orders/Unload",
 	(can_unit_unload(punit, find_unit_by_id(punit->transported_by))
-	 && can_unit_exist_at_tile(punit, punit->x, punit->y)));
+	 && can_unit_exist_at_tile(punit, punit->tile)));
       menus_set_sensitive("<main>/_Orders/Wake up o_thers", 
 			  is_unit_activity_on_tile(ACTIVITY_SENTRY,
-                                                   punit->x, punit->y));
+                                                   punit->tile));
       menus_set_sensitive("<main>/_Orders/_Auto Settler",
                           can_unit_do_auto(punit));
       menus_set_sensitive("<main>/_Orders/Auto E_xplore",
@@ -1187,13 +1187,13 @@ void update_menus(void)
       menus_set_sensitive("<main>/_Orders/Diplomat|Spy Actions",
                           (is_diplomat_unit(punit)
                            && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-						     punit->x, punit->y)));
+						     punit->tile)));
       menus_set_sensitive("<main>/_Orders/Explode Nuclear",
 			  unit_flag(punit, F_NUCLEAR));
       if (unit_flag(punit, F_HELP_WONDER))
 	menus_rename("<main>/_Orders/_Build City", _("Help _Build Wonder"));
       else if (unit_flag(punit, F_CITIES)) {
-	if (map_get_city(punit->x, punit->y))
+	if (map_get_city(punit->tile))
 	  menus_rename("<main>/_Orders/_Build City", _("Add to City (_B)"));
 	else
 	  menus_rename("<main>/_Orders/_Build City", _("_Build City"));
@@ -1204,7 +1204,7 @@ void update_menus(void)
       if (unit_flag(punit, F_TRADE_ROUTE))
 	menus_rename("<main>/_Orders/Build _Road", _("Make Trade _Route"));
       else if (unit_flag(punit, F_SETTLERS)) {
-	if (map_has_special(punit->x, punit->y, S_ROAD)) {
+	if (map_has_special(punit->tile, S_ROAD)) {
 	  roadtext = _("Build _Railroad");
 	  road_activity=ACTIVITY_RAILROAD;  
 	} 
@@ -1217,13 +1217,13 @@ void update_menus(void)
 	menus_rename("<main>/_Orders/Build _Road", _("Build _Road"));
       }
 
-      ttype = map_get_tile(punit->x, punit->y)->terrain;
+      ttype = punit->tile->terrain;
       tinfo = get_tile_type(ttype);
       if (tinfo->irrigation_result != T_NONE
 	  && tinfo->irrigation_result != ttype) {
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
-      } else if (map_has_special(punit->x, punit->y, S_IRRIGATION)
+      } else if (map_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
 	sz_strlcpy(irrtext, _("Bu_ild Farmland"));

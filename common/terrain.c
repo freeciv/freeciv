@@ -134,7 +134,7 @@ void tile_types_free(void)
   This iterator behaves like adjc_iterate or cardinal_adjc_iterate depending
   on the value of card_only.
 ****************************************************************************/
-#define variable_adjc_iterate(center_x, center_y, x_itr, y_itr, card_only)  \
+#define variable_adjc_iterate(center_tile, itr_tile, card_only)		    \
 {									    \
   enum direction8 *_dirlist;						    \
   int _total;								    \
@@ -147,8 +147,7 @@ void tile_types_free(void)
     _total = map.num_valid_dirs;					    \
   }									    \
   									    \
-  adjc_dirlist_iterate(center_x, center_y, x_itr, y_itr,		    \
-		       _dir, _dirlist, _total) {
+  adjc_dirlist_iterate(center_tile, itr_tile, _dir, _dirlist, _total) {
 
 #define variable_adjc_iterate_end		                            \
   } adjc_dirlist_iterate_end;						    \
@@ -158,10 +157,10 @@ void tile_types_free(void)
 /****************************************************************************
   Returns TRUE iff any adjacent tile contains the given terrain.
 ****************************************************************************/
-bool is_terrain_near_tile(int map_x, int map_y, Terrain_type_id t)
+bool is_terrain_near_tile(const struct tile *ptile, Terrain_type_id t)
 {
-  adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
-    if (map_get_terrain(adjc_x, adjc_y) == t) {
+  adjc_iterate(ptile, adjc_tile) {
+    if (adjc_tile->terrain == t) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -172,14 +171,14 @@ bool is_terrain_near_tile(int map_x, int map_y, Terrain_type_id t)
 /****************************************************************************
   Return the number of adjacent tiles that have the given terrain.
 ****************************************************************************/
-int count_terrain_near_tile(int map_x, int map_y,
+int count_terrain_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
 			    Terrain_type_id t)
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(map_x, map_y, adjc_x, adjc_y, cardinal_only) {
-    if (map_get_terrain(adjc_x, adjc_y) == t) {
+  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
+    if (map_get_terrain(adjc_tile) == t) {
       count++;
     }
     total++;
@@ -194,10 +193,10 @@ int count_terrain_near_tile(int map_x, int map_y,
 /****************************************************************************
   Returns TRUE iff any tile adjacent to (map_x,map_y) has the given special.
 ****************************************************************************/
-bool is_special_near_tile(int map_x, int map_y, enum tile_special_type spe)
+bool is_special_near_tile(const struct tile *ptile, enum tile_special_type spe)
 {
-  adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
-    if (map_has_special(adjc_x, adjc_y, spe)) {
+  adjc_iterate(ptile, adjc_tile) {
+    if (map_has_special(adjc_tile, spe)) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -208,14 +207,14 @@ bool is_special_near_tile(int map_x, int map_y, enum tile_special_type spe)
 /****************************************************************************
   Returns the number of adjacent tiles that have the given map special.
 ****************************************************************************/
-int count_special_near_tile(int map_x, int map_y,
+int count_special_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
 			    enum tile_special_type spe)
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(map_x, map_y, adjc_x, adjc_y, cardinal_only) {
-    if (map_has_special(adjc_x, adjc_y, spe)) {
+  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
+    if (map_has_special(adjc_tile, spe)) {
       count++;
     }
     total++;
@@ -230,11 +229,11 @@ int count_special_near_tile(int map_x, int map_y,
 /****************************************************************************
   Returns TRUE iff any adjacent tile contains terrain with the given flag.
 ****************************************************************************/
-bool is_terrain_flag_near_tile(int map_x, int map_y,
+bool is_terrain_flag_near_tile(const struct tile *ptile,
 			       enum terrain_flag_id flag)
 {
-  adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
-    if (terrain_has_flag(map_get_terrain(adjc_x, adjc_y), flag)) {
+  adjc_iterate(ptile, adjc_tile) {
+    if (terrain_has_flag(map_get_terrain(adjc_tile), flag)) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -245,14 +244,14 @@ bool is_terrain_flag_near_tile(int map_x, int map_y,
 /****************************************************************************
   Return the number of adjacent tiles that have terrain with the given flag.
 ****************************************************************************/
-int count_terrain_flag_near_tile(int map_x, int map_y,
+int count_terrain_flag_near_tile(const struct tile *ptile,
 				 bool cardinal_only, bool percentage,
 				 enum terrain_flag_id flag)
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(map_x, map_y, adjc_x, adjc_y, cardinal_only) {
-    if (terrain_has_flag(map_get_terrain(adjc_x, adjc_y), flag)) {
+  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
+    if (terrain_has_flag(map_get_terrain(adjc_tile), flag)) {
       count++;
     }
     total++;

@@ -175,20 +175,17 @@ void popup_notify_dialog(const char *caption, const char *headline,
 static void notify_goto_response(GtkWidget *w, gint response)
 {
   struct city *pcity = NULL;
-  int x, y;
-
-  x = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(w), "x"));
-  y = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(w), "y"));
+  struct tile *ptile = g_object_get_data(G_OBJECT(w), "tile");
 
   switch (response) {
   case 1:
-    center_tile_mapcanvas(x, y);
+    center_tile_mapcanvas(ptile);
     break;
   case 2:
-    pcity = map_get_city(x, y);
+    pcity = map_get_city(ptile);
 
     if (center_when_popup_city) {
-      center_tile_mapcanvas(x, y);
+      center_tile_mapcanvas(ptile);
     }
 
     if (pcity) {
@@ -205,7 +202,7 @@ static void notify_goto_response(GtkWidget *w, gint response)
   location.
 **************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
-			      int x, int y)
+			      struct tile *ptile)
 {
   GtkWidget *shell, *label, *goto_command, *popcity_command;
   
@@ -234,19 +231,18 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_CLOSE,
 			GTK_RESPONSE_CLOSE);
 
-  if (x == -1 || y == -1) {
+  if (!ptile) {
     gtk_widget_set_sensitive(goto_command, FALSE);
     gtk_widget_set_sensitive(popcity_command, FALSE);
   } else {
     struct city *pcity;
 
-    pcity = map_get_city(x, y);
+    pcity = map_get_city(ptile);
     gtk_widget_set_sensitive(popcity_command,
       (pcity && city_owner(pcity) == game.player_ptr));
   }
 
-  g_object_set_data(G_OBJECT(shell), "x", GINT_TO_POINTER(x));
-  g_object_set_data(G_OBJECT(shell), "y", GINT_TO_POINTER(y));
+  g_object_set_data(G_OBJECT(shell), "tile", ptile);
 
   g_signal_connect(shell, "response", G_CALLBACK(notify_goto_response), NULL);
   gtk_widget_show(shell);
@@ -784,7 +780,7 @@ static void diplomat_keep_moving_callback(GtkWidget *w, gpointer data)
   
   if( (punit=find_unit_by_id(diplomat_id))
       && (pcity=find_city_by_id(diplomat_target_id))
-      && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+      && !same_pos(punit->tile, pcity->tile)) {
     request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
 			    diplomat_target_id, 0);
   }
@@ -812,7 +808,7 @@ static void diplomat_cancel_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
+void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 {
   struct city *pcity;
   struct unit *ptunit;
@@ -821,7 +817,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
   diplomat_id = punit->id;
 
-  if ((pcity = map_get_city(dest_x, dest_y))) {
+  if ((pcity = map_get_city(dest_tile))) {
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id = pcity->id;
@@ -841,17 +837,17 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
 	NULL);
 
-      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
 	message_dialog_button_set_sensitive(shl, 0, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
 	message_dialog_button_set_sensitive(shl, 1, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
 	message_dialog_button_set_sensitive(shl, 2, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
 	message_dialog_button_set_sensitive(shl, 3, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
 	message_dialog_button_set_sensitive(shl, 4, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
 	message_dialog_button_set_sensitive(shl, 5, FALSE);
     } else {
        shl = popup_message_dialog(GTK_WINDOW(toplevel),
@@ -866,19 +862,19 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
 	NULL);
 
-      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
 	message_dialog_button_set_sensitive(shl, 0, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
 	message_dialog_button_set_sensitive(shl, 1, FALSE);
-      if (!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, SPY_POISON, dest_tile))
 	message_dialog_button_set_sensitive(shl, 2, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
 	message_dialog_button_set_sensitive(shl, 3, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
 	message_dialog_button_set_sensitive(shl, 4, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
 	message_dialog_button_set_sensitive(shl, 5, FALSE);
-      if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
+      if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
 	message_dialog_button_set_sensitive(shl, 6, FALSE);
      }
 
@@ -890,7 +886,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
     g_signal_connect(shl, "delete_event",
 		     G_CALLBACK(diplomat_cancel_callback), NULL);
   } else { 
-    if ((ptunit = unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
+    if ((ptunit = unit_list_get(&dest_tile->units, 0))){
       /* Spy/Diplomat acting against a unit */ 
        
       diplomat_target_id = ptunit->id;
@@ -905,10 +901,10 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	GTK_STOCK_CANCEL, diplomat_cancel_callback, NULL,
 	NULL);
 
-      if (!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y)) {
+      if (!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_tile)) {
 	message_dialog_button_set_sensitive(shl, 0, FALSE);
       }
-      if (!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y)) {
+      if (!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile)) {
 	message_dialog_button_set_sensitive(shl, 1, FALSE);
       }
 

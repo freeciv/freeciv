@@ -55,7 +55,7 @@ Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
   simple_ai_unit_type_iterate(i) {
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && (m == LAND_MOVING || m == SEA_MOVING)) {
-      j = get_virtual_defense_power(v, i, pcity->x, pcity->y, FALSE, FALSE);
+      j = get_virtual_defense_power(v, i, pcity->tile, FALSE, FALSE);
       if (j > best || (j == best && unit_build_shield_cost(i) <=
                                     unit_build_shield_cost(bestid))) {
         best = j;
@@ -205,7 +205,7 @@ int assess_defense_quadratic(struct city *pcity)
   while (walls * walls < pcity->ai.wallvalue * 10)
     walls++;
 
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+  unit_list_iterate(pcity->tile->units, punit) {
     defense += base_assess_defense_unit(pcity, punit, igwall, FALSE,
                                         walls);
   } unit_list_iterate_end;
@@ -242,7 +242,7 @@ static int assess_defense_backend(struct city *pcity, bool igwall)
   /* Estimate of our total city defensive might */
   int defense = 0;
 
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+  unit_list_iterate(pcity->tile->units, punit) {
     defense += assess_defense_unit(pcity, punit, igwall);
   } unit_list_iterate_end;
 
@@ -318,7 +318,7 @@ static unsigned int assess_danger_unit(struct city *pcity, struct unit *punit)
   if (unit_flag(punit, F_NO_LAND_ATTACK)) return 0;
 
   sailing = is_sailing_unit(punit);
-  if (sailing && !is_ocean_near_tile(pcity->x, pcity->y)) {
+  if (sailing && !is_ocean_near_tile(pcity->tile)) {
     return 0;
   }
 
@@ -342,23 +342,23 @@ static int assess_distance(struct city *pcity, struct unit *punit,
   int distance = 0;
   struct unit *ferry = find_unit_by_id(punit->transported_by);
 
-  if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+  if (same_pos(punit->tile, pcity->tile)) {
     return 0;
   }
 
-  if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) {
+  if (is_tiles_adjacent(punit->tile, pcity->tile)) {
     distance = SINGLE_MOVE;
   } else if (is_sailing_unit(punit)) {
-    distance = WARMAP_SEACOST(punit->x, punit->y);
+    distance = WARMAP_SEACOST(punit->tile);
   } else if (!is_ground_unit(punit)) {
-    distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y)
+    distance = real_map_distance(punit->tile, pcity->tile)
                * SINGLE_MOVE;
   } else if (is_ground_unit(punit) && ferry) {
-    distance = WARMAP_SEACOST(ferry->x, ferry->y); /* Sea travellers. */
+    distance = WARMAP_SEACOST(ferry->tile); /* Sea travellers. */
   } else if (unit_flag(punit, F_IGTER)) {
-    distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
+    distance = real_map_distance(punit->tile, pcity->tile);
   } else {
-    distance = WARMAP_COST(punit->x, punit->y);
+    distance = WARMAP_COST(punit->tile);
   }
 
   /* If distance = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
@@ -446,7 +446,7 @@ static unsigned int assess_danger(struct city *pcity)
   bool pikemen = FALSE;
   unsigned int urgency = 0;
   int igwall_threat = 0;
-  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+  struct tile *ptile = pcity->tile;
 
   memset(&danger, 0, sizeof(danger));
 
@@ -657,7 +657,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
                                   unsigned int danger, struct ai_choice *choice)
 {
   bool walls = city_got_citywalls(pcity);
-  bool shore = is_ocean_near_tile(pcity->x, pcity->y);
+  bool shore = is_ocean_near_tile(pcity->tile);
   /* Technologies we would like to have. */
   int tech_desire[U_LAST];
   /* Our favourite unit. */
@@ -774,14 +774,14 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 static void process_attacker_want(struct city *pcity,
                                   int value, Unit_Type_id victim_unit_type,
-                                  int veteran, int x, int y,
+                                  int veteran, struct tile *ptile,
                                   struct ai_choice *best_choice,
                                   struct unit *boat, Unit_Type_id boattype)
 {
   struct player *pplayer = city_owner(pcity);
   /* The enemy city.  acity == NULL means stray enemy unit */
-  struct city *acity = map_get_city(x, y);
-  bool shore = is_ocean_near_tile(pcity->x, pcity->y);
+  struct city *acity = map_get_city(ptile);
+  bool shore = is_ocean_near_tile(pcity->tile);
   int orig_move_type = unit_types[best_choice->choice].move_type;
   int victim_count = 1;
   int needferry = 0;
@@ -795,10 +795,10 @@ static void process_attacker_want(struct city *pcity,
     needferry = unit_build_shield_cost(boattype);
   }
   
-  if (!is_stack_vulnerable(x,y)) {
+  if (!is_stack_vulnerable(ptile)) {
     /* If it is a city, a fortress or an air base,
      * we may have to whack it many times */
-    victim_count += unit_list_size(&(map_get_tile(x, y)->units));
+    victim_count += unit_list_size(&(ptile->units));
   }
 
   simple_ai_unit_type_iterate (unit_type) {
@@ -861,14 +861,14 @@ static void process_attacker_want(struct city *pcity,
                                         (boattype < U_LAST), boat, boattype);
       } else {
         /* Target is in the field */
-        move_time = turns_to_enemy_unit(unit_type, move_rate, x, y, 
+        move_time = turns_to_enemy_unit(unit_type, move_rate, ptile,
                                         victim_unit_type);
       }
 
       /* Estimate strength of the enemy. */
       
       vuln = unittype_def_rating_sq(unit_type, victim_unit_type,
-                                    x, y, FALSE, veteran);
+                                    ptile, FALSE, veteran);
 
       /* Not bothering to s/!vuln/!pdef/ here for the time being. -- Syela
        * (this is noted elsewhere as terrible bug making warships yoyoing) 
@@ -917,7 +917,7 @@ static void process_attacker_want(struct city *pcity,
           CITY_LOG(LOG_DEBUG, pcity, "wants %s to build %s to punish %s@(%d,%d)"
                    " with desire %d", advances[tech_req].name, 
                    unit_name(unit_type), (acity ? acity->name : "enemy"),
-                   x, y, want);
+                   ptile, want);
 
         } else if (want > best_choice->want) {
           if (can_build_unit(pcity, unit_type)) {
@@ -973,7 +973,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   /* Enemy defender type */
   Unit_Type_id def_type;
   /* Target coordinates */
-  int x, y;
+  struct tile *ptile;
   /* Our transport */
   struct unit *ferryboat = NULL;
   /* Out target */
@@ -981,7 +981,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   /* Defender of the target city/tile */
   struct unit *pdef; 
   /* Coordinates of the boat */
-  int bx = 0, by = 0;
+  struct tile *boat_tile = NULL;
   /* Type of the boat (real or a future one) */
   Unit_Type_id boattype = U_LAST;
   bool go_by_boat;
@@ -1008,7 +1008,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
 
   if (is_ground_unit(myunit)) {
-    int boatid = find_boat(pplayer, &bx, &by, 2);
+    int boatid = find_boat(pplayer, &boat_tile, 2);
     ferryboat = player_find_unit_by_id(pplayer, boatid);
   }
 
@@ -1022,9 +1022,9 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     }
   }
 
-  best_choice.want = find_something_to_kill(pplayer, myunit, &x, &y);
+  best_choice.want = find_something_to_kill(pplayer, myunit, &ptile);
 
-  acity = map_get_city(x, y);
+  acity = map_get_city(ptile);
 
   if (myunit->id != 0) {
     freelog(LOG_ERROR, "ERROR: Non-virtual unit in kill_something_with!");
@@ -1055,8 +1055,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       return;
     }
 
-    go_by_boat = !(goto_is_sane(myunit, acity->x, acity->y, TRUE) 
-                  && WARMAP_COST(x, y) <= (MIN(6, move_rate) * THRESHOLD));
+    go_by_boat = !(goto_is_sane(myunit, acity->tile, TRUE) 
+                  && WARMAP_COST(ptile) <= (MIN(6, move_rate) * THRESHOLD));
     move_time = turns_to_enemy_city(myunit->type, acity, move_rate, 
                                     go_by_boat, ferryboat, boattype);
 
@@ -1064,7 +1064,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     if (move_time > 1) {
       def_vet = do_make_unit_veteran(acity, def_type);
       vuln = unittype_def_rating_sq(myunit->type, def_type,
-                                    x, y, FALSE, def_vet);
+                                    ptile, FALSE, def_vet);
       benefit = unit_build_shield_cost(def_type);
     } else {
       vuln = 0;
@@ -1072,10 +1072,10 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       def_vet = 0;
     }
 
-    pdef = get_defender(myunit, x, y);
+    pdef = get_defender(myunit, ptile);
     if (pdef) {
       int m = unittype_def_rating_sq(myunit->type, pdef->type,
-                                     x, y, FALSE, pdef->veteran);
+                                     ptile, FALSE, pdef->veteran);
       if (vuln < m) {
         vuln = m;
         benefit = unit_build_shield_cost(pdef->type);
@@ -1091,7 +1091,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     /* end dealing with cities */
   } else {
 
-    pdef = get_defender(myunit, x, y);
+    pdef = get_defender(myunit, ptile);
     if (!pdef) {
       /* Nobody to attack! */
       return;
@@ -1106,12 +1106,12 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
   
   if (!go_by_boat) {
-    process_attacker_want(pcity, benefit, def_type, def_vet, x, y, 
+    process_attacker_want(pcity, benefit, def_type, def_vet, ptile, 
                           &best_choice, NULL, U_LAST);
   } else { 
     /* Attract a boat to our city or retain the one that's already here */
     best_choice.need_boat = TRUE;
-    process_attacker_want(pcity, benefit, def_type, def_vet, x, y, 
+    process_attacker_want(pcity, benefit, def_type, def_vet, ptile, 
                           &best_choice, ferryboat, boattype);
   }
 
@@ -1213,7 +1213,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 {
   Unit_Type_id unit_type;
   unsigned int our_def, danger, urgency;
-  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+  struct tile *ptile = pcity->tile;
   struct unit *virtualunit;
 
   init_choice(choice);

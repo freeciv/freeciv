@@ -377,9 +377,10 @@ void send_turn_done(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void send_goto_unit(struct unit *punit, int dest_x, int dest_y)
+void send_goto_unit(struct unit *punit, struct tile *dest_tile)
 {
-  dsend_packet_unit_goto(&aconnection, punit->id,dest_x,dest_y);
+  dsend_packet_unit_goto(&aconnection, punit->id,
+			 dest_tile->x, dest_tile->y);
 }
 
 /**************************************************************************
@@ -451,7 +452,7 @@ void set_client_state(enum client_states newstate)
 
     if (client_state == CLIENT_GAME_RUNNING_STATE) {
       load_ruleset_specific_options();
-      create_event(-1, -1, E_GAME_START, _("Game started."));
+      create_event(NULL, E_GAME_START, _("Game started."));
       precalc_tech_data();
       update_research(game.player_ptr);
       role_unit_precalcs();

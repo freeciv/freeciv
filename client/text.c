@@ -128,11 +128,10 @@ static void real_add(char **buffer, size_t * buffer_size, const char *format,
 /****************************************************************************
   Text to popup on a middle-click in the mapview.
 ****************************************************************************/
-const char *popup_info_text(int map_x, int map_y)
+const char *popup_info_text(struct tile *ptile)
 {
   const char *activity_text;
-  struct city *pcity = map_get_city(map_x, map_y);
-  struct tile *ptile = map_get_tile(map_x, map_y);
+  struct city *pcity = ptile->city;
   struct unit *punit = find_visible_unit(ptile);
   const char *diplo_nation_plural_adjectives[DS_LAST] =
     {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
@@ -148,17 +147,16 @@ const char *popup_info_text(int map_x, int map_y)
 
 #ifdef DEBUG
   add_line(_("Location: (%d, %d) [%d]"), 
-	   map_x, map_y, ptile->continent); 
+	   ptile->x, ptile->y, ptile->continent); 
 #endif /*DEBUG*/
-  add_line(_("Terrain: %s"),
-	   map_get_tile_info_text(map_x, map_y));
+  add_line(_("Terrain: %s"),  map_get_tile_info_text(ptile));
   add_line(_("Food/Prod/Trade: %s"),
-	   map_get_tile_fpt_text(map_x, map_y));
+	   map_get_tile_fpt_text(ptile));
   if (tile_has_special(ptile, S_HUT)) {
     add_line(_("Minor Tribe Village"));
   }
   if (game.borders > 0 && !pcity) {
-    struct player *owner = map_get_owner(map_x, map_y);
+    struct player *owner = map_get_owner(ptile);
     struct player_diplstate *ds = game.player_ptr->diplstates;
 
     if (owner == game.player_ptr){
@@ -233,7 +231,7 @@ const char *popup_info_text(int map_x, int map_y)
     add_line(_("Infrastructure: %s"),
 	     map_get_infrastructure_text(ptile->special));
   }
-  activity_text = concat_tile_activity_text(map_x, map_y);
+  activity_text = concat_tile_activity_text(ptile);
   if (strlen(activity_text) > 0) {
     add_line(_("Activity: %s"), activity_text);
   }
@@ -286,13 +284,12 @@ const char *popup_info_text(int map_x, int map_y)
   This should only be used inside popup_info_text and should eventually be
   made static.
 ****************************************************************************/
-const char *concat_tile_activity_text(int map_x, int map_y)
+const char *concat_tile_activity_text(struct tile *ptile)
 {
   int activity_total[ACTIVITY_LAST];
   int activity_units[ACTIVITY_LAST];
   int num_activities = 0;
   int remains, turns, i, mr, au;
-  struct tile *ptile = map_get_tile(map_x, map_y);
   INIT;
 
   memset(activity_total, 0, sizeof(activity_total));
@@ -314,7 +311,7 @@ const char *concat_tile_activity_text(int map_x, int map_y)
       if (num_activities > 0) {
 	add("/");
       }
-      remains = map_activity_time(i, map_x, map_y) - activity_total[i];
+      remains = map_activity_time(i, ptile) - activity_total[i];
       if (remains > 0) {
 	turns = 1 + (remains + activity_units[i] - 1) / activity_units[i];
       } else {
@@ -483,7 +480,7 @@ const char *get_unit_info_label_text2(struct unit *punit)
     struct city *pcity =
 	player_find_city_by_id(game.player_ptr, punit->homecity);
     int infrastructure =
-	get_tile_infrastructure_set(map_get_tile(punit->x, punit->y));
+	get_tile_infrastructure_set(punit->tile);
 
     if (hover_unit == punit->id) {
       add_line(_("Turns to target: %d"), get_goto_turns());
@@ -491,7 +488,7 @@ const char *get_unit_info_label_text2(struct unit *punit)
       add_line("%s", unit_activity_text(punit));
     }
 
-    add_line("%s", map_get_tile_info_text(punit->x, punit->y));
+    add_line("%s", map_get_tile_info_text(punit->tile));
     if (infrastructure) {
       add_line("%s", map_get_infrastructure_text(infrastructure));
     } else {

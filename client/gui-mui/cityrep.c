@@ -179,7 +179,7 @@ static void cityrep_center(void)
 
   if (pcity)
   {
-    center_tile_mapcanvas(pcity->x, pcity->y);
+    center_tile_mapcanvas(pcity->tile);
   }
 }
 
@@ -195,7 +195,7 @@ static void cityrep_popup(void)
   if (pcity)
   {
     if (center_when_popup_city) {
-      center_tile_mapcanvas(pcity->x, pcity->y);
+      center_tile_mapcanvas(pcity->tile);
     }
     popup_city_dialog(pcity, 0);
   }

@@ -283,7 +283,7 @@ void popdown_notify_dialog(void)
 /* surely this should use genlists??  --dwp */
 struct widget_list {
   GtkWidget *w;
-  int x,y;
+  struct tile *tile;
   struct widget_list *next;
 };
 static struct widget_list *notify_goto_widget_list = NULL;
@@ -308,34 +308,36 @@ static void notify_goto_widget_remove(GtkWidget *w)
   }
 }
 
-static void notify_goto_find_widget(GtkWidget *w, int *x, int *y)
+static struct tile *notify_goto_find_widget(GtkWidget *w)
 {
   struct widget_list *cur;
-  *x=0;
-  *y=0;
-  for (cur = notify_goto_widget_list; cur && cur->w !=w; cur = cur->next);
+
+  for (cur = notify_goto_widget_list; cur && cur->w !=w; cur = cur->next) {
+    /* Nothing */
+  }
+
   if (cur) {
-    *x = cur->x;
-    *y = cur->y;
+    return cur->tile;
+  } else {
+    return NULL;
   }
 }
 
-static void notify_goto_add_widget_coords(GtkWidget *w, int  x, int y)
+static void notify_goto_add_widget_tile(GtkWidget *w, struct tile *ptile)
 {
   struct widget_list *newwidget;
   newwidget = fc_malloc(sizeof(struct widget_list));
   newwidget->w = w;
-  newwidget->x = x;
-  newwidget->y = y;
+  newwidget->tile = ptile;
   newwidget->next = notify_goto_widget_list;
   notify_goto_widget_list = newwidget;
 }
 
 static void notify_goto_command_callback(GtkWidget *w, gpointer data)
 {
-  int x,y;
-  notify_goto_find_widget(w, &x, &y);
-  center_tile_mapcanvas(x, y);
+  struct tile *ptile =  notify_goto_find_widget(w);
+
+  center_tile_mapcanvas(ptile);
   notify_goto_widget_remove(w);
 
   gtk_widget_destroy(w->parent->parent->parent);
@@ -363,12 +365,12 @@ static gint notify_deleted_callback(GtkWidget *widget, GdkEvent *event,
   location.
 **************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
-			      int x, int y)
+			      struct tile *ptile)
 {
   GtkWidget *notify_dialog_shell, *notify_command, *notify_goto_command;
   GtkWidget *notify_label;
   
-  if (!is_normal_map_pos(x, y)) {
+  if (!ptile) {
     popup_notify_dialog(_("Message:"), headline, lines);
     return;
   }
@@ -394,7 +396,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 		GTK_SIGNAL_FUNC(notify_no_goto_command_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(notify_goto_command), "clicked",
 		GTK_SIGNAL_FUNC(notify_goto_command_callback), NULL);
-  notify_goto_add_widget_coords(notify_goto_command, x, y);
+  notify_goto_add_widget_tile(notify_goto_command, ptile);
 
   gtk_set_relative_position(toplevel, notify_dialog_shell, 25, 25);
 
@@ -974,7 +976,7 @@ static void diplomat_keep_moving_callback(gpointer data)
   
   if( (punit=find_unit_by_id(diplomat_id))
       && (pcity=find_city_by_id(diplomat_target_id))
-      && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+      && !same_pos(punit->tile, pcity->tile)) {
     request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
 			    diplomat_target_id, 0);
   }
@@ -995,7 +997,7 @@ static void diplomat_close_callback(gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
+void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 {
   struct city *pcity;
   struct unit *ptunit;
@@ -1004,7 +1006,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
   diplomat_id=punit->id;
 
-  if((pcity=map_get_city(dest_x, dest_y))){
+  if((pcity=map_get_city(dest_tile))){
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id=pcity->id;
@@ -1025,17 +1027,17 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
          		     _("_Cancel"), NULL, 0,
          		     0);
       
-      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
        message_dialog_button_set_sensitive(shl,"button0",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
        message_dialog_button_set_sensitive(shl,"button1",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
        message_dialog_button_set_sensitive(shl,"button2",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
        message_dialog_button_set_sensitive(shl,"button3",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
        message_dialog_button_set_sensitive(shl,"button4",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
        message_dialog_button_set_sensitive(shl,"button5",FALSE);
     }else{
        shl = popup_message_dialog(top_vbox, /*"spydialog"*/
@@ -1051,25 +1053,25 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
  		_("_Cancel"), NULL, 0,
 		0);
  
-      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
        message_dialog_button_set_sensitive(shl,"button0",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
        message_dialog_button_set_sensitive(shl,"button1",FALSE);
-      if(!diplomat_can_do_action(punit, SPY_POISON, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, SPY_POISON, dest_tile))
        message_dialog_button_set_sensitive(shl,"button2",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
        message_dialog_button_set_sensitive(shl,"button3",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
        message_dialog_button_set_sensitive(shl,"button4",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
        message_dialog_button_set_sensitive(shl,"button5",FALSE);
-      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y))
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
        message_dialog_button_set_sensitive(shl,"button6",FALSE);
      }
 
     diplomat_dialog_open=1;
    }else{ 
-     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
+     if((ptunit=unit_list_get(&dest_tile->units, 0))){
        /* Spy/Diplomat acting against a unit */ 
        
        diplomat_target_id=ptunit->id;
@@ -1084,9 +1086,9 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
  			      _("_Cancel"), NULL, 0,
  			      0);
         
-       if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_x, dest_y))
+       if(!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_tile))
         message_dialog_button_set_sensitive(shl,"button0",FALSE);
-       if(!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_x, dest_y))
+       if(!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile))
         message_dialog_button_set_sensitive(shl,"button1",FALSE);
     }
   }

@@ -37,13 +37,14 @@ static struct unit_list previous_units;
 /**************************************************************************
 ...
 **************************************************************************/
-static void sha_tile_update(int x, int y)
+static void sha_tile_update(struct tile *ptile)
 {
-  int index = map_pos_to_index(x, y);
+  freelog(LOG_DEBUG, "sha got tile: %d ~= (%d, %d)",
+	  ptile->index, TILE_XY(ptile));
 
-  freelog(LOG_DEBUG, "sha got tile: %d ~= (%d, %d)", index, x, y);
-
-  previous_tiles[index] = *map_get_tile(x, y);
+#if 0
+  previous_tiles[ptile->index] = *ptile;
+#endif
 }
 
 /**************************************************************************
@@ -121,9 +122,9 @@ Public interface
 /**************************************************************************
 ...
 **************************************************************************/
-struct tile *sha_tile_recall(int x, int y)
+struct tile *sha_tile_recall(struct tile *ptile)
 {
-  return &previous_tiles[map_pos_to_index(x, y)];
+  return &previous_tiles[ptile->index];
 }
 
 /**************************************************************************

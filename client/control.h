@@ -38,13 +38,13 @@ extern bool non_ai_unit_focus;
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity);
 
 void do_move_unit(struct unit *punit, struct unit *target_unit);
-void do_unit_goto(int x, int y);
+void do_unit_goto(struct tile *ptile);
 void do_unit_nuke(struct unit *punit);
-void do_unit_paradrop_to(struct unit *punit, int x, int y);
-void do_unit_patrol_to(struct unit *punit, int x, int y);
-void do_unit_connect(struct unit *punit, int x, int y,
+void do_unit_paradrop_to(struct unit *punit, struct tile *ptile);
+void do_unit_patrol_to(struct unit *punit, struct tile *ptile);
+void do_unit_connect(struct unit *punit, struct tile *ptile,
 		     enum unit_activity activity);
-void do_map_click(int xtile, int ytile, enum quickselect_type qtype);
+void do_map_click(struct tile *ptile, enum quickselect_type qtype);
 
 void set_hover_state(struct unit *punit, enum cursor_hover_state state,
 		     enum unit_activity activity);
@@ -96,7 +96,7 @@ void request_toggle_units(void);
 void request_toggle_focus_unit(void);
 void request_toggle_fog_of_war(void);
 
-void wakeup_sentried_units(int x, int y);
+void wakeup_sentried_units(struct tile *ptile);
 
 void auto_center_on_focus_unit(void);
 void advance_unit_focus(void);

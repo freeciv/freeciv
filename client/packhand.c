@@ -85,8 +85,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   /* Owner, veteran, and type fields are already filled in by
    * create_unit_virtual. */
   punit->id = packet->id;
-  punit->x = packet->x;
-  punit->y = packet->y;
+  punit->tile = map_pos_to_tile(packet->x, packet->y);
   punit->homecity = packet->homecity;
   punit->moves_left = packet->movesleft;
   punit->hp = packet->hp;
@@ -99,9 +98,10 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   punit->ai.control = packet->ai;
   punit->fuel = packet->fuel;
   if (is_normal_map_pos(packet->goto_dest_x, packet->goto_dest_y)) {
-    set_goto_dest(punit, packet->goto_dest_x, packet->goto_dest_y);
+    punit->goto_tile = map_pos_to_tile(packet->goto_dest_x,
+				       packet->goto_dest_y);
   } else {
-    clear_goto_dest(punit);
+    punit->goto_tile = NULL;
   }
   punit->activity_target = packet->activity_target;
   punit->paradropped = packet->paradropped;
@@ -143,8 +143,7 @@ static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
 
   /* Owner and type fields are already filled in by create_unit_virtual. */
   punit->id = packet->id;
-  punit->x = packet->x;
-  punit->y = packet->y;
+  punit->tile = map_pos_to_tile(packet->x, packet->y);
   punit->veteran = packet->veteran;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
@@ -207,16 +206,16 @@ void handle_server_join_reply(bool you_can_join, char *message,
 void handle_city_remove(int city_id)
 {
   struct city *pcity = find_city_by_id(city_id);
-  int x, y;
+  struct tile *ptile;
 
   if (!pcity)
     return;
 
   agents_city_remove(pcity);
 
-  x = pcity->x; y = pcity->y;
+  ptile = pcity->tile;
   client_remove_city(pcity);
-  reset_move_costs(x, y);
+  reset_move_costs(ptile);
 
   /* update menus if the focus unit is on the tile. */
   if (get_unit_in_focus()) {
@@ -245,7 +244,7 @@ void handle_unit_remove(int unit_id)
 void handle_nuke_tile_info(int x, int y)
 {
   flush_dirty();
-  put_nuke_mushroom_pixmaps(x, y);
+  put_nuke_mushroom_pixmaps(map_pos_to_tile(x, y));
 }
 
 /**************************************************************************
@@ -260,14 +259,14 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
   struct unit *punit1 = find_unit_by_id(defender_unit_id);
 
   if (punit0 && punit1) {
-    if (tile_visible_mapcanvas(punit0->x, punit0->y) &&
-	tile_visible_mapcanvas(punit1->x, punit1->y)) {
+    if (tile_visible_mapcanvas(punit0->tile) &&
+	tile_visible_mapcanvas(punit1->tile)) {
       show_combat = TRUE;
     } else if (auto_center_on_combat) {
       if (punit0->owner == game.player_idx)
-	center_tile_mapcanvas(punit0->x, punit0->y);
+	center_tile_mapcanvas(punit0->tile);
       else
-	center_tile_mapcanvas(punit1->x, punit1->y);
+	center_tile_mapcanvas(punit1->tile);
       show_combat = TRUE;
     }
 
@@ -287,8 +286,8 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	punit1->hp = hp1;
 
 	set_units_in_combat(NULL, NULL);
-	refresh_tile_mapcanvas(punit0->x, punit0->y, FALSE);
-	refresh_tile_mapcanvas(punit1->x, punit1->y, FALSE);
+	refresh_tile_mapcanvas(punit0->tile, FALSE);
+	refresh_tile_mapcanvas(punit1->tile, FALSE);
       }
     }
   }
@@ -394,7 +393,8 @@ void handle_city_info(struct packet_city_info *packet)
   if(!pcity) {
     city_is_new = TRUE;
     pcity = create_city_virtual(get_player(packet->owner),
-				packet->x, packet->y, packet->name);
+				map_pos_to_tile(packet->x, packet->y),
+				packet->name);
     pcity->id=packet->id;
     idex_register_city(pcity);
     update_descriptions = TRUE;
@@ -424,8 +424,7 @@ void handle_city_info(struct packet_city_info *packet)
   }
   
   pcity->owner=packet->owner;
-  pcity->x=packet->x;
-  pcity->y=packet->y;
+  pcity->tile = map_pos_to_tile(packet->x, packet->y);
   sz_strlcpy(pcity->name, packet->name);
   
   pcity->size = packet->size;
@@ -516,7 +515,7 @@ void handle_city_info(struct packet_city_info *packet)
    * get an update if it changes. */
   if (can_player_see_units_in_city(game.player_ptr, pcity)) {
     pcity->client.occupied
-      = (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+      = (unit_list_size(&pcity->tile->units) > 0);
   }
 
   pcity->client.happy = city_happy(pcity);
@@ -564,7 +563,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     unit_list_init(&pcity->info_units_supported);
     unit_list_init(&pcity->info_units_present);
     city_list_insert(&city_owner(pcity)->cities, pcity);
-    map_set_city(pcity->x, pcity->y, pcity);
+    map_set_city(pcity->tile, pcity);
     if(pcity->owner==game.player_idx)
       city_report_dialog_update();
 
@@ -589,13 +588,13 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     int width = get_citydlg_canvas_width();
     int height = get_citydlg_canvas_height();
 
-    (void) map_to_canvas_pos(&canvas_x, &canvas_y, pcity->x, pcity->y);
+    (void) map_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
 
     update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 		      canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 		      width, height);
   } else {
-    refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
+    refresh_tile_mapcanvas(pcity->tile, FALSE);
   }
 
   if (city_workers_display==pcity)  {
@@ -618,18 +617,18 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   /* update menus if the focus unit is on the tile. */
   {
     struct unit *punit = get_unit_in_focus();
-    if (punit && same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+    if (punit && same_pos(punit->tile, pcity->tile)) {
       update_menus();
     }
   }
 
   if(is_new) {
     freelog(LOG_DEBUG, "New %s city %s id %d (%d %d)",
-	 get_nation_name(city_owner(pcity)->nation),
-	 pcity->name, pcity->id, pcity->x, pcity->y);
+	    get_nation_name(city_owner(pcity)->nation),
+	    pcity->name, pcity->id, TILE_XY(pcity->tile));
   }
 
-  reset_move_costs(pcity->x, pcity->y);
+  reset_move_costs(pcity->tile);
 }
 
 /**************************************************************************
@@ -667,8 +666,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   }
 
   pcity->owner=packet->owner;
-  pcity->x=packet->x;
-  pcity->y=packet->y;
+  pcity->tile = map_pos_to_tile(packet->x, packet->y);
   sz_strlcpy(pcity->name, packet->name);
   
   pcity->size=packet->size;
@@ -796,7 +794,7 @@ void handle_new_year(int year, int turn)
 
   if (sound_bell_at_new_turn &&
       (!game.player_ptr->ai.control || ai_manual_turn_done)) {
-    create_event(-1, -1, E_TURN_BELL, _("Start of turn %d"), game.turn);
+    create_event(NULL, E_TURN_BELL, _("Start of turn %d"), game.turn);
   }
 
   agents_new_turn();
@@ -839,7 +837,7 @@ void handle_start_turn(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void play_sound_for_event(enum event_type type)
+void play_sound_for_event(enum event_type type)
 {
   const char *sound_tag = get_sound_tag_for_event(type);
 
@@ -855,27 +853,13 @@ static void play_sound_for_event(enum event_type type)
 void handle_chat_msg(char *message, int x, int y,
 		     enum event_type event, int conn_id)
 {
-  int where = MW_OUTPUT;	/* where to display the message */
-  
-  if (event >= E_LAST)  {
-    /* Server may have added a new event; leave as MW_OUTPUT */
-    freelog(LOG_NORMAL, "Unknown event type %d!", event);
-  } else if (event >= 0)  {
-    where = messages_where[event];
+  struct tile *ptile = NULL;
+
+  if (is_normal_map_pos(x, y)) {
+    ptile = map_pos_to_tile(x, y);
   }
 
-  if (BOOL_VAL(where & MW_OUTPUT)) {
-    append_output_window_full(message, conn_id);
-  }
-  if (BOOL_VAL(where & MW_MESSAGES)) {
-    add_notify_window(message, x, y, event);
-  }
-  if (BOOL_VAL(where & MW_POPUP) &&
-      (!game.player_ptr->ai.control || ai_popup_windows)) {
-    popup_notify_goto_dialog(_("Popup Request"), message, x, y);
-  }
-
-  play_sound_for_event(event);
+  handle_event(message, ptile, event, conn_id);
 }
  
 /**************************************************************************
@@ -954,7 +938,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   struct unit *punit;
   bool repaint_unit = FALSE;
   bool repaint_city = FALSE;	/* regards unit's homecity */
-  int old_x = -1, old_y = -1;	/* make compiler happy; guarded by moved */
+  struct tile *old_tile = NULL;
   bool check_focus = FALSE;     /* conservative focus change */
   bool moved = FALSE;
   bool ret = FALSE;
@@ -1005,16 +989,14 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           && packet_unit->activity == ACTIVITY_IDLE
           && (!get_unit_in_focus()
               /* only 1 wakeup focus per tile is useful */
-              || !same_pos(packet_unit->x, packet_unit->y,
-                           get_unit_in_focus()->x,
-                           get_unit_in_focus()->y))) {
+              || !same_pos(packet_unit->tile, get_unit_in_focus()->tile))) {
         set_unit_focus(punit);
         check_focus = FALSE; /* and keep it */
 
         /* Autocenter on Wakeup, regardless of the local option 
          * "auto_center_on_unit". */
-        if (!tile_visible_and_not_on_border_mapcanvas(punit->x, punit->y)) {
-          center_tile_mapcanvas(punit->x, punit->y);
+        if (!tile_visible_and_not_on_border_mapcanvas(punit->tile)) {
+          center_tile_mapcanvas(punit->tile);
         }
       }
 
@@ -1069,7 +1051,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (punit->type != packet_unit->type) {
       /* Unit type has changed (been upgraded) */
-      struct city *pcity = map_get_city(punit->x, punit->y);
+      struct city *pcity = map_get_city(punit->tile);
       
       punit->type = packet_unit->type;
       repaint_unit = TRUE;
@@ -1089,12 +1071,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       check_focus = TRUE;
     }
 
-    if (!same_pos(punit->x, punit->y, packet_unit->x, packet_unit->y)) { 
+    if (!same_pos(punit->tile, packet_unit->tile)) { 
       /*** Change position ***/
-      struct city *pcity = map_get_city(punit->x, punit->y);
+      struct city *pcity = map_get_city(punit->tile);
 
-      old_x = punit->x;
-      old_y = punit->y;
+      old_tile = punit->tile;
       moved = TRUE;
 
       /* Show where the unit is going. */
@@ -1110,11 +1091,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	if (can_player_see_units_in_city(game.player_ptr, pcity)) {
 	  /* Unit moved out of a city - update the occupied status. */
 	  bool new_occupied =
-	    (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+	    (unit_list_size(&pcity->tile->units) > 0);
 
 	  if (pcity->client.occupied != new_occupied) {
 	    pcity->client.occupied = new_occupied;
-	    refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
+	    refresh_tile_mapcanvas(pcity->tile, FALSE);
 	  }
 	}
 
@@ -1124,12 +1105,12 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  refresh_city_dialog(pcity);
       }
       
-      if((pcity=map_get_city(punit->x, punit->y)))  {
+      if((pcity=map_get_city(punit->tile)))  {
 	if (can_player_see_units_in_city(game.player_ptr, pcity)) {
 	  /* Unit moved into a city - obviously it's occupied. */
 	  if (!pcity->client.occupied) {
 	    pcity->client.occupied = TRUE;
-	    refresh_tile_mapcanvas(pcity->x, pcity->y, FALSE);
+	    refresh_tile_mapcanvas(pcity->tile, FALSE);
 	  }
 	}
 
@@ -1176,12 +1157,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     punit->moves_left = packet_unit->moves_left;
     punit->bribe_cost = 0;
     punit->fuel = packet_unit->fuel;
-    if (is_normal_map_pos(packet_unit->goto_dest.x,
-                          packet_unit->goto_dest.y)) {
-      set_goto_dest(punit, packet_unit->goto_dest.x, packet_unit->goto_dest.y);
-    } else {
-      clear_goto_dest(punit);
-    }
+    punit->goto_tile = packet_unit->goto_tile;
     punit->paradropped = packet_unit->paradropped;
     if (punit->done_moving != packet_unit->done_moving) {
       punit->done_moving = packet_unit->done_moving;
@@ -1196,21 +1172,21 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     idex_register_unit(punit);
 
     unit_list_insert(&get_player(punit->owner)->units, punit);
-    unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
+    unit_list_insert(&punit->tile->units, punit);
 
     if((pcity=find_city_by_id(punit->homecity))) {
       unit_list_insert(&pcity->units_supported, punit);
     }
 
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
-	   get_nation_name(unit_owner(punit)->nation),
-	   unit_name(punit->type), punit->x, punit->y, punit->id,
-	   punit->homecity, (pcity ? pcity->name : _("(unknown)")));
+	    get_nation_name(unit_owner(punit)->nation),
+	    unit_name(punit->type), TILE_XY(punit->tile), punit->id,
+	    punit->homecity, (pcity ? pcity->name : _("(unknown)")));
 
     repaint_unit = (punit->transported_by == -1);
     agents_unit_new(punit);
 
-    if ((pcity = map_get_city(punit->x, punit->y))) {
+    if ((pcity = map_get_city(punit->tile))) {
       /* The unit is in a city - obviously it's occupied. */
       pcity->client.occupied = TRUE;
     }
@@ -1221,11 +1197,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   if (punit == get_unit_in_focus()) {
     update_unit_info_label(punit);
   } else if (get_unit_in_focus()
-	     && (same_pos(get_unit_in_focus()->x, get_unit_in_focus()->y,
-			  punit->x, punit->y)
+	     && (same_pos(get_unit_in_focus()->tile, punit->tile)
 		 || (moved
-		     && same_pos(get_unit_in_focus()->x,
-				 get_unit_in_focus()->y, old_x, old_y)))) {
+		     && same_pos(get_unit_in_focus()->tile, old_tile)))) {
     update_unit_info_label(get_unit_in_focus());
   }
 
@@ -1235,12 +1209,12 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       int height = get_citydlg_canvas_height();
       int canvas_x, canvas_y;
 
-      map_to_canvas_pos(&canvas_x, &canvas_y, punit->x, punit->y);
+      map_to_canvas_pos(&canvas_x, &canvas_y, punit->tile);
       update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
 			canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
 			width, height);
     } else {
-      refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
+      refresh_tile_mapcanvas(punit->tile, FALSE);
     }
   }
 
@@ -1589,7 +1563,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       && pplayer->government == game.government_when_anarchy
       && (!game.player_ptr->ai.control || ai_popup_windows)
       && can_client_change_view()) {
-    create_event(-1, -1, E_REVOLT_DONE, _("Game: Revolution finished"));
+    create_event(NULL, E_REVOLT_DONE, _("Game: Revolution finished"));
   }
   
   update_players_dialog();
@@ -1898,7 +1872,7 @@ This was once very ugly...
 **************************************************************************/
 void handle_tile_info(struct packet_tile_info *packet)
 {
-  struct tile *ptile = map_get_tile(packet->x, packet->y);
+  struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
   enum known_type old_known = ptile->known;
   bool tile_changed = FALSE;
   bool known_changed = FALSE;
@@ -1946,14 +1920,14 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
 
-  reset_move_costs(packet->x, packet->y);
+  reset_move_costs(ptile);
 
   if (ptile->known <= TILE_KNOWN_FOGGED && old_known == TILE_KNOWN) {
     /* This is an error.  So first we log the error, then make an assertion.
      * But for NDEBUG clients we fix the error. */
     unit_list_iterate(ptile->units, punit) {
       freelog(LOG_ERROR, "%p %s at (%d,%d) %s", punit,
-	      unit_type(punit)->name, punit->x, punit->y,
+	      unit_type(punit)->name, TILE_XY(punit->tile),
 	      unit_owner(punit)->name);
     } unit_list_iterate_end;
     assert(unit_list_size(&ptile->units) == 0);
@@ -1982,28 +1956,26 @@ void handle_tile_info(struct packet_tile_info *packet)
      * known. In the other cases the tile is new or removed.
      */
     if (known_changed && ptile->known == TILE_KNOWN) {
-      agents_tile_new(packet->x, packet->y);
+      agents_tile_new(ptile);
     } else if (known_changed && ptile->known == TILE_KNOWN_FOGGED) {
-      agents_tile_remove(packet->x, packet->y);
+      agents_tile_remove(ptile);
     } else {
-      agents_tile_changed(packet->x, packet->y);
+      agents_tile_changed(ptile);
     }
   }
 
   /* refresh tiles */
   if (can_client_change_view()) {
-    int x = packet->x, y = packet->y;
-
     /* the tile itself */
     if (tile_changed || old_known!=ptile->known)
-      refresh_tile_mapcanvas(x, y, FALSE);
+      refresh_tile_mapcanvas(ptile, FALSE);
 
     /* if the terrain or the specials of the tile
        have changed it affects the adjacent tiles */
     if (tile_changed) {
-      adjc_iterate(x, y, x1, y1) {
-	if (tile_get_known(x1, y1) >= TILE_KNOWN_FOGGED)
-	  refresh_tile_mapcanvas(x1, y1, FALSE);
+      adjc_iterate(ptile, tile1) {
+	if (tile_get_known(tile1) >= TILE_KNOWN_FOGGED)
+	  refresh_tile_mapcanvas(tile1, FALSE);
       }
       adjc_iterate_end;
       return;
@@ -2012,9 +1984,9 @@ void handle_tile_info(struct packet_tile_info *packet)
     /* the "furry edges" on tiles adjacent to an TILE_UNKNOWN tile are
        removed here */
     if (old_known == TILE_UNKNOWN && packet->known >= TILE_KNOWN_FOGGED) {     
-      cardinal_adjc_iterate(x, y, x1, y1) {
-	if (tile_get_known(x1, y1) >= TILE_KNOWN_FOGGED)
-	  refresh_tile_mapcanvas(x1, y1, FALSE);
+      cardinal_adjc_iterate(ptile, tile1) {
+	if (tile_get_known(tile1) >= TILE_KNOWN_FOGGED)
+	  refresh_tile_mapcanvas(tile1, FALSE);
       } cardinal_adjc_iterate_end;
     }
   }
@@ -2022,7 +1994,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   /* update menus if the focus unit is on the tile. */
   if (tile_changed) {
     struct unit *punit = get_unit_in_focus();
-    if (punit && same_pos(punit->x, punit->y, packet->x, packet->y)) {
+    if (punit && same_pos(punit->tile, ptile)) {
       update_menus();
     }
   }

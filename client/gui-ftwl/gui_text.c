@@ -132,14 +132,16 @@ static void real_add(char **buffer, size_t * buffer_size, const char *format,
 /****************************************************************************
   Return a short tooltip text for a terrain tile.
 ****************************************************************************/
-const char *mapview_get_terrain_tooltip_text(int x, int y)
+const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
 {
-  int infrastructure = get_tile_infrastructure_set(map_get_tile(x, y));
+  int infrastructure = get_tile_infrastructure_set(ptile);
   INIT;
 
+#ifdef DEBUG
   add_line(_("Location: (%d, %d) [%d]"),
-	   x, y, map_get_tile(x, y)->continent);
-  add_line("%s", map_get_tile_info_text(x, y));
+	   ptile->x, ptile->y, ptile->continent);
+#endif
+  add_line("%s", map_get_tile_info_text(ptile));
   if (infrastructure) {
     add_line("%s",
 	     map_get_infrastructure_text(infrastructure));
@@ -150,47 +152,47 @@ const char *mapview_get_terrain_tooltip_text(int x, int y)
 /****************************************************************************
   Calculate the effects of various unit activities.
 ****************************************************************************/
-static void calc_effect(enum unit_activity activity, int x, int y, int diff[3])
+static void calc_effect(enum unit_activity activity, struct tile *ptile,
+			int diff[3])
 {
-  struct tile backup;
+  struct tile backup = *ptile;
   int stats_before[3], stats_after[3];
 
-  stats_before[0] = get_food_tile(x,y);
-  stats_before[1] = get_shields_tile(x,y);
-  stats_before[2] = get_trade_tile(x,y);
+  stats_before[0] = get_food_tile(ptile);
+  stats_before[1] = get_shields_tile(ptile);
+  stats_before[2] = get_trade_tile(ptile);
 
   /* BEWARE UGLY HACK AHEAD */
 
-  backup = *map_get_tile(x, y);
-
   switch (activity) {
   case ACTIVITY_ROAD:
-    map_set_special(x, y, S_ROAD);
+    map_set_special(ptile, S_ROAD);
     break;
   case ACTIVITY_RAILROAD:
-    map_set_special(x, y, S_RAILROAD);
+    map_set_special(ptile, S_RAILROAD);
     break;
   case ACTIVITY_MINE:
-    map_mine_tile(x, y);
+    map_mine_tile(ptile);
     break;
 
   case ACTIVITY_IRRIGATE:
-    map_irrigate_tile(x, y);
+    map_irrigate_tile(ptile);
     break;
 
   case ACTIVITY_TRANSFORM:
-    map_transform_tile(x, y);
+    map_transform_tile(ptile);
     break;
   default:
     assert(0);
   }
 
-  stats_after[0] = get_food_tile(x,y);
-  stats_after[1] = get_shields_tile(x,y);
-  stats_after[2] = get_trade_tile(x,y);
+  stats_after[0] = get_food_tile(ptile);
+  stats_after[1] = get_shields_tile(ptile);
+  stats_after[2] = get_trade_tile(ptile);
 
-  *map_get_tile(x, y) = backup;
-  reset_move_costs(x, y);
+  ptile->terrain = backup.terrain;
+  ptile->special = backup.special;
+  reset_move_costs(ptile);
   /* hopefully everything is now back in place */
 
   diff[0] = stats_after[0] - stats_before[0];
@@ -209,7 +211,7 @@ static const char *format_effect(enum unit_activity activity,
   int n = 0;
   INIT;
 
-  calc_effect(activity, punit->x, punit->y, diff);
+  calc_effect(activity, punit->tile, diff);
 
   if (diff[0] != 0) {
     my_snprintf(parts[n], sizeof(parts[n]), _("%+d food"), diff[0]);
@@ -280,19 +282,19 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
   } else if (strcmp(action, "unit_road") == 0) {
     add_line(_("Build road%s"), shortcut);
     add_line(_("Time: %d turns"),
-          get_turns_for_activity_at(punit, ACTIVITY_ROAD, punit->x, punit->y));
+          get_turns_for_activity_at(punit, ACTIVITY_ROAD, punit->tile));
     add_line(_("Effect: %s"),
 	     format_effect(ACTIVITY_ROAD, punit));
   } else if (strcmp(action, "unit_irrigate") == 0) {
     add_line(_("Build irrigation%s"),shortcut);
     add_line(_("Time: %d turns"),
-      get_turns_for_activity_at(punit, ACTIVITY_IRRIGATE, punit->x, punit->y));
+      get_turns_for_activity_at(punit, ACTIVITY_IRRIGATE, punit->tile));
     add_line(_("Effect: %s"),
 	     format_effect(ACTIVITY_IRRIGATE, punit));
   } else if (strcmp(action, "unit_mine") == 0) {
     add_line(_("Build mine%s"),shortcut);
     add_line(_("Time: %d turns"),
-	 get_turns_for_activity_at(punit, ACTIVITY_MINE, punit->x, punit->y));
+	 get_turns_for_activity_at(punit, ACTIVITY_MINE, punit->tile));
     add_line(_("Effect: %s"),
 	     format_effect(ACTIVITY_MINE, punit));
   } else if (strcmp(action, "unit_auto_settler") == 0) {
@@ -301,13 +303,13 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
     add_line(_("Effect: the computer performs settler activities"));
   } else {
 #if 0
-  ttype = map_get_tile(punit->x, punit->y)->terrain;
+  ttype = punit->tile->terrain;
   tinfo = get_tile_type(ttype);
   if ((tinfo->irrigation_result != T_LAST)
       && (tinfo->irrigation_result != ttype)) {
     my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		(get_tile_type(tinfo->irrigation_result))->terrain_name);
-  } else if (map_has_special(punit->x, punit->y, S_IRRIGATION)
+  } else if (map_has_special(punit->tile, S_IRRIGATION)
 	     && player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
     sz_strlcpy(irrtext, _("Bu_ild Farmland"));
   }
@@ -368,10 +370,9 @@ const char *mapview_get_city_action_tooltip(struct city *pcity,
 /************************************************************************
   Text to popup on middle-click
 ************************************************************************/
-const char *mapview_get_terrain_info_text(int map_x, int map_y)
+const char *mapview_get_terrain_info_text(struct tile *ptile)
 {
-  const char *activity_text = concat_tile_activity_text(map_x, map_y);
-  struct tile *ptile = map_get_tile(map_x, map_y);
+  const char *activity_text = concat_tile_activity_text(ptile);
   const char *diplo_nation_plural_adjectives[DS_LAST] =
     {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
      "" /* unused, DS_CEASEFIRE*/,
@@ -380,14 +381,14 @@ const char *mapview_get_terrain_info_text(int map_x, int map_y)
   INIT;
 
   add_line(_("Terrain: %s"),
-	   map_get_tile_info_text(map_x, map_y));
+	   map_get_tile_info_text(ptile));
   add_line(_("Food/Prod/Trade: %s"),
-	   map_get_tile_fpt_text(map_x, map_y));
+	   map_get_tile_fpt_text(ptile));
   if (tile_has_special(ptile, S_HUT)) {
     add_line(_("Minor Tribe Village"));
   }
   if (game.borders > 0) {
-    struct player *owner = map_get_owner(map_x, map_y);
+    struct player *owner = map_get_owner(ptile);
     struct player_diplstate *ds = game.player_ptr->diplstates;
 
     if (owner == game.player_ptr){
@@ -475,9 +476,8 @@ const char *mapview_get_unit_tooltip_text(struct unit *punit)
 ****************************************************************************/
 const char *mapview_get_unit_info_text(struct unit *punit)
 {
-  int map_x = punit->x;
-  int map_y = punit->y;
-  const char *activity_text = concat_tile_activity_text(map_x, map_y);
+  struct tile *ptile = punit->tile;
+  const char *activity_text = concat_tile_activity_text(ptile);
   INIT;
 
   if (strlen(activity_text)) {

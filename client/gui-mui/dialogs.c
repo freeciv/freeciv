@@ -617,7 +617,7 @@ static void diplomat_move(struct popup_message_data *data)
 
   if( (punit=find_unit_by_id(diplomat_id))
       && (pcity=find_city_by_id(diplomat_target_id))
-      && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+      && !same_pos(punit->tile, pcity->tile)) {
     request_diplomat_action(DIPLOMAT_MOVE, diplomat_id,
 			    diplomat_target_id, 0);
   }

@@ -33,13 +33,13 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   Should be used in conjunction with a TB callback which 
   prohibits going through an enemy city/tile.
 *************************************************************/
-static int seamove(int x, int y, enum direction8 dir,
-                   int x1, int y1, struct pf_parameter *param)
+static int seamove(const struct tile *ptile, enum direction8 dir,
+                   const struct tile *ptile1, struct pf_parameter *param)
 {
   /* MOVE_COST_FOR_VALID_SEA_STEP means ships can move between */
-  if (map_get_tile(x, y)->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP
-      || is_non_allied_unit_tile(map_get_tile(x1, y1), param->owner)
-      || is_non_allied_city_tile(map_get_tile(x1, y1), param->owner)) {
+  if (ptile->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP
+      || is_non_allied_unit_tile(ptile1, param->owner)
+      || is_non_allied_city_tile(ptile1, param->owner)) {
     return SINGLE_MOVE;
   } else {
     return PF_IMPOSSIBLE_MC;
@@ -49,8 +49,9 @@ static int seamove(int x, int y, enum direction8 dir,
 /*************************************************************
   SINGLE_MOVE cost function for AIR_MOVING
 *************************************************************/
-static int single_airmove(int x, int y, enum direction8 dir,
-			  int x1, int y1, struct pf_parameter *param)
+static int single_airmove(const struct tile *ptile, enum direction8 dir,
+			  const struct tile *ptile1,
+			  struct pf_parameter *param)
 {
   return SINGLE_MOVE; /* simple, eh? */
 }
@@ -59,12 +60,13 @@ static int single_airmove(int x, int y, enum direction8 dir,
   A cost function for SEA_MOVING.  Does not allow shore 
   bombardment.
 *************************************************************/
-static int seamove_no_bombard(int x, int y, enum direction8 dir,
-                              int x1, int y1, struct pf_parameter *param)
+static int seamove_no_bombard(const struct tile *ptile, enum direction8 dir,
+			      const struct tile *ptile1,
+			      struct pf_parameter *param)
 {
   /* MOVE_COST_FOR_VALID_SEA_STEP means ships can move between */
-  if (map_get_tile(x, y)->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP
-      && !is_non_allied_city_tile(map_get_tile(x1, y1), param->owner)) {
+  if (ptile->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP
+      && !is_non_allied_city_tile(ptile1, param->owner)) {
     return SINGLE_MOVE;
   } else {
     return PF_IMPOSSIBLE_MC;
@@ -78,13 +80,14 @@ static int seamove_no_bombard(int x, int y, enum direction8 dir,
   anywhere, unless we are leaving a friendly city, in which
   case we can move into the ocean but not into the land.
 ************************************************************/
-static int sea_overlap_move(int x, int y, enum direction8 dir,
-			    int x1, int y1, struct pf_parameter *param)
+static int sea_overlap_move(const struct tile *ptile, enum direction8 dir,
+			    const struct tile *ptile1,
+			    struct pf_parameter *param)
 {
-  if (is_ocean(map_get_terrain(x, y))) {
+  if (is_ocean(ptile->terrain)) {
     return SINGLE_MOVE;
-  } else if (is_allied_city_tile(map_get_tile(x, y), param->owner)
-	     && is_ocean(map_get_terrain(x1, y1))) {
+  } else if (is_allied_city_tile(ptile, param->owner)
+	     && is_ocean(ptile1->terrain)) {
     return SINGLE_MOVE;
   }
 
@@ -95,18 +98,17 @@ static int sea_overlap_move(int x, int y, enum direction8 dir,
   Sea attack is the same as overlap (consider bombardment) but we don't
   want to pass through enemy tiles.
 **********************************************************************/
-static int sea_attack_move(int x, int y, enum direction8 dir,
-			    int x1, int y1, struct pf_parameter *param)
+static int sea_attack_move(const struct tile *src_tile, enum direction8 dir,
+			   const struct tile *dest_tile,
+			   struct pf_parameter *param)
 {
-  struct tile *src_tile = map_get_tile(x, y);
-
   if (is_ocean(src_tile->terrain)) {
     if (is_non_allied_unit_tile(src_tile, param->owner)) {
       return PF_IMPOSSIBLE_MC;
     }
     return SINGLE_MOVE;
-  } else if (is_allied_city_tile(map_get_tile(x, y), param->owner)
-	     && is_ocean(map_get_terrain(x1, y1))) {
+  } else if (is_allied_city_tile(src_tile, param->owner)
+	     && is_ocean(dest_tile->terrain)) {
     return SINGLE_MOVE;
   }
 
@@ -116,22 +118,20 @@ static int sea_attack_move(int x, int y, enum direction8 dir,
 /************************************************************ 
   LAND_MOVE cost function for a unit 
 ************************************************************/
-static int normal_move_unit(int x, int y, enum direction8 dir,
-			    int x1, int y1, struct pf_parameter *param)
+static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
+			    const struct tile *ptile1,
+			    struct pf_parameter *param)
 {
-  struct tile *ptile = map_get_tile(x, y);
-  Terrain_type_id terrain1 = map_get_terrain(x1, y1);
+  Terrain_type_id terrain1 = ptile1->terrain;
   int move_cost;
 
   if (is_ocean(terrain1)) {
-    if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
+    if (ground_unit_transporter_capacity(ptile1, param->owner) > 0) {
       move_cost = SINGLE_MOVE;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
   } else if (is_ocean(ptile->terrain)) {
-    struct tile *ptile1 = map_get_tile(x1, y1);
-
     if (!BV_ISSET(param->unit_flags, F_MARINES)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
             || is_non_allied_city_tile(ptile1, param->owner))) {
@@ -150,17 +150,16 @@ static int normal_move_unit(int x, int y, enum direction8 dir,
   LAND_MOVE cost function for a unit, but taking into account
   possibilities of attacking.
 *******************************************************************/
-static int land_attack_move(int x, int y, enum direction8 dir,
-			    int x1, int y1, struct pf_parameter *param)
+static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
+			    const struct tile *tgt_tile,
+			    struct pf_parameter *param)
 {
-  struct tile *src_tile = map_get_tile(x, y);
-  struct tile *tgt_tile = map_get_tile(x1, y1);
   int move_cost;
 
   if (is_ocean(tgt_tile->terrain)) {
 
     /* Any-to-Sea */
-    if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
+    if (ground_unit_transporter_capacity(tgt_tile, param->owner) > 0) {
       move_cost = SINGLE_MOVE;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
@@ -214,11 +213,11 @@ static int land_attack_move(int x, int y, enum direction8 dir,
   }
   which will achieve the same without call-back.
 ************************************************************/
-static int land_overlap_move(int x, int y, enum direction8 dir,
-			     int x1, int y1, struct pf_parameter *param)
+static int land_overlap_move(const struct tile *ptile, enum direction8 dir,
+			     const struct tile *ptile1,
+			     struct pf_parameter *param)
 {
-  struct tile *ptile = map_get_tile(x, y);
-  Terrain_type_id terrain1 = map_get_terrain(x1, y1);
+  Terrain_type_id terrain1 = ptile1->terrain;
   int move_cost;
 
   if (is_ocean(terrain1)) {
@@ -237,16 +236,16 @@ static int land_overlap_move(int x, int y, enum direction8 dir,
   Will be used. DO NOT REMOVE.
 ************************************************************/
 #ifdef UNUSED
-static int reverse_move_unit(int x, int y, enum direction8 dir,
-			     int x1, int y1, struct pf_parameter *param)
+static int reverse_move_unit(const struct tile *tile0, enum direction8 dir,
+			     const struct tile *ptile,
+			     struct pf_parameter *param)
 {
-  struct tile *ptile = map_get_tile(x1, y1);
-  int terrain0 = map_get_terrain(x, y);
+  int terrain0 = map_get_terrain(tile0);
   int terrain1 = ptile->terrain;
   int move_cost = PF_IMPOSSIBLE_MC;
 
   if (is_ocean(terrain1)) {
-    if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
+    if (ground_unit_transporter_capacity(ptile, param->owner) > 0) {
       /* Landing */
       move_cost = get_tile_type(terrain0)->movement_cost * SINGLE_MOVE;
     } else {
@@ -267,21 +266,19 @@ static int reverse_move_unit(int x, int y, enum direction8 dir,
 /************************************************************ 
   IGTER_MOVE cost function for a unit 
 ************************************************************/
-static int igter_move_unit(int x, int y, enum direction8 dir,
-			   int x1, int y1, struct pf_parameter *param)
+static int igter_move_unit(const struct tile *ptile, enum direction8 dir,
+			   const struct tile *ptile1,
+			   struct pf_parameter *param)
 {
-  struct tile *ptile = map_get_tile(x, y);
   int move_cost;
 
-  if (is_ocean(map_get_terrain(x1, y1))) {
-    if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
+  if (is_ocean(ptile1->terrain)) {
+    if (ground_unit_transporter_capacity(ptile1, param->owner) > 0) {
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
   } else if (is_ocean(ptile->terrain)) {
-    struct tile *ptile1 = map_get_tile(x1, y1);
-
     if (!BV_ISSET(param->unit_flags, F_MARINES)
         && (is_non_allied_unit_tile(ptile1, param->owner) 
             || is_non_allied_city_tile(ptile1, param->owner))) {
@@ -300,21 +297,21 @@ static int igter_move_unit(int x, int y, enum direction8 dir,
   Will be used. DO NOT REMOVE.
 ************************************************************/
 #ifdef UNUSED
-static int reverse_igter_move_unit(int x, int y, enum direction8 dir,
-				   int x1, int y1,
+static int reverse_igter_move_unit(const struct tile *tile0,
+				   enum direction8 dir,
+				   const struct tile *ptile,
 				   struct pf_parameter *param)
 {
-  struct tile *ptile = map_get_tile(x1, y1);
   int move_cost;
 
-  if (is_ocean(map_get_terrain(x1, y1))) {
-    if (ground_unit_transporter_capacity(x1, y1, param->owner) > 0) {
+  if (is_ocean(map_get_terrain(ptile))) {
+    if (ground_unit_transporter_capacity(ptile, param->owner) > 0) {
       /* Landing */
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (is_ocean(map_get_terrain(x, y))) {
+  } else if (is_ocean(map_get_terrain(tile0))) {
     /* Boarding */
     move_cost = MOVE_COST_ROAD;
   } else {
@@ -332,10 +329,11 @@ static int reverse_igter_move_unit(int x, int y, enum direction8 dir,
   An example of EC callback.  DO NOT REMOVE you pricks!
 *********************************************************************/
 #ifdef UNUSED
-static int afraid_of_dark_forest(int x, int y, enum known_type known,
+static int afraid_of_dark_forest(const struct tile *ptile,
+				 enum known_type known,
 				 struct pf_parameter *param)
 {
-  if (map_get_terrain(x, y) == T_FOREST) {
+  if (map_get_terrain(ptile) == T_FOREST) {
     /* Willing to spend extra 2 turns to go around a forest tile */
     return PF_TURN_FACTOR * 2;
   }
@@ -351,11 +349,11 @@ static int afraid_of_dark_forest(int x, int y, enum known_type known,
   A callback for maps overlapping one square into the ocean.  Insures 
   that we don't continue walking over ocean.
 *********************************************************************/
-static enum tile_behavior dont_cross_ocean(int x, int y,
+static enum tile_behavior dont_cross_ocean(const struct tile *ptile,
 					   enum known_type known,
 					   struct pf_parameter *param)
 {
-  if (is_ocean(map_get_terrain(x, y))) {
+  if (is_ocean(ptile->terrain)) {
     return TB_DONT_LEAVE;
   }
   return TB_NORMAL;
@@ -365,12 +363,10 @@ static enum tile_behavior dont_cross_ocean(int x, int y,
   PF callback to prohibit going into the unknown.  Also makes sure we 
   don't plan to attack anyone.
 ***********************************************************************/
-enum tile_behavior no_fights_or_unknown(int x, int y, 
+enum tile_behavior no_fights_or_unknown(const struct tile *ptile,
                                         enum known_type known,
                                         struct pf_parameter *param)
 {
-  struct tile *ptile = map_get_tile(x, y);
-
   if (known == TILE_UNKNOWN
       || is_non_allied_unit_tile(ptile, param->owner)
       || is_non_allied_city_tile(ptile, param->owner)) {
@@ -383,11 +379,9 @@ enum tile_behavior no_fights_or_unknown(int x, int y,
 /********************************************************************** 
   PF callback to prohibit attacking anyone.
 ***********************************************************************/
-enum tile_behavior no_fights(int x, int y, enum known_type known,
+enum tile_behavior no_fights(const struct tile *ptile, enum known_type known,
 			     struct pf_parameter *param)
 {
-  struct tile *ptile = map_get_tile(x, y);
-
   if (is_non_allied_unit_tile(ptile, param->owner)
       || is_non_allied_city_tile(ptile, param->owner)) {
     /* Can't attack */
@@ -403,26 +397,27 @@ enum tile_behavior no_fights(int x, int y, enum known_type known,
   An example of position-dangerous callback.  For triremes.
   FIXME: it cheats.
 ***********************************************************************/
-static bool trireme_is_pos_dangerous(int x, int y, enum known_type known,
+static bool trireme_is_pos_dangerous(const struct tile *ptile,
+				     enum known_type known,
 				     struct pf_parameter *param)
 {
   /* We test TER_UNSAFE even though under the current ruleset there is no
    * way for a trireme to be on a TER_UNSAFE tile. */
   /* Unsafe or unsafe-ocean tiles without cities are dangerous. */
-  return ((terrain_has_flag(map_get_terrain(x, y), TER_UNSAFE) 
-	  || (is_ocean(map_get_terrain(x, y)) && !is_safe_ocean(x, y)))
-	  && map_get_city(x, y) == NULL);
+  return ((terrain_has_flag(ptile->terrain, TER_UNSAFE) 
+	  || (is_ocean(ptile->terrain) && !is_safe_ocean(ptile)))
+	  && ptile->city == NULL);
 }
 
 /**********************************************************************
   Position-dangerous callback for all units other than triremes.
 ***********************************************************************/
-static bool is_pos_dangerous(int x, int y, enum known_type known,
+static bool is_pos_dangerous(const struct tile *ptile, enum known_type known,
 			     struct pf_parameter *param)
 {
   /* Unsafe tiles without cities are dangerous. */
-  return (terrain_has_flag(map_get_terrain(x, y), TER_UNSAFE)
-	  && map_get_city(x, y) == NULL);
+  return (terrain_has_flag(ptile->terrain, TER_UNSAFE)
+	  && ptile->city == NULL);
 }
 
 /* =====================  Tools for filling parameters =============== */
@@ -549,8 +544,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->get_zoc = NULL;
   BV_CLR_ALL(parameter->unit_flags);
 
-  parameter->start_x = punit->x;
-  parameter->start_y = punit->y;
+  parameter->start_tile = punit->tile;
   parameter->moves_left_initially = punit->moves_left;
   parameter->move_rate = unit_move_rate(punit);
   parameter->owner = unit_owner(punit);
@@ -579,8 +573,7 @@ struct pf_path *pft_concat(struct pf_path *dest_path,
   } else {
     int old_length = dest_path->length;
 
-    assert(pf_last_position(dest_path)->x == src_path->positions[0].x);
-    assert(pf_last_position(dest_path)->y == src_path->positions[0].y);
+    assert(pf_last_position(dest_path)->tile == src_path->positions[0].tile);
     assert(pf_last_position(dest_path)->moves_left ==
 	   src_path->positions[0].moves_left);
     dest_path->length += src_path->length - 1;

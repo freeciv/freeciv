@@ -22,15 +22,15 @@ void free_client_goto(void);
 void enter_goto_state(struct unit *punit);
 void exit_goto_state(void);
 bool goto_is_active(void);
-void get_line_dest(int *x, int *y);
+struct tile *get_line_dest(void);
 int get_goto_turns(void);
 void goto_add_waypoint(void);
 bool goto_pop_waypoint(void);
 
-void draw_line(int dest_x, int dest_y);
-bool is_drawn_line(int x, int y, int dir);
+void draw_line(struct tile *dest_tile);
+bool is_drawn_line(struct tile *dest_tile, int dir);
  
-bool is_endpoint(int x, int y);
+bool is_endpoint(struct tile *ptile);
 
 void request_orders_cleared(struct unit *punit);
 void send_goto_path(struct unit *punit, struct pf_path *path,

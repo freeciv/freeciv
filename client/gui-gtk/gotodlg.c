@@ -58,7 +58,7 @@ static void goto_all_toggle_callback		(GtkWidget *w, gpointer data);
 static void goto_list_callback			(GtkWidget *w, gint row, gint column);
 static void goto_list_ucallback		(GtkWidget *w, gint row, gint column);
 
-static int original_x, original_y;
+struct tile *original_tile;
 
 /****************************************************************
 ...
@@ -80,8 +80,8 @@ void popup_goto_dialog(void)
     return;
   }
 
-  get_center_tile_mapcanvas(&original_x, &original_y);
-  
+  original_tile = get_center_tile_mapcanvas();
+
   gtk_widget_set_sensitive(top_vbox, FALSE);
   
   goto_dialog_shell=gtk_dialog_new();
@@ -228,7 +228,7 @@ static void goto_list_callback(GtkWidget *w, gint row, gint column)
 
   if((pdestcity=get_selected_city())) {
     struct unit *punit=get_unit_in_focus();
-    center_tile_mapcanvas(pdestcity->x, pdestcity->y);
+    center_tile_mapcanvas(pdestcity->tile);
     if(punit && unit_can_airlift_to(punit, pdestcity)) {
       gtk_widget_set_sensitive(goto_airlift_command, TRUE);
       return;
@@ -276,7 +276,7 @@ static void goto_goto_command_callback(GtkWidget *w, gpointer data)
   if (pdestcity) {
     struct unit *punit=get_unit_in_focus();
     if (punit) {
-      send_goto_unit(punit, pdestcity->x, pdestcity->y);
+      send_goto_unit(punit, pdestcity->tile);
     }
   }
   popdown_goto_dialog();
@@ -287,6 +287,6 @@ static void goto_goto_command_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void goto_cancel_command_callback(GtkWidget *w, gpointer data)
 {
-  center_tile_mapcanvas(original_x, original_y);
+  center_tile_mapcanvas(original_tile);
   popdown_goto_dialog();
 }

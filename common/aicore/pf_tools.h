@@ -23,10 +23,10 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 				 struct unit *punit);
 void pft_fill_unit_attack_param(struct pf_parameter *parameter,
                                 struct unit *punit);
-enum tile_behavior no_fights_or_unknown(int x, int y, 
+enum tile_behavior no_fights_or_unknown(const struct tile *ptile,
                                         enum known_type known,
                                         struct pf_parameter *param);
-enum tile_behavior no_fights(int x, int y, enum known_type known,
+enum tile_behavior no_fights(const struct tile *ptile, enum known_type known,
 			     struct pf_parameter *param);
 
 #define pf_iterator(map, position) {                       \

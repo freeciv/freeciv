@@ -43,6 +43,7 @@ used throughout the client.
 #include "climap.h"
 #include "clinet.h"
 #include "control.h"
+#include "dialogs_g.h"
 #include "mapview_g.h"
 #include "messagewin_common.h"
 #include "packhand.h"
@@ -67,14 +68,13 @@ void client_remove_player(int plrno)
 void client_remove_unit(struct unit *punit)
 {
   struct city *pcity;
-  int x = punit->x;
-  int y = punit->y;
+  struct tile *ptile = punit->tile;
   int hc = punit->homecity;
   struct unit *ufocus = get_unit_in_focus();
 
   freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	  punit->id, get_nation_name(unit_owner(punit)->nation),
-	  unit_name(punit->type), punit->x, punit->y, hc);
+	  unit_name(punit->type), TILE_XY(punit->tile), hc);
 
   if (punit == ufocus) {
     set_unit_focus(NULL);
@@ -84,7 +84,7 @@ void client_remove_unit(struct unit *punit)
   } else {
     /* calculate before punit disappears, use after punit removed: */
     bool update = (ufocus
-		   && same_pos(ufocus->x, ufocus->y, punit->x, punit->y));
+		   && same_pos(ufocus->tile, punit->tile));
 
     game_remove_unit(punit);
     punit = NULL;
@@ -93,26 +93,28 @@ void client_remove_unit(struct unit *punit)
     }
   }
 
-  pcity = map_get_city(x, y);
+  pcity = map_get_city(ptile);
   if (pcity) {
     if (can_player_see_units_in_city(game.player_ptr, pcity)) {
       pcity->client.occupied =
-	(unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
+	(unit_list_size(&pcity->tile->units) > 0);
     }
 
     refresh_city_dialog(pcity);
     freelog(LOG_DEBUG, "map city %s, %s, (%d %d)", pcity->name,
-	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
+	    get_nation_name(city_owner(pcity)->nation),
+	    TILE_XY(pcity->tile));
   }
 
   pcity = player_find_city_by_id(game.player_ptr, hc);
   if (pcity) {
     refresh_city_dialog(pcity);
     freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	    get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
+	    get_nation_name(city_owner(pcity)->nation),
+	    TILE_XY(pcity->tile));
   }
 
-  refresh_tile_mapcanvas(x, y, FALSE);
+  refresh_tile_mapcanvas(ptile, FALSE);
 }
 
 /**************************************************************************
@@ -121,11 +123,10 @@ void client_remove_unit(struct unit *punit)
 void client_remove_city(struct city *pcity)
 {
   bool effect_update;
-  int x=pcity->x;
-  int y=pcity->y;
+  struct tile *ptile = pcity->tile;
 
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
-	  get_nation_name(city_owner(pcity)->nation), x, y);
+	  get_nation_name(city_owner(pcity)->nation), TILE_XY(ptile));
 
   /* Explicitly remove all improvements, to properly remove any global effects
      and to handle the preservation of "destroyed" effects. */
@@ -143,7 +144,7 @@ void client_remove_city(struct city *pcity)
   popdown_city_dialog(pcity);
   game_remove_city(pcity);
   city_report_dialog_update();
-  refresh_tile_mapcanvas(x, y, FALSE);
+  refresh_tile_mapcanvas(ptile, FALSE);
 }
 
 /**************************************************************************
@@ -355,42 +356,35 @@ void center_on_something(void)
   }
 
   if ((punit = get_unit_in_focus())) {
-    center_tile_mapcanvas(punit->x, punit->y);
+    center_tile_mapcanvas(punit->tile);
   } else if ((pcity = find_palace(game.player_ptr))) {
     /* Else focus on the capital. */
-    center_tile_mapcanvas(pcity->x, pcity->y);
+    center_tile_mapcanvas(pcity->tile);
   } else if (city_list_size(&game.player_ptr->cities) > 0) {
     /* Just focus on any city. */
     pcity = city_list_get(&game.player_ptr->cities, 0);
     assert(pcity != NULL);
-    center_tile_mapcanvas(pcity->x, pcity->y);
+    center_tile_mapcanvas(pcity->tile);
   } else if (unit_list_size(&game.player_ptr->units) > 0) {
     /* Just focus on any unit. */
     punit = unit_list_get(&game.player_ptr->units, 0);
     assert(punit != NULL);
-    center_tile_mapcanvas(punit->x, punit->y);
+    center_tile_mapcanvas(punit->tile);
   } else {
     /* Just any known tile will do; search near the middle first. */
-    int center_map_x, center_map_y;
-
-    NATIVE_TO_MAP_POS(&center_map_x, &center_map_y,
-		      map.xsize / 2, map.ysize / 2);
-
     /* Iterate outward from the center tile.  We have to give a radius that
      * is guaranteed to be larger than the map will be.  Although this is
      * a misuse of map.xsize and map.ysize (which are native dimensions),
      * it should give a sufficiently large radius. */
-    iterate_outward(center_map_x, center_map_y,
-		    map.xsize + map.ysize, x, y) {
-      if (tile_get_known(x, y) != TILE_UNKNOWN) {
-	center_tile_mapcanvas(x, y);
+    iterate_outward(native_pos_to_tile(map.xsize / 2, map.ysize / 2),
+		    map.xsize + map.ysize, ptile) {
+      if (tile_get_known(ptile) != TILE_UNKNOWN) {
+	center_tile_mapcanvas(ptile);
 	return;
       }
     } iterate_outward_end;
 
-    /* If we get here we didn't find a known tile.
-       Refresh a random place to clear the intro gfx. */
-    center_tile_mapcanvas(center_map_x, center_map_y);
+    assert(0);
   }
 }
 
@@ -519,7 +513,7 @@ bool city_unit_present(struct city *pcity, cid cid)
   if (cid_is_unit(cid)) {
     int unit_type = cid_id(cid);
 
-    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+    unit_list_iterate(pcity->tile->units, punit) {
       if (punit->type == unit_type)
 	return TRUE;
     }
@@ -840,17 +834,46 @@ int num_present_units_in_city(struct city *pcity)
   if (pcity->owner != game.player_idx) {
     plist = &pcity->info_units_present;
   } else {
-    plist = &map_get_tile(pcity->x, pcity->y)->units;
+    plist = &pcity->tile->units;
   }
 
   return unit_list_size(plist);
 }
 
 /**************************************************************************
+  Handles a chat message.
+**************************************************************************/
+void handle_event(char *message, struct tile *ptile,
+		  enum event_type event, int conn_id)
+{
+  int where = MW_OUTPUT;	/* where to display the message */
+  
+  if (event >= E_LAST)  {
+    /* Server may have added a new event; leave as MW_OUTPUT */
+    freelog(LOG_NORMAL, "Unknown event type %d!", event);
+  } else if (event >= 0)  {
+    where = messages_where[event];
+  }
+
+  if (BOOL_VAL(where & MW_OUTPUT)) {
+    append_output_window_full(message, conn_id);
+  }
+  if (BOOL_VAL(where & MW_MESSAGES)) {
+    add_notify_window(message, ptile, event);
+  }
+  if (BOOL_VAL(where & MW_POPUP) &&
+      (!game.player_ptr->ai.control || ai_popup_windows)) {
+    popup_notify_goto_dialog(_("Popup Request"), message, ptile);
+  }
+
+  play_sound_for_event(event);
+}
+
+/**************************************************************************
   Creates a struct packet_generic_message packet and injects it via
   handle_chat_msg.
 **************************************************************************/
-void create_event(int x, int y, enum event_type event,
+void create_event(struct tile *ptile, enum event_type event,
 		  const char *format, ...)
 {
   va_list ap;
@@ -860,7 +883,7 @@ void create_event(int x, int y, enum event_type event,
   my_vsnprintf(message, sizeof(message), format, ap);
   va_end(ap);
 
-  handle_chat_msg(message, x, y, event, aconnection.id);
+  handle_event(message, ptile, event, aconnection.id);
 }
 
 /**************************************************************************
@@ -932,10 +955,11 @@ void reports_force_thaw(void)
 /*************************************************************************
 ...
 *************************************************************************/
-enum known_type map_get_known(int x, int y, struct player *pplayer)
+enum known_type map_get_known(const struct tile *ptile,
+			      struct player *pplayer)
 {
   assert(pplayer == game.player_ptr);
-  return tile_get_known(x, y);
+  return tile_get_known(ptile);
 }
 
 /**************************************************************************
@@ -948,15 +972,14 @@ struct city *get_nearest_city(struct unit *punit, int *sq_dist)
   struct city *pcity_near;
   int pcity_near_dist;
 
-  if ((pcity_near = map_get_city(punit->x, punit->y))) {
+  if ((pcity_near = map_get_city(punit->tile))) {
     pcity_near_dist = 0;
   } else {
     pcity_near = NULL;
     pcity_near_dist = -1;
     players_iterate(pplayer) {
       city_list_iterate(pplayer->cities, pcity_current) {
-        int dist = sq_map_distance(pcity_current->x, pcity_current->y,
-				   punit->x, punit->y);
+        int dist = sq_map_distance(pcity_current->tile, punit->tile);
         if (pcity_near_dist == -1 || dist < pcity_near_dist
 	    || (dist == pcity_near_dist
 		&& punit->owner == pcity_current->owner)) {

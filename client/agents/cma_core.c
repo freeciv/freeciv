@@ -79,7 +79,7 @@ static struct {
 } stats;
 
 #define my_city_map_iterate(pcity, cx, cy) {                           \
-  city_map_checked_iterate(pcity->x, pcity->y, cx, cy, map_x, map_y) { \
+  city_map_checked_iterate(pcity->tile, cx, cy, _ptile) { \
     if(!is_city_center(cx, cy)) {
 
 #define my_city_map_iterate_end \
@@ -178,7 +178,7 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
 
   if (city_owner(pcity) != game.player_ptr) {
     cma_release_city(pcity);
-    create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
+    create_event(pcity->tile, E_CITY_CMA_RELEASE,
 		 _("CMA: You lost control of %s. Detaching from city."),
 		 pcity->name);
     return FALSE;
@@ -371,7 +371,7 @@ static void handle_city(struct city *pcity)
 
   freelog(HANDLE_CITY_LOG_LEVEL,
 	  "handle_city(city='%s'(%d) pos=(%d,%d) owner=%s)", pcity->name,
-	  pcity->id, pcity->x, pcity->y, city_owner(pcity)->name);
+	  pcity->id, TILE_XY(pcity->tile), city_owner(pcity)->name);
 
   freelog(HANDLE_CITY_LOG_LEVEL2, "START handle city='%s'(%d)",
 	  pcity->name, pcity->id);
@@ -395,7 +395,7 @@ static void handle_city(struct city *pcity)
 
       cma_release_city(pcity);
 
-      create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
+      create_event(pcity->tile, E_CITY_CMA_RELEASE,
 		   _("CMA: The agent can't fulfill the requirements "
 		     "for %s. Passing back control."), pcity->name);
       handled = TRUE;
@@ -404,7 +404,7 @@ static void handle_city(struct city *pcity)
       if (!apply_result_on_server(pcity, &result)) {
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  doesn't cleanly apply");
 	if (check_city(city_id, NULL) && i == 0) {
-	  create_event(pcity->x, pcity->y, E_NOEVENT,
+	  create_event(pcity->tile, E_NOEVENT,
 		       _("CMA: %s has changed and the calculated "
 			 "result can't be applied. Will retry."),
 		       pcity->name);
@@ -424,7 +424,7 @@ static void handle_city(struct city *pcity)
     assert(pcity != NULL);
     freelog(HANDLE_CITY_LOG_LEVEL2, "  not handled");
 
-    create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
+    create_event(pcity->tile, E_CITY_CMA_RELEASE,
 		 _("CMA: %s has changed multiple times. This may be "
 		   "an error in Freeciv or bad luck. The CMA will detach "
 		   "itself from the city now."), pcity->name);

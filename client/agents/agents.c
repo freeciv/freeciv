@@ -43,16 +43,11 @@
 
 struct my_agent;
 
-union arguments {
-  int int_arg;
-  struct map_position pos_arg;
-};
-
 struct call {
   struct my_agent *agent;
   enum oct { OCT_NEW_TURN, OCT_UNIT, OCT_CITY, OCT_TILE } type;
   enum callback_type cb_type;
-  union arguments arg;
+  int arg;
 };
 
 #define SPECLIST_TAG call
@@ -97,10 +92,8 @@ static bool calls_are_equal(const struct call *pcall1,
   switch (pcall1->type) {
   case OCT_UNIT:
   case OCT_CITY:
-    return (pcall1->arg.int_arg == pcall2->arg.int_arg);
   case OCT_TILE:
-    return (pcall1->arg.pos_arg.x == pcall2->arg.pos_arg.x
-	    && pcall1->arg.pos_arg.y == pcall2->arg.pos_arg.y);
+    return (pcall1->arg == pcall2->arg);
   case OCT_NEW_TURN:
     return TRUE;
   }
@@ -119,7 +112,7 @@ static void enqueue_call(struct my_agent *agent,
 {
   va_list ap;
   struct call *pcall2;
-  union arguments arg;
+  int x, y, arg = 0;
 
   va_start(ap, cb_type);
 
@@ -130,11 +123,12 @@ static void enqueue_call(struct my_agent *agent,
   switch (type) {
   case OCT_UNIT:
   case OCT_CITY:
-    arg.int_arg = va_arg(ap, int);
+    arg = va_arg(ap, int);
     break;
   case OCT_TILE:
-    arg.pos_arg.x = va_arg(ap, int);
-    arg.pos_arg.y = va_arg(ap, int);
+    x = va_arg(ap, int);
+    y = va_arg(ap, int);
+    arg = map_pos_to_index(x, y);
     break;
   case OCT_NEW_TURN:
     /* nothing */
@@ -210,12 +204,12 @@ static void execute_call(const struct call *call)
   if (call->type == OCT_NEW_TURN) {
     call->agent->agent.turn_start_notify();
   } else if (call->type == OCT_UNIT) {
-    call->agent->agent.unit_callbacks[call->cb_type] (call->arg.int_arg);
+    call->agent->agent.unit_callbacks[call->cb_type] (call->arg);
   } else if (call->type == OCT_CITY) {
-    call->agent->agent.city_callbacks[call->cb_type] (call->arg.int_arg);
+    call->agent->agent.city_callbacks[call->cb_type] (call->arg);
   } else if (call->type == OCT_TILE) {
     call->agent->agent.tile_callbacks[call->cb_type]
-	(call->arg.pos_arg.x, call->arg.pos_arg.y);
+      (index_to_tile(call->arg));
   } else {
     assert(0);
   }
@@ -521,7 +515,7 @@ void agents_unit_changed(struct unit *punit)
 
   freelog(LOG_DEBUG,
 	  "A: agents_unit_changed(unit=%d) type=%s pos=(%d,%d) owner=%s",
-	  punit->id, unit_types[punit->type].name, punit->x, punit->y,
+	  punit->id, unit_types[punit->type].name, TILE_XY(punit->tile),
 	  unit_owner(punit)->name);
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -547,7 +541,7 @@ void agents_unit_new(struct unit *punit)
 
   freelog(LOG_DEBUG,
 	  "A: agents_new_unit(unit=%d) type=%s pos=(%d,%d) owner=%s",
-	  punit->id, unit_types[punit->type].name, punit->x, punit->y,
+	  punit->id, unit_types[punit->type].name, TILE_XY(punit->tile),
 	  unit_owner(punit)->name);
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -574,7 +568,7 @@ void agents_unit_remove(struct unit *punit)
 
   freelog(LOG_DEBUG,
 	  "A: agents_remove_unit(unit=%d) type=%s pos=(%d,%d) owner=%s",
-	  punit->id, unit_types[punit->type].name, punit->x, punit->y,
+	  punit->id, unit_types[punit->type].name, TILE_XY(punit->tile),
 	  unit_owner(punit)->name);
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -626,7 +620,7 @@ void agents_city_new(struct city *pcity)
 
   freelog(LOG_DEBUG,
 	  "A: agents_city_new(city='%s'(%d)) pos=(%d,%d) owner=%s",
-	  pcity->name, pcity->id, pcity->x, pcity->y,
+	  pcity->name, pcity->id, TILE_XY(pcity->tile),
 	  city_owner(pcity)->name);
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -653,7 +647,7 @@ void agents_city_remove(struct city *pcity)
 
   freelog(LOG_DEBUG,
 	  "A: agents_city_remove(city='%s'(%d)) pos=(%d,%d) owner=%s",
-	  pcity->name, pcity->id, pcity->x, pcity->y,
+	  pcity->name, pcity->id, TILE_XY(pcity->tile),
 	  city_owner(pcity)->name);
 
   for (i = 0; i < agents.entries_used; i++) {
@@ -675,11 +669,11 @@ void agents_city_remove(struct city *pcity)
  documentation.
  Tiles got removed because of FOW.
 ***********************************************************************/
-void agents_tile_remove(int x, int y)
+void agents_tile_remove(struct tile *ptile)
 {
   int i;
 
-  freelog(LOG_DEBUG, "A: agents_tile_remove(tile=(%d, %d))", x, y);
+  freelog(LOG_DEBUG, "A: agents_tile_remove(tile=(%d, %d))", TILE_XY(ptile));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -688,7 +682,7 @@ void agents_tile_remove(int x, int y)
       continue;
     }
     if (agent->agent.tile_callbacks[CB_REMOVE]) {
-      enqueue_call(agent, OCT_TILE, CB_REMOVE, x, y);
+      enqueue_call(agent, OCT_TILE, CB_REMOVE, ptile);
     }
   }
 
@@ -699,11 +693,11 @@ void agents_tile_remove(int x, int y)
  Called from client/packhand.c. See agents_unit_changed for a generic
  documentation.
 ***********************************************************************/
-void agents_tile_changed(int x, int y)
+void agents_tile_changed(struct tile *ptile)
 {
   int i;
 
-  freelog(LOG_DEBUG, "A: agents_tile_changed(tile=(%d, %d))", x, y);
+  freelog(LOG_DEBUG, "A: agents_tile_changed(tile=(%d, %d))", TILE_XY(ptile));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -712,7 +706,7 @@ void agents_tile_changed(int x, int y)
       continue;
     }
     if (agent->agent.tile_callbacks[CB_CHANGE]) {
-      enqueue_call(agent, OCT_TILE, CB_CHANGE, x, y);
+      enqueue_call(agent, OCT_TILE, CB_CHANGE, ptile);
     }
   }
 
@@ -723,11 +717,11 @@ void agents_tile_changed(int x, int y)
  Called from client/packhand.c. See agents_unit_changed for a generic
  documentation.
 ***********************************************************************/
-void agents_tile_new(int x, int y)
+void agents_tile_new(struct tile *ptile)
 {
   int i;
 
-  freelog(LOG_DEBUG, "A: agents_tile_new(tile=(%d, %d))", x, y);
+  freelog(LOG_DEBUG, "A: agents_tile_new(tile=(%d, %d))", TILE_XY(ptile));
 
   for (i = 0; i < agents.entries_used; i++) {
     struct my_agent *agent = &agents.entries[i];
@@ -736,7 +730,7 @@ void agents_tile_new(int x, int y)
       continue;
     }
     if (agent->agent.tile_callbacks[CB_NEW]) {
-      enqueue_call(agent, OCT_TILE, CB_NEW, x, y);
+      enqueue_call(agent, OCT_TILE, CB_NEW, ptile);
     }
   }
 

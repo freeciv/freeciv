@@ -116,7 +116,7 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
   built_impr_iterate(pcity, i) {
     if (!is_wonder(i) && improvement_obsolete(pplayer, i)) {
       do_sell_building(pplayer, pcity, i);
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD, 
+      notify_player_ex(pplayer, pcity->tile, E_IMP_SOLD, 
 		       _("Game: %s is selling %s (obsolete) for %d."),
 		       pcity->name, get_improvement_name(i), 
 		       impr_sell_gold(i));
@@ -156,7 +156,7 @@ void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr)
   }
 
   /* Now apply results */
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, mapx, mapy) {
+  city_map_checked_iterate(pcity->tile, x, y, ptile) {
     if (pcity->city_map[x][y] == C_TILE_WORKER
         && !is_city_center(x, y)
         && !cmr->worker_positions_used[x][y]) {
@@ -189,8 +189,8 @@ void auto_arrange_workers(struct city *pcity)
    * result in recursive calls to auto_arrange_workers, but it's better
    * to have these calls here than while we're reassigning workers (when
    * they will be fatal). */
-  map_city_radius_iterate(pcity->x, pcity->y, map_x, map_y) {
-    update_city_tile_status_map(pcity, map_x, map_y);
+  map_city_radius_iterate(pcity->tile, ptile) {
+    update_city_tile_status_map(pcity, ptile);
   } map_city_radius_iterate_end;
 
   sanity_check_city(pcity);
@@ -286,7 +286,7 @@ void send_global_city_turn_notifications(struct conn_list *dest)
 	  && (city_turns_to_build(pcity, pcity->currently_building, FALSE, TRUE)
 	      <= 1)
 	  && can_player_build_improvement(city_owner(pcity), pcity->currently_building)) {
-	notify_conn_ex(dest, pcity->x, pcity->y,
+	notify_conn_ex(dest, pcity->tile,
 		       E_WONDER_WILL_BE_BUILT,
 		       _("Game: Notice: Wonder %s in %s will be finished"
 			 " next turn."), 
@@ -319,7 +319,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 	 preserves food.  -AJS */
       if (turns_growth < 5 && turns_granary < 5
 	  && turns_growth < turns_granary) {
-	notify_conn_ex(dest, pcity->x, pcity->y,
+	notify_conn_ex(dest, pcity->tile,
 			 E_CITY_GRAN_THROTTLE,
 			 _("Game: Suggest throttling growth in %s to use %s "
 			   "(being built) more effectively."), pcity->name,
@@ -330,14 +330,14 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
     can_grow = city_can_grow_to(pcity, pcity->size + 1);
 
     if ((turns_growth <= 0) && !city_celebrating(pcity) && can_grow) {
-      notify_conn_ex(dest, pcity->x, pcity->y,
+      notify_conn_ex(dest, pcity->tile,
 		       E_CITY_MAY_SOON_GROW,
 		       _("Game: %s may soon grow to size %i."),
 		       pcity->name, pcity->size + 1);
     }
   } else {
     if (pcity->food_stock + pcity->food_surplus <= 0 && pcity->food_surplus < 0) {
-      notify_conn_ex(dest, pcity->x, pcity->y,
+      notify_conn_ex(dest, pcity->tile,
 		     E_CITY_FAMINE_FEARED,
 		     _("Game: Warning: Famine feared in %s."),
 		     pcity->name);
@@ -362,7 +362,7 @@ void update_city_activities(struct player *pplayer)
   /* This test include the cost of the units because pay_for_units is called
    * in update_city_activity */
   if (gold - (gold - pplayer->economic.gold) * 3 < 0) {
-    notify_player_ex(pplayer, -1, -1, E_LOW_ON_FUNDS,
+    notify_player_ex(pplayer, NULL, E_LOW_ON_FUNDS,
 		     _("Game: WARNING, we're LOW on FUNDS sire."));  
   }
     /* uncomment to unbalance the game, like in civ1 (CLG)
@@ -452,12 +452,12 @@ static void city_increase_size(struct city *pcity)
 
   if (!city_can_grow_to(pcity, pcity->size + 1)) { /* need improvement */
     if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ) > 0) {
-      notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQ_BUILDING,
+      notify_player_ex(powner, pcity->tile, E_CITY_AQ_BUILDING,
 		       _("Game: %s needs %s (being built) "
 			 "to grow any further."), pcity->name,
 		       improvement_types[pcity->currently_building].name);
     } else {
-      notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQUEDUCT,
+      notify_player_ex(powner, pcity->tile, E_CITY_AQUEDUCT,
 		       _("Game: %s needs an improvement to grow any further."),
 		       pcity->name);
     }
@@ -503,7 +503,7 @@ static void city_increase_size(struct city *pcity)
 
   city_refresh(pcity);
 
-  notify_player_ex(powner, pcity->x, pcity->y, E_CITY_GROWTH,
+  notify_player_ex(powner, pcity->tile, E_CITY_GROWTH,
                    _("Game: %s grows to size %d."), pcity->name, pcity->size);
 
   sanity_check_city(pcity);
@@ -534,7 +534,7 @@ static void city_populate(struct city *pcity)
           && !unit_flag(punit, F_UNDISBANDABLE)) {
 	char *utname = unit_type(punit)->name;
 	wipe_unit(punit);
-	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST,
+	notify_player_ex(city_owner(pcity), pcity->tile, E_UNIT_LOST,
 			 _("Game: Famine feared in %s, %s lost!"), 
 			 pcity->name, utname);
 	gamelog(GAMELOG_UNITFS, _("%s lose %s (famine)"),
@@ -544,7 +544,7 @@ static void city_populate(struct city *pcity)
 	return;
       }
     } unit_list_iterate_safe_end;
-    notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
+    notify_player_ex(city_owner(pcity), pcity->tile, E_CITY_FAMINE,
 		     _("Game: Famine causes population loss in %s."),
 		     pcity->name);
     pcity->food_stock = (city_granary_size(pcity->size - 1)
@@ -609,7 +609,7 @@ static bool worklist_change_build_target(struct player *pplayer,
       /* If the city can never build this unit or its descendants, drop it. */
       if (!can_eventually_build_unit(pcity, new_target)) {
 	/* Nope, never in a million years. */
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+	notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			 _("Game: %s can't build %s from the worklist.  "
 			   "Purging..."),
 			 pcity->name,
@@ -628,7 +628,7 @@ static bool worklist_change_build_target(struct player *pplayer,
       /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (new_target == target) {
 	/* Nope, we're stuck.  Dump this item from the worklist. */
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+	notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			 _("Game: %s can't build %s from the worklist; "
 			   "tech not yet available.  Postponing..."),
 			 pcity->name,
@@ -636,7 +636,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	continue;
       } else {
 	/* Yep, we can go after new_target instead.  Joy! */
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_WORKLIST,
+	notify_player_ex(pplayer, pcity->tile, E_WORKLIST,
 			 _("Game: Production of %s is upgraded to %s in %s."),
 			 get_unit_type(target)->name, 
 			 get_unit_type(new_target)->name,
@@ -649,7 +649,7 @@ static bool worklist_change_build_target(struct player *pplayer,
       /* If the city can never build this improvement, drop it. */
       if (!can_eventually_build_improvement(pcity, new_target)) {
 	/* Nope, never in a million years. */
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+	notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			 _("Game: %s can't build %s from the worklist.  "
 			   "Purging..."),
 			 pcity->name,
@@ -669,13 +669,13 @@ static bool worklist_change_build_target(struct player *pplayer,
       if (new_target == target) {
 	/* Nope, no use.  *sigh*  */
 	if (!player_knows_improvement_tech(pplayer, target)) {
-	  notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+	  notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			   _("Game: %s can't build %s from the worklist; "
 			     "tech not yet available.  Postponing..."),
 			   pcity->name,
 			   get_impr_name_ex(pcity, target));
 	} else if (improvement_types[target].bldg_req != B_LAST) {
-	  notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+	  notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			   _("Game: %s can't build %s from the worklist; "
 			     "need to have %s first.  Postponing..."),
 			   pcity->name,
@@ -684,7 +684,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	} else {
 	  /* This shouldn't happen...
 	     FIXME: make can_build_improvement() return a reason enum. */
-	  notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+	  notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			   _("Game: %s can't build %s from the worklist; "
 			     "Reason unknown!  Postponing..."),
 			   pcity->name,
@@ -693,7 +693,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	continue;
       } else {
 	/* Hey, we can upgrade the improvement!  */
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_WORKLIST,
+	notify_player_ex(pplayer, pcity->tile, E_WORKLIST,
 			 _("Game: Production of %s is upgraded to %s in %s."),
 			 get_impr_name_ex(pcity, target), 
 			 get_impr_name_ex(pcity, new_target),
@@ -718,7 +718,7 @@ static bool worklist_change_build_target(struct player *pplayer,
   if (worklist_is_empty(&pcity->worklist)) {
     /* There *was* something in the worklist, but it's empty now.  Bug the
        player about it. */
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_WORKLIST,
+    notify_player_ex(pplayer, pcity->tile, E_WORKLIST,
 		     _("Game: %s's worklist is now empty."),
 		     pcity->name);
   }
@@ -760,7 +760,7 @@ static void upgrade_building_prod(struct city *pcity)
 						  pcity->currently_building);
 
   if (can_build_improvement(pcity, upgrades_to)) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_UPGRADED,
+    notify_player_ex(pplayer, pcity->tile, E_UNIT_UPGRADED,
 		     _("Game: Production of %s is upgraded to %s in %s."),
 		     get_improvement_type(pcity->currently_building)->name,
 		     get_improvement_type(upgrades_to)->name,
@@ -805,7 +805,7 @@ static void upgrade_unit_prod(struct city *pcity)
 
   if (can_build_unit_direct(pcity, id2)) {
     pcity->currently_building = id2;
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_UPGRADED, 
+    notify_player_ex(pplayer, pcity->tile, E_UNIT_UPGRADED, 
 		  _("Game: Production of %s is upgraded to %s in %s."),
 		  get_unit_type(id)->name, 
 		  get_unit_type(id2)->name , 
@@ -827,7 +827,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       if (utype_shield_cost(unit_type(punit), g) > 0
 	  && pcity->shield_surplus < 0
           && !unit_flag(punit, F_UNDISBANDABLE)) {
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
+	notify_player_ex(pplayer, pcity->tile, E_UNIT_LOST,
 			 _("Game: %s can't upkeep %s, unit disbanded."),
 			 pcity->name, unit_type(punit)->name);
         handle_unit_disband(pplayer, punit->id);
@@ -846,7 +846,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 
       if (upkeep > 0 && pcity->shield_surplus < 0) {
 	assert(unit_flag(punit, F_UNDISBANDABLE));
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
+	notify_player_ex(pplayer, pcity->tile, E_UNIT_LOST,
 			 _("Game: Citizens in %s perish for their failure to "
 			 "upkeep %s!"), pcity->name, unit_type(punit)->name);
 	if (!city_reduce_size(pcity, 1)) {
@@ -885,7 +885,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   }
   upgrade_building_prod(pcity);
   if (!can_build_improvement(pcity, pcity->currently_building)) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+    notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 		     _("Game: %s is building %s, which "
 		       "is no longer available."),
 		     pcity->name, get_impr_name_ex(pcity,
@@ -922,7 +922,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     /* to eliminate micromanagement */
     if (is_wonder(pcity->currently_building)) {
       game.global_wonders[pcity->currently_building] = pcity->id;
-      notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_BUILD,
+      notify_player_ex(NULL, pcity->tile, E_WONDER_BUILD,
 		       _("Game: The %s have finished building %s in %s."),
 		       get_nation_name_plural(pplayer->nation),
 		       get_impr_name_ex(pcity, pcity->currently_building),
@@ -938,7 +938,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 	      get_impr_name_ex(pcity, pcity->currently_building),
 	      pcity->name);
 
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_BUILD,
+    notify_player_ex(pplayer, pcity->tile, E_IMP_BUILD,
 		     _("Game: %s has finished building %s."), pcity->name,
 		     improvement_types[pcity->currently_building].name);
 
@@ -972,7 +972,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       }
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
-      notify_player_ex(NULL, pcity->x, pcity->y, E_SPACESHIP,
+      notify_player_ex(NULL, pcity->tile, E_SPACESHIP,
 		       _("Game: The %s have started "
 			 "building a spaceship!"),
 		       get_nation_name_plural(pplayer->nation));
@@ -1011,7 +1011,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
      they build!! - Per */
   if (!can_build_unit_direct(pcity, pcity->currently_building)
       && !is_barbarian(pplayer)) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+    notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
         _("Game: %s is building %s, which is no longer available."),
         pcity->name, unit_name(pcity->currently_building));
     freelog(LOG_VERBOSE, _("%s's %s tried build %s, which is not available"),
@@ -1029,7 +1029,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     }
 
     if (pcity->size <= pop_cost) {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 		       _("Game: %s can't build %s yet."),
 		       pcity->name, unit_name(pcity->currently_building));
       return TRUE;
@@ -1040,7 +1040,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     /* don't update turn_last_built if we returned above */
     pcity->turn_last_built = game.turn;
 
-    (void) create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
+    (void) create_unit(pplayer, pcity->tile, pcity->currently_building,
 		       do_make_unit_veteran(pcity, pcity->currently_building),
 		       pcity->id, -1);
 
@@ -1058,7 +1058,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     pcity->shield_stock
       -= unit_build_shield_cost(pcity->currently_building);
 
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_BUILT,
+    notify_player_ex(pplayer, pcity->tile, E_UNIT_BUILT,
 		     /* TRANS: <city> is finished building <unit/building>. */
 		     _("Game: %s is finished building %s."),
 		     pcity->name,
@@ -1067,7 +1067,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     gamelog(GAMELOG_UNIT, _("%s build %s in %s (%i,%i)"),
 	    get_nation_name_plural(pplayer->nation),
 	    unit_types[pcity->currently_building].name, pcity->name,
-	    pcity->x, pcity->y);
+	    pcity->tile->x, pcity->tile->y);
 
     /* If there's something in the worklist, change the build
        target. If there's nothing there, worklist_change_build_target
@@ -1109,7 +1109,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
     if (!is_wonder(i)
 	&& pplayer->government != game.government_when_anarchy) {
       if (pplayer->economic.gold - improvement_upkeep(pcity, i) < 0) {
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUCTIONED,
+	notify_player_ex(pplayer, pcity->tile, E_IMP_AUCTIONED,
 			 _("Game: Can't afford to maintain %s in %s, "
 			   "building sold!"),
 			 improvement_types[i].name, pcity->name);
@@ -1132,19 +1132,19 @@ static void check_pollution(struct city *pcity)
       /* place pollution somewhere in city radius */
       int cx = myrand(CITY_MAP_SIZE);
       int cy = myrand(CITY_MAP_SIZE);
-      int mx, my;
+      struct tile *ptile;
 
       /* if is a corner tile or not a real map position */
       if (!is_valid_city_coords(cx, cy)
-	  || !city_map_to_map(&mx, &my, pcity, cx, cy)) {
+	  || !(ptile = city_map_to_map(pcity, cx, cy))) {
 	continue;
       }
 
-      if (!terrain_has_flag(map_get_terrain(mx, my), TER_NO_POLLUTION)
-	  && !map_has_special(mx, my, S_POLLUTION)) {
-	map_set_special(mx, my, S_POLLUTION);
-	update_tile_knowledge(mx, my);
-	notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
+      if (!terrain_has_flag(map_get_terrain(ptile), TER_NO_POLLUTION)
+	  && !map_has_special(ptile, S_POLLUTION)) {
+	map_set_special(ptile, S_POLLUTION);
+	update_tile_knowledge(ptile);
+	notify_player_ex(city_owner(pcity), pcity->tile,
 			 E_POLLUTION, _("Game: Pollution near %s."),
 			 pcity->name);
 	return;
@@ -1177,7 +1177,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   /* Gold factor */
   cost = city_owner(pcity)->economic.gold + 1000;
 
-  unit_list_iterate(map_get_tile(pcity->x,pcity->y)->units, punit) {
+  unit_list_iterate(pcity->tile->units, punit) {
     cost += (unit_build_shield_cost(punit->type)
 	     * game.incite_cost.unit_factor);
   } unit_list_iterate_end;
@@ -1198,7 +1198,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   }
 
   /* City is empty */
-  if (unit_list_size(&map_get_tile(pcity->x,pcity->y)->units) == 0) {
+  if (unit_list_size(&pcity->tile->units) == 0) {
     cost /= 2;
   }
 
@@ -1214,7 +1214,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   /* Distance from capital */
   capital = find_palace(city_owner(pcity));
   if (capital) {
-    int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
+    int tmp = map_distance(capital->tile, pcity->tile);
     dist = MIN(32, tmp);
   } else {
     /* No capital? Take max penalty! */
@@ -1297,7 +1297,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
     if (city_celebrating(pcity)) {
       pcity->rapture++;
       if (pcity->rapture == 1)
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_LOVE,
+	notify_player_ex(pplayer, pcity->tile, E_CITY_LOVE,
 			 _("Game: We Love The %s Day celebrated in %s."), 
 			 get_ruler_title(pplayer->government, pplayer->is_male,
 					 pplayer->nation),
@@ -1305,7 +1305,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
     }
     else {
       if (pcity->rapture != 0)
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
+	notify_player_ex(pplayer, pcity->tile, E_CITY_NORMAL,
 			 _("Game: We Love The %s Day canceled in %s."),
 			 get_ruler_title(pplayer->government, pplayer->is_male,
 					 pplayer->nation),
@@ -1335,16 +1335,16 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
     if(city_unhappy(pcity)) { 
       pcity->anarchy++;
       if (pcity->anarchy == 1) 
-        notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_DISORDER,
+        notify_player_ex(pplayer, pcity->tile, E_CITY_DISORDER,
 	  	         _("Game: Civil disorder in %s."), pcity->name);
       else
-        notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_DISORDER,
+        notify_player_ex(pplayer, pcity->tile, E_CITY_DISORDER,
 		         _("Game: CIVIL DISORDER CONTINUES in %s."),
 			 pcity->name);
     }
     else {
       if (pcity->anarchy != 0)
-        notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_NORMAL,
+        notify_player_ex(pplayer, pcity->tile, E_CITY_NORMAL,
 	  	         _("Game: Order restored in %s."), pcity->name);
       pcity->anarchy=0;
     }
@@ -1352,7 +1352,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 
     send_city_info(NULL, pcity);
     if (pcity->anarchy>2 && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) {
-      notify_player_ex(pplayer, pcity->x, pcity->y, E_ANARCHY,
+      notify_player_ex(pplayer, pcity->tile, E_ANARCHY,
 		       _("Game: The people have overthrown your %s, "
 			 "your country is in turmoil."),
 		       get_government_name(g->index));
@@ -1368,22 +1368,22 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 static bool disband_city(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
-  int x = pcity->x, y = pcity->y;
+  struct tile *ptile = pcity->tile;
   struct city *rcity=NULL;
 
   /* find closest city other than pcity */
-  rcity = find_closest_owned_city(pplayer, x, y, FALSE, pcity);
+  rcity = find_closest_owned_city(pplayer, ptile, FALSE, pcity);
 
   if (!rcity) {
     /* What should we do when we try to disband our only city? */
-    notify_player_ex(pplayer, x, y, E_CITY_CANTBUILD,
+    notify_player_ex(pplayer, ptile, E_CITY_CANTBUILD,
 		     _("Game: %s can't build %s yet, "
 		     "and we can't disband our only city."),
 		     pcity->name, unit_name(pcity->currently_building));
     return FALSE;
   }
 
-  (void) create_unit(pplayer, x, y, pcity->currently_building,
+  (void) create_unit(pplayer, ptile, pcity->currently_building,
 		     do_make_unit_veteran(pcity, pcity->currently_building),
 		     pcity->id, -1);
 
@@ -1393,12 +1393,13 @@ static bool disband_city(struct city *pcity)
    * transferred this is not a problem. */
   transfer_city_units(pplayer, pplayer, &pcity->units_supported, rcity, pcity, -1, TRUE);
 
-  notify_player_ex(pplayer, x, y, E_UNIT_BUILT,
+  notify_player_ex(pplayer, ptile, E_UNIT_BUILT,
 		   /* TRANS: Settler production leads to disbanded city. */
 		   _("Game: %s is disbanded into %s."), 
 		   pcity->name, unit_types[pcity->currently_building].name);
   gamelog(GAMELOG_UNIT, _("%s (%i, %i) disbanded into %s by the %s"),
-	  pcity->name, x, y, unit_types[pcity->currently_building].name,
+	  pcity->name, ptile->x, ptile->y,
+	  unit_types[pcity->currently_building].name,
 	  get_nation_name_plural(pplayer->nation));
 
   remove_city(pcity);

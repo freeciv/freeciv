@@ -96,8 +96,8 @@ static struct player *create_barbarian_player(bool land)
         pick_ai_player_name(game.nation_count - 1, barbarians->name);
 	sz_strlcpy(barbarians->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */
-	whole_map_iterate(x, y) {
-	  map_clear_known(x, y, barbarians);
+	whole_map_iterate(ptile) {
+	  map_clear_known(ptile, barbarians);
 	} whole_map_iterate_end;
       }
       barbarians->economic.gold += 100;  /* New leader, new money */
@@ -151,7 +151,7 @@ static struct player *create_barbarian_player(bool land)
 
   freelog(LOG_VERBOSE, "Created barbarian %s, player %d",
           barbarians->name, barbarians->player_no);
-  notify_player_ex(NULL, -1, -1, E_UPRISING,
+  notify_player_ex(NULL, NULL, E_UPRISING,
                    _("Barbarians gain a leader by the name %s.  Dangerous "
                      "times may lie ahead."), barbarians->name);
 
@@ -164,19 +164,19 @@ static struct player *create_barbarian_player(bool land)
 /**************************************************************************
   Check if a tile is land and free of enemy units
 **************************************************************************/
-static bool is_free_land(int x, int y, struct player *who)
+static bool is_free_land(struct tile *ptile, struct player *who)
 {
-  return (!is_ocean(map_get_terrain(x, y))
-	  && !is_non_allied_unit_tile(map_get_tile(x, y), who));
+  return (!is_ocean(map_get_terrain(ptile))
+	  && !is_non_allied_unit_tile((ptile), who));
 }
 
 /**************************************************************************
   Check if a tile is sea and free of enemy units
 **************************************************************************/
-static bool is_free_sea(int x, int y, struct player *who)
+static bool is_free_sea(struct tile *ptile, struct player *who)
 {
-  return (is_ocean(map_get_terrain(x, y))
-	  && !is_non_allied_unit_tile(map_get_tile(x, y), who));
+  return (is_ocean(map_get_terrain(ptile))
+	  && !is_non_allied_unit_tile((ptile), who));
 }
 
 /**************************************************************************
@@ -189,16 +189,17 @@ static bool is_free_sea(int x, int y, struct player *who)
   a village. The return value indicates if the explorer survived entering 
   the vilage.
 **************************************************************************/
-bool unleash_barbarians(int x, int y)
+bool unleash_barbarians(struct tile *ptile)
 {
   struct player *barbarians;
   int unit, unit_cnt, land_cnt = 0, sea_cnt = 0;
   int boat;
-  int i, xu, yu, me;
+  int i, me;
+  struct tile *utile = NULL;
   bool alive = TRUE;     /* explorer survived */
 
   if (game.barbarianrate == 0 || (game.year < game.onsetbarbarian)) {
-    unit_list_iterate_safe(map_get_tile(x, y)->units, punit) {
+    unit_list_iterate_safe((ptile)->units, punit) {
       wipe_unit(punit);
     } unit_list_iterate_safe_end;
     return FALSE;
@@ -211,55 +212,56 @@ bool unleash_barbarians(int x, int y)
 
   for (i = 0; i < unit_cnt; i++) {
     unit = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
-    (void) create_unit(barbarians, x, y, unit, 0, 0, -1);
+    (void) create_unit(barbarians, ptile, unit, 0, 0, -1);
     freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
   }
 
-  adjc_iterate(x, y, x1, y1) {
-    land_cnt += is_free_land(x1, y1, barbarians) ? 1 : 0;
-    sea_cnt += is_free_sea(x1, y1, barbarians) ? 1 : 0;
+  adjc_iterate(ptile, tile1) {
+    land_cnt += is_free_land(tile1, barbarians) ? 1 : 0;
+    sea_cnt += is_free_sea(tile1, barbarians) ? 1 : 0;
   } adjc_iterate_end;
 
   if (land_cnt >= 3) {           /* enough land, scatter guys around */
-    unit_list_iterate(map_get_tile(x, y)->units, punit2) {
+    unit_list_iterate((ptile)->units, punit2) {
       if (punit2->owner == me) {
         send_unit_info(NULL, punit2);
 	do {
 	  do {
-	    rand_neighbour(x, y, &xu, &yu);
-	  } while (!is_free_land(xu, yu, barbarians));
-        } while (!handle_unit_move_request(punit2, xu, yu, TRUE, FALSE));
+	    utile = rand_neighbour(ptile);
+	  } while (!is_free_land(utile, barbarians));
+        } while (!handle_unit_move_request(punit2, utile, TRUE, FALSE));
         freelog(LOG_DEBUG, "Moved barbarian unit from %d %d to %d, %d", 
-                x, y, xu, yu);
+                ptile->x, ptile->y, utile->x, utile->y);
       }
     } unit_list_iterate_end;
   } else {
     if (sea_cnt > 0) {         /* maybe it's an island, try to get on boats */
-      int xb = -1, yb = -1;
-      unit_list_iterate(map_get_tile(x, y)->units, punit2) {
+      struct tile *btile = NULL;
+
+      unit_list_iterate((ptile)->units, punit2) {
         if (punit2->owner == me) {
           send_unit_info(NULL, punit2);
           while(TRUE) {
-	    rand_neighbour(x, y, &xu, &yu);
-	    if (can_unit_move_to_tile(punit2, xu, yu, TRUE)) {
+	    utile = rand_neighbour(ptile);
+	    if (can_unit_move_to_tile(punit2, utile, TRUE)) {
 	      break;
             }
-	    if (can_unit_move_to_tile(punit2, xb, yb, TRUE)) {
-              xu = xb; yu = yb;
+	    if (can_unit_move_to_tile(punit2, btile, TRUE)) {
+	      utile = btile;
               break;
 	    }
-	    if (is_free_sea(xu, yu, barbarians)) {
+	    if (is_free_sea(utile, barbarians)) {
               boat = find_a_unit_type(L_BARBARIAN_BOAT, -1);
-	      (void) create_unit(barbarians, xu, yu, boat, 0, 0, -1);
-	      xb = xu; yb = yu;
+	      (void) create_unit(barbarians, utile, boat, 0, 0, -1);
+	      btile = utile;
 	      break;
 	    }
           }
-          (void) handle_unit_move_request(punit2, xu, yu, TRUE, FALSE);
+          (void) handle_unit_move_request(punit2, utile, TRUE, FALSE);
         }
       } unit_list_iterate_end;
     } else {             /* The village is surrounded! Kill the explorer. */
-      unit_list_iterate_safe(map_get_tile(x, y)->units, punit2) {
+      unit_list_iterate_safe((ptile)->units, punit2) {
         if (punit2->owner != me) {
           wipe_unit(punit2);
           alive = FALSE;
@@ -271,7 +273,9 @@ bool unleash_barbarians(int x, int y)
   }
 
   /* FIXME: I don't know if this is needed */
-  show_area(barbarians, xu, yu, 3);
+  if (utile) {
+    show_area(barbarians, utile, 3);
+  }
 
   return alive;
 }
@@ -279,10 +283,10 @@ bool unleash_barbarians(int x, int y)
 /**************************************************************************
   Is sea not further than a couple of tiles away from land?
 **************************************************************************/
-static bool is_near_land(int x0, int y0)
+static bool is_near_land(struct tile *tile0)
 {
-  square_iterate(x0, y0, 4, x, y) {
-    if (!is_ocean(map_get_terrain(x,y))) {
+  square_iterate(tile0, 4, ptile) {
+    if (!is_ocean(map_get_terrain(ptile))) {
       return TRUE;
     }
   } square_iterate_end;
@@ -293,17 +297,15 @@ static bool is_near_land(int x0, int y0)
 /**************************************************************************
   Return this or a neighbouring tile that is free of any units
 **************************************************************************/
-static bool find_empty_tile_nearby(int x0, int y0, int *x, int *y)
+static struct tile *find_empty_tile_nearby(struct tile *ptile)
 {
-  square_iterate(x0, y0, 1, x1, y1) {
-    if (unit_list_size(&map_get_tile(x1, y1)->units) == 0) {
-      *x = x1;
-      *y = y1;
-      return TRUE;
+  square_iterate(ptile, 1, tile1) {
+    if (unit_list_size(&(tile1)->units) == 0) {
+      return tile1;
     }
   } square_iterate_end;
 
-  return FALSE;
+  return NULL;
 }
 
 /**************************************************************************
@@ -326,7 +328,7 @@ static bool find_empty_tile_nearby(int x0, int y0, int *x, int *y)
 **************************************************************************/
 static void try_summon_barbarians(void)
 {
-  int x, y, xu, yu;
+  struct tile *ptile, *utile;
   int i, boat, cap, dist, unit;
   int uprise = 1;
   struct city *pc;
@@ -337,32 +339,32 @@ static void try_summon_barbarians(void)
    * that a particular tile's chance of being summoned on is independent of
    * all the other tiles on the map - which is essential for balanced
    * gameplay. */
-  rand_map_pos(&x, &y);
+  ptile = rand_map_pos();
 
-  if (terrain_has_flag(map_get_terrain(x, y), TER_NO_BARBS)) {
+  if (terrain_has_flag(map_get_terrain(ptile), TER_NO_BARBS)) {
     return;
   }
 
 
-  if (!(pc = dist_nearest_city(NULL, x, y, TRUE, FALSE))) {
+  if (!(pc = dist_nearest_city(NULL, ptile, TRUE, FALSE))) {
     /* any city */
     return;
   }
 
   victim = city_owner(pc);
 
-  dist = real_map_distance(x, y, pc->x, pc->y);
+  dist = real_map_distance(ptile, pc->tile);
   freelog(LOG_DEBUG,"Closest city to %d %d is %s at %d %d which is %d far", 
-          x, y, pc->name, pc->x, pc->y, dist);
+          ptile->x, ptile->y, pc->name, pc->tile->x, pc->tile->y, dist);
   if (dist > MAX_UNREST_DIST || dist < MIN_UNREST_DIST) {
     return;
   }
 
   /* I think Sea Raiders can come out of unknown sea territory */
-  if (!find_empty_tile_nearby(x,y,&xu,&yu)
-      || (!map_is_known(xu, yu, victim)
-	  && !is_ocean(map_get_terrain(xu, yu)))
-      || !is_near_land(xu, yu)) {
+  if (!(utile = find_empty_tile_nearby(ptile))
+      || (!map_is_known(utile, victim)
+	  && !is_ocean(map_get_terrain(utile)))
+      || !is_near_land(utile)) {
     return;
   }
 
@@ -375,13 +377,13 @@ static void try_summon_barbarians(void)
   }
   freelog(LOG_DEBUG, "Barbarians are willing to fight");
 
-  if (map_has_special(xu, yu, S_HUT)) {
+  if (map_has_special(utile, S_HUT)) {
     /* remove the hut in place of uprising */
-    map_clear_special(xu, yu, S_HUT);
-    update_tile_knowledge(xu, yu);
+    map_clear_special(utile, S_HUT);
+    update_tile_knowledge(utile);
   }
 
-  if (!is_ocean(map_get_terrain(xu,yu))) {
+  if (!is_ocean(map_get_terrain(utile))) {
     /* land (disembark) barbarians */
     barbarians = create_barbarian_player(TRUE);
     if (city_list_size(&victim->cities) > UPRISE_CIV_MOST) {
@@ -389,45 +391,45 @@ static void try_summon_barbarians(void)
     }
     for (i = 0; i < myrand(3) + uprise * game.barbarianrate; i++) {
       unit = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
-      (void) create_unit(barbarians, xu, yu, unit, 0, 0, -1);
+      (void) create_unit(barbarians, utile, unit, 0, 0, -1);
       freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
     }
-    (void) create_unit(barbarians, xu, yu,
+    (void) create_unit(barbarians, utile,
 		       get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0, -1);
   } else {                   /* sea raiders - their units will be veteran */
     struct unit *ptrans;
 
     barbarians = create_barbarian_player(FALSE);
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
-    ptrans = create_unit(barbarians, xu, yu, boat, 0, 0, -1);
-    cap = get_transporter_capacity(unit_list_get(&map_get_tile(xu, yu)->units, 0));
+    ptrans = create_unit(barbarians, utile, boat, 0, 0, -1);
+    cap = get_transporter_capacity(unit_list_get(&utile->units, 0));
     for (i = 0; i < cap-1; i++) {
       unit = find_a_unit_type(L_BARBARIAN_SEA,L_BARBARIAN_SEA_TECH);
-      (void) create_unit_full(barbarians, xu, yu, unit, 0, 0, -1, -1,
+      (void) create_unit_full(barbarians, utile, unit, 0, 0, -1, -1,
 			      ptrans);
       freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
     }
-    (void) create_unit_full(barbarians, xu, yu,
+    (void) create_unit_full(barbarians, utile,
 			    get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0,
 			    -1, -1, ptrans);
   }
 
   /* Is this necessary?  create_unit_full already sends unit info. */
-  unit_list_iterate(map_get_tile(xu, yu)->units, punit2) {
+  unit_list_iterate(utile->units, punit2) {
     send_unit_info(NULL, punit2);
   } unit_list_iterate_end;
 
   /* to let them know where to get you */
-  show_area(barbarians, xu, yu, 3);
-  show_area(barbarians, pc->x, pc->y, 3);
+  show_area(barbarians, utile, 3);
+  show_area(barbarians, pc->tile, 3);
 
   /* There should probably be a different message about Sea Raiders */
   if (is_land_barbarian(barbarians)) {
-    notify_player_ex(victim, xu, yu, E_UPRISING,
+    notify_player_ex(victim, utile, E_UPRISING,
 		     _("Native unrest near %s led by %s."), pc->name,
 		     barbarians->name);
-  } else if (map_is_known_and_seen(xu, yu, victim)) {
-    notify_player_ex(victim, xu, yu, E_UPRISING,
+  } else if (map_is_known_and_seen(utile, victim)) {
+    notify_player_ex(victim, utile, E_UPRISING,
 		     _("Sea raiders seen near %s!"), pc->name);
   }
 }

@@ -47,7 +47,7 @@ struct drawn_sprite {
     } sprite;
 
     struct {
-      int map_x, map_y;
+      struct tile *tile;
       bool citymode;
     } grid;
 
@@ -79,16 +79,15 @@ void tilespec_free_city_tiles(int count);
 
 /* Gfx support */
 
-int fill_sprite_array(struct drawn_sprite *sprs,
-		      int map_x, int map_y, struct tile *ptile,
+int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
 		      struct unit *punit, struct city *pcity,
 		      bool citymode);
 
 enum color_std player_color(struct player *pplayer);
-enum color_std overview_tile_color(int x, int y);
+enum color_std overview_tile_color(struct tile *ptile);
 
 void set_focus_unit_hidden_state(bool hide);
-struct unit *get_drawable_unit(int x, int y, bool citymode);
+struct unit *get_drawable_unit(struct tile *ptile, bool citymode);
 
 
 /* This the way directional indices are now encoded: */

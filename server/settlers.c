@@ -48,34 +48,34 @@
 
 BV_DEFINE(nearness, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 static nearness *territory;
-#define TERRITORY(map_x, map_y) territory[map_pos_to_index(map_x, map_y)]
+#define TERRITORY(ptile) territory[(ptile)->index]
 
 BV_DEFINE(enemy_mask, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 static enemy_mask enemies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
 static bool is_already_assigned(struct unit *myunit, struct player *pplayer,
-				int x, int y);
+				struct tile *ptile);
 
 /**************************************************************************
   Build a city and initialize AI infrastructure cache.
 **************************************************************************/
 static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
 {
-  int x = punit->x, y = punit->y;
+  struct tile *ptile = punit->tile;
   struct city *pcity;
 
   assert(pplayer == unit_owner(punit));
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
 
   /* Free city reservations */
-  ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+  ai_unit_new_role(punit, AIUNIT_NONE, NULL);
 
   handle_unit_build_city(pplayer, punit->id,
-			 city_name_suggestion(pplayer, x, y));
-  pcity = map_get_city(x, y);
+			 city_name_suggestion(pplayer, ptile));
+  pcity = map_get_city(ptile);
   if (!pcity) {
     freelog(LOG_ERROR, "%s: Failed to build city at (%d, %d)", 
-            pplayer->name, x, y);
+            pplayer->name, TILE_XY(ptile));
     return FALSE;
   }
 
@@ -148,7 +148,7 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
   punit->ai.control = TRUE;
   /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
   if (punit->ai.ai_role == AIUNIT_NONE) {
-    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, -1, -1);
+    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, NULL);
   }
   return;
 }
@@ -158,13 +158,13 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
  (via goto)
 **************************************************************************/
 static bool is_already_assigned(struct unit *myunit, struct player *pplayer, 
-    int x, int y)
+    struct tile *ptile)
 {
-  if (same_pos(myunit->x, myunit->y, x, y)
-      || (is_goto_dest_set(myunit) /* HACK */
-	  && same_pos(goto_dest_x(myunit), goto_dest_y(myunit), x, y))) {
+  if (same_pos(myunit->tile, ptile)
+      || (myunit->goto_tile /* HACK? */
+	  && same_pos(myunit->goto_tile, ptile))) {
 /* I'm still not sure this is exactly right -- Syela */
-    unit_list_iterate(map_get_tile(x, y)->units, punit)
+    unit_list_iterate(ptile->units, punit)
       if (myunit==punit) continue;
       if (!pplayers_allied(unit_owner(punit), pplayer))
         return TRUE; /* oops, tile is occupied! */
@@ -173,7 +173,7 @@ static bool is_already_assigned(struct unit *myunit, struct player *pplayer,
     unit_list_iterate_end;
     return FALSE;
   }
-  return TEST_BIT(map_get_tile(x, y)->assigned, pplayer->player_no);
+  return TEST_BIT(ptile->assigned, pplayer->player_no);
 }
 
 /**************************************************************************
@@ -266,16 +266,16 @@ int city_tile_value(struct city *pcity, int x, int y,
   values).
 **************************************************************************/
 static int ai_calc_pollution(struct city *pcity, int city_x, int city_y,
-			     int best, int map_x, int map_y)
+			     int best, struct tile *ptile)
 {
   int goodness;
 
-  if (!map_has_special(map_x, map_y, S_POLLUTION)) {
+  if (!map_has_special(ptile, S_POLLUTION)) {
     return -1;
   }
-  map_clear_special(map_x, map_y, S_POLLUTION);
+  map_clear_special(ptile, S_POLLUTION);
   goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
-  map_set_special(map_x, map_y, S_POLLUTION);
+  map_set_special(ptile, S_POLLUTION);
 
   /* FIXME: need a better way to guarantee pollution is cleaned up. */
   goodness = (goodness + best + 50) * 2;
@@ -296,16 +296,16 @@ static int ai_calc_pollution(struct city *pcity, int city_x, int city_y,
 **************************************************************************/
 static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 			   int city_x, int city_y, int best,
-			   int map_x, int map_y)
+			   struct tile *ptile)
 {
   int goodness;
 
-  if (!map_has_special(map_x, map_y, S_FALLOUT)) {
+  if (!map_has_special(ptile, S_FALLOUT)) {
     return -1;
   }
-  map_clear_special(map_x, map_y, S_FALLOUT);
+  map_clear_special(ptile, S_FALLOUT);
   goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
-  map_set_special(map_x, map_y, S_FALLOUT);
+  map_set_special(ptile, S_FALLOUT);
 
   /* FIXME: need a better way to guarantee fallout is cleaned up. */
   if (!pplayer->ai.control) {
@@ -323,23 +323,23 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
   This function should probably only be used by
   is_wet_or_is_wet_cardinal_around, below.
 **************************************************************************/
-static bool is_wet(struct player *pplayer, int map_x, int map_y)
+static bool is_wet(struct player *pplayer, struct tile *ptile)
 {
   Terrain_type_id terrain;
   enum tile_special_type special;
 
   /* FIXME: this should check a handicap. */
-  if (!pplayer->ai.control && !map_is_known(map_x, map_y, pplayer)) {
+  if (!pplayer->ai.control && !map_is_known(ptile, pplayer)) {
     return FALSE;
   }
 
-  terrain = map_get_terrain(map_x, map_y);
+  terrain = map_get_terrain(ptile);
   if (is_ocean(terrain)) {
     /* TODO: perhaps salt water should not be usable for irrigation? */
     return TRUE;
   }
 
-  special = map_get_special(map_x, map_y);
+  special = map_get_special(ptile);
   if (contains_special(special, S_RIVER)
       || contains_special(special, S_IRRIGATION)) {
     return TRUE;
@@ -357,14 +357,14 @@ static bool is_wet(struct player *pplayer, int map_x, int map_y)
   checks vision.
 **************************************************************************/
 static bool is_wet_or_is_wet_cardinal_around(struct player *pplayer,
-					     int map_x, int map_y)
+					     struct tile *ptile)
 {
-  if (is_wet(pplayer, map_x, map_y)) {
+  if (is_wet(pplayer, ptile)) {
     return TRUE;
   }
 
-  cardinal_adjc_iterate(map_x, map_y, x1, y1) {
-    if (is_wet(pplayer, x1, y1)) {
+  cardinal_adjc_iterate(ptile, tile1) {
+    if (is_wet(pplayer, tile1)) {
       return TRUE;
     }
   } cardinal_adjc_iterate_end;
@@ -385,10 +385,9 @@ static bool is_wet_or_is_wet_cardinal_around(struct player *pplayer,
   values).
 **************************************************************************/
 static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
-			    int city_x, int city_y, int map_x, int map_y)
+			    int city_x, int city_y, struct tile *ptile)
 {
   int goodness;
-  struct tile *ptile = map_get_tile(map_x, map_y);
   Terrain_type_id old_terrain = ptile->terrain;
   enum tile_special_type old_special = ptile->special;
   struct tile_type *type = get_tile_type(old_terrain);
@@ -401,19 +400,19 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
       return -1;
     }
     ptile->terrain = new_terrain;
-    map_clear_special(map_x, map_y, S_MINE);
+    map_clear_special(ptile, S_MINE);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
     ptile->terrain = old_terrain;
     ptile->special = old_special;
     return goodness;
   } else if (old_terrain == new_terrain
 	     && !tile_has_special(ptile, S_IRRIGATION)
-	     && is_wet_or_is_wet_cardinal_around(pplayer, map_x, map_y)) {
+	     && is_wet_or_is_wet_cardinal_around(pplayer, ptile)) {
     /* The tile is currently unirrigated; irrigating it would put an
      * S_IRRIGATE on it replacing any S_MINE already there.  Calculate
      * the benefit of doing so. */
-    map_clear_special(map_x, map_y, S_MINE);
-    map_set_special(map_x, map_y, S_IRRIGATION);
+    map_clear_special(ptile, S_MINE);
+    map_set_special(ptile, S_IRRIGATION);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
     ptile->special = old_special;
     assert(ptile->terrain == old_terrain);
@@ -422,13 +421,13 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 	     && tile_has_special(ptile, S_IRRIGATION)
 	     && !tile_has_special(ptile, S_FARMLAND)
 	     && player_knows_techs_with_flag(pplayer, TF_FARMLAND)
-	     && is_wet_or_is_wet_cardinal_around(pplayer, map_x, map_y)) {
+	     && is_wet_or_is_wet_cardinal_around(pplayer, ptile)) {
     /* The tile is currently irrigated; irrigating it more puts an
      * S_FARMLAND on it.  Calculate the benefit of doing so. */
     assert(!tile_has_special(ptile, S_MINE));
-    map_set_special(map_x, map_y, S_FARMLAND);
+    map_set_special(ptile, S_FARMLAND);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
-    map_clear_special(map_x, map_y, S_FARMLAND);
+    map_clear_special(ptile, S_FARMLAND);
     assert(ptile->terrain == old_terrain && ptile->special == old_special);
     return goodness;
   } else {
@@ -449,10 +448,9 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
   values).
 **************************************************************************/
 static int ai_calc_mine(struct city *pcity,
-			int city_x, int city_y, int map_x, int map_y)
+			int city_x, int city_y, struct tile *ptile)
 {
   int goodness;
-  struct tile *ptile = map_get_tile(map_x, map_y);
   Terrain_type_id old_terrain = ptile->terrain;
   enum tile_special_type old_special = ptile->special;
   struct tile_type *type = get_tile_type(old_terrain);
@@ -465,8 +463,8 @@ static int ai_calc_mine(struct city *pcity,
       return -1;
     }
     ptile->terrain = new_terrain;
-    map_clear_special(map_x, map_y, S_IRRIGATION);
-    map_clear_special(map_x, map_y, S_FARMLAND);
+    map_clear_special(ptile, S_IRRIGATION);
+    map_clear_special(ptile, S_FARMLAND);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
     ptile->terrain = old_terrain;
     ptile->special = old_special;
@@ -476,9 +474,9 @@ static int ai_calc_mine(struct city *pcity,
     /* The tile is currently unmined; mining it would put an S_MINE on it
      * replacing any S_IRRIGATION/S_FARMLAND already there.  Calculate
      * the benefit of doing so. */
-    map_clear_special(map_x, map_y, S_IRRIGATION);
-    map_clear_special(map_x, map_y, S_FARMLAND);
-    map_set_special(map_x, map_y, S_MINE);
+    map_clear_special(ptile, S_IRRIGATION);
+    map_clear_special(ptile, S_FARMLAND);
+    map_set_special(ptile, S_MINE);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
     ptile->special = old_special;
     assert(ptile->terrain == old_terrain);
@@ -492,7 +490,7 @@ static int ai_calc_mine(struct city *pcity,
 /**************************************************************************
   Calculate the benefit of transforming the given tile.
 
-    (map_x, map_y) is the map position of the tile.
+    (ptile) is the map position of the tile.
     (city_x, city_y) is the city position of the tile with respect to pcity.
     pplayer is the player under consideration.
 
@@ -502,10 +500,9 @@ static int ai_calc_mine(struct city *pcity,
   values).
 **************************************************************************/
 static int ai_calc_transform(struct city *pcity,
-			     int city_x, int city_y, int map_x, int map_y)
+			     int city_x, int city_y, struct tile *ptile)
 {
   int goodness;
-  struct tile *ptile = map_get_tile(map_x, map_y);
   Terrain_type_id old_terrain = ptile->terrain;
   enum tile_special_type old_special = ptile->special;
   struct tile_type *type = get_tile_type(old_terrain);
@@ -516,12 +513,12 @@ static int ai_calc_transform(struct city *pcity,
   }
 
   if (is_ocean(old_terrain) && !is_ocean(new_terrain)
-      && !can_reclaim_ocean(map_x, map_y)) {
+      && !can_reclaim_ocean(ptile)) {
     /* Can't change ocean into land here. */
     return -1;
   }
   if (is_ocean(new_terrain) && !is_ocean(old_terrain)
-      && !can_channel_land(map_x, map_y)) {
+      && !can_channel_land(ptile)) {
     /* Can't change land into ocean here. */
     return -1;
   }
@@ -533,11 +530,11 @@ static int ai_calc_transform(struct city *pcity,
   ptile->terrain = new_terrain;
 
   if (get_tile_type(new_terrain)->mining_result != new_terrain) {
-    map_clear_special(map_x, map_y, S_MINE);
+    map_clear_special(ptile, S_MINE);
   }
   if (get_tile_type(new_terrain)->irrigation_result != new_terrain) {
-    map_clear_special(map_x, map_y, S_FARMLAND);
-    map_clear_special(map_x, map_y, S_IRRIGATION);
+    map_clear_special(ptile, S_FARMLAND);
+    map_clear_special(ptile, S_IRRIGATION);
   }
     
   goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
@@ -556,28 +553,23 @@ static int ai_calc_transform(struct city *pcity,
 
   "special" must be either S_ROAD or S_RAILROAD.
 **************************************************************************/
-static int road_bonus(int map_x, int map_y, enum tile_special_type special)
+static int road_bonus(struct tile *ptile, enum tile_special_type special)
 {
   int bonus = 0, i;
   bool has_road[12], is_slow[12];
   int dx[12] = {-1,  0,  1, -1, 1, -1, 0, 1,  0, -2, 2, 0};
   int dy[12] = {-1, -1, -1,  0, 0,  1, 1, 1, -2,  0, 0, 2};
-  bool is_border = IS_BORDER_MAP_POS(map_x, map_y, 2);
+  bool is_border = is_border_tile(ptile, 2);
   
   assert(special == S_ROAD || special == S_RAILROAD);
 
-  /* TODO: should just be CHECK_MAP_POS call. */
-  if (!normalize_map_pos(&map_x, &map_y)) {
-    return 0;
-  }
-
   for (i = 0; i < 12; i++) {
-    int x1 = map_x + dx[i], y1 = map_y + dy[i];
+    int x1 = ptile->x + dx[i], y1 = ptile->y + dy[i];
     if (is_border && !normalize_map_pos(&x1, &y1)) {
       has_road[i] = FALSE;
       is_slow[i] = FALSE; /* FIXME: should be TRUE? */
     } else {
-      struct tile *ptile = map_get_tile(x1, y1);
+      struct tile *ptile = map_pos_to_tile(x1, y1);
       struct tile_type *ptype = get_tile_type(ptile->terrain);
 
       has_road[i] = tile_has_special(ptile, special);
@@ -693,10 +685,9 @@ static int road_bonus(int map_x, int map_y, enum tile_special_type special)
   that calculation.
 **************************************************************************/
 static int ai_calc_road(struct city *pcity, struct player *pplayer,
-			int city_x, int city_y, int map_x, int map_y)
+			int city_x, int city_y, struct tile *ptile)
 {
   int goodness;
-  struct tile *ptile = map_get_tile(map_x, map_y);
 
   if (!is_ocean(ptile->terrain)
       && (!tile_has_special(ptile, S_RIVER)
@@ -721,7 +712,7 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
 /**************************************************************************
   Calculate the benefit of building a railroad at the given tile.
 
-    (map_x, map_y) is the map position of the tile.
+    (ptile) is the map position of the tile.
     (city_x, city_y) is the city position of the tile with respect to pcity.
     pplayer is the player under consideration.
 
@@ -735,11 +726,10 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
   that calculation.
 **************************************************************************/
 static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
-			    int city_x, int city_y, int map_x, int map_y)
+			    int city_x, int city_y, struct tile *ptile)
 {
   int goodness;
   enum tile_special_type old_special;
-  struct tile *ptile = map_get_tile(map_x, map_y);
 
   if (!is_ocean(ptile->terrain)
       && player_knows_techs_with_flag(pplayer, TF_RAILROAD)
@@ -773,20 +763,19 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
   ground_unit_transporter_capacity will return negative.
   TODO: Kill me.  There is a reliable version of this, find_ferry.
 **************************************************************************/
-Unit_Type_id find_boat(struct player *pplayer, int *x, int *y, int cap)
+Unit_Type_id find_boat(struct player *pplayer, struct tile **ptile, int cap)
 {
   int best = 22; /* arbitrary maximum distance, I will admit! */
   Unit_Type_id id = 0;
   unit_list_iterate(pplayer->units, aunit)
     if (is_ground_units_transport(aunit)) {
-      if (WARMAP_COST(aunit->x, aunit->y) < best &&
-	  (WARMAP_COST(aunit->x, aunit->y) == 0 ||
-	   ground_unit_transporter_capacity(aunit->x, aunit->y,
+      if (WARMAP_COST(aunit->tile) < best &&
+	  (WARMAP_COST(aunit->tile) == 0 ||
+	   ground_unit_transporter_capacity(aunit->tile,
 					    pplayer) >= cap)) {
         id = aunit->id;
-        best = WARMAP_COST(aunit->x, aunit->y);
-        *x = aunit->x;
-        *y = aunit->y;
+        best = WARMAP_COST(aunit->tile);
+	*ptile = aunit->tile;
       }
     }
   unit_list_iterate_end;
@@ -800,7 +789,7 @@ Unit_Type_id find_boat(struct player *pplayer, int *x, int *y, int cap)
 **************************************************************************/
 struct unit *other_passengers(struct unit *punit)
 {
-  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit)
+  unit_list_iterate(punit->tile->units, aunit)
     if (is_ground_unit(aunit) && aunit != punit) return aunit;
   unit_list_iterate_end;
   return NULL;
@@ -818,8 +807,9 @@ static void consider_settler_action(struct player *pplayer,
 				    bool in_use, int delay,
 				    int *best_value,
 				    int *best_old_tile_value,
-				    enum unit_activity *best_act, 
-                                    int *gx, int *gy, int x, int y)
+				    enum unit_activity *best_act,
+				    struct tile **best_tile,
+                                    struct tile *ptile)
 {
   int discount_value, base_value = 0;
   int total_value;
@@ -859,13 +849,13 @@ static void consider_settler_action(struct player *pplayer,
 	  && old_tile_value > *best_old_tile_value)) {
     freelog(LOG_DEBUG,
 	    "Replacing (%d, %d) = %d with %s (%d, %d) = %d [d=%d b=%d]",
-	    *gx, *gy, *best_value, get_activity_text(act), x, y, total_value,
+	    TILE_XY(*best_tile), *best_value, get_activity_text(act),
+	    TILE_XY(ptile), total_value,
             delay, base_value);
     *best_value = total_value;
     *best_old_tile_value = old_tile_value;
     *best_act = act;
-    *gx = x;
-    *gy = y;
+    *best_tile = ptile;
   }
 }
 
@@ -883,7 +873,7 @@ static int unit_foodbox_cost(struct unit *punit)
 
   if (punit->id == 0) {
     /* It is a virtual unit, so must start in a city... */
-    struct city *pcity = map_get_city(punit->x, punit->y);
+    struct city *pcity = map_get_city(punit->tile);
 
     /* The default is to lose 100%.  The growth bonus reduces this. */
     int foodloss_pct = 100 - get_city_bonus(pcity, EFT_GROWTH_FOOD);
@@ -920,14 +910,14 @@ static int unit_food_upkeep(struct unit *punit)
   worthwhile activities available.
 ****************************************************************************/
 static int evaluate_improvements(struct unit *punit,
-				 enum unit_activity *best_act, 
-                                 int *gx, int *gy)
+				 enum unit_activity *best_act,
+				 struct tile **best_tile)
 {
-  struct city *mycity = map_get_city(punit->x, punit->y);
+  struct city *mycity = map_get_city(punit->tile);
   struct player *pplayer = unit_owner(punit);
   bool in_use;			/* true if the target square is being used
 				   by one of our cities */
-  Continent_id ucont     = map_get_continent(punit->x, punit->y);
+  Continent_id ucont     = map_get_continent(punit->tile);
   int mv_rate         = unit_type(punit)->move_rate;
   int mv_turns;			/* estimated turns to move to target square */
   int oldv;			/* current value of consideration tile */
@@ -948,95 +938,99 @@ static int evaluate_improvements(struct unit *punit,
     freelog(LOG_DEBUG, "Evaluating improvements for %s...", pcity->name);
 #endif
     /* try to work near the city */
-    city_map_checked_iterate(pcity->x, pcity->y, i, j, x, y) {
+    city_map_checked_iterate(pcity->tile, i, j, ptile) {
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE)
 	continue;
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
-      if (map_get_continent(x, y) == ucont
-	  && WARMAP_COST(x, y) <= THRESHOLD * mv_rate
-	  && !BV_CHECK_MASK(TERRITORY(x, y), my_enemies)
+      if (map_get_continent(ptile) == ucont
+	  && WARMAP_COST(ptile) <= THRESHOLD * mv_rate
+	  && !BV_CHECK_MASK(TERRITORY(ptile), my_enemies)
 	  /* pretty good, hope it's enough! -- Syela */
-	  && !is_already_assigned(punit, pplayer, x, y)) {
+	  && !is_already_assigned(punit, pplayer, ptile)) {
 	/* calling is_already_assigned once instead of four times
 	   for obvious reasons;  structure is much the same as it once
 	   was but subroutines are not -- Syela	*/
 	int time;
-	mv_turns = (WARMAP_COST(x, y)) / mv_rate;
+	mv_turns = (WARMAP_COST(ptile)) / mv_rate;
 	oldv = city_tile_value(pcity, i, j, 0, 0);
 
 	/* now, consider various activities... */
 
 	time = mv_turns
-	  + get_turns_for_activity_at(punit, ACTIVITY_IRRIGATE, x, y);
+	  + get_turns_for_activity_at(punit, ACTIVITY_IRRIGATE, ptile);
 	consider_settler_action(pplayer, ACTIVITY_IRRIGATE, -1,
 				pcity->ai.irrigate[i][j], oldv, in_use, time,
-				&best_newv, &best_oldv, best_act, gx, gy,
-				x, y);
+				&best_newv, &best_oldv, best_act, best_tile,
+				ptile);
 
 	if (unit_flag(punit, F_TRANSFORM)) {
 	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_TRANSFORM, x, y);
+	    + get_turns_for_activity_at(punit, ACTIVITY_TRANSFORM, ptile);
 	  consider_settler_action(pplayer, ACTIVITY_TRANSFORM, -1,
 				  pcity->ai.transform[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv, best_act, gx, gy,
-				  x, y);
+				  &best_newv, &best_oldv, best_act, best_tile,
+				  ptile);
 	}
 
 	time = mv_turns
-	  + get_turns_for_activity_at(punit, ACTIVITY_MINE, x, y);
+	  + get_turns_for_activity_at(punit, ACTIVITY_MINE, ptile);
 	consider_settler_action(pplayer, ACTIVITY_MINE, -1,
 				pcity->ai.mine[i][j], oldv, in_use, time,
-				&best_newv, &best_oldv, best_act, gx, gy,
-				x, y);
+				&best_newv, &best_oldv, best_act, best_tile,
+				ptile);
 
-	if (!map_has_special(x, y, S_ROAD)) {
+	if (!map_has_special(ptile, S_ROAD)) {
 	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_ROAD, x, y);
+	    + get_turns_for_activity_at(punit, ACTIVITY_ROAD, ptile);
 	  consider_settler_action(pplayer, ACTIVITY_ROAD,
-				  road_bonus(x, y, S_ROAD) * 5,
+				  road_bonus(ptile, S_ROAD) * 5,
 				  pcity->ai.road[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv, best_act, gx, gy,
-				  x, y);
+				  &best_newv, &best_oldv, best_act, best_tile,
+				  ptile);
 
 	  if (can_rr) {
 	    /* Count road time plus rail time. */
-	    time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, x, y);
+	    time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, ptile);
 	    consider_settler_action(pplayer, ACTIVITY_ROAD,
-				    road_bonus(x, y, S_RAILROAD) * 3,
+				    road_bonus(ptile, S_RAILROAD) * 3,
 				    pcity->ai.railroad[i][j], oldv,
 				    in_use, time,
-				    &best_newv, &best_oldv, best_act, gx, gy,
-				    x, y);
+				    &best_newv, &best_oldv,
+				    best_act, best_tile,
+				    ptile);
 	  }
-	} else if (!map_has_special(x, y, S_RAILROAD)
+	} else if (!map_has_special(ptile, S_RAILROAD)
 		   && can_rr) {
 	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, x, y);
+	    + get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, ptile);
 	  consider_settler_action(pplayer, ACTIVITY_RAILROAD,
-				  road_bonus(x, y, S_RAILROAD) * 3,
+				  road_bonus(ptile, S_RAILROAD) * 3,
 				  pcity->ai.railroad[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv, best_act, gx, gy,
-				  x, y);
+				  &best_newv, &best_oldv,
+				  best_act, best_tile,
+				  ptile);
 	} /* end S_ROAD else */
 
-	if (map_has_special(x, y, S_POLLUTION)) {
+	if (map_has_special(ptile, S_POLLUTION)) {
 	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_POLLUTION, x, y);
+	    + get_turns_for_activity_at(punit, ACTIVITY_POLLUTION, ptile);
 	  consider_settler_action(pplayer, ACTIVITY_POLLUTION,
 				  pplayer->ai.warmth,
 				  pcity->ai.detox[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv, best_act, gx, gy,
-				  x, y);
+				  &best_newv, &best_oldv,
+				  best_act, best_tile,
+				  ptile);
 	}
       
-	if (map_has_special(x, y, S_FALLOUT)) {
+	if (map_has_special(ptile, S_FALLOUT)) {
 	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_FALLOUT, x, y);
+	    + get_turns_for_activity_at(punit, ACTIVITY_FALLOUT, ptile);
 	  consider_settler_action(pplayer, ACTIVITY_FALLOUT,
 				  pplayer->ai.warmth,
 				  pcity->ai.derad[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv, best_act, gx, gy,
-				  x, y);
+				  &best_newv, &best_oldv,
+				  best_act, best_tile,
+				  ptile);
 	}
 
 #ifdef REALLY_DEBUG_THIS
@@ -1059,13 +1053,13 @@ static int evaluate_improvements(struct unit *punit,
   if (best_newv > 0) {
     freelog(LOG_DEBUG,
 	    "Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
-	    punit->id, punit->x, punit->y, get_activity_text(*best_act),
-	    *gx, *gy, best_newv);
+	    punit->id, TILE_XY(punit->tile), get_activity_text(*best_act),
+	    TILE_XY(*best_tile), best_newv);
   } else {
     /* Fill in dummy values.  The callers should check if the return value
      * is > 0 but this will avoid confusing them. */
     *best_act = ACTIVITY_IDLE;
-    *gx = *gy = -1;
+    *best_tile = NULL;
   }
 
   return best_newv;
@@ -1080,7 +1074,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   struct cityresult result;
   int best_impr = 0;            /* best terrain improvement we can do */
   enum unit_activity best_act;
-  int gx = -1, gy = -1;
+  struct tile *best_tile = NULL;
   struct ai_data *ai = ai_data_get(pplayer);
 
   CHECK_UNIT(punit);
@@ -1094,30 +1088,31 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   /*** If we are on a city mission: Go where we should ***/
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
-    int x = goto_dest_x(punit), y = goto_dest_y(punit), sanity = punit->id;
+    struct tile *ptile = punit->goto_tile;
+    int sanity = punit->id;
 
     /* Check that missions is still possible */
-    if (!city_can_be_built_here(x, y, punit)) {
+    if (!city_can_be_built_here(ptile, punit)) {
       UNIT_LOG(LOG_SETTLER, punit, "city founding mission failed");
-      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
       return; /* avoid recursion at all cost */
     } else {
       /* Go there */
-      if ((!ai_gothere(pplayer, punit, x, y) && !find_unit_by_id(sanity))
+      if ((!ai_gothere(pplayer, punit, ptile) && !find_unit_by_id(sanity))
           || punit->moves_left <= 0) {
         return;
       }
-      if (same_pos(punit->x, punit->y, x, y)) {
+      if (same_pos(punit->tile, ptile)) {
         if (!ai_do_build_city(pplayer, punit)) {
           UNIT_LOG(LOG_ERROR, punit, "could not make city on %s",
-                   map_get_tile_info_text(punit->x, punit->y));
-          ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+                   map_get_tile_info_text(punit->tile));
+          ai_unit_new_role(punit, AIUNIT_NONE, NULL);
         } else {
           return; /* We came, we saw, we built... */
         }
       } else {
         UNIT_LOG(LOG_SETTLER, punit, "could not go to target");
-        /* ai_unit_new_role(punit, AIUNIT_NONE, -1, -1); */
+        /* ai_unit_new_role(punit, AIUNIT_NONE, NULL); */
         return;
       }
     }
@@ -1128,7 +1123,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   /*** Try find some work ***/
 
   if (unit_flag(punit, F_SETTLERS)) {
-    best_impr = evaluate_improvements(punit, &best_act, &gx, &gy);
+    best_impr = evaluate_improvements(punit, &best_act, &best_tile);
   }
 
   if (unit_flag(punit, F_CITIES) && pplayer->ai.control) {
@@ -1136,52 +1131,51 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
     UNIT_LOG(LOG_SETTLER, punit, "city want %d (impr want %d)", result.result,
              best_impr);
     if (result.result > best_impr) {
-      if (map_get_city(result.x, result.y)) {
+      if (map_get_city(result.tile)) {
         UNIT_LOG(LOG_SETTLER, punit, "immigrates to %s (%d, %d)", 
-                 map_get_city(result.x, result.y), result.x, result.y);
+                 map_get_city(result.tile), TILE_XY(result.tile));
       } else {
         UNIT_LOG(LOG_SETTLER, punit, "makes city at (%d, %d)", 
-                 result.x, result.y);
+                 TILE_XY(result.tile));
         if (punit->debug) {
           print_cityresult(pplayer, &result, ai);
         }
       }
       /* Go make a city! */
-      ai_unit_new_role(punit, AIUNIT_BUILD_CITY, result.x, result.y);
+      ai_unit_new_role(punit, AIUNIT_BUILD_CITY, result.tile);
       /* Reserve best other tile */
-      citymap_reserve_tile(result.other_x, result.other_y, punit->id);
-      set_goto_dest(punit, result.x, result.y); /* TMP */
+      citymap_reserve_tile(result.other_tile, punit->id);
+      punit->goto_tile = result.tile; /* TMP */
     } else if (best_impr > 0) {
       UNIT_LOG(LOG_SETTLER, punit, "improves terrain instead of founding");
       /* Terrain improvements follows the old model, and is recalculated
        * each turn. */
-      ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, gx, gy);
+      ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, best_tile);
     } else {
       UNIT_LOG(LOG_SETTLER, punit, "cannot find work");
-      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
       return;
     }
   } else {
     /* We are a worker or engineer */
-    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, gx, gy);
+    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, best_tile);
   }
 
   /* Run the "autosettler" program */
   if (punit->ai.ai_role == AIUNIT_AUTO_SETTLER) {
     /* Mark the square as taken. */
-    if (gx != -1 && gy != -1) {
-      map_get_tile(gx, gy)->assigned =
-        map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
+    if (best_tile) {
+      best_tile->assigned = best_tile->assigned | 1 << pplayer->player_no;
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "giving up trying to improve terrain");
       return; /* We cannot do anything */
     }
-    set_goto_dest(punit, gx, gy); /* TMP */
+    punit->goto_tile = best_tile; /* TMP */
     if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
       return;
     }
     if (punit->moves_left > 0
-        && same_pos(gx, gy, punit->x, punit->y)) {
+        && same_pos(best_tile, punit->tile)) {
       handle_unit_activity_request(punit, best_act);
       send_unit_info(NULL, punit);
       return;
@@ -1239,32 +1233,31 @@ void initialize_infrastructure_cache(struct player *pplayer)
       pcity->ai.railroad[city_x][city_y] = -1;
     } city_map_iterate_end;
 
-    city_map_checked_iterate(pcity->x, pcity->y,
-			     city_x, city_y, map_x, map_y) {
+    city_map_checked_iterate(pcity->tile,
+			     city_x, city_y, ptile) {
 #ifndef NDEBUG
-      struct tile *ptile = map_get_tile(map_x, map_y);
       Terrain_type_id old_terrain = ptile->terrain;
       enum tile_special_type old_special = ptile->special;
 #endif
 
       pcity->ai.detox[city_x][city_y]
-	= ai_calc_pollution(pcity, city_x, city_y, best, map_x, map_y);
+	= ai_calc_pollution(pcity, city_x, city_y, best, ptile);
       pcity->ai.derad[city_x][city_y] =
-	ai_calc_fallout(pcity, pplayer, city_x, city_y, best, map_x, map_y);
+	ai_calc_fallout(pcity, pplayer, city_x, city_y, best, ptile);
       pcity->ai.mine[city_x][city_y]
-	= ai_calc_mine(pcity, city_x, city_y, map_x, map_y);
+	= ai_calc_mine(pcity, city_x, city_y, ptile);
       pcity->ai.irrigate[city_x][city_y]
-        = ai_calc_irrigate(pcity, pplayer, city_x, city_y, map_x, map_y);
+        = ai_calc_irrigate(pcity, pplayer, city_x, city_y, ptile);
       pcity->ai.transform[city_x][city_y]
-	= ai_calc_transform(pcity, city_x, city_y, map_x, map_y);
+	= ai_calc_transform(pcity, city_x, city_y, ptile);
 
       /* road_bonus() is handled dynamically later; it takes into
        * account settlers that have already been assigned to building
        * roads this turn. */
       pcity->ai.road[city_x][city_y]
-	= ai_calc_road(pcity, pplayer, city_x, city_y, map_x, map_y);
+	= ai_calc_road(pcity, pplayer, city_x, city_y, ptile);
       pcity->ai.railroad[city_x][city_y] =
-	ai_calc_railroad(pcity, pplayer, city_x, city_y, map_x, map_y);
+	ai_calc_railroad(pcity, pplayer, city_x, city_y, ptile);
 
       /* Make sure nothing was accidentally changed by these calculations. */
       assert(old_terrain == ptile->terrain && old_special == ptile->special);
@@ -1305,7 +1298,7 @@ void auto_settlers_player(struct player *pplayer)
 	    || unit_flag(punit, F_CITIES))
 	&& !unit_has_orders(punit)) {
       freelog(LOG_DEBUG, "%s's settler at (%d, %d) is ai controlled.",
-	      pplayer->name, punit->x, punit->y); 
+	      pplayer->name, TILE_XY(punit->tile)); 
       if (punit->activity == ACTIVITY_SENTRY) {
 	handle_unit_activity_request(punit, ACTIVITY_IDLE);
       }
@@ -1338,14 +1331,14 @@ static void assign_settlers_player(struct player *pplayer)
     if (unit_flag(punit, F_SETTLERS)
 	|| unit_flag(punit, F_CITIES)) {
       if (punit->activity == ACTIVITY_GOTO) {
-        ptile = map_get_tile(goto_dest_x(punit), goto_dest_y(punit));
+        ptile = punit->goto_tile;
         ptile->assigned = ptile->assigned | i; /* assigned for us only */
       } else {
-        ptile = map_get_tile(punit->x, punit->y);
+        ptile = punit->tile;
         ptile->assigned = 0xFFFFFFFF; /* assigned for everyone */
       }
     } else {
-      ptile = map_get_tile(punit->x, punit->y);
+      ptile = punit->tile;
       ptile->assigned = ptile->assigned | (0xFFFFFFFF ^ i); /* assigned for everyone else */
     }
   unit_list_iterate_end;
@@ -1357,8 +1350,8 @@ static void assign_settlers_player(struct player *pplayer)
 **************************************************************************/
 static void assign_settlers(void)
 {
-  whole_map_iterate(x, y) {
-    map_get_tile(x, y)->assigned = 0;
+  whole_map_iterate(ptile) {
+    ptile->assigned = 0;
   } whole_map_iterate_end;
 
   shuffled_players_iterate(pplayer) {
@@ -1370,11 +1363,12 @@ static void assign_settlers(void)
   Assign a region of the map as belonging to a certain player for keeping
   autosettlers out of enemy territory.
 **************************************************************************/
-static void assign_region(int x, int y, int player_no, int distance, int s)
+static void assign_region(struct tile *ptile, int player_no,
+			  int distance, int s)
 {
-  square_iterate(x, y, distance, x1, y1) {
-    if (s == 0 || is_ocean_near_tile(x1, y1)) {
-      BV_SET(TERRITORY(x1, y1), player_no);
+  square_iterate(ptile, distance, tile1) {
+    if (s == 0 || is_ocean_near_tile(tile1)) {
+      BV_SET(TERRITORY(tile1), player_no);
     }
   } square_iterate_end;
 }
@@ -1398,21 +1392,21 @@ static void assign_territory_player(struct player *pplayer)
     if (unit_type(punit)->attack_strength != 0) {
 /* I could argue that phalanxes aren't really a threat, but ... */
       if (is_sailing_unit(punit)) {
-        assign_region(punit->x, punit->y, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 1);
+        assign_region(punit->tile, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 1);
       } else if (is_ground_unit(punit)) {
-        assign_region(punit->x, punit->y, n, 1 + unit_type(punit)->move_rate /
+        assign_region(punit->tile, n, 1 + unit_type(punit)->move_rate /
              (unit_flag(punit, F_IGTER) ? 1 : 3), 0);
 /* I realize this is not the most accurate, but I don't want to iterate
 road networks 100 times/turn, and I can't justifiably abort when I encounter
 already assigned territory.  If anyone has a reasonable alternative that won't
 noticeably slow the game, feel free to replace this else{}  -- Syela */
       } else {
-        assign_region(punit->x, punit->y, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 0);
+        assign_region(punit->tile, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 0);
       } 
     }
   unit_list_iterate_end;
   city_list_iterate(pplayer->cities, pcity)
-    assign_region(pcity->x, pcity->y, n, 3, 0);
+    assign_region(pcity->tile, n, 3, 0);
   city_list_iterate_end;
 }
 
@@ -1477,20 +1471,19 @@ void contemplate_new_city(struct city *pcity)
 
   /* Create a localized "virtual" unit to do operations with. */
   virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
-  virtualunit->x = pcity->x;
-  virtualunit->y = pcity->y;
+  virtualunit->tile = pcity->tile;
 
   assert(pplayer->ai.control);
 
   if (pplayer->ai.control) {
     struct cityresult result;
-    bool is_coastal = is_ocean_near_tile(pcity->x, pcity->y);
+    bool is_coastal = is_ocean_near_tile(pcity->tile);
 
     find_best_city_placement(virtualunit, &result, is_coastal, is_coastal);
 
     CITY_LOG(LOG_DEBUG, pcity, "want(%d) to establish city at"
 	     " (%d, %d) and will %s to get there", result.result, 
-	     result.x, result.y, 
+	     TILE_XY(result.tile), 
 	     (result.virt_boat ? "build a boat" : 
 	      (result.overseas ? "use a boat" : "walk")));
 
@@ -1512,9 +1505,9 @@ void contemplate_terrain_improvements(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct unit *virtualunit;
   int want;
-  int gx, gy;
+  struct tile *best_tile;
   enum unit_activity best_act;
-  struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+  struct tile *ptile = pcity->tile;
   struct ai_data *ai = ai_data_get(pplayer);
   Unit_Type_id unit_type = best_role_unit(pcity, F_SETTLERS);
 
@@ -1525,9 +1518,8 @@ void contemplate_terrain_improvements(struct city *pcity)
 
   /* Create a localized "virtual" unit to do operations with. */
   virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
-  virtualunit->x = pcity->x;
-  virtualunit->y = pcity->y;
-  want = evaluate_improvements(virtualunit, &best_act, &gx, &gy);
+  virtualunit->tile = pcity->tile;
+  want = evaluate_improvements(virtualunit, &best_act, &best_tile);
   free(virtualunit);
 
   /* Massage our desire based on available statistics to prevent
@@ -1539,7 +1531,8 @@ void contemplate_terrain_improvements(struct city *pcity)
 
   CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
            "we have %d workers and %d cities on the continent",
-	   unit_name(unit_type), want, get_activity_text(best_act), gx, gy,
+	   unit_name(unit_type), want, get_activity_text(best_act),
+	   TILE_XY(best_tile),
            ai->stats.workers[ptile->continent], 
            ai->stats.cities[ptile->continent]);
   assert(want >= 0);

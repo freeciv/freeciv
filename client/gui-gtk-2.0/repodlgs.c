@@ -1070,7 +1070,7 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
 /****************************************************************
 ...
 *****************************************************************/
-static struct unit *find_nearest_unit(Unit_Type_id type, int x, int y)
+static struct unit *find_nearest_unit(Unit_Type_id type, struct tile *ptile)
 {
   struct unit *best_candidate;
   int best_dist = 99999;
@@ -1082,7 +1082,7 @@ static struct unit *find_nearest_unit(Unit_Type_id type, int x, int y)
             || punit->activity==ACTIVITY_SENTRY) 
 	  && punit->moves_left > 0 && !punit->ai.control) {
 	int d;
-	d=sq_map_distance(punit->x, punit->y, x, y);
+	d=sq_map_distance(punit->tile, ptile);
 	if(d<best_dist) {
 	  best_candidate = punit;
 	  best_dist = d;
@@ -1121,11 +1121,11 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
   }
 
   if (response_id == ACTIVEUNITS_NEAREST) {
-    int cx, cy;
+    struct tile *ptile;
     struct unit *punit;
 
-    get_center_tile_mapcanvas(&cx, &cy);
-    if ((punit = find_nearest_unit(ut1, cx, cy))) {
+    ptile = get_center_tile_mapcanvas();
+    if ((punit = find_nearest_unit(ut1, ptile))) {
       if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
 	set_unit_focus_and_select(punit);
       }

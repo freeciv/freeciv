@@ -35,13 +35,13 @@
   the player actually has. Return the % certainty that it's water
   (100 = certain, 50 = no idea, 0 = certainly not).
 **************************************************************************/
-static int likely_ocean(int x, int y, struct player *pplayer)
+static int likely_ocean(struct tile *ptile, struct player *pplayer)
 {
   int sum;
 
-  if (map_is_known(x, y, pplayer)) {
+  if (map_is_known(ptile, pplayer)) {
     /* we've seen the tile already. */
-    return (is_ocean(map_get_terrain(x,y)) ? 100 : 0);
+    return (is_ocean(map_get_terrain(ptile)) ? 100 : 0);
   }
   
   /* Now we're going to do two things at once. We're going to see if
@@ -51,21 +51,21 @@ static int likely_ocean(int x, int y, struct player *pplayer)
    * of them are ocean, which gives a guess for the ocean-ness of 
    * the centre tile. */
   sum = 50;
-  adjc_dir_iterate(x, y, x1, y1, dir) {
-    if (map_is_known(x1, y1, pplayer)) {
+  adjc_dir_iterate(ptile, ptile1, dir) {
+    if (map_is_known(ptile1, pplayer)) {
       if (is_cardinal_dir(dir)) {
 	/* If a tile is cardinally adjacent, we can tell if the 
 	 * central tile is ocean or not by the appearance of
 	 * the adjacent tile. So, given that we can tell, 
 	 * it's fair to look at the actual tile. */
-        return (is_ocean(map_get_terrain(x, y)) ? 100 : 0);
+        return (is_ocean(map_get_terrain(ptile)) ? 100 : 0);
       } else {
 	/* We're diagonal to the tile in question. So we can't
 	 * be sure what the central tile is, but the central
 	 * tile is likely to be the same as the nearby tiles. 
 	 * If all 4 are water, return 90; if all 4 are land, 
 	 * return 10. */
-        sum += (is_ocean(map_get_terrain(x1, y1)) ? 10 : -10);
+        sum += (is_ocean(map_get_terrain(ptile1)) ? 10 : -10);
       }
     }
   } adjc_dir_iterate_end;
@@ -77,13 +77,13 @@ static int likely_ocean(int x, int y, struct player *pplayer)
 Is a tile likely to be coastline, given information that the 
 player actually has.
 ***************************************************************/
-static bool is_likely_coastline(int x, int y, struct player *pplayer)
+static bool is_likely_coastline(struct tile *ptile, struct player *pplayer)
 {
   int likely = 50;
   int t;
 
-  adjc_iterate(x, y, x1, y1) {
-    if ((t = likely_ocean(x1, y1, pplayer)) == 0) {
+  adjc_iterate(ptile, ptile1) {
+    if ((t = likely_ocean(ptile1, pplayer)) == 0) {
       return TRUE;
     }
     /* If all t values are 50, likely stays at 50. If all approach zero,
@@ -101,15 +101,16 @@ static bool is_likely_coastline(int x, int y, struct player *pplayer)
 Is there a chance that a trireme would be lost, given information that 
 the player actually has.
 ***************************************************************/
-static bool is_likely_trireme_loss(struct player *pplayer, int x, int y) 
+static bool is_likely_trireme_loss(struct player *pplayer,
+				   struct tile *ptile)
 {
   /*
    * If we are in a city or next to land, we have no chance of losing
    * the ship.  To make this really useful for ai planning purposes, we'd
    * need to confirm that we can exist/move at the x,y location we are given.
    */
-  if ((likely_ocean(x, y, pplayer) < 50) || 
-      is_likely_coastline(x, y, pplayer) ||
+  if ((likely_ocean(ptile, pplayer) < 50) || 
+      is_likely_coastline(ptile, pplayer) ||
       get_player_bonus(pplayer, EFT_NO_SINK_DEEP) > 0) {
     return FALSE;
   } else {
@@ -160,7 +161,7 @@ comment below.
 
 #define BEST_POSSIBLE_SCORE    (HUT_SCORE + BEST_NORMAL_TILE)
 
-static int explorer_desirable(int x, int y, struct player *pplayer, 
+static int explorer_desirable(struct tile *ptile, struct player *pplayer, 
                               struct unit *punit)
 {
   int land_score, ocean_score, known_land_score, known_ocean_score;
@@ -174,9 +175,9 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
    * tile is on a different continent, or if we're a barbarian and
    * the tile has a hut, don't go there. */
   if ((unit_flag(punit, F_TRIREME) && 
-       is_likely_trireme_loss(pplayer, x, y))
-      || map_get_city(x, y)
-      || (is_barbarian(pplayer) && map_has_special(x, y, S_HUT))) {
+       is_likely_trireme_loss(pplayer, ptile))
+      || map_get_city(ptile)
+      || (is_barbarian(pplayer) && map_has_special(ptile, S_HUT))) {
     return 0;
   }
 
@@ -194,10 +195,10 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
     known_ocean_score = KNOWN_SAME_TER_SCORE;
   }
 
-  square_iterate(x, y, range, x1, y1) {
-    int ocean = likely_ocean(x1, y1, pplayer);
+  square_iterate(ptile, range, ptile1) {
+    int ocean = likely_ocean(ptile1, pplayer);
 
-    if (!map_is_known(x1, y1, pplayer)) {
+    if (!map_is_known(ptile1, pplayer)) {
       unknown++;
 
       /* FIXME: we should add OWN_CITY_SCORE to desirable if the tile 
@@ -210,7 +211,7 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
 
       desirable += (ocean * ocean_score + (100 - ocean) * land_score);
     } else {
-      if(is_tiles_adjacent(x, y, x1, y1)) {
+      if(is_tiles_adjacent(ptile, ptile1)) {
 	/* we don't value staying offshore from land,
 	 * only adjacent. Otherwise destroyers do the wrong thing. */
 	desirable += (ocean * known_ocean_score 
@@ -225,8 +226,8 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
   }
 
   if ((!pplayer->ai.control || !ai_handicap(pplayer, H_HUTS))
-      && map_is_known(x, y, pplayer)
-      && map_has_special(x, y, S_HUT)) {
+      && map_is_known(ptile, pplayer)
+      && map_has_special(ptile, S_HUT)) {
     /* we want to explore huts whenever we can,
      * even if doing so will not uncover any tiles. */
     desirable += HUT_SCORE;
@@ -245,7 +246,7 @@ bool ai_manage_explorer(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   /* Loop prevention */
-  int x = punit->x, y = punit->y;
+  struct tile *ptile = punit->tile;
 
   /* The want of the most desirable tile, given nearby water, cities, etc. */
   float most_desirable = 0;
@@ -258,7 +259,7 @@ bool ai_manage_explorer(struct unit *punit)
 
   /* Coordinates of most desirable tile. Initialized to make 
    * compiler happy. */
-  int best_x = -1, best_y = -1;
+  struct tile *best_tile = NULL;
 
   /* Path-finding stuff */
   struct pf_map *map;
@@ -279,9 +280,9 @@ bool ai_manage_explorer(struct unit *punit)
     pf_next_get_position(map, &pos);
     
     /* Our callback should insure this. */
-    assert(map_is_known(pos.x, pos.y, pplayer));
+    assert(map_is_known(pos.tile, pplayer));
     
-    desirable = explorer_desirable(pos.x, pos.y, pplayer, punit);
+    desirable = explorer_desirable(pos.tile, pplayer, punit);
     if (desirable == 0) { 
       /* Totally non-desirable tile. No need to continue. */
       continue;
@@ -290,8 +291,7 @@ bool ai_manage_explorer(struct unit *punit)
 
     if (desirable > most_desirable) {
       most_desirable = desirable;
-      best_x = pos.x;
-      best_y = pos.y;
+      best_tile = pos.tile;
       /* We want to break when
        *   most_desirable > BEST_POSSIBLE_SCORE * DIST_FACTOR^dist
        * which is equivalent to
@@ -312,13 +312,13 @@ bool ai_manage_explorer(struct unit *punit)
   if (most_desirable > 0) {
     /* TODO: read the path off the map we made.  Then we can make a path 
      * which goes beside the unknown, with a good EC callback... */
-    if (!ai_unit_goto(punit, best_x, best_y)) {
+    if (!ai_unit_goto(punit, best_tile)) {
       /* Died?  Strange... */
       return FALSE;
     }
     if (punit->moves_left > 0) {
       /* We can still move on... */
-      if (!same_pos(punit->x, punit->y, x, y)) {
+      if (!same_pos(punit->tile, ptile)) {
 	/* At least we moved (and maybe even got to where we wnated).  
          * Let's try again. */
 	return ai_manage_explorer(punit);          

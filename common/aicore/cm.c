@@ -228,8 +228,8 @@ struct tile_stats {
 };
 
 #define my_city_map_iterate(pcity, cx, cy) {                           \
-  city_map_checked_iterate(pcity->x, pcity->y, cx, cy, map_x, map_y) { \
-    if(!is_city_center(cx, cy)) {
+    city_map_checked_iterate(pcity->tile, cx, cy, itr_tile) {	       \
+      if (!is_city_center(cx, cy)) {
 
 #define my_city_map_iterate_end \
     }                                \
@@ -291,8 +291,6 @@ static bool can_field_be_used_for_worker(struct city *pcity, int x, int y)
 #if 0
   enum known_type known;
 #endif
-  int map_x, map_y;
-  bool is_real;
 
   assert(is_valid_city_coords(x, y));
 
@@ -304,8 +302,10 @@ static bool can_field_be_used_for_worker(struct city *pcity, int x, int y)
     return FALSE;
   }
 
-  is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
-  assert(is_real);
+  if (!city_map_to_map(pcity, x, y)) {
+    assert(0);
+    return FALSE;
+  }
 
 #if 0
   // FIXME

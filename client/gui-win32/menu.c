@@ -1097,13 +1097,13 @@ update_menus(void)
 		     get_transporter_capacity(punit)>0);
       my_enable_menu(menu, IDM_ORDERS_LOAD,
 	can_unit_load(punit, find_transporter_for_unit(punit,
-						       punit->x, punit->y)));
+						       punit->tile)));
       my_enable_menu(menu, IDM_ORDERS_UNLOAD,
 	can_unit_unload(punit, find_unit_by_id(punit->transported_by))
-	&& can_unit_exist_at_tile(punit, punit->x, punit->y));
+	&& can_unit_exist_at_tile(punit, punit->tile));
       my_enable_menu(menu, IDM_ORDERS_WAKEUP_OTHERS,
 		     is_unit_activity_on_tile(ACTIVITY_SENTRY,
-					      punit->x, punit->y));
+					      punit->tile));
       my_enable_menu(menu, IDM_ORDERS_AUTO_SETTLER,
 		     can_unit_do_auto(punit));
       my_enable_menu(menu, IDM_ORDERS_AUTO_EXPLORE,
@@ -1119,14 +1119,14 @@ update_menus(void)
       my_enable_menu(menu, IDM_ORDERS_DIPLOMAT_DLG,
 		     is_diplomat_unit(punit)
 		     && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
-					       punit->x, punit->y));
+					       punit->tile));
       my_enable_menu(menu, IDM_ORDERS_NUKE,
 		     unit_flag(punit, F_NUCLEAR));
       if (unit_flag(punit, F_HELP_WONDER)) {
 	my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Help Build Wonder")
 		       "\tB");
       } else if (unit_flag(punit, F_CITIES)) {
-	if (map_get_city(punit->x, punit->y)) {
+	if (map_get_city(punit->tile)) {
 	  my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Add to City")
 			 "\tB");
 	} else {
@@ -1140,7 +1140,7 @@ update_menus(void)
       if (unit_flag(punit, F_TRADE_ROUTE)) {
 	my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Make Trade Route") "\tR");
       } else if (unit_flag(punit, F_SETTLERS)) {
-	if (map_has_special(punit->x, punit->y, S_ROAD)) {
+	if (map_has_special(punit->tile, S_ROAD)) {
 	  roadtext = N_("Build Railroad") "\tR";
 	  road_activity = ACTIVITY_RAILROAD;  
 	} else {
@@ -1152,13 +1152,13 @@ update_menus(void)
 	my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Build Road") "\tR");
       }
 
-      ttype = map_get_tile(punit->x, punit->y)->terrain;
+      ttype = map_get_tile(punit->tile)->terrain;
       tinfo = get_tile_type(ttype);
       if (tinfo->irrigation_result != T_NONE
 	  && tinfo->irrigation_result != ttype) {
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
-      } else if (map_has_special(punit->x, punit->y, S_IRRIGATION)
+      } else if (map_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
 	sz_strlcpy(irrtext, N_("Build Farmland") "\tI");

@@ -167,7 +167,7 @@ void update_unit_info_label(struct unit *punit)
     struct city *pcity =
 	player_find_city_by_id(game.player_ptr, punit->homecity);
     int infrastructure =
-	get_tile_infrastructure_set(map_get_tile(punit->x, punit->y));
+	get_tile_infrastructure_set(punit->tile);
     struct unit_type *ptype = unit_type(punit);
 
     my_snprintf(buffer, sizeof(buffer), "%s", ptype->name);
@@ -184,7 +184,7 @@ void update_unit_info_label(struct unit *punit)
     my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s",
 		(hover_unit == punit->id) ?
 		_("Select destination") : unit_activity_text(punit),
-		map_get_tile_info_text(punit->x, punit->y),
+		map_get_tile_info_text(punit->tile),
 		infrastructure ?
 		map_get_infrastructure_text(infrastructure) : "",
 		infrastructure ? "\n" : "", pcity ? pcity->name : "");
@@ -786,11 +786,11 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 /**************************************************************************
  Draws a cross-hair overlay on a tile
 **************************************************************************/
-void put_cross_overlay_tile(int x, int y)
+void put_cross_overlay_tile(struct tile *ptile)
 {
   int canvas_x, canvas_y;
 
-  if (map_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
+  if (map_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(map_canvas->window,
 			    canvas_x, canvas_y,
 			    sprites.user.attention);

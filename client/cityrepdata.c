@@ -143,7 +143,7 @@ static const char *cr_entry_attack(const struct city *pcity)
   static char buf[32];
   int attack_best[4] = {-1, -1, -1, -1}, i;
 
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+  unit_list_iterate(pcity->tile->units, punit) {
     /* What about allied units?  Should we just count them? */
     attack_best[3] = get_unit_type(punit->type)->attack_strength;
 
@@ -175,7 +175,7 @@ static const char *cr_entry_defense(const struct city *pcity)
   static char buf[32];
   int defense_best[4] = {-1, -1, -1, -1}, i;
 
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+  unit_list_iterate(pcity->tile->units, punit) {
     /* What about allied units?  Should we just count them? */
     defense_best[3] = get_unit_type(punit->type)->defense_strength;
 
@@ -221,7 +221,7 @@ static const char *cr_entry_present(const struct city *pcity)
   static char buf[8];
   int num_present = 0;
 
-  unit_list_iterate(map_get_tile(pcity->x,pcity->y)->units, punit) {
+  unit_list_iterate(pcity->tile->units, punit) {
     num_present++;
   } unit_list_iterate_end;
 

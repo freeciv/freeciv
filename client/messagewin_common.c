@@ -105,7 +105,8 @@ void clear_notify_window(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void add_notify_window(char *message, int x, int y, enum event_type event)
+void add_notify_window(char *message, struct tile *ptile,
+		       enum event_type event)
 {
   const size_t min_msg_len = 50;
   const char *game_prefix1 = "Game: ";
@@ -135,11 +136,10 @@ void add_notify_window(char *message, int x, int y, enum event_type event)
     strncat(s, "                                                  ", nspc);
   }
 
-  messages[messages_total].x = x;
-  messages[messages_total].y = y;
+  messages[messages_total].tile = ptile;
   messages[messages_total].event = event;
   messages[messages_total].descr = s;
-  messages[messages_total].location_ok = (x != -1 && y != -1);
+  messages[messages_total].location_ok = (ptile != NULL);
   messages[messages_total].visited = FALSE;
   messages_total++;
 
@@ -149,7 +149,7 @@ void add_notify_window(char *message, int x, int y, enum event_type event)
    */
   for (i = 0; i < messages_total; i++) {
     if (messages[i].location_ok) {
-      struct city *pcity = map_get_city(messages[i].x, messages[i].y);
+      struct city *pcity = map_get_city(messages[i].tile);
 
       messages[i].city_ok = (pcity && city_owner(pcity) == game.player_ptr);
     } else {
@@ -193,12 +193,11 @@ void meswin_popup_city(int message_index)
   assert(message_index < messages_total);
 
   if (messages[message_index].city_ok) {
-    int x = messages[message_index].x;
-    int y = messages[message_index].y;
-    struct city *pcity = map_get_city(x, y);
+    struct tile *ptile = messages[message_index].tile;
+    struct city *pcity = map_get_city(ptile);
 
     if (center_when_popup_city) {
-      center_tile_mapcanvas(x, y);
+      center_tile_mapcanvas(ptile);
     }
 
     if (pcity && city_owner(pcity) == game.player_ptr) {
@@ -222,8 +221,7 @@ void meswin_goto(int message_index)
   assert(message_index < messages_total);
 
   if (messages[message_index].location_ok) {
-    center_tile_mapcanvas(messages[message_index].x,
-			  messages[message_index].y);
+    center_tile_mapcanvas(messages[message_index].tile);
   }
 }
 
