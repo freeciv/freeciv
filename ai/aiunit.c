@@ -1272,7 +1272,7 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity;
   struct packet_unit_request req;
-  int tradeval, best_city = 0, best=0;
+  int tradeval, best_city = -1, best=0;
 
   if (punit->activity != ACTIVITY_IDLE)
     return;
