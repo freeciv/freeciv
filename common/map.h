@@ -174,6 +174,7 @@ struct civ_map {
   int huts;
   int landpercent;
   int generator;
+  int startpos;
   bool tinyisles;
   bool separatepoles;
   bool alltemperate;
@@ -651,7 +652,11 @@ extern const int DIR_DY[8];
 
 #define MAP_DEFAULT_GENERATOR    1
 #define MAP_MIN_GENERATOR        1
-#define MAP_MAX_GENERATOR        5
+#define MAP_MAX_GENERATOR        3
+
+#define MAP_DEFAULT_STARTPOS     0
+#define MAP_MIN_STARTPOS         0
+#define MAP_MAX_STARTPOS         4
 
 #define MAP_DEFAULT_TINYISLES    FALSE
 #define MAP_MIN_TINYISLES        FALSE

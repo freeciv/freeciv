@@ -103,7 +103,6 @@
 #include "citymap.h"
 
 #include "mapgen.h"
-#include "startpos.h"
 
 #include "srv_main.h"
 
@@ -1770,18 +1769,12 @@ main_start_players:
     generate_ai_players();
   }
    
-  /* if we have a tile map, and map.generator==0, call map_fractal_generate
-     anyway, to make the specials and huts */
+  /* If we have a tile map, and map.generator==0, call map_fractal_generate
+   * anyway to make the specials, huts and continent numbers. */
   if (map_is_empty() || (map.generator == 0 && game.is_new_game)) {
     map_fractal_generate(TRUE);
   }
 
-  /*
-   * Don't assign continent numbers here. We have to do it later,
-   * because generators 2-4 use their own continent numbering
-   * in create_start_positions(). For other generators continent numbers
-   * are already assigned.
-   */
   gamelog_map();
   /* start the game */
 
@@ -1806,17 +1799,7 @@ main_start_players:
        * we don't want to change it. */
       game.max_players = game.nplayers;
     }
-
-    /* we don't want random start positions in a scenario which already
-       provides them. -- Gudy */
-    if(map.num_start_positions == 0) {
-      create_start_positions();
-    }
-
   }
-
-  /* start positions are created, now we can do this safely */
-  assign_continent_numbers();
 
   /* Set up alliances based on team selections */
   if (game.is_new_game) {

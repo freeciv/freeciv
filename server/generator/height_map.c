@@ -156,8 +156,11 @@ wrap in at least one direction, fiddling with 'avoidedge' will change the
 liklihood of continents butting up to non-wrapped edges.
 
   All X and Y values used in this function are in native coordinates.
+
+  extra_div can be increased to break the world up into more, smaller
+  islands.  This is used in conjunction with the startpos setting.
 **************************************************************************/
-void make_pseudofractal1_hmap(void)
+void make_pseudofractal1_hmap(int extra_div)
 {
   const bool xnowrap = !topo_has_flag(TF_WRAPX);
   const bool ynowrap = !topo_has_flag(TF_WRAPY);
@@ -166,8 +169,8 @@ void make_pseudofractal1_hmap(void)
    * How many blocks should the x and y directions be divided into
    * initially. 
    */
-  const int xdiv = 6;		
-  const int ydiv = 5;
+  const int xdiv = 5 + extra_div;		
+  const int ydiv = 5 + extra_div;
 
   int xdiv2 = xdiv + (xnowrap ? 1 : 0);
   int ydiv2 = ydiv + (ynowrap ? 1 : 0);

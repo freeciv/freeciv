@@ -100,16 +100,21 @@ void set_placed_near_pos(struct tile *ptile, int dist)
   tile scaled to [0 .. int_map_max].
   The lowest 20% of tiles will have values lower than 0.2 * int_map_max.
 
+  If filter is non-null then it only tiles for which filter(ptile, data) is
+  TRUE will be considered.
 **************************************************************************/
-void adjust_int_map(int *int_map, int int_map_max)
+void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
+			     bool (*filter)(const struct tile *ptile,
+					    const void *data))
 {
-  int minval = *int_map, maxval = minval;
+  int minval = +(int)HUGE_VAL, maxval = -(int)HUGE_VAL, total = 0;
 
   /* Determine minimum and maximum value. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate_filtered(ptile, data, filter) {
     maxval = MAX(maxval, int_map[ptile->index]);
     minval = MIN(minval, int_map[ptile->index]);
-  } whole_map_iterate_end;
+    total++;
+  } whole_map_iterate_filtered_end;
 
   {
     int const size = 1 + maxval - minval;
@@ -120,21 +125,21 @@ void adjust_int_map(int *int_map, int int_map_max)
     /* Translate value so the minimum value is 0
        and count the number of occurencies of all values to initialize the 
        frequencies[] */
-    whole_map_iterate(ptile) {
+    whole_map_iterate_filtered(ptile, data, filter) {
       int_map[ptile->index] = (int_map[ptile->index] - minval);
       frequencies[int_map[ptile->index]]++;
-    } whole_map_iterate_end;
+    } whole_map_iterate_filtered_end;
 
     /* create the linearize function as "incremental" frequencies */
     for(i =  0; i < size; i++) {
       count += frequencies[i]; 
-      frequencies[i] = (count * int_map_max) / MAX_MAP_INDEX;
+      frequencies[i] = (count * int_map_max) / total;
     }
 
     /* apply the linearize function */
-    whole_map_iterate(ptile) {
+    whole_map_iterate_filtered(ptile, data, filter) {
       int_map[ptile->index] = frequencies[int_map[ptile->index]];
-    } whole_map_iterate_end;
+    } whole_map_iterate_filtered_end;
   }
 }
 
