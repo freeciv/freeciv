@@ -613,7 +613,7 @@ extern const int CAR_DIR_DY[4];
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
 #define MAP_DEFAULT_TOPO         TF_WRAPX
 #define MAP_MIN_TOPO             0
-#define MAP_MAX_TOPO             3
+#define MAP_MAX_TOPO             7
 
 #define MAP_DEFAULT_SEED         0
 #define MAP_MIN_SEED             0

@@ -75,7 +75,7 @@ const char * const our_capability = our_capability_internal;
  */
 
 #define CAPABILITY "+1.14.delta +last_turns_shield_surplus veteran +orders " \
-                   "+starter +union"
+                   "+starter +union +iso_maps"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -90,6 +90,8 @@ const char * const our_capability = our_capability_internal;
  * "starter" means the Starter terrain flag is supported.
  *
  * "union" is team research ability
+ *
+ * "iso_maps" means iso-maps are supported by both server and client!
  */
 
 void init_our_capability(void)
