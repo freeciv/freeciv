@@ -629,7 +629,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   struct unit *pdef, *aunit, *ferryboat;
   struct city *acity;
   int boatid = 0, bx = 0, by = 0;
-  int needferry = 0, boatspeed, sanity;
+  int needferry = 0, fstk, boatspeed, sanity;
 
   if (pcity->ai.danger && !assess_defense(pcity)) return;
 
@@ -639,7 +639,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   if (ferryboat) boatspeed = (unit_flag(ferryboat->type, F_TRIREME) ? 6 : 12);
   else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN ? 6 : 12);
 
-  find_something_to_kill(pplayer, myunit, &x, &y);
+  fstk = find_something_to_kill(pplayer, myunit, &x, &y);
 
   acity = map_get_city(x, y);
   if (!acity) aunit = get_defender(pplayer, myunit, x, y);
