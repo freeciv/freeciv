@@ -94,45 +94,54 @@ int map_pos_to_canvas_pos(int map_x, int map_y,
 			  int map_view_pixel_height)
 {
   if (is_isometric) {
-    /* 
-     * canvas_x,canvas_y is the top corner of the actual tile, not the
-     * pixmap.  This function also handles non-adjusted tile coords
-     * (like -1, -2) as if they were adjusted.  You might want to
-     * first take a look at the simpler city_get_canvas() for basic
-     * understanding. 
-     */
-    int diff_xy;
-    int diff_x, diff_y;
+    /* For a simpler example of this math, see
+       city_pos_to_canvas_pos(). */
+    int iso_x, iso_y;
 
+    /*
+     * First we wrap the coordinates to hopefully be within the the
+     * GUI window.  This isn't perfect; notice that when the mapview
+     * approaches the size of the map some tiles won't be shown at
+     * all.
+     */
     map_x %= map.xsize;
     if (map_x < map_view_topleft_map_x) {
       map_x += map.xsize;
     }
-    diff_xy =
+
+    /*
+     * Next we convert the flat GUI coordinates to isometric GUI
+     * coordinates.  We'll make tile (x0, y0) be the origin, and
+     * transform like this:
+     * 
+     *                     3
+     * 123                2 6
+     * 456 -> becomes -> 1 5 9
+     * 789                4 8
+     *                     7
+     */
+    iso_x =
+	(map_x - map_y) - (map_view_topleft_map_x -
+			   map_view_topleft_map_y);
+    iso_y =
 	(map_x + map_y) - (map_view_topleft_map_x +
 			   map_view_topleft_map_y);
-    /* one diff_xy value defines a line parallel with the top of the
-       isometric view. */
-    *canvas_y =
-	diff_xy / 2 * NORMAL_TILE_HEIGHT +
-	(diff_xy % 2) * (NORMAL_TILE_HEIGHT / 2);
 
-    /* changing both x and y with the same amount doesn't change the
-       isometric x value. (draw a grid to see it!) */
-    map_x -= diff_xy / 2;
-    map_y -= diff_xy / 2;
-    diff_x = map_x - map_view_topleft_map_x;
-    diff_y = map_view_topleft_map_y - map_y;
+    /*
+     * As the above picture shows, each isometric-coordinate unit
+     * corresponds to a half-tile on the canvas.  Since the (x0, y0)
+     * tile actually has its top corner (of the diamond-shaped tile)
+     * located right at the corner of the canvas, to find the top-left
+     * corner of the surrounding rectangle we must subtract off an
+     * additional half-tile in the X direction.
+     */
+    *canvas_x = (iso_x - 1) * NORMAL_TILE_WIDTH / 2;
+    *canvas_y = iso_y * NORMAL_TILE_HEIGHT / 2;
 
-    *canvas_x = (diff_x - 1) * NORMAL_TILE_WIDTH
-	+ (diff_x == diff_y ? NORMAL_TILE_WIDTH : NORMAL_TILE_WIDTH / 2)
-	/* tiles starting above the visible area */
-	+ (diff_y > diff_x ? NORMAL_TILE_WIDTH : 0);
-
-    /* We now have the corner of the sprite. For drawing we move
-       it. */
-    *canvas_x -= NORMAL_TILE_WIDTH / 2;
-
+    /*
+     * Finally we clip; checking to see if _any part_ of the tile is
+     * visible on the canvas.
+     */
     return (*canvas_x > -NORMAL_TILE_WIDTH)
 	&& *canvas_x < (map_view_pixel_width + NORMAL_TILE_WIDTH / 2)
 	&& (*canvas_y > -NORMAL_TILE_HEIGHT)
@@ -199,18 +208,16 @@ void canvas_pos_to_map_pos(int canvas_x, int canvas_y,
     if (canvas_x + canvas_y > NORMAL_TILE_WIDTH) {
       *map_x += 1;
     }
-
-    /* If we are outside the map find the nearest tile, with distance
-       as seen on the map. */
-    nearest_real_pos(map_x, map_y);
   } else {			/* is_isometric */
-    *map_x =
-	map_adjust_x(map_view_topleft_map_x +
-		     canvas_x / NORMAL_TILE_WIDTH);
-    *map_y =
-	map_adjust_y(map_view_topleft_map_y +
-		     canvas_y / NORMAL_TILE_HEIGHT);
+    *map_x = map_view_topleft_map_x + canvas_x / NORMAL_TILE_WIDTH;
+    *map_y = map_view_topleft_map_y + canvas_y / NORMAL_TILE_HEIGHT;
   }
+
+  /*
+   * If we are outside the map find the nearest tile, with distance as
+   * seen on the map.
+   */
+  nearest_real_pos(map_x, map_y);
 }
 
 /**************************************************************************

@@ -23,18 +23,21 @@
 This converts a city coordinate position to citymap canvas coordinates
 (either isometric or overhead).  It should be in cityview.c instead.
 **************************************************************************/
-void city_pos_to_canvas_pos(int city_x, int city_y, int *canvas_x, int *canvas_y)
+void city_pos_to_canvas_pos(int city_x, int city_y, int *canvas_x,
+			    int *canvas_y)
 {
   if (is_isometric) {
-    int diff_xy;
+    /*
+     * The top-left corner is in the center of tile (-2, 2).  However,
+     * we're looking for the top-left corner of the tile, so we
+     * subtract off half a tile in each direction.  For a more
+     * rigorous example, see map_pos_to_canvas_pos().
+     */
+    int iso_x = (city_x - city_y) - (-4);
+    int iso_y = (city_x + city_y) - (0);
 
-    /* The line at y=0 isometric has constant x+y=1(tiles) */
-    diff_xy = (city_x + city_y) - (1);
-    *canvas_y = diff_xy/2 * NORMAL_TILE_HEIGHT + (diff_xy%2) * (NORMAL_TILE_HEIGHT/2);
-
-    /* The line at x=0 isometric has constant x-y=-3(tiles) */
-    diff_xy = city_x - city_y;
-    *canvas_x = (diff_xy + 3) * NORMAL_TILE_WIDTH/2;
+    *canvas_x = (iso_x - 1) * NORMAL_TILE_WIDTH / 2;
+    *canvas_y = (iso_y - 1) * NORMAL_TILE_HEIGHT / 2;
   } else {
     *canvas_x = city_x * NORMAL_TILE_WIDTH;
     *canvas_y = city_y * NORMAL_TILE_HEIGHT;
