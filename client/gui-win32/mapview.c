@@ -29,6 +29,7 @@
 #include "rand.h"
 #include "support.h"
 #include "timing.h"
+#include "version.h"
  
 #include "civclient.h"
 #include "climisc.h"
@@ -789,6 +790,10 @@ update_map_canvas(int x, int y, int width, int height,
       put_one_tile(mapstoredc,x1, y1, D_TM_L);
       put_one_tile(mapstoredc,x1, y1, D_T_R);
     }
+
+    put_one_tile(mapstoredc,
+		 x+width, y+height, D_T_LR); /* right-bottom corner */
+
     /*** Draw the goto line on top of the whole thing. Done last as
 	 we want it completely on top. ***/
     /* Drawing is cheap; we just draw all the lines.
@@ -1354,10 +1359,39 @@ void overview_expose(HDC hdc)
   int i;
   if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     {
-      if (radar_gfx_sprite)
-	{
-	  draw_sprite(radar_gfx_sprite,hdc,overview_win_x,overview_win_y);
-	}
+      if (!radar_gfx_sprite) {
+	load_intro_gfx();
+      }
+      if (radar_gfx_sprite) {
+	char s[64];
+	int h;
+	RECT rc;
+	draw_sprite(radar_gfx_sprite,hdc,overview_win_x,overview_win_y);
+	SetBkMode(hdc,TRANSPARENT);
+	my_snprintf(s, sizeof(s), "%d.%d.%d%s",
+		    MAJOR_VERSION, MINOR_VERSION,
+		    PATCH_VERSION, VERSION_LABEL);
+	DrawText(hdc, word_version(), strlen(word_version()), &rc, DT_CALCRECT);
+	h=rc.bottom-rc.top;
+	rc.left = overview_win_x;
+	rc.right = overview_win_y + overview_win_width;
+	rc.bottom = overview_win_y + overview_win_height - h - 2; 
+	rc.top = rc.bottom - h;
+	SetTextColor(hdc, RGB(0,0,0));
+	DrawText(hdc, word_version(), strlen(word_version()), &rc, DT_CENTER);
+	rc.top+=h;
+	rc.bottom+=h;
+	DrawText(hdc, s, strlen(s), &rc, DT_CENTER);
+	rc.left++;
+	rc.right++;
+	rc.top--;
+	rc.bottom--;
+	SetTextColor(hdc, RGB(255,255,255));
+	DrawText(hdc, s, strlen(s), &rc, DT_CENTER);
+	rc.top-=h;
+	rc.bottom-=h;
+	DrawText(hdc, word_version(), strlen(word_version()), &rc, DT_CENTER);
+      }
     }
   else
     {
