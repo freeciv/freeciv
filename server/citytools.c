@@ -567,6 +567,7 @@ int wants_to_be_bigger(struct city *pcity)
   return 0;
 }
 
+
 /*
  *  Units in a bought city are transferred to the new owner, units 
  * supported by the city, but held in other cities are updated to
@@ -580,6 +581,11 @@ int wants_to_be_bigger(struct city *pcity)
  *
  * If verbose is true, send extra messages to players detailing what
  * happens to all the units.  --dwp
+ *
+ * If statement added to see if the owner of pcity is the same as vcity. If so,
+ * then the city is disbanded and not bougth, and we only need to evaluate the
+ * units supported by the city, and not those actually present.
+ * - Thue <thue.kristensen@get2net.dk>
  */
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct city *pcity, struct city *vcity, 
@@ -588,19 +594,21 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   int x = vcity->x;
   int y = vcity->y;
 
-  /* Transfer units in the city to the new owner */
-  unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
-    freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
-	    unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
-    if (verbose) {
-      notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s."),
-		    unit_name(vunit->type), vcity->name,
-		    pvictim->name, pplayer->name);
-    }
-    create_unit_full(pplayer, x, y, vunit->type, vunit->veteran,
-		pcity->id, vunit->moves_left, vunit->hp);
-    wipe_unit(0, vunit);
-  } unit_list_iterate_end;
+  if (city_owner(pcity)!=city_owner(vcity)){ /* true=>bougth, false =>disbanded */
+    /* Transfer units in the city to the new owner */
+    unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
+      freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
+	      unit_name(vunit->type), vcity->name, pvictim->name, pplayer->name);
+      if (verbose) {
+	notify_player(pvictim, _("Game: Transfered %s in %s from %s to %s."),
+		      unit_name(vunit->type), vcity->name,
+		      pvictim->name, pplayer->name);
+      }
+      create_unit_full(pplayer, x, y, vunit->type, vunit->veteran,
+		       pcity->id, vunit->moves_left, vunit->hp);
+      wipe_unit(0, vunit);
+    } unit_list_iterate_end;
+  }
 
   /* Any remaining units supported by the city are either given new home
    * cities or maybe destroyed */
