@@ -1123,6 +1123,10 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
   if (raze)
     raze_city(pnewcity);
 
+  /* If the city was building something we haven't invented we
+     must change production. */
+  /* advisor_choose_build(pcity);  we add the civ bug here :) */
+
   send_city_info(0, pnewcity);
 
   /* What wasn't obsolete for the old owner may be so now. */
