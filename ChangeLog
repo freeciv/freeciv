@@ -1,5 +1,12 @@
-Sun Jun 21 00:46:52 PDT 1998 James Blackwell <james@merconline.com>
-   * modified README to provide instructions on starting ai players.
+FIXME
+
+Thu Jul  9 15:59:29 GMT 1998  Mitch Dvis <mjd@alphalink.com.au>
+	
+	* .cvsignore: Added a line so the .deps directory is ignored.
+
+Mon Jun  8 21:19:47 GMT 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* Released 1.6.3.
 
 Mon Jun  8 18:49:46 GMT 1998  Mitch Davis <mjd@alphalink.com.au>
 
