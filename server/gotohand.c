@@ -458,7 +458,10 @@ punit->goto_dest_x, punit->goto_dest_y);*/
         if (!dir_ok(x, y, dest_x, dest_y, k)) c += c;
         tm = warmap.seacost[x][y] + c;
         if (warmap.seacost[x][y] < punit->moves_left && tm < maxcost &&
-            tm >= punit->moves_left - 3 && enemies_at(punit, xx[i], yy[j])) {
+            (pplayer->ai.control || !same_pos(xx[i], yy[j], dest_x, dest_y)) &&
+            tm >= punit->moves_left - (get_transporter_capacity(punit) >
+            unit_types[punit->type].attack_strength ? 3 : 2) &&
+            enemies_at(punit, xx[i], yy[j])) {
           tm += unit_types[punit->type].move_rate;
 /*printf("%s#%d@(%d,%d) dissuaded from (%d,%d) -> (%d,%d)\n",
 unit_types[punit->type].name, punit->id, punit->x, punit->y, xx[i], yy[j],
