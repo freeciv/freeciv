@@ -127,12 +127,14 @@ void create_meswin_dialog(void)
   static gchar *titles_[1] = { N_("Messages") };
   static gchar **titles;
   GtkWidget *scrolled;
+  GtkAccelGroup *accel = gtk_accel_group_new();
 
   if (!titles) titles = intl_slist(1, titles_);
 
   meswin_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(meswin_dialog_shell),"delete_event",
         GTK_SIGNAL_FUNC(meswin_close_callback),NULL );
+  gtk_accel_group_attach(accel, GTK_OBJECT(meswin_dialog_shell));
 
   gtk_window_set_title( GTK_WINDOW(meswin_dialog_shell), _("Messages") );
 
@@ -143,21 +145,25 @@ void create_meswin_dialog(void)
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
                           GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
   gtk_widget_set_usize(scrolled, 500, 250);
-  gtk_box_pack_start( GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->vbox), scrolled, TRUE, TRUE, 0 );
-					 
-  meswin_close_command = gtk_button_new_with_label(_("Close"));
-  gtk_box_pack_start( GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area), meswin_close_command, TRUE, TRUE, 0 );
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->vbox),
+		     scrolled, TRUE, TRUE, 0 );
+
+  meswin_close_command = gtk_accelbutton_new(_("_Close"), accel);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area),
+		     meswin_close_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( meswin_close_command, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( meswin_close_command );
 
-  meswin_goto_command = gtk_button_new_with_label(_("Goto location"));
+  meswin_goto_command = gtk_accelbutton_new(_("_Goto location"), accel);
   gtk_widget_set_sensitive( meswin_goto_command, FALSE );
-  gtk_box_pack_start( GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area), meswin_goto_command, TRUE, TRUE, 0 );
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area),
+		     meswin_goto_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( meswin_goto_command, GTK_CAN_DEFAULT );
 
-  meswin_popcity_command = gtk_button_new_with_label(_("Popup City"));
+  meswin_popcity_command = gtk_accelbutton_new(_("_Popup City"), accel);
   gtk_widget_set_sensitive( meswin_popcity_command, FALSE );
-  gtk_box_pack_start( GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area), meswin_popcity_command, TRUE, TRUE, 0 );
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area),
+		     meswin_popcity_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( meswin_popcity_command, GTK_CAN_DEFAULT );
 
   gtk_signal_connect(GTK_OBJECT(meswin_list), "select_row",
