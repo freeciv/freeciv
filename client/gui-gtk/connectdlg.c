@@ -179,7 +179,7 @@ void gui_server_connect(void)
   {
     GtkStyle *style;
 
-    label2=gtk_label_new (_("THIS IS A BETA RELEASE\n"
+    label2=gtk_label_new (_("THIS IS A BETA VERSION\n"
 			  "Freeciv 1.9 will be released early\n"
 			  "October, at http://www.freeciv.org"));
 

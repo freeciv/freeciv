@@ -45,7 +45,7 @@
 
 /* below, FREECIV_NAME_VERSION uses pre-processor string concatenation --dwp */
 #if IS_BETA_VERSION
-#define FREECIV_NAME_VERSION "Freeciv version " VERSION_STRING " (beta release)"
+#define FREECIV_NAME_VERSION "Freeciv version " VERSION_STRING " (beta version)"
 #define WORD_VERSION "betatest version"
 #else
 #define FREECIV_NAME_VERSION "Freeciv version " VERSION_STRING
