@@ -628,7 +628,7 @@ void game_remove_city(struct city *pcity)
   city_list_unlink(&city_owner(pcity)->cities, pcity);
   map_set_city(pcity->x, pcity->y, NULL);
   idex_unregister_city(pcity);
-  free(pcity);
+  remove_city_virtual(pcity);
 }
 
 /***************************************************************

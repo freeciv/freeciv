@@ -449,6 +449,11 @@ int get_city_tax_bonus(struct city *pcity);
 int get_city_shield_bonus(struct city *pcity);
 int get_city_science_bonus(struct city *pcity);
 
+/* city creation / destruction */
+struct city *create_city_virtual(struct player *pplayer, const int x,
+                                 const int y, const char *name);
+void remove_city_virtual(struct city *pcity);
+
 /* misc */
 bool is_city_option_set(struct city *pcity, enum city_options option);
 void city_styles_alloc(int num);

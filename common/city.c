@@ -2349,3 +2349,98 @@ void city_styles_free(void)
   city_styles = NULL;
   game.styles_count = 0;
 }
+
+/**************************************************************************
+  Create virtual skeleton for a city.  It does not register the city so 
+  the id is set to 0.  All other values are more or less sane defaults.
+**************************************************************************/
+struct city *create_city_virtual(struct player *pplayer, const int x,
+                                 const int y, const char *name)
+{
+  int i;
+  struct city *pcity;
+
+  pcity = fc_malloc(sizeof(struct city));
+
+  pcity->id = 0;
+  pcity->owner = pplayer->player_no;
+  pcity->x = x;
+  pcity->y = y;
+  sz_strlcpy(pcity->name, name);
+  pcity->size = 1;
+  pcity->ppl_elvis = 1;
+  pcity->ppl_scientist = pcity->ppl_taxman=0;
+  pcity->ppl_happy[4] = 0;
+  pcity->ppl_content[4] = 1;
+  pcity->ppl_unhappy[4] = 0;
+  pcity->ppl_angry[4] = 0;
+  pcity->was_happy = FALSE;
+  pcity->steal = 0;
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
+    pcity->trade_value[i] = pcity->trade[i] = 0;
+  }
+  pcity->food_stock = 0;
+  pcity->shield_stock = 0;
+  pcity->trade_prod = 0;
+  pcity->tile_trade = 0;
+  pcity->original = pplayer->player_no;
+  {
+    int u = best_role_unit(pcity, L_FIRSTBUILD);
+
+    if (u < U_LAST && u >= 0) {
+      pcity->is_building_unit = TRUE;
+      pcity->currently_building = u;
+    } else {
+      pcity->is_building_unit = FALSE;
+      pcity->currently_building = B_CAPITAL;
+    }
+  }
+  pcity->turn_founded = game.turn;
+  pcity->did_buy = TRUE;
+  pcity->did_sell = FALSE;
+  pcity->airlift = FALSE;
+
+  /* Set up the worklist */
+  init_worklist(&pcity->worklist);
+
+  /* Initialise list of improvements with City- and Building-wide 
+   * equiv_range */
+  improvement_status_init(pcity->improvements,
+                          ARRAY_SIZE(pcity->improvements));
+
+  pcity->turn_last_built = game.year;
+  pcity->changed_from_id = 0;
+  pcity->changed_from_is_unit = FALSE;
+  pcity->before_change_shields = 0;
+  pcity->disbanded_shields = 0;
+  pcity->caravan_shields = 0;
+  pcity->anarchy = 0;
+  pcity->rapture = 0;
+  pcity->city_options = CITYOPT_DEFAULT;
+
+  pcity->ai.trade_want = 1; /* we always want some */
+  memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
+  pcity->ai.workremain = 1; /* there's always work to be done! */
+  pcity->ai.danger = 0;
+  pcity->ai.urgency = 0;
+  pcity->ai.grave_danger = 0;
+  pcity->ai.already_considered_for_diplomat = FALSE;
+  pcity->corruption = 0;
+  pcity->shield_waste = 0;
+  pcity->shield_bonus = 100;
+  pcity->tax_bonus = 100;
+  pcity->science_bonus = 100;
+
+  unit_list_init(&pcity->units_supported);
+
+  return pcity;
+}
+
+/**************************************************************************
+  Removes the virtual skeleton of a city. You should already have removed
+  all buildings and units you have added to the city before this.
+**************************************************************************/
+void remove_city_virtual(struct city *pcity)
+{
+  free(pcity);
+}

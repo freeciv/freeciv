@@ -975,7 +975,7 @@ void create_city(struct player *pplayer, const int x, const int y,
 		 const char *name)
 {
   struct city *pcity;
-  int i, x_itr, y_itr;
+  int x_itr, y_itr;
 
   freelog(LOG_DEBUG, "Creating city %s", name);
   gamelog(GAMELOG_FOUNDC, _("%s (%i, %i) founded by the %s"), name, x, y,
@@ -988,88 +988,21 @@ void create_city(struct player *pplayer, const int x, const int y,
   }
   send_tile_info(NULL, x, y);
 
-  pcity=fc_malloc(sizeof(struct city));
-
-  pcity->id=get_next_id_number();
+  pcity = create_city_virtual(pplayer, x, y, name);
+  pcity->ai.trade_want = TRADE_WEIGHTING;
+  pcity->id = get_next_id_number();
   idex_register_city(pcity);
-  pcity->owner=pplayer->player_no;
-  pcity->x=x;
-  pcity->y=y;
-  sz_strlcpy(pcity->name, name);
-  pcity->size=1;
-  pcity->ppl_elvis=1;
-  pcity->ppl_scientist=pcity->ppl_taxman=0;
-  pcity->ppl_happy[4] = 0;
-  pcity->ppl_content[4] = 1;
-  pcity->ppl_unhappy[4] = 0;
-  pcity->ppl_angry[4] = 0;
-  pcity->was_happy = FALSE;
-  pcity->steal=0;
-  for (i = 0; i < NUM_TRADEROUTES; i++)
-    pcity->trade_value[i]=pcity->trade[i]=0;
-  pcity->food_stock=0;
-  pcity->shield_stock=0;
-  pcity->trade_prod=0;
-  pcity->tile_trade = 0;
-  pcity->original = pplayer->player_no;
-  pcity->is_building_unit = TRUE;
-  {
-    int u = best_role_unit(pcity, L_FIRSTBUILD);
-
-    if (u < U_LAST && u >= 0) {
-      pcity->is_building_unit = TRUE;
-      pcity->currently_building = u;
-    } else {
-      pcity->is_building_unit = FALSE;
-      pcity->currently_building = B_CAPITAL;
-    }
-  }
-  pcity->turn_founded = game.turn;
-  pcity->did_buy = TRUE;
-  pcity->did_sell = FALSE;
-  pcity->airlift = FALSE;
-
-  /* Set up the worklist */
-  init_worklist(&pcity->worklist);
-
-  /* Initialise list of improvements with City- and Building-wide equiv_range */
-  improvement_status_init(pcity->improvements,
-			  ARRAY_SIZE(pcity->improvements));
 
   if (!pplayer->capital) {
     pplayer->capital = TRUE;
-    city_add_improvement(pcity,B_PALACE);
+    city_add_improvement(pcity, B_PALACE);
   }
-  pcity->turn_last_built = game.year;
-  pcity->changed_from_id = 0;
-  pcity->changed_from_is_unit = FALSE;
-  pcity->before_change_shields = 0;
-  pcity->disbanded_shields = 0;
-  pcity->caravan_shields = 0;
-  pcity->anarchy=0;
-  pcity->rapture=0;
-
-  pcity->city_options = CITYOPT_DEFAULT;
-  
-  pcity->ai.trade_want = TRADE_WEIGHTING; 
-  memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
-  pcity->ai.workremain = 1; /* there's always work to be done! */
-  pcity->ai.danger = 0;
-  pcity->ai.urgency = 0;
-  pcity->ai.grave_danger = 0;
-  pcity->ai.already_considered_for_diplomat = FALSE;
-  pcity->corruption = 0;
-  pcity->shield_waste = 0;
-  pcity->shield_bonus = 100;
-  pcity->tax_bonus = 100;
-  pcity->science_bonus = 100;
 
   /* Before arranging workers to show unknown land */
   map_unfog_pseudo_city_area(pplayer, x, y);
 
   map_set_city(x, y, pcity);
 
-  unit_list_init(&pcity->units_supported);
   city_list_insert(&pplayer->cities, pcity);
   add_city_to_minimap(x, y);
 
