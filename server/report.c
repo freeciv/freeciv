@@ -513,7 +513,7 @@ static int get_corruption(struct player *pplayer)
   int result = 0;
 
   city_list_iterate(pplayer->cities, pcity) {
-    result += pcity->corruption;
+    result += pcity->waste[O_TRADE];
   } city_list_iterate_end;
 
   return result;

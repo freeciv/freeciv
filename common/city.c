@@ -2016,11 +2016,11 @@ static inline void set_food_trade_shields(struct city *pcity)
 	trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
     pcity->surplus[O_TRADE] += pcity->trade_value[i];
   }
-  pcity->corruption = city_waste(pcity, O_TRADE, pcity->surplus[O_TRADE]);
-  pcity->surplus[O_TRADE] -= pcity->corruption;
+  pcity->waste[O_TRADE] = city_waste(pcity, O_TRADE, pcity->surplus[O_TRADE]);
+  pcity->surplus[O_TRADE] -= pcity->waste[O_TRADE];
 
-  pcity->shield_waste = city_waste(pcity, O_SHIELD, pcity->shield_prod);
-  pcity->shield_prod -= pcity->shield_waste;
+  pcity->waste[O_SHIELD] = city_waste(pcity, O_SHIELD, pcity->shield_prod);
+  pcity->shield_prod -= pcity->waste[O_SHIELD];
 }
 
 /**************************************************************************
@@ -2502,8 +2502,7 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   pcity->ai.attack = 0;
   pcity->ai.next_recalc = 0;
 
-  pcity->corruption = 0;
-  pcity->shield_waste = 0;
+  memset(pcity->waste, 0, O_COUNT * sizeof(*pcity->waste));
   output_type_iterate(o) {
     pcity->bonus[o] = 100;
   } output_type_iterate_end;

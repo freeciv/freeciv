@@ -2811,7 +2811,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* productions label */
   my_snprintf(cBuf, sizeof(cBuf), _("Production : %d (%d) per turn"),
 	      pCity->shield_surplus ,
-		  pCity->shield_prod + pCity->shield_waste);
+		  pCity->shield_prod + pCity->waste[O_SHIELD]);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_PROD);
@@ -2829,7 +2829,7 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->shield_surplus) {
 
     if (pCity->shield_surplus > 0) {
-      count = pCity->shield_surplus + pCity->shield_waste;
+      count = pCity->shield_surplus + pCity->waste[O_SHIELD];
       pBuf = pIcons->pBIG_Shield;
     } else {
       count = -1 * pCity->shield_surplus;
@@ -2856,7 +2856,7 @@ static void redraw_city_dialog(struct city *pCity)
 
   /* support shields label */
   my_snprintf(cBuf, sizeof(cBuf), Q_("?production:Support : %d"),
-	  pCity->shield_prod + pCity->shield_waste - pCity->shield_surplus);
+	  pCity->shield_prod + pCity->waste[O_SHIELD] - pCity->shield_surplus);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_SUPPORT);
@@ -2926,7 +2926,8 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   /* corruption label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Corruption : %d"), pCity->corruption);
+  my_snprintf(cBuf, sizeof(cBuf), _("Corruption : %d"),
+	      pCity->waste[O_TRADE]);
 
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol.r = 0;
@@ -2943,19 +2944,19 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
 
   /* draw corruption */
-  if (pCity->corruption) {
+  if (pCity->waste[O_TRADE] > 0) {
     dest.x = pWindow->size.x + 423;
     dest.y =
 	pWindow->size.y + 316 + (16 - pIcons->pBIG_Trade->h) / 2;
 
-    if (((pIcons->pBIG_Trade_Corr->w + 1) * pCity->corruption) > 30) {
+    if (((pIcons->pBIG_Trade_Corr->w + 1) * pCity->waste[O_TRADE]) > 30) {
       step =
-	  (30 - pIcons->pBIG_Trade_Corr->w) / (pCity->corruption - 1);
+	  (30 - pIcons->pBIG_Trade_Corr->w) / (pCity->waste[O_TRADE] - 1);
     } else {
       step = pIcons->pBIG_Trade_Corr->w + 1;
     }
 
-    for (i = 0; i < pCity->corruption; i++) {
+    for (i = 0; i < pCity->waste[O_TRADE]; i++) {
       SDL_BlitSurface(pIcons->pBIG_Trade_Corr, NULL, pWindow->dst,
 		      &dest);
       dest.x -= step;

@@ -244,11 +244,11 @@ void cityresult_fill(struct player *pplayer,
     result->corruption = ai->science_priority
       * (city_waste(pcity, O_TRADE,
 		    result->citymap[result->o_x][result->o_y].trade)
-	 - pcity->corruption);
+	 - pcity->waste[O_TRADE]);
     result->waste = ai->shield_priority
       * (city_waste(pcity, O_SHIELD,
 		    result->citymap[result->o_x][result->o_y].shield)
-	 - pcity->shield_waste);
+	 - pcity->waste[O_SHIELD]);
     pcity->size--;
   }
   result->total -= result->corruption;

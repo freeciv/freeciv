@@ -401,16 +401,17 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
   UINT8 specialists[SP_MAX];
 
   SINT16 surplus[O_MAX];
+  UINT16 waste[O_MAX];
   UINT16 food_prod, shield_prod;
   SINT16 tile_trade;
-  UINT16 food_stock, shield_stock, corruption;
+  UINT16 food_stock, shield_stock;
 
   UINT16 trade[NUM_TRADEROUTES];
   UINT8 trade_value[NUM_TRADEROUTES];
 
   UINT16 luxury_total, tax_total, science_total;
 
-  UINT16 pollution, shield_waste;
+  UINT16 pollution;
 
   UINT8 currently_building;
   BOOL is_building_unit;

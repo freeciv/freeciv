@@ -399,7 +399,7 @@ static const char *cr_entry_corruption(const struct city *pcity,
 				       const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d", pcity->corruption);
+  my_snprintf(buf, sizeof(buf), "%3d", pcity->waste[O_TRADE]);
   return buf;
 }
 
@@ -407,7 +407,7 @@ static const char *cr_entry_waste(const struct city *pcity,
 				  const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d", pcity->shield_waste);
+  my_snprintf(buf, sizeof(buf), "%3d", pcity->waste[O_SHIELD]);
   return buf;
 }
 

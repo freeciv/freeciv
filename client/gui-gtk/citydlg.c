@@ -1691,10 +1691,10 @@ static void city_dialog_update_information(GtkWidget **info_label,
   my_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
 	      pcity->food_prod, pcity->surplus[O_FOOD]);
   my_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
-	      pcity->shield_prod + pcity->shield_waste,
+	      pcity->shield_prod + pcity->waste[O_SHIELD],
 	      pcity->surplus[O_SHIELD]);
   my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
-	      pcity->surplus[O_TRADE] + pcity->corruption,
+	      pcity->surplus[O_TRADE] + pcity->waste[O_TRADE],
 	      pcity->surplus[O_TRADE]);
   my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
 	      pcity->tax_total, city_gold_surplus(pcity, pcity->tax_total));
@@ -1721,9 +1721,9 @@ static void city_dialog_update_information(GtkWidget **info_label,
   }
 
   my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%2d",
-	      pcity->corruption);
+	      pcity->waste[O_TRADE]);
   my_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%2d",
-	      pcity->shield_waste);
+	      pcity->waste[O_SHIELD]);
   my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%2d",
 	      pcity->pollution);
 
