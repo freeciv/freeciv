@@ -96,6 +96,61 @@ enum known_type {
 
 BV_DEFINE(bv_terrain_flags, TER_MAX);
 
+/*
+ * This struct gives data about each terrain type.  There are many ways
+ * it could be extended.
+ */
+struct tile_type {
+  const char *terrain_name; /* Translated string - doesn't need freeing. */
+  char terrain_name_orig[MAX_LEN_NAME];	/* untranslated copy */
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
+
+  /* Server-only. */
+  char identifier; /* Single-character identifier used in savegames. */
+#define UNKNOWN_TERRAIN_IDENTIFIER 'u'
+
+  int movement_cost;
+  int defense_bonus; /* Bonus multiplier as a per-deca (20 means 2x) */
+
+  int output[O_MAX];
+
+#define MAX_NUM_SPECIALS 2
+  struct {
+    const char *name; /* Translated string - doesn't need freeing. */
+    char name_orig[MAX_LEN_NAME];
+    int output[O_MAX];
+    char graphic_str[MAX_LEN_NAME];
+    char graphic_alt[MAX_LEN_NAME];
+  } special[MAX_NUM_SPECIALS];
+
+  int road_trade_incr;
+  int road_time;
+
+  Terrain_type_id irrigation_result;
+  int irrigation_food_incr;
+  int irrigation_time;
+
+  Terrain_type_id mining_result;
+  int mining_shield_incr;
+  int mining_time;
+
+  Terrain_type_id transform_result;
+  int transform_time;
+  int rail_time;
+  int airbase_time;
+  int fortress_time;
+  int clean_pollution_time;
+  int clean_fallout_time;
+
+  Terrain_type_id warmer_wetter_result, warmer_drier_result;
+  Terrain_type_id cooler_wetter_result, cooler_drier_result;
+
+  bv_terrain_flags flags;
+
+  char *helptext;
+};
+
 extern struct tile_type tile_types[MAX_NUM_TERRAINS];
 
 /* General accessor functions. */
