@@ -178,7 +178,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
                        + acity->tax_total
                        + acity->science_total) * TRADE_WEIGHTING;
       gain_incite *= SHIELD_WEIGHTING; /* WAG cost to take city otherwise */
-      gain_incite -= incite_cost;
+      gain_incite -= incite_cost * TRADE_WEIGHTING;
     }
     if (city_owner(acity)->research.techs_researched <
              pplayer->research.techs_researched
