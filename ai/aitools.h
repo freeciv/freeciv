@@ -37,6 +37,8 @@ enum bodyguard_enum {
   BODYGUARD_NONE
 };
 
+const char *get_ai_role_str(enum ai_unit_task task);
+
 int military_amortize(struct player *pplayer, struct city *pcity, 
                       int value, int delay, int build_cost);
 int stack_cost(struct unit *pdef);

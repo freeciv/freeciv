@@ -57,6 +57,39 @@
 #include "aitools.h"
 
 /**************************************************************************
+  Return a string describing a unit's AI role.
+**************************************************************************/
+const char *get_ai_role_str(enum ai_unit_task task)
+{
+  switch(task) {
+   case AIUNIT_NONE:
+     return "None";
+   case AIUNIT_AUTO_SETTLER:
+     return "Auto settler";
+   case AIUNIT_BUILD_CITY:
+     return "Build city";
+   case AIUNIT_DEFEND_HOME:
+     return "Defend home";
+   case AIUNIT_ATTACK:
+     return "Attack";
+   case AIUNIT_ESCORT:
+     return "Escort";
+   case AIUNIT_EXPLORE:
+     return "Explore";
+   case AIUNIT_RECOVER:
+     return "Recover";
+   case AIUNIT_HUNTER:
+     return "Hunter";
+   case AIUNIT_PILLAGE:
+   case AIUNIT_RUNAWAY:
+   case AIUNIT_FORTIFY:
+     return "Unused";
+  }
+  assert(FALSE);
+  return NULL;
+}
+
+/**************************************************************************
   Amortize a want modified by the shields (build_cost) we risk losing.
   We add the build time of the unit(s) we risk to amortize delay.  The
   build time is claculated as the build cost divided by the production
@@ -312,8 +345,8 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   /* If the unit is under (human) orders we shouldn't control it. */
   assert(!unit_has_orders(punit));
 
-  UNIT_LOG(LOG_DEBUG, punit, "changing role from %d to %d",
-           punit->activity, task);
+  UNIT_LOG(LOG_DEBUG, punit, "changing role from %s to %s",
+           get_ai_role_str(punit->activity), get_ai_role_str(task));
 
   /* Free our ferry.  Most likely it has been done already. */
   if (task == AIUNIT_NONE || task == AIUNIT_DEFEND_HOME) {
