@@ -446,21 +446,21 @@ Keyboard:\n\
   C: unit (c)onnect  (then left-click mouse to select destination)\n\
   d: (d)iplomat/spy actions  (diplomat/spy units)\n\
   D: (D)isband unit\n\
-  e: build airbas(e)\n\
+  e: build airbas(e)  (airbase units)\n\
   f: (f)ortify unit  (military units)\n\
   f: build (f)ortress  (settler units)\n\
   F: open (F)ind City dialog\n\
   g: unit (g)oto  (then left-click mouse to select destination)\n\
   h: change (h)omecity  (to city at current location)\n\
-  i: build (i)rrigation/farmland  (may convert terrain)\n\
+  i: build (i)rrigation/farmland  (settler units; may convert terr)\n\
   l: go/air(l)ift to city\n\
   L: open Work(L)ists dialog\n\
-  m: build (m)ine  (may convert terrain)\n\
+  m: build (m)ine  (settler units; may convert terrain)\n\
   n: clean (n)uclear fallout\n\
   N: explode (N)uclear\n\
   o: transf(o)rm terrain\n\
-  p: clean (p)ollution (settler units)\n\
-  p: (p)aradrop  (paratroopers)\n\
+  p: clean (p)ollution  (settler units)\n\
+  p: (p)aradrop  (paratroop units)\n\
   P: (P)illage terrain alteration\n\
   q: unit patrol  (then left-click mouse to select destination)\n\
   r: build (r)oad/railroad  (settler units)\n\
