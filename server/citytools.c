@@ -447,7 +447,8 @@ int food_weighting(int city_size)
     for (size = 1; size < MAX_CITY_SIZE; size++) {
       int food_weighting_is_for = 4;	/* FOOD_WEIGHTING applies to city with
 					   foodbox width of 4 */
-      int weighting = (food_weighting_is_for * FOOD_WEIGHTING) / (1 + size);
+      int weighting = (food_weighting_is_for * FOOD_WEIGHTING) /
+                      (city_granary_size(size) / game.foodbox);
 
       /* If the citysize is 1 we assume it will not be so for long, and
          so adjust the value a little downwards. */

@@ -736,7 +736,8 @@ struct packet_ruleset_game {
   int hut_overflight;
   bool pillage_select;
   int nuke_contamination;
-  int granary_food_ini;
+  int granary_food_ini[MAX_GRANARY_INIS];
+  int granary_num_inis;
   int granary_food_inc;
   int tech_cost_style;
   int tech_leakage;

@@ -24,10 +24,11 @@
 #include "player.h"
 #include "shared.h"
 
-
-#define MAX_LEN_DEMOGRAPHY  16
+/* Changing these will probably break network compatability. */
+#define MAX_LEN_DEMOGRAPHY 16
 #define MAX_LEN_ALLOW_TAKE 16
 #define MAX_ID_LEN 33
+#define MAX_GRANARY_INIS 24
 
 enum server_states { 
   PRE_GAME_STATE, 
@@ -192,7 +193,8 @@ struct civ_game {
     int hut_overflight;
     bool pillage_select;
     int nuke_contamination;
-    int granary_food_ini;
+    int granary_food_ini[MAX_GRANARY_INIS];
+    int granary_num_inis;
     int granary_food_inc;
     int tech_cost_style;
     int tech_leakage;

@@ -954,7 +954,8 @@ PACKET_RULESET_GAME=97;sc,lsend
   UINT8 hut_overflight;
   BOOL pillage_select;
   UINT8 nuke_contamination;
-  UINT8 granary_food_ini;
+  UINT8 granary_food_ini[MAX_GRANARY_INIS];
+  UINT8 granary_num_inis;
   UINT8 granary_food_inc;
   UINT8 tech_cost_style;
   UINT8 tech_leakage;

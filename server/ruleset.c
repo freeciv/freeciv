@@ -2539,6 +2539,7 @@ static void load_ruleset_game()
   struct section_file file;
   char *sval;
   const char *filename;
+  int *food_ini;
 
   openload_ruleset_file(&file, "game");
   filename = secfile_filename(&file);
@@ -2594,19 +2595,39 @@ static void load_ruleset_game()
     game.rgame.nuke_contamination = CONTAMINATION_POLLUTION;
   }
 
-  game.rgame.granary_food_ini =
-    secfile_lookup_int(&file, "civstyle.granary_food_ini");
-  if (game.rgame.granary_food_ini < 0) {
-    freelog(LOG_ERROR, "Bad value %i for granary_food_ini. Using 1.",
-	    game.rgame.granary_food_ini);
-    game.rgame.granary_food_ini = 1;
+  food_ini = secfile_lookup_int_vec(&file, &game.rgame.granary_num_inis, 
+				    "civstyle.granary_food_ini");
+  if (game.rgame.granary_num_inis > MAX_GRANARY_INIS) {
+    freelog(LOG_FATAL,
+	    "Too many granary_food_ini entries; %d is the maximum!",
+	    MAX_GRANARY_INIS);
+    exit(EXIT_FAILURE);
+  } else if (game.rgame.granary_num_inis == 0) {
+    freelog(LOG_ERROR, "No values for granary_food_ini. Using 1.");
+    game.rgame.granary_num_inis = 1;
+    game.rgame.granary_food_ini[0] = 1;
+  } else {
+    int i;
+
+    /* check for <= 0 entries */
+    for (i = 0; i < game.rgame.granary_num_inis; i++) {
+      if (food_ini[i] <= 0) {
+	if (i == 0) {
+	  food_ini[i] = 1;
+	} else {
+	  food_ini[i] = food_ini[i - 1];
+	}
+	freelog(LOG_ERROR, "Bad value for granary_food_ini[%i]. Using %i.",
+		i, food_ini[i]);
+      }
+      game.rgame.granary_food_ini[i] = food_ini[i];
+    }
   }
+  free(food_ini);
+
   game.rgame.granary_food_inc =
     secfile_lookup_int(&file, "civstyle.granary_food_inc");
-  if (game.rgame.granary_food_inc < 0 ||
-      /* can't have a granary size of zero */
-      (game.rgame.granary_food_ini == 0 && 
-       game.rgame.granary_food_inc * game.foodbox / 100 == 0) ) {
+  if (game.rgame.granary_food_inc < 0) {
     freelog(LOG_ERROR, "Bad value %i for granary_food_inc. Using 100.",
 	    game.rgame.granary_food_inc);
     game.rgame.granary_food_inc = 100;
@@ -3024,6 +3045,7 @@ static void send_ruleset_cities(struct conn_list *dest)
 **************************************************************************/
 static void send_ruleset_game(struct conn_list *dest)
 {
+  int i;
   struct packet_ruleset_game misc_p;
 
   misc_p.min_city_center_food = game.rgame.min_city_center_food;
@@ -3034,7 +3056,10 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.hut_overflight = game.rgame.hut_overflight;
   misc_p.pillage_select = game.rgame.pillage_select;
   misc_p.nuke_contamination = game.rgame.nuke_contamination;
-  misc_p.granary_food_ini = game.rgame.granary_food_ini;
+  for (i = 0; i < MAX_GRANARY_INIS; i++) {
+    misc_p.granary_food_ini[i] = game.rgame.granary_food_ini[i];
+  }
+  misc_p.granary_num_inis = game.rgame.granary_num_inis;
   misc_p.granary_food_inc = game.rgame.granary_food_inc;
   misc_p.tech_cost_style = game.rgame.tech_cost_style;
   misc_p.tech_leakage = game.rgame.tech_leakage;

@@ -43,9 +43,12 @@ pillage_select		= 1
 nuke_contamination	= "Fallout"
 
 ; Parameters used to generalize the calculation of city granary size:
-;   city_granary_size = (granary_food_ini * foodbox) +
-;                       (granary_food_inc * city_size) * foodbox / 100
-granary_food_ini	= 1
+;   if city_size <= num_inis:
+;     city_granary_size = (granary_food_ini[city_size] * foodbox)
+;   if city_size > num_inis;
+;     city_granary_size = (granary_food_ini[num_inis] * foodbox) +
+;        (granary_food_inc * (city_size - num_inis)) * foodbox / 100
+granary_food_ini	= 2
 granary_food_inc	= 100
 
 ; Method of calculating technology costs

@@ -2643,7 +2643,10 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.hut_overflight = packet->hut_overflight;
   game.rgame.pillage_select = packet->pillage_select;
   game.rgame.nuke_contamination = packet->nuke_contamination;
-  game.rgame.granary_food_ini = packet->granary_food_ini;
+  for (i = 0; i < MAX_GRANARY_INIS; i++) {
+    game.rgame.granary_food_ini[i] = packet->granary_food_ini[i];
+  }
+  game.rgame.granary_num_inis = packet->granary_num_inis;
   game.rgame.granary_food_inc = packet->granary_food_inc;
   game.rgame.tech_cost_style = packet->tech_cost_style;
   game.rgame.tech_leakage = packet->tech_leakage;

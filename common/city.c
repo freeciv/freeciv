@@ -1535,16 +1535,24 @@ bool city_exists_within_city_radius(int x, int y, bool may_be_on_center)
   return FALSE;
 }
 
-/**************************************************************************
-generalized formula used to calculate granary size.
-for now, the AI doesn't understand settings other than the default,
-i.e. granary_food_ini=1, granary_food_inc=100.
-for more, see food_weighting().
-**************************************************************************/
+/****************************************************************************
+  Generalized formula used to calculate granary size.
+
+  The AI may not deal well with non-default settings.  See food_weighting().
+****************************************************************************/
 int city_granary_size(int city_size)
 {
-  return (game.rgame.granary_food_ini * game.foodbox) +
-    (game.rgame.granary_food_inc * city_size * game.foodbox) / 100;
+  int food_inis = game.rgame.granary_num_inis;
+  int food_inc = game.rgame.granary_food_inc;
+
+  /* Granary sizes for the first food_inis citizens are given directly.
+   * After that we increase the granary size by food_inc per citizen. */
+  if (city_size > food_inis) {
+    return (game.rgame.granary_food_ini[food_inis - 1] * game.foodbox +
+	    food_inc * (city_size - food_inis) * game.foodbox / 100) ;
+  } else {
+    return game.rgame.granary_food_ini[city_size - 1] * game.foodbox;
+  }
 }
 
 /**************************************************************************
