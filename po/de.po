@@ -5726,10 +5726,9 @@ msgstr "Client capability string: %s"
 msgid "Server capability string: %s"
 msgstr "Server capability string: %s"
 
-# ?
 #: client/packhand.c:656
 msgid "Popup Request"
-msgstr ""
+msgstr "Sondermeldung"
 
 #: client/packhand.c:1075
 #, c-format
