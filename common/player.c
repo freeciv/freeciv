@@ -150,7 +150,8 @@ char *ruler_titles[G_LAST] = {
 ***************************************************************/
 int player_has_embassy(struct player *pplayer, struct player *pplayer2)
 {
-  return pplayer->embassy & (1<<pplayer2->player_no);
+  return (pplayer->embassy & (1<<pplayer2->player_no)) ||
+         (player_owns_active_wonder(pplayer, B_MARCO) && pplayer != pplayer2);
 }
 
 /****************************************************************

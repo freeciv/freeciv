@@ -95,7 +95,7 @@ b={ "name", "is_wonder", "tech_requirement", "build_cost", "shield_upkeep", "var
 "Lighthouse",              1, "Map Making",          200, 0, 0, "Magnetism"
 "Magellan's Expedition",   1, "Navigation",          400, 0, 0, "None"
 "Manhattan Project",       1, "Nuclear Fission",     600, 0, 0, "None"
-"Marco Polo's Embassy",    1, "Never",               200, 0, 0, "Communism"
+"Marco Polo's Embassy",    1, "Trade",               200, 0, 0, "Communism"
 "Michelangelo's Chapel",   1, "Monotheism",          400, 0, 0, "None"
 "Oracle",                  1, "Mysticism",           300, 0, 0, "Theology"
 "Pyramids",                1, "Masonry",             200, 0, 0, "None"

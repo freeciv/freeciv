@@ -1133,7 +1133,7 @@ Variant 1: Only gives 1 additional movement point.
 %%Allow all players with knowledge of Rocketry to build Nuclear units.
 ---
 # Marco Polo's Embassy
-This wonder has not been implemented.
+The player who owns it gets an embassy with all players.
 ---
 # Michelangelo's Chapel
 Counts as having a Cathedral in each of your cities.
