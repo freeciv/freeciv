@@ -726,11 +726,15 @@ static struct settings_s settings[] = {
 	     "wait at all."), NULL, 
 	  GAME_MIN_NETWAIT, GAME_MAX_NETWAIT, GAME_DEFAULT_NETWAIT)
 
-  GEN_INT("pingtimeout", game.pingtimeout, SSET_META, SSET_TO_CLIENT,
-	  N_("Maximum seconds between PINGs"),
+  GEN_INT("pingtime", game.pingtime, SSET_META, SSET_TO_CLIENT,
+	  N_("Seconds between PINGs"),
 	  N_("The civserver will poll the clients with a PING request "
-	     "each time this period elapses. If a client doesn't reply "
-	     "with a PONG before the next server PING request the "
+	     "each time this period elapses."), NULL, 
+	  GAME_MIN_PINGTIME, GAME_MAX_PINGTIME, GAME_DEFAULT_PINGTIME)
+
+  GEN_INT("pingtimeout", game.pingtimeout, SSET_META, SSET_TO_CLIENT,
+	  N_("Time to cut a client"),
+	  N_("If a client doesn't reply to a PONG in this time the "
 	     "client is disconnected."), NULL, 
 	  GAME_MIN_PINGTIMEOUT, GAME_MAX_PINGTIMEOUT, GAME_DEFAULT_PINGTIMEOUT)
 

@@ -913,7 +913,7 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
     handle_patrol_route(pplayer, (struct packet_goto_route *)packet);
     break;
   case PACKET_CONN_PONG:
-    pconn->ponged = TRUE;
+    handle_conn_pong(pconn);
     break;
   case PACKET_UNIT_AIRLIFT:
     handle_unit_airlift(pplayer, (struct packet_unit_request *)packet);

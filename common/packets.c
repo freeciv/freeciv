@@ -447,6 +447,9 @@ void *get_packet_from_connection(struct connection *pc,
   case PACKET_ATTRIBUTE_CHUNK:
     return receive_packet_attribute_chunk(pc);
 
+  case PACKET_PING_INFO:
+    return receive_packet_ping_info(pc);
+
   default:
     freelog(LOG_ERROR, "unknown packet type %d received from %s",
 	    type, conn_description(pc));
@@ -805,6 +808,45 @@ struct packet_city_request *receive_packet_city_request(struct connection
   dio_get_string(&din, preq->name, sizeof(preq->name));
 
   RECEIVE_PACKET_END(preq);
+}
+
+/*************************************************************************
+This is the ping packet
+**************************************************************************/
+int send_packet_ping_info(struct connection *pc,
+			  const struct packet_ping_info *packet)
+{
+  int i;
+  SEND_PACKET_START(PACKET_PING_INFO);
+
+  dio_put_uint8(&dout, packet->connections);  
+
+  for (i = 0; i < packet->connections; i++) {
+    dio_put_uint8(&dout, packet->conn_id[i]);
+    dio_put_uint32(&dout, (int) (packet->ping_time[i] * 1e6));
+  }
+
+  SEND_PACKET_END;
+}
+
+/*************************************************************************
+...
+**************************************************************************/
+struct packet_ping_info *receive_packet_ping_info(struct connection *pc)
+{
+  int i;	
+  RECEIVE_PACKET_START(packet_ping_info, packet);
+
+  dio_get_uint8(&din, &packet->connections);
+  for (i = 0; i < packet->connections; i++) {
+    int tmp;
+
+    dio_get_uint8(&din, &packet->conn_id[i]);
+    dio_get_uint32(&din, &tmp);
+    packet->ping_time[i] = tmp / 1e6;
+  }
+	
+  RECEIVE_PACKET_END(packet);
 }
 
 /*************************************************************************

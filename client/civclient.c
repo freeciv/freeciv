@@ -456,6 +456,10 @@ void handle_packet_input(void *packet, int type)
     handle_thaw_hint();
     break;
 
+  case PACKET_PING_INFO:
+    handle_ping_info((struct packet_ping_info *) packet);
+    break;
+
   default:
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
     /* Old clients (<= some 1.11.5-devel, capstr +1.11) used to exit()

@@ -128,6 +128,7 @@ enum packet_type {
   PACKET_SELECT_NATION_OK,
   PACKET_FREEZE_HINT,
   PACKET_THAW_HINT,
+  PACKET_PING_INFO,
   PACKET_LAST  /* leave this last */
 };
 
@@ -503,6 +504,15 @@ struct packet_conn_info {
   char name[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];
   char capability[MAX_LEN_CAPSTR];
+};
+
+/*********************************************************
+Information about the ping times of the connections.
+*********************************************************/
+struct packet_ping_info {
+  int connections;
+  int conn_id[MAX_NUM_PLAYERS];
+  double ping_time[MAX_NUM_PLAYERS];
 };
 
 /*********************************************************
@@ -940,6 +950,9 @@ int send_packet_game_info(struct connection *pc,
 			  const struct packet_game_info *pinfo);
 struct packet_game_info *receive_packet_game_info(struct connection *pc);
 
+int send_packet_ping_info(struct connection *pc,
+			  const struct packet_ping_info *packet);
+struct packet_ping_info *receive_packet_ping_info(struct connection *pc);
 
 struct packet_player_info *receive_packet_player_info(struct connection *pc);
 int send_packet_player_info(struct connection *pc, 

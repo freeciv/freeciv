@@ -50,6 +50,7 @@ client/control.c
 client/helpdata.c
 client/options.c
 client/packhand.c
+client/plrdlg_common.c
 client/tilespec.c
 client/agents/cma_core.c
 client/agents/cma_fec.c

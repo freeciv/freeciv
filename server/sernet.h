@@ -25,5 +25,6 @@ int sniff_packets(void);
 void close_connections_and_socket(void);
 void init_connections(void);
 void close_connection(struct connection *pconn);
+void handle_conn_pong(struct connection *pconn);
 
 #endif  /* FC__SERNET_H */

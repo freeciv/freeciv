@@ -655,6 +655,7 @@ void game_init(void)
   game.netwait       = GAME_DEFAULT_NETWAIT;
   game.last_ping     = 0;
   game.pingtimeout   = GAME_DEFAULT_PINGTIMEOUT;
+  game.pingtime      = GAME_DEFAULT_PINGTIME;
   game.end_year      = GAME_DEFAULT_END_YEAR;
   game.year          = GAME_START_YEAR;
   game.turn          = 0;

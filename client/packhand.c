@@ -1291,6 +1291,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       pconn = fc_calloc(1, sizeof(struct connection));
       pconn->buffer = NULL;
       pconn->send_buffer = NULL;
+      pconn->ping_time = -1.0;
       if (pplayer) {
 	conn_list_insert_back(&pplayer->connections, pconn);
       }
@@ -1317,6 +1318,27 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     sz_strlcpy(pconn->name, pinfo->name);
     sz_strlcpy(pconn->addr, pinfo->addr);
     sz_strlcpy(pconn->capability, pinfo->capability);
+  }
+  update_players_dialog();
+}
+
+/*************************************************************************
+...
+**************************************************************************/
+void handle_ping_info(struct packet_ping_info *packet)
+{
+  int i;
+
+  for (i = 0; i < packet->connections; i++) {
+    struct connection *pconn = find_conn_by_id(packet->conn_id[i]);
+
+    if (!pconn) {
+      continue;
+    }
+
+    pconn->ping_time = packet->ping_time[i];
+    freelog(LOG_DEBUG, "conn-id=%d, ping=%fs", pconn->id,
+	    pconn->ping_time);
   }
   update_players_dialog();
 }

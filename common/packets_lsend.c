@@ -81,6 +81,14 @@ void lsend_packet_game_info(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
+void lsend_packet_ping_info(struct conn_list *dest,
+			  const struct packet_ping_info *packet)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_ping_info(pconn, packet);
+  conn_list_iterate_end;
+}
+
 void lsend_packet_player_info(struct conn_list *dest, 
 			    const struct packet_player_info *pinfo)
 {

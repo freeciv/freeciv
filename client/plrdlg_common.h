@@ -13,11 +13,14 @@
 #ifndef FC__PLRDLG_COMMON_H
 #define FC__PLRDLG_COMMON_H
 
+struct player;
+
 #include "shared.h"		/* bool type */
 
 void plrdlg_freeze(void);
 void plrdlg_thaw(void);
 void plrdlg_force_thaw(void);
 bool is_plrdlg_frozen(void);
+const char *get_ping_time_text(struct player *pplayer);
 
 #endif  /* FC__PLRDLG_COMMON_H */

@@ -70,7 +70,7 @@ static void players_list_callback(GtkWidget *w, gint row, gint column);
 static void players_list_ucallback(GtkWidget *w, gint row, gint column);
 static void players_sship_callback(GtkWidget *w, gpointer data);
 
-#define NUM_COLUMNS 12    /* number of columns in total */
+#define NUM_COLUMNS 13		/* number of columns in total */
 #define DEF_SORT_COLUMN 2 /* default sort column (1 = nation) */
 
 /****************************************************************
@@ -122,7 +122,7 @@ void create_players_dialog(void)
   static const char *titles_[NUM_COLUMNS] =
       { N_("Name"), N_("Flag"), N_("Nation"), N_("Team"), N_("Ai"),
 	N_("Embassy"), N_("Dipl.State"), N_("Vision"), N_("Reputation"),
-	N_("State"), N_("Host"), N_("Idle")
+	N_("State"), N_("Host"), N_("Idle"), N_("Ping")
   };
   static gchar **titles;
   int i;
@@ -326,6 +326,7 @@ static void build_row(const char **row, int i, int update)
   row[9] = statebuf;
   row[10] = (char *) player_addr_hack(&game.players[i]);	/* Fixme */
   row[11] = idlebuf;
+  row[12] = get_ping_time_text(&game.players[i]);
 }
 
 #define MIN_DIMENSION 5

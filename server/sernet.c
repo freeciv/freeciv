@@ -75,6 +75,7 @@
 #include "meta.h"
 #include "srv_main.h"
 #include "stdinhand.h"
+#include "timing.h"
 
 #include "sernet.h"
 
@@ -105,12 +106,22 @@ static int sock;
    void user_interrupt_callback();
 #endif
 
+#define SPECLIST_TAG timer
+#define SPECLIST_TYPE struct timer
+#include "speclist.h"
+
+#define SPECLIST_TAG timer
+#define SPECLIST_TYPE struct timer
+#include "speclist_c.h"
+
 #define PROCESSING_TIME_STATISTICS 0
 
 static int server_accept_connection(int sockfd);
 static void start_processing_request(struct connection *pconn,
 				     int request_id);
 static void finish_processing_request(struct connection *pconn);
+static void ping_connection(struct connection *pconn);
+static void send_ping_times_to_all(void);
 
 static bool no_input = FALSE;
 
@@ -164,6 +175,13 @@ static void handle_readline_input_callback(char *line)
 *****************************************************************************/
 void close_connection(struct connection *pconn)
 {
+  while (timer_list_size(pconn->server.ping_timers) > 0) {
+    struct timer *timer = timer_list_get(pconn->server.ping_timers, 0);
+
+    timer_list_unlink(pconn->server.ping_timers, timer);
+    free_timer(timer);
+  }
+
   /* safe to do these even if not in lists: */
   conn_list_unlink(&game.all_connections, pconn);
   conn_list_unlink(&game.est_connections, pconn);
@@ -392,22 +410,27 @@ int sniff_packets(void)
       }
     }
 
-    /* send PACKET_CONN_PING & cut mute players */
-    if ((time(NULL)>game.last_ping + game.pingtimeout)) {
-      for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
-	struct connection *pconn = &connections[i];
-	if (pconn->used) {
-	  send_packet_generic_empty(pconn, PACKET_CONN_PING);
+    /* Pinging around for statistics */
+    if (time(NULL) > (game.last_ping + game.pingtime)) {
+      /* send data about the previous run */
+      send_ping_times_to_all();
 
-	  if (pconn->ponged) {
-	    pconn->ponged = FALSE;
-	  } else {
-	    freelog(LOG_NORMAL, "cut connection %s due to ping timeout",
-		    conn_description(pconn));
-	    close_socket_callback(pconn);
-	  }
+      conn_list_iterate(game.game_connections, pconn) {
+	if (!pconn->used) {
+	  continue;
 	}
-      }
+
+	if ((timer_list_size(pconn->server.ping_timers) > 0
+	     &&
+	     read_timer_seconds(timer_list_get(pconn->server.ping_timers, 0))
+	     > game.pingtimeout) || pconn->ping_time > game.pingtimeout) {
+	  /* cut mute players */
+	  freelog(LOG_NORMAL, "cut connection %s due to ping timeout",
+		  conn_description(pconn));
+	  close_socket_callback(pconn);
+	}
+	ping_connection(pconn);
+      } conn_list_iterate_end;
       game.last_ping = time(NULL);
     }
 
@@ -699,7 +722,6 @@ static int server_accept_connection(int sockfd)
       pconn->buffer = new_socket_packet_buffer();
       pconn->send_buffer = new_socket_packet_buffer();
       pconn->last_write = 0;
-      pconn->ponged = TRUE;
       pconn->first_packet = TRUE;
       pconn->byte_swap = FALSE;
       pconn->capability[0] = '\0';
@@ -708,6 +730,9 @@ static int server_accept_connection(int sockfd)
       pconn->notify_of_writable_data = NULL;
       pconn->server.currently_processed_request_id = 0;
       pconn->server.last_request_id_seen = 0;
+      pconn->server.ping_timers = malloc(sizeof(*pconn->server.ping_timers));
+      timer_list_init(pconn->server.ping_timers);
+      pconn->ping_time = -1.0;
       pconn->incoming_packet_notify = NULL;
       pconn->outgoing_packet_notify = NULL;
 
@@ -718,6 +743,7 @@ static int server_accept_connection(int sockfd)
       conn_list_insert_back(&game.all_connections, pconn);
   
       freelog(LOG_VERBOSE, "connection (%s) from %s", pconn->name, pconn->addr);
+      ping_connection(pconn);
       return 0;
     }
   }
@@ -818,4 +844,68 @@ static void finish_processing_request(struct connection *pconn)
 	  pconn->server.currently_processed_request_id, pconn->id);
   send_packet_generic_empty(pconn, PACKET_PROCESSING_FINISHED);
   pconn->server.currently_processed_request_id = 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void ping_connection(struct connection *pconn)
+{
+  freelog(LOG_DEBUG, "sending ping to %s (open=%d)",
+	  conn_description(pconn),
+	  timer_list_size(pconn->server.ping_timers));
+  timer_list_insert_back(pconn->server.ping_timers,
+			 new_timer_start(TIMER_USER, TIMER_ACTIVE));
+  send_packet_generic_empty(pconn, PACKET_CONN_PING);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_conn_pong(struct connection *pconn)
+{
+  struct timer *timer;
+
+  if (timer_list_size(pconn->server.ping_timers) == 0) {
+    freelog(LOG_NORMAL, "got unexpected pong from %s",
+	    conn_description(pconn));
+    return;
+  }
+
+  timer = timer_list_get(pconn->server.ping_timers, 0);
+  timer_list_unlink(pconn->server.ping_timers, timer);
+  pconn->ping_time = read_timer_seconds_free(timer);
+  freelog(LOG_DEBUG, "got pong from %s (open=%d); ping time = %fs",
+	  conn_description(pconn),
+	  timer_list_size(pconn->server.ping_timers), pconn->ping_time);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void send_ping_times_to_all(void)
+{
+  struct packet_ping_info packet;
+  int i;
+
+  i = 0;
+  conn_list_iterate(game.game_connections, pconn) {
+    if (!pconn->used) {
+      continue;
+    }
+    i++;
+  } conn_list_iterate_end;
+
+  packet.connections = i;
+
+  i = 0;
+  conn_list_iterate(game.game_connections, pconn) {
+    if (!pconn->used) {
+      continue;
+    }
+    packet.conn_id[i] = pconn->id;
+    packet.ping_time[i] = pconn->ping_time;
+    i++;
+  } conn_list_iterate_end;
+  lsend_packet_ping_info(&game.est_connections, &packet);
 }
