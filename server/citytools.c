@@ -1257,7 +1257,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   cplayer->economic.gold -= coins;
   send_player_info(cplayer, cplayer);
   if (pcity->original != pplayer->player_no) {
-    notify_player_ex(pplayer, pcity->tile, E_NOEVENT, 
+    notify_player_ex(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
 		     _("Game: You conquer %s, your lootings accumulate"
 		       " to %d gold!"), 
 		     pcity->name, coins);
@@ -1270,7 +1270,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 	    pcity->tile->x, pcity->tile->y,
 	    get_nation_name_plural(pplayer->nation));
   } else {
-    notify_player_ex(pplayer, pcity->tile, E_NOEVENT, 
+    notify_player_ex(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
 		     _("Game: You have liberated %s!"
 		       " Lootings accumulate to %d gold."),
 		     pcity->name, coins);
