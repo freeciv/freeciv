@@ -255,24 +255,37 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
 			       XtPointer call_data)
 {
   Boolean b;
+  int i;
   client_option *o;
   XtPointer dp;
 
   for (o=options; o->name; ++o) {
     switch (o->type) {
     case COT_BOOL:
-      XtVaGetValues((Widget) o->p_gui_data, XtNstate, &b, NULL);
-      *(o->p_bool_value) = b;
+      b = *(o->p_bool_value);
+      XtVaGetValues((Widget) o->p_gui_data, XtNstate, o->p_bool_value, NULL);
+      if (b != *(o->p_bool_value) && o->change_callback) {
+	(o->change_callback)(o);
+      }
       break;
     case COT_INT:
+      i = *(o->p_int_value);
       XtVaGetValues(o->p_gui_data, XtNstring, &dp, NULL);
       sscanf(dp, "%d", o->p_int_value);
+      if (i != *(o->p_int_value) && o->change_callback) {
+	(o->change_callback)(o);
+      }
       break;
     case COT_STR:
       XtVaGetValues(o->p_gui_data,
 		    o->p_string_vals ? "label" : XtNstring,
 		    &dp, NULL);
-      mystrlcpy(o->p_string_value,dp,o->string_length);
+      if (strcmp(o->p_string_value, dp)) {
+	mystrlcpy(o->p_string_value, dp, o->string_length);
+	if (o->change_callback) {
+	  (o->change_callback)(o);
+	}
+      }
       break;
     }
   }

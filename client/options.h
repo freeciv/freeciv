@@ -51,7 +51,7 @@ enum client_option_type {
   COT_STR
 };
 
-typedef struct {
+typedef struct client_option {
   const char *name;
   const char *description;
   enum client_option_type type;
@@ -59,6 +59,7 @@ typedef struct {
   bool *p_bool_value;
   char *p_string_value;
   size_t string_length;
+  void (*change_callback) (struct client_option * option);
 
   /* 
    * A function to return a static NULL-terminated list of possible

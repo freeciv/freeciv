@@ -43,23 +43,40 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
   case WM_COMMAND:
     if (LOWORD(wParam)==IDOK) {
       client_option *o;
-      char dp[20];
+      int len = MAX(o->string_length, 20); /* Make sure it fits */
+      char dp[len];
+      bool b;
+      int i;
       
       for (o=options; o->name; ++o) {
 	switch (o->type) {
 	case COT_BOOL:
+	  b = *(o->p_bool_value);
 	  *(o->p_bool_value)=(Button_GetCheck((HWND)(o->p_gui_data))==BST_CHECKED);
+	  if (b != *(o->p_bool_value) && o->change_callback) {
+	    (o->change_callback)(o);
+	  }
 	  break;
 	case COT_INT:
+	  i = *(o->p_int_value);
 	  GetWindowText((HWND)(o->p_gui_data),dp,sizeof(dp));
 	  sscanf(dp, "%d", o->p_int_value);
+	  if (i != *(o->p_int_value) && o->change_callback) {
+	    (o->change_callback)(o);
+	  }
 	  break;
 	case COT_STR:
 	  if (!o->p_gui_data) {
 	    break;
 	  }
-	  GetWindowText((HWND) (o->p_gui_data), o->p_string_value,
+	  GetWindowText((HWND) (o->p_gui_data), dp,
 			o->string_length);
+	  if (!strcmp(dp, o->p_string_value)) {
+	    mystrlcpy(o->p_string_value, dp, o->string_length);
+	    if (o->change_callback) {
+	      (o->change_callback)(o);
+	    }
+	  }
 	  break;
 	}
       }
