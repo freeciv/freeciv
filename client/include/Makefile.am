@@ -8,6 +8,7 @@ noinst_HEADERS = \
 	chatline_g.h	\
 	citydlg_g.h	\
 	cityrep_g.h	\
+	colors_g.h	\
 	connectdlg_g.h	\
 	dialogs_g.h	\
 	diplodlg_g.h	\
