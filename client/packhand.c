@@ -1012,7 +1012,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   ptile->known = packet->known;
 
   /* fog of war remove units */
-  if (ptile->known == TILE_KNOWN_FOGGED && old_known == TILE_KNOWN) {
+  if (ptile->known <= TILE_KNOWN_FOGGED && old_known == TILE_KNOWN) {
     unit_list_iterate(ptile->units, punit) {
       client_remove_unit(punit->id);
     }
