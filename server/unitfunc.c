@@ -220,7 +220,7 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
 			 struct city *pcity)
 {
   
-  if (pdiplomat->type == U_SPY && myrand(game.diplchance)) {
+  if (pdiplomat->type == U_DIPLOMAT || myrand(game.diplchance)) {
       
     /* Attacking Spy/Diplomat dies (N-1:N) chance */
       
