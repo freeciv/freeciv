@@ -66,7 +66,10 @@
 #include "civclient.h"
 #include "dialogs_g.h"		/* popdown_races_dialog() */
 #include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
+#include "messagewin_g.h"
 #include "packhand.h"
+#include "plrdlg_g.h"
+#include "repodlgs_g.h"
 
 #include "clinet.h"
 
@@ -87,9 +90,14 @@ static void close_socket_nomessage(struct connection *pc)
   free_socket_packet_buffer(pc->send_buffer);
   pc->buffer = NULL;
   pc->send_buffer = NULL;
-  
+
   remove_net_input();
   popdown_races_dialog(); 
+
+  plrdlg_update_delay_off();
+  report_update_delay_off();
+  meswin_update_delay_off();
+  
   set_client_state(CLIENT_PRE_GAME_STATE);
 }
 
