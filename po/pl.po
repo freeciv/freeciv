@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2003-09-11 18:21-0400\n"
+"POT-Creation-Date: 2003-09-16 07:18+0200\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -336,6 +336,9 @@ msgid ""
 "want to set your local encoding manually by setting\n"
 "the environment variable $FREECIV_LOCAL_ENCODING.Proceeding anyway..."
 msgstr ""
+"Konwersja z %s nie jest mo¿liwa.  Mo¿esz spróbowaæ\n"
+"ustawiæ twoje kodowanie rêcznie poprzez ustawienie\n"
+"zmiennej ¶rodowiskowej $FREECIV_LOCAL_ENCODING. Kontynuujê mimo to..."
 
 #: common/shared.c:1277
 #, c-format
@@ -344,6 +347,9 @@ msgid ""
 "be encoded as %s; you can change this by setting\n"
 "$FREECIV_DATA_ENCODING."
 msgstr ""
+"£añcuch '%s' nie jest poprawny: %s. Pliki z zasadami powinny byæ\n"
+"zakodowane jako %s; Mo¿esz to zmieniæ przez ustawienie zmiennej\n"
+"¶rodowiskowej $FREECIV_DATA_ENCODING."
 
 #: common/shared.c:1343
 msgid ""
@@ -352,6 +358,9 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/."
 msgstr ""
+"U¿ywasz Freeciv bez biblioteki iconv. Tylko w przypadku, gdy\n"
+" twoim zestawem znaków jest latin1, znaki bêd± wy¶wietlane prawid³owo.\n"
+"Mo¿esz ¶ci±gn±æ iconv pod adresem http://gnu.org/."
 
 #: common/support.c:149
 #, c-format
@@ -1520,9 +1529,9 @@ msgid "Game: %s is an ambiguous connection name-prefix."
 msgstr "Gra: %s jest niejednoznacznym przedrostkiem nazwy po³±czenia."
 
 #: server/handchat.c:193
-#, fuzzy, c-format
+#, c-format
 msgid "%s to allies: %s"
-msgstr "%s tworz± %s"
+msgstr "%s do sojuszników: %s"
 
 #: server/handchat.c:281
 #, c-format
@@ -2360,25 +2369,25 @@ msgstr "%s statek kosmiczny dotar³ na Alpha Centauri."
 
 #: server/srv_main.c:201 server/srv_main.c:202
 msgid "Game ended in a draw as end year exceeded"
-msgstr ""
+msgstr "Gra zakoñczy³a siê remisem, min±³ czas gry"
 
 #: server/srv_main.c:230 server/srv_main.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Team victory to %s"
-msgstr "Przekszta³æ teren na %s"
+msgstr "Zwyciêstwo zespo³owe dla %s"
 
 #: server/srv_main.c:240 server/srv_main.c:241
 #, c-format
 msgid "Game ended in victory for %s"
-msgstr ""
+msgstr "Grê wygra³(a) %s"
 
 #: server/srv_main.c:246 server/srv_main.c:247
 msgid "Game ended in a draw"
-msgstr ""
+msgstr "Gra zakoñczy³a siê remisem"
 
 #: server/srv_main.c:269 server/srv_main.c:270
 msgid "Game ended in allied victory"
-msgstr ""
+msgstr "Gra zakoñczy³a siê zwyciêstwem sojuszników"
 
 #: server/srv_main.c:390
 #, c-format
@@ -3744,13 +3753,12 @@ msgid "Set server option."
 msgstr "Ustawia opcjê serwera."
 
 #: server/stdinhand.c:1077
-#, fuzzy
 msgid "team <player> [team]"
-msgstr "remove <gracz>"
+msgstr "team <gracz> [zespó³]"
 
 #: server/stdinhand.c:1078
 msgid "Change, add or remove a player's team affiliation."
-msgstr ""
+msgstr "Dodaje lub usuwa gracza z zespo³u."
 
 #: server/stdinhand.c:1079
 msgid ""
@@ -3759,6 +3767,11 @@ msgid ""
 "that start out allied, with shared vision and embassies, and fight together "
 "to achieve team victory with averaged individual scores."
 msgstr ""
+"Do³±cza gracza do podanego zespo³u. Je¶li nie podano zespo³u, to gracz "
+"zostanie usuniêty z tego, w którym aktualnie gra. Je¶li nazwy zawieraj± "
+"spacje, u¿yj \"\". Zespó³ to grupa sojuszników z widokiem dzielonym i "
+"ambasadami, która d±¿y do wspólnego zwyciêstwa. Ale punktacja jest "
+"prowadzona osobno dla ka¿dego cz³onka zespo³u."
 
 #
 #: server/stdinhand.c:1086
@@ -4526,29 +4539,26 @@ msgid "description"
 msgstr "opis"
 
 #: server/stdinhand.c:2682
-#, fuzzy
 msgid "Cannot change teams once game has begun."
-msgstr "Po rozpoczêciu rozgrywki nie mo¿na dodawaæ 'robotów' (AI)"
+msgstr "Po rozpoczêciu rozgrywki nie mo¿na zmieniaæ zespo³ów."
 
 #: server/stdinhand.c:2692
-#, fuzzy
 msgid "Undefined argument.  Usage: team <player> [team]."
-msgstr "Nieznany argument.  U¿ycie: set <opcja> <warto¶æ>."
+msgstr "Nieznany argument.  Sk³adnia: team <gracz> [zespó³]."
 
 #: server/stdinhand.c:2708
 #, c-format
 msgid "Player %s is made teamless."
-msgstr ""
+msgstr "Gracz %s gra teraz sam."
 
 #: server/stdinhand.c:2714
-#, fuzzy
 msgid "Bad team name."
-msgstr "Koñczy grê."
+msgstr "Z³a nazwa dru¿yny."
 
 #: server/stdinhand.c:2718
-#, fuzzy, c-format
+#, c-format
 msgid "Player %s set to team %s."
-msgstr "%s traci %s dla %s"
+msgstr "Gracz %s gra teraz w zespole %s."
 
 #: server/stdinhand.c:2756
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -5381,6 +5391,10 @@ msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr ""
 "Gra: Twoja jednostka %s przerwa³a patrol, poniewa¿ spotka³a obc± jednostkê."
+
+#: client/attribute.c:277
+msgid "Old attributes detected and removed."
+msgstr "Stare atrybuty wykryte i usuniête."
 
 #: client/audio.c:132
 #, c-format
@@ -6304,6 +6318,10 @@ msgstr "%s%d wzburzony"
 msgid "%s%d gold"
 msgstr "%s%d z³ota"
 
+#: client/messagewin_common.c:109
+msgid "Game: "
+msgstr "Gra: "
+
 #
 #: client/options.c:83
 msgid "Default player's username"
@@ -6390,18 +6408,16 @@ msgid "End Turn when done moving"
 msgstr "Zakoñcz turê gdy wykonane s± wszystkie ruchy"
 
 #: client/options.c:109
-#, fuzzy
 msgid "Use Alt/Meta for accelerators (GTK+ only)"
-msgstr "U¿yj Alt/Meta w skrótach klawiszowych (tylko GTK)"
+msgstr "U¿yj Alt/Meta w skrótach klawiszowych (tylko GTK+)"
 
 #: client/options.c:110
-#, fuzzy
 msgid "Show Map Scrollbars (GTK+ only)"
-msgstr "Pokazuj paski przewijania (tylko GTK)"
+msgstr "Pokazuj paski przewijania (tylko GTK+)"
 
 #: client/options.c:111
 msgid "Keep dialogs on top (GTK+ 2.0 only)"
-msgstr ""
+msgstr "Okna dialogowe na wierzchu (tylko GTK+ 2.0)"
 
 #: client/options.c:178
 msgid "City: Building Unavailable Item"
@@ -7016,7 +7032,6 @@ msgid "Pollution:"
 msgstr "Zanieczyszczenie:"
 
 #: client/gui-gtk-2.0/citydlg.c:526
-#, fuzzy
 msgid "_Overview"
 msgstr "_Ogólne"
 
@@ -7035,7 +7050,7 @@ msgstr "Mapa okolic"
 
 #: client/gui-gtk-2.0/citydlg.c:648
 msgid "Press ENTER or double-click to sell an improvement."
-msgstr ""
+msgstr "Naci¶nij Enter lub dwukrotnie kliknij na obiekcie, aby go sprzedaæ."
 
 #: client/gui-gtk-2.0/citydlg.c:663 client/gui-gtk-2.0/citydlg.c:753
 #: client/gui-mui/citydlg.c:1646
@@ -7049,14 +7064,12 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d tur"
 
 #: client/gui-gtk-2.0/citydlg.c:675 client/gui-gtk-2.0/dialogs.c:700
-#, fuzzy
 msgid "_Improvements:"
-msgstr "Budynki"
+msgstr "Budynki:"
 
 #: client/gui-gtk-2.0/citydlg.c:741
-#, fuzzy
 msgid "Pro_duction"
-msgstr "Produkcja"
+msgstr "Pro_dukcja"
 
 #: client/gui-gtk-2.0/citydlg.c:770 client/gui-gtk-2.0/cityrep.c:679
 #: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:614
@@ -7069,7 +7082,6 @@ msgid "_Happiness"
 msgstr "_Szczê¶cie"
 
 #: client/gui-gtk-2.0/citydlg.c:843
-#, fuzzy
 msgid "C_MA"
 msgstr "CMA"
 
@@ -7078,9 +7090,8 @@ msgid "_Trade Routes"
 msgstr "Szlaki _handlowe"
 
 #: client/gui-gtk-2.0/citydlg.c:889
-#, fuzzy
 msgid "_Settings"
-msgstr "Zapisz opcje"
+msgstr "_Ró¿ne"
 
 #: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk/citydlg.c:1245
 msgid "Entertainers"
@@ -7124,14 +7135,12 @@ msgid "Disband if build settler at size 1"
 msgstr "Rozpraszanie po wybudowaniu osadnika przy rozmiarze 1"
 
 #: client/gui-gtk-2.0/citydlg.c:906
-#, fuzzy
 msgid "Overview page"
 msgstr "Zak³adkê ogólne"
 
 #: client/gui-gtk-2.0/citydlg.c:907
-#, fuzzy
 msgid "Production page"
-msgstr "Produkcja"
+msgstr "Zak³adkê produkcji"
 
 #: client/gui-gtk-2.0/citydlg.c:908 client/gui-gtk/citydlg.c:1262
 #: client/gui-mui/citydlg.c:1460
@@ -7149,9 +7158,8 @@ msgid "Trade Routes page"
 msgstr "Szlaki handlowe"
 
 #: client/gui-gtk-2.0/citydlg.c:911
-#, fuzzy
 msgid "This Settings page"
-msgstr "Zak³adkê inne"
+msgstr "Stronê ró¿ne"
 
 #: client/gui-gtk-2.0/citydlg.c:912 client/gui-gtk/citydlg.c:1266
 #: client/gui-mui/citydlg.c:1464
@@ -7174,19 +7182,16 @@ msgid "Next time open"
 msgstr "Nastêpnym razem otwórz"
 
 #: client/gui-gtk-2.0/citydlg.c:999
-#, fuzzy
 msgid "City"
-msgstr "Mapa okolic"
+msgstr "Miasto"
 
 #: client/gui-gtk-2.0/citydlg.c:1006
-#, fuzzy
 msgid "_Rename..."
-msgstr "Zmieñ nazwê"
+msgstr "_Zmieñ nazwê"
 
 #: client/gui-gtk-2.0/citydlg.c:1140
-#, fuzzy
 msgid "_List present units..."
-msgstr "Lista _Jednostek"
+msgstr "Lista _Jednostek..."
 
 #: client/gui-gtk-2.0/citydlg.c:1150 client/gui-gtk/citydlg.c:1527
 msgid "_Prev city"
@@ -7223,14 +7228,14 @@ msgid "blocked"
 msgstr "zablokowany"
 
 #: client/gui-gtk-2.0/citydlg.c:1683
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units %d"
-msgstr "Jednostki na utrzymaniu: %d"
+msgstr "Jednostki na utrzymaniu %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1777
-#, fuzzy, c-format
+#, c-format
 msgid "Present units %d"
-msgstr "Obecne jednostki: %d"
+msgstr "Obecne jednostki %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1801 client/gui-gtk/citydlg.c:2297
 #: client/gui-mui/citydlg.c:2161 client/gui-win32/citydlg.c:1412
@@ -7250,9 +7255,9 @@ msgid "No trade routes exist."
 msgstr "Nie ustanowiono ¿adnych szlaków handlowych."
 
 #: client/gui-gtk-2.0/citydlg.c:1813
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade route %d"
-msgstr "Ca³kowity handel ze szlaków handlowych: %d"
+msgstr "Ca³kowity handel ze szlaków handlowych %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1930 client/gui-gtk-2.0/cityrep.c:667
 #: client/gui-gtk/cityrep.c:604 client/gui-mui/cityrep.c:389
@@ -7401,14 +7406,12 @@ msgid "_Change"
 msgstr "_Zmieñ"
 
 #: client/gui-gtk-2.0/cityrep.c:555
-#, fuzzy
 msgid "_Select"
-msgstr "Wybierz"
+msgstr "_Wybierz"
 
 #: client/gui-gtk-2.0/cityrep.c:559
-#, fuzzy
 msgid "S_how"
-msgstr "Po_ka¿..."
+msgstr "Po_ka¿"
 
 #: client/gui-gtk-2.0/cityrep.c:636 client/gui-gtk-2.0/menu.c:624
 #: client/gui-gtk/cityrep.c:572 client/gui-gtk/diplodlg.c:455
@@ -7651,19 +7654,16 @@ msgid "Freeciv Server Selection"
 msgstr "Wybór Serwera Freeciv"
 
 #: client/gui-gtk-2.0/connectdlg.c:196
-#, fuzzy
 msgid "_Name:"
-msgstr "_Nazwa"
+msgstr "_Imiê:"
 
 #: client/gui-gtk-2.0/connectdlg.c:211
-#, fuzzy
 msgid "_Host:"
-msgstr "_Host"
+msgstr "_Host:"
 
 #: client/gui-gtk-2.0/connectdlg.c:228
-#, fuzzy
 msgid "_Port:"
-msgstr "_Port"
+msgstr "_Port:"
 
 #: client/gui-gtk-2.0/connectdlg.c:248 client/gui-gtk/connectdlg.c:205
 #: client/gui-mui/connectdlg.c:177 client/gui-win32/connectdlg.c:363
@@ -7810,9 +7810,8 @@ msgid "Select Advance to Steal"
 msgstr "Wybierz wykradan± technologiê"
 
 #: client/gui-gtk-2.0/dialogs.c:541
-#, fuzzy
 msgid "_Advances:"
-msgstr "Wynalazki"
+msgstr "Wynalazki:"
 
 #: client/gui-gtk-2.0/dialogs.c:584 client/gui-gtk-2.0/dialogs.c:729
 #: client/gui-gtk/dialogs.c:737 client/gui-gtk/dialogs.c:831
@@ -8063,12 +8062,10 @@ msgid "Unit selection"
 msgstr "Wybór jednostki"
 
 #: client/gui-gtk-2.0/dialogs.c:1729
-#, fuzzy
 msgid "_Ready all"
-msgstr "Zaznacz wszystkie"
+msgstr "Zaznacz _wszystkie"
 
 #: client/gui-gtk-2.0/dialogs.c:1737
-#, fuzzy
 msgid "_Sentry idle"
 msgstr "W_artuj bezczynne jednostki"
 
@@ -8078,15 +8075,13 @@ msgid "What Nation Will You Be?"
 msgstr "Wybór narodu"
 
 #: client/gui-gtk-2.0/dialogs.c:1800
-#, fuzzy
 msgid "Select a nation"
-msgstr "Wybierz cel"
+msgstr "Wybierz naród"
 
 #
 #: client/gui-gtk-2.0/dialogs.c:1827
-#, fuzzy
 msgid "_Nations:"
-msgstr "Naród:"
+msgstr "Narody:"
 
 #: client/gui-gtk-2.0/dialogs.c:1842 client/gui-gtk-2.0/plrdlg.c:159
 #: client/gui-gtk/plrdlg.c:123
@@ -8101,24 +8096,20 @@ msgstr "Naród"
 
 #
 #: client/gui-gtk-2.0/dialogs.c:1890
-#, fuzzy
 msgid "_Leader:"
-msgstr "Przywódca:"
+msgstr "_Przywódca:"
 
 #: client/gui-gtk-2.0/dialogs.c:1897
-#, fuzzy
 msgid "_Female"
-msgstr "Kobieta"
+msgstr "Kobiet_a"
 
 #: client/gui-gtk-2.0/dialogs.c:1902
-#, fuzzy
 msgid "_Male"
-msgstr "Mê¿czyzna"
+msgstr "_Mê¿czyzna"
 
 #: client/gui-gtk-2.0/dialogs.c:1929
-#, fuzzy
 msgid "_City Styles:"
-msgstr "_Styl miast"
+msgstr "_Styl miast:"
 
 #: client/gui-gtk-2.0/dialogs.c:2278 client/gui-gtk/dialogs.c:2287
 #: client/gui-xaw/dialogs.c:2344
@@ -8154,14 +8145,12 @@ msgid "Sea-map"
 msgstr "Mapa morska"
 
 #: client/gui-gtk-2.0/diplodlg.c:214
-#, fuzzy
 msgid "_Maps"
-msgstr "Mapy"
+msgstr "_Mapy"
 
 #: client/gui-gtk-2.0/diplodlg.c:242
-#, fuzzy
 msgid "_Advances"
-msgstr "Wynalazki"
+msgstr "_Wynalazki"
 
 #: client/gui-gtk-2.0/diplodlg.c:292 client/gui-gtk-2.0/menu.c:706
 #: client/gui-gtk/menu.c:707 client/gui-win32/menu.c:354
@@ -8169,14 +8158,12 @@ msgid "_Cities"
 msgstr "_Miasta"
 
 #: client/gui-gtk-2.0/diplodlg.c:301
-#, fuzzy
 msgid "_Give shared vision"
-msgstr "Daj widok dzielony"
+msgstr "Daj w_idok dzielony"
 
 #: client/gui-gtk-2.0/diplodlg.c:331
-#, fuzzy
 msgid "_Pacts"
-msgstr "Pakty"
+msgstr "_Pakty"
 
 #: client/gui-gtk-2.0/diplodlg.c:429 client/gui-gtk/diplodlg.c:362
 #: client/gui-mui/diplodlg.c:470 client/gui-win32/diplodlg.c:596
@@ -8189,23 +8176,20 @@ msgid "_Cancel meeting"
 msgstr "P_rzerwij spotkanie"
 
 #: client/gui-gtk-2.0/diplodlg.c:445
-#, fuzzy
 msgid "Accept _treaty"
-msgstr "Zatwierd¼ traktat"
+msgstr "Zatwierd¼ _traktat"
 
 #: client/gui-gtk-2.0/diplodlg.c:474
-#, fuzzy
 msgid "C_lauses:"
-msgstr "Z_amknij"
+msgstr "_Klauzule:"
 
 #: client/gui-gtk-2.0/diplodlg.c:521 client/gui-gtk-2.0/diplodlg.c:577
-#, fuzzy
 msgid "_Gold:"
-msgstr "Z³oto:"
+msgstr "Z³_oto:"
 
 #: client/gui-gtk-2.0/diplodlg.c:533 client/gui-gtk-2.0/diplodlg.c:589
 msgid "_Add Clause..."
-msgstr ""
+msgstr "_Dodaj klauzulê..."
 
 #: client/gui-gtk-2.0/diplodlg.c:841 client/gui-gtk/diplodlg.c:992
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
@@ -8220,9 +8204,8 @@ msgid "Find City"
 msgstr "Znajd¼ miasto"
 
 #: client/gui-gtk-2.0/finddlg.c:118 client/gui-gtk-2.0/gotodlg.c:180
-#, fuzzy
 msgid "Ci_ties:"
-msgstr "Miasta"
+msgstr "M_iasta:"
 
 #: client/gui-gtk-2.0/gamedlgs.c:232 client/gui-gtk/gamedlgs.c:238
 #: client/gui-win32/ratesdlg.c:301
@@ -8256,9 +8239,8 @@ msgid "Goto/Airlift Unit"
 msgstr "Id¼ do/Transport lotniczy"
 
 #: client/gui-gtk-2.0/gotodlg.c:128
-#, fuzzy
 msgid "Air_lift"
-msgstr "Most powietrzny"
+msgstr "Transport powietrzny"
 
 #: client/gui-gtk-2.0/gotodlg.c:145 client/gui-gtk-2.0/mapview.c:440
 #: client/gui-gtk/gotodlg.c:95 client/gui-gtk/mapview.c:440
@@ -8267,9 +8249,8 @@ msgid "Select destination"
 msgstr "Wybierz cel"
 
 #: client/gui-gtk-2.0/gotodlg.c:188
-#, fuzzy
 msgid "Show _All Cities"
-msgstr "Wszystkie Miasta"
+msgstr "Poka¿ _wszystkie miasta"
 
 #: client/gui-gtk-2.0/gui_main.c:537 client/gui-gtk-2.0/gui_main.c:962
 #: client/gui-gtk/gui_main.c:388 client/gui-gtk/gui_main.c:775
@@ -8816,7 +8797,7 @@ msgstr " W"
 #: client/gui-gtk-2.0/mapctrl.c:184
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr ""
+msgstr "Szansa zwyciêstwa: A%d%% O:%d%%"
 
 #: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk/mapctrl.c:162
 #: client/gui-mui/mapclass.c:171 client/gui-win32/mapctrl.c:199
@@ -9511,9 +9492,8 @@ msgid "Name"
 msgstr "Imiê"
 
 #: client/gui-gtk-2.0/plrdlg.c:161 client/gui-gtk/plrdlg.c:123
-#, fuzzy
 msgid "Team"
-msgstr "¦wi±tynia"
+msgstr "Zespó³"
 
 #: client/gui-gtk-2.0/plrdlg.c:163 client/gui-gtk/plrdlg.c:124
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/plrdlg.c:355
@@ -9546,9 +9526,8 @@ msgid "Idle Turns"
 msgstr "Bezczynno¶æ"
 
 #: client/gui-gtk-2.0/plrdlg.c:270
-#, fuzzy
 msgid "_Player"
-msgstr "_Gracze"
+msgstr "_Gracz"
 
 #: client/gui-gtk-2.0/plrdlg.c:277 client/gui-gtk/plrdlg.c:163
 #: client/gui-mui/plrdlg.c:328
@@ -9738,7 +9717,7 @@ msgstr "Wy¶lij"
 
 #: client/gui-gtk-2.0/wldlg.c:137
 msgid "new"
-msgstr ""
+msgstr "nowy"
 
 #: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/wldlg.c:161
 #: client/gui-win32/wldlg.c:293
@@ -9746,9 +9725,8 @@ msgid "Edit worklists"
 msgstr "Edytuj listê zadañ"
 
 #: client/gui-gtk-2.0/wldlg.c:257
-#, fuzzy
 msgid "_Worklists:"
-msgstr "_Lista prac"
+msgstr "_Schematy:"
 
 #: client/gui-gtk-2.0/wldlg.c:822 client/gui-gtk/citydlg.c:2954
 #: client/gui-gtk/wldlg.c:309 client/gui-gtk/wldlg.c:315
@@ -9766,22 +9744,19 @@ msgstr "Tury"
 
 #: client/gui-gtk-2.0/wldlg.c:897
 msgid "Source _Tasks:"
-msgstr ""
+msgstr "D_ostêpne zadania:"
 
 #: client/gui-gtk-2.0/wldlg.c:902
-#, fuzzy
 msgid "Show _Future Targets"
-msgstr "Poka¿ przysz³e cele"
+msgstr "Poka¿ _przysz³e cele"
 
 #: client/gui-gtk-2.0/wldlg.c:956
-#, fuzzy
 msgid "Target _Worklist:"
-msgstr "_Lista prac"
+msgstr "_Wykonywane zadania"
 
 #: client/gui-gtk-2.0/wldlg.c:974
-#, fuzzy
 msgid "_Add Global Worklist"
-msgstr "Dostêpne listy prac"
+msgstr "Dodaj _globalny schemat"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -15538,7 +15513,6 @@ msgid "Comrade"
 msgstr "Towarzysz"
 
 #: data/default/governments.ruleset:357
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15568,22 +15542,24 @@ msgid ""
 "unit inside a city, up to a maximum of 3, will keep 2 unhappy citizens "
 "content."
 msgstr ""
-"Komunizm to ustrój oparty na pomy¶le, ¿e wszyscy ludzie s± równi, (a "
-"niektórzy równiejsi (*przyp t³um)). Dobra s± rozporz±dzane po równo przez "
-"organy pañstwa. Nie istnieje w³asno¶æ prywatna. Komunizm jest dobrym "
-"ustrojem po¶rednim miêdzy ustrojami militarnymi, a komercyjnymi.\n"
+"Komunizm to ustrój oparty na pomy¶le, ¿e wszyscy ludzie s± równi. Dobra s± "
+"rozprowadzane po równo przez organy pañstwa. Nie istnieje w³asno¶æ prywatna. "
+"Komunizm jest dobrym ustrojem po¶rednim miêdzy ustrojami militarnymi, a "
+"komercyjnymi.\n"
 "\n"
 "Podczas komunizmu, korupcja nie zale¿y od odleg³o¶ci od stolicy. Wszystkie "
 "miasta, tak¿e stolica posiadaj± niewielki poziom korupcji. Podczas liczenia "
 "odleg³o¶ci od stolicy przy obliczaniu kosztów rewolty, odleg³o¶æ jest "
 "skracana do 10. (Zobacz tak¿e Jednostki/Dyplomata).\n"
 "\n"
-"Osadnicy zu¿ywaj± 2 ¿ywno¶ci na turê.\n"
+"Osadnicy zu¿ywaj± 1 ¿ywno¶ci na turê.\n"
 "\n"
 "Je¿eli miasto ¶wiêtuje podczas komunizmu, ka¿de pole które ju¿ wytwarza "
 "handel otrzymuje dodatkowy punkt handlu.  (Zobacz Szczê¶cie).\n"
 "\n"
 "Maksymalna stawka naukowa, podatkowa i luksusowa to 80%.\n"
+"\n"
+"Dyplomaci i szpiedzy podczas komunizmu maj± status weterana.\n"
 "\n"
 "Podczas komunizmu miasto mo¿e utrzymywaæ za darmo 3 jednostki militarne, "
 "ka¿de kolejne kosztuj± jedn± tarczkê.\n"
@@ -15944,7 +15920,6 @@ msgstr ""
 "bêdzie \"uszczê¶liwia³o\" jednego mieszkañca."
 
 #: data/civ1/governments.ruleset:354
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15968,21 +15943,21 @@ msgid ""
 "paying shields for upkeep.  (Additional units require 1 production shield "
 "each.)\n"
 "\n"
-"You may impose martial law under Anarchy: each military unit inside a city "
+"You may impose martial law under Communism: each military unit inside a city "
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Komunizm to ustrój oparty na pomy¶le, ¿e wszyscy ludzie s± równi, (a "
-"niektórzy równiejsi (*przyp t³um)). Dobra s± rozporz±dzane po równo przez "
-"organy pañstwa. Nie istnieje w³asno¶æ prywatna. Komunizm jest dobrym "
-"ustrojem po¶rednim miêdzy ustrojami militarnymi, a komercyjnymi.\n"
+"Komunizm to ustrój oparty na pomy¶le, ¿e wszyscy ludzie s± równi. Dobra s± "
+"rozprowadzane po równo przez organy pañstwa. Nie istnieje w³asno¶æ prywatna. "
+"Komunizm jest dobrym ustrojem po¶rednim miêdzy ustrojami militarnymi, a "
+"komercyjnymi.\n"
 "\n"
 "Podczas komunizmu, korupcja nie zale¿y od odleg³o¶ci od stolicy. Wszystkie "
 "miasta, tak¿e stolica posiadaj± niewielki poziom korupcji. Podczas liczenia "
 "odleg³o¶ci od stolicy przy obliczaniu kosztów rewolty, odleg³o¶æ jest "
 "skracana do 10. (Zobacz tak¿e Jednostki/Dyplomata).\n"
 "\n"
-"Osadnicy zu¿ywaj± 2 ¿ywno¶ci na turê.\n"
+"Osadnicy zu¿ywaj± 1 ¿ywno¶ci na turê.\n"
 "\n"
 "Je¿eli miasto ¶wiêtuje podczas komunizmu, ka¿de pole które ju¿ wytwarza "
 "handel otrzymuje dodatkowy punkt handlu.  (Zobacz Szczê¶cie).\n"
@@ -18224,11 +18199,3 @@ msgstr "Zuluski"
 msgid "?plural:Zulus"
 msgstr "Zulusi"
 
-#~ msgid "Chang_e"
-#~ msgstr "_Zmieñ"
-
-#~ msgid " What Nation Will You Be?"
-#~ msgstr " Wybór narodu"
-
-#~ msgid "Game: "
-#~ msgstr "Gra: "
