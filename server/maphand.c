@@ -58,7 +58,7 @@ Used only in global_warming() and nuclear_winter() below.
 static int is_terrain_ecologically_wet(int x, int y)
 {
   return (map_get_terrain(x, y) == T_RIVER
-	  || map_get_special(x, y) & S_RIVER
+	  || map_has_special(x, y, S_RIVER)
 	  || is_terrain_near_tile(x, y, T_OCEAN)
 	  || is_terrain_near_tile(x, y, T_RIVER)
 	  || is_special_near_tile(x, y, S_RIVER));
@@ -681,7 +681,7 @@ void remove_unit_sight_points(struct unit *punit)
   freelog(LOG_DEBUG, "Removing unit sight points at  %i,%i", punit->x,
 	  punit->y);
 
-  if (map_get_special(punit->x, punit->y) & S_FORTRESS
+  if (map_has_special(punit->x, punit->y, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
     fog_area(pplayer, x, y, get_watchtower_vision(punit));
   else

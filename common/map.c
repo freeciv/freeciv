@@ -361,7 +361,7 @@ int count_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 int is_special_near_tile(int x, int y, enum tile_special_type spe)
 {
   adjc_iterate(x, y, x1, y1) {
-    if (map_get_special(x1, y1) & spe)
+    if (map_has_special(x1, y1, spe))
       return 1;
   } adjc_iterate_end;
 
@@ -376,7 +376,7 @@ int count_special_near_tile(int x, int y, enum tile_special_type spe)
   int count = 0;
 
   adjc_iterate(x, y, x1, y1) {
-    if (map_get_special(x1, y1) & spe)
+    if (map_has_special(x1, y1, spe))
       count++;
   } adjc_iterate_end;
 
@@ -446,7 +446,7 @@ int is_starter_close(int x, int y, int nr, int dist)
     return 1;
   
   /* don't start on a hut: */
-  if (map_get_tile(x, y)->special&S_HUT)
+  if (map_has_special(x, y, S_HUT))
     return 1;
   
   /* don't want them starting on the poles unless the poles are
@@ -514,7 +514,7 @@ int is_good_tile(int x, int y)
 int is_hut_close(int x, int y)
 {
   square_iterate(x, y, 3, x1, y1) {
-    if (map_get_tile(x1, y1)->special & S_HUT)
+    if (map_has_special(x1, y1, S_HUT))
       return TRUE;
   } square_iterate_end;
 
@@ -528,7 +528,7 @@ int is_hut_close(int x, int y)
 int is_special_close(int x, int y)
 {
   square_iterate(x, y, 1, x1, y1) {
-    if (map_get_tile(x1, y1)->special & (S_SPECIAL_1 | S_SPECIAL_2))
+    if (map_has_special(x1, y1, (S_SPECIAL_1 | S_SPECIAL_2)))
       return TRUE;
   } square_iterate_end;
 
@@ -819,7 +819,7 @@ void map_irrigate_tile(int x, int y)
   result = tile_types[now].irrigation_result;
 
   if (now == result) {
-    if (map_get_special(x, y) & S_IRRIGATION) {
+    if (map_has_special(x, y, S_IRRIGATION)) {
       map_set_special(x, y, S_FARMLAND);
     } else {
       map_set_special(x, y, S_IRRIGATION);
@@ -1182,6 +1182,15 @@ enum tile_terrain_type map_get_terrain(int x, int y)
 enum tile_special_type map_get_special(int x, int y)
 {
   return MAP_TILE(x, y)->special;
+}
+
+/***************************************************************
+ Returns TRUE iff the given special is found at the given map
+ position.
+***************************************************************/
+int map_has_special(int x, int y, enum tile_special_type special)
+{
+  return BOOL_VAL(MAP_TILE(x, y)->special & special);
 }
 
 /***************************************************************

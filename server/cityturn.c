@@ -1123,7 +1123,7 @@ static void check_pollution(struct city *pcity)
 
       if ((map_get_terrain(mx, my) != T_OCEAN
 	   && map_get_terrain(mx, my) <= T_TUNDRA)
-	  && (!(map_get_special(mx, my) & S_POLLUTION))) {
+	  && !map_has_special(mx, my, S_POLLUTION)) {
 	map_set_special(mx, my, S_POLLUTION);
 	send_tile_info(NULL, mx, my);
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y,

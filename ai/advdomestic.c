@@ -151,7 +151,7 @@ static int road_trade(struct city *pcity)
   int i = 0;
 
   city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
-    if (map_get_special(mx, my) & S_ROAD
+    if (map_has_special(mx, my, S_ROAD)
 	&& is_worker_here(pcity, cx, cy))
       i++;
   } city_map_checked_iterate_end;
@@ -167,7 +167,7 @@ static int farmland_food(struct city *pcity)
   int i = 0;
 
   city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
-    if (map_get_special(mx, my) & S_FARMLAND
+    if (map_has_special(mx, my, S_FARMLAND)
 	&& is_worker_here(pcity, cx, cy))
       i++;
   } city_map_checked_iterate_end;

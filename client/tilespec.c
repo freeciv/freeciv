@@ -899,9 +899,9 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
   if (city_got_citywalls(pcity))
     *sprs++ = get_city_wall_sprite(pcity);
 
-  if(map_get_special(pcity->x, pcity->y) & S_POLLUTION)
+  if(map_has_special(pcity->x, pcity->y, S_POLLUTION))
     *sprs++ = sprites.tx.pollution;
-  if(map_get_special(pcity->x, pcity->y) & S_FALLOUT)
+  if(map_has_special(pcity->x, pcity->y, S_FALLOUT))
     *sprs++ = sprites.tx.fallout;
 
   if(city_unhappy(pcity))

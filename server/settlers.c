@@ -296,7 +296,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
   /* treating harbor as free to approximate advantage of
      building boats. -- Syela */
   db = get_tile_type(map_get_terrain(x, y))->defense_bonus;
-  if (map_get_special(x, y) & S_RIVER)
+  if (map_has_special(x, y, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   val += (4 * db - 40) * SHIELD_WEIGHTING;
   /* don't build cities in danger!! FIX! -- Syela */
@@ -437,7 +437,7 @@ static int ai_calc_pollution(struct city *pcity, int i, int j, int best)
 
   if (!city_map_to_map(&x, &y, pcity, i, j))
     return -1;
-  if (!(map_get_special(x, y) & S_POLLUTION)) return(-1);
+  if (!map_has_special(x, y, S_POLLUTION)) return(-1);
   map_clear_special(x, y, S_POLLUTION);
   m = city_tile_value(pcity, i, j, 0, 0);
   map_set_special(x, y, S_POLLUTION);
@@ -455,7 +455,7 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 
   if (!city_map_to_map(&x, &y, pcity, i, j))
     return -1;
-  if (!(map_get_special(x, y) & S_FALLOUT)) return(-1);
+  if (!map_has_special(x, y, S_FALLOUT)) return(-1);
   map_clear_special(x, y, S_FALLOUT);
   m = city_tile_value(pcity, i, j, 0, 0);
   map_set_special(x, y, S_FALLOUT);
@@ -750,12 +750,8 @@ int is_ok_city_spot(int x, int y)
   case T_LAST:
     return FALSE;
   case T_DESERT:
-    if
-    (
-     !((map_get_tile(x, y))->special&S_SPECIAL_1)
-    &&
-     !((map_get_tile(x, y))->special&S_SPECIAL_2)
-    )
+    if (!map_has_special(x, y, S_SPECIAL_1)
+	&& !map_has_special(x, y, S_SPECIAL_2))
       return FALSE;
   case T_GRASSLAND:
   case T_PLAINS:
@@ -1135,7 +1131,7 @@ static int evaluate_improvements(struct unit *punit,
 				&best_newv, &best_oldv, best_act, gx, gy,
 				x, y);
 
-	if (!(map_get_tile(x, y)->special&S_ROAD)) {
+	if (!map_has_special(x, y, S_ROAD)) {
 	  time = (map_build_road_time(x, y)*SINGLE_MOVE + mv_rate - 1)/mv_rate +
 	    mv_turns;
 	  consider_settler_action(pplayer, ACTIVITY_ROAD,
@@ -1152,7 +1148,7 @@ static int evaluate_improvements(struct unit *punit,
 				  pcity->ai.railroad[i][j], oldv, in_use, time,
 				  &best_newv, &best_oldv, best_act, gx, gy,
 				  x, y);
-	} else if (!(map_get_tile(x, y)->special&S_RAILROAD)
+	} else if (!map_has_special(x, y, S_RAILROAD)
 		   && can_rr) {
 	  time = (map_build_rail_time(x, y) *SINGLE_MOVE
 		  + mv_rate - 1)/mv_rate + mv_turns;
@@ -1163,7 +1159,7 @@ static int evaluate_improvements(struct unit *punit,
 				  x, y);
 	} /* end S_ROAD else */
 
-	if (map_get_special(x, y) & S_POLLUTION) {
+	if (map_has_special(x, y, S_POLLUTION)) {
 	  time = (map_clean_pollution_time(x, y) * SINGLE_MOVE
 		  + mv_rate - 1)/mv_rate + mv_turns;
 	  consider_settler_action(pplayer, ACTIVITY_POLLUTION,
@@ -1173,7 +1169,7 @@ static int evaluate_improvements(struct unit *punit,
 				  x, y);
 	}
       
-	if (map_get_special(x, y) & S_FALLOUT) {
+	if (map_has_special(x, y, S_FALLOUT)) {
 	  time = (map_clean_fallout_time(x, y) * SINGLE_MOVE
 		  + mv_rate - 1)/mv_rate + mv_turns;
 	  consider_settler_action(pplayer, ACTIVITY_FALLOUT,

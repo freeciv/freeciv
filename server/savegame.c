@@ -1041,7 +1041,7 @@ static void player_load(struct player *plr, int plrno,
 
     /* allocate the unit's contribution to fog of war */
     if (unit_profits_of_watchtower(punit)
-	&& map_get_special(punit->x, punit->y) & S_FORTRESS)
+	&& map_has_special(punit->x, punit->y, S_FORTRESS))
       unfog_area(unit_owner(punit), punit->x, punit->y,
 		 get_watchtower_vision(punit));
     else

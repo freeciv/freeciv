@@ -185,7 +185,7 @@ int unit_behind_walls(struct unit *punit)
 **************************************************************************/
 int unit_on_fortress(struct unit *punit)
 {
-  return (map_get_special(punit->x, punit->y)&S_FORTRESS);
+  return map_has_special(punit->x, punit->y, S_FORTRESS);
 }
 
 /**************************************************************************
@@ -271,7 +271,7 @@ int get_defense_power(struct unit *punit)
   }
   terra=map_get_terrain(punit->x, punit->y);
   db = get_tile_type(terra)->defense_bonus;
-  if (map_get_special(punit->x, punit->y) & S_RIVER)
+  if (map_has_special(punit->x, punit->y, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   power=(power*db)/10;
 
@@ -307,11 +307,11 @@ int get_simple_defense_power(Unit_Type_id d_type, int x, int y)
 to enemy ships thinking the mech inf would defend them adequately. -- Syela */
 
   db = get_tile_type(t)->defense_bonus;
-  if (map_get_special(x, y) & S_RIVER)
+  if (map_has_special(x, y, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   defensepower *= db;
 
-  if (map_get_special(x, y)&S_FORTRESS && !pcity)
+  if (map_has_special(x, y, S_FORTRESS) && !pcity)
     defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
   if (pcity && unit_types[d_type].move_type == LAND_MOVING)
     defensepower*=1.5;
@@ -335,7 +335,7 @@ int get_virtual_defense_power(Unit_Type_id a_type, Unit_Type_id d_type, int x, i
 to enemy ships thinking the mech inf would defend them adequately. -- Syela */
 
   db = get_tile_type(t)->defense_bonus;
-  if (map_get_special(x, y) & S_RIVER)
+  if (map_has_special(x, y, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   defensepower *= db;
 
@@ -358,7 +358,7 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
       && pcity && city_got_citywalls(pcity)) {
     defensepower*=3;
   }
-  if (map_get_special(x, y)&S_FORTRESS && !pcity)
+  if (map_has_special(x, y, S_FORTRESS) && !pcity)
     defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
   if (pcity && unit_types[d_type].move_type == LAND_MOVING)
     defensepower*=1.5;

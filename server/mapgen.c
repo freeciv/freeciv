@@ -280,7 +280,7 @@ static int adjacent_river_tiles4(int x, int y)
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
     if (map_get_terrain(x1, y1) == T_RIVER
-	|| map_get_special(x1, y1) & S_RIVER)
+	|| map_has_special(x1, y1, S_RIVER))
       num_adjacent++;
   } cartesian_adjacent_iterate_end;
 
@@ -682,7 +682,7 @@ static void make_rivers(void)
 
 	/* Don't start a river on river. */
 	map_get_terrain(x, y) != T_RIVER &&
-	!(map_get_special(x, y) & S_RIVER) &&
+	!map_has_special(x, y, S_RIVER) &&
 
 	/* Don't start a river on a tile is surrounded by > 1 river +
 	   ocean tile. */
@@ -798,14 +798,14 @@ static void make_fair(void)
     for (x=0;x<map.xsize;x++) {
       if (terrain_is_clean(x,y)) {
 	if (map_get_terrain(x, y) != T_RIVER &&
-	    !(map_get_special(x, y) & S_RIVER)) {
+	    !map_has_special(x, y, S_RIVER)) {
 	  map_set_terrain(x, y, T_HILLS);
 	}
 	cartesian_adjacent_iterate(x, y, x1, y1) {
 	  if (myrand(100) > 66 &&
 	      map_get_terrain(x1, y1) != T_OCEAN
 	      && map_get_terrain(x1, y1) != T_RIVER
-	      && !(map_get_special(x1, y1) & S_RIVER)) {
+	      && !map_has_special(x1, y1, S_RIVER)) {
 	    map_set_terrain(x1, y1, T_HILLS);
 	  }	  
 	} cartesian_adjacent_iterate_end;
@@ -985,7 +985,7 @@ static void setup_isledata(void)
     int cont = map_get_continent(x, y);
     if (cont) {
       islands[cont].goodies += is_good_tile(x, y);
-      if (map_get_special(x, y) & S_HUT) {
+      if (map_has_special(x, y, S_HUT)) {
 	islands[cont].goodies += 0;	/* 3; *//* regression testing */
       }
     } else {

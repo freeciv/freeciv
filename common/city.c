@@ -334,7 +334,7 @@ static int city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
   if (*spec_gate==S_NO_SPECIAL && *terr_gate==T_LAST) return TRUE;
 
   for (;*spec_gate!=S_NO_SPECIAL;spec_gate++) {
-    if (map_get_special(pcity->x,pcity->y) & *spec_gate ||
+    if (map_has_special(pcity->x, pcity->y, *spec_gate) ||
         is_special_near_tile(pcity->x,pcity->y,*spec_gate)) return TRUE;
   }
 

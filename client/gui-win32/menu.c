@@ -949,7 +949,7 @@ update_menus(void)
 	    my_snprintf (irrtext, sizeof(irrtext), chgfmt,
 			 (get_tile_type(tinfo->irrigation_result))->terrain_name);
 	  }
-	else if ((map_get_tile(punit->x,punit->y)->special&S_IRRIGATION) &&
+	else if (map_has_special(punit->x, punit->y, S_IRRIGATION) &&
 		 player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
 	  {
 	    sz_strlcpy (irrtext, _("Build Farmland"));
@@ -972,7 +972,7 @@ update_menus(void)
 	my_rename_menu(menu,IDM_ORDERS_IRRIGATION,irrtext);
 	my_rename_menu(menu,IDM_ORDERS_FOREST,mintext);
 	my_rename_menu(menu,IDM_ORDERS_TRANSFORM,transtext);
-	if (map_get_tile(punit->x,punit->y)->special&S_ROAD) {
+	if (map_has_special(punit->x, punit->y, S_ROAD)) {
 	  roadtext = _("Build Railroad");
 	  road_activity=ACTIVITY_RAILROAD;
 	} else {

@@ -94,7 +94,7 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
    */ 
 
   /* deal with rivers */
-  if (map_get_special(x, y) & S_RIVER) {
+  if (map_has_special(x, y, S_RIVER)) {
     if (is_terrain_near_tile(x, y, T_OCEAN)) {
       /* coastal river */
       SEARCH_AND_RETURN_CITY_NAME(nation->default_crcity_names);
@@ -864,7 +864,7 @@ struct city *transfer_city(struct player *ptaker,
 
   if (terrain_control.may_road
       && player_knows_techs_with_flag (ptaker, TF_RAILROAD)
-      && !(map_get_special(pcity->x, pcity->y) & S_RAILROAD)) {
+      && !map_has_special(pcity->x, pcity->y, S_RAILROAD)) {
     notify_player(ptaker,
 		  _("Game: The people in %s are stunned by your"
 		    " technological insight!\n"
@@ -1005,7 +1005,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
 
   /* Put vision back to normal, if fortress acted as a watchtower */
   if (player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)
-      && map_get_tile(x, y)->special & S_FORTRESS) {
+      && map_has_special(x, y, S_FORTRESS)) {
     unit_list_iterate(map_get_tile(x, y)->units, punit) {
       unfog_area(pplayer, punit->x, punit->y,
 		 unit_type(punit)->vision_range);

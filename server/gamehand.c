@@ -124,7 +124,7 @@ void init_new_game(void)
 	 Remove any such hut, and make sure to tell the client, since
 	 we may have already sent this tile (with the hut) earlier:
       */
-      if (map_get_special(dx, dy) & S_HUT) {
+      if (map_has_special(dx, dy, S_HUT)) {
         map_clear_special(dx, dy, S_HUT);
 	send_tile_info(NULL, dx, dy);
         freelog(LOG_VERBOSE, "Removed hut on start position for %s",

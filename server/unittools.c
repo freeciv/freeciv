@@ -127,7 +127,7 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
 
   /* only fighters can attack planes, except for city or airbase attacks */
   if (!unit_flag(punit, F_FIGHTER) && is_air_unit(pdefender) &&
-      !(map_get_city(dest_x, dest_y) || map_get_special(dest_x, dest_y)&S_AIRBASE)) {
+      !(map_get_city(dest_x, dest_y) || map_has_special(dest_x, dest_y, S_AIRBASE))) {
     return FALSE;
   }
   /* can't attack with ground unit from ocean, except for marines */
@@ -516,7 +516,7 @@ void player_restore_units(struct player *pplayer)
 
       /* 7) Automatically refuel air units in cities and airbases */
       if (map_get_city(punit->x, punit->y) ||
-         map_get_special(punit->x, punit->y)&S_AIRBASE)
+	  map_has_special(punit->x, punit->y, S_AIRBASE))
 	punit->fuel=unit_type(punit)->fuel;
     }
   } unit_list_iterate_end;
@@ -560,7 +560,7 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
   if(is_heli_unit(punit)) {
     struct city *pcity = map_get_city(punit->x,punit->y);
     if(!pcity) {
-      if(!(map_get_special(punit->x,punit->y) & S_AIRBASE))
+      if (!map_has_special(punit->x, punit->y, S_AIRBASE))
         punit->hp-=unit_type(punit)->hp/10;
     }
   }
@@ -721,7 +721,7 @@ static void ocean_to_land_fix_rivers(int x, int y)
   map_clear_special(x, y, S_RIVER);
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
-    if (map_get_special(x1, y1) & S_RIVER) {
+    if (map_has_special(x1, y1, S_RIVER)) {
       int ocean_near = FALSE;
       cartesian_adjacent_iterate(x1, y1, x2, y2) {
 	if (map_get_terrain(x2, y2) == T_OCEAN)
@@ -798,7 +798,7 @@ static void update_unit_activity(struct unit *punit)
 
   /* if connecting, automagically build prerequisities first */
   if (punit->connecting && activity == ACTIVITY_RAILROAD &&
-      !(map_get_tile(punit->x, punit->y)->special & S_ROAD)) {
+      !map_has_special(punit->x, punit->y, S_ROAD)) {
     activity = ACTIVITY_ROAD;
   }
 
@@ -1364,7 +1364,7 @@ int enemies_at(struct unit *punit, int x, int y)
      return FALSE;
 
   db = get_tile_type(map_get_terrain(x, y))->defense_bonus;
-  if (map_get_special(x, y) & S_RIVER)
+  if (map_has_special(x, y, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   d = unit_vulnerability_virtual(punit) * db;
   adjc_iterate(x, y, x1, y1) {
@@ -1573,7 +1573,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
   int range;
 
   /* save old vision range */
-  if (map_get_tile(punit->x, punit->y)->special & S_FORTRESS
+  if (map_has_special(punit->x, punit->y, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
     range = get_watchtower_vision(punit);
   else
@@ -1587,7 +1587,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
   punit->type = to_unit;
 
   /* apply new vision range */
-  if (map_get_tile(punit->x, punit->y)->special & S_FORTRESS
+  if (map_has_special(punit->x, punit->y, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
     unfog_area(pplayer, punit->x, punit->y, get_watchtower_vision(punit));
   else
@@ -1697,7 +1697,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   punit->transported_by = -1;
   punit->pgr = NULL;
 
-  if (map_get_tile(x, y)->special & S_FORTRESS
+  if (map_has_special(x, y, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
     unfog_area(pplayer, punit->x, punit->y, get_watchtower_vision(punit));
   else
@@ -1879,8 +1879,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   }
 
   if( (incity) ||
-      (map_get_special(punit->x, punit->y)&S_FORTRESS) ||
-      (map_get_special(punit->x, punit->y)&S_AIRBASE) ||
+      map_has_special(punit->x, punit->y, S_FORTRESS) ||
+      map_has_special(punit->x, punit->y, S_AIRBASE) ||
       unitcount == 1) {
     notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
 		     _("Game: %s lost to an attack by %s's %s%s."),
@@ -2134,12 +2134,12 @@ static void do_nuke_tile(struct player *pplayer, int x, int y)
 
   if (map_get_terrain(x, y) != T_OCEAN && myrand(2)) {
     if (game.rgame.nuke_contamination == CONTAMINATION_POLLUTION) {
-      if (!(map_get_special(x, y) & S_POLLUTION)) {
+      if (!map_has_special(x, y, S_POLLUTION)) {
 	map_set_special(x, y, S_POLLUTION);
 	send_tile_info(NULL, x, y);
       }
     } else {
-      if (!(map_get_special(x, y) & S_FALLOUT)) {
+      if (!map_has_special(x, y, S_FALLOUT)) {
 	map_set_special(x, y, S_FALLOUT);
 	send_tile_info(NULL, x, y);
       }
@@ -2731,7 +2731,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
       enum unit_move_type move_type = unit_type(penemy)->move_type;
       enum tile_terrain_type terrain = map_get_terrain(x, y);
 
-      if (map_get_tile(x, y)->special & S_FORTRESS
+      if (map_has_special(x, y, S_FORTRESS)
 	  && unit_profits_of_watchtower(penemy))
 	range = get_watchtower_vision(penemy);
       else
@@ -2826,7 +2826,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
     }
 
     /* entering/leaving a fortress */
-    if (map_get_tile(dest_x, dest_y)->special & S_FORTRESS
+    if (map_has_special(dest_x, dest_y, S_FORTRESS)
 	&& homecity
 	&& is_friendly_city_near(unit_owner(punit), dest_x, dest_y)
 	&& !senthome) {
@@ -2834,7 +2834,7 @@ static void handle_unit_move_consequences(struct unit *punit, int src_x, int src
       send_city_info(pplayer, homecity);
     }
 
-    if (map_get_tile(src_x, src_y)->special & S_FORTRESS
+    if (map_has_special(src_x, src_y, S_FORTRESS)
 	&& homecity
 	&& is_friendly_city_near(unit_owner(punit), src_x, src_y)
 	&& !senthome) {
@@ -3006,7 +3006,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
 
   conn_list_do_unbuffer(&pplayer->connections);
 
-  if (map_get_tile(dest_x, dest_y)->special&S_HUT)
+  if (map_has_special(dest_x, dest_y, S_HUT))
     return unit_enter_hut(punit);
   else
     return TRUE;
@@ -3023,7 +3023,7 @@ static int maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   int cancel = FALSE;
   int range;
 
-  if (map_get_tile(punit->x, punit->y)->special & S_FORTRESS
+  if (map_has_special(punit->x, punit->y, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
     range = get_watchtower_vision(punit);
   else

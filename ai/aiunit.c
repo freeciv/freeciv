@@ -193,7 +193,7 @@ int ai_manage_explorer(struct unit *punit)
   int range;
 
   if (unit_profits_of_watchtower(punit)
-      && map_get_tile(punit->x, punit->y)->special & S_FORTRESS)
+      && map_has_special(punit->x, punit->y, S_FORTRESS))
     range =get_watchtower_vision(punit);
   else
     range = unit_type(punit)->vision_range;
@@ -217,7 +217,7 @@ int ai_manage_explorer(struct unit *punit)
     /* Iterating outward so that with two tiles with the same movecost
        the nearest is used */
     iterate_outward(x, y, maxcost, x1, y1) {
-      if (map_get_special(x1, y1) & S_HUT
+      if (map_has_special(x1, y1, S_HUT)
 	  && warmap.cost[x1][y1] < bestcost
 	  && (!ai_handicap(pplayer, H_HUTS) || map_get_known(x1, y1, pplayer))
 	  && tile_is_accessible(punit, x1, y1)
@@ -273,7 +273,7 @@ int ai_manage_explorer(struct unit *punit)
 	  && !((pcity = map_get_city(x1,y1))
 	       && (unit_flag(punit, F_DIPLOMAT)
 		   || unit_flag(punit, F_CARAVAN)))
-	  && !(is_barbarian(pplayer) && map_get_special(x1, y1) & S_HUT)) {
+	  && !(is_barbarian(pplayer) && map_has_special(x1, y1, S_HUT))) {
 	most_unknown = unknown;
 	best_x = x1;
 	best_y = y1;
@@ -689,7 +689,7 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
           best = 99999; *dest_y = y1; *dest_x = x1;
         }
       }
-      if (map_get_tile(x1, y1)->special & S_HUT && best < 99999 &&
+      if (map_has_special(x1, y1, S_HUT) && best < 99999 &&
           could_unit_move_to_tile(punit, punit->x, punit->y, x1, y1) &&
           !is_barbarian(unit_owner(punit)) &&
 /*          zoc_ok_move(punit, x1, y1) && !is_sailing_unit(punit) &&*/
@@ -779,7 +779,7 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
       if (ok) {
 	/* accessible beachhead with zoc-ok water tile nearby */
         ok = get_tile_type(t)->defense_bonus;
-	if (map_get_special(x1, y1) & S_RIVER)
+	if (map_has_special(x1, y1, S_RIVER))
 	  ok += (ok * terrain_control.river_defense_bonus) / 100;
         if (get_tile_type(t)->movement_cost * SINGLE_MOVE <
             unit_type(punit)->move_rate)

@@ -1356,7 +1356,7 @@ int unit_being_aggressive(struct unit *punit)
   if (map_get_city(punit->x,punit->y))
     return FALSE;
   if (is_ground_unit(punit) &&
-      map_get_special(punit->x,punit->y)&S_FORTRESS) 
+      map_has_special(punit->x, punit->y, S_FORTRESS))
     return !is_unit_near_a_friendly_city (punit);
   
   return TRUE;

@@ -280,7 +280,7 @@ static void update_environmental_upset(enum tile_special_type cause,
 
   count = 0;
   whole_map_iterate(x, y) {
-    if (map_get_special(x, y) & cause) {
+    if (map_has_special(x, y, cause)) {
       count++;
     }
   } whole_map_iterate_end;

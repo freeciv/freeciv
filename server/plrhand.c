@@ -268,7 +268,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
   /* enhace vision of units inside a fortress */
   if (tech_flag(tech_found, TF_WATCHTOWER)) {
     unit_list_iterate(plr->units, punit) {
-      if (map_get_tile(punit->x, punit->y)->special & S_FORTRESS
+      if (map_has_special(punit->x, punit->y, S_FORTRESS)
 	  && is_ground_unit(punit)) {
 	unfog_area(plr, punit->x, punit->y, get_watchtower_vision(punit));
 	fog_area(plr, punit->x, punit->y,

@@ -1325,7 +1325,7 @@ void update_menus(void) /* from menu.c */
       {
 	my_snprintf(irrtext, sizeof(irrtext), chgfmt, (get_tile_type(tinfo->irrigation_result))->terrain_name);
       }
-      else if ((map_get_tile(punit->x, punit->y)->special & S_IRRIGATION) &&
+      else if (map_has_special(punit->x, punit->y, S_IRRIGATION) &&
 	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
       {
 	sz_strlcpy(irrtext, _("Build Farmland"));
@@ -1353,7 +1353,7 @@ void update_menus(void) /* from menu.c */
         sz_strlcpy(transtext, _("Transform terrain"));
       }
 
-      if (map_get_tile(punit->x, punit->y)->special & S_ROAD)
+      if (map_has_special(punit->x, punit->y, S_ROAD))
       {
 	menu_entry_rename(MENU_ORDER_ROAD, _("Build Railroad"), FALSE);
       }
