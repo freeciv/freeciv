@@ -1184,7 +1184,9 @@ void refresh_overview_viewrect(void)
     map_w = (Main.screen->w + NORMAL_TILE_WIDTH - 1) / NORMAL_TILE_WIDTH;
     map_h = (Main.screen->h + NORMAL_TILE_HEIGHT - 1) / NORMAL_TILE_HEIGHT;
 
-    /*get_map_xy(0, 0, &Wx, &Wy);	/* take from Main Map */
+#if 0
+    get_map_xy(0, 0, &Wx, &Wy);	/* take from Main Map */
+#endif
 	  
     Wx = map_view_x0 * Mini_map_cell_w + FRAME_WH;
     Wy = map_view_y0 * Mini_map_cell_h + FRAME_WH;
