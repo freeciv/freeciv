@@ -59,4 +59,6 @@ void refresh_overview_viewrect(void);
 void draw_segment(int src_x, int src_y, int dir);
 void undraw_segment(int src_x, int src_y, int dir);
 
+void tileset_changed(void);
+
 #endif  /* FC__MAPVIEW_G_H */

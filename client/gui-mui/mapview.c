@@ -621,3 +621,14 @@ void undraw_segment(int src_x, int src_y, int dir)
 {
   DoMethod(main_map_area, MUIM_Map_UndrawSegment, src_x, src_y, dir);
 }
+
+/**************************************************************************
+  This function is called when the tileset is changed.
+**************************************************************************/
+void tileset_changed(void)
+{
+  /* PORTME */
+  /* Here you should do any necessary redraws (for instance, the city
+   * dialogs usually need to be resized).
+   */
+}

@@ -46,6 +46,7 @@
 #include "options.h"
 #include "tilespec.h"
 
+#include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
 
 /* contains the x0, y0 coordinates of the upper left corner block */
@@ -2256,4 +2257,12 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				 sprites.tx.fortress,
 				 offset_x, offset_y_unit,
 				 width, height_unit, fog);
+}
+
+/**************************************************************************
+  This function is called when the tileset is changed.
+**************************************************************************/
+void tileset_changed(void)
+{
+  reset_city_dialogs();
 }

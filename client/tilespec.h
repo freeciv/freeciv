@@ -21,6 +21,7 @@
 #include "map.h"		/* NUM_DIRECTION_NSEW */
 
 #include "colors_g.h"
+#include "options.h"
 
 struct Sprite;			/* opaque; gui-dep */
 struct unit;
@@ -31,6 +32,9 @@ const char **get_tileset_list(void);
 void tilespec_read_toplevel(const char *tileset_name);
 void tilespec_load_tiles(void);
 void tilespec_free_tiles(void);
+
+void tilespec_reread(const char *tileset_name);
+void tilespec_reread_callback(struct client_option *option);
 
 void tilespec_setup_unit_type(int id);
 void tilespec_setup_tile_type(int id);

@@ -45,6 +45,7 @@
 #include "climisc.h" /* for tile_get_known() */
 #include "control.h" /* for fill_xxx */
 #include "graphics_g.h"
+#include "mapview_g.h" /* for update_map_canvas_visible */
 #include "options.h" /* for fill_xxx */
 
 #include "tilespec.h"
@@ -226,6 +227,122 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
   freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for %s"),
 	  gfx_filename);
   exit(EXIT_FAILURE);
+}
+
+/**********************************************************************
+  Frees the tilespec toplevel data, in preparation for re-reading it.
+
+  See tilespec_read_toplevel().
+***********************************************************************/
+static void tilespec_free_toplevel(void)
+{
+  if (city_names_font) {
+    free(city_names_font);
+    city_names_font = NULL;
+  }
+  if (city_productions_font_name) {
+    free(city_productions_font_name);
+    city_productions_font_name = NULL;
+  }
+  if (main_intro_filename) {
+    free(main_intro_filename);
+    main_intro_filename = NULL;
+  }
+  if (minimap_intro_filename) {
+    free(minimap_intro_filename);
+    minimap_intro_filename = NULL;
+  }
+  /* FIXME: free spec_filenames */
+}
+
+/**********************************************************************
+  Read a new tilespec in from scratch.
+
+  Unlike the initial reading code, which reads pieces one at a time,
+  this gets rid of the old data and reads in the new all at once.
+
+  It will also call the necessary functions to redraw the graphics.
+***********************************************************************/
+void tilespec_reread(const char *tileset_name)
+{
+  int id;
+  int center_x, center_y;
+
+  freelog(LOG_NORMAL, "Loading tileset %s.", tileset_name);
+
+  /* Step 0:  Record old data.
+   *
+   * We record the current mapcanvas center, etc.
+   */
+  get_center_tile_mapcanvas(&center_x, &center_y);
+
+  /* Step 1:  Cleanup.
+   *
+   * We free any old data in preparation for re-reading it. This is
+   * pretty certainly incomplete, although the memory leak doesn't seem
+   * to be debilitating.
+   */
+  hash_free(sprite_hash);
+  tilespec_free_toplevel();
+
+  /* Step 2:  Read.
+   *
+   * We read in the new tileset.  This should be pretty straightforward.
+   */
+  tilespec_read_toplevel(tileset_name);
+  tilespec_load_tiles();
+
+  /* Step 3: Setup
+   *
+   * This is a seriously sticky problem.  On startup, we build a hash
+   * from all the sprite data. Then, when we connect to a server, the
+   * server sends us ruleset data a piece at a time and we use this data
+   * to assemble the sprite structures.  But if we change while connected
+   *  we have to reassemble all of these.  This should just involve
+   * calling tilespec_setup_*** on everything.  But how do we tell what
+   * "everything" is?
+   *
+   * The below code just does things straightforwardly, by setting up
+   * each possible sprite again.  Hopefully it catches everything, and
+   * doesn't mess up too badly if we change tilesets while not connected
+   * to a server.
+   */
+  for (id = T_FIRST; id < T_COUNT; id++) {
+    tilespec_setup_tile_type(id);
+  }
+  unit_type_iterate(id) {
+    tilespec_setup_unit_type(id);
+  } unit_type_iterate_end;
+  for (id = 0; id < game.government_count; id++) {
+    tilespec_setup_government(id);
+  }
+  for (id = 0; id < game.nation_count; id++) {
+    tilespec_setup_nation_flag(id);
+  }
+
+  /* tilespec_load_tiles reverts the city tile pointers to 0.  This
+     is a workaround. */
+  tilespec_alloc_city_tiles(game.styles_count);
+  for (id = 0; id < game.styles_count; id++) {
+    tilespec_setup_city_tiles(id);
+  }
+
+  /* Step 4:  Draw.
+   *
+   * Do any necessary redraws.
+   */
+  tileset_changed();
+  center_tile_mapcanvas(center_x, center_y);
+}
+
+/**************************************************************************
+  This is merely a wrapper for tilespec_reread (above) for use in
+  options.c and the client local options dialog.
+**************************************************************************/
+void tilespec_reread_callback(struct client_option *option)
+{
+  assert(option->p_string_value && *option->p_string_value);
+  tilespec_reread(option->p_string_value);
 }
 
 /**********************************************************************

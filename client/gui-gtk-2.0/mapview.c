@@ -2302,3 +2302,14 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				 offset_x, offset_y_unit,
 				 width, height_unit, fog);
 }
+
+/**************************************************************************
+  This function is called when the tileset is changed.
+**************************************************************************/
+void tileset_changed(void)
+{
+  /* PORTME */
+  /* Here you should do any necessary redraws (for instance, the city
+   * dialogs usually need to be resized).
+   */
+}

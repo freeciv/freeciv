@@ -2118,3 +2118,14 @@ xel
     }
   }
 }
+
+/**************************************************************************
+  This function is called when the tileset is changed.
+**************************************************************************/
+void tileset_changed(void)
+{
+  /* PORTME */
+  /* Here you should do any necessary redraws (for instance, the city
+   * dialogs usually need to be resized).
+   */
+}
