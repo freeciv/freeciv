@@ -1374,3 +1374,19 @@ void map_to_base_overview_pos(int *base_overview_x, int *base_overview_y,
   *base_overview_x = map_x * OVERVIEW_TILE_WIDTH;
   *base_overview_y = map_y * OVERVIEW_TILE_HEIGHT;
 }
+
+/**************************************************************************
+  Redraw the entire backing store for the overview minimap.
+**************************************************************************/
+void base_refresh_overview_canvas(struct canvas_store *pbacking_store)
+{
+  whole_map_iterate(x, y) {
+    int gui_x, gui_y;
+
+    map_to_base_overview_pos(&gui_x, &gui_y, x, y);
+
+    gui_put_rectangle(pbacking_store, overview_tile_color(x, y),
+		      gui_x, gui_y,
+		      OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
+  } whole_map_iterate_end;
+}

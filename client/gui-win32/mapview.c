@@ -883,31 +883,9 @@ put_nuke_mushroom_pixmaps(int x, int y)
 void
 refresh_overview_canvas(void)
 {
-  HDC hdc=GetDC(root_window);
-  int overview_x, overview_y;
-  RECT rc;
+  struct canvas_store store = {overviewstoredc};
 
-  whole_map_iterate(x, y) {
-    int gui_x, gui_y;
-
-    map_to_base_overview_pos(&gui_x, &gui_y, x, y);
-
-    rc.left = gui_x;
-    rc.right = rc.left + OVERVIEW_TILE_WIDTH;
-    rc.top = gui_y;
-    rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
-    FillRect(overviewstoredc, &rc, brush_std[overview_tile_color(x, y)]);
-
-    map_to_overview_pos(&overview_x, &overview_y, x, y);
-
-    rc.left = overview_win_x + overview_x;
-    rc.right = rc.left + OVERVIEW_TILE_WIDTH;
-    rc.top = overview_win_y + overview_y;
-    rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
-    FillRect(hdc, &rc, brush_std[overview_tile_color(x, y)]);
-  } whole_map_iterate_end;
-
-  ReleaseDC(root_window,hdc);
+  base_refresh_overview_canvas(&store);
 }
 
 /**************************************************************************

@@ -476,18 +476,9 @@ static void set_overview_tile_foreground_color(int x, int y)
 **************************************************************************/
 void refresh_overview_canvas(void)
 {
-  whole_map_iterate(x, y) {
-    int gui_x, gui_y;
+  struct canvas_store store = {overview_canvas_store};
 
-    map_to_base_overview_pos(&gui_x, &gui_y, x, y);
-
-    set_overview_tile_foreground_color(x, y);
-    gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
-		       gui_x, gui_y,
-		       OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
-  } whole_map_iterate_end;
-
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
+  base_refresh_overview_canvas(&store);
 }
 
 
