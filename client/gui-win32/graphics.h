@@ -15,6 +15,16 @@
 
 #include "graphics_g.h"
 
+/**********************************************************************
+Some notes about sprite management in this client:
+Some windows versions (e.g: Win95, Win98, WinME) have some strange 
+limitiations on gdi objects (like bitmaps). The number of bitmaps 
+(I really mean number and not size) is limited. And the limit is too low
+for the sprites freeciv uses.
+That means HBITMAPs cannot be stored in a sprite struct.
+The bitmaps are stored using GetObject/GetBitmapBits. 
+**********************************************************************/
+
 typedef struct Sprite SPRITE;
 struct Sprite
 {
