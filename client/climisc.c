@@ -486,15 +486,23 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
 {
   enum city_tile_type city_tile_type1, city_tile_type2;
   struct city *dummy_pcity;
+  int pos1_is_in_city_radius =
+      player_in_city_radius(game.player_ptr, x1, y1);
+  int pos2_is_in_city_radius = 0;
 
-  assert(is_tiles_adjacent(x1, y1, x2, y2));
+  if (is_real_tile(x2, y2)) {
+    normalize_map_pos(&x2, &y2);
+    assert(is_tiles_adjacent(x1, y1, x2, y2));
 
-  if (!map_get_tile(x2, y2)->known) {
-    return COLOR_STD_BLACK;
+    if (!map_get_tile(x2, y2)->known) {
+      return COLOR_STD_BLACK;
+    }
+
+    pos2_is_in_city_radius =
+	player_in_city_radius(game.player_ptr, x2, y2);
   }
 
-  if (!player_in_city_radius(game.player_ptr, x1, y1) &&
-      !player_in_city_radius(game.player_ptr, x2, y2)) {
+  if (!pos1_is_in_city_radius && !pos2_is_in_city_radius) {
     return COLOR_STD_BLACK;
   }
 
