@@ -1596,7 +1596,20 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
   }
 
   send_remove_unit(0, punit->id);
-  game_remove_unit(punit->id);
+  if (punit->homecity) {
+    /* Get a handle on the unit's home city before the unit is wiped */
+    struct city *pcity = find_city_by_id(punit->homecity);
+    if (pcity) {
+       game_remove_unit(punit->id);
+       city_refresh(pcity);
+       send_city_info(dest, pcity, 0);
+       } else {
+       freelog(LOG_DEBUG,"Can't find homecity  of unit located at (%d,%d) ",
+       punit->x,punit->y);
+       }
+  } else {
+    game_remove_unit(punit->id);
+  }
 }
 
 /**************************************************************************
