@@ -15,8 +15,13 @@ void usleep(unsigned long usec);
 char *inet_ntoa(struct in_addr addr);
 #endif
 int ioctl(int fd, unsigned int request, char *argp);
+
+/* client/auto_none.c uses a name "shutdown" which clashes with the bsd api shutdown() */
+#ifndef NOSOCKETSPROTO
 #include <proto/socket.h>
-#include <proto/usergroup.h>
+#endif
+
+/*#include <proto/usergroup.h>*/
 #ifdef __VBCC__
 int read(int fd, char *buf, int len);
 int write(int fd, char *buf, int len);
@@ -40,6 +45,13 @@ int vsnprintf(char *, int, const char *, va_list);
 #include <stdlib.h>
 #define bzero(a,l) memset(a, 0, l);
 #endif
+
+#ifndef AMIGA
+#define AMIGA
+#endif
+
+#define ssize_t int
+#define S_ISREG(x) ((x)&S_IFREG)
 /***************************************************************************/
 
 /* Define if using alloca.c.  */
