@@ -16,17 +16,7 @@ void mydrawrect(HDC hdc, int x, int y,int w,int h);
 char *convertnl2crnl(char *str);
 void my_get_win_border(HWND hWnd,int *w,int *h);
 int fcwin_listview_add_row(HWND lv,int row_nr,int columns,char **row);
-struct fcwin_box
-{
-  int horiz; /* Set to true if the box is horizontally arranged */
-  int same_size;
-  RECT rc;
-  POINT minsize;
-  int num_variable_size;
-  HWND owner;
-  struct fcwin_box_item *wbi;
-  
-};
+struct fcwin_box;
 
 typedef void (*t_fcminsize)(POINT *,void *);
 typedef void (*t_fcsetsize)(RECT *,void *);
@@ -89,6 +79,13 @@ HWND fcwin_box_add_listview(struct fcwin_box *box,
 			    int id,
 			    int style,
 			    int expand, int fill, int padding);
+HWND fcwin_box_add_tab(struct fcwin_box *box,
+		       WNDPROC *wndprocs,
+		       HWND *wnds,
+		       char **titles,
+		       void **user_data, int n,
+		       int id,int style,
+		       int expand, int fill, int padding);
 HWND fcwin_box_add_combo(struct fcwin_box *box,
 			 int rows,
 			 int id,
