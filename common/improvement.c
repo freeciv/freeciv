@@ -219,7 +219,8 @@ static void fill_ranges_improv_lists(Impr_Status *equiv_list[IR_LAST],
                                      struct city *pcity,
                                      struct player *pplayer)
 { 
-  int i, cont = 0;
+  int cont = 0;
+  enum impr_range i;
 
   for (i = IR_NONE; i < IR_LAST; i++) {
     equiv_list[i] = NULL;
@@ -249,7 +250,7 @@ static void fill_ranges_improv_lists(Impr_Status *equiv_list[IR_LAST],
 bool improvement_redundant(struct player *pplayer,struct city *pcity,
                           Impr_Type_id id, bool want_to_build)
 {
-  int i;
+  enum impr_range i;
   Impr_Status *equiv_list[IR_LAST];
   Impr_Type_id *ept;
 
