@@ -2806,7 +2806,8 @@ static void wakeup_neighbor_sentries(struct unit *punit)
   /* Wakeup patrolling units we bump into. */
   square_iterate(punit->x, punit->y, 1, x, y) {
     unit_list_iterate(map_get_tile(x, y)->units, ppatrol) {
-      if (punit != ppatrol) {
+      if (punit != ppatrol
+	  && ppatrol->activity == ACTIVITY_PATROL) {
 	maybe_cancel_patrol_due_to_enemy(ppatrol);
       }
     } unit_list_iterate_end;
