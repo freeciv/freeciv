@@ -22,8 +22,8 @@
 #ifndef FC__GUI_TILESPEC_H
 #define FC__GUI_TILESPEC_H
 
-struct city;
-
+#include "citydlg_common.h"	/* enum citizen_type */
+  
 struct Theme {
 	SDL_Surface *Button;
 	SDL_Surface *Edit;
@@ -45,6 +45,8 @@ struct Theme {
 	SDL_Surface *FR_Hor;
 	SDL_Surface *R_ARROW_Icon;
 	SDL_Surface *L_ARROW_Icon;
+	SDL_Surface *LOCK_Icon;
+	SDL_Surface *UNLOCK_Icon;
 	
 	SDL_Surface *Options_Icon;
 	SDL_Surface *Block;
@@ -71,7 +73,7 @@ struct Theme {
 	SDL_Surface *OAutoAtt_Icon;
 	SDL_Surface *OAutoExp_Icon;
 	SDL_Surface *OAutoSett_Icon;
-	SDL_Surface *OAutoConet_Icon;
+	SDL_Surface *OAutoConnect_Icon;
 	SDL_Surface *OUnload_Icon;
 	SDL_Surface *OBuildCity_Icon;
 	SDL_Surface *OGotoCity_Icon;
@@ -79,23 +81,40 @@ struct Theme {
 	SDL_Surface *OHomeCity_Icon;
 	SDL_Surface *OPatrol_Icon;
 	SDL_Surface *OMine_Icon;
-	SDL_Surface *OForest_Icon;
-	SDL_Surface *OCropForest_Icon;
+	SDL_Surface *OPlantForest_Icon;
+	SDL_Surface *OCutDownForest_Icon;
 	SDL_Surface *OFortify_Icon;
 	SDL_Surface *OSentry_Icon;
-	SDL_Surface *OIrigation_Icon;
+	SDL_Surface *OIrrigation_Icon;
 	SDL_Surface *ORoad_Icon;
 	SDL_Surface *ORailRoad_Icon;
 	SDL_Surface *OPillage_Icon;
 	SDL_Surface *OParaDrop_Icon;
 	SDL_Surface *ONuke_Icon;
+	SDL_Surface *OFortress_Icon;
+	SDL_Surface *OFallout_Icon;
+	SDL_Surface *OPollution_Icon;
+	SDL_Surface *OAirBase_Icon;
+	SDL_Surface *OTransform_Icon;
+	SDL_Surface *OAddCity_Icon;
+	SDL_Surface *OWonder_Icon;
+	SDL_Surface *OTrade_Icon;
+	SDL_Surface *OSpy_Icon;
+	SDL_Surface *OWakeUp_Icon;
 	
-	SDL_Surface *ActiveUnit[4];
+	SDL_Surface *Grid;
 	
 } *pTheme;
 
 void tilespec_setup_theme(void);
 void tilespec_unload_theme(void);
+
+struct Animation {
+  SDL_Surface *Focus[4];
+} *pAnim;
+
+void tilespec_setup_anim(void);
+void tilespec_free_anim(void);
 
 struct City_Icon {
   int style;
@@ -125,7 +144,8 @@ struct City_Icon {
 	
   SDL_Surface *pPollution;
   SDL_Surface *pPolice;
-	
+  SDL_Surface *pWorklist;
+  
   /* Small Citizens */
   SDL_Surface *pMale_Happy;
   SDL_Surface *pFemale_Happy;
@@ -143,6 +163,7 @@ struct City_Icon {
 } *pIcons;
 
 void tilespec_setup_city_icons(void);
-void reload_citizens_icons(int style, struct city *pCity);
+void reload_citizens_icons(int style);
+SDL_Surface * get_citizen_surface(enum citizen_type type, int citizen_index);
 
 #endif  /* FC__GUI_TILESPEC_H */

@@ -64,7 +64,17 @@ static SDL_Color SDLClient_standard_rgba_colors[SDLCLIENT_STD_COLOR_LAST -
   {190, 190, 190, 255},		/* Grid line color */
   {0, 200, 0, 150},		/* Quick info (green) */
   {0, 0, 0, 128},		/* FOG OF WAR color */
-  {90, 90, 90, 255}		/* disable color */
+  {90, 90, 90, 255},		/* disable color */
+  {125, 170, 220, 255},		/* city production color */
+  {20, 210, 200, 255},		/* city units support color */
+  {226, 82, 13, 255},		/* city trade color */
+  {220, 186, 60, 255},		/* city gold color */
+  {238, 156, 7, 255},		/* city luxuries color */
+  {105, 190, 90, 255},		/* city food surplus color */
+  {12, 18, 108, 255},		/* city unkeep color */
+  {212, 172, 206, 255},		/* city science color */
+  {255, 255, 0, 255},		/* city happy color */
+  {190, 115, 5, 255}		/* city celebrating color */
 };
 
 /**************************************************************************

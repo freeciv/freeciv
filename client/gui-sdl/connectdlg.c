@@ -29,7 +29,6 @@
 #include <string.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "fcintl.h"
 #include "log.h"
@@ -175,51 +174,6 @@ static int sellect_meta_severs_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int up_meta_severs_callback(struct GUI *pButton)
-{
-  up_advanced_dlg(pMeta_Severs, pButton->prev);
-  
-  unsellect_widget_action();
-  pSellected_Widget = pButton;
-  set_wstate(pButton, WS_SELLECTED);
-  redraw_tibutton(pButton);
-  flush_rect(pButton->size);
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int down_meta_severs_callback(struct GUI *pButton)
-{
-  down_advanced_dlg(pMeta_Severs, pButton->next);
-  
-  unsellect_widget_action();
-  pSellected_Widget = pButton;
-  set_wstate(pButton, WS_SELLECTED);
-  redraw_tibutton(pButton);
-  flush_rect(pButton->size);
-  return -1;
-}
-
-/**************************************************************************
-  FIXME : fix main funct : vertic_scroll_widget_list(...)
-**************************************************************************/
-static int vscroll_meta_severs_callback(struct GUI *pVscrollBar)
-{
-  vscroll_advanced_dlg(pMeta_Severs, pVscrollBar);
-    
-  unsellect_widget_action();
-  set_wstate(pVscrollBar, WS_SELLECTED);
-  pSellected_Widget = pVscrollBar;
-  redraw_vert(pVscrollBar);
-  flush_rect(pVscrollBar->size);
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
 static int meta_severs_callback(struct GUI *pWidget)
 {
   char errbuf[128];
@@ -318,43 +272,9 @@ static int meta_severs_callback(struct GUI *pWidget)
     
   if (count > 10) {
     meta_h = 10 * h;
-       
-    /* create up button */
-    pBuf = create_themeicon_button(pTheme->UP_Icon, pWindow->dst, NULL, 0);
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-
-    pBuf->action = up_meta_severs_callback;
-    set_wstate(pBuf, WS_NORMAL);
-
-    add_to_gui_list(ID_BUTTON, pBuf);
-      
-    /* create vsrollbar */
-    pBuf = create_vertical(pTheme->Vertic, pWindow->dst,
-				    50, WF_DRAW_THEME_TRANSPARENT);
-       
-    set_wstate(pBuf, WS_NORMAL);
-    pBuf->action = vscroll_meta_severs_callback;
-
-    add_to_gui_list(ID_SCROLLBAR, pBuf);
-
-    /* create down button */
-    pBuf = create_themeicon_button(pTheme->DOWN_Icon, pWindow->dst, NULL, 0);
-       
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-
-    pBuf->action = down_meta_severs_callback;
-    set_wstate(pBuf, WS_NORMAL);
-
-    add_to_gui_list(ID_BUTTON, pBuf);
-
-    w += pBuf->size.w;
-       
-    pMeta_Severs->pScroll = MALLOC(sizeof(struct ScrollBar));
-    pMeta_Severs->pScroll->active = 10;
-    pMeta_Severs->pScroll->count = count;
-    
-    pMeta_Severs->pBeginWidgetList = pBuf;
-    
+  
+    count = create_vertical_scrollbar(pMeta_Severs, 1, 10, TRUE, TRUE);
+    w += count;
   } else {
     meta_h = count * h;
   }
@@ -376,8 +296,8 @@ static int meta_severs_callback(struct GUI *pWidget)
   
   area.w = w + 1;
   
-  if(count > 10) {
-    w -= pBuf->size.w;
+  if(pMeta_Severs->pScroll) {
+    w -= count;
   }
   
   /* refresh button */
@@ -402,7 +322,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   pBuf = convert_iconlabel_to_themeiconlabel2(pBuf);
   
   pBuf = pBuf->prev;
-  while( pBuf )
+  while(pBuf)
   {
         
     pBuf->size.w = w;
@@ -417,37 +337,11 @@ static int meta_severs_callback(struct GUI *pWidget)
     pBuf = pBuf->prev;  
   }
   
-  if ( count > 10 )
-  {
-    /* up button */
-    pBuf = pBuf->prev;
-    
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - 9;
-    pBuf->size.y = pMeta_Severs->pEndActiveWidgetList->size.y;
-    
-    pMeta_Severs->pScroll->min = pBuf->size.y + pBuf->size.h;
-    
-    /* scrollbar */
-    pBuf = pBuf->prev;
-    
-    pBuf->size.x = pBuf->next->size.x;
-    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
-    
-    /* down button */
-    pBuf = pBuf->prev;
-    
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - 9;
-    pBuf->size.y = pWindow->size.y + pWindow->size.h - 20 - pBuf->size.h -
-                  pWindow->prev->size.h;
-    
-    
-    pMeta_Severs->pScroll->max = pBuf->size.y;
-    
-    /* 
-       scrollbar high
-     */
-    pBuf->next->size.h = scrollbar_size(pMeta_Severs->pScroll);
-    
+  if(pMeta_Severs->pScroll) {
+    setup_vertical_scrollbar_area(pMeta_Severs->pScroll,
+	pWindow->size.x + pWindow->size.w - 9,
+	pMeta_Severs->pEndActiveWidgetList->size.y,
+	pWindow->size.h - 30 - pWindow->prev->size.h, TRUE);
   }
   
   /* -------------------- */
@@ -722,7 +616,7 @@ void gui_server_connect(void)
   struct GUI *pBuf = NULL, *pFirst , *pLast;
   SDL_Rect *pArea;
   SDL_Surface *pLogo, *pTmp;
-  SDL_Color col = {255, 255, 255, 128};
+  SDL_Color col = {255, 255, 255, 136};
   
   pFirst = pBuf =
 	create_iconlabel_from_chars(NULL, Main.gui, _("Start New Game"), 14,
@@ -770,7 +664,7 @@ void gui_server_connect(void)
   pLast = pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Quit"), 14,
 			WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = quit_callback;
-  
+  pBuf->key = SDLK_ESCAPE;
   set_wstate(pBuf, WS_NORMAL);
   w = MAX(w , pBuf->size.w);
   h = MAX(h , pBuf->size.h);
@@ -780,7 +674,7 @@ void gui_server_connect(void)
   h+=6;
   
   pFirst->size.x = (pFirst->dst->w - w) - 20;
-  pFirst->size.y = (pFirst->dst->h - (h * 5)) -20;
+  pFirst->size.y = (pFirst->dst->h - (h * 5)) - 20;
   pFirst->size.w = w;
   pFirst->size.h = h;
   pBuf = pFirst->prev;
@@ -811,11 +705,11 @@ void gui_server_connect(void)
   pTmp = ResizeSurface(pLogo, pArea->w, pArea->h , 1);
   FREESURFACE(pLogo);
   
-  blit_entire_src(pTmp, pFirst->dst, pArea->x , pArea->y );
+  blit_entire_src(pTmp, pFirst->dst, pArea->x , pArea->y);
   FREESURFACE(pLogo);
-    
-  SDL_FillRectAlpha(pFirst->dst, pArea, &col );
   
+  SDL_FillRectAlpha(pFirst->dst, pArea, &col );
+      
   redraw_group(pLast, pFirst, 0);
   
   draw_frame(pFirst->dst, pFirst->size.x - FRAME_WH, pFirst->size.y - FRAME_WH ,

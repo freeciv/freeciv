@@ -23,6 +23,7 @@
 #define __STRING_H
 
 #include "gui_iconv.h"
+#include "SDL_ttf.h"
 
 #define SF_CENTER	8
 #define SF_CENTER_RIGHT	16
@@ -55,7 +56,7 @@ SDL_Rect str16size(SDL_String16 * pString16);
 void change_ptsize16(SDL_String16 * pString, Uint16 new_ptsize);
 
 void unload_font(Uint16 ptsize);
-
+void free_font_system(void);
 
 #define str16len(pString16) str16size(pString16).w
 

@@ -21,7 +21,6 @@
 #include <string.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "support.h"
 #include "fcintl.h"
@@ -82,51 +81,6 @@ static int find_city_callback(struct GUI *pWidget)
 }
 
 /**************************************************************************
-  ...
-**************************************************************************/
-static int up_find_city_dlg_callback(struct GUI *pButton)
-{
-  up_advanced_dlg(pFind_City_Dlg, pButton->prev);
-  
-  unsellect_widget_action();
-  pSellected_Widget = pButton;
-  set_wstate(pButton, WS_SELLECTED);
-  redraw_tibutton(pButton);
-  flush_rect(pButton->size);
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int down_find_city_dlg_callback(struct GUI *pButton)
-{
-  down_advanced_dlg(pFind_City_Dlg, pButton->next);
-  
-  unsellect_widget_action();
-  pSellected_Widget = pButton;
-  set_wstate(pButton, WS_SELLECTED);
-  redraw_tibutton(pButton);
-  flush_rect(pButton->size);
-  return -1;
-}
-
-/**************************************************************************
-  FIXME : fix main funct : vertic_scroll_widget_list(...)
-**************************************************************************/
-static int vscroll_find_city_dlg_callback(struct GUI *pVscrollBar)
-{
-  vscroll_advanced_dlg(pFind_City_Dlg, pVscrollBar);
-  
-  unsellect_widget_action();
-  set_wstate(pVscrollBar, WS_SELLECTED);
-  pSellected_Widget = pVscrollBar;
-  redraw_vert(pVscrollBar);
-  flush_rect(pVscrollBar->size);
-  return -1;
-}
-
-/**************************************************************************
   Popdown a dialog to ask for a city to find.
 **************************************************************************/
 void popdown_find_dialog(void)
@@ -149,7 +103,7 @@ void popup_find_dialog(void)
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128]; 
-  int i, n = 0, w = 0, h , owner = 0xffff,units_h = 0, orginal_x , orginal_y ;
+  int i, n = 0, w = 0, h, owner = 0xffff, units_h = 0, orginal_x, orginal_y;
   
   if (pFind_City_Dlg) {
     return;
@@ -157,10 +111,7 @@ void popup_find_dialog(void)
   
   h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
   
-  if (!canvas_to_map_pos(&orginal_x, &orginal_y,
-			 Main.map->w/2, Main.map->h/2)) {
-    nearest_real_pos(&orginal_x, &orginal_y);
-  }
+  canvas_to_map_pos(&orginal_x, &orginal_y, Main.map->w/2, Main.map->h/2);
   
   pFind_City_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
   
@@ -236,7 +187,7 @@ void popup_find_dialog(void)
       n++;  
     city_list_iterate_end;
   }
-  
+  pFind_City_Dlg->pBeginWidgetList = pBuf;
   pFind_City_Dlg->pBeginActiveWidgetList = pBuf;
   pFind_City_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
   pFind_City_Dlg->pActiveWidgetList = pFind_City_Dlg->pEndActiveWidgetList;
@@ -245,49 +196,20 @@ void popup_find_dialog(void)
   /* ---------- */
   if (n > 20)
   {
-    units_h = 20 * pBuf->size.h + WINDOW_TILE_HIGH + 3 + FRAME_WH;
-       
-    /* create up button */
-    pBuf = create_themeicon_button(pTheme->UP_Icon, pWindow->dst, NULL, 0);
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-
-    pBuf->action = up_find_city_dlg_callback;
-    set_wstate(pBuf, WS_NORMAL);
-
-    add_to_gui_list(ID_UNIT_SELLECT_DLG_UP_BUTTON, pBuf);
-      
-    /* create vsrollbar */
-    pBuf = create_vertical(pTheme->Vertic, pWindow->dst,
-				    50, WF_DRAW_THEME_TRANSPARENT);
-       
-    set_wstate(pBuf, WS_NORMAL);
-    pBuf->action = vscroll_find_city_dlg_callback;
-
-    add_to_gui_list(ID_UNIT_SELLECT_DLG_VSCROLLBAR, pBuf);
-
-    /* create down button */
-    pBuf = create_themeicon_button(pTheme->DOWN_Icon, pWindow->dst, NULL, 0);
-      
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-
-    pBuf->action = down_find_city_dlg_callback;
-    set_wstate(pBuf, WS_NORMAL);
-
-    add_to_gui_list(ID_UNIT_SELLECT_DLG_DOWN_BUTTON, pBuf);
-
-    w += pBuf->size.w;
-       
-    pFind_City_Dlg->pScroll = MALLOC(sizeof(struct ScrollBar));
-    pFind_City_Dlg->pScroll->active = 20;
+     
+    units_h = create_vertical_scrollbar(pFind_City_Dlg, 1, 20, TRUE, TRUE);
     pFind_City_Dlg->pScroll->count = n;
+    
+    n = units_h;
+    w += n;
+    
+    units_h = 20 * pBuf->size.h + WINDOW_TILE_HIGH + 3 + FRAME_WH;
+    
   } else {
     units_h = h;
   }
         
   /* ---------- */
-  
-  pFind_City_Dlg->pBeginWidgetList = pBuf;
-  
   
   w += DOUBLE_FRAME_WH;
   
@@ -295,26 +217,15 @@ void popup_find_dialog(void)
   
   pWindow->size.x = 10;
   pWindow->size.y = (pWindow->dst->h - h) / 2;
-#if 0  
-  pLogo = get_logo_gfx();  
-  if(resize_window( pWindow , pLogo , NULL , w , h )) {
-    FREESURFACE(pLogo);
-  }
-  SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
-#endif
-/*
-  resize_window(pWindow , NULL,
-	  get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
-*/  
+  
   resize_window(pWindow , NULL, NULL, w, h);
   
   w -= DOUBLE_FRAME_WH;
   
-  if (n > 20)
+  if (pFind_City_Dlg->pScroll)
   {
-    w -= pBuf->size.w;
+    w -= n;
   }
-  
   
   /* exit button */
   pBuf = pWindow->prev;
@@ -322,53 +233,18 @@ void popup_find_dialog(void)
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
   pBuf->size.y = pWindow->size.y;
   
-  /* terrain info */
+  /* cities */
   pBuf = pBuf->prev;
+  setup_vertical_vidgets_position(1,
+	pWindow->size.x + FRAME_WH, pWindow->size.y + WINDOW_TILE_HIGH + 2,
+	w, 0, pFind_City_Dlg->pBeginActiveWidgetList, pBuf);
   
-  pBuf->size.x = pWindow->size.x + FRAME_WH;
-  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 2;
-  pBuf->size.w = w;
-  
-  h = pBuf->size.h;
-    
-  pBuf = pBuf->prev;
-  while(pBuf)
+  if (pFind_City_Dlg->pScroll)
   {
-    pBuf->size.w = w;
-    pBuf->size.x = pBuf->next->size.x;
-    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
-    if (pBuf == pFind_City_Dlg->pBeginActiveWidgetList) break;
-    pBuf = pBuf->prev;  
-  }
-  
-  if (n > 20)
-  {
-    /* up button */
-    pBuf = pBuf->prev;
-    
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH;
-    pBuf->size.y = pFind_City_Dlg->pEndActiveWidgetList->size.y;
-    
-    pFind_City_Dlg->pScroll->min = pBuf->size.y + pBuf->size.h;
-    
-    /* scrollbar */
-    pBuf = pBuf->prev;
-    
-    pBuf->size.x = pBuf->next->size.x;
-    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
-    
-    /* down button */
-    pBuf = pBuf->prev;
-    
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH;
-    pBuf->size.y = pWindow->size.y + pWindow->size.h - FRAME_WH - pBuf->size.h;
-    
-    pFind_City_Dlg->pScroll->max = pBuf->size.y;
-    /* 
-       scrollbar high
-       10 - units. seen in window.
-     */
-    pBuf->next->size.h = scrollbar_size(pFind_City_Dlg->pScroll);
+    setup_vertical_scrollbar_area(pFind_City_Dlg->pScroll,
+	pWindow->size.x + pWindow->size.w - FRAME_WH,
+    	pWindow->size.y + WINDOW_TILE_HIGH + 1,
+    	pWindow->size.h - (FRAME_WH + WINDOW_TILE_HIGH + 1), TRUE);
   }
   
   /* -------------------- */

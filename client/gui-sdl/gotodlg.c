@@ -21,7 +21,6 @@
 #include <string.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "fcintl.h"
 #include "log.h"

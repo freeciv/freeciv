@@ -28,7 +28,6 @@
 #include <string.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "astring.h"
 #include "fcintl.h"
@@ -251,6 +250,20 @@ static Uint16 redraw_order_widgets(void)
 
 }
 
+
+void set_new_order_widgets_dest_buffers(void)
+{
+  struct GUI *pTmpWidget = pBeginOrderWidgetList;
+  if(!pEndOrderWidgetList) return;
+  while (pTmpWidget) {
+    pTmpWidget->dst = Main.gui;
+    if (pTmpWidget == pEndOrderWidgetList) {
+      break;
+    }
+    pTmpWidget = pTmpWidget->next;
+  }
+}
+
 /**************************************************************************
   ...
 **************************************************************************/
@@ -380,7 +393,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_NUKE, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Diplomat|Spy Actions"), " (D)");
-  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OSpy_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -443,7 +456,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_PATROL, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Connect"), " (Shift + C)");
-  pBuf = create_themeicon(pTheme->OAutoConet_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -486,7 +499,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_AUTO_SETTLER, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Wake Up Others"), " (Shift + W)");
-  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OWakeUp_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -539,7 +552,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_SENTRY, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Clean Nuclear Fallout"), " (N)");
-  pBuf = create_themeicon(pTheme->ONuke_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OFallout_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -561,7 +574,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_PARADROP, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Clean Pollution"), " (P)");
-  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OPollution_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -572,7 +585,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_POLLUTION, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Build Airbase"), " (E)");
-  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OAirBase_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -593,7 +606,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_FORTIFY, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Build Fortress"), " (F)");
-  pBuf = create_themeicon(pTheme->OFortify_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OFortress_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -603,7 +616,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_FORTRESS, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Transform Tile"), " (O)");
-  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OTransform_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -625,7 +638,7 @@ void create_units_order_widgets(void)
   pOrder_Mine_Button = pBuf;
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Build Irrigation"), " (I)");
-  pBuf = create_themeicon(pTheme->OIrigation_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OIrrigation_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -636,7 +649,7 @@ void create_units_order_widgets(void)
   pOrder_Irrigation_Button = pBuf;
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Form Traderoute"), " (R)");
-  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OTrade_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -658,7 +671,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_ROAD, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Help Build Wonder"), " (B)");
-  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(pTheme->OWonder_Icon, Main.gui,
 			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
 			   WF_WIDGET_HAS_INFO_LABEL));
   set_wstate(pBuf, WS_NORMAL);
@@ -875,7 +888,7 @@ void update_menus(void)
 				].terrain_name
 			," (I)", time , PL_("turn", "turns", time));
 	  pOrder_Irrigation_Button->string16->text = convert_to_utf16(cBuf);
-	  pOrder_Irrigation_Button->theme = pTheme->OCropForest_Icon;
+	  pOrder_Irrigation_Button->theme = pTheme->OCutDownForest_Icon;
 	  break;
 	  
 	  /* set Irrigation Icon */
@@ -884,7 +897,7 @@ void update_menus(void)
 			_("Build Irrigation"), " (I)", time , 
 			PL_("turn", "turns", time));
 	  pOrder_Irrigation_Button->string16->text = convert_to_utf16(cBuf);
-	  pOrder_Irrigation_Button->theme = pTheme->OIrigation_Icon;
+	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
 	  break;
 	}
 
@@ -907,7 +920,7 @@ void update_menus(void)
 				].terrain_name
 			," (M)", time , PL_("turn", "turns", time));
 	  pOrder_Mine_Button->string16->text = convert_to_utf16(cBuf);
-	  pOrder_Mine_Button->theme = pTheme->OIrigation_Icon;
+	  pOrder_Mine_Button->theme = pTheme->OIrrigation_Icon;
 	  break;
 	  /* set Forest Icon -> plant Forrest*/
 	case T_JUNGLE:
@@ -918,7 +931,7 @@ void update_menus(void)
 			_("Plant Forest"), " (M)", time , 
 			PL_("turn", "turns", time));
 	  pOrder_Mine_Button->string16->text = convert_to_utf16(cBuf);
-	  pOrder_Mine_Button->theme = pTheme->OForest_Icon;
+	  pOrder_Mine_Button->theme = pTheme->OPlantForest_Icon;
 	  break;
 	  /* set Mining Icon */
 	default:

@@ -15,8 +15,8 @@ First off all :
 Requirements:
 
 SDL
-SDL_ttf ( req: freetype2 lib )
 SDL_image ( req: libpng )
+FreeType2
 iconv
 
 To compile use:
@@ -26,16 +26,25 @@ configure --enable-client=sdl
 make
 and pray :)
 
-Please copy "theme" dir from test-cvs (freeciv-test.sourceforge.net) to game
-data dir.
+Some Infos:
 
-Current there is problem with black(r=0,g=0,b=0 which SDLClinet use 
-as transparent color) color on 16bit modes.
-Make correct tilesets to New_Black (r=4 , b=4 g=4) or use 24bit mode.
+Current GUI Theme graphics is loaded via tilesets.
+You must have tileset with support of those graphics to proper run SDLClient.
+Default tileset for SDLClient is "Deluxe" tileset which can be found in
+upload.freeciv.org/pub/freeciv/incoming ftp site.
+Please run client with -t deluxe option.
+
+Please link/copy/move unicode ttf font to game/data dir as "stdfont.ttf".
+
+If you don't have current cvs version of SDL then remove #define SDL_CVS line
+(36) from gui-sdl/mapview.c
+
+If your CPU has MMX registers then goto gui-sdl/graphics.h line 31 and 
+define HAVE_MMX1 parm.
 
 In Game:
     - use <Right Shift>+Enter to show input dialog.
-    - <~> hide/show log window
+    - <F10> hide/show log window
     - <ctrl - w> hide/show fog of war
     - <ctrl - r> hide/show road/RR
     - <ctrl - t> hide/show terrains
@@ -49,5 +58,26 @@ In Game:
     - <ctrl - c> hide/show cities
     - <ctrl - n> hide/show city names
     - <print screen> make screenschot
-    - others
+    - <F1> - cities report
+    - <F2> - units report
+    - <F5> - economy report
+    - <F6> - science report
+    - <Shift + LMB> - advenced menu
+    - <MMB> - advenced menu
+    - if actice unit stay on city then <Enter> key enter the city.
+    - <Tab> - options dlg.
+    - in options dlg <q> key exit game.
+    in city dlg:
+    - <c> change production dlg.
+    - <h> hurry production dlg.
+    all dlgs:
+    - <ESC> - exit/close dlg.
+    - <ENTER> - ok/commit/etc.
+    In Worklit dlg.
+    - <LMB> on "target" - change production to "target"
+    - <RMB> on "target" - add "target" to work list
+    - <MMB> on "target" - callhelp about "target" - not implemented !
+    - <LMB> on "worklist item" - swap "item" up
+    - <RMB> on "worklist item" - swap "item" down
+    - <MMB> on "worklist item" - remove "item" from worklist.
     

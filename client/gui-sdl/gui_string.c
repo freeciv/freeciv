@@ -23,11 +23,11 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "fcintl.h"
 #include "log.h"
@@ -40,9 +40,7 @@
 #include "gui_string.h"
 
 #define DEFAULT_PTSIZE	18
-#define FONT_WITH_PATH "theme/tahoma.ttf"
-
-extern char *pDataPath;
+#define FONT_WITH_PATH "stdfont.ttf"
 
 /* =================================================== */
 
@@ -51,9 +49,10 @@ static struct TTF_Font_Chain {
   TTF_Font *font;
   Uint16 ptsize;		/* size of font */
   Uint16 count;			/* number of strings alliased with this font */
-} *Font_TAB;
+} *Font_TAB = NULL;
 
 static unsigned int Sizeof_Font_TAB;
+static char *pFont_with_FullPath = NULL;
 
 static TTF_Font *load_font(Uint16 ptsize);
 
@@ -65,7 +64,7 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString);
 **************************************************************************/
 SDL_Rect str16size(SDL_String16 * pString16)
 {
-  SDL_Rect Ret = { 0, 0, 0, 0 };
+  SDL_Rect Ret = {0, 0, 0, 0};
   SDL_Surface *pText;
   SDL_bool empty = SDL_FALSE;
 
@@ -240,8 +239,7 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
 **************************************************************************/
 static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 {
-  SDL_Rect des = { 0, 0, 0, 0 };
-  
+  SDL_Rect des = {0, 0, 0, 0};
   SDL_Surface *pText = NULL, **pTmp = NULL;
   Uint16 i, w = 0, count = 0;
   Uint32 color;
@@ -279,27 +277,17 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
     SDL_SetColorKey(pText, SDL_SRCCOLORKEY, color);
     break;
   case 2:
-    {
-      
-      
       pText = create_surf_with_format(pTmp[0]->format,
 				     w, count * pTmp[0]->h, pTmp[0]->flags);
-      
       SDL_FillRect(pText, NULL, color);
-    }
     break;
   case 3:
-    {
-      
-      
-      
       pText = create_surf_with_format(pTmp[0]->format,
 				     w, count * pTmp[0]->h, pTmp[0]->flags);
       SDL_FillRect(pText, NULL,
       	SDL_MapRGBA(pText->format,
 	      pString->backcol.r,pString->backcol.g,
       		pString->backcol.b,pString->backcol.unused));
-    }
     break;  
   default:
     pText = create_surf(w, count * pTmp[0]->h, SDL_SWSURFACE);
@@ -330,7 +318,6 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
     FREE(UniTexts[i]);
     SDL_FreeSurface(pTmp[i]);
   }
-
   
   FREE(pTmp);
 
@@ -340,7 +327,7 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 /**************************************************************************
   ...
 **************************************************************************/
-SDL_Surface *create_text_surf_from_str16(SDL_String16 * pString)
+SDL_Surface * create_text_surf_from_str16(SDL_String16 *pString)
 {
   Uint16 *pStr16 = NULL;
 
@@ -365,7 +352,7 @@ NEWLINE:
 /**************************************************************************
   ...
 **************************************************************************/
-void change_ptsize16(SDL_String16 * pString, Uint16 new_ptsize)
+void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize)
 {
   TTF_Font *pBuf;
 
@@ -384,12 +371,10 @@ void change_ptsize16(SDL_String16 * pString, Uint16 new_ptsize)
 /**************************************************************************
   ...
 **************************************************************************/
-static TTF_Font *load_font(Uint16 ptsize)
+static TTF_Font * load_font(Uint16 ptsize)
 {
   struct TTF_Font_Chain *Font_TAB_TMP = Font_TAB;
   TTF_Font *font_tmp = NULL;
-  char *pFont_with_FullPath = NULL;
-  size_t size;
 
   /* fint existing font and return pointer to him */
   if (Sizeof_Font_TAB) {
@@ -402,22 +387,18 @@ static TTF_Font *load_font(Uint16 ptsize)
     }
   }
 
-  size = strlen(pDataPath) + strlen(FONT_WITH_PATH) + 1;
-  pFont_with_FullPath = MALLOC(size);
-
-  my_snprintf(pFont_with_FullPath, size, "%s%s", pDataPath,
-	      FONT_WITH_PATH);
-
+  if(!pFont_with_FullPath) {
+    pFont_with_FullPath = mystrdup(datafilename(FONT_WITH_PATH));
+    assert(pFont_with_FullPath != NULL);
+  }
+  
   /* Load Font */
   if ((font_tmp = TTF_OpenFont(pFont_with_FullPath, ptsize)) == NULL) {
     freelog(LOG_ERROR,
 	    _("Error in load_font2: Couldn't load %d pt font from %s: %s"),
 	    ptsize, pFont_with_FullPath, SDL_GetError());
-    FREE( pFont_with_FullPath );  
     return font_tmp;
   }
-
-  FREE( pFont_with_FullPath );
   
   /* add new font to list */
   if (Sizeof_Font_TAB == 0) {
@@ -489,4 +470,21 @@ void unload_font(Uint16 ptsize)
   Font_TAB_TMP->next = NULL;
   Sizeof_Font_TAB--;
   FREE(Font_TAB_TMP);
+}
+
+void free_font_system(void)
+{
+  struct TTF_Font_Chain *Font_TAB_TMP;
+    
+  FREE(pFont_with_FullPath);
+  while(Font_TAB) {
+    if (Font_TAB->next) {
+      Font_TAB_TMP = Font_TAB;
+      Font_TAB = Font_TAB->next;
+      FREE(Font_TAB_TMP);
+    } else {
+      FREE(Font_TAB);
+    }
+  }
+  
 }

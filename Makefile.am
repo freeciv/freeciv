@@ -86,6 +86,7 @@ EXTRA_DIST=	acconfig.old			\
 		m4/progtest.m4			\
 		m4/readline.m4			\
 		m4/sdl.m4			\
+		m4/freetype2.m4			\
 		m4/sdl-client.m4		\
 		m4/sound.m4			\
 		m4/vsnprintf.m4			\

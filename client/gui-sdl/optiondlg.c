@@ -23,15 +23,14 @@
 #include <config.h>
 #endif
 
-/*#include <ctype.h>*/
 #include <stdlib.h>
 #include <string.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "fcintl.h"
 #include "support.h"
+#include "log.h"
 
 #include "gui_mem.h"
 
@@ -70,17 +69,26 @@ static struct OPT_DLG {
 } *pOption_Dlg = NULL;
 
 static struct GUI *pOptions_Button = NULL;
-
+static struct GUI *pEdited_WorkList_Name = NULL;
+  
 /**************************************************************************
   ...
 **************************************************************************/
 static void center_optiondlg(void)
 {
-  Sint16 newX =
-	  (pOption_Dlg->pEndOptionsWidgetList->dst->w - 
+  Sint16 newX, newY;
+  struct GUI *pBuf = pOption_Dlg->pEndOptionsWidgetList;
+  while(pBuf) {
+    pBuf->dst = Main.gui;
+    if(pBuf == pOption_Dlg->pBeginOptionsWidgetList) {
+      break;
+    }
+    pBuf = pBuf->prev;
+  }
+  
+  newX = (pOption_Dlg->pEndOptionsWidgetList->dst->w - 
   			pOption_Dlg->pEndOptionsWidgetList->size.w) / 2;
-  Sint16 newY =
-	  (pOption_Dlg->pEndOptionsWidgetList->dst->h - 
+  newY = (pOption_Dlg->pEndOptionsWidgetList->dst->h - 
   			pOption_Dlg->pEndOptionsWidgetList->size.h) / 2;
 
   set_new_group_start_pos(pOption_Dlg->pBeginOptionsWidgetList,
@@ -115,8 +123,72 @@ static int sound_callback(struct GUI *pWidget)
   ...
 **************************************************************************/
 static int edit_worklist_callback(struct GUI *pWidget)
-{
-  /* Port ME */
+{    
+  switch(Main.event.button.button) {
+    case SDL_BUTTON_LEFT:
+      pEdited_WorkList_Name = pWidget;
+      popup_worklist_editor(NULL,
+		  &game.player_ptr->worklists[MAX_ID - pWidget->ID]);
+    break;
+    case SDL_BUTTON_MIDDLE:
+      /* nothing */
+    break;
+    case SDL_BUTTON_RIGHT:
+    {
+      int i = MAX_ID - pWidget->ID;
+      bool scroll = (pOption_Dlg->pADlg->pActiveWidgetList != NULL);
+      
+      for(; i < MAX_NUM_WORKLISTS; i++) {
+	if (!game.player_ptr->worklists[i].is_valid) {
+      	  break;
+	}
+	if (i + 1 < MAX_NUM_WORKLISTS &&
+	    game.player_ptr->worklists[i + 1].is_valid) {
+	  copy_worklist(&game.player_ptr->worklists[i],
+			  &game.player_ptr->worklists[i + 1]);
+	} else {
+	  game.player_ptr->worklists[i].is_valid = FALSE;
+	  strcpy(game.player_ptr->worklists[i].name, "\n");
+	}
+      
+      }
+    
+      del_widget_from_vertical_scroll_widget_list(pOption_Dlg->pADlg, pWidget);
+      
+      /* find if there was scrollbar hide */
+      if(scroll && pOption_Dlg->pADlg->pActiveWidgetList == NULL) {
+        int len = pOption_Dlg->pADlg->pScroll->pUp_Left_Button->size.w;
+	pWidget = pOption_Dlg->pADlg->pEndActiveWidgetList->next;
+        do {
+          pWidget = pWidget->prev;
+          pWidget->size.w += len;
+          FREESURFACE(pWidget->gfx);
+        } while(pWidget != pOption_Dlg->pADlg->pBeginActiveWidgetList);
+      }   
+      
+      /* find if that was no empty list */
+      for (i = 0; i < MAX_NUM_WORKLISTS; i++)
+        if (!game.player_ptr->worklists[i].is_valid)
+          break;
+
+      /* No more worklist slots free. */
+      if (i < MAX_NUM_WORKLISTS &&
+	(get_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList) == WS_DISABLED)) {
+        set_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList, WS_NORMAL);
+        pOption_Dlg->pADlg->pBeginActiveWidgetList->string16->forecol =
+			  *(get_game_colorRGB(COLOR_STD_BLACK));
+      }
+      
+      redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
+  				pOption_Dlg->pEndOptionsWidgetList, 0);
+      sdl_dirty_rect(pOption_Dlg->pEndOptionsWidgetList->size);
+      flush_dirty();
+    }
+    break;
+    default:
+    	abort();
+    break;
+  }
   return -1;  
 }
 
@@ -168,8 +240,8 @@ static int add_new_worklist_callback(struct GUI *pWidget)
 
   /* find if there was scrollbar shown */
   if(scroll && pOption_Dlg->pADlg->pActiveWidgetList != NULL) {
-    pWindow = pOption_Dlg->pADlg->pEndActiveWidgetList->next;
     int len = pOption_Dlg->pADlg->pScroll->pUp_Left_Button->size.w;
+    pWindow = pOption_Dlg->pADlg->pEndActiveWidgetList->next;
     do {
       pWindow = pWindow->prev;
       pWindow->size.w -= len;
@@ -212,7 +284,9 @@ static int add_new_worklist_callback(struct GUI *pWidget)
 
 
 /**************************************************************************
-  ...
+ * The Worklist Report part of Options dialog shows all the global
+ * worklists that the player has defined.  There can be at most
+ * MAX_NUM_WORKLISTS global worklists.
 **************************************************************************/
 static int work_lists_callback(struct GUI *pWidget)
 {
@@ -286,10 +360,12 @@ static int work_lists_callback(struct GUI *pWidget)
   pOption_Dlg->pADlg->pScroll = MALLOC(sizeof(struct ScrollBar));
   pOption_Dlg->pADlg->pScroll->count = count;
   pOption_Dlg->pADlg->pScroll->active = 13;
+  pOption_Dlg->pADlg->pScroll->step = 1;
   
   len = create_vertical_scrollbar(pOption_Dlg->pADlg,
-		  area.x + area.w - 1, area.y + 1, area.h - 32, 13,
-		  TRUE, TRUE, TRUE);
+		  1, 13, TRUE, TRUE);
+  setup_vertical_scrollbar_area(pOption_Dlg->pADlg->pScroll,
+	area.x + area.w - 1, area.y + 1, area.h - 32, TRUE);
   
   if(count>13) {
     pOption_Dlg->pADlg->pActiveWidgetList =
@@ -300,23 +376,12 @@ static int work_lists_callback(struct GUI *pWidget)
   }
   /* ----------------------------- */
   
-  pBuf = pOption_Dlg->pADlg->pEndActiveWidgetList;
-  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1 + 20;
-  pBuf->size.x = pWindow->size.x + 20;
-  pBuf->size.w = area.w - 10 - len;
-  if(pBuf != pOption_Dlg->pADlg->pBeginActiveWidgetList) {
-    pBuf = pBuf->prev;
-    while(pBuf) {
-      pBuf->size.x = pBuf->next->size.x;
-      pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
-      pBuf->size.w = area.w - 10 - len;
-      if(pBuf == pOption_Dlg->pADlg->pBeginActiveWidgetList) {
-        break;
-      }
-      pBuf = pBuf->prev;
-    }
-  }
-  
+  setup_vertical_vidgets_position(1, pWindow->size.x + 20,
+	pWindow->size.y + WINDOW_TILE_HIGH + 1 + 20,
+	area.w - 10 - len, 0,
+	pOption_Dlg->pADlg->pBeginActiveWidgetList,
+  	pOption_Dlg->pADlg->pEndActiveWidgetList);
+ 
   pOption_Dlg->pBeginOptionsWidgetList = pOption_Dlg->pADlg->pBeginWidgetList;
   /* ----------------------------- */
   
@@ -395,18 +460,21 @@ static int change_mode_callback(struct GUI *pWidget)
   /* move minimap window to botton-left corrner */
   set_new_mini_map_window_pos();
 
+  pOptions_Button->dst = Main.gui;
   /* move cooling/warming icons to botton-right corrner */
 
   pWindow = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+  pWindow->dst = Main.gui;
   pWindow->size.x = pWindow->dst->w - 10 - (pWindow->size.w << 1);
 
   /* ID_COOLING_ICON */
   pWindow = pWindow->next;
+  pWindow->dst = Main.gui;
   pWindow->size.x = pWindow->dst->w - 10 - pWindow->size.w;
 
   center_optiondlg();
-  center_meswin_dialog();
   new_input_line_position();
+  set_new_order_widgets_dest_buffers();
   
   /* Options Dlg Window */
   pWindow = pOption_Dlg->pEndOptionsWidgetList;
@@ -421,8 +489,6 @@ static int change_mode_callback(struct GUI *pWidget)
     				pOption_Dlg->pEndOptionsWidgetList, 0);
 
   } else {
-
-    get_new_view_rectsize();
     
     update_info_label();
     update_unit_info_label(get_unit_in_focus());
@@ -1849,9 +1915,11 @@ void popup_optiondlg(void)
   
   if(Main.guis_count) {
     int i;
-    for(i=0; i<Main.guis_count; i++)
-      if(Main.guis[i])
-	printf("Buffers not free = %d \n", i);
+    for(i=0; i<Main.guis_count; i++) {
+      if(Main.guis[i]) {
+	freelog(LOG_ERROR, "Buffer nr. not free = %d", i);
+      }
+    }
   }
   
   pOption_Dlg = MALLOC(sizeof(struct OPT_DLG));
@@ -1861,7 +1929,6 @@ void popup_optiondlg(void)
   /* create window widget */
   pTmp_GUI =
       create_window(Main.gui, create_str16_from_char(_("Options"), 12), w, h, 0);
-  	//create_window(NULL, create_str16_from_char(_("Options"), 12), w, h, 0);
   pTmp_GUI->string16->style |= TTF_STYLE_BOLD;
   pTmp_GUI->size.x = start_x;
   pTmp_GUI->size.y = start_y;
@@ -1962,7 +2029,10 @@ void popup_optiondlg(void)
   				pTmp_GUI->dst, _("Worklists"), 12, 0);
   pTmp_GUI->size.y = start_y + 180;
   pTmp_GUI->action = work_lists_callback;
-  set_wstate(pTmp_GUI, WS_NORMAL);
+  
+  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+    set_wstate(pTmp_GUI, WS_NORMAL);
+  }
 
   pTmp_GUI->size.h += 4;
   longest = MAX(longest, pTmp_GUI->size.w);
@@ -2004,5 +2074,28 @@ void podown_optiondlg(void)
 			  CF_TOGGLED_FULLSCREEN);
     FREE(pOption_Dlg);
     flush_dirty();
+  }
+}
+
+
+/**************************************************************************
+  If the Options Dlg is open, force Worklist List contents to be updated.
+  This function is call by exiting worklist editor to update changed
+  worklist name in global worklist report ( Options Dlg )
+**************************************************************************/
+void update_worklist_report_dialog(void)
+{
+  if(pOption_Dlg) {
+    /* this is no NULL when inside worklist editors */
+    if(pEdited_WorkList_Name) {
+      FREE(pEdited_WorkList_Name->string16->text);
+      pEdited_WorkList_Name->string16->text = convert_to_utf16(
+    	game.player_ptr->worklists[MAX_ID - pEdited_WorkList_Name->ID].name);
+      pEdited_WorkList_Name = NULL;
+    }
+  
+    redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
+  				pOption_Dlg->pEndOptionsWidgetList, 0);
+    sdl_dirty_rect(pOption_Dlg->pEndOptionsWidgetList->size);
   }
 }

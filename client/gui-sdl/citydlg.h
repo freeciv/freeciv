@@ -24,10 +24,7 @@
 
 #include "citydlg_g.h"
 
-void undraw_city_dialog(void);
-void refresh_city_dlg_background(void);
-SDL_Rect *get_citydlg_rect(void);
-void popup_change_production_dialog(struct city *pCity, SDL_Surface *pDest);
+void enable_city_dlg_widgets(void);
 void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest);
   
 #endif	/* FC__CITYDLG_H */

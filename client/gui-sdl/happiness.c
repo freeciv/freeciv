@@ -15,7 +15,6 @@
 #endif
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "city.h"
 #include "fcintl.h"

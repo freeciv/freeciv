@@ -37,7 +37,6 @@
 #endif
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "fcintl.h"
 #include "log.h"
@@ -78,7 +77,8 @@
 #include "tilespec.h"
 #include "gui_tilespec.h"
 #include "messagewin_g.h"
-
+#include "citydlg.h"
+#include "cityrep.h"
 
 #include "repodlgs.h"
 
@@ -102,9 +102,9 @@ enum USER_EVENT_ID {
 Uint32 SDL_Client_Flags = 0;
 Uint32 widget_info_counter = 0;
 
-char *pDataPath = NULL;
 extern bool draw_goto_patrol_lines;
 SDL_Event *pFlush_User_Event = NULL;
+bool is_unit_move_blocked;
 
 /* ================================ Private ============================ */
 static int net_socket = -1;
@@ -115,7 +115,7 @@ static SDL_Event *pInfo_User_Event = NULL;
 
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
-
+static void game_focused_unit_anim(void);
 static void gui_main_loop(void);
 
 /* =========================================================== */
@@ -148,27 +148,12 @@ static void parse_options(int argc, char **argv)
 }
 
 /**************************************************************************
-  Find path to Data directory.
-**************************************************************************/
-static void set_data_path(void)
-{
-
-  char *pStart = datafilename("freeciv.rc");
-  char *pEnd = strstr(pStart, "freeciv.rc");
-  size_t len = pEnd - pStart;
-
-  pDataPath = CALLOC(len + 1, sizeof(char));
-
-  memcpy(pDataPath, pStart, len);
-}
-
-/**************************************************************************
   Main SDL client loop.
 **************************************************************************/
 static void gui_main_loop(void)
 {
   Uint16 ID = 0;
-  int RSHIFT = 0;
+  bool RSHIFT = FALSE;
   struct GUI *pWidget = NULL;
   struct timeval tv;
   fd_set civfdset;
@@ -176,7 +161,11 @@ static void gui_main_loop(void)
   Uint32 t1 , t2;
   int schot_nr = 0;
   char schot[32];
-  
+  struct unit *pUnit;
+  struct city *pCity;
+    
+  LSHIFT = FALSE;
+  is_unit_move_blocked = FALSE;
   
   t1 = SDL_GetTicks();
   while (!ID) {
@@ -200,7 +189,7 @@ static void gui_main_loop(void)
 	  SDL_PushEvent(pNet_User_Event);
 	}
       }
-    } else { /* if connection not establish */
+    } else { /* if connection is not establish */
       SDL_Delay(10);
     }
     /* ========================================= */
@@ -229,10 +218,14 @@ static void gui_main_loop(void)
         return;
     
       case SDL_KEYUP:
-        /* find if Right Shift is released */
+        /* find if Shifts are released */
         if (Main.event.key.keysym.sym == SDLK_RSHIFT) {
-	  RSHIFT &= 0;
-        }
+	  RSHIFT = FALSE;
+        } else {
+	  if (Main.event.key.keysym.sym == SDLK_LSHIFT) {
+	    LSHIFT = FALSE;
+          } 
+	}
         break;
       case SDL_KEYDOWN:
 
@@ -242,7 +235,7 @@ static void gui_main_loop(void)
 
 	  ID = widget_pressed_action(pWidget);
 	  unsellect_widget_action();
-        } else if ((RSHIFT) && (Main.event.key.keysym.sym == SDLK_RETURN)) {
+        } else if (RSHIFT && (Main.event.key.keysym.sym == SDLK_RETURN)) {
 	  /* input */
 	  popup_input_line();
 	
@@ -253,52 +246,80 @@ static void gui_main_loop(void)
 
 	    case SDLK_RETURN:
 	    case SDLK_KP_ENTER:
-	      key_end_turn();
+	      if((pUnit = get_unit_in_focus()) != NULL && 
+		(pCity = map_get_tile(pUnit->x, pUnit->y)->city) != NULL &&
+	         city_owner(pCity) == game.player_ptr) {
+		  popup_city_dialog(pCity, FALSE);
+	      } else {
+	        disable_focus_animation();
+	        key_end_turn();
+	      }
 	    break;
 
 	    case SDLK_RSHIFT:
 	      /* Right Shift is Pressed */
-	      RSHIFT = 1;
+	      RSHIFT = TRUE;
+	    break;
+	    
+	    case SDLK_LSHIFT:
+	      /* Left Shift is Pressed */
+	      LSHIFT = TRUE;
 	    break;
 	    
 	    case SDLK_UP:
 	    case SDLK_KP8:
-	      key_unit_move(DIR8_NORTH);
+	      if(!is_unit_move_blocked) {
+	        key_unit_move(DIR8_NORTH);
+	      }
 	    break;
 
 	    case SDLK_PAGEUP:
 	    case SDLK_KP9:
-	      key_unit_move(DIR8_NORTHEAST);
+	      if(!is_unit_move_blocked) {
+	        key_unit_move(DIR8_NORTHEAST);
+	      }
 	    break;
 
 	    case SDLK_RIGHT:
 	    case SDLK_KP6:
-	      key_unit_move(DIR8_EAST);
+	      if(!is_unit_move_blocked) {
+	        key_unit_move(DIR8_EAST);
+	      }
 	    break;
 
 	    case SDLK_PAGEDOWN:
 	    case SDLK_KP3:
-	      key_unit_move(DIR8_SOUTHEAST);
+	      if(!is_unit_move_blocked) {
+	        key_unit_move(DIR8_SOUTHEAST);
+	      }
 	    break;
 
 	    case SDLK_DOWN:
 	    case SDLK_KP2:
-	      key_unit_move(DIR8_SOUTH);
+	      if(!is_unit_move_blocked) {
+	        key_unit_move(DIR8_SOUTH);
+	      }
 	    break;
 
 	    case SDLK_END:
 	    case SDLK_KP1:
-	      key_unit_move(DIR8_SOUTHWEST);
+	      if(!is_unit_move_blocked) {
+	        key_unit_move(DIR8_SOUTHWEST);
+	      }
 	    break;
 
 	    case SDLK_LEFT:
 	    case SDLK_KP4:
-	      key_unit_move(DIR8_WEST);
+	      if(!is_unit_move_blocked) {
+	        key_unit_move(DIR8_WEST);
+	      }
 	    break;
 
 	    case SDLK_HOME:
 	    case SDLK_KP7:
-	      key_unit_move(DIR8_NORTHWEST);
+	      if(!is_unit_move_blocked) {
+	        key_unit_move(DIR8_NORTHWEST);
+	      }
 	    break;
 
 	    case SDLK_KP5:
@@ -319,6 +340,14 @@ static void gui_main_loop(void)
 	      my_snprintf(schot, sizeof(schot), "schot0%d.bmp",
 			schot_nr++);
 	      SDL_SaveBMP(Main.screen, schot);
+	    break;
+
+	    case SDLK_F2:
+	      popup_activeunits_report_dialog(FALSE);
+	    break;
+	    
+	    case SDLK_F1:
+              popup_city_report_dialog(FALSE);
 	    break;
 
 	    default:
@@ -345,11 +374,7 @@ static void gui_main_loop(void)
             input_from_server(net_socket);
 	  break;
 	  case ANIM:
-	    if(is_isometric) {
-	      real_blink_active_unit();
-	    } else {
-	      blink_active_unit();
-	    }
+	    game_focused_unit_anim();
 	  break;
 	  case SHOW_WIDGET_INFO_LABBEL:
 	    draw_widget_info_label();
@@ -390,12 +415,11 @@ static void gui_main_loop(void)
   /*del_main_list();*/
 }
 
-#if 0
 /**************************************************************************
  this is called every TIMER_INTERVAL milliseconds whilst we are in 
  gui_main_loop() (which is all of the time) TIMER_INTERVAL needs to be .5s
 **************************************************************************/
-static Uint32 game_timer_callback(Uint32 interval, void *param)
+static void game_focused_unit_anim(void)
 {
   static int flip;
 
@@ -419,7 +443,11 @@ static Uint32 game_timer_callback(Uint32 interval, void *param)
       }
     }
 
-    real_blink_active_unit();
+    if(is_isometric) {
+      real_blink_active_unit();
+    } else {
+      blink_active_unit();
+    }
 
     if (flip) {
       update_timeout_label();
@@ -433,10 +461,9 @@ static Uint32 game_timer_callback(Uint32 interval, void *param)
     flip = !flip;
   }
     
-  return interval;
+  return;
 }
 
-#endif
 
 void add_autoconnect_to_timer(void)
 {
@@ -454,32 +481,42 @@ void ui_init(void)
   char device[20];
   struct GUI *pInit_String = NULL;
   SDL_Surface *pBgd, *pTmp;
-  Uint32 iSDL_Flags = SDL_INIT_VIDEO, iScreenFlags = 0;
+  Uint32 iSDL_Flags = SDL_INIT_VIDEO;
 
   iSDL_Flags |= SDL_INIT_NOPARACHUTE;
   
-/*
-#ifdef THREADS  
+#if 0
+ /* event in other thread ( only linux and BeOS ) */  
   iSDL_Flags |= SDL_INIT_EVENTTHREAD;
 #endif
-*/
+  
+  /* auto center new windows in X enviroment */
+  setenv("SDL_VIDEO_CENTERED", "yes", 0);
   
   init_sdl(iSDL_Flags);
   
   freelog(LOG_NORMAL, _("Using Video Output: %s"),
 	  SDL_VideoDriverName(device, sizeof(device)));
-
-  set_data_path();
-
-#if 1
-  iScreenFlags = SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE;
-#else  
-  iScreenFlags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN;
+    
+  pBgd = load_surf(datafilename("misc/intro.png"));
+  
+  if(pBgd && SDL_GetVideoInfo()->wm_available) {
+    set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+#if 0    
+    /*
+     * call this for other that X enviroments - currently not full supported.
+     */
+    center_main_window_on_screen();
 #endif
-  
-  set_video_mode(640, 480, iScreenFlags);
-  
-  SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
+    SDL_BlitSurface(pBgd, NULL, Main.map, NULL);
+    putframe(Main.map, 0, 0, Main.map->w - 1, Main.map->h - 1,
+    			SDL_MapRGB(Main.map->format, 255, 255, 255));
+    FREESURFACE(pBgd);
+    SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
+  } else {
+    set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT);
+    SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));   
+  }
 
   /* create label beackground */
   pTmp = create_surf(350, 50, SDL_SWSURFACE);
@@ -489,10 +526,7 @@ void ui_init(void)
   SDL_FillRect(pBgd, NULL, SDL_MapRGBA(pBgd->format, 255, 255, 255, 128));
   putframe(pBgd, 0, 0, pBgd->w - 1, pBgd->h - 1, 0xFF000000);
   SDL_SetAlpha(pBgd, 0x0, 0x0);
-  
-  load_intro_gfx();
-
-  draw_intro_gfx();
+ 
   
   pInit_String = create_iconlabel(pBgd, Main.gui,
 	create_str16_from_char(_("Initializing Client"), 20),
@@ -511,13 +545,24 @@ void ui_init(void)
   
 }
 
+static void clear_double_messages_call(void)
+{
+  int i;
+  /* clear double call */
+  for(i=0; i<E_LAST; i++) {
+    if (messages_where[i] & MW_MESSAGES)
+    {
+      messages_where[i] &= ~MW_OUTPUT;
+    }
+  }
+}
+
 /**************************************************************************
   The main loop for the UI.  This is called from main(), and when it
   exits the client will exit.
 **************************************************************************/
 void ui_main(int argc, char *argv[])
 {
-  int i;
   SDL_Event __Net_User_Event;
   SDL_Event __Anim_User_Event;
   SDL_Event __Info_User_Event;
@@ -553,40 +598,48 @@ void ui_main(int argc, char *argv[])
   parse_options(argc, argv);
 
   tilespec_load_tiles();
+  
+  load_cursors();
+  tilespec_setup_theme();
+  tilespec_setup_anim();
+  tilespec_setup_city_icons();
+  finish_loading_sprites();
+  
+  init_options_button();
+  
+  clear_double_messages_call();
+    
+  create_units_order_widgets();
+
+  setup_auxiliary_tech_icons();
+  
+#if 1
+  set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+#if 0    
+    /*
+     * call this for other that X enviroments - currently not full supported.
+     */
+    center_main_window_on_screen();
+#endif
+#else  
+  set_video_mode(800, 600, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+#endif
+    
+  /* SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv"); */
+  
+  draw_intro_gfx();
 
   mapview_canvas.tile_width = (mapview_canvas.width - 1)
 	  / NORMAL_TILE_WIDTH + 1;
   mapview_canvas.tile_height = (mapview_canvas.height - 1)
 	  / NORMAL_TILE_HEIGHT + 1;
 
-  load_cursors();
-  tilespec_setup_theme();
-  
-  tilespec_setup_city_icons();
+  flush_all();
 
-  init_options_button();
-  
-  /* clear double call */
-  for(i=0; i<E_LAST; i++) {
-    if (messages_where[i] & MW_MESSAGES)
-    {
-      messages_where[i] &= ~MW_OUTPUT;
-    }
-  }
-  
+  /* this need correct Main.screen size */
   Init_Input_Edit();
-  
   Init_MapView();
 
-  create_units_order_widgets();
-
-  setup_auxiliary_tech_icons();
-
-  pSellected_Widget = get_widget_pointer_form_main_list(ID_WAITING_LABEL);
-  SDL_FillRect(pSellected_Widget->dst, &pSellected_Widget->size, 0x0);
-  pSellected_Widget = NULL;
-  
-  flush_all();
 
   set_client_state(CLIENT_PRE_GAME_STATE);
 
@@ -594,17 +647,11 @@ void ui_main(int argc, char *argv[])
 
   free_auxiliary_tech_icons();
   tilespec_unload_theme();
+  tilespec_free_anim();
   unload_cursors();
-
+  free_font_system();
+  
   quit_sdl();
-}
-
-/**************************************************************************
- Update the connected users list at pregame state.
-**************************************************************************/
-void update_conn_list_dialog(void)
-{
-  /* PORTME */
 }
 
 /**************************************************************************
@@ -616,12 +663,24 @@ void sound_bell(void)
   freelog(LOG_DEBUG, "sound_bell : PORT ME");
 }
 
-#if 0
-void enable_turn_done_button(void)
+/**************************************************************************
+  Show Focused Unit Animation.
+**************************************************************************/
+void enable_focus_animation(void)
 {
-  printf("enable_turn_done_button\n");
+  pAnim_User_Event->user.code = ANIM;
+  SDL_Client_Flags |= CF_FOCUS_ANIMATION;
+  rebuild_focus_anim_frames();
 }
-#endif
+
+/**************************************************************************
+  Don't show Focused Unit Animation.
+**************************************************************************/
+void disable_focus_animation(void)
+{
+  pAnim_User_Event->user.code = EVENT_ERROR;
+  SDL_Client_Flags &= ~CF_FOCUS_ANIMATION;
+}
 
 /**************************************************************************
   Wait for data on the given socket.  Call input_from_server() when data
@@ -632,7 +691,7 @@ void add_net_input(int sock)
   freelog(LOG_DEBUG, "Connection UP (%d)", sock);
   net_socket = sock;
   autoconnect = FALSE;
-  pAnim_User_Event->user.code = ANIM;
+  enable_focus_animation();
 }
 
 /**************************************************************************
@@ -642,7 +701,7 @@ void remove_net_input(void)
 {
   net_socket = (-1);
   freelog(LOG_DEBUG, "Connection DOWN... ");
-  pAnim_User_Event->user.code = EVENT_ERROR;
+  disable_focus_animation();
 }
 
 /**************************************************************************
@@ -664,4 +723,12 @@ void set_unit_icon(int idx, struct unit *punit)
 void set_unit_icons_more_arrow(bool onoff)
 {
   freelog(LOG_DEBUG, "set_unit_icons_more_arrow : PORT ME");
+}
+
+/**************************************************************************
+ Update the connected users list at pregame state.
+**************************************************************************/
+void update_conn_list_dialog(void)
+{
+  /* PORTME */
 }

@@ -18,7 +18,6 @@
     copyright            : (C) 2002 by Rafa³ Bursig
     email                : Rafa³ Bursig <bursig@poczta.fm>
  **********************************************************************/
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -26,10 +25,8 @@
 #include <assert.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "fcintl.h"
-#include "log.h"
 #include "game.h"
 #include "map.h"
 #include "player.h"
@@ -83,6 +80,7 @@ static struct SMALL_DLG *pNewCity_Dlg = NULL;
 #define HIDDEN_UNITS_W		36
 
 bool draw_goto_patrol_lines = FALSE;
+static struct GUI *pNew_Turn_Button = NULL;
 static struct GUI *pUnits_Info_Window = NULL;
 static struct GUI *pMiniMap_Window = NULL;
 static struct GUI *pFind_City_Button = NULL;
@@ -109,6 +107,7 @@ static int end_turn_callback(struct GUI *pButton)
 {
   redraw_icon(pButton);
   flush_rect(pButton->size);
+  disable_focus_animation();
   key_end_turn();
   return -1;
 }
@@ -139,7 +138,7 @@ static int research_callback(struct GUI *pButton)
 **************************************************************************/
 static int economy_callback(struct GUI *pButton)
 {
-  popup_taxrate_dialog();
+  popup_economy_report_dialog(FALSE);
   return -1;
 }
 
@@ -423,31 +422,34 @@ void set_new_units_window_pos(void)
   }
 
   pUnit_Window->size.y = Main.screen->h - pUnit_Window->size.h;
-
   new_x = pUnit_Window->size.x + FRAME_WH + 2;
-
+  pUnit_Window->dst = Main.gui;
+  
   /* ID_ECONOMY */
   pUnit_Window = pUnit_Window->prev;
   pUnit_Window->size.x = new_x + 3;
   pUnit_Window->size.y = Main.screen->h - UNITS_H + FRAME_WH + 2;
-
+  pUnit_Window->dst = Main.gui;
+  
   /* ID_RESEARCH */
   pUnit_Window = pUnit_Window->prev;
   pUnit_Window->size.x = new_x + 3;
   pUnit_Window->size.y = Main.screen->h - UNITS_H + FRAME_WH + 2 +
-      pUnit_Window->size.h;
-
+  						    pUnit_Window->size.h;
+  pUnit_Window->dst = Main.gui;
+  
   /* ID_REVOLUTION */
   pUnit_Window = pUnit_Window->prev;
   pUnit_Window->size.x = new_x + 3;
   pUnit_Window->size.y = Main.screen->h - UNITS_H + FRAME_WH + 2 +
-      (pUnit_Window->size.h << 1);
-
+      						(pUnit_Window->size.h << 1);
+  pUnit_Window->dst = Main.gui;
+  
   /* ID_TOGGLE_UNITS_WINDOW_BUTTON */
   pUnit_Window = pUnit_Window->prev;
   pUnit_Window->size.x = new_x;
-  pUnit_Window->size.y =
-      Main.screen->h - FRAME_WH - pUnit_Window->size.h - 2;
+  pUnit_Window->size.y = Main.screen->h - FRAME_WH - pUnit_Window->size.h - 2;
+  pUnit_Window->dst = Main.gui;
 }
 
 /**************************************************************************
@@ -466,29 +468,33 @@ void set_new_mini_map_window_pos(void)
   }
 
   pMM_Window->size.y = Main.screen->h - pMM_Window->size.h;
-
+  pMM_Window->dst = Main.gui;
+  
   /* ID_NEW_TURN */
   pMM_Window = pMM_Window->prev;
   pMM_Window->size.x = new_x;
   pMM_Window->size.y = Main.screen->h - MINI_MAP_H + FRAME_WH + 2;
-
+  pMM_Window->dst = Main.gui;
+  
   /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
   pMM_Window = pMM_Window->prev;
   pMM_Window->size.x = new_x;
   pMM_Window->size.y = Main.screen->h - MINI_MAP_H + FRAME_WH + 2 +
       						pMM_Window->size.h;
-
+  pMM_Window->dst = Main.gui;
+  
   /* ID_FIND_CITY */
   pMM_Window = pMM_Window->prev;
   pMM_Window->size.x = new_x;
   pMM_Window->size.y = Main.screen->h - MINI_MAP_H + FRAME_WH + 2 +
       						(pMM_Window->size.h << 1);
-
+  pMM_Window->dst = Main.gui;
+  
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
   pMM_Window = pMM_Window->prev;
   pMM_Window->size.x = new_x;
-  pMM_Window->size.y = Main.screen->h - FRAME_WH -
-      pMM_Window->size.h - 2;
+  pMM_Window->size.y = Main.screen->h - FRAME_WH - pMM_Window->size.h - 2;
+  pMM_Window->dst = Main.gui;
 }
 
 /**************************************************************************
@@ -539,15 +545,14 @@ void Init_MapView(void)
   /* economy button */
   pBuf = create_icon2(NULL, Main.gui,
 		WF_FREE_GFX | WF_FREE_THEME | WF_WIDGET_HAS_INFO_LABEL);
-  pBuf->string16 = create_str16_from_char(_("Tax Rates (Shift + T)"), 12);
+  pBuf->string16 = create_str16_from_char(_("Economy (F5)"), 12);
   
   pBuf->size.x = Main.screen->w - UNITS_W + FRAME_WH + 5;
   pBuf->size.y = Main.screen->h - UNITS_H + FRAME_WH + 2;
 
   pBuf->action = economy_callback;
-  pBuf->key = SDLK_t;
-  pBuf->mod = KMOD_SHIFT;
-
+  pBuf->key = SDLK_F5;
+  
   add_to_gui_list(ID_ECONOMY, pBuf);
   pTax_Button = pBuf;
 
@@ -640,11 +645,11 @@ void Init_MapView(void)
 
   pBuf->action = end_turn_callback;
   pBuf->key = SDLK_RETURN;
-
+  pBuf->mod = KMOD_LSHIFT;
+  
   pBuf->size.x = 166;
   pBuf->size.y = pBuf->dst->h - MINI_MAP_H + FRAME_WH + 2;
-
-  /*set_wstate( pBuf , WS_NORMAL ); */
+  pNew_Turn_Button = pBuf;
 
   add_to_gui_list(ID_NEW_TURN, pBuf);
 
@@ -785,10 +790,11 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
   
   draw_goto_patrol_lines = FALSE;
   
-  if (pButtonEvent->button == SDL_BUTTON_LEFT) {
+  if (!LSHIFT && pButtonEvent->button == SDL_BUTTON_LEFT) {
     action_button_pressed(pButtonEvent->x, pButtonEvent->y);
   } else {
-    if (pButtonEvent->button == SDL_BUTTON_MIDDLE) {
+    if (pButtonEvent->button == SDL_BUTTON_MIDDLE ||
+      (LSHIFT && pButtonEvent->button == SDL_BUTTON_LEFT)) {
       if (canvas_to_map_pos(&col, &row,
 			    (int) pButtonEvent->x, (int) pButtonEvent->y)) {
         popup_advanced_terrain_dialog(col, row);
@@ -810,6 +816,7 @@ int map_event_handler(SDL_keysym Key)
       (Key.mod & KMOD_LCTRL || Key.mod & KMOD_RCTRL)) {
     switch (Key.sym) {
     case SDLK_g:
+      rebuild_focus_anim_frames();
       request_toggle_map_grid();
       return 0;
 
@@ -842,42 +849,52 @@ int map_event_handler(SDL_keysym Key)
       return 0;
 
     case SDLK_t:
+      rebuild_focus_anim_frames();
       request_toggle_terrain();
       return 0;
 
     case SDLK_r:
+      rebuild_focus_anim_frames();
       request_toggle_roads_rails();
       return 0;
 
     case SDLK_i:
+      rebuild_focus_anim_frames();
       request_toggle_irrigation();
       return 0;
 
     case SDLK_m:
+      rebuild_focus_anim_frames();
       request_toggle_mines();
       return 0;
 
     case SDLK_f:
+      rebuild_focus_anim_frames();
       request_toggle_fortress_airbase();
       return 0;
 
     case SDLK_s:
+      rebuild_focus_anim_frames();
       request_toggle_specials();
       return 0;
 
     case SDLK_o:
+      rebuild_focus_anim_frames();
       request_toggle_pollution();
       return 0;
 
     case SDLK_c:
+      rebuild_focus_anim_frames();
       request_toggle_cities();
       return 0;
 
     case SDLK_u:
+      rebuild_focus_anim_frames();
       request_toggle_units();
       return 0;
 
     case SDLK_w:
+      rebuild_focus_anim_frames();
       request_toggle_fog_of_war();
       return 0;
 
@@ -1044,17 +1061,14 @@ void popdown_newcity_dialog(void)
 **************************************************************************/
 void set_turn_done_button_state(bool state)
 {
-  struct GUI *pTmp = get_widget_pointer_form_main_list(ID_NEW_TURN);
-
-  if (state) {
-    set_wstate(pTmp, WS_NORMAL);
-  } else {
-    set_wstate(pTmp, WS_DISABLED);
-  }
-
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-    redraw_icon(pTmp);
-    flush_rect(pTmp->size);
+    if (state) {
+      set_wstate(pNew_Turn_Button, WS_NORMAL);
+    } else {
+      set_wstate(pNew_Turn_Button, WS_DISABLED);
+    }
+    redraw_icon(pNew_Turn_Button);
+    flush_rect(pNew_Turn_Button->size);
   }
 }
 
@@ -1063,7 +1077,6 @@ void set_turn_done_button_state(bool state)
 **************************************************************************/
 void create_line_at_mouse_pos(void)
 {
-  freelog(LOG_NORMAL, "create_line_at_mouse_pos : PORT ME");
   update_line(Main.event.motion.x, Main.event.motion.y);
   draw_goto_patrol_lines = TRUE;
 }

@@ -28,7 +28,6 @@
 #include <string.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "events.h"
 #include "fcintl.h"
@@ -57,7 +56,7 @@
 #include "messagewin.h"
 
 
-#define N_MSG_VIEW			 7	/* max before scrolling happens */
+#define N_MSG_VIEW		 7		/* max before scrolling happens */
 #define PTSIZE_LOG_FONT		10
 
 static struct ADVANCED_DLG *pMsg_Dlg = NULL;
@@ -177,7 +176,7 @@ void real_update_meswin_dialog(void)
       pBuf->string16->style &= ~SF_CENTER;
       pBuf->string16->backcol = color;
       pBuf->string16->render = 3;
-      //pBuf->size.x = start_x;
+      
       pBuf->size.w = w;
       pBuf->data = (void *)pMsg;	
       pBuf->action = msg_callback;
@@ -310,12 +309,8 @@ void popup_meswin_dialog(void)
       if(i>N_MSG_VIEW-1) {
         set_wflag(pBuf, WF_HIDDEN);
       }
-    
       
       add_to_gui_list(ID_LABEL, pBuf);
-    
-      
-    
     }
     pMsg_Dlg->pEndActiveWidgetList = pWindow->prev;
     pMsg_Dlg->pBeginActiveWidgetList = pBuf;
@@ -325,11 +320,9 @@ void popup_meswin_dialog(void)
     pMsg_Dlg->pBeginWidgetList = pWindow;
   }
   
-  len = create_vertical_scrollbar(pMsg_Dlg,
-		  start_x + w - 1,
-		  start_y + 1,
-		  h - 2, N_MSG_VIEW,
-		  TRUE, TRUE, TRUE);
+  len = create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
+  setup_vertical_scrollbar_area(pMsg_Dlg->pScroll,
+		start_x + w - 1, start_y + 1, h -2, TRUE);
   
   if(i>N_MSG_VIEW-1) {
     /* find pActiveWidgetList to draw last seen part of list */
@@ -363,26 +356,14 @@ void popup_meswin_dialog(void)
     } else {
       pBuf = pMsg_Dlg->pEndActiveWidgetList;
     }
-    pBuf->size.x = start_x + FRAME_WH;
-    pBuf->size.y = start_y + WINDOW_TILE_HIGH + 2;
-    pBuf->size.w = len;
-    if(pBuf != pMsg_Dlg->pBeginActiveWidgetList) {  
-      pBuf = pBuf->prev;
-      while(pBuf) {
-        pBuf->size.x = start_x + FRAME_WH;
-        pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
-        pBuf->size.w = len;
-        if(pBuf == pMsg_Dlg->pBeginActiveWidgetList) {
-	  break;
-        }
-        pBuf = pBuf->prev;
-      }
-    }
+    
+    setup_vertical_vidgets_position(1,
+	start_x + FRAME_WH, start_y + WINDOW_TILE_HIGH + 2, len, 0,
+	pMsg_Dlg->pBeginActiveWidgetList, pBuf);
   }
 
   redraw_group(pMsg_Dlg->pBeginWidgetList,
 		  pMsg_Dlg->pEndWidgetList, 0);
-  //flush_rect(pWindow->size);
   flush_all();
   
 }
@@ -407,40 +388,4 @@ void popdown_meswin_dialog(void)
 bool is_meswin_open(void)
 {
   return (pMsg_Dlg != NULL);
-}
-
-/**************************************************************************
-  center message dialog after screen resize (redraw if show).
-**************************************************************************/
-void center_meswin_dialog(void)
-{
-  int dx; 
-  struct GUI *pBuf;
-    
-  if(!pMsg_Dlg) {
-    return;
-  }
-  
-  dx = pMsg_Dlg->pEndWidgetList->size.x;
-  pMsg_Dlg->pEndWidgetList->size.x = (pMsg_Dlg->pEndWidgetList->dst->w - 
-  					pMsg_Dlg->pEndWidgetList->size.w) / 2;
-  dx = pMsg_Dlg->pEndWidgetList->size.x - dx;
-  
-  pBuf = pMsg_Dlg->pEndWidgetList->prev;
-  
-  while(TRUE) {
-    pBuf->size.x += dx;
-    if(pBuf == pMsg_Dlg->pBeginWidgetList) {
-      break;
-    }
-    pBuf = pBuf->prev;  
-  }
-  
-/*  refresh_widget_background(pMsg_Dlg->pEndWidgetList, Main.gui); 
-  
-  if (!(get_wflags(pMsg_Dlg->pEndWidgetList) & WF_HIDDEN))
-  {
-    redraw_meswin_dialog();
-  }
-  */
 }

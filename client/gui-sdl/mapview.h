@@ -28,22 +28,22 @@
 struct unit;
 struct city;
 
-void get_new_view_rectsize(void);
 void tmp_map_surfaces_init(void);
 void redraw_unit_info_label(struct unit *pUnit);
 void real_blink_active_unit(void);
 SDL_Surface * create_city_map(struct city *pCity);
-SDL_Surface * get_terrain_surface(int x , int y);  
+SDL_Surface * get_terrain_surface(int x, int y);  
 int correction_map_pos(int *pCol, int *pRow);
-void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
+void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface *pDest,
 			  Sint16 map_x, Sint16 map_y);
+void rebuild_focus_anim_frames(void);
+
 void flush_rect(SDL_Rect rect);
 void unqueue_flush(void);
 void sdl_dirty_rect(SDL_Rect rect);
 void flush_all(void);
 
-/* Use of these wrapper functions is deprecated. */
-#define get_canvas_xy(map_x, map_y, canvas_x, canvas_y) \
-  map_to_canvas_pos(canvas_x, canvas_y, map_x, map_y)
+#define sdl_contains_special(store, special)	\
+	((store & special) == special)
 
 #endif	/* FC__MAPVIEW_H */

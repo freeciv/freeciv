@@ -92,7 +92,11 @@ libguiclient_a_SOURCES = \
 	gui_dither.c	\
 	gui_dither.h	\
 	gui_tilespec.c	\
-	gui_tilespec.h
+	gui_tilespec.h  \
+	SDL_ttf.c	\
+	SDL_ttf.h	\
+	mmx.h
+	
 
 
 

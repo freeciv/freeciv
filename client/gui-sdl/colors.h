@@ -29,7 +29,17 @@ enum SDLClient_std_color {
   COLOR_STD_GRID,		/* Grid line color */
   QUICK_INFO,			/* Quick info Background color */
   COLOR_STD_FOG_OF_WAR,		/* FOG OF WAR color */
-  COLOR_STD_DISABLED,		/* FOG OF WAR color */
+  COLOR_STD_DISABLED,		/* disable color */
+  COLOR_STD_CITY_PROD,		/* city production color */
+  COLOR_STD_CITY_SUPPORT,	/* city units support color */
+  COLOR_STD_CITY_TRADE,		/* city trade color */
+  COLOR_STD_CITY_GOLD,		/* city gold color */
+  COLOR_STD_CITY_LUX,		/* city luxuries color */
+  COLOR_STD_CITY_FOOD_SURPLUS,	/* city food surplus color */
+  COLOR_STD_CITY_UNKEEP,	/* city unkeep color */
+  COLOR_STD_CITY_SCIENCE,	/* city science color */
+  COLOR_STD_CITY_HAPPY,		/* city happy color */
+  COLOR_STD_CITY_CELEB,		/* city celebrating color */
   SDLCLIENT_STD_COLOR_LAST
 };
 

@@ -29,6 +29,7 @@
 
 #include "wldlg_g.h"
 
-void popup_worklists_report(struct player *pPlayer);
+void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList);
+void popdown_worklist_editor(void);
 
-#endif				/* FC__WLDLG_H */
+#endif	/* FC__WLDLG_H */

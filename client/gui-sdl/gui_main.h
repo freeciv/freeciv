@@ -37,7 +37,8 @@
 #define CF_GANE_JUST_STARTED		(1<<7)
 #define CF_REVOLUTION			(1<<8)
 #define CF_TOGGLED_FULLSCREEN		(1<<9)
-#define CF_CITY_DIALOG_IS_OPEN		(1<<10)
+
+#define CF_FOCUS_ANIMATION		(1<<10)
 #define CF_CHANGED_PROD			(1<<11)
 #define CF_CHANGED_CITY_NAME		(1<<12)
 #define CF_CITY_STATUS_SPECIAL		(1<<13)
@@ -50,7 +51,10 @@
 extern struct canvas_store Main;
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
+bool LSHIFT;
 
 void add_autoconnect_to_timer(void);
+void enable_focus_animation(void);
+void disable_focus_animation(void);
 
 #endif	/* FC__GUI_MAIN_H */

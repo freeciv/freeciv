@@ -31,8 +31,6 @@
 #include "graphics.h"
 #include "gui_dither.h"
 
-/*-O4 -fomit-frame-pointer -fexpensive-optimizations -march=pentium-mmx*/
-
 /**************************************************************************
   ...
 **************************************************************************/
@@ -45,7 +43,7 @@ static void dither_north8(SDL_Surface * pDither, SDL_Surface * pMask,
   Uint8 *pDest_Pixel = (Uint8 *) pDest->pixels + step;
 
   while (TRUE) {
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -81,7 +79,7 @@ static void dither_north16(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -121,7 +119,7 @@ static void dither_north24(SDL_Surface * pDither, SDL_Surface * pMask,
   pDest_Pixel = (Uint8 *) pDest->pixels + step;
 
   while (TRUE) {
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -154,7 +152,7 @@ static void dither_north32(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -223,7 +221,7 @@ static void dither_south8(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -263,7 +261,7 @@ static void dither_south16(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -307,7 +305,7 @@ static void dither_south24(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -347,7 +345,7 @@ static void dither_south32(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -417,7 +415,7 @@ static void dither_east8(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -457,7 +455,7 @@ static void dither_east16(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -501,7 +499,7 @@ static void dither_east24(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -541,7 +539,7 @@ static void dither_east32(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -608,7 +606,7 @@ static void dither_west8(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -646,7 +644,7 @@ static void dither_west16(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -686,7 +684,7 @@ static void dither_west24(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 
@@ -724,7 +722,7 @@ static void dither_west32(SDL_Surface * pDither, SDL_Surface * pMask,
 
   while (TRUE) {
 
-    if (*pMask_Pixel == 0) {
+    if (*pMask_Pixel != pMask->format->colorkey) {
       *pDest_Pixel = *pDither_Pixel;
     }
 

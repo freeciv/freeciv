@@ -28,7 +28,6 @@
 #include <string.h>
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
 
 #include "fcintl.h"
 
@@ -141,6 +140,7 @@ void popup_input_line(void)
 **************************************************************************/
 void new_input_line_position(void)
 {
+  pInput_Edit->dst = Main.gui;
   pInput_Edit->size.x = (Main.screen->w - pInput_Edit->size.w) / 2;
   pInput_Edit->size.y = Main.screen->h - 2 * pInput_Edit->size.h;
 }

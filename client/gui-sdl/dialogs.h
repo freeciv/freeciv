@@ -28,7 +28,6 @@
 struct tile;
   
 void popup_advanced_terrain_dialog(int x , int y);
-void popup_taxrate_dialog(void);
 const char *sdl_map_get_tile_info_text(int x, int y);
 
 #endif	/* FC__DIALOGS_H */

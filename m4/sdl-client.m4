@@ -20,27 +20,20 @@ AC_DEFUN(FC_SDL_CLIENT,
         AC_CHECK_HEADER([SDL/SDL_image.h],
                         [sdl_image_h_found="yes"], [sdl_image_h_found="no"])
     	if test "$sdl_image_h_found" = yes; then
-	  AC_CHECK_LIB([SDL_ttf], [TTF_RenderUNICODE_Blended_Shaded],
-                       [sdl_ttf_found="yes"], [sdl_ttf_found="no"])
-          if test "$sdl_ttf_found" = yes; then
-            AC_CHECK_HEADER([SDL/SDL_ttf.h],
-                            [sdl_ttf_h_found="yes"], [sdl_ttf_h_found="no"])
-	    if test "$sdl_ttf_h_found" = yes; then
-	      LIBS=""
-	      CLIENT_CFLAGS="$SDL_CFLAGS"
-	      CLIENT_LIBS="$SDL_LIBS -lSDL_image -lSDL_ttf"
-	      found_client=yes
-	    elif test "$client" = "sdl"; then
-	      AC_MSG_ERROR([specified client 'sdl' not configurable (SDL_ttf-devel is needed)])
-	    fi
-          elif test "$client" = "sdl"; then
-            AC_MSG_ERROR([specified client 'sdl' not configurable (SDL_ttf is needed or you have no patched version of SDL_ttf lib)])
-          fi
+	  AC_CHECK_FT2([2.1.3], [freetype_found="yes"],[freetype_found="no"])
+            if test "$freetype_found" = yes; then
+	        LIBS=""
+	        CLIENT_CFLAGS="$SDL_CFLAGS $FT2_CFLAGS"
+	        CLIENT_LIBS="$SDL_LIBS -lSDL_image $FT2_LIBS"
+	        found_client=yes
+            elif test "$client" = "sdl"; then
+              AC_MSG_ERROR([specified client 'sdl' not configurable (FreeType2 >= 2.1.3 is needed (www.freetype.org))])
+            fi    
 	elif test "$client" = "sdl"; then
-	    AC_MSG_ERROR([specified client 'sdl' not configurable (SDL_image-devel is needed)])
+	    AC_MSG_ERROR([specified client 'sdl' not configurable (SDL_image-devel is needed (www.libsdl.org))])
 	fi
       elif test "$client" = "sdl"; then
-        AC_MSG_ERROR([specified client 'sdl' not configurable (SDL_image is needed)])
+        AC_MSG_ERROR([specified client 'sdl' not configurable (SDL_image is needed (www.libsdl.org))])
       fi
       CPPFLAGS="$ac_save_CPPFLAGS"
       CFLAGS="$ac_save_CFLAGS"
@@ -63,7 +56,7 @@ AC_DEFUN(FC_SDL_CLIENT,
       AC_CHECK_LIB(bind, gethostbyaddr, CLIENT_LIBS="-lbind $CLIENT_LIBS")
 
     elif test "$client" = "sdl"; then
-      AC_MSG_ERROR([specified client 'sdl' not configurable (SDL >= 1.1.4 is needed)])
+      AC_MSG_ERROR([specified client 'sdl' not configurable (SDL >= 1.1.4 is needed (www.libsdl.org))])
     fi
   fi
 ])

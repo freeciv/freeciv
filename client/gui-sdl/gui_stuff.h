@@ -110,16 +110,17 @@ struct ScrollBar {
   struct GUI *pUp_Left_Button;
   struct GUI *pScrollBar;
   struct GUI *pDown_Right_Button;  
-  Uint16 active;		/* used by scroll: active(sean)
+  Uint8 active;		/* used by scroll: active(sean)
 				   size of scroll list */
+  Uint8 step;			/* used by scroll: numbers of columns */
   Uint16 count;		/* total size of scroll list */
   Sint16 min;			/* used by scroll: min position */
   Sint16 max;			/* used by scroll: max position */
 };
 
 #define scrollbar_size(pScroll) 					\
-  fc__extension((float)((float)(pScroll->active) / (float)pScroll->count) * \
-    				(pScroll->max - pScroll->min))
+  fc__extension((float)((float)(pScroll->active * pScroll->step) /	\
+		(float)pScroll->count) * (pScroll->max - pScroll->min))
 
 /* Struct to basic window group dialog ( without scrollbar ) */
 struct SMALL_DLG {
@@ -138,6 +139,11 @@ struct ADVANCED_DLG {
   struct ScrollBar *pScroll;
 };
 
+struct CHECKBOX {
+  SDL_Surface *pTRUE_Theme;
+  SDL_Surface *pFALSE_Theme;
+  bool state;
+};
 
 SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, SDL_bool transp,
 			       Uint8 state, Uint16 Width, Uint16 High);
@@ -210,34 +216,38 @@ int std_move_window_group_callback(struct GUI *pBeginWidgetList,
 				struct GUI *pWindow);
 
 /* Vertic scrolling */
-struct GUI *down_scroll_widget_list(struct GUI *pVscrollBarWidget,
-				    struct ScrollBar *pVscroll,
+struct GUI *down_scroll_widget_list(struct ScrollBar *pVscroll,
 				    struct GUI *pBeginActiveWidgetLIST,
 				    struct GUI *pBeginWidgetLIST,
 				    struct GUI *pEndWidgetLIST);
-struct GUI *up_scroll_widget_list(struct GUI *pVscrollBarWidget,
-				  struct ScrollBar *pVscroll,
+struct GUI *up_scroll_widget_list(struct ScrollBar *pVscroll,
 				  struct GUI *pBeginActiveWidgetLIST,
 				  struct GUI *pBeginWidgetLIST,
 				  struct GUI *pEndWidgetLIST);
-struct GUI *vertic_scroll_widget_list(struct GUI *pVscrollBarWidget,
-				      struct ScrollBar *pVscroll,
+struct GUI *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
 				      struct GUI *pBeginActiveWidgetLIST,
 				      struct GUI *pBeginWidgetLIST,
 				      struct GUI *pEndWidgetLIST);
-	      
-Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
-		  Sint16 start_x, Sint16 start_y, Uint16 hight, Uint16 active,
-		  bool create_scrollbar, bool create_buttons, bool swap_start_x);
 
-void vscroll_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar);
-void down_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar);
-void up_advanced_dlg(struct ADVANCED_DLG *pDlg, struct GUI *pScrollBar);
+				      
+Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
+	Uint8 step, Uint8 active, bool create_scrollbar, bool create_buttons);
+void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
+	Sint16 start_x, Sint16 start_y, Uint16 hight, bool swap_start_x);
+void setup_vertical_scrollbar_default_callbacks(struct ScrollBar *pScroll);
   
+void setup_vertical_vidgets_position(int step,
+	Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h,
+				struct GUI *pBegin, struct GUI *pEnd);
+
+
 bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 				      struct GUI *pNew_Widget,
 				      struct GUI *pAdd_Dock, bool dir,
 					Sint16 start_x, Sint16 start_y);
+				      
+void del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
+  						struct GUI *pWidget);
 				      
 /* Horizontal scrolling */
 Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
@@ -335,6 +345,8 @@ struct GUI *create_checkbox(SDL_Surface *pDest, bool state, Uint32 flags);
 void togle_checkbox(struct GUI *pCBox);
 bool get_checkbox_state(struct GUI *pCBox);
 int redraw_textcheckbox(struct GUI *pCBox);
+int set_new_checkbox_theme(struct GUI *pCBox ,
+				SDL_Surface *pTrue, SDL_Surface *pFalse);
 
 #define set_wstate(pWidget, state)		\
 do {						\
