@@ -270,7 +270,16 @@ static int sea_move(const struct tile *ptile, enum known_type known,
 ****************************************************************************/
 static bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
 {
+  /* - Only ground-unit transporters are consider.
+   * - Units with orders are skipped (the AI doesn't control units with
+   *   orders).
+   * - Only boats that we own are eligible.
+   * - Only available boats or boats that are already dedicated to this unit
+   *   are eligible.
+   * - Only boats with enough remaining capacity are eligible.
+   */
   return (is_ground_units_transport(boat)
+	  && !unit_has_orders(boat)
 	  && boat->owner == punit->owner
 	  && (boat->ai.passenger == FERRY_AVAILABLE
 	      || boat->ai.passenger == punit->id)
@@ -464,8 +473,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     struct unit *ferryboat = find_unit_by_id(punit->transported_by);
 
     /* Check if we are the passenger-in-charge */
-    if (ferryboat->ai.passenger <= 0
-        || ferryboat->ai.passenger == punit->id) {
+    if (is_boat_free(ferryboat, punit, 0)) {
       struct tile *beach_tile;     /* Destination for the boat */
       struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
 
