@@ -91,8 +91,8 @@ int main(int argc, char *argv[])
       srvarg.port = atoi(option);
     else if ((option = get_option("--read", argv, &inx, argc)) != NULL)
       srvarg.script_filename = option;
-    else if ((option = get_option("--Reboot", argv, &inx, argc)) != NULL)
-      srvarg.reboot = atoi(option);
+    else if ((option = get_option("--quitidle", argv, &inx, argc)) != NULL)
+      srvarg.quitidle = atoi(option);
     else if ((option = get_option("--server", argv, &inx, argc)) != NULL)
       sz_strlcpy(srvarg.metaserver_servername, option);
     else if ((option = get_option("--debug", argv, &inx, argc)) != NULL) {
@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -m, --meta\t\tSend info to metaserver\n"));
     fprintf(stderr, _("  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"));
     fprintf(stderr, _("  -s, --server HOST\tList this server as host HOST\n"));
-    fprintf(stderr, _("  -R, --Reboot TIME\tQuit if no players for TIME seconds\n"));
+    fprintf(stderr, _("  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"));
 #ifdef DEBUG
     fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
 		      " or 4:file1,min,max:...)\n"));

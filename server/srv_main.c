@@ -170,7 +170,7 @@ void srv_init(void)
   srvarg.load_filename = NULL;
   srvarg.script_filename = NULL;
 
-  srvarg.reboot = 0;
+  srvarg.quitidle = 0;
 
   *(srvarg.metaserver_servername) = '\0';
 
