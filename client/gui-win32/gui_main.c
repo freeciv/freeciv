@@ -61,6 +61,8 @@ HWND logoutput_win;
 HWND infolabel_win;
 HWND unitinfo_win;
 HWND turndone_button;
+HWND timeout_label;
+HWND map_window;
 HWND map_scroll_h;
 HWND map_scroll_v;
 HFONT font_8courier;
@@ -74,6 +76,7 @@ int map_win_y;
 int map_win_width;
 int map_win_height;
 int taxinfoline_y;
+int indicator_y;
 int overview_win_x;
 int overview_win_y;
 int overview_win_width;
@@ -94,9 +97,6 @@ struct fcwin_box *main_win_box;
 void HandleRMouse(int x, int y)
 {
   SetFocus(root_window);
-  if ((x>map_win_x)&&(x<map_win_x+map_win_width)
-      &&(y>map_win_y)&&(y<map_win_height))
-    map_handle_rbut(x-map_win_x,y-map_win_y);
 }
 
 /**************************************************************************
@@ -105,10 +105,7 @@ void HandleRMouse(int x, int y)
 void HandleLMouse(int x, int y)
 {
   SetFocus(root_window);
-  if ((x>map_win_x)&&(x<map_win_x+map_win_width)
-      &&(y>map_win_y)&&(y<map_win_height))
-    map_handle_lbut(x-map_win_x,y-map_win_y);
-  else if ((x>overview_win_x)&&(x<overview_win_x+overview_win_width)
+  if ((x>overview_win_x)&&(x<overview_win_x+overview_win_width)
 	   &&(y>overview_win_y)&&(y<overview_win_y+overview_win_height))
     overview_handle_rbut(x-overview_win_x,y-overview_win_y);
   else if ((x<10*SMALL_TILE_WIDTH)&&(y>taxinfoline_y)
@@ -121,13 +118,8 @@ void HandleLMouse(int x, int y)
  **************************************************************************/
 void HandlePaint(HDC hdc)
 {
-  map_expose(hdc); 
   overview_expose(hdc);
 }
-
-/**************************************************************************
-
- **************************************************************************/
 
 /**************************************************************************
 
@@ -195,7 +187,23 @@ static void box_fixedsize(POINT * minsize,void *data)
 static void taxinfoline_minsize(POINT * minsize,void *data)
 {
   minsize->x=10*SMALL_TILE_WIDTH;
-  minsize->y=2*SMALL_TILE_HEIGHT;
+  minsize->y=1*SMALL_TILE_HEIGHT;
+}
+
+/**************************************************************************
+
+**************************************************************************/
+static void indicator_line_minsize(POINT *minsize, void *data)
+{
+  minsize->x=3*SMALL_TILE_WIDTH;
+  minsize->y=1*SMALL_TILE_HEIGHT;
+}
+/**************************************************************************
+
+**************************************************************************/
+static void indicator_line_setsize(LPRECT newsize, void *data)
+{
+  indicator_y=newsize->top;
 }
 
 /**************************************************************************
@@ -203,6 +211,9 @@ static void taxinfoline_minsize(POINT * minsize,void *data)
 **************************************************************************/
 static void taxinfoline_setsize(LPRECT newsize,void *data)
 {
+  RECT rc;
+  rc=*newsize;
+  rc.bottom+=SMALL_TILE_HEIGHT;
   InvalidateRect(root_window,newsize,TRUE);
   taxinfoline_y=newsize->top;
 		 
@@ -267,6 +278,7 @@ static void map_setsize(LPRECT newsize, void *data)
   map_win_height=mh;
   map_win_width=mw;
   InvalidateRect(root_window,newsize,FALSE);
+  MoveWindow(map_window,map_win_x,map_win_y,map_win_width,map_win_height,TRUE);
   MoveWindow(map_scroll_v,map_win_x+map_win_width,map_win_y,
 	     15,map_win_height+map_win_y,TRUE);
   MoveWindow(map_scroll_h,map_win_x,map_win_y+map_win_height,
@@ -274,6 +286,7 @@ static void map_setsize(LPRECT newsize, void *data)
   
   map_resize();
 }
+
 
 /**************************************************************************
 
@@ -286,98 +299,12 @@ LONG APIENTRY FreecivWndProc (
 {
   HDC hdc;
   PAINTSTRUCT ps;
-  /*  MSG msg;
-  msg.hwnd=hWnd;
-  msg.message=message;
-  msg.wParam=wParam;
-  msg.lParam=lParam;
-  msg.time=0;
-  msg.pt.x=0;
-  msg.pt.y=0; */
+
   switch (message)
     {
     case WM_CREATE:
-      {
-	struct fcwin_box *upper;
-	struct fcwin_box *leftrow;
-	root_window=hWnd;
-	main_win_box=fcwin_vbox_new(hWnd,FALSE);
-	upper=fcwin_hbox_new(hWnd,FALSE);
-	leftrow=fcwin_vbox_new(hWnd,FALSE);
-	fcwin_box_add_generic(leftrow,overview_minsize,overview_setsize,NULL,
-			      NULL,TRUE,FALSE,0);
-	infolabel_win=fcwin_box_add_static_default(leftrow," \n \n \n \n \n",
-					       0,SS_CENTER);
-	fcwin_box_add_generic(leftrow,taxinfoline_minsize,
-			      taxinfoline_setsize,NULL,NULL,
-			      FALSE,FALSE,0);
-	turndone_button=fcwin_box_add_button_default(leftrow,_("Turn Done"),
-					       ID_TURNDONE,0);
-	unitinfo_win=fcwin_box_add_static_default(leftrow," \n \n \n \n",0,
-					       SS_CENTER);
-	fcwin_box_add_box(upper,leftrow,FALSE,FALSE,5);
-	fcwin_box_add_generic(upper,map_minsize,map_setsize,NULL,NULL,
-			      TRUE,TRUE,5);
-	fcwin_box_add_box(main_win_box,upper,TRUE,TRUE,0);
-	fcwin_box_add_generic(main_win_box,box_fixedsize,textwin_setsize,NULL,
-			      (void *)&textwin_size,FALSE,FALSE,0);
-	logoutput_win=CreateWindowEx(WS_EX_CLIENTEDGE,
-				   "EDIT",
-				   " ",
-				   WS_CHILD | ES_READONLY | WS_VISIBLE | 
-				   WS_VSCROLL | ES_LEFT | ES_WANTRETURN |
-				   ES_MULTILINE | ES_AUTOVSCROLL,
-				   0, 0, 0, 0,
-				   hWnd,
-				   (HMENU) ID_OUTPUTWINDOW,
-				   freecivhinst,
-				   NULL);      
-      ShowWindow(logoutput_win,SW_SHOWNORMAL);
-      map_scroll_v=CreateWindow("SCROLLBAR",NULL,
-				WS_CHILD | WS_VISIBLE | SBS_VERT,
-				0,0,0,0,
-				hWnd,
-				(HMENU) ID_MAPVSCROLL,
-				freecivhinst,
-				NULL);
-      map_scroll_h=CreateWindow("SCROLLBAR",NULL,
-				WS_CHILD | WS_VISIBLE | SBS_HORZ,
-				0,0,0,0,
-				hWnd,
-				(HMENU) ID_MAPHSCROLL,
-				(HINSTANCE) GetWindowLong(hWnd, GWL_HINSTANCE),
-				NULL);
-      SendMessage(infolabel_win,
-		  WM_SETFONT,(WPARAM) font_12arial,MAKELPARAM(TRUE,0)); 
-      SendMessage(unitinfo_win,
-		  WM_SETFONT,(WPARAM) font_12arial,MAKELPARAM(TRUE,0)); 
-      append_output_window(_("Freeciv is free software and you are welcome to distribute copies of"
-				 " it\nunder certain conditions; See the \"Copying\" item on the Help"
-				 " menu.\nNow.. Go give'em hell!") );
-      UpdateWindow(logoutput_win);
-      
-      hchatline=fcwin_box_add_edit(main_win_box,"",40,
-				   IDOK,ES_WANTRETURN | ES_MULTILINE,
-				   FALSE,FALSE,10);
-     
-      fcwin_set_box(hWnd,main_win_box);
-      init_map_win();
-      init_color_system();
-
-      }
       break;
     case WM_GETMINMAXINFO:
-      break;
-    case WM_MOUSEMOVE:
-      {
-	int x,y;
-	x=LOWORD(lParam);
-	y=HIWORD(lParam);
-	if ((x>map_win_x)&&(x<map_win_x+map_win_width)
-	    &&(y>map_win_y)&&(y<map_win_y+map_win_height))
-	  map_handle_move(x-map_win_x,y-map_win_y);
-      }
-    
       break;
     case WM_SIZE:
       {
@@ -419,6 +346,93 @@ LONG APIENTRY FreecivWndProc (
   return (0);
 }
 
+
+/**************************************************************************
+
+**************************************************************************/
+void create_main_window()
+{
+ 
+  struct fcwin_box *upper;
+  struct fcwin_box *leftrow;
+  struct fcwin_box *hbox;
+  root_window=fcwin_create_layouted_window(FreecivWndProc,"Freeciv",
+					   WS_OVERLAPPEDWINDOW,
+					   CW_USEDEFAULT,
+					   CW_USEDEFAULT,
+					   (HWND) NULL,
+					   NULL,
+					   NULL);
+  main_win_box=fcwin_vbox_new(root_window,FALSE);
+  upper=fcwin_hbox_new(root_window,FALSE);
+  leftrow=fcwin_vbox_new(root_window,FALSE);
+  fcwin_box_add_generic(leftrow,overview_minsize,overview_setsize,NULL,
+			NULL,TRUE,FALSE,0);
+  infolabel_win=fcwin_box_add_static_default(leftrow," \n \n \n \n \n",
+					     0,SS_CENTER);
+  fcwin_box_add_generic(leftrow,taxinfoline_minsize,
+			taxinfoline_setsize,NULL,NULL,
+			FALSE,FALSE,0);
+  hbox=fcwin_hbox_new(root_window,FALSE);
+  fcwin_box_add_generic(hbox,indicator_line_minsize,
+			indicator_line_setsize,NULL,NULL,
+			FALSE,FALSE,0);
+  timeout_label=fcwin_box_add_static(hbox," ",0,SS_CENTER,TRUE,TRUE,0);
+  fcwin_box_add_box(leftrow,hbox,FALSE,FALSE,0);
+  turndone_button=fcwin_box_add_button_default(leftrow,_("Turn Done"),
+					       ID_TURNDONE,0);
+  unitinfo_win=fcwin_box_add_static_default(leftrow," \n \n \n \n",0,
+					    SS_CENTER);
+  fcwin_box_add_box(upper,leftrow,FALSE,FALSE,5);
+  map_window=CreateWindow("freecivmapwindow",NULL,WS_CHILD | WS_VISIBLE,
+			  0,0,20,20,root_window,
+			  NULL,freecivhinst,NULL);
+  fcwin_box_add_generic(upper,map_minsize,map_setsize,NULL,NULL,
+			TRUE,TRUE,5);
+  fcwin_box_add_box(main_win_box,upper,TRUE,TRUE,0);
+  fcwin_box_add_generic(main_win_box,box_fixedsize,textwin_setsize,NULL,
+			(void *)&textwin_size,FALSE,FALSE,0);
+  logoutput_win=CreateWindowEx(WS_EX_CLIENTEDGE,
+			       "EDIT",
+			       " ",
+			       WS_CHILD | ES_READONLY | WS_VISIBLE | 
+			       WS_VSCROLL | ES_LEFT | ES_WANTRETURN |
+			       ES_MULTILINE | ES_AUTOVSCROLL,
+			       0, 0, 0, 0,
+			       root_window,
+			       (HMENU) ID_OUTPUTWINDOW,
+			       freecivhinst,
+			       NULL);      
+  ShowWindow(logoutput_win,SW_SHOWNORMAL);
+  map_scroll_v=CreateWindow("SCROLLBAR",NULL,
+			    WS_CHILD | WS_VISIBLE | SBS_VERT,
+			    0,0,0,0,
+			    root_window,
+			    (HMENU) ID_MAPVSCROLL,
+			    freecivhinst,
+			    NULL);
+  map_scroll_h=CreateWindow("SCROLLBAR",NULL,
+			    WS_CHILD | WS_VISIBLE | SBS_HORZ,
+			    0,0,0,0,
+			    root_window,
+			    (HMENU) ID_MAPHSCROLL,
+			    (HINSTANCE) GetWindowLong(root_window, GWL_HINSTANCE),
+			    NULL);
+  SendMessage(infolabel_win,
+	      WM_SETFONT,(WPARAM) font_12arial,MAKELPARAM(TRUE,0)); 
+  SendMessage(unitinfo_win,
+	      WM_SETFONT,(WPARAM) font_12arial,MAKELPARAM(TRUE,0)); 
+  append_output_window(_("Freeciv is free software and you are welcome to distribute copies of"
+			 " it\nunder certain conditions; See the \"Copying\" item on the Help"
+			 " menu.\nNow.. Go give'em hell!") );
+  hchatline=fcwin_box_add_edit(main_win_box,"",40,
+			       IDOK,ES_WANTRETURN | ES_MULTILINE,
+			       FALSE,FALSE,10);
+  
+  fcwin_set_box(root_window,main_win_box);
+  init_map_win();
+  init_color_system();
+}
 
 /**************************************************************************
 
@@ -501,6 +515,7 @@ ui_main(int argc, char *argv[])
   init_layoutwindow();
   InitCommonControls();
   unitselect_init(freecivhinst);
+  init_mapwindow();
   font_8courier=CreateFont(8,0,0,0,0,
 			   FALSE,FALSE,FALSE,
 			   DEFAULT_CHARSET,
@@ -525,13 +540,7 @@ ui_main(int argc, char *argv[])
 			  DEFAULT_QUALITY,
 			  DEFAULT_PITCH,
 			  "Arial");
-  root_window=fcwin_create_layouted_window(FreecivWndProc,"Freeciv",
-					   WS_OVERLAPPEDWINDOW,
-					   CW_USEDEFAULT,
-					   CW_USEDEFAULT,
-					   (HWND) NULL,
-					   NULL,
-					   NULL);
+  create_main_window();
   GetWindowRect(root_window,&rc);
   MoveWindow(root_window,rc.left,rc.top,640,480,TRUE);
   SetMenu(root_window,create_mainmenu());

@@ -24,6 +24,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "map.h"
+#include "mem.h"
 #include "player.h"
 #include "support.h"
 #include "unit.h"
@@ -47,37 +48,9 @@
 
 struct city *city_workers_display = NULL;
 
+/*************************************************************************
 
-/**************************************************************************
-
-**************************************************************************/
-void map_handle_rbut(int x, int y)
-{
-  int xtile;
-  int ytile;
-  if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-    return;
-  get_map_xy(x,y,&xtile,&ytile);  
-  center_tile_mapcanvas(xtile,ytile);
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void map_handle_lbut(int x, int y)
-{
-  int xtile;
-  int ytile;
-  if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-    return;
-  get_map_xy(x,y,&xtile,&ytile);
-  do_map_click(xtile,ytile);
-  wakeup_sentried_units(xtile,ytile);
-}
-
-/**************************************************************************
-
-**************************************************************************/
+*************************************************************************/
 void map_handle_move(int window_x, int window_y)
 {
   int x, y, old_x, old_y;
@@ -92,6 +65,62 @@ void map_handle_move(int window_x, int window_y)
     }
   }
   
+}
+
+/**************************************************************************
+
+**************************************************************************/
+static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM lParam)
+{
+  HDC hdc;
+  PAINTSTRUCT ps;
+  int xtile;
+  int ytile;
+  switch(message) {
+  case WM_CREATE:
+    break;
+  case WM_LBUTTONDOWN:
+    get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);
+    do_map_click(xtile,ytile);
+    wakeup_sentried_units(xtile,ytile);
+    break;
+  case WM_RBUTTONDOWN:
+    get_map_xy(LOWORD(lParam),HIWORD(lParam),&xtile,&ytile);  
+    center_tile_mapcanvas(xtile,ytile);
+    break;
+  case WM_MOUSEMOVE:
+    map_handle_move(LOWORD(lParam),HIWORD(lParam));
+    break;
+  case WM_PAINT:
+    hdc=BeginPaint(hwnd,(LPPAINTSTRUCT)&ps);
+    map_expose(hdc); 
+    EndPaint(hwnd,(LPPAINTSTRUCT)&ps);
+    break;
+  default:
+    return DefWindowProc(hwnd,message,wParam,lParam);
+  }
+  return 0;
+}
+
+/**************************************************************************
+
+**************************************************************************/
+void init_mapwindow()
+{
+  WNDCLASS *wndclass;
+  wndclass=fc_malloc(sizeof(WNDCLASS));
+  wndclass->style=0;
+  wndclass->cbClsExtra=0;
+  wndclass->cbWndExtra=0;
+  wndclass->lpfnWndProc=(WNDPROC) map_wnd_proc;
+  wndclass->hIcon=NULL;
+  wndclass->hCursor=LoadCursor(NULL,IDC_ARROW);
+  wndclass->hInstance=freecivhinst;
+  wndclass->hbrBackground=GetStockObject(BLACK_BRUSH);
+  wndclass->lpszClassName="freecivmapwindow";
+  wndclass->lpszMenuName=(LPSTR)NULL;
+  if (!RegisterClass(wndclass))
+    exit(1);
 }
 
 /**************************************************************************
@@ -187,7 +216,7 @@ void center_on_unit()
 void
 set_turn_done_button_state( int state )
 {
-	/* PORTME */
+  EnableWindow(turndone_button,state);
 }
 
 /**************************************************************************

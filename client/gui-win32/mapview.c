@@ -66,17 +66,15 @@ enum draw_type {
   D_MB_LR = D_M_L | D_M_R | D_B_L | D_B_R
 };
 
+static struct Sprite *indicator_sprite[3];
 
-
-HDC mapstoredc;
 HDC overviewstoredc;
 HBITMAP overviewstorebitmap;
 HBITMAP mapstorebitmap;
 
 static HBITMAP intro_gfx;
-static HBITMAP indicatorbmp;
+
 static HBITMAP single_tile_pixmap;
-static HDC indicatordc;
 
 extern HBITMAP BITMAP2HBITMAP(BITMAP *bmp);
 
@@ -85,14 +83,14 @@ int map_view_x;
 int map_view_y;
 int map_view_width;
 int map_view_height;
-static HRGN cliprgn;
+
 extern int seconds_to_turndone;   
 void update_map_canvas_scrollbars_size(void);
 static void show_city_descriptions(HDC hdc);     
 void refresh_overview_viewrect_real(HDC hdcp);
 void set_overview_win_dim(int w,int h);
 static int get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y);
-static void put_one_tile(int x, int y, enum draw_type draw);
+static void put_one_tile(HDC mapstoredc,int x, int y, enum draw_type draw);
 void put_one_tile_full(HDC hdc, int x, int y,
 			      int canvas_x, int canvas_y, int citymode);
 static void pixmap_put_tile_iso(HDC hdc, int x, int y,
@@ -101,7 +99,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 int offset_x, int offset_y, int offset_y_unit,
                                 int width, int height, int height_unit,
                                 enum draw_type draw);
-static void really_draw_segment(int src_x, int src_y, int dir,
+static void really_draw_segment(HDC mapstoredc,int src_x, int src_y, int dir,
                                     int write_to_screen, int force);
 static void dither_tile(HDC hdc, struct Sprite **dither,
                         int canvas_x, int canvas_y,
@@ -109,7 +107,7 @@ static void dither_tile(HDC hdc, struct Sprite **dither,
                         int width, int height, int fog);
 static void put_line(HDC hdc, int x, int y, 
 		     int dir,int write_to_screen);
-
+static void draw_rates(HDC hdc);
 /**************************************************************************
 
 **************************************************************************/
@@ -117,15 +115,12 @@ void map_resize()
 {
   HBITMAP newbmp;
   HDC hdc;
-  hdc=GetDC(root_window);
+  hdc=GetDC(map_window);
   newbmp=CreateCompatibleBitmap(hdc,map_win_width,map_win_height);
-  SelectObject(mapstoredc,newbmp);
   if (mapstorebitmap) DeleteObject(mapstorebitmap);
   mapstorebitmap=newbmp;
-  ReleaseDC(root_window,hdc);
-  if (cliprgn)
-    DeleteObject(cliprgn);
-  cliprgn=NULL;
+  ReleaseDC(map_window,hdc);
+  
   map_view_width=(map_win_width+NORMAL_TILE_WIDTH-1)/NORMAL_TILE_WIDTH;
   map_view_height=(map_win_height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT; 
   update_map_canvas_scrollbars_size();
@@ -145,9 +140,7 @@ void init_map_win()
 {
   HDC hdc;
   hdc=GetDC(root_window);
-  mapstoredc=CreateCompatibleDC(hdc);
   overviewstoredc=CreateCompatibleDC(hdc);
-
   single_tile_pixmap=CreateCompatibleBitmap(hdc,
 					    UNIT_TILE_WIDTH,
 					    UNIT_TILE_HEIGHT);
@@ -165,6 +158,7 @@ void init_map_win()
 **************************************************************************/
 void map_expose(HDC hdc)
 {
+
   HBITMAP bmsave;
   HDC introgfxdc;
   if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
@@ -173,7 +167,7 @@ void map_expose(HDC hdc)
       if (!intro_gfx) intro_gfx=BITMAP2HBITMAP(&intro_gfx_sprite->bmp);
       introgfxdc=CreateCompatibleDC(hdc);
       bmsave=SelectObject(introgfxdc,intro_gfx);
-      StretchBlt(hdc,map_win_x,map_win_y,map_win_width,map_win_height,
+      StretchBlt(hdc,0,0,map_win_width,map_win_height,
 		 introgfxdc,0,0,
 		 intro_gfx_sprite->width,
 		 intro_gfx_sprite->height,
@@ -183,15 +177,17 @@ void map_expose(HDC hdc)
     }
   else
     {
-      bmsave=SelectObject(indicatordc,indicatorbmp);
-      BitBlt(hdc,0,taxinfoline_y,10*SMALL_TILE_WIDTH,2*SMALL_TILE_HEIGHT,
-	     indicatordc,0,0,SRCCOPY);
-      SelectObject(indicatordc,bmsave);
-      BitBlt(hdc,map_win_x,map_win_y,map_win_width,map_win_height,mapstoredc,0,0,SRCCOPY);
+      HBITMAP old;
+      HDC mapstoredc;
+      mapstoredc=CreateCompatibleDC(NULL);
+      old=SelectObject(mapstoredc,mapstorebitmap);
+      BitBlt(hdc,0,0,map_win_width,map_win_height,
+	     mapstoredc,0,0,SRCCOPY);
+      SelectObject(mapstoredc,old);
+      DeleteDC(mapstoredc);
       show_city_descriptions(hdc);
     }
-}
-/* put a unit at pos x and y (not xtile, ytile !!) */ 
+} 
 
 /**************************************************************************
 
@@ -413,30 +409,6 @@ SPRITE *get_citizen_sprite(int frame)
   return sprites.citizen[frame];
 }           
 
-/**************************************************************************
-
-**************************************************************************/
-int
-map_canvas_adjust_x(int x)
-{
-  if (map_view_x+map_view_width<=map.xsize)
-    return x-map_view_x;
-  else if (x>=map_view_x)
-    return x-map_view_x;
-  else if (x<map_adjust_x(map_view_x+map_view_width))
-    return x+map.xsize-map_view_x;
-  return -1;
-}
-
-
-/**************************************************************************
-
-**************************************************************************/
-int
-map_canvas_adjust_y(int y)
-{
-  return y-map_view_y;
-}
 
 /**************************************************************************
 
@@ -474,6 +446,23 @@ tile_visible_and_not_on_border_mapcanvas(int x, int y)
                && x+map.xsize<map_view_x+map_view_width-2)));
 }
 
+/**************************************************************************
+
+**************************************************************************/
+static void draw_rates(HDC hdc)
+{
+  int d;
+  d=0;
+  for(;d<(game.player_ptr->economic.luxury)/10;d++)
+    draw_sprite(get_citizen_sprite(0), hdc,
+		SMALL_TILE_WIDTH*d,taxinfoline_y);/* elvis tile */
+  for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
+    draw_sprite(get_citizen_sprite(1), hdc,
+		SMALL_TILE_WIDTH*d,taxinfoline_y); /* scientist tile */    
+  for(;d<10;d++)
+    draw_sprite(get_citizen_sprite(2), hdc,
+		SMALL_TILE_WIDTH*d,taxinfoline_y); /* taxman tile */  
+}
 
 /**************************************************************************
 
@@ -482,10 +471,7 @@ void
 update_info_label(void)
 {
   char buffer2[512];
-  RECT rc;
   char buffer[512];
-  int  d;
-  HBITMAP old;
   HDC hdc;
   my_snprintf(buffer, sizeof(buffer),
 	      _("Population: %s\nYear: %s\nGold %d\nTax: %d Lux: %d Sci: %d"),
@@ -499,41 +485,16 @@ update_info_label(void)
 	      "%s\n%s",get_nation_name(game.player_ptr->nation),buffer);
   SetWindowText(infolabel_win,buffer2);
   do_mainwin_layout();
-  if (!indicatorbmp)
-    {
-      hdc=GetDC(root_window);
-      if (!indicatordc)
-	indicatordc=CreateCompatibleDC(hdc);
-      
-      indicatorbmp=CreateCompatibleBitmap(hdc,
-					  10*SMALL_TILE_WIDTH,
-					  2*SMALL_TILE_HEIGHT);
-      ReleaseDC(root_window,hdc);
-    }
-  old=SelectObject(indicatordc,indicatorbmp);
-  BitBlt(indicatordc,0,0,10*SMALL_TILE_WIDTH,2*SMALL_TILE_HEIGHT,NULL,0,0,
-	 WHITENESS);
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
                       client_cooling_sprite(),
-                      game.player_ptr->government);    
-  d=0;
-  for(;d<(game.player_ptr->economic.luxury)/10;d++)
-    draw_sprite(get_citizen_sprite(0), indicatordc,
-		SMALL_TILE_WIDTH*d,0);/* elvis tile */
-  for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
-    draw_sprite(get_citizen_sprite(1), indicatordc,
-		SMALL_TILE_WIDTH*d,0); /* scientist tile */    
-  for(;d<10;d++)
-    draw_sprite(get_citizen_sprite(2), indicatordc,
-		SMALL_TILE_WIDTH*d,0); /* taxman tile */          
+                      game.player_ptr->government);
+  
+  hdc=GetDC(root_window);
+  draw_rates(hdc);
+  ReleaseDC(root_window,hdc);
   update_timeout_label();    
-  SelectObject(indicatordc,old);
-  rc.left=0;
-  rc.top=taxinfoline_y;
-  rc.right=rc.left+10*SMALL_TILE_WIDTH;
-  rc.bottom=rc.top+2*SMALL_TILE_HEIGHT;
-  InvalidateRect(root_window,&rc,FALSE);
+  
 }
 
 /**************************************************************************
@@ -573,7 +534,13 @@ update_unit_info_label(struct unit *punit)
 void
 update_timeout_label(void)
 {
-	/* PORTME */
+  char buffer[512];
+  
+  if (game.timeout <= 0)
+    sz_strlcpy(buffer, Q_("?timeout:off"));
+  else
+    format_duration(buffer, sizeof(buffer), seconds_to_turndone);
+  SetWindowText(timeout_label,buffer);
 }
 
 /**************************************************************************
@@ -582,7 +549,14 @@ update_timeout_label(void)
 void
 update_turn_done_button(int do_restore)
 {
-	/* PORTME */
+  static int flip;
+  if (do_restore) {
+    flip=0;
+    Button_SetState(turndone_button,0);
+    return;
+  }
+  Button_SetState(turndone_button,flip);
+  flip=!flip;
 }
 
 /**************************************************************************
@@ -591,27 +565,25 @@ update_turn_done_button(int do_restore)
 void
 set_indicator_icons(int bulb, int sol, int flake, int gov)
 {
-
-  struct Sprite *gov_sprite;
-  if (!indicatordc) return;
+  int i;
+  HDC hdc;
+  
   bulb = CLIP(0, bulb, NUM_TILES_PROGRESS-1);
   sol = CLIP(0, sol, NUM_TILES_PROGRESS-1);
   flake = CLIP(0, flake, NUM_TILES_PROGRESS-1);     
-
-  draw_sprite(sprites.bulb[bulb],indicatordc,0,SMALL_TILE_HEIGHT);
-  draw_sprite(sprites.warming[sol],indicatordc,
-	      SMALL_TILE_WIDTH,
-	      SMALL_TILE_HEIGHT);
-  draw_sprite(sprites.cooling[flake],indicatordc,
-	      2*SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT);
+  indicator_sprite[0]=sprites.bulb[bulb];
+  indicator_sprite[1]=sprites.warming[sol];
+  indicator_sprite[2]=sprites.cooling[flake];
   if (game.government_count==0) {
     /* not sure what to do here */
-    gov_sprite = sprites.citizen[7];
+    indicator_sprite[3] = sprites.citizen[7];
   } else {
-    gov_sprite = get_government(gov)->sprite;    
+    indicator_sprite[3] = get_government(gov)->sprite;    
   }
-  draw_sprite(gov_sprite,indicatordc,3*SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT);
-  
+  hdc=GetDC(root_window);
+  for(i=0;i<4;i++)
+    draw_sprite(indicator_sprite[i],hdc,i*SMALL_TILE_WIDTH,indicator_y); 
+  ReleaseDC(root_window,hdc);
 }
 
 /**************************************************************************
@@ -689,8 +661,7 @@ void center_tile_mapcanvas(int x, int y)
 void
 get_center_tile_mapcanvas(int *x, int *y)
 {
-  *x=map_adjust_x(map_view_x+map_view_width/2);
-  *y=map_adjust_y(map_view_y+map_view_height/2);    
+  get_map_xy(map_win_width,map_win_height,x,y);    
 }
 
 /**************************************************************************
@@ -700,6 +671,10 @@ void
 update_map_canvas(int x, int y, int width, int height,
                        int write_to_screen)
 {
+  HDC mapstoredc;
+  HBITMAP old;
+  mapstoredc=CreateCompatibleDC(NULL);
+  old=SelectObject(mapstoredc,mapstorebitmap);
   if (!is_isometric) {
     int x_itr, y_itr;
     int canvas_x,canvas_y;
@@ -721,62 +696,66 @@ update_map_canvas(int x, int y, int width, int height,
       {
 	int scr_x,scr_y;
 	HDC whdc;
-	whdc=GetDC(root_window);
+	whdc=GetDC(map_window);
 	get_canvas_xy(x,y,&scr_x,&scr_y);
-	BitBlt(whdc,map_win_x+scr_x,
-	       map_win_y+scr_y,
+	BitBlt(whdc,scr_x,
+	       scr_y,
 	       NORMAL_TILE_WIDTH*width,NORMAL_TILE_HEIGHT*height,mapstoredc,
 	       scr_x,
 	       scr_y,
 	       SRCCOPY);
 	show_city_descriptions(whdc);
-	ReleaseDC(root_window,whdc);
+	ReleaseDC(map_window,whdc);
       }
   } else {
     int i,x_itr,y_itr;
     
-    put_one_tile(x-1,y-1,D_B_LR);
+    put_one_tile(mapstoredc,x-1,y-1,D_B_LR);
     for(i=0;i<height-1;i++) {
       int x1 = x - 1;
       int y1 = y + i;
-      put_one_tile(x1, y1, D_MB_LR);
+      put_one_tile(mapstoredc,x1, y1, D_MB_LR);
       
     }
-    put_one_tile(x-1, y+height-1, D_TMB_R); /* last tile left side. */
+    put_one_tile(mapstoredc,
+		 x-1, y+height-1, D_TMB_R); /* last tile left side. */
     
     for (i=0; i<width-1; i++) { /* top side */
       int x1 = x + i;
       int y1 = y - 1;
-      put_one_tile(x1, y1, D_MB_LR);
+      put_one_tile(mapstoredc,
+		   x1, y1, D_MB_LR);
     }
     if (width > 1) /* last tile top side. */
-      put_one_tile(x+width-1, y-1, D_TMB_L);
+      put_one_tile(mapstoredc,
+		   x+width-1, y-1, D_TMB_L);
     else
-      put_one_tile(x+width-1, y-1, D_MB_L);
+      put_one_tile(mapstoredc,
+		   x+width-1, y-1, D_MB_L);
     /*** Now draw the tiles to be refreshed, from the top down to get the
          overlapping areas correct ***/
     for (x_itr = x; x_itr < x+width; x_itr++) {
       for (y_itr = y; y_itr < y+height; y_itr++) {
-	put_one_tile(x_itr, y_itr, D_FULL);
+	put_one_tile(mapstoredc,x_itr, y_itr, D_FULL);
       }
     }
     
       /*** Then draw the tiles underneath to refresh the parts of them that
 	   overlap onto the area just drawn ***/
-    put_one_tile(x, y+height, D_TM_R);  /* bottom side */
+    put_one_tile(mapstoredc,x, y+height, D_TM_R);  /* bottom side */
     for (i=1; i<width; i++) {
       int x1 = x + i;
       int y1 = y + height;
-      put_one_tile(x1, y1, D_TM_R);
-      put_one_tile(x1, y1, D_T_L);
+      put_one_tile(mapstoredc,x1, y1, D_TM_R);
+      put_one_tile(mapstoredc,x1, y1, D_T_L);
     }
     
-    put_one_tile(x+width, y, D_TM_L); /* right side */
+    put_one_tile(mapstoredc,x+width, y, D_TM_L); /* right side */
     for (i=1; i < height; i++) {
       int x1 = x + width;
       int y1 = y + i;
-      put_one_tile(x1, y1, D_TM_L);
-      put_one_tile(x1, y1, D_T_R);
+      put_one_tile(mapstoredc,x1, y1, D_TM_L);
+      put_one_tile(mapstoredc,x1, y1, D_T_R);
     }
     /*** Draw the goto line on top of the whole thing. Done last as
 	 we want it completely on top. ***/
@@ -789,7 +768,7 @@ update_map_canvas(int x, int y, int width, int height,
 	if (normalize_map_pos(&x1, &y1)) {
 	  adjc_dir_iterate(x1, y1, x2, y2, dir) {
 	    if (get_drawn(x1, y1, dir)) {
-	      really_draw_segment(x1, y1, dir, 0, 1);
+	      really_draw_segment(mapstoredc,x1, y1, dir, 0, 1);
 	    }
 	  } adjc_dir_iterate_end;
 	}
@@ -810,18 +789,20 @@ update_map_canvas(int x, int y, int width, int height,
       canvas_start_y -= NORMAL_TILE_HEIGHT/2;
       
       /* here we draw a rectangle that includes the updated tiles. */
-      hdc=GetDC(root_window);
-      BitBlt(hdc,canvas_start_x+map_win_x,canvas_start_y+map_win_y,
+      hdc=GetDC(map_window);
+      BitBlt(hdc,canvas_start_x,canvas_start_y,
 	     (height + width) * NORMAL_TILE_WIDTH/2,
 	     (height + width) * NORMAL_TILE_HEIGHT/2 + NORMAL_TILE_HEIGHT/2,
 	     mapstoredc,
 	     canvas_start_x,canvas_start_y,SRCCOPY);
       show_city_descriptions(hdc);
-      ReleaseDC(root_window,hdc);
+      ReleaseDC(map_window,hdc);
     }
 
 
   }
+  SelectObject(mapstoredc,old);
+  DeleteDC(mapstoredc);
 }
 
 /**************************************************************************
@@ -887,11 +868,11 @@ static void show_desc_at_tile(HDC hdc,int x, int y)
   struct city *pcity;
   if ((pcity = map_get_city(x, y))) {
     get_canvas_xy(x, y, &canvas_x, &canvas_y);
-    y_offset=canvas_y+map_win_y+NORMAL_TILE_HEIGHT;
+    y_offset=canvas_y+NORMAL_TILE_HEIGHT;
     if ((draw_city_names)&&(pcity->name)) {
       RECT rc;
       DrawText(hdc,pcity->name,strlen(pcity->name),&rc,DT_CALCRECT);
-      rc.left=canvas_x+NORMAL_TILE_WIDTH/2-10+map_win_x;
+      rc.left=canvas_x+NORMAL_TILE_WIDTH/2-10;
       rc.right=rc.left+20;
       rc.bottom-=rc.top;
       rc.top=y_offset;
@@ -933,7 +914,7 @@ static void show_desc_at_tile(HDC hdc,int x, int y)
       }
       
       DrawText(hdc,buffer,strlen(buffer),&rc,DT_CALCRECT);
-      rc.left=canvas_x+NORMAL_TILE_WIDTH/2-10+map_win_x;
+      rc.left=canvas_x+NORMAL_TILE_WIDTH/2-10;
       rc.right=rc.left+20;
       rc.bottom-=rc.top;
       rc.top=y_offset;
@@ -961,16 +942,7 @@ static void show_city_descriptions(HDC hdc)
   if (!draw_city_names && !draw_city_productions)
     return;
   SetBkMode(hdc,TRANSPARENT);
-  if (!cliprgn)
-    {
-      RECT rc;
-      rc.top=map_win_y;
-      rc.left=map_win_x;
-      rc.right=rc.left+map_win_width;
-      rc.bottom=rc.top+map_win_height;
-      cliprgn=CreateRectRgnIndirect(&rc);
-    }
-  SelectClipRgn(hdc,cliprgn);
+
   if (is_isometric ) {
     int x, y;
     int w, h;
@@ -1000,8 +972,6 @@ static void show_city_descriptions(HDC hdc)
     }
   }
   
-
-  SelectClipRgn(hdc,NULL);
 }
 
 /**************************************************************************
@@ -1014,9 +984,9 @@ put_cross_overlay_tile(int x,int y)
   int canvas_x, canvas_y;
   get_canvas_xy(x, y, &canvas_x, &canvas_y);
   if (tile_visible_mapcanvas(x, y)) {
-    hdc=GetDC(root_window);
+    hdc=GetDC(map_window);
     draw_sprite(sprites.user.attention,hdc,canvas_x,canvas_y);
-    ReleaseDC(root_window,hdc);
+    ReleaseDC(map_window,hdc);
   }
 }
 
@@ -1035,7 +1005,8 @@ put_city_workers(struct city *pcity, int color)
 void
 move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
-
+  HDC mapstoredc;
+  HBITMAP old;
   static struct timer *anim_timer = NULL; 
   int dest_x, dest_y;
   
@@ -1053,7 +1024,8 @@ move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
   
   dest_x = map_adjust_x(x0+dx);
   dest_y = map_adjust_y(y0+dy);
-  
+  mapstoredc=CreateCompatibleDC(NULL);
+  old=SelectObject(mapstoredc,mapstorebitmap);
   if (player_can_see_unit(game.player_ptr, punit) &&
       (tile_visible_mapcanvas(x0, y0) ||
        tile_visible_mapcanvas(dest_x, dest_y))) {
@@ -1063,9 +1035,9 @@ move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
     int canvas_dx, canvas_dy;
     HDC hdc,hdcwin;
     HBITMAP oldbmp;
-    hdc=CreateCompatibleDC(mapstoredc);
+    hdc=CreateCompatibleDC(NULL);
     oldbmp=SelectObject(hdc,single_tile_pixmap);
-    hdcwin=GetDC(root_window);
+    hdcwin=GetDC(map_window);
     if (is_isometric) {
       if (dx == 0) {
         canvas_dx = -NORMAL_TILE_WIDTH/2 * dy;
@@ -1116,14 +1088,14 @@ move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
     for (i = 1; i <= steps; i++) {
       anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
       /* FIXME: We need to draw units on tiles below the moving unit on top. */
-      BitBlt(hdcwin,this_x+map_win_x,this_y+map_win_y,UNIT_TILE_WIDTH,
+      BitBlt(hdcwin,this_x,this_y,UNIT_TILE_WIDTH,
 	     UNIT_TILE_HEIGHT,mapstoredc,this_x,this_y,SRCCOPY);
       this_x = start_x + ((i * canvas_dx)/steps);
       this_y = start_y + ((i * canvas_dy)/steps);
       BitBlt(hdc,0,0,UNIT_TILE_WIDTH,UNIT_TILE_HEIGHT,mapstoredc,
 	     this_x,this_y,SRCCOPY);
       put_unit_pixmap(punit, hdc, 0, 0);
-      BitBlt(hdcwin,this_x+map_win_x,this_y+map_win_y,UNIT_TILE_WIDTH,
+      BitBlt(hdcwin,this_x,this_y,UNIT_TILE_WIDTH,
 	     UNIT_TILE_HEIGHT,hdc,0,0,SRCCOPY);
       
       GdiFlush();
@@ -1134,8 +1106,10 @@ move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
     }
     SelectObject(hdc,oldbmp);
     DeleteDC(hdc);
-    ReleaseDC(root_window,hdcwin);
+    ReleaseDC(map_window,hdcwin);
   }
+  SelectObject(mapstoredc,old);
+  DeleteDC(mapstoredc);
 }
 
 /**************************************************************************
@@ -1146,8 +1120,9 @@ void
 decrease_unit_hp_smooth(struct unit *punit0, int hp0,
                              struct unit *punit1, int hp1)
 {
+  HDC mapstoredc;
   HDC hdc,hdcwin;
-  HBITMAP oldbmp;
+  HBITMAP oldbmp,old_mapbmp;
   static struct timer *anim_timer = NULL; 
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
   int i;
@@ -1173,8 +1148,10 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     
   } while (punit0->hp > hp0 || punit1->hp > hp1);
 
+  mapstoredc=CreateCompatibleDC(NULL);
+  old_mapbmp=SelectObject(mapstoredc,mapstorebitmap);
   hdc=CreateCompatibleDC(NULL);
-  hdcwin=GetDC(root_window);
+  hdcwin=GetDC(map_window);
   oldbmp=SelectObject(hdc,single_tile_pixmap);
   for (i = 0; i < num_tiles_explode_unit; i++) {
     int canvas_x, canvas_y;
@@ -1186,7 +1163,7 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       BitBlt(hdc,0,0,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
 	     mapstoredc,canvas_x,canvas_y,SRCCOPY);
       draw_sprite(sprites.explode.unit[i],hdc,NORMAL_TILE_WIDTH/4,0);
-      BitBlt(hdcwin,canvas_x+map_win_x,canvas_y+map_win_y,
+      BitBlt(hdcwin,canvas_x,canvas_y,
 	     NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
 	     hdc,0,0,SRCCOPY);
     } else {
@@ -1194,7 +1171,7 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
                       0, 0, 0);
       put_unit_pixmap(losing_unit, hdc, 0, 0);
       draw_sprite(sprites.explode.unit[i],hdc,NORMAL_TILE_WIDTH/4,0);
-      BitBlt(hdcwin,map_win_x+canvas_x,map_win_y+canvas_y,
+      BitBlt(hdcwin,canvas_x,canvas_y,
 	     NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,
 	     hdc,0,0,SRCCOPY);
     }
@@ -1204,7 +1181,9 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   
   SelectObject(hdc,oldbmp);
   DeleteDC(hdc);
-  ReleaseDC(root_window,hdcwin);
+  ReleaseDC(map_window,hdcwin);
+  SelectObject(mapstoredc,old_mapbmp);
+  DeleteDC(mapstoredc);
   set_units_in_combat(NULL, NULL);
   refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
   refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
@@ -1215,27 +1194,38 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
 **************************************************************************/
 void
-put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
+put_nuke_mushroom_pixmaps(int x, int y)
 {
-  int x, y;
-  HDC hdc;
-  hdc=GetDC(root_window);
-  for(y=0; y<3; y++) {
-    for(x=0; x<3; x++) {
-      int map_x = map_canvas_adjust_x(x-1+abs_x0)*NORMAL_TILE_WIDTH;
-      int map_y = map_canvas_adjust_y(y-1+abs_y0)*NORMAL_TILE_HEIGHT;
-      struct Sprite *mysprite = sprites.explode.nuke[y][x];
-      if (mysprite)
-	draw_sprite(mysprite,hdc,map_win_x+map_x,map_win_y+map_y);
-    }
-  }
   
-  ReleaseDC(root_window,hdc);
-  Sleep(1000);
- 
-  update_map_canvas(abs_x0-1,
-                    abs_y0-1,
-                    3, 3, 1);          
+  HDC hdc;
+  hdc=GetDC(map_window);
+  if (is_isometric) {
+    int canvas_x, canvas_y;
+    struct Sprite *mysprite = sprites.explode.iso_nuke;  
+    get_canvas_xy(x, y, &canvas_x, &canvas_y);
+    canvas_x += NORMAL_TILE_WIDTH/2 - mysprite->width/2;
+    canvas_y += NORMAL_TILE_HEIGHT/2 - mysprite->height/2;
+    draw_sprite(mysprite,hdc,canvas_x,canvas_y);
+    GdiFlush();
+    ReleaseDC(map_window,hdc);
+    Sleep(1000);
+    update_map_canvas_visible();
+  } else {
+    int x_itr, y_itr;
+    int canvas_x, canvas_y;
+    
+    for (y_itr=0; y_itr<3; y_itr++) {
+      for (x_itr=0; x_itr<3; x_itr++) {
+        struct Sprite *mysprite = sprites.explode.nuke[y_itr][x_itr];
+        get_canvas_xy(x + x_itr - 1, y + y_itr - 1, &canvas_x, &canvas_y);
+	draw_sprite(mysprite,hdc,canvas_x,canvas_y);
+      }
+    }
+    GdiFlush();
+    ReleaseDC(map_window,hdc);
+    Sleep(1000); 
+    update_map_canvas(x-1, y-1, 3, 3, 1);
+  }
 }
 
 /**************************************************************************
@@ -1342,6 +1332,10 @@ void refresh_overview_viewrect(void)
 **************************************************************************/
 void overview_expose(HDC hdc)
 {
+  HDC hdctest;
+  HBITMAP old;
+  HBITMAP bmp;
+  int i;
   if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     {
       if (radar_gfx_sprite)
@@ -1351,6 +1345,25 @@ void overview_expose(HDC hdc)
     }
   else
     {
+      hdctest=CreateCompatibleDC(NULL);
+      old=NULL;
+      bmp=NULL;
+      for(i=0;i<4;i++)
+	if (indicator_sprite[i]) {
+	  bmp=BITMAP2HBITMAP(&indicator_sprite[i]->bmp);
+	  if (!old)
+	    old=SelectObject(hdctest,bmp);
+	  else
+	    DeleteObject(SelectObject(hdctest,bmp));
+	  BitBlt(hdc,i*SMALL_TILE_WIDTH,indicator_y,
+		 SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT,
+		 hdctest,0,0,SRCCOPY);
+	}
+      SelectObject(hdctest,old);
+      if (bmp)
+	DeleteObject(bmp);
+      DeleteDC(hdctest);
+      draw_rates(hdc);
       refresh_overview_viewrect_real(hdc);
     }
 }
@@ -1495,9 +1508,10 @@ map_canvas_store
 FIXME: We currently always draw the line.
 Only used for isometric view.
 **************************************************************************/
-static void really_draw_segment(int src_x, int src_y, int dir,
+static void really_draw_segment(HDC mapstoredc,int src_x, int src_y, int dir,
                                 int write_to_screen, int force)
 {
+
   HPEN old;
   int dest_x, dest_y, is_real;
   int canvas_start_x, canvas_start_y;
@@ -1521,7 +1535,7 @@ static void really_draw_segment(int src_x, int src_y, int dir,
   if (abs(canvas_end_x - canvas_start_x) > NORMAL_TILE_WIDTH
       || abs(canvas_end_y - canvas_start_y) > NORMAL_TILE_HEIGHT)
     return;
- 
+  
   old=SelectObject(mapstoredc, pen_std[COLOR_STD_CYAN]);
   /* draw it! */
   MoveToEx(mapstoredc,canvas_start_x,canvas_start_y,NULL);
@@ -1529,14 +1543,14 @@ static void really_draw_segment(int src_x, int src_y, int dir,
   SelectObject(mapstoredc,old);
   if (write_to_screen) {
     HDC hdc;
-    hdc=GetDC(root_window);
+    hdc=GetDC(map_window);
     
     old=SelectObject(hdc, pen_std[COLOR_STD_CYAN]);
     
-    MoveToEx(hdc,map_win_x+canvas_start_x,map_win_y+canvas_start_y,NULL);
-    LineTo(hdc,map_win_x+canvas_end_x,map_win_y+canvas_end_y);
+    MoveToEx(hdc,canvas_start_x,canvas_start_y,NULL);
+    LineTo(hdc,canvas_end_x,canvas_end_y);
     SelectObject(hdc,old);
-    ReleaseDC(root_window,hdc);
+    ReleaseDC(map_window,hdc);
   }
   return;
 }
@@ -1588,7 +1602,7 @@ void put_one_tile_full(HDC hdc, int x, int y,
 /**************************************************************************
 Only used for isometric view.
 **************************************************************************/
-static void put_one_tile(int x, int y, enum draw_type draw)
+static void put_one_tile(HDC mapstoredc,int x, int y, enum draw_type draw)
 {
   int canvas_x, canvas_y;
   int height, width, height_unit;
@@ -1936,11 +1950,11 @@ static void put_line(HDC hdc, int x, int y,
   canvas_dest_y = canvas_src_y + (NORMAL_TILE_WIDTH * canvas_dest_y) / 2;
  
   old=SelectObject(hdc,pen_std[COLOR_STD_CYAN]);
-  MoveToEx(hdc,canvas_src_x+(write_to_screen?map_win_x:0),
-	   canvas_src_y+(write_to_screen?map_win_y:0),
+  MoveToEx(hdc,canvas_src_x,
+	   canvas_src_y,
 	   NULL);
-  LineTo(hdc,canvas_dest_x+(write_to_screen?map_win_x:0),
-	   canvas_dest_y+(write_to_screen?map_win_y:0));
+  LineTo(hdc,canvas_dest_x,
+	 canvas_dest_y);
   SelectObject(hdc,old);
 }
 
@@ -1951,16 +1965,25 @@ static void put_line(HDC hdc, int x, int y,
 void draw_segment(int src_x, int src_y, int dir)
 {
   HDC hdc;
+ 
+  
   if (is_isometric) {
     increment_drawn(src_x, src_y, dir);
     if (get_drawn(src_x, src_y, dir) > 1) {
       return;
     } else {
-      really_draw_segment(src_x, src_y, dir, 1, 0);
+      HBITMAP old;
+      HDC mapstoredc;
+      mapstoredc=CreateCompatibleDC(NULL);
+      old=SelectObject(mapstoredc,mapstorebitmap);
+      really_draw_segment(mapstoredc,src_x, src_y, dir, 1, 0);
+      SelectObject(mapstoredc,old);
+      DeleteDC(mapstoredc);
     }
   } else {
     int dest_x, dest_y, is_real;
-
+    HBITMAP old;
+    HDC mapstoredc;
     is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
     assert(is_real);
 
@@ -1969,8 +1992,9 @@ void draw_segment(int src_x, int src_y, int dir)
       increment_drawn(src_x, src_y, dir);
       return;
     }
-    
-    hdc=GetDC(root_window);
+    mapstoredc=CreateCompatibleDC(NULL);
+    old=SelectObject(mapstoredc,mapstorebitmap);
+    hdc=GetDC(map_window);
     if (tile_visible_mapcanvas(src_x, src_y)) {
       put_line(mapstoredc, src_x, src_y, dir,0);
       put_line(hdc, src_x, src_y, dir,1);
@@ -1979,7 +2003,9 @@ void draw_segment(int src_x, int src_y, int dir)
       put_line(mapstoredc, dest_x, dest_y, DIR_REVERSE(dir),0);
       put_line(hdc, dest_x, dest_y, DIR_REVERSE(dir),1);
     }
-    ReleaseDC(root_window,hdc);
+    ReleaseDC(map_window,hdc);
+    SelectObject(mapstoredc,old);
+    DeleteDC(mapstoredc);
     increment_drawn(src_x, src_y, dir);
   }
 }

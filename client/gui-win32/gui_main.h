@@ -126,13 +126,16 @@ extern int overview_win_x;
 extern int overview_win_y;
 extern int overview_win_width;
 extern int overview_win_height;
+extern int indicator_y;
 extern HWND infolabel_win;
 extern int taxinfoline_y; 
 extern HWND logoutput_win;
 extern HWND turndone_button;
 extern HINSTANCE freecivhinst;
 extern HWND unitinfo_win;
+extern HWND timeout_label;
 extern HWND hchatline;
+extern HWND map_window;
 extern HWND map_scroll_h;
 extern HWND map_scroll_v;
 #endif  /* RC_INVOKED */

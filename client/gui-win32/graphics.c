@@ -495,17 +495,15 @@ void  draw_sprite_part_with_mask(struct Sprite *sprite,
 				 int x, int y,int w, int h,
 				 int xsrc, int ysrc)
 {
-  static HDC hdccomp;
-  static HDC hdcmask;
+  HDC hdccomp;
+  HDC hdcmask;
   HBITMAP tempbit;
   HBITMAP tempmask;
   HBITMAP bitmap;
   HBITMAP maskbit;
   if (!sprite) return;
-  if (!hdccomp)
-    hdccomp=CreateCompatibleDC(hdc);
-  if (!hdcmask)
-    hdcmask=CreateCompatibleDC(hdc);
+  hdccomp=CreateCompatibleDC(NULL);
+  hdcmask=CreateCompatibleDC(NULL);
   bitmap=BITMAP2HBITMAP(&sprite->bmp);
   if (sprite_mask->has_mask)
     {
@@ -516,11 +514,14 @@ void  draw_sprite_part_with_mask(struct Sprite *sprite,
       tempmask=SelectObject(hdcmask,maskbit);
       BitBlt(hdc,x,y,w,h,hdcmask,xsrc,ysrc,SRCAND);
       tempbit=SelectObject(hdccomp,bitmap);
-      SetTextColor(hdccomp,RGB(255,255,255));
-      SetBkColor(hdccomp,RGB(0,0,0));
-      if (sprite!=sprite_mask) {
+      if (sprite!=sprite_mask) {  
+	COLORREF fgold,bgold;
+	fgold=SetTextColor(hdccomp,RGB(255,255,255));
+	bgold=SetBkColor(hdccomp,RGB(0,0,0));
 	BitBlt(hdccomp,0,0,sprite_mask->width,sprite_mask->height,
 	       hdcmask,0,0,SRCAND);
+	SetBkColor(hdccomp,bgold);
+	SetTextColor(hdccomp,fgold);
       }
       BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCINVERT);
       SelectObject(hdcmask,tempmask);
@@ -534,9 +535,9 @@ void  draw_sprite_part_with_mask(struct Sprite *sprite,
       BitBlt(hdc,x,y,w,h,hdccomp,xsrc,ysrc,SRCCOPY);
     }
   SelectObject(hdccomp,tempbit);
-  /*  DeleteDC(hdccomp); */
+  DeleteDC(hdccomp);
+  DeleteDC(hdcmask);
   DeleteObject(bitmap);
-
 }
 /**************************************************************************
 
