@@ -221,6 +221,7 @@ void auto_arrange_workers(struct city *pcity)
 
       if (!cmr.found_a_valid) {
 	CITY_LOG(LOG_DEBUG, pcity, "emergency management");
+	cmp.minimal_surplus[FOOD] = -FC_INFINITY;
 	cmp.minimal_surplus[SHIELD] = -20;
 	cmp.minimal_surplus[LUXURY] = -20;
 	cmp.minimal_surplus[SCIENCE] = -20;
