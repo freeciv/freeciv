@@ -7,6 +7,7 @@ pkgdata_DATA =          \
 	techs.ruleset	\
 	units.ruleset	\
 	buildings.ruleset \
+	flags.xpm	\
 	roads.xpm	\
 	small.xpm	\
 	space.xpm	\

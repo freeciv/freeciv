@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/@PACKAGE@/classic
 
 pkgdata_DATA =          \
+	flags.xpm	\
 	roads.xpm	\
 	tiles.xpm	\
 	units.xpm
