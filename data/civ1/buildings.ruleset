@@ -64,7 +64,7 @@ b={ "name", "is_wonder", "tech_requirement", "build_cost", "shield_upkeep", "var
 "Sewer System",      0, "Never",              120, 2,  0, "None"
 "Solar Plant",       0, "Never",              320, 4,  0, "None"
 "Space Component",   0, "Plastics",           160, 0,  0, "None"
-"Space Module",      0, "Superconductors",    320, 0,  0, "None"
+"Space Module",      0, "Robotics",           320, 0,  0, "None"
 "Space Structural",  0, "Space Flight",        80, 0,  0, "None"
 "Stock Exchange",    0, "Never",              160, 4,  0, "None"
 "Super Highways",    0, "Never",              160, 3,  0, "None"
