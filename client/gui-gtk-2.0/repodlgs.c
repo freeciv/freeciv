@@ -1468,7 +1468,7 @@ void popup_settable_options_dialog(void)
   for (i = 0; i < num_options_categories; i++) {
     vbox[i] = gtk_vbox_new(FALSE, 2);
     gtk_container_set_border_width(GTK_CONTAINER(vbox[i]), 6);
-    label = gtk_label_new(options_categories[i]);
+    label = gtk_label_new(_(options_categories[i]));
     gtk_notebook_append_page(GTK_NOTEBOOK(book), vbox[i], label);
   }
 
@@ -1487,12 +1487,12 @@ void popup_settable_options_dialog(void)
     gtk_box_pack_start(GTK_BOX(hbox), ebox, FALSE, FALSE, 5);
 
     /* insert the option short help as the label into the event box */
-    label = gtk_label_new(settable_options[i].short_help);
+    label = gtk_label_new(_(settable_options[i].short_help));
     gtk_container_add(GTK_CONTAINER(ebox), label);
 
     /* if we have extra help, use that as a tooltip */
     if (settable_options[i].extra_help[0] != '\0') {
-      gtk_tooltips_set_tip(tips, ebox, settable_options[i].extra_help, NULL);
+      gtk_tooltips_set_tip(tips, ebox, _(settable_options[i].extra_help), NULL);
     }
 
     /* create the proper entry method depending on the type */
