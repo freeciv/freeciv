@@ -585,6 +585,7 @@ void handle_short_city(struct packet_short_city *packet)
   sz_strlcpy(pcity->name, packet->name);
   
   pcity->size=packet->size;
+  pcity->tile_trade = packet->tile_trade;
 
   if (packet->happy) {
     pcity->ppl_happy[4]   = pcity->size;
@@ -630,7 +631,6 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->shield_prod        = 0;
     pcity->shield_surplus     = 0;
     pcity->trade_prod         = 0;
-    pcity->tile_trade         = 0;
     pcity->corruption         = 0;
     pcity->luxury_total       = 0;
     pcity->tax_total          = 0;

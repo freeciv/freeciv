@@ -379,6 +379,7 @@ struct packet_short_city {
   int happy;			/* boolean */
   int capital;			/* boolean */
   int walls;			/* boolean */
+  int tile_trade;		/* same as in packet_city_info */
 };
 
 

@@ -827,6 +827,17 @@ struct city *transfer_city(struct player *ptaker,
   }
   reestablish_city_trade_routes(pcity, old_trade_routes);
 
+  /*
+   * Give the new owner infos about all cities which have a traderoute
+   * with the transfered city.
+   */
+  for (i = 0; i < 4; i++) {
+    struct city *pother_city = find_city_by_id(pcity->trade[i]);
+    if (pother_city) {
+      update_dumb_city(ptaker, pother_city);
+    }
+  }
+
   city_refresh(pcity);
   map_city_radius_iterate(pcity->x, pcity->y, x, y) {
     update_city_tile_status_map(pcity, x, y);
@@ -1268,13 +1279,34 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 }
 
 /**************************************************************************
+  Returns true if the player owns a city which has a traderoute with
+  the given city.
+**************************************************************************/
+static int player_has_traderoute_with_city(struct player *pplayer,
+					   struct city *pcity)
+{
+  int i;
+
+  for (i = 0; i < 4; i++) {
+    struct city *other = find_city_by_id(pcity->trade[i]);
+    if (other && city_owner(other) == pplayer) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+/**************************************************************************
 This fills out a package from a players dumb_city.
 **************************************************************************/
 static void package_dumb_city(struct player* pplayer, int x, int y,
 			      struct packet_short_city *packet)
 {
   struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
-  struct city *pcity;
+  struct city *pcity = map_get_city(x, y);
+
+  assert(pcity);
+
   packet->id=pdcity->id;
   packet->owner=pdcity->owner;
   packet->x=x;
@@ -1285,19 +1317,23 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
   if (map_get_known_and_seen(x, y, pplayer)) {
     /* Since the tile is visible the player can see the tile,
        and if it didn't actually have a city pdcity would be NULL */
-    pcity = map_get_tile(x,y)->city;
     packet->happy = !city_unhappy(pcity);
   } else {
     packet->happy=1;
   }
 
-  if ((pcity = map_get_city(x,y)) && pcity->id == pdcity->id &&
-      city_got_building(pcity,  B_PALACE))
+  if (pcity->id == pdcity->id && city_got_building(pcity, B_PALACE))
     packet->capital=1;
   else
     packet->capital=0;
 
   packet->walls = pdcity->has_walls;
+
+  if (player_has_traderoute_with_city(pplayer, pcity)) {
+    packet->tile_trade = pcity->tile_trade;
+  } else {
+    packet->tile_trade = 0;
+  }
 }
 
 /**************************************************************************

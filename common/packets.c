@@ -2453,6 +2453,10 @@ int send_packet_short_city(struct connection *pc,
   i = (req->happy?1:0) | (req->capital?2:0) | (req->walls?4:0);
   cptr=put_uint8(cptr, i);
 
+  if (pc && has_capability("short_city_tile_trade", pc->capability)) {
+    cptr = put_uint16(cptr, req->tile_trade);
+  }
+
   put_uint16(buffer, cptr-buffer);
 
   return send_packet_data(pc, buffer, cptr-buffer);
@@ -2484,6 +2488,12 @@ receive_packet_short_city(struct connection *pc)
   packet->happy   = i & 1;
   packet->capital = i & 2;
   packet->walls   = i & 4;
+
+  if (pc && has_capability("short_city_tile_trade", pc->capability)) {
+    iget_uint16(&iter, &packet->tile_trade);
+  } else {
+    packet->tile_trade = 0;
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
