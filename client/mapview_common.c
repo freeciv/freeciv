@@ -1304,12 +1304,34 @@ static void put_tile_iso(int map_x, int map_y, enum draw_type draw)
 **************************************************************************/
 void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 {
-  const int gui_x0 = mapview_canvas.gui_x0 + canvas_x;
-  const int gui_y0 = mapview_canvas.gui_y0 + canvas_y;
+  int gui_x0, gui_y0;
+  bool full;
+  struct canvas *tmp;
+
+  canvas_x = MAX(canvas_x, 0);
+  canvas_y = MAX(canvas_y, 0);
+  width = MIN(mapview_canvas.width - canvas_x, width);
+  height = MIN(mapview_canvas.height - canvas_y, height);
+
+  gui_x0 = mapview_canvas.gui_x0 + canvas_x;
+  gui_y0 = mapview_canvas.gui_y0 + canvas_y;
+  full = (canvas_x == 0 && canvas_y == 0
+	  && width == mapview_canvas.width
+	  && height == mapview_canvas.height);
 
   freelog(LOG_DEBUG,
 	  "update_map_canvas(pos=(%d,%d), size=(%d,%d))",
 	  canvas_x, canvas_y, width, height);
+
+  /* If a full redraw is done, we just draw everything onto the canvas.
+   * However if a partial redraw is done we draw everything onto the
+   * tmp_canvas then copy *just* the area of update onto the canvas. */
+  if (!full) {
+    /* Swap store and tmp_store. */
+    tmp = mapview_canvas.store;
+    mapview_canvas.store = mapview_canvas.tmp_store;
+    mapview_canvas.tmp_store = tmp;
+  }
 
   /* Clear the area.  This is necessary since some parts of the rectangle
    * may not actually have any tiles drawn on them.  This will happen when
@@ -1351,6 +1373,17 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   }
 
   show_city_descriptions(canvas_x, canvas_y, width, height);
+
+  if (!full) {
+    /* Swap store and tmp_store back. */
+    tmp = mapview_canvas.store;
+    mapview_canvas.store = mapview_canvas.tmp_store;
+    mapview_canvas.tmp_store = tmp;
+
+    /* And copy store to tmp_store. */
+    canvas_copy(mapview_canvas.store, mapview_canvas.tmp_store,
+		canvas_x, canvas_y, canvas_x, canvas_y, width, height);
+  }
 
   dirty_rect(canvas_x, canvas_y, width, height);
 }
