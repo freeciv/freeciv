@@ -318,14 +318,14 @@ static void normalize_gui_pos(int *gui_x, int *gui_y)
   /* Perform wrapping without any realness check.  It's important that
    * we wrap even if the map position is unreal, which normalize_map_pos
    * doesn't necessarily do. */
-  map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
+  MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
   if (topo_has_flag(TF_WRAPX)) {
     nat_x = FC_WRAP(nat_x, map.xsize);
   }
   if (topo_has_flag(TF_WRAPY)) {
     nat_y = FC_WRAP(nat_y, map.ysize);
   }
-  native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+  NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
 
   /* Now convert the wrapped map position back to a GUI position and add the
    * offset back on. */
@@ -520,10 +520,10 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
 
   if (topo_has_flag(TF_ISO) == is_isometric) {
     /* If the map and view line up, it's easy. */
-    native_to_map_pos(xmin, ymin, 0, 0);
+    NATIVE_TO_MAP_POS(xmin, ymin, 0, 0);
     map_to_gui_pos(xmin, ymin, *xmin, *ymin);
 
-    native_to_map_pos(xmax, ymax, map.xsize - 1, map.ysize - 1);
+    NATIVE_TO_MAP_POS(xmax, ymax, map.xsize - 1, map.ysize - 1);
     map_to_gui_pos(xmax, ymax, *xmax, *ymax);
     *xmax += NORMAL_TILE_WIDTH;
     *ymax += NORMAL_TILE_HEIGHT;
@@ -552,16 +552,16 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
     int gui_x1, gui_y1, gui_x2, gui_y2, gui_x3, gui_y3, gui_x4, gui_y4;
     int map_x, map_y;
 
-    native_to_map_pos(&map_x, &map_y, 0, 0);
+    NATIVE_TO_MAP_POS(&map_x, &map_y, 0, 0);
     map_to_gui_pos(&gui_x1, &gui_y1, map_x, map_y);
 
-    native_to_map_pos(&map_x, &map_y, map.xsize - 1, 0);
+    NATIVE_TO_MAP_POS(&map_x, &map_y, map.xsize - 1, 0);
     map_to_gui_pos(&gui_x2, &gui_y2, map_x, map_y);
 
-    native_to_map_pos(&map_x, &map_y, 0, map.ysize - 1);
+    NATIVE_TO_MAP_POS(&map_x, &map_y, 0, map.ysize - 1);
     map_to_gui_pos(&gui_x3, &gui_y3, map_x, map_y);
 
-    native_to_map_pos(&map_x, &map_y, map.xsize - 1, map.ysize - 1);
+    NATIVE_TO_MAP_POS(&map_x, &map_y, map.xsize - 1, map.ysize - 1);
     map_to_gui_pos(&gui_x4, &gui_y4, map_x, map_y);
 
     *xmin = MIN(gui_x1, MIN(gui_x2, gui_x3)) - mapview_canvas.width / 2;
@@ -2310,7 +2310,7 @@ void overview_to_map_pos(int *map_x, int *map_y,
     ntl_x++;
   }
 
-  natural_to_map_pos(map_x, map_y, ntl_x, ntl_y);
+  NATURAL_TO_MAP_POS(map_x, map_y, ntl_x, ntl_y);
   if (!normalize_map_pos(map_x, map_y)) {
     /* All positions on the overview should be valid. */
     assert(FALSE);

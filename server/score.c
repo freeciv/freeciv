@@ -88,7 +88,7 @@ static char when_char(int when)
     printf("%d ", nat_y % 10);                     \
     for (nat_x = 0; nat_x < map.xsize; nat_x++) {  \
       int x, y;                                    \
-      native_to_map_pos(&x, &y, nat_x,nat_y);      \
+      NATIVE_TO_MAP_POS(&x, &y, nat_x,nat_y);      \
       printf(type, map_char_expr);                 \
     }                                              \
     printf(" %d\n", nat_y % 10);                   \

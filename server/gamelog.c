@@ -117,7 +117,7 @@ void gamelog_map(void)
 
   for (nat_y = 0; nat_y < map.ysize; nat_y++) {
     for (nat_x = 0; nat_x < map.xsize; nat_x++) {
-      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+      NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
       hline[nat_x] = is_ocean(map_get_terrain(map_x, map_y)) ? ' ' : '.';
     }
     gamelog(GAMELOG_MAP, "%s", hline);

@@ -246,25 +246,25 @@ void reset_move_costs(int x, int y);
    *(pnat_y) = (index) / map.xsize)
 
 /* Obscure math.  See explanation in doc/HACKING. */
-#define native_to_map_pos(pmap_x, pmap_y, nat_x, nat_y)                     \
+#define NATIVE_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                     \
   ((topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))                         \
    ? (*(pmap_x) = ((nat_y) + ((nat_y) & 1)) / 2 + (nat_x),                  \
       *(pmap_y) = (nat_y) - *(pmap_x) + map.xsize)                          \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
-#define map_to_native_pos(pnat_x, pnat_y, map_x, map_y)                     \
+#define MAP_TO_NATIVE_POS(pnat_x, pnat_y, map_x, map_y)                     \
   ((topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX))			    \
    ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
       *(pnat_x) = (2 * (map_x) - *(pnat_y) - (*(pnat_y) & 1)) / 2)          \
    : (*(pnat_x) = (map_x), *(pnat_y) = (map_y)))
 
-#define natural_to_map_pos(pmap_x, pmap_y, nat_x, nat_y)                    \
+#define NATURAL_TO_MAP_POS(pmap_x, pmap_y, nat_x, nat_y)                    \
   (topo_has_flag(TF_ISO)                                                    \
    ? (*(pmap_x) = ((nat_y) + (nat_x)) / 2,                                  \
       *(pmap_y) = (nat_y) - *(pmap_x) + map.xsize)                          \
    : (*(pmap_x) = (nat_x), *(pmap_y) = (nat_y)))
 
-#define map_to_natural_pos(pnat_x, pnat_y, map_x, map_y)                    \
+#define MAP_TO_NATURAL_POS(pnat_x, pnat_y, map_x, map_y)                    \
   (topo_has_flag(TF_ISO)                                                    \
    ? (*(pnat_y) = (map_x) + (map_y) - map.xsize,                            \
       *(pnat_x) = 2 * (map_x) - *(pnat_y))                                  \
@@ -278,7 +278,7 @@ void reset_move_costs(int x, int y);
 #define do_in_native_pos(nat_x, nat_y, map_x, map_y)                        \
 {                                                                           \
   int _nat_x, _nat_y;                                                       \
-  map_to_native_pos(&_nat_x, &_nat_y, map_x, map_y);			    \
+  MAP_TO_NATIVE_POS(&_nat_x, &_nat_y, map_x, map_y);			    \
   {                                                                         \
     const int nat_x = _nat_x, nat_y = _nat_y;
 
@@ -293,7 +293,7 @@ void reset_move_costs(int x, int y);
 #define do_in_natural_pos(ntl_x, ntl_y, map_x, map_y)                        \
 {                                                                           \
   int _ntl_x, _ntl_y;                                                       \
-  map_to_natural_pos(&_ntl_x, &_ntl_y, map_x, map_y);			    \
+  MAP_TO_NATURAL_POS(&_ntl_x, &_ntl_y, map_x, map_y);			    \
   {                                                                         \
     const int ntl_x = _ntl_x, ntl_y = _ntl_y;
 
@@ -324,7 +324,7 @@ static inline int map_pos_to_index(int map_x, int map_y);
 #define index_to_map_pos(pmap_x, pmap_y, index) \
   (CHECK_INDEX(index),                          \
    index_to_native_pos(pmap_x, pmap_y, index),  \
-   native_to_map_pos(pmap_x, pmap_y, *(pmap_x), *(pmap_y)))
+   NATIVE_TO_MAP_POS(pmap_x, pmap_y, *(pmap_x), *(pmap_y)))
 
 #define DIRSTEP(dest_x, dest_y, dir)	\
 (    (dest_x) = DIR_DX[(dir)],      	\
@@ -689,7 +689,7 @@ static inline int map_pos_to_index(int map_x, int map_y)
   int nat_x, nat_y;
 
   CHECK_MAP_POS(map_x, map_y);
-  map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
+  MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
   return native_pos_to_index(nat_x, nat_y);
 }
 

@@ -43,7 +43,7 @@
 #define do_in_map_pos(map_x, map_y, nat_x, nat_y)                           \
 {                                                                           \
   int map_x, map_y;                                                         \
-  native_to_map_pos(&map_x, &map_y, nat_x, nat_y);                          \
+  NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);                          \
   {                                                                         \
 
 #define do_in_map_pos_end                                                   \
@@ -464,7 +464,7 @@ static void make_forest(int map_x, int map_y, int height, int diff)
 {
   int nat_x, nat_y, T;
 
-  map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
+  MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
   T = map_temperature(map_x, map_y);
   if (not_placed(map_x, map_y)) {
     if (T > 8 * MAX_TEMP / 10 
@@ -1901,7 +1901,7 @@ static void get_random_map_position_from_state(int *x, int *y,
   xn = pstate->w + myrand(pstate->e - pstate->w);
   yn = pstate->n + myrand(pstate->s - pstate->n);
 
-  native_to_map_pos(x, y, xn, yn);
+  NATIVE_TO_MAP_POS(x, y, xn, yn);
   if (!normalize_map_pos(x, y)) {
     die("Invalid map operation.");
   }
@@ -2040,7 +2040,7 @@ static bool place_island(struct gen234_state *pstate)
     int xo, yo;
 
     rand_map_pos(&xo, &yo);
-    map_to_native_pos(&xon, &yon, xo, yo);
+    MAP_TO_NATIVE_POS(&xon, &yon, xo, yo);
   }
 
   /* this helps a lot for maps with high landmass */
@@ -2049,7 +2049,7 @@ static bool place_island(struct gen234_state *pstate)
        yn++, xn++) {
     int map_x, map_y;
 
-    native_to_map_pos(&map_x, &map_y,
+    NATIVE_TO_MAP_POS(&map_x, &map_y,
 		      xn + xon - pstate->w, yn + yon - pstate->n);
 
     if (!normalize_map_pos(&map_x, &map_y)) {
@@ -2064,7 +2064,7 @@ static bool place_island(struct gen234_state *pstate)
     for (xn = pstate->w; xn < pstate->e; xn++) {
       int map_x, map_y;
 
-      native_to_map_pos(&map_x, &map_y,
+      NATIVE_TO_MAP_POS(&map_x, &map_y,
 			xn + xon - pstate->w, yn + yon - pstate->n);
 
       if (!normalize_map_pos(&map_x, &map_y)) {
@@ -2082,7 +2082,7 @@ static bool place_island(struct gen234_state *pstate)
 	int map_x, map_y;
 	bool is_real;
 
-	native_to_map_pos(&map_x, &map_y,
+	NATIVE_TO_MAP_POS(&map_x, &map_y,
 			  xn + xon - pstate->w, yn + yon - pstate->n);
 
 	is_real = normalize_map_pos(&map_x, &map_y);
@@ -2143,7 +2143,7 @@ static bool create_island(int islemass, struct gen234_state *pstate)
   i = islemass - 1;
   while (i > 0 && tries-->0) {
     get_random_map_position_from_state(&x, &y, pstate);
-    map_to_native_pos(&xn, &yn, x, y);
+    MAP_TO_NATIVE_POS(&xn, &yn, x, y);
     if ((!near_singularity(x, y) || myrand(50) < 25 ) 
 	&& hmap(x, y) == 0 && count_card_adjc_elevated_tiles(x, y) > 0) {
       hmap(x, y) = 1;
@@ -2164,7 +2164,7 @@ static bool create_island(int islemass, struct gen234_state *pstate)
     if (i < islemass / 10) {
       for (yn = pstate->n; yn < pstate->s; yn++) {
 	for (xn = pstate->w; xn < pstate->e; xn++) {
-	  native_to_map_pos(&x, &y, xn, yn);
+	  NATIVE_TO_MAP_POS(&x, &y, xn, yn);
 	  if (hnat(xn, yn) == 0 && i > 0
 	      && count_card_adjc_elevated_tiles(x, y) == 4) {
 	    hnat(xn, yn) = 1;

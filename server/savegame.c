@@ -79,7 +79,7 @@
                                                                             \
   for (nat_y = 0; nat_y < map.ysize; nat_y++) {                             \
     for (nat_x = 0; nat_x < map.xsize; nat_x++) {                           \
-      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);                      \
+      NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);                      \
       line[nat_x] = (GET_XY_CHAR);                                          \
       if (!my_isprint(line[nat_x] & 0x7f)) {                                \
           die("Trying to write invalid map "                                \
@@ -165,7 +165,7 @@
       int map_x, map_y;                                                     \
       const char ch = _line[nat_x];                                         \
                                                                             \
-      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);                      \
+      NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);                      \
       (SET_XY_CHAR);                                                        \
     }                                                                       \
   }                                                                         \
@@ -336,7 +336,7 @@ static void map_startpos_load(struct section_file *file)
     nat_x = secfile_lookup_int(file, "map.r%dsx", i);
     nat_y = secfile_lookup_int(file, "map.r%dsy", i);
 
-    native_to_map_pos(&map.start_positions[i].x, &map.start_positions[i].y,
+    NATIVE_TO_MAP_POS(&map.start_positions[i].x, &map.start_positions[i].y,
 		      nat_x, nat_y);
 
     if (nation) {
@@ -390,7 +390,7 @@ static void map_tiles_load(struct section_file *file)
     struct tile *ptile = map_get_tile(mx, my);
     int nx, ny;
 
-    map_to_native_pos(&nx, &ny, mx, my);
+    MAP_TO_NATIVE_POS(&nx, &ny, mx, my);
 
     ptile->spec_sprite = secfile_lookup_str_default(file, NULL,
 				"map.spec_sprite_%d_%d", nx, ny);
@@ -579,7 +579,7 @@ static void map_save(struct section_file *file)
     if (ptile->spec_sprite) {
       int nx, ny;
 
-      map_to_native_pos(&nx, &ny, mx, my);
+      MAP_TO_NATIVE_POS(&nx, &ny, mx, my);
       secfile_insert_str(file, ptile->spec_sprite, 
 			 "map.spec_sprite_%d_%d", nx, ny);
     }
@@ -1250,7 +1250,7 @@ static void load_player_units(struct player *plr, int plrno,
 
     nat_x = secfile_lookup_int(file, "player%d.u%d.x", plrno, i);
     nat_y = secfile_lookup_int(file, "player%d.u%d.y", plrno, i);
-    native_to_map_pos(&punit->x, &punit->y, nat_x, nat_y);
+    NATIVE_TO_MAP_POS(&punit->x, &punit->y, nat_x, nat_y);
 
     punit->foul
       = secfile_lookup_bool_default(file, FALSE, "player%d.u%d.foul",
@@ -1303,7 +1303,7 @@ static void load_player_units(struct player *plr, int plrno,
       int nat_y = secfile_lookup_int(file, "player%d.u%d.goto_y", plrno, i);
       int map_x, map_y;
 
-      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+      NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
       set_goto_dest(punit, map_x, map_y);
     } else {
       clear_goto_dest(punit);
@@ -1746,7 +1746,7 @@ static void player_load(struct player *plr, int plrno,
     const char* name;
     int id, k;
 
-    native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+    NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
     pcity = create_city_virtual(plr, map_x, map_y,
                       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
 
@@ -2107,7 +2107,7 @@ static void player_map_load(struct player *plr, int plrno,
 	pdcity->id = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
 	nat_x = secfile_lookup_int(file, "player%d.dc%d.x", plrno, j);
 	nat_y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
-	native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+	NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
 	sz_strlcpy(pdcity->name, secfile_lookup_str(file, "player%d.dc%d.name", plrno, j));
 	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
 	pdcity->has_walls = secfile_lookup_bool(file, "player%d.dc%d.has_walls", plrno, j);    

@@ -373,7 +373,7 @@ void center_on_something(void)
     /* Just any known tile will do; search near the middle first. */
     int center_map_x, center_map_y;
 
-    native_to_map_pos(&center_map_x, &center_map_y,
+    NATIVE_TO_MAP_POS(&center_map_x, &center_map_y,
 		      map.xsize / 2, map.ysize / 2);
 
     /* Iterate outward from the center tile.  We have to give a radius that

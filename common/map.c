@@ -241,7 +241,7 @@ static void generate_map_indices(void)
    * the center of the map to make the min/max values (below) simpler. */
   nat_center_x = map.xsize / 2;
   nat_center_y = map.ysize / 2;
-  native_to_map_pos(&map_center_x, &map_center_y,
+  NATIVE_TO_MAP_POS(&map_center_x, &map_center_y,
 		    nat_center_x, nat_center_y);
 
   /* If we wrap in a particular direction (X or Y) we only need to explore a
@@ -283,7 +283,7 @@ static void generate_map_indices(void)
        * distance between the two points.  Wrapping is ignored at this
        * point since the use of native positions means we should always have
        * the shortest vector. */
-      native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
+      NATIVE_TO_MAP_POS(&map_x, &map_y, nat_x, nat_y);
       dx = map_x - map_center_x;
       dy = map_y - map_center_y;
 
@@ -1433,7 +1433,7 @@ bool normalize_map_pos(int *x, int *y)
   int nat_x, nat_y;
 
   /* Normalization is best done in native coordinatees. */
-  map_to_native_pos(&nat_x, &nat_y, *x, *y);
+  MAP_TO_NATIVE_POS(&nat_x, &nat_y, *x, *y);
 
   /* If the position is out of range in a non-wrapping direction, it is
    * unreal. */
@@ -1451,7 +1451,7 @@ bool normalize_map_pos(int *x, int *y)
   }
 
   /* Now transform things back to map coordinates. */
-  native_to_map_pos(x, y, nat_x, nat_y);
+  NATIVE_TO_MAP_POS(x, y, nat_x, nat_y);
   return TRUE;
 }
 
@@ -1463,14 +1463,14 @@ void nearest_real_pos(int *x, int *y)
 {
   int nat_x, nat_y;
 
-  map_to_native_pos(&nat_x, &nat_y, *x, *y);
+  MAP_TO_NATIVE_POS(&nat_x, &nat_y, *x, *y);
   if (!topo_has_flag(TF_WRAPX)) {
     nat_x = CLIP(0, nat_x, map.xsize - 1);
   }
   if (!topo_has_flag(TF_WRAPY)) {
     nat_y = CLIP(0, nat_y, map.ysize - 1);
   }
-  native_to_map_pos(x, y, nat_x, nat_y);
+  NATIVE_TO_MAP_POS(x, y, nat_x, nat_y);
 
   if (!normalize_map_pos(x, y)) {
     assert(FALSE);
@@ -1505,8 +1505,8 @@ void map_distance_vector(int *dx, int *dy, int x0, int y0, int x1, int y1)
 {
   if (topo_has_flag(TF_WRAPX) || topo_has_flag(TF_WRAPY)) {
     /* Wrapping is done in native coordinates. */
-    map_to_native_pos(&x0, &y0, x0, y0);
-    map_to_native_pos(&x1, &y1, x1, y1);
+    MAP_TO_NATIVE_POS(&x0, &y0, x0, y0);
+    MAP_TO_NATIVE_POS(&x1, &y1, x1, y1);
 
     /* Find the "native" distance vector. This corresponds closely to the
      * map distance vector but is easier to wrap. */
@@ -1524,8 +1524,8 @@ void map_distance_vector(int *dx, int *dy, int x0, int y0, int x1, int y1)
     /* Convert the native delta vector back to a pair of map positions. */
     x1 = x0 + *dx;
     y1 = y0 + *dy;
-    native_to_map_pos(&x0, &y0, x0, y0);
-    native_to_map_pos(&x1, &y1, x1, y1);
+    NATIVE_TO_MAP_POS(&x0, &y0, x0, y0);
+    NATIVE_TO_MAP_POS(&x1, &y1, x1, y1);
   }
 
   /* Find the final (map) vector. */
@@ -1574,8 +1574,8 @@ void rand_map_pos(int *x, int *y)
 {
   int nat_x = myrand(map.xsize), nat_y = myrand(map.ysize);
 
-  /* Don't pass non-deterministic expressions to native_to_map_pos! */
-  native_to_map_pos(x, y, nat_x, nat_y);
+  /* Don't pass non-deterministic expressions to NATIVE_TO_MAP_POS! */
+  NATIVE_TO_MAP_POS(x, y, nat_x, nat_y);
   CHECK_MAP_POS(*x, *y);
 }
 
