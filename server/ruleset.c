@@ -1260,7 +1260,8 @@ static void send_ruleset_control(struct player *dest)
 
   packet.aqueduct_size = game.aqueduct_size;
   packet.sewer_size = game.sewer_size;
-  
+  packet.add_to_size_limit = game.add_to_size_limit;
+
   packet.rtech.get_bonus_tech = game.rtech.get_bonus_tech;
   packet.rtech.cathedral_plus = game.rtech.cathedral_plus;
   packet.rtech.cathedral_minus = game.rtech.cathedral_minus;
