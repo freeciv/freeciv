@@ -642,8 +642,8 @@ rewrite send_city_info as a wrapper or something -- Syela */
   *p='\0';
   
   for(o=0; o<game.nplayers; o++) {           /* dests */
+    if(nocity_send && pcity->owner==o) continue;
     if(!dest || &game.players[o]==dest) {
-      if(nocity_send && &game.players[o]==dest) continue;
       if(dosend > 0 || map_get_known(pcity->x, pcity->y, &game.players[o])) {
 	send_packet_city_info(game.players[o].conn, &packet);
       }
