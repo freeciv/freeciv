@@ -1434,12 +1434,12 @@ static bool is_full_ocean(enum tile_terrain_type t, int x, int y)
 static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 			  Uint16 map_col, Uint16 map_row, int citymode)
 {
-  SDL_Surface *pTile_sprs[80];
-  SDL_Surface *pCoasts[4] = {NULL, NULL, NULL, NULL};
-  SDL_Surface *pDither[4] = {NULL, NULL, NULL, NULL};
+  struct Sprite *pTile_sprs[80];
+  struct Sprite *pCoasts[4] = {NULL, NULL, NULL, NULL};
+  struct Sprite *pDither[4] = {NULL, NULL, NULL, NULL};
   SDL_Surface *pDitherBufs[4];
   SDL_Surface *pBufSurface = NULL;
-  SDL_Rect dst , des = { map_x, map_y, 0, 0 };
+  SDL_Rect dst , des = {map_x, map_y, 0, 0};
   struct tile *pTile = map_get_tile(map_col, map_row);
   struct city *pCity = pTile->city;
   struct unit *pUnit = NULL, *pFocus = NULL;
@@ -1449,12 +1449,9 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   int full_ocean;
   int solid_bg;
   
-  count = fill_tile_sprite_array_iso((struct Sprite **) pTile_sprs,
-				     (struct Sprite **) pCoasts,
-				     (struct Sprite **) pDither,
-				     map_col, map_row, citymode,
-				     &solid_bg);
-    				     
+  count =
+      fill_tile_sprite_array_iso(pTile_sprs, pCoasts, pDither, map_col,
+				 map_row, citymode, &solid_bg);
 
   if (count == -1) { /* tile is unknown */
     SDL_BlitSurface(GET_SURF(sprites.black_tile),
@@ -1507,27 +1504,27 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
       {  /* coasts */
         /* top */
         des.x += NORMAL_TILE_WIDTH / 4;
-        SDL_BlitSurface(pCoasts[0], NULL, pBufSurface, &des);
+        SDL_BlitSurface(GET_SURF(pCoasts[0]), NULL, pBufSurface, &des);
         des = dst;
       
         /* bottom */
         des.x += NORMAL_TILE_WIDTH / 4;
         des.y += NORMAL_TILE_HEIGHT / 2;
-        SDL_BlitSurface(pCoasts[1], NULL, pBufSurface, &des);
+        SDL_BlitSurface(GET_SURF(pCoasts[1]), NULL, pBufSurface, &des);
         des = dst;
       
         /* left */
         des.y += NORMAL_TILE_HEIGHT / 4;
-        SDL_BlitSurface(pCoasts[2], NULL, pBufSurface, &des);
+        SDL_BlitSurface(GET_SURF(pCoasts[2]), NULL, pBufSurface, &des);
         des = dst;
       
         /* right */
         des.y += NORMAL_TILE_HEIGHT / 4;
         des.x += NORMAL_TILE_WIDTH / 2;
-        SDL_BlitSurface(pCoasts[3], NULL, pBufSurface, &des);
+        SDL_BlitSurface(GET_SURF(pCoasts[3]), NULL, pBufSurface, &des);
       }
     } else {
-      SDL_BlitSurface(pTile_sprs[0], NULL, pBufSurface, &des);
+      SDL_BlitSurface(GET_SURF(pTile_sprs[0]), NULL, pBufSurface, &des);
       i++;
     }
 
@@ -1567,13 +1564,13 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     /*** Rest of terrain and specials ***/
   for (; i < count; i++) {
     if (pTile_sprs[i]) {
-      if (pTile_sprs[i]->w - NORMAL_TILE_WIDTH > 0
-	  || pTile_sprs[i]->h - NORMAL_TILE_HEIGHT > 0) {
-	des.x -= (pTile_sprs[i]->w - NORMAL_TILE_WIDTH);
-	des.y -= (pTile_sprs[i]->h - NORMAL_TILE_HEIGHT);
-	SDL_BlitSurface(pTile_sprs[i], NULL, pBufSurface, &des);
+      if (GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH > 0
+	  || GET_SURF(pTile_sprs[i])->h - NORMAL_TILE_HEIGHT > 0) {
+	des.x -= (GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH);
+	des.y -= (GET_SURF(pTile_sprs[i])->h - NORMAL_TILE_HEIGHT);
+	SDL_BlitSurface(GET_SURF(pTile_sprs[i]), NULL, pBufSurface, &des);
       } else {
-	SDL_BlitSurface(pTile_sprs[i], NULL, pBufSurface, &des);
+	SDL_BlitSurface(GET_SURF(pTile_sprs[i]), NULL, pBufSurface, &des);
       }
       des = dst;
     } else {
@@ -1657,7 +1654,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 
     /*** city size ***/
   /* Not fogged as it would be unreadable */
-  if (!( SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE ) &&
+  if (!(SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE) &&
 				     pCity && draw_cities) {
     if (pCity->size >= 10) {
       SDL_BlitSurface(GET_SURF(sprites.city.size_tens[pCity->size / 10]),

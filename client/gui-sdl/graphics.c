@@ -1761,6 +1761,15 @@ void load_intro_gfx(void)
   }
 }
 
+static struct Sprite * ctor_sprite(SDL_Surface *pSurface)
+{
+  struct Sprite *result = fc_malloc(sizeof(struct Sprite));
+
+  result->psurface = pSurface;
+
+  return result;
+}
+
 /**************************************************************************
   Create a new sprite by cropping and taking only the given portion of
   the image.
@@ -1781,13 +1790,13 @@ struct Sprite *crop_sprite(struct Sprite *source,
     pNew = SDL_ConvertSurface(pTmp, pTmp->format, pTmp->flags);
 
     if (!pNew) {
-      return GET_SPRI(pTmp);
+      return ctor_sprite(pTmp);
     }
 
     FREESURFACE(pTmp);
   }
 
-  return GET_SPRI(pNew);
+  return ctor_sprite(pNew);
 }
 
 /**************************************************************************
@@ -1890,7 +1899,7 @@ struct Sprite * load_gfxfile(const char *filename)
 
     if (SDL_BlitSurface(pBuf, NULL, pNew, NULL)) {
       FREESURFACE(pNew);
-      return GET_SPRI(pBuf);
+      return ctor_sprite(pBuf);
     }
 
     FREESURFACE(pBuf);
@@ -1899,7 +1908,7 @@ struct Sprite * load_gfxfile(const char *filename)
 		    getpixel(pNew, pNew->w - 1, pNew->h - 1));
   }
 
-  return GET_SPRI(pNew);
+  return ctor_sprite(pNew);
 }
 
 /**************************************************************************
@@ -1908,6 +1917,8 @@ struct Sprite * load_gfxfile(const char *filename)
 void free_sprite(struct Sprite *s)
 {
   FREESURFACE(GET_SURF(s));
+  s->psurface=NULL;
+  free(s);
 }
 
 

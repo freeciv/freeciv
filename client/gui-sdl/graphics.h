@@ -30,11 +30,10 @@
 #define	RECT_LIMIT	80
 
 struct Sprite {
-  struct SDL_Surface;
+  struct SDL_Surface *psurface;
 };
 
-#define GET_SURF(s)	fc__extension((SDL_Surface *)s)
-#define GET_SPRI(s)	fc__extension((struct Sprite *)s)
+#define GET_SURF(m_sprite)	(m_sprite->psurface)
 
 struct canvas_store {
   int rects_count;		/* update rect. list counter */
