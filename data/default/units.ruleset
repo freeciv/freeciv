@@ -751,11 +751,11 @@ move_rate     = 10
 vision_range  = 2
 transport_cap = 0
 fuel          = 1
-uk_happy      = 1
+uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Fighter"
+flags         = "Fighter"
 roles         = ""
 
 [unit_bomber]
@@ -826,11 +826,11 @@ move_rate     = 14
 vision_range  = 2
 transport_cap = 0
 fuel          = 1
-uk_happy      = 1
+uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Fighter"
+flags         = "Fighter"
 roles         = ""
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
