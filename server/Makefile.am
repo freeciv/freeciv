@@ -41,6 +41,7 @@ libcivserver_a_SOURCES = \
 		gotohand.h	\
 		handchat.c	\
 		handchat.h	\
+		hand_gen.h	\
 		mapgen.c	\
 		mapgen.h	\
 		maphand.c	\
