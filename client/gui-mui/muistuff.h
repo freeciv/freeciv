@@ -21,11 +21,22 @@
 #include <libraries/iffparse.h> /* MAKE_ID macro */
 #endif
 
+#include "declgate.h"
 #include "SDI_compiler.h"
-#define HOOKPROTO(name, ret, obj, param) static SAVEDS ASM(ret) name(REG(a0, struct Hook *hook), REG(a2, obj), REG(a1, param))
-#define HOOKPROTONH(name, ret, obj, param) static SAVEDS ASM(ret) name(REG(a2, obj), REG(a1, param))
-#define HOOKPROTONHNO(name, ret, param) static SAVEDS ASM(ret) name(REG(a1, param))
-#define DISPATCHERPROTO(name) static ASM(ULONG) SAVEDS name(REG(a0, struct IClass * cl), REG(a2, Object * obj), REG(a1, Msg msg))
+
+#ifdef __MORPHOS__
+# define HOOKPROTO(name, ret, obj, param) static ret name ## PPC(void); static struct EmulLibEntry name = {TRAP_LIB, 0, (void (*)(void)) name ## PPC}; static ret name ## PPC(void)
+# define HOOKPROTONH(name, ret, obj, param) static ret name ## PPC(void); static struct EmulLibEntry name = {TRAP_LIB, 0, (void (*)(void)) name ## PPC}; static ret name ## PPC(void)
+# define HOOKPROTONHNO(name, ret, param) static ret name ## PPC(void); static struct EmulLibEntry name = {TRAP_LIB, 0, (void (*)(void)) name ## PPC}; static ret name ## PPC(void)
+# define DISPATCHERPROTO(name) ULONG name ## PPC(void)
+# define DISPATCHERARG (DECLARG_3(a0, struct IClass *, cl, a2, Object *, obj, a1, Msg, msg)
+#else
+# define HOOKPROTO(name, ret, obj, param) static SAVEDS ASM(ret) name(REG(a0, struct Hook *hook), REG(a2, obj), REG(a1, param))
+# define HOOKPROTONH(name, ret, obj, param) static SAVEDS ASM(ret) name(REG(a2, obj), REG(a1, param))
+# define HOOKPROTONHNO(name, ret, param) static SAVEDS ASM(ret) name(REG(a1, param))
+# define DISPATCHERPROTO(name) static ASM(ULONG) SAVEDS name(REG(a0, struct IClass * cl), REG(a2, Object * obj), REG(a1, Msg msg))
+# define DISPATCHERARG
+#endif
 
 #define malloc_struct(x) (x*)(malloc(sizeof(x)))
 
