@@ -1154,7 +1154,7 @@ Freeciv.iconName: Freeciv
 *sciencehelpnote.top:                chainTop
 *sciencehelpnote.bottom:             chainTop
 *sciencehelpnote.left:               chainLeft
-*sciencehelpnote.right:              chainRight
+*sciencehelpnote.right:              chainLeft
 
 *sciencehelptoggle.label:          Help
 *sciencehelptoggle.fromVert:       sciencelabel
