@@ -389,7 +389,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 {
   struct GUI *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
-  struct unit *pUnit;
+  struct unit *pUnit = NULL;
   struct unit_type *pUnitType;
   char cBuf[255];  
   int i, w = 0, h, n;

@@ -356,9 +356,8 @@ Uint16 gui_event_loop(void *pData,
   static Uint16 ID;
   static struct timeval tv;
   static fd_set civfdset;
-  static int result;
   static Uint32 t1, t2;
-  static int schot_nr = 0;
+  static int result, schot_nr = 0;
   static char schot[32];
 
   ID = ID_ERROR;
@@ -570,11 +569,14 @@ void ui_init(void)
     FREESURFACE(pBgd);
     SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
   } else {
-    set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
-    SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
-    if(!SDL_GetVideoInfo()->wm_available) {
+    set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT);
+    if(pBgd) {
+      blit_entire_src(pBgd, Main.map, (Main.map->w - pBgd->w) / 2,
+    				      (Main.map->h - pBgd->h) / 2);
+      FREESURFACE(pBgd);
       SDL_Client_Flags |= CF_TOGGLED_FULLSCREEN;
     } else {
+      SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
       SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
     }
   }

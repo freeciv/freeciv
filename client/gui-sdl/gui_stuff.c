@@ -3617,8 +3617,7 @@ INPUT:/* add new element of chain (and move cursor right) */
 	/* convert and add to chain */
 	/* ugly fix */
 	if(Key.unicode < 0x80 && Key.unicode > 0) {
-	  char chr = (char)(Key.unicode);
-	  convertcopy_to_utf16(pEdt->pInputChain->prev->chr, &chr);
+	  convertcopy_to_utf16(pEdt->pInputChain->prev->chr, (char *)&Key.unicode);
         } else {
 	  pEdt->pInputChain->prev->chr[0] = Key.unicode;
         }
