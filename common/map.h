@@ -45,7 +45,7 @@ struct tile {
   struct unit_list units;
   signed char worked; /* who defaults chars to unsigned?  Ugh. */
   short assigned; /* these can save a lot of CPU usage -- Syela */
-  unsigned char move_cost[8]; /* don't know if this helps! */
+  signed char move_cost[8]; /* don't know if this helps! */
 };
 
 
