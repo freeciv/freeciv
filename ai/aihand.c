@@ -433,7 +433,5 @@ void ai_manage_government(struct player *pplayer)
       ai_government_change(pplayer, G_MONARCHY); /* better than despotism! -- Syela */
     break;
   }
-  if (pplayer->government == G_DESPOTISM)
-    ai_government_change(pplayer, G_ANARCHY); /* necessary if cheesy! */
 }
 

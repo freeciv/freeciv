@@ -766,9 +766,14 @@ void handle_player_tech_goal(struct player *pplayer,
 void handle_player_government(struct player *pplayer,
 			     struct packet_player_request *preq)
 {
-  if (pplayer->revolution || pplayer->government!=G_ANARCHY 
-      || !can_change_to_government(pplayer, preq->government))
+  if( pplayer->government!=G_ANARCHY || 
+     !can_change_to_government(pplayer, preq->government) 
+    )
     return;
+
+  if((pplayer->revolution<=5) && (pplayer->revolution>0))
+    return;
+
   pplayer->government=preq->government;
   notify_player(pplayer, "Game: %s now governs the %s as a %s.", 
 		pplayer->name, 

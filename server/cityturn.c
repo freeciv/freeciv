@@ -94,9 +94,13 @@ void set_tax_income(struct city *pcity)
   pcity->tax_total = 0;
   rate = pcity->trade_prod;
   while (rate) {
-    tax += (100 - game.players[pcity->owner].economic.science - game.players[pcity->owner].economic.luxury);
-    sci += game.players[pcity->owner].economic.science;
-    lux += game.players[pcity->owner].economic.luxury;
+    if( game.players[pcity->owner].government!= G_ANARCHY ){
+      tax += (100 - game.players[pcity->owner].economic.science - game.players[pcity->owner].economic.luxury);
+      sci += game.players[pcity->owner].economic.science;
+      lux += game.players[pcity->owner].economic.luxury;
+    }else {/* ANARCHY */
+      lux+= 100;
+    }
     if (tax >= 100 && rate) {
       tax -= 100;
       pcity->tax_total++;
@@ -1007,14 +1011,16 @@ void pay_for_buildings(struct player *pplayer, struct city *pcity)
 	    break;
 	  }
 	}
-      } else if (pplayer->economic.gold-improvement_upkeep(pcity, i)<0) {
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUCTIONED,
-			 "Game: Can't afford to maintain %s in %s, building sold!", 
-			 improvement_types[i].name, pcity->name);
-	do_sell_building(pplayer, pcity, i);
-	city_refresh(pcity);
-      } else
-	pplayer->economic.gold-=improvement_upkeep(pcity, i);
+      } else if( pplayer->government != G_ANARCHY ){
+	if (pplayer->economic.gold-improvement_upkeep(pcity, i)<0) {
+	  notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_AUCTIONED,
+			   "Game: Can't afford to maintain %s in %s, building sold!", 
+			   improvement_types[i].name, pcity->name);
+	  do_sell_building(pplayer, pcity, i);
+	  city_refresh(pcity);
+	} else
+	  pplayer->economic.gold-=improvement_upkeep(pcity, i);
+      }
     }
 }
 
