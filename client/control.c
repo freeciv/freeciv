@@ -221,6 +221,9 @@ void advance_unit_focus(void)
   struct unit *candidate = find_best_focus_candidate(FALSE);
 
   set_hover_state(NULL, HOVER_NONE);
+  if (!can_client_change_view()) {
+    return;
+  }
 
   if(!candidate) {
     /* First try for "waiting" units. */
