@@ -28,6 +28,7 @@
 
 #undef PACKAGE
 #undef VERSION
+#undef MAILING_LIST
 #undef MAJOR_VERSION
 #undef MINOR_VERSION
 #undef PATCH_VERSION

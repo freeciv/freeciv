@@ -25,6 +25,7 @@
 #define PATCH_VERSION  0 
 #define VERSION_STRING "1.8.0"
 #define IS_BETA_VERSION 1 
+#define MAILING_LIST "freeciv-dev@freeciv.org"
 
 #endif /* HAVE_CONFIG_H */
 

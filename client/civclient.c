@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, "  -version\t\tPrint the version number (%s)\n", \
                     FREECIV_NAME_VERSION);
     fprintf(stderr, "  -tiles D\t\tLook in directory D for the tiles\n");
+    fprintf(stderr, "Report bugs to %s.\n",MAILING_LIST);
     exit(0);
   }
   
