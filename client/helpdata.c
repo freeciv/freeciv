@@ -687,7 +687,12 @@ void helptext_unit(char *buf, int i, const char *user_text)
     }
   }
   if (unit_type_flag(i, F_TRADE_ROUTE)) {
-    sprintf(buf + strlen(buf), _("* Can establish trade routes.\n"));
+    /* TRANS: "Manhattan" distance is the distance along gridlines, with
+     * no diagonals allowed. */
+    sprintf(buf + strlen(buf), _("* Can establish trade routes (must travel "
+				 "to target city and must be at least 9 "
+				 "tiles [in Manhattan distance] from this "
+				 "unit's home city).\n"));
   }
   if (unit_type_flag(i, F_HELP_WONDER)) {
     sprintf(buf + strlen(buf),
