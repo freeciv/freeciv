@@ -455,6 +455,8 @@ void summon_barbarians(void)
     return;
 
   n = map.xsize*map.ysize / MAP_FACTOR;    /* map size adjustment */
+  if (n == 0) /* Allow barbarians on maps smaller than MAP_FACTOR */
+    n = 1;
 
   for( i=0; i < n*(game.barbarianrate-1); i++)
     try_summon_barbarians();
