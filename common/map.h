@@ -520,16 +520,18 @@ extern struct tile_type tile_types[T_LAST];
   }                                                                           \
 }
 
-/* iterating y, x for cache efficiency */
-#define whole_map_iterate(WMI_x_itr, WMI_y_itr)                               \
-{                                                                             \
-  int WMI_x_itr, WMI_y_itr;                                                   \
-  for (WMI_y_itr = 0; WMI_y_itr < map.ysize; WMI_y_itr++)                     \
-    for (WMI_x_itr = 0; WMI_x_itr < map.xsize; WMI_x_itr++)                   \
-      if (regular_map_pos_is_normal(WMI_x_itr, WMI_y_itr)) {
+/* Iterate over all positions on the globe. */
+#define whole_map_iterate(map_x, map_y)                                     \
+{                                                                           \
+  int WMI_index; /* We use index positions for cache efficiency. */         \
+  for (WMI_index = 0; WMI_index < MAX_MAP_INDEX; WMI_index++) {             \
+    int map_x, map_y;                                                       \
+    index_to_map_pos(&map_x, &map_y, WMI_index);                            \
+    {
 
-#define whole_map_iterate_end                                                 \
-      }                                                                       \
+#define whole_map_iterate_end                                               \
+    }                                                                       \
+  }                                                                         \
 }
 
 /*
