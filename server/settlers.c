@@ -1535,6 +1535,10 @@ void contemplate_new_city(struct city *pcity)
   virtualunit.x = pcity->x;
   virtualunit.y = pcity->y;
   virtualunit.type = best_role_unit(pcity, F_CITIES);
+  if (virtualunit.type == U_LAST) {
+    freelog(LOG_DEBUG, "No F_CITIES role unit available");
+    return;
+  }
   virtualunit.moves_left = unit_type(&virtualunit)->move_rate;
   virtualunit.hp = unit_type(&virtualunit)->hp;
   want = evaluate_city_building(&virtualunit, &gx, &gy, &ferryboat);
@@ -1568,6 +1572,10 @@ void contemplate_terrain_improvements(struct city *pcity)
   virtualunit.x = pcity->x;
   virtualunit.y = pcity->y;
   virtualunit.type = best_role_unit(pcity, F_SETTLERS);
+  if (virtualunit.type == U_LAST) {
+    freelog(LOG_DEBUG, "No F_SETTLERS role unit available");
+    return;
+  }
   virtualunit.moves_left = unit_type(&virtualunit)->move_rate;
   virtualunit.hp = unit_type(&virtualunit)->hp;  
   want = evaluate_improvements(&virtualunit, &best_act, &gx, &gy);
