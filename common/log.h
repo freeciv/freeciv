@@ -40,6 +40,7 @@ static struct logdebug_afile_info logdebug_thisfile;
 #endif
 
 extern int logd_init_counter;   /* increment this to force re-init */
+extern int log_level;
 
 /* Return an updated struct logdebug_afile_info: */
 struct logdebug_afile_info logdebug_update(const char *file);

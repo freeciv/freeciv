@@ -48,6 +48,7 @@
 #include "aihand.h"
 #include "aitools.h"
 #include "aidata.h"
+#include "ailog.h"
 #include "aiunit.h"
 
 #include "aicity.h"

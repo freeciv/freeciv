@@ -25,10 +25,11 @@
 
 #include "log.h"
 
-static int log_level;
 static const char *log_filename;
 static log_callback_fn log_callback;
+
 int logd_init_counter = 1;
+int log_level;
 
 struct logd_fileinfo {
   char *name;

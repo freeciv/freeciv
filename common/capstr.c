@@ -84,6 +84,8 @@ const char * const our_capability = our_capability_internal;
     transmits the information as a bitvector instead of an int.
 
     "freeze_thaw" uses PACKET_FREEZE_HINT/PACKET_THAW_HINT.
+
+    "civ2happy" changes the way specialists are taken from workers
 */
 
 void init_our_capability(void)

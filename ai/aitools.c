@@ -32,6 +32,7 @@
 #include "unittools.h"
 
 #include "aicity.h"
+#include "ailog.h"
 #include "aiunit.h"
 
 #include "aitools.h"
@@ -131,7 +132,7 @@ static bool has_bodyguard(struct unit *punit)
       return TRUE;
     } else {
       punit->ai.bodyguard = BODYGUARD_NONE;
-      UNIT_LOG(LOG_VERBOSE, punit, "bodyguard disappeared!");
+      UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "bodyguard disappeared!");
     }
   }
   return FALSE;
@@ -198,7 +199,8 @@ bool ai_unit_move(struct unit *punit, int x, int y)
       && (bodyguard = find_unit_by_id(punit->ai.bodyguard))
       && same_pos(punit->x, punit->y, bodyguard->x, bodyguard->y)
       && bodyguard->moves_left == 0) {
-    UNIT_LOG(LOG_DEBUG, punit, "does not want to leave its bodyguard");
+    UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "does not want to leave "
+             "its bodyguard");
     return FALSE;
   }
 
