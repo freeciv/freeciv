@@ -526,7 +526,7 @@ void popdown_all_game_dialogs(void)
 **************************************************************************/
 void ui_init(void)
 {
-  init_character_encodings(NULL);
+  init_character_encodings(NULL, TRUE);
 }
 
 /**************************************************************************

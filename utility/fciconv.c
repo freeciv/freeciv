@@ -43,6 +43,7 @@ static char convert_buffer[4096];
 
 #ifdef HAVE_ICONV
 static const char *local_encoding, *data_encoding, *internal_encoding;
+static const char *transliteration_string;
 #else
 /* Hack to confuse the compiler into working. */
 #  define local_encoding get_local_encoding()
@@ -56,9 +57,16 @@ static const char *local_encoding, *data_encoding, *internal_encoding;
 
   Pass an internal encoding of NULL to use the local encoding internally.
 ***************************************************************************/
-void init_character_encodings(char *my_internal_encoding)
+void init_character_encodings(char *my_internal_encoding,
+			      bool my_use_transliteration)
 {
 #ifdef HAVE_ICONV
+  if (my_use_transliteration) {
+    transliteration_string = "//TRANSLIT";
+  } else {
+    transliteration_string = "";
+  }
+
   /* Set the data encoding - first check $FREECIV_DATA_ENCODING,
    * then fall back to the default. */
   data_encoding = getenv("FREECIV_DATA_ENCODING");
@@ -119,12 +127,7 @@ void init_character_encodings(char *my_internal_encoding)
 #endif
 
 #else
-   /* freelog may not work at this point. */
-  fprintf(stderr,
-	     _("You are running Freeciv without using iconv.  Unless\n"
-	       "you are using the latin1 character set, some characters\n"
-	       "may not be displayed properly.  You can download iconv\n"
-	       "at http://gnu.org/.\n"));
+#  error No iconv present!
 #endif
 
   is_init = TRUE;
@@ -271,16 +274,26 @@ static char *convert_string(const char *text,
 #define CONV_FUNC_MALLOC(src, dst)                                          \
 char *src ## _to_ ## dst ## _string_malloc(const char *text)                \
 {                                                                           \
+  const char *encoding1 = (dst ## _encoding);				    \
+  char encoding[strlen(encoding1) + strlen(transliteration_string) + 1];    \
+									    \
+  my_snprintf(encoding, sizeof(encoding),				    \
+	      "%s%s", encoding1, transliteration_string);		    \
   return convert_string(text, (src ## _encoding),			    \
-			(dst ## _encoding), NULL, 0);                       \
+			(encoding), NULL, 0);				    \
 }
 
 #define CONV_FUNC_BUFFER(src, dst)                                          \
 char *src ## _to_ ## dst ## _string_buffer(const char *text,                \
 					   char *buf, size_t bufsz)         \
 {                                                                           \
+  const char *encoding1 = (dst ## _encoding);				    \
+  char encoding[strlen(encoding1) + strlen(transliteration_string) + 1];    \
+									    \
+  my_snprintf(encoding, sizeof(encoding),				    \
+	      "%s%s", encoding1, transliteration_string);		    \
   return convert_string(text, (src ## _encoding),			    \
-                        (dst ## _encoding), buf, bufsz);                    \
+                        encoding, buf, bufsz);				    \
 }
 
 #define CONV_FUNC_STATIC(src, dst)                                          \

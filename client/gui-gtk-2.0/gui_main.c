@@ -1004,7 +1004,7 @@ void ui_init(void)
 {
   gchar *s;
 
-  init_character_encodings("UTF-8");
+  init_character_encodings("UTF-8", FALSE);
 
   log_set_callback(log_callback_utf8);
 

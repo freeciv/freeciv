@@ -262,7 +262,7 @@ static Boolean toplevel_work_proc(XtPointer client_data)
 **************************************************************************/
 void ui_init(void)
 {
-  init_character_encodings(NULL);
+  init_character_encodings(NULL, TRUE);
 }
 
 /**************************************************************************

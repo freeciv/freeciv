@@ -804,7 +804,7 @@ static void setup_widgets(void)
 **************************************************************************/
 void ui_init(void)
 {
-  init_character_encodings(NULL);
+  init_character_encodings(NULL, TRUE);
 }
 
 /**************************************************************************
