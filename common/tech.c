@@ -461,7 +461,10 @@ int base_total_bulbs_required(struct player *pplayer, Tech_Type_id tech)
   /* Assign a science penalty to the AI at easier skill levels.  This code
    * can also be adpoted to create an extra-hard AI skill level where the AI
    * gets science benefits */
-  if (pplayer->ai.control) {
+
+  /* FIXME: the is_server is a kludge to unbreak CVS. GB promises 
+   * to fix correctly a.s.a.p. 2003/5/18 -mck */
+  if (is_server && pplayer->ai.control) {
     assert(pplayer->ai.science_cost > 0);
     cost = (cost * pplayer->ai.science_cost) / 100;
   }
