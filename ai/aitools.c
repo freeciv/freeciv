@@ -40,6 +40,7 @@
 #include "gotohand.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "score.h"
 #include "settlers.h"
 #include "unithand.h"
 #include "unittools.h"

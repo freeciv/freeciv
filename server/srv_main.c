@@ -478,6 +478,14 @@ static void begin_turn(bool is_new_turn)
 {
   freelog(LOG_DEBUG, "Begin turn");
 
+  if (is_new_turn) {
+    /* We build scores at the beginning and end of every turn.  We have to
+     * build them at the beginning so that the AI can use the data. */
+    players_iterate(pplayer) {
+      calc_civ_score(pplayer);
+    } players_iterate_end;
+  }
+
   /* See if the value of fog of war has changed */
   if (is_new_turn && game.fogofwar != game.fogofwar_old) {
     if (game.fogofwar) {
@@ -612,6 +620,12 @@ static void end_phase(void)
 static void end_turn(void)
 {
   freelog(LOG_DEBUG, "Endturn");
+
+  /* We build scores at the beginning and end of every turn.  We have to
+   * build them at the end so that the history report can be built. */
+  players_iterate(pplayer) {
+    calc_civ_score(pplayer);
+  } players_iterate_end;
 
   freelog(LOG_DEBUG, "Season of native unrests");
   summon_barbarians(); /* wild guess really, no idea where to put it, but
@@ -1846,7 +1860,6 @@ main_start_players:
 
   if (!game.is_new_game) {
     players_iterate(pplayer) {
-      civ_score(pplayer);	/* if we don't, the AI gets really confused */
       if (pplayer->ai.control) {
 	set_ai_level_direct(pplayer, pplayer->ai.skill_level);
       }

@@ -66,20 +66,6 @@ struct player_score {
 */
 
 /**************************************************************************
-...
-**************************************************************************/
-int total_player_citizens(struct player *pplayer)
-{
-  return (pplayer->score.happy
-	  +pplayer->score.content
-	  +pplayer->score.unhappy
-	  +pplayer->score.angry
-	  +pplayer->score.scientists
-	  +pplayer->score.elvis
-	  +pplayer->score.taxmen);
-}
-
-/**************************************************************************
 Count the # of thousand citizen in a civilisation.
 **************************************************************************/
 int civ_population(struct player *pplayer)

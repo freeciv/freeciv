@@ -1045,10 +1045,6 @@ void make_history_report(void)
   static enum historian_type report = HISTORIAN_FIRST;
   static int time_to_report=20;
 
-  players_iterate(pplayer) {
-    (void) civ_score(pplayer);
-  } players_iterate_end;
-
   if (game.scorelog) {
     log_civ_score();
   }
@@ -1084,7 +1080,7 @@ void report_progress_scores(void)
 
   players_iterate(pplayer) {
     if (!is_barbarian(pplayer)) {
-      size[j].value = civ_score(pplayer);
+      size[j].value = get_civ_score(pplayer);
       size[j].player = pplayer;
       j++;
     }
@@ -1118,7 +1114,7 @@ void report_final_scores(void)
 
   players_iterate(pplayer) {
     if (!is_barbarian(pplayer)) {
-      size[j].value = civ_score(pplayer);
+      size[j].value = get_civ_score(pplayer);
       size[j].player = pplayer;
       j++;
     }
