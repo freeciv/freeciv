@@ -1784,6 +1784,8 @@ void popdown_races_dialog(void)
     gtk_widget_set_sensitive (toplevel, TRUE);
     gtk_widget_destroy (races_dialog_shell);
     races_dialog_shell = NULL;
+    g_list_free(sorted_races_list);
+    sorted_races_list = NULL;
   } /* else there is no dialog shell to destroy */
 }
 
@@ -2153,9 +2155,6 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
   if(w==races_quit_command) {
     exit(0);
   } else if(w==races_disc_command) {
-    g_list_free(sorted_races_list);
-    sorted_races_list = NULL;
-
     popdown_races_dialog();
     disconnect_from_server();
     return;
@@ -2188,11 +2187,6 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
     append_output_window(_("You must type a legal name."));
     return;
   }
-
-  /* ------- cleanup ------- */
- 
-  g_list_free(sorted_races_list);
-  sorted_races_list = NULL;
 
   packet.name[0]=toupper(packet.name[0]);
 
