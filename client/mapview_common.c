@@ -31,11 +31,6 @@
 
 #include "mapview_common.h"
 
-/* We need to be able to scroll a little bit down past the end of the map,
- * since the bottom row of tiles may not fit completely on the mapview.
- * In iso-view we have to scroll even further past. */
-#define EXTRA_BOTTOM_ROW (is_isometric ? 6 : 1)
-
 struct canvas mapview_canvas;
 
 /* Overview oordinates of the upper left corner of the map overview. */
@@ -349,17 +344,134 @@ static void set_mapview_origin(int map_x0, int map_y0)
 }
 
 /****************************************************************************
-  Return the range of values that the mapview origin can take, in scroll
-  positions.  Useful for scrollbars or when manually clipping the window.
+  Return the scroll dimensions of the clipping window for the mapview window..
+
+  Imagine the entire map in scroll coordinates.  It is a rectangle.  Now
+  imagine the mapview "window" sliding around through this rectangle.  How
+  far can it slide?  In most cases it has to be able to slide past the
+  ends of the map rectangle so that it's capable of reaching the whole
+  area.
+
+  This function gives constraints on how far the window is allowed to
+  slide.  xmin and ymin are the minimum values for the window origin.
+  xsize and ysize give the scroll dimensions of the mapview window.
+  xmax and ymax give the maximum values that the bottom/left ends of the
+  window may reach.  The constraints, therefore, are that:
+
+    get_mapview_scroll_pos(&scroll_x, &scroll_y);
+    xmin <= scroll_x < xmax - xsize
+    ymin <= scroll_y < ymax - ysize
+
+  This function should be used anywhere and everywhere that scrolling is
+  constrained.
+
+  Note that scroll coordinates, not map coordinates, are used.  Currently
+  these correspond to native coordinates.
 ****************************************************************************/
 void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
 			       int *xsize, int *ysize)
 {
-  *xmin = *ymin = 0;
+  /* There are a number of factors that must be taken into account in
+   * calculating these values:
+   *
+   * 1. Basic constraints: X should generally range from 0 to map.xsize;
+   * Y from 0 to map.ysize.
+   *
+   * 2. Non-aligned borders: if the borders don't line up (an iso-view client
+   * with a standard map, for instance) the minimum and maximum must be
+   * extended if the map doesn't wrap in that direction.  They are extended
+   * by an amount proportional to the size of the screen.
+   *
+   * 3. Compression: on an iso-map native coordinates are compressed 2x in
+   * the X direction.
+   *
+   * 4. Translation: the min and max values give a range for the origin.
+   * Since the base constraint is on the minimal value contained in the
+   * mapview, we have to translate the minimum and maximum to account for
+   * this.
+   *
+   * 5. Wrapping: if the map wraps in a given direction, no border adjustment
+   * or translation is needed.  Instead we have to make sure the range is
+   * large enough to get the full wrap.
+   */
+  *xmin = 0;
+  *ymin = 0;
   *xmax = map.xsize;
-  *ymax = map.ysize + EXTRA_BOTTOM_ROW;
-  *xsize = mapview_canvas.tile_width;
-  *ysize = mapview_canvas.tile_height;
+  *ymax = map.ysize;
+
+  if (topo_has_flag(TF_ISO) != is_isometric) {
+    /* The mapview window is aligned differently than the map.  In this
+     * case we need to give looser constraints because (if the map doesn't
+     * wrap) the edges will not line up well. */
+
+    /* These are the dimensions of the bounding box. */
+    *xsize = *ysize =
+      mapview_canvas.tile_width + mapview_canvas.tile_height;
+
+    if (is_isometric) {
+      /* Step 2: Calculate extra border distance. */
+      *xmin = *ymin = -(MAX(mapview_canvas.tile_width,
+			    mapview_canvas.tile_height) + 1) / 2;
+      *xmax -= *xmin;
+      *ymax -= *ymin;
+
+      /* Step 4: Translate the Y coordinate.  The mapview origin is at the
+       * top-left corner of the window, which is offset at +tile_width from
+       * the minimum Y value (at the top-right corner). */
+      *ymin += mapview_canvas.tile_width;
+      *ymax += mapview_canvas.tile_width;
+    } else {
+      /* Compression. */
+      *xsize = (*xsize + 1) / 2;
+
+      /* Step 2: calculate border adjustment. */
+      *ymin = -(MAX(mapview_canvas.tile_width,
+		    mapview_canvas.tile_height) + 1) / 2;
+      *xmin = (*ymin + 1) / 2; /* again compressed */
+      *xmax -= *xmin;
+      *ymax -= *ymin;
+
+      /* Step 4: translate the X coordinate.  The mapview origin is at the
+       * top-left corner of the window, which is offset at +tile_height/2
+       * from the minimum X value (at the bottom-left corner). */
+      *xmin += mapview_canvas.tile_height / 2;
+      *xmax += (mapview_canvas.tile_height + 1) / 2;
+    }
+  } else {
+    *xsize = mapview_canvas.tile_width;
+    *ysize = mapview_canvas.tile_height;
+
+    if (is_isometric) {
+      /* Compression: Each vertical half-tile corresponds to one native
+       * unit (a full horizontal tile corresponds to a native unit). */
+      *ysize = (mapview_canvas.height - 1) / (NORMAL_TILE_HEIGHT / 2) + 1;
+
+      /* Isometric fixes: the above calculations are in half-tiles; since we
+       * need to see full tiles we have to extend the range a bit.  This also
+       * corrects for the off-by-one error caused by the X compression of
+       * native coordinates. */
+      (*xmin)--;
+      (*xmax)++;
+      (*ymax) += 2;
+    } else {
+      (*ymax)++;
+    }
+  }
+
+  /* Now override the above to satisfy wrapping constraints.  We allow the
+   * scrolling to cover the full range of the map, plus one unit in each
+   * direction (to allow scrolling with the scroll bars, for instance). */
+  if (topo_has_flag(TF_WRAPX)) {
+    *xmin = -1;
+    *xmax = map.xsize + *xsize;
+  }
+  if (topo_has_flag(TF_WRAPY)) {
+    *ymin = -1;
+    *ymax = map.ysize + *ysize;
+  }
+
+  freelog(LOG_DEBUG, "x: %d<-%d->%d; y: %d<-%d->%d",
+	  *xmin, *xsize, *xmax, *ymin, *ymax, *ysize);
 }
 
 /****************************************************************************
