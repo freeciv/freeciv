@@ -128,7 +128,7 @@ char *default_race_leader_names[] = {
 };
 
 int government_rates[G_LAST] = {
-  60, 60, 70, 80, 80, 100
+  100, 60, 70, 80, 80, 100
 };
 
 char *government_names[G_LAST] = {
