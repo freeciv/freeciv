@@ -264,15 +264,20 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
   *canvas_y -= mapview_canvas.gui_y0;
 
   /*
-   * Finally we clip; checking to see if _any part_ of the tile is
-   * present on the backing store.  (Even if it's not visible on the canvas,
-   * if it's present on the backing store we need to draw it in case the
-   * canvas is resized.)
+   * Finally we clip.
+   *
+   * This check is tailored to work for both iso-view and classic view.  Note
+   * that (canvas_x, canvas_y) need not be aligned to a tile boundary, and
+   * that the position is at the top-left of the NORMAL (not UNIT) tile.
+   * This checks to see if _any part_ of the tile is present on the backing
+   * store.  Even if it's not visible on the canvas, if it's present on the
+   * backing store we need to draw it in case the canvas is resized.
    */
   return (*canvas_x > -NORMAL_TILE_WIDTH
 	  && *canvas_x < mapview_canvas.store_width
 	  && *canvas_y > -NORMAL_TILE_HEIGHT
-	  && *canvas_y < mapview_canvas.store_height);
+	  && *canvas_y < (mapview_canvas.store_height
+			  + UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT));
 }
 
 /****************************************************************************
