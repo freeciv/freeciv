@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=FreeCiv
+Name[es]=FreeCiv
+Name[fr]=FreeCiv
+Name[no]=FreeCiv
+Name[pt]=FreeCiv
+Comment=Civilization(TM)-like game
+Comment[pt]=Jogo similar ao Civilization
+Exec=civclient-gtk
+Icon=gnome-globe.png
+Terminal=0
+Type=Game

@@ -57,13 +57,17 @@ install-stamp: build-stamp
 	(cd build-base; $(MAKE) DESTDIR=`pwd`/../debian/tmp install)
 	(cd build-xaw; $(MAKE) DESTDIR=`pwd`/../debian/freeciv-xaw install)
 	mv debian/freeciv-xaw/usr/games/civclient debian/freeciv-xaw/usr/games/civclient-xaw.real
-	rm -rf debian/freeciv-xaw/usr/share
+	rm -rf debian/freeciv-xaw/usr/share debian/freeciv-xaw/usr/man/man6/*
+	ln -s civclient.6.gz debian/freeciv-xaw/usr/man/man6/civclient-xaw.6.gz
 	(cd build-xaw3d; $(MAKE) DESTDIR=`pwd`/../debian/freeciv-xaw3d install)
 	mv debian/freeciv-xaw3d/usr/games/civclient debian/freeciv-xaw3d/usr/games/civclient-xaw3d
-	rm -rf debian/freeciv-xaw3d/usr/share
+	rm -rf debian/freeciv-xaw3d/usr/share debian/freeciv-xaw3d/usr/man/man6/*
+	ln -s civclient.6.gz debian/freeciv-xaw3d/usr/man/man6/civclient-xaw3d.6.gz
 	(cd build-gtk; $(MAKE) DESTDIR=`pwd`/../debian/freeciv-gtk install)
 	mv debian/freeciv-gtk/usr/games/civclient debian/freeciv-gtk/usr/games/civclient-gtk
-	rm -rf debian/freeciv-gtk/usr/share
+	rm -rf debian/freeciv-gtk/usr/share/games debian/freeciv-gtk/usr/man/man6/*
+	ln -s civclient.6.gz debian/freeciv-gtk/usr/man/man6/civclient-gtk.6.gz
+	cp debian/freeciv.desktop debian/freeciv-gtk/usr/share/gnome/apps/Games
 
 	touch install-stamp
 
@@ -82,7 +86,13 @@ binary-arch: build install
 	dh_installexamples
 	dh_installmenu
 	dh_installxaw
-	dh_installmanpages
+# allow for old debhelper versions
+	if [ -f debian/freeciv-xaw/usr/lib/xaw-wrappers/conf/freeciv-xaw ]; \
+	then \
+		mkdir debian/freeciv-xaw/usr/lib/xaw-wrappers/config; \
+		mv debian/freeciv-xaw/usr/lib/xaw-wrappers/conf/freeciv-xaw debian/freeciv-xaw/usr/lib/xaw-wrappers/config; \
+	fi
+	dh_installmanpages -pfreeciv
 #	/usr/bin/install debian/xaw-wrappers debian/tmp/usr/lib/xaw-wrappers/conf/freeciv
 #	dh_undocumented
 	dh_installchangelogs -pfreeciv
