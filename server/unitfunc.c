@@ -2033,21 +2033,22 @@ int try_move_unit(struct unit *punit, int dest_x, int dest_y)
 int do_airline(struct unit *punit, int x, int y)
 {
   struct city *city1, *city2;
-  
+  int src_x = punit->x, src_y = punit->y;
 
-  if (!(city1=map_get_city(punit->x, punit->y))) 
+  if (!(city1=map_get_city(src_x, src_y)))
     return 0;
-  if (!(city2=map_get_city(x,y)))
+  if (!(city2=map_get_city(x, y)))
     return 0;
-  if (!unit_can_airlift_to(punit,city2))
+  if (!unit_can_airlift_to(punit, city2))
     return 0;
   city1->airlift=0;
   city2->airlift=0;
   punit->moves_left = 0;
 
-  unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
+  unit_list_unlink(&map_get_tile(src_x, src_y)->units, punit);
   punit->x = x; punit->y = y;
   unit_list_insert(&map_get_tile(x, y)->units, punit);
+  teleport_unit_sight_points(src_x, src_y, x, y, punit);
 
   connection_do_buffer(game.players[punit->owner].conn);
   send_unit_info(&game.players[punit->owner], punit);
