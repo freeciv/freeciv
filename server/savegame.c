@@ -176,7 +176,7 @@
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent worklists2 map_editor known32fix turn " \
 "attributes watchtower rulesetdir client_worklists orders " \
-"startunits turn_last_built improvement_order"
+"startunits turn_last_built improvement_order technology_order"
 
 static const char hex_chars[] = "0123456789abcdef";
 static const char terrain_chars[] = "adfghjm prstu";
@@ -644,6 +644,49 @@ const char* old_impr_types[] =
   "Women's Suffrage",	"Coinage"
 };
 
+/* old (~1.14.1) techs order in civ2/default ruleset.
+ *
+ * Note that Theology is called Religion in civ1 ruleset; this is handled
+ * as a special case in the code.
+ *
+ * Nowadays we save A_FUTURE as "A_FUTURE", A_NONE as "A_NONE".
+ * A_UNSET as "A_UNSET" - they used to be saved as 198, 0 or -1, 0.
+ */
+const char* old_default_techs[] = 
+{
+  "A_NONE",
+  "Advanced Flight",	"Alphabet",		"Amphibious Warfare",
+  "Astronomy",		"Atomic Theory",	"Automobile",
+  "Banking",		"Bridge Building",	"Bronze Working",
+  "Ceremonial Burial",	"Chemistry",		"Chivalry",
+  "Code of Laws",	"Combined Arms",	"Combustion",
+  "Communism",		"Computers",		"Conscription",
+  "Construction",	"Currency",		"Democracy",
+  "Economics",		"Electricity",		"Electronics",
+  "Engineering",	"Environmentalism",	"Espionage",
+  "Explosives",		"Feudalism",		"Flight",
+  "Fundamentalism",	"Fusion Power",		"Genetic Engineering",
+  "Guerilla Warfare",	"Gunpowder",		"Horseback Riding",
+  "Industrialization",	"Invention",		"Iron Working",
+  "Labor Union",	"Laser",		"Leadership",
+  "Literacy",		"Machine Tools",	"Magnetism",
+  "Map Making",		"Masonry",		"Mass Production",
+  "Mathematics",	"Medicine",		"Metallurgy",
+  "Miniaturization",	"Mobile Warfare",	"Monarchy",
+  "Monotheism",		"Mysticism",		"Navigation",
+  "Nuclear Fission",	"Nuclear Power",	"Philosophy",
+  "Physics",		"Plastics",		"Polytheism",
+  "Pottery",		"Radio",		"Railroad",
+  "Recycling",		"Refining",		"Refrigeration",
+  "Robotics",		"Rocketry",		"Sanitation",
+  "Seafaring",		"Space Flight",		"Stealth",
+  "Steam Engine",	"Steel",		"Superconductors",
+  "Tactics",		"The Corporation",	"The Republic",
+  "The Wheel",		"Theology",		"Theory of Gravity",
+  "Trade",		"University",		"Warrior Code",
+  "Writing"
+};
+
 /****************************************************************************
   Nowadays unit types are saved by name, but old servers need the
   unit_type_id.  This function tries to find the correct _old_ id for the
@@ -668,7 +711,7 @@ static int old_unit_type_id(Unit_Type_id type)
     }
   }
 
-  /* It's a new unit. Savegame cannot be backward compatible so we can
+  /* It's a new unit. Savegame cannot be forward compatible so we can
    * return anything */
   return type;
 }
@@ -714,7 +757,7 @@ static int old_impr_type_id(Impr_Type_id type)
     }
   }
 
-  /* It's a new improvement. Savegame cannot be backward compatible so we can
+  /* It's a new improvement. Savegame cannot be forward compatible so we can
    * return anything */
   return type;
 }
@@ -765,6 +808,186 @@ static void add_improvement_into_old_bitvector(char* bitvector,
     return;
   }
   bitvector[old_id] = '1';
+}
+
+/****************************************************************************
+  Nowadays techs are saved by name, but old servers need numbers
+  This function tries to find the correct _old_ id for the
+  technology. It is used when the technology is saved.
+****************************************************************************/
+static int old_tech_id(Tech_Type_id tech)
+{
+  const char* technology_name;
+  int i;
+  
+  /* old (1.14.1) servers used to save it as 0 and interpret it from context */
+  if (is_future_tech(tech)) {
+    return 0;
+  }
+
+  /* old (1.14.1) servers used to save it as 0 and interpret it from context */  
+  if (tech == A_UNSET) {
+    return 0;
+  }
+  
+  technology_name = advances[tech].name_orig;
+  
+  /* this is the only place where civ1 was different from 1.14.1 defaults */
+  if (strcmp(game.rulesetdir, "civ1") == 0
+      && mystrcasecmp(technology_name, "Religion") == 0) {
+    return 83;
+  }
+  
+  for (i = 0; i < ARRAY_SIZE(old_default_techs); i++) {
+    if (mystrcasecmp(technology_name, old_default_techs[i]) == 0) {
+      return i;
+    }
+  }
+  
+  /* It's a new technology. Savegame cannot be forward compatible so we can
+   * return anything */
+  return tech;
+}
+
+/****************************************************************************
+  Convert an old-style technology id into a tech name.
+****************************************************************************/
+static const char* old_tech_name(int id)
+{
+  /* This was 1.14.1 value for A_FUTURE */
+  if (id == 198) {
+    return "A_FUTURE";
+  }
+  
+  if (id == -1 || id == 0) {
+    return "A_NONE";
+  }
+  
+  if (id == A_UNSET) {
+    return "A_UNSET";
+  }
+
+  if (id < 0 || id >= ARRAY_SIZE(old_default_techs)) {
+    freelog(LOG_ERROR, _("Wrong tech type id value (%d)"), id);
+    exit(EXIT_FAILURE);
+  }
+
+  if (strcmp(game.rulesetdir, "civ1") == 0 && id == 83) {
+    return "Religion";
+  }
+  
+  return old_default_techs[id];
+}
+
+/****************************************************************************
+  Initialize the old-style technology bitvector so that all advances
+  are marked as not present.
+****************************************************************************/
+static void init_old_technology_bitvector(char* bitvector)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(old_default_techs); i++) {
+    bitvector[i] = '0';
+  }
+  bitvector[ARRAY_SIZE(old_default_techs)] = '\0';
+}
+
+/****************************************************************************
+  Insert technology into old-style bitvector
+
+  New bitvectors do not depend on ruleset order. However, we want to create
+  savegames which can be read by 1.14.x and earlier servers. 
+  This function adds a technology into the bitvector string according
+  to the 1.14.1 technology ordering.
+****************************************************************************/
+static void add_technology_into_old_bitvector(char* bitvector,
+                                              Tech_Type_id id)
+{
+  int old_id;
+
+  old_id = old_tech_id(id);
+  if (old_id < 0 || old_id >= ARRAY_SIZE(old_default_techs)) {
+    return;
+  }
+  bitvector[old_id] = '1';
+}
+
+
+/*****************************************************************************
+  Load technology from path_name and if doesn't exist (because savegame
+  is too old) load from path.
+*****************************************************************************/
+static Tech_Type_id load_technology(struct section_file *file,
+                                    const char* path, int plrno)
+{
+  char path_with_name[128];
+  const char* name;
+  int id;
+  
+  my_snprintf(path_with_name, sizeof(path_with_name), 
+              "%s_name", path);
+	      
+  name = secfile_lookup_str_default(file, NULL, path_with_name, plrno);
+  if (!name) {
+    id = secfile_lookup_int_default(file, -1, path, plrno);
+    name = old_tech_name(id);
+  }
+  
+  if (mystrcasecmp(name, "A_FUTURE") == 0) {
+    return A_FUTURE;
+  }
+  if (mystrcasecmp(name, "A_NONE") == 0) {
+    return A_NONE;
+  }
+  if (mystrcasecmp(name, "A_UNSET") == 0) {
+    return A_UNSET;
+  }
+  if (name[0] == '\0') {
+    /* it is used by changed_from */
+    return -1;
+  }
+  
+  id = find_tech_by_name_orig(name);
+  if (id == A_LAST) {
+    freelog(LOG_ERROR, _("Unknown technology (%s)"), name);
+    exit(EXIT_FAILURE);    
+  }
+  return id;
+}
+
+/*****************************************************************************
+  Save technology in secfile entry called path_name and for forward
+  compatibility in path(by number).
+*****************************************************************************/
+static void save_technology(struct section_file *file,
+                            const char* path, int plrno, Tech_Type_id tech)
+{
+  char path_with_name[128];
+  const char* name;
+ 
+  my_snprintf(path_with_name, sizeof(path_with_name), 
+              "%s_name", path);
+  
+  switch (tech) {
+    case -1: /* used in changed_from */
+       name = "";
+       break;
+    case A_NONE:
+      name = "A_NONE";
+      break;
+    case A_UNSET:
+      name = "A_UNSET";
+      break;
+    case A_FUTURE:
+      name = "A_FUTURE";
+      break;
+    default:
+      name = advances[tech].name_orig;
+      break;
+  }
+  secfile_insert_str(file, name, path_with_name, plrno);
+  secfile_insert_int(file, old_tech_id(tech), path, plrno);
 }
 
 /***************************************************************
@@ -1098,12 +1321,16 @@ static void load_player_units(struct player *plr, int plrno,
 static void player_load(struct player *plr, int plrno,
 			struct section_file *file,
 			char** improvement_order,
-			int improvement_order_size)
+			int improvement_order_size,
+			char** technology_order,
+			int technology_order_size)
 {
-  int i, j, x, y, ncities, c_s;
+  int i, j, k, x, y, ncities, c_s;
   const char *p;
+  const char *name;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
   struct ai_data *ai;
+  Tech_Type_id id;
 
   server_player_init(plr, TRUE);
   ai_data_init(plr);
@@ -1211,13 +1438,11 @@ static void player_load(struct player *plr, int plrno,
     ai->diplomacy.player_intel[i].asked_about_ceasefire
          = secfile_lookup_int_default(file, 0, "player%d.ai.ask_ceasefire%d", plrno, i);
   }
-  plr->ai.tech_goal = secfile_lookup_int(file, "player%d.ai.tech_goal", plrno);
-  if (plr->ai.tech_goal == A_NONE
-      || !tech_exists(plr->ai.tech_goal)) {
-    /* The value of A_UNSET could change in the future, since it
-     * is not ruleset-dependent.  And it used to be A_NONE, so we check for
-     * that as well.  This is a hack since there's no way to distinguish
-     * from A_FUTURE (which shouldn't ever be here anyway). */
+  plr->ai.tech_goal = load_technology(file, "player%d.ai.tech_goal", plrno);
+  if (plr->ai.tech_goal == A_NONE) {
+    /* Old servers (1.14.1) saved both A_UNSET and A_NONE by 0
+     * Here 0 means A_UNSET
+     */
     plr->ai.tech_goal = A_UNSET;
   }
   /* Some sane defaults */
@@ -1241,7 +1466,8 @@ static void player_load(struct player *plr, int plrno,
   plr->economic.science=secfile_lookup_int(file, "player%d.science", plrno);
   plr->economic.luxury=secfile_lookup_int(file, "player%d.luxury", plrno);
 
-  plr->future_tech=secfile_lookup_int(file, "player%d.futuretech", plrno);
+  /* how many future techs were researched already by player */
+  plr->future_tech = secfile_lookup_int(file, "player%d.futuretech", plrno);
 
   /* We use default values for bulbs_researched_before, changed_from
    * and got_tech to preserve backwards-compatability with save files
@@ -1251,37 +1477,50 @@ static void player_load(struct player *plr, int plrno,
   plr->research.bulbs_researched_before =
 	  secfile_lookup_int_default(file, 0,
 				     "player%d.researched_before", plrno);
-  plr->research.changed_from =
-	  secfile_lookup_int_default(file, -1,
-				     "player%d.research_changed_from",
-				     plrno);
+  plr->research.changed_from = 
+          load_technology(file, "player%d.research_changed_from", plrno);
   plr->got_tech = secfile_lookup_bool_default(file, FALSE,
 					      "player%d.research_got_tech",
 					      plrno);
   plr->research.techs_researched=secfile_lookup_int(file, 
 					     "player%d.researchpoints", plrno);
-  plr->research.researching=secfile_lookup_int(file, 
-					     "player%d.researching", plrno);
-  if (plr->research.researching == A_NONE
-      || !tech_exists(plr->research.researching)) {
-    /* The value of A_FUTURE could change in the future, since it
-     * is not ruleset-dependent.  And it used to be A_NONE, so we check for
-     * that as well.  This is a hack since there's no way to distinguish
-     * from A_UNSET (which shouldn't ever be here anyway). */
+  plr->research.researching = 
+	load_technology(file, "player%d.researching", plrno);
+  if (plr->research.researching == A_NONE) {
+    /* Old servers (1.14.1) used to save A_FUTURE by 0 
+     * This has to be interpreted from context because A_NONE was also
+     * saved by 0
+     */
     plr->research.researching = A_FUTURE;
   }
-
-  p=secfile_lookup_str(file, "player%d.invs", plrno);
-    
-  plr->capital=secfile_lookup_bool(file, "player%d.capital", plrno);
-  plr->revolution=secfile_lookup_int_default(file, 0, "player%d.revolution",
-                                             plrno);
-
-  tech_type_iterate(i) {
-    if (p[i] == '1') {
-      set_invention(plr, i, TECH_KNOWN);
+  
+  p = secfile_lookup_str_default(file, NULL, "player%d.invs_new", plrno);
+  if (!p) {
+    /* old savegames */
+    p = secfile_lookup_str(file, "player%d.invs", plrno);
+    for (k = 0; p[k];  k++) {
+      if (p[k] == '1') {
+	name = old_tech_name(k);
+	id = find_tech_by_name_orig(name);
+	if (id != A_LAST) {
+	  set_invention(plr, id, TECH_KNOWN);
+	}
+      }
     }
-  } tech_type_iterate_end;
+  } else {
+    for (k = 0; k < technology_order_size && p[k]; k++) {
+      if (p[k] == '1') {
+	id = find_tech_by_name_orig(technology_order[k]);
+	if (id != A_LAST) {
+	  set_invention(plr, id, TECH_KNOWN);
+	}
+      }
+    }
+  }
+    
+  plr->capital = secfile_lookup_bool(file, "player%d.capital", plrno);
+  plr->revolution = secfile_lookup_int_default(file, 0, "player%d.revolution",
+					       plrno);
 
   update_research(plr);
 
@@ -1858,7 +2097,7 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
 
-  /* This field won't be used, kept only for backward compatibility. 
+  /* This field won't be used; it's kept only for forward compatibility. 
    * City styles are specified by name since CVS 12/01-04. */
   secfile_insert_int(file, 0, "player%d.city_style", plrno);
 
@@ -1885,7 +2124,7 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_ceasefire, 
                        "player%d.ai.ask_ceasefire%d", plrno, i);
   }
-  secfile_insert_int(file, plr->ai.tech_goal, "player%d.ai.tech_goal", plrno);
+  save_technology(file, "player%d.ai.tech_goal", plrno, plr->ai.tech_goal);
   secfile_insert_int(file, plr->ai.skill_level,
 		     "player%d.ai.skill_level", plrno);
   secfile_insert_int(file, plr->ai.barbarian_type, "player%d.ai.is_barbarian", plrno);
@@ -1902,21 +2141,33 @@ static void player_save(struct player *plr, int plrno,
 		     "player%d.researched_before", plrno);
   secfile_insert_bool(file, plr->got_tech,
 		      "player%d.research_got_tech", plrno);
-  secfile_insert_int(file, plr->research.changed_from,
-		     "player%d.research_changed_from", plrno);
+  save_technology(file, "player%d.research_changed_from", plrno, 
+                  plr->research.changed_from);
   secfile_insert_int(file, plr->research.techs_researched,
 		     "player%d.researchpoints", plrno);
-  secfile_insert_int(file, plr->research.researching,
-		     "player%d.researching", plrno);  
+  save_technology(file, "player%d.researching", plrno,
+                  plr->research.researching);  
 
   secfile_insert_bool(file, plr->capital, "player%d.capital", plrno);
   secfile_insert_int(file, plr->revolution, "player%d.revolution", plrno);
 
+  /* 1.14 servers depend on technology order in ruleset. Here we are trying
+   * to simulate 1.14.1 default order */
+  init_old_technology_bitvector(invs);
+  tech_type_iterate(tech_id) {
+    if (get_invention(plr, tech_id) == TECH_KNOWN) {
+      add_technology_into_old_bitvector(invs, tech_id);
+    }
+  } tech_type_iterate_end;
+  secfile_insert_str(file, invs, "player%d.invs", plrno);
+  
+  /* Save technology lists as bitvector. Note that technology order is 
+   * saved in savefile.technology_order */
   tech_type_iterate(tech_id) {
     invs[tech_id] = (get_invention(plr, tech_id) == TECH_KNOWN) ? '1' : '0';
   } tech_type_iterate_end;
   invs[game.num_tech_types] = '\0';
-  secfile_insert_str(file, invs, "player%d.invs", plrno);
+  secfile_insert_str(file, invs, "player%d.invs_new", plrno);
 
   secfile_insert_int(file, plr->reputation, "player%d.reputation", plrno);
   for (i = 0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
@@ -1987,8 +2238,9 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->hp, "player%d.u%d.hp", plrno, i);
     secfile_insert_int(file, punit->homecity, "player%d.u%d.homecity",
 				plrno, i);
-    /* .type is actually kept only for backward compatibility */
-    secfile_insert_int(file, old_unit_type_id(punit->type), "player%d.u%d.type",
+    /* .type is actually kept only for forward compatibility */
+    secfile_insert_int(file, old_unit_type_id(punit->type),
+		       "player%d.u%d.type",
 		       plrno, i);
     secfile_insert_str(file, unit_name_orig(punit->type),
 		       "player%d.u%d.type_by_name",
@@ -2411,6 +2663,8 @@ void game_load(struct section_file *file)
   const char *string;
   char** improvement_order = NULL;
   int improvement_order_size = 0;
+  char** technology_order = NULL;
+  int technology_order_size = 0;
   const char* name;
 
   game.version = secfile_lookup_int_default(file, 0, "game.version");
@@ -2421,6 +2675,10 @@ void game_load(struct section_file *file)
   if (has_capability("improvement_order", savefile_options)) {
     improvement_order = secfile_lookup_str_vec(file, &improvement_order_size,
                                                "savefile.improvement_order");
+  }
+  if (has_capability("technology_order", savefile_options)) {
+    technology_order = secfile_lookup_str_vec(file, &technology_order_size,
+                                              "savefile.technology_order");
   }
 
   /* we require at least version 1.9.0 */
@@ -2791,7 +3049,8 @@ void game_load(struct section_file *file)
 
     for (i = 0; i < game.nplayers; i++) {
       player_load(&game.players[i], i, file, improvement_order,
-                  improvement_order_size); 
+		  improvement_order_size, technology_order,
+		  technology_order_size); 
     }
 
     cities_iterate(pcity) {
@@ -2942,6 +3201,23 @@ void game_save(struct section_file *file)
     secfile_insert_str_vec(file, buf, game.num_impr_types,
                            "savefile.improvement_order");
   }
+  
+  /* Save technology order in savegame, so we are not dependent on ruleset
+   * order. If the game isn't started advances aren't loaded 
+   * so we can not save the order. */
+  if (game.num_tech_types > 0) {
+    const char* buf[game.num_tech_types];
+    tech_type_iterate(tech) {
+      if (tech == A_NONE) {
+        buf[tech] = "A_NONE";
+      } else {
+        buf[tech] = advances[tech].name_orig;
+      }
+    } tech_type_iterate_end;
+    secfile_insert_str_vec(file, buf, game.num_tech_types,
+                           "savefile.technology_order");
+  }
+  
   secfile_insert_int(file, game.gold, "game.gold");
   secfile_insert_int(file, game.tech, "game.tech");
   secfile_insert_int(file, game.skill_level, "game.skill_level");

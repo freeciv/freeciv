@@ -117,6 +117,7 @@ Tech_Type_id get_next_tech(struct player *pplayer, Tech_Type_id goal);
 bool tech_is_available(struct player *pplayer, Tech_Type_id id);
 bool tech_exists(Tech_Type_id id);
 Tech_Type_id find_tech_by_name(const char *s);
+Tech_Type_id find_tech_by_name_orig(const char *s);
 
 bool tech_flag(Tech_Type_id tech, enum tech_flag_id flag);
 enum tech_flag_id tech_flag_from_str(const char *s);

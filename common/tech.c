@@ -269,10 +269,11 @@ A tech doesn't exist if one of:
 **************************************************************************/
 bool tech_exists(Tech_Type_id id)
 {
-  if (id<0 || id>=game.num_tech_types)
+  if (id < 0 || id >= game.num_tech_types) {
     return FALSE;
-  else 
-    return advances[id].req[0]!=A_LAST && advances[id].req[1]!=A_LAST;
+  } else {
+    return advances[id].req[0] != A_LAST && advances[id].req[1] != A_LAST;
+  }
 }
 
 /**************************************************************************
@@ -282,8 +283,23 @@ Returns A_LAST if none match.
 Tech_Type_id find_tech_by_name(const char *s)
 {
   tech_type_iterate(i) {
-    if (strcmp(advances[i].name, s)==0)
+    if (strcmp(advances[i].name, s) == 0) {
       return i;
+    }
+  } tech_type_iterate_end;
+  return A_LAST;
+}
+
+/**************************************************************************
+  Does a linear search of advances[].name_orig
+  Returns A_LAST if none match.
+**************************************************************************/
+Tech_Type_id find_tech_by_name_orig(const char *s)
+{
+  tech_type_iterate(i) {
+    if (mystrcasecmp(advances[i].name_orig, s) == 0) {
+      return i;
+    }
   } tech_type_iterate_end;
   return A_LAST;
 }
@@ -293,7 +309,7 @@ Tech_Type_id find_tech_by_name(const char *s)
 **************************************************************************/
 bool tech_flag(Tech_Type_id tech, enum tech_flag_id flag)
 {
-  assert(flag>=0 && flag<TF_LAST);
+  assert(flag >= 0 && flag < TF_LAST);
   return TEST_BIT(advances[tech].flags, flag);
 }
 
