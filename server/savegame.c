@@ -72,8 +72,8 @@
       if (regular_map_pos_is_normal(x, y)) {            \
 	line[x] = get_xy_char;                          \
         if(!isprint(line[x] & 0x7f)) {                  \
-          freelog(LOG_FATAL, "Trying to write invalid"  \
-		  " map data: '%c' %d",                 \
+          freelog(LOG_FATAL, _("Trying to write invalid"\
+		  " map data: '%c' %d"),                \
 		  line[x], line[x]);                    \
           exit(EXIT_FAILURE);                                      \
         }                                               \
@@ -115,28 +115,28 @@
  * we let any map data type to be empty, and just print an
  * informative warning message about it. */
 
-#define LOAD_MAP_DATA(secfile_lookup_line, set_xy_char)       \
-{                                                             \
-  int y;                                                      \
-  for (y = 0; y < map.ysize; y++) {                           \
-    char *line = secfile_lookup_line;                         \
-    int x;                                                    \
-    if (!line || strlen(line) != map.xsize) {                 \
-      freelog(LOG_ERROR, "The save file contains incomplete " \
-              "map data.  This can happen with old saved "    \
-              "games, or it may indicate an invalid saved "   \
-              "game file.  Proceed at your own risk.");       \
-      continue;                                               \
-    }                                                         \
-    for(x = 0; x < map.xsize; x++) {                          \
-      char ch = line[x];                                      \
-      if (regular_map_pos_is_normal(x, y)) {                  \
-	set_xy_char;                                          \
-      } else {                                                \
-	assert(ch == '#');                                    \
-      }                                                       \
-    }                                                         \
-  }                                                           \
+#define LOAD_MAP_DATA(secfile_lookup_line, set_xy_char)         \
+{                                                               \
+  int y;                                                        \
+  for (y = 0; y < map.ysize; y++) {                             \
+    char *line = secfile_lookup_line;                           \
+    int x;                                                      \
+    if (!line || strlen(line) != map.xsize) {                   \
+      freelog(LOG_ERROR, _("The save file contains incomplete " \
+              "map data.  This can happen with old saved "      \
+              "games, or it may indicate an invalid saved "     \
+              "game file.  Proceed at your own risk."));        \
+      continue;                                                 \
+    }                                                           \
+    for(x = 0; x < map.xsize; x++) {                            \
+      char ch = line[x];                                        \
+      if (regular_map_pos_is_normal(x, y)) {                    \
+	set_xy_char;                                            \
+      } else {                                                  \
+	assert(ch == '#');                                      \
+      }                                                         \
+    }                                                           \
+  }                                                             \
 }
 
 /* The following should be removed when compatibility with
@@ -1665,7 +1665,8 @@ void game_load(struct section_file *file)
 
   /* we require at least version 1.9.0 */
   if (10900 > game.version) {
-    freelog(LOG_FATAL, "Savegame too old, at least version 1.9.0 required.");
+    freelog(LOG_FATAL,
+	    _("Savegame too old, at least version 1.9.0 required."));
     exit(EXIT_FAILURE);
   }
 
@@ -1816,18 +1817,37 @@ void game_load(struct section_file *file)
     }
 
     if (!has_capability("rulesetdir", savefile_options)) {
-      /* touch to prevent warnings */
-      section_file_lookup(file, "game.ruleset.techs");
-      section_file_lookup(file, "game.ruleset.units");
-      section_file_lookup(file, "game.ruleset.buildings");
-      section_file_lookup(file, "game.ruleset.terrain");
-      section_file_lookup(file, "game.ruleset.governments");
-      section_file_lookup(file, "game.ruleset.nations"); 
-      section_file_lookup(file, "game.ruleset.cities");
+      char *str2, *str =
+	  secfile_lookup_str_default(file, "default", "game.ruleset.techs");
 
-      sz_strlcpy(game.rulesetdir, 
-	       secfile_lookup_str_default(file, string,
-					  "game.ruleset.game"));
+      if (strcmp("classic",
+		 secfile_lookup_str_default(file, "default",
+					    "game.ruleset.terrain")) == 0) {
+	freelog(LOG_FATAL, _("The savegame uses the classic terrain "
+			     "ruleset which is no longer supported."));
+	exit(EXIT_FAILURE);
+      }
+
+
+#define T(x) \
+      str2 = secfile_lookup_str_default(file, "default", x); \
+      if (strcmp(str, str2) != 0) { \
+	freelog(LOG_NORMAL, _("Warning: Different rulesetdirs " \
+			      "('%s' and '%s') are no longer supported. " \
+			      "Using '%s'."), \
+			      str, str2, str); \
+      }
+
+      T("game.ruleset.units");
+      T("game.ruleset.buildings");
+      T("game.ruleset.terrain");
+      T("game.ruleset.governments");
+      T("game.ruleset.nations");
+      T("game.ruleset.cities");
+      T("game.ruleset.game");
+#undef T
+
+      sz_strlcpy(game.rulesetdir, str);
     } else {
       sz_strlcpy(game.rulesetdir, 
 	       secfile_lookup_str_default(file, string,
