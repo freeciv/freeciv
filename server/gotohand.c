@@ -293,11 +293,16 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   /* (?) was punit->type == U_SETTLERS -- dwp */
 
   while (get_from_mapqueue(&x, &y)) {
+    /* Just look up the cost value once.  This is a minor optimization but
+     * it makes a big difference since this code is called so much. */
+    unsigned char cost = ((move_type == SEA_MOVING)
+			  ? WARMAP_SEACOST(x, y) : WARMAP_COST(x, y));
+
     ptile = map_get_tile(x, y);
     adjc_dir_iterate(x, y, x1, y1, dir) {
       switch (move_type) {
       case LAND_MOVING:
-	if (WARMAP_COST(x1, y1) <= WARMAP_COST(x, y))
+	if (WARMAP_COST(x1, y1) <= cost)
 	  continue; /* No need for all the calculations */
 
         if (is_ocean(map_get_terrain(x1, y1))) {
@@ -321,7 +326,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 		       (ptile->move_cost[dir] > tmp ? 1 : 0))/2;
         }
 
-        move_cost += WARMAP_COST(x, y);
+        move_cost += cost;
         if (WARMAP_COST(x1, y1) > move_cost && move_cost < maxcost) {
           WARMAP_COST(x1, y1) = move_cost;
           add_to_mapqueue(move_cost, x1, y1);
@@ -331,7 +336,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 
       case SEA_MOVING:
         move_cost = SINGLE_MOVE;
-        move_cost += WARMAP_SEACOST(x, y);
+        move_cost += cost;
         if (WARMAP_SEACOST(x1, y1) > move_cost && move_cost < maxcost) {
 	  /* by adding the move_cost to the warmap regardless if we
 	     can move between we allow for shore bombardment/transport
