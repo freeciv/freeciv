@@ -251,7 +251,6 @@ static int fill_diplomacy_tech_menu(Widget popupmenu,
 }
 
 /****************************************************************
-
 Creates a sorted list of plr0's cities, excluding the capital and
 any cities not visible to plr1.  This means that you can only trade 
 cities visible to requesting player.  
@@ -262,7 +261,12 @@ static int fill_diplomacy_city_menu(Widget popupmenu,
 				    struct player *plr0, struct player *plr1)
 {
   int i = 0, j = 0, n = city_list_size(&plr0->cities);
-  struct city **city_list_ptrs = fc_malloc(sizeof(struct city*)*n);
+  struct city **city_list_ptrs;
+  if (n>0) {
+    city_list_ptrs = fc_malloc(sizeof(struct city*)*n);
+  } else {
+    city_list_ptrs = NULL;
+  }
 
   city_list_iterate(plr0->cities, pcity) {
     if(!city_got_effect(pcity, B_PALACE)){
@@ -282,6 +286,7 @@ static int fill_diplomacy_city_menu(Widget popupmenu,
 			      + plr0->player_no*32
 			      + plr1->player_no));
   }
+  free(city_list_ptrs);
   return i;
 }
 

@@ -221,34 +221,43 @@ static int fill_diplomacy_tech_menu(GtkWidget *popupmenu,
 }
 
 /****************************************************************
-
 Creates a sorted list of plr0's cities, excluding the capital and
 any cities not visible to plr1.  This means that you can only trade 
 cities visible to requesting player.  
 
 			    - Kris Bubendorfer
 *****************************************************************/
-/* FIXME - this one should be sorted -vasco */
 static int fill_diplomacy_city_menu(GtkWidget *popupmenu, 
 				    struct player *plr0, struct player *plr1)
 {
-  int flag=0;
+  int i = 0, j = 0, n = city_list_size(&plr0->cities);
+  struct city **city_list_ptrs;
+  if (n>0) {
+    city_list_ptrs = fc_malloc(sizeof(struct city*)*n);
+  } else {
+    city_list_ptrs = NULL;
+  }
 
   city_list_iterate(plr0->cities, pcity) {
     if(!city_got_effect(pcity, B_PALACE)){
-      GtkWidget *item=gtk_menu_item_new_with_label(pcity->name);
+      city_list_ptrs[i] = pcity;
+      i++;
+    }
+  } city_list_iterate_end;
+
+  qsort(city_list_ptrs, i, sizeof(struct city*), city_name_compare);
+  
+  for(j=0; j<i; j++) {
+      GtkWidget *item=gtk_menu_item_new_with_label(city_list_ptrs[j]->name);
 
       gtk_menu_append(GTK_MENU(popupmenu),item);
       gtk_signal_connect(GTK_OBJECT(item),"activate",
         GTK_SIGNAL_FUNC(diplomacy_dialog_city_callback),
-        (gpointer)(pcity->id*1024 + plr0->player_no*32 + plr1->player_no));
-      flag=1;
-    }
-  } city_list_iterate_end;
-
-  return flag;
+        (gpointer)(city_list_ptrs[j]->id*1024 + plr0->player_no*32 + plr1->player_no));
+  }
+  free(city_list_ptrs);
+  return i;
 }
-
 
 /****************************************************************
 ...
