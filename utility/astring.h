@@ -29,13 +29,6 @@ struct astring {
   size_t n_alloc;		/* total allocated */
 };
 
-struct athing {
-  void *ptr;			/* the data */
-  size_t size;			/* size of one object */
-  size_t n;			/* number most recently requested */
-  size_t n_alloc;		/* total number allocated */
-};
-
 /* Can assign this in variable declaration to initialize:
  * Notice a static astring var is exactly this already.
  * For athing need to call ath_init() due to size.
@@ -45,13 +38,5 @@ struct athing {
 void astr_init(struct astring *astr);
 void astr_minsize(struct astring *astr, size_t n);
 void astr_free(struct astring *astr);
-
-void ath_init(struct athing *ath, size_t size);
-void ath_minnum(struct athing *ath, size_t n);
-void ath_free(struct athing *ath);
-
-/* Returns a pointer to the nth (0-based) element in the given athing. Does
-   no boundary or pointer checking */
-#define ath_get(ath,n) ADD_TO_POINTER((ath)->ptr, (ath)->size*(n))
 
 #endif  /* FC__ASTRING_H */
