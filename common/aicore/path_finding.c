@@ -35,7 +35,7 @@
 
 /* Since speed is quite important to us and alloccation of large arrays is
  * slow, we try to pack info in the smallest types possible */
-typedef short index_t;
+typedef short mapindex_t;
 typedef unsigned char utiny_t;
 
 /* ===================== Internal structures ====================== */
@@ -99,7 +99,7 @@ enum pf_node_status {
  */
 struct pf_map {
   int x, y;			/* The current position */
-  index_t index;		/* Current offset into lattice */
+  mapindex_t index;		/* Current offset into lattice */
   struct pf_parameter *params;  /* Initial parameters */
   struct pqueue *queue;         /* Queue of nodes we have reached but not 
                                  * processed yet (NS_NEW), sorted by their 
@@ -239,7 +239,7 @@ static int get_total_CC(struct pf_map *pf_map, int cost, int extra)
 *****************************************************************/
 bool pf_next(struct pf_map *pf_map)
 {
-  index_t index;
+  mapindex_t index;
   struct pf_node *node = &pf_map->lattice[pf_map->index];
 
   if (pf_map->params->is_pos_dangerous) {
@@ -256,7 +256,7 @@ bool pf_next(struct pf_map *pf_map)
     /* The previous position is contained in {x,y} fields of map */
 
     adjc_dir_iterate(pf_map->x, pf_map->y, x1, y1, dir) {
-      index_t index1 = map_pos_to_index(x1, y1);
+      mapindex_t index1 = map_pos_to_index(x1, y1);
       struct pf_node *node1 = &pf_map->lattice[index1];
       utiny_t *status = &pf_map->status[index1];
       int cost;
@@ -445,7 +445,7 @@ void pf_destroy_map(struct pf_map *pf_map)
 static void pf_fill_position(const struct pf_map *pf_map, int x, int y,
 			     struct pf_position *pos)
 {
-  index_t index = map_pos_to_index(x, y);
+  mapindex_t index = map_pos_to_index(x, y);
   struct pf_node *node = &pf_map->lattice[index];
 
   /* Debug period only!  Please remove after PF is settled */
@@ -495,7 +495,7 @@ void pf_next_get_position(const struct pf_map *pf_map,
 bool pf_get_position(struct pf_map *pf_map, int x, int y,
 		     struct pf_position *pos)
 {
-  index_t index = map_pos_to_index(x, y);
+  mapindex_t index = map_pos_to_index(x, y);
   utiny_t status = pf_map->status[index];
 
   if (status == NS_PROCESSED || same_pos(x, y, pf_map->x, pf_map->y)) {
@@ -603,7 +603,7 @@ struct pf_path *pf_next_get_path(const struct pf_map *pf_map)
 ************************************************************************/
 struct pf_path *pf_get_path(struct pf_map *pf_map, int x, int y)
 {
-  index_t index = map_pos_to_index(x, y);
+  mapindex_t index = map_pos_to_index(x, y);
   utiny_t status = pf_map->status[index];
 
   if (status == NS_PROCESSED || same_pos(x, y, pf_map->x, pf_map->y)) {
@@ -744,7 +744,7 @@ static void create_danger_segment(struct pf_map *pf_map, enum direction8 dir,
 ******************************************************************/
 static bool pf_danger_iterate_map(struct pf_map *pf_map)
 {
-  index_t index;
+  mapindex_t index;
   struct pf_node *node = &pf_map->lattice[pf_map->index];
   struct danger_node *d_node = &pf_map->d_lattice[pf_map->index];
 
@@ -757,7 +757,7 @@ static bool pf_danger_iterate_map(struct pf_map *pf_map)
 
     /* The previous position is contained in {x,y} fields of map */
     adjc_dir_iterate(pf_map->x, pf_map->y, x1, y1, dir) {
-      index_t index1 = map_pos_to_index(x1, y1);
+      mapindex_t index1 = map_pos_to_index(x1, y1);
       struct pf_node *node1 = &pf_map->lattice[index1];
       struct danger_node *d_node1 = &pf_map->d_lattice[index1];
       int cost;
