@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-06-28 08:10+0200\n"
+"POT-Creation-Date: 2002-06-30 02:27+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -190,6 +190,15 @@ msgstr "Fallout"
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Out of memory trying to %s %lu bytes at line %d of %s."
+
+#: common/packets.c:4482
+msgid ""
+"The server you tried to connect is too old (1.12.0 or earlier). Please "
+"choose another server next time. Good bye."
+msgstr ""
+"Der von Ihnen ausgewählte Server verwendet eine veraltete "
+"Softwareversion (1.12.0 oder kleiner). Bitte wählen Sie einen anderen "
+"Server aus. Auf Wiedersehen!"
 
 #: common/player.c:487
 msgid "Spotless"
@@ -1765,13 +1774,13 @@ msgstr "Spiel: Die Quoten können nicht vor Spielbeginn geändert werden."
 msgid "Tax"
 msgstr "Steuern"
 
-#: client/agents/cma_core.c:1960 client/gui-gtk-2.0/gamedlgs.c:265
+#: client/agents/cma_core.c:1964 client/gui-gtk-2.0/gamedlgs.c:265
 #: client/gui-gtk/gamedlgs.c:263 client/gui-mui/citydlg.c:1657
 #: client/gui-win32/ratesdlg.c:319 server/plrhand.c:656
 msgid "Luxury"
 msgstr "Luxus"
 
-#: client/agents/cma_core.c:1962 client/gui-gtk-2.0/gamedlgs.c:285
+#: client/agents/cma_core.c:1966 client/gui-gtk-2.0/gamedlgs.c:285
 #: client/gui-gtk-2.0/repodlgs.c:129 client/gui-gtk/gamedlgs.c:283
 #: client/gui-gtk/repodlgs.c:139 client/gui-mui/citydlg.c:1661
 #: client/gui-mui/repodlgs.c:280 client/gui-win32/ratesdlg.c:325
@@ -4080,7 +4089,7 @@ msgstr "Das ist sinnvoll zu DEBUGGING Zwecken."
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: client/packhand.c:1003 server/stdinhand.c:1303
+#: client/packhand.c:1002 server/stdinhand.c:1303
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -5537,7 +5546,7 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Überschuß: Nahrung, Produktion, Handel"
 
 #: client/cityrepdata.c:220 client/gui-gtk-2.0/repodlgs.c:562
-#: client/gui-gtk/repodlgs.c:558 client/gui-win32/repodlgs.c:316
+#: client/gui-gtk/repodlgs.c:558 client/gui-win32/repodlgs.c:317
 #: client/gui-xaw/menu.c:199 client/gui-xaw/repodlgs.c:617
 #: client/gui-xaw/repodlgs.c:771 data/Freeciv:1765
 msgid "Economy"
@@ -5563,10 +5572,10 @@ msgstr "H"
 msgid "Number of Trade Routes"
 msgstr "Anzahl der Handelswege"
 
-#: client/agents/cma_core.c:1952 client/cityrepdata.c:225
+#: client/agents/cma_core.c:1956 client/cityrepdata.c:225
 #: client/gui-gtk-2.0/repodlgs.c:832 client/gui-gtk/repodlgs.c:781
 #: client/gui-mui/citydlg.c:1641 client/gui-mui/repodlgs.c:716
-#: client/gui-win32/repodlgs.c:696
+#: client/gui-win32/repodlgs.c:697
 msgid "Food"
 msgstr "Nahrung"
 
@@ -6622,46 +6631,46 @@ msgstr "NICHT GESPEICHERT: Kann nicht in Datei '%s' schreiben."
 msgid "Saved settings to file %s"
 msgstr "Einstellungen in Datei %s gespeichert."
 
-#: client/packhand.c:130
+#: client/packhand.c:129
 #, c-format
 msgid "You were rejected from the game: %s"
 msgstr "Verbindungsaufbau abgelehnt: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/packhand.c:141
+#: client/packhand.c:140
 #, c-format
 msgid "Client capability string: %s"
 msgstr "Client capability string: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/packhand.c:144
+#: client/packhand.c:143
 #, c-format
 msgid "Server capability string: %s"
 msgstr "Server capability string: %s"
 
-#: client/packhand.c:678
+#: client/packhand.c:677
 #, c-format
 msgid "Start of turn %d"
 msgstr "Beginn des %d. Zugs"
 
-#: client/packhand.c:749
+#: client/packhand.c:748
 msgid "Popup Request"
 msgstr "Sondermeldung"
 
-#: client/packhand.c:1222
+#: client/packhand.c:1221
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1223
+#: client/packhand.c:1222
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1223
+#: client/packhand.c:1222
 msgid "OFF"
 msgstr "AUS"
 
-#: client/packhand.c:1233
+#: client/packhand.c:1232
 msgid "Game: Revolution finished"
 msgstr "Spiel: Revolution beendet."
 
@@ -6719,13 +6728,13 @@ msgstr ""
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Couldn't load gfx file for the spec file %s"
 
-#: client/agents/cma_core.c:1732
+#: client/agents/cma_core.c:1736
 #, c-format
 msgid "CMA: You lost control of %s. Detaching from city."
 msgstr ""
 "ASV: %s wird nicht mehr von uns verwaltet, da es uns nicht mehr gehört."
 
-#: client/agents/cma_core.c:1753
+#: client/agents/cma_core.c:1757
 #, c-format
 msgid ""
 "CMA: The agent can't fulfill the requirements for %s. Passing back control."
@@ -6733,7 +6742,7 @@ msgstr ""
 "ASV: Die Vorgaben für %s können nicht eingehalten werden. Kontrolle "
 "abgegeben."
 
-#: client/agents/cma_core.c:1762
+#: client/agents/cma_core.c:1766
 #, c-format
 msgid ""
 "CMA: %s has changed and the calculated result can't be applied. Will retry."
@@ -6741,7 +6750,7 @@ msgstr ""
 "ASV: Da sich %s geändert hat, sind die bisherigen Berechnungen nicht mehr "
 "gültig. Die Neuberechnung erfolgt automatisch."
 
-#: client/agents/cma_core.c:1779 client/agents/cma_core.c:1787
+#: client/agents/cma_core.c:1783 client/agents/cma_core.c:1791
 #, c-format
 msgid ""
 "CMA: %s has changed multiple times. This may be an error in freeciv or bad "
@@ -6752,19 +6761,19 @@ msgstr ""
 "liegen: Bitte informieren Sie <freeciv-dev@freeciv.org>. Die ASV für diese "
 "Stadt wird deshalb jetzt abgeschaltet."
 
-#: client/agents/cma_core.c:1954 client/gui-gtk-2.0/repodlgs.c:831
+#: client/agents/cma_core.c:1958 client/gui-gtk-2.0/repodlgs.c:831
 #: client/gui-gtk/repodlgs.c:781 client/gui-mui/citydlg.c:1645
-#: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:696
+#: client/gui-mui/repodlgs.c:715 client/gui-win32/repodlgs.c:697
 msgid "Shield"
 msgstr "Schild"
 
-#: client/agents/cma_core.c:1956 client/gui-mui/citydlg.c:1649
+#: client/agents/cma_core.c:1960 client/gui-mui/citydlg.c:1649
 #: data/Freeciv:2966 data/civ1/techs.ruleset:553 data/civ2/techs.ruleset:553
 #: data/default/techs.ruleset:557
 msgid "Trade"
 msgstr "Handel"
 
-#: client/agents/cma_core.c:1958 client/gui-gtk-2.0/citydlg.c:553
+#: client/agents/cma_core.c:1962 client/gui-gtk-2.0/citydlg.c:553
 #: client/gui-gtk/citydlg.c:546 client/gui-mui/citydlg.c:1653
 #: data/civ1/terrain.ruleset:368 data/civ2/terrain.ruleset:376
 #: data/default/terrain.ruleset:376
@@ -7276,7 +7285,7 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:2667 client/gui-gtk-2.0/repodlgs.c:996
 #: client/gui-gtk/citydlg.c:2701 client/gui-gtk/repodlgs.c:906
 #: client/gui-mui/dialogs.c:1878 client/gui-mui/repodlgs.c:772
-#: client/gui-win32/citydlg.c:1610 client/gui-win32/repodlgs.c:581
+#: client/gui-win32/citydlg.c:1610 client/gui-win32/repodlgs.c:582
 #: data/Freeciv:2408
 msgid "Upgrade Obsolete Units"
 msgstr "Modernisiere veraltete Einheiten"
@@ -7378,7 +7387,7 @@ msgstr "Info"
 #: client/gui-gtk/wldlg.c:312 client/gui-gtk/wldlg.c:318
 #: client/gui-mui/citydlg.c:693 client/gui-mui/repodlgs.c:478
 #: client/gui-mui/worklistclass.c:216 client/gui-win32/citydlg.c:1205
-#: client/gui-win32/repodlgs.c:476 client/gui-win32/wldlg.c:673
+#: client/gui-win32/repodlgs.c:477 client/gui-win32/wldlg.c:673
 #: client/gui-win32/wldlg.c:679
 msgid "Cost"
 msgstr "Kosten"
@@ -7483,8 +7492,8 @@ msgstr "Spiel: %s kosten %d Goldstücke. Vorhanden sind nur %d Goldstücke."
 #: client/gui-gtk-2.0/repodlgs.c:852 client/gui-gtk/cityrep.c:517
 #: client/gui-gtk/menu.c:627 client/gui-gtk/repodlgs.c:793
 #: client/gui-mui/citydlg.c:1437 client/gui-mui/gui_main.c:264
-#: client/gui-win32/menu.c:313 client/gui-win32/repodlgs.c:620
-#: client/gui-win32/repodlgs.c:701 client/gui-win32/repodlgs.c:708
+#: client/gui-win32/menu.c:313 client/gui-win32/repodlgs.c:621
+#: client/gui-win32/repodlgs.c:702 client/gui-win32/repodlgs.c:709
 #: client/gui-xaw/menu.c:142 client/gui-xaw/menu.c:197
 #: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:865
 #: client/gui-xaw/repodlgs.c:1057 data/Freeciv:1840 data/helpdata.txt:806
@@ -7610,7 +7619,7 @@ msgstr "Vorgabe löschen"
 
 #: client/gui-gtk-2.0/cma_fe.c:201 client/gui-gtk/cma_fe.c:197
 #: client/gui-gtk/repodlgs.c:693 client/gui-mui/citydlg.c:1599
-#: client/gui-mui/repodlgs.c:533 client/gui-win32/repodlgs.c:392
+#: client/gui-mui/repodlgs.c:533 client/gui-win32/repodlgs.c:393
 #: client/gui-xaw/repodlgs.c:752
 msgid "Results"
 msgstr "Ergebnisse"
@@ -7807,8 +7816,8 @@ msgstr "Nachricht:"
 #: client/gui-win32/dialogs.c:1498 client/gui-win32/helpdlg.c:423
 #: client/gui-win32/inteldlg.c:151 client/gui-win32/messagewin.c:205
 #: client/gui-win32/optiondlg.c:109 client/gui-win32/plrdlg.c:366
-#: client/gui-win32/repodlgs.c:288 client/gui-win32/repodlgs.c:462
-#: client/gui-win32/repodlgs.c:714 client/gui-win32/spaceshipdlg.c:232
+#: client/gui-win32/repodlgs.c:289 client/gui-win32/repodlgs.c:463
+#: client/gui-win32/repodlgs.c:715 client/gui-win32/spaceshipdlg.c:232
 #: client/gui-win32/wldlg.c:305 data/Freeciv:145 data/Freeciv:195
 #: data/Freeciv:499 data/Freeciv:533 data/Freeciv:578 data/Freeciv:1441
 #: data/Freeciv:1554 data/Freeciv:1650 data/Freeciv:1681 data/Freeciv:1814
@@ -9449,7 +9458,7 @@ msgstr "_Raumschiff"
 #: client/gui-gtk/repodlgs.c:168 client/gui-gtk/wldlg.c:498
 #: client/gui-mui/gui_main.c:318 client/gui-mui/helpdlg.c:284
 #: client/gui-mui/repodlgs.c:293 client/gui-win32/citydlg.c:1192
-#: client/gui-win32/repodlgs.c:274 client/gui-win32/wldlg.c:716
+#: client/gui-win32/repodlgs.c:275 client/gui-win32/wldlg.c:716
 #: data/Freeciv:1972 data/Freeciv:2040 data/Freeciv:2123 data/Freeciv:2129
 msgid "Help"
 msgstr "Hilfe"
@@ -9750,7 +9759,7 @@ msgid "Researching"
 msgstr "Erforsche"
 
 #: client/gui-gtk-2.0/repodlgs.c:174 client/gui-gtk/repodlgs.c:171
-#: client/gui-win32/repodlgs.c:278 data/Freeciv:1423
+#: client/gui-win32/repodlgs.c:279 data/Freeciv:1423
 msgid "Goal"
 msgstr "Ziel"
 
@@ -9772,17 +9781,17 @@ msgid_plural "Research speed: %d turns/advance"
 msgstr[0] "Forschungstempo: %d Runden / Fortschritt"
 
 #: client/gui-gtk-2.0/repodlgs.c:543 client/gui-gtk/repodlgs.c:545
-#: client/gui-mui/repodlgs.c:476 client/gui-win32/repodlgs.c:469
+#: client/gui-mui/repodlgs.c:476 client/gui-win32/repodlgs.c:470
 msgid "Building Name"
 msgstr "Gebäude"
 
 #: client/gui-gtk-2.0/repodlgs.c:544 client/gui-gtk/repodlgs.c:545
-#: client/gui-mui/repodlgs.c:477 client/gui-win32/repodlgs.c:472
+#: client/gui-mui/repodlgs.c:477 client/gui-win32/repodlgs.c:473
 msgid "Count"
 msgstr "Anzahl"
 
 #: client/gui-gtk-2.0/repodlgs.c:546 client/gui-gtk/repodlgs.c:546
-#: client/gui-mui/repodlgs.c:479 client/gui-win32/repodlgs.c:478
+#: client/gui-mui/repodlgs.c:479 client/gui-win32/repodlgs.c:479
 msgid "U Total"
 msgstr "Kosten gesamt"
 
@@ -9791,24 +9800,24 @@ msgid "Total Cost:"
 msgstr "Gesamtkosten:"
 
 #: client/gui-gtk-2.0/repodlgs.c:620 client/gui-gtk/repodlgs.c:585
-#: client/gui-win32/repodlgs.c:464 data/Freeciv:1821
+#: client/gui-win32/repodlgs.c:465 data/Freeciv:1821
 msgid "Sell Obsolete"
 msgstr "Verkaufe Veraltetes"
 
 #: client/gui-gtk-2.0/repodlgs.c:625 client/gui-gtk/repodlgs.c:591
-#: client/gui-win32/repodlgs.c:466 data/Freeciv:1829
+#: client/gui-win32/repodlgs.c:467 data/Freeciv:1829
 msgid "Sell All"
 msgstr "Alles verkaufen"
 
 #: client/gui-gtk-2.0/repodlgs.c:717 client/gui-gtk/repodlgs.c:686
-#: client/gui-mui/repodlgs.c:527 client/gui-win32/repodlgs.c:384
+#: client/gui-mui/repodlgs.c:527 client/gui-win32/repodlgs.c:385
 #: client/gui-xaw/repodlgs.c:746
 #, c-format
 msgid "Sold %d %s for %d gold"
 msgstr "%d %s für %d Goldstücke verkauft"
 
 #: client/gui-gtk-2.0/repodlgs.c:722 client/gui-gtk/repodlgs.c:689
-#: client/gui-mui/repodlgs.c:531 client/gui-win32/repodlgs.c:387
+#: client/gui-mui/repodlgs.c:531 client/gui-win32/repodlgs.c:388
 #: client/gui-xaw/repodlgs.c:749
 #, c-format
 msgid "No %s could be sold"
@@ -9824,22 +9833,22 @@ msgid "Income: %d    Total Costs: %d"
 msgstr "Einkommen: %d    Ausgaben: %d"
 
 #: client/gui-gtk-2.0/repodlgs.c:827 client/gui-gtk/repodlgs.c:780
-#: client/gui-mui/repodlgs.c:711 client/gui-win32/repodlgs.c:694
+#: client/gui-mui/repodlgs.c:711 client/gui-win32/repodlgs.c:695
 msgid "Unit Type"
 msgstr "Einheiten"
 
 #: client/gui-gtk-2.0/repodlgs.c:828 client/gui-gtk/repodlgs.c:780
-#: client/gui-mui/repodlgs.c:712 client/gui-win32/repodlgs.c:694
+#: client/gui-mui/repodlgs.c:712 client/gui-win32/repodlgs.c:695
 msgid "U"
 msgstr "Unt."
 
 #: client/gui-gtk-2.0/repodlgs.c:829 client/gui-gtk/repodlgs.c:780
-#: client/gui-mui/repodlgs.c:713 client/gui-win32/repodlgs.c:695
+#: client/gui-mui/repodlgs.c:713 client/gui-win32/repodlgs.c:696
 msgid "In-Prog"
 msgstr "im Bau"
 
 #: client/gui-gtk-2.0/repodlgs.c:830 client/gui-gtk/repodlgs.c:780
-#: client/gui-mui/repodlgs.c:714 client/gui-win32/repodlgs.c:695
+#: client/gui-mui/repodlgs.c:714 client/gui-win32/repodlgs.c:696
 msgid "Active"
 msgstr "aktiv"
 
@@ -9848,7 +9857,7 @@ msgid "_Upgrade"
 msgstr "_Modernisieren"
 
 #: client/gui-gtk-2.0/repodlgs.c:991 client/gui-gtk/repodlgs.c:899
-#: client/gui-mui/repodlgs.c:766 client/gui-win32/repodlgs.c:573
+#: client/gui-mui/repodlgs.c:766 client/gui-win32/repodlgs.c:574
 #: client/gui-xaw/repodlgs.c:991
 #, c-format
 msgid ""
@@ -10073,12 +10082,12 @@ msgid "_Close"
 msgstr "_Schließen"
 
 #: client/gui-gtk/repodlgs.c:693 client/gui-mui/repodlgs.c:533
-#: client/gui-win32/repodlgs.c:392 client/gui-xaw/repodlgs.c:752
+#: client/gui-win32/repodlgs.c:393 client/gui-xaw/repodlgs.c:752
 msgid "Sell-Off:"
 msgstr "Ausverkauf:"
 
 #: client/gui-gtk/repodlgs.c:738 client/gui-mui/repodlgs.c:617
-#: client/gui-win32/repodlgs.c:340 client/gui-xaw/repodlgs.c:796
+#: client/gui-win32/repodlgs.c:341 client/gui-xaw/repodlgs.c:796
 #, c-format, ycp-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
@@ -10088,18 +10097,18 @@ msgid "Totals: ..."
 msgstr "Insgesamt: ..."
 
 #: client/gui-gtk/repodlgs.c:818 client/gui-mui/mapclass.c:3092
-#: client/gui-win32/repodlgs.c:716 data/Freeciv:1895
+#: client/gui-win32/repodlgs.c:717 data/Freeciv:1895
 msgid "Upgrade"
 msgstr "Modernisieren"
 
 #: client/gui-gtk/repodlgs.c:824 client/gui-win32/cityrep.c:896
-#: client/gui-win32/repodlgs.c:718 data/Freeciv:1601 data/Freeciv:1746
+#: client/gui-win32/repodlgs.c:719 data/Freeciv:1601 data/Freeciv:1746
 #: data/Freeciv:1903
 msgid "Refresh"
 msgstr "Neu laden"
 
 #: client/gui-gtk/repodlgs.c:908 client/gui-mui/dialogs.c:228
-#: client/gui-win32/repodlgs.c:582 client/gui-xaw/citydlg.c:2612
+#: client/gui-win32/repodlgs.c:583 client/gui-xaw/citydlg.c:2612
 #: client/gui-xaw/cityrep.c:665 client/gui-xaw/messagedlg.c:72
 #: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:193
 #: client/gui-xaw/wldlg.c:1226 data/Freeciv:2143 data/Freeciv:2157
@@ -10109,7 +10118,7 @@ msgid "Yes"
 msgstr "Ja"
 
 #: client/gui-gtk/repodlgs.c:910 client/gui-mui/dialogs.c:229
-#: client/gui-win32/repodlgs.c:584 client/gui-xaw/citydlg.c:2612
+#: client/gui-win32/repodlgs.c:585 client/gui-xaw/citydlg.c:2612
 #: client/gui-xaw/cityrep.c:665 client/gui-xaw/messagedlg.c:72
 #: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:193
 #: client/gui-xaw/wldlg.c:1226 data/Freeciv:2159 data/Freeciv:2178
@@ -10935,7 +10944,7 @@ msgstr "_Ziel"
 msgid "_Research"
 msgstr "_Erforsche"
 
-#: client/gui-mui/repodlgs.c:547 client/gui-win32/repodlgs.c:450
+#: client/gui-mui/repodlgs.c:547 client/gui-win32/repodlgs.c:451
 msgid "Trade Report"
 msgstr "Handelsbericht"
 
@@ -11317,7 +11326,7 @@ msgstr "(%d Schritte)"
 msgid "Science Report"
 msgstr "Forschungsbericht..."
 
-#: client/gui-win32/repodlgs.c:667
+#: client/gui-win32/repodlgs.c:668
 msgid "Totals"
 msgstr "Kosten gesamt"
 
