@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.10.0\n"
-"POT-Creation-Date: 2000-06-29 18:13-0400\n"
+"POT-Creation-Date: 2000-07-03 10:56+0200\n"
 "PO-Revision-Date: 2000-06-22 16:45+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -488,156 +488,156 @@ msgstr ""
 "Spel: De arbeiders in %s zijn overdonderd door uw technologische inzichten!\n"
 "      Arbeiders verzamelen zich spontaan om de stad op te waarderen met spoorwegen."
 
-#: server/cityturn.c:569
+#: server/cityturn.c:570
 #, c-format
 msgid "Game: %s is selling %s (obsolete) for %d."
 msgstr "Spel: %s verkoopt %s (verouderd) voor %d."
 
-#: server/cityturn.c:755
+#: server/cityturn.c:756
 #, c-format
 msgid "Game: Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr "Spel: %s adviseert groeibeperking om %s (in aanbouw) beter te benutten."
 
-#: server/cityturn.c:764
+#: server/cityturn.c:765
 #, c-format
 msgid "Game: %s may soon grow to size %i."
 msgstr "Spel: %s kan binnenkort groeien naar grootte %i."
 
-#: server/cityturn.c:784
+#: server/cityturn.c:785
 msgid "Game: WARNING, we're LOW on FUNDS sire."
 msgstr "Spel: WAARSCHUWING, de SCHATKIST raakt LEEG sire."
 
-#: server/cityturn.c:833 server/cityturn.c:852
+#: server/cityturn.c:834 server/cityturn.c:853
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Spel: %s heeft %s nodig (wordt gebouwd) om verder te kunnen groeien."
 
-#: server/cityturn.c:838 server/cityturn.c:857
+#: server/cityturn.c:839 server/cityturn.c:858
 #, c-format
 msgid "Game: %s needs %s to grow any further."
 msgstr "Spel: %s heeft %s nodig om verder te kunnen groeien."
 
-#: server/cityturn.c:910
+#: server/cityturn.c:911
 #, c-format
 msgid "Game: %s grows to size %d."
 msgstr "Spel: %s groeit naar grootte %d."
 
-#: server/cityturn.c:920
+#: server/cityturn.c:921
 #, c-format
 msgid "Game: Famine feared in %s."
 msgstr "Spel: Hongersnood gevreesd in %s."
 
-#: server/cityturn.c:952
+#: server/cityturn.c:953
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Spel: Hongersnood gevreesd in %s, %s verloren!"
 
-#: server/cityturn.c:1037 server/cityturn.c:1077
+#: server/cityturn.c:1038 server/cityturn.c:1078
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
 msgstr "Spel: %s kan %s van de werklijst niet bouwen.  Verwijderen..."
 
-#: server/cityturn.c:1056 server/cityturn.c:1096
+#: server/cityturn.c:1057 server/cityturn.c:1097
 #, c-format
 msgid "Game: %s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr "Spel: %s kan %s van de werklijst niet bouwen; techniek nog niet beschikbaar.  Uitstellen..."
 
-#: server/cityturn.c:1064 server/cityturn.c:1104 server/cityturn.c:1207
+#: server/cityturn.c:1065 server/cityturn.c:1105 server/cityturn.c:1208
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spel: Produktie van %s is opgewaardeerd naar %s in %s."
 
-#: server/cityturn.c:1129
+#: server/cityturn.c:1130
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Spel: %s's werklijst is nu leeg."
 
-#: server/cityturn.c:1228
+#: server/cityturn.c:1229
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spel: %s kan %s niet onderhouden, eenheid opgeheven."
 
-#: server/cityturn.c:1246
+#: server/cityturn.c:1247
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spel: %s is %s aan het bouwen, die niet meer beschikbaar is."
 
-#: server/cityturn.c:1277
+#: server/cityturn.c:1278
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spel: De %s zijn klaar met het bouwen van %s in %s."
 
-#: server/cityturn.c:1293
+#: server/cityturn.c:1294
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spel: %s is klaar met het bouwen van %s."
 
-#: server/cityturn.c:1299
+#: server/cityturn.c:1300
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Spel: %s versnelt onderzoek, u krijgt 2 onmiddelijke vooruitgangen"
 
-#: server/cityturn.c:1307
+#: server/cityturn.c:1308
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spel: De %s zijn begonnen met het bouwen van een ruimteschip!"
 
-#: server/cityturn.c:1342
+#: server/cityturn.c:1343
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spel: %s kan %s nog niet bouwen."
 
-#: server/cityturn.c:1366
+#: server/cityturn.c:1367
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spel: %s is klaar met het bouwen van %s."
 
-#: server/cityturn.c:1409
+#: server/cityturn.c:1410
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr "Spel: Kan onderhoud van %s in %s niet meer betalen, gebouw verkocht!"
 
-#: server/cityturn.c:1472
+#: server/cityturn.c:1473
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spel: Verontreiniging bij %s."
 
-#: server/cityturn.c:1561
+#: server/cityturn.c:1562
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spel: De 'Wij Loven De %s Dag' wordt gevierd in %s."
 
-#: server/cityturn.c:1569
+#: server/cityturn.c:1570
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spel: De 'Wij Loven De %s Dag' afgezegd in %s."
 
-#: server/cityturn.c:1602
+#: server/cityturn.c:1603
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spel: Burgelijke onlusten in %s."
 
-#: server/cityturn.c:1605
+#: server/cityturn.c:1606
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spel: BURGELIJKE ONLUSTEN GAAN DOOR in %s."
 
-#: server/cityturn.c:1611
+#: server/cityturn.c:1612
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spel: Orde hersteld in %s."
 
-#: server/cityturn.c:1620
+#: server/cityturn.c:1621
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr "Spel: De bevolking heeft uw %s omvergeworpen, uw land is in verwarring."
 
-#: server/cityturn.c:1645
+#: server/cityturn.c:1646
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr "Spel: %s kan nog geen %s bouwen en we kunnen onze enige stad niet ontbinden."
 
-#: server/cityturn.c:1659
+#: server/cityturn.c:1660
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spel: %s is ontbonden in %s."
@@ -3788,120 +3788,120 @@ msgstr "Spel: Een troep vriendelijke huurlingen sluit zich bij u aan."
 msgid "Game: An abandoned village is here."
 msgstr "Spel: Hier is een verlaten dorp."
 
-#: server/unithand.c:781
+#: server/unithand.c:785
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spel: U heeft een horde barbaren ontketend!"
 
-#: server/unithand.c:782
+#: server/unithand.c:786
 msgid "Game: Your unit has been killed by barbarians."
 msgstr "Spel: Uw eenheid is vermoord door de barbaren."
 
-#: server/unithand.c:797
+#: server/unithand.c:801
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr "Spel: Vriendelijke nomaden zijn door u geïmponeerd en sluiten zich bij u aan."
 
-#: server/unithand.c:877
+#: server/unithand.c:881
 msgid "Game: You can't attack there."
 msgstr "Spel: U kunt hier niet aanvallen."
 
-#: server/unithand.c:883
+#: server/unithand.c:887
 msgid "Game: This unit has no moves left."
 msgstr "Spel: Deze eenheid heeft geen beweging meer over."
 
-#: server/unithand.c:889
+#: server/unithand.c:893
 #, c-format
 msgid "Game: Can't attack %s's unit in the city of %s because you are not at war with %s."
 msgstr "Spel: Kan %s's eenheden in de stad niet aanvallen omdat u niet in oorlog bent met %s."
 
-#: server/unithand.c:900
+#: server/unithand.c:904
 msgid "Game: Aborting GOTO for AI attack procedures."
 msgstr "Spel: Breek GA NAAR af voor KI-aanvals procedures."
 
-#: server/unithand.c:907
+#: server/unithand.c:911
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr "Spel: %s brak GA NAAR af aangezien er eenheden in de weg staan."
 
-#: server/unithand.c:933
+#: server/unithand.c:937
 #, c-format
 msgid "Game: A %s cannot attack other units."
 msgstr "Spel: Een %s kan geen andere eenheden aanvallen."
 
-#: server/unithand.c:949
+#: server/unithand.c:953
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
 msgstr "Spel: Geen oorlog verklaard aan %s, kan niet aanvallen."
 
-#: server/unithand.c:963
+#: server/unithand.c:967
 #, c-format
 msgid "Game: %s doesn't want to leave its bodyguard."
 msgstr "Spel: %s wil zijn lijfwacht niet achterlaten."
 
-#: server/unithand.c:976
+#: server/unithand.c:980
 #, c-format
 msgid "Game: %s ending move early to stay out of trouble."
 msgstr "Spel: %s eindigt beweging voortijdig om vrij van moeilijkheden te blijven."
 
-#: server/unithand.c:986
+#: server/unithand.c:990
 msgid "Game: Only ground troops can take over a city."
 msgstr "Spel: Alleen grondtroepen kunnen een stad innemen."
 
-#: server/unithand.c:993
+#: server/unithand.c:997
 #, c-format
 msgid "Game: No war declared against %s, cannot take over city."
 msgstr "Spel: Geen oorlog verklaart aan %s, kan stad niet innemen."
 
-#: server/unithand.c:1069
+#: server/unithand.c:1073
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
 msgstr "Spel: Uw %s help %s in %s te bouwen (%d resterend)."
 
-#: server/unithand.c:1110
+#: server/unithand.c:1114
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
 msgstr "Spel: Sorry, uw %s kan hier geen handelsroute vestigen!"
 
-#: server/unithand.c:1116
+#: server/unithand.c:1120
 #, c-format
 msgid "      A traderoute already exists between %s and %s!"
 msgstr "      Er bestaat al een handelsroute tussen %s en %s!"
 
-#: server/unithand.c:1123 server/unithand.c:1129
+#: server/unithand.c:1127 server/unithand.c:1133
 #, c-format
 msgid "      The city of %s already has 4 trade routes!"
 msgstr "      De stad %s heeft al 4 handelsroutes!"
 
-#: server/unithand.c:1139
+#: server/unithand.c:1143
 #, c-format
 msgid "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold and research."
 msgstr "Spel: Uw %s van %s is aangekomen in %s en brengen %d in goud en onderzoek op."
 
-#: server/unithand.c:1196
+#: server/unithand.c:1200
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Spel: U vernietigt %s volledig."
 
-#: server/unithand.c:1198
+#: server/unithand.c:1202
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Spel: %s is vernietigd door %s."
 
-#: server/unithand.c:1220
+#: server/unithand.c:1224
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Spel: U verovert %s, uw plunderingen leveren %d goud op!"
 
-#: server/unithand.c:1224
+#: server/unithand.c:1228
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Spel: %s veroverde %s en plunderde %d goud uit de stad."
 
-#: server/unithand.c:1235
+#: server/unithand.c:1239
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
 msgstr "Spel: U hebt %s bevrijdt!! plunderingen leveren %d goud op."
 
-#: server/unithand.c:1240
+#: server/unithand.c:1244
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Spel: %s bevrijdde %s en plunderde %d goud uit de stad."
@@ -9083,17 +9083,17 @@ msgid ""
 "\n"
 "- units with an attack strength greater than 0 which are not inside a city or inside a fortress within 3 squares of a friendly city\n"
 "\n"
-"- air units (including missiles and helicopters) and sea units with an attack strength greater than 0, regardless of their location\n"
+"- air units (including missiles and helicopters, but not fighters) with an attack strength greater than 0, regardless of their location\n"
 "\n"
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units will generate 1 unhappy citizen each."
 msgstr ""
-"Onder een Republiek houden de burgers een verkiezing om uit te maken wie hen mag regeren; aangezien gekozen leiders geliefd moeten blijven om te kunnen regeren, hebben burgers een grotere mate van vrijheid. Burgers in een Republiek worden gemakkelijk onrustig, maar de zelfstandigheid van uw burgers staat een hoge mate van handel toe.\n"
+"Onder een Republiek houden de burgers een verkiezing om uit te maken wie hen mag regeren; aangezien gekozen leiders geliefd moeten blijven om te kunnen blijven regeren, hebben burgers een grotere mate van vrijheid. Burgers in een Republiek worden gemakkelijk ontevreden, maar de zelfstandigheid van uw burgers staat een hoge mate van handel toe.\n"
 "\n"
-"Steden in een Republiek hebben maar een klein beetje corruptie.\n"
+"Steden in een Republiek hebben slechts een klein beetje corruptie.\n"
 "\n"
 "Kolonisten verbruiken 2 voedsel per beurt in een Republiek. Vlakken met tenminste 1 handelspunt krijgen in een Republiek een bonus van 1.\n"
 "\n"
-"Republikeinse steden die iets vieren groeien met 1 burger per beurt; zie geluk voor details.\n"
+"Republikeinse steden die iets vieren groeien met 1 burger per beurt; zie Geluk voor details.\n"
 "\n"
 "De maximale waarden voor wetenschap, belasting of luxe zijn 80%.\n"
 "\n"
@@ -9101,7 +9101,7 @@ msgstr ""
 "\n"
 "- eenheden met een aanvalssterkte groter dan 0 die zich niet in een stad bevinden of in een fort binnen drie vlakken van een bevriende stad.\n"
 "\n"
-"- lucht-eenheden (inclusief raketten en helicopters) en zee-eenheden met een aanvalssterkte groter dan 0, ongeacht hun locatie.\n"
+"- lucht-eenheden (inclusief raketten en helicopters, maar niet jagers) met een aanvalssterkte groter dan 0, ongeacht hun locatie.\n"
 "\n"
 "De burgers in een stad zullen 1 agressieve eenheid tolereren; elke volgende eenheid veroorzaakt elk 1 opstandige burger."
 
@@ -9127,7 +9127,7 @@ msgid ""
 "\n"
 "- Units with an attack strength greater than 0 which are not inside a city, or inside a fortress within 3 squares of a friendly city, generate 2 unhappy citizens.\n"
 "\n"
-"- Air/sea units with an attack strength greater than 0 which are inside a city or nearby fortress generate only 1 unhappy citizen.\n"
+"- Air units with an attack strength greater than 0 which are inside a city generate only 1 unhappy citizen.  Fighters generate no unhappiness.\n"
 "\n"
 "If a city remains in disorder more than 2 turns under Democratic rule, the citizens will spontaneously revolt and plunge your civilization into Anarchy.\n"
 "\n"
@@ -9143,7 +9143,7 @@ msgstr ""
 "Onder een Democratie verbruiken militaire eenheden elk 1 produktieschild voor instandhouding. Daar bovenop veroorzaken de volgende eenheden ongemak:\n"
 "\n"
 "- Eenheden met een aanvalssterkte groter dan 0 die zich niet in een stad bevinden, of die zich in een fort bevinden binnen 3 vlakken van een bevriende stad, veroorzaken twee opstandige burgers.\n"
-"- Lucht/zee-eenheden met een aanvalssterkte groter dan 0 die zich in een stad of naast een fort bevinden veroorzaken slechts 1 opstandige burger.\n"
+"- Lucht-eenheden met een aanvalssterkte groter dan 0 die zich in een stad of naast een fort bevinden veroorzaken slechts 1 opstandige burger. Jagers veroorzaken geen ontevredenheid.\n"
 "\n"
 "Als een stad gedurende meer dan twee beurten in wanorde blijft onder een Democratisch bewind, dan zullen ze spontaan in opstand komen en de beschaving tot Anarchie laten vervallen.\n"
 "\n"
@@ -9257,7 +9257,7 @@ msgid ""
 "\n"
 "- units with an attack strength greater than 0 which are not inside a city or inside a fortress within 3 squares of a friendly city\n"
 "\n"
-"- air units (including missiles and helicopters) and sea units with an attack strength greater than 0, regardless of their location\n"
+"- air units (including missiles and helicopters) with an attack strength greater than 0, regardless of their location\n"
 "\n"
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units will generate 1 unhappy citizen each."
 msgstr ""
@@ -9273,7 +9273,7 @@ msgstr ""
 "\n"
 "- eenheden met een aanvalssterkte groter dan 0 die zich niet in een stad bevinden of in een fort binnen drie vlakken van een bevriende stad.\n"
 "\n"
-"- lucht-eenheden (inclusief raketten en helicopters) en zee-eenheden met een aanvalssterkte groter dan 0, ongeacht hun locatie.\n"
+"- lucht-eenheden (inclusief raketten en helicopters) met een aanvalssterkte groter dan 0, ongeacht hun locatie.\n"
 "\n"
 "De burgers in een stad zullen 1 agressieve eenheid tolereren; elke volgende eenheid veroorzaakt elk 1 opstandige burger."
 
@@ -9289,7 +9289,7 @@ msgid ""
 "\n"
 "- Units with an attack strength greater than 0 which are not inside a city, or inside a fortress within 3 squares of a friendly city, generate 2 unhappy citizens.\n"
 "\n"
-"- Air/sea units with an attack strength greater than 0 which are inside a city or nearby fortress generate only 1 unhappy citizen.\n"
+"- Air units with an attack strength greater than 0 which are inside a city generate only 1 unhappy citizen.\n"
 "\n"
 "If a city remains in disorder more than 2 turns under Democratic rule, the citizens will spontaneously revolt and plunge your civilization into Anarchy.\n"
 "\n"
@@ -9304,7 +9304,7 @@ msgstr ""
 "Onder een Democratie verbruiken militaire eenheden elk 1 produktieschild voor instandhouding. Daar bovenop veroorzaken de volgende eenheden ongemak:\n"
 "\n"
 "- Eenheden met een aanvalssterkte groter dan 0 die zich niet in een stad bevinden, of die zich in een fort bevinden binnen 3 vlakken van een bevriende stad, veroorzaken twee opstandige burgers.\n"
-"- Lucht/zee-eenheden met een aanvalssterkte groter dan 0 die zich in een stad of naast een fort bevinden veroorzaken slechts 1 opstandige burger.\n"
+"- Lucht-eenheden met een aanvalssterkte groter dan 0 die zich in een stad of naast een fort bevinden veroorzaken slechts 1 opstandige burger.\n"
 "\n"
 "Als een stad gedurende meer dan twee beurten in wanorde blijft onder een Democratisch bewind, dan zullen ze spontaan in opstand komen en de beschaving tot Anarchie laten vervallen.\n"
 "\n"
