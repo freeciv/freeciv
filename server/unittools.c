@@ -84,10 +84,16 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
       /* Can't attack a city from ocean unless marines */
       if(!unit_flag(punit->type, F_MARINES)
 	 && is_enemy_city_tile(x,y,punit->owner)) {
-	char *us = get_units_with_flag_string(F_MARINES);
-        notify_player_ex(&game.players[punit->owner], punit->x, punit->y,
-			 E_NOEVENT, _("Game: Only %s can attack from sea."), us);
-	free(us);
+	char *units_str = get_units_with_flag_string(F_MARINES);
+	if (units_str) {
+	  notify_player_ex(&game.players[punit->owner], punit->x, punit->y,
+			   E_NOEVENT, _("Game: Only %s can attack from sea."),
+			   units_str);
+	  free(units_str);
+	} else {
+	  notify_player_ex(&game.players[punit->owner], punit->x, punit->y,
+			   E_NOEVENT, _("Game: Cannot attack from sea."));
+	}
 	return 0;
       }
     }

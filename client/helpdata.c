@@ -766,8 +766,10 @@ void helptext_tech(char *buf, int i, const char *user_text)
 
   if(tech_flag(i,TF_AIRBASE)) {
     char *units_str = get_units_with_flag_string(F_AIRBASE);
-    sprintf(buf+strlen(buf), _("Allows %s to build airbases.\n"),units_str);
-    free(units_str);
+    if (units_str) {
+      sprintf(buf+strlen(buf), _("Allows %s to build airbases.\n"),units_str);
+      free(units_str);
+    }
   }
 
   if(tech_flag(i,TF_RAILROAD)) {
