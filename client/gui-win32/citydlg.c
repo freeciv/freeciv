@@ -620,7 +620,6 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
 static void CityDlgClose(struct city_dialog *pdialog)
 {
   ShowWindow(pdialog->mainwindow,SW_HIDE);
-  genlist_unlink(&dialog_list,pdialog);
   
   DestroyWindow(pdialog->mainwindow);
  
@@ -1761,6 +1760,7 @@ LONG APIENTRY CitydlgWndProc (
       CityDlgClose(pdialog);
       break;
     case WM_DESTROY:
+      genlist_unlink(&dialog_list,pdialog);
       DeleteObject(pdialog->map_bmp);
       DeleteObject(pdialog->citizen_bmp);
       free(pdialog);
