@@ -364,9 +364,10 @@ static char *option_file_name(void)
 }
   
 /****************************************************************
-... 
+ this loads from the rc file any options which are not ruleset specific 
+ it is called on client init.
 *****************************************************************/
-void load_options(void)
+void load_general_options(void)
 {
   struct section_file sf;
   const char * const prefix = "client";
@@ -383,7 +384,7 @@ void load_options(void)
   if (!section_file_load(&sf, name))
     return;  
 
-  for (o=options; o->name; o++) {
+  for (o = options; o->name; o++) {
     switch (o->type) {
     case COT_BOOL:
       *(o->p_bool_value) =
@@ -397,12 +398,12 @@ void load_options(void)
       break;
     }
   }
-  for (v=view_options; v->name; v++) {
+  for (v = view_options; v->name; v++) {
     *(v->p_value) =
 	secfile_lookup_bool_default(&sf, *(v->p_value), "%s.%s", prefix,
 				    v->name);
   }
-  for (i=0; i<E_LAST; i++) {
+  for (i = 0; i < E_LAST; i++) {
     messages_where[i] =
       secfile_lookup_int_default(&sf, messages_where[i],
 				 "%s.message_where_%02d", prefix, i);
@@ -412,6 +413,35 @@ void load_options(void)
     *ip = secfile_lookup_bool_default(&sf, *ip, "%s.city_report_%s", prefix,
 				     city_report_spec_tagname(i));
   }
+
+  /* Load cma presets. If cma.number_of_presets doesn't exist, don't load 
+   * any, the order here should be reversed to keep the order the same */
+  num = secfile_lookup_int_default(&sf, 0, "cma.number_of_presets");
+  for (i = num - 1; i >= 0; i--) {
+    load_cma_preset(&sf, i);
+  }
+ 
+  section_file_free(&sf);
+}
+
+/****************************************************************
+ this loads from the rc file any options which need to know what the 
+ current ruleset is. It's called the first time client goes into
+ CLIENT_GAME_RUNNING_STATE
+*****************************************************************/
+void load_ruleset_specific_options(void)
+{
+  struct section_file sf;
+  char *name;
+  int i;
+
+  name = option_file_name();
+  if (!name) {
+    /* fail silently */
+    return;
+  }
+  if (!section_file_load(&sf, name))
+    return;
 
   /* load global worklists */
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
@@ -425,19 +455,6 @@ void load_options(void)
                          &(game.player_ptr->worklists[i]));
   }
 
-
-  /* Load cma presets. If cma.number_of_presets doesn't exist, don't load 
-   * any, the order here should be reversed to keep the order the same */
-  num = secfile_lookup_int_default(&sf, 0, "cma.number_of_presets");
-  for (i = num - 1; i >= 0; i--) {
-    load_cma_preset(&sf, i);
-  }
- 
-  /* avoid warning for unused: */
-  (void) section_file_lookup(&sf, "client.flags_are_transparent");
-  (void) section_file_lookup(&sf, "client.version");
-  
-  section_file_check_unused(&sf, name);
   section_file_free(&sf);
 }
 
