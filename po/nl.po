@@ -15203,7 +15203,7 @@ msgid ""
 "after the discovery of Electronics.)"
 msgstr ""
 "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden "
-"stedelingen tevreden. (Vier na de ontdekking van Electriciteit)"
+"stedelingen tevreden. (Vier na de ontdekking van Electronica.)"
 
 #: data/civ2/buildings.ruleset:445 data/civ1/buildings.ruleset:462
 msgid ""
