@@ -43,7 +43,7 @@ struct tile {
   struct unit_list units;
   unsigned short known;
   short assigned; /* these can save a lot of CPU usage -- Syela */
-  signed char worked; /* who defaults chars to unsigned?  Ugh. */
+  struct city *worked;      /* city working tile, or NULL if none */
   unsigned char continent;
   signed char move_cost[8]; /* don't know if this helps! */
 };

@@ -563,7 +563,7 @@ void tile_init(struct tile *ptile)
   ptile->known=0;
   ptile->city=NULL;
   unit_list_init(&ptile->units);
-  ptile->worked = -1; /* indicates player # or -1 if not worked */
+  ptile->worked = NULL; /* pointer to city working tile */
   ptile->assigned = 0; /* bitvector */
 }
 
