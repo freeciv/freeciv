@@ -408,9 +408,6 @@ void tilespec_reread(const char *tileset_name)
    *
    * Do any necessary redraws.
    */
-  canvas_free(mapview_canvas.single_tile);
-  mapview_canvas.single_tile
-    = canvas_create(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
   if (state < CLIENT_GAME_RUNNING_STATE) {
     /* Unless the client state is playing a game or in gameover,
        we don't want/need to redraw. */

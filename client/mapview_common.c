@@ -1672,8 +1672,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       && map_to_canvas_pos(&canvas_x, &canvas_y,
 			   losing_unit->x, losing_unit->y)) {
     refresh_tile_mapcanvas(losing_unit->x, losing_unit->y, FALSE);
-    canvas_copy(mapview_canvas.single_tile, mapview_canvas.store,
-		canvas_x, canvas_y, 0, 0,
+    canvas_copy(mapview_canvas.tmp_store, mapview_canvas.store,
+		canvas_x, canvas_y, canvas_x, canvas_y,
 		NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
     for (i = 0; i < num_tiles_explode_unit; i++) {
@@ -1685,8 +1685,8 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
       /* We first draw the explosion onto the unit and draw draw the
        * complete thing onto the map canvas window. This avoids
        * flickering. */
-      canvas_copy(mapview_canvas.store, mapview_canvas.single_tile,
-		  0, 0, canvas_x, canvas_y,
+      canvas_copy(mapview_canvas.store, mapview_canvas.tmp_store,
+		  canvas_x, canvas_y, canvas_x, canvas_y,
 		  NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
       canvas_put_sprite_full(mapview_canvas.store,
 			     canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
@@ -1769,9 +1769,10 @@ void move_unit_map_canvas(struct unit *punit,
       new_x = start_x + canvas_dx * (mytime / timing_sec);
       new_y = start_y + canvas_dy * (mytime / timing_sec);
 
-      /* Backup the canvas store to the single_tile canvas. */
-      canvas_copy(mapview_canvas.single_tile, mapview_canvas.store,
-		  new_x, new_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      /* Backup the canvas store to the temp store. */
+      canvas_copy(mapview_canvas.tmp_store, mapview_canvas.store,
+		  new_x, new_y, new_x, new_y,
+		  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 
       /* Draw */
       put_unit_full(punit, mapview_canvas.store, new_x, new_y);
@@ -1782,8 +1783,9 @@ void move_unit_map_canvas(struct unit *punit,
       gui_flush();
 
       /* Restore the backup.  It won't take effect until the next flush. */
-      canvas_copy(mapview_canvas.store, mapview_canvas.single_tile,
-		  0, 0, new_x, new_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      canvas_copy(mapview_canvas.store, mapview_canvas.tmp_store,
+		  new_x, new_y, new_x, new_y,
+		  UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
       dirty_rect(new_x, new_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     } while (mytime < timing_sec);
   }
@@ -2322,10 +2324,4 @@ bool map_canvas_resized(int width, int height)
 **************************************************************************/
 void init_mapcanvas_and_overview(void)
 {
-  /* This function used to allocate dummy values for the mapview and
-   * overview canvas.  This shouldn't be needed by any clients, and caused
-   * a bug in some clients (gtk2) because this init function may actually
-   * be called _after_ the first call to map_canvas_resized. */
-  mapview_canvas.single_tile
-    = canvas_create(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
 }
