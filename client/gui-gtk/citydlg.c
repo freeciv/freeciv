@@ -218,7 +218,7 @@ static void initialize_city_dialogs(void)
     canvas_width = 5 * NORMAL_TILE_WIDTH;
     canvas_height = 5 * NORMAL_TILE_HEIGHT;
   }
-  CITY_DIALOG_WIDTH = canvas_width + 440;
+  CITY_DIALOG_WIDTH = canvas_width + 500;
   CITY_DIALOG_HEIGHT = 2*SMALL_TILE_HEIGHT + canvas_height
 	+ 3*NORMAL_TILE_HEIGHT + 160;
 
