@@ -698,9 +698,6 @@ void create_ai_player(char *arg)
 
   pplayer->ai.control = !pplayer->ai.control;
   pplayer->ai.skill_level = game.skill_level;
-  pplayer->is_connected=0;
-  notify_player(0, "Game: %s has been added as an AI-controlled player.",
-		pplayer->name);
 }
 
 

@@ -1130,65 +1130,118 @@ void send_select_race(struct player *pplayer)
 
 
 /**************************************************************************
+ Send a join_game reply, accepting the player.
+ (Send to pplayer->conn, which should be set, as should pplayer->addr)
+ 'rejoin' is whether this is a new player, or re-connection.
+ Prints a log message, and notifies other players.
+**************************************************************************/
+void join_game_accept(struct player *pplayer, int rejoin)
+{
+  struct packet_join_game_reply packet;
+  int i;
+
+  assert(pplayer);
+  assert(pplayer->conn);
+  packet.you_can_join = 1;
+  strcpy(packet.capability, our_capability);
+  sprintf(packet.message, "%s %s.", (rejoin?"Welcome back":"Welcome"),
+				     pplayer->name);
+  send_packet_join_game_reply(pplayer->conn, &packet);
+  freelog(LOG_NORMAL, "<%s@%s> has %sjoined the game.",
+	  pplayer->name, pplayer->addr, (rejoin?"re":""));
+  for(i=0; i<game.nplayers; ++i) {
+    if (pplayer != &game.players[i]) {
+      notify_player(&game.players[i],
+	  	    "Game: Player <%s@%s> has %sconnected.",
+		    pplayer->name, pplayer->addr, (rejoin?"re":""));
+    }
+  }
+}
+
+/**************************************************************************
+ Introduce player to server, and notify of other players.
+**************************************************************************/
+void introduce_game_to_player(struct player *pplayer)
+{
+  char hostname[512];
+  struct player *cplayer;
+  int i, nconn, nother;
+  
+  if (!pplayer->conn)
+    return;
+  
+  if (gethostname(hostname, 512)==0) {
+    notify_player(pplayer, "Welcome to the %s Server running at %s", 
+		  FREECIV_NAME_VERSION, hostname);
+  } else {
+    notify_player(pplayer, "Welcome to the %s Server",
+		  FREECIV_NAME_VERSION);
+  }
+  if (server_state==RUN_GAME_STATE) {
+    /* if the game is running, players can just view the Players menu?  --dwp */
+    return;
+  }
+  for(nconn=0, i=0; i<game.nplayers; ++i) {
+    nconn += (game.players[i].is_connected);
+  }
+  if (nconn != 1) {
+    notify_player(pplayer, "There are currently %d players connected:", nconn);
+  } else {
+    notify_player(pplayer, "There is currently 1 player connected:");
+  }
+  for(i=0; i<game.nplayers; ++i) {
+    cplayer = &game.players[i];
+    if (cplayer->is_connected) {
+      notify_player(pplayer, "  <%s@%s>%s", cplayer->name, cplayer->addr,
+		    ((!cplayer->is_alive) ? " (R.I.P.)"
+		     :cplayer->ai.control ? " (AI mode)" : ""));
+    }
+  }
+  nother = game.nplayers - nconn;
+  if (nother > 0) {
+    if (nother == 1) {
+      notify_player(pplayer, "There is 1 other player:");
+    } else {
+      notify_player(pplayer, "There are %d other players:", nother);
+    }
+    for(i=0; i<game.nplayers; ++i) {
+      cplayer = &game.players[i];
+      if (!cplayer->is_connected) {
+	notify_player(pplayer, "  %s%s", cplayer->name, 
+		    ((!cplayer->is_alive) ? " (R.I.P.)"
+		     :cplayer->ai.control ? " (an AI player)" : ""));
+      }
+    }
+  }
+  /* notify_player(pplayer, "Waiting for the server to start the game."); */
+  /* I would put this here, but then would need another message when
+     the game is started. --dwp */
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
-
 void accept_new_player(char *name, struct connection *pconn)
 {
-  int i;
-  struct packet_join_game_reply packet;
-  char hostname[512];
+  struct player *pplayer = &game.players[game.nplayers];
 
-  packet.you_can_join=1;
-  strcpy(packet.capability, our_capability);
-
-  strcpy(game.players[game.nplayers].name, name);
-  game.players[game.nplayers].conn=pconn;
-  game.players[game.nplayers].is_connected=1;
+  strcpy(pplayer->name, name);
+  pplayer->conn = pconn;
+  pplayer->is_connected = (pconn!=NULL);
   if (pconn) {
-    strcpy(game.players[game.nplayers].addr, pconn->addr); 
-    sprintf(packet.message, "Welcome %s.", name);
-    send_packet_join_game_reply(pconn, &packet);
-    freelog(LOG_NORMAL, "<%s@%s> has joined the game.", name, pconn->addr);
-    for(i=0; i<game.nplayers; ++i)
-      notify_player(&game.players[i],
-	  	    "Game: Player <%s@%s> has connected.", name, pconn->addr);
+    strcpy(pplayer->addr, pconn->addr); 
+    join_game_accept(pplayer, 0);
   } else {
-     freelog(LOG_NORMAL, "%s[ai-player] has joined the game.", name, pconn->addr);
-     for(i=0; i<game.nplayers; ++i)
-       notify_player(&game.players[i],
-		     "Game: Player %s[ai-player] has connected.", name, pconn->addr);
+    freelog(LOG_NORMAL, "%s has been added as an AI-controlled player.", name);
+    notify_player(0, "Game: %s has been added as an AI-controlled player.",
+		  name);
   }
+
   game.nplayers++;
   if(server_state==PRE_GAME_STATE && game.max_players==game.nplayers)
     server_state=SELECT_RACES_STATE;
 
-  /* now notify the player about the server etc */
-  if (pconn && (gethostname(hostname, 512)==0)) {
-     notify_player(&game.players[game.nplayers-1],
-		   "Welcome to the %s Server running at %s", 
-		   FREECIV_NAME_VERSION, hostname);
-     if (game.nplayers != 1)
-       notify_player(&game.players[game.nplayers-1],
-		     "There are currently %d players connected:",
-		     game.nplayers);
-     else
-       notify_player(&game.players[game.nplayers-1],
-		     "There is currently 1 player connected:");
-     
-     for(i=0; i<game.nplayers; ++i)
-     {
-       struct player *pplayer;
-
-       pplayer = &game.players[i];
-       if (pplayer->ai.control != 0)
-	 notify_player(&game.players[game.nplayers-1],
-		       "  <%s (an AI player)>", pplayer->name);
-       else
-	 notify_player(&game.players[game.nplayers-1], "  <%s@%s>", 
-		       pplayer->name, pplayer->addr);
-     }
-  }
+  introduce_game_to_player(pplayer);
   send_server_info_to_metaserver(1);
 }
   
@@ -1248,23 +1301,16 @@ void handle_request_join_game(struct connection *pconn,
 
   if((pplayer=find_player_by_name(req->name))) {
     if(!pplayer->conn) {
-      /* can I use accept_new_player here?? mjd */
-      struct packet_join_game_reply packet;
-
       pplayer->conn=pconn;
       pplayer->is_connected=1;
       strcpy(pplayer->addr, pconn->addr); 
-      sprintf(packet.message, "Welcome back %s.", pplayer->name);
-      packet.you_can_join=1;
-      strcpy(packet.capability, our_capability);
-      send_packet_join_game_reply(pconn, &packet);
-      freelog(LOG_NORMAL, "%s has reconnected.", pplayer->name);
+      join_game_accept(pplayer, 1);
+      introduce_game_to_player(pplayer);
       if(server_state==RUN_GAME_STATE) {
 	send_all_info(pplayer);
         send_game_state(pplayer, CLIENT_GAME_RUNNING_STATE);
-       send_player_info(NULL,NULL);
+	send_player_info(NULL,NULL);
       }
-
       return;
     }
 
@@ -1395,7 +1441,6 @@ void generate_ai_players()
            game.players[i].race=race;
 	   game.players[i].ai.control = !game.players[i].ai.control;
 	   game.players[i].ai.skill_level = game.skill_level;
-	   game.players[i].is_connected=0;
            announce_ai_player(&game.players[i]);
 	   set_ai_level_direct(&game.players[i], game.players[i].ai.skill_level);
         } else
@@ -1461,7 +1506,7 @@ void announce_ai_player (struct player *pplayer) {
 
    for(i=0; i<game.nplayers; ++i)
      notify_player(&game.players[i],
-  	     "Option: %s rules the %s.", pplayer->name,
+  	     "Game: %s rules the %s.", pplayer->name,
                     races[pplayer->race].name_plural);
 
 }
