@@ -114,7 +114,7 @@ struct pf_map {
 static bool danger_iterate_map(struct pf_map *pf_map);
 static struct pf_path* danger_construct_path(const struct pf_map *pf_map,
                                              int x, int y);
-struct pf_path *danger_get_path(struct pf_map *pf_map, int x, int y);
+static struct pf_path *danger_get_path(struct pf_map *pf_map, int x, int y);
 
 
 /* =================== manipulating the cost ===================== */
@@ -181,7 +181,7 @@ static int adjust_cost(const struct pf_map *pf_map, int cost)
   Calculates cached values of the target node: 
   node_known_type and zoc
 ******************************************************************/
-static void pf_init_node(struct pf_map *pf_map, struct pf_node * node, 
+static void init_node(struct pf_map *pf_map, struct pf_node * node, 
                          int x, int y)
 {
   struct pf_parameter *params = pf_map->params;
@@ -269,7 +269,7 @@ bool pf_next(struct pf_map *pf_map)
       }
 
       if (*status == NS_UNINIT) {
-	pf_init_node(pf_map, node1, x1, y1);
+	init_node(pf_map, node1, x1, y1);
       }
 
       /* Can we enter this tile at all? */
@@ -388,8 +388,8 @@ struct pf_map *pf_create_map(const struct pf_parameter *const parameter)
   pf_map->index = map_pos_to_index(pf_map->x, pf_map->y);
 
   /* Initialise starting node */
-  pf_init_node(pf_map, &pf_map->lattice[pf_map->index], pf_map->x,
-	       pf_map->y);
+  init_node(pf_map, &pf_map->lattice[pf_map->index], pf_map->x,
+            pf_map->y);
   /* This makes calculations of turn/moves_left more convenient, but we 
    * need to subtract this value before we return cost to the user */
   pf_map->lattice[pf_map->index].cost = pf_map->params->move_rate
@@ -443,7 +443,7 @@ void pf_destroy_map(struct pf_map *pf_map)
   Fill in the position which must be discovered already. A helper 
   for *_get_position functions.
 *******************************************************************/
-static void pf_fill_position(const struct pf_map *pf_map, int x, int y,
+static void fill_position(const struct pf_map *pf_map, int x, int y,
 			     struct pf_position *pos)
 {
   mapindex_t index = map_pos_to_index(x, y);
@@ -484,7 +484,7 @@ static void pf_fill_position(const struct pf_map *pf_map, int x, int y,
 void pf_next_get_position(const struct pf_map *pf_map,
 			  struct pf_position *pos)
 {
-  pf_fill_position(pf_map, pf_map->x, pf_map->y, pos);
+  fill_position(pf_map, pf_map->x, pf_map->y, pos);
 }
 
 /*******************************************************************
@@ -501,14 +501,14 @@ bool pf_get_position(struct pf_map *pf_map, int x, int y,
 
   if (status == NS_PROCESSED || same_pos(x, y, pf_map->x, pf_map->y)) {
     /* We already reached (x,y) */
-    pf_fill_position(pf_map, x, y, pos);
+    fill_position(pf_map, x, y, pos);
     return TRUE;
   }
 
   while (pf_next(pf_map)) {
     if (same_pos(x, y, pf_map->x, pf_map->y)) {
       /* That's the one */
-      pf_fill_position(pf_map, x, y, pos);
+      fill_position(pf_map, x, y, pos);
       return TRUE;
     }
   }
@@ -520,8 +520,8 @@ bool pf_get_position(struct pf_map *pf_map, int x, int y,
   Read off the path to the node (x,y), which must already be 
   discovered.  A helper for *get_path functions.
 *******************************************************************/
-static struct pf_path* pf_construct_path(const struct pf_map *pf_map, 
-                                         int dest_x, int dest_y)
+static struct pf_path* construct_path(const struct pf_map *pf_map, 
+                                      int dest_x, int dest_y)
 {
   int i;
   int x, y;
@@ -533,7 +533,7 @@ static struct pf_path* pf_construct_path(const struct pf_map *pf_map,
   assert(!pf_map->params->is_pos_dangerous);
   if (pf_map->status[index] != NS_PROCESSED
       && !same_pos(dest_x, dest_y, pf_map->x, pf_map->y)) {
-    die("pf_construct_path to an unreached destination");
+    die("construct_path to an unreached destination");
     return NULL;
   }
 
@@ -570,8 +570,8 @@ static struct pf_path* pf_construct_path(const struct pf_map *pf_map,
   for (; i >=0; i--) {
     struct pf_node *node = &pf_map->lattice[map_pos_to_index(x, y)];
 
-    pf_fill_position(pf_map, x, y, &path->positions[i]);
-    /* pf_fill_position doesn't set direction */
+    fill_position(pf_map, x, y, &path->positions[i]);
+    /* fill_position doesn't set direction */
     path->positions[i].dir_to_next_pos = dir_next;
 
     dir_next = node->dir_to_here;
@@ -592,7 +592,7 @@ static struct pf_path* pf_construct_path(const struct pf_map *pf_map,
 struct pf_path *pf_next_get_path(const struct pf_map *pf_map)
 {
   if (!pf_map->params->is_pos_dangerous) {
-    return pf_construct_path(pf_map, pf_map->x, pf_map->y);
+    return construct_path(pf_map, pf_map->x, pf_map->y);
   } else {
     /* It's very different in the presence of danger */
     return danger_construct_path(pf_map, pf_map->x, pf_map->y);
@@ -615,13 +615,13 @@ struct pf_path *pf_get_path(struct pf_map *pf_map, int x, int y)
 
   if (status == NS_PROCESSED || same_pos(x, y, pf_map->x, pf_map->y)) {
     /* We already reached (x,y) */
-    return pf_construct_path(pf_map, x, y);
+    return construct_path(pf_map, x, y);
   }
 
   while (pf_next(pf_map)) {
     if (same_pos(x, y, pf_map->x, pf_map->y)) {
       /* That's the one */
-      return pf_construct_path(pf_map, x, y);
+      return construct_path(pf_map, x, y);
     }
   }
 
@@ -791,7 +791,7 @@ static bool danger_iterate_map(struct pf_map *pf_map)
 
       /* Initialise target tile if necessary */
       if (pf_map->status[index1] == NS_UNINIT) {
-	pf_init_node(pf_map, node1, x1, y1);
+	init_node(pf_map, node1, x1, y1);
 	init_danger_node(pf_map, d_node1, node1, x1, y1);
       }
 
@@ -1058,7 +1058,7 @@ static struct pf_path *danger_construct_path(const struct pf_map *pf_map,
 /************************************************************************
   Danger version of pf_get_path.
 ************************************************************************/
-struct pf_path *danger_get_path(struct pf_map *pf_map, int x, int y)
+static struct pf_path *danger_get_path(struct pf_map *pf_map, int x, int y)
 {
   mapindex_t index = map_pos_to_index(x, y);
   utiny_t status = pf_map->status[index];
