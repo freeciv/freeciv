@@ -55,6 +55,8 @@ char *minimap_intro_filename;
 
 struct named_sprites sprites;
 
+const int DIR4_TO_DIR8[4] = {DIR8_NORTH, DIR8_SOUTH, DIR8_EAST, DIR8_WEST};
+
 int NORMAL_TILE_WIDTH;
 int NORMAL_TILE_HEIGHT;
 int UNIT_TILE_WIDTH;
@@ -1067,27 +1069,6 @@ static struct Sprite *get_dither(int ttype, int ttype_other)
 }
 
 /**********************************************************************
-Converts from a dir8 (8 directions) direction to a dir4 (cardinal
-directions) value.
-***********************************************************************/
-enum direction4 dir8_to_dir4(enum direction8 dir8)
-{
-  switch (dir8) {
-  case DIR8_NORTH:
-    return DIR4_NORTH;
-  case DIR8_SOUTH:
-    return DIR4_SOUTH;
-  case DIR8_EAST:
-    return DIR4_EAST;
-  case DIR8_WEST:
-    return DIR4_WEST;
-  default:
-    freelog(LOG_FATAL, "dir8_to_dir4: bad direction %d.", dir8);
-    abort();
-  }
-}
-
-/**********************************************************************
 Fill in the sprite array for the tile at position (abs_x0,abs_y0).
 Does not fill in the city or unit; that have to be done seperatly in
 isometric view. Also, no fog here.
@@ -1095,12 +1076,11 @@ isometric view. Also, no fog here.
 A return of -1 means the tile should be black.
 
 The sprites are drawn in the following order:
- 1) basic terrain type (including river hack)
+ 1) basic terrain type + irrigation/farmland (+ river hack)
  2) mine
- 3) irritation
- 4) specials
- 5) road/railroad
- 6) huts
+ 3) specials
+ 4) road/railroad
+ 5) huts
 ***********************************************************************/
 int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			       struct Sprite **dither,
@@ -1119,8 +1099,8 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     return -1;
 
   pcity = map_get_city(x, y);
-  ttype = map_get_terrain(x, y);
   tspecial = map_get_special(x, y);
+  ttype = map_get_terrain(x, y);
 
   /* A little hack to avoid drawing seperate T_RIVER isometric tiles. */
   if (ttype == T_RIVER) {
@@ -1128,109 +1108,100 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
     tspecial |= S_RIVER;
   }
 
-  /* Find specials.  Any unreal tile will be given no specials. */
-  for (dir = 0; dir < 8; dir++) {
-    tspecial_near[dir] = S_NO_SPECIAL;
-  }
-  adjc_dir_iterate(x, y, x1, y1, dir) {
-    tspecial_near[dir] = map_get_special(x1, y1);
-  } adjc_dir_iterate_end;
-
-  /*
-   * Find terrain types.  Any unreal tile will be given the same
-   * terrain type as (x, y) has.
-   */
+  /* Any unreal tile have no specials and the terrain type of (x, y). */
   for (dir = 0; dir < 8; dir++) {
     int x1, y1;
+  
+    if (MAPSTEP(x1, y1, x, y, dir)) {
+      tspecial_near[dir] = map_get_special(x1, y1);
+      ttype_near[dir] = map_get_terrain(x1, y1);
 
-    SAFE_MAPSTEP(x1, y1, x, y, dir);
-    ttype_near[dir] = map_get_terrain(x1, y1);
-
-    /* hacking away the river here... */
-    if (ttype_near[dir] == T_RIVER) {
-      ttype_near[dir] = T_GRASSLAND;
-      tspecial_near[dir] |= S_RIVER;
+      /* hacking away the river here... */
+      if (ttype_near[dir] == T_RIVER) {
+      	tspecial_near[dir] |= S_RIVER;
+        ttype_near[dir] = T_GRASSLAND;
+      }
+    } else {
+      tspecial_near[dir] = S_NO_SPECIAL;
+      ttype_near[dir] = ttype;
     }
   }
   
   if (draw_terrain) {
-    if (ttype != T_OCEAN) /* painted via coasts. */
+    if (ttype == T_OCEAN) {
+      /* painted via coasts. */
+
+      for (dir = 0; dir < 4; dir++) {
+    	if (tspecial_near[DIR4_TO_DIR8[dir]] & S_RIVER)
+    	  *sprs++ = sprites.tx.river_outlet[dir];
+      }
+    } else {
       *sprs++ = get_tile_type(ttype)->sprite[0];
 
-    if (ttype == T_HILLS) {
-      tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_HILLS,
-			  ttype_near[DIR8_SOUTH] == T_HILLS,
-			  ttype_near[DIR8_EAST] == T_HILLS,
-			  ttype_near[DIR8_WEST] == T_HILLS);
-      *sprs++=sprites.tx.spec_hill[tileno];
-    }
+      switch (ttype) {
+        case T_HILLS:
+        tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_HILLS,
+        		  ttype_near[DIR8_SOUTH] == T_HILLS,
+        		  ttype_near[DIR8_EAST] == T_HILLS,
+        		  ttype_near[DIR8_WEST] == T_HILLS);
+        *sprs++ = sprites.tx.spec_hill[tileno];
+        break;
+ 
+        case T_FOREST:
+        tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_FOREST,
+        		  ttype_near[DIR8_SOUTH] == T_FOREST,
+        		  ttype_near[DIR8_EAST] == T_FOREST,
+        		  ttype_near[DIR8_WEST] == T_FOREST);
+        *sprs++ = sprites.tx.spec_forest[tileno];
+        break;
+ 
+        case T_MOUNTAINS:
+        tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_MOUNTAINS,
+        		  ttype_near[DIR8_SOUTH] == T_MOUNTAINS,
+        		  ttype_near[DIR8_EAST] == T_MOUNTAINS,
+        		  ttype_near[DIR8_WEST] == T_MOUNTAINS);
+        *sprs++ = sprites.tx.spec_mountain[tileno];
+        break;
 
-    if (ttype == T_FOREST) {
-      tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_FOREST,
-			  ttype_near[DIR8_SOUTH] == T_FOREST,
-			  ttype_near[DIR8_EAST] == T_FOREST,
-			  ttype_near[DIR8_WEST] == T_FOREST);
-      *sprs++=sprites.tx.spec_forest[tileno];
-    }
-
-    if (ttype == T_MOUNTAINS) {
-      tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_MOUNTAINS,
-			  ttype_near[DIR8_SOUTH] == T_MOUNTAINS,
-			  ttype_near[DIR8_EAST] == T_MOUNTAINS,
-			  ttype_near[DIR8_WEST] == T_MOUNTAINS);
-      *sprs++=sprites.tx.spec_mountain[tileno];
-    }
-    
-    if (tspecial & S_IRRIGATION && pcity == NULL && draw_irrigation) {
-      if (tspecial & S_FARMLAND) {
-	*sprs++ = sprites.tx.farmland;
-      } else {
-	*sprs++ = sprites.tx.irrigation;
+    	default:
+    	break;
       }
-    }
-
-    if (tspecial&S_RIVER) {
-      tileno = INDEX_NSEW(tspecial_near[DIR8_NORTH] & S_RIVER
-			  || ttype_near[DIR8_NORTH] == T_OCEAN,
-			  tspecial_near[DIR8_SOUTH] & S_RIVER
-			  || ttype_near[DIR8_SOUTH] == T_OCEAN,
-			  tspecial_near[DIR8_EAST] & S_RIVER
-			  || ttype_near[DIR8_EAST] == T_OCEAN,
-			  tspecial_near[DIR8_WEST] & S_RIVER
-			  || ttype_near[DIR8_WEST] == T_OCEAN);
-      *sprs++=sprites.tx.spec_river[tileno];
-    }
-
-    if (ttype == T_OCEAN) {
-      int dir8;
-
-      for (dir8 = 0; dir8 < 8; dir8++) {
-	if (!DIR_IS_CARDINAL(dir8)) {
-	  continue;
-	}
-	if (tspecial_near[dir8] & S_RIVER || ttype_near[dir8] == T_RIVER) {
-	  *sprs++ = sprites.tx.river_outlet[dir8_to_dir4(dir8)];
-	}
+     
+      if (tspecial & S_IRRIGATION && !pcity && draw_irrigation) {
+	if (tspecial & S_FARMLAND)
+	  *sprs++ = sprites.tx.farmland;
+	else
+	  *sprs++ = sprites.tx.irrigation;
+      }
+ 
+      if (tspecial & S_RIVER) {
+      	tileno = INDEX_NSEW(tspecial_near[DIR8_NORTH] & S_RIVER
+      	      	      	    || ttype_near[DIR8_NORTH] == T_OCEAN,
+			    tspecial_near[DIR8_SOUTH] & S_RIVER
+			    || ttype_near[DIR8_SOUTH] == T_OCEAN,
+			    tspecial_near[DIR8_EAST] & S_RIVER
+			    || ttype_near[DIR8_EAST] == T_OCEAN,
+			    tspecial_near[DIR8_WEST] & S_RIVER
+			    || ttype_near[DIR8_WEST] == T_OCEAN);
+      	*sprs++ = sprites.tx.spec_river[tileno];
       }
     }
   } else {
     *solid_bg = 1;
-  }
 
+    if (tspecial & S_IRRIGATION && !pcity && draw_irrigation) {
+      if (tspecial & S_FARMLAND)
+      	*sprs++ = sprites.tx.farmland;
+      else
+        *sprs++ = sprites.tx.irrigation;
+    }
+  }
+   
   if (tspecial & S_MINE && draw_mines) {
     /* We do not have an oil tower in isometric view yet... */
     *sprs++ = sprites.tx.mine;
   }
 
-  if (tspecial & S_IRRIGATION && pcity == NULL && draw_irrigation
-      && !draw_terrain) {
-    if (tspecial & S_FARMLAND) {
-      *sprs++ = sprites.tx.farmland;
-    } else {
-      *sprs++ = sprites.tx.irrigation;
-    }
-  }
-  
   if (draw_specials) {
     if (tspecial & S_SPECIAL_1)
       *sprs++ = tile_types[ttype].special[0].sprite;
@@ -1238,64 +1209,68 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
       *sprs++ = tile_types[ttype].special[1].sprite;
   }
 
-  if (tspecial & S_RAILROAD && draw_roads_rails) {
-    int found = 0;
-    for (dir=0; dir<8; dir++) {
-      if (tspecial_near[dir] & S_RAILROAD) {
-	*sprs++ = sprites.rail.dir[dir];
-	found = 1;
-      } else if (tspecial_near[dir] & S_ROAD) {
-	*sprs++ = sprites.road.dir[dir];
-	found = 1;
-      }
-    }
-    if (!found && pcity == NULL)
-      *sprs++ = sprites.rail.isolated;
-  } else if (tspecial & S_ROAD && draw_roads_rails) {
-    int found = 0;
-    for (dir=0; dir<8; dir++) {
-      if (tspecial_near[dir] & S_ROAD) {
-	*sprs++ = sprites.road.dir[dir];
-	found = 1;
-      }
-    }
-    if (!found && pcity == NULL)
-      *sprs++ = sprites.road.isolated;
-  }
-
-  if (tspecial & S_HUT && draw_specials) *sprs++ = sprites.tx.village;
-  /* These are drawn later in isometric view (on top of city.)
-     if (tspecial & S_POLLUTION) *sprs++ = sprites.tx.pollution;
-     if (tspecial & S_FALLOUT) *sprs++ = sprites.tx.fallout;
-  */
-
-  /* put coasts */
   if (ttype == T_OCEAN) {
+    const int dirs[4][3] = {
+      	/* up */
+        { DIR_CCW(DIR8_NORTHWEST), DIR8_NORTHWEST, DIR_CW(DIR8_NORTHWEST) },
+        /* down */
+        { DIR_CCW(DIR8_SOUTHEAST), DIR8_SOUTHEAST, DIR_CW(DIR8_SOUTHEAST) },
+        /* left */
+        { DIR_CCW(DIR8_SOUTHWEST), DIR8_SOUTHWEST, DIR_CW(DIR8_SOUTHWEST) },
+        /* right */
+        { DIR_CCW(DIR8_NORTHEAST), DIR8_NORTHEAST, DIR_CW(DIR8_NORTHEAST) }
+      };
+
+    /* put coasts */
     for (i = 0; i < 4; i++) {
-      int array_index, dir;
+      int array_index;
 
-      switch (i) {
-      case 0:			/* up */
-	dir = DIR8_NORTHWEST;
-	break;
-      case 1:			/* down */
-	dir = DIR8_SOUTHEAST;
-	break;
-      case 2:			/* left */
-	dir = DIR8_SOUTHWEST;
-	break;
-      case 3:			/* right */
-	dir = DIR8_NORTHEAST;
-	break;
-      default:
-	abort();
-      }
+      array_index = (ttype_near[dirs[i][0]] != T_OCEAN ? 1 : 0)
+        		+ (ttype_near[dirs[i][1]] != T_OCEAN ? 2 : 0)
+        		+ (ttype_near[dirs[i][2]] != T_OCEAN ? 4 : 0);
 
-      array_index = (ttype_near[DIR_CCW(dir)] != T_OCEAN ? 1 : 0)
-	  + (ttype_near[dir] != T_OCEAN ? 2 : 0)
-	  + (ttype_near[DIR_CW(dir)] != T_OCEAN ? 4 : 0);
       coasts[i] = sprites.tx.coast_cape_iso[array_index][i];
     }
+  } else {
+    if (draw_roads_rails) {
+      if (tspecial & S_RAILROAD) {
+      	int found = 0;
+
+	for (dir = 0; dir < 8; dir++) {
+	  if (tspecial_near[dir] & S_RAILROAD) {
+	    *sprs++ = sprites.rail.dir[dir];
+	    found = 1;
+	  } else if (tspecial_near[dir] & S_ROAD) {
+	    *sprs++ = sprites.road.dir[dir];
+	    found = 1;
+	  }
+	}
+
+	if (!found && !pcity)
+	  *sprs++ = sprites.rail.isolated;
+
+      } else if (tspecial & S_ROAD) {
+	int found = 0;
+
+	for (dir = 0; dir < 8; dir++) {
+	  if (tspecial_near[dir] & S_ROAD) {
+	    *sprs++ = sprites.road.dir[dir];
+	    found = 1;
+	  }
+	}
+
+	if (!found && !pcity)
+	  *sprs++ = sprites.road.isolated;
+      }
+    }
+
+    if (tspecial & S_HUT && draw_specials)
+      *sprs++ = sprites.tx.village;
+
+    /* These are drawn later in isometric view (on top of city.)
+       if (tspecial & S_POLLUTION) *sprs++ = sprites.tx.pollution;
+       if (tspecial & S_FALLOUT) *sprs++ = sprites.tx.fallout;
+    */
   }
 
   /*
@@ -1303,18 +1278,14 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
    * given the same marking as our current tile - that way we won't
    * get the "unknown" dither along the edge of the map.
    */
-  for (dir = 0; dir < 8; dir++) {
-    int x1, y1;
+  for (dir = 0; dir < 4; dir++) {
+    int x1, y1, other;
 
-    if (!DIR_IS_CARDINAL(dir)) {
-      continue;
-    }
-
-    SAFE_MAPSTEP(x1, y1, x, y, dir);
-    dither[dir8_to_dir4(dir)] = get_dither(ttype,
-					   tile_get_known(x1, y1) ?
-					   map_get_terrain(x1, y1) :
-					   T_UNKNOWN);
+    if (MAPSTEP(x1, y1, x, y, DIR4_TO_DIR8[dir]))
+      other = tile_get_known(x1, y1) ? ttype_near[DIR4_TO_DIR8[dir]]:T_UNKNOWN;
+    else
+      other = ttype_near[dir];
+    dither[dir] = get_dither(ttype, other);
   }
 
   return sprs - save_sprs;
@@ -1360,7 +1331,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
 
   ptile=map_get_tile(abs_x0, abs_y0);
 
-  if (tile_get_known(abs_x0,abs_y0) == TILE_UNKNOWN) {
+  if (tile_get_known(abs_x0, abs_y0) == TILE_UNKNOWN) {
     return 0;
   }
 
@@ -1386,25 +1357,20 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     }
   }
 
-  /* Find specials.  Any unreal tile will be given no specials. */
   tspecial = map_get_special(abs_x0, abs_y0);
-  for (dir = 0; dir < 8; dir++) {
-    tspecial_near[dir] = S_NO_SPECIAL;
-  }
-  adjc_dir_iterate(abs_x0, abs_y0, x, y, dir) {
-    tspecial_near[dir] = map_get_special(x, y);
-  } adjc_dir_iterate_end;
-
-  /*
-   * Find terrain types.  Any unreal tile will be given the same
-   * terrain type as (x, y) has.
-   */
   ttype = map_get_terrain(abs_x0, abs_y0);
+
+  /* Any unreal tile have no specials and the terrain type of (x, y). */
   for (dir = 0; dir < 8; dir++) {
     int x, y;
-
-    SAFE_MAPSTEP(x, y, abs_x0, abs_y0, dir);
-    ttype_near[dir] = map_get_terrain(x, y);
+  
+    if (MAPSTEP(x, y, abs_x0, abs_y0, dir)) {
+      tspecial_near[dir] = map_get_special(x, y);
+      ttype_near[dir] = map_get_terrain(x, y);
+    } else {
+      tspecial_near[dir] = S_NO_SPECIAL;
+      ttype_near[dir] = ttype;
+    }
   }
 
   if(map.is_earth &&
@@ -1424,11 +1390,13 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     mysprite = get_tile_type(ttype)->sprite[tileno];
   }
 
-  if (draw_terrain) *sprs++=mysprite;
-  else *solid_bg = 1;
+  if (draw_terrain)
+    *sprs++=mysprite;
+  else
+    *solid_bg = 1;
 
   if(ttype==T_OCEAN && draw_terrain) {
-    int dir8;
+    int dir;
 
     tileno = INDEX_NSEW(ttype_near[DIR8_NORTH] == T_OCEAN
 			&& ttype_near[DIR8_EAST] == T_OCEAN
@@ -1445,12 +1413,10 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     if(tileno!=0)
       *sprs++ = sprites.tx.coast_cape[tileno];
 
-    for (dir8 = 0; dir8 < 8; dir8++) {
-      if (!DIR_IS_CARDINAL(dir8)) {
-	continue;
-      }
-      if (tspecial_near[dir8] & S_RIVER || ttype_near[dir8] == T_RIVER) {
-	*sprs++ = sprites.tx.river_outlet[dir8_to_dir4(dir8)];
+    for (dir = 0; dir < 4; dir++) {
+      if (tspecial_near[DIR4_TO_DIR8[dir]] & S_RIVER ||
+          ttype_near[DIR4_TO_DIR8[dir]] == T_RIVER) {
+	*sprs++ = sprites.tx.river_outlet[dir];
       }
     }
   }
@@ -1583,7 +1549,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   if(tile_get_known(abs_x0,abs_y0) == TILE_KNOWN_FOGGED && draw_fog_of_war)
     *sprs++ = sprites.tx.fog;
 
-  if(!citymode) {
+  if (!citymode) {
     /* 
      * We're looking to find the INDEX_NSEW for the directions that
      * are unknown.  We want to mark unknown tiles so that an unreal
@@ -1593,16 +1559,13 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
      */
     int known[4];
 
-    memset(known, 0, sizeof(known));
-    for (dir = 0; dir < 8; dir++) {
+    for (dir = 0; dir < 4; dir++) {
       int x1, y1;
 
-      if (!DIR_IS_CARDINAL(dir)) {
-        continue;
-      }
-
-      SAFE_MAPSTEP(x1, y1, abs_x0, abs_y0, dir);
-      known[dir8_to_dir4(dir)] = (tile_get_known(x1, y1) != TILE_UNKNOWN);
+      if (MAPSTEP(x1, y1, abs_x0, abs_y0, DIR4_TO_DIR8[dir]))
+        known[dir] = (tile_get_known(x1, y1) != TILE_UNKNOWN);
+      else
+        known[dir] = TRUE;
     }
 
     tileno =

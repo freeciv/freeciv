@@ -75,8 +75,6 @@ enum direction4 {
   DIR4_NORTH = 0, DIR4_SOUTH, DIR4_EAST, DIR4_WEST
 };
 
-enum direction4 dir8_to_dir4(enum direction8 dir8);
-
 struct named_sprites {
   struct Sprite
     *bulb[NUM_TILES_PROGRESS],
