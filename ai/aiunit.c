@@ -1944,7 +1944,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                                         acity->y, FALSE,
                                         do_make_unit_veteran(acity, def_type),
                                         FALSE, 0);
-        if (v >= vuln) {
+        if (v > vuln) {
           /* They can build a better defender! */ 
           vuln = v; 
           benefit = unit_types[def_type].build_cost; 
