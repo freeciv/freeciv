@@ -269,6 +269,7 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
     if (!aplayer->is_alive || !is_player_dangerous(pplayer, aplayer)) {
       continue;
     }
+    /* Note that we need not (yet) be at war with aplayer */
     unit_list_iterate(aplayer->units, target) {
       struct tile *ptile = target->tile;
       int dist1, dist2, stackthreat = 0, stackcost = 0;
@@ -328,6 +329,8 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
                unit_owner(defender)->name, unit_type(defender)->name, 
                defender->tile, defender->id, stackthreat, dist1, 
                dist2);
+      /* TO DO: probably ought to WAG down targets of players we are not (yet)
+       * at war with */
       /* Ok, now we FINALLY have a candidate */
       if (stackthreat > best_val) {
         best_val = stackthreat;
