@@ -24,6 +24,8 @@ struct Sprite
   int	     has_mask;
   int	     width;
   int	     height;
+
+  GdkPixbuf *pixbuf;
 };
 
 struct canvas_store
@@ -49,12 +51,18 @@ void gtk_draw_shadowed_string(GdkDrawable *drawable,
 
 SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
 			 int width, int height);
-void sprite_draw_black_border(SPRITE * sprite);
 SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h);
 void sprite_get_bounding_box(SPRITE * sprite, int *start_x,
 			     int *start_y, int *end_x, int *end_y);
 SPRITE *crop_blankspace(SPRITE *s);
 
 GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src);
+  
+/********************************************************************
+ NOTE: the pixmap and mask of a sprite must not change after this
+       function is called!
+ ********************************************************************/
+GdkPixbuf *sprite_get_pixbuf(SPRITE *sprite);
 
 #endif  /* FC__GRAPHICS_H */
+
