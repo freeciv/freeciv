@@ -18,9 +18,6 @@ small_tile_height  = 20
 
 is_isometric = 0
 
-; Do not blend hills and mountains together.
-is_mountainous = 0
-
 ; Use roadstyle 1 (old non-iso style)
 roadstyle = 1
 

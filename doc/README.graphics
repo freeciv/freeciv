@@ -81,7 +81,7 @@ options include:
 
   Strings (enclosed in "")
   ------------------------
-  options               : A capability string, currently "+tilespec2"
+  options               : A capability string, currently "+tilespec3"
   name                  : the name of the tileset
   city_names_font       : an X font string
   city_productions_font : an X font string
@@ -101,6 +101,9 @@ options include:
                               connections and a second sprite is drawn
                               for all diagonal connections; 32 sprites are
                               needed.
+                          2 : One sprite is drawn to show roads in all
+                              directions.  There are thus 256 road and 256
+                              rail sprites (64 for a hex tileset).
   darkness_style        : Specifies how "encroaching darkness" is drawn.
                           0 : No darkness.
                           1 : A single sprite can be split into 4 parts, each
@@ -112,10 +115,34 @@ options include:
                           3 : The sprite is chosen based on the vector sum of
                               the darkness in all 4 cardinal directions.  15
                               different sprites are needed.
+  flag_offset_x        : Gives an offset from the tile origin at which to
+  flag_offset_y          draw flags behind units and cities.  With isometric
+                         tilesets this should be non-zero so that the flag
+                         is placed correctly behind the unit/city.
+  hex_side             : When is_hex is specified (see is_hex, below), this
+                         value gives the length of the "extra" side of the
+                         hexagon.  This extra side will be on the top/bottom
+                         of the tile if is_isometric (below) is given, or
+                         on the left/right of the tile otherwise.  The actual
+                         dimensions of the hex tile are determined from the
+                         normal_tile_width/normal_tile_height of the tileset
+                         as well as the hex side.  The "normal" dimensions
+                         give the X and Y offsets between adjacent tiles in
+                         the tileset - this is not the same as the dimensions
+                         of the tile itself.  The dimension of the bounding
+                         box of the hexagonal tile will be equal to the
+                         "normal" dimension minus the hex_side.  For instance
+                         "normal" dimensions of 64x32 with a hex_side of 16
+                         for an iso-hex tileset will give hexagons of size
+                         48x32.
 
   Booleans (0 or 1)
   -----------------
   is_isometric          : set to 1 for an iso-view tileset
+  is_hex                : set to 1 for a hexagonal tileset.  If is_isometric
+                          is also specified then you have an iso-hex tileset.
+                          Hex tilesets should be used with topologies 8-11 and
+                          iso-hex tilesets with topologies 12-15.
 
   String lists (a comma-separated list of strings)
   ------------------------------------------------
@@ -133,7 +160,7 @@ terrain type.  For each terrain type include a section "terrain_<terrain>"
 this terrain type.  (The terrain types are specified in the server ruleset
 file under the graphc and graphic_alt flags.)
 
-  Fields and Flags
+  [terrain_XXX] options
   ----------------
   is_blended            : If set, this terrain will be blended with adjacent
                           terrains.  Blending is done civ2-style with a
@@ -152,6 +179,13 @@ file under the graphc and graphic_alt flags.)
                           matched sprite will be chosen that matches all
                           cardinally adjacent tiles whose terrain has the same
                           match_type.
+  layerN_match_style    : A string telling how matching is to be done for
+                          this layer.
+                          "none" : No matching is to be done.
+                          "bool" : Matching is done based only on whether the
+                                   adjacent tile has the same match type.
+                          "full" : Matching is done against all possible
+                                   match types of adjacent tiles.
   layerN_cell_type      : With traditional tilesets each tile is drawn using
                           one sprite.  Which sprite to use may be specified
                           using a match_type, and there may be multiple layers
@@ -161,81 +195,24 @@ file under the graphc and graphic_alt flags.)
                           rectangular cell is adjacent to 3 different tiles.
                           Each adjacency is matched, giving 8 different sprites
                           for each of the 4 cells.
- 
-  Sprites
-  -------
 
-  Depending on the information given here the tileset must contain certain
-  sprites.
- 
-  base sprite           : If the terrain has no match type or is layered, a
-                          base sprite is needed.  This sprite has tag
-                          "t.<terrain>1" (e.g., "t.grassland1").
-  matched sprites       : If the terrain has a match type or is layered, a
-                          set of matched sprites is needed.  This consists of
-                          16 sprites with tags "t.<terrain>_n<V>s<V>e<V>w<V>"
-                          (e.g., "t.hills_n0s0e1w0".  Each direcional value
-                          <V> is either 0 or 1.  Note that the directions are
-                          in map coordinates, so n (north) in iso-view is
-                          northeast on the mapview.  (Note this only applies
-                          for cell_type "single".)
-  cell sprites          : For matched terrains that have cell_type "rect",
-                          32 different sprites are needed.  Each sprite is
-                          a rectangle corresponding to one cell, and there are
-                          8 different sprites per cell.  Each sprite has
-                          a name like "t.ocean_cell_u110" where "ocean" is the
-                          terrain, "u" means up (north on the map) and
-                          110 indicates which of the adjacent tiles are
-                      	  mismatched.  For instance u110 means
+Additionally the top-level tilespec file should contain information about
+the drawing of each layer.  This is needed because the way each layer is
+drawn must be consistent between different terrain types.  As an example you
+can mix boolean and no matching but you cannot mix full and boolean matching.
+You may not have more than 2 layers (either in this section or in the
+[terrain_XXX] sections).
 
-				    /\
-				   /B \
-				  /\ 1/\
-				 / A\/C \
-				 \1 /\ 0/
-				  \/D \/
-				   \  /
-				    \/
-
-			  a matching terrain exists at C but not at A or B.  In
-                          this case D is the current tile.
-
-Examples:
-
-  ; This specifies a civ2-like grassland tile.  A single sprite
-  ; t.grassland is needed; it will be drawn blended.
-  [terrain_grassland]
-  is_blended = 1
-  num_layers = 1
-  layer0_match_type = 0
-
-  ; This specifies a civ1-like mountain tile.  16 sprites
-  ; t.mountains_n0s0e0w0 ... t.mountains_n1s1e1w1 are needed.  One of them
-  ; will be drawn to match the adjacent tiles.  Assuming only mountains
-  ; has this match_type, adjacent mountains will match.
-  [terrain_mountains]
-  is_blended = 0
-  num_layers = 1
-  layer0_match_type = 7
-
-  ; This specifies a civ2-like hills tile.  A base sprite t.hills will be
-  ; needed, plus 16 matching sprites.  The base sprite will be drawn,
-  ; dithered with adjacent base sprites, and the matching sprite will be
-  ; drawn on top.  (In most civ2 tilesets the base sprite is the grassland
-  ; sprite).
-  [terrain_hills]
-  is_blended = 1
-  num_layers = 2
-  layer0_match_type = 0
-  layer1_match_type = 8
-
-  ; This specifies a civ2-like ocean tile.  Ocean is drawn via a cell-based
-  ; system as explained above.
-  [terrain_ocean]
-  is_blended = 1
-  num_layers = 1
-  layer0_match_type = 6
-  layer0_cell_type = "rect"
+  [layerN] options
+  ----------------
+  match_style            : Gives the match style for this layer.
+                           "none" : no matching
+                           "bool" : terrains may use "none" or "bool" for
+                                    matching
+                           "full" : terrains may only use "full" matching
+  match_types            : Gives a string list of all different match types.
+                           This list must include every possible match_type
+                           used by terrains for this layer.
 
 ----------------------------------------------------------------------
 Individual spec files:
@@ -305,25 +282,141 @@ user.  To work properly tags should correspond to appropriately sized
 graphics.  (The basic size may vary, as specified in the top-level
 tilespec file, but the individual tiles should be consistent with
 those sizes and/or the usage of those graphics.)
-  
+
 ----------------------------------------------------------------------
+Sprites
+-------
 
-Information on certain tags:
+Depending on the information given here the tileset must/may contain certain
+sprites.
 
-  citizen.*
+  Theme Sprites
+  -------------
 
-    This provides citizen graphics.  The types of citizen are happy,
-    content, unhappy, angry, entertainer, scientist, and
-    tax_collector. The name of the citizen forms the postfix for the
-    tag name; for instance "citizen.entertainer" should be the Elvis
-    sprite.  More than one sprite can be provide for the citizen type
-    by appending a number; for instance "citizen.happy_0" and
-    "citizen.happy_1" will provide two citizen sprites.  There is a
-    hard-coded limit (currently 6) on the number of different sprites
-    a citizen may have.
+  citizen sprites :
 
-    Currently the citizen sprites may not have any transparency, as
-    this is ignored in much of the drawing.  This is considered a bug.
+    This provides citizen graphics.  Each citizen has one or more sprites
+    which are shown in the city dialog.  The types of citizen are "happy",
+    "content", "unhappy", and "angry".  The tag name is "citizen.<type>_<n>".
+    <type> is one of the listed types. <n> is the number of the graphic
+    (numbered starting with 0, unlike most other graphics) which allows more
+    than one sprite to be used.  No more than 6 sprites per citizen may be
+    used.
+
+    Currently the citizen and specialist sprites may not have any
+    transparency, as this is ignored in much of the drawing.  This is
+    considered a bug.
+
+  specialist sprites:
+
+    These provide specialist graphics just like the citizen graphics.  However
+    specialist types come from the ruleset and may be changed in modpacks.
+    The sprite name is "specialist.<type>_<n>".  Again <type> is the
+    type of specialist (currently "elvis", "scientist", "taxman") while <n>
+    is the sprite number.  See "citizen sprites" above.
+
+  progress indicators:
+
+    There are three types of progress indicator.  "science_bulb" indicates
+    progress toward the current research target.  "warming_sun" indicates 
+    progress toward global warming.  "cooling_flake" indicates progress
+    toward nuclear winter.  Each indicator should have 8 states, numbered
+    0 (least) through 7 (most).  The sprite names are "s.<type>_<n>".
+
+  government icons:
+
+    There should be one icon for each government.  Its name is "gov.<gov>",
+    where <gov> is the government name.  Government types come from
+    governments.ruleset (currently "anarchy", "despotism", "monarchy",
+    "communism", "fundamentalism", "republic", "democracy").
+
+  tax icons:
+
+    One icon for each tax type.  These are used to show the tax rates.  The
+    sprites are "s.tax_luxury", "s.tax_science", "s.tax_gold".  Commonly
+    the specialist sprites are reused for this.
+
+  right arrow:
+
+    A sprite "s.right_arrow" is used on the panel when more units are
+    present than can be shown.
+
+  Terrain sprites
+  ---------------
+  base sprite           : If the terrain has no match type or is layered, a
+                          base sprite is needed.  This sprite has tag
+                          "t.<terrain>1" (e.g., "t.grassland1").  More than
+                          one such sprite may be given ("t.grassland2", etc.)
+                          in which case one will be chosen at random for each
+                          tile.
+  matched sprites       : If the terrain has a match type or is layered, a
+                          set of matched sprites is needed.  This consists of
+                          16 sprites with tags "t.<terrain>_n<V>e<V>s<V>w<V>"
+                          (e.g., "t.hills_n0e0s1w0".  Each direcional value
+                          <V> is either 0 or 1.  Note that the directions are
+                          in map coordinates, so n (north) in iso-view is
+                          northeast on the mapview.  (Note this only applies
+                          for cell_type "single".)
+  cell sprites          : For matched terrains that have cell_type "rect",
+                          32 different sprites are needed.  Each sprite is
+                          a rectangle corresponding to one cell, and there are
+                          8 different sprites per cell.  Each sprite has
+                          a name like "t.ocean_cell_u110" where "ocean" is the
+                          terrain, "u" means up (north on the map) and
+                          110 indicates which of the adjacent tiles are
+                      	  mismatched.  For instance u110 means
+
+				    /\
+				   /B \
+				  /\ 1/\
+				 / A\/C \
+				 \1 /\ 0/
+				  \/D \/
+				   \  /
+				    \/
+
+			  a matching terrain exists at C but not at A or B.  In
+                          this case D is the current tile.
+
+  Examples:
+
+    ; This specifies a civ2-like grassland tile.  A single sprite
+    ; t.grassland is needed; it will be drawn blended.
+    [terrain_grassland]
+    is_blended = 1
+    num_layers = 1
+    layer0_match_type = 0
+
+    ; This specifies a civ1-like mountain tile.  16 sprites
+    ; t.mountains_n0s0e0w0 ... t.mountains_n1s1e1w1 are needed.  One of them
+    ; will be drawn to match the adjacent tiles.  Assuming only mountains
+    ; has this match_type, adjacent mountains will match.
+    [terrain_mountains]
+    is_blended = 0
+    num_layers = 1
+    layer0_match_type = 7
+
+    ; This specifies a civ2-like hills tile.  A base sprite t.hills will be
+    ; needed, plus 16 matching sprites.  The base sprite will be drawn,
+    ; dithered with adjacent base sprites, and the matching sprite will be
+    ; drawn on top.  (In most civ2 tilesets the base sprite is the grassland
+    ; sprite).
+    [terrain_hills]
+    is_blended = 1
+    num_layers = 2
+    layer0_match_type = 0
+    layer1_match_type = 8
+
+    ; This specifies a civ2-like ocean tile.  Ocean is drawn via a cell-based
+    ; system as explained above.
+    [terrain_ocean]
+    is_blended = 1
+    num_layers = 1
+    layer0_match_type = 6
+    layer0_cell_type = "rect"
+
+  Terrain Special Sprites
+  -----------------------
 
   farmland/irrigation:
 
@@ -336,4 +429,3 @@ Information on certain tags:
     also have farmland/irrigation.  If any of these sprites are not present,
     the default sprite will be used as a fallback.
 
-----------------------------------------------------------------------
