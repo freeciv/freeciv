@@ -95,8 +95,8 @@ void handle_game_state(struct packet_generic_integer *packet)
 
     if(get_unit_in_focus())
       center_tile_mapcanvas(get_unit_in_focus()->x, get_unit_in_focus()->y);
-    free_sprite(intro_gfx_sprite); intro_gfx_sprite=NULL;
-    free_sprite(radar_gfx_sprite); radar_gfx_sprite=NULL;
+    if(intro_gfx_sprite) { free_sprite(intro_gfx_sprite); intro_gfx_sprite=NULL; };
+    if(radar_gfx_sprite) { free_sprite(radar_gfx_sprite); radar_gfx_sprite=NULL; };
   }
 }
 

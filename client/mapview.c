@@ -739,11 +739,11 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
   tile_height=(height+NORMAL_TILE_HEIGHT-1)/NORMAL_TILE_HEIGHT;
   
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
+    if(!intro_gfx_sprite)  load_intro_gfx();
     if(height!=scaled_intro_pixmap_height || width!=scaled_intro_pixmap_width) {
       if(scaled_intro_pixmap)
 	XFreePixmap(display, scaled_intro_pixmap);
 
-      if(!intro_gfx_sprite)  load_intro_gfx();
       scaled_intro_pixmap=x_scale_pixmap(intro_gfx_sprite->pixmap,
 					 intro_gfx_sprite->width,
 					 intro_gfx_sprite->height, 
@@ -762,7 +762,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
   }
   if(scaled_intro_pixmap) {
     XFreePixmap(display, scaled_intro_pixmap);
-    scaled_intro_pixmap=0;
+    scaled_intro_pixmap=0; scaled_intro_pixmap_height=0;
   };
   
   if(map.xsize) { /* do we have a map at all */
