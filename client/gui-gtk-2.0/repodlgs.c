@@ -516,7 +516,8 @@ void science_dialog_update(void)
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
-        && num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
+        && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
+	    || i == game.player_ptr->ai.tech_goal)) {
       if (i==game.player_ptr->ai.tech_goal)
 	hist=i;
       sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));

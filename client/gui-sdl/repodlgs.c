@@ -2990,7 +2990,8 @@ static int change_research_goal(struct GUI *pWidget)
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
-	&& num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
+	&& (num_unknown_techs_for_goal(game.player_ptr, i) < 11
+	    || i == game.player_ptr->ai.tech_goal)) {
       count++;
     }
   }
@@ -3059,7 +3060,8 @@ static int change_research_goal(struct GUI *pWidget)
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
-	&& (num = num_unknown_techs_for_goal(game.player_ptr, i)) < 11) {
+	&& ((num = num_unknown_techs_for_goal(game.player_ptr, i)) < 11
+	    || i == game.player_ptr->ai.tech_goal)) {
     
       count++;
       my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s", advances[i].name, num,

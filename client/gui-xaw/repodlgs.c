@@ -335,7 +335,8 @@ void create_science_dialog(bool make_modal)
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
-        && num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
+        && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
+	    || i == game.player_ptr->ai.tech_goal) {
       Widget entry=
       XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
 			      goalmenu, NULL);
@@ -533,9 +534,11 @@ void science_dialog_update(void)
 				  NULL);
     
     for(i=A_FIRST, flag=0; i<game.num_tech_types; i++)
-      if(get_invention(game.player_ptr, i) != TECH_KNOWN &&
-         advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
-         num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
+      if (tech_is_available(game.player_ptr, i)
+	  && get_invention(game.player_ptr, i) != TECH_KNOWN
+	  && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
+	  && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
+	      || i == game.player_ptr->ai.tech_goal)) {
 	Widget entry=
 	  XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
 				  goalmenu, NULL);
