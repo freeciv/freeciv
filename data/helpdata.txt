@@ -713,6 +713,56 @@ in the field and supported by that city are also transfered \
 other player isn't getting a better deal than you expect.\
 ")
 
+[help_cma]
+name = _("Citizen Management Agent")
+text = _("\
+The Citizen Management Agent (CMA) helps you manage your cities. \
+It deploys the available workers on the free tiles around the \
+city to achieve maximal city output. It also changes workers to \
+scientists, taxmen, or entertainers, if appropriate. And the CMA \
+has another astonishing ability: whenever possible, it keeps \
+your cities content.\
+\n\n\
+There are various means to tell the CMA what kind of output you \
+would like. Open the city window and click on the CMA tab. There \
+are two kinds of sliders: On the left, you can set a Minimal \
+Surplus for each kind of production; e.g. Gold = +3 means the city \
+earns 3 gold more than it needs to upkeep its improvements. On the \
+right, the sliders let you define by how much you prefer one kind \
+of production to another; setting science to 3 means you prefer a \
+single bulb to three shields (or gold, trade,...). You can set \
+different factors for each kind of production, according to your \
+needs.\
+\n\n\
+If you set up some Minimal Surpluses which are impossible to fulfill, \
+the CMA can't be activated. Whenever the CMA can't fulfill its task \
+in the ongoing game, it passes back control to you. So you'd better \
+not define too high a surplus; instead, use factors to achieve your \
+goals.\
+\n\n\
+The Celebrate checkbox lets your city - celebrate. This will work \
+only with a high luxury rate. See help about 'Happiness'.\
+\n\n\
+Clicking on 'Change permanently' puts the city under control of \
+the CMA, 'Release city' passes control back to you.\
+\n\n\
+For ease of use, you can save your slider setting as a preset \
+with a name. Click on 'add preset' and enter a name for your \
+setting. You can use this preset in every city by just clicking \
+on its name. Also, you can control your setting from within the \
+city report, in the CMA column. And you can change it from there \
+(use 'change' --> 'CMA'), if you have saved it as a preset.\
+\n\n\
+Use 'Game' --> 'Save Settings' to store your presets \
+permanently.\
+\n\n\
+But beware! If you use the CMA for some of your cities, you will \
+encounter some difficulties with managing cities nearby, by hand. \
+It's best to manage all cities on an island either by hand or by \
+CMA. Read more hints, some background information, and some \
+preset examples in the file README.cma, included with Freeciv.\n\
+")
+
 [help_city_improvements]
 name = _("City Improvements")
 text = _("\

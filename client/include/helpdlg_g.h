@@ -27,6 +27,7 @@ void popdown_help_dialog(void);
 #define HELP_CONNECTING_ITEM "Connecting"
 #define HELP_CHATLINE_ITEM "Chatline"
 #define HELP_WORKLIST_EDITOR_ITEM "Worklist Editor"
+#define HELP_CMA_ITEM "Citizen Management Agent"
 #define HELP_CONTROLS_ITEM "Controls"
 #define HELP_IMPROVEMENTS_ITEM "City Improvements"
 #define HELP_UNITS_ITEM "Units"
