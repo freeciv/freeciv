@@ -65,6 +65,7 @@ files =
   "misc/small.spec",
   "misc/buildings.spec",
   "trident/units.spec",
+  "isotrident/unitextras.spec",
   "misc/flags.spec",
   "misc/space.spec",
   "misc/treaty.spec",
