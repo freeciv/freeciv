@@ -176,10 +176,6 @@ void update_player_activities(struct player *pplayer)
   player_restore_units(pplayer); /*note: restoring move point moved
 				   to update_unit_activities*/
   update_city_activities(pplayer);
-#ifdef CITIES_PROVIDE_RESEARCH
-  if (city_list_size(&pplayer->cities)) /* has to be below the above for got_tech */ 
-    update_tech(pplayer, city_list_size(&pplayer->cities));
-#endif
   pplayer->research.changed_from=-1;
   update_unit_activities(pplayer);
   update_player_aliveness(pplayer);
