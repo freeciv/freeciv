@@ -2,15 +2,17 @@
 
 name=_("Scottish")
 plural=_("?plural:Scottish")
-leader="Robert the Bruce", "William Wallace", "James", "Charles"
-leader_sex="Male", "Male", "Male", "Male"
+leader="Charles", "James", "Robert the Bruce", "William Wallace",
+  "Mary Stuart"
+leader_sex="Male", "Male", "Male", "Male",
+  "Female"
 flag="f.scotland"
 flag_alt = "f.united_kingdom"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",        "female_title"
-                 "Republic",    _("Speaker"),        _("Speaker")
-                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+ruler_titles = { "government",  "male_title",         "female_title"
+                 "Republic",    _("Speaker"),         _("Speaker")
+                 "Democracy",   _("Prime Minister"),  _("Prime Minister")
                }
 
 attack=1
@@ -24,11 +26,14 @@ wonder="Hoover Dam"
 government="Democracy"
 
 cities =
-  "Edinburgh", "Glasgow", "Aberdeen", "Dundee", "Inverness", "Perth",
-  "Ayr", "Cowdenbeath", "Dumbarton", "Dunfermline", "Falkirk",
-  "Fort William", "Gretna", "Irvine", "Johnstone", "Kilmarnok",
-  "Kilwinning", "Livingstone", "Lockerbie", "Motherwell", "Monifieth",
-  "Paisly", "Peterhead", "Prestwick", "Stirling", "Stranraer",
-  "Troon", "Ullapool", "Whitebridge"
-
-
+  "Edinburgh", "Glasgow", "Aberdeen", "Perth", "Dundee", "Inverness",
+  "Stirling", "Hamilton", "Motherwell", "Dunfermline", "Falkirk",
+  "Kilmarnock", "Dunfries", "East Kilbride", "Coatbridge", "Dumbarton",
+  "Lanark", "St. Andrews", "Kirkcaldy", "Fort William", "Bathgate",
+  "Irvine", "Cumbernauld", "Johnstone", "Livingstone", "Lockerbie",
+  "Oban", "Leven", "Paisley", "Peterhead", "Prestwick", "Stranraer",
+  "Airdrie", "Troon", "Ullapool", "Ayr", "Aviemore", "Lerwick", "Largs",
+  "Bellshill", "Wick", "Larkhall", "Cowdenbeath", "Gretna", "Brechin",
+  "Helensburgh", "Dunblane", "Montrose", "Kilwinning", "Monifieth",
+  "Dunbar", "Cumnock", "Bothwell", "Callander", "Portree", "Whitebridge",
+  "Newton Stewart"
