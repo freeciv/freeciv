@@ -9,8 +9,6 @@
 
 #include <exec/memory.h>
 #include <graphics/rpattr.h>
-#include <datatypes/pictureclass.h>
-#include <datatypes/pictureclassext.h>
 #include <libraries/mui.h>
 #include <guigfx/guigfx.h>
 

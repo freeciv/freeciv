@@ -48,6 +48,7 @@
 
 /* Amiga Client Stuff */
 #include "mapclass.h"
+#include "objecttreeclass.h"
 #include "muistuff.h"
 IMPORT Object *app;
 
@@ -68,6 +69,7 @@ Object *help_wonder_needs_button;	/* tech */
 Object *help_wonder_obsolete_button;	/* tech */
 
 Object *help_tech_group;	/* Allows tech with tech */
+Object *help_tech_tree;	/* The tree of techs */
 
 Object *help_unit_sprite;
 Object *help_unit_cost_text;
@@ -99,6 +101,8 @@ static void create_help_page(enum help_page_type type);
 static void select_help_item(int item);
 static void select_help_item_string(const char *item,
 				    enum help_page_type htype);
+
+static void help_tree_leaf( Object **pobj); /* Callback Function */
 
 /****************************************************************
 ...
@@ -274,6 +278,7 @@ static void clear_page_objects(void)
     help_wonder_needs_button =
     help_wonder_obsolete_button =
     help_tech_group =
+    help_tech_tree =
     help_unit_sprite =
     help_unit_cost_text =
     help_unit_attack_text =
@@ -289,6 +294,115 @@ static void clear_page_objects(void)
     help_terrain_food_text =
     help_terrain_prod_text =
     help_terrain_trade_text = NULL;
+}
+
+/****************************************************************
+ Create the tech tree
+*****************************************************************/
+static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
+{
+  APTR leaf;
+/*
+  int type;
+  char *bg="";*/
+  char label[MAX_LEN_NAME+3];
+  /*
+  type = (tech==A_LAST) ? TECH_UNKNOWN : get_invention(game.player_ptr, tech);
+  switch(type) {
+    case TECH_UNKNOWN:
+      bg=TREE_NODE_UNKNOWN_TECH_BG;
+      break;
+    case TECH_KNOWN:
+      bg=TREE_NODE_KNOWN_TECH_BG;
+      break;
+    case TECH_REACHABLE:
+      bg=TREE_NODE_REACHABLE_TECH_BG;
+      break;
+  }
+ */ 
+  if(!tech_exists(tech))
+  {
+    Object *o = MakeButton("Removed");
+    leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
+/*    bg=TREE_NODE_REMOVED_TECH_BG;
+    l=XtVaCreateManagedWidget("treenode", commandWidgetClass, 
+			      tree,
+			      XtNlabel, label,
+			      XtNbackground, bg, NULL);
+    XtVaSetValues(l, XtVaTypedArg, XtNbackground, 
+		  XtRString, bg, strlen(bg)+1, NULL);*/
+     return;
+  }
+  
+  sprintf(label,"%s:%d",advances[tech].name,
+                        tech_goal_turns(game.player_ptr,tech));
+  
+
+  if(parent)
+  {
+    Object *o = MakeButton(label);
+    if (o)
+    {
+      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, help_tree_leaf, o);
+      set(o,MUIA_UserData, tech);
+      leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,parent,o);
+    }
+  } else
+  {
+    Object *o = MakeButton(label);
+    if (o)
+    {
+      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &standart_hook, help_tree_leaf, o);
+//      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &standart_hook, help_tree_leaf, o);
+      set(o,MUIA_UserData, tech);
+      leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
+    }
+  }
+
+/*
+  XtAddCallback(l, XtNcallback, help_tree_node_callback, (XtPointer)tech);
+
+  XtVaSetValues(l, XtVaTypedArg, XtNbackground, 
+		XtRString, bg, strlen(bg)+1, NULL);
+
+*/
+
+  
+  if(--levels>0) {
+    if(advances[tech].req[0]!=A_NONE)
+      create_tech_tree(tree, leaf, advances[tech].req[0], levels);
+    if(advances[tech].req[1]!=A_NONE)
+      create_tech_tree(tree, leaf, advances[tech].req[1], levels);
+  }
+  
+  
+}
+
+/****************************************************************
+ Callback for a button in the Techtree
+*****************************************************************/
+static void help_tree_leaf( Object **pobj )
+{
+  Object *obj = *pobj;
+  APTR leaf = (APTR)DoMethod(help_tech_tree, MUIM_ObjectTree_FindObject, obj);
+  if (leaf)
+  {
+    int tech = xget(obj, MUIA_UserData);
+    DoMethod(help_tech_tree, MUIM_Group_InitChange);
+
+    if(!DoMethod(help_tech_tree, MUIM_ObjectTree_HasSubNodes, leaf))
+    {
+      if(advances[tech].req[0]!=A_NONE)
+	create_tech_tree(help_tech_tree, leaf, advances[tech].req[0], 1);
+      if(advances[tech].req[1]!=A_NONE)
+	create_tech_tree(help_tech_tree, leaf, advances[tech].req[1], 1);
+    } else
+    {
+      DoMethod(help_tech_tree,MUIM_ObjectTree_ClearSubNodes,leaf);
+    }
+
+    DoMethod(help_tech_tree, MUIM_Group_ExitChange);
+  }
 }
 
 /**************************************************************************
@@ -377,6 +491,9 @@ static void create_help_page(enum help_page_type type)
       help_page_group = VGroup,
 	Child, help_tech_group = VGroup,
 	    Child, HSpace(0),
+	    End,
+	Child, help_tech_tree = ObjectTreeObject,
+	    VirtualFrame,
 	    End,
 	End;
       break;
@@ -564,8 +681,11 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       int j;
       DoMethod(help_right_group, MUIM_Group_InitChange);
       DoMethod(help_page_group, OM_REMMEMBER, help_tech_group);
-
       MUI_DisposeObject(help_tech_group);
+
+      /* Update the tech tree */
+      DoMethod(help_tech_tree, MUIM_ObjectTree_Clear);
+      create_tech_tree(help_tech_tree,NULL,i, 3);
 
       help_tech_group = VGroup,
 	Child, HSpace(0),
@@ -660,7 +780,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	  }
 	}
 	DoMethod(help_page_group, OM_ADDMEMBER, help_tech_group);
+	DoMethod(help_page_group, MUIM_Group_Sort, help_tech_group, help_tech_tree, NULL);
       }
+
       DoMethod(help_right_group, MUIM_Group_ExitChange);
     }
 

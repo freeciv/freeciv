@@ -73,6 +73,7 @@
 #include "muistuff.h"
 #include "overviewclass.h"
 #include "mapclass.h"
+#include "objecttreeclass.h"
 
 void popup_option_dialog(void);	/* gamedlg.c */
 
@@ -799,6 +800,7 @@ static void free_classes(void)
 {
   delete_map_class();
   delete_overview_class();
+  delete_objecttree_class();
 }
 
 /****************************************************************
@@ -808,8 +810,8 @@ static int init_classes(void)
 {
   if (create_overview_class())
     if (create_map_class())
-      return TRUE;
-
+      if (create_objecttree_class())
+	return TRUE;
   return FALSE;
 }
 

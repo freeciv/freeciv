@@ -28,7 +28,7 @@ CLIENTGUIOBJS1 = client/gui-mui/chatline.o client/gui-mui/citydlg.o client/gui-m
                  client/gui-mui/colors.o client/gui-mui/connectdlg.o client/gui-mui/dialogs.o client/gui-mui/diplodlg.o client/gui-mui/finddlg.o client/gui-mui/gamedlgs.o \
                  client/gui-mui/gotodlg.o client/gui-mui/helpdlg.o
 CLIENTGUIOBJS2 = client/gui-mui/inteldlg.o client/gui-mui/mapctrl.o client/gui-mui/mapview.o client/gui-mui/messagedlg.o \
-                 client/gui-mui/messagewin.o client/gui-mui/plrdlg.o client/gui-mui/repodlgs.o client/gui-mui/spaceshipdlg.o
+                 client/gui-mui/messagewin.o client/gui-mui/plrdlg.o client/gui-mui/repodlgs.o client/gui-mui/spaceshipdlg.o client/gui-mui/objecttreeclass.o
 CLIENTGUIOBJS  = ${CLIENTGUIOBJS1} ${CLIENTGUIOBJS2}
 CLIENTGUIDIRS  = IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}client/include IDIR=${FREECIV_DIR}client
 
@@ -364,6 +364,8 @@ client/gui-mui/repodlgs.o: ${CGP}repodlgs.c
 client/gui-mui/spaceshipdlg.o: ${CGP}spaceshipdlg.c
   sc ${CGP}spaceshipdlg.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
 
+client/gui-mui/objecttreeclass.o: ${CGP}objecttreeclass.c
+  sc ${CGP}objecttreeclass.c ${CLIENTGUIDIRS} OBJNAME=$@ ${CCFLAGS}
 
 
 
