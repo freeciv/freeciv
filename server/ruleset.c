@@ -34,7 +34,7 @@
 #include "tech.h"
 #include "unit.h"
 
-#include "cityhand.h"
+#include "citytools.h"
 
 #include "ruleset.h"
 

@@ -27,7 +27,6 @@
 #include "player.h"
 #include "unit.h"
 
-#include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diptreaty.h"

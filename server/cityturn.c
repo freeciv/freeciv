@@ -32,7 +32,6 @@
 #include "tech.h"
 #include "unit.h"
 
-#include "cityhand.h"
 #include "citytools.h"
 #include "gamelog.h"
 #include "maphand.h"

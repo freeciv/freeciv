@@ -89,6 +89,10 @@ void unassociate_player_connection(struct player *plr, struct connection *pconn)
 void shuffle_players(void);
 struct player *shuffled_player(int i);
 
+int civil_war_triggered(struct player *pplayer);
+void civil_war(struct player *pplayer);
+struct player *split_player(struct player *pplayer);
+
 enum plr_info_level player_info_level(struct player *plr,
                                       struct player *receiver);
 

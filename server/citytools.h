@@ -60,8 +60,6 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 			 struct unit_list *units, struct city *pcity,
 			 struct city *exclude_city,
 			 int kill_outside, int verbose);
-int civil_war_triggered(struct player *pplayer);
-void civil_war(struct player *pplayer);
 struct city *transfer_city(struct player *pplayer,
 			   struct city *pcity, int kill_outside,
 			   int transfer_unit_verbose, int resolve_stack, int raze);
@@ -69,5 +67,33 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
 				     int sea_required, struct city *pexclcity);
 
 void adjust_city_free_cost(int *num_free, int *this_cost);
+
+void send_city_info(struct player *dest, struct city *pcity);
+void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
+			    struct city *pcity, int x, int y);
+void send_all_known_cities(struct conn_list *dest);
+void send_player_cities(struct player *pplayer);
+void package_city(struct city *pcity, struct packet_city_info *packet,
+		  int dipl_invest);
+void send_adjacent_cities(struct city *pcity);
+
+void reality_check_city(struct player *pplayer,int x, int y);
+void update_dumb_city(struct player *pplayer, struct city *pcity);
+
+void create_city(struct player *pplayer, const int x, const int y, char *name);
+void remove_city(struct city *pcity);
+
+int establish_trade_route(struct city *pc1, struct city *pc2);
+void remove_trade_route(int c1, int c2);
+
+void update_map_with_city_workers(struct city *pcity);
+void do_sell_building(struct player *pplayer, struct city *pcity, int id);
+void building_lost(struct city *pcity, int id);
+void change_build_target(struct player *pplayer, struct city *pcity, 
+			 int target, int is_unit, int event);
+
+char *city_name_suggestion(struct player *pplayer);
+extern char **misc_city_names; 
+extern int num_misc_city_names;
 
 #endif  /* FC__CITYTOOLS_H */

@@ -23,7 +23,6 @@
 #include "support.h"
 #include "timing.h"
 
-#include "cityhand.h"
 #include "citytools.h"
 #include "gotohand.h"
 #include "maphand.h"

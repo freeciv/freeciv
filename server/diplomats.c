@@ -23,7 +23,6 @@
 #include "player.h"
 #include "rand.h"
 
-#include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "gamelog.h"

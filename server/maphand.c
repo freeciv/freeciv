@@ -26,7 +26,7 @@
 #include "rand.h"
 #include "support.h"
 
-#include "cityhand.h"
+#include "citytools.h"
 #include "cityturn.h"
 #include "mapgen.h"		/* assign_continent_numbers */
 #include "plrhand.h"           /* notify_player */

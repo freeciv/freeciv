@@ -63,6 +63,7 @@
 #include "autoattack.h"
 #include "barbarian.h"
 #include "cityhand.h"
+#include "citytools.h"
 #include "cityturn.h"
 #include "console.h"
 #include "diplhand.h"

@@ -20,7 +20,6 @@
 #include "map.h"
 #include "unit.h"
 
-#include "cityhand.h"
 #include "citytools.h"
 #include "settlers.h"
 #include "unittools.h"

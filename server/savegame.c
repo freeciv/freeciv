@@ -36,7 +36,6 @@
 #include "version.h"
 
 #include "citytools.h"
-#include "cityhand.h"
 #include "cityturn.h"
 #include "mapgen.h"
 #include "maphand.h"

@@ -35,7 +35,6 @@
 #include "unit.h"
 
 #include "barbarian.h"
-#include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "gamelog.h"

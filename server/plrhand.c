@@ -28,17 +28,19 @@
 #include "support.h"
 #include "tech.h"
 
-#include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
+#include "gamehand.h"
 #include "gamelog.h"
 #include "maphand.h"
 #include "sernet.h"
 #include "settlers.h"
 #include "srv_main.h"
+#include "stdinhand.h"
 #include "unittools.h"
 
+#include "advmilitary.h"
 #include "aihand.h"
 #include "aitech.h"
 
@@ -1461,3 +1463,280 @@ struct player *shuffled_player(int i)
     return &game.players[i];
   }
 }
+
+
+/**********************************************************************
+This function creates a new player and copies all of it's science
+research etc.  Players are both thrown into anarchy and gold is
+split between both players.
+                               - Kris Bubendorfer 
+***********************************************************************/
+struct player *split_player(struct player *pplayer)
+{
+  int *nations_used, i, num_nations_avail=game.playable_nation_count, pick;
+  int newplayer = game.nplayers;
+  struct player *cplayer = &game.players[newplayer];
+
+  nations_used = fc_calloc(game.playable_nation_count,sizeof(int));
+  
+  /* make a new player */
+
+  server_player_init(cplayer, 1);
+  
+  /* select a new name and nation for the copied player. */
+
+  for(i=0; i<game.playable_nation_count;i++){
+    nations_used[i]=i;
+  }
+
+  for(i = 0; i < game.nplayers; i++){
+    if( game.players[i].nation < game.playable_nation_count ) {
+      nations_used[game.players[i].nation] = -1;
+      num_nations_avail--;
+    }
+  }
+
+  pick = myrand(num_nations_avail);
+
+  for(i=0; i<game.playable_nation_count; i++){ 
+    if(nations_used[i] != -1)
+      pick--;
+    if(pick < 0) break;
+  }
+  
+  /* Rebel will always be an AI player */
+
+  cplayer->nation = nations_used[i];
+  free(nations_used);
+  pick_ai_player_name(cplayer->nation,cplayer->name);
+
+  sz_strlcpy(cplayer->username, cplayer->name);
+  cplayer->is_connected = 0;
+  cplayer->government = game.government_when_anarchy;  
+  pplayer->revolution = 1;
+  cplayer->capital = 1;
+
+  /* This should probably be DS_NEUTRAL when AI knows about diplomacy,
+   * but for now AI players are always at war.
+   */
+  players_iterate(other_player) {
+    cplayer->diplstates[other_player->player_no].type = DS_WAR;
+    cplayer->diplstates[other_player->player_no].has_reason_to_cancel = 0;
+    cplayer->diplstates[other_player->player_no].turns_left = 0;
+    other_player->diplstates[cplayer->player_no].type = DS_WAR;
+    other_player->diplstates[cplayer->player_no].has_reason_to_cancel = 0;
+    other_player->diplstates[cplayer->player_no].turns_left = 0;
+    
+    /* Send so that other_player sees updated diplomatic info;
+     * cplayer and pplayer will be sent later anyway
+     */
+    if (other_player != cplayer && other_player != pplayer) {
+      send_player_info(other_player, other_player);
+    }
+  }
+  players_iterate_end;
+
+  /* Split the resources */
+  
+  cplayer->economic.gold = pplayer->economic.gold/2;
+
+  /* Copy the research */
+
+  cplayer->research.researched = 0;
+  cplayer->research.researchpoints = pplayer->research.researchpoints;
+  cplayer->research.researching = pplayer->research.researching;
+  
+  for(i = 0; i<game.num_tech_types ; i++)
+    cplayer->research.inventions[i] = pplayer->research.inventions[i];
+  cplayer->turn_done = 1; /* Have other things to think about - paralysis*/
+  cplayer->embassy = 0;   /* all embassys destroyed */
+
+  /* Do the ai */
+
+  cplayer->ai.control = 1;
+  cplayer->ai.tech_goal = pplayer->ai.tech_goal;
+  cplayer->ai.prev_gold = pplayer->ai.prev_gold;
+  cplayer->ai.maxbuycost = pplayer->ai.maxbuycost;
+  cplayer->ai.handicap = pplayer->ai.handicap;
+  cplayer->ai.warmth = pplayer->ai.warmth;
+  set_ai_level_direct(cplayer, game.skill_level);
+		    
+  for(i = 0; i<game.num_tech_types ; i++){
+    cplayer->ai.tech_want[i] = pplayer->ai.tech_want[i];
+    cplayer->ai.tech_turns[i] = pplayer->ai.tech_turns[i];
+  }
+  
+  /* change the original player */
+
+  pplayer->government = game.government_when_anarchy;
+  pplayer->revolution = 1;
+  pplayer->economic.tax = PLAYER_DEFAULT_TAX_RATE;
+  pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
+  pplayer->economic.luxury = PLAYER_DEFAULT_LUXURY_RATE;
+  pplayer->economic.gold = cplayer->economic.gold;
+  pplayer->research.researched = 0;
+  pplayer->turn_done = 1; /* Have other things to think about - paralysis*/
+  pplayer->embassy = 0; /* all embassys destroyed */
+
+  player_limit_to_government_rates(pplayer);
+
+  /* copy the maps */
+
+  give_map_from_player_to_player(pplayer, cplayer);
+
+  game.nplayers++;
+  game.max_players = game.nplayers;
+  
+  /* Not sure if this is necessary, but might be a good idea
+     to avoid doing some ai calculations with bogus data:
+  */
+  assess_danger_player(cplayer);
+  if (pplayer->ai.control) {
+    assess_danger_player(pplayer);
+  }
+		    
+  return cplayer;
+}
+
+/********************************************************************** 
+civil_war_triggered:
+ * The capture of a capital is not a sure fire way to throw
+and empire into civil war.  Some governments are more susceptible 
+than others, here are the base probabilities:
+ *      Anarchy   	90%   
+Despotism 	80%
+Monarchy  	70%
+Fundamentalism  60% (In case it gets implemented one day)
+Communism 	50%
+  	Republic  	40%
+Democracy 	30%	
+ * Note:  In the event that Fundamentalism is added, you need to
+update the array government_civil_war[G_LAST] in player.c
+ * [ SKi: That would now be data/default/governments.ruleset. ]
+ * In addition each city in revolt adds 5%, each city in rapture 
+subtracts 5% from the probability of a civil war.  
+ * If you have at least 1 turns notice of the impending loss of 
+your capital, you can hike luxuries up to the hightest value,
+and by this reduce the chance of a civil war.  In fact by
+hiking the luxuries to 100% under Democracy, it is easy to
+get massively negative numbers - guaranteeing imunity from
+civil war.  Likewise, 3 revolting cities under despotism
+guarantees a civil war.
+ * This routine calculates these probabilities and returns true
+if a civil war is triggered.
+                                   - Kris Bubendorfer 
+***********************************************************************/
+int civil_war_triggered(struct player *pplayer)
+{
+  /* Get base probabilities */
+
+  int dice = myrand(100); /* Throw the dice */
+  int prob = get_government_civil_war_prob(pplayer->government);
+
+  /* Now compute the contribution of the cities. */
+  
+  city_list_iterate(pplayer->cities, pcity)
+    prob += city_unhappy(pcity) * 5 - city_celebrating(pcity) * 5;
+  city_list_iterate_end;
+
+  freelog(LOG_VERBOSE, "Civil war chance for %s: prob %d, dice %d",
+	  pplayer->name, prob, dice);
+  
+  return(dice < prob);
+}
+
+/**********************************************************************
+Capturing a nation's capital is a devastating blow.  This function
+creates a new AI player, and randomly splits the original players
+city list into two.  Of course this results in a real mix up of 
+teritory - but since when have civil wars ever been tidy, or civil.
+
+Embassies:  All embassies with other players are lost.  Other players
+            retain their embassies with pplayer.
+ * Units:      Units inside cities are assigned to the new owner
+            of the city.  Units outside are transferred along 
+            with the ownership of their supporting city.
+            If the units are in a unit stack with non rebel units,
+            then whichever units are nearest an allied city
+            are teleported to that city.  If the stack is a 
+            transport at sea, then all rebel units on the 
+            transport are teleported to their nearest allied city.
+
+Cities:     Are split randomly into 2.  This results in a real
+            mix up of teritory - but since when have civil wars 
+            ever been tidy, or for any matter civil?
+ *
+One caveat, since the spliting of cities is random, you can
+conceive that this could result in either the original player
+or the rebel getting 0 cities.  To prevent this, the hack below
+ensures that each side gets roughly half, which ones is still 
+determined randomly.
+                                   - Kris Bubendorfer
+***********************************************************************/
+void civil_war(struct player *pplayer)
+{
+  int i, j;
+  struct city *pnewcity;
+  struct player *cplayer;
+
+  cplayer = split_player(pplayer);
+
+  /* So that clients get the correct game.nplayers: */
+  send_game_info(0);
+  
+  /* Before units, cities, so clients know name of new nation
+   * (for debugging etc).
+   */
+  send_player_info(cplayer,  NULL);
+  send_player_info(pplayer,  NULL); 
+  
+  /* Now split the empire */
+
+  freelog(LOG_VERBOSE,
+	  "%s's nation is thrust into civil war, created AI player %s",
+	  pplayer->name, cplayer->name);
+  notify_player(pplayer,
+		_("Game: Your nation is thrust into civil war, "
+		  " %s is declared the leader of the rebel states."),
+		cplayer->name);
+
+  i = city_list_size(&pplayer->cities)/2;   /* number to flip */
+  j = city_list_size(&pplayer->cities);	    /* number left to process */
+  city_list_iterate(pplayer->cities, pcity) {
+    if (!city_got_building(pcity, B_PALACE)) {
+      if (i >= j || (i > 0 && myrand(2))) {
+	/* Transfer city and units supported by this city to the new owner
+
+	 We do NOT resolve stack conflicts here, but rather later.
+	 Reason: if we have a transporter from one city which is carrying
+	 a unit from another city, and both cities join the rebellion. We
+	 resolved stack conflicts for each city we would teleport the first
+	 of the units we met since the other would have another owner */
+	pnewcity = transfer_city(cplayer, pcity, -1, 0, 0, 0);
+	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
+		pnewcity->name, cplayer->name);
+	notify_player(pplayer, _("Game: %s declares allegiance to %s."),
+		      pnewcity->name,cplayer->name);
+	i--;
+      }
+    }
+    j--;
+  }
+  city_list_iterate_end;
+
+  i = 0;
+  
+  unit_list_iterate(pplayer->units, punit) 
+    resolve_unit_stack(punit->x, punit->y, 0);
+  unit_list_iterate_end;
+
+
+  notify_player(0,
+		_("Game: The capture of %s's capital and the destruction "
+		  "of the empire's administrative\n"
+		  "      structures have sparked a civil war.  "
+		  "Opportunists have flocked to the rebel cause,\n"
+		  "      and the upstart %s now holds power in %d "
+		  "rebel provinces."),
+		pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
+}  

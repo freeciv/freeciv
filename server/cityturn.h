@@ -25,10 +25,8 @@ int city_refresh(struct city *pcity);          /* call if city has changed */
 void global_city_refresh(struct player *pplayer); /* tax/govt changed */
 
 void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
-int  add_adjust_workers(struct city *pcity);   /* will add workers */
+int add_adjust_workers(struct city *pcity);   /* will add workers */
 int city_check_workers(struct city *pcity, int send_changed_adjacent_cities);
-
-/**** This part isn't meant to be used ****/  /* huh? which part?  --dwp */
 
 void city_auto_remove_worker(struct city *pcity); 
 void send_global_city_turn_notifications(struct conn_list *dest);
