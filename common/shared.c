@@ -400,8 +400,10 @@ const char *get_sane_name(const char *name)
     return NULL; 
   }
 
-  /* must be composed entirely of printable ISO 8859-1 characters */
-  for (cp = name; is_iso_latin1(*cp); cp++) {
+  /* must be composed entirely of printable ISO 8859-1 characters,
+   * and no illegal characters which can break ranking scripts */
+  for (cp = name; is_iso_latin1(*cp) && *cp != '|' && *cp != '%' 
+       && *cp != '"' && *cp != ','; cp++) {
     /* nothing */
   }
   if (*cp != '\0') {

@@ -1008,6 +1008,12 @@ static void handle_alloc_nation(struct player *pplayer,
     return;
   }
 
+  if (!get_sane_name(packet->name)) {
+    notify_player(pplayer, _("Please choose a legal name."));
+    send_select_nation(pplayer);
+    return;
+  }
+
   packet->name[0] = my_toupper(packet->name[0]);
 
   players_iterate(other_player) {
