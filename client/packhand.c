@@ -699,10 +699,10 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 			    ARRAY_SIZE(pcity->improvements));
   }
 
-  update_improvement_from_packet(pcity, B_PALACE, packet->capital,
-                                 &need_effect_update);
-  update_improvement_from_packet(pcity, B_CITY, packet->walls,
-                                 &need_effect_update);
+  update_improvement_from_packet(pcity, game.palace_building,
+				 packet->capital, &need_effect_update);
+  update_improvement_from_packet(pcity, game.land_defend_building,
+				 packet->walls, &need_effect_update);
 
   if (city_is_new) {
     init_worklist(&pcity->worklist);
@@ -1367,6 +1367,20 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.nuclearwinter=pinfo->nuclearwinter;
   game.cooling=pinfo->cooling;
   if (!can_client_change_view()) {
+    /*
+     * Hack to allow code that explicitly checks for Palace or City Walls
+     * to work.
+     */
+    game.palace_building = get_building_for_effect(EFT_CAPITAL_CITY);
+    if (game.palace_building == B_LAST) {
+      freelog(LOG_FATAL, "Cannot find any palace building");
+    }
+
+    game.land_defend_building = get_building_for_effect(EFT_LAND_DEFEND);
+    if (game.land_defend_building == B_LAST) {
+      freelog(LOG_FATAL, "Cannot find any land defend building");
+    }
+
     improvement_status_init(game.improvements,
 			    ARRAY_SIZE(game.improvements));
 
@@ -2155,8 +2169,9 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   tilespec_free_city_tiles(game.styles_count);
   ruleset_data_free();
 
+  ruleset_cache_init();
+
   game.aqueduct_size = packet->aqueduct_size;
-  game.sewer_size = packet->sewer_size;
   game.add_to_size_limit = packet->add_to_size_limit;
   game.notradesize = packet->notradesize;
   game.fulltradesize = packet->fulltradesize;
@@ -2196,6 +2211,8 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
     mystrlcpy(team_get_by_id(i)->name, packet->team_name[i],
               MAX_LEN_NAME);
   }
+
+  game.default_building = packet->default_building;
 }
 
 /**************************************************************************
@@ -2330,12 +2347,6 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   T(equiv_repl, equiv_repl_count, B_LAST);
 #undef T
 
-  b->effect = fc_malloc(sizeof(*b->effect) * (p->effect_count + 1));
-  for (i = 0; i < p->effect_count; i++) {
-    b->effect[i] = p->effect[i];
-  }
-  b->effect[p->effect_count].type = EFT_LAST;
-
 #ifdef DEBUG
   if(p->id == game.num_impr_types-1) {
     impr_type_iterate(id) {
@@ -2386,75 +2397,6 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       freelog(LOG_DEBUG, "  upkeep      %2d", b->upkeep);
       freelog(LOG_DEBUG, "  sabotage   %3d", b->sabotage);
       freelog(LOG_DEBUG, "  effect...");
-      for (inx = 0; b->effect[inx].type != EFT_LAST; inx++) {
-	char buf[1024], *ptr;
-	ptr = buf;
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " %d/%s",
-		    b->effect[inx].type,
-		    effect_type_name(b->effect[inx].type));
-	ptr = strchr(ptr, '\0');
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " range=%d/%s",
-		    b->effect[inx].range,
-		    effect_range_name(b->effect[inx].range));
-	ptr = strchr(ptr, '\0');
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " amount=%d",
-		    b->effect[inx].amount);
-	ptr = strchr(ptr, '\0');
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " survives=%d",
-		    b->effect[inx].survives);
-	ptr = strchr(ptr, '\0');
-	freelog(LOG_DEBUG, "   %2d. %s", inx, buf);
-	ptr = buf;
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " cond_bldg=%d/%s",
-		    b->effect[inx].cond_bldg,
-		    (b->effect[inx].cond_bldg == B_LAST) ?
-		    "Uncond." :
-		    improvement_types[b->effect[inx].cond_bldg].name);
-	ptr = strchr(ptr, '\0');
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " cond_gov=%d/%s",
-		    b->effect[inx].cond_gov,
-		    (b->effect[inx].cond_gov == game.government_count) ?
-		    "Uncond." :
-		    get_government_name(b->effect[inx].cond_gov));
-	ptr = strchr(ptr, '\0');
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " cond_adv=%d/%s",
-		    b->effect[inx].cond_adv,
-		    (b->effect[inx].cond_adv == A_NONE) ?
-		    "Uncond." :
-		    (b->effect[inx].cond_adv == A_LAST) ?
-		    "Never" :
-		    advances[b->effect[inx].cond_adv].name);
-	ptr = strchr(ptr, '\0');
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " cond_eff=%d/%s",
-		    b->effect[inx].cond_eff,
-		    (b->effect[inx].cond_eff == EFT_LAST) ?
-		    "Uncond." :
-		    effect_type_name(b->effect[inx].cond_eff));
-	ptr = strchr(ptr, '\0');
-	freelog(LOG_DEBUG, "       %s", buf);
-	ptr = buf;
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " aff_unit=%d/%s",
-		    b->effect[inx].aff_unit,
-		    (b->effect[inx].aff_unit == UCL_LAST) ?
-		    "All" :
-		    unit_class_name(b->effect[inx].aff_unit));
-	ptr = strchr(ptr, '\0');
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " aff_terr=%d/%s",
-		    b->effect[inx].aff_terr,
-		    (b->effect[inx].aff_terr == T_NONE) ? "None"
-		    : ((b->effect[inx].aff_terr == T_UNKNOWN) ? "All"
-		       : get_terrain_name(b->effect[inx].aff_terr)));
-	ptr = strchr(ptr, '\0');
-	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " aff_spec=%04X/%s",
-		    b->effect[inx].aff_spec,
-		    (b->effect[inx].aff_spec == 0) ?
-		    "None" :
-		    (b->effect[inx].aff_spec == S_ALL) ?
-		    "All" :
-		    get_special_name(b->effect[inx].aff_spec));
-	ptr = strchr(ptr, '\0');
-	freelog(LOG_DEBUG, "       %s", buf);
-      }
       freelog(LOG_DEBUG, "  variant     %2d", b->variant);	/* FIXME: remove when gen-impr obsoletes */
       freelog(LOG_DEBUG, "  helptext    %s", b->helptext);
     } impr_type_iterate_end;
@@ -2977,3 +2919,30 @@ void handle_server_shutdown(void)
 {
   freelog(LOG_VERBOSE, "server shutdown");
 }
+
+/**************************************************************************
+  Add group data to ruleset cache.  
+**************************************************************************/
+void handle_ruleset_cache_group(struct packet_ruleset_cache_group *packet)
+{
+  struct effect_group *pgroup;
+  int i;
+
+  pgroup = effect_group_new(packet->name);
+
+  for (i = 0; i < packet->num_elements; i++) {
+    effect_group_add_element(pgroup, packet->source_buildings[i],
+			     packet->ranges[i], packet->survives[i]);
+  }
+}
+
+/**************************************************************************
+  Add effect data to ruleset cache.  
+**************************************************************************/
+void handle_ruleset_cache_effect(struct packet_ruleset_cache_effect *packet)
+{
+  ruleset_cache_add(packet->id, packet->effect_type, packet->range,
+		    packet->survives, packet->eff_value,
+		    packet->req_type, packet->req_value, packet->group_id);
+}
+

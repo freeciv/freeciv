@@ -65,7 +65,7 @@ bool player_has_embassy(struct player *pplayer, struct player *pplayer2)
 {
   return (TEST_BIT(pplayer->embassy, pplayer2->player_no)
           || (pplayer == pplayer2)
-          || (player_owns_active_wonder(pplayer, B_MARCO)
+          || (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0
               && !is_barbarian(pplayer2)));
 }
 
@@ -367,31 +367,6 @@ bool player_in_city_radius(struct player *pplayer, int x, int y)
       return TRUE;
   } map_city_radius_iterate_end;
   return FALSE;
-}
-
-/**************************************************************************
- Return 1 if one of the player's cities has the specified wonder,
- and it is not obsolete.
-**************************************************************************/
-bool player_owns_active_wonder(struct player *pplayer,
-			      Impr_Type_id id)
-{
-  return (improvement_exists(id)
-	  && is_wonder(id)
-	  && (!wonder_obsolete(id))
-	  && player_find_city_by_id(pplayer, game.global_wonders[id]));
-}
-
-/**************************************************************************
- ...
-**************************************************************************/
-bool player_owns_active_govchange_wonder(struct player *pplayer)
-{
-  return ( player_owns_active_wonder(pplayer, B_LIBERTY) ||
-	   ( (improvement_variant(B_PYRAMIDS)==1) &&
-	     player_owns_active_wonder(pplayer, B_PYRAMIDS) ) ||
-	   ( (improvement_variant(B_UNITED)==1) &&
-	     player_owns_active_wonder(pplayer, B_UNITED) ) );
 }
 
 /**************************************************************************

@@ -30,7 +30,6 @@
 #define POLLUTION_WEIGHTING 14 /* tentative */
 #define WARMING_FACTOR 50
 
-bool city_got_barracks(struct city *pcity);
 bool can_sell_building(struct city *pcity, Impr_Type_id id);
 struct city *find_city_wonder(Impr_Type_id id);
 int build_points_left(struct city *pcity);

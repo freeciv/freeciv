@@ -15,15 +15,14 @@
 
 #include "fc_types.h"
 #include "unit.h"		/* enum unit_move_type */
+#include "city.h"
+#include "aidata.h"
 
 struct ai_choice;
-struct ai_data;
-
-int ai_eval_calc_city(struct city *pcity, struct ai_data *ai);
 
 void ai_manage_cities(struct player *pplayer);
 
-enum ai_city_task { AICITY_NONE, AICITY_TECH, AICITY_TAX, AICITY_PROD};
-/* These are not used (well, except AICITY_NONE)  --dwp */
+Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v);
+int ai_eval_calc_city(struct city *pcity, struct ai_data *ai);
 
 #endif  /* FC__AICITY_H */

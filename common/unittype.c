@@ -476,7 +476,8 @@ bool can_player_build_unit_direct(struct player *p, Unit_Type_id id)
 
   if (!unit_type_exists(id))
     return FALSE;
-  if (unit_type_flag(id, F_NUCLEAR) && game.global_wonders[B_MANHATTEN] == 0)
+  if (unit_type_flag(id, F_NUCLEAR)
+      && !get_player_bonus(p, EFT_ENABLE_NUKE) > 0)
     return FALSE;
   if (unit_type_flag(id, F_NOBUILD)) {
     return FALSE;

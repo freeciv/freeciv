@@ -737,7 +737,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		     struct city *pcity)
 {
   struct player *cplayer;
-  struct city *capital;
   int revolt_cost;
 
   /* Fetch target civilization's player.  Sanity checks. */
@@ -757,12 +756,11 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
-  /* Check for city being the capital. */
-  capital = find_palace (city_owner (pcity));
-  if (pcity == capital) {
+  /* See if the city is subvertable. */
+  if (get_city_bonus(pcity, EFT_NO_INCITE) > 0) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT_FAILED,
-		     _("Game: You can't subvert the capital of a nation."));
-    freelog (LOG_DEBUG, "incite: city is the capital");
+		     _("Game: You can't subvert this city."));
+    freelog (LOG_DEBUG, "incite: city is protected");
     return;
   }
 
@@ -774,7 +772,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT_FAILED,
 		     _("Game: You don't have enough gold to"
 		       " subvert %s."), pcity->name);
-    freelog (LOG_DEBUG, "incite: not enough gold");
+    freelog(LOG_DEBUG, "incite: not enough gold");
     return;
   }
 
@@ -1031,9 +1029,9 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * City Walls, then there is a 50% chance of getting caught.
      */
     vulnerability = get_improvement_type(improvement)->sabotage;
-    if (city_got_building(pcity, B_PALACE)) {
-      vulnerability /= 2;
-    }
+
+    vulnerability -= (vulnerability
+		      * get_city_bonus(pcity, EFT_SPY_RESISTANT) / 100);
     if (myrand(100) >= vulnerability) {
       /* Caught! */
       notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT_FAILED,
@@ -1120,9 +1118,8 @@ static bool diplomat_success_vs_defender (struct unit *pattacker,
   def += (def/5.0) * pdefender->veteran;
 
   if (pdefender_tile->city) {
-    if (city_got_building(pdefender_tile->city, B_PALACE)) {
-      def = (def * 3) / 2;/* +50% */
-    }
+    def = def * (100 + get_city_bonus(pdefender_tile->city,
+				      EFT_SPY_RESISTANT)) / 100;
   } else {
     if (tile_has_special(pdefender_tile, S_FORTRESS)
        || tile_has_special(pdefender_tile, S_AIRBASE)) {

@@ -459,7 +459,7 @@ void city_dialog_update_output(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   my_snprintf(buf, sizeof(buf),
 	      _("Gold:    %2d (%+2d)\nLuxury:  %2d\nScience: %2d"),
-	      pcity->tax_total, city_gold_surplus(pcity),
+	      pcity->tax_total, city_gold_surplus(pcity, pcity->tax_total),
 	      pcity->luxury_total,
 	      pcity->science_total);      
   SetWindowText(pdialog->output_area[0],buf);

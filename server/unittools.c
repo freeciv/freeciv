@@ -60,7 +60,7 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 static void update_unit_activity(struct unit *punit);
 static void wakeup_neighbor_sentries(struct unit *punit);
-static void handle_leonardo(struct player *pplayer);
+static void do_upgrade_effects(struct player *pplayer);
 
 static void sentry_transported_idle_units(struct unit *ptrans);
 
@@ -116,21 +116,25 @@ bool maybe_make_veteran(struct unit *punit)
       || unit_type(punit)->veteran[punit->veteran].name[0] == '\0'
       || unit_flag(punit, F_NO_VETERAN)) {
     return FALSE;
-  }
-  if (is_ground_unittype(punit->type)
-      && player_owns_active_wonder(get_player(punit->owner), B_SUNTZU)) {
-    if (myrand(100) < 1.5 * game.veteran_chance[punit->veteran]) {
-      punit->veteran++;
-      return TRUE;
-    }
   } else {
-    if (myrand(100) < game.veteran_chance[punit->veteran]) {
+    struct player *plr;
+    int mod = 100;
+
+    plr = get_player(punit->owner);
+
+    if (is_ground_unittype(punit->type)) {
+      mod += get_player_bonus(plr, EFT_LAND_VET_COMBAT);
+    }
+
+    /* The modification is tacked on as a multiplier to the base chance.
+     * For example with a base chance of 50% for green units and a modifier
+     * of +50% the end chance is 75%. */
+    if (myrand(100) < game.veteran_chance[punit->veteran] * mod / 100) {
       punit->veteran++;
       return TRUE;
     }
+    return FALSE;
   }
-
-  return FALSE;  
 }
 
 /**************************************************************************
@@ -194,52 +198,50 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
 }
 
 /***************************************************************************
-Do Leonardo's Workshop upgrade(s). Select unit to upgrade by random. --Zamar
-Now be careful not to strand units at sea with the Workshop. --dwp
+  Do unit auto-upgrades to players with the EFT_UNIT_UPGRADE effect
+  (traditionally from Leonardo's Workshop).
 ****************************************************************************/
-static void handle_leonardo(struct player *pplayer)
+static void do_upgrade_effects(struct player *pplayer)
 {
-  int leonardo_variant;
-	
+  int upgrades = get_player_bonus(pplayer, EFT_UPGRADE_UNIT);
   struct unit_list candidates;
-  int candidate_to_upgrade=-1;
 
-  int i;
+  if (upgrades <= 0) {
+    return;
+  }
 
-  leonardo_variant = improvement_variant(B_LEONARDO);
-	
   unit_list_init(&candidates);
-	
+
   unit_list_iterate(pplayer->units, punit) {
+    /* We have to be careful not to strand units at sea, for example by
+     * upgrading a frigate to an ironclad while it was carrying a unit. */
     if (test_unit_upgrade(punit, TRUE) == UR_OK) {
       unit_list_insert(&candidates, punit);	/* Potential candidate :) */
     }
   } unit_list_iterate_end;
-	
-  if (unit_list_size(&candidates) == 0)
-    return; /* We have Leonardo, but nothing to upgrade! */
-	
-  if (leonardo_variant == 0)
-    candidate_to_upgrade=myrand(unit_list_size(&candidates));
 
-  i=0;	
-  unit_list_iterate(candidates, punit) {
-    if (leonardo_variant != 0 || i == candidate_to_upgrade) {
-      Unit_Type_id upgrade_type = can_upgrade_unittype(pplayer, punit->type);
+  while (upgrades > 0 && unit_list_size(&candidates) > 0) {
+    /* Upgrade one unit.  The unit is chosen at random from the list of
+     * available candidates. */
+    int candidate_to_upgrade = myrand(unit_list_size(&candidates));
+    struct unit *punit = unit_list_get(&candidates, candidate_to_upgrade);
+    Unit_Type_id upgrade_type = can_upgrade_unittype(pplayer, punit->type);
 
-      notify_player(pplayer,
-            _("Game: %s has upgraded %s to %s%s."),
-            improvement_types[B_LEONARDO].name,
-            unit_type(punit)->name,
-            get_unit_type(upgrade_type)->name,
-            get_location_str_in(pplayer, punit->x, punit->y));
-      punit->veteran = 0;
-      assert(test_unit_upgrade(punit, TRUE) == UR_OK);
-      upgrade_unit(punit, upgrade_type, TRUE);
-    }
-    i++;
-  } unit_list_iterate_end;
-	
+    notify_player(pplayer,
+		  _("Game: %s was upgraded for free to %s%s."),
+		  unit_type(punit)->name,
+		  get_unit_type(upgrade_type)->name,
+		  get_location_str_in(pplayer, punit->x, punit->y));
+
+    /* For historical reasons we negate the unit's veteran status.  Note that
+     * the upgraded unit may have the NoVeteran flag set. */
+    punit->veteran = 0;
+    assert(test_unit_upgrade(punit, TRUE) == UR_OK);
+    upgrade_unit(punit, upgrade_type, TRUE);
+    unit_list_unlink(&candidates, punit);
+    upgrades--;
+  }
+
   unit_list_unlink_all(&candidates);
 }
 
@@ -294,8 +296,7 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
 void player_restore_units(struct player *pplayer)
 {
   /* 1) get Leonardo out of the way first: */
-  if (player_owns_active_wonder(pplayer, B_LEONARDO))
-    handle_leonardo(pplayer);
+  do_upgrade_effects(pplayer);
 
   unit_list_iterate_safe(pplayer->units, punit) {
 
@@ -429,10 +430,10 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
   if(!punit->moved) {
     punit->hp+=hp_gain_coord(punit);
   }
-  
-  if (player_owns_active_wonder(pplayer, B_UNITED)) 
-    punit->hp+=2;
-    
+
+  /* Bonus recovery HP (traditionally from the United Nations) */
+  punit->hp += get_player_bonus(pplayer, EFT_UNIT_RECOVER);
+
   if(is_heli_unit(punit)) {
     struct city *pcity = map_get_city(punit->x,punit->y);
     if(!pcity) {
@@ -492,11 +493,12 @@ static int hp_gain_coord(struct unit *punit)
   else
     hp=0;
   if((pcity=map_get_city(punit->x,punit->y))) {
-    if ((city_got_barracks(pcity) &&
-	 (is_ground_unit(punit) || improvement_variant(B_BARRACKS)==1)) ||
-	(city_got_building(pcity, B_AIRPORT) && is_air_unit(punit)) || 
-	(city_got_building(pcity, B_AIRPORT) && is_heli_unit(punit)) || 
-	(city_got_building(pcity, B_PORT) && is_sailing_unit(punit))) {
+    if ((get_city_bonus(pcity, EFT_LAND_REGEN) > 0
+	 && is_ground_unit(punit))
+	|| (get_city_bonus(pcity, EFT_AIR_REGEN) > 0
+	    && (is_air_unit(punit) || is_heli_unit(punit)))
+	|| (get_city_bonus(pcity, EFT_SEA_REGEN) > 0
+	    && is_sailing_unit(punit))) {
       hp=unit_type(punit)->hp;
     }
     else

@@ -278,6 +278,10 @@ void game_init(void)
   game.government_when_anarchy = G_MAGIC;   /* flag */
   game.ai_goal_government = G_MAGIC;        /* flag */
 
+  game.default_building = B_LAST;
+  game.palace_building = B_LAST;
+  game.land_defend_building = B_LAST;
+
   sz_strlcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
   sz_strlcpy(game.allow_take, GAME_DEFAULT_ALLOW_TAKE);
 

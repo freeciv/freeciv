@@ -96,11 +96,7 @@ enum add_build_city_result {
   AB_NOT_OWNER,			/* Owner of unit is not owner of
 				   city */
   AB_TOO_BIG,			/* City is too big to be added to */
-  AB_NO_AQUEDUCT,		/* Adding takes city past limit for
-				   aquaduct but city has no
-				   aquaduct */
-  AB_NO_SEWER			/* Adding takes city past limit for
-				   sewer but city has no sewer */
+  AB_NO_SPACE			/* Adding takes city past limit */
 };
 
 enum unit_upgrade_result {

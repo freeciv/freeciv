@@ -325,42 +325,44 @@ void send_all_info(struct conn_list *dest)
 }
 
 /**************************************************************************
-...
+  Give map information to players with EFT_REVEAL_CITIES or
+  EFT_REVEAL_MAP effects (traditionally from the Apollo Program).
 **************************************************************************/
-static void do_apollo_program(void)
+static void do_reveal_effects(void)
 {
-  struct city *pcity = find_city_wonder(B_APOLLO);
-
-  if (pcity) {
-    struct player *pplayer = city_owner(pcity);
-
-    if (game.civstyle == 1) {
+  players_iterate(pplayer) {
+    if (get_player_bonus(pplayer, EFT_REVEAL_CITIES) > 0) {
       players_iterate(other_player) {
 	city_list_iterate(other_player->cities, pcity) {
 	  show_area(pplayer, pcity->x, pcity->y, 0);
 	} city_list_iterate_end;
       } players_iterate_end;
-    } else {
+    }
+    if (get_player_bonus(pplayer, EFT_REVEAL_MAP) > 0) {
       /* map_know_all will mark all unknown tiles as known and send
        * tile, unit, and city updates as necessary.  No other actions are
        * needed. */
       map_know_all(pplayer);
     }
-  }
+  } players_iterate_end;
 }
 
 /**************************************************************************
-...
+  Give contact to players with the EFT_HAVE_EMBASSIES effect (traditionally
+  from Marco Polo's Embassy).
 **************************************************************************/
-static void marco_polo_make_contact(void)
+static void do_have_embassies_effect(void)
 {
-  struct city *pcity = find_city_wonder(B_MARCO);
-
-  if (pcity) {
-    players_iterate(pplayer) {
-      make_contact(city_owner(pcity), pplayer, pcity->x, pcity->y);
-    } players_iterate_end;
-  }
+  players_iterate(pplayer) {
+    if (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0) {
+      players_iterate(pother) {
+	/* Note this gives pplayer contact with pother, but doesn't give
+	 * pother contact with pplayer.  This may cause problems in other
+	 * parts of the code if we're not careful. */
+	make_contact(pplayer, pother, -1, -1);
+      } players_iterate_end;
+    }
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -576,7 +578,7 @@ static void end_phase(void)
 
   /* Refresh cities */
   shuffled_players_iterate(pplayer) {
-    great_library(pplayer);
+    do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
     pplayer->research.changed_from=-1;
@@ -593,8 +595,8 @@ static void end_phase(void)
   } players_iterate_end;
   flush_packets();  /* to curb major city spam */
 
-  do_apollo_program();
-  marco_polo_make_contact();
+  do_reveal_effects();
+  do_have_embassies_effect();
 
   freelog(LOG_DEBUG, "Auto-Attack phase");
   auto_attack();
@@ -1715,6 +1717,7 @@ main_start_players:
    */
   server_state = RUN_GAME_STATE;
   players_iterate(pplayer) {
+    ai_data_analyze_rulesets(pplayer);
     if (pplayer->is_observer) {
       pplayer->nation = OBSERVER_NATION;
     } else if (pplayer->nation == NO_NATION_SELECTED && !pplayer->ai.control) {
@@ -1872,5 +1875,6 @@ void server_game_free()
   diplhand_free();
   game_free();
   stdinhand_free();
+  ruleset_cache_free();
   BV_CLR_ALL(srvarg.draw);
 }

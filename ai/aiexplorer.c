@@ -110,7 +110,7 @@ static bool is_likely_trireme_loss(struct player *pplayer, int x, int y)
    */
   if ((likely_ocean(x, y, pplayer) < 50) || 
       is_likely_coastline(x, y, pplayer) ||
-      (player_owns_active_wonder(pplayer, B_LIGHTHOUSE))) {
+      get_player_bonus(pplayer, EFT_NO_SINK_DEEP) > 0) {
     return FALSE;
   } else {
     return TRUE;

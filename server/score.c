@@ -408,6 +408,8 @@ int civ_score(struct player *pplayer)
   }
 
   city_list_iterate(pplayer->cities, pcity) {
+    int bonus;
+
     pplayer->score.happy += pcity->ppl_happy[4];
     pplayer->score.content += pcity->ppl_content[4];
     pplayer->score.unhappy += pcity->ppl_unhappy[4];
@@ -421,11 +423,9 @@ int civ_score(struct player *pplayer)
     pplayer->score.techout += pcity->science_total;
     pplayer->score.bnp += pcity->trade_prod;
     pplayer->score.mfg += pcity->shield_surplus;
-    if (city_got_building(pcity, B_UNIVERSITY)) {
-      pplayer->score.literacy += city_population(pcity);
-    } else if (city_got_building(pcity,B_LIBRARY)) {
-      pplayer->score.literacy += city_population(pcity) / 2;
-    }
+
+    bonus = CLIP(0, get_city_bonus(pcity, EFT_SCIENCE_BONUS), 100);
+    pplayer->score.literacy += (city_population(pcity) * bonus) / 100;
   } city_list_iterate_end;
 
   if (pplayer->player_no == 0) {

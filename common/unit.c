@@ -28,6 +28,7 @@
 #include "support.h"
 #include "tech.h"
 
+#include "city.h"
 #include "unit.h"
 
 /***************************************************************
@@ -53,15 +54,9 @@ int unit_move_rate(struct unit *punit)
   case SEA_MOVING:
     move_rate = (base_move_rate * punit->hp) / unit_type(punit)->hp;
 
-    if (player_owns_active_wonder(unit_owner(punit), B_LIGHTHOUSE)) {
-      move_rate += SINGLE_MOVE;
-    }
- 
-    if (player_owns_active_wonder(unit_owner(punit), B_MAGELLAN)) {
-      move_rate += (improvement_variant(B_MAGELLAN) == 1) 
-                     ? SINGLE_MOVE : 2 * SINGLE_MOVE;
-    }
- 
+    move_rate += (get_player_bonus(unit_owner(punit), EFT_SEA_MOVE)
+		  * SINGLE_MOVE);
+
     if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
       move_rate += SINGLE_MOVE;
     }
@@ -497,14 +492,8 @@ enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
     return AB_TOO_BIG;
   if (pcity->owner != punit->owner)
     return AB_NOT_OWNER;
-  if (improvement_exists(B_AQUEDUCT)
-      && !city_got_building(pcity, B_AQUEDUCT)
-      && new_pop > game.aqueduct_size)
-    return AB_NO_AQUEDUCT;
-  if (improvement_exists(B_SEWER)
-      && !city_got_building(pcity, B_SEWER)
-      && new_pop > game.sewer_size)
-    return AB_NO_SEWER;
+  if (!city_can_grow_to(pcity, new_pop))
+    return AB_NO_SPACE;
   return AB_ADD_OK;
 }
 
@@ -1643,7 +1632,7 @@ int unit_loss_pct(struct player *pplayer, int x, int y,
 **************************************************************************/
 int base_trireme_loss_pct(struct player *pplayer, struct unit *punit)
 {
-  if (player_owns_active_wonder(pplayer, B_LIGHTHOUSE)) {
+  if (get_player_bonus(pplayer, EFT_NO_SINK_DEEP) > 0) {
     return 0;
   } else if (player_knows_techs_with_flag(pplayer, TF_REDUCE_TRIREME_LOSS2)) {
     return game.trireme_loss_chance[punit->veteran] / 4;

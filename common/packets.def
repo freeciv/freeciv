@@ -157,7 +157,6 @@ type STRING		= string(char)
 type BIT_STRING		= bit_string(char)
 type WORKLIST		= worklist(struct worklist)
 type TECH_LIST		= tech_list(int)
-type EFFECT		= effect(struct impr_effect)
 
 # typedefs for enums
 type CLAUSE		= uint8(enum clause_type)
@@ -177,6 +176,11 @@ type IMPR_RANGE		= uint8(enum impr_range)
 type DIRECTION		= uint8(enum direction8)
 type ORDERS		= uint8(enum unit_orders)
 type SSET_TYPE		= uint8(enum sset_type)
+
+# typedefs for effects
+type EFFECT_TYPE	= uint8(enum effect_type)
+type EFFECT_RANGE	= uint8(enum effect_range)
+type EFFECT_REQ_TYPE	= uint8(enum effect_req_type)
 
 # typedefs for IDs
 type PLAYER 		= UINT8
@@ -1140,7 +1144,7 @@ PACKET_RULESET_BUILDING=104;sc,lsend
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
   TECH tech_req, obsolete_by;
-  IMPROVEMENT bldg_req;
+  IMPROVEMENT bldg_req, replaced_by;
   BOOL is_wonder;
   IMPR_RANGE equiv_range;
   UINT16 build_cost;
@@ -1157,8 +1161,6 @@ PACKET_RULESET_BUILDING=104;sc,lsend
   IMPROVEMENT equiv_dupl[255:equiv_dupl_count];
   UINT8 equiv_repl_count;
   IMPROVEMENT equiv_repl[255:equiv_repl_count];
-  UINT8 effect_count;
-  EFFECT effect[255:effect_count];  
 end
 
 PACKET_RULESET_TERRAIN=105;sc,lsend
@@ -1223,7 +1225,6 @@ end
 *********************************************************/
 PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 aqueduct_size;
-  UINT8 sewer_size;
   UINT8 add_to_size_limit;
   UINT8 notradesize, fulltradesize;
   UINT8 num_unit_types;
@@ -1246,6 +1247,8 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   BOOL slow_invasions;
 
   STRING team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
+
+  IMPROVEMENT default_building;
 end
 
 
@@ -1295,3 +1298,26 @@ PACKET_OPTIONS_SETTABLE=113;sc
 
   UINT8 category;				/* which category this is in */
 end
+
+/************** Effects hash packets **********************/
+
+PACKET_RULESET_CACHE_GROUP=120;sc,lsend
+  STRING name[MAX_LEN_NAME];
+
+  UINT8 num_elements;
+  IMPROVEMENT source_buildings[255:num_elements];
+  EFFECT_RANGE ranges[255:num_elements];
+  BOOL survives[255:num_elements];
+end
+
+PACKET_RULESET_CACHE_EFFECT=121;sc,lsend
+  IMPROVEMENT id;
+  EFFECT_TYPE effect_type;
+  EFFECT_RANGE range;
+  BOOL survives;
+  SINT32 eff_value;
+  EFFECT_REQ_TYPE req_type;
+  SINT32 req_value;
+  SINT32 group_id;
+end
+

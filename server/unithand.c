@@ -443,17 +443,11 @@ static void city_add_or_build_error(struct player *pplayer,
 		     _("Game: %s is too big to add %s."),
 		     pcity->name, unit_name);
     break;
-  case AB_NO_AQUEDUCT:
+  case AB_NO_SPACE:
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: %s needs %s to grow, so you cannot add %s."),
-		     pcity->name, get_improvement_name(B_AQUEDUCT),
-		     unit_name);
-    break;
-  case AB_NO_SEWER:
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: %s needs %s to grow, so you cannot add %s."),
-		     pcity->name, get_improvement_name(B_SEWER),
-		     unit_name);
+		     _("Game: %s needs an improvement to grow, so "
+		       "you cannot add %s."),
+		     pcity->name, unit_name);
     break;
   default:
     /* Shouldn't happen */
@@ -712,7 +706,7 @@ static bool unit_bombard(struct unit *punit, int x, int y)
   
   if (pcity
       && pcity->size > 1
-      && !city_got_citywalls(pcity)
+      && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) == 0
       && kills_citizen_after_attack(punit)) {
     city_reduce_size(pcity,1);
     city_refresh(pcity);
@@ -808,11 +802,11 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     pdefender->moves_left = 0;
   }
 
-  if (punit->hp &&
-      (pcity=map_get_city(def_x, def_y)) &&
-      pcity->size>1 &&
-      !city_got_citywalls(pcity) &&
-      kills_citizen_after_attack(punit)) {
+  if (punit->hp > 0
+      && (pcity = map_get_city(def_x, def_y))
+      && pcity->size > 1
+      && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) == 0
+      && kills_citizen_after_attack(punit)) {
     city_reduce_size(pcity,1);
     city_refresh(pcity);
     send_city_info(NULL, pcity);

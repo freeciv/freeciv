@@ -301,9 +301,9 @@ static bool unit_ignores_citywalls(struct unit *punit)
 **************************************************************************/
 bool unit_really_ignores_citywalls(struct unit *punit)
 {
-  return unit_ignores_citywalls(punit)
-    || is_air_unit(punit)
-    || (is_sailing_unit(punit) && !(improvement_variant(B_CITY)==1));
+  return (unit_ignores_citywalls(punit)
+	  || is_air_unit(punit)
+	  || is_sailing_unit(punit));
 }
 
 /**************************************************************************
@@ -322,7 +322,9 @@ struct city *sdi_defense_close(struct player *owner, int x, int y)
   square_iterate(x, y, 2, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
     if (pcity && (!pplayers_allied(city_owner(pcity), owner))
-	&& city_got_building(pcity, B_SDI)) return pcity;
+	&& get_city_bonus(pcity, EFT_NUKE_PROOF) > 0) {
+      return pcity;
+    }
   } square_iterate_end;
 
   return NULL;
@@ -406,6 +408,7 @@ static int defence_multiplication(Unit_Type_id att_type,
 				  int defensepower, bool fortified)
 {
   struct city *pcity = map_get_city(x, y);
+  int mod;
 
   if (unit_type_exists(att_type)) {
     if (unit_type_flag(def_type, F_PIKEMEN)
@@ -419,24 +422,23 @@ static int defence_multiplication(Unit_Type_id att_type,
     }
          
     if (is_air_unittype(att_type) && pcity) {
-      if (city_got_building(pcity, B_SAM)) {
-	defensepower *= 2;
+      if ((mod = get_city_bonus(pcity, EFT_AIR_DEFEND)) > 0) {
+	defensepower = defensepower * (100 + mod) / 100;
       }
-      if (city_got_building(pcity, B_SDI)
+      if ((mod = get_city_bonus(pcity, EFT_MISSILE_DEFEND)) > 0
 	  && unit_type_flag(att_type, F_MISSILE)) {
-	defensepower *= 2;
+	defensepower = defensepower * (100 + mod) / 100;
       }
     } else if (is_water_unit(att_type) && pcity) {
-      if (city_got_building(pcity, B_COASTAL)) {
-	defensepower *= 2;
+      if ((mod = get_city_bonus(pcity, EFT_SEA_DEFEND)) > 0) {
+	defensepower = defensepower * (100 + mod) / 100;
       }
     }
     if (!unit_type_flag(att_type, F_IGWALL)
-	&& (is_ground_unittype(att_type) || is_heli_unittype(att_type)
-	    || (improvement_variant(B_CITY) == 1
-		&& is_water_unit(att_type))) && pcity
-	&& city_got_citywalls(pcity)) {
-      defensepower *= 3;
+	&& (is_ground_unittype(att_type) || is_heli_unittype(att_type))
+        && pcity
+        && (mod = get_city_bonus(pcity, EFT_LAND_DEFEND)) > 0) {
+      defensepower = defensepower * (100 + mod) / 100;
     }
 
     if (unit_type_flag(att_type, F_FIGHTER) && is_heli_unittype(def_type)) {

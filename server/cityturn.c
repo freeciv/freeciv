@@ -67,11 +67,10 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 static bool city_build_building(struct player *pplayer, struct city *pcity);
 static bool city_build_unit(struct player *pplayer, struct city *pcity);
 static bool city_build_stuff(struct player *pplayer, struct city *pcity);
-static int improvement_upgrades_to(struct city *pcity, int imp);
+static Impr_Type_id building_upgrades_to(struct city *pcity, Impr_Type_id b);
 static void upgrade_building_prod(struct city *pcity);
 static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id);
 static void upgrade_unit_prod(struct city *pcity);
-static void obsolete_building_test(struct city *pcity, int b1, int b2);
 static void pay_for_buildings(struct player *pplayer, struct city *pcity);
 
 static bool disband_city(struct city *pcity);
@@ -307,10 +306,10 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
     turns_growth = (city_granary_size(pcity->size) - pcity->food_stock - 1)
 		   / pcity->food_surplus;
 
-    if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit
-	&& pcity->currently_building == B_GRANARY
+    if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
+	&& get_current_construction_bonus(pcity, EFT_GROWTH_FOOD) > 0
 	&& pcity->shield_surplus > 0) {
-      turns_granary = (impr_build_shield_cost(B_GRANARY)
+      turns_granary = (impr_build_shield_cost(pcity->currently_building)
 		       - pcity->shield_stock) / pcity->shield_surplus;
       /* if growth and granary completion occur simultaneously, granary
 	 preserves food.  -AJS */
@@ -320,7 +319,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 			 E_CITY_GRAN_THROTTLE,
 			 _("Game: Suggest throttling growth in %s to use %s "
 			   "(being built) more effectively."), pcity->name,
-			 improvement_types[B_GRANARY].name);
+			 improvement_types[pcity->currently_building].name);
       }
     }
 
@@ -425,50 +424,42 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
 }
 
 /**************************************************************************
+  Return the percentage of food that is lost in this city.
+
+  Normally this value is 0% but this can be increased by EFT_GROWTH_FOOD
+  effects.
+**************************************************************************/
+static int granary_savings(const struct city *pcity)
+{
+  int savings = get_city_bonus(pcity, EFT_GROWTH_FOOD);
+
+  return CLIP(0, savings, 100);
+}
+
+/**************************************************************************
 Note: We do not send info about the city to the clients as part of this function
 **************************************************************************/
 static void city_increase_size(struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
   bool have_square;
-  bool has_granary = city_got_effect(pcity, B_GRANARY);
+  int savings_pct = granary_savings(pcity), new_food;
   bool rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
-  int new_food;
 
-  if (!city_got_building(pcity, B_AQUEDUCT)
-      && pcity->size>=game.aqueduct_size) {/* need aqueduct */
-    if (!pcity->is_building_unit && pcity->currently_building == B_AQUEDUCT) {
+  if (!city_can_grow_to(pcity, pcity->size + 1)) { /* need improvement */
+    if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ) > 0) {
       notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQ_BUILDING,
 		       _("Game: %s needs %s (being built) "
 			 "to grow any further."), pcity->name,
-		       improvement_types[B_AQUEDUCT].name);
+		       improvement_types[pcity->currently_building].name);
     } else {
       notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQUEDUCT,
-		       _("Game: %s needs %s to grow any further."),
-		       pcity->name, improvement_types[B_AQUEDUCT].name);
+		       _("Game: %s needs an improvement to grow any further."),
+		       pcity->name);
     }
     /* Granary can only hold so much */
-    new_food = (city_granary_size(pcity->size) *
-		(100 - game.aqueductloss / (1 + (has_granary ? 1 : 0)))) / 100;
-    pcity->food_stock = MIN(pcity->food_stock, new_food);
-    return;
-  }
-
-  if (!city_got_building(pcity, B_SEWER)
-      && pcity->size>=game.sewer_size) {/* need sewer */
-    if (!pcity->is_building_unit && pcity->currently_building == B_SEWER) {
-      notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQ_BUILDING,
-		       _("Game: %s needs %s (being built) "
-			 "to grow any further."), pcity->name,
-		       improvement_types[B_SEWER].name);
-    } else {
-      notify_player_ex(powner, pcity->x, pcity->y, E_CITY_AQUEDUCT,
-		       _("Game: %s needs %s to grow any further."),
-		       pcity->name, improvement_types[B_SEWER].name);
-    }
-    /* Granary can only hold so much */
-    new_food = (city_granary_size(pcity->size) *
-		(100 - game.aqueductloss / (1 + (has_granary ? 1 : 0)))) / 100;
+    new_food = (city_granary_size(pcity->size) * (100 - game.aqueductloss)
+		* savings_pct) / (100 * 100);
     pcity->food_stock = MIN(pcity->food_stock, new_food);
     return;
   }
@@ -478,10 +469,7 @@ static void city_increase_size(struct city *pcity)
   if (rapture_grow) {
     new_food = city_granary_size(pcity->size);
   } else {
-    if (has_granary)
-      new_food = city_granary_size(pcity->size) / 2;
-    else
-      new_food = 0;
+    new_food = city_granary_size(pcity->size) * savings_pct / 100;
   }
   pcity->food_stock = MIN(pcity->food_stock, new_food);
 
@@ -547,20 +535,16 @@ static void city_populate(struct city *pcity)
 			 pcity->name, utname);
 	gamelog(GAMELOG_UNITFS, _("%s lose %s (famine)"),
 		get_nation_name_plural(city_owner(pcity)->nation), utname);
-	if (city_got_effect(pcity, B_GRANARY))
-	  pcity->food_stock=city_granary_size(pcity->size)/2;
-	else
-	  pcity->food_stock=0;
+	pcity->food_stock = (city_granary_size(pcity->size)
+			     * granary_savings(pcity)) / 100;
 	return;
       }
     } unit_list_iterate_safe_end;
     notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
 		     _("Game: Famine causes population loss in %s."),
 		     pcity->name);
-    if (city_got_effect(pcity, B_GRANARY))
-      pcity->food_stock = city_granary_size(pcity->size - 1) / 2;
-    else
-      pcity->food_stock = 0;
+    pcity->food_stock = (city_granary_size(pcity->size - 1)
+			 * granary_savings(pcity)) / 100;
     city_reduce_size(pcity, 1);
   }
 }
@@ -570,31 +554,12 @@ static void city_populate(struct city *pcity)
 **************************************************************************/
 void advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
-  struct ai_choice choice;
   Impr_Type_id id = -1;
-  int want=0;
-
-  init_choice(&choice);
-  if (!city_owner(pcity)->ai.control) {
-    /* so that ai_advisor is smart even for humans */
-    ai_eval_buildings(pcity);
-  }
-  ai_advisor_choose_building(pcity, &choice); /* much smarter version -- Syela */
-  freelog(LOG_DEBUG, "Advisor_choose_build got %d/%d"
-	  " from ai_advisor_choose_building.",
-	  choice.choice, choice.want);
-  id = choice.choice;
-  want = choice.want;
-
-  if (id >= 0 && id < B_LAST && want > 0) {
-    change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
-    /* making something. */
-    return;
-  }
 
   /* Build something random, undecided. */
   impr_type_iterate(i) {
-    if (can_build_improvement(pcity, i) && i != B_PALACE) {
+    if (can_build_improvement(pcity, i)
+	&& !building_has_effect(i, EFT_CAPITAL_CITY)) {
       id = i;
       break;
     }
@@ -675,7 +640,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	target = new_target;
       }
     } else if (!is_unit && !can_build_improvement(pcity, target)) {
-      Impr_Type_id new_target = improvement_upgrades_to(pcity, target);
+      Impr_Type_id new_target = building_upgrades_to(pcity, target);
 
       /* If the city can never build this improvement, drop it. */
       if (!can_eventually_build_improvement(pcity, new_target)) {
@@ -758,45 +723,46 @@ static bool worklist_change_build_target(struct player *pplayer,
 }
 
 /**************************************************************************
-...
+  Follow the list of replaced_by buildings until we hit something that
+  we can build.  Returns -1 if we can't upgrade at all (including if the
+  original building is unbuildable).
 **************************************************************************/
-static void obsolete_building_test(struct city *pcity, int b1, int b2)
+static Impr_Type_id building_upgrades_to(struct city *pcity, Impr_Type_id id)
 {
-  if (pcity->currently_building == b1
-      && !pcity->is_building_unit
-      && can_build_improvement(pcity, b2)) {
-    pcity->currently_building = b2;
+  Impr_Type_id check = id, latest_ok = id;
+
+  if (!can_build_improvement_direct(pcity, check)) {
+    return -1;
   }
+  while (improvement_exists(check = improvement_types[check].replaced_by)) {
+    if (can_build_improvement_direct(pcity, check)) {
+      latest_ok = check;
+    }
+  }
+  if (latest_ok == id) {
+    return -1; /* Can't upgrade */
+  }
+
+  return latest_ok;
 }
 
 /**************************************************************************
-  If imp is obsolete, return the improvement that _can_ be built that
-  lead to imp's obsolesence.
-  !!! Note:  I hear that the building ruleset code is going to be
-  overhauled soon.  If this happens, then this function should be updated
-  to follow the new model.  This function will probably look a lot like
-  unit_upgrades_to().
-**************************************************************************/
-static int improvement_upgrades_to(struct city *pcity, int imp)
-{
-  if (imp == B_BARRACKS && can_build_improvement(pcity, B_BARRACKS3))
-    return B_BARRACKS3;
-  else if (imp == B_BARRACKS && can_build_improvement(pcity, B_BARRACKS2))
-    return B_BARRACKS2;
-  else if (imp == B_BARRACKS2 && can_build_improvement(pcity, B_BARRACKS3))
-    return B_BARRACKS3;
-  else
-    return imp;
-}
-
-/**************************************************************************
-...
+  Try to upgrade production in pcity.
 **************************************************************************/
 static void upgrade_building_prod(struct city *pcity)
 {
-  obsolete_building_test(pcity, B_BARRACKS,B_BARRACKS3);
-  obsolete_building_test(pcity, B_BARRACKS,B_BARRACKS2);
-  obsolete_building_test(pcity, B_BARRACKS2,B_BARRACKS3);
+  struct player *pplayer = city_owner(pcity);
+  Impr_Type_id upgrades_to = building_upgrades_to(pcity,
+						  pcity->currently_building);
+
+  if (can_build_improvement(pcity, upgrades_to)) {
+    pcity->currently_building = upgrades_to;
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_UPGRADED, 
+		  _("Game: Production of %s is upgraded to %s in %s."),
+		  get_improvement_type(pcity->currently_building)->name, 
+		  get_improvement_type(upgrades_to)->name , 
+		  pcity->name);
+  }
 }
 
 /**************************************************************************
@@ -903,6 +869,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 static bool city_build_building(struct player *pplayer, struct city *pcity)
 {
   bool space_part;
+  int mod;
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     assert(pcity->shield_surplus >= 0);
@@ -924,10 +891,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   }
   if (pcity->shield_stock
       >= impr_build_shield_cost(pcity->currently_building)) {
-    if (pcity->currently_building == B_PALACE) {
+    if (pcity->currently_building == game.palace_building) {
       city_list_iterate(pplayer->cities, palace) {
-	if (city_got_building(palace, B_PALACE)) {
-	  city_remove_improvement(palace, B_PALACE);
+	if (city_got_building(palace, game.palace_building)) {
+	  city_remove_improvement(palace, game.palace_building);
 	  break;
 	}
       } city_list_iterate_end;
@@ -971,38 +938,31 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		     _("Game: %s has finished building %s."), pcity->name,
 		     improvement_types[pcity->currently_building].name);
 
-    if (pcity->currently_building == B_DARWIN) {
-      Tech_Type_id first, second;
-      char buffer[200];
+
+    if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH))) {
+      int i;
 
       notify_player(pplayer, _("Game: %s boosts research, "
-			       "you gain 2 immediate advances."),
-		    improvement_types[B_DARWIN].name);
+			       "you gain %d immediate advances."),
+		    improvement_types[pcity->currently_building].name, mod);
 
-      if (pplayer->research.researching == A_UNSET) {
-        choose_random_tech(pplayer);
+      for (i = 0; i < mod; i++) {
+	Tech_Type_id tech = pplayer->research.researching;
+
+	if (tech == A_UNSET) {
+	  choose_random_tech(pplayer);
+	  tech = pplayer->research.researching;
+	}
+	do_free_cost(pplayer);
+	found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE, 
+		       A_NONE);
+
+	notify_embassies(pplayer, NULL,
+	    _("Game: The %s have acquired %s from %s."),
+	    get_nation_name_plural(pplayer->nation),
+	    get_tech_name(pplayer, tech),
+	    improvement_types[pcity->currently_building].name);
       }
-      do_free_cost(pplayer);
-      first = pplayer->research.researching;
-      found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE, 
-                     A_NONE);
-
-      if (pplayer->research.researching == A_UNSET) {
-        choose_random_tech(pplayer);
-      }
-      do_free_cost(pplayer);
-      second = pplayer->research.researching;
-      found_new_tech(pplayer, pplayer->research.researching, TRUE, TRUE,
-                     A_NONE);
-
-      (void) mystrlcpy(buffer, get_tech_name(pplayer, first),
-		       sizeof(buffer));
-
-      notify_embassies(pplayer, NULL,
-		       _("Game: The %s have acquired %s and %s from %s."),
-		       get_nation_name_plural(pplayer->nation), buffer,
-		       get_tech_name(pplayer, second),
-		       improvement_types[B_DARWIN].name);
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
       notify_player_ex(NULL, pcity->x, pcity->y, E_SPACESHIP,
@@ -1200,7 +1160,10 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   struct city *capital;
   int dist, size, cost;
 
-  if (city_got_building(pcity, B_PALACE)) {
+  if (government_has_flag(get_gov_pcity(pcity), G_UNBRIBABLE)) {
+    return INCITE_IMPOSSIBLE_COST;
+  }
+  if (get_city_bonus(pcity, EFT_NO_INCITE) > 0) {
     return INCITE_IMPOSSIBLE_COST;
   }
 
@@ -1250,9 +1213,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
     /* No capital? Take max penalty! */
     dist = 32;
   }
-  if (city_got_building(pcity, B_COURTHOUSE)) {
-    dist /= 4;
-  }
+  dist -= (dist * get_city_bonus(pcity, EFT_INCITE_DIST_PCT)) / 100;
   if (g->fixed_corruption_distance != 0) {
     dist = MIN(g->fixed_corruption_distance, dist);
   }
@@ -1358,10 +1319,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
 
     pcity->did_sell=FALSE;
     pcity->did_buy = FALSE;
-    if (city_got_building(pcity, B_AIRPORT))
-      pcity->airlift=TRUE;
-    else
-      pcity->airlift=FALSE;
+    pcity->airlift = (get_city_bonus(pcity, EFT_AIRLIFT) > 0);
     update_tech(pplayer, pcity->science_total);
     pplayer->economic.gold+=pcity->tax_total;
     pay_for_units(pplayer, pcity);

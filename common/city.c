@@ -263,54 +263,6 @@ bool is_worker_here(const struct city *pcity, int city_x, int city_y)
 }
 
 /**************************************************************************
-  Returns TRUE if a building is replaced.  To be replaced, all its effects
-  must be redundant.
-**************************************************************************/
-bool building_replaced(const struct city *pcity, Impr_Type_id id)
-{
-  if(is_wonder(id)) return FALSE;
-  switch (id) {
-  case B_BARRACKS:
-  case B_BARRACKS2:
-  case B_BARRACKS3:
-    if (city_affected_by_wonder(pcity, B_SUNTZU))
-      return TRUE;
-    break;
-  case B_GRANARY:
-    if (improvement_variant(B_PYRAMIDS)==0
-	&& city_affected_by_wonder(pcity, B_PYRAMIDS))
-      return TRUE;
-    break;
-  case B_CATHEDRAL:
-    if (improvement_variant(B_MICHELANGELO)==0
-	&& city_affected_by_wonder(pcity, B_MICHELANGELO))
-      return TRUE;
-    break;
-  case B_CITY:  
-    if (city_affected_by_wonder(pcity, B_WALL))
-      return TRUE;
-    break;
-  case B_HYDRO:
-  case B_POWER:
-  case B_NUCLEAR:
-    if (city_affected_by_wonder(pcity, B_HOOVER))
-      return TRUE;
-    break;
-  case B_POLICE:
-    if (city_affected_by_wonder(pcity, B_WOMENS))
-      return TRUE;
-    break;
-  case B_RESEARCH:
-    if (city_affected_by_wonder(pcity, B_SETI))
-      return TRUE;
-    break;
-  default:
-    break;
-  }
-  return FALSE;
-}
-
-/**************************************************************************
   Return the extended name of the building.
 **************************************************************************/
 const char *get_impr_name_ex(const struct city *pcity, Impr_Type_id id)
@@ -399,13 +351,12 @@ bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id)
 }
 
 /**************************************************************************
- Will this city ever be able to build this improvement?
- Doesn't check for building prereqs
+  Return whether given city can build given building, ignoring whether
+  it is obsolete.
 **************************************************************************/
-bool can_eventually_build_improvement(const struct city *pcity, Impr_Type_id id)
+bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id)
 {
-  /* also does an improvement_exists() */
-  if (!could_player_eventually_build_improvement(city_owner(pcity),id)) {
+  if (!can_player_build_improvement_direct(city_owner(pcity), id)) {
     return FALSE;
   }
 
@@ -413,7 +364,7 @@ bool can_eventually_build_improvement(const struct city *pcity, Impr_Type_id id)
     return FALSE;
   }
 
-  if (!city_has_terr_spec_gate(pcity,id)) {
+  if (!city_has_terr_spec_gate(pcity, id)) {
     return FALSE;
   }
 
@@ -421,29 +372,34 @@ bool can_eventually_build_improvement(const struct city *pcity, Impr_Type_id id)
 }
 
 /**************************************************************************
-  Can this improvement get built in this city by the player who owns it?
+  Return whether given city can build given building; returns FALSE if
+  the building is obsolete.
 **************************************************************************/
 bool can_build_improvement(const struct city *pcity, Impr_Type_id id)
+{  
+  if (!can_build_improvement_direct(pcity, id)) {
+    return FALSE;
+  }
+  if (improvement_obsolete(city_owner(pcity), id)) {
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**************************************************************************
+  Return whether player can eventually build given building in the city;
+  returns FALSE if improvement can never possibly be built in this city.
+**************************************************************************/
+bool can_eventually_build_improvement(const struct city *pcity,
+				      Impr_Type_id id)
 {
-  struct player *p = city_owner(pcity);
-  struct impr_type *impr = get_improvement_type(id);
-
-  if (!improvement_exists(id)) {
-    return FALSE;
-  }
-  if (!player_knows_improvement_tech(p, id)) {
+  /* Can the _player_ ever build this improvement? */
+  if (!can_player_eventually_build_improvement(city_owner(pcity), id)) {
     return FALSE;
   }
 
-  if (!can_eventually_build_improvement(pcity, id)) {
+  if (!city_has_terr_spec_gate(pcity, id)) {
     return FALSE;
-  }
-
-  /* The building pre req */
-  if (impr->bldg_req != B_LAST) {
-    if (!city_got_building(pcity, impr->bldg_req)) {
-      return FALSE;
-    }
   }
 
   return TRUE;
@@ -552,11 +508,11 @@ int improvement_upkeep(const struct city *pcity, Impr_Type_id i)
     return 0;
   if (is_wonder(i))
     return 0;
-  if (improvement_types[i].upkeep == 1 &&
-      city_affected_by_wonder(pcity, B_ASMITHS)) 
+  if (improvement_types[i].upkeep
+      <= get_city_bonus(pcity, EFT_UPKEEP_FREE)) {
     return 0;
-  if (government_has_flag(get_gov_pcity(pcity), G_CONVERT_TITHES_TO_MONEY)
-      && (i == B_TEMPLE || i == B_COLOSSEUM || i == B_CATHEDRAL)) {
+  }
+  if (get_building_bonus(pcity, i, EFT_NO_UPKEEP) > 0) {
     return 0;
   }
   
@@ -574,6 +530,7 @@ static int base_get_shields_tile(int map_x, int map_y,
 {
   enum tile_special_type spec_t = map_get_special(map_x, map_y);
   Terrain_type_id tile_t = map_get_terrain(map_x, map_y);
+  struct tile *ptile = map_get_tile(map_x, map_y);
   int s;
 
   if (contains_special(spec_t, S_SPECIAL_1)) {
@@ -597,17 +554,16 @@ static int base_get_shields_tile(int map_x, int map_y,
     int before_penalty = (is_celebrating ? g->celeb_shields_before_penalty
 			  : g->shields_before_penalty);
 
-    if (city_affected_by_wonder(pcity, B_RICHARDS)) {
-      s++;
-    }
-    if (is_ocean(tile_t) && city_got_building(pcity, B_OFFSHORE)) {
-      s++;
-    }
+    s += get_city_tile_bonus(pcity, ptile, EFT_PROD_ADD_TILE);
 
-    /* government shield bonus & penalty */
+    /* Government & effect shield bonus/penalty. */
     if (s > 0) {
       s += (is_celebrating ? g->celeb_shield_bonus : g->shield_bonus);
+      s += get_city_tile_bonus(pcity, ptile, EFT_PROD_INC_TILE);
     }
+
+    s += (s * get_city_tile_bonus(pcity, ptile, EFT_PROD_PER_TILE)) / 100;
+
     if (before_penalty > 0 && s > before_penalty) {
       s--;
     }
@@ -679,6 +635,7 @@ static int base_get_trade_tile(int map_x, int map_y, const struct city *pcity,
 {
   enum tile_special_type spec_t = map_get_special(map_x, map_y);
   Terrain_type_id tile_t = map_get_terrain(map_x, map_y);
+  struct tile *ptile = map_get_tile(map_x, map_y);
   int t;
 
   if (contains_special(spec_t, S_SPECIAL_1)) {
@@ -692,48 +649,44 @@ static int base_get_trade_tile(int map_x, int map_y, const struct city *pcity,
   if (contains_special(spec_t, S_RIVER) && !is_ocean(tile_t)) {
     t += terrain_control.river_trade_incr;
   }
+
   if (contains_special(spec_t, S_ROAD)) {
     t += get_tile_type(tile_t)->road_trade_incr;
   }
-  if (t > 0) {
-    if (contains_special(spec_t, S_RAILROAD)) {
-      t += (t * terrain_control.rail_trade_bonus) / 100;
+
+  if (contains_special(spec_t, S_RAILROAD)) {
+    t += (t * terrain_control.rail_trade_bonus) / 100;
+  }
+
+  /* Civ1 specifically documents that Railroad trade increase is before 
+   * Democracy/Republic [government in general now -- SKi] bonus  -AJS */
+  if (pcity) {
+    struct government *g = get_gov_pcity(pcity);
+    int before_penalty = (is_celebrating ? g->celeb_trade_before_penalty
+			  : g->trade_before_penalty);
+
+    t += get_city_tile_bonus(pcity, ptile, EFT_TRADE_ADD_TILE);
+
+    if (t > 0) {
+      t += (is_celebrating ? g->celeb_trade_bonus : g->trade_bonus);
+      t += get_city_bonus(pcity, EFT_TRADE_INC_TILE);
     }
 
-    /* Civ1 specifically documents that Railroad trade increase is before 
-     * Democracy/Republic [government in general now -- SKi] bonus  -AJS */
-    if (pcity) {
-      struct government *g = get_gov_pcity(pcity);
-      int before_penalty = (is_celebrating ? g->celeb_trade_before_penalty
-			    : g->trade_before_penalty);
+    t += (t * get_city_tile_bonus(pcity, ptile, EFT_TRADE_PER_TILE)) / 100;
 
-      if (t > 0) {
-	t += (is_celebrating ? g->celeb_trade_bonus : g->trade_bonus);
-      }
-
-      if (city_affected_by_wonder(pcity, B_COLLOSSUS)) {
-	t++;
-      }
-
-      if (contains_special(spec_t, S_ROAD)
-	  && city_got_building(pcity, B_SUPERHIGHWAYS)) {
-	t += (t * terrain_control.road_superhighway_trade_bonus) / 100;
-      }
-
-      /* government trade penalty -- SKi */
-      if (before_penalty > 0 && t > before_penalty) {
-	t--;
-      }
+    /* government trade penalty -- SKi */
+    if (before_penalty > 0 && t > before_penalty) {
+      t--;
     }
+  }
 
-    if (contains_special(spec_t, S_POLLUTION)) {
-      /* The trade here is dirty */
-      t -= (t * terrain_control.pollution_trade_penalty) / 100;
-    }
+  if (contains_special(spec_t, S_POLLUTION)) {
+    /* The trade here is dirty */
+    t -= (t * terrain_control.pollution_trade_penalty) / 100;
+  }
 
-    if (contains_special(spec_t, S_FALLOUT)) {
-      t -= (t * terrain_control.fallout_trade_penalty) / 100;
-    }
+  if (contains_special(spec_t, S_FALLOUT)) {
+    t -= (t * terrain_control.fallout_trade_penalty) / 100;
   }
 
   if (pcity && is_city_center(city_x, city_y)) {
@@ -793,36 +746,38 @@ static int base_get_food_tile(int map_x, int map_y, const struct city *pcity,
   const enum tile_special_type spec_t = map_get_special(map_x, map_y);
   const Terrain_type_id tile_t = map_get_terrain(map_x, map_y);
   struct tile_type *type = get_tile_type(tile_t);
+  struct tile tile;
   int f;
   const bool auto_water = (pcity && is_city_center(city_x, city_y)
 			   && tile_t == type->irrigation_result
 			   && terrain_control.may_irrigate);
 
-  if (contains_special(spec_t, S_SPECIAL_1)) {
-    f = get_tile_type(tile_t)->food_special_1;
-  } else if (contains_special(spec_t, S_SPECIAL_2)) {
-    f = get_tile_type(tile_t)->food_special_2;
-  } else {
-    f = get_tile_type(tile_t)->food;
-  }
+  /* create dummy tile which has the city center bonuses. */
+  tile.terrain = tile_t;
+  tile.special = spec_t;
 
-  if (contains_special(spec_t, S_IRRIGATION) || auto_water) {
+  if (auto_water) {
     /* The center tile is auto-irrigated. */
-    f += type->irrigation_food_incr;
+    tile.special |= S_IRRIGATION;
 
-    /* Farmland only affects cities with supermarkets.  The center tile is
-     * auto-irrigated. */
-    if (pcity
-	&& (contains_special(spec_t, S_FARMLAND)
-	    || (auto_water
-		&& player_knows_techs_with_flag(city_owner(pcity),
-						TF_FARMLAND)))
-	&& city_got_building(pcity, B_SUPERMARKET)) {
-      f += (f * terrain_control.farmland_supermarket_food_bonus) / 100;
+    if (player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)) {
+      tile.special |= S_FARMLAND;
     }
   }
 
-  if (contains_special(spec_t, S_RAILROAD)) {
+  if (contains_special(tile.special, S_SPECIAL_1)) {
+    f = type->food_special_1;
+  } else if (contains_special(tile.special, S_SPECIAL_2)) {
+    f = type->food_special_2;
+  } else {
+    f = type->food;
+  }
+
+  if (contains_special(tile.special, S_IRRIGATION)) {
+    f += type->irrigation_food_incr;
+  }
+
+  if (contains_special(tile.special, S_RAILROAD)) {
     f += (f * terrain_control.rail_food_bonus) / 100;
   }
 
@@ -831,23 +786,25 @@ static int base_get_food_tile(int map_x, int map_y, const struct city *pcity,
     int before_penalty = (is_celebrating ? g->celeb_food_before_penalty
 			  : g->food_before_penalty);
 
-    if (is_ocean(tile_t) && city_got_building(pcity, B_HARBOUR)) {
-      f++;
-    }
+    f += get_city_tile_bonus(pcity, &tile, EFT_FOOD_ADD_TILE);
 
     if (f > 0) {
       f += (is_celebrating ? g->celeb_food_bonus : g->food_bonus);
+      f += get_city_bonus(pcity, EFT_FOOD_INC_TILE);
     }
+
+    f += (f * get_city_tile_bonus(pcity, &tile, EFT_FOOD_PER_TILE) / 100);
+
     if (before_penalty > 0 && f > before_penalty) {
       f--;
     }
   }
 
-  if (contains_special(spec_t, S_POLLUTION)) {
+  if (contains_special(tile.special, S_POLLUTION)) {
     /* The food here is yucky */
     f -= (f * terrain_control.pollution_food_penalty) / 100;
   }
-  if (contains_special(spec_t, S_FALLOUT)) {
+  if (contains_special(tile.special, S_FALLOUT)) {
     f -= (f * terrain_control.fallout_food_penalty) / 100;
   }
 
@@ -1094,7 +1051,7 @@ bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
   Calculate amount of gold remaining in city after paying for buildings 
   and units.
 *************************************************************************/
-int city_gold_surplus(const struct city *pcity)
+int city_gold_surplus(const struct city *pcity, int tax_total)
 {
   int cost = 0;
 
@@ -1106,17 +1063,7 @@ int city_gold_surplus(const struct city *pcity)
     cost += punit->upkeep_gold;
   } unit_list_iterate_end;
 
-  return pcity->tax_total-cost;
-}
-
-/**************************************************************************
- Whether a city has an improvement, or the same effect via a wonder.
- (The Impr_Type_id should be an improvement, not a wonder.)
- Note also: city_got_citywalls(), and server/citytools:city_got_barracks()
-**************************************************************************/
-bool city_got_effect(const struct city *pcity, Impr_Type_id id)
-{
-  return city_got_building(pcity, id) || building_replaced(pcity, id);
+  return tax_total - cost;
 }
 
 /**************************************************************************
@@ -1125,7 +1072,7 @@ bool city_got_effect(const struct city *pcity, Impr_Type_id id)
 **************************************************************************/
 bool is_capital(const struct city *pcity)
 {
-  return city_got_building(pcity, B_PALACE);
+  return (get_city_bonus(pcity, EFT_CAPITAL_CITY) != 0);
 }
 
 /**************************************************************************
@@ -1133,80 +1080,7 @@ bool is_capital(const struct city *pcity)
 **************************************************************************/
 bool city_got_citywalls(const struct city *pcity)
 {
-  if (city_got_building(pcity, B_CITY))
-    return TRUE;
-  return (city_affected_by_wonder(pcity, B_WALL));
-}
-
-/**************************************************************************
-  Return TRUE if the wonder's effect applies to this city.  This is only
-  used for some wonder checks; others are done manually.
-**************************************************************************/
-bool city_affected_by_wonder(const struct city *pcity, Impr_Type_id id)
-{
-  struct city *tmp;
-  if (!improvement_exists(id))
-    return FALSE;
-  if (!is_wonder(id) || wonder_obsolete(id))
-    return FALSE;
-  if (city_got_building(pcity, id))
-    return TRUE;
-  
-  /* For Manhatten it can be owned by anyone, and it doesn't matter
-   * whether it is destroyed or not.
-   *
-   * (The same goes for Apollo, with respect to building spaceship parts,
-   * but not for getting the map effect.  This function only returns true
-   * for Apollo for the owner of a non-destroyed Apollo; for building
-   * spaceship parts just check (game.global_wonders[id] != 0).
-   * (Actually, this function is not currently used for either Manhatten
-   * or Apollo.))
-   *
-   * Otherwise the player who owns the city needs to have it to
-   * get the effect.
-   */
-  if (id==B_MANHATTEN) 
-    return (game.global_wonders[id] != 0);
-  
-  tmp = player_find_city_by_id(city_owner(pcity), game.global_wonders[id]);
-  if (!tmp)
-    return FALSE;
-  switch (id) {
-  case B_ASMITHS:
-  case B_APOLLO:
-  case B_CURE:
-  case B_GREAT:
-  case B_WALL:
-  case B_HANGING:
-  case B_ORACLE:
-  case B_UNITED:
-  case B_WOMENS:
-  case B_DARWIN:
-  case B_LIGHTHOUSE:
-  case B_MAGELLAN:
-  case B_MICHELANGELO:
-  case B_SETI:
-  case B_PYRAMIDS:
-  case B_LIBERTY:
-  case B_SUNTZU:
-    return TRUE;
-  case B_ISAAC:
-  case B_COPERNICUS:
-  case B_SHAKESPEARE:
-  case B_COLLOSSUS:
-  case B_RICHARDS:
-    return FALSE;
-  case B_HOOVER:
-  case B_BACH:
-    if (improvement_variant(id)==1) {
-      return (map_get_continent(tmp->x, tmp->y) ==
-	      map_get_continent(pcity->x, pcity->y));
-    } else {
-      return TRUE;
-    }
-  default:
-    return FALSE;
-  }
+  return (get_city_bonus(pcity, EFT_LAND_DEFEND) > 0);
 }
 
 /**************************************************************************
@@ -1547,10 +1421,14 @@ int city_turns_to_grow(const struct city *pcity)
 ****************************************************************************/
 bool city_can_grow_to(const struct city *pcity, int pop_size)
 {
-  return (pop_size <= game.aqueduct_size
-	  || (pop_size <= game.sewer_size
-	      && city_got_building(pcity, B_AQUEDUCT))
-	  || city_got_building(pcity, B_SEWER));
+  if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) > 0) {
+    return TRUE;
+  } else {
+    int max_size;
+                                                                               
+    max_size = game.aqueduct_size + get_city_bonus(pcity, EFT_SIZE_ADJ);
+    return (pop_size <= max_size);
+  }
 }
 
 /**************************************************************************
@@ -1693,23 +1571,7 @@ static int content_citizens(struct player *pplayer)
 **************************************************************************/
 int get_city_shield_bonus(const struct city *pcity)
 {
-  int shield_bonus = 100;
-
-  if (city_got_building(pcity, B_FACTORY)) {
-    shield_bonus += 50;
-    if (city_got_building(pcity, B_MFG)) {
-      shield_bonus += 50;
-    }
-
-    if (city_affected_by_wonder(pcity, B_HOOVER) ||
-	city_got_building(pcity, B_POWER) ||
-	city_got_building(pcity, B_HYDRO) ||
-	city_got_building(pcity, B_NUCLEAR)) {
-      shield_bonus = 100 + (3 * (shield_bonus - 100)) / 2;
-    }
-  }
-
-  return shield_bonus;
+  return (100 + get_city_bonus(pcity, EFT_PROD_BONUS));
 }
 
 /**************************************************************************
@@ -1717,19 +1579,7 @@ int get_city_shield_bonus(const struct city *pcity)
 **************************************************************************/
 int get_city_tax_bonus(const struct city *pcity)
 {
-  int tax_bonus = 100;
-
-  if (city_got_building(pcity, B_MARKETPLACE)) {
-    tax_bonus += 50;
-    if (city_got_building(pcity, B_BANK)) {
-      tax_bonus += 50;
-      if (city_got_building(pcity, B_STOCK)) {
-	tax_bonus += 50;
-      }
-    }
-  }
-
-  return tax_bonus;
+  return (100 + get_city_bonus(pcity, EFT_TAX_BONUS));
 }
 
 /**************************************************************************
@@ -1737,8 +1587,7 @@ int get_city_tax_bonus(const struct city *pcity)
 **************************************************************************/
 int get_city_luxury_bonus(const struct city *pcity)
 {
-  /* Currently the luxury bonus is equivalent to the tax bonus. */
-  return get_city_tax_bonus(pcity);
+  return (100 + get_city_bonus(pcity, EFT_LUXURY_BONUS));
 }
 
 /**************************************************************************
@@ -1754,16 +1603,8 @@ int get_city_tithes_bonus(const struct city *pcity)
     return 0;
   }
 
-  if (city_got_building(pcity, B_TEMPLE))
-    tithes_bonus += get_temple_power(pcity);
-  if (city_got_building(pcity, B_COLOSSEUM))
-    tithes_bonus += get_colosseum_power(pcity);
-  if (city_got_effect(pcity, B_CATHEDRAL))
-    tithes_bonus += get_cathedral_power(pcity);
-  if (city_affected_by_wonder(pcity, B_BACH))
-    tithes_bonus += 2;
-  if (city_affected_by_wonder(pcity, B_CURE))
-    tithes_bonus += 1;
+  tithes_bonus += get_city_bonus(pcity, EFT_MAKE_CONTENT);
+  tithes_bonus += get_city_bonus(pcity, EFT_FORCE_CONTENT);
 
   return tithes_bonus;
 }
@@ -1773,23 +1614,10 @@ int get_city_tithes_bonus(const struct city *pcity)
 **************************************************************************/
 int get_city_science_bonus(const struct city *pcity)
 {
-  int science_bonus = 100;
+  int science_bonus;
 
-  if (city_got_building(pcity, B_LIBRARY)) {
-    science_bonus += 50;
-    if (city_got_building(pcity, B_UNIVERSITY)) {
-      science_bonus += 50;
-    }
-    if (city_got_effect(pcity, B_RESEARCH)) {
-      science_bonus += 50;
-    }
-  }
-  if (city_affected_by_wonder(pcity, B_COPERNICUS)) {
-    science_bonus += 50;
-  }
-  if (city_affected_by_wonder(pcity, B_ISAAC)) {
-    science_bonus += 100;
-  }
+  science_bonus = 100 + get_city_bonus(pcity, EFT_SCIENCE_BONUS);
+
   if (government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
     science_bonus /= 2;
   }
@@ -1861,12 +1689,14 @@ static inline void set_tax_income(struct city *pcity)
 
 /**************************************************************************
   Modify the incomes according to various buildings.
+
+  Note this does not set trade.  That's been done already.
 **************************************************************************/
 static void add_buildings_effect(struct city *pcity)
 {
   /* this is the place to set them */
-  pcity->luxury_bonus = get_city_luxury_bonus(pcity);
   pcity->tax_bonus = get_city_tax_bonus(pcity);
+  pcity->luxury_bonus = get_city_luxury_bonus(pcity);
   pcity->science_bonus = get_city_science_bonus(pcity);
   pcity->shield_bonus = get_city_shield_bonus(pcity);
 
@@ -1999,21 +1829,11 @@ static inline void citizen_unhappy_units(struct city *pcity, int unhap)
 **************************************************************************/
 static inline void citizen_content_buildings(struct city *pcity)
 {
-  struct government *g = get_gov_pcity(pcity);
   int faces = 0;
   happy_copy(pcity, 1);
 
-  if (city_got_building(pcity, B_TEMPLE)) {
-    faces += get_temple_power(pcity);
-  }
-  if (city_got_building(pcity, B_COURTHOUSE) && g->corruption_level == 0) {
-    faces++;
-  }
+  faces += get_city_bonus(pcity, EFT_MAKE_CONTENT);
 
-  if (city_got_building(pcity, B_COLOSSEUM))
-    faces += get_colosseum_power(pcity);
-  if (city_got_effect(pcity, B_CATHEDRAL))
-    faces += get_cathedral_power(pcity);
   /* make people content (but not happy):
      get rid of angry first, then make unhappy content. */
   while (faces > 0 && pcity->ppl_angry[2] > 0) {
@@ -2033,14 +1853,13 @@ static inline void citizen_content_buildings(struct city *pcity)
 **************************************************************************/
 static inline void citizen_happy_wonders(struct city *pcity)
 {
-  int bonus = 0;
+  int bonus = 0, mod;
 
   happy_copy(pcity, 3);
 
-  if (city_affected_by_wonder(pcity, B_HANGING)) {
-    bonus += 1;
-    if (city_got_building(pcity, B_HANGING))
-      bonus += 2;
+  if ((mod = get_city_bonus(pcity, EFT_MAKE_HAPPY)) > 0) {
+    bonus += mod;
+
     while (bonus > 0 && pcity->ppl_content[4] > 0) {
       pcity->ppl_content[4]--;
       pcity->ppl_happy[4]++;
@@ -2049,10 +1868,9 @@ static inline void citizen_happy_wonders(struct city *pcity)
          will let it make unhappy content */
     }
   }
-  if (city_affected_by_wonder(pcity, B_BACH))
-    bonus += 2;
-  if (city_affected_by_wonder(pcity, B_CURE))
-    bonus += 1;
+
+  bonus += get_city_bonus(pcity, EFT_FORCE_CONTENT);
+
   /* get rid of angry first, then make unhappy content */
   while (bonus > 0 && pcity->ppl_angry[4] > 0) {
     pcity->ppl_angry[4]--;
@@ -2065,7 +1883,7 @@ static inline void citizen_happy_wonders(struct city *pcity)
     bonus--;
   }
 
-  if (city_affected_by_wonder(pcity, B_SHAKESPEARE)) {
+  if (get_city_bonus(pcity, EFT_NO_UNHAPPY) > 0) {
     pcity->ppl_content[4] += pcity->ppl_unhappy[4] + pcity->ppl_angry[4];
     pcity->ppl_unhappy[4] = 0;
     pcity->ppl_angry[4] = 0;
@@ -2092,28 +1910,25 @@ static inline void unhappy_city_check(struct city *pcity)
 }
 
 /**************************************************************************
-  Calculate pollution.
+  Calculate pollution for the city.  The shield_total must be passed in
+  (most callers will want to pass pcity->shield_prod).
 **************************************************************************/
-static inline void set_pollution(struct city *pcity)
+int city_pollution(struct city *pcity, int shield_total)
 {
   struct player *pplayer = city_owner(pcity);
+  int mod, pollution = shield_total;
 
-  pcity->pollution = pcity->shield_prod;
-  if (city_got_building(pcity, B_RECYCLING)) {
-    pcity->pollution /= 3;
-  } else if (city_got_building(pcity, B_HYDRO) ||
-	     city_affected_by_wonder(pcity, B_HOOVER) ||
-	     city_got_building(pcity, B_NUCLEAR)) {
-    pcity->pollution /= 2;
+  mod = get_city_bonus(pcity, EFT_POLLU_PROD_PCT);
+  if (mod > 0) {
+    pollution /= mod;
   }
+  mod = (pcity->size *
+      num_known_tech_with_flag(pplayer, TF_POPULATION_POLLUTION_INC)) / 4;
+  mod -= mod * get_city_bonus(pcity, EFT_POLLU_POP_PCT) / 100;
+  pollution += MAX(mod, 0);
+  pollution = MAX(0, pollution - 20);
 
-  if (!city_got_building(pcity, B_MASS)) {
-    pcity->pollution += (pcity->size *
-			 num_known_tech_with_flag
-			 (pplayer, TF_POPULATION_POLLUTION_INC)) / 4;
-  }
-
-  pcity->pollution = MAX(0, pcity->pollution - 20);
+  return pollution;
 }
 
 /**************************************************************************
@@ -2174,18 +1989,13 @@ static inline void city_support(struct city *pcity,
 {
   struct government *g = get_gov_pcity(pcity);
 
-  bool have_police = city_got_effect(pcity, B_POLICE);
-  int variant = improvement_variant(B_WOMENS);
-
   int free_happy = citygov_free_happy(pcity, g);
   int free_shield = citygov_free_shield(pcity, g);
   int free_food = citygov_free_food(pcity, g);
   int free_gold = citygov_free_gold(pcity, g);
 
-  if (variant == 0 && have_police) {
-    /* ??  This does the right thing for normal Republic and Democ -- dwp */
-    free_happy += g->unit_happy_cost_factor;
-  }
+  /* ??  This does the right thing for normal Republic and Democ -- dwp */
+  free_happy += get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
 
   happy_copy(pcity, 2);
 
@@ -2257,7 +2067,8 @@ static inline void city_support(struct city *pcity,
 	happy_cost = 0;
       }
     }
-    if (happy_cost > 0 && variant == 1 && have_police) {
+    if (happy_cost > 0
+	&& get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL_PER) > 0) {
       happy_cost--;
     }
 
@@ -2317,7 +2128,7 @@ void generic_city_refresh(struct city *pcity,
   citizen_happy_size(pcity);
   set_tax_income(pcity);	/* calc base luxury, tax & bulbs */
   add_buildings_effect(pcity);	/* marketplace, library wonders.. */
-  set_pollution(pcity);
+  pcity->pollution = city_pollution(pcity, pcity->shield_prod);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
   citizen_content_buildings(pcity);	/* temple cathedral colosseum */
   city_support(pcity, send_unit_info);	/* manage settlers, and units */
@@ -2402,10 +2213,7 @@ int city_corruption(const struct city *pcity, int trade)
   /* Now calculate the final corruption.  Ordered to reduce integer
    * roundoff errors. */
   val = trade * MAX(dist, 1) * g->corruption_level;
-  if (city_got_building(pcity, B_COURTHOUSE) ||
-      city_got_building(pcity, B_PALACE)) {
-    val /= 2;
-  }
+  val -= (val * get_city_bonus(pcity, EFT_CORRUPT_PCT)) / 100;
   val /= 100 * 100; /* Level is a % multiplied by 100 */
   val = CLIP(trade_penalty, val, trade);
   return val;
@@ -2441,10 +2249,8 @@ int city_waste(const struct city *pcity, int shields)
   val = shields * MAX(dist, 1) * g->waste_level;
   val /= 100 * 100; /* Level is a % multiplied by 100 */
 
-  if (city_got_building(pcity, B_COURTHOUSE)
-      || city_got_building(pcity, B_PALACE)) {
-    val /= 2;
-  }
+  val -= (val * get_city_bonus(pcity, EFT_WASTE_PCT)) / 100;
+
   val = CLIP(shield_penalty, val, shields);
   return val;
 }
@@ -2486,49 +2292,6 @@ const char *specialists_string(const int *specialists)
   } specialist_type_iterate_end;
 
   return buf;
-}
-
-/**************************************************************************
-  Return the power (pacifying effect) of temples in the city.
-**************************************************************************/
-int get_temple_power(const struct city *pcity)
-{
-  struct player *p = city_owner(pcity);
-  int power = 1;
-  if (get_invention(p, game.rtech.temple_plus) == TECH_KNOWN)
-    power = 2;
-  if (city_affected_by_wonder(pcity, B_ORACLE))
-    power *= 2;
-  return power;
-}
-
-/**************************************************************************
-  Return the power (pacifying effect) of cathedrals in the city.
-**************************************************************************/
-int get_cathedral_power(const struct city *pcity)
-{
-  struct player *p = city_owner(pcity);
-  int power = 3;
-  if (get_invention(p, game.rtech.cathedral_minus /*A_COMMUNISM */ ) ==
-      TECH_KNOWN) power--;
-  if (get_invention(p, game.rtech.cathedral_plus /*A_THEOLOGY */ ) ==
-      TECH_KNOWN) power++;
-  if (improvement_variant(B_MICHELANGELO) == 1
-      && city_affected_by_wonder(pcity, B_MICHELANGELO))
-    power *= 2;
-  return power;
-}
-
-/**************************************************************************
-  Return the power (pacifying effect) of colosseums in the city.
-**************************************************************************/
-int get_colosseum_power(const struct city *pcity)
-{
-  struct player *p = city_owner(pcity);
-  int power = 3;
-  if (get_invention(p, game.rtech.colosseum_plus /*A_ELECTRICITY */ ) ==
-      TECH_KNOWN) power++;
-  return power;
 }
 
 /**************************************************************************
@@ -2669,7 +2432,7 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
       pcity->currently_building = u;
     } else {
       pcity->is_building_unit = FALSE;
-      pcity->currently_building = B_CAPITAL;
+      pcity->currently_building = game.default_building;
     }
   }
   pcity->turn_founded = game.turn;
@@ -2698,6 +2461,7 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->ai.invasion = 0;
   pcity->ai.bcost = 0;
   pcity->ai.attack = 0;
+  pcity->ai.next_recalc = 0;
 
   pcity->corruption = 0;
   pcity->shield_waste = 0;

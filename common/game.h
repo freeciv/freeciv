@@ -131,7 +131,6 @@ struct civ_game {
   bool scorelog;
   int randseed;
   int aqueduct_size;
-  int sewer_size;
   int add_to_size_limit;
   bool savepalace;
   bool natural_city_names;
@@ -169,6 +168,10 @@ struct civ_game {
 
   char rulesetdir[MAX_LEN_NAME];
   int firepower_factor;		/* See README.rulesets */
+
+  Impr_Type_id default_building;
+  Impr_Type_id palace_building;
+  Impr_Type_id land_defend_building;
 
   struct {
     int cathedral_plus;		/* eg Theology */

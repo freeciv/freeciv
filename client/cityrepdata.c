@@ -269,7 +269,7 @@ static const char *cr_entry_output(const struct city *pcity)
   static char buf[32];
   int goldie;
 
-  goldie = city_gold_surplus(pcity);
+  goldie = city_gold_surplus(pcity, pcity->tax_total);
   my_snprintf(buf, sizeof(buf), "%s%d/%d/%d",
 	      (goldie < 0) ? "-" : (goldie > 0) ? "+" : "",
 	      (goldie < 0) ? (-goldie) : goldie,
@@ -281,11 +281,11 @@ static const char *cr_entry_output(const struct city *pcity)
 static const char *cr_entry_gold(const struct city *pcity)
 {
   static char buf[8];
-  int income = city_gold_surplus(pcity);
+  int income = city_gold_surplus(pcity, pcity->tax_total);
   if (income > 0) {
     my_snprintf(buf, sizeof(buf), "+%d", income);
   } else {
-    my_snprintf(buf, sizeof(buf), "%3d", city_gold_surplus(pcity));
+    my_snprintf(buf, sizeof(buf), "%3d", city_gold_surplus(pcity, pcity->tax_total));
   }
   return buf;
 }

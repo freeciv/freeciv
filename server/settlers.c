@@ -883,9 +883,13 @@ static int unit_foodbox_cost(struct unit *punit)
     /* It is a virtual unit, so must start in a city... */
     struct city *pcity = map_get_city(punit->x, punit->y);
 
+    /* The default is to lose 100%.  The growth bonus reduces this. */
+    int foodloss_pct = 100 - get_city_bonus(pcity, EFT_GROWTH_FOOD);
+
+    foodloss_pct = CLIP(0, foodloss_pct, 100);
     assert(pcity != NULL);
     cost = city_granary_size(pcity->size);
-    if (city_got_effect(pcity, B_GRANARY)) { cost /= 2; }
+    cost = cost * foodloss_pct / 100;
   }
 
   return cost;

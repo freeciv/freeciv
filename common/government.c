@@ -237,7 +237,7 @@ bool can_change_to_government(struct player *pplayer, int government)
     return FALSE;
   } else {
     return (get_invention(pplayer, req) == TECH_KNOWN
-	    || player_owns_active_govchange_wonder(pplayer));
+	    || get_player_bonus(pplayer, EFT_ANY_GOVERNMENT) > 0);
   }
 }
 

@@ -793,8 +793,6 @@ bool ai_assess_military_unhappiness(struct city *pcity,
                                     struct government *g)
 {
   int free_happy;
-  bool have_police;
-  int variant;
   int unhap = 0;
 
   /* bail out now if happy_cost is 0 */
@@ -803,14 +801,10 @@ bool ai_assess_military_unhappiness(struct city *pcity,
   }
   
   free_happy  = citygov_free_happy(pcity, g);
-  have_police = city_got_effect(pcity, B_POLICE);
-  variant = improvement_variant(B_WOMENS);
 
-  if (variant == 0 && have_police) {
-    /* ??  This does the right thing for normal Republic and Democ -- dwp */
-    free_happy += g->unit_happy_cost_factor;
-  }
-  
+  /* ??  This does the right thing for normal Republic and Democ -- dwp */
+  free_happy += get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
+
   unit_list_iterate(pcity->units_supported, punit) {
     int happy_cost = utype_happy_cost(unit_type(punit), g);
 
@@ -830,7 +824,7 @@ bool ai_assess_military_unhappiness(struct city *pcity,
       continue;
     }
 
-    if (variant == 1 && have_police) {
+    if (get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL_PER) > 0) {
       happy_cost--;
     }
     adjust_city_free_cost(&free_happy, &happy_cost);

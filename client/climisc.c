@@ -713,7 +713,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
   impr_type_iterate(id) {
     bool can_build = can_player_build_improvement(game.player_ptr, id);
     bool can_eventually_build =
-	could_player_eventually_build_improvement(game.player_ptr, id);
+	can_player_eventually_build_improvement(game.player_ptr, id);
 
     /* If there's a city, can the city build the improvement? */
     if (pcity) {

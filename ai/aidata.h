@@ -26,6 +26,12 @@
  * start of every turn. 
  */
 
+enum ai_improvement_status {
+  AI_IMPR_CALCULATE, /* Calculate exactly its effect */
+  AI_IMPR_ESTIMATE,  /* Estimate its effect using wild guesses */
+  AI_IMPR_LAST
+};
+
 enum winning_strategy {
   WIN_OPEN,     /* still undetermined */
   WIN_WAR,      /* we have no other choice than to crush all opposition */
@@ -50,6 +56,10 @@ struct ai_dip_intel {
 
 BV_DEFINE(bv_id, MAX_NUM_ID);
 struct ai_data {
+  /* Precalculated info about city improvements */
+  enum ai_improvement_status impr_calc[MAX_NUM_ITEMS];
+  enum effect_range impr_range[MAX_NUM_ITEMS];
+
   /* AI diplomacy and opinions on other players */
   struct {
     int acceptable_reputation;
@@ -75,6 +85,7 @@ struct ai_data {
     bool air;         /* check for non-allied offensive aircraft */
     bool missile;     /* check for non-allied missiles */
     int nuclear;      /* nuke check: 0=no, 1=capability, 2=built */
+    bool igwall;      /* enemies have igwall units */
   } threats;
 
   /* Keeps track of which continents are fully explored already */
@@ -88,6 +99,8 @@ struct ai_data {
   /* This struct is used for statistical unit building, eg to ensure
    * that we don't build too few or too many units of a given type. */
   struct {
+    int triremes;
+    int units[UCL_LAST + 1]; /* no. units by class */
     int *workers;     /* cities to workers on continent*/
     int *cities;      /* number of cities on continent */
     int passengers;   /* number of passengers waiting for boats */
@@ -132,8 +145,8 @@ void ai_data_turn_done(struct player *pplayer);
 
 void ai_data_init(struct player *pplayer);
 void ai_data_done(struct player *pplayer);
+void ai_data_analyze_rulesets(struct player *pplayer);
 
 struct ai_data *ai_data_get(struct player *pplayer);
-
 
 #endif

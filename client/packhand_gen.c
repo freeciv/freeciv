@@ -320,6 +320,14 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_options_settable(packet);
     return TRUE;
 
+  case PACKET_RULESET_CACHE_GROUP:
+    handle_ruleset_cache_group(packet);
+    return TRUE;
+
+  case PACKET_RULESET_CACHE_EFFECT:
+    handle_ruleset_cache_effect(packet);
+    return TRUE;
+
   default:
     return FALSE;
   }

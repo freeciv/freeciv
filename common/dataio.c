@@ -711,33 +711,3 @@ void dio_put_diplstate(struct data_out *dout,
   dio_put_uint16(dout, pds->contact_turns_left);
   dio_put_uint8(dout, pds->has_reason_to_cancel);
 }
-
-void dio_get_effect(struct data_in *din, struct impr_effect *peffect)
-{
-  dio_get_uint8(din, (int *) &(peffect->type));
-  dio_get_uint8(din, (int *) &(peffect->range));
-  dio_get_sint16(din, &peffect->amount);
-  dio_get_uint8(din, &peffect->survives);
-  dio_get_uint8(din, (int *) &peffect->cond_bldg);
-  dio_get_uint8(din, &peffect->cond_gov);
-  dio_get_uint8(din, &peffect->cond_adv);
-  dio_get_uint8(din, (int *) &(peffect->cond_eff));
-  dio_get_uint8(din, (int *) &(peffect->aff_unit));
-  dio_get_sint16(din, (int *) &(peffect->aff_terr));
-  dio_get_uint16(din, (int *) &(peffect->aff_spec));
-}
-
-void dio_put_effect(struct data_out *dout, const struct impr_effect *peffect)
-{
-  dio_put_uint8(dout, peffect->type);
-  dio_put_uint8(dout, peffect->range);
-  dio_put_sint16(dout, peffect->amount);
-  dio_put_uint8(dout, peffect->survives);
-  dio_put_uint8(dout, peffect->cond_bldg);
-  dio_put_uint8(dout, peffect->cond_gov);
-  dio_put_uint8(dout, peffect->cond_adv);
-  dio_put_uint8(dout, peffect->cond_eff);
-  dio_put_uint8(dout, peffect->aff_unit);
-  dio_put_sint16(dout, peffect->aff_terr);
-  dio_put_uint16(dout, peffect->aff_spec);
-}

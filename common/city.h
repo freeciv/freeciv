@@ -206,6 +206,9 @@ struct ai_city {
   int invasion; /* who's coming to kill us, for attack co-ordination */
   int attack, bcost; /* This is also for invasion - total power and value of
                       * all units coming to kill us. */
+
+  int worth; /* Cache city worth here, sum of all weighted incomes */
+  int next_recalc; /* Only recalc every Nth turn */
 };
 
 struct city {
@@ -254,7 +257,7 @@ struct city {
   int currently_building;
   
   Impr_Status improvements[B_LAST];
-  
+
   struct worklist worklist;
 
   enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
@@ -346,7 +349,7 @@ extern struct citystyle *city_styles;
 
 struct player *city_owner(const struct city *pcity);
 int city_population(const struct city *pcity);
-int city_gold_surplus(const struct city *pcity);
+int city_gold_surplus(const struct city *pcity, int tax_total);
 int city_buy_cost(const struct city *pcity);
 bool city_happy(const struct city *pcity);  /* generally use celebrating instead */
 bool city_unhappy(const struct city *pcity);                /* anarchy??? */
@@ -358,16 +361,16 @@ bool city_rapture_grow(const struct city *pcity);
 
 bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id); 
 int improvement_upkeep(const struct city *pcity, Impr_Type_id i); 
+bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id);
 bool can_build_improvement(const struct city *pcity, Impr_Type_id id);
-bool can_eventually_build_improvement(const struct city *pcity, Impr_Type_id id);
+bool can_eventually_build_improvement(const struct city *pcity,
+				      Impr_Type_id id);
 bool can_build_unit(const struct city *pcity, Unit_Type_id id);
 bool can_build_unit_direct(const struct city *pcity, Unit_Type_id id);
 bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id);
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type);
 bool city_got_building(const struct city *pcity,  Impr_Type_id id); 
-bool city_affected_by_wonder(const struct city *pcity, Impr_Type_id id);
-bool city_got_effect(const struct city *pcity, Impr_Type_id id);
 bool is_capital(const struct city *pcity);
 bool city_got_citywalls(const struct city *pcity);
 bool building_replaced(const struct city *pcity, Impr_Type_id id);
@@ -485,9 +488,6 @@ int city_corruption(const struct city *pcity, int trade);
 int city_waste(const struct city *pcity, int shields);
 int city_specialists(const struct city *pcity);                 /* elv+tax+scie */
 const char *specialists_string(const int *specialists);
-int get_temple_power(const struct city *pcity);
-int get_cathedral_power(const struct city *pcity);
-int get_colosseum_power(const struct city *pcity);
 int get_city_tax_bonus(const struct city *pcity);
 int get_city_luxury_bonus(const struct city *pcity);
 int get_city_shield_bonus(const struct city *pcity);
@@ -509,6 +509,7 @@ void get_food_trade_shields(const struct city *pcity, int *food, int *trade,
 void get_tax_income(struct player *pplayer, int trade, int *sci,
                     int *lux, int *tax);
 int get_city_tithes_bonus(const struct city *pcity);
+int city_pollution(struct city *pcity, int shield_total);
 
 /*
  * Iterates over all improvements which are built in the given city.

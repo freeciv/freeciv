@@ -1696,7 +1696,7 @@ static void city_dialog_update_information(GtkWidget **info_label,
   my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
 	      pcity->trade_prod + pcity->corruption, pcity->trade_prod);
   my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
-	      pcity->tax_total, city_gold_surplus(pcity));
+	      pcity->tax_total, city_gold_surplus(pcity, pcity->tax_total));
   my_snprintf(buf[LUXURY], sizeof(buf[LUXURY]), "%2d      ",
 	      pcity->luxury_total);
 

@@ -124,35 +124,36 @@ void send_player_turn_notifications(struct conn_list *dest)
 }
 
 /**************************************************************************
-...
+  Give technologies to players with EFT_TECH_PARASITE (traditionally from
+  the Great Library).
 **************************************************************************/
-void great_library(struct player *pplayer)
+void do_tech_parasite_effect(struct player *pplayer)
 {
-  if (wonder_obsolete(B_GREAT)) 
-    return;
-  if (find_city_wonder(B_GREAT)) {
-    if (pplayer->player_no==find_city_wonder(B_GREAT)->owner) {
-      tech_type_iterate(i) {
-	if (get_invention(pplayer, i) != TECH_KNOWN
-	    && tech_is_available(pplayer, i)
-	    && game.global_advances[i]>=2) {
-	  notify_player_ex(pplayer, -1, -1, E_TECH_GAIN,
-			   _("Game: %s acquired from The Great Library!"),
-			   advances[i].name);
-	  gamelog(GAMELOG_TECH, _("%s discover %s (Library)"),
-		  get_nation_name_plural(pplayer->nation), advances[i].name);
-	  notify_embassies(pplayer, NULL,
-			   _("Game: The %s have acquired %s"
-			     " from the Great Library."),
-			   get_nation_name_plural(pplayer->nation),
-			   advances[i].name);
+  int mod;
 
-	  do_free_cost(pplayer);
-	  found_new_tech(pplayer, i, FALSE, FALSE, A_NONE);
-	  break;
-	}
-      } tech_type_iterate_end;
-    }
+  /* Note that two EFT_TECH_PARASITE effects will combine into a single,
+   * much worse effect. */
+  if ((mod = get_player_bonus(pplayer, EFT_TECH_PARASITE)) > 0) {
+    tech_type_iterate(i) {
+      if (get_invention(pplayer, i) != TECH_KNOWN
+	  && tech_is_available(pplayer, i)
+	  && game.global_advances[i] >= mod) {
+	notify_player_ex(pplayer, -1, -1, E_TECH_GAIN,
+	    _("Game: %s acquired from a building!"),
+	    advances[i].name);
+	gamelog(GAMELOG_TECH, _("%s discover %s (building)"),
+	    get_nation_name_plural(pplayer->nation), advances[i].name);
+	notify_embassies(pplayer, NULL,
+	    _("Game: The %s have acquired %s"
+	      " from a building."),
+	    get_nation_name_plural(pplayer->nation),
+	    advances[i].name);
+
+	do_free_cost(pplayer);
+	found_new_tech(pplayer, i, FALSE, FALSE, A_NONE);
+	break;
+      }
+    } tech_type_iterate_end;
   }
 }
 
@@ -289,8 +290,13 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 {
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
-  bool macro_polo_was_obsolete = wonder_obsolete(B_MARCO);
+  bool had_embassy[MAX_NUM_PLAYERS];
   struct city *pcity;
+
+  players_iterate(aplr) {
+    had_embassy[aplr->player_no]
+      = (get_player_bonus(aplr, EFT_HAVE_EMBASSIES) > 0);
+  } players_iterate_end;
 
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
    * or may not be the correct thing to do.  For these sanity checks we
@@ -453,17 +459,14 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
    * Send all player an updated info of the owner of the Marco Polo
    * Wonder if this wonder has become obsolete.
    */
-  if (!macro_polo_was_obsolete && wonder_obsolete(B_MARCO)) {
-    struct city *pcity = find_city_wonder(B_MARCO);
-
-    if (pcity) {
-      struct player *owner = city_owner(pcity);
-
+  players_iterate(owner) {
+    if (had_embassy[owner->player_no]
+	&& get_player_bonus(owner, EFT_HAVE_EMBASSIES) == 0) {
       players_iterate(other_player) {
 	send_player_info(owner, other_player);
       } players_iterate_end;
     }
-  }
+  } players_iterate_end;
 
   /* Update Team */
   if (next_tech > A_NONE) {
@@ -933,7 +936,7 @@ void handle_player_revolution(struct player *pplayer)
 
   check_player_government_rates(pplayer);
   global_city_refresh(pplayer);
-  if (player_owns_active_govchange_wonder(pplayer)) {
+  if (get_player_bonus(pplayer, EFT_NO_ANARCHY) > 0) {
     pplayer->revolution_finishes = game.turn;
   }
   send_player_info(pplayer, pplayer);

@@ -271,7 +271,7 @@ static void get_contents_of_output(struct city_dialog *pdialog,
   if (pdialog) {
     pcity=pdialog->pcity;
     goldtotal=pcity->tax_total;
-    goldsurplus=city_gold_surplus(pcity);
+    goldsurplus=city_gold_surplus(pcity, pcity->tax_total);
     luxtotal=pcity->luxury_total;
     scitotal=pcity->science_total;
   }

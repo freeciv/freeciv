@@ -386,7 +386,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
             
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", city_gold_surplus(pCity));
+    my_snprintf(cBuf, sizeof(cBuf), "%d", city_gold_surplus(pCity, pcity->tax_total));
     pStr = create_str16_from_char(cBuf, 10);
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_GOLD);
@@ -974,7 +974,7 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
             
   /* gold surplus */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", city_gold_surplus(pCity));
+  my_snprintf(cBuf, sizeof(cBuf), "%d", city_gold_surplus(pCity, pcity->tax_total));
   copy_chars_to_string16(pWidget->string16, cBuf);
     
   /* science income */

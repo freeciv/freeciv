@@ -401,7 +401,7 @@ void cm_print_city(const struct city *pcity)
   freelog(LOG_NORMAL, "  trade   = %3d", pcity->trade_prod);
 
   freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->tax_total,
-	  city_gold_surplus(pcity));
+	  city_gold_surplus(pcity, pcity->tax_total));
   freelog(LOG_NORMAL, "  luxury  = %3d", pcity->luxury_total);
   freelog(LOG_NORMAL, "  science = %3d", pcity->science_total);
 }
@@ -499,7 +499,7 @@ void cm_copy_result_from_city(const struct city *pcity,
   result->surplus[FOOD] = pcity->food_surplus;
   result->surplus[SHIELD] = pcity->shield_surplus;
   result->surplus[TRADE] = pcity->trade_prod;
-  result->surplus[GOLD] = city_gold_surplus(pcity);
+  result->surplus[GOLD] = city_gold_surplus(pcity, pcity->tax_total);
   result->surplus[LUXURY] = pcity->luxury_total;
   result->surplus[SCIENCE] = pcity->science_total;
 

@@ -1138,12 +1138,7 @@ static void load_building_names(struct section_file *file)
 	    nval, B_LAST, filename);
     exit(EXIT_FAILURE);
   }
-  /* FIXME: Remove this restriction when gen-impr implemented. */
-  if (nval != B_LAST_ENUM) {
-    freelog(LOG_FATAL, "Bad number of buildings %d (%s)", nval, filename);
-    exit(EXIT_FAILURE);
-  }
-  /* REMOVE TO HERE when gen-impr implemented. */
+
   game.num_impr_types = nval;
 
   impr_type_iterate(i) {
@@ -1151,6 +1146,8 @@ static void load_building_names(struct section_file *file)
     name_strlcpy(improvement_types[i].name, name);
     improvement_types[i].name_orig[0] = 0;
   } impr_type_iterate_end;
+
+  ruleset_cache_init();
 
   free(sec);
 }
@@ -1162,12 +1159,61 @@ static void load_ruleset_buildings(struct section_file *file)
 {
   char **sec, *item, **list;
   int i, j, k, nval, count;
-  bool problem;
   struct impr_type *b;
-  struct impr_effect *e;
   const char *filename = secfile_filename(file);
 
   (void) check_ruleset_capabilities(file, "+1.10.1", filename);
+
+  /* Parse effect source equivalency groups. */
+  sec = secfile_get_secnames_prefix(file, "group_", &nval);
+  for (i = 0; i < nval; i++) {
+    struct effect_group *group;
+    char name[MAX_LEN_NAME];
+
+    item = secfile_lookup_str(file, "%s.name", sec[i]);
+    sz_strlcpy(name, item);
+
+    group = effect_group_new(name);
+
+    for (j = 0;
+	 (item = secfile_lookup_str_default(file, NULL,
+					    "%s.elements%d.building",
+					    sec[i], j));
+	 j++) {
+      Impr_Type_id id;
+      enum effect_range range;
+      bool survives;
+
+      if ((id = find_improvement_by_name(item)) == B_LAST) {
+	freelog(LOG_ERROR,
+		/* TRANS: Obscure ruleset error */
+		_("Group %s lists unknown building: \"%s\" (%s)"),
+	    	name, item, filename);
+	continue;
+      }
+
+      item = secfile_lookup_str_default(file, NULL, "%s.elements%d.range",
+	  				sec[i], j);
+      if (item) {
+	if ((range = effect_range_from_str(item)) == EFR_LAST) {
+	  freelog(LOG_ERROR,
+		  /* TRANS: Obscure ruleset error */
+		  _("Group %s lists bad range: \"%s\" (%s)"),
+		  name, item, filename);
+	  continue;
+	}
+      } else {
+	range = EFR_CITY;
+      }
+
+      survives
+	= secfile_lookup_bool_default(file, FALSE, "%s.elements%d.survives",
+				      sec[i], j);
+
+      effect_group_add_element(group, id, range, survives);
+    }
+  }
+  free(sec);
 
   sec = secfile_get_secnames_prefix(file, "building_", &nval);
 
@@ -1263,6 +1309,9 @@ static void load_ruleset_buildings(struct section_file *file)
       b->obsolete_by = A_LAST;
     }
 
+    b->replaced_by = lookup_impr_type(file, sec[i], "replaced_by",
+				      FALSE, filename, b->name);
+
     b->is_wonder = secfile_lookup_bool(file, "%s.is_wonder", sec[i]);
 
     b->build_cost = secfile_lookup_int(file, "%s.build_cost", sec[i]);
@@ -1271,164 +1320,94 @@ static void load_ruleset_buildings(struct section_file *file)
 
     b->sabotage = secfile_lookup_int(file, "%s.sabotage", sec[i]);
 
-    for (count = 0;
-	 secfile_lookup_str_default(file, NULL, "%s.effect%d.type", sec[i],
-				    count); count++) {
-      /* nothing */
-    }
+    /* Parse building effects and add them to the effects ruleset cache. */
+    {
+      for (j = 0;
+	   (item = secfile_lookup_str_default(file, NULL, "%s.effect%d.name",
+					      sec[i], j));
+	   j++) {
+	int value;
+	enum effect_type eff;
+	enum effect_range range;
+	bool survives;
+	enum effect_req_type type;
+	int req, equiv;
 
-    if (count>MAX_EFFECTS) {
-      freelog(LOG_FATAL, "For %s maximum number of effects (%d) exceeded",
-              b->name, MAX_EFFECTS);
-      exit(EXIT_FAILURE);
-    }
-
-    b->effect = fc_malloc((count + 1) * sizeof(b->effect[0]));
-    k = 0;
-    for (j = 0; j < count; j++) {
-      e = &b->effect[k];
-      problem = FALSE;
-
-      item = secfile_lookup_str(file, "%s.effect%d.type", sec[i], j);
-      e->type = effect_type_from_str(item);
-      if (e->type == EFT_LAST) {
-	freelog(LOG_ERROR,
-		"for %s effect[%d].type couldn't match type \"%s\" (%s)",
-		b->name, j, item, filename);
-	problem = TRUE;
-      }
-
-      item =
-	secfile_lookup_str_default(file, "None", "%s.effect%d.range", sec[i], j);
-      e->range = effect_range_from_str(item);
-      if (e->range == EFR_LAST) {
-	freelog(LOG_ERROR,
-		"for %s effect[%d].range couldn't match range \"%s\" (%s)",
-		b->name, j, item, filename);
-	problem = TRUE;
-      }
-
-      e->amount =
-	secfile_lookup_int_default(file, 0, "%s.effect%d.amount", sec[i], j);
-
-      e->survives =
-	secfile_lookup_int_default(file, 0, "%s.effect%d.survives", sec[i], j);
-
-      item =
-	secfile_lookup_str_default(file, "", "%s.effect%d.cond_bldg", sec[i], j);
-      if (*item != '\0') {
-	e->cond_bldg = find_improvement_by_name(item);
-	if (e->cond_bldg == B_LAST) {
+	if ((eff = effect_type_from_str(item)) == EFT_LAST) {
 	  freelog(LOG_ERROR,
-		  "for %s effect[%d].cond_bldg couldn't match improvement \"%s\" (%s)",
-		  b->name, j, item, filename);
-	  problem = TRUE;
+		  /* TRANS: Obscure ruleset error */
+		  _("Building %s lists unknown effect type: \"%s\" (%s)"),
+		  b->name, item, filename);
+	  continue;
 	}
-      } else {
-	e->cond_bldg = B_LAST;
-      }
 
-      item =
-	secfile_lookup_str_default(file, "", "%s.effect%d.cond_gov", sec[i], j);
-      if (*item != '\0') {
-	struct government *g = find_government_by_name(item);
-	if (!g) {
-	  freelog(LOG_ERROR,
-		  "for %s effect[%d].cond_gov couldn't match government \"%s\" (%s)",
-		  b->name, j, item, filename);
-	  e->cond_gov = game.government_count;
-	  problem = TRUE;
-	} else {
-	  e->cond_gov = g->index;
-	}
-      } else {
-	e->cond_gov = game.government_count;
-      }
-
-      item =
-	secfile_lookup_str_default(file, "None", "%s.effect%d.cond_adv", sec[i], j);
-      if (*item != '\0') {
-	e->cond_adv = find_tech_by_name(item);
-	if (e->cond_adv == A_LAST) {
-	  freelog(LOG_ERROR,
-		  "for %s effect[%d].cond_adv couldn't match tech \"%s\" (%s)",
-		  b->name, j, item, filename);
-	  problem = TRUE;
-	}
-      } else {
-	e->cond_adv = A_NONE;
-      }
-
-      item =
-	secfile_lookup_str_default(file, "", "%s.effect%d.cond_eff", sec[i], j);
-      if (*item != '\0') {
-	e->cond_eff = effect_type_from_str(item);
-	if (e->cond_eff == EFT_LAST) {
-	  freelog(LOG_ERROR,
-		  "for %s effect[%d].cond_eff couldn't match effect \"%s\" (%s)",
-		  b->name, j, item, filename);
-	  problem = TRUE;
-	}
-      } else {
-	e->cond_eff = EFT_LAST;
-      }
-
-      item =
-	secfile_lookup_str_default(file, "", "%s.effect%d.aff_unit", sec[i], j);
-      if (*item != '\0') {
-	e->aff_unit = unit_class_from_str(item);
-	if (e->aff_unit == UCL_LAST) {
-	  freelog(LOG_ERROR,
-		  "for %s effect[%d].aff_unit couldn't match class \"%s\" (%s)",
-		  b->name, j, item, filename);
-	  problem = TRUE;
-	}
-      } else {
-	e->aff_unit = UCL_LAST;
-      }
-
-      item =
-	secfile_lookup_str_default(file, "", "%s.effect%d.aff_terr", sec[i], j);
-      if (*item != '\0') {
-	if (0 == strcmp("None", item)) {
-	  e->aff_terr = T_NONE;
-	} else {
-	  e->aff_terr = get_terrain_by_name(item);
-	  if (e->aff_terr == T_UNKNOWN) {
+	item = secfile_lookup_str_default(file, NULL, "%s.effect%d.range",
+	    				  sec[i], j);
+	if (item) {
+	  if ((range = effect_range_from_str(item)) == EFR_LAST) {
 	    freelog(LOG_ERROR,
-		    "for %s effect[%d].aff_terr couldn't match terrain \"%s\" (%s)",
-		    b->name, j, item, filename);
-	    e->aff_terr = T_NONE;
-	    problem = TRUE;
+		    /* TRANS: Obscure ruleset error */
+		    _("Building %s lists bad range: \"%s\" (%s)"),
+		    b->name, item, filename);
+	    continue;
 	  }
-	}
-      } else {
-	e->aff_terr = T_UNKNOWN;
-      }
-
-      item =
-	secfile_lookup_str_default(file, "", "%s.effect%d.aff_spec", sec[i], j);
-      if (*item != '\0') {
-	if (0 == strcmp("None", item)) {
-	  e->aff_spec = S_NO_SPECIAL;
 	} else {
-	  e->aff_spec = get_special_by_name(item);
-	  if (e->aff_spec == S_NO_SPECIAL) {
-	    freelog(LOG_ERROR,
-		    "for %s effect[%d].aff_spec couldn't match special \"%s\" (%s)",
-		    b->name, j, item, filename);
-	    problem = TRUE;
-	  }
+	  range = EFR_CITY;
 	}
-      } else {
-	e->aff_spec = S_ALL;
-      }
 
-      if (!problem) {
-	k++;
+	survives = secfile_lookup_bool_default(file, FALSE, "%s.effect%d.survives",
+					       sec[i], j);
+
+	value = secfile_lookup_int_default(file, 1, "%s.effect%d.value",
+					   sec[i], j);
+
+	/* Sometimes the ruleset will have to list "" here. */
+	item = secfile_lookup_str_default(file, "", "%s.effect%d.equiv",
+	    				  sec[i], j);
+	if (item[0] != '\0') {
+	  if ((equiv = find_effect_group_id(item)) == -1) {
+	    freelog(LOG_ERROR,
+		    /* TRANS: Obscure ruleset error */
+		    _("Building %s lists bad effect group: \"%s\" (%s)"),
+		    b->name, item, filename);
+	    continue;
+	  }
+	} else {
+	  equiv = -1;
+	}
+
+	/* Sometimes the ruleset will have to list "" here. */
+	item = secfile_lookup_str_default(file, "", "%s.effect%d.req_type",
+	    				  sec[i], j);
+	if (item[0] != '\0') {
+	  if ((type = effect_req_type_from_str(item)) == REQ_LAST) {
+	    freelog(LOG_ERROR,
+		    /* TRANS: Obscure ruleset error */
+		    _("Building %s has unknown req type: \"%s\" (%s)"),
+		    b->name, item, filename);
+	    continue;
+          }
+
+	  item = secfile_lookup_str_default(file, NULL, "%s.effect%d.req",
+					    sec[i], j);
+
+	  if (!item) {
+	    freelog(LOG_ERROR,
+		    /* TRANS: Obscure ruleset error */
+		    _("Building %s has missing requirement data (%s)"),
+		    b->name, filename);
+	    continue;
+	  } else {
+	    req = parse_effect_requirement(i, type, item);
+	  }
+        } else {
+          type = REQ_NONE;
+          req = 0;
+        }
+
+	ruleset_cache_add(i, eff, range, survives, value, type, req, equiv);
       }
     }
-    b->effect[k].type = EFT_LAST;
 
     /* FIXME: remove when gen-impr obsoletes */
     b->variant = secfile_lookup_int_default(file, 0, "%s.variant", sec[i]);
@@ -1444,6 +1423,26 @@ static void load_ruleset_buildings(struct section_file *file)
 	       secfile_lookup_str_default(file, "-", "%s.sound_alt",
 					  sec[i]));
     b->helptext = lookup_helptext(file, sec[i]);
+  }
+
+  /*
+   * Hack to allow code that explicitly checks for Palace or City Walls
+   * to work.
+   */
+  game.palace_building = get_building_for_effect(EFT_CAPITAL_CITY);
+  if (game.palace_building == B_LAST) {
+    freelog(LOG_FATAL,
+	    /* TRANS: Obscure ruleset error */
+	    _("Cannot find any palace building"));
+    exit(EXIT_FAILURE);
+  }
+
+  game.land_defend_building = get_building_for_effect(EFT_LAND_DEFEND);
+  if (game.land_defend_building == B_LAST) {
+    freelog(LOG_FATAL,
+	    /* TRANS: Obscure ruleset error */
+	    _("Cannot find any land defend building"));
+    exit(EXIT_FAILURE);
   }
 
   /* Some more consistency checking: */
@@ -1463,23 +1462,26 @@ static void load_ruleset_buildings(struct section_file *file)
 		b->name, advances[b->obsolete_by].name, filename);
 	b->obsolete_by = A_LAST;
       }
-      for (j = 0; b->effect[j].type != EFT_LAST; j++) {
-	if (!tech_exists(b->effect[j].cond_adv)) {
-	  freelog(LOG_ERROR,
-		  "improvement \"%s\": effect conditional on"
-		  " removed tech \"%s\" (%s)",
-		  b->name, advances[b->effect[j].cond_adv].name, filename);
-	  b->effect[j].cond_adv = A_LAST;
-	}
-      }
     }
   } impr_type_iterate_end;
 
+  game.aqueduct_size = secfile_lookup_int(file, "b_special.aqueduct_size");
+
+  item = secfile_lookup_str(file, "b_special.default");
+  if (*item != '\0') {
+    game.default_building = find_improvement_by_name(item);
+    if (game.default_building == B_LAST) {
+      freelog(LOG_ERROR,
+	      /* TRANS: Obscure ruleset error */
+	      _("Bad value \"%s\" for b_special.default (%s)"),
+	      item, filename);
+    }
+  } else {
+    game.default_building = B_LAST;
+  }
+
   /* FIXME: remove all of the following when gen-impr implemented... */
 
-  game.aqueduct_size = secfile_lookup_int(file, "b_special.aqueduct_size");
-  game.sewer_size = secfile_lookup_int(file, "b_special.sewer_size");
-  
   game.rtech.cathedral_plus =
     lookup_tech(file, "b_special", "cathedral_plus", FALSE, filename, NULL);
   game.rtech.cathedral_minus =
@@ -1974,7 +1976,6 @@ static void send_ruleset_control(struct conn_list *dest)
   int i;
 
   packet.aqueduct_size = game.aqueduct_size;
-  packet.sewer_size = game.sewer_size;
   packet.add_to_size_limit = game.add_to_size_limit;
   packet.notradesize = game.notradesize;
   packet.fulltradesize = game.fulltradesize;
@@ -2007,6 +2008,8 @@ static void send_ruleset_control(struct conn_list *dest)
   for(i = 0; i < MAX_NUM_TEAMS; i++) {
     sz_strlcpy(packet.team_name[i], team_get_by_id(i)->name);
   }
+
+  packet.default_building = game.default_building;
 
   lsend_packet_ruleset_control(dest, &packet);
 }
@@ -2873,7 +2876,6 @@ static void send_ruleset_buildings(struct conn_list *dest)
   impr_type_iterate(i) {
     struct impr_type *b = &improvement_types[i];
     struct packet_ruleset_building packet;
-    struct impr_effect *eff;
 
     packet.id = i;
     sz_strlcpy(packet.name, b->name_orig);
@@ -2883,6 +2885,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
     packet.bldg_req = b->bldg_req;
     packet.equiv_range = b->equiv_range;
     packet.obsolete_by = b->obsolete_by;
+    packet.replaced_by = b->replaced_by;
     packet.is_wonder = b->is_wonder;
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
@@ -2907,12 +2910,6 @@ static void send_ruleset_buildings(struct conn_list *dest)
     T(equiv_dupl, equiv_dupl_count, B_LAST);
     T(equiv_repl, equiv_repl_count, B_LAST);
 #undef T
-
-    packet.effect_count = 0;
-    for (eff = b->effect; eff->type != EFT_LAST; eff++) {
-      packet.effect[packet.effect_count] = *eff;
-      packet.effect_count++;
-    }
 
     lsend_packet_ruleset_building(dest, &packet);
   } impr_type_iterate_end;
@@ -3254,6 +3251,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);
+  send_ruleset_cache(dest);
 
   lsend_packet_thaw_hint(dest);
   conn_list_do_unbuffer(dest);

@@ -711,34 +711,18 @@ const char *get_report_title(const char *report_name)
 const char *get_happiness_buildings(const struct city *pcity)
 {
   int faces = 0;
-  struct government *g = get_gov_pcity(pcity);
+  struct building_vector sources;
   INIT;
 
   add_line(_("Buildings: "));
-  if (city_got_building(pcity, B_TEMPLE)) {
+
+  sources = get_city_bonus_sources(pcity, EFT_MAKE_CONTENT);
+  building_vector_iterate(&sources, pbldg) {
     faces++;
-    add(_("%s. "), get_improvement_name(B_TEMPLE));
-  }
-  if (city_got_building(pcity, B_COURTHOUSE) && g->corruption_level == 0) {
-    faces++;
-    add(_("%s. "), get_improvement_name(B_COURTHOUSE));
-  }
-  if (city_got_building(pcity, B_COLOSSEUM)) {
-    faces++;
-    add(_("%s. "), get_improvement_name(B_COLOSSEUM));
-  }
-  if (faces > 2) {
-    /* Hack to get wrapping right. */
-    add(_("\n              "));
-  }
-  if (city_got_effect(pcity, B_CATHEDRAL)) {
-    faces++;
-    add("%s", get_improvement_name(B_CATHEDRAL));
-    if (!city_got_building(pcity, B_CATHEDRAL)) {
-      add(_("(%s)"), get_improvement_name(B_MICHELANGELO));
-    }
-    add(_(". "));
-  }
+    add(_("%s. "), get_improvement_name(*pbldg));
+  } building_vector_iterate_end;
+  building_vector_free(&sources);
+
   if (faces == 0) {
     add(_("None. "));
   }
@@ -752,31 +736,31 @@ const char *get_happiness_buildings(const struct city *pcity)
 const char *get_happiness_wonders(const struct city *pcity)
 {
   int faces = 0;
+  struct building_vector sources;
   INIT;
 
   add_line(_("Wonders: "));
 
-  if (city_affected_by_wonder(pcity, B_HANGING)) {
+  sources = get_city_bonus_sources(pcity, EFT_MAKE_HAPPY);
+  building_vector_iterate(&sources, pbldg) {
     faces++;
-    add(_("%s. "), get_improvement_name(B_HANGING));
-  }
-  if (city_affected_by_wonder(pcity, B_BACH)) {
+    add(_("%s. "), get_improvement_name(*pbldg));
+  } building_vector_iterate_end;
+  building_vector_free(&sources);
+
+  sources = get_city_bonus_sources(pcity, EFT_FORCE_CONTENT);
+  building_vector_iterate(&sources, pbldg) {
     faces++;
-    add(_("%s. "), get_improvement_name(B_BACH));
-  }
-  /* hack for eliminating gtk_set_line_wrap() -mck */
-  if (faces > 1) {
-    /* sizeof("Wonders: ") */
-    add(_("\n              "));
-  }
-  if (city_affected_by_wonder(pcity, B_SHAKESPEARE)) {
+    add(_("%s. "), get_improvement_name(*pbldg));
+  } building_vector_iterate_end;
+  building_vector_free(&sources);
+
+  sources = get_city_bonus_sources(pcity, EFT_NO_UNHAPPY);
+  building_vector_iterate(&sources, pbldg) {
     faces++;
-    add(_("%s. "), get_improvement_name(B_SHAKESPEARE));
-  }
-  if (city_affected_by_wonder(pcity, B_CURE)) {
-    faces++;
-    add(_("%s. "), get_improvement_name(B_CURE));
-  }
+    add(_("%s. "), get_improvement_name(*pbldg));
+  } building_vector_iterate_end;
+  building_vector_free(&sources);
 
   if (faces == 0) {
     add(_("None. "));

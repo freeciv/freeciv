@@ -217,7 +217,6 @@ struct player {
   Impr_Status improvements[B_LAST]; /* improvements with equiv_range==Player */
   Impr_Status *island_improv; /* improvements with equiv_range==Island, dimensioned to
 			 	 [map.num_continents][game.num_impr_types] */
-
   struct {
     int length;
     void *data;
@@ -250,9 +249,6 @@ struct unit *player_find_unit_by_id(const struct player *pplayer,
 				    int unit_id);
 
 bool player_in_city_radius(struct player *pplayer, int x, int y);
-bool player_owns_active_wonder(struct player *pplayer,
-			      Impr_Type_id id);
-bool player_owns_active_govchange_wonder(struct player *pplayer);
 bool player_knows_improvement_tech(struct player *pplayer,
 				   Impr_Type_id id);
 bool player_knows_techs_with_flag(struct player *pplayer,

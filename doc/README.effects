@@ -1,46 +1,25 @@
 
-Effects can currently be assigned (via rulesets) to nations, techs, 
-governments, and improvments. Coming soon should be unit effects.
+Effects can currently be assigned (via rulesets) to buildings.
 
-Some effects are not suitable for certain assignments. This will be 
-especially true for unit effects. Unit effects are restricted to Local range.
+Some effects are not suitable for certain assignments.
 
-.type may be one of:
+If you have multiple effects of one type their AMOUNTs will be additively
+cumulative.  For many effects this is undesirable.
 
-"Adv_Parasite"	- gains advances known by AMOUNT other players
+.name may be one of:
 
-"Airlift"	- allows airlift of units to/from a city
+"Tech_Parasite"	- gains advances known by AMOUNT other players.
 
-"Any_Government"- allows player to choose any government form
+"Airlift"	- allows airlift of units to/from a city (one per turn)
 
-"Barb_Attack"	- multiplies attack by AMOUNT percent against
-		  barbarian units
+"Any_Government"- allows the choice of any government form
+		  This must be either a "Player" or "World" ranged effect.
 
-"Barb_Defend"	- multiplies defense by AMOUNT percent against
-		  barbarian units
+"Capital_City"	- marks the capital city of a nation (many special cases)
 
-"Building_Cost"	- increase the cost of building an improvement
-		  in the city by AMOUNT percent
-		  (multiple effects are additive)
+"Corrupt_Pct"	- Decreases corruption by AMOUNT percent
 
-"Building_Cost_Pct" - multiply the cost of building an improvement
-		  in the city by AMOUNT percent
-		  (multiple effects are multiplicative)
-
-"Capital_City"	- marks the capital city of a nation (only one city
-		  may be the capital at any one time -- building a
-		  "Capital_City"  improvement in a different city
-		  causes the destruction of a previously existing
-                  "Capital_City" improvement)
-
-"Capital_Exists"- indicates a capital city exists for a nation.
-
-"Corrupt_Adj"	- corruption is increased by AMOUNT percent
-		  (all Corrupt_Adj's are summed before being applied)
-
-"Corrupt_Pct"	- multiplies total corruption by AMOUNT percent
-		  (applied after Corrupt_Adj; multiple effects are
-		  multiplicative)
+"Waste_Pct"     - Decreases waste by AMOUNT percent
 
 "Enable_Nuke"	- allows production of nuclear units
 		  This must be either a "Player" or "World" ranged effect.
@@ -48,19 +27,11 @@ especially true for unit effects. Unit effects are restricted to Local range.
 "Enable_Space"	- allows production of "Space_Part" improvements
 		  This must be either a "Player" or "World" ranged effect.
 
-"Enemy_Peaceful"- enemies forced to offer cease-fire or peace
-
 "Food_Add_Tile"	- each worked tile produces AMOUNT additional food
 
-"Food_Bonus"	- food production is increased by AMOUNT percent
-		  (all Food_Bonus' are summed before being applied)
-
-"Food_Pct"	- multiplies total food production by AMOUNT percent
-		  (applied after Food_Bonus; multiple effects are
-		  multiplicative)
-
 "Food_Inc_Tile"	- each worked tile that is already producing some
-		  food produces AMOUNT additional food
+		  food produces AMOUNT additional food (applied after
+                  Food_Add_Tile)
 
 "Food_Per_Tile"	- increases food generated on each worked tile
 		  by AMOUNT percent
@@ -69,24 +40,14 @@ especially true for unit effects. Unit effects are restricted to Local range.
 		  (applied *after* martial law and aggressive units;
 		  all Force_Content's are summed before being applied)
 
-"Force_Content_Pct" - increase total "Force_Content" by AMOUNT percent
-		  (multiple effects are multiplicative)
-
-"Give_Imm_Adv"	- immediately gain AMOUNT advances when built
+"Give_Imm_Tech"	- immediately gain AMOUNT advances when built
 
 "Growth_Food"	- food left after cities grow or shrink is AMOUNT
 		  percent of the capacity of the city's foodbox
 
 "Have_Embassies"- like having embassies with all other players
 
-"Improve_Rep"	- improves reputation by AMOUNT percent
-
 "Luxury_Bonus"	- luxury production increased by AMOUNT percent
-		  (all Luxury_Bonus' are summed before being applied)
-
-"Luxury_Pct"	- multiplies luxury production by AMOUNT percent
-		  (applied after Luxury_Bonus; multiple effects
-		  are multiplicative)
 
 "Make_Content"	- makes AMOUNT unhappy citizens content
 		  (applied *before* martial law and aggressive units;
@@ -98,14 +59,8 @@ especially true for unit effects. Unit effects are restricted to Local range.
 "Make_Content_Mil_Per" - makes AMOUNT _per unit_ of unhappy citizens
 		  caused by units outside of a city content
 
-"Make_Content_Pct"- multiplies total "Make_Content" by AMOUNT percent
-		  (multiple effects are multiplicative)
-
 "Make_Happy"	- makes AMOUNT content citizens happy
 		  (all Make_Happy's are summed before being applied)
-
-"May_Declare_War" - allowed to declare war at least AMOUNT percent
-		  of the time
 
 "No_Anarchy"	- eliminates anarchy period between governments
 
@@ -113,24 +68,7 @@ especially true for unit effects. Unit effects are restricted to Local range.
 
 "Nuke_Proof"	- nuclear attacks will fail within AMOUNT distance
 
-"Pollu_Adj"	- pollution is increased by AMOUNT percent
-		  (all Pollu_Adj's are summed before being applied)
-
-"Pollu_Pct"	- multiplies pollution by AMOUNT percent
-		  (applied after Pollu_Adj; multiple effects
-		  are multiplicative)
-
-"Pollu_Pop_Adj"	- pollution caused by population is increased by
-		  AMOUNT percent (all Pollu_Pop_Adj's are summed
-		  before being applied)
-
-"Pollu_Pop_Pct"	- multiplies pollution caused by population by
-		  AMOUNT percent (applied after Pollu_Pop_Adj;
-		  multiple effects are multiplicative)
-
-"Pollu_Prod_Adj"- pollution caused by shield production is increased by
-		  AMOUNT percent (all Pollu_Prod_Adj's are summed
-		  before being applied)
+"Pollu_Pop_Pct"	- decreases pollution caused by population by AMOUNT percent
 
 "Pollu_Prod_Pct"- multiplies pollution caused by shield production by
 		  AMOUNT percent (applied after Pollu_Prod_Adj;
@@ -139,74 +77,46 @@ especially true for unit effects. Unit effects are restricted to Local range.
 "Prod_Add_Tile"	- each worked tile produces AMOUNT additional shield
 		  production
 
-"Prod_Bonus"	- shield production is increased by AMOUNT percent
-		  (all Prod_Bonus' are summed before being applied)
-
-"Prod_Pct"	- multiplies total shield production by AMOUNT percent
-		  (applied after Prod_Bonus; multiple effects are
-		  multiplicative)
-
 "Prod_Inc_Tile"	- each worked tile that is already producing some
 		  shields produces AMOUNT additional shields
 
 "Prod_Per_Tile"	- increases shield production generated on each worked
 		  tile by AMOUNT percent
 
-"Prod_To_Gold"	- convert production to gold at AMOUNT percent rate
+"Prod_Bonus"	- shield production is increased by AMOUNT percent
+
+"Prod_To_Gold"	- convert production to gold at 1:1 ratio
 
 "Reveal_Cities"	- make all city tiles known
 
 "Reveal_Map"	- make entire map known
 
-"Revolt_Dist_Adj" - effective distance to the capital is increased by
+"Incite_Dist_Pct" - multiplies effective distance to the capital by
 		  AMOUNT percent for purpose of computing revolt cost
-		  (all Revolt_Dist_Adj's are summed before being applied)
-
-"Revolt_Dist_Pct" - multiplies effective distance to the capital by
-		  AMOUNT percent for purpose of computing revolt cost
-		  (applied after Revolt_Dist_Adj; multiple effects are
-		  multiplicative)
 
 "Science_Bonus"	- science research is increased by AMOUNT percent
-		  (all Science_Bonus' are summed before being applied)
 
-"Science_Pct"	- multiplies total science by AMOUNT percent
-		  (applied after Science_Bonus; multiple effects are
-		  multiplicative)
+"Size_Adj"      - Increases maximum city size by AMOUNT
 
-"Size_Unlimit"	- cities not affected will not grow beyond AMOUNT
+"Size_Unlimit"	- Removes maximum city size limitation
 
-"Slow_Nuke_Winter" - reduces the effect of terrain with fallout within
-		  range on nuclear winter by AMOUNT percent
-
-"Slow_Global_Warm" - reduces the effect of polluted terrain within
-		  range on global warming by AMOUNT percent
-
-"Space_Part"	- a part of a spaceship; per AMOUNT:
-		  1 = structural, 2 = component, 3 = module
+"SS_Structural"
+"SS_Component"
+"SS_Module"	- a part of a spaceship;
                   this is a "Local" ranged effect. It (for now) applies
                   to improvements which cannot be built unless "Enable_Space"
-                  is felt.
+                  is felt.  Buildings which have this effect should probably
+                  not be given any other effects.
 
 "Spy_Resistant"	- if a spy specifies a target for sabotage,
-		  then she  has an AMOUNT percent chance to fail
+		  then she  has an AMOUNT percent chance to fail.  Also in
+                  diplomatic combat defending diplomatic units in cities will
+                  get an AMOUNT percent bonus.
 		  (all Spy_Resistant's are summed before being applied)
 
 "Tax_Bonus"	- tax revenues are increased by AMOUNT percent
-		  (all Tax_Bonus' are summed before being applied)
-
-"Tax_Pct"	- multiplies total tax by AMOUNT percent
-		  (applied after Tax_Bonus; multiple effects are
-		  multiplicative)
 
 "Trade_Add_Tile"- each worked tile produces AMOUNT additional trade
-
-"Trade_Bonus"	- trade generated is increased by AMOUNT percent
-		  (all Trade_Bonus' are summed before being applied)
-
-"Trade_Pct"	- multiplies total trade by AMOUNT percent
-		  (applied after Trade_Bonus; multiple effects are
-		  multiplicative)
 
 "Trade_Inc_Tile" - each worked tile that is already producing some
 		  trade produces AMOUNT additional trade
@@ -214,106 +124,43 @@ especially true for unit effects. Unit effects are restricted to Local range.
 "Trade_Per_Tile" - increases trade generated on each worked tile
 		  by AMOUNT percent
 
-"Trade_Route_Pct" - increases trade from trade routes by AMOUNT percent
+"Trade_Bonus"	- trade generated is increased by AMOUNT percent
 
-"Unit_Attack"	- multiplies attack by AMOUNT percent against units
-		  of class .aff_unit (multiple effects are multiplicative)
+"Sea_Move"	- adds AMOUNT of movement points to sea units
 
-"Unit_Attack_Firepower" - multiplies firepower by AMOUNT percent
-		  when attacking units of class .aff_unit (multiple
-		  effects are multiplicative)
+"Unit_No_Lose_Pop" - no population lost when a city's defender is lost
 
-"Unit_Cost"	- increase the cost of building a unit of class
-		  .aff_unit in the city by AMOUNT percent
-		  (multiple effects are additive)
+"Unit_Recover"	- units recover AMOUNT extra hitpoints per turn
 
-"Unit_Cost_Pct"	- multiply the cost of building a unit of class
-		  .aff_unit in the city by AMOUNT percent
-		  (multiple effects are multiplicative)
-
-"Unit_Defend"	- multiplies defense by AMOUNT percent against units
-		  of class .aff_unit (multiple effects are multiplicative)
-
-"Unit_Defend_Firepower" - multiplies firepower by AMOUNT percent
-		  when defending against units of class .aff_unit
-		  (multiple effects are multiplicative)
-
-"Unit_Move"	- adds AMOUNT of movement points to units of class
-		  .aff_unit
-
-"Unit_No_Lose_Pop" - no population lost when a defending unit in a city
-		  is defeated by a unit of class .aff_unit
-
-"Unit_Recover"	- units of class .aff_unit recover AMOUNT extra
-		  hitpoints per turn
-
-"Unit_Repair"	- units of class .aff_unit that stay in a city for one
-		  turn without moving have all their hitpoints fully
-		  restored
-
-"Unit_Vet_Combat" - chance of units of class .aff_unit becoming veteran
-		  after a successful combat becomes AMOUNT percent
-
-"Unit_Veteran"	- all units of class .aff_unit produced are veteran
-		  units
-"Upgrade_One_Step" - upgrade one obsolete unit per turn, stepping to each
-		  intermediate type; chance to upgrade each unit is
-		  AMOUNT percent
-
-"Upgrade_One_Leap" - upgrade one obsolete unit per turn, leaping to most
-		  advanced type; chance to upgrade each unit is AMOUNT
-		  percent
-
-"Upgrade_All_Step" - upgrade all obsolete units each turn, stepping to
-		  each intermediate type; chance to upgrade each unit
-		  is AMOUNT percent
-
-"Upgrade_All_Leap" - upgrade all obsolete units each turn, leaping to
-		  most advanced type; chance to upgrade each unit is
-		  AMOUNT percent
+"Upgrade_Unit" - upgrade AMOUNT obsolete units per turn
 
 "Upkeep_Free"	- improvements with AMOUNT or less upkeep cost become
 		  free to upkeep (others are unaffected)
 
-.range may be one of: 
- "None", "Local", "City", "Island", "Player", "World"
+"No_Unhappy"    - No citizens in the city are ever unhappy
 
-.amount	   = integral AMOUNT parameter for many effects
+"Land_Veteran"
+"Sea_Veteran"
+"Air_Veteran"	- New land units of this type have veteran class 1
+
+"Land_Vet_Combat"
+"Sea_Vet_Combat"
+"Air_Vet_Combat"- Increases the chance of units of this type becoming veteran
+		  after combat by AMOUNT percent
+
+.range may be one of: 
+             "None", "Local", "City", "Continent", "Player", "World"
+
+.value	   = integral AMOUNT parameter for many effects
 	    (must be in the range -32767 to 32767)
 .survives  = 1 if effect survives destruction (wonders only)
 	    (if unspecified, 0 (doesn't survive) is assumed)
-.cond_bldg = must have this building in same city for effect
-	    (if unspecified, effect not conditional on building)
-.cond_nat  = must be this nation for effect
-                   (if unspecified, effect not conditional on nation)
-.cond_gov  = must be in this government for effect
-	    (if unspecified, effect not conditional on government)
-.cond_adv  = must know this advance for effect
-	    (if unspecified, effect not conditional on advance)
-.cond_eff  = must be affected by this effect for effect
-	    (if unspecified, effect not conditional on other effect)
-.aff_unit  = affects only those units of this class; one of:
-             "Air", "Helicopter", "Land", "Missile", "Nuclear", "Sea"
-	    (if unspecified, may affect units of all classes)
-.aff_terr  = affects only those squares of this terrain type
-	    (if unspecified, may affect all squares; if "None",
-	     affects no squares (unless aff_spec allows it to))
-.aff_spec  = affects only those squares with this special type
-	    (if unspecified, may affect all squares; if "None",
-	     affects no squares (unless aff_terr allows it to))
+.req_type  = The type of the requirement; one of:
+             "None" (default), "Tech", "Gov", "Building", "Special", "Terrain"
+.req       = The requirement.  The effect will not be active unless this
+             requirement is met.  This is a string containing the name of
+             the technology, government, building, tile special, or tile
+             terrain that is required.  The requirement applies to the
+             target of the effect (not the source).
 
-
-An example:
-
-effect	=
-    { "type",		"range",	"amount",	"aff_unit"
-      "Unit_Veteran", 	"City", 	"",		"Air"
-      "Unit_Repair", 	"City", 	"",		"Air"
-      "Airlift", 	"City"
-      "Unit_Move", 	"Player", 	1, 		"Sea"
-      "No_Sink_Deep", 	"Player"
-
-    }
-
-See data/default/buildings.ruleset for more examples.
-
+See data/default/buildings.ruleset for examples.

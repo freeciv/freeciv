@@ -23,6 +23,12 @@
 #include "terrain.h"		/* Terrain_type_id etc */
 #include "unittype.h"		/* Unit_Class_id, Unit_Type_id */
 
+/* B_LAST is a value which is guaranteed to be larger than all
+ * actual Impr_Type_id values.  It is used as a flag value;
+ * it can also be used for fixed allocations to ensure ability
+ * to hold full number of improvement types.  */
+#define B_LAST MAX_NUM_ITEMS
+
 /* Improvement status (for cities' lists of improvements)
  * An enum or bitfield would be neater here, but we use a typedef for
  * a) less memory usage and b) compatibility with old behaviour */
@@ -50,25 +56,6 @@ enum impr_range {
   IR_LAST      /* keep this last */
 };
 
-/* An effect conferred by an improvement. */
-struct impr_effect {
-  enum effect_type type;
-  enum effect_range range;
-  int amount;
-  int survives;			   /* 1 = effect survives wonder destruction */
-  Impr_Type_id cond_bldg;	   /* B_LAST = unconditional */
-  int cond_gov;			   /* game.government_count = unconditional */
-  Tech_Type_id cond_adv;	   /* A_NONE = unconditional; A_LAST = never */
-  enum effect_type cond_eff;	   /* EFT_LAST = unconditional */
-  Unit_Class_id aff_unit;	   /* UCL_LAST = all */
-  Terrain_type_id aff_terr; /* T_UNKNOWN = all; T_NONE = none */
-  enum tile_special_type aff_spec; /* S_* bit mask of specials affected */
-};
-
-/* Maximum number of effects per improvement 
- * (this should not be more than the number of bits in the Eff_Status type) */
-#define MAX_EFFECTS 16
-  
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
   char name[MAX_LEN_NAME];
@@ -83,11 +70,11 @@ struct impr_type {
   Impr_Type_id *equiv_dupl;		/* list; B_LAST terminated */
   Impr_Type_id *equiv_repl;		/* list; B_LAST terminated */
   Tech_Type_id obsolete_by;		/* A_LAST = never obsolete */
+  Impr_Type_id replaced_by;		/* B_LAST = never replaced */
   bool is_wonder;
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;
   int sabotage;		/* Base chance of diplomat sabotage succeeding. */
-  struct impr_effect *effect;		/* list; .type==EFT_LAST terminated */
   int variant;			/* FIXME: remove when gen-impr obsoletes */
   struct Sprite *sprite;		/* icon of the improvement */
   char *helptext;
@@ -122,15 +109,15 @@ bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id);
 bool improvement_redundant(struct player *pplayer, const struct city *pcity,
                           Impr_Type_id id, bool want_to_build);
 bool wonder_obsolete(Impr_Type_id id);
-bool is_wonder_useful(Impr_Type_id id);
 Impr_Type_id find_improvement_by_name(const char *s);
 Impr_Type_id find_improvement_by_name_orig(const char *s);
 void improvement_status_init(Impr_Status * improvements, size_t elements);
 
 /* player related improvement and unit functions */
-bool could_player_eventually_build_improvement(struct player *p, 
-                                               Impr_Type_id id);
+bool can_player_build_improvement_direct(struct player *p, Impr_Type_id id);
 bool can_player_build_improvement(struct player *p, Impr_Type_id id);
+bool can_player_eventually_build_improvement(struct player *p,
+					     Impr_Type_id id);
 
 /* city related improvement functions */
 void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status);

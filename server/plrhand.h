@@ -34,7 +34,7 @@ void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void kill_dying_players(void);
 void update_revolution(struct player *pplayer);
-void great_library(struct player *pplayer);
+void do_tech_parasite_effect(struct player *pplayer);
 void check_player_government_rates(struct player *pplayer);
 void make_contact(struct player *pplayer1, struct player *pplayer2, int x,
 		  int y);

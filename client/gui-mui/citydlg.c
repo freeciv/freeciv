@@ -1810,7 +1810,7 @@ static void city_dialog_update_information(struct city_dialog *pdialog, struct c
   settextf(info->food_text, "%2d (%+2d)", pcity->food_prod, pcity->food_surplus);
   settextf(info->shield_text, "%2d (%+2d)", pcity->shield_prod + pcity->shield_waste, pcity->shield_surplus);
   settextf(info->trade_text, "%2d (%+2d)", pcity->trade_prod + pcity->corruption, pcity->trade_prod);
-  settextf(info->gold_text, "%2d (%+2d)", pcity->tax_total, city_gold_surplus(pcity));
+  settextf(info->gold_text, "%2d (%+2d)", pcity->tax_total, city_gold_surplus(pcity, pcity->tax_total));
   settextf(info->luxury_text, "%2d", pcity->luxury_total);
   settextf(info->science_text, "%2d", pcity->science_total);
 

@@ -897,6 +897,7 @@ struct packet_ruleset_building {
   int tech_req;
   int obsolete_by;
   Impr_Type_id bldg_req;
+  Impr_Type_id replaced_by;
   bool is_wonder;
   enum impr_range equiv_range;
   int build_cost;
@@ -914,8 +915,6 @@ struct packet_ruleset_building {
   Impr_Type_id equiv_dupl[255];
   int equiv_repl_count;
   Impr_Type_id equiv_repl[255];
-  int effect_count;
-  struct impr_effect effect[255];
 };
 
 struct packet_ruleset_terrain {
@@ -961,7 +960,6 @@ struct packet_ruleset_terrain {
 
 struct packet_ruleset_control {
   int aqueduct_size;
-  int sewer_size;
   int add_to_size_limit;
   int notradesize;
   int fulltradesize;
@@ -984,6 +982,7 @@ struct packet_ruleset_control {
   bool happyborders;
   bool slow_invasions;
   char team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
+  Impr_Type_id default_building;
 };
 
 struct packet_single_want_hack_req {
@@ -1025,6 +1024,25 @@ struct packet_options_settable {
   char strval[MAX_LEN_PACKET];
   char default_strval[MAX_LEN_PACKET];
   int category;
+};
+
+struct packet_ruleset_cache_group {
+  char name[MAX_LEN_NAME];
+  int num_elements;
+  Impr_Type_id source_buildings[255];
+  enum effect_range ranges[255];
+  bool survives[255];
+};
+
+struct packet_ruleset_cache_effect {
+  Impr_Type_id id;
+  enum effect_type effect_type;
+  enum effect_range range;
+  bool survives;
+  int eff_value;
+  enum effect_req_type req_type;
+  int req_value;
+  int group_id;
 };
 
 enum packet_type {
@@ -1142,6 +1160,8 @@ enum packet_type {
   PACKET_OPTIONS_SETTABLE_CONTROL,
   PACKET_OPTIONS_SETTABLE,
   PACKET_SELECT_RACES,
+  PACKET_RULESET_CACHE_GROUP = 120,      /* 120 */
+  PACKET_RULESET_CACHE_EFFECT,
 
   PACKET_LAST  /* leave this last */
 };
@@ -1610,6 +1630,14 @@ int send_packet_options_settable_control(struct connection *pc, const struct pac
 
 struct packet_options_settable *receive_packet_options_settable(struct connection *pc, enum packet_type type);
 int send_packet_options_settable(struct connection *pc, const struct packet_options_settable *packet);
+
+struct packet_ruleset_cache_group *receive_packet_ruleset_cache_group(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_cache_group(struct connection *pc, const struct packet_ruleset_cache_group *packet);
+void lsend_packet_ruleset_cache_group(struct conn_list *dest, const struct packet_ruleset_cache_group *packet);
+
+struct packet_ruleset_cache_effect *receive_packet_ruleset_cache_effect(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_cache_effect(struct connection *pc, const struct packet_ruleset_cache_effect *packet);
+void lsend_packet_ruleset_cache_effect(struct conn_list *dest, const struct packet_ruleset_cache_effect *packet);
 
 
 void delta_stats_report(void);

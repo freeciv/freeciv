@@ -17,6 +17,7 @@
 
 #include "aisupport.h"
 #include "city.h"
+#include "effects.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -42,6 +43,82 @@
 #include "aidata.h"
 
 static struct ai_data aidata[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+
+/**************************************************************************
+  Precalculates some important data about the improvements in the game
+  that we use later in ai/aicity.c.  We mark improvements as 'calculate'
+  if we want to run a full test on them, as 'estimate' if we just want
+  to do some guesses on them, or as 'unused' is they are useless to us.
+  Then we find the largest range of calculatable effects in the
+  improvement and record it for later use.
+**************************************************************************/
+static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
+{
+  int count[AI_IMPR_LAST];
+
+  memset(count, 0, sizeof(count));
+
+  impr_type_iterate(id) {
+    ai->impr_calc[id] = AI_IMPR_ESTIMATE;
+
+    /* Find largest extension */
+    effect_type_vector_iterate(get_building_effect_types(id), ptype) {
+      switch (*ptype) {
+#if 0
+      /* TODO */
+      case EFT_FORCE_CONTENT:
+      case EFT_FORCE_CONTENT_PCT:
+      case EFT_MAKE_CONTENT:
+      case EFT_MAKE_CONTENT_MIL:
+      case EFT_MAKE_CONTENT_MIL_PER:
+      case EFT_MAKE_CONTENT_PCT:
+      case EFT_MAKE_HAPPY:
+#endif
+      case EFT_LUXURY_BONUS:
+      case EFT_SCIENCE_BONUS:
+      case EFT_TAX_BONUS:
+      case EFT_CAPITAL_CITY:
+      case EFT_CORRUPT_PCT:
+      case EFT_FOOD_ADD_TILE:
+      case EFT_FOOD_INC_TILE:
+      case EFT_FOOD_PER_TILE:
+      case EFT_POLLU_POP_PCT:
+      case EFT_POLLU_PROD_PCT:
+      case EFT_PROD_ADD_TILE:
+      case EFT_PROD_BONUS:
+      case EFT_PROD_INC_TILE:
+      case EFT_PROD_PER_TILE:
+      case EFT_TRADE_ADD_TILE:
+      case EFT_TRADE_INC_TILE:
+      case EFT_TRADE_PER_TILE:
+      case EFT_UPKEEP_FREE:
+      effect_list_iterate(*get_building_effects(id, *ptype), peff) {
+        ai->impr_calc[id] = AI_IMPR_CALCULATE;
+        if (peff->range > ai->impr_range[id]) {
+          ai->impr_range[id] = peff->range;
+        }
+      } effect_list_iterate_end;
+      break;
+      default:
+      /* Nothing! */
+      break;
+      }
+    } effect_type_vector_iterate_end;
+    
+  } impr_type_iterate_end;
+}
+
+/**************************************************************************
+  Analyze rulesets. Must be run after rulesets after loaded, unlike
+  _init, which must be run before savegames are loaded, which is usually
+  before rulesets.
+**************************************************************************/
+void ai_data_analyze_rulesets(struct player *pplayer)
+{
+  struct ai_data *ai = &aidata[pplayer->player_no];
+
+  ai_data_city_impr_calc(pplayer, ai);
+}
 
 /**************************************************************************
   Make and cache lots of calculations needed for other functions.
@@ -71,6 +148,7 @@ void ai_data_turn_init(struct player *pplayer)
   ai->threats.air       = FALSE;
   ai->threats.nuclear   = 0; /* none */
   ai->threats.ocean     = fc_calloc(ai->num_oceans + 1, sizeof(bool));
+  ai->threats.igwall    = FALSE;
 
   players_iterate(aplayer) {
     if (!is_player_dangerous(pplayer, aplayer)) {
@@ -87,6 +165,10 @@ void ai_data_turn_init(struct player *pplayer)
     } city_list_iterate_end;
 
     unit_list_iterate(aplayer->units, punit) {
+      if (unit_flag(punit, F_IGWALL)) {
+        ai->threats.igwall = TRUE;
+      }
+
       if (is_sailing_unit(punit)) {
         /* If the enemy has not started sailing yet, or we have total
          * control over the seas, don't worry, keep attacking. */

@@ -99,9 +99,6 @@ static void improvement_free(Impr_Type_id id)
   free(p->equiv_repl);
   p->equiv_repl = NULL;
 
-  free(p->effect);
-  p->effect = NULL;
-
   free(p->helptext);
   p->helptext = NULL;
 }
@@ -355,15 +352,6 @@ bool wonder_obsolete(Impr_Type_id id)
 }
 
 /**************************************************************************
-Barbarians don't get enough knowledges to be counted as normal players.
-**************************************************************************/
-bool is_wonder_useful(Impr_Type_id id)
-{
-  if ((id == B_GREAT) && (get_num_human_and_ai_players () < 3)) return FALSE;
-  return TRUE;
-}
-
-/**************************************************************************
  Clears a list of improvements - sets them all to I_NONE
 **************************************************************************/
 void improvement_status_init(Impr_Status * improvements, size_t elements)
@@ -380,18 +368,22 @@ void improvement_status_init(Impr_Status * improvements, size_t elements)
 }
 
 /**************************************************************************
-  Whether player could build this improvement, assuming they had
-  the tech req, and assuming a city with the right pre-reqs etc.
+   Whether player can build given building somewhere, ignoring whether it
+   is obsolete.
 **************************************************************************/
-bool could_player_eventually_build_improvement(struct player *p,
-					      Impr_Type_id id)
+bool can_player_build_improvement_direct(struct player *p, Impr_Type_id id)
 {
   struct impr_type *impr;
   bool space_part = FALSE;
 
   /* This also checks if tech req is Never */
-  if (!improvement_exists(id))
+  if (!improvement_exists(id)) {
     return FALSE;
+  }
+
+  if (!player_knows_improvement_tech(p, id)) {
+    return FALSE;
+  }
 
   impr = get_improvement_type(id);
 
@@ -415,46 +407,50 @@ bool could_player_eventually_build_improvement(struct player *p,
       return FALSE;
     }
   }
-  if (space_part && (game.global_wonders[B_APOLLO] == 0
-		     || p->spaceship.state >= SSHIP_LAUNCHED)) {
+  if (space_part &&
+      (!get_player_bonus(p, EFT_ENABLE_SPACE) > 0
+       || p->spaceship.state >= SSHIP_LAUNCHED)) {
     return FALSE;
   }
 
   if (is_wonder(id)) {
     /* Can't build wonder if already built */
     if (game.global_wonders[id] != 0) return FALSE;
-  } else {
-    /* Can't build if obsolette */
-    if (improvement_obsolete(p, id)) return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Whether player can _eventually_ build given building somewhere -- i.e.,
+  returns TRUE if building is available with current tech OR will be
+  available with future tech.  Returns FALSE if building is obsolete.
+**************************************************************************/
+bool can_player_build_improvement(struct player *p, Impr_Type_id id)
+{
+  if (!can_player_build_improvement_direct(p, id)) {
+    return FALSE;
+  }
+  if (improvement_obsolete(p, id)) {
+    return FALSE;
   }
   return TRUE;
 }
 
 /**************************************************************************
-...
+  Whether player can _eventually_ build given building somewhere -- i.e.,
+  returns TRUE if building is available with current tech OR will be
+  available with future tech.  Returns FALSE if building is obsolete.
 **************************************************************************/
-static bool could_player_build_improvement(struct player *p, Impr_Type_id id)
+bool can_player_eventually_build_improvement(struct player *p, Impr_Type_id id)
 {
-  if (!could_player_eventually_build_improvement(p, id))
+  if (!improvement_exists(id)) {
     return FALSE;
-
-  /* Make sure we have the tech /now/.*/
-  if (get_invention(p, improvement_types[id].tech_req) == TECH_KNOWN)
-    return TRUE;
-  return FALSE;
-}
-  
-/**************************************************************************
-  Can a player build this improvement somewhere?  Ignores the fact that 
-  player may not have a city with appropriate prereqs.
-**************************************************************************/
-bool can_player_build_improvement(struct player *p, Impr_Type_id id)
-{
-  if (!improvement_exists(id))
+  }
+  if (improvement_obsolete(p, id)) {
     return FALSE;
-  if (!player_knows_improvement_tech(p,id))
-    return FALSE;
-  return(could_player_build_improvement(p, id));
+  }
+  return TRUE;
 }
 
 /**************************************************************************
@@ -564,7 +560,7 @@ void improvements_update_obsolete(void)
 
   We only check improvements within the equiv_range range. 
 
-  N.B. Unlike effects, we do not have to do multiple iterations: an 
+  N.B. We do not need to do multiple iterations: an 
   improvement making another improvement redundant does not depend on 
   whether it itself it redundant or not. having been built is all that 
   counts.

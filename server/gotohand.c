@@ -921,8 +921,10 @@ static int find_a_direction(struct unit *punit,
   int i, fitness[8], best_fitness = DONT_SELECT_ME_FITNESS;
   struct unit *passenger;
   struct player *pplayer = unit_owner(punit);
-  bool afraid_of_sinking = (unit_flag(punit, F_TRIREME) && 
-                           !player_owns_active_wonder(pplayer, B_LIGHTHOUSE));
+  bool afraid_of_sinking = (unit_flag(punit, F_TRIREME)
+			    && get_player_bonus(pplayer,
+						EFT_NO_SINK_DEEP) == 0);
+
   /* 
    * If the destination is one step away, look around first or just go
    * there?
@@ -1004,18 +1006,11 @@ static int find_a_direction(struct unit *punit,
      */
     defence_multiplier = 2;
     if (pcity) {
-      if (city_got_citywalls(pcity)) {
-	defence_multiplier += 2;
-      }
-      if (city_got_building(pcity, B_SDI)) {
-	defence_multiplier++;
-      }
-      if (city_got_building(pcity, B_SAM)) {
-	defence_multiplier++;
-      }
-      if (city_got_building(pcity, B_COASTAL)) {
-	defence_multiplier++;
-      }
+      /* This isn't very accurate. */
+      defence_multiplier += (get_city_bonus(pcity, EFT_LAND_DEFEND)
+			     + get_city_bonus(pcity, EFT_MISSILE_DEFEND)
+			     + get_city_bonus(pcity, EFT_AIR_DEFEND)
+			     + get_city_bonus(pcity, EFT_SEA_DEFEND)) / 100;
     }
 
     /* 

@@ -173,11 +173,8 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     }
     incite_cost = city_incite_cost(pplayer, acity);
     if (HOSTILE_PLAYER(pplayer, ai, city_owner(acity))
-        && !city_got_building(acity, B_PALACE)
-        && !government_has_flag(get_gov_pplayer(city_owner(acity)),
-                                G_UNBRIBABLE)
-        && (incite_cost <
-            pplayer->economic.gold - pplayer->ai.est_upkeep)) {
+        && (incite_cost < INCITE_IMPOSSIBLE_COST)
+        && (incite_cost < pplayer->economic.gold - pplayer->ai.est_upkeep)) {
       /* incite gain (FIXME: we should count wonders too but need to
          cache that somehow to avoid CPU hog -- Per) */
       gain_incite = acity->food_prod * FOOD_WEIGHTING
@@ -345,11 +342,9 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
       continue; 
     }
 
-    can_incite = !(city_got_building(acity, B_PALACE)
-                   || government_has_flag(get_gov_pplayer(aplayer), 
-                                          G_UNBRIBABLE));
-
     incite_cost = city_incite_cost(pplayer, acity);
+    can_incite = (incite_cost < INCITE_IMPOSSIBLE_COST);
+
     dipldef = (count_diplomats_on_tile(acity->x, acity->y) > 0);
     /* Three actions to consider:
      * 1. establishing embassy OR

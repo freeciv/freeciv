@@ -394,17 +394,6 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
   return tempname;
 }
 
-/****************************************************************
-...
-*****************************************************************/
-bool city_got_barracks(struct city *pcity)
-{
-  return (city_affected_by_wonder(pcity, B_SUNTZU) ||
-	  city_got_building(pcity, B_BARRACKS) || 
-	  city_got_building(pcity, B_BARRACKS2) ||
-	  city_got_building(pcity, B_BARRACKS3));
-}
-
 /****************************************************************************
   Return TRUE iff the city can sell the given improvement.
 ****************************************************************************/
@@ -447,14 +436,13 @@ int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
                                 G_BUILD_VETERAN_DIPLOMAT) ? 1 : 0);
   }
     
-  if (is_ground_unittype(id) || improvement_variant(B_BARRACKS) == 1) {
-    return (city_got_barracks(pcity) ? 1 : 0);
+  if (is_ground_unittype(id)) {
+    return (get_city_bonus(pcity, EFT_LAND_VETERAN) > 0) ? 1 : 0;
   } else {
     if (is_water_unit(id)) {
-      return ((city_affected_by_wonder(pcity, B_LIGHTHOUSE)
-               || city_got_building(pcity, B_PORT)) ? 1 : 0);
+      return (get_city_bonus(pcity, EFT_SEA_VETERAN) > 0) ? 1 : 0;
     } else {
-      return (city_got_building(pcity, B_AIRPORT) ? 1 : 0);
+      return (get_city_bonus(pcity, EFT_AIR_VETERAN) > 0) ? 1 : 0;
     }
   }
   
@@ -661,7 +649,7 @@ static void raze_city(struct city *pcity)
 
   /* We don't use city_remove_improvement here as the global effects
      stuff has already been handled by transfer_city */
-  pcity->improvements[B_PALACE]=I_NONE;
+  pcity->improvements[game.palace_building] = I_NONE;
 
   /* land barbarians are more likely to destroy city improvements */
   if (is_land_barbarian(city_owner(pcity)))
@@ -720,7 +708,7 @@ static void build_free_palace(struct player *pplayer,
 
   pnew_capital = city_list_get(&pplayer->cities, myrand(size));
 
-  city_add_improvement(pnew_capital, B_PALACE);
+  city_add_improvement(pnew_capital, game.palace_building);
 
   /*
    * send_player_cities will recalculate all cities and send them to
@@ -753,7 +741,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   struct unit_list old_city_units;
   struct player *pgiver = city_owner(pcity);
   int old_trade_routes[NUM_TRADEROUTES];
-  bool had_palace = pcity->improvements[B_PALACE] != I_NONE;
+  bool had_palace = pcity->improvements[game.palace_building] != I_NONE;
   char old_city_name[MAX_LEN_NAME];
 
   assert(pgiver != ptaker);
@@ -1024,19 +1012,14 @@ void remove_city(struct city *pcity)
   int o, x, y;
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
-  bool effect_update, had_palace = pcity->improvements[B_PALACE] != I_NONE;
+  bool had_palace = pcity->improvements[game.palace_building] != I_NONE;
   char *city_name = mystrdup(pcity->name);
 
   gamelog(GAMELOG_LOSEC, _("%s lose %s (%i,%i)"),
 	  get_nation_name_plural(pplayer->nation), pcity->name, pcity->x,
 	  pcity->y);
 
-  /* Explicitly remove all improvements, to properly remove any global effects
-     and to handle the preservation of "destroyed" effects. */
-  effect_update=FALSE;
-
   built_impr_iterate(pcity, i) {
-    effect_update = TRUE;
     city_remove_improvement(pcity, i);
   } built_impr_iterate_end;
 

@@ -19,7 +19,7 @@ struct data_in;
 #include "connection.h"		/* struct connection, MAX_LEN_* */
 #include "diptreaty.h"
 #include "events.h"
-#include "effects.h"
+#include "improvement.h"
 #include "map.h"
 #include "player.h"
 #include "shared.h"		/* MAX_LEN_NAME, MAX_LEN_ADDR */
