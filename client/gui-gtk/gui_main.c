@@ -301,8 +301,10 @@ static void select_pixmap_callback(GtkWidget *w, GdkEvent *ev, int i)
     return;
   punit=find_unit_by_id(unit_ids[i]);
   if(punit) { /* should always be true at this point */
-     request_new_unit_activity(punit, ACTIVITY_IDLE);
-     set_unit_focus(punit);
+    if (punit->owner == game.player_idx) {  /* may be non-true if alliance */
+      request_new_unit_activity(punit, ACTIVITY_IDLE);
+      set_unit_focus(punit);
+    }
   }
 }
 
