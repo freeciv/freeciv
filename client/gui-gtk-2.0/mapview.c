@@ -622,6 +622,7 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 			scaled_intro_sprite->pixmap,
 			ev->area.x, ev->area.y, ev->area.x, ev->area.y,
 			ev->area.width, ev->area.height);
+      gtk_widget_queue_draw(overview_canvas);
       cleared = FALSE;
     } else {
       if (!cleared) {
@@ -649,7 +650,6 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 	cleared = TRUE;
       }
     }
-    refresh_overview_canvas();
 
     if (!map_center) {
       center_on_something();
