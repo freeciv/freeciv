@@ -1280,8 +1280,8 @@ defence.
 ---
 # Trireme
 %% This unit can convey up to 2 land-based units across water.
-Triremes have a 50% risk of being lost at sea unless they end their
-turn next to a coast or in a port.
+%% Triremes have a 50% risk of being lost at sea unless they end their
+%% turn next to a coast or in a port.
 ---
 # Warriors
 This unit may be built from the start of the game.  It is the

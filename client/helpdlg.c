@@ -12,6 +12,7 @@
 ***********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -833,7 +834,7 @@ void help_update_wonder(struct help_item *pitem, char *title, int which)
 **************************************************************************/
 void help_update_unit_type(struct help_item *pitem, char *title, int i)
 {
-  char buf[1024];
+  char buf[4096];
   
   create_help_page(HELP_UNIT);
   if (i<U_LAST) {
@@ -886,7 +887,10 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
       sprintf(buf+strlen(buf), "* Can perform settler actions.\n");
     }
     if (unit_flag(i, F_DIPLOMAT)) {
-      sprintf(buf+strlen(buf), "* Can perform diplomatic actions.\n");
+      if (unit_flag(i, F_SPY)) 
+	sprintf(buf+strlen(buf), "* Can perform diplomatic actions, plus special spy abilities.\n");
+      else 
+	sprintf(buf+strlen(buf), "* Can perform diplomatic actions.\n");
     }
     if (unit_flag(i, F_FIGHTER)) {
       sprintf(buf+strlen(buf), "* Can attack enemy air units.\n");
@@ -905,6 +909,9 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
     } else if(unit_flag(i, F_ONEATTACK)) {
       sprintf(buf+strlen(buf), "* Making an attack ends this unit's turn.\n");
     }
+    if (unit_flag(i, F_NUCLEAR)) {
+      sprintf(buf+strlen(buf), "* This unit's attack causes a nuclear explosion!\n");
+    }
     if (unit_flag(i, F_IGWALL)) {
       sprintf(buf+strlen(buf), "* Ignores the effects of city walls.\n");
     }
@@ -919,6 +926,9 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
     }
     if (unit_flag(i, F_NONMIL)) {
       sprintf(buf+strlen(buf), "* A non-military unit (no shield upkeep).\n");
+    }
+    if (unit_flag(i, F_TRIREME)) {
+      sprintf(buf+strlen(buf), "* Must end turn in a city or next to land, or has a 50%% risk of\n  being lost at sea.");
     }
     if (utype->fuel>0) {
       sprintf(buf+strlen(buf), "* Must end ");
@@ -940,7 +950,7 @@ void help_update_unit_type(struct help_item *pitem, char *title, int i)
       sprintf(buf+strlen(buf), "\n");
     } 
     strcpy(buf+strlen(buf), pitem->text);
-    
+    assert(strlen(buf)<sizeof(buf)); /* not enough, but maybe something */
     XtVaSetValues(help_text, XtNstring, buf, NULL);
   }
   else {
@@ -1000,6 +1010,7 @@ void help_update_tech(struct help_item *pitem, char *title, int i)
 		advances[j].name, advances[advances[j].req[0]].name);
       }
     }
+    assert(strlen(buf)<sizeof(buf)); /* not enough, but maybe something */
     XtVaSetValues(help_text, XtNstring, buf, NULL);
   }
   else {
