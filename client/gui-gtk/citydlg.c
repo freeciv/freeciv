@@ -1698,7 +1698,7 @@ void buy_callback(GtkWidget *w, gpointer data)
     pdialog->buy_shell=
     popup_message_dialog(pdialog->shell, /*"buydialog"*/ _("Buy It!"), buf,
 			 _("_Yes"), buy_callback_yes, pdialog,
-			 _("_No"), buy_callback_no, 0, 0);
+			 _("_No"), buy_callback_no, pdialog, 0);
   }
   else {
     my_snprintf(buf, sizeof(buf),
