@@ -572,7 +572,7 @@ void remove_obsolete_buildings_city(struct city *pcity, int refresh)
       notify_player_ex(pplayer, pcity->x, pcity->y, E_IMP_SOLD, 
 		       _("Game: %s is selling %s (obsolete) for %d."),
 		       pcity->name, get_improvement_name(i), 
-		       improvement_value(i)/2);
+		       improvement_value(i));
       sold = 1;
     }
   }
