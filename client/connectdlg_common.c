@@ -342,7 +342,8 @@ void send_start_saved_game(void)
 
   send_chat("/set timeout 0");
   send_chat("/set autotoggle 1");
-  my_snprintf(buf, sizeof(buf), "/take %s %s", user_name, player_name);
+  my_snprintf(buf, sizeof(buf), "/take \"%s\" \"%s\"",
+      	      user_name, player_name);
   send_chat(buf);
   send_chat("/start");
 }
