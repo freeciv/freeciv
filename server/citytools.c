@@ -67,20 +67,6 @@ struct city *find_city_wonder(enum improvement_type_id id)
 }
 
 /**************************************************************************
-Locate the city where the players palace is located, (NULL Otherwise) 
-**************************************************************************/
-
-struct city *find_palace(struct player *pplayer)
-{
-  city_list_iterate(pplayer->cities, pcity) 
-    if (city_got_building(pcity, B_PALACE)) 
-      return pcity;
-  city_list_iterate_end;
-  return NULL;
-}
-
-
-/**************************************************************************
 ...
 **************************************************************************/
 

@@ -25,7 +25,6 @@
 int city_got_barracks(struct city *pcity);
 int can_sell_building(struct city *pcity, int id);
 struct city *find_city_wonder(enum improvement_type_id id);
-struct city *find_palace(struct player *pplayer);
 int city_specialists(struct city *pcity);                 /* elv+tax+scie */
 int content_citizens(struct player *pplayer); 
 int get_temple_power(struct city *pcity);

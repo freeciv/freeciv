@@ -165,6 +165,8 @@ int player_owns_active_govchange_wonder(struct player *pplayer);
 int player_knows_improvement_tech(struct player *pplayer,
 				   enum improvement_type_id id);
 
+struct city *find_palace(struct player *pplayer);
+
 int ai_handicap(struct player *pplayer, enum handicap_type htype);
 int ai_fuzzy(struct player *pplayer, int normal_decision);
 

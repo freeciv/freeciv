@@ -157,7 +157,10 @@ Freeciv*intelluxlabel.background:            lightgrey
 Freeciv*intelreslabel.fromVert:              intelgoldlabel
 Freeciv*intelreslabel.background:            lightgrey
 
-Freeciv*inteltechlist.fromVert:            intelreslabel
+Freeciv*intelcapitallabel.fromVert:          intelreslabel
+Freeciv*intelcapitallabel.background:        lightgrey
+
+Freeciv*inteltechlist.fromVert:            intelcapitallabel
 Freeciv*inteltechlist.forceColumns:        true
 Freeciv*inteltechlist.defaultColumns:      3
 Freeciv*inteltechlist.verticalList:        true

@@ -376,6 +376,18 @@ int player_owns_active_govchange_wonder(struct player *pplayer)
 }
 
 /**************************************************************************
+Locate the city where the players palace is located, (NULL Otherwise) 
+**************************************************************************/
+struct city *find_palace(struct player *pplayer)
+{
+  city_list_iterate(pplayer->cities, pcity) 
+    if (city_got_building(pcity, B_PALACE)) 
+      return pcity;
+  city_list_iterate_end;
+  return NULL;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 int player_knows_improvement_tech(struct player *pplayer,

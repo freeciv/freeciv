@@ -68,6 +68,7 @@ void intel_create_dialog(struct player *p)
 {
   Widget form, title, close;
   char buf[64];
+  struct city *pcity;
 
   static char *tech_list_names_ptrs[A_LAST+1];
   static char tech_list_names[A_LAST+1][200];
@@ -149,7 +150,13 @@ void intel_create_dialog(struct player *p)
 			  XtNlabel, buf,
 			  NULL);   
 
-  
+  pcity = find_palace(p);
+  sprintf(buf, "Capital: %s", (pcity==NULL)?"(Unknown)":pcity->name);
+  XtVaCreateManagedWidget("intelcapitallabel", 
+			  labelWidgetClass, 
+			  form, 
+			  XtNlabel, buf,
+			  NULL);   
 
   for(i=1, j=0; i<A_LAST; i++)
     if(get_invention(p, i)==TECH_KNOWN) {
