@@ -536,20 +536,18 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 static void city_build(struct player *pplayer, struct unit *punit,
 		       char *name)
 {
-  const char *city_name = get_sane_name(name);
-
-  if (!city_name) {
+  if (!is_sane_name(name)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: Let's not build a city with "
 		       "such a stupid name."));
     return;
   }
 
-  if (!is_allowed_city_name(pplayer, city_name, punit->x, punit->y, TRUE)) {
+  if (!is_allowed_city_name(pplayer, name, punit->x, punit->y, TRUE)) {
     return;
   }
 
-  create_city(pplayer, punit->x, punit->y, city_name);
+  create_city(pplayer, punit->x, punit->y, name);
   wipe_unit(punit);
 }
 

@@ -2249,7 +2249,7 @@ static void races_command_callback(GtkWidget *w, gint response_id)
   packet.city_style = city_style_idx[selected_style];
   sz_strlcpy(packet.name, (char*)s);
   
-  if(!get_sane_name(packet.name)) {
+  if (!is_sane_name(packet.name)) {
     append_output_window(_("You must type a legal name."));
     return;
   }

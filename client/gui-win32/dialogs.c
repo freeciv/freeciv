@@ -320,11 +320,10 @@ static void do_select(HWND hWnd)
   ComboBox_GetText(GetDlgItem(hWnd,ID_RACESDLG_LEADER),
 		   packet.name,MAX_LEN_NAME);
  
-  if (!get_sane_name(packet.name))
-    {
-      append_output_window(_("You must type a legal name."));
-      return;
-    }
+  if (!is_sane_name(packet.name)) {
+    append_output_window(_("You must type a legal name."));
+    return;
+  }
   send_packet_alloc_nation(&aconnection,&packet);  
 }
 

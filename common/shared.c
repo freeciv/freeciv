@@ -370,22 +370,21 @@ static bool is_iso_latin1(char ch)
 /***************************************************************
   This is used in sundry places to make sure that names of cities,
   players etc. do not contain yucky characters of various sorts.
-  Returns the input argument if it points to an acceptable name,
-  otherwise returns NULL.
+  Returns TRUE iff the name is acceptable.
   FIXME:  Not internationalised.
 ***************************************************************/
-const char *get_sane_name(const char *name)
+bool is_sane_name(const char *name)
 {
   const char *cp;
 
   /* must not be NULL or empty */
   if (!name || *name == '\0') {
-    return NULL; 
+    return FALSE;
   }
 
   /* must begin and end with some non-space character */
   if ((*name == ' ') || (*(strchr(name, '\0') - 1) == ' ')) {
-    return NULL; 
+    return FALSE;
   }
 
   /* must be composed entirely of printable ISO 8859-1 characters */
@@ -393,11 +392,11 @@ const char *get_sane_name(const char *name)
     /* nothing */
   }
   if (*cp != '\0') {
-    return NULL; 
+    return FALSE;
   }
 
   /* otherwise, it's okay... */
-  return name;
+  return TRUE;
 }
 
 /***************************************************************

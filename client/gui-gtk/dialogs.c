@@ -2308,7 +2308,7 @@ static void races_buttons_callback(GtkWidget *w, gpointer data)
   packet.city_style = city_style_idx[selected_style];
   sz_strlcpy(packet.name, (char*)s);
   
-  if(!get_sane_name(packet.name)) {
+  if (!is_sane_name(packet.name)) {
     append_output_window(_("You must type a legal name."));
     return;
   }

@@ -2713,7 +2713,7 @@ static void team_command(struct connection *caller, char *str)
     return;
   }
 
-  if (get_sane_name(arg[1]) == NULL) {
+  if (!is_sane_name(arg[1])) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX, _("Bad team name."));
     return;
   }

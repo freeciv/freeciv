@@ -117,7 +117,7 @@ const char *general_int_to_text(int nr, int decade_exponent);
 const char *int_to_text(int nr);
 const char *population_to_text(int thousand_citizen);
 
-const char *get_sane_name(const char *name);
+bool is_sane_name(const char *name);
 const char *textyear(int year);
 int compare_strings(const void *first, const void *second);
 int compare_strings_ptrs(const void *first, const void *second);
