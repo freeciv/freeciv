@@ -446,6 +446,11 @@ void science_dialog_update(void)
   /* work around GTK+ refresh bug. */
   gtk_widget_queue_resize(science_current_label);
  
+  if (game.player_ptr->research.researching == A_UNSET) {
+    item = gtk_menu_item_new_with_label(advances[A_NONE].name);
+    gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
+  }
+
   /* collect all techs which are reachable in the next step
    * hist will hold afterwards the techid of the current choice
    */

@@ -395,6 +395,7 @@ void set_client_state(enum client_states newstate)
     if (client_state == CLIENT_GAME_RUNNING_STATE) {
       load_ruleset_specific_options();
       create_event(-1, -1, E_GAME_START, _("Game started."));
+      precalc_tech_data();
       update_research(game.player_ptr);
       role_unit_precalcs();
       boot_help_texts();	/* reboot */

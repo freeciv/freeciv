@@ -277,6 +277,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	  && get_invention(plr, tech_found) != TECH_KNOWN)
 	 || tech_found == A_FUTURE);
   assert(tech_is_available(plr, tech_found) || tech_found == A_FUTURE);
+  assert(plr->research.researching != A_UNSET);
 
   plr->got_tech = TRUE;
   plr->research.techs_researched++;
@@ -337,9 +338,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   }
 
   if (tech_found == plr->research.researching && next_tech == A_NONE) {
-    /* need to pick new tech to research */
-
-    int saved_bulbs = plr->research.bulbs_researched;
+    /* try to pick new tech to research */
 
     if (choose_goal_tech(plr)) {
       notify_player_ex(plr, -1, -1, E_TECH_LEARNED,
@@ -349,15 +348,20 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 		       advances[plr->research.researching].name,
 		       advances[plr->ai.tech_goal].name);
     } else {
-      choose_random_tech(plr);
-      if (!is_future_tech(plr->research.researching)
-	  || !is_future_tech(tech_found)) {
+      if (plr->ai.control || !was_discovery) {
+        choose_random_tech(plr);
+      } else {
+        plr->research.researching = A_UNSET;
+      }
+      if (plr->research.researching != A_UNSET 
+          && (!is_future_tech(plr->research.researching)
+	      || !is_future_tech(tech_found))) {
 	notify_player_ex(plr, -1, -1, E_TECH_LEARNED,
 			 _("Game: Learned %s.  Scientists "
 			   "choose to research %s."),
 			 advances[tech_found].name,
 			 get_tech_name(plr, plr->research.researching));
-      } else {
+      } else if (plr->research.researching != A_UNSET) {
 	char buffer1[300];
 	char buffer2[300];
 
@@ -368,17 +372,20 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 		    get_tech_name(plr, plr->research.researching));
 	notify_player_ex(plr, -1, -1, E_TECH_LEARNED, "%s%s", buffer1,
 			 buffer2);
+      } else {
+	notify_player_ex(plr, -1, -1, E_TECH_LEARNED,
+			 _("Game: Learned %s.  Scientists "
+			   "do not know what to research next."),
+			 advances[tech_found].name);
       }
-    }
-    if (saving_bulbs) {
-      plr->research.bulbs_researched = saved_bulbs;
     }
   } else if (tech_found == plr->research.researching && next_tech > A_NONE) {
     /* Next target already determined. We always save bulbs. */
     plr->research.researching = next_tech;
-    if (plr->research.bulbs_researched > 0) {
-      plr->research.bulbs_researched = 0;
-    }
+  }
+
+  if (!saving_bulbs && plr->research.bulbs_researched > 0) {
+    plr->research.bulbs_researched = 0;
   }
 
   if (bonus_tech_hack) {
@@ -389,6 +396,9 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
       notify_player(plr, _("Game: Great scientists from all the "
 			   "world join your civilization: you get "
 			   "an immediate advance."));
+    }
+    if (plr->research.researching == A_UNSET) {
+      choose_random_tech(plr); /* always random tech here */
     }
     tech_researched(plr);
   }
@@ -490,8 +500,12 @@ static void tech_researched(struct player* plr)
 	    get_nation_name_plural(plr->nation), plr->future_tech);
   }
 
+  /* Deduct tech cost */
+  plr->research.bulbs_researched = 
+      MAX(plr->research.bulbs_researched - total_bulbs_required(plr), 0);
+
   /* do all the updates needed after finding new tech */
-  found_new_tech(plr, plr->research.researching, TRUE, FALSE, A_NONE);
+  found_new_tech(plr, plr->research.researching, TRUE, TRUE, A_NONE);
 }
 
 /**************************************************************************
@@ -517,10 +531,11 @@ void update_tech(struct player *plr, int bulbs)
   excessive_bulbs =
       (plr->research.bulbs_researched - total_bulbs_required(plr));
 
-  if (excessive_bulbs >= 0) {
+  if (excessive_bulbs >= 0 && plr->research.researching != A_UNSET) {
     tech_researched(plr);
-    plr->research.bulbs_researched += excessive_bulbs;
-    update_tech(plr, 0);
+    if (plr->research.researching != A_UNSET) {
+      update_tech(plr, 0);
+    }
   }
 }
 
@@ -531,9 +546,6 @@ static bool choose_goal_tech(struct player *plr)
 {
   int sub_goal;
 
-  if (plr->research.bulbs_researched > 0) {
-    plr->research.bulbs_researched = 0;
-  }
   if (plr->ai.control) {
     ai_next_tech_goal(plr);	/* tech-AI has been changed */
   }
@@ -611,6 +623,9 @@ void choose_tech(struct player *plr, int tech)
     plr->research.changed_from = -1;
   }
   plr->research.researching=tech;
+  if (plr->research.bulbs_researched > total_bulbs_required(plr)) {
+    tech_researched(plr);
+  }
 }
 
 void choose_tech_goal(struct player *plr, int tech)
@@ -1461,7 +1476,8 @@ static void package_player_info(struct player *plr,
   assert(server_state != RUN_GAME_STATE
 	 || ((tech_exists(plr->research.researching)
 	      && plr->research.researching != A_NONE)
-	     || is_future_tech(plr->research.researching)));
+	     || is_future_tech(plr->research.researching)
+             || plr->research.researching == A_UNSET));
   assert((tech_exists(plr->ai.tech_goal) && plr->ai.tech_goal != A_NONE)
 	 || plr->ai.tech_goal == A_UNSET);
 }

@@ -519,6 +519,12 @@ static void end_phase(void)
    * see them.  --dwp
    */
   before_end_year();
+  players_iterate(pplayer) {
+    if (pplayer->research.researching == A_UNSET) {
+      choose_random_tech(pplayer);
+      update_tech(pplayer, 0);
+    }
+  } players_iterate_end;
 
   /* Freeze sending of cities. */
   nocity_send = TRUE;
