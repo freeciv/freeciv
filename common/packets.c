@@ -1194,7 +1194,7 @@ static unsigned char *put_worklist(unsigned char *buffer,
   if (real_wl)
     buffer = put_string(buffer, pwl->name);
   else
-    buffer = put_string(buffer, '\0');
+    buffer = put_string(buffer, "\0");
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
 /* when removing "worklist_true_ids" capability,
    leave only the code from the *else* clause (send untranslated values) */
