@@ -220,7 +220,7 @@ void create_science_dialog(bool make_modal)
   gtk_container_add(GTK_CONTAINER(frame),hbox);
 
   science_goal_menu_button = gtk_option_menu_new();
-  gtk_box_pack_start( GTK_BOX( hbox ), science_goal_menu_button,TRUE, TRUE, 0 );
+  gtk_box_pack_start(GTK_BOX(hbox), science_goal_menu_button, TRUE, TRUE, 0);
 
   goalmenu = gtk_menu_new();
   gtk_widget_show_all(goalmenu);
@@ -293,7 +293,8 @@ void science_change_callback(GtkWidget *widget, gpointer data)
 		total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
-    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label),
+	pct);
     
     /* work around GTK+ refresh bug. */
     gtk_widget_queue_resize(science_current_label);
@@ -320,7 +321,7 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
     int steps = num_unknown_techs_for_goal(game.player_ptr, to);
     my_snprintf(text, sizeof(text),
 		PL_("(%d step)", "(%d steps)", steps), steps);
-    gtk_set_label(science_goal_label,text);
+    gtk_label_set_text(GTK_LABEL(science_goal_label), text);
 
     dsend_packet_player_tech_goal(&aconnection, to);
   }
@@ -387,15 +388,16 @@ void science_dialog_update(void)
   int i, j, hist;
   char text[512];
   GtkWidget *item;
-  GList *sorting_list = NULL;
+  GList *sorting_list = NULL, *it;
   gdouble pct;
   int steps;
+  GtkSizeGroup *group1, *group2;
 
   if (is_report_dialogs_frozen()) {
     return;
   }
 
-  gtk_set_label(science_label, (char *)science_dialog_text());
+  gtk_label_set_text(GTK_LABEL(science_label), science_dialog_text());
 
   for (i=0; i<4; i++) {
     gtk_list_store_clear(science_model[i]);
@@ -528,17 +530,37 @@ void science_dialog_update(void)
     }
   }
 
+  group1 = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
+  group2 = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
+
   /* sort the list and build from it the menu */
   sorting_list = g_list_sort(sorting_list, cmp_func);
-  for (i = 0; i < g_list_length(sorting_list); i++) {
-    gchar *data =
-	advances[GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))].name;
+  for (it = g_list_first(sorting_list); it; it = g_list_next(it)) {
+    GtkWidget *hbox, *label;
+    char text[512];
+    gint tech = GPOINTER_TO_INT(g_list_nth_data(it, 0));
 
-    item = gtk_menu_item_new_with_label(data);
+    item = gtk_menu_item_new();
+    hbox = gtk_hbox_new(FALSE, 18);
+    gtk_container_add(GTK_CONTAINER(item), hbox);
+
+    label = gtk_label_new(advances[tech].name);
+    gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+    gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 0);
+    gtk_size_group_add_widget(group1, label);
+
+    my_snprintf(text, sizeof(text), "%d",
+	num_unknown_techs_for_goal(game.player_ptr, tech));
+
+    label = gtk_label_new(text);
+    gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
+    gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+    gtk_size_group_add_widget(group2, label);
+
     gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
     g_signal_connect(item, "activate",
 		     G_CALLBACK(science_goal_callback),
-		     g_list_nth_data(sorting_list, i));
+		     GINT_TO_POINTER(tech));
   }
 
   gtk_widget_show_all(goalmenu);
@@ -738,7 +760,8 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
   gint row;
   GtkWidget *shell;
 
-  if (response_id != ECONOMY_SELL_OBSOLETE && response_id != ECONOMY_SELL_ALL) {
+  if (response_id != ECONOMY_SELL_OBSOLETE
+      && response_id != ECONOMY_SELL_ALL) {
     gtk_widget_destroy(economy_dialog_shell);
     return;
   }
@@ -809,12 +832,14 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
       shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
 				     GTK_DIALOG_DESTROY_WITH_PARENT,
 				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-				     _("Disbanded %d %s."), count, unit_name(i));
+				     _("Disbanded %d %s."), count,
+				     unit_name(i));
     } else {
       shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
 				     GTK_DIALOG_DESTROY_WITH_PARENT,
 				     GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-				     _("No %s could be disbanded"), unit_name(i));
+				     _("No %s could be disbanded"),
+				     unit_name(i));
     }
   }
   g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
