@@ -1,4 +1,4 @@
-%% Helpfile for Freeciv 1.7.x
+%% Helpfile for Freeciv 1.8.x
 %%
 %% The number of spaces after the "#" indicates nesting level when
 %% displayed in the online help.
@@ -1498,7 +1498,6 @@ weakest unit.
 ---
 @END_UNITS
 #Combat
-%% First draft by Greg Wooledge <wooledge@kellnet.com> 1998-07-30.
 When one unit attacks another unit, either the attacker will be
 destroyed, or the defender will be destroyed -- never both (unless
 the attacker was a missile).  The outcome depends on several
@@ -1684,8 +1683,6 @@ The following Freeciv ZOC effects differ from some similar games:
 - Land units moving from boats at sea onto land are subject to ZOC.
 These cases will probably be changed in a future version of Freeciv.
 ---
-%% Terrain help by Greg Wooledge <wooledge@kellnet.com>.  First
-%% draft 1998-07-18.
 %% It would probably be better to have some client-side code to
 %% automatically pull terrain information from the tile_types[]
 %% array, but this is better than nothing.
@@ -1814,7 +1811,6 @@ fortress defend at twice their normal strength; also, units inside
 a fortress must be destroyed one at a time.  See the Combat help
 section for further details.
 ---
-%% First draft by Greg Wooledge <wooledge@kellnet.com> 1998-07-23.
 #Government
 Your government type influences your cities' productivity and
 commerce, your citizens' happiness, and many other game factors.
@@ -1883,6 +1879,7 @@ Settlers consume 1 food per turn under Anarchy.  Squares which would
 normally yield more than 2 units of food, shields or trade suffer
 a 1-unit penalty (e.g., an irrigated grassland square which would
 normally yield 3 food only yields 2 food while you are in Anarchy).
+(This penalty is removed if the city is celebrating; see Happiness.)
 
 Under Anarchy, each of your cities can support a number of military
 units equal to its size without paying shields for upkeep.
@@ -1903,7 +1900,8 @@ Settlers consume 1 food per turn under Despotism.  Squares which
 would normally yield more than 2 units of food, shields or trade
 suffer a 1-unit penalty (e.g., an irrigated grassland square which
 would normally yield 3 food only yields 2 food while you are under
-Despotic rule).
+Despotic rule).  (This penalty is removed if the city is
+celebrating; see Happiness.)
 
 Under Despotism, each of your cities can support a number of
 military units equal to its size without paying shields for
@@ -1921,6 +1919,10 @@ Monarchy suffers the same small amount of corruption that the
 Republic does.
 
 Settlers consume 1 food per turn under Monarchy.
+
+If a city governed by a Monarchy is celebrating, it will receive a
+bonus of 1 trade in each square which already produces at least 1
+trade.  See Happiness for details.
 
 Under Monarchy, your cities can support up to 3 military units
 without paying shields for upkeep.  (Additional units require 1
@@ -1944,6 +1946,10 @@ computing the cost of inciting a revolt (see Units, Diplomat).
 
 Settlers consume 2 food per turn under Communism.
 
+If a city governed by Communism is celebrating, it will receive a
+bonus of 1 trade in each square which already produces at least 1
+trade.  See Happiness for details.
+
 Diplomats and Spies created under Communism are always veterans.
 
 Under Communism, your cities can support up to 3 military units
@@ -1966,6 +1972,9 @@ Cities under the Republic suffer a small amount of corruption.
 
 Settlers consume 2 food per turn under the Republic.  Squares with
 at least 1 trade resource get a trade bonus of 1 under the Republic.
+
+Republican cities which are celebrating grow at a rate of 1 citizen
+per turn; see Happiness for details.
 
 Under the Republic, military units require 1 production shield each
 for upkeep.  In addition the following units are considered
@@ -1991,6 +2000,9 @@ during Democracy, but citizens become very upset during wars.
 Settlers consume 2 food per turn under Democracy.  Squares with
 at least 1 trade resource get a trade bonus of 1 under Democracy.
 
+Democratic cities which are celebrating grow at a rate of 1 citizen
+per turn; see Happiness for details.
+
 Under Democracy, military units require 1 production shield each for
 upkeep.  In addition the following units generate unhappiness:
 
@@ -2010,23 +2022,40 @@ government, their loyalty is unswerving.  Military units of
 Democratic civilizations cannot be bribed, and Democratic cities
 cannot be incited to revolt by enemy Diplomats and Spies.
 ---
-%% First draft by Greg Wooledge <wooledge@kellnet.com> 1998-07-24.
 #Happiness
-Keeping your citizens happy (or at least content) is one of the most
-important objectives in Freeciv.  When your citizens become unhappy,
-your cities will fall into disorder (and produce nothing).  Cities
-which are in disorder are easier for enemy Diplomats and Spies to
-incite to revolt.  Prolonged disorder under Democracy can lead to a
-revolution.
+Citizens may be either happy, content or unhappy.  Keeping your
+citizens happy (or at least content) is one of the most important
+objectives in Freeciv.  When your citizens become unhappy, your
+cities will fall into disorder (which disrupts production); but when
+your citizens are happy, your cities will celebrate, and your
+production will increase greatly.
 
-Citizens may be either happy, content or unhappy.  If the number of
-unhappy citizens in a city exceeds the number of happy citizens, the
-city falls into disorder.  However, if the number of happy citizens
-in a city is at least as great as the number of content citizens,
-and you have no unhappy citizens, and the city has at least 5
-citizens, then the city celebrates.  A celebrating city increases in
-population by 1 each turn until there is no excess food or until the
-number of happy citizens is no longer sufficient for celebration.
+If the number of unhappy citizens in a city exceeds the number of
+happy citizens, the city falls into disorder.  When a city falls
+into disorder, it produces nothing.  Cities which are in disorder
+are easier for enemy Diplomats and Spies to incite to revolt.
+Prolonged disorder under Democracy can lead to a spontaneous
+revolution, overthrowing your government.
+
+However, if the number of happy citizens in a city is at least as
+great as the number of content citizens, and you have no unhappy
+citizens in that city, and the city has at least 5 citizens, then
+the city celebrates.  This is designated by the term "Rapture" on
+the City Report.  The effects of celebration vary depending on your
+government type:
+
+ - Under Anarchy or Despotism, you will not suffer the normal
+   production penalty for squares which produce more than 2 units of
+   any resource (food, shields or trade).
+
+ - Under Monarchy or Communism, your city will gain the trade bonus
+   of Republican/Democratic governments: 1 bonus trade in any square
+   which already produces at least 1 trade.
+
+ - Under a Republic or a Democracy, your city's population will
+   increase by 1 each turn until there is no excess food or until
+   the number of happy citizens is no longer sufficient for
+   celebration.
 
 The normal state of a citizen is contentment.  However, as your
 cities grow larger, crowding causes citizens to become unhappy.
@@ -2044,9 +2073,10 @@ content.  Some city improvements and wonders of the world have
 effects on citizens' happiness (see the appropriate sections for
 details).
 
-Under certain forms of government, the presence of military units in
-a city can either create unhappiness or create contentment (see
-Government for details).
+Under many forms of government, the presence of military units in a
+city can create contentment by imposing martial law.  Under a
+Republic or a Democracy, however, military units can cause
+unhappiness.  See Government for details.
 ---
 #Space Race
 The Space Race is a second option to win the game, besides 
