@@ -294,7 +294,7 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
     potential_gold += get_improvement_type(pimpr)->build_cost;
   } built_impr_iterate_end;
 
-  unit_list_iterate(pcity->units_supported, punit) {
+  unit_list_iterate_safe(pcity->units_supported, punit) {
 
     if (pplayer->economic.gold + potential_gold < punit->upkeep_gold) {
       /* We cannot upkeep this unit any longer and selling off city
@@ -311,7 +311,7 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
        * upkeep give gold when they are disbanded? */
       pplayer->economic.gold -= punit->upkeep_gold;
     }
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 }
 
 /***************************************************************************
@@ -416,7 +416,7 @@ void player_restore_units(struct player *pplayer)
   if (player_owns_active_wonder(pplayer, B_LEONARDO))
     handle_leonardo(pplayer);
 
-  unit_list_iterate(pplayer->units, punit) {
+  unit_list_iterate_safe(pplayer->units, punit) {
 
     /* 2) Modify unit hitpoints. Helicopters can even lose them. */
     unit_restore_hitpoints(pplayer, punit);
@@ -485,13 +485,13 @@ void player_restore_units(struct player *pplayer)
 	  map_has_special(punit->x, punit->y, S_AIRBASE))
 	punit->fuel=unit_type(punit)->fuel;
     }
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 
   /* 8) Use carriers and submarines to refuel air units */
   refuel_air_units_from_carriers(pplayer);
   
   /* 9) Check if there are air units without fuel */
-  unit_list_iterate(pplayer->units, punit) {
+  unit_list_iterate_safe(pplayer->units, punit) {
     if (is_air_unit(punit) && punit->fuel <= 0
         && unit_type(punit)->fuel > 0) {
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
@@ -502,7 +502,7 @@ void player_restore_units(struct player *pplayer)
 	      unit_name(punit->type));
       wipe_unit(punit);
     } 
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 }
 
 /****************************************************************************
@@ -1359,13 +1359,13 @@ static void resolve_stack_conflicts(struct player *pplayer,
     struct tile *ptile = map_get_tile(x, y);
 
     if (is_non_allied_unit_tile(ptile, pplayer)) {
-      unit_list_iterate(ptile->units, aunit) {
+      unit_list_iterate_safe(ptile->units, aunit) {
         if (unit_owner(aunit) == pplayer
             || unit_owner(aunit) == aplayer
             || is_ocean(ptile->terrain)) {
           bounce_unit(aunit, verbose);
         }
-      } unit_list_iterate_end;
+      } unit_list_iterate_safe_end;
     }    
   } unit_list_iterate_safe_end;
 }

@@ -2263,7 +2263,7 @@ void game_load(struct section_file *file)
 
   /* Fix ferrying sanity */
   players_iterate(pplayer) {
-    unit_list_iterate(pplayer->units, punit) {
+    unit_list_iterate_safe(pplayer->units, punit) {
       struct unit *ferry = find_unit_by_id(punit->transported_by);
 
       if (is_ocean(map_get_terrain(punit->x, punit->y))
@@ -2272,7 +2272,7 @@ void game_load(struct section_file *file)
                 pplayer->name, unit_name(punit->type), punit->x, punit->y);
         bounce_unit(punit, TRUE);
       }
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
   } players_iterate_end;
 
   return;

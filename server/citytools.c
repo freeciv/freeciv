@@ -642,7 +642,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   /* Transfer enemy units in the city to the new owner.
    * Only relevant if we are transferring to another player. */
   if (pplayer != pvictim) {
-    unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
+    unit_list_iterate_safe(map_get_tile(x, y)->units, vunit)  {
       /* Don't transfer units already owned by new city-owner --wegge */ 
       if (unit_owner(vunit) == pvictim) {
 	transfer_unit(vunit, pcity, verbose);
@@ -652,7 +652,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
         /* the owner of vunit is allied to pvictim but not to pplayer */
         bounce_unit(vunit, verbose);
       }
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
   }
 
   /* Any remaining units supported by the city are either given new home
@@ -1098,7 +1098,7 @@ void remove_city(struct city *pcity)
 
   /* This is cutpasted with modifications from transfer_city_units. Yes, it is ugly.
      But I couldn't see a nice way to make them use the same code */
-  unit_list_iterate(pcity->units_supported, punit) {
+  unit_list_iterate_safe(pcity->units_supported, punit) {
     struct city *new_home_city = map_get_city(punit->x, punit->y);
     x = punit->x; y = punit->y;
     if (new_home_city
@@ -1116,14 +1116,14 @@ void remove_city(struct city *pcity)
     }
 
     wipe_unit(punit);
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 
   x = pcity->x;
   y = pcity->y;
 
   /* make sure ships are not left on land when city is removed. */
  MOVE_SEA_UNITS:
-  unit_list_iterate(ptile->units, punit) {
+  unit_list_iterate_safe(ptile->units, punit) {
     bool moved;
     if (!punit
 	|| !same_pos(punit->x, punit->y, x, y)
@@ -1158,7 +1158,7 @@ void remove_city(struct city *pcity)
     /* We just messed with the unit list. Avoid trouble by starting over.
        Note that the problem is reduced by one unit, so no loop trouble. */
     goto MOVE_SEA_UNITS;
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 
   for (o = 0; o < NUM_TRADEROUTES; o++) {
     struct city *pother_city = find_city_by_id(pcity->trade[o]);

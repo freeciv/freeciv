@@ -13,6 +13,7 @@
 #ifndef FC__UNIT_H
 #define FC__UNIT_H
 
+#include "mem.h"		/* unit_list_iterate_safe */
 #include "terrain.h"		/* enum tile_special_type */
 #include "unittype.h"
 

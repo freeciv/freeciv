@@ -540,7 +540,7 @@ static void city_populate(struct city *pcity)
      * you want to disband a unit that is draining your food
      * reserves.  Hence, I'll assume food upkeep > 0 units. -- jjm
      */
-    unit_list_iterate(pcity->units_supported, punit) {
+    unit_list_iterate_safe(pcity->units_supported, punit) {
       if (unit_type(punit)->food_cost > 0 
           && !unit_flag(punit, F_UNDISBANDABLE)) {
 	char *utname = unit_type(punit)->name;
@@ -556,8 +556,7 @@ static void city_populate(struct city *pcity)
 	  pcity->food_stock=0;
 	return;
       }
-    }
-    unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
     notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
 		     _("Game: Famine causes population loss in %s."),
 		     pcity->name);

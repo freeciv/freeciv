@@ -1110,6 +1110,8 @@ static bool diplomat_success_vs_defender (struct unit *pdefender)
 static bool diplomat_infiltrate_city (struct player *pplayer, struct player *cplayer,
 			      struct unit *pdiplomat, struct city *pcity)
 {
+  /* We don't need a _safe iterate since no transported units should be
+   * destroyed. */
   unit_list_iterate ((map_get_tile (pcity->x, pcity->y))->units, punit)
     if (unit_flag(punit, F_DIPLOMAT) || unit_flag(punit, F_SUPERSPY)) {
       /* A F_SUPERSPY unit may not acutally be a spy, but a superboss which 
