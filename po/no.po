@@ -14,9 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.13\n"
 "POT-Creation-Date: 2002-08-01 09:41+0000\n"
-"PO-Revision-Date: 2002-08-01 10:03+0000\n"
+"PO-Revision-Date: 2002-08-01 17:27+0000\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
-"Language-Team: Norwegian\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -313,7 +312,7 @@ msgstr "ikke treff"
 
 #: common/shared.c:1062
 msgid "'Cause civilization should be free!"
-msgstr "Fordi Civilization bør være fritt!"
+msgstr "Fordi Civilization burde være fritt!"
 
 #: common/support.c:149
 #, c-format
@@ -915,12 +914,12 @@ msgstr "Feil: ukjent opsjon '%s'\n"
 #: server/civserver.c:124
 #, c-format
 msgid "This is the server for %s"
-msgstr "Dette er tjeneren for %s"
+msgstr "Dette er serveren for %s"
 
 #: server/civserver.c:125
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr "Du kan lære mye om Freeciv på %s"
+msgstr "Du finner mer informasjon om Freeciv på %s"
 
 #: client/civclient.c:118 server/civserver.c:129
 #, c-format
@@ -2380,12 +2379,12 @@ msgstr "Spill: Tilkobling %s fra %s deltar som spiller %s."
 #: server/srv_main.c:1063
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
-msgstr "Velkommen til %s serveren som kjører på %s port %d."
+msgstr "Velkommen til serveren %s som kjører på %s port %d."
 
 #: server/srv_main.c:1066
 #, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr "Velkommen til %s serveren på port %d."
+msgstr "Velkommen til serveren %s på port %d."
 
 #: server/srv_main.c:1077
 #, c-format
@@ -2415,17 +2414,17 @@ msgstr "Nektet tilkobling ifra %s med ugyldig navn."
 #: server/srv_main.c:1219
 #, c-format
 msgid "Connection request from %s from %s"
-msgstr "Tilkoblingsforespørsel fra %s fra %s"
+msgstr "Tilkoblingsforsøk fra %s fra %s"
 
 #: server/srv_main.c:1223
 #, c-format
 msgid "Connection request from %s from %s (connection named %s)"
-msgstr "Tilkoblingsforespørsel fra %s fra %s (tilkoblingsnavn %s)"
+msgstr "Tilkoblingsforsøk fra %s fra %s (tilkoblingsnavn %s)"
 
 #: server/srv_main.c:1227
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
-msgstr "%s har klientversjon %d.%d.%d%s"
+msgstr "%s har klient med versjon %d.%d.%d%s"
 
 #: server/srv_main.c:1237
 #, c-format
@@ -3824,7 +3823,7 @@ msgstr ""
 
 #: server/stdinhand.c:1140
 msgid "Query or set command access level access."
-msgstr "Be om eller sett kommandonivå tilgang."
+msgstr "Be om eller sett kommando tilgangsnivå."
 
 #: server/stdinhand.c:1141
 msgid ""
@@ -3867,7 +3866,7 @@ msgstr ""
 
 #: server/stdinhand.c:1164
 msgid "Grab the 'first come' command access level."
-msgstr "Ta 'første tilkobling's kommando aksess-nivå."
+msgstr "Ta 'første tilkobling's kommando tilgangsnivå."
 
 #: server/stdinhand.c:1165
 msgid ""
@@ -4231,7 +4230,7 @@ msgstr "Bruk: rulesout <regeltype> <filnavn>. Prøv \"%shelp rulesout\"."
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
 "'%s'."
-msgstr "Kan ikke senke kommandonivå '%s' for tilkobling '%s'; du har kun '%s'."
+msgstr "Kan ikke redusere tilgangsnivå '%s' for tilkobling '%s'; du har kun '%s'."
 
 #: server/stdinhand.c:2024
 #, c-format
@@ -4249,71 +4248,71 @@ msgstr ""
 
 #: server/stdinhand.c:2105
 msgid "Command access levels in effect:"
-msgstr "Kommandonivå i bruk:"
+msgstr "Kommando tilgangsnivå i bruk:"
 
 #: server/stdinhand.c:2113
 #, c-format
 msgid "Command access level for new connections: %s"
-msgstr "Kommandonivå for nye tilkoblinger: %s"
+msgstr "Kommando tilgangsnivå for nye tilkoblinger: %s"
 
 #: server/stdinhand.c:2116
 #, c-format
 msgid "Command access level for first player to take it: %s"
-msgstr "Kommando aksess-nivå for første spiller: %s."
+msgstr "Kommando tilgangsnivå for første spiller: %s."
 
 #: server/stdinhand.c:2125
 msgid "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
-msgstr "Feil: kommandonivå må være en av 'none', 'info', 'ctrl', eller 'hack'."
+msgstr "Feil: kommando tilgangsnivå må være en av 'none', 'info', 'ctrl', eller 'hack'."
 
 #: server/stdinhand.c:2130
 #, c-format
 msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
-msgstr "Kan ikke øke kommandonivå til '%s'; du har kun '%s' selv."
+msgstr "Kan ikke øke kommando tilgangsnivå til '%s'; du har kun '%s' selv."
 
 #: server/stdinhand.c:2154 server/stdinhand.c:2211
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
-msgstr "Kommando aksess-nivå satt til '%s' for tilkobling %s."
+msgstr "Kommando tilgangsnivå satt til '%s' for tilkobling %s."
 
 #: server/stdinhand.c:2158 server/stdinhand.c:2215
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
-msgstr "Kommando aksessnivå kunne ikke settes til '%s' for tilkobling %s."
+msgstr "Kommando tilgangsnivå kunne ikke settes til '%s' for tilkobling %s."
 
 #: server/stdinhand.c:2167 server/stdinhand.c:2181
 #, c-format
 msgid "Default command access level set to '%s'."
-msgstr "Std.verdi for kommando aksess-nivå er satt til '%s'."
+msgstr "Standardverdi for kommando tilgangsnivå er satt til '%s'."
 
 #: server/stdinhand.c:2169
 #, c-format
 msgid "Game: All players now have access level '%s'."
-msgstr "Spill: Alle spillere har nå aksess-nivå '%s'."
+msgstr "Spill: Alle spillere har nå tilgangsnivå '%s'."
 
 #: server/stdinhand.c:2174 server/stdinhand.c:2189
 #, c-format
 msgid "'First come' command access level also raised to '%s'."
-msgstr "'Første tilkoblingen's kommando aksess-nivå er hevet til '%s'."
+msgstr "'Første tilkoblingen's kommando tilgangsnivå er hevet til '%s'."
 
 #: server/stdinhand.c:2184
 #, c-format
 msgid "Game: New connections will have access level '%s'."
-msgstr "Spill: Nye tilkoblinger vil ha aksessnivå '%s'."
+msgstr "Spill: Nye tilkoblinger vil ha tilgangsnivå '%s'."
 
 #: server/stdinhand.c:2196
 #, c-format
 msgid "'First come' command access level set to '%s'."
-msgstr "'Første tilkoblingen's kommando-aksessnivå er satt til '%s'."
+msgstr "'Første tilkoblingen's kommando tilgangsnivå er satt til '%s'."
 
 #: server/stdinhand.c:2199
 #, c-format
 msgid "Game: 'First come' command access level set to '%s'."
-msgstr "Spill: 'Første tilkobling's kommando-aksessnivå er satt til '%s'."
+msgstr "Spill: 'Første tilkobling's kommando tilgangsnivå er satt til '%s'."
 
 #: server/stdinhand.c:2204
 #, c-format
 msgid "Default command access level also lowered to '%s'."
-msgstr "Standardverdi for kommando-aksessnivå er senket til '%s'."
+msgstr "Standardverdi for kommando tilgangsnivå er senket til '%s'."
 
 #: server/stdinhand.c:2234
 msgid "The 'firstlevel' command makes no sense from the server command line."
@@ -4322,22 +4321,22 @@ msgstr "'Førstenivå'-kommandoen gir ikke mening på server-kommandolinje."
 #: server/stdinhand.c:2237
 #, c-format
 msgid "You already have command access level '%s' or better."
-msgstr "Du har allerede aksessnivå '%s' eller bedre."
+msgstr "Du har allerede tilgangsnivå '%s' eller bedre."
 
 #: server/stdinhand.c:2241
 #, c-format
 msgid "Someone else already has command access level '%s' or better."
-msgstr "Noen andre har allerede aksessnivå '%s' eller bedre."
+msgstr "Noen andre har allerede tilgangsnivå '%s' eller bedre."
 
 #: server/stdinhand.c:2246
 #, c-format
 msgid "Your command access level has been increased to '%s'."
-msgstr "Ditt kommando-aksessnivå har blitt økt til '%s'."
+msgstr "Ditt kommando tilgangsnivå har blitt økt til '%s'."
 
 #: server/stdinhand.c:2248
 #, c-format
 msgid "Game: Connection '%s' has grabbed 'first come' access level, '%s'."
-msgstr "Spill: Tilkoblingen '%s' har tatt 'Første tilkoblingen's aksessnivå, '%s'."
+msgstr "Spill: Tilkoblingen '%s' har tatt 'Første tilkoblingen's tilgangsnivå, '%s'."
 
 #: server/stdinhand.c:2279
 #, c-format
@@ -4682,7 +4681,7 @@ msgstr "Ulovlig listeargument: '%s'.  Forsøk '%shelp list'."
 
 #: server/stdinhand.c:3505
 msgid "List of players:"
-msgstr "Spillerliste:"
+msgstr "Liste over spillere:"
 
 #: server/stdinhand.c:3509
 msgid "<no players>"
@@ -4731,7 +4730,7 @@ msgstr " %d tilkoblinger:"
 #: server/stdinhand.c:3563
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
-msgstr "  %s fra %s (kommando-aksessnivå %s), bufstørrelse=%dkb"
+msgstr "  %s fra %s (kommando tilgangsnivå %s), buffer størrelse=%dkb"
 
 # heter AI på norsk.. ingen skjønner KI
 #: server/stdinhand.c:3568
@@ -4740,7 +4739,7 @@ msgstr " (observatør modus)"
 
 #: server/stdinhand.c:3584
 msgid "List of connections to server:"
-msgstr "List ut tilkoblinger til server:"
+msgstr "List opp tilkoblinger til server:"
 
 #: server/stdinhand.c:3588
 msgid "<no connections>"
@@ -5309,25 +5308,25 @@ msgstr "SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/index.html"
 
 #: client/audio.c:160
 msgid "No audio ruleset given!"
-msgstr "Ikke noe lyd-regeloppsett er gitt!"
+msgstr "Ingen lydoppsett er spesifisert!"
 
 #: client/audio.c:166
 #, c-format
 msgid "Cannot find audio spec-file \"%s\"."
-msgstr "Klarte ikke å lese lyd-spesifikasjonene i \"%s\"."
+msgstr "Kunne ikke finne lydoppsett i filen \"%s\"."
 
 #: client/audio.c:167
 msgid "To get sound you need to download a sound set!"
-msgstr "For å få lyd må du laste ned et lydsett!"
+msgstr "For å få lyd må du installere et lydoppsett."
 
 #: client/audio.c:168
 #, c-format
 msgid "Get sound sets from <%s>."
-msgstr "Last ned lydsett fra <%s>."
+msgstr "Det kan lastes ned fra <%s>."
 
 #: client/audio.c:170
 msgid "Will continue with disabled sounds."
-msgstr "Fortsetter uten lydeffekter."
+msgstr "Fortsetter uten lyd."
 
 #: client/audio.c:175
 #, c-format
@@ -8368,7 +8367,7 @@ msgid ""
 msgstr ""
 "Freeciv er fri programvare og du kan distribuere kopier av det under "
 "spesielle vilkår;\n"
-"Se objektet \"Kopiering\" i hjelpmenyen for mer informasjon om lisensen.\n"
+"Se \"Kopiering\" i hjelpmenyen for mer informasjon om lisensen.\n"
 "\n"
 "Besøk http://www.freeciv.org/ for oppdaterte versjoner av Freeciv, \n"
 "og for å rapportere feil ved Freeciv eller den norske oversettelsen."
@@ -11229,23 +11228,23 @@ msgstr "Hva ønsker du å gjøre?"
 
 #: client/gui-win32/connectdlg.c:1213
 msgid "New Game"
-msgstr "Nytt Spill"
+msgstr "Start nytt spill"
 
 #: client/gui-win32/connectdlg.c:1214
 msgid "Load Game"
-msgstr "Hent lagret spill"
+msgstr "Fortsett fra lagret spill"
 
 #: client/gui-win32/connectdlg.c:1215
 msgid "Load Scenario"
-msgstr "Hent Scenario"
+msgstr "Spill et scenario"
 
 #: client/gui-win32/connectdlg.c:1217
 msgid "Join Game"
-msgstr "Koble til en server"
+msgstr "Spill på nettet"
 
 #: client/gui-win32/connectdlg.c:1218
 msgid "Quit Game"
-msgstr "Avslutt"
+msgstr "Avslutt spillet"
 
 #: client/gui-win32/dialogs.c:468
 msgid "What nation will you be?"
@@ -11863,7 +11862,7 @@ msgid ""
 "leader of a civilization, fighting to obtain the ultimate goal: the "
 "extinction of all other civilizations."
 msgstr ""
-"Freeciv er et turnbasert strategispill, hvor hver spiller leder en nasjon "
+"Freeciv er et rundebasert strategispill, hvor hver spiller leder en nasjon "
 "som slåss for å oppnå det ultimate målet: utryddelse av alle andre nasjoner."
 
 #: data/helpdata.txt:42
@@ -11871,7 +11870,7 @@ msgid ""
 "  Original authors:\n"
 "    (they are no longer involved, please don't mail them!)"
 msgstr ""
-"  Originale forfattere:\n"
+"  Opprinnelige forfattere:\n"
 "    (de gjør ikke noe lengre, vennligst ikke send epost!)"
 
 #: data/helpdata.txt:49
@@ -11887,7 +11886,7 @@ msgid ""
 "\n"
 "or by sending email to:  bugs@cvs.freeciv.org"
 msgstr ""
-"Hvis du finner noen bugs, vennligst send oss en rapport. Dette gjøres mest "
+"Hvis du finner noen feil ved spillet, vennligst send oss en rapport. Dette gjøres mest "
 "hensiktsmessig ved å besøke Freeciv Bug Tracking System, på:\n"
 "\n"
 "  http://www.freeciv.org/cgi-bin/bugs\n"
@@ -11929,9 +11928,8 @@ msgstr ""
 "Se på \"Native Language Support\" i README filen for instruksjoner for å "
 "bytte til et annet språk.\n"
 "\n"
-"Dersom du oppdager skrivefeil eller andre feil ved oversettelsen, \n"
-"så kan du rapportere de til den nåværende oversetteren:\n"
-"Andreas Røsdal.<andrearo@stud.ntnu.no>\n"
+"Dersom du oppdager feil ved oversettelsen, så kan du \n"
+"rapportere de til: Andreas Røsdal <andrearo@stud.ntnu.no>.\n"
 "\n"
 "For mer informasjon om oversettelser av Freeciv,\n"
 "gå til http://www.freeciv.org/l10n.phtml\n"
@@ -11939,7 +11937,7 @@ msgstr ""
 "freeciv-dev mailing listen:   freeciv-dev@freeciv.org\n"
 "\n"
 "Kjente feil ved oversettelsen:\n"
-" - Feil kjønn på artikler."
+" - Kjønn på artikkel stemmer ikke alltid med subjektet."
 
 #: data/helpdata.txt:401
 msgid ""
@@ -11999,12 +11997,12 @@ msgid ""
 msgstr ""
 "Mus:\n"
 "====\n"
-"  Venskreklikk: (på by) :  Åpner byvinduet\n"
-"                (på enhet):  Gjør enheten aktiv\n"
+"  Venstreklikk: (på by):   Åpner byvinduet\n"
+"  Venstreklikk: (på enhet):    Gjør enheten aktiv\n"
 "  Middelklikk eller\n"
-"  Control-høyreklikk      :  Vis ruteinformation\n"
-"  Høyrerklikk                :  Sentrere ruten i fokus\n"
-"  Shift-klikk                  :  Justere byens arbeidere fra kartvinduet"
+"  Control-høyreklikk:   Vis ruteinformation\n"
+"  Høyrerklikk:   Sentrere ruten i fokus\n"
+"  Shift-klikk:   Justere byens arbeidere fra kartvinduet"
 
 #: data/helpdata.txt:438
 msgid ""
@@ -12062,7 +12060,9 @@ msgid ""
 "     tab: focus on next unit   Control-p: city production on/off\n"
 "  return: turn done"
 msgstr ""
-"Tastatur:   a: (a)uto-nybygger  (nybyggere)\n"
+"Tastatur:\n"
+"==========\n"
+"  a: (a)uto-nybygger  (nybyggere)\n"
 "  a: (a)uto-angrep  (militære enheter)\n"
 "  b: (b)ygg ny by (nybyggere)\n"
 "  b: hjelp til å (b)ygge underverk (karavanneenheter)\n"
@@ -12109,7 +12109,7 @@ msgstr ""
 "\n"
 "       piler: flytte enhet              Control-g: rutenett av/på\n"
 "   mellomrom: la enheten bli stående        Control-n: bynavn av/på\n"
-"         tab: fokusere på neste enhet   Control-p: by produksjon av/på\n"
+"         tab: fokusere på neste enhet   Control-p: by produksjon av/på"
 "return/Enter: avslutte runde"
 
 #: data/helpdata.txt:496
@@ -12180,7 +12180,7 @@ msgid ""
 "items from the available list into the worklist and Delete to delete the "
 "selected item from the worklist."
 msgstr ""
-"Keyboard snarveier:\n"
+"Tastatur snarveier:\n"
 " \n"
 "Home, flytter fokus til arbeidslisten\n"
 "End, flytter fokus til listen over den tilgjengelige listen\n"
@@ -12224,8 +12224,8 @@ msgid ""
 " 9. Making your own strategy for the game.\n"
 "10. Interacting with other players (Diplomacy).\n"
 msgstr ""
-" 0. Velge den første byen.\n"
-" 1. Bli kjent i landområdet.\n"
+" 0. Velge plassen til den første byen.\n"
+" 1. Utforske landområdet.\n"
 " 2. Forsvare byene.\n"
 " 3. Bestemme hvilke enheter som skal bygges først.\n"
 " 4. Jordbruksforbedringer\n"
@@ -12250,7 +12250,7 @@ msgid ""
 msgstr ""
 " 0. Velge plassen til den første byen.\n"
 "\n"
-"     Start spillet med å gå LITT omkring for å finne et bra sted å bygge den "
+"      Start spillet med å gå LITT omkring for å finne et bra sted å bygge den "
 "første byen. Ikke bli fristet til å utforske hyttene enda - de kan inneholde "
 "barbarer. Bygg byen i nærheten av ressurser og kanskje i nærheten av sjøen. "
 "Husk at den første byen du bygger blir hovedstaden! Poenget er å balansere "
@@ -12270,7 +12270,7 @@ msgid ""
 msgstr ""
 " 1. Utforske landområdet.\n"
 "\n"
-"     Etter at hovedstaden er grunnlagt vil den bygge en krigerenhet. Disse "
+"      Etter at hovedstaden er grunnlagt vil den bygge en krigerenhet. Disse "
 "enhetene kan brukes til å flytte rundt for å utforske landområdet rundt "
 "byen. Husk at det er risikabelt å forlate byen uten forsvar, så du burde "
 "kanskje beholde den første krigeren i byen, og bruke den neste til å "
@@ -12289,7 +12289,7 @@ msgid ""
 msgstr ""
 " 2. Forsvare byene.\n"
 "\n"
-"    Nå er det på tide å forsvare byene dine, ved alltid å ha en krigerenhet "
+"      Nå er det på tide å forsvare byene dine, ved alltid å ha en krigerenhet "
 "til å forsvare byen. Etterhvert som sivilisasjonen utvikler enheter med "
 "bedre forsvarsstyrke, så kan du erstatte de gammel enhetene med nye for å "
 "forsikre at byene har best mulig forsvar. Enhetene som oftest blir brukt til "
@@ -12480,7 +12480,7 @@ msgstr ""
 "     Disse enkle konseptene lar deg spille spillet ganske bra, spesielt i "
 "begynnelsen av spillet. Men for å bli bedre må du studere de ulike enhetene "
 "og fremskrittene, og ØVELSE GJØR MESTER! Freeciv har mange muligheter, så "
-"hvis du ikke har prøvd et lignende spill før, så bør du sjekke Freevic WWW "
+"hvis du ikke har prøvd et lignende spill før, så burde du sjekke Freevic WWW "
 "siden på http://www.freeciv.org/\n"
 "Der finner du flere tips for å spille, og dessuten detaljer for hvordan du "
 "kontakter andre spillere."
@@ -12568,7 +12568,7 @@ msgstr ""
 "     Naturligvis kan byens eier fortsatt gi deg den; da blir området rundt "
 "byen synlig. Et viktig poeng er at alle enheter i felten som tilhører den "
 "byen også inngår i overføringen (ikke de som befinner seg i andre byer). Så "
-"man bør sjekke at den andre spilleren ikke få en bedre avtale enn man hadde "
+"man bør sjekke at den andre spilleren ikke får en bedre avtale enn man hadde "
 "tenkt seg."
 
 #: data/helpdata.txt:718
@@ -12832,7 +12832,7 @@ msgstr ""
 
 #: data/helpdata.txt:889
 msgid "First, the attacker's strength is modified."
-msgstr "Først blir angriperens styrke endret."
+msgstr "Først blir angriperens styrke kalkulert."
 
 #: data/helpdata.txt:891
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
@@ -12845,14 +12845,14 @@ msgid ""
 "strength is multiplied by 2/3.  If the attacker has 1 or more movement "
 "points left, no further modifications occur."
 msgstr ""
-" - \"Slitne\" angripere er svakere: hvis angriperen bare har 1/3 flyttpoeng "
+" - \"Utmattede\" angripere er svakere: hvis angriperen bare har 1/3 flyttpoeng "
 "igjen, blir dens styrke dividert på 3; dersom den har 2/3 flyttpoeng igjen "
 "blir styrken multiplisert med 2/3. Dersom angriperen har 1 eller flere "
 "flyttpoeng igjen skjer det ingen endringer."
 
 #: data/helpdata.txt:899
 msgid "Next, the defender's strength is modified."
-msgstr "Så blir forsvarerens styrke endret."
+msgstr "Så blir forsvarerens styrke kalkulert."
 
 #: data/helpdata.txt:901
 msgid " - If the defender is a veteran, then its strength is multiplied by 1.5."
@@ -12863,7 +12863,7 @@ msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr ""
-" - Da vil forsvarerens styrke bli multiplisert med forsvarsfaktoren til "
+" - Så vil forsvarerens styrke bli multiplisert med forsvarsfaktoren til "
 "terrenget den okkuperer."
 
 #: data/helpdata.txt:907
@@ -12951,7 +12951,7 @@ msgid ""
 "point).  The first unit to reach 0 hit points (or negative hit points) "
 "loses. "
 msgstr ""
-"Dersom ingen har tapt før kampen, så pågår den så lenge begge enhetene "
+"Dersom ingen har tapt før kampen er i gang, så pågår den så lenge begge enhetene "
 "fortsatt er i live. (dvs. begge har mer enn 0 treffpoeng).Hver runde lages "
 "det et tilfeldig tall mellom 1 og summen av angriperens og forsvarerens "
 "styrke. Dersom det tilfeldige tallet er større enn forsvarerens styrke, "
@@ -13256,7 +13256,7 @@ msgstr ""
 
 #: data/helpdata.txt:1123
 msgid " Terrain Alterations"
-msgstr " Terreng endringer"
+msgstr " Terreng forbedringer"
 
 #: data/helpdata.txt:1124
 msgid ""
@@ -17739,47 +17739,4 @@ msgstr "zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:zuluene"
-
-#~ msgid "log <message>"
-#~ msgstr "logg <beskjed>"
-
-#~ msgid "Generate a log message."
-#~ msgstr "Generer en beskjed til loggen."
-
-#~ msgid ""
-#~ "Generates a 'log message' with level 1.  This is mostly useful for "
-#~ "debugging the logging system."
-#~ msgstr ""
-#~ "Lager en 'loggmelding' med level 1. Dette er mest nyttig for å finne feil "
-#~ "i logg-systemet."
-
-#~ msgid "Abort the server and generate a 'core' file."
-#~ msgstr "Torpeder server og generer en 'core-'fil."
-
-#~ msgid "This is mostly useful for debugging purposes."
-#~ msgstr "Dette er mest nyttig ved avlusning av Freeciv."
-
-#~ msgid "Crashing and burning."
-#~ msgstr "Krasjer og brenner lystig."
-
-#~ msgid "* Must end "
-#~ msgstr "* Må avslutte "
-
-#~ msgid "second "
-#~ msgstr "andre "
-
-#~ msgid "third "
-#~ msgstr "tredje "
-
-#~ msgid "%dth "
-#~ msgstr "%d. "
-
-#~ msgid "turn in a city, or on a Carrier"
-#~ msgstr "runde i en by, eller på et hangarskip"
-
-#~ msgid " or Submarine"
-#~ msgstr " eller ubåt"
-
-#~ msgid ", or will run out of fuel and be lost.\n"
-#~ msgstr ", eller den vil gå tom for drivstoff og gå tapt.\n"
 
