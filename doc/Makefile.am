@@ -26,7 +26,7 @@ EXTRA_DIST =			\
 	de/README.de		\
 	de/README.rulesets.de	\
 	de/README.sound.de	\
-	fr/BUGS			\
+	fr/BUGS.fr		\
 	fr/HOWTOPLAY.fr		\
 	fr/INSTALL.fr		\
 	fr/NEWS.fr		\
