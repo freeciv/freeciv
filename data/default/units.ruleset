@@ -10,7 +10,10 @@
 ; The AI does not know the value of Partial_Invis, nor does this
 ; work against the AI, since it knows all. It does not know anything 
 ; about air units at all. It does not build No_Land_Attack, Missile 
-; or Nuclear units.
+; or Nuclear units. It values GameLoss units at 1/10th its usual value
+; and therefore would not easily build it, but if it does, it does not 
+; protect it from harm. NoHome units are likely to be given a homecity
+; by the AI, because it is rather stupid in this regard.
 ;
 ; You should sort role units from worst to better, as often the best
 ; available role unit of a given sort will be picked by choosing
@@ -100,6 +103,22 @@ options="1.9"
 ;		  (see cities.ruleset for limitation of this ability)
 ; "Fanatic"	= can only be built by governments that allow them
 ;		  (see data/civ2/governments.ruleset, Fanaticism government)
+; "Unique"	= a player can only have one of these units in the game at
+;		  the same time; barbarians cannot use this at present
+; "GameLoss"	= losing one of these units means you lose the game, but it
+;		  is produced without homecity and upkeep
+; "Unbribable"	= this unit cannot be bribed
+; "Undisbandable" = this unit cannot be disbanded, won't drown, and will not
+;		  disband due to lack of shields to upkeep it in homecity;
+;		  if not given enough food to upkeep it, homecity will shrink 
+;		  every turn it cannot do so, however
+; "SuperSpy"	= this unit always wins diplomatic contests, that is, unless
+;		  it encounters another SuperSpy, in which case defender wins;
+;		  can also be used on non-diplomat units, in which case it can
+;		  protect cities from diplomats; also 100% spy survival chance
+; "NoHome"	= this unit has no homecity and will be free of all upkeep, and
+;		  therefore will not revolt along with its city of origin should
+;		  it be incited
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
@@ -1744,7 +1763,8 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil"
+flags         = "IgZOC", "NonMil", "GameLoss", "Unique", "Unbribable",
+                "Undisbandable", "SuperSpy", "NoHome"
 roles         = "BarbarianLeader"
 helptext      = _("\
 When barbarian leader is killed on a tile without any defending units, \

@@ -964,6 +964,9 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 	    type, conn_description(pconn));
   }
 
+  if (pplayer->is_alive && pplayer->is_dying) {
+    kill_player(pplayer);
+  }
   free(packet);
   pplayer->current_conn = NULL;
   return TRUE;

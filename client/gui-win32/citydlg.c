@@ -1589,10 +1589,12 @@ static void city_dlg_click_supported(struct city_dialog *pdialog, int n)
 {
   struct unit *punit;
   struct city *pcity;  
+  HWND wd;
+
   if((punit=player_find_unit_by_id(game.player_ptr, 
 				   pdialog->support_unit_ids[n])) &&
      (pcity = find_city_by_id(punit->homecity))) {   
-      popup_message_dialog(NULL,
+    wd = popup_message_dialog(NULL,
            /*"supportunitsdialog"*/ _("Unit Commands"),
            unit_description(punit),
            _("_Activate unit"),
@@ -1602,7 +1604,10 @@ static void city_dlg_click_supported(struct city_dialog *pdialog, int n)
            _("_Disband unit"),
              present_units_disband_callback, punit->id,
            _("_Cancel"),
-	     present_units_cancel_callback, 0, 0,NULL);
+             present_units_cancel_callback, 0, 0, NULL);
+    if (unit_flag(punit, F_UNDISBANDABLE)) {
+      message_dialog_button_set_sensitive(wd, 3, FALSE);
+    }
   }
 }
 
@@ -1647,6 +1652,9 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
      if (punit->activity == ACTIVITY_FORTIFYING
 	 || !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
        message_dialog_button_set_sensitive(wd,3, FALSE);
+     }
+     if (unit_flag(punit, F_UNDISBANDABLE)) {
+       message_dialog_button_set_sensitive(wd,4, FALSE);
      }
      if (punit->homecity == pcity->id) {
        message_dialog_button_set_sensitive(wd,5, FALSE);

@@ -1282,6 +1282,19 @@ void disband_stack_conflict_unit(struct unit *punit, bool verbose)
   freelog(LOG_VERBOSE, "Disbanded %s's %s at (%d, %d)",
 	  unit_owner(punit)->name, unit_name(punit->type),
 	  punit->x, punit->y);
+  /* Too cheesy way to kill an enemy player */
+  if (unit_flag(punit, F_GAMELOSS)) {
+    struct city *toc =
+          find_closest_owned_city(unit_owner(punit),
+              punit->x, punit->y, FALSE, NULL);
+    assert(toc != NULL);
+    notify_player_ex(unit_owner(punit), punit->x, punit->y, E_UNIT_WIN,
+        _("%s narrowly escaped death and fled to %s"), 
+        unit_name(punit->type), toc->name);
+    teleport_unit_to_city(punit, toc, -1, TRUE);
+    return;
+  }
+  /* remove it */
   if (verbose) {
     notify_player(unit_owner(punit),
 		  _("Game: Disbanded your %s at (%d, %d)."),
@@ -1484,7 +1497,11 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   punit->y = y;
 
   pcity = find_city_by_id(homecity_id);
-  punit->homecity = homecity_id;
+  if (unit_type_flag(type, F_NOHOME)) {
+    punit->homecity = 0; /* none */
+  } else {
+    punit->homecity = homecity_id;
+  }
 
   if (hp_left >= 0) {
     /* Override default full HP */
@@ -1508,10 +1525,9 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
 
   unit_list_insert(&pplayer->units, punit);
   unit_list_insert(&map_get_tile(x, y)->units, punit);
-  if (pcity) {
+  if (pcity && !unit_type_flag(type, F_NOHOME)) {
     assert(city_owner(pcity) == pplayer);
     unit_list_insert(&pcity->units_supported, punit);
-    assert(city_owner(pcity) == pplayer);
     /* Refresh the unit's homecity. */
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
@@ -1543,7 +1559,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
 }
 
 /**************************************************************************
-We remove the unit and see if it's disapperance have affected the homecity
+We remove the unit and see if it's disappearance has affected the homecity
 and the city it was in.
 **************************************************************************/
 static void server_remove_unit(struct unit *punit)
@@ -1570,6 +1586,19 @@ static void server_remove_unit(struct unit *punit)
 				   &packet);
     }
   } players_iterate_end;
+
+  /* check if this unit had F_GAMELOSS flag */
+  if (unit_flag(punit, F_GAMELOSS) && unit_owner(punit)->is_alive) {
+    notify_conn_ex(&game.est_connections, punit->x, punit->y, E_UNIT_LOST,
+                   _("Unable to defend %s, %s has lost the game."),
+                   unit_name(punit->type), unit_owner(punit)->name);
+    notify_player(unit_owner(punit), _("Losing %s meant losing the game! "
+                  "Be more careful next time!"), unit_name(punit->type));
+    gamelog(GAMELOG_NORMAL, _("Player %s lost a game loss unit and died"),
+            unit_owner(punit)->name);
+    unit_owner(punit)->is_dying = TRUE;
+    unit_owner(punit)->is_alive = FALSE;
+  }
 
   game_remove_unit(punit);
   punit = NULL;
@@ -1616,6 +1645,7 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
       && wipe_cargo) {
     int x = punit->x;
     int y = punit->y;
+    struct city *pcity = NULL;
 
     int capacity =
 	ground_unit_transporter_capacity(x, y, unit_owner(punit));
@@ -1630,14 +1660,29 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 		  unit_name(pcargo->type));
 	  ITERATOR_NEXT((*iter));
 	}
-	notify_player_ex(unit_owner(punit), x, y, E_UNIT_LOST,
+	/* Undisbandable units should be hard to get rid of. Drowning
+	   them in a trireme is too simple. Or too easy a way to lose an
+	   all-important unit, depending on the scenario. */
+	if (unit_flag(pcargo, F_UNDISBANDABLE)) {
+	  pcity = find_closest_owned_city(unit_owner(pcargo),
+			pcargo->x, pcargo->y, TRUE, NULL);
+	  if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
+	    notify_player_ex(unit_owner(punit), x, y, E_NOEVENT,
+			 _("Game: %s escaped the destruction of %s, and "
+			 "fled to %s"), unit_type(pcargo)->name,
+			 unit_type(punit)->name, pcity->name);
+	  }
+	}
+	if (!unit_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
+	  notify_player_ex(unit_owner(punit), x, y, E_UNIT_LOST,
 			 _("Game: %s lost when %s was lost."),
 			 unit_type(pcargo)->name,
 			 unit_type(punit)->name);
-	gamelog(GAMELOG_UNITL, _("%s lose %s when %s lost"),
+	  gamelog(GAMELOG_UNITL, _("%s lose %s when %s lost"),
 		get_nation_name_plural(unit_owner(punit)->nation),
 		unit_type(pcargo)->name, unit_type(punit)->name);
-	server_remove_unit(pcargo);
+	  server_remove_unit(pcargo);
+	}
 	capacity++;
       }
     } unit_list_iterate_end;
@@ -2115,6 +2160,7 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
   if (is_ocean(map_get_terrain(dest_x, dest_y))
       && is_ground_unit(punit)) {
     int srange = unit_type(punit)->vision_range;
+
     show_area(pplayer, dest_x, dest_y, srange);
 
     notify_player_ex(pplayer, dest_x, dest_y, E_UNIT_LOST,

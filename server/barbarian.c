@@ -91,6 +91,7 @@ static struct player *create_barbarian_player(bool land)
       if (!barbarians->is_alive) {
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
+        barbarians->is_dying = FALSE;
         pick_ai_player_name(game.nation_count - 1, barbarians->name);
 	sz_strlcpy(barbarians->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */

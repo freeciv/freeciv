@@ -2456,6 +2456,7 @@ static gint supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
   struct unit *punit;
   struct city *pcity;
   struct city_dialog *pdialog;
+  GtkWidget *wd;
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)) &&
       (pcity = find_city_by_id(punit->homecity)) &&
@@ -2465,7 +2466,7 @@ static gint supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
       return FALSE;
     }
 
-    popup_message_dialog(pdialog->shell,	/* "supported unit popup" */
+    wd = popup_message_dialog(pdialog->shell,	/* "supported unit popup" */
 			 _("Unit Commands"), unit_description(punit),
 			 dummy_close_callback, NULL, 
 			 _("Cen_ter"), unit_center_callback, punit->id,
@@ -2475,6 +2476,9 @@ static gint supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
 			 _("_Disband unit"), unit_disband_callback,
 			 punit->id, _("_Cancel"), NULL, 0,
 			 0);
+    if (unit_flag(punit, F_UNDISBANDABLE)) {
+      message_dialog_button_set_sensitive(wd, "button3", FALSE);
+    }
   }
   return TRUE;
 }
@@ -2521,6 +2525,9 @@ static gint present_unit_callback(GtkWidget * w, GdkEventButton * ev,
     if (punit->activity == ACTIVITY_FORTIFYING
 	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       message_dialog_button_set_sensitive(wd, "button3", FALSE);
+    }
+    if (unit_flag(punit, F_UNDISBANDABLE)) {
+      message_dialog_button_set_sensitive(wd, "button4", FALSE);
     }
     if (punit->homecity == pcity->id) {
       message_dialog_button_set_sensitive(wd, "button5", FALSE);

@@ -443,8 +443,12 @@ static void diplomat_bribe_callback(Widget w, XtPointer client_data,
 void popup_bribe_dialog(struct unit *punit)
 {
   char buf[128];
-  
-  if(game.player_ptr->economic.gold>=punit->bribe_cost) {
+
+  if (unit_flag(punit, F_UNBRIBABLE)) {
+    popup_message_dialog(toplevel, "diplomatbribedialog",
+                         _("This unit cannot be bribed!"),
+                         diplomat_bribe_no_callback, 0, 0, NULL);
+  } else if(game.player_ptr->economic.gold>=punit->bribe_cost) {
     my_snprintf(buf, sizeof(buf),
 		_("Bribe unit for %d gold?\n"
 		  "Treasury contains %d gold."), 

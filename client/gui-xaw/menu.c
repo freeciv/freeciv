@@ -362,6 +362,8 @@ void update_menus(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_ATTACK, 
 			   (can_unit_do_auto(punit)
 			    && !unit_flag(punit, F_SETTLERS)));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_DISBAND,
+			   !unit_flag(punit, F_UNDISBANDABLE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
 			   can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_CONNECT, 

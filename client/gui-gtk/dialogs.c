@@ -438,7 +438,11 @@ void popup_bribe_dialog(struct unit *punit)
 {
   char buf[128];
   
-  if(game.player_ptr->economic.gold>=punit->bribe_cost) {
+  if (unit_flag(punit, F_UNBRIBABLE)) {
+    popup_message_dialog(top_vbox, _("Ooops..."),
+			 _("This unit cannot be bribed!"),
+			 dummy_close_callback, NULL, _("Darn"), NULL, 0, 0);
+  } else if(game.player_ptr->economic.gold>=punit->bribe_cost) {
     my_snprintf(buf, sizeof(buf),
 		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
 		punit->bribe_cost, game.player_ptr->economic.gold);

@@ -304,10 +304,15 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 void popup_bribe_dialog(struct unit *punit)
 {
   GtkWidget *shell;
-  
-  if(game.player_ptr->economic.gold>=punit->bribe_cost) {
-    shell = gtk_message_dialog_new(NULL,
-      0,
+
+  if (unit_flag(punit, F_UNBRIBABLE)) {
+    shell = popup_message_dialog(GTK_WINDOW(toplevel), _("Ooops..."),
+                                 _("This unit cannot be bribed!"),
+                                 GTK_STOCK_OK, NULL, NULL, NULL);
+    gtk_window_present(GTK_WINDOW(shell));
+    return;
+  } else if (game.player_ptr->economic.gold >= punit->bribe_cost) {
+    shell = gtk_message_dialog_new(NULL, 0,
       GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
       _("Bribe unit for %d gold?\nTreasury contains %d gold."),
       punit->bribe_cost, game.player_ptr->economic.gold);

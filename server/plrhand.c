@@ -43,6 +43,9 @@
 #include "srv_main.h"
 #include "stdinhand.h"
 #include "unittools.h"
+#include "spaceship.h"
+#include "spacerace.h"
+#include "unittools.h"
 
 #include "advmilitary.h"
 #include "aidata.h"
@@ -176,28 +179,74 @@ void begin_player_turn(struct player *pplayer)
 void update_player_aliveness(struct player *pplayer)
 {
   assert(pplayer != NULL);
-  if(pplayer->is_alive) {
-    if(unit_list_size(&pplayer->units)==0 && 
-       city_list_size(&pplayer->cities)==0) {
-      notify_player_ex(pplayer, -1, -1, E_GAME_END,
-		       _("Game: You are dead!"));
-      pplayer->is_alive = FALSE;
-      if( !is_barbarian(pplayer) ) {
-	notify_player_ex(NULL, -1, -1, E_DESTROYED,
-			 _("Game: The %s are no more!"),
-			 get_nation_name_plural(pplayer->nation));
-	gamelog(GAMELOG_GENO, _("%s civilization destroyed"),
-		get_nation_name(pplayer->nation));
-      }
-      players_iterate(pplayer2) {
-	if (gives_shared_vision(pplayer, pplayer2))
-	  remove_shared_vision(pplayer, pplayer2);
-      } players_iterate_end;
-
-      cancel_all_meetings(pplayer);
-      map_know_and_see_all(pplayer);
-    }
+  if (pplayer->is_alive) {
+     if (unit_list_size(&pplayer->units) == 0
+         && city_list_size(&pplayer->cities) == 0) {
+       kill_player(pplayer);
+     }
   }
+}
+
+/**************************************************************************
+  Murder a player in cold blood.
+**************************************************************************/
+void kill_player(struct player *pplayer) {
+  bool palace;
+
+  pplayer->is_alive = FALSE;
+
+  cancel_all_meetings(pplayer);
+  map_know_and_see_all(pplayer);
+
+  if (is_barbarian(pplayer)) {
+    gamelog(GAMELOG_GENO, _("The feared barbarian leader %s is no more"),
+        pplayer->name);
+    return;
+  } else {
+    notify_player_ex(NULL, -1, -1, E_DESTROYED, _("Game: The %s are no more!"),
+                     get_nation_name_plural(pplayer->nation));
+    gamelog(GAMELOG_GENO, _("%s civilization destroyed"),
+            get_nation_name(pplayer->nation));
+  }
+
+  /* Transfer back all cities not originally owned by player to their
+     rightful owners, if they are still around */
+  palace = game.savepalace;
+  game.savepalace = FALSE; /* moving it around is dumb */
+  city_list_iterate(pplayer->cities, pcity) {
+    if ((pcity->original != pplayer->player_no)
+        && (get_player(pcity->original)->is_alive)) {
+      /* Transfer city to original owner, kill all its units outside of
+         a radius of 3, give verbose messages of every unit transferred,
+         and raze buildings according to raze chance (also removes palace) */
+      transfer_city(get_player(pcity->original), pcity, 3, TRUE, TRUE, TRUE);
+    }
+  } city_list_iterate_end;
+
+  /* Remove all units that are still ours */
+  unit_list_iterate_safe(pplayer->units, punit) {
+    wipe_unit(punit);
+  } unit_list_iterate_safe_end;
+
+  /* Destroy any remaining cities */
+  city_list_iterate(pplayer->cities, pcity) {
+    remove_city(pcity);
+  } city_list_iterate_end;
+  game.savepalace = palace;
+
+  players_iterate(aplayer) {
+    /* Remove shared vision */  
+    if (gives_shared_vision(pplayer, aplayer)) {
+      remove_shared_vision(pplayer, aplayer);
+    }
+  } players_iterate_end;
+    
+  /* Ensure this dead player doesn't win with a spaceship.
+   * Now that would be truly unbelievably dumb - Per */
+  spaceship_init(&pplayer->spaceship);
+  send_spaceship_info(pplayer, NULL);
+
+  send_player_info_c(pplayer, &game.est_connections);
 }
 
 /**************************************************************************

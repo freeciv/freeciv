@@ -1350,6 +1350,9 @@ void present_units_callback(Widget w, XtPointer client_data,
 	|| !can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       XtSetSensitive(XtNameToWidget(wd, "*button3"), FALSE);
     }
+    if (unit_flag(punit, F_UNDISBANDABLE)) {
+      XtSetSensitive(XtNameToWidget(wd, "*button4"), FALSE);
+    }
     if (punit->homecity == pcity->id) {
       XtSetSensitive(XtNameToWidget(wd, "*button5"), FALSE);
     }
@@ -1624,7 +1627,8 @@ static void support_units_callback(Widget w, XtPointer client_data,
   struct city *pcity;
   struct city_dialog *pdialog;
   XEvent *e = (XEvent*)call_data;
-  
+  Widget wd;
+
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)))
     if((pcity=find_city_by_id(punit->homecity)))
       if((pdialog=get_city_dialog(pcity)))  {
@@ -1637,7 +1641,7 @@ static void support_units_callback(Widget w, XtPointer client_data,
 	  set_unit_focus(punit);
 	  return;
 	}
-	popup_message_dialog(pdialog->shell,
+	wd = popup_message_dialog(pdialog->shell,
 			     "supportunitsdialog", 
 			     unit_description(punit),
 			     supported_units_activate_callback, punit->id, 1,
@@ -1646,6 +1650,9 @@ static void support_units_callback(Widget w, XtPointer client_data,
 			     present_units_disband_callback, punit->id, 1,
 			     present_units_cancel_callback, 0, 0,
 			     NULL);
+        if (unit_flag(punit, F_UNDISBANDABLE)) {
+          XtSetSensitive(XtNameToWidget(wd, "*button3"), FALSE);
+        }
       }
 }
 

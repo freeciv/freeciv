@@ -109,6 +109,12 @@ enum unit_flag_id {
   F_ADD_TO_CITY,      /* unit can add to city population */
   F_FANATIC,          /* Only Fundamentalist government can build
 			 these units */
+  F_GAMELOSS,         /* Losing this unit means losing the game */
+  F_UNIQUE,           /* A player can only have one unit of this type */
+  F_UNBRIBABLE,       /* Cannot be bribed */
+  F_UNDISBANDABLE,    /* Cannot be disbanded, won't easily go away */
+  F_SUPERSPY,         /* Always wins diplomatic contests */
+  F_NOHOME,           /* Has no homecity */
   F_LAST
 };
 #define F_MAX 64

@@ -400,17 +400,23 @@ void handle_unit_change_homecity(struct player *pplayer,
 static void do_unit_disband_safe(struct city *pcity, struct unit *punit,
 				 struct genlist_iterator *iter)
 {
-  if (pcity) {
-    pcity->shield_stock += (unit_type(punit)->build_cost/2);
-    /* If we change production later at this turn. No penalty is added. */
-    pcity->disbanded_shields += (unit_type(punit)->build_cost/2);
+  if (!unit_flag(punit, F_UNDISBANDABLE)) { /* refuse to kill ourselves */
+    if (pcity) {
+      pcity->shield_stock += (unit_type(punit)->build_cost/2);
+      /* If we change production later at this turn. No penalty is added. */
+      pcity->disbanded_shields += (unit_type(punit)->build_cost/2);
 
-    /* Note: Nowadays it's possible to disband unit in allied city and
-     * your ally receives those shields. Should it be like this? Why not?
-     * That's why we must use city_owner instead of pplayer -- Zamar */
-    send_city_info(city_owner(pcity), pcity);
+      /* Note: Nowadays it's possible to disband unit in allied city and
+       * your ally receives those shields. Should it be like this? Why not?
+       * That's why we must use city_owner instead of pplayer -- Zamar */
+      send_city_info(city_owner(pcity), pcity);
+    }
+    wipe_unit_safe(punit, iter);
+  } else {
+    notify_player_ex(unit_owner(punit), punit->x, punit->y, E_NOEVENT,
+              _("Game: %s refuses to disband!"), unit_name(punit->type));
+    return;
   }
-  wipe_unit_safe(punit, iter);
 }
 
 /**************************************************************************

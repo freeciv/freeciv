@@ -430,6 +430,12 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
+  if (unit_flag(pvictim, F_UNBRIBABLE)) {
+    notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_MY_DIPLOMAT_FAILED,
+		     _("Game: You cannot bribe %s!"), unit_name(pvictim->type));
+    return;
+  }
+
   freelog (LOG_DEBUG, "bribe-unit: succeeded");
 
   /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
@@ -1068,6 +1074,10 @@ static bool diplomat_success_vs_defender (struct unit *pdefender)
 {
   int success = game.diplchance;
 
+  if (unit_flag(pdefender, F_SUPERSPY)) {
+    return TRUE;
+  }
+
   if (unit_flag (pdefender, F_SPY)) {
     if (success > 66) {
       success -= (100 - success);
@@ -1099,8 +1109,13 @@ static bool diplomat_infiltrate_city (struct player *pplayer, struct player *cpl
 			      struct unit *pdiplomat, struct city *pcity)
 {
   unit_list_iterate ((map_get_tile (pcity->x, pcity->y))->units, punit)
-    if (unit_flag (punit, F_DIPLOMAT)) {
-      if (diplomat_success_vs_defender (punit)) {
+    if (unit_flag(punit, F_DIPLOMAT) || unit_flag(punit, F_SUPERSPY)) {
+      /* A F_SUPERSPY unit may not acutally be a spy, but a superboss which 
+         we cannot allow puny diplomats from getting the better of. Note that 
+         diplomat_success_vs_defender(punit) is always TRUE if the attacker
+         is F_SUPERSPY. Hence F_SUPERSPY vs F_SUPERSPY in a diplomatic contest
+         always kills the attacker. */
+      if (diplomat_success_vs_defender(punit) && !unit_flag(punit, F_SUPERSPY)) {
 	/* Defending Spy/Diplomat dies. */
 
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_MY_DIPLOMAT_FAILED,
@@ -1158,10 +1173,16 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
       y = pdiplomat->y;
     }
 
-    if (myrand (100) < game.diplchance) {
+    if (myrand (100) < game.diplchance || unit_flag(pdiplomat, F_SUPERSPY)) {
       /* Attacking Spy/Diplomat survives. */
 
       struct city *spyhome = find_city_by_id (pdiplomat->homecity);
+
+      /* It may never have had a homecity */
+      if (!spyhome) {
+	spyhome = find_closest_owned_city(pplayer, pdiplomat->x, pdiplomat->y,
+					  FALSE, NULL);
+      }
 
       if (!spyhome) {
 	send_unit_info (pplayer, pdiplomat);

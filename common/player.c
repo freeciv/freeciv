@@ -104,6 +104,7 @@ void player_init(struct player *plr)
   plr->is_connected = FALSE;
   plr->was_created = FALSE;
   plr->is_alive=TRUE;
+  plr->is_dying = FALSE;
   plr->embassy=0;
   plr->reputation=GAME_DEFAULT_REPUTATION;
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {

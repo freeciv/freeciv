@@ -1152,6 +1152,8 @@ void update_menus(void)
 			  can_unit_do_activity(punit, ACTIVITY_SENTRY));
       menus_set_sensitive("<main>/_Orders/Pillage",
 			  can_unit_do_activity(punit, ACTIVITY_PILLAGE));
+      menus_set_sensitive("<main>/_Orders/_Disband Unit",
+			  !unit_flag(punit, F_UNDISBANDABLE));
       menus_set_sensitive("<main>/_Orders/Make _Homecity",
 			  can_unit_change_homecity(punit));
       menus_set_sensitive("<main>/_Orders/_Unload",

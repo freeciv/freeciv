@@ -583,7 +583,8 @@ static void city_populate(struct city *pcity)
      * reserves.  Hence, I'll assume food upkeep > 0 units. -- jjm
      */
     unit_list_iterate(pcity->units_supported, punit) {
-      if (unit_type(punit)->food_cost > 0) {
+      if (unit_type(punit)->food_cost > 0 
+          && !unit_flag(punit, F_UNDISBANDABLE)) {
 	char *utname = unit_type(punit)->name;
 	wipe_unit_safe(punit, &myiter);
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_UNIT_LOST,
@@ -889,7 +890,7 @@ static void upgrade_unit_prod(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Disband units if we don't have enough shields to support them.
 **************************************************************************/
 static void city_distribute_surplus_shields(struct player *pplayer,
 					    struct city *pcity)
@@ -898,7 +899,8 @@ static void city_distribute_surplus_shields(struct player *pplayer,
 
   while (pcity->shield_surplus < 0) {
     unit_list_iterate(pcity->units_supported, punit) {
-      if (utype_shield_cost(unit_type(punit), g) > 0) {
+      if (utype_shield_cost(unit_type(punit), g) > 0
+          && !unit_flag(punit, F_UNDISBANDABLE)) {
 	struct packet_unit_request packet;
 
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
@@ -906,6 +908,17 @@ static void city_distribute_surplus_shields(struct player *pplayer,
 			 pcity->name, unit_type(punit)->name);
         packet.unit_id = punit->id;
         handle_unit_disband(pplayer, &packet);
+	break;
+      }
+    } unit_list_iterate_end;
+    /* Special case: F_UNDISBANDABLE. This nasty unit won't go so easily. It'd
+       rather make the citizens pay in blood for their failure to upkeep it! */
+    unit_list_iterate(pcity->units_supported, punit) {
+      if (utype_shield_cost(unit_type(punit), g) > 0) {
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_LOST,
+			 _("Game: Citizens in %s perish for their failure to "
+			 "upkeep %s!"), pcity->name, unit_type(punit)->name);
+        city_reduce_size(pcity, 1);
 	break;
       }
     }
@@ -1050,6 +1063,18 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 {
   upgrade_unit_prod(pcity);
 
+  /* We must make a special case for barbarians here, because they are
+     so dumb. Really. They don't know the prerequisite techs for units
+     they build!! - Per */
+  if (!can_build_unit_direct(pcity, pcity->currently_building)
+      && !is_barbarian(pplayer)) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+        _("Game: %s is building %s, which is no longer available."),
+        pcity->name, unit_name(pcity->currently_building));
+    freelog(LOG_VERBOSE, _("%s's %s tried build %s, which is not available"),
+            pplayer->name, pcity->name, unit_name(pcity->currently_building));            
+    return TRUE;
+  }
   if (pcity->shield_stock >= unit_value(pcity->currently_building)) {
     int pop_cost = unit_pop_value(pcity->currently_building);
 
@@ -1098,8 +1123,11 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     /* If there's something in the worklist, change the build
        target. If there's nothing there, worklist_change_build_target
-       won't do anything. */
-    (void) worklist_change_build_target(pplayer, pcity);
+       won't do anything, unless the unit built is unique. */
+    if (!worklist_change_build_target(pplayer, pcity) 
+        && unit_type_flag(pcity->currently_building, F_UNIQUE)) {
+      advisor_choose_build(pplayer, pcity);
+    }
   }
   return TRUE;
 }

@@ -180,6 +180,7 @@ struct player {
   bool turn_done;
   int nturns_idle;
   bool is_alive;
+  bool is_dying;
   bool got_tech;
   int revolution;
   bool capital; /* used to give player capital in first city. */

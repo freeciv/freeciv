@@ -45,7 +45,8 @@ static const char *flag_names[] = {
   "AEGIS", "Fighter", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
   "Airbase", "Cities", "IgTired", "Missile_Carrier", "No_Land_Attack",
-  "AddToCity", "Fanatic"
+  "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
+  "Undisbandable", "SuperSpy", "NoHome"
 };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -431,6 +432,16 @@ bool can_player_build_unit_direct(struct player *p, Unit_Type_id id)
     return FALSE;
   if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
     return FALSE;
+  if (unit_type_flag(id, F_UNIQUE)) {
+    /* FIXME: This could be slow if we have lots of units. We could
+     * consider keeping an array of unittypes updated with this info 
+     * instead. */
+    unit_list_iterate(p->units, punit) {
+      if (punit->type == id) { 
+        return FALSE;
+      }
+    } unit_list_iterate_end;
+  }
 
   /* If the unit has a building requirement, we check to see if the player
    * can build that building.  Note that individual cities may not have

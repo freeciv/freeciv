@@ -572,6 +572,9 @@ int ai_unit_defence_desirability(Unit_Type_id i)
   if (unit_type_flag(i, F_PIKEMEN)) {
     desire += desire / 2;
   }
+  if (unit_type_flag(i, F_GAMELOSS)) {
+    desire /= 10; /* but might actually be worth it */
+  }
   return desire;
 }
 
@@ -590,6 +593,9 @@ int ai_unit_attack_desirability(Unit_Type_id i)
   desire += defense;
   if (unit_type_flag(i, F_IGTER)) {
     desire += desire / 2;
+  }
+  if (unit_type_flag(i, F_GAMELOSS)) {
+    desire /= 10; /* but might actually be worth it */
   }
   if (unit_type_flag(i, F_IGTIRED)) {
     desire += desire / 4;
