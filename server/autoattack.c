@@ -59,7 +59,7 @@ struct unit *search_best_target(struct player *pplayer, struct city *pcity,
   struct unit_list *targets;
   struct unit *enemy, *best_enemy = NULL;
   int score, best_score = 0;
-  int range;
+  int mv_cost, range;
   int x,y,i,j;
   int debug=0;
 
@@ -106,9 +106,9 @@ struct unit *search_best_target(struct player *pplayer, struct city *pcity,
 	continue;
       }
    
-      if(calculate_cost(pplayer, punit, x, y) > range) {
-        if(debug) freelog(LOG_DEBUG, "too far away: %d",
-		       calculate_cost(pplayer, punit, x, y));
+      mv_cost = calculate_move_cost(pplayer, punit, x, y);
+      if (mv_cost > range) {
+        if(debug) freelog(LOG_DEBUG, "too far away: %d", mv_cost);
         continue;
       }
       

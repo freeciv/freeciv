@@ -757,7 +757,13 @@ unit_types[punit->type].name, punit->id, punit->x, punit->y);*/
     
 }
 
-int calculate_cost(struct player *pplayer, struct unit *punit,int dest_x, int dest_y) {
+
+/**************************************************************************
+Calculate and return cost (in terms of move points) for unit to move
+to specified destination.  
+**************************************************************************/
+int calculate_move_cost(struct player *pplayer, struct unit *punit,
+			int dest_x, int dest_y) {
   /* perhaps we should do some caching -- fisch */
     
   /*
@@ -767,6 +773,15 @@ int calculate_cost(struct player *pplayer, struct unit *punit,int dest_x, int de
     generate_warmap(NULL,punit);
   }
   */
+
+  if (is_air_unit(punit) || is_heli_unit(punit)) {
+    /* The warmap only really knows about land and sea
+       units, so for these we just assume cost = distance.
+       (times 3 for road factor).
+       (Could be wrong if there are things in the way.)
+    */
+    return 3 * real_map_distance(punit->x, punit->y, dest_x, dest_y);
+  }
 
   generate_warmap(NULL,punit);
   
