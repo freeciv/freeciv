@@ -408,13 +408,17 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
   punit=unit_list_find(&pplayer->units, pinfo->id);
 
   if(punit) {
-    if(punit->ai.control) {
+    if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
       punit->ai.control=0;
-    }
-    if(punit->activity!=pinfo->activity)
-      handle_unit_activity_request(pplayer, punit, pinfo->activity);
-    else if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y))
       handle_unit_move_request(pplayer, punit, pinfo->x, pinfo->y);
+    }
+    else if(punit->activity!=pinfo->activity || punit->ai.control==1) {
+      /* Treat change in ai.control as change in activity, so
+       * idle autosettlers behave correctly when selected --dwp
+       */
+      punit->ai.control=0;
+      handle_unit_activity_request(pplayer, punit, pinfo->activity);
+    }
   }
 }
 /**************************************************************************

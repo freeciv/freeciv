@@ -779,7 +779,7 @@ void butt_down_mapcanvas(Widget w, XEvent *event, String *argv, Cardinal *argc)
       if(game.player_idx==punit->owner && (punit->moves_left>0 || 
 					   punit->activity==ACTIVITY_GOTO ||
                                            punit->activity==ACTIVITY_EXPLORE ||
-					   punit->ai.control==ACTIVITY_GOTO)) {
+					   punit->ai.control)) {
 	if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
 	  /* struct unit *old_focus=get_unit_in_focus(); */
 	  request_new_unit_activity(punit, ACTIVITY_IDLE);

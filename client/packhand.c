@@ -372,6 +372,10 @@ void handle_unit_info(struct packet_unit_info *packet)
 	refresh_city_dialog(pcity);
       }
     }
+    if (punit->ai.control!=packet->ai) {
+      punit->ai.control=packet->ai;
+      repaint_unit = 1;
+    }
 
     if(punit->x!=packet->x || punit->y!=packet->y) { /* change position */
       struct city *pcity;
@@ -424,7 +428,6 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->veteran=packet->veteran;
     punit->moves_left=packet->movesleft;
     punit->bribe_cost=0;
-    punit->ai.control=packet->ai;
     punit->fuel=packet->fuel;
     punit->goto_dest_x=packet->goto_dest_x;
     punit->goto_dest_y=packet->goto_dest_y;
