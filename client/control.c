@@ -1081,6 +1081,8 @@ void request_toggle_fog_of_war(void)
 
   draw_fog_of_war ^= 1;
   update_map_canvas_visible();
+  refresh_overview_canvas();
+  refresh_overview_viewrect();
 }
 
 /**************************************************************************

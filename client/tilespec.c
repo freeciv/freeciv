@@ -1796,9 +1796,17 @@ enum color_std overview_tile_color(int x, int y)
     else
       color=COLOR_STD_RED;
   } else if(ptile->terrain==T_OCEAN) {
-    color=COLOR_STD_OCEAN;
+    if (tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
+      color = COLOR_STD_RACE4;
+    } else {
+      color = COLOR_STD_OCEAN;
+    }
   } else {
-    color=COLOR_STD_GROUND;
+    if (tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
+      color = COLOR_STD_BACKGROUND;
+    } else {
+      color = COLOR_STD_GROUND;
+    }
   }
 
   return color;
