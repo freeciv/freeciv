@@ -1767,8 +1767,9 @@ void create_races_dialog(void)
 				NULL));
 
   /* find out styles that can be used at the game beginning */
-  for(i=0,b_s_num=0; i<game.styles_count && i<64; i++) {
-    if(city_styles[i].techreq == A_NONE) {
+  /* Limit of 64 city_styles should be deleted. -ev */
+  for (i = 0, b_s_num = 0; i < game.styles_count && i < 64; i++) {
+    if (!city_style_has_requirements(&city_styles[i])) {
       city_style_idx[b_s_num] = i;
       city_style_ridx[i] = b_s_num;
       b_s_num++;
