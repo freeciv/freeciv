@@ -546,107 +546,134 @@ void map_calc_adjacent_xy_void(int x, int y, int *xx, int *yy)
 }
 
 /***************************************************************
-...
+  The basic cost to move punit from tile t1 to tile t2.
+  That is, tile_move_cost(), with pre-calculated tile pointers;
+  the tiles are assumed to be adjacent, and the (x,y)
+  values are used only to get the river bonus correct.
+
+  May also be used with punit==NULL, in which case punit
+  tests are not done (for unit-independent results).
 ***************************************************************/
-void reset_move_costs(int x, int y)
+int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
+			struct tile *t2, int x1, int y1, int x2, int y2)
 {
-  int c, i, j, k, xx[3], yy[3];
-  int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
-  int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int maxcost = 72; /* should be big enough without being TOO big */
-  struct tile *tile0, *tile1;
-
-  x = map_adjust_x(x);
-  tile0 = map_get_tile(x, y);
-  map_calc_adjacent_xy_void(x, y, xx, yy);
-
-  if(0) freelog(LOG_DEBUG,
-		"Resetting move costs for (%d, %d) [%x%x%x%x%x%x%x%x]",
-		x, y, tile0->move_cost[0],  tile0->move_cost[1],
-		tile0->move_cost[2], tile0->move_cost[3],
-		tile0->move_cost[4],  tile0->move_cost[5],
-		tile0->move_cost[6], tile0->move_cost[7]); 
-  for (k = 0; k < 8; k++) {
-    i = ii[k]; j = jj[k]; /* saves CPU cycles? */
-    tile1 = map_get_tile(xx[i], yy[j]);
-    if (tile1->terrain == T_UNKNOWN) c = maxcost;
-    else if (tile0->terrain == T_OCEAN) {
-      if (tile1->city || tile1->terrain == T_OCEAN) c = -3;
-      else c = maxcost;
-    } else if (tile1->terrain == T_OCEAN) {
-      if (tile0->city) c = -3;
-      else c = maxcost;
-    }
-    else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
-    else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
-    else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
-    else c = get_tile_type(tile1->terrain)->movement_cost*3;
-    tile0->move_cost[k] = c;
-  } /* next k */
-
-  if(0) freelog(LOG_DEBUG, "Reset move costs for (%d, %d) [%x%x%x%x%x%x%x%x]",
-		x, y, tile0->move_cost[0],  tile0->move_cost[1],
-		tile0->move_cost[2], tile0->move_cost[3],
-		tile0->move_cost[4],  tile0->move_cost[5],
-		tile0->move_cost[6], tile0->move_cost[7]);
-  /* reverse!  This is not optimized, and hopefully not
-     obfuscated either -- Syela */
-  tile1 = tile0;
-  for (k = 0; k < 8; k++) {
-    i = ii[k]; j = jj[k]; /* saves CPU cycles? */
-    tile0 = map_get_tile(xx[i], yy[j]);
-    if (tile1->terrain == T_UNKNOWN) c = maxcost;
-    else if (tile0->terrain == T_OCEAN) {
-      if (tile1->city || tile1->terrain == T_OCEAN) c = -3;
-      else c = maxcost;
-    } else if (tile1->terrain == T_OCEAN) {
-      if (tile0->city) c = -3;
-      else c = maxcost;
-    }
-    else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
-    else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
-    else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
-    else c = get_tile_type(tile1->terrain)->movement_cost*3;
-    tile0->move_cost[7 - k] = c; /* this might muck with void_tile, but who cares? */
-  } /* next k */
+  if (punit && !is_ground_unit(punit))
+    return 3;
+  if( (t1->special&S_RAILROAD) && (t2->special&S_RAILROAD) )
+    return 0;
+  if (punit && unit_flag(punit->type, F_IGTER))
+    return 1;
+  if( (t1->special&S_ROAD) && (t2->special&S_ROAD) )
+    return 1;
+  /* To change the rules so that cannot cut corners on rivers,
+     (to match Civ2(?)) remove the "1 ||" below:
+  */
+  if( (1 || y1==y2 || map_adjust_x(x1)==map_adjust_x(x2))
+      && (t1->terrain==T_RIVER) && (t2->terrain==T_RIVER) )
+    return 1;
+  return(get_tile_type(t2->terrain)->movement_cost*3);
 }
 
 /***************************************************************
-...
+  Similar to tile_move_cost_ptrs, but for pre-calculating
+  tile->move_cost[] values for use by ai (?)
+  If either terrain is T_UNKNOWN (only void_tile, note this
+  is different to tile->known), then return 'maxcost'.
+  If both are ocean, or one is ocean and other city,
+  return -3, else if either is ocean return maxcost.
+  Otherwise, return normal cost (unit-independent).
+***************************************************************/
+int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
+		      int x, int y, int x1, int y1, int maxcost)
+{
+  if (tile0->terrain == T_UNKNOWN || tile1->terrain == T_UNKNOWN) {
+    return maxcost;
+  } else if (tile0->terrain == T_OCEAN) {
+    return (tile1->city || tile1->terrain == T_OCEAN) ? -3 : maxcost;
+  } else if (tile1->terrain == T_OCEAN) {
+    return (tile0->city) ? -3 : maxcost;
+  } else {
+    return tile_move_cost_ptrs(NULL, tile0, tile1, x, y, x1, y1);
+  }
+}
+
+/***************************************************************
+ ...
+***************************************************************/
+void debug_log_move_costs(char *str, int x, int y, struct tile *tile0)
+{
+  /* the %x don't work so well for oceans, where
+     move_cost[]==-3 ,.. --dwp
+  */
+  freelog(LOG_DEBUG, "%s (%d, %d) [%x%x%x%x%x%x%x%x]", str, x, y,
+	  tile0->move_cost[0], tile0->move_cost[1],
+	  tile0->move_cost[2], tile0->move_cost[3],
+	  tile0->move_cost[4], tile0->move_cost[5],
+	  tile0->move_cost[6], tile0->move_cost[7]);
+}
+
+/***************************************************************
+  Recalculate tile->move_cost[] for (x,y), and for adjacent
+  tiles in direction back to (x,y).  That is, call this when
+  something has changed on (x,y), eg roads, city, transform, etc.
+***************************************************************/
+void reset_move_costs(int x, int y)
+{
+  int k, x1, y1, xx[3], yy[3];
+  int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int maxcost = 72; /* should be big enough without being TOO big */
+  struct tile *tile0, *tile1;
+ 
+  x = map_adjust_x(x);
+  tile0 = map_get_tile(x, y);
+  map_calc_adjacent_xy_void(x, y, xx, yy);
+  if(0) debug_log_move_costs("Resetting move costs for", x, y, tile0);
+
+  for (k = 0; k < 8; k++) {
+    x1 = xx[ii[k]];
+    y1 = yy[jj[k]];
+    tile1 = map_get_tile(x1, y1);
+    tile0->move_cost[k] = tile_move_cost_ai(tile0, tile1, x, y,
+					    x1, y1, maxcost);
+    /* reverse: not at all obfuscated now --dwp */
+    /* this might muck with void_tile, but who cares? */
+    tile1->move_cost[7 - k] = tile_move_cost_ai(tile1, tile0, x1, y1,
+						x, y, maxcost);
+  }
+  if(0) debug_log_move_costs("Reset move costs for", x, y, tile0);
+}
+
+/***************************************************************
+  Initialize tile->move_cost[] for all tiles, where move_cost[i]
+  is the unit-independent cost to move _from_ that tile, to
+  adjacent tile in direction specified by i.
 ***************************************************************/
 void initialize_move_costs(void)
 {
-  int x, y, c, i, j, k, xx[3], yy[3];
+  int x, y, x1, y1, k, xx[3], yy[3];
   int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int maxcost = 72; /* should be big enough without being TOO big */
   struct tile *tile0, *tile1;
 
-  for (i = 0; i < 8; i++) void_tile.move_cost[i] = maxcost;
+  for (k = 0; k < 8; k++) {
+    void_tile.move_cost[k] = maxcost;
+  }
 
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
       tile0 = map_get_tile(x, y);
       map_calc_adjacent_xy_void(x, y, xx, yy);
       for (k = 0; k < 8; k++) {
-        i = ii[k]; j = jj[k]; /* saves CPU cycles? */
-        tile1 = map_get_tile(xx[i], yy[j]);
-        if (tile1->terrain == T_UNKNOWN) c = maxcost;
-        else if (tile0->terrain == T_OCEAN) {
-          if (tile1->city || tile1->terrain == T_OCEAN) c = -3;
-          else c = maxcost;
-        } else if (tile1->terrain == T_OCEAN) {
-          if (tile0->city) c = -3;
-          else c = maxcost;
-        }
-        else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
-        else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
-        else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
-        else c = get_tile_type(tile1->terrain)->movement_cost*3;
-        tile0->move_cost[k] = c;
-      } /* next k */
-    } /* next y */
-  } /* next x */
+	x1 = xx[ii[k]];
+	y1 = yy[jj[k]];
+        tile1 = map_get_tile(x1, y1);
+        tile0->move_cost[k] = tile_move_cost_ai(tile0, tile1, x, y,
+						x1, y1, maxcost);
+      }
+    }
+  }
 }
 
 /***************************************************************
@@ -655,20 +682,8 @@ void initialize_move_costs(void)
 ***************************************************************/
 int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2)
 {
-  struct tile *t1=map_get_tile(x1,y1);
-  struct tile *t2=map_get_tile(x2,y2);
-
-  if (!is_ground_unit(punit))
-    return 3;
-  if( (t1->special&S_RAILROAD) && (t2->special&S_RAILROAD) )
-    return 0;
-  if(unit_flag(punit->type, F_IGTER)) 
-    return 1;
-  if( (t1->special&S_ROAD) && (t2->special&S_ROAD) )
-    return 1;
-  if( (t1->terrain==T_RIVER) && (t2->terrain==T_RIVER) )
-    return 1;
-  return(get_tile_type(t2->terrain)->movement_cost*3);
+  return tile_move_cost_ptrs(punit, map_get_tile(x1,y1),
+			     map_get_tile(x2,y2), x1, y1, x2, y2);
 }
 
 /***************************************************************
