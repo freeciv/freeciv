@@ -922,7 +922,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   
   sprintf(buf, _("Granary: %3d/%-3d"), pcity->food_stock,
-	  game.foodbox*pcity->size);
+	  game.foodbox*(pcity->size+1));
 
   gtk_set_label(pdialog->storage_label, buf);
 }

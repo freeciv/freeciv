@@ -68,7 +68,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.9pre2"
+#define CAPABILITY "+1.9pre2+foodbox"
 
 /* "+1.9pre1" is testing consolidated capability string before
    finalize protocol to "+1.9".

@@ -1242,7 +1242,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 	  _("Granary: %c%3d/%-3d"),
 	  (city_got_effect(pcity, B_GRANARY) ? '*' : ' '),
 	  pcity->food_stock,
-	  game.foodbox*pcity->size);
+	  game.foodbox*(pcity->size+1));
 
   xaw_set_label(pdialog->storage_label, buf);
 }
