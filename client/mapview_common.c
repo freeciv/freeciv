@@ -1007,17 +1007,20 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
     }
 
     for (i = 0; i < count; i++) {
-      if (tile_sprs[i].sprite) {
+      switch (tile_sprs[i].type) {
+      case DRAWN_SPRITE:
 	canvas_put_sprite_full(pcanvas,
 			       canvas_x + tile_sprs[i].offset_x,
 			       canvas_y + tile_sprs[i].offset_y,
 			       tile_sprs[i].sprite);
+	break;
+      case DRAWN_GRID:
+	/*** Grid (map grid, borders, coastline, etc.) ***/
+	tile_draw_grid(pcanvas, map_x, map_y, canvas_x, canvas_y,
+		       D_FULL, citymode);
+	break;
       }
     }
-
-    /*** Grid (map grid, borders, coastline, etc.) ***/
-    tile_draw_grid(pcanvas, map_x, map_y, canvas_x, canvas_y,
-		   D_FULL, citymode);
   } else {
     /* tile is unknown */
     canvas_put_rectangle(pcanvas, COLOR_STD_BLACK,

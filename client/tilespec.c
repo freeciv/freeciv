@@ -2418,6 +2418,10 @@ int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
     }
   }
 
+  /* Add grid. */
+  sprs->type = DRAWN_GRID;
+  sprs++;
+
   return sprs - save_sprs;
 }
 
