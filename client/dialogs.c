@@ -44,6 +44,8 @@ extern Widget toplevel, main_form, map_canvas;
 extern struct connection aconnection;
 extern Display	*display;
 extern int display_depth;
+extern int flags_are_transparent;
+extern GC fill_bg_gc;
 
 /******************************************************************/
 Widget races_dialog_shell;
@@ -1277,7 +1279,15 @@ void popup_unit_select_dialog(struct tile *ptile)
 
     unit_select_pixmaps[i]=XCreatePixmap(display, XtWindow(map_canvas), 
 					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
-    
+
+    if (flags_are_transparent) {
+      Pixel bg;
+      XtVaGetValues(unit_select_form, XtNbackground, &bg, NULL);
+      XSetForeground(display, fill_bg_gc, bg);
+      XFillRectangle(display, unit_select_pixmaps[i], fill_bg_gc,
+		     0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    }
+
     put_unit_pixmap(punit, unit_select_pixmaps[i], 0, 0);
 
     if(i==0) {

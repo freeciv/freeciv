@@ -379,10 +379,10 @@ void x_main(int argc, char *argv[])
 			  GCForeground | GCBackground, &values);
   }
 
-  setup_widgets();
-
   load_tile_gfx();
   load_intro_gfx(); 
+
+  setup_widgets();
   
   XtSetKeyboardFocus(bottom_form, inputline_text);
   XtSetKeyboardFocus(below_menu_form, map_canvas);
@@ -617,20 +617,34 @@ void setup_widgets(void)
   unit_pix_canvas = XtVaCreateManagedWidget("unitpixcanvas", 
 					   pixcommWidgetClass,
 					   left_column_form, 
+					   XtNwidth, NORMAL_TILE_WIDTH,
+					   XtNheight, NORMAL_TILE_HEIGHT,
 					   NULL);
 
   unit_below_canvas[0] = XtVaCreateManagedWidget("unitbelowcanvas0",
 					        pixcommWidgetClass,
-						left_column_form, NULL);
+						left_column_form, 
+						XtNwidth, NORMAL_TILE_WIDTH,
+						XtNheight, NORMAL_TILE_HEIGHT,
+						NULL);
   unit_below_canvas[1] = XtVaCreateManagedWidget("unitbelowcanvas1",
 					        pixcommWidgetClass,
-						left_column_form, NULL);
+						left_column_form, 
+						XtNwidth, NORMAL_TILE_WIDTH,
+						XtNheight, NORMAL_TILE_HEIGHT,
+						NULL);
   unit_below_canvas[2] = XtVaCreateManagedWidget("unitbelowcanvas2",
 					        pixcommWidgetClass,
-						left_column_form, NULL);
+						left_column_form, 
+						XtNwidth, NORMAL_TILE_WIDTH,
+						XtNheight, NORMAL_TILE_HEIGHT,
+						NULL);
   unit_below_canvas[3] = XtVaCreateManagedWidget("unitbelowcanvas3",
 					        pixcommWidgetClass,
-						left_column_form, NULL);
+						left_column_form, 
+						XtNwidth, NORMAL_TILE_WIDTH,
+						XtNheight, NORMAL_TILE_HEIGHT,
+						NULL);
 
   more_arrow_label = XtVaCreateManagedWidget("morearrowlabel", 
 					     labelWidgetClass, 

@@ -374,6 +374,8 @@ void update_unit_pix_label(struct unit *punit)
   
   if(punit) {
     if(punit->type!=utemplate || punit->activity!=uactivity) {
+      if (flags_are_transparent)
+        XawPixcommClear(unit_pix_canvas); /* STG */
       put_unit_pixmap(punit, XawPixcommPixmap(unit_pix_canvas), 0, 0);
       xaw_expose_now(unit_pix_canvas);
       utemplate=punit->type;
@@ -394,6 +396,8 @@ void update_unit_pix_label(struct unit *punit)
       /* IS THIS INTENTIONAL?? - mjd */
       if(1 || unit_ids[i]!=id) {
 	if(id) {
+	  if (flags_are_transparent)
+	    XawPixcommClear(unit_below_canvas[i]); /* STG */
 	  put_unit_pixmap((struct unit *)ITERATOR_PTR(myiter),
 			  XawPixcommPixmap(unit_below_canvas[i]),
 			  0, 0);

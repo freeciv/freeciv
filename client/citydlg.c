@@ -52,6 +52,7 @@ extern Widget toplevel, main_form, map_canvas;
 extern int display_depth;
 extern struct connection aconnection;
 extern int map_view_x0, map_view_y0;
+extern int flags_are_transparent;
 extern GC fill_bg_gc;
 
 #define NO_UNITS_SHOWN  12
@@ -1106,6 +1107,8 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
         
     if(unitid && punit->id!=unitid)
       continue;
+    if (flags_are_transparent)
+      XawPixcommClear(pdialog->support_unit_pixcomms[i]); /* STG */
     put_unit_pixmap(punit, XawPixcommPixmap(pdialog->support_unit_pixcomms[i]), 
 		    0, 0);
 
@@ -1155,7 +1158,9 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
     if(unitid && punit->id!=unitid)
       continue;
 
-    
+    if (flags_are_transparent)
+      XawPixcommClear(pdialog->present_unit_pixcomms[i]); /* STG */
+
     put_unit_pixmap(punit, XawPixcommPixmap(pdialog->present_unit_pixcomms[i]),
 		    0, 0);
     put_unit_pixmap_city_overlays(punit, 
