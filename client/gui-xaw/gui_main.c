@@ -68,6 +68,11 @@
 
 const char *client_string = "gui-xaw";
 
+client_option gui_options[] = {
+  /* None. */
+};
+const int num_gui_options = ARRAY_SIZE(gui_options);
+
 static AppResources appResources;
 
 /* ids of the units icons in information display: (or 0) */

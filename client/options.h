@@ -73,7 +73,21 @@ typedef struct client_option {
   /* volatile */
   void *p_gui_data;
 } client_option;
-extern client_option options[];
+extern client_option *options;
+
+#define GEN_INT_OPTION(oname, desc) { #oname, desc, COT_INT, \
+                                      &oname, NULL, NULL, 0, NULL, \
+                                       NULL, NULL }
+#define GEN_BOOL_OPTION(oname, desc) { #oname, desc, COT_BOOL, \
+                                       NULL, &oname, NULL, 0, NULL, \
+                                       NULL, NULL }
+#define GEN_STR_OPTION(oname, desc, str_defaults, callback) \
+                                    { #oname, desc, COT_STR, \
+                                      NULL, NULL, oname, sizeof(oname), \
+                                      callback, str_defaults, NULL }
+/* GUI-specific options declared in gui-xxx but handled by common code. */
+extern const int num_gui_options;
+extern client_option gui_options[];
 
 /** View Options: **/
 

@@ -92,6 +92,11 @@ const static RECT textwin_size={0,1,0,100};
 struct fcwin_box *main_win_box;
 struct fcwin_box *output_box;
 
+client_option gui_options[] = {
+  /* None. */
+};
+const int num_gui_options = ARRAY_SIZE(gui_options);
+
 /**************************************************************************
 
 **************************************************************************/

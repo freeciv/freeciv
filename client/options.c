@@ -77,20 +77,7 @@ bool keyboardless_goto = TRUE;
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
 
-#define GEN_INT_OPTION(oname, desc) { #oname, desc, COT_INT, \
-                                      &oname, NULL, NULL, 0, NULL, \
-                                       NULL, NULL }
-#define GEN_BOOL_OPTION(oname, desc) { #oname, desc, COT_BOOL, \
-                                       NULL, &oname, NULL, 0, NULL, \
-                                       NULL, NULL }
-#define GEN_STR_OPTION(oname, desc, str_defaults, callback) \
-                                    { #oname, desc, COT_STR, \
-                                      NULL, NULL, oname, sizeof(oname), \
-                                      callback, str_defaults, NULL }
-#define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, \
-                                NULL, NULL, NULL, 0, NULL, NULL, NULL }
-
-client_option options[] = {
+static client_option common_options[] = {
   GEN_STR_OPTION(default_user_name,        N_("Default player's login name"),
 		 NULL, NULL), 
   GEN_STR_OPTION(default_server_host,       N_("Default server"),
@@ -119,18 +106,15 @@ client_option options[] = {
   GEN_BOOL_OPTION(center_when_popup_city,   N_("Center map when Popup city")),
   GEN_BOOL_OPTION(concise_city_production,  N_("Concise City Production")),
   GEN_BOOL_OPTION(auto_turn_done,           N_("End Turn when done moving")),
-  GEN_BOOL_OPTION(meta_accelerators,        N_("Use Alt/Meta for accelerators (GTK+ only)")),
-  GEN_BOOL_OPTION(map_scrollbars,	    N_("Show Map Scrollbars (GTK+ only)")),
-  GEN_BOOL_OPTION(keyboardless_goto,        N_("Keyboardless goto (GTK+ only)")),
-  GEN_BOOL_OPTION(dialogs_on_top,	    N_("Keep dialogs on top (GTK+ 2.0 only)")),
   GEN_BOOL_OPTION(ask_city_name,            N_("Prompt for city names")),
   GEN_BOOL_OPTION(popup_new_cities,         N_("Pop up city dialog for new cities")),
-  GEN_OPTION_TERMINATOR
 };
 #undef GEN_INT_OPTION
 #undef GEN_BOOL_OPTION
 #undef GEN_STR_OPTION
-#undef GEN_OPTION_TERMINATOR
+
+static int num_options;
+client_option *options;
 
 /** View Options: **/
 
@@ -434,8 +418,14 @@ void load_general_options(void)
   const char * const prefix = "client";
   char *name;
   int i, num;
-  client_option *o;
   view_option *v;
+
+  assert(options == NULL);
+  num_options = ARRAY_SIZE(common_options) + num_gui_options;
+  options = fc_malloc(num_options * sizeof(*options));
+  memcpy(options, common_options, sizeof(common_options));
+  memcpy(options + ARRAY_SIZE(common_options), gui_options,
+	 num_gui_options * sizeof(*options));
 
   name = option_file_name();
   if (!name) {
@@ -449,7 +439,9 @@ void load_general_options(void)
   sz_strlcpy(password, 
              secfile_lookup_str_default(&sf, "", "%s.password", prefix));
 
-  for (o = options; o->name; o++) {
+  for (i = 0; i < num_options; i++) {
+    client_option *o = options + i;
+
     switch (o->type) {
     case COT_BOOL:
       *(o->p_bool_value) =
@@ -534,7 +526,6 @@ void load_ruleset_specific_options(void)
 void save_options(void)
 {
   struct section_file sf;
-  client_option *o;
   char *name = option_file_name();
   char output_buffer[256];
   view_option *v;
@@ -548,7 +539,9 @@ void save_options(void)
   section_file_init(&sf);
   secfile_insert_str(&sf, VERSION_STRING, "client.version");
 
-  for (o = options; o->name; o++) {
+  for (i = 0; i < num_options; i++) {
+    client_option *o = options + i;
+
     switch (o->type) {
     case COT_BOOL:
       secfile_insert_bool(&sf, *(o->p_bool_value), "client.%s", o->name);

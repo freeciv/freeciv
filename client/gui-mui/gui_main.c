@@ -92,6 +92,11 @@
 
 const char *client_string = "gui-mui";
 
+client_option gui_options[] = {
+  /* None. */
+};
+const int num_gui_options = ARRAY_SIZE(gui_options);
+
 /**************************************************************************
   Print extra usage information, including one line help on each option,
   to stderr.

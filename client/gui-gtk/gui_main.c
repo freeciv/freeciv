@@ -132,6 +132,12 @@ static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */
 static gint gdk_input_id;
 
+client_option gui_options[] = {
+  GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators")),
+  GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars")),
+  GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto")),
+};
+const int num_gui_options = ARRAY_SIZE(gui_options);
 
 static gint show_info_button_release(GtkWidget *w, GdkEventButton *ev);
 static gint show_info_popup(GtkWidget *w, GdkEventButton *ev);

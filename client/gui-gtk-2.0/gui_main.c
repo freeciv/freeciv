@@ -128,6 +128,14 @@ GtkWidget *sun_ebox;
 GtkWidget *flake_ebox;
 GtkWidget *government_ebox;
 
+client_option gui_options[] = {
+  GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators")),
+  GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars")),
+  GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto")),
+  GEN_BOOL_OPTION(dialogs_on_top, N_("Keep dialogs on top")),
+};
+const int num_gui_options = ARRAY_SIZE(gui_options);
+
 static GtkWidget *unit_pixmap_table;
 static GtkWidget *unit_pixmap;
 static GtkWidget *unit_pixmap_button;

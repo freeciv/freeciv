@@ -136,6 +136,11 @@ enum USER_EVENT_ID {
   EXIT_FROM_EVENT_LOOP = 7
 };
 
+client_option gui_options[] = {
+  /* None. */
+};
+const int num_gui_options = ARRAY_SIZE(gui_options);
+
 /* =========================================================== */
 
 /**************************************************************************
