@@ -926,6 +926,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     struct city *pother_city = find_city_by_id(pcity->trade[i]);
     if (pother_city) {
       update_dumb_city(ptaker, pother_city);
+      send_city_info(ptaker, pother_city);
     }
   }
 
