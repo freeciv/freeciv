@@ -2,73 +2,7 @@
 THINGS TO DO
 ============
 
-Freeciv is quite mature, and we think its already a great game,
-but there are always things to add or improve.  This file lists
-some new features which are being worked on, or are planned, or
-desired.  (See also the file BUGS, for some known deficiencies.)
-
-TODO:
-=====
-
-- Server-side player scripting.
-
-- Diplomacy:
-  * Senate
-  * AI handle diplomacy
-
-- Better graphics for city styles.
-
-- Better internationalization (fix some problems, modify those
-  English sentences which can not be translated into most other
-  languages, better gui handling for different-length words,
-  mixed language client-server, more complete translations,
-  more languages).
-
-- Make the rulesets for City Improvements and Wonders more flexible.
-
-- Make the code view-agnostic: remove assumptions about which tiles are
-  valid. Fx the assumption that the map wraps in the x direction. This
-  can be done by making the code use macros like whole_map_iterate and
-  square_iterate. It would also be nice to remove the assumption that
-  the x values go [0..map.xsize[, as a proposed isometric numbering
-  scheme doesn't have that property.
-  When all code is converted the whole of the freeciv server can be
-  adjusted to use a flat map, an isometric map, a torus map or maybe
-  even a hex map, all by changing a very limited amount of code in
-  the right places.
-  Note that the AI in various places do not adjust tiles properly even
-  for the current numbering scheme.
-  Note that the conversion is backwards compatible, so it can be done in
-  small steps. No mega-patches please.
-
-- Stop the server from sending text to the clients. Instead it should
-  send an enum and some values, which the client converted to a message
-  to show to the user. This will give the client more knowledge of the
-  content of the messages, needed for fx a client side AI. It will also
-  mean that the messages are automatically correctly localized.
-  Note that these new messages will have to sometimes contain city names.
-  A possibility of sending text should still exist, to avoid
-  compatability breakage when changing the server.
-
-- Create a new "ocean" variable in the tile struct, similar to the
-  "continent" variable. It needs assisiated functions to be kept up to date
-  in both the server and the client. It should also have an associated
-  function is_oceans_connected(ocean1, ocean2, player) that returns if
-  a city exists that connects the two oceans for that player.
-
-- Document/cleanup AI code. Rename variables to more saying names than these:
-  int a=0, b, c, d, e, m, n, v, f, b0, ab, g;
-  (taken from ai/aiunit.c:find_something_to_kill())
-  I would especially like to have the use of the amortize() function in
-  server/settlers.c documented.
-  I will apply patches even if they just rename a single variable.
-
-- Implement goto in common code
-
-FURTHER INFORMATION:
-====================
-
-Information on other projects, and the Freeciv development
-"roadmap", are available at the Freeciv website:
-
-        http://www.freeciv.org/
+Freeciv is quite mature, and we think its already a great game, but
+there are always things to add or improve.  Check out the TODO page on
+http://www.freeciv.org or wish list items on http://rt.freeciv.org for
+things that need to be done.

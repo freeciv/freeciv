@@ -23,29 +23,18 @@ INTRODUCTION
 
 The Freeciv AI is widely recognized as being as good as or better
 militarywise as the AI of certain other games it is natural to compare
-it with.  It does, however, lack diplomacy and can only do war.  It is
-also too hard on novice players and too easy for experienced players.
+it with.  It is, however, still too easy for experienced players.
 
-The code base is not in a good state.  It has a number of problems,
-from very messy and not very readable codebase, to many missing
-features to some bugs, which aren't easy to fix due to unreadable
-code.  The problem is, that most the code was written by someone who
-didn't care about code readibility a lot.  After he left the project,
-various people have contributed their own mostly unfinished hacks
-without really fixing the main issues in the AI code, resulting in
-even more mess.
+The code base used to in bad shape but it has gotten a lot 
+better.
 
-Another problem is that not all code is residing in ai/ (which is
-currently still linked to a server, but there're plans to separate
-this completely to some kind of client, working name is "civbot"), but
-it is also dissolved in little chunks in the whole server/.  Aside
-that, server/settlers.c is only AI stuff - the problem is, that most
-of it is used also for the autosettlers, so we can't separate it from
-the server.
+Not all code is residing in ai/, but it is also dissolved in little 
+chunks in the whole server/.  Aside that, server/settlers.c is only AI 
+stuff - the problem is, that most of it is used also for the 
+autosettlers, so we can't separate it from the server.  
+server/gotohand.c is a left-over from the previous path-finding system 
+which is slowly being phased out.
 
-This file aims to describe all such problems, in addition to various
-not entirely self-describing constants and equations used in the code
-commonly.
 
 
 CONTACTING THE CURRENT AI DEVELOPERS
@@ -64,32 +53,8 @@ LONG-TERM AI DEVELOPMENT GOALS
 
 The long-term goals for Freeciv AI development are
  -> to create a challenging and fun AI for human players to defeat
- -> to create modular AI code that can easily be assembled into new AI
-    clients
- -> to have multiple different AI clients compete against each other
-
-In order to get to this point, the current AI code will be moved from the
-server and to the client. This requires that the AI code is separated
-completely from the server, and that clients get the (optional) 
-possibility of an omniscience cheat.
-
-An important step is to move the goto code into the client. Also, the
-current CMA agent will split out its core calculations for use in
-client-side AI that do not use agents.
-
-The final directory structure should look like this:
-
- client/agents      - this is agent territory
- client/ai          - this is where AI implementations go
- client/ai/common   - this is where common AI code should go
- client/ai/XYZ      - AI implementation named XYZ
-
- server/            - no AI code allowed
- ai/                - removed
-
-While code is being moved and integrated, we will link the AI in the
-server with client/ai/common/libaicommon.a and client/ai/XYZ/libxyz.a, 
-making a gradual progress of files and features possible.
+ -> to create an AI that can handle all the rules possibilities that
+    Freeciv can offer
 
 
 WANT CALCULATIONS
@@ -223,21 +188,16 @@ probably less effecient.
 DIPLOMACY
 =========
 
-At the moment, the AI cannot change its diplomatic state.  The AI
-starts out in NO_CONTACT mode, and proceeds to WAR on first-contact.
+The AI's diplomatic behaviour is current only regulated by the 
+'diplomacy' server setting.
 
-However, AI understands the notion of "ally" and if, by some trickery
-("teams" patch or direct savegame hacking), it is put in an alliance
-with another player, it will stick to this allience.  Thus, AI knows
-about friendly units and cities, and does not consider them to be
-either targets nor dangers.  Caravans are sent to friendly cities, and
-ships that do not have targets are sent on a goto to the closest
-allied port for the hull to get mended and for the crew to rest and
-befriend local girls.
+In default rules, the AI starts out in NO_CONTACT mode, and proceeds 
+to NEUTRAL on first-contact.
 
-AI is currently totally trusting and does not expect diplomatic states
-to ever change.  So if one is to add active diplomacy to the AI, this
-must be changed.
+AI is not very trusting for NEUTRAL and PEACE modes, but once it hits 
+ALLIANCE, this changes completely, and it will happily hand over 
+any tech and maps it has to you.  The only thing that will make the AI 
+attack you then is if you build a spaceship.
 
 For people who want to hack at this part of the AI code, please note
  * pplayers_at_war(p1,p2) returns FALSE if p1==p2
@@ -256,24 +216,20 @@ they mostly only add constraints on what it can do.  Another is that it
 can be very difficult to write diplomacy that is useful for and not in
 the way of modpacks.  Which means diplomacy either has to be optional,
 or have finegrained controls on who can do what diplomatic deals to
-whom, set from rulesets.
-
-But one possibility for diplomacy that it would be easy to introduce,
-is an initial PEACE mode for AIs under 'easy' difficulty.  This can be
-turned to WAR by a simple countdown timer started after first contact.
-This way 'easy' will be more easy --- a frequently requested feature.
+whom, set from rulesets.  The latter is not yet well implemented.
 
 
 DIFFICULTY LEVELS
 =================
 
-There are currently four difficulty levels: 'easy', 'medium', 
+There are currently five difficulty levels: 'novice', 'easy', 'medium', 
 'hard' and 'experimental'.  The 'hard' level is no-holds-barred, 
 while 'medium' has a number of handicaps.  In 'easy', the AI 
 also does random stupid things through the ai_fuzzy function. The
 'experimental' level is only for coding - you can gate new code
 with the H_EXPERIMENTAL handicap and test 'experimental' level
-AIs against 'hard' level AIs.
+AIs against 'hard' level AIs. In 'novice' the AI researches slower
+than normal players.
 
 Other handicaps used are:
   H_RATES, can't set its rates beyond government limits
@@ -304,10 +260,7 @@ change.
 * AI doesn't know how to make trade routes or when.  It should try to 
 build trade routes for its best cities (most building bonuses and 
 least corruption) by moving caravans there and changing homecity.
-* Ferryboats crossing at sea might lead to unwanted behavior.
 * Emergencies in two cities at once aren't handled properly.
-* AI sometimes will get locked into a zero science rate and stay 
-there.
 * Explorers will not use ferryboats to get to new lands to explore.
 * AI sometimes believes that wasting a horde of weak military units to
 kill one enemy is profitable (PR#1340)
@@ -323,7 +276,11 @@ big...)
 THINGS PEOPLE ARE WORKING ON (for latest info ask on AI list)
 ===============================================================
 
-* teach AI to do diplomacy (see Diplomacy section) [Per]
+* New settler code
+* Army code
+* Hunter code
+* Improvements to ferry code
+* Using new path-finding where it can improve things
 
 
 IDEA SPACE
