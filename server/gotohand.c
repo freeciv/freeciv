@@ -1147,7 +1147,13 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
   }
 
   if (is_air_unit(punit)) {
-    if (!find_air_first_destination(punit, &waypoint_x, &waypoint_y)) {
+    if (find_air_first_destination(punit, &waypoint_x, &waypoint_y)) {
+      /* this is a special case for air units who do not always want to move. */
+      if (same_pos(waypoint_x, waypoint_y, punit->x, punit->y)) {
+	advance_unit_focus(punit);
+	return;
+      }
+    } else {
       freelog(LOG_VERBOSE, "Did not find an airroute for "
 	      "%s's %s at (%d, %d) -> (%d, %d)",
 	      pplayer->name, unit_types[punit->type].name,
@@ -1459,7 +1465,7 @@ static int find_air_first_destination(
   /* backtrack */
   if (reached_goal) {
     while (pgoal->coming_from->type != FUEL_START) {
-      pgoal = pgoal->coming_from;;
+      pgoal = pgoal->coming_from;
       freelog(LOG_DEBUG, "%i,%i", pgoal->x, pgoal->y);
     }
     freelog(LOG_DEBUG, "success");
