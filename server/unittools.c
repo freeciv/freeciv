@@ -3062,10 +3062,11 @@ autoattack or just stop and wait for the owner to attack. It is also
 debateable if units on goto should stop when they encountered an enemy
 unit. Currently the unit continues if it can, or if it is blocked it stops.
 **************************************************************************/
-void goto_route_execute(struct unit *punit)
+enum goto_result goto_route_execute(struct unit *punit)
 {
   struct goto_route *pgr = punit->pgr;
   int index, x, y, res;
+  int last_tile;
   int patrol_stop_index = pgr->last_index;
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
@@ -3082,39 +3083,48 @@ void goto_route_execute(struct unit *punit)
 	/* the activity could already be SENTRY (if boarded a ship) 
 	   -- leave it as it is then */
 	handle_unit_activity_request(punit, ACTIVITY_IDLE);
-      return;
+      return GR_ARRIVED;
     }
     x = pgr->pos[index].x; y = pgr->pos[index].y;
     freelog(LOG_DEBUG, "%i,%i -> %i,%i\n", punit->x, punit->y, x, y);
 
     if (punit->activity == ACTIVITY_PATROL
-	&& maybe_cancel_patrol_due_to_enemy(punit))
-      return;
-
-    /* Move unit */
-    if (is_tiles_adjacent(punit->x, punit->y, x, y)) {
-      int last_tile = (index+1)%pgr->length == pgr->last_index;
-      freelog(LOG_DEBUG, "handling\n");
-      res = handle_unit_move_request(punit, x, y, 0, !last_tile);
-      if (!player_find_unit_by_id(pplayer, unitid))
-	return;
-      if (!res && punit->moves_left) {
-	freelog(LOG_DEBUG, "move idling\n");
-	handle_unit_activity_request(punit, ACTIVITY_IDLE);
-	return;
-      }
-    } else {
-      freelog(LOG_DEBUG, "goto tiles not adjacent; goto cancelled");
-      handle_unit_activity_request(punit, ACTIVITY_IDLE);
-      return;
+	&& maybe_cancel_patrol_due_to_enemy(punit)) {
+      return GR_FAILED;
     }
 
-    if (!same_pos(x, y, punit->x, punit->y))
-      return; /* Ran out of more points */
+    /* Move unit */
+    assert(is_tiles_adjacent(punit->x, punit->y, x, y));
+    last_tile = (((index + 1) % pgr->length) == (pgr->last_index));
+    freelog(LOG_DEBUG, "handling\n");
+    res = handle_unit_move_request(punit, x, y, 0, !last_tile);
+
+    if (!player_find_unit_by_id(pplayer, unitid)) {
+      return GR_DIED;
+    }
+
+    if (punit->moves_left == 0) {
+      return GR_OUT_OF_MOVEPOINTS;
+    }
+
+    if (res && !same_pos(x, y, punit->x, punit->y)) {
+      /*
+       * unit is alive, moved alright, didn't arrive, has moves_left
+       * --- what else can it be 
+       */
+      return GR_FOUGHT;
+    }
+
+    if (!res) {
+      freelog(LOG_DEBUG, "move idling\n");
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      return GR_FAILED;
+    }
 
     if (punit->activity == ACTIVITY_PATROL
-	&& maybe_cancel_patrol_due_to_enemy(punit))
-      return;
+	&& maybe_cancel_patrol_due_to_enemy(punit)) {
+      return GR_FAILED;
+    }
 
     pgr->first_index = (pgr->first_index+1) % pgr->length;
 
@@ -3126,7 +3136,7 @@ void goto_route_execute(struct unit *punit)
 
       if (patrol_stop_index == pgr->first_index) {
 	freelog(LOG_DEBUG, "stopping because we ran a round\n");
-	return; /* don't patrol more than one round */
+	return GR_ARRIVED; /* don't patrol more than one round */
       }
     }
   } /* end while*/

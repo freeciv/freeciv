@@ -839,8 +839,10 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
     return 0;
 
   /* this occurs often during lag, and to the AI due to some quirks -- Syela */
-  if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y))
+  if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
+    freelog(LOG_DEBUG, "tiles not adjacent in move request");
     return 0;
+  }
 
   if (unit_flag(punit, F_CARAVAN)
       && pcity

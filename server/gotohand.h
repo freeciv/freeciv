@@ -15,8 +15,22 @@
 
 #include "map.h"		/* MAP_MAX_ */
 
-void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
-		  int trigger_special_ability);
+/* 
+ * The below GOTO result values are ordered by priority, e.g. if unit
+ * fought and run out of movepoints, GR_OUT_OF_MOVEPOINTS should be
+ * returned.  Not that it is of any importance...
+ */
+enum goto_result {
+  GR_DIED,               /* pretty obvious that */ 
+  GR_ARRIVED,            /* arrived to the destination */
+  GR_OUT_OF_MOVEPOINTS,  /* either no moves left or plane refueling */ 
+  GR_FOUGHT,             /* was stopped due to fighting, has moves */
+  GR_FAILED              /* failed for some other reason, has moves */
+};
+
+enum goto_result do_unit_goto(struct unit *punit,
+			      enum goto_move_restriction restriction,
+			      int trigger_special_ability);
 void generate_warmap(struct city *pcity, struct unit *punit);
 void really_generate_warmap(struct city *pcity, struct unit *punit,
 			    enum unit_move_type which);

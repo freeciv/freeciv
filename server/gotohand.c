@@ -1064,17 +1064,19 @@ find_air_first_destination(punit, &waypoint_x, &waypoint_y)
 to get a waypoint to goto. The actual goto is still done with
 find_the_shortest_path(pplayer, punit, waypoint_x, waypoint_y, restriction)
 **************************************************************************/
-void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
-		  int trigger_special_ability)
+enum goto_result do_unit_goto(struct unit *punit,
+			      enum goto_move_restriction restriction,
+			      int trigger_special_ability)
 {
   struct player *pplayer = unit_owner(punit);
   int x, y, dir;
   int unit_id, dest_x, dest_y, waypoint_x, waypoint_y;
   struct unit *penemy = NULL;
+  enum goto_result status;
 
   if (punit->pgr) {
-    goto_route_execute(punit);
-    return;
+    /* we have a precalculated goto route */
+    return goto_route_execute(punit);
   }
 
   unit_id = punit->id;
@@ -1086,12 +1088,16 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
     punit->activity = ACTIVITY_IDLE;
     punit->connecting = 0;
     send_unit_info(0, punit);
-    return;
+    if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
+      return GR_ARRIVED;
+    } else {
+      return GR_FAILED;
+    }
   }
 
   if(!punit->moves_left) {
     send_unit_info(0, punit);
-    return;
+    return GR_OUT_OF_MOVEPOINTS;
   }
 
   if (is_air_unit(punit)) {
@@ -1099,7 +1105,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
       /* this is a special case for air units who do not always want to move. */
       if (same_pos(waypoint_x, waypoint_y, punit->x, punit->y)) {
 	advance_unit_focus(punit);
-	return;
+	return GR_OUT_OF_MOVEPOINTS; /* out of fuel */
       }
     } else {
       freelog(LOG_VERBOSE, "Did not find an airroute for "
@@ -1109,7 +1115,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
       punit->activity = ACTIVITY_IDLE;
       punit->connecting = 0;
       send_unit_info(0, punit);
-      return;
+      return GR_FAILED;
     }
   }
 
@@ -1118,15 +1124,16 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
     do { /* move the unit along the path chosen by find_the_shortest_path() while we can */
       int last_tile, is_real;
 
-      if (!punit->moves_left)
-	return;
+      if (!punit->moves_left) {
+	return GR_OUT_OF_MOVEPOINTS;
+      }
 
       dir = find_a_direction(punit, restriction, waypoint_x, waypoint_y);
       if (dir < 0) {
 	freelog(LOG_DEBUG, "%s#%d@(%d,%d) stalling so it won't be killed.",
 		unit_type(punit)->name, punit->id,
 		punit->x, punit->y);
-	return;
+	return GR_FAILED;
       }
 
       freelog(LOG_DEBUG, "Going %s", dir_get_name(dir));
@@ -1134,40 +1141,43 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
       assert(is_real);
 
       penemy = is_enemy_unit_tile(map_get_tile(x, y), unit_owner(punit));
-
-      if (!punit->moves_left)
-	return;
+      assert(punit->moves_left);
       last_tile = same_pos(x, y, punit->goto_dest_x, punit->goto_dest_y);
+
       if (!handle_unit_move_request(punit, x, y, FALSE,
 				    !(last_tile && trigger_special_ability))) {
 	freelog(LOG_DEBUG, "Couldn't handle it.");
 	if (punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;
 	  send_unit_info(0, punit);
-	  return;
+	  return GR_FAILED;
 	}
       } else {
 	freelog(LOG_DEBUG, "Handled.");
       }
-      if (!player_find_unit_by_id(pplayer, unit_id))
-	return; /* unit died during goto! */
+      if (!player_find_unit_by_id(pplayer, unit_id)) {
+	return GR_DIED;		/* unit died during goto! */
+      }
 
       /* Don't attack more than once per goto */
       if (penemy && !pplayer->ai.control) { /* Should I cancel for ai's too? */
  	punit->activity = ACTIVITY_IDLE;
  	send_unit_info(0, punit);
- 	return;
+ 	return GR_FOUGHT;
       }
 
       if(punit->x!=x || punit->y!=y) {
 	freelog(LOG_DEBUG, "Aborting, out of movepoints.");
 	send_unit_info(0, punit);
-	return; /* out of movepoints */
+	return GR_OUT_OF_MOVEPOINTS;
       }
 
       /* single step connecting unit when it can do it's activity */
-      if (punit->connecting && can_unit_do_activity(punit, punit->activity))
-	return;
+      if (punit->connecting
+	  && can_unit_do_activity(punit, punit->activity)) {
+	/* for connecting unit every step is a destination */
+	return GR_ARRIVED;
+      }
 
       freelog(LOG_DEBUG, "Moving on.");
     } while(!(x==waypoint_x && y==waypoint_y));
@@ -1177,25 +1187,33 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction,
 	    pplayer->name, unit_type(punit)->name,
 	    punit->x, punit->y, dest_x, dest_y);
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
+    punit->connecting = 0;
+    send_unit_info(0, punit);
+    return GR_FAILED;
   }
   /** Finished moving the unit for this turn **/
 
   /* ensure that the connecting unit will perform it's activity
      on the destination file too. */
   if (punit->connecting && can_unit_do_activity(punit, punit->activity))
-    return;
+    return GR_ARRIVED;
 
   /* normally we would just do this unconditionally, but if we had an
      airplane goto we might not be finished even if the loop exited */
   if (punit->x == dest_x && punit->y == dest_y) {
-    if (punit->activity != ACTIVITY_PATROL)
-      punit->activity=ACTIVITY_IDLE;
-  } else if (punit->moves_left) {
+    if (punit->activity != ACTIVITY_PATROL) {
+      punit->activity = ACTIVITY_IDLE;
+    }
+    status = GR_ARRIVED;
+  } else {
     advance_unit_focus(punit);
+    /* we have a plane refueling at a waypoint */
+    status = GR_OUT_OF_MOVEPOINTS;
   }
 
   punit->connecting=0;
   send_unit_info(0, punit);
+  return status;
 }
 
 /**************************************************************************
