@@ -148,6 +148,18 @@ AC_CHECK_PROG(UNAME,uname,uname,:)
 dnl Programs already checked by AM_INIT_AUTOMAKE:
 dnl  AC_PROG_MAKE_SET
 
+dnl Check for libiconv (which is usually included in glibc, but may be
+dnl distributed separately).  The libcharset check must come after the
+dnl iconv check.  This whole thing must come before the gettext check below.
+AM_ICONV
+AM_LIBCHARSET
+AM_LANGINFO_CODESET
+if test "$am_cv_func_iconv" != yes; then
+  AC_MSG_ERROR([Iconv is missing.  You can get it from http://gnu.org/, \
+                or try using --with-libiconv-prefix.])
+fi
+LIBS="$LIBS $LIBICONV"
+
 dnl I18n support
 ALL_LINGUAS="cs ca da de en_GB es et fi fr he_IL hu it ja nl no pl pt pt_BR ro ru sv uk"
 AM_GNU_GETTEXT(,need-ngettext)
@@ -330,19 +342,6 @@ if test "$ftwl" = sdl ; then
      FTWL_CFLAGS=`sdl-config --cflags`" "`freetype-config --cflags`
      FTWL_LIBS=`sdl-config --libs`" -lpng "`freetype-config --libs`
 fi
-
-dnl Check for libiconv (which is usually included in glibc, but may be
-dnl distributed separately).  The libcharset check must come after the
-dnl iconv check.  Langinfo_codeset is already checked in gettext but we
-dnl don't rely on that (since we use it ourselves).
-AM_ICONV
-AM_LIBCHARSET
-AM_LANGINFO_CODESET
-if test "$am_cv_func_iconv" != yes; then
-  AC_MSG_ERROR([Iconv is missing.  You can get it from http://gnu.org/, \
-                or try using --with-libiconv-prefix.])
-fi
-LIBS="$LIBS $LIBICONV"
 
 dnl Check and choose clients
 if test x$client != xno; then
