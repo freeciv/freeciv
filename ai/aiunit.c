@@ -95,7 +95,8 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
     handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
 
   x = punit->x; y = punit->y;
-  con = map_get_continent(x, y);
+  if (is_ground_unit(punit)) con = map_get_continent(x, y);
+  else con = 0; /* Thanks, Tony */
 
   lmt = (pplayer->ai.control ? 2 * THRESHOLD : 3);
   best = lmt * 3 + 1;
@@ -762,7 +763,7 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit)
             if (assess_defense_unit(pcity, pdef, 0) >= val) val = 0;
           }
         unit_list_iterate_end; /* was getting confused without the is_military part in */
-        if (!unit_types[punit->type].defense_strength) q = 0; /* thanks, JMT */
+        if (!unit_vulnerability_virtual(punit)) q = 0; /* thanks, JMT, Paul */
         else q = (pcity->ai.danger * 2 - def * unit_types[punit->type].attack_strength /
              unit_types[punit->type].defense_strength);
 /* this was a WAG, but it works, so now it's just good code! -- Syela */
@@ -1111,8 +1112,10 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
           if (is_ground_unit(punit)) n = warmap.cost[aunit->x][aunit->y];
           else if (is_sailing_unit(punit)) n = warmap.seacost[aunit->x][aunit->y];
           else n = real_map_distance(punit->x, punit->y, aunit->x, aunit->y) * 3;
-          n *= unit_types[aunit->type].move_rate;
-          if (unit_flag(aunit->type, F_IGTER)) n *= 3;
+          if (n > m) { /* if n <= m, it can't run away -- Syela */
+            n *= unit_types[aunit->type].move_rate;
+            if (unit_flag(aunit->type, F_IGTER)) n *= 3;
+          }
           c = (n + m - 1) / m;
           if (!is_ground_unit(punit) && !d) b0 = 0;
           else if (c > THRESHOLD) b0 = 0;
@@ -1248,6 +1251,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
   unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit)
     if (aunit->ai.ferryboat == punit->id) {
+      if (!punit->ai.passenger) punit->ai.passenger = aunit->id; /* oops */
       p++;
       bodyguard = unit_list_find(&map_get_tile(punit->x, punit->y)->units, aunit->ai.bodyguard);
       pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y);
@@ -1326,7 +1330,8 @@ punit->id, punit->x, punit->y, p, n);*/
       return;
     }
   }
-  ai_manage_explorer(pplayer, punit);
+  if (map_get_terrain(punit->x, punit->y) == T_OCEAN) /* thanks, Tony */
+    ai_manage_explorer(pplayer, punit);
   return;
 }
 

@@ -330,11 +330,11 @@ content to let it remain that way for now. -- Syela 980805 */
     i = assess_defense(pcity);
     if (!i) pcity->ai.building_want[B_CITY] = 100 + urgency;
     else if (urgency) {
-      if (danger2 > i + (i>>1)) pcity->ai.building_want[B_CITY] = 200 + urgency;
-      else pcity->ai.building_want[B_COASTAL] += danger2 * 100 / i;
+      if (danger2 > i * 2) pcity->ai.building_want[B_CITY] = 200 + urgency;
+      else pcity->ai.building_want[B_CITY] = danger2 * 100 / i;
     } else {
-      if (danger2 > (i>>1)) pcity->ai.building_want[B_CITY] = 100;
-      else pcity->ai.building_want[B_COASTAL] += danger2 * 100 / i;
+      if (danger2 > i) pcity->ai.building_want[B_CITY] = 100;
+      else pcity->ai.building_want[B_CITY] = danger2 * 100 / i;
     }
   }
 /* My first attempt to allow ng_wa >= 200 led to stupidity in cities with
@@ -346,11 +346,11 @@ trying again, but this will require yet more tedious observation -- Syela */
     i = assess_defense_igwall(pcity);
     if (!i) pcity->ai.building_want[B_COASTAL] = 100 + urgency;
     else if (urgency) {
-      if (danger3 > i + (i>>1)) pcity->ai.building_want[B_COASTAL] = 200 + urgency;
-      else pcity->ai.building_want[B_COASTAL] += danger3 * 100 / i;
+      if (danger3 > i * 2) pcity->ai.building_want[B_COASTAL] = 200 + urgency;
+      else pcity->ai.building_want[B_COASTAL] = danger3 * 100 / i;
     } else {
-      if (danger3 > (i>>1)) pcity->ai.building_want[B_COASTAL] = 100;
-      else pcity->ai.building_want[B_COASTAL] += danger3 * 100 / i;
+      if (danger3 > i) pcity->ai.building_want[B_COASTAL] = 100;
+      else pcity->ai.building_want[B_COASTAL] = danger3 * 100 / i;
     }
   }
 /* COASTAL and SAM are TOTALLY UNTESTED and could be VERY WRONG -- Syela */
@@ -358,14 +358,14 @@ trying again, but this will require yet more tedious observation -- Syela */
   if (pcity->ai.building_want[B_SAM] > 0 && danger4) {
     i = assess_defense_igwall(pcity);
     if (!i) pcity->ai.building_want[B_SAM] = 100 + urgency;
-    else if (danger4 > i + (i>>1)) pcity->ai.building_want[B_SAM] = 200 + urgency;
-    else pcity->ai.building_want[B_SAM] += danger4 * 100 / i;
+    else if (danger4 > i * 2) pcity->ai.building_want[B_SAM] = 200 + urgency;
+    else pcity->ai.building_want[B_SAM] = danger4 * 100 / i;
   }
   if (pcity->ai.building_want[B_SDI] > 0 && danger5) {
     i = assess_defense_igwall(pcity);
     if (!i) pcity->ai.building_want[B_SDI] = 100 + urgency;
-    else if (danger5 > i + (i>>1)) pcity->ai.building_want[B_SDI] = 200 + urgency;
-    else pcity->ai.building_want[B_SDI] += danger5 * 100 / i;
+    else if (danger5 > i * 2) pcity->ai.building_want[B_SDI] = 200 + urgency;
+    else pcity->ai.building_want[B_SDI] = danger5 * 100 / i;
   }
   pcity->ai.urgency = urgency; /* need to cache this for bodyguards now -- Syela */
   return(urgency);
@@ -493,13 +493,16 @@ it some more variables for it to meddle with -- Syela */
       q = (acity ? 1 : unit_types[n].move_rate * (unit_flag(n, F_IGTER) ? 3 : 1));
       if (get_unit_type(i)->flags & F_IGTER) m *= 3; /* not quite right */
       if (unit_types[i].move_type == LAND_MOVING) {
-        if (boatspeed) {
-          c = (warmap.cost[bx][by] * q + m - 1) / m + 1 +
-                warmap.seacost[x][y] * q / boatspeed; /* kluge */
+        if (boatspeed) { /* has to be a city, so don't bother with q */
+          c = (warmap.cost[bx][by] + m - 1) / m + 1 +
+                warmap.seacost[x][y] / boatspeed; /* kluge */
           if (unit_flag(i, F_MARINES)) c -= 1;
-        } else c = (warmap.cost[x][y] * q + m - 1) / m;
-      } else if (unit_types[i].move_type == SEA_MOVING)
-        c = (warmap.seacost[x][y] * q + m - 1) / m;
+        } else if (warmap.cost[x][y] <= m) c = 1;
+        else c = (warmap.cost[x][y] * q + m - 1) / m;
+      } else if (unit_types[i].move_type == SEA_MOVING) {
+        if (warmap.seacost[x][y] <= m) c = 1;
+        else c = (warmap.seacost[x][y] * q + m - 1) / m;
+      } else if (real_map_distance(pcity->x, pcity->y, x, y) * 3 <= m) c = 1;
       else c = real_map_distance(pcity->x, pcity->y, x, y) * 3 * q / m;
 
       m = get_virtual_defense_power(i, n, x, y);
@@ -671,8 +674,10 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       if (is_ground_unit(myunit)) dist = warmap.cost[x][y];
       else if (is_sailing_unit(myunit)) dist = warmap.seacost[x][y];
       else dist = real_map_distance(pcity->x, pcity->y, x, y) * 3;
-      dist *= unit_types[pdef->type].move_rate;
-      if (unit_flag(pdef->type, F_IGTER)) dist *= 3;
+      if (dist > m) {
+        dist *= unit_types[pdef->type].move_rate;
+        if (unit_flag(pdef->type, F_IGTER)) dist *= 3;
+      }
       if (!dist) dist = 1;
 
       m = unit_types[v].move_rate;
@@ -798,6 +803,11 @@ int port_is_within(struct player *pplayer, int d)
     if (!pcity->is_building_unit && pcity->currently_building == B_PORT &&
         pcity->shield_stock >= improvement_value(B_PORT) &&
         warmap.seacost[pcity->x][pcity->y] <= d) return 1;
+    if (get_invention(pplayer, A_AMPHIBIOUS) != TECH_KNOWN &&
+        pcity->is_building_unit &&
+        is_water_unit(pcity->currently_building) &&
+        unit_types[pcity->currently_building].attack_strength >
+        unit_types[pcity->currently_building].transport_capacity) return 1;
   city_list_iterate_end;
   return 0;
 }
