@@ -2,32 +2,42 @@
 
 name=_("Chilean")
 plural=_("?plural:Chileans")
-leader="O'Higgins", "Pinochet", "Portales", "Allende",
-       "Lautaro", "Carrera"
-leader_sex="Male", "Male", "Male", "Male",
+leader="Pedro de Valdivia", "Bernardo O'Higgins", "José Miguel Carrera",
+       "Blanco Encalada", "Diego Portales", "Manuel Montt",
+       "Arturo Alessandri", "Augusto Pinochet"
+leader_sex="Male", "Male", "Male",
+           "Male", "Male", "Male",
            "Male", "Male"
 flag="f.chile"
-flag_alt = "f.england"
+flag_alt = "-"
 city_style = "European"
+
 ruler_titles = { "government",      "male_title",          "female_title"
-                 "Democracy",       _("President"),        _("Prime Minister")
-                 "Despotism",       _("Capitan General"),  _("Primera Dama")
-                 "Fundamentalism",  _("Ayatollah"),        _("Protector")
+                 "Despotism",       _("Captain General"),  _("Captain General")
+                 "Fundamentalism",  _("Archbishop"),       _("Archbishop")
+                 "Republic",        _("Supreme Director"), _("Supreme Director")
+                 "Democracy",       _("President"),        _("President")
                }
 
 attack=1
-expand=2
-civilized=1
+expand=1
+civilized=2
 advisors=100,100,100,100,100,100,100
-tech_goals = "Monarchy",  "Chivalry", "Trade", "Theology", "Monotheism",
-             "Navigation", "Democracy", "Railroad"
-wonder="King Richard's Crusade"
+
+tech_goals="Iron Working", "Trade", "Navigation", "The Republic",
+           "Railroad", "Steel", "Industrialization"
+wonder="Hoover Dam"
 government="Democracy"
 
 cities =
-  "Santiago", "Valparaiso", "La Serena", "Concepcion", "Coquimbo", "Valdivia",
-  "Temuco", "Pto. Montt", "Punta Arenas", "Copiapo", "Antofagasta", "Iquique",
-  "Arica", "Manquehua", "Talca", "Chillan", "Pto. Varas", "Frutillar",
-  "Putre", "Vina del Mar", "Calera", "Calama", "Caldera", "Los Andes",
-  "San Felipe", "Villarrica", "Mulchen", "Rancagua", "La Ligua", "Pto Natales",
-  "Coyhaique", "Talcahuano", "Base At. Tte Marsch"
+  "Santiago", "La Serena", "Concepción", "Valparaíso", "Rancagua",
+  "Talca", "Punta Arenas", "Copiapó", "Puerto Montt", "Antofagasta",
+  "Iquique", "Coyhaique", "Temuco", "Calama", "Puerto Varas",
+  "Llanquihue", "Castro", "Osorno", "Valdivia", "Talcahuano",
+  "Coquimbo", "La Calera", "Ancud", "Arica", "San Antonio", "Chillán",
+  "Viña del mar", "Constitución", "Chañaral", "Cauquenes",
+  "Puerto Natales", "Lota", "Ovalle", "Huasco", "Mejillones",
+  "Victoria", "San Felipe", "Frutillar", "Illapel", "Angol",
+  "San Fernando", "Toltén", "Curicó", "Pisagua", "Tocopilla",
+  "Vallenar", "Caldera", "Lebu", "La Ligua", "Villarrica",
+  "Pucón", "Mulchén", "Taltal", "Putre", "Cachiyuyo"
