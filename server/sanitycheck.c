@@ -22,11 +22,12 @@
 #include "log.h"
 #include "map.h"
 #include "player.h"
+#include "terrain.h"
 #include "unit.h"
 
 #include "maphand.h"
-
 #include "sanitycheck.h"
+#include "unittools.h"
 
 #ifndef NDEBUG
 
@@ -261,6 +262,18 @@ static void check_units(void) {
 
       assert(punit->moves_left >= 0);
       assert(punit->hp > 0);
+
+      /* Check for ground units in the ocean. */
+      if (!pcity
+	  && is_ocean(map_get_terrain(punit->x, punit->y))
+	  && is_ground_unit(punit)) {
+	assert(punit->transported_by != -1);
+	assert(!is_ground_unit(find_unit_by_id(punit->transported_by)));
+      }
+
+      /* Check for over-full transports. */
+      assert(get_transporter_occupancy(punit)
+	     <= get_transporter_capacity(punit));
     } unit_list_iterate_end;
   } players_iterate_end;
 }

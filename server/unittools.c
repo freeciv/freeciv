@@ -1404,6 +1404,22 @@ bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
   }
 }
 
+/****************************************************************************
+  Expensive function to check how many units are in the transport.
+****************************************************************************/
+int get_transporter_occupancy(struct unit *ptrans)
+{
+  int occupied = 0;
+
+  unit_list_iterate(map_get_tile(ptrans->x, ptrans->y)->units, pcargo) {
+    if (pcargo->transported_by == ptrans->id) {
+      occupied++;
+    }
+  } unit_list_iterate_end;
+
+  return occupied;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -2895,17 +2911,32 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   unit_list_insert(&pdesttile->units, punit);
   check_unit_activity(punit);
 
-  /* set activity to sentry if boarding a ship unless the unit is just 
-   * passing through the ship on its way somewhere else.  If the unit is
-   * GOTOing and the ship isn't the final destination, then don't go
-   * to sleep. */
-  if (is_ground_unit(punit)
-      && is_ocean(pdesttile->terrain)
-      && !(pplayer->ai.control)
-      && !(punit->activity == ACTIVITY_GOTO
-	   && !same_pos(goto_dest_x(punit), goto_dest_y(punit),
-			dest_x, dest_y))) {
-    set_unit_activity(punit, ACTIVITY_SENTRY);
+  /* Special checks for ground units in the ocean. */
+  if (!pdesttile->city
+      && is_ground_unit(punit)
+      && is_ocean(pdesttile->terrain)) {
+
+    /* Find a transporter for the unit. */
+    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, ptrans) {
+      if (is_ground_units_transport(ptrans)
+	  && (get_transporter_occupancy(ptrans)
+	      < get_transporter_capacity(ptrans))) {
+	punit->transported_by = ptrans->id;
+	break;
+      }
+    } unit_list_iterate_end;
+    assert(punit->transported_by != -1);
+
+    /* set activity to sentry if boarding a ship unless the unit is just 
+     * passing through the ship on its way somewhere else.  If the unit is
+     * GOTOing and the ship isn't the final destination, then don't go
+     * to sleep. */
+    if (!(pplayer->ai.control)
+	&& !(punit->activity == ACTIVITY_GOTO
+	     && !same_pos(goto_dest_x(punit), goto_dest_y(punit),
+			  dest_x, dest_y))) {
+      set_unit_activity(punit, ACTIVITY_SENTRY);
+    }
   }
 
   /* Send updated information to anyone watching.  If the unit moves
