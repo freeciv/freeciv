@@ -1,15 +1,45 @@
 Welcome to Freeciv 1.7!
 
-This is release 1.7.1.
+This is release 1.7.1, about to be release 1.7.2.
 
 Thanks again to all our developers, who continue to work so hard.
 
 For 1.7, a _lot_ of bugs have been fixed, new features added, and thanks
 to John Stonebraker, the AI is now so powerful that you'll probably want
-to handicap it with the "normal" command. :-)
+to handicap it with the "normal" or "easy" commands. :-)
 
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.7.1:
+
+ - Improvements to the configure script, so it should now work
+   properly on all systems.  
+ - Ability to configure to use Xaw3d instead of the normal Xaw.
+ - New "easy" AI mode, which is now the default.
+ - Improved "City Report" dialog, with configurable columns.
+ - Improved "Message Options" dialog, with customizable filtering and 
+   selection for the different message types.
+ - Improved "Messages" dialog, with a scrollbar, and a "Popup City" button.
+ - Improved multi-column "Unit Select" dialog when there are lots of units.
+ - In city dialog, middle-click unit icons to "activate and close".
+ - New client command "t" to show tiles used by city under mouse.
+ - New metaserver dialog to make connecting to metaserver games easier.
+ - Ability to save and re-load client settings.
+ - Clearer Yes/No toggle buttons in various places in the client.
+ - Reduced color usage (but looks almost identical), so the client should 
+   now work fine on systems with 8 bit color displays.
+ - Ability to use "scenarios", that is, pre-designed maps.  Scenarios 
+   for Earth and Europe games are included in the data directory.
+   (Use them with the server command-line option -f, like savegames.)
+ - More city names, so you're less likely to see "City 41" etc.
+ - Saving large games is now much faster, and the savefile is smaller.
+ - Improvements to the documentation and online help system, including
+   a new help section on the "Zones of Control" game concept.
+ - Detect repeated log messages and print repeat counts.
+ - New server options randseed and aqueductloss.
+ - Many other enhancements and bug fixes.
+  
 
 WHAT'S CHANGED SINCE 1.7.0:
 
@@ -63,14 +93,18 @@ the freeciv-dev mailing list.  For instructions on how to do this, see:
 
 KNOWN BUGS:
 
- - Solaris: The configure script needs autoconf-2.12.  autoconf-2.9 is
-   known not to work.
- - Solaris: There seems to be an order problem with libXext.  If you have
-   problems with this library, try adding 
-   --x-libraries="-L/usr/openwin/lib -lXext" to the configure command line.
+ - The easy AI is not easy enough.  If the AI is beating you up early
+   in the game, try setting the "generator" server option to 2 or 3.
+ - The hard AI is not hard enough, and still does some stupid things.
+   Its particularly susceptible to Diplomat attacks -- this is being
+   worked on.
+ - If you scroll to the bottom of the map, sometimes the bottom row
+   of squares is not fully visible.  As a work-around, try adjusting
+   the size of the client window.
+ - There may be some cases when the "red squares" in the city dialog
+   are not quite right.  (In particular when you first reload a game
+   they don't appear straight away.)
 
 THINGS TO DO:
 
- - goto should be looked at, as units with moves left after a goto should
-   be active but aren't.
  - Alliances, the Space Race, and more!!
