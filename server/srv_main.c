@@ -1754,105 +1754,121 @@ void lost_connection_to_client(struct connection *pconn)
 }
 
 /**************************************************************************
-generate_ai_players() - Selects a nation for players created with server's
-   "create <PlayerName>" command.  If <PlayerName> is the default leader
-   name for some nation, we choose the corresponding nation for that name
-   (i.e. if we issue "create Shaka" then we will make that AI player's
-   nation the Zulus if the Zulus have not been chosen by anyone else.  If they
-   have, then we pick an available nation at random.
+generate_ai_players() - Selects a nation for players created with
+   server's "create <PlayerName>" command.  If <PlayerName> matches
+   one of the leader names for some nation, we choose that nation.
+   (I.e. if we issue "create Shaka" then we will make that AI player's
+   nation the Zulus if the Zulus have not been chosen by anyone else.
+   If they have, then we pick an available nation at random.)
 
-   After that, we check to see if the
-   server option "aifill" is greater than the number of players currently
-   connected.  If so, we create the appropriate number of players
-   (game.aifill - game.nplayers) from scratch, choosing a random nation
-   and appropriate name for each.
+   After that, we check to see if the server option "aifill" is greater
+   than the number of players currently connected.  If so, we create the
+   appropriate number of players (game.aifill - game.nplayers) from
+   scratch, choosing a random nation and appropriate name for each.
 
-   If AI player name is the default leader name for AI player nation,
-   then player sex is defualt nation leader sex.
-   (so if English are ruled by Elisabeth, she is female, but if "Player 1"
-   rules English, he's a male).
+   If the AI player name is one of the leader names for the AI player's
+   nation, the player sex is set to the sex for that leader, else it
+   is chosen randomly.  (So if English are ruled by Elisabeth, she is
+   female, but if "Player 1" rules English, may be male or female.)
 **************************************************************************/
 static void generate_ai_players(void)
 {
-  int i, player;
   Nation_Type_id nation;
   char player_name[MAX_LEN_NAME];
+  struct player *pplayer;
+  int i, old_nplayers;
 
-  /* Select nations for AI players generated with server 'create <name>' command */
+  /* Select nations for AI players generated with server
+   * 'create <name>' command
+   */
+  for (i=0; i<game.nplayers; i++) {
+    pplayer = &game.players[i];
+    
+    if (pplayer->nation != MAX_NUM_NATIONS)
+      continue;
 
-  for(player=0;player<game.nplayers;player++) {
-    if(game.players[player].nation != MAX_NUM_NATIONS)
-       continue;
-
-    if( num_nations_avail == 0 ) {
-      freelog( LOG_NORMAL,
-	       _("Ran out of nations.  AI controlled player %s not created."),
-               game.players[player].name );
-      server_remove_player(&game.players[player]);
+    if (num_nations_avail == 0) {
+      freelog(LOG_NORMAL,
+	      _("Ran out of nations.  AI controlled player %s not created."),
+	      pplayer->name );
+      server_remove_player(pplayer); 
+      /*
+       * Below decrement loop index 'i' so that the loop is redone with
+       * the current index (if 'i' is still less than new game.nplayers).
+       * This is because subsequent players in list will have been shifted
+       * down one spot by the remove, and may need handling.
+       */
+      i--;  
       continue;
     }
 
     for (nation = 0; nation < game.playable_nation_count; nation++) {
-      if ( check_nation_leader_name( nation, game.players[player].name ) )
-        if(nations_used[nation] != -1) {
-           game.players[player].nation=mark_nation_as_used(nation);
-           game.players[player].city_style = get_nation_city_style(nation);
-           game.players[player].is_male=get_nation_leader_sex(nation, game.players[player].name);
-           break;
+      if (check_nation_leader_name(nation, pplayer->name)) {
+        if (nations_used[nation] != -1) {
+	  pplayer->nation = mark_nation_as_used(nation);
+	  pplayer->city_style = get_nation_city_style(nation);
+          pplayer->is_male = get_nation_leader_sex(nation, pplayer->name);
+	  break;
         }
+      }
     }
 
-    if(nation == game.playable_nation_count) {
-      game.players[player].nation=
-              mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
-      game.players[player].is_male=myrand(2);
+    if (nation == game.playable_nation_count) {
+      pplayer->nation =
+	mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
+      pplayer->city_style = get_nation_city_style(pplayer->nation);
+      pplayer->is_male = myrand(2);
     }
 
-    announce_ai_player(&game.players[player]);
-
+    announce_ai_player(pplayer);
   }
 
   /* Create and pick nation and name for AI players needed to bring the
-     total number of players == game.aifill */
+   * total number of players to equal game.aifill
+   */
 
-  if( game.playable_nation_count < game.aifill ) {
+  if (game.playable_nation_count < game.aifill) {
     game.aifill = game.playable_nation_count;
-    freelog( LOG_NORMAL,
+    freelog(LOG_NORMAL,
 	     _("Nation count smaller than aifill; aifill reduced to %d."),
              game.playable_nation_count);
   }
 
   if (game.max_players < game.aifill) {
     game.aifill = game.max_players;
-    freelog( LOG_NORMAL,
+    freelog(LOG_NORMAL,
 	     _("Maxplayers smaller than aifill; aifill reduced to %d."),
              game.max_players);
   }
 
   for(;game.nplayers < game.aifill;) {
-     nation = mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
-     pick_ai_player_name(nation,player_name);
-     i=game.nplayers;
-     accept_new_player(player_name, NULL);
-     if ((game.nplayers == i+1) && 
-         !strcmp(player_name,game.players[i].name)) {
-           game.players[i].nation=nation;
-           game.players[i].city_style = get_nation_city_style(nation);
-	   game.players[i].ai.control = !game.players[i].ai.control;
-	   game.players[i].ai.skill_level = game.skill_level;
-           if( check_nation_leader_name(nation,player_name) )
-             game.players[i].is_male = get_nation_leader_sex(nation,player_name);
-           else
-             game.players[i].is_male = myrand(2);
-           announce_ai_player(&game.players[i]);
-	   set_ai_level_direct(&game.players[i], game.players[i].ai.skill_level);
-        } else
-	  con_write(C_FAIL, _("Error creating new ai player: %s\n"),
-		    player_name);
-   }
+    nation = mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
+    pick_ai_player_name(nation, player_name);
 
-  send_server_info_to_metaserver(1,0);
-
+    old_nplayers = game.nplayers;
+    accept_new_player(player_name, NULL);
+    pplayer = get_player(old_nplayers);
+     
+    if (!((game.nplayers == old_nplayers+1)
+	  && strcmp(player_name, pplayer->name)==0)) {
+      con_write(C_FAIL, _("Error creating new ai player: %s\n"),
+		player_name);
+      break;			/* don't loop forever */
+    }
+      
+    pplayer->nation = nation;
+    pplayer->city_style = get_nation_city_style(nation);
+    pplayer->ai.control = 1;
+    pplayer->ai.skill_level = game.skill_level;
+    if (check_nation_leader_name(nation, player_name)) {
+      pplayer->is_male = get_nation_leader_sex(nation, player_name);
+    } else {
+      pplayer->is_male = myrand(2);
+    }
+    announce_ai_player(pplayer);
+    set_ai_level_direct(pplayer, pplayer->ai.skill_level);
+  }
+  send_server_info_to_metaserver(1, 0);
 }
 
 /*************************************************************************
