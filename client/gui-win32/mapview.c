@@ -1289,7 +1289,7 @@ static void pixmap_put_drawn_sprite(HDC hdc,
   pixmap_put_overlay_tile_draw(hdc, canvas_x + ox, canvas_y + oy,
                                pdsprite->sprite,
                                offset_x - ox, offset_y - oy,
-                               width - ox, height - oy,
+                               width, height,
                                fog);
   
 }
@@ -1331,19 +1331,18 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
                                 enum draw_type draw)
 {
   struct drawn_sprite tile_sprs[80];
-  struct Sprite *coasts[4];
   struct Sprite *dither[4];
   struct city *pcity;
   struct unit *punit, *pfocus;
   struct canvas_store canvas_store={hdc,NULL};
   enum tile_special_type special;
-  int count, i = 0;
+  int count, i = 0, dither_count;
   bool fog, solid_bg, is_real;
 
   if (!width || !(height || height_unit))
     return;
 
-  count = fill_tile_sprite_array_iso(tile_sprs, coasts, dither,
+  count = fill_tile_sprite_array_iso(tile_sprs, dither, &dither_count
                                      x, y, citymode, &solid_bg);
 
   if (count == -1) { /* tile is unknown */
@@ -1377,60 +1376,20 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
     SelectObject(hdc,oldpen);
     SelectObject(hdc,oldbrush);
   }
-  if (draw_terrain) {
-    if (is_ocean(map_get_terrain(x, y))) { /* coasts */
-      int dx, dy;
-      /* top */
-      dx = offset_x-NORMAL_TILE_WIDTH/4;
-      pixmap_put_overlay_tile_draw(hdc, canvas_x + NORMAL_TILE_WIDTH/4,
-                                   canvas_y, coasts[0],
-                                   MAX(0, dx),
-                                   offset_y,
-                                   MAX(0, width-MAX(0, -dx)),
-                                   height,
-                                   fog);
-      /* bottom */
-      dx = offset_x-NORMAL_TILE_WIDTH/4;
-      dy = offset_y-NORMAL_TILE_HEIGHT/2;
-      pixmap_put_overlay_tile_draw(hdc, canvas_x + NORMAL_TILE_WIDTH/4,
-                                   canvas_y + NORMAL_TILE_HEIGHT/2, coasts[1],
-                                   MAX(0, dx),
-                                   MAX(0, dy),
-                                   MAX(0, width-MAX(0, -dx)),
-                                   MAX(0, height-MAX(0, -dy)),
-                                   fog);
-      /* left */
-      dy = offset_y-NORMAL_TILE_HEIGHT/4;
-      pixmap_put_overlay_tile_draw(hdc, canvas_x,
-                                   canvas_y + NORMAL_TILE_HEIGHT/4, coasts[2],
-                                   offset_x,
-                                   MAX(0, dy),
-                                   width,
-                                   MAX(0, height-MAX(0, -dy)),
-                                   fog);
-      /* right */
-      dx = offset_x-NORMAL_TILE_WIDTH/2;
-      dy = offset_y-NORMAL_TILE_HEIGHT/4;
-      pixmap_put_overlay_tile_draw(hdc, canvas_x + NORMAL_TILE_WIDTH/2,
-                                   canvas_y + NORMAL_TILE_HEIGHT/4, coasts[3],
-                                   MAX(0, dx),
-                                   MAX(0, dy),
-                                   MAX(0, width-MAX(0, -dx)),
-                                   MAX(0, height-MAX(0, -dy)),
-                                   fog);
 
-    } else {
+  /*** Draw and dither base terrain ***/
+  if (dither_count > 0) {
+    for (i = 0; i < dither_count; i++) {
       pixmap_put_drawn_sprite(hdc, canvas_x, canvas_y, &tile_sprs[0],
-                                   offset_x, offset_y, width, height, fog);
+			      offset_x, offset_y, width, height, fog);
       i++;
     }
-    if (draw_terrain) {
-      dither_tile(hdc, dither, canvas_x, canvas_y,
+
+    dither_tile(hdc, dither, canvas_x, canvas_y,
                   offset_x, offset_y, width, height, fog);
-      if (fog)
-	draw_fog_part(hdc,canvas_x+offset_x,canvas_y+offset_y,
-		      width,height,offset_x,offset_y);
-    }
+
+    draw_fog_part(hdc,canvas_x+offset_x,canvas_y+offset_y,
+		  width,height,offset_x,offset_y);
   }
   
   /*** Rest of terrain and specials ***/

@@ -1263,7 +1263,7 @@ static void pixmap_put_drawn_sprite(GdkDrawable *pixmap,
   pixmap_put_overlay_tile_draw(pixmap, canvas_x + ox, canvas_y + oy,
 			       pdsprite->sprite,
 			       offset_x - ox, offset_y - oy,
-			       width - ox, height - oy,
+			       width, height,
 			       fog);
 }
 
@@ -1395,19 +1395,18 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				enum draw_type draw)
 {
   struct drawn_sprite tile_sprs[80];
-  struct Sprite *coasts[4];
   struct Sprite *dither[4];
   struct city *pcity;
   struct unit *punit, *pfocus;
   enum tile_special_type special;
-  int count, i = 0;
+  int count, i = 0, dither_count;
   bool solid_bg, fog, tile_hilited;
   struct canvas_store canvas_store = {pm};
 
   if (!width || !(height || height_unit))
     return;
 
-  count = fill_tile_sprite_array_iso(tile_sprs, coasts, dither,
+  count = fill_tile_sprite_array_iso(tile_sprs, dither, &dither_count,
 				     x, y, citymode, &solid_bg);
 
   if (count == -1) { /* tile is unknown */
@@ -1451,57 +1450,15 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
     }
   }
 
-  if (draw_terrain) {
-    if (is_ocean(map_get_terrain(x, y))) { /* coasts */
-      int dx, dy;
-      /* top */
-      dx = offset_x-NORMAL_TILE_WIDTH/4;
-      pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/4,
-				   canvas_y, coasts[0],
-				   MAX(0, dx),
-				   offset_y,
-				   MAX(0, width-MAX(0, -dx)),
-				   height,
-				   fog);
-      /* bottom */
-      dx = offset_x-NORMAL_TILE_WIDTH/4;
-      dy = offset_y-NORMAL_TILE_HEIGHT/2;
-      pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/4,
-				   canvas_y + NORMAL_TILE_HEIGHT/2, coasts[1],
-				   MAX(0, dx),
-				   MAX(0, dy),
-				   MAX(0, width-MAX(0, -dx)),
-				   MAX(0, height-MAX(0, -dy)),
-				   fog);
-      /* left */
-      dy = offset_y-NORMAL_TILE_HEIGHT/4;
-      pixmap_put_overlay_tile_draw(pm, canvas_x,
-				   canvas_y + NORMAL_TILE_HEIGHT/4, coasts[2],
-				   offset_x,
-				   MAX(0, dy),
-				   width,
-				   MAX(0, height-MAX(0, -dy)),
-				   fog);
-      /* right */
-      dx = offset_x-NORMAL_TILE_WIDTH/2;
-      dy = offset_y-NORMAL_TILE_HEIGHT/4;
-      pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/2,
-				   canvas_y + NORMAL_TILE_HEIGHT/4, coasts[3],
-				   MAX(0, dx),
-				   MAX(0, dy),
-				   MAX(0, width-MAX(0, -dx)),
-				   MAX(0, height-MAX(0, -dy)),
-				   fog);
-    } else {
-      pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &tile_sprs[0],
+  /*** Draw and dither base terrain ***/
+  if (dither_count > 0) {
+    for (i = 0; i < dither_count; i++) {
+      pixmap_put_drawn_sprite(pm, canvas_x, canvas_y, &tile_sprs[i],
 			      offset_x, offset_y, width, height, fog);
-      i++;
     }
 
-    /*** Dither base terrain ***/
-    if (draw_terrain)
-      dither_tile(pm, dither, canvas_x, canvas_y,
-		  offset_x, offset_y, width, height, fog);
+    dither_tile(pm, dither, canvas_x, canvas_y,
+		offset_x, offset_y, width, height, fog);
   }
 
   /*** Rest of terrain and specials ***/
