@@ -193,6 +193,9 @@ struct connection {
     /* used to follow where the connection is in the authentication process */
     enum auth_status status;
     char password[MAX_LEN_PASSWORD];
+
+    /* for reverse lookup and blacklisting in db */
+    char ipaddr[MAX_LEN_ADDR];
   } server;
 
   /*

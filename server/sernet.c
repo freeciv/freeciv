@@ -772,11 +772,13 @@ static int server_accept_connection(int sockfd)
       sz_strlcpy(pconn->addr,
 		 (from ? from->
 		  h_name : inet_ntoa(fromend.sockaddr_in.sin_addr)));
+      sz_strlcpy(pconn->server.ipaddr,
+                 inet_ntoa(fromend.sockaddr_in.sin_addr));
 
       conn_list_insert_back(&game.all_connections, pconn);
   
-      freelog(LOG_VERBOSE, "connection (%s) from %s", 
-              pconn->username, pconn->addr);
+      freelog(LOG_VERBOSE, "connection (%s) from %s (%s)", 
+              pconn->username, pconn->addr, pconn->server.ipaddr);
       ping_connection(pconn);
       return 0;
     }
