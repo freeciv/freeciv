@@ -655,7 +655,7 @@ int enemies_at(struct unit *punit, int x, int y)
     if (j < 0 || j >= map.ysize) continue;
     for (i = x - 1; i <= x + 1; i++) {
       if (same_pos(i, j, x, y)) continue; /* after some contemplation */
-      if (!pplayer->ai.control && !map_get_known_and_seen(x, y, pplayer)) continue;
+      if (!pplayer->ai.control && !map_get_known_and_seen(x, y, punit->owner)) continue;
       if (is_enemy_city_tile(i, j, punit->owner)) return 1;
       unit_list_iterate(map_get_tile(i, j)->units, enemy)
         if (enemy->owner != punit->owner &&
@@ -839,7 +839,7 @@ void resolve_unit_stack(int x, int y, int verbose)
 int is_airunit_refuel_point(int x, int y, int playerid,
 			    Unit_Type_id type, int unit_is_on_tile)
 {
-  struct player_tile *plrtile = map_get_player_tile(&game.players[playerid],x,y);
+  struct player_tile *plrtile = map_get_player_tile(x, y, playerid);
 
   if (is_friendly_city_tile(x, y, playerid)
       || (plrtile->special&S_AIRBASE

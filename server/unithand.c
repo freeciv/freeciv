@@ -561,8 +561,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   combat.make_winner_veteran=pwinner->veteran?1:0;
   
   for(o=0; o<game.nplayers; o++)
-    if(map_get_known_and_seen(punit->x, punit->y, &game.players[o]) ||
-       map_get_known_and_seen(def_x, def_y, &game.players[o]))
+    if(map_get_known_and_seen(punit->x, punit->y, o) ||
+       map_get_known_and_seen(def_x, def_y, o))
       send_packet_unit_combat(game.players[o].conn, &combat);
 
   nearcity1 = dist_nearest_city(get_player(pwinner->owner), def_x, def_y, 0, 0);

@@ -761,14 +761,14 @@ void send_city_info_at_tile(struct player *dest, int x, int y)
   }
 
   if (dest && powner != dest) { /* send info to specific player. */
-    if (map_get_known_and_seen(x, y, dest)) {
+    if (map_get_known_and_seen(x, y, dest->player_no)) {
       if (pcity) { /* it's there and we see it; update and send */
 	update_dumb_city(dest, pcity);
 	package_dumb_city(dest, x, y, &packet);
 	send_packet_city_info(dest->conn, &packet);
       }
     } else { /* not seen; send old info */
-      pdcity = map_get_player_tile(dest, x, y)->city;
+      pdcity = map_get_player_tile(x, y, dest->player_no)->city;
       if (pdcity) {
 	package_dumb_city(dest, x, y, &packet);
 	send_packet_city_info(dest->conn, &packet);
@@ -781,7 +781,7 @@ void send_city_info_at_tile(struct player *dest, int x, int y)
   if(!dest) {
     for(o=0; o<game.nplayers; o++) {
       if(pcity->owner==o) continue; /* allready send above */
-      if(map_get_known_and_seen(pcity->x, pcity->y, &game.players[o])) {
+      if(map_get_known_and_seen(pcity->x, pcity->y, o)) {
 	update_dumb_city(&game.players[o], pcity);
 	package_dumb_city(&game.players[o], pcity->x, pcity->y, &packet);
 	send_packet_city_info(game.players[o].conn, &packet);
@@ -862,7 +862,7 @@ void remove_city(struct city *pcity)
   game_remove_city(pcity);
 
   for(o=0; o<game.nplayers; o++)           /* dests */
-    if (map_get_known_and_seen(x,y,&game.players[o]))
+    if (map_get_known_and_seen(x, y, o))
       reality_check_city(&game.players[o], x, y);
   map_fog_pseudo_city_area(pplayer, x, y);
 
@@ -977,7 +977,7 @@ void package_dumb_city(struct player* pplayer, int x, int y,
 {
   int i;
   char *p;
-  struct dumb_city *pdcity = map_get_player_tile(pplayer,x,y)->city;
+  struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer->player_no)->city;
   struct city *pcity;
   packet->id=pdcity->id;
   packet->owner=pdcity->owner;
@@ -987,7 +987,7 @@ void package_dumb_city(struct player* pplayer, int x, int y,
 
   packet->size=pdcity->size;
   packet->ppl_happy=0;
-  if (map_get_known_and_seen(x,y,pplayer)) {
+  if (map_get_known_and_seen(x, y, pplayer->player_no)) {
     /* Since the tile is visible the player can see the tile,
        and if it didn't actually have a city pdcity would be NULL */
     pcity = map_get_tile(x,y)->city;
@@ -1065,7 +1065,8 @@ reality_check city first)
 **************************************************************************/
 void update_dumb_city(struct player *pplayer, struct city *pcity)
 {
-  struct player_tile *plrtile = map_get_player_tile(pplayer,pcity->x,pcity->y);
+  struct player_tile *plrtile = map_get_player_tile(pcity->x, pcity->y,
+						    pplayer->player_no);
   struct dumb_city *pdcity;
   if (!plrtile->city) {
     plrtile->city = fc_malloc(sizeof(struct dumb_city));
@@ -1088,7 +1089,7 @@ void reality_check_city(struct player *pplayer,int x, int y)
 {
   struct packet_generic_integer packet;
   struct city *pcity;
-  struct dumb_city *pdcity = map_get_player_tile(pplayer,x,y)->city;
+  struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer->player_no)->city;
 
   if (pdcity) {
     pcity = map_get_tile(x,y)->city;
@@ -1096,7 +1097,7 @@ void reality_check_city(struct player *pplayer,int x, int y)
       packet.value=pdcity->id;
       send_packet_generic_integer(pplayer->conn,PACKET_REMOVE_CITY,&packet);
       free(pdcity);
-      map_get_player_tile(pplayer,x,y)->city = NULL;
+      map_get_player_tile(x, y, pplayer->player_no)->city = NULL;
     }
   }
 }
@@ -1115,7 +1116,7 @@ void send_all_known_cities(struct player *dest)
       connection_do_buffer(pplayer->conn);
       for(y=0; y<map.ysize; y++)
         for(x=0; x<map.xsize; x++)
-          if(map_get_player_tile(pplayer,x,y)->city)
+          if(map_get_player_tile(x, y, pplayer->player_no)->city)
             send_city_info_at_tile(pplayer, x, y);
       connection_do_unbuffer(pplayer->conn);
     }

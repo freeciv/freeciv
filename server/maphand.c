@@ -167,7 +167,7 @@ void send_tile_info(struct player *dest, int x, int y)
   info.y = y;
 
   for(o=0; o<game.nplayers; o++) {          /* dests */
-    if(!dest && map_get_known_and_seen(x,y,&game.players[o])) {
+    if(!dest && map_get_known_and_seen(x, y, o)) {
       info.known = TILE_KNOWN;
       info.type = ptile->terrain;
       info.special = ptile->special;
@@ -177,12 +177,12 @@ void send_tile_info(struct player *dest, int x, int y)
     }
     if(&game.players[o]==dest) { /* specific player */
       if (map_get_known(x,y,&game.players[o])) {
-	if (map_get_seen(x,y,&game.players[o])) { /* known and seen */
+	if (map_get_seen(x, y, o)) { /* known and seen */
 	  update_tile_knowledge(&game.players[o],x,y); /* visible; update info */
 	  info.known=TILE_KNOWN;
 	} else /* known but not seen */
 	  info.known = TILE_KNOWN_FOGGED;
-	plrtile = map_get_player_tile(&game.players[o],x,y);
+	plrtile = map_get_player_tile(x, y, o);
 	info.type = plrtile->terrain;
 	info.special = plrtile->special;
       } else { /* unknown (the client needs these sometimes to draw correctly) */
@@ -202,6 +202,7 @@ sidelength 1+2*len, ie length 1 is normal sightrange for a unit.
 void unfog_area(struct player *pplayer, int x, int y, int len)
 {
   int dx,dy,abs_x,abs_y;
+  int playerid = pplayer->player_no;
   struct tile *ptile;
   struct city *pcity;
   send_NODRAW_tiles(pplayer,x,y,len);
@@ -214,14 +215,14 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 	ptile = map_get_tile(abs_x,abs_y);
 	
 	freelog (LOG_DEBUG, "Unfogging %i,%i. Previous fog: %i.",
-		 abs_x, abs_y, ptile->seen[pplayer->player_no]);
+		 abs_x, abs_y, map_get_seen(abs_x, abs_y, playerid));
 	
 	/* Did the tile just become visible?
 	   - send info about units and cities and the tile itself */
-	if (!(ptile->seen[pplayer->player_no]) ||
-	    !map_get_known(abs_x,abs_y,pplayer)) {
-	  ptile->seen[pplayer->player_no] += 1;
-	  
+	if (!map_get_seen(abs_x, abs_y, playerid) ||
+	    !map_get_known(abs_x, abs_y, pplayer)) {
+	  map_change_seen(abs_x, abs_y, playerid, +1);
+
 	  map_set_known(abs_x, abs_y, pplayer);
 	  
 	  /*discover units*/
@@ -237,7 +238,7 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 	  /* send info about the tile itself */
 	  send_tile_info(pplayer, abs_x, abs_y);
 	} else 
-	  ptile->seen[pplayer->player_no] += 1;
+	  map_change_seen(abs_x, abs_y, playerid, +1);
       }
     }
   }
@@ -282,7 +283,8 @@ sidelenght 1+2*len, ie lenght 1 is normal sightrange for a unit.
 **************************************************************************/
 void fog_area(struct player *pplayer, int x, int y, int len)
 {
-  int dx,dy,abs_x,abs_y;
+  int dx, dy, abs_x, abs_y, seen;
+  int playerid = pplayer->player_no;
   struct tile *ptile;
   connection_do_buffer(pplayer->conn);
   for (dx = x-len;dx <= x+len;dx++) {
@@ -292,16 +294,18 @@ void fog_area(struct player *pplayer, int x, int y, int len)
 	abs_y = map_adjust_y(dy);
 	ptile = map_get_tile(abs_x,abs_y);
 	freelog (LOG_DEBUG, "Fogging %i,%i. Previous fog: %i.",
-		 x,y,ptile->seen[pplayer->player_no]);
-	ptile->seen[pplayer->player_no]--;
-	if (ptile->seen[pplayer->player_no] > 60000) {
-	  freelog(LOG_FATAL,
-		  "Square %i,%i has a seen value > 60000 (wrap) for player %s.",
-		  abs_x, abs_y, pplayer->name);
+ 		 abs_x, abs_y, map_get_seen(abs_x, abs_y, playerid));
+ 	map_change_seen(abs_x, abs_y, playerid, -1);
+ 
+ 	seen = map_get_seen(abs_x, abs_y, playerid);
+ 	if (seen > 60000) {
+ 	  freelog(LOG_FATAL, "square %i,%i has a seen value > 60000 (wrap)"
+ 		  "for player %s", abs_x, abs_y, pplayer->name);     
 	  abort();
 	}
-	if (ptile->seen[pplayer->player_no] == 0) {
-	  update_player_tile_last_seen(pplayer,abs_x,abs_y);
+
+ 	if (seen == 0) {
+ 	  update_player_tile_last_seen(pplayer, abs_x, abs_y);
 	  send_tile_info(pplayer, abs_x, abs_y);
 	}
       }
@@ -804,9 +808,10 @@ void remove_unit_sight_points(struct unit *punit)
 /**************************************************************************
 Shows area even if still fogged, sans units and cities.
 **************************************************************************/
-void show_area(struct player *pplayer,int x, int y, int len)
+void show_area(struct player *pplayer, int x, int y, int len)
 {
   int dx,dy,abs_x,abs_y;
+  int playerid = pplayer->player_no;
   struct city *pcity;    
 
   freelog(LOG_DEBUG, "Showing %i,%i, len %i",x,y,len);
@@ -817,23 +822,24 @@ void show_area(struct player *pplayer,int x, int y, int len)
     abs_x = map_adjust_x(x + dx);
     for (dy = - len; dy <= len; dy++) {
       abs_y = map_adjust_y(y + dy);
-      if (!map_get_known_and_seen(x,y,pplayer) && is_real_tile(x,y)) {
-	map_set_known(abs_x,abs_y,pplayer);
+      if (!map_get_known_and_seen(abs_x, abs_y, playerid) && is_real_tile(x, y)) {
+	map_set_known(abs_x, abs_y, pplayer);
 
-	/* as the tile may be fogged send_tile_info won't do this for us */
+	/* as the tile may be fogged send_tile_info won't always do this for us */
 	update_tile_knowledge(pplayer, abs_x, abs_y);
 	update_player_tile_last_seen(pplayer, abs_x, abs_y);
-	send_tile_info(pplayer,abs_x,abs_y);
+
+	send_tile_info(pplayer, abs_x, abs_y);
 
 	/* remove old cities that exist no more */
 	reality_check_city(pplayer, abs_x, abs_y);
-	if ((pcity = map_get_city(abs_x,abs_y))) {
+	if ((pcity = map_get_city(abs_x, abs_y))) {
 	  /* as the tile may be fogged send_city_info won't do this for us */
 	  update_dumb_city(pplayer, pcity);
 	  send_city_info(pplayer, pcity);
 	}
 
-	if (map_get_seen(abs_x,abs_y,pplayer)) {
+	if (map_get_seen(abs_x, abs_y, playerid)) {
 	  unit_list_iterate(map_get_tile(abs_x, abs_y)->units, punit)
 	    send_unit_info(pplayer, punit);
 	  unit_list_iterate_end;
@@ -856,19 +862,27 @@ int map_get_known(int x, int y, struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-int map_get_known_and_seen(int x, int y, struct player *pplayer)
+int map_get_known_and_seen(int x, int y, int playerid)
 {
-  return ((map.tiles+map_adjust_x(x)+
-	   map_adjust_y(y)*map.xsize)->known)&(1u<<pplayer->player_no) &&
-    map_get_tile(x,y)->seen[pplayer->player_no];
+  int offset = map_adjust_x(x)+map_adjust_y(y)*map.xsize;
+  return ((map.tiles+offset)->known)&(1u<<playerid) &&
+    (player_tiles[playerid]+offset)->seen;
 }
 
 /***************************************************************
 Watch out - this can be true even if the tile is not known.
 ***************************************************************/
-int map_get_seen(int x, int y, struct player *pplayer)
+int map_get_seen(int x, int y, int playerid)
 {
-  return map_get_tile(x,y)->seen[pplayer->player_no];
+  return map_get_player_tile(x, y, playerid)->seen;
+}
+
+/***************************************************************
+...
+***************************************************************/
+void map_change_seen(int x, int y, int playerid, int change)
+{
+  map_get_player_tile(x, y, playerid)->seen += change;
 }
 
 /***************************************************************
@@ -916,11 +930,12 @@ void map_know_all(struct player *pplayer)
 void map_know_and_see_all(struct player *pplayer)
 {
   int x, y;
+  int playerid = pplayer->player_no;
   struct city *pcity;
   for (x = 0; x < map.xsize; ++x) {
     for (y = 0; y < map.ysize; ++y) {
       map_set_known(x, y, pplayer);
-      map_get_tile(x,y)->seen[pplayer->player_no]++;
+      map_change_seen(x, y, playerid, +1);
 
       send_tile_info(pplayer, x, y);
 
@@ -985,40 +1000,44 @@ void player_map_allocate(struct player *pplayer)
     fc_malloc(map.xsize*map.ysize*sizeof(struct player_tile));
   for(y=0; y<map.ysize; y++)
     for(x=0; x<map.xsize; x++)
-      player_tile_init(map_get_player_tile(pplayer,x, y));
+      player_tile_init(map_get_player_tile(x, y, pplayer->player_no));
 }
 
 /***************************************************************
-...
+We need to use use fogofwar_old here, so the player's tiles get
+in the same state as th other players' tiles.
 ***************************************************************/
-void player_tile_init(struct player_tile *ptile)
+void player_tile_init(struct player_tile *plrtile)
 {
-  ptile->terrain = T_UNKNOWN;
-  ptile->special = S_NO_SPECIAL;
-  ptile->city = NULL;
-  ptile->seen = 0;
-  ptile->last_updated = GAME_START_YEAR;
+  plrtile->terrain = T_UNKNOWN;
+  plrtile->special = S_NO_SPECIAL;
+  plrtile->city = NULL;
+  if (game.fogofwar_old)
+    plrtile->seen = 0;
+  else
+    plrtile->seen = 1;
+  plrtile->last_updated = GAME_START_YEAR;
 }
-
+ 
 /***************************************************************
 ...
 ***************************************************************/
-struct player_tile *map_get_player_tile(struct player *pplayer,int x, int y)
+struct player_tile *map_get_player_tile(int x, int y, int playerid)
 {
-  if (y<0 || y>=map.ysize) {
-    freelog(LOG_FATAL, "Trying to get nonexistant tile at %i,%i.", x,y);
-    abort();
-  }
-  return player_tiles[pplayer->player_no]+map_adjust_x(x)+y*map.xsize;
+  if(y<0 || y>=map.ysize) {
+    freelog(LOG_FATAL, "Trying to get nonexistant tile at %i,%i", x,y);
+    return player_tiles[playerid]+map_adjust_x(x)+map_adjust_y(y)*map.xsize;
+  } else
+    return player_tiles[playerid]+map_adjust_x(x)+y*map.xsize;
 }
-
+ 
 /***************************************************************
 ...
 ***************************************************************/
 void update_tile_knowledge(struct player *pplayer,int x, int y)
 {
   struct tile *ptile = map_get_tile(x,y);
-  struct player_tile *plrtile = map_get_player_tile(pplayer,x,y);
+  struct player_tile *plrtile = map_get_player_tile(x, y, pplayer->player_no);
 
   plrtile->terrain = ptile->terrain;
   plrtile->special = ptile->special;
@@ -1029,7 +1048,7 @@ void update_tile_knowledge(struct player *pplayer,int x, int y)
 ***************************************************************/
 void update_player_tile_last_seen(struct player *pplayer, int x, int y)
 {
-  map_get_player_tile(pplayer,x,y)->last_updated = game.year;
+  map_get_player_tile(x, y, pplayer->player_no)->last_updated = game.year;
 }
 
 /***************************************************************
@@ -1040,20 +1059,20 @@ void give_tile_info_from_player_to_player(struct player *pfrom,
 {
   struct dumb_city *from_city, *dest_city;
   struct player_tile *from_tile, *dest_tile;
-  if (!map_get_known_and_seen(x,y,pdest)) {
+  if (!map_get_known_and_seen(x, y, pdest->player_no)) {
     /* I can just hear people scream as they try to comprehend this if :).
        Let me try in words:
        1) if the tile is seen by pdest the info is sent to pfrom
        OR
        2) if the tile is known by pfrom AND (he has more resent info
           OR it is not known by pdest) */
-    if (map_get_known_and_seen(x, y, pfrom)
+    if (map_get_known_and_seen(x, y, pfrom->player_no)
 	|| (map_get_known(x,y,pfrom)
-	    && (((map_get_player_tile(pfrom, x, y)->last_updated
-		 > map_get_player_tile(pdest, x, y)->last_updated))
+	    && (((map_get_player_tile(x, y, pfrom->player_no)->last_updated
+		 > map_get_player_tile(x, y, pdest->player_no)->last_updated))
 	        || !map_get_known(x, y, pdest)))) {
-      from_tile = map_get_player_tile(pfrom, x, y);
-      dest_tile = map_get_player_tile(pdest, x, y);
+      from_tile = map_get_player_tile(x, y, pfrom->player_no);
+      dest_tile = map_get_player_tile(x, y, pdest->player_no);
       /* Update and send tile knowledge */
       map_set_known(x, y, pdest);
       dest_tile->terrain = from_tile->terrain;

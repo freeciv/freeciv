@@ -2528,8 +2528,8 @@ void send_unit_info_to_onlookers(struct player *dest, struct unit *punit, int x,
 
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest)
-      if(map_get_known_and_seen(info.x, info.y, &game.players[o]) ||
-	 map_get_known_and_seen(x,y, &game.players[o])){
+      if(map_get_known_and_seen(info.x, info.y, o) ||
+	 map_get_known_and_seen(x, y, o)){
 	send_packet_unit_info(game.players[o].conn, &info);
       }
 }
@@ -2759,7 +2759,7 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
     return;
     /*** Allocate air and missile units ***/
   } else if (is_air_units_transport(ptrans)) {
-    struct player_tile *plrtile = map_get_player_tile(get_player(playerid), x, y);
+    struct player_tile *plrtile = map_get_player_tile(x, y, playerid);
     int is_refuel_point = is_friendly_city_tile(x, y, playerid)
       || plrtile->special&S_AIRBASE;
     int missiles_only = unit_flag(ptrans->type, F_MISSILE_CARRIER)

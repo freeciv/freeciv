@@ -66,7 +66,6 @@ struct tile {
   struct city *worked;      /* city working tile, or NULL if none */
   signed short continent;
   signed char move_cost[8]; /* don't know if this helps! */
-  unsigned short seen[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 };
 
 

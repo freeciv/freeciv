@@ -60,11 +60,12 @@ void map_fog_pseudo_city_area(struct player *pplayer, int x,int y);
 void unfog_map_for_ai_players(void);
 void unfog_map_for_player(struct player *pplayer);
 
+int map_get_known_and_seen(int x, int y, int playerid);
+int map_get_seen(int x, int y, int playerid);
+void map_change_seen(int x, int y, int playerid, int change);
 int map_get_known(int x, int y, struct player *pplayer);
 void map_set_known(int x, int y, struct player *pplayer);
 void map_clear_known(int x, int y, struct player *pplayer);
-int map_get_seen(int x, int y, struct player *pplayer);
-int map_get_known_and_seen(int x, int y, struct player *pplayer);
 int map_get_sent(int x, int y, struct player *pplayer);
 void map_set_sent(int x, int y, struct player *pplayer);
 void map_clear_sent(int x, int y, struct player *pplayer);
@@ -72,7 +73,7 @@ void map_know_all(struct player *pplayer);
 void map_know_and_see_all(struct player *pplayer);
 void set_unknown_tiles_to_unsent(struct player *pplayer);
 void player_map_allocate(struct player *pplayer);
-struct player_tile *map_get_player_tile(struct player *pplayer,int x, int y);
+struct player_tile *map_get_player_tile(int x, int y, int playerid);
 void update_tile_knowledge(struct player *pplayer,int x, int y);
 void update_player_tile_last_seen(struct player *pplayer, int x, int y);
 

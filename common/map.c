@@ -971,7 +971,6 @@ int is_tiles_adjacent(int x0, int y0, int x1, int y1)
 ***************************************************************/
 void tile_init(struct tile *ptile)
 {
-  int i;
   ptile->terrain=T_UNKNOWN;
   ptile->special=S_NO_SPECIAL;
   ptile->known=0;
@@ -980,8 +979,6 @@ void tile_init(struct tile *ptile)
   unit_list_init(&ptile->units);
   ptile->worked = NULL; /* pointer to city working tile */
   ptile->assigned = 0; /* bitvector */
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++)
-    ptile->seen[i] = 0;
 }
 
 

@@ -931,7 +931,7 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
   int k, possible = 0;
   if (same_pos(punit->x, punit->y, x, y)) return 1;
   if (is_ground_unit(punit) && 
-          (omni || map_get_known_and_seen(x, y, pplayer))) {
+          (omni || map_get_known_and_seen(x, y, pplayer->player_no))) {
     if (map_get_terrain(x, y) == T_OCEAN) {
       if (is_transporter_with_free_space(pplayer, x, y)) {
         for (k = 0; k < 8; k++) {
@@ -954,7 +954,7 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
     }
     return(possible);
   } else if (is_sailing_unit(punit) &&
-	     (omni || map_get_known_and_seen(x, y, pplayer)) &&
+	     (omni || map_get_known_and_seen(x, y, pplayer->player_no)) &&
 	     map_get_terrain(x, y) != T_OCEAN && !map_get_city(x, y) &&
 	     !is_terrain_near_tile(x, y, T_OCEAN)) {
     return(0);

@@ -261,7 +261,7 @@ void handle_diplomacy_create_clause(struct player *pplayer,
 
   if(packet->clause_type == CLAUSE_CITY){
     struct city *pcity = find_city_by_id(packet->value);
-    if(pcity && !map_get_known_and_seen(pcity->x, pcity->y, plr1))
+    if (pcity && !map_get_known_and_seen(pcity->x, pcity->y, plr1->player_no))
       show_area(plr1, pcity->x, pcity->y,2);
   }
 

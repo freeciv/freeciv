@@ -160,7 +160,7 @@ int num_nations_avail;
 int main(int argc, char *argv[])
 {
   int h=0, v=0, no_meta=1;
-  int xitr, yitr,i,notfog;
+  int i;
   char *log_filename=NULL;
   char *gamelog_filename=NULL;
   char *load_filename=NULL;
@@ -429,6 +429,9 @@ main_start_players:
   server_state=RUN_GAME_STATE;
   send_server_info_to_metaserver(1,0);
 
+  /* Before the player map is allocated (and initiailzed)! */
+  game.fogofwar_old = game.fogofwar;
+
   if(game.is_new_game) {
     for(i=0; i<game.nplayers; i++) {
       struct player *pplayer = &game.players[i];
@@ -459,14 +462,6 @@ main_start_players:
       }
     }
   }
-  
-  /* Initialize fog of war. */
-  notfog = !game.fogofwar;
-  for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
-    for (xitr = 0; xitr < map.xsize; xitr++)
-      for (yitr = 0; yitr < map.ysize; yitr++)
-	map_get_tile(xitr,yitr)->seen[i] += notfog;
-  game.fogofwar_old = game.fogofwar;
   
   send_all_info(0);
   
@@ -1828,12 +1823,13 @@ static void announce_ai_player (struct player *pplayer) {
 static void enable_fog_of_war_player(struct player *pplayer)
 {
   int x,y;
+  int playerid = pplayer->player_no;
   struct tile *ptile;
   for (x = 0; x < map.xsize; x++)
     for (y = 0; y < map.ysize; y++) {
       ptile = map_get_tile(x,y);
-      ptile->seen[pplayer->player_no]--;
-      if (ptile->seen[pplayer->player_no] == 0)
+      map_change_seen(x, y, playerid, -1);
+      if (map_get_seen(x, y, playerid) == 0)
 	update_player_tile_last_seen(pplayer, x, y);
     }
   send_all_known_tiles(pplayer);
@@ -1855,9 +1851,10 @@ static void enable_fog_of_war(void)
 static void disable_fog_of_war_player(struct player *pplayer)
 {
   int x,y;
+  int playerid = pplayer->player_no;
   for (x = 0; x < map.xsize; x++) {
     for (y = 0; y < map.ysize; y++) {
-      map_get_tile(x,y)->seen[pplayer->player_no] += 1;
+      map_change_seen(x, y, playerid, +1);
       if (map_get_known(x, y, pplayer)) {
 	struct city *pcity = map_get_city(x,y);
 	reality_check_city(pplayer, x, y);
