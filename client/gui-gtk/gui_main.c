@@ -15,6 +15,9 @@
 #endif
 
 #include <assert.h>
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -639,9 +642,18 @@ void ui_main(int argc, char **argv)
   parse_options(argc, argv);
 
   /* tell GTK+ library which locale */
-#ifdef ENABLE_NLS
-  gtk_set_locale();
+
+#ifdef HAVE_LOCALE_H
+  /* Freeciv assumes that all the world uses ISO-8859-1.  This
+     assumption is not quite true, but used to work more or less.
+     This is a workaround until we can fix the problem properly
+     in the next release.  */
+
+  if (!strcmp(setlocale(LC_CTYPE, NULL), "C"))
+    setenv("LC_CTYPE", "en_US.ISO8859-1", TRUE);
 #endif
+
+  gtk_set_locale();
 
   /* GTK withdraw gtk options */
   /* Process GTK arguments */
