@@ -209,8 +209,8 @@ effect		=
 helptext	= _("\
 A Cathedral makes 3 unhappy citizens content in a city, making it\
  easier to maintain order in that city.  The discovery of Theology\
- increases the affect of a Cathedral, making an additional unhappy\
- citizen content.  The discovery of Communism lessens the affect of\
+ increases the effect of a Cathedral, making an additional unhappy\
+ citizen content.  The discovery of Communism lessens the effect of\
  a Cathedral, reducing by one the number of unhappy citizens made\
  content.\
 ")
@@ -1528,8 +1528,8 @@ effect		=
 helptext	= _("\
 Counts as having a Cathedral in each of your cities.  (This makes 3\
  unhappy citizens content in each city.  The discovery of Theology\
- increases the affect of a Cathedral, making an additional unhappy\
- citizen content.  The discovery of Communism lessens the affect of\
+ increases the effect of a Cathedral, making an additional unhappy\
+ citizen content.  The discovery of Communism lessens the effect of\
  a Cathedral, reducing by one the number of unhappy citizens made\
  content.\
 ")

@@ -130,9 +130,9 @@ options="1.10.1"
 ;			  (all Science_Bonus' are summed before being applied)
 ;     "Science_Pct"	- increases science research by AMOUNT percent
 ;     "Size_Unlimit"	- cities not affected will not grow beyond AMOUNT
-;     "Slow_Nuke_Winter"- reduces the affect of terrain with fallout within
+;     "Slow_Nuke_Winter"- reduces the effect of terrain with fallout within
 ;			  range on nuclear winter by AMOUNT percent
-;     "Slow_Global_Warm"- reduces the affect of polluted terrain within
+;     "Slow_Global_Warm"- reduces the effect of polluted terrain within
 ;			  range on global warming by AMOUNT percent
 ;     "Space_Part"	- a part of a spaceship; per AMOUNT:
 ;			  1 = structural, 2 = component, 3 = module
@@ -393,8 +393,8 @@ effect		=
 helptext	= _("\
 A Cathedral makes 3 unhappy citizens content in a city, making it\
  easier to maintain order in that city.  The discovery of Theology\
- increases the affect of a Cathedral, making an additional unhappy\
- citizen content.  The discovery of Communism lessens the affect of\
+ increases the effect of a Cathedral, making an additional unhappy\
+ citizen content.  The discovery of Communism lessens the effect of\
  a Cathedral, reducing by one the number of unhappy citizens made\
  content.\
 ")
@@ -1736,8 +1736,8 @@ effect		=
 helptext	= _("\
 Counts as having a Cathedral in each of your cities.  (This makes 3\
  unhappy citizens content in each city.  The discovery of Theology\
- increases the affect of a Cathedral, making an additional unhappy\
- citizen content.  The discovery of Communism lessens the affect of\
+ increases the effect of a Cathedral, making an additional unhappy\
+ citizen content.  The discovery of Communism lessens the effect of\
  a Cathedral, reducing by one the number of unhappy citizens made\
  content.\
 ")
