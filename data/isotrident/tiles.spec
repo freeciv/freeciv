@@ -27,6 +27,7 @@ tiles = { "row", "column", "tag"
   0, 18, "unit.auto_attack",
          "unit.auto_settler"
   0, 19, "unit.stack"
+  1, 17, "unit.loaded"
   1, 18, "unit.connect"
   1, 19, "unit.auto_explore"
   2, 12, "unit.transform"

@@ -212,6 +212,7 @@ struct named_sprites {
       *road,
       *sentry,
       *stack,
+      *loaded,
       *transform,
       *connect,
       *patrol,

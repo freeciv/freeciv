@@ -1371,6 +1371,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(unit.road,	        "unit.road");
   SET_SPRITE(unit.sentry,	"unit.sentry");      
   SET_SPRITE(unit.stack,	"unit.stack");
+  sprites.unit.loaded = load_sprite("unit.loaded");
   SET_SPRITE(unit.transform,    "unit.transform");
   SET_SPRITE(unit.connect,      "unit.connect");
   SET_SPRITE(unit.patrol,       "unit.patrol");
@@ -2059,6 +2060,10 @@ static int fill_unit_sprite_array(struct drawn_sprite *sprs,
 
   if (stack || punit->occupy) {
     ADD_SPRITE_FULL(sprites.unit.stack);
+  }
+
+  if (sprites.unit.loaded && punit->transported_by != -1) {
+    ADD_SPRITE_FULL(sprites.unit.loaded);
   }
 
   if (sprites.unit.vet_lev[punit->veteran]) {
