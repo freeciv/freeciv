@@ -148,9 +148,26 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
 }
 
 /**************************************************************************
-  Finds the pixel coordinates of a tile.  Beside setting the results
-  in canvas_x,canvas_y it returns whether the tile is inside the
-  visible map.
+  Finds the canvas coordinates for a map position. Beside setting the results
+  in canvas_x, canvas_y it returns whether the tile is inside the
+  visible mapview canvas.
+
+  The result represents the upper left pixel (origin) of the bounding box of
+  the tile.  Note that in iso-view this origin is not a part of the tile
+  itself - so to make the operation reversible you would have to call
+  canvas_to_map_pos on the center of the tile, not the origin.
+
+  The center of a tile is defined as:
+  {
+    map_to_canvas_pos(&canvas_x, &canvas_y, map_x, map_y);
+    canvas_x += NORMAL_TILE_WIDTH / 2;
+    canvas_y += NORMAL_TILE_HEIGHT / 2;
+  }
+
+  This pixel is one position closer to the lower right, which may be
+  important to remember when doing some round-off operations. Other
+  parts of the code assume NORMAL_TILE_WIDTH and NORMAL_TILE_HEIGHT
+  to be even numbers.
 **************************************************************************/
 bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
 {
