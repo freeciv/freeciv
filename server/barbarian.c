@@ -391,8 +391,10 @@ static void try_summon_barbarians(void)
     return;
   freelog(LOG_DEBUG,"Barbarians are willing to fight");
 
-  if(map_get_special(x,y) & S_HUT)  /* remove the hut in place of uprising */
+  if(map_get_special(x,y) & S_HUT) { /* remove the hut in place of uprising */
     map_clear_special(x,y,S_HUT);
+    send_tile_info(0, x, y);
+  }
 
   if( map_get_terrain(xu,yu) != T_OCEAN ) {        /* land barbarians */
     barbarians = create_barbarian_player(1);
