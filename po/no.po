@@ -1,6 +1,6 @@
 # Norwegian Translation
-# Copyright (C) 1999,2000
-# Stig E Sandø <stig@ii.uib.no>, 1999,2000.
+# Copyright (C) 1999-2001
+# Stig E Sandø <stig@ii.uib.no>, 1999-2001.
 # This translation is covered by the GNU General Public License Version 2.
 #
 # Feedback and patches provided by:
@@ -8,7 +8,6 @@
 #  - Jørgen Skjaanes <jorgen@gulesider.no>
 #  - Gaute (B) Strokkenes <gs234@cam.ac.uk>
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.12.0\n"
@@ -17,20 +16,21 @@ msgstr ""
 "Last-Translator: Stig E Sandø <stig@ii.uib.no>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
 
 #: common/city.c:208
 msgid "?wonder:w"
-msgstr "?underverk:u"
+msgstr "?wonder:u"
 
 #: common/city.c:217
 msgid "?built:B"
-msgstr "?bygd:B"
+msgstr "?built:B"
 
 #: common/city.c:218
 msgid "?obsolete:O"
-msgstr "?foreldet:f"
+msgstr "?obsolete:f"
 
 # problem
 #: common/connection.c:441
@@ -188,30 +188,30 @@ msgstr "grusom"
 
 #: common/player.c:438
 msgid "?diplomatic_state:Neutral"
-msgstr ""
+msgstr "?diplomatic_state:Nøytral"
 
 #: common/player.c:439
 msgid "?diplomatic_state:War"
-msgstr ""
+msgstr "?diplomatic_state:Krig"
 
 #: client/gui-gtk/diplodlg.c:442 client/gui-mui/diplodlg.c:627
 #: client/gui-xaw/diplodlg.c:512 common/player.c:440
 msgid "?diplomatic_state:Cease-fire"
-msgstr ""
+msgstr "?diplomatic_state:Våpenhvile"
 
 #: client/gui-gtk/diplodlg.c:447 client/gui-mui/diplodlg.c:631
 #: client/gui-xaw/diplodlg.c:516 common/player.c:441
 msgid "?diplomatic_state:Peace"
-msgstr ""
+msgstr "?diplomatic_state:Fred"
 
 #: client/gui-gtk/diplodlg.c:452 client/gui-mui/diplodlg.c:635
 #: client/gui-xaw/diplodlg.c:520 common/player.c:442
 msgid "?diplomatic_state:Alliance"
-msgstr ""
+msgstr "?diplomatic_state:Allianse"
 
 #: common/player.c:443
 msgid "?diplomatic_state:No Contact"
-msgstr ""
+msgstr "?diplomatic_state:Ingen kontakt"
 
 #: common/shared.c:140
 #, c-format
@@ -325,7 +325,7 @@ msgstr "Endre"
 
 #: client/gui-mui/gui_main.c:298 client/gui-xaw/menu.c:180 common/unit.c:515
 msgid "Patrol"
-msgstr "Patrulje"
+msgstr "Patruljer"
 
 #: client/gui-gtk/citydlg.c:1140 client/gui-mui/citydlg.c:709
 #: client/gui-xaw/citydlg.c:1466 common/unit.c:516
@@ -512,7 +512,7 @@ msgstr "By nr. %d"
 
 #: server/citytools.c:104
 msgid "A poorly-named city"
-msgstr ""
+msgstr "En by med dårlig navn"
 
 #: server/citytools.c:657
 #, c-format
@@ -546,7 +546,7 @@ msgstr "Spill: Forandret hjemby for %s i %s"
 #: server/citytools.c:1123
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
+msgstr "Spill: Flyttet %s ut av forlatt by %s for å unngå å bli låst fast."
 
 #: server/citytools.c:1134
 #, c-format
@@ -1380,7 +1380,7 @@ msgstr ""
 #: server/maphand.c:1208
 #, c-format
 msgid "%s no longer gives us shared vision!"
-msgstr ""
+msgstr "%s gir oss ikke lengre delt utsyn!"
 
 #: server/meta.c:185
 msgid "Not reporting to the metaserver in this game."
@@ -1389,7 +1389,7 @@ msgstr "Rapporterer ikke til Metaserver i dette spillet."
 #: server/meta.c:216
 #, c-format
 msgid "Error opening OpenTransport (Id: %g)"
-msgstr ""
+msgstr "Feil ved åpning av OpenTransport (Id: %g)"
 
 #: server/meta.c:225
 #, c-format
@@ -1436,7 +1436,7 @@ msgstr "%s er de første som lærer %s"
 #: server/plrhand.c:235
 #, c-format
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
-msgstr ""
+msgstr "Spill: Oppdagelsen av %s FORELDER %s i %s!"
 
 #: server/plrhand.c:246
 #, c-format
@@ -1878,7 +1878,7 @@ msgstr "Endelig rapport:"
 
 #: server/report.c:1408
 msgid "Progress Scores:"
-msgstr ""
+msgstr "Utviklingspoeng:"
 
 #: server/report.c:1409
 msgid "The Greatest Civilizations in the world."
@@ -1970,7 +1970,7 @@ msgstr ""
 
 #: server/spacerace.c:161
 msgid "Game: You need to have a capital in order to launch your spaceship."
-msgstr ""
+msgstr "Spill: Du må ha en hovedstad for å sende opp et romskip."
 
 #: server/spacerace.c:166
 msgid "Game: Your spaceship is already launched!"
@@ -2084,7 +2084,7 @@ msgstr "Starter spill."
 #: server/srv_main.c:636
 #, c-format
 msgid "got a packet of type %d outside RUN_GAME_STATE"
-msgstr ""
+msgstr "fikk en nettpakke av type %d utenom RUN_GAME_STATE"
 
 #: server/srv_main.c:647
 #, c-format
@@ -2097,7 +2097,7 @@ msgstr ""
 
 #: server/srv_main.c:904
 msgid "Please choose a non-blank name."
-msgstr ""
+msgstr "Vennligst velg et ikke-blankt navn."
 
 #: server/srv_main.c:926
 #, c-format
@@ -2229,7 +2229,7 @@ msgstr ""
 #: server/srv_main.c:1275
 #, c-format
 msgid "%s was rejected: No observation of AI players."
-msgstr ""
+msgstr "%s ble bortvist: Ingen observering av AI-spillere."
 
 #: server/srv_main.c:1282
 msgid "Sorry, no reconnections to human-mode players in this game."
@@ -3341,7 +3341,7 @@ msgstr ""
 
 #: server/stdinhand.c:1057
 msgid "End the game."
-msgstr ""
+msgstr "Avslutt spillet."
 
 #: server/stdinhand.c:1058
 msgid "This command ends the game immediately."
@@ -6422,7 +6422,7 @@ msgstr "Gull(maks %d)"
 #: client/gui-gtk/diplodlg.c:420 client/gui-gtk/diplodlg.c:429
 #: client/gui-mui/diplodlg.c:488 client/gui-mui/diplodlg.c:523
 msgid "Give shared vision"
-msgstr ""
+msgstr "Gi delt utsyn"
 
 #: client/gui-gtk/diplodlg.c:459 client/gui-mui/diplodlg.c:489
 #: client/gui-mui/diplodlg.c:620 data/Freeciv:450
@@ -6709,7 +6709,7 @@ msgstr " (med "
 
 #: client/gui-gtk/helpdlg.c:883 client/gui-gtk/helpdlg.c:898
 msgid "?techhelp:)."
-msgstr ""
+msgstr "?techhelp:)."
 
 #: client/gui-gtk/helpdlg.c:931 client/gui-gtk/helpdlg.c:946
 #: client/gui-xaw/helpdlg.c:981 client/gui-xaw/helpdlg.c:996
@@ -7174,7 +7174,7 @@ msgstr "Kople til"
 
 #: client/gui-gtk/menu.c:678
 msgid "Patrol (_Q)"
-msgstr "Patrulje (_Q)"
+msgstr "Patruljer (_Q)"
 
 #: client/gui-gtk/menu.c:680
 msgid "_Go to"
@@ -7486,7 +7486,7 @@ msgstr "_Avbryt avtale"
 
 #: client/gui-gtk/plrdlg.c:152 client/gui-mui/plrdlg.c:350
 msgid "_Withdraw vision"
-msgstr ""
+msgstr "Trekk tilbake delt _utsyn"
 
 #: client/gui-gtk/plrdlg.c:158 client/gui-mui/plrdlg.c:351
 msgid "_Spaceship"
@@ -8812,11 +8812,11 @@ msgstr "Revolusjon"
 
 #: client/gui-xaw/menu.c:135
 msgid "Roads and Rails"
-msgstr ""
+msgstr "Veier og togskinner"
 
 #: client/gui-xaw/menu.c:138
 msgid "Fortress and Airbase"
-msgstr ""
+msgstr "Festning og Flybase"
 
 #: client/gui-xaw/menu.c:161
 #, c-format
@@ -8910,7 +8910,7 @@ msgstr ""
 
 #: data/Freeciv:432 data/Freeciv:441
 msgid "Shared vision"
-msgstr ""
+msgstr "Delt utsyn"
 
 #: data/Freeciv:531
 msgid "Select Unit(s)"
@@ -12270,7 +12270,7 @@ msgstr "Silke"
 #: data/civ1/terrain.ruleset:247 data/civ2/terrain.ruleset:255
 #: data/classic/terrain.ruleset:247 data/default/terrain.ruleset:255
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
-msgstr ""
+msgstr "Skogen har svært tett vegetasjon, som gjør jordbruk noe problematisk."
 
 #: data/civ1/terrain.ruleset:253 data/civ2/terrain.ruleset:261
 #: data/classic/terrain.ruleset:253 data/default/terrain.ruleset:261
@@ -12287,7 +12287,7 @@ msgstr "Ressurser"
 #: data/civ1/terrain.ruleset:283 data/civ2/terrain.ruleset:291
 #: data/classic/terrain.ruleset:283 data/default/terrain.ruleset:291
 msgid "Grasslands afford exceptional agricultural opportunities."
-msgstr ""
+msgstr "Gresskledd land muliggjør svært effektivt og produktivt jordbruk."
 
 #: data/civ1/terrain.ruleset:288 data/civ2/terrain.ruleset:296
 #: data/classic/terrain.ruleset:288 data/default/terrain.ruleset:296
@@ -12757,7 +12757,7 @@ msgstr "Ubåt"
 #: data/civ1/units.ruleset:1064 data/civ2/units.ruleset:1103
 #: data/default/units.ruleset:1103
 msgid "Submarines have a very high strategic value, but have a weak defence."
-msgstr ""
+msgstr "Ubåter har en svært høy strategisk verdi, men dårlig egetforsvar."
 
 #: data/civ1/units.ruleset:1070 data/civ2/units.ruleset:1109
 #: data/default/units.ruleset:1109
@@ -13125,11 +13125,11 @@ msgstr "Diktator"
 
 #: data/nation/catalan.ruleset:15
 msgid "Rei"
-msgstr ""
+msgstr "Rei"
 
 #: data/nation/catalan.ruleset:15
 msgid "Reina"
-msgstr ""
+msgstr "Reina"
 
 #: data/nation/catalan.ruleset:17
 msgid "Arquebisbe"
@@ -13149,7 +13149,7 @@ msgstr "?plural:chilenere"
 
 #: data/nation/chilean.ruleset:16
 msgid "Captain General"
-msgstr ""
+msgstr "Kaptein-General"
 
 #: data/nation/chilean.ruleset:17 data/nation/french.ruleset:12
 msgid "Archbishop"
@@ -13157,7 +13157,7 @@ msgstr "Erkebiskop"
 
 #: data/nation/chilean.ruleset:18
 msgid "Supreme Director"
-msgstr ""
+msgstr "Overdiktator"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
@@ -13169,7 +13169,7 @@ msgstr "?plural:kineserne"
 
 #: data/nation/chinese.ruleset:13
 msgid "Dowager"
-msgstr ""
+msgstr "Dowager"
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -13509,15 +13509,15 @@ msgstr "Prymas"
 
 #: data/nation/polish.ruleset:17
 msgid "Król"
-msgstr ""
+msgstr "Król"
 
 #: data/nation/polish.ruleset:17
 msgid "Królowa"
-msgstr ""
+msgstr "Królowa"
 
 #: data/nation/polish.ruleset:18
 msgid "Pierwszy Sekretarz"
-msgstr ""
+msgstr "Generalsekretær"
 
 #: data/nation/polish.ruleset:19 data/nation/polish.ruleset:20
 msgid "Prezydent"
@@ -13609,7 +13609,7 @@ msgstr "?plural:singaporeanere"
 
 #: data/nation/singaporean.ruleset:26
 msgid "Ah"
-msgstr ""
+msgstr "Ah"
 
 #: data/nation/singaporean.ruleset:27 data/nation/turk.ruleset:14
 msgid "Sultan"
@@ -13617,7 +13617,7 @@ msgstr "Sultan"
 
 #: data/nation/singaporean.ruleset:28
 msgid "Encik"
-msgstr ""
+msgstr "Encik"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -13653,11 +13653,11 @@ msgstr "?plural:spanjolene"
 
 #: data/nation/spanish.ruleset:13
 msgid "Caudillo"
-msgstr ""
+msgstr "Caudillo"
 
 #: data/nation/spanish.ruleset:13
 msgid "Caudilla"
-msgstr ""
+msgstr "Caudilla"
 
 #: data/nation/spanish.ruleset:14
 msgid "Cardinal"
@@ -13730,447 +13730,3 @@ msgstr "zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:zuluene"
-
-#~ msgid "Game: Transfered %s at (%d, %d) from %s to %s."
-#~ msgstr "Spill: Overførte %s på (%d, %d) fra %s til %s."
-
-#~ msgid ""
-#~ "Game: Cannot paradrop because there are enemy units on the destination "
-#~ "location."
-#~ msgstr ""
-#~ "Spill: Kan ikke gjøre fallskjermhopp da der er fiendtlige styrker i "
-#~ "landingsfeltet."
-
-#~ msgid "Invalid hostname"
-#~ msgstr "Ugyldig navn på server"
-
-#~ msgid "Game: Select a unit or improvement to change production from."
-#~ msgstr "Spill: Velg en enhet eller forbedring å endre produksjon i"
-
-#~ msgid "Game: That's the same thing!"
-#~ msgstr "Sill: Det er akkurat det samme!"
-
-#~ msgid "Build For_tress"
-#~ msgstr "Bygg festning"
-
-#~ msgid "Pi_llage"
-#~ msgstr "P_lyndre"
-
-#~ msgid "Auto Attac_k"
-#~ msgstr "Autoangrep"
-
-#~ msgid "_Disband Unit"
-#~ msgstr "Oppløs enhet"
-
-#~ msgid "Neutral"
-#~ msgstr "nøytral"
-
-#~ msgid "War"
-#~ msgstr "Krig"
-
-#~ msgid "Cease-fire"
-#~ msgstr "Våpenhvile"
-
-#~ msgid "Peace"
-#~ msgstr "Fred"
-
-#~ msgid "Alliance"
-#~ msgstr "Allianse"
-
-#~ msgid "Game full - %s was rejected."
-#~ msgstr "Spill fullt - %s ble bortvist."
-
-#~ msgid "<%s@%s> has rejoined the game."
-#~ msgstr "<%s@%s> deltar igjen i spillet."
-
-#~ msgid "Game: Player <%s@%s> has reconnected."
-#~ msgstr "Spill: Spiller <%s@%s> har koplet seg til igjen."
-
-#~ msgid "Game: Player <%s@%s> has connected."
-#~ msgstr "Spill: Spiller <%s@%s> har koplet seg til."
-
-#~ msgid "There are currently %d players connected:"
-#~ msgstr "Der er for øyeblikket %d spillere koplet til:"
-
-#~ msgid "There is currently 1 player connected:"
-#~ msgstr "Der er for øyeblikket 1 spiller koplet til:"
-
-#~ msgid " (R.I.P.)"
-#~ msgstr " (R.I.P.)"
-
-#~ msgid "There is 1 other player:"
-#~ msgstr "Der er en annen spiller:"
-
-#~ msgid "There are %d other players:"
-#~ msgstr "Det er %d andre spillere:"
-
-#~ msgid "%s was rejected: mismatched capabilities"
-#~ msgstr "%s ble bortvist: ikke-kompatible egenskaper"
-
-#~ msgid "Sorry, you can't observe a barbarian."
-#~ msgstr "Beklager, du kan ikke observere en barbar."
-
-#~ msgid "You can't join the game.  %s is already connected."
-#~ msgstr "Du kan ikke delta i spillet.  %s er allerede tilknyttet."
-
-#~ msgid "%s was rejected."
-#~ msgstr "%s ble bortvist."
-
-#~ msgid "Sorry, you can't join.  The game is already running."
-#~ msgstr "Beklager, du kan ikke delta. Spillet er allerede i gang."
-
-#~ msgid "Game running - %s was rejected."
-#~ msgstr "Spillet kjører - %s ble bortvist."
-
-#~ msgid "game full - %s was rejected."
-#~ msgstr "spillet fullt - %s ble bortvist."
-
-#~ msgid "Lost connection to <unknown>."
-#~ msgstr "Mistet tilkopling til <ukjent>."
-
-#~ msgid "Treaty city id %d not found - skipping clause."
-#~ msgstr "Avtalebyen id %d ikke funnet - hopper over punkt."
-
-# oversetter ikke
-#~ msgid "Message too long in page_player_generic!!"
-#~ msgstr "Beskjed for lang i page_player_generic!!"
-
-#~ msgid "Could not find readable ruleset file \"%s\""
-#~ msgstr "Klarte ikke å finne regelsett fil \"%s\""
-
-#~ msgid "or \"%s\" in data path."
-#~ msgstr "eller \"%s\" i datastien."
-
-#~ msgid "Bad value %i for min_dist_bw_cities. Using 2."
-#~ msgstr "Tvilsom verdi %i for min_dist_bw_cities. Bruker 2."
-
-#~ msgid "cut <player-name>"
-#~ msgstr "cut <spillernavn>"
-
-#~ msgid "Command level for first connections: %s"
-#~ msgstr "Standard kommandonivå for første tilkoblinger: %s"
-
-#~ msgid "default command access level set to '%s'"
-#~ msgstr "std.verdi for kommando aksess-nivå er satt til '%s'"
-
-#~ msgid "Game: First connections will have access level '%s'."
-#~ msgstr "Spill: Første tilkoplinger vil ha aksess-nivå '%s'."
-
-#~ msgid "Cannot change command access for unconnected player '%s'."
-#~ msgstr "Kan ikke endre kommando aksess for utilkoplet spiller '%s'."
-
-#~ msgid "Available commands (abbreviations are allowed):"
-#~ msgstr "Tilgjengelige kommandoer (forkortelser er tillatt):"
-
-#~ msgid "ai P            - toggles AI on player"
-#~ msgstr "ai S            - slår av/på AI på spiller"
-
-#~ msgid "%s (Barbarian, %s)"
-#~ msgstr "%s (Barbar, %s)"
-
-#~ msgid "%s (AI, difficulty level %s) is being observed from %s"
-#~ msgstr "%s (AI, vanskelighetsgrad %s) blir observert fra %s"
-
-#~ msgid "%s (AI, difficulty level %s) is not being observed"
-#~ msgstr "%s (AI, vanskelighetsgrad %s) blir ikke observert"
-
-#~ msgid "%s (human %s, command level %s) is connected from %s"
-#~ msgstr "%s (menneske %s, kommandonivå %s) er tilkoplet fra %s"
-
-# problem
-#~ msgid "Game: A%s %s %s stole Future Tech. %d from %s."
-#~ msgstr "Spill: En %2$s %3$s stjal Framtidsteknologi %4$d fra %5$s."
-
-#~ msgid "Game: The %s have stolen %s from the %s"
-#~ msgstr "Spill: Din %s stjal %s fra %s."
-
-# problem
-#~ msgid "Game: You lost a%s %s under an attack from %s's %s%s."
-#~ msgstr "Spill: Du mistet en %2$s under et angrep fra %3$ss %4$s."
-
-#~ msgid "add to"
-#~ msgstr "legg til"
-
-#~ msgid "build"
-#~ msgstr "bygg"
-
-#~ msgid "Rapture"
-#~ msgstr "Feiring"
-
-#~ msgid "Received unknown packet from server!"
-#~ msgstr "Mottok ukjent pakke fra server!"
-
-#~ msgid "Game: You can only unload transporter units."
-#~ msgstr "Spill: Du kan bare laste av transportenheter."
-
-#~ msgid "The discovery of %s will reduce this by 1.  "
-#~ msgstr "Oppdagelsen av %s vil redusere denne med 1"
-
-#~ msgid "The discovery of %s will increase this by 1.  "
-#~ msgstr "Oppdagelsen av %s vil øke denne med 1"
-
-#~ msgid "%s%ds"
-#~ msgstr "%s%ds"
-
-#~ msgid "%s%df"
-#~ msgstr "%s%df"
-
-#~ msgid "%s%dh"
-#~ msgstr "%s%dh"
-
-#~ msgid "%s%dg"
-#~ msgstr "%s%dg"
-
-#~ msgid "Low Funds                "
-#~ msgstr "Lite gull                "
-
-#~ msgid "Pollution                "
-#~ msgstr "Forurensning             "
-
-#~ msgid "Civil Disorder           "
-#~ msgstr "Uroligheter              "
-
-#~ msgid "City Growth              "
-#~ msgstr "Byvekst                  "
-
-#~ msgid "Unit Built               "
-#~ msgstr "Enhet bygd ferdig        "
-
-#~ msgid "Improvement Sold         "
-#~ msgstr "Forbedringer solgt       "
-
-#~ msgid "First Contact            "
-#~ msgstr "Første kontakt           "
-
-#~ msgid "Race"
-#~ msgstr "Nasjon"
-
-#~ msgid "                          Out: Mes: Pop:"
-#~ msgstr "                          Txt: Bsk: Eget:"
-
-# problem
-#~ msgid ""
-#~ "; Allows a city to grow larger than size 8.  A Sewer System is also;  "
-#~ "required for a city to grow larger than size 12.; "
-#~ msgstr ""
-#~ "; Tillater en by å bli større enn størrelse 8.  Et kloakksystem er også "
-#~ "nødvending for å gå forbi størrelse 12."
-
-#~ msgid ""
-#~ "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
-#~ "and increases the effects of Factories and Mfg. Plants.)\n"
-#~ "\n"
-#~ "Like a Hydro Plant, the Hoover Dam can only be built in a city which is "
-#~ "next to (or on) a Mountain or River tile.  However, its effect is "
-#~ "applicable to the whole of your civilization (regardless of whether a "
-#~ "city is next to, or on, a Mountain or River tile)."
-#~ msgstr ""
-#~ "Fungerer som vannkraftsverk i hver eneste by. (Dette reduserer "
-#~ "forurensning og øker effekten av Fabrikker og Fabrikk-kompleks.)\n"
-#~ "\n"
-#~ "Som et vannkraftverk, kan Altavassdraget bare bygges ved en by som er ved "
-#~ "siden av (eller på) et fjell- eller elve-felt.  Men, effekten er, "
-#~ "bortsett fra at en får se underholdende bilder av aksjonister femten år "
-#~ "senere, at hele sivilisasjonen (uansett plassering på de enkelte byer) "
-#~ "drar nytte av vannkraftverket."
-
-#~ msgid "; Allows a city to grow larger than size 10.; "
-#~ msgstr "; Tillater en by å vokse seg større enn størrelse 10.; "
-
-#~ msgid "Polluted "
-#~ msgstr "Forurenset "
-
-#, fuzzy
-#~ msgid "Game: The diplomatic state between %s and the %s is now %s."
-#~ msgstr "Spill: %s ødela %s i %s."
-
-#~ msgid "Game: You found %d credits."
-#~ msgstr "Spill: Du fant %d gull."
-
-#~ msgid "Too few starts %d (need at least %d)."
-#~ msgstr "For få starter %d (trenger minst %d)."
-
-#~ msgid "Value out of range.  Usage: set <option> <value>."
-#~ msgstr "Verdi utenfor lovlige grenser.  Bruk: set <opsjon> <verdi>."
-
-#~ msgid "%s (%d) %3d turn"
-#~ msgstr "%s (%d) %3d runde"
-
-#~ msgid "%s (%d) %3d turns"
-#~ msgstr "%s (%d) %3d runder"
-
-#~ msgid "Help Languages"
-#~ msgstr "Hjelp Språk"
-
-#~ msgid "Help Connecting"
-#~ msgstr "Kople til"
-
-#~ msgid "Help Controls"
-#~ msgstr "Kontroll"
-
-#~ msgid "Help Chatline"
-#~ msgstr "Snakkekanal"
-
-#~ msgid "Help Playing"
-#~ msgstr "Spille"
-
-#~ msgid "Help Units"
-#~ msgstr "Enheter"
-
-#~ msgid "Help Combat"
-#~ msgstr "Kamp"
-
-#~ msgid "Help ZOC"
-#~ msgstr "Kontrollsoner"
-
-#~ msgid "Help Technology"
-#~ msgstr "Teknologi"
-
-#~ msgid "Help Terrain"
-#~ msgstr "Terreng"
-
-#~ msgid "Help Government"
-#~ msgstr "Styreform"
-
-#~ msgid "Help Happiness"
-#~ msgstr "Lykke"
-
-#~ msgid "Help Space Race"
-#~ msgstr "Romkappløp"
-
-#~ msgid "  -l, --log F\t\tUse F as logfile\n"
-#~ msgstr "  -l, --log F\t\tBruk F som loggfil\n"
-
-#~ msgid "  -p, --port N\t\tconnect to port N\n"
-#~ msgstr "  -p, --port N\t\tkople til port N\n"
-
-#~ msgid "Freeciv 1.9 will be released early October, at %s"
-#~ msgstr "Freeciv 1.9 vil bli sluppet tidlig i Oktober, på %s"
-
-#~ msgid "Game: Our scientist now focus on %s, goal is %s."
-#~ msgstr "Spill: Våre forskere fokuserer nå på %s, målet er %s."
-
-#~ msgid "Game: Our scientist has choosen to research %s."
-#~ msgstr "Spill: Våre forskere har valgt å forske på %s."
-
-#~ msgid "Game: Your %s has successfully completed her mission."
-#~ msgstr "Spill: Din %s har fullført sitt oppdrag."
-
-#~ msgid "Game: The %s destroyed %s in %s."
-#~ msgstr "Spill: Din %s ødela %s i %s."
-
-#~ msgid ""
-#~ "Usage: %s [-hlNpsv][--help] [--log] [--name] [--port]\n"
-#~ "\t [--server] [--debug] [--version] [--tiles]\n"
-#~ msgstr ""
-#~ "Bruk: %s [-hlNpsv][--help] [--log] [--name] [--port]\n"
-#~ "\t [--server] [--debug] [--version] [--tiles]\n"
-
-#~ msgid "This is the Freeciv client\n"
-#~ msgstr "Dette er Freeciv klienten\n"
-
-#~ msgid "  -help\t\tPrint a summary of the options\n"
-#~ msgstr "  -help\t\tSkriv ut et sammendrag av opsjonene\n"
-
-#~ msgid "  -log F\tUse F as logfile\n"
-#~ msgstr "  -log F\tBruk F som loggfil\n"
-
-#~ msgid "  -port N\tconnect to port N\n"
-#~ msgstr "  -port N\tkople til port N\n"
-
-#~ msgid "  -debug N\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
-#~ msgstr "  -debug N\tSett debug loggnivå (0,1,2,3,or 3:fil1,min,maks:...)\n"
-
-#~ msgid "  -debug N\tSet debug log level (0,1,2)\n"
-#~ msgstr "  -debug N\tSett debug loggnivå (0,1,2)\n"
-
-#~ msgid "  -version\tPrint the version number\n"
-#~ msgstr "  -version\tSkriv ut versjonsnummeret\n"
-
-#~ msgid "  -h, --help\t\tPrint a summary of the options.\n"
-#~ msgstr "  -h, --help\t\tSkriv et sammendrag av opsjonene.\n"
-
-#~ msgid "  -N, --Name=NAME\tUse NAME.\n"
-#~ msgstr "  -N, --Name=NAME\tBruk NAME.\n"
-
-#~ msgid "  -s, --server=SERVER\tConnect to the server SERVER.\n"
-#~ msgstr "  -s, --server=SERVER\tKople til serveren SERVER.\n"
-
-#~ msgid ""
-#~ "  -m, --metaserver=METASERVER\tSet metaserver address to METASERVER.\n"
-#~ msgstr ""
-#~ "  -m, --metaserver=METASERVER\tSett metaserver addressen til METASERVER.\n"
-
-#~ msgid ""
-#~ "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2,3,or 3:file1,min,"
-#~ "max:...)\n"
-#~ msgstr ""
-#~ "  -d, --debug=LEVEL\tSett debug logg LEVEL (0,1,2,3,or 3:fil1,min,"
-#~ "maks:...)\n"
-
-#~ msgid "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n"
-#~ msgstr "  -d, --debug=LEVEL\tSett debug logg LEVEL (0,1,2).\n"
-
-#~ msgid "  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n"
-#~ msgstr "  -t, --tiles=DIR\tSe i katalog DIR for grafikkfil.\n"
-
-#~ msgid "  -v, --version\t\tPrint the version number.\n"
-#~ msgstr "  -v, --version\t\tSkriv ut versjonsnummer.\n"
-
-#~ msgid " Change "
-#~ msgstr " Endring "
-
-#~ msgid "Get a list of the available commands with 'help'."
-#~ msgstr "Få en liste av tilgjengelige kommandoer med 'help'."
-
-#~ msgid "Metaserver: can't open datagram socket"
-#~ msgstr "Metaserver: klarer ikke å åpne datagram socket."
-
-# norske ord her??
-#~ msgid "Metaserver: can't bind local address"
-#~ msgstr "Metaserver: klarer ikke bruke lokal addresse"
-
-#~ msgid "(??th)"
-#~ msgstr "."
-
-#~ msgid "??th"
-#~ msgstr "."
-
-#~ msgid "Name '%s' is either empty or too long, so it cannot be an AI."
-#~ msgstr ""
-#~ "Navnet '%s' er enten tomt eller for langt, så det kan ikke være en AI."
-
-#~ msgid "Name is either empty or too long, so it cannot be a player."
-#~ msgstr ""
-#~ "Navn er enten tomt eller for langt, så det kan ikke være en spiller."
-
-#~ msgid "Cannot change command access for unknown/invalid player name '%s'."
-#~ msgstr ""
-#~ "Kan ikke endre kommando aksess for ukjent/ugyldig spiller kalt '%s'."
-
-#~ msgid "Description: %s."
-#~ msgstr "Beskrivelse: %s."
-
-#~ msgid "%s is not the name of any player."
-#~ msgstr "%s er ikke navn på noen spiller."
-
-#~ msgid "Ambiguous option name '%s'."
-#~ msgstr "Ikke-entydig opsjonsnavn '%s'."
-
-#~ msgid "Sorry, no such player connected."
-#~ msgstr "Beklager, det er ingen slik spiller tilkoplet."
-
-#~ msgid "Game: Your attacking %s was successful against %s's %s%s!"
-#~ msgstr "Spill: Din %s lykkes i sitt angrep på %ss %s%s!"
-
-#~ msgid "Parse error while loading option file: input is:"
-#~ msgstr "Parsingsfeil under innlesing av opsjonsfil: input er:"
-
-#~ msgid "Unknown variable found in option file: input is:"
-#~ msgstr "Ukjent variabel funnet i opsjonsfil: input er:"
-
-#~ msgid "Find _City"
-#~ msgstr "Finn _By"
-
-#~ msgid "Flags are transparent      "
-#~ msgstr "Flagg er gjennomsiktige    "
