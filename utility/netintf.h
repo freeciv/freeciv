@@ -61,5 +61,6 @@ void my_nonblock(int sockfd);
 bool net_lookup_service(const char *name, int port, 
                         union my_sockaddr *addr);
 fz_FILE *my_querysocket(int sock, void *buf, size_t size);
+int find_next_free_port(int starting_port);
 
 #endif  /* FC__NETINTF_H */

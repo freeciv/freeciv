@@ -21,24 +21,16 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <signal.h>
 #include <time.h>
 
-#ifdef HAVE_SYS_SOCKET_H
-  #include <sys/socket.h>
-#endif
-  
 #ifdef HAVE_SYS_TYPES_H
-  #include <sys/types.h>
+#include <sys/types.h>		/* fchmod */
 #endif
 
 #ifdef HAVE_SYS_STAT_H
-  #include <sys/stat.h>
+#include <sys/stat.h>		/* fchmod */
 #endif
 
 #ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>
-#endif
-
-#ifdef HAVE_WINSOCK
-#include <winsock.h>
 #endif
 
 #include "fcintl.h"
@@ -153,7 +145,7 @@ bool client_start_server(void)
   append_output_window(_("Starting server..."));
 
   /* find a free port */ 
-  server_port = min_free_port();
+  server_port = find_next_free_port(5555);
 
   server_pid = fork();
   
@@ -263,31 +255,6 @@ bool client_start_server(void)
 #else /* Can't do much without fork(). */
   return FALSE;
 #endif
-}
-
-/************************************************************************** 
-Finds the lowest port which can be used for the 
-server (starting at the 5555C)
-**************************************************************************/ 
-int min_free_port(void)
-{
-  int port, n, s;
-  struct sockaddr_in tmp;
-  
-  s = socket(AF_INET, SOCK_STREAM, 0);
-  n = INADDR_ANY;
-  port = 5554; /* make looping convenient */ 
-  do {
-    port++;
-    memset(&tmp, 0, sizeof(struct sockaddr_in));
-    tmp.sin_family = AF_INET;
-    tmp.sin_port = htons(port);
-    memcpy(&tmp. sin_addr, &n, sizeof(long));
-  } while(bind(s, (struct sockaddr*) &tmp, sizeof(struct sockaddr_in)));
-
-  my_closesocket(s);
-  
-  return port;
 }
 
 /**************************************************************** 

@@ -225,3 +225,30 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
 
   return fz_from_stream(fp);
 }
+
+/************************************************************************** 
+  Finds the next (lowest) free port.
+**************************************************************************/ 
+int find_next_free_port(int starting_port)
+{
+  int port, s = socket(AF_INET, SOCK_STREAM, 0);
+
+  for (port = starting_port;; port++) {
+    union my_sockaddr tmp;
+    struct sockaddr_in *sock = &tmp.sockaddr_in;
+
+    memset(&tmp, 0, sizeof(tmp));
+
+    sock->sin_family = AF_INET;
+    sock->sin_port = htons(port);
+    sock->sin_addr.s_addr = htonl(INADDR_ANY);
+
+    if (bind(s, &tmp.sockaddr, sizeof(tmp.sockaddr)) == 0) {
+      break;
+    }
+  }
+
+  my_closesocket(s);
+  
+  return port;
+}
