@@ -118,7 +118,7 @@ static struct city_dialog {
 				   2 - scientists
 				   change when pressed on this area */
 
-
+  bool lock;
 } *pCityDlg = NULL;
 
 static struct SMALL_DLG *pHurry_Prod_Dlg = NULL;
@@ -190,46 +190,49 @@ static int city_dlg_callback(struct GUI *pWindow)
 {
   enum specialist_type type;
 
-  /* check elvis area */
-  if (pCityDlg->specs_area[0]) {
-    if ((Main.event.motion.x >= pCityDlg->specs_area[0]->x) &&
-	(Main.event.motion.x <=
-	 pCityDlg->specs_area[0]->x + pCityDlg->specs_area[0]->w)
-	&& (Main.event.motion.y >= pCityDlg->specs_area[0]->y)
-	&& (Main.event.motion.y <=
+  if (!cma_is_city_under_agent(pCityDlg->pCity, NULL)) {
+    /* check elvis area */
+    if (pCityDlg->specs_area[0]) {
+      if ((Main.event.motion.x >= pCityDlg->specs_area[0]->x) &&
+	  (Main.event.motion.x <=
+	   pCityDlg->specs_area[0]->x + pCityDlg->specs_area[0]->w)
+	  && (Main.event.motion.y >= pCityDlg->specs_area[0]->y)
+	  && (Main.event.motion.y <=
 	    pCityDlg->specs_area[0]->y + pCityDlg->specs_area[0]->h)) {
-      type = SP_ELVIS;
-      goto SEND;
+        type = SP_ELVIS;
+        goto SEND;
+      }
+    }
+
+    /* check TAXMANs area */
+    if (pCityDlg->specs_area[1]) {
+      if ((Main.event.motion.x >= pCityDlg->specs_area[1]->x) &&
+	  (Main.event.motion.x <=
+	   pCityDlg->specs_area[1]->x + pCityDlg->specs_area[1]->w)
+	  && (Main.event.motion.y >= pCityDlg->specs_area[1]->y)
+	  && (Main.event.motion.y <=
+	      pCityDlg->specs_area[1]->y + pCityDlg->specs_area[1]->h)) {
+        type = SP_TAXMAN;
+        goto SEND;
+      }
+    }
+
+    /* check SCIENTISTs area */
+    if (pCityDlg->specs_area[2]) {
+      if ((Main.event.motion.x >= pCityDlg->specs_area[2]->x) &&
+	  (Main.event.motion.x <=
+	   pCityDlg->specs_area[2]->x + pCityDlg->specs_area[2]->w)
+	  && (Main.event.motion.y >= pCityDlg->specs_area[2]->y)
+	  && (Main.event.motion.y <=
+	      pCityDlg->specs_area[2]->y + pCityDlg->specs_area[2]->h)) {
+        type = SP_SCIENTIST;
+        goto SEND;
+      }
     }
   }
-
-  /* check TAXMANs area */
-  if (pCityDlg->specs_area[1]) {
-    if ((Main.event.motion.x >= pCityDlg->specs_area[1]->x) &&
-	(Main.event.motion.x <=
-	 pCityDlg->specs_area[1]->x + pCityDlg->specs_area[1]->w)
-	&& (Main.event.motion.y >= pCityDlg->specs_area[1]->y)
-	&& (Main.event.motion.y <=
-	    pCityDlg->specs_area[1]->y + pCityDlg->specs_area[1]->h)) {
-      type = SP_TAXMAN;
-      goto SEND;
-    }
-  }
-
-  /* check SCIENTISTs area */
-  if (pCityDlg->specs_area[2]) {
-    if ((Main.event.motion.x >= pCityDlg->specs_area[2]->x) &&
-	(Main.event.motion.x <=
-	 pCityDlg->specs_area[2]->x + pCityDlg->specs_area[2]->w)
-	&& (Main.event.motion.y >= pCityDlg->specs_area[2]->y)
-	&& (Main.event.motion.y <=
-	    pCityDlg->specs_area[2]->y + pCityDlg->specs_area[2]->h)) {
-      type = SP_SCIENTIST;
-      goto SEND;
-    }
-  }
-
-  if(sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
+  
+  if(!pCityDlg->lock &&
+    	sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
     flush_rect(pWindow->size);
   }      
   
@@ -1808,6 +1811,9 @@ static int sell_imprvm_dlg_callback(struct GUI *pImpr)
 void enable_city_dlg_widgets(void)
 {
 
+  set_group_state(pCityDlg->pBeginCityWidgetList,
+		  pCityDlg->pEndCityWidgetList->prev, FC_WS_NORMAL);
+  
   if (pCityDlg->pImprv->pEndWidgetList) {
     if (pCityDlg->pImprv->pScroll) {
       set_wstate(pCityDlg->pImprv->pScroll->pScrollBar, FC_WS_NORMAL);	/* vscroll */
@@ -1837,7 +1843,7 @@ void enable_city_dlg_widgets(void)
       }				/* while */
     }
   }
-
+  
   if (pCityDlg->pCity->did_buy) {
     set_wstate(pCityDlg->pBuy_Button, FC_WS_DISABLED);
   }
@@ -1847,9 +1853,11 @@ void enable_city_dlg_widgets(void)
 		    pCityDlg->pEndCityPanelWidgetList, FC_WS_NORMAL);
   }
 
-  set_group_state(pCityDlg->pBeginCityWidgetList,
-		  pCityDlg->pEndCityWidgetList->prev, FC_WS_NORMAL);
-
+  if (cma_is_city_under_agent(pCityDlg->pCity, NULL)) {
+    set_wstate(pCityDlg->pResource_Map, FC_WS_DISABLED);
+  }
+  
+  pCityDlg->lock = FALSE;
 }
 
 /**************************************************************************
@@ -1870,6 +1878,7 @@ static void disable_city_dlg_widgets(void)
 
   set_group_state(pCityDlg->pBeginCityWidgetList,
 		  pCityDlg->pEndCityWidgetList->prev, FC_WS_DISABLED);
+  pCityDlg->lock = TRUE;
 }
 /* ======================================================================== */
 
@@ -2842,8 +2851,9 @@ static void redraw_city_dialog(struct city *pCity)
 
   refresh_city_names(pCity);
 
-  if ((city_unhappy(pCity) || city_celebrating(pCity) || city_happy(pCity))
-      ^ ((SDL_Client_Flags & CF_CITY_STATUS_SPECIAL) > 0)) {
+  if ((city_unhappy(pCity) || city_celebrating(pCity) || city_happy(pCity) ||
+      cma_is_city_under_agent(pCity, NULL))
+      ^ ((SDL_Client_Flags & CF_CITY_STATUS_SPECIAL) == CF_CITY_STATUS_SPECIAL)) {
     /* city status was changed : NORMAL <-> DISORDER, HAPPY, CELEBR. */
 
     SDL_Client_Flags ^= CF_CITY_STATUS_SPECIAL;
@@ -3991,6 +4001,10 @@ static void rebuild_citydlg_title_str(struct GUI *pWindow,
     }
   }
 
+  if (cma_is_city_under_agent(pCity, NULL)) {
+    mystrlcat(cBuf, _(" - under CMA control."), sizeof(cBuf));
+  }
+  
   FREE(pWindow->string16->text);
   pWindow->string16->text = convert_to_utf16(cBuf);
 }
@@ -4082,8 +4096,9 @@ void popup_city_dialog(struct city *pCity, bool make_modal)
   pCityDlg->pResource_Map = pBuf;
 
   pBuf->action = resource_map_city_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-
+  if (!cma_is_city_under_agent(pCity, NULL)) {
+    set_wstate(pBuf, FC_WS_NORMAL);
+  }
   pBuf->size.x =
       pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2 - 1;
   pBuf->size.y = pWindow->size.y + 87 + (134 - pBuf->size.h) / 2;

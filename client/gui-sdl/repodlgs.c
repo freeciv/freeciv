@@ -2706,11 +2706,10 @@ static int change_research_callback(struct GUI *pWidget)
   packet.tech = MAX_ID - pWidget->ID;
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_RESEARCH);
-
-  lock_buffer(pWidget->dst);
+  
   popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
 				pChangeTechDlg->pEndWidgetList);
-  unlock_buffer();
+  
   enable_science_dialog();
   FREE(pChangeTechDlg);
   flush_dirty();
@@ -2722,22 +2721,21 @@ static int change_research_callback(struct GUI *pWidget)
 **************************************************************************/
 static int exit_change_research_callback(struct GUI *pWidget)
 {
-  lock_buffer(pWidget->dst);
   popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList, 
   				pChangeTechDlg->pEndWidgetList);
-  unlock_buffer();
   enable_science_dialog();
   FREE(pChangeTechDlg);
   flush_dirty();
   return -1;
 }
 
+
 /**************************************************************************
-  ...
+  This function is used by change research and change goals dlgs.
 **************************************************************************/
 static int change_research_goal_dialog_callback(struct GUI *pWindow)
 {
-  if(sellect_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
+  if(sellect_window_group_dialog(pChangeTechDlg->pBeginWidgetList, pWindow)) {
       flush_rect(pWindow->size);
   }      
   return -1;
@@ -2754,6 +2752,8 @@ static int change_research(struct GUI *pWidget)
   SDL_Surface *pSurf;
   int i, count = 0, w = 0, h;
 
+  set_wstate(pWidget, FC_WS_NORMAL);
+  pSellected_Widget = NULL;
   redraw_icon2(pWidget);
   flush_rect(pWidget->size);
     
@@ -2762,7 +2762,7 @@ static int change_research(struct GUI *pWidget)
   pStr = create_str16_from_char(_("What should we focus on now?"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(pWidget->dst, pStr, 40, 30, 0);
+  pWindow = create_window(NULL, pStr, 40, 30, 0);
   pChangeTechDlg->pEndWidgetList = pWindow;
   w = MAX(w, pWindow->size.w);
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -2775,8 +2775,8 @@ static int change_research(struct GUI *pWidget)
 			  pTheme->CANCEL_Icon->w - 4,
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
   			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey( pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
+  SDL_SetColorKey(pBuf->theme,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
   
   w += pBuf->size.w + 10;
   pBuf->action = exit_change_research_callback;
@@ -2908,14 +2908,11 @@ static int change_research_goal_callback(struct GUI *pWidget)
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_TECH_GOAL);
 
-  lock_buffer(pWidget->dst);
   popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
 				  pChangeTechDlg->pEndWidgetList);
   FREE(pChangeTechDlg->pScroll);
   FREE(pChangeTechDlg);
   enable_science_dialog();
-  unlock_buffer();
-  flush_dirty();
     
   /* Following is to make the menu go back to the current goal;
    * there may be a better way to do this?  --dwp */
@@ -2928,10 +2925,8 @@ static int change_research_goal_callback(struct GUI *pWidget)
  */
 static int popdown_change_goal(struct GUI *pWidget)
 {
-  lock_buffer(pWidget->dst);
   popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
 				  pChangeTechDlg->pEndWidgetList);
-  unlock_buffer();
   FREE(pChangeTechDlg->pScroll);
   FREE(pChangeTechDlg);
   enable_science_dialog();
@@ -2949,6 +2944,8 @@ static int change_research_goal(struct GUI *pWidget)
   SDL_String16 *pStr;
   int i, count = 0, w = 0, h, max;
 
+  set_wstate(pWidget, FC_WS_NORMAL);
+  pSellected_Widget = NULL;
   redraw_icon2(pWidget);
   flush_rect(pWidget->size);
   disable_science_dialog();
@@ -2958,14 +2955,13 @@ static int change_research_goal(struct GUI *pWidget)
   pStr = create_str16_from_char(_("Sellect target :"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(pWidget->dst, pStr, 40, 30, 0);
+  pWindow = create_window(NULL, pStr, 40, 30, 0);
   pChangeTechDlg->pEndWidgetList = pWindow;
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = change_research_goal_dialog_callback;
   w = MAX(w, pWindow->size.w);
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_WINDOW, pWindow);
-
 
   h = WINDOW_TILE_HIGH + 1 + FRAME_WH;
   /* ------------------------- */
@@ -2974,8 +2970,8 @@ static int change_research_goal(struct GUI *pWidget)
 			  pTheme->CANCEL_Icon->w - 4,
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
   			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
-  SDL_SetColorKey( pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
+  SDL_SetColorKey(pBuf->theme,
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
   
   w += pBuf->size.w + 10;
   pBuf->action = popdown_change_goal;
@@ -3114,11 +3110,13 @@ static int change_research_goal(struct GUI *pWidget)
 
 static int science_dialog_callback(struct GUI *pWindow)
 {
-  if (move_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
+  if (!pChangeTechDlg &&
+	    move_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
     sellect_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow);
     science_dialog_update();
   } else {
-    if(sellect_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
+    if(!pChangeTechDlg &&
+      	sellect_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
       flush_rect(pWindow->size);
     }      
   }

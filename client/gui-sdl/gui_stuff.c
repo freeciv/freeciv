@@ -3239,7 +3239,7 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
 struct GUI * create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
 		SDL_String16 *pString16, Uint16 length, Uint32 flags)
 {
-  SDL_Rect buf = { 0, 0, 0, 0 };
+  SDL_Rect buf = {0, 0, 0, 0};
 
   struct GUI *pEdit = MALLOC(sizeof(struct GUI));
 
@@ -5132,6 +5132,25 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
    
 }
 
+#define MOVE_STEP 5
+
+/* This function may run in a separate event thread */
+static int FilterMouseMotionEvents(const SDL_Event *event)
+{
+  if (event->type == SDL_MOUSEMOTION) {
+    static int x = 0, y = 0;
+    if(event->motion.x - x > MOVE_STEP || x - event->motion.x > MOVE_STEP ||
+      event->motion.y - y > MOVE_STEP || y - event->motion.y > MOVE_STEP) {
+      x = event->motion.x;
+      y = event->motion.y;
+      return(1);    /* Catch it */
+    } else {
+      return(0);    /* Drop it, we've handled it */
+    }
+  }
+  return(1);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -5228,11 +5247,17 @@ static Uint16 move_window_button_up(SDL_MouseButtonEvent * pButtonEvent, void *p
 **************************************************************************/
 bool move_window(struct GUI *pWindow)
 {
+  bool ret;
   struct MOVE pMove;
   pMove.pWindow = pWindow;
   pMove.pPixelArray = NULL;
-  return (gui_event_loop((void *)&pMove, NULL, NULL, NULL, NULL,
+  /* Filter mouse motion events */
+  SDL_SetEventFilter(FilterMouseMotionEvents);
+  ret = (gui_event_loop((void *)&pMove, NULL, NULL, NULL, NULL,
 	  move_window_button_up, move_window_motion) == ID_MOVED_WINDOW);
+  /* Turn off Filter mouse motion events */
+  SDL_SetEventFilter(NULL);
+  return ret;
 }
 
 /**************************************************************************

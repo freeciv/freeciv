@@ -18,7 +18,6 @@
     copyright            : (C) 2002 by Rafa³ Bursig
     email                : Rafa³ Bursig <bursig@poczta.fm>
  ***************************************************************************/
-
 /***************************************************************************
  *	Based on ...
  *
@@ -26,6 +25,29 @@
  *
  *	LGPL (c) A. Schiffler
  *
+ ***************************************************************************/
+/***************************************************************************
+ *	Bilinear Interpolation.
+ *      
+ *	Maybe BI don't get best qulity in zoom but is faster that I know.
+ * 	
+ *      Basicaly it blend 4 src pixels ...
+ *       
+ *	p[n](P0)         p[n + 1](P1)
+ *	p[n + pitch](p2) p[n + pitch + 1](P3)
+ *	
+ *	P0 blend P1 -> t1
+ *	                  \
+ *			   blend -> dst pixel
+ *			  /
+ *	P2 blend P3 -> t2
+ *
+ *  For Blend I use basic alpha blend code without A = 255 check.
+ *  d = (((s-d)*(A))>>8)+d; - s and d are colors in Src and Dst pixels
+ ***************************************************************************/
+/***************************************************************************
+ *	TODO:
+ *		- add cpu mmx reg. runtime detection code.
  ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
@@ -43,6 +65,8 @@
 #ifdef HAVE_MMX1
 #include "mmx.h"
 #endif
+
+static int AA_ZoomSurfaceRGBn(const SDL_Surface *src, SDL_Surface *dst);
 
 static int AA_ZoomSurfaceFastRGBA32(const SDL_Surface * src,
 				    SDL_Surface * dst);
@@ -151,11 +175,11 @@ static int AA_ZoomSurfaceFastRGBA32(const SDL_Surface *src, SDL_Surface *dst)
   /*
    * Allocate memory for row increments 
    */
-  if ((sax = (Uint32 *) malloc((dst->w + 1) * sizeof(Uint32))) == NULL) {
+  if ((sax = (Uint32 *) MALLOC((dst->w + 1) * sizeof(Uint32))) == NULL) {
 		return (-1);
   }
-  if ((say = (Uint32 *) malloc((dst->h + 1) * sizeof(Uint32))) == NULL) {
-    free(sax);
+  if ((say = (Uint32 *) MALLOC((dst->h + 1) * sizeof(Uint32))) == NULL) {
+    FREE(sax);
     return (-1);
   }
 
@@ -261,8 +285,8 @@ static int AA_ZoomSurfaceFastRGBA32(const SDL_Surface *src, SDL_Surface *dst)
   /*
    * Remove temp arrays 
    */
-  free(sax);
-  free(say);
+  FREE(sax);
+  FREE(say);
 
   return (0);
 }
@@ -274,8 +298,7 @@ static int AA_ZoomSurfaceFastRGBA32(const SDL_Surface *src, SDL_Surface *dst)
 **************************************************************************/
 static int AA_ZoomSurfaceFastRGB24(const SDL_Surface *src, SDL_Surface *dst)
 {
-  Uint32 width, height;
-  register Uint32 step;
+  Uint32 width, height, step;
   Uint32 *sax, *say, *csax, *csay;
   register Uint8 *sp, *spp, *csp, *dp;
   int dgap;
@@ -283,11 +306,11 @@ static int AA_ZoomSurfaceFastRGB24(const SDL_Surface *src, SDL_Surface *dst)
   /*
    * Allocate memory for row increments 
    */
-  if ((sax = (Uint32 *) malloc((dst->w + 1) * sizeof(Uint32))) == NULL) {
+  if ((sax = (Uint32 *) MALLOC((dst->w + 1) * sizeof(Uint32))) == NULL) {
     return (-1);
   }
-  if ((say = (Uint32 *) malloc((dst->h + 1) * sizeof(Uint32))) == NULL) {
-    free(sax);
+  if ((say = (Uint32 *) MALLOC((dst->h + 1) * sizeof(Uint32))) == NULL) {
+    FREE(sax);
     return (-1);
   }
 
@@ -361,21 +384,21 @@ static int AA_ZoomSurfaceFastRGB24(const SDL_Surface *src, SDL_Surface *dst)
       psrlw_i2r(8, mm2); /* mm2 >> 8 -> mm2 */
       paddw_r2r(mm2, mm0); /* mm2 + mm0(t1) -> mm0 */
       pand_r2r(mm7, mm0); /* mask & mm0 -> mm0(0b0R0G0B) result */
-      packuswb_r2r(mm0, mm0);  /* bRGBbRGB -> mm2 */
+      packuswb_r2r(mm0, mm0);  /* bRGBbRGB -> mm0 */
 	    
-      /* WARNING this may be dangerous with last pixel becouse it
-         write 4 byes ( not 3 ) to "dp". Normaly it is save becouse
-         we overwrite this 4-th bye by next write */
-      movd_r2m(mm0, *dp);/* mm0 -> dst pixel */
-	    
-      /* 
-         //Save code
-         movd_r2m(mm0, *(&step));// mm0 -> dst pixel
-         dp[0] = step & 0xff;
-         dp[1] = (step >> 8 ) & 0xff;
-         dp[2] = (step >> 16) & 0xff;
-       */
-	    
+      if(height != 1) {
+        /* WARNING this may be dangerous with last pixel becouse it
+           write 4 byes ( not 3 ) to "dp". Normaly it is save becouse
+           we overwrite this 4-th bye by next write */
+        movd_r2m(mm0, *dp);/* mm0 -> dst pixel */
+      } else {
+	/* for sure last line copy in normal way */
+        movd_r2m(mm0, *(&step));/* mm0 -> dst pixel -> step */
+        dp[0] = step & 0xff;
+        dp[1] = (step >> 8 ) & 0xff;
+        dp[2] = (step >> 16) & 0xff;
+      }
+      
       /*
        * Advance source pointers 
        */
@@ -408,8 +431,8 @@ static int AA_ZoomSurfaceFastRGB24(const SDL_Surface *src, SDL_Surface *dst)
   /*
    * Remove temp arrays 
    */
-  free(sax);
-  free(say);
+  FREE(sax);
+  FREE(say);
 
   return (0);
 }
@@ -429,11 +452,11 @@ static int AA_ZoomSurfaceFastRGB16(const SDL_Surface *src, SDL_Surface *dst)
   /*
    * Allocate memory for row increments 
    */
-  if ((sax = (Uint32 *) malloc((dst->w + 1) * sizeof(Uint32))) == NULL) {
+  if ((sax = (Uint32 *) MALLOC((dst->w + 1) * sizeof(Uint32))) == NULL) {
     return (-1);
   }
-  if ((say = (Uint32 *) malloc((dst->h + 1) * sizeof(Uint32))) == NULL) {
-    free(sax);
+  if ((say = (Uint32 *) MALLOC((dst->h + 1) * sizeof(Uint32))) == NULL) {
+    FREE(sax);
     return (-1);
   }
 
@@ -559,7 +582,8 @@ static int AA_ZoomSurfaceFastRGB16(const SDL_Surface *src, SDL_Surface *dst)
 	    
       packuswb_r2r(mm0, mm0);  /* ARGBARGB -> mm2 */
       movd_r2m(mm0, *(&step));/* mm0 -> dst pixel */
-	    
+
+      /* convert RGB888 to RGB565 pixel coding */
       *dp = (Uint16)( ((step) & 0x1F) | ( (((step >> 8) & 0x3F)) << 5) |
 					( (((step >> 16) & 0x1F)) << 11));
 	    
@@ -594,8 +618,8 @@ static int AA_ZoomSurfaceFastRGB16(const SDL_Surface *src, SDL_Surface *dst)
   /*
    * Remove temp arrays 
    */
-  free(sax);
-  free(say);
+  FREE(sax);
+  FREE(say);
   
   return (0);
 }
@@ -615,11 +639,11 @@ static int AA_ZoomSurfaceFastRGB15(const SDL_Surface *src, SDL_Surface *dst)
   /*
    * Allocate memory for row increments 
    */
-  if ((sax = (Uint32 *) malloc((dst->w + 1) * sizeof(Uint32))) == NULL) {
+  if ((sax = (Uint32 *) MALLOC((dst->w + 1) * sizeof(Uint32))) == NULL) {
     return (-1);
   }
-  if ((say = (Uint32 *) malloc((dst->h + 1) * sizeof(Uint32))) == NULL) {
-    free(sax);
+  if ((say = (Uint32 *) MALLOC((dst->h + 1) * sizeof(Uint32))) == NULL) {
+    FREE(sax);
     return (-1);
   }
 
@@ -745,7 +769,8 @@ static int AA_ZoomSurfaceFastRGB15(const SDL_Surface *src, SDL_Surface *dst)
 	    
       packuswb_r2r(mm0, mm0);  /* ARGBARGB -> mm2 */
       movd_r2m(mm0, *(&step));/* mm0 -> dst pixel */
-	    
+
+      /* convert RGB888 to RGB555 pixel coding */
       *dp = (Uint16)( ((step) & 0x1F) | ( (((step >> 8) & 0x1F)) << 5) |
 					( (((step >> 16) & 0x1F)) << 10));
 	    
@@ -780,13 +805,14 @@ static int AA_ZoomSurfaceFastRGB15(const SDL_Surface *src, SDL_Surface *dst)
   /*
    * Remove temp arrays 
    */
-  free(sax);
-  free(say);
+  FREE(sax);
+  FREE(say);
   
   return (0);
 }
 
 #else
+
 static int AA_ZoomSurfaceFastRGB32(const SDL_Surface *src, SDL_Surface *dst);
 static int AA_ZoomSurfaceFastestRGB15(const SDL_Surface * src,
 				      	SDL_Surface * dst);
@@ -796,7 +822,7 @@ static int AA_ZoomSurfaceFastestRGB16(const SDL_Surface * src,
 /**************************************************************************
   32bit Zoomer with anti-aliasing by fast bilinear interpolation.
 
-  Zooms 32bit RGBA/ABGR 'src' surface to 'dst' surface.
+  Zooms 32bit Full RGBA/ABGR 'src' surface to 'dst' surface.
 **************************************************************************/
 static int AA_ZoomSurfaceFastRGBA32(const SDL_Surface * src,
 				    SDL_Surface * dst)
@@ -814,7 +840,6 @@ static int AA_ZoomSurfaceFastRGBA32(const SDL_Surface * src,
   say = MALLOC((dst->h + 1) * sizeof(Uint32));
 
   precalculate_8bit_row_increments(src, dst, sax, say);
-
 
   /*
    * Pointer setup 
@@ -946,7 +971,6 @@ static int AA_ZoomSurfaceFastRGB32(const SDL_Surface * src,
 
   precalculate_8bit_row_increments(src, dst, sax, say);
 
-
   /*
    * Pointer setup 
    */
@@ -1007,6 +1031,7 @@ static int AA_ZoomSurfaceFastRGB32(const SDL_Surface * src,
 
       pp = pp | ((((((t2 - t1) * ey) >> 8) + t1) & 0xff) << 8);
 
+      /* set dest alpha == 255 */
       *dp = pp | 0xff000000;
 
       /*
@@ -1025,6 +1050,7 @@ static int AA_ZoomSurfaceFastRGB32(const SDL_Surface * src,
        */
       dp++;
     }, width);
+    
     /*
      * Advance source pointer 
      */
@@ -1035,6 +1061,7 @@ static int AA_ZoomSurfaceFastRGB32(const SDL_Surface * src,
     spp0 = spp1 = (Uint32 *) ((Uint8 *) csp + src->pitch);
     spp1++;
     csax = sax;
+    
     /*
      * Advance destination pointers 
      */
@@ -1134,9 +1161,7 @@ static int AA_ZoomSurfaceFastRGB24(const SDL_Surface * src,
       csax++;
       /* cc0 == step */
       cc0 = (*csax >> 8);
-
-      /* (cc0 * 3) */
-      cc0 = (cc0 << 1) + cc0;
+      cc0 *= 3;
 
       sp0 += cc0;
       sp1 += cc0;
@@ -1229,7 +1254,7 @@ static int AA_ZoomSurfaceFastRGB16(const SDL_Surface *src, SDL_Surface *dst)
 	ex = (*csax & 0xff);
 	ey = (*csay & 0xff);
 
-	/* 16 bit 5-6-5 ( 15bit not supported ) */
+	/* 16 bit 5-6-5 */
         cc0 = *sp0;
 	cc0 = /*blue */ (((cc0 >> 11) & 0x1F) << 16) | ((cc0) & 0x1F);	/* red */
 
@@ -1314,6 +1339,7 @@ static int AA_ZoomSurfaceFastRGB16(const SDL_Surface *src, SDL_Surface *dst)
   16bit Zoomer with anti-aliasing by fastest bilinear interpolation.
 
   Zooms 16bit RGB/BGR 'src' surface to 'dst' surface.
+  Move green to upper 16 bit and cut alpha to 5 bits.
 **************************************************************************/
 static int AA_ZoomSurfaceFastestRGB16(const SDL_Surface *src, SDL_Surface *dst)
 {
@@ -1366,7 +1392,6 @@ static int AA_ZoomSurfaceFastestRGB16(const SDL_Surface *src, SDL_Surface *dst)
 	ey = (*csay & 0x1f);
 
 	/* 16 bit 5-6-5 */
-	/* move green to upper 16 bit */
       
         cc0 = *sp0;
 	cc0 = (cc0 | cc0 << 16) & 0x07e0f81f;
@@ -1405,6 +1430,7 @@ static int AA_ZoomSurfaceFastestRGB16(const SDL_Surface *src, SDL_Surface *dst)
        */
       dp++;
     }, width);
+    
     /*
      * Advance source pointer 
      */
@@ -1571,6 +1597,7 @@ static int AA_ZoomSurfaceFastRGB15(const SDL_Surface *src, SDL_Surface *dst)
   15bit Zoomer with anti-aliasing by fastest bilinear interpolation.
 
   Zooms 15bit RGB/BGR 'src' surface to 'dst' surface.
+  Move green to upper 16 bit and cut alpha to 5 bits.
 **************************************************************************/
 static int AA_ZoomSurfaceFastestRGB15(const SDL_Surface *src, SDL_Surface *dst)
 {
@@ -1687,6 +1714,183 @@ static int AA_ZoomSurfaceFastestRGB15(const SDL_Surface *src, SDL_Surface *dst)
   return 0;
 }
 #endif
+
+#define GET_R_FROM_PIXEL(pixel, fmt)	\
+	(((pixel&fmt->Rmask)>>fmt->Rshift)<<fmt->Rloss)
+
+#define POSITION_R_IN_PIXEL(R, fmt)	\
+	(((R>>fmt->Rloss)<<fmt->Rshift)&fmt->Rmask)
+	
+#define GET_G_FROM_PIXEL(pixel, fmt)	\
+	(((pixel&fmt->Gmask)>>fmt->Gshift)<<fmt->Gloss)
+
+#define POSITION_G_IN_PIXEL(G, fmt)	\
+	(((G>>fmt->Gloss)<<fmt->Gshift)&fmt->Gmask)
+
+#define GET_B_FROM_PIXEL(pixel, fmt)	\
+	(((pixel&fmt->Bmask)>>fmt->Bshift)<<fmt->Bloss)
+
+#define POSITION_B_IN_PIXEL(B, fmt)	\
+	(((B>>fmt->Bloss)<<fmt->Bshift)&fmt->Bmask)
+
+#define GET_A_FROM_PIXEL(pixel, fmt)	\
+	(((pixel&fmt->Amask)>>fmt->Ashift)<<fmt->Aloss)
+
+#define POSITION_A_IN_PIXEL(A, fmt)	\
+	(((A>>fmt->Aloss)<<fmt->Ashift)&fmt->Amask)
+	
+/**************************************************************************
+  N bit Zoomer with anti-aliasing by slow bilinear interpolation.
+
+  Zooms N bit RGB/BGR 'src' surface to 'dst' surface.
+  This is most slowest function and is called in no-standart pixel codings.
+**************************************************************************/
+static int AA_ZoomSurfaceRGBn(const SDL_Surface *src, SDL_Surface *dst)
+{
+  Uint32 width, height;
+  Uint32 *sax, *say, *csax, *csay;
+  Uint32 cc0, cc1, t1, t2, pp, ex, ey;
+  Uint8 *sp0 , *sp1, *spp0, *spp1, *csp, *dp;
+  int dgap, bpp = dst->format->BytesPerPixel;
+  
+  /*
+   * Variable setup 
+   */
+
+  /*
+   * Allocate memory for row increments 
+   */
+  sax = MALLOC((dst->w + 1) * sizeof(Uint32));
+  say = MALLOC((dst->h + 1) * sizeof(Uint32));
+
+  precalculate_8bit_row_increments(src, dst, sax, say);
+
+  /*
+   * Pointer setup 
+   */
+  sp0 = sp1 = csp = (Uint8 *) src->pixels;
+  sp1 += bpp;
+  spp0 = spp1 = (Uint8 *) ((Uint8 *) csp + src->pitch);
+  spp1 += bpp;
+  dp = (Uint8 *) dst->pixels;
+  dgap = dst->pitch - dst->w * bpp;
+
+  /*
+   * Interpolating Zoom 
+   */
+
+  /*
+   * Scan destination 
+   */
+  csay = say;
+  csax = sax;
+  height = dst->h;
+  width = dst->w;
+  while(height--) {
+    DUFFS_LOOP4 (
+    {
+        /*
+	 * Interpolate colors 
+	 */
+	ex = (*csax & 0xff);
+	ey = (*csay & 0xff);
+
+        memcpy(&cc0, sp0, bpp);
+	cc0 = (GET_B_FROM_PIXEL(cc0, src->format) << 16) |
+      					GET_R_FROM_PIXEL(cc0, src->format);
+      
+        memcpy(&cc1, sp1, bpp);
+	cc1 = (GET_B_FROM_PIXEL(cc1, src->format) << 16) |
+      					GET_R_FROM_PIXEL(cc1, src->format);
+
+	t1 = ((((cc1 - cc0) * ex) >> 8) + cc0) & 0x00ff00ff;
+
+        memcpy(&cc0, spp0, bpp);
+	cc0 = (GET_B_FROM_PIXEL(cc0, src->format) << 16) |
+      					GET_R_FROM_PIXEL(cc0, src->format);
+
+	memcpy(&cc1, spp1, bpp);
+	cc1 = (GET_B_FROM_PIXEL(cc1, src->format) << 16) |
+      					GET_R_FROM_PIXEL(cc1, src->format);
+
+	t2 = ((((cc1 - cc0) * ex) >> 8) + cc0) & 0x00ff00ff;
+	pp = ((((t2 - t1) * ey) >> 8) + t1) & 0x00ff00ff;
+	
+        /* ----------------- */
+        memcpy(&cc0, sp0, bpp);
+	cc0 = (GET_A_FROM_PIXEL(cc0, src->format) << 16) |
+      					GET_G_FROM_PIXEL(cc0, src->format);
+
+        memcpy(&cc1, sp1, bpp);
+	cc1 = (GET_A_FROM_PIXEL(cc1, src->format) << 16) |
+      					GET_G_FROM_PIXEL(cc1, src->format);
+
+	t1 = ((((cc1 - cc0) * ex) >> 8) + cc0) & 0x00ff00ff;
+
+        memcpy(&cc0, spp0, bpp);
+	cc0 = (GET_A_FROM_PIXEL(cc0, src->format) << 16) |
+      					GET_G_FROM_PIXEL(cc0, src->format);
+
+	memcpy(&cc1, spp1, bpp);
+	cc1 = (GET_A_FROM_PIXEL(cc1, src->format) << 16) |
+      					GET_G_FROM_PIXEL(cc1, src->format);
+
+	t2 = ((((cc1 - cc0) * ex) >> 8) + cc0) & 0x00ff00ff;
+
+	pp = pp | ((((((t2 - t1) * ey) >> 8) + t1) & 0x00ff00ff) << 8);
+
+	/* in this moment pp is coded as full RGBA8888 then
+	   we must convert it to dst pixel codding */
+	*dp = POSITION_R_IN_PIXEL((pp & 0xff), dst->format) |
+	      POSITION_G_IN_PIXEL(((pp >> 8) & 0xff), dst->format) |
+	      POSITION_B_IN_PIXEL(((pp >> 16) & 0xff), dst->format) |
+	      POSITION_A_IN_PIXEL(((pp >> 24) & 0xff), dst->format);
+      	
+      /*
+       * Advance source pointers 
+       */
+      csax++;
+      /* cc0 == step */
+      cc0 = (*csax >> 8);
+      cc0 *= bpp;
+      
+      sp0 += cc0;
+      sp1 += cc0;
+      spp0 += cc0;
+      spp1 += cc0;
+
+      /*
+       * Advance destination pointer 
+       */
+      dp += bpp;
+    }, width);
+    
+    /*
+     * Advance source pointer 
+     */
+    csay++;
+    csp += (*csay >> 8) * src->pitch;
+    sp0 = sp1 = csp;
+    sp1 += bpp;
+    spp0 = spp1 = (Uint8 *)(csp + src->pitch);
+    spp1 += bpp;
+    csax = sax;
+    
+    /*
+     * Advance destination pointers 
+     */
+    dp += dgap;
+  }
+
+  /*
+   * Remove temp arrays 
+   */
+  FREE(sax);
+  FREE(say);
+
+  return 0;
+}
+
 
 /**************************************************************************
   32bit Zoomer.
@@ -1814,7 +2018,7 @@ static int zoomSurfaceRGB24(const SDL_Surface * src, SDL_Surface * dst)
        */
       csax++;
       step = (*csax >> 16);
-      step = (step << 1) + step;	/* (... * 3) */
+      step *= 3;
       sp += step;
 
       /*
@@ -1941,13 +2145,13 @@ static int zoomSurfaceY(const SDL_Surface * src, SDL_Surface * dst)
   /*
    * Allocate memory for row increments 
    */
-  if ((sax = (Uint32 *) malloc(dst->w * sizeof(Uint32))) == NULL) {
+  if ((sax = (Uint32 *) MALLOC(dst->w * sizeof(Uint32))) == NULL) {
     return (-1);
   }
 
-  if ((say = (Uint32 *) malloc(dst->h * sizeof(Uint32))) == NULL) {
+  if ((say = (Uint32 *) MALLOC(dst->h * sizeof(Uint32))) == NULL) {
     if (sax != NULL) {
-      free(sax);
+      FREE(sax);
     }
     return -1;
   }
@@ -2097,8 +2301,6 @@ SDL_Surface *ZoomSurface(const SDL_Surface * pSrc, double zoomx,
 		       smooth);
 }
 
-/* 
-*/
 /**************************************************************************
   ResizeSurface(...)
 
@@ -2115,7 +2317,7 @@ SDL_Surface *ZoomSurface(const SDL_Surface * pSrc, double zoomx,
 SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
 			   Uint16 new_height, int smooth)
 {
-  SDL_Surface *pReal_dst = NULL, *pBuf_Src = (SDL_Surface *) pSrc;
+  SDL_Surface *pReal_dst, *pBuf_Src = (SDL_Surface *) pSrc;
   int i;
 
   /*
@@ -2151,17 +2353,23 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
        *      Call the 32bit transformation routine to do
        *      the zooming (using alpha) with faster AA algoritm
        */
+      if (pReal_dst->format->Gmask == 0xFF00) {
 #ifdef HAVE_MMX1
-      /* RGBA -> 8-8-8-8 -> 32 bit */
-      AA_ZoomSurfaceFastRGBA32(pSrc, pReal_dst);
+        /* RGBA -> 8-8-8-8 -> 32 bit */
+        AA_ZoomSurfaceFastRGBA32(pSrc, pReal_dst);
 #else      
-      if (pReal_dst->format->Amask) {
-	/* RGBA -> 8-8-8-8 -> 32 bit */
-	AA_ZoomSurfaceFastRGBA32(pSrc, pReal_dst);
-      } else {			/* no alpha -> 24 bit coding 8-8-8 ) */
-	AA_ZoomSurfaceFastRGB32(pSrc, pReal_dst);
-      }
-#endif      
+        if (pReal_dst->format->Amask) {
+	  /* RGBA -> 8-8-8-8 -> 32 bit */
+	  AA_ZoomSurfaceFastRGBA32(pSrc, pReal_dst);
+        } else {
+	  /* no alpha -> 24 bit coding 8-8-8 */
+	  AA_ZoomSurfaceFastRGB32(pSrc, pReal_dst);
+        }
+#endif  
+      } else {
+	/* no standart pixel coding */
+	AA_ZoomSurfaceRGBn(pSrc, pReal_dst);
+      }	
       /*
        * Turn on source-alpha support 
        */
@@ -2188,7 +2396,13 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
        *      Call the 24bit transformation routine to do
        *      the zooming (using alpha) with faster AA algoritm
        */
-      AA_ZoomSurfaceFastRGB24(pSrc, pReal_dst);
+      if (pReal_dst->format->Gmask == 0xFF00) {
+	/* pixel is RGB888 */
+        AA_ZoomSurfaceFastRGB24(pSrc, pReal_dst);
+      } else {
+	/* no standart pixel coding */
+	AA_ZoomSurfaceRGBn(pSrc, pReal_dst);
+      }
       /*
        * Turn on source-alpha support 
        */
@@ -2225,8 +2439,8 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
 	 */
 	AA_ZoomSurfaceFastRGB15(pSrc, pReal_dst);
       } else {
-	FREESURFACE(pReal_dst);
-	return NULL;
+	/* no standart pixel coding */
+	AA_ZoomSurfaceRGBn(pSrc, pReal_dst);
       }
       /*
        * Turn on source-alpha support 
@@ -2251,8 +2465,8 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
 	 */
 	AA_ZoomSurfaceFastestRGB15(pSrc, pReal_dst);
       } else {
-	FREESURFACE(pReal_dst);
-	return NULL;
+	/* no standart pixel coding */
+	AA_ZoomSurfaceRGBn(pSrc, pReal_dst);
       }
 
       /*
@@ -2298,16 +2512,14 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
 
     break;
   default:
-    goto END;
+    FREESURFACE(pReal_dst);
     break;
   }
 
-END:
   /*
    * Unlock source surface 
    */
   unlock_surf(pBuf_Src);
-
 
   /*
    * Return destination surface 

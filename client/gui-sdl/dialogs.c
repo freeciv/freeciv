@@ -187,9 +187,9 @@ static int exit_notify_dialog_callback(struct GUI *pWidget)
 **************************************************************************/
 void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
-  struct GUI *pBuf = NULL, *pWindow;
+  struct GUI *pBuf, *pWindow;
   SDL_String16 *pStr;
-  SDL_Surface *pHeadline, *pLines = NULL;
+  SDL_Surface *pHeadline, *pLines;
   SDL_Rect dst;
   int w = 0, h;
   
@@ -205,7 +205,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   pWindow = create_window(NULL, pStr, 10, 10, 0);
   
   pWindow->action = notify_dialog_window_callback;
-  set_wstate(pWindow , FC_WS_NORMAL);
+  set_wstate(pWindow, FC_WS_NORMAL);
   w = MAX(w, pWindow->size.w);
   
   add_to_gui_list(ID_WINDOW, pWindow);
@@ -218,7 +218,7 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
   			  (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT));
   SDL_SetColorKey(pBuf->theme ,
-	  SDL_SRCCOLORKEY|SDL_RLEACCEL , get_first_pixel(pBuf->theme));
+	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
     
   pBuf->action = exit_notify_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -233,19 +233,21 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   
   pHeadline = create_text_surf_from_str16(pStr);
     
-  if(lines) {
+  if(lines && lines != "") {
     FREE(pStr->text);
     change_ptsize16(pStr, 12);
     pStr->style &= ~TTF_STYLE_BOLD;
     pStr->text = convert_to_utf16(lines);
     pLines = create_text_surf_from_str16(pStr);
+  } else {
+    pLines = NULL;
   }
   
   FREESTRING16(pStr);
   
-  w = MAX(w , pHeadline->w);
+  w = MAX(w, pHeadline->w);
   if(pLines) {
-    w = MAX(w , pLines->w);
+    w = MAX(w, pLines->w);
   }
   w += 60;
   h = WINDOW_TILE_HIGH + 1 + FRAME_WH + 10 + pHeadline->h + 10;

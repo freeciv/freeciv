@@ -307,7 +307,7 @@ static int save_cma_callback(struct GUI *pWidget)
   hh += pBuf->size.h;
   pBuf->size.w = MAX(pBuf->next->size.w, pBuf->size.w);
   pBuf->next->size.w = pBuf->size.w;
-  ww = MAX(ww , 2 * pBuf->size.w + 20);
+  ww = MAX(ww, 2 * pBuf->size.w + 20);
     
   pCma->pAdv->pBeginWidgetList = pBuf;
   
@@ -733,7 +733,7 @@ void update_city_cma_dialog(void)
   
   /* save as ... */
   pBuf = pBuf->prev->prev;
-  if(client_under_control && result.found_a_valid) {
+  if(client_under_control) {
     set_wstate(pBuf, FC_WS_NORMAL);
   } else {
     set_wstate(pBuf, FC_WS_DISABLED);
