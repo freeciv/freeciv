@@ -632,3 +632,26 @@ static void save_global_worklist(struct section_file *file, char *path,
     secfile_insert_int(file, pwl->wlids[i], idpath, wlinx, i);
   }
 }
+
+/****************************************************************
+ If is_city_event is FALSE this event doesn't effect a city even if
+ there is a city at the event location.
+*****************************************************************/
+bool is_city_event(enum event_type event)
+{
+  switch (event) {
+  case E_GLOBAL_ECO:
+  case E_CITY_LOST:
+  case E_UNIT_LOST:
+  case E_UNIT_WIN:
+  case E_DIPLOMATED:
+  case E_MY_DIPLOMAT:
+  case E_UNIT_LOST_ATT:
+  case E_UNIT_WIN_ATT:
+  case E_UPRISING:
+    return FALSE;
+
+  default:
+    return TRUE;
+  }
+}

@@ -359,51 +359,26 @@ void meswin_list_callback (GtkWidget *w, gint row, gint column, GdkEvent *ev)
 {
   struct city *pcity;
   int x, y;
-  int location_ok;
-  int city_ok;
+  bool location_ok, city_ok;
 
   x = xpos[row];
   y = ypos[row];
   location_ok = (x != -1 && y != -1);
-  city_ok = (location_ok && (pcity=map_get_city(x,y))
-	    && (pcity->owner == game.player_idx));
+  city_ok = (location_ok && (pcity = map_get_city(x, y))
+	     && (pcity->owner == game.player_idx));
 
-  if (ev)  /* since we added a gtk_clist_select_row() there may be no event */
-  {
-    switch (ev->type)
-    {
-    case GDK_2BUTTON_PRESS:
-      switch (event[row])
-      {
-      case E_NOEVENT:
-      case E_LOW_ON_FUNDS:
-      case E_ANARCHY:
-      case E_DIPLOMATED:
-      case E_TECH_GAIN:
-      case E_DESTROYED:
-	break;
-      case E_GLOBAL_ECO:
-      case E_CITY_LOST:
-      case E_UNIT_LOST:
-      case E_UNIT_WIN:
-      case E_MY_DIPLOMAT:
-      case E_UNIT_LOST_ATT:
-      case E_UNIT_WIN_ATT:
-      case E_UPRISING:
-	meswin_goto_callback (meswin_goto_command, NULL);
-	break;
-      default:
-	meswin_popcity_callback (meswin_popcity_command, NULL);
-	break;
-      }
-      meswin_visited_item (row);
-      break;
-    default:
-      break;
+  if (ev && ev->type == GDK_2BUTTON_PRESS) {
+    /* since we added a gtk_clist_select_row() there may be no event */
+    if (city_ok && is_city_event(event[row])) {
+      meswin_popcity_callback(meswin_popcity_command, NULL);
+    } else if (location_ok) {
+      meswin_goto_callback(meswin_goto_command, NULL);
     }
   }
-  gtk_widget_set_sensitive(meswin_goto_command, location_ok?TRUE:FALSE);
-  gtk_widget_set_sensitive(meswin_popcity_command, city_ok?TRUE:FALSE);
+  meswin_visited_item(row);
+
+  gtk_widget_set_sensitive(meswin_goto_command, location_ok);
+  gtk_widget_set_sensitive(meswin_popcity_command, city_ok);
 }
 
 /**************************************************************************
