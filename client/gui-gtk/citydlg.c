@@ -269,6 +269,7 @@ static void unit_disband_callback(gpointer data);
 static void unit_homecity_callback(gpointer data);
 static void unit_upgrade_callback(gpointer data);
 static void unit_upgrade_callback_yes(gpointer data);
+static void unit_center_callback(gpointer data);
 
 static void citizens_callback(GtkWidget * w, GdkEventButton * ev,
 			      gpointer data);
@@ -2464,6 +2465,7 @@ static gint supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
     popup_message_dialog(pdialog->shell,	/* "supported unit popup" */
 			 _("Unit Commands"), unit_description(punit),
 			 dummy_close_callback, NULL, 
+			 _("Cen_ter"), unit_center_callback, punit->id,
 			 _("_Activate unit"), unit_activate_callback,
 			 punit->id, _("Activate unit, _close dialog"),
 			 supported_unit_activate_close_callback, punit->id,
@@ -2721,6 +2723,18 @@ static void unit_upgrade_callback_yes(gpointer data)
 
   if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     request_unit_upgrade(punit);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void unit_center_callback(gpointer data)
+{
+  struct unit *punit;
+
+  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
+    center_tile_mapcanvas(punit->x, punit->y);
   }
 }
 

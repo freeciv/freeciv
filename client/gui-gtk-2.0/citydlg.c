@@ -256,6 +256,7 @@ static gboolean present_unit_middle_callback(GtkWidget * w,
 					     GdkEventButton * ev,
 					     gpointer data);
 
+static void unit_center_callback(GtkWidget * w, gpointer data);
 static void unit_activate_callback(GtkWidget * w, gpointer data);
 static void supported_unit_activate_close_callback(GtkWidget * w,
 						   gpointer data);
@@ -2491,6 +2492,12 @@ static gboolean supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
     gtk_menu_popdown(GTK_MENU(menu));
     gtk_container_foreach(GTK_CONTAINER(menu), destroy_func, NULL);
 
+    item = gtk_menu_item_new_with_mnemonic(_("Cen_ter"));
+    g_signal_connect(item, "activate",
+      G_CALLBACK(unit_center_callback),
+      GINT_TO_POINTER(punit->id));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    
     item = gtk_menu_item_new_with_mnemonic(_("_Activate unit"));
     g_signal_connect(item, "activate",
       G_CALLBACK(unit_activate_callback),
@@ -2660,12 +2667,25 @@ static gboolean supported_unit_middle_callback(GtkWidget * w,
 /****************************************************************
 ...
 *****************************************************************/
+static void unit_center_callback(GtkWidget * w, gpointer data)
+{
+  struct unit *punit;
+
+  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
+    center_tile_mapcanvas(punit->x, punit->y);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
 static void unit_activate_callback(GtkWidget * w, gpointer data)
 {
   struct unit *punit;
 
-  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
+  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     set_unit_focus(punit);
+  }
 }
 
 /****************************************************************
@@ -2711,8 +2731,9 @@ static void unit_sentry_callback(GtkWidget * w, gpointer data)
 {
   struct unit *punit;
 
-  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
+  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     request_unit_sentry(punit);
+  }
 }
 
 /****************************************************************
@@ -2722,8 +2743,9 @@ static void unit_fortify_callback(GtkWidget * w, gpointer data)
 {
   struct unit *punit;
 
-  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
+  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     request_unit_fortify(punit);
+  }
 }
 
 /****************************************************************
@@ -2733,8 +2755,9 @@ static void unit_disband_callback(GtkWidget * w, gpointer data)
 {
   struct unit *punit;
 
-  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
+  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     request_unit_disband(punit);
+  }
 }
 
 /****************************************************************
@@ -2744,8 +2767,9 @@ static void unit_homecity_callback(GtkWidget * w, gpointer data)
 {
   struct unit *punit;
 
-  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data)))
+  if ((punit = player_find_unit_by_id(game.player_ptr, (size_t) data))) {
     request_unit_change_homecity(punit);
+  }
 }
 
 /****************************************************************
