@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.11.0\n"
-"POT-Creation-Date: 2000-06-19 08:38+0200\n"
+"POT-Creation-Date: 2000-06-19 18:09+0200\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <garfy@ehinzen.de>\n"
 
@@ -12876,6 +12876,22 @@ msgstr "Schirmherr"
 msgid "Lady Protector"
 msgstr "Schirmherrin"
 
+#: data/nation/estonian.ruleset:3
+msgid "Estonian"
+msgstr "estonisch"
+
+#: data/nation/estonian.ruleset:4
+msgid "?plural:Estonians"
+msgstr "?plural:Estonier"
+
+#: data/nation/filipino.ruleset:3
+msgid "Filipino"
+msgstr "filipinisch"
+
+#: data/nation/filipino.ruleset:4
+msgid "?plural:Filipinos"
+msgstr "?plural:Filipinen"
+
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
 msgstr "finnisch"
@@ -13011,6 +13027,14 @@ msgstr "krevisch"
 #: data/nation/krevi.ruleset:4
 msgid "?plural:Krevis"
 msgstr "?plural:Krevier"
+
+#: data/nation/latvian.ruleset:3
+msgid "Latvian"
+msgstr "latinisch"
+
+#: data/nation/latvian.ruleset:4
+msgid "?plural:Latvians"
+msgstr "?plural:Latiner"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
