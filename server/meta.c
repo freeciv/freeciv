@@ -361,13 +361,13 @@ static bool send_to_metaserver(enum meta_flag flag)
     "POST %s HTTP/1.1\r\n"
     "Host: %s:%d\r\n"
     "Content-Type: application/x-www-form-urlencoded; charset=\"utf-8\"\r\n"
-    "Content-Length: %d\r\n"
+    "Content-Length: %lu\r\n"
     "\r\n"
     "%s\r\n",
     metaserver_path,
     metaname,
     metaport,
-    sizeof(str)-rest+1,
+    (unsigned long) (sizeof(str) - rest + 1),
     str
   );
 
