@@ -892,8 +892,11 @@ static int evaluate_improvements(struct unit *punit,
 #endif
     /* try to work near the city */
     city_map_checked_iterate(pcity->tile, i, j, ptile) {
-      if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE)
+      if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE
+	  || terrain_has_flag(pcity->tile->terrain, TER_UNSAFE)) {
+	/* Don't risk bothering with this tile. */
 	continue;
+      }
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
       if (map_get_continent(ptile) == ucont
 	  && WARMAP_COST(ptile) <= THRESHOLD * mv_rate
