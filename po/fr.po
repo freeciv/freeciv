@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-07-17 11:03-0400\n"
+"POT-Creation-Date: 2000-07-19 22:42+0200\n"
 "PO-Revision-Date: 1999-09-13 10:22+0200\n"
 "Last-Translator: Freeciv french team <freeciv-fr@club.voila.fr>\n"
 "Language-Team: FRENCH <FR@li.org>\n"
@@ -69,9 +69,8 @@ msgid "last message repeated once"
 msgstr "dernier message répété une fois"
 
 #: common/map.c:51
-#, fuzzy
 msgid "Special1"
-msgstr "Spécial"
+msgstr "Spécial1"
 
 #: common/map.c:52 common/map.c:655 common/unit.c:745
 msgid "Road"
@@ -102,9 +101,8 @@ msgid "Fortress"
 msgstr "Forteresse"
 
 #: common/map.c:59
-#, fuzzy
 msgid "Special2"
-msgstr "Spécial"
+msgstr "Spécial2"
 
 #: common/map.c:60 data/civ1/terrain.ruleset:470 data/classic/terrain.ruleset:470
 msgid "River"
@@ -1191,14 +1189,12 @@ msgid "Game: Coastlines have been flooded and vast ranges of grassland have beco
 msgstr "Jeu : les côtes ont été inondées, et de vastes parcelles de prairie sont devenues désertiques."
 
 #: server/maphand.c:154
-#, fuzzy
 msgid "Game: Nuclear winter has occurred!"
-msgstr "Jeu : un réchauffement de la planète vient d'avoir lieu!"
+msgstr "Jeu : un hiver nucléaire vient d'avoir lieu!"
 
 #: server/maphand.c:155
-#, fuzzy
 msgid "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr "Jeu : les côtes ont été inondées, et de vastes parcelles de prairie sont devenues désertiques."
+msgstr "Jeu : les marais se sont asséchés et de vastes parcelles de prairie se sont transformées en tundra."
 
 #: server/maphand.c:411
 msgid ""
@@ -1980,14 +1976,12 @@ msgid "This should specify a subdirectory of the data directory, containing a fi
 msgstr "Indique le répertoire (dans le répertoire de données) contenant le fichier \"cities.ruleset\". Ce fichier est utilisé pour initialiser les données des villes (comme leur style). Voir aussi le fichier README.rulesets."
 
 #: server/stdinhand.c:377
-#, fuzzy
 msgid "Data subdir containing game.ruleset"
-msgstr "Répertoire contenant techs.ruleset"
+msgstr "Répertoire contenant game.ruleset"
 
 #: server/stdinhand.c:378
-#, fuzzy
 msgid "This should specify a subdirectory of the data directory, containing a file called \"game.ruleset\".  The file is used to initialize some miscellanous game rules.  See also README.rulesets."
-msgstr "Indique le répertoire (dans le répertoire de données) contenant le fichier \"cities.ruleset\". Ce fichier est utilisé pour initialiser les données des villes (comme leur style). Voir aussi le fichier README.rulesets."
+msgstr "Indique le répertoire (dans le répertoire de données) contenant le fichier \"game.ruleset\". Ce fichier est utilisé pour initialiser les règles de jeu. Voir aussi le fichier README.rulesets."
 
 #: server/stdinhand.c:388
 msgid "Points required to gain a new advance"
@@ -2180,7 +2174,6 @@ msgid "Maximum seconds per turn"
 msgstr "Nombre maximum de secondes par tour"
 
 #: server/stdinhand.c:583
-#, fuzzy
 msgid "If all players have not hit \"Turn Done\" before this time is up, then the turn ends automatically.  Zero means there is no timeout."
 msgstr "Si tous les joueurs n'ont pas terminé leur tour avant cette limite de temps, alors il se termine automatiquement. Zéro = pas de limite."
 
@@ -2478,7 +2471,6 @@ msgstr "Sans argument, cette commande règle le niveau de tous les joueurs IA (ex
 #. confusing to leave this at ALLOW_CTRL
 #. translate <> only
 #: server/stdinhand.c:931
-#, fuzzy
 msgid ""
 "cmdlevel\n"
 "cmdlevel <level>\n"
@@ -2489,6 +2481,7 @@ msgstr ""
 "cmdlevel\n"
 "cmdlevel <niveau>\n"
 "cmdlevel <niveau> new\n"
+"cmdlevel <niveau> first\n"
 "cmdlevel <niveau> <nom-joueur>"
 
 #: server/stdinhand.c:936
@@ -2496,7 +2489,6 @@ msgid "Query or set command-level access."
 msgstr "Affiche ou règle le niveau de commande autorisé."
 
 #: server/stdinhand.c:937
-#, fuzzy
 msgid ""
 "The command-level controls which server commands are available to players via the client chatline.  The available levels are:\n"
 "    none  -  no commands\n"
@@ -2519,6 +2511,7 @@ msgstr ""
 "Sans arguments, affiche le niveau de commande en cours.\n"
 "Avec un seul argument, le niveau choisi s'applique à toutes les connexions existantes et à venir.\n"
 "Si 'new' est spécifié, le niveau de commande n'est positionné que pour les connexions à venir.\n"
+"Si 'first' est spécifié, le niveau de commande est positionné uniquement pour ce joueur.\n"
 "Si un nom de joueur est spécifié, le niveau de commande n'est positionné que pour ce joueur.\n"
 "Les niveaux de commandes ne persistent pas si un joueur se déconnecte et se reconnecte, car une personne pourrait se reconnecter sous son nom."
 
@@ -2832,14 +2825,14 @@ msgid "Command levels in effect:"
 msgstr "Niveaux de commandes :"
 
 #: server/stdinhand.c:1809
-#, fuzzy, c-format
+#, c-format
 msgid "Command level for new connections: %s"
-msgstr "Niveau de commande par défaut pour les nouvelles connexions : %s"
+msgstr "Niveau de commande pour les nouvelles connexions : %s"
 
 #: server/stdinhand.c:1812
-#, fuzzy, c-format
+#, c-format
 msgid "Command level for first connections: %s"
-msgstr "Niveau de commande par défaut pour les nouvelles connexions : %s"
+msgstr "Niveau de commande pour les premières connexions : %s"
 
 #: server/stdinhand.c:1821
 msgid "Error: command level must be one of 'none', 'info', 'ctrl', or 'hack'."
@@ -2871,9 +2864,9 @@ msgid "Game: All players now have access level '%s'."
 msgstr "Jeu : tous les joueurs ont maintenant le niveau d'accès '%s'."
 
 #: server/stdinhand.c:1873 server/stdinhand.c:1887
-#, fuzzy, c-format
+#, c-format
 msgid "first connection command access level also raised to '%s'"
-msgstr "niveau d'accès aux commandes par défaut positionné à '%s'."
+msgstr "niveau d'accès aux commandes des premières connections aussi positionné à '%s'."
 
 #: server/stdinhand.c:1882
 #, c-format
@@ -2881,17 +2874,17 @@ msgid "Game: New connections will have access level '%s'."
 msgstr "Jeu : les nouvelles connexions auront le niveau d'accès '%s'."
 
 #: server/stdinhand.c:1894
-#, fuzzy, c-format
+#, c-format
 msgid "first connection command access level set to '%s'"
 msgstr "niveau d'accès aux commandes par défaut positionné à '%s'."
 
 #: server/stdinhand.c:1896
-#, fuzzy, c-format
+#, c-format
 msgid "Game: First connections will have access level '%s'."
-msgstr "Jeu : les nouvelles connexions auront le niveau d'accès '%s'."
+msgstr "Jeu : les premières connexions auront le niveau d'accès '%s'."
 
 #: server/stdinhand.c:1901
-#, fuzzy, c-format
+#, c-format
 msgid "default command access level also lowered to '%s'"
 msgstr "niveau d'accès aux commandes par défaut positionné à '%s'."
 
@@ -3303,19 +3296,19 @@ msgid "%s (Barbarian, %s)"
 msgstr "%s (Barbare, %s)"
 
 #: server/stdinhand.c:2874
-#, fuzzy, c-format
+#, c-format
 msgid "%s (AI, difficulty level %s) is being observed from %s"
-msgstr "%s (AI, %s) est observé depuis %s"
+msgstr "%s (AI, niveau %s) est observé depuis %s"
 
 #: server/stdinhand.c:2880
-#, fuzzy, c-format
+#, c-format
 msgid "%s (AI, difficulty level %s) is not being observed"
-msgstr "%s (AI, %s) n'est pas observé"
+msgstr "%s (AI, niveau %s) n'est pas observé"
 
 #: server/stdinhand.c:2888
-#, fuzzy, c-format
+#, c-format
 msgid "%s (human %s, command level %s) is connected from %s"
-msgstr "%s (humain, %s) est connecté depuis %s"
+msgstr "%s (humain, %s, niveau de commande %s) est connecté depuis %s"
 
 #: server/stdinhand.c:2895
 #, c-format
@@ -4197,9 +4190,9 @@ msgstr "Paquet inconnu reçu du serveur!"
 
 # AR : contexte
 #: client/climisc.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "?seconds:%02ds"
-msgstr "%d"
+msgstr ""
 
 #. < 60 minutes
 #: client/climisc.c:335
@@ -4691,9 +4684,8 @@ msgid "Pollution                "
 msgstr "Pollution                "
 
 #: client/options.c:97
-#, fuzzy
 msgid "Global Eco-Disaster      "
-msgstr "Réchauffement de la planète           "
+msgstr "Désastre écologique planétaire           "
 
 #. E_GLOBAL_ECO
 #: client/options.c:98
@@ -6187,6 +6179,19 @@ msgstr "Unité: %s(%s%s)"
 msgid "  (%d more)"
 msgstr "  (%d de plus)"
 
+#: client/gui-gtk/mapctrl.c:182 client/gui-xaw/mapctrl.c:173
+#, c-format
+msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
+msgstr "A:%d D:%d F:%d EV:%d/%d%s%s"
+
+#: client/gui-gtk/mapctrl.c:185 client/gui-xaw/mapctrl.c:175
+msgid " V"
+msgstr " V"
+
+#: client/gui-gtk/mapctrl.c:193 client/gui-xaw/mapctrl.c:184
+msgid "A:%d D:%d FP:%d HP:%d0%%"
+msgstr "A:%d D:%d F:%d EV:%d0%%"
+
 #: client/gui-gtk/mapview.c:268 client/gui-xaw/mapview.c:248
 msgid "?timeout:off"
 msgstr ""
@@ -7007,19 +7012,6 @@ msgstr "Autorise %s (avec %s).\n"
 #, c-format
 msgid "City: %s(%s) %s"
 msgstr "Ville: %s(%s) %s"
-
-#: client/gui-xaw/mapctrl.c:173
-#, c-format
-msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-msgstr "A:%d D:%d F:%d EV:%d/%d%s%s"
-
-#: client/gui-xaw/mapctrl.c:175
-msgid " V"
-msgstr " V"
-
-#: client/gui-xaw/mapctrl.c:184
-msgid "A:%d D:%d FP:%d HP:%d0%%"
-msgstr "A:%d D:%d F:%d EV:%d0%%"
 
 #: client/gui-xaw/mapview.c:263
 #, c-format
@@ -8311,9 +8303,8 @@ msgid "Aqueduct"
 msgstr "Aqueduc"
 
 #: data/civ2/buildings.ruleset:77 data/default/buildings.ruleset:252
-#, fuzzy
 msgid "; Allows a city to grow larger than size 8.  A Sewer System is also;  required for a city to grow larger than size 12.; "
-msgstr "Permet à une ville de croître au-dessus de la taille 8. Un système d'égoût est egalement requis pour permettre à une ville de dépasser une taille de 12."
+msgstr " ; Permet à une ville de croître au-dessus de la taille 8. Un système d'égoûts ; est egalement requis pour permettre à une ville de dépasser une taille de 12. ;"
 
 #: data/civ1/buildings.ruleset:82 data/civ2/buildings.ruleset:83 data/default/buildings.ruleset:258
 msgid "Bank"
@@ -8561,9 +8552,8 @@ msgid "Sewer System"
 msgstr "Égouts"
 
 #: data/civ2/buildings.ruleset:804 data/default/buildings.ruleset:995
-#, fuzzy
 msgid "; Allows a city to grow larger than size 12.  An Aqueduct is first;  required for a city to grow larger than size 8.; "
-msgstr "Permet à une ville de dépasser une taille de 12. Un aqueduc est d'abordrequis pour qu'une ville dépasse une taille de 8."
+msgstr " ; Permet à une ville de dépasser une taille de 12. Un aqueduc est ; d'abord requis pour qu'une ville dépasse une taille de 8. ; "
 
 #: data/civ1/buildings.ruleset:825 data/civ2/buildings.ruleset:810 data/default/buildings.ruleset:1001
 msgid "Solar Plant"
@@ -8973,9 +8963,8 @@ msgstr ""
 "Une ville ne peut avoir qu'une seule Centrale solaire, hydro-élecrique, électrique ou nucléaire."
 
 #: data/civ1/buildings.ruleset:77
-#, fuzzy
 msgid "; Allows a city to grow larger than size 10.; "
-msgstr "Permet à une ville de grandir au delà de la taille 10."
+msgstr " ; Permet à une ville de grandir au delà de la taille 10. ;"
 
 #: data/civ1/buildings.ruleset:133 data/civ1/buildings.ruleset:168 data/civ1/buildings.ruleset:203
 msgid "With a Barracks, each new unit built in a city will automatically have Veteran status, which means that its attack and defence strengths are increased by 50%.  Also, damaged units which stay in town for one full turn without moving are completely restored."
@@ -9235,7 +9224,6 @@ msgid "Consul"
 msgstr "Consul"
 
 #: data/civ2/governments.ruleset:484 data/default/governments.ruleset:434
-#, fuzzy
 msgid ""
 "Under a Republican government, citizens hold an election to select a representative who will govern them; since elected leaders must remain popular to remain in control, citizens are given a greater degree of freedom.  Citizens under the Republic become unhappy easily, but the self-sufficiency of your citizens allows high levels of trade.\n"
 "\n"
@@ -9255,7 +9243,7 @@ msgid ""
 "\n"
 "The citizens of a city will tolerate 1 aggressive unit; subsequent units will generate 1 unhappy citizen each."
 msgstr ""
-"Sous une République, ce sont vos citoyens qui élisent les représentants qui les gouvernent ; et puisque les dirigeants élus doivent être populaires pour rester au pouvoir, les citoyens ont un très haut degré de liberté. Les citoyens sous une République deviennent mécontents facilement, mais en contrepartie, les libertés supplémentaires développent fortement le commerce.\n"
+"Sous une République, ce sont vos citoyens qui élisent les représentants qui les gouvernent; puisque les dirigeants élus doivent être populaires pour rester au pouvoir, les citoyens ont un très haut degré de liberté. Les citoyens sous une République deviennent mécontents facilement, mais en contrepartie, les libertés supplémentaires développent fortement le commerce.\n"
 "\n"
 "Les villes sous la République ne souffrent que d'un léger niveau de corruption.\n"
 "\n"
@@ -9282,7 +9270,6 @@ msgid "President"
 msgstr "Président"
 
 #: data/civ2/governments.ruleset:565 data/default/governments.ruleset:515
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy offers the highest possible level of trade, but also offers the most potential for unhappiness.  There is no corruption during Democracy, but citizens become very upset during wars.\n"
 "\n"
@@ -9307,6 +9294,7 @@ msgstr ""
 "Les colons consomment 2 nourritures par tour. Les cases qui offrent au moins 1 ressource de commerce en gagnent une de plus.\n"
 "\n"
 "Sous un régime démocratique, une ville en liesse croît à un taux de 1 habitant par tour ; cf Bonheur pour plus détails.\n"
+"\n"
 "Il n'y a pas de limite de taxation ; vous pouvez allouer 100% à la science, aux impôts ou au luxe.\n"
 "\n"
 "Les unités militaires requièrent 1 production pour leur soutien. Par ailleurs, les unités suivantes provoquent du mécontentement :\n"
@@ -9412,7 +9400,6 @@ msgstr ""
 "Sous un régime communiste, vous pouvez imposer une loi martiale limitée mais efficace : chaque unité militaire à l'intérieur de la ville rendra contents 2 habitants malheureux, dans la limite de 3 unités (6 habitants)."
 
 #: data/civ1/governments.ruleset:429
-#, fuzzy
 msgid ""
 "Under a Republican government, citizens hold an election to select a representative who will govern them; since elected leaders must remain popular to remain in control, citizens are given a greater degree of freedom.  Citizens under the Republic become unhappy easily, but the self-sufficiency of your citizens allows high levels of trade.\n"
 "\n"
@@ -9447,7 +9434,6 @@ msgstr ""
 "Les citoyens d'une ville pourront tolérer 1 unité agressive; chaque unité agressive supplémentaire générera 1 citoyen mécontent."
 
 #: data/civ1/governments.ruleset:507
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy offers the highest possible level of trade, but also offers the most potential for unhappiness.  There is no corruption during Democracy, but citizens become very upset during wars.\n"
 "\n"
@@ -9930,7 +9916,6 @@ msgid "Whales"
 msgstr "Baleines"
 
 #: data/civ1/terrain.ruleset:426 data/civ2/terrain.ruleset:434 data/classic/terrain.ruleset:426 data/default/terrain.ruleset:434
-#, fuzzy
 msgid ""
 "Oceans cover much of the world, and only sea units (Triremes and other boats) can travel on them.\n"
 "\n"
@@ -9938,7 +9923,7 @@ msgid ""
 msgstr ""
 "Les océans couvrent la plus grande partie du monde et seules les unités marines (trirèmes et autres bateaux) peuvent voyager dessus.\n"
 "\n"
-"Les parcelles d'océan ne peuvent jamais être polluées."
+"Les parcelles d'océan ne peuvent jamais être polluées ou atteintes par des retombées radioactives."
 
 #: data/civ1/terrain.ruleset:434 data/civ2/terrain.ruleset:442 data/classic/terrain.ruleset:434 data/default/terrain.ruleset:442
 msgid "Plains"
@@ -10019,13 +10004,12 @@ msgid "Settlers"
 msgstr "Colons"
 
 #: data/civ2/units.ruleset:85 data/default/units.ruleset:85
-#, fuzzy
 msgid ""
 "Setters are one of the key units in the game.  They can be used to found new cities, irrigate land, build roads, railroads, fortresses, airbases and mines, and clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as well as production, and a Setter can die if its supporting city runs out of food.\n"
 "\n"
 "Settlers and Engineers may work together to decrease the amount of time required for long projects.  If two or more Settlers and/or Engineers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers and/or Engineers is highly vulnerable to enemy attacks."
 msgstr ""
-"Les Colons sont une des unités-clé du jeu. Ils peuvent être utilisés pour fonder de nouvelles villes, irriguer, construire des routes, des chemins de fer, des forteresses, des mines ainsi que pour dépolluer. Les colons ont besoin de nourriture autant que de production, et un colon peut mourir si la ville qui le nourrit manque de nourriture.\n"
+"Les Colons sont une des unités-clé du jeu. Ils peuvent être utilisés pour fonder de nouvelles villes, irriguer, construire des routes, des chemins de fer, des forteresses, des mines ainsi que pour dépolluer et traiter les retombées nucléaires. Les colons ont besoin de nourriture autant que de production, et un colon peut mourir si la ville qui le nourrit manque de nourriture.\n"
 "\n"
 "Les Colons et les Ingénieurs peuvent travailler ensemble pour réduire le temps requis pour de long projets. Si plusieurs Colons/Ingénieurs travaillent en même temps pour la même tâche sur la même case, leurs efforts seront ajoutés à chaque tour jusqu'à la fin de la tâche. Faîtes toutefois attention à ne pas faire travailler trop d'unités sur la même tâche; des efforts excessifs peuvent être gâchés, et un groupe de Colons/Ingénieurs est très vulnérable aux attaques ennemies."
 
@@ -10284,7 +10268,6 @@ msgid "Nuclear"
 msgstr "Missile Nucléaire"
 
 #: data/civ2/units.ruleset:1208 data/default/units.ruleset:1208
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the Manhattan Project wonder has been built by any player.\n"
 "\n"
@@ -10298,9 +10281,9 @@ msgstr ""
 "\n"
 "A l'impact, le souffle détruit toute unité dans une zone de 3x3 cases, y compris les unités alliées. Si le missile explose sur une ville, celle-ci perdra la moitié de ses habitants, et les alentours seront pollués.\n"
 "\n"
-"ASTUCE 1 : Faire exploser un missile dans l'océan ne génère aucune pollution, et c'est un moyen très efficace (bien que coûteux) pour se débarasser des bateaux adverses.\n"
+"ASTUCE 1 : Faire exploser un missile dans l'océan ne génère aucune retombée radioactive, et c'est un moyen très efficace (bien que coûteux) pour se débarasser des bateaux adverses.\n"
 "\n"
-"ASTUCE 2 : Vous pouvez vous retrouver impliqué dans une situation où vous avez envahi un pays adverse mais où ses villes sont trop fortes. Avant d'utiliser un missile nucléaire, préparez un groupe de colons/ingénieurs à coté de cette ville et préparez les à dépolluer lors du même tour que l'attaque nucléaire. Cela réduit le rique d'un réchauffement mondial.Une attaque nucléaire écologique, en quelque sorte."
+"ASTUCE 2 : Vous pouvez vous retrouver impliqué dans une situation où vous avez envahi un pays adverse mais où ses villes sont trop fortes. Avant d'utiliser un missile nucléaire, préparez un groupe de colons/ingénieurs à coté de cette ville et préparez-les à traiter les retombées radio-actives lors du même tour que l'attaque nucléaire. Cela réduit le rique d'un hiver nucléaire. Une attaque nucléaire écologique, en quelque sorte."
 
 #: data/civ1/units.ruleset:1186 data/civ2/units.ruleset:1229 data/default/units.ruleset:1229
 msgid "Diplomat"
@@ -10389,13 +10372,12 @@ msgid "When barbarian leader is killed on a tile without any defending units, th
 msgstr "Lorsque le chef des barbares est tué sur une case où ne se trouve aucune unité défensive, une rançon de 100 lingots est payée, mais uniquement s'il s'agit d'une unité terrestre où d'un hélicoptère."
 
 #: data/civ1/units.ruleset:94
-#, fuzzy
 msgid ""
 "Setters are one of the key units in the game.  They can be used to found new cities, irrigate land, build roads, railroads, fortresses and mines, and clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as well as production, and a Setter can die if its supporting city runs out of food.\n"
 "\n"
 "Settlers may work together to decrease the amount of time required for long projects.  If two or more Settlers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers is highly vulnerable to enemy attacks."
 msgstr ""
-"Les Colons sont une des unités-clé du jeu. Ils peuvent être utilisés pour fonder de nouvelles villes, irriguer, construire des routes, des chemins de fer, des forteresses, des mines ainsi que pour dépolluer. Les colons ont besoin de nourriture autant que de production, et un colon peut mourir si la ville qui le nourrit manque de nourriture.\n"
+"Les Colons sont une des unités-clé du jeu. Ils peuvent être utilisés pour fonder de nouvelles villes, irriguer, construire des routes, des chemins de fer, des forteresses, des mines ainsi que pour dépolluer et traiter les retombées radio-actives. Les colons ont besoin de nourriture autant que de production, et un colon peut mourir si la ville qui le nourrit manque de nourriture.\n"
 "\n"
 "Les Colons/Ingénieurs peuvent travailler ensemble pour réduire le temps requis pour de longs projets. Si plusieurs Colons/Ingénieurs travaillent en même temps pour la même tâche sur la même case, leurs efforts seront ajoutés à chaque tour jusqu'à la fin de la tâche. Faîtes toutefois attention à ne pas faire travailler trop d'unités sur la même tâche; des efforts excessifs peuvent être gâchés, et un groupe de Colons/Ingénieurs est très vulnérable aux attaques ennemies."
 
@@ -10408,7 +10390,6 @@ msgid "Sail"
 msgstr "Voilier"
 
 #: data/civ1/units.ruleset:1165
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the Manhattan Project wonder has been built by any player.\n"
 "\n"
@@ -10422,9 +10403,9 @@ msgstr ""
 "\n"
 "A l'impact, le souffle détruit toute unité dans une zone de 3x3 cases, y compris les unités alliées. Si le missile explose sur une ville, celle-ci perdra la moitié de ses habitants, et les alentours seront pollués.\n"
 "\n"
-"ASTUCE 1 : Faire exploser un missile dans l'océan ne génère aucune pollution, et c'est un moyen très efficace (bien que coûteux) pour se débarasser des bateaux adverses.\n"
+"ASTUCE 1 : Faire exploser un missile dans l'océan ne génère aucune retombée radio-active, et c'est un moyen très efficace (bien que coûteux) pour se débarasser des bateaux adverses.\n"
 "\n"
-"ASTUCE 2 : Vous pouvez vous retrouver impliqué dans une situation où vous avez envahi un pays adverse mais où ses villes sont trop fortes. Avant d'utiliser un missile nucléaire, préparez un groupe de colons/ingénieurs à coté de cette ville et préparez les à dépolluer lors du même tour que l'attaque nucléaire. Cela réduit le risque d'un réchauffement mondial.Une attaque nucléaire écologique, en quelque sorte."
+"ASTUCE 2 : Vous pouvez vous retrouver impliqué dans une situation où vous avez envahi un pays adverse mais où ses villes sont trop fortes. Avant d'utiliser un missile nucléaire, préparez un groupe de colons/ingénieurs à coté de cette ville et préparez-les à traiter les retombées radio-actives lors du même tour que l'attaque nucléaire. Cela réduit le risque d'un réchauffement mondial.Une attaque nucléaire écologique, en quelque sorte."
 
 #: data/civ1/units.ruleset:1348
 msgid "When barbarian leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units."
@@ -10820,14 +10801,12 @@ msgid "?plural:Krevis"
 msgstr "Krevis"
 
 #: data/nation/latvian.ruleset:3
-#, fuzzy
 msgid "Latvian"
-msgstr "Partisan"
+msgstr "Letton"
 
-# AR
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr "Latviens"
+msgstr "Lettons"
 
 # AR
 #: data/nation/lithuanian.ruleset:3
