@@ -487,28 +487,11 @@ configure the --with-readline option:
  % ./configure --with-readline
 
 Some linux distributions (and possibly other operating systems) have
-readline version 4 incorrectly installed, in that readline is not
+readline version 4 incorrectly installed, so that readline is not
 set up to declare it's dynamic dependencies. In that case configure
-will act as if readline was not installed and compile without. In unix
-you can check if your readline library is correctly installed by doing
-this:
-
- % ldd /usr/lib/libreadline.so
-
-And it should answer something like
-
-   libncurses.so.5 => /lib/libncurses.so.5 (0x4002e000)
-   libc.so.6 => /lib/libc.so.6 (0x4006e000)
-   /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x2aaaa000)
-
-(/usr/lib/libreadline.so is wherever your readline lib is installed.)
-If the dependency on curses (or equivalent) is mentioned it should
-work. If it isn't listed, and the freeciv configure can't make readline
-work, it is because readline is not correctly installed. It is then
-recommented to file a bug against wherever you got your readline lib
-from.
-[Does anyone know how to add the dependency to the library?]
-[We are not 100% sure that it is a bug if dynamic dependencies are not
-set up correctly. Can anybody conferm/deny?]
+will try to guess which extra libs it should link against and add them.
+The configure script will give a warning if it had to add extra libs
+to make readline work. This should be harmless, and is just meant as
+a reminder to the folks who distribute readline. :)
 
 ** END **
