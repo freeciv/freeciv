@@ -831,32 +831,35 @@ void player_restore_units(struct player *pplayer)
   add hitpoints to the unit, hp_gain_coord returns the amount to add
   united nations will speed up the process by 2 hp's / turn, means helicopters
   will actually not loose hp's every turn if player have that wonder.
+  Units which have moved don't gain hp, except the United Nations and
+  helicopter effects still occur.
 *****************************************************************************/
 void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity = map_get_city(punit->x,punit->y);
   int was_lower;
 
-  if((punit->moved)&&(!pcity || !city_got_barracks(pcity)))
-    punit->moved=0;
-  else {
-    was_lower=(punit->hp < get_unit_type(punit->type)->hp);
-  
+  was_lower=(punit->hp < get_unit_type(punit->type)->hp);
+
+  if(!punit->moved) {
     punit->hp+=hp_gain_coord(punit);
- 
-    if (player_owns_active_wonder(pplayer, B_UNITED)) 
-      punit->hp+=2;
-    
-    if(!pcity && (is_heli_unit(punit)))
-      punit->hp-=get_unit_type(punit->type)->hp/10;
-    if(punit->hp>=get_unit_type(punit->type)->hp) {
-      punit->hp=get_unit_type(punit->type)->hp;
-      if(was_lower&&punit->activity==ACTIVITY_SENTRY)
-        set_unit_activity(punit,ACTIVITY_IDLE);
-    }
-    if(punit->hp<0)
-      punit->hp=0;
   }
+  
+  if (player_owns_active_wonder(pplayer, B_UNITED)) 
+    punit->hp+=2;
+    
+  if(!pcity && (is_heli_unit(punit)))
+    punit->hp-=get_unit_type(punit->type)->hp/10;
+
+  if(punit->hp>=get_unit_type(punit->type)->hp) {
+    punit->hp=get_unit_type(punit->type)->hp;
+    if(was_lower&&punit->activity==ACTIVITY_SENTRY)
+      set_unit_activity(punit,ACTIVITY_IDLE);
+  }
+  if(punit->hp<0)
+    punit->hp=0;
+
+  punit->moved=0;
 }
   
 

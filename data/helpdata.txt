@@ -573,7 +573,8 @@ building, then it'll be automatically sold.
 @START_IMPROVEMENTS
 # Airport
 Allows a city to produce veteran air units.  Also, damaged air units
-which stay in town for one turn are completely restored.
+which stay in town for one full turn without moving are completely
+restored.
 
 Two cities with Airports can airlift one unit per turn.
 Airlifting instantly transports the unit from one city to another
@@ -592,7 +593,8 @@ luxury and tax production within a city by 100%.
 With a Barracks, each new land unit built in a city will
 automatically have Veteran status, which means that its attack and
 defence strengths are increased by 50%.  Also, damaged land units
-which stay in town for one turn are completely restored.
+which stay in town for one full turn without moving are completely
+restored.
 
 %%Note that discovering Gunpowder and Combustion will obsolete any
 %%existing Barracks.
@@ -732,7 +734,8 @@ also), but only for the city where it is built.
 ---
 # Port Facility
 Allows a city to build veteran sea units.  Also, damaged sea units
-which stay in town for one turn are completely restored.
+which stay in town for one full turn without moving are completely
+restored.
 ---
 # Power Plant
 Increases the shield production of a Factory or Mfg. Plant in a
@@ -789,7 +792,7 @@ are three different types of Space Module:
 You can build up to 4 Space Modules of each kind.
 ---
 # Space Structural
-Space Structurals form the base of your space-ship. All other 
+Space Structurals form the base of your space-ship. All other
 space-ship parts need to be connected to Structurals in order to
 function. You can build up to 32 Space Structurals.
 ---
@@ -1196,19 +1199,21 @@ unless you have the United Nations wonder.  Unlike other air units,
 Helicopters can capture enemy cities.
 
 Units which have been damaged in combat will regain hit points each
-turn in which they are not moved. Normally, units will only gain on
-hit point per turn.  If a player owns the United Nations wonder, all
-of his or her units regain an additional two points per turn.  Units
-on a fortress regain one third of their hit points each turn, while
-units in a city regain one fourth of their hit points each turn.
-Units which are fortified regain an extra hit point every turn.
-Finally, the presence of a Barracks, Airport, or Port improvement
-in a city causes any land, air, or sea units which spend a turn in
-that city to regain all lost hit points.
-(of course, helicopters will lose hit points if they are not moved)
-
-Damaged units in Sentry mode will wake up when they have regained all
-of their hit points.
+turn in which they are not moved.  Normally, a unit which has not
+moved will regain one hit point per turn.  A land unit in a city
+with Barracks, or a sea unit in a city with a Port Facility, or
+an air unit in a city with an Airport, will regain all lost hit
+points if a full turn is spent (without moving) in the city.
+Otherwise, a unit which spends a turn in a city regains one third
+of its base hit points.  A unit which spends a turn on a fortress
+regains an extra one quarter of its base hitpoints.  Units which
+are fortified regain an extra hit point.  If a player has the
+United Nations wonder, that player's units regain an extra two hit
+points per turn, even for units which have moved.  In addition
+to all other effects, Helicopters lose two hit points (or gain two
+hit points less than they otherwise would) each turn that they do
+not end in a city.  Damaged units in Sentry mode will wake up when
+they have regained all of their hit points.
 ---
 @START_UNITS
 # AEGIS Cruiser
