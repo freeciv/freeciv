@@ -127,14 +127,15 @@ void myusleep(unsigned long usec)
   snooze(usec);
 #else
 #ifdef GENERATING_MAC
-  EventRecord the_event;  /* dummy var for timesharing */
-  WaitNextEvent(0, &the_event, GetCaretTime(), nil); /* this is suposed to
-     give other application processor time for the mac */
+  EventRecord the_event;	/* dummy - always be a null event */
+  usec /= 16666;		/* microseconds to 1/60th seconds */
+  if (usec < 1) usec = 1;
+  /* suposed to give other application processor time for the mac */
+  WaitNextEvent(0, &the_event, usec, nil);
 #else
   struct timeval tv;
-
   tv.tv_sec=0;
-  tv.tv_usec=100;
+  tv.tv_usec=usec;
   select(0, NULL, NULL, NULL, &tv);
 #endif
 #endif
