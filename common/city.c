@@ -18,6 +18,8 @@
 #include <city.h>
 #include <tech.h>
 
+static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
+
 /****************************************************************
 all the city improvements
 use get_improvement_type(id) to access the array
@@ -538,7 +540,19 @@ int city_got_building(struct city *pcity,  enum improvement_type_id id)
 int improvement_upkeep(struct city *pcity, int i) 
 {
   if (is_wonder(i)) return 0;
-  if (city_affected_by_wonder(pcity, B_ASMITHS) && improvement_types[i].shield_upkeep == 1) 
+  if (improvement_types[i].shield_upkeep == 1 &&
+      city_affected_by_wonder(pcity, B_ASMITHS)) 
+    return 0;
+  return (improvement_types[i].shield_upkeep);
+}
+
+/**************************************************************************
+  Caller to pass asmiths = city_affected_by_wonder(pcity, B_ASMITHS)
+**************************************************************************/
+static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths) 
+{
+  if (is_wonder(i)) return 0;
+  if (asmiths && improvement_types[i].shield_upkeep == 1) 
     return 0;
   return (improvement_types[i].shield_upkeep);
 }
@@ -721,11 +735,12 @@ Calculate amount of gold remaining in city after paying for buildings
 
 int city_gold_surplus(struct city *pcity)
 {
+  int asmiths = city_affected_by_wonder(pcity, B_ASMITHS);
   int cost=0;
   int i;
   for (i=0;i<B_LAST;i++) 
     if (city_got_building(pcity, i)) 
-      cost+=improvement_upkeep(pcity, i);
+      cost+=improvement_upkeep_asmiths(pcity, i, asmiths);
   return pcity->tax_total-cost;
 }
 

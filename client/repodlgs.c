@@ -859,6 +859,7 @@ void city_report_dialog_update(void)
     char *report_title;
     char happytext[32];
     char statetext[32];
+    char outputtext[32];
     char foodtext[32];
     report_title=get_report_title("City Advisor");
     xaw_set_label(city_label, report_title);
@@ -900,14 +901,20 @@ void city_report_dialog_update(void)
 	       pcity->shield_surplus, 
 	       pcity->trade_prod);
 
+       sprintf(outputtext, "(%+d/%d/%d)",
+	       city_gold_surplus(pcity),
+	       pcity->luxury_total,
+	       pcity->science_total);
+
        sprintf(foodtext,"(%d/%d)",
                pcity->food_stock,
 	       pcity->size * game.foodbox);
 
-       sprintf(city_list_names[i], "%-15s %-16s%-12s%-10s%s", 
+       sprintf(city_list_names[i], "%-15s %-16s%-12s%-12s%-10s%s", 
 	       pcity->name,
 	       happytext,
 	       statetext,
+	       outputtext,
 	       foodtext,
 	       impro);
        city_list_names_ptrs[i]=city_list_names[i];
