@@ -323,9 +323,12 @@ bool contains_special(enum tile_special_type all,
  * A "border position" is any one that _may have_ positions within
  * map distance dist that are non-normal.  To see its correctness,
  * consider the case where dist is 1 or 0.
+ *
+ * TODO: implement this for iso-maps.
  */
 #define IS_BORDER_MAP_POS(x, y, dist)                         \
-  ((x) < (dist) || (x) >= map.xsize - (dist)                  \
+  (topo_has_flag(TF_ISO)                                      \
+   || (x) < (dist) || (x) >= map.xsize - (dist)               \
    || (y) < (dist) || (y) >= map.ysize - (dist))
 
 bool normalize_map_pos(int *x, int *y);
