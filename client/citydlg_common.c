@@ -16,7 +16,8 @@
 
 #include "log.h"
 
-#include "tilespec.h" /* for is_isometric */
+#include "citydlg_common.h"
+#include "tilespec.h"		/* for is_isometric */
 
 /**************************************************************************
 This converts a city coordinate position to citymap canvas coordinates
