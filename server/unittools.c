@@ -1933,8 +1933,8 @@ void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
 
 /**************************************************************************
   Send the unit into to those connections in dest which can see the units
-  at it's position, or the specified (x,y) (if different).
-  Eg, use x and y as where the unit came from, so that the info can be
+  at its position, or the specified ptile (if different).
+  Eg, use ptile as where the unit came from, so that the info can be
   sent if the other players can see either the target or destination tile.
   dest = NULL means all connections (game.game_connections)
 **************************************************************************/
