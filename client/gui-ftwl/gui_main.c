@@ -19,6 +19,7 @@
 #include <assert.h>
 
 #include "fcintl.h"
+#include "fciconv.h"
 #include "log.h"
 #include "registry.h"
 
@@ -176,6 +177,8 @@ void ui_main(int argc, char *argv[])
   char *option = NULL;
   struct ct_size res;
   struct ct_size size;
+
+  init_character_encodings(NULL);
 
   if (!auto_connect) {
     die("Connection dialog not yet implemented. Start client using "

@@ -40,6 +40,14 @@ static struct te_screen *screen;
 static void try_to_autoconnect(void *data);
 
 /**************************************************************************
+  this regenerates the player information from a loaded game on the server.
+**************************************************************************/
+void handle_game_load(struct packet_game_load *packet)
+{
+  /* PORT ME */
+}
+
+/**************************************************************************
   ...
 **************************************************************************/
 static void connect_callback(void)
@@ -242,13 +250,4 @@ void handle_authentication_req(enum authentication_type type, char *message)
 void really_close_connection_dialog(void)
 {
   close_connection_dialog();
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-void handle_single_playerlist_reply(struct packet_single_playerlist_reply
-                                    *packet)
-{ 
-  /* PORTME */
 }
