@@ -421,38 +421,44 @@ int can_unit_add_or_build_city(struct unit *punit)
 **************************************************************************/
 enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
 {
-  struct city *pcity;
-  pcity = map_get_city(punit->x, punit->y);
+  struct city *pcity = map_get_city(punit->x, punit->y);
+  int is_build = unit_flag(punit->type, F_CITIES);
+  int is_add = unit_flag(punit->type, F_ADD_TO_CITY);
+  int new_pop;
 
-  if (!unit_flag(punit->type, F_CITIES))
-    return AB_NOT_ADDABLE_UNIT;
-  if (!punit->moves_left) {
-    if (!pcity)
-      return AB_NO_MOVES_BUILD;
-    else
-      return AB_NO_MOVES_ADD;
-  }
+  /* See if we can build */
   if (!pcity) {
-    if (city_can_be_built_here(punit->x, punit->y))
-      return AB_BUILD_OK;
-    else
+    if (!is_build)
+      return AB_NOT_BUILD_UNIT;
+    if (!punit->moves_left)
+      return AB_NO_MOVES_BUILD;
+    if (!city_can_be_built_here(punit->x, punit->y))
       return AB_NOT_BUILD_LOC;
+    return AB_BUILD_OK;
   }
-  if (pcity->size >= game.add_to_size_limit)
+  
+  /* See if we can add */
+
+  if (!is_add)
+    return AB_NOT_ADDABLE_UNIT;
+  if (!punit->moves_left)
+    return AB_NO_MOVES_ADD;
+
+  assert(unit_pop_value(punit->type) > 0);
+  new_pop = pcity->size + unit_pop_value(punit->type);
+
+  if (new_pop > game.add_to_size_limit)
     return AB_TOO_BIG;
   if (pcity->owner != punit->owner)
     return AB_NOT_OWNER;
-
   if (improvement_exists(B_AQUEDUCT)
       && !city_got_building(pcity, B_AQUEDUCT)
-      && pcity->size >= game.aqueduct_size)
+      && new_pop > game.aqueduct_size)
     return AB_NO_AQUEDUCT;
-
   if (improvement_exists(B_SEWER)
       && !city_got_building(pcity, B_SEWER)
-      && pcity->size >= game.sewer_size)
+      && new_pop > game.sewer_size)
     return AB_NO_SEWER;
-
   return AB_ADD_OK;
 }
 

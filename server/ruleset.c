@@ -647,6 +647,8 @@ static void load_ruleset_units(struct section_file *file)
     
     u->build_cost =
       secfile_lookup_int(file,"%s.build_cost", sec[i]);
+    u->pop_cost =
+      secfile_lookup_int(file,"%s.pop_cost", sec[i]);
     u->attack_strength =
       secfile_lookup_int(file,"%s.attack", sec[i]);
     u->defense_strength =
@@ -2194,6 +2196,7 @@ static void send_ruleset_units(struct conn_list *dest)
     sz_strlcpy(packet.graphic_alt, u->graphic_alt);
     packet.move_type = u->move_type;
     packet.build_cost = u->build_cost;
+    packet.pop_cost = u->pop_cost;
     packet.attack_strength = u->attack_strength;
     packet.defense_strength = u->defense_strength;
     packet.move_rate = u->move_rate;

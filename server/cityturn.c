@@ -50,7 +50,6 @@
 static void check_pollution(struct city *pcity);
 static void city_populate(struct city *pcity);
 static void city_increase_size(struct city *pcity);
-static void city_reduce_size(struct city *pcity);
 
 static int worklist_change_build_target(struct player *pplayer, 
 					struct city *pcity);
@@ -419,14 +418,15 @@ void update_city_activities(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-void city_auto_remove_worker(struct city *pcity)
+void city_reduce_size(struct city *pcity, int pop_loss)
 {
-  if(pcity->size<1) {      
+  if (pcity->size <= pop_loss) {
     remove_city_from_minimap(pcity->x, pcity->y);
     remove_city(pcity);
     return;
   }
-  if(city_specialists(pcity)) {
+  pcity->size -= pop_loss;
+  while (pop_loss > 0 && city_specialists(pcity)) {
     if(pcity->ppl_taxman) {
       pcity->ppl_taxman--;
     } else if(pcity->ppl_scientist) {
@@ -435,12 +435,18 @@ void city_auto_remove_worker(struct city *pcity)
       assert(pcity->ppl_elvis);
       pcity->ppl_elvis--; 
     }
+    pop_loss--;
+  }
+
+  /* we consumed all the pop_loss in specialists */
+  if (pop_loss == 0) {
     city_refresh(pcity);
     send_city_info(city_owner(pcity), pcity);
     return;
-  } 
-  auto_arrange_workers(pcity);
-  sync_cities();
+  } else {
+    auto_arrange_workers(pcity);
+    sync_cities();
+  }
 }
 
 /**************************************************************************
@@ -540,22 +546,6 @@ static void city_increase_size(struct city *pcity)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-static void city_reduce_size(struct city *pcity)
-{
-  notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
-		   _("Game: Famine causes population loss in %s."), pcity->name);
-  if (city_got_effect(pcity, B_GRANARY))
-    pcity->food_stock=city_granary_size(pcity->size-1)/2;
-  else
-    pcity->food_stock=0;
-  pcity->size--;
-
-  city_auto_remove_worker(pcity);
-}
- 
-/**************************************************************************
   Check whether the population can be increased or
   if the city is unable to support a 'settler'...
 **************************************************************************/
@@ -592,7 +582,14 @@ static void city_populate(struct city *pcity)
       }
     }
     unit_list_iterate_end;
-    city_reduce_size(pcity);
+    notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_FAMINE,
+		     _("Game: Famine causes population loss in %s."),
+		     pcity->name);
+    if (city_got_effect(pcity, B_GRANARY))
+      pcity->food_stock = city_granary_size(pcity->size - 1) / 2;
+    else
+      pcity->food_stock = 0;
+    city_reduce_size(pcity, 1);
   }
 }
 
@@ -982,25 +979,24 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
   } else { /* is_building_unit */
     upgrade_unit_prod(pcity);
 
-    /* FIXME: F_CITIES should be changed to any unit
-     * that 'contains' 1 (or more) pop -- sjolie
-     */
-    if (pcity->shield_stock>=unit_value(pcity->currently_building)) {
-      if (unit_flag(pcity->currently_building, F_CITIES)) {
-	if (pcity->size==1) {
+    if (pcity->shield_stock >= unit_value(pcity->currently_building)) {
+      int pop_cost = unit_pop_value(pcity->currently_building);
 
-	  /* Should we disband the city? -- Massimo */
-	  if (pcity->city_options & ((1<<CITYO_DISBAND))) {
-	    return !disband_city(pcity);
-	  } else {
-	    notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
-			     _("Game: %s can't build %s yet."),
-			     pcity->name, unit_name(pcity->currently_building));
-	    return 1;
-	  }
-
-	}
+      /* Should we disband the city? -- Massimo */
+      if (pcity->size == pop_cost &&
+	  (pcity->city_options & (1 << CITYO_DISBAND))) {
+	return !disband_city(pcity);
       }
+      
+      if (pcity->size <= pop_cost) {
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+			 _("Game: %s can't build %s yet."),
+			 pcity->name,
+			 unit_name(pcity->currently_building));
+	return 1;
+      }
+
+      assert(pop_cost == 0 || pcity->size >= pop_cost);
       
       pcity->turn_last_built = game.year;
       /* don't update turn_last_built if we returned above for size==1 */
@@ -1008,11 +1004,12 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
       create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
 		  do_make_unit_veteran(pcity, pcity->currently_building), 
 		  pcity->id, -1);
-      /* After we created the unit, so that removing the worker will take
-	 into account the extra resources (food) needed. */
-      if (unit_flag(pcity->currently_building, F_CITIES)) {
-	pcity->size--;
-	city_auto_remove_worker(pcity);
+
+      /* After we created the unit remove the citizen. This will also
+	 rearrange the worker to take into account the extra resources
+	 (food) needed. */
+      if (pop_cost > 0) {
+	city_reduce_size(pcity, pop_cost);
       }
 
       /* to eliminate micromanagement, we only subtract the unit's cost */
@@ -1278,7 +1275,7 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
- disband a city into a settler, supported by the closest city -- Massimo
+ Disband a city into the built unit, supported by the closest city.
 **************************************************************************/
 static int disband_city(struct city *pcity)
 {
@@ -1302,9 +1299,10 @@ static int disband_city(struct city *pcity)
 	      do_make_unit_veteran(pcity, pcity->currently_building), 
 	      pcity->id, -1);
 
-  /* shift all the units supported by pcity (including the new settler) to rcity.
-     transfer_city_units does not make sure no units are left floating without a
-     transport, but since all units are transfered this is not a problem. */
+  /* shift all the units supported by pcity (including the new unit)
+     to rcity.  transfer_city_units does not make sure no units are
+     left floating without a transport, but since all units are
+     transfered this is not a problem. */
   transfer_city_units(pplayer, pplayer, &pcity->units_supported, rcity, pcity, -1, 1);
 
   notify_player_ex(pplayer, x, y, E_UNIT_BUILD,

@@ -574,6 +574,7 @@ struct packet_ruleset_unit {
   char graphic_alt[MAX_LEN_NAME];
   int move_type;
   int build_cost;
+  int pop_cost;
   int attack_strength;
   int defense_strength;
   int move_rate;

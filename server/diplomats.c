@@ -95,8 +95,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "poison: succeeded");
 
   /* Poison people! */
-  (pcity->size)--;
-  city_auto_remove_worker (pcity);
+  city_reduce_size(pcity, 1);
 
   /* Notify everybody involved. */
   notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
@@ -785,8 +784,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   /* City loses some population. */
   if (pcity->size > 1) {
-    (pcity->size)--;
-    city_auto_remove_worker (pcity);
+    city_reduce_size(pcity, 1);
   }
 
   /* This costs! */

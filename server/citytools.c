@@ -1076,9 +1076,12 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     if(n < MAX_NUM_PLAYERS && civil_war_triggered(cplayer))
       do_civil_war = 1;
   }
-  
-  pcity->size--;
-  if (pcity->size<1) {
+
+  /* 
+   * We later remove a citizen. Lets check if we can save this since
+   * the city will be destroyed.
+   */
+  if (pcity->size<=1) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		     _("Game: You destroy %s completely."), pcity->name);
     notify_player_ex(cplayer, pcity->x, pcity->y, E_CITY_LOST, 
@@ -1094,7 +1097,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     return;
   }
 
-  city_auto_remove_worker(pcity);
+  city_reduce_size(pcity, 1);
   coins=cplayer->economic.gold;
   coins=myrand((coins/20)+1)+(coins*(pcity->size))/200;
   pplayer->economic.gold+=coins;

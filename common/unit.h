@@ -77,6 +77,8 @@ enum add_build_city_result {
 				   this location */
   AB_NOT_ADDABLE_UNIT,		/* Unit is not one that can be added
 				   to cities */
+  AB_NOT_BUILD_UNIT,		/* Unit is not one that can build
+				   cities */
   AB_NO_MOVES_BUILD,		/* Unit does not have moves left to
 				   build a city */
   AB_NO_MOVES_ADD,		/* Unit does not have moves left to

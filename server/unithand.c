@@ -428,17 +428,31 @@ static void city_add_or_build_error(struct player *pplayer,
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 		     _("Game: Can't place city here."));
     break;
-  case AB_NOT_ADDABLE_UNIT:
+  case AB_NOT_BUILD_UNIT:
     {
       char *us = get_units_with_flag_string(F_CITIES);
       if (us) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-			 _("Game: Only %s can build or add to a city."),
+			 _("Game: Only %s can build a city."),
 			 us);
 	free(us);
       } else {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-			 _("Game: Can't build or add to a city."));
+			 _("Game: Can't build a city."));
+      }
+    }
+    break;
+  case AB_NOT_ADDABLE_UNIT:
+    {
+      char *us = get_units_with_flag_string(F_ADD_TO_CITY);
+      if (us) {
+	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+			 _("Game: Only %s can add to a city."),
+			 us);
+	free(us);
+      } else {
+	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+			 _("Game: Can't add to a city."));
       }
     }
     break;
@@ -683,8 +697,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       pcity->size>1 &&
       !city_got_citywalls(pcity) &&
       kills_citizen_after_attack(punit)) {
-    pcity->size--;
-    city_auto_remove_worker(pcity);
+    city_reduce_size(pcity,1);
     city_refresh(pcity);
     send_city_info(0, pcity);
   }

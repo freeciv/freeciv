@@ -70,12 +70,16 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.11.6 conn_info"
+#define CAPABILITY "+1.11.6 conn_info pop_cost"
   
 /* "+1.11.6" is protocol for 1.11.6 beta release.
   
    "conn_info" is sending the conn_id field. To preserve compatability
    with old clients trying to connect this should persist across releases.
+
+   "pop_cost" is the capability of rulesets to specify how many units
+   of population are consumed on unit creation and/or can be added to
+   cities.
 */
 
 void init_our_capability(void)

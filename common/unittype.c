@@ -43,7 +43,8 @@ static const char *flag_names[] = {
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS",
   "Fighter", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
-  "Airbase", "Cities", "IgTired", "Missile_Carrier", "No_Land_Attack"
+  "Airbase", "Cities", "IgTired", "Missile_Carrier", "No_Land_Attack",
+  "AddToCity"
 };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -177,6 +178,15 @@ int unit_value(Unit_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
+int unit_pop_value(Unit_Type_id id)
+{
+  return (unit_types[id].pop_cost);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
 char *unit_name(Unit_Type_id id)
 {
   return (unit_types[id].name);

@@ -2792,6 +2792,9 @@ int send_packet_ruleset_unit(struct connection *pc,
     cptr=put_uint8(cptr, packet->paratroopers_mr_req);
     cptr=put_uint8(cptr, packet->paratroopers_mr_sub);
   }
+  if (has_capability("pop_cost", pc->capability)) {
+    cptr=put_uint8(cptr, packet->pop_cost);
+  }
 
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
@@ -2847,6 +2850,11 @@ receive_packet_ruleset_unit(struct connection *pc)
     packet->paratroopers_mr_req=0;
     packet->paratroopers_mr_sub=0;
   }
+  if (has_capability("pop_cost", pc->capability)) {
+    iget_uint8(&iter, &packet->pop_cost);
+  } else {
+    packet->pop_cost=(packet->flags & (1L<<F_CITIES)) ? 1 : 0;
+  }  
 
   len = pack_iter_remaining(&iter);
   if (len) {

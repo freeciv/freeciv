@@ -103,6 +103,7 @@ enum unit_flag_id {
   F_IGTIRED,          /* Ignore tired negative bonus when attacking */
   F_MISSILE_CARRIER,  /* Like F_CARRIER, but missiles only (Submarine) */
   F_NO_LAND_ATTACK,   /* Cannot attack vs land squares (Submarine) */
+  F_ADD_TO_CITY,      /* unit can add to city population */
   F_LAST
 };
 
@@ -147,6 +148,7 @@ struct unit_type {
   struct Sprite *sprite;
   enum unit_move_type move_type;
   int build_cost;
+  int pop_cost;  /* number of workers the unit contains (e.g., settlers, engineers)*/
   int attack_strength;
   int defense_strength;
   int move_rate;
@@ -188,6 +190,7 @@ int is_heli_unittype(Unit_Type_id id);
 int is_ground_unittype(Unit_Type_id id);
 
 int unit_value(Unit_Type_id id);
+int unit_pop_value(Unit_Type_id id);
 
 char *unit_name(Unit_Type_id id);
 const char *unit_class_name(Unit_Class_id id);
