@@ -1518,29 +1518,50 @@ void handle_unit_paradrop_to(struct player *pplayer,
   do_paradrop(punit, req->x, req->y);
 }
 
+
+
 /**************************************************************************
-Recieves goto route packages.
+Sanity checks on the goto route.
+**************************************************************************/
+static int check_route(struct player *pplayer, struct packet_goto_route *packet)
+{
+  struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
+
+  if (!punit || punit->owner != pplayer->player_no)
+    return 0;
+
+  if (packet->first_index != 0) {
+    freelog(LOG_ERROR, "Bad route packet, first_index is %d!",
+	    packet->first_index);
+    return 0;
+  }
+  if (packet->last_index != packet->length - 1) {
+    freelog(LOG_ERROR, "bad route, li: %d != l-1: %d",
+	    packet->last_index, packet->length - 1);
+    return 0;
+  }
+
+  return 1;
+}
+
+/**************************************************************************
+Receives goto route packages.
 **************************************************************************/
 static void handle_route(struct player *pplayer, struct packet_goto_route *packet)
 {
-  struct goto_route *pgr;
+  struct goto_route *pgr = NULL;
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
 
-  if (!punit || unit_owner(punit) != pplayer) {
-    free(packet->pos);
-    return;
-  }
   pgr = fc_malloc(sizeof(struct goto_route));
-
-  assert(packet->first_index == 0);
-  assert(packet->last_index == packet->length - 1);
 
   pgr->pos = packet->pos; /* here goes the malloced packet->pos */
   pgr->first_index = 0;
   pgr->length = packet->length;
   pgr->last_index = packet->length-1; /* index magic... */
+
   punit->pgr = pgr;
 
+#ifdef DEBUG
   {
     int i = pgr->first_index;
     freelog(LOG_DEBUG, "first:%d, last:%d, length:%d",
@@ -1548,8 +1569,8 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
     for (; i < pgr->last_index;i++)
       freelog(LOG_DEBUG, "%d,%d", pgr->pos[i].x, pgr->pos[i].y);
   }
+#endif
 
-  assert(pgr->last_index > pgr->first_index);
   if (punit->activity == ACTIVITY_GOTO) {
     punit->goto_dest_x = pgr->pos[pgr->last_index-1].x;
     punit->goto_dest_y = pgr->pos[pgr->last_index-1].y;
@@ -1561,13 +1582,13 @@ static void handle_route(struct player *pplayer, struct packet_goto_route *packe
 }
 
 /**************************************************************************
-Recieves goto route packages.
+Receives goto route packages.
 **************************************************************************/
 void handle_goto_route(struct player *pplayer, struct packet_goto_route *packet)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
 
-  if (!punit || punit->owner != pplayer->player_no)
+  if (!check_route(pplayer, packet))
     return;
 
   handle_unit_activity_request(punit, ACTIVITY_GOTO);
@@ -1575,14 +1596,16 @@ void handle_goto_route(struct player *pplayer, struct packet_goto_route *packet)
 }
 
 /**************************************************************************
-Recieves goto route packages.
+Receives patrol route packages.
 **************************************************************************/
 void handle_patrol_route(struct player *pplayer, struct packet_goto_route *packet)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
 
-  if (!punit || punit->owner != pplayer->player_no)
+  if (!check_route(pplayer, packet)) {
+    free(packet->pos);
     return;
+  }
 
   handle_unit_activity_request(punit, ACTIVITY_PATROL);
   handle_route(pplayer, packet);
