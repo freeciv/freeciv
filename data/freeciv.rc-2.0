@@ -63,7 +63,6 @@ widget	"Freeciv*.spaceship label"	style	"spaceship_label"
 widget	"Freeciv*.help label"		style	"help_label"
 widget	"Freeciv*.help link"		style	"help_link"
 widget	"Freeciv*.help text"		style	"help_text"
-widget	"*.Freeciv.monomenu.*"		style	"monospace_label"
 widget	"Freeciv*.chatline"		style	"chatline"
 widget	"Freeciv*.comment label"	style	"comment_label"
 
