@@ -938,6 +938,13 @@ void upgrade_unit_prod(struct city *pcity)
   struct player *pplayer=&game.players[pcity->owner];
   int id = pcity->currently_building;
   int id2= unit_types[id].obsoleted_by;
+
+  while(can_build_unit_direct(pcity, id2) &&
+	can_build_unit_direct(pcity, unit_types[id2].obsoleted_by))
+  {
+    id2 = unit_types[id2].obsoleted_by;
+  }
+    
   if (can_build_unit_direct(pcity, id2)) {
     pcity->currently_building=id2;
     notify_player_ex(pplayer, pcity->x, pcity->y, E_UNIT_UPGRADED, 
