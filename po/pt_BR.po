@@ -3570,16 +3570,16 @@ msgstr "Limpei a janela de saída.\n"
 
 #: client/gui-gtk/citydlg.c:417 client/gui-gtk/cityrep.c:461
 msgid "_Buy"
-msgstr "_Compra"
+msgstr "_Comprar"
 
 #: client/gui-gtk/citydlg.c:420 client/gui-gtk/citydlg.c:1665
 #: client/gui-gtk/cityrep.c:466
 msgid "_Change"
-msgstr "_Muda"
+msgstr "_Mudar"
 
 #: client/gui-gtk/citydlg.c:433
 msgid "_Sell"
-msgstr "_Vende"
+msgstr "_Vender"
 
 #. "supported units" frame
 #: client/gui-gtk/citydlg.c:438
@@ -3607,7 +3607,7 @@ msgstr "_Comércio"
 
 #: client/gui-gtk/citydlg.c:514
 msgid "_Activate Units"
-msgstr "_Activar Unidades"
+msgstr "_Ativar Unidades"
 
 #: client/gui-gtk/citydlg.c:519
 msgid "_Unit List"
@@ -3626,12 +3626,12 @@ msgstr "Comandos de Unidade"
 #: client/gui-gtk/citydlg.c:780 client/gui-gtk/citydlg.c:1141
 #: data/Freeciv:1130 data/Freeciv:1158
 msgid "Activate unit"
-msgstr "Activar unidade"
+msgstr "Ativar unidade"
 
 #: client/gui-gtk/citydlg.c:782 client/gui-gtk/citydlg.c:1143
 #: data/Freeciv:1134 data/Freeciv:1162
 msgid "Activate unit, close dialog"
-msgstr "Activar unidade, fechar janela"
+msgstr "Ativar unidade, fechar janela"
 
 #. act+c
 #: client/gui-gtk/citydlg.c:784 client/gui-gtk/citydlg.c:1145
@@ -3875,23 +3875,23 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1909
 msgid "Disband if build settler at size 1"
-msgstr "Dissolve se contruir colono com tamanho 1"
+msgstr "Dissolver se contruir colono com tamanho 1"
 
 #: client/gui-gtk/citydlg.c:1914
 msgid "Auto-attack vs land units"
-msgstr "Ataca automaticamente contra unidades terrestres"
+msgstr "Atacar automaticamente contra unidades terrestres"
 
 #: client/gui-gtk/citydlg.c:1919
 msgid "Auto-attack vs sea units"
-msgstr "Ataca automaticamente contra unidades marítimas"
+msgstr "Atacar automaticamente contra unidades marítimas"
 
 #: client/gui-gtk/citydlg.c:1924
 msgid "Auto-attack vs air units"
-msgstr "Ataca automaticamente contra unidades terrestres"
+msgstr "Atacar automaticamente contra unidades terrestres"
 
 #: client/gui-gtk/citydlg.c:1929
 msgid "Auto-attack vs helicopters"
-msgstr "Ataca automaticamente contra helicópteros"
+msgstr "Atacar automaticamente contra helicópteros"
 
 #. ------- OK/Disc/Quit buttons -------
 #: client/gui-gtk/citydlg.c:1933 client/gui-gtk/dialogs.c:1702
@@ -4037,19 +4037,19 @@ msgstr "Conselheiro Doméstico"
 
 #: client/gui-gtk/cityrep.c:451
 msgid "Cen_ter"
-msgstr "Cen_tra"
+msgstr "Cen_trar"
 
 #: client/gui-gtk/cityrep.c:456
 msgid "_Popup"
-msgstr "_Visualiza"
+msgstr "_Visualizar"
 
 #: client/gui-gtk/cityrep.c:476
 msgid "Change _All"
-msgstr "_Muda Todos"
+msgstr "_Mudar Todos"
 
 #: client/gui-gtk/cityrep.c:481
 msgid "_Refresh"
-msgstr "_Refresca"
+msgstr "_Atualizar"
 
 #: client/gui-gtk/cityrep.c:682
 msgid "Game: Select a unit or improvement to change production from."
@@ -4083,7 +4083,7 @@ msgstr "Muda a Produção em todo o lado"
 #: client/gui-gtk/cityrep.c:870 data/Freeciv:1452 data/Freeciv:1656
 #: data/Freeciv:1808 data/Freeciv:2049
 msgid "Change"
-msgstr "Muda"
+msgstr "Mudar"
 
 #: client/gui-gtk/cityrep.c:924 client/gui-xaw/cityrep.c:653
 #, c-format
@@ -4290,19 +4290,19 @@ msgstr "Estabelece embaixada"
 
 #: client/gui-gtk/dialogs.c:956 data/Freeciv:2131
 msgid "Investigate City"
-msgstr "Investiga Cidade"
+msgstr "Investigar Cidade"
 
 #: client/gui-gtk/dialogs.c:957 data/Freeciv:2134
 msgid "Sabotage city"
-msgstr "Sabota cidade"
+msgstr "Sabotar cidade"
 
 #: client/gui-gtk/dialogs.c:958 data/Freeciv:2136
 msgid "Steal technology"
-msgstr "Rouba tecnologia"
+msgstr "Roubar tecnologia"
 
 #: client/gui-gtk/dialogs.c:959 data/Freeciv:2139
 msgid "Incite a revolt"
-msgstr "Incita revolta"
+msgstr "Incitar revolta"
 
 #. "spydialog"
 #: client/gui-gtk/dialogs.c:974 data/Freeciv:2149
@@ -4316,7 +4316,7 @@ msgstr "Mestre, o espião aguarda pelas suas ordens"
 
 #: client/gui-gtk/dialogs.c:976 data/Freeciv:2154
 msgid "Establish Embassy"
-msgstr "Estabelece Embaixada"
+msgstr "Estabelecer Embaixada"
 
 #: client/gui-gtk/dialogs.c:977 data/Freeciv:2157
 msgid "Investigate City (free)"
@@ -4384,7 +4384,7 @@ msgstr "Revolução!"
 
 #: client/gui-gtk/dialogs.c:1221 client/gui-xaw/dialogs.c:1245
 msgid "You say you wanna revolution?"
-msgstr "Com que então quer uma revolução?"
+msgstr "Quer dizer que você quer uma revolução?"
 
 #: client/gui-gtk/dialogs.c:1275 data/Freeciv:2349
 msgid "What To Pillage"
@@ -4404,7 +4404,7 @@ msgstr ""
 
 #: client/gui-gtk/dialogs.c:1609
 msgid " What Nation Will You Be?"
-msgstr " Que Nação Controlará?"
+msgstr " Que Nação Quer Controlar?"
 
 #: client/gui-gtk/dialogs.c:1611
 msgid "Select nation and name"
@@ -4647,8 +4647,8 @@ msgid ""
 "Now.. Go give'em hell!"
 msgstr ""
 "O Freeciv é software gratuito e você pode distribuir copias dele\n"
-"sob certas condições; Veja o item \"Copying\" no menu de Ajuda.\n"
-"Agora.. Torne-lhe a vida num inferno!"
+"sob certas condições; Veja o item \"Licença\" no menu de Ajuda.\n"
+"Agora.. acabe com eles!"
 
 #: client/gui-gtk/gui_main.c:623
 msgid "Freeciv"
@@ -4989,7 +4989,7 @@ msgstr "_Impostos"
 
 #: client/gui-gtk/menu.c:489
 msgid "Find _City"
-msgstr "Encontra _Cidade"
+msgstr "Encontrar _Cidade"
 
 #: client/gui-gtk/menu.c:493 client/gui-xaw/menu.c:211
 msgid "Revolution"
@@ -5006,11 +5006,11 @@ msgstr "Visão"
 
 #: client/gui-gtk/menu.c:500 client/gui-xaw/menu.c:216
 msgid "Map Grid"
-msgstr "Mostra Quadrícula"
+msgstr "Mostrar Grade"
 
 #: client/gui-gtk/menu.c:502 client/gui-xaw/menu.c:217
 msgid "Center View"
-msgstr "Centra Vista"
+msgstr "Centralizar Vista"
 
 #: client/gui-gtk/menu.c:505
 msgid "_Orders"
@@ -5038,31 +5038,31 @@ msgstr "Ordens"
 #: client/gui-gtk/menu.c:509 client/gui-gtk/menu.c:878
 #: client/gui-xaw/menu.c:222
 msgid "Build City"
-msgstr "Funda Cidade"
+msgstr "Fundar Cidade"
 
 #: client/gui-gtk/menu.c:511 client/gui-gtk/menu.c:918
 #: client/gui-xaw/menu.c:224
 msgid "Build Road"
-msgstr "Contrói Estrada"
+msgstr "Contruir Estrada"
 
 #: client/gui-gtk/menu.c:513 client/gui-gtk/menu.c:821
 #: client/gui-xaw/menu.c:226
 msgid "Build Irrigation"
-msgstr "Contrói Irrigação"
+msgstr "Contruir Irrigação"
 
 #: client/gui-gtk/menu.c:515 client/gui-gtk/menu.c:822
 #: client/gui-xaw/menu.c:229
 msgid "Build Mine"
-msgstr "Contrói Mina"
+msgstr "Contruir Mina"
 
 #: client/gui-gtk/menu.c:517 client/gui-gtk/menu.c:823
 #: client/gui-xaw/menu.c:231
 msgid "Transform Terrain"
-msgstr "Transforma Terreno"
+msgstr "Transformar Terreno"
 
 #: client/gui-gtk/menu.c:519 client/gui-xaw/menu.c:233
 msgid "Build Fortress"
-msgstr "Contrói Fortaleza"
+msgstr "Contruir Fortaleza"
 
 #: client/gui-gtk/menu.c:521 client/gui-xaw/menu.c:234
 msgid "Build Airbase"
@@ -5071,11 +5071,11 @@ msgstr ""
 #: client/gui-gtk/menu.c:523 client/gui-gtk/menu.c:907
 #: client/gui-xaw/menu.c:235
 msgid "Clean Pollution"
-msgstr "Limpa Poluição"
+msgstr "Limpar Poluição"
 
 #: client/gui-gtk/menu.c:535 client/gui-xaw/menu.c:242
 msgid "Make Homecity"
-msgstr "Faz Casa"
+msgstr "Tornar Cidade Natal"
 
 #: client/gui-gtk/menu.c:537 client/gui-xaw/menu.c:243
 msgid "Unload"
@@ -5083,7 +5083,7 @@ msgstr "Desembarcar"
 
 #: client/gui-gtk/menu.c:539 client/gui-xaw/menu.c:244
 msgid "Wake up others"
-msgstr "Acorda os outros"
+msgstr "Acordar os outros"
 
 #: client/gui-gtk/menu.c:543 client/gui-xaw/menu.c:246
 msgid "Auto Settler"
@@ -5091,11 +5091,11 @@ msgstr "Colono Automático"
 
 #: client/gui-gtk/menu.c:545 client/gui-xaw/menu.c:247
 msgid "Auto Attack"
-msgstr "Ataca Automáticamente"
+msgstr "Atacar Automaticamente"
 
 #: client/gui-gtk/menu.c:547 client/gui-xaw/menu.c:248
 msgid "Auto Explore"
-msgstr "Explora Automáticamente"
+msgstr "Explorar Automaticamente"
 
 #: client/gui-gtk/menu.c:549 client/gui-xaw/menu.c:249
 msgid "Go to"
@@ -5107,7 +5107,7 @@ msgstr "Ir|Aerotransportar para cidade"
 
 #: client/gui-gtk/menu.c:555 client/gui-xaw/menu.c:252
 msgid "Disband Unit"
-msgstr "Dissolve Unidade"
+msgstr "Dissolver Unidade"
 
 #: client/gui-gtk/menu.c:557 client/gui-xaw/menu.c:253
 msgid "Help Build Wonder"
@@ -5115,15 +5115,15 @@ msgstr "Ajudar a Construir a Maravilha"
 
 #: client/gui-gtk/menu.c:559 client/gui-xaw/menu.c:254
 msgid "Make Trade Route"
-msgstr "Estabelece Rota Comercial"
+msgstr "Estabelecer Rota Comercial"
 
 #: client/gui-gtk/menu.c:561 client/gui-xaw/menu.c:255
 msgid "Explode Nuclear"
-msgstr "Detona Arma Nuclear"
+msgstr "Detonar Arma Nuclear"
 
 #: client/gui-gtk/menu.c:565 client/gui-xaw/menu.c:257
 msgid "Wait"
-msgstr "Espera"
+msgstr "Esperar"
 
 #: client/gui-gtk/menu.c:570
 msgid "_Reports"
@@ -5152,7 +5152,7 @@ msgstr "Relatório do Comércio"
 #: client/gui-gtk/menu.c:580 client/gui-gtk/repodlgs.c:182
 #: client/gui-xaw/menu.c:266 data/Freeciv:1431
 msgid "Science Report"
-msgstr "Relatório da Investigação"
+msgstr "Relatório das Pesquisas"
 
 #: client/gui-gtk/menu.c:586 client/gui-xaw/menu.c:269
 msgid "Top Five Cities"
@@ -5182,11 +5182,11 @@ msgstr "Ajuda"
 
 #: client/gui-gtk/menu.c:597 client/gui-xaw/menu.c:276
 msgid "Help Connecting"
-msgstr "Como se Ligar"
+msgstr "Como se Conectar"
 
 #: client/gui-gtk/menu.c:599 client/gui-xaw/menu.c:277
 msgid "Help Controls"
-msgstr "Controlos"
+msgstr "Controles"
 
 #: client/gui-gtk/menu.c:601 client/gui-xaw/menu.c:278
 msgid "Help Chatline"
@@ -5210,11 +5210,11 @@ msgstr "Combate"
 
 #: client/gui-gtk/menu.c:613 client/gui-xaw/menu.c:284
 msgid "Help ZOC"
-msgstr "Zonas de Controlo"
+msgstr "Zonas de Controle"
 
 #: client/gui-gtk/menu.c:615 client/gui-xaw/menu.c:285
 msgid "Help Technology"
-msgstr "Investigação"
+msgstr "Pesquisas"
 
 #: client/gui-gtk/menu.c:617 client/gui-xaw/menu.c:286
 msgid "Help Terrain"
@@ -8648,12 +8648,12 @@ msgstr "Construção de Pontes"
 #: data/civ1/techs.ruleset:96 data/civ2/techs.ruleset:96
 #: data/default/techs.ruleset:96
 msgid "Bronze Working"
-msgstr "Trabalho do Bronze"
+msgstr "Manuseio do Bronze"
 
 #: data/civ1/techs.ruleset:102 data/civ2/techs.ruleset:102
 #: data/default/techs.ruleset:102
 msgid "Ceremonial Burial"
-msgstr ""
+msgstr "Enterro Religioso"
 
 #: data/civ1/techs.ruleset:108 data/civ2/techs.ruleset:108
 #: data/default/techs.ruleset:108
@@ -8708,7 +8708,7 @@ msgstr "Electricidade"
 #: data/civ1/techs.ruleset:186 data/civ2/techs.ruleset:186
 #: data/default/techs.ruleset:186
 msgid "Electronics"
-msgstr "Electrónica"
+msgstr "Electrônica"
 
 #: data/civ1/techs.ruleset:192 data/civ2/techs.ruleset:192
 #: data/default/techs.ruleset:192
@@ -8743,7 +8743,7 @@ msgstr "Vôo"
 #: data/civ1/techs.ruleset:234 data/civ2/techs.ruleset:234
 #: data/default/techs.ruleset:234
 msgid "Fusion Power"
-msgstr ""
+msgstr "Fusão Nuclear"
 
 #: data/civ1/techs.ruleset:240 data/civ2/techs.ruleset:240
 #: data/default/techs.ruleset:240
@@ -8753,7 +8753,7 @@ msgstr "Engenharia Genética"
 #: data/civ1/techs.ruleset:246 data/civ2/techs.ruleset:246
 #: data/default/techs.ruleset:246
 msgid "Guerilla Warfare"
-msgstr "Guerra de Guerrilha"
+msgstr "Táticas de Guerrilha"
 
 #: data/civ1/techs.ruleset:252 data/civ2/techs.ruleset:252
 #: data/default/techs.ruleset:252
@@ -8763,7 +8763,7 @@ msgstr "Pólvora"
 #: data/civ1/techs.ruleset:258 data/civ2/techs.ruleset:258
 #: data/default/techs.ruleset:258
 msgid "Horseback Riding"
-msgstr ""
+msgstr "Arte de Cavalgar"
 
 #: data/civ1/techs.ruleset:264 data/civ2/techs.ruleset:264
 #: data/default/techs.ruleset:264
@@ -8778,7 +8778,7 @@ msgstr "Invenção"
 #: data/civ1/techs.ruleset:276 data/civ2/techs.ruleset:276
 #: data/default/techs.ruleset:276
 msgid "Iron Working"
-msgstr "Trabalho do Ferro"
+msgstr "Manuseio do Ferro"
 
 #: data/civ1/techs.ruleset:282 data/civ2/techs.ruleset:282
 #: data/default/techs.ruleset:282
@@ -8863,7 +8863,7 @@ msgstr "Navegação"
 #: data/civ1/techs.ruleset:390 data/civ2/techs.ruleset:390
 #: data/default/techs.ruleset:390
 msgid "Nuclear Fission"
-msgstr "Cisão Nuclear"
+msgstr "Fissão Nuclear"
 
 #: data/civ1/techs.ruleset:396 data/civ2/techs.ruleset:396
 #: data/default/techs.ruleset:396
@@ -8928,12 +8928,12 @@ msgstr "Foguetes"
 #: data/civ1/techs.ruleset:474 data/civ2/techs.ruleset:474
 #: data/default/techs.ruleset:474
 msgid "Sanitation"
-msgstr ""
+msgstr "Sanitarização"
 
 #: data/civ1/techs.ruleset:480 data/civ2/techs.ruleset:480
 #: data/default/techs.ruleset:480
 msgid "Seafaring"
-msgstr ""
+msgstr "Navegação"
 
 #: data/civ1/techs.ruleset:486 data/civ2/techs.ruleset:486
 #: data/default/techs.ruleset:486
