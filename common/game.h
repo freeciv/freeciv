@@ -255,7 +255,7 @@ extern struct civ_game game;
 #define GAME_DEFAULT_SKILL_LEVEL 3      /* easy */
 #define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for old save games */
 
-#define GAME_DEFAULT_DEMOGRAPHY      "NASRLPEMOqr"
+#define GAME_DEFAULT_DEMOGRAPHY      "NASRLPEMOqrb"
 
 #define GAME_START_YEAR -4000
 

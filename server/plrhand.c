@@ -223,6 +223,18 @@ static int rank_population(struct player *pplayer)
   return place;
 }
 
+static struct player *best_population()
+{
+  struct player *pplayer = &game.players[0];
+  int i;
+  for(i = 1; i < game.nplayers; i++) {
+    if(game.players[i].score.population > pplayer->score.population) {
+      pplayer = &game.players[i];
+    }
+  }
+  return pplayer;
+}
+
 static int rank_landarea(struct player *pplayer)
 {
   int basis=pplayer->score.landarea;
@@ -235,6 +247,18 @@ static int rank_landarea(struct player *pplayer)
   return place;
 }
 
+static struct player *best_landarea()
+{
+  struct player *pplayer = &game.players[0];
+  int i;
+  for(i = 1; i < game.nplayers; i++) {
+    if(game.players[i].score.landarea > pplayer->score.landarea) {
+      pplayer = &game.players[i];
+    }
+  }
+  return pplayer;
+}
+
 static int rank_settledarea(struct player *pplayer)
 {
   int basis=pplayer->score.settledarea;
@@ -245,6 +269,18 @@ static int rank_settledarea(struct player *pplayer)
       place++;
   }
   return place;
+}
+
+static struct player *best_settledarea()
+{
+  struct player *pplayer = &game.players[0];
+  int i;
+  for(i = 1; i < game.nplayers; i++) {
+    if(game.players[i].score.settledarea > pplayer->score.settledarea) {
+      pplayer = &game.players[i];
+    }
+  }
+  return pplayer;
 }
 
 static int rank_calc_research(struct player *pplayer)
@@ -262,6 +298,18 @@ static int rank_research(struct player *pplayer)
       place++;
   }
   return place;
+}
+
+static struct player *best_research()
+{
+  struct player *pplayer = &game.players[0];
+  int i;
+  for(i = 1; i < game.nplayers; i++) {
+    if(rank_calc_research(&game.players[i]) > rank_calc_research(pplayer)) {
+      pplayer = &game.players[i];
+    }
+  }
+  return pplayer;
 }
 
 static int rank_calc_literacy(struct player *pplayer)
@@ -289,6 +337,18 @@ static int rank_literacy(struct player *pplayer)
   return place;
 }
 
+static struct player *best_literacy()
+{
+  struct player *pplayer = &game.players[0];
+  int i;
+  for(i = 1; i < game.nplayers; i++) {
+    if(rank_calc_literacy(&game.players[i]) > rank_calc_literacy(pplayer)) {
+      pplayer = &game.players[i];
+    }
+  }
+  return pplayer;
+}
+
 static int rank_production(struct player *pplayer)
 {
   int basis=pplayer->score.mfg;
@@ -299,6 +359,18 @@ static int rank_production(struct player *pplayer)
       place++;
   }
   return place;
+}
+
+static struct player *best_production()
+{
+  struct player *pplayer = &game.players[0];
+  int i;
+  for(i = 1; i < game.nplayers; i++) {
+    if(game.players[i].score.mfg > pplayer->score.mfg) {
+      pplayer = &game.players[i];
+    }
+  }
+  return pplayer;
 }
 
 static int rank_economics(struct player *pplayer)
@@ -313,6 +385,18 @@ static int rank_economics(struct player *pplayer)
   return place;
 }
 
+static struct player *best_economics()
+{
+  struct player *pplayer = &game.players[0];
+  int i;
+  for(i = 1; i < game.nplayers; i++) {
+    if(game.players[i].score.bnp > pplayer->score.bnp) {
+      pplayer = &game.players[i];
+    }
+  }
+  return pplayer;
+}
+
 static int rank_pollution(struct player *pplayer)
 {
   int basis=pplayer->score.pollution;
@@ -323,6 +407,18 @@ static int rank_pollution(struct player *pplayer)
       place++;
   }
   return place;
+}
+
+static struct player *best_pollution()
+{
+  struct player *pplayer = &game.players[0];
+  int i;
+  for(i = 1; i < game.nplayers; i++) {
+    if(game.players[i].score.pollution < pplayer->score.pollution) {
+      pplayer = &game.players[i];
+    }
+  }
+  return pplayer;
 }
 
 static int rank_calc_mil_service(struct player *pplayer)
@@ -340,6 +436,18 @@ static int rank_mil_service(struct player *pplayer)
       place++;
   }
   return place;
+}
+
+static struct player *best_mil_service()
+{
+  struct player *pplayer = &game.players[0];
+  int i;
+  for(i = 1; i < game.nplayers; i++) {
+    if(rank_calc_mil_service(&game.players[i]) < rank_calc_mil_service(pplayer)) {
+      pplayer = &game.players[i];
+    }
+  }
+  return pplayer;
 }
 
 static char *value_units(char *val, char *uni)
@@ -381,7 +489,7 @@ static char *number_to_ordinal_string(int num, int parens)
 	}
       else
 	{
-	  strcpy (buf, parens ? _("(??th)") : _("??th"));
+	  sprintf (buf, parens ? "(%s%s)" : "%s%s", "??", _("th"));
 	}
       break;
     }
@@ -417,12 +525,14 @@ void do_conquer_cost(struct player *pplayer)
 #define DEM_KEY_ROW_POLLUTION         'O'
 #define DEM_KEY_COL_QUANTITY          'q'
 #define DEM_KEY_COL_RANK              'r'
+#define DEM_KEY_COL_BEST              'b'
 
 enum dem_flag
 {
   DEM_NONE = 0x00,
   DEM_COL_QUANTITY = 0x01,
   DEM_COL_RANK = 0x02,
+  DEM_COL_BEST = 0x04,
   DEM_ROW = 0xFF
 };
 
@@ -438,6 +548,8 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 {
   static char *fmt_quan = " %-18s";
   static char *fmt_rank = " %6s";
+  static char *fmt_best = "   %s: %s";
+  struct player *best_player;
 
   switch (key)
     {
@@ -454,6 +566,13 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  sprintf (outptr, fmt_rank,
 		   number_to_ordinal_string(rank_population(pplayer), TRUE));
 	}
+      if (selcols & DEM_COL_BEST && 
+          player_has_embassy(pplayer, (best_player = best_population())) )
+        {
+          outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
+		   int_to_text(best_player->score.population) );
+        }
       break;
     case DEM_KEY_ROW_LAND_AREA:
       if (selcols & DEM_COL_QUANTITY)
@@ -469,6 +588,14 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  sprintf (outptr, fmt_rank,
 		   number_to_ordinal_string(rank_landarea(pplayer), TRUE));
 	}
+      if (selcols & DEM_COL_BEST && 
+          player_has_embassy(pplayer, (best_player = best_landarea())) )
+        {
+          outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
+		   value_units (int_to_text(best_player->score.landarea),
+				_(" sq. mi.")));
+        }
       break;
     case DEM_KEY_ROW_SETTLED_AREA:
       if (selcols & DEM_COL_QUANTITY)
@@ -484,6 +611,14 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  sprintf (outptr, fmt_rank,
 		   number_to_ordinal_string(rank_settledarea(pplayer), TRUE));
 	}
+      if (selcols & DEM_COL_BEST && 
+          player_has_embassy(pplayer, (best_player = best_settledarea())) )
+        {
+          outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
+		   value_units (int_to_text(best_player->score.settledarea),
+		                _(" sq. mi.")));
+        }
       break;
     case DEM_KEY_ROW_RESEARCH_SPEED:
       if (selcols & DEM_COL_QUANTITY)
@@ -499,6 +634,13 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  sprintf (outptr, fmt_rank,
 		   number_to_ordinal_string(rank_research(pplayer), TRUE));
 	}
+      if (selcols & DEM_COL_BEST && 
+          player_has_embassy(pplayer, (best_player = best_research())) )
+        {
+          outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
+		   value_units(int_to_text(rank_calc_research(best_player)),"%"));
+        }
       break;
     case DEM_KEY_ROW_LITERACY:
       if (selcols & DEM_COL_QUANTITY)
@@ -514,6 +656,13 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  sprintf (outptr, fmt_rank,
 		   number_to_ordinal_string(rank_literacy(pplayer), TRUE));
 	}
+      if (selcols & DEM_COL_BEST && 
+          player_has_embassy(pplayer, (best_player = best_literacy())) )
+        {
+          outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
+		   value_units(int_to_text(rank_calc_literacy(best_player)),"%"));
+        }
       break;
     case DEM_KEY_ROW_PRODUCTION:
       if (selcols & DEM_COL_QUANTITY)
@@ -529,6 +678,13 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  sprintf (outptr, fmt_rank,
 		   number_to_ordinal_string(rank_production(pplayer), TRUE));
 	}
+      if (selcols & DEM_COL_BEST && 
+          player_has_embassy(pplayer, (best_player = best_production())) )
+        {
+          outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
+		   value_units(int_to_text(best_player->score.mfg), _(" M tons")));
+        }
       break;
     case DEM_KEY_ROW_ECONOMICS:
       if (selcols & DEM_COL_QUANTITY)
@@ -544,6 +700,13 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  sprintf (outptr, fmt_rank,
 		   number_to_ordinal_string(rank_economics(pplayer), TRUE));
 	}
+      if (selcols & DEM_COL_BEST && 
+          player_has_embassy(pplayer, (best_player = best_economics())) )
+        {
+          outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
+		   value_units(int_to_text(best_player->score.bnp), _(" M goods")));
+        }
       break;
     case DEM_KEY_ROW_MILITARY_SERVICE:
       if (selcols & DEM_COL_QUANTITY)
@@ -559,6 +722,14 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  sprintf (outptr, fmt_rank,
 		   number_to_ordinal_string(rank_mil_service(pplayer), TRUE));
 	}
+      if (selcols & DEM_COL_BEST && 
+          player_has_embassy(pplayer, (best_player = best_mil_service())) )
+        {
+          outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
+		   value_units( int_to_text(rank_calc_mil_service(best_player)),
+                                _(" months")));
+        }
       break;
     case DEM_KEY_ROW_POLLUTION:
       if (selcols & DEM_COL_QUANTITY)
@@ -574,6 +745,13 @@ static void dem_line_item (char *outptr, struct player *pplayer,
 	  sprintf (outptr, fmt_rank,
 		   number_to_ordinal_string(rank_pollution(pplayer), TRUE));
 	}
+      if (selcols & DEM_COL_BEST && 
+          player_has_embassy(pplayer, (best_player = best_pollution())) )
+        {
+          outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_best, get_nation_name_plural(best_player->nation),
+		   value_units (int_to_text(best_player->score.pollution), _(" tons")));
+        }
       break;
     }
 }
@@ -601,7 +779,8 @@ void demographics_report(struct player *pplayer)
     { DEM_KEY_ROW_MILITARY_SERVICE, N_("Military Service"), DEM_ROW },
     { DEM_KEY_ROW_POLLUTION,        N_("Pollution"),        DEM_ROW },
     { DEM_KEY_COL_QUANTITY,         "",                     DEM_COL_QUANTITY },
-    { DEM_KEY_COL_RANK,             "",                     DEM_COL_RANK }
+    { DEM_KEY_COL_RANK,             "",                     DEM_COL_RANK },
+    { DEM_KEY_COL_BEST,             "",                     DEM_COL_BEST }
   };
 
   anyrows = FALSE;

@@ -494,6 +494,7 @@ static struct settings_s settings[] = {
     "  Additionally, the following characters control whether or not certain\n"
     "  columns are displayed in the report:\n"
     "      q = display \"quantity\" column    r = display \"rank\" column\n"
+    "      b = display \"best nation\" column\n"
     "  (The order of these characters is not significant, but their case is.)"),
     game.demography, GAME_DEFAULT_DEMOGRAPHY },
 
