@@ -504,7 +504,8 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   struct city *pcity = map_get_city(punit->x, punit->y);
   char *unit_name = get_unit_type(punit->type)->name;
 
-  pcity->size++;
+  assert(unit_pop_value(punit->type) > 0);
+  pcity->size += unit_pop_value(punit->type);
   if (!add_adjust_workers(pcity)) {
     auto_arrange_workers(pcity);
     sync_cities();
