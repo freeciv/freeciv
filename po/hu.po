@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.11.4 v0.5\n"
+"Project-Id-Version: Freeciv 1.11.6 v0.51\n"
 "POT-Creation-Date: 2001-06-30 16:24+0200\n"
-"PO-Revision-Date: 2001-3-25 23:12+0200\n"
+"PO-Revision-Date: 2001-7-9 12:48+0200\n"
 "Last-Translator: Gábor Dukai <dukai@EUnet.yu>\n"
 "Language-Team: Hungarian <dukai@EUnet.yu>\n"
 "MIME-Version: 1.0\n"
@@ -28,24 +28,22 @@ msgid "?obsolete:O"
 msgstr "?obsolete:O"
 
 #: common/connection.c:441
-#, fuzzy, c-format
+#, c-format
 msgid "%s from %s"
-msgstr "%s most %s."
+msgstr "%s %s-ból"
 
 #: common/connection.c:447
-#, fuzzy
 msgid " (connection incomplete)"
-msgstr "Megszakítja a játékossal a kapcsolatot."
+msgstr " (kapcsolat nem teljes)"
 
 #: common/connection.c:451
-#, fuzzy, c-format
+#, c-format
 msgid " (player %s)"
-msgstr "<nincsenek játékosok>"
+msgstr " (%s játékos)"
 
 #: common/connection.c:455
-#, fuzzy
 msgid " (observer)"
-msgstr "(Soha)"
+msgstr " (megfigyelõ)"
 
 #: common/log.c:83
 #, c-format
@@ -185,35 +183,35 @@ msgstr "Kegyetlen"
 
 #: common/player.c:438
 msgid "?diplomatic_state:Neutral"
-msgstr ""
+msgstr "?diplomatic_state:Semleges"
 
 #: common/player.c:439
 msgid "?diplomatic_state:War"
-msgstr ""
+msgstr "?diplomatic_state:Háború"
 
 #: client/gui-gtk/diplodlg.c:442 client/gui-mui/diplodlg.c:627
 #: client/gui-xaw/diplodlg.c:512 common/player.c:440
 msgid "?diplomatic_state:Cease-fire"
-msgstr ""
+msgstr "?diplomatic_state:Tûzszünet"
 
 #: client/gui-gtk/diplodlg.c:447 client/gui-mui/diplodlg.c:631
 #: client/gui-xaw/diplodlg.c:516 common/player.c:441
 msgid "?diplomatic_state:Peace"
-msgstr ""
+msgstr "?diplomatic_state:Béke"
 
 #: client/gui-gtk/diplodlg.c:452 client/gui-mui/diplodlg.c:635
 #: client/gui-xaw/diplodlg.c:520 common/player.c:442
 msgid "?diplomatic_state:Alliance"
-msgstr ""
+msgstr "?diplomatic_state:Szövetség"
 
 #: common/player.c:443
 msgid "?diplomatic_state:No Contact"
-msgstr ""
+msgstr "?diplomatic_state:Nincs kapcsolat"
 
 #: common/shared.c:140
-#, fuzzy, c-format
+#, c-format
 msgid "Empty argument for \"%s\".\n"
-msgstr "Hiányzó paraméter a \"%s\"-hez.\n"
+msgstr "Üres paraméter a \"%s\"-hez.\n"
 
 #: common/shared.c:144
 #, c-format
@@ -247,7 +245,7 @@ msgstr "A jelenlegi adatelérési út: \"%s\""
 #: common/shared.c:771
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr "%s: Végzetes hiba: szuper felhasználóként próbálsz futtatni!\n"
+msgstr "%s: Végzetes hiba: rendszergazdaként próbálsz futtatni!\n"
 
 #: common/shared.c:773
 msgid "Use a non-privileged account instead.\n"
@@ -321,9 +319,8 @@ msgid "Transform"
 msgstr "Átalakít"
 
 #: client/gui-mui/gui_main.c:298 client/gui-xaw/menu.c:180 common/unit.c:515
-#, fuzzy
 msgid "Patrol"
-msgstr "Szenny"
+msgstr "Õrjárat"
 
 #: client/gui-gtk/citydlg.c:1140 client/gui-mui/citydlg.c:709
 #: client/gui-xaw/citydlg.c:1466 common/unit.c:516
@@ -346,28 +343,26 @@ msgid " and "
 msgstr " és "
 
 #: common/version.c:32
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv version %s %s"
-msgstr "Freeciv Kiszolgáló Választás"
+msgstr "Freeciv %s %s verzió"
 
 #: common/version.c:33
-#, fuzzy
 msgid "(beta version)"
-msgstr "(veterán)"
+msgstr "(beta verzió)"
 
 #: common/version.c:35
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv version %s"
-msgstr "Freeciv Kiszolgáló Választás"
+msgstr "Freeciv %s verzió"
 
 #: common/version.c:48
 msgid "betatest version "
-msgstr ""
+msgstr "betateszt verzió "
 
 #: common/version.c:50
-#, fuzzy
 msgid "version "
-msgstr "Verzió"
+msgstr "verzió "
 
 #: common/version.c:65
 msgid "January"
@@ -508,16 +503,16 @@ msgid "Game: %s is not a valid name."
 msgstr "Játék: %s nem érvényes név."
 
 #: server/citytools.c:99
-#, fuzzy, c-format
+#, c-format
 msgid "City no. %d"
-msgstr "%d város"
+msgstr "%d. város"
 
 #: server/citytools.c:104
 msgid "A poorly-named city"
-msgstr ""
+msgstr "Egy russzul elnevezett város"
 
 #: server/citytools.c:657
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Changed homecity of %s to %s."
 msgstr "Játék: %s ellátóvárosa %s-ra cserélve."
 
@@ -527,9 +522,9 @@ msgid "Game: Transfered %s in %s from %s to %s."
 msgstr "Játék: %s %s városban %s tulajdonából %s tulajdona lett."
 
 #: server/citytools.c:676
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Transfered %s from %s to %s."
-msgstr "Játék: %s %s városban %s tulajdonából %s tulajdona lett."
+msgstr "Játék: %s %s tulajdonából %s tulajdona lett."
 
 #: server/citytools.c:922
 #, c-format
@@ -548,14 +543,14 @@ msgstr "Játék: %s ellátóvárosa %s-ra cserélve."
 #: server/citytools.c:1123
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
+msgstr "Játék: %s-t a %s megszüntetett városból kiküldtem, hogy ne ragadjon ott."
 
 #: server/citytools.c:1134
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
-msgstr ""
+msgstr "Játék: Amikor %s meszûnt, a %s-ed nem tudott kijutni, ezért ott ragadt."
 
 #: server/citytools.c:1222
 #, c-format
@@ -570,22 +565,22 @@ msgstr "Játék: %s-t megsemmisítette %s."
 #: server/citytools.c:1246
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
-msgstr ""
+msgstr "Játék: Elfoglaltad %s-t, %d aranyat raboltál!"
 
 #: server/citytools.c:1250
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
-msgstr ""
+msgstr "Játék: %s elfoglalta %s-t és %d aranyat rabolt a városból."
 
 #: server/citytools.c:1261
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
-msgstr ""
+msgstr "Játék: Felszabadítottad %s-t! %d aranyat raboltál."
 
 #: server/citytools.c:1266
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
-msgstr ""
+msgstr "Játék: %s felszabadította %s-t és %d aranyat rabolt a városból."
 
 #: server/citytools.c:1789
 msgid " from the worklist"
@@ -594,7 +589,7 @@ msgstr " a munkatervbõl"
 #: server/citytools.c:1799
 #, c-format
 msgid "Game: %s is building %s%s."
-msgstr "Játék: %s %s-t épít"
+msgstr "Játék: %s %s%s-t épít"
 
 #: server/citytools.c:1803
 #, c-format
@@ -609,7 +604,7 @@ msgstr "Játék: %s %s-t (elavult) ad el %d aranyért."
 #: server/cityturn.c:781
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
-msgstr ""
+msgstr "Játék: Figyelem! A %s csoda elkészítése a %s városban a következõ körben befejezõdik."
 
 #: server/cityturn.c:813
 #, c-format
@@ -626,9 +621,9 @@ msgid "Game: %s may soon grow to size %i."
 msgstr "Játék: %s %i méretûre nõhet hamarosan."
 
 #: server/cityturn.c:834
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Warning: Famine feared in %s."
-msgstr "Játék: Éhínség van %s-ban."
+msgstr "Játék: Figyelem! Éhínség van %s-ban."
 
 #: server/cityturn.c:865
 msgid "Game: WARNING, we're LOW on FUNDS sire."
@@ -650,9 +645,9 @@ msgid "Game: %s grows to size %d."
 msgstr "Játék: %s %d méretûre nõtt."
 
 #: server/cityturn.c:1002
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Famine causes population loss in %s."
-msgstr "Játék: Éhínség van %s-ban."
+msgstr "Játék: Az éhínség miatt %s lakossága csökken."
 
 #: server/cityturn.c:1036
 #, c-format
@@ -849,17 +844,15 @@ msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr ""
 
 #: client/civclient.c:122 server/civserver.c:136
-#, fuzzy
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
-"  -d, --debug NUM\tHibakeresési szint NUM-ra állítása (0,1,2,3,vagy 3:file1,"
+"  -d, --debug NUM\tHibakeresési szint állítása (0-tól 4-ig, vagy 4:file1,"
 "min,max:...)\n"
 
 #: client/civclient.c:125 server/civserver.c:139
-#, fuzzy
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
-msgstr "  -d, --debug NUM\tHibakeresési szint állítás (0,1,2)\n"
+msgstr "  -d, --debug NUM\tHibakeresési szint állítás (0-tól 3-ig)\n"
 
 #: client/civclient.c:127 server/civserver.c:141
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -884,9 +877,9 @@ msgid "For introductory help, type 'help'."
 msgstr "Rövid segítségért írd be, hogy 'help'. "
 
 #: server/diplhand.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have tech %s, you can't accept treaty."
-msgstr "Játék: Nincs itt munkásod."
+msgstr "Játék: Neked nincs meg a %s technológia, ezért nem fogadhatod el a szerzõdést."
 
 #: server/diplhand.c:161
 msgid "City you are trying to give no longer exists, you can't accept treaty."
@@ -903,9 +896,8 @@ msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr ""
 
 #: server/diplhand.c:182
-#, fuzzy
 msgid "Game: You don't have enought gold, you can't accept treaty."
-msgstr "Játék: Vettél ebben a körben, nem cserélheted ki."
+msgstr "Játék: Nincs elég aranyad, nem fogadhatod el a szerzõdést."
 
 #: server/diplhand.c:214 server/diplhand.c:217
 #, c-format
@@ -919,10 +911,9 @@ msgid ""
 msgstr ""
 
 #: server/diplhand.c:247 server/diplhand.c:252
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
-msgstr ""
-"Játék: A %snak nincs meg az ígért mennyiségû aranya! Szerzõdés felbontva!"
+msgstr "Játék: A már nem a %s irányítják a %s-t! Szerzõdés felbontva!"
 
 #: server/diplhand.c:262 server/diplhand.c:266
 #, c-format
@@ -936,9 +927,9 @@ msgid "Game: You are taught the knowledge of %s."
 msgstr "Játék: Megtanították nektek a %s tudományt."
 
 #: server/diplhand.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have aquired %s from the %s."
-msgstr "Játék: A %s megszerezték a %s-t a %s-ból"
+msgstr "Játék: A %s megszerezték a %s-t a %s-ból."
 
 #: server/diplhand.c:307
 #, c-format
@@ -981,14 +972,14 @@ msgid "Game: You agree on an alliance with %s."
 msgstr "Játék: Szövetséget kötsz %s-al."
 
 #: server/diplhand.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You give shared vision to %s."
-msgstr "Játék: Odaadod %s várost %s-nak."
+msgstr "Játék: Közös térképfelfedezést adsz %s-nak."
 
 #: server/diplhand.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s gives you shared vision."
-msgstr "Játék: %s nem érvényes név."
+msgstr "Játék: %s közös térképfelfedezést ad neked."
 
 #: server/diplhand.c:483
 #, c-format
@@ -996,9 +987,9 @@ msgid "Game: %s canceled the meeting!"
 msgstr "Játék: %s megszakította a találkozót!"
 
 #: server/diplhand.c:489
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Meeting with %s canceled."
-msgstr "Játék: Szeretjük A %s-t Nap-ot megszüntették %s-ban."
+msgstr "Játék: A %s-el való találkozó megszakadt."
 
 #: server/diplomats.c:88
 #, c-format
@@ -1062,9 +1053,9 @@ msgid "Game: You can't bribe a unit from this nation."
 msgstr ""
 
 #: server/diplomats.c:430
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
-msgstr "Játék: Egy incidenst okoztál %s %s-nak megvesztegetésekor."
+msgstr "Játék: Nincs elég pénzed, hogy megvesztegesd %s %s-t."
 
 #: server/diplomats.c:447
 #, c-format
@@ -1102,9 +1093,9 @@ msgid "Game: Your %s stole Future Tech. %d from %s."
 msgstr ""
 
 #: server/diplomats.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Future Tech. %d stolen by %s %s from %s."
-msgstr "Játék: %s várost kapod %stól."
+msgstr "Játék: A Jövõbeni Technológia %d-t ellopta a %s %s %s városból."
 
 #: server/diplomats.c:660
 #, c-format
@@ -1130,19 +1121,19 @@ msgid "Game: You can't subvert the capital of a nation."
 msgstr ""
 
 #: server/diplomats.c:755
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have enough gold to subvert %s."
-msgstr "Játék: Nincs itt munkásod."
+msgstr "Játék: Nincs elég aranyad, hogy felbomlaszd %s-t."
 
 #: server/diplomats.c:771
 #, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
-msgstr ""
+msgstr "Játék: Elfogták %s-det miközben zavargást akart kelteni!"
 
 #: server/diplomats.c:775
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
-msgstr "Játék: A %s zavargásokat keltettek!"
+msgstr "Játék: A %s %s-t elfogtad, miközben zavargást akart kelteni %s-ban!"
 
 #: server/diplomats.c:798
 #, c-format
@@ -1160,9 +1151,9 @@ msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
 msgstr ""
 
 #: server/diplomats.c:883
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
-msgstr "Játék: %s-d sikeresen szabotálta %s %s-t."
+msgstr "Játék: Elfogtad a %s %s-t, miközben %s-t akarta szabotálni!"
 
 #: server/diplomats.c:918
 #, c-format
@@ -1195,9 +1186,9 @@ msgid "Game: Your %s was caught in the attempt of sabotage!"
 msgstr ""
 
 #: server/diplomats.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
-msgstr "Játék: %s-d nem tudta szabotálni %s %s-t."
+msgstr "Játék: Elfogtad a %s %s-t, miközben a %s-t akarta szabotálni %s-ban!"
 
 #: server/diplomats.c:1034
 #, c-format
@@ -1282,29 +1273,29 @@ msgid "Couldn't open gamelogfile \"%s\" for appending."
 msgstr "Nem tudtam a játék \"%s\" naplózási file-ját íráshoz megnyitni."
 
 #: server/handchat.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is an ambiguous player name-prefix."
-msgstr "Játék: %s kétértelmû név elõtag."
+msgstr "Játék: %s kétértelmû játékosnév elõtag."
 
 #: server/handchat.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is an ambiguous connection name-prefix."
-msgstr "Játék: %s kétértelmû név elõtag."
+msgstr "Játék: %s kétértelmû kapcsolatnév elõtag."
 
 #: server/handchat.c:259
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is not connected."
-msgstr "%s nincs kapcsolódva"
+msgstr "Játék: %s nincs kapcsolódva."
 
 #: server/handchat.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "Game: There is no connection by the name %s."
-msgstr "Játék: Nincs %s nevû játékos."
+msgstr "Játék: Nincs %s nevû kapcsolat."
 
 #: server/handchat.c:274
-#, fuzzy, c-format
+#, c-format
 msgid "Game: There is no player nor connection by the name %s."
-msgstr "Játék: Nincs %s nevû játékos."
+msgstr "Játék: Sem %s nevû játékos, sem kapcsolat nincs."
 
 #: server/mapgen.c:1110
 msgid "Map generator: not enough start positions, fixing."
@@ -1412,9 +1403,9 @@ msgid "Game: %s acquired from The Great Library!"
 msgstr "Játék: %s megszerezve A Nagy Könyvtárból!"
 
 #: server/plrhand.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have aquired %s from the Great Library."
-msgstr "Játék: A %s megszerezték a %s-t A Nagy Könyvtárból"
+msgstr "Játék: A %s megszerezték a %s-t A Nagy Könyvtárból."
 
 #: server/plrhand.c:189
 #, c-format
@@ -1881,9 +1872,9 @@ msgid "The Greatest Civilizations in the world."
 msgstr "A Legnagyobb Civilizációk a világon."
 
 #: server/ruleset.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find readable ruleset file \"%s\" or \"%s\" in data path."
-msgstr "Nem találtam a \"%s\" olvasható filet az adatok helyén."
+msgstr "Nem találtam sem \"%s\" sem \"%s\" szabályfilet az adatok helyén."
 
 #: server/ruleset.c:130
 #, c-format
@@ -2033,9 +2024,9 @@ msgid ""
 msgstr "Játék: Az ûrhajódon már meg van az összes Napelem-egység!"
 
 #: server/spacerace.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Without guidance from the capital, the %s spaceship is lost!"
-msgstr "Játék: A %s fõvárosának elfoglalásával a %s ûrhajó elveszett!"
+msgstr "Játék: A fõváros irányítása nélkül a %s ûrhajó elveszett!"
 
 #: server/spacerace.c:373
 #, c-format
@@ -2056,8 +2047,7 @@ msgstr ""
 msgid ""
 "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr ""
-"Játék: A %s-val kötött tûzszünet lejárt. Most már semleges a viszonyod %s-"
-"val."
+"Játék: A %s-val kötött tûzszünet lejárt. Most már semleges a viszonyod %s-val."
 
 #: server/srv_main.c:482
 #, c-format
@@ -2096,10 +2086,9 @@ msgid "Please choose a non-blank name."
 msgstr ""
 
 #: server/srv_main.c:926
-#, fuzzy, c-format
+#, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
-msgstr ""
-"Másik '%s' nevû játékos már belépett a játékba. Kérlek válassz másik nevet."
+msgstr "Másik '%s' nevû játékos már belépett a játékba. Kérlek válassz másik nevet."
 
 #: server/srv_main.c:932
 #, c-format
@@ -2112,14 +2101,13 @@ msgid "No nations left: Removing player %s."
 msgstr ""
 
 #: server/srv_main.c:962
-#, fuzzy
 msgid "Game: Sorry, there are no nations left."
-msgstr "Sajnos nem játszhatsz. Nincs több kiválasztható nemzet."
+msgstr "Játék: Sajnos nincs több kiválasztható nemzet."
 
 #: server/srv_main.c:1017
-#, fuzzy, c-format
+#, c-format
 msgid "%s has joined as player %s."
-msgstr "<%s@%s> belépett a játékba."
+msgstr "%s belépett a játékba %s néven."
 
 #: server/srv_main.c:1022
 #, c-format
@@ -2127,14 +2115,14 @@ msgid "Game: Connection %s from %s has joined as player %s."
 msgstr ""
 
 #: server/srv_main.c:1045
-#, fuzzy, c-format
+#, c-format
 msgid "Welcome to the %s Server running at %s port %d."
-msgstr "Üdvözöl a %s kiszolgáló a %s gépen."
+msgstr "Üdvözöl a %s kiszolgáló a %s gépen %d kapun."
 
 #: server/srv_main.c:1048
-#, fuzzy, c-format
+#, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr "Üdvözöl a %s kiszolgáló."
+msgstr "Üdvözöl a %s kiszolgáló a %d kapun."
 
 #: server/srv_main.c:1060
 #, c-format
@@ -2152,9 +2140,9 @@ msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Játék: %s belépett MI irányította játékosként."
 
 #: server/srv_main.c:1192
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid name '%s'"
-msgstr "Nem jó a kiszolgálónév"
+msgstr "Helytelen név '%s'"
 
 #: server/srv_main.c:1194
 #, c-format
@@ -2162,19 +2150,19 @@ msgid "Rejected connection from %s with invalid name."
 msgstr ""
 
 #: server/srv_main.c:1201
-#, fuzzy, c-format
+#, c-format
 msgid "Connection request from %s from %s"
-msgstr "Kapcsolatkérés %s-tól %d.%d.%d%s verziójú ügyféllel."
+msgstr "Kapcsolatkérés %s-tól %s-tól"
 
 #: server/srv_main.c:1205
-#, fuzzy, c-format
+#, c-format
 msgid "Connection request from %s from %s (connection named %s)"
-msgstr "Kapcsolatkérés %s-tól %d.%d.%d%s verziójú ügyféllel."
+msgstr "Kapcsolatkérés %s-tól %s-tól (%s nevû kapcsolat)"
 
 #: server/srv_main.c:1209
-#, fuzzy, c-format
+#, c-format
 msgid "%s has client version %d.%d.%d%s"
-msgstr "Kapcsolatkérés %s-tól %d.%d.%d%s verziójú ügyféllel."
+msgstr "%s-nak %d.%d.%d%s verziójú ügyfele van"
 
 #: server/srv_main.c:1219
 #, c-format
@@ -2188,10 +2176,9 @@ msgstr ""
 "valószínûleg segítene!"
 
 #: server/srv_main.c:1226 server/srv_main.c:1242
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Mismatched capabilities."
-msgstr ""
-"%st visszautasítottam, mert az ügyfelének nincsenek megfelelõ képességei."
+msgstr "%s visszautasítva: Nem megfelelõ képességek."
 
 #: server/srv_main.c:1235
 #, c-format
@@ -2204,25 +2191,22 @@ msgstr ""
 "valószínûleg segítene!"
 
 #: server/srv_main.c:1252
-#, fuzzy
 msgid "Sorry, no observation of barbarians in this game."
-msgstr "Barbárokat nem lehet vezetni - %s visszautasítva."
+msgstr "Sajnos barbárokat nem lehet megfigyelni ebben a játékban."
 
 #: server/srv_main.c:1255
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: No observation of barbarians."
-msgstr "Barbárokat nem lehet vezetni - %s visszautasítva."
+msgstr "%s visszautasítva: Barbárokat nem lehet megfigyelni."
 
 #: server/srv_main.c:1262
-#, fuzzy
 msgid "Sorry, no observation of dead players in this game."
-msgstr "Ezt a játékot nem jelentem a metakiszolgálónak."
+msgstr "Sajnos az elpusztult civilizációkat nem lehet megfigyelni ebben a játékban."
 
 #: server/srv_main.c:1265
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: No observation of dead players."
-msgstr ""
-"%st visszautasítottam, mert az ügyfelének nincsenek megfelelõ képességei."
+msgstr "%s visszautasítva: Elpusztult civilizációkat nem lehet megfigyelni."
 
 #: server/srv_main.c:1272
 msgid "Sorry, no observation of AI players in this game."
@@ -2234,73 +2218,69 @@ msgid "%s was rejected: No observation of AI players."
 msgstr ""
 
 #: server/srv_main.c:1282
-#, fuzzy
 msgid "Sorry, no reconnections to human-mode players in this game."
-msgstr "Ezt a játékot nem jelentem a metakiszolgálónak."
+msgstr "Sajnos ebben a játékban az ember irányította játékosokhoz nem lehet újra csatlakozni."
 
 #: server/srv_main.c:1285
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: No reconnection to human players."
-msgstr "Megszakítja a játékossal a kapcsolatot."
+msgstr "%s visszautasítva: Ember irányította játékosokhoz nem lehet újra csatlakozni."
 
 #: server/srv_main.c:1304
 msgid "Sorry, someone else already has that name."
 msgstr "Sajnálom, de ezt a nevet már valaki használja."
 
 #: server/srv_main.c:1306
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Name %s already used."
-msgstr "%st visszautasítottam, a neve már foglalt."
+msgstr "%s visszautasítva: %s név már foglalt."
 
 #: server/srv_main.c:1313
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, %s is already connected."
-msgstr "Sajnálom, %s nincs bekapcsolódva."
+msgstr "Sajnálom, %s már bekapcsolódott."
 
 #: server/srv_main.c:1316
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: %s already connected."
-msgstr "%st visszautasítottam, a neve már foglalt."
+msgstr "%s visszautasítva: %s már bekapcsolódott."
 
 #: server/srv_main.c:1347
-#, fuzzy
 msgid "Sorry, the game is already running."
-msgstr "A játék már fut."
+msgstr "Sajnos a játék már fut."
 
 #: server/srv_main.c:1348
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Game running and unknown name %s."
-msgstr "%st visszautasítottam, a neve már foglalt."
+msgstr "%s visszautasítva: A játék már fut és %s név nem ismert."
 
 #: server/srv_main.c:1356
-#, fuzzy
 msgid "Sorry, the game is full."
-msgstr "Sajnálom, nem léphetsz be.  A játék tele van."
+msgstr "Sajnálom, a játék tele van."
 
 #: server/srv_main.c:1357
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Maximum number of players reached."
-msgstr "%st visszautasítottam, a neve már foglalt."
+msgstr "%s visszautasítva: Több játékos már nem csatlakozhat."
 
 #: server/srv_main.c:1365
-#, fuzzy
 msgid "Sorry, no new players allowed in this game."
-msgstr "Sajnálom, de ezt a nevet már valaki használja."
+msgstr "Sajnálom, új játékosok nem léphetnek be ebbe a játékba."
 
 #: server/srv_main.c:1366
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: No connections as new player."
-msgstr "%st visszautasítottam, a neve már foglalt."
+msgstr "%s visszautasítva: Új játékosok nem csatlakozhatnak."
 
 #: server/srv_main.c:1388
-#, fuzzy, c-format
+#, c-format
 msgid "Lost connection: %s."
-msgstr "%s-al elveszett a kapcsolat."
+msgstr "Elveszett a kapcsolat: %s."
 
 #: server/srv_main.c:1396
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Lost connection: %s."
-msgstr "Játék: %s-al elveszett a kapcsolat."
+msgstr "Játék: Elveszett a kapcsolat: %s."
 
 #: server/srv_main.c:1480
 #, c-format
@@ -2811,9 +2791,8 @@ msgid ""
 msgstr ""
 
 #: server/stdinhand.c:581
-#, fuzzy
 msgid "What connections are allowed"
-msgstr "Metakiszolgáló kapcsolat már zárva van."
+msgstr "Milyen kapcsolatok engedélyezettek"
 
 #: server/stdinhand.c:582
 msgid ""
@@ -3047,14 +3026,12 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:919
-#, fuzzy
 msgid "cut <connection-name>"
-msgstr "Megszakítja a játékossal a kapcsolatot."
+msgstr "cut <kapcsolatnév>"
 
 #: server/stdinhand.c:920
-#, fuzzy
 msgid "Cut a client's connection to server."
-msgstr "Kapcsolat megszakítása %s-al."
+msgstr "Megszakítja az ügyfél kapcsolatát a kiszolgálóval."
 
 #: server/stdinhand.c:921
 msgid ""
@@ -3267,9 +3244,8 @@ msgid ""
 msgstr ""
 
 #: server/stdinhand.c:1049
-#, fuzzy
 msgid "Grab the 'first come' command access level."
-msgstr "Játék: Az elsõ kapcsolatok hozzáférési szintje '%s' lesz."
+msgstr "Kapd meg az 'elsõnek érkezett' elérési szintet."
 
 #: server/stdinhand.c:1050
 msgid ""
@@ -3302,11 +3278,12 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1069
-#, fuzzy
 msgid ""
 "save\n"
 "save <file-name>"
-msgstr "save <filenév>"
+msgstr ""
+"save\n"
+"save <file-név>"
 
 #: server/stdinhand.c:1071
 msgid "Save game to file."
@@ -3434,9 +3411,9 @@ msgid "Connection name prefix '%s' is ambiguous."
 msgstr ""
 
 #: server/stdinhand.c:1350
-#, fuzzy, c-format
+#, c-format
 msgid "No connection by the name of '%s'."
-msgstr "%s-al elveszett a kapcsolat."
+msgstr "Nincs '%s' nevû kapcsolat."
 
 #: server/stdinhand.c:1369
 #, c-format
@@ -3548,9 +3525,9 @@ msgid "A player already exists by that name."
 msgstr ""
 
 #: server/stdinhand.c:1642
-#, fuzzy, c-format
+#, c-format
 msgid "Error creating new AI player: %s."
-msgstr "Hiba %s MI játékos létrehozásakor.\n"
+msgstr "Hiba MI játékos létrehozásakor: %s."
 
 #: server/stdinhand.c:1649
 #, c-format
@@ -3630,14 +3607,14 @@ msgid "Command access levels in effect:"
 msgstr ""
 
 #: server/stdinhand.c:1989
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level for new connections: %s"
-msgstr "Parancsszint az új kapcsolatokhoz: %s"
+msgstr "Parancselérési szint az új kapcsolatokhoz: %s"
 
 #: server/stdinhand.c:1992
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level for first player to take it: %s"
-msgstr "Parancsszint az elsõ kapcsolatokhoz: %s"
+msgstr "Parancselérési szint az elsõ játékosnak aki elveszi: %s"
 
 #: server/stdinhand.c:2001
 msgid ""
@@ -3651,14 +3628,14 @@ msgid ""
 msgstr ""
 
 #: server/stdinhand.c:2028 server/stdinhand.c:2083
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level set to '%s' for connection %s."
-msgstr "Parancsszint az elsõ kapcsolatokhoz: %s"
+msgstr "A %s kapcsolat parancselérési szintje '%s'-re állítva."
 
 #: server/stdinhand.c:2032 server/stdinhand.c:2087
-#, fuzzy, c-format
+#, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
-msgstr "Parancsszint az új kapcsolatokhoz: %s"
+msgstr "A %s kapcsolat parancselérési szintjét nem lehet '%s'-re állítani."
 
 #: server/stdinhand.c:2041 server/stdinhand.c:2055
 #, c-format
@@ -3681,14 +3658,14 @@ msgid "Game: New connections will have access level '%s'."
 msgstr ""
 
 #: server/stdinhand.c:2069
-#, fuzzy, c-format
+#, c-format
 msgid "'First come' command access level set to '%s'."
-msgstr "Játék: Az elsõ kapcsolatok hozzáférési szintje '%s' lesz."
+msgstr "Az 'elsõnek érkezett' parancselérési szint '%s'-re állítva."
 
 #: server/stdinhand.c:2071
-#, fuzzy, c-format
+#, c-format
 msgid "Game: 'First come' command access level set to '%s'."
-msgstr "Játék: Az elsõ kapcsolatok hozzáférési szintje '%s' lesz."
+msgstr "Játék: Az 'elsõnek érkezett' parancselérési szint '%s'-re állítva."
 
 #: server/stdinhand.c:2076
 #, c-format
@@ -3715,9 +3692,9 @@ msgid "Your command access level has been increased to '%s'."
 msgstr ""
 
 #: server/stdinhand.c:2121
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Connection '%s' has grabbed 'first come' access level, '%s'."
-msgstr "Játék: Az elsõ kapcsolatok hozzáférési szintje '%s' lesz."
+msgstr "Játék: A '%s' kapcsolat megkapta a '%s', ún. 'elsõnek érkezett' elérési szintet."
 
 #: server/stdinhand.c:2159 server/stdinhand.c:2162
 msgid "Option:"
@@ -3900,18 +3877,17 @@ msgid "Cannot start the game: it is already running."
 msgstr ""
 
 #: server/stdinhand.c:2789
-#, fuzzy
 msgid "Cannot end the game: no game running."
-msgstr "A játék már fut."
+msgstr "Nem tudom bezárni a játékot: nincs futó játék."
 
 #: server/stdinhand.c:2817
-#, fuzzy, c-format
+#, c-format
 msgid "Cutting connection %s."
-msgstr "Kapcsolat megszakítása %s-al."
+msgstr "%s kapcsolat megszakítása."
 
 #: server/stdinhand.c:2830
 msgid "Goodbye."
-msgstr ""
+msgstr "A viszont látásra!"
 
 #: server/stdinhand.c:2845
 msgid ""
@@ -3980,18 +3956,16 @@ msgid "username %s, "
 msgstr ""
 
 #: data/nation/barbarian.ruleset:3 server/stdinhand.c:3121
-#, fuzzy
 msgid "Barbarian"
-msgstr "bajor"
+msgstr "barbár"
 
 #: server/stdinhand.c:3123
 msgid "AI"
-msgstr ""
+msgstr "MI"
 
 #: server/stdinhand.c:3125
-#, fuzzy
 msgid "Human"
-msgstr "Római"
+msgstr "ember"
 
 #: server/stdinhand.c:3128
 msgid ", Dead"
@@ -4003,19 +3977,18 @@ msgid ", difficulty level %s"
 msgstr ""
 
 #: server/stdinhand.c:3135
-#, fuzzy, c-format
+#, c-format
 msgid ", nation %s"
-msgstr " tonna"
+msgstr ", %s nemzet"
 
 #: server/stdinhand.c:3142
-#, fuzzy
 msgid " 1 connection:"
-msgstr "Kapcsolódás"
+msgstr " 1 kapcsolat:"
 
 #: server/stdinhand.c:3144
-#, fuzzy, c-format
+#, c-format
 msgid " %d connections:"
-msgstr "%s-al elveszett a kapcsolat."
+msgstr " %d kapcsolat:"
 
 #: server/stdinhand.c:3150
 #, c-format
@@ -4023,19 +3996,16 @@ msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr ""
 
 #: server/stdinhand.c:3155
-#, fuzzy
 msgid " (observer mode)"
-msgstr " (MI mód)"
+msgstr " (megfigyelõ mód)"
 
 #: server/stdinhand.c:3172
-#, fuzzy
 msgid "List of connections to server:"
-msgstr "A kiszolgálóval elveszett a kapcsolat!"
+msgstr "A kiszolgáló kapcsolatainak listája:"
 
 #: server/stdinhand.c:3176
-#, fuzzy
 msgid "<no connections>"
-msgstr "%s-al elveszett a kapcsolat."
+msgstr "<nincsenek kapcsolatok>"
 
 #: server/unithand.c:144 server/unithand.c:195
 #, c-format
@@ -4071,14 +4041,14 @@ msgid "Game: Only %s can build or add to a city."
 msgstr ""
 
 #: server/unithand.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s unit has no moves left to add to %s."
-msgstr "Játék: Ennek az egységnek nincs elég lépése hátra."
+msgstr "Játék: %s egységnek nincs elég lépése hátra, amit %s-hez lehetne adni."
 
 #: server/unithand.c:437
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s unit has no moves left to build city."
-msgstr "Játék: Ennek az egységnek nincs elég lépése hátra."
+msgstr "Játék: %s egységnek nincs elég lépése hátra, hogy várost építsen."
 
 #: server/unithand.c:453
 #, c-format
@@ -4299,14 +4269,14 @@ msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr ""
 
 #: server/unittools.c:1300
-#, fuzzy, c-format
+#, c-format
 msgid " at %s"
-msgstr "Státusz: %s"
+msgstr " %s-n"
 
 #: server/unittools.c:1302
-#, fuzzy, c-format
+#, c-format
 msgid " in %s"
-msgstr "%s most %s."
+msgstr " %s-ben"
 
 #: server/unittools.c:1309
 #, c-format
@@ -4314,9 +4284,9 @@ msgid " outside %s"
 msgstr ""
 
 #: server/unittools.c:1312
-#, fuzzy, c-format
+#, c-format
 msgid " near %s"
-msgstr "Év: %s"
+msgstr " közel %s-hoz"
 
 #: server/unittools.c:1500
 #, c-format
@@ -4329,9 +4299,9 @@ msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr ""
 
 #: server/unittools.c:1903
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s lost when %s was lost."
-msgstr "Játék: %s irányítja a %s-t %s államformában."
+msgstr "Játék: %s elveszett, amikor %s elveszett."
 
 #: server/unittools.c:1955
 #, c-format
@@ -4339,19 +4309,19 @@ msgid "Game: Barbarian leader captured, %d gold ransom paid."
 msgstr ""
 
 #: server/unittools.c:1975
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s lost to an attack by %s's %s%s."
-msgstr "Játék: %s-d nem tudta szabotálni %s %s-t."
+msgstr "Játék: %s leveszett %s %s%s-jának támadása során."
 
 #: server/unittools.c:2005
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You lost %d units to an attack from %s's %s%s."
-msgstr "Játék: Csak %s támadhatnak tengerrõl."
+msgstr "Játék: %d egységed elveszett %s %s%s-jának támadása során."
 
 #: server/unittools.c:2017
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s lost to an attack from %s's %s."
-msgstr "Játék: Csak %s támadhatnak tengerrõl."
+msgstr "Játék: %s elveszett %s %s-járól való támadás során."
 
 #: server/unittools.c:2263
 #, c-format
@@ -4401,7 +4371,7 @@ msgid "Game: You gain knowledge about %s."
 msgstr "Játék: Megtanultad %s-t."
 
 #: server/unittools.c:2388
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have aquired %s from ancient scrolls of wisdom."
 msgstr "Játék: A %s megszerezték a %s-t õsi tekercsekbõl."
 
@@ -4423,9 +4393,9 @@ msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Játék: Elszabadítottál egy barbár hordát!"
 
 #: server/unittools.c:2443
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s has been killed by barbarians!"
-msgstr "Játék: Barbárok megölék az egységedet."
+msgstr "Játék: Barbárok megölék a %s egységedet!"
 
 #: server/unittools.c:2461
 msgid "Game: Friendly nomads are impressed by you, and join you."
@@ -4542,9 +4512,8 @@ msgid "Economy: Gold, Luxuries, Science"
 msgstr "Gazdaság: Arany, Luxus, Tudomány"
 
 #: client/cityrepdata.c:215
-#, fuzzy
 msgid "n"
-msgstr "."
+msgstr ""
 
 #: client/cityrepdata.c:215
 msgid "T"
@@ -4627,46 +4596,42 @@ msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02dp %02dmp"
 
 #: client/climisc.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "?hrs/mns:%02dh %02dm"
-msgstr "?hrs/mns/scs:%02dó %02dp %02dmp"
+msgstr "?hrs/mns:%02dó %02dp"
 
 #: client/climisc.c:340
-#, fuzzy, c-format
+#, c-format
 msgid "?dys/hrs:%02dd %02dh"
-msgstr "?dys/hrs/mns:%02dn %02dó %02dp"
+msgstr "?dys/hrs:%02dn %02dó"
 
 #: client/climisc.c:343
 msgid "?duration:overflow"
 msgstr "?duration:túlcsordulás"
 
 #: client/climisc.c:353
-#, fuzzy
 msgid "?embassy:Both"
-msgstr "Követség"
+msgstr "?embassy:Mindkettõ"
 
 #: client/climisc.c:355
-#, fuzzy
 msgid "?embassy:Yes"
-msgstr "Követség"
+msgstr "?embassy:Igen"
 
 #: client/climisc.c:357
 msgid "?embassy:With Us"
 msgstr ""
 
 #: client/climisc.c:369
-#, fuzzy
 msgid "?vision:Both"
-msgstr "Látóhatár:"
+msgstr "?vision:Mindkettõ"
 
 #: client/climisc.c:371
 msgid "?vision:To Them"
-msgstr ""
+msgstr "?vision:Hozzájuk"
 
 #: client/climisc.c:373
-#, fuzzy
 msgid "?vision:To Us"
-msgstr "Látóhatár:"
+msgstr "?vision:Hozzánk"
 
 #: client/climisc.c:388 client/climisc.c:395
 #, c-format
@@ -4674,9 +4639,9 @@ msgid "The %s give %s"
 msgstr "%s ad %s-t"
 
 #: client/climisc.c:399
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give unknown city."
-msgstr "%s ad %s-t"
+msgstr "A %s ismeretlen várost adtak."
 
 #: client/climisc.c:404
 #, c-format
@@ -4706,9 +4671,9 @@ msgid "The parties create an alliance"
 msgstr ""
 
 #: client/climisc.c:426
-#, fuzzy, c-format
+#, c-format
 msgid "The %s gives shared vision"
-msgstr "%s ad %d aranyat"
+msgstr "A %s közös térképfelfedezést ad"
 
 #: client/clinet.c:101
 msgid "Lost connection to server!"
@@ -4735,12 +4700,10 @@ msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr ""
 
 #: client/control.c:519
-#, fuzzy
 msgid "Game: Only transporter units can be unloaded."
-msgstr "Játék: Csak ejtõernyõs egységet tehetik ezt."
+msgstr "Játék: Csak szállító egységeket lehet kirakodni."
 
 #: client/control.c:761
-#, fuzzy
 msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
@@ -4801,11 +4764,11 @@ msgid "Allows a city to grow larger than size %d.  "
 msgstr "Lehetõvé teszi a városméret %d fölé növekedését.  "
 
 #: client/helpdata.c:514
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(The %s improvement is also required for a city to grow larger than size %"
 "d.)  "
-msgstr "(Egy%s %s is szükséges, hogy a város %d-nél nagyobbra nõjön.)"
+msgstr "(A(z) %s fejlesztés is szükséges, hogy a város %d-nél nagyobbra nõjön.)"
 
 #: client/helpdata.c:530
 #, c-format
@@ -5102,9 +5065,8 @@ msgid "Center map when Popup city"
 msgstr ""
 
 #: client/options.c:68
-#, fuzzy
 msgid "Concise City Production"
-msgstr "Város termelése"
+msgstr ""
 
 #: client/options.c:69
 msgid "End Turn when done moving"
@@ -5115,210 +5077,172 @@ msgid "Low Funds"
 msgstr ""
 
 #: client/options.c:121
-#, fuzzy
 msgid "Global Eco-Disaster"
-msgstr "Globális gazd. katasztr. "
+msgstr "Globális gazd. katasztr."
 
 #: client/options.c:122
-#, fuzzy
 msgid "Civil Disorder"
 msgstr "Zavargás"
 
 #: client/options.c:123
-#, fuzzy
 msgid "City Celebrating"
-msgstr "Ünneplõ város            "
+msgstr "Ünneplõ város   "
 
 #: client/options.c:124
-#, fuzzy
 msgid "City Normal"
-msgstr "Városnév"
+msgstr ""
 
 #: client/options.c:125
-#, fuzzy
 msgid "City Growth"
-msgstr "Városinfók"
+msgstr "Város növekedése"
 
 #: client/options.c:126
-#, fuzzy
 msgid "City Needs Aqueduct"
-msgstr "Akvedukt igény városban  "
+msgstr "Vízvezeték kell a városnak"
 
 #: client/options.c:127
-#, fuzzy
 msgid "Famine in City"
-msgstr "Éhség városban           "
+msgstr "Éhség a városban"
 
 #: client/options.c:128
-#, fuzzy
 msgid "City Captured/Destroyed"
-msgstr "Város elfoglalva/pusztitva "
+msgstr "Város elfoglalva/pusztitva"
 
 #: client/options.c:129
 msgid "Building Unavailable Item"
 msgstr "Nemlétezõ dolog építése  "
 
 #: client/options.c:130
-#, fuzzy
 msgid "Wonder Started"
-msgstr "Csodaépítés kezdete      "
+msgstr "Csodaépítés kezdete"
 
 #: client/options.c:131
-#, fuzzy
 msgid "Wonder Finished"
-msgstr "Csodaépítés vége         "
+msgstr "Csodaépítés vége"
 
 #: client/options.c:132
-#, fuzzy
 msgid "Improvement Built"
-msgstr "Építmény megépítve       "
+msgstr "Építmény megépítve"
 
 #: client/options.c:133
-#, fuzzy
 msgid "New Improvement Selected"
-msgstr "Új építmény választva    "
+msgstr "Új építmény választva   "
 
 #: client/options.c:134
-#, fuzzy
 msgid "Forced Improvement Sale"
-msgstr "Kötelezõ építményeladás  "
+msgstr "Kötelezõ építményeladás"
 
 #: client/options.c:135
-#, fuzzy
 msgid "Production Upgraded"
-msgstr "Termelés fejlesztve      "
+msgstr "Termelés fejlesztve"
 
 #: client/options.c:136
-#, fuzzy
 msgid "Unit Built"
-msgstr "Egység lista"
+msgstr "Egység megépült"
 
 #: client/options.c:137
-#, fuzzy
 msgid "Unit Defender Destroyed"
 msgstr "Védelmi egység pusztulása"
 
 #: client/options.c:138
-#, fuzzy
 msgid "Unit Defender Survived"
-msgstr "Védelmi egység túlélése  "
+msgstr "Védelmi egység túlélése"
 
 #: client/options.c:139
-#, fuzzy
 msgid "Collapse to Anarchy"
-msgstr "Anarchiába zuhanás       "
+msgstr "Anarchiába zuhanás "
 
 #: client/options.c:140
-#, fuzzy
 msgid "Diplomat Actions - Enemy"
 msgstr "Diplomatatev. - Ellenséges"
 
 #: client/options.c:141
-#, fuzzy
 msgid "Tech from Great Library"
 msgstr "Tech. szerezve Nagy Könyvtárból"
 
 #: client/options.c:142
-#, fuzzy
 msgid "Player Destroyed"
-msgstr "Játékos megsemmisülve    "
+msgstr "Játékos megsemmisülve"
 
 #: client/options.c:143
-#, fuzzy
 msgid "Improvement Bought"
-msgstr "Építmény megvéve         "
+msgstr "Építmény megvéve  "
 
 #: client/options.c:144
-#, fuzzy
 msgid "Improvement Sold"
-msgstr "Épületek"
+msgstr "Épület eladva   "
 
 #: client/options.c:145
-#, fuzzy
 msgid "Unit Bought"
-msgstr "Egység megvéve           "
+msgstr "Egység megvéve"
 
 #: client/options.c:146
-#, fuzzy
 msgid "Wonder Stopped"
-msgstr "Csodaépítés leállása     "
+msgstr "Csodaépítés leállása"
 
 #: client/options.c:147
 msgid "City Needs Aq Being Built"
-msgstr "Városnak akvedukt kell (épül)"
+msgstr "Városnak vízvezeték kell (épül)"
 
 #: client/options.c:148
-#, fuzzy
 msgid "Diplomat Actions - Own"
-msgstr "Diplomatatev. - Saját    "
+msgstr "Diplomatatev. - Saját "
 
 #: client/options.c:149
-#, fuzzy
 msgid "Unit Attack Failed"
 msgstr "Egység támadása sikertelen"
 
 #: client/options.c:150
-#, fuzzy
 msgid "Unit Attack Succeeded"
-msgstr "Egység támadása sikeres  "
+msgstr "Egység támadása sikeres"
 
 #: client/options.c:151
 msgid "Suggest Growth Throttling"
 msgstr "Méretnöv. gyorsítás ajánlása"
 
 #: client/options.c:152
-#, fuzzy
 msgid "Spaceship Events"
-msgstr "Ûrhajó események         "
+msgstr "Ûrhajó események"
 
 #: client/options.c:153
-#, fuzzy
 msgid "Barbarian Uprising"
-msgstr "Barbár Vezetõ"
+msgstr "Barbár felkelés"
 
 #: client/options.c:154
-#, fuzzy
 msgid "Worklist Events"
-msgstr "Munkaterv események      "
+msgstr "Munkaterv események"
 
 #: client/options.c:155
-#, fuzzy
 msgid "Pact Cancelled"
-msgstr "Egyezmény felbontva      "
+msgstr "Egyezmény felbontva"
 
 #: client/options.c:156
-#, fuzzy
 msgid "Diplomatic Incident"
-msgstr "Diplomáciai incidens     "
+msgstr "Diplomáciai incidens"
 
 #: client/options.c:157
-#, fuzzy
 msgid "First Contact"
-msgstr "Nincs kapcsolat"
+msgstr "Elsõ kapcsolat"
 
 #: client/options.c:158
-#, fuzzy
 msgid "City May Soon Grow"
-msgstr "Város hamar. növekedhet  "
+msgstr "Város hamar. növekedhet"
 
 #: client/options.c:159
-#, fuzzy
 msgid "Wonder Made Obsolete"
-msgstr "Elavult egységek fejlesztése"
+msgstr "Csoda elavult"
 
 #: client/options.c:160
-#, fuzzy
 msgid "Famine Feared in City"
-msgstr "Játék: Éhínség van %s-ban."
+msgstr "Éhínség veszélye a városban"
 
 #: client/options.c:161
 msgid "Wonder Will Be Finished Next Turn"
 msgstr ""
 
 #: client/options.c:162
-#, fuzzy
 msgid "Learned New Government"
-msgstr "Válaszd ki az új államformát"
+msgstr "Új államforma választható"
 
 #: client/options.c:226
 msgid "Cannot find your home directory"
@@ -5956,7 +5880,6 @@ msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Játék: %s ára %d arany, de neked csak %d aranyad van."
 
 #: client/gui-gtk/cityrep.c:1294 data/Freeciv:1666
-#, fuzzy
 msgid "Configure Cities Report"
 msgstr "Városinfó ablak konfigurálása"
 
@@ -6787,9 +6710,9 @@ msgid "Terrain: %s"
 msgstr "Táj: %s"
 
 #: client/gui-gtk/mapctrl.c:120 client/gui-xaw/mapctrl.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Food/Prod/Trade: %s"
-msgstr "Élm/Erdm/Keresk:"
+msgstr "Élm/Term/Keresk: %s"
 
 #: client/gui-gtk/mapctrl.c:129 client/gui-mui/mapclass.c:136
 #: client/gui-xaw/mapctrl.c:126
@@ -6876,48 +6799,39 @@ msgid "Game"
 msgstr "Játék"
 
 #: client/gui-gtk/menu.c:547
-#, fuzzy
 msgid "_Local Options"
-msgstr "Lokális Opciók"
+msgstr "_Lokális Opciók"
 
 #: client/gui-gtk/menu.c:549
-#, fuzzy
 msgid "Messa_ge Options"
 msgstr "Üzenet Opciók"
 
 #: client/gui-gtk/menu.c:551
-#, fuzzy
 msgid "_Save Settings"
-msgstr "Beállítások Mentése"
+msgstr "Beállítások Menté_se"
 
 #: client/gui-gtk/menu.c:555
-#, fuzzy
 msgid "Server Opt _initial"
-msgstr "Kiszolg Opc. Kezdeti"
+msgstr "K_iszolg Opc. Kezdeti"
 
 #: client/gui-gtk/menu.c:557
-#, fuzzy
 msgid "Server Opt _ongoing"
-msgstr "Kiszolg Opc. Menetközben"
+msgstr "Kisz_olg Opc. Menetközben"
 
 #: client/gui-gtk/menu.c:561
-#, fuzzy
 msgid "_Export Log"
-msgstr "Log exportálás"
+msgstr "Log _exportálás"
 
 #: client/gui-gtk/menu.c:563
-#, fuzzy
 msgid "_Clear Log"
 msgstr "Log törlés"
 
 #: client/gui-gtk/menu.c:567 client/gui-mui/dialogs.c:1779
-#, fuzzy
 msgid "_Disconnect"
 msgstr "Szétkapcsolás"
 
 #: client/gui-gtk/menu.c:569 client/gui-mui/connectdlg.c:220
 #: client/gui-mui/dialogs.c:1780
-#, fuzzy
 msgid "_Quit"
 msgstr "Kilép"
 
@@ -6945,9 +6859,8 @@ msgid "Work_lists"
 msgstr "Munkatervek"
 
 #: client/gui-gtk/menu.c:586
-#, fuzzy
 msgid "_Revolution"
-msgstr "Forradalom"
+msgstr "Fo_rradalom"
 
 #: client/gui-gtk/menu.c:589
 msgid "_View"
@@ -6968,17 +6881,14 @@ msgid "View"
 msgstr "Látvány"
 
 #: client/gui-gtk/menu.c:593
-#, fuzzy
 msgid "Map _Grid"
 msgstr "Térképbeosztás"
 
 #: client/gui-gtk/menu.c:595
-#, fuzzy
 msgid "City _Names"
-msgstr "Városnevek"
+msgstr "Város_nevek"
 
 #: client/gui-gtk/menu.c:597
-#, fuzzy
 msgid "City _Productions"
 msgstr "Városok termelése"
 
@@ -6989,9 +6899,8 @@ msgstr "Terep"
 
 #: client/gui-gtk/menu.c:603 client/gui-mui/gui_main.c:259
 #: client/gui-xaw/menu.c:134
-#, fuzzy
 msgid "Coastline"
-msgstr "Csevegés"
+msgstr "Partvonal"
 
 #: client/gui-gtk/menu.c:605 client/gui-gtk/menu.c:607
 #: client/gui-gtk/menu.c:609 client/gui-gtk/menu.c:611
@@ -7006,26 +6915,22 @@ msgstr ""
 
 #: client/gui-gtk/menu.c:613 client/gui-mui/gui_main.c:263
 #: client/gui-xaw/menu.c:137
-#, fuzzy
 msgid "Mines"
-msgstr "Bánya"
+msgstr "Bányák"
 
 #: client/gui-gtk/menu.c:615 client/gui-mui/gui_main.c:264
-#, fuzzy
 msgid "Fortress & Airbase"
-msgstr "Erõd"
+msgstr "Erõd és Légibázis"
 
 #: client/gui-gtk/menu.c:617 client/gui-mui/gui_main.c:265
 #: client/gui-xaw/menu.c:139
-#, fuzzy
 msgid "Specials"
-msgstr "Speciális"
+msgstr "Speciálisok"
 
 #: client/gui-gtk/menu.c:619 client/gui-mui/gui_main.c:266
 #: client/gui-xaw/menu.c:140
-#, fuzzy
 msgid "Pollution & Fallout"
-msgstr "Szennyezés"
+msgstr "Szennyezés & Katasztrófa"
 
 #: client/gui-gtk/menu.c:623 client/gui-gtk/repodlgs.c:863
 #: client/gui-gtk/repodlgs.c:865 client/gui-gtk/repodlgs.c:1035
@@ -7047,7 +6952,6 @@ msgid "Fog of War"
 msgstr ""
 
 #: client/gui-gtk/menu.c:631
-#, fuzzy
 msgid "_Center View"
 msgstr "Kép középre hoz"
 
@@ -7076,43 +6980,35 @@ msgstr "Parancsok"
 
 #: client/gui-gtk/menu.c:638 client/gui-gtk/menu.c:1078
 #: client/gui-gtk/menu.c:1081
-#, fuzzy
 msgid "_Build City"
 msgstr "Várost Épít"
 
 #: client/gui-gtk/menu.c:640 client/gui-gtk/menu.c:1091
 #: client/gui-gtk/menu.c:1097
-#, fuzzy
 msgid "Build _Road"
 msgstr "Utat Épít"
 
 #: client/gui-gtk/menu.c:642 client/gui-gtk/menu.c:1016
-#, fuzzy
 msgid "Build _Irrigation"
 msgstr "Öntözõrendszert Épít"
 
 #: client/gui-gtk/menu.c:644 client/gui-gtk/menu.c:1017
-#, fuzzy
 msgid "Build _Mine"
 msgstr "Bányát Épít"
 
 #: client/gui-gtk/menu.c:646 client/gui-gtk/menu.c:1018
-#, fuzzy
 msgid "Transf_orm Terrain"
 msgstr "Tájat Átalakít"
 
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:1129
-#, fuzzy
 msgid "Build _Fortress"
 msgstr "Erõdöt Épít"
 
 #: client/gui-gtk/menu.c:650
-#, fuzzy
 msgid "Build Airbas_e"
 msgstr "Légibázist épít"
 
 #: client/gui-gtk/menu.c:652 client/gui-gtk/menu.c:1134
-#, fuzzy
 msgid "Clean _Pollution"
 msgstr "Szennyezést Feltakarít"
 
@@ -7121,37 +7017,30 @@ msgid "Clean _Nuclear Fallout"
 msgstr ""
 
 #: client/gui-gtk/menu.c:658
-#, fuzzy
 msgid "_Sentry"
 msgstr "Õrjáratozik"
 
 #: client/gui-gtk/menu.c:664
-#, fuzzy
 msgid "Make _Homecity"
 msgstr "Ellátó Várost Kijelöl"
 
 #: client/gui-gtk/menu.c:666
-#, fuzzy
 msgid "_Unload"
 msgstr "Kirakodik"
 
 #: client/gui-gtk/menu.c:668
-#, fuzzy
 msgid "Wake up o_thers"
 msgstr "Felkelti a többieket"
 
 #: client/gui-gtk/menu.c:672 client/gui-gtk/menu.c:1139
-#, fuzzy
 msgid "_Auto Settler"
-msgstr "Automata Telepes"
+msgstr "_Automata Telepes"
 
 #: client/gui-gtk/menu.c:674
-#, fuzzy
 msgid "Auto E_xplore"
-msgstr "Automata Felfedezés"
+msgstr "Automata F_elfedezés"
 
 #: client/gui-gtk/menu.c:676 client/gui-mui/connectdlg.c:219
-#, fuzzy
 msgid "_Connect"
 msgstr "Kapcsolódik"
 
@@ -7160,7 +7049,6 @@ msgid "Patrol (_Q)"
 msgstr ""
 
 #: client/gui-gtk/menu.c:680
-#, fuzzy
 msgid "_Go to"
 msgstr "Menj..."
 
@@ -7174,9 +7062,8 @@ msgid "Disband Unit"
 msgstr "Egységet Feloszlat"
 
 #: client/gui-gtk/menu.c:688
-#, fuzzy
 msgid "Diplomat|Spy Actions"
-msgstr "Diplomatatev. - Ellenséges"
+msgstr "Diplomata|Kém tevékenység"
 
 #: client/gui-gtk/menu.c:690 client/gui-mui/gui_main.c:306
 #: client/gui-mui/mapclass.c:1833 client/gui-xaw/menu.c:188
@@ -7184,7 +7071,6 @@ msgid "Explode Nuclear"
 msgstr "Atomrobbantás"
 
 #: client/gui-gtk/menu.c:694
-#, fuzzy
 msgid "_Wait"
 msgstr "Várakozik"
 
@@ -7202,54 +7088,44 @@ msgid "Reports"
 msgstr "Infók"
 
 #: client/gui-gtk/menu.c:703
-#, fuzzy
 msgid "_Cities"
 msgstr "Városok"
 
 #: client/gui-gtk/menu.c:705 client/gui-gtk/menu.c:744
-#, fuzzy
 msgid "_Units"
 msgstr "Egységek"
 
 #: client/gui-gtk/menu.c:707
-#, fuzzy
 msgid "_Players"
 msgstr "Játékosok"
 
 #: client/gui-gtk/menu.c:709
-#, fuzzy
 msgid "_Economy"
 msgstr "Gazdaság"
 
 #: client/gui-gtk/menu.c:711
-#, fuzzy
 msgid "_Science"
 msgstr "Tudomány"
 
 #: client/gui-gtk/menu.c:715
-#, fuzzy
 msgid "_Wonders of the World"
 msgstr "A Világ Csodái"
 
 #: client/gui-gtk/menu.c:717
-#, fuzzy
 msgid "_Top Five Cities"
-msgstr "Top 5 Város"
+msgstr "_Top 5 Város"
 
 #: client/gui-gtk/menu.c:719
-#, fuzzy
 msgid "_Messages"
 msgstr "Üzenetek"
 
 #: client/gui-gtk/menu.c:721
-#, fuzzy
 msgid "_Demographics"
-msgstr "Demográfiák"
+msgstr "_Demográfia"
 
 #: client/gui-gtk/menu.c:723
-#, fuzzy
 msgid "S_paceship"
-msgstr "Ûrhajók"
+msgstr "Ûrhajó"
 
 #: client/gui-gtk/menu.c:728 client/gui-gtk/menu.c:730
 #: client/gui-gtk/menu.c:732 client/gui-gtk/menu.c:734
@@ -7273,32 +7149,26 @@ msgid "Language_s"
 msgstr ""
 
 #: client/gui-gtk/menu.c:732
-#, fuzzy
 msgid "Co_nnecting"
 msgstr "Kapcsolódás"
 
 #: client/gui-gtk/menu.c:734
-#, fuzzy
 msgid "C_ontrols"
 msgstr "Vezérlés"
 
 #: client/gui-gtk/menu.c:736
-#, fuzzy
 msgid "C_hatline"
 msgstr "Csevegés"
 
 #: client/gui-gtk/menu.c:738
-#, fuzzy
 msgid "_Playing"
 msgstr "Játszik"
 
 #: client/gui-gtk/menu.c:742
-#, fuzzy
 msgid "City _Improvements"
 msgstr "Épületek"
 
 #: client/gui-gtk/menu.c:746
-#, fuzzy
 msgid "Com_bat"
 msgstr "Harc"
 
@@ -7307,109 +7177,91 @@ msgid "_ZOC"
 msgstr ""
 
 #: client/gui-gtk/menu.c:750
-#, fuzzy
 msgid "Techno_logy"
-msgstr "Technológia"
+msgstr "Techno_lógia"
 
 #: client/gui-gtk/menu.c:752
-#, fuzzy
 msgid "_Terrain"
-msgstr "Terep"
+msgstr "_Terep"
 
 #: client/gui-gtk/menu.c:754
-#, fuzzy
 msgid "Won_ders"
 msgstr "Csodák"
 
 #: client/gui-gtk/menu.c:756
-#, fuzzy
 msgid "_Government"
 msgstr "Államforma"
 
 #: client/gui-gtk/menu.c:758
-#, fuzzy
 msgid "Happin_ess"
 msgstr "Boldogság"
 
 #: client/gui-gtk/menu.c:760
-#, fuzzy
 msgid "Space _Race"
-msgstr "Ûrverseny"
+msgstr "Ûrverseny (_R)"
 
 #: client/gui-gtk/menu.c:764
-#, fuzzy
 msgid "_Copying"
 msgstr "Licensz"
 
 #: client/gui-gtk/menu.c:766
-#, fuzzy
 msgid "_About"
-msgstr "About"
+msgstr "Rólunk"
 
 #: client/gui-gtk/menu.c:856
-#, fuzzy
 msgid "Go/Air_lift to City"
 msgstr "Menj|Repülj városba"
 
 #: client/gui-gtk/menu.c:857
-#, fuzzy
 msgid "_Diplomat/Spy Actions"
-msgstr "Diplomatatev. - Saját    "
+msgstr "_Diplomata/Kém tevékenység"
 
 #: client/gui-gtk/menu.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid "Change to %s (_I)"
-msgstr "Cserél %s-re"
+msgstr "Cserél %s-re (_I)"
 
 #: client/gui-gtk/menu.c:1009
-#, fuzzy, c-format
+#, c-format
 msgid "Change to %s (_M)"
-msgstr "Cserél %s-re"
+msgstr "Cserél %s-re (_M)"
 
 #: client/gui-gtk/menu.c:1010
-#, fuzzy, c-format
+#, c-format
 msgid "Transf_orm to %s"
 msgstr "Átalakít %s-re"
 
 #: client/gui-gtk/menu.c:1073
-#, fuzzy
 msgid "Help _Build Wonder"
 msgstr "Segít Csodát Építeni"
 
 #: client/gui-gtk/menu.c:1076
-#, fuzzy
 msgid "Add to City (_B)"
-msgstr "Városhoz fûz"
+msgstr "Városhoz ad (_B)"
 
 #: client/gui-gtk/menu.c:1084
-#, fuzzy
 msgid "Make Trade _Route"
-msgstr "Kereskedelmi Útvonalkij."
+msgstr "Kereskedelmi Útvonalkij. (_R)"
 
 #: client/gui-gtk/menu.c:1087
-#, fuzzy
 msgid "Build _Railroad"
-msgstr "Vasútépítés"
+msgstr "Vasútépítés (_R)"
 
 #: client/gui-gtk/menu.c:1109
-#, fuzzy
 msgid "Bu_ild Farmland"
-msgstr "Farmokat Épít"
+msgstr "Farmokat Épít (_i)"
 
 #: client/gui-gtk/menu.c:1127
-#, fuzzy
 msgid "_Fortify"
-msgstr "Megerõsít"
+msgstr "Megerõsít (_F)"
 
 #: client/gui-gtk/menu.c:1132
-#, fuzzy
 msgid "_Paradrop"
-msgstr "Ejtõernyõs Támadás"
+msgstr "Ejtõernyõs Támadás (_P)"
 
 #: client/gui-gtk/menu.c:1137
-#, fuzzy
 msgid "_Auto Attack"
-msgstr "Automata Támadás"
+msgstr "_Automata Támadás"
 
 #: client/gui-gtk/messagedlg.c:86 client/gui-mui/messagedlg.c:68
 #: client/gui-xaw/menu.c:104 data/Freeciv:1250
@@ -7452,19 +7304,16 @@ msgstr "Üzenetek"
 #: client/gui-mui/messagewin.c:248 client/gui-mui/plrdlg.c:346
 #: client/gui-mui/repodlgs.c:581 client/gui-mui/repodlgs.c:860
 #: client/gui-mui/spaceshipdlg.c:230
-#, fuzzy
 msgid "_Close"
-msgstr "Bezár"
+msgstr "Bezár (_C)"
 
 #: client/gui-gtk/messagewin.c:154
-#, fuzzy
 msgid "_Goto location"
-msgstr "Menj"
+msgstr "Menj (_G)"
 
 #: client/gui-gtk/messagewin.c:160 client/gui-mui/messagewin.c:250
-#, fuzzy
 msgid "_Popup City"
-msgstr "Város popup"
+msgstr "Várost felnyit (_P)"
 
 #: client/gui-gtk/messagewin.c:272 client/gui-mui/messagewin.c:297
 #: client/gui-xaw/messagewin.c:252
@@ -7472,9 +7321,8 @@ msgid "Game: "
 msgstr "Játék: "
 
 #: client/gui-gtk/plrdlg.c:102 client/gui-mui/plrdlg.c:179
-#, fuzzy
 msgid "Nation"
-msgstr "Navigáció"
+msgstr "Nemzet"
 
 #: client/gui-gtk/plrdlg.c:102 client/gui-mui/plrdlg.c:180
 msgid "Embassy"
@@ -7485,9 +7333,8 @@ msgid "Dipl.State"
 msgstr "Dipl.státusz"
 
 #: client/gui-gtk/plrdlg.c:103 client/gui-mui/plrdlg.c:182
-#, fuzzy
 msgid "Vision"
-msgstr "Látóhatár:"
+msgstr "Látóhatár"
 
 #: client/gui-gtk/plrdlg.c:104 client/gui-mui/plrdlg.c:183
 msgid "Reputation"
@@ -7727,12 +7574,11 @@ msgid "Travel time:     %5.1f years"
 msgstr ""
 
 #: client/gui-gtk/spaceshipdlg.c:262
-#, fuzzy
 msgid "Travel time:        N/A     "
-msgstr "Normál város             "
+msgstr "Utazási idõ:       N/A     "
 
 #: client/gui-gtk/spaceshipdlg.c:270 client/gui-xaw/spaceshipdlg.c:271
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -7746,7 +7592,7 @@ msgstr ""
 "Ellátás:         %5d %%\n"
 "Energia          %5d %%\n"
 "Tömeg:           %5d tonna\n"
-"Útidõ:           %5.1f év\n"
+"%s\n"
 "Siker%:          %5d %%\n"
 "Érkezés éve:     %8s"
 
@@ -7819,31 +7665,26 @@ msgid "empty worklist"
 msgstr ""
 
 #: client/gui-mui/chatline.c:67
-#, fuzzy
 msgid "Cleared output window.\n"
-msgstr "Kimeneti ablak törölve."
+msgstr "Kimeneti ablak törölve.\n"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:472 client/gui-mui/worklistclass.c:192
-#, fuzzy
-msgid "u8Unitsn"
-msgstr "Egységek"
+msgid "u8Unitsn"
+msgstr ""
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:479 client/gui-mui/worklistclass.c:200
-#, fuzzy
-msgid "u8Improvementsn"
-msgstr "Épületek"
+msgid "u8Improvementsn"
+msgstr ""
 
 #: client/gui-mui/citydlg.c:553
-#, fuzzy
 msgid "Rounds"
-msgstr "Csodák"
+msgstr "Körök"
 
 #: client/gui-mui/citydlg.c:581
-#, fuzzy
 msgid "Upkeep"
-msgstr "Fenntartás:"
+msgstr "Fenntartás"
 
 #: client/gui-mui/citydlg.c:704 client/gui-mui/citydlg.c:709
 #, c-format
@@ -7851,127 +7692,107 @@ msgid "%s: %2d Trade/Turn\n"
 msgstr ""
 
 #: client/gui-mui/citydlg.c:718
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Total trade %d Trade/Turn\n"
 msgstr ""
 "\n"
-"Összes kereskedelem %d Keresk./Év\n"
+"Összes kereskedelem %d Keresk./Kör\n"
 
 #: client/gui-mui/citydlg.c:721
-#, fuzzy
 msgid "_Done"
-msgstr "Kész"
+msgstr "Kész (_D)"
 
 #: client/gui-mui/citydlg.c:955 client/gui-mui/dialogs.c:1886
 #: client/gui-mui/dialogs.c:1910
-#, fuzzy
 msgid "_Darn"
-msgstr "Stop"
+msgstr ""
 
 #: client/gui-mui/citydlg.c:1135
-#, fuzzy
 msgid "Freeciv - Cityproduction"
-msgstr "Válassz új építendõ dolgot"
+msgstr "Freeciv - Város termelése"
 
 #: client/gui-mui/citydlg.c:1148 client/gui-mui/citydlg.c:1322
 #: client/gui-mui/cityrep.c:397
-#, fuzzy
 msgid "Chan_ge"
-msgstr "Cserél"
+msgstr "Cserél (_g)"
 
 #: client/gui-mui/citydlg.c:1253
 msgid "Freeciv - Cityview"
 msgstr ""
 
 #: client/gui-mui/citydlg.c:1277
-#, fuzzy
 msgid "City Output"
-msgstr "Város opciók"
+msgstr "Város kimenet"
 
 #: client/gui-mui/citydlg.c:1279
-#, fuzzy
 msgid "Food:"
-msgstr "Élelem"
+msgstr "Élelem:"
 
 #: client/gui-mui/citydlg.c:1281
-#, fuzzy
 msgid "Shields:"
-msgstr "Pajzs"
+msgstr "Pajzsok:"
 
 #: client/gui-mui/citydlg.c:1283
-#, fuzzy
 msgid "Trade:"
-msgstr "Kereskedelem"
+msgstr "Kereskedelem:"
 
 #: client/gui-mui/citydlg.c:1285
-#, fuzzy
 msgid "Gold:"
-msgstr "Arany"
+msgstr "Arany:"
 
 #: client/gui-mui/citydlg.c:1287 client/gui-mui/gamedlgs.c:221
-#, fuzzy
 msgid "Luxury:"
-msgstr "Luxus"
+msgstr "Luxus:"
 
 #: client/gui-mui/citydlg.c:1289 client/gui-mui/gamedlgs.c:228
-#, fuzzy
 msgid "Science:"
-msgstr "Tudomány"
+msgstr "Tudomány:"
 
 #: client/gui-mui/citydlg.c:1291
-#, fuzzy
 msgid "Granary:"
-msgstr "Magtár"
+msgstr "Magtár:"
 
 #: client/gui-mui/citydlg.c:1293
-#, fuzzy
 msgid "Pollution:"
-msgstr "Szennyezés"
+msgstr "Szennyezés:"
 
 #: client/gui-mui/citydlg.c:1299
-#, fuzzy
 msgid "Citymap"
-msgstr "Városnév"
+msgstr "Várostérkép"
 
 #: client/gui-mui/citydlg.c:1304 data/helpdata.txt:695
 msgid "City Improvements"
 msgstr "Épületek"
 
 #: client/gui-mui/citydlg.c:1367
-#, fuzzy
 msgid "Freeciv - Cityoptions"
-msgstr "Város opciók"
+msgstr "Freeciv - Város opciók"
 
 #: client/gui-mui/citydlg.c:1373 client/gui-mui/citydlg.c:1374
 msgid "_New specialists are"
 msgstr ""
 
 #: client/gui-mui/citydlg.c:1376 client/gui-mui/citydlg.c:1377
-#, fuzzy
 msgid "_Disband if build settler at size 1"
-msgstr "Feloszlat, ha 1-es méretnél Telepest gyárt"
+msgstr "Feloszlat, ha 1-es méretnél Telepest gyárt (_D)"
 
 #: client/gui-mui/citydlg.c:1379 client/gui-mui/citydlg.c:1380
-#, fuzzy
 msgid "Auto-attack vs _land units"
-msgstr "Autotámadás földi egységek ellen"
+msgstr "Autotámadás fö_ldi egységek ellen"
 
 #: client/gui-mui/citydlg.c:1382 client/gui-mui/citydlg.c:1383
-#, fuzzy
 msgid "Auto-attack vs _sea units"
-msgstr "Autotámadás tengeri egységek ellen"
+msgstr "Autotámadá_s tengeri egységek ellen"
 
 #: client/gui-mui/citydlg.c:1385 client/gui-mui/citydlg.c:1386
-#, fuzzy
 msgid "Auto-attack vs _air units"
-msgstr "Autotámadás légi egységek ellen"
+msgstr "Autotámadás légi egységek ellen (_a)"
 
 #: client/gui-mui/citydlg.c:1388 client/gui-mui/citydlg.c:1389
-#, fuzzy
 msgid "Auto-attack vs _helicopters"
-msgstr "Autotámadás helikopterek ellen"
+msgstr "Autotámadás _helikopterek ellen"
 
 #: client/gui-mui/citydlg.c:1394 client/gui-mui/cityrep.c:309
 #: client/gui-mui/dialogs.c:1778 client/gui-mui/finddlg.c:109
@@ -7979,9 +7800,8 @@ msgstr "Autotámadás helikopterek ellen"
 #: client/gui-mui/gotodlg.c:164 client/gui-mui/inputdlg.c:80
 #: client/gui-mui/messagedlg.c:88 client/gui-mui/wldlg.c:258
 #: client/gui-mui/worklistclass.c:671
-#, fuzzy
 msgid "_Ok"
-msgstr "Ok"
+msgstr "_Ok"
 
 #: client/gui-mui/citydlg.c:1525
 #, c-format
@@ -7989,9 +7809,9 @@ msgid "%s (%s) (worklist)"
 msgstr ""
 
 #: client/gui-mui/citydlg.c:1729
-#, fuzzy, c-format
+#, c-format
 msgid "%s citizens"
-msgstr "%s - %s lakos"
+msgstr "%s lakos"
 
 #: client/gui-mui/cityrep.c:297
 msgid "Configure City Report"
@@ -8006,33 +7826,28 @@ msgid "City Advisor"
 msgstr "Város Tanácsadó"
 
 #: client/gui-mui/connectdlg.c:171
-#, fuzzy
 msgid "Server Selection"
-msgstr "Freeciv Kiszolgáló Választás"
+msgstr "Kiszolgáló Választás"
 
 #: client/gui-mui/connectdlg.c:186 data/Freeciv:63
 msgid "Connect to Freeciv Server"
 msgstr "Kapcsolódás Freeciv Kiszolgálóhoz"
 
 #: client/gui-mui/connectdlg.c:195 client/gui-mui/connectdlg.c:196
-#, fuzzy
 msgid "_Name"
-msgstr "Név"
+msgstr "_Név"
 
 #: client/gui-mui/connectdlg.c:198 client/gui-mui/connectdlg.c:199
-#, fuzzy
 msgid "_Host"
-msgstr "Kiszolgáló"
+msgstr "Kiszolgáló (_H)"
 
 #: client/gui-mui/connectdlg.c:201 client/gui-mui/connectdlg.c:202
-#, fuzzy
 msgid "_Port"
-msgstr "Port"
+msgstr "_Port"
 
 #: client/gui-mui/dialogs.c:185
-#, fuzzy
 msgid "_Goto and Close"
-msgstr "Menj és Bezár"
+msgstr "Menj és Bezár (_G)"
 
 #: client/gui-mui/dialogs.c:313 client/gui-xaw/menu.c:221
 #: data/helpdata.txt:712
@@ -8040,68 +7855,56 @@ msgid "Technology"
 msgstr "Technológia"
 
 #: client/gui-mui/dialogs.c:342
-#, fuzzy
 msgid "_Steal"
-msgstr "Lop"
+msgstr "Lop (_S)"
 
 #: client/gui-mui/dialogs.c:440
-#, fuzzy
 msgid "_Sabotage"
-msgstr "Szabotázs"
+msgstr "_Szabotázs"
 
 #: client/gui-mui/dialogs.c:796 client/gui-mui/dialogs.c:855
-#, fuzzy
 msgid "_Establish embassy"
-msgstr "Követség Alapítása"
+msgstr "Követség Alapítása (_E)"
 
 #: client/gui-mui/dialogs.c:804
-#, fuzzy
 msgid "_Investigate city"
-msgstr "Város Megtek_intése"
+msgstr "Város Megtek_intése (_I)"
 
 #: client/gui-mui/dialogs.c:812
-#, fuzzy
 msgid "_Sabotage city"
-msgstr "Városbeli Szabotázs"
+msgstr "Városbeli _Szabotázs"
 
 #: client/gui-mui/dialogs.c:820 client/gui-mui/dialogs.c:887
-#, fuzzy
 msgid "Steal _technology"
-msgstr "Technológia Lopása"
+msgstr "Technológia Lopása (_t)"
 
 #: client/gui-mui/dialogs.c:828 client/gui-mui/dialogs.c:895
-#, fuzzy
 msgid "Incite a _revolt"
-msgstr "Forradalomszítás"
+msgstr "Fo_rradalomszítás"
 
 #: client/gui-mui/dialogs.c:848 data/Freeciv:2206
 msgid "Choose Your Diplomat's Strategy"
 msgstr "Válaszd ki diplomatád stratégiáját"
 
 #: client/gui-mui/dialogs.c:863
-#, fuzzy
 msgid "_Investigate city (free)"
-msgstr "Város Megtek_intése (díjtalan)"
+msgstr "Város Megtekintése (díjtalan) (_I)"
 
 #: client/gui-mui/dialogs.c:871
-#, fuzzy
 msgid "_Poison city"
-msgstr "Város Megmérgezése"
+msgstr "Város Megmérgezése (_P)"
 
 #: client/gui-mui/dialogs.c:879
-#, fuzzy
 msgid "Industrial _sabotage"
-msgstr "Ipari _Szabotázs"
+msgstr "Ipari _szabotázs"
 
 #: client/gui-mui/dialogs.c:1049
-#, fuzzy
 msgid "_Establish traderoute"
-msgstr "Keresk. útvonal alapítása"
+msgstr "Keresk. útvonal alapítása (_E)"
 
 #: client/gui-mui/dialogs.c:1064
-#, fuzzy
 msgid "_Help build Wonder"
-msgstr "Csoda építésének segítése"
+msgstr "Csoda építésének segítése (_H)"
 
 #: client/gui-mui/dialogs.c:1234
 msgid "Freeciv - Pillage"
@@ -8112,62 +7915,51 @@ msgid "Freeciv - Connect"
 msgstr ""
 
 #: client/gui-mui/dialogs.c:1480
-#, fuzzy
 msgid "Freeciv - Select an unit"
-msgstr "Freeciv Kiszolgáló Választás"
+msgstr "Freeciv - Válassz egy egységet"
 
 #: client/gui-mui/dialogs.c:1484
-#, fuzzy
 msgid "_Ready All"
-msgstr "Aktivál mindenkit"
+msgstr "Aktivál mindenkit (_R)"
 
 #: client/gui-mui/dialogs.c:1733
-#, fuzzy
 msgid "Freeciv - Select a Nation"
-msgstr "Freeciv Kiszolgáló Választás"
+msgstr "Freeciv - Válassz nemzetet"
 
 #: client/gui-mui/dialogs.c:1756
-#, fuzzy
 msgid "_Leader Name"
-msgstr "Kiszolgáló Név"
+msgstr "Vezetõ neve (_L)"
 
 #: client/gui-mui/dialogs.c:1771 client/gui-mui/dialogs.c:1772
-#, fuzzy
 msgid "_City Style"
-msgstr "Városnév"
+msgstr "Város stílus (_C)"
 
 #: client/gui-mui/diplodlg.c:268
-#, fuzzy
 msgid "No technology"
-msgstr "Technológia"
+msgstr "Nincs technológia"
 
 #: client/gui-mui/diplodlg.c:298
-#, fuzzy
 msgid "No city"
-msgstr "Nincsenek Városok"
+msgstr "Nincs város"
 
 #: client/gui-mui/diplodlg.c:528
-#, fuzzy
 msgid "_Accept treaty"
-msgstr "Egyezmény elfogadása"
+msgstr "Egyezmény elfogadása (_A)"
 
 #: client/gui-mui/diplodlg.c:529
-#, fuzzy
 msgid "_Cancel meeting"
-msgstr "Találkozó megszakítása"
+msgstr "Találkozó megszakítása (_C)"
 
 #: client/gui-mui/diplodlg.c:550 client/gui-mui/diplodlg.c:568
-#, fuzzy
 msgid "World-Map"
 msgstr "Világtérkép"
 
 #: client/gui-mui/diplodlg.c:554 client/gui-mui/diplodlg.c:572
-#, fuzzy
 msgid "Sea-Map"
 msgstr "Hajózási Térkép"
 
 #: client/gui-mui/diplodlg.c:648
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This Eternal Treaty\n"
 "marks the results\n"
@@ -8178,62 +7970,53 @@ msgid ""
 msgstr ""
 "Ez az Örök Szerzõdés\n"
 "jelzi a tárgyalások eredményeit\n"
-"%s %s %s\n"
+"A %s %s %s\n"
 "és\n"
-"%s %s %s között."
+"A %s %s %s között."
 
 #: client/gui-mui/finddlg.c:99
-#, fuzzy
 msgid "Select a city"
-msgstr "Válassz városstílust:"
+msgstr "Válassz várost"
 
 #: client/gui-mui/gamedlgs.c:209
-#, fuzzy
 msgid "Set tax, luxury and science rates"
 msgstr "Válassz adó, luxus és tudomány arányt"
 
 #: client/gui-mui/gamedlgs.c:214
-#, fuzzy
 msgid "Tax:"
-msgstr "Adó"
+msgstr "Adó:"
 
 #: client/gui-mui/gotodlg.c:165
 msgid "_Airlift"
 msgstr ""
 
 #: client/gui-mui/gui_main.c:231
-#, fuzzy
 msgid "Options..."
-msgstr "Beállítások"
+msgstr "Beállítások..."
 
 #: client/gui-mui/gui_main.c:232
-#, fuzzy
 msgid "Message Options..."
-msgstr "Üzenet Opciók"
+msgstr "Üzenet Opciók..."
 
 #: client/gui-mui/gui_main.c:233 client/gui-xaw/menu.c:105
 msgid "Save Settings"
 msgstr "Beállítások Mentése"
 
 #: client/gui-mui/gui_main.c:235
-#, fuzzy
 msgid "Players..."
-msgstr "Játékosok"
+msgstr "Játékosok..."
 
 #: client/gui-mui/gui_main.c:236
-#, fuzzy
 msgid "Message..."
-msgstr "Üzenet:"
+msgstr "Üzenet..."
 
 #: client/gui-mui/gui_main.c:237
-#, fuzzy
 msgid "Server opt initial..."
-msgstr "Kiszolg Opc. Kezdeti"
+msgstr "Kiszolg opc. kezdeti..."
 
 #: client/gui-mui/gui_main.c:238
-#, fuzzy
 msgid "Server opt ongoing..."
-msgstr "Kiszolg Opc. Menetközben"
+msgstr "Kiszolg opc. menetközben..."
 
 #: client/gui-mui/gui_main.c:239 client/gui-xaw/menu.c:110
 msgid "Export Log"
@@ -8244,19 +8027,16 @@ msgid "Clear Log"
 msgstr "Log törlés"
 
 #: client/gui-mui/gui_main.c:246
-#, fuzzy
 msgid "Tax Rate..."
-msgstr "Adó arányok"
+msgstr "Adó arányok..."
 
 #: client/gui-mui/gui_main.c:248
-#, fuzzy
 msgid "Find City..."
-msgstr "Városkeresés"
+msgstr "Városkeresés..."
 
 #: client/gui-mui/gui_main.c:249
-#, fuzzy
 msgid "Worklists..."
-msgstr "Munkatervek"
+msgstr "Munkatervek..."
 
 #: client/gui-mui/gui_main.c:251
 msgid "REVOLUTION..."
@@ -8283,9 +8063,8 @@ msgid "Center View"
 msgstr "Kép középre hoz"
 
 #: client/gui-mui/gui_main.c:274
-#, fuzzy
 msgid "Order"
-msgstr "Parancsok"
+msgstr "Parancs"
 
 #: client/gui-mui/gui_main.c:275 client/gui-mui/gui_main.c:1343
 #: client/gui-mui/mapclass.c:1803 client/gui-xaw/menu.c:151
@@ -8381,38 +8160,32 @@ msgid "Make Trade Route"
 msgstr "Kereskedelmi Útvonalkij."
 
 #: client/gui-mui/gui_main.c:305 client/gui-xaw/menu.c:187
-#, fuzzy
 msgid "Diplomat/Spy Actions"
-msgstr "Diplomatatev. - Ellenséges"
+msgstr "Diplomata/Kém tevékenység"
 
 #: client/gui-mui/gui_main.c:308 client/gui-xaw/menu.c:190
 msgid "Wait"
 msgstr "Várakozik"
 
 #: client/gui-mui/gui_main.c:311
-#, fuzzy
 msgid "Report"
-msgstr "Infók"
+msgstr "Jelentés"
 
 #: client/gui-mui/gui_main.c:312
-#, fuzzy
 msgid "City Report..."
-msgstr "Városinfók"
+msgstr "Városinfók..."
 
 #: client/gui-mui/gui_main.c:313
-#, fuzzy
 msgid "Science Report..."
-msgstr "Tudomány Infók"
+msgstr "Tudomány jelentés..."
 
 #: client/gui-mui/gui_main.c:314
-#, fuzzy
 msgid "Trade Report..."
-msgstr "Kereskedelmi Infók"
+msgstr "Kereskedelmi jelentés..."
 
 #: client/gui-mui/gui_main.c:315
-#, fuzzy
 msgid "Military Report..."
-msgstr "Katonai Infók"
+msgstr "Katonai jelentés..."
 
 #: client/gui-mui/gui_main.c:318 client/gui-xaw/menu.c:203
 msgid "Top Five Cities"
@@ -8431,16 +8204,16 @@ msgid "Freeciv Client"
 msgstr ""
 
 #: client/gui-mui/gui_main.c:941
-#, fuzzy
 msgid "Client for Freeciv"
-msgstr "Kapcsolódás Freeciv Kiszolgálóhoz"
+msgstr "Freeciv Ügyfél"
 
 #: client/gui-mui/gui_main.c:966
-#, fuzzy
 msgid ""
 "Turn\n"
 "Done"
-msgstr "Kör Vége"
+msgstr ""
+"Kör\n"
+"Vége"
 
 #: client/gui-mui/gui_main.c:1289 client/gui-xaw/menu.c:157
 #: client/gui-xaw/menu.c:159
@@ -8464,9 +8237,8 @@ msgid "Build Farmland"
 msgstr "Farmokat Épít"
 
 #: client/gui-mui/gui_main.c:1377 client/gui-mui/mapclass.c:1864
-#, fuzzy
 msgid "Transform terrain"
-msgstr "Tájat Átalakít"
+msgstr "Tájat átalakít"
 
 #: client/gui-mui/gui_main.c:1382 client/gui-mui/mapclass.c:1809
 #: client/gui-xaw/menu.c:154
@@ -8483,24 +8255,21 @@ msgid "Firepower:"
 msgstr "Tûzerõ:   "
 
 #: client/gui-mui/helpdlg.c:673
-#, fuzzy, c-format
+#, c-format
 msgid "Cost: %ld"
-msgstr "Kiadás:"
+msgstr "Ár: %ld"
 
 #: client/gui-mui/helpdlg.c:750
-#, fuzzy
 msgid " wonder"
-msgstr "Csoda"
+msgstr " csoda"
 
 #: client/gui-mui/helpdlg.c:750
-#, fuzzy
 msgid " improvement"
-msgstr "Épületek"
+msgstr " épület"
 
 #: client/gui-mui/helpdlg.c:768
-#, fuzzy
 msgid " unit"
-msgstr "Kilép"
+msgstr " egység"
 
 #: client/gui-mui/helpdlg.c:854
 #, c-format
@@ -8508,31 +8277,31 @@ msgid "Movecost: %ld"
 msgstr ""
 
 #: client/gui-mui/helpdlg.c:855
-#, fuzzy, c-format
+#, c-format
 msgid "Defense: %ld.%ld"
-msgstr "Védekezés:"
+msgstr "Védekezés: %ld.%ld"
 
 #: client/gui-mui/helpdlg.c:867 client/gui-mui/helpdlg.c:881
 #: client/gui-mui/helpdlg.c:897
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Food:   %d\n"
 "Shield: %d\n"
 "Trade:  %d"
 msgstr ""
-"Élelem: %3d (%+-4d)\n"
-"Term:   %3d (%+-4d)\n"
-"Keresk: %3d (%+-4d)"
+"Élelem: %d\n"
+"Pajzs:  %d\n"
+"Keresk: %d"
 
 #: client/gui-mui/mapclass.c:1774
-#, fuzzy, c-format
+#, c-format
 msgid "City %s"
-msgstr "Város: %s(%s)"
+msgstr "%s város"
 
 #: client/gui-mui/mapclass.c:1776
-#, fuzzy, c-format
+#, c-format
 msgid "Unit %s"
-msgstr "Egységek"
+msgstr "%s egység"
 
 #: client/gui-mui/mapclass.c:1778
 #, c-format
@@ -8544,53 +8313,46 @@ msgid "Popup City"
 msgstr "Város popup"
 
 #: client/gui-mui/mapclass.c:1837
-#, fuzzy
 msgid "Wake up"
-msgstr "Felkelti a többieket"
+msgstr "Felkel"
 
 #: client/gui-mui/mapclass.c:1839 client/gui-mui/mapclass.c:3111
 #: client/gui-mui/mapclass.c:3260
-#, fuzzy
 msgid "Activate"
-msgstr "Aktív"
+msgstr "Aktivál"
 
 #: client/gui-mui/mapclass.c:1893
-#, fuzzy
 msgid "List all units"
-msgstr "Egységfeloszlatás"
+msgstr "Összes egység listázása"
 
 #: client/gui-mui/mapclass.c:1908
-#, fuzzy
 msgid "Connect to this location"
-msgstr "Menj"
+msgstr "Kapcsolódj ehhez a helyhez"
 
 #: client/gui-mui/mapclass.c:1911
-#, fuzzy
 msgid "Goto this location"
-msgstr "Menj"
+msgstr "Menj erre a helyre"
 
 #: client/gui-mui/mapclass.c:3117 client/gui-mui/mapclass.c:3264
-#, fuzzy
 msgid "Disband"
-msgstr "Egységfeloszlatás"
+msgstr "Feloszlat"
 
 #: client/gui-mui/mapclass.c:3136 data/Freeciv:1185
 msgid "Make new homecity"
 msgstr "Ellátó város kijelölés"
 
 #: client/gui-mui/mapctrl.c:84
-#, fuzzy
 msgid "City_name"
-msgstr "Városnév"
+msgstr "Város_név"
 
 #: client/gui-mui/mapview.c:204
 msgid "off"
 msgstr ""
 
 #: client/gui-mui/mapview.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "Population: %s"
-msgstr "Népesség"
+msgstr "Népesség: %s"
 
 #: client/gui-mui/mapview.c:221
 #, c-format
@@ -8598,14 +8360,13 @@ msgid "Tax:%d Lux:%d Sci:%d"
 msgstr ""
 
 #: client/gui-mui/messagewin.c:249
-#, fuzzy
 msgid "_Goto Location"
-msgstr "Menj"
+msgstr "Menj (_G)"
 
 #: client/gui-mui/repodlgs.c:165 client/gui-mui/repodlgs.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "(%ld steps)"
-msgstr "(%d lépés)"
+msgstr "(%ld lépés)"
 
 #: client/gui-mui/repodlgs.c:337
 msgid "Science Advisor"
@@ -8619,28 +8380,24 @@ msgid ""
 msgstr ""
 
 #: client/gui-mui/repodlgs.c:354 client/gui-mui/repodlgs.c:355
-#, fuzzy
 msgid "_Goal"
-msgstr "Célkitûzés"
+msgstr "Cél (_G)"
 
 #: client/gui-mui/repodlgs.c:359 client/gui-mui/repodlgs.c:360
-#, fuzzy
 msgid "_Research"
-msgstr "Kutatási cél:"
+msgstr "Kutatás (_R)"
 
 #: client/gui-mui/repodlgs.c:566
 msgid "Trade Report"
 msgstr "Kereskedelmi Infók"
 
 #: client/gui-mui/repodlgs.c:582
-#, fuzzy
 msgid "Sell _Obsolete"
-msgstr "Elavult Eladása"
+msgstr "Elavult Eladása (_O)"
 
 #: client/gui-mui/repodlgs.c:583
-#, fuzzy
 msgid "Sell _All"
-msgstr "Minden Eladása"
+msgstr "Minden Eladása (_A)"
 
 #: client/gui-mui/repodlgs.c:590 client/gui-mui/repodlgs.c:618
 msgid "Trade Advisor"
@@ -8652,12 +8409,10 @@ msgid "Military Report"
 msgstr "Katonai Infók"
 
 #: client/gui-mui/repodlgs.c:861
-#, fuzzy
 msgid "_Upgrade"
-msgstr "Fejleszt"
+msgstr "Fejleszt (_U)"
 
 #: client/gui-mui/spaceshipdlg.c:215
-#, fuzzy
 msgid ""
 "Population:\n"
 "Support:\n"
@@ -8667,18 +8422,17 @@ msgid ""
 "Success prob.:\n"
 "Year of arrival:"
 msgstr ""
-"Populáció:       %5d\n"
-"Ellátás:         %5d %%\n"
-"Energia          %5d %%\n"
-"Tömeg:           %5d tonna\n"
-"Útidõ:           %5.1f év\n"
-"Siker%:          %5d %%\n"
-"Érkezés éve:     %8s"
+"Populáció:\n"
+"Ellátás:\n"
+"Energia:\n"
+"Tömeg:\n"
+"Útidõ:\n"
+"Siker%:\n"
+"Érkezés éve:"
 
 #: client/gui-mui/spaceshipdlg.c:225
-#, fuzzy
 msgid "_Launch"
-msgstr "Indítás"
+msgstr "Indítás (_L)"
 
 #: client/gui-mui/spaceshipdlg.c:265
 #, c-format
@@ -8697,39 +8451,33 @@ msgid "Freeciv - Edit Worklists"
 msgstr ""
 
 #: client/gui-mui/wldlg.c:249
-#, fuzzy
 msgid "Available Worklists"
-msgstr "Munkalista átnevezése"
+msgstr "Elérhetõ Munkalisták"
 
 #: client/gui-mui/wldlg.c:254
 msgid "_Edit"
 msgstr ""
 
 #: client/gui-mui/wldlg.c:255
-#, fuzzy
 msgid "_New"
-msgstr "_Látvány"
+msgstr "Új (_N)"
 
 #: client/gui-mui/wldlg.c:256 client/gui-mui/worklistclass.c:652
-#, fuzzy
 msgid "_Remove"
-msgstr "Törölve"
+msgstr "Töröl (_R)"
 
 #: client/gui-mui/worklistclass.c:182
-#, fuzzy
 msgid "entry"
-msgstr "Õrjáratozik"
+msgstr "bejegyzés"
 
 #: client/gui-mui/worklistclass.c:182
-#, fuzzy
 msgid "entries"
-msgstr "Kép középre hoz"
+msgstr "bejegyzés"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/worklistclass.c:208
-#, fuzzy
-msgid "u8Worklistsn"
-msgstr "Munkatervek"
+msgid "u8Worklistsn"
+msgstr ""
 
 #: client/gui-mui/worklistclass.c:632
 msgid "Freeciv - Edit Worklist"
@@ -8744,14 +8492,12 @@ msgid "Available Targets"
 msgstr ""
 
 #: client/gui-mui/worklistclass.c:731
-#, fuzzy
 msgid "Worklist for city"
-msgstr "Munkaterv"
+msgstr "A város munkaterve"
 
 #: client/gui-mui/worklistclass.c:735
-#, fuzzy
 msgid "Name of Worklist"
-msgstr "Munkalista átnevezése"
+msgstr "Munkaterv neve"
 
 #: client/gui-xaw/citydlg.c:193
 #, c-format
@@ -9210,9 +8956,8 @@ msgid "Investigate City"
 msgstr "Város Megtekintése"
 
 #: data/Freeciv:2216
-#, fuzzy
 msgid "Sabotage City"
-msgstr "Városbeli _Szabotázs"
+msgstr "Városbeli Szabotázs"
 
 #: data/Freeciv:2221 data/Freeciv:2254
 msgid "Incite a Revolt"
@@ -9300,13 +9045,12 @@ msgid " Ok "
 msgstr " Ok "
 
 #: data/Freeciv:3107
-#, fuzzy
 msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
 msgstr ""
-"Kiszolgáló neve                    Port  Verzió      Státusz "
-"JátékosokMegjegyzés"
+"Név              Nemzet       NagykövetDipl. Állás     Térkép   "
+"Hírnév        Állás    Gép "
 
 #: data/Freeciv:3127
 msgid "Intelligence"
@@ -11310,9 +11054,8 @@ msgid ""
 msgstr ""
 
 #: data/default/buildings.ruleset:1954
-#, fuzzy
 msgid "Coinage"
-msgstr "Licensz"
+msgstr ""
 
 #: data/default/buildings.ruleset:1979
 msgid ""
@@ -13114,9 +12857,8 @@ msgid "?plural:Babylonians"
 msgstr "?plural:Babilóniaiak"
 
 #: data/nation/barbarian.ruleset:4
-#, fuzzy
 msgid "?plural:Barbarians"
-msgstr "?plural:bajorok"
+msgstr "?plural:barbárok"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -13187,43 +12929,36 @@ msgid "?plural:Carthaginians"
 msgstr "?plural:Karthágóiak"
 
 #: data/nation/catalan.ruleset:3
-#, fuzzy
 msgid "Catalan"
-msgstr "Karaván"
+msgstr "Katalán"
 
 #: data/nation/catalan.ruleset:4
-#, fuzzy
 msgid "?plural:Catalans"
-msgstr "?plural:Olaszok"
+msgstr "?plural:Katalánok"
 
 #: data/nation/catalan.ruleset:13
-#, fuzzy
 msgid "Primer Ministre"
 msgstr "Miniszterelnök"
 
 #: data/nation/catalan.ruleset:13
-#, fuzzy
 msgid "Primera Ministre"
-msgstr "Miniszterelnök"
+msgstr "Miniszterelnöknõ"
 
 #: data/nation/catalan.ruleset:14
-#, fuzzy
 msgid "Dictador"
-msgstr "Diktátor"
+msgstr ""
 
 #: data/nation/catalan.ruleset:14
-#, fuzzy
 msgid "Dictadora"
-msgstr "Diktátor"
+msgstr ""
 
 #: data/nation/catalan.ruleset:15
 msgid "Rei"
 msgstr ""
 
 #: data/nation/catalan.ruleset:15
-#, fuzzy
 msgid "Reina"
-msgstr "Átnevez"
+msgstr ""
 
 #: data/nation/catalan.ruleset:17
 msgid "Arquebisbe"
@@ -13234,14 +12969,12 @@ msgid "Gran Bruixa"
 msgstr ""
 
 #: data/nation/chilean.ruleset:3
-#, fuzzy
 msgid "Chilean"
-msgstr "Cserél"
+msgstr "Chilei"
 
 #: data/nation/chilean.ruleset:4
-#, fuzzy
 msgid "?plural:Chileans"
-msgstr "?plural:Kínaiak"
+msgstr "?plural:Chileiek"
 
 #: data/nation/chilean.ruleset:16
 msgid "Captain General"
@@ -13276,14 +13009,12 @@ msgid "?plural:Cornish"
 msgstr ""
 
 #: data/nation/croatian.ruleset:3
-#, fuzzy
 msgid "Croatian"
-msgstr "lett"
+msgstr "Horvát"
 
 #: data/nation/croatian.ruleset:4
-#, fuzzy
 msgid "?plural:Croatians"
-msgstr "?plural:lettek"
+msgstr "?plural:Horvátok"
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -13406,9 +13137,8 @@ msgid "Chancellor"
 msgstr "Kancellár"
 
 #: data/nation/german.ruleset:14
-#, fuzzy
 msgid "Princebishop"
-msgstr "Érsek"
+msgstr ""
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
@@ -13595,14 +13325,12 @@ msgid "?plural:Polish"
 msgstr "?plural:Lengyel"
 
 #: data/nation/polish.ruleset:15
-#, fuzzy
 msgid "Dyktator"
-msgstr "Diktátor"
+msgstr ""
 
 #: data/nation/polish.ruleset:15
-#, fuzzy
 msgid "Dyktatorka"
-msgstr "Diktátor"
+msgstr ""
 
 #: data/nation/polish.ruleset:16
 msgid "Prymas"
@@ -13621,7 +13349,6 @@ msgid "Pierwszy Sekretarz"
 msgstr ""
 
 #: data/nation/polish.ruleset:19 data/nation/polish.ruleset:20
-#, fuzzy
 msgid "Prezydent"
 msgstr "Elnök"
 
@@ -13670,34 +13397,28 @@ msgid "Scottish"
 msgstr "Skót"
 
 #: data/nation/scottish.ruleset:4
-#, fuzzy
 msgid "?plural:Scots"
 msgstr "?plural:Skótok"
 
 #: data/nation/scottish.ruleset:15
-#, fuzzy
 msgid "First Minister"
 msgstr "Miniszterelnök"
 
 #: data/nation/serbian.ruleset:3
-#, fuzzy
 msgid "Serbian"
-msgstr "Perzsa"
+msgstr "Szerb"
 
 #: data/nation/serbian.ruleset:4
-#, fuzzy
 msgid "?plural:Serbians"
-msgstr "?plural:Perzsák"
+msgstr "?plural:Szerbek"
 
 #: data/nation/silesian.ruleset:3
-#, fuzzy
 msgid "Silesian"
-msgstr "Perzsa"
+msgstr "Sziléziai"
 
 #: data/nation/silesian.ruleset:4
-#, fuzzy
 msgid "?plural:Silesians"
-msgstr "?plural:Perzsák"
+msgstr "?plural:Sziléziaiak"
 
 #: data/nation/silesian.ruleset:12 data/nation/welsh.ruleset:18
 msgid "Prince"
@@ -13708,14 +13429,12 @@ msgid "Princess"
 msgstr "Hercegnõ"
 
 #: data/nation/singaporean.ruleset:15
-#, fuzzy
 msgid "Singaporean"
-msgstr "Magyar"
+msgstr "Szingapúri"
 
 #: data/nation/singaporean.ruleset:16
-#, fuzzy
 msgid "?plural:Singaporeans"
-msgstr "?plural:Koreaiak"
+msgstr "?plural:Szingapúriak"
 
 #: data/nation/singaporean.ruleset:26
 msgid "Ah"
@@ -13746,14 +13465,12 @@ msgid "Great Chief"
 msgstr ""
 
 #: data/nation/slovenian.ruleset:3
-#, fuzzy
 msgid "Slovenian"
-msgstr "Babilóniai"
+msgstr "Szlovén"
 
 #: data/nation/slovenian.ruleset:4
-#, fuzzy
 msgid "?plural:Slovenians"
-msgstr "?plural:Babilóniaiak"
+msgstr "?plural:Szlovének"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -13764,19 +13481,16 @@ msgid "?plural:Spanish"
 msgstr "?plural:Spanyolok"
 
 #: data/nation/spanish.ruleset:13
-#, fuzzy
 msgid "Caudillo"
-msgstr "Rádió"
+msgstr ""
 
 #: data/nation/spanish.ruleset:13
-#, fuzzy
 msgid "Caudilla"
-msgstr "Kanadai"
+msgstr ""
 
 #: data/nation/spanish.ruleset:14
-#, fuzzy
 msgid "Cardinal"
-msgstr "Cárnõ"
+msgstr ""
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
@@ -13845,144 +13559,3 @@ msgstr "Zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zuluk"
-
-#~ msgid "Neutral"
-#~ msgstr "Semleges"
-
-#~ msgid "War"
-#~ msgstr "Háborúzó"
-
-#~ msgid "Cease-fire"
-#~ msgstr "Tûzszünet"
-
-#~ msgid "Peace"
-#~ msgstr "Béke"
-
-#~ msgid "Alliance"
-#~ msgstr "Szövetség"
-
-#~ msgid "Game: Transfered %s at (%d, %d) from %s to %s."
-#~ msgstr "Játék: %s (%d, %d) koordinátákon %s tulajdonából %s tulajdona lett."
-
-#~ msgid "Game full - %s was rejected."
-#~ msgstr "Játék tele - %s visszautasítva."
-
-#~ msgid "<%s@%s> has rejoined the game."
-#~ msgstr "<%s@%s> újra belépett a játékba."
-
-#~ msgid "Game: Player <%s@%s> has reconnected."
-#~ msgstr "Játék: <%s@%s> játékos újracsatlakozott."
-
-#~ msgid "Game: Player <%s@%s> has connected."
-#~ msgstr "Játék: <%s@%s> játékos csatlakozott."
-
-#~ msgid "There are currently %d players connected:"
-#~ msgstr "%d játékos van kapcsolatban:"
-
-#~ msgid "There is currently 1 player connected:"
-#~ msgstr "1 játékos van kapcsolatban:"
-
-#~ msgid " (R.I.P.)"
-#~ msgstr " (Nyugodjék békében!)"
-
-#~ msgid "There is 1 other player:"
-#~ msgstr "1 másik játékos van:"
-
-#~ msgid "There are %d other players:"
-#~ msgstr "%d másik játékos van:"
-
-#~ msgid " (an AI player)"
-#~ msgstr " (egy MI játékos)"
-
-#~ msgid "%s was rejected: mismatched capabilities"
-#~ msgstr ""
-#~ "%st visszautasítottam, mert a kiszolgálónak nincsenek megfelelõ "
-#~ "képességei."
-
-#~ msgid "Sorry, you can't observe a barbarian."
-#~ msgstr "Sajnálom, nem vezethetsz barbárokat."
-
-#~ msgid "You can't join the game.  %s is already connected."
-#~ msgstr "Nem léphetsz be a játékba.  %s már belépett."
-
-#~ msgid "%s was rejected."
-#~ msgstr "%s visszautasítva."
-
-#~ msgid "Sorry, you can't join.  The game is already running."
-#~ msgstr "Sajnálom, nem léphetsz be.  A játék már fut."
-
-#~ msgid "Game running - %s was rejected."
-#~ msgstr "Játék fut - %s visszautasítva."
-
-#~ msgid "game full - %s was rejected."
-#~ msgstr "játék tele - %s visszautasítva."
-
-#~ msgid "Lost connection to <unknown>."
-#~ msgstr "<ismeretlen>-el elveszett a kapcsolat."
-
-#~ msgid "Treaty city id %d not found - skipping clause."
-#~ msgstr ""
-#~ "A szerzõdésben található %d azonosítójú város nem létezik - kihagyom a "
-#~ "cikkelyt."
-
-#~ msgid "metaserver A    - game reported to metaserver at address A"
-#~ msgstr "metaserver C    - a játék a C címen lévõ metakiszolgálónak jelentve"
-
-#~ msgid "start           - start game"
-#~ msgstr "start           - játék indítása"
-
-#~ msgid "Rapture"
-#~ msgstr "Öröm"
-
-#~ msgid "Game: You can only unload transporter units."
-#~ msgstr "Játék: Csak transzport egységebõl lehet kirakodni."
-
-#~ msgid "The discovery of %s will reduce this by 1.  "
-#~ msgstr "A %s felfedezése ezt 1-el csökkenti.  "
-
-#~ msgid "The discovery of %s will increase this by 1.  "
-#~ msgstr "A %s felfedezése ezt 1-el növeli.  "
-
-#~ msgid "Low Funds                "
-#~ msgstr "Alacsony pénztartalékok  "
-
-#~ msgid "Pollution                "
-#~ msgstr "Szennyezés               "
-
-#~ msgid "Civil Disorder           "
-#~ msgstr "Polgárlázongások         "
-
-#~ msgid "City Growth              "
-#~ msgstr "Városnövekedés           "
-
-#~ msgid "Unit Built               "
-#~ msgstr "Egység megépítve         "
-
-#~ msgid "Improvement Sold         "
-#~ msgstr "Épitmény eladva          "
-
-#~ msgid "First Contact            "
-#~ msgstr "Elsõ találkozás          "
-
-#~ msgid "Game: Select a unit or improvement to change production from."
-#~ msgstr "Játék: Válassz egységet/épületet amit cserélni akarsz."
-
-#~ msgid "Game: That's the same thing!"
-#~ msgstr "Játék: A kettõ ugyanaz!"
-
-#~ msgid ""
-#~ "; Allows a city to grow larger than size 8.  A Sewer System is also;  "
-#~ "required for a city to grow larger than size 12.; "
-#~ msgstr ""
-#~ "; Lehetõvéteszi egy városnak, hogy 8-as méret fölé nõjön.  "
-#~ "Csatornarendszer;  is szükséges, hogy egy város 12-es méret fölé nõjön.; "
-
-#~ msgid ""
-#~ "; Allows a city to grow larger than size 12.  An Aqueduct is first;  "
-#~ "required for a city to grow larger than size 8.; "
-#~ msgstr ""
-#~ "; Lehetõvéteszi egy városnak, hogy 12-es méret fölé nõjön.  Elõször "
-#~ "vízvezeték kell;  ami szükséges, hogy egy város 8-as méret fölé nõjön.; "
-
-#~ msgid "; Allows a city to grow larger than size 10.; "
-#~ msgstr "; Lehetõvé teszi egy városnak, hogy 10-es méret fölé nõjön.; "
