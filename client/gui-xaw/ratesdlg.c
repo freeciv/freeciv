@@ -94,7 +94,7 @@ void popup_rates_dialog(void)
 		    &x, &y);
   XtVaSetValues(rates_dialog_shell, XtNx, x, XtNy, y, NULL);
 
-  my_snprintf(buf, sizeof(buf), "%s max rate: %d%%",
+  my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
 	  get_government_name(game.player_ptr->government),
 	  get_government_max_rate(game.player_ptr->government));
   xaw_set_label(rates_gov_label, buf);
