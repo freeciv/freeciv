@@ -9004,7 +9004,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:819
 msgid "Allows a city to grow larger than size 12.  An Aqueduct is first required for a city to grow larger than size 8."
-msgstr "Permet à une ville de dépasser une taille de 12. Un aqueduc est d'abordrequis pour qu'une ville dépasse une taille de 8."
+msgstr "Permet à une ville de dépasser une taille de 12. Un aqueduc est d'abord requis pour qu'une ville dépasse une taille de 8."
 
 #: data/civ1/buildings.ruleset:1087
 msgid "All cities on the map become visible for the player who owns it.  It allows all players to start building spaceship parts (assuming they have researched the necessary technologies)."
