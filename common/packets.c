@@ -684,6 +684,7 @@ recieve_packet_player_info(struct connection *pc)
   cptr=get_int8(cptr, &pinfo->luxury);
 
   cptr=get_int16(cptr, &pinfo->researched);
+  if(pinfo->researched > 32767) pinfo->researched-=65536;
   cptr=get_int16(cptr, &pinfo->researchpoints);
   cptr=get_int8(cptr, &pinfo->researching);
   cptr=get_bit_string(cptr, (char*)pinfo->inventions);
