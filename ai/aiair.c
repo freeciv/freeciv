@@ -178,12 +178,12 @@ static int find_something_to_bomb(struct unit *punit, int x, int y)
   /* Let's find something to bomb */
   iterate_outward(x, y, max_dist, x1, y1) {
 
-    if ((ai_handicap(pplayer, H_MAP) && !map_get_known(x, y, pplayer))) {
+    if (ai_handicap(pplayer, H_MAP) && !map_get_known(x1, y1, pplayer)) {
       /* The target tile is unknown */
       continue;
     }
     if (ai_handicap(pplayer, H_FOG) 
-        && !map_get_known_and_seen(x, y, pplayer)) {
+        && !map_get_known_and_seen(x1, y1, pplayer)) {
       /* The tile is fogged */
       continue;
     }
