@@ -96,12 +96,9 @@ Syntax:
      remove-cap: don't transfer this field if the given capability is
      available at runtime.
 
-     dsend: force the creation of a dsend_packet_* function. Normally
-     this dsend function isn't generated if the number of fields if
-     larger than 5.
+     dsend: request the creation of a dsend_packet_* function.
 
-     lsend: force the creation of a lsend_packet_* function. Normally
-     lsend functions are only created for server-client packets.
+     lsend: request the creation of a lsend_packet_* function.
 
      cs: a packet which is sent from the client to the server
 
@@ -226,10 +223,10 @@ end
 PACKET_PROCESSING_FINISHED=1; sc
 end
 
-PACKET_FREEZE_HINT=2;sc
+PACKET_FREEZE_HINT=2;sc,lsend
 end
 
-PACKET_THAW_HINT=3;sc
+PACKET_THAW_HINT=3;sc,lsend
 end
 
 /************** Login/pregame/endgame packets **********************/
@@ -263,29 +260,29 @@ PACKET_AUTHENTICATION_REPLY=7;cs,no-handle
 end
 
 
-PACKET_SERVER_SHUTDOWN=8;sc
+PACKET_SERVER_SHUTDOWN=8;sc,lsend
 end
 
-PACKET_NATIONS_SELECTED_INFO=9;sc
+PACKET_NATIONS_SELECTED_INFO=9;sc,lsend
   UINT8 num_nations_used;
   NATION nations_used[MAX_NUM_PLAYERS:num_nations_used];
 end
 
-PACKET_NATION_SELECT_REQ=10;cs
+PACKET_NATION_SELECT_REQ=10;cs,dsend
   NATION nation_no;
   BOOL is_male;
   STRING name[MAX_LEN_NAME];
   UINT8 city_style;
 end
 
-PACKET_NATION_SELECT_OK=11;sc
+PACKET_NATION_SELECT_OK=11;sc,lsend
 end
 
-PACKET_GAME_STATE=12;post-send,post-recv,sc
+PACKET_GAME_STATE=12;post-send,post-recv,sc,dsend,lsend
   UINT32 value;
 end
 
-PACKET_ENDGAME_REPORT=13;sc
+PACKET_ENDGAME_REPORT=13;sc,lsend
   UINT8 nscores;
   PLAYER id[MAX_NUM_PLAYERS:nscores];
   UINT16 score[MAX_NUM_PLAYERS:nscores];
@@ -305,7 +302,7 @@ end
 
 /************** Info packets **********************/
 
-PACKET_TILE_INFO=14; is-info,sc
+PACKET_TILE_INFO=14; is-info,sc,lsend
   COORD x, y; key
 
   TERRAIN type;
@@ -346,35 +343,35 @@ PACKET_GAME_INFO=15; is-info,sc
   UINT16 global_wonders[B_LAST]; diff
 end
 
-PACKET_MAP_INFO=16; is-info,sc
+PACKET_MAP_INFO=16; is-info,sc,lsend
   COORD xsize;
   COORD ysize;
   UINT8 topology_id;
 end
 
-PACKET_NUKE_TILE_INFO=17;sc
+PACKET_NUKE_TILE_INFO=17;sc,dsend,lsend
   COORD x,y;
 end
 
 /************** Chat/event packets **********************/
 
-PACKET_CHAT_MSG=18;sc, pre-send, post-recv
+PACKET_CHAT_MSG=18;sc, pre-send, post-recv,lsend
   STRING message[MAX_LEN_MSG];
   COORD x, y;
   EVENT event;
 end
 
-PACKET_CHAT_MSG_REQ=19;cs,handle-per-conn
+PACKET_CHAT_MSG_REQ=19;cs,handle-per-conn,dsend
   STRING message[MAX_LEN_MSG];
 end
 
 /************** City packets **********************/
 
-PACKET_CITY_REMOVE=20;sc
+PACKET_CITY_REMOVE=20;sc,dsend,lsend
   CITY city_id;
 end
 
-PACKET_CITY_INFO=21; is-info,sc
+PACKET_CITY_INFO=21; is-info,sc,lsend
   CITY id; key
   PLAYER owner;
   COORD x,y;
@@ -418,7 +415,7 @@ PACKET_CITY_INFO=21; is-info,sc
   TURN turn_founded;
 end
 
-PACKET_CITY_SHORT_INFO=22; is-info,sc
+PACKET_CITY_SHORT_INFO=22; is-info,sc,lsend
   CITY id;key
   PLAYER owner;
   COORD x;
@@ -433,60 +430,60 @@ PACKET_CITY_SHORT_INFO=22; is-info,sc
   UINT16 tile_trade;
 end
 
-PACKET_CITY_SELL=23;cs
+PACKET_CITY_SELL=23;cs,dsend
   CITY city_id;
   UINT8 build_id;
 end
 
-PACKET_CITY_BUY=24;cs
+PACKET_CITY_BUY=24;cs,dsend
   CITY city_id;
 end
 
-PACKET_CITY_CHANGE=25;cs
+PACKET_CITY_CHANGE=25;cs,dsend
   CITY city_id;
   UINT8 build_id;
   BOOL is_build_id_unit_id;
 end
 
-PACKET_CITY_WORKLIST=26;cs
+PACKET_CITY_WORKLIST=26;cs,dsend
   CITY city_id;
   WORKLIST worklist;
 end
 
-PACKET_CITY_MAKE_SPECIALIST=27;cs
+PACKET_CITY_MAKE_SPECIALIST=27;cs,dsend
   CITY city_id;
   COORD worker_x, worker_y;
 end
 
-PACKET_CITY_MAKE_WORKER=28;cs
+PACKET_CITY_MAKE_WORKER=28;cs,dsend
   CITY city_id;
   COORD worker_x, worker_y;
 end
 
-PACKET_CITY_CHANGE_SPECIALIST=29;cs
+PACKET_CITY_CHANGE_SPECIALIST=29;cs,dsend
   CITY city_id;
   SPECIALIST from, to;
 end
 
-PACKET_CITY_RENAME=30;cs
+PACKET_CITY_RENAME=30;cs,dsend
   CITY city_id;
   STRING name[MAX_LEN_NAME];
 end
 
-PACKET_CITY_OPTIONS_REQ=31;cs
+PACKET_CITY_OPTIONS_REQ=31;cs,dsend
   CITY city_id;
   UINT8 value;
 end
 
-PACKET_CITY_REFRESH=32;cs
+PACKET_CITY_REFRESH=32;cs,dsend
   CITY city_id;
 end
 
-PACKET_CITY_INCITE_INQ=33;cs,handle-per-conn
+PACKET_CITY_INCITE_INQ=33;cs,handle-per-conn,dsend
   CITY city_id;
 end
 
-PACKET_CITY_INCITE_INFO=34;sc
+PACKET_CITY_INCITE_INFO=34;sc,dsend
   CITY city_id;
   GOLD cost;
 end
@@ -497,16 +494,16 @@ end
 # it arrives back. (Currently, for city renaming, default is existing
 # name; if wanted to suggest a new name, could do the same thing
 # sending the city id as id, and only client needs to change.)
-PACKET_CITY_NAME_SUGGESTION_REQ=35;cs
+PACKET_CITY_NAME_SUGGESTION_REQ=35;cs,dsend
   UNIT unit_id;
 end
 
-PACKET_CITY_NAME_SUGGESTION_INFO=36;sc
+PACKET_CITY_NAME_SUGGESTION_INFO=36;sc,dsend,lsend
   UNIT unit_id;
   STRING name[MAX_LEN_NAME];
 end
 
-PACKET_CITY_SABOTAGE_LIST=37;sc
+PACKET_CITY_SABOTAGE_LIST=37;sc,lsend
   UNIT diplomat_id;
   CITY city_id;
   BIT_STRING improvements[B_LAST+1];
@@ -514,7 +511,7 @@ end
 
 /************** Player packets **********************/
 
-PACKET_PLAYER_REMOVE=38; sc
+PACKET_PLAYER_REMOVE=38; sc,dsend,lsend
   PLAYER player_id;
 end
 
@@ -555,22 +552,22 @@ end
 PACKET_PLAYER_TURN_DONE=40;cs
 end
 
-PACKET_PLAYER_RATES=41;cs
+PACKET_PLAYER_RATES=41;cs,dsend
   PERCENT tax, luxury, science;
 end
 
 PACKET_PLAYER_REVOLUTION=42;cs
 end
 
-PACKET_PLAYER_GOVERNMENT=43;cs
+PACKET_PLAYER_GOVERNMENT=43;cs,dsend
   GOVERNMENT government;
 end
 
-PACKET_PLAYER_RESEARCH=44;cs
+PACKET_PLAYER_RESEARCH=44;cs,dsend
   TECH tech;
 end
 
-PACKET_PLAYER_TECH_GOAL=45;cs
+PACKET_PLAYER_TECH_GOAL=45;cs,dsend
   TECH tech;
 end
 
@@ -585,11 +582,11 @@ end
 
 /************** Unit packets **********************/
 
-PACKET_UNIT_REMOVE=48;sc
+PACKET_UNIT_REMOVE=48;sc,dsend,lsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_INFO=49; is-info,sc
+PACKET_UNIT_INFO=49; is-info,sc,lsend
   UNIT id; key
   PLAYER owner;
   COORD x,y;
@@ -613,7 +610,7 @@ PACKET_UNIT_INFO=49; is-info,sc
   DIRECTION orders_dirs[MAX_LEN_ROUTE:orders_length];
 end
 
-PACKET_UNIT_SHORT_INFO=50; is-info,sc
+PACKET_UNIT_SHORT_INFO=50; is-info,sc,lsend
   UNIT id; key
   PLAYER owner;
   COORD x,y;
@@ -634,7 +631,7 @@ PACKET_UNIT_SHORT_INFO=50; is-info,sc
 			   (not used by UNIT_INFO_IDENTITY) */
 end
 
-PACKET_UNIT_COMBAT_INFO=51; sc
+PACKET_UNIT_COMBAT_INFO=51; sc,lsend
   UNIT attacker_unit_id;
   UNIT defender_unit_id;
   HP attacker_hp;
@@ -642,35 +639,35 @@ PACKET_UNIT_COMBAT_INFO=51; sc
   BOOL make_winner_veteran;
 end
 
-PACKET_UNIT_MOVE=52;cs
+PACKET_UNIT_MOVE=52;cs,dsend
   UNIT unit_id;
   COORD x, y;
 end
 
-PACKET_UNIT_BUILD_CITY=53;cs
+PACKET_UNIT_BUILD_CITY=53;cs,dsend
   UNIT unit_id;
   STRING name[MAX_LEN_NAME];
 end
 
-PACKET_UNIT_DISBAND=54;cs
+PACKET_UNIT_DISBAND=54;cs,dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_CHANGE_HOMECITY=55;cs
+PACKET_UNIT_CHANGE_HOMECITY=55;cs,dsend
   UNIT unit_id;
   CITY city_id;
 end
 
-PACKET_UNIT_ESTABLISH_TRADE=56;cs
+PACKET_UNIT_ESTABLISH_TRADE=56;cs,dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_HELP_BUILD_WONDER=57;cs
+PACKET_UNIT_HELP_BUILD_WONDER=57;cs,dsend
   UNIT unit_id;
 end
 
 # used for server-side goto (air units only)
-PACKET_UNIT_GOTO=58;cs
+PACKET_UNIT_GOTO=58;cs,dsend
   UNIT unit_id;
   COORD x, y;
 end
@@ -685,28 +682,28 @@ PACKET_UNIT_ORDERS=59;cs
   COORD dest_x, dest_y;
 end
 
-PACKET_UNIT_AUTO=60;cs
+PACKET_UNIT_AUTO=60;cs,dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_UNLOAD=61;cs
+PACKET_UNIT_UNLOAD=61;cs,dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_UPGRADE=62;cs
+PACKET_UNIT_UPGRADE=62;cs,dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_NUKE=63;cs
+PACKET_UNIT_NUKE=63;cs,dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_PARADROP_TO=64;cs
+PACKET_UNIT_PARADROP_TO=64;cs,dsend
   UNIT unit_id;
   COORD x, y;
 end
 
-PACKET_UNIT_AIRLIFT=65;cs
+PACKET_UNIT_AIRLIFT=65;cs,dsend
   UNIT unit_id;
   CITY city_id;
 end
@@ -718,32 +715,32 @@ PACKET_UNIT_CONNECT=66;cs
   COORD dest_y;
 end
 
-PACKET_UNIT_BRIBE_INQ=67;cs,handle-per-conn
+PACKET_UNIT_BRIBE_INQ=67;cs,handle-per-conn,dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_BRIBE_INFO=68;sc
+PACKET_UNIT_BRIBE_INFO=68;sc,dsend
   UNIT unit_id;
   GOLD cost;
 end
 
-PACKET_UNIT_TYPE_UPGRADE=69;cs
+PACKET_UNIT_TYPE_UPGRADE=69;cs,dsend
   UNIT_TYPE type;
 end
 
-PACKET_UNIT_DIPLOMAT_ACTION=70;cs
+PACKET_UNIT_DIPLOMAT_ACTION=70;cs,dsend
   UNIT diplomat_id;
   DIPLOMAT_ACTION action_type;
   UNIT target_id;   # city_id or unit_id target_id;
   UINT16 value;
 end
 
-PACKET_UNIT_DIPLOMAT_POPUP_DIALOG=71;sc
+PACKET_UNIT_DIPLOMAT_POPUP_DIALOG=71;sc,dsend,lsend
   UNIT diplomat_id;
   UINT32 target_id;
 end
 
-PACKET_UNIT_CHANGE_ACTIVITY=72; cs
+PACKET_UNIT_CHANGE_ACTIVITY=72; cs,dsend
   UNIT unit_id;
   ACTIVITY activity;
   SPECIAL activity_target;
@@ -751,68 +748,68 @@ end
 
 /************** Diplomacy packets **********************/
 
-PACKET_DIPLOMACY_INIT_MEETING_REQ=73;cs
+PACKET_DIPLOMACY_INIT_MEETING_REQ=73;cs,dsend
   PLAYER counterpart;
 end
 
-PACKET_DIPLOMACY_INIT_MEETING=74;sc
+PACKET_DIPLOMACY_INIT_MEETING=74;sc,dsend,lsend
   PLAYER counterpart, initiated_from;
 end
 
-PACKET_DIPLOMACY_CANCEL_MEETING_REQ=75;cs
+PACKET_DIPLOMACY_CANCEL_MEETING_REQ=75;cs,dsend
   PLAYER counterpart;
 end
 
-PACKET_DIPLOMACY_CANCEL_MEETING=76;sc
+PACKET_DIPLOMACY_CANCEL_MEETING=76;sc,dsend,lsend
   PLAYER counterpart, initiated_from;
 end
 
-PACKET_DIPLOMACY_CREATE_CLAUSE_REQ=77;cs
+PACKET_DIPLOMACY_CREATE_CLAUSE_REQ=77;cs,dsend
   PLAYER counterpart, giver;
   CLAUSE type;
   UINT32 value;
 end
 
-PACKET_DIPLOMACY_CREATE_CLAUSE=78;sc
+PACKET_DIPLOMACY_CREATE_CLAUSE=78;sc,dsend,lsend
   PLAYER counterpart, giver;
   CLAUSE type;
   UINT32 value;
 end
 
-PACKET_DIPLOMACY_REMOVE_CLAUSE_REQ=79;cs
+PACKET_DIPLOMACY_REMOVE_CLAUSE_REQ=79;cs,dsend
   PLAYER counterpart, giver;
   CLAUSE type;
   UINT32 value;
 end
 
-PACKET_DIPLOMACY_REMOVE_CLAUSE=80;sc
+PACKET_DIPLOMACY_REMOVE_CLAUSE=80;sc,dsend,lsend
   PLAYER counterpart, giver;
   CLAUSE type;
   UINT32 value;
 end
 
-PACKET_DIPLOMACY_ACCEPT_TREATY_REQ=81;cs
+PACKET_DIPLOMACY_ACCEPT_TREATY_REQ=81;cs,dsend
   PLAYER counterpart;
 end
 
-PACKET_DIPLOMACY_ACCEPT_TREATY=82;sc
+PACKET_DIPLOMACY_ACCEPT_TREATY=82;sc,dsend,lsend
   PLAYER counterpart;
   BOOL I_accepted, other_accepted;
 end
 
-PACKET_DIPLOMACY_CANCEL_PACT=83;cs
+PACKET_DIPLOMACY_CANCEL_PACT=83;cs,dsend
   PLAYER other_player_id;
   CLAUSE clause;
 end
 
 /**************  Report packets **********************/
 
-PACKET_PAGE_MSG=84;sc
+PACKET_PAGE_MSG=84;sc,lsend
   STRING message[MAX_LEN_MSG];
   EVENT event;
 end
 
-PACKET_REPORT_REQ=85;cs,handle-per-conn
+PACKET_REPORT_REQ=85;cs,handle-per-conn,dsend
   REPORT_TYPE type;
 end
 
@@ -821,7 +818,7 @@ end
 # For telling clients information about other connections to server.
 # Clients may not use all info, but supply now to avoid unnecessary
 # protocol changes later.
-PACKET_CONN_INFO=86; is-info,sc
+PACKET_CONN_INFO=86; is-info,sc,lsend
   CONNECTION id; key
 
   # 0 means client should forget its
@@ -837,7 +834,7 @@ PACKET_CONN_INFO=86; is-info,sc
 end
 
 # Information about the ping times of the connections.
-PACKET_CONN_PING_INFO=87; sc
+PACKET_CONN_PING_INFO=87; sc,lsend
   UINT8 connections;
   CONNECTION conn_id[MAX_NUM_PLAYERS:connections];
   float1000000(float) ping_time[MAX_NUM_PLAYERS:connections];
@@ -851,14 +848,14 @@ end
 
 /************** New turn packets **********************/
 
-PACKET_BEFORE_NEW_YEAR=90;sc
+PACKET_BEFORE_NEW_YEAR=90;sc,lsend
 end
 
-PACKET_START_TURN=91;sc
+PACKET_START_TURN=91;sc,lsend
 end
 
 # send to each client whenever the turn has ended.
-PACKET_NEW_YEAR=92;sc
+PACKET_NEW_YEAR=92;sc,lsend
   YEAR year;
   TURN turn;
 end
@@ -868,7 +865,7 @@ end
 PACKET_SPACESHIP_LAUNCH=93;cs
 end
 
-PACKET_SPACESHIP_PLACE=94;cs
+PACKET_SPACESHIP_PLACE=94;cs,dsend
   PLACE_TYPE type;
 
   # Meaning of num:
@@ -882,7 +879,7 @@ PACKET_SPACESHIP_PLACE=94;cs
   UINT8 num;
 end
 
-PACKET_SPACESHIP_INFO=95; is-info,sc
+PACKET_SPACESHIP_INFO=95; is-info,sc,lsend
   PLAYER player_num; key
   UINT8 sship_state;
   UINT8 structurals;
@@ -905,7 +902,7 @@ end
 
 /************** Ruleset packets **********************/
 
-PACKET_RULESET_UNIT=96;sc
+PACKET_RULESET_UNIT=96;sc,lsend
   UNIT_TYPE id;
   STRING name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
@@ -948,7 +945,7 @@ PACKET_RULESET_UNIT=96;sc
   bitvector(bv_roles) roles;
 end
 
-PACKET_RULESET_GAME=97;sc
+PACKET_RULESET_GAME=97;sc,lsend
   UINT8 min_city_center_food;
   UINT8 min_city_center_shield;
   UINT8 min_city_center_trade;
@@ -968,7 +965,7 @@ PACKET_RULESET_GAME=97;sc
   UINT8 veteran_chance[MAX_VET_LEVELS]; add-cap(veteran)
 end
 
-PACKET_RULESET_GOVERNMENT_RULER_TITLE=98;sc
+PACKET_RULESET_GOVERNMENT_RULER_TITLE=98;sc,lsend
   GOVERNMENT gov;
   UINT8 id;
   NATION nation;
@@ -976,7 +973,7 @@ PACKET_RULESET_GOVERNMENT_RULER_TITLE=98;sc
   STRING female_title[MAX_LEN_NAME];
 end
 
-PACKET_RULESET_TECH=99;sc
+PACKET_RULESET_TECH=99;sc,lsend
   TECH id;
   TECH req[2];
   TECH root_req;
@@ -987,7 +984,7 @@ PACKET_RULESET_TECH=99;sc
   STRING graphic_alt[MAX_LEN_NAME];
 end
 
-PACKET_RULESET_GOVERNMENT=100;sc
+PACKET_RULESET_GOVERNMENT=100;sc,lsend
   GOVERNMENT id;
 
   UINT8 required_tech;
@@ -1050,7 +1047,7 @@ PACKET_RULESET_GOVERNMENT=100;sc
   STRING helptext[MAX_LEN_PACKET];
 end
 
-PACKET_RULESET_TERRAIN_CONTROL=101;sc
+PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
   BOOL may_road;       /* may build roads/railroads */
   BOOL may_irrigate;   /* may build irrigation/farmland */
   BOOL may_mine;       /* may build mines */
@@ -1079,7 +1076,7 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc
   UINT16 fallout_trade_penalty;         /* % subtr. from trade if fallout */
 end
 
-PACKET_RULESET_NATION=102;sc
+PACKET_RULESET_NATION=102;sc,lsend
   NATION id;
 
   STRING name[MAX_LEN_NAME];
@@ -1097,7 +1094,7 @@ PACKET_RULESET_NATION=102;sc
   BOOL leader_sex[MAX_NUM_LEADERS:leader_count];
 end
 
-PACKET_RULESET_CITY=103;sc
+PACKET_RULESET_CITY=103;sc,lsend
   UINT8 style_id; 
   UINT8 techreq;
   STRING name[MAX_LEN_NAME];
@@ -1108,7 +1105,7 @@ PACKET_RULESET_CITY=103;sc
   SINT8 replaced_by;
 end
 
-PACKET_RULESET_BUILDING=104;sc
+PACKET_RULESET_BUILDING=104;sc,lsend
   IMPROVEMENT id;
   STRING name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
@@ -1135,7 +1132,7 @@ PACKET_RULESET_BUILDING=104;sc
   EFFECT effect[255:effect_count];  
 end
 
-PACKET_RULESET_TERRAIN=105;sc
+PACKET_RULESET_TERRAIN=105;sc,lsend
   TERRAIN id;
 
   bitvector(bv_terrain_flags) flags;
@@ -1190,7 +1187,7 @@ end
   is sent again each turn.  (Terrain ruleset has enough
   info for its own "control" packet, done separately.)
 *********************************************************/
-PACKET_RULESET_CONTROL=106;sc
+PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 aqueduct_size;
   UINT8 sewer_size;
   UINT8 add_to_size_limit;

@@ -1072,11 +1072,9 @@ enum packet_type {
 
 struct packet_processing_started *receive_packet_processing_started(struct connection *pc, enum packet_type type);
 int send_packet_processing_started(struct connection *pc);
-void lsend_packet_processing_started(struct conn_list *dest);
 
 struct packet_processing_finished *receive_packet_processing_finished(struct connection *pc, enum packet_type type);
 int send_packet_processing_finished(struct connection *pc);
-void lsend_packet_processing_finished(struct conn_list *dest);
 
 struct packet_freeze_hint *receive_packet_freeze_hint(struct connection *pc, enum packet_type type);
 int send_packet_freeze_hint(struct connection *pc);
@@ -1092,19 +1090,12 @@ int dsend_packet_server_join_req(struct connection *pc, const char *username, co
 
 struct packet_server_join_reply *receive_packet_server_join_reply(struct connection *pc, enum packet_type type);
 int send_packet_server_join_reply(struct connection *pc, const struct packet_server_join_reply *packet);
-void lsend_packet_server_join_reply(struct conn_list *dest, const struct packet_server_join_reply *packet);
-int dsend_packet_server_join_reply(struct connection *pc, bool you_can_join, const char *message, const char *capability, int conn_id);
-void dlsend_packet_server_join_reply(struct conn_list *dest, bool you_can_join, const char *message, const char *capability, int conn_id);
 
 struct packet_authentication_req *receive_packet_authentication_req(struct connection *pc, enum packet_type type);
 int send_packet_authentication_req(struct connection *pc, const struct packet_authentication_req *packet);
-void lsend_packet_authentication_req(struct conn_list *dest, const struct packet_authentication_req *packet);
-int dsend_packet_authentication_req(struct connection *pc, enum authentication_type type, const char *message);
-void dlsend_packet_authentication_req(struct conn_list *dest, enum authentication_type type, const char *message);
 
 struct packet_authentication_reply *receive_packet_authentication_reply(struct connection *pc, enum packet_type type);
 int send_packet_authentication_reply(struct connection *pc, const struct packet_authentication_reply *packet);
-int dsend_packet_authentication_reply(struct connection *pc, const char *password);
 
 struct packet_server_shutdown *receive_packet_server_shutdown(struct connection *pc, enum packet_type type);
 int send_packet_server_shutdown(struct connection *pc);
@@ -1113,8 +1104,6 @@ void lsend_packet_server_shutdown(struct conn_list *dest);
 struct packet_nations_selected_info *receive_packet_nations_selected_info(struct connection *pc, enum packet_type type);
 int send_packet_nations_selected_info(struct connection *pc, const struct packet_nations_selected_info *packet);
 void lsend_packet_nations_selected_info(struct conn_list *dest, const struct packet_nations_selected_info *packet);
-int dsend_packet_nations_selected_info(struct connection *pc, int num_nations_used, Nation_Type_id *nations_used);
-void dlsend_packet_nations_selected_info(struct conn_list *dest, int num_nations_used, Nation_Type_id *nations_used);
 
 struct packet_nation_select_req *receive_packet_nation_select_req(struct connection *pc, enum packet_type type);
 int send_packet_nation_select_req(struct connection *pc, const struct packet_nation_select_req *packet);
@@ -1140,13 +1129,10 @@ void lsend_packet_tile_info(struct conn_list *dest, const struct packet_tile_inf
 
 struct packet_game_info *receive_packet_game_info(struct connection *pc, enum packet_type type);
 int send_packet_game_info(struct connection *pc, const struct packet_game_info *packet);
-void lsend_packet_game_info(struct conn_list *dest, const struct packet_game_info *packet);
 
 struct packet_map_info *receive_packet_map_info(struct connection *pc, enum packet_type type);
 int send_packet_map_info(struct connection *pc, const struct packet_map_info *packet);
 void lsend_packet_map_info(struct conn_list *dest, const struct packet_map_info *packet);
-int dsend_packet_map_info(struct connection *pc, int xsize, int ysize, int topology_id);
-void dlsend_packet_map_info(struct conn_list *dest, int xsize, int ysize, int topology_id);
 
 struct packet_nuke_tile_info *receive_packet_nuke_tile_info(struct connection *pc, enum packet_type type);
 int send_packet_nuke_tile_info(struct connection *pc, const struct packet_nuke_tile_info *packet);
@@ -1157,8 +1143,6 @@ void dlsend_packet_nuke_tile_info(struct conn_list *dest, int x, int y);
 struct packet_chat_msg *receive_packet_chat_msg(struct connection *pc, enum packet_type type);
 int send_packet_chat_msg(struct connection *pc, const struct packet_chat_msg *packet);
 void lsend_packet_chat_msg(struct conn_list *dest, const struct packet_chat_msg *packet);
-int dsend_packet_chat_msg(struct connection *pc, const char *message, int x, int y, enum event_type event);
-void dlsend_packet_chat_msg(struct conn_list *dest, const char *message, int x, int y, enum event_type event);
 
 struct packet_chat_msg_req *receive_packet_chat_msg_req(struct connection *pc, enum packet_type type);
 int send_packet_chat_msg_req(struct connection *pc, const struct packet_chat_msg_req *packet);
@@ -1224,9 +1208,7 @@ int dsend_packet_city_incite_inq(struct connection *pc, int city_id);
 
 struct packet_city_incite_info *receive_packet_city_incite_info(struct connection *pc, enum packet_type type);
 int send_packet_city_incite_info(struct connection *pc, const struct packet_city_incite_info *packet);
-void lsend_packet_city_incite_info(struct conn_list *dest, const struct packet_city_incite_info *packet);
 int dsend_packet_city_incite_info(struct connection *pc, int city_id, int cost);
-void dlsend_packet_city_incite_info(struct conn_list *dest, int city_id, int cost);
 
 struct packet_city_name_suggestion_req *receive_packet_city_name_suggestion_req(struct connection *pc, enum packet_type type);
 int send_packet_city_name_suggestion_req(struct connection *pc, const struct packet_city_name_suggestion_req *packet);
@@ -1241,8 +1223,6 @@ void dlsend_packet_city_name_suggestion_info(struct conn_list *dest, int unit_id
 struct packet_city_sabotage_list *receive_packet_city_sabotage_list(struct connection *pc, enum packet_type type);
 int send_packet_city_sabotage_list(struct connection *pc, const struct packet_city_sabotage_list *packet);
 void lsend_packet_city_sabotage_list(struct conn_list *dest, const struct packet_city_sabotage_list *packet);
-int dsend_packet_city_sabotage_list(struct connection *pc, int diplomat_id, int city_id, char *improvements);
-void dlsend_packet_city_sabotage_list(struct conn_list *dest, int diplomat_id, int city_id, char *improvements);
 
 struct packet_player_remove *receive_packet_player_remove(struct connection *pc, enum packet_type type);
 int send_packet_player_remove(struct connection *pc, const struct packet_player_remove *packet);
@@ -1252,7 +1232,6 @@ void dlsend_packet_player_remove(struct conn_list *dest, int player_id);
 
 struct packet_player_info *receive_packet_player_info(struct connection *pc, enum packet_type type);
 int send_packet_player_info(struct connection *pc, const struct packet_player_info *packet);
-void lsend_packet_player_info(struct conn_list *dest, const struct packet_player_info *packet);
 
 struct packet_player_turn_done *receive_packet_player_turn_done(struct connection *pc, enum packet_type type);
 int send_packet_player_turn_done(struct connection *pc);
@@ -1281,9 +1260,6 @@ int send_packet_player_attribute_block(struct connection *pc);
 
 struct packet_player_attribute_chunk *receive_packet_player_attribute_chunk(struct connection *pc, enum packet_type type);
 int send_packet_player_attribute_chunk(struct connection *pc, const struct packet_player_attribute_chunk *packet);
-void lsend_packet_player_attribute_chunk(struct conn_list *dest, const struct packet_player_attribute_chunk *packet);
-int dsend_packet_player_attribute_chunk(struct connection *pc, int offset, int total_length, int chunk_length, unsigned char *data);
-void dlsend_packet_player_attribute_chunk(struct conn_list *dest, int offset, int total_length, int chunk_length, unsigned char *data);
 
 struct packet_unit_remove *receive_packet_unit_remove(struct connection *pc, enum packet_type type);
 int send_packet_unit_remove(struct connection *pc, const struct packet_unit_remove *packet);
@@ -1302,8 +1278,6 @@ void lsend_packet_unit_short_info(struct conn_list *dest, const struct packet_un
 struct packet_unit_combat_info *receive_packet_unit_combat_info(struct connection *pc, enum packet_type type);
 int send_packet_unit_combat_info(struct connection *pc, const struct packet_unit_combat_info *packet);
 void lsend_packet_unit_combat_info(struct conn_list *dest, const struct packet_unit_combat_info *packet);
-int dsend_packet_unit_combat_info(struct connection *pc, int attacker_unit_id, int defender_unit_id, int attacker_hp, int defender_hp, bool make_winner_veteran);
-void dlsend_packet_unit_combat_info(struct conn_list *dest, int attacker_unit_id, int defender_unit_id, int attacker_hp, int defender_hp, bool make_winner_veteran);
 
 struct packet_unit_move *receive_packet_unit_move(struct connection *pc, enum packet_type type);
 int send_packet_unit_move(struct connection *pc, const struct packet_unit_move *packet);
@@ -1362,7 +1336,6 @@ int dsend_packet_unit_airlift(struct connection *pc, int unit_id, int city_id);
 
 struct packet_unit_connect *receive_packet_unit_connect(struct connection *pc, enum packet_type type);
 int send_packet_unit_connect(struct connection *pc, const struct packet_unit_connect *packet);
-int dsend_packet_unit_connect(struct connection *pc, int unit_id, enum unit_activity activity_type, int dest_x, int dest_y);
 
 struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq(struct connection *pc, enum packet_type type);
 int send_packet_unit_bribe_inq(struct connection *pc, const struct packet_unit_bribe_inq *packet);
@@ -1370,9 +1343,7 @@ int dsend_packet_unit_bribe_inq(struct connection *pc, int unit_id);
 
 struct packet_unit_bribe_info *receive_packet_unit_bribe_info(struct connection *pc, enum packet_type type);
 int send_packet_unit_bribe_info(struct connection *pc, const struct packet_unit_bribe_info *packet);
-void lsend_packet_unit_bribe_info(struct conn_list *dest, const struct packet_unit_bribe_info *packet);
 int dsend_packet_unit_bribe_info(struct connection *pc, int unit_id, int cost);
-void dlsend_packet_unit_bribe_info(struct conn_list *dest, int unit_id, int cost);
 
 struct packet_unit_type_upgrade *receive_packet_unit_type_upgrade(struct connection *pc, enum packet_type type);
 int send_packet_unit_type_upgrade(struct connection *pc, const struct packet_unit_type_upgrade *packet);
@@ -1449,8 +1420,6 @@ int dsend_packet_diplomacy_cancel_pact(struct connection *pc, int other_player_i
 struct packet_page_msg *receive_packet_page_msg(struct connection *pc, enum packet_type type);
 int send_packet_page_msg(struct connection *pc, const struct packet_page_msg *packet);
 void lsend_packet_page_msg(struct conn_list *dest, const struct packet_page_msg *packet);
-int dsend_packet_page_msg(struct connection *pc, const char *message, enum event_type event);
-void dlsend_packet_page_msg(struct conn_list *dest, const char *message, enum event_type event);
 
 struct packet_report_req *receive_packet_report_req(struct connection *pc, enum packet_type type);
 int send_packet_report_req(struct connection *pc, const struct packet_report_req *packet);
@@ -1463,12 +1432,9 @@ void lsend_packet_conn_info(struct conn_list *dest, const struct packet_conn_inf
 struct packet_conn_ping_info *receive_packet_conn_ping_info(struct connection *pc, enum packet_type type);
 int send_packet_conn_ping_info(struct connection *pc, const struct packet_conn_ping_info *packet);
 void lsend_packet_conn_ping_info(struct conn_list *dest, const struct packet_conn_ping_info *packet);
-int dsend_packet_conn_ping_info(struct connection *pc, int connections, int *conn_id, float *ping_time);
-void dlsend_packet_conn_ping_info(struct conn_list *dest, int connections, int *conn_id, float *ping_time);
 
 struct packet_conn_ping *receive_packet_conn_ping(struct connection *pc, enum packet_type type);
 int send_packet_conn_ping(struct connection *pc);
-void lsend_packet_conn_ping(struct conn_list *dest);
 
 struct packet_conn_pong *receive_packet_conn_pong(struct connection *pc, enum packet_type type);
 int send_packet_conn_pong(struct connection *pc);
@@ -1484,8 +1450,6 @@ void lsend_packet_start_turn(struct conn_list *dest);
 struct packet_new_year *receive_packet_new_year(struct connection *pc, enum packet_type type);
 int send_packet_new_year(struct connection *pc, const struct packet_new_year *packet);
 void lsend_packet_new_year(struct conn_list *dest, const struct packet_new_year *packet);
-int dsend_packet_new_year(struct connection *pc, int year, int turn);
-void dlsend_packet_new_year(struct conn_list *dest, int year, int turn);
 
 struct packet_spaceship_launch *receive_packet_spaceship_launch(struct connection *pc, enum packet_type type);
 int send_packet_spaceship_launch(struct connection *pc);

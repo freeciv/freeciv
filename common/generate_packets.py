@@ -511,15 +511,12 @@ class Variant:
         if self.keys_arg:
             self.keys_arg=",\n    "+self.keys_arg
 
-        self.want_dsend=1
         if len(self.fields)==0:
             self.delta=0
             self.no_packet=1
-            self.want_dsend=0
 
         if len(self.fields)>5 or string.split(self.name,"_")[1]=="ruleset":
             self.handle_via_packet=1
-            self.want_dsend=0
 
         self.extra_send_args=""
         self.extra_send_args2=""
@@ -932,9 +929,6 @@ class Packet:
         self.want_lsend="lsend" in arr
         if self.want_lsend: arr.remove("lsend")
 
-        if "sc" in self.dirs:
-            self.want_lsend=1
-
         assert len(arr)==0,repr(arr)
         
         if disable_delta:
@@ -952,18 +946,16 @@ class Packet:
         if self.keys_arg:
             self.keys_arg=",\n    "+self.keys_arg
 
-        self.want_dsend=1
+        
+        self.want_dsend=self.dsend_given
+
         if len(self.fields)==0:
             self.delta=0
             self.no_packet=1
-            self.want_dsend=0
+            assert not self.want_dsend,"dsend for a packet without fields isn't useful"
 
         if len(self.fields)>5 or string.split(self.name,"_")[1]=="ruleset":
             self.handle_via_packet=1
-            self.want_dsend=0
-
-        if self.dsend_given:
-            self.want_dsend=1
 
         self.extra_send_args=""
         self.extra_send_args2=""

@@ -751,13 +751,6 @@ int send_packet_processing_started(struct connection *pc)
   }
 }
 
-void lsend_packet_processing_started(struct conn_list *dest)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_processing_started(pconn);
-  } conn_list_iterate_end;
-}
-
 static struct packet_processing_finished *receive_packet_processing_finished_100(struct connection *pc, enum packet_type type)
 {
   RECEIVE_PACKET_START(packet_processing_finished, real_packet);
@@ -814,13 +807,6 @@ int send_packet_processing_finished(struct connection *pc)
     case 100: return send_packet_processing_finished_100(pc);
     default: die("unknown variant"); return -1;
   }
-}
-
-void lsend_packet_processing_finished(struct conn_list *dest)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_processing_finished(pconn);
-  } conn_list_iterate_end;
 }
 
 static struct packet_freeze_hint *receive_packet_freeze_hint_100(struct connection *pc, enum packet_type type)
@@ -1109,37 +1095,6 @@ int send_packet_server_join_reply(struct connection *pc, const struct packet_ser
   }
 }
 
-void lsend_packet_server_join_reply(struct conn_list *dest, const struct packet_server_join_reply *packet)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_server_join_reply(pconn, packet);
-  } conn_list_iterate_end;
-}
-
-int dsend_packet_server_join_reply(struct connection *pc, bool you_can_join, const char *message, const char *capability, int conn_id)
-{
-  struct packet_server_join_reply packet, *real_packet = &packet;
-
-  real_packet->you_can_join = you_can_join;
-  sz_strlcpy(real_packet->message, message);
-  sz_strlcpy(real_packet->capability, capability);
-  real_packet->conn_id = conn_id;
-  
-  return send_packet_server_join_reply(pc, real_packet);
-}
-
-void dlsend_packet_server_join_reply(struct conn_list *dest, bool you_can_join, const char *message, const char *capability, int conn_id)
-{
-  struct packet_server_join_reply packet, *real_packet = &packet;
-
-  real_packet->you_can_join = you_can_join;
-  sz_strlcpy(real_packet->message, message);
-  sz_strlcpy(real_packet->capability, capability);
-  real_packet->conn_id = conn_id;
-  
-  lsend_packet_server_join_reply(dest, real_packet);
-}
-
 static unsigned int hash_packet_authentication_req_100(const void *vkey, unsigned int num_buckets)
 {
   return 0;
@@ -1292,33 +1247,6 @@ int send_packet_authentication_req(struct connection *pc, const struct packet_au
   }
 }
 
-void lsend_packet_authentication_req(struct conn_list *dest, const struct packet_authentication_req *packet)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_authentication_req(pconn, packet);
-  } conn_list_iterate_end;
-}
-
-int dsend_packet_authentication_req(struct connection *pc, enum authentication_type type, const char *message)
-{
-  struct packet_authentication_req packet, *real_packet = &packet;
-
-  real_packet->type = type;
-  sz_strlcpy(real_packet->message, message);
-  
-  return send_packet_authentication_req(pc, real_packet);
-}
-
-void dlsend_packet_authentication_req(struct conn_list *dest, enum authentication_type type, const char *message)
-{
-  struct packet_authentication_req packet, *real_packet = &packet;
-
-  real_packet->type = type;
-  sz_strlcpy(real_packet->message, message);
-  
-  lsend_packet_authentication_req(dest, real_packet);
-}
-
 static unsigned int hash_packet_authentication_reply_100(const void *vkey, unsigned int num_buckets)
 {
   return 0;
@@ -1459,15 +1387,6 @@ int send_packet_authentication_reply(struct connection *pc, const struct packet_
     case 100: return send_packet_authentication_reply_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
-}
-
-int dsend_packet_authentication_reply(struct connection *pc, const char *password)
-{
-  struct packet_authentication_reply packet, *real_packet = &packet;
-
-  sz_strlcpy(real_packet->password, password);
-  
-  return send_packet_authentication_reply(pc, real_packet);
 }
 
 static struct packet_server_shutdown *receive_packet_server_shutdown_100(struct connection *pc, enum packet_type type)
@@ -1718,38 +1637,6 @@ void lsend_packet_nations_selected_info(struct conn_list *dest, const struct pac
   conn_list_iterate(*dest, pconn) {
     send_packet_nations_selected_info(pconn, packet);
   } conn_list_iterate_end;
-}
-
-int dsend_packet_nations_selected_info(struct connection *pc, int num_nations_used, Nation_Type_id *nations_used)
-{
-  struct packet_nations_selected_info packet, *real_packet = &packet;
-
-  real_packet->num_nations_used = num_nations_used;
-  {
-    int i;
-
-    for (i = 0; i < real_packet->num_nations_used; i++) {
-      real_packet->nations_used[i] = nations_used[i];
-    }
-  }
-  
-  return send_packet_nations_selected_info(pc, real_packet);
-}
-
-void dlsend_packet_nations_selected_info(struct conn_list *dest, int num_nations_used, Nation_Type_id *nations_used)
-{
-  struct packet_nations_selected_info packet, *real_packet = &packet;
-
-  real_packet->num_nations_used = num_nations_used;
-  {
-    int i;
-
-    for (i = 0; i < real_packet->num_nations_used; i++) {
-      real_packet->nations_used[i] = nations_used[i];
-    }
-  }
-  
-  lsend_packet_nations_selected_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_nation_select_req_100(const void *vkey, unsigned int num_buckets)
@@ -3540,13 +3427,6 @@ int send_packet_game_info(struct connection *pc, const struct packet_game_info *
   }
 }
 
-void lsend_packet_game_info(struct conn_list *dest, const struct packet_game_info *packet)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_game_info(pconn, packet);
-  } conn_list_iterate_end;
-}
-
 static unsigned int hash_packet_map_info_100(const void *vkey, unsigned int num_buckets)
 {
   return 0;
@@ -3714,28 +3594,6 @@ void lsend_packet_map_info(struct conn_list *dest, const struct packet_map_info 
   conn_list_iterate(*dest, pconn) {
     send_packet_map_info(pconn, packet);
   } conn_list_iterate_end;
-}
-
-int dsend_packet_map_info(struct connection *pc, int xsize, int ysize, int topology_id)
-{
-  struct packet_map_info packet, *real_packet = &packet;
-
-  real_packet->xsize = xsize;
-  real_packet->ysize = ysize;
-  real_packet->topology_id = topology_id;
-  
-  return send_packet_map_info(pc, real_packet);
-}
-
-void dlsend_packet_map_info(struct conn_list *dest, int xsize, int ysize, int topology_id)
-{
-  struct packet_map_info packet, *real_packet = &packet;
-
-  real_packet->xsize = xsize;
-  real_packet->ysize = ysize;
-  real_packet->topology_id = topology_id;
-  
-  lsend_packet_map_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_nuke_tile_info_100(const void *vkey, unsigned int num_buckets)
@@ -4111,30 +3969,6 @@ void lsend_packet_chat_msg(struct conn_list *dest, const struct packet_chat_msg 
   conn_list_iterate(*dest, pconn) {
     send_packet_chat_msg(pconn, packet);
   } conn_list_iterate_end;
-}
-
-int dsend_packet_chat_msg(struct connection *pc, const char *message, int x, int y, enum event_type event)
-{
-  struct packet_chat_msg packet, *real_packet = &packet;
-
-  sz_strlcpy(real_packet->message, message);
-  real_packet->x = x;
-  real_packet->y = y;
-  real_packet->event = event;
-  
-  return send_packet_chat_msg(pc, real_packet);
-}
-
-void dlsend_packet_chat_msg(struct conn_list *dest, const char *message, int x, int y, enum event_type event)
-{
-  struct packet_chat_msg packet, *real_packet = &packet;
-
-  sz_strlcpy(real_packet->message, message);
-  real_packet->x = x;
-  real_packet->y = y;
-  real_packet->event = event;
-  
-  lsend_packet_chat_msg(dest, real_packet);
 }
 
 static unsigned int hash_packet_chat_msg_req_100(const void *vkey, unsigned int num_buckets)
@@ -7408,13 +7242,6 @@ int send_packet_city_incite_info(struct connection *pc, const struct packet_city
   }
 }
 
-void lsend_packet_city_incite_info(struct conn_list *dest, const struct packet_city_incite_info *packet)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_city_incite_info(pconn, packet);
-  } conn_list_iterate_end;
-}
-
 int dsend_packet_city_incite_info(struct connection *pc, int city_id, int cost)
 {
   struct packet_city_incite_info packet, *real_packet = &packet;
@@ -7423,16 +7250,6 @@ int dsend_packet_city_incite_info(struct connection *pc, int city_id, int cost)
   real_packet->cost = cost;
   
   return send_packet_city_incite_info(pc, real_packet);
-}
-
-void dlsend_packet_city_incite_info(struct conn_list *dest, int city_id, int cost)
-{
-  struct packet_city_incite_info packet, *real_packet = &packet;
-
-  real_packet->city_id = city_id;
-  real_packet->cost = cost;
-  
-  lsend_packet_city_incite_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_city_name_suggestion_req_100(const void *vkey, unsigned int num_buckets)
@@ -7932,40 +7749,6 @@ void lsend_packet_city_sabotage_list(struct conn_list *dest, const struct packet
   conn_list_iterate(*dest, pconn) {
     send_packet_city_sabotage_list(pconn, packet);
   } conn_list_iterate_end;
-}
-
-int dsend_packet_city_sabotage_list(struct connection *pc, int diplomat_id, int city_id, char *improvements)
-{
-  struct packet_city_sabotage_list packet, *real_packet = &packet;
-
-  real_packet->diplomat_id = diplomat_id;
-  real_packet->city_id = city_id;
-  {
-    int i;
-
-    for (i = 0; i < B_LAST+1; i++) {
-      real_packet->improvements[i] = improvements[i];
-    }
-  }
-  
-  return send_packet_city_sabotage_list(pc, real_packet);
-}
-
-void dlsend_packet_city_sabotage_list(struct conn_list *dest, int diplomat_id, int city_id, char *improvements)
-{
-  struct packet_city_sabotage_list packet, *real_packet = &packet;
-
-  real_packet->diplomat_id = diplomat_id;
-  real_packet->city_id = city_id;
-  {
-    int i;
-
-    for (i = 0; i < B_LAST+1; i++) {
-      real_packet->improvements[i] = improvements[i];
-    }
-  }
-  
-  lsend_packet_city_sabotage_list(dest, real_packet);
 }
 
 static unsigned int hash_packet_player_remove_100(const void *vkey, unsigned int num_buckets)
@@ -8954,13 +8737,6 @@ int send_packet_player_info(struct connection *pc, const struct packet_player_in
   }
 }
 
-void lsend_packet_player_info(struct conn_list *dest, const struct packet_player_info *packet)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_player_info(pconn, packet);
-  } conn_list_iterate_end;
-}
-
 static struct packet_player_turn_done *receive_packet_player_turn_done_100(struct connection *pc, enum packet_type type)
 {
   RECEIVE_PACKET_START(packet_player_turn_done, real_packet);
@@ -9942,49 +9718,6 @@ int send_packet_player_attribute_chunk(struct connection *pc, const struct packe
     case 100: return send_packet_player_attribute_chunk_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
-}
-
-void lsend_packet_player_attribute_chunk(struct conn_list *dest, const struct packet_player_attribute_chunk *packet)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_player_attribute_chunk(pconn, packet);
-  } conn_list_iterate_end;
-}
-
-int dsend_packet_player_attribute_chunk(struct connection *pc, int offset, int total_length, int chunk_length, unsigned char *data)
-{
-  struct packet_player_attribute_chunk packet, *real_packet = &packet;
-
-  real_packet->offset = offset;
-  real_packet->total_length = total_length;
-  real_packet->chunk_length = chunk_length;
-  {
-    int i;
-
-    for (i = 0; i < real_packet->chunk_length; i++) {
-      real_packet->data[i] = data[i];
-    }
-  }
-  
-  return send_packet_player_attribute_chunk(pc, real_packet);
-}
-
-void dlsend_packet_player_attribute_chunk(struct conn_list *dest, int offset, int total_length, int chunk_length, unsigned char *data)
-{
-  struct packet_player_attribute_chunk packet, *real_packet = &packet;
-
-  real_packet->offset = offset;
-  real_packet->total_length = total_length;
-  real_packet->chunk_length = chunk_length;
-  {
-    int i;
-
-    for (i = 0; i < real_packet->chunk_length; i++) {
-      real_packet->data[i] = data[i];
-    }
-  }
-  
-  lsend_packet_player_attribute_chunk(dest, real_packet);
 }
 
 static unsigned int hash_packet_unit_remove_100(const void *vkey, unsigned int num_buckets)
@@ -11761,32 +11494,6 @@ void lsend_packet_unit_combat_info(struct conn_list *dest, const struct packet_u
   conn_list_iterate(*dest, pconn) {
     send_packet_unit_combat_info(pconn, packet);
   } conn_list_iterate_end;
-}
-
-int dsend_packet_unit_combat_info(struct connection *pc, int attacker_unit_id, int defender_unit_id, int attacker_hp, int defender_hp, bool make_winner_veteran)
-{
-  struct packet_unit_combat_info packet, *real_packet = &packet;
-
-  real_packet->attacker_unit_id = attacker_unit_id;
-  real_packet->defender_unit_id = defender_unit_id;
-  real_packet->attacker_hp = attacker_hp;
-  real_packet->defender_hp = defender_hp;
-  real_packet->make_winner_veteran = make_winner_veteran;
-  
-  return send_packet_unit_combat_info(pc, real_packet);
-}
-
-void dlsend_packet_unit_combat_info(struct conn_list *dest, int attacker_unit_id, int defender_unit_id, int attacker_hp, int defender_hp, bool make_winner_veteran)
-{
-  struct packet_unit_combat_info packet, *real_packet = &packet;
-
-  real_packet->attacker_unit_id = attacker_unit_id;
-  real_packet->defender_unit_id = defender_unit_id;
-  real_packet->attacker_hp = attacker_hp;
-  real_packet->defender_hp = defender_hp;
-  real_packet->make_winner_veteran = make_winner_veteran;
-  
-  lsend_packet_unit_combat_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_unit_move_100(const void *vkey, unsigned int num_buckets)
@@ -14279,18 +13986,6 @@ int send_packet_unit_connect(struct connection *pc, const struct packet_unit_con
   }
 }
 
-int dsend_packet_unit_connect(struct connection *pc, int unit_id, enum unit_activity activity_type, int dest_x, int dest_y)
-{
-  struct packet_unit_connect packet, *real_packet = &packet;
-
-  real_packet->unit_id = unit_id;
-  real_packet->activity_type = activity_type;
-  real_packet->dest_x = dest_x;
-  real_packet->dest_y = dest_y;
-  
-  return send_packet_unit_connect(pc, real_packet);
-}
-
 static unsigned int hash_packet_unit_bribe_inq_100(const void *vkey, unsigned int num_buckets)
 {
   return 0;
@@ -14594,13 +14289,6 @@ int send_packet_unit_bribe_info(struct connection *pc, const struct packet_unit_
   }
 }
 
-void lsend_packet_unit_bribe_info(struct conn_list *dest, const struct packet_unit_bribe_info *packet)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_unit_bribe_info(pconn, packet);
-  } conn_list_iterate_end;
-}
-
 int dsend_packet_unit_bribe_info(struct connection *pc, int unit_id, int cost)
 {
   struct packet_unit_bribe_info packet, *real_packet = &packet;
@@ -14609,16 +14297,6 @@ int dsend_packet_unit_bribe_info(struct connection *pc, int unit_id, int cost)
   real_packet->cost = cost;
   
   return send_packet_unit_bribe_info(pc, real_packet);
-}
-
-void dlsend_packet_unit_bribe_info(struct conn_list *dest, int unit_id, int cost)
-{
-  struct packet_unit_bribe_info packet, *real_packet = &packet;
-
-  real_packet->unit_id = unit_id;
-  real_packet->cost = cost;
-  
-  lsend_packet_unit_bribe_info(dest, real_packet);
 }
 
 static unsigned int hash_packet_unit_type_upgrade_100(const void *vkey, unsigned int num_buckets)
@@ -17397,26 +17075,6 @@ void lsend_packet_page_msg(struct conn_list *dest, const struct packet_page_msg 
   } conn_list_iterate_end;
 }
 
-int dsend_packet_page_msg(struct connection *pc, const char *message, enum event_type event)
-{
-  struct packet_page_msg packet, *real_packet = &packet;
-
-  sz_strlcpy(real_packet->message, message);
-  real_packet->event = event;
-  
-  return send_packet_page_msg(pc, real_packet);
-}
-
-void dlsend_packet_page_msg(struct conn_list *dest, const char *message, enum event_type event)
-{
-  struct packet_page_msg packet, *real_packet = &packet;
-
-  sz_strlcpy(real_packet->message, message);
-  real_packet->event = event;
-  
-  lsend_packet_page_msg(dest, real_packet);
-}
-
 static unsigned int hash_packet_report_req_100(const void *vkey, unsigned int num_buckets)
 {
   return 0;
@@ -18016,52 +17674,6 @@ void lsend_packet_conn_ping_info(struct conn_list *dest, const struct packet_con
   } conn_list_iterate_end;
 }
 
-int dsend_packet_conn_ping_info(struct connection *pc, int connections, int *conn_id, float *ping_time)
-{
-  struct packet_conn_ping_info packet, *real_packet = &packet;
-
-  real_packet->connections = connections;
-  {
-    int i;
-
-    for (i = 0; i < real_packet->connections; i++) {
-      real_packet->conn_id[i] = conn_id[i];
-    }
-  }
-  {
-    int i;
-
-    for (i = 0; i < real_packet->connections; i++) {
-      real_packet->ping_time[i] = ping_time[i];
-    }
-  }
-  
-  return send_packet_conn_ping_info(pc, real_packet);
-}
-
-void dlsend_packet_conn_ping_info(struct conn_list *dest, int connections, int *conn_id, float *ping_time)
-{
-  struct packet_conn_ping_info packet, *real_packet = &packet;
-
-  real_packet->connections = connections;
-  {
-    int i;
-
-    for (i = 0; i < real_packet->connections; i++) {
-      real_packet->conn_id[i] = conn_id[i];
-    }
-  }
-  {
-    int i;
-
-    for (i = 0; i < real_packet->connections; i++) {
-      real_packet->ping_time[i] = ping_time[i];
-    }
-  }
-  
-  lsend_packet_conn_ping_info(dest, real_packet);
-}
-
 static struct packet_conn_ping *receive_packet_conn_ping_100(struct connection *pc, enum packet_type type)
 {
   RECEIVE_PACKET_START(packet_conn_ping, real_packet);
@@ -18118,13 +17730,6 @@ int send_packet_conn_ping(struct connection *pc)
     case 100: return send_packet_conn_ping_100(pc);
     default: die("unknown variant"); return -1;
   }
-}
-
-void lsend_packet_conn_ping(struct conn_list *dest)
-{
-  conn_list_iterate(*dest, pconn) {
-    send_packet_conn_ping(pconn);
-  } conn_list_iterate_end;
 }
 
 static struct packet_conn_pong *receive_packet_conn_pong_100(struct connection *pc, enum packet_type type)
@@ -18472,26 +18077,6 @@ void lsend_packet_new_year(struct conn_list *dest, const struct packet_new_year 
   conn_list_iterate(*dest, pconn) {
     send_packet_new_year(pconn, packet);
   } conn_list_iterate_end;
-}
-
-int dsend_packet_new_year(struct connection *pc, int year, int turn)
-{
-  struct packet_new_year packet, *real_packet = &packet;
-
-  real_packet->year = year;
-  real_packet->turn = turn;
-  
-  return send_packet_new_year(pc, real_packet);
-}
-
-void dlsend_packet_new_year(struct conn_list *dest, int year, int turn)
-{
-  struct packet_new_year packet, *real_packet = &packet;
-
-  real_packet->year = year;
-  real_packet->turn = turn;
-  
-  lsend_packet_new_year(dest, real_packet);
 }
 
 static struct packet_spaceship_launch *receive_packet_spaceship_launch_100(struct connection *pc, enum packet_type type)
