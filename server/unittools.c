@@ -362,7 +362,7 @@ void player_restore_units(struct player *pplayer)
                            unit_name(punit->type));
         }
       }
-    } else if ((!is_air_unit(punit))
+    } else if (!(is_air_unit(punit) || is_heli_unit(punit))
 	       && (myrand(100) < unit_loss_pct(pplayer,
 					       punit->tile, punit))) {
       /* All units may have a chance of dying if they are on TER_UNSAFE
