@@ -651,10 +651,11 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   should only be called for code errors - user errors (like not being able
   to find a tileset) should just exit rather than dumping core.
 ***************************************************************************/
-void die(const char *format, ...)
+void real_die(const char *file, int line, const char *format, ...)
 {
   va_list ap;
 
+  freelog(LOG_FATAL, "Detected fatal error in %s line %d:", file, line);
   va_start(ap, format);
   vreal_freelog(LOG_FATAL, format, ap);
   va_end(ap);

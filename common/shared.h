@@ -179,8 +179,9 @@ char *end_of_strn(char *str, int *nleft);
 int cat_snprintf(char *str, size_t n, const char *format, ...)
      fc__attribute((format (printf, 3, 4)));
 
-void die(const char *format, ...)
-     fc__attribute((format (printf, 1, 2)));
+#define die(...) real_die(__FILE__, __LINE__, __VA_ARGS__)
+void real_die(const char *file, int line, const char *format, ...)
+      fc__attribute((format (printf, 3, 4)));
 
 char *user_home_dir(void);
 char *user_username(void);
