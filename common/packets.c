@@ -1159,11 +1159,67 @@ static void iget_sint16_vec8(struct pack_iter *piter, int **val, int stop)
 /**************************************************************************
 ...
 **************************************************************************/
+static unsigned char *put_conv(unsigned char *dst, const char *src)
+{
+  size_t len = strlen(src) + 1;
+
+  memcpy(dst, src, len);
+  return dst + len;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static PUT_CONV_FUN put_conv_callback = put_conv;
+
+/**************************************************************************
+...
+**************************************************************************/
+void set_put_conv_callback(PUT_CONV_FUN fun)
+{
+  put_conv_callback = fun;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 unsigned char *put_string(unsigned char *buffer, const char *mystring)
 {
-  int len = strlen(mystring) + 1;
-  memcpy(buffer, mystring, len);
-  return buffer+len;
+  return (*put_conv_callback) (buffer, mystring);
+}
+
+/**************************************************************************
+ Returns FALSE if the destination isn't large enough or the source was
+ bad.
+**************************************************************************/
+static bool iget_conv(char *dst, size_t ndst, const unsigned char *src,
+		      size_t nsrc)
+{
+  size_t len = nsrc;		/* length to copy, not including null */
+  bool ret = TRUE;
+
+  if (ndst > 0 && len >= ndst) {
+    ret = FALSE;
+    len = ndst - 1;
+  }
+
+  memcpy(dst, src, len);
+  dst[len] = '\0';
+
+  return ret;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static IGET_CONV_FUN iget_conv_callback = iget_conv;
+
+/**************************************************************************
+...
+**************************************************************************/
+void set_iget_conv_callback(IGET_CONV_FUN fun)
+{
+  iget_conv_callback = fun;
 }
 
 /**************************************************************************
@@ -1179,7 +1235,6 @@ static void iget_string(struct pack_iter *piter, char *mystring, size_t navail)
 {
   unsigned char *c;
   int ps_len;			/* length in packet, not including null */
-  int len;			/* length to copy, not including null */
 
   assert(piter != NULL);
   assert((navail>0) || (mystring==NULL));
@@ -1202,15 +1257,12 @@ static void iget_string(struct pack_iter *piter, char *mystring, size_t navail)
   } else {
     ps_len = c - piter->ptr;
   }
-  len = ps_len;
-  if (mystring && navail > 0 && ps_len >= navail) {
+
+  if (mystring
+      && !(*iget_conv_callback) (mystring, navail, piter->ptr, ps_len)) {
     piter->bad_string = TRUE;
-    len = navail-1;
   }
-  if (mystring) {
-    memcpy(mystring, piter->ptr, len);
-    mystring[len] = '\0';
-  }
+
   if (!piter->short_packet) {
     piter->ptr += (ps_len+1);		/* past terminator */
   }

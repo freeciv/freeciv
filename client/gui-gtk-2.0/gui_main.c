@@ -722,6 +722,46 @@ static void setup_widgets(void)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+static unsigned char *put_conv(unsigned char *dst, const char *src)
+{
+  gsize len;
+  gchar *out = g_locale_from_utf8(src, -1, NULL, &len, NULL);
+
+  assert(out != NULL);
+
+  memcpy(dst, out, len);
+  dst[len] = '\0';
+  g_free(out);
+
+  return dst + len + 1;
+}
+
+/**************************************************************************
+ Returns FALSE if the destination isn't large enough or the source was
+ bad.
+**************************************************************************/
+static bool iget_conv(char *dst, size_t ndst, const unsigned char *src,
+		      size_t nsrc)
+{
+  gsize len;			/* length to copy, not including null */
+  gchar *out = g_locale_to_utf8(src, nsrc, NULL, &len, NULL);
+  bool ret = TRUE;
+
+  if ((ndst > 0 && len >= ndst) || !out) {
+    ret = FALSE;
+    len = ndst - 1;
+  }
+
+  memcpy(dst, out, len);
+  dst[len] = '\0';
+  g_free(out);
+
+  return ret;
+}
+
+/**************************************************************************
  called from main(), is what it's named.
 **************************************************************************/
 void ui_main(int argc, char **argv)
@@ -730,14 +770,12 @@ void ui_main(int argc, char **argv)
   GtkStyle *has_resources;
   PangoLanguage *lang;
 
+  /* set networking string conversion callbacks */
+  set_put_conv_callback(put_conv);
+  set_iget_conv_callback(iget_conv);
+
   parse_options(argc, argv);
 
-  /* tell GTK+ library which locale */
-
-#ifdef HAVE_LOCALE_H
-  setlocale(LC_CTYPE, "en_US.UTF-8");
-  gtk_disable_setlocale();
-#endif
   /* GTK withdraw gtk options. Process GTK arguments */
   gtk_init(&argc, &argv);
 

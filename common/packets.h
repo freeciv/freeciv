@@ -895,6 +895,14 @@ struct packet_nations_used {
   Nation_Type_id nations_used[MAX_NUM_PLAYERS];
 };
 
+/* network string conversion */
+typedef unsigned char *(*PUT_CONV_FUN) (unsigned char *dst, const char *src);
+void set_put_conv_callback(PUT_CONV_FUN fun);
+
+typedef bool(*IGET_CONV_FUN) (char *dst, size_t ndst,
+			      const unsigned char *src, size_t nsrc);
+void set_iget_conv_callback(IGET_CONV_FUN fun);
+
 /* These two are non-static for meta.c; others are now static --dwp */
 unsigned char *put_uint16(unsigned char *buffer, int val);
 unsigned char *put_string(unsigned char *buffer, const char *mystring);
