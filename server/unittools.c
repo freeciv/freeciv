@@ -318,15 +318,18 @@ struct unit *get_defender(struct player *pplayer, struct unit *aunit,
 			  int x, int y)
 {
   struct unit *bestdef = 0;
-  int bestvalue=-1;
-int ct=0;
+  int unit_d, bestvalue=-1, ct=0;
+
   unit_list_iterate(map_get_tile(x, y)->units, punit) {
     if (pplayer->player_no==punit->owner)
       return 0;
-ct++;
-    if(unit_can_defend_here(punit) && rate_unit_d(punit, aunit)>bestvalue) {
-      bestvalue=rate_unit_d(punit, aunit);
-      bestdef=punit;
+    ct++;
+    if (unit_can_defend_here(punit)) {
+      unit_d = rate_unit_d(punit, aunit);
+      if (unit_d > bestvalue) {
+	bestvalue = unit_d;
+	bestdef = punit;
+      }
     }
   }
   unit_list_iterate_end;
