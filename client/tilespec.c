@@ -580,7 +580,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.farmland,   "tx.farmland");
   SET_SPRITE(tx.irrigation, "tx.irrigation");
   SET_SPRITE(tx.mine,       "tx.mine");
-  if (is_isometric) {
+  if (!is_isometric) {
     SET_SPRITE(tx.oil_mine,   "tx.oil_mine");
   }
   SET_SPRITE(tx.pollution,  "tx.pollution");
