@@ -409,6 +409,8 @@ void *get_packet_from_connection(struct connection *pc,
   case PACKET_PROCESSING_FINISHED:
   case PACKET_START_TURN:
   case PACKET_SELECT_NATION_OK:
+  case PACKET_FREEZE_HINT:
+  case PACKET_THAW_HINT:
     return receive_packet_generic_empty(pc);
 
   case PACKET_NEW_YEAR:

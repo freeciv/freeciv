@@ -289,8 +289,6 @@ void handle_game_state(struct packet_generic_integer *packet)
     
     free_intro_radar_sprites();
     agents_game_start();
-  } else if(get_client_state() == CLIENT_GAME_OVER_STATE) {
-    reports_thaw();
   }
 }
 
@@ -677,7 +675,6 @@ void handle_new_year(struct packet_new_year *ppacket)
 void handle_before_new_year(void)
 {
   clear_notify_window();
-  reports_freeze();
   /*
    * The local idea of the game turn is increased here since the
    * client will get unit updates (reset of move points for example)
@@ -695,8 +692,6 @@ void handle_before_new_year(void)
 **************************************************************************/
 void handle_start_turn(void)
 {
-  reports_thaw();
-
   agents_start_turn();
 
   turn_done_sent = FALSE;
@@ -1632,8 +1627,6 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
   int i;
 
-  reports_freeze();
-
   tilespec_free_city_tiles(game.styles_count);
   ruleset_data_free();
 
@@ -2345,4 +2338,28 @@ void set_reports_thaw_request(int request_id)
       fc_realloc(reports_thaw_requests,
 		 reports_thaw_requests_size * sizeof(int));
   reports_thaw_requests[reports_thaw_requests_size - 1] = request_id;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_freeze_hint(void)
+{
+  freelog(LOG_DEBUG, "handle_freeze_hint");
+
+  reports_freeze();
+
+  agents_freeze_hint();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_thaw_hint(void)
+{
+  freelog(LOG_DEBUG, "handle_thaw_hint");
+
+  reports_thaw();
+
+  agents_thaw_hint();
 }

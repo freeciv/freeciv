@@ -352,10 +352,27 @@ void agents_processing_finished(void)
 /***********************************************************************
  Called from client/packhand.c.
 ***********************************************************************/
+void agents_freeze_hint(void)
+{
+  freelog(META_CALLBACKS_LOGLEVEL, "agents_freeze_hint()");
+  freeze();
+}
+
+/***********************************************************************
+ Called from client/packhand.c.
+***********************************************************************/
+void agents_thaw_hint(void)
+{
+  freelog(META_CALLBACKS_LOGLEVEL, "agents_thaw_hint()");
+  thaw();
+}
+
+/***********************************************************************
+ Called from client/packhand.c.
+***********************************************************************/
 void agents_game_joined(void)
 {
   freelog(META_CALLBACKS_LOGLEVEL, "agents_game_joined()");
-  freeze();
 }
 
 /***********************************************************************
@@ -372,7 +389,6 @@ void agents_game_start(void)
 void agents_before_new_turn(void)
 {
   freelog(META_CALLBACKS_LOGLEVEL, "agents_before_new_turn()");
-  freeze();
 }
 
 /***********************************************************************
@@ -381,7 +397,6 @@ void agents_before_new_turn(void)
 void agents_start_turn(void)
 {
   freelog(META_CALLBACKS_LOGLEVEL, "agents_start_turn()");
-  thaw();
 }
 
 /***********************************************************************

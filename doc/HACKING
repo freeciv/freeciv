@@ -241,6 +241,27 @@ from above serve two main purposes:
  sent some updates the client data structure will now hold other
  values.
 
+The PACKET_FREEZE_HINT and PACKET_THAW_HINT packets serve two
+purposes:
+
+ - Packets send between these two packets may contain multiple
+ information packets which may cause multiple updates of some GUI
+ items. PACKET_FREEZE_HINT and PACKET_THAW_HINT can now be used to
+ freeze the GUI at the time PACKET_FREEZE_HINT is received and only
+ update the GUI after the PACKET_THAW_HINT packet is received.
+
+ - Packets send between these two packets may contain contradicting
+ information which may confuse a client-side AI (agents for
+ example). So any updates send between these two packets are only
+ processed after the PACKET_THAW_HINT packet is received.
+
+The following areas are wrapped by PACKET_FREEZE_HINT and
+PACKET_THAW_HINT:
+
+ - the data send if a new game starts
+ - the data send to a reconnecting player
+ - the end turn activities
+
 The Xaw client uses XtAppAddInput() to tell Xt to call the callback
 functions, when something happens on the client socket.
 The Gtk+ client uses a similar gdk_input_add() call.

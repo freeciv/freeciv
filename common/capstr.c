@@ -70,7 +70,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.13.0 conn_info turn_founded unitbv"
+#define CAPABILITY "+1.13.0 conn_info turn_founded unitbv +freeze_thaw"
   
 /* "+1.13.0" is protocol for 1.13.0 release.
   
@@ -81,6 +81,8 @@ const char * const our_capability = our_capability_internal;
 
     "unitbv" extends unit flags and roles from 32 to 64 maximum and
     transmits the information as a bitvector instead of an int.
+
+    "freeze_thaw" uses PACKET_FREEZE_HINT/PACKET_THAW_HINT.
 */
 
 void init_our_capability(void)

@@ -1358,11 +1358,13 @@ static bool handle_request_join_game(struct connection *pconn,
     join_game_accept(pconn, TRUE);
     introduce_game_to_connection(pconn);
     if(server_state==RUN_GAME_STATE) {
+      send_packet_generic_empty(pconn, PACKET_FREEZE_HINT);
       send_rulesets(&pconn->self);
       send_all_info(&pconn->self);
       send_game_state(&pconn->self, CLIENT_GAME_RUNNING_STATE);
       send_player_info(NULL,NULL);
       send_diplomatic_meetings(pconn);
+      send_packet_generic_empty(pconn, PACKET_THAW_HINT);
       send_packet_generic_empty(pconn, PACKET_START_TURN);
     }
     if (game.auto_ai_toggle && pplayer->ai.control) {
@@ -1678,6 +1680,14 @@ static void main_loop(void)
 
   eot_timer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
 
+  /* 
+   * This will freeze the reports and agents at the client.
+   * 
+   * Do this before the body so that the PACKET_THAW_HINT packet is
+   * balanced. 
+   */
+  lsend_packet_generic_empty(&game.est_connections, PACKET_FREEZE_HINT);
+
   while(server_state==RUN_GAME_STATE) {
     /* absolute beginning of a turn */
     freelog(LOG_DEBUG, "Begin turn");
@@ -1694,6 +1704,11 @@ static void main_loop(void)
     freelog(LOG_DEBUG, "Aistartturn");
     ai_start_turn();
     send_start_turn_to_clients();
+
+    /* 
+     * This will thaw the reports and agents at the client.
+     */
+    lsend_packet_generic_empty(&game.est_connections, PACKET_THAW_HINT);
 
     /* Before sniff (human player activites), report time to now: */
     freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
@@ -1724,12 +1739,19 @@ static void main_loop(void)
     sanity_check();
 #endif
 
-    before_end_year();
-    /* This empties the client Messages window; put this before
-       everything else below, since otherwise any messages from
-       the following parts get wiped out before the user gets a
-       chance to see them.  --dwp
+    /* 
+     * This empties the client Messages window; put this before
+     * everything else below, since otherwise any messages from the
+     * following parts get wiped out before the user gets a chance to
+     * see them.  --dwp
     */
+    before_end_year();
+
+    /* 
+     * This will freeze the reports and agents at the client.
+     */
+    lsend_packet_generic_empty(&game.est_connections, PACKET_FREEZE_HINT);
+
     freelog(LOG_DEBUG, "Season of native unrests");
     summon_barbarians(); /* wild guess really, no idea where to put it, but
                             I want to give them chance to move their units */
@@ -1763,6 +1785,11 @@ static void main_loop(void)
     if (is_game_over()) 
       server_state=GAME_OVER_STATE;
   }
+
+  /* 
+   * This will thaw the reports and agents at the client.
+   */
+  lsend_packet_generic_empty(&game.est_connections, PACKET_THAW_HINT);
 }
 
 /**************************************************************************

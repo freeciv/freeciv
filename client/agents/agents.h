@@ -48,6 +48,8 @@ bool agents_busy(void);
 void agents_disconnect(void);
 void agents_processing_started(void);
 void agents_processing_finished(void);
+void agents_freeze_hint(void);
+void agents_thaw_hint(void);
 void agents_game_joined(void);
 void agents_game_start(void);
 void agents_before_new_turn(void);

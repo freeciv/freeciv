@@ -449,6 +449,14 @@ void handle_packet_input(void *packet, int type)
     handle_start_turn();
     break;
 
+  case PACKET_FREEZE_HINT:
+    handle_freeze_hint();
+    break;
+
+  case PACKET_THAW_HINT:
+    handle_thaw_hint();
+    break;
+
   default:
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
     /* Old clients (<= some 1.11.5-devel, capstr +1.11) used to exit()
@@ -572,6 +580,23 @@ void set_client_state(enum client_states newstate)
 {
   bool connect_error = (client_state == CLIENT_PRE_GAME_STATE)
       && (newstate == CLIENT_PRE_GAME_STATE);
+
+  /*
+   * We are currently ignoring the CLIENT_GAME_OVER_STATE state
+   * because the client hasen't been changed to take care of it. So it
+   * breaks the show-whole-map-at-the-end-of-the-game. Nevertheless
+   * the server is so kind and sends the client this information. And
+   * in the future the client can/should take advantage of this
+   * information.
+   *
+   * FIXME: audit all client code to that it copes with
+   * CLIENT_GAME_OVER_STATE and implement specific
+   * CLIENT_GAME_OVER_STATE actions like history browsing. Then remove
+   * the kludge below.
+   */
+  if (newstate == CLIENT_GAME_OVER_STATE) {
+    newstate = CLIENT_GAME_RUNNING_STATE;
+  }
 
   if(client_state!=newstate) {
 

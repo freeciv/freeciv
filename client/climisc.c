@@ -1192,6 +1192,8 @@ void write_chatline_content(const char *txt)
 **************************************************************************/
 void reports_freeze(void)
 {
+  freelog(LOG_DEBUG, "reports_freeze");
+
   meswin_freeze();
   plrdlg_freeze();
   report_dialogs_freeze();
@@ -1215,6 +1217,8 @@ void reports_freeze_till(int request_id)
 **************************************************************************/
 void reports_thaw(void)
 {
+  freelog(LOG_DEBUG, "reports_thaw");
+
   meswin_thaw();
   plrdlg_thaw();
   report_dialogs_thaw();

@@ -62,6 +62,8 @@ void handle_player_attribute_chunk(struct packet_attribute_chunk *chunk);
 void handle_processing_started(void);
 void handle_processing_finished(void);
 void handle_start_turn(void);
+void handle_freeze_hint(void);
+void handle_thaw_hint(void);
 
 void notify_about_incoming_packet(struct connection *pc,
 				   int packet_type, int size);
