@@ -3964,32 +3964,37 @@ static bool take_command(struct connection *caller, char *str, bool check)
   ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
   
   /* check syntax */
-  if (!caller || (caller && caller->access_level == ALLOW_HACK)) {
-    if (ntokens != 2) {
-      cmd_reply(CMD_TAKE, caller, C_SYNTAX,
-                _("Usage: take <connection-name> <player-name>"));
-      goto end;
-    }
-  } else if (ntokens != 1) {
+  if (!caller && ntokens != 2) {
+    cmd_reply(CMD_TAKE, caller, C_SYNTAX,
+              _("Usage: take <connection-name> <player-name>"));
+    goto end;
+  }
+
+  if (caller && caller->access_level != ALLOW_HACK && ntokens != 1) {
     cmd_reply(CMD_TAKE, caller, C_SYNTAX, _("Usage: take <player-name>"));
     goto end;
-  } 
-  
-  /* match the connection and player */
-  if (!caller || (caller && caller->access_level == ALLOW_HACK)) {
+  }
+
+  if (ntokens == 0) {
+    cmd_reply(CMD_TAKE, caller, C_SYNTAX,
+              _("Usage: take [connection-name] <player-name>"));
+    goto end;
+  }
+
+  if (ntokens == 2) {
     if (!(pconn = find_conn_by_user_prefix(arg[i], &match_result))) {
       cmd_reply_no_such_conn(CMD_TAKE, caller, arg[i], match_result);
       goto end;
     }
     i++; /* found a conn, now reference the second argument */
-  } 
-  
+  }
+
   if (!(pplayer = find_player_by_name_prefix(arg[i], &match_result))) {
     cmd_reply_no_such_player(CMD_TAKE, caller, arg[i], match_result);
     goto end;
-  } 
-  
-  /* if we can't assign other connections to players, assign us to be pconn. */
+  }
+
+  /* if we don't assign other connections to players, assign us to be pconn. */
   if (!pconn) {
     pconn = caller;
   }
