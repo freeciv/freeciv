@@ -2117,6 +2117,12 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                          && !(goto_is_sane(punit, acity->x, acity->y, TRUE) 
                               && WARMAP_COST(acity->x, acity->y) < maxd));
 
+      if (!is_ocean(map_get_terrain(acity->x, acity->y))
+          && unit_flag(punit, F_NO_LAND_ATTACK)) {
+        /* Can't attack this city. It is on land. */
+        continue;
+      }
+
       if (handicap && !map_is_known(acity->x, acity->y, pplayer)) {
         /* Can't see it */
         continue;
