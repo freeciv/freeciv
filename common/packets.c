@@ -112,7 +112,6 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_PLAYER_GOVERNMENT:
   case PACKET_PLAYER_RESEARCH:
   case PACKET_PLAYER_TECH_GOAL:
-  case PACKET_PLAYER_AI_MANUAL_TURNDONE:
     return recieve_packet_player_request(pc);
 
   case PACKET_UNIT_BUILD_CITY:
@@ -449,7 +448,6 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_int32(cptr, packet->science);
   cptr=put_int32(cptr, packet->government);
   cptr=put_int32(cptr, packet->tech);
-  cptr=put_int32(cptr, packet->ai_manual_turn_done);
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -463,17 +461,17 @@ struct packet_player_request *
 recieve_packet_player_request(struct connection *pc)
 {
   unsigned char *cptr;
+	int length;
   struct packet_player_request *preq=
     malloc(sizeof(struct packet_player_request));
 
-  cptr=get_int16(pc->buffer.data, NULL);
+  cptr=get_int16(pc->buffer.data, &length);
   cptr=get_int16(cptr, NULL);
   cptr=get_int32(cptr, &preq->tax);
   cptr=get_int32(cptr, &preq->luxury);
   cptr=get_int32(cptr, &preq->science);
   cptr=get_int32(cptr, &preq->government);
   cptr=get_int32(cptr, &preq->tech);
-  cptr=get_int32(cptr, &preq->ai_manual_turn_done);
   remove_packet_from_buffer(&pc->buffer);
   return preq;
 }
@@ -564,7 +562,6 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   cptr=put_int32(cptr, pinfo->revolution);
   cptr=put_int32(cptr, pinfo->tech_goal);
   cptr=put_int32(cptr, pinfo->ai);
-  cptr=put_int32(cptr, pinfo->ai_manual_turn_done);
 
   put_int16(buffer, cptr-buffer);
 
@@ -610,8 +607,11 @@ recieve_packet_player_info(struct connection *pc)
   cptr=get_string(cptr, pinfo->addr);
   cptr=get_int32(cptr,  &pinfo->revolution);
   cptr=get_int32(cptr, &pinfo->tech_goal);
-  cptr=get_int32(cptr, &pinfo->ai);
-  cptr=get_int32(cptr, &pinfo->ai_manual_turn_done);
+  if(pc->buffer.data+length-cptr >= 4)  {
+    cptr=get_int32(cptr, &pinfo->ai);
+  } else {
+    pinfo->ai = 0;
+  };
 
   remove_packet_from_buffer(&pc->buffer);
   return pinfo;
