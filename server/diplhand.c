@@ -253,6 +253,13 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 			  pcity->name);
 	    goto cleanup;
 	  }
+	  if (city_got_building(pcity,B_PALACE)) {
+	    notify_player(other,
+			  _("Game: Your capital (%s) is requested, "
+			    "you can't accept treaty."),
+			  pcity->name);
+	    goto cleanup;
+	  }
 	  break;
 	case CLAUSE_GOLD:
 	  if (other->economic.gold < pclause->value) {
