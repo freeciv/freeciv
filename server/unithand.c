@@ -378,7 +378,12 @@ void handle_unit_build_city(struct player *pplayer,
 		       "Game: %s added to aid %s in growing", 
 		       unit_name, pcity->name);
     } else {
-      if(improvement_exists(B_AQUEDUCT)
+      if(pcity->size > 8) {
+	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
+			 "Game: %s is too big to add %s.",
+			 pcity->name, unit_name);
+      }
+      else if(improvement_exists(B_AQUEDUCT)
 	 && !city_got_building(pcity, B_AQUEDUCT) 
 	 && pcity->size >= game.aqueduct_size) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
@@ -395,9 +400,12 @@ void handle_unit_build_city(struct player *pplayer,
 			 unit_name);
       }
       else {
+	/* this shouldn't happen? */
+	freelog(LOG_NORMAL, "Cannot add %s to %s for unknown reason",
+		unit_name, pcity->name);
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
-			 "Game: %s is too big to add %s.",
-			 pcity->name, unit_name);
+			 "Game: cannot add %s to %s.",
+			 unit_name, pcity->name);
       }
     }
     return;
