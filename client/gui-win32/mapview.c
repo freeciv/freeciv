@@ -126,9 +126,11 @@ void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
   }
   if (dest->hdc) {
     hdcdst = dest->hdc;
-  } else {
+  } else if (dest->bitmap) {
     hdcdst = CreateCompatibleDC(NULL);
     olddst = SelectObject(hdcdst, dest->bitmap);
+  } else {
+    hdcdst = GetDC(root_window);
   }
   BitBlt(hdcdst, dest_x, dest_y, width, height, hdcsrc, src_x, src_y, SRCCOPY);
   if (!src->hdc) {
@@ -136,8 +138,12 @@ void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
     DeleteDC(hdcsrc);
   }
   if (!dest->hdc) {
-    SelectObject(hdcdst, olddst);
-    DeleteDC(hdcdst);
+    if (dest->bitmap) {
+      SelectObject(hdcdst, olddst);
+      DeleteDC(hdcdst);
+    } else {
+      ReleaseDC(root_window, hdcdst);
+    }
   }
 }
 
@@ -191,6 +197,10 @@ void init_map_win()
 					    UNIT_TILE_WIDTH,
 					    UNIT_TILE_HEIGHT);
   ReleaseDC(root_window,hdc);
+  overview.window = fc_malloc(sizeof(*overview.window));
+  /* This combination is a marker for gui_copy_canvas */
+  overview.window->hdc = NULL;
+  overview.window->bitmap = NULL;   
   mapstorebitmap=NULL;
   overviewstorebitmap=NULL;
   map_view_x=0;
@@ -905,6 +915,7 @@ void overview_expose(HDC hdc)
     }
   else
     {
+      HDC oldhdc;
       hdctest=CreateCompatibleDC(NULL);
       old=NULL;
       bmp=NULL;
@@ -924,7 +935,10 @@ void overview_expose(HDC hdc)
 	DeleteObject(bmp);
       DeleteDC(hdctest);
       draw_rates(hdc);
+      oldhdc = overview.window->hdc;
+      overview.window->hdc = hdc;
       refresh_overview_canvas(/* hdc */);
+      overview.window->hdc = oldhdc;
     }
 }
 
@@ -1236,11 +1250,13 @@ void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
   HBITMAP old = NULL; /*Remove warning*/
   HPEN old_pen;
 
-  if (pcanvas_store->bitmap) {
+  if (pcanvas_store->hdc) {
+    hdc = pcanvas_store->hdc;
+  } else if (pcanvas_store->bitmap) {
     hdc = CreateCompatibleDC(pcanvas_store->hdc);
     old = SelectObject(hdc, pcanvas_store->bitmap);
   } else {
-    hdc = pcanvas_store->hdc;
+    hdc = GetDC(root_window);
   }
 
   old_pen = SelectObject(hdc, pen_std[color]);
@@ -1248,9 +1264,13 @@ void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
   LineTo(hdc, start_x + dx, start_y + dy);
   SelectObject(hdc, old_pen);
 
-  if (pcanvas_store->bitmap) {
-    SelectObject(hdc, old);
-    DeleteDC(hdc);
+  if (!pcanvas_store->hdc) {
+    if (pcanvas_store->bitmap) {
+      SelectObject(hdc, old);
+      DeleteDC(hdc);
+    } else {
+      ReleaseDC(root_window, hdc);
+    }
   }
 
 }
