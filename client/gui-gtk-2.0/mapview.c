@@ -190,17 +190,17 @@ void update_unit_info_label(struct unit *punit)
       gdk_window_set_cursor (root_window, NULL);
       break;
     case HOVER_PATROL:
-      gdk_window_set_cursor(root_window, cursors[CURSOR_PATROL]);
+      gdk_window_set_cursor(root_window, fc_cursors[CURSOR_PATROL]);
       break;
     case HOVER_GOTO:
     case HOVER_CONNECT:
-      gdk_window_set_cursor(root_window, cursors[CURSOR_GOTO]);
+      gdk_window_set_cursor(root_window, fc_cursors[CURSOR_GOTO]);
       break;
     case HOVER_NUKE:
-      gdk_window_set_cursor(root_window, cursors[CURSOR_NUKE]);
+      gdk_window_set_cursor(root_window, fc_cursors[CURSOR_NUKE]);
       break;
     case HOVER_PARADROP:
-      gdk_window_set_cursor(root_window, cursors[CURSOR_PARADROP]);
+      gdk_window_set_cursor(root_window, fc_cursors[CURSOR_PARADROP]);
       break;
     }
   } else {

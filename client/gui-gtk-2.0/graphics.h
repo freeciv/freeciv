@@ -39,7 +39,10 @@ void create_overlay_unit(struct canvas *pcanvas, int i);
 
 extern SPRITE *    intro_gfx_sprite;
 extern SPRITE *    radar_gfx_sprite;
-extern GdkCursor *cursors[CURSOR_LAST];
+
+/* This name is to avoid a naming conflict with a global 'cursors'
+ * variable in GTK+-2.6.  See PR#12459. */
+extern GdkCursor *fc_cursors[CURSOR_LAST];
 
 void gtk_draw_shadowed_string(GdkDrawable *drawable,
 			      GdkGC *black_gc,
