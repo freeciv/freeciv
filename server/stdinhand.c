@@ -3011,13 +3011,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 
   /* a special case for global observers: we don't want to remove the
    * observer player in pregame if someone else is also observing it */
-  i = 0;
-  conn_list_iterate(pplayer->connections, aconn) {
-    if (aconn->observer) {
-      i++;
-    }
-  } conn_list_iterate_end;
-  if (i > 1 && pconn->observer) {
+  if (pplayer->is_observer && conn_list_size(pplayer->connections) > 1) {
     one_obs_among_many = TRUE;
   }
 
