@@ -104,9 +104,7 @@ struct player_score {
   int content;
   int unhappy;
   int angry;
-  int taxmen;
-  int scientists;
-  int elvis;
+  int specialists[SP_MAX];
   int wonders;
   int techs;
   int techout;

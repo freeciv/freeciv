@@ -373,9 +373,9 @@ void calc_civ_score(struct player *pplayer)
   pplayer->score.content = 0;
   pplayer->score.unhappy = 0;
   pplayer->score.angry = 0;
-  pplayer->score.taxmen = 0;
-  pplayer->score.scientists = 0;
-  pplayer->score.elvis = 0;
+  specialist_type_iterate(sp) {
+    pplayer->score.specialists[sp] = 0;
+  } specialist_type_iterate_end;
   pplayer->score.wonders = 0;
   pplayer->score.techs = 0;
   pplayer->score.techout = 0;
@@ -404,9 +404,9 @@ void calc_civ_score(struct player *pplayer)
     pplayer->score.content += pcity->ppl_content[4];
     pplayer->score.unhappy += pcity->ppl_unhappy[4];
     pplayer->score.angry += pcity->ppl_angry[4];
-    pplayer->score.taxmen += pcity->specialists[SP_TAXMAN];
-    pplayer->score.scientists += pcity->specialists[SP_SCIENTIST];
-    pplayer->score.elvis += pcity->specialists[SP_ELVIS];
+    specialist_type_iterate(sp) {
+      pplayer->score.specialists[sp] += pcity->specialists[sp];
+    } specialist_type_iterate_end;
     pplayer->score.population += city_population(pcity);
     pplayer->score.cities++;
     pplayer->score.pollution += pcity->pollution;
@@ -476,11 +476,14 @@ int get_civ_score(const struct player *pplayer)
 **************************************************************************/
 int total_player_citizens(const struct player *pplayer)
 {
-  return (pplayer->score.happy
-	  + pplayer->score.content
-	  + pplayer->score.unhappy
-	  + pplayer->score.angry
-	  + pplayer->score.scientists
-	  + pplayer->score.elvis
-	  + pplayer->score.taxmen);
+  int count = (pplayer->score.happy
+	       + pplayer->score.content
+	       + pplayer->score.unhappy
+	       + pplayer->score.angry);
+
+  specialist_type_iterate(sp) {
+    count += pplayer->score.specialists[sp];
+  } specialist_type_iterate_end;
+
+  return count;
 }

@@ -23,8 +23,10 @@ enum production_class_type {
 };
 
 enum specialist_type {
-  SP_ELVIS, SP_SCIENTIST, SP_TAXMAN, SP_COUNT
+  SP_ELVIS, SP_SCIENTIST, SP_TAXMAN, SP_LAST
 };
+#define SP_COUNT SP_LAST
+#define SP_MAX SP_LAST
 
 enum city_tile_type {
   C_TILE_EMPTY, C_TILE_WORKER, C_TILE_UNAVAILABLE
