@@ -197,7 +197,8 @@ void stdinhand_init(void)
   Criteria:
     Accepted immediately if: > 50% of votes for
     Rejected immediately if: >= 50% of votes against
-    Accepted on conclusion iff: None voted against.
+    Accepted on conclusion iff: More than half eligible voters voted for,
+                                or none against.
 **************************************************************************/
 static void check_vote(struct voting *vote)
 {
