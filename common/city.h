@@ -64,9 +64,7 @@ enum city_options {
    Some places in the code hardcodes this number (yet). */
 #define CITY_MAP_SIZE 5
 
-
-/* Iterate a city map */
-
+/* Iterate a city map. x and y will be elements of [0,CITY_MAP_SIZE). */
 #define city_map_iterate(x, y) \
 { \
   int x, y; \
@@ -77,10 +75,11 @@ enum city_options {
 
 #define city_map_iterate_end \
 }
-/* Iterate a city map, from the center (the city) outwards */
 
 extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2];
 
+/* Iterate a city map, from the center (the city) outwards. x and y
+   will be elements of [0,CITY_MAP_SIZE). */
 #define city_map_iterate_outwards(x, y) { \
   int x, y; \
   int city_map_iterate_outwards_index; \
@@ -96,16 +95,33 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
 
 #define city_map_iterate_outwards_end } }
 
-/* Iterate a city radius: (dx,dy) centered on (0,0) */
+/*
+ * Iterate a city map in checked real map coordinates. The center of
+ * the city is given as a map position (x0,y0). cx and cy will be
+ * elements of [0,CITY_MAP_SIZE). mx and my will form the map position
+ * (mx,my).
+*/
+#define city_map_checked_iterate(x0, y0, cx, cy, mx, my) {     \
+  int _x0= (x0)-CITY_MAP_SIZE/2, _y0= (y0)-CITY_MAP_SIZE/2;    \
+  city_map_iterate_outwards(cx, cy) {                          \
+    int my= cy + _y0, mx= cx + _x0;                            \
+    if(normalize_map_pos(&mx,&my)) {
 
+#define city_map_checked_iterate_end \
+    }                                \
+  } city_map_iterate_outwards_end    \
+}
+
+/* Iterate a city radius: (dx,dy) centered on (0,0) */
 #define city_radius_iterate(dx, dy) \
   for (dy = -(int)(CITY_MAP_SIZE/2); dy<(int)(CITY_MAP_SIZE/2); dy++) \
     for (dx = -(int)(CITY_MAP_SIZE/2); dx<(int)(CITY_MAP_SIZE/2); dx++) \
       if (! ((dx == -(int)(CITY_MAP_SIZE/2) || dx == (int)(CITY_MAP_SIZE/2)) && \
 	     (dy == -(int)(CITY_MAP_SIZE/2) || dy == (int)(CITY_MAP_SIZE/2))) )
 
-/* Iterate a city radius in map coordinates; skip non-existant squares */
 
+/* Iterate a city radius in map coordinates; skip non-existant
+   squares. */
 #define map_city_radius_iterate(city_x, city_y, x_itr, y_itr) \
 { \
   int x_itr, y_itr; \

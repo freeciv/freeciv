@@ -214,14 +214,9 @@ static int city_desirability(struct player *pplayer, int x, int y)
   memset(mine, 0, sizeof(mine));
   memset(road, 0, sizeof(road));
 
-  city_map_iterate(i, j) {
-    int map_x = x + i - CITY_MAP_SIZE/2;
-    int map_y = y + j - CITY_MAP_SIZE/2;
-    if (!normalize_map_pos(&map_x, &map_y))
-      continue;
-
-    if ((minimap[map_x][map_y] >= 0 && !pcity) ||
-	(pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
+  city_map_checked_iterate(x, y, i, j, map_x, map_y) {
+    if ((!pcity && minimap[map_x][map_y] >= 0)
+	|| (pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
       ptile = map_get_tile(map_x, map_y);
       con2 = ptile->continent;
       ptype = get_tile_type(ptile->terrain);
@@ -257,7 +252,8 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
       if (trade[i][j]) trade[i][j] += t;
       else if (road[i][j]) road[i][j] += t;
     }
-  } city_map_iterate_end;
+  }
+  city_map_checked_iterate_end;
 
   if (pcity) { /* quick-n-dirty immigration routine -- Syela */
     n = pcity->size;
@@ -1074,14 +1070,11 @@ static int evaluate_improvements(struct unit *punit,
   city_list_iterate(pplayer->cities, pcity) {
     freelog(LOG_DEBUG, "%s", pcity->name);
     /* try to work near the city */
-    city_map_iterate_outwards(i, j) {
-      int x, y;
-      if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE) continue;
+    city_map_checked_iterate(pcity->x, pcity->y, i, j, x, y) {
+      if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE)
+	continue;
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
-      x = pcity->x + i - CITY_MAP_SIZE/2;
-      y = pcity->y + j - CITY_MAP_SIZE/2;
-      if (normalize_map_pos(&x, &y)
-	  && map_get_continent(x, y) == ucont
+      if (map_get_continent(x, y) == ucont
 	  && warmap.cost[x][y] <= THRESHOLD * mv_rate
 	  && (territory[x][y]&(1<<pplayer->player_no))
 	  /* pretty good, hope it's enough! -- Syela */
@@ -1175,7 +1168,8 @@ static int evaluate_improvements(struct unit *punit,
 		pcity->ai.derad[i][j]);
       } /* end if we are a legal destination */
     } city_map_iterate_outwards_end;
-  } city_list_iterate_end;
+  }
+  city_map_checked_iterate_end;
 
   best_newv = (best_newv - food_upkeep * FOOD_WEIGHTING) * 100 / (40 + food_cost);
   if (best_newv < 0)

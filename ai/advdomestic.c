@@ -90,48 +90,54 @@ static int building_value(int max, struct city *pcity, int val)
 static int ocean_workers(struct city *pcity)
 {
   int i = 0;
-  city_map_iterate(x, y) {
-    if (map_get_tile(pcity->x+x-2, pcity->y+y-2)->terrain == T_OCEAN) {
-      i++; /* this is a kluge; wasn't getting enough harbors because
-often everyone was stuck farming grassland. */
-      if (is_worker_here(pcity, x, y)) i++;
+  city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
+    if (map_get_terrain(mx, my) == T_OCEAN) {
+      /* this is a kluge; wasn't getting enough harbors because often
+         everyone was stuck farming grassland. */
+      i++;
+
+      if (is_worker_here(pcity, cx, cy))
+	i++;
     }
-  } city_map_iterate_end;
-  return(i/2);
+  }
+  city_map_checked_iterate_end;
+  return (i / 2);
 }
 
 static int road_trade(struct city *pcity)
 {
-  int i = 0; 
-  city_map_iterate(x, y) {
-    if (is_worker_here(pcity, x, y)) {
-      if (map_get_special(pcity->x+x-2, pcity->y+y-2) & S_ROAD) i++;
-    }
-  } city_map_iterate_end;
+  int i = 0;
+  city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
+    if (map_get_special(mx, my) & S_ROAD && is_worker_here(pcity, cx, cy))
+      i++;
+  }
+  city_map_checked_iterate_end;
   return(i); 
 }
 
 static int farmland_food(struct city *pcity)
 {
-  int i = 0; 
-  city_map_iterate(x, y) {
-    if (is_worker_here(pcity, x, y)) {
-      if (map_get_special(pcity->x+x-2, pcity->y+y-2) & S_FARMLAND) i++;
-    }
-  } city_map_iterate_end;
+  int i = 0;
+  city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
+    if (map_get_special(mx, my) & S_FARMLAND
+	&& is_worker_here(pcity, cx, cy)) i++;
+  } 
+  city_map_checked_iterate_end;
   return(i); 
 }
 
 static int pollution_cost(struct player *pplayer, struct city *pcity,
 			  Impr_Type_id id)
 {
-  int p, a, b, c, tmp = 0;
-  p = 0;
+  int p = 0, a, b, c, tmp = 0;
+
   city_map_iterate(x, y) {
     if(get_worker_city(pcity, x, y)==C_TILE_WORKER) {
       p += city_get_shields_tile(x, y, pcity);
     }
-  } city_map_iterate_end;
+  } 
+  city_map_iterate_end;
+
   if (city_got_building(pcity, B_FACTORY) || id == B_FACTORY) {
     if (city_got_building(pcity, B_MFG) || id == B_MFG) tmp = 100;
     else tmp = 50;

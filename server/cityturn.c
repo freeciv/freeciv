@@ -179,33 +179,28 @@ static void worker_loop(struct city *pcity, int *foodneed,
 	  pcity->name, *foodneed, *prodneed);
 
   /* better than nothing, not as good as a global worker allocation -- Syela */
-  city_map_iterate(x, y) {
-    int map_x = pcity->x + x - CITY_MAP_SIZE/2;
-    int map_y = pcity->y + y - CITY_MAP_SIZE/2;
-
-    if (normalize_map_pos(&map_x, &map_y)) {
-      conflict[x][y] = -1 - minimap[map_x][map_y];
-    } else {
-      conflict[x][y] = 0;
-    }
-  } city_map_iterate_end;
+  memset(conflict, 0, sizeof(conflict));
+  city_map_checked_iterate(pcity->x, pcity->y, cx, cy, mx, my) {
+      conflict[cx][cy] = -1 - minimap[mx][my];
+  } city_map_checked_iterate_end;
 
   do {
-    bx=0;
-    by=0;
-    best = 0;
     /* try to work near the city */
+    bx = 0;
+    by = 0;
+    best = 0;
+
     city_map_iterate_outwards(x, y) {
       if(can_place_worker_here(pcity, x, y)) {
-        cur = city_tile_value(pcity, x, y, *foodneed, *prodneed) - conflict[x][y];
-        if (cur > best) {
-          bx=x;
-          by=y;
-          best = cur;
+        cur = city_tile_value(pcity,x,y,*foodneed,*prodneed) - conflict[x][y];
+	if (cur > best) {
+	  bx = x;
+	  by = y;
+	  best = cur;
 	}
       }
     } city_map_iterate_outwards_end;
-    if(bx || by) {
+    if (bx || by) {
       server_set_worker_city(pcity, bx, by);
       (*workers)--; /* amazing what this did with no parens! -- Syela */
       *foodneed -= city_get_food_tile(bx,by,pcity) - 2;
