@@ -396,7 +396,7 @@ static void ai_reevaluate_building(struct city *pcity, int *value,
     return;
   }
 
-  *value = 100 + MAX(0, urgency); /* default */
+  *value = MAX(*value, 100 + MAX(0, urgency)); /* default */
 
   if (urgency > 0 && danger > defense * 2) {
     *value += 100;
