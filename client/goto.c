@@ -364,7 +364,9 @@ static void fill_client_goto_parameter(struct unit *punit,
 {
   pft_fill_default_parameter(parameter);
   pft_fill_unit_parameter(parameter, punit);
+  assert(parameter->get_EC == NULL);
   parameter->get_EC = get_EC;
+  assert(parameter->get_TB == NULL);
   if (unit_type(punit)->attack_strength > 0) {
     parameter->get_TB = get_TB_aggr;
   } else {
@@ -389,8 +391,6 @@ void enter_goto_state(struct unit *punit)
   goto_map.unit_id = punit->id;
   assert(goto_map.num_parts == 0);
 
-  assert(goto_map.template.get_EC == NULL);
-  assert(goto_map.template.get_TB == NULL);
   fill_client_goto_parameter(punit, &goto_map.template);
 
   add_part();
