@@ -4316,9 +4316,7 @@ int send_packet_attribute_chunk(struct connection *pc,
   cptr += packet->chunk_length;
 
   put_uint16(buffer, cptr - buffer);
-  send_packet_data(pc, buffer, cptr - buffer);
-
-  return 0;
+  return send_packet_data(pc, buffer, cptr - buffer);
 }
 
 /**************************************************************************
