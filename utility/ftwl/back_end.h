@@ -22,8 +22,8 @@
 
 #include "common_types.h"
 
-/* don't change */
-#define MAX_TRANSPARENCY	128
+#define MAX_OPACITY    255
+#define MIN_OPACITY    0
 
 #define DEPTH_MIN		100
 #define DEPTH_MAX		300
@@ -79,12 +79,6 @@ enum be_event_type {
   BE_KEY_PRESSED
 };
 
-enum be_draw_type {
-  BE_TRANSPARENT,		/* 100% background */
-  BE_ALPHA,			/* variable */
-  BE_OPAQUE			/* 100% foreground */
-};
-
 struct be_event {
   enum be_event_type type;
   int socket;			/* BE_DATA_OTHER_FD */
@@ -109,21 +103,18 @@ void be_set_transparent(struct osda *osda,
 /* ===== drawing to osda ===== */
 #define be_draw_string tr_draw_string
 
-void be_draw_bitmap(struct osda *target, enum be_draw_type draw_type,
-		    be_color color,
+void be_draw_bitmap(struct osda *target, be_color color,
 		    const struct ct_point *position,
 		    struct  FT_Bitmap_ *bitmap);
 
-void be_draw_region(struct osda *target, enum be_draw_type draw_type,
-		    const struct ct_rect *region, be_color color);
-void be_draw_line(struct osda *target, enum be_draw_type draw_type,
-		  const struct ct_point *start,
-		  const struct ct_point *end,
-		  int line_width, bool dashed, be_color color);
-void be_draw_rectangle(struct osda *target, enum be_draw_type draw_type,
-		       const struct ct_rect *spec,
+void be_draw_region(struct osda *target, const struct ct_rect *region, 
+		    be_color color);
+void be_draw_line(struct osda *target, const struct ct_point *start,
+		  const struct ct_point *end, int line_width, bool dashed,
+		  be_color color);
+void be_draw_rectangle(struct osda *target, const struct ct_rect *spec,
 		       int line_width, be_color color);
-void be_draw_sprite(struct osda *target, enum be_draw_type draw_type,
+void be_draw_sprite(struct osda *target, 
 		    const struct Sprite *sprite,
 		    const struct ct_size *size,
 		    const struct ct_point *dest_pos,
@@ -132,7 +123,7 @@ void be_copy_osda_to_osda(struct osda *dest,
 			  struct osda *src,
 			  const struct ct_size *size,
 			  const struct ct_point *dest_pos,
-			  const struct ct_point *src_pos, int transparency);
+			  const struct ct_point *src_pos);
 
 /* ===== query info ===== */
 void be_screen_get_size(struct ct_size *size);
@@ -157,6 +148,6 @@ void be_add_net_input(int sock);
 void be_remove_net_input(void);
 void be_copy_osda_to_screen(struct osda *src);
 void be_write_osda_to_file(struct osda *osda, const char *filename);
-be_color be_get_color(int red, int green, int blue);
+be_color be_get_color(int red, int green, int blue, int alpha);
 
 #endif

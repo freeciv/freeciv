@@ -6,15 +6,12 @@ height = 100
 align="center"
 
 text-color="#0000ff"
-text-background="#ddddff"
+text-background="#ddddff2f"
 text-size=15
 text-font="fonts/Vera.ttf"
 text-antialias=0
 text-outline-width=0
 text-transform=""
-
-# in percent
-transparency=30
 
 [output]
 x = 0
@@ -35,8 +32,5 @@ padding=5
 # in msec
 delay=5000
 
-# in percent
-transparency=10
-
 # optional
-background="#ffaa33"
+background="#ffaa33df"

@@ -16,7 +16,7 @@
 struct tr_string_data;
 
 void tr_init(void);
-void tr_draw_string(struct osda *target, enum be_draw_type draw_type,
+void tr_draw_string(struct osda *target,
 		    const struct ct_point *position,
 		    const struct ct_string *string);
 void tr_string_get_size(struct ct_size *size, const struct ct_string *string);

@@ -16,20 +16,13 @@
 
 #define ENABLE_IMAGE_ACCESS_CHECK	0
 
-/* Internal 24 bit format, 8 bit are for masking. */
+/* Internal 32bpp format. */
 struct image {
   int width, height;
   int pitch;
   unsigned char *data;
   struct ct_rect full_rect;
 };
-
-/* I have no idea what MASK_UNKNOWN is, but it should
- * be defined by name instead of throwing the number zero
- * around all the time. - Per */
-#define MASK_UNKNOWN 0x00
-#define MASK_ALPHA  0x01
-#define MASK_OPAQUE 0x02
 
 struct Sprite {
   struct image *image;
@@ -47,8 +40,8 @@ struct image *image_clone_sub(struct image *src, const struct ct_point *pos,
 			      const struct ct_size *size);
 void image_copy_full(struct image *src, struct image *dest,
 		     struct ct_rect *region);
-void image_set_mask(const struct image *image, const struct ct_rect *rect,
-		    unsigned char mask);
+void image_set_alpha(const struct image *image, const struct ct_rect *rect,
+		     unsigned char alpha);
 
 #define IMAGE_GET_ADDRESS(image, x, y) ((image)->data + (image)->pitch * (y) + 4 * (x))
 

@@ -95,7 +95,7 @@ static void draw(struct sw_widget *widget)
 
   rect = widget->inner_bounds;
 
-  be_draw_region(get_osda(widget), BE_ALPHA, &rect,
+  be_draw_region(get_osda(widget), &rect,
 		 widget->data.edit.template->background);
 
   pos.x =
@@ -120,12 +120,12 @@ static void draw(struct sw_widget *widget)
       rect.width = t->size.width;
       rect.height = t->size.height;
 
-      be_draw_region(get_osda(widget), BE_OPAQUE, &rect,
+      be_draw_region(get_osda(widget), &rect,
 		     widget->data.edit.color1);
     }
 
     if (i != chars - 1) {
-      be_draw_string(get_osda(widget), BE_OPAQUE, &pos, t);
+      be_draw_string(get_osda(widget), &pos, t);
     }
 
     if (widget->data.edit.cursor == i && !widget->selected) {
@@ -134,7 +134,7 @@ static void draw(struct sw_widget *widget)
       rect.width = t->size.width;
       rect.height = t->size.height;
 
-      be_draw_rectangle(get_osda(widget), BE_OPAQUE, &rect, 1,
+      be_draw_rectangle(get_osda(widget), &rect, 1,
 			widget->data.edit.color2);
     }
 
@@ -188,10 +188,10 @@ struct sw_widget *sw_edit_create(struct sw_widget *parent,int max_size,
   result->can_be_selected = TRUE;
 
   // FIXME make configurable
-  result->data.edit.color1=be_get_color(255,0,0);
-  result->data.edit.color2=be_get_color(255,0,0);
-  result->data.edit.color_selected = be_get_color(255,255,255);
-  result->data.edit.color_noselected = be_get_color(0,0,0);
+  result->data.edit.color1 = be_get_color(255, 0, 0, MAX_OPACITY);
+  result->data.edit.color2 = be_get_color(255, 0, 0, MAX_OPACITY);
+  result->data.edit.color_selected = be_get_color(255, 255, 255, MAX_OPACITY);
+  result->data.edit.color_noselected = be_get_color(0, 0, 0, MAX_OPACITY);
 
   for (i = 0; i < max_size + 1; i++) {
     tmp[i] = 'M';
@@ -200,7 +200,7 @@ struct sw_widget *sw_edit_create(struct sw_widget *parent,int max_size,
 
   result->data.edit.max_size = max_size;
   result->data.edit.template = ct_string_clone(temp_and_initial_text);
-  assert(strlen(temp_and_initial_text->text)<=max_size);
+  assert(strlen(temp_and_initial_text->text) <= max_size);
   result->data.edit.buffer = fc_malloc(max_size + 2);
   strcpy(result->data.edit.buffer, temp_and_initial_text->text);
   strcat(result->data.edit.buffer, "x");

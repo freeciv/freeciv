@@ -59,7 +59,6 @@ struct button_callback {
 
 static char *current_theme;
 static char current_res[30];
-static int theme_bytes_per_pixel;
 
 /*************************************************************************
   Initialize theme engine and look for theme directory containing the
@@ -108,7 +107,6 @@ void te_init_colormodel(char *name)
     assert(0);
     exit(EXIT_FAILURE);
   }
-  theme_bytes_per_pixel = secfile_lookup_int(&file, "meta.bpp") / 8;
   section_file_free(&file);
 }
 
@@ -151,15 +149,17 @@ struct Sprite *te_load_gfx(const char *filename)
 *************************************************************************/
 static bool str_color_to_be_color(be_color *col, const char *s)
 {
-  int values[theme_bytes_per_pixel];
+  int values[4] = {0, 0, 0, 255}; /* RGBA; set to black */
   int i;
+  int len = (strlen(s) - 1) / 2;
 
-  if (strlen(s) != (theme_bytes_per_pixel * 2 + 1) || s[0] != '#') {
+  if ((len != 3 && len != 4) || s[0] != '#') {
+    /* Neither RGB or RGBA value in appropriate form! */
     return FALSE;
   }
 
-  s++;
-  for (i = 0; i < theme_bytes_per_pixel; i++) {
+  s++; /* ditch '#' */
+  for (i = 0; i < len; i++) {
     char b[3];
     int scanned;
 
@@ -171,8 +171,7 @@ static bool str_color_to_be_color(be_color *col, const char *s)
     assert(scanned == 1);
     s += 2;
   }
-  /* FIXME: this needs to be generalized for other bitdepths */
-  *col = be_get_color(values[0], values[1], values[2]);
+  *col = be_get_color(values[0], values[1], values[2], values[3]);
   return TRUE;
 }
 
@@ -191,7 +190,7 @@ be_color te_read_color(struct section_file *file, const char *section,
             file->filename, section, prefix, suffix);
     assert(0);
     exit(EXIT_FAILURE);
-    return 0;
+    return (be_color)0;
   }
 }
 
@@ -221,8 +220,8 @@ struct ct_string *te_read_string(struct section_file *file,
   int size, outline_width;
   char *text, *font,*transform_str;
   bool anti_alias;
-  be_color color, background, outline_color, dummy_color =
-      be_get_color(0, 0, 0);
+  be_color color, background, outline_color;
+  be_color dummy_color = be_get_color(0, 0, 0, MAX_OPACITY);
   enum cts_transform transform;
 
   if (need_text) {
@@ -340,7 +339,7 @@ struct ct_tooltip *te_read_tooltip(struct section_file *file,
 	te_read_string(file, section, "tooltip", TRUE, need_text);
     int delay = secfile_lookup_int(file, "%s.tooltip-delay", section);
     int shadow = secfile_lookup_int(file, "%s.tooltip-shadow", section);
-    be_color color = be_get_color(0, 0, 0);
+    be_color color = be_get_color(0, 0, 0, MAX_OPACITY);
 
     if (shadow > 0) {
       color = te_read_color(file, section, "", "tooltip-shadow-color");
@@ -515,11 +514,12 @@ static void construct_infos_tooltip(struct section_file *file,
     }
     data->widget =
 	sw_window_create(screen->window, data->bounds.width,
-			 data->bounds.height, NULL, 100,
+			 data->bounds.height, NULL,
 			 FALSE, DEPTH_MAX);
     sw_widget_set_position(data->widget, data->bounds.x, data->bounds.y);
     sw_window_set_draggable(data->widget, FALSE);
-    sw_widget_set_background_color(data->widget,be_get_color(0,0,0));
+    sw_widget_set_background_color(data->widget, 
+                                   be_get_color(0, 0, 0, MIN_OPACITY));
 
     inserted = hash_insert(screen->widgets, id, data);
     assert(inserted);

@@ -133,12 +133,13 @@ static struct {
     int border_width;
     be_color border_color;
     be_color background_color;
-    int transparency;
   } style[MAX_CITY_DESCR_STYLES];
 } city_descr_styles;
 
 /**************************************************************************
-  ...
+  Find the appropriate city description theme style.  This depends on 
+  the size of the city, and enables us to have different visual styles
+  for city descriptions depending on their sizes.
 **************************************************************************/
 static struct city_descr_style *find_city_descr_style(struct city *pcity)
 {
@@ -150,8 +151,9 @@ static struct city_descr_style *find_city_descr_style(struct city *pcity)
       return &city_descr_styles.style[i];
     }
   }
-  assert(0);
-  return NULL;
+  freelog(LOG_ERROR, "No matching city description style found for %s "
+          "which is of size %d", pcity->name, pcity->size);
+  return &city_descr_styles.style[0];
 }
 
 /**************************************************************************
@@ -263,7 +265,7 @@ void map_size_changed(void)
   }
   overview_window =
       sw_window_create(screen->window, overview.width, overview.height, NULL,
-		       0, FALSE,OVERVIEW_DEPTH);
+		       FALSE, OVERVIEW_DEPTH);
   sw_window_set_mouse_press_notify(overview_window,
 				   overview_mouse_press_callback, NULL);
   sw_widget_set_position(overview_window, 9, 371);
@@ -298,7 +300,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 
   freelog(LOG_DEBUG, "canvas_copy(src=%p,dest=%p)",src,dest);
 
-  be_copy_osda_to_osda(dest->osda, src->osda, &size, &dest_pos, &src_pos, 0);
+  be_copy_osda_to_osda(dest->osda, src->osda, &size, &dest_pos, &src_pos);
   if (dest->widget) {
     sw_window_canvas_background_region_needs_repaint(dest->widget, NULL);
   }
@@ -380,7 +382,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 
   window =
       sw_window_create(screen->window, width, height, NULL,
-		       style->transparency, style->border_width > 0,
+		       style->border_width > 0,
 		       CITY_DESCR_DEPTH);
   sw_widget_set_background_color(window, style->background_color);
   sw_widget_disable_mouse_events(window);
@@ -432,7 +434,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
   struct ct_size size = { width, height };
 
   freelog(LOG_DEBUG, "gui_put_sprite canvas=%p",pcanvas);
-  be_draw_sprite(osda, BE_OPAQUE, sprite, &size, &dest_pos, &src_pos);
+  be_draw_sprite(osda, sprite, &size, &dest_pos, &src_pos);
   if (pcanvas->widget) {
     sw_window_canvas_background_region_needs_repaint(pcanvas->widget,
 						     NULL);
@@ -463,9 +465,9 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 {
   struct ct_rect rect = { canvas_x, canvas_y, width, height };
 
-  freelog(LOG_DEBUG, "gui_put_rectangle(...)");
-  be_draw_region(pcanvas->osda,
-		 BE_OPAQUE, &rect, enum_color_to_be_color(color));
+  freelog(LOG_DEBUG, "gui_put_rectangle(,%d,%d,%d,%d,%d)", color, canvas_x, 
+          canvas_y, width, height);
+  be_draw_region(pcanvas->osda, &rect, enum_color_to_be_color(color));
   if (pcanvas->widget) {
     sw_window_canvas_background_region_needs_repaint(pcanvas->widget,
 						     &rect);
@@ -488,10 +490,10 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
   freelog(LOG_DEBUG, "gui_put_line(...)");
 
   if (ltype == LINE_NORMAL) {
-    be_draw_line(pcanvas->osda, BE_OPAQUE, &start, &end, 1, FALSE,
+    be_draw_line(pcanvas->osda, &start, &end, 1, FALSE,
 		 enum_color_to_be_color(color));
   } else if (ltype == LINE_BORDER) {
-    be_draw_line(pcanvas->osda, BE_OPAQUE, &start, &end, 2, TRUE,
+    be_draw_line(pcanvas->osda, &start, &end, 2, TRUE,
 		 enum_color_to_be_color(color));
   } else {
     assert(0);
@@ -516,7 +518,7 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
 
   freelog(LOG_DEBUG,"flush_mapcanvas=%s",ct_rect_to_string(&rect));
   be_copy_osda_to_osda(sw_window_get_canvas_background(mapview_canvas_window),
-		       mapview_canvas.store->osda, &size, &pos, &pos, 0);
+		       mapview_canvas.store->osda, &size, &pos, &pos);
   sw_window_canvas_background_region_needs_repaint(mapview_canvas_window,
 						   &rect);
 }
@@ -677,10 +679,9 @@ static struct osda *create_selected_osda(struct osda *osda)
   struct ct_rect spec={0,0,UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT};
   struct ct_size size={UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT};
 
-  be_copy_osda_to_osda(result, osda, &size, NULL, NULL, 0);
+  be_copy_osda_to_osda(result, osda, &size, NULL, NULL);
 
-  be_draw_rectangle(result,
-		    BE_OPAQUE,&spec,1,be_get_color(255,0,0));
+  be_draw_rectangle(result, &spec, 1, be_get_color(255, 0, 0, 255));
   return result;
 }
 
@@ -1152,7 +1153,6 @@ static void read_properties(void)
       int min_size = secfile_lookup_int(file, "%s.size-min", sec[i]);
       int max_size = secfile_lookup_int(file, "%s.size-max", sec[i]);
       int border_width = secfile_lookup_int(file, "%s.border-width", sec[i]);
-      int transparency = secfile_lookup_int(file, "%s.transparency", sec[i]);
       struct ct_string *name =
 	  te_read_string(file, sec[i], "name", FALSE, FALSE);
       struct ct_string *growth =
@@ -1164,7 +1164,6 @@ static void read_properties(void)
       assert(min_size > 0 && max_size >= min_size
 	     && max_size <= MAX_CITY_SIZE);
       assert(border_width >= 0 && border_width <= 1);
-      assert(transparency >= 0 && transparency <= 100);
 
       city_descr_styles.style[city_descr_styles.styles].min_size = min_size;
       city_descr_styles.style[city_descr_styles.styles].max_size = max_size;
@@ -1172,8 +1171,6 @@ static void read_properties(void)
 	  border_width;
       city_descr_styles.style[city_descr_styles.styles].border_color =
 	  border_color;
-      city_descr_styles.style[city_descr_styles.styles].transparency =
-	  transparency;
       city_descr_styles.style[city_descr_styles.styles].name_template = name;
       city_descr_styles.style[city_descr_styles.styles].growth_template =
 	  growth;
@@ -1260,7 +1257,7 @@ void popup_mapcanvas(void)
 
   mapview_canvas_window =
       sw_window_create(screen->window, screen_size.width, screen_size.height,
-		       NULL, 0, FALSE, CANVAS_DEPTH);
+		       NULL, FALSE, CANVAS_DEPTH);
   sw_widget_set_position(mapview_canvas_window, 0,0);
 
   sw_window_set_canvas_background(mapview_canvas_window, TRUE);
@@ -1271,8 +1268,7 @@ void popup_mapcanvas(void)
 			  NULL);
 
   sw_widget_get_bounds(mapview_canvas_window, &rect);
-  be_draw_region(sw_window_get_canvas_background(mapview_canvas_window),
-		 BE_OPAQUE, &rect,
+  be_draw_region(sw_window_get_canvas_background(mapview_canvas_window), &rect,
 		 enum_color_to_be_color(COLOR_STD_BACKGROUND));
 
   init_mapcanvas_and_overview();

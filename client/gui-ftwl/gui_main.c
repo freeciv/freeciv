@@ -128,7 +128,7 @@ static void get_colors(void)
   for (i = 0; i < COLOR_EXT_LAST; i++) {
     all_colors[i] =
 	be_get_color(all_colors_rgb[i].r, all_colors_rgb[i].g,
-		     all_colors_rgb[i].b);
+		     all_colors_rgb[i].b, MAX_OPACITY);
   }
 }
 
@@ -180,11 +180,6 @@ void ui_main(int argc, char *argv[])
 
   init_character_encodings("ISO-8859-1");
 
-  if (!auto_connect) {
-    die("Connection dialog not yet implemented. Start client using "
-        "the -a option.");
-  }
-
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       fprintf(stderr, _("  -d, --dump\t\tEnable screen dumper\n"));
@@ -223,6 +218,11 @@ void ui_main(int argc, char *argv[])
   }
   free(resolution);
   
+  if (!auto_connect) {
+    die("Connection dialog not yet implemented. Start client using "
+        "the -a option.");
+  }
+
   sw_init();
   be_init(&res, fullscreen);
   be_screen_get_size(&size);

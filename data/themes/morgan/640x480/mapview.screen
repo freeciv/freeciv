@@ -1,6 +1,8 @@
 [screen]
+; This is the mapview background image
 background="mapview-background.png"
-#background="test.png"
+
+;  === Key bindings ===
 
 [key_bindings]
 c="center_unit"
@@ -31,20 +33,13 @@ Alt-Right="scroll(right,1,pixel)"
 Alt-Up="scroll(up,1,pixel)"
 Alt-Down="scroll(down,1,pixel)"
 
-[_label_unused]
-x = 40
-y = 22
-width = 600
-height = 400
-align="nw"
-
-text=_("TESTING\n1234")
-text-color="#ff0000"
-text-size=80
-text-font="fonts/Vera.ttf"
-text-antialias=0
-text-outline-width=0
-text-transform=""
+;  === Info bindings and labels ===
+;
+; Sections prefixed by 'info' is looked up by the client and used
+; where appropriate. Any section prefixed by 'label' is inserted 
+; unquestioningly by the client. Any section prefixed by '_' is
+; ignored, however.
+;
 
 [info_text_year]
 x = 7
@@ -54,6 +49,7 @@ height = 30
 align="nw"
 
 text-color="#ffffff"
+text-background="#00000000" ; completely transparent
 text-size=10
 text-font="fonts/Vera.ttf"
 text-antialias=0
@@ -68,13 +64,14 @@ height = 30
 align="nw"
 
 text-color="#ffffff"
+text-background="#00000000" ; completely transparent
 text-size=10
 text-font="fonts/VeraBd.ttf"
 text-antialias=0
 text-outline-width=0
 text-transform=""
 
-[label_unused1]
+[label_text_gold]
 x = 100
 y = 345
 width = 70
@@ -83,6 +80,7 @@ align="nw"
 
 text=_("Wealth:")
 text-color="#ffffff"
+text-background="#00000000" ; completely transparent
 text-size=10
 text-font="fonts/Vera.ttf"
 text-antialias=0
@@ -97,13 +95,14 @@ height = 30
 align="nw"
 
 text-color="#ffffff"
+text-background="#00000000" ; completely transparent
 text-size=10
 text-font="fonts/Vera.ttf"
 text-antialias=0
 text-outline-width=0
 text-transform=""
 
-[label_unused2]
+[label_population]
 x = 100
 y = 332
 width = 70
@@ -112,6 +111,7 @@ align="nw"
 
 text=_("Population:")
 text-color="#ffffff"
+text-background="#00000000" ; completely transparent
 text-size=10
 text-font="fonts/Vera.ttf"
 text-antialias=0
@@ -126,6 +126,7 @@ height = 30
 align="nw"
 
 text-color="#ffffff"
+text-background="#00000000" ; completely transparent
 text-size=10
 text-font="fonts/Vera.ttf"
 text-antialias=0

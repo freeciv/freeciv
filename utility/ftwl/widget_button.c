@@ -43,15 +43,14 @@ static void draw(struct sw_widget *widget)
     pos.y = widget->inner_bounds.y;
     be_copy_osda_to_osda(get_osda(widget),
 			 widget->data.button.background_faces[face],
-			 &size, &pos, NULL, 0);
+			 &size, &pos, NULL);
   }
 
   if (widget->data.button.text[face]) {
     pos.x = widget->inner_bounds.x + widget->data.button.text_offset[face].x;
     pos.y = widget->inner_bounds.y + widget->data.button.text_offset[face].y;
 
-    be_draw_string(get_osda(widget), BE_OPAQUE, &pos,
-		   widget->data.button.text[face]);
+    be_draw_string(get_osda(widget), &pos, widget->data.button.text[face]);
   }
 
   if (widget->data.button.foreground_faces[face]) {
@@ -64,7 +63,7 @@ static void draw(struct sw_widget *widget)
 
     be_copy_osda_to_osda(get_osda(widget),
 			 widget->data.button.foreground_faces[face],
-			 &size, &pos, NULL, 0);
+			 &size, &pos, NULL);
   }
 }
 
@@ -268,14 +267,14 @@ struct sw_widget *sw_button_create_text_and_background(struct sw_widget
 				      size.width, size.height);
     struct ct_point point = { 0, 0 };
 
-    be_draw_sprite(t, BE_OPAQUE, s, &size, &point, &point);
+    be_draw_sprite(t, s, &size, &point, &point);
     faces[i] = t;
   }
 
   for (i = 0; i < 4; i++) {
     strings[i] = string;
   }
-  return sw_button_create(parent,string?strings:NULL,NULL,faces);
+  return sw_button_create(parent, string ? strings : NULL, NULL, faces);
 }
 
 /*************************************************************************

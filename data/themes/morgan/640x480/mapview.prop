@@ -43,7 +43,6 @@ size-max=3
 border-width=0
 border-color="#000000"
 background="#000000"
-transparency=90
 
 name-color="#000000"
 name-size=10
@@ -82,7 +81,6 @@ size-max=6
 border-width=1
 border-color="#000000"
 background="#000000"
-transparency=50
 
 name-color="#000000"
 name-size=10
@@ -120,7 +118,6 @@ size-max=8
 border-width=1
 border-color="#000000"
 background="#000000"
-transparency=50
 
 name-color="#000000"
 name-size=12
@@ -158,7 +155,6 @@ size-max=100
 border-width=1
 border-color="#000000"
 background="#ff0000"
-transparency=50
 
 name-color="#000000"
 name-size=20

@@ -266,7 +266,7 @@ static void draw(struct sw_widget *widget)
   dest_pos.y = widget->inner_bounds.y;
 
   be_copy_osda_to_osda(get_osda(widget), window->data.window.target, &size,
-		       &dest_pos, &src_pos, 0);
+		       &dest_pos, &src_pos);
 }
 
 /*************************************************************************
@@ -290,8 +290,8 @@ static void draw_extra_background(struct sw_widget *widget,
   rect.width = widget->inner_bounds.width;
   rect.height = list->data.list.heights[row];
   ct_rect_intersect(&rect, region);
-  be_draw_region(get_osda(widget), BE_ALPHA, &rect,
-		 be_get_color(189, 210, 238));
+  be_draw_region(get_osda(widget), &rect,
+		 be_get_color(189, 210, 238, MAX_OPACITY));
 }
 
 /*************************************************************************
@@ -338,9 +338,9 @@ struct sw_widget *sw_list_create(struct sw_widget *parent, int pixel_width,
   result->data.list.callback2 = NULL;
 
   result->data.list.window =
-      sw_window_create(NULL, 1, 1, NULL, 0, FALSE, DEPTH_HIDDEN);
+      sw_window_create(NULL, 1, 1, NULL, FALSE, DEPTH_HIDDEN);
   sw_widget_set_background_color(result->data.list.window,
-				 be_get_color(255, 255, 255));
+				 be_get_color(255, 255, 255, MAX_OPACITY));
   result->data.list.window->data.window.shown = FALSE;
   result->data.list.window->data.window.list = result;
   result->data.list.window->draw_extra_background = draw_extra_background;
@@ -361,7 +361,8 @@ struct sw_widget *sw_list_create(struct sw_widget *parent, int pixel_width,
 
   result->data.list.selected_row = -1;
 
-  sw_widget_set_background_color(result, be_get_color(255,255,255));
+  sw_widget_set_background_color(result, 
+                                 be_get_color(255, 255, 255, MAX_OPACITY));
   return result;
 }
 

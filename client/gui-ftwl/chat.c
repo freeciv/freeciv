@@ -37,7 +37,6 @@
 
 static struct {
   struct sw_widget *window, *edit;
-  int transparency;
   struct ct_rect bounds;
   struct ct_string *template;
   enum ws_alignment alignment;
@@ -53,7 +52,6 @@ static struct {
   struct sw_widget *window;
 
   be_color background;
-  int transparency;
   struct ct_rect outer_bounds, inner_bounds;
   struct ct_string *template;
   int padding;
@@ -73,8 +71,6 @@ void chat_create(void)
 
   te_read_bounds_alignment(file, "input", &input.bounds, &input.alignment);
   input.template = te_read_string(file, "input", "text", TRUE, FALSE);
-  input.transparency = secfile_lookup_int(file, "input.transparency");
-  assert(input.transparency >= 0 && input.transparency <= 100);
 
   /* output section */
   output.items = 0;
@@ -85,9 +81,6 @@ void chat_create(void)
   output.template = te_read_string(file, "output", "text", FALSE, FALSE);
   output.padding = secfile_lookup_int(file, "output.padding");
   output.delay = secfile_lookup_int(file, "output.delay");
-  output.transparency = secfile_lookup_int(file, "output.transparency");
-  assert(output.transparency >= 0 && output.transparency <= 100);
-  output.transparency = (output.transparency * MAX_TRANSPARENCY) / 100;
   output.has_background =
       secfile_lookup_str_default(file, NULL, "output.background");
   if (output.has_background) {
@@ -108,7 +101,7 @@ static void create_window(int height)
   assert(output.window == NULL);
   output.window =
       sw_window_create(root_window, output.outer_bounds.width, height, NULL,
-		       output.transparency, FALSE, OUTPUT_DEPTH);
+		       FALSE, OUTPUT_DEPTH);
   if (output.has_background) {
     sw_widget_set_background_color(output.window, output.background);
   }
@@ -338,7 +331,7 @@ void chat_popup_input(void)
 
   input.window =
       sw_window_create(root_window, input.bounds.width, input.bounds.height,
-		       NULL, input.transparency, FALSE, INPUT_DEPTH);
+		       NULL, FALSE, INPUT_DEPTH);
   sw_widget_set_position(input.window, input.bounds.x, input.bounds.y);
   sw_window_set_draggable(input.window, FALSE);
   sw_window_set_key_notify(input.window, my_key_handler, NULL);

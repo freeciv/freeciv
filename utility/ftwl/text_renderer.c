@@ -276,7 +276,7 @@ void tr_string_get_size(struct ct_size *size, const struct ct_string *string)
 /*************************************************************************
   ...
 *************************************************************************/
-void tr_draw_string(struct osda *target, enum be_draw_type draw_type,
+void tr_draw_string(struct osda *target,
 		    const struct ct_point *position,
 		    const struct ct_string *string)
 {
@@ -305,12 +305,12 @@ void tr_draw_string(struct osda *target, enum be_draw_type draw_type,
 
 	    p2.x += HALO_DX[w][d];
 	    p2.y += HALO_DY[w][d];
-	    be_draw_bitmap(target, draw_type, string->outline_color, &p2,
+	    be_draw_bitmap(target, string->outline_color, &p2,
 			   data->glyphs[i].bitmap);
 	  }
 	}
 
-	be_draw_bitmap(target, draw_type, string->foreground, &p,
+	be_draw_bitmap(target, string->foreground, &p,
 		       data->glyphs[i].bitmap);
       }
     }

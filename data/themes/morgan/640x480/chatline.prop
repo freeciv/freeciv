@@ -13,9 +13,6 @@ text-antialias=0
 text-outline-width=0
 text-transform=""
 
-# in percent
-transparency=30
-
 up="button_scroll_up.png"
 down="button_scroll_down.png"
 left="button_scroll_left.png"

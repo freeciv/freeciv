@@ -32,7 +32,6 @@ static void draw(struct sw_widget *widget)
 {
   int max_length, length, m, offset;
   enum widget_face face = get_widget_face(widget);
-  enum be_draw_type draw_type = BE_OPAQUE;
 
   if (widget->dragged) {
     face = WF_PRESSED;
@@ -77,7 +76,7 @@ static void draw(struct sw_widget *widget)
       rect.height = m;
     }
 
-    be_draw_region(get_osda(widget), draw_type, &rect,
+    be_draw_region(get_osda(widget), &rect,
 		   widget->data.slider.color_active);
   } else {
     struct ct_point dest_pos;
@@ -90,18 +89,18 @@ static void draw(struct sw_widget *widget)
       dest_pos.x = widget->inner_bounds.x;
       dest_pos.y = widget->inner_bounds.y + offset;
 
-      be_draw_sprite(get_osda(widget), draw_type,
+      be_draw_sprite(get_osda(widget),
 		     widget->data.slider.faces[SP_TOP][face], NULL,
 		     &dest_pos, NULL);
 
       dest_pos.y += length - top_height;
-      be_draw_sprite(get_osda(widget), draw_type,
+      be_draw_sprite(get_osda(widget),
 		     widget->data.slider.faces[SP_BOTTOM][face], NULL,
 		     &dest_pos, NULL);
 
       dest_pos.y = widget->inner_bounds.y + offset + top_height;
       for (i = 0; i < repeat_height; i++) {
-	be_draw_sprite(get_osda(widget), draw_type,
+	be_draw_sprite(get_osda(widget),
 		       widget->data.slider.faces[SP_REPEAT][face],NULL,
 		       &dest_pos, NULL);
 	dest_pos.y++;
@@ -111,7 +110,7 @@ static void draw(struct sw_widget *widget)
 	dest_pos.y =
 	    widget->inner_bounds.y + offset + top_height +
 	    (repeat_height - center_height) / 2;
-	be_draw_sprite(get_osda(widget), draw_type,
+	be_draw_sprite(get_osda(widget),
 		       widget->data.slider.faces[SP_CENTER][face], NULL,
 		       &dest_pos, NULL);
       }
@@ -119,18 +118,18 @@ static void draw(struct sw_widget *widget)
       dest_pos.x = widget->inner_bounds.x+offset;
       dest_pos.y = widget->inner_bounds.y;
 
-      be_draw_sprite(get_osda(widget), draw_type,
+      be_draw_sprite(get_osda(widget),
 		     widget->data.slider.faces[SP_TOP][face], NULL,
 		     &dest_pos, NULL);
 
       dest_pos.x += length - top_height;
-      be_draw_sprite(get_osda(widget), draw_type,
+      be_draw_sprite(get_osda(widget),
 		     widget->data.slider.faces[SP_BOTTOM][face], NULL,
 		     &dest_pos, NULL);
 
       dest_pos.x = widget->inner_bounds.x + offset + top_height;
       for (i = 0; i < repeat_height; i++) {
-	be_draw_sprite(get_osda(widget), draw_type,
+	be_draw_sprite(get_osda(widget),
 		       widget->data.slider.faces[SP_REPEAT][face],NULL,
 		       &dest_pos, NULL);
 	dest_pos.x++;
@@ -140,7 +139,7 @@ static void draw(struct sw_widget *widget)
 	dest_pos.x =
 	    widget->inner_bounds.x + offset + top_height +
 	    (repeat_height - center_height) / 2;
-	be_draw_sprite(get_osda(widget), draw_type,
+	be_draw_sprite(get_osda(widget),
 		       widget->data.slider.faces[SP_CENTER][face], NULL,
 		       &dest_pos, NULL);
       }
@@ -225,9 +224,9 @@ struct sw_widget *sw_slider_create(struct sw_widget *parent, int width,
   result->data.slider.offset = 0.0;
   result->data.slider.callback = NULL;
 
-  result->data.slider.color_active = be_get_color(255, 0, 0);
-  result->data.slider.color_drag = be_get_color(255, 255, 255);
-  result->data.slider.color_nodrag = be_get_color(0, 0, 0);
+  result->data.slider.color_active = be_get_color(255, 0, 0, MAX_OPACITY);
+  result->data.slider.color_drag = be_get_color(255, 255, 255, MAX_OPACITY);
+  result->data.slider.color_nodrag = be_get_color(0, 0, 0, MAX_OPACITY);
 
   if (!top && !bottom && !repeat && !center) {
     int j;
