@@ -1,7 +1,7 @@
 [nation_scottish]
 
 name=_("Scottish")
-plural=_("?plural:Scottish")
+plural=_("?plural:Scots")
 leader="Charles", "James", "Robert the Bruce", "William Wallace",
   "Mary Stuart"
 leader_sex="Male", "Male", "Male", "Male",
