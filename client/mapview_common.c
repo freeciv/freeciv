@@ -178,21 +178,21 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
 **************************************************************************/
 bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
 {
+  /*
+   * First we wrap the coordinates to hopefully be within the the
+   * GUI window.  This isn't perfect; notice that when the mapview
+   * approaches the size of the map some tiles won't be shown at
+   * all in iso-view.
+   */
+  map_x = map_adjust_x(map_x);
+  if (map_x < mapview_canvas.map_x0) {
+    map_x += map.xsize;
+  }
+
   if (is_isometric) {
     /* For a simpler example of this math, see
        city_pos_to_canvas_pos(). */
     int iso_x, iso_y;
-
-    /*
-     * First we wrap the coordinates to hopefully be within the the
-     * GUI window.  This isn't perfect; notice that when the mapview
-     * approaches the size of the map some tiles won't be shown at
-     * all.
-     */
-    map_x %= map.xsize;
-    if (map_x < mapview_canvas.map_x0) {
-      map_x += map.xsize;
-    }
 
     /*
      * Next we convert the flat GUI coordinates to isometric GUI
@@ -220,35 +220,22 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
      */
     *canvas_x = (iso_x - 1) * NORMAL_TILE_WIDTH / 2;
     *canvas_y = iso_y * NORMAL_TILE_HEIGHT / 2;
-
-    /*
-     * Finally we clip; checking to see if _any part_ of the tile is
-     * visible on the canvas.
-     */
-    return (*canvas_x > -NORMAL_TILE_WIDTH)
-	&& *canvas_x < (mapview_canvas.width + NORMAL_TILE_WIDTH / 2)
-	&& (*canvas_y > -NORMAL_TILE_HEIGHT)
-	&& *canvas_y < mapview_canvas.height;
   } else {			/* is_isometric */
-    if (mapview_canvas.map_x0 + mapview_canvas.tile_width <= map.xsize) {
-      *canvas_x = map_x - mapview_canvas.map_x0;
-    } else if (map_x >= mapview_canvas.map_x0) {
-      *canvas_x = map_x - mapview_canvas.map_x0;
-    } else if (map_x < map_adjust_x(mapview_canvas.map_x0
-				    + mapview_canvas.tile_width)) {
-      *canvas_x = map_x + map.xsize - mapview_canvas.map_x0;
-    } else {
-      *canvas_x = map_x - mapview_canvas.map_x0;
-    }
-
+    *canvas_x = map_x - mapview_canvas.map_x0;
     *canvas_y = map_y - mapview_canvas.map_y0;
 
     *canvas_x *= NORMAL_TILE_WIDTH;
     *canvas_y *= NORMAL_TILE_HEIGHT;
-
-    return *canvas_x >= 0 && *canvas_x < mapview_canvas.width
-        && *canvas_y >= 0 && *canvas_y < mapview_canvas.height;
   }
+
+  /*
+   * Finally we clip; checking to see if _any part_ of the tile is
+   * visible on the canvas.
+   */
+  return (*canvas_x > -NORMAL_TILE_WIDTH
+	  && *canvas_x < mapview_canvas.width
+	  && *canvas_y > -NORMAL_TILE_HEIGHT
+	  && *canvas_y < mapview_canvas.height);
 }
 
 /**************************************************************************
