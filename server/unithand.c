@@ -956,6 +956,13 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
     punit->x=dest_x;
     punit->y=dest_y;
 
+    /*set activity to sentry if boarding a ship*/
+    if(is_ground_unit(punit) &&
+       map_get_terrain(punit->x, punit->y) == T_OCEAN &&
+       !(pplayer->ai.control)) {
+      set_unit_activity(punit, ACTIVITY_SENTRY);
+    }
+
     send_unit_info(0, punit, 1);
     
     unit_list_insert(&map_get_tile(dest_x, dest_y)->units, punit);
