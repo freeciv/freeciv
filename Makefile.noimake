@@ -92,7 +92,7 @@ CLIENT_OBJS= client/civclient.o client/xmain.o client/canvas.o client/menu.o \
 
 COMMON_OBJS= common/log.o common/map.o common/packets.o common/shared.o \
              common/unit.o common/player.o common/game.o common/genlist.o \
-	     common/tech.o common/city.o common/diptreaty.o \
+	     common/tech.o common/city.o common/diptreaty.o 
 
 
 #client/soundhand.o
