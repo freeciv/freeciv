@@ -401,8 +401,8 @@ static int ai_goldequiv_clause(struct player *pplayer,
       if (pplayers_allied(pplayer, aplayer)) {
         if (!shared_vision_is_safe(pplayer, aplayer)) {
           notify(aplayer, _("*%s (AI)* Sorry, sharing vision with you "
-	                    "is too dangerous to me"),
-                 pplayer->name);	  
+	                    "is not safe."),
+                 pplayer->name);
 	  worth = -BIG_NUMBER;
 	} else {
           worth = 0;
@@ -1017,10 +1017,16 @@ void ai_diplomacy_actions(struct player *pplayer)
     clause.from = pplayer;
     clause.value = 0;
 
-    /* Remove shared vision if we are not allied. */
-    if (!pplayers_allied(pplayer, aplayer)
-        && gives_shared_vision(pplayer, aplayer)) {
-      remove_shared_vision(pplayer, aplayer);
+    /* Remove shared vision if we are not allied or it is no longer safe. */
+    if (gives_shared_vision(pplayer, aplayer)) {
+      if (!pplayers_allied(pplayer, aplayer)) {
+        remove_shared_vision(pplayer, aplayer);
+      } else if (!shared_vision_is_safe(pplayer, aplayer)) {
+        notify(aplayer, _("*%s (AI)* Sorry, sharing vision with you "
+	                    "is no longer safe."),
+	       pplayer->name);
+	remove_shared_vision(pplayer, aplayer);
+      }
     }
 
     /* No peace to enemies of our allies... or pointless peace. */
