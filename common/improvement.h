@@ -200,9 +200,9 @@ extern struct impr_type improvement_types[B_LAST];
 /* improvement effect functions */
 
 Eff_Range_id effect_range_from_str(char *str);
-char *effect_range_name(Eff_Range_id id);
+const char *effect_range_name(Eff_Range_id id);
 Eff_Type_id effect_type_from_str(char *str);
-char *effect_type_name(Eff_Type_id id);
+const char *effect_type_name(Eff_Type_id id);
 
 /* improvement functions */
 

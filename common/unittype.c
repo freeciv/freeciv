@@ -35,24 +35,24 @@ struct unit_type unit_types[U_LAST];
    client/packhand.c (for the client)
 */
 
-static char *move_type_names[] = {
+static const char *move_type_names[] = {
   "Land", "Sea", "Heli", "Air"
 };
-static char *flag_names[] = {
+static const char *flag_names[] = {
   "Caravan", "Missile", "IgZOC", "NonMil", "IgTer", "Carrier",
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS",
   "Fighter", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
   "Airbase", "Cities", "IgTired", "Missile_Carrier", "No_Land_Attack"
 };
-static char *role_names[] = {
+static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
   "DefendOk", "DefendGood", "AttackFast", "AttackStrong",
   "Ferryboat", "Barbarian", "BarbarianTech", "BarbarianBoat",
   "BarbarianBuild", "BarbarianBuildTech", "BarbarianLeader",
   "BarbarianSea", "BarbarianSeaTech"
 };
-static char *unit_class_names[] = {
+static const char *unit_class_names[] = {
   "Air",
   "Helicopter",
   "Land",
@@ -206,7 +206,7 @@ char *get_unit_name(Unit_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-char *unit_class_name(Unit_Class_id id)
+const char *unit_class_name(Unit_Class_id id)
 {
   if ((id >= 0) && (id < UCL_LAST)) {
     return unit_class_names[id];

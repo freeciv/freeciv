@@ -203,7 +203,7 @@ struct tile_type *get_tile_type(enum tile_terrain_type type);
 enum tile_terrain_type get_terrain_by_name(char * name);
 char *get_terrain_name(enum tile_terrain_type type);
 enum tile_special_type get_special_by_name(char * name);
-char *get_special_name(enum tile_special_type type);
+const char *get_special_name(enum tile_special_type type);
 int is_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int count_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int is_special_near_tile(int x, int y, enum tile_special_type spe);

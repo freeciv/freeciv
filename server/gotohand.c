@@ -948,7 +948,7 @@ static int find_a_direction(struct unit *punit,
 			    const int dest_x, const int dest_y)
 {
   int k, d[8], x, y, n, a, best = 0, d0, d1, h0, h1, u, c;
-  char *dir[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
+  const char *dir[] = { "NW", "N", "NE", "W", "E", "SW", "S", "SE" };
   struct tile *ptile, *adjtile;
   int nearland;
   struct city *pcity;

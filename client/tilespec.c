@@ -373,7 +373,7 @@ static void tilespec_load_one(const char *spec_filename)
 ***********************************************************************/
 static char *nsew_str(int idx)
 {
-  static char c[] = "n0s0e0w0";
+  static char c[9]; /* strlen("n0s0e0w0") + 1 == 9 */
 
   sprintf(c, "n%ds%de%dw%d", BOOL_VAL(idx&BIT_NORTH), BOOL_VAL(idx&BIT_SOUTH),
      	                     BOOL_VAL(idx&BIT_EAST),  BOOL_VAL(idx&BIT_WEST));
@@ -391,7 +391,7 @@ static char *nsew_str(int idx)
 static void tilespec_lookup_sprite_tags(void)
 {
   char buffer[512];
-  char dir_char[] = "nsew";
+  const char dir_char[] = "nsew";
   int i, j;
   
   assert(sprite_hash);

@@ -26,7 +26,7 @@ struct advance advances[A_LAST];
    server/ruleset.c (for the server)
    client/packhand.c (for the client) */
 
-static char *flag_names[] = {
+static const char *flag_names[] = {
   "Bonus_Tech","Boat_Fast","Bridge","Railroad","Fortress",
   "Population_Pollution_Inc","Trade_Revenue_Reduce","Airbase","Farmland"
 };

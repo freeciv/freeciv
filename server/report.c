@@ -37,7 +37,7 @@ enum historian_type {
         HISTORIAN_HAPPIEST=3,
         HISTORIAN_LARGEST=4};
 
-static char *historian_message[]={
+static const char *historian_message[]={
     N_("%s report on the RICHEST Civilizations in the World."),
     N_("%s report on the most ADVANCED Civilizations in the World."),
     N_("%s report on the most MILITARIZED Civilizations in the World."),
@@ -45,7 +45,7 @@ static char *historian_message[]={
     N_("%s report on the LARGEST Civilizations in the World.")
 };
 
-static char *historian_name[]={
+static const char *historian_name[]={
     N_("Herodotus'"),
     N_("Thucydides'"),
     N_("Pliny the Elder's"),
@@ -70,7 +70,7 @@ static int secompare(const void *a, const void *b)
 	  ((const struct player_score_entry *)a)->value);
 }
 
-static char *greatness[MAX_NUM_PLAYERS] = {
+static const char *greatness[MAX_NUM_PLAYERS] = {
   N_("Magnificent"),  N_("Glorious"), N_("Great"), N_("Decent"),
   N_("Mediocre"), N_("Hilarious"), N_("Worthless"), N_("Pathetic"),
   N_("Useless"), "Useless", "Useless", "Useless", "Useless", "Useless",

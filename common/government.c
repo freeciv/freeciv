@@ -62,11 +62,11 @@ struct government *governments;
 
 struct ai_gov_tech_hint ai_gov_tech_hints[MAX_NUM_TECH_LIST];
 
-static char *flag_names[] = {
+static const char *flag_names[] = {
   "Build_Veteran_Diplomats", "Revolution_When_Unhappy", "Has_Senate",
   "Unbribable", "Inspires_Partisans", "Rapture_City_Growth"
 };
-static char *hint_names[] = {
+static const char *hint_names[] = {
   "Is_Nice", "Favors_Growth"
 };
 

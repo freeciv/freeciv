@@ -51,8 +51,8 @@
 #include "savegame.h"
 
 
-static char dec2hex[] = "0123456789abcdef";
-static char terrain_chars[] = "adfghjm prstu";
+static const char dec2hex[] = "0123456789abcdef";
+static const char terrain_chars[] = "adfghjm prstu";
 
 /* Following does not include "unirandom", used previously; add it if
  * appropriate.  (Code no longer looks at "unirandom", but should still

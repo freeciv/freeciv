@@ -46,7 +46,7 @@ const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 /* Names of specials.
  * (These must correspond to enum tile_special_type in terrain.h.)
  */
-static char *tile_special_type_names[] =
+static const char *tile_special_type_names[] =
 {
   N_("Special1"),
   N_("Road"),
@@ -266,7 +266,7 @@ enum tile_special_type get_special_by_name(char * name)
 /***************************************************************
 ...
 ***************************************************************/
-char *get_special_name(enum tile_special_type type)
+const char *get_special_name(enum tile_special_type type)
 {
   int inx;
 

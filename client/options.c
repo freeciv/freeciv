@@ -91,7 +91,7 @@ view_option view_options[] = {
 unsigned int messages_where[E_LAST];
 int sorted_events[E_LAST];
 
-char *message_text[E_LAST]={
+const char *message_text[E_LAST]={
   N_("Low Funds"),                   /* E_LOW_ON_FUNDS */
   N_("Pollution"),                   /* E_POLLUTION */
   N_("Global Eco-Disaster"),         /* E_GLOBAL_ECO */

@@ -433,7 +433,7 @@ Return a diplomatic state as a human-readable string
 **************************************************************************/
 const char *diplstate_text(const enum diplstate_type type)
 {
-  static char *ds_names[DS_LAST] = 
+  static const char *ds_names[DS_LAST] = 
   {
     N_("Neutral"),
     N_("War"), 

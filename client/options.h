@@ -66,7 +66,7 @@ extern view_option view_options[];
 #define MW_POPUP     4		/* popup an individual window */
 
 extern unsigned int messages_where[];	/* OR-ed MW_ values [E_LAST] */
-extern char *message_text[];            /* [E_LAST] */
+extern const char *message_text[];      /* [E_LAST] */
 extern int sorted_events[];	        /* [E_LAST], sorted by message_text */
 
 

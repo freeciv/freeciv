@@ -190,7 +190,7 @@ int is_ground_unittype(Unit_Type_id id);
 int unit_value(Unit_Type_id id);
 
 char *unit_name(Unit_Type_id id);
-char *unit_class_name(Unit_Class_id id);
+const char *unit_class_name(Unit_Class_id id);
 
 char *get_unit_name(Unit_Type_id id);
 char *get_units_with_flag_string(int flag);

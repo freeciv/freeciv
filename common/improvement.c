@@ -31,7 +31,7 @@ struct impr_type improvement_types[B_LAST];
 /* Names of effect ranges.
  * (These must correspond to enum effect_range_id in improvement.h.)
  */
-static char *effect_range_names[] = {
+static const char *effect_range_names[] = {
   "None",
   "Building",
   "City",
@@ -43,7 +43,7 @@ static char *effect_range_names[] = {
 /* Names of effect types.
  * (These must correspond to enum effect_type_id in improvement.h.)
  */
-static char *effect_type_names[] = {
+static const char *effect_type_names[] = {
   "Adv_Parasite",
   "Airlift",
   "Any_Government",
@@ -139,7 +139,7 @@ Eff_Range_id effect_range_from_str(char *str)
 /**************************************************************************
   Return effect range name; NULL if bad id.
 **************************************************************************/
-char *effect_range_name(Eff_Range_id id)
+const char *effect_range_name(Eff_Range_id id)
 {
   assert(sizeof(effect_range_names)/sizeof(effect_range_names[0])==EFR_LAST);
 
@@ -172,7 +172,7 @@ Eff_Type_id effect_type_from_str(char *str)
 /**************************************************************************
   Return effect type name; NULL if bad id.
 **************************************************************************/
-char *effect_type_name(Eff_Type_id id)
+const char *effect_type_name(Eff_Type_id id)
 {
   assert(sizeof(effect_type_names)/sizeof(effect_type_names[0])==EFT_LAST);
 
