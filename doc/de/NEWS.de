@@ -1,12 +1,56 @@
 ===========================
-Willkommen bei Freeciv 1.13
+Willkommen bei Freeciv 1.14
 ===========================
 
-Dies ist Version 1.13.
+Dies ist Version 1.14.1
+
+Der Dank geht an alle unsere Entwickler, die daran gearbeitet haben.
 
 Diese Version enthält eine Menge Änderungen, die unten skizziert sind. 
 Diejenigen, die an den Einzelheiten der Änderungen interessiert sind,
 sollten einen Blick in die ChangeLog Datei werfen.
+
+ÄNDERUNGEN SEIT VERSION 1.14.0
+
+ - Als Standard wird nun der Client für GTK+-2.0 verwendet.
+ - Viele Verbesserungen am GTK+-2.0 Client.
+ - Der GTK+-2.0 Client sollte sich nun auch für Win32 übersetzen lassen.
+ - Spieler können sich nun zu Teams zusammenschließen.
+ - Der Server arbeitet nun mit UTF-8 Locale.
+ - Eine Menge Fehler wurden ausgemerzt.
+
+ÄNDERUNGEN SEIT VERSION 1.13.0
+
+ - Städtenamen können nur noch einmal vergeben werden. Optional sind
+   Städtenamen auch weltweit eindeutig.
+ - Ein neuer Kartengenerator (generator 5), der sehr interessante 
+   fraktale Karten produziert.
+ - Spielstände können vom Server eingelesen werden (load Kommando).
+ - Kommandozeilenoptionen für den Client können gespeichert werden.
+ - Spezialisten werden zuerst von den zufriedenen Bürgern genommen,
+   nicht von den unzufriedenen. Dadurch ist es schwieriger, Aufstände
+   zurückzudrängen, indem man Steuereintreiber und Wissenschaftler
+   einstellt.
+ - Standardmäßig startet man jetzt ohne vorgegebene Technologien;
+   auch wütende Bürger sind möglich, auch wenn sie selten auftreten.
+ - Die Berechnung des Effekts von Steuerraten wurde geändert. Es ist 
+   nicht länger möglich, aus einer 60%-Rate 100% Effekt zu erhalten.
+ - Es gibt einen neuen, historisch genaueren Regelsatz.
+ - Eine Option verzögert die Wirkung von Stadtfesten um einige Runden
+   (show rapturedelay).
+ - Die Reihenfolge der Serveraktivitäten beim Rundenwechsel wurde
+   geändert.
+ - Einige KI-Verbesserungen. Die KI sollte nun Einheiten und Gebäude
+   etwas intelligenter bauen und kaufen.
+ - Einige Arbeiten am Code, zur Vorbereitung künfiger Features.
+ - /fix und /unfix Kommandos, um Änderungen der Spielregeln nach dem
+   Spielstart zu verhindern.
+ - Die Serverkommandos "rulesout", "log", "freestyle" und "crash" sind
+   entfernt worden; "rfcstyle" schaltet jetzt um zwischen rfcstyle und
+   freestyle.
+ - Der Civ2-Regelsatz entspricht jetzt genauer den Civ2 "Gottheit" 
+   Vorgaben.
+ - Eine große Menge von Fehlerkorrekturen.
 
 ÄNDERUNGEN SEIT VERSION 1.12.0
 
