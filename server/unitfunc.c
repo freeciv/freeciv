@@ -607,6 +607,8 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
    if(punit->activity==ACTIVITY_PILLAGE && punit->activity_count>=1) {
       if(map_get_special(punit->x, punit->y)&S_IRRIGATION)
 	map_clear_special(punit->x, punit->y, S_IRRIGATION);
+      else if(map_get_special(punit->x, punit->y)&S_MINE)
+        map_clear_special(punit->x, punit->y, S_MINE);
       else if(map_get_special(punit->x, punit->y)&S_RAILROAD)
 	map_clear_special(punit->x, punit->y, S_RAILROAD);
       else 
