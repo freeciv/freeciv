@@ -172,10 +172,17 @@ void generate_city_map_indices(void)
   int i = 0, dx, dy;
   struct iter_index *array = city_map_iterate_outwards_indices;
 
+  /* We don't use city-map iterators in this function because they may
+   * rely on the indices that have not yet been generated. */
+
   city_tiles = 0;
-  city_map_iterate(city_x, city_y) {
-    city_tiles++;
-  } city_map_iterate_end;
+  for (dx = -CITY_MAP_RADIUS; dx <= CITY_MAP_RADIUS; dx++) {
+    for (dy = -CITY_MAP_RADIUS; dy <= CITY_MAP_RADIUS; dy++) {
+      if (is_valid_city_coords(dx + CITY_MAP_RADIUS, dy + CITY_MAP_RADIUS)) {
+	city_tiles++;
+      }
+    }
+  }
 
   /* Realloc is used because this function may be called multiple times. */
   array = fc_realloc(array, CITY_TILES * sizeof(*array));

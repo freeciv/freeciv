@@ -80,19 +80,8 @@ enum city_options {
  * city map (i.e., positions that are workable by the city) in unspecified
  * order.
  */
-#define city_map_iterate(x, y)						    \
-{									    \
-  int _itr;								    \
-  									    \
-  for (_itr = 0; _itr < CITY_MAP_SIZE * CITY_MAP_SIZE; _itr++) {	    \
-    const int x = _itr % CITY_MAP_SIZE, y = _itr / CITY_MAP_SIZE;	    \
-    									    \
-    if (is_valid_city_coords(x, y)) {
-
-#define city_map_iterate_end			                            \
-    }									    \
-  }									    \
-}
+#define city_map_iterate(x, y) city_map_iterate_outwards(x, y)
+#define city_map_iterate_end city_map_iterate_outwards_end
 
 /* Cost in luxuries to make one citizen happier by one level. */
 #define HAPPY_COST 2
