@@ -778,10 +778,11 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
   PangoRectangle rect, rect2;
   enum color_std color;
   int extra_width = 0;
-  PangoLayout *layout;
+  static PangoLayout *layout;
 
-  /* FIXME: layout should be statically declared */
-  layout = pango_layout_new(gdk_pango_context_get());
+  if (!layout) {
+    layout = pango_layout_new(gdk_pango_context_get());
+  }
 
   canvas_x += NORMAL_TILE_WIDTH / 2;
   canvas_y += NORMAL_TILE_HEIGHT;
@@ -856,7 +857,6 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
   gdk_gc_set_clip_rectangle(toplevel->style->black_gc, NULL);
   gdk_gc_set_clip_rectangle(toplevel->style->white_gc, NULL);
 #endif
-  g_object_unref(layout);
 }
 
 /**************************************************************************

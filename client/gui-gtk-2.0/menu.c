@@ -1029,29 +1029,28 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Orders", FALSE);
   } else {
     struct unit *punit;
-    GtkWidget *item;
     const char *path =
-	menu_path_remove_uline("<main>/_Kingdom/_Government");
+      menu_path_remove_uline("<main>/_Kingdom/_Government");
     GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
 
     if (parent) {
       int i;
-      GList *iter, *iter_next;
+      GList *list, *iter, *iter_next;
 
       /* remove previous government entries. */
-      iter = gtk_container_get_children(GTK_CONTAINER(parent));
-      for (iter = g_list_nth(iter, 2); iter; iter = iter_next) {
-        iter_next = iter->next;
-
-        gtk_container_remove(GTK_CONTAINER(parent), GTK_WIDGET(iter->data));
+      list = gtk_container_get_children(GTK_CONTAINER(parent));
+      for (iter = g_list_nth(list, 2); iter; iter = iter_next) {
+	iter_next = iter->next;
+	gtk_widget_destroy(GTK_WIDGET(iter->data));
       }
+      g_list_free(list);
 
       /* add new government entries. */
       for (i = 0; i < game.government_count; ++i) {
         struct government *g = &governments[i];
 
         if (i != game.government_when_anarchy) {
-          GtkWidget *image;
+          GtkWidget *item, *image;
           struct Sprite *gsprite;
 
           item = gtk_image_menu_item_new_with_label(g->name);
