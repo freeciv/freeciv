@@ -1615,9 +1615,17 @@ Freeciv*reportcitychangemenubutton.bottom:      chainBottom
 Freeciv*reportcitychangemenubutton.left:        chainLeft
 Freeciv*reportcitychangemenubutton.right:       chainLeft
 
+Freeciv*reportcitychgallcommand.label:       Change All
+Freeciv*reportcitychgallcommand.fromVert:    reportcityviewport
+Freeciv*reportcitychgallcommand.fromHoriz:   reportcitychangemenubutton
+Freeciv*reportcitychgallcommand.top:         chainBottom
+Freeciv*reportcitychgallcommand.bottom:      chainBottom
+Freeciv*reportcitychgallcommand.left:        chainLeft
+Freeciv*reportcitychgallcommand.right:       chainLeft
+
 Freeciv*reportcityrefreshcommand.label:       Refresh
 Freeciv*reportcityrefreshcommand.fromVert:    reportcityviewport
-Freeciv*reportcityrefreshcommand.fromHoriz:   reportcitychangemenubutton
+Freeciv*reportcityrefreshcommand.fromHoriz:   reportcitychgallcommand
 Freeciv*reportcityrefreshcommand.top:         chainBottom
 Freeciv*reportcityrefreshcommand.bottom:      chainBottom
 Freeciv*reportcityrefreshcommand.left:        chainLeft
@@ -1696,6 +1704,84 @@ Freeciv*cityconfigtoggle.label:          Yes
 
 Freeciv*cityconfigokcommand.label:       Close
 
+!
+! Change All dialog
+!
+
+Freeciv*chgalldialog.title:		Change Production Everywhere
+
+Freeciv*chgalldialog*chgallform.translations:		#override \
+					<Key>Return: chgall-change() \n\
+					<Key>Escape: chgall-cancel()
+
+Freeciv*chgalldialog.*.chgallfrlabel.label:		From:
+Freeciv*chgalldialog.*.chgallfrlabel.justify:		left
+Freeciv*chgalldialog.*.chgallfrlabel.width:		175
+Freeciv*chgalldialog.*.chgallfrlabel.borderWidth:	0
+Freeciv*chgalldialog.*.chgallfrlabel.background:	lightblue
+Freeciv*chgalldialog.*.chgallfrlabel.top:		chainTop
+Freeciv*chgalldialog.*.chgallfrlabel.bottom:		chainTop
+Freeciv*chgalldialog.*.chgallfrlabel.left:		chainLeft
+Freeciv*chgalldialog.*.chgallfrlabel.right:		rubber
+
+Freeciv*chgalldialog.*.chgalltolabel.label:		To:
+Freeciv*chgalldialog.*.chgalltolabel.justify:		left
+Freeciv*chgalldialog.*.chgalltolabel.width:		175
+Freeciv*chgalldialog.*.chgalltolabel.borderWidth:	0
+Freeciv*chgalldialog.*.chgalltolabel.background:	lightblue
+Freeciv*chgalldialog.*.chgalltolabel.fromHoriz:		chgallfrlabel
+Freeciv*chgalldialog.*.chgalltolabel.top:		chainTop
+Freeciv*chgalldialog.*.chgalltolabel.bottom:		chainTop
+Freeciv*chgalldialog.*.chgalltolabel.left:		rubber
+Freeciv*chgalldialog.*.chgalltolabel.right:		chainRight
+
+Freeciv*chgalldialog.*.chgallfrviewport.allowVert:	True
+Freeciv*chgalldialog.*.chgallfrviewport.fromVert:	chgallfrlabel
+Freeciv*chgalldialog.*.chgallfrviewport.top:		chainTop
+Freeciv*chgalldialog.*.chgallfrviewport.bottom:		chainBottom
+Freeciv*chgalldialog.*.chgallfrviewport.left:		chainLeft
+Freeciv*chgalldialog.*.chgallfrviewport.right:		rubber
+
+Freeciv*chgalldialog.*.chgalltoviewport.allowVert:	True
+Freeciv*chgalldialog.*.chgalltoviewport.fromVert:	chgalltolabel
+Freeciv*chgalldialog.*.chgalltoviewport.fromHoriz:	chgallfrviewport
+Freeciv*chgalldialog.*.chgalltoviewport.top:		chainTop
+Freeciv*chgalldialog.*.chgalltoviewport.bottom:		chainBottom
+Freeciv*chgalldialog.*.chgalltoviewport.left:		rubber
+Freeciv*chgalldialog.*.chgalltoviewport.right:		chainRight
+
+Freeciv*chgalldialog.*.chgallfrlist.width:		175
+Freeciv*chgalldialog.*.chgallfrlist.height:		245
+Freeciv*chgalldialog.*.chgallfrlist.defaultColumns:	1
+Freeciv*chgalldialog.*.chgallfrlist.forceColumns:	True
+
+Freeciv*chgalldialog.*.chgalltolist.width:		175
+Freeciv*chgalldialog.*.chgalltolist.height:		245
+Freeciv*chgalldialog.*.chgalltolist.defaultColumns:	1
+Freeciv*chgalldialog.*.chgalltolist.forceColumns:	True
+
+Freeciv*chgalldialog.*.chgallchangecommand.label:	Change
+Freeciv*chgalldialog.*.chgallchangecommand.fromVert:	chgallfrviewport
+Freeciv*chgalldialog.*.chgallchangecommand.top:		chainBottom
+Freeciv*chgalldialog.*.chgallchangecommand.bottom:	chainBottom
+Freeciv*chgalldialog.*.chgallchangecommand.left:	chainLeft
+Freeciv*chgalldialog.*.chgallchangecommand.right:	chainLeft
+
+Freeciv*chgalldialog.*.chgallrefreshcommand.label:	Refresh
+Freeciv*chgalldialog.*.chgallrefreshcommand.fromVert:	chgallfrviewport
+Freeciv*chgalldialog.*.chgallrefreshcommand.fromHoriz:	chgallchangecommand
+Freeciv*chgalldialog.*.chgallrefreshcommand.top:	chainBottom
+Freeciv*chgalldialog.*.chgallrefreshcommand.bottom:	chainBottom
+Freeciv*chgalldialog.*.chgallrefreshcommand.left:	chainLeft
+Freeciv*chgalldialog.*.chgallrefreshcommand.right:	chainLeft
+
+Freeciv*chgalldialog.*.chgallcancelcommand.label:	Cancel
+Freeciv*chgalldialog.*.chgallcancelcommand.fromVert:	chgallfrviewport
+Freeciv*chgalldialog.*.chgallcancelcommand.fromHoriz:	chgallrefreshcommand
+Freeciv*chgalldialog.*.chgallcancelcommand.top:		chainBottom
+Freeciv*chgalldialog.*.chgallcancelcommand.bottom:	chainBottom
+Freeciv*chgalldialog.*.chgallcancelcommand.left:	chainLeft
+Freeciv*chgalldialog.*.chgallcancelcommand.right:	chainLeft
 
 !
 !

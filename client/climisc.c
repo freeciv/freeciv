@@ -254,30 +254,49 @@ specified by the id, units are specified by unit id + B_LAST
 **************************************************************************/
 void client_change_all(int x, int y)
 {
+  int fr_id, to_id, fr_is_unit, to_is_unit;
   struct packet_city_request packet;
-  packet.name[0]='\0';
-  
-  city_list_iterate(game.player_ptr->cities, pcity) {
-      if ((!(pcity->is_building_unit) &&
-	   (pcity->currently_building == x)) ||
-	  ((pcity->is_building_unit) &&
-	   (pcity->currently_building == x-B_LAST))) {
-	  if (y < B_LAST) {
-	      if (can_build_improvement(pcity, x)) {
-		  packet.city_id=pcity->id;
-		  packet.build_id=y;
-		  packet.is_build_id_unit_id=0;
-		  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
-	      }
-	  }
-	  else {
-	      if (can_build_unit(pcity, y-B_LAST)) {
-		  packet.city_id=pcity->id;
-		  packet.build_id=y-B_LAST;
-		  packet.is_build_id_unit_id=1;
-		  send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
-	      }
-	  }
+
+  if (x < B_LAST)
+    {
+      fr_id = x;
+      fr_is_unit = FALSE;
+    }
+  else
+    {
+      fr_id = x - B_LAST;
+      fr_is_unit = TRUE;
+    }
+
+  if (y < B_LAST)
+    {
+      to_id = y;
+      to_is_unit = FALSE;
+    }
+  else
+    {
+      to_id = y - B_LAST;
+      to_is_unit = TRUE;
+    }
+
+  city_list_iterate (game.player_ptr->cities, pcity) {
+    if (((fr_is_unit &&
+	  (pcity->is_building_unit) &&
+	  (pcity->currently_building == fr_id)) ||
+	 (!fr_is_unit &&
+	  !(pcity->is_building_unit) &&
+	  (pcity->currently_building == fr_id))) &&
+	((to_is_unit &&
+	  can_build_unit (pcity, to_id)) ||
+	 (!to_is_unit &&
+	  can_build_improvement (pcity, to_id))))
+      {
+	packet.city_id = pcity->id;
+	packet.build_id = to_id;
+	packet.is_build_id_unit_id = to_is_unit;
+	send_packet_city_request (&aconnection, &packet,
+				  PACKET_CITY_CHANGE);
       }
-  } city_list_iterate_end;
+  }
+  city_list_iterate_end;
 }

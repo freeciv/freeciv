@@ -36,6 +36,8 @@
 #include "shared.h"
 #include "unit.h"
 
+#include "climisc.h"
+
 #include "chatline.h"
 #include "citydlg.h"
 #include "gui_stuff.h"
@@ -278,6 +280,9 @@ char *city_report_spec_tagname(int i)
 }
 
 /******************************************************************/
+static void popup_chgall_dialog (Widget parent);
+
+/******************************************************************/
 Widget config_shell;
 Widget config_toggle[NUM_CREPORT_COLS];
 
@@ -297,6 +302,8 @@ void city_popup_callback(Widget w, XtPointer client_data,
 			 XtPointer call_data);
 void city_buy_callback(Widget w, XtPointer client_data, 
 		       XtPointer call_data);
+void city_chgall_callback(Widget w, XtPointer client_data,
+			  XtPointer call_data);
 void city_refresh_callback(Widget w, XtPointer client_data, 
 		       XtPointer call_data);
 void city_change_callback(Widget w, XtPointer client_data, 
@@ -312,7 +319,7 @@ Widget city_label;
 Widget city_viewport;
 Widget city_list, city_list_label;
 Widget city_center_command, city_popup_command, city_buy_command,
-       city_refresh_command, city_config_command;
+       city_chgall_command, city_refresh_command, city_config_command;
 Widget city_change_command, city_popupmenu;
 
 int city_dialog_shell_is_modal;
@@ -480,6 +487,11 @@ void create_city_report_dialog(int make_modal)
 						city_form,
 						NULL);
 
+  city_chgall_command = XtVaCreateManagedWidget("reportcitychgallcommand",
+						commandWidgetClass,
+						city_form,
+						NULL);
+
   city_refresh_command = XtVaCreateManagedWidget("reportcityrefreshcommand",
 					     commandWidgetClass,
 					     city_form,
@@ -494,6 +506,7 @@ void create_city_report_dialog(int make_modal)
   XtAddCallback(city_center_command, XtNcallback, city_center_callback, NULL);
   XtAddCallback(city_popup_command, XtNcallback, city_popup_callback, NULL);
   XtAddCallback(city_buy_command, XtNcallback, city_buy_callback, NULL);
+  XtAddCallback(city_chgall_command, XtNcallback, city_chgall_callback, NULL);
   XtAddCallback(city_refresh_command, XtNcallback, city_refresh_callback, NULL);
   XtAddCallback(city_config_command, XtNcallback, city_config_callback, NULL);
   XtAddCallback(city_list, XtNcallback, city_list_callback, NULL);
@@ -639,6 +652,15 @@ void city_buy_callback(Widget w, XtPointer client_data,
 	}
     }
   }
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void city_chgall_callback(Widget w, XtPointer client_data,
+			  XtPointer call_data)
+{
+  popup_chgall_dialog (XtParent (w));
 }
 
 /****************************************************************
@@ -954,3 +976,419 @@ void config_ok_command_callback(Widget w, XtPointer client_data,
   city_report_dialog_update();
 }
 
+/**************************************************************************
+
+                          CHANGE ALL DIALOG
+ 
+**************************************************************************/
+
+extern XtAppContext app_context;
+
+struct chgall_data
+{
+  struct
+  {
+    Widget shell;
+    Widget fr;
+    Widget to;
+    Widget change;
+    Widget refresh;
+    Widget cancel;
+  } w;
+
+  int is_bldg_unit[U_LAST];
+  int is_bldg_impv[B_LAST];
+  int fr_count;
+  char *fr_list[U_LAST + B_LAST];
+  int fr_idents[U_LAST + B_LAST];
+
+  int to_count;
+  char *to_list[U_LAST + B_LAST];
+  int to_idents[U_LAST + B_LAST];
+
+  int fr_index;
+  int to_index;
+  int may_change;
+};
+
+static struct chgall_data *chgall_state = NULL;
+
+static void chgall_change_action (Widget w, XEvent *event,
+				  String *params, Cardinal *num_params);
+static void chgall_cancel_action (Widget w, XEvent *event,
+				  String *params, Cardinal *num_params);
+
+static void chgall_shell_destroy (Widget w, XtPointer client_data,
+				  XtPointer call_data);
+static void chgall_fr_list_callback (Widget w, XtPointer client_data,
+				     XtPointer call_data);
+static void chgall_to_list_callback (Widget w, XtPointer client_data,
+				     XtPointer call_data);
+static void chgall_change_command_callback (Widget w, XtPointer client_data,
+					    XtPointer call_data);
+static void chgall_refresh_command_callback (Widget w, XtPointer client_data,
+					     XtPointer call_data);
+static void chgall_cancel_command_callback (Widget w, XtPointer client_data,
+					    XtPointer call_data);
+
+static void chgall_update_widgets_state (struct chgall_data *state);
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void popup_chgall_dialog (Widget parent)
+{
+  struct chgall_data *state;
+  Widget shell;
+  Widget main_form;
+  Widget fr_label;
+  Widget to_label;
+  Widget fr_viewport;
+  Widget to_viewport;
+  Position x, y;
+  Dimension width, height;
+  static int initialized = FALSE;
+
+  if (!initialized)
+    {
+      static XtActionsRec actions[] =
+      {
+	{ "chgall-change", chgall_change_action },
+	{ "chgall-cancel", chgall_cancel_action }
+      };
+
+      initialized = TRUE;
+
+      XtAppAddActions (app_context, actions, XtNumber (actions));
+    }
+
+  if (chgall_state)
+    {
+      XRaiseWindow (display, XtWindow (chgall_state->w.shell));
+      return;
+    }
+
+  shell =
+    XtCreatePopupShell
+    (
+     "chgalldialog",
+     transientShellWidgetClass,
+     parent,
+     NULL, 0
+    );
+
+  state = chgall_state = fc_malloc (sizeof (struct chgall_data));
+  state->w.shell = shell;
+
+  XtAddCallback (state->w.shell, XtNdestroyCallback,
+		 chgall_shell_destroy, state);
+
+  main_form =
+    XtVaCreateManagedWidget
+    (
+     "chgallform",
+     formWidgetClass, 
+     state->w.shell,
+     NULL
+    );
+
+  fr_label =
+    XtVaCreateManagedWidget
+    (
+     "chgallfrlabel",
+     labelWidgetClass, 
+     main_form,
+     NULL
+    );
+
+  to_label =
+    XtVaCreateManagedWidget
+    (
+     "chgalltolabel",
+     labelWidgetClass, 
+     main_form,
+     NULL
+    );
+
+  fr_viewport =
+    XtVaCreateManagedWidget
+    (
+     "chgallfrviewport",
+     viewportWidgetClass,
+     main_form,
+     NULL
+    );
+
+  state->w.fr =
+    XtVaCreateManagedWidget
+    (
+     "chgallfrlist",
+     listWidgetClass,
+     fr_viewport,
+     NULL
+    );
+
+  to_viewport =
+    XtVaCreateManagedWidget
+    (
+     "chgalltoviewport",
+     viewportWidgetClass,
+     main_form,
+     NULL
+    );
+
+  state->w.to =
+    XtVaCreateManagedWidget
+    (
+     "chgalltolist",
+     listWidgetClass,
+     to_viewport,
+     NULL
+    );
+
+  state->w.change =
+    XtVaCreateManagedWidget
+    (
+     "chgallchangecommand",
+     commandWidgetClass,
+     main_form,
+     NULL
+    );
+
+  state->w.refresh =
+    XtVaCreateManagedWidget
+    (
+     "chgallrefreshcommand",
+     commandWidgetClass,
+     main_form,
+     NULL
+    );
+
+  state->w.cancel =
+    XtVaCreateManagedWidget
+    (
+     "chgallcancelcommand",
+     commandWidgetClass,
+     main_form,
+     NULL
+    );
+
+  XtAddCallback (state->w.fr, XtNcallback,
+		 chgall_fr_list_callback, state);
+  XtAddCallback (state->w.to, XtNcallback,
+		 chgall_to_list_callback, state);
+  XtAddCallback (state->w.change, XtNcallback,
+		 chgall_change_command_callback, state);
+  XtAddCallback (state->w.refresh, XtNcallback,
+		 chgall_refresh_command_callback, state);
+  XtAddCallback (state->w.cancel, XtNcallback,
+		 chgall_cancel_command_callback, state);
+
+  chgall_refresh_command_callback (NULL, state, NULL);
+
+  XtRealizeWidget (state->w.shell);
+  XtVaGetValues (parent, XtNwidth, &width, XtNheight, &height, NULL);
+  XtTranslateCoords (parent,
+		     (Position)(width / 20), (Position)(height / 20),
+		     &x, &y);
+  XtVaSetValues (state->w.shell, XtNx, x, XtNy, y, NULL);
+
+  XtPopup (state->w.shell, XtGrabNone);
+
+  /* force refresh of viewports so the scrollbar is added.
+   * Buggy sun athena requires this */
+  XtVaSetValues (fr_viewport, XtNforceBars, True, NULL);
+  XtVaSetValues (to_viewport, XtNforceBars, True, NULL);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void chgall_change_action (Widget w, XEvent *event,
+				  String *params, Cardinal *num_params)
+{
+  Widget target = XtNameToWidget (w, "chgallchangecommand");
+
+  if (target)
+    {
+      x_simulate_button_click (target);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void chgall_cancel_action (Widget w, XEvent *event,
+				  String *params, Cardinal *num_params)
+{
+  Widget target = XtNameToWidget (w, "chgallcancelcommand");
+
+  if (target)
+    {
+      x_simulate_button_click (target);
+    }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void chgall_shell_destroy (Widget w, XtPointer client_data,
+				  XtPointer call_data)
+{
+  chgall_state = NULL;
+
+  free (client_data);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void chgall_fr_list_callback (Widget w, XtPointer client_data,
+				     XtPointer call_data)
+{
+  chgall_update_widgets_state ((struct chgall_data *)client_data);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void chgall_to_list_callback (Widget w, XtPointer client_data,
+				     XtPointer call_data)
+{
+  chgall_update_widgets_state ((struct chgall_data *)client_data);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void chgall_change_command_callback (Widget w, XtPointer client_data,
+					    XtPointer call_data)
+{
+  struct chgall_data *state = (struct chgall_data *)client_data;
+  char msgbuf[1024];
+
+  chgall_update_widgets_state (state);
+
+  if (!(state->may_change))
+    {
+      return;
+    }
+
+  sprintf (msgbuf,
+	   "Game: Changing production of every %s into %s.",
+	   state->fr_list[state->fr_index],
+	   state->to_list[state->to_index]);
+  append_output_window (msgbuf);
+
+  client_change_all
+    (
+     state->fr_idents[state->fr_index],
+     state->to_idents[state->to_index]
+    );
+
+  XtDestroyWidget (state->w.shell);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void chgall_refresh_command_callback (Widget w, XtPointer client_data,
+					     XtPointer call_data)
+{
+  struct chgall_data *state = (struct chgall_data *)client_data;
+  int i, n;
+
+  memset (state->is_bldg_unit, 0, sizeof (state->is_bldg_unit));
+  memset (state->is_bldg_impv, 0, sizeof (state->is_bldg_impv));
+
+  city_list_iterate (game.player_ptr->cities, pcity) {
+    if (pcity->is_building_unit)
+      state->is_bldg_unit[pcity->currently_building] = TRUE;
+    else
+      state->is_bldg_impv[pcity->currently_building] = TRUE;
+  }
+  city_list_iterate_end;
+
+  n = 0;
+  for (i = 0; i < B_LAST; i++)
+    {
+      if (state->is_bldg_impv[i])
+	{
+	  state->fr_list[n] = (get_improvement_type (i))->name;
+	  state->fr_idents[n] = i;
+	  n++;
+	}
+    }
+  for (i = 0; i < U_LAST; i++)
+    {
+      if (state->is_bldg_unit[i])
+	{
+	  state->fr_list[n] = (get_unit_type (i))->name;
+	  state->fr_idents[n] = i + B_LAST;
+	  n++;
+	}
+    }
+  state->fr_count = n;
+
+  n = 0;
+  for (i = 0; i < B_LAST; i++)
+    {
+      if (can_player_build_improvement (game.player_ptr, i))
+	{
+	  state->to_list[n] = (get_improvement_type (i))->name;
+	  state->to_idents[n] = i;
+	  n++;
+	}
+    }
+  for (i = 0; i < U_LAST; i++)
+    {
+      if (can_player_build_unit (game.player_ptr, i))
+	{
+	  state->to_list[n] = (get_unit_type (i))->name;
+	  state->to_idents[n] = i + B_LAST;
+	  n++;
+	}
+    }
+  state->to_count = n;
+
+  XawListChange (state->w.fr, state->fr_list, state->fr_count, 0, FALSE);
+  XawListChange (state->w.to, state->to_list, state->to_count, 0, FALSE);
+
+  chgall_update_widgets_state (state);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void chgall_cancel_command_callback (Widget w, XtPointer client_data,
+					    XtPointer call_data)
+{
+  struct chgall_data *state = (struct chgall_data *)client_data;
+
+  XtDestroyWidget (state->w.shell);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+
+static void chgall_update_widgets_state (struct chgall_data *state)
+{
+  state->fr_index = (XawListShowCurrent (state->w.fr))->list_index;
+  state->to_index = (XawListShowCurrent (state->w.to))->list_index;
+
+  state->may_change =
+    ((state->fr_index != XAW_LIST_NONE) && (state->to_index != XAW_LIST_NONE) &&
+     (state->fr_idents[state->fr_index] != state->to_idents[state->to_index]));
+
+  XtSetSensitive (state->w.change, state->may_change);
+}
