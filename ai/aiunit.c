@@ -739,41 +739,6 @@ static int stack_attack_value(int x, int y)
   return(val);
 }
 
-/*************************************************************************
-  Mark invasion possibilities of punit in the surrounding cities. The
-  given radius limites the area which is searched for cities. The
-  center of the area is either the unit itself (dest == FALSE) or the
-  destiniation of the current goto (dest == TRUE). The invasion threat
-  is marked in pcity->ai.invasion via ORing the "which" argument (to
-  tell attack from sea apart from ground unit attacks). Note that
-  "which" should only have one bit set.
-
-  If dest == TRUE then a valid goto is presumed.
-**************************************************************************/
-static void invasion_funct(struct unit *punit, bool dest, int radius,
-			   int which)
-{
-  int x, y;
-
-  if (dest) {
-    x = punit->goto_dest_x;
-    y = punit->goto_dest_y;
-  } else {
-    x = punit->x;
-    y = punit->y;
-  }
-
-  square_iterate(x, y, radius, x1, y1) {
-    struct city *pcity = map_get_city(x1, y1);
-
-    if (pcity && pplayers_at_war(city_owner(pcity), unit_owner(punit))
-	&& (pcity->ai.invasion & which) != which
-	&& (dest || !has_defense(pcity))) {
-      pcity->ai.invasion |= which;
-    }
-  } square_iterate_end;
-}
-
 /**************************************************************************
 Compute how much we want to kill certain victim we've chosen, counted in
 SHIELDs.
@@ -1580,29 +1545,94 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 }
 
 /*************************************************************************
-...
+  Mark invasion possibilities of punit in the surrounding cities. The
+  given radius limites the area which is searched for cities. The
+  center of the area is either the unit itself (dest == FALSE) or the
+  destiniation of the current goto (dest == TRUE). The invasion threat
+  is marked in pcity->ai.invasion via ORing the "which" argument (to
+  tell attack from sea apart from ground unit attacks). Note that
+  "which" should only have one bit set.
+
+  If dest == TRUE then a valid goto is presumed.
 **************************************************************************/
-int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
+static void invasion_funct(struct unit *punit, bool dest, int radius,
+			   int which)
 {
-  int a=0, b, move_time, d, e, move_rate, n, v, f, b0, ab, g;
-#ifdef DEBUG
-  int aa = 0, bb = 0, cc = 0, dd = 0, bestb0 = 0;
-#endif
+  int x, y;
+
+  if (dest) {
+    x = punit->goto_dest_x;
+    y = punit->goto_dest_y;
+  } else {
+    x = punit->x;
+    y = punit->y;
+  }
+
+  square_iterate(x, y, radius, x1, y1) {
+    struct city *pcity = map_get_city(x1, y1);
+
+    if (pcity && pplayers_at_war(city_owner(pcity), unit_owner(punit))
+	&& (pcity->ai.invasion & which) != which
+	&& (dest || !has_defense(pcity))) {
+      pcity->ai.invasion |= which;
+    }
+  } square_iterate_end;
+}
+
+/*************************************************************************
+...
+punit-id == 0 means the unit is virtual (considered to be built)
+**************************************************************************/
+int find_something_to_kill(struct player *pplayer, struct unit *punit, 
+                           int *x, int *y)
+{
+  /* basic attack */
+  int ab = unit_belligerence_basic(punit);
+  /* Enemy defence rating */
+  int vuln;
+  /* Benefit from killing the target */
+  int benefit;
+  /* Number of enemies there */
+  int victim_count;
+  /* Want (amortized) of the operaton */
+  int want;
+  /* Best of all wants */
+  int best = 0;
+  /* Our totalattack (with reinforcements) */
+  int attack;
+  int move_time, move_rate;
   int con = map_get_continent(punit->x, punit->y);
   struct unit *pdef;
-  int best = 0, maxd, boatid = 0, needferry;
-  int harborcity = 0, bx = 0, by = 0;
-  int fprime;
-  bool handicap;
-  struct unit *ferryboat = 0;
-  bool sanity;
+  int maxd, needferry;
+  /* Do we have access to sea? */
+  bool harbor = FALSE;
+  int bx = 0, by = 0;
+  /* Build cost of the attacker (+adjustments) */
+  int bcost, bcost_bal;
+  bool handicap = ai_handicap(pplayer, H_TARGETS);
+  struct unit *ferryboat = NULL;
   int boatspeed;
   bool unhap = FALSE;
   struct city *pcity;
-  int xx, yy; /* for beachheads */
-  int bk = 0; /* this is a kluge, because if we don't set x and y with !punit->id,
-p_a_w isn't called, and we end up not wanting ironclads and therefore never
-learning steam engine, even though ironclads would be very useful. -- Syela */
+  /* this is a kluge, because if we don't set x and y with !punit->id,
+   * p_a_w isn't called, and we end up not wanting ironclads and therefore 
+   * never learning steam engine, even though ironclads would be very 
+   * useful. -- Syela */
+  int bk = 0; 
+
+  /*** Very preliminary checks */
+  *x = punit->x; 
+  *y = punit->y;
+
+  if (!is_ground_unit(punit) && !is_sailing_unit(punit)) {
+    /* Don't know what to do with them! */
+    return 0;
+  }
+
+  if (ab == 0) {
+    /* A very poor attacker... */
+    return 0;
+  }
 
   /*** Part 1: Calculate targets ***/
   /* This horrible piece of code attempts to calculate the attractiveness of
@@ -1625,54 +1655,62 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   /* Second, calculate in units on their way there, and mark targets for
    * invasion */
   unit_list_iterate(pplayer->units, aunit) {
-    if (aunit == punit) continue;
-    if (aunit->activity == ACTIVITY_GOTO &&
-       (pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y))) {
-      if (unit_type(aunit)->attack_strength >
-        unit_type(aunit)->transport_capacity) { /* attacker */
-        a = unit_belligerence_basic(aunit);
-        pcity->ai.attack += a;
-        pcity->ai.bcost += unit_type(aunit)->build_cost;
-      }
+    if (aunit == punit) {
+      continue;
     }
-/* dealing with invasion stuff */
-    if (unit_type(aunit)->attack_strength >
-      unit_type(aunit)->transport_capacity) { /* attacker */
-      if (aunit->activity == ACTIVITY_GOTO) invasion_funct(aunit, TRUE, 0,
-         ((is_ground_unit(aunit) || is_heli_unit(aunit)) ? 1 : 2));
+
+    /* dealing with invasion stuff */
+    if (unit_type(aunit)->attack_strength 
+        > unit_type(aunit)->transport_capacity) {
+      /* Not a transport */
+      bool can_occupy = (is_ground_unit(aunit) || is_heli_unit(aunit));
+
+      if (aunit->activity == ACTIVITY_GOTO) {
+        invasion_funct(aunit, TRUE, 0, (can_occupy ? 1 : 2));
+        if ((pcity = map_get_city(aunit->goto_dest_x, aunit->goto_dest_y))) {
+          pcity->ai.attack += unit_belligerence_basic(aunit);
+          pcity->ai.bcost += unit_type(aunit)->build_cost;
+        } 
+      }
       invasion_funct(aunit, FALSE, unit_type(aunit)->move_rate / SINGLE_MOVE,
-         ((is_ground_unit(aunit) || is_heli_unit(aunit)) ? 1 : 2));
+                     (can_occupy ? 1 : 2));
     } else if (aunit->ai.passenger != 0 &&
-              !same_pos(aunit->x, aunit->y, punit->x, punit->y)) {
-      if (aunit->activity == ACTIVITY_GOTO) invasion_funct(aunit, TRUE, 1, 1);
+               !same_pos(aunit->x, aunit->y, punit->x, punit->y)) {
+      /* It's a transport with reinforcements */
+      if (aunit->activity == ACTIVITY_GOTO) {
+        invasion_funct(aunit, TRUE, 1, 1);
+      }
       invasion_funct(aunit, FALSE, 2, 1);
     }
   } unit_list_iterate_end;
-/* end horrible initialization subroutine */
+  /* end horrible initialization subroutine */
         
   pcity = map_get_city(punit->x, punit->y);
 
   if (pcity && (punit->id == 0 || pcity->id == punit->homecity)) {
+    /* I would have thought unhappiness should betaken into account 
+     * irrespectfully the city in which it will surface...  GB */ 
     unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
   }
 
-  *x = punit->x; *y = punit->y;
-  ab = unit_belligerence_basic(punit);
-  if (ab == 0) return(0); /* don't want to deal with SIGFPE's -- Syela */
   move_rate = unit_type(punit)->move_rate;
-  if (unit_flag(punit, F_IGTER)) move_rate *= SINGLE_MOVE;
+  if (unit_flag(punit, F_IGTER)) {
+    move_rate *= 3;
+  }
+
   maxd = MIN(6, move_rate) * THRESHOLD + 1;
-  f = unit_type(punit)->build_cost;
-  fprime = build_cost_balanced(punit->type);
 
+  bcost = unit_type(punit)->build_cost;
+  bcost_bal = build_cost_balanced(punit->type);
+
+  /* most flexible but costs milliseconds */
   generate_warmap(map_get_city(*x, *y), punit);
-                             /* most flexible but costs milliseconds */
-  freelog(LOG_DEBUG, "%s's %s at (%d, %d) has belligerence %d.",
-		pplayer->name, unit_type(punit)->name,
-		punit->x, punit->y, a);
 
-  if (is_ground_unit(punit)) boatid = find_boat(pplayer, &bx, &by, 2);
-  if (boatid != 0) ferryboat = player_find_unit_by_id(pplayer, boatid);
+  if (is_ground_unit(punit)) {
+    int boatid = find_boat(pplayer, &bx, &by, 2);
+    ferryboat = player_find_unit_by_id(pplayer, boatid);
+  }
+
   if (ferryboat) {
     really_generate_warmap(map_get_city(ferryboat->x, ferryboat->y),
                            ferryboat, SEA_MOVING);
@@ -1686,219 +1724,294 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
                   ? 2 * SINGLE_MOVE : 4 * SINGLE_MOVE);
   }
 
-  if (is_ground_unit(punit) && punit->id == 0 &&
-      is_terrain_near_tile(punit->x, punit->y, T_OCEAN)) harborcity++;
+  if (is_ground_unit(punit) && punit->id == 0 
+      && is_terrain_near_tile(punit->x, punit->y, T_OCEAN)) {
+    harbor = TRUE;
+  }
 
-  handicap=ai_handicap(pplayer, H_TARGETS);
   players_iterate(aplayer) {
-    if (pplayers_at_war(pplayer, aplayer)) { /* enemy */
-      city_list_iterate(aplayer->cities, acity)
-        if (handicap && !map_get_known(acity->x, acity->y, pplayer)) continue;
-        sanity = (goto_is_sane(punit, acity->x, acity->y, TRUE) &&
-                 warmap.cost[acity->x][acity->y] < maxd); /* for Tangier->Malaga */
-        if (ai_fuzzy(pplayer, TRUE) && ((is_ground_unit(punit) &&
-          ((sanity) || 
-          ((ferryboat || harborcity != 0) &&
-                      warmap.seacost[acity->x][acity->y] <= 6 * THRESHOLD))) ||
-          (is_sailing_unit(punit) && warmap.seacost[acity->x][acity->y] < maxd))) {
-          if ((pdef = get_defender(punit, acity->x, acity->y))) {
-            d = unit_vulnerability(punit, pdef);
-            b = unit_type(pdef)->build_cost + 40;
-          } else { d = 0; b = 40; }
-/* attempting to make empty cities less enticing. -- Syela */
-          if (is_ground_unit(punit)) {
-            if (!sanity) {
-              move_time = (warmap.seacost[acity->x][acity->y]) / boatspeed; /* kluge */
-              if (boatspeed < 9 && move_time > 2) move_time = 999; /* tired of Kaput! -- Syela */
-              if (ferryboat) move_time += (warmap.cost[bx][by] + move_rate - 1) / move_rate + 1;
-              else move_time += 1;
-              if (unit_flag(punit, F_MARINES)) move_time -= 1;
-            } else move_time = (warmap.cost[acity->x][acity->y] + move_rate - 1) / move_rate;
-          } else if (is_sailing_unit(punit))
-             move_time = (warmap.seacost[acity->x][acity->y] + move_rate - 1) / move_rate;
-          else move_time = (real_map_distance(punit->x, punit->y, acity->x, acity->y)
-		    * SINGLE_MOVE) / move_rate;
-          if (move_time > 1) {
-            n = ai_choose_defender_versus(acity, punit->type);
-	    v = unit_vulnerability_virtual2(punit->type, n, acity->x,
-					    acity->y, FALSE,
-					    do_make_unit_veteran(acity, n),
-					    FALSE, 0);
-            if (v >= d) { d = v; b = unit_types[n].build_cost + 40; }
-          } /* let's hope this works! */
-          if (!is_ground_unit(punit) && !is_heli_unit(punit) &&
-              !TEST_BIT(acity->ai.invasion, 0)) b -= 40; /* boats can't conquer cities */
-          if (punit->id == 0
-	      && !unit_really_ignores_citywalls(punit)
-	      && move_time > (player_knows_improvement_tech(aplayer, B_CITY) ? 2 : 4)
-	      && !city_got_citywalls(acity))
-	    d *= 9;
+    if (!pplayers_at_war(pplayer, aplayer)) { 
+      /* Not an enemy */
+      continue;
+    }
 
-          a = (ab + acity->ai.attack) * (ab + acity->ai.attack);
-/* Avoiding handling upkeep aggregation this way -- Syela */
+    city_list_iterate(aplayer->cities, acity) {
+      bool go_by_boat;
 
-          g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
-/* AI was not sending enough reinforcements to totally wipe out a city
-and conquer it in one turn.  This variable enables total carnage. -- Syela */
+      if (handicap && !map_get_known(acity->x, acity->y, pplayer)) {
+        /* Can't see it */
+        continue;
+      }
 
-          if (!is_ground_unit(punit) && !is_heli_unit(punit) && !pdef) b0 = 0;
-/* !d instead of !pdef was horrible bug that led to yoyo-ing AI warships -- Syela */
-          else if (move_time > THRESHOLD) b0 = 0;
-          else if ((is_ground_unit(punit) || is_heli_unit(punit)) &&
-                   acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
-          else {
-            int a_squared = acity->ai.attack * acity->ai.attack;
-            
-            b0 = kill_desire(b, a, (f + acity->ai.bcost), d, g);
-            if (b * a_squared > acity->ai.bcost * d) {
-              /* If there're enough units to do the job, we don't need this
-               * one. */
-              /* FIXME: The problem with ai.bcost is that bigger it is, less is
-               * our desire to go help other units.  Now suppose we need five
-               * cavalries to take over a city, we have four (which is not
-               * enough), then we will be severely discouraged to build the
-               * fifth one.  Where is logic in this??!?! --GB */
-              b0 -= kill_desire(b, a_squared, acity->ai.bcost, d, g);
-            }
+      go_by_boat = !(goto_is_sane(punit, acity->x, acity->y, TRUE) 
+                     && warmap.cost[acity->x][acity->y] < maxd);
+      
+      if (!ai_fuzzy(pplayer, TRUE)) {
+        continue;
+      }
+      
+      if (is_ground_unit(punit) && go_by_boat  
+          && (!(ferryboat || harbor) 
+              || warmap.seacost[acity->x][acity->y] > 6 * THRESHOLD)) {
+        /* Too far to go by boat */
+        continue;
+      }
+      
+      if (is_sailing_unit(punit) 
+          && warmap.seacost[acity->x][acity->y] >= maxd) {
+        /* Too far to sail */
+        continue;
+      }
+      
+      /* FIXME: What if too far to walk? */
+      
+      if ((pdef = get_defender(punit, acity->x, acity->y))) {
+        vuln = unit_vulnerability(punit, pdef);
+        benefit = unit_type(pdef)->build_cost;
+      } else { 
+        vuln = 0; 
+        benefit = 0; 
+      }
+      
+      if (is_ground_unit(punit)) {
+        if (go_by_boat) {
+          move_time = (warmap.seacost[acity->x][acity->y]) / boatspeed;
+          if (boatspeed < 9 && move_time > 2) {
+            /* I guess that's for triremes -- GB */
+            move_time = 999;
           }
-          b0 -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
-          /* FIXME: build_cost of ferry */
-          needferry = 
-            (!sanity && boatid == 0 && is_ground_unit(punit) ? 40 : 0);
-          e = military_amortize(b0, MAX(1, move_time), fprime + needferry);
-          /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
-          if (b0 <= 0 && punit->id == 0 && best == 0) {
-            int bk_e = military_amortize(b * SHIELD_WEIGHTING, 
-                                         MAX(1, move_time), fprime + needferry);
-            if (bk_e > bk) {
-              if (punit->id != 0 && is_ground_unit(punit) 
-                  && !unit_flag(punit, F_MARINES) 
-                  && map_get_continent(acity->x, acity->y) != con) {
-                if (find_beachhead(punit, acity->x, acity->y, &xx, &yy) != 0) {
-                  *x = acity->x;
-                  *y = acity->y;
-                  bk = bk_e;
-                } /* else no beachhead */
-              } else {
-                *x = acity->x;
-                *y = acity->y;
-                bk = bk_e;
-              }
-            }
+          if (ferryboat) {
+            /* Time to get to the boat + get off the boat */
+            move_time += (warmap.cost[bx][by] + move_rate - 1) / move_rate + 1;
+          } else {
+            /* Time to get off the boat */
+            move_time += 1;
           }
-          /* END STEAM-ENGINES KLUGE */
-
-	  if (punit->id != 0 && ferryboat && is_ground_unit(punit)) {
-	    freelog(LOG_DEBUG, "%s@(%d, %d) -> %s@(%d, %d) -> %s@(%d, %d)"
-		    " (sanity=%d, move_time=%d, e=%d, best=%d)",
-		    unit_type(punit)->name, punit->x, punit->y,
-		    unit_type(ferryboat)->name, bx, by,
-		    acity->name, acity->x, acity->y, sanity, move_time, e, best);
-	  }
-
-          if (e > best && ai_fuzzy(pplayer, TRUE)) {
-            if (punit->id != 0 && is_ground_unit(punit) &&
-                !unit_flag(punit, F_MARINES) &&
-                map_get_continent(acity->x, acity->y) != con) {
-/* a non-virtual ground unit is trying to attack something on another continent */
-/* need a beachhead which is adjacent to the city and an available ocean tile */
-              if (find_beachhead(punit, acity->x, acity->y, &xx, &yy) != 0) { /* LaLALala */
-#ifdef DEBUG
-                aa = a; bb = b; cc = move_time; dd = d; bestb0 = b0;
-#endif
-                best = e;
-                *x = acity->x;
-                *y = acity->y;
-/* the ferryboat needs to target the beachhead, but the unit needs to target
-the city itself.  This is a little weird, but it's the best we can do. -- Syela */
-              } /* else do nothing, since we have no beachhead */
-            } else {
-#ifdef DEBUG
-              aa = a; bb = b; cc = move_time; dd = d; bestb0 = b0;
-#endif
-              best = e;
-              *x = acity->x;
-              *y = acity->y;
-            } /* end need-beachhead else */
+          if (unit_flag(punit, F_MARINES)) {
+            /* They can do it from the boat */
+            move_time -= 1;
           }
+        } else {
+          /* Time to walk */
+          move_time 
+            = (warmap.cost[acity->x][acity->y] + move_rate - 1) / move_rate;
         }
-      city_list_iterate_end;
+      } else {
+        /* We are boat: time to sail */
+        move_time 
+          = (warmap.seacost[acity->x][acity->y] + move_rate - 1) / move_rate;
+      }
 
-      a = unit_belligerence(punit);
-/* I'm not sure the following code is good but it seems to be adequate. -- Syela */
-/* I am deliberately not adding ferryboat code to the unit_list_iterate. -- Syela */
-      unit_list_iterate(aplayer->units, aunit)
-        if (map_get_city(aunit->x, aunit->y)) continue; /* already dealt with it */
-        if (handicap && !map_get_known(aunit->x, aunit->y, pplayer)) continue;
-        if ((unit_flag(aunit, F_HELP_WONDER) || unit_flag(aunit, F_TRADE_ROUTE))
-             && punit->id == 0) 
-          continue; /* kluge */
-        if (ai_fuzzy(pplayer, TRUE) &&
-	    (aunit == get_defender(punit, aunit->x, aunit->y) &&
-           ((is_ground_unit(punit) &&
-                map_get_continent(aunit->x, aunit->y) == con &&
-                warmap.cost[aunit->x][aunit->y] < maxd) ||
-            (is_sailing_unit(punit) &&
-                goto_is_sane(punit, aunit->x, aunit->y, TRUE) && /* Thanks, Damon */
-                warmap.seacost[aunit->x][aunit->y] < maxd)))) {
-          d = unit_vulnerability(punit, aunit);
-
-          b = unit_type(aunit)->build_cost;
-          if (is_ground_unit(punit)) n = warmap.cost[aunit->x][aunit->y];
-          else if (is_sailing_unit(punit)) n = warmap.seacost[aunit->x][aunit->y];
-          else n = real_map_distance(punit->x, punit->y, aunit->x, aunit->y) * 3;
-          if (n > move_rate) { /* if n <= move_rate, it can't run away -- Syela */
-            n *= unit_type(aunit)->move_rate;
-            if (unit_flag(aunit, F_IGTER)) n *= 3;
-          }
-          move_time = (n + move_rate - 1) / move_rate;
-          if (!is_ground_unit(punit) && d == 0) b0 = 0;
-          else if (move_time > THRESHOLD) b0 = 0;
-          else {
-            b0 = kill_desire(b, a, f, d, 1);
-            /* Take into account maintainance of the unit */
-            /* FIXME: Depends on the government */
-            b0 -= move_time * SHIELD_WEIGHTING;
-            /* Take into account unhappiness 
-             * (costs 2 luxuries to compensate) */
-            b0 -= (unhap ? 2 * move_time * TRADE_WEIGHTING : 0);
-          }
-          e = military_amortize(b0, MAX(1, move_time), fprime);
-          if (e > best && ai_fuzzy(pplayer, TRUE)) {
-#ifdef DEBUG
-            aa = a; bb = b; cc = move_time; dd = d; bestb0 = b0;
-#endif
-            best = e;
-            *x = aunit->x;
-            *y = aunit->y;
-          }
+      if (move_time > 1) {
+        Unit_Type_id def_type = ai_choose_defender_versus(acity, punit->type);
+        int v 
+          = unit_vulnerability_virtual2(punit->type, def_type, acity->x,
+                                        acity->y, FALSE,
+                                        do_make_unit_veteran(acity, def_type),
+                                        FALSE, 0);
+        if (v >= vuln) {
+          /* They can build a better defender! */ 
+          vuln = v; 
+          benefit = unit_types[def_type].build_cost; 
         }
-      unit_list_iterate_end;
-    } /* end if enemy */
+      }
+
+      if (is_ground_unit(punit) || is_heli_unit(punit) 
+          || TEST_BIT(acity->ai.invasion, 0)) {
+        /* There are units able to occupy the city! */
+        benefit += 40;
+      }
+
+      if (punit->id == 0
+          && !unit_really_ignores_citywalls(punit)
+          && move_time > (player_knows_improvement_tech(aplayer, B_CITY) 
+                          ? 2 : 4)
+          && !city_got_citywalls(acity)) {
+        /* They don't have walls now, but they will have them by the time 
+         * we arrive (9 == hardcoded +200% squared) */
+        vuln *= 9;
+      }
+
+      attack = (ab + acity->ai.attack) * (ab + acity->ai.attack);
+      /* Avoiding handling upkeep aggregation this way -- Syela */
+      
+      /* AI was not sending enough reinforcements to totally wipe out a city
+       * and conquer it in one turn.  
+       * This variable enables total carnage. -- Syela */
+      victim_count 
+        = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
+
+      if (!is_ground_unit(punit) && !is_heli_unit(punit) && !pdef) {
+        /* Nothing there to bash and we can't occupy! */
+        want = 0;
+      } else if (move_time > THRESHOLD) {
+        /* Too far! */
+        want = 0;
+      } else if ((is_ground_unit(punit) || is_heli_unit(punit)) &&
+                 acity->ai.invasion == 2) {
+        /* Units able to occupy really needed there! */
+        want = bcost * SHIELD_WEIGHTING;
+      } else {
+        int a_squared = acity->ai.attack * acity->ai.attack;
+        
+        want = kill_desire(benefit, attack, (bcost + acity->ai.bcost), 
+                           vuln, victim_count);
+        if (benefit * a_squared > acity->ai.bcost * vuln) {
+          /* If there're enough units to do the job, we don't need this
+           * one. */
+          /* FIXME: The problem with ai.bcost is that bigger it is, less is
+           * our desire to go help other units.  Now suppose we need five
+           * cavalries to take over a city, we have four (which is not
+           * enough), then we will be severely discouraged to build the
+           * fifth one.  Where is logic in this??!?! --GB */
+          want -= kill_desire(benefit, a_squared, acity->ai.bcost, 
+                              vuln, victim_count);
+        }
+      }
+      want -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING 
+                           : SHIELD_WEIGHTING);
+      /* FIXME: build_cost of ferry */
+      needferry = 
+        (go_by_boat && !ferryboat && is_ground_unit(punit) ? 40 : 0);
+      want = military_amortize(want, MAX(1, move_time), bcost_bal + needferry);
+
+      /* BEGIN STEAM-ENGINES-ARE-OUR-FRIENDS KLUGE */
+      if (want <= 0 && punit->id == 0 && best == 0) {
+        int bk_e = military_amortize(benefit * SHIELD_WEIGHTING, 
+                                     MAX(1, move_time), bcost_bal + needferry);
+        if (bk_e > bk) {
+          *x = acity->x;
+          *y = acity->y;
+          bk = bk_e;
+        }
+      }
+      /* END STEAM-ENGINES KLUGE */
+      
+      if (punit->id != 0 && ferryboat && is_ground_unit(punit)) {
+        freelog(LOG_DEBUG, "%s@(%d, %d) -> %s@(%d, %d) -> %s@(%d, %d)"
+                " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
+                unit_type(punit)->name, punit->x, punit->y,
+                unit_type(ferryboat)->name, bx, by,
+                acity->name, acity->x, acity->y, 
+                go_by_boat, move_time, want, best);
+      }
+      
+      if (want > best && ai_fuzzy(pplayer, TRUE)) {
+        /* Yes, we like this target */
+        if (punit->id != 0 && is_ground_unit(punit) 
+            && !unit_flag(punit, F_MARINES)
+            && map_get_continent(acity->x, acity->y) != con) {
+          /* a non-virtual ground unit is trying to attack something on 
+           * another continent.  Need a beachhead which is adjacent 
+           * to the city and an available ocean tile */
+          int xx, yy;
+
+          if (find_beachhead(punit, acity->x, acity->y, &xx, &yy) != 0) { 
+            best = want;
+            *x = acity->x;
+            *y = acity->y;
+            /* the ferryboat needs to target the beachhead, but the unit 
+             * needs to target the city itself.  This is a little weird, 
+             * but it's the best we can do. -- Syela */
+          } /* else do nothing, since we have no beachhead */
+        } else {
+          best = want;
+          *x = acity->x;
+          *y = acity->y;
+        } /* end need-beachhead else */
+      }
+    } city_list_iterate_end;
+
+    attack = unit_belligerence(punit);
+    /* I'm not sure the following code is good but it seems to be adequate. 
+     * I am deliberately not adding ferryboat code to the unit_list_iterate. 
+     * -- Syela */
+    unit_list_iterate(aplayer->units, aunit) {
+      /* Variable of unknown meaning */
+      int dist;
+      
+      if (map_get_city(aunit->x, aunit->y)) {
+        /* already dealt with it */
+        continue;
+      }
+
+      if (handicap && !map_get_known(aunit->x, aunit->y, pplayer)) {
+        /* Can't see the target */
+        continue;
+      }
+
+      if (!ai_fuzzy(pplayer, TRUE)) {
+        /* Didn't notice the target */
+        continue;
+      }
+
+      if ((unit_flag(aunit, F_HELP_WONDER) || unit_flag(aunit, F_TRADE_ROUTE))
+          && punit->id == 0) {
+        /* We will not build units just to chase caravans */
+        continue;
+      }
+
+      if (!(aunit == get_defender(punit, aunit->x, aunit->y))) {
+        /* It's not the main defender */
+        continue;
+      }
+
+      if (is_ground_unit(punit) 
+          && (map_get_continent(aunit->x, aunit->y) != con 
+              || warmap.cost[aunit->x][aunit->y] >= maxd)) {
+        /* Impossible or too far to walk */
+        continue;
+      }
+
+      if (is_sailing_unit(punit)
+          && (!goto_is_sane(punit, aunit->x, aunit->y, TRUE)
+              || warmap.seacost[aunit->x][aunit->y] >= maxd)) {
+        /* Impossible or too far to sail */
+        continue;
+      }
+
+      vuln = unit_vulnerability(punit, aunit);
+      benefit = unit_type(aunit)->build_cost;
+ 
+      if (is_ground_unit(punit)) {
+        dist = warmap.cost[aunit->x][aunit->y];
+      } else { 
+        dist = warmap.seacost[aunit->x][aunit->y];
+      }
+      
+      if (dist > move_rate) { 
+        /* if dist <= move_rate, it can't run away -- Syela */
+        dist *= unit_type(aunit)->move_rate;
+        if (unit_flag(aunit, F_IGTER)) {
+          dist *= 3;
+        }
+      }
+      move_time = (dist + move_rate - 1) / move_rate;
+
+      if (!is_ground_unit(punit) && vuln == 0) {
+        /* This is strange. Why don't we kill a helpless enemy? -- GB */
+        want = 0;
+      } else if (move_time > THRESHOLD) {
+        /* Too far */
+        want = 0;
+      } else {
+        want = kill_desire(benefit, attack, bcost, vuln, 1);
+          /* Take into account maintainance of the unit */
+          /* FIXME: Depends on the government */
+        want -= move_time * SHIELD_WEIGHTING;
+        /* Take into account unhappiness 
+         * (costs 2 luxuries to compensate) */
+        want -= (unhap ? 2 * move_time * TRADE_WEIGHTING : 0);
+      }
+      want = military_amortize(want, MAX(1, move_time), bcost_bal);
+      if (want > best && ai_fuzzy(pplayer, TRUE)) {
+        best = want;
+        *x = aunit->x;
+        *y = aunit->y;
+      }
+    } unit_list_iterate_end;
   } players_iterate_end;
 
-#ifdef DEBUG
-  if (best && map_get_city(*x, *y) && !punit->id) {
-    freelog(LOG_DEBUG,
-	    "%s's %s#%d at (%d, %d) targeting (%d, %d) [desire = %d/%d]",
-	    pplayer->name, unit_type(punit)->name, punit->id,
-	    punit->x, punit->y, *x, *y, best, bestb0);
-    freelog(LOG_DEBUG, "A = %d, B = %d, move_time = %d, D = %d, F = %d, E = %d",
-	    aa, bb, cc, dd, f, best);
-  }
-  if (punit->id && (pcity = map_get_city(*x, *y)) &&
-      pcity->owner != punit->owner && pcity->ai.invasion == 2 &&
-      (is_ground_unit(punit) || is_heli_unit(punit))) {
-    freelog(LOG_DEBUG, "%s's %s#%d@(%d,%d) invading %s@(%d,%d)",
-	    pplayer->name, unit_name(punit->type), punit->id,
-	    punit->x, punit->y, pcity->name, *x, *y);
-  }
-  if (!best && bk) {
-    freelog(LOG_DEBUG, "%s's %s@(%d,%d) faking target %s@(%d,%d)",
-	    pplayer->name, unit_name(punit->type), punit->x, punit->y, 
-	    map_get_city(*x, *y)->name, *x, *y);
-  }
-#endif
   return(best);
 }
 
