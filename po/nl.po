@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2001-01-24 15:37+0100\n"
-"PO-Revision-Date: 2001-01-24 15:45 CET\n"
+"POT-Creation-Date: 2001-01-25 12:33+0100\n"
+"PO-Revision-Date: 2001-01-25 12:35 MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -83,55 +83,55 @@ msgstr "(totaal %d herhalingen)"
 msgid "last message repeated once"
 msgstr "laatste bericht eenmaal herhaald"
 
-#: common/map.c:55
+#: common/map.c:56
 msgid "Special1"
 msgstr "Speciaal1"
 
-#: common/map.c:56 common/map.c:611 common/unit.c:497
+#: common/map.c:57 common/map.c:614 common/unit.c:497
 msgid "Road"
 msgstr "Weg"
 
-#: common/map.c:57 common/map.c:616 common/unit.c:499
+#: common/map.c:58 common/map.c:619 common/unit.c:499
 msgid "Irrigation"
 msgstr "Irrigatie"
 
-#: common/map.c:58 common/map.c:609 common/unit.c:504 data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439 data/default/techs.ruleset:439
+#: common/map.c:59 common/map.c:612 common/unit.c:504 data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439 data/default/techs.ruleset:439
 msgid "Railroad"
 msgstr "Spoorlijn"
 
-#: common/map.c:59 common/map.c:618 common/unit.c:498
+#: common/map.c:60 common/map.c:621 common/unit.c:498
 msgid "Mine"
 msgstr "Mijn"
 
-#: client/cityrepdata.c:219 client/options.c:96 common/map.c:60 common/unit.c:496 server/report.c:898
+#: client/cityrepdata.c:219 client/options.c:96 common/map.c:61 common/unit.c:496 server/report.c:898
 msgid "Pollution"
 msgstr "Verontreiniging"
 
-#: common/map.c:61
+#: common/map.c:62
 msgid "Hut"
 msgstr "Hut"
 
-#: common/map.c:62 common/map.c:620 common/unit.c:502
+#: common/map.c:63 common/map.c:623 common/unit.c:502
 msgid "Fortress"
 msgstr "Fort"
 
-#: common/map.c:63
+#: common/map.c:64
 msgid "Special2"
 msgstr "Speciaal2"
 
-#: common/map.c:64 data/civ1/terrain.ruleset:470 data/classic/terrain.ruleset:470
+#: common/map.c:65 data/civ1/terrain.ruleset:470 data/classic/terrain.ruleset:470
 msgid "River"
 msgstr "Rivier"
 
-#: common/map.c:65 common/map.c:614
+#: common/map.c:66 common/map.c:617
 msgid "Farmland"
 msgstr "Landbouwgrond"
 
-#: common/map.c:66 common/map.c:622 common/unit.c:509
+#: common/map.c:67 common/map.c:625 common/unit.c:509
 msgid "Airbase"
 msgstr "Luchthaven"
 
-#: common/map.c:67 common/unit.c:510
+#: common/map.c:68 common/unit.c:510
 msgid "Fallout"
 msgstr "Radioaktief"
 
@@ -794,7 +794,7 @@ msgstr "  -d, --debug GETAL\tZet debug logniveau (0 tot 3)\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGeeft het versienummer\n"
 
-#: client/gui-gtk/gui_main.c:157 client/gui-mui/gui_main.c:106 client/gui-xaw/gui_main.c:236 server/civserver.c:139
+#: client/gui-gtk/gui_main.c:156 client/gui-mui/gui_main.c:106 client/gui-xaw/gui_main.c:234 server/civserver.c:139
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Rapporteer fouten aan <%s>\n"
@@ -1341,7 +1341,7 @@ msgstr "%s zijn de eerste die %s leren"
 
 #: server/plrhand.c:227
 #, c-format
-msgid "Game: Discovery of %s makes the government form %savailable. You may want to start a revolution."
+msgid "Game: Discovery of %s makes the government form %s available. You may want to start a revolution."
 msgstr "Spel: Ontdekking van %s maakt de bestuursvorm %s beschikbaar. U wilt misschien een revolutie beginnen."
 
 #: server/plrhand.c:239
@@ -4459,31 +4459,31 @@ msgstr "Ongeldige metaserver URL, moet met 'http://' beginnen"
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ongeldige $http_proxy waarde, kan geen scheidend '/' vinden"
 
-#: client/control.c:516
+#: client/control.c:520
 msgid "Game: Only transporter units can be unloaded."
 msgstr "Spel: Alleen transport-eenheden kunnen uitladen."
 
-#: client/control.c:746
+#: client/control.c:750
 msgid "Game: Only settler units and military units in cities can be put in auto-mode."
 msgstr "Spel: Alleen kolonisten en militaire eenheden in steden kunnen in auto-modus worden gezet."
 
-#: client/control.c:779
+#: client/control.c:783
 msgid "Game: Only nuclear units can do this."
 msgstr "Spel: Alleen nucleaire eenheden kunnen dit."
 
-#: client/control.c:796
+#: client/control.c:800
 msgid "Game: Only paratrooper units can do this."
 msgstr "Spel: Alleen paratroepen eenheden kunnen dit."
 
-#: client/control.c:940 client/control.c:1123
-msgid "Game: Didn't find a route to the destination!"
-msgstr "Spel: Kon geen route naar de bestemming vinden!"
-
-#: client/control.c:973
+#: client/control.c:948
 msgid "Game: Too far for this unit."
 msgstr "Spel: Te ver voor deze eenheid."
 
-#: client/control.c:1118
+#: client/control.c:1084 client/control.c:1134
+msgid "Game: Didn't find a route to the destination!"
+msgstr "Spel: Kon geen route naar de bestemming vinden!"
+
+#: client/control.c:1125
 msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr "Spel: Sorry, patrouilleren met lucht-eenheden is nog niet geïmplementeerd."
 
@@ -5991,7 +5991,7 @@ msgstr "Zet lokale opties"
 msgid "Goto/Airlift Unit"
 msgstr "Ga naar/Vlieg Eenheid"
 
-#: client/gui-gtk/gotodlg.c:93 client/gui-gtk/mapview.c:339 client/gui-mui/mapview.c:260 client/gui-xaw/mapview.c:314
+#: client/gui-gtk/gotodlg.c:93 client/gui-gtk/mapview.c:336 client/gui-mui/mapview.c:260 client/gui-xaw/mapview.c:311
 msgid "Select destination"
 msgstr "Kies bestemming"
 
@@ -5999,15 +5999,15 @@ msgstr "Kies bestemming"
 msgid "_Goto"
 msgstr "_Ga naar"
 
-#: client/gui-gtk/gui_main.c:255 client/gui-gtk/gui_main.c:630
+#: client/gui-gtk/gui_main.c:254 client/gui-gtk/gui_main.c:629
 msgid "Freeciv"
 msgstr ""
 
-#: client/gui-gtk/gui_main.c:450 data/Freeciv:2551
+#: client/gui-gtk/gui_main.c:449 data/Freeciv:2551
 msgid "Turn Done"
 msgstr "Beurt Klaar"
 
-#: client/gui-gtk/gui_main.c:574 client/gui-mui/gui_main.c:1028 data/Freeciv:2742
+#: client/gui-gtk/gui_main.c:573 client/gui-mui/gui_main.c:1028 data/Freeciv:2742
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
@@ -6017,7 +6017,7 @@ msgstr ""
 "kopieën ervan te verspreiden; Zie het \"Kopieëren\" gedeelte in het Help menu.\n"
 "Nu.. Geef ze van katoen!"
 
-#: client/gui-gtk/gui_main.c:780 client/gui-xaw/gui_main.c:704
+#: client/gui-gtk/gui_main.c:775 client/gui-xaw/gui_main.c:695
 #, c-format
 msgid ""
 "%s People\n"
@@ -6300,11 +6300,11 @@ msgstr " V"
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr "A:%d V:%d VK:%d SP:%d0%%"
 
-#: client/gui-gtk/mapview.c:267 client/gui-xaw/mapview.c:248
+#: client/gui-gtk/mapview.c:264 client/gui-xaw/mapview.c:245
 msgid "?timeout:off"
 msgstr "?timeout:uit"
 
-#: client/gui-gtk/mapview.c:284
+#: client/gui-gtk/mapview.c:281
 #, c-format
 msgid ""
 "Population: %s\n"
@@ -6317,7 +6317,7 @@ msgstr ""
 "Goud: %d\n"
 "Belasting: %d Luxe: %d Wetenschap: %d"
 
-#: client/gui-gtk/mapview.c:334 client/gui-xaw/mapview.c:312
+#: client/gui-gtk/mapview.c:331 client/gui-xaw/mapview.c:309
 msgid "(veteran)"
 msgstr "(veteraan)"
 
@@ -7921,36 +7921,36 @@ msgstr "Geen kleuren meer - probeer met privé kleurenkaart."
 msgid "Failed reading XPM file: %s"
 msgstr "Lezen van XPM bestand %s niet gelukt"
 
-#: client/gui-xaw/gui_main.c:304
+#: client/gui-xaw/gui_main.c:302
 msgid "No version number in resources."
 msgstr "Geen versienummer in hulpbronnen."
 
-#: client/gui-xaw/gui_main.c:305
+#: client/gui-xaw/gui_main.c:303
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr "U hebt waarschijnlijk ergens een oud (circa V1.0) Freeciv hulpbestand."
 
-#: client/gui-xaw/gui_main.c:313
+#: client/gui-xaw/gui_main.c:311
 msgid "Game version does not match Resource version."
 msgstr "Spelversie komt niet overeen met Hulpbronversie."
 
-#: client/gui-xaw/gui_main.c:314
+#: client/gui-xaw/gui_main.c:312
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "Spelversie: %s - Hulpbronversie: %s"
 
-#: client/gui-xaw/gui_main.c:316
+#: client/gui-xaw/gui_main.c:314
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr "U kunt een oud Freeciv hulpbestand hebben in /usr/lib/X11/app-defaults"
 
-#: client/gui-xaw/gui_main.c:322
+#: client/gui-xaw/gui_main.c:320
 msgid "Using fallback resources - which is OK"
 msgstr "Gebruik nood hulpbronnen - wat OK is"
 
-#: client/gui-xaw/gui_main.c:333
+#: client/gui-xaw/gui_main.c:331
 msgid "Only color displays are supported for now..."
 msgstr "Op dit moment worden alleen nog kleurenschermen ondersteund..."
 
-#: client/gui-xaw/gui_main.c:353 client/gui-xaw/gui_main.c:365
+#: client/gui-xaw/gui_main.c:351 client/gui-xaw/gui_main.c:363
 #, c-format
 msgid "Failed loading font: %s"
 msgstr "Kon font %s niet laden"
@@ -7975,7 +7975,7 @@ msgstr "Staat %s toe (met %s).\n"
 msgid "City: %s(%s) %s"
 msgstr "Stad: %s(%s) %s"
 
-#: client/gui-xaw/mapview.c:263
+#: client/gui-xaw/mapview.c:260
 #, c-format
 msgid ""
 "%s People\n"
