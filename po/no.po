@@ -12,10 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.12.0\n"
 "POT-Creation-Date: 2001-06-30 20:01+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Stig E Sandø <stig@ii.uib.no>\n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
@@ -553,7 +550,7 @@ msgstr "Spill: Flyttet %s ut av forlatt by %s for å unngå å bli låst fast."
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
-msgstr ""
+msgstr "Spill: Da %s ble oppløst klarte ikke %s å flykte og gikk derfor tapt."
 
 #: server/citytools.c:1222
 #, c-format
@@ -607,7 +604,7 @@ msgstr "Spill: %s selger %s (foreldet) for %d."
 #: server/cityturn.c:781
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
-msgstr ""
+msgstr "Spill: Notis: Underverk %s i %s vil bli fullført neste runde."
 
 #: server/cityturn.c:813
 #, c-format
@@ -844,7 +841,7 @@ msgstr "  -s, --server H\tList denne serveren som H\n"
 
 #: server/civserver.c:134
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
-msgstr ""
+msgstr "  -q, --quitidle TIME   Avslutt hvis ingen spillere innen TIME sekunder\n"
 
 #: client/civclient.c:122 server/civserver.c:136
 msgid ""
@@ -909,7 +906,7 @@ msgstr "Spill: Det ble enighet om en avtale som inneholdt %d punkter."
 #, c-format
 msgid ""
 "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
-msgstr ""
+msgstr "Spill: En av byene %s gir bort er rasert!  Avtale brutt!"
 
 #: server/diplhand.c:247 server/diplhand.c:252
 #, c-format
@@ -1443,7 +1440,7 @@ msgstr "Spill: Oppdagelsen av %s FORELDER %s i %s!"
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
-msgstr ""
+msgstr "Spill: Oppdagelsen av %s gjør styreformen %s tilgjengelig. Du vil muligens starte en revolusjon."
 
 #: server/plrhand.c:272
 #, c-format
@@ -2089,11 +2086,11 @@ msgstr "fikk en nettpakke av type %d utenom RUN_GAME_STATE"
 #: server/srv_main.c:647
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
-msgstr ""
+msgstr "Mottok en nettpakke av type %d fra en død eller observatør spiller"
 
 #: server/srv_main.c:896
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
-msgstr ""
+msgstr "Forsøker å allokere en nasjon utenom SELECT_RACES_STATE!"
 
 #: server/srv_main.c:904
 msgid "Please choose a non-blank name."
@@ -2224,7 +2221,7 @@ msgstr "%s ble bortvist: Ingen observasjon av døde spillere."
 
 #: server/srv_main.c:1272
 msgid "Sorry, no observation of AI players in this game."
-msgstr ""
+msgstr "Beklager, en kan ikke observere AI-spillere i dette spillet."
 
 #: server/srv_main.c:1275
 #, c-format
@@ -2882,9 +2879,10 @@ msgid ""
 "Multiple connections and observer connections are currently EXPERIMENTAL."
 msgstr ""
 
+# Adopterer tysk oversettelse
 #: server/stdinhand.c:614
 msgid "Whether AI-status toggles with connection"
-msgstr ""
+msgstr "Automatisk AI-status"
 
 #: server/stdinhand.c:615
 msgid ""
@@ -2908,7 +2906,7 @@ msgstr ""
 
 #: server/stdinhand.c:633
 msgid "Seconds to let a client connection block"
-msgstr ""
+msgstr "Maksimal klient-blokkering (sekunder)"
 
 #: server/stdinhand.c:634
 msgid ""
@@ -3009,7 +3007,7 @@ msgstr ""
 
 #: server/stdinhand.c:714
 msgid "Auto-save name prefix"
-msgstr ""
+msgstr "Autolagrings prefiks"
 
 #: server/stdinhand.c:715
 msgid ""
@@ -3122,6 +3120,8 @@ msgid ""
 "explain\n"
 "explain <option-name>"
 msgstr ""
+"explain\n"
+"explain <opsjonsnavn>"
 
 #: server/stdinhand.c:930
 msgid "Explain server options."
@@ -3142,6 +3142,9 @@ msgid ""
 "show <option-name>\n"
 "show <option-prefix>"
 msgstr ""
+"show\n"
+"show <opsjonsnavn>\n"
+"show <opsjonsprefiks>"
 
 #: server/stdinhand.c:941
 msgid "Show server options."
@@ -3438,15 +3441,15 @@ msgstr ""
 
 #: server/stdinhand.c:1108
 msgid "Change server output style to 'RFC-style'."
-msgstr ""
+msgstr "Endre server-utskrifter til 'RFC-stil'."
 
 #: server/stdinhand.c:1112
 msgid "Change server output style to normal style."
-msgstr ""
+msgstr "Endre server-utskrifter til normal stil."
 
 #: server/stdinhand.c:1116
 msgid "Abort the server and generate a 'core' file."
-msgstr ""
+msgstr "Torpeder server og generer en 'core-'fil."
 
 #: server/stdinhand.c:1117
 msgid "This is mostly useful for debugging purposes."
@@ -3481,7 +3484,7 @@ msgstr "Ingen spiller med navn '%s'."
 #: server/stdinhand.c:1319 server/stdinhand.c:1354
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
-msgstr ""
+msgstr "Uventet match_result %d (%s) for '%s'."
 
 #: server/stdinhand.c:1338
 msgid "Name is empty, so cannot be a connection."
@@ -4021,7 +4024,7 @@ msgstr "Hjelpeargument '%s' er ikke entydig."
 #: server/stdinhand.c:3001
 #, c-format
 msgid "No match for help argument '%s'."
-msgstr ""
+msgstr "Ingen treff funnet for hjelpeargument '%s'."
 
 #: server/stdinhand.c:3059
 #, c-format
@@ -4191,7 +4194,7 @@ msgstr "Spill: Din %s lykkedes i sitt angrep mot %ss %s%s!"
 
 #: server/unithand.c:756
 msgid "Game: Cancel treaty in the players dialog first (F3)."
-msgstr ""
+msgstr "Spill: Avbryt avtale i spillerdialog først (F3)."
 
 #: server/unithand.c:842
 msgid "Game: No diplomat action possible."
@@ -4510,7 +4513,7 @@ msgstr "Spill: Din overflyvning skremmer stammen; de sprer seg i frykt."
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
-msgstr ""
+msgstr "Spill: Din %s avsluttet patruljeringsordren da den støtte på en fremmed enhet."
 
 #: client/cityrepdata.c:68
 msgid "?city_state:Rapture"
@@ -4827,7 +4830,7 @@ msgstr "Spill: Fant ingen rute til målet."
 
 #: client/control.c:1275
 msgid "Game: Sorry, airunit patrol not yet implemented."
-msgstr ""
+msgstr "Spill: Beklager, luftpatruljering er ikke implementert."
 
 #: client/helpdata.c:109
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -4945,7 +4948,7 @@ msgstr ""
 
 #: client/helpdata.c:631
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
-msgstr ""
+msgstr "* Kan kunne angripe enheter på havet (ingen angrep mot land).\n"
 
 # dumbo translation
 #: client/helpdata.c:635
@@ -6190,6 +6193,8 @@ msgid ""
 "Your %s has arrived at %s.\n"
 "What is your command?"
 msgstr ""
+"Din %s har ankommet %s.\n"
+"Hva er din ordre?"
 
 #: client/gui-gtk/dialogs.c:1056
 msgid " Choose Your Diplomat's Strategy"
@@ -7701,7 +7706,7 @@ msgstr "Oppskytning"
 #: client/gui-gtk/spaceshipdlg.c:257 client/gui-xaw/spaceshipdlg.c:258
 #, c-format
 msgid "Travel time:     %5.1f years"
-msgstr ""
+msgstr "Reisetid:        %5.1f år"
 
 #: client/gui-gtk/spaceshipdlg.c:262
 msgid "Travel time:        N/A     "
@@ -7801,12 +7806,12 @@ msgstr "Renset utsrkiftsvindu.\n"
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:472 client/gui-mui/worklistclass.c:192
 msgid "u8Unitsn"
-msgstr ""
+msgstr "u8Enhetern"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:479 client/gui-mui/worklistclass.c:200
 msgid "u8Improvementsn"
-msgstr ""
+msgstr "u8Forbedringern"
 
 #: client/gui-mui/citydlg.c:553
 msgid "Rounds"
@@ -8379,7 +8384,7 @@ msgstr "Bygg jernbane"
 #: client/gui-mui/gui_main.c:1486
 msgid ""
 "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
-msgstr ""
+msgstr "Kunne ikke åpne hovedvinduet (Grafikkminneproblem eller skjermstørrelse for liten)\n"
 
 #: client/gui-mui/helpdlg.c:563 data/Freeciv:832
 msgid "Firepower:"
@@ -8608,7 +8613,7 @@ msgstr "felt"
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/worklistclass.c:208
 msgid "u8Worklistsn"
-msgstr ""
+msgstr "u8Arbeidslistern"
 
 #: client/gui-mui/worklistclass.c:632
 msgid "Freeciv - Edit Worklist"
@@ -8991,7 +8996,7 @@ msgstr "Txt = Tekstvindu, Bsk = Beskjedvindu, Eget = Eget vindu"
 
 #: data/Freeciv:1270
 msgid "Out: Mes: Pop:"
-msgstr ""
+msgstr "Txt: Bsk: Eget:"
 
 #: data/Freeciv:1281
 msgid "Rates"
