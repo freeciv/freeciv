@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.9.0\n"
-"POT-Creation-Date: 2001-08-03 10:10+0200\n"
+"POT-Creation-Date: 2001-08-03 20:24+0200\n"
 "PO-Revision-Date: 1999-10-21 20:02+0100\n"
 "Last-Translator: Robert Brady <rwb197@ecs.soton.ac.uk>\n"
 "Language-Team: \n"
@@ -4870,7 +4870,7 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 
 #: client/helpdata.c:688
-#, ycp-format
+#, c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea."
@@ -5441,7 +5441,7 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1142 client/gui-gtk/citydlg.c:1147
 #: client/gui-xaw/citydlg.c:1462 client/gui-xaw/citydlg.c:1466
-#, c-format, ycp-format
+#, c-format
 msgid "%32s: %2d Trade/Year\n"
 msgstr ""
 
@@ -5468,7 +5468,7 @@ msgid "Done"
 msgstr ""
 
 #: client/gui-gtk/citydlg.c:1177
-#, c-format, ycp-format
+#, c-format
 msgid "Pollution:   %3d"
 msgstr ""
 
@@ -5479,18 +5479,18 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1225 client/gui-gtk/citydlg.c:1246
 #: client/gui-mui/citydlg.c:1493 client/gui-mui/citydlg.c:1515
-#, c-format, ycp-format
+#, c-format
 msgid "%3d/%3d %3d turn"
 msgstr ""
 
 #: client/gui-gtk/citydlg.c:1225 client/gui-gtk/citydlg.c:1246
 #: client/gui-mui/citydlg.c:1493 client/gui-mui/citydlg.c:1515
-#, c-format, ycp-format
+#, c-format
 msgid "%3d/%3d %3d turns"
 msgstr ""
 
 #: client/gui-gtk/citydlg.c:1238
-#, c-format, ycp-format
+#, c-format
 msgid "%3d/XXX XXX turns"
 msgstr ""
 
@@ -6328,6 +6328,7 @@ msgstr ""
 
 #: client/gui-gtk/gamedlgs.c:359 client/gui-mui/gamedlgs.c:258
 #: client/gui-xaw/ratesdlg.c:93
+#, c-format
 msgid "%s max rate: %d%%"
 msgstr ""
 
@@ -6349,7 +6350,7 @@ msgstr ""
 msgid "_Goto"
 msgstr ""
 
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
 msgid "Freeciv"
 msgstr ""
 
@@ -6365,7 +6366,7 @@ msgid ""
 "Now.. Go give'em hell!"
 msgstr ""
 
-#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"
@@ -6591,16 +6592,19 @@ msgstr ""
 
 #: client/gui-gtk/inteldlg.c:117 client/gui-mui/inteldlg.c:143
 #: client/gui-xaw/inteldlg.c:126 client/gui-xaw/ratesdlg.c:303
+#, c-format
 msgid "Tax: %d%%"
 msgstr ""
 
 #: client/gui-gtk/inteldlg.c:121 client/gui-mui/inteldlg.c:144
 #: client/gui-xaw/inteldlg.c:133 client/gui-xaw/ratesdlg.c:319
+#, c-format
 msgid "Science: %d%%"
 msgstr ""
 
 #: client/gui-gtk/inteldlg.c:125 client/gui-mui/inteldlg.c:145
 #: client/gui-xaw/inteldlg.c:140 client/gui-xaw/ratesdlg.c:311
+#, c-format
 msgid "Luxury: %d%%"
 msgstr ""
 
@@ -6692,6 +6696,7 @@ msgstr ""
 
 #: client/gui-gtk/mapctrl.c:193 client/gui-mui/mapclass.c:199
 #: client/gui-xaw/mapctrl.c:175
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr ""
 
@@ -7401,7 +7406,7 @@ msgstr ""
 
 #: client/gui-gtk/repodlgs.c:802 client/gui-mui/repodlgs.c:666
 #: client/gui-xaw/repodlgs.c:836
-#, c-format, ycp-format
+#, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr ""
 
@@ -7486,7 +7491,7 @@ msgid "Launch"
 msgstr ""
 
 #: client/gui-gtk/spaceshipdlg.c:257 client/gui-xaw/spaceshipdlg.c:258
-#, c-format, ycp-format
+#, c-format
 msgid "Travel time:     %5.1f years"
 msgstr ""
 
@@ -7495,6 +7500,7 @@ msgid "Travel time:        N/A     "
 msgstr ""
 
 #: client/gui-gtk/spaceshipdlg.c:270 client/gui-xaw/spaceshipdlg.c:271
+#, c-format
 msgid ""
 "Population:      %5d\n"
 "Support:         %5d %%\n"
@@ -8325,7 +8331,7 @@ msgid "_Launch"
 msgstr ""
 
 #: client/gui-mui/spaceshipdlg.c:265
-#, ycp-format
+#, c-format
 msgid ""
 "%5d\n"
 "%5d %%\n"
@@ -8390,7 +8396,7 @@ msgid "Name of Worklist"
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:193
-#, c-format, ycp-format
+#, c-format
 msgid "Pollution:    %3d"
 msgstr ""
 
@@ -8416,17 +8422,17 @@ msgid ""
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:306
-#, c-format, ycp-format
+#, c-format
 msgid " %3d/XXX XXX turns "
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:311
-#, c-format, ycp-format
+#, c-format
 msgid " %3d/%3d %3d turn "
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:312
-#, c-format, ycp-format
+#, c-format
 msgid " %3d/%3d %3d turns "
 msgstr ""
 
@@ -8633,7 +8639,7 @@ msgid "Goal: %s (%d steps)"
 msgstr ""
 
 #: client/gui-xaw/repodlgs.c:1150
-#, c-format, ycp-format
+#, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr ""
 

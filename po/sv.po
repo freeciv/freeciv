@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.13\n"
-"POT-Creation-Date: 2001-08-02 15:18+0200\n"
+"POT-Creation-Date: 2001-08-03 20:24+0200\n"
 "PO-Revision-Date: 2001-07-27 00:00+02:00\n"
 "Last-Translator: Erik Sigra <freeciv@home.se>\n"
 "Language-Team: Swedish <freeciv@home.se>\n"
@@ -6834,7 +6834,7 @@ msgstr "Välj mål"
 msgid "_Goto"
 msgstr "_Gå till"
 
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -6852,7 +6852,7 @@ msgstr ""
 "Freeciv är fri programvara och du är välkommen att sprida kopior av det "
 "under särskilda villkor; Se objektet \"Kopiering\" i hjälpmenyn."
 
-#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"

@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.5-devel\n"
-"POT-Creation-Date: 2001-08-02 15:18+0200\n"
+"POT-Creation-Date: 2001-08-03 20:24+0200\n"
 "PO-Revision-Date: 2001-07-11 19:48+02:00\n"
 "Last-Translator: Freeciv Italian Team <slug-freeciv@siena.linux.it>\n"
 "Language-Team: Italian <slug-freeciv@siena.linux.it>\n"
@@ -6943,7 +6943,7 @@ msgstr "Scegliete una destinazione"
 msgid "_Goto"
 msgstr "_Vai a"
 
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -6962,7 +6962,7 @@ msgstr ""
 "è benvenuta a certe condizioni; vedete la voce \"Licenza\" nel menu Aiuto.\n"
 "Ora... spediteli all'inferno!"
 
-#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"

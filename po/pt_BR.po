@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-08-02 15:18+0200\n"
+"POT-Creation-Date: 2001-08-03 20:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lalo Martins <lalo@hackandroll.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6598,7 +6598,7 @@ msgstr "Seleccione o destino"
 msgid "_Goto"
 msgstr "_Ir para"
 
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -6617,7 +6617,7 @@ msgstr ""
 "sob certas condições; Veja o item \"Licença\" no menu de Ajuda.\n"
 "Agora.. acabe com eles!"
 
-#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"

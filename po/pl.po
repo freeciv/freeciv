@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
-"POT-Creation-Date: 2001-08-02 15:18+0200\n"
+"POT-Creation-Date: 2001-08-03 20:24+0200\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Tomasz Wêgrzanowski <maniek@beer.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -7283,7 +7283,7 @@ msgid "_Goto"
 msgstr "_Id¼ do"
 
 # client/gui-gtk/gui_main.c:1
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -7305,7 +7305,7 @@ msgstr ""
 "A teraz im dokop!!!"
 
 # client/gui-gtk/gui_main.c:1
-#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"

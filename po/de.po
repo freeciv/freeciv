@@ -39,7 +39,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.12.0\n"
-"POT-Creation-Date: 2001-08-02 15:18+0200\n"
+"POT-Creation-Date: 2001-08-03 20:24+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -6873,7 +6873,7 @@ msgstr "Bestimmungsort wählen"
 msgid "_Goto"
 msgstr "_Gehe nach"
 
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -6892,7 +6892,7 @@ msgstr ""
 "Sie darf unter Beachtung der unter 'Lizenz' aufgeführten Bedingungen kopiert "
 "und weitergegeben werden."
 
-#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"

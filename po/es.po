@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.5-devel\n"
-"POT-Creation-Date: 2001-08-02 15:18+0200\n"
+"POT-Creation-Date: 2001-08-03 20:24+0200\n"
 "PO-Revision-Date: 2001-06-30 00:00+1000\n"
 "Last-Translator: Miguel Lobo <miguell@madrid.com>\n"
 "Language-Team: Spanish <ES@li.org>\n"
@@ -6926,7 +6926,7 @@ msgstr "Elegir destino"
 msgid "_Goto"
 msgstr "_Ir a"
 
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -6945,7 +6945,7 @@ msgstr ""
 "bajo ciertas condiciones; Mira el tema \"Copiar\" en el menú de Ayuda.\n"
 "Y ahora... ¡a por ellos!"
 
-#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"

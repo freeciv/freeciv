@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-08-02 15:18+0200\n"
+"POT-Creation-Date: 2001-08-03 20:24+0200\n"
 "PO-Revision-Date: 1999-09-13 10:22+0200\n"
 "Last-Translator: Freeciv french team <freeciv-fr@egroups.fr>\n"
 "Language-Team: FRENCH <FR@li.org>\n"
@@ -6929,7 +6929,7 @@ msgstr "Choisissez une destination"
 msgid "_Goto"
 msgstr "Aller"
 
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -6949,7 +6949,7 @@ msgstr ""
 "Aide.\n"
 "Maintenant... Envoyez les en Enfer !"
 
-#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"

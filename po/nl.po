@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.0\n"
-"POT-Creation-Date: 2001-08-02 15:18+0200\n"
+"POT-Creation-Date: 2001-08-03 20:24+0200\n"
 "PO-Revision-Date: 2001-07-09 11:44+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -6861,7 +6861,7 @@ msgstr "Kies bestemming"
 msgid "_Goto"
 msgstr "_Ga naar"
 
-#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:683
+#: client/gui-gtk/gui_main.c:298 client/gui-gtk/gui_main.c:684
 msgid "Freeciv"
 msgstr "Freeciv"
 
@@ -6881,7 +6881,7 @@ msgstr ""
 "menu.\n"
 "Nu.. Geef ze van katoen!"
 
-#: client/gui-gtk/gui_main.c:849 client/gui-xaw/gui_main.c:686
+#: client/gui-gtk/gui_main.c:850 client/gui-xaw/gui_main.c:686
 #, c-format
 msgid ""
 "%s People\n"
