@@ -1,16 +1,16 @@
 style "city_label"
 {
-  font_name = "Monospace Bold 10"
+  font_name = "Monospace Bold 9"
 }
 
 style "notify_label"
 {
-  font_name = "Monospace Bold 11"
+  font_name = "Monospace Bold 9"
 }
 
 style "spaceship_label"
 {
-  font_name = "Monospace Bold 11"
+  font_name = "Monospace Bold 9"
 }
 
 style "help_label"
@@ -25,7 +25,7 @@ style "help_label"
 
 style "help_link"
 {
-  font_name = "Sans 10"
+  font_name = "Sans 9"
 
   fg[PRELIGHT] = "blue"
   fg[ACTIVE] = "blue"
@@ -35,7 +35,7 @@ style "help_link"
 
 style "help_text"
 {
-  font_name = "Monospace 10"
+  font_name = "Monospace 9"
   bg[NORMAL] = { 0.9, 0.9, 0.9 }
   base[NORMAL] = { 0.9, 0.9, 0.9 }
   text[NORMAL] = "black"
@@ -43,23 +43,21 @@ style "help_text"
 
 style "chatline"
 {
-  font_name = "Monospace 10"
+  font_name = "Monospace 9"
   base[NORMAL] = "black"
-  text[NORMAL] = { 0.7, 0.7, 0.7 }
+  text[NORMAL] = { 0.9, 0.9, 0.9 }
   base[INSENSITIVE] = "black"
-  text[INSENSITIVE] = { 0.7, 0.7, 0.7 }
+  text[INSENSITIVE] = { 0.9, 0.9, 0.9 }
 }
 
 style "monospace_label"
 {
-  font_name = "Monospace 10"
-  fg[NORMAL] = "blue"
-  fg[PRELIGHT] = "blue"
+  font_name = "Monospace 9"
 }
 
 style "comment_label"
 {
-  font_name = "Sans Italic 10"
+  font_name = "Sans Italic 9"
   fg[NORMAL] = "blue"
   fg[PRELIGHT] = "blue"
 }
