@@ -814,6 +814,12 @@ void handle_new_year(int year, int turn)
   update_info_label();
 
   player_set_unit_focus_status(game.player_ptr);
+  city_list_iterate(game.player_ptr->cities, pcity) {
+    pcity->client.colored = FALSE;
+  } city_list_iterate_end;
+  unit_list_iterate(game.player_ptr->units, punit) {
+    punit->client.colored = FALSE;
+  } unit_list_iterate_end;
   update_unit_focus();
   auto_center_on_focus_unit();
 
@@ -829,7 +835,7 @@ void handle_new_year(int year, int turn)
   last_turn_gold_amount=game.player_ptr->economic.gold;
 #endif
 
-  queue_mapview_update(UPDATE_CITY_DESCRIPTIONS);
+  queue_mapview_update(UPDATE_MAP_CANVAS_VISIBLE);
 
   if (sound_bell_at_new_turn &&
       (!game.player_ptr->ai.control || ai_manual_turn_done)) {
