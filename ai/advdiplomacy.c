@@ -88,7 +88,6 @@ static bool diplomacy_verbose = TRUE;
   if (diplomacy_verbose) {                                             \
     notify_player_ex(pplayer, -1, -1, E_DIPLOMACY, text, __VA_ARGS__); \
   }
-#define TALK(x) "*" #x "(AI)* "
 
 /********************************************************************** 
   This is your typical human reaction. Convert lack of love into 
@@ -209,7 +208,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
      * leader. */
     if (pplayer != ai->diplomacy.alliance_leader
         && pplayers_at_war(aplayer, ai->diplomacy.alliance_leader)) {
-      notify(aplayer, _(TALK(%s) "%s leads our alliance. You must contact "
+      notify(aplayer, _("*%s (AI)* %s leads our alliance. You must contact "
              "and make peace with him first."), pplayer->name, 
              ai->diplomacy.alliance_leader->name);
       worth = -BIG_NUMBER;
@@ -220,7 +219,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
      * ceasefire. */
     if (adip->is_allied_with_enemy
         && pclause->type != CLAUSE_CEASEFIRE) {
-      notify(aplayer, _(TALK(%s) "First break alliance with %s, %s"),
+      notify(aplayer, _("*%s (AI)* First break alliance with %s, %s"),
              pplayer->name, adip->is_allied_with_enemy->name,
              aplayer->name);
       worth = -BIG_NUMBER;
@@ -231,7 +230,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
      * we don't care, though. */
     if (ai->diplomacy.acceptable_reputation > aplayer->reputation
         && ai->diplomacy.strategy != WIN_SPACE) {
-      notify(aplayer, _(TALK(%s) "Begone scroundel, we all know that"
+      notify(aplayer, _("*%s (AI)* Begone scroundel, we all know that"
              " you cannot be trusted!"), pplayer->name);
       worth = -BIG_NUMBER;
       break;
@@ -243,7 +242,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
 
       if ((pclause->type == CLAUSE_PEACE && ds > DS_PEACE)
           || (pclause->type == CLAUSE_CEASEFIRE && ds > DS_CEASEFIRE)) {
-        notify(aplayer, _(TALK(%s) "I will not let you go that easy, %s."),
+        notify(aplayer, _("*%s (AI)* I will not let you go that easy, %s."),
                pplayer->name, aplayer->name);
         worth = -BIG_NUMBER;
         break;
@@ -260,7 +259,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
      * let him live. */
     if (pplayer_get_diplstate(aplayer, ai->diplomacy.alliance_leader)->type
         == DS_CEASEFIRE && pclause->type == CLAUSE_CEASEFIRE) {
-        notify(aplayer, _(TALK(%s) "%s recommended that I give you a ceasefire."
+        notify(aplayer, _("*%s (AI)* %s recommended that I give you a ceasefire."
                " This is your lucky day."), pplayer->name,
                ai->diplomacy.alliance_leader->name);
         if (ai->diplomacy.target == aplayer) {
@@ -283,7 +282,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
     /* Steps of the ladder */
     if (pclause->type == CLAUSE_PEACE) {
       if (!pplayers_non_attack(pplayer, aplayer)) {
-        notify(aplayer, _(TALK(%s) "Let us first cease hostilies, %s"),
+        notify(aplayer, _("*%s (AI)* Let us first cease hostilies, %s"),
                pplayer->name, aplayer->name);
         worth = -BIG_NUMBER;
       } else {
@@ -291,7 +290,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
       }
     } else if (pclause->type == CLAUSE_ALLIANCE) {
       if (!pplayers_in_peace(pplayer, aplayer)) {
-        notify(aplayer, _(TALK(%s) "Let us first make peace, %s"),
+        notify(aplayer, _("*%s (AI)* Let us first make peace, %s"),
                pplayer->name, aplayer->name);
         worth = -BIG_NUMBER;
       } else {
@@ -343,7 +342,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
 
     if (!offer || offer->owner != giver) {
       /* City destroyed or taken during negotiations */
-      notify(aplayer, _(TALK(%s) "You don't have the offered city!"),
+      notify(aplayer, _("*%s (AI)* You don't have the offered city!"),
              pplayer->name);
       worth = 0;
     } else if (give) {
@@ -450,19 +449,19 @@ static void ai_treaty_react(struct player *pplayer,
   switch (pclause->type) {
     case CLAUSE_ALLIANCE:
       if (adip->is_allied_with_ally) {
-        notify(aplayer, _(TALK(%s) "Welcome into our alliance %s!"),
+        notify(aplayer, _("*%s (AI)* Welcome into our alliance %s!"),
                pplayer->name, aplayer->name);
       } else {
-        notify(aplayer, _(TALK(%s) "Yes, may we forever stand united, %s"),
+        notify(aplayer, _("*%s (AI)* Yes, may we forever stand united, %s"),
                pplayer->name, aplayer->name);
       }
       break;
     case CLAUSE_PEACE:
-      notify(aplayer, _(TALK(%s) "Yes, peace in our time!"),
+      notify(aplayer, _("*%s (AI)* Yes, peace in our time!"),
              pplayer->name);
       break;
     case CLAUSE_CEASEFIRE:
-      notify(aplayer, _(TALK(%s) "Agreed. No more hostilities, %s"),
+      notify(aplayer, _("*%s (AI)* Agreed. No more hostilities, %s"),
              pplayer->name, aplayer->name);
       break;
     default:
@@ -848,7 +847,7 @@ void ai_diplomacy_actions(struct player *pplayer)
         && pplayer->diplstates[aplayer->player_no].has_reason_to_cancel >= 2) {
       freelog(LOG_DIPL2, "(%s ai diplo) Declaring war on %s in revenge",
               pplayer->name, target->name);
-      notify(target, _(TALK(%s) "I will NOT accept such behaviour! This "
+      notify(target, _("*%s (AI)* I will NOT accept such behaviour! This "
              "means WAR!"), pplayer->name);
       ai_go_to_war(pplayer, ai, aplayer);
     }
@@ -875,7 +874,7 @@ void ai_diplomacy_actions(struct player *pplayer)
 
         packet.id = aplayer->player_no;
         packet.value1 = CLAUSE_ALLIANCE;
-        notify(aplayer, _(TALK(%s) "Your attempt to conquer space for "
+        notify(aplayer, _("*%s (AI)* Your attempt to conquer space for "
                "yourself alone betray your true intentions, and I "
                "will have no more of our alliance!"), pplayer->name);
         handle_player_cancel_pact(pplayer, &packet);
@@ -885,9 +884,9 @@ void ai_diplomacy_actions(struct player *pplayer)
         adip->love = -(BIG_NUMBER); /* Never forgive this */
       } else if (ship->state == SSHIP_STARTED && !adip->warned_about_space) {
         adip->warned_about_space = 10 + myrand(6);
-        notify(aplayer, _(TALK(%s) "Your attempt to unilaterally "
+        notify(aplayer, _("*%s (AI)* Your attempt to unilaterally "
                "dominate outer space is highly offensive."), pplayer->name);
-        notify(aplayer, _(TALK(%s) "If you do not stop constructing your "
+        notify(aplayer, _("*%s (AI)* If you do not stop constructing your "
                "spaceship, I may be forced to take action!"), pplayer->name);
       }
       if (aplayer->spaceship.state == SSHIP_LAUNCHED
@@ -905,16 +904,16 @@ void ai_diplomacy_actions(struct player *pplayer)
     assert(!pplayers_allied(target, pplayer));
     if (pplayer->diplstates[target->player_no].has_reason_to_cancel > 0) {
       /* We have good reason */
-      notify(target, _(TALK(%s) "Your despicable actions will not go "
+      notify(target, _("*%s (AI)* Your despicable actions will not go "
              "unpunished!"), pplayer->name);
     } if (ai->diplomacy.player_intel[target->player_no].love < 0) {
       /* We have a reason of sorts from way back. */
-      notify(target, _(TALK(%s) "Finally I get around to you! Did "
+      notify(target, _("*%s (AI)* Finally I get around to you! Did "
              "you really think you could get away with your crimes?"),
              pplayer->name);
     } else {
       /* We have no legimitate reason... So what? */
-      notify(target, _(TALK(%s) "Peace in ... some other time"),
+      notify(target, _("*%s (AI)* Peace in ... some other time"),
              pplayer->name);
     }
     ai_go_to_war(pplayer, ai, target);
@@ -929,7 +928,7 @@ void ai_diplomacy_actions(struct player *pplayer)
         && adip->at_war_with_ally
         && !adip->is_allied_with_ally
         && !pplayers_at_war(pplayer, aplayer)) {
-      notify(aplayer, _(TALK(%s) "Your aggression against my allies was your "
+      notify(aplayer, _("*%s (AI)* Your aggression against my allies was your "
              "your last mistake!"), pplayer->name);
       ai_go_to_war(pplayer, ai, aplayer);
     }
@@ -1012,17 +1011,17 @@ void ai_diplomacy_actions(struct player *pplayer)
       }
       switch (adip->ally_patience--) {
         case 0:
-          notify(aplayer, _(TALK(%s) "Greetings our most trustworthy "
+          notify(aplayer, _("*%s (AI)* Greetings our most trustworthy "
                  "ally, we call upon you to destroy our enemy, %s"), 
                  pplayer->name, target->name);
           break;
         case -1:
-          notify(aplayer, _(TALK(%s) "Greetings ally, I see you have not yet "
+          notify(aplayer, _("*%s (AI)* Greetings ally, I see you have not yet "
                  "made war with our enemy, %s. Why do I need to remind "
                  "you of your promises?"), pplayer->name, target->name);
           break;
         case -2:
-          notify(aplayer, _(TALK(%s) "Dishonoured one, we made a pact of "
+          notify(aplayer, _("*%s (AI)* Dishonoured one, we made a pact of "
                  "alliance, and yet you remain at peace with our mortal "
                  "enemy, %s! This is unacceptable, our alliance is no "
                  "more!"), pplayer->name, target->name);
@@ -1052,7 +1051,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ALLIANCE, 0);
       adip->asked_about_alliance = !aplayer->ai.control ? 13 : 0;
-      notify(aplayer, _(TALK(%s) "Greetings friend, may we suggest "
+      notify(aplayer, _("*%s (AI)* Greetings friend, may we suggest "
              "a joint campaign against %s?"), pplayer->name, target->name);
       break;
 
@@ -1067,7 +1066,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, 0);
       adip->asked_about_peace = !aplayer->ai.control ? 12 : 0;
-      notify(aplayer, _(TALK(%s) "Greetings neighbour, may we suggest "
+      notify(aplayer, _("*%s (AI)* Greetings neighbour, may we suggest "
              "a joint campaign against %s?"), pplayer->name, target->name);
       break;
 
@@ -1081,7 +1080,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
       adip->asked_about_ceasefire = !aplayer->ai.control ? 9 : 0;
-      notify(aplayer, _(TALK(%s) "%s is threatening us both, may we "
+      notify(aplayer, _("*%s (AI)* %s is threatening us both, may we "
              " suggest a cessation of hostilities?"), pplayer->name,
              target->name);
       break;
