@@ -551,7 +551,7 @@ int sniff_packets(void)
 #ifdef SOCKET_ZERO_ISNT_STDIN
     if (!no_input && (bufptr = my_read_console())) {
       con_prompt_enter();	/* will need a new prompt, regardless */
-      handle_stdin_input((struct connection *)NULL, bufptr);
+      handle_stdin_input((struct connection *)NULL, bufptr, FALSE);
     }
 #else  /* !SOCKET_ZERO_ISNT_STDIN */
     if(!no_input && FD_ISSET(0, &readfs)) {    /* input from server operator */
@@ -576,7 +576,7 @@ int sniff_packets(void)
 
       *(buf+didget)='\0';
       con_prompt_enter();	/* will need a new prompt, regardless */
-      handle_stdin_input((struct connection *)NULL, buf);
+      handle_stdin_input((struct connection *)NULL, buf, FALSE);
 #endif /* !HAVE_LIBREADLINE */
     }
     else
