@@ -138,7 +138,7 @@ static struct unit *search_best_target(struct player *pplayer,
 		     pcity->name, unit_name(punit->type),
 		     unit_name(enemy->type));
     punit->ai.control=0;
-    handle_unit_activity_request(pplayer,punit,ACTIVITY_IDLE);
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
     return NULL;
   }
 
@@ -183,7 +183,7 @@ static void auto_attack_with_unit(struct player *pplayer, struct city *pcity,
     do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
     
     if (unit_list_find(&map_get_tile(pcity->x, pcity->y)->units, id)) {
-      handle_unit_activity_request(pplayer,punit,ACTIVITY_IDLE);
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
     }
   }
   

@@ -452,7 +452,7 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
        * idle autosettlers behave correctly when selected --dwp
        */
       punit->ai.control=0;
-      handle_unit_activity_request_targeted(pplayer, punit,
+      handle_unit_activity_request_targeted(punit,
 					    pinfo->activity, pinfo->activity_target);
     }
   }
@@ -1038,14 +1038,14 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
                     punit->ai.bodyguard);
         if (bodyguard) {
 	  int success;
-          handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_IDLE);
+          handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
 	  /* may be fortifying, have to FIX this eventually -- Syela */
 	  success = handle_unit_move_request(pplayer, bodyguard,
 					     dest_x, dest_y, igzoc);
 	  freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
 		  unit_types[bodyguard->type].name, src_x, src_y,
 		  dest_x, dest_y, success);
-          handle_unit_activity_request(pplayer, bodyguard, ACTIVITY_FORTIFYING);
+          handle_unit_activity_request(bodyguard, ACTIVITY_FORTIFYING);
         }
       }
     }
@@ -1301,7 +1301,8 @@ static void handle_unit_activity_dependencies(struct unit *punit,
 					      enum unit_activity old_activity,
 					      int old_target)
 {
-  if (punit->activity == ACTIVITY_IDLE) {
+  switch (punit->activity) {
+  case ACTIVITY_IDLE:
     if (old_activity == ACTIVITY_PILLAGE) {
       int prereq = map_get_infrastructure_prerequisite(old_target);
       if (prereq) {
@@ -1314,13 +1315,28 @@ static void handle_unit_activity_dependencies(struct unit *punit,
 	unit_list_iterate_end;
       }
     }
+    break;
+  case ACTIVITY_EXPLORE:
+    if (punit->moves_left > 0) {
+      int id = punit->id;
+      ai_manage_explorer(unit_owner(punit), punit);
+      /* ai_manage_explorer sets the activity to idle, so we reset it */
+      if ((punit = find_unit_by_id(id))) {
+	set_unit_activity(punit, ACTIVITY_EXPLORE);
+	send_unit_info(0, punit);
+      }
+    }
+    break;
+  default:
+    /* do nothing */
+    break;
   }
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_activity_request(struct player *pplayer, struct unit *punit, 
+void handle_unit_activity_request(struct unit *punit, 
 				  enum unit_activity new_activity)
 {
   if(can_unit_do_activity(punit, new_activity)) {
@@ -1335,8 +1351,7 @@ void handle_unit_activity_request(struct player *pplayer, struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_activity_request_targeted(struct player *pplayer,
-					   struct unit *punit, 
+void handle_unit_activity_request_targeted(struct unit *punit, 
 					   enum unit_activity new_activity,
 					   int new_target)
 {

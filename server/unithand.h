@@ -49,10 +49,9 @@ int handle_unit_establish_trade(struct player *pplayer,
 void handle_unit_enter_city(struct player *pplayer, struct city *pcity);
 void handle_unit_auto_request(struct player *pplayer, 
 			      struct packet_unit_request *req);
-void handle_unit_activity_request(struct player *pplayer, struct unit *punit, 
+void handle_unit_activity_request(struct unit *punit, 
 				  enum unit_activity new_activity);
-void handle_unit_activity_request_targeted(struct player *pplayer,
-					   struct unit *punit, 
+void handle_unit_activity_request_targeted(struct unit *punit, 
 					   enum unit_activity new_activity,
 					   int new_target);
 void handle_unit_unload_request(struct player *pplayer, 

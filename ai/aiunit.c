@@ -124,7 +124,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 			 stumble on huts it fuzzily ignored */
 
   if (punit->activity != ACTIVITY_IDLE)
-    handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
 
   x = punit->x; y = punit->y;
   if (is_ground_unit(punit)) con = map_get_continent(x, y);
@@ -250,7 +250,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
 
   freelog(LOG_DEBUG, "%s's %s at (%d,%d) failed to explore.",
 	  pplayer->name, unit_types[punit->type].name, punit->x, punit->y);
-  handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
+  handle_unit_activity_request(punit, ACTIVITY_IDLE);
   if (pplayer->ai.control && is_military_unit(punit)) {
     pcity = find_city_by_id(punit->homecity);
     if (pcity && map_get_continent(pcity->x, pcity->y) == con)
@@ -1033,7 +1033,7 @@ void ai_military_gohome(struct player *pplayer,struct unit *punit)
       do_unit_goto(pplayer,punit,GOTO_MOVE_ANY);
     }
   } else {
-    handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFYING);
+    handle_unit_activity_request(punit, ACTIVITY_FORTIFYING);
   }
 }
 
@@ -1423,11 +1423,12 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   if (punit->activity != ACTIVITY_IDLE)
     return;
   if (punit->ai.ai_role == AIUNIT_NONE) {
-    if ((pcity = wonder_on_continent(pplayer, map_get_continent(punit->x, punit->y))) && build_points_left(pcity) > (pcity->shield_surplus*2)) {
+    if ((pcity = wonder_on_continent(pplayer, map_get_continent(punit->x, punit->y))) &&
+	build_points_left(pcity) > (pcity->shield_surplus*2)) {
       if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
         if (!punit->moves_left) return;
 	auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
-        handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
+        handle_unit_activity_request(punit, ACTIVITY_IDLE);
       } else {
       /*
        * We really don't want to just drop all caravans in immediately.
@@ -1604,7 +1605,7 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
   id = punit->id;
 
   if (punit->activity != ACTIVITY_IDLE)
-    handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
 
   punit->ai.ai_role = AIUNIT_NONE;
   /* was getting a bad bug where a settlers caused a defender to leave home */
@@ -1644,7 +1645,7 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
       ai_military_bodyguard(pplayer, punit);
       break;
     case AIUNIT_PILLAGE:
-      handle_unit_activity_request(pplayer, punit, ACTIVITY_PILLAGE);
+      handle_unit_activity_request(punit, ACTIVITY_PILLAGE);
       return; /* when you pillage, you have moves left, avoid later fortify */
       break;
     case AIUNIT_EXPLORE:
@@ -1655,14 +1656,14 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
   if ((punit = find_unit_by_id(id))) {
     if (punit->activity != ACTIVITY_IDLE &&
         punit->activity != ACTIVITY_GOTO)
-      handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE); 
+      handle_unit_activity_request(punit, ACTIVITY_IDLE); 
 
     if (punit->moves_left) {
       if (unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
           punit->ai.ferryboat))
-        handle_unit_activity_request(pplayer, punit, ACTIVITY_SENTRY);
+        handle_unit_activity_request(punit, ACTIVITY_SENTRY);
       else 
-        handle_unit_activity_request(pplayer, punit, ACTIVITY_FORTIFYING);
+        handle_unit_activity_request(punit, ACTIVITY_FORTIFYING);
     } /* better than doing nothing */
   }
 }
@@ -1907,7 +1908,7 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
   struct player *aplayer = NULL;
 
   if (pdiplomat->activity != ACTIVITY_IDLE)
-    handle_unit_activity_request(pplayer, pdiplomat, ACTIVITY_IDLE);
+    handle_unit_activity_request(pdiplomat, ACTIVITY_IDLE);
 
   pcity = map_get_city(pdiplomat->x, pdiplomat->y);
 
@@ -2044,7 +2045,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   if (leader->moves_left == 0 || 
       (map_get_terrain(leader->x, leader->y) != T_OCEAN &&
        unit_list_size(&(map_get_tile(leader->x, leader->y)->units)) > 1) ) {
-      handle_unit_activity_request(pplayer, leader, ACTIVITY_SENTRY);
+      handle_unit_activity_request(leader, ACTIVITY_SENTRY);
       return;
   }
   /* the following takes much CPU time and could be avoided */
@@ -2067,7 +2068,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
       && !same_pos(closest_unit->x, closest_unit->y, leader->x, leader->y)
       && map_same_continent(leader->x, leader->y, closest_unit->x, closest_unit->y)) {
     auto_settler_do_goto(pplayer, leader, closest_unit->x, closest_unit->y);
-    handle_unit_activity_request(pplayer, leader, ACTIVITY_IDLE);
+    handle_unit_activity_request(leader, ACTIVITY_IDLE);
     return; /* sticks better to own units with this -- jk */
   }
 
@@ -2102,7 +2103,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   }
 
   if (closest_unit == NULL) {
-    handle_unit_activity_request(pplayer, leader, ACTIVITY_IDLE);
+    handle_unit_activity_request(leader, ACTIVITY_IDLE);
     freelog(LOG_DEBUG, "Barbarian leader: No enemy.");
     return;
   }
@@ -2130,7 +2131,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
     if (same_pos(leader->x, leader->y, safest_x, safest_y)) {
       freelog(LOG_DEBUG, "Barbarian leader reached the safest position.");
-      handle_unit_activity_request(pplayer, leader, ACTIVITY_IDLE);
+      handle_unit_activity_request(leader, ACTIVITY_IDLE);
       return;
     }
 
