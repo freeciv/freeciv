@@ -315,7 +315,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
   if (bonus_tech_hack) {
     if (advances[tech_found].bonus_message != NULL) {
       notify_player(plr, _("Game: %s"),
-		    advances[tech_found].bonus_message);
+		    _(advances[tech_found].bonus_message));
     } else {
       notify_player(plr, _("Game: Great scientists from all the "
 			   "world join your civilization: you get "
