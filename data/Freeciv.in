@@ -2621,7 +2621,7 @@ Freeciv*turndonebutton.bottom:                     chainTop
 Freeciv*turndonebutton.left:                       chainLeft
 Freeciv*turndonebutton.right:                      chainRight
 
-Freeciv*unitinfolabel.label:	\n\n\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
+Freeciv*unitinfolabel.label:	\n\n\n\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
 Freeciv*unitinfolabel.justify:                     left
 Freeciv*unitinfolabel.fromVert:                    turndonebutton
 Freeciv*unitinfolabel.top:                         chainTop
