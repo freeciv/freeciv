@@ -355,10 +355,8 @@ static void check_players(void)
       assert(city_list_size(&pplayer->cities) == 0);
     }
 
-#if 0
     /* Dying players shouldn't be left around.  But they are. */
     assert(!pplayer->is_dying);
-#endif
   }
 }
 

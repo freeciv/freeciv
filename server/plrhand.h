@@ -28,7 +28,7 @@ void server_player_init(struct player *pplayer, bool initmap);
 void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void begin_player_turn(struct player *pplayer);
-void update_player_aliveness(struct player *pplayer);
+void kill_dying_players(void);
 void update_revolution(struct player *pplayer);
 void great_library(struct player *pplayer);
 void handle_player_revolution(struct player *pplayer);

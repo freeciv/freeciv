@@ -174,18 +174,26 @@ void begin_player_turn(struct player *pplayer)
   begin_cities_turn(pplayer);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void update_player_aliveness(struct player *pplayer)
+/****************************************************************************
+  Check all players to see if they are dying.  Kill them if so.
+
+  WARNING: do not call this while doing any handling of players, units,
+  etc.  If a player dies, all his units will be wiped and other data will
+  be overwritten.
+****************************************************************************/
+void kill_dying_players(void)
 {
-  assert(pplayer != NULL);
-  if (pplayer->is_alive) {
-     if (unit_list_size(&pplayer->units) == 0
-         && city_list_size(&pplayer->cities) == 0) {
-       kill_player(pplayer);
-     }
-  }
+  players_iterate(pplayer) {
+    if (pplayer->is_alive) {
+      if (unit_list_size(&pplayer->units) == 0
+	  && city_list_size(&pplayer->cities) == 0) {
+	pplayer->is_dying = TRUE;
+      }
+      if (pplayer->is_dying) {
+	kill_player(pplayer);
+      }
+    }
+  } players_iterate_end;
 }
 
 /**************************************************************************
@@ -194,6 +202,7 @@ void update_player_aliveness(struct player *pplayer)
 void kill_player(struct player *pplayer) {
   bool palace;
 
+  pplayer->is_dying = FALSE; /* Can't get more dead than this. */
   pplayer->is_alive = FALSE;
 
   /* Remove shared vision. Do it for both for completeness. */

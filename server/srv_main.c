@@ -437,6 +437,7 @@ static void ai_start_turn(void)
       flush_packets();			/* AIs can be such spammers... */
     }
   } shuffled_players_iterate_end;
+  kill_dying_players();
 }
 
 /**************************************************************************
@@ -509,10 +510,11 @@ static void end_turn(void)
   /* Unit end of turn activities */
   shuffled_players_iterate(pplayer) {
     update_unit_activities(pplayer); /* major network traffic */
-    update_player_aliveness(pplayer);
     flush_packets();
     pplayer->turn_done = FALSE;
   } shuffled_players_iterate_end;
+
+  kill_dying_players();
 
   nocity_send = FALSE;
   players_iterate(pplayer) {
@@ -966,9 +968,8 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 	    type, conn_description(pconn));
   }
 
-  if (pplayer->is_alive && pplayer->is_dying) {
-    kill_player(pplayer);
-  }
+  kill_dying_players();
+
   free(packet);
   pplayer->current_conn = NULL;
   return TRUE;
