@@ -726,8 +726,9 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
     GList              *selection;
     gint                row;
     struct city *pcity;
-    gchar *title[2][1] = {{N_("From:")},
-			  {N_("To:")}};	      /* FIXME i18n */
+    static gchar *title_[2][1] = {{N_("From:")},
+				 {N_("To:")}};
+    static gchar **title[2];
     gchar *buf[1];
     int i,j;
     int *is_building;
@@ -735,6 +736,11 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
     GtkWidget *box;
     GtkWidget *scrollpane;
 
+    if (!title[0]) {
+      title[0] = intl_slist(1, title_[0]);
+      title[1] = intl_slist(1, title_[1]);
+    }
+  
     if (city_change_all_dialog_shell == NULL) {
 	city_change_all_dialog_shell = gtk_dialog_new();
 	gtk_set_relative_position(city_dialog_shell,

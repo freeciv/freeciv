@@ -251,11 +251,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						 struct player *plr1)
 {
   char buf[512];
-  gchar *titles[1] = { N_("The following clauses have been agreed upon:") };
-				/* FIXME i18n */
+  static gchar *titles_[1]
+    = { N_("The following clauses have been agreed upon:") };
+  static gchar **titles;
   struct Diplomacy_dialog *pdialog;
   GtkWidget *button,*label,*item,*table,*scrolled;
 
+  if (!titles) titles = intl_slist(1, titles_);
+  
   pdialog=fc_malloc(sizeof(struct Diplomacy_dialog));
   genlist_insert(&diplomacy_dialogs, pdialog, 0);
   

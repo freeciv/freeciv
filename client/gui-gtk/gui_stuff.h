@@ -23,4 +23,6 @@ void gtk_set_relative_position(GtkWidget *ref, GtkWidget *w, int px, int py);
 GdkPixmap *gtk_scale_pixmap(GdkPixmap *src, int src_w, int src_h,
 			    int dst_w, int dst_h);
 
+char **intl_slist(int n, char **s);
+
 #endif  /* FC__GUI_STUFF_H */

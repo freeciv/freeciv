@@ -1634,8 +1634,11 @@ void change_callback(GtkWidget *w, gpointer data)
   GtkWidget *cshell, *button, *scrolled;
   struct city_dialog *pdialog;
   int i, n;
-  gchar *title[1] = { N_("Select new production") };   /* FIXME i18n */
+  static gchar *title_[1] = { N_("Select new production") };
+  static gchar **title = NULL;
   GtkAccelGroup *accel=gtk_accel_group_new();
+
+  if (!title) title = intl_slist(1, title_);
   
   pdialog=(struct city_dialog *)data;
   

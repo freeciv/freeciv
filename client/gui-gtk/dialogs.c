@@ -638,9 +638,12 @@ static int create_advances_list(struct player *pplayer,
 {  
   GtkWidget *close_command, *scrolled;
   int i, j;
-  gchar *title[1] = { N_("Select Advance to Steal") }; /* FIXME i18n */
+  static gchar *title_[1] = { N_("Select Advance to Steal") };
+  static gchar **title;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
+  if (!title) title = intl_slist(1, title_);
+  
   spy_tech_shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(spy_tech_shell),_("Steal Technology"));
   gtk_window_set_position (GTK_WINDOW(spy_tech_shell), GTK_WIN_POS_MOUSE);
@@ -702,8 +705,11 @@ static int create_advances_list(struct player *pplayer,
   }
 
   if(j == 0) {
-    gchar *row[1] = { N_("NONE") };    /* FIXME i18n */
-
+    static gchar *row_[1] = { N_("NONE") };
+    static gchar **row;
+    
+    if (!row) row = intl_slist(1, row_);
+  
     gtk_clist_append(GTK_CLIST(spy_advances_list), row);
     j++;
   }
@@ -724,9 +730,12 @@ static int create_improvements_list(struct player *pplayer,
 {  
   GtkWidget *close_command, *scrolled;
   int i, j;
-  gchar *title[1] = { N_("Select Improvement to Sabotage") }; /* FIXME i18n */
+  static gchar *title_[1] = { N_("Select Improvement to Sabotage") };
+  static gchar **title;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
+  if (!title) title = intl_slist(1, title_);
+  
   spy_sabotage_shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(spy_sabotage_shell),_("Sabotage Improvements"));
   gtk_window_set_position (GTK_WINDOW(spy_sabotage_shell), GTK_WIN_POS_MOUSE);

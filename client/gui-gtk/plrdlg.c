@@ -73,10 +73,13 @@ void popup_players_dialog(void)
 *****************************************************************/
 void create_players_dialog(void)
 {
-  gchar *titles	[6] = { N_("Name"), N_("Race"), N_("Embassy"), N_("State"),
-			N_("Host"), N_("Idle") };    /* FIXME i18n */
+  static gchar *titles_[6] = { N_("Name"), N_("Race"), N_("Embassy"),
+			       N_("State"), N_("Host"), N_("Idle") };
+  static gchar **titles;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
+
+  if (!titles) titles = intl_slist(6, titles_);
 
   players_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(players_dialog_shell),"delete_event",

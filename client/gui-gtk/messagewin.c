@@ -124,8 +124,11 @@ static void meswin_not_visited_item (gint n)
 *****************************************************************/
 void create_meswin_dialog(void)
 {
-  gchar     *titles	[1] = { N_("Messages") };  /* FIXME i18n */
+  static gchar *titles_[1] = { N_("Messages") };
+  static gchar **titles;
   GtkWidget *scrolled;
+
+  if (!titles) titles = intl_slist(1, titles_);
 
   meswin_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(meswin_dialog_shell),"delete_event",

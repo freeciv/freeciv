@@ -118,13 +118,14 @@ static gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 void gui_server_connect(void)
 {
   GtkWidget *label, *table, *book, *scrolled, *list, *vbox, *update, *label2;
-  char *titles[6]= {N_("Server Name"), N_("Port"), N_("Version"),
-		    N_("Status"), N_("Players"), N_("Comment")};
-  /* FIXME: how to i18n use of titles above?  --dwp
-     (can't just use _() instead of N_()) */
+  static char *titles_[6]= {N_("Server Name"), N_("Port"), N_("Version"),
+			    N_("Status"), N_("Players"), N_("Comment")};
+  static char **titles;
   char buf [256];
   int i;
 
+  if (!titles) titles = intl_slist(6, titles_);
+  
   gtk_widget_set_sensitive(toplevel, FALSE);
 
   dialog=gtk_dialog_new();

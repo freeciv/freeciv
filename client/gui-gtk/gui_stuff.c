@@ -10,12 +10,19 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+
+#include "fcintl.h"
+#include "mem.h"
 
 #include "gui_stuff.h"
 		 
@@ -226,3 +233,26 @@ void put_line_32(char *psrc, char *pdst,  int dst_w, int xoffset_table[])
     *pdst++=*(psrc+4*xoffset_table[x]+3);
   }
 }
+
+/**************************************************************************
+  Returns gettext-converted list of n strings.  Allocates the space
+  for the returned list, but the individual strings in the list are
+  as returned by gettext().  In case of no NLS, the strings will be
+  the original strings, so caller should ensure that the originals
+  persist for as long as required.  (For no NLS, still allocate the
+  list, for consistency.)
+
+  (This is not directly gui/gtk related, but it fits in here
+  because so far it is used for doing i18n for gtk titles...)
+**************************************************************************/
+char **intl_slist(int n, char **s)
+{
+  char **ret = fc_malloc(n * sizeof(char*));
+  int i;
+
+  for(i=0; i<n; i++) {
+    ret[i] = _(s[i]);
+  }
+  return ret;
+}
+

@@ -497,10 +497,13 @@ void create_trade_report_dialog(int make_modal)
 {
   GtkWidget *close_command, *scrolled;
   char *report_title;
-  gchar *titles [4] = { N_("Building Name"), N_("Count"), N_("Cost"),
-			N_("U Total") };   /* FIXME i18n */
+  static gchar *titles_[4] = { N_("Building Name"), N_("Count"),
+			      N_("Cost"), N_("U Total") };
+  static gchar **titles;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
+
+  if (!titles) titles = intl_slist(4, titles_);
   
   trade_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(trade_dialog_shell),"delete_event",
@@ -755,12 +758,15 @@ void create_activeunits_report_dialog(int make_modal)
 {
   GtkWidget *close_command, *refresh_command;
   char *report_title;
-  gchar *titles [AU_COL] =
-	{ N_("Unit Type"), N_("U"), N_("In-Prog"), N_("Active"),
-	  N_("Shield"), N_("Food") };     /* FIXME i18n */
+  static gchar *titles_[AU_COL]
+    = { N_("Unit Type"), N_("U"), N_("In-Prog"), N_("Active"),
+	N_("Shield"), N_("Food") };
+  static gchar **titles;
   int cols;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
+
+  if (!titles) titles = intl_slist(AU_COL, titles_);
 
   activeunits_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(activeunits_dialog_shell),"delete_event",
