@@ -279,9 +279,10 @@ void toggle_tile_hilite(int tile_x, int tile_y)
   struct city *pcity = ptile->city;
 
   if (ptile->client.hilite == HILITE_CITY) {
-    assert(pcity);
-    toggle_city_hilite(pcity, FALSE); /* cityrep.c */
     ptile->client.hilite = HILITE_NONE;
+    if (pcity) {
+      toggle_city_hilite(pcity, FALSE); /* cityrep.c */
+    }
   }
   else if (pcity && pcity->owner == game.player_idx) {
     ptile->client.hilite = HILITE_CITY;

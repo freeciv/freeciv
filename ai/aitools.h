@@ -25,7 +25,7 @@ struct pf_path;
 
 #ifdef DEBUG
 #define CHECK_UNIT(punit)                                        \
- (assert(punit),                                                 \
+ (assert(punit != NULL),                                         \
   assert(punit->type < U_LAST),                                  \
   assert(punit->owner < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS),   \
   assert(find_unit_by_id(punit->id)))

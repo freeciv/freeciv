@@ -81,7 +81,7 @@ static struct unit *quickselect(struct tile *ptile,
 **************************************************************************/
 void set_hover_state(struct unit *punit, enum cursor_hover_state state)
 {
-  assert(punit || state==HOVER_NONE);
+  assert(punit != NULL || state == HOVER_NONE);
   draw_goto_line = TRUE;
   if (punit)
     hover_unit = punit->id;
