@@ -2625,32 +2625,13 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 }
 
 /**************************************************************************
-...
+  Handle the terrain control ruleset packet sent by the server.
 **************************************************************************/
-void handle_ruleset_terrain_control(struct terrain_misc *p)
+void handle_ruleset_terrain_control(struct packet_ruleset_terrain_control *p)
 {
-  terrain_control.may_road = p->may_road;
-  terrain_control.may_irrigate = p->may_irrigate;
-  terrain_control.may_mine = p->may_mine;
-  terrain_control.may_transform = p->may_transform;
-  terrain_control.ocean_reclaim_requirement = p->ocean_reclaim_requirement;
-  terrain_control.land_channel_requirement = p->land_channel_requirement;
-  terrain_control.river_move_mode = p->river_move_mode;
-  terrain_control.river_defense_bonus = p->river_defense_bonus;
-  terrain_control.river_trade_incr = p->river_trade_incr;
-  sz_strlcpy(terrain_control.river_help_text, p->river_help_text);
-  terrain_control.fortress_defense_bonus = p->fortress_defense_bonus;
-  terrain_control.road_superhighway_trade_bonus = p->road_superhighway_trade_bonus;
-  terrain_control.rail_food_bonus = p->rail_food_bonus;
-  terrain_control.rail_shield_bonus = p->rail_shield_bonus;
-  terrain_control.rail_trade_bonus = p->rail_trade_bonus;
-  terrain_control.farmland_supermarket_food_bonus = p->farmland_supermarket_food_bonus;
-  terrain_control.pollution_food_penalty = p->pollution_food_penalty;
-  terrain_control.pollution_shield_penalty = p->pollution_shield_penalty;
-  terrain_control.pollution_trade_penalty = p->pollution_trade_penalty;
-  terrain_control.fallout_food_penalty = p->fallout_food_penalty;
-  terrain_control.fallout_shield_penalty = p->fallout_shield_penalty;
-  terrain_control.fallout_trade_penalty = p->fallout_trade_penalty;
+  /* Since terrain_control is the same as packet_ruleset_terrain_control
+   * we can just copy the data directly. */
+  terrain_control = *p;
 }
 
 /**************************************************************************
