@@ -380,13 +380,18 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   }
   
   widget_info_cunter = 0;
+  if (pInfo_Area) {
+    sdl_dirty_rect(*pInfo_Area);
+    FREE(pInfo_Area);
+  }
   
   switch (get_wtype(pWidget)) {
   case WT_TI_BUTTON:
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_tibutton(pWidget, Main.gui);
-    flush_rect(pWidget->size);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
     set_wstate(pWidget, WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -399,7 +404,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_ibutton(pWidget, Main.gui);
-    flush_rect(pWidget->size);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
     set_wstate(pWidget, WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -412,7 +418,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_icon(pWidget, Main.gui);
-    flush_rect(pWidget->size);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
     set_wstate(pWidget, WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -425,7 +432,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_icon2(pWidget, Main.gui);
-    flush_rect(pWidget->size);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
     set_wstate(pWidget, WS_SELLECTED);
     SDL_Delay(300);
     if (pWidget->action) {
@@ -437,7 +445,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   case WT_EDIT:
     edit_field(pWidget , Main.gui);
     redraw_edit(pWidget , Main.gui);
-    flush_rect(pWidget->size);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -449,7 +458,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
     redraw_vert(pWidget , Main.gui);
-    flush_rect(pWidget->size);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -471,7 +481,8 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     set_wstate(pWidget, WS_PRESSED);
     ID = pWidget->ID;
     real_redraw_icon(pWidget, Main.gui);
-    flush_rect(pWidget->size);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
     set_wstate(pWidget, WS_SELLECTED);
     togle_checkbox(pWidget);
     SDL_Delay(300);
@@ -3651,6 +3662,8 @@ static int redraw_iconlabel(struct GUI *pLabel , SDL_Surface *pDest)
     return -3;
   }
 
+  SDL_SetClipRect(pDest, &pLabel->size);
+  
   flags = get_wflags(pLabel);
 
   if (flags & WF_DRAW_TEXT_LABEL_WITH_SPACE) {
@@ -3769,6 +3782,7 @@ static int redraw_iconlabel(struct GUI *pLabel , SDL_Surface *pDest)
 
   }
 
+  SDL_SetClipRect(pDest, NULL);
   return ret;
 }
 

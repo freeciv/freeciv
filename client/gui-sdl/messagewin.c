@@ -91,7 +91,7 @@ static int msg_callback(struct GUI *pWidget)
 
   struct message *pMsg = (struct message *)pWidget->data;
     
-  pWidget->string16->forecol.b = 128;
+  pWidget->string16->forecol.r = 128;
   unsellect_widget_action();
   
   if (pMsg->city_ok
@@ -215,7 +215,6 @@ static void Init_Msg_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h)
 #if 1    
   SDL_Surface *pBuf;
   SDL_Rect area;
-  SDL_Color color = { 255 , 255, 255, 128 };
 #endif  
   SDL_String16 *pStr;
   int min, max;
@@ -253,15 +252,19 @@ static void Init_Msg_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h)
   area.y = 0;
   area.w = w;
   area.h = WINDOW_TILE_HIGH;
-  SDL_FillRectAlpha(pWindow->theme, &area, &color);
   
-  putline(pWindow->theme, 0, WINDOW_TILE_HIGH, w - 1, WINDOW_TILE_HIGH, 0xFF000000);
+  SDL_FillRect(pWindow->theme, &area,
+	  SDL_MapRGBA(pWindow->theme->format , 255, 255, 255, 200 ));
+  
+  putline(pWindow->theme, 0,
+	  WINDOW_TILE_HIGH, w - 1, WINDOW_TILE_HIGH, 0xFF000000);
   
   pStr = create_str16_from_char(_("Log"), 12);
   pStr->style = TTF_STYLE_BOLD;
   pStr->render = 3;
   SDL_GetRGBA(get_first_pixel(pWindow->theme), pWindow->theme->format,
-    &pStr->backcol.r, &pStr->backcol.g, &pStr->backcol.b, &pStr->backcol.unused);
+    &pStr->backcol.r, &pStr->backcol.g,
+	    &pStr->backcol.b, &pStr->backcol.unused);
     
   pBuf = create_text_surf_from_str16(pStr);
   area.x += 10;
@@ -275,6 +278,7 @@ static void Init_Msg_Window(Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h)
     
   SDL_SetAlpha(pWindow->theme, 0x0 , 0x0);
 #endif
+
   pWindow->action = move_msg_window_callback;
   set_wstate(pWindow, WS_NORMAL);
   set_wflag(pWindow, WF_HIDDEN);
@@ -347,13 +351,24 @@ static void redraw_meswin_dialog(void)
   {
     /* clear */
     SDL_BlitSurface(pMsg_Dlg->pEndWidgetList->gfx, NULL , Main.gui, &dst);
+    flush_rect(pMsg_Dlg->pEndWidgetList->size);
   } else {
+    
+    if(SDL_Client_Flags & CF_CITY_DIALOG_IS_OPEN) {
+      undraw_city_dialog();
+    }
+    
     /* redraw */
     redraw_group(pMsg_Dlg->pBeginWidgetList,
-		  pMsg_Dlg->pEndWidgetList, Main.gui,0);  
+		  pMsg_Dlg->pEndWidgetList, Main.gui,0);
+    
+    if(SDL_Client_Flags & CF_CITY_DIALOG_IS_OPEN) {
+      refresh_city_dlg_background();
+      sdl_dirty_rect(pMsg_Dlg->pEndWidgetList->size);
+    } else {
+      flush_rect(pMsg_Dlg->pEndWidgetList->size); 
+    }
   }
-  
-  flush_rect(pMsg_Dlg->pEndWidgetList->size);
 }
 
 /**************************************************************************
@@ -372,6 +387,8 @@ void real_update_meswin_dialog(void)
   SDL_Color color = { 255 , 255, 255, 128 };
   bool show = (get_wflags(pMsg_Dlg->pEndWidgetList) & WF_HIDDEN) == 0;
   bool create;
+  int w = pMsg_Dlg->pEndWidgetList->size.w - FRAME_WH - DOUBLE_FRAME_WH -
+  		pMsg_Dlg->pEndWidgetList->prev->size.w;
   
   if (i && msg_count <= i) {
     del_group_of_widgets_from_gui_list(pMsg_Dlg->pBeginActiveWidgetList,
@@ -404,11 +421,12 @@ void real_update_meswin_dialog(void)
       pBuf->string16->backcol = color;
       pBuf->string16->render = 3;
       pBuf->size.x = start_x;
+      pBuf->size.w = w;
       pBuf->data = (void *)pMsg;	
       pBuf->action = msg_callback;
       if(pMsg->x != -1) {
         set_wstate(pBuf, WS_NORMAL);
-	pBuf->string16->forecol.r = 0;
+	pBuf->string16->forecol.r = 255;
 	pBuf->string16->forecol.g = 255;
 	pBuf->string16->forecol.b = 0;
       }
@@ -464,7 +482,7 @@ void real_update_meswin_dialog(void)
 	  pMsg_Active = pMsg_Active->prev;
 	}
       } else {
-        i = N_MSG_VIEW - 1;
+        i = N_MSG_VIEW;
         while(i)
         {
           pMsg_Active = pBuf->next;

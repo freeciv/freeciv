@@ -999,7 +999,7 @@ static int army_city_dlg_callback(struct GUI *pButton)
     pCityDlg->state = ARMY_PAGE;
 
     redraw_city_dialog(pCityDlg->pCity);
-    flush_rect(pCityDlg->pEndCityWidgetList->size);
+    flush_dirty();
   } else {
     redraw_icon(pButton);
     flush_rect(pButton->size);
@@ -1027,7 +1027,7 @@ static int supported_unit_city_dlg_callback(struct GUI *pButton)
     pCityDlg->state = SUPPORTED_UNITS_PAGE;
 
     redraw_city_dialog(pCityDlg->pCity);
-    flush_rect(pCityDlg->pEndCityWidgetList->size);
+    flush_dirty();
   } else {
     redraw_icon(pButton);
     flush_rect(pButton->size);
@@ -1056,8 +1056,7 @@ static int info_city_dlg_callback(struct GUI *pButton)
 
     pCityDlg->state = INFO_PAGE;
     redraw_city_dialog(pCityDlg->pCity);
-    flush_rect(pCityDlg->pEndCityWidgetList->size);
-
+    flush_dirty();
   } else {
     redraw_icon(pButton);
     flush_rect(pButton->size);
@@ -1085,8 +1084,7 @@ static int happy_city_dlg_callback(struct GUI *pButton)
 
     pCityDlg->state = HAPPINESS_PAGE;
     redraw_city_dialog(pCityDlg->pCity);
-    flush_rect(pCityDlg->pEndCityWidgetList->size);
-
+    flush_dirty();
   } else {
     redraw_icon(pButton);
     flush_rect(pButton->size);
@@ -1319,7 +1317,7 @@ static int options_city_dlg_callback(struct GUI *pButton)
     pCityDlg->state = MISC_PAGE;
 
     redraw_city_dialog(pCityDlg->pCity);
-    flush_rect(pCityDlg->pEndCityWidgetList->size);
+    flush_dirty();
   } else {
     redraw_icon(pButton);
     flush_rect(pButton->size);
@@ -2882,8 +2880,7 @@ static int next_prev_city_dlg_callback(struct GUI *pButton)
 
   /* redraw */
   redraw_city_dialog(pCityDlg->pCity);
-  flush_rect(pCityDlg->pEndCityWidgetList->size);
-
+  flush_dirty();
   return -1;
 }
 
@@ -4645,6 +4642,8 @@ static void redraw_city_dialog(struct city *pCity)
     break;
 
   }
+  
+  sdl_dirty_rect(pWindow->size);
 }
 
 /* ============================================================== */
@@ -4811,6 +4810,15 @@ static void rebuild_citydlg_title_str(struct GUI *pWindow,
 void refresh_city_dlg_background(void)
 {
   refresh_widget_background(pCityDlg->pEndCityWidgetList, Main.gui);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void undraw_city_dialog(void)
+{
+  SDL_Rect dst = pCityDlg->pEndCityWidgetList->size;
+  SDL_BlitSurface(pCityDlg->pEndCityWidgetList->gfx, NULL, Main.gui, &dst);
 }
 
 /**************************************************************************
@@ -5130,8 +5138,7 @@ void popup_city_dialog(struct city *pCity, bool make_modal)
   /* ===================================================== */
 
   redraw_city_dialog(pCity);
-
-  flush_rect(pCityDlg->pEndCityWidgetList->size);
+  flush_dirty();
 }
 
 void popdown_city_dialog(struct city *pCity)
@@ -5141,12 +5148,10 @@ void popdown_city_dialog(struct city *pCity)
     blit_entire_src(pCityDlg->pEndCityWidgetList->gfx, Main.gui, 
     				pCityDlg->pEndCityWidgetList->size.x,
 				    pCityDlg->pEndCityWidgetList->size.y);
+    sdl_dirty_rect(pCityDlg->pEndCityWidgetList->size);
+    
     del_city_dialog();
-    SDL_Client_Flags |= CF_CITY_DIALOG_IS_OPEN;
 	  
-    update_map_canvas_visible();
-	  
-    SDL_Client_Flags &= ~CF_CITY_DIALOG_IS_OPEN;
     SDL_Client_Flags &= ~CF_CITY_STATUS_SPECIAL;
     update_menus();
     flush_dirty();
@@ -5219,10 +5224,8 @@ void popdown_all_city_dialogs(void)
 void refresh_city_dialog(struct city *pCity)
 {
   if (city_dialog_is_open(pCity)) {
-
     redraw_city_dialog(pCityDlg->pCity);
-    flush_rect(pCityDlg->pEndCityWidgetList->size);
-
+    flush_dirty();
   }
 }
 
@@ -5249,9 +5252,9 @@ void refresh_unit_city_dialogs(struct unit *pUnit)
       pCityDlg->pEndCityPanelWidgetList = NULL;
       FREE(pCityDlg->pPanelVscroll);
     }
-
-    redraw_city_dialog(pCityDlg->pCity);
+    
     dirty_all();
+    redraw_city_dialog(pCityDlg->pCity);
     flush_dirty();
   }
 
