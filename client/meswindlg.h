@@ -19,4 +19,8 @@ void popup_meswin_dialog();
 void update_meswin_dialog();
 void clear_notify_window();
 void add_notify_window(struct packet_generic_message *packet);
+
+void meswin_update_delay_on();
+void meswin_update_delay_off();
+     
 #endif

@@ -246,6 +246,9 @@ void handle_new_year(struct packet_new_year *ppacket)
   report_update_delay_off();
   update_report_dialogs();
 
+  meswin_update_delay_off();
+  update_meswin_dialog();
+
   if(game.player_ptr->ai.control && !ai_manual_turn_done) user_ended_turn();
 }
 
@@ -253,6 +256,7 @@ void handle_before_new_year()
 {
   clear_notify_window();
   report_update_delay_on();
+  meswin_update_delay_on();
 }
 
 /**************************************************************************

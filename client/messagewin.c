@@ -67,6 +67,25 @@ static char *dummy_message_list[] = {
 
 #define N_MSG_VIEW 24 		/* max before scrolling happens */
 
+static int delay_meswin_update=0;
+
+/******************************************************************
+ Turn off updating of message window
+*******************************************************************/
+void meswin_update_delay_on()
+{
+  delay_meswin_update=1;
+}
+
+/******************************************************************
+ Turn on updating of message window
+*******************************************************************/
+void meswin_update_delay_off()
+{
+  delay_meswin_update=0;
+}
+
+
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
@@ -243,9 +262,11 @@ void add_notify_window(struct packet_generic_message *packet)
   ypos[messages_total] = packet->y;
   string_ptrs[messages_total] = s;
   messages_total++;
-  string_ptrs[messages_total] = 0;  
-  update_meswin_dialog();
-  meswin_scroll_down();
+  string_ptrs[messages_total] = 0;
+  if (!delay_meswin_update) {
+    update_meswin_dialog();
+    meswin_scroll_down();
+  }
 }
 
 /**************************************************************************
