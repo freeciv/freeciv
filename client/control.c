@@ -1583,7 +1583,7 @@ void do_unit_nuke(struct unit *punit)
 }
 
 /**************************************************************************
-Paradrop to a location
+  Paradrop to a location.
 **************************************************************************/
 void do_unit_paradrop_to(struct unit *punit, int x, int y)
 {
@@ -1591,7 +1591,7 @@ void do_unit_paradrop_to(struct unit *punit, int x, int y)
 }
  
 /**************************************************************************
-Paradrop to a location
+  Patrol to a location.
 **************************************************************************/
 void do_unit_patrol_to(struct unit *punit, int x, int y)
 {
