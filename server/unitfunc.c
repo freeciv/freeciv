@@ -905,7 +905,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
 
   if(punit->activity==ACTIVITY_GOTO) {
     if (!punit->ai.control && (!is_military_unit(punit) ||
-       !is_ground_unit(punit) || !pplayer->ai.control)) {
+       punit->ai.passenger || !pplayer->ai.control)) {
 /* autosettlers otherwise waste time; idling them breaks assignment */
 /* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
       do_unit_goto(pplayer, punit);
@@ -1164,7 +1164,7 @@ tile dies unless ...
 void kill_unit(struct unit *pkiller, struct unit *punit)
 {
   int klaf;
-  struct city *nearcity = dist_nearest_enemy_city(get_player(punit->owner), punit->x, punit->y);
+  struct city *nearcity = dist_nearest_city(get_player(punit->owner), punit->x, punit->y);
   struct city *incity = map_get_city(punit->x, punit->y);
   struct player *dest = &game.players[pkiller->owner];
   klaf=unit_list_size(&(map_get_tile(punit->x, punit->y)->units));

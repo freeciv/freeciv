@@ -25,8 +25,7 @@ struct ai_choice {
 
 #include <player.h>
 
-struct city *dist_nearest_enemy_city(struct player *pplayer, int x, int y);
-struct unit *dist_nearest_enemy_unit(struct player *pplayer, int x, int y);
+struct city *dist_nearest_city(struct player *pplayer, int x, int y);
 
 void ai_government_change(struct player *pplayer, int gov);
 

@@ -417,8 +417,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
        map_get_known(pdefender->x, pdefender->y, &game.players[o]))
       send_packet_unit_combat(game.players[o].conn, &combat);
 
-  nearcity1 = dist_nearest_enemy_city(get_player(pwinner->owner), pdefender->x, pdefender->y);
-  nearcity2 = dist_nearest_enemy_city(get_player(plooser->owner), pdefender->x, pdefender->y);
+  nearcity1 = dist_nearest_city(get_player(pwinner->owner), pdefender->x, pdefender->y);
+  nearcity2 = dist_nearest_city(get_player(plooser->owner), pdefender->x, pdefender->y);
   
   if(punit==plooser) {
     if (incity) notify_player_ex(&game.players[pwinner->owner], 
@@ -646,8 +646,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
 			 "Game: Aborting GOTO for AI attack procedures.");
         return 0;
       } else {
-if (pplayer->ai.control && get_transporter_capacity(punit))
-printf("Hey, idiot! What's wrong with you?? %s\n", unit_types[99999999].name);
+        if (pplayer->ai.control && punit->ai.passenger) abort();
 	handle_unit_attack_request(pplayer, punit, pdefender);
         return 1;
       };
@@ -660,6 +659,16 @@ printf("Hey, idiot! What's wrong with you?? %s\n", unit_types[99999999].name);
       punit->y)->units, punit->ai.bodyguard)) && !bodyguard->moves_left) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
        "Game: %s doesn't want to leave its bodyguard.", unit_types[punit->type].name);
+  } else if (pplayer->ai.control && punit->moves_left <=
+             map_move_cost(punit, dest_x, dest_y) &&
+             unit_types[punit->type].move_rate >
+             map_move_cost(punit, dest_x, dest_y) &&
+             enemies_at(punit, dest_x, dest_y) &&
+             !enemies_at(punit, punit->x, punit->y)) {
+/* Mao had this problem with chariots ending turns next to enemy cities. -- Syela */
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+       "Game: %s ending move early to stay out of trouble.",
+       unit_types[punit->type].name);
   } else if(can_unit_move_to_tile(punit, dest_x, dest_y) && try_move_unit(punit, dest_x, dest_y)) {
     int src_x, src_y;
     struct city *pcity;
