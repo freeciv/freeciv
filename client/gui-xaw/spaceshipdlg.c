@@ -182,6 +182,7 @@ static void spaceship_image_canvas_expose(Widget w, XEvent *event,
 struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 {
   struct spaceship_dialog *pdialog;
+  int ss_w, ss_h;
 
   pdialog=fc_malloc(sizeof(struct spaceship_dialog));
   pdialog->pplayer=pplayer;
@@ -205,14 +206,15 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
   XtVaSetValues(pdialog->player_label, XtNlabel, (XtArgVal)pplayer->name, NULL);
 
+  get_spaceship_dimensions(&ss_w, &ss_h);
   pdialog->image_canvas=
     XtVaCreateManagedWidget("spaceshipimagecanvas",
 			    xfwfcanvasWidgetClass,
 			    pdialog->main_form,
 			    "exposeProc", (XtArgVal)spaceship_image_canvas_expose,
 			    "exposeProcData", (XtArgVal)pdialog,
-			    XtNwidth,  sprites.spaceship.habitation->width * 7,
-			    XtNheight, sprites.spaceship.habitation->height * 7,
+			    XtNwidth, ss_w,
+			    XtNheight, ss_h,
 			    NULL);
 
   pdialog->info_label=
@@ -267,74 +269,9 @@ parts differently.
 *****************************************************************/
 void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 {
-  int i, j, k, x, y;  
-  struct Sprite *sprite = sprites.spaceship.habitation;   /* for size */
-  struct player_spaceship *ship = &pdialog->pplayer->spaceship;
+  struct canvas canvas = {.pixmap = XtWindow(pdialog->image_canvas)};
 
-  XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-  XFillRectangle(display, XtWindow(pdialog->image_canvas), fill_bg_gc, 0, 0,
-		 sprite->width * 7, sprite->height * 7);
-
-  for (i=0; i < NUM_SS_MODULES; i++) {
-    j = i/3;
-    k = i%3;
-    if ((k==0 && j >= ship->habitation)
-	|| (k==1 && j >= ship->life_support)
-	|| (k==2 && j >= ship->solar_panels)) {
-      continue;
-    }
-    x = modules_info[i].x * sprite->width  / 4 - sprite->width / 2;
-    y = modules_info[i].y * sprite->height / 4 - sprite->height / 2;
-
-    sprite = (k==0 ? sprites.spaceship.habitation :
-	      k==1 ? sprites.spaceship.life_support :
-	             sprites.spaceship.solar_panels);
-    XSetClipOrigin(display, civ_gc, x, y);
-    XSetClipMask(display, civ_gc, sprite->mask);
-    XCopyArea(display, sprite->pixmap, XtWindow(pdialog->image_canvas), 
-	      civ_gc, 
-	      0, 0,
-	      sprite->width, sprite->height, x, y);
-    XSetClipMask(display,civ_gc,None);
-  }
-
-  for (i=0; i < NUM_SS_COMPONENTS; i++) {
-    j = i/2;
-    k = i%2;
-    if ((k==0 && j >= ship->fuel)
-	|| (k==1 && j >= ship->propulsion)) {
-      continue;
-    }
-    x = components_info[i].x * sprite->width  / 4 - sprite->width / 2;
-    y = components_info[i].y * sprite->height / 4 - sprite->height / 2;
-
-    sprite = (k==0) ? sprites.spaceship.fuel : sprites.spaceship.propulsion;
-
-    XSetClipOrigin(display, civ_gc, x, y);
-    XSetClipMask(display, civ_gc, sprite->mask);
-    XCopyArea(display, sprite->pixmap, XtWindow(pdialog->image_canvas), 
-	      civ_gc, 
-	      0, 0,
-	      sprite->width, sprite->height, x, y);
-    XSetClipMask(display,civ_gc,None);
-  }
-
-  sprite = sprites.spaceship.structural;
-
-  for (i=0; i < NUM_SS_STRUCTURALS; i++) {
-    if (!ship->structure[i])
-      continue;
-    x = structurals_info[i].x * sprite->width  / 4 - sprite->width / 2;
-    y = structurals_info[i].y * sprite->height / 4 - sprite->height / 2;
-
-    XSetClipOrigin(display, civ_gc, x, y);
-    XSetClipMask(display, civ_gc, sprite->mask);
-    XCopyArea(display, sprite->pixmap, XtWindow(pdialog->image_canvas), 
-	      civ_gc, 
-	      0, 0,
-	      sprite->width, sprite->height, x, y);
-    XSetClipMask(display,civ_gc,None);
-  }
+  put_spaceship(&canvas, 0, 0, pdialog->pplayer);
 }
 
 

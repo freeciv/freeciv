@@ -73,8 +73,6 @@
 #include "text.h"
 #include "tilespec.h"
 
-#include "cityicon.ico"
-
 #define MIN_NUM_CITIZENS	22
 #define MAX_NUM_CITIZENS	50
 #define DEFAULT_NUM_CITIZENS	38
@@ -480,7 +478,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
     "9",
     0
   };
-  static Pixmap icon_pixmap = 0;
 
   int i, itemWidth;
   struct city_dialog *pdialog;
@@ -507,15 +504,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
   pdialog->support_unit_base=0;
   pdialog->present_unit_base=0;
   pdialog->worklist_shell = NULL;
-
-  if (!icon_pixmap) {
-    icon_pixmap =
-	XCreateBitmapFromData(display,
-			      RootWindowOfScreen(XtScreen(toplevel)),
-			      cityicon_bits,
-			      cityicon_width, cityicon_height);
-  }
-
 
   pdialog->shell=
     XtVaCreatePopupShell(pcity->name,
@@ -1008,8 +996,9 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 		XtNfromHoriz, (XtArgVal)relative,
 		NULL);
 
-  
-  XtVaSetValues(pdialog->shell, XtNiconPixmap, icon_pixmap, NULL);
+  /* FIXME: this ignores the mask. */
+  XtVaSetValues(pdialog->shell, XtNiconPixmap,
+		get_icon_sprite(tileset, ICON_CITYDLG), NULL);
 
 
   XtAddCallback(pdialog->sell_command, XtNcallback, sell_callback,
