@@ -30,7 +30,6 @@ server/diplomats.c
 server/gamehand.c
 server/gamelog.c
 server/handchat.c
-server/mapgen.c
 server/maphand.c
 server/meta.c
 server/plrhand.c
@@ -44,6 +43,7 @@ server/srv_main.c
 server/stdinhand.c
 server/unithand.c
 server/unittools.c
+server/generator/mapgen.c
 client/attribute.c
 client/audio.c
 client/audio_esd.c
