@@ -38,8 +38,10 @@ int unit_behind_sam(struct unit *punit);
 int unit_behind_sdi(struct unit *punit);
 struct city *sdi_defense_close(int owner, int x, int y);
 int find_a_unit_type();
+int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender, int dest_x, int dest_y);
 int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
 int build_points_left(struct city *pcity);
 int can_place_partisan(int x, int y);
+int enemies_at(struct unit *punit, int x, int y);
 
 #endif
