@@ -178,6 +178,78 @@ pcity->name : "NULL"), (punit ? unit_types[punit->type].name : "NULL"));*/
 }
 
 /* ....... end of old advmilitary.c, beginning of old gotohand.c. ..... */
+int dir_ok(int x0, int y0, int x1, int y1, int k)
+{ /* The idea of this is to check less nodes in the wrong direction.
+These if's might cost some CPU but hopefully less overall. -- Syela */
+  int n = 0, s = 0, e = 0, w = 0, dx;
+  if (y1 > y0) s = y1 - y0;
+  else n = y0 - y1;
+  dx = x1 - x0;
+  if (dx > map.xsize>>1) w = map.xsize - dx;
+  else if (dx > 0) e = dx;
+  else if (dx + (map.xsize>>1) > 0) w = 0 - dx;
+  else e = map.xsize + dx;
+  if (e == map.xsize / 2 || w == map.xsize / 2) { /* thanks, Massimo */
+    if (k < 3 && s >= MAX(e, w)) return 0;
+    if (k > 4 && n >= MAX(e, w)) return 0;
+    return 1;
+  }
+  switch(k) {
+    case 0:
+      if (e >= n && s >= w) return 0;
+      else return 1;
+    case 1:
+      if (s && s >= e && s >= w) return 0;
+      else return 1;
+    case 2:
+      if (w >= n && s >= e) return 0;
+      else return 1;
+    case 3:
+      if (e && e >= n && e >= s) return 0;
+      else return 1;
+    case 4:
+      if (w && w >= n && w >= s) return 0;
+      else return 1;
+    case 5:
+      if (e >= s && n >= w) return 0;
+      else return 1;
+    case 6:
+      if (n && n >= w && n >= e) return 0;
+      else return 1;
+    case 7:
+      if (w >= s && n >= e) return 0;
+      else return 1;
+    default:
+      printf("Bad dir_ok call: (%d, %d) -> (%d, %d), %d\n", x0, y0, x1, y1, k);
+      return 0;
+  }
+}
+
+int could_be_my_zoc(struct unit *myunit, int x0, int y0)
+{ /* Fix to bizarre did-not-find bug.  Thanks, Katvrr -- Syela */
+  int ii[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+  int jj[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+  int ax, ay, k;
+  int owner=myunit->owner;
+
+  if (same_pos(x0, y0, myunit->x, myunit->y)) return 0; /* can't be my zoc */
+  if (is_tiles_adjacent(x0, y0, myunit->x, myunit->y) &&
+      !is_enemy_unit_tile(x0, y0, owner)) return 0;
+
+  for (k = 0; k < 8; k++) {
+    ax = map_adjust_x(myunit->x + ii[k]); ay = map_adjust_y(myunit->y + jj[k]);
+    if (is_enemy_city_tile(ax,ay,owner))
+      return 0;
+    if (!dir_ok(x0, y0, myunit->goto_dest_x, myunit->goto_dest_y, k)) continue;
+/* don't care too much about ZOC of units we've already gone past -- Syela */
+    if (is_enemy_unit_tile(ax,ay,owner))
+      if((is_sailing_unit(myunit) && (map_get_terrain(ax,ay)==T_OCEAN)) ||
+         (!is_sailing_unit(myunit) && (map_get_terrain(ax,ay)!=T_OCEAN)) )
+        return 0;
+  }
+  return -1; /* flag value */
+}
+
 
 int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
 { /* this WAS can_unit_move_to_tile with the notifys removed -- Syela */
@@ -233,11 +305,13 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
     return 1;
   if (map_get_city(x,y) || map_get_city(x0, y0))
     return 1;
-  return (is_my_zoc(punit, x0, y0) || is_my_zoc(punit, x, y));
+  if (is_my_zoc(punit, x0, y0) || is_my_zoc(punit, x, y)) return 1;
+  return (could_be_my_zoc(punit, x0, y0));
 }
 
 int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, int x1, int y1, int m)
 {
+  int i;
   if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
 /*    printf("Venturing into the unknown at (%d, %d).\n", x1, y1);*/
 /*    return(3);   People seemed not to like this. -- Syela */
@@ -250,9 +324,13 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit, int x0, int y0, i
      return(15);
 /* arbitrary deterrent; if we wanted to attack, we wouldn't GOTO */
   } else {
-    if (!could_unit_move_to_tile(punit, x0, y0, x1, y1) &&
-        !same_pos(x1, y1, punit->goto_dest_x, punit->goto_dest_y)) return(255);
+    i = could_unit_move_to_tile(punit, x0, y0, x1, y1);
+    if (!i && !unit_flag(punit->type, F_IGZOC) && is_ground_unit(punit) &&
+        !is_my_zoc(punit, x0, y0) && !is_my_zoc(punit, x1, y1) &&
+        !could_be_my_zoc(punit, x0, y0)) return(255);
+    if (!i && !same_pos(x1, y1, punit->goto_dest_x, punit->goto_dest_y)) return(255);
 /* in order to allow transports to GOTO shore correctly */
+    if (i < 0) return(15); /* there's that deterrent again */
   }
   return(MIN(m, unit_types[punit->type].move_rate));
 }
@@ -271,53 +349,6 @@ void init_gotomap(int orig_x, int orig_y)
   warmap.seacost[orig_x][orig_y] = 0;
   return;
 } 
-
-int dir_ok(int x0, int y0, int x1, int y1, int k)
-{ /* The idea of this is to check less nodes in the wrong direction.
-These if's might cost some CPU but hopefully less overall. -- Syela */
-  int n = 0, s = 0, e = 0, w = 0, dx;
-  if (y1 > y0) s = y1 - y0;
-  else n = y0 - y1;
-  dx = x1 - x0;
-  if (dx > map.xsize>>1) w = map.xsize - dx;
-  else if (dx > 0) e = dx;
-  else if (dx + (map.xsize>>1) > 0) w = 0 - dx;
-  else e = map.xsize + dx;
-  if (e == map.xsize / 2 || w == map.xsize / 2) { /* thanks, Massimo */
-    if (k < 3 && s >= MAX(e, w)) return 0;
-    if (k > 4 && n >= MAX(e, w)) return 0;
-    return 1;
-  }
-  switch(k) {
-    case 0:
-      if (e >= n && s >= w) return 0;
-      else return 1;
-    case 1:
-      if (s && s >= e && s >= w) return 0;
-      else return 1;
-    case 2:
-      if (w >= n && s >= e) return 0;
-      else return 1;
-    case 3:
-      if (e && e >= n && e >= s) return 0;
-      else return 1;
-    case 4:
-      if (w && w >= n && w >= s) return 0;
-      else return 1;
-    case 5:
-      if (e >= s && n >= w) return 0;
-      else return 1;
-    case 6:
-      if (n && n >= w && n >= e) return 0;
-      else return 1;
-    case 7:
-      if (w >= s && n >= e) return 0;
-      else return 1;
-    default:
-      printf("Bad dir_ok call: (%d, %d) -> (%d, %d), %d\n", x0, y0, x1, y1, k);
-      return 0;
-  }
-}
 
 int dir_ect(int x0, int y0, int x1, int y1, int k)
 {
@@ -496,6 +527,7 @@ int find_a_direction(struct unit *punit)
   int nearland;
   struct city *pcity;
   struct unit *passenger;
+  struct player *pplayer = get_player(punit->owner);
 
   if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
     passenger = other_passengers(punit);
@@ -542,6 +574,7 @@ punit->id, punit->x, punit->y, x, y, c, punit->moves_left);*/
       if (ptile->special&S_RAILROAD) d[k] += 10; /* next turn, roads are nice */
 
       nearland = 0;
+      if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) nearland++;
       for (n = 0; n < 8; n++) {
         adjtile = map_get_tile(x + ii[n], y + jj[n]);
         if (adjtile->terrain != T_OCEAN) nearland++;
@@ -561,7 +594,7 @@ punit->id, punit->x, punit->y, x, y, c, punit->moves_left);*/
       } /* end tiles-adjacent-to-dest for */
  
       if (punit->type == U_TRIREME && !nearland) {
-        if (punit->moves_left < 6) d[k] = 1;
+        if (punit->moves_left < 6) d[k] = -1; /* Tired of Kaput!! -- Syela */
         else if (punit->moves_left == 6) {
           for (n = 0; n < 8; n++) {
             if ((warmap.vector[x][y]&(1<<n))) {
@@ -667,8 +700,8 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
       if(!punit->moves_left) return;
       k = find_a_direction(punit);
       if (k < 0) {
-printf("%s#%d@(%d,%d) stalling so it won't be killed.\n",
-unit_types[punit->type].name, punit->id, punit->x, punit->y);
+/*printf("%s#%d@(%d,%d) stalling so it won't be killed.\n",
+unit_types[punit->type].name, punit->id, punit->x, punit->y);*/
 /*        punit->activity=ACTIVITY_IDLE;*/
 	send_unit_info(0, punit, 0);
 	return;
