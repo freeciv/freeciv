@@ -1645,7 +1645,7 @@ void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 	  if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
 	    notify_player_ex(unit_owner(punit), x, y, E_NOEVENT,
 			 _("Game: %s escaped the destruction of %s, and "
-			 "fled to %s"), unit_type(pcargo)->name,
+			 "fled to %s."), unit_type(pcargo)->name,
 			 unit_type(punit)->name, pcity->name);
 	  }
 	}
