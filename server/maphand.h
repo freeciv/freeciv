@@ -13,11 +13,9 @@
 #ifndef __MAPHAND_H
 #define __MAPHAND_H
 
-#include "map.h"
-#include "packets.h"
-#include "registry.h"
-
-#include <sys/types.h>
+#include <map.h>
+struct player;
+struct section_file;
 
 void relight_square_if_known(struct player *pplayer, int x, int y);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);

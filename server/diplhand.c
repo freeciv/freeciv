@@ -21,6 +21,7 @@
 #include <diptreaty.h>
 #include <plrhand.h>
 #include <maphand.h>
+#include <map.h>
 
 struct genlist treaties;
 int did_init_treaties;

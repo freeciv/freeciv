@@ -25,6 +25,7 @@
 #endif
 
 #include <time.h>
+#include <registry.h>
 #include <game.h>
 #include <gamehand.h>
 #include <civserver.h>

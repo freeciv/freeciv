@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <registry.h>
 #include <sernet.h>
 #include <player.h>
 #include <unit.h>

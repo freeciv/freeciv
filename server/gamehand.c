@@ -15,6 +15,7 @@
 #include <string.h>
 
 #include <civserver.h>
+#include <registry.h>
 #include <game.h>
 #include <gamehand.h>
 #include <unitfunc.h>

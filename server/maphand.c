@@ -11,6 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 #include <string.h>
+#include <registry.h>
 #include <map.h>
 #include <game.h>
 #include <maphand.h>

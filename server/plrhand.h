@@ -13,10 +13,9 @@
 #ifndef __PLRHAND_H
 #define __PLRHAND_H
 
-#include "registry.h"
-
 struct player;
 struct packet_player_request;
+struct section_file;
 
 void server_remove_player(struct player *pplayer);
 void update_player_activities(struct player *pplayer);

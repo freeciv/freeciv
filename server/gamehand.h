@@ -13,7 +13,7 @@
 #ifndef __GAMEHAND_H
 #define __GAMEHAND_H
 
-#include "registry.h"
+struct section_file;
 
 void init_new_game(void);
 void send_year_to_clients(int year);
