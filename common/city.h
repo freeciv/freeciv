@@ -165,14 +165,12 @@ char *city_name_suggestion(struct player *pplayer);
 /* properties */
 
 struct player *city_owner(struct city *pcity);
-int city_got_citywalls(struct city *pcity);
 int city_population(struct city *pcity);
 int city_gold_surplus(struct city *pcity);
 int city_buy_cost(struct city *pcity);
 int city_happy(struct city *pcity);  /* generally use celebrating instead */
 int city_unhappy(struct city *pcity);                /* anarchy??? */
 int city_celebrating(struct city *pcity);            /* love the king ??? */
-int city_got_effect(struct city *pcity, enum improvement_type_id id);
 
 /* improvement functions */
 
@@ -193,6 +191,8 @@ int can_build_unit(struct city *pcity, enum unit_type_id id);
 int can_build_unit_direct(struct city *pcity, enum unit_type_id id);
 int city_got_building(struct city *pcity,  enum improvement_type_id id); 
 int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id);
+int city_got_effect(struct city *pcity, enum improvement_type_id id);
+int city_got_citywalls(struct city *pcity);
 int wonder_replacement(struct city *pcity, enum improvement_type_id id);
 
 /* textual representation of buildings */
