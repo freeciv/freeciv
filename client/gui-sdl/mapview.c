@@ -91,6 +91,7 @@ static SDL_Surface *pBlinkSurfaceA;
 static SDL_Surface *pBlinkSurfaceB;
 
 static SDL_Surface *pMapGrid[3][2];
+static SDL_Surface ***pMapBorders = NULL;
 static bool UPDATE_OVERVIEW_MAP = FALSE;
 int OVERVIEW_START_X;
 int OVERVIEW_START_Y;
@@ -103,6 +104,8 @@ static SDL_Surface *pDithers[T_LAST][4];
 
 static void init_dither_tiles(void);
 static void free_dither_tiles(void);
+static void init_borders_tiles(void);
+static void free_borders_tiles(void);
 static void fill_dither_buffers(SDL_Surface **pDitherBufs, int x, int y,
 					enum tile_terrain_type terrain);
 
@@ -1153,6 +1156,8 @@ void set_overview_dimensions(int w, int h)
   if(is_isometric) {  
     free_dither_tiles();
     init_dither_tiles();
+    free_borders_tiles();
+    init_borders_tiles();
   }
   
   draw_city_names = TRUE;
@@ -1613,7 +1618,6 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   static enum tile_terrain_type terrain;
   static int count, i, solid_bg;
   static bool fog, full_ocean;
-  struct canvas_store canv;
 
   count =
       fill_tile_sprite_array_iso(pTile_sprs, pCoasts, pDither, map_col,
@@ -1650,7 +1654,6 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     des.y = map_y;
     pBufSurface = pDest;
   }
-  canv.map = pBufSurface;
 
   dst = des;
   
@@ -1818,7 +1821,44 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   }
 
   /* Draw national borders */
-  tile_draw_borders_iso(&canv, map_col, map_row, map_x, map_y, D_FULL);
+  if (draw_borders && (game.borders != 0)) {
+    struct tile *pBorder_Tile;
+    struct player *this_owner = pTile->owner;
+    int x1, y1;
+  
+    /* left side */
+    if (this_owner && MAPSTEP(x1, y1, map_col, map_row, DIR8_WEST)
+       && (pBorder_Tile = map_get_tile(x1, y1))
+       && (this_owner != pBorder_Tile->owner)
+       && pBorder_Tile->known) {
+      SDL_BlitSurface(pMapBorders[this_owner->player_no][0], NULL, pBufSurface, &des);
+      des = dst;
+    }
+    /* top side */
+    if (this_owner && MAPSTEP(x1, y1, map_col, map_row, DIR8_NORTH)
+       && (pBorder_Tile = map_get_tile(x1, y1))
+       && (this_owner != pBorder_Tile->owner)
+       && pBorder_Tile->known) {
+      SDL_BlitSurface(pMapBorders[this_owner->player_no][1], NULL, pBufSurface, &des);
+      des = dst;
+    }
+    /* right side */
+    if (this_owner && MAPSTEP(x1, y1, map_col, map_row, DIR8_EAST)
+       && (pBorder_Tile = map_get_tile(x1, y1))
+       && (this_owner != pBorder_Tile->owner)
+       && pBorder_Tile->known) {
+      SDL_BlitSurface(pMapBorders[this_owner->player_no][2], NULL, pBufSurface, &des);
+      des = dst;
+    }
+    /* bottom side */
+    if (this_owner && MAPSTEP(x1, y1, map_col, map_row, DIR8_SOUTH)
+       && (pBorder_Tile = map_get_tile(x1, y1))
+       && (this_owner != pBorder_Tile->owner)
+       && pBorder_Tile->known) {
+      SDL_BlitSurface(pMapBorders[this_owner->player_no][3], NULL, pBufSurface, &des);
+      des = dst;
+    }
+  }
 
   /* this option is pure nonsens for me and will be removed soon */
   if (draw_coastline && !draw_terrain) {
@@ -2666,6 +2706,68 @@ static void clear_dither_tiles(void)
     {
       pDithers[terrain][i] = NULL;
     }
+  }
+}
+/* ================================================================ */
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void init_borders_tiles(void)
+{
+  int i;
+  SDL_Color *color;
+  
+  pMapBorders = CALLOC(game.nplayers + 1, sizeof(SDL_Surface **));
+  for(i=0; i<game.nplayers; i++) {
+    
+    color = get_game_colorRGB(COLOR_STD_RACE0 +
+			(i % (COLOR_STD_RACE13 - COLOR_STD_RACE0 + 1)));
+    color->unused = 192;
+    
+    pMapBorders[i] = CALLOC(4, sizeof(SDL_Surface *));
+    
+    pMapBorders[i][0] = SDL_DisplayFormat(pTheme->NWEST_BORDER_Icon);
+    SDL_FillRectAlpha(pMapBorders[i][0], NULL, color);
+    SDL_SetColorKey(pMapBorders[i][0], SDL_SRCCOLORKEY|SDL_RLEACCEL,
+    					get_first_pixel(pMapBorders[i][0]));
+    
+    pMapBorders[i][1] = SDL_DisplayFormat(pTheme->NNORTH_BORDER_Icon);
+    SDL_FillRectAlpha(pMapBorders[i][1], NULL, color);
+    SDL_SetColorKey(pMapBorders[i][1], SDL_SRCCOLORKEY|SDL_RLEACCEL,
+    					get_first_pixel(pMapBorders[i][1]));
+    
+    pMapBorders[i][2] = SDL_DisplayFormat(pTheme->NEAST_BORDER_Icon);
+    SDL_FillRectAlpha(pMapBorders[i][2], NULL, color);
+    SDL_SetColorKey(pMapBorders[i][2], SDL_SRCCOLORKEY|SDL_RLEACCEL,
+					get_first_pixel(pMapBorders[i][2]));
+        
+    pMapBorders[i][3] = SDL_DisplayFormat(pTheme->NSOUTH_BORDER_Icon);
+    SDL_FillRectAlpha(pMapBorders[i][3], NULL, color);
+    SDL_SetColorKey(pMapBorders[i][3], SDL_SRCCOLORKEY|SDL_RLEACCEL,
+    					get_first_pixel(pMapBorders[i][3]));
+            
+    color->unused = 255;
+  }
+  
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void free_borders_tiles(void)
+{
+  if(pMapBorders) {
+    int i = 0;
+    while(pMapBorders[i]) {
+      FREESURFACE(pMapBorders[i][0]);
+      FREESURFACE(pMapBorders[i][1]);
+      FREESURFACE(pMapBorders[i][2]);
+      FREESURFACE(pMapBorders[i][3]);
+      FREE(pMapBorders[i]);
+      i++;
+    }
+    FREE(pMapBorders);
   }
 }
 

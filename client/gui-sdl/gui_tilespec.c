@@ -501,7 +501,11 @@ void tilespec_setup_theme(void)
   assert(pDitherMask != NULL);	  
   /* ------------------------------ */
 
-
+  /* Map Borders */
+  load_theme_surface(pBuf, NWEST_BORDER_Icon, "theme.normal_border_iso_west");
+  load_theme_surface(pBuf, NNORTH_BORDER_Icon, "theme.normal_border_iso_north");
+  load_theme_surface(pBuf, NSOUTH_BORDER_Icon, "theme.normal_border_iso_south");
+  load_theme_surface(pBuf, NEAST_BORDER_Icon, "theme.normal_border_iso_east");
 
   return;
 }
@@ -630,6 +634,12 @@ void tilespec_unload_theme(void)
    
   FREESURFACE(pDitherMask);
   	
+  /* Map Borders */
+  FREESURFACE(pTheme->NWEST_BORDER_Icon);
+  FREESURFACE(pTheme->NNORTH_BORDER_Icon);
+  FREESURFACE(pTheme->NSOUTH_BORDER_Icon);
+  FREESURFACE(pTheme->NEAST_BORDER_Icon);
+	
   FREE(pTheme);
   return;
 }

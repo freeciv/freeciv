@@ -74,6 +74,12 @@ struct Theme {
         SDL_Surface *OK_PACT_Icon;
 	SDL_Surface *CANCEL_PACT_Icon;
 	
+	/* borders */
+       SDL_Surface *NWEST_BORDER_Icon;
+	SDL_Surface *NNORTH_BORDER_Icon;
+	SDL_Surface *NSOUTH_BORDER_Icon;
+	SDL_Surface *NEAST_BORDER_Icon;
+	
 	/* orders icons */
 	SDL_Surface *Order_Icon;
 	SDL_Surface *ODisband_Icon;
