@@ -633,8 +633,15 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
       && type != PACKET_CHAT_MSG
       && type != PACKET_CONN_PONG
       && type != PACKET_REPORT_REQUEST) {
-    freelog(LOG_ERROR, _("got a packet of type %d "
-			 "outside RUN_GAME_STATE"), type);
+    if (server_state == GAME_OVER_STATE) {
+      /* This can happen by accident, so we don't want to print
+	 out lots of error messages. Ie, we use LOG_DEBUG. */
+      freelog(LOG_DEBUG, "got a packet of type %d "
+			  "in GAME_OVER_STATE", type);
+    } else {
+      freelog(LOG_ERROR, "got a packet of type %d "
+	                 "outside RUN_GAME_STATE", type);
+    }
     free(packet);
     return;
   }
