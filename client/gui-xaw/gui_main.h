@@ -56,8 +56,8 @@ extern Widget       main_form;
 extern Window       root_window;
 extern Widget       inputline_text;
 extern Widget       outputwindow_text;
-extern XFontStruct *main_font_struct;
-extern XFontStruct *prod_font_struct;
+extern XFontSet     main_font_set;
+extern XFontSet     prod_font_set;
 extern XtAppContext app_context;
 
 #endif  /* FC__GUI_MAIN_H */
