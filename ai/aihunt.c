@@ -301,8 +301,8 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
           && dist1 >= dist2) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "giving up racing %s (%d, %d)->(%d, %d)",
                  unit_type(target)->name,
-                 target->ai.prev_pos ? target->ai.prev_pos->x : 0,
-                 target->ai.prev_pos ? target->ai.prev_pos->y : 0,
+                 target->ai.prev_pos ? target->ai.prev_pos->x : -1,
+                 target->ai.prev_pos ? target->ai.prev_pos->y : -1,
                  target->x, target->y);
         continue;
       }
