@@ -21,8 +21,6 @@
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
-#include <X11/Intrinsic.h>
-#include <X11/StringDefs.h>
 
 #include <X11/Xaw/Scrollbar.h>
 #include <X11/Xaw/Form.h>

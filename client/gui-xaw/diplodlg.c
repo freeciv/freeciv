@@ -27,7 +27,6 @@
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/MenuButton.h>
-#include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
 #include <X11/Xaw/AsciiText.h>  

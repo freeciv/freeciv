@@ -29,7 +29,6 @@
 #include <proto/graphics.h>
 
 #include "city.h"
-#include "colors.h"
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"

@@ -20,7 +20,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "audio.h"
 #include "support.h"
 #include "fcintl.h"
 #include "log.h"

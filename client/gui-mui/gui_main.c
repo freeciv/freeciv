@@ -75,7 +75,6 @@
 #include "ratesdlg.h"
 #include "repodlgs_g.h"
 #include "spaceshipdlg_g.h"
-#include "support.h"
 #include "tilespec.h"
 #include "wldlg.h"
 

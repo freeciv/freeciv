@@ -39,7 +39,6 @@
 #include "cityturn.h"
 #include "gamelog.h"
 #include "maphand.h"
-#include "player.h"
 #include "plrhand.h"
 #include "sernet.h"
 #include "settlers.h"

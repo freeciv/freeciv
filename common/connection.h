@@ -23,8 +23,7 @@
   Includes cmdlevel stuff, which is connection-based.
 ***************************************************************************/
 
-#include "shared.h"		/* MAX_LEN_ADDR */
-#include "shared.h"		/* bool type */
+#include "shared.h"		/* MAX_LEN_ADDR, bool type */
 
 struct player;
 struct timer_list;

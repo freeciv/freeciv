@@ -49,7 +49,6 @@
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>		/* usleep, fcntl, gethostname */

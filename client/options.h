@@ -14,7 +14,6 @@
 #define FC__OPTIONS_H
 
 #include "shared.h"		/* bool type */
-#include "events.h"
 
 #include "events.h"
 
