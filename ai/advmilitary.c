@@ -1076,7 +1076,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     /* We want attacker more that what we have selected before */
     copy_if_better_choice(&best_choice, choice);
     if (go_by_boat && !ferryboat) {
-      ai_choose_ferryboat(pplayer, pcity, choice);
+      ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, choice->want);
     }
     freelog(LOG_DEBUG, "%s has chosen attacker, %s, want=%d",
             pcity->name, unit_types[choice->choice].name, choice->want);

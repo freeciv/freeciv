@@ -847,9 +847,10 @@ void ai_eval_buildings(struct city *pcity)
  * advanced enough to build caravans, the corresponding tech will be 
  * stimulated.
  ***************************************************************************/
-static void ai_choose_help_wonder(struct player *pplayer, struct city *pcity,
-                           struct ai_choice *choice)
+static void ai_choose_help_wonder(struct city *pcity,
+				  struct ai_choice *choice)
 {
+  struct player *pplayer = city_owner(pcity);
   /* Continent where the city is --- we won't be aiding any wonder 
    * construction on another continent */
   int continent = map_get_continent(pcity->x, pcity->y);
@@ -936,12 +937,11 @@ static void ai_choose_help_wonder(struct player *pplayer, struct city *pcity,
   } city_list_iterate_end;
 }
 
-/********************************************************************** 
-This function should assign a value, want and type to choice (that means what
-to build and how important it is).
+/************************************************************************** 
+  This function should fill the supplied choice structure.
 
-If want is 0, this advisor doesn't want anything.
-***********************************************************************/
+  If want is 0, this advisor doesn't want anything.
+***************************************************************************/
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
@@ -957,21 +957,19 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   init_choice(choice);
 
-  /* Find out desire for settlers */
-
+  /* Find out desire for settlers (terrain improvers) */
   unit_type = best_role_unit(pcity, F_SETTLERS);
 
   if (unit_type != U_LAST
       && est_food > utype_food_cost(get_unit_type(unit_type), gov)) {
-    /* settler_want calculated in settlers.c called from ai_manage_city() */
+    /* settler_want calculated in settlers.c called from ai_manage_cities() */
     int want = pcity->ai.settler_want;
 
     /* Allowing multiple settlers per city now. I think this is correct.
      * -- Syela */
     
     if (want > 0) {
-      freelog(LOG_DEBUG, "%s (%d, %d) desires settlers with passion %d",
-              pcity->name, pcity->x, pcity->y, want);
+      CITY_LOG(LOG_DEBUG, pcity, "desires settlers with passion %d", want);
       choice->want = want;
       choice->type = CT_NONMIL;
       ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, want);
@@ -979,21 +977,22 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     } else if (want < 0) {
       /* Negative value is a hack to tell us that we need boats to colonize.
        * abs(want) is desire for the boats. */
+      CITY_LOG(LOG_DEBUG, pcity, "desires settlers with passion %d and asks"
+	       " for a boat", want);
       choice->want = 0 - want;
       choice->type = CT_NONMIL;
       choice->choice = unit_type; /* default */
-      ai_choose_ferryboat(pplayer, pcity, choice);
+      ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, -want);
     }
   }
 
   /* Find out desire for city founders */
   /* Basically, copied from above and adjusted. -- jjm */
-
   unit_type = best_role_unit(pcity, F_CITIES);
 
   if (unit_type != U_LAST
       && est_food >= utype_food_cost(get_unit_type(unit_type), gov)) {
-    /* founder_want calculated in settlers.c, called from ai_manage_city(). */
+    /* founder_want calculated in settlers.c, called from ai_manage_cities(). */
     int want = pcity->ai.founder_want;
 
     if (want > choice->want) {
@@ -1005,42 +1004,34 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       
     } else if (want < -choice->want) {
       /* We need boats to colonize! */
+      CITY_LOG(LOG_DEBUG, pcity, "desires settlers with passion %d and asks"
+	       " for a boat", want);
       choice->want = 0 - want;
       choice->type = CT_NONMIL;
       choice->choice = unit_type; /* default */
-      ai_choose_ferryboat(pplayer, pcity, choice);
+      ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, -want);
     }
   }
-
-  /* Consider building caravan-type units to aid wonder construction */  
-  ai_choose_help_wonder(pplayer, pcity, choice);
 
   {
     struct ai_choice cur;
 
     init_choice(&cur);
+    /* Consider building caravan-type units to aid wonder construction */  
+    ai_choose_help_wonder(pcity, &cur);
+    copy_if_better_choice(&cur, choice);
+
+    init_choice(&cur);
+    /* Consider city improvments */
     ai_advisor_choose_building(pcity, &cur);
     copy_if_better_choice(&cur, choice);
   }
 
-  if (choice->want == 0) {
-    /* Oh dear, better think of something! */
-    unit_type = best_role_unit(pcity, F_TRADE_ROUTE);
-    
-    choice->want = 1;
-    if (unit_type != U_LAST) {
-      choice->type = CT_NONMIL;
-      choice->choice = unit_type;
-    } else {
-      /* Capitalization is last resort */
-      choice->type = CT_BUILDING;
-      choice->choice = B_CAPITAL;
-    }
+  if (choice->want >= 200) {
+    /* If we don't do following, we buy caravans in city X when we should be
+     * saving money to buy defenses for city Y. -- Syela */
+    choice->want = 199;
   }
-
-  /* If we don't do following, we buy caravans in city X when we should be
-   * saving money to buy defenses for city Y. -- Syela */
-  if (choice->want >= 200) choice->want = 199;
 
   return;
 }

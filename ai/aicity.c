@@ -59,7 +59,7 @@
 #define LOG_BUY LOG_DEBUG
 
 static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
-static void ai_manage_city(struct player *pplayer, struct city *pcity);
+static void ai_sell_obsolete_buildings(struct city *pcity);
 
 /**************************************************************************
   This calculates the usefulness of pcity to us. Note that you can pass
@@ -557,74 +557,78 @@ static void ai_spend_gold(struct player *pplayer)
 }
 
 /**************************************************************************
- cities, build order and worker allocation stuff here..
+  One of the top level AI functions.  It does (by calling other functions):
+  worker allocations,
+  build choices,
+  extra gold spending.
+
+  TODO: Treat ai_gov_tech_hints somewhere else
 **************************************************************************/
 void ai_manage_cities(struct player *pplayer)
 {
   int i;
   pplayer->ai.maxbuycost = 0;
 
-  city_list_iterate(pplayer->cities, pcity)
+  city_list_iterate(pplayer->cities, pcity) {
     if (CITY_EMERGENCY(pcity)) {
       /* Fix critical shortages or unhappiness */
       resolve_city_emergency(pplayer, pcity);
     }
-    ai_manage_city(pplayer, pcity);
-  city_list_iterate_end;
+    auto_arrange_workers(pcity);
+    ai_sell_obsolete_buildings(pcity);
+    sync_cities();
+  } city_list_iterate_end;
 
   ai_manage_buildings(pplayer);
 
-  city_list_iterate(pplayer->cities, pcity)
+  city_list_iterate(pplayer->cities, pcity) {
+    /* Note that this function mungs the seamap, but we don't care */
     military_advisor_choose_build(pplayer, pcity, &pcity->ai.choice);
-/* note that m_a_c_b mungs the seamap, but we don't care */
-    establish_city_distances(pplayer, pcity); /* in advmilitary for warmap */
-/* e_c_d doesn't even look at the seamap */
-/* determines downtown and distance_to_wondercity, which a_c_c_b will need */
+    /* because establish_city_distances doesn't need the seamap
+     * it determines downtown and distance_to_wondercity, 
+     * which ai_city_choose_build will need */
+    establish_city_distances(pplayer, pcity);
+    /* Will record its findings in pcity->settler_want */ 
     contemplate_terrain_improvements(pcity);
-    contemplate_new_city(pcity); /* while we have the warmap handy */
-/* seacost may have been munged if we found a boat, but if we found a boat
-we don't rely on the seamap being current since we will recalculate. -- Syela */
+    /* Will record its findings in pcity->founder_want */ 
+    contemplate_new_city(pcity);
+  } city_list_iterate_end;
 
-  city_list_iterate_end;
-
-  city_list_iterate(pplayer->cities, pcity)
+  city_list_iterate(pplayer->cities, pcity) {
     ai_city_choose_build(pplayer, pcity);
-  city_list_iterate_end;
+  } city_list_iterate_end;
 
   ai_spend_gold(pplayer);
 
   /* use ai_gov_tech_hints: */
   for(i=0; i<MAX_NUM_TECH_LIST; i++) {
     struct ai_gov_tech_hint *hint = &ai_gov_tech_hints[i];
-
-    if (hint->tech == A_LAST)
+    
+    if (hint->tech == A_LAST) {
       break;
+    }
+    
     if (get_invention(pplayer, hint->tech) != TECH_KNOWN) {
       pplayer->ai.tech_want[hint->tech] +=
-	  city_list_size(&pplayer->cities) * (hint->turns_factor *
-					      num_unknown_techs_for_goal
-					      (pplayer,
-					       hint->tech) +
-					      hint->const_factor);
-      if (hint->get_first)
+	city_list_size(&pplayer->cities) 
+	* (hint->turns_factor 
+	   * num_unknown_techs_for_goal(pplayer, hint->tech) 
+	   + hint->const_factor);
+      if (hint->get_first) {
 	break;
+      }
     } else {
-      if (hint->done)
+      if (hint->done) {
 	break;
+      }
     }
   }
 }
 
 /************************************************************************** 
-...
-**************************************************************************/
-void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice)
-{
-  ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT,  choice->want);
-}
+  Choose the best unit the city can build to defend against attacker v.
 
-/************************************************************************** 
-  ...
+  TODO: Relocate to advmilitary.c
 **************************************************************************/
 Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
 {
@@ -657,7 +661,7 @@ static bool building_unwanted(struct player *plr, Impr_Type_id i)
 }
 
 /**************************************************************************
-...
+  Sell an obsolete building if there are any in the city.
 **************************************************************************/
 static void ai_sell_obsolete_buildings(struct city *pcity)
 {
@@ -675,16 +679,6 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
       return; /* max 1 building each turn */
     }
   } built_impr_iterate_end;
-}
-
-/**************************************************************************
- cities, build order and worker allocation stuff here..
-**************************************************************************/
-static void ai_manage_city(struct player *pplayer, struct city *pcity)
-{
-  auto_arrange_workers(pcity);
-  ai_sell_obsolete_buildings(pcity);
-  sync_cities();
 }
 
 /**************************************************************************

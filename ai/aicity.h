@@ -23,7 +23,7 @@ struct ai_data;
 int ai_eval_calc_city(struct city *pcity, struct ai_data *ai);
 
 void ai_manage_cities(struct player *pplayer);
-void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice);
+
 Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v);
 
 enum ai_city_task { AICITY_NONE, AICITY_TECH, AICITY_TAX, AICITY_PROD};
