@@ -26,12 +26,12 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.32  2000/02/15 15:32:30  jjm
+# Revision 1.33  2000/02/17 19:23:46  jjm
 # Update German (de) translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
 #
-# Revision 1.9.1.40  2000/02/15 14:58:28  egbert
-# includes patches until 00/02/15
+# Revision 1.9.1.41  2000/02/16 19:51:20  egbert
+# includes patches until 00/02/16
 #
 # Revision 1.9.1.21  1999/11/19 20:25:32  egbert
 # German translation is BETA now
@@ -39,11 +39,12 @@
 # ###################################
 # ## The real PO file starts here: ##
 # ###################################
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.10.0\n"
-"POT-Creation-Date: 2000-02-15 15:23+0100\n"
+"POT-Creation-Date: 2000-02-16 20:46+0100\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <freeciv-de@ehinzen.de>\n"
 
@@ -148,6 +149,16 @@ msgstr "Out of memory trying to %s %lu bytes at line %d of %s."
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Unvollständige Eingabe ('%s').\n"
+
+#: common/shared.c:228
+#, c-format
+msgid "%d BC"
+msgstr "%d v.Chr."
+
+#: common/shared.c:230
+#, c-format
+msgid "%d AD"
+msgstr "%d AD"
 
 #: client/tilespec.c:174 common/shared.c:579
 #, c-format
@@ -5971,7 +5982,7 @@ msgid "Researching: %s(%d/%d)"
 msgstr "Erforsche: %s(%d/%d)"
 
 #: client/gui-gtk/inteldlg.c:139 client/gui-xaw/inteldlg.c:155
-#: client/gui-xaw/repodlgs.c:221 client/gui-xaw/repodlgs.c:496
+#: client/gui-xaw/repodlgs.c:221 client/gui-xaw/repodlgs.c:498
 #, c-format
 msgid "Researching Future Tech. %d: %d/%d"
 msgstr "Erforsche Zukunftstechnologie %d: %d/%d"
@@ -6274,8 +6285,8 @@ msgstr "Berichte"
 
 #: client/gui-gtk/menu.c:595 client/gui-gtk/repodlgs.c:781
 #: client/gui-gtk/repodlgs.c:783 client/gui-gtk/repodlgs.c:954
-#: client/gui-xaw/menu.c:183 client/gui-xaw/repodlgs.c:885
-#: client/gui-xaw/repodlgs.c:1078 data/Freeciv:1816
+#: client/gui-xaw/menu.c:183 client/gui-xaw/repodlgs.c:887
+#: client/gui-xaw/repodlgs.c:1080 data/Freeciv:1816
 msgid "Military Report"
 msgstr "Militärischer Bericht"
 
@@ -6497,7 +6508,7 @@ msgstr ""
 "%s %s: %s"
 
 #: client/gui-gtk/repodlgs.c:185 client/gui-gtk/repodlgs.c:360
-#: client/gui-xaw/repodlgs.c:253 client/gui-xaw/repodlgs.c:485
+#: client/gui-xaw/repodlgs.c:253 client/gui-xaw/repodlgs.c:487
 msgid "Science Advisor"
 msgstr "Wissenschaftlicher Ratgeber"
 
@@ -6536,7 +6547,7 @@ msgid "U Total"
 msgstr "Kosten gesamt"
 
 #: client/gui-gtk/repodlgs.c:517 client/gui-gtk/repodlgs.c:680
-#: client/gui-xaw/repodlgs.c:619 client/gui-xaw/repodlgs.c:775
+#: client/gui-xaw/repodlgs.c:621 client/gui-xaw/repodlgs.c:777
 msgid "Trade Advisor"
 msgstr "Handelsratgeber"
 
@@ -6552,25 +6563,25 @@ msgstr "Verkaufe Veraltetes"
 msgid "Sell All"
 msgstr "Alles verkaufen"
 
-#: client/gui-gtk/repodlgs.c:651 client/gui-xaw/repodlgs.c:750
+#: client/gui-gtk/repodlgs.c:651 client/gui-xaw/repodlgs.c:752
 #, c-format
 msgid "Sold %d %s for %d gold"
 msgstr "%d %s für %d Goldstücke verkauft"
 
-#: client/gui-gtk/repodlgs.c:654 client/gui-xaw/repodlgs.c:753
+#: client/gui-gtk/repodlgs.c:654 client/gui-xaw/repodlgs.c:755
 #, c-format
 msgid "No %s could be sold"
 msgstr "%s konnten nicht verkauft werden"
 
-#: client/gui-gtk/repodlgs.c:658 client/gui-xaw/repodlgs.c:756
+#: client/gui-gtk/repodlgs.c:658 client/gui-xaw/repodlgs.c:758
 msgid "Sell-Off:"
 msgstr "Ausverkauf:"
 
-#: client/gui-gtk/repodlgs.c:658 client/gui-xaw/repodlgs.c:756
+#: client/gui-gtk/repodlgs.c:658 client/gui-xaw/repodlgs.c:758
 msgid "Results"
 msgstr "Ergebnisse"
 
-#: client/gui-gtk/repodlgs.c:724 client/gui-xaw/repodlgs.c:816
+#: client/gui-gtk/repodlgs.c:724 client/gui-xaw/repodlgs.c:818
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Einkommen: %6d  Ausgaben: %6d"
@@ -6595,7 +6606,7 @@ msgstr "aktiv"
 msgid "Shield"
 msgstr "Schild"
 
-#: client/gui-gtk/repodlgs.c:802 client/gui-xaw/repodlgs.c:908
+#: client/gui-gtk/repodlgs.c:802 client/gui-xaw/repodlgs.c:910
 msgid "Totals: ..."
 msgstr "Insgesamt: ..."
 
@@ -6608,7 +6619,7 @@ msgstr "Modernisieren"
 msgid "Refresh"
 msgstr "Neu laden"
 
-#: client/gui-gtk/repodlgs.c:901 client/gui-xaw/repodlgs.c:1011
+#: client/gui-gtk/repodlgs.c:901 client/gui-xaw/repodlgs.c:1013
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -6927,19 +6938,19 @@ msgstr "Arbeitslisten"
 msgid "Go/Airlift to City"
 msgstr "Gehe (fliege) nach Stadt"
 
-#: client/gui-xaw/repodlgs.c:215 client/gui-xaw/repodlgs.c:389
-#: client/gui-xaw/repodlgs.c:491
+#: client/gui-xaw/repodlgs.c:215 client/gui-xaw/repodlgs.c:391
+#: client/gui-xaw/repodlgs.c:493
 #, c-format
 msgid "Researching %s: %d/%d"
 msgstr "Erforsche: %s: %d/%d"
 
-#: client/gui-xaw/repodlgs.c:228 client/gui-xaw/repodlgs.c:417
-#: client/gui-xaw/repodlgs.c:504
+#: client/gui-xaw/repodlgs.c:228 client/gui-xaw/repodlgs.c:419
+#: client/gui-xaw/repodlgs.c:506
 #, c-format
 msgid "Goal: %s (%d steps)"
 msgstr "Ziel: %s (%d Schritte)"
 
-#: client/gui-xaw/repodlgs.c:1130
+#: client/gui-xaw/repodlgs.c:1132
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Gesamt:                     %9d%9d%9d%9d"
@@ -8224,7 +8235,7 @@ msgid ""
 "with City Walls built on a Forest tile."
 msgstr ""
 "Kanonen (Veteran, A:8, D:1, HP:20, F:1) mit 2/3 Bewegungspunkten greifen "
-"Schützen (A:3, D:3, HP:20, F:1) in einer Stadt mit Stadtmauern im Wald an."
+"Musketiere (A:3, D:3, HP:20, F:1) in einer Stadt mit Stadtmauern im Wald an."
 
 #: data/helpdata.txt:891
 msgid ""
@@ -11621,7 +11632,7 @@ msgstr "Lanzenkämpfer"
 #: data/civ1/units.ruleset:253 data/civ2/units.ruleset:258
 #: data/default/units.ruleset:258
 msgid "Musketeers"
-msgstr "Schützen"
+msgstr "Musketiere"
 
 #: data/civ1/units.ruleset:277 data/civ2/units.ruleset:282
 #: data/default/units.ruleset:282
