@@ -272,8 +272,9 @@ void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id,
 	spy_get_sabotage_list(pplayer, pdiplomat, pcity);
       }
       break;
-    default:
-	assert(0);
+    case DIPLOMAT_ANY_ACTION:
+      /* Nothing */
+      break;
     }
   }
 }
