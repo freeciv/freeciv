@@ -180,8 +180,7 @@ void tr_prepare_string(struct ct_string *string)
 
 	glyph_index = FT_Get_Char_Index(face, c);
 	if (glyph_index == 0) {
-	  freelog(LOG_ERROR, "can't find glyph for %d '%c'", c, c);
-	  assert(0);
+	  freelog(LOG_VERBOSE, "can't find glyph for %d '%c'", c, c);
 	}
 
 	if (use_kerning && previous && glyph_index) {
