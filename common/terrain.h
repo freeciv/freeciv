@@ -73,6 +73,7 @@ enum tile_terrain_type {
 
 enum terrain_flag_id {
   TER_NO_BARBS, /* No barbarians summoned on this terrain. */
+  TER_OCEANIC, /* This is an ocean terrain. */
   TER_LAST
 };
 #define TER_FIRST (TER_NO_BARBS)
@@ -100,9 +101,14 @@ bool is_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t);
 int count_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t);
 int adjacent_terrain_tiles4(int map_x, int map_y, enum tile_terrain_type t);
 
+/* Functions to operate on a terrain flag. */
+bool is_terrain_flag_near_tile(int x, int y, enum terrain_flag_id flag);
+int count_terrain_flag_near_tile(int x, int y, enum terrain_flag_id flag);
+int adjacent_terrain_flag_tiles4(int x, int y, enum terrain_flag_id flag);
+
 /* Terrain-specific functions. */
-#define is_ocean(x) ((x) == T_OCEAN)
-#define is_ocean_near_tile(x, y) is_terrain_near_tile(x, y, T_OCEAN)
+#define is_ocean(x) (terrain_has_flag((x), TER_OCEANIC))
+#define is_ocean_near_tile(x, y) is_terrain_flag_near_tile(x, y, TER_OCEANIC)
 #define adjacent_ocean_tiles4(x, y) adjacent_terrain_tiles4(x, y, T_OCEAN)
 #define count_ocean_near_tile(x,y) count_terrain_near_tile(x,y, T_OCEAN)
 

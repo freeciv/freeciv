@@ -62,7 +62,8 @@ enum terrain_flag_id terrain_flag_from_str(const char *s)
   enum terrain_flag_id flag;
   const char *flag_names[] = {
     /* Must match terrain flags in terrain.h. */
-    "NoBarbs"
+    "NoBarbs",
+    "Oceanic"
   };
 
   assert(ARRAY_SIZE(flag_names) == TER_COUNT);
@@ -128,6 +129,56 @@ int adjacent_terrain_tiles4(int map_x, int map_y, enum tile_terrain_type t)
 
   cartesian_adjacent_iterate(map_x, map_y, adjc_x, adjc_y) {
     if (map_get_terrain(adjc_x, adjc_y) == t) {
+      num_adjacent++;
+    }
+  } cartesian_adjacent_iterate_end;
+
+  return num_adjacent;
+}
+
+/****************************************************************************
+  Returns TRUE iff any adjacent tile contains terrain with the given flag.
+****************************************************************************/
+bool is_terrain_flag_near_tile(int map_x, int map_y,
+			       enum terrain_flag_id flag)
+{
+  adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
+    if (terrain_has_flag(map_get_terrain(adjc_x, adjc_y), flag)) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Return the number of adjacent tiles that have terrain with the given flag.
+****************************************************************************/
+int count_terrain_flag_near_tile(int map_x, int map_y,
+				 enum terrain_flag_id flag)
+{
+  int count = 0;
+
+  adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
+    if (terrain_has_flag(map_get_terrain(adjc_x, adjc_y), flag)) {
+      count++;
+    }
+  } adjc_iterate_end;
+
+  return count;
+}
+
+/****************************************************************************
+  Return the number of cardinally adjacent tiles that have terrain with
+  the given flag.
+****************************************************************************/
+int adjacent_terrain_flag_tiles4(int map_x, int map_y,
+				 enum terrain_flag_id flag)
+{
+  int num_adjacent = 0;
+
+  cartesian_adjacent_iterate(map_x, map_y, adjc_x, adjc_y) {
+    if (terrain_has_flag(map_get_terrain(adjc_x, adjc_y), flag)) {
       num_adjacent++;
     }
   } cartesian_adjacent_iterate_end;
