@@ -150,7 +150,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       j++;
     }
   }
-  if (!j)
+  if (!j)  {
     if (target->future_tech > pplayer->future_tech) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
                       "Game: Your diplomat stole Future Tech. %d from %s",
@@ -158,13 +158,12 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
                       "Game: %s diplomat stole Future Tech. %d in %s.", 
                       pplayer->name, pplayer->future_tech, pcity->name);
-      return;
     } else {
-
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		       "Game: No new technology found in %s", pcity->name);
-      return;
     }
+    return;
+  }
 
   if (pcity->steal) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
@@ -1048,14 +1047,15 @@ void get_a_tech(struct player *pplayer, struct player *target)
       j++;
     }
   }
-  if (!j)
+  if (!j)  {
     if (target->future_tech > pplayer->future_tech) {
       notify_player(pplayer, "Game: You acquire Future Tech %d from %s",
                    ++(pplayer->future_tech), target->name);
       notify_player(target, "Game: %s discovered Future Tech. %d in the city.", 
                    pplayer->name, pplayer->future_tech);
     }
-  return;
+    return;
+  }
   j=myrand(j)+1;
   for (i=0;i<A_LAST;i++) {
     if (get_invention(pplayer, i)!=TECH_KNOWN && 
