@@ -291,6 +291,10 @@ int map_build_mine_time(int x, int y);
 #define GAME_MIN_FOODBOX             5
 #define GAME_MAX_FOODBOX             30
 
+#define GAME_DEFAULT_AQUEDUCTLOSS    0
+#define GAME_MIN_AQUEDUCTLOSS        0
+#define GAME_MAX_AQUEDUCTLOSS        100
+
 #define GAME_DEFAULT_TECHPENALTY     100
 #define GAME_MIN_TECHPENALTY         0
 #define GAME_MAX_TECHPENALTY         100

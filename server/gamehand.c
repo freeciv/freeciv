@@ -265,6 +265,8 @@ int game_load(struct section_file *file)
   
   game.diplchance = secfile_lookup_int_default(file, game.diplchance,
 					       "game.diplchance");
+  game.aqueductloss = secfile_lookup_int_default(file, game.aqueductloss,
+						 "game.aqueductloss");
   
   game.heating=0;
   if(tmp_server_state==PRE_GAME_STATE 
@@ -369,6 +371,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.aifill, "game.aifill");
   secfile_insert_int(file, game.scorelog, "game.scorelog");
   secfile_insert_int(file, game.diplchance, "game.diplchance");
+  secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
 
   if (1) {
     /* Now always save these, so the server options reflect the

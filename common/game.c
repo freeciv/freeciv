@@ -353,6 +353,7 @@ void game_init(void)
   game.rail_food   = GAME_DEFAULT_RAILFOOD;
   game.rail_prod   = GAME_DEFAULT_RAILPROD;
   game.foodbox     = GAME_DEFAULT_FOODBOX;
+  game.aqueductloss= GAME_DEFAULT_AQUEDUCTLOSS;
   game.scorelog    = GAME_DEFAULT_SCORELOG;
   game.techpenalty = GAME_DEFAULT_TECHPENALTY;
   game.civstyle    = GAME_DEFAULT_CIVSTYLE;

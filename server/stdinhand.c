@@ -150,6 +150,9 @@ struct proto_settings settings[] = {
   { "foodbox", "Size * this parameter is what it takes for a city to grow by 1"
     ,&game.foodbox, 0,
     GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX},
+  { "aqueductloss", "Percentage of food lost when city can't expand "
+    "without an aqueduct or sewer.", &game.aqueductloss, 0,
+    GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, GAME_DEFAULT_AQUEDUCTLOSS},
   { "techpenalty", "% penalty if you change tech default it's 100%",
     &game.techpenalty, 0,
     GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY, GAME_DEFAULT_TECHPENALTY},

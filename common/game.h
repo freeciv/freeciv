@@ -69,6 +69,7 @@ struct civ_game {
   int save_nturns;
   int scenario;
   int foodbox;
+  int aqueductloss;
   int techpenalty;
   int razechance;
   int scorelog;
