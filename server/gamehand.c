@@ -204,6 +204,10 @@ void send_game_info(struct player *dest)
     ginfo.global_advances[i]=game.global_advances[i];
   for(i=0; i<B_LAST; i++)
     ginfo.global_wonders[i]=game.global_wonders[i];
+  /* the following values are computed every
+     time a packet_game_info packet is created */
+  if (game.timeout)
+    ginfo.seconds_to_turndone=game.turn_start + game.timeout - time(NULL);
 
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest) {
@@ -367,7 +371,9 @@ void game_load(struct section_file *file)
   game.killcitizen = secfile_lookup_int_default(file, game.killcitizen,
 						 "game.killcitizen");
   game.turnblock = secfile_lookup_int_default(file,game.turnblock,
-                         "game.turnblock");
+					      "game.turnblock");
+  game.fixedlength = secfile_lookup_int_default(file,game.fixedlength,
+						"game.fixedlength");
   game.barbarianrate = secfile_lookup_int_default(file, game.barbarianrate,
 						  "game.barbarians");
   game.onsetbarbarian = secfile_lookup_int_default(file, game.onsetbarbarian,
@@ -590,6 +596,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
   secfile_insert_int(file, game.killcitizen, "game.killcitizen");
   secfile_insert_int(file, game.turnblock, "game.turnblock");
+  secfile_insert_int(file, game.fixedlength, "game.fixedlength");
   secfile_insert_int(file, game.barbarianrate, "game.barbarians");
   secfile_insert_int(file, game.onsetbarbarian, "game.onsetbarbs");
   secfile_insert_int(file, game.occupychance, "game.occupychance");

@@ -127,7 +127,6 @@ int sniff_packets(void)
   int max_desc;
   fd_set readfs;
   struct timeval tv;
-  static time_t time_at_turn_end;
   static int year;
 #ifdef SOCKET_ZERO_ISNT_STDIN
   char buf[BUF_SIZE+1];
@@ -135,9 +134,10 @@ int sniff_packets(void)
 #endif
   
   if(year!=game.year) {
-    time_at_turn_end = time(NULL) + game.timeout;
     if (server_state == RUN_GAME_STATE) year=game.year;
   }
+  if (!game.timeout)
+    game.turn_start = time(NULL);
   
   while(1) {
     con_prompt_on();		/* accepting new input */
@@ -148,7 +148,8 @@ int sniff_packets(void)
       return 2;
     }
     
-    tv.tv_sec=1; tv.tv_usec=0;
+    tv.tv_sec=1;
+    tv.tv_usec=0;
     
     MY_FD_ZERO(&readfs);
     FD_SET(0, &readfs);	
@@ -166,7 +167,7 @@ int sniff_packets(void)
     if(select(max_desc+1, &readfs, NULL, NULL, &tv)==0) { /* timeout */
       send_server_info_to_metaserver(0,0);
       if((game.timeout) 
-	&& (time(NULL)>time_at_turn_end)
+	&& (time(NULL)>game.turn_start + game.timeout)
 	&& (server_state == RUN_GAME_STATE)){
 	con_prompt_off();
 	return 0;
@@ -176,6 +177,8 @@ int sniff_packets(void)
 #endif
       continue;
     }
+    if (!game.timeout)
+      game.turn_start = time(NULL);
   
     if(FD_ISSET(sock, &readfs)) {	     /* new players connects */
       freelog(LOG_VERBOSE, "got new connection");
@@ -231,8 +234,8 @@ int sniff_packets(void)
   con_prompt_off();
   
   if((game.timeout) 
-    && (time(NULL)>time_at_turn_end)
-    && (game.timeout)) return 0;
+     && (time(NULL)>game.turn_start + game.timeout))
+    return 0;
   return 1;
 }
   

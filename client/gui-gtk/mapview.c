@@ -34,6 +34,7 @@
 #include "timing.h"
 
 #include "civclient.h"
+#include "climisc.h"
 #include "colors.h"
 #include "control.h" /* set_unit_focus_no_center and get_unit_in_focus */
 #include "graphics.h"
@@ -267,7 +268,7 @@ void update_timeout_label(void)
 {
   char buffer[512];
 
-  my_snprintf(buffer, sizeof(buffer), "%d", seconds_to_turndone);
+  format_duration(buffer, sizeof(buffer), seconds_to_turndone);
   gtk_set_label(timeout_label, buffer);
 }
 

@@ -575,7 +575,14 @@ static struct settings_s settings[] = {
     N_("Turn-blocking game play mode"),
     N_("If this is set to 1 the game turn is not advanced until all players "
        "have finished their turn, including disconnected players.") },
-  
+
+  { "fixedlength", &game.fixedlength,
+    SSET_META, SSET_TO_CLIENT,
+    0, 1, 0,
+    N_("Fixed-length turns play mode"),
+    N_("If this is set to 1 the game turn will not advance until the timeout "
+       "has expired, irrespective of players clicking on \"Turn Done\".") },
+
   { "demography", NULL,
     SSET_META, SSET_TO_CLIENT,
     0, 0, 0,
@@ -2177,6 +2184,8 @@ static void set_command(struct player *caller, char *str)
 		      settings[cmd].name, val);
 	/* canonify map generator settings( all of which are int ) */
 	adjust_terrain_param();
+	/* send any modified game parameters to the clients */
+	send_game_info(0);
       }
     } else {
       cmd_reply(CMD_SET, caller, C_SYNTAX,

@@ -13,6 +13,11 @@
 #ifndef FC__GAME_H
 #define FC__GAME_H
 
+#include <time.h>	/* time_t */
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
+
 #include "shared.h"
 #include "player.h"
 
@@ -45,6 +50,7 @@ struct civ_game {
   int tech;
   int skill_level;
   int timeout;
+  time_t turn_start;
   int end_year;
   int year;
   int techlevel;
@@ -85,6 +91,7 @@ struct civ_game {
   int add_to_size_limit;
   int spacerace;
   int turnblock;
+  int fixedlength;
   int auto_ai_toggle;
   int fogofwar;
   int fogofwar_old;	/* as the fog_of_war bit get changed by setting
@@ -273,9 +280,9 @@ extern struct civ_game game;
 #define GAME_MIN_AUTO_AI_TOGGLE      0
 #define GAME_MAX_AUTO_AI_TOGGLE      1
 
-#define GAME_DEFAULT_TIMEOUT          0
-#define GAME_MIN_TIMEOUT              0
-#define GAME_MAX_TIMEOUT            999
+#define GAME_DEFAULT_TIMEOUT         0
+#define GAME_MIN_TIMEOUT             0
+#define GAME_MAX_TIMEOUT             86400
 
 #define GAME_DEFAULT_BARBARIANRATE   2
 #define GAME_MIN_BARBARIANRATE       0

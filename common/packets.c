@@ -1689,6 +1689,10 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->civstyle);
   cptr=put_uint8(cptr, pinfo->spacerace);
 
+  /* computed values */
+  if (pc && has_capability("send_secs_to_turn_done", pc->capability))
+    cptr=put_uint32(cptr, pinfo->seconds_to_turndone);
+
   put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1733,6 +1737,12 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->foodbox);
   iget_uint8(&iter, &pinfo->civstyle);
   iget_uint8(&iter, &pinfo->spacerace);
+
+  /* computed values */
+  if (pc && has_capability("send_secs_to_turn_done", pc->capability))
+    iget_uint32(&iter, &pinfo->seconds_to_turndone);
+  else
+    pinfo->seconds_to_turndone = 0;
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

@@ -694,6 +694,11 @@ void handle_game_info(struct packet_game_info *pinfo)
   boot_help = (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	       && game.spacerace != pinfo->spacerace);
   game.spacerace=pinfo->spacerace;
+  if (game.timeout) {
+    if (pinfo->seconds_to_turndone)
+      seconds_to_turndone = pinfo->seconds_to_turndone;
+  } else
+    seconds_to_turndone = 0;
   if (boot_help) {
     boot_help_texts();		/* reboot, after setting game.spacerace */
   }

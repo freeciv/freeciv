@@ -781,8 +781,10 @@ void timer_callback(caddr_t client_data, XtIntervalId *id)
     
     if(flip) {
       update_timeout_label();
-    if(seconds_to_turndone)
+      if(seconds_to_turndone > 0)
 	seconds_to_turndone--;
+      else
+	seconds_to_turndone = 0;
     }
     
     flip=!flip;

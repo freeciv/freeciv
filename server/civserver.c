@@ -876,6 +876,7 @@ static int end_turn(void)
   do_apollo_program();
   make_history_report();
   freelog(LOG_DEBUG, "Turn ended.");
+  game.turn_start = time(NULL);
   return 1;
 }
 
@@ -937,6 +938,7 @@ void start_game(void)
 
   server_state=SELECT_RACES_STATE; /* loaded ??? */
   force_end_of_sniff=1;
+  game.turn_start = time(NULL);
 }
 
 
@@ -1216,6 +1218,9 @@ int check_for_full_turn_done(void)
 {
   int i;
 
+  /* fixedlength is only applicable if we have a timeout set */
+  if (game.fixedlength && game.timeout)
+    return 0;
   for(i=0; i<game.nplayers; i++) {
     if (game.turnblock) {
       if (!game.players[i].ai.control && game.players[i].is_alive &&

@@ -723,6 +723,8 @@ struct packet_game_info {
   int foodbox;
   int techpenalty;
   int spacerace;
+  /* the following values are computed each time packet_game_info is sent */
+  int seconds_to_turndone;
 };
 
 /*********************************************************

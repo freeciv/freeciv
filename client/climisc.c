@@ -319,6 +319,24 @@ void client_change_all(int x, int y)
 }
 
 /**************************************************************************
+Format a duration, in seconds, so it comes up in minutes or hours if
+that would be more meaningful.  (Three characters, maximum.)
+**************************************************************************/
+void format_duration(char *buffer, int buffer_size, int duration)
+{
+  if (duration < 0)
+    duration = 0;
+  if (duration <= 999)
+    my_snprintf(buffer, buffer_size, Q_("?seconds:%d"), duration);
+  else if (duration < 5970)	/* < 99.5 minutes */
+    my_snprintf(buffer, buffer_size, Q_("?minutes:%dm"), duration/60);
+  else if (duration < 358200)	/* < 99.5 hours */
+    my_snprintf(buffer, buffer_size, Q_("?hours:%dh"), duration/3600);
+  else
+    my_snprintf(buffer, buffer_size, "+++");
+}
+
+/**************************************************************************
 Copy a string that describes the given clause into the return buffer.
 **************************************************************************/
 void client_diplomacy_clause_string(char *buf, int bufsiz,
