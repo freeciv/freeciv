@@ -255,6 +255,41 @@ void handle_unit_combat(struct packet_unit_combat *packet)
 }
 
 /**************************************************************************
+  Updates a city's list of improvements from packet data. "impr" identifies
+  the improvement, and "have_impr" specifies whether the improvement should
+  be added (TRUE) or removed (FALSE). "impr_changed" is set TRUE only if
+  the existing improvement status was changed by this call.
+**************************************************************************/
+static void update_improvement_from_packet(struct city *pcity,
+					   Impr_Type_id impr, int have_impr,
+					   int *impr_changed)
+{
+  if (have_impr && pcity->improvements[impr] == I_NONE) {
+    city_add_improvement(pcity, impr);
+
+    if (impr_changed) {
+      *impr_changed = TRUE;
+    }
+  } else if (!have_impr && pcity->improvements[impr] != I_NONE) {
+    city_remove_improvement(pcity, impr);
+
+    if (impr_changed) {
+      *impr_changed = TRUE;
+    }
+  }
+}
+
+/**************************************************************************
+  Possibly update city improvement effects.
+**************************************************************************/
+static void try_update_effects(int need_update)
+{
+  if (need_update) {
+    update_all_effects();
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void handle_game_state(struct packet_generic_integer *packet)
@@ -289,7 +324,7 @@ void handle_game_state(struct packet_generic_integer *packet)
 **************************************************************************/
 void handle_city_info(struct packet_city_info *packet)
 {
-  int i, x, y, city_is_new;
+  int i, x, y, city_is_new, need_effect_update = FALSE;
   struct city *pcity;
   int popup;
   int update_descriptions = 0;
@@ -403,13 +438,8 @@ void handle_city_info(struct packet_city_info *packet)
   }
     
   for(i=0; i<game.num_impr_types; i++) {
-    if (packet->improvements[i]=='1') {
-      if (pcity->improvements[i]==I_NONE) city_add_improvement(pcity,i);
-    } else if (city_is_new) {
-      pcity->improvements[i]=I_NONE;
-    } else if (pcity->improvements[i]!=I_NONE) {
-      city_remove_improvement(pcity,i);
-    }
+    update_improvement_from_packet(pcity, i, packet->improvements[i] == '1',
+                                   &need_effect_update);
   }
 
   popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
@@ -441,7 +471,8 @@ void handle_city_info(struct packet_city_info *packet)
       timer_initialized = 1;
     }
   }
-  update_all_effects();
+
+  try_update_effects(need_effect_update);
 }
 
 /**************************************************************************
@@ -521,7 +552,7 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
 void handle_short_city(struct packet_short_city *packet)
 {
   struct city *pcity;
-  int city_is_new;
+  int city_is_new, need_effect_update = FALSE;
   int update_descriptions = 0;
 
   pcity=find_city_by_id(packet->id);
@@ -573,18 +604,10 @@ void handle_short_city(struct packet_short_city *packet)
     ceff_vector_init(&pcity->effects);
   }
 
-  if (packet->capital) {
-    if (pcity->improvements[B_PALACE]==I_NONE)
-      city_add_improvement(pcity,B_PALACE);
-  } else if (!city_is_new) {
-    city_remove_improvement(pcity,B_PALACE);
-  }
-  if (packet->walls) {
-    if (pcity->improvements[B_CITY]==I_NONE)
-      city_add_improvement(pcity,B_CITY);
-  } else if (!city_is_new) {
-    city_remove_improvement(pcity,B_CITY);
-  }
+  update_improvement_from_packet(pcity, B_PALACE, packet->capital,
+                                 &need_effect_update);
+  update_improvement_from_packet(pcity, B_CITY, packet->walls,
+                                 &need_effect_update);
 
   if (city_is_new)
     pcity->worklist = create_worklist();
@@ -635,7 +658,8 @@ void handle_short_city(struct packet_short_city *packet)
   if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
     update_city_descriptions();
   }
-  update_all_effects();
+
+  try_update_effects(need_effect_update);
 }
 
 /**************************************************************************
@@ -1029,7 +1053,7 @@ void handle_map_info(struct packet_map_info *pinfo)
 **************************************************************************/
 void handle_game_info(struct packet_game_info *pinfo)
 {
-  int i, boot_help;
+  int i, boot_help, need_effect_update = FALSE;
   game.gold=pinfo->gold;
   game.tech=pinfo->tech;
   game.researchcost=pinfo->researchcost;
@@ -1066,11 +1090,18 @@ void handle_game_info(struct packet_game_info *pinfo)
    city anyway */
     if (is_wonder(i) && improvement_types[i].equiv_range==EFR_WORLD &&
         !find_city_by_id(game.global_wonders[i])) {
-      if (game.global_wonders[i]<=0) game.improvements[i]=I_NONE;
-      else game.improvements[i]=I_ACTIVE;
+      if (game.global_wonders[i] <= 0 && game.improvements[i] != I_NONE) {
+        game.improvements[i] = I_NONE;
+        need_effect_update = TRUE;
+      } else if (game.global_wonders[i] > 0 && game.improvements[i] == I_NONE) {
+        game.improvements[i] = I_ACTIVE;
+        need_effect_update = TRUE;
+      }
     }
   }
-  update_all_effects();
+
+  /* Only update effects if a new wonder appeared or was destroyed */
+  try_update_effects(need_effect_update);
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     if(get_client_state()==CLIENT_SELECT_RACE_STATE)
