@@ -74,6 +74,8 @@ void gamelog(int level, char *message, ...)
       fprintf(fs,"%s\n",buf);
   } else if (level==GAMELOG_EOT){
     fprintf(fs,"*** %s\n",buf);
+  } else if (level==GAMELOG_RANK){
+    fprintf(fs,"RANK %s\n",buf);
   } else {
     fprintf(fs,"%i %s\n", game.year,buf);
   }
@@ -114,8 +116,12 @@ void gamelog_save(void){
   char buffer[4096];
   struct player_score_entry *size=
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
+  struct player_score_entry *rank=
+    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
   for (i=0,count=0;i<game.nplayers;i++) {
     if (!is_barbarian (&(game.players[i]))) {
+      rank[count].value=civ_score(&game.players[i]);
+      rank[count].idx=i;
       size[count].value=total_player_citizens(&game.players[i]);
       size[count].idx=i;
       count++;
@@ -132,4 +138,14 @@ void gamelog_save(void){
   }
   gamelog(GAMELOG_EOT,buffer);
   free(size);
+  qsort(rank, count, sizeof(struct player_score_entry), secompare1);
+  buffer[0]=0;
+  for (i=0;i<count;i++) {
+    cat_snprintf(buffer, sizeof(buffer),
+		 "%s,%i|",
+		 game.players[rank[i].idx].name,
+		 rank[i].value);
+  }
+  gamelog(GAMELOG_RANK,buffer);
+  free(rank);
 }
