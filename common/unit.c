@@ -688,10 +688,9 @@ void raise_unit_top(struct unit *punit)
 **************************************************************************/
 int can_unit_build_city(struct unit *punit)
 {
-  if(!unit_flag(punit->type, F_SETTLERS))
-    return 0;
+  int x, y;
 
-  if(map_get_city(punit->x, punit->y))
+  if(!unit_flag(punit->type, F_SETTLERS))
     return 0;
     
   if(map_get_terrain(punit->x, punit->y)==T_OCEAN)
@@ -699,6 +698,16 @@ int can_unit_build_city(struct unit *punit)
 
   if(!punit->moves_left)
     return 0;
+
+  if(game.civstyle==1) {
+    if(map_get_city(punit->x, punit->y))
+      return 0;
+  } else {
+    for(x=-1; x<=1; x++)
+      for(y=-1; y<=1; y++)
+	if(map_get_city(punit->x + x, punit->y + y))
+	  return 0;
+  }
 
   return 1;
 }

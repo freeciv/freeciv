@@ -615,12 +615,20 @@ int handle_unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer=&game.players[punit->owner];
   int ok = 1;
-  if (is_air_unit(punit))
+
+  if ((game.civstyle==1) && is_air_unit(punit)) {
     return ok;
+  }
+
   map_get_tile(punit->x, punit->y)->special^=S_HUT;
-  
   send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-  
+
+  if ((game.civstyle==2) && is_air_unit(punit)) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     "Game: Your overflight frightens the tribe; they scatter in terror.");
+    return ok;
+  }
+
   switch (myrand(12)) {
   case 0:
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
@@ -692,7 +700,7 @@ int handle_unit_enter_hut(struct unit *punit)
 		       "Game: An abandoned village is here.");
     else {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       "Game: Your unit has been slaughtered by a band of cowardly barbarians");
+		       "Game: Your unit has been slaughtered by a band of cowardly barbarians.");
       wipe_unit(pplayer, punit);
       ok = 0;
     }
@@ -709,7 +717,7 @@ int handle_unit_enter_hut(struct unit *punit)
       create_city(pplayer, punit->x, punit->y, city_name_suggestion(pplayer));
     } else {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		   "Game: Friendly nomads are impressed by you, and join you");
+		   "Game: Friendly nomads are impressed by you, and join you.");
       create_unit(pplayer, punit->x, punit->y, get_role_unit(F_SETTLERS,0),
 		  0, punit->homecity, -1);
     }

@@ -400,8 +400,12 @@ static struct settings_s settings[] = {
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE,
     "Style of Civ rules",
-    "  Sets some basic rules; 1 means style of Civ1, 2 means Civ2.  Currently\n"
-    "  this option is mostly unimplemented and only affects a few rules.\n"
+    "  Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
+    "  Currently this option affects the following rules:\n"
+    "    - Civ2 exposes more area at the very start of a new game.\n"
+    "    - Civ2 allows the player to pick which improvement to pillage.\n"
+    "    - In Civ2, cities cannot be built next to each other.\n"
+    "    - In Civ2, overflight of a hut causes it to disappear.\n"
     "  See also README.rulesets and the techs, units, buildings and terrain\n"
     "  options." },
 
