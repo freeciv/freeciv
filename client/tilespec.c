@@ -705,7 +705,7 @@ static char *nsew_str(int idx)
 #define SET_SPRITE(field, tag) do {                       \
        sprites.field = load_sprite(tag);                  \
        if (!sprites.field) {                              \
-         die("Sprite tag %s missing.", buffer);           \
+         die("Sprite tag %s missing.", tag);              \
        }                                                  \
     } while(FALSE)
 
