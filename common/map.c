@@ -202,7 +202,7 @@ void map_init(void)
 /**************************************************************************
   Allocate space for map, and initialise the tiles.
   Uses current map.xsize and map.ysize.
-  Uses realloc, in case map was allocated before (eg, in client);
+  Uses fc_realloc, in case map was allocated before (eg, in client);
   should have called map_init() (via game_init()) before this,
   so map.tiles will be 0 on first call.
 **************************************************************************/
@@ -211,7 +211,7 @@ void map_allocate(void)
   freelog(LOG_DEBUG, "map_allocate (was %p) (%d,%d)",
 	  map.tiles, map.xsize, map.ysize);
   
-  map.tiles=fc_realloc(map.tiles, map.xsize*map.ysize*sizeof(struct tile));
+  map.tiles = fc_realloc(map.tiles, map.xsize*map.ysize*sizeof(struct tile));
   whole_map_iterate(x, y) {
     tile_init(map_get_tile(x, y));
   } whole_map_iterate_end;
@@ -313,7 +313,9 @@ int ydist(int y0, int y1)
 ***************************************************************/
 int real_map_distance(int x0, int y0, int x1, int y1)
 {
-  return MAX(xdist(x0, x1), ydist(y0, y1));
+  int xd = xdist(x0, x1);
+  int yd = ydist(y0, y1);
+  return MAX(xd, yd);
 }
 
 /***************************************************************
@@ -566,12 +568,12 @@ int is_sea_usable(int x, int y)
 ***************************************************************/
 int get_tile_food_base(struct tile * ptile)
 {
-  if(ptile->special&S_SPECIAL_1) 
-    return (tile_types[ptile->terrain].food_special_1);
-  else if(ptile->special&S_SPECIAL_2) 
-    return (tile_types[ptile->terrain].food_special_2);
+  if (ptile->special & S_SPECIAL_1) 
+    return tile_types[ptile->terrain].food_special_1;
+  else if (ptile->special & S_SPECIAL_2)
+    return tile_types[ptile->terrain].food_special_2;
   else
-    return (tile_types[ptile->terrain].food);
+    return tile_types[ptile->terrain].food;
 }
 
 /***************************************************************
@@ -579,12 +581,12 @@ int get_tile_food_base(struct tile * ptile)
 ***************************************************************/
 int get_tile_shield_base(struct tile * ptile)
 {
-  if(ptile->special&S_SPECIAL_1) 
-    return (tile_types[ptile->terrain].shield_special_1);
-  else if(ptile->special&S_SPECIAL_2) 
-    return (tile_types[ptile->terrain].shield_special_2);
+  if (ptile->special & S_SPECIAL_1)
+    return tile_types[ptile->terrain].shield_special_1;
+  else if(ptile->special&S_SPECIAL_2)
+    return tile_types[ptile->terrain].shield_special_2;
   else
-    return (tile_types[ptile->terrain].shield);
+    return tile_types[ptile->terrain].shield;
 }
 
 /***************************************************************
@@ -618,32 +620,36 @@ int get_tile_infrastructure_set(struct tile * ptile)
 char *map_get_infrastructure_text(int spe)
 {
   static char s[64];
-
-  *s = '\0';
+  char *p;
+  
+  s[0] = '\0';
 
   /* Since railroad requires road, Road/Railroad is redundant */
-  if(spe&S_RAILROAD)
+  if (spe & S_RAILROAD)
     cat_snprintf(s, sizeof(s), "%s/", _("Railroad"));
-  else if(spe&S_ROAD)
+  else if (spe & S_ROAD)
     cat_snprintf(s, sizeof(s), "%s/", _("Road"));
+
   /* Likewise for farmland on irrigation */
-  if(spe&S_FARMLAND)
+  if (spe & S_FARMLAND)
     cat_snprintf(s, sizeof(s), "%s/", _("Farmland"));
-  else if(spe&S_IRRIGATION)
+  else if (spe & S_IRRIGATION)
     cat_snprintf(s, sizeof(s), "%s/", _("Irrigation"));
-  if(spe&S_MINE)
+
+  if (spe & S_MINE)
     cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
-  if(spe&S_FORTRESS)
+
+  if (spe & S_FORTRESS)
     cat_snprintf(s, sizeof(s), "%s/", _("Fortress"));
-  if(spe&S_AIRBASE)
+
+  if (spe & S_AIRBASE)
     cat_snprintf(s, sizeof(s), "%s/", _("Airbase"));
 
-  if(*s) {
-    char *p = s + strlen(s) - 1;
-    if (*p == '/') *p = '\0';
-  }
+  p = s + strlen(s) - 1;
+  if (*p == '/')
+    *p = '\0';
 
-  return (s);
+  return s;
 }
 
 /***************************************************************
@@ -653,12 +659,12 @@ int map_get_infrastructure_prerequisite(int spe)
 {
   int prereq = S_NO_SPECIAL;
 
-  if (spe&S_RAILROAD)
-    prereq|=S_ROAD;
-  if (spe&S_FARMLAND)
-    prereq|=S_IRRIGATION;
+  if (spe & S_RAILROAD)
+    prereq |= S_ROAD;
+  if (spe & S_FARMLAND)
+    prereq |= S_IRRIGATION;
 
-  return (prereq);
+  return prereq;
 }
 
 /***************************************************************
@@ -666,19 +672,19 @@ int map_get_infrastructure_prerequisite(int spe)
 ***************************************************************/
 int get_preferred_pillage(int pset)
 {
-  if(pset&S_FARMLAND)
+  if (pset & S_FARMLAND)
     return S_FARMLAND;
-  if(pset&S_IRRIGATION)
+  if (pset & S_IRRIGATION)
     return S_IRRIGATION;
-  if(pset&S_MINE)
+  if (pset & S_MINE)
     return S_MINE;
-  if(pset&S_FORTRESS)
+  if (pset & S_FORTRESS)
     return S_FORTRESS;
-  if(pset&S_AIRBASE)
+  if (pset & S_AIRBASE)
     return S_AIRBASE;
-  if(pset&S_RAILROAD)
+  if (pset & S_RAILROAD)
     return S_RAILROAD;
-  if(pset&S_ROAD)
+  if (pset & S_ROAD)
     return S_ROAD;
   return S_NO_SPECIAL;
 }
@@ -746,13 +752,7 @@ int map_transform_time(int x, int y)
 ***************************************************************/
 static void clear_infrastructure(int x, int y)
 {
-  map_clear_special(x, y, S_ROAD);
-  map_clear_special(x, y, S_IRRIGATION);
-  map_clear_special(x, y, S_RAILROAD);
-  map_clear_special(x, y, S_MINE);
-  map_clear_special(x, y, S_FORTRESS);
-  map_clear_special(x, y, S_FARMLAND);
-  map_clear_special(x, y, S_AIRBASE);
+  map_clear_special(x, y, S_INFRASTRUCTURE_MASK);
 }
 
 /***************************************************************
@@ -760,8 +760,7 @@ static void clear_infrastructure(int x, int y)
 ***************************************************************/
 static void clear_dirtiness(int x, int y)
 {
-  map_clear_special(x, y, S_POLLUTION);
-  map_clear_special(x, y, S_FALLOUT);
+  map_clear_special(x, y, S_POLLUTION | S_FALLOUT);
 }
 
 /***************************************************************
@@ -771,19 +770,19 @@ void map_irrigate_tile(int x, int y)
 {
   enum tile_terrain_type now, result;
   
-  now=map_get_terrain(x, y);
-  result=tile_types[now].irrigation_result;
+  now = map_get_terrain(x, y);
+  result = tile_types[now].irrigation_result;
 
-  if(now==result) {
-    if (map_get_special(x, y)&S_IRRIGATION) {
+  if (now == result) {
+    if (map_get_special(x, y) & S_IRRIGATION) {
       map_set_special(x, y, S_FARMLAND);
     } else {
       map_set_special(x, y, S_IRRIGATION);
     }
   }
-  else if(result!=T_LAST) {
+  else if (result != T_LAST) {
     map_set_terrain(x, y, result);
-    if (result==T_OCEAN) {
+    if (result == T_OCEAN) {
       clear_infrastructure(x, y);
       clear_dirtiness(x, y);
       map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
@@ -801,14 +800,14 @@ void map_mine_tile(int x, int y)
 {
   enum tile_terrain_type now, result;
   
-  now=map_get_terrain(x, y);
-  result=tile_types[now].mining_result;
+  now = map_get_terrain(x, y);
+  result = tile_types[now].mining_result;
   
-  if(now==result) 
+  if (now == result) 
     map_set_special(x, y, S_MINE);
-  else if(result!=T_LAST) {
+  else if (result != T_LAST) {
     map_set_terrain(x, y, result);
-    if (result==T_OCEAN) {
+    if (result == T_OCEAN) {
       clear_infrastructure(x, y);
       clear_dirtiness(x, y);
       map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
@@ -816,8 +815,8 @@ void map_mine_tile(int x, int y)
     }
     reset_move_costs(x, y);
   }
-  map_clear_special(x,y, S_FARMLAND);
-  map_clear_special(x,y, S_IRRIGATION);
+  map_clear_special(x, y, S_FARMLAND);
+  map_clear_special(x, y, S_IRRIGATION);
 }
 
 /***************************************************************
@@ -826,7 +825,7 @@ void map_mine_tile(int x, int y)
 void change_terrain(int x, int y, enum tile_terrain_type type)
 {
   map_set_terrain(x, y, type);
-  if (type==T_OCEAN) {
+  if (type == T_OCEAN) {
     clear_infrastructure(x, y);
     clear_dirtiness(x, y);
     map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
@@ -839,12 +838,12 @@ void change_terrain(int x, int y, enum tile_terrain_type type)
      that feature.  (With current rules, this should only clear mines,
      but I'm including both cases in the most general form for possible
      future ruleset expansion. -GJW) */
+  
   if (tile_types[type].mining_result != type)
     map_clear_special(x, y, S_MINE);
-  if (tile_types[type].irrigation_result != type) {
-    map_clear_special(x, y, S_FARMLAND);
-    map_clear_special(x, y, S_IRRIGATION);
-  }
+
+  if (tile_types[type].irrigation_result != type)
+    map_clear_special(x, y, S_FARMLAND | S_IRRIGATION);
 }
 
 /***************************************************************
@@ -868,20 +867,17 @@ a sufficient number of adjacent tiles that are not ocean.
 **************************************************************************/
 int can_reclaim_ocean(int x, int y)
 {
-  int landtiles;
+  int landtiles = terrain_control.ocean_reclaim_requirement;
 
-  if (terrain_control.ocean_reclaim_requirement >= 9)
+  if (landtiles >= 9)
     return 0;
-  if (terrain_control.ocean_reclaim_requirement <= 0)
+  if (landtiles <= 0)
     return 1;
 
-  landtiles = 0;
   adjc_iterate(x, y, x1, y1) {
-    if (map_get_tile(x1, y1)->terrain != T_OCEAN) {
-      landtiles++;
-    }
-    if (landtiles >= terrain_control.ocean_reclaim_requirement)
-      return 1;
+    if (map_get_tile(x1, y1)->terrain != T_OCEAN)
+      if (--landtiles == 0)
+	return 1;	
   } adjc_iterate_end;
 
   return 0;
@@ -894,20 +890,17 @@ a sufficient number of adjacent tiles that are ocean.
 **************************************************************************/
 int can_channel_land(int x, int y)
 {
-  int oceantiles;
+  int oceantiles = terrain_control.land_channel_requirement;
 
-  if (terrain_control.land_channel_requirement >= 9)
+  if (oceantiles >= 9)
     return 0;
-  if (terrain_control.land_channel_requirement <= 0)
+  if (oceantiles <= 0)
     return 1;
 
-  oceantiles = 0;
   adjc_iterate(x, y, x1, y1) {
-    if (map_get_tile(x1, y1)->terrain == T_OCEAN) {
-      oceantiles++;
-    }
-    if (oceantiles >= terrain_control.land_channel_requirement)
-      return 1;
+    if (map_get_tile(x1, y1)->terrain == T_OCEAN)
+      if (--oceantiles == 0)
+	return 1;
   } adjc_iterate_end;
 
   return 0;
@@ -1156,10 +1149,10 @@ enum tile_terrain_type map_get_terrain(int x, int y)
 ***************************************************************/
 enum tile_special_type map_get_special(int x, int y)
 {
-  if(y<0 || y>=map.ysize)
+  if(!is_real_tile(x, y))
     return S_NO_SPECIAL;
   else
-    return (map.tiles+map_adjust_x(x)+y*map.xsize)->special;
+    return (map.tiles + map_adjust_x(x) + y*map.xsize)->special;
 }
 
 /***************************************************************
@@ -1176,9 +1169,13 @@ void map_set_terrain(int x, int y, enum tile_terrain_type ter)
 ***************************************************************/
 void map_set_special(int x, int y, enum tile_special_type spe)
 {
-  x = map_adjust_x(x); y = map_adjust_y(y);
-  (map.tiles+x+y*map.xsize)->special|=spe;
-  if (spe == S_ROAD || spe == S_RAILROAD) reset_move_costs(x, y);
+  x = map_adjust_x(x);
+  y = map_adjust_y(y);
+  
+  (map.tiles +x + y*map.xsize)->special |= spe;
+
+  if (spe & (S_ROAD | S_RAILROAD))
+    reset_move_costs(x, y);
 }
 
 /***************************************************************
@@ -1186,18 +1183,21 @@ void map_set_special(int x, int y, enum tile_special_type spe)
 ***************************************************************/
 void map_clear_special(int x, int y, enum tile_special_type spe)
 {
-  x = map_adjust_x(x); y = map_adjust_y(y);
-  (map.tiles+x+y*map.xsize)->special&=~spe;
-  if (spe == S_ROAD || spe == S_RAILROAD) reset_move_costs(x, y);
-}
+  x = map_adjust_x(x);
+  y = map_adjust_y(y);
+  (map.tiles + x + y*map.xsize)->special &= ~spe;
 
+  if (spe & (S_ROAD | S_RAILROAD))
+    reset_move_costs(x, y);
+}
 
 /***************************************************************
 ...
 ***************************************************************/
 struct city *map_get_city(int x, int y)
 {
-  return (map.tiles+map_adjust_x(x)+map_adjust_y(y)*map.xsize)->city;
+  x = map_adjust_x(x); y = map_adjust_y(y);
+  return (map.tiles + x + y*map.xsize)->city;
 }
 
 
@@ -1255,7 +1255,7 @@ Mayor problem with fog of war
 ***************************************************************/
 int is_real_tile(int x, int y)
 {
-  return y >= 0 && y < map.ysize;
+  return 0 <= y && y < map.ysize;
 }
 
 /**************************************************************************
@@ -1267,7 +1267,7 @@ int normalize_map_pos(int *x, int *y) {
 
   while (*x < 0)
     *x += map.xsize;
-  while (*x > map.xsize-1)
+  while (*x >= map.xsize)
     *x -= map.xsize;
 
   return TRUE;

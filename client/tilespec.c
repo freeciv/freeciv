@@ -1363,7 +1363,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     ttype_south_west=map_get_terrain(abs_x0-1, abs_y0+1);
   }
 
-  /* map_get_specials() returns S_NO_SPECIAL past poles anyway */
+  /* map_get_special() returns S_NO_SPECIAL past poles anyway */
   tspecial=map_get_special(abs_x0, abs_y0);
   tspecial_north=map_get_special(abs_x0, abs_y0-1);
   tspecial_east=map_get_special(abs_x0+1, abs_y0);
