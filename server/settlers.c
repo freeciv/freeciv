@@ -703,165 +703,202 @@ struct unit *other_passengers(struct unit *punit)
 *********************************************************************/
 int auto_settler_findwork(struct player *pplayer, struct unit *punit)
 {
-  int gx,gy;
-  int co=map_get_continent(punit->x, punit->y);
-  int t=0, v=0, v2;
-  int x, y, z, i, j, ww = 99999; /* ww = 0 leads to v2=0 activities being OK */
-  int m = unit_types[punit->type].move_rate;
-  int food, val, w, a, b, d, fu;
   struct city *mycity = map_get_city(punit->x, punit->y);
-  struct unit *ferryboat;
-  int boatid, bx, by;
-  int id = punit->id;
-  int near;
-  int nav = (get_invention(pplayer, A_NAVIGATION) == TECH_KNOWN);
-  struct ai_choice choice; /* for nav want only */
-  int n = pplayer->player_no;
-  int save_v;
+  int nav_known       = (get_invention(pplayer, A_NAVIGATION) == TECH_KNOWN);
+  int ucont           = map_get_continent(punit->x, punit->y);
+  int mv_rate         = unit_types[punit->type].move_rate;
+  int player_num      = pplayer->player_no;
+  int save_id         = punit->id;              /* in case unit dies */
+  
+  int gx,gy;			/* x,y of target (goto) square */
+  int mv_turns;			/* estimated turns to move to target square */
+  int oldv;			/* current value of consideration tile */
+  int newv;			/* upgraded value of consideration tile */
+  int best_newv = 0;		/* newv of best target so far, all cities */
+  int best_oldv = 9999;		/* oldv of best target so far; compared if
+				   newv==best_newv; not initialized to zero,
+				   so that newv=0 activities are not chosen */
+  int best_act = 0;		/* ACTIVITY_ of best target so far */
+  int food_upkeep;		/* upkeep food value for single settler  */
+  int food_cost;		/* estimated food cost to produce settler */
+  
+  int boatid, bx, by;		/* as returned by find_boat */
+  struct unit *ferryboat;	/* if non-null, boatid boat at unit's x,y */
+  
+  int x, y, i, j;
+  int a, b, d;
+  int worst;
+  int save_newv;		/* for debugging only */
+  
+  struct ai_choice choice;	/* for nav want only */
 
   choice.type = 1;
-  choice.choice = U_CARAVEL;
-  choice.want = 0; /* will change as needed */
+  choice.choice = U_CARAVEL;	/* first non-trireme boat */
+  choice.want = 0;		/* will change as needed */
 
-  if (punit->id) fu = 30; /* fu is estimated food cost to produce settler -- Syela */
+  if (punit->id) food_cost = 30;
   else {
-    if (mycity->size == 1) fu = 20;
-    else fu = 40 * (mycity->size - 1) / mycity->size;
-    if (city_got_effect(mycity, B_GRANARY)) fu -= 20;
+    if (mycity->size == 1) food_cost = 20;
+    else food_cost = 40 * (mycity->size - 1) / mycity->size;
+    if (city_got_effect(mycity, B_GRANARY)) food_cost -= 20;
   }
+  food_upkeep = (get_government(pplayer->player_no) > G_COMMUNISM ? 2 : 1);
+  if (punit->id && !punit->homecity) food_upkeep = 0; /* thanks, Peter */
 
+  /** First find the best square to upgrade,
+   ** results in: gx, gy, best_oldv, best_newv, best_act */
+  
   gx=-1;
   gy=-1;
-/* iterating over the whole map is just ridiculous.  let's only look at
-our own cities.  The old method wasted billions of CPU cycles and led to
-AI settlers improving enemy cities. */ /* arguably should include city_spot */
+  /* iterating over the whole map is just ridiculous.  let's only look at
+     our own cities.  The old method wasted billions of CPU cycles and led to
+     AI settlers improving enemy cities.  arguably should include city_spot  */
   generate_warmap(mycity, punit);
-  food = (get_government(pplayer->player_no) > G_COMMUNISM ? 2 : 1);
-  if (punit->id && !punit->homecity) food = 0; /* thanks, Peter */
   city_list_iterate(pplayer->cities, pcity)
-    w = worst_worker_tile_value(pcity);
+    worst = worst_worker_tile_value(pcity);
     city_map_iterate(i, j) {
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE) continue;
       x = map_adjust_x(pcity->x + i - 2);
-/*      y = map_adjust_y(pcity->y + j - 2);     Pernicious! */
-      y = pcity->y + j - 2;
-      if (map_get_continent(x, y) == co &&
-          (y >= 0 && y < map.ysize) &&
-          warmap.cost[x][y] <= THRESHOLD * m &&
-          (territory[x][y]&(1<<n)) && /* pretty good, hope it's enough! -- Syela */
-          !is_already_assigned(punit, pplayer, x, y)) {
-/* calling is_already_assigned once instead of four times for obvious reasons */
-/* structure is much the same as it once was but subroutines are not -- Syela */
-	z = (warmap.cost[x][y]) / m;
-        val = city_tile_value(pcity, i, j, 0, 0);
-        if (w > val && (i != 2 || j != 2)) val = w;
-/* perhaps I should just subtract w rather than val but I prefer this -- Syela */
+      y = pcity->y + j - 2;	/* No adjust! */
+      if ((y >= 0 && y < map.ysize)
+	  && map_get_continent(x, y) == ucont
+	  && warmap.cost[x][y] <= THRESHOLD * mv_rate
+	  && (territory[x][y]&(1<<player_num))
+				/* pretty good, hope it's enough! -- Syela */
+          && !is_already_assigned(punit, pplayer, x, y)) {
+	/* calling is_already_assigned once instead of four times
+	   for obvious reasons;  structure is much the same as it once
+	   was but subroutines are not -- Syela	*/
+	mv_turns = (warmap.cost[x][y]) / mv_rate;
+        oldv = city_tile_value(pcity, i, j, 0, 0);
+        if (worst > oldv && (i != 2 || j != 2)) oldv = worst;
+	/* perhaps I should just subtract worst rather than oldv but
+	   I prefer this -- Syela */
 
 /* Christopher Neufeld provided a rather crufty patch to make settlers
 needlessly idle less often.  I didn't want to apply it, but the ideas
 for the -1 return values in ai_calc_*, the !irrigation in calc_mine,
-and the prioritization of useless (b <= 0) activities are his. -- Syela */
+and the prioritization of useless (b <= 0) activities are his. -- Syela
+*/
 
-	v2 = pcity->ai.irrigate[i][j];
-        if (v2 >= val) { /* worth evaluating */
-          b = MAX((v2 - val)<<6, MORT);
-          d = (map_build_irrigation_time(x, y) * 3 + m - 1) / m + z;
+	newv = pcity->ai.irrigate[i][j];
+        if (newv >= oldv) { /* worth evaluating */
+          b = MAX((newv - oldv)<<6, MORT);
+          d = (map_build_irrigation_time(x, y) * 3 + mv_rate - 1) / mv_rate
+	    + mv_turns;
           a = amortize(b, d);
-          v2 = ((a * b) / (MAX(1, b - a)))>>6;
-        } else v2 = 0;
-        if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
-/*printf("Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d\n",
-gx, gy, v, x, y, v2, d, b);*/
-	  t=ACTIVITY_IRRIGATE;
-	  v=v2; gx=x; gy=y; ww=val;
+          newv = ((a * b) / (MAX(1, b - a)))>>6;
+        } else newv = 0;
+        if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
+	    && ai_fuzzy(pplayer, 1)) {
+	  /*printf("Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d\n",
+	    gx, gy, best_newv, x, y, newv, d, b);*/
+	  best_act = ACTIVITY_IRRIGATE;
+	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
         }
 
-	v2 = pcity->ai.mine[i][j];
-        if (v2 >= val) {
-          b = MAX((v2 - val)<<6, MORT);
-          d = (map_build_mine_time(x, y) * 3 + m - 1) / m + z;
+	newv = pcity->ai.mine[i][j];
+        if (newv >= oldv) {
+          b = MAX((newv - oldv)<<6, MORT);
+          d = (map_build_mine_time(x, y) * 3 + mv_rate - 1) / mv_rate
+	    + mv_turns;
           a = amortize(b, d);
-          v2 = ((a * b) / (MAX(1, b - a)))>>6;
-        } else v2 = 0;
-	if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
-/*printf("Replacing (%d, %d) = %d with (%d, %d) M=%d d=%d, b=%d\n",
-gx, gy, v, x, y, v2, d, b);*/
-	  t=ACTIVITY_MINE;
-	  v=v2; gx=x; gy=y; ww=val;
+          newv = ((a * b) / (MAX(1, b - a)))>>6;
+        } else newv = 0;
+	if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
+	    && ai_fuzzy(pplayer, 1)) {
+	  /*printf("Replacing (%d, %d) = %d with (%d, %d) M=%d d=%d, b=%d\n",
+	    gx, gy, best_newv, x, y, newv, d, b);*/
+	  best_act = ACTIVITY_MINE;
+	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
         }
 
         if (!(map_get_tile(x,y)->special&S_ROAD)) {
-  	  v2 = pcity->ai.road[i][j];
-          if (v2 >= 0) {    
-            v2 = MAX(v2, val) + road_bonus(x, y, S_ROAD) * 8;
-/* guessing about the weighting based on unit upkeeps; * 11 was too high! -- Syela */
-            b = MAX((v2 - val)<<6, MORT);
-            d = (map_build_road_time(x, y) * 3 + 3 + m - 1) / m + z; /* uniquely weird! */
+  	  newv = pcity->ai.road[i][j];
+          if (newv >= 0) {    
+            newv = MAX(newv, oldv) + road_bonus(x, y, S_ROAD) * 8;
+	    /* guessing about the weighting based on unit upkeeps;
+	       (* 11) was too high! -- Syela */
+            b = MAX((newv - oldv)<<6, MORT);
+            d = (map_build_road_time(x, y) * 3 + 3 + mv_rate - 1) / mv_rate
+	      + mv_turns; /* uniquely weird! */
             a = amortize(b, d);
-            v2 = ((a * b) / (MAX(1, b - a)))>>6;
-          } else v2 = 0;
-	  if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
-/*printf("Replacing (%d, %d) = %d with (%d, %d) R=%d d=%d, b=%d\n",
-gx, gy, v, x, y, v2, d, b);*/
-	    t=ACTIVITY_ROAD;
-	    v=v2; gx=x; gy=y; ww=val;
+            newv = ((a * b) / (MAX(1, b - a)))>>6;
+          } else newv = 0;
+          if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
+	      && ai_fuzzy(pplayer, 1)) {
+	    /*printf("Replacing (%d, %d) = %d with (%d, %d) R=%d d=%d, b=%d\n",
+	      gx, gy, best_newv, x, y, newv, d, b);*/
+	    best_act = ACTIVITY_ROAD;
+	    best_newv=newv; gx=x; gy=y; best_oldv=oldv;
           }
 
-	  v2 = pcity->ai.railroad[i][j];
-          if (v2 >= 0) {    
-            v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
-            b = MAX((v2 - val)<<6, MORT);
-            d = (3 * 3 + 3 * map_build_road_time(x,y) + 3 + m - 1) / m + z;
+	  newv = pcity->ai.railroad[i][j];
+          if (newv >= 0) {    
+            newv = MAX(newv, oldv) + road_bonus(x, y, S_RAILROAD) * 4;
+            b = MAX((newv - oldv)<<6, MORT);
+            d = (3 * 3 + 3 * map_build_road_time(x,y) + 3 + mv_rate - 1)
+	         / mv_rate + mv_turns;
             a = amortize(b, d);
-            v2 = ((a * b) / (MAX(1, b - a)))>>6;
-          } else v2 = 0;
-	  if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
-  	    t=ACTIVITY_ROAD;
-	    v=v2; gx=x; gy=y; ww=val;
+            newv = ((a * b) / (MAX(1, b - a)))>>6;
+          } else newv = 0;
+          if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
+	      && ai_fuzzy(pplayer, 1)) {
+  	    best_act = ACTIVITY_ROAD;
+	    best_newv=newv; gx=x; gy=y; best_oldv=oldv;
           }
         } else {
-	  v2 = pcity->ai.railroad[i][j];
-          if (v2 >= 0) {    
-            v2 = MAX(v2, val) + road_bonus(x, y, S_RAILROAD) * 4;
-            b = MAX((v2 - val)<<6, MORT);
-            d = (3 * 3 + m - 1) / m + z;
+	  newv = pcity->ai.railroad[i][j];
+          if (newv >= 0) {    
+            newv = MAX(newv, oldv) + road_bonus(x, y, S_RAILROAD) * 4;
+            b = MAX((newv - oldv)<<6, MORT);
+            d = (3 * 3 + mv_rate - 1) / mv_rate + mv_turns;
             a = amortize(b, d);
-            v2 = ((a * b) / (MAX(1, b - a)))>>6;
-          } else v2 = 0;
-	  if ((v2>v || (v2 == v && val > ww)) && ai_fuzzy(pplayer,1)) {
-  	    t=ACTIVITY_RAILROAD;
-	    v=v2; gx=x; gy=y; ww=val;
+            newv = ((a * b) / (MAX(1, b - a)))>>6;
+          } else newv = 0;
+          if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
+	      && ai_fuzzy(pplayer, 1)) {
+  	    best_act = ACTIVITY_RAILROAD;
+	    best_newv=newv; gx=x; gy=y; best_oldv=oldv;
           }
-        } /* end else */
+        } /* end S_ROAD else */
 
-	v2 = pcity->ai.detox[i][j];
-        if (v2 >= 0) {
-          v2 = MAX(v2, val) + pplayer->ai.warmth;
-          b = MAX((v2 - val)<<6, MORT);
-          d = (3 * 3 + z + m - 1) / m + z;
+	newv = pcity->ai.detox[i][j];
+        if (newv >= 0) {
+          newv = MAX(newv, oldv) + pplayer->ai.warmth;
+          b = MAX((newv - oldv)<<6, MORT);
+          d = (3 * 3 + mv_turns + mv_rate - 1) / mv_rate + mv_turns;
           a = amortize(b, d);
-          v2 = ((a * b) / (MAX(1, b - a)))>>6;
-        } else v2 = 0;
-        if (v2>v || (v2 == v && val > ww)) {
-	  t=ACTIVITY_POLLUTION;
-	  v=v2; gx=x; gy=y; ww=val;
+          newv = ((a * b) / (MAX(1, b - a)))>>6;
+        } else newv = 0;
+        if (newv > best_newv || (newv == best_newv && oldv > best_oldv)) {
+	  best_act = ACTIVITY_POLLUTION;
+	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
         }
       } /* end if we are a legal destination */
     } /* end city map iterate */
   city_list_iterate_end;
 
-  v = (v - food * FOOD_WEIGHTING) * 100 / (40 + fu);
-  if (v < 0) v = 0; /* Bad Things happen without this line! :( -- Syela */
+  /** Found the best square to upgrade, have gx, gy, best_newv, best_act **/
 
-  if (0 && v > 0)
+  best_newv = (best_newv - food_upkeep * FOOD_WEIGHTING) * 100 /
+                                                     (40 + food_cost);
+  if (best_newv < 0)
+    best_newv = 0; /* Bad Things happen without this line! :( -- Syela */
+
+  if (0 && best_newv > 0)
     printf("Settler %d@(%d,%d) wants to %d at (%d,%d) with desire %d\n",
-	   punit->id, punit->x, punit->y, t, gx, gy, v);
-  save_v = v;
+	   punit->id, punit->x, punit->y, best_act, gx, gy, best_newv);
+  save_newv = best_newv;
   
   boatid = find_boat(pplayer, &bx, &by, 1); /* might need 2 for body */
-  if ((ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units), boatid)))
+  ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units), boatid);
+  if (ferryboat)
     really_generate_warmap(mycity, ferryboat, SEA_MOVING);
 
+  /** Decide whether to build a new city:
+   ** if so, modify: gx, gy, best_newv, best_act */
+  
   if (pplayer->ai.control) { /* don't want to make cities otherwise */
     if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
       remove_city_from_minimap(punit->goto_dest_x, punit->goto_dest_y);
@@ -871,71 +908,92 @@ gx, gy, v, x, y, v2, d, b);*/
       y = punit->y + j;
       if (y < 0 || y >= map.ysize) continue;
       for (i = -11; i <= 11; i++) {
+        int near = (MAX((MAX(i, -i)),(MAX(j, -j))));
+        int w_virtual = 0;	/* I'm no entirely sure what this is --dwp */
+	int mv_cost;
         x = map_adjust_x(punit->x + i);
-        w = 0;
-        near = (MAX((MAX(i, -i)),(MAX(j, -j))));
-        if (!is_already_assigned(punit, pplayer, x, y) &&
-            map_get_terrain(x, y) != T_OCEAN &&
-          (territory[x][y]&(1<<n)) && /* pretty good, hope it's enough! -- Syela */
-            (near < 8 || map_get_continent(x, y) != co)) {
-          if (ferryboat) { /* already aboard ship, can use real warmap */
-            if (!is_terrain_near_tile(x, y, T_OCEAN)) z = 9999;
-            else z = warmap.seacost[x][y] * m / unit_types[ferryboat->type].move_rate;
-          } else if (!goto_is_sane(pplayer, punit, x, y, 1) ||
-                warmap.cost[x][y] > THRESHOLD * m) { /* for Rome->Carthage */
-            if (!is_terrain_near_tile(x, y, T_OCEAN)) z = 9999;
-            else if (boatid) {
-              if (!punit->id && mycity->id == boatid) w = 1;
-              z = warmap.cost[bx][by] + real_map_distance(bx, by, x, y) + m;
-            } else if (punit->id || !is_terrain_near_tile(mycity->x,
-                        mycity->y, T_OCEAN)) z = 9999;
-            else {
-              z = warmap.seacost[x][y] * m / 9;  /* this should be fresh */
-/* the only thing that could have munged the seacost is the ferryboat code
-in k_s_w/f_s_t_k, but only if find_boat succeeded */
-              w = 1;
-            }
-          } else z = warmap.cost[x][y];
-          d = z / m;
-/* without this, the computer will go 6-7 tiles from X to build a city at Y */
-          d *= 2;
-/* and then build its NEXT city halfway between X and Y. -- Syela */
-          z = city_desirability(pplayer, x, y) * ai_fuzzy(pplayer,1);
-          v2 = amortize(z, d);
-          
-          b = (food * FOOD_WEIGHTING) * MORT;
-          if (map_get_continent(x, y) != co) b += SHIELD_WEIGHTING * MORT;
-          v2 -= (b - amortize(b, d));
-/* deal with danger Real Soon Now! -- Syela */
-/* v2 is now the value over mort turns */
-          v2 = (v2 * 100) / MORT / ((w ? 80 : 40) + fu);
+        if (!is_already_assigned(punit, pplayer, x, y)
+	    && map_get_terrain(x, y) != T_OCEAN
+	    && (territory[x][y]&(1<<player_num))
+				/* pretty good, hope it's enough! -- Syela */
+            && (near < 8 || map_get_continent(x, y) != ucont)) {
 
-          if (v && map_get_city(x, y)) v2 = 0;
+	  /* potential target, calculate mv_cost: */
+          if (ferryboat) {
+	    /* already aboard ship, can use real warmap */
+            if (!is_terrain_near_tile(x, y, T_OCEAN)) {
+	      mv_cost = 9999;
+	    } else {
+	      mv_cost = warmap.seacost[x][y] * mv_rate /
+		    unit_types[ferryboat->type].move_rate;
+	    }
+          } else if (!goto_is_sane(pplayer, punit, x, y, 1) ||
+		     warmap.cost[x][y] > THRESHOLD * mv_rate) {
+				/* for Rome->Carthage */
+	    if (!is_terrain_near_tile(x, y, T_OCEAN)) {
+	      mv_cost = 9999;
+	    } else if (boatid) {
+              if (!punit->id && mycity->id == boatid) w_virtual = 1;
+              mv_cost = warmap.cost[bx][by] + real_map_distance(bx, by, x, y)
+		   + mv_rate; 
+            } else if (punit->id ||
+		       !is_terrain_near_tile(mycity->x, mycity->y, T_OCEAN)) {
+	      mv_cost = 9999;
+	    } else {
+              mv_cost = warmap.seacost[x][y] * mv_rate / 9;
+	      /* this should be fresh; the only thing that could have
+		 munged the seacost is the ferryboat code in
+		 k_s_w/f_s_t_k, but only if find_boat succeeded */
+              w_virtual = 1;
+            }
+          } else {
+	    mv_cost = warmap.cost[x][y];
+	  }
+          d = mv_cost / mv_rate;
+	  /* without this, the computer will go 6-7 tiles from X to
+	     build a city at Y */
+          d *= 2;
+	  /* and then build its NEXT city halfway between X and Y. -- Syela */
+          b = city_desirability(pplayer, x, y) * ai_fuzzy(pplayer,1);
+          newv = amortize(b, d);
+          
+          b = (food_upkeep * FOOD_WEIGHTING) * MORT;
+          if (map_get_continent(x, y) != ucont) b += SHIELD_WEIGHTING * MORT;
+          newv -= (b - amortize(b, d));
+	  /* deal with danger Real Soon Now! -- Syela */
+	  /* newv is now the value over mort turns */
+          newv = (newv * 100) / MORT / ((w_virtual ? 80 : 40) + food_cost);
+
+          if (best_newv && map_get_city(x, y)) newv = 0;
+	  
 /* I added a line to discourage settling in existing cities, but it was
 inadequate.  It may be true that in the short-term building infrastructure
 on tiles that won't be worked for ages is not as useful as helping other
 cities grow and then building engineers later, but this is short-sighted.
 There was also a problem with workers suddenly coming onto unimproved tiles,
 either through city growth or de-elvisization, settlers being built and
-improving those tiles, and then immigrating shortly thereafter. -- Syela */
-
-	  if (v2>0 && pplayer->ai.expand!=100) {
-	    v2 = (v2 * pplayer->ai.expand) / 100;
-	  }
-
-/*if (w) printf("%s: v = %d, w = 1, v2 = %d\n", mycity->name, v, v2);*/
-          if (map_get_continent(x, y) != co && !nav && near >= 8) {
-            if (v2 > choice.want && !punit->id) choice.want = v2;
-/*printf("%s@(%d, %d) city_des (%d, %d) = %d, v2 = %d, d = %d\n", 
-(punit->id ? unit_types[punit->type].name : mycity->name), 
-punit->x, punit->y, x, y, z, v2, d);*/
-          } else if (v2 > v) {
-            if (w) {
-              t = ACTIVITY_UNKNOWN; /* flag */
-              v = v2; gx = -1; gy = -1;
+improving those tiles, and then immigrating shortly thereafter. -- Syela
+*/
+ 	  if (newv>0 && pplayer->ai.expand!=100) {
+ 	    newv = (newv * pplayer->ai.expand) / 100;
+ 	  }
+ 
+	  /* if (w_virtual)
+	     printf("%s: best_newv = %d, w_virtual = 1, newv = %d\n",
+	     mycity->name, best_newv, newv); */
+	  
+          if (map_get_continent(x, y) != ucont && !nav_known && near >= 8) {
+            if (newv > choice.want && !punit->id) choice.want = newv;
+	    /*printf("%s@(%d, %d) city_des (%d, %d) = %d, newv = %d, d = %d\n", 
+	      (punit->id ? unit_types[punit->type].name : mycity->name), 
+	      punit->x, punit->y, x, y, b, newv, d);*/
+          } else if (newv > best_newv) {
+	    best_act = ACTIVITY_UNKNOWN; /* flag value */
+	    best_newv = newv;
+            if (w_virtual) {
+              gx = -1; gy = -1;
             } else {
-              t = ACTIVITY_UNKNOWN; /* flag */
-              v = v2; gx = x; gy = y;
+	      gx = x; gy = y;
             }
           }
         }
@@ -943,18 +1001,20 @@ punit->x, punit->y, x, y, z, v2, d);*/
     }
   }
 
-  choice.want -= v;
+  choice.want -= best_newv;
   if (choice.want > 0) ai_choose_ferryboat(pplayer, mycity, &choice);
 
-  if (0 && v != save_v)
+  if (0 && best_newv != save_newv)
     printf("Settler %d@(%d,%d) wants to %d at (%d,%d) with desire %d\n",
-	   punit->id, punit->x, punit->y, t, gx, gy, v);
+ 	   punit->id, punit->x, punit->y, best_act, gx, gy, best_newv);
 
-/*if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
-printf("Punit %d@(%d,%d) wants to %d at (%d,%d) with desire %d\n",
-punit->id, punit->x, punit->y, t, gx, gy, v);*/
-/* I had the return here, but it led to stupidity where several engineers would
-be built to solve one problem.  Moving the return down will solve this. -- Syela */
+  /* if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
+     printf("Punit %d@(%d,%d) wants to %d at (%d,%d) with desire %d\n",
+     punit->id, punit->x, punit->y, best_act, gx, gy, best_newv);  */
+  
+  /* I had the return here, but it led to stupidity where several engineers
+     would be built to solve one problem.  Moving the return down will solve
+     this. -- Syela */
 
   if (gx!=-1 && gy!=-1) {
       map_get_tile(gx, gy)->assigned =
@@ -964,62 +1024,79 @@ be built to solve one problem.  Moving the return down will solve this. -- Syela
     ;
   }
 
-  if (!punit->id) { /* has to be before we try to send_unit_info()! -- Syela */
-/*    printf("%s (%d, %d) settler-want = %d, task = %d, target = (%d, %d)\n",
-      mycity->name, mycity->x, mycity->y, v, t, gx, gy);*/
-    if (gx < 0 && gy < 0) return(0 - v);
-    return(v); /* virtual unit for assessing settler want */
+  /** If this is a virtual unit for assessing settler want: **/
+  if (!punit->id) {
+    /* has to be before we try to send_unit_info()! -- Syela */
+    /* printf("%s (%d, %d) settler-want = %d, task = %d, target = (%d, %d)\n",
+       mycity->name, mycity->x, mycity->y, v, t, gx, gy);*/
+    if (gx < 0 && gy < 0) {
+      return(0 - best_newv);
+    } else {
+      return(best_newv);
+    }
   }
 
+  /** We've now worked out what to do; go to it! **/
   if (gx!=-1 && gy!=-1) {
-    if (t == ACTIVITY_UNKNOWN) {
+    if (best_act == ACTIVITY_UNKNOWN /* flag */) {
       punit->ai.ai_role = AIUNIT_BUILD_CITY;
       add_city_to_minimap(gx, gy);
-    } else punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
+    } else {
+      punit->ai.ai_role = AIUNIT_AUTO_SETTLER;
+    }
     if (!same_pos(gx, gy, punit->x, punit->y)) {
-      if (!goto_is_sane(pplayer, punit, gx, gy, 1) ||
-          (ferryboat && goto_is_sane(pplayer, ferryboat, gx, gy, 1) &&
-          (!is_tiles_adjacent(punit->x, punit->y, gx, gy) ||
-           !could_unit_move_to_tile(punit, punit->x, punit->y, gx,gy)))) {
+      if (!goto_is_sane(pplayer, punit, gx, gy, 1)
+	  || (ferryboat
+	      && goto_is_sane(pplayer, ferryboat, gx, gy, 1)
+	      && (!is_tiles_adjacent(punit->x, punit->y, gx, gy)
+		 || !could_unit_move_to_tile(punit, punit->x, punit->y,
+					     gx, gy)))) {
         punit->ai.ferryboat = find_boat(pplayer, &x, &y, 1); /* might need 2 */
-/*printf("%d@(%d, %d): Looking for BOAT.\n", punit->id, punit->x, punit->y);*/
+	/*printf("%d@(%d, %d): Looking for BOAT.\n",
+	  punit->id, punit->x, punit->y);*/
         if (!same_pos(x, y, punit->x, punit->y)) {
           auto_settler_do_goto(pplayer, punit, x, y);
-          if (!unit_list_find(&pplayer->units, id)) return(0); /* died */
+          if (!unit_list_find(&pplayer->units, save_id)) return(0); /* died */
         }
         ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
-                   punit->ai.ferryboat);
+				   punit->ai.ferryboat);
         punit->goto_dest_x = gx;
         punit->goto_dest_y = gy;
-        if (ferryboat && (!ferryboat->ai.passenger ||
-            ferryboat->ai.passenger == punit->id)) {
-/*printf("We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d,%d).\n", punit->id,
-ferryboat->id, punit->x, punit->y, gx, gy);*/
-          set_unit_activity(punit, ACTIVITY_SENTRY); /* kinda cheating -- Syela */
+        if (ferryboat && (!ferryboat->ai.passenger
+			  || ferryboat->ai.passenger == punit->id)) {
+	  /*printf("We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d,%d).\n",
+	    punit->id, ferryboat->id, punit->x, punit->y, gx, gy);*/
+          set_unit_activity(punit, ACTIVITY_SENTRY);
+				/* kinda cheating -- Syela */
           ferryboat->ai.passenger = punit->id;
           auto_settler_do_goto(pplayer, ferryboat, gx, gy);
           set_unit_activity(punit, ACTIVITY_IDLE);
         } /* need to zero pass & ferryboat at some point. */
       }
-      if (goto_is_sane(pplayer, punit, gx, gy, 1) && punit->moves_left &&
-         ((!ferryboat) || (is_tiles_adjacent(punit->x, punit->y, gx, gy) &&
-          could_unit_move_to_tile(punit, punit->x, punit->y, gx, gy)))) {
+      if (goto_is_sane(pplayer, punit, gx, gy, 1)
+	  && punit->moves_left
+	  && ((!ferryboat)
+	      || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
+		  && could_unit_move_to_tile(punit, punit->x, punit->y,
+					     gx, gy)))) {
         auto_settler_do_goto(pplayer, punit, gx, gy);
-        if (!unit_list_find(&pplayer->units, id)) return(0); /* died */
+        if (!unit_list_find(&pplayer->units, save_id)) return(0); /* died */
         punit->ai.ferryboat = 0;
       }
     }
   } else punit->ai.control=0;
 
-  if (punit->ai.control && punit->moves_left && punit->activity == ACTIVITY_IDLE) {
-/* if players can build with 0 moves left, so should the AI */
+  if (punit->ai.control
+      && punit->moves_left
+      && punit->activity == ACTIVITY_IDLE) {
+    /* if players can build with 0 moves left, so should the AI */
     if (same_pos(gx, gy, punit->x, punit->y)) {
-      if (t == ACTIVITY_UNKNOWN) {
+      if (best_act == ACTIVITY_UNKNOWN) {
         remove_city_from_minimap(gx, gy); /* yeah, I know. -- Syela */
         ai_do_build_city(pplayer, punit);
         return(0);
       }
-      set_unit_activity(punit, t);
+      set_unit_activity(punit, best_act);
       send_unit_info(0, punit, 0);
       return(0);
     }
