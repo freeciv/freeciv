@@ -1217,7 +1217,7 @@ bool _bv_check_mask(unsigned char* vec1, unsigned char* vec2, int l)
   do {
     l--;
     if (vec1[l] & vec2[l]) return TRUE;
-  } while(l >= sizeof(int));
+  } while(l);
 
   return FALSE;
 }
