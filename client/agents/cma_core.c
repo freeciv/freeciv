@@ -198,6 +198,7 @@ static bool apply_result_on_server(struct city *pcity,
   struct cm_result current_state;
   bool success;
 
+  assert(result->found_a_valid);
   get_current_as_result(pcity, &current_state);
 
   if (results_are_equal(pcity, result, &current_state)
@@ -502,7 +503,10 @@ bool cma_apply_result(struct city *pcity,
 		     const struct cm_result *const result)
 {
   assert(!cma_is_city_under_agent(pcity, NULL));
-  return apply_result_on_server(pcity, result);
+  if (result->found_a_valid) {
+    return apply_result_on_server(pcity, result);
+  } else
+    return TRUE; /* ???????? */
 }
 
 /****************************************************************************
