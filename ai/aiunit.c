@@ -1646,13 +1646,14 @@ static int unit_can_be_retired(struct unit *punit)
 ...
 **************************************************************************/
 
-void ai_manage_unit(struct player *pplayer, struct unit *punit) 
+static void ai_manage_unit(struct player *pplayer, struct unit *punit,
+			   struct genlist_iterator *iter)
 {
   /* retire useless barbarian units here, before calling the management
      function */
   if( is_barbarian(pplayer) ) {
     if( unit_can_be_retired(punit) && myrand(100) > 90 ) {
-      wipe_unit(0,punit);
+      wipe_unit_safe(0, punit, iter);
       return;
     }
     if( !is_military_unit(punit)
@@ -1705,7 +1706,7 @@ void ai_manage_units(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     freelog(LOG_DEBUG, "Managing %s's %s %d@(%d,%d)", pplayer->name,
 		  unit_types[punit->type].name, punit->id, punit->x, punit->y);
-    ai_manage_unit(pplayer, punit);
+    ai_manage_unit(pplayer, punit, &myiter);
     /* Note punit might be gone!! */
     freelog(LOG_DEBUG, "Finished managing %s's unit", pplayer->name);
   }

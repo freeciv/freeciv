@@ -34,7 +34,6 @@ void ai_military_findjob(struct player *pplayer,struct unit *punit);
 void ai_military_gohome(struct player *pplayer,struct unit *punit);
 void ai_military_attack(struct player *pplayer,struct unit *punit);
 
-void ai_manage_unit(struct player *pplayer, struct unit *punit);
 void ai_manage_caravan(struct player *pplayer, struct unit *punit);
 int find_something_to_kill(struct player *pplayer, struct unit *punit, 
                             int *x, int *y);
