@@ -86,6 +86,7 @@ client/gui-gtk-2.0/menu.c
 client/gui-gtk-2.0/messagedlg.c
 client/gui-gtk-2.0/messagewin.c
 client/gui-gtk-2.0/plrdlg.c
+client/gui-gtk-2.0/pages.c
 client/gui-gtk-2.0/repodlgs.c
 client/gui-gtk-2.0/spaceshipdlg.c
 client/gui-gtk-2.0/wldlg.c
