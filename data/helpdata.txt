@@ -475,9 +475,9 @@ Keyboard:\n\
   x: auto-e(x)plore\n\
 \n\
   1: move south-west                  F1: open City Report\n\
-  2: move south                       F2: open Military Report\n\
+  2: move south                       F2: open Unit Report\n\
   3: move south-east                  F3: open Players dialog\n\
-  4: move west                        F5: open Trade Report\n\
+  4: move west                        F5: open Economy Report\n\
   5: focus on next unit               F6: open Science Report\n\
   6: move east                        F7: open World Wonders\n\
   7: move north-west                  F8: open Top Five Cities\n\
@@ -485,9 +485,9 @@ Keyboard:\n\
   9: move north-east                 F11: open Demographics\n\
                                      F12: open Spaceship\n\
 \n\
-  arrows: move unit            control-g: grid lines on/off\n\
-   space: unit stay put        control-n: city names on/off\n\
-     tab: focus on next unit   control-p: city production on/off\n\
+  arrows: move unit            Control-g: grid lines on/off\n\
+   space: unit stay put        Control-n: city names on/off\n\
+     tab: focus on next unit   Control-p: city production on/off\n\
   return: turn done\
 ")
 
