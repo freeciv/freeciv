@@ -655,10 +655,10 @@ void game_remove_city(struct city *pcity)
   freelog(LOG_DEBUG, "game_remove_city %d", pcity->id);
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
 	   get_nation_name(city_owner(pcity)->nation), pcity->x, pcity->y);
-  
-  city_map_iterate(x,y) {
+
+  city_map_checked_iterate(pcity->x, pcity->y, x, y, mx, my) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
-  } city_map_iterate_end;
+  } city_map_checked_iterate_end;
   city_list_unlink(&city_owner(pcity)->cities, pcity);
   map_set_city(pcity->x, pcity->y, NULL);
   idex_unregister_city(pcity);
