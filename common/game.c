@@ -755,6 +755,7 @@ void game_init(void)
   game.auto_ai_toggle = GAME_DEFAULT_AUTO_AI_TOGGLE;
   game.barbarianrate  = GAME_DEFAULT_BARBARIANRATE;
   game.onsetbarbarian = GAME_DEFAULT_ONSETBARBARIAN;
+  game.nbarbarians = 0;
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;
   game.heating     = 0;
   sz_strlcpy(game.save_name, "civgame");
@@ -889,6 +890,8 @@ void game_remove_all_players(void)
 void game_remove_player(int plrno)
 {
   struct player *pplayer=&game.players[plrno];
+
+  if (is_barbarian(pplayer)) game.nbarbarians--;
   
   unit_list_iterate(pplayer->units, punit) 
     game_remove_unit(punit->id);
@@ -942,6 +945,14 @@ struct player *get_player(int player_id)
     return &game.players[player_id];
 }
 
+/**************************************************************************
+This function is used by is_wonder_usefull to estimate if it is worthwhile
+to build the great library.
+**************************************************************************/
+int get_nb_human_and_ai_players(void)
+{
+return game.nplayers-game.nbarbarians;
+}
 
 /***************************************************************
   For various data, copy eg .name to .name_orig and put

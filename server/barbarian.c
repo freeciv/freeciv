@@ -165,6 +165,7 @@ static struct player *create_barbarian_player(int land)
   init_tech(barbarians, game.tech);
 
   game.nplayers++;
+  game.nbarbarians++;
   game.max_players = game.nplayers;
 
   freelog(LOG_VERBOSE, "Created barbarian %s, player %d", barbarians->name, 

@@ -1978,6 +1978,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
   plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
                                                     plrno);
+  if (is_barbarian(plr)) game.nbarbarians++;
 
   sz_strlcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
   sz_strlcpy(plr->username,

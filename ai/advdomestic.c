@@ -403,7 +403,7 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 /* military advisor will deal with CITY and PORT */
 
   for (i = 0; i < B_LAST; i++) {
-    if (is_wonder(i) && could_build_improvement(pcity, i) && !wonder_obsolete(i)) {
+    if (is_wonder(i) && could_build_improvement(pcity, i) && !wonder_obsolete(i)&& is_wonder_usefull(i)) {
       if (i == B_ASMITHS)
         for (j = 0; j < B_LAST; j++)
           if (city_got_building(pcity, j) && improvement_upkeep(pcity, j) == 1)

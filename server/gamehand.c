@@ -374,6 +374,8 @@ void game_load(struct section_file *file)
 						  "game.barbarians");
   game.onsetbarbarian = secfile_lookup_int_default(file, game.onsetbarbarian,
 						   "game.onsetbarbs");
+  game.nbarbarians = 0; /* counted in player_load for compatibility with 
+			   1.10.0 */
   game.occupychance = secfile_lookup_int_default(file, game.occupychance,
   						 "game.occupychance");
   
