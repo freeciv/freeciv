@@ -5043,7 +5043,7 @@ msgstr "Kampfanimationen zeigen                              "
 
 #: client/options.c:61
 msgid "Popup dialogs in AI Mode   "
-msgstr "Eigene Mitteilungsfenster auch im KI-Modus öffnen    "
+msgstr "Dialogfenster auch im KI-Modus öffnen                "
 
 #: client/options.c:62
 msgid "Manual Turn Done in AI Mode"
@@ -5100,7 +5100,7 @@ msgstr "Stadtfest                "
 
 #: client/options.c:100
 msgid "City Normal              "
-msgstr "Alltag                   "
+msgstr "Ordnung wieder hergestellt"
 
 #: client/options.c:101
 msgid "City Growth              "
@@ -5197,7 +5197,7 @@ msgstr "abgebrochene Weltwunder  "
 #. E_WONDER_STOPPED
 #: client/options.c:123
 msgid "City Needs Aq Being Built"
-msgstr "Stadt muß Aquädukt fertig stellen"
+msgstr "Aquädukt fertig stellen  "
 
 #. E_CITY_AQ_BUILDING
 #: client/options.c:124
@@ -5217,7 +5217,7 @@ msgstr "Angriff erfolgreich      "
 #. E_UNIT_WIN_ATT
 #: client/options.c:127
 msgid "Suggest Growth Throttling"
-msgstr "Schlage vor, das Wachstum zu verlangsamen"
+msgstr "Wachstum verlangsamen    "
 
 #. E_CITY_GRAN_THROTTLE
 #: client/options.c:128
@@ -5628,10 +5628,9 @@ msgstr ""
 "Modernisierung von %s zu %s kostet %d Goldstücke.\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
-# ?
 #: client/gui-gtk/citydlg.c:1759
 msgid "Type"
-msgstr ""
+msgstr "Bezeichnung"
 
 #: client/gui-gtk/citydlg.c:1759
 msgid "Info"
@@ -6497,25 +6496,21 @@ msgstr "Nichts"
 msgid "Freeciv Help Browser"
 msgstr "Freeciv Hilfe"
 
-# ?
 #: client/gui-gtk/helpdlg.c:587
 msgid "Expand All"
-msgstr ""
+msgstr "Vollständigen Weg zeigen"
 
-# ?
 #: client/gui-gtk/helpdlg.c:588
 msgid "Collapse All"
-msgstr ""
+msgstr "Weg nicht zeigen"
 
-# ?
 #: client/gui-gtk/helpdlg.c:589
 msgid "Reset Tree"
-msgstr ""
+msgstr "Standard"
 
-# ?
 #: client/gui-gtk/helpdlg.c:590
 msgid "Expand Unknown"
-msgstr ""
+msgstr "Noch nötigen Weg zeigen"
 
 #: client/gui-gtk/helpdlg.c:830 client/gui-gtk/helpdlg.c:854
 #: client/gui-gtk/helpdlg.c:867 client/gui-gtk/helpdlg.c:877
@@ -13072,13 +13067,15 @@ msgstr "englisch"
 msgid "?plural:English"
 msgstr "?plural:Engländer"
 
+# EH: historisch. Sollte nicht übersetzt werden.
 #: data/nation/english.ruleset:14
 msgid "Lord Protector"
-msgstr "Schutzherr"
+msgstr "Lord Protector"
 
+# EH: pseudo-historisch. Sollte nicht übersetzt werden.
 #: data/nation/english.ruleset:14
 msgid "Lady Protector"
-msgstr "Schutzherrin"
+msgstr "Lady Protector"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
