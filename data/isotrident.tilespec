@@ -50,7 +50,7 @@ files =
   "isotrident/terrain1.spec",
   "isotrident/terrain2.spec",
   "isotrident/tiles.spec",
-  "isotrident/small.spec",
+  "misc/small.spec",
   "isotrident/units.spec",
   "misc/flags.spec",
   "misc/buildings.spec",

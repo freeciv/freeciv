@@ -91,4 +91,30 @@ tiles = { "row", "column", "tag"
 ; Right arrow icon:
 
   0, 42, "s.right_arrow"
+
+; Event Message Icons
+
+  1, 0,  "ev.hutbarbarians"
+  1, 0,  "ev.hutcowardlybarbs"
+  1, 1,  "ev.diplomated"
+  1, 1,  "ev.diplomatmine"
+  1, 1,  "ev.firstcontact"
+  1, 2,  "ev.aqueduct"
+  1, 2,  "ev.aqueductbuilding"  
+  1, 3,  "ev.growth"
+  1, 3,  "ev.granthrottle"
+  1, 3,  "ev.citymaygrow"
+  1, 3,  "ev.citybuild"
+  1, 3,  "ev.hutcity"
+  1, 3,  "ev.hutnomads"
+  1, 4,  "ev.famine"
+  1, 4,  "ev.faminefeared"
+  1, 5,  "ev.pollution"
+  1, 6,  "ev.nuke"
+  1, 6,  "ev.citynuked"
+  1, 7,  "ev.wonderstart"
+  1, 8,  "ev.wonderstopped"
+  1, 8,  "ev.wonderobsolete"
+  1, 9,  "ev.wonderwillbebuilt"
+  1, 10, "ev.wonderbuilt"
 }
