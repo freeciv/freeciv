@@ -726,7 +726,7 @@ void request_unit_unload_all(struct unit *punit)
       request_unit_unload(pcargo);
 
       if (pcargo->activity == ACTIVITY_SENTRY) {
-	request_new_unit_activity(punit, ACTIVITY_IDLE);
+	request_new_unit_activity(pcargo, ACTIVITY_IDLE);
       }
 
       plast = pcargo;
