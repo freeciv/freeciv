@@ -3210,7 +3210,7 @@ static int autotoggle(int value, char **reject_message)
   num is number of possible completions, and index2str is a function
   which returns each possible completion string by index.
 **************************************************************************/
-static char *generic_generator(char *text, int state, int num,
+static char *generic_generator(const char *text, int state, int num,
 			       const char*(*index2str)(int))
 {
   static int list_index, len;
@@ -3240,7 +3240,7 @@ static char *generic_generator(char *text, int state, int num,
 /**************************************************************************
 The valid commands at the root of the prompt.
 **************************************************************************/
-static char *command_generator(char *text, int state)
+static char *command_generator(const char *text, int state)
 {
   return generic_generator(text, state, CMD_NUM, cmdname_accessor);
 }
@@ -3248,7 +3248,7 @@ static char *command_generator(char *text, int state)
 /**************************************************************************
 The valid arguments to "set" and "explain"
 **************************************************************************/
-static char *option_generator(char *text, int state)
+static char *option_generator(const char *text, int state)
 {
   return generic_generator(text, state, SETTINGS_NUM, optname_accessor);
 }
@@ -3260,7 +3260,7 @@ static const char *playername_accessor(int idx)
 {
   return get_player(idx)->name;
 }
-static char *player_generator(char *text, int state)
+static char *player_generator(const char *text, int state)
 {
   return generic_generator(text, state, game.nplayers, playername_accessor);
 }
@@ -3272,7 +3272,7 @@ static const char *connection_name_accessor(int idx)
 {
   return conn_list_get(&game.all_connections, idx)->name;
 }
-static char *connection_generator(char *text, int state)
+static char *connection_generator(const char *text, int state)
 {
   return generic_generator(text, state, conn_list_size(&game.all_connections),
 			   connection_name_accessor);
@@ -3281,7 +3281,7 @@ static char *connection_generator(char *text, int state)
 /**************************************************************************
 The valid arguments to "rulesout".
 **************************************************************************/
-static char *rulesout_generator(char *text, int state)
+static char *rulesout_generator(const char *text, int state)
 {
   return generic_generator(text, state, RULESOUT_NUM, rulesout_accessor);
 }
@@ -3294,7 +3294,7 @@ static const char *cmdlevel_arg1_accessor(int idx)
 {
   return cmdlevel_name(idx);
 }
-static char *cmdlevel_arg1_generator(char *text, int state)
+static char *cmdlevel_arg1_generator(const char *text, int state)
 {
   return generic_generator(text, state, ALLOW_NUM, cmdlevel_arg1_accessor);
 }
@@ -3309,7 +3309,7 @@ static const char *cmdlevel_arg2_accessor(int idx)
 	  (idx==1) ? "new" :
 	  connection_name_accessor(idx-2));
 }
-static char *cmdlevel_arg2_generator(char *text, int state)
+static char *cmdlevel_arg2_generator(const char *text, int state)
 {
   return generic_generator(text, state,
 			   2 + conn_list_size(&game.all_connections),
@@ -3319,7 +3319,7 @@ static char *cmdlevel_arg2_generator(char *text, int state)
 /**************************************************************************
 The valid first arguments to "help".
 **************************************************************************/
-static char *help_generator(char *text, int state)
+static char *help_generator(const char *text, int state)
 {
   return generic_generator(text, state, HELP_ARG_NUM, helparg_accessor);
 }
@@ -3327,7 +3327,7 @@ static char *help_generator(char *text, int state)
 /**************************************************************************
 The valid first arguments to "list".
 **************************************************************************/
-static char *list_generator(char *text, int state)
+static char *list_generator(const char *text, int state)
 {
   return generic_generator(text, state, LIST_ARG_NUM, listarg_accessor);
 }
@@ -3549,31 +3549,31 @@ the word to complete.  We can use the entire contents of rl_line_buffer
 in case we want to do some simple parsing.  Return the array of matches,
 or NULL if there aren't any.
 **************************************************************************/
-char **freeciv_completion(char *text, int start, int end)
+char **freeciv_completion(const char *text, int start, int end)
 {
   char **matches = (char **)NULL;
 
   if (is_help(start)) {
-    matches = completion_matches(text, help_generator);
+    matches = rl_completion_matches(text, help_generator);
   } else if (is_command(start)) {
-    matches = completion_matches(text, command_generator);
+    matches = rl_completion_matches(text, command_generator);
   } else if (is_rulesout(start)) {
-    matches = completion_matches(text, rulesout_generator);
+    matches = rl_completion_matches(text, rulesout_generator);
   } else if (is_list(start)) {
-    matches = completion_matches(text, list_generator);
+    matches = rl_completion_matches(text, list_generator);
   } else if (is_cmdlevel_arg2(start)) {
-    matches = completion_matches(text, cmdlevel_arg2_generator);
+    matches = rl_completion_matches(text, cmdlevel_arg2_generator);
   } else if (is_cmdlevel_arg1(start)) {
-    matches = completion_matches(text, cmdlevel_arg1_generator);
+    matches = rl_completion_matches(text, cmdlevel_arg1_generator);
   } else if (is_connection(start)) {
-    matches = completion_matches(text, connection_generator);
+    matches = rl_completion_matches(text, connection_generator);
   } else if (is_player(start)) {
-    matches = completion_matches(text, player_generator);
+    matches = rl_completion_matches(text, player_generator);
   } else if (is_server_option(start)) {
-    matches = completion_matches(text, option_generator);
+    matches = rl_completion_matches(text, option_generator);
   } else if (is_filename(start)) {
     /* This function we get from readline */
-    matches = completion_matches(text, filename_completion_function);
+    matches = rl_completion_matches(text, rl_filename_completion_function);
   } else /* We have no idea what to do */
     matches = NULL;
 
