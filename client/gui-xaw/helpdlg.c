@@ -319,258 +319,293 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
 static void create_help_page(enum help_page_type type)
 {
   Dimension w, h, w2, h2, ay, ah;
- 
+
   XtVaGetValues(help_right_form, XtNwidth, &w, NULL);
   XtVaGetValues(help_viewport, XtNheight, &h, NULL);
   XtVaGetValues(help_title, XtNwidth, &w2, XtNheight, &h2, NULL);
- 
+
   XtDestroyWidget(help_right_form);
 
-  help_right_form=XtVaCreateManagedWidget("helprightform", 
-					  formWidgetClass, 
-					  help_form, 
-					  XtNwidth, w,
-					  XtNheight, h,
-					  NULL);
-  
+  help_right_form =
+    XtVaCreateManagedWidget("helprightform", 
+			    formWidgetClass, 
+			    help_form, 
+			    XtNwidth, w,
+			    XtNheight, h,
+			    NULL);
 
-  help_title=XtVaCreateManagedWidget("helptitle", 
-				     labelWidgetClass, 
-				     help_right_form,
-				     XtNwidth, w2,
-				     NULL);
 
-  help_tree_viewport=0;
+  help_title =
+    XtVaCreateManagedWidget("helptitle", 
+			    labelWidgetClass, 
+			    help_right_form,
+			    XtNwidth, w2,
+			    NULL);
+
+  help_tree_viewport = 0;
   
   if(type==HELP_TEXT || type==HELP_ANY) {
-    help_text = XtVaCreateManagedWidget("helptext", 
-					asciiTextWidgetClass, 
-					help_right_form,
-					XtNeditType, XawtextRead,
-					XtNscrollVertical, XawtextScrollAlways, 
-					XtNwidth, w2,
-					XtNheight, h-h2-15,
-					XtNbottom, XawChainBottom,
-					NULL);
+    help_text =
+      XtVaCreateManagedWidget("helptext", 
+			      asciiTextWidgetClass, 
+			      help_right_form,
+			      XtNeditType, XawtextRead,
+			      XtNscrollVertical, XawtextScrollAlways, 
+			      XtNwidth, w2,
+			      XtNheight, h-h2-15,
+			      XtNbottom, XawChainBottom,
+			      NULL);
   }
   else if(type==HELP_IMPROVEMENT || type==HELP_WONDER) {
-    
-    help_text = XtVaCreateManagedWidget("helptext", 
-					asciiTextWidgetClass, 
-					help_right_form,
-					XtNeditType, XawtextRead,
-					XtNscrollVertical, XawtextScrollAlways, 
-					XtNwidth, w2,
-					XtNheight, 70,
-					NULL);
+    help_text =
+      XtVaCreateManagedWidget("helptext", 
+			      asciiTextWidgetClass, 
+			      help_right_form,
+			      XtNeditType, XawtextRead,
+			      XtNscrollVertical, XawtextScrollAlways, 
+			      XtNwidth, w2,
+			      XtNheight, 70,
+			      NULL);
 
-    
-    
-    help_improvement_cost=XtVaCreateManagedWidget("helpimprcost", 
-						  labelWidgetClass, 
-						  help_right_form,
-						  NULL);
-    help_improvement_cost_data=XtVaCreateManagedWidget("helpimprcostdata", 
-						  labelWidgetClass, 
-						  help_right_form,
-						  NULL);
-    
-    help_improvement_req=XtVaCreateManagedWidget("helpimprreq", 
-						  labelWidgetClass, 
-						  help_right_form,
-						  NULL);
-    help_improvement_req_data=XtVaCreateManagedWidget("helpimprreqdata", 
-						  labelWidgetClass, 
-						  help_right_form,
-						  NULL);
+
+    help_improvement_cost =
+      I_L(XtVaCreateManagedWidget("helpimprcost", 
+				  labelWidgetClass, 
+				  help_right_form,
+				  NULL));
+    help_improvement_cost_data =
+      XtVaCreateManagedWidget("helpimprcostdata", 
+			      labelWidgetClass, 
+			      help_right_form,
+			      NULL);
+
+    help_improvement_req =
+      I_L(XtVaCreateManagedWidget("helpimprreq", 
+				  labelWidgetClass, 
+				  help_right_form,
+				  NULL));
+    help_improvement_req_data =
+      XtVaCreateManagedWidget("helpimprreqdata", 
+			      labelWidgetClass, 
+			      help_right_form,
+			      NULL);
     if(type==HELP_IMPROVEMENT) {
-      help_improvement_upkeep=XtVaCreateManagedWidget("helpimprupkeep", 
-						      labelWidgetClass, 
-						      help_right_form,
-						      NULL);
-      help_improvement_upkeep_data=XtVaCreateManagedWidget("helpimprupkeepdata", 
-							   labelWidgetClass, 
-							   help_right_form,
-							   NULL);
-      help_improvement_variant=XtVaCreateManagedWidget("helpimprvariant", 
-						       labelWidgetClass, 
-						       help_right_form,
-						       NULL);
-      help_improvement_variant_data=
+      help_improvement_upkeep =
+	I_L(XtVaCreateManagedWidget("helpimprupkeep", 
+				    labelWidgetClass, 
+				    help_right_form,
+				    NULL));
+      help_improvement_upkeep_data =
+	XtVaCreateManagedWidget("helpimprupkeepdata", 
+				labelWidgetClass, 
+				help_right_form,
+				NULL);
+      help_improvement_variant =
+	I_L(XtVaCreateManagedWidget("helpimprvariant", 
+				    labelWidgetClass, 
+				    help_right_form,
+				    NULL));
+      help_improvement_variant_data =
 	XtVaCreateManagedWidget("helpimprvariantdata",
 				labelWidgetClass, 
 				help_right_form,
 				NULL);
     }
     else {
-      help_wonder_obsolete=XtVaCreateManagedWidget("helpwonderobsolete", 
-						   labelWidgetClass, 
-						   help_right_form,
-						   NULL);
-      help_wonder_obsolete_data=XtVaCreateManagedWidget("helpwonderobsoletedata", 
-						   labelWidgetClass, 
-						   help_right_form,
-						   NULL);
-      help_wonder_variant=XtVaCreateManagedWidget("helpwondervariant", 
-						  labelWidgetClass, 
-						  help_right_form,
-						  NULL);
-      help_wonder_variant_data=XtVaCreateManagedWidget("helpwondervariantdata",
-						       labelWidgetClass, 
-						       help_right_form,
-						       NULL);
+      help_wonder_obsolete =
+	I_L(XtVaCreateManagedWidget("helpwonderobsolete", 
+				    labelWidgetClass, 
+				    help_right_form,
+				    NULL));
+      help_wonder_obsolete_data =
+	XtVaCreateManagedWidget("helpwonderobsoletedata", 
+				labelWidgetClass, 
+				help_right_form,
+				NULL);
+      help_wonder_variant =
+	I_L(XtVaCreateManagedWidget("helpwondervariant", 
+				    labelWidgetClass, 
+				    help_right_form,
+				    NULL));
+      help_wonder_variant_data =
+	XtVaCreateManagedWidget("helpwondervariantdata",
+				labelWidgetClass, 
+				help_right_form,
+				NULL);
     }
 
     XtVaGetValues(help_improvement_req, XtNy, &ay, XtNheight, &ah, NULL);
-    help_tree_viewport=XtVaCreateManagedWidget("helptreeviewport", 
-					       viewportWidgetClass, 
-					       help_right_form,
-					       XtNwidth, w2,
-					       XtNheight, MAX(1,h-(ay+ah)-10),
-					       NULL);
-    help_tech_tree=XtVaCreateManagedWidget("helptree", 
-					   treeWidgetClass, 
-					   help_tree_viewport,
-					   NULL);
-    
+
+    help_tree_viewport =
+      XtVaCreateManagedWidget("helptreeviewport", 
+			      viewportWidgetClass, 
+			      help_right_form,
+			      XtNwidth, w2,
+			      XtNheight, MAX(1,h-(ay+ah)-10),
+			      NULL);
+    help_tech_tree =
+      XtVaCreateManagedWidget("helptree", 
+			      treeWidgetClass, 
+			      help_tree_viewport,
+			      NULL);
+
     XawTreeForceLayout(help_tech_tree);  
-    
   }
   else if(type==HELP_UNIT) {
-    help_text = XtVaCreateManagedWidget("helptext", 
-					asciiTextWidgetClass, 
-					help_right_form,
-					XtNeditType, XawtextRead,
-					XtNscrollVertical, XawtextScrollAlways, 
-					XtNwidth, w2,
-					XtNheight, 70,
-					NULL);
+    help_text =
+      XtVaCreateManagedWidget("helptext", 
+			      asciiTextWidgetClass, 
+			      help_right_form,
+			      XtNeditType, XawtextRead,
+			      XtNscrollVertical, XawtextScrollAlways, 
+			      XtNwidth, w2,
+			      XtNheight, 70,
+			      NULL);
 
-     
-    help_unit_cost=XtVaCreateManagedWidget("helpunitcost", 
-					  labelWidgetClass, 
-					  help_right_form,
-					  NULL);
-    help_unit_cost_data=XtVaCreateManagedWidget("helpunitcostdata", 
-					       labelWidgetClass, 
-					       help_right_form,
-					       NULL);
-    help_unit_attack=XtVaCreateManagedWidget("helpunitattack", 
-					     labelWidgetClass, 
-					     help_right_form,
-					     NULL);
-    help_unit_attack_data=XtVaCreateManagedWidget("helpunitattackdata", 
-						  labelWidgetClass, 
-						  help_right_form,
-						  NULL);
-    help_unit_def=XtVaCreateManagedWidget("helpunitdef", 
-					  labelWidgetClass, 
-					  help_right_form,
-					  NULL);
-    help_unit_def_data=XtVaCreateManagedWidget("helpunitdefdata", 
-					       labelWidgetClass, 
-					       help_right_form,
-					       NULL);
-    help_unit_move=XtVaCreateManagedWidget("helpunitmove", 
-					  labelWidgetClass, 
-					  help_right_form,
-					  NULL);
-    help_unit_move_data=XtVaCreateManagedWidget("helpunitmovedata", 
-					       labelWidgetClass, 
-					       help_right_form,
-					       NULL);
-    help_unit_tile=XtVaCreateManagedWidget("helpunittile",
-    					   labelWidgetClass,
-					   help_right_form,
-					   XtNwidth, NORMAL_TILE_WIDTH,
-					   XtNheight, NORMAL_TILE_HEIGHT,
-					   NULL);  
+    help_unit_cost =
+      I_L(XtVaCreateManagedWidget("helpunitcost", 
+				  labelWidgetClass, 
+				  help_right_form,
+				  NULL));
+    help_unit_cost_data =
+      XtVaCreateManagedWidget("helpunitcostdata", 
+			      labelWidgetClass, 
+			      help_right_form,
+			      NULL);
+    help_unit_attack =
+      I_L(XtVaCreateManagedWidget("helpunitattack", 
+				  labelWidgetClass, 
+				  help_right_form,
+				  NULL));
+    help_unit_attack_data =
+      XtVaCreateManagedWidget("helpunitattackdata", 
+			      labelWidgetClass, 
+			      help_right_form,
+			      NULL);
+    help_unit_def =
+      I_L(XtVaCreateManagedWidget("helpunitdef", 
+				  labelWidgetClass, 
+				  help_right_form,
+				  NULL));
+    help_unit_def_data =
+      XtVaCreateManagedWidget("helpunitdefdata", 
+			      labelWidgetClass, 
+			      help_right_form,
+			      NULL);
+    help_unit_move =
+      I_L(XtVaCreateManagedWidget("helpunitmove", 
+				  labelWidgetClass, 
+				  help_right_form,
+				  NULL));
+    help_unit_move_data =
+      XtVaCreateManagedWidget("helpunitmovedata", 
+			      labelWidgetClass, 
+			      help_right_form,
+			      NULL);
+    help_unit_tile =
+      XtVaCreateManagedWidget("helpunittile",
+			      labelWidgetClass,
+			      help_right_form,
+			      XtNwidth, NORMAL_TILE_WIDTH,
+			      XtNheight, NORMAL_TILE_HEIGHT,
+			      NULL);  
     XtAddCallback(help_unit_tile,
                   XtNdestroyCallback,free_bitmap_destroy_callback,
 		  NULL);
-    help_unit_fp=XtVaCreateManagedWidget("helpunitfp", 
-					  labelWidgetClass, 
-					  help_right_form,
-					  NULL);
-    help_unit_fp_data=XtVaCreateManagedWidget("helpunitfpdata", 
-					       labelWidgetClass, 
-					       help_right_form,
-					       NULL);
-    help_unit_hp=XtVaCreateManagedWidget("helpunithp", 
-					  labelWidgetClass, 
-					  help_right_form,
-					  NULL);
-    help_unit_hp_data=XtVaCreateManagedWidget("helpunithpdata", 
-					      labelWidgetClass, 
-					      help_right_form,
-					      NULL);
-   
-    help_unit_visrange=XtVaCreateManagedWidget("helpunitvisrange",
-    					       labelWidgetClass,
-					       help_right_form,
-					       NULL);
-    help_unit_visrange_data=XtVaCreateManagedWidget("helpunitvisrangedata",
-    						    labelWidgetClass,
-						    help_right_form,
-						    NULL);
-     
-    help_improvement_req=XtVaCreateManagedWidget("helpimprreq", 
-						  labelWidgetClass, 
-						  help_right_form,
-						  XtNfromVert,help_unit_hp, 
-						  NULL);
-     help_improvement_req_data=XtVaCreateManagedWidget("helpimprreqdata", 
-						       labelWidgetClass, 
-						       help_right_form,
-						       XtNfromVert,help_unit_hp, 
-						       NULL);
-     help_wonder_obsolete=XtVaCreateManagedWidget("helpwonderobsolete", 
-						  labelWidgetClass, 
-						  help_right_form,
-						  XtNfromVert,help_unit_hp, 
-						  NULL);
-     help_wonder_obsolete_data=XtVaCreateManagedWidget("helpwonderobsoletedata", 
-						       labelWidgetClass, 
-						       help_right_form,
-						       XtNfromVert,help_unit_hp, 
-						       NULL);
-
+    help_unit_fp =
+      I_L(XtVaCreateManagedWidget("helpunitfp", 
+				  labelWidgetClass, 
+				  help_right_form,
+				  NULL));
+    help_unit_fp_data =
+      XtVaCreateManagedWidget("helpunitfpdata", 
+			      labelWidgetClass, 
+			      help_right_form,
+			      NULL);
+    help_unit_hp =
+      I_L(XtVaCreateManagedWidget("helpunithp", 
+				  labelWidgetClass, 
+				  help_right_form,
+				  NULL));
+    help_unit_hp_data =
+      XtVaCreateManagedWidget("helpunithpdata", 
+			      labelWidgetClass, 
+			      help_right_form,
+			      NULL);
+    help_unit_visrange =
+      I_L(XtVaCreateManagedWidget("helpunitvisrange",
+				  labelWidgetClass,
+				  help_right_form,
+				  NULL));
+    help_unit_visrange_data =
+      XtVaCreateManagedWidget("helpunitvisrangedata",
+			      labelWidgetClass,
+			      help_right_form,
+			      NULL);
+    help_improvement_req =
+      I_L(XtVaCreateManagedWidget("helpimprreq", 
+				  labelWidgetClass, 
+				  help_right_form,
+				  XtNfromVert,help_unit_hp, 
+				  NULL));
+     help_improvement_req_data =
+       XtVaCreateManagedWidget("helpimprreqdata", 
+			       labelWidgetClass, 
+			       help_right_form,
+			       XtNfromVert,help_unit_hp, 
+			       NULL);
+     help_wonder_obsolete =
+       I_L(XtVaCreateManagedWidget("helpwonderobsolete", 
+				   labelWidgetClass, 
+				   help_right_form,
+				   XtNfromVert,help_unit_hp, 
+				   NULL));
+     help_wonder_obsolete_data =
+       XtVaCreateManagedWidget("helpwonderobsoletedata", 
+			       labelWidgetClass, 
+			       help_right_form,
+			       XtNfromVert,help_unit_hp, 
+			       NULL);
      XtVaGetValues(help_improvement_req, XtNy, &ay, XtNheight, &ah, NULL);
-     help_tree_viewport=XtVaCreateManagedWidget("helptreeviewport", 
-					       viewportWidgetClass, 
-					       help_right_form,
-					       XtNwidth, w2,
-					       XtNheight, MAX(1,h-(ay+ah)-10),
-					       NULL);
-     help_tech_tree=XtVaCreateManagedWidget("helptree", 
-					   treeWidgetClass, 
-					   help_tree_viewport,
-					   NULL);
-     XawTreeForceLayout(help_tech_tree);  
-
+     help_tree_viewport =
+       XtVaCreateManagedWidget("helptreeviewport", 
+			       viewportWidgetClass, 
+			       help_right_form,
+			       XtNwidth, w2,
+			       XtNheight, MAX(1,h-(ay+ah)-10),
+			       NULL);
+     help_tech_tree =
+       XtVaCreateManagedWidget("helptree", 
+			       treeWidgetClass, 
+			       help_tree_viewport,
+			       NULL);
+     XawTreeForceLayout(help_tech_tree);
   }
   else if(type==HELP_TECH) {
-    help_text = XtVaCreateManagedWidget("helptext", 
-					asciiTextWidgetClass, 
-					help_right_form,
-					XtNeditType, XawtextRead,
-					XtNscrollVertical, XawtextScrollAlways, 
-					XtNwidth, w2,
-					XtNheight, 70,
-					NULL);
-    
+    help_text =
+      XtVaCreateManagedWidget("helptext", 
+			      asciiTextWidgetClass, 
+			      help_right_form,
+			      XtNeditType, XawtextRead,
+			      XtNscrollVertical, XawtextScrollAlways, 
+			      XtNwidth, w2,
+			      XtNheight, 70,
+			      NULL);
+
     XtVaGetValues(help_text, XtNy, &ay, XtNheight, &ah, NULL);
-    help_tree_viewport=XtVaCreateManagedWidget("helptreeviewport", 
-					       viewportWidgetClass, 
-					       help_right_form,
-					       XtNwidth, w2,
-					       XtNheight, MAX(1,h-(ay+ah)-10),
-					       XtNfromVert,help_text,
-					       NULL);
-    help_tech_tree=XtVaCreateManagedWidget("helptree", 
-					   treeWidgetClass, 
-					   help_tree_viewport,
-					   NULL);
+    help_tree_viewport =
+      XtVaCreateManagedWidget("helptreeviewport", 
+			      viewportWidgetClass, 
+			      help_right_form,
+			      XtNwidth, w2,
+			      XtNheight, MAX(1,h-(ay+ah)-10),
+			      XtNfromVert,help_text,
+			      NULL);
+    help_tech_tree =
+      XtVaCreateManagedWidget("helptree", 
+			      treeWidgetClass, 
+			      help_tree_viewport,
+			      NULL);
     XawTreeForceLayout(help_tech_tree);  
   }
   else if(type==HELP_TERRAIN) {

@@ -293,11 +293,18 @@ static const char *convert_intl_marking(const char *str)
 Widget xaw_intl_label(Widget w)
 {
   String str;
+  Boolean rszbl;
 
-  XtVaGetValues(w, XtNlabel, &str, NULL);
+  XtVaGetValues(w, XtNlabel, &str, XtNresizable, &rszbl, NULL);
 
-  if (has_intl_marking(str))
+  if (has_intl_marking(str)) {
+    if (!rszbl)
+      XtVaSetValues(w, XtNresizable, (XtArgVal)True, NULL);
     XtVaSetValues(w, XtNlabel, (XtArgVal)convert_intl_marking(str), NULL);
+    if (!rszbl)
+      XtVaSetValues(w, XtNresizable, (XtArgVal)False, NULL);
+  }
+
   return w;
 }
 
@@ -309,14 +316,21 @@ Widget xaw_intl_label(Widget w)
 Widget xaw_intl_label_width(Widget w)
 {
   String str;
+  Boolean rszbl;
   Dimension width;
 
-  XtVaGetValues(w, XtNlabel, &str, XtNwidth, &width, NULL);
+  XtVaGetValues(w, XtNlabel, &str, XtNresizable, &rszbl,
+		XtNwidth, &width, NULL);
 
   if (has_intl_marking(str)) {
+    if (!rszbl)
+      XtVaSetValues(w, XtNresizable, (XtArgVal)True, NULL);
     XtVaSetValues(w, XtNlabel, (XtArgVal)convert_intl_marking(str),
 		  XtNwidth, width, NULL);
+    if (!rszbl)
+      XtVaSetValues(w, XtNresizable, (XtArgVal)False, NULL);
   }
+
   return w;
 }
 
@@ -354,11 +368,18 @@ Widget xaw_intl_icon_name(Widget w)
 Widget xaw_intl_string(Widget w)
 {
   String str;
+  Boolean rszbl;
 
-  XtVaGetValues(w, XtNstring, &str, NULL);
+  XtVaGetValues(w, XtNstring, &str, XtNresizable, &rszbl, NULL);
 
-  if (has_intl_marking(str))
+  if (has_intl_marking(str)) {
+    if (!rszbl)
+      XtVaSetValues(w, XtNresizable, (XtArgVal)True, NULL);
     XtVaSetValues(w, XtNstring, (XtArgVal)convert_intl_marking(str), NULL);
+    if (!rszbl)
+      XtVaSetValues(w, XtNresizable, (XtArgVal)False, NULL);
+  }
+
   return w;
 }
 
@@ -368,14 +389,20 @@ Widget xaw_intl_string(Widget w)
 Widget xaw_intl_string_width(Widget w)
 {
   String str;
+  Boolean rszbl;
   Dimension width;
 
-  XtVaGetValues(w, XtNstring, &str, XtNwidth, &width, NULL);
+  XtVaGetValues(w, XtNstring, &str, XtNresizable, &rszbl,
+		XtNwidth, &width, NULL);
 
-  if (has_intl_marking(str))
+  if (has_intl_marking(str)) {
+    if (!rszbl)
+      XtVaSetValues(w, XtNresizable, (XtArgVal)True, NULL);
     XtVaSetValues(w, XtNstring, (XtArgVal)convert_intl_marking(str),
 		  XtNwidth, width, NULL);
+    if (!rszbl)
+      XtVaSetValues(w, XtNresizable, (XtArgVal)False, NULL);
+  }
+
   return w;
 }
-
-

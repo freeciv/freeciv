@@ -571,7 +571,7 @@ Freeciv*helpdialog.*.*helptitle.left: chainLeft
 Freeciv*helpdialog.*.*helptitle.right: chainRight
 
 Freeciv*helpdialog.*.helpimprcost.fromVert: helptext
-Freeciv*helpdialog.*.helpimprcost.label: Cost:
+Freeciv*helpdialog.*.helpimprcost.label: _("Cost:")
 Freeciv*helpdialog.*.helpimprcost.left: chainLeft
 Freeciv*helpdialog.*.helpimprcost.right: chainLeft
 Freeciv*helpdialog.*.helpimprcost.top: chainTop
@@ -588,7 +588,7 @@ Freeciv*helpdialog.*.helpimprcostdata.right: chainLeft
 Freeciv*helpdialog.*.helpimprcostdata.top: chainTop
 Freeciv*helpdialog.*.helpimprcostdata.bottom: chainTop
 
-Freeciv*helpdialog.*.helpimprupkeep.label: Upkeep:
+Freeciv*helpdialog.*.helpimprupkeep.label: _("Upkeep:")
 Freeciv*helpdialog.*.helpimprupkeep.fromVert: helptext
 Freeciv*helpdialog.*.helpimprupkeep.fromHoriz: helpimprcostdata
 Freeciv*helpdialog.*.helpimprupkeep.left: chainLeft
@@ -607,7 +607,7 @@ Freeciv*helpdialog.*.helpimprupkeepdata.right: chainLeft
 Freeciv*helpdialog.*.helpimprupkeepdata.top: chainTop
 Freeciv*helpdialog.*.helpimprupkeepdata.bottom: chainTop
 
-Freeciv*helpdialog.*.helpimprvariant.label: Variant:
+Freeciv*helpdialog.*.helpimprvariant.label: _("Variant:")
 Freeciv*helpdialog.*.helpimprvariant.foreground: black
 Freeciv*helpdialog.*.helpimprvariant.background: grey
 Freeciv*helpdialog.*.helpimprvariant.fromVert: helptext
@@ -629,7 +629,7 @@ Freeciv*helpdialog.*.helpimprvariantdata.right: chainLeft
 Freeciv*helpdialog.*.helpimprvariantdata.top: chainTop
 Freeciv*helpdialog.*.helpimprvariantdata.bottom: chainTop
 
-Freeciv*helpdialog.*.helpimprreq.label: Requirement:
+Freeciv*helpdialog.*.helpimprreq.label: _("Requirement:")
 Freeciv*helpdialog.*.helpimprreq.fromVert: helpimprcost
 Freeciv*helpdialog.*.helpimprreq.left: chainLeft
 Freeciv*helpdialog.*.helpimprreq.right: chainLeft
@@ -667,7 +667,7 @@ Freeciv*helpdialog.*.helptree.left:   chainLeft
 Freeciv*helpdialog.*.helptree.right:  chainRight
 
 
-Freeciv*helpdialog.*.helpwonderobsolete.label: Obsolete by:
+Freeciv*helpdialog.*.helpwonderobsolete.label: _("Obsolete by:")
 Freeciv*helpdialog.*.helpwonderobsolete.fromVert: helpimprcost
 Freeciv*helpdialog.*.helpwonderobsolete.fromHoriz: helpimprreqdata
 Freeciv*helpdialog.*.helpwonderobsolete.left: chainLeft
@@ -686,7 +686,7 @@ Freeciv*helpdialog.*.helpwonderobsoletedata.bottom: chainTop
 Freeciv*helpdialog.*.helpwonderobsoletedata.borderWidth: 0
 Freeciv*helpdialog.*.helpwonderobsoletedata.justify: Left
 
-Freeciv*helpdialog.*.helpwondervariant.label: Variant:
+Freeciv*helpdialog.*.helpwondervariant.label: _("Variant:")
 Freeciv*helpdialog.*.helpwondervariant.foreground: black
 Freeciv*helpdialog.*.helpwondervariant.background: grey
 Freeciv*helpdialog.*.helpwondervariant.fromVert: helptext
@@ -713,7 +713,7 @@ Freeciv*helpdialog.*.treenode.foreground: Black
 Freeciv*helpdialog.*.treenode.background: grey
 Freeciv*helpdialog.*.treenode.label: Yo
 
-Freeciv*helpdialog.*.helpunitattack.label: Attack:
+Freeciv*helpdialog.*.helpunitattack.label: _("Attack:")
 Freeciv*helpdialog.*.helpunitattack.fromVert: helptext
 Freeciv*helpdialog.*.helpunitattack.fromHoriz: helpunitcostdata
 Freeciv*helpdialog.*.helpunitattack.left: chainLeft
@@ -731,7 +731,7 @@ Freeciv*helpdialog.*.helpunitattackdata.bottom: chainTop
 Freeciv*helpdialog.*.helpunitattackdata.background: lightblue
 Freeciv*helpdialog.*.helpunitattackdata.borderWidth: 0
 
-Freeciv*helpdialog.*.helpunitdef.label: Defense:
+Freeciv*helpdialog.*.helpunitdef.label: _("Defense:")
 Freeciv*helpdialog.*.helpunitdef.fromVert: helptext
 Freeciv*helpdialog.*.helpunitdef.fromHoriz: helpunitattackdata
 Freeciv*helpdialog.*.helpunitdef.left: chainLeft
@@ -749,7 +749,7 @@ Freeciv*helpdialog.*.helpunitdefdata.bottom: chainTop
 Freeciv*helpdialog.*.helpunitdefdata.background: lightblue
 Freeciv*helpdialog.*.helpunitdefdata.borderWidth: 0
 
-Freeciv*helpdialog.*.helpunitmove.label: Move:
+Freeciv*helpdialog.*.helpunitmove.label: _("Move:")
 Freeciv*helpdialog.*.helpunitmove.fromVert: helptext
 Freeciv*helpdialog.*.helpunitmove.fromHoriz: helpunitdefdata
 Freeciv*helpdialog.*.helpunitmove.left: chainLeft
@@ -777,7 +777,7 @@ Freeciv*helpdialog.*.helpunittile.top: chainTop
 Freeciv*helpdialog.*.helpunittile.bottom: chainTop
 Freeciv*helpdialog.*.helpunittile.borderWidth: 1
 
-Freeciv*helpdialog.*.helpunithp.label: Hitpoints:
+Freeciv*helpdialog.*.helpunithp.label: _("Hitpoints:")
 Freeciv*helpdialog.*.helpunithp.fromVert: helpunitcost
 Freeciv*helpdialog.*.helpunithp.fromHoriz: helpunitfpdata
 Freeciv*helpdialog.*.helpunithp.left: chainLeft
@@ -795,7 +795,7 @@ Freeciv*helpdialog.*.helpunithpdata.bottom: chainTop
 Freeciv*helpdialog.*.helpunithpdata.background: lightblue
 Freeciv*helpdialog.*.helpunithpdata.borderWidth: 0
 
-Freeciv*helpdialog.*.helpunitfp.label: Firepower:
+Freeciv*helpdialog.*.helpunitfp.label: _("Firepower:")
 Freeciv*helpdialog.*.helpunitfp.fromVert: helpunitcost
 Freeciv*helpdialog.*.helpunitfp.left: chainLeft
 Freeciv*helpdialog.*.helpunitfp.right: chainLeft
@@ -812,7 +812,7 @@ Freeciv*helpdialog.*.helpunitfpdata.bottom: chainTop
 Freeciv*helpdialog.*.helpunitfpdata.background: lightblue
 Freeciv*helpdialog.*.helpunitfpdata.borderWidth: 0
 
-Freeciv*helpdialog.*.helpunitvisrange.label: Vision:
+Freeciv*helpdialog.*.helpunitvisrange.label: _("Vision:")
 Freeciv*helpdialog.*.helpunitvisrange.fromVert: helpunitcost
 Freeciv*helpdialog.*.helpunitvisrange.fromHoriz: helpunithpdata
 Freeciv*helpdialog.*.helpunitvisrange.left: chainLeft
@@ -830,7 +830,7 @@ Freeciv*helpdialog.*.helpunitvisrangedata.bottom: chainTop
 Freeciv*helpdialog.*.helpunitvisrangedata.background: lightblue
 Freeciv*helpdialog.*.helpunitvisrangedata.borderWidth: 0
 
-Freeciv*helpdialog.*.helpunitcost.label: Cost:
+Freeciv*helpdialog.*.helpunitcost.label: _("Cost:")
 Freeciv*helpdialog.*.helpunitcost.fromVert: helptext
 Freeciv*helpdialog.*.helpunitcost.left: chainLeft
 Freeciv*helpdialog.*.helpunitcost.right: chainLeft
@@ -847,13 +847,7 @@ Freeciv*helpdialog.*.helpunitcostdata.bottom: chainTop
 Freeciv*helpdialog.*.helpunitcostdata.background: lightblue
 Freeciv*helpdialog.*.helpunitcostdata.borderWidth: 0
 
-!
-! FIXME: problem with help dialog with widget sizes, because
-! help pages are created after the main dialog is realized.
-! (possibly cause of slow refresh too?)
-!
-!Freeciv*helpdialog.*.help_terrain_movement_defense.label: _("Movement/Defense:")
-Freeciv*helpdialog.*.help_terrain_movement_defense.label: Movement/Defense:
+Freeciv*helpdialog.*.help_terrain_movement_defense.label: _("Movement/Defense:")
 Freeciv*helpdialog.*.help_terrain_movement_defense.fromVert: helptext
 Freeciv*helpdialog.*.help_terrain_movement_defense.left: chainLeft
 Freeciv*helpdialog.*.help_terrain_movement_defense.right: chainLeft
@@ -872,8 +866,7 @@ Freeciv*helpdialog.*.help_terrain_movement_defense_data.bottom: chainTop
 Freeciv*helpdialog.*.help_terrain_movement_defense_data.borderWidth: 0
 Freeciv*helpdialog.*.help_terrain_movement_defense_data.justify: Left
 
-!Freeciv*helpdialog.*.help_terrain_food_shield_trade.label: _("Food/Resources/Trade:")
-Freeciv*helpdialog.*.help_terrain_food_shield_trade.label: Food/Resources/Trade:
+Freeciv*helpdialog.*.help_terrain_food_shield_trade.label: _("Food/Resources/Trade:")
 Freeciv*helpdialog.*.help_terrain_food_shield_trade.fromVert: helptext
 Freeciv*helpdialog.*.help_terrain_food_shield_trade.fromHoriz: help_terrain_movement_defense_data
 Freeciv*helpdialog.*.help_terrain_food_shield_trade.left: chainLeft
@@ -934,8 +927,7 @@ Freeciv*helpdialog.*.help_terrain_special_2_data.bottom: chainTop
 Freeciv*helpdialog.*.help_terrain_special_2_data.borderWidth: 0
 Freeciv*helpdialog.*.help_terrain_special_2_data.justify: Left
 
-!Freeciv*helpdialog.*.help_terrain_road_result_time.label: _("Road Result/Time:")
-Freeciv*helpdialog.*.help_terrain_road_result_time.label: Road Result/Time:
+Freeciv*helpdialog.*.help_terrain_road_result_time.label: _("Road Result/Time:")
 Freeciv*helpdialog.*.help_terrain_road_result_time.fromVert: help_terrain_special_1
 Freeciv*helpdialog.*.help_terrain_road_result_time.left: chainLeft
 Freeciv*helpdialog.*.help_terrain_road_result_time.right: chainLeft
@@ -955,8 +947,7 @@ Freeciv*helpdialog.*.help_terrain_road_result_time_data.bottom: chainTop
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.borderWidth: 0
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.justify: Left
 
-!Freeciv*helpdialog.*.help_terrain_irrigation_result_time.label: _("Irrig. Result/Time:")
-Freeciv*helpdialog.*.help_terrain_irrigation_result_time.label: Irrig. Result/Time:
+Freeciv*helpdialog.*.help_terrain_irrigation_result_time.label: _("Irrig. Result/Time:")
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time.fromVert: help_terrain_special_1
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time.fromHoriz: help_terrain_road_result_time_data
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time.left: chainLeft
@@ -977,8 +968,7 @@ Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.bottom: chainTop
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.borderWidth: 0
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.justify: Left
 
-!Freeciv*helpdialog.*.help_terrain_mining_result_time.label: _("Mine Result/Time:")
-Freeciv*helpdialog.*.help_terrain_mining_result_time.label: Mine Result/Time:
+Freeciv*helpdialog.*.help_terrain_mining_result_time.label: _("Mine Result/Time:")
 Freeciv*helpdialog.*.help_terrain_mining_result_time.fromVert: help_terrain_road_result_time
 Freeciv*helpdialog.*.help_terrain_mining_result_time.left: chainLeft
 Freeciv*helpdialog.*.help_terrain_mining_result_time.right: chainLeft
@@ -998,8 +988,7 @@ Freeciv*helpdialog.*.help_terrain_mining_result_time_data.bottom: chainTop
 Freeciv*helpdialog.*.help_terrain_mining_result_time_data.borderWidth: 0
 Freeciv*helpdialog.*.help_terrain_mining_result_time_data.justify: Left
 
-!Freeciv*helpdialog.*.help_terrain_transform_result_time.label: _("Trans. Result/Time:")
-Freeciv*helpdialog.*.help_terrain_transform_result_time.label: Trans. Result/Time:
+Freeciv*helpdialog.*.help_terrain_transform_result_time.label: _("Trans. Result/Time:")
 Freeciv*helpdialog.*.help_terrain_transform_result_time.fromVert: help_terrain_road_result_time
 Freeciv*helpdialog.*.help_terrain_transform_result_time.fromHoriz: help_terrain_mining_result_time_data
 Freeciv*helpdialog.*.help_terrain_transform_result_time.left: chainLeft
@@ -2769,29 +2758,20 @@ Freeciv*cityimprovview.allowVert:		True
 
 Freeciv*citysellcommand.label:			_(" Sell ")
 
-!
-! FIXME: similar problem to help dialog, described above.
-!
-!Freeciv*cityclosecommand.label:		_("Close")
-Freeciv*cityclosecommand.label:			Close
+Freeciv*cityclosecommand.label:			_("Close")
 Freeciv*cityclosecommand.translations:		#override \n\
   <Key>Return:	city-dialog-returnkey() \n\
   <Key>Escape:	city-dialog-returnkey()
 
-!Freeciv*cityrenamecommand.label:		_("Rename")
-Freeciv*cityrenamecommand.label:		Rename
+Freeciv*cityrenamecommand.label:		_("Rename")
 
-!Freeciv*citytradecommand.label:		_("Trade")
-Freeciv*citytradecommand.label:			Trade
+Freeciv*citytradecommand.label:			_("Trade")
 
-!Freeciv*cityactivatecommand.label:		_("Activate Units")
-Freeciv*cityactivatecommand.label:		Activate Units
+Freeciv*cityactivatecommand.label:		_("Activate Units")
 
-!Freeciv*cityshowunitscommand.label:		_("Unit List")
-Freeciv*cityshowunitscommand.label:		Unit List
+Freeciv*cityshowunitscommand.label:		_("Unit List")
 
-!Freeciv*cityoptionscommand.label:		_("City Options")
-Freeciv*cityoptionscommand.label:		City Options
+Freeciv*cityoptionscommand.label:		_("City Options")
 
 ! dummy labels:
 Freeciv*cityprodlabel.label: \

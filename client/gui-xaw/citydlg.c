@@ -576,6 +576,54 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    NULL);
 
 
+  pdialog->close_command=
+    I_L(XtVaCreateManagedWidget("cityclosecommand", 
+			    commandWidgetClass,
+			    pdialog->main_form,
+			    XtNfromVert, first_present,
+			    NULL));
+
+  pdialog->rename_command=
+    I_L(XtVaCreateManagedWidget("cityrenamecommand", 
+			    commandWidgetClass,
+			    pdialog->main_form,
+			    XtNfromVert, first_present,
+			    XtNfromHoriz, pdialog->close_command,
+			    NULL));
+
+  pdialog->trade_command=
+    I_L(XtVaCreateManagedWidget("citytradecommand", 
+			    commandWidgetClass,
+			    pdialog->main_form,
+			    XtNfromVert, first_present,
+			    XtNfromHoriz, pdialog->rename_command,
+			    NULL));
+
+  pdialog->activate_command=
+    I_L(XtVaCreateManagedWidget("cityactivatecommand",
+    			    commandWidgetClass,
+			    pdialog->main_form,
+			    XtNfromVert, first_present,
+			    XtNfromHoriz, pdialog->trade_command,
+			    NULL));
+
+  pdialog->show_units_command=
+    I_L(XtVaCreateManagedWidget("cityshowunitscommand",
+			    commandWidgetClass,
+			    pdialog->main_form,
+			    XtNfromVert, first_present,
+			    XtNfromHoriz, pdialog->activate_command,
+			    NULL));
+
+  pdialog->cityopt_command=
+    I_L(XtVaCreateManagedWidget("cityoptionscommand",
+			    commandWidgetClass,
+			    pdialog->main_form,
+			    XtNfromVert, first_present,
+			    XtNfromHoriz, pdialog->show_units_command,
+			    NULL));
+
+
   XtRealizeWidget(pdialog->shell);
   XtQueryGeometry (pdialog->sub_form, NULL, &geom);
   widthTotal=geom.width;
@@ -761,57 +809,6 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   
   XtVaSetValues(pdialog->shell, XtNiconPixmap, icon_pixmap, NULL);
 
-  pdialog->close_command=
-    I_L(XtVaCreateManagedWidget("cityclosecommand", 
-			    commandWidgetClass,
-			    pdialog->main_form,
-			    XtNfromVert, 
-			    pdialog->present_unit_pixcomms[0],
-			    NULL));
-
-  pdialog->rename_command=
-    I_L(XtVaCreateManagedWidget("cityrenamecommand", 
-			    commandWidgetClass,
-			    pdialog->main_form,
-			    XtNfromVert, 
-			    pdialog->present_unit_pixcomms[0],
-			    XtNfromHoriz,
-			    pdialog->close_command,
-			    NULL));
-
-  pdialog->trade_command=
-    I_L(XtVaCreateManagedWidget("citytradecommand", 
-			    commandWidgetClass,
-			    pdialog->main_form,
-			    XtNfromVert, 
-			    pdialog->present_unit_pixcomms[0],
-			    XtNfromHoriz,
-			    pdialog->rename_command,
-			    NULL));
-
-  pdialog->activate_command=
-    I_L(XtVaCreateManagedWidget("cityactivatecommand",
-    			    commandWidgetClass,
-			    pdialog->main_form,
-			    XtNfromVert, pdialog->present_unit_pixcomms[0],
-			    XtNfromHoriz, pdialog->trade_command,
-			    NULL));
-
-  pdialog->show_units_command=
-    I_L(XtVaCreateManagedWidget("cityshowunitscommand",
-			    commandWidgetClass,
-			    pdialog->main_form,
-			    XtNfromVert, pdialog->present_unit_pixcomms[0],
-			    XtNfromHoriz, pdialog->activate_command,
-			    NULL));
-
-  pdialog->cityopt_command=
-    I_L(XtVaCreateManagedWidget("cityoptionscommand",
-			    commandWidgetClass,
-			    pdialog->main_form,
-			    XtNfromVert, pdialog->present_unit_pixcomms[0],
-			    XtNfromHoriz, pdialog->show_units_command,
-			    NULL));
 
   XtAddCallback(pdialog->sell_command, XtNcallback, sell_callback,
 		(XtPointer)pdialog);
