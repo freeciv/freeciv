@@ -82,17 +82,23 @@ enum city_options {
  */
 #define MAX_CITY_SIZE					100
 
-/* Iterate a city map */
+/*
+ * Iterate a city map.  This iterates over all city positions in the
+ * city map (i.e., positions that are workable by the city) in unspecified
+ * order.
+ */
+#define city_map_iterate(x, y)						    \
+{									    \
+  int _itr;								    \
+  									    \
+  for (_itr = 0; _itr < CITY_MAP_SIZE * CITY_MAP_SIZE; _itr++) {	    \
+    const int x = _itr % CITY_MAP_SIZE, y = _itr / CITY_MAP_SIZE;	    \
+    									    \
+    if (is_valid_city_coords(x, y)) {
 
-#define city_map_iterate(x, y)                     \
-{                                                  \
-  int x, y;                                        \
-  for (y = 0; y < CITY_MAP_SIZE; y++)              \
-    for (x = 0; x < CITY_MAP_SIZE; x++)            \
-      if (! ((x == 0 || x == (CITY_MAP_SIZE-1)) && \
-	     (y == 0 || y == (CITY_MAP_SIZE-1))) )
-
-#define city_map_iterate_end                       \
+#define city_map_iterate_end			                            \
+    }									    \
+  }									    \
 }
 
 /* Iterate a city map, from the center (the city) outwards */
