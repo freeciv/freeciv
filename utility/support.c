@@ -513,11 +513,18 @@ bool is_reg_file_for_access(const char *name, bool write_access)
 }
 
 /**********************************************************************
+  Character function wrappers
+
+  Some OS's (win32, Solaris) require a non-negative value as input
+  for these functions.
+***********************************************************************/
+
+/**********************************************************************
   Wrapper function to work around broken libc implementations.
 ***********************************************************************/
 bool my_isalnum(char c)
 {
-  return isalnum((int) c) != 0;
+  return isalnum((int)((unsigned char)c)) != 0;
 }
 
 /**********************************************************************
@@ -525,7 +532,7 @@ bool my_isalnum(char c)
 ***********************************************************************/
 bool my_isalpha(char c)
 {
-  return isalpha((int) c) != 0;
+  return isalpha((int)((unsigned char)c)) != 0;
 }
 
 /**********************************************************************
@@ -533,7 +540,7 @@ bool my_isalpha(char c)
 ***********************************************************************/
 bool my_isdigit(char c)
 {
-  return isdigit((int) c) != 0;
+  return isdigit((int)((unsigned char)c)) != 0;
 }
 
 /**********************************************************************
@@ -541,7 +548,7 @@ bool my_isdigit(char c)
 ***********************************************************************/
 bool my_isprint(char c)
 {
-  return isprint((int) c) != 0;
+  return isprint((int)((unsigned char)c)) != 0;
 }
 
 /**********************************************************************
@@ -549,7 +556,7 @@ bool my_isprint(char c)
 ***********************************************************************/
 bool my_isspace(char c)
 {
-  return isspace((int) c) != 0;
+  return isspace((int)((unsigned char)c)) != 0;
 }
 
 /**********************************************************************
@@ -557,7 +564,7 @@ bool my_isspace(char c)
 ***********************************************************************/
 bool my_isupper(char c)
 {
-  return isupper((int) c) != 0;
+  return isupper((int)((unsigned char)c)) != 0;
 }
 
 /**********************************************************************
@@ -565,7 +572,7 @@ bool my_isupper(char c)
 ***********************************************************************/
 char my_toupper(char c)
 {
-  return (char) toupper((int) c);
+  return (char) toupper((int)((unsigned char)c));
 }
 
 /**********************************************************************
@@ -573,5 +580,5 @@ char my_toupper(char c)
 ***********************************************************************/
 char my_tolower(char c)
 {
-  return (char) tolower((int) c);
+  return (char) tolower((int)((unsigned char)c));
 }
