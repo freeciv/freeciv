@@ -402,14 +402,12 @@ void center_tile_mapcanvas(int x, int y)
 
   base_center_tile_mapcanvas(x, y, &map_view_x0, &map_view_y0,
 			     get_map_x_visible(), get_map_y_visible());
+	set_map_xy_start(map_view_x0, map_view_y0);
 
-  set_map_xy_start(map_view_x0, map_view_y0);
-// remove me
-#ifdef DISABLED
   update_map_canvas_visible();
-  update_map_canvas_scrollbars();
   refresh_overview_viewrect();
-#endif
+  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+    create_line_at_mouse_pos();
 }
 
 /**************************************************************************

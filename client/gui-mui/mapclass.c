@@ -481,16 +481,22 @@ static void Map_Priv_ShowCityDesc(Object *o, struct Map_Data *data)
     pix = TextLength(rp,buffer,strlen(buffer));
 
     if (draw_city_growth && pcity->owner == game.player_idx) {
-      pix += TextLength(rp,buffer2,strlen(buffer2));
+      pix += TextLength(rp,buffer2,strlen(buffer2)) + 5;
     }
 
     x = canvas_x - pix / 2;
-    SetAPen(rp,data->white_pen);
+    SetAPen(rp,data->black_pen);
     Move(rp, _mleft(o) + x, _mtop(o) + y);
+    Text(rp, buffer, strlen(buffer));
+    SetAPen(rp,data->white_pen);
+    Move(rp, _mleft(o) + x, _mtop(o) + y + 1);
     Text(rp, buffer, strlen(buffer));
 
     if (draw_city_growth && pcity->owner == game.player_idx)
+    {
+    	Move(rp, rp->cp_x + 5, rp->cp_y - 1);
 	Text(rp, buffer2, strlen(buffer2));
+    }
 
     y += 2 + new_font->tf_YSize;
   }
@@ -930,10 +936,25 @@ static ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
       InstallLayerInfoHook(data->map_layerinfo, LAYERS_NOBACKFILL);
       if ((data->map_layer = CreateBehindHookLayer(data->map_layerinfo, data->map_bitmap, 0, 0, _mwidth(o) - 1, _mheight(o) - 1, LAYERSIMPLE, LAYERS_NOBACKFILL, NULL)))
       {
+      	int xsize;
+      	int ysize;
+
+	/* determine sizes. The usually way was to use map.xsize (or map.ysize) but
+	 * this won't work anymore */
+	if (data->overview_object)
+	{
+	    xsize = xget(data->overview_object, MUIA_Overview_Width);
+	    ysize = xget(data->overview_object, MUIA_Overview_Height);
+	} else
+	{
+	    xsize = map.xsize;
+	    ysize = map.ysize;
+	}
+
 	if (data->hscroller_object)
 	{
 	  SetAttrs(data->hscroller_object,
-		   MUIA_Prop_Entries, map.xsize + xget(o, MUIA_Map_HorizVisible) - 1,
+		   MUIA_Prop_Entries, xsize + xget(o, MUIA_Map_HorizVisible) - 1,
 		   MUIA_Prop_Visible, xget(o, MUIA_Map_HorizVisible),
 		   MUIA_NoNotify, TRUE,
 		   TAG_DONE);
@@ -942,7 +963,7 @@ static ULONG Map_Show(struct IClass * cl, Object * o, Msg msg)
 	if (data->vscroller_object)
 	{
 	  SetAttrs(data->vscroller_object,
-		   MUIA_Prop_Entries, map.ysize,
+		   MUIA_Prop_Entries, ysize,
 		   MUIA_Prop_Visible, xget(o, MUIA_Map_VertVisible),
 		   MUIA_NoNotify, TRUE,
 		   TAG_DONE);
@@ -1445,7 +1466,8 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	}
       }
 
-      if (!(msg->flags & MADF_DRAWUPDATE)) show_city_descriptions();
+      if (!(msg->flags & MADF_DRAWUPDATE) || ((msg->flags & MADF_DRAWUPDATE) && (data->update == 3)))
+	show_city_descriptions();
     }
 
     data->update = 0;
