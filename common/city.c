@@ -1674,9 +1674,9 @@ static inline void add_specialist_output(const struct city *pcity,
     int *bonus = game.rgame.specialists[sp].bonus;
     int count = pcity->specialists[sp];
 
-    output[O_GOLD] += count * bonus[O_GOLD];
-    output[O_LUXURY] += count * bonus[O_LUXURY];
-    output[O_SCIENCE] += count * bonus[O_SCIENCE];
+    output_type_iterate(stat) {
+      output[stat] += count * bonus[stat];
+    } output_type_iterate_end;
   } specialist_type_iterate_end;
 }
 
