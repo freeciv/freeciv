@@ -1,3 +1,2709 @@
+Sun Sep 26 21:26:26 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* common/packets.c: Renamed the _int* functions to _sint* and
+	surrounded them with #ifdef #endif pair because they are not used
+	currently and gcc generates a warning otherwise. Also use a
+	probably safer method to ensure the sign of a value.
+
+	Suggested by David Pfitzner <dwp@mso.anu.edu.au>
+
+Sun Sep 26 11:54:39 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* common/packets.c: New *_int* functions in packet.c which take
+	care of the sign. They are currently not used.
+
+Sun Sep 26 09:59:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/Freeciv.h, data/Freeciv, data/helpdata.txt: Fixed
+	some cases where metaserver URL was still the daimi address.
+
+Sun Sep 26 09:58:53 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* freeciv_hackers_guide.txt: Added some maintainer-notes about
+	incrementing the version number.
+
+Sun Sep 26 09:58:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* acconfig.h, config.h.in, configure, configure.in,
+	client/clinet.c, client/gui-gtk/graphics.c,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/graphics.c,
+	common/packets.c, common/packets.h, common/version.h,
+	data/Freeciv, server/civserver.c: Added support for a descriptive
+	label as part of the version string; label is currently "-devel".
+
+Sun Sep 26 09:56:10 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, common/city.h, common/game.c, common/game.h,
+	common/government.h, common/map.h, common/nation.h, common/tech.h,
+	common/unit.h, server/ruleset.c: Activate translations for names
+	marked in rulesets (unit names etc).  Keep copies of untranslated
+	names too, since useful for some purposes (eg, for server to send
+	to clients).
+
+Sun Sep 26 09:53:29 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/helpdlg.c: In gtk help_hyperlink_callback(),
+	check against gettext versions of "(Never)" and "None", to work
+	properly when i18n'd.  Also check vs advances[A_NONE].name
+	(necessary for now).
+
+Sat Sep 25 16:16:31 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* common/packets.c, common/packets.h, server/meta.c: Renamed all
+	packet functions from *_int* to *_uint* because they are no real
+	signed functiones. This is a first step to solve the problems with
+	signed values in packets.  Added comment which describes next
+	steps.
+
+Sat Sep 25 14:02:06 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/helpdata.txt: Added some Airbase information to
+	helpdata.txt.
+
+Sat Sep 25 12:06:52 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/helpdata.c, client/helpdata.h, client/gui-gtk/helpdlg.c,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/helpdlg.c, data/Freeciv:
+	Added explicit information about unit upkeep parameters to help
+	dialogs about unit types, covering full upkeep generality now
+	allowed by rulesets.  For Gtk+ client, also moved vision range
+	information to separate widget instead of being in text part.
+
+Sat Sep 25 12:05:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/options.c: Use user_home_dir() instead of explicit
+	getenv("HOME") in open_option_file().
+
+Sat Sep 25 12:04:59 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/tilespec.c, client/tilespec.h, client/gui-gtk/mapview.c,
+	client/gui-xaw/mapview.c: Solid background colors were broken for
+	nations 14 and above, since there are only 14 nation colors
+	defined.  Fixed by making the color depend on the player number
+	instead of the nation number, since the player number is still
+	restricted to less than 14.
+
+Sat Sep 25 12:04:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/government.c, common/government.h, common/nation.c,
+	common/nation.h, data/civ1/governments.ruleset,
+	data/civ2/governments.ruleset, data/default/governments.ruleset,
+	data/default/nations.ruleset, server/ruleset.c: Moved all
+	nation-specific ruler titles to nations ruleset, leaving only the
+	default ruler titles in government ruleset.  So government ruleset
+	is not dependent on nations.  This allows also to simplify nation
+	struct by removing the goals strings and init_nation_goals()
+	function.  Patch submitted by Jerzy Klek
+	<qpkjeek@epk.ericsson.se>.  Also added some i18n marking for ruler
+	titles (but not yet used).
+
+Sat Sep 25 12:02:51 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/nations.ruleset, po/POTFILES.in: Mark nation names
+	for i18n (not yet used).  From patch submitted by Jerzy Klek
+	<qpkjeek@epk.ericsson.se>.
+
+Sat Sep 25 12:02:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/flags.spec, data/default/flags.xpm,
+	data/default/nations.ruleset, data/trident/flags.spec,
+	data/trident/flags.xpm: Added graphics for Sioux and Norway flags,
+	and changed Viking flag to f.norway, since f.denmark is now used
+	by Danish.  Submitted by Jerzy Klek <qpkjeek@epk.ericsson.se>.
+
+Sat Sep 25 12:01:15 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/classic_terrain.ruleset, data/civ1/terrain.ruleset,
+	data/civ2/terrain.ruleset, data/default/terrain.ruleset: Changed
+	terrain special named "Game" to "Game Animals", to distinguish
+	from "Game" menu in translations (problem pointed out by Artur
+	Biesiadowski <abies@pg.gda.pl>).
+
+Sat Sep 25 12:00:20 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gamedlgs.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/ratesdlg.c, data/Freeciv: Made buffers longer in
+	rates_set_values() and popup_rates_dialog(), to avoid overflow
+	when words are longer in different LANGs; also made default Xaw
+	resource text longer to allow more space.
+
+Sat Sep 25 11:59:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, po/.cvsignore, po/de.po, po/es.po,
+	po/fr.po, po/hu.po, po/pl.po, po/pt.po: Updates to po files: new
+	de.po, by Manop Huber <Saphir@cs.tu-berlin.de>, submitted by
+	"Sebastian Feuerstack" <Sebastian@Feuerstack.de>; fixes and
+	updates to fr.po, by Denis Bodor <dbodor@linuxmag-france.org>;
+	tidied up and standardized first few lines for all .po files,
+	including adding standard Freeciv copyright line.
+
+Sat Sep 25 03:56:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/helpdlg.c, client/helpdata.c, client/helpdata.h,
+	client/packhand.c, client/gui-xaw/helpdlg.c,
+	client/include/helpdlg_g.h, common/capstr.c, common/city.h,
+	common/government.h, common/map.h, common/packets.c,
+	common/packets.h, data/classic_terrain.ruleset, data/helpdata.txt,
+	data/civ1/buildings.ruleset, data/civ1/governments.ruleset,
+	data/civ1/terrain.ruleset, data/civ2/buildings.ruleset,
+	data/civ2/governments.ruleset, data/civ2/terrain.ruleset,
+	data/default/buildings.ruleset, data/default/governments.ruleset,
+	data/default/terrain.ruleset, po/POTFILES.in, server/ruleset.c:
+	Moved helptext on buildings (improvements, wonders), terrain, and
+	governments into ruleset files.  (Added new help category for
+	governments.)
+
+Thu Sep 23 17:57:42 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* server/unitfunc.c: Heli units no longer loose hitpoints when
+	over an airbase (like Civ2)
+
+Thu Sep 23 16:55:09 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapctrl.c: Displace gtk client middle-button
+	popup so it is not obscured by the mouse cursor.  Patch submitted
+	by Peter Schaefer <schaefer@cys.de>, applied with a minor change.
+
+Thu Sep 23 16:08:27 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/civ2/governments.ruleset, data/default/governments.ruleset:
+	Changes rapture_size to 3, to conform to Civ2.
+
+Thu Sep 23 15:53:57 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/graphics.c, data/radar.xpm,
+	client/gui-xaw/graphics.c: Changes radar.xpm to use the "Freeciv"
+	capitalization.  Also cleans-up the code that draw the version
+	number onto the radar image.
+
+Thu Sep 23 15:22:01 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/citydlg.c,
+	client/gui-xaw/gui_stuff.c, client/gui-xaw/helpdlg.c,
+	data/Freeciv: Fix problem with using I_L() family on widgets after
+	they are realized by having the underlying functions make the
+	widgets temporarily resizable.
+
+Thu Sep 23 13:01:26 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/gui_main.c, client/control.c, client/control.h,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/gui_main.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/mapctrl.h, data/Freeciv:
+	Implemented <Escape> key cancels Go-To/Paradrop/nuke mode.
+
+Thu Sep 23 12:09:12 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/graphics.c, client/gui-gtk/mapview.c,
+	client/gui-xaw/graphics.c, client/gui-xaw/mapview.c,
+	client/include/Makefile.am, client/include/Makefile.in,
+	client/include/drop_cursor.xbm,
+	client/include/drop_cursor_mask.xbm,
+	client/include/goto_cursor.xbm,
+	client/include/goto_cursor_mask.xbm,
+	client/include/nuke_cursor.xbm,
+	client/include/nuke_cursor_mask.xbm: Added Paradrop and Nuke
+	cursors, and changed Go-To cursor.
+
+Tue Sep 21 13:36:50 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/citydlg.c,
+	client/gui-xaw/cityrep.c, client/gui-xaw/connectdlg.c,
+	client/gui-xaw/dialogs.c, client/gui-xaw/diplodlg.c,
+	client/gui-xaw/finddlg.c, client/gui-xaw/gotodlg.c,
+	client/gui-xaw/gui_main.c, client/gui-xaw/gui_stuff.c,
+	client/gui-xaw/gui_stuff.h, client/gui-xaw/helpdlg.c,
+	client/gui-xaw/inputdlg.c, client/gui-xaw/inteldlg.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/messagedlg.c,
+	client/gui-xaw/messagewin.c, client/gui-xaw/optiondlg.c,
+	client/gui-xaw/plrdlg.c, client/gui-xaw/ratesdlg.c,
+	client/gui-xaw/repodlgs.c, client/gui-xaw/spaceshipdlg.c,
+	po/POTFILES.in, data/Freeciv: Added i18n marking to many
+	resources/widgets, and some code strings, for Xaw client.  Changed
+	slightly the meaning of popup_message_dialog() arguments.
+
+Tue Sep 21 13:07:17 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/connectdlg.c: Updated gtk client beta notice.
+
+Tue Sep 21 12:44:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/citydlg.c, client/gui-gtk/cityrep.c,
+	client/gui-gtk/connectdlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/diplodlg.c, client/gui-gtk/gui_stuff.c,
+	client/gui-gtk/gui_stuff.h, client/gui-gtk/messagewin.c,
+	client/gui-gtk/plrdlg.c, client/gui-gtk/repodlgs.c: Fix i18n
+	handling of widget column titles in gtk client.  Added/used
+	function intl_slist() in gui_stuff.c.
+
+Tue Sep 21 12:29:38 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c, common/nation.c, common/packets.c: In
+	handle_player_info(), only call update_info_label() if game is
+	running.  Avoids various problems, in particular fixes bug
+	(PR#128) reported by Markus Linnala, and possibly a bug reported
+	by Corin Anderson <corin@the4cs.com>.  Allows more verbose logging
+	of bounds failure in get_nation_name().  In iget_bit_string(),
+	don't complain about empty strings.
+
+Tue Sep 21 07:06:12 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/dialogs.c: Fix the return-key crashing bug in
+	Select Nation dialog that I introduced when adding pick-leader
+	support.
+
+Mon Sep 20 20:50:42 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/tiles.spec, data/default/tiles.xpm,
+	data/trident/tiles.spec, data/trident/tiles.xpm: Artwork for
+	Airbases and Airbase builders.  (Airbase patch by Sebastian Bauer
+	<sebauer@t-online.de>.)
+
+Mon Sep 20 19:11:13 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/gui-gtk/menu.c, client/control.c, client/control.h,
+	client/helpdata.c, client/tilespec.c, client/tilespec.h,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/gui_main.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/mapctrl.h,
+	client/gui-xaw/menu.c, common/capstr.c, common/map.c,
+	common/map.h, common/tech.c, common/tech.h, common/unit.c,
+	common/unit.h, data/Freeciv, data/helpdata.txt,
+	data/civ1/techs.ruleset, data/civ2/techs.ruleset,
+	data/civ2/units.ruleset, data/default/techs.ruleset,
+	data/default/tiles.spec, data/default/units.ruleset,
+	server/unitfunc.c, data/trident/tiles.spec: Added Airbase map
+	special and "Airbase" flag in units.ruleset and techs.ruleset to
+	allow the building of the airbases known from civ2.
+
+	New Menu Item "Build Airbase" with shortcut 'e', to allow special
+	units to build airbases.
+
+	Modified default and civ2 rulesets to support these new flags.
+	(Settlers and Engineers can build Airbases after Radio tech has
+	been researched)
+
+Mon Sep 20 16:22:25 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/stdinhand.c: Indented the extra_help text for the
+	"specials" server option, so it conforms to the rest.
+
+Mon Sep 20 16:01:13 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/helpdata.c, client/packhand.c, common/capstr.c,
+	common/packets.c, common/packets.h, common/unit.c, common/unit.h,
+	data/civ1/units.ruleset, data/civ2/units.ruleset,
+	data/default/units.ruleset, server/plrhand.c, server/ruleset.c,
+	server/unitfunc.c: Maked paratroopers rules a little more
+	configurable in units.ruleset and changed the included rulesets to
+	match the civ2 rules, as suggested by Jeff Mallatt
+	<jjm@codewell.com>
+
+Sun Sep 19 22:13:58 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* ai/aitech.c, client/helpdata.c, client/packhand.c,
+	client/gui-gtk/dialogs.c, client/gui-gtk/diplodlg.c,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/inteldlg.c,
+	client/gui-gtk/repodlgs.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/diplodlg.c, client/gui-xaw/helpdlg.c,
+	client/gui-xaw/inteldlg.c, client/gui-xaw/repodlgs.c,
+	common/capstr.c, common/game.c, common/game.h, common/packets.c,
+	common/packets.h, common/player.c, common/tech.c, common/tech.h,
+	data/civ1/techs.ruleset, data/civ2/techs.ruleset,
+	data/default/techs.ruleset, server/citytools.c, server/gamehand.c,
+	server/plrhand.c, server/ruleset.c, server/unitfunc.c: Allow
+	variable number of techs (upto 199) in techs.ruleset.
+
+Sun Sep 19 21:12:40 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* configure, configure.in, data/Makefile.am, data/Makefile.in,
+	data/earth-160x90.sav, data/earth-80x50.sav, data/europe.sav,
+	data/scenario/.cvsignore, data/scenario/Makefile.am,
+	data/scenario/Makefile.in, data/scenario/earth-160x90-v1.sav,
+	data/scenario/earth-160x90-v2.sav,
+	data/scenario/earth-80x50-v1.sav,
+	data/scenario/earth-80x50-v2.sav,
+	data/scenario/europe-200x100-v1.sav,
+	data/scenario/europe-200x100-v2.sav: Reorganization of scenario
+	files: - All scenario files now live in new "data/scenario"
+	directory.  - Kept, but renamed, old scenario files.  - Converted
+	all scenario files to new format (with rivers as overlays).
+
+Sun Sep 19 20:32:49 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/connectdlg.c, client/gui-gtk/gui_main.c,
+	client/gui-gtk/helpdlg.c, INSTALL.debian,
+	freeciv_hackers_guide.txt, client/gui-xaw/Freeciv.h, data/Freeciv,
+	data/classic_terrain.ruleset, data/civ1/terrain.ruleset,
+	data/civ2/terrain.ruleset, data/default/terrain.ruleset,
+	debian/changelog, debian/civclient.6, debian/civserver.6,
+	debian/control, debian/freeciv-gtk.menu, debian/freeciv-xaw.menu,
+	debian/freeciv-xaw3d.menu, debian/freeciv.desktop, debian/menu,
+	po/es.po, po/pl.po: Normalized the Freeciv name by changing all
+	occurrences of "FreeCiv" in the code to "Freeciv".
+
+	I did not change the intro graphic.
+
+Sun Sep 19 20:04:52 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/climisc.h, client/tilespec.c, client/tilespec.h,
+	client/gui-gtk/citydlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/graphics.c, client/gui-gtk/gui_main.c,
+	client/gui-gtk/mapctrl.c, client/gui-gtk/mapview.c,
+	client/gui-xaw/dialogs.c, client/gui-xaw/graphics.c,
+	client/gui-xaw/gui_main.c, client/gui-xaw/helpdlg.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/mapview.c,
+	client/include/graphics_g.h, data/default.tilespec,
+	data/trident.tilespec, common/player.c, common/player.h: Changes
+	to main map drawing:
+
+	- Adds distinctive drawing within city radii to the grid draw
+	code.  - Adds city_names_font to the tilespec files, allowing for
+	changing the font size based on the tile size.  - Uses font
+	metrics to place the city names, rather than guessing based on
+	tile size.  - For the Xaw client, adds a 1-pixel shadow to
+	lower-right of city names (the gtk+ client already did this).
+
+	Also, I moved the tile size variables from gui-specific files into
+	tilespec.[hc] (which is where I put the city_names_font variable).
+
+Sun Sep 19 18:23:41 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/unit.c, server/stdinhand.c, server/unithand.c: Added two
+	Civ2 comformities: - Overflight of a hut causes it to disappear. 
+	- Can't build cities next to each other.  Also, added full
+	explaination of all civstyle effects to its help text.
+
+Sun Sep 19 17:54:44 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/packhand.c, client/gui-gtk/dialogs.c,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/dialogs.c,
+	common/capstr.c, common/nation.c, data/Freeciv,
+	server/civserver.c: Add leader selection to xaw Select Nation
+	dialog.  Add Disconnect and Quit buttons to Select Nation dialogs.
+	Fix a couple of bugs this uncovered: - If kill client when races
+	dialog open, server cores.  - If disconnect first connected of two
+	connected clients, remaining pops-up an empty select government
+	dialog and hangs.
+
+Sun Sep 19 15:47:13 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/tiles.spec, data/default/tiles.xpm,
+	data/trident/tiles.spec, data/trident/tiles.xpm: A few, small
+	changes to the two main tilesets: Trident: Farmland -- obscure
+	less.  OIL -- remove word.  Engels: Unrest -- changed to not
+	obscure city size.  Both: MINE -- remove word.  Distinct Pillage
+	marker.  Two-food support confined to right side.
+
+Sun Sep 19 14:37:32 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/citydlg.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/citydlg.c, client/include/citydlg_g.h,
+	data/Freeciv: Improvements to xaw city dialog: - Allow space for
+	three digits in F/P/T and G/L/S boxes.  - Put a '*' in Granary
+	line if have granary effect.  - Compute numbers of controls
+	dynamically.  - If more civs than fit on line, show right-arrow in
+	last position.  - Scrollable unit lists.
+
+Sun Sep 19 11:20:51 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/tilespec.c, client/gui-xaw/mapview.c: Fixed indentation
+	bugs I created in my last patch.
+
+Sun Sep 19 03:55:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/graphics.c, client/gui-xaw/graphics.c: No need to
+	calculate player's color in create_overlay_unit().
+
+Sun Sep 19 03:25:59 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/colors.h, client/include/Makefile.am,
+	client/include/Makefile.in, client/include/colors_g.h,
+	client/gui-xaw/colors.h: Created colors_g.h with gui-independent
+	parts from colors.h.  Named the COLOR_STD_* enum as "enum
+	color_std".
+
+Sun Sep 19 02:57:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ2/techs.ruleset, data/civ1/techs.ruleset,
+	data/default/techs.ruleset: Mark tech names for i18n (but not used
+	yet).
+
+Sun Sep 19 02:57:15 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/helpdlg.c, client/packhand.c,
+	client/gui-xaw/helpdlg.c, common/capstr.c, common/packets.c,
+	common/packets.h, common/tech.h, data/helpdata.txt,
+	data/civ1/techs.ruleset, data/civ2/techs.ruleset,
+	data/default/techs.ruleset, server/ruleset.c, po/POTFILES.in: Move
+	tech helptext to rulesets (although current rulesets don't make
+	use of this, with auto-generated tech helptext only).
+
+Sun Sep 19 02:55:15 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/helpdata.c, data/helpdata.txt: Automatic helptext for
+	techs allowing governments.
+
+Sun Sep 19 02:54:06 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ1/units.ruleset, data/civ2/units.ruleset,
+	data/default/units.ruleset: Mark unit names for i18n (but not used
+	yet).
+
+Sun Sep 19 02:53:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Makefile.am, client/Makefile.in: Since top-level client
+	files are supposed to be gui-independent (including what they
+	include), don't use CLIENT_CFLAGS (which contains gui-dependent
+	flags) for these.
+
+Sun Sep 19 02:52:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aicity.c, common/government.c, server/cityturn.c: Cleaned up
+	some minor government related stuff done previously for regression
+	testing.  Updated comments in government.c.
+
+Sun Sep 19 02:51:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/Freeciv.h, data/Freeciv, server/civserver.c,
+	server/meta.h: Updated beta notices (currently off).
+
+Sun Sep 19 02:50:39 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aicity.c, client/helpdata.c, server/cityturn.c: Use
+	utype_shield_cost() instead of is_military_unit() to calculate
+	prodneed in ai_find_elvis_pos(), and to choose unit to forcibly
+	disband if city does not have enough shield support.  Update
+	helptext explanation for F_NONMIL, and add text for F_FIELDUNIT.
+
+Sun Sep 19 02:49:21 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/units.ruleset: Turn on shield upkeep (as well as
+	food upkeep) for Settlers and Engineers in default ruleset, in
+	accordance with civ1 and civ2.
+
+Sun Sep 19 02:48:12 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/helpdata.c, client/packhand.c, common/capstr.c,
+	common/packets.c, common/packets.h, common/unit.h,
+	data/helpdata.txt, data/civ1/units.ruleset,
+	data/civ2/units.ruleset, data/default/units.ruleset,
+	po/POTFILES.in, server/ruleset.c: Moved helptext for units into
+	ruleset files.  Allows better customization for rulesets, and i18n
+	of unit helptext.  Adjusted help system so helptext line wrapping
+	is done in code, and adjusted some unit flag helptext accordingly.
+	Minor helptext changes for civ1.  Added capability string tag
+	"+helptext1".
+
+Sun Sep 19 02:46:43 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c: Allow registry strings to have escaped
+	literal newlines.
+
+Sat Sep 18 19:27:09 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/tilespec.c, client/tilespec.h, client/gui-xaw/mapview.c,
+	client/gui-xaw/mapview.h, client/gui-gtk/mapview.c,
+	client/gui-gtk/mapview.h: Moved code from client dependent
+	mapview.c out to client independent tilespec.c.
+
+Sat Sep 18 03:44:01 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/nation.c: Added bounds checking to nation accessor
+	functions; in particular get_nation_name() is sometimes called by
+	client before nations are setup or with bad nation id (now returns
+	"" in such cases).  Fixes bug reported by Tony Stuckey.
+
+Sat Sep 18 03:22:11 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/nations.ruleset: Update to nations ruleset
+	featuring more nations and leaders, submitted by Jerzy Klek
+	<qpkjeek@epk.ericsson.se>.  New nations are: Polish, Hungarian,
+	Danish, Dutch, Swedish, Japanese.
+
+Sat Sep 18 03:16:30 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: Minimal fix in cmdlevel_command() to work
+	with spaces in player names.
+
+Sat Sep 18 02:55:51 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, client/clinet.c, client/control.c,
+	client/helpdata.c, client/options.c, client/packhand.c,
+	client/tilespec.c, client/gui-gtk/chatline.c,
+	client/gui-gtk/citydlg.c, client/gui-gtk/cityrep.c,
+	client/gui-gtk/connectdlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/diplodlg.c, client/gui-gtk/gamedlgs.c,
+	client/gui-gtk/gotodlg.c, client/gui-gtk/gui_main.c,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/inputdlg.c,
+	client/gui-gtk/inteldlg.c, client/gui-gtk/mapctrl.c,
+	client/gui-gtk/mapview.c, client/gui-gtk/messagedlg.c,
+	client/gui-gtk/messagewin.c, client/gui-gtk/plrdlg.c,
+	client/gui-gtk/repodlgs.c, client/gui-gtk/spaceshipdlg.c,
+	client/gui-xaw/messagedlg.c, po/POTFILES.in: Mark lots of strings
+	for i18n in Gtk+ client.  There is a problem with titles set via
+	gtk_clist_new_with_titles() (added FIXME comments).  Based on
+	patch by Zbigniew Chyla <chyla@alice.ci.pwr.wroc.pl>, submitted 
+	by Artur Biesiadowski <abies@pg.gda.pl>.
+
+Sat Sep 18 02:49:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/fcintl.h: Put test in fcintl.h to ensure that files
+	including it pre-include config.h.
+
+Sat Sep 18 01:30:31 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* acconfig.h, config.h.in, configure, configure.in,
+	server/sernet.c, common/shared.c: Changes to help compilation of
+	server on BeOS: check defined(__BEOS__) in dont_run_as_root();
+	check for snooze() in configure and use in myusleep() if found and
+	don't have real usleep(); changes in server.c if
+	SOCKET_ZERO_ISNT_STDIN defined (but not set by configure).  Based
+	on patches/information submitted by Joseph Beckenbach III
+	<jrb3@best.com>.
+
+Sat Sep 18 00:58:18 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/log.c: Make sure pre-processor '#' is in first column in
+	log_parse_level_str() (also re-arranged a bit).  Fixes bug
+	(PR#126) reported by Emmanuel PARIS <ep@axene.com>.
+
+Sat Sep 18 00:57:28 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/shared.c, common/shared.h: Renamed
+	remove_leading_spaces() to more appropriate skip_leading_spaces().
+
+Wed Sep 15 09:09:21 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/advleader.c, ai/aicity.c, ai/aihand.c,
+	ai/aitech.c, client/civclient.c, client/civclient.h,
+	client/climisc.c, client/packhand.c, client/tilespec.c,
+	client/gui-gtk/dialogs.c, client/gui-gtk/diplodlg.c,
+	client/gui-gtk/graphics.c, client/gui-gtk/inteldlg.c,
+	client/gui-gtk/mapctrl.c, client/gui-gtk/mapview.c,
+	client/gui-gtk/plrdlg.c, client/gui-gtk/repodlgs.c,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/dialogs.c,
+	client/gui-xaw/diplodlg.c, client/gui-xaw/graphics.c,
+	client/gui-xaw/inteldlg.c, client/gui-xaw/mapctrl.c,
+	client/gui-xaw/mapview.c, client/gui-xaw/plrdlg.c,
+	client/gui-xaw/repodlgs.c, common/Makefile.am, common/Makefile.in,
+	common/capstr.c, common/city.c, common/city.h, common/game.c,
+	common/government.c, common/government.h, common/nation.c,
+	common/nation.h, common/packets.c, common/packets.h,
+	common/player.c, common/player.h, data/Freeciv,
+	data/default/nations.ruleset, server/cityhand.c,
+	server/cityhand.h, server/citytools.c, server/cityturn.c,
+	server/civserver.c, server/civserver.h, server/diplhand.c,
+	server/gamehand.c, server/gamelog.c, server/plrhand.c,
+	server/ruleset.c, server/spacerace.c, server/unitfunc.c,
+	server/unithand.c: Improvements and cleanups to nations ruleset
+	stuff, from patch submitted by Jerzy Klek
+	<qpkjeek@epk.ericsson.se>.
+
+	1. Separate common/nation.* files.  2. Bit more functions
+	operating on struct nation_type.  3. Better handling of less than
+	14 nations - I think that some scenarios will want to have less
+	than 14 nations. It reduces aifill value, removes ai players made
+	with 'create' command and rejects players, when there is no
+	nations left.  4. Race -> nation changes in server/ and common/
+	dirs.  Practically everywhere. Clients still have races_dialog. 
+	5. city_name_suggestion() moved to cityhand.c from city.c 6.
+	Support for many leaders in nation ruleset file, with random
+	selection for ai leader names.  Xaw client not adapted, but works.
+	7. Rulesets sent earlier, less in PACKET_NATION_SELECT.  8. Nation
+	city names now in struct nation_type.  9. Adjusted Roman and
+	German city names.
+
+	Pushed capability tag "+nationsruleset" to "+nationsruleset2", due
+	to packet changes for (6) and (7) above.
+
+Wed Sep 15 08:01:57 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/helpdata.c, client/packhand.c, common/capstr.c,
+	common/packets.c, common/packets.h, common/unit.h,
+	data/civ2/units.ruleset, data/default/units.ruleset,
+	server/ruleset.c, server/unitfunc.c: Added new new field
+	paratroopers_range in the units.ruleset which depends on the
+	"Paratroopers" flag.
+
+Wed Sep 15 07:56:13 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* data/civ1/techs.ruleset, data/civ2/techs.ruleset, common/tech.h,
+	data/default/techs.ruleset, server/ruleset.c: Removed the
+	necessity of [advanve_none] technology in the techs.ruleset.
+
+Tue Sep 14 17:06:32 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* data/default/nations.ruleset: Corrected a misspelling in
+	nations.ruleset.  Patch submitted by Mattias Andersson
+	<tamasis@softhome.net>
+
+Tue Sep 14 15:40:40 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/gui_main.c, client/gui-gtk/menu.c,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/menu.c, data/Freeciv,
+	data/helpdata.txt, po/POTFILES.in, po/es.po: The patch to i18n
+	menus in the xaw client, and to add spanish translations for them.
+	Patch submitted by David Perez Serrada <dperezs@nexo.es>.  Applied
+	with some modifications.
+
+Mon Sep 13 10:17:57 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* config.h.in, configure, configure.in, client/clinet.c,
+	client/clinet.h, client/gui-gtk/connectdlg.c, server/meta.h,
+	client/gui-xaw/connectdlg.c: Moved the metaserver code out of
+	connectdlg.c to the gui independed clinet.c.
+
+	A new config depend variable HAVE_FDOPEN has been added and will
+	be setted in configure. In case fdopen() is not available a
+	differnt code is used (in clinet.c).
+
+	Also changed the default metaserver (from a patch submitted by
+	Reinier Post <rp@win.tue.nl>)
+
+Sun Sep 12 20:24:50 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/tilespec.c, client/gui-gtk/graphics.c,
+	client/gui-xaw/graphics.c, client/include/graphics_g.h,
+	data/default.tilespec, data/trident.tilespec,
+	data/default/Makefile.am, data/default/Makefile.in,
+	data/default/flags.spec, data/default/flags.xpm.spec,
+	data/default/roads.spec, data/default/roads.xpm.spec,
+	data/default/small.spec, data/default/small.xpm.spec,
+	data/default/space.spec, data/default/space.xpm.spec,
+	data/default/tiles.spec, data/default/tiles.xpm.spec,
+	data/default/treaty.spec, data/default/treaty.xpm.spec,
+	data/default/units.spec, data/default/units.xpm.spec,
+	data/trident/Makefile.am, data/trident/Makefile.in,
+	data/trident/flags.spec, data/trident/flags.xpm.spec,
+	data/trident/roads.spec, data/trident/roads.xpm.spec,
+	data/trident/tiles.spec, data/trident/tiles.xpm.spec,
+	data/trident/units.spec, data/trident/units.xpm.spec: Renamed all
+	.xpm.spec files to .spec and added possiblity for clients to
+	support more than one graphics file format.
+
+Sun Sep 12 19:28:56 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* acconfig.h, acinclude.m4, aclocal.m4, config.h.in, configure,
+	configure.in, client/gui-xaw/canvas.c, client/gui-xaw/chatline.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/cityrep.c,
+	client/gui-xaw/colors.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/diplodlg.c, client/gui-xaw/finddlg.c,
+	client/gui-xaw/gotodlg.c, client/gui-xaw/inputdlg.c,
+	client/gui-xaw/inteldlg.c, client/gui-xaw/mapctrl.c,
+	client/gui-xaw/mapview.c, client/gui-xaw/mapview.h,
+	client/gui-xaw/menu.c, client/gui-xaw/messagedlg.c,
+	client/gui-xaw/messagewin.c, client/gui-xaw/plrdlg.c,
+	client/gui-xaw/ratesdlg.c, client/gui-xaw/repodlgs.c,
+	client/gui-xaw/resources.c, client/gui-xaw/spaceshipdlg.c: Fix for
+	the XawScrollbarSetThumb bug reported by Falk Hueffner
+	<falk.hueffner@student.uni-tuebingen.de>.
+
+	The problem is a mismatch in the setting of a couple of control
+	constants between when the X libs were compiled and when Freeciv
+	is compiled.
+
+	This patch adds new Autoconf tests to set these constants
+	correctly.
+
+Sun Sep 12 18:39:11 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/default/units.xpm.spec: The "u.paratroopers" tag needed to
+	be un-commented out in the default/units.xpm.spec file so we can
+	see the paratroopers icon when running with the default tileset.
+
+Sun Sep 12 16:01:25 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* ai/advdomestic.c, ai/aiunit.c, client/helpdata.c,
+	client/packhand.c, common/capstr.c, common/game.h,
+	common/packets.c, common/packets.h, common/player.c,
+	common/player.h, common/tech.c, common/tech.h, common/unit.c,
+	common/unit.h, data/civ1/techs.ruleset, data/civ1/units.ruleset,
+	data/civ2/techs.ruleset, data/civ2/units.ruleset,
+	data/default/techs.ruleset, data/default/units.ruleset,
+	server/cityhand.c, server/cityturn.c, server/diplhand.c,
+	server/plrhand.c, server/ruleset.c, server/settlers.c,
+	server/unitfunc.c, server/unithand.c: Changed techs.ruleset to use
+	flags and changed capability string tag "+gen_techs" to
+	"+gen_techs1"
+
+Sun Sep 12 15:54:51 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/gui-gtk/menu.c, client/control.c, client/control.h,
+	client/helpdata.c, client/gui-xaw/menu.c, common/capstr.c,
+	common/packets.c, common/packets.h, common/unit.c, common/unit.h,
+	data/civ2/units.ruleset, data/default/units.ruleset,
+	server/civserver.c, server/unitfunc.c, server/unitfunc.h,
+	server/unithand.c, server/unithand.h: Added the paratroopers unit
+	known from Civ2 and added capability string tag "+paratroopers".
+
+	The changes in the menu.c files still need to be localized.
+
+Sun Sep 12 12:07:10 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/clinet.c, client/gui-gtk/dialogs.c,
+	client/gui-xaw/dialogs.c, common/capstr.c, common/packets.c,
+	common/packets.h, common/player.c, common/player.h,
+	server/civserver.c, server/plrhand.c, server/stdinhand.c: Allow
+	long player names (up to MAX_LEN_NAME instead of MAX_LEN_USERNAME)
+	and allow user to reconnect to game with their original username
+	(nation leader name still works too).  Added capability string tag
+	"+long_names".  Based on patch submitted by Jerzy Klek
+	<qpkjeek@epk.ericsson.se>.
+
+Sun Sep 12 12:05:18 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, po/.cvsignore, po/hu.po, po/pl.po:
+	Added Polish translations by Artur Biesiadowski <abies@pg.gda.pl>,
+	and Hungarian translations by "Ba'rdosi Zolta'n"
+	<hck@lin.lkg.c3.hu>.  (Polish translation includes many strings
+	not yet marked in cvs sources, but should be useful in future.)
+
+Sun Sep 12 03:15:10 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/flags.xpm, data/default/flags.xpm.spec,
+	data/trident/flags.xpm, data/trident/flags.xpm.spec: Lots more
+	flags graphics.  Patch submitted by Jerzy Klek
+	<qpkjeek@epk.ericsson.se>, including some flags contributed by
+	Reineir Post <rp@win.tue.nl>.
+
+Fri Sep 10 09:22:51 1999  Sebastian Bauer <sebauer@t-online.de>:
+
+	* client/clinet.c, server/sernet.c: Removed the "extern int errno"
+	stuff in two files
+
+Thu Sep  9 15:05:14 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* server/gamehand.c, server/maphand.c, server/maphand.h: Allows
+	loading scenario files which have been modified to express rivers
+	as specials (like Civ2), rather than terrain types (like Civ1). 
+	Patch submitted by Jerzy Klek <qpkjeek@epk.ericsson.se>, applied
+	with minor modifications.
+
+Mon Sep  6 10:16:08 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/dialogs.c: Substitute a printf by
+	freelog(LOG_NORMAL,...) as suggested by Andy Black
+	<ablack@bvsd.k12.co.us>
+
+Sun Sep  5 15:17:45 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/helpdata.txt: Updated helpdata.txt Controls/Keyboard
+	section to reflect recently added keyboard equivalences in both
+	GTK and XAW clients.
+
+Sun Sep  5 14:08:58 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/fcintl.h: In common/fcintl.h, the N_() macro was defined
+	to add parentheses around its argument in the nls-disabled case. 
+	This caused compile-time concatenation of static strings to fail. 
+	I changed the definition to be the same as in the nls-enabled
+	case.  (Note: leaving the parens around the argument to the _()
+	macro in the nls-disabled case is probably good, because in the
+	nls-enabled case it has to be interpreted as the single argument
+	to the gettext() function.)
+
+Sun Sep  5 09:05:03 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/tilespec.c: Add missing include for string.h to
+	tilespec.c; from patch submitted by Sebastian Bauer.
+
+Sun Sep  5 07:29:52 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, client/civclient.h, client/control.c,
+	client/packhand.c, client/packhand.h, client/tilespec.c,
+	client/tilespec.h, client/gui-gtk/dialogs.c,
+	client/gui-gtk/graphics.c, client/gui-gtk/mapview.c,
+	client/gui-gtk/plrdlg.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/dialogs.c, client/gui-xaw/graphics.c,
+	client/gui-xaw/mapview.c, client/gui-xaw/plrdlg.c,
+	client/include/dialogs_g.h, common/capstr.c, common/city.c,
+	common/game.c, common/game.h, common/map.c, common/map.h,
+	common/packets.c, common/packets.h, common/player.c,
+	common/player.h, data/Freeciv, data/default/Makefile.am,
+	data/default/Makefile.in, data/default/nations.ruleset,
+	server/citytools.c, server/civserver.c, server/civserver.h,
+	server/gamehand.c, server/mapgen.c, server/maphand.c,
+	server/plrhand.c, server/ruleset.c, server/spacerace.c,
+	server/stdinhand.c, server/unithand.c: Moved nations (races) data
+	to nations.ruleset file, and allow adding additional nations (up
+	to 63).  Also allow player to choose sex of leader.  Added new
+	nations: Turk, Spanish, Persian, Arab, Carthaginian, Inca, Viking.
+	(But not yet flag graphics for most.) From patch submitted by
+	Jerzy Klek <qpkjeek@epk.ericsson.se>, with some minor changes by
+	me.
+
+Sun Sep  5 02:47:00 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advspace.c: Fixed case of government_has_flag(g, G_IS_NICE)
+	to correct government_has_hint(g, G_IS_NICE) in
+	ai_spaceship_autoplace().
+
+Sun Sep  5 02:28:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/menu.c, po/POTFILES.in, po/es.po,
+	common/fcintl.h: Internationalize menus for Gtk+ client, and
+	provide Spanish translations.  Also adjust N_() macro in fcintl.h
+	so that marked strings are able to preprocessor-concatenate. 
+	Based on patch submitted by David Perez Serrada <dperezs@nexo.es>.
+
+Sun Sep  5 02:28:00 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c: In section_file_insert_internal(), if
+	delimiter '.' is wrong, die with appropriate message rather than
+	return 0 (latter leads to core dump).  For example, may occur if
+	tilespec file has tag which is not in "section.entry" format
+	(problem reported by Falk Hueffner
+	<falk.hueffner@student.uni-tuebingen.de>).
+
+Sun Sep  5 02:25:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/inputfile.c, common/inputfile.h, common/registry.c: In
+	inputfile, new function inf_discard_tokens(); use in
+	section_file_load() to allow multiple newlines (eg, comment lines)
+	in cases where allow an optional newline.  Fixes problem reported
+	by Jerzy Klek <qpkjeek@epk.ericsson.se>.
+
+Sun Sep  5 02:24:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c, server/gamehand.c: When loading savegame,
+	load rulesets slightly earlier, and only have one place where free
+	loaded sectionfile and check for unused.  (Previously could not do
+	this way due to strbuffermalloc constraints, but now ok because of
+	change to sbuffer.)
+
+Sun Sep  5 02:22:54 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/tech.c, common/tech.h: Replaced "enum tech_type_id" with
+	"typedef int Tech_Type_id", for same reasons as change to
+	Unit_Type_id.
+
+Sun Sep  5 02:21:43 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.c, common/city.h, common/unit.c, common/unit.h,
+	server/citytools.c, server/citytools.h, server/unitfunc.c,
+	server/unitfunc.h: Replaced "enum unit_type_id" with "typedef int
+	Unit_Type_id", since we no longer enumerate the unit types; see
+	comments in unit.h for discussion of change.
+
+Sun Sep  5 02:19:46 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/helpdata.c, client/packhand.c, ai/advdomestic.c,
+	ai/aicity.c, ai/aitech.c, common/capstr.c, common/game.h,
+	common/government.c, common/government.h, common/packets.c,
+	common/packets.h, common/shared.h, common/tech.h, common/unit.c,
+	data/helpdata.txt, data/civ1/buildings.ruleset,
+	data/civ1/governments.ruleset, data/civ1/techs.ruleset,
+	data/civ2/buildings.ruleset, data/civ2/governments.ruleset,
+	data/civ2/techs.ruleset, data/default/buildings.ruleset,
+	data/default/governments.ruleset, data/default/techs.ruleset,
+	server/cityhand.c, server/citytools.c, server/cityturn.c,
+	server/diplhand.c, server/plrhand.c, server/ruleset.c,
+	server/settlers.c, server/unitfunc.c, server/unithand.c: Added
+	some more data about techs to ruleset files, so that the
+	tech_type_id enum values are not used anywhere in the code.  This
+	is better for modpacks, and allows for soon making the number of
+	techs variable like unit types.  Added more game.rtech entries,
+	and added ai_gov_tech_hints to generalize some code in aicity.c:
+	ai_manage_cities().  Some of this may soon be replaced by
+	generalization to tech flags.
+
+Sun Sep  5 01:20:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/control.c, common/capstr.c, common/packets.c: Fixed a
+	mistake in my recent city name suggestion change.  City name
+	suggestion reply used only 8 bits for unit id, which is usually
+	not enough!  Bumped to 16 bits as used for unit ids in other
+	packets.  Cap str tag changed to "citynamesuggest2".
+
+Sat Sep  4 16:49:56 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/dialogs.c, client/gui-xaw/dialogs.c,
+	data/helpdata.txt: Fix dangling pointer threat in pillage
+	selection patch (found by David Pfitzner).  Also changed
+	helpdata.txt to reflect selectable pillaging.
+
+Sat Sep  4 02:28:26 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/mapctrl.c, client/civclient.c, client/control.c,
+	client/packhand.c, client/packhand.h, client/gui-xaw/mapctrl.c,
+	common/capstr.c, common/city.c, common/packets.c,
+	common/packets.h, server/civserver.c: Allow client to request a
+	city name suggestion from the server.  The idea is to allow city
+	name lists to be server-only when introduce nations ruleset.
+
+Sat Sep  4 02:19:55 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* freeciv_hackers_guide.txt: Added "Mini Style Guide" section to
+	hackers guide, submitted by Falk Hueffner
+	<falk.hueffner@student.uni-tuebingen.de>.
+
+Sat Sep  4 01:47:36 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/connectdlg.c,
+	client/gui-xaw/gui_stuff.c, client/gui-xaw/gui_stuff.h,
+	po/POTFILES.in, data/Freeciv: Introduce method/fuctions/macros to
+	do i18n on translatable strings in the data/Freeciv resources file
+	(for Xaw client).
+
+	1. Strings in data/Freeciv as marked as usual (eg _("foo")).  This
+	means X sees the strings with the marking _inside_ the string.
+
+	2. When a widget using a marked resource is created, check to see
+	if the resource string has those markings inside the string, and
+	if so, remove the marking, pass string to gettext, and re-set the
+	resource to the gettext result.
+
+	Added functions xaw_intl_label(), xaw_intl_label_width(),
+	xaw_intl_title(), xaw_intl_icon_name() and abbreviation macros
+	I_L(), I_LW(), I_T(), I_IN() in gui_stuff module.  As test case
+	added markup to strings and code for connection dialog, but not
+	yet any translations.
+
+Sat Sep  4 01:25:39 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/citytools.c: Two small fixes in eval_buildings():  Put
+	B_STOCK case in same block as B_BANK, as suggested by existing
+	indentation and similarity; For B_SUPERHIGHWAYS trigger on
+	g->trade_bonus, not G_IS_NICE (used to be (gov > G_COMMUNISM)).
+
+Sat Sep  4 01:19:56 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aitools.c, client/packhand.c, common/capstr.c,
+	common/government.c, common/government.h, common/packets.c,
+	common/packets.h, data/civ1/governments.ruleset,
+	data/civ2/governments.ruleset, data/default/governments.ruleset,
+	server/citytools.c, server/ruleset.c: Split the government flags
+	field into actual flags (those that effect the game rules), and
+	those that are in fact just hints to the AI.  Also added a no-op
+	flag "-", that is handy if a government have no hints or flags. 
+	Patch submitted by Sune Kirkeby <sune@mel.tpu.org>.
+
+Sat Sep  4 00:53:29 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* config.mac.h: Update to config.mac.h, provided by Andy Black.
+
+Thu Sep  2 11:49:55 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/civserver.c, server/meta.c: Introduce some changes for
+	the Mac version needed after the metaserver patch was introduced. 
+	Patch written by Andy Black <ablack@bvsd.k12.co.us>
+
+Wed Sep  1 20:26:29 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/gui_main.c,
+	client/gui-xaw/mapview.c, data/Freeciv: Minor improvements in the
+	xaw client's main window layout.  Also fixes bug whereby large
+	fonts were clipped on main window info panes.
+
+Wed Sep  1 19:52:59 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/menu.c, client/gui-gtk/repodlgs.c,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/repodlgs.c, data/Freeciv:
+	Adds new columns to the Active Units report, and, therefore,
+	renames it to Military Report.  The new "in progress" column is
+	from Civ2, and the new "support" columns were suggested by David
+	Pfitzner.
+
+Wed Sep  1 16:45:26 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/aiunit.c, client/civclient.c, client/control.c,
+	client/control.h, client/packhand.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/mapctrl.c, client/gui-gtk/menu.c,
+	client/gui-xaw/Freeciv.h, client/gui-xaw/dialogs.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/menu.c,
+	client/include/dialogs_g.h, common/capstr.c, common/map.c,
+	common/map.h, common/packets.c, common/packets.h, common/unit.c,
+	common/unit.h, data/Freeciv, server/autoattack.c,
+	server/plrhand.c, server/settlers.c, server/unitfunc.c,
+	server/unitfunc.h, server/unithand.c, server/unithand.h: Add the
+	Civ2-like capability of selecting what infrastructure to pillage. 
+	This is controlled by the civstyle server option.  Also, several
+	units may now pillage at the same time.
+
+Sat Aug 28 06:25:34 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/game.h, server/civserver.c, server/gamehand.c,
+	server/stdinhand.c: Add server option "turnblock" for
+	turn-blocking mode, where the turn does not advance until all
+	players have hit "end turn", including disconnected players.  From
+	patch submitted by Gary Moyer <garymoyer@home.com>.
+
+Sat Aug 28 06:24:27 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/government.c, data/civ1/governments.ruleset,
+	data/civ2/governments.ruleset, data/default/governments.ruleset,
+	server/ruleset.c: Converted government ruleset files to new-style
+	(non-tabular) format.
+
+Sat Aug 28 06:22:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aitech.c: Fixed get_wonder_tech() and
+	ai_next_tech_goal_default() for case where races[] goal wonder is
+	not found or does not exist.
+
+Sat Aug 28 06:16:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/mapview.c, client/gui-xaw/ratesdlg.c: Reverted
+	my_XawScrollbarSetThumb() changes for now (#if-ed) because the new
+	version doesn't work for me.
+
+Fri Aug 27 22:32:04 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-xaw/mapview.c, client/gui-xaw/ratesdlg.c: As
+	my_XawScrollbarSetThumb was useless, XawScrollbarSetThumb is
+	directly called.
+
+Fri Aug 27 22:26:34 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-xaw/mapview.c: The wrapper my_XawScrollbarSetThumb
+	now call XawScrollbarSetThumb.  It is now an useless wrapper.
+
+	Patch submitted by Falk Hueffner
+	<falk.hueffner@student.uni-tuebingen.de>
+
+Fri Aug 27 22:03:48 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/civclient.c, client/gui-gtk/connectdlg.c,
+	client/gui-gtk/gui_main.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/connectdlg.c, client/gui-xaw/gui_main.c,
+	client/gui-xaw/resources.h, data/Freeciv, server/civserver.c,
+	server/civserver.h, server/gamehand.c, server/meta.c,
+	server/meta.h, server/sernet.c, server/stdinhand.c: This patch
+	allows servers to report to any metaserver and clients to use
+	whatever metaserver they want.
+
+	Server side: - new option --Metaserver (There is already --meta.)
+	An address is expected. The server won't warn you if you open a
+	socket to wrong address which exists.
+
+	- new command 'metaserver' to set metaserver to a given address. 
+	- new command 'nometa' to disconnect whenever you want.
+
+	Clients side: - new option --metaserver (Caps make freeciv options
+	ugly.) An URL is expected.
+
+	Patch submitted by brunel@ham.esil.univ-mrs.fr
+
+Fri Aug 27 13:02:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/Makefile.am, client/gui-gtk/Makefile.in,
+	client/Makefile.am, client/Makefile.in, client/civclient.h,
+	client/climisc.h, client/clinet.h, client/control.h,
+	client/helpdata.h, client/options.h, client/packhand.h,
+	client/tilespec.h, client/gui-xaw/Makefile.am,
+	client/gui-xaw/Makefile.in, client/include/Makefile.am,
+	client/include/Makefile.in, client/include/civclient.h,
+	client/include/climisc.h, client/include/clinet.h,
+	client/include/control.h, client/include/helpdata.h,
+	client/include/options.h, client/include/packhand.h,
+	client/include/tilespec.h: Moved client header files to toplevel
+	client dir, for headers which have a corresponding .c file in that
+	dir.  (Matches usage elsewhere in source tree, that .h files
+	reside next to their corresponding .c file.)  Based on patch
+	submitted by Sebastian Bauer.
+
+Fri Aug 27 12:36:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/mapctrl.c, client/control.c,
+	client/include/control.h, client/gui-xaw/mapctrl.c: Move a little
+	bit more code out of mapctrl.c to control.c.  Now the external
+	references of goto_state and nuke_state are no longer required in
+	mapctrl.c.  Patch submitted by Sebastian Bauer.
+
+Fri Aug 27 12:17:19 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* acconfig.h, civ, config.h.in, config.mac.h, configure,
+	configure.in, ser, common/shared.c: Let config.h define the
+	default data path, since the built-in default does not make much
+	sense on some platforms; configure defines it to the previous
+	default.  Also removed all cases of old FREECIV_DATADIR, both
+	environment variable and define (configure now puts the
+	appropriate (install) dir in DEFAULT_DATA_PATH instead).  Patch
+	submitted by Sebastian Bauer <sebauer@t-online.de>.
+
+Fri Aug 27 11:21:36 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* acconfig.h, acinclude.m4, aclocal.m4, config.h.in, config.mac.h,
+	configure, configure.in, client/gui-xaw/graphics.c: Try to work
+	around problem that some sites may put xpm.h in a directory whose
+	parent isn't "X11".  Problem reported by mancini
+	<mancini@enst.fr>, patch submitted by Greg Wooledge
+	<wooledge@kellnet.com>.
+
+Fri Aug 27 10:53:54 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, client/packhand.c,
+	client/include/packhand.h, common/capstr.c, common/government.c,
+	common/government.h, common/packets.c, common/packets.h,
+	server/gamehand.c, server/ruleset.c: Tidied up some things about
+	ruleset data and packets, especially for government rulesets.
+	(Government ruleset stuff had problems if the client disconnected
+	and re-connected: would leak memory, and could get the number of
+	governments wrong.)
+
+	Added new packet "ruleset control" (like separate terrain control)
+	which contain government_count explicitly, and also move ruleset
+	control data from game_info packet to here, since this stuff
+	doesn't need to be sent every turn like game_info is.
+
+	Added more sanity checking on received ruleset packet data by
+	client (compared to static arrays or mallocs).
+
+	Changed strings in government data (gov name and ruler titles) to
+	use MAX_LEN_NAME char arrays instead of (char*) and mystrdup, to
+	make memory management in client easier (eg, on re-connection),
+	and since we can't use longer than MAX_LEN_NAME anyway (due to
+	packets), and since having a max len is easier in other respects,
+	eg for display.
+
+	Also made the ruler_titles array have number of titles stored
+	explicitly in government struct (rather than use special
+	terminator title), which allows client to sanity-check packet
+	data.
+
+	Plus minor fix: government flags data was in government packet,
+	but never initialized in send_ruleset_governments()!
+
+Fri Aug 27 10:51:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.am, Makefile.in, README.graphics, client/Makefile.am,
+	client/Makefile.in, client/climisc.c, client/packhand.c,
+	client/tilespec.c, client/gui-gtk/citydlg.c,
+	client/gui-gtk/graphics.c, client/gui-gtk/graphics.h,
+	client/gui-gtk/gui_main.c, client/gui-gtk/mapview.c,
+	client/gui-gtk/spaceshipdlg.c, client/gui-xaw/citydlg.c,
+	client/gui-xaw/graphics.c, client/gui-xaw/graphics.h,
+	client/gui-xaw/gui_main.c, client/gui-xaw/mapview.c,
+	client/gui-xaw/spaceshipdlg.c, client/include/Makefile.am,
+	client/include/Makefile.in, client/include/climisc.h,
+	client/include/graphics_g.h, client/include/mapview_g.h,
+	client/include/tilespec.h, common/capstr.c, common/government.c,
+	common/government.h, common/map.h, common/packets.c,
+	common/packets.h, common/player.c, common/player.h,
+	common/shared.h, common/unit.h, data/Makefile.am,
+	data/Makefile.in, data/classic_terrain.ruleset,
+	data/default.tilespec, data/trident.tilespec,
+	data/civ1/governments.ruleset, data/civ1/terrain.ruleset,
+	data/civ1/units.ruleset, data/civ2/governments.ruleset,
+	data/civ2/terrain.ruleset, data/civ2/units.ruleset,
+	data/default/Makefile.am, data/default/Makefile.in,
+	data/default/flags.xpm.spec, data/default/governments.ruleset,
+	data/default/roads.xpm.spec, data/default/small.xpm.spec,
+	data/default/space.xpm.spec, data/default/terrain.ruleset,
+	data/default/tiles.xpm.spec, data/default/treaty.xpm.spec,
+	data/default/units.ruleset, data/default/units.xpm.spec,
+	data/trident/Makefile.am, data/trident/Makefile.in,
+	data/trident/flags.xpm.spec, data/trident/roads.xpm.spec,
+	data/trident/tiles.xpm.spec, data/trident/units.xpm.spec,
+	server/ruleset.c: New "tilespec" system, where client graphics
+	filenames, and file contents and layout, are specified in a set of
+	"spec" files.  Tag strings are assocated with each graphic in the
+	spec files, and these tags are hardwired into the client and/or
+	specified in ruleset files.
+
+Fri Aug 27 10:22:30 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/default/units.xpm: Added unit icons for Paratroopers,
+	Elephant, Crusaders and Fanatic to default tileset.  Taken from
+	trident tileset (by Tatu Rissanen), just re-scaled and re-indexed.
+
+Wed Aug 25 12:30:50 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c, common/registry.h: Store filename in
+	section_file when available, to use in registry error messages.
+
+Wed Aug 25 12:28:45 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/government.c, server/unitfunc.c: Initialize unit food and
+	gold upkeep to zero in create_unit_full() (fixes bug of food
+	upkeep icons appearing for military units).  Adjusted related TODO
+	in government.c
+
+Wed Aug 25 12:27:18 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advspace.c, ai/aitools.c, client/packhand.c,
+	common/government.c, common/government.h, server/citytools.c,
+	server/cityturn.c, server/ruleset.c, server/unitfunc.c: Changed
+	government flags from bit-wise defines to a simple enum (enum
+	government_flag_id), with accessor function
+	(government_has_flag()) and conversion from string
+	(government_flag_from_str()).  (Like unit flags.)
+
+	Added some FIXME comments in citytools.c: eval_buildings().
+
+Tue Aug 24 13:07:32 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/Freeciv.h, client/gui-xaw/gui_main.c,
+	client/gui-xaw/menu.c, data/Freeciv: Reorganizes the xaw client's
+	menus to be more like those in the gtk client.  Adds several
+	keyboard equivalents.
+
+Tue Aug 24 12:45:50 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/game.c, common/game.h, common/map.h, common/player.h,
+	server/gamehand.c, server/plrhand.c, server/stdinhand.c: Adds
+	Population, Land Area and Settled Area to Demographics Report. 
+	Adds a server option to make the Demographics Report completely
+	configurable (suggested by Reinier Post <rp@win.tue.nl>).  Adds
+	the new player-score fields to the civscore.log file.
+
+Tue Aug 24 12:13:06 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/climisc.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/cityrep.c, data/Freeciv: Implemented the "Change
+	Production Everywhere" dialog for the xaw client, as was
+	implemented for gtk by John-Marc Chandonia <jmc@cmpharm.ucsf.edu>.
+
+	Found that client_change_all() in client/climisc.c didn't work for
+	all cases, and fixed it.
+
+Sun Aug 22 11:28:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ2/governments.ruleset, server/unitfunc.c,
+	data/default/governments.ruleset: Government fixes: Democracy was
+	missing Unbribable flag, and Partisan flag did not work properly,
+	with all governments effectively inspiring partisans ('!' binds
+	tighter than bitwise '&'!).
+
+Sun Aug 22 11:25:03 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/diplodlg.c, client/gui-gtk/gamedlgs.c,
+	client/gui-gtk/inteldlg.c, client/gui-gtk/repodlgs.c,
+	client/gui-xaw/diplodlg.c, client/gui-xaw/inteldlg.c,
+	client/gui-xaw/ratesdlg.c, client/gui-xaw/repodlgs.c,
+	common/government.c, common/government.h, common/player.c,
+	common/player.h, server/plrhand.c: Moved some functions from
+	player.c to government.c: get_government_max_rate(),
+	get_government_civil_war_prob(), get_government_name(),
+	get_ruler_title(), can_change_to_government().  Added some
+	includes for government.h elsewhere to see moved prototypes.
+
+Sat Aug 21 04:35:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* acconfig.h, config.h.in, common/shared.c: Allow manual config.h
+	to define PATH_SEPARATOR to specify the separater to be used in
+	the freeciv data path (FREECIV_PATH).  If this is not defined (and
+	configure does not do so), falls back to using colon.  Patch
+	submitted by Sebastian Bauer <sebauer@t-online.de>.
+
+Sat Aug 21 04:17:12 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/mapctrl.c: In set_turn_done_button_state(),
+	actually use the state! (Although currently is only ever called
+	with state==FALSE.) Reported by Andy Black
+	<ablack@bvsd.k12.co.us>.
+
+Sat Aug 21 04:14:05 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c: Move setting of server options on Mac into
+	function Mac_options().  Patch submitted by Andy Black
+	<ablack@bvsd.k12.co.us>.
+
+Sat Aug 21 03:52:15 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in: Adjusted error message when configure
+	doesn't find X11 to say "Need X11 libraries and development
+	headers; ..." instead of just "Need X11; ...".  (And similarly for
+	Xpm.)
+
+Sat Aug 21 02:22:23 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/trident/flags.xpm, data/trident/roads.xpm,
+	data/trident/tiles.xpm, data/trident/units.xpm: Updated trident
+	tiles, from trident_30x30-cvs-1.0.tar.gz, by Tatu Rissanen
+	<tatu.rissanen@hut.fi>.
+
+	roads.xpm: The road tiles are redrawn.  The design is like in the
+	default tileset.
+
+	tiles.xpm: Added graphics for the new specials and new rivers
+	introduced by Jeff Mallatt's terrain ruleset patch.  Added a tiny
+	flag (tile 196) (for "occupied flag").
+
+	units.xpm: Changed a bit alpine troops, caravan and settlers.
+
+Sat Aug 21 02:13:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c, client/gui-gtk/graphics.c,
+	client/gui-gtk/graphics.h, client/gui-gtk/mapview.c,
+	client/gui-xaw/graphics.c, client/gui-xaw/graphics.h,
+	client/gui-xaw/helpdlg.c, client/gui-xaw/mapview.c,
+	common/inputfile.c, common/inputfile.h, common/registry.c,
+	common/registry.h, common/shared.c, common/shared.h,
+	server/ruleset.c: Various minor changes: Made some functions
+	static in graphics.c and mapview.c; Marked dtor_sprite() as unused
+	in graphics.c; Made some (char*) function args to be (const
+	char*); Removed unused UNIT_TILES in gui-xaw/helpdlg.c, and unused
+	intro_gfx_sprite and radar_gfx_sprite in packhand.c; Export
+	secfilehash_build() secfilehash_free() and secfilehash_hashash()
+	from registry, to allow hashing on section_files built using
+	secfile_insert_*(); Do better checking of datafile.options for
+	ruleset files, to check all required options in both directions.
+
+Sat Aug 21 02:11:56 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* config.h.in, config.mac.h, configure, configure.in,
+	client/gui-xaw/gui_main.c, client/gui-gtk/gui_main.c,
+	common/shared.c, common/shared.h: Moved the check for the user's
+	username into a function user_username() in shared.c.  Also
+	removed the "please report this" note if getpwuid() fails, and
+	also try USER environment variable.  Actually, now check $USER
+	before getpwuid().  Added configure check for getpwuid.  Small
+	reorder in gui-gtk so call user_username() only after log_init().
+
+Sat Aug 21 02:10:28 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, ai/aicity.c, client/helpdata.c,
+	client/packhand.c, client/gui-gtk/citydlg.c,
+	client/gui-gtk/cityrep.c, client/gui-gtk/graphics.c,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/repodlgs.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/cityrep.c,
+	client/gui-xaw/graphics.c, client/gui-xaw/helpdlg.c,
+	client/gui-xaw/repodlgs.c, common/capstr.c, common/game.c,
+	common/game.h, common/packets.c, common/packets.h,
+	common/shared.h, common/unit.c, common/unit.h,
+	data/civ2/units.ruleset, data/civ1/units.ruleset,
+	data/default/units.ruleset, server/gamehand.c, server/ruleset.c,
+	server/unittools.c: Allow a variable number of unit types to be
+	specified in the units ruleset file, up to 200.  Keeps U_LAST as
+	flag value and for fixed allocations, but for other purposes use
+	game.num_unit_types.  Removed almost all entries in 'enum
+	unit_type_id', since the new number varies and they should not be
+	used anymore anyway; did not remove it entirely, because it is
+	used as a type in many places (but should be removed some time). 
+	Added "+num_units" to capability string.
+
+Sat Aug 21 02:07:50 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/advmilitary.c, ai/advspace.c, ai/aicity.c,
+	ai/aihand.c, ai/aitech.c, ai/aitools.c, ai/aitools.h, ai/aiunit.c,
+	client/civclient.c, client/packhand.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/mapview.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/dialogs.c, client/gui-xaw/mapview.c,
+	client/include/packhand.h, common/Makefile.am, common/Makefile.in,
+	common/capstr.c, common/city.c, common/city.h, common/game.c,
+	common/government.c, common/government.h, common/packets.c,
+	common/packets.h, common/player.c, common/player.h, common/unit.c,
+	common/unit.h, data/Freeciv, data/civ1.serv, data/civ2.serv,
+	data/civ1/Makefile.am, data/civ1/Makefile.in,
+	data/civ1/governments.ruleset, data/civ1/units.ruleset,
+	data/civ2/Makefile.am, data/civ2/Makefile.in,
+	data/civ2/governments.ruleset, data/civ2/units.ruleset,
+	data/default/Makefile.am, data/default/Makefile.in,
+	data/default/governments.ruleset, data/default/units.ruleset,
+	server/citytools.c, server/citytools.h, server/cityturn.c,
+	server/gamehand.c, server/ruleset.c, server/settlers.c,
+	server/stdinhand.c, server/unitfunc.c, server/unittools.c: Many
+	changes, for partial implementation of governments rulesets, based
+	on patches submitted by Sune Kirkeby <sune@interspace.dk>, but
+	with some substatial changes by me.  This also includes (but
+	currently #ifdef-ed out) code based on patch submitted by Rizos
+	Sakellariou <rizos@cs.rice.edu>, to dynamically evaluate
+	government types.
+
+	This change is intended to be a no-op in terms of actual effects
+	when using the default rulesets; some changes to actual effects
+	should follow.  The code to dynamically evaluate governments is
+	included in this patch, but currently #ifdef-ed out for regression
+	testing, and because it needs updating.  See list in
+	common/government.c for other things which still need doing.
+
+Tue Aug 17 16:44:09 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapctrl.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/mapctrl.c, data/Freeciv: Middle-button info-popup
+	improvements: Adds count of units in a stack, and a highlight of
+	the tile selected.  For xaw client, makes sure popup is not
+	off-screen.
+
+Tue Aug 17 16:43:52 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* common/city.c: Small change to streamline get_shields_tile and
+	get_food_tile.
+
+Tue Aug 17 16:38:53 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* ai/aiunit.c: Adding comments and small change to AI caravan
+	code.
+
+Tue Aug 17 12:15:07 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* common/city.c: Fixed cut-and-paste error in recent terrain
+	ruleset patch.  Patch submitted by Lindqvist Marko
+	<caz@assari.cc.tut.fi>.
+
+Mon Aug 16 11:18:39 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, ai/aicity.c, ai/aitools.c, common/inputfile.c,
+	common/player.h, common/registry.c, server/cityturn.c,
+	server/cityturn.h: Minor fixes and debug output changes:
+
+	In aitools.c: ai_assess_military_unhappiness(), take account of
+	Republic allowing one aggressive/field unit before unhappiness.
+
+	In aicity.c: ai_new_spend_gold(), fixed LOG_DEBUG message where
+	could use units[id] for id==-1.
+
+	In player.h: in struct player_ai, make tech_want and tech_turns be
+	[A_LAST+1] instead of [A_LAST], since I think sometimes these are
+	used with index A_LAST (unit requirement without checking).
+
+	In cityturn, made worker_loop() static and added some more
+	LOG_DEBUG output.  Added extra LOG_DEBUG output in advmilitary.c:
+	process_attacker_want().  Less detailed LOG_DEBUG output by
+	default in inputfile and registry.
+
+Sun Aug 15 07:19:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aicity.c, ai/aicity.h, ai/aitools.c, client/packhand.c,
+	client/gui-gtk/citydlg.c, client/gui-gtk/diplodlg.c,
+	client/gui-gtk/inteldlg.c, client/gui-gtk/mapview.c,
+	client/gui-gtk/mapview.h, client/gui-gtk/repodlgs.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/diplodlg.c,
+	client/gui-xaw/inteldlg.c, client/gui-xaw/mapview.c,
+	client/gui-xaw/mapview.h, client/gui-xaw/repodlgs.c,
+	common/capstr.c, common/game.c, common/game.h, common/packets.c,
+	common/packets.h, common/player.c, common/player.h,
+	common/registry.c, common/registry.h, server/citytools.c,
+	server/cityturn.c, server/gamehand.c, server/plrhand.c,
+	server/ruleset.c: Minor changes to prepare for future government
+	rulesets.
+
+	Add and use game.government_when_anarchy and
+	game.default_government instead of G_ANARCHY and G_DESPOTISM (in
+	some places).  (Put in gameinfo packet so added capstr
+	"+pregovrs1".) Added game.government_count,
+	game.ruleset.governments.
+
+	Interfaces changes for put_unit_gpixmap_city_overlays(), and
+	get_ruler_title().  Added player.is_male (currently fixed at 1). 
+	Converted some uses of enum government_type to be int.
+
+	Added find_race_by_name() in player.c, and
+	secfile_lookup_str_int() in registry.c.
+
+	Parts from or based on patches submitted by Sune Kirkeby
+	<sune@interspace.dk>.
+
+Sun Aug 15 07:14:34 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c: Fixed bug where B_COURTHOUSE value was
+	assigned to values[B_COLOSSEUM] when in Democracy.  (Anomaly noted
+	by Sune Kirkeby.)
+
+Sat Aug 14 19:11:21 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/Freeciv.h, data/Freeciv: One more foreground
+	color resource, in case default isn't black.
+
+Sat Aug 14 03:35:48 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/gamehand.c: Suppress warnings about unused entries when
+	loading older savegames, for game.rail_food, rail_prod,
+	rail_trade, farmfood.
+
+Sat Aug 14 03:03:36 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/trident/flags.xpm, data/trident/roads.xpm,
+	data/trident/tiles.xpm, data/trident/units.xpm: Updated trident
+	tiles by Tatu Rissanen <tatu.rissanen@hut.fi>, taken from
+	trident_30x30-1.8.1-1.3.tar.gz.
+
+	For all, adjusted palette. The overall looks is now brighter and
+	sharper.  Adjusting brightness and contrast previously left the
+	images a bit grayish.  This time I used gimp's Color curve -dialog
+	to achieve the result.  All the files share a palette so that the
+	total number of distinct colors is 64.
+
+	For units.xpm, completed all units.  Added graphics for missing
+	units from Civ2.  For flags.xpm, removed raster from Chinese flag.
+	For tiles.xpm, added a tile for farmland.  (Plus hacked by dwp to
+	suit CVS freeciv, and changed (nicer?) flag for occupied tile.)
+
+Sat Aug 14 02:57:18 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Makefile.am, client/Makefile.in, client/civclient.c,
+	client/clinet.c, client/packhand.c, client/gui-gtk/Makefile.am,
+	client/gui-gtk/Makefile.in, client/gui-gtk/clinet.c,
+	client/gui-gtk/clinet.h, client/gui-gtk/connectdlg.c,
+	client/gui-gtk/gui_main.c, client/gui-xaw/Makefile.am,
+	client/gui-xaw/Makefile.in, client/gui-xaw/clinet.c,
+	client/gui-xaw/clinet.h, client/gui-xaw/connectdlg.c,
+	client/gui-xaw/gui_main.c, client/include/Makefile.am,
+	client/include/Makefile.in, client/include/clinet.h,
+	client/include/clinet_g.h, client/include/gui_main_g.h: Moved
+	clinet out of gui-dependent dirs; moved get_meta_list() to
+	connectdlg.c because it is still gui-dependent, at least for now. 
+	From patch submitted by Sebastian Bauer <sebauer@t-online.de>.
+
+Fri Aug 13 20:30:59 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* ai/aiunit.c, client/packhand.c, common/capstr.c, common/city.c,
+	common/game.c, common/game.h, common/map.c, common/map.h,
+	common/packets.c, common/packets.h, data/civ1.serv,
+	data/classic_terrain.ruleset, data/civ1/terrain.ruleset,
+	data/civ2/terrain.ruleset, data/default/terrain.ruleset,
+	server/gamehand.c, server/maphand.c, server/ruleset.c,
+	server/settlers.c, server/stdinhand.c, server/unitfunc.c,
+	server/unithand.c, server/unittools.c: Implements David Pfitzner's
+	river movement cost idea, as a terrain ruleset parameter.  Moves
+	railprod, railtrade, railfood and farmfood into new terrain
+	ruleset parameters.  Adds some further terrain ruleset parameters.
+	Fixes bug where entered huts which become cities were not building
+	railroads.
+
+Fri Aug 13 19:57:31 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/gui_main.c: can't use freelog during option
+	checking as log is initialized after all options has been checked.
+
+Fri Aug 13 19:26:36 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/packhand.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/repodlgs.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/repodlgs.c, client/include/dialogs_g.h,
+	server/plrhand.c, server/plrhand.h, server/stdinhand.c: Add a
+	"caption" line as the first line of a PACKET_PAGE_MSG packet,
+	which is useful for captioning dialogs.  This makes the second
+	line in the packet the "headline".  This problem was reported by
+	Artur Biesiadowski.
+
+Fri Aug 13 11:36:28 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/clinet.c, client/gui-xaw/clinet.c: Don't wrap
+	include for signal.h with #ifdef HAVE_SIGNAL_H, because we never
+	define HAVE_SIGNAL_H!  (And note signal.h is standard.)  Should
+	fix problem reported by Tony Stuckey.  Also check for HAVE_SIGPIPE
+	around client use of SIGPIPE.
+
+Fri Aug 13 11:27:40 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* acconfig.h, config.h.in, config.mac.h, configure, configure.in,
+	server/sernet.c: Check for SIGPIPE in configure instead of using
+	#ifdef HAVE_SIGPIPE.  Patch submitted by Sebastian Bauer
+	<sebauer@t-online.de>.
+
+Fri Aug 13 11:11:00 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.am, Makefile.in, acconfig.h, config.h.in, config.mac.h,
+	common/shared.c, server/civserver.c, server/meta.c,
+	server/sernet.c: Added config.mac.h, to use instead of config.h on
+	Mac, thanks to Andy Black <ablack@bvsd.k12.co.us>.
+
+	In acconfig.h, removed PACKAGE and VERSION since are included by
+	autoheader, and added defines used for handwritten config.h files:
+	ALWAYS_ROOT, STRICT_WINDOWS, GENERATING_MAC, and
+	HAVE_OPENTRANSPORT.
+
+	In code, use #ifdef GENERATING_MAC or #ifdef HAVE_OPENTRANSPORT
+	instead of #if (defined(GENERATING68K) || defined(GENERATINGPPC)).
+
+	In shared.c:dont_run_as_root(), check ALWAYS_ROOT to provide a way
+	for non-configure root-only systems to avoid this, from suggestion
+	by Sebastian Bauer <sebauer@t-online.de>.
+
+	In meta.c, added include for OpenTptInternet.h for Mac.
+
+Fri Aug 13 10:34:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt, data/civ2/terrain.ruleset,
+	data/default/terrain.ruleset: Corrected a few typos and spelling
+	mistakes.  Patch submitted by Andrew Donkin
+	<ard@scms.waikato.ac.nz>.
+
+Fri Aug 13 10:10:23 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ2/buildings.ruleset, data/civ2/techs.ruleset,
+	data/civ2/units.ruleset, data/civ1/buildings.ruleset,
+	data/civ1/techs.ruleset, data/civ1/units.ruleset,
+	data/default/buildings.ruleset, data/default/techs.ruleset,
+	data/default/units.ruleset, server/ruleset.c: Converted the
+	buildings and techs rulesets to the new-style format (non-tabular,
+	per-section), and removed code support for old-style units ruleset
+	(to keep the code simple).
+
+Tue Aug 10 12:41:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/player.c, common/player.h, ai/aitech.c, server/ruleset.c:
+	Changed the goal initialization fields in the races struct to be
+	strings instead of enums, and convert back to integers (for enums)
+	at runtime (after loading rulesets).  This lets these goals work
+	better with rulesets.  (Although note that currently these goals
+	are not actually all implemented).
+
+	Also changed TECH_GOALS to MAX_NUM_TECH_GOALS to follow recent
+	regularized identifier scheme.
+
+Tue Aug 10 12:32:46 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, common/shared.c, common/shared.h,
+	server/civserver.c: Moved NLS initialization into function
+	init_nls() in shared.c
+
+Tue Aug 10 12:31:28 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, common/shared.c, common/shared.h,
+	server/civserver.c: Moved check for running as root into new
+	function dont_run_as_root() in shared.c, and also call this
+	function for client.
+
+Tue Aug 10 12:30:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c: Fixed registry handling of vector as last
+	columns of table (problem exposed by governments ruleset patch).
+
+Tue Aug 10 12:29:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_main.c: Fixed initialization of log file for
+	gtk client.  Fixes bug reported by Lindqvist Marko
+	<caz@assari.cc.tut.fi>.
+
+Tue Aug 10 08:07:45 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/gui_main.c: Allow to give gtk options in the
+	command line.  There is still this problem with --name.
+
+Mon Aug  9 14:47:56 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-xaw/Freeciv.h, data/Freeciv: Just a few more default
+	color resource settings for the xaw client, in case the user has
+	set global foreground/background other than black/white.
+
+Mon Aug  9 00:20:21 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* data/classic_terrain.ruleset, data/civ1/terrain.ruleset,
+	data/civ2/terrain.ruleset, server/ruleset.c,
+	data/default/terrain.ruleset: Converted all terrain.ruleset files
+	to David's new-and-improved ruleset file format.  Changed the code
+	to handle the new format.
+
+Sun Aug  8 23:43:30 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/packhand.c, client/gui-xaw/gotodlg.c,
+	client/gui-xaw/menu.c: In xaw client: Fixed Goto/Airlift dialog to
+	be able to handle being opened with no cities owned by player, but
+	with known cities owned by others.  Disabled Find City and
+	Goto/Airlift menus if no known cities.
+
+Sun Aug  8 21:14:30 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/civclient.c, client/gui-xaw/gui_main.c,
+	client/gui-gtk/gui_main.c: A small change for FreeCiv not to be
+	ugly.  ( --Name renamed --name)
+
+Sun Aug  8 14:08:02 1999  Jeff Mallatt <jjm@codewell.com>:
+
+	* client/gui-gtk/mapview.c, client/gui-xaw/mapview.c,
+	server/cityturn.c: Prevents pollution generated by a city from
+	being placed outside that city's radius.  Also, draws pollution
+	graphic on top of the city graphic.
+
+Sun Aug  8 11:23:32 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/cityrep.c, client/gui-gtk/gui_main.c,
+	common/city.c, common/registry.c, common/shared.c,
+	common/shared.h, server/gamelog.c, server/meta.c,
+	server/plrhand.c: Minor fixes: made some functions static; added
+	some const qualifiers; removed declaration for unused errno in
+	meta.c.  In plrhand.c made some more things static and fixed
+	bizarre indentation in historian_generic().
+
+Sun Aug  8 05:50:34 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unithand.c: In handle_unit_build_city(), dereference
+	punit to get unit_name and pcity only _after_ checking whether
+	punit is non-NULL.  Fixes bug that server could segfault if a unit
+	building a new city was killed before the city was named (PR#95)
+	reported by Per Persson <pp@sno.pp.se>.
+
+Sun Aug  8 05:32:16 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/sernet.c: Use #ifdef SIGPIPE around signal(SIGPIPE,
+	SIG_IGN).  Patch submitted by Sebastian Bauer
+	<sebauer@t-online.de>.
+
+Sun Aug  8 04:52:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c, server/civserver.c: Moved include lines for
+	fcintl.h to follow policy.
+
+Sun Aug  8 04:13:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.c, common/packets.c, common/sbuffer.c,
+	common/tech.c, server/cityturn.c, server/ruleset.c: Add some
+	missing includes for string.h, and correct some function
+	declarations to match their prototypes (static).  Patch submitted
+	by Sebastian Bauer <sebauer@t-online.de>.
+
+Sun Aug  8 04:05:52 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/inputfile.c, common/registry.c: Enforce slightly stricter
+	format regarding some newlines in registry; handle missing newline
+	at EOF better in inputfile; do less in inputfile:assert_sanity()
+	unless DEBUG defined.
+
+Sun Aug  8 03:57:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/astring.c, common/astring.h, common/registry.c: Removed
+	ATHING_SIZE macro, and call ath_init() explicitly instead, since
+	ATHING_SIZE relied on a gcc extension.  Based on problem reports
+	and patches submitted by Nicolas Brunel
+	<brunel@ham.esil.univ-mrs.fr> and Sebastian Bauer
+	<sebauer@t-online.de>.
+
+Sat Aug  7 18:29:18 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/include/control.h, client/include/mapctrl_g.h: Some
+	little changes to conform to dwp wishes.
+
+Sat Aug  7 04:44:24 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c: Changes to registry to use new astring and
+	inputfile modules.  Enables new registry features of
+	gettext-marked strings and multi-line strings; also allow some
+	optional extra line breaks in some places in format.  Updated
+	documentation on format at top of registry.c to reflect changes.
+
+Sat Aug  7 04:37:24 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/Makefile.am, common/Makefile.in, common/inputfile.c,
+	common/inputfile.h: New module common/inputfile, for low-level
+	reading and tokenizing of a registry-format file, to support
+	registry enhancements.  New features include:
+
+	- Allow gettext markings on string values in registry, based on a
+	patch by David Perez Serrada <dperezs@nexo.es>.
+
+	- Allow multi-line strings.  The purpose of this is to make it
+	feasible to easily include help data in ruleset files.
+
+Sat Aug  7 04:30:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/Makefile.am, common/Makefile.in, common/astring.c,
+	common/astring.h: New module common/astring, for
+	"allocated/allocatable strings".  That is, allocated strings where
+	we remember the allocated size, to enable doing "lazy realloc": if
+	the required size shrinks, don't realloc; if it grows, maybe
+	realloc a bit more to avoid future reallocs on incremental growth.
+	Also "athing", for similar functionality for general pointers.
+
+Sat Aug  7 04:21:29 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c, common/registry.h: Use speclists in registry,
+	to make code slightly nicer.
+
+Sat Aug  7 04:16:44 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* config.h.in, configure, configure.in, client/civclient.c,
+	client/climisc.c, client/gui-gtk/clinet.c,
+	client/gui-gtk/gui_main.c, client/gui-gtk/mapview.c,
+	client/gui-xaw/clinet.c, client/gui-xaw/gui_main.c,
+	common/packets.c, common/shared.c, server/civserver.c,
+	server/meta.c, server/sernet.c: Added and use more configure
+	checks for non-standard header includes.
+
+Sat Aug  7 04:01:11 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Makefile.am, client/Makefile.in, client/civclient.c,
+	client/helpdata.c, client/packhand.c, client/gui-gtk/gui_main.c,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/repodlgs.c,
+	client/gui-xaw/gui_main.c, client/gui-xaw/helpdlg.c,
+	client/include/Makefile.am, client/include/Makefile.in,
+	client/include/helpdata.h, client/include/helpdlg_g.h: New module
+	client/helpdata.c, for generic handling of client help data,
+	independent of gui considerations.  Combines lots of code
+	previously duplicated between the gui helpdlg.c files.
+
+Sat Aug  7 03:42:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* acconfig.h, config.h.in, configure, configure.in,
+	client/civclient.c, server/civserver.c: Use LOCALEDIR instead of
+	GNULOCALEDIR, and set LOCALEDIR in configure making sure it
+	matches the directory where the .mo files are installed by
+	po/Makefile.  (Fixes problem on Solaris.)
+
+Sat Aug  7 02:50:14 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/meta.c: Correct MAX_PACKET_SIZE to MAX_LEN_PACKET in Mac
+	meta code.  Patch submitted by Andy Black <ablack@bvsd.k12.co.us>.
+
+Sat Aug  7 02:47:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_main.c, client/gui-gtk/mapctrl.c,
+	client/gui-xaw/mapctrl.c: Moved an include to different line, and
+	removed includes for log.h in mapctrl.c
+
+Fri Aug  6 18:40:52 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/civclient.c, client/gui-gtk/gui_main.c: I mended my
+	patch. There was ) missing in gui_main.c and I put an extra i in
+	in the rusage string.
+
+Fri Aug  6 18:16:25 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/gui_main.c, client/civclient.c,
+	client/gui-xaw/gui_main.c, server/civserver.c, common/shared.c,
+	common/shared.h: Function get_option is added in shared.c to get
+	the argument of an option.  Function is_option is added in
+	shared.c to recognize an option either with a long name or a short
+	name.  Both functions are used in client/gui-gtk/gui_main.c and
+	server/civserver.c.  As gtk withdraw the options it uses, gtk_init
+	is now called before.  I don't know the result for --help and
+	--version.  As one gtk option is called --name, the freeciv option
+	--name is renamed --Name or -N for short.  Patch submitted by
+	Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> Previous patch where
+	control.c and control.h were created was submitted by Sebastian
+	Bauer <sebauer@t-online.de>
+
+Fri Aug  6 17:53:49 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/Makefile.am, client/Makefile.in, client/civclient.c,
+	client/climisc.c, client/control.c, client/packhand.c,
+	client/gui-gtk/citydlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/gotodlg.c, client/gui-gtk/gui_main.c,
+	client/gui-gtk/mapctrl.c, client/gui-gtk/mapctrl.h,
+	client/gui-gtk/mapview.c, client/gui-gtk/menu.c,
+	client/include/control.h, client/include/mapctrl_g.h,
+	client/include/mapview_g.h, client/gui-xaw/citydlg.c,
+	client/gui-xaw/dialogs.c, client/gui-xaw/gotodlg.c,
+	client/gui-xaw/gui_main.c, client/gui-xaw/mapctrl.c,
+	client/gui-xaw/mapctrl.h, client/gui-xaw/mapview.c,
+	client/gui-xaw/menu.c: This patch moves code out of mapctrl.c to a
+	new gui independent file control.c. A new header control.h has
+	been added in client/include.
+
+Thu Aug  5 15:58:44 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* ai/aitech.c: Cache information in find_prerequisites().
+
+Sun Aug  1 11:35:44 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/genlist.h: Added macro TYPED_LIST_ITERATE_REV() to
+	iterate in reverse.
+
+Sun Aug  1 11:33:28 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/meta.c: Revisions to Mac metaserver code; patch submitted
+	by Andy Black <ablack@bvsd.k12.co.us>.
+
+Sun Aug  1 11:32:53 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/civclient.c: Removed comments containing old
+	gui-dependent X calls in now-gui-indep set_client_state(). 
+	Suggested by Andy Black.
+
+Sun Aug  1 11:32:14 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/packets.c, server/meta.c, server/sernet.c: Include
+	config.h in a few places where added use of configure checks.
+
+Sun Aug  1 11:31:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* config.h.in, configure, configure.in, client/civclient.c,
+	client/gui-gtk/clinet.c, client/gui-gtk/mapview.c,
+	client/gui-xaw/clinet.c, common/packets.c, common/shared.c,
+	server/civserver.c, server/meta.c, server/sernet.c: Check for
+	sys/types.h in configure, to replace some Mac-specific checks.
+
+Sun Aug  1 11:30:11 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/civserver.c: Exclude check for running as root when
+	compiling on OS/2.  Suggested by Alexander Mai
+	<st002279@hrzpub.tu-darmstadt.de>.
+
+Sun Aug  1 11:29:22 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* config.h.in, configure, configure.in, client/gui-gtk/clinet.c,
+	client/gui-xaw/clinet.c, client/gui-xaw/mapview.c,
+	common/shared.c, server/sernet.c: Check for sys/select.h in
+	configure, and use HAVE_SYS_SELECT_H instead of system-dependent
+	defines.  Include sys/select.h in shared.c.  Suggested by
+	Alexander Mai <st002279@hrzpub.tu-darmstadt.de>.
+
+Sat Jul 31 02:32:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/city.c, common/city.h, server/cityturn.c,
+	server/settlers.c: When placing workers around a city, they used
+	to be preferentially placed far to the north-west.  There, they
+	frequently interfered with workers from a neighboring city.  This
+	patch preferentially tries to place workers near the city.  To
+	help support this a new macro city_map_iterate_outwards is
+	supplied.  Patch submitted by Jeff Mallatt <jjm@codewell.com>.
+
+Sat Jul 31 02:31:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/cityturn.c: New citizen placement used to ignore city
+	option for new citizens if the city did not have enough food, even
+	if there were no squares to place workers, and hence no way to
+	improve food anyway.  This patch checks for available squares, and
+	if there are none, then respects the "Make new citizens" setting. 
+	Patch submitted by Jeff Mallatt <jjm@codewell.com>.
+
+Sat Jul 31 02:30:54 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-xaw/gotodlg.c: The xaw client Airlift/Goto dialog
+	leaked memory whenever the "All Cities" button was toggled; fixed.
+	Based on patch submitted by Jeff Mallatt <jjm@codewell.com>.
+
+Fri Jul 30 12:20:08 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* po/pt.po: Fixed a small typo "client" should read as "cliente".
+
+Fri Jul 30 10:53:13 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/gtkpixcomm.c, client/gui-gtk/gtkpixcomm.h,
+	client/gui-gtk/gui_main.c, client/gui-gtk/mapview.c,
+	client/gui-gtk/mapview.h: Fixes for memory leaks and refresh
+	problems in the citizen pixmap widgets on the city dialog (i.e.
+	they now use the GtkPixcomm widget).  Modified GtkPixcomm API to
+	help clean up the code a bit.
+
+Fri Jul 30 01:27:22 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* po/.cvsignore, po/pt.gmo: Remove po/pt.gmo which is generated
+	automacally.  Add pt.gmo and pt.mo in po/.cvsignore Patch sugested
+	by David Pfitzner <dwp@mso.anu.edu.au>
+
+Fri Jul 30 01:06:32 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* configure, configure.in, po/pt.gmo, po/pt.po: Add Vasco
+	Alexandre Da Silva Costa <vasc@camoes.rnl.ist.utl.pt> .po file for
+	"Standard Portuguese".  Change ALL_LINGUAS to "pt es fr"
+
+Fri Jul 30 00:54:58 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/Makefile.in: New Makefile.in generated by
+	automake after Vasco change to Makefile.am in client/gui-gtk
+
+Thu Jul 29 23:19:00 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/shared.c, server/mapgen.c: This patch fixes cast problems
+	from uint to int and int to long int.  These problems occured in
+	mapgen.c.  Bug reported and patch submitted by Matthew OConnor
+	<matthew@anti-earth.org>.
+
+Thu Jul 29 16:25:35 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gui_stuff.c, client/gui-gtk/gui_stuff.h: Removed
+	now redundant (and buggy) code that was used in the unit pixmaps. 
+	The new GtkPixcomm widget takes care of that now.
+
+Thu Jul 29 16:24:00 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/citydlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/gui_main.c, client/gui-gtk/mapview.c,
+	client/gui-gtk/mapview.h: Changed style of tearoff widgets in the
+	toplevel window to look nicer.  Changed code of unit pixmaps to
+	use the new GtkPixcomm widget, this fixes bug PR#27 properly so
+	there is no more need for the kludge that was used then to fix it.
+
+Thu Jul 29 16:19:22 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/helpdlg.c: Changed style of labels in unit stats
+	in the help dialog.
+
+Thu Jul 29 16:16:31 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/Makefile.am: Added lines to enable the correct
+	compilation of the new GtkPixcomm widget.
+
+Thu Jul 29 16:14:41 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/gtkpixcomm.c, client/gui-gtk/gtkpixcomm.h: Added
+	new GtkPixcomm widget based on the GTK+ library's GtkPixmap code. 
+	This widget will be used in the unit pixmaps in the city dialog
+	and toplevel window.
+
+Thu Jul 29 00:15:18 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* server/plrhand.c: Remove science bonus of +1 per city.  People
+	wishing to play with this can re-enable it by compiling with
+	CITIES_PROVIDE_RESEARCH defined.
+
+Wed Jul 28 22:47:17 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* common/shared.c, common/shared.h: Change the type of the
+	parameter size in my_rand from int to RANDOM_TYPE. It was done to
+	be sure to use % on a greater or equal to zero number.
+
+Wed Jul 28 14:12:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* intl/.cvsignore, po/.cvsignore: Missed some files to ignore.
+
+Wed Jul 28 14:08:43 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* intl/.cvsignore, po/.cvsignore: Added some .cvsignore files for
+	new gettext stuff.
+
+Wed Jul 28 13:36:44 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.am, Makefile.in, acconfig.h, aclocal.m4, config.h.in,
+	configure, configure.in, ai/Makefile.am, ai/Makefile.in,
+	client/Makefile.am, client/Makefile.in, client/civclient.c,
+	client/gui-gtk/Makefile.am, client/gui-gtk/Makefile.in,
+	client/gui-xaw/Makefile.am, client/gui-xaw/Makefile.in,
+	client/include/Makefile.in, common/Makefile.am,
+	common/Makefile.in, common/fcintl.h, data/Makefile.in,
+	data/civ1/Makefile.in, data/civ2/Makefile.in,
+	data/default/Makefile.in, data/trident/Makefile.in, po/ChangeLog,
+	po/POTFILES.in, po/es.po, po/fr.po, server/Makefile.am,
+	server/Makefile.in, server/civserver.c: Added Native Language
+	Support (gettext support) in configure and makefiles, and some
+	initial (test) translations.  Based on a patch submitted by David
+	Perez Serrada <dperezs@nexo.es>.
+
+Wed Jul 28 13:05:05 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/mapview.c, client/gui-xaw/mapview.c,
+	common/map.c, common/map.h, server/maphand.c: Replaced S_NONE in
+	enum tile_special_type with S_NO_SPECIAL, to avoid clash with
+	S_NONE in sys/signal.h on Solaris.
+
+Wed Jul 28 13:02:55 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: Give server help on 'start' command in
+	'help' even when the game is running, to avoid confusion.  (But
+	say that command is unavailable.) Fixes bug PR#61 reported by
+	Reuben Thomas <rrt1001@cam.ac.uk>.
+
+Wed Jul 28 12:31:00 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/mapview.c, client/gui-xaw/mapview.c: Made terrain
+	at map north and south poles "seamless", as if the terrain in the
+	top/bottom row was continued off the map.
+
+Tue Jul 27 22:00:46 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* ai/advmilitary.c: Streamline and reorganize code in
+	assess_danger_unit().
+
+Mon Jul 26 22:37:54 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* ai/aiunit.c: find_something_to_kill() does not cache handicap
+	information.  This patch makes it cache that information.
+
+Mon Jul 26 14:08:08 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/mapgen.c: In remove_tiny_islands() clear the S_RIVER
+	special on removed islands, to avoid rivers in the ocean.
+
+Mon Jul 26 11:53:30 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/trident/tiles.xpm: Fixed off-by-one-pixel error in new
+	transparent rivers for trident tiles.
+
+Mon Jul 26 11:52:19 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/trident/tiles.xpm: Made a nicer wheat special graphic for
+	trident tiles, based on the trident settler upkeep icon.
+
+Sun Jul 25 01:58:01 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/civ2.serv, data/civ2/Makefile.am, data/civ2/Makefile.in,
+	data/civ2/buildings.ruleset, data/civ2/techs.ruleset,
+	data/civ2/units.ruleset: Added copies of default ruleset files
+	(units, buildings, techs) to civ2 directory, for future
+	modifications.  Added explicit use of these ones in civ2.serv.
+
+Sun Jul 25 01:56:04 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/registry.c, common/registry.h, common/unit.c,
+	common/unit.h, data/civ1/units.ruleset,
+	data/default/units.ruleset, server/ruleset.c: Changed
+	units.ruleset format to have the data for each unit in a separate
+	section, instead of separated over several tables.  Reading
+	old-format units.ruleset files is still supported, but this may go
+	away in future.
+
+	Includes new registry function secfile_get_secnames_prefix(), and
+	new lists of names in unit.c for unit move_types, flags and roles,
+	plus new functions to do lookups on these lists:
+	unit_move_type_from_str(), unit_flag_from_str(),
+	unit_role_from_str().
+
+Sun Jul 25 01:49:10 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_main.c: Made the initial window size of the
+	Gtk+ client smaller, to fit better on smaller screens.  Also
+	changed the way the dettachable widgets in the toplevel window
+	work, so that the chat window is now resizeable.  Patch submitted
+	by Vasco Alexandre Da Silva Costa.
+
+Sun Jul 25 01:48:19 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/cityrep.c: Allow sorting the city report by
+	different columns, by clicking on the column headings.  Gtk+
+	client only.  Clicking on the same heading a second time reverses
+	the sort order.  Patch submitted by Daniel Sjolie
+	<deepone@acc.umu.se>.
+
+Sun Jul 25 01:44:58 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/climisc.c, client/gui-gtk/cityrep.c,
+	client/include/climisc.h, common/city.c, common/city.h: This patch
+	allows changing production between two specified items (from an
+	item, to another item) in all cities at once (that is, all cities
+	currently building the first item).  Gtk+ client only.  Includes
+	some new helper functions: could_player_build_improvement(),
+	can_player_build_improvement(), can_player_build_unit_direct(),
+	can_player_build_unit().  Patch submitted by John-Marc Chandonia
+	<jmc@cmpharm.ucsf.edu>.
+
+Sat Jul 24 03:22:50 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* README.rulesets, ai/advdomestic.c, client/civclient.c,
+	client/packhand.c, client/gui-gtk/helpdlg.c,
+	client/gui-gtk/mapctrl.c, client/gui-gtk/mapview.c,
+	client/gui-gtk/menu.c, client/gui-xaw/Freeciv.h,
+	client/gui-xaw/helpdlg.c, client/gui-xaw/mapctrl.c,
+	client/gui-xaw/mapview.c, client/gui-xaw/menu.c,
+	client/include/helpdlg_g.h, client/include/mapview_g.h,
+	client/include/packhand.h, common/capstr.c, common/city.c,
+	common/game.c, common/game.h, common/map.c, common/map.h,
+	common/packets.c, common/packets.h, common/shared.h,
+	common/unit.c, data/Freeciv, data/helpdata.txt, server/gamehand.c,
+	server/mapgen.c, server/maphand.c, server/ruleset.c,
+	server/settlers.c, server/stdinhand.c, server/unitfunc.c: Bulk of
+	terrain ruleset patch, by Jeff Mallatt <jjm@codewell.com>.
+
+	Added "+terrainrulesets" to the CAPABILITY string.
+
+	Added the 'terrain' server option.
+
+	Added the terrain ruleset support code, including adding the new
+	PACKET_RULESET_TERRAIN and PACKET_RULESET_TERRAIN_CONTROL packets,
+	and their supporting code.
+
+	Since I needed more bits in the tile_special_type enumeration
+	(bits beyond the 8th), I had to extend PACKET_TILE_INFO to pass
+	more than the lower 8 bits.  Also, had to extend the saved-game
+	file format for the same reason.
+
+	Added the S_RIVER special.  There are now two types of rivers:
+	Civ1 style (signaled by a tile of type T_RIVER) and Civ2 style
+	(signaled by having the S_RIVER special bit set).  Any given map
+	should have only one type of river.  This is controled by the
+	river_style flag in the new terrain.ruleset file.  Adding this
+	forced lots of changes to many places in the code.
+
+	Added the S_FARMLAND special.  This gets set when player can build
+	the Supermarket, and irrigates a square a *second* time.  Adds 50%
+	to food yield.
+
+	Added the farmfood server option.  It's like rail_food, except it
+	applies when S_FARMLAND is set for a tile.
+
+	Extended PACKET_GAME_INFO to include new server options.
+
+	Changed S_SPECIAL to S_SPECIAL_1 and added S_SPECIAL_2 to support
+	up to *two* specials per tile type, as is done in Civ2.
+
+	Lots of changes to struct tile_type to support new terrain
+	concepts and the terrain ruleset stuff.  Added struct terrain_misc
+	terrain_control for the global flags from terrain.ruleset.
+
+	Added the TERRAIN category to the help dialog.  Now, when you
+	select a terrain in the help dialog, you see the actual values
+	from the tile_type array.
+
+	Added a "generated table" mechanism to the help dialog. 
+	Currently, only the $TerrainAlterations generated table is
+	implemented.
+
+	Updated the text in helpdata.txt for all terrains.
+
+	To figure out when road building was done, the code used to use
+	">", which meant that it took one turn longer than the value in
+	the tile_type array.  For consistency, I changed the compare to
+	">=" (like all the rest in the function), and added one to all the
+	values in the array.
+
+Sat Jul 24 03:18:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/include/mapview_g.h, data/default/tiles.xpm,
+	data/trident/tiles.xpm: Added new graphics for terrain ruleset:
+	transparent rivers to overlay on other terrains; farmland tile;
+	new specials.  Also occupied tile for trident tiles (already in
+	default).  Note this breaks old tilesets.  Feel free to submit
+	improved graphics! From patch submitted by Jeff Mallatt
+	<jjm@codewell.com>.
+
+Sat Jul 24 03:15:55 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, data/Makefile.am, data/Makefile.in,
+	data/civ1.serv, data/civ2.serv, data/classic_terrain.ruleset,
+	data/civ1/Makefile.am, data/civ1/Makefile.in,
+	data/civ1/terrain.ruleset, data/civ2/.cvsignore,
+	data/civ2/Makefile.am, data/civ2/Makefile.in,
+	data/civ2/terrain.ruleset, data/default/Makefile.am,
+	data/default/Makefile.in, data/default/terrain.ruleset: Added new
+	files for terrain rulesets, and new files for civ2 style.  From
+	patch submitted by Jeff Mallatt <jjm@codewell.com>.
+
+Wed Jul 21 13:17:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/version.h: The "fallback" (non-configure) #define
+	VERSION_STRING was wrong ("1.8.0"); fixed it so it won't be wrong
+	again.
+
+Tue Jul 20 15:45:56 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* data/helpdata.txt: Here's some help text for pillaging.  I also
+	noted a small error in the road description, so I fixed that. 
+	Comment and patch by Greg Wooledge <wooledge@kellnet.com>
+
+Tue Jul 20 15:41:39 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* server/unithand.c: This patch fixes a grammatical problem that
+	was pointed out a long time back.  Patch submitted by Greg
+	Wooledge <ic5035%tss1crs.amgreetings.com@rose.amgreetings.com>
+
+Tue Jul 20 12:57:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/classic/.cvsignore, data/classic/Makefile.am,
+	data/classic/Makefile.in, data/classic/flags.xpm,
+	data/classic/roads.xpm, data/classic/tiles.xpm,
+	data/classic/units.xpm: Removed the classic tiles from CVS.  The
+	are still available from ftp.freeciv.org as the "brunus" tileset.
+
+Tue Jul 20 12:39:11 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/graphics.c, client/include/mapview_g.h,
+	client/gui-xaw/graphics.c: Consolidated the numbers of rows in
+	each .xpm file in mapview_g.h in ROWS_???? constants.  From a
+	patch submitted by Jeff Mallatt <jjm@codewell.com>.
+
+Tue Jul 20 12:22:34 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/mapview.c, client/gui-xaw/mapview.c,
+	client/include/mapview_g.h, data/default/tiles.xpm: Added an extra
+	graphic overlay (the OCCUPIED tile) for when a town is occupied by
+	at least one defender.  Both Civ1 and Civ2 had this.  (New graphic
+	in default tiles.xpm only so far; its the tile just to the left of
+	the red-box/crosshairs/attention graphic.) From a patch submitted
+	by Jeff Mallatt <jjm@codewell.com>.
+
+Tue Jul 20 11:52:19 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/ruleset.c: Look for ruleset files as, eg,
+	"civ1_units.ruleset", as well as the previous "civ1/units.ruleset"
+	(both with respect to the data path), to allow adding ruleset
+	files without requiring additional directories.  (Todo: update
+	documentation to cover this new alternative.)
+
+Tue Jul 20 11:50:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c, client/gui-gtk/chatline.c,
+	client/gui-gtk/citydlg.c, client/gui-gtk/dialogs.c,
+	client/gui-gtk/gotodlg.c, client/gui-gtk/helpdlg.c,
+	client/gui-gtk/mapctrl.c, client/gui-xaw/chatline.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/dialogs.c,
+	client/gui-xaw/gotodlg.c, client/gui-xaw/helpdlg.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/plrdlg.c,
+	common/capstr.c, common/city.h, common/game.c, common/game.h,
+	common/packets.c, common/packets.h, common/player.h,
+	common/shared.c, common/shared.h, common/tech.h, common/unit.h,
+	server/autoattack.c, server/civserver.c, server/handchat.c,
+	server/meta.c, server/sernet.c, server/sernet.h,
+	server/spacerace.c, server/stdinhand.c, server/unitfunc.c,
+	server/unithand.c: Made some identifiers more uniformly named:
+	MAX_PLAYERS        -> MAX_NUM_PLAYERS 
+	MAX_CONNECTIONS	   -> MAX_NUM_CONNECTIONS
+	MAX_LENGTH_NAME    -> MAX_LEN_NAME
+	MAX_LENGTH_ADDRESS -> MAX_LEN_ADDR 
+	ADDR_LENGTH        -> "
+	MAX_PACKET_SIZE    -> MAX_LEN_PACKET 
+	NAME_SIZE	   -> MAX_LEN_USERNAME 
+	MSG_SIZE	   -> MAX_LEN_MSG 
+	MAX_CAPSTR_LEN	   -> MAX_LEN_CAPSTR 
+	MAX_CMD_LEN	   -> MAX_LEN_CMD
+
+Tue Jul 20 11:46:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/Makefile.am, common/Makefile.in, common/city.c,
+	common/city.h, common/genlist.h, common/speclist.h,
+	common/speclist_c.h, common/unit.c, common/unit.h: Added
+	'speclist' header files, to automate details of creating specific
+	("typed") genlists like the struct city_list and struct unit_list,
+	and their related (generic) functions.
+
+Tue Jul 20 11:43:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.in, client/civclient.c, client/climisc.c,
+	client/options.c, client/packhand.c, client/gui-gtk/Makefile.am,
+	client/gui-gtk/Makefile.in, client/gui-gtk/cityrep.h,
+	client/gui-gtk/helpdlg.h, client/gui-gtk/menu.c,
+	client/gui-gtk/messagewin.c, client/gui-gtk/messagewin.h,
+	client/gui-gtk/plrdlg.h, client/gui-xaw/Makefile.am,
+	client/gui-xaw/Makefile.in, client/gui-xaw/cityrep.c,
+	client/gui-xaw/cityrep.h, client/gui-xaw/gui_main.c,
+	client/gui-xaw/gui_main.h, client/gui-xaw/helpdlg.c,
+	client/gui-xaw/helpdlg.h, client/gui-xaw/menu.c,
+	client/gui-xaw/messagewin.c, client/gui-xaw/messagewin.h,
+	client/gui-xaw/plrdlg.c, client/gui-xaw/plrdlg.h,
+	client/include/Makefile.am, client/include/Makefile.in,
+	client/include/cityrep.h, client/include/cityrep_g.h,
+	client/include/helpdlg.h, client/include/helpdlg_g.h,
+	client/include/messagewin_g.h, client/include/meswindlg.h,
+	client/include/plrdlg.h, client/include/plrdlg_g.h: More fixes to
+	client gui-includes, splitting some previously gui-independent
+	headers into gui-indep and gui-dep parts, to make places for
+	prototypes previously misplaced in gui_main.h in the Xaw client. 
+	Renamed meswindlg.h to messagewin.h (and messagewin_g.h) to match
+	corresponding .c file.
+
+Mon Jul 19 13:40:28 1999  Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk/repodlgs.c: Fix for bug PR#57 (active units
+	report doesn't scale)
+
+Mon Jul 19 12:28:41 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/player.c: Changed spelling of "Ramesses" to "Rameses". 
+	On advice by Reuben Thomas <rrt1001@cam.ac.uk>, with patch by Greg
+	Wooledge <wooledge@kellnet.com>.
+
+Mon Jul 19 12:10:33 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/stdinhand.c: Fixed 'show' output so that the "changable"
+	symbol takes into account game state (as well as access level).
+
+Sun Jul 18 03:14:51 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/Makefile.am, common/Makefile.in, common/fcintl.h: Macros
+	for internationalization.  This also provides no-op macros if
+	HAVE_GETTEXT is not defined, so markup of strings can begin, using
+	these no-ops for now.  From a patch by David Perez Serrada
+	<dperezs@laguna.dvnet.es>.
+
+Sat Jul 17 11:49:32 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c: Changed railroad_trade() checking S_RAILROAD
+	to road_trade() checking S_ROAD, since Superhighways effect
+	depends on road not railroad.  Idea from a patch by Rizos
+	Sakellariou <rizos@rice.edu>.
+
+Sat Jul 17 11:48:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ABOUT-NLS: Forgot to add this with rest of NLS stuff.
+
+Sat Jul 17 11:47:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/Makefile.in: Auto-gen update for advspace files.
+
+Sat Jul 17 11:46:56 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* intl/ChangeLog, intl/Makefile.in, intl/VERSION,
+	intl/bindtextdom.c, intl/cat-compat.c, intl/dcgettext.c,
+	intl/dgettext.c, intl/explodename.c, intl/finddomain.c,
+	intl/gettext.c, intl/gettext.h, intl/gettextP.h,
+	intl/hash-string.h, intl/intl-compat.c, intl/l10nflist.c,
+	intl/libgettext.h, intl/linux-msg.sed, intl/loadinfo.h,
+	intl/loadmsgcat.c, intl/localealias.c, intl/po2tbl.sed.in,
+	intl/textdomain.c, intl/xopen-msg.sed, po/Makefile.in.in: Added
+	some preliminary infrastructure for Native Language Support, from
+	gettext-0.10.35.
+
+Sat Jul 17 11:43:35 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/cityrep.c, client/gui-gtk/repodlgs.c: Allow
+	multiple selections (and operations) in the City Report and Trade
+	Report dialogs.  (Gtk+ client only.)  Selections are made by
+	dragging, or clicking while holding shift or ctrl (or alt?). 
+	Patch submitted by Markus Linnala <maage@cs.tut.fi>.
+
+	Examples:  In the City Report: - Select 1 city and issue command,
+	works as before; - Select 2 or more cities and issue buy, client
+	tries to buy improvement or unit at all cities, you can easily use
+	all your money; - Select 2 or more cities and issue change, select
+	one, client tries to change production to the one you selected, if
+	you select building and city already has building, there is no
+	change, if you have 10 cities with all buildings, 10 without
+	supermarket and one brand new, you can select all, then press alt
+	and mouse on brand new twice and select supermarket on a list; -
+	Select all cities and deselect one which is building wonder,
+	select another city again, change to caravan; - Game just sold
+	your barracks, select all and change to barracks N+1, issue buy,
+	you have barracks again; - You have lot of money, more than you
+	can use, select all and buy, too bad you don't buy capitalization;
+	- Pollution is not your friend, select every city with pollution
+	and change them to build recycling.
+
+	Also in the Trade Report: Select all buildings and push 'Sell
+	obsolete'.  You get lot of popups with confusing messages, but
+	don't be alarmed.  You just sold all possible obsolete buildings. 
+	You can also easily sell all buildings.  Beware.
+
+Sat Jul 17 02:06:25 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in, client/include/Makefile.am,
+	client/include/Makefile.in, client/Makefile.am,
+	client/Makefile.in: New configure option --enable-make-include, to
+	force make to recurse into the client/include directory.  Normally
+	this is useless, but it is useful for 'make tags' to get tags from
+	the headers.  Also changed client/include/Makefile.am to list
+	files as "noinst_HEADERS" instead of "EXTRA_DIST", so that they
+	get processed by 'make tags'.
+
+Fri Jul 16 20:33:58 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* ai/advspace.c, ai/advspace.h: New files to support AI spaceship
+	building.
+
+Fri Jul 16 20:29:52 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* ai/Makefile.am, ai/Makefile.in, ai/advdomestic.c, ai/aihand.c:
+	Committing patch to make AI aware of spacerace.  More intelligent
+	spaceship composition is a suggested future enhancement.
+
+Fri Jul 16 13:55:58 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/unit.c, server/unitfunc.c: Allow pillaging fortresses;
+	occurs after mine/irrigation but before railroad/road.  Patch
+	submitted by Greg Wooledge <wooledge@kellnet.com>.
+
+Fri Jul 16 13:25:05 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS, Makefile.am, Makefile.in, PEOPLE, THANKS: Recombined
+	AUTHORS and THANKS files, into a single file PEOPLE, plus AUTHORS
+	just containing the original authors.  Includes some changes
+	thanks to Martin Willemoes Hansen <mwh@stampede.org>.
+
+Fri Jul 16 12:40:48 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/settlers.c: Fixed arctic roads bug.  Roads/railroads in
+	top or bottom map rows sometimes lost their "roadness"
+	inexpectedly.  Bug report and fix submitted by Jeff Mallatt
+	<jjm@codewell.com>.
+
+Fri Jul 16 12:28:00 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/include/mapctrl_g.h: Removed X11 include accidently left
+	in mapctrl_g.h; problem reported by Andy Black
+	<ablack@bvsd.k12.co.us>.
+
+Wed Jul 14 15:50:07 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* client/gui-gtk/mapview.c: In the GTK+ client, in both the unit
+	info panel and the city dialog (supported and present units) the
+	display of an Engineer that is transforming terrain is incorrect
+	-- the small "O" in the upper right hand corner is replaced by
+	tile number zero.
+
+	It's simply a missing case in put_unit_gpixmap() in mapview.c:
+
+	Patch and bug report submitted by jjm@codewell.com
+
+Wed Jul 14 11:23:05 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aicity.c, client/civclient.c, client/climisc.c,
+	client/options.c, client/packhand.c, client/gui-gtk/citydlg.c,
+	client/gui-gtk/clinet.c, client/gui-gtk/colors.c,
+	client/gui-gtk/colors.h, client/gui-gtk/connectdlg.c,
+	client/gui-gtk/dialogs.c, client/gui-gtk/diplodlg.c,
+	client/gui-gtk/finddlg.c, client/gui-gtk/gamedlgs.c,
+	client/gui-gtk/gotodlg.c, client/gui-gtk/graphics.c,
+	client/gui-gtk/gui_main.c, client/gui-gtk/gui_stuff.c,
+	client/gui-gtk/helpdlg.c, client/gui-gtk/inputdlg.c,
+	client/gui-gtk/inteldlg.c, client/gui-gtk/mapctrl.c,
+	client/gui-gtk/mapview.c, client/gui-gtk/menu.c,
+	client/gui-gtk/messagewin.c, client/gui-gtk/plrdlg.c,
+	client/gui-gtk/repodlgs.c, client/gui-gtk/spaceshipdlg.c,
+	client/gui-xaw/citydlg.c, client/gui-xaw/cityrep.c,
+	client/gui-xaw/clinet.c, client/gui-xaw/colors.c,
+	client/gui-xaw/dialogs.c, client/gui-xaw/dialogs.h,
+	client/gui-xaw/diplodlg.c, client/gui-xaw/finddlg.c,
+	client/gui-xaw/gotodlg.c, client/gui-xaw/graphics.c,
+	client/gui-xaw/gui_main.c, client/gui-xaw/gui_main.h,
+	client/gui-xaw/helpdlg.c, client/gui-xaw/inteldlg.c,
+	client/gui-xaw/mapctrl.c, client/gui-xaw/mapview.c,
+	client/gui-xaw/mapview.h, client/gui-xaw/menu.c,
+	client/gui-xaw/messagewin.c, client/gui-xaw/plrdlg.c,
+	client/gui-xaw/repodlgs.c, client/gui-xaw/spaceshipdlg.c,
+	client/include/graphics_g.h, client/include/packhand.h,
+	common/map.c, server/civserver.c, server/mapgen.h,
+	server/plrhand.c, server/plrhand.h, server/sernet.c,
+	server/stdinhand.c, server/unitfunc.c: More code cleanup fixes,
+	mainly making more things static.  Also: Commented out some more
+	unused functions; Removed some duplicated prototypes and
+	declarations; Variables in headers should be extern; Moved
+	handle_* protos in civclient.c to correct place in packhand.h; For
+	now, moved misplaced protos in gui-xaw/gui_main.c to gui_main.h
+	(still to be fixed properly a-la changed gui include structure).
+
+Wed Jul 14 11:18:53 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/shared.c, common/shared.h: Removed unused/unimplemented
+	function stub get_dot_separated_int() in common/shared.c
+
+Wed Jul 14 11:18:06 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/packets.c, common/packets.h: Be more careful when reading
+	packets, to protect against short packets, or too-long strings in
+	packets.  Should help fix bug reported by Sami Farin
+	<sfarin@ratol.fi>.
+
+Wed Jul 14 11:15:47 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/Makefile.am, client/Makefile.in, client/civclient.c,
+	client/climisc.c, client/options.c, client/packhand.c,
+	client/gui-gtk/chatline.h, client/gui-gtk/citydlg.h,
+	client/gui-gtk/clinet.h, client/gui-gtk/connectdlg.h,
+	client/gui-gtk/dialogs.h, client/gui-gtk/diplodlg.h,
+	client/gui-gtk/gotodlg.h, client/gui-gtk/graphics.c,
+	client/gui-gtk/graphics.h, client/gui-gtk/gui_main.c,
+	client/gui-gtk/gui_main.h, client/gui-gtk/mapctrl.h,
+	client/gui-gtk/mapview.h, client/gui-gtk/menu.h,
+	client/gui-gtk/optiondlg.h, client/gui-gtk/repodlgs.h,
+	client/gui-gtk/spaceshipdlg.h, client/gui-xaw/chatline.h,
+	client/gui-xaw/citydlg.h, client/gui-xaw/clinet.h,
+	client/gui-xaw/connectdlg.c, client/gui-xaw/connectdlg.h,
+	client/gui-xaw/dialogs.h, client/gui-xaw/diplodlg.h,
+	client/gui-xaw/gotodlg.h, client/gui-xaw/graphics.c,
+	client/gui-xaw/graphics.h, client/gui-xaw/gui_main.h,
+	client/gui-xaw/mapctrl.h, client/gui-xaw/mapview.h,
+	client/gui-xaw/menu.h, client/gui-xaw/optiondlg.h,
+	client/gui-xaw/repodlgs.h, client/gui-xaw/spaceshipdlg.h,
+	client/include/Makefile.am, client/include/Makefile.in,
+	client/include/chatline_g.h, client/include/citydlg_g.h,
+	client/include/clinet_g.h, client/include/connectdlg_g.h,
+	client/include/dialogs_g.h, client/include/diplodlg_g.h,
+	client/include/gotodlg_g.h, client/include/graphics_g.h,
+	client/include/gui_main_g.h, client/include/mapctrl_g.h,
+	client/include/mapview_g.h, client/include/menu_g.h,
+	client/include/repodlgs_g.h, client/include/spaceshipdlg_g.h:
+	Changes to gui include files to reduce duplication in separate gui
+	headers, and so that non-gui client code depends only on a single
+	set of headers.  (Removed -I$(srcdir)/@gui_sources@ in
+	client/Makefile.am)  The gui-independent parts are in
+	include/foo_g.h; the gui-dependent parts in gui-*/foo.h, which
+	also includes foo_g.h.  Also some minor includes fixes so headers
+	are all individually includable.
+
+Wed Jul 14 11:10:23 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* config.h.in, configure, configure.in, ai/aiunit.c,
+	common/Makefile.am, common/Makefile.in, common/timing.c,
+	common/timing.h, server/autoattack.c, server/civserver.c,
+	server/settlers.c: Added a new module common/timing to isolate
+	some timing code.  The new module allows both CPU timing, and user
+	("wall clock") timing; for the latter it uses gettimeofday() if
+	available, or else falls back to time().  For CPU timing it uses
+	clock().
+
+	Replaced the old #ifdef CHRONO stuff; the timing of loading
+	savegame; and timing for metaserver updates.  Changed the CHRONO
+	stuff to do CPU timing (more appropriate for those cases) rather
+	than user timing.
+
+Wed Jul 14 11:08:12 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/gamehand.c, server/mapgen.c, server/meta.c: Removed some
+	unncessary time includes.
+
+Wed Jul 14 11:07:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/advmilitary.c, ai/aicity.c, ai/aihand.c,
+	ai/aitech.c, ai/aitools.c, ai/aiunit.c, common/tech.c,
+	common/unit.h, server/autoattack.c, server/citytools.c,
+	server/cityturn.c, server/cityturn.h, server/civserver.c,
+	server/civserver.h, server/diplhand.c, server/gamehand.c,
+	server/gamelog.c, server/gotohand.c, server/mapgen.c,
+	server/maphand.c, server/plrhand.c, server/sernet.c,
+	server/settlers.c, server/settlers.h, server/stdinhand.c,
+	server/unithand.c: Various code cleanups, especially making
+	functions and variables which are used entirely internal to a
+	single module to be explicitly "static".  (Based partly on a list
+	by Andy Black <ablack@bvsd.k12.co.us>.) Removed some duplicate
+	function prototypes.  Commented out (#ifdef UNUSED) some unused
+	functions.  Removed some unused/uncalled/empty function stubs
+	(aicity.c:free_tiles(), civserver.c:end_game()).
+
+Wed Jul 14 11:04:07 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/gui_main.c, client/include/climisc.h,
+	client/gui-xaw/gui_main.c, common/shared.h: Moved #define
+	CITY_NAMES_FONT from common/shared.h to client/include/climisc.h
+
+Wed Jul 14 11:03:02 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/advmilitary.c, ai/aicity.c, ai/aihand.c,
+	ai/aiunit.c, server/gotohand.c, server/settlers.c,
+	server/unitfunc.c: Changed <<1 to *2, >>1 to /2 etc. to increase
+	readability of the code.  (Rely on the compiler the optimize them
+	correctly.) Patch submitted by Markus Linnala <maage@cs.tut.fi>.
+
+Wed Jul 14 11:01:20 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/mapgen.c: Fixed logic/typo bug in make_river(); bug and
+	fix reported by Andy Black <ablack@bvsd.k12.co.us>.
+
+Wed Jul 14 11:00:20 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/packets.c, common/shared.c, common/shared.h,
+	server/civserver.c, server/mapgen.c, server/meta.c,
+	server/sernet.c: Changes to allow compiling the server on a Mac. 
+	From patches submitted by Andy Black <ablack@bvsd.k12.co.us>, with
+	some minor formatting/comments changes by me.
+
+Wed Jul 14 10:58:51 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aiunit.c, server/settlers.c: Fixed some warnings about
+	possibly uninitialized variables (only used so in LOG_DEBUG
+	messages).
+
+Sun Jul 11 13:03:38 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/settlers.c, server/settlers.h, common/city.h: With this
+	patch your autosettlers can and will also use transform.  Patch
+	submitted by Markus Linnala <maage@cs.tut.fi>.
+
+Sun Jul 11 13:02:58 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/settlers.c: Commented out experimental part of
+	ai_calc_mine() which allowed autosettlers to "mine" plains and
+	grasslands to make forests.  The behaviour was annoying for human
+	players, and often bad for AI players too.  Patch submitted by
+	Markus Linnala <maage@cs.tut.fi>.
+
+Sun Jul 11 13:02:11 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unithand.c: Added more debug info about battles.  Patch
+	submitted by Markus Linnala <maage@cs.tut.fi>.
+
+Sun Jul 11 13:01:31 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in: If you have Electric Fence Malloc
+	Debugger, you can link against it using "./configure
+	--with-efence".  (Mainly for use by developers.) From a patch
+	submitted by Markus Linnala <maage@cs.tut.fi>.  I also spread out
+	the AC_OUTPUT over multiple lines.
+
+Sun Jul 11 12:59:13 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advdomestic.c, ai/aitools.c, common/city.h,
+	server/citytools.c, server/cityturn.c, server/unittools.c: Removed
+	min/max macros in city.h, and use MIN/MAX from shared.h instead. 
+	Also calculate complex arguments or functions calls in temp
+	variables since don't trust compiler to be able to optimize them
+	out rather than compute twice.  Patch submitted by Markus Linnala
+	<maage@cs.tut.fi> (except I don't like variables called 'l' since
+	too similar to '1').
+
+Sun Jul 11 12:57:57 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/capability.h, common/diptreaty.h, ai/advattitude.h,
+	ai/advdomestic.h, ai/advforeign.h, ai/advisland.h, ai/advleader.h,
+	ai/advscience.h, ai/advtrade.h, ai/aicity.h, server/autoattack.h,
+	server/gamehand.h: Minor fixes to header files so all headers can
+	(in principle) be individually included without including other
+	headers first.  Also some end-of-header comments.  Based partly on
+	a patch submitted by Markus Linnala <maage@cs.tut.fi>.
+
+Sat Jul 10 20:01:26 1999  Lalo Martins <lalo@debian.org>:
+
+	* debian/changelog: Updating the changelog for 1.8.1
+
 Thu Jul  8 12:23:50 1999  David Pfitzner <dwp@mso.anu.edu.au>:
 
 	* AUTHORS, BUGS, NEWS, configure, configure.in,
