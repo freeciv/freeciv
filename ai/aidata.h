@@ -145,7 +145,6 @@ void ai_data_turn_init(struct player *pplayer);
 void ai_data_turn_done(struct player *pplayer);
 
 void ai_data_init(struct player *pplayer);
-void ai_data_done(struct player *pplayer);
 void ai_data_analyze_rulesets(struct player *pplayer);
 
 struct ai_data *ai_data_get(struct player *pplayer);
