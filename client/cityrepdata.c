@@ -141,35 +141,36 @@ static char *cr_entry_num_trade(struct city *pcity)
 static char *cr_entry_building(struct city *pcity)
 {
   static char buf[128];
-  char *name;
-  int cost, turns;
   char *from_worklist =
     worklist_is_empty(&pcity->worklist) ? "" :
     concise_city_production ? "*" : _("(worklist)");
-
-  if(pcity->currently_building==B_CAPITAL) {
+	
+  if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
     my_snprintf(buf, sizeof(buf), "%s (%d/X/X/X)%s",
 		get_impr_name_ex(pcity, pcity->currently_building),
-		pcity->shield_stock,
-		from_worklist);
+		pcity->shield_stock, from_worklist);
   } else {
+    int turns = city_turns_to_build(pcity, pcity->currently_building,
+				    pcity->is_building_unit, TRUE);
+    char time[32], *name;
+    int cost;
+
+    if (turns < 999) {
+      snprintf(time, sizeof(time), "%d", turns);
+    } else {
+      snprintf(time, sizeof(time), "-");
+    }
+
     if(pcity->is_building_unit) {
       name = get_unit_type(pcity->currently_building)->name;
       cost = get_unit_type(pcity->currently_building)->build_cost;
-      turns = city_turns_to_build(pcity, pcity->currently_building,
-				  TRUE, TRUE);
     } else {
       name = get_impr_name_ex(pcity, pcity->currently_building);
       cost = get_improvement_type(pcity->currently_building)->build_cost;
-      turns = city_turns_to_build(pcity, pcity->currently_building,
-				  FALSE, TRUE);
     }
-    my_snprintf(buf, sizeof(buf), "%s (%d/%d/%d/%d)%s",
-		name,
-		pcity->shield_stock,
-		cost,
-		turns,
-		city_buy_cost(pcity),
+
+    my_snprintf(buf, sizeof(buf), "%s (%d/%d/%s/%d)%s", name,
+		pcity->shield_stock, cost, time, city_buy_cost(pcity),
 		from_worklist);
   }
 
