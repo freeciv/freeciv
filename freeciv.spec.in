@@ -57,7 +57,7 @@ Provides: %name-client-gui = %version-%release
 Requires: %name-common = %version-%release
 
 %package client-xaw
-Summary: Turn-based strategy game, inspired by the commercial Civilization series - GTK client
+Summary: Turn-based strategy game, inspired by the commercial Civilization series - Xaw client
 Group: Games/Strategy
 Provides: %name-client-gui = %version-%release
 Requires: %name-common = %version-%release
