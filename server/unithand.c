@@ -610,7 +610,7 @@ void handle_unit_enter_hut(struct unit *punit)
     break;
   case 4:
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     "Game: You found 100 credits"); 
+		     "Game: You found 100 credits."); 
     pplayer->economic.gold+=100;
     break;
   case 5:
