@@ -170,9 +170,9 @@ void ai_city_choose_build(struct player *pplayer, struct city *pcity)
       else if (pplayer->economic.gold >= city_buy_cost(pcity)) {
         really_handle_city_buy(pplayer, pcity); /* adequately tested now */
       }
-else printf("%s wants %s but can't afford to buy it (%d < %d).\n", pcity->name,
-(bestchoice.type ? unit_name(bestchoice.choice) : 
-get_improvement_name(bestchoice.choice)), pplayer->economic.gold, city_buy_cost(pcity));
+/* else printf("%s wants %s but can't afford to buy it (%d < %d).\n", pcity->name,
+(bestchoice.type ? unit_name(bestchoice.choice) : get_improvement_name(bestchoice.choice)),
+ pplayer->economic.gold, city_buy_cost(pcity)); */
     }
     return;
   } /* AI cheats -- no penalty for switching from unit to improvement, etc. */
