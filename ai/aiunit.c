@@ -1843,7 +1843,7 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
   struct city *pcity, *ctarget;
   struct tile *ptile;
   struct unit *ptres;
-  struct player *aplayer;
+  struct player *aplayer = NULL;
 
   if (pdiplomat->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(pplayer, pdiplomat, ACTIVITY_IDLE);
@@ -1919,7 +1919,7 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 	}
       city_list_iterate_end;
     }
-    if (!ctarget) {
+    if (!ctarget && aplayer) {
       /* No enemy cities are useful.  Check our own. -AJS */
       city_list_iterate(aplayer->cities, acy)
 	if (!count_diplomats_on_tile(acy->x, acy->y)) {
