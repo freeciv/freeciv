@@ -136,7 +136,7 @@ void load_tile_gfx(void)
     
     tile_sprites[i++]=ctor_sprite(mypixmap, 
 				  SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
- }
+  }
 
   UNIT_TILES = i;
   for(y=0; y<unit_sprite->height; y+=NORMAL_TILE_HEIGHT)
@@ -163,6 +163,8 @@ void load_tile_gfx(void)
 
       XFreeGC(display, plane_gc);
     }
+  free_sprite(unit_sprite);
+  free_sprite(big_sprite);
 }
 
 
