@@ -553,7 +553,7 @@ msgstr "*%s (IA)* Vous n'avez pas la ville proposée !"
 #: ai/advdiplomacy.c:452
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr "%s (IA)* Bienvenue dans notre alliance %s!"
+msgstr "%s (IA)* Bienvenue dans notre alliance %s !"
 
 #: ai/advdiplomacy.c:455
 #, c-format
@@ -568,7 +568,7 @@ msgstr "*%s (IA)* Oui, paix en notre temps !"
 #: ai/advdiplomacy.c:464
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s"
-msgstr "*%s (IA)* Soit. Plus d'hostilités, %s"
+msgstr "*%s (IA)* Soit. Plus d'hostilités, %s."
 
 #: ai/advdiplomacy.c:850
 #, c-format
@@ -620,7 +620,7 @@ msgstr ""
 #: ai/advdiplomacy.c:916
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time"
-msgstr "*%s (IA)* Paix ... une autre fois"
+msgstr "*%s (IA)* Paix ... une autre fois."
 
 #: ai/advdiplomacy.c:931
 #, c-format
@@ -634,7 +634,7 @@ msgid ""
 "our enemy, %s"
 msgstr ""
 "*%s (IA)* Salutations notre allié le plus digne de confiance, nous vous "
-"appelons à détruire notre ennemi, %s"
+"appelons à détruire notre ennemi, %s."
 
 #: ai/advdiplomacy.c:1019
 #, c-format
@@ -642,8 +642,8 @@ msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
 "s. Why do I need to remind you of your promises?"
 msgstr ""
-"*%s (IA)* Salutations allié, je vois que vous n'avez pas encore fait la "
-"guerre avec notre ennemi, %s. Pourquoi dois-je vous rappeler vos promesses ?"
+"*%s (IA)* Salutations allié, je vois que vous n'avez pas encore déclaré la "
+"guerre à notre ennemi, %s. Pourquoi dois-je vous rappeler vos promesses ?"
 
 #: ai/advdiplomacy.c:1024
 #, c-format
@@ -652,9 +652,9 @@ msgid ""
 "peace with our mortal enemy, %s! This is unacceptable, our alliance is no "
 "more!"
 msgstr ""
-"*%s (IA)* Homme de déhonneur, nous avons conclu un pacte d'alliance et vous "
+"*%s (IA)* Homme de déshonneur, nous avons conclu un pacte d'alliance et vous "
 "persistez à rester en paix avec notre ennemi mortel, %s ! Ceci est inacceptable, "
-"notre alliance n'est plus."
+"notre alliance n'est plus !"
 
 #: ai/advdiplomacy.c:1054
 #, c-format
@@ -2338,7 +2338,7 @@ msgid ""
 "Game: %s has attacked one of your allies! The alliance brings you into the "
 "war as well."
 msgstr ""
-"Jeu : %s a attaqué l'un de vos alliés - l'alliance vous implique dans la guerre "
+"Jeu : %s a attaqué l'un de vos alliés ! l'alliance vous implique dans la guerre "
 "également."
 
 #: server/plrhand.c:1398
@@ -3695,7 +3695,7 @@ msgstr ""
 
 #: server/stdinhand.c:679
 msgid "Players that users are allowed to take"
-msgstr "Joueurs que les utilisateurs peuvent prendre"
+msgstr "Joueurs dont les utilisateurs peuvent prendre la place."
 
 #: server/stdinhand.c:680
 msgid ""
@@ -5220,7 +5220,7 @@ msgstr "Désolé, vous ne pouvez pas prendre la place d'un joueur dans ce jeu."
 #: server/stdinhand.c:3164
 msgid "Sorry, you can't take players already connected in this game."
 msgstr ""
-"Désolé, vous ne pouvez pas prendre les joueurs déjà connectés " 
+"Désolé, vous ne pouvez pas prendre la place des joueurs déjà connectés " 
 "dans ce jeu."
 
 #: server/stdinhand.c:3196 server/stdinhand.c:3211
@@ -5275,7 +5275,7 @@ msgstr "Vous ne pouvez détacher d'autres utilisateurs."
 #: server/stdinhand.c:3522
 #, c-format
 msgid "%s is not attached to any player."
-msgstr "%s n'es attaché à aucun joueur."
+msgstr "%s n'est attaché à aucun joueur."
 
 #: server/stdinhand.c:3534
 #, c-format
