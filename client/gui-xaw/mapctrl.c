@@ -131,7 +131,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
 		map_get_tile_info_text(xtile, ytile));
     XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
 
-    my_snprintf(s, sizeof(s), _("food/prod/trade: %s"),
+    my_snprintf(s, sizeof(s), _("Food/Prod/Trade: %s"),
 		map_get_tile_fpt_text(xtile, ytile));
     XtCreateManagedWidget(s, smeBSBObjectClass, p, NULL, 0);
 

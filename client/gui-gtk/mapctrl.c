@@ -124,7 +124,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 				   NULL);
     count++;
 
-    my_snprintf(s, sizeof(s), _("food/prod/trade: %s"),
+    my_snprintf(s, sizeof(s), _("Food/Prod/Trade: %s"),
 		map_get_tile_fpt_text(xtile, ytile));
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				    "GtkLabel::label", s,
