@@ -528,6 +528,11 @@ void handle_city_worklist(struct player *pplayer, struct packet_city_request *pr
   struct city *pcity;
   pcity=find_city_by_id(preq->city_id);
 
+  if (!pcity) 
+    return;
+  if (!player_owns_city(pplayer, pcity))  
+    return;
+
   copy_worklist(pcity->worklist, &preq->worklist);
 
   send_city_info(pplayer, pcity);
@@ -538,8 +543,13 @@ void handle_city_worklist(struct player *pplayer, struct packet_city_request *pr
 **************************************************************************/
 void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
 {
-  struct city *pcity;
-  pcity=find_city_by_id(preq->city_id);
+  struct city *pcity = find_city_by_id(preq->city_id);
+
+  if (!pcity) 
+    return;
+  if (!player_owns_city(pplayer, pcity))  
+    return;
+
   really_handle_city_buy(pplayer, pcity);
 }
 
@@ -548,12 +558,19 @@ void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
 **************************************************************************/
 void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *preq)
 {
-  struct city *pcity;
-  pcity=find_city_by_id(preq->value);
-  if (pcity) {
+  if (preq->value) {
+    struct city *pcity = find_city_by_id(preq->value);
+
+    if (!pcity) 
+      return;
+    if (!player_owns_city(pplayer, pcity))  
+      return;
+
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
-  } else if (!preq->value) global_city_refresh(pplayer);
+  } else {
+    global_city_refresh(pplayer);
+  }
 }
 
 /**************************************************************************
@@ -667,9 +684,10 @@ void handle_city_rename(struct player *pplayer,
   char *cp;
   struct city *pcity;
   
-  pcity=find_city_by_id(preq->city_id);
-
-  if(!player_owns_city(pplayer, pcity))
+  pcity = find_city_by_id(preq->city_id);
+  if (!pcity)
+    return;
+  if (!player_owns_city(pplayer, pcity))
     return;
 
   if((cp=get_sane_name(preq->name))) {
