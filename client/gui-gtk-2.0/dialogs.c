@@ -1062,7 +1062,8 @@ static void government_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_government_dialog(void)
+void popup_government_dialog(int governments,
+			     struct government **government)
 {
   int i;
   GtkWidget *dshell, *dlabel, *vbox;
@@ -1092,50 +1093,38 @@ void popup_government_dialog(void)
     gtk_container_add(GTK_CONTAINER(dlabel), vbox);
     gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
 
-    for (i = 0; i < game.government_count; i++) {
-      struct government *g = &governments[i];
+    for (i = 0; i < governments; i++) {
+      GtkWidget *label, *image, *hbox, *align, *button;
+      struct Sprite *gsprite = government[i]->sprite;
 
-      if (i != game.government_when_anarchy) {
-        GtkWidget *label, *image, *hbox, *align, *button;
-	struct Sprite *gsprite;
+      /* create button. */
+      button = gtk_button_new();
 
-      	/* create button. */
-        button = gtk_button_new();
+      label = gtk_label_new_with_mnemonic(government[i]->name);
+      gtk_label_set_mnemonic_widget(GTK_LABEL(label), button);
 
-        label = gtk_label_new_with_mnemonic(g->name);
-        gtk_label_set_mnemonic_widget(GTK_LABEL(label), button);
+      image = gtk_image_new_from_pixmap(gsprite->pixmap, gsprite->mask);
+      hbox = gtk_hbox_new(FALSE, 2);
 
-      	gsprite = get_government(g->index)->sprite;
+      align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
 
-        image = gtk_image_new_from_pixmap(gsprite->pixmap, gsprite->mask);
-        hbox = gtk_hbox_new(FALSE, 2);
+      gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
+      gtk_box_pack_start(GTK_BOX(hbox), align, TRUE, FALSE, 5);
 
-      	align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+      gtk_container_add(GTK_CONTAINER(align), label);
+      gtk_container_add(GTK_CONTAINER(button), hbox);
 
-        gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);
-        gtk_box_pack_start(GTK_BOX(hbox), align, TRUE, FALSE, 5);
+      /* tidy up. */
+      gtk_container_add(GTK_CONTAINER(vbox), button);
+      g_signal_connect(button, "clicked", G_CALLBACK(government_callback),
+		       GINT_TO_POINTER(government[i]->index));
+      g_signal_connect_swapped(button, "clicked",
+			       G_CALLBACK(gtk_widget_destroy), dshell);
 
-        gtk_container_add(GTK_CONTAINER(align), label);
-        gtk_container_add(GTK_CONTAINER(button), hbox);
-
-      	/* tidy up. */
-        gtk_container_add(GTK_CONTAINER(vbox), button);
-        g_signal_connect(
-          button,
-          "clicked",
-          G_CALLBACK(government_callback),
-          GINT_TO_POINTER(g->index)
-        );
-        g_signal_connect_swapped(
-          button,
-          "clicked",
-          G_CALLBACK(gtk_widget_destroy),
-          dshell
-        );
-
-        if (!can_change_to_government(game.player_ptr, i))
-    	  gtk_widget_set_sensitive(button, FALSE);
-      }
+      gtk_widget_set_sensitive(button,
+			       can_change_to_government(game.player_ptr,
+							government[i]->
+							index));
     }
  
     gtk_widget_show_all(dlabel);

@@ -1440,7 +1440,20 @@ static void choose_government(void)
 
     government_selected = FALSE;
   } else if (!client_is_observer()) {
-    popup_government_dialog();
+    int i = 0, governments = game.government_count - 1;
+    struct government *government[governments];
+
+    assert(game.government_when_anarchy >= 0
+	   && game.government_when_anarchy < game.government_count);
+
+    government_iterate(g) {
+      if (g->index != game.government_when_anarchy) {
+	government[i] = g;
+	i++;
+      }
+    } government_iterate_end;
+
+    popup_government_dialog(governments, government);
   }
 }
 

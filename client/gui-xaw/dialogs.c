@@ -1231,10 +1231,11 @@ static void government_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void popup_government_dialog(void)
+void popup_government_dialog(int governments,
+			     struct government **government)
 {
-  Widget shell, form, dlabel, button, prev;
-  int i, can_change;
+  Widget shell, form, dlabel, prev;
+  int i;
   
   if(is_showing_government_dialog) {
     return;
@@ -1249,23 +1250,23 @@ void popup_government_dialog(void)
   dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
 
   prev = dlabel;
-  for (i = 0; i < game.government_count; i++) {
-    if (i == game.government_when_anarchy) continue;
-    can_change = can_change_to_government(game.player_ptr, i);
-    button = XtVaCreateManagedWidget("button", commandWidgetClass, form,
-				     XtNfromVert, prev,
-				     XtNlabel, (XtArgVal)governments[i].name,
-				     NULL);
+  for (i = 0; i < governments; i++) {
+    Widget button =
+	XtVaCreateManagedWidget("button", commandWidgetClass, form,
+				XtNfromVert, prev,
+				XtNlabel, (XtArgVal) government[i]->name,
+				NULL);
     XtAddCallback(button, XtNcallback, government_callback,
-		  INT_TO_XTPOINTER(i));
-    XtSetSensitive(button, can_change ? TRUE : FALSE);
+		  INT_TO_XTPOINTER(government[i]->index));
+    XtSetSensitive(button,
+		   can_change_to_government(game.player_ptr,
+					    government[i]->index));
     prev = button;
   }
   
   xaw_set_relative_position(toplevel, shell, 10, 0);
   XtPopup(shell, XtGrabNone);
 }
-
 
 /****************************************************************
 ...

@@ -3844,22 +3844,20 @@ static int move_government_dlg_callback(struct GUI *pWindow)
   Popup a dialog asking the player what government to switch to (this
   happens after a revolution completes).
 **************************************************************************/
-void popup_government_dialog(void)
+void popup_government_dialog(int governments,
+			     struct government **government)
 {
   SDL_Surface *pLogo = NULL;
   struct SDL_String16 *pStr = NULL;
   struct GUI *pGov_Button = NULL;
   struct GUI *pWindow = NULL;
   struct government *pGov = NULL;
-  int i, j;
+  int i;
   Uint16 max_w, max_h = 0;
 
   if (pGov_Dlg) {
     return;
   }
-
-  assert(game.government_when_anarchy >= 0
-	 && game.government_when_anarchy < game.government_count);
 
   pGov_Dlg = MALLOC(sizeof(struct SMALL_DLG));
   
@@ -3874,29 +3872,18 @@ void popup_government_dialog(void)
   add_to_gui_list(ID_GOVERNMENT_DLG_WINDOW, pWindow);
 
   /* create gov. buttons */
-  j = 0;
-  for (i = 0; i < game.government_count; i++) {
+  for (i = 0; i < governments; i++) {
+    pGov = government[i];
+    pStr = create_str16_from_char(pGov->name, 12);
+    pGov_Button =
+	create_icon_button(GET_SURF(pGov->sprite), pWindow->dst, pStr, 0);
+    pGov_Button->action = government_dlg_callback;
 
-    if (i == game.government_when_anarchy) {
-      continue;
-    }
+    max_w = MAX(max_w, pGov_Button->size.w);
+    max_h = MAX(max_h, pGov_Button->size.h);
 
-    if (can_change_to_government(game.player_ptr, i)) {
-
-      pGov = &governments[i];
-      pStr = create_str16_from_char(pGov->name, 12);
-      pGov_Button =
-	  create_icon_button(GET_SURF(pGov->sprite), pWindow->dst, pStr, 0);
-      pGov_Button->action = government_dlg_callback;
-
-      max_w = MAX(max_w, pGov_Button->size.w);
-      max_h = MAX(max_h, pGov_Button->size.h);
-      
-      /* ugly hack */
-      add_to_gui_list((MAX_ID - i), pGov_Button);
-      j++;
-
-    }
+    /* ugly hack */
+    add_to_gui_list((MAX_ID - pGov->index), pGov_Button);
   }
 
   pGov_Dlg->pBeginWidgetList = pGov_Button;
@@ -3911,21 +3898,21 @@ void popup_government_dialog(void)
   /* create window background */
   pLogo = get_logo_gfx();
   if (resize_window(pWindow, pLogo, NULL, max_w + 20,
-		    j * (max_h + 10) + WINDOW_TILE_HIGH + 6)) {
+		    governments * (max_h + 10) + WINDOW_TILE_HIGH + 6)) {
     FREESURFACE(pLogo);
   }
   
   pWindow->size.w = max_w + 20;
-  pWindow->size.h = j * (max_h + 10) + WINDOW_TILE_HIGH + 6;
+  pWindow->size.h = governments * (max_h + 10) + WINDOW_TILE_HIGH + 6;
   
   /* set buttons start positions and size */
-  j = 1;
+  i = 1;
   while (pGov_Button != pGov_Dlg->pEndWidgetList) {
     pGov_Button->size.w = max_w;
     pGov_Button->size.h = max_h;
     pGov_Button->size.x = pWindow->size.x + 10;
     pGov_Button->size.y = pWindow->size.y + pWindow->size.h -
-	(j++) * (max_h + 10);
+	(i++) * (max_h + 10);
     set_wstate(pGov_Button, FC_WS_NORMAL);
 
     pGov_Button = pGov_Button->next;

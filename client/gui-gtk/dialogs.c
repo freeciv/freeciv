@@ -1188,40 +1188,29 @@ static void government_callback(gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_government_dialog(void)
+void popup_government_dialog(int governments,
+			     struct government **government)
 {
-  int num, i, j;
+  int i;
   struct button_descr *buttons;
 
   if (government_dialog_is_open) {
     return;
   }
 
-  assert(game.government_when_anarchy >= 0
-	 && game.government_when_anarchy < game.government_count);
-  num = game.government_count - 1;
+  buttons = fc_malloc(sizeof(struct button_descr) * governments);
 
-  buttons = fc_malloc(sizeof(struct button_descr) * num);
-
-  j = 0;
-  for (i = 0; i < game.government_count; i++) {
-    struct government *g = &governments[i];
-
-    if (i == game.government_when_anarchy) {
-      continue;
-    }
-
-    buttons[j].text = g->name;
-    buttons[j].callback = government_callback;
-    buttons[j].data = GINT_TO_POINTER(i);
-    buttons[j].sensitive = can_change_to_government(game.player_ptr, i);
-    j++;
+  for (i = 0; i < governments; i++) {
+    buttons[i].text = government[i]->name;
+    buttons[i].callback = government_callback;
+    buttons[i].data = GINT_TO_POINTER(i);
+    buttons[i].sensitive = can_change_to_government(game.player_ptr, i);
   }
 
   government_dialog_is_open = TRUE;
   base_popup_message_dialog(top_vbox, _("Choose Your New Government"),
 			    _("Select government type:"), NULL, NULL,
-			    num, buttons);
+			    governments, buttons);
 }
 
 /****************************************************************

@@ -33,7 +33,8 @@ void races_toggles_set_sensitive(int num_nations_used,
 				 Nation_Type_id * nations_used);
 
 void popup_revolution_dialog(void);
-void popup_government_dialog(void);
+void popup_government_dialog(int governments,
+			     struct government **government);
 void popup_caravan_dialog(struct unit *punit,
 			  struct city *phomecity, struct city *pdestcity);
 bool caravan_dialog_is_open(void);
