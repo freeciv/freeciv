@@ -9,8 +9,6 @@
 # lines.  If you are not using GNU make, there might be something you need to
 # edit at the very end of this file.
 
-VERSION = 1.7.1
-
 CC = gcc
 AR = ar
 RANLIB = ranlib
