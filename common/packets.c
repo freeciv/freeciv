@@ -3330,7 +3330,11 @@ int send_packet_endgame_report(struct connection *pc, enum packet_type pt,
     dio_put_uint32(&dout, packet->landarea[i]);
     dio_put_uint32(&dout, packet->settledarea[i]);
     dio_put_uint16(&dout, packet->literacy[i]);
-    dio_put_uint8(&dout, packet->spaceship[i]);
+    if (has_capability("endgame_rep", pc->capability)) {
+      dio_put_uint32(&dout, packet->spaceship[i]);
+    } else {
+      dio_put_uint8(&dout, packet->spaceship[i]);
+    }
   }
 
   SEND_PACKET_END;
@@ -3361,7 +3365,11 @@ receive_packet_endgame_report(struct connection *pc)
     dio_get_uint32(&din, &packet->landarea[i]);
     dio_get_uint32(&din, &packet->settledarea[i]);
     dio_get_uint16(&din, &packet->literacy[i]);
-    dio_get_uint8(&din, &packet->spaceship[i]);
+    if (has_capability("endgame_rep", pc->capability)) {
+      dio_get_uint32(&din, &packet->spaceship[i]);
+    } else {
+      dio_get_uint8(&din, &packet->spaceship[i]);
+    }
   }
 	        
   RECEIVE_PACKET_END(packet);

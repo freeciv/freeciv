@@ -80,7 +80,7 @@ const char * const our_capability = our_capability_internal;
                    "+no_nation_selected +diplomacy +no_extra_tiles " \
                    "+diplomacy2 +citizens_style +root_tech auth " \
                    "+nat_ulimit +retake +goto_pack borders dip " \
-                   "+packet_short_unit +unit_occupied"
+                   "+packet_short_unit +unit_occupied endgame_rep"
 
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -152,6 +152,8 @@ const char * const our_capability = our_capability_internal;
  *
  * "unit_occupied" means units occupying transporters are not sent to enemies.
  * instead an 'occupied' flag is set for the transporter.
+ *
+ * "endgame_rep" is an update of the report at endgame.
  */
 
 void init_our_capability(void)
