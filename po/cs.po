@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-27 17:28+0100\n"
-"PO-Revision-Date: 2005-01-28 15:27+0100\n"
+"PO-Revision-Date: 2005-01-30 11:56+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1012,9 +1012,9 @@ msgid "Game: Changed homecity of %s to %s."
 msgstr "Hra: Domovské město jednotky %s změněno na %s."
 
 #: server/citytools.c:566
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Transfered %s in %s from %s to %s."
-msgstr "Zahrnout hlavičky 'Od/Komu' do odpovědí na odpovědi"
+msgstr "Hra: přesunuta %s v %s z %s do %s."
 
 #: server/citytools.c:575
 #, c-format
@@ -5771,9 +5771,9 @@ msgid "Game: %s added to aid %s in growing."
 msgstr "Hra: Jednotka %s se usadila ve městě %s."
 
 #: server/unithand.c:688
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your bombarding %s%s became more experienced!"
-msgstr "Hra: Byl zlikvidován %s %s při pokusu o infiltrování města %s. Obránce je nyní zkušenější."
+msgstr "Hra: Vaše bombardování %s%s přidalo více zkušeností!"
 
 #: server/unithand.c:730
 msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
@@ -5787,12 +5787,12 @@ msgstr "Hra: Vaše SDI obrana zabránila atomovému útoku na město %s."
 #: server/unithand.c:801
 #, c-format
 msgid "Game: Your %s%s survived the pathetic attack from %s's %s and became more experienced!"
-msgstr ""
+msgstr "Hra: Vaše %s%s přežila patetický útok %s %s a stala se více zkušenou jednotkou!"
 
 #: server/unithand.c:810
 #, c-format
 msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
-msgstr ""
+msgstr "Hra: Vaše %s%s přežila patetický útok %s %s."
 
 #: server/unithand.c:820
 #, c-format
@@ -5868,7 +5868,7 @@ msgstr "Hra: Tento typ jednotek nemůže ovládnout město."
 
 #: server/unithand.c:1122
 msgid "Game: A transported unit is not allied to all units or city on target tile."
-msgstr ""
+msgstr "Hra: Transportovaná jednotka není spojenecká vůči všem jednotkám nebo městu v cílové lokaci."
 
 #: server/unithand.c:1166
 #, c-format
@@ -5961,7 +5961,7 @@ msgstr "Hra: Váš %s se stal zkušenější!"
 #: server/unittools.c:842
 #, c-format
 msgid "Game: Moved your %s due to changing land to sea."
-msgstr ""
+msgstr "Hra: Přesunuta naše %s kvůli změně pobřeží na moře."
 
 #: server/unittools.c:863
 #, c-format
@@ -5971,22 +5971,22 @@ msgstr ""
 #: server/unittools.c:878
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
-msgstr ""
+msgstr "Hra: Rozpuštěna naše %s kvůli změně pobřeží na moře."
 
 #: server/unittools.c:900
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land."
-msgstr ""
+msgstr "Hra: Přesunuta naše %s kvůli změně moře na pobřeží."
 
 #: server/unittools.c:920
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land."
-msgstr ""
+msgstr "Hra: Naše %s přesunuta do do doku kvůli změně moře na pobřeží."
 
 #: server/unittools.c:935
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
-msgstr ""
+msgstr "Hra: Rozpuštěna naše %s kvůli změně moře na pobřeží."
 
 #: server/unittools.c:967
 #, c-format
@@ -6031,7 +6031,7 @@ msgstr "Ztráta %s znamená prohru ve hře! Buďte příště více opatrnějš�
 #: server/unittools.c:1629
 #, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
-msgstr ""
+msgstr "Hra: Jednotka %s unikla před zničením %s a stáhla se do %s."
 
 #: server/unittools.c:1636
 #, c-format
@@ -6072,9 +6072,9 @@ msgid "yourself"
 msgstr "Vy"
 
 #: server/unittools.c:2018
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s's %s was nuked."
-msgstr "Hra: Při atomovém útoku jste ozářil(a) město %s."
+msgstr "Hra: Na %s %s byl proveden jaderný útok."
 
 #: server/unittools.c:2028
 #, fuzzy, c-format
@@ -6838,6 +6838,8 @@ msgid ""
 "      --\t\tPass any following options to the UI.\n"
 "\t\t\tTry \"%s -- --help\" for more.\n"
 msgstr ""
+"      --\t\tPředá všechny následující možnosti UI.\n"
+"\t\t\tZkuste \"%s -- --help\" pro další informace.\n"
 
 #: client/civclient.c:243
 #, c-format
@@ -8488,9 +8490,9 @@ msgstr[2] "Průběh: %d tahů/objev (%d bodů/tah)"
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Průběh: %d tah/objev (%d bodů/tah, %d bodů/tah od týmu)"
+msgstr[1] "Průběh: %d tahy/objev (%d bodů/tah, %d bodů/tah od týmu)"
+msgstr[2] "Průběh: %d tahů/objev (%d bodů/tah, %d bodů/tah od týmu)"
 
 #: client/text.c:456
 #: client/gui-mui/mapview.c:190
@@ -8764,22 +8766,22 @@ msgstr "Nelze nahrát gfx soubor %s pro sprite %s"
 #: client/agents/cma_core.c:182
 #, c-format
 msgid "CMA: You lost control of %s. Detaching from city."
-msgstr ""
+msgstr "ASM: Ztratili jsme kontrolu nad městem %s. Odcházím z města."
 
 #: client/agents/cma_core.c:399
 #, c-format
 msgid "CMA: The agent can't fulfill the requirements for %s. Passing back control."
-msgstr ""
+msgstr "ASM: Správce města nemůže splnit předpoklady pro %s. Vrací zpátky ovládání."
 
 #: client/agents/cma_core.c:408
 #, c-format
 msgid "CMA: %s has changed and the calculated result can't be applied. Will retry."
-msgstr ""
+msgstr "ASM: %s se změnil a vypočtený výsledek nemůže být proveden. Zkusí se to znovu."
 
 #: client/agents/cma_core.c:428
 #, c-format
 msgid "CMA: %s has changed multiple times. This may be an error in Freeciv or bad luck. The CMA will detach itself from the city now."
-msgstr ""
+msgstr "ASM: %s se změnil několikrát. To může být chyba ve Freeciv nebo smůla. ASM nyní nebude ovládat město."
 
 #: client/agents/cma_fec.c:220
 #: client/gui-gtk-2.0/cityrep.c:552
@@ -9835,13 +9837,13 @@ msgstr "Město nemůže být rozvráceno!"
 #: client/gui-mui/dialogs.c:488
 #: client/gui-win32/dialogs.c:1473
 #: client/gui-xaw/dialogs.c:983
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
-"Uplatit jednotku za %d zlatých?\n"
-"V pokladně je %d zlatých."
+"Podnítit povstání za %d zaltých?\n"
+"Pokladna obsahuje %d zlatých."
 
 #: client/gui-gtk-2.0/dialogs.c:753
 #: client/gui-gtk/dialogs.c:951
@@ -9856,13 +9858,13 @@ msgstr "Podnítit revoluci!"
 #: client/gui-mui/dialogs.c:499
 #: client/gui-win32/dialogs.c:1481
 #: client/gui-xaw/dialogs.c:993
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"Uplacení jednotky stojí %d zlatých.\n"
-"V pokladně je %d zlatých."
+"Podnícení povstání stojí %d zlatých.\n"
+"Pokladna obsahuje %d zlatých."
 
 #: client/gui-gtk-2.0/dialogs.c:823
 #: client/gui-gtk/dialogs.c:1014
@@ -10529,12 +10531,12 @@ msgstr "žádné maximum, "
 #: client/gui-gtk/happiness.c:305
 #: client/gui-mui/citydlg.c:2254
 #: client/gui-win32/happiness.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
 msgstr[0] "%d jednotka max., "
-msgstr[1] "%d jednotka max., "
-msgstr[2] "%d jednotka max., "
+msgstr[1] "%d jednotky max., "
+msgstr[2] "%d jednotek max., "
 
 #: client/gui-gtk-2.0/happiness.c:303
 #: client/gui-gtk/happiness.c:309
@@ -12096,9 +12098,8 @@ msgstr "_Hráč"
 #: client/gui-gtk-2.0/plrdlg.c:396
 #: client/gui-gtk/plrdlg.c:188
 #: client/gui-mui/plrdlg.c:332
-#, fuzzy
 msgid "_Intelligence"
-msgstr "Inteligence:"
+msgstr "_Výzvědná služba"
 
 #: client/gui-gtk-2.0/plrdlg.c:403
 #: client/gui-gtk/plrdlg.c:194
@@ -12277,6 +12278,8 @@ msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
 msgstr ""
+"Vylepšit co nejvíce %s na %s jak je možné za %d zlatých za každou jednotku?\n"
+"Pokladna obsahuje %d zlatých."
 
 #: client/gui-gtk-2.0/repodlgs.c:1255
 msgid "Totals:"
@@ -13865,9 +13868,9 @@ msgid "%s - %s citizens%s"
 msgstr "%s - %s obyvatel%s"
 
 #: client/gui-mui/citydlg.c:2230
-#, fuzzy, c-format
+#, c-format
 msgid "Luxury: %d total (maximum %d usable). "
-msgstr "Celkový počet alokovaných sektorů (%d) je větší než maximum (%d).\n"
+msgstr "Luxus: %d celkem (maximálně %d použitelných). "
 
 #: client/gui-mui/cityrep.c:270
 #: client/gui-win32/cityrep.c:100
@@ -14599,16 +14602,22 @@ msgstr ""
 "(žádný výzkum)"
 
 #: client/gui-mui/repodlgs.c:309
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "(%d turn/advance)"
 msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
-msgstr[0] "Průběh: %d tah/objev (%d bodů/tah)"
-msgstr[1] "Průběh: %d tah/objev (%d bodů/tah)"
-msgstr[2] "Průběh: %d tah/objev (%d bodů/tah)"
+msgstr[0] ""
+"%s\n"
+"(%d tah/objev)"
+msgstr[1] ""
+"%s\n"
+"(%d tahy/objev)"
+msgstr[2] ""
+"%s\n"
+"(%d tahů/objev)"
 
 #: client/gui-mui/repodlgs.c:326
 #: client/gui-mui/repodlgs.c:327
@@ -14918,9 +14927,8 @@ msgstr "Jít na lokaci"
 
 #: client/gui-win32/plrdlg.c:357
 #: data/Freeciv.in:3237
-#, fuzzy
 msgid "Intelligence"
-msgstr "Inteligence:"
+msgstr "Výzvědná služba"
 
 #: client/gui-win32/plrdlg.c:358
 #: data/Freeciv.in:3245
@@ -14966,6 +14974,9 @@ msgid ""
 "Prod:  %3d (%+-4d)\n"
 "Trade: %3d (%+-4d)"
 msgstr ""
+"Jídlo:      %3d (%+-4d)\n"
+"Prod:      %3d (%+-4d)\n"
+"Obchod: %3d (%+-4d)"
 
 #: client/gui-xaw/citydlg.c:280
 #, c-format
@@ -15110,7 +15121,7 @@ msgstr "Umožňuje %s (s %s).\n"
 #: client/gui-xaw/inteldlg.c:421
 #, c-format
 msgid "Intelligence Diplomacy Information for the %s Empire"
-msgstr ""
+msgstr "Informace výzvědné služby o pro %s impérium"
 
 #: client/gui-xaw/mapview.c:160
 #, c-format
@@ -16059,6 +16070,21 @@ msgid ""
 "  W: wake up other units on tile\n"
 "  c: center view on unit\n"
 msgstr ""
+"Pohyb jednotky:\n"
+"=============\n"
+"  1: na jihozápad\n"
+"  2: na jih\n"
+"  3: na jihovýchod\n"
+"  4: na západ\n"
+"  6: na východ\n"
+"  7: na severozápad\n"
+"  8: na sever\n"
+"  9: na severovýchod\n"
+"\n"
+"  5: přepnout na předchozí jednotku\n"
+"  w: přepnout na další jednotku (čekat)\n"
+"  W: aktivovat ostatní jednotky v lokaci\n"
+"  c: centrovat pohled na jednotku\n"
 
 #: data/helpdata.txt:484
 msgid ""
@@ -16147,6 +16173,25 @@ msgid ""
 "\n"
 "Shift-Return: Turn done"
 msgstr ""
+"Dialogy a Přehledy:\n"
+"================\n"
+"     F1: otevře Přehled města\n"
+"     F2: otevře Přehled jednotek\n"
+"     F3: otevře dialog Hráčů\n"
+"     F5: otevře Ekonomický přehled\n"
+"     F6: otevře Vědecký přehled\n"
+"     F7: otevře Divy Světa\n"
+"     F8: otevře Pět Nej Měst\n"
+"     F9: otevře dialog Zpráv\n"
+"    F11: otevře Demografii\n"
+"    F12: optevře Kosmickou loď\n"
+"\n"
+"      T: otevře dialog Daň/Lux/Věd hodnot\n"
+"      F: otevře dialog Hledání města\n"
+" Ctrl-L: otevře dialog Seznamu prací\n"
+"      R: otevře dialog Revoluce\n"
+"\n"
+"Shift-Return: Konec tahu"
 
 #: data/helpdata.txt:543
 msgid "The client has a primitive chat interface.  The lines you type are sent to all players, except:"
@@ -16161,9 +16206,8 @@ msgid "  - Messages starting with 'John:' are private messages to 'John'. Names 
 msgstr ""
 
 #: data/helpdata.txt:554
-#, fuzzy
 msgid "  - Messages starting with 'John::' are private messages as above, but will match only users (not players) named 'John'.  'Johnathan' will still match."
-msgstr "  - Zprávy začínající 'John::' jsou soukromé zprávy hráči s přezdívkou 'foo'; jména hráčů mohou být zkrácená."
+msgstr "  - Zprávy začínající 'John::' jsou soukromé zprávy jako výše, ale obsahují pouze uživatele (ne hráče) se jmény hráči se jmény 'John'.  'Johnathan' také bude souhlasit."
 
 #: data/helpdata.txt:558
 msgid "  - Messages starting with '.' will be sent only to all your allies."
@@ -20837,9 +20881,8 @@ msgid "Chile is located on the south-western coast of South America."
 msgstr "Chile se nachází na jihozápadním pobřeží Jižní Ameriky."
 
 #: data/nation/chilean.ruleset:18
-#, fuzzy
 msgid "Captain General"
-msgstr "obecná chyba"
+msgstr "Generálmajor"
 
 #: data/nation/chilean.ruleset:19
 #: data/nation/french.ruleset:14
@@ -20849,9 +20892,8 @@ msgid "Archbishop"
 msgstr "Arcibiskup"
 
 #: data/nation/chilean.ruleset:20
-#, fuzzy
 msgid "Supreme Director"
-msgstr "Distribuovaný správce"
+msgstr "Generální ředitel"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
@@ -20997,7 +21039,6 @@ msgid "High King of the Noldor"
 msgstr "Nejvyšší král Noldoru"
 
 #: data/nation/elvish.ruleset:21
-#, fuzzy
 msgid "Queen of Doriath"
 msgstr "Nejvyšší Královna"
 
@@ -21082,14 +21123,12 @@ msgid "Premier"
 msgstr "Premiér"
 
 #: data/nation/galician.ruleset:3
-#, fuzzy
 msgid "Galician"
-msgstr "Galicijština"
+msgstr "Galicijský"
 
 #: data/nation/galician.ruleset:4
-#, fuzzy
 msgid "?plural:Galicians"
-msgstr "Forma plurálů:"
+msgstr "?plural:Galiciané"
 
 #: data/nation/galician.ruleset:14
 msgid "Primeiro Ministro"
