@@ -341,15 +341,20 @@ if test x$client != xno; then
       AC_DEFINE_UNQUOTED(NARROWPROTO, $fc_x_proto_value)
     fi
 
+    dnl Check for zlib (needed for libpng)
+    AC_CHECK_LIB(z, gzgets, , 
+        AC_MSG_ERROR([Could not find zlib library.]), 
+        $CLIENT_LIBS)
+    AC_CHECK_HEADER(zlib.h, , 
+        AC_MSG_ERROR([zlib found but not zlib.h.  
+You may need to install a zlib \"development\" package.]))
+
     dnl Check for libpng
     AC_CHECK_LIB(png, png_create_read_struct, [X_LIBS="$X_LIBS -lpng"],
-	AC_MSG_ERROR([Could not find PNG library (libpng).]))
+	AC_MSG_ERROR([Could not find PNG library (libpng).]), [-lz])
     AC_CHECK_HEADER(png.h, ,
 	AC_MSG_ERROR([libpng found but not png.h.
 You may need to install a libpng \"development\" package.]))
-
-    dnl Force check for zlib (needed for PNG loading)
-    WITH_ZLIB="yes"
 
     dnl Try to get additional Xpm paths:
     FC_XPM_PATHS
