@@ -28,7 +28,7 @@ struct mapview_canvas {
   int width, height;		/* Size in pixels. */
   int tile_width, tile_height;	/* Size in tiles. Rounded up. */
   int store_width, store_height;
-  struct canvas *store, *single_tile;
+  struct canvas *store, *tmp_store, *single_tile;
 };
 
 /* Holds all information about the overview aka minimap. */

@@ -390,13 +390,68 @@ void set_mapview_origin(int gui_x0, int gui_y0)
   /* Then update everything. */
   if (mapview_canvas.gui_x0 != gui_x0 || mapview_canvas.gui_y0 != gui_y0) {
     int map_center_x, map_center_y;
+    int old_gui_x0 = mapview_canvas.gui_x0;
+    int old_gui_y0 = mapview_canvas.gui_y0;
+    const int width = mapview_canvas.width, height = mapview_canvas.height;
+    int common_x0, common_x1, common_y0, common_y1;
+    int update_x0, update_x1, update_y0, update_y1;
 
     mapview_canvas.gui_x0 = gui_x0;
     mapview_canvas.gui_y0 = gui_y0;
 
+    /* Find the overlapping area of the new and old mapview.  This is
+     * done in GUI coordinates.  Note that if the GUI coordinates wrap
+     * no overlap will be found. */
+    common_x0 = MAX(old_gui_x0, gui_x0);
+    common_x1 = MIN(old_gui_x0, gui_x0) + width;
+    common_y0 = MAX(old_gui_y0, gui_y0);
+    common_y1 = MIN(old_gui_y0, gui_y0) + height;
+
+    if (common_x1 > common_x0 && common_y1 > common_y0) {
+      /* Do a partial redraw only.  This means the area of overlap (a
+       * rectangle) is copied.  Then the remaining areas (two rectangles)
+       * are updated through update_map_canvas. */
+      struct canvas *target = mapview_canvas.tmp_store;
+
+      if (old_gui_x0 < gui_x0) {
+	update_x0 = MAX(old_gui_x0 + width, gui_x0);
+	update_x1 = gui_x0 + width;
+      } else {
+	update_x0 = gui_x0;
+	update_x1 = MIN(old_gui_x0, gui_x0 + width);
+      }
+      if (old_gui_y0 < gui_y0) {
+	update_y0 = MAX(old_gui_y0 + height, gui_y0);
+	update_y1 = gui_y0 + height;
+      } else {
+	update_y0 = gui_y0;
+	update_y1 = MIN(old_gui_y0, gui_y0 + height);
+      }
+
+      dirty_all();
+      canvas_copy(target, mapview_canvas.store,
+		  common_x0 - old_gui_x0,
+		  common_y0 - old_gui_y0,
+		  common_x0 - gui_x0, common_y0 - gui_y0,
+		  common_x1 - common_x0, common_y1 - common_y0);
+      mapview_canvas.tmp_store = mapview_canvas.store;
+      mapview_canvas.store = target;
+
+      if (update_y1 > update_y0) {
+	update_map_canvas(0, update_y0 - gui_y0,
+			  width, update_y1 - update_y0);
+      }
+      if (update_x1 > update_x0) {
+	update_map_canvas(update_x0 - gui_x0, common_y0 - gui_y0,
+			  update_x1 - update_x0, common_y1 - common_y0);
+      }
+      show_city_descriptions();
+    } else {
+      update_map_canvas_visible();
+    }
+
     get_center_tile_mapcanvas(&map_center_x, &map_center_y);
     center_tile_overviewcanvas(map_center_x, map_center_y);
-    update_map_canvas_visible();
     update_map_canvas_scrollbars();
     if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
       create_line_at_mouse_pos();
@@ -2204,10 +2259,13 @@ bool map_canvas_resized(int width, int height)
   if (tile_size_changed) {
     if (mapview_canvas.store) {
       canvas_free(mapview_canvas.store);
+      canvas_free(mapview_canvas.tmp_store);
     }
     mapview_canvas.store = canvas_create(full_width, full_height);
     canvas_put_rectangle(mapview_canvas.store, COLOR_STD_BLACK, 0, 0,
 			 full_width, full_height);
+
+    mapview_canvas.tmp_store = canvas_create(full_width, full_height);
   }
 
   if (map_exists() && can_client_change_view()) {
