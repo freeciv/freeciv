@@ -1,3 +1,54 @@
+Thu Jul  8 12:23:50 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS, BUGS, NEWS, configure, configure.in,
+	client/gui-xaw/Freeciv.h, common/version.h, data/Freeciv: Push
+	version number to 1.8.1.
+
+Tue Jul  6 12:05:45 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* BUGS: Remove bug PR#27 (Gtk+ city dialog icons) from Known Bugs;
+	fixed by previous check-in.
+
+Tue Jul  6 12:00:42 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/gui-gtk/citydlg.c: Fix for bug PR#27 (the city dialog
+	icons not refreshing properly), submitted by Vasco Alexandre Da
+	Silva Costa.
+
+	Basically what this does is hide those widgets and then show them
+	again (to force a redraw).
+
+	There's probably a better way to do this by changing the code for
+	pixmap widgets handling (which probably has a bug which causes
+	this), but that would take way too much time.  This little hack
+	should to the trick.
+
+Mon Jul  5 20:19:15 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* client/gui-gtk/helpdlg.c, client/gui-xaw/helpdlg.c: Client help
+	changes for AEGIS defense factor.
+
+Mon Jul  5 20:17:01 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* data/helpdata.txt: Documentation changes to go along with AEGIS
+	defense change.
+
+Mon Jul  5 17:30:58 1999  Anthony Stuckey <stuckey@jaka.ece.uiuc.edu>:
+
+	* server/unitfunc.c: Modifying AEGIS defense factor versus air
+	units to match Civ2 documentation.
+
+Mon Jul  5 14:38:49 1999  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS, ChangeLog, HOWTOPLAY, NEWS, THANKS: Updates.  Recent
+	ChangeLog, AUTHORS, THANKS, NEWS.  Added links to Manual in
+	HOWTOPLAY.
+
+Mon Jul  5 14:28:05 1999  Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>:
+
+	* AUTHORS: Add Tony Stuckey <stuckey@jaka.ece.uiuc.edu> as freeciv
+	administrator.
+
 Mon Jul  5 13:37:37 1999  David Pfitzner <dwp@mso.anu.edu.au>:
 
 	* data/europe.sav: Updated/improved (more accurate) Europe
