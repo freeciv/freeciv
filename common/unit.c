@@ -706,8 +706,9 @@ char *unit_description(struct unit *punit)
 
   pcity=city_list_find_id(&game.player_ptr->cities, punit->homecity);
 
-  sprintf(buffer, "%s\n%s\n%s", 
+  sprintf(buffer, "%s%s\n%s\n%s", 
 	  get_unit_type(punit->type)->name, 
+	  punit->veteran ? " (veteran)" : "",
 	  unit_activity_text(punit), 
 	  pcity ? pcity->name : "");
 
