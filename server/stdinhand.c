@@ -251,6 +251,7 @@ void create_ai_player(char *arg)
 	  printf ("Error creating new ai player: %s\n", arg);
 	else {
 	   pplayer->ai.control = !pplayer->ai.control;
+	   pplayer->is_connected=0;
 	   notify_player(0, "Option: %s has been added as an AI-controlled.",
 			 pplayer->name);
 	}
