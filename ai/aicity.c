@@ -373,9 +373,14 @@ void ai_manage_cities(struct player *pplayer)
 
   city_list_iterate(pplayer->cities, pcity)
     military_advisor_choose_build(pplayer, pcity, &pcity->ai.choice);
+/* note that m_a_c_b mungs the seamap, but we don't care */
     establish_city_distances(pplayer, pcity); /* in advmilitary for warmap */
+/* e_c_d doesn't even look at the seamap */
 /* determines downtown and distance_to_wondercity, which a_c_c_b will need */
     contemplate_settling(pplayer, pcity); /* while we have the warmap handy */
+/* seacost may have been munged if we found a boat, but if we found a boat
+we don't rely on the seamap being current since we will recalculate. -- Syela */
+
   city_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity)
@@ -485,6 +490,26 @@ int unit_attack_desirability(int i)
 {
   return(unit_desirability(i, 0));
 } 
+
+void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice)
+{
+  if (can_build_unit(pcity, U_TRANSPORT)) choice->choice = U_TRANSPORT;
+  else {
+    pplayer->ai.tech_want[A_INDUSTRIALIZATION] += choice->want;
+    if (can_build_unit(pcity, U_GALLEON)) choice->choice = U_GALLEON;
+    else {
+      pplayer->ai.tech_want[A_MAGNETISM] += choice->want;
+      if (can_build_unit(pcity, U_CARAVEL)) choice->choice = U_CARAVEL;
+      else {
+        pplayer->ai.tech_want[A_NAVIGATION] += choice->want;
+        if (can_build_unit(pcity, U_TRIREME)) choice->choice = U_TRIREME;
+        else {
+          pplayer->ai.tech_want[A_MAPMAKING] += choice->want;
+        }
+      } /* yeah, this is ugly code.  Thbbbbbbpt. -- Syela */
+    }
+  }
+}
 
 int ai_choose_attacker(struct city *pcity, enum unit_move_type which)
 { /* don't ask me why this is in aicity, I can't even remember -- Syela */

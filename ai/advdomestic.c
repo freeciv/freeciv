@@ -495,23 +495,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     } else if (want < 0) { /* need boats to colonize! */
       choice->want = 0 - want;
       choice->type = 1;
-      if (can_build_unit(pcity, U_TRANSPORT)) choice->choice = U_TRANSPORT;
-      else {
-        pplayer->ai.tech_want[A_INDUSTRIALIZATION] += choice->want;
-        if (can_build_unit(pcity, U_GALLEON)) choice->choice = U_GALLEON;
-        else {
-          pplayer->ai.tech_want[A_MAGNETISM] += choice->want;
-          if (can_build_unit(pcity, U_CARAVEL)) choice->choice = U_CARAVEL;
-          else {
-            pplayer->ai.tech_want[A_NAVIGATION] += choice->want;
-            if (can_build_unit(pcity, U_TRIREME)) choice->choice = U_TRIREME;
-            else {
-              pplayer->ai.tech_want[A_MAPMAKING] += choice->want;
-              choice->choice = U_SETTLERS;
-            }
-          }
-        }
-      } /* yeah, this is ugly code.  Thbbbbbbpt. -- Syela */
+      choice->choice = U_SETTLERS; /* default */
+      ai_choose_ferryboat(pplayer, pcity, choice);
     }
   }
 

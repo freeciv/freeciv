@@ -18,6 +18,7 @@ int city_get_buildings(struct city *pcity);
 int city_get_defenders(struct city *pcity);
 int city_get_settlers(struct city *pcity);
 int ai_in_initial_expand(struct player *pplayer);
+void ai_choose_ferryboat(struct player *pplayer, struct city *pcity, struct ai_choice *choice);
 int ai_choose_defender_versus(struct city *pcity, int v);
 int ai_choose_defender_limited(struct city *pcity, int n);
 int ai_choose_defender(struct city *pcity);
