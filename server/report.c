@@ -341,7 +341,7 @@ static int get_settledarea(struct player *pplayer)
 
 static int get_research(struct player *pplayer)
 {
-  return (pplayer->score.techout * 100) / MAX(total_bulbs_required(pplayer), 1);
+  return (pplayer->score.techout * 100) / total_bulbs_required(pplayer);
 }
 
 static int get_literacy(struct player *pplayer)
