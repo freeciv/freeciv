@@ -45,12 +45,19 @@ void refresh_tile_mapcanvas(int x, int y, bool write_to_screen)
   if (tile_visible_mapcanvas(x, y)) {
     update_map_canvas(x, y, 1, 1, FALSE);
 
-    if (write_to_screen && (draw_city_names || draw_city_productions)) {
+    if (update_city_text_in_refresh_tile
+	&& (draw_city_names || draw_city_productions)) {
       /* FIXME: update_map_canvas() will overwrite the city descriptions.
        * This is a workaround that redraws the city descriptions (most of
        * the time).  Although it seems inefficient to redraw the
        * descriptions for so many tiles, remember that most of them don't
-       * have cities on them. */
+       * have cities on them.
+       *
+       * This workaround is unnecessary for clients that use a separate
+       * buffer for the city descriptions, and will not work well for
+       * anti-aliased text (since it uses partial transparency).  Thus some
+       * clients may turn it off by setting
+       * update_city_text_in_refresh_tile. */
       int iter, canvas_x, canvas_y;
       struct city *pcity;
 

@@ -662,7 +662,8 @@ void ui_main(int argc, char *argv[])
   pInfo_User_Event = &__Info_User_Event;
   
   smooth_move_unit_steps = 8;
-  
+  update_city_text_in_refresh_tile = FALSE;
+    
   parse_options(argc, argv);
 
   tilespec_load_tiles();

@@ -72,6 +72,9 @@ bool map_scrollbars = TRUE;
 bool ask_city_name = TRUE;
 bool popup_new_cities = TRUE;
 
+/* This option is currently set by the client - not by the user. */
+bool update_city_text_in_refresh_tile = TRUE;
+
 #define GEN_INT_OPTION(oname, desc) { #oname, desc, COT_INT, \
                                       &oname, NULL, NULL, 0, NULL, \
                                        NULL, NULL }
