@@ -590,11 +590,12 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
      * rectangle covered by the city's map, and update that.  Then we
      * queue up a city description redraw for later.
      *
-     * HACK: The +2 below accounts for grid lines that may actually be on a
-     * tile outside of the city radius. */
+     * HACK: The addition below accounts for grid lines that may actually
+     * be on a tile outside of the city radius.  This is similar to what's
+     * done in refresh_tile_mapcanvas. */
     int canvas_x, canvas_y;
-    int width = get_citydlg_canvas_width() + 2;
-    int height = get_citydlg_canvas_height() + 2;
+    int width = get_citydlg_canvas_width() + NORMAL_TILE_WIDTH;
+    int height = get_citydlg_canvas_height() + NORMAL_TILE_HEIGHT;
 
     (void) tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
 

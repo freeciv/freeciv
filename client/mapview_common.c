@@ -90,8 +90,14 @@ void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 			    bool write_to_screen)
 {
   if (unit_type_flag(punit->type, F_CITIES)) {
-    int width = get_citydlg_canvas_width();
-    int height = get_citydlg_canvas_height();
+    /* For settlers we (often) have to update the whole citymap area because
+     * of the 't' overlays or the citymap outlines.  The above check could
+     * be more rigorous so that no update is done unless it's needed...
+     *
+     * HACK: The +2 below accounts for grid lines that may actually be on a
+     * tile outside of the city radius. */
+    int width = get_citydlg_canvas_width() + 2;
+    int height = get_citydlg_canvas_height() + 2;
     int canvas_x, canvas_y;
 
     tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
