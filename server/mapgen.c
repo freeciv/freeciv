@@ -23,6 +23,7 @@
 #include <aitools.h>
 #include <assert.h>
 void make_huts(int number);
+void add_specials(int prob);
 void mapgenerator1(void);
 void mapgenerator2(void);
 void mapgenerator3(void);
@@ -1512,3 +1513,19 @@ void make_huts(int number)
     }
   }
 }
+
+void add_specials(int prob)
+{
+  int x,y;
+  for (y=1;y<map.ysize-1;y++)
+    for (x=0;x<map.xsize; x++) {
+      if ((map_get_terrain(x, y)==T_OCEAN && is_coastline(x,y)) 
+	  || (map_get_terrain(x,y)!=T_OCEAN)) {
+	if (myrand(1000)<prob) {
+	  if (!is_special_close(x,y))
+	    map_get_tile(x,y)->special|=S_SPECIAL;
+	}
+      }
+    }
+}
+

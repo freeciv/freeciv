@@ -304,21 +304,6 @@ int is_sea_usable(int x, int y)
   return 0;
 }
 
-void add_specials(int prob)
-{
-  int x,y;
-  for (y=1;y<map.ysize-1;y++)
-    for (x=0;x<map.xsize; x++) {
-      if ((map_get_terrain(x, y)==T_OCEAN && is_coastline(x,y)) 
-	  || (map_get_terrain(x,y)!=T_OCEAN)) {
-	if (myrand(1000)<prob) {
-	  if (!is_special_close(x,y))
-	    map_get_tile(x,y)->special|=S_SPECIAL;
-	}
-      }
-    }
-}
-
 
 int is_water_adjacent_to_tile(int x, int y)
 {

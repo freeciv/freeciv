@@ -151,7 +151,6 @@ int is_starter_close(int x, int y, int nr, int dist);
 int is_good_tile(int x, int y);
 int is_special_close(int x, int y);
 int is_sea_usable(int x, int y);
-void add_specials(int prob);
 void reset_move_costs(int x, int y);
 
 int same_pos(int x1, int y1, int x2, int y2);
