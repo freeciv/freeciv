@@ -220,7 +220,6 @@ city.  A diplomats always dies, a spy has a 1/game.diplchance
 void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
 			 struct city *pcity)
 {
-  
   if (pdiplomat->type == U_SPY) {
     if (myrand(game.diplchance)) {
       
@@ -233,13 +232,19 @@ void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
       /* Survived (1:N) chance */
       
       struct city *spyhome = find_city_by_id(pdiplomat->homecity);
+/* is it possible for a spy not to have a spyhome? -- Syela */
       
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		     "Game: Your spy has successfully completed her mission and returned unharmed to  %s.", spyhome->name);
       
-      /* move back to home city */
+      /* move back to home city */ /* doing it the right way -- Syela */
+      unit_list_unlink(&map_get_tile(pdiplomat->x, pdiplomat->y)->units, pdiplomat);
+
       pdiplomat->x = map_adjust_x(spyhome->x);
       pdiplomat->y = spyhome->y;
+  
+      unit_list_insert(&map_get_tile(pdiplomat->x, pdiplomat->y)->units, pdiplomat);
+
       pdiplomat->veteran = 1;
       pdiplomat->moves_left = 0;
       send_unit_info(0, pdiplomat, 0);
@@ -838,9 +843,12 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   }
 
   if(punit->activity==ACTIVITY_GOTO) {
-    if (!punit->ai.control) /* autosettlers otherwise waste oodles of time -- Syela */
-/* cannot set them idle or assignment doesn't work right -- Syela */
+    if (!punit->ai.control && (!is_military_unit(punit) ||
+       !is_ground_unit(punit) || !pplayer->ai.control)) {
+/* autosettlers otherwise waste time; idling them breaks assignment */
+/* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
       do_unit_goto(pplayer, punit);
+    }
     return;
   }
   
