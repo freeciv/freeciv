@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.10.5-devel\n"
 "POT-Creation-Date: 2000-06-22 04:38+0900\n"
-"PO-Revision-Date: 2000-06-23 05:58+09:00\n"
+"PO-Revision-Date: 2000-06-27 09:03+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "MIME-Version: 1.0\n"
@@ -759,7 +759,7 @@ msgstr ""
 #: server/civserver.c:1326 server/civserver.c:1613
 #, c-format
 msgid "Game full - %s was rejected."
-msgstr ""
+msgstr "ゲームは満員です。%s は拒絶されました。"
 
 #: server/civserver.c:1378
 #, c-format
@@ -880,7 +880,7 @@ msgstr ""
 
 #: server/civserver.c:1612 server/civserver.c:1654
 msgid "Sorry, you can't join.  The game is full."
-msgstr ""
+msgstr "残念ですが参加できません。ゲームは満員です。"
 
 #. Used to have here: accept_new_player(req->name, pconn);
 #. * but duplicate names cause problems even in PRE_GAME_STATE
@@ -918,7 +918,7 @@ msgstr "ゲーム実行中 - %s は拒絶されました。"
 #: server/civserver.c:1655
 #, c-format
 msgid "game full - %s was rejected."
-msgstr ""
+msgstr "ゲームは満員です。%s は拒絶されました。"
 
 #. This happens eg if the player has not yet joined properly.
 #: server/civserver.c:1681
@@ -968,7 +968,7 @@ msgstr ""
 #: server/civserver.c:1879
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
-msgstr ""
+msgstr "AIは %2$s によって治世された %1$s 民族をコントロールしています。"
 
 #: server/civserver.c:1885
 #, c-format
@@ -1079,7 +1079,7 @@ msgstr ""
 
 #: server/mapgen.c:721
 msgid "Map generator: not enough start positions, fixing."
-msgstr ""
+msgstr "Map generator: 十分なスタート地点がありません。修正中。"
 
 #: server/mapgen.c:724
 #, c-format
@@ -1512,7 +1512,7 @@ msgstr ""
 #: server/plrhand.c:3057 server/plrhand.c:3061
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
-msgstr ""
+msgstr "Game: あなたは %2$s によって統治された %1$s と接触しました。"
 
 #: server/ruleset.c:96
 #, c-format
@@ -1842,15 +1842,15 @@ msgstr "征服により科学を得た時のペナルティー"
 
 #: server/stdinhand.c:393
 msgid "For each advance you gain by conquering an enemy city, you lose research points equal to this percentage of the cost to research an new advance.  You can end up with negative research points if this is non-zero."
-msgstr ""
+msgstr "敵都市を征服して得た各々の科学に対して、新しい科学の研究に必要なコストのここで指定した割合に等しいだけの研究ポイントを失います。この値が 0 以外なら負の研究ポイントになることもあります。"
 
 #: server/stdinhand.c:401
 msgid "Penalty when getting a free tech"
-msgstr ""
+msgstr "自由に入手可能な科学を得た時のペナルティー"
 
 #: server/stdinhand.c:402
 msgid "For each advance you gain \"for free\" (other than covered by diplcost or conquercost: specifically, from huts or from the Great Library), you lose research points equal to this percentage of the cost to research a new advance.  You can end up with negative research points if this is non-zero."
-msgstr ""
+msgstr "自由に入手可能な科学(外交コストや征服コストに該当しないもの、つまり小屋や王立図書館からのもの)を得た各々の科学に対して、新しい科学の研究に必要なコストのここで指定した割合に等しいだけの研究ポイントを失います。この値が 0 以外なら負の研究ポイントになることもあります。"
 
 #: server/stdinhand.c:411
 msgid "Food required for a city to grow"
@@ -1858,15 +1858,15 @@ msgstr "都市拡大に必要な食料"
 
 #: server/stdinhand.c:416
 msgid "Percentage food lost when need aqueduct"
-msgstr ""
+msgstr "水道が必要な時に失なう食料の割合"
 
 #: server/stdinhand.c:417
 msgid "If a city would expand, but it can't because it needs an Aqueduct (or Sewer System), it loses this percentage of its foodbox (or half that amount if it has a Granary)."
-msgstr ""
+msgstr "都市が拡張しようとしたのに水道(または下水道)が必要で拡張できなかった時、ここで指定した割合だけ(穀物庫がある場合はその半分)食料備蓄から失います。"
 
 #: server/stdinhand.c:424
 msgid "City size before people become unhappy"
-msgstr ""
+msgstr "市民が不幸にならない都市規模"
 
 #: server/stdinhand.c:425
 msgid "Before other adjustments, the first unhappysize citizens in a city are happy, and subsequent citizens are unhappy.  See also cityfactor."
@@ -2697,7 +2697,7 @@ msgstr "サーバオプション (進行中)"
 #: server/stdinhand.c:1969 server/stdinhand.c:1994 server/stdinhand.c:2005
 #, c-format
 msgid "%s is now %s."
-msgstr ""
+msgstr "%s は今では %s です。"
 
 #: server/stdinhand.c:1997
 #, c-format
@@ -3954,7 +3954,7 @@ msgstr "無効な $http_proxy 値です。分割に使う `/' を見つけられません。"
 
 #: client/control.c:496
 msgid "Game: You can only unload transporter units."
-msgstr ""
+msgstr "Game: 輸送部隊からしか降ろせません。"
 
 #: client/control.c:725
 msgid "Game: Only settlers, and military units in cities, can be put in auto-mode."
@@ -4363,7 +4363,7 @@ msgstr "都市の拡大               "
 
 #: client/options.c:100
 msgid "City Needs Aqueduct      "
-msgstr "都市に水路が必要         "
+msgstr "都市に水道が必要         "
 
 #: client/options.c:101
 msgid "Famine in City           "
@@ -4667,11 +4667,11 @@ msgstr "部隊を起こし、閉じる(_C)"
 
 #: client/gui-gtk/citydlg.c:834
 msgid "_Sentry unit"
-msgstr "見張り番へ(_S)"
+msgstr "見張り番(_S)"
 
 #: client/gui-gtk/citydlg.c:836
 msgid "_Fortify unit"
-msgstr ""
+msgstr "要塞化(_F)"
 
 #. act+c
 #: client/gui-gtk/citydlg.c:838 client/gui-gtk/citydlg.c:1243
@@ -5223,7 +5223,7 @@ msgstr ""
 #. "diplomatrevoltdialog"
 #: client/gui-gtk/dialogs.c:985 data/Freeciv:2351
 msgid "Incite a Revolt!"
-msgstr ""
+msgstr "革命を煽る!"
 
 #: client/gui-gtk/dialogs.c:990 client/gui-xaw/dialogs.c:1028
 #, c-format
@@ -5689,7 +5689,7 @@ msgstr " (共同 "
 #: client/gui-gtk/helpdlg.c:933 client/gui-gtk/helpdlg.c:948 client/gui-xaw/helpdlg.c:986 client/gui-xaw/helpdlg.c:1001
 #, c-format
 msgid "%s F/R/T:"
-msgstr ""
+msgstr "%s 食/資/交:"
 
 #: client/gui-gtk/helpdlg.c:963 client/gui-xaw/helpdlg.c:1016
 #, c-format
@@ -5970,7 +5970,7 @@ msgstr "住人にする"
 
 #: client/gui-gtk/menu.c:574 client/gui-xaw/menu.c:164
 msgid "Unload"
-msgstr ""
+msgstr "降ろす"
 
 #: client/gui-gtk/menu.c:576 client/gui-xaw/menu.c:165
 msgid "Wake up others"
@@ -6010,7 +6010,7 @@ msgstr "交易路を確立する"
 
 #: client/gui-gtk/menu.c:600 client/gui-xaw/menu.c:177
 msgid "Explode Nuclear"
-msgstr ""
+msgstr "核兵器を爆発させる"
 
 #: client/gui-gtk/menu.c:604 client/gui-xaw/menu.c:179
 msgid "Wait"
@@ -6107,11 +6107,11 @@ msgstr "政治体制"
 
 #: client/gui-gtk/menu.c:664 client/gui-xaw/menu.c:212 data/helpdata.txt:1174
 msgid "Happiness"
-msgstr ""
+msgstr "幸福"
 
 #: client/gui-gtk/menu.c:666 client/gui-xaw/menu.c:213 data/helpdata.txt:1247
 msgid "Space Race"
-msgstr ""
+msgstr "宇宙レース"
 
 #: client/gui-gtk/menu.c:670 client/gui-xaw/menu.c:215 data/helpdata.txt:77
 msgid "Copying"
@@ -6120,12 +6120,12 @@ msgstr "著作権"
 #: client/gui-gtk/menu.c:882 client/gui-xaw/menu.c:149 client/gui-xaw/menu.c:151
 #, c-format
 msgid "Change to %s"
-msgstr "%s に変える"
+msgstr "%sに変える"
 
 #: client/gui-gtk/menu.c:883 client/gui-xaw/menu.c:153
 #, c-format
 msgid "Transform to %s"
-msgstr "%s に変える"
+msgstr "%sに変える"
 
 #: client/gui-gtk/menu.c:946 client/gui-xaw/menu.c:144
 msgid "Add to City"
@@ -6209,7 +6209,7 @@ msgstr "条約取り消し(_C)"
 
 #: client/gui-gtk/plrdlg.c:133
 msgid "_Spaceship"
-msgstr ""
+msgstr "宇宙船(_S)"
 
 #: client/gui-gtk/plrdlg.c:191 client/gui-xaw/plrdlg.c:192
 #, c-format
@@ -6717,11 +6717,11 @@ msgstr ""
 
 #: data/Freeciv:1155
 msgid "Sentry unit"
-msgstr ""
+msgstr "見張り番"
 
 #: data/Freeciv:1159
 msgid "Fortify unit"
-msgstr ""
+msgstr "要塞化"
 
 #: data/Freeciv:1163 data/Freeciv:1191
 msgid "Disband unit"
@@ -6865,7 +6865,7 @@ msgstr "ステルス技術"
 
 #: data/Freeciv:2202
 msgid "Incite a revolt"
-msgstr ""
+msgstr "革命を煽る"
 
 #: data/Freeciv:2216
 msgid "Establish Embassy"
@@ -6885,7 +6885,7 @@ msgstr ""
 
 #: data/Freeciv:2233
 msgid "Incite a Revolt"
-msgstr ""
+msgstr "革命を煽る"
 
 #: data/Freeciv:2342
 msgid "Sabotage Enemy Unit"
@@ -7139,20 +7139,20 @@ msgstr ""
 "  i: 灌漑する/農地にする  (地形を変化させることもある)\n"
 "  l: 都市へ移動/空輸\n"
 "  m: 鉱山を作る  (地形を変化させることもある)\n"
-"  N: explode (N)uclear\n"
-"  o: transf(o)rm terrain\n"
-"  p: clean (p)ollution\n"
+"  N: 核兵器を爆発させる\n"
+"  o: 地形を変える\n"
+"  p: 汚染をきれいにする\n"
 "  P: (P)illage terrain alteration\n"
 "  r: 道路/鉄道を作る  (開拓部隊)\n"
 "  r: 交易路を確立する  (キャラバン部隊)\n"
-"  R: incite a (R)evolution\n"
-"  s: (s)entry unit\n"
-"  u: (u)nload boat\n"
+"  R: 革命を煽る\n"
+"  s: 見張り番\n"
+"  u: 船から降ろす\n"
 "  w: (w)ait until later in turn\n"
 "  W: (W)ake up other units on tile\n"
 "  t: show (t)iles city is using  (mouse over or near city)\n"
 "  T: open (t)ax/lux/sci rates dialog\n"
-"  x: auto-e(x)plore\n"
+"  x: 自動探索\n"
 "\n"
 "  1: 南西へ移動                       F1: 都市報告を開く\n"
 "  2:   南へ移動                       F2: 軍事報告を開く\n"
@@ -7163,7 +7163,7 @@ msgstr ""
 "  7: 北西へ移動                       F7: 世界の不思議を開く\n"
 "  8:   北へ移動                       F8: 上位5位の都市を開く\n"
 "  9: 北東へ移動                      F11: 人工統計を開く\n"
-"                                     F12: open Spaceship\n"
+"                                     F12: 宇宙船を開く\n"
 "\n"
 "    矢印: 部隊移動              Cntr + f: 都市をさがす\n"
 "スペース: 移動しない            Cntr + g: 格子を表示/非表示\n"
@@ -9533,6 +9533,7 @@ msgid "Nuclear"
 msgstr "核兵器"
 
 #: data/civ2/units.ruleset:1208 data/default/units.ruleset:1208
+#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the Manhattan Project wonder has been built by any player.\n"
 "\n"
@@ -9541,7 +9542,7 @@ msgid ""
 "TIP 1:  Nuking the ocean will not generate pollution, and is a most effective (but expensive!!) way of getting rid of enemy ships.\n"
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy country en masse, but the enemy cities are too strong. Before using a Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city and have them ready to fix the pollution on the same turn it occurs!  This minimises the chance of global warming.  Eco-friendly nukes!"
-msgstr ""
+msgstr "あなたが必要な科学を持っていて、何れかのプレイヤーによってマンハッタン計画の不思議が建てられていたら、核兵器を製造できます。\n\n"
 
 #: data/civ1/units.ruleset:1185 data/civ2/units.ruleset:1229 data/default/units.ruleset:1229
 msgid "Diplomat"
@@ -10216,7 +10217,7 @@ msgstr "タイ民族"
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
-msgstr "トルコ"
+msgstr "トルコ人"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
