@@ -708,6 +708,7 @@ void update_city_activities(struct player *pplayer)
 void city_auto_remove_worker(struct city *pcity)
 {
   if(pcity->size<1) {      
+    remove_city_from_minimap(pcity->x, pcity->y);
     remove_city(pcity);
     return;
   }
