@@ -53,6 +53,7 @@
 
 /******************************************************************/
 static void create_city_report_dialog(int make_modal);
+static void city_model_init(void);
 static void city_destroy_callback(GtkWidget *w, gpointer data);
 static void city_center_callback(GtkWidget *w, gpointer data);
 static void city_popup_callback(GtkWidget *w, gpointer data);
@@ -520,6 +521,7 @@ static void create_city_report_dialog(int make_modal)
 {
   static char *titles [NUM_CREPORT_COLS];
   static char  buf    [NUM_CREPORT_COLS][64];
+  struct city_report_spec *spec;
 
   GtkWidget *w, *sw, *menubar, *toolbar, *stock, *hbox, *vbox;
   int i;
@@ -612,6 +614,8 @@ static void create_city_report_dialog(int make_modal)
   model_types[ID_COLUMN] = G_TYPE_INT;
 
   city_model = gtk_tree_store_newv(NUM_CREPORT_COLS+2, model_types);
+  city_model_init();
+
   city_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(city_model));
   g_object_unref(city_model);
   city_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(city_view));
@@ -619,13 +623,14 @@ static void create_city_report_dialog(int make_modal)
   g_signal_connect(city_selection, "changed",
 	G_CALLBACK(city_selection_changed_callback), NULL);
 
-  for (i=0; i<NUM_CREPORT_COLS; i++) {
+  for (i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *col;
 
     renderer = gtk_cell_renderer_text_new();
     col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
 	"text", i, NULL);
+    gtk_tree_view_column_set_visible(col, spec->show);
     gtk_tree_view_insert_column(GTK_TREE_VIEW(city_view), col, -1);
     gtk_tree_view_column_set_sort_column_id(col, i);
   }
@@ -638,11 +643,9 @@ static void create_city_report_dialog(int make_modal)
 
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
 
-  city_report_update_views();
-
   gtk_widget_show_all(vbox);
 
-  city_report_dialog_update();
+  city_selection_changed_callback(city_selection);
 }
 
 /****************************************************************
@@ -1088,8 +1091,24 @@ static void update_row(GtkTreeIter *row, struct city *pcity)
   		NEG_VAL(spec->width), (spec->func)(pcity));
     gtk_tree_store_set(city_model, row, i, buf, -1);
   }
-  gtk_tree_store_set(city_model, row, POINTER_COLUMN, pcity, -1);
-  gtk_tree_store_set(city_model, row, ID_COLUMN, pcity->id, -1);
+  gtk_tree_store_set(city_model, row,
+    POINTER_COLUMN, pcity, ID_COLUMN, pcity->id, -1);
+}
+
+/****************************************************************
+ Optimized version of city_report_dialog_update() for 1st popup.
+*****************************************************************/
+static void city_model_init(void)
+{
+  if (city_dialog_shell && !delay_report_update) {
+
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      GtkTreeIter it;
+
+      gtk_tree_store_append(city_model, &it, NULL);
+      update_row(&it, pcity);
+    } city_list_iterate_end;
+  }
 }
 
 /****************************************************************
