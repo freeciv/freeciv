@@ -305,23 +305,7 @@ if test x$client != xno; then
   fi
 
   dnl Gtk-specific overrides
-  if test "$client" = gtk || test "$client" = yes ; then
-    AM_PATH_GTK(1.2.5, gtk_found="yes", gtk_found="", imlib_found="")
-    if test "x$gtk_found" = "xyes"; then
-      AM_PATH_GDK_IMLIB(1.9.2, imlib_found="yes", imlib_found="")
-      if test "x$imlib_found" = "xyes"; then
-        CLIENT_CFLAGS="$GDK_IMLIB_CFLAGS"
-        CLIENT_LIBS="$GDK_IMLIB_LIBS"
-	found_client=yes
-      fi
-    fi
-
-    if test "x$found_client" = "xyes"; then
-      client=gtk
-    elif test "$client" = "gtk"; then
-      AC_MSG_ERROR(specified client 'gtk' not configurable)
-    fi
-  fi
+  FC_GTK_CLIENT
 
   dnl Gtk-2.0-specific overrides
   if test "$client" = "gtk-2.0" || test "$client" = yes ; then

@@ -75,6 +75,7 @@ EXTRA_DIST=	acconfig.old			\
 		m4/glibc21.m4			\
 		m4/gtk-2.0.m4			\
 		m4/gtk.m4			\
+		m4/gtk-client.m4		\
 		m4/iconv.m4			\
 		m4/imlib.m4			\
 		m4/isc-posix.m4			\
