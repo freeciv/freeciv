@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-01-17 10:37+0100\n"
-"PO-Revision-Date: 2002-12-16 10:56+0200\n"
+"POT-Creation-Date: 2003-02-21 15:50+0100\n"
+"PO-Revision-Date: 2003-02-24 13:08+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -232,85 +232,118 @@ msgstr "?diplomatic_state:Alliantie"
 msgid "?diplomatic_state:No Contact"
 msgstr "?diplomatic_state:Geen contact"
 
-#: common/shared.c:162
+#: common/shared.c:172
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Leeg argument voor \"%s\".\n"
 
-#: common/shared.c:166
+#: common/shared.c:176
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Ontbrekend argument voor \"%s\".\n"
 
-#: common/shared.c:413
+#: common/shared.c:423
 #, c-format
 msgid "%d BC"
 msgstr "%d VC"
 
-#: common/shared.c:415
+#: common/shared.c:425
 #, c-format
 msgid "%d AD"
 msgstr "%d AD"
 
-#: common/shared.c:760
+#: common/shared.c:770
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr "FREECIV_PATH is ingesteld maar leeg; gebruik standaardpad."
 
-#: common/shared.c:864
+#: common/shared.c:874
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Kon gegevensmap %s niet lezen: %s."
 
-#: common/shared.c:994
+#: common/shared.c:1004
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr "Het data pad mag met de shellvariabele FREECIV_PATH opgegeven worden."
 
-#: common/shared.c:996
+#: common/shared.c:1006
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Huidig data pad is: \"%s\""
 
-#: common/shared.c:998
+#: common/shared.c:1008
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Het \"%s\" bestand is nodig ... breek af!"
 
-#: common/shared.c:1115
+#: common/shared.c:1125
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Fatale fout: u probeert me als superuser te starten!\n"
 
-#: common/shared.c:1117
+#: common/shared.c:1127
 msgid "Use a non-privileged account instead.\n"
 msgstr "Gebruik inplaats daarvan een normaal account.\n"
 
-#: common/shared.c:1133
+#: common/shared.c:1143
 msgid "exact match"
 msgstr "exacte overeenkomst"
 
-#: common/shared.c:1134
+#: common/shared.c:1144
 msgid "only match"
 msgstr "komt alleen overeen met"
 
-#: common/shared.c:1135
+#: common/shared.c:1145
 msgid "ambiguous"
 msgstr "dubbelzinnig"
 
-#: common/shared.c:1136
+#: common/shared.c:1146
 msgid "empty"
 msgstr "leeg"
 
-#: common/shared.c:1137
+#: common/shared.c:1147
 msgid "too long"
 msgstr "te lang"
 
-#: common/shared.c:1138
+#: common/shared.c:1148
 msgid "non-match"
 msgstr "niet overeenkomend met"
 
-#: common/shared.c:1201
+#: common/shared.c:1211
 msgid "'Cause civilization should be free!"
 msgstr "Omdat beschaving vrij zou moeten zijn!"
+
+#: common/shared.c:1251
+#, c-format
+msgid ""
+"String conversion from %s not possible.  You may\n"
+"want to set your local encoding manually by setting\n"
+"the environment variable $FREECIV_LOCAL_ENCODING.Proceeding anyway..."
+msgstr ""
+"Stringconversie van %s niet mogelijk. U zou wellicht\n"
+"uw locale encoding handmatig willen instellen met\n"
+"de shell-variabele $FREECIV_LOCAL_ENCODING. Ik ga toch door..."
+
+#: common/shared.c:1277
+#, c-format
+msgid ""
+"The string '%s' is not valid: %s. Ruleset files must\n"
+"be encoded as %s; you can change this by setting\n"
+"$FREECIV_DATA_ENCODING."
+msgstr ""
+"De string '%s' is niet geldig: %s. Spelregelbestanden\n"
+"moeten encoded zijn als %s; u kunt dit wijzigen met de\n"
+"shell-variabele $FREECIV_DATA_ENCODING."
+
+#: common/shared.c:1335
+msgid ""
+"You are running Freeciv without using iconv.  Unless\n"
+"you are using the latin1 character set, some characters\n"
+"may not be displayed properly.  You can download iconv\n"
+"at http://gnu.org/."
+msgstr ""
+"U draait Freeciv zonder gebruik van iconv. Tenzij u de\n"
+"latin1 tekenset gebruikt kunnen sommige tekens verkeerd\n"
+"getoond worden. U kunt iconv downloaden van http://gnu.org/."
 
 #: common/support.c:149
 #, c-format
