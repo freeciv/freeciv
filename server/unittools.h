@@ -80,9 +80,10 @@ void do_nuclear_explosion(struct player *pplayer, int x, int y);
 bool try_move_unit(struct unit *punit, int dest_x, int dest_y); 
 bool do_airline(struct unit *punit, struct city *city2);
 bool do_paradrop(struct unit *punit, int dest_x, int dest_y);
-void assign_units_to_transporter(struct unit *ptrans, bool take_from_land);
-bool move_unit(struct unit *punit, int dest_x, int dest_y,
-	      bool transport_units, bool take_from_land, int move_cost);
+struct unit *find_transporter_for_unit(struct unit *punit, int x, int y);
+void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans);
+void unload_unit_from_transporter(struct unit *punit);
+bool move_unit(struct unit *punit, int dest_x, int dest_y, int move_cost);
 bool execute_orders(struct unit *punit);
 
 #endif  /* FC__UNITTOOLS_H */

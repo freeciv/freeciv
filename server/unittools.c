@@ -71,6 +71,10 @@ static struct unit *choose_more_important_refuel_target(struct unit *punit1,
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 static int hp_gain_coord(struct unit *punit);
 
+static void put_unit_onto_transporter(struct unit *punit, struct unit *ptrans);
+static void pull_unit_from_transporter(struct unit *punit,
+				       struct unit *ptrans);
+
 /**************************************************************************
   returns a unit type with a given role, use -1 if you don't want a tech 
   role. Always try tech role and only if not available, return role unit.
@@ -959,7 +963,7 @@ static void update_unit_activity(struct unit *punit)
 			     punit2->x, punit2->y, E_UNIT_RELOCATED,
 			     _("Game: Moved your %s due to changing"
 			       " land to sea."), unit_name(punit2->type));
-	    (void) move_unit(punit2, x, y, TRUE, FALSE, 0);
+	    (void) move_unit(punit2, x, y, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	    goto START;
@@ -981,7 +985,7 @@ static void update_unit_activity(struct unit *punit)
 			     punit2->x, punit2->y, E_UNIT_RELOCATED,
 			     _("Game: Embarked your %s due to changing"
 			       " land to sea."), unit_name(punit2->type));
-	    (void) move_unit(punit2, x, y, TRUE, FALSE, 0);
+	    (void) move_unit(punit2, x, y, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	    goto START;
@@ -1019,7 +1023,7 @@ static void update_unit_activity(struct unit *punit)
 			     punit2->x, punit2->y, E_UNIT_RELOCATED,
 			     _("Game: Moved your %s due to changing"
 			       " sea to land."), unit_name(punit2->type));
-	    (void) move_unit(punit2, x, y, TRUE, TRUE, 0);
+	    (void) move_unit(punit2, x, y, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	    goto START;
@@ -1040,7 +1044,7 @@ static void update_unit_activity(struct unit *punit)
 			     punit2->x, punit2->y, E_UNIT_RELOCATED,
 			     _("Game: Docked your %s due to changing"
 			       " sea to land."), unit_name(punit2->type));
-	    (void) move_unit(punit2, x, y, TRUE, TRUE, 0);
+	    (void) move_unit(punit2, x, y, 0);
 	    if (punit2->activity == ACTIVITY_SENTRY)
 	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
 	    goto START;
@@ -1317,7 +1321,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 
     if (move_cost == -1)
       move_cost = punit->moves_left;
-    return move_unit(punit, dest_x, dest_y, FALSE, FALSE, move_cost);
+    return move_unit(punit, dest_x, dest_y, move_cost);
   }
   return FALSE;
 }
@@ -1675,7 +1679,7 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
   if (get_transporter_capacity(punit) > 0) {
     unit_list_iterate(map_get_tile(x, y)->units, pcargo) {
       if (pcargo->transported_by == punit->id) {
-	pcargo->transported_by = -1;
+	pull_unit_from_transporter(pcargo, punit);
       } 
     } unit_list_iterate_end;
   }
@@ -1750,7 +1754,7 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
 	    break;
 	  }
 	  if (is_ground_unit(pcargo) && pcargo->transported_by == -1) {
-	    pcargo->transported_by = ptrans->id;
+	    put_unit_onto_transporter(pcargo, ptrans);
 	    occupancy++;
 	  }
 	} unit_list_iterate_end;
@@ -2185,6 +2189,9 @@ bool do_airline(struct unit *punit, struct city *city2)
     return FALSE;
   if (!unit_can_airlift_to(punit, city2))
     return FALSE;
+  if (get_transporter_occupancy(punit) > 0) {
+    return FALSE;
+  }
   city1->airlift = FALSE;
   city2->airlift = FALSE;
 
@@ -2192,7 +2199,7 @@ bool do_airline(struct unit *punit, struct city *city2)
 		   _("Game: %s transported succesfully."),
 		   unit_name(punit->type));
 
-  (void) move_unit(punit, city2->x, city2->y, FALSE, FALSE, punit->moves_left);
+  (void) move_unit(punit, city2->x, city2->y, punit->moves_left);
 
   /* airlift fields have changed. */
   send_city_info(city_owner(city1), city1);
@@ -2219,6 +2226,11 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
 
   if (!can_unit_paradrop(punit)) {
     return FALSE;
+  }
+
+  if (get_transporter_occupancy(punit) > 0) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: You cannot paradrop a transporter unit."));
   }
 
   if (!map_is_known(dest_x, dest_y, pplayer)) {
@@ -2286,7 +2298,7 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y)
   {
     int move_cost = unit_type(punit)->paratroopers_mr_sub;
     punit->paradropped = TRUE;
-    return move_unit(punit, dest_x, dest_y, FALSE, FALSE, move_cost);
+    return move_unit(punit, dest_x, dest_y, move_cost);
   }
 }
 
@@ -2463,270 +2475,95 @@ static bool unit_enter_hut(struct unit *punit)
   return ok;
 }
 
-/**************************************************************************
-  Assigns units on ptrans' tile to ptrans if they should be. This is done 
-  by setting their transported_by fields to the id of ptrans.
-
-  Checks a zillion things, some from situations that should never happen.
-  First drop all previously assigned units that do not fit on the 
-  transport.
-
-  If on land maybe pick up some extra units (decided by take_from_land 
-  variable)
-
-  This function is getting a bit larger and ugly. Perhaps it would be nicer
-  if it was recursive!?
-
-FIXME: If in the open (not city), and leaving with only those units that are
-       already assigned to us would strand some units try to reassign the
-       transports. This reassign sometimes makes more changes than it needs to.
-
-       Groundunit ground unit transports moving to and from ships never take
-       units with them. This is ok, but not always practical.
-**************************************************************************/
-void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
+/****************************************************************************
+  Return TRUE iff the given transporter can carry the given unit.
+****************************************************************************/
+static bool can_unit_transport_unit(struct unit *ptrans, struct unit *punit)
 {
-  int x = ptrans->x;
-  int y = ptrans->y;
-  int playerid = ptrans->owner;
-  int capacity = get_transporter_capacity(ptrans);
-  struct tile *ptile = map_get_tile(x, y);
+  if (ptrans->transported_by != -1) {
+    /* Only top-level transporters allowed. */
+    return FALSE;
+  }
 
-  /*** Ground units transports first ***/
-  if (is_ground_units_transport(ptrans)) {
-    int available =
-	ground_unit_transporter_capacity(x, y, unit_owner(ptrans));
-
-    /* See how many units are dedicated to this transport, and remove extra units */
-    unit_list_iterate(ptile->units, pcargo) {
-      if (pcargo->transported_by == ptrans->id) {
-	if (is_ground_unit(pcargo)
-	    && capacity > 0
-	    && (is_ocean(ptile->terrain)
-		|| pcargo->activity == ACTIVITY_SENTRY)
-	    && (pcargo->owner == playerid
-                || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))
-	    && pcargo->id != ptrans->id
-	    && !(is_ground_unit(ptrans)
-            && (is_ocean(ptile->terrain)
-		|| is_ground_units_transport(pcargo)))) {
-	  capacity--;
-	} else {
-	  pcargo->transported_by = -1;
-	}
-      }
-    } unit_list_iterate_end;
-
-    /** We are on an ocean tile. All units must get a transport **/
-    if (is_ocean(ptile->terrain)) {
-      /* While the transport is not full and units will strand if we don't take
-	 them with we us dedicate them to this transport. */
-      if (available - capacity < 0 && !is_ground_unit(ptrans)) {
-	unit_list_iterate(ptile->units, pcargo) {
-	  if (capacity == 0)
-	    break;
-	  if (is_ground_unit(pcargo)
-	      && pcargo->transported_by != ptrans->id
-	      && (pcargo->owner == playerid
-                  || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))) {
-	    capacity--;
-	    pcargo->transported_by = ptrans->id;
-	  }
-	} unit_list_iterate_end;
-      }
-    } else { /** We are on a land tile **/
-      /* If ordered to do so we take extra units with us, provided they
-       * are not already committed to another transporter on the tile. */
-      if (take_from_land) {
-	unit_list_iterate(ptile->units, pcargo) {
-	  if (capacity == 0)
-	    break;
-	  if (is_ground_unit(pcargo)
-	      && pcargo->transported_by != ptrans->id
-	      && pcargo->activity == ACTIVITY_SENTRY
-	      && pcargo->id != ptrans->id
-	      && pcargo->owner == playerid
-	      && !(is_ground_unit(ptrans)
-      	      && (is_ocean(ptile->terrain)
-		  || is_ground_units_transport(pcargo)))) {
-	    bool has_trans = FALSE;
-
-	    unit_list_iterate(ptile->units, ptrans2) {
-	      if (ptrans2->id == pcargo->transported_by)
-		has_trans = TRUE;
-	    } unit_list_iterate_end;
-	    if (!has_trans) {
-	      capacity--;
-	      pcargo->transported_by = ptrans->id;
-	    }
-	  }
-	} unit_list_iterate_end;
-      }
+  /* First check unit types. */
+  if (is_ground_unit(punit)) {
+    if (!is_ground_units_transport(ptrans)) {
+      return FALSE;
     }
-    return;
-    /*** Allocate air and missile units ***/
-  } else if (is_air_units_transport(ptrans)) {
-    struct player_tile *plrtile =
-	map_get_player_tile(x, y, unit_owner(ptrans));
-    bool is_refuel_point =
-	is_allied_city_tile(map_get_tile(x, y), unit_owner(ptrans))
-	|| (contains_special(plrtile->special, S_AIRBASE)
-	    && !is_non_allied_unit_tile(map_get_tile(x, y),
-					unit_owner(ptrans)));
-    bool missiles_only = unit_flag(ptrans, F_MISSILE_CARRIER)
-      && !unit_flag(ptrans, F_CARRIER);
-
-    /* Make sure we can transport the units marked as being transported by ptrans */
-    unit_list_iterate(ptile->units, pcargo) {
-      if (ptrans->id == pcargo->transported_by) {
-	if ((pcargo->owner == playerid
-             || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))
-	    && pcargo->id != ptrans->id
-	    && (!is_sailing_unit(pcargo))
-	    && (unit_flag(pcargo, F_MISSILE) || !missiles_only)
-	    && !(is_ground_unit(ptrans) && is_ocean(ptile->terrain))
-	    && (capacity > 0)) {
-	  if (is_air_unit(pcargo))
-	    capacity--;
-	  /* Ground units are handled below */
-	} else
-	  pcargo->transported_by = -1;
-      }
-    } unit_list_iterate_end;
-
-    /** We are at a refuel point **/
-    if (is_refuel_point) {
-      unit_list_iterate(ptile->units, pcargo) {
-	if (capacity == 0)
-	  break;
-	if (is_air_unit(pcargo)
-	    && pcargo->id != ptrans->id
-	    && pcargo->transported_by != ptrans->id
-	    && pcargo->activity == ACTIVITY_SENTRY
-	    && (unit_flag(pcargo, F_MISSILE) || !missiles_only)
-	    && (pcargo->owner == playerid
-                || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))) {
-	  bool has_trans = FALSE;
-
-	  unit_list_iterate(ptile->units, ptrans2) {
-	    if (ptrans2->id == pcargo->transported_by)
-	      has_trans = TRUE;
-	  } unit_list_iterate_end;
-	  if (!has_trans) {
-	    capacity--;
-	    pcargo->transported_by = ptrans->id;
-	  }
-	}
-      } unit_list_iterate_end;
-    } else { /** We are in the open. All units must have a transport if possible **/
-      int aircap = airunit_carrier_capacity(x, y, unit_owner(ptrans), TRUE);
-      int miscap = missile_carrier_capacity(x, y, unit_owner(ptrans), TRUE);
-
-      /* Not enough capacity. Take anything we can */
-      if ((aircap < capacity || miscap < capacity)
-	  && !(is_ground_unit(ptrans) && is_ocean(ptile->terrain))) {
-	/* We first take nonmissiles, as missiles can be transported on anything,
-	   but nonmissiles can not */
-	if (!missiles_only) {
-	  unit_list_iterate(ptile->units, pcargo) {
-	    if (capacity == 0)
-	      break;
-	    if (is_air_unit(pcargo)
-		&& pcargo->id != ptrans->id
-		&& pcargo->transported_by != ptrans->id
-		&& !unit_flag(pcargo, F_MISSILE)
-		&& (pcargo->owner == playerid
-                    || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))) {
-	      capacity--;
-	      pcargo->transported_by = ptrans->id;
-	    }
-	  } unit_list_iterate_end;
-	}
-	
-	/* Just take anything there's left.
-	   (which must be missiles if we have capacity left) */
-	unit_list_iterate(ptile->units, pcargo) {
-	  if (capacity == 0)
-	    break;
-	  if (is_air_unit(pcargo)
-	      && pcargo->id != ptrans->id
-	      && pcargo->transported_by != ptrans->id
-	      && (!missiles_only || unit_flag(pcargo, F_MISSILE))
-	      && (pcargo->owner == playerid
-                  || pplayers_allied(unit_owner(pcargo), unit_owner(ptrans)))) {
-	    capacity--;
-	    pcargo->transported_by = ptrans->id;
-	  }
-	} unit_list_iterate_end;
-      }
+  } else if (unit_flag(punit, F_MISSILE)) {
+    if (!is_air_units_transport(ptrans)) {
+      return FALSE;
     }
-
-    /** If any of the transported air units have land units on board take them with us **/
-    {
-      int totcap = 0;
-      int available =
-	  ground_unit_transporter_capacity(x, y, unit_owner(ptrans));
-      struct unit_list trans2s;
-      unit_list_init(&trans2s);
-
-      unit_list_iterate(ptile->units, pcargo) {
-	if (pcargo->transported_by == ptrans->id
-	    && is_ground_units_transport(pcargo)
-	    && is_air_unit(pcargo)) {
-	  totcap += get_transporter_capacity(pcargo);
-	  unit_list_insert(&trans2s, pcargo);
-	}
-      } unit_list_iterate_end;
-
-      unit_list_iterate(ptile->units, pcargo2) {
-	bool has_trans = FALSE;
-
-	unit_list_iterate(trans2s, ptrans2) {
-	  if (pcargo2->transported_by == ptrans2->id)
-	    has_trans = TRUE;
-	} unit_list_iterate_end;
-	if (pcargo2->transported_by == ptrans->id)
-	  has_trans = TRUE;
-
-	if (has_trans
-	    && is_ground_unit(pcargo2)) {
-	  if (totcap > 0
-	      && (is_ocean(ptile->terrain)
-		  || pcargo2->activity == ACTIVITY_SENTRY)
-	      && (pcargo2->owner == playerid
-                  || pplayers_allied(unit_owner(pcargo2), unit_owner(ptrans)))
-	      && pcargo2 != ptrans) {
-	    pcargo2->transported_by = ptrans->id;
-	    totcap--;
-	  } else
-	    pcargo2->transported_by = -1;
-	}
-      } unit_list_iterate_end;
-
-      /* Uh oh. Not enough space on the square we leave if we don't
-	 take extra units with us */
-      if (totcap > available && is_ocean(ptile->terrain)) {
-	unit_list_iterate(ptile->units, pcargo2) {
-	  if (is_ground_unit(pcargo2)
-	      && totcap > 0
-	      && (pcargo2->owner == playerid
-                  || pplayers_allied(unit_owner(pcargo2), unit_owner(ptrans)))
-	      && pcargo2->transported_by != ptrans->id) {
-	    pcargo2->transported_by = ptrans->id;
-	    totcap--;
-	  }
-	} unit_list_iterate_end;
-      }
+  } else if (is_air_unit(punit) || is_heli_unit(punit)) {
+    if (!unit_flag(ptrans, F_CARRIER)) {
+      return FALSE;
     }
   } else {
-    unit_list_iterate(ptile->units, pcargo) {
-      if (ptrans->id == pcargo->transported_by)
-	pcargo->transported_by = -1;
-    } unit_list_iterate_end;
-    freelog (LOG_VERBOSE, "trying to assign cargo to a non-transporter "
-	     "of type %s at %i,%i",
-	     get_unit_name(ptrans->type), ptrans->x, ptrans->y);
+    return FALSE;
   }
+
+  /* Then check capacity. */
+  return (get_transporter_occupancy(ptrans)
+	  < get_transporter_capacity(ptrans));
+}
+
+/****************************************************************************
+  Find a transporter at the given location for the unit.
+****************************************************************************/
+struct unit *find_transporter_for_unit(struct unit *punit, int x, int y)
+{ 
+  struct tile *ptile = map_get_tile(x, y);
+
+  unit_list_iterate(ptile->units, ptrans) {
+    if (can_unit_transport_unit(ptrans, punit)) {
+      return ptrans;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Put the unit onto the transporter.  Don't do any other work.
+****************************************************************************/
+static void put_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
+{
+  /* In the future we may updated ptrans->occupancy. */
+  assert(punit->transported_by == -1);
+  punit->transported_by = ptrans->id;
+}
+
+/****************************************************************************
+  Put the unit onto the transporter.  Don't do any other work.
+****************************************************************************/
+static void pull_unit_from_transporter(struct unit *punit,
+				       struct unit *ptrans)
+{
+  /* In the future we may updated ptrans->occupancy. */
+  assert(punit->transported_by == ptrans->id);
+  punit->transported_by = -1;
+}
+
+/****************************************************************************
+  Put the unit onto the transporter, and tell everyone.
+****************************************************************************/
+void load_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
+{
+  put_unit_onto_transporter(punit, ptrans);
+  send_unit_info(NULL, punit);
+  send_unit_info(NULL, ptrans);
+}
+
+/****************************************************************************
+  Pull the unit off of the transporter, and tell everyone.
+****************************************************************************/
+void unload_unit_from_transporter(struct unit *punit)
+{
+  struct unit *ptrans = find_unit_by_id(punit->transported_by);
+
+  pull_unit_from_transporter(punit, ptrans);
+  send_unit_info(NULL, punit);
+  send_unit_info(NULL, ptrans);
 }
 
 /*****************************************************************
@@ -2899,8 +2736,7 @@ static void check_unit_activity(struct unit *punit)
   if you have set transport_units. Note that the src and dest need not be 
   adjacent.
 **************************************************************************/
-bool move_unit(struct unit *punit, int dest_x, int dest_y,
-               bool transport_units, bool take_from_land, int move_cost)
+bool move_unit(struct unit *punit, int dest_x, int dest_y, int move_cost)
 {
   int src_x = punit->x;
   int src_y = punit->y;
@@ -2914,38 +2750,14 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 
   conn_list_do_buffer(&pplayer->connections);
 
-  /* A transporter should not take units with it on an attack goto. */
-  if ((unit_has_orders(punit)
-       || punit->activity == ACTIVITY_GOTO)
-      && (is_non_allied_unit_tile(pdesttile, pplayer)
-          || is_non_allied_city_tile(pdesttile, pplayer))
-      && !is_ocean(psrctile->terrain)) {
-    transport_units = FALSE;
-  }
-
-  /* A ground unit cannot hold units on an ocean tile */
-  if (transport_units
-      && is_ground_unit(punit)
-      && is_ocean(pdesttile->terrain)) {
-    transport_units = FALSE;
-  }
-
-  /* Make sure we don't accidentally insert units into a transporters list */
-  unit_list_iterate(pdesttile->units, pcargo) { 
-    if (pcargo->transported_by == punit->id) {
-      pcargo->transported_by = -1;
-    }
-  } unit_list_iterate_end;
-
   /* Transporting units. We first make a list of the units to be moved and
      then insert them again. The way this is done makes sure that the
      units stay in the same order. */
-  if (get_transporter_capacity(punit) > 0 && transport_units) {
+  if (get_transporter_capacity(punit) > 0) {
     struct unit_list cargo_units;
 
     /* First make a list of the units to be moved. */
     unit_list_init(&cargo_units);
-    assign_units_to_transporter(punit, take_from_land);
     unit_list_iterate(psrctile->units, pcargo) {
       if (pcargo->transported_by == punit->id) {
 	unit_list_unlink(&psrctile->units, pcargo);
@@ -2989,8 +2801,8 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   punit->moved = TRUE;
   if (punit->transported_by != -1) {
     ptransporter = find_unit_by_id(punit->transported_by);
+    pull_unit_from_transporter(punit, ptransporter);
   }
-  punit->transported_by = -1;
   punit->moves_left = MAX(0, punit->moves_left - move_cost);
   if (punit->moves_left == 0) {
     punit->done_moving = TRUE;
@@ -3017,26 +2829,15 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   send_unit_info_to_onlookers(NULL, punit, src_x, src_y, FALSE);
     
   /* Special checks for ground units in the ocean. */
-  if (!pdesttile->city
-      && is_ground_unit(punit)
-      && is_ocean(pdesttile->terrain)) {
-	
-    ptransporter = NULL;
-	
-    /* Find a transporter for the unit. */
-    unit_list_iterate(map_get_tile(punit->x, punit->y)->units, ptrans) {
-      if (is_ground_units_transport(ptrans)
-	  && (get_transporter_occupancy(ptrans)
-	      < get_transporter_capacity(ptrans))) {
-	punit->transported_by = ptrans->id;
-	ptransporter = ptrans;
-	break;
-      }
-    } unit_list_iterate_end;
-    assert(punit->transported_by != -1);
+  if (!can_unit_survive_at_tile(punit, dest_x, dest_y)) {
+    ptransporter = find_transporter_for_unit(punit, dest_x, dest_y);
+    if (ptransporter) {
+      put_unit_onto_transporter(punit, ptransporter);
+    }
 
     /* Set activity to sentry if boarding a ship. */
-    if (!pplayer->ai.control && !unit_has_orders(punit)) {
+    if (ptransporter && !pplayer->ai.control && !unit_has_orders(punit)
+	&& !can_unit_exist_at_tile(punit, dest_x, dest_y)) {
       set_unit_activity(punit, ACTIVITY_SENTRY);
     }
 
@@ -3047,9 +2848,11 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
     
     /*
      * Send updated information to anyone watching that transporter has cargo.
-     */    
-    send_unit_info(NULL, ptransporter);
-    
+     */
+    if (ptransporter) {
+      send_unit_info(NULL, ptransporter);
+    }
+
     /*
      * Send updated information to anyone watching that unit is on transport.
      * All players without shared vison with owner player get

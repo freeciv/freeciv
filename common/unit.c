@@ -1271,6 +1271,61 @@ bool zoc_ok_move(struct unit *punit, int x, int y)
   return zoc_ok_move_gen(punit, punit->x, punit->y, x, y);
 }
 
+/****************************************************************************
+  Return TRUE iff the unit can "exist" at this location.  This means it can
+  physically be present on the tile (without the use of a transporter).
+****************************************************************************/
+bool can_unit_exist_at_tile(struct unit *punit, int x, int y)
+{
+  struct tile *ptile = map_get_tile(x, y);
+
+  if (ptile->city) {
+    return TRUE;
+  }
+
+  switch (unit_types[punit->type].move_type) {
+  case LAND_MOVING:
+    return !is_ocean(ptile->terrain);
+  case SEA_MOVING:
+    return is_ocean(ptile->terrain);
+  case AIR_MOVING:
+  case HELI_MOVING:
+    return TRUE;
+  }
+  die("Invalid move type");
+  return FALSE;
+}
+
+/****************************************************************************
+  Return TRUE iff the unit can "survive" at this location.  This means it can
+  not only be phsically present at the tile but will be able to survive
+  indefinitely on its own (without a transporter).  Units that require fuel
+  or have a danger of drowning are examples of non-survivable units.
+****************************************************************************/
+bool can_unit_survive_at_tile(struct unit *punit, int x, int y)
+{
+  if (!can_unit_exist_at_tile(punit, x, y)) {
+    return FALSE;
+  }
+
+  if (map_get_city(x, y)) {
+    return TRUE;
+  }
+
+  /* TODO: check for dangerous positions (like triremes in deep water). */
+
+  switch (unit_types[punit->type].move_type) {
+  case LAND_MOVING:
+  case SEA_MOVING:
+    return TRUE;
+  case AIR_MOVING:
+  case HELI_MOVING:
+    return FALSE;
+  }
+  die("Invalid move type");
+  return TRUE;
+}
+
 /**************************************************************************
   Convenience wrapper for test_unit_move_to_tile.
 **************************************************************************/

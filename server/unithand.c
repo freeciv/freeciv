@@ -82,15 +82,6 @@ void handle_unit_goto(struct player *pplayer, int unit_id, int x, int y)
 
   send_unit_info(NULL, punit);
 
-  /* 
-   * Normally units on goto does not pick up extra units, even if the
-   * units are in a city and are sentried. But if we just started the
-   * goto We want to take them with us, so we do this. 
-   */
-  if (get_transporter_capacity(punit) > 0) {
-    assign_units_to_transporter(punit, TRUE);
-  }
-
   (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
 }
 
@@ -552,6 +543,18 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 
   if (!punit) {
     return;
+  }
+
+  if (activity == ACTIVITY_IDLE && punit->transported_by != -1
+      && can_unit_survive_at_tile(punit, punit->x, punit->y)) {
+    unload_unit_from_transporter(punit);
+  } else if (activity == ACTIVITY_SENTRY && punit->transported_by == -1) {
+    struct unit *ptrans = find_transporter_for_unit(punit,
+						    punit->x, punit->y);
+
+    if (ptrans) {
+      load_unit_onto_transporter(punit, ptrans);
+    }
   }
 
   if (punit->activity != activity ||
@@ -1075,11 +1078,7 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
       && try_move_unit(punit, x, y)) {
     int move_cost = map_move_cost(punit, x, y);
 
-    /* The AI should assign the relevant units itself, 
-     * but for now leave this */
-    bool take_from_land = punit->activity == ACTIVITY_IDLE;
-
-    (void) move_unit(punit, x, y, TRUE, take_from_land, move_cost);
+    (void) move_unit(punit, x, y, move_cost);
 
     return TRUE;
   } else {
@@ -1550,7 +1549,6 @@ void handle_unit_orders(struct player *pplayer,
   }
 #endif
 
-  assign_units_to_transporter(punit, TRUE);
   if (execute_orders(punit)) {
     /* Looks like the unit survived. */
     send_unit_info(NULL, punit);
