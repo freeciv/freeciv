@@ -73,70 +73,55 @@ Server:
 
   To start the server:
 
-  % civserver
+  |  % civserver
 
   Or for a list of command-line options:
 
-  % civserver --help
+  |  % civserver --help
 
   Once the server is started, a prompt will appear:
 
-  Get a list of the available commands with 'help'.
-  >
+  |  For introductory help, type 'help'.
+  |  >
 
-  and, you can see that list by using the help command:
+  and, you can see this information by using the help command:
 
-  > help
-  Available commands (abbreviations are allowed):
-  ------------------------------------------------------------------------------
-  ai P            - toggles AI on player
-  cmdlevel        - see current command levels
-  cmdlevel L      - sets command access level to L for all players
-  cmdlevel L new  - sets command access level to L for new connections
-  cmdlevel L P    - sets command access level to L for player P
-  create P        - creates an AI player
-  cut P           - cut connection to player
-  easy            - all AI players will be easy
-  easy P          - AI player will be easy
-  explain         - help on server options
-  explain T       - help on a particular server option
-  hard            - all AI players will be hard
-  hard P          - AI player will be hard
-  help            - this help text
-  list            - list players
-  meta u|d|?      - metaserver connection control: up, down, report
-  metainfo M      - set metaserver infoline to M
-  metaserver A    - game reported to metaserver at address A
-  normal          - all AI players will be normal
-  normal P        - AI player will be normal
-  quit            - quit game and shutdown server
-  read F          - process the server commands from file F
-  remove P        - fully remove player from game
-  save F          - save game as file F
-  score           - show current score
-  set             - set options
-  show            - list current server options
-  show O          - list current value of server option O
-  start           - start game
-  write F         - write current settings as server commands to F
-  ------------------------------------------------------------------------------
-  (A=address[:port], F=file, L=level, M=message, O=option, P=player, T=topic)
-  >
+  |  > help
+  |  Welcome - this is the introductory help text for the Freeciv server.
+  |
+  |  Two important server concepts are Commands and Options.
+  |  Commands, such as 'help', are used to interact with the server.
+  |  Some commands take one or more parameters, separated by spaces.
+  |  In many cases commands and command arguments may be abbreviated.
+  |  Options are settings which control the server as it is running.
+  |
+  |  To find out how to get more information about commands and options,
+  |  use 'help help'.
+  |
+  |  For the impatient, the main commands to get going are:
+  |    show   -  to see current options
+  |    set    -  to set options
+  |    start  -  to start the game once players have connected
+  |    save   -  to save the current game
+  |    quit   -  to exit
+  |  >
 
   If you like, you can use the 'set' command to set any of the various
   server options for the game.  You can get a list of the options
-  with the 'show' command, and explanations with the 'explain' command.
+  with the 'show' command, and detailed descriptions of each with the
+  'help <option-name>' command.
 
   For example:
 
-  > explain xsize
-  Option: xsize
-  Description: Map width in squares.
-  Status: changeable
-  Value: 80, Minimum: 40, Default: 80, Maximum: 200
+  |  > help xsize
+  |  Option: xsize  -  Map width in squares
+  |  Status: changeable
+  |  Value: 80, Minimum: 40, Default: 80, Maximum: 200
 
-  > set xsize 100
-  > set ysize 80
+  And:
+
+  |  > set xsize 100
+  |  > set ysize 80
 
   This will make the map twice as large as the default of 80x50.
 
@@ -145,7 +130,7 @@ Client:
   Now all the human players should join, by running the Freeciv
   client:
 
-  % civclient
+  |  % civclient
 
   This assumes the server is running on the same machine.  If not, you
   can either specify it on the command use with the '--server' option,
@@ -154,13 +139,13 @@ Client:
   For example, suppose the server is running on a different machine
   called 'neptune'.  Then players would join with a command like:
 
-  % civclient --server neptune
+  |  % civclient --server neptune
 
   If you're the only human player, then only one client needs to be
   started.  In standard Unix fashion you can start the client
   "in the background" by appending an ampersand:
 
-  % civclient &
+  |  % civclient &
 
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
@@ -173,14 +158,14 @@ Client:
   have a small display.  But try them both and decide for yourself --
   to use the engels tileset start the client with:
 
-  % civclient --tiles engels
+  |  % civclient --tiles engels
 
   Other tilesets may be available from the ftp site.  
 
   Clients can be authorized to issue server commands.  To allow them
   to use informational commands only, type at the server prompt
 
-  > cmdlevel info
+  |  > cmdlevel info
 
   Clients can now use '/help', '/list', '/show settlers', etc.
 
@@ -190,7 +175,7 @@ Computer Players:
   the number of players (human and AI) by setting the 'aifill'
   server option.  For example:
 
-  > set aifill 7
+  |  > set aifill 7
 
   After using the 'start' server command to start the game, any players 
   which aren't controlled by humans will be AI players.  For the above, 
@@ -199,7 +184,7 @@ Computer Players:
   The second way is to explicitly create an AI with the 'create'
   server command.  For example:
 
-  > create HumanKiller
+  |  > create HumanKiller
 
   This will create an AI-controlled player called HumanKiller.
 
@@ -209,7 +194,7 @@ Computer Players:
   example, to play against AI-controlled Romans, use this server
   command:
 
-  > create Caesar
+  |  > create Caesar
 
   Note, this is just a preference:  If no other human player chooses
   to play the Romans, then this AI will.
@@ -219,7 +204,7 @@ Server:
   When everybody has joined (use the "list" command to see who's in), 
   start the game with the "start" command:
 
-  > start
+  |  > start
 
 
 And the game is on!
@@ -265,7 +250,7 @@ Playing the game:
 The game may be saved the game at any time using the 'save' server command,
 like so:
 
-> save mygame
+  |  > save mygame
 
 The Freeciv client works pretty much as you would expect from a
 multiplayer civilization game. That is, the players move at the same
@@ -287,7 +272,7 @@ messages to other players.
 
 You can send a message to an individual player (say, 'peter') like so:
 
-  peter: move that armor away *NOW*!
+  |  peter: move that armor away *NOW*!
 
 The server is smart enough to perform "name completion", so if you had
 typed "pet:", it will pick find a player name that matches the part of
@@ -296,15 +281,15 @@ the name you typed.
 On newer servers (version 1.8.1 or later, or some development 1.8.0 
 versions) you can issue server commands from the client input line:
 
-  /list
-  /set settlers 4
-  /save mygame.sav
+  |  /list
+  |  /set settlers 4
+  |  /save mygame.sav
 
 The server operator will probably let you issue informational commands only.
 This is partly because allowing clients to use all server commands has
 security implications; consider if a player tried:
 
-  /save /etc/passwd
+  |  /save /etc/passwd
 
 Of course the server should not be running with superuser privileges in
 any case, to reduce this sort of risk.
@@ -340,11 +325,11 @@ Restoring games:
 
 You can restore a saved game by using the '-f' server option, eg:
 
-  % civserver -f oursave2001.sav
+  |  % civserver -f oursave2001.sav
 
 Now the players can rejoin the game:
 
-  % civclient -n Alexander
+  |  % civclient -n Alexander
   
 Notice how the player-name is specified with the -n option. It's vital
 that the player uses the same name as they had when the game was running,
@@ -412,19 +397,22 @@ debug messages will be suppressed.  To control lines, use:
 messages within the specified minimum and maximum lines will be 
 printed.  Only one set of (min,max) can be applied to each file.
 
-Example: 
-	 % civserver -l my.log -d 2
+Example:
+
+  |  % civserver -l my.log -d 2
 
 This sends all server log messages to file "my.log", including verbose
 level messages.
 
-Example: 
-	 % civclient --debug 0
+Example:
+
+  |  % civclient --debug 0
 
 This suppresses all non-fatal client log messages.
 
-Example: 
-	 % civserver -d 3:log:civserver,120,500:autoattack
+Example:
+
+  |  % civserver -d 3:log:civserver,120,500:autoattack
 
 This turns on all fatal, normal and verbose messages for the server, 
 and debug level messages for some specified modules.  Note that "log"
