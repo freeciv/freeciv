@@ -341,11 +341,7 @@ static LONG APIENTRY FreecivWndProc(HWND hWnd, UINT message,
       return TRUE;
       break;
     case WM_COMMAND:       
-      if (LOWORD(wParam)==ID_SERVERBUTTON) {
-	handle_server_buttons((HWND)lParam);
-      } else {
-	handle_menu(LOWORD(wParam));
-      }
+      handle_menu(LOWORD(wParam));
       break;
     case WM_HSCROLL:
       HANDLE_WM_HSCROLL(hWnd,wParam,lParam,Handle_Hscroll); 

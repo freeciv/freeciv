@@ -93,14 +93,6 @@ enum new_game_dlg_ids {
   ID_CANCEL=IDCANCEL
 };
 
-static struct t_server_button server_buttons[]={{NULL,N_("Start Game"),
-						 "/start"},
-						{NULL,N_("Save Game"),
-						 "/save"},
-						{NULL,N_("End Game"),
-						 "/quit"},
-						{NULL,N_("Get Score"),
-						 "/score"}};
 static char saved_games_dirname[MAX_PATH+1]=".";
 
 static void load_game_callback(void);
@@ -236,36 +228,6 @@ void close_connection_dialog()
   if (!is_server_running()) {
     really_close_connection_dialog();
   }
-}
-
-/*************************************************************************
-
-*************************************************************************/
-static void remove_server_control_buttons()
-{
-  fcwin_box_freeitem(output_box,1);
-  fcwin_redo_layout(root_window);
-}
-
-/*************************************************************************
-
-*************************************************************************/
-static void add_server_control_buttons()
-{
-  int i;
-  char buf[64];
-  struct fcwin_box *vbox;
-  vbox=fcwin_vbox_new(root_window,FALSE);
-  my_snprintf(buf,sizeof(buf),_("Port: %d"),server_port);
-  fcwin_box_add_static(vbox,buf,0,SS_LEFT,TRUE,TRUE,0);
-  for (i=0;i<ARRAY_SIZE(server_buttons);i++) {
-    server_buttons[i].button=
-      fcwin_box_add_button(vbox,_(server_buttons[i].button_string),
-			   ID_SERVERBUTTON,0,FALSE,FALSE,0);
-  }
-  fcwin_box_add_box(output_box,vbox,FALSE,FALSE,0);
-  fcwin_redo_layout(root_window);
-   
 }
 
 /**************************************************************************
@@ -748,13 +710,12 @@ void server_autoconnect()
 }
 
 /**************************************************************************
-  Callback function for save game button
+  Handle the saving and loading functions.
 **************************************************************************/
-static void save_game()
+void handle_save_load(const char *title, bool is_save)
 {
   OPENFILENAME ofn;
   char dirname[MAX_PATH + 1];
-  char savecmd[MAX_PATH + 10];
   char szfile[MAX_PATH] = "\0";
 
   strcpy(szfile, "");
@@ -770,7 +731,7 @@ static void save_game()
   ofn.lpstrFileTitle = NULL;
   ofn.nMaxFileTitle = 0;
   ofn.lpstrInitialDir = NULL;
-  ofn.lpstrTitle = "Save Game";
+  ofn.lpstrTitle = title;
   ofn.nFileOffset = 0;
   ofn.nFileExtension = 0;
   ofn.lpstrDefExt = NULL;
@@ -780,61 +741,8 @@ static void save_game()
   ofn.Flags = OFN_EXPLORER;
   GetCurrentDirectory(MAX_PATH, dirname);
   SetCurrentDirectory(saved_games_dirname);
-  if (GetSaveFileName(&ofn)) {
-    GetCurrentDirectory(MAX_PATH, saved_games_dirname);
-    my_snprintf(savecmd, sizeof(savecmd),
-		"/save %s", ofn.lpstrFile);
-    send_chat(savecmd);
-  }
-  SetCurrentDirectory(dirname);
-
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void handle_server_buttons(HWND button)
-{
-  int i;
-
-  for (i = 0; i < ARRAY_SIZE(server_buttons); i++) {
-    if (server_buttons[i].button == button) {
-      if (strcmp(server_buttons[i].command, "/save") == 0) {
-	save_game();
-      } else {
-	if (strcmp(server_buttons[i].command, "/quit") == 0) {
-	  remove_server_control_buttons();
-	}
-	send_chat(server_buttons[i].command);
-      }
-      break;
-    }
-  } 
-}
-
-/**************************************************************************
-  Callback function for load game button
-**************************************************************************/
-static void load_game_callback()
-{
-  if (is_server_running() || client_start_server()) {
-    char dirname[MAX_PATH + 1];
-    OPENFILENAME ofn;
-    char filename[MAX_PATH + 1];
-
-    filename[0] = '\0';
-    ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(OPENFILENAME);
-    ofn.hwndOwner = root_window;
-    ofn.hInstance = (HINSTANCE)GetWindowLong(root_window, GWL_HINSTANCE);
-    ofn.lpstrTitle = "Load Game"; 
-    ofn.lpstrFile = filename;
-    ofn.nMaxFile = sizeof(filename);
-    ofn.Flags = OFN_EXPLORER;
-    GetCurrentDirectory(MAX_PATH, dirname);
-    SetCurrentDirectory(saved_games_dirname);
-    if (GetOpenFileName(&ofn)) {
-      char message[512];
+  if (is_save) {
+    if (GetSaveFileName(&ofn)) {
 
       if (current_filename) {
 	free(current_filename);
@@ -845,13 +753,38 @@ static void load_game_callback()
 
       current_filename = mystrdup(ofn.lpstrFile);
 
-      add_server_control_buttons();
-      my_snprintf(message, sizeof(message), "/load %s", ofn.lpstrFile);
-      send_chat(message);
-
+      send_save_game(current_filename);
     } else {
       SetCurrentDirectory(dirname);
     }
+  } else {
+    if (GetOpenFileName(&ofn)) {
+      char cmd[MAX_LEN_MSG];
+
+      if (current_filename) {
+	free(current_filename);
+      }
+
+      GetCurrentDirectory(MAX_PATH, saved_games_dirname);
+      SetCurrentDirectory(dirname);
+
+      current_filename = mystrdup(ofn.lpstrFile);
+
+      my_snprintf(cmd, sizeof(cmd), "/load %s", ofn.lpstrFile);
+      send_chat(cmd);
+    } else {
+      SetCurrentDirectory(dirname);
+    }
+  }
+}
+
+/**************************************************************************
+  Callback function for load game button
+**************************************************************************/
+static void load_game_callback()
+{
+  if (is_server_running() || client_start_server()) {
+    handle_save_load(_("Load Game"), FALSE);
   }
 }
 
@@ -873,7 +806,6 @@ static void set_new_game_params(HWND win)
   aiskill = ComboBox_GetCurSel(GetDlgItem(newgame_dlg,
 					  ID_NEWGAMEDLG_AISKILL));
 
-  add_server_control_buttons();
   my_snprintf(buf, sizeof(buf), "/%s", skill_level_names[aiskill]);
   send_chat(buf);
 
