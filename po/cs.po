@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-08 13:04+0100\n"
+"PO-Revision-Date: 2005-01-08 14:09+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -592,9 +592,9 @@ msgid "Science"
 msgstr "Věda, výzkum"
 
 #: utility/fciconv.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "Could not convert text from %s to %s: %s"
-msgstr "Nemohu otevřít převaděč z '%s' do '%s'"
+msgstr "Nelze konvertovat text z %s do %s: %s"
 
 #: utility/log.c:84
 #, c-format
@@ -5833,9 +5833,8 @@ msgid "Game: %s can only move into your own zone of control."
 msgstr ""
 
 #: server/unithand.c:969
-#, fuzzy
 msgid "Game: This unit has no moves left."
-msgstr "Hra: Jednotce %s nezbývají tahy na usazení ve městě %s."
+msgstr "Hra: Této jednotce nezbývají tahy pro přesun."
 
 #: server/unithand.c:1023
 msgid "Game: Unit must be on land to perform diplomatic action."
@@ -8221,9 +8220,8 @@ msgstr "Dipl.Stav"
 #: client/gui-gtk/plrdlg.c:142
 #: client/gui-mui/plrdlg.c:170
 #: client/gui-win32/plrdlg.c:341
-#, fuzzy
 msgid "Vision"
-msgstr "Nahlížení:"
+msgstr "Nahlížení"
 
 #: client/plrdlg_common.c:233
 #: client/gui-gtk/plrdlg.c:142
@@ -8435,7 +8433,6 @@ msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Šance na vítězství: Ú:%d%% O:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
-#. FIXME: veteran status isn't handled properly here.
 #: client/text.c:292
 #, fuzzy, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s"
@@ -10458,11 +10455,13 @@ msgid "Are you sure you want to quit?"
 msgstr "Opravdu to chcete ukončit?"
 
 #: client/gui-gtk-2.0/gui_stuff.c:440
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Close Tab:\n"
 "%s"
-msgstr "Zavřít kartu"
+msgstr ""
+"Zavřít kartu:\n"
+"%s"
 
 #: client/gui-gtk-2.0/gui_stuff.c:440
 msgid "Ctrl+W"
@@ -11790,9 +11789,8 @@ msgstr "ESS Solo 1"
 #: client/gui-gtk-2.0/menu.c:878
 #: client/gui-gtk/menu.c:827
 #: client/gui-win32/menu.c:430
-#, fuzzy
 msgid "Space _Race"
-msgstr "Vesmírný závod"
+msgstr "Vesmírný _závod"
 
 #: client/gui-gtk-2.0/menu.c:882
 #: client/gui-gtk/menu.c:831
@@ -11831,7 +11829,6 @@ msgstr "Transf_ormovat na %s"
 
 #: client/gui-gtk-2.0/menu.c:1346
 #: client/gui-gtk/menu.c:1194
-#, fuzzy
 msgid "Help _Build Wonder"
 msgstr "Pomoci se stavbou _divu světa"
 
@@ -11842,9 +11839,8 @@ msgstr "Usadit se ve městě (_B)"
 
 #: client/gui-gtk-2.0/menu.c:1357
 #: client/gui-gtk/menu.c:1205
-#, fuzzy
 msgid "Make Trade _Route"
-msgstr "Zřídit obchodní trasu"
+msgstr "Zřídit obchodní t_rasu"
 
 #: client/gui-gtk-2.0/menu.c:1360
 #: client/gui-gtk/menu.c:1208
@@ -12130,9 +12126,8 @@ msgstr ""
 #: client/gui-gtk-2.0/plrdlg.c:407
 #: client/gui-gtk/plrdlg.c:200
 #: client/gui-mui/plrdlg.c:334
-#, fuzzy
 msgid "_Cancel Treaty"
-msgstr "Zrušit dohodu"
+msgstr "_Zrušit dohodu"
 
 #: client/gui-gtk-2.0/plrdlg.c:411
 #: client/gui-gtk/plrdlg.c:206
@@ -12466,9 +12461,8 @@ msgstr "Vylepšení města"
 #: client/gui-gtk/citydlg.c:620
 #: client/gui-mui/citydlg.c:663
 #: client/gui-win32/citydlg.c:862
-#, fuzzy
 msgid "Upkeep"
-msgstr "Údržba:"
+msgstr "Údržba"
 
 #: client/gui-gtk/citydlg.c:623
 msgid "City _Overview"
@@ -12548,9 +12542,8 @@ msgid "Established trade routes"
 msgstr "Zřízené obchodní trasy"
 
 #: client/gui-gtk/citydlg.c:1264
-#, fuzzy
 msgid "_Misc. Settings"
-msgstr "Ostatní nastavení"
+msgstr "_Ostatní nastavení"
 
 #: client/gui-gtk/citydlg.c:1281
 #: client/gui-mui/citydlg.c:1379
@@ -12942,7 +12935,6 @@ msgstr "Předvolby"
 #: client/gui-gtk/cma_fe.c:153
 #: data/Freeciv.in:1486
 #: data/helpdata.txt:770
-#, fuzzy
 msgid "Citizen Management Agent"
 msgstr "Automatický Správce Města"
 
@@ -13281,9 +13273,8 @@ msgstr "Přijmout dohodu"
 #: client/gui-gtk/diplodlg.c:557
 #: client/gui-win32/diplodlg.c:674
 #: data/Freeciv.in:510
-#, fuzzy
 msgid "Cancel meeting"
-msgstr "_Ukončit setkání"
+msgstr "Ukončit setkání"
 
 #: client/gui-gtk/finddlg.c:71
 #: client/gui-win32/finddlg.c:123
@@ -13304,9 +13295,8 @@ msgid "_Goto"
 msgstr "_Jít"
 
 #: client/gui-gtk/helpdlg.c:591
-#, fuzzy
 msgid "Reset Tree"
-msgstr "Hledám strom"
+msgstr "Obnovit strom"
 
 #: client/gui-gtk/helpdlg.c:592
 #, fuzzy
@@ -13513,7 +13503,6 @@ msgid "Unload"
 msgstr "Vyložit"
 
 #: client/gui-gtk/menu.c:743
-#, fuzzy
 msgid "Go|Airlift to City"
 msgstr "Přesun/Letecký most do města"
 
@@ -13783,9 +13772,8 @@ msgid "Worklist"
 msgstr "Seznam prací"
 
 #: client/gui-mui/chatline.c:79
-#, fuzzy
 msgid "Cleared output window.\n"
-msgstr "Výstupní okno smazáno."
+msgstr "Výstupní okno smazáno.\n"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:551
@@ -13944,9 +13932,8 @@ msgstr "Kon_figurovat"
 #: client/gui-mui/cityrep.c:412
 #: client/gui-win32/cityrep.c:886
 #: client/gui-win32/cityrep.c:1138
-#, fuzzy
 msgid "City Advisor"
-msgstr "Město č. %d"
+msgstr ""
 
 #: client/gui-mui/connectdlg.c:177
 msgid "Server Selection"
@@ -13989,7 +13976,6 @@ msgstr "_Zřídit Ambasádu"
 
 #: client/gui-mui/dialogs.c:739
 #: client/gui-mui/dialogs.c:798
-#, fuzzy
 msgid "_Investigate city"
 msgstr "_Prozkoumat město"
 
@@ -14009,9 +13995,8 @@ msgstr "Podnítit _revoluci"
 
 #: client/gui-mui/dialogs.c:783
 #: data/Freeciv.in:2300
-#, fuzzy
 msgid "Choose Your Diplomat's Strategy"
-msgstr " Vyberte strategii vašeho diplomata"
+msgstr "Vyberte strategii vašeho diplomata"
 
 #: client/gui-mui/dialogs.c:806
 msgid "_Poison city"
@@ -14022,7 +14007,6 @@ msgid "Industrial _sabotage"
 msgstr "Průmyslová _sabotáž"
 
 #: client/gui-mui/dialogs.c:985
-#, fuzzy
 msgid "_Establish traderoute"
 msgstr "Zřídit _Obchodní trasu"
 
@@ -14154,9 +14138,8 @@ msgid "Server opt initial..."
 msgstr "Výchozí nastavení serveru..."
 
 #: client/gui-mui/gui_main.c:204
-#, fuzzy
 msgid "Server opt ongoing..."
-msgstr "Volby serveru _stávající"
+msgstr "Volby serveru stávající..."
 
 #: client/gui-mui/gui_main.c:205
 #: client/gui-xaw/menu.c:115
@@ -14551,9 +14534,8 @@ msgstr "Dlaždice %s"
 #: client/gui-mui/mapclass.c:1650
 #: client/gui-win32/messagewin.c:151
 #: data/Freeciv.in:3329
-#, fuzzy
 msgid "Popup City"
-msgstr "_Ukázat město"
+msgstr "Ukázat město"
 
 #: client/gui-mui/mapclass.c:1696
 msgid "Wake up"
@@ -14814,14 +14796,12 @@ msgid "Auto-attack vs land units"
 msgstr "Auto-útočit proti pozemním jednotkám"
 
 #: client/gui-win32/citydlg.c:2022
-#, fuzzy
 msgid "Auto-attack vs sea units"
-msgstr "Auto-útočit proti pozemním jednotkám"
+msgstr "Auto-útočit proti námořním jednotkám"
 
 #: client/gui-win32/citydlg.c:2024
-#, fuzzy
 msgid "Auto-attack vs air units"
-msgstr "Auto-útočit proti pozemním jednotkám"
+msgstr "Auto-útočit proti leteckým jednotkám"
 
 #: client/gui-win32/citydlg.c:2026
 msgid "Auto-attack vs helicopters"
@@ -15076,7 +15056,6 @@ msgid "Do you really want to remove %s?"
 msgstr "Opravdu chcete smazat %s?"
 
 #: client/gui-xaw/connectdlg.c:164
-#, fuzzy
 msgid "Pass"
 msgstr "Průchod"
 
@@ -15182,14 +15161,12 @@ msgid "Local Options"
 msgstr "Lokální Možnosti"
 
 #: client/gui-xaw/menu.c:112
-#, fuzzy
 msgid "Server Opt initial"
-msgstr "Volby serveru _výchozí"
+msgstr "Volby serveru výchozí"
 
 #: client/gui-xaw/menu.c:113
-#, fuzzy
 msgid "Server Opt ongoing"
-msgstr "Volby serveru _stávající"
+msgstr "Volby serveru stávající"
 
 #: client/gui-xaw/menu.c:127
 #: data/Freeciv.in:1998
@@ -15299,17 +15276,17 @@ msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Celkem:                     %9d%9d%9d%9d"
 
 #: manual/civmanual.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write manual file %s."
-msgstr "Nelze zapisovat do souboru skriptu '%s'."
+msgstr "Nelze zapisovat do manuálového souboru %s."
 
 #: manual/civmanual.c:129
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s serverové příkazy</h1>\n"
+"<h1>Freeciv %s serverové možnosti</h1>\n"
 "\n"
 
 #: manual/civmanual.c:145
@@ -15511,12 +15488,12 @@ msgid "<th>Transform</th></tr>\n"
 msgstr "<th>Transformovat</th></tr>\n"
 
 #: manual/civmanual.c:298
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s nápověda k terénu</h1>\n"
+"<h1>Freeciv %s nápověda ke stavbám</h1>\n"
 "\n"
 
 #: manual/civmanual.c:311
@@ -15527,9 +15504,9 @@ msgstr "<tr><td>Stojí: <td>%d</tr>\n"
 
 #: manual/civmanual.c:312
 #: manual/civmanual.c:341
-#, fuzzy, c-format
+#, c-format
 msgid "<tr><td>Upkeep: <td>%d</tr>\n"
-msgstr "<tr><td>Stojí: <td>%d</tr>\n"
+msgstr "<tr><td>Údržba: <td>%d</tr>\n"
 
 #: manual/civmanual.c:314
 #: manual/civmanual.c:343
@@ -15544,12 +15521,12 @@ msgid "<tr><td>Obsoleted by: <td>%s</tr>\n"
 msgstr "<tr><td><i>Požadavky na přerušení</i></td><td>%1</td></tr>"
 
 #: manual/civmanual.c:327
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s nápověda k terénu</h1>\n"
+"<h1>Freeciv %s nápověda k divům světa</h1>\n"
 "\n"
 
 #: data/Freeciv.in:111
@@ -15624,14 +15601,12 @@ msgstr "Aktivovat jednotku"
 
 #: data/Freeciv.in:1198
 #: data/Freeciv.in:1234
-#, fuzzy
 msgid "Activate unit, close dialog"
-msgstr "Aktivovat jednotku, _zavřít dialog"
+msgstr "Aktivovat jednotku, zavřít dialog"
 
 #: data/Freeciv.in:1202
-#, fuzzy
 msgid "Sentry unit"
-msgstr "_Strážit"
+msgstr "Strážit jednotku"
 
 #: data/Freeciv.in:1206
 msgid "Fortify unit"
@@ -15726,24 +15701,20 @@ msgid "Disband if build settler at size 1:"
 msgstr "Zrušit, pokud se staví osadníci při velikosti 1"
 
 #: data/Freeciv.in:1553
-#, fuzzy
 msgid "Auto-attack vs land units:         "
-msgstr "Auto-útočit proti pozemním jednotkám"
+msgstr "Auto-útočit proti pozemním jednotkám:"
 
 #: data/Freeciv.in:1559
-#, fuzzy
 msgid "Auto-attack vs sea units:          "
-msgstr "Auto-útočit proti pozemním jednotkám"
+msgstr "Auto-útočit proti námořním jednotkám:"
 
 #: data/Freeciv.in:1565
-#, fuzzy
 msgid "Auto-attack vs air units:          "
-msgstr "Auto-útočit proti pozemním jednotkám"
+msgstr "Auto-útočit proti leteckým jednotkám:"
 
 #: data/Freeciv.in:1571
-#, fuzzy
 msgid "Auto-attack vs helicopters:        "
-msgstr "Auto-útočit proti helikoptérám"
+msgstr "Auto-útočit proti helikoptérám:"
 
 #: data/Freeciv.in:1688
 msgid "Configure..."
@@ -15805,9 +15776,8 @@ msgid "Establish Embassy"
 msgstr "Zřízení Ambasády"
 
 #: data/Freeciv.in:2307
-#, fuzzy
 msgid "Investigate City"
-msgstr "_Prozkoumat město"
+msgstr "Prozkoumat město"
 
 #: data/Freeciv.in:2310
 msgid "Sabotage City"
@@ -20758,7 +20728,6 @@ msgid "The Boers were Dutch settlers in British-controlled South Africa from 165
 msgstr ""
 
 #: data/nation/bosnia.ruleset:3
-#, fuzzy
 msgid "Bosnia & Herzegovina"
 msgstr "Bosna a Hercegovina"
 
@@ -20990,13 +20959,11 @@ msgid "?plural:Danes"
 msgstr "?plural:Afgánský"
 
 #. TRANS: The third letter in "Blatand" should be
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xE5.
 #: data/nation/danish.ruleset:9
 msgid "The founding of the Danish kingdom is generally assigned to the reign of Harald Blatand, who unified what is now Denmark between 958AD and 988AD."
 msgstr ""
 
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xFA.
 #: data/nation/dunedain.ruleset:7
 msgid "Dunedain"
 msgstr ""
@@ -21618,7 +21585,6 @@ msgid "Scotland, originally settled in late Roman times by Irish raiders who dis
 msgstr ""
 
 #: data/nation/scottish.ruleset:18
-#, fuzzy
 msgid "First Minister"
 msgstr "První ministr"
 
