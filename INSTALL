@@ -369,7 +369,7 @@ Freeciv, there are a few work-arounds you can try:
 3. Finally, you can try to install the latest version of GNU gettext.
    It may be obtained from here:
 
-      ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
+      ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.10.38.tar.gz
 
 
 6. Readline Support:
