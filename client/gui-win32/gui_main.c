@@ -62,7 +62,8 @@ HWND hchatline;
 HWND root_window;
 HWND logoutput_win;
 HWND infolabel_win;
-HWND unitinfo_win;
+HWND unit_info_frame;
+HWND unit_info_label;
 HWND turndone_button;
 HWND timeout_label;
 HWND map_window;
@@ -409,8 +410,11 @@ static void create_main_window(void)
   fcwin_box_add_box(leftrow,hbox,FALSE,FALSE,0);
   turndone_button=fcwin_box_add_button_default(leftrow,_("Turn Done"),
 					       ID_TURNDONE,0);
-  unitinfo_win=fcwin_box_add_static_default(leftrow," \n \n \n \n",0,
-					    SS_CENTER);
+  hbox = fcwin_hbox_new(root_window, FALSE);
+  unit_info_label = fcwin_box_add_static_default(hbox, " \n \n \n \n", 0,
+						 SS_LEFT);
+  unit_info_frame = fcwin_box_add_groupbox(leftrow, "", hbox, 0, FALSE,
+					   FALSE, 0);
   fcwin_box_add_box(upper,leftrow,FALSE,FALSE,5);
   map_window=CreateWindow("freecivmapwindow",NULL,WS_CHILD | WS_VISIBLE,
 			  0,0,20,20,root_window,
@@ -456,7 +460,9 @@ static void create_main_window(void)
 			    NULL);
   SendMessage(infolabel_win,
 	      WM_SETFONT,(WPARAM) font_12arial,MAKELPARAM(TRUE,0)); 
-  SendMessage(unitinfo_win,
+  SendMessage(unit_info_frame,
+	      WM_SETFONT,(WPARAM) font_12arial,MAKELPARAM(TRUE,0)); 
+  SendMessage(unit_info_label,
 	      WM_SETFONT,(WPARAM) font_12arial,MAKELPARAM(TRUE,0)); 
   append_output_window(_("Freeciv is free software and you are welcome to distribute copies of"
 			 " it\nunder certain conditions; See the \"Copying\" item on the Help"
