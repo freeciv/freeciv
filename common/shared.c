@@ -315,6 +315,8 @@ RANDOM_TYPE myrand(RANDOM_TYPE size)
 {
     RANDOM_TYPE newRand;
 
+    assert(size);
+
     newRand = (RandomState[iRandJ] + RandomState[iRandK]) & MAX_UINT32;
 
     iRandX = (iRandX +1) % 56;

@@ -1209,11 +1209,11 @@ static void makeisland(int islemass, int starters)
 		+ map.deserts + map.forestsize + map.swampsize;
     i = i <= 90 ? 100 : i * 11 / 10;
     tilefactor = totalmass / i;
-    riverbuck = -myrand(totalmass);
-    mountbuck = -myrand(totalmass);
-    desertbuck = -myrand(totalmass);
-    forestbuck = -myrand(totalmass);
-    swampbuck = -myrand(totalmass);
+    riverbuck = -(long int)myrand(totalmass);
+    mountbuck = -(long int)myrand(totalmass);
+    desertbuck = -(long int)myrand(totalmass);
+    forestbuck = -(long int)myrand(totalmass);
+    swampbuck = -(long int)myrand(totalmass);
     lastplaced = totalmass;
   } else {
 
