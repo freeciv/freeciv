@@ -296,7 +296,7 @@ struct worklist_data {
 
   GtkTreeViewColumn *src_col, *dst_col;
 
-  GtkWidget *add_cmd, *change_cmd;
+  GtkWidget *add_cmd, *change_cmd, *help_cmd;
 
   bool future;
 };
@@ -739,6 +739,30 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
 /****************************************************************
 ...
 *****************************************************************/
+static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
+{
+  struct worklist_data *ptr;
+
+  ptr = data;
+
+  /* update widget sensitivity. */
+  if (gtk_tree_selection_get_selected(selection, NULL, NULL)) {
+    if (can_client_issue_orders()
+	&& ptr->pcity && city_owner(ptr->pcity) == game.player_ptr) {
+      gtk_widget_set_sensitive(ptr->change_cmd, TRUE);
+    } else {
+      gtk_widget_set_sensitive(ptr->change_cmd, FALSE);
+    }
+    gtk_widget_set_sensitive(ptr->help_cmd, TRUE);
+  } else {
+    gtk_widget_set_sensitive(ptr->change_cmd, FALSE);
+    gtk_widget_set_sensitive(ptr->help_cmd, FALSE);
+  }
+}
+
+/****************************************************************
+...
+*****************************************************************/
 static gboolean dst_dnd_callback(GtkWidget *w, GdkDragContext *context,
 				 struct worklist_data *ptr)
 {
@@ -955,6 +979,8 @@ GtkWidget *create_worklist()
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
 		   G_CALLBACK(help_callback), ptr);
+  ptr->help_cmd = button;
+  gtk_widget_set_sensitive(ptr->help_cmd, FALSE);
 
   button = gtk_button_new_with_mnemonic(_("Chan_ge Production"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
@@ -983,6 +1009,9 @@ GtkWidget *create_worklist()
 		   G_CALLBACK(dst_row_callback), ptr);
   g_signal_connect(dst_view, "key_press_event",
 		   G_CALLBACK(dst_key_press_callback), ptr);
+
+  g_signal_connect(ptr->src_selection, "changed",
+      		   G_CALLBACK(src_selection_callback), ptr);
 
   gtk_widget_show_all(table);
   gtk_widget_show_all(bbox);
@@ -1121,16 +1150,13 @@ void refresh_worklist(GtkWidget *editor)
 	 city_owner(ptr->pcity) == game.player_ptr)) {
       gtk_widget_set_sensitive(ptr->add_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->dst_view, TRUE);
-      gtk_widget_set_sensitive(ptr->change_cmd, TRUE);
     } else {
       gtk_widget_set_sensitive(ptr->add_cmd, FALSE);
       gtk_widget_set_sensitive(ptr->dst_view, FALSE);
-      gtk_widget_set_sensitive(ptr->change_cmd, FALSE);
     }
   } else {
     gtk_widget_set_sensitive(ptr->add_cmd, TRUE);
     gtk_widget_set_sensitive(ptr->dst_view, TRUE);
-    gtk_widget_set_sensitive(ptr->change_cmd, FALSE);
   }
 }
 
