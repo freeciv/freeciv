@@ -1,0 +1,135 @@
+Lots of thanks are due to the following people for their various
+contributions to the Freeciv project.  (See also the file AUTHORS.)
+
+  Site hosting:
+
+        Paul Zastoupil <paul@adn.net> (from May '99)
+	Tracy Reed <treed@ultraviolet.org> (to April '99)
+
+  Mailing lists:
+
+	John Goerzen <jgoerzen@complete.org>
+        Ryan Rehder <twolf@kc.net> (freeciv.midsun.com: Mar '98 to Nov '98)
+
+  Website (FWNG):
+
+	Martin Willemoes Hansen <mwh@stampede.org>
+
+  Website contributors:
+
+	Patrick Gardella <patrick@cre8tivegroup.com> (Games Announcement)
+	Fabrice Noilhan <fabrice.noilhan@ens.fr> (Poll system)
+	Tomi Sarvela (Graphics)
+
+  Previous Webmasters:
+
+	Mitch Davis <mjd@alphalink.com.au>
+	Ian Rees <irees@sat.net>
+	Allan Ove Kjeldbjerg <allan@daimi.aau.dk>
+
+  Freeciv Metaserver:
+
+	Peter Dam Mains <lancelot@daimi.au.dk>
+
+  Mirror Sites:
+
+	Tod Detre <tod@tod.net>
+	    http://www.tod.net/freeciv  
+	    ftp://129.22.250.198/freeciv
+
+  Bug reports: 
+
+	Todd Goodman <tsg1@earthlink.net>
+	Frank Schaefer <fransch@netscape.net>
+	Marko Lindqvist <caz@students.cc.tut.fi>
+	Dee Jay Randall <randal@cs.uregina.ca>
+	Brent Nelson <nelson@realcase.com>
+	Anders Wegge Jakobsen <wegge@wegge.dk>
+	Peter Berg Larsen <pebl@math.ku.dk>
+	Chip Richards <chipr@niestu.com>
+	Andy Black <ablack@bvsd.k12.co.us>
+	Andrew E. Schulman <andrex@alw.nih.gov>
+	Jonathan Hall <jonhall@futureks.net>
+	Mel Ooran <melooran@yahoo.com> 
+	David Usherwood <davidu@infocat.co.uk>
+	Matt Busigin <jediknight@xwing.org>
+
+  Bug reports during 1.7 series:
+
+	Andrew E. Schulman <andrex@alw.nih.gov>
+	Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
+	Ben Korvemaker <benjamin@cs.ualberta.ca>
+
+  Package maintainers:
+
+	Lalo Martins <lalo@debian.org> (Debian GNU/Linux)
+	Martin Willemoes Hansen <mwh@stampede.org> (Stampede GNU/Linux)
+	Todd Goodman <tsg1@earthlink.net> (Windows with Cygwin and X server)
+	Hugo van der Kooji <hvdkooij@caiw.nl> (Redhat Linux)
+	Niilo Kajander <ganon@neutech.fi> (Slackware Linux)
+	Fred Hohlen <fhohlen@mindspring.com> (LinuxPPC)
+	Sebastian Bauer <sebauer@t-online.de> (Amiga)
+
+  Documentation:
+
+	David King <crkinger@usa.net> (new Freeciv Client and Server Guides)
+
+  Localisation (l10n):
+
+	David Pérez Serrada <dperezs@nexo.es> (Spanish help-file)
+	Moritz Muehlenhoff <UMuehlenhoff@t-online.de> (Deutsch helpdata.txt)
+	Nicolas Lannier <Nicolas.Lannier@epita.fr> (Translation to French)
+
+  Alternative tilesets:
+
+	Tatu Rissanen <trident@cc.hut.fi> (Trident)
+	David Pfitzner <dwp@mso.anu.edu.au> (Dwp)
+
+  Modpacks:
+
+	Bobby D. Bryant <bdbryant@mail.utexas.edu> (Ancients) 
+
+  Monetary donations:
+
+	Ian Rees (Domain name)
+	Paul Zastoupil (Domain name)
+	Martin Willemoes Hansen <mwh@stampede.org> (Domain name)
+	Mitch Davis <mjd@aus.hp.com> (Domain name)
+	James Blackwell <innocent@mercury.merconline.com> (Domain name)
+
+  Civworld: (our map editor)
+
+	Benjamin Drieu <drieu@bocal.cs.univ-paris8.fr> (original author)
+	Daniel Gudlat <gudlat@informatik.hu-berlin.de> (recent maintainer)
+
+  Projects:
+
+	Daniel Glassey <danglassey@geocities.com> (Windows port - GTK+)
+	Justin Hopkins <hop@elwood.pionet.net> (Windows port - native)
+	Andy Black <ablack@bvsd.k12.co.us> (Mac port)
+	Mark Nettle <mark@bluefire.com.au> (Fantasy modpack)
+	Marko Lindqvist <caz@students.cc.tut.fi> (AI client)
+
+  Others:
+
+	Francisco CHAGAS Barros <chagas@linkexpress.com.br>
+	    (official brazilian freeciv group, also a helpdata.txt)
+	Dustin Reyes <crusader@linuxgames.com> 
+	    (Interview on http://www.linuxgames.com)
+	Preston Hillensbeck <prestonh@ametro.net>
+	    (A solution to the KDE problem)
+
+  And finally...
+
+     The guys in the DAIMI labs, who playtested early versions of
+     Freeciv for the Great Danes.
+
+     The members of the freeciv-dev mailing list, coders and non-
+     coders alike.  You've all made valuable comments and contributions.
+
+     Sid Meier, for slight inspiration ;)
+
+  If we have missed someone or details have changed, please accept our
+  apologies and let us know.
+
+                    The Freeciv Team.
