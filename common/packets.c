@@ -1383,7 +1383,7 @@ int send_packet_unit_info(struct connection *pc,
 
   cptr=put_int8(buffer+2, PACKET_UNIT_INFO);
   cptr=put_int16(cptr, req->id);
-  pack=(req->owner)|(req->veteran?0x10:0)|(req->ai?0x20:0);
+  pack=(req->owner)|(req->veteran?0x10:0)|(req->ai?0x20:0)|(req->paradropped?0x40:0);
   cptr=put_int8(cptr, pack);
   cptr=put_int8(cptr, req->x);
   cptr=put_int8(cptr, req->y);
@@ -1560,7 +1560,9 @@ receive_packet_unit_info(struct connection *pc)
   iget_int16(&iter, &packet->id);
   iget_int8(&iter, &pack);
   packet->owner=pack&0x0f;
-  packet->veteran=(pack&0x10)?1:0; packet->ai=(pack&0x20)?1:0;
+  packet->veteran=(pack&0x10)?1:0;
+  packet->ai=(pack&0x20)?1:0;
+  packet->paradropped=(pack&0x40)?1:0;
   iget_int8(&iter, &packet->x);
   iget_int8(&iter, &packet->y);
   iget_int16(&iter, &packet->homecity);
@@ -1997,8 +1999,11 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_string(cptr, packet->name);
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
-  if(unit_flag(packet->id, F_PARATROOPERS))
+  if(unit_flag(packet->id, F_PARATROOPERS)) {
     cptr=put_int16(cptr, packet->paratroopers_range);
+    cptr=put_int8(cptr, packet->paratroopers_mr_req);
+    cptr=put_int8(cptr, packet->paratroopers_mr_sub);
+  }
 
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
@@ -2045,9 +2050,15 @@ receive_packet_ruleset_unit(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
-  if(packet->flags & (1L<<F_PARATROOPERS))
+  if(packet->flags & (1L<<F_PARATROOPERS)) {
     iget_int16(&iter, &packet->paratroopers_range);
-  else packet->paratroopers_range=0;
+    iget_int8(&iter, &packet->paratroopers_mr_req);
+    iget_int8(&iter, &packet->paratroopers_mr_sub);
+  } else {
+    packet->paratroopers_range=0;
+    packet->paratroopers_mr_req=0;
+    packet->paratroopers_mr_sub=0;
+  }
 
   len = pack_iter_remaining(&iter);
   if (len) {

@@ -268,6 +268,7 @@ struct packet_unit_info {
   int fuel;
   int goto_dest_x, goto_dest_y;
   int activity_target;
+  int paradropped;
 };
 
 
@@ -490,6 +491,8 @@ struct packet_ruleset_unit {
   int gold_cost;   /* gold upkeep (n/a now, maybe later) */
 
   int paratroopers_range; /* max range of paratroopers, F_PARATROOPERS */
+  int paratroopers_mr_req;
+  int paratroopers_mr_sub;
 
   /* Following is a pointer to malloced memory; on the server, it
      points to putype->helptext, malloced earlier; on the client,

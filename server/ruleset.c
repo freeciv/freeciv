@@ -598,6 +598,14 @@ static void load_ruleset_units(char *ruleset_subdir)
       if(ival == F_PARATROOPERS) {
         u->paratroopers_range = secfile_lookup_int(file,
             "%s.paratroopers_range", sec[i]);
+        u->paratroopers_mr_req = 3*secfile_lookup_int(file,
+            "%s.paratroopers_mr_req", sec[i]);
+        u->paratroopers_mr_sub = 3*secfile_lookup_int(file,
+            "%s.paratroopers_mr_sub", sec[i]);
+      } else {
+        u->paratroopers_range = 0;
+        u->paratroopers_mr_req = 0;
+        u->paratroopers_mr_sub = 0;
       }
     }
     free(slist);
@@ -1434,6 +1442,8 @@ static void send_ruleset_units(struct player *dest)
     packet.food_cost = u->food_cost;
     packet.gold_cost = u->gold_cost;
     packet.paratroopers_range = u->paratroopers_range;
+    packet.paratroopers_mr_req = u->paratroopers_mr_req;
+    packet.paratroopers_mr_sub = u->paratroopers_mr_sub;
     packet.helptext = u->helptext;   /* pointer assignment */
 
     for(to=0; to<game.nplayers; to++) {           /* dests */

@@ -874,6 +874,7 @@ void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
     punit->hp=0;
 
   punit->moved=0;
+  punit->paradropped=0;
 }
   
 
@@ -1140,7 +1141,10 @@ void create_unit_full(struct player *pplayer, int x, int y, Unit_Type_id type, i
      (Otherwise could pass moved arg too...)  --dwp
   */
   punit->moved = (moves_left>=0);
-  
+
+  /* Probably not correct when unit changed owner (e.g. bribe) */
+  punit->paradropped = 0;
+
   send_unit_info(0, punit, 0);
 }
 
@@ -1479,13 +1483,13 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
 
   if (unit_flag(punit->type, F_PARATROOPERS)) {
     if(can_unit_paradropped(punit)) {
-			if(map_get_known(x,y,pplayer)) {
+      if(map_get_known(x,y,pplayer)) {
         if(map_get_terrain(x,y) != T_OCEAN) {
-	        if(!is_enemy_unit_tile(x,y,punit->owner)) {
+          if(!is_enemy_unit_tile(x,y,punit->owner)) {
             int range = get_unit_type(punit->type)->paratroopers_range;
             if(real_map_distance(punit->x, punit->y, x, y) <= range) {
               struct city *start_city = map_get_city(punit->x, punit->y);
-	  		      struct city *dest_city = map_get_city(x, y);
+              struct city *dest_city = map_get_city(x, y);
               int ok=1;
 
               /* light the squares the unit is entering */
@@ -1503,7 +1507,9 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
               }
 
               if(ok) {
-                punit->moves_left = 0;
+                punit->moves_left -= get_unit_type(punit->type)->paratroopers_mr_sub;
+                if(punit->moves_left < 0) punit->moves_left = 0;
+                punit->paradropped = 1;
                 send_unit_info(0, punit, 0);
 
                 if(start_city) {
@@ -1521,28 +1527,28 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
             }
       	    else {
     	        notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-		  	        "Game: to far for this unit.");
+                  "Game: Too far for this unit.");
             }
           }
       	  else {
     	      notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-		  	        "Game: cannot paradrop because there are enemy units on the destination location.");
-	        }
+                 "Game: Cannot paradrop because there are enemy units on the destination location.");
+          }
         }
         else {
           notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-	  	        "Game: cannot paradrop into ocean.");
+            "Game: Cannot paradrop into ocean.");
         }
       }
       else {
         notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
-           "Game: the destination location is not known.");
+          "Game: The destination location is not known.");
       }
     }
-	}
+  }
   else {
     notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
-		     "Game: this unit type can not be paradropped.");
+      "Game: This unit type can not be paradropped.");
   }
 
   if(!paradropped)
@@ -1863,6 +1869,7 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
   info.goto_dest_x=punit->goto_dest_x;
   info.goto_dest_y=punit->goto_dest_y;
   info.activity_target=punit->activity_target;
+  info.paradropped=punit->paradropped;
 
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest)

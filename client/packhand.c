@@ -516,6 +516,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->fuel=packet->fuel;
     punit->goto_dest_x=packet->goto_dest_x;
     punit->goto_dest_y=packet->goto_dest_y;
+    punit->paradropped=packet->paradropped;
   }
   
   else {      /* create new unit */
@@ -540,6 +541,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->goto_dest_y=packet->goto_dest_y;
     punit->activity_target=packet->activity_target;
     punit->ai.control=packet->ai;
+    punit->paradropped=packet->paradropped;
     
     punit->activity_count=0;	/* never used in client/ or common/  --dwp */
     punit->bribe_cost=0;	/* done by handle_incite_cost() */
@@ -1079,6 +1081,8 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->food_cost          = p->food_cost;
   u->gold_cost          = p->gold_cost;
   u->paratroopers_range = p->paratroopers_range;
+  u->paratroopers_mr_req = p->paratroopers_mr_req;
+  u->paratroopers_mr_sub = p->paratroopers_mr_sub;
 
   free(u->helptext);
   u->helptext = p->helptext;	/* pointer assignment */

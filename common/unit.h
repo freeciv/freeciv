@@ -107,6 +107,7 @@ struct unit {
   /* ord_map and ord_city are the order index of this unit in tile.units
      and city.units_supported; they are only used for save/reload */
   int moved;
+  int paradropped;
 };
 
 /* Unit "special effects" flags:
@@ -192,6 +193,8 @@ struct unit_type {
   int gold_cost;   /* gold upkeep (n/a now, maybe later) */
 
   int paratroopers_range; /* only valid for F_PARATROOPERS */
+  int paratroopers_mr_req;
+  int paratroopers_mr_sub;
 
   char *helptext;
 };

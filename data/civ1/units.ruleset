@@ -56,6 +56,9 @@ firepower_factor=10             ; Means effective hitpoints=1
 ; Following flag strings require extra fields:  (but do not appear in Civ1)
 ;  "Paratroopers"
 ;   paratroopers_range = the maximal range the unit can be paradropped to
+;   paratroopers_mr_req = the move rate which is required at least for
+;                         paradropping
+;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 
 ; Civ1 does not have initial explorers, but we want to do something
 ; sensible if the explorer server option is set non-zero.

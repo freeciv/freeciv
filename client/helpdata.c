@@ -700,7 +700,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
 			       " enemy cities and onto land squares."));
   }
   if (unit_flag(i, F_PARATROOPERS)) {
-    sprintf(buf+strlen(buf), _("* Can be paradropped from a city with airport"
+    sprintf(buf+strlen(buf), _("* Can be paradropped from a friendly city"
 			       " (Range: %d)."), utype->paratroopers_range);
   }
   if (unit_flag(i, F_PIKEMEN)) {

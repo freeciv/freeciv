@@ -55,6 +55,9 @@ firepower_factor=1              ; convenient for Civ1
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
 ;   paratroopers_range = the maximal range the unit can be paradropped to
+;   paratroopers_mr_req = the move rate which is required at least for
+;                         paradropping
+;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;
 
 [unit_settlers]
@@ -424,6 +427,8 @@ flags         = "Paratroopers"
 roles         = "DefendOk"
 
 paratroopers_range = 10
+paratroopers_mr_req = 1
+paratroopers_mr_sub = 0
 
 [unit_mech_inf]
 name          = _("Mech. Inf.")

@@ -798,23 +798,29 @@ int can_unit_do_auto(struct unit *punit)
 
 /**************************************************************************
 Return whether the unit can be paradropped.
-That is if the unit is in a city with the Airport improvement
+That is if the unit is in a friendly city, have enough
+movepoints left and have not paradropped before in this
+turn.
 **************************************************************************/
 int can_unit_paradropped(struct unit *punit)
 {
   struct city *pcity;
+  struct unit_type *utype;
+
   if (!unit_flag(punit->type, F_PARATROOPERS))
     return 0;
 
-  if(!punit->moves_left)
+  if(punit->paradropped)
+    return 0;
+
+  utype = get_unit_type(punit->type);
+
+  if(punit->moves_left < utype->paratroopers_mr_req)
     return 0;
 
   pcity = map_get_city(punit->x, punit->y);
 
   if(!pcity)
-    return 0;
-
-  if(!city_got_building(pcity,B_AIRPORT))
     return 0;
 
   return 1;
