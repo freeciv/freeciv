@@ -71,7 +71,7 @@
 
 /* The default string is really simple */
 /* rulesets: server sends client data on techs,unit_types,buildings */
-#define CAPABILITY "+1.7 clientcapabilities tradecities +spacerace2 +rulesets autoattack1"
+#define CAPABILITY "+1.7 clientcapabilities tradecities +spacerace2 +rulesets autoattack1 cityopt"
 
 #define CITY_NAMES_FONT "10x20"
 #define BROADCAST_EVENT -2

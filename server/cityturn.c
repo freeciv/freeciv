@@ -70,6 +70,8 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity);
 
 static void sanity_check_city(struct city *pcity);
 
+static void disband_city(struct city *pcity);
+
 static int update_city_activity(struct player *pplayer, struct city *pcity);
 
 void set_trade_prod(struct city *pcity)
@@ -794,9 +796,22 @@ void city_increase_size(struct city *pcity)
     pcity->food_stock = (pcity->size * game.foodbox) / 2;
   else
     pcity->food_stock = 0;
-  
-  if (!add_adjust_workers(pcity))
-    auto_arrange_workers(pcity);
+
+  /* If there is enough food, and the city is big enough,
+   * make new citizens into scientists or taxmen -- Massimo */
+  if (pcity->food_surplus >= 2  &&  pcity->size >= 5  &&
+      (pcity->city_options & ((1<<CITYO_NEW_EINSTEIN) | (1<<CITYO_NEW_TAXMAN)))) {
+
+    if (pcity->city_options & (1<<CITYO_NEW_EINSTEIN)) {
+      pcity->ppl_scientist++;
+    } else { /* now pcity->city_options & (1<<CITYO_NEW_TAXMAN) is true */
+      pcity->ppl_taxman++;
+    }
+
+  } else {
+    if (!add_adjust_workers(pcity))
+      auto_arrange_workers(pcity);
+  }
 
   city_refresh(pcity);
 
@@ -1043,9 +1058,16 @@ void city_build_stuff(struct player *pplayer, struct city *pcity)
     if(pcity->shield_stock>=unit_value(pcity->currently_building)) {
       if (unit_flag(pcity->currently_building, F_SETTLERS)) {
 	if (pcity->size==1) {
-	  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-			"Game: %s can't build settler yet", pcity->name);
+
+	  /* Should we disband the city? -- Massimo */
+	  if (pcity->city_options & ((1<<CITYO_DISBAND))) {
+	    disband_city(pcity);
+	  } else {
+	    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+			     "Game: %s can't build settler yet", pcity->name);
+	  }
 	  return;
+
 	}
 	pcity->size--;
 	city_auto_remove_worker(pcity);
@@ -1312,3 +1334,50 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
   return got_tech;
 }
 
+/**************************************************************************
+ disband a city into a settler, supported by the closest city -- Massimo
+**************************************************************************/
+
+static void disband_city(struct city *pcity)
+{
+  struct player *pplayer = get_player(pcity->owner);
+  int x = pcity->x, y = pcity->y, dist, dist1;
+  struct city *rcity=NULL;
+
+  /* We cannot use find_closest_owned_city, since it would return pcity */
+  if (city_list_get(&pplayer->cities, 0)) {
+    dist = 9999;
+    city_list_iterate(pplayer->cities, pcity1);
+    dist1 = real_map_distance(x, y, pcity1->x, pcity1->y);
+    if (dist1 && dist1 < dist) {
+      dist = dist1;
+      rcity = pcity1;
+    }      
+    city_list_iterate_end;
+  }
+
+  if (!rcity) {
+    /* What should we do when we try to disband our only city? */
+    notify_player_ex(pplayer, x, y, E_NOEVENT,
+		     "Game: %s can't build settler yet, "
+		     "and we can't disband our only city",
+		     pcity->name);
+    return;
+  }
+
+  create_unit(pplayer, x, y, pcity->currently_building,
+	      do_make_unit_veteran(pcity, pcity->currently_building), 
+	      pcity->id, -1);
+
+  /* shift all the units supported by pcity (including the new settler) to rcity */
+  transfer_city_units(pplayer, pplayer, rcity, pcity, 0, 1);
+
+  notify_player_ex(pplayer, x, y, E_UNIT_BUILD,
+		   "Game: %s is disbanded into %s", 
+		   pcity->name, unit_types[pcity->currently_building].name);
+  gamelog(GAMELOG_UNIT, "%s (%i, %i) disbanded into %s by the %s", pcity->name, 
+	  x,y, unit_types[pcity->currently_building].name,
+	  get_race_name_plural(pplayer->race));
+
+  remove_city(pcity);
+}

@@ -1852,16 +1852,27 @@ Note, there can only be one such dialog at a time, because
 I'm lazy.  That could be fixed, similar to way you can have
 multiple city dialogs.
 
+triggle = tri_toggle (three way toggle button)
+
 *****************************************************************/
 								  
+#define NUM_CITYOPT_TOGGLES 5
+
 Widget create_cityopt_dialog(char *city_name);
 void cityopt_ok_command_callback(Widget w, XtPointer client_data, 
 				XtPointer call_data);
 void cityopt_cancel_command_callback(Widget w, XtPointer client_data, 
 				    XtPointer call_data);
+void cityopt_newcit_triggle_callback(Widget w, XtPointer client_data,
+					XtPointer call_data);
+
+char *newcitizen_labels[] = { "Workers", "Scientists", "Taxmen" };
+
 static Widget cityopt_shell = 0;
-static Widget cityopt_toggles[4];
+static Widget cityopt_triggle;
+static Widget cityopt_toggles[NUM_CITYOPT_TOGGLES];
 static int cityopt_city_id = 0;
+static int newcitizen_index;
 
 /****************************************************************
 ...
@@ -1878,13 +1889,24 @@ void cityopt_callback(Widget w, XtPointer client_data,
   }
   cityopt_shell=create_cityopt_dialog(pcity->name);
   /* Doing this here makes the "No"'s centered consistently */
-  for(i=0; i<4; i++) {
+  for(i=0; i<NUM_CITYOPT_TOGGLES; i++) {
     state = (pcity->city_options & (1<<i));
     XtVaSetValues(cityopt_toggles[i], XtNstate, state,
 		  XtNlabel, state?"Yes":"No", NULL);
   }
-  cityopt_city_id = pcity->id;
+  if (pcity->city_options & (1<<CITYO_NEW_EINSTEIN)) {
+    newcitizen_index = 1;
+  } else if (pcity->city_options & (1<<CITYO_NEW_TAXMAN)) {
+    newcitizen_index = 2;
+  } else {
+    newcitizen_index = 0;
+  }
+  XtVaSetValues(cityopt_triggle, XtNstate, 1,
+		XtNlabel, newcitizen_labels[newcitizen_index],
+		NULL);
   
+  cityopt_city_id = pcity->id;
+
   xaw_set_relative_position(toplevel, cityopt_shell, 15, 15);
   XtPopup(cityopt_shell, XtGrabNone);
 }
@@ -1906,6 +1928,29 @@ Widget create_cityopt_dialog(char *city_name)
 				 shell, NULL);
   label = XtVaCreateManagedWidget("cityoptlabel", labelWidgetClass,
 				  form, XtNlabel, city_name, NULL);
+
+
+  XtVaCreateManagedWidget("cityoptnewcitlabel",
+			  labelWidgetClass, 
+			  form, NULL);
+  cityopt_triggle = XtVaCreateManagedWidget("cityoptnewcittriggle", 
+					    toggleWidgetClass, 
+					    form, NULL);
+
+  /* NOTE: the ordering here is deliberately out of order;
+     want toggles[] to be in enum city_options order, but
+     want display in different order. --dwp
+     - disband and workers options at top
+     - helicopters (special case air) at bottom
+  */
+
+  XtVaCreateManagedWidget("cityoptdisbandlabel",
+			  labelWidgetClass, 
+			  form, NULL);
+  cityopt_toggles[4] = XtVaCreateManagedWidget("cityoptdisbandtoggle", 
+					      toggleWidgetClass, 
+					      form, NULL);
+
   XtVaCreateManagedWidget("cityoptvlandlabel", 
 			  labelWidgetClass, 
 			  form, NULL);
@@ -1924,18 +1969,13 @@ Widget create_cityopt_dialog(char *city_name)
   cityopt_toggles[3] = XtVaCreateManagedWidget("cityoptvairtoggle", 
 					      toggleWidgetClass, 
 					      form, NULL);
-
-  /* NOTE: deliberately out of order here; want toggles[] to be
-     in move_type/city_options order, but want display to
-     have helicopters (special case air) at bottom --dwp
-  */
-
   XtVaCreateManagedWidget("cityoptvhelilabel", 
 			  labelWidgetClass, 
 			  form, NULL);
   cityopt_toggles[2] = XtVaCreateManagedWidget("cityoptvhelitoggle", 
 					      toggleWidgetClass, 
 					      form, NULL);
+
   ok = XtVaCreateManagedWidget("cityoptokcommand", 
 			       commandWidgetClass,
 			       form, NULL);
@@ -1947,9 +1987,11 @@ Widget create_cityopt_dialog(char *city_name)
                 (XtPointer)shell);
   XtAddCallback(cancel, XtNcallback, cityopt_cancel_command_callback, 
                 (XtPointer)shell);
-  for(i=0; i<4; i++) {
+  for(i=0; i<NUM_CITYOPT_TOGGLES; i++) {
     XtAddCallback(cityopt_toggles[i], XtNcallback, toggle_callback, NULL);
   }
+  XtAddCallback(cityopt_triggle, XtNcallback,
+		cityopt_newcit_triggle_callback, NULL);
 
   XtRealizeWidget(shell);
 
@@ -1981,9 +2023,14 @@ void cityopt_ok_command_callback(Widget w, XtPointer client_data,
     Boolean b;
     
     new = 0;
-    for(i=0; i<4; i++)  {
+    for(i=0; i<NUM_CITYOPT_TOGGLES; i++)  {
       XtVaGetValues(cityopt_toggles[i], XtNstate, &b, NULL);
       if (b) new |= (1<<i);
+    }
+    if (newcitizen_index == 1) {
+      new |= (1<<CITYO_NEW_EINSTEIN);
+    } else if (newcitizen_index == 2) {
+      new |= (1<<CITYO_NEW_TAXMAN);
     }
     packet.value1 = cityopt_city_id;
     packet.value2 = new;
@@ -1993,3 +2040,20 @@ void cityopt_ok_command_callback(Widget w, XtPointer client_data,
   XtDestroyWidget(cityopt_shell);
   cityopt_shell = 0;
 }
+
+/**************************************************************************
+ Changes the label of the toggle widget to between newcitizen_labels
+ and increments (mod 3) newcitizen_index.
+**************************************************************************/
+void cityopt_newcit_triggle_callback(Widget w, XtPointer client_data,
+					XtPointer call_data)
+{
+  newcitizen_index++;
+  if (newcitizen_index>=3) {
+    newcitizen_index = 0;
+  }
+  XtVaSetValues(cityopt_triggle, XtNstate, 1,
+		XtNlabel, newcitizen_labels[newcitizen_index],
+		NULL);
+}
+
