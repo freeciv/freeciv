@@ -348,7 +348,23 @@ while(<>) {
         $state = S_DOING_MSGID;
         next LINE;
     }
+    if ( m(^msgid_plural \"(.*)\"$) ) {
+        $entryline = $.;
+        @amsgid = ($1);
+        $state = S_DOING_MSGID;
+        next LINE;
+    }
     if ( m(^msgstr \"(.*)\"$) ) {
+        @amsgstr = ($1);
+        $state = S_DOING_MSGSTR;
+        next LINE;
+    }
+    if ( m(^msgstr\[0\] \"(.*)\"$) ) {
+        @amsgstr = ($1);
+        $state = S_DOING_MSGSTR;
+        next LINE;
+    }
+    if ( m(^msgstr\[1\] \"(.*)\"$) ) {
         @amsgstr = ($1);
         $state = S_DOING_MSGSTR;
         next LINE;
