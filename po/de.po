@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-11 18:46+0100\n"
+"POT-Creation-Date: 2004-11-12 12:38+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -664,7 +664,8 @@ msgstr "Spiel: %s verkauft %s (unnötig) zum Preis von %d."
 #: ai/advdiplomacy.c:248
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty"
-msgstr "*%s (KI)* Im Abwesenheitsmodus kann der Vertrag nicht unterzeichnet werden"
+msgstr ""
+"*%s (KI)* Im Abwesenheitsmodus kann der Vertrag nicht unterzeichnet werden"
 
 #: ai/advdiplomacy.c:258
 #, c-format
@@ -719,10 +720,10 @@ msgid "*%s (AI)* You don't have the offered city!"
 msgstr "*%s (KI)* Du besitzt die angebotene Stadt nicht!"
 
 #: ai/advdiplomacy.c:434
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr ""
-"*%s (KI)* Tut mir leid, es ist mir zu gefährlich, Dir Karteneinsicht zu geben"
+"*%s (KI)* Tut mir leid, es ist mir zu gefährlich, Dir Karteneinsicht zu geben."
 
 #: ai/advdiplomacy.c:529
 #, c-format
@@ -803,10 +804,11 @@ msgstr ""
 "*%s (KI)* Deine Agression gegen meine Verbündeten war Dein letzter Fehler!"
 
 #: ai/advdiplomacy.c:1075
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
-"*%s (KI)* Tut mir leid, es ist mir zu gefährlich, Dir Karteneinsicht zu geben"
+"*%s (KI)* Tut mir leid, es ist mir zu gefährlich, Dir länger Karteneinsicht "
+"zu geben"
 
 #: ai/advdiplomacy.c:1143
 #, c-format
@@ -940,20 +942,20 @@ msgid "Game: %s"
 msgstr "Spiel: %s"
 
 #: server/citytools.c:263
-#, fuzzy, c-format
+#, c-format
 msgid "You already have a city called %s."
-msgstr "Spiel: Sie haben schon eine Stadt namens %s."
+msgstr "Spiel: Sie haben bereits eine Stadt mit dem Namen %s."
 
 #: server/citytools.c:274
-#, fuzzy, c-format
+#, c-format
 msgid "A city called %s already exists."
-msgstr "Spiel: Eine Stadt namens %s gibt es bereits."
+msgstr "Spiel: Eine Stadt mit dem Namen %s existiert bereits."
 
 #: server/citytools.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
 msgstr ""
-"Spiel: %s kann nicht als Städtename verwendet werden. Es ist für %s "
+"Spiel: %s kann nicht als Städtename verwendet werden. Es ist für die %s "
 "reserviert."
 
 #: server/citytools.c:312
@@ -1152,9 +1154,9 @@ msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Spiel: %s muß %s fertig bauen, um weiter wachsen zu können."
 
 #: server/cityturn.c:468
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s needs an improvement to grow any further."
-msgstr "Spiel: %s braucht %s, um weiter wachsen zu können."
+msgstr "Spiel: %s braucht eine Erweiterung, um weiter wachsen zu können."
 
 #: server/cityturn.c:515
 #, c-format
@@ -1249,18 +1251,16 @@ msgid "Game: %s has finished building %s."
 msgstr "Spiel: %s hat %s fertiggestellt."
 
 #: server/cityturn.c:961
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s boosts research; you gain %d immediate advance."
 msgid_plural "Game: %s boosts research; you gain %d immediate advances."
 msgstr[0] ""
-"Spiel: %s beschleunigt die Forschung;\n"
-"       2 Fortschritte werden sofort erzielt."
+"Spiel: %s beschleunigt die Forschung; Sie erhalten %d zusätzlichen Fortschritt."
 msgstr[1] ""
-"Spiel: %s beschleunigt die Forschung;\n"
-"       2 Fortschritte werden sofort erzielt."
+"Spiel: %s beschleunigt die Forschung; Sie erhalten %d zusätzliche Fortschritte." 
 
 #: server/cityturn.c:980
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have acquired %s from %s."
 msgstr "Spiel: Die %s haben %s von den %s übernommen."
 
@@ -1490,7 +1490,7 @@ msgstr ""
 "- über Programmfehler in ENGLISCH\n"
 "  mit einer Email an <%s>.\n"
 "- über Probleme mit der deutschen Übersetzung\n"
-"  mit einer Email an <freeciv.de@freelists.org>.\n"
+"  mit einer Email an <chrisk@cknoke.de>.\n"
 "\n"
 
 #: server/commands.c:28
@@ -1670,7 +1670,7 @@ msgid "Cast a vote."
 msgstr "Abstimmung durchführen."
 
 #: server/commands.c:114
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "A player with info level access issuing a control level command starts a new "
 "vote for the command.  The /vote command followed by \"yes\" or \"no\", and "
@@ -1682,12 +1682,11 @@ msgid ""
 "against it."
 msgstr ""
 "Ein Spieler mit Zugangsberechtigung Info, der einen Befehl der Kontrollebene "
-"gibt, leitet damit eine Abstimmung ein. Jeder Spieler kann dan seine Stimme "
+"gibt, leitet damit eine Abstimmung ein. Jeder Spieler kann dann seine Stimme "
 "abgeben, indem er '/vote', gefolgt von 'yes' oder 'no', wahlweise gefolgt "
-"von einer Abstimmungsnummer, eingibt. Ohne Abstimmunsnummer bezieht sich die "
-"Stimmangabe immer auf die letzte Abstimmung. Die Abstimmung dauert bis zum "
-"Ende der Runde oder bis ein klares Votum (mehr als 50%) erreicht ist. Erst "
-"danach kann derselbe Spieler eine neue Abstimmung einleiten."
+"von einer Abstimmungsnummer, eingibt. Ohne Abstimmungsnummer bezieht sich die "
+"Stimmabgabe immer auf die letzte Abstimmung. Die Abstimmung dauert bis zum "
+"Ablauf einer vollen Runde oder bis ein klares Votum (mehr als 50%) erreicht ist."
 
 #: server/commands.c:125
 msgid "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"
@@ -1739,9 +1738,8 @@ msgid "rulesetdir <directory>"
 msgstr "rulesetdir <Verzeichnis>"
 
 #: server/commands.c:145
-#, fuzzy
 msgid "Choose new ruleset directory or modpack."
-msgstr "Derzeitiges Verzeichnis für rulesets: '%s'"
+msgstr "Neues Regelverzeichnis oder Modpack wählen."
 
 #: server/commands.c:146
 msgid ""
@@ -1762,29 +1760,25 @@ msgstr "Metaserver Informationszeile setzen"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:157
-#, fuzzy
 msgid "metatopic <meta-line>"
-msgstr "metainfo <Text>"
+msgstr "metatopic <Informationszeile>"
 
 #: server/commands.c:158
-#, fuzzy
 msgid "Set metaserver topic line."
 msgstr "Metaserver Informationszeile setzen"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:162
-#, fuzzy
 msgid "metapatch <meta-line>"
-msgstr "metainfo <Text>"
+msgstr "metapatch <Patch Info>"
 
 #: server/commands.c:163
-#, fuzzy
 msgid "Set metaserver patches line."
-msgstr "Metaserver Informationszeile setzen"
+msgstr "Metaserver Patch Info setzen"
 
 #: server/commands.c:169
 msgid "Control metaserver connection."
-msgstr "Metaserver"
+msgstr "Verbindung zum Metaserver."
 
 #: server/commands.c:170
 msgid ""
@@ -1802,9 +1796,8 @@ msgid "metaserver <address>"
 msgstr "Metaserver <Adresse>"
 
 #: server/commands.c:177
-#, fuzzy
 msgid "Set address (URL) for metaserver to report to."
-msgstr "Adresse des Metaservers einstellen"
+msgstr "Adresse (URL) des Metaservers einstellen."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:181
@@ -1836,14 +1829,12 @@ msgstr ""
 
 #. TRANS: translate text between [] only
 #: server/commands.c:194
-#, fuzzy
 msgid "observe [connection-name] [player-name]"
-msgstr "observe [Verbindungsname] <Spieler>"
+msgstr "observe [Verbindungsname] [Spieler]"
 
 #: server/commands.c:195
-#, fuzzy
 msgid "Observe a player or the whole game."
-msgstr "Spieler %s aus dem Spiel entfernt."
+msgstr "Beobachten des Spiels oder eines Spielers."
 
 # ?
 #: server/commands.c:196
@@ -2994,12 +2985,15 @@ msgstr ""
 #: server/gamehand.c:134
 #, c-format
 msgid "Sea moving start units are not yet supported, %s not created."
-msgstr "Marineeinheiten sind als Starteinheiten noch nicht möglich, %s nicht erzeugt."
+msgstr ""
+"Marineeinheiten sind als Starteinheiten noch nicht möglich, %s nicht erzeugt."
 
 #: server/gamehand.c:136
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
-msgstr "Marineeinheiten sind als Starteinheiten noch nicht möglich, niemand erhält %s."
+msgstr ""
+"Marineeinheiten sind als Starteinheiten noch nicht möglich, niemand erhält %"
+"s."
 
 #: server/gamehand.c:287 client/text.c:434 client/gui-mui/mapview.c:192
 #, c-format
@@ -3745,6 +3739,7 @@ msgstr "Unknown terrain %s in entry %s."
 # CK: Fehlermeldung für Entwickler
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1195
+#, c-format
 msgid "Group %s lists unknown building: \"%s\" (%s)"
 msgstr "Group %s lists unknown building: \"%s\" (%s)"
 
@@ -3765,6 +3760,7 @@ msgstr "Building %s lists unknown effect type: \"%s\" (%s)"
 # CK: Fehlermeldung für Entwickler
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1355
+#, c-format
 msgid "Building %s lists bad range: \"%s\" (%s)"
 msgstr "Building %s lists bad range: \"%s\" (%s)"
 
@@ -4087,7 +4083,7 @@ msgstr ""
 
 #: server/settings.c:226
 msgid "Map size (in thousands of tiles)"
-msgstr ""
+msgstr "Kartengröße (mal 1000 Felder)"
 
 #: server/settings.c:227
 msgid ""
@@ -4139,11 +4135,11 @@ msgid ""
 "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
 "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
 msgstr ""
-"Freeciv Karten sind immer zweidimensional. Sie können in Nord-Süd- und Ost-West-"
-"Richtung verbunden sein und eine flache Karte, einen Zylinder oder einen Torus "
-"(Donut) bilden. Die einzelnen Felder können rechteckig oder hexagonal sein, mit "
-"klassischer oder isometrischer Ausrichtung - dies sollte entsprechend der benutzten "
-"Feldergrafik gewählt werden.\n"
+"Freeciv Karten sind immer zweidimensional. Sie können in Nord-Süd- und Ost-"
+"West-Richtung verbunden sein und eine flache Karte, einen Zylinder oder "
+"einen Torus (Donut) bilden. Die einzelnen Felder können rechteckig oder "
+"hexagonal sein, mit klassischer oder isometrischer Ausrichtung - dies sollte "
+"entsprechend der benutzten Feldergrafik gewählt werden.\n"
 "   0 Flache Karte (unverbunden)\n"
 "   1 Erde (O-W verbunden)\n"
 "   2 Uranus (N-S verbunden)\n"
@@ -4193,8 +4189,8 @@ msgstr ""
 "2 = Pseudofraktaler Höhengenerator                    [3]\n"
 "3 = Inselbasierter Generator (fairer aber langweilig) [1]\n"
 "\n"
-"Die Zahlen in [] geben die Standardmethode zur Auswahl der Startpositionen an. "
-"Diese kann mit der \"startpos\" Option geändert werden."
+"Die Zahlen in [] geben die Standardmethode zur Auswahl der Startpositionen "
+"an. Diese kann mit der \"startpos\" Option geändert werden."
 
 #: server/settings.c:291
 msgid "Method used to choose start positions"
@@ -4212,6 +4208,14 @@ msgid ""
 "Note: generators try to create the right number of continents for the choice "
 "of start pos and to the number of players"
 msgstr ""
+"0 = Plazierung erfolgt entsprechend der Einstellung des\n"
+"    Kartengenerators. Siehe \"generator\" Option.\n"
+"1 = Ein Spieler pro Kontinent.\n"
+"2 = Zwei Spieler pro Kontinent.\n"
+"3 = Versuche alle Spieler auf einen Kontinent zu plazieren.\n"
+"4 = Plazierung entsprechend der Kontinentgröße.\n"
+"Hinweis: Der Kartengenerator versucht, die richtige Anzahl von Kontinenten "
+"zu erzeugen."
 
 #: server/settings.c:305
 msgid "Presence of 1x1 islands"
@@ -4234,7 +4238,7 @@ msgstr ""
 
 #: server/settings.c:318
 msgid "All the map is temperate"
-msgstr ""
+msgstr "Die Karte ist gleichmäßig temperiert"
 
 #: server/settings.c:319
 msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
@@ -4245,7 +4249,7 @@ msgstr ""
 
 #: server/settings.c:324
 msgid "Average temperature of the planet"
-msgstr ""
+msgstr "Mittlere Temperatur des Planeten"
 
 #: server/settings.c:325
 msgid ""
@@ -4267,13 +4271,13 @@ msgstr ""
 
 #: server/settings.c:342
 msgid "Percentage of the map that is land"
-msgstr ""
+msgstr "Prozentualer Anteil von Land auf der Karte"
 
 #: server/settings.c:343
 msgid ""
 "This setting gives the approximate percentage of the map that will be made "
 "into land."
-msgstr ""
+msgstr "Diese Option gibt den ungefähren Prozentsatz von Landfeldern auf der Karte an."
 
 #: server/settings.c:349
 msgid "Amount of hills/mountains"
@@ -4298,6 +4302,8 @@ msgid ""
 "Small values mean lots of dry, desert-like land; higher values give a wetter "
 "map with more swamps, jungles, and rivers."
 msgstr ""
+"Kleinere Werte bedeuten viel trockenes, wüstenähnliches Land; größere Werte "
+"ergeben eine feuchtere Karte mit vielen Sümpfen, Dschungeln und Flüssen."
 
 #: server/settings.c:364
 msgid "Map generation random seed"
@@ -4347,19 +4353,20 @@ msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investiged by units."
 msgstr ""
+"Diese Einstellung gibt die genaue Zahl von Hütten auf der Karte an. Hütten "
+"sind kleine Stammesdörfer, die von Einheiten untersucht werden können."
 
 #: server/settings.c:408
 msgid "Minimum number of players"
 msgstr "Mindestanzahl der Spieler"
 
 #: server/settings.c:409
-#, fuzzy
 msgid ""
 "There must be at least this many players (connected human players or AI "
 "players) before the game can start."
 msgstr ""
 "Mindestanzahl der Spieler (einschließlich KI-Spielern), um ein Spiel zu "
-"beginnen"
+"beginnen."
 
 #: server/settings.c:416
 msgid "Maximum number of players"
@@ -4440,7 +4447,7 @@ msgstr "Goldstücke bei Spielbeginn"
 
 #: server/settings.c:463
 msgid "At the beginning of the game, each player is given this much gold."
-msgstr ""
+msgstr "Die Menge Gold, die jeder Spieler zu Beginn erhält."
 
 #: server/settings.c:469
 #, fuzzy
@@ -4452,9 +4459,10 @@ msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player."
 msgstr ""
+"Die Anzahl von Fortschritten, die jeder Spieler bereits zu Beginn erhält. "
+"Die Fortschritte werden für jeden Spieler per Zufall bestimmt."
 
 #: server/settings.c:477
-#, fuzzy
 msgid "Points required to gain a new tech"
 msgstr "Benötigte Punkte pro Forschung"
 
@@ -4536,6 +4544,9 @@ msgid ""
 "multiplied by another factor that comes from the ruleset and is dependent on "
 "the size of the city."
 msgstr ""
+"Die Basismenge an Nahrung, die eine Stadt zum Wachstum benötigt. Dieser Wert "
+"wird mit einem von den Regeln abhängigen Faktor multipliziert und hängt von "
+"der Stadtgröße ab."
 
 #: server/settings.c:536
 msgid "Percentage food lost when need aqueduct"
@@ -4782,9 +4793,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:695
-#, fuzzy
 msgid "Units inside borders cause no unhappiness"
-msgstr "Kampfeinheiten im Einsatz könnten zu Unzufriedenheit führen. "
+msgstr "Einheiten innerhalb der eigenen Grenzen führen nicht zu Unzufriedenheit."
 
 #: server/settings.c:696
 msgid ""
@@ -4951,17 +4961,16 @@ msgstr ""
 
 #: server/settings.c:811
 msgid "Turns until player contact is lost"
-msgstr ""
+msgstr "Anzahl der Züge, bis Spielerkontakt verloren geht (für Verhandlungen)."
 
 #: server/settings.c:812
-#, fuzzy
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even if they do not have an embassy. If set to zero then players "
 "cannot meet unless they have an embassy."
 msgstr ""
-"Spieler können für eine Anzahl von Runden, nachdem sie Kontakt hatten, eine "
-"Konferenz einberufen. Bei Null ist diese Möglichkeit abgeschaltet."
+"Spieler können für eine Anzahl von Runden, nachdem sie miteinander Kontakt "
+"hatten, eine Konferenz einberufen. Bei Null ist diese Möglichkeit abgeschaltet."
 
 #: server/settings.c:822
 msgid "Rebuild palace if capital is conquered"
@@ -5069,7 +5078,7 @@ msgstr "Letztes Spieljahr"
 
 #: server/settings.c:891
 msgid "The game will end at the end of the given year."
-msgstr ""
+msgstr "Das Spiel endet mit Ablauf des angegebenen Jahres."
 
 #: server/settings.c:896
 msgid "Maximum seconds per turn"
@@ -5596,7 +5605,7 @@ msgstr ""
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: server/stdinhand.c:349 client/packhand.c:1204
+#: server/stdinhand.c:349 client/packhand.c:1211
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -5682,7 +5691,7 @@ msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
 
 #: server/stdinhand.c:600
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver topic string set to '%s'."
 msgstr "Metaserver Informationszeile auf '%s' gesetzt."
 
@@ -6041,7 +6050,7 @@ msgstr "Beschreibung"
 
 #: server/stdinhand.c:1956
 msgid "Try 'show situational' or 'show rare' to show more options"
-msgstr ""
+msgstr "Weitere Optionen mit 'show situational' oder 'show rare'"
 
 #: server/stdinhand.c:2003
 msgid "Cannot change teams once game has begun."
@@ -6270,11 +6279,11 @@ msgstr "Syntax: observe [Spieler]"
 
 #: server/stdinhand.c:2620
 msgid "Game: A global observer cannot be created: too many regular players."
-msgstr ""
+msgstr "Spiel: Globaler Beobachter nicht möglich, da zuviele reguläre Spieler."
 
 #: server/stdinhand.c:2651
 msgid "Game: A global observer has been created"
-msgstr ""
+msgstr "Spiel: Ein globaler Beobachter wurde erzeugt"
 
 # ? observe logic buggy
 #: server/stdinhand.c:2667
@@ -6283,9 +6292,9 @@ msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "%s kontrolliert %s bereits. Dies würde %s entfernen."
 
 #: server/stdinhand.c:2675
-#, fuzzy, c-format
+#, c-format
 msgid "%s is already observing %s."
-msgstr "%s kontrolliert %s bereits."
+msgstr "%s beobachtet %s bereits."
 
 #: server/stdinhand.c:2728
 #, c-format
@@ -6308,7 +6317,7 @@ msgstr "Anwendung: take <Verbindungsname> <Spieler>"
 #: server/stdinhand.c:2811
 #, c-format
 msgid "%s cannot be taken."
-msgstr ""
+msgstr "%s kann nicht übernommen werden."
 
 #: server/stdinhand.c:2818
 #, c-format
@@ -7978,22 +7987,20 @@ msgid "Starting server..."
 msgstr "Starte Server..."
 
 #: client/connectdlg_common.c:309
-#, fuzzy
 msgid "Couldn't start the server."
-msgstr "Konnte Datei '%s' nicht laden"
+msgstr "Konnte den Server nicht starten."
 
 #: client/connectdlg_common.c:310 client/connectdlg_common.c:343
 msgid "You'll have to start one manually. Sorry..."
-msgstr ""
+msgstr "Sie müssen den Server von Hand starten, tut uns leid ..."
 
 #: client/connectdlg_common.c:341
-#, fuzzy
 msgid "Couldn't connect to the server."
-msgstr "Eine Client-Server-Verbindung beenden."
+msgstr "Konnte Verbindung zum Server nicht herstellen."
 
 #: client/connectdlg_common.c:342
 msgid "We probably couldn't start it from here."
-msgstr ""
+msgstr "Kann vermutlich nicht hier gestartet werden."
 
 #: client/connectdlg_common.c:407
 msgid "We have control of the server (command access level hack)"
@@ -8089,52 +8096,52 @@ msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "Ermöglicht allen Spielern mit Kenntnis von %s den Bau von %s."
 
 #: client/helpdata.c:569 client/helpdata.c:583
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s (with %s).\n"
-msgstr "Ermöglicht %s (mit %s).\n"
+msgstr "* Ermöglicht %s (mit %s).\n"
 
 #: client/helpdata.c:572 client/helpdata.c:587
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s.\n"
-msgstr "Ermöglicht %s.\n"
+msgstr "* Ermöglicht %s.\n"
 
 #: client/helpdata.c:654
-#, fuzzy, c-format
+#, c-format
 msgid "* May not be built in cities.\n"
-msgstr "* Kann neue Städte gründen.\n"
+msgstr "* Kann nicht in Städten gebaut werden.\n"
 
 #: client/helpdata.c:657
 #, c-format
 msgid "* Never has a home city.\n"
-msgstr ""
+msgstr "* hat niemals eine Heimatstadt.\n"
 
 #: client/helpdata.c:661
 #, c-format
 msgid "* Losing this unit will lose you the game!\n"
-msgstr ""
+msgstr "* Der Verlust dieser Einheit bedeutet den Verlust des Spieles!\n"
 
 #: client/helpdata.c:665
 #, c-format
 msgid "* Each player may only have one of this type of unit.\n"
-msgstr ""
+msgstr "* Jeder Spieler kann nur eine Einheit dieses Typs besitzen.\n"
 
 #: client/helpdata.c:668
 #, c-format
 msgid "* Requires %d population to build.\n"
-msgstr ""
+msgstr "* Benötigt %d Bürger zur Herstellung.\n"
 
 #: client/helpdata.c:674
 #, c-format
 msgid "* Can carry and refuel %d air unit.\n"
 msgid_plural "* Can carry and refuel %d air units.\n"
-msgstr[0] "* Kann 1 Lufteinheit transportieren und betanken.\n"
+msgstr[0] "* Kann %d Lufteinheit transportieren und betanken.\n"
 msgstr[1] "* Kann %d Lufteinheiten transportieren und betanken.\n"
 
 #: client/helpdata.c:679
 #, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
-msgstr[0] "* Kann 1 Raketeneinheit transportieren und betanken.\n"
+msgstr[0] "* Kann %d Raketeneinheit transportieren und betanken.\n"
 msgstr[1] "* Kann %d Raketeneinheiten transportieren und betanken.\n"
 
 #: client/helpdata.c:684
@@ -8152,11 +8159,14 @@ msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least 9 tiles [in Manhattan distance] from this unit's home city).\n"
 msgstr ""
+"* Kann Handelsrouten erzeugen (Einheit muss zu einer Stadt reisen, die "
+"mindestens 9 Felder (in rechtwinkliger Entfernung) von seiner Heimatstadt "
+"entfernt ist.\n"
 
 #: client/helpdata.c:699
-#, fuzzy, c-format
+#, c-format
 msgid "* Can help build wonders (adds %d production).\n"
-msgstr "* Kann beim Bau von Weltwundern helfen.\n"
+msgstr "* Kann beim Bau von Weltwundern helfen (liefert %d Schilder).\n"
 
 #: client/helpdata.c:703
 #, fuzzy, c-format
@@ -8167,6 +8177,8 @@ msgstr "Es konnten keine %s aufgelöst werden"
 #, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
 msgstr ""
+"* Kann in einer Stadt aufgelöst werden, um die Hälfte der Produktionskosten "
+"zu erhalten.\n"
 
 #: client/helpdata.c:709
 #, c-format
@@ -8177,16 +8189,18 @@ msgstr "* Kann neue Städte gründen.\n"
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr ""
+"* Kann einer Stadt %d Bürger hinzufügen, wenn die Stadtgröße %d nicht "
+"überschreitet.\n"
 
 #: client/helpdata.c:720
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build roads and railroads.\n"
-msgstr "* Kann beim Bau von Weltwundern helfen.\n"
+msgstr "* Kann Straßen und Eisenbahnen bauen.\n"
 
 #: client/helpdata.c:721
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build mines on tiles.\n"
-msgstr "* Kann neue Städte gründen.\n"
+msgstr "* Kann Bergwerke errichten.\n"
 
 #: client/helpdata.c:722
 #, fuzzy, c-format
@@ -8196,17 +8210,19 @@ msgstr "* Kann neue Städte gründen.\n"
 #: client/helpdata.c:727
 #, fuzzy, c-format
 msgid "* Can build farmland.\n"
-msgstr "Erzeuge Ackerland"
+msgstr "* Kann Ackerland erzeugen.\n"
 
 #: client/helpdata.c:731
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build farmland (if %s is known).\n"
-msgstr "* Kann neue Städte gründen.\n"
+msgstr "* Kann Ackerland erzeugen (falls %s bekannt).\n"
 
 #: client/helpdata.c:735
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr ""
+"* Kann Ackerland erzeugen (wenn eine der folgenden Technologien bekannt ist: "
+"%s).\n"
 
 #: client/helpdata.c:743
 #, fuzzy, c-format
@@ -8521,7 +8537,7 @@ msgstr "* %s mit diesem Wissen können Straßen zu Eisenbahnlinien machen.\n"
 #: client/helpdata.c:1063
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr "* Ermöglicht %s, bewässertes Land in Farmland zu verwandeln.\n"
+msgstr "* Ermöglicht %s, bewässertes Land in Ackerland zu verwandeln.\n"
 
 #: client/helpdata.c:1124
 #, c-format
@@ -9061,21 +9077,21 @@ msgstr "Client capability string: %s"
 msgid "Server capability string: %s"
 msgstr "Server capability string: %s"
 
-#: client/packhand.c:803
+#: client/packhand.c:810
 #, c-format
 msgid "Start of turn %d"
 msgstr "Beginn des %d. Zugs"
 
-#: client/packhand.c:1574
+#: client/packhand.c:1581
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1575
+#: client/packhand.c:1582
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1575
+#: client/packhand.c:1582
 msgid "OFF"
 msgstr "AUS"
 
@@ -15338,8 +15354,8 @@ msgstr ""
 "civclient' aufruft, wobei 'xx' der Ländercode ist.\n"
 "\n"
 "Bitte informieren Sie uns über Fehler bzw. Verbesserungs-\n"
-"möglichkeiten der deutschen Übersetzung, indem Sie eine Email an "
-"den Übersetzer schicken.\n"
+"möglichkeiten der deutschen Übersetzung, indem Sie eine Email an den "
+"Übersetzer schicken.\n"
 "\n"
 "Es gibt auch eine öffentliche Mailingliste, die sich ausschließlich mit der "
 "deutschen Übersetzung beschäftigt. Sie können sie mit einer Mail an <freeciv."
@@ -15521,7 +15537,7 @@ msgstr ""
 "  F: Dialog zur Stadtsuche öffnen\n"
 "  g: gehe nach (Ziel per Mausklick bestimmen)\n"
 "  h: Standort zur neuen Heimatstadt machen\n"
-"  i: Bewässerungssystem/Farmland anlegen (kann Gelände verändern)\n"
+"  i: Bewässerungssystem/Ackerland anlegen (kann Gelände verändern)\n"
 "  l: in eine Stadt gehen/geflogen werden\n"
 "  L: Dialog für Arbeitslisten öffnen\n"
 "  m: Bergwerk errichten (kann Gelände verändern)\n"
