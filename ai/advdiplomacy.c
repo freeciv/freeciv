@@ -774,8 +774,9 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
         || !aplayer->is_alive
         || ds == DS_NO_CONTACT
         || (pplayer->team != TEAM_NONE && pplayer->team == aplayer->team)
-        || (pplayer != ai->diplomacy.alliance_leader 
-            && adip->is_allied_with_ally)
+        || (pplayer != ai->diplomacy.alliance_leader && 
+	    aplayer != ai->diplomacy.alliance_leader &&
+            adip->is_allied_with_ally)
         || (pplayer_get_diplstate(aplayer, ai->diplomacy.alliance_leader)->type
             == DS_CEASEFIRE)) {
       continue;
