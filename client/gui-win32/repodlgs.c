@@ -91,7 +91,7 @@ science_dialog_update(void)
 {
  
   char text[512], rate[128];
-  int i, hist, id, turns_to_advance;
+  int i, hist, id, turns_to_advance, steps;
   char *report_title;
 
   if (!science_dlg) return;            
@@ -157,10 +157,11 @@ science_dialog_update(void)
 			   id);
       
     }
-  }   
-  my_snprintf(text, sizeof(text), _("(%d steps)"),
-	      num_unknown_techs_for_goal(game.player_ptr,
-					 game.player_ptr->ai.tech_goal));
+  }
+  steps = num_unknown_techs_for_goal(game.player_ptr,
+                                     game.player_ptr->ai.tech_goal);
+  my_snprintf(text, sizeof(text),
+	      PL_("(%d step)", "(%d steps)", steps), steps);
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_STEPS),text);
   fcwin_redo_layout(science_dlg);
 }
@@ -173,7 +174,7 @@ static LONG CALLBACK science_proc(HWND hWnd,
 				  WPARAM wParam,
 				  LPARAM lParam)
 {
-  int to;
+  int to, steps;
   switch(message)
     {
     case WM_CREATE:
@@ -217,8 +218,10 @@ static LONG CALLBACK science_proc(HWND hWnd,
 	      char text[512];
 	      struct packet_player_request packet;
 	      to=ComboBox_GetItemData(GetDlgItem(hWnd,ID_SCIENCE_GOAL),to);
-	      my_snprintf(text, sizeof(text), _("(%d steps)"),
-			  num_unknown_techs_for_goal(game.player_ptr, to));
+	      steps = num_unknown_techs_for_goal(game.player_ptr, to);
+	      my_snprintf(text, sizeof(text), 
+	                  PL_("(%d step)", "(%d steps)", steps),
+			  steps);
 	      SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_STEPS),text);       
 	      packet.tech=to;
 	      send_packet_player_request(&aconnection, &packet, 

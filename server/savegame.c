@@ -727,8 +727,8 @@ static void player_load(struct player *plr, int plrno,
   players_iterate(aplayer) {
     if (pplayers_allied(plr, aplayer)
         && !pplayer_can_ally(plr, aplayer)) {
-      freelog(LOG_ERROR, "Illegal alliance structure detected: "
-              "%s's alliance to %s reduced to peace treaty.",
+      freelog(LOG_ERROR, _("Illegal alliance structure detected: "
+              "%s's alliance to %s reduced to peace treaty."),
               plr->name, aplayer->name);
       plr->diplstates[aplayer->player_no].type = DS_PEACE;
       aplayer->diplstates[plr->player_no].type = DS_PEACE;
