@@ -195,14 +195,14 @@ static Object *MakeHelpButton(STRPTR label, enum help_page_type type)
 /****************************************************************
  Returns a tech buttons background color
 *****************************************************************/
-static ULONG GetTechBG(int tech)
+ULONG GetTechBG(int tech)
 {
   ULONG bg;
 
   switch(get_invention(game.player_ptr, tech))
   {
   case TECH_KNOWN:
-    bg = 0x0000ff00; /* green */
+    bg = 0x0000c800; /* green */
     break;
   case TECH_REACHABLE:
     bg = 0x00ffff00; /* yellow */

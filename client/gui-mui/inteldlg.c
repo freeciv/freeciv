@@ -29,10 +29,13 @@
 #include "player.h"
 #include "shared.h"
 
+#include "helpdlg.h"
 #include "inteldlg.h"
 
 /* Amiga Client stuff */
 
+#include "autogroupclass.h"
+#include "colortextclass.h"
 #include "muistuff.h"
 
 IMPORT Object *app;
@@ -76,6 +79,14 @@ static void intel_close(void)
 }
 
 /****************************************************************
+ Callback for the technologies
+*****************************************************************/
+static void intel_tech( ULONG *tech)
+{
+  popup_help_dialog_typed( advances[*tech].name, HELP_TECH);
+}
+
+/****************************************************************
  Create the Inteligence window for the given player
 *****************************************************************/
 static void intel_create_dialog(struct player *p)
@@ -89,7 +100,7 @@ static void intel_create_dialog(struct player *p)
   Object *luxury_text;
   Object *researching_text;
   Object *capital_text;
-  Object *research_listview;
+  Object *tech_group;
 
   if (intel_wnd)
     return;
@@ -110,11 +121,9 @@ static void intel_create_dialog(struct player *p)
 	    Child, gold_text = TextObject, MUIA_Text_PreParse, "\33c", End,
 	    Child, researching_text = TextObject, MUIA_Text_PreParse, "\33c", End,
 	    End,
-	Child, research_listview = NListviewObject,
-	    MUIA_NListview_NList, NListObject,
-		MUIA_NList_ConstructHook, MUIV_NList_ConstructHook_String,
-		MUIA_NList_DestructHook, MUIV_NList_DestructHook_String,
-		End,
+	Child, ScrollgroupObject,
+            MUIA_Scrollgroup_FreeVert, FALSE,
+	    MUIA_Scrollgroup_Contents, tech_group = AutoGroup, VirtualFrame, End,
 	    End,
 	End,
     End;
@@ -150,16 +159,16 @@ static void intel_create_dialog(struct player *p)
     {
       if (get_invention(p, i) == TECH_KNOWN)
       {
-	if (get_invention(game.player_ptr, i) == TECH_KNOWN)
-	{
-	  DoMethod(research_listview, MUIM_NList_InsertSingle, advances[i].name, MUIV_NList_Insert_Bottom);
-	}
-	else
-	{
-	  char buf[128];
-	  sprintf(buf, "%s*", advances[i].name);
-	  DoMethod(research_listview, MUIM_NList_InsertSingle, buf, MUIV_NList_Insert_Bottom);
-	}
+	Object *tech = ColorTextObject,
+	    MUIA_ColorText_Contents, advances[i].name,
+	    MUIA_ColorText_Background, GetTechBG(i),
+	    MUIA_InputMode, MUIV_InputMode_RelVerify,
+	    End;
+        if (tech)
+        {
+          DoMethod(tech_group, OM_ADDMEMBER, tech);
+          DoMethod(tech, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, intel_tech, i);
+        }
       }
     }
 

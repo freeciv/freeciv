@@ -15,6 +15,6 @@
 
 #include "helpdlg_g.h"
 
-/* nothing else */
+ULONG GetTechBG(int tech);
 
 #endif  /* FC__HELPDLG_H */
