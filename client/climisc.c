@@ -23,6 +23,8 @@ used throughout the client.
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <unistd.h>
+#include <sys/stat.h>
 
 #include <game.h>
 #include <citydlg.h>
@@ -35,6 +37,8 @@ used throughout the client.
 #ifndef FREECIV_DATADIR
 #define FREECIV_DATADIR "data"
 #endif
+
+char *tile_set_dir=NULL;
 
 
 /***************************************************************************
@@ -58,9 +62,30 @@ char *datafilename(char *filename)
   sprintf(realfile,"%s/%s",datadir,filename);
   return(realfile);
 }
-		
 
 
+/**************************************************************************
+  Search for the requested xpm file
+**************************************************************************/
+char *tilefilename(char *name)
+{
+  char *datadir=datafilename("");
+  static char filename[256];
+  struct stat foo;
+
+  /* first search tileset directory */
+  if(tile_set_dir)  {
+    strcpy(filename,datadir);
+    strcat(filename,tile_set_dir);
+    if(filename[strlen(filename)-1]!='/') strcat(filename,"/");
+    strcat(filename,name);
+    if(!stat(filename,&foo)) return filename;
+  }
+
+  /* wasn't in tileset directory or no tileset specified, use default */
+  sprintf(filename,"%sdefault/%s",datadir,name);
+  return filename;
+}
 
 
 /**************************************************************************
