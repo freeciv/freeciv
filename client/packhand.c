@@ -66,8 +66,6 @@
 
 #include "packhand.h"
 
-static int packets_caused_by_current_request = 0;
-
 static void handle_city_packet_common(struct city *pcity, int is_new,
                                       int popup, int investigate);
 
@@ -2198,8 +2196,6 @@ void handle_processing_started(void)
 
   freelog(LOG_DEBUG, "start processing packet %d",
 	  aconnection.client.request_id_of_currently_handled_packet);
-
-  packets_caused_by_current_request = 0;
 }
 
 /**************************************************************************
@@ -2215,14 +2211,6 @@ void handle_processing_finished(void)
   aconnection.client.last_processed_request_id_seen =
       aconnection.client.request_id_of_currently_handled_packet;
 
-  /* The client received only the processing-finished packet. Don't
-     show this message for non-user request. */
-  if (!test_non_user_request_and_remove
-      (aconnection.client.request_id_of_currently_handled_packet)
-      && packets_caused_by_current_request == 1) {
-    append_output_window(_("Client: No reaction from server."));
-  }
-
   aconnection.client.request_id_of_currently_handled_packet = 0;
 }
 
@@ -2234,9 +2222,6 @@ void notify_about_incomming_packet(struct connection *pc,
 {
   freelog(LOG_DEBUG, "incomming packet={type=%d, size=%d}", packet_type,
 	  size);
-  if (aconnection.client.request_id_of_currently_handled_packet) {
-    packets_caused_by_current_request++;
-  }
 }
 
 /**************************************************************************
@@ -2250,8 +2235,4 @@ void notify_about_outgoing_packet(struct connection *pc,
 	  packet_type, size, request_id);
 
   assert(request_id);
-  if (packet_type == PACKET_CONN_PONG
-      || packet_type == PACKET_ATTRIBUTE_CHUNK) {
-    add_non_user_request(request_id);
-  }
 }
