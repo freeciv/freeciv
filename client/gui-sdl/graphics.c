@@ -3158,33 +3158,10 @@ bool correct_rect_region(SDL_Rect * pRect)
 /**************************************************************************
   ...
 **************************************************************************/
-bool detect_rect_colisions(SDL_Rect * pMaster, SDL_Rect * pSlave)
+bool is_in_rect_area(int x, int y, SDL_Rect rect)
 {
-  int Mx2, My2, Sx2, Sy2;
-
-  if (!pMaster || !pSlave)
-    return FALSE;
-
-  Mx2 = pMaster->x + pMaster->w;
-  My2 = pMaster->y + pMaster->h;
-  Sx2 = pSlave->x + pSlave->w;
-  Sy2 = pSlave->y + pSlave->h;
-
-  return (((pMaster->x <= pSlave->x) && (Mx2 > pSlave->x) &&
-          (pMaster->y <= pSlave->y) && (My2 > pSlave->y)) ||
-         ((pMaster->x <= Sx2) && (Mx2 > Sx2) &&
-          (pMaster->y <= pSlave->y) && (My2 > pSlave->y)) ||
-         ((pMaster->x <= pSlave->x) && (Mx2 > pSlave->x) &&
-          (pMaster->y <= Sy2) && (My2 > Sy2)) ||
-         ((pMaster->x <= Sx2) && (Mx2 > Sx2) &&
-          (pMaster->y <= Sy2) && (My2 > Sy2)));
-}
-
-bool cmp_rect(SDL_Rect * pMaster, SDL_Rect * pSlave)
-{
-  return pMaster->x == pSlave->x
-      && pMaster->y == pSlave->y
-      && pMaster->w == pSlave->w && pMaster->h == pSlave->h;
+  return ((x >= rect.x) && (x < rect.x + rect.w)
+	  && (y >= rect.y) && (y < rect.y + rect.h));
 }
 
 /* ===================================================================== */

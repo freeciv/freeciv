@@ -475,38 +475,28 @@ static int change_mode_callback(struct GUI *pWidget)
   pWindow->size.x = pWindow->dst->w - 10 - pWindow->size.w;
 
   center_optiondlg();/* alloc new dest buffers */
-  set_new_order_widgets_dest_buffers();
   reset_main_widget_dest_buffer();
   
   /* move units window to botton-right corrner */
   set_new_units_window_pos();
-
   /* move minimap window to botton-left corrner */
   set_new_mini_map_window_pos();
+  set_new_order_widgets_dest_buffers();
   
   /* Options Dlg Window */
   pWindow = pOption_Dlg->pEndOptionsWidgetList;
 
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
-
     draw_intro_gfx();
-
     refresh_widget_background(pWindow);
-
     redraw_group(pOption_Dlg->pBeginOptionsWidgetList, 
     				pOption_Dlg->pEndOptionsWidgetList, 0);
-
   } else {
     
     update_info_label();
     update_unit_info_label(get_unit_in_focus());
-    
-    
-    /* with redrawing full map */
-    center_on_something();
-    
-    /*refresh_widget_background(pWindow);*/
-
+    center_on_something();/* with redrawing full map */
+    update_order_widget();
     redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
 			    pOption_Dlg->pEndOptionsWidgetList, 0);
 

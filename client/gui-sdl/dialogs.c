@@ -1854,7 +1854,7 @@ bool caravan_dialog_is_open(void)
 /* ====================================================================== */
 /* ============================ DIPLOMAT DIALOG ========================= */
 /* ====================================================================== */
-static struct SMALL_DLG *pDiplomat_Dlg = NULL;
+static struct ADVANCED_DLG *pDiplomat_Dlg = NULL;
 
 /****************************************************************
 ...
@@ -1927,7 +1927,6 @@ static int spy_sabotage_request(struct GUI *pWidget)
   
   lock_buffer(pWidget->dst);
   popdown_diplomat_dialog();
-  
   if(pCity && find_unit_by_id(id)) {
     request_diplomat_action(SPY_GET_SABOTAGE_LIST, id, pCity->id, 0);
   }
@@ -1971,7 +1970,6 @@ static int spy_steal_callback(struct GUI *pWidget)
   int diplomat_id = pWidget->data.cont->id1;
     
   popdown_diplomat_dialog();
-  
   if(find_unit_by_id(diplomat_id) && 
     find_city_by_id(diplomat_target_id)) { 
     request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
@@ -1982,28 +1980,27 @@ static int spy_steal_callback(struct GUI *pWidget)
   return -1;
 }
 
-/****************************************************************
-...
-*****************************************************************/
+/**************************************************************************
+  ...
+**************************************************************************/
 static int spy_steal_popup(struct GUI *pWidget)
 {
   struct city *pVcity = pWidget->data.city;
   int id = MAX_ID - pWidget->ID;
   struct player *pVictim = NULL;
-  struct CONTAINER *pCont;  
-  struct GUI *pBuf = NULL; /* FIXME: possibly uninitialized */
+  struct CONTAINER *pCont;
+  struct GUI *pBuf = NULL;
   struct GUI *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pSurf;
-  int i, count, w = 0, h;
-  
+  int max_col, max_row, col, i, count = 0, w = 0, h;
+
   lock_buffer(pWidget->dst);
   popdown_diplomat_dialog();
   
   if(pVcity)
   {
     pVictim = city_owner(pVcity);
-    /*get_canvas_xy( pVcity->x , pVcity->y , &canvas_x , &canvas_y );*/
   }
   
   if (pDiplomat_Dlg || !pVictim) {
@@ -2017,39 +2014,26 @@ static int spy_steal_popup(struct GUI *pWidget)
       && get_invention(pVictim, i)==TECH_KNOWN
       && (get_invention(game.player_ptr, i)==TECH_UNKNOWN
       || get_invention(game.player_ptr, i)==TECH_REACHABLE)) {
-	w = i;
 	count++;
       }
   }
   
-  if(!count) {
-    remove_locked_buffer();
-    return 1;
-  }
-  
-  if ( count == 1 )
-  {
-    /* if there is only 1 tech to steal then 
-       send steal order to it */
+  if(!count) {    
+    /* if there is no known tech to steal then 
+       send steal order at Spy's Discretion */
     int target_id = pVcity->id;
 
     remove_locked_buffer();
-    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, w);
+    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, game.num_tech_types);
     return -1;
   }
-  
-  w = 0;
-  
+    
   pCont = MALLOC(sizeof(struct CONTAINER));
   pCont->id0 = pVcity->id;
   pCont->id1 = id;/* spy id */
   
-  count = 0;
-  
-  pDiplomat_Dlg = MALLOC(sizeof(struct SMALL_DLG));
-  
-  h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
-  
+  pDiplomat_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+      
   pStr = create_str16_from_char(_("Select Advance to Steal"), 12);
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -2077,135 +2061,126 @@ static int spy_steal_popup(struct GUI *pWidget)
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
-  add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
-  /* ------------------ */
+  add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);  
+  /* ------------------------- */
+  
+  count++; /* count + at Spy's Discretion */
+  /* max col - 104 is steal tech widget width */
+  max_col = (Main.screen->w - DOUBLE_FRAME_WH - 2) / 104;
+  /* max row - 204 is steal tech widget height */
+  max_row = (Main.screen->h - (WINDOW_TILE_HIGH + 1 + 2 + FRAME_WH)) / 204;
+  
+  /* make space on screen for scrollbar */
+  if (max_col * max_row < count) {
+    max_col--;
+  }
+
+  if (count < max_col + 1) {
+    col = count;
+  } else {
+    if (count < max_col + 3) {
+      col = max_col - 2;
+    } else {
+      if (count < max_col + 5) {
+        col = max_col - 1;
+      } else {
+        col = max_col;
+      }
+    }
+  }
   
   pStr = create_string16(NULL, 0, 10);
-  pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);  
+  pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
   
   count = 0;
+  h = col * max_row;
   for(i=A_FIRST; i<game.num_tech_types; i++) {
     if (tech_is_available(game.player_ptr, i)
-       && get_invention(pVictim, i)==TECH_KNOWN
-       && (get_invention(game.player_ptr, i)==TECH_UNKNOWN
-       || get_invention(game.player_ptr, i)==TECH_REACHABLE)) {
-
+      && get_invention(pVictim, i)==TECH_KNOWN
+      && (get_invention(game.player_ptr, i)==TECH_UNKNOWN
+      || get_invention(game.player_ptr, i)==TECH_REACHABLE)) {
+    
+      count++;  
       copy_chars_to_string16(pStr, advances[i].name);
       pSurf = create_sellect_tech_icon(pStr, i);
-	
-      /* ------------------------------ */
       pBuf = create_icon2(pSurf, pWindow->dst,
-			(WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT));
+      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = spy_steal_callback;
       pBuf->data.cont = pCont;
-	
+
       add_to_gui_list(MAX_ID - i, pBuf);
-      count++;
-    }
-  }
-  
-
-  if(count > 0) {
-    /* get spy tech */
-    i = unit_type(find_unit_by_id(id))->tech_requirement;
-    copy_chars_to_string16(pStr, _("At Spy's Discretion"));
-    pSurf = create_sellect_tech_icon(pStr, i);
-	
-    /* ------------------------------ */
-    pBuf = create_icon2(pSurf, pWindow->dst,
-    	(WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT| WF_FREE_DATA));
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->action = spy_steal_callback;
-    pBuf->data.cont = pCont;
     
-    add_to_gui_list(MAX_ID - game.num_tech_types, pBuf);
-    count++;
-  }
-
-  pDiplomat_Dlg->pBeginWidgetList = pBuf;
-
-  /* Port Me To new Scrollbar code */
-  if ( count > 10 )
-  {
-    i = 6;
-    if ( count > 12 ) {
-      freelog( LOG_FATAL , "If you see this msg please contact me on bursig@poczta.fm and give me this : Tech12 Err");
-      abort();
-    }
-  }
-  else
-  {
-    if ( count > 8 )
-    {
-      i = 5;
-    }
-    else
-    {
-      if ( count > 6 )
-      {
-        i = 4;
-      }
-      else
-      {
-	i = count;
+      if (count > h) {
+        set_wflag(pBuf, WF_HIDDEN);
       }
     }
   }
   
-  if (count > i) {
-    count = (count + (i-1)) / i;
-    w = MAX( w , (i * 102 + 2 + DOUBLE_FRAME_WH));
-    h += count * 202;
+  /* get spy tech */
+  i = unit_type(find_unit_by_id(id))->tech_requirement;
+  copy_chars_to_string16(pStr, _("At Spy's Discretion"));
+  pSurf = create_sellect_tech_icon(pStr, i);
+	
+  pBuf = create_icon2(pSurf, pWindow->dst,
+    	(WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT| WF_FREE_DATA));
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->action = spy_steal_callback;
+  pBuf->data.cont = pCont;
+    
+  add_to_gui_list(MAX_ID - game.num_tech_types, pBuf);
+  count++;
+  
+  /* --------------------------------------------------------- */
+  FREESTRING16(pStr);
+  pDiplomat_Dlg->pBeginWidgetList = pBuf;
+  pDiplomat_Dlg->pBeginActiveWidgetList = pBuf;
+  pDiplomat_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
+  
+  /* -------------------------------------------------------------- */
+  
+  i = 0;
+  if (count > col) {
+    count = (count + (col - 1)) / col;
+    if (count > max_row) {
+      pDiplomat_Dlg->pActiveWidgetList = pWindow->prev->prev;
+      count = max_row;
+      i = create_vertical_scrollbar(pDiplomat_Dlg, col, count, TRUE, TRUE);  
+    }
   } else {
-    w = MAX(w , (count * 102 + 2 + DOUBLE_FRAME_WH));
-    h += 202;
+    count = 1;
   }
 
+  w = MAX(w, (col * pBuf->size.w + 2 + DOUBLE_FRAME_WH + i));
+  h = WINDOW_TILE_HIGH + 1 + count * pBuf->size.h + 2 + FRAME_WH;
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
-
+  
+  /* alloca window theme and win background buffer */
   pSurf = get_logo_gfx();
-  if(resize_window(pWindow, pSurf, NULL, w, h)) {
-    FREESURFACE(pSurf);
-  }
+  resize_window(pWindow, pSurf, NULL, w, h);
+  FREESURFACE(pSurf);
 
-  /* exit button */
+    /* exit button */
   pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
   pBuf->size.y = pWindow->size.y;
   
-  /* techs widgets*/
-  pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + FRAME_WH;
-  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1;
-  pBuf = pBuf->prev;
-
-  w = 0;
-  while (pBuf) {
-    pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w - 2;
-    pBuf->size.y = pBuf->next->size.y;
-    w++;
-
-    if (w == i) {
-      w = 0;
-      pBuf->size.x = pWindow->size.x + FRAME_WH;
-      pBuf->size.y += pBuf->size.h - 2;
-    }
-
-    if (pBuf == pDiplomat_Dlg->pBeginWidgetList) {
-      break;
-    }
-    pBuf = pBuf->prev;
+  setup_vertical_widgets_position(col, pWindow->size.x + FRAME_WH + 1,
+		  pWindow->size.y + WINDOW_TILE_HIGH + 1, 0, 0,
+		  pDiplomat_Dlg->pBeginActiveWidgetList,
+  		  pDiplomat_Dlg->pEndActiveWidgetList);
+    
+  if(pDiplomat_Dlg->pScroll) {
+    setup_vertical_scrollbar_area(pDiplomat_Dlg->pScroll,
+	pWindow->size.x + pWindow->size.w - FRAME_WH,
+    	pWindow->size.y + WINDOW_TILE_HIGH + 1,
+    	pWindow->size.h - (FRAME_WH + WINDOW_TILE_HIGH + 1), TRUE);
   }
 
-  /* ----------------------- */
-  redraw_group(pDiplomat_Dlg->pBeginWidgetList, pWindow, 0);
-
-  flush_rect(pWindow->size);
-
-  FREESTRING16(pStr);
+  redraw_group(pDiplomat_Dlg->pBeginWidgetList, pWindow, FALSE);
+  sdl_dirty_rect(pWindow->size);
   
   return -1;
 }
@@ -2219,6 +2194,7 @@ static int diplomat_steal_callback(struct GUI *pWidget)
   int id = MAX_ID - pWidget->ID;
   
   popdown_diplomat_dialog();
+  
   if(pCity && find_unit_by_id(id)) { 
     request_diplomat_action(DIPLOMAT_STEAL, id, pCity->id, 0);
   }
@@ -2237,6 +2213,7 @@ static int diplomat_incite_callback(struct GUI *pWidget)
   
   lock_buffer(pWidget->dst);
   popdown_diplomat_dialog();
+  
   if(pCity && find_unit_by_id(id)) { 
     struct packet_generic_integer packet;
     packet.value = pCity->id;
@@ -2294,9 +2271,7 @@ static int spy_sabotage_unit_callback(struct GUI *pWidget)
   int target_id = pWidget->data.unit->id;
   
   popdown_diplomat_dialog();
-  
   request_diplomat_action(SPY_SABOTAGE_UNIT, diplomat_id, target_id, 0);
-  
   return -1;
 }
 
@@ -2320,8 +2295,9 @@ static void popdown_diplomat_dialog(void)
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pDiplomat_Dlg->pBeginWidgetList,
 				pDiplomat_Dlg->pEndWidgetList);
+    FREE(pDiplomat_Dlg->pScroll);
     FREE(pDiplomat_Dlg);
-    flush_dirty();
+    queue_flush();
   }
 }
 
@@ -2346,7 +2322,7 @@ void popup_diplomat_dialog(struct unit *pUnit, int target_x, int target_y)
   pCity = map_get_city(target_x, target_y);
   spy = unit_flag(pUnit, F_SPY);
   
-  pDiplomat_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pDiplomat_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
   
   h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
     

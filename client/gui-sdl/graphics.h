@@ -164,8 +164,6 @@
 
 #endif /* USE_DUFFS_LOOP */
 
-
-
 struct Sprite {
   struct SDL_Surface *psurface;
 };
@@ -221,9 +219,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags);
 
 /* Rect */
 bool correct_rect_region(SDL_Rect *pRect);
-bool detect_rect_colisions(SDL_Rect *pMaster, SDL_Rect *pSlave);
-bool cmp_rect(SDL_Rect *pMaster, SDL_Rect *pSlave);
-
+bool is_in_rect_area(int x, int y, SDL_Rect rect);
 
 int SDL_FillRectAlpha(SDL_Surface *pSurface, SDL_Rect *pRect,
 		      SDL_Color *pColor);

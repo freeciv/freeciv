@@ -2259,7 +2259,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
 
   /* draw name tech text */
   dst.x = (pSurf->w - pText->w) / 2;
-  dst.y = 25;
+  dst.y = 20;
   SDL_BlitSurface(pText, NULL, pSurf, &dst);
 
   dst.y += pText->h + 10;
@@ -2308,7 +2308,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
       }	/* h == 2 */
       pBuf_Array++;
     }	/* while */
-    dst.y += Surf_Array[0]->h + 10;
+    dst.y += Surf_Array[0]->h + 5;
   } /* if (w) */
   /* -------------------------------------------------------- */
   w = 0;
@@ -2651,6 +2651,24 @@ static int popdown_science_dialog(struct GUI *pButton)
 /**************************************************************************
   ...
 **************************************************************************/
+static int exit_change_tech_dlg_callback(struct GUI *pWidget)
+{
+  if (pChangeTechDlg) {
+    popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList, 
+  				pChangeTechDlg->pEndWidgetList);
+    FREE(pChangeTechDlg->pScroll);
+    FREE(pChangeTechDlg);
+    enable_science_dialog();
+    if (pWidget) {
+      flush_dirty();
+    }
+  }
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static int change_research_callback(struct GUI *pWidget)
 {
   struct packet_player_request packet;
@@ -2658,28 +2676,9 @@ static int change_research_callback(struct GUI *pWidget)
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_RESEARCH);
   
-  popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
-				pChangeTechDlg->pEndWidgetList);
-  
-  enable_science_dialog();
-  FREE(pChangeTechDlg);
-  flush_dirty();
+  exit_change_tech_dlg_callback(NULL);
   return -1;
 }
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int exit_change_research_callback(struct GUI *pWidget)
-{
-  popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList, 
-  				pChangeTechDlg->pEndWidgetList);
-  enable_science_dialog();
-  FREE(pChangeTechDlg);
-  flush_dirty();
-  return -1;
-}
-
 
 /**************************************************************************
   This function is used by change research and change goals dlgs.
@@ -2701,13 +2700,29 @@ static int change_research(struct GUI *pWidget)
   struct GUI *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pSurf;
-  int i, count = 0, w = 0, h;
+  int max_col, max_row, col, i, count = 0, w = 0, h;
 
   set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
   redraw_icon2(pWidget);
   flush_rect(pWidget->size);
     
+  if (is_future_tech(game.player_ptr->research.researching)) {
+    return -1;
+  }
+  
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
+    if (!tech_is_available(game.player_ptr, i)
+       || get_invention(game.player_ptr, i) != TECH_REACHABLE) {
+      continue;
+    }
+    count++;
+  }
+  
+  if (count < 2) {
+    return -1;
+  }
+  
   pChangeTechDlg = MALLOC(sizeof(struct ADVANCED_DLG));
   
   pStr = create_str16_from_char(_("What should we focus on now?"), 12);
@@ -2730,83 +2745,88 @@ static int change_research(struct GUI *pWidget)
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
   
   w += pBuf->size.w + 10;
-  pBuf->action = exit_change_research_callback;
+  pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
 
   /* ------------------------- */
+  /* max col - 104 is sellect tech widget width */
+  max_col = (Main.screen->w - DOUBLE_FRAME_WH - 2) / 104;
+  /* max row - 204 is sellect tech widget height */
+  max_row = (Main.screen->h - (WINDOW_TILE_HIGH + 1 + 2 + FRAME_WH)) / 204;
+  
+  /* make space on screen for scrollbar */
+  if (max_col * max_row < count) {
+    max_col--;
+  }
+
+  if (count < max_col + 1) {
+    col = count;
+  } else {
+    if (count < max_col + 3) {
+      col = max_col - 2;
+    } else {
+      if (count < max_col + 5) {
+        col = max_col - 1;
+      } else {
+        col = max_col;
+      }
+    }
+  }
+  
   pStr = create_string16(NULL, 0, 10);
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
-
-  if (!is_future_tech(game.player_ptr->research.researching)) {
-    for (i = A_FIRST; i < game.num_tech_types; i++) {
-      if (!tech_is_available(game.player_ptr, i)
-	 || get_invention(game.player_ptr, i) != TECH_REACHABLE) {
-	continue;
-      }
-      
-      copy_chars_to_string16(pStr, advances[i].name);
-      pSurf = create_sellect_tech_icon(pStr, i);
-      pBuf = create_icon2(pSurf, pWindow->dst,
+  
+  count = 0;
+  h = col * max_row;
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
+    if (!tech_is_available(game.player_ptr, i)
+       || get_invention(game.player_ptr, i) != TECH_REACHABLE) {
+      continue;
+    }
+    
+    count++;  
+    copy_chars_to_string16(pStr, advances[i].name);
+    pSurf = create_sellect_tech_icon(pStr, i);
+    pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
 
-      set_wstate(pBuf, FC_WS_NORMAL);
-      pBuf->action = change_research_callback;
+    set_wstate(pBuf, FC_WS_NORMAL);
+    pBuf->action = change_research_callback;
 
-      add_to_gui_list(MAX_ID - i, pBuf);
-      count++;
+    add_to_gui_list(MAX_ID - i, pBuf);
+    
+    if (count > h) {
+      set_wflag(pBuf, WF_HIDDEN);
     }
-  }
-
-  pChangeTechDlg->pBeginWidgetList = pBuf;
-
-  /* Port ME To New ScrollBar Code */
-  if (count > 10)
-  {
-    i = 6;
-    if (count > 12)
-    {
-      freelog( LOG_FATAL , "If you see this msg please contact me on bursig@poczta.fm and give me this : Tech12 Err");
-    }
-  }
-  else
-  {
-    if (count > 8)
-    {
-      i = 5;
-    }
-    else
-    {
-      if (count > 6)
-      {
-        i = 4;
-      }
-      else
-      {
-	i = count;
-      }
-    }
+    
   }
   
-  if (count > i) {
-    count = (count + (i-1)) / i;
-    w = MAX(w, (i * 102 + 2 + DOUBLE_FRAME_WH));
-    h = WINDOW_TILE_HIGH + 1 + count * 202 + 2 + FRAME_WH;
+  FREESTRING16(pStr);
+  pChangeTechDlg->pBeginWidgetList = pBuf;
+  pChangeTechDlg->pBeginActiveWidgetList = pBuf;
+  pChangeTechDlg->pEndActiveWidgetList = pWindow->prev->prev;
+  
+  /* -------------------------------------------------------------- */
+  
+  i = 0;
+  if (count > col) {
+    count = (count + (col - 1)) / col;
+    if (count > max_row) {
+      pChangeTechDlg->pActiveWidgetList = pWindow->prev->prev;
+      count = max_row;
+      i = create_vertical_scrollbar(pChangeTechDlg, col, count, TRUE, TRUE);  
+    }
   } else {
-    w = MAX(w , (count * 102 + 2 + DOUBLE_FRAME_WH));
-    h = WINDOW_TILE_HIGH + 1 + 202 + 2 + FRAME_WH;
+    count = 1;
   }
 
+  w = MAX(w, (col * pBuf->size.w + 2 + DOUBLE_FRAME_WH + i));
+  h = WINDOW_TILE_HIGH + 1 + count * pBuf->size.h + 2 + FRAME_WH;
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
-
-  /* redraw change button before window take background buffer */
-  set_wstate(pWidget, FC_WS_NORMAL);
-  pSellected_Widget = NULL;
-  redraw_icon2(pWidget);
-  
   disable_science_dialog();
   
   /* alloca window theme and win background buffer */
@@ -2819,35 +2839,22 @@ static int change_research(struct GUI *pWidget)
   pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
   pBuf->size.y = pWindow->size.y;
   
-  /* techs widgets*/
-  pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + FRAME_WH;
-  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1;
-  pBuf = pBuf->prev;
-
-  w = 0;
-  while (pBuf) {
-    pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w - 2;
-    pBuf->size.y = pBuf->next->size.y;
-    w++;
-
-    if (w == i) {
-      w = 0;
-      pBuf->size.x = pWindow->size.x + FRAME_WH;
-      pBuf->size.y += pBuf->size.h - 2;
-    }
-
-    if (pBuf == pChangeTechDlg->pBeginWidgetList) {
-      break;
-    }
-    pBuf = pBuf->prev;
+  setup_vertical_widgets_position(col, pWindow->size.x + FRAME_WH + 1,
+		  pWindow->size.y + WINDOW_TILE_HIGH + 1, 0, 0,
+		  pChangeTechDlg->pBeginActiveWidgetList,
+  		  pChangeTechDlg->pEndActiveWidgetList);
+    
+  if(pChangeTechDlg->pScroll) {
+    setup_vertical_scrollbar_area(pChangeTechDlg->pScroll,
+	pWindow->size.x + pWindow->size.w - FRAME_WH,
+    	pWindow->size.y + WINDOW_TILE_HIGH + 1,
+    	pWindow->size.h - (FRAME_WH + WINDOW_TILE_HIGH + 1), TRUE);
   }
 
-  redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, 0);
+  redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
 
   flush_rect(pWindow->size);
-
-  FREESTRING16(pStr);
+  
   return -1;
 }
 
@@ -2861,29 +2868,11 @@ static int change_research_goal_callback(struct GUI *pWidget)
   send_packet_player_request(&aconnection, &packet,
 			     PACKET_PLAYER_TECH_GOAL);
 
-  popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
-				  pChangeTechDlg->pEndWidgetList);
-  FREE(pChangeTechDlg->pScroll);
-  FREE(pChangeTechDlg);
-  enable_science_dialog();
+  exit_change_tech_dlg_callback(NULL);
     
   /* Following is to make the menu go back to the current goal;
    * there may be a better way to do this?  --dwp */
   science_dialog_update();
-  return -1;
-}
-
-/* 
- * ...
- */
-static int popdown_change_goal(struct GUI *pWidget)
-{
-  popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
-				  pChangeTechDlg->pEndWidgetList);
-  FREE(pChangeTechDlg->pScroll);
-  FREE(pChangeTechDlg);
-  enable_science_dialog();
-  flush_dirty();
   return -1;
 }
 
@@ -2892,16 +2881,33 @@ static int popdown_change_goal(struct GUI *pWidget)
 **************************************************************************/
 static int change_research_goal(struct GUI *pWidget)
 {
-  struct GUI *pBuf = NULL, *pLast; /* FIXME: possibly uninitialized */
+  struct GUI *pBuf = NULL;
   struct GUI *pWindow;
   SDL_String16 *pStr;
-  int i, count = 0, w = 0, h, max;
+  SDL_Surface *pSurf;
+  char cBuf[128];
+  int max_col, max_row, col, i, count = 0, w = 0, h , num;
 
   set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
   redraw_icon2(pWidget);
   flush_rect(pWidget->size);
-  disable_science_dialog();
+      
+  /* collect all techs which are reachable in under 11 steps
+   * hist will hold afterwards the techid of the current choice
+   */
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
+    if (tech_is_available(game.player_ptr, i)
+        && get_invention(game.player_ptr, i) != TECH_KNOWN
+        && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
+	&& num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
+      count++;
+    }
+  }
+  
+  if (count < 1) {
+    return -1;
+  }
   
   pChangeTechDlg = MALLOC(sizeof(struct ADVANCED_DLG));
   
@@ -2910,15 +2916,13 @@ static int change_research_goal(struct GUI *pWidget)
 
   pWindow = create_window(NULL, pStr, 40, 30, 0);
   pChangeTechDlg->pEndWidgetList = pWindow;
-  clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
+  w = MAX(w, pWindow->size.w);
   set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = change_research_goal_dialog_callback;
-  w = MAX(w, pWindow->size.w);
+  
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_WINDOW, pWindow);
-
-  h = WINDOW_TILE_HIGH + 1 + FRAME_WH;
   /* ------------------------- */
-  /* exit button */
+    /* exit button */
   pBuf = create_themeicon(ResizeSurface(pTheme->CANCEL_Icon,
 			  pTheme->CANCEL_Icon->w - 4,
 			  pTheme->CANCEL_Icon->h - 4, 1), pWindow->dst,
@@ -2927,137 +2931,121 @@ static int change_research_goal(struct GUI *pWidget)
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pBuf->theme));
   
   w += pBuf->size.w + 10;
-  pBuf->action = popdown_change_goal;
+  pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_CANCEL_BUTTON, pBuf);
-  /* ------------------------------------ */
+
+  /* ------------------------- */
+  /* max col - 104 is goal tech widget width */
+  max_col = (Main.screen->w - DOUBLE_FRAME_WH - 2) / 104;
+  /* max row - 204 is goal tech widget height */
+  max_row = (Main.screen->h - (WINDOW_TILE_HIGH + 1 + 2 + FRAME_WH)) / 204;
   
-  pLast = pBuf;
+  /* make space on screen for scrollbar */
+  if (max_col * max_row < count) {
+    max_col--;
+  }
+  
+  if (count < max_col + 1) {
+    col = count;
+  } else {
+    if (count < max_col + 3) {
+      col = max_col - 2;
+    } else {
+      if (count < max_col + 5) {
+        col = max_col - 1;
+      } else {
+        col = max_col;
+      }
+    }
+  }
+  
+  pStr = create_string16(NULL, 0, 10);
+  pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
+  
   /* collect all techs which are reachable in under 11 steps
    * hist will hold afterwards the techid of the current choice
    */
   count = 0;
+  h = col * max_row;
   for (i = A_FIRST; i < game.num_tech_types; i++) {
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
-	&& num_unknown_techs_for_goal(game.player_ptr, i) < 11) {
+	&& (num = num_unknown_techs_for_goal(game.player_ptr, i)) < 11) {
+    
+      count++;
+      my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s", advances[i].name, num,
+	  					PL_("step", "steps", num));
+      copy_chars_to_string16(pStr, cBuf);
+      pSurf = create_sellect_tech_icon(pStr, i);
+      pBuf = create_icon2(pSurf, pWindow->dst,
+      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
 
-      pStr = create_str16_from_char(advances[i].name, 10);
-      pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-      pStr->fgcol = *(get_game_colorRGB(COLOR_STD_WHITE));
-	  
-      pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 
-	  	(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-
-      pBuf->size.h += 2;
-
-      h += pBuf->size.h;
-      w = MAX(w, pBuf->size.w);
-      
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_research_goal_callback;
 
       add_to_gui_list(MAX_ID - i, pBuf);
-      count++;
+    
+      if (count > h) {
+        set_wflag(pBuf, WF_HIDDEN);
+      }
     }
   }
-
+  
+  FREESTRING16(pStr);
   pChangeTechDlg->pBeginWidgetList = pBuf;
   pChangeTechDlg->pBeginActiveWidgetList = pBuf;
-  pChangeTechDlg->pEndActiveWidgetList = pLast->prev;
+  pChangeTechDlg->pEndActiveWidgetList = pWindow->prev->prev;
   
-  w += 14;
-
-  if (h > Main.screen->h) {
-    pChangeTechDlg->pActiveWidgetList = pLast->prev;
-    pChangeTechDlg->pScroll = MALLOC(sizeof(struct ScrollBar));
-    pChangeTechDlg->pScroll->step = 1;
-    pChangeTechDlg->pScroll->count = count;
-    
-    create_vertical_scrollbar(pChangeTechDlg, 1, count, FALSE, TRUE);
-    pChangeTechDlg->pScroll->pUp_Left_Button->size.w = w - 2;
-    pChangeTechDlg->pScroll->pDown_Right_Button->size.w = w - 2;
-    
-    /* --------------------------------- */    
-    h = pBuf->size.h;
-    
-    max = (Main.screen->h - WINDOW_TILE_HIGH - 1 - 1 -
-	 (pChangeTechDlg->pScroll->pUp_Left_Button->size.h * 2)) / h;
-    
-    h = WINDOW_TILE_HIGH + 1 + 1 +
-	    (pChangeTechDlg->pScroll->pUp_Left_Button->size.h * 2) + max * h;
-    
-    pWindow->size.x = pWidget->size.x;
-    pWindow->size.y = (Main.screen->h - h) / 2;
-
-    resize_window(pWindow, NULL,
-		  get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
-
-    h = WINDOW_TILE_HIGH + 1 + pChangeTechDlg->pScroll->pUp_Left_Button->size.h;
-    pChangeTechDlg->pScroll->active = max;
-    
-    setup_vertical_scrollbar_area(pChangeTechDlg->pScroll,
-	pWindow->size.x + 1, pWindow->size.y + WINDOW_TILE_HIGH + 1,
-	pWindow->size.h - (WINDOW_TILE_HIGH + 1 + 1), FALSE);
-
+  /* -------------------------------------------------------------- */
+  
+  i = 0;
+  if (count > col) {
+    count = (count + (col-1)) / col;
+    if (count > max_row) {
+      pChangeTechDlg->pActiveWidgetList = pWindow->prev->prev;
+      count = max_row;
+      i = create_vertical_scrollbar(pChangeTechDlg, col, count, TRUE, TRUE);  
+    }
   } else {
-    pWindow->size.x = pWidget->size.x;
-    pWindow->size.y = (Main.screen->h - h) / 2;
-
-    resize_window(pWindow, NULL,
-		  get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
-
-    max = count;
-    h = WINDOW_TILE_HIGH + 1;
+    count = 1;
   }
+
+  w = MAX(w, (col * pBuf->size.w + 2 + DOUBLE_FRAME_WH + i));
+  h = WINDOW_TILE_HIGH + 1 + count * pBuf->size.h + 2 + FRAME_WH;
+  pWindow->size.x = (Main.screen->w - w) / 2;
+  pWindow->size.y = (Main.screen->h - h) / 2;
+  disable_science_dialog();
   
-  w -= 4;
-    
-  /* exit button */
+  /* alloca window theme and win background buffer */
+  pSurf = get_logo_gfx();
+  resize_window(pWindow, pSurf, NULL, w, h);
+  FREESURFACE(pSurf);
+
+    /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - 2;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-FRAME_WH-1;
   pBuf->size.y = pWindow->size.y;
-  pBuf = pBuf->prev;
   
-  /* widgets */
-  pBuf->size.x = pWindow->size.x + 2;
-  pBuf->size.y = pWindow->size.y + h;
-  pBuf->size.w = w;
-  pBuf = pBuf->prev;
-
-  h = 2;
-  while (pBuf) {
-    pBuf->size.x = pBuf->next->size.x;
-    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
-    pBuf->size.w = w;
-
-    if (h == count) {
-      break;
-    }
-
-    if (h > max) {
-      set_wflag(pBuf, WF_HIDDEN);
-    }
-
-    h++;
-    pBuf = pBuf->prev;
+  setup_vertical_widgets_position(col, pWindow->size.x + FRAME_WH + 1,
+		  pWindow->size.y + WINDOW_TILE_HIGH + 1, 0, 0,
+		  pChangeTechDlg->pBeginActiveWidgetList,
+  		  pChangeTechDlg->pEndActiveWidgetList);
+    
+  if(pChangeTechDlg->pScroll) {
+    setup_vertical_scrollbar_area(pChangeTechDlg->pScroll,
+	pWindow->size.x + pWindow->size.w - FRAME_WH,
+    	pWindow->size.y + WINDOW_TILE_HIGH + 1,
+    	pWindow->size.h - (FRAME_WH + WINDOW_TILE_HIGH + 1), TRUE);
   }
 
-  pSellected_Widget = NULL;
-  
-  redraw_group(pWindow, pWindow, 0);
+  redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
 
-  putframe(pWindow->dst, pWindow->size.x, pWindow->size.y,
-	  pWindow->size.x + pWindow->size.w - 1,
-		  pWindow->size.y + pWindow->size.h - 1,  0xff000000);
-
-  redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow->prev, 0);
-  
   flush_rect(pWindow->size);
-
+  
   return -1;
 }
 

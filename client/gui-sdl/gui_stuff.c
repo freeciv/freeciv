@@ -291,9 +291,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
 struct GUI * WidgetListScaner(const struct GUI *pGUI_List, int x, int y)
 {
   while (pGUI_List) {
-    if ((x >= pGUI_List->size.x) && (y >= pGUI_List->size.y) &&
-      (x <= pGUI_List->size.x + pGUI_List->size.w) &&
-      (y <= pGUI_List->size.y + pGUI_List->size.h)) {
+    if (is_in_rect_area(x, y, pGUI_List->size)) {
       if (!((get_wstate(pGUI_List) == FC_WS_DISABLED) ||
 	    ((get_wflags(pGUI_List) & WF_HIDDEN) == WF_HIDDEN))) {
 	return (struct GUI *) pGUI_List;
@@ -755,10 +753,8 @@ struct GUI *get_widget_pointer_form_ID(const struct GUI *pGUI_List,
     if (pGUI_List->ID == ID) {
       return (struct GUI *) pGUI_List;
     }
-
     pGUI_List = pGUI_List->next;
   }
-
   return NULL;
 }
 
@@ -3717,9 +3713,9 @@ static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *p
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
   if (!(pButtonEvent->x >= pEdt->pWidget->size.x &&
-	    pButtonEvent->x <= pEdt->pWidget->size.x + pEdt->pBg->w &&
+	    pButtonEvent->x < pEdt->pWidget->size.x + pEdt->pBg->w &&
 	    pButtonEvent->y >= pEdt->pWidget->size.y &&
-	    pButtonEvent->y <= pEdt->pWidget->size.y + pEdt->pBg->h)) {
+	    pButtonEvent->y < pEdt->pWidget->size.y + pEdt->pBg->h)) {
 	/* exit from loop */
 	return (Uint16)ED_MOUSE;
   }

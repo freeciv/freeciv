@@ -851,6 +851,10 @@ void update_menus(void)
     }
 
   } else {
+    if (get_wstate(pEndOrderWidgetList) == FC_WS_DISABLED) {
+      enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+    }
+    
     if (counter) {
       undraw_order_widgets();
     }
