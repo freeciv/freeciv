@@ -23,6 +23,7 @@ struct button_descr {
   const char *text;
   void (*callback) (gpointer);
   gpointer data;
+  bool sensitive;
 };
 
 void message_dialog_button_set_sensitive(GtkWidget * shl, const char *bname,

@@ -1216,6 +1216,7 @@ void popup_government_dialog(void)
     buttons[j].text = g->name;
     buttons[j].callback = government_callback;
     buttons[j].data = GINT_TO_POINTER(i);
+    buttons[j].sensitive = can_change_to_government(game.player_ptr, i);
     j++;
   }
 
@@ -1223,20 +1224,6 @@ void popup_government_dialog(void)
       base_popup_message_dialog(top_vbox, _("Choose Your New Government"),
 				_("Select government type:"), NULL, NULL,
 				num, buttons);
-
-  j = 0;
-  for (i = 0; i < game.government_count; i++) {
-    struct government *g = &governments[i];
-
-    if (i == game.government_when_anarchy) {
-      continue;
-    }
-
-    if (!can_change_to_government(game.player_ptr, i)) {
-      message_dialog_button_set_sensitive(dialog, g->name, FALSE);
-    }
-    j++;
-  }
 }
 
 /****************************************************************
@@ -1304,6 +1291,7 @@ void popup_pillage_dialog(struct unit *punit,
     buttons[i].text = get_special_name(what);
     buttons[i].callback = pillage_callback;
     buttons[i].data = GINT_TO_POINTER(what);
+    buttons[i].sensitive = TRUE;
 
     may_pillage &= (~(what | map_get_infrastructure_prerequisite(what)));
   }
@@ -1378,6 +1366,7 @@ void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
     buttons[j].text = get_activity_text(activity);
     buttons[j].callback = unit_connect_callback;
     buttons[j].data = GINT_TO_POINTER(activity);
+    buttons[j].sensitive = TRUE;
     j++;
   }
 
@@ -1479,8 +1468,6 @@ void message_dialog_button_set_sensitive(GtkWidget * shl, const char *bname,
 
   The dialog is automatically destroyed after use (button click or X
   button).
-
-  See also message_dialog_button_set_sensitive.
 *****************************************************************/
 GtkWidget *base_popup_message_dialog(GtkWidget * parent, 
 				     const char *dialogname,
@@ -1537,6 +1524,8 @@ GtkWidget *base_popup_message_dialog(GtkWidget * parent,
 		       GTK_SIGNAL_FUNC(popup_mes_handle_callback),
 		       (gpointer) dshell);
 
+    gtk_widget_set_sensitive(GTK_WIDGET(button), buttons[i].sensitive);
+
     if (i == 0) {
       gtk_widget_grab_focus(button);
     }
@@ -1551,6 +1540,8 @@ GtkWidget *base_popup_message_dialog(GtkWidget * parent,
 
 /****************************************************************
  Wrapper for base_popup_message_dialog.
+
+ See also message_dialog_button_set_sensitive.
 *****************************************************************/
 GtkWidget *popup_message_dialog(GtkWidget * parent, const char *dialogname,
 				const char *text,
@@ -1576,6 +1567,7 @@ GtkWidget *popup_message_dialog(GtkWidget * parent, const char *dialogname,
     buttons[i].text = va_arg(args, char *);
     buttons[i].callback = va_arg(args, void *);
     buttons[i].data = va_arg(args, gpointer);
+    buttons[i].sensitive = TRUE;
   }
   va_end(args);
 
