@@ -823,6 +823,11 @@ static void setup_widgets(void)
 
   gtk_widget_show_all(paned);
   gtk_widget_hide(more_arrow_pixmap);
+
+  if (!map_scrollbars) {
+    gtk_widget_hide(map_horizontal_scrollbar);
+    gtk_widget_hide(map_vertical_scrollbar);
+  }
 }
 
 /**************************************************************************

@@ -392,6 +392,14 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
     }
   }
 
+  if (map_scrollbars) {
+    gtk_widget_show(map_horizontal_scrollbar);
+    gtk_widget_show(map_vertical_scrollbar);
+  } else {
+    gtk_widget_hide(map_horizontal_scrollbar);
+    gtk_widget_hide(map_vertical_scrollbar);
+  }
+
   option_dialog_shell = NULL;
 }
 
