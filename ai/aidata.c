@@ -468,6 +468,7 @@ void ai_data_init(struct player *pplayer)
   memset(ai->government_want, 0,
 	 (game.government_count + 1) * sizeof(*ai->government_want));
 
+  ai->wonder_city = NULL;
   ai->diplomacy.target = NULL;
   ai->diplomacy.strategy = WIN_OPEN;
   ai->diplomacy.timer = 0;

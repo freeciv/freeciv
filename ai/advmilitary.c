@@ -1236,6 +1236,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
 void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   Unit_Type_id unit_type;
   unsigned int our_def, danger, urgency;
   struct tile *ptile = pcity->tile;
@@ -1251,6 +1252,10 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   our_def = assess_defense_quadratic(pcity); 
   freelog(LOG_DEBUG, "%s: danger = %d, grave_danger = %d, our_def = %d",
           pcity->name, pcity->ai.danger, pcity->ai.grave_danger, our_def);
+
+  if (pcity == ai->wonder_city && pcity->ai.grave_danger == 0) {
+    return; /* Other cities can build our defenders, thank you! */
+  }
 
   ai_choose_diplomat_defensive(pplayer, pcity, choice, our_def);
 
@@ -1352,7 +1357,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   } /* ok, don't need to defend */
 
   if (pcity->surplus[O_SHIELD] <= 0 
-      || pcity->ppl_unhappy[4] > pcity->ppl_unhappy[2]) {
+      || pcity->ppl_unhappy[4] > pcity->ppl_unhappy[2]
+      || pcity == ai->wonder_city) {
     /* Things we consider below are not life-saving so we don't want to 
      * build them if our populace doesn't feel like it */
     return;

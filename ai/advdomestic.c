@@ -48,11 +48,10 @@
  * stimulated.
  ***************************************************************************/
 static void ai_choose_help_wonder(struct city *pcity,
-				  struct ai_choice *choice)
+				  struct ai_choice *choice,
+                                  struct ai_data *ai)
 {
   struct player *pplayer = city_owner(pcity);
-  /* Continent where the city is --- we won't be aiding any wonder 
-   * construction on another continent */
   Continent_id continent = map_get_continent(pcity->tile);
   /* Total count of caravans available or already being built 
    * on this continent */
@@ -62,6 +61,16 @@ static void ai_choose_help_wonder(struct city *pcity,
 
   if (num_role_units(F_HELP_WONDER) == 0) {
     /* No such units available in the ruleset */
+    return;
+  }
+
+  if (pcity == ai->wonder_city 
+      || ai->wonder_city == NULL
+      || pcity->ai.distance_to_wonder_city <= 0
+      || ai->wonder_city->is_building_unit
+      || !is_wonder(ai->wonder_city->currently_building)) {
+    /* A distance of zero indicates we are very far away, possibly
+     * on another continent. */
     return;
   }
 
@@ -76,70 +85,44 @@ static void ai_choose_help_wonder(struct city *pcity,
   city_list_iterate(pplayer->cities, acity) {
     if (acity->is_building_unit
         && unit_type_flag(acity->currently_building, F_HELP_WONDER)
-        && (acity->shield_stock
-	    >= unit_build_shield_cost(acity->currently_building))
         && map_get_continent(acity->tile) == continent) {
       caravans++;
     }
   } city_list_iterate_end;
 
-  /* Check all wonders in our cities being built, if one isn't worth a little
-   * help */
-  city_list_iterate(pplayer->cities, acity) {  
-    unit_type = best_role_unit(pcity, F_HELP_WONDER);
-    
-    if (unit_type == U_LAST) {
-      /* We cannot build such units yet
-       * but we will consider it to stimulate science */
-      unit_type = get_role_unit(F_HELP_WONDER, 0);
-    }
+  unit_type = best_role_unit(pcity, F_HELP_WONDER);
 
-    /* If we are building wonder there, the city is on same continent, we
-     * aren't in that city (stopping building wonder in order to build caravan
-     * to help it makes no sense) and we haven't already got enough caravans
-     * to finish the wonder. */
-    if (!acity->is_building_unit
-        && is_wonder(acity->currently_building)
-        && map_get_continent(acity->tile) == continent
-        && acity != pcity
-        && (build_points_left(acity)
-	    > unit_build_shield_cost(unit_type) * caravans)) {
-      
-      /* Desire for the wonder we are going to help - as much as we want to
-       * build it we want to help building it as well. */
-      int want = pcity->ai.building_want[acity->currently_building];
+  if (unit_type == U_LAST) {
+    /* We cannot build such units yet
+     * but we will consider it to stimulate science */
+    unit_type = get_role_unit(F_HELP_WONDER, 0);
+  }
 
-      /* Distance to wonder city was established after ai_manage_buildings()
-       * and before this.  If we just started building a wonder during
-       * ai_city_choose_build(), the started_building notify comes equipped
-       * with an update.  It calls generate_warmap(), but this is a lot less
-       * warmap generation than there would be otherwise. -- Syela *
-       * Value of 8 is a total guess and could be wrong, but it's still better
-       * than 0. -- Syela */
-      int dist = pcity->ai.distance_to_wonder_city * 8 / 
-        get_unit_type(unit_type)->move_rate;
+  /* Check if wonder needs a little help. */
+  if (build_points_left(ai->wonder_city) 
+      > unit_build_shield_cost(unit_type) * caravans) {
+    Impr_Type_id wonder = ai->wonder_city->currently_building;
+    int want = ai->wonder_city->ai.building_want[wonder];
+    int dist = pcity->ai.distance_to_wonder_city /
+               get_unit_type(unit_type)->move_rate;
 
-      want -= dist;
-      
-      if (can_build_unit_direct(pcity, unit_type)) {
-        if (want > choice->want) {
-          choice->want = want;
-          choice->type = CT_NONMIL;
-          ai_choose_role_unit(pplayer, pcity, choice, F_HELP_WONDER, dist / 2);
-        }
+    want /= MAX(dist, 1);
+    CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 
+             unit_name(unit_type), ai->wonder_city->name, want);
+    if (want > choice->want) {
+      /* This sets our tech want in cases where we cannot actually build
+       * the unit. */
+      unit_type = ai_wants_role_unit(pplayer, pcity, F_HELP_WONDER, want);
+      if (can_build_unit(pcity, unit_type)) {
+        choice->want = want;
+        choice->type = CT_NONMIL;
+        choice->choice = unit_type;
       } else {
-        int tech_req = get_unit_type(unit_type)->tech_requirement;
-
-        /* XXX (FIXME): Had to add the scientist guess here too. -- Syela */
-        /* What Syela probably means is that this addition to tech want
-         * is in addition to the tech want implitictly added by 
-         * ai_choose_rule_unit() above. - Per */
-        pplayer->ai.tech_want[tech_req] += want;
-        TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to build wonders",
-                 want, unit_name(unit_type));
+        CITY_LOG(LOG_DEBUG, pcity, "would but could not build %s, bumped reqs",
+                 unit_name(unit_type));
       }
     }
-  } city_list_iterate_end;
+  }
 }
 
 /************************************************************************** 
@@ -150,6 +133,7 @@ static void ai_choose_help_wonder(struct city *pcity,
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   /* Government of the player */
   struct government *gov = get_gov_pplayer(pplayer);
   /* Unit type with certain role */
@@ -161,10 +145,16 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   unit_type = best_role_unit(pcity, F_SETTLERS);
 
   if (unit_type != U_LAST
+      && (pcity != ai->wonder_city
+          || get_unit_type(unit_type)->pop_cost == 0)
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(get_unit_type(unit_type),
 			 	                    gov, O_FOOD)) {
     /* settler_want calculated in settlers.c called from ai_manage_cities() */
     int want = pcity->ai.settler_want;
+
+    if (ai->wonder_city == pcity) {
+      want /= 5;
+    }
 
     /* Allowing multiple settlers per city now. I think this is correct.
      * -- Syela */
@@ -184,10 +174,16 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   unit_type = best_role_unit(pcity, F_CITIES);
 
   if (unit_type != U_LAST
+      && (pcity != ai->wonder_city
+          || get_unit_type(unit_type)->pop_cost == 0)
       && pcity->surplus[O_FOOD] >= utype_upkeep_cost(get_unit_type(unit_type),
 				                     gov, O_FOOD)) {
     /* founder_want calculated in settlers.c, called from ai_manage_cities(). */
     int want = pcity->ai.founder_want;
+
+    if (ai->wonder_city == pcity) {
+      want /= 5;
+    }
 
     if (want > choice->want) {
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d", want);
@@ -217,7 +213,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
     init_choice(&cur);
     /* Consider building caravan-type units to aid wonder construction */  
-    ai_choose_help_wonder(pcity, &cur);
+    ai_choose_help_wonder(pcity, &cur, ai);
     copy_if_better_choice(&cur, choice);
 
     init_choice(&cur);

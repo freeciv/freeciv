@@ -34,6 +34,9 @@
 #include "support.h"
 #include "unit.h"
 
+#include "path_finding.h"
+#include "pf_tools.h"
+
 #include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -576,13 +579,125 @@ static void adjust_building_want_by_effects(struct city *pcity,
   /* Reduce want if building gets obsoleted soon */
   if (tech_exists(pimpr->obsolete_by)) {
     v -= v / MAX(1, num_unknown_techs_for_goal(pplayer, pimpr->obsolete_by));
-   }
+  }
 
   /* Adjust by building cost */
   v -= pimpr->build_cost / (pcity->surplus[O_SHIELD] * 10 + 1);
 
+  /* Would it mean losing shields? */
+  if ((pcity->is_building_unit 
+       || (is_wonder(pcity->currently_building) 
+           && !is_wonder(id))
+       || (!is_wonder(pcity->currently_building)
+           && is_wonder(id)))
+      && pcity->turn_last_built != game.turn) {
+    v -= (pcity->shield_stock / 2) * (SHIELD_WEIGHTING / 2);
+  }
+
+  /* Are we wonder city? Try to avoid building non-wonders very much. */
+  if (pcity == ai->wonder_city && !is_wonder(id)) {
+    v /= 5;
+  }
+
   /* Set */
   pcity->ai.building_want[id] = v;
+}
+
+/**************************************************************************
+  Calculate walking distance to nearest friendly cities from every city.
+
+  The hidden assumption here is that a F_HELP_WONDER unit is like any
+  other unit that will use this data.
+
+  pcity->ai.downtown is set to the number of cities within 4 turns of
+  the best help wonder unit we can currently produce.
+**************************************************************************/
+static void calculate_city_clusters(struct player *pplayer)
+{
+  struct pf_map *map;
+  struct pf_parameter parameter;
+  Unit_Type_id unittype;
+  struct unit *ghost;
+  int range;
+
+  city_list_iterate(pplayer->cities, pcity) {
+    pcity->ai.downtown = 0;
+  } city_list_iterate_end;
+
+  unittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
+  if (unittype == U_LAST) {
+    unittype = get_role_unit(F_HELP_WONDER, 0); /* simulate future unit */
+    if (unittype == U_LAST) {
+      return; /* ruleset has no help wonder unit */
+    }
+  }
+  ghost = create_unit_virtual(pplayer, NULL, unittype, 0);
+  range = unit_move_rate(ghost) * 4;
+
+  city_list_iterate(pplayer->cities, pcity) {
+    ghost->tile = pcity->tile;
+    pft_fill_unit_parameter(&parameter, ghost);
+    map = pf_create_map(&parameter);
+
+    pf_iterator(map, pos) {
+      struct city *acity = map_get_city(pos.tile);
+
+      if (pos.total_MC > range) {
+        break;
+      }
+      if (!acity) {
+        continue;
+      }
+      if (city_owner(acity) == pplayer) {
+        pcity->ai.downtown++;
+      }
+    } pf_iterator_end;
+  } city_list_iterate_end;
+
+  destroy_unit_virtual(ghost);
+}
+
+/**************************************************************************
+  Calculate walking distances to wonder city from nearby cities.
+**************************************************************************/
+static void calculate_wonder_helpers(struct player *pplayer, 
+                                     struct ai_data *ai)
+{
+  struct pf_map *map;
+  struct pf_parameter parameter;
+  Unit_Type_id unittype;
+  struct unit *ghost;
+  int maxrange;
+
+  city_list_iterate(pplayer->cities, acity) {
+    acity->ai.distance_to_wonder_city = 0; /* unavailable */
+  } city_list_iterate_end;
+
+  unittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
+  if (unittype == U_LAST) {
+    return;
+  }
+  ghost = create_unit_virtual(pplayer, ai->wonder_city, unittype, 0);
+  maxrange = unit_move_rate(ghost) * 7;
+
+  pft_fill_unit_parameter(&parameter, ghost);
+  map = pf_create_map(&parameter);
+
+  pf_iterator(map, pos) {
+    struct city *acity = map_get_city(pos.tile);
+
+    if (pos.total_MC > maxrange) {
+      break;
+    }
+    if (!acity) {
+      continue;
+    }
+    if (city_owner(acity) == pplayer) {
+      acity->ai.distance_to_wonder_city = pos.total_MC;
+    }
+  } pf_iterator_end;
+
+  destroy_unit_virtual(ghost);
 }
 
 /************************************************************************** 
@@ -593,6 +708,63 @@ void ai_manage_buildings(struct player *pplayer)
 #define RECALC_SPEED 5
 {
   struct ai_data *ai = ai_data_get(pplayer);
+
+  /* Preliminary analysis - find our Wonder City. Also check if it
+   * is sane to continue building the wonder in it. If either does
+   * not check out, make a Wonder City. */
+  if (!(ai->wonder_city != NULL
+        && ai->wonder_city->surplus[O_SHIELD] > 0
+        && !ai->wonder_city->is_building_unit
+        && is_wonder(ai->wonder_city->currently_building)
+        && can_build_improvement(ai->wonder_city, 
+                                 ai->wonder_city->currently_building)
+        && !improvement_obsolete(pplayer, ai->wonder_city->currently_building)
+        && !is_building_replaced(ai->wonder_city, 
+                                 ai->wonder_city->currently_building))
+      || ai->wonder_city == NULL) {
+    /* Find a new wonder city! */
+    int best_candidate_value = 0;
+    struct city *best_candidate = NULL;
+    /* Whether ruleset has a help wonder unit type */
+    bool has_help = (get_role_unit(F_HELP_WONDER, 0) != U_LAST);
+
+    calculate_city_clusters(pplayer);
+
+    city_list_iterate(pplayer->cities, pcity) {
+      int value = pcity->surplus[O_SHIELD];
+
+      if (pcity->ai.grave_danger > 0) {
+        continue;
+      }
+      if (is_ocean_near_tile(pcity->tile)) {
+        value /= 2;
+      }
+      /* Downtown is the number of cities within a certain pf range.
+       * These may be able to help with caravans. Also look at the whole
+       * continent. */
+      if (first_role_unit_for_player(pplayer, F_HELP_WONDER) != U_LAST) {
+        value += pcity->ai.downtown;
+        value += ai->stats.cities[pcity->tile->continent] / 8;
+      }
+      if (ai->threats.continent[pcity->tile->continent] > 0) {
+        /* We have threatening neighbours: -25% */
+        value -= value / 4;
+      }
+      /* Require that there is at least some neighbors for wonder helpers,
+       * if ruleset supports it. */
+      if (value > best_candidate_value
+          && (!has_help || ai->stats.cities[pcity->tile->continent] > 5)
+          && (!has_help || pcity->ai.downtown > 3)) {
+        best_candidate = pcity;
+        best_candidate_value = value;
+      }
+    } city_list_iterate_end;
+    if (best_candidate) {
+      CITY_LOG(LOG_DEBUG, best_candidate, "chosen as wonder-city!");
+      ai->wonder_city = best_candidate;
+    }
+  }
+  calculate_wonder_helpers(pplayer, ai);
 
   /* First find current worth of cities and cache this. */
   city_list_iterate(pplayer->cities, acity) {
@@ -605,13 +777,16 @@ void ai_manage_buildings(struct player *pplayer)
       continue;
     }
     city_list_iterate(pplayer->cities, pcity) {
+      if (pcity != ai->wonder_city && is_wonder(id)) {
+        /* Only wonder city should build wonders! */
+        continue;
+      }
       if (pplayer->ai.control && pcity->ai.next_recalc > game.turn) {
         continue; /* do not recalc yet */
       } else {
         pcity->ai.building_want[id] = 0; /* do recalc */
       }
       if (city_got_building(pcity, id)
-          || pcity->surplus[O_SHIELD] == 0
           || !can_build_improvement(pcity, id)
           || is_building_replaced(pcity, id)) {
         continue; /* Don't build redundant buildings */
@@ -629,47 +804,6 @@ void ai_manage_buildings(struct player *pplayer)
        * much longer than others */
       pcity->ai.next_recalc = game.turn + myrand(RECALC_SPEED) + RECALC_SPEED;
     }
-  } city_list_iterate_end;
-}
-
-/*************************************************************************** 
-  This function computes distances between cities for purpose of building 
-  crowds of water-consuming Caravans or smoggish Freights which want to add 
-  their brick to the wonder being built in pcity.
-
-  At the function entry point, our warmap is intact.  We need to do two 
-  things: (1) establish "downtown" for THIS city (which is an estimate of 
-  how much help we can expect when building a wonder) and 
-  (2) establish distance to pcity for ALL cities on our continent.
-
-  If there are more than one wondercity, things will get a bit random.
-****************************************************************************/
-static void establish_city_distances(struct player *pplayer, 
-				     struct city *pcity)
-{
-  int distance;
-  Continent_id wonder_continent;
-  Unit_Type_id freight = best_role_unit(pcity, F_HELP_WONDER);
-  int moverate = (freight == U_LAST) ? SINGLE_MOVE
-                                     : get_unit_type(freight)->move_rate;
-
-  if (!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
-    wonder_continent = map_get_continent(pcity->tile);
-  } else {
-    wonder_continent = 0;
-  }
-
-  pcity->ai.downtown = 0;
-  city_list_iterate(pplayer->cities, othercity) {
-    distance = WARMAP_COST(othercity->tile);
-    if (wonder_continent != 0
-        && map_get_continent(othercity->tile) == wonder_continent) {
-      othercity->ai.distance_to_wonder_city = distance;
-    }
-
-    /* How many people near enough would help us? */
-    distance += moverate - 1; distance /= moverate;
-    pcity->ai.downtown += MAX(0, 5 - distance);
   } city_list_iterate_end;
 }
 
@@ -753,8 +887,8 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
   /* Fallbacks */
   if (pcity->ai.choice.want == 0) {
     /* Fallbacks do happen with techlevel 0, which is now default. -- Per */
-    CITY_LOG(LOG_VERBOSE, pcity, "Falling back - didn't want to build soldiers,"
-	     " settlers, or buildings");
+    CITY_LOG(LOG_ERROR, pcity, "Falling back - didn't want to build soldiers,"
+	     " workers, caravans, settlers, or buildings!");
     pcity->ai.choice.want = 1;
     if (best_role_unit(pcity, F_TRADE_ROUTE) != U_LAST) {
       pcity->ai.choice.choice = best_role_unit(pcity, F_TRADE_ROUTE);
@@ -766,7 +900,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
       pcity->ai.choice.choice = best_role_unit(pcity, F_SETTLERS);
       pcity->ai.choice.type = CT_NONMIL;
     } else {
-      CITY_LOG(LOG_VERBOSE, pcity, "Cannot even build a fallback "
+      CITY_LOG(LOG_ERROR, pcity, "Cannot even build a fallback "
 	       "(caravan/coinage/settlers). Fix the ruleset!");
       pcity->ai.choice.want = 0;
     }
@@ -803,10 +937,6 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
       }
       pcity->currently_building = pcity->ai.choice.choice;
       pcity->is_building_unit = is_unit_choice_type(pcity->ai.choice.type);
-
-      /* Help other cities to send caravans to us */
-      generate_warmap(pcity, NULL);
-      establish_city_distances(pplayer, pcity);
     } else {
       pcity->currently_building = pcity->ai.choice.choice;
       pcity->is_building_unit   = is_unit_choice_type(pcity->ai.choice.type);
@@ -1050,10 +1180,6 @@ void ai_manage_cities(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     /* Note that this function mungs the seamap, but we don't care */
     military_advisor_choose_build(pplayer, pcity, &pcity->ai.choice);
-    /* because establish_city_distances doesn't need the seamap
-     * it determines downtown and distance_to_wondercity, 
-     * which ai_city_choose_build will need */
-    establish_city_distances(pplayer, pcity);
     /* Will record its findings in pcity->settler_want */ 
     contemplate_terrain_improvements(pcity);
 

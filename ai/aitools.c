@@ -700,82 +700,28 @@ void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 }
 
 /**************************************************************************
-  Returns TRUE if pcity's owner is building any wonder in another city on
-  the same continent (if so, we may want to build a caravan here).
-**************************************************************************/
-static bool is_building_other_wonder(struct city *pcity)
-{
-  struct player *pplayer = city_owner(pcity);
-
-  city_list_iterate(pplayer->cities, acity) {
-    if (pcity != acity
-	&& !acity->is_building_unit
-	&& is_wonder(acity->currently_building)
-	&& (map_get_continent(acity->tile)
-	    == map_get_continent(pcity->tile))) {
-      return TRUE;
-    }
-  } city_list_iterate_end;
-
-  return FALSE;
-}
-
-/**************************************************************************
   Choose improvement we like most and put it into ai_choice.
-  TODO: Clean, update the log calls.
+
+ "I prefer the ai_choice as a return value; gcc prefers it as an arg" 
+  -- Syela 
 **************************************************************************/
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
-{ /* I prefer the ai_choice as a return value; gcc prefers it as an arg -- Syela */
+{
   Impr_Type_id id = B_LAST;
-  unsigned int danger = 0;
-  int downtown = 0, cities = 0;
-  int want=0;
-  struct player *plr;
-        
-  plr = city_owner(pcity);
-     
-  /* too bad plr->score isn't kept up to date. */
-  city_list_iterate(plr->cities, acity)
-    danger += acity->ai.danger;
-    downtown += acity->ai.downtown;
-    cities++;
-  city_list_iterate_end;
+  int want = 0;
+  struct player *plr = city_owner(pcity);
 
   impr_type_iterate(i) {
     if (!plr->ai.control && is_wonder(i)) {
       continue; /* Humans should not be advised to build wonders or palace */
     }
-    if (!is_wonder(i)
-	|| (!pcity->is_building_unit && is_wonder(pcity->currently_building)
-	    && pcity->shield_stock >= impr_build_shield_cost(i) / 2)
-	|| (!is_building_other_wonder(pcity)
-	    /* otherwise caravans will be killed! */
-	    && pcity->ai.grave_danger == 0
-	    && pcity->ai.downtown * cities >= downtown
-	    && pcity->ai.danger * cities <= danger)) {
-      /* Is this too many restrictions? */
-      /* trying to keep wonders in safe places with easy caravan
-       * access -- Syela */
-      if(pcity->ai.building_want[i]>want) {
-	/* we have to do the can_build check to avoid Built Granary.
-	 * Now Building Granary. */
-        if (can_build_improvement(pcity, i)) {
-          want = pcity->ai.building_want[i];
-          id = i;
-        } else {
-	  freelog(LOG_DEBUG, "%s can't build %s", pcity->name,
-		  get_improvement_name(i));
-	}
-      } /* id is the building we like the best */
+    if (pcity->ai.building_want[i] > want
+        && can_build_improvement(pcity, i)) {
+      want = pcity->ai.building_want[i];
+      id = i;
     }
   } impr_type_iterate_end;
 
-  if (want != 0) {
-    freelog(LOG_DEBUG, "AI_Chosen: %s with desire = %d for %s",
-	    get_improvement_name(id), want, pcity->name);
-  } else {
-    freelog(LOG_DEBUG, "AI_Chosen: None for %s", pcity->name);
-  }
   choice->want = want;
   choice->choice = id;
   choice->type = CT_BUILDING;
