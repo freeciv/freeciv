@@ -561,12 +561,9 @@ static void ai_spend_gold(struct player *pplayer)
   worker allocations,
   build choices,
   extra gold spending.
-
-  TODO: Treat ai_gov_tech_hints somewhere else
 **************************************************************************/
 void ai_manage_cities(struct player *pplayer)
 {
-  int i;
   pplayer->ai.maxbuycost = 0;
 
   city_list_iterate(pplayer->cities, pcity) {
@@ -599,30 +596,6 @@ void ai_manage_cities(struct player *pplayer)
   } city_list_iterate_end;
 
   ai_spend_gold(pplayer);
-
-  /* use ai_gov_tech_hints: */
-  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-    struct ai_gov_tech_hint *hint = &ai_gov_tech_hints[i];
-    
-    if (hint->tech == A_LAST) {
-      break;
-    }
-    
-    if (get_invention(pplayer, hint->tech) != TECH_KNOWN) {
-      pplayer->ai.tech_want[hint->tech] +=
-	city_list_size(&pplayer->cities) 
-	* (hint->turns_factor 
-	   * num_unknown_techs_for_goal(pplayer, hint->tech) 
-	   + hint->const_factor);
-      if (hint->get_first) {
-	break;
-      }
-    } else {
-      if (hint->done) {
-	break;
-      }
-    }
-  }
 }
 
 /************************************************************************** 

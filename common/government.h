@@ -157,8 +157,7 @@ struct government
 };
 
 /* This should possibly disappear; we don't bother sending these to client;
-   see code in ai_city.c: ai_manage_cities() for what they mean...
-*/
+ * See code in aitech.c for what the fields mean */
 struct ai_gov_tech_hint {
   int tech;
   int turns_factor;
