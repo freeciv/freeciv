@@ -457,22 +457,6 @@ static struct settings_s settings[] = {
        "See also README.rulesets and the techs, units, buildings and "
        "terrain options.") },
 
-  { "barbarians", &game.barbarianrate,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_BARBARIANRATE, GAME_MAX_BARBARIANRATE, GAME_DEFAULT_BARBARIANRATE,
-    N_("Barbarian appearance frequency"),
-    N_("0 - no barbarians \n"
-    "1 - barbarians only in huts \n"
-    "2 - normal rate of barbarian appearance \n"
-    "3 - frequent barbarian uprising \n"
-    "4 - raging hordes, lots of barbarians") },
-
-  { "onsetbarbs", &game.onsetbarbarian,
-    SSET_RULES, SSET_TO_CLIENT,
-    GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, GAME_DEFAULT_ONSETBARBARIAN,
-    N_("Barbarian onset year"),
-    N_("Barbarians will not appear before this year.") },
-
   { "occupychance", &game.occupychance,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, GAME_DEFAULT_OCCUPYCHANCE,
@@ -495,10 +479,34 @@ static struct settings_s settings[] = {
        "  8 = air") },
 
 /* Flexible rules: these can be changed after the game has started.
- * Should such flexible rules exist?  diplchance is included here
- * to duplicate its previous behaviour (and note diplchance is only used
- * in the server, so it is "safe" to change).  --dwp
+ *
+ * The distinction between "rules" and "flexible rules" is not always
+ * clearcut, and some existing cases may be largely historical or
+ * accidental.  However some generalizations can be made:
+ *
+ *   -- Low-level game mechanics should not be flexible (eg, rulesets).
+ *   -- Options which would affect the game "state" (city production etc)
+ *      should not be flexible (eg, foodbox).
+ *   -- Options which are explicitly sent to the client (eg, in
+ *      packet_game_info) should probably not be flexible, or at
+ *      least need extra care to be flexible.
  */
+  { "barbarians", &game.barbarianrate,
+    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+    GAME_MIN_BARBARIANRATE, GAME_MAX_BARBARIANRATE, GAME_DEFAULT_BARBARIANRATE,
+    N_("Barbarian appearance frequency"),
+    N_("0 - no barbarians \n"
+    "1 - barbarians only in huts \n"
+    "2 - normal rate of barbarian appearance \n"
+    "3 - frequent barbarian uprising \n"
+    "4 - raging hordes, lots of barbarians") },
+
+  { "onsetbarbs", &game.onsetbarbarian,
+    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+    GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, GAME_DEFAULT_ONSETBARBARIAN,
+    N_("Barbarian onset year"),
+    N_("Barbarians will not appear before this year.") },
+
   { "fogofwar", &game.fogofwar,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_FOGOFWAR, GAME_MAX_FOGOFWAR, GAME_DEFAULT_FOGOFWAR,
