@@ -150,6 +150,43 @@ static void insert_generated_table(const char* name, char* outbuf)
 }
 
 /****************************************************************
+  Append text for the requirement.  Something like
+
+    "Requires the Communism technology.\n\n"
+*****************************************************************/
+static void insert_requirement(struct requirement *req,
+			       char *buf, size_t bufsz)
+{
+  switch (req->source.type) {
+  case REQ_NONE:
+    return;
+  case REQ_LAST:
+    break;
+  case REQ_TECH:
+    cat_snprintf(buf, bufsz, _("Requires the %s technology.\n\n"),
+		 get_tech_name(game.player_ptr, req->source.value.tech));
+    return;
+  case REQ_GOV:
+    cat_snprintf(buf, bufsz, _("Requires the %s government.\n\n"),
+		 get_government_name(req->source.value.gov));
+    return;
+  case REQ_BUILDING:
+    cat_snprintf(buf, bufsz, _("Requires the %s building.\n\n"),
+		 get_improvement_name(req->source.value.building));
+    return;
+  case REQ_SPECIAL:
+    cat_snprintf(buf, bufsz, _("Requires the %s terrain special.\n\n"),
+		 get_special_name(req->source.value.special));
+    return;
+  case REQ_TERRAIN:
+    cat_snprintf(buf, bufsz, _("Requires the %s terrain.\n\n"),
+		 get_terrain_name(req->source.value.terrain));
+    return;
+  }
+  assert(0);
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static struct help_item *new_help_item(int type)
@@ -1027,9 +1064,15 @@ void helptext_tech(char *buf, int i, const char *user_text)
   }
 
   government_iterate(g) {
-    if (g->required_tech == i) {
-      sprintf(buf + strlen(buf), _("* Allows changing government to %s.\n"),
-	      g->name);
+    int j;
+
+    /* FIXME: this should tell the other requirements. */
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      if (g->req[j].source.type == REQ_TECH
+	  && g->req[j].source.value.tech == i) {
+	sprintf(buf + strlen(buf), _("* Allows changing government to %s.\n"),
+		g->name);
+      }
     }
   } government_iterate_end;
   if (tech_flag(i, TF_BONUS_TECH)) {
@@ -1156,6 +1199,8 @@ void helptext_government(char *buf, int i, const char *user_text)
 {
   struct government *gov;
   bool active_types[O_MAX];
+  int j;
+  const size_t bufsz = 64000; /* FIXME: should be passed in */
 
   /* Try to guess which output types that are active in this 
    * game by checking if _any_ government uses it. */
@@ -1179,9 +1224,8 @@ void helptext_government(char *buf, int i, const char *user_text)
   if (gov->helptext[0] != '\0') {
     sprintf(buf, "%s\n\n", _(gov->helptext));
   }
-  if (gov->required_tech != A_NONE) {
-    sprintf(buf + strlen(buf), _("Requires the %s technology.\n\n"),
-            advances[gov->required_tech].name);
+  for (j = 0; j < MAX_NUM_REQS; j++) {
+    insert_requirement(gov->req + j, buf, bufsz);
   }
   if (gov->max_rate < 100 && game.rgame.changable_tax) {
     sprintf(buf + strlen(buf), 

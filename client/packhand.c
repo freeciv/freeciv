@@ -2303,6 +2303,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 void handle_ruleset_government(struct packet_ruleset_government *p)
 {
   struct government *gov;
+  int j;
 
   if (p->id < 0 || p->id >= game.government_count) {
     freelog(LOG_ERROR,
@@ -2314,7 +2315,11 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 
   gov->index             = p->id;
 
-  gov->required_tech     = p->required_tech;
+  for (j = 0; j < MAX_NUM_REQS; j++) {
+    gov->req[j] = req_from_values(p->req_type[j], p->req_range[j],
+				  p->req_survives[j], p->req_value[j]);
+  }
+
   gov->max_rate          = p->max_rate;
   gov->civil_war         = p->civil_war;
   gov->martial_law_max   = p->martial_law_max;

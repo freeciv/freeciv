@@ -193,21 +193,20 @@ const char *get_government_name(int type)
 ***************************************************************/
 bool can_change_to_government(struct player *pplayer, int government)
 {
-  int req;
+  struct government *gov = &governments[government];
 
-  assert(game.government_count > 0 &&
-	 government >= 0 && government < game.government_count);
-
-  req = governments[government].required_tech;
-  if (!tech_is_available(pplayer, req)) {
-    /* If the technology doesn't "exist" or if there is no way we can
-     * ever get it, then we can't change to the gov type even if we have
-     * a wonder that would otherwise allow it. */
+  if (government < 0 || government >= game.government_count) {
+    assert(0);
     return FALSE;
-  } else {
-    return (get_invention(pplayer, req) == TECH_KNOWN
-	    || get_player_bonus(pplayer, EFT_ANY_GOVERNMENT) > 0);
   }
+
+  if (get_player_bonus(pplayer, EFT_ANY_GOVERNMENT) > 0) {
+    /* Note, this may allow govs that are on someone else's "tech tree". */
+    return TRUE;
+  }
+
+  return are_reqs_active(TARGET_PLAYER, pplayer, NULL, B_LAST, NULL,
+			 gov->req, MAX_NUM_REQS);
 }
 
 /***************************************************************

@@ -1631,9 +1631,10 @@ static void load_ruleset_governments(struct section_file *file)
 
   /* easy ones: */
   government_iterate(g) {
-    int i = g->index;
+    int i = g->index, j;
     const char *waste_name[] = {NULL, "waste", "corruption",
 				NULL, NULL, NULL};
+    struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
 
     if (section_file_lookup(file, "%s.ai_better", sec[i])) {
       char entry[100];
@@ -1643,8 +1644,14 @@ static void load_ruleset_governments(struct section_file *file)
     } else {
       g->ai_better = G_MAGIC;
     }
-    g->required_tech
-      = lookup_tech(file, sec[i], "tech_req", FALSE, filename, g->name);
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      if (reqs->size > j) {
+	g->req[j] = reqs->p[j];
+      } else {
+	g->req[j].source.type = REQ_NONE;
+	memset(&g->req[j], 0, sizeof(g->req[j]));
+      }
+    }
     
     sz_strlcpy(g->graphic_str,
 	       secfile_lookup_str(file, "%s.graphic", sec[i]));
@@ -2862,7 +2869,12 @@ static void send_ruleset_governments(struct conn_list *dest)
     /* send one packet_government */
     gov.id                 = g->index;
 
-    gov.required_tech    = g->required_tech;
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      req_get_values(&g->req[j],
+		     &gov.req_type[j], &gov.req_range[j],
+		     &gov.req_survives[j], &gov.req_value[j]);
+    }
+
     gov.max_rate         = g->max_rate;
     gov.civil_war        = g->civil_war;
     gov.martial_law_max  = g->martial_law_max;

@@ -1045,7 +1045,11 @@ end
 PACKET_RULESET_GOVERNMENT=100;sc,lsend
   GOVERNMENT id;
 
-  UINT8 required_tech;
+  UINT8 req_type[MAX_NUM_REQS];
+  UINT8 req_range[MAX_NUM_REQS];
+  UINT8 req_value[MAX_NUM_REQS];
+  BOOL req_survives[MAX_NUM_REQS];
+
   UINT8 max_rate;
   UINT8 civil_war;
   UINT8 martial_law_max;

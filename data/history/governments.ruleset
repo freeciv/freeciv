@@ -32,8 +32,7 @@ when_anarchy="Anarchy"
 ; Notes on fields:
 
 ; name        = name of this government form as seen by user 
-; tech_req    = required advance, names from techs.ruleset, or special:
-;               "None" => available from start
+; reqs        = requirements for this government (see README.effects)
 ; graphic     = tag specifing preferred graphic
 ; graphic_alt = alternate graphics tag if preferred is not found;
 ;               should be a standard tag if preferred is not;
@@ -99,7 +98,7 @@ when_anarchy="Anarchy"
 [government_anarchy]
 
 name        = _("Anarchy")
-tech_req    = "None"
+; No reqs
 graphic     = "gov.anarchy"
 graphic_alt = "-"
 flags       = "-"
@@ -174,7 +173,7 @@ You may impose martial law under Anarchy: each military unit inside\
 [government_despotism]
 
 name        = _("Despotism")
-tech_req    = "None"
+; No reqs
 graphic     = "gov.despotism"
 graphic_alt = "-"
 flags       = "-"
@@ -250,7 +249,9 @@ You may impose martial law under Despotism: each military unit\
 [government_monarchy]
 
 name        = _("Monarchy")
-tech_req    = "Monarchy"
+reqs = { "type", "name", "range"
+         "tech", "Monarchy", "Player"
+       }
 graphic     = "gov.monarchy"
 graphic_alt = "-"
 flags       = "-"
@@ -325,7 +326,9 @@ You may impose limited martial law under Monarchy: each military\
 [government_communism]
 
 name        = _("Communism")
-tech_req    = "Communism"
+reqs = { "type", "name", "range"
+         "tech", "Communism", "Player"
+       }
 graphic     = "gov.communism"
 graphic_alt = "-"
 flags       = "Build_Veteran_Diplomats", "Inspires_Partisans"
@@ -406,7 +409,9 @@ You impose limited but efficient martial law under Communism.  Each\
 [government_republic]
 
 name        = _("Republic")
-tech_req    = "The Republic"
+reqs = { "type", "name", "range"
+         "tech", "The Republic", "Player"
+       }
 graphic     = "gov.republic"
 graphic_alt = "-"
 flags       = "Has_Senate", "Rapture_City_Growth"
@@ -490,7 +495,9 @@ The citizens of a city will tolerate 1 aggressive unit; subsequent\
 [government_democracy]
 
 name        = _("Democracy")
-tech_req    = "Democracy"
+reqs = { "type", "name", "range"
+         "tech", "Democracy", "Player"
+       }
 graphic     = "gov.democracy"
 graphic_alt = "-"
 flags       = "Has_Senate", "Revolution_When_Unhappy", 

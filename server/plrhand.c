@@ -271,6 +271,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   bool was_first = FALSE;
   bool had_embassy[MAX_NUM_PLAYERS];
   struct city *pcity;
+  bool can_switch[game.government_count];
 
   players_iterate(aplr) {
     had_embassy[aplr->player_no]
@@ -307,12 +308,9 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   }
 
   government_iterate(gov) {
-    if (tech_found == gov->required_tech) {
-      notify_player_ex(plr, NULL, E_NEW_GOVERNMENT,
-		       _("Discovery of %s makes the government form %s"
-			 " available. You may want to start a revolution."),
-		       get_tech_name(plr, tech_found), gov->name);
-    }
+    /* We do it this way so all requirements are checked, including
+     * statue-of-liberty effects. */
+    can_switch[gov->index] = can_change_to_government(plr, gov->index);
   } government_iterate_end;
 
   if (tech_flag(tech_found, TF_BONUS_TECH) && was_first) {
@@ -325,6 +323,16 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   if (tech_flag(tech_found,TF_RAILROAD)) {
     upgrade_city_rails(plr, was_discovery);
   }
+
+  government_iterate(gov) {
+    if (!can_switch[gov->index]
+	&& can_change_to_government(plr, gov->index)) {
+      notify_player_ex(plr, NULL, E_NEW_GOVERNMENT,
+		       _("Discovery of %s makes the government form %s"
+			 " available. You may want to start a revolution."),
+		       get_tech_name(plr, tech_found), gov->name);
+    }
+  } government_iterate_end;
 
   /* enhance vision of units inside a fortress */
   if (tech_flag(tech_found, TF_WATCHTOWER)) {

@@ -790,7 +790,10 @@ struct packet_ruleset_tech {
 
 struct packet_ruleset_government {
   int id;
-  int required_tech;
+  int req_type[MAX_NUM_REQS];
+  int req_range[MAX_NUM_REQS];
+  int req_value[MAX_NUM_REQS];
+  bool req_survives[MAX_NUM_REQS];
   int max_rate;
   int civil_war;
   int martial_law_max;

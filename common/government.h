@@ -16,6 +16,7 @@
 #include "shared.h"
 
 #include "fc_types.h"
+#include "requirements.h"
 
 struct sprite;			/* opaque; client-gui specific */
 
@@ -67,7 +68,7 @@ struct government
   char  name_orig[MAX_LEN_NAME]; /* untranslated copy */
   char  graphic_str[MAX_LEN_NAME];
   char  graphic_alt[MAX_LEN_NAME];
-  int   required_tech;		/* tech required to change to this gov */
+  struct requirement req[MAX_NUM_REQS];
 
   int ai_better;		/* govt AI prefers to this one (hint) */
 

@@ -289,7 +289,7 @@ void ai_best_government(struct player *pplayer)
     TIMING_LOG(LOG_DEBUG, pplayer, "Finding best government");
     government_iterate(gov) {
       int val = 0;
-      int dist;
+      int dist, i;
 
       if (gov->index == game.government_when_anarchy) {
         continue; /* pointless */
@@ -337,7 +337,16 @@ void ai_best_government(struct player *pplayer)
 
       val += (val * bonus) / 100;
 
-      dist = MAX(1, num_unknown_techs_for_goal(pplayer, gov->required_tech));
+      /* FIXME: handle reqs other than technologies. */
+      dist = 0;
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+	struct requirement *req = gov->req + i;
+
+	if (req->source.type == REQ_TECH) {
+	  dist += MAX(1, num_unknown_techs_for_goal(pplayer,
+						    req->source.value.tech));
+	}
+      }
       val = amortize(val, dist);
       ai->government_want[gov->index] = val; /* Save want */
     } government_iterate_end;
@@ -360,9 +369,21 @@ void ai_best_government(struct player *pplayer)
       ai->goal.revolution = gov->index;
     }
     if (ai->government_want[gov->index] > ai->goal.govt.val) {
+      int i;
+
       ai->goal.govt.idx = gov->index;
       ai->goal.govt.val = ai->government_want[gov->index];
-      ai->goal.govt.req = gov->required_tech;
+
+      /* FIXME: handle reqs other than technologies. */
+      ai->goal.govt.req = A_NONE;
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+	struct requirement *req = gov->req + i;
+
+	if (req->source.type == REQ_TECH) {
+	  ai->goal.govt.req = req->source.value.tech;
+	  break;
+	}
+      }
     }
   } government_iterate_end;
   /* Goodness of the ideal gov is calculated relative to the goodness of the
