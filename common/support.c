@@ -403,7 +403,7 @@ static char mybuf[MYBUFSIZE+1];
 #ifdef WIN32_NATIVE
 static HANDLE mythread = INVALID_HANDLE_VALUE;
 
-static DWORD WINAPI thread_proc(LPVOID data)
+static unsigned int WINAPI thread_proc(LPVOID data)
 {
   if (fgets(mybuf, MYBUFSIZE, stdin)) {
     char *s;

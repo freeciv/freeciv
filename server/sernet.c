@@ -117,12 +117,13 @@ static bool no_input = FALSE;
 /*****************************************************************************
   This happens if you type an EOF character with nothing on the current line.
 *****************************************************************************/
+#ifndef SOCKET_ZERO_ISNT_STDIN
 static void handle_stdin_close(void)
 {
   freelog(LOG_NORMAL, _("Server cannot read standard input. Ignoring input."));
   no_input = TRUE;
 }
-
+#endif
 #ifdef HAVE_LIBREADLINE
 /****************************************************************************/
 

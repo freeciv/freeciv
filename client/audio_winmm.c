@@ -53,6 +53,7 @@ static bool play(const char *const tag, const char *const fullpath,
     return FALSE;
   }
   sndPlaySound(fullpath, SND_ASYNC | (repeat ? SND_LOOP : 0));
+  return TRUE;
 }
 
 /**************************************************************************

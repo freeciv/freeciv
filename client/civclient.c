@@ -27,6 +27,10 @@
 #include <sys/types.h>
 #endif
 
+#ifdef HAVE_WINSOCK
+#include <winsock.h>
+#endif
+
 #include "capstr.h"
 #include "fcintl.h"
 #include "game.h"

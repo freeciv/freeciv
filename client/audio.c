@@ -34,7 +34,7 @@
 #include "audio_sdl.h"
 #endif
 
-#ifdef AUDIO_WINMM
+#ifdef WINMM
 #include "audio_winmm.h"
 #endif
 
