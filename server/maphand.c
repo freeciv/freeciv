@@ -481,8 +481,9 @@ void map_startpos_load(struct section_file *file)
   }
 
   if (i < game.max_players) {
-    freelog(LOG_VERBOSE, _("Number of starts are lower than max_players,"
- 			   " lowering max_players."),
+    freelog(LOG_VERBOSE,
+	    _("Number of starts (%d) are lower than max_players (%d),"
+	      " lowering max_players."),
  	    i, game.max_players);
     game.max_players = i;
   }
