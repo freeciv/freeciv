@@ -269,6 +269,8 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
   struct unit *punit1 = find_unit_by_id(defender_unit_id);
 
   if (punit0 && punit1) {
+    struct unit *pwinner = (defender_hp == 0 ? punit0 : punit1);
+
     if (tile_visible_mapcanvas(punit0->tile) &&
 	tile_visible_mapcanvas(punit1->tile)) {
       show_combat = TRUE;
@@ -291,13 +293,25 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
       if (do_combat_animation) {
 	flush_dirty();
 	decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
+	if (make_winner_veteran) {
+	  pwinner->veteran++;
+	  refresh_tile_mapcanvas(pwinner->tile, FALSE);
+	}
       } else {
 	punit0->hp = hp0;
 	punit1->hp = hp1;
 
 	set_units_in_combat(NULL, NULL);
+	if (make_winner_veteran) {
+	  pwinner->veteran++;
+	}
 	refresh_tile_mapcanvas(punit0->tile, FALSE);
 	refresh_tile_mapcanvas(punit1->tile, FALSE);
+      }
+    } else {
+      if (make_winner_veteran) {
+	pwinner->veteran++;
+	refresh_tile_mapcanvas(pwinner->tile, FALSE);
       }
     }
   }
