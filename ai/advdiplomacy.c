@@ -272,8 +272,8 @@ static int ai_goldequiv_clause(struct player *pplayer,
 
       if ((pclause->type == CLAUSE_PEACE && ds > DS_PEACE)
           || (pclause->type == CLAUSE_CEASEFIRE && ds > DS_CEASEFIRE)) {
-        notify(aplayer, _("*%s (AI)* I will not let you go that easy, %s."),
-               pplayer->name, aplayer->name);
+        notify(aplayer, _("*%s (AI)* I will not let you go that easy, %s. "
+               "The current treaty stands."), pplayer->name, aplayer->name);
         worth = -BIG_NUMBER;
         break;
       }
