@@ -2669,13 +2669,17 @@ void handle_stdin_input(struct connection *caller, char *str)
     return;
   }
 
-  /* commands may be prefixed with SERVER_COMMAND_PREFIX,
-     even when given on the server command line - rp */
-
+  /* commands may be prefixed with SERVER_COMMAND_PREFIX, even when
+     given on the server command line - rp */
   if (*cptr_s == SERVER_COMMAND_PREFIX) cptr_s++;
 
-  for(cptr_s=str; *cptr_s && !isalnum(*cptr_s); cptr_s++);
+  for(; *cptr_s && !isalnum(*cptr_s); cptr_s++);
 
+  /*
+   * cptr_s points now to the beginning of the real command. It has
+   * skipped leading whitespace, the SERVER_COMMAND_PREFIX and any
+   * other non-alphanumeric characters.
+   */
   for(cptr_d=command; *cptr_s && isalnum(*cptr_s) &&
       cptr_d < command+sizeof(command)-1; cptr_s++, cptr_d++)
     *cptr_d=*cptr_s;
