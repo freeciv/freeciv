@@ -103,7 +103,8 @@ static Unit_Type_id ai_hunter_guess_best(struct city *pcity,
       desire /= 2;
     }
 
-    desire = amortize(desire, ut->build_cost / MAX(pcity->shield_surplus, 1));
+    desire = amortize(desire,
+		      ut->build_cost / MAX(pcity->surplus[O_SHIELD], 1));
 
     if (desire > best) {
         best = desire;
@@ -160,7 +161,8 @@ static void ai_hunter_missile_want(struct player *pplayer,
       desire /= 2;
     }
 
-    desire = amortize(desire, ut->build_cost / MAX(pcity->shield_surplus, 1));
+    desire = amortize(desire,
+		      ut->build_cost / MAX(pcity->surplus[O_SHIELD], 1));
 
     if (desire > best) {
         best = desire;

@@ -68,8 +68,8 @@
   } } city_list_iterate_end; }
 
 #define CITY_EMERGENCY(pcity)                        \
- (pcity->shield_surplus < 0 || city_unhappy(pcity)   \
-  || pcity->food_stock + pcity->food_surplus < 0)
+ (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)   \
+  || pcity->food_stock + pcity->surplus[O_FOOD] < 0)
 #define LOG_BUY LOG_DEBUG
 
 static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
@@ -82,8 +82,8 @@ static void ai_sell_obsolete_buildings(struct city *pcity);
 **************************************************************************/
 int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
 {
-  int i = (pcity->food_surplus * ai->food_priority
-           + pcity->shield_surplus * ai->shield_priority
+  int i = (pcity->surplus[O_FOOD] * ai->food_priority
+           + pcity->surplus[O_SHIELD] * ai->shield_priority
            + pcity->luxury_total * ai->luxury_priority
            + pcity->tax_total * ai->gold_priority
            + pcity->science_total * ai->science_priority
@@ -92,7 +92,7 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
            - pcity->ppl_angry[4] * ai->angry_priority
            - pcity->pollution * ai->pollution_priority);
 
-  if (pcity->food_surplus < 0 || pcity->shield_surplus < 0) {
+  if (pcity->surplus[O_FOOD] < 0 || pcity->surplus[O_SHIELD] < 0) {
     /* The city is unmaintainable, it can't be good */
     i = MIN(i, 0);
   }
@@ -301,7 +301,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 		* (nplayers - amount)) / (nplayers * amount * 100);
 	    break;
 	  case EFT_GROWTH_FOOD:
-	    v += c * 4 + (amount / 7) * pcity->food_surplus;
+	    v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];
 	    break;
 	  case EFT_AIRLIFT:
             /* FIXME: We need some smart algorithm here. The below is 
@@ -356,9 +356,9 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    /* there not being a break here is deliberate, mind you */
 	  case EFT_SIZE_ADJ: 
             if (!city_can_grow_to(pcity, pcity->size + 1)) {
-	      v += pcity->food_surplus * ai->food_priority * amount;
+	      v += pcity->surplus[O_FOOD] * ai->food_priority * amount;
               if (pcity->size == game.aqueduct_size) {
-                v += 30 * pcity->food_surplus;
+                v += 30 * pcity->surplus[O_FOOD];
               }
 	    }
 	    v += c * amount * 4 / game.aqueduct_size;
@@ -498,7 +498,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
    }
 
   /* Adjust by building cost */
-  v -= pimpr->build_cost / (pcity->shield_surplus * 10 + 1);
+  v -= pimpr->build_cost / (pcity->surplus[O_SHIELD] * 10 + 1);
 
   /* Set */
   pcity->ai.building_want[id] = v;
@@ -530,7 +530,7 @@ void ai_manage_buildings(struct player *pplayer)
         pcity->ai.building_want[id] = 0; /* do recalc */
       }
       if (city_got_building(pcity, id)
-          || pcity->shield_surplus == 0
+          || pcity->surplus[O_SHIELD] == 0
           || !can_build_improvement(pcity, id)
           || improvement_redundant(pplayer, pcity, id, FALSE)) {
         continue; /* Don't build redundant buildings */
@@ -874,7 +874,7 @@ static void ai_spend_gold(struct player *pplayer)
       if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
           && pcity->size == 1
           && city_granary_size(pcity->size)
-             > pcity->food_stock + pcity->food_surplus) {
+             > pcity->food_stock + pcity->surplus[O_FOOD]) {
         /* Don't buy settlers in size 1 cities unless we grow next turn */
         continue;
       } else if (city_list_size(&pplayer->cities) > 6) {
@@ -1044,7 +1044,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
           "Emergency in %s (%s, angry%d, unhap%d food%d, prod%d)",
           pcity->name, city_unhappy(pcity) ? "unhappy" : "content",
           pcity->ppl_angry[4], pcity->ppl_unhappy[4],
-          pcity->food_surplus, pcity->shield_surplus);
+          pcity->surplus[O_FOOD], pcity->surplus[O_SHIELD]);
 
   city_list_init(&minilist);
   map_city_radius_iterate(pcity->tile, ptile) {

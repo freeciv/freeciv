@@ -657,7 +657,7 @@ static void end_turn(void)
         workers += pcity->size;
         shields += pcity->shield_prod;
         food += pcity->food_prod;
-        trade += pcity->trade_prod;
+        trade += pcity->surplus[O_TRADE];
       } city_list_iterate_end;
       gamelog(GAMELOG_NORMAL, "INFO %s cities %d, pop %d "
               "food %d, prod %d, trade %d, settlers %d, units %d",

@@ -66,7 +66,7 @@ int military_amortize(struct player *pplayer, struct city *pcity,
                       int value, int delay, int build_cost)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  int city_output = (pcity ? pcity->shield_surplus : 1);
+  int city_output = (pcity ? pcity->surplus[O_SHIELD] : 1);
   int output = MAX(city_output, ai->stats.average_production);
   int build_time = build_cost / MAX(output, 1);
 
@@ -402,8 +402,8 @@ bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
        the greater good -- Per */
     return FALSE;
   }
-  if (pcity->shield_surplus - unit_type(punit)->shield_cost >= 0
-      && pcity->food_surplus - unit_type(punit)->food_cost >= 0) {
+  if (pcity->surplus[O_SHIELD] - unit_type(punit)->shield_cost >= 0
+      && pcity->surplus[O_FOOD] - unit_type(punit)->food_cost >= 0) {
     handle_unit_change_homecity(unit_owner(punit), punit->id, pcity->id);
     return TRUE;
   }

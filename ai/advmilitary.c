@@ -1218,7 +1218,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
   case HELI_MOVING:
   case AIR_MOVING:
     if ((id = ai_find_source_building(pplayer, EFT_AIR_VETERAN)) != B_LAST
-        && pcity->shield_surplus > impr_build_shield_cost(id) / 10) {
+        && pcity->surplus[O_SHIELD] > impr_build_shield_cost(id) / 10) {
       /* Only build this if we have really high production */
       choice->choice = id;
       choice->type = CT_BUILDING;
@@ -1275,7 +1275,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     } else { 
       danger = 100 * pcity->ai.danger / our_def;
     }
-    if (pcity->shield_surplus <= 0 && our_def != 0) {
+    if (pcity->surplus[O_SHIELD] <= 0 && our_def != 0) {
       /* Won't be able to support anything */
       danger = 0;
     }
@@ -1353,7 +1353,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     }
   } /* ok, don't need to defend */
 
-  if (pcity->shield_surplus <= 0 
+  if (pcity->surplus[O_SHIELD] <= 0 
       || pcity->ppl_unhappy[4] > pcity->ppl_unhappy[2]) {
     /* Things we consider below are not life-saving so we don't want to 
      * build them if our populace doesn't feel like it */

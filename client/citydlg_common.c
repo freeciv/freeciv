@@ -240,7 +240,7 @@ void get_city_dialog_production(struct city *pcity,
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     my_snprintf(buffer, buffer_len, _("%3d gold per turn"),
-		MAX(0, pcity->shield_surplus));
+		MAX(0, pcity->surplus[O_SHIELD]));
   } else {
     char time[50];
 
@@ -281,7 +281,8 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 {
   if (!is_unit && building_has_effect(id, EFT_PROD_TO_GOLD)) {
     my_snprintf(buffer, buffer_len, _("%s (XX) %d/turn"),
-		get_impr_name_ex(pcity, id), MAX(0, pcity->shield_surplus));
+		get_impr_name_ex(pcity, id),
+		MAX(0, pcity->surplus[O_SHIELD]));
   } else {
     int turns = city_turns_to_build(pcity, id, is_unit, TRUE);
     const char *name;
@@ -365,7 +366,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
   if (pcity) {
     if (!is_unit && building_has_effect(id, EFT_PROD_TO_GOLD)) {
       my_snprintf(buf[3], column_size, _("%d/turn"),
-		  MAX(0, pcity->shield_surplus));
+		  MAX(0, pcity->surplus[O_SHIELD]));
     } else {
       int turns = city_turns_to_build(pcity, id, is_unit, FALSE);
       if (turns < 999) {

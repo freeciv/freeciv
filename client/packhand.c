@@ -418,15 +418,15 @@ void handle_city_info(struct packet_city_info *packet)
     /* Check if city desciptions should be updated */
     if (draw_city_names && name_changed) {
       update_descriptions = TRUE;
-    } else if (draw_city_productions &&
-	       (pcity->is_building_unit != packet->is_building_unit ||
-		pcity->currently_building != packet->currently_building ||
-		pcity->shield_surplus != packet->shield_surplus ||
-		pcity->shield_stock != packet->shield_stock)) {
+    } else if (draw_city_productions
+	       && (pcity->is_building_unit != packet->is_building_unit
+		   || pcity->currently_building != packet->currently_building
+		   || pcity->surplus[O_SHIELD] != packet->shield_surplus
+		   || pcity->shield_stock != packet->shield_stock)) {
       update_descriptions = TRUE;
     } else if (draw_city_names && draw_city_growth &&
 	       (pcity->food_stock != packet->food_stock ||
-		pcity->food_surplus != packet->food_surplus)) {
+		pcity->surplus[O_FOOD] != packet->food_surplus)) {
       /* If either the food stock or surplus have changed, the time-to-grow
 	 is likely to have changed as well. */
       update_descriptions = TRUE;
@@ -457,10 +457,10 @@ void handle_city_info(struct packet_city_info *packet)
   }
   
   pcity->food_prod=packet->food_prod;
-  pcity->food_surplus=packet->food_surplus;
+  pcity->surplus[O_FOOD] = packet->food_surplus;
   pcity->shield_prod=packet->shield_prod;
-  pcity->shield_surplus=packet->shield_surplus;
-  pcity->trade_prod=packet->trade_prod;
+  pcity->surplus[O_SHIELD] = packet->shield_surplus;
+  pcity->surplus[O_TRADE] = packet->trade_prod;
   pcity->tile_trade=packet->tile_trade;
   pcity->corruption=packet->corruption;
   pcity->shield_waste=packet->shield_waste;
@@ -747,10 +747,8 @@ void handle_city_short_info(struct packet_city_short_info *packet)
       pcity->trade_value[i] = 0;
     }
     pcity->food_prod          = 0;
-    pcity->food_surplus       = 0;
+    memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));
     pcity->shield_prod        = 0;
-    pcity->shield_surplus     = 0;
-    pcity->trade_prod         = 0;
     pcity->corruption         = 0;
     pcity->luxury_total       = 0;
     pcity->tax_total          = 0;

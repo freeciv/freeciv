@@ -398,7 +398,7 @@ int player_get_expected_income(struct player *pplayer)
 
     /* Capitalization income. */
     if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
-      income += pcity->shield_stock + pcity->shield_surplus;
+      income += pcity->shield_stock + pcity->surplus[O_SHIELD];
     }
   } city_list_iterate_end;
 

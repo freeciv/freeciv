@@ -167,7 +167,7 @@ static void ai_manage_taxes(struct player *pplayer)
       total_cities++;
 
       if (cmr.found_a_valid
-          && pcity->food_surplus > 0
+          && pcity->surplus[O_FOOD] > 0
           && pcity->size >= g->rapture_size
 	  && city_can_grow_to(pcity, pcity->size + 1)) {
         pcity->ai.celebrate = TRUE;

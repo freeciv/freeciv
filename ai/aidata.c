@@ -269,7 +269,7 @@ void ai_data_turn_init(struct player *pplayer)
   ai->stats.average_production = 0;
   city_list_iterate(pplayer->cities, pcity) {
     ai->stats.cities[(int)map_get_continent(pcity->tile)]++;
-    ai->stats.average_production += pcity->shield_surplus;
+    ai->stats.average_production += pcity->surplus[O_SHIELD];
   } city_list_iterate_end;
   ai->stats.average_production /= MAX(1, city_list_size(&pplayer->cities));
   BV_CLR_ALL(ai->stats.diplomat_reservations);

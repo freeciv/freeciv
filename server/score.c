@@ -411,8 +411,8 @@ void calc_civ_score(struct player *pplayer)
     pplayer->score.cities++;
     pplayer->score.pollution += pcity->pollution;
     pplayer->score.techout += pcity->science_total;
-    pplayer->score.bnp += pcity->trade_prod;
-    pplayer->score.mfg += pcity->shield_surplus;
+    pplayer->score.bnp += pcity->surplus[O_TRADE];
+    pplayer->score.mfg += pcity->surplus[O_SHIELD];
 
     bonus = CLIP(0, get_city_bonus(pcity, EFT_SCIENCE_BONUS), 100);
     pplayer->score.literacy += (city_population(pcity) * bonus) / 100;

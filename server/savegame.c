@@ -1966,15 +1966,21 @@ static void player_load(struct player *plr, int plrno,
       pcity->trade[j]=secfile_lookup_int(file, "player%d.c%d.traderoute%d",
 					 plrno, i, j);
     
-    pcity->food_stock=secfile_lookup_int(file, "player%d.c%d.food_stock", 
-						 plrno, i);
-    pcity->shield_stock=secfile_lookup_int(file, "player%d.c%d.shield_stock", 
-						   plrno, i);
-    pcity->tile_trade=pcity->trade_prod=0;
-    pcity->anarchy=secfile_lookup_int(file, "player%d.c%d.anarchy", plrno,i);
-    pcity->rapture=secfile_lookup_int_default(file, 0, "player%d.c%d.rapture", plrno,i);
-    pcity->was_happy=secfile_lookup_bool(file, "player%d.c%d.was_happy", plrno,i);
-    pcity->is_building_unit=
+    pcity->food_stock = secfile_lookup_int(file, "player%d.c%d.food_stock", 
+					   plrno, i);
+    pcity->shield_stock = secfile_lookup_int(file,
+					     "player%d.c%d.shield_stock", 
+					     plrno, i);
+    pcity->tile_trade = pcity->surplus[O_TRADE] = 0;
+    pcity->anarchy = secfile_lookup_int(file, "player%d.c%d.anarchy",
+					plrno, i);
+    pcity->rapture = secfile_lookup_int_default(file, 0,
+						"player%d.c%d.rapture",
+						plrno, i);
+    pcity->was_happy = secfile_lookup_bool(file,
+					   "player%d.c%d.was_happy",
+					   plrno, i);
+    pcity->is_building_unit =
       secfile_lookup_bool(file, 
 			 "player%d.c%d.is_building_unit", plrno, i);
     name = secfile_lookup_str_default(file, NULL,

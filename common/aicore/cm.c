@@ -684,12 +684,9 @@ static void get_city_surplus(const struct city *pcity,
 			     int surplus[],
 			     bool *disorder, bool *happy)
 {
-  surplus[O_FOOD] = pcity->food_surplus;
-  surplus[O_SHIELD] = pcity->shield_surplus;
-  surplus[O_TRADE] = pcity->trade_prod;
-  surplus[O_GOLD] = city_gold_surplus(pcity, pcity->tax_total);
-  surplus[O_LUXURY] = pcity->luxury_total;
-  surplus[O_SCIENCE] = pcity->science_total;
+  output_type_iterate(o) {
+    surplus[o] = pcity->surplus[o];
+  } output_type_iterate_end;
 
   *disorder = city_unhappy(pcity);
   *happy = city_happy(pcity);
@@ -1533,7 +1530,7 @@ static void init_min_production(struct cm_state *state)
    * prod-surplus; otherwise, we know it's at least 2*size but we
    * can't easily compute the settlers. */
   if (!city_unhappy(pcity)) {
-    usage[O_FOOD] = pcity->food_prod - pcity->food_surplus;
+    usage[O_FOOD] = pcity->food_prod - pcity->surplus[O_FOOD];
   } else {
     usage[O_FOOD] = pcity->size * 2;
   }
@@ -1556,7 +1553,7 @@ static void init_min_production(struct cm_state *state)
   if (!city_unhappy(pcity)) {
     double sbonus;
 
-    usage[O_SHIELD] = pcity->shield_prod - pcity->shield_surplus;
+    usage[O_SHIELD] = pcity->shield_prod - pcity->surplus[O_SHIELD];
 
     sbonus = ((double)pcity->shield_bonus) / 100.0;
     sbonus += .1;
@@ -2068,10 +2065,10 @@ void cm_print_city(const struct city *pcity)
   } my_city_map_iterate_end;
 
   freelog(LOG_NORMAL, "  food    = %3d (%+3d)",
-          pcity->food_prod, pcity->food_surplus);
+          pcity->food_prod, pcity->surplus[O_FOOD]);
   freelog(LOG_NORMAL, "  shield  = %3d (%+3d)",
-          pcity->shield_prod, pcity->shield_surplus);
-  freelog(LOG_NORMAL, "  trade   = %3d", pcity->trade_prod);
+          pcity->shield_prod, pcity->surplus[O_SHIELD]);
+  freelog(LOG_NORMAL, "  trade   = %3d", pcity->surplus[O_TRADE]);
 
   freelog(LOG_NORMAL, "  gold    = %3d (%+3d)", pcity->tax_total,
           city_gold_surplus(pcity, pcity->tax_total));

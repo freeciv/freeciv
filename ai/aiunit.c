@@ -1893,7 +1893,7 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
     if ((pcity = wonder_on_continent(pplayer, 
                                      map_get_continent(punit->tile))) 
         && unit_flag(punit, F_HELP_WONDER)
-        && build_points_left(pcity) > (pcity->shield_surplus * 2)) {
+        && build_points_left(pcity) > (pcity->surplus[O_SHIELD] * 2)) {
       if (!same_pos(pcity->tile, punit->tile)) {
         if (punit->moves_left == 0) {
           return;

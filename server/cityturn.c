@@ -313,15 +313,16 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
   int turns_growth, turns_granary;
   bool can_grow;
  
-  if (pcity->food_surplus > 0) {
+  if (pcity->surplus[O_FOOD] > 0) {
     turns_growth = (city_granary_size(pcity->size) - pcity->food_stock - 1)
-		   / pcity->food_surplus;
+		   / pcity->surplus[O_FOOD];
 
     if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
 	&& get_current_construction_bonus(pcity, EFT_GROWTH_FOOD) > 0
-	&& pcity->shield_surplus > 0) {
+	&& pcity->surplus[O_SHIELD] > 0) {
+      /* From the check above, the surplus must always be positive. */
       turns_granary = (impr_build_shield_cost(pcity->currently_building)
-		       - pcity->shield_stock) / pcity->shield_surplus;
+		       - pcity->shield_stock) / pcity->surplus[O_SHIELD];
       /* if growth and granary completion occur simultaneously, granary
 	 preserves food.  -AJS */
       if (turns_growth < 5 && turns_granary < 5
@@ -343,7 +344,8 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 		       pcity->name, pcity->size + 1);
     }
   } else {
-    if (pcity->food_stock + pcity->food_surplus <= 0 && pcity->food_surplus < 0) {
+    if (pcity->food_stock + pcity->surplus[O_FOOD] <= 0
+	&& pcity->surplus[O_FOOD] < 0) {
       notify_conn_ex(dest, pcity->tile,
 		     E_CITY_FAMINE_FEARED,
 		     _("Game: Warning: Famine feared in %s."),
@@ -494,9 +496,10 @@ static void city_increase_size(struct city *pcity)
       have_square = TRUE;
     }
   } city_map_iterate_end;
-  if (((pcity->food_surplus >= 2) || !have_square)  &&  pcity->size >= 5  &&
-      (is_city_option_set(pcity, CITYO_NEW_EINSTEIN) || 
-       is_city_option_set(pcity, CITYO_NEW_TAXMAN))) {
+  if (((pcity->surplus[O_FOOD] >= 2) || !have_square)
+      && pcity->size >= 5
+      && (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)
+	  || is_city_option_set(pcity, CITYO_NEW_TAXMAN))) {
 
     if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
       pcity->specialists[SP_SCIENTIST]++;
@@ -524,12 +527,11 @@ static void city_increase_size(struct city *pcity)
 **************************************************************************/
 static void city_populate(struct city *pcity)
 {
-  pcity->food_stock+=pcity->food_surplus;
-  if(pcity->food_stock >= city_granary_size(pcity->size) 
+  pcity->food_stock += pcity->surplus[O_FOOD];
+  if (pcity->food_stock >= city_granary_size(pcity->size) 
      || city_rapture_grow(pcity)) {
     city_increase_size(pcity);
-  }
-  else if(pcity->food_stock<0) {
+  } else if (pcity->food_stock < 0) {
     /* FIXME: should this depend on units with ability to build
      * cities or on units that require food in uppkeep?
      * I'll assume citybuilders (units that 'contain' 1 pop) -- sjolie
@@ -836,21 +838,21 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 {
   struct government *g = get_gov_pplayer(pplayer);
 
-  if (pcity->shield_surplus < 0) {
+  if (pcity->surplus[O_SHIELD] < 0) {
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (utype_shield_cost(unit_type(punit), g) > 0
-	  && pcity->shield_surplus < 0
+	  && pcity->surplus[O_SHIELD] < 0
           && !unit_flag(punit, F_UNDISBANDABLE)) {
 	notify_player_ex(pplayer, pcity->tile, E_UNIT_LOST,
 			 _("Game: %s can't upkeep %s, unit disbanded."),
 			 pcity->name, unit_type(punit)->name);
         handle_unit_disband(pplayer, punit->id);
-	/* pcity->shield_surplus is automatically updated. */
+	/* pcity->surplus[O_SHIELD] is automatically updated. */
       }
     } unit_list_iterate_safe_end;
   }
 
-  if (pcity->shield_surplus < 0) {
+  if (pcity->surplus[O_SHIELD] < 0) {
     /* Special case: F_UNDISBANDABLE. This nasty unit won't go so easily.
      * It'd rather make the citizens pay in blood for their failure to upkeep
      * it! If we make it here all normal units are already disbanded, so only
@@ -858,7 +860,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
     unit_list_iterate_safe(pcity->units_supported, punit) {
       int upkeep = utype_shield_cost(unit_type(punit), g);
 
-      if (upkeep > 0 && pcity->shield_surplus < 0) {
+      if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
 	assert(unit_flag(punit, F_UNDISBANDABLE));
 	notify_player_ex(pplayer, pcity->tile, E_UNIT_LOST,
 			 _("Game: Citizens in %s perish for their failure to "
@@ -868,15 +870,15 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 	}
 
 	/* No upkeep for the unit this turn. */
-	pcity->shield_surplus += upkeep;
+	pcity->surplus[O_SHIELD] += upkeep;
       }
     } unit_list_iterate_safe_end;
   }
 
   /* Now we confirm changes made last turn. */
-  pcity->shield_stock += pcity->shield_surplus;
+  pcity->shield_stock += pcity->surplus[O_SHIELD];
   pcity->before_change_shields = pcity->shield_stock;
-  pcity->last_turns_shield_surplus = pcity->shield_surplus;
+  pcity->last_turns_shield_surplus = pcity->surplus[O_SHIELD];
 
   return TRUE;
 }
@@ -890,7 +892,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   int mod;
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
-    assert(pcity->shield_surplus >= 0);
+    assert(pcity->surplus[O_SHIELD] >= 0);
     /* pcity->before_change_shields already contains the surplus from
      * this turn. */
     pplayer->economic.gold += pcity->before_change_shields;

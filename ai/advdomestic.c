@@ -149,7 +149,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   Unit_Type_id unit_type;
   /* Food surplus assuming that workers and elvii are already accounted for
    * and properly balanced. */
-  int est_food = pcity->food_surplus
+  int est_food = pcity->surplus[O_FOOD]
                  + 2 * pcity->specialists[SP_SCIENTIST]
                  + 2 * pcity->specialists[SP_TAXMAN];
 

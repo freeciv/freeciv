@@ -1043,7 +1043,7 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
 
   /* Should this be real_map_distance? */
   tb = map_distance(pc1->tile, pc2->tile) + 10;
-  tb = (tb * (pc1->trade_prod + pc2->trade_prod)) / 24;
+  tb = (tb * (pc1->surplus[O_TRADE] + pc2->surplus[O_TRADE])) / 24;
 
   /*  fudge factor to more closely approximate Civ2 behavior (Civ2 is
    * really very different -- this just fakes it a little better) */
@@ -1155,7 +1155,7 @@ bool city_rapture_grow(const struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
 
-  return (pcity->rapture > 0 && pcity->food_surplus > 0
+  return (pcity->rapture > 0 && pcity->surplus[O_FOOD] > 0
 	  && (pcity->rapture % game.rapturedelay) == 0
 	  && government_has_flag(g, G_RAPTURE_CITY_GROWTH));
 }
@@ -1406,7 +1406,7 @@ int city_change_production_penalty(const struct city *pcity,
 int city_turns_to_build(const struct city *pcity, int id, bool id_is_unit,
 			bool include_shield_stock)
 {
-  int city_shield_surplus = pcity->shield_surplus;
+  int city_shield_surplus = pcity->surplus[O_SHIELD];
   int city_shield_stock = include_shield_stock ?
       city_change_production_penalty(pcity, id, id_is_unit) : 0;
   int improvement_cost = id_is_unit ?
@@ -1432,12 +1432,12 @@ int city_turns_to_build(const struct city *pcity, int id, bool id_is_unit,
 **************************************************************************/
 int city_turns_to_grow(const struct city *pcity)
 {
-  if (pcity->food_surplus > 0) {
+  if (pcity->surplus[O_FOOD] > 0) {
     return (city_granary_size(pcity->size) - pcity->food_stock +
-	    pcity->food_surplus - 1) / pcity->food_surplus;
-  } else if (pcity->food_surplus < 0) {
+	    pcity->surplus[O_FOOD] - 1) / pcity->surplus[O_FOOD];
+  } else if (pcity->surplus[O_FOOD] < 0) {
     /* turns before famine loss */
-    return -1 + (pcity->food_stock / pcity->food_surplus);
+    return -1 + (pcity->food_stock / pcity->surplus[O_FOOD]);
   } else {
     return FC_INFINITY;
   }
@@ -1656,7 +1656,7 @@ int get_city_science_bonus(const struct city *pcity)
 
 /**************************************************************************
   Get the incomes of a city according to the taxrates (ignore # of 
-  specialists). trade should usually be pcity->trade_prod.
+  specialists). trade should usually be pcity->surplus[O_TRADE].
 **************************************************************************/
 void get_tax_income(struct player *pplayer, int trade, int *sci, 
                     int *lux, int *tax)
@@ -1704,7 +1704,7 @@ bool city_built_last_turn(const struct city *pcity)
 **************************************************************************/
 static inline void set_tax_income(struct city *pcity)
 {
-  get_tax_income(city_owner(pcity), pcity->trade_prod, &pcity->science_total, 
+  get_tax_income(city_owner(pcity), pcity->surplus[O_TRADE], &pcity->science_total, 
                  &pcity->luxury_total, &pcity->tax_total);
 
   specialist_type_iterate(sp) {
@@ -1736,7 +1736,17 @@ static void add_buildings_effect(struct city *pcity)
   pcity->luxury_total = (pcity->luxury_total * pcity->luxury_bonus) / 100;
   pcity->tax_total = (pcity->tax_total * pcity->tax_bonus) / 100;
   pcity->science_total = (pcity->science_total * pcity->science_bonus) / 100;
-  pcity->shield_surplus = pcity->shield_prod;
+  pcity->surplus[O_SHIELD] = pcity->shield_prod;
+}
+
+/**************************************************************************
+  Set tax surpluses from the base productions.
+**************************************************************************/
+static void set_tax_surplus(struct city *pcity)
+{
+  pcity->surplus[O_SCIENCE] = pcity->science_total;
+  pcity->surplus[O_LUXURY] = pcity->luxury_total;
+  pcity->surplus[O_GOLD] = city_gold_surplus(pcity, pcity->tax_total);
 }
 
 /**************************************************************************
@@ -1934,10 +1944,15 @@ static inline void citizen_happy_wonders(struct city *pcity)
 static inline void unhappy_city_check(struct city *pcity)
 {
   if (city_unhappy(pcity)) {
-    pcity->food_surplus = MIN(0, pcity->food_surplus);
+    pcity->surplus[O_FOOD] = MIN(0, pcity->surplus[O_FOOD]);
+    pcity->surplus[O_SHIELD] = MIN(0, pcity->surplus[O_SHIELD]);
+    pcity->surplus[O_GOLD] = MIN(0, pcity->surplus[O_GOLD]);
+    pcity->surplus[O_SCIENCE] = MIN(0, pcity->surplus[O_SCIENCE]);
+
+    /* FIXME: These are special cases because many parts of the code still
+     * check tax_total and science_total instead of the surplus[] array. */
     pcity->tax_total = 0;
     pcity->science_total = 0;
-    pcity->shield_surplus = MIN(0, pcity->shield_surplus);
   }
 }
 
@@ -1996,22 +2011,22 @@ void get_food_trade_shields(const struct city *pcity, int *food, int *trade,
 static inline void set_food_trade_shields(struct city *pcity)
 {
   int i;
-  pcity->food_surplus = 0;
-  pcity->shield_surplus = 0;
+  pcity->surplus[O_FOOD] = 0;
+  pcity->surplus[O_SHIELD] = 0;
 
-  get_food_trade_shields(pcity, &pcity->food_prod, &pcity->trade_prod,
+  get_food_trade_shields(pcity, &pcity->food_prod, &pcity->surplus[O_TRADE],
                          &pcity->shield_prod);
   
-  pcity->tile_trade = pcity->trade_prod;
-  pcity->food_surplus = pcity->food_prod - pcity->size * 2;
+  pcity->tile_trade = pcity->surplus[O_TRADE];
+  pcity->surplus[O_FOOD] = pcity->food_prod - pcity->size * 2;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     pcity->trade_value[i] =
 	trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
-    pcity->trade_prod += pcity->trade_value[i];
+    pcity->surplus[O_TRADE] += pcity->trade_value[i];
   }
-  pcity->corruption = city_corruption(pcity, pcity->trade_prod);
-  pcity->trade_prod -= pcity->corruption;
+  pcity->corruption = city_corruption(pcity, pcity->surplus[O_TRADE]);
+  pcity->surplus[O_TRADE] -= pcity->corruption;
 
   pcity->shield_waste = city_waste(pcity, pcity->shield_prod);
   pcity->shield_prod -= pcity->shield_waste;
@@ -2120,14 +2135,14 @@ static inline void city_support(struct city *pcity,
     if (shield_cost > 0) {
       adjust_city_free_cost(&free_shield, &shield_cost);
       if (shield_cost > 0) {
-	pcity->shield_surplus -= shield_cost;
+	pcity->surplus[O_SHIELD] -= shield_cost;
 	this_unit->upkeep = shield_cost;
       }
     }
     if (food_cost > 0) {
       adjust_city_free_cost(&free_food, &food_cost);
       if (food_cost > 0) {
-	pcity->food_surplus -= food_cost;
+	pcity->surplus[O_FOOD] -= food_cost;
 	this_unit->upkeep_food = food_cost;
       }
     }
@@ -2165,6 +2180,7 @@ void generic_city_refresh(struct city *pcity,
   citizen_happy_size(pcity);
   set_tax_income(pcity);	/* calc base luxury, tax & bulbs */
   add_buildings_effect(pcity);	/* marketplace, library wonders.. */
+  set_tax_surplus(pcity);
   pcity->pollution = city_pollution(pcity, pcity->shield_prod);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
   citizen_content_buildings(pcity);	/* temple cathedral colosseum */
@@ -2447,7 +2463,7 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   }
   pcity->food_stock = 0;
   pcity->shield_stock = 0;
-  pcity->trade_prod = 0;
+  pcity->surplus[O_TRADE] = 0;
   pcity->tile_trade = 0;
   pcity->original = pplayer->player_no;
 

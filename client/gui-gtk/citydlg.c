@@ -1689,12 +1689,13 @@ static void city_dialog_update_information(GtkWidget **info_label,
   /* fill the buffers with the necessary info */
 
   my_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
-	      pcity->food_prod, pcity->food_surplus);
+	      pcity->food_prod, pcity->surplus[O_FOOD]);
   my_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
 	      pcity->shield_prod + pcity->shield_waste,
-	      pcity->shield_surplus);
+	      pcity->surplus[O_SHIELD]);
   my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
-	      pcity->trade_prod + pcity->corruption, pcity->trade_prod);
+	      pcity->surplus[O_TRADE] + pcity->corruption,
+	      pcity->surplus[O_TRADE]);
   my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
 	      pcity->tax_total, city_gold_surplus(pcity, pcity->tax_total));
   my_snprintf(buf[LUXURY], sizeof(buf[LUXURY]), "%2d      ",
@@ -1739,7 +1740,7 @@ static void city_dialog_update_information(GtkWidget **info_label,
   style = (granaryturns > -4 && granaryturns < 0) ? RED : NORMAL;
   gtk_widget_modify_style(info_label[GRANARY], info_label_style[style]);
 
-  style = (granaryturns == 0 || pcity->food_surplus < 0) ? RED : NORMAL;
+  style = (granaryturns == 0 || pcity->surplus[O_FOOD] < 0) ? RED : NORMAL;
   gtk_widget_modify_style(info_label[GROWTH], info_label_style[style]);
 
   /* someone could add the info_label_style[ORANGE]

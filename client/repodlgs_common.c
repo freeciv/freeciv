@@ -82,7 +82,7 @@ void get_economy_report_data(struct improvement_entry *entries,
   city_list_iterate(game.player_ptr->cities, pcity) {
     *total_income += pcity->tax_total;
     if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
-      *total_income += MAX(0, pcity->shield_surplus);
+      *total_income += MAX(0, pcity->surplus[O_SHIELD]);
     }
   } city_list_iterate_end;
 }

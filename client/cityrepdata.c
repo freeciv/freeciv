@@ -234,9 +234,9 @@ static const char *cr_entry_resources(const struct city *pcity,
 {
   static char buf[32];
   my_snprintf(buf, sizeof(buf), "%d/%d/%d",
-	      pcity->food_surplus, 
-	      pcity->shield_surplus, 
-	      pcity->trade_prod);
+	      pcity->surplus[O_FOOD], 
+	      pcity->surplus[O_SHIELD], 
+	      pcity->surplus[O_TRADE]);
   return buf;
 }
 
@@ -245,7 +245,7 @@ static const char *cr_entry_foodplus(const struct city *pcity,
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d",
-	      pcity->food_surplus);
+	      pcity->surplus[O_FOOD]);
   return buf;
 }
 
@@ -254,7 +254,7 @@ static const char *cr_entry_prodplus(const struct city *pcity,
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d",
-	      pcity->shield_surplus);
+	      pcity->surplus[O_SHIELD]);
   return buf;
 }
 
@@ -263,7 +263,7 @@ static const char *cr_entry_tradeplus(const struct city *pcity,
 {
   static char buf[8];
   my_snprintf(buf, sizeof(buf), "%3d",
-	      pcity->trade_prod);
+	      pcity->surplus[O_TRADE]);
   return buf;
 }
 
@@ -365,7 +365,7 @@ static const char *cr_entry_building(const struct city *pcity,
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     my_snprintf(buf, sizeof(buf), "%s (%d/X/X/X)%s",
 		get_impr_name_ex(pcity, pcity->currently_building),
-		MAX(0, pcity->shield_surplus), from_worklist);
+		MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
   } else {
     int turns = city_turns_to_build(pcity, pcity->currently_building,
 				    pcity->is_building_unit, TRUE);
