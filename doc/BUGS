@@ -96,7 +96,7 @@ Here's what to do:
 
  - Check the Freeciv Bug Tracking System at:
 
-        http://www.freeciv.org/cgi-bin/bugs
+        http://rt.freeciv.org/
 
    to see if the bug has already been reported.
 
@@ -104,7 +104,7 @@ Here's what to do:
 
    You can submit a bug report either by sending email to
    <bugs@freeciv.freeciv.org>, or via the web at
-   <http://www.freeciv.org/cgi-bin/bugs>.
+   <http://rt.freeciv.org/>.
 
    Or, if you want to send the Freeciv developers some comments
    but don't want to lodge a bug report, you can sent email to
