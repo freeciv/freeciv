@@ -152,6 +152,14 @@ void handle_remove_city(struct packet_generic_integer *packet)
   x = pcity->x; y = pcity->y;
   client_remove_city(pcity);
   reset_move_costs(x, y);
+
+  /* update menus if the focus unit is on the tile. */
+  {
+    struct unit *punit = get_unit_in_focus();
+    if (punit && same_pos(punit->x, punit->y, x, y)) {
+      update_menus();
+    }
+  }
 }
 
 /**************************************************************************
@@ -427,11 +435,15 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
     popup_city_dialog(pcity, 0);
   }
 
-  if(!is_new && pcity->owner==game.player_idx) {
+  /* update menus if the focus unit is on the tile. */
+  {
     struct unit *punit = get_unit_in_focus();
-    if (punit && (punit->x == pcity->x) && (punit->y == pcity->y)) {
+    if (punit && same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
       update_menus();
     }
+  }
+
+  if (!is_new && pcity->owner==game.player_idx) {
     refresh_city_dialog(pcity);
   }
 
@@ -1081,6 +1093,12 @@ void handle_player_info(struct packet_player_info *pinfo)
 	popup_science_dialog(1);
       did_advance_tech_this_turn=game.year;
       science_dialog_update();
+
+      /* If we just learned bridge building and focus is on a settler
+	 on a river the road menu item will remain disabled unless we
+	 do this. (applys in other cases as well.) */
+      if (get_unit_in_focus())
+	update_menus();
     } 
   }
 
@@ -1468,7 +1486,15 @@ void handle_tile_info(struct packet_tile_info *packet)
 	refresh_tile_mapcanvas(x, y-1, 1);
       if(tile_is_known(x, y+1)>=TILE_KNOWN_FOGGED)
 	refresh_tile_mapcanvas(x, y+1, 1);
-    } 
+    }
+  }
+
+  /* update menus if the focus unit is on the tile. */
+  if (tile_changed) {
+    struct unit *punit = get_unit_in_focus();
+    if (punit && same_pos(punit->x, punit->y, packet->x, packet->y)) {
+      update_menus();
+    }
   }
 }
 
