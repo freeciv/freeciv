@@ -423,6 +423,11 @@ void science_dialog_update(void)
   gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
   gtk_progress_set_format_string(GTK_PROGRESS(science_current_label), text);
 
+  if (game.player_ptr->research.researching == A_UNSET) {
+    item = gtk_menu_item_new_with_label(advances[A_NONE].name);
+    gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
+  }
+
   /* collect all techs which are reachable in the next step
    * hist will hold afterwards the techid of the current choice
    */
