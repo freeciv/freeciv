@@ -108,7 +108,7 @@ l = @l@
 @MAKE_DATA_TRUE@DSUBDIRS = data
 @MAKE_DATA_FALSE@DSUBDIRS = 
 
-SUBDIRS = $(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc
+SUBDIRS = $(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc vms
 
 EXTRA_DIST = PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt 		README.AI README.rulesets README.graphics 		civ ser config.mac.h diff_ignore
 
@@ -126,7 +126,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-DIST_SUBDIRS =  data intl common ai server client po doc
+DIST_SUBDIRS =  data intl common ai server client po doc vms
 all: all-redirect
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 

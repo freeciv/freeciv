@@ -19,7 +19,7 @@ DSUBDIRS =
 endif
 
 
-SUBDIRS=	$(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc
+SUBDIRS=	$(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po doc vms
 
 EXTRA_DIST=	PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt \
 		README.AI README.rulesets README.graphics \

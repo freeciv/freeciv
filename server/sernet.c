@@ -80,6 +80,19 @@ extern int port;
 #endif
 extern int force_end_of_sniff;
 
+#ifdef __VMS
+#include <descrip.h>
+#include <iodef.h>
+#include <stsdef.h>
+#include <starlet.h>
+#include <lib$routines.h>
+#include <efndef.h>
+static unsigned long int tt_chan;
+static char input_char = 0;
+static char got_input = 0;
+void user_interrupt_callback();
+#endif
+
 
 /*****************************************************************************/
 void close_connection(struct connection *pconn)
@@ -175,10 +188,24 @@ int sniff_packets(void)
 	con_prompt_off();
 	return 0;
       }
+#ifdef __VMS
+      {
+	struct { short numchars; char firstchar; char reserved; int reserved2; } ttchar;
+	unsigned long status;
+	status = sys$qiow(EFN$C_ENF,tt_chan,IO$_SENSEMODE|IO$M_TYPEAHDCNT,0,0,0,
+			  &ttchar,sizeof(ttchar),0,0,0,0);
+	if (!$VMS_STATUS_SUCCESS(status)) lib$stop(status);
+	if (ttchar.numchars)
+	  FD_SET(0, &readfs);
+	else
+	  continue;
+      }
+#else
 #ifdef SOCKET_ZERO_ISNT_STDIN
     if (feof(stdin))
 #endif
       continue;
+#endif
     }
     if (!game.timeout)
       game.turn_start = time(NULL);
@@ -352,4 +379,12 @@ void init_connections(void)
     connections[i].used=0;
     connections[i].buffer.ndata=0;
   }
+#ifdef __VMS
+  {
+    unsigned long status;
+    $DESCRIPTOR (tt_desc, "SYS$INPUT");
+    status = sys$assign(&tt_desc,&tt_chan,0,0);
+    if (!$VMS_STATUS_SUCCESS(status)) lib$stop(status);
+  }
+#endif
 }

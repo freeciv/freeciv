@@ -514,6 +514,7 @@ AC_OUTPUT(Makefile
 	  client/gui-stub/Makefile 
 	  server/Makefile 
 	  intl/Makefile
+	  vms/Makefile
 	  po/Makefile.in
 	  doc/Makefile
 	  undep.sh, [ chmod +x undep.sh ; ./undep.sh ])
