@@ -36,6 +36,9 @@
 #ifdef HAVE_PWD_H
 #include <pwd.h>
 #endif
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
 
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
@@ -152,8 +155,8 @@ int sniff_packets(void)
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
       if(connections[i].used) {
 	FD_SET(connections[i].sock, &readfs);
+        max_desc=MAX(connections[i].sock, max_desc);
       }
-      max_desc=MAX(connections[i].sock, max_desc);
     }
     con_prompt_off();		/* output doesn't generate a new prompt */
     
@@ -208,7 +211,7 @@ int sniff_packets(void)
       for(i=0; i<MAX_NUM_CONNECTIONS; i++)
 	if(connections[i].used && FD_ISSET(connections[i].sock, &readfs)) {
 	  if(read_socket_data(connections[i].sock, 
-			      &connections[i].buffer)>0) {
+			      &connections[i].buffer)>=0) {
 	    char *packet;
 	    int type;
 	    while((packet=get_packet_from_connection(&connections[i], &type)))
@@ -231,6 +234,23 @@ int sniff_packets(void)
 }
   
   
+static void nonblock(int sockfd)
+{
+#ifdef HAVE_FCNTL_H
+  int f_set;
+
+  if ((f_set=fcntl(sockfd, F_GETFL)) == -1) {
+    freelog(LOG_FATAL, "fcntl F_GETFL failed: %s", mystrerror(errno));
+  }
+
+  f_set |= O_NONBLOCK;
+
+  if (fcntl(sockfd, F_SETFL, f_set) == -1) {
+    freelog(LOG_FATAL, "fcntl F_SETFL failed: %s", mystrerror(errno));
+  }
+#endif
+}
+
 /********************************************************************
  server accepts connections from client
 ********************************************************************/
@@ -240,36 +260,41 @@ int server_accept_connection(int sockfd)
   int new_sock;
   struct sockaddr_in fromend;
   struct hostent *from;
+  int i;
 
-  fromlen = sizeof fromend;
+  fromlen = sizeof(fromend);
 
-  new_sock = accept(sockfd, (struct sockaddr *) &fromend, &fromlen);
-
-  from=gethostbyaddr((char*)&fromend.sin_addr, sizeof(sizeof(fromend.sin_addr)), 
-		     AF_INET);
-
-  if(new_sock!=-1) {
-    int i;
-    for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
-      if(!connections[i].used) {
-	connections[i].used=1;
-	connections[i].sock=new_sock;
-	connections[i].player=NULL;
-	connections[i].buffer.ndata=0;
-	connections[i].first_packet=1;
-	connections[i].byte_swap=0;
-	connections[i].access_level=default_access_level;
-	
-	sz_strlcpy(connections[i].addr, (from ? from->h_name : "unknown"));
-	
-	freelog(LOG_VERBOSE, "connection from %s", connections[i].addr);
-	return 0;
-      }
-    }
-    freelog(LOG_FATAL, "maximum number of connections reached");
+  if ((new_sock=accept(sockfd, (struct sockaddr *) &fromend, &fromlen)) == -1) {
+    freelog(LOG_VERBOSE, "accept failed: %s", mystrerror(errno));
     return -1;
   }
 
+  nonblock(new_sock);
+
+  from=gethostbyaddr((char*)&fromend.sin_addr, sizeof(fromend.sin_addr),
+		     AF_INET);
+
+  for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
+    if(!connections[i].used) {
+      connections[i].used=1;
+      connections[i].sock=new_sock;
+      connections[i].player=NULL;
+      connections[i].buffer.ndata=0;
+      connections[i].first_packet=1;
+      connections[i].byte_swap=0;
+      connections[i].access_level=default_access_level;
+
+      if (from)
+	sz_strlcpy(connections[i].addr, from->h_name);
+      else
+	sz_strlcpy(connections[i].addr, inet_ntoa(fromend.sin_addr));
+
+      freelog(LOG_VERBOSE, "connection from %s", connections[i].addr);
+      return 0;
+    }
+  }
+
+  freelog(LOG_FATAL, "maximum number of connections reached");
   return -1;
 }
 
@@ -284,34 +309,34 @@ int server_open_socket(void)
   struct sockaddr_in src;
   int opt;
 
-  src.sin_addr.s_addr = INADDR_ANY;
-  src.sin_family = AF_INET;
-  src.sin_port = htons(port);
-
-
   /* broken pipes are ignored. */
 #ifdef HAVE_SIGPIPE
   signal (SIGPIPE, SIG_IGN);
 #endif
 
-  if((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+  if((sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     freelog(LOG_FATAL, "socket failed: %s", mystrerror(errno));
     exit(1);
   }
 
   opt=1; 
   if(setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, 
-		(char*)&opt, sizeof(opt))) {
-/*		(const char*)&opt, sizeof(opt))) {      gave me warnings -- Syela */
-    freelog(LOG_FATAL, "setsockopt failed: %s", mystrerror(errno));
+		(char*)&opt, sizeof(opt)) == -1) {
+    freelog(LOG_FATAL, "SO_REUSEADDR failed: %s", mystrerror(errno));
   }
 
-  if(bind(sock, (struct sockaddr *) &src, sizeof (src)) < 0) {
+  memset(&src, 0, sizeof(src));
+  src.sin_family = AF_INET;
+  src.sin_addr.s_addr = htonl(INADDR_ANY);
+  src.sin_port = htons(port);
+
+
+  if(bind(sock, (struct sockaddr *) &src, sizeof (src)) == -1) {
     freelog(LOG_FATAL, "bind failed: %s", mystrerror(errno));
     exit(1);
   }
 
-  if(listen(sock, MAX_NUM_CONNECTIONS) < 0) {
+  if(listen(sock, MAX_NUM_CONNECTIONS) == -1) {
     freelog(LOG_FATAL, "listen failed: %s", mystrerror(errno));
     exit(1);
   }

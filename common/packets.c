@@ -19,6 +19,7 @@
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
+#include <errno.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -3133,11 +3134,34 @@ static int write_socket_data(struct connection *pc,
   int nput;
   int nblock;
 
-  for(start=0; start<len; start+=nput) {
-    nblock=MIN(len-start, MAX_LEN_PACKET);
-    if((nput=write(pc->sock, (const char *)data+start, nblock)) == -1) {
-      freelog(LOG_NORMAL, "failed writing to socket");
+  for (start=0; start<len;) {
+#ifdef HAVE_FCNTL_H
+    fd_set writefs;
+
+    /* this long-winded code is here to reproduce the old behaviour
+       i.e. block on write  --vasc */
+    FD_ZERO(&writefs);
+    FD_SET(pc->sock, &writefs);
+
+    if (select(pc->sock+1, NULL, &writefs, NULL, NULL) == -1) {
+      freelog(LOG_DEBUG, "error while waiting for write: %s",mystrerror(errno));
       return -1;
+    }
+#endif
+
+    if (FD_ISSET(pc->sock, &writefs)) {
+      nblock=MIN(len-start, MAX_LEN_PACKET);
+      if((nput=write(pc->sock, (const char *)data+start, nblock)) == -1) {
+#ifdef HAVE_FCNTL_H
+	if (errno == EWOULDBLOCK || errno == EAGAIN) {
+	  freelog(LOG_DEBUG, "EGAIN on socket write");
+	  continue;
+	}
+#endif
+	freelog(LOG_NORMAL, "failed writing to socket");
+	return -1;
+      }
+      start += nput;
     }
   }
   return 0;
@@ -3206,5 +3230,11 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
     freelog(LOG_DEBUG, "EOF on socket read");
     return -1;
   }
+#ifdef HAVE_FCNTL_H
+  else if (errno == EWOULDBLOCK || errno == EAGAIN) {
+    freelog(LOG_DEBUG, "EGAIN on socket read");
+    return 0;
+  }
+#endif
   return -1;
 }

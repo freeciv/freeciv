@@ -170,7 +170,7 @@ void disconnect_from_server(void)
 **************************************************************************/
 void input_from_server(int fid)
 {
-  if(read_socket_data(fid, &aconnection.buffer)>0) {
+  if(read_socket_data(fid, &aconnection.buffer)>=0) {
     int type;
     char *packet;
 

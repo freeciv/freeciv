@@ -349,7 +349,7 @@ dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(arpa/inet.h netdb.h netinet/in.h pwd.h sys/ioctl.h \
                  sys/select.h sys/signal.h sys/socket.h sys/termio.h \
-		 sys/time.h sys/types.h sys/uio.h termios.h unistd.h)
+		 sys/time.h sys/types.h sys/uio.h termios.h unistd.h fcntl.h)
 if test x$client = xxaw; then
   dnl Want to get appropriate -I flags:
   fc_save_CPPFLAGS="$CPPFLAGS"
