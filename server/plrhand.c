@@ -1264,24 +1264,10 @@ static void package_player_info(struct player *plr,
   packet->gold            = plr->economic.gold;
   packet->government      = plr->government;
 
-  if (info_level >= INFO_EMBASSY) {
-    for (i = A_FIRST; i < game.num_tech_types; i++) {
-      packet->inventions[i] = plr->research.inventions[i].state + '0';
-    }
-    packet->inventions[i]   = '\0';
-    packet->tax             = plr->economic.tax;
-    packet->science         = plr->economic.science;
-    packet->luxury          = plr->economic.luxury;
-    packet->bulbs_researched= plr->research.bulbs_researched;
-    packet->techs_researched= plr->research.techs_researched;
-    packet->researching     = plr->research.researching;
-    packet->future_tech     = plr->future_tech;
-    if (plr->revolution != 0) {
-      packet->revolution    = 1;
-    } else {
-      packet->revolution    = 0;
-    }
-
+  /* Send diplomatic status of the player to everyone they are in
+   * contact with. */
+  if (info_level >= INFO_EMBASSY
+      || receiver->diplstates[plr->player_no].contact_turns_left > 0) {
     packet->embassy = plr->embassy;
     packet->gives_shared_vision = plr->gives_shared_vision;
     for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
@@ -1292,19 +1278,6 @@ static void package_player_info(struct player *plr,
       packet->diplstates[i].has_reason_to_cancel = plr->diplstates[i].has_reason_to_cancel;
     }
   } else {
-    for (i = A_FIRST; i < game.num_tech_types; i++) {
-      packet->inventions[i] = '0';
-    }
-    packet->inventions[i]   = '\0';
-    packet->tax             = 0;
-    packet->science         = 0;
-    packet->luxury          = 0;
-    packet->bulbs_researched= 0;
-    packet->techs_researched= 0;
-    packet->researching     = A_NOINFO;
-    packet->future_tech     = 0;
-    packet->revolution      = 0;
-
     if (!receiver || !player_has_embassy(plr, receiver)) {
       packet->embassy  = 0;
     } else {
@@ -1322,7 +1295,7 @@ static void package_player_info(struct player *plr,
       packet->diplstates[i].has_reason_to_cancel = 0;
       packet->diplstates[i].contact_turns_left = 0;
     }
-    /* We always know the players relation to us */
+    /* We always know the player's relation to us */
     if (receiver) {
       int p_no = receiver->player_no;
 
@@ -1333,6 +1306,40 @@ static void package_player_info(struct player *plr,
       packet->diplstates[p_no].has_reason_to_cancel =
 	plr->diplstates[p_no].has_reason_to_cancel;
     }
+  }
+
+  /* Send most civ info about the player only to players who have an
+   * embassy. */
+  if (info_level >= INFO_EMBASSY) {
+    for (i = A_FIRST; i < game.num_tech_types; i++) {
+      packet->inventions[i] = plr->research.inventions[i].state + '0';
+    }
+    packet->inventions[i]   = '\0';
+    packet->tax             = plr->economic.tax;
+    packet->science         = plr->economic.science;
+    packet->luxury          = plr->economic.luxury;
+    packet->bulbs_researched= plr->research.bulbs_researched;
+    packet->techs_researched= plr->research.techs_researched;
+    packet->researching     = plr->research.researching;
+    packet->future_tech     = plr->future_tech;
+    if (plr->revolution != 0) {
+      packet->revolution    = 1;
+    } else {
+      packet->revolution    = 0;
+    }
+  } else {
+    for (i = A_FIRST; i < game.num_tech_types; i++) {
+      packet->inventions[i] = '0';
+    }
+    packet->inventions[i]   = '\0';
+    packet->tax             = 0;
+    packet->science         = 0;
+    packet->luxury          = 0;
+    packet->bulbs_researched= 0;
+    packet->techs_researched= 0;
+    packet->researching     = A_NOINFO;
+    packet->future_tech     = 0;
+    packet->revolution      = 0;
   }
 
   /* We have to inform the client that the other players also know
