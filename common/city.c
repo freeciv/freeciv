@@ -30,28 +30,6 @@
 
 #include "city.h"
 
-/* start helper functions for generic_city_refresh */
-static int content_citizens(struct player *pplayer);
-static void set_tax_income(struct city *pcity);
-static void add_buildings_effect(struct city *pcity);
-static void happy_copy(struct city *pcity, int i);
-static void citizen_happy_size(struct city *pcity);
-static void citizen_happy_luxury(struct city *pcity);
-static void citizen_happy_units(struct city *pcity, int unhap);
-static void citizen_happy_buildings(struct city *pcity);
-static void citizen_happy_wonders(struct city *pcity);
-static void unhappy_city_check(struct city *pcity);
-static void set_pollution(struct city *pcity);
-static void set_food_trade_shields(struct city *pcity);
-static int citygov_free_gold(struct city *pcity, struct government *gov);
-static void city_support(struct city *pcity,
-			 void (*send_unit_info) (struct player * pplayer,
-						 struct unit * punit));
-/* end helper functions for generic_city_refresh */
-
-static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
-				      bool asmiths);
-
 /* Iterate a city map, from the center (the city) outwards */
 struct iter_index *city_map_iterate_outwards_indices;
 
@@ -252,11 +230,13 @@ void set_worker_city(struct city *pcity, int city_x, int city_y,
     struct tile *ptile = map_get_tile(map_x, map_y);
 
     if (pcity->city_map[city_x][city_y] == C_TILE_WORKER
-	&& ptile->worked == pcity)
+	&& ptile->worked == pcity) {
       ptile->worked = NULL;
+    }
     pcity->city_map[city_x][city_y] = type;
-    if (type == C_TILE_WORKER)
+    if (type == C_TILE_WORKER) {
       ptile->worked = pcity;
+    }
   } else {
     assert(type == C_TILE_UNAVAILABLE);
     pcity->city_map[city_x][city_y] = type;
@@ -264,19 +244,22 @@ void set_worker_city(struct city *pcity, int city_x, int city_y,
 }
 
 /**************************************************************************
-...
+  Return the worker status of the given tile on the citymap for the given
+  city.
 **************************************************************************/
-enum city_tile_type get_worker_city(struct city *pcity, int city_x, int city_y)
+enum city_tile_type get_worker_city(const struct city *pcity, 
+                                    int city_x, int city_y)
 {
-  if (!is_valid_city_coords(city_x, city_y)) 
+  if (!is_valid_city_coords(city_x, city_y)) {
     return C_TILE_UNAVAILABLE;
+  }
   return pcity->city_map[city_x][city_y];
 }
 
 /**************************************************************************
-...
+  Return TRUE if this tile on the citymap is being worked by this city.
 **************************************************************************/
-bool is_worker_here(struct city *pcity, int city_x, int city_y) 
+bool is_worker_here(const struct city *pcity, int city_x, int city_y) 
 {
   if (!is_valid_city_coords(city_x, city_y)) {
     return FALSE;
@@ -289,7 +272,7 @@ bool is_worker_here(struct city *pcity, int city_x, int city_y)
  FIXME: This should be replaced in the near future with
  improvment_redundant()
 **************************************************************************/
-bool wonder_replacement(struct city *pcity, Impr_Type_id id)
+bool wonder_replacement(const struct city *pcity, Impr_Type_id id)
 {
   if(is_wonder(id)) return FALSE;
   switch (id) {
@@ -334,9 +317,9 @@ bool wonder_replacement(struct city *pcity, Impr_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return the extended name of the building.
 **************************************************************************/
-const char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
+const char *get_impr_name_ex(const struct city *pcity, Impr_Type_id id)
 {
   static char buffer[256];
   const char *state = NULL;
@@ -365,9 +348,9 @@ const char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return the cost (gold) to buy the current city production.
 **************************************************************************/
-int city_buy_cost(struct city *pcity)
+int city_buy_cost(const struct city *pcity)
 {
   int cost, build = pcity->shield_stock;
 
@@ -383,9 +366,9 @@ int city_buy_cost(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return the owner of the city.
 **************************************************************************/
-struct player *city_owner(struct city *pcity)
+struct player *city_owner(const struct city *pcity)
 {
   return (&game.players[pcity->owner]);
 }
@@ -395,7 +378,7 @@ struct player *city_owner(struct city *pcity)
  terr_gate (terrain) or spec_gate (specials), or if the building has no
  terrain/special requirements.
 **************************************************************************/
-bool city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
+bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id)
 {
   struct impr_type *impr;
   enum tile_terrain_type *terr_gate;
@@ -424,17 +407,20 @@ bool city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
  Will this city ever be able to build this improvement?
  Doesn't check for building prereqs
 **************************************************************************/
-bool can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
+bool can_eventually_build_improvement(const struct city *pcity, Impr_Type_id id)
 {
   /* also does an improvement_exists() */
-  if (!could_player_eventually_build_improvement(city_owner(pcity),id))
+  if (!could_player_eventually_build_improvement(city_owner(pcity),id)) {
     return FALSE;
+  }
 
-  if (city_got_building(pcity, id))
+  if (city_got_building(pcity, id)) {
     return FALSE;
+  }
 
-  if (!city_has_terr_spec_gate(pcity,id))
+  if (!city_has_terr_spec_gate(pcity,id)) {
     return FALSE;
+  }
 
   return !improvement_redundant(city_owner(pcity),pcity, id, TRUE);
 }
@@ -444,42 +430,48 @@ bool can_eventually_build_improvement(struct city *pcity, Impr_Type_id id)
  owner has the required tech, but if all other pre reqs are fulfiled? 
  modularized so the AI can choose the tech it wants -- Syela 
 **************************************************************************/
-static bool could_build_improvement(struct city *pcity, Impr_Type_id id)
+static bool could_build_improvement(const struct city *pcity, 
+                                    Impr_Type_id id)
 {
   struct impr_type *impr;
 
-  if (!can_eventually_build_improvement(pcity, id))
+  if (!can_eventually_build_improvement(pcity, id)) {
     return FALSE;
+  }
 
   impr = get_improvement_type(id);
 
   /* The building pre req */
-  if (impr->bldg_req != B_LAST)
-    if (!city_got_building(pcity,impr->bldg_req))
+  if (impr->bldg_req != B_LAST) {
+    if (!city_got_building(pcity,impr->bldg_req)) {
       return FALSE;
+    }
+  }
 
   return TRUE;
 }
 
 /**************************************************************************
-Can this improvement get built in this city, by the player
-who owns the city?
+  Can this improvement get built in this city by the player who owns it?
 **************************************************************************/
-bool can_build_improvement(struct city *pcity, Impr_Type_id id)
+bool can_build_improvement(const struct city *pcity, Impr_Type_id id)
 {
-  struct player *p=city_owner(pcity);
-  if (!improvement_exists(id))
+  struct player *p = city_owner(pcity);
+
+  if (!improvement_exists(id)) {
     return FALSE;
-  if (!player_knows_improvement_tech(p,id))
+  }
+  if (!player_knows_improvement_tech(p, id)) {
     return FALSE;
-  return(could_build_improvement(pcity, id));
+  }
+  return could_build_improvement(pcity, id);
 }
 
 /**************************************************************************
-Whether given city can build given unit,
-ignoring whether unit is obsolete.
+  Return whether given city can build given unit, ignoring whether unit 
+  is obsolete.
 **************************************************************************/
-bool can_build_unit_direct(struct city *pcity, Unit_Type_id id)
+bool can_build_unit_direct(const struct city *pcity, Unit_Type_id id)
 {
   Impr_Type_id impr_req;
 
@@ -502,28 +494,32 @@ bool can_build_unit_direct(struct city *pcity, Unit_Type_id id)
 }
 
 /**************************************************************************
-Whether given city can build given unit;
-returns 0 if unit is obsolete.
+  Return whether given city can build given unit; returns 0 if unit is 
+  obsolete.
 **************************************************************************/
-bool can_build_unit(struct city *pcity, Unit_Type_id id)
+bool can_build_unit(const struct city *pcity, Unit_Type_id id)
 {  
-  if (!can_build_unit_direct(pcity, id))
+  if (!can_build_unit_direct(pcity, id)) {
     return FALSE;
-  while(unit_type_exists((id = unit_types[id].obsoleted_by)))
-    if (can_player_build_unit_direct(city_owner(pcity), id))
+  }
+  while (unit_type_exists((id = unit_types[id].obsoleted_by))) {
+    if (can_player_build_unit_direct(city_owner(pcity), id)) {
 	return FALSE;
+    }
+  }
   return TRUE;
 }
 
 /**************************************************************************
-Whether player can eventually build given unit in the city;
-returns 0 if unit can never possibily be built in this city.
+  Return whether player can eventually build given unit in the city;
+  returns 0 if unit can never possibly be built in this city.
 **************************************************************************/
-bool can_eventually_build_unit(struct city *pcity, Unit_Type_id id)
+bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id)
 {
   /* Can the _player_ ever build this unit? */
-  if (!can_player_eventually_build_unit(city_owner(pcity), id))
+  if (!can_player_eventually_build_unit(city_owner(pcity), id)) {
     return FALSE;
+  }
 
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
@@ -537,7 +533,7 @@ bool can_eventually_build_unit(struct city *pcity, Unit_Type_id id)
 /****************************************************************************
   Returns TRUE iff if the given city can use this kind of specialist.
 ****************************************************************************/
-bool city_can_use_specialist(struct city *pcity,
+bool city_can_use_specialist(const struct city *pcity,
 			     enum specialist_type type)
 {
   return pcity->size >= game.rgame.specialists[type].min_size;
@@ -546,27 +542,29 @@ bool city_can_use_specialist(struct city *pcity,
 /**************************************************************************
  Returns how many thousand citizen live in this city.
 **************************************************************************/
-int city_population(struct city *pcity)
+int city_population(const struct city *pcity)
 {
   /*  Sum_{i=1}^{n} i  ==  n*(n+1)/2  */
   return pcity->size * (pcity->size + 1) * 5;
 }
 
 /**************************************************************************
-...
+  Return TRUE if the city has this building in it.
 **************************************************************************/
-bool city_got_building(struct city *pcity,  Impr_Type_id id) 
+bool city_got_building(const struct city *pcity, Impr_Type_id id) 
 {
-  if (!improvement_exists(id))
+  if (!improvement_exists(id)) {
     return FALSE;
-  else 
+  } else {
     return (pcity->improvements[id] != I_NONE);
+  }
 }
 
 /**************************************************************************
-...
+  Return the upkeep (gold) needed each turn to upkeep the given improvement
+  in the given city.
 **************************************************************************/
-int improvement_upkeep(struct city *pcity, Impr_Type_id i) 
+int improvement_upkeep(const struct city *pcity, Impr_Type_id i) 
 {
   if (!improvement_exists(i))
     return 0;
@@ -586,7 +584,7 @@ int improvement_upkeep(struct city *pcity, Impr_Type_id i)
 /**************************************************************************
   Caller to pass asmiths = city_affected_by_wonder(pcity, B_ASMITHS)
 **************************************************************************/
-static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
+static int improvement_upkeep_asmiths(const struct city *pcity, Impr_Type_id i,
 				      bool asmiths)
 {
   if (!improvement_exists(i))
@@ -607,7 +605,8 @@ static int improvement_upkeep_asmiths(struct city *pcity, Impr_Type_id i,
   (city_x, city_y) must be valid city coordinates and is_celebrating tells
   whether the city is celebrating.
 **************************************************************************/
-static int base_get_shields_tile(int map_x, int map_y, struct city *pcity,
+static int base_get_shields_tile(int map_x, int map_y,
+				 const struct city *pcity,
 				 int city_x, int city_y, bool is_celebrating)
 {
   enum tile_special_type spec_t = map_get_special(map_x, map_y);
@@ -680,7 +679,7 @@ int get_shields_tile(int map_x, int map_y)
   Calculate the shields the given tile is capable of producing for the
   city.
 **************************************************************************/
-int city_get_shields_tile(int city_x, int city_y, struct city *pcity)
+int city_get_shields_tile(int city_x, int city_y, const struct city *pcity)
 {
   return base_city_get_shields_tile(city_x, city_y, pcity,
 				    city_celebrating(pcity));
@@ -692,7 +691,8 @@ int city_get_shields_tile(int city_x, int city_y, struct city *pcity)
 
   This can be used to calculate the benefits celebration would give.
 **************************************************************************/
-int base_city_get_shields_tile(int city_x, int city_y, struct city *pcity,
+int base_city_get_shields_tile(int city_x, int city_y,
+			       const struct city *pcity,
 			       bool is_celebrating)
 {
   int map_x, map_y;
@@ -711,7 +711,7 @@ int base_city_get_shields_tile(int city_x, int city_y, struct city *pcity,
   (city_x, city_y) must be valid city coordinates and is_celebrating tells
   whether the city is celebrating.
 **************************************************************************/
-static int base_get_trade_tile(int map_x, int map_y, struct city *pcity,
+static int base_get_trade_tile(int map_x, int map_y, const struct city *pcity,
 			       int city_x, int city_y, bool is_celebrating)
 {
   enum tile_special_type spec_t = map_get_special(map_x, map_y);
@@ -793,7 +793,7 @@ int get_trade_tile(int map_x, int map_y)
   Calculate the trade the given tile is capable of producing for the
   city.
 **************************************************************************/
-int city_get_trade_tile(int city_x, int city_y, struct city *pcity)
+int city_get_trade_tile(int city_x, int city_y, const struct city *pcity)
 {
   return base_city_get_trade_tile(city_x, city_y,
 				  pcity, city_celebrating(pcity));
@@ -806,7 +806,7 @@ int city_get_trade_tile(int city_x, int city_y, struct city *pcity)
   This can be used to calculate the benefits celebration would give.
 **************************************************************************/
 int base_city_get_trade_tile(int city_x, int city_y,
-			     struct city *pcity, bool is_celebrating)
+			     const struct city *pcity, bool is_celebrating)
 {
   int map_x, map_y;
 
@@ -824,7 +824,7 @@ int base_city_get_trade_tile(int city_x, int city_y,
   (city_x, city_y) must be valid city coordinates and is_celebrating tells
   whether the city is celebrating.
 **************************************************************************/
-static int base_get_food_tile(int map_x, int map_y, struct city *pcity,
+static int base_get_food_tile(int map_x, int map_y, const struct city *pcity,
 			      int city_x, int city_y, bool is_celebrating)
 {
   const enum tile_special_type spec_t = map_get_special(map_x, map_y);
@@ -908,7 +908,7 @@ int get_food_tile(int map_x, int map_y)
   Calculate the food the given tile is capable of producing for the
   city.
 **************************************************************************/
-int city_get_food_tile(int city_x, int city_y, struct city *pcity)
+int city_get_food_tile(int city_x, int city_y, const struct city *pcity)
 {
   return base_city_get_food_tile(city_x, city_y, pcity,
 				 city_celebrating(pcity));
@@ -920,7 +920,7 @@ int city_get_food_tile(int city_x, int city_y, struct city *pcity)
 
   This can be used to calculate the benefits celebration would give.
 **************************************************************************/
-int base_city_get_food_tile(int city_x, int city_y, struct city *pcity,
+int base_city_get_food_tile(int city_x, int city_y, const struct city *pcity,
 			    bool is_celebrating)
 {
   int map_x, map_y;
@@ -968,7 +968,7 @@ bool city_can_be_built_here(int x, int y, struct unit *punit)
 
   See also can_establish_trade_route().
 **************************************************************************/
-bool can_cities_trade(struct city *pc1, struct city *pc2)
+bool can_cities_trade(const struct city *pc1, const struct city *pc2)
 {
   return (pc1 && pc2 && pc1 != pc2
           && (pc1->owner != pc2->owner
@@ -980,7 +980,7 @@ bool can_cities_trade(struct city *pc1, struct city *pc2)
   trade route is returned and its position (slot) is put into the slot
   variable.
 **************************************************************************/
-int get_city_min_trade_route(struct city *pcity, int *slot)
+int get_city_min_trade_route(const struct city *pcity, int *slot)
 {
   int i, value = pcity->trade_value[0];
 
@@ -1006,7 +1006,7 @@ int get_city_min_trade_route(struct city *pcity, int *slot)
   trade routes.  Should only be called if you already know that
   can_cities_trade().
 **************************************************************************/
-bool can_establish_trade_route(struct city *pc1, struct city *pc2)
+bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
 {
   int trade = -1;
 
@@ -1039,9 +1039,10 @@ bool can_establish_trade_route(struct city *pc1, struct city *pc2)
 }
 
 /**************************************************************************
-...
+  Return the trade that exists between these cities, assuming they have a
+  trade route.
 **************************************************************************/
-int trade_between_cities(struct city *pc1, struct city *pc2)
+int trade_between_cities(const struct city *pc1, const struct city *pc2)
 {
   int bonus = 0;
 
@@ -1064,7 +1065,7 @@ int trade_between_cities(struct city *pc1, struct city *pc2)
 /**************************************************************************
  Return number of trade route city has
 **************************************************************************/
-int city_num_trade_routes(struct city *pcity)
+int city_num_trade_routes(const struct city *pcity)
 {
   int i, n = 0;
 
@@ -1082,7 +1083,8 @@ int city_num_trade_routes(struct city *pcity)
   Note if you trade with a city you already have a trade route with,
   you'll only get 1/3 of this value.
 **************************************************************************/
-int get_caravan_enter_city_trade_bonus(struct city *pc1, struct city *pc2)
+int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
+                                       const struct city *pc2)
 {
   int i, tb;
 
@@ -1106,7 +1108,7 @@ int get_caravan_enter_city_trade_bonus(struct city *pc1, struct city *pc2)
 /**************************************************************************
   Check if cities have an established trade route.
 **************************************************************************/
-bool have_cities_trade_route(struct city *pc1, struct city *pc2)
+bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
 {
   int i;
   
@@ -1123,7 +1125,7 @@ bool have_cities_trade_route(struct city *pc1, struct city *pc2)
   Calculate amount of gold remaining in city after paying for buildings 
   and units.
 *************************************************************************/
-int city_gold_surplus(struct city *pcity)
+int city_gold_surplus(const struct city *pcity)
 {
   bool asmiths = city_affected_by_wonder(pcity, B_ASMITHS);
   int cost = 0;
@@ -1144,7 +1146,7 @@ int city_gold_surplus(struct city *pcity)
  (The Impr_Type_id should be an improvement, not a wonder.)
  Note also: city_got_citywalls(), and server/citytools:city_got_barracks()
 **************************************************************************/
-bool city_got_effect(struct city *pcity, Impr_Type_id id)
+bool city_got_effect(const struct city *pcity, Impr_Type_id id)
 {
   return city_got_building(pcity, id) || wonder_replacement(pcity, id);
 }
@@ -1152,7 +1154,7 @@ bool city_got_effect(struct city *pcity, Impr_Type_id id)
 /**************************************************************************
  Whether a city has its own City Walls, or the same effect via a wonder.
 **************************************************************************/
-bool city_got_citywalls(struct city *pcity)
+bool city_got_citywalls(const struct city *pcity)
 {
   if (city_got_building(pcity, B_CITY))
     return TRUE;
@@ -1160,9 +1162,10 @@ bool city_got_citywalls(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return TRUE if the wonder's effect applies to this city.  This is only
+  used for some wonder checks; others are done manually.
 **************************************************************************/
-bool city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
+bool city_affected_by_wonder(const struct city *pcity, Impr_Type_id id)
 {
   struct city *tmp;
   if (!improvement_exists(id))
@@ -1230,27 +1233,29 @@ bool city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return TRUE iff the city is happy.  A happy city will start celebrating
+  soon.
 **************************************************************************/
-bool city_happy(struct city *pcity)
+bool city_happy(const struct city *pcity)
 {
   return (pcity->ppl_happy[4] >= (pcity->size + 1) / 2 &&
 	  pcity->ppl_unhappy[4] == 0 && pcity->ppl_angry[4] == 0);
 }
 
 /**************************************************************************
-...
+  Return TRUE iff the city is unhappy.  An unhappy city will start
+  revolting soon.
 **************************************************************************/
-bool city_unhappy(struct city *pcity)
+bool city_unhappy(const struct city *pcity)
 {
   return (pcity->ppl_happy[4] <
 	  pcity->ppl_unhappy[4] + 2 * pcity->ppl_angry[4]);
 }
 
 /**************************************************************************
-...
+  Return TRUE if the city was celebrating at the start of the turn.
 **************************************************************************/
-bool base_city_celebrating(struct city *pcity)
+bool base_city_celebrating(const struct city *pcity)
 {
   return (pcity->size >= get_gov_pcity(pcity)->rapture_size
 	  && pcity->was_happy);
@@ -1259,7 +1264,7 @@ bool base_city_celebrating(struct city *pcity)
 /**************************************************************************
 cities celebrate only after consecutive happy turns
 **************************************************************************/
-bool city_celebrating(struct city *pcity)
+bool city_celebrating(const struct city *pcity)
 {
   return base_city_celebrating(pcity) && city_happy(pcity);
 }
@@ -1268,7 +1273,7 @@ bool city_celebrating(struct city *pcity)
 .rapture is checked instead of city_celebrating() because this function is
 called after .was_happy was updated.
 **************************************************************************/
-bool city_rapture_grow(struct city *pcity)
+bool city_rapture_grow(const struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
 
@@ -1319,9 +1324,10 @@ int city_name_compare(const void *p1, const void *p2)
 }
 
 /**************************************************************************
-...
+  Return the number of free shields for unit support the city would get
+  under the given government.
 **************************************************************************/
-int citygov_free_shield(struct city *pcity, struct government *gov)
+int citygov_free_shield(const struct city *pcity, struct government *gov)
 {
   if (gov->free_shield == G_CITY_SIZE_FREE) {
     return pcity->size;
@@ -1333,7 +1339,7 @@ int citygov_free_shield(struct city *pcity, struct government *gov)
 /**************************************************************************
 ...
 **************************************************************************/
-int citygov_free_happy(struct city *pcity, struct government *gov)
+int citygov_free_happy(const struct city *pcity, struct government *gov)
 {
   if (gov->free_happy == G_CITY_SIZE_FREE) {
     return pcity->size;
@@ -1345,7 +1351,7 @@ int citygov_free_happy(struct city *pcity, struct government *gov)
 /**************************************************************************
 ...
 **************************************************************************/
-int citygov_free_food(struct city *pcity, struct government *gov)
+int citygov_free_food(const struct city *pcity, struct government *gov)
 {
   if (gov->free_food == G_CITY_SIZE_FREE) {
     return pcity->size;
@@ -1357,7 +1363,8 @@ int citygov_free_food(struct city *pcity, struct government *gov)
 /**************************************************************************
 ...
 **************************************************************************/
-static int citygov_free_gold(struct city *pcity, struct government *gov)
+static int citygov_free_gold(const struct city *pcity, 
+                             struct government *gov)
 {
   if (gov->free_gold == G_CITY_SIZE_FREE) {
     return pcity->size;
@@ -1369,7 +1376,7 @@ static int citygov_free_gold(struct city *pcity, struct government *gov)
 /**************************************************************************
 Evaluate which style should be used to draw a city.
 **************************************************************************/
-int get_city_style(struct city *pcity)
+int get_city_style(const struct city *pcity)
 {
   return get_player_city_style(city_owner(pcity));
 }
@@ -1458,8 +1465,8 @@ char* get_city_style_name_orig(int style)
  But only on the first switch that turn.  Also, if ever change back to
  original improvement class of this turn, restore lost production.
 **************************************************************************/
-int city_change_production_penalty(struct city *pcity,
-				   int target, bool is_unit, bool apply_it)
+int city_change_production_penalty(const struct city *pcity,
+				   int target, bool is_unit)
 {
   int shield_stock_after_adjustment;
   enum production_class_type orig_class;
@@ -1510,9 +1517,6 @@ int city_change_production_penalty(struct city *pcity,
 
   shield_stock_after_adjustment =
     unpenalized_shields + penalized_shields / 2;
-  if (apply_it) {
-    pcity->shield_stock = shield_stock_after_adjustment;
-  }
 
   return shield_stock_after_adjustment;
 }
@@ -1521,12 +1525,12 @@ int city_change_production_penalty(struct city *pcity,
  Calculates the turns which are needed to build the requested
  improvement in the city.  GUI Independent.
 **************************************************************************/
-int city_turns_to_build(struct city *pcity, int id, bool id_is_unit,
+int city_turns_to_build(const struct city *pcity, int id, bool id_is_unit,
 			bool include_shield_stock)
 {
   int city_shield_surplus = pcity->shield_surplus;
   int city_shield_stock = include_shield_stock ?
-      city_change_production_penalty(pcity, id, id_is_unit, FALSE) : 0;
+      city_change_production_penalty(pcity, id, id_is_unit) : 0;
   int improvement_cost = id_is_unit ?
     unit_build_shield_cost(id) : impr_build_shield_cost(id);
 
@@ -1548,7 +1552,7 @@ int city_turns_to_build(struct city *pcity, int id, bool id_is_unit,
  shrink in x turns.  A positive value of x means the city will grow in
  x turns.
 **************************************************************************/
-int city_turns_to_grow(struct city *pcity)
+int city_turns_to_grow(const struct city *pcity)
 {
   if (pcity->food_surplus > 0) {
     return (city_granary_size(pcity->size) - pcity->food_stock +
@@ -1639,8 +1643,8 @@ bool is_friendly_city_near(struct player *owner, int x, int y)
 }
 
 /**************************************************************************
-Return true iff a city exists within a city radius of the given location.
-may_be_on_center determines if a city at x,y counts
+  Return true iff a city exists within a city radius of the given 
+  location. may_be_on_center determines if a city at x,y counts.
 **************************************************************************/
 bool city_exists_within_city_radius(int x, int y, bool may_be_on_center)
 {
@@ -1676,7 +1680,7 @@ int city_granary_size(int city_size)
 }
 
 /**************************************************************************
-v 1.0j code was too rash, only first penalty now!
+  Give base number of content citizens in any city owner by pplayer.
 **************************************************************************/
 static int content_citizens(struct player *pplayer)
 {
@@ -1687,10 +1691,11 @@ static int content_citizens(struct player *pplayer)
 
   if (cities > basis) {
     content--;
-    if (step != 0)
+    if (step != 0) {
+      /* the first penalty is at (basis + 1) cities;
+         the next is at (basis + step + 1), _not_ (basis + step) */
       content -= (cities - basis - 1) / step;
-    /* the first penalty is at (basis + 1) cities;
-       the next is at (basis + step + 1), _not_ (basis + step) */
+    }
   }
   return content;
 }
@@ -1698,7 +1703,7 @@ static int content_citizens(struct player *pplayer)
 /**************************************************************************
  Return the factor (in %) by which the shield should be multiplied.
 **************************************************************************/
-int get_city_shield_bonus(struct city *pcity)
+int get_city_shield_bonus(const struct city *pcity)
 {
   int shield_bonus = 100;
 
@@ -1723,7 +1728,7 @@ int get_city_shield_bonus(struct city *pcity)
  Return the factor (in %) by which the tax and luxury should be
  multiplied.
 **************************************************************************/
-int get_city_tax_bonus(struct city *pcity)
+int get_city_tax_bonus(const struct city *pcity)
 {
   int tax_bonus = 100;
 
@@ -1741,14 +1746,15 @@ int get_city_tax_bonus(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return the amount of gold generated by buildings under "tithe" attribute
+  governments.
 **************************************************************************/
-static int get_city_tithes_bonus(struct city *pcity)
+static int get_city_tithes_bonus(const struct city *pcity)
 {
   int tithes_bonus = 0;
 
-  if (!government_has_flag
-      (get_gov_pcity(pcity), G_CONVERT_TITHES_TO_MONEY)) {
+  if (!government_has_flag(get_gov_pcity(pcity), 
+                           G_CONVERT_TITHES_TO_MONEY)) {
     return 0;
   }
 
@@ -1769,7 +1775,7 @@ static int get_city_tithes_bonus(struct city *pcity)
 /**************************************************************************
   Return the factor (in %) by which the science should be multiplied.
 **************************************************************************/
-int get_city_science_bonus(struct city *pcity)
+int get_city_science_bonus(const struct city *pcity)
 {
   int science_bonus = 100;
 
@@ -1796,7 +1802,7 @@ int get_city_science_bonus(struct city *pcity)
 }
 
 /**************************************************************************
-calculate the incomes according to the taxrates and # of specialists.
+  Modify the incomes according to the taxrates and # of specialists.
 **************************************************************************/
 static void set_tax_income(struct city *pcity)
 {
@@ -1912,7 +1918,7 @@ static void set_tax_income(struct city *pcity)
 }
 
 /**************************************************************************
-Modify the incomes according to various buildings. 
+  Modify the incomes according to various buildings.
 **************************************************************************/
 static void add_buildings_effect(struct city *pcity)
 {
@@ -1929,7 +1935,7 @@ static void add_buildings_effect(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Copy the happyness array in the city from index i to index i+1.
 **************************************************************************/
 static void happy_copy(struct city *pcity, int i)
 {
@@ -1976,7 +1982,7 @@ static void citizen_happy_size(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Make citizens happy due to luxury.
 **************************************************************************/
 static void citizen_happy_luxury(struct city *pcity)
 {
@@ -2011,10 +2017,9 @@ static void citizen_happy_luxury(struct city *pcity)
 }
 
 /**************************************************************************
-...
- Note Suffrage/Police is always dealt with elsewhere now --dwp 
+  Make given number of citizens unhappy due to units in the field.
 **************************************************************************/
-static void citizen_happy_units(struct city *pcity, int unhap)
+static void citizen_unhappy_units(struct city *pcity, int unhap)
 {
   while (unhap > 0 && pcity->ppl_content[3] > 0) {
     pcity->ppl_content[3]--;
@@ -2037,9 +2042,9 @@ static void citizen_happy_units(struct city *pcity, int unhap)
 }
 
 /**************************************************************************
-...
+  Make citizens content due to city improvements.
 **************************************************************************/
-static void citizen_happy_buildings(struct city *pcity)
+static void citizen_content_buildings(struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
   int faces = 0;
@@ -2068,20 +2073,10 @@ static void citizen_happy_buildings(struct city *pcity)
     pcity->ppl_content[2]++;
     faces--;
   }
-/* no longer hijacking ppl_content[0]; seems no longer to be helpful -- Syela */
-  /* TV doesn't make people happy just content...
-
-     while (faces && pcity->ppl_content[2]) { 
-     pcity->ppl_content[2]--;
-     pcity->ppl_happy[2]++;
-     faces--;
-     }
-
-   */
 }
 
 /**************************************************************************
-...
+  Make citizens happy due to wonders.
 **************************************************************************/
 static void citizen_happy_wonders(struct city *pcity)
 {
@@ -2130,7 +2125,8 @@ static void citizen_happy_wonders(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Set food, tax, science and shields production to zero if city is in
+  revolt.
 **************************************************************************/
 static void unhappy_city_check(struct city *pcity)
 {
@@ -2142,22 +2138,21 @@ static void unhappy_city_check(struct city *pcity)
   }
 }
 
-
-
 /**************************************************************************
-...
+  Calculate pollution.
 **************************************************************************/
 static void set_pollution(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
 
   pcity->pollution = pcity->shield_prod;
-  if (city_got_building(pcity, B_RECYCLING))
+  if (city_got_building(pcity, B_RECYCLING)) {
     pcity->pollution /= 3;
-  else if (city_got_building(pcity, B_HYDRO) ||
-	   city_affected_by_wonder(pcity, B_HOOVER) ||
-	   city_got_building(pcity, B_NUCLEAR))
+  } else if (city_got_building(pcity, B_HYDRO) ||
+	     city_affected_by_wonder(pcity, B_HOOVER) ||
+	     city_got_building(pcity, B_NUCLEAR)) {
     pcity->pollution /= 2;
+  }
 
   if (!city_got_building(pcity, B_MASS)) {
     pcity->pollution += (pcity->size *
@@ -2169,7 +2164,8 @@ static void set_pollution(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Calculate food, trade and shields generated by a city, and set 
+  associated variables.
 **************************************************************************/
 static void set_food_trade_shields(struct city *pcity)
 {
@@ -2213,11 +2209,11 @@ static void set_food_trade_shields(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Calculate upkeep costs.
 **************************************************************************/
 static void city_support(struct city *pcity, 
-                         void (*send_unit_info) (struct player *pplayer,
-                                                  struct unit *punit))
+			 void (*send_unit_info) (struct player *pplayer,
+						 struct unit *punit))
 {
   struct government *g = get_gov_pcity(pcity);
 
@@ -2312,7 +2308,7 @@ static void city_support(struct city *pcity,
     if (happy_cost > 0) {
       adjust_city_free_cost(&free_happy, &happy_cost);
       if (happy_cost > 0) {
-	citizen_happy_units(pcity, happy_cost);
+	citizen_unhappy_units(pcity, happy_cost);
 	this_unit->unhappiness = happy_cost;
       }
     }
@@ -2366,7 +2362,7 @@ void generic_city_refresh(struct city *pcity,
   add_buildings_effect(pcity);	/* marketplace, library wonders.. */
   set_pollution(pcity);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
-  citizen_happy_buildings(pcity);	/* temple cathedral colosseum */
+  citizen_content_buildings(pcity);	/* temple cathedral colosseum */
   city_support(pcity, send_unit_info);	/* manage settlers, and units */
   citizen_happy_wonders(pcity);	/* happy wonders & fundamentalism */
   unhappy_city_check(pcity);
@@ -2408,9 +2404,10 @@ void adjust_city_free_cost(int *num_free, int *this_cost)
 }
 
 /**************************************************************************
-  Corruption is halved during love the XXX days.
+  Give corruption generated by city. Corruption is halved during love 
+  the XXX days.
 **************************************************************************/
-int city_corruption(struct city *pcity, int trade)
+int city_corruption(const struct city *pcity, int trade)
 {
   struct government *g = get_gov_pcity(pcity);
   struct city *capital;
@@ -2457,9 +2454,9 @@ int city_corruption(struct city *pcity, int trade)
 }
 
 /************************************************************************** 
-  Waste is corruption for shields 
+  Give amount of waste generated by city. Waste is corruption for shields.
 **************************************************************************/
-int city_waste(struct city *pcity, int shields)
+int city_waste(const struct city *pcity, int shields)
 {
   struct government *g = get_gov_pcity(pcity);
   struct city *capital;
@@ -2496,9 +2493,9 @@ int city_waste(struct city *pcity, int shields)
 }
 
 /**************************************************************************
-...
+  Give the number of specialists in a city.
 **************************************************************************/
-int city_specialists(struct city *pcity)
+int city_specialists(const struct city *pcity)
 {
   int count = 0, i;
 
@@ -2510,9 +2507,9 @@ int city_specialists(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return the power (pacifying effect) of temples in the city.
 **************************************************************************/
-int get_temple_power(struct city *pcity)
+int get_temple_power(const struct city *pcity)
 {
   struct player *p = city_owner(pcity);
   int power = 1;
@@ -2524,9 +2521,9 @@ int get_temple_power(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return the power (pacifying effect) of cathedrals in the city.
 **************************************************************************/
-int get_cathedral_power(struct city *pcity)
+int get_cathedral_power(const struct city *pcity)
 {
   struct player *p = city_owner(pcity);
   int power = 3;
@@ -2541,9 +2538,9 @@ int get_cathedral_power(struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Return the power (pacifying effect) of colosseums in the city.
 **************************************************************************/
-int get_colosseum_power(struct city *pcity)
+int get_colosseum_power(const struct city *pcity)
 {
   struct player *p = city_owner(pcity);
   int power = 3;
@@ -2614,7 +2611,7 @@ void get_worker_on_map_position(int map_x, int map_y, enum city_tile_type
 /**************************************************************************
  Returns TRUE iff the city has set the given option.
 **************************************************************************/
-bool is_city_option_set(struct city *pcity, enum city_options option)
+bool is_city_option_set(const struct city *pcity, enum city_options option)
 {
   return TEST_BIT(pcity->city_options, option);
 }

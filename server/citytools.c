@@ -1943,7 +1943,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   /* Manage the city change-production penalty.
      (May penalize, restore or do nothing to the shield_stock.) */
-  city_change_production_penalty(pcity, target, is_unit, TRUE);
+  pcity->shield_stock = city_change_production_penalty(pcity, target, is_unit);
 
   /* Change build target. */
   pcity->currently_building = target;

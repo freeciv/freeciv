@@ -344,40 +344,40 @@ extern struct citystyle *city_styles;
 
 /* properties */
 
-struct player *city_owner(struct city *pcity);
-int city_population(struct city *pcity);
-int city_gold_surplus(struct city *pcity);
-int city_buy_cost(struct city *pcity);
-bool city_happy(struct city *pcity);  /* generally use celebrating instead */
-bool city_unhappy(struct city *pcity);                /* anarchy??? */
-bool base_city_celebrating(struct city *pcity);
-bool city_celebrating(struct city *pcity);            /* love the king ??? */
-bool city_rapture_grow(struct city *pcity);
+struct player *city_owner(const struct city *pcity);
+int city_population(const struct city *pcity);
+int city_gold_surplus(const struct city *pcity);
+int city_buy_cost(const struct city *pcity);
+bool city_happy(const struct city *pcity);  /* generally use celebrating instead */
+bool city_unhappy(const struct city *pcity);                /* anarchy??? */
+bool base_city_celebrating(const struct city *pcity);
+bool city_celebrating(const struct city *pcity);            /* love the king ??? */
+bool city_rapture_grow(const struct city *pcity);
 
 /* city related improvement and unit functions */
 
-bool city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id); 
-int improvement_upkeep(struct city *pcity, Impr_Type_id i); 
-bool can_build_improvement(struct city *pcity, Impr_Type_id id);
-bool can_eventually_build_improvement(struct city *pcity, Impr_Type_id id);
-bool can_build_unit(struct city *pcity, Unit_Type_id id);
-bool can_build_unit_direct(struct city *pcity, Unit_Type_id id);
-bool can_eventually_build_unit(struct city *pcity, Unit_Type_id id);
-bool city_can_use_specialist(struct city *pcity, enum specialist_type type);
-bool city_got_building(struct city *pcity,  Impr_Type_id id); 
-bool city_affected_by_wonder(struct city *pcity, Impr_Type_id id);
-bool city_got_effect(struct city *pcity, Impr_Type_id id);
-bool city_got_citywalls(struct city *pcity);
-bool wonder_replacement(struct city *pcity, Impr_Type_id id);
-int city_change_production_penalty(struct city *pcity,
-				   int target, bool is_unit, bool apply_it);
-int city_turns_to_build(struct city *pcity, int id, bool id_is_unit,
+bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id); 
+int improvement_upkeep(const struct city *pcity, Impr_Type_id i); 
+bool can_build_improvement(const struct city *pcity, Impr_Type_id id);
+bool can_eventually_build_improvement(const struct city *pcity, Impr_Type_id id);
+bool can_build_unit(const struct city *pcity, Unit_Type_id id);
+bool can_build_unit_direct(const struct city *pcity, Unit_Type_id id);
+bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id);
+bool city_can_use_specialist(const struct city *pcity, enum specialist_type type);
+bool city_got_building(const struct city *pcity,  Impr_Type_id id); 
+bool city_affected_by_wonder(const struct city *pcity, Impr_Type_id id);
+bool city_got_effect(const struct city *pcity, Impr_Type_id id);
+bool city_got_citywalls(const struct city *pcity);
+bool wonder_replacement(const struct city *pcity, Impr_Type_id id);
+int city_change_production_penalty(const struct city *pcity,
+				   int target, bool is_unit);
+int city_turns_to_build(const struct city *pcity, int id, bool id_is_unit,
                         bool include_shield_stock );
-int city_turns_to_grow(struct city *pcity);
+int city_turns_to_grow(const struct city *pcity);
 
 /* textual representation of buildings */
 
-const char *get_impr_name_ex(struct city *pcity, Impr_Type_id id);
+const char *get_impr_name_ex(const struct city *pcity, Impr_Type_id id);
 
 /* tile production functions */
 
@@ -400,37 +400,38 @@ bool city_map_to_map(int *map_x, int *map_y, const struct city *const pcity,
 void generate_city_map_indices(void);
 
 /* shield on spot */
-int city_get_shields_tile(int city_x, int city_y, struct city *pcity);
+int city_get_shields_tile(int city_x, int city_y, const struct city *pcity);
 int base_city_get_shields_tile(int city_x, int city_y,
-			       struct city *pcity, bool is_celebrating);
+			       const struct city *pcity, bool is_celebrating);
 /* trade  on spot */
-int city_get_trade_tile(int city_x, int city_y, struct city *pcity);
+int city_get_trade_tile(int city_x, int city_y, const struct city *pcity);
 int base_city_get_trade_tile(int city_x, int city_y,
-			     struct city *pcity, bool is_celebrating);
+			     const struct city *pcity, bool is_celebrating);
 /* food   on spot */
-int city_get_food_tile(int city_x, int city_y, struct city *pcity);
+int city_get_food_tile(int city_x, int city_y, const struct city *pcity);
 int base_city_get_food_tile(int city_x, int city_y,
-			    struct city *pcity, bool is_celebrating);
+			    const struct city *pcity, bool is_celebrating);
 
 void set_worker_city(struct city *pcity, int city_x, int city_y,
 		     enum city_tile_type type); 
-enum city_tile_type get_worker_city(struct city *pcity, int city_x,
+enum city_tile_type get_worker_city(const struct city *pcity, int city_x,
 				    int city_y);
 void get_worker_on_map_position(int map_x, int map_y,
 				enum city_tile_type *result_city_tile_type,
 				struct city **result_pcity);
-bool is_worker_here(struct city *pcity, int city_x, int city_y);
+bool is_worker_here(const struct city *pcity, int city_x, int city_y);
 
 bool city_can_be_built_here(int x, int y, struct unit *punit);
 
 /* trade functions */
-bool can_cities_trade(struct city *pc1, struct city *pc2);
-bool can_establish_trade_route(struct city *pc1, struct city *pc2);
-bool have_cities_trade_route(struct city *pc1, struct city *pc2);
-int trade_between_cities(struct city *pc1, struct city *pc2);
-int city_num_trade_routes(struct city *pcity);
-int get_caravan_enter_city_trade_bonus(struct city *pc1, struct city *pc2);
-int get_city_min_trade_route(struct city *pcity, int *slot);
+bool can_cities_trade(const struct city *pc1, const struct city *pc2);
+bool can_establish_trade_route(const struct city *pc1, const struct city *pc2);
+bool have_cities_trade_route(const struct city *pc1, const struct city *pc2);
+int trade_between_cities(const struct city *pc1, const struct city *pc2);
+int city_num_trade_routes(const struct city *pcity);
+int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
+                                       const struct city *pc2);
+int get_city_min_trade_route(const struct city *pcity, int *slot);
   
 /* list functions */
 struct city *city_list_find_id(struct city_list *This, int id);
@@ -439,12 +440,12 @@ struct city *city_list_find_name(struct city_list *This, const char *name);
 int city_name_compare(const void *p1, const void *p2);
 
 /* city free cost values depending on government: */
-int citygov_free_shield(struct city *pcity, struct government *gov);
-int citygov_free_happy(struct city *pcity, struct government *gov);
-int citygov_free_food(struct city *pcity, struct government *gov);
+int citygov_free_shield(const struct city *pcity, struct government *gov);
+int citygov_free_happy(const struct city *pcity, struct government *gov);
+int citygov_free_food(const struct city *pcity, struct government *gov);
 
 /* city style functions */
-int get_city_style(struct city *pcity);
+int get_city_style(const struct city *pcity);
 int get_player_city_style(struct player *plr);
 int get_style_by_name(const char *);
 int get_style_by_name_orig(const char *);
@@ -475,15 +476,15 @@ void generic_city_refresh(struct city *pcity,
 			  void (*send_unit_info) (struct player * pplayer,
 						  struct unit * punit));
 void adjust_city_free_cost(int *num_free, int *this_cost);
-int city_corruption(struct city *pcity, int trade);
-int city_waste(struct city *pcity, int shields);
-int city_specialists(struct city *pcity);                 /* elv+tax+scie */
-int get_temple_power(struct city *pcity);
-int get_cathedral_power(struct city *pcity);
-int get_colosseum_power(struct city *pcity);
-int get_city_tax_bonus(struct city *pcity);
-int get_city_shield_bonus(struct city *pcity);
-int get_city_science_bonus(struct city *pcity);
+int city_corruption(const struct city *pcity, int trade);
+int city_waste(const struct city *pcity, int shields);
+int city_specialists(const struct city *pcity);                 /* elv+tax+scie */
+int get_temple_power(const struct city *pcity);
+int get_cathedral_power(const struct city *pcity);
+int get_colosseum_power(const struct city *pcity);
+int get_city_tax_bonus(const struct city *pcity);
+int get_city_shield_bonus(const struct city *pcity);
+int get_city_science_bonus(const struct city *pcity);
 
 /* city creation / destruction */
 struct city *create_city_virtual(struct player *pplayer, const int x,
@@ -491,7 +492,7 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
 void remove_city_virtual(struct city *pcity);
 
 /* misc */
-bool is_city_option_set(struct city *pcity, enum city_options option);
+bool is_city_option_set(const struct city *pcity, enum city_options option);
 void city_styles_alloc(int num);
 void city_styles_free(void);
 

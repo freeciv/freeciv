@@ -162,10 +162,10 @@ struct government *get_gov_pplayer(struct player *pplayer)
   return get_government(pplayer->government);
 }
 
-/***************************************************************
-...
-***************************************************************/
-struct government *get_gov_pcity(struct city *pcity)
+/****************************************************************************
+  Return the government of the player who owns the city.
+****************************************************************************/
+struct government *get_gov_pcity(const struct city *pcity)
 {
   assert(pcity != NULL);
   return get_gov_pplayer(city_owner(pcity));

@@ -273,7 +273,7 @@ static void fill_ranges_improv_lists(Impr_Status *equiv_list[IR_LAST],
  Checks whether the building is within the equiv_range of a building that
  replaces it
 **************************************************************************/
-bool improvement_redundant(struct player *pplayer,struct city *pcity,
+bool improvement_redundant(struct player *pplayer, const struct city *pcity,
                           Impr_Type_id id, bool want_to_build)
 {
   enum impr_range i;
@@ -281,7 +281,7 @@ bool improvement_redundant(struct player *pplayer,struct city *pcity,
   Impr_Type_id *ept;
 
   /* Make lists of improvements that affect this city */
-  fill_ranges_improv_lists(equiv_list, pcity, pplayer);
+  fill_ranges_improv_lists(equiv_list, (struct city *)pcity, pplayer);
 
   /* For every improvement named in equiv_dupl or equiv_repl, check for
      its presence in any of the lists (we check only for its presence, and

@@ -144,7 +144,7 @@ const char *get_improvement_name(Impr_Type_id id);
 int improvement_variant(Impr_Type_id id);  
 
 bool improvement_obsolete(struct player *pplayer, Impr_Type_id id);
-bool improvement_redundant(struct player *pplayer,struct city *pcity,
+bool improvement_redundant(struct player *pplayer, const struct city *pcity,
                           Impr_Type_id id, bool want_to_build);
 bool wonder_obsolete(Impr_Type_id id);
 bool is_wonder_useful(Impr_Type_id id);
