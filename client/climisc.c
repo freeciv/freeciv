@@ -113,11 +113,25 @@ void client_remove_unit(int unit_id)
 **************************************************************************/
 void client_remove_city(struct city *pcity)
 {
+  int effect_update, i;
   int x=pcity->x;
   int y=pcity->y;
 
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
 	  get_nation_name(city_owner(pcity)->nation), x, y);
+
+  /* Explicitly remove all improvements, to properly remove any global effects
+     and to handle the preservation of "destroyed" effects. */
+  effect_update=FALSE;
+  for (i=0; i<game.num_impr_types; i++) {
+    if (pcity->improvements[i]!=I_NONE) {
+      effect_update=TRUE;
+      city_remove_improvement(pcity, i);
+    }
+  }
+  if (effect_update)
+    update_all_effects();
+
   popdown_city_dialog(pcity);
   game_remove_city(pcity);
   city_report_dialog_update();
@@ -1008,15 +1022,42 @@ int num_present_units_in_city(struct city *pcity)
 **************************************************************************/
 void renumber_island_impr_effect(int old, int newnumber)
 {
-  int i, changed=FALSE;
-  Impr_Status *oldimpr, *newimpr;
+  int i, j, changed;
 
+  changed=FALSE;
   players_iterate(plr) {
+    Impr_Status *oldimpr, *newimpr;
+    struct geff_vector *oldv, *newv;
+    struct eff_global *olde, *newe;
+
     assert(plr->island_improv);
     oldimpr=&plr->island_improv[game.num_impr_types*old];
     newimpr=&plr->island_improv[game.num_impr_types*newnumber];
 
-    /* Move all city improvements across. */
+    oldv=&plr->island_effects[old];
+    newv=&plr->island_effects[newnumber];
+
+    /* First move any island-range effects to the new vector. */
+    for (i=0, j=0; i<geff_vector_size(oldv); i++) {
+      olde=geff_vector_get(oldv, i);
+      newe=geff_vector_get(newv, j);
+
+      if (olde->eff.impr!=B_LAST) {
+	changed=TRUE;
+	while (j<geff_vector_size(newv) && newe->eff.impr<B_LAST)
+	  j++;
+	if (j==geff_vector_size(newv)) {
+	  /* Add a new entry to the new vector. */
+	  geff_vector_reserve(newv, j+1);
+	  newe=geff_vector_get(newv, j);
+	}
+	newe->eff	 = olde->eff;
+	newe->cityid	 = olde->cityid;
+	olde->eff.impr	 = B_LAST;   /* Mark the old entry as unused. */
+      }
+    }
+
+    /* Now move all city improvements across. */
     for (i=0; i<game.num_impr_types; i++)
       if (oldimpr[i]!=I_NONE) {
 	newimpr[i]=oldimpr[i];

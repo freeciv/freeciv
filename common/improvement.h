@@ -212,6 +212,8 @@ struct eff_global {
   int cityid;	       /* ID of the city that owns the improvment (if -1,
 			  then the effect has survived the city destruction,
 			  and should therefore be placed in the savefile) */
+  /* N.B. Could add further fields here for effects created by things
+     other than city improvements - e.g. certain government types */
 };
 
 /* Type of improvement.
@@ -256,6 +258,13 @@ Eff_Range_id effect_range_from_str(char *str);
 const char *effect_range_name(Eff_Range_id id);
 Eff_Type_id effect_type_from_str(char *str);
 const char *effect_type_name(Eff_Type_id id);
+
+void get_effect_vectors(struct ceff_vector *ceffs[],
+			struct geff_vector *geffs[],
+			Impr_Type_id impr, struct city *pcity);
+void update_global_effect(struct city *pcity, struct eff_city *effect);
+struct eff_city *append_ceff(struct ceff_vector *x);
+struct eff_global *append_geff(struct geff_vector *x);
 
 /* improvement functions */
 

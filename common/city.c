@@ -2159,9 +2159,32 @@ int get_colosseum_power(struct city *pcity)
       activate the effects, so update_all_effects() must be called to resolve
       these dependencies.
 **************************************************************************/
-void city_add_improvement(struct city *pcity,Impr_Type_id impr)
+void city_add_improvement(struct city *pcity, Impr_Type_id impr)
 {
+  struct ceff_vector *ceffs[2];
+  struct geff_vector *geffs[4];
+  int i;
+
+  get_effect_vectors(ceffs, geffs, impr, pcity);
   mark_improvement(pcity,impr,I_ACTIVE);
+
+  /* Add affects at all ranges. */
+  for (i=0; ceffs[i]; i++) {
+    struct eff_city *eff;
+    
+    eff		= append_ceff(ceffs[i]);
+    eff->impr	= impr;
+    eff->active	= 0;
+  }
+
+  for (i=0; geffs[i]; i++) {
+    struct eff_global *eff;
+    
+    eff		    = append_geff(geffs[i]);
+    eff->eff.impr   = impr;
+    eff->eff.active = 0;
+    eff->cityid	    = pcity->id;
+  }
 }
 
 /**************************************************************************
@@ -2172,6 +2195,10 @@ void city_add_improvement(struct city *pcity,Impr_Type_id impr)
 **************************************************************************/
 void city_remove_improvement(struct city *pcity,Impr_Type_id impr)
 {
+  struct ceff_vector *ceffs[2];
+  struct geff_vector *geffs[4];
+  int i, j;
+
   freelog(LOG_DEBUG,"Improvement %s removed from city %s",
           improvement_types[impr].name,pcity->name);
   mark_improvement(pcity,impr,I_NONE);
@@ -2186,6 +2213,31 @@ void city_remove_improvement(struct city *pcity,Impr_Type_id impr)
         }
       } city_list_iterate_end;
     } players_iterate_end;
+  }
+
+  get_effect_vectors(ceffs, geffs, impr, pcity);
+
+  /* Now remove the effects. */
+  for (j=0; ceffs[j]; j++) {
+    for (i=0; i<ceff_vector_size(ceffs[j]); i++) {
+      struct eff_city *eff=ceff_vector_get(ceffs[j], i);
+
+      if (eff->impr==impr) {
+	eff->impr=B_LAST;
+	break;
+      }
+    }
+  }
+
+  for (j=0; geffs[j]; j++) {
+    for (i=0; i<geff_vector_size(geffs[j]); i++) {
+      struct eff_global *eff=geff_vector_get(geffs[j], i);
+
+      if (eff->eff.impr==impr) {
+	eff->eff.impr=B_LAST;
+	break;
+      }
+    }
   }
 }
 

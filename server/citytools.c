@@ -1034,7 +1034,7 @@ void remove_city(struct city *pcity)
   int o, x, y;
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
-  int i;
+  int i, effect_update;
   int had_palace = pcity->improvements[B_PALACE] != I_NONE;
   char *city_name = strdup(pcity->name);
 
@@ -1043,13 +1043,16 @@ void remove_city(struct city *pcity)
           pcity->name,pcity->x,pcity->y);
 
   /* Explicitly remove all improvements, to properly remove any global effects
-     and to handle the preservation of "destroyed" effects */
+     and to handle the preservation of "destroyed" effects. */
+  effect_update=FALSE;
   for (i=0;i<game.num_impr_types;i++) {
     if (pcity->improvements[i]!=I_NONE) {
+      effect_update=TRUE;
       city_remove_improvement(pcity,i);
     }
   }
-  update_all_effects();
+  if (effect_update)
+    update_all_effects();
 
   /* This is cutpasted with modifications from transfer_city_units. Yes, it is ugly.
      But I couldn't see a nice way to make them use the same code */

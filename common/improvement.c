@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "game.h"
+#include "log.h"
 #include "map.h"
 #include "support.h"
 #include "tech.h"
@@ -480,4 +481,135 @@ void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status)
     /* And set the same status */
     improvements[id] = status;
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static struct geff_vector *get_eff_world(void)
+{
+  return (&game.effects);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static struct geff_vector *get_eff_player(struct player *plr)
+{
+  return (&plr->effects);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static struct geff_vector *get_eff_island(struct city *pcity)
+{
+  int i=map_get_continent(pcity->x, pcity->y);
+  return (&city_owner(pcity)->island_effects[i]);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static struct ceff_vector *get_eff_city(struct city *pcity)
+{
+  return (&pcity->effects);
+}
+
+/**************************************************************************
+  Fills in the efflist pointer array with the eff_global lists that could
+  be changed by the given improvement (in the given city) being built
+  or destroyed.
+**************************************************************************/
+void get_effect_vectors(struct ceff_vector *ceffs[],
+			struct geff_vector *geffs[],
+			Impr_Type_id impr, struct city *pcity)
+{
+  struct impr_effect *ie;
+  int i;
+
+  assert(pcity && impr>=0 && impr<game.num_impr_types);
+
+  i=0;
+  if ((ie=improvement_types[impr].effect)) {
+    for (; ie->type<EFT_LAST; ie++) {
+      switch (ie->range) {
+      case EFR_ISLAND:	geffs[i++]=get_eff_island(pcity);		break;
+      case EFR_PLAYER:	geffs[i++]=get_eff_player(city_owner(pcity));	break;
+      case EFR_WORLD:	geffs[i++]=get_eff_world();			break;
+      default:								break;
+      }
+    }
+  }
+  geffs[i++]=NULL;
+
+  ceffs[0]=get_eff_city(pcity);
+  ceffs[1]=NULL;
+}
+
+/**************************************************************************
+  Updates the relevant global effect structures, to bring them into
+  line with the current activity status of their parent city structure,
+  which should be owned by the passed pcity.
+**************************************************************************/
+void update_global_effect(struct city *pcity, struct eff_city *effect)
+{
+  struct geff_vector *effs[2];
+  int i, j;
+
+  effs[0]=get_eff_player(city_owner(pcity));
+  effs[1]=get_eff_world();
+
+  for (j=0; j<2; j++) {
+    for (i=0; i<geff_vector_size(effs[j]); i++) {
+      struct eff_global *eff=geff_vector_get(effs[j], i);
+
+      if (eff->cityid==pcity->id && eff->eff.impr==effect->impr) {
+	eff->eff.active=effect->active;
+	break;
+      }
+    }
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct eff_city *append_ceff(struct ceff_vector *x)
+{
+  int i, n;
+  struct eff_city *eff;
+
+  /* Try for an unused vector instance if possible. */
+  n=ceff_vector_size(x);
+  for (i=0; i<n; i++) {
+    eff=ceff_vector_get(x, i);
+    if (eff->impr==B_LAST)
+      return eff;
+  }
+
+  /* That didn't work, so add a new instance to the vector. */
+  ceff_vector_reserve(x, n+1);
+  return ceff_vector_get(x, n);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct eff_global *append_geff(struct geff_vector *x)
+{
+  int i, n;
+  struct eff_global *eff;
+
+  /* Try for an unused vector instance if possible. */
+  n=geff_vector_size(x);
+  for (i=0; i<n; i++) {
+    eff=geff_vector_get(x, i);
+    if (eff->eff.impr==B_LAST)
+      return eff;
+  }
+
+  /* That didn't work, so add a new instance to the vector. */
+  geff_vector_reserve(x, n+1);
+  return geff_vector_get(x, n);
 }
