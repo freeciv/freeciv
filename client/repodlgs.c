@@ -1704,7 +1704,7 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
 
   if(ret->list_index!=XAW_LIST_NONE) {
     ut1 = activeunits_type[ret->list_index];
-    puts(unit_types[ut1].name);
+    /* puts(unit_types[ut1].name); */
     
     ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[ret->list_index]);
     

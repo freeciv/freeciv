@@ -35,6 +35,7 @@
 #include <aitools.h> /* for ai_advisor_choose_building/ai_choice */
 #include <settlers.h>
 #include <advdomestic.h>
+#include <log.h>
 
 extern signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
@@ -605,7 +606,10 @@ void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
   } while(*workers && (bx || by));
   *foodneed += 2 * (*workers - 1 - e);
   *prodneed += (*workers - 1 - e);
-  if (*prodneed > 0) printf("Ignored prodneed? in %s (%d)\n", pcity->name, *prodneed);
+  if (*prodneed > 0) {
+    flog(LOG_DEBUG, "Ignored prodneed? in %s (%d)",
+	 pcity->name, *prodneed);
+  }
 }
 
 /**************************************************************************

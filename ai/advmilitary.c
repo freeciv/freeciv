@@ -23,6 +23,7 @@
 #include <gotohand.h> /* warmap has been redeployed */
 #include <settlers.h>
 #include <cityturn.h>
+#include <log.h>
 
 extern struct move_cost_map warmap;
 
@@ -58,8 +59,10 @@ int assess_defense_quadratic(struct city *pcity)
     }
     if (is_military_unit(punit)) def += v;
   unit_list_iterate_end;
-  if (def > 1<<12) printf("Very large def in assess_defense_quadratic: %d in %s\n",
-    def, pcity->name);
+  if (def > 1<<12) {
+    flog(LOG_DEBUG, "Very large def in assess_defense_quadratic: %d in %s",
+	 def, pcity->name);
+  }
   if (def > 1<<15) def = 1<<15; /* more defense than we know what to do with! */
   return(def * def);
 }

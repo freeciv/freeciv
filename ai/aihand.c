@@ -32,6 +32,8 @@
 #include <aicity.h>
 #include <aitech.h>
 #include <sys/time.h>
+#include <log.h>
+
 /****************************************************************************
   A man builds a city
   With banks and cathedrals
@@ -383,12 +385,14 @@ pplayer->name, trade, expense, m, n);*/
             if (defender) {
               if (unit_vulnerability_virtual(punit) <
                   unit_vulnerability_virtual(defender)) {
-printf("Disbanding %s in %s\n", unit_types[punit->type].name, pcity->name);
+		flog(LOG_DEBUG, "Disbanding %s in %s",
+		     unit_types[punit->type].name, pcity->name);
                 pack.unit_id = punit->id;
                 handle_unit_disband(pplayer, &pack);
                 city_refresh(pcity);
               } else {
-printf("Disbanding %s in %s\n", unit_types[defender->type].name, pcity->name);
+		flog(LOG_DEBUG, "Disbanding %s in %s",
+		     unit_types[defender->type].name, pcity->name);
                 pack.unit_id = defender->id;
                 handle_unit_disband(pplayer, &pack);
                 city_refresh(pcity);
@@ -400,15 +404,17 @@ printf("Disbanding %s in %s\n", unit_types[defender->type].name, pcity->name);
             pack.city_id = incity->id;
             handle_unit_change_homecity(pplayer, &pack);
             city_refresh(pcity);
-printf("Reassigning %s from %s to %s\n", unit_types[punit->type].name, pcity->name, incity->name);
+	    flog(LOG_DEBUG, "Reassigning %s from %s to %s",
+		 unit_types[punit->type].name, pcity->name, incity->name);
           }
         } /* end if */
       unit_list_iterate_end;
       if (pcity->shield_surplus < 0) {
         unit_list_iterate(pcity->units_supported, punit)
           if (punit != defender && pcity->shield_surplus < 0) {
-/* the defender MUST NOT be disbanded! -- Syela */
-printf("Disbanding %s's %s.\n", pcity->name, unit_types[punit->type].name);
+	    /* the defender MUST NOT be disbanded! -- Syela */
+	    flog(LOG_DEBUG, "Disbanding %s's %s",
+		 pcity->name, unit_types[punit->type].name);
             pack.unit_id = punit->id;
             handle_unit_disband(pplayer, &pack);
             city_refresh(pcity);

@@ -754,9 +754,12 @@ unit_types[punit->type].name, punit->id, punit->x, punit->y);*/
 /*printf("Moving on.\n");*/
     } while(!(x==punit->goto_dest_x && y==punit->goto_dest_y));
   }
-else printf("Did not find the shortest path for %s's %s at (%d, %d) -> (%d, %d)\n",
-pplayer->name, unit_types[punit->type].name, punit->x, punit->y, 
-punit->goto_dest_x, punit->goto_dest_y);
+  else {
+    flog(LOG_DEBUG, "Did not find the shortest path for "
+	 "%s's %s at (%d, %d) -> (%d, %d)",
+	 pplayer->name, unit_types[punit->type].name,
+	 punit->x, punit->y, punit->goto_dest_x, punit->goto_dest_y);
+  }
 
   punit->activity=ACTIVITY_IDLE;
   send_unit_info(0, punit, 0);

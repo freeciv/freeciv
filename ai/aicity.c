@@ -40,6 +40,7 @@
 #include <gotohand.h>
 #include <settlers.h>
 #include <unittools.h>
+#include <log.h>
 
 int ai_fix_unhappy(struct city *pcity);
 void ai_manage_city(struct player *pplayer, struct city *);
@@ -226,8 +227,10 @@ bestchoice.want); */
     return;
   } /* AI cheats -- no penalty for switching from unit to improvement, etc. */
 
-/* fallbacks should never happen anymore, but probably could somehow. -- Syela */
-printf("Falling back - %s didn't want soldiers, settlers, or buildings.\n", pcity->name);
+  /* fallbacks should never happen anymore, but probably
+     could somehow. -- Syela */
+  flog(LOG_DEBUG, "Falling back - %s didn't want soldiers, settlers,"
+       " or buildings", pcity->name);
   if (can_build_improvement(pcity, B_BARRACKS)) {
     pcity->currently_building = B_BARRACKS;
     pcity->is_building_unit = 0;
@@ -919,8 +922,9 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
   struct packet_unit_request pack;
   int i, j;
    
-printf("Emergency in %s! (%d unhap, %d hap, %d food, %d prod):", pcity->name,
-pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_surplus);
+  flog(LOG_DEBUG, "Emergency in %s! (%d unhap, %d hap, %d food, %d prod)",
+       pcity->name, pcity->ppl_unhappy[4], pcity->ppl_happy[4],
+       pcity->food_surplus, pcity->shield_surplus);
   city_list_init(&minilist);
   city_map_iterate(i, j) {
     int x=map_adjust_x(pcity->x+i-2), y=map_adjust_y(pcity->y+j-2);
@@ -939,13 +943,17 @@ pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_s
   if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer,1))
     ai_scientists_taxmen(pcity);
   if (pcity->shield_surplus < 0 || city_unhappy(pcity) ||
-      pcity->food_stock + pcity->food_surplus < 0) printf("Unresolved.\n");
-  else printf("Resolved.\n");
-/*printf("Rearranging workers in %s\n", pcity->name);*/
+      pcity->food_stock + pcity->food_surplus < 0) {
+    flog(LOG_DEBUG, "Emergency unresolved");
+  } else {
+    flog(LOG_DEBUG, "Emergency resolved");
+  }
+  /*printf("Rearranging workers in %s\n", pcity->name);*/
 
   unit_list_iterate(pcity->units_supported, punit)
     if (city_unhappy(pcity) && punit->unhappiness && !punit->ai.passenger) {
-printf("%s's %s is unhappy and causing unrest, disbanding it.\n", pcity->name, unit_types[punit->type].name);
+       flog(LOG_DEBUG, "%s's %s is unhappy and causing unrest, disbanding it",
+	    pcity->name, unit_types[punit->type].name);
        pack.unit_id = punit->id;
        /* in rare cases the _safe might be needed? --dwp */
        handle_unit_disband_safe(pplayer, &pack, &myiter);

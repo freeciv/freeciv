@@ -691,8 +691,9 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
   if (tile_ncargo <= tile_cap - old_cap + new_cap)
     return 0;
 
-  printf("Can't upgrade %s at (%d,%d) because would strand passenger(s)\n",
-	 get_unit_type(punit->type)->name, punit->x, punit->y);
+  flog(LOG_DEBUG, "Can't upgrade %s at (%d,%d)"
+       " because would strand passenger(s)",
+       get_unit_type(punit->type)->name, punit->x, punit->y);
   return 1;
 }
 
