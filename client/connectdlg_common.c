@@ -60,9 +60,10 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #define NUMBER_OF_TRIES 500
   
 #ifdef WIN32_NATIVE
+/* FIXME: this is referenced directly in gui-win32/connectdlg.c. */
 HANDLE server_process = INVALID_HANDLE_VALUE;
 #else
-pid_t server_pid = - 1;
+static pid_t server_pid = - 1;
 #endif
 
 char player_name[MAX_LEN_NAME];
@@ -141,7 +142,7 @@ code will come later
 *****************************************************************/ 
 bool client_start_server(void)
 {
-#if !defined(__VMS) && !defined(WIN32)
+#ifdef HAVE_WORKING_FORK
   int i = 0;
   int nargs = 4; /* base number of args */
   char **argv = NULL;
@@ -261,7 +262,7 @@ bool client_start_server(void)
   }
 
   return TRUE;
-#else /*VMS or Win32*/
+#else /* Can't do much without fork(). */
   return FALSE;
 #endif
 }
