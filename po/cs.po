@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2005-01-27 09:02+0100\n"
+"POT-Creation-Date: 2005-01-27 17:28+0100\n"
+"PO-Revision-Date: 2005-01-28 13:38+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -250,8 +250,8 @@ msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Válka"
 
 #: common/player.c:594
-#: client/gui-gtk-2.0/diplodlg.c:344
-#: client/gui-gtk/diplodlg.c:461
+#: client/gui-gtk-2.0/diplodlg.c:343
+#: client/gui-gtk/diplodlg.c:485
 #: client/gui-mui/diplodlg.c:633
 #: client/gui-win32/diplodlg.c:306
 #: client/gui-xaw/diplodlg.c:524
@@ -259,8 +259,8 @@ msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Příměří"
 
 #: common/player.c:595
-#: client/gui-gtk-2.0/diplodlg.c:349
-#: client/gui-gtk/diplodlg.c:466
+#: client/gui-gtk-2.0/diplodlg.c:348
+#: client/gui-gtk/diplodlg.c:490
 #: client/gui-mui/diplodlg.c:637
 #: client/gui-win32/diplodlg.c:307
 #: client/gui-xaw/diplodlg.c:528
@@ -268,8 +268,8 @@ msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Mír"
 
 #: common/player.c:596
-#: client/gui-gtk-2.0/diplodlg.c:354
-#: client/gui-gtk/diplodlg.c:471
+#: client/gui-gtk-2.0/diplodlg.c:353
+#: client/gui-gtk/diplodlg.c:495
 #: client/gui-mui/diplodlg.c:641
 #: client/gui-win32/diplodlg.c:308
 #: client/gui-xaw/diplodlg.c:532
@@ -281,19 +281,18 @@ msgid "?diplomatic_state:Never met"
 msgstr "?diplomatic_state:Žádné setkání"
 
 #: common/player.c:598
-#: client/gui-gtk-2.0/diplodlg.c:362
-#: client/gui-gtk/diplodlg.c:479
 msgid "?diplomatic_state:Team"
 msgstr "?diplomatic_state:Tým"
 
 #. TRANS: Obscure ruleset error
-#: common/tech.c:113
+#: common/tech.c:114
 #, c-format
 msgid "tech \"%s\": requires itself"
 msgstr "tech \"%s\": vyžaduje sama sebe"
 
-#: common/tech.c:581
-#: common/tech.c:593
+#. TRANS: "Unknown" tech
+#: common/tech.c:590
+#: common/tech.c:613
 #: client/gui-gtk-2.0/inteldlg.c:355
 #: client/gui-gtk-2.0/inteldlg.c:375
 #: client/gui-gtk/inteldlg.c:140
@@ -303,7 +302,8 @@ msgstr "tech \"%s\": vyžaduje sama sebe"
 msgid "(Unknown)"
 msgstr "(Neznámý)"
 
-#: common/tech.c:584
+#. TRANS: "None" tech
+#: common/tech.c:593
 #: server/settings.c:38
 #: client/gui-gtk-2.0/helpdlg.c:293
 #: client/gui-gtk-2.0/helpdlg.c:745
@@ -327,7 +327,7 @@ msgstr "(Neznámý)"
 msgid "None"
 msgstr "Žádné"
 
-#: common/tech.c:587
+#: common/tech.c:604
 #: client/gui-gtk-2.0/repodlgs.c:373
 #: client/gui-gtk-2.0/repodlgs.c:381
 #: client/gui-gtk-2.0/repodlgs.c:494
@@ -756,147 +756,147 @@ msgstr "Hra: %s zahájili stavbu divu %s ve městě %s."
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Hra: %s prodal %s (nepotřebuje) za %d."
 
-#: ai/advdiplomacy.c:248
+#: ai/advdiplomacy.c:244
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty"
 msgstr ""
 
-#: ai/advdiplomacy.c:258
+#: ai/advdiplomacy.c:254
 #, c-format
 msgid "*%s (AI)* %s leads our alliance. You must contact and make peace with him first."
 msgstr "*%s (PO)* %s vede naši alianci. Musíte je kontaktovat a nejdříve uzavřít příměří s nimi."
 
-#: ai/advdiplomacy.c:269
+#: ai/advdiplomacy.c:265
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s"
 msgstr "*%s (Řízený počítačem)* První zruš alianci s %s, %s"
 
-#: ai/advdiplomacy.c:280
+#: ai/advdiplomacy.c:276
 #, c-format
 msgid "*%s (AI)* Begone scoundrel, we all know that you cannot be trusted!"
 msgstr "*%s (Řízený počítačem)* Začni lumpe, stejně všichni víme, že se ti nedá věřit!"
 
-#: ai/advdiplomacy.c:292
+#: ai/advdiplomacy.c:288
 #, c-format
 msgid "*%s (AI)* I will not let you go that easy, %s. The current treaty stands."
 msgstr "*%s (Řízený počítačem)* Tak lehce to nepůjde, %s. Současné smlouvy zůstávají."
 
-#: ai/advdiplomacy.c:309
+#: ai/advdiplomacy.c:305
 #, c-format
 msgid "*%s (AI)* %s recommended that I give you a ceasefire. This is your lucky day."
 msgstr "*%s (Řízený počítačem)* %s doporučil, abych ti nabídl příměří. Je to tvůj šťastný den."
 
-#: ai/advdiplomacy.c:332
+#: ai/advdiplomacy.c:328
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s"
 msgstr "*%s (Řízený počítačem)* Ukončeme první nepřátelství, %s"
 
-#: ai/advdiplomacy.c:341
+#: ai/advdiplomacy.c:337
 #, c-format
 msgid "*%s (AI)* Let us first make peace, %s"
 msgstr "%s (Řízený počítačem)* Uzavřeme nejdříve mír, %s"
 
-#: ai/advdiplomacy.c:409
+#: ai/advdiplomacy.c:405
 #, c-format
 msgid "*%s (AI)* You don't have the offered city!"
 msgstr "*%s (PO)* Nemáte nabízené město!"
 
-#: ai/advdiplomacy.c:434
+#: ai/advdiplomacy.c:430
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr "*%s (Řízený počítačem)* Promiň, ale sdílet s tebou vidění není bezpečné."
 
-#: ai/advdiplomacy.c:529
+#: ai/advdiplomacy.c:524
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (Řízený počítačem)* Vítej v alianci %s!"
 
-#: ai/advdiplomacy.c:532
+#: ai/advdiplomacy.c:527
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s"
 msgstr "*%s (Řízený počítačem)* Jasně, zůstaňme spojenci navždy, %s"
 
-#: ai/advdiplomacy.c:537
+#: ai/advdiplomacy.c:532
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (Řízený počítačem)* Mír. Dobrý nápad!"
 
-#: ai/advdiplomacy.c:541
+#: ai/advdiplomacy.c:536
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s"
 msgstr "*%s (Řízený počítačem)* Souhlasím. Žádné nepřátelství, %s"
 
-#: ai/advdiplomacy.c:965
+#: ai/advdiplomacy.c:960
 #, c-format
 msgid "*%s (AI)* I will NOT accept such behaviour! This means WAR!"
 msgstr "*%s (řízen počítačem)* Nebudu tolerovat takové chování. Vyhlašuji Vám válku!"
 
-#: ai/advdiplomacy.c:988
+#: ai/advdiplomacy.c:983
 #, c-format
 msgid "*%s (AI)* Your attempt to conquer space for yourself alone betray your true intentions, and I will have no more of our alliance!"
 msgstr "*%s (řízen počítačem)* Snažíte se obsadit vesmír pro sebe zrazujíce naše skutečné cíle. Už nejsme spojenci!"
 
-#: ai/advdiplomacy.c:1001
+#: ai/advdiplomacy.c:996
 #, c-format
 msgid "*%s (AI)* Your attempt to unilaterally dominate outer space is highly offensive."
 msgstr "*%s (řízen počítačem)* Vaše snaha dobýt vesmír je velmi nepěkná."
 
-#: ai/advdiplomacy.c:1003
+#: ai/advdiplomacy.c:998
 #, c-format
 msgid "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to take action!"
 msgstr "*%s (řízen počítačem)* Jestli okamžitě nepřestanete stavět tu vesmírnou loď, budeme nuceni přijmout patřičná opatření!"
 
-#: ai/advdiplomacy.c:1027
+#: ai/advdiplomacy.c:1022
 #, c-format
 msgid "*%s (AI)* Your despicable actions will not go unpunished!"
 msgstr "*%s (řízen počítačem)* Vaše opovrženíhodné činy nezůstanou nepotrestány!"
 
-#: ai/advdiplomacy.c:1031
+#: ai/advdiplomacy.c:1026
 #, c-format
 msgid "*%s (AI)* Finally I get around to you! Did you really think you could get away with your crimes?"
 msgstr "*%s (řízen počítačem)* Ha, konečně jsme Vás prokoukli! Si myslíte, že Vás necháme na pokoji s Vašimi zločiny?"
 
-#: ai/advdiplomacy.c:1036
+#: ai/advdiplomacy.c:1031
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time"
 msgstr "*%s (řízen počítačem)* Mír .... hm, někdy jindy"
 
-#: ai/advdiplomacy.c:1053
+#: ai/advdiplomacy.c:1048
 #, c-format
 msgid "*%s (AI)* Your aggression against my allies was your last mistake!"
 msgstr "*%s (PO)* Vaše agrese proti našim spojencům byl váš poslední omyl!"
 
-#: ai/advdiplomacy.c:1075
+#: ai/advdiplomacy.c:1070
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr "*%s (řízen počítačem)* Lituji, ale sdílené vidění s Vámi už není bezpečné."
 
-#: ai/advdiplomacy.c:1143
+#: ai/advdiplomacy.c:1138
 #, c-format
 msgid "*%s (AI)* Greetings our most trustworthy ally, we call upon you to destroy our enemy, %s"
 msgstr "*%s (řízen počítačem)* Buďte zdrávi, naši nejlepší spojenci. Voláme Vás, aby jste zničili naše nepřátele, %s"
 
-#: ai/advdiplomacy.c:1148
+#: ai/advdiplomacy.c:1143
 #, c-format
 msgid "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %s. Why do I need to remind you of your promises?"
 msgstr "*%s (řízen počítačem)* Nazdar spojenče, vidím, že jsi ještě nevyhlásil válku našim nepřátelům, %s. Proč Ti to musím připomínat?"
 
-#: ai/advdiplomacy.c:1153
+#: ai/advdiplomacy.c:1148
 #, c-format
 msgid "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at peace with our mortal enemy, %s! This is unacceptable, our alliance is no more!"
 msgstr "*%s (řízen počítačem)* Bezpáteřníče! Spojili jsme se v aliance a ty si klidně vegetuješ v míru s naším smrtelným protivníkem, %s! To nepřipustíme, rušíme alianci!"
 
-#: ai/advdiplomacy.c:1182
+#: ai/advdiplomacy.c:1177
 #, c-format
 msgid "*%s (AI)* Greetings friend, may we suggest a joint campaign against %s?"
 msgstr "*%s (řízen počítačem)* Nazdar příteli, mohl bych navrhnout spojení sil proti %s?"
 
-#: ai/advdiplomacy.c:1197
+#: ai/advdiplomacy.c:1192
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest a joint campaign against %s?"
 msgstr "*%s (PO)* Zdravíme sousede, můžeme navrhnout společné tažení proti %s?"
 
-#: ai/advdiplomacy.c:1211
+#: ai/advdiplomacy.c:1206
 #, c-format
 msgid "*%s (AI)* %s is threatening us both, may we suggest a cessation of hostilities?"
 msgstr "*%s (řízen počítačem)* %s je nebezpečný pro nás oba, nevyhlásíme mu nepřátelství společně?"
@@ -970,7 +970,7 @@ msgstr "Hra: Koupeno v tomto kole - nelze změnit."
 
 #: server/cityhand.c:382
 #: server/plrhand.c:400
-#: server/stdinhand.c:373
+#: server/stdinhand.c:387
 #: server/unithand.c:176
 #: server/unithand.c:462
 #, c-format
@@ -1317,28 +1317,28 @@ msgstr "Hra: %s nemůže ještě postavit %s, protože nesmíme rozpustit naše 
 msgid "Game: %s is disbanded into %s."
 msgstr "Hra: Město %s je zrušeno a z jeho obyvatel jsou jednotky %s."
 
-#: server/civserver.c:92
+#: server/civserver.c:94
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
 msgstr "Varování: volba %s je zastaralá.  Použijte -m pro metaserver.\n"
 
-#: server/civserver.c:136
+#: server/civserver.c:138
 #, c-format
 msgid "Error: unknown option '%s'\n"
 msgstr "Chyba: neznámá volba '%s'\n"
 
-#: server/civserver.c:147
+#: server/civserver.c:149
 #, c-format
 msgid "This is the server for %s"
 msgstr "Toto je server pro %s"
 
-#: server/civserver.c:148
+#: server/civserver.c:150
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "O Freeciv se lze více dozvědět na %s"
 
-#: server/civserver.c:153
-#: client/civclient.c:189
+#: server/civserver.c:155
+#: client/civclient.c:191
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -1347,95 +1347,95 @@ msgstr ""
 "Použití: %s [volba ...]\n"
 "Možné volby jsou:\n"
 
-#: server/civserver.c:154
+#: server/civserver.c:156
 msgid "  -a  --auth\t\tEnable server authentication.\n"
 msgstr "  -a  --auth\t\tZapne autentifikaci serveru.\n"
 
-#: server/civserver.c:155
+#: server/civserver.c:157
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
 msgstr "  -G  --Guests\t\tPovolí přihlášení hostům, když je zapnutá autentifikace.\n"
 
-#: server/civserver.c:157
+#: server/civserver.c:159
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
 msgstr "  -N  --Newusers\tPovolí přihlášení novým hráčům, když je zapnutá autentifikace.\n"
 
-#: server/civserver.c:159
+#: server/civserver.c:161
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b, --bind ADR\tOčekává spojení od klientů na adrese ADR\n"
 
-#: server/civserver.c:161
-#: client/civclient.c:193
+#: server/civserver.c:163
+#: client/civclient.c:195
 msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr "  -d, --debug ČÍSLO\tNastaví logovací úroveň debugování (od 0 do 4, nebo 4:soubor1,min,max:...)\n"
 
-#: server/civserver.c:165
-#: client/civclient.c:197
+#: server/civserver.c:167
+#: client/civclient.c:199
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug ČÍSLO\tNastav úroveň logování (0 až 3)\n"
 
-#: server/civserver.c:167
+#: server/civserver.c:169
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file SOUBOR\tNačte uloženou hru ze souboru SOUBOR\n"
 
-#: server/civserver.c:169
+#: server/civserver.c:171
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog SOUBOR\t  Použije SOUBOR jako log pro hru\n"
 
-#: server/civserver.c:171
-#: client/civclient.c:200
+#: server/civserver.c:173
+#: client/civclient.c:202
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tVytiskne přehled voleb\n"
 
-#: server/civserver.c:173
+#: server/civserver.c:175
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -m, --meta\t\tZašle informaci metaserveru\n"
 
-#: server/civserver.c:174
+#: server/civserver.c:176
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log SOUBOR\tPoužije SOUBOR jako logovací\n"
 
-#: server/civserver.c:175
+#: server/civserver.c:177
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
 msgstr "  -m, --meta\t\tOhlásí se metaserveru a pošle info o serveru\n"
 
-#: server/civserver.c:177
+#: server/civserver.c:179
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
 msgstr "  -M, --Metaserver ADR\tNastaví ADR jako adresu metaserveru\n"
 
-#: server/civserver.c:180
+#: server/civserver.c:182
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port PORT\tOčekává spojení od klientů na portu PORT\n"
 
-#: server/civserver.c:182
+#: server/civserver.c:184
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr "  -q, --quitidle ČAS\tUkončí se, pokud během doby ČAS sekund není žádný hráč\n"
 
-#: server/civserver.c:184
+#: server/civserver.c:186
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
 msgstr "  -e, --exit-on-end\tKdyž skončí hra, ukončení místo restartu\n"
 
-#: server/civserver.c:187
+#: server/civserver.c:189
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
 msgstr "  -s, --saves ADRESÁŘ\tUloží hry do adresáře ADRESÁŘ\n"
 
-#: server/civserver.c:189
+#: server/civserver.c:191
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
 msgstr "  -S, --Serverid ID\tNastaví server id na ID\n"
 
-#: server/civserver.c:190
+#: server/civserver.c:192
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read SOUBOR\tPřečte spouštěc skript ze souboru SOUBOR\n"
 
-#: server/civserver.c:191
-#: client/civclient.c:218
+#: server/civserver.c:193
+#: client/civclient.c:220
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tVypiš číslo verze\n"
 
-#: server/civserver.c:192
+#: server/civserver.c:194
 #: client/gui-gtk-2.0/gui_main.c:207
 #: client/gui-gtk/gui_main.c:162
 #: client/gui-mui/gui_main.c:108
-#: client/gui-xaw/gui_main.c:226
+#: client/gui-xaw/gui_main.c:228
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Chyby hlašte na <%s>.\n"
@@ -1873,57 +1873,57 @@ msgstr ""
 "Pokud je uvedeno jméno spojení, nastaví se úroveň pouze pro toto spojení.\n"
 "Oprávnění k provádění příkazů nejsou zachována v případě odpojení klienta, neboť někdo jiný by se mohl znovu připojit se stejným jménem.  Všiměte si, že příkaz očekává jméno spojení a nikoliv jméno hráče."
 
-#: server/commands.c:300
+#: server/commands.c:299
 msgid "Grab the 'first come' command access level."
 msgstr "Pokusí se získat úroveň pro 'prvního příchozího'."
 
-#: server/commands.c:301
+#: server/commands.c:300
 msgid ""
 "If 'cmdlevel first come' has been used to set a special 'first come'\n"
 "command access level, this is the command to grab it with."
 msgstr "Pokud byla pomocí 'cmdlevel first come' nastavena úroveň 'prvního příchozího', pak tímto příkazem můžete tuto úroveň získat."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:306
+#: server/commands.c:305
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <tah> <turninc> <hodnota> <valuemult>"
 
-#: server/commands.c:307
+#: server/commands.c:306
 msgid "See \"help timeoutincrease\"."
 msgstr "Viz \"help timeoutincrease\"."
 
-#: server/commands.c:308
+#: server/commands.c:307
 msgid "Every <turn> turns, add <value> to timeout timer, then add <turninc> to <turn> and multiply <value> by <valuemult>.  Use this command in concert with the option \"timeout\". Defaults are 0 0 0 1"
 msgstr "Každých <počet> kol zvýší čas určený na jedno kolo o <hodnota> potom přidá <přírůstek> k <počet> a vynásobí <hodnota> číslem <násobek>. Používejte tento příkaz společně s volbou \"timeout\". Výchozí hodnoty jsou 0 0 0 1"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:314
+#: server/commands.c:313
 msgid "endgame <player1 player2 player3 ...>"
 msgstr "endgame <hráč1 hráč2 hráč3 ...>"
 
-#: server/commands.c:315
+#: server/commands.c:314
 msgid "End the game.  If players are listed, these win the game."
 msgstr "Ukončí hru.  Když jsou vypsáni hráči, tak tito vyhrají hru."
 
-#: server/commands.c:316
+#: server/commands.c:315
 msgid "This command ends the game immediately and credits the given players, if any, with winning it."
 msgstr "Tento příkaz okamžitě ukončí hru a blahopřeje vybraným hráčům, když něajcí jsou, výhrou."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:321
+#: server/commands.c:320
 msgid "remove <player-name>"
 msgstr "remove <jméno-hráče>"
 
-#: server/commands.c:322
+#: server/commands.c:321
 msgid "Fully remove player from game."
 msgstr "Odstraní hráče ze hry."
 
-#: server/commands.c:323
+#: server/commands.c:322
 msgid "This *completely* removes a player from the game, including all cities and units etc.  Use with care!"
 msgstr "Tento příkaz *kompletně* odstraní hráče ze hry, včetně veškerých jeho měst, jednotek atd.  Používejte opatrně!"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:328
+#: server/commands.c:327
 msgid ""
 "save\n"
 "save <file-name>"
@@ -1931,11 +1931,11 @@ msgstr ""
 "save\n"
 "save <jméno-souboru>"
 
-#: server/commands.c:330
+#: server/commands.c:329
 msgid "Save game to file."
 msgstr "Uloží hru do souboru."
 
-#: server/commands.c:331
+#: server/commands.c:330
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
 "To reload a savegame created by 'save', start the server with the command-line argument:\n"
@@ -1948,7 +1948,7 @@ msgstr ""
 "počkejte až se všichni hráči znovu připojí a použijte příkaz 'start'."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:340
+#: server/commands.c:339
 msgid ""
 "load\n"
 "load <file-name>"
@@ -1956,41 +1956,37 @@ msgstr ""
 "load\n"
 "load <název-souboru>"
 
-#: server/commands.c:342
+#: server/commands.c:341
 msgid "Load game from file."
 msgstr "Nahrát hru ze souboru."
 
-#: server/commands.c:343
+#: server/commands.c:342
 msgid "Load a game from <file-name>. Any current data including players, rulesets and server options are lost.\n"
 msgstr "Načte hru z <název-souboru>. Všechna současná data včetně hráčů, pravidel a voleb serveru budou ztracena.\n"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:348
+#: server/commands.c:347
 msgid "read <file-name>"
 msgstr "read <jméno-souboru>"
 
-#: server/commands.c:349
+#: server/commands.c:348
 msgid "Process server commands from file."
 msgstr "Zpracování serverových příkazů ze souboru."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:353
+#: server/commands.c:352
 msgid "write <file-name>"
 msgstr "write <jméno-souboru>"
 
-#: server/commands.c:354
+#: server/commands.c:353
 msgid "Write current settings as server commands to file."
 msgstr "Uloží současná nastavení jako serverové příkazy do souboru."
 
-#: server/commands.c:358
+#: server/commands.c:357
 msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "Přepne výstup serveru mezi 'RFC-stylem' a normálním stylem."
 
 #: server/commands.c:361
-msgid "serverid"
-msgstr "serverid"
-
-#: server/commands.c:362
 msgid "Simply returns the id of the server."
 msgstr "Jednoduše vrátí id serveru."
 
@@ -2204,13 +2200,13 @@ msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr "Hra: Je požadováno Vaše hlavní město (%s) - nemůžete přijmout dohodu."
 
 #: server/diplhand.c:182
-#: server/diplhand.c:297
+#: server/diplhand.c:290
 #, c-format
 msgid "Game: You are at war with one of %s's allies - an alliance with %s is impossible."
 msgstr "Hra: Jste ve válce s %s spojencem.- aliance s %s není možná."
 
 #: server/diplhand.c:189
-#: server/diplhand.c:293
+#: server/diplhand.c:286
 #, c-format
 msgid "Game: %s is at war with one of your allies - an alliance with %s is impossible."
 msgstr "Hra: %s je ve válce s jedním ze tvých spojenců - aliance s %s je nemožná."
@@ -2223,7 +2219,10 @@ msgstr "Hra: Nemáte dostatek zlata - nemůžete přijmout dohodu."
 #: server/diplhand.c:235
 #, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
-msgstr ""
+msgid_plural "Game: A treaty containing %d clauses was agreed upon."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: server/diplhand.c:251
 #: server/diplhand.c:255
@@ -2237,102 +2236,96 @@ msgstr "Hra: Jedno z měst, kterého se %s vzdávají je zničeno! Dohoda zruše
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr "Hra: %s už neovládají město %s! Dohoda zrušena."
 
-#: server/diplhand.c:306
-#: server/diplhand.c:310
+#: server/diplhand.c:299
+#: server/diplhand.c:303
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "Hra: %s nemají slíbené množství zlata! Dohoda zrušena."
 
-#: server/diplhand.c:337
+#: server/diplhand.c:330
 #, c-format
 msgid "Game: You gave an embassy to %s."
 msgstr "Hra: Povolili jsme u nás zřídit vyslanectví %s."
 
-#: server/diplhand.c:340
+#: server/diplhand.c:333
 #, c-format
 msgid "Game: %s allowed you to create an embassy!"
 msgstr "Hra: %s vám povolil zřízení ambasády!"
 
-#: server/diplhand.c:357
+#: server/diplhand.c:350
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Hra: Je Vám objasněna znalost technologie %s."
 
-#: server/diplhand.c:361
+#: server/diplhand.c:354
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Hra: %s získali %s od %s."
 
-#: server/diplhand.c:373
+#: server/diplhand.c:366
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Hra: Dostal(a) jste %d zlatých."
 
-#: server/diplhand.c:380
+#: server/diplhand.c:373
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Hra: Získal(a) jste mapu kontinentů, které %s zná."
 
-#: server/diplhand.c:386
+#: server/diplhand.c:379
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Hra: Získal(a) jste mapu moří, které %s zná."
 
-#: server/diplhand.c:402
+#: server/diplhand.c:395
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Hra: Získala(a) jste město %s od %s."
 
-#: server/diplhand.c:406
+#: server/diplhand.c:399
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Hra: Hráč %2$s od Vás dostal město %1$s."
 
-#: server/diplhand.c:420
-#: server/diplhand.c:423
+#: server/diplhand.c:413
+#: server/diplhand.c:416
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Hra: Dohodl(a) jste se na příměří s hráčem %s."
 
-#: server/diplhand.c:433
-#: server/diplhand.c:436
+#: server/diplhand.c:426
+#: server/diplhand.c:429
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Hra: Dohodl(a) jste se na míru s hráčem %s."
 
-#: server/diplhand.c:446
-#: server/diplhand.c:449
+#: server/diplhand.c:439
+#: server/diplhand.c:442
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Hra: Dohodl(a) jste se na alianci s hráčem %s."
 
-#: server/diplhand.c:458
-#: server/diplhand.c:461
-#, c-format
-msgid "Game: You start a research pool with %s."
-msgstr "Hra: Zahájili jste společný výzkum s %s."
-
-#: server/diplhand.c:501
+#: server/diplhand.c:452
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Hra: Dovolil(a) jste hráči %s nahlížet do vašich map."
 
-#: server/diplhand.c:504
+#: server/diplhand.c:455
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Hra: Hráč %s vám dovolil nahlížet do svých map."
 
-#: server/diplhand.c:642
+#: server/diplhand.c:593
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Hra: %s zrušil(a) schůzku!"
 
-#: server/diplhand.c:648
+#: server/diplhand.c:599
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Hra: Schůzka s hráčem %s zrušena."
 
-#: server/diplhand.c:688
+#: server/diplhand.c:639
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "Vaši vyslanci byli popraveni!"
 
@@ -2884,7 +2877,7 @@ msgstr "Hra: Úroveň pro vědu přesahuje maximální hodnotu povolenou pro %s;
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Hra: Úroveň pro luxus přesahuje maximální hodnotu povolenou pro %s; upraveno."
 
-#: server/plrhand.c:1122
+#: server/plrhand.c:1121
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s nám již neposkytuje sdílené vidění!"
@@ -2923,42 +2916,42 @@ msgstr "Hra: %s zaútočili na na naše spojence %s! Zrušili jsme alianci s agr
 msgid "Game: Your team mate %s declared war on %s. You are obligated to cancel alliance with %s."
 msgstr "Hra: Váš týmový spoluhráč %s vyhlásil válku %s. Jsme povinni zrušit alianci s %s."
 
-#: server/plrhand.c:1673
+#: server/plrhand.c:1670
 #, c-format
 msgid "Removing player %s."
 msgstr "Odstraňuji hráče %s."
 
-#: server/plrhand.c:1674
+#: server/plrhand.c:1671
 msgid "Game: You've been removed from the game!"
 msgstr "Hra: Byl jste odstraněn ze hry."
 
-#: server/plrhand.c:1677
+#: server/plrhand.c:1674
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Hra: %s byl(a) odstraněn(a) ze hry."
 
-#: server/plrhand.c:1720
-#: server/plrhand.c:1724
+#: server/plrhand.c:1717
+#: server/plrhand.c:1721
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Hra: Učinil(a) jste kontakt s %s, kterým vládne %s."
 
-#: server/plrhand.c:2116
+#: server/plrhand.c:2113
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Nelze uvrhnout %s do občanské války - příliš mnoho hráčů"
 
-#: server/plrhand.c:2138
+#: server/plrhand.c:2135
 #, c-format
 msgid "Game: Your nation is thrust into civil war,  %s is declared the leader of the rebel states."
 msgstr "Hra: Váš národ byl strhnut do občanské války,  %s je nyní vůdce rebelů."
 
-#: server/plrhand.c:2158
+#: server/plrhand.c:2155
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Hra: Město %s vyhlásilo věrnost %s."
 
-#: server/plrhand.c:2172
+#: server/plrhand.c:2169
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's administrative\n"
@@ -3223,7 +3216,10 @@ msgstr "%s %s"
 #: server/report.c:1094
 #, fuzzy, c-format
 msgid "%2d: The %s %s scored %d point\n"
-msgstr "Výjimka matematického koprocesoru (SIGFPE)"
+msgid_plural "%2d: The %s %s scored %d points\n"
+msgstr[0] "Výjimka matematického koprocesoru (SIGFPE)"
+msgstr[1] "Výjimka matematického koprocesoru (SIGFPE)"
+msgstr[2] "Výjimka matematického koprocesoru (SIGFPE)"
 
 #: server/report.c:1102
 msgid "Progress Scores:"
@@ -4627,7 +4623,7 @@ msgid "%s has been added as an AI-controlled player."
 msgstr "%s byl přidán jako počítačem ovládaný hráč."
 
 #: server/srv_main.c:1401
-#: server/stdinhand.c:896
+#: server/stdinhand.c:910
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Hra: %s byl přidán jako počítačem řízený hráč."
@@ -4669,752 +4665,752 @@ msgstr "Nyní přijímám spojení od klientů."
 msgid "Last player has disconnected: will need to restart."
 msgstr "Poslední hráč se odpojil: je třeba restart."
 
-#: server/stdinhand.c:238
+#: server/stdinhand.c:239
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr ""
 
-#: server/stdinhand.c:243
+#: server/stdinhand.c:244
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
 msgstr ""
 
-#: server/stdinhand.c:356
+#: server/stdinhand.c:370
 msgid "(ambiguous)"
 msgstr "(nejednoznačný)"
 
-#: server/stdinhand.c:357
+#: server/stdinhand.c:371
 #: client/packhand.c:1222
 msgid "(unknown)"
 msgstr "(neznámý)"
 
-#: server/stdinhand.c:445
+#: server/stdinhand.c:459
 msgid "Name is empty, so cannot be a player."
 msgstr "Jméno je prázdné, takže se nemůže jednat o hráče."
 
-#: server/stdinhand.c:449
+#: server/stdinhand.c:463
 msgid "Name is too long, so cannot be a player."
 msgstr "Jméno je příliš dlouhé, takže se nemůže jednat o hráče."
 
-#: server/stdinhand.c:453
+#: server/stdinhand.c:467
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Začátek jména hráče '%s' je nejednoznačný."
 
-#: server/stdinhand.c:457
+#: server/stdinhand.c:471
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Neexistuje žádný hráč se jménem '%s'."
 
-#: server/stdinhand.c:461
-#: server/stdinhand.c:496
+#: server/stdinhand.c:475
+#: server/stdinhand.c:510
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "Neočekávaná hodnota match_result %d (%s) pro '%s'."
 
-#: server/stdinhand.c:480
+#: server/stdinhand.c:494
 msgid "Name is empty, so cannot be a connection."
 msgstr "Jméno je prázdné, takže se nemůže jednat o spojení."
 
-#: server/stdinhand.c:484
+#: server/stdinhand.c:498
 msgid "Name is too long, so cannot be a connection."
 msgstr "Jméno je příliš dlouhé, takže se nemůže jednat o spojení."
 
-#: server/stdinhand.c:488
+#: server/stdinhand.c:502
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Začátek jména spojení '%s' je nejednoznačný."
 
-#: server/stdinhand.c:492
+#: server/stdinhand.c:506
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Neexistuje žádné spojení se jménem '%s'."
 
-#: server/stdinhand.c:511
+#: server/stdinhand.c:525
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Otevřít metaserver spojení k [%s]."
 
-#: server/stdinhand.c:523
+#: server/stdinhand.c:537
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Zavřít metaserver spojení k [%s]."
 
-#: server/stdinhand.c:538
+#: server/stdinhand.c:552
 msgid "Metaserver connection is open."
 msgstr "Spojení s metaserverem je navázáno."
 
-#: server/stdinhand.c:541
+#: server/stdinhand.c:555
 msgid "Metaserver connection is closed."
 msgstr "Spojení s metaserverem je ukončeno."
 
-#: server/stdinhand.c:551
+#: server/stdinhand.c:565
 msgid "Metaserver connection is already open."
 msgstr "Spojení s metaserverem je již navázáno."
 
-#: server/stdinhand.c:562
+#: server/stdinhand.c:576
 msgid "Metaserver connection is already closed."
 msgstr "Spojení s metaserverem je již ukončeno."
 
-#: server/stdinhand.c:567
+#: server/stdinhand.c:581
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "Argument musí být 'u', 'up', 'd', 'down' nebo '?'."
 
-#: server/stdinhand.c:587
+#: server/stdinhand.c:601
 #, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr "Patches string metaserveru nastaven na '%s'."
 
-#: server/stdinhand.c:589
+#: server/stdinhand.c:603
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr "Patches string metaserveru nastaven na '%s', nebude se posílat metaserveru."
 
-#: server/stdinhand.c:608
+#: server/stdinhand.c:622
 #, c-format
 msgid "Metaserver topic string set to '%s'."
 msgstr "Topic string metaserveru nastaven na '%s'."
 
-#: server/stdinhand.c:610
+#: server/stdinhand.c:624
 #, c-format
 msgid "Metaserver topic string set to '%s', not reporting to metaserver."
 msgstr "Topic string metaserveru nastaven na '%s', nebude se posílat metaserveru."
 
-#: server/stdinhand.c:630
+#: server/stdinhand.c:644
 #, c-format
 msgid "Metaserver message string set to '%s'."
 msgstr "Message string metaserveru nastaven na '%s'."
 
-#: server/stdinhand.c:632
+#: server/stdinhand.c:646
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr "Zprávový string metaserveru nastaven na '%s', nebude se posílat metaserveru."
 
-#: server/stdinhand.c:652
+#: server/stdinhand.c:666
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Metaserver je nyní [%s]."
 
-#: server/stdinhand.c:662
+#: server/stdinhand.c:676
 #, c-format
 msgid "Server id: %s"
 msgstr "Server id: %s"
 
-#: server/stdinhand.c:757
+#: server/stdinhand.c:771
 msgid "The game cannot be saved before it is started."
 msgstr "Dosud nezahájená hra nemůže být uložena."
 
-#: server/stdinhand.c:773
+#: server/stdinhand.c:787
 msgid "Cannot toggle a barbarian player."
 msgstr "Nelze přepnout na hráče barbara."
 
-#: server/stdinhand.c:780
+#: server/stdinhand.c:794
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s nyní ovládá počítač."
 
-#: server/stdinhand.c:796
+#: server/stdinhand.c:810
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s je nyní ovládán člověkem."
 
-#: server/stdinhand.c:843
+#: server/stdinhand.c:857
 msgid "Can't add AI players once the game has begun."
 msgstr "Po začátku hry již nelze přidávat počítačové hráče."
 
-#: server/stdinhand.c:850
+#: server/stdinhand.c:864
 msgid "Can't add more players, server is full."
 msgstr "Server je plný, nelze přidávat další hráče."
 
-#: server/stdinhand.c:856
+#: server/stdinhand.c:870
 msgid "Can't use an empty name."
 msgstr "Nelze použít prázdné jméno."
 
-#: server/stdinhand.c:863
+#: server/stdinhand.c:877
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Jméno je delší než maximální počet znaků %d."
 
-#: server/stdinhand.c:869
+#: server/stdinhand.c:883
 msgid "That name is not allowed."
 msgstr "Toto jméno není povoleno."
 
-#: server/stdinhand.c:875
+#: server/stdinhand.c:889
 msgid "A player already exists by that name."
 msgstr "Hráč s tímto jménem již existuje."
 
-#: server/stdinhand.c:881
+#: server/stdinhand.c:895
 msgid "A user already exists by that name."
 msgstr "Hráč s tímto jménem již existuje."
 
-#: server/stdinhand.c:903
+#: server/stdinhand.c:917
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Chyba vytvoření nového počítačem ovládaného hráče: %s."
 
-#: server/stdinhand.c:933
+#: server/stdinhand.c:947
 msgid "Players cannot be removed once the game has started."
 msgstr "Po začátku hry již nelze odstraňovat hráče."
 
-#: server/stdinhand.c:945
+#: server/stdinhand.c:959
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Hráč %s byl odstraněn ze hry."
 
-#: server/stdinhand.c:958
+#: server/stdinhand.c:972
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Nahrávám soubor se skriptem: %s"
 
-#: server/stdinhand.c:972
+#: server/stdinhand.c:986
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Nelze přečíst soubor skriptu '%s' uvedený v příkazové řádce."
 
-#: server/stdinhand.c:974
+#: server/stdinhand.c:988
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Nelze přečíst soubor skriptu '%s'."
 
-#: server/stdinhand.c:1069
+#: server/stdinhand.c:1083
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Nelze zapisovat do souboru skriptu '%s'."
 
-#: server/stdinhand.c:1104
+#: server/stdinhand.c:1118
 #, c-format
 msgid "Cannot decrease command access level '%s' for connection '%s'; you only have '%s'."
 msgstr "Nelze snížit příkazovou přístupovou úroveň '%s' pro spojení '%s'; máte pouze '%s'."
 
-#: server/stdinhand.c:1158
+#: server/stdinhand.c:1172
 #, c-format
 msgid "Game: Anyone can assume command access level '%s' now by issuing the 'firstlevel' command."
 msgstr "Hra: Kdokoliv může nyní získat úroveň oprávnění '%s' pomocí příkazu 'firstlevel'."
 
-#: server/stdinhand.c:1191
+#: server/stdinhand.c:1205
 msgid "Command access levels in effect:"
 msgstr "Platné úrovně oprávnění:"
 
-#: server/stdinhand.c:1199
+#: server/stdinhand.c:1213
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Úroveň oprávnění pro nová spojení: %s"
 
-#: server/stdinhand.c:1202
+#: server/stdinhand.c:1216
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Úroveň oprávnění pro prvního hráče, který o ní požádá: %s"
 
-#: server/stdinhand.c:1211
+#: server/stdinhand.c:1225
 msgid "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr "Chyba: úroveň oprávnění musí být 'none', 'info', 'ctrl' nebo 'hack'."
 
-#: server/stdinhand.c:1216
+#: server/stdinhand.c:1230
 #, c-format
 msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "Nelze zvýšit úroveň oprávnění na '%s'; máte pouze oprávnění '%s'."
 
-#: server/stdinhand.c:1243
-#: server/stdinhand.c:1291
+#: server/stdinhand.c:1257
+#: server/stdinhand.c:1305
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Úroveň oprávnění pro spojení %2$s nastavena na '%1$s'"
 
-#: server/stdinhand.c:1247
-#: server/stdinhand.c:1295
+#: server/stdinhand.c:1261
+#: server/stdinhand.c:1309
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "Příkazová přístupová úroveň nemůže být nastavena na '%s' pro spojení %s."
 
-#: server/stdinhand.c:1257
-#: server/stdinhand.c:1267
-#: server/stdinhand.c:1284
+#: server/stdinhand.c:1271
+#: server/stdinhand.c:1281
+#: server/stdinhand.c:1298
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Příkazová přístupová úroveň je nastavena na '%s' pro nové hráče."
 
-#: server/stdinhand.c:1261
-#: server/stdinhand.c:1272
-#: server/stdinhand.c:1279
+#: server/stdinhand.c:1275
+#: server/stdinhand.c:1286
+#: server/stdinhand.c:1293
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Příkazová přístupová úroveň nastavena na '%s' pro prvního hráče pro převzetí."
 
-#: server/stdinhand.c:1317
+#: server/stdinhand.c:1331
 msgid "The 'firstlevel' command makes no sense from the server command line."
 msgstr "Zadání příkazu 'firstlevel' na serveru nemá nemá význam."
 
-#: server/stdinhand.c:1321
+#: server/stdinhand.c:1335
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Máte již úroveň oprávnění '%s' nebo lepší."
 
-#: server/stdinhand.c:1326
+#: server/stdinhand.c:1340
 #, c-format
 msgid "Someone else already has command access level '%s' or better."
 msgstr "Někdo další má příkazovou přístupovou úroveň '%s' nebo lepší."
 
-#: server/stdinhand.c:1332
+#: server/stdinhand.c:1346
 #, c-format
 msgid "Command access level '%s' has been grabbed by connection %s."
 msgstr "Příkazová přístupová úroveň '%s' byla převzata spojením %s."
 
-#: server/stdinhand.c:1384
+#: server/stdinhand.c:1398
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Neplatný argument %d."
 
-#: server/stdinhand.c:1391
+#: server/stdinhand.c:1405
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "Použití: timeoutincrease <počet> <hodnota> <přírůstek> <násobek>."
 
-#: server/stdinhand.c:1399
+#: server/stdinhand.c:1413
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Dynamický čas na kolo nastaven na %d %d %d %d"
 
-#: server/stdinhand.c:1459
-#: server/stdinhand.c:1462
+#: server/stdinhand.c:1473
+#: server/stdinhand.c:1476
 msgid "Option:"
 msgstr "Volba:"
 
-#: server/stdinhand.c:1472
-#: server/stdinhand.c:3709
+#: server/stdinhand.c:1486
+#: server/stdinhand.c:3735
 msgid "Description:"
 msgstr "Popis:"
 
-#: server/stdinhand.c:1477
+#: server/stdinhand.c:1491
 #, c-format
 msgid "Status: %s"
 msgstr "Stav: %s"
 
-#: server/stdinhand.c:1478
+#: server/stdinhand.c:1492
 msgid "changeable"
 msgstr "změnitelné"
 
-#: server/stdinhand.c:1478
+#: server/stdinhand.c:1492
 msgid "fixed"
 msgstr "neměnné"
 
-#: server/stdinhand.c:1484
+#: server/stdinhand.c:1498
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Hodnota: %d, Minimum: 0, Výchozí: %d, Maximum: 1"
 
-#: server/stdinhand.c:1489
+#: server/stdinhand.c:1503
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Hodnota: %d, Minimum: %d, Výchozí: %d, Maximum: %d"
 
-#: server/stdinhand.c:1495
+#: server/stdinhand.c:1509
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Hodnota: \"%s\", Výchozí: \"%s\""
 
-#: server/stdinhand.c:1514
+#: server/stdinhand.c:1528
 msgid "Explanations are available for the following server options:"
 msgstr "Pro následující volby serveru je dostupné vysvětlení:"
 
-#: server/stdinhand.c:1556
+#: server/stdinhand.c:1573
 msgid "No explanation for that yet."
 msgstr "Zatím bez vysvětlení."
 
-#: server/stdinhand.c:1559
-#: server/stdinhand.c:2361
+#: server/stdinhand.c:1576
+#: server/stdinhand.c:2380
 msgid "Ambiguous option name."
 msgstr "Nejednoznačné jméno volby."
 
-#: server/stdinhand.c:1577
+#: server/stdinhand.c:1596
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Operátor serveru: %s"
 
-#: server/stdinhand.c:1597
+#: server/stdinhand.c:1616
 #, c-format
 msgid "%-20svalue  (min , max)"
 msgstr "%-20shodnota(nim , max)"
 
-#: server/stdinhand.c:1597
-#: server/stdinhand.c:1912
+#: server/stdinhand.c:1616
+#: server/stdinhand.c:1931
 msgid "Option"
 msgstr "Volba"
 
-#: server/stdinhand.c:1599
+#: server/stdinhand.c:1618
 msgid "Server Options (initial)"
 msgstr "Volby server (výchozí)"
 
-#: server/stdinhand.c:1600
+#: server/stdinhand.c:1619
 msgid "Server Options (ongoing)"
 msgstr "Volby serveru (stávající)"
 
-#: server/stdinhand.c:1751
-#: server/stdinhand.c:1776
-#: server/stdinhand.c:1791
+#: server/stdinhand.c:1770
+#: server/stdinhand.c:1795
+#: server/stdinhand.c:1810
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Hráč '%s' ovládaný počítačem má nyní úroveň nastavenu na '%s'."
 
-#: server/stdinhand.c:1780
+#: server/stdinhand.c:1799
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s není počítačem ovládaný hráč."
 
-#: server/stdinhand.c:1797
+#: server/stdinhand.c:1816
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Výchozí schopnosti umělé inteligence nastaveny na '%s'."
 
-#: server/stdinhand.c:1812
-#: server/stdinhand.c:2096
+#: server/stdinhand.c:1831
+#: server/stdinhand.c:2115
 msgid "This command is client only."
 msgstr "Tento příkaz je pouze pro klienta."
 
-#: server/stdinhand.c:1815
+#: server/stdinhand.c:1834
 msgid "Usage: away"
 msgstr "Použití: away"
 
-#: server/stdinhand.c:1818
+#: server/stdinhand.c:1837
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s se nastavil na away mód."
 
-#: server/stdinhand.c:1824
+#: server/stdinhand.c:1843
 #, c-format
 msgid "%s returned to game."
 msgstr "%s se vrátil(a) do hry."
 
-#: server/stdinhand.c:1865
+#: server/stdinhand.c:1884
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Lituji, ale nemáte oprávnění k prohlížení volby '%s'."
 
-#: server/stdinhand.c:1871
+#: server/stdinhand.c:1890
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Neznámá volba '%s'."
 
-#: server/stdinhand.c:1896
+#: server/stdinhand.c:1915
 msgid "All options"
 msgstr "Všechny možnosti"
 
-#: server/stdinhand.c:1899
+#: server/stdinhand.c:1918
 #, fuzzy
 msgid "Vital options"
 msgstr "Volby databáze:"
 
-#: server/stdinhand.c:1902
+#: server/stdinhand.c:1921
 msgid "Situational options"
 msgstr "Situační možnosti"
 
-#: server/stdinhand.c:1905
+#: server/stdinhand.c:1924
 msgid "Rarely used options"
 msgstr "Zřídka používané možnosti"
 
-#: server/stdinhand.c:1908
+#: server/stdinhand.c:1927
 msgid "+ means you may change the option"
 msgstr "+ znamená, že můžete volbu změnit"
 
-#: server/stdinhand.c:1909
+#: server/stdinhand.c:1928
 msgid "= means the option is on its default value"
 msgstr "= znamená, že volba má svou výchozí hodnotu"
 
-#: server/stdinhand.c:1912
+#: server/stdinhand.c:1931
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s hodnota (min,max)      "
 
-#: server/stdinhand.c:1915
+#: server/stdinhand.c:1934
 msgid "description"
 msgstr "popis"
 
-#: server/stdinhand.c:1976
+#: server/stdinhand.c:1995
 msgid "Try 'show situational' or 'show rare' to show more options"
 msgstr ""
 
-#: server/stdinhand.c:2023
+#: server/stdinhand.c:2042
 msgid "Cannot change teams once game has begun."
 msgstr "Nelze měnit týmy po spuštění hry."
 
-#: server/stdinhand.c:2033
+#: server/stdinhand.c:2052
 msgid "Undefined argument.  Usage: team <player> [team]."
 msgstr "Nedefinovaný argument.  Použití: team <hráč> [tým]."
 
-#: server/stdinhand.c:2050
+#: server/stdinhand.c:2069
 #, c-format
 msgid "Player %s is made teamless."
 msgstr "Hráč %s je bez týmu."
 
-#: server/stdinhand.c:2059
+#: server/stdinhand.c:2078
 msgid "Only ASCII characters are allowed for team names."
 msgstr "Pouze ASCII znaky jsou povoleny pro názvy týmů."
 
-#: server/stdinhand.c:2064
+#: server/stdinhand.c:2083
 msgid "Cannot team a barbarian."
 msgstr "Nelze být v týmu s barbary."
 
-#: server/stdinhand.c:2069
+#: server/stdinhand.c:2088
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "Hráč %s je v týmu %s."
 
-#: server/stdinhand.c:2090
+#: server/stdinhand.c:2109
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr "Nedefinované argumenty. Použití: vote yes|no [vote číslo]."
 
-#: server/stdinhand.c:2099
+#: server/stdinhand.c:2118
 msgid "Observers cannot vote."
 msgstr "Pozorovatelé nemohou hlasovat."
 
-#: server/stdinhand.c:2110
+#: server/stdinhand.c:2129
 #, fuzzy, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr "Hlasoval jsi proti \"%s\""
 
-#: server/stdinhand.c:2117
+#: server/stdinhand.c:2136
 msgid "There are no votes going on."
 msgstr "Neprobíhá žádné hlasovaní."
 
-#: server/stdinhand.c:2138
+#: server/stdinhand.c:2157
 msgid "No legal last vote."
 msgstr "Žádné předchozí platné hlasování."
 
-#: server/stdinhand.c:2143
+#: server/stdinhand.c:2162
 msgid "Value must be integer."
 msgstr "Hodnota musí být celé číslo."
 
-#: server/stdinhand.c:2154
+#: server/stdinhand.c:2173
 #, fuzzy, c-format
 msgid "No such vote (%d)."
 msgstr "Takové zařízení neexistuje"
 
-#: server/stdinhand.c:2158
+#: server/stdinhand.c:2177
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Zvolili jste \"%s\"."
 
-#: server/stdinhand.c:2162
+#: server/stdinhand.c:2181
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Hlasoval jsi proti \"%s\""
 
-#: server/stdinhand.c:2189
+#: server/stdinhand.c:2208
 msgid "Undefined arguments. Usage: debug <player <player> | city <x> <y> | units <x> <y> | unit <id>>."
 msgstr "Nedefinované argumenty. Použití: debug <player <player> | city <x> <y> | units <x> <y> | unit <id>>."
 
-#: server/stdinhand.c:2195
+#: server/stdinhand.c:2214
 msgid "Can only use this command once game has begun."
 msgstr "Tento příkaz lze použít jednou po zahájení hry."
 
-#: server/stdinhand.c:2222
-#: server/stdinhand.c:2253
+#: server/stdinhand.c:2241
+#: server/stdinhand.c:2272
 #, c-format
 msgid "%s no longer debugged"
 msgstr "%s se již neladí"
 
-#: server/stdinhand.c:2226
+#: server/stdinhand.c:2245
 #, c-format
 msgid "%s debugged"
 msgstr "%s se ladí"
 
-#: server/stdinhand.c:2239
-#: server/stdinhand.c:2269
+#: server/stdinhand.c:2258
+#: server/stdinhand.c:2288
 msgid "Value 2 & 3 must be integer."
 msgstr "Hodnota 2 a 3 musí být celé číslo."
 
-#: server/stdinhand.c:2243
-#: server/stdinhand.c:2273
+#: server/stdinhand.c:2262
+#: server/stdinhand.c:2292
 msgid "Bad map coordinates."
 msgstr "Špatné koordináty mapy."
 
-#: server/stdinhand.c:2248
+#: server/stdinhand.c:2267
 msgid "No city at this coordinate."
 msgstr "Na těchto koordinátech není město."
 
-#: server/stdinhand.c:2279
-#: server/stdinhand.c:2305
+#: server/stdinhand.c:2298
+#: server/stdinhand.c:2324
 #, c-format
 msgid "%s's %s no longer debugged."
 msgstr "%s %s se již neladí."
 
-#: server/stdinhand.c:2283
-#: server/stdinhand.c:2309
+#: server/stdinhand.c:2302
+#: server/stdinhand.c:2328
 #, c-format
 msgid "%s's %s debugged."
 msgstr "%s %s se ladí."
 
-#: server/stdinhand.c:2296
+#: server/stdinhand.c:2315
 msgid "Value 2 must be integer."
 msgstr "Hodnota 2 musí být celé číslo."
 
-#: server/stdinhand.c:2300
+#: server/stdinhand.c:2319
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "Jednotka %d neexistuje."
 
-#: server/stdinhand.c:2356
+#: server/stdinhand.c:2375
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Nedefinovaný argument.  Použití: set <volba> <hodnota>."
 
-#: server/stdinhand.c:2366
+#: server/stdinhand.c:2385
 msgid "You are not allowed to set this option."
 msgstr "Nemáte povoleno měnit tuto volbu."
 
-#: server/stdinhand.c:2371
+#: server/stdinhand.c:2390
 msgid "This setting can't be modified after the game has started."
 msgstr "Toto nastavení nelze změnit poté co byla hra zahájena."
 
-#: server/stdinhand.c:2383
-#: server/stdinhand.c:2409
+#: server/stdinhand.c:2402
+#: server/stdinhand.c:2428
 msgid "Value must be an integer."
 msgstr "Hodnota musí být celé číslo."
 
-#: server/stdinhand.c:2387
+#: server/stdinhand.c:2406
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Hodnota mimo rozsah (minimum: 0, maximum: 1)."
 
-#: server/stdinhand.c:2400
-#: server/stdinhand.c:2426
+#: server/stdinhand.c:2419
+#: server/stdinhand.c:2445
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Volba: %s byla nastavena na %d."
 
-#: server/stdinhand.c:2413
+#: server/stdinhand.c:2432
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Hodnota mimo rozsah (minimum: %d, maximum: %d)."
 
-#: server/stdinhand.c:2436
+#: server/stdinhand.c:2455
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "Textová hodnota je příliš dlouhá.  Použití: set <volba> <hodnota>."
 
-#: server/stdinhand.c:2448
+#: server/stdinhand.c:2467
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Volba: %s byla nastavena na \"%s\"."
 
-#: server/stdinhand.c:2485
+#: server/stdinhand.c:2504
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Lituji, ale nikdo nemůže pozorovat celou hru."
 
-#: server/stdinhand.c:2488
+#: server/stdinhand.c:2507
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr "Lituji, nemůžete převzít globálního pozorvatele. Pozorujte ho místo toho."
 
-#: server/stdinhand.c:2497
+#: server/stdinhand.c:2516
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Lituji, žádné pozorování barbarů v této hře."
 
-#: server/stdinhand.c:2500
+#: server/stdinhand.c:2519
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Lituji, nelze převzít barbary v této hře."
 
-#: server/stdinhand.c:2508
+#: server/stdinhand.c:2527
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Lituji, nelze pozorovat mrtvé hráče v této hře."
 
-#: server/stdinhand.c:2511
+#: server/stdinhand.c:2530
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Lituji, nelze převzít mrtvé hráče v této hře."
 
-#: server/stdinhand.c:2519
+#: server/stdinhand.c:2538
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "Lituji, nelze pozorovat počítačem ovládané hráče v této hře."
 
-#: server/stdinhand.c:2522
+#: server/stdinhand.c:2541
 msgid "Sorry, one can't take AI players in this game."
 msgstr "Lituji, nelze přezvít počítačem ovládané hráče v této hře."
 
-#: server/stdinhand.c:2531
+#: server/stdinhand.c:2550
 msgid "Sorry, one can't observe human players in this game."
 msgstr "Lituji, nelze pozorovat hráče v této hře."
 
-#: server/stdinhand.c:2534
+#: server/stdinhand.c:2553
 msgid "Sorry, one can't take human players in this game."
 msgstr "Lituji, nelze přebírat hráče v této hře."
 
-#: server/stdinhand.c:2544
+#: server/stdinhand.c:2563
 msgid "Sorry, one can't observe in this game."
 msgstr "Lituji, nelze pozorovat v této hře."
 
-#: server/stdinhand.c:2549
+#: server/stdinhand.c:2568
 msgid "Sorry, one can't take players in this game."
 msgstr "Lituji, nelze přebírat hráče v této hře."
 
-#: server/stdinhand.c:2555
+#: server/stdinhand.c:2574
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "Lituji, ale nemůžeš převzít již připojeného hráče."
 
-#: server/stdinhand.c:2588
+#: server/stdinhand.c:2607
 msgid "Usage: observe [connection-name [player-name]]"
 msgstr "Použití: observe [název-spojení [jméno-hráče]]"
 
-#: server/stdinhand.c:2594
+#: server/stdinhand.c:2613
 msgid "Usage: observe [player-name]"
 msgstr "Použití: observe [jméno-hráče]"
 
-#: server/stdinhand.c:2640
+#: server/stdinhand.c:2659
 msgid "Game: A global observer cannot be created: too many regular players."
 msgstr "Hra: Globální pozorovatel nemůže být vytvořen: příliš mnoho hráčů."
 
-#: server/stdinhand.c:2671
+#: server/stdinhand.c:2690
 msgid "Game: A global observer has been created"
 msgstr "Hra: Globální pozorovatel vytvořen "
 
-#: server/stdinhand.c:2687
+#: server/stdinhand.c:2706
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "%s již ovládá %s. Použití 'observe' odebere %s"
 
-#: server/stdinhand.c:2695
+#: server/stdinhand.c:2714
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s již pozoruje %s."
 
-#: server/stdinhand.c:2748
+#: server/stdinhand.c:2767
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s nyní pozoruje %s"
 
-#: server/stdinhand.c:2788
+#: server/stdinhand.c:2807
 msgid "Usage: take <connection-name> <player-name>"
 msgstr "Použití: take <název-připojení> <jméno-hráče>"
 
-#: server/stdinhand.c:2793
+#: server/stdinhand.c:2812
 msgid "Usage: take <player-name>"
 msgstr "Použití: take <jméno-hráče>"
 
-#: server/stdinhand.c:2799
+#: server/stdinhand.c:2818
 msgid "Usage: take [connection-name] <player-name>"
 msgstr "Použití: take [název-spojení] <jméno-hráče>"
 
-#: server/stdinhand.c:2831
+#: server/stdinhand.c:2850
 #, c-format
 msgid "%s cannot be taken."
 msgstr "%s nemůže být převzat."
 
-#: server/stdinhand.c:2838
+#: server/stdinhand.c:2857
 #, c-format
 msgid "%s already controls %s"
 msgstr "%s již ovládá %s"
 
-#: server/stdinhand.c:2862
+#: server/stdinhand.c:2881
 #, fuzzy, c-format
 msgid "being detached from %s."
 msgstr " (pravidlo z \"%s\", řádek %d)"
 
-#: server/stdinhand.c:2915
+#: server/stdinhand.c:2934
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s nyní ovládá %s (%s, %s)"
 
-#: server/stdinhand.c:2917
-#: server/stdinhand.c:3923
+#: server/stdinhand.c:2936
+#: server/stdinhand.c:3949
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbar"
 
-#: server/stdinhand.c:2918
-#: server/stdinhand.c:3925
+#: server/stdinhand.c:2937
+#: server/stdinhand.c:3951
 #: client/plrdlg_common.c:228
 #: client/gui-gtk-2.0/pages.c:1440
 #: client/gui-gtk/plrdlg.c:141
@@ -5423,8 +5419,8 @@ msgstr "Barbar"
 msgid "AI"
 msgstr "Počítač"
 
-#: server/stdinhand.c:2918
-#: server/stdinhand.c:3927
+#: server/stdinhand.c:2937
+#: server/stdinhand.c:3953
 #: client/gui-gtk-2.0/pages.c:1440
 #: client/gui-gtk-2.0/pages.c:1467
 #: client/gui-win32/connectdlg.c:188
@@ -5432,7 +5428,7 @@ msgstr "Počítač"
 msgid "Human"
 msgstr "Člověk"
 
-#: server/stdinhand.c:2918
+#: server/stdinhand.c:2937
 #: client/gui-gtk-2.0/pages.c:1439
 #: client/gui-gtk-2.0/pages.c:1466
 #: client/gui-win32/connectdlg.c:187
@@ -5440,137 +5436,137 @@ msgstr "Člověk"
 msgid "Alive"
 msgstr "Aktivní"
 
-#: server/stdinhand.c:2918
+#: server/stdinhand.c:2937
 #: client/gui-gtk-2.0/pages.c:1439
 #: client/gui-win32/connectdlg.c:187
 msgid "Dead"
 msgstr "Mrtvý"
 
-#: server/stdinhand.c:2949
+#: server/stdinhand.c:2968
 msgid "Usage: detach <connection-name>"
 msgstr "Použití: detach <jméno-spojení>"
 
-#: server/stdinhand.c:2969
+#: server/stdinhand.c:2988
 msgid "You can not detach other users."
 msgstr "Nemůžete odpojit jiné hráče."
 
-#: server/stdinhand.c:2978
+#: server/stdinhand.c:2997
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s není připojen k žádnému hráči."
 
-#: server/stdinhand.c:3011
+#: server/stdinhand.c:3030
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s se odpojuje od %s"
 
-#: server/stdinhand.c:3023
+#: server/stdinhand.c:3042
 #, c-format
 msgid "detaching from %s."
 msgstr "odpojování od %s."
 
-#: server/stdinhand.c:3111
+#: server/stdinhand.c:3130
 msgid "Usage: load <filename>"
 msgstr "Použití: load <jméno-souboru>"
 
-#: server/stdinhand.c:3117
+#: server/stdinhand.c:3136
 msgid "Can't load a game while another is running."
 msgstr "Nelze nahrát hru, dokud jiná běží."
 
-#: server/stdinhand.c:3126
+#: server/stdinhand.c:3145
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Nelze nahrát uložený soubor: %s"
 
-#: server/stdinhand.c:3183
+#: server/stdinhand.c:3202
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Současný adresář s pravidly je: \"%s\""
 
-#: server/stdinhand.c:3190
+#: server/stdinhand.c:3209
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Adresář s pravidly \"%s\" nebyl nalezen"
 
-#: server/stdinhand.c:3195
+#: server/stdinhand.c:3214
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Adresář s pravidly nastaven na \"%s\""
 
-#: server/stdinhand.c:3233
+#: server/stdinhand.c:3252
 msgid "Goodbye."
 msgstr "Neshledanou."
 
-#: server/stdinhand.c:3265
+#: server/stdinhand.c:3284
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Lituji, ale nemáte povoleno používat příkazy serveru."
 
-#: server/stdinhand.c:3301
+#: server/stdinhand.c:3320
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr "Varování: '%s' iterpretováno jako '%s', ale je nejednoznačně.  Zkuste '%shelp'."
 
-#: server/stdinhand.c:3306
+#: server/stdinhand.c:3325
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Neznamý příkaz.  Zkuste '%shelp'."
 
-#: server/stdinhand.c:3321
+#: server/stdinhand.c:3342
 msgid "Your new vote cancelled your previous vote."
 msgstr "Váš nový hlas zrušil vaše předchozí hlasování."
 
-#: server/stdinhand.c:3329
+#: server/stdinhand.c:3350
 #, fuzzy, c-format
 msgid "New vote, no. %d, by %s: %s."
 msgstr "Neexistuje žádné spojení se jménem '%s'."
 
-#: server/stdinhand.c:3349
+#: server/stdinhand.c:3370
 msgid "You are not allowed to use this command."
 msgstr "Nemáte povoleno používat tento příkaz."
 
-#: server/stdinhand.c:3374
+#: server/stdinhand.c:3396
 msgid "(server prompt)"
 msgstr "(prompt serveru)"
 
-#: server/stdinhand.c:3446
+#: server/stdinhand.c:3468
 msgid "The game must be running before you can see the score."
 msgstr "Skóre lze zobrazit jen u běžící hry."
 
-#: server/stdinhand.c:3507
+#: server/stdinhand.c:3529
 #, c-format
 msgid "But %s is dead!"
 msgstr "Ale %s je mrtvý!"
 
-#: server/stdinhand.c:3526
+#: server/stdinhand.c:3548
 msgid "Ending the game. The server will restart once all clients have disconnected."
 msgstr "Končí se hra. Server restartuje po odpojení všech klientů."
 
-#: server/stdinhand.c:3536
+#: server/stdinhand.c:3558
 msgid "Cannot end the game: no game running."
 msgstr "Nelze ukončit hru: žádná hra neběží."
 
-#: server/stdinhand.c:3580
+#: server/stdinhand.c:3602
 msgid "Not enough players, game will not start."
 msgstr "Nedostatečný počet hráčů, hru nelze zahájit."
 
-#: server/stdinhand.c:3591
+#: server/stdinhand.c:3613
 msgid "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Nelze zahájit hru: hra čeká na odpojení všech klientů."
 
-#: server/stdinhand.c:3597
+#: server/stdinhand.c:3619
 msgid "Cannot start the game: it has already been started."
 msgstr "Nelze zahájit hru: hra již běží."
 
-#: server/stdinhand.c:3602
+#: server/stdinhand.c:3624
 msgid "Cannot start the game: it is already running."
 msgstr "Nelze zahájit hru: hra již běží."
 
-#: server/stdinhand.c:3631
+#: server/stdinhand.c:3653
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Ruším spojení s %s."
 
-#: server/stdinhand.c:3650
+#: server/stdinhand.c:3672
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -5608,67 +5604,72 @@ msgstr ""
 "  save   -  uloží aktuální hru\n"
 "  quit   -  ukončí program"
 
-#: server/stdinhand.c:3685
-#: server/stdinhand.c:3688
+#: server/stdinhand.c:3707
+#: server/stdinhand.c:3710
 msgid "Command:"
 msgstr "Příkaz:"
 
-#: server/stdinhand.c:3692
+#: server/stdinhand.c:3714
 msgid "Synopsis: "
 msgstr "Použití:"
 
-#: server/stdinhand.c:3701
+#: server/stdinhand.c:3723
 #, c-format
 msgid "Level: %s"
 msgstr "Úroveň: %s"
 
 #: server/stdinhand.c:3726
+#, fuzzy, c-format
+msgid "Pregame level: %s"
+msgstr "Úroveň: %s"
+
+#: server/stdinhand.c:3752
 msgid "The following server commands are available:"
 msgstr "Server podporuje následující příkazy:"
 
-#: server/stdinhand.c:3801
+#: server/stdinhand.c:3827
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Argument '%s' příkazu help je nejednoznačný."
 
-#: server/stdinhand.c:3806
+#: server/stdinhand.c:3832
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Příkaz help nenalezl žádnou shodu pro argument '%s'."
 
-#: server/stdinhand.c:3865
+#: server/stdinhand.c:3891
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Chybný argument '%s' příkazu list. Zkuste '%s help list'."
 
-#: server/stdinhand.c:3897
+#: server/stdinhand.c:3923
 msgid "List of players:"
 msgstr "Seznam hráčů:"
 
-#: server/stdinhand.c:3902
+#: server/stdinhand.c:3928
 msgid "<no players>"
 msgstr "<žádní hráči>"
 
-#: server/stdinhand.c:3919
+#: server/stdinhand.c:3945
 #, c-format
 msgid "user %s, "
 msgstr "uživatel %s, "
 
-#: server/stdinhand.c:3930
+#: server/stdinhand.c:3956
 msgid ", Dead"
 msgstr ", mrtvý"
 
-#: server/stdinhand.c:3933
+#: server/stdinhand.c:3959
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", úroveň obtížnosti %s"
 
-#: server/stdinhand.c:3937
+#: server/stdinhand.c:3963
 #, c-format
 msgid ", nation %s"
 msgstr ", národ %s"
 
-#: server/stdinhand.c:3949
+#: server/stdinhand.c:3975
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -5676,20 +5677,20 @@ msgstr[0] " %d spojení:"
 msgstr[1] " %d spojení:"
 msgstr[2] " %d spojení:"
 
-#: server/stdinhand.c:3955
+#: server/stdinhand.c:3981
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "%s z %s (úroveň oprávnění %s), bufsize=%dkb"
 
-#: server/stdinhand.c:3960
+#: server/stdinhand.c:3986
 msgid " (observer mode)"
 msgstr " (režim pozorovatele)"
 
-#: server/stdinhand.c:3976
+#: server/stdinhand.c:4002
 msgid "List of connections to server:"
 msgstr "Seznam spojení k server:"
 
-#: server/stdinhand.c:3980
+#: server/stdinhand.c:4006
 msgid "<no connections>"
 msgstr "<žádná spojení>"
 
@@ -6050,7 +6051,10 @@ msgstr "Hra: %s ztracena při útoku %s %s%s."
 #: server/unittools.c:1738
 #, c-format
 msgid "Game: You lost %d unit to an attack from %s's %s%s."
-msgstr ""
+msgid_plural "Game: You lost %d units to an attack from %s's %s%s."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: server/unittools.c:1753
 #, fuzzy, c-format
@@ -6788,79 +6792,79 @@ msgstr "Právě staví"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Hotovo,Potřeba,Kol,Cena)"
 
-#: client/civclient.c:191
+#: client/civclient.c:193
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tVynechat připojovací dialog\n"
 
-#: client/civclient.c:201
+#: client/civclient.c:203
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr "  -l, --log SOUBOR\tPoužije SOUBOR jako logovací\n"
 
-#: client/civclient.c:203
+#: client/civclient.c:205
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tPřipojit k metaserveru HOST\n"
 
-#: client/civclient.c:205
+#: client/civclient.c:207
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name JMÉNO\tPoužít jméno JMÉNO\n"
 
-#: client/civclient.c:207
+#: client/civclient.c:209
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tPřipojit na port serveru PORT\n"
 
-#: client/civclient.c:209
+#: client/civclient.c:211
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "   -P, --Plugin MODUL\tPoužít zásuvný MODUL pro zvuk %s\n"
 
-#: client/civclient.c:211
+#: client/civclient.c:213
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr "  -r, --read SOUBOR\tPřečte spouštěcí skript ze souboru SOUBOR\n"
 
-#: client/civclient.c:214
+#: client/civclient.c:216
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tPřipojit k serveru HOST\n"
 
-#: client/civclient.c:215
+#: client/civclient.c:217
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound SOUBOR\tPřečte zvukyové tagy ze SOUBORu\n"
 
-#: client/civclient.c:216
+#: client/civclient.c:218
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles SOUBOR\tPoužít grafiku mapy ze souboru SOUBOR.tilespec\n"
 
-#: client/civclient.c:219
+#: client/civclient.c:221
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
 "\t\t\tTry \"%s -- --help\" for more.\n"
 msgstr ""
 
-#: client/civclient.c:241
+#: client/civclient.c:243
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Neplatný port \"%s\" určený s --port volbou.\n"
 
-#: client/civclient.c:243
-#: client/civclient.c:256
+#: client/civclient.c:245
+#: client/civclient.c:258
 msgid "Try using --help.\n"
 msgstr "Zkuste použít --help.\n"
 
-#: client/civclient.c:254
+#: client/civclient.c:256
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Neplatná ladící úroveň \"%s\" určená s --debug volbou.\n"
 
-#: client/civclient.c:264
+#: client/civclient.c:266
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Neznámá volba: \"%s\"\n"
 
-#: client/civclient.c:485
+#: client/civclient.c:487
 msgid "Game started."
 msgstr "Hra spuštěna."
 
-#: client/civclient.c:518
+#: client/civclient.c:520
 msgid "There was an error while auto connecting; aborting."
 msgstr "Při autoamtickém spojení nastala chyba; končím."
 
@@ -6940,42 +6944,38 @@ msgid "The parties create an alliance"
 msgstr "Jednající vytvořili alianci"
 
 #: client/climisc.c:282
-msgid "The parties resume the research pool"
-msgstr "Byl obnoven společný výzkum"
-
-#: client/climisc.c:285
 #, c-format
 msgid "The %s gives shared vision"
 msgstr "%s dovolí nahlížet do svých map"
 
-#: client/climisc.c:289
+#: client/climisc.c:286
 #, c-format
 msgid "The %s gives an embassy"
 msgstr "%s dají ambasádu"
 
-#: client/climisc.c:870
+#: client/climisc.c:867
 #, fuzzy
 msgid "Popup Request"
 msgstr "Žádost o informaci (SIGINFO)"
 
-#: client/climisc.c:900
+#: client/climisc.c:897
 msgid "Exporting output window to civgame.log ..."
 msgstr "Exportuji obsah výstupního okna do civgame.log ..."
 
-#: client/climisc.c:904
+#: client/climisc.c:901
 msgid "Export complete."
 msgstr "Export dokončen."
 
-#: client/climisc.c:906
+#: client/climisc.c:903
 msgid "Export failed, couldn't write to file."
 msgstr "Export se nepovedl, nelze psát do souboru."
 
-#: client/climisc.c:1018
+#: client/climisc.c:1015
 #, c-format
 msgid "Game: You don't buy %s in %s!"
 msgstr "Hra: Nemůžete si koupit %s v %s!"
 
-#: client/climisc.c:1038
+#: client/climisc.c:1035
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Hra: %s stojí %d zlatých a vy máte pouze %d zlatých."
@@ -7607,7 +7607,7 @@ msgstr "Hra: Kopírovat %s do schránky."
 msgid "Game: Clipboard is empty."
 msgstr "Hra: Schránka je prázdná."
 
-#: client/mapview_common.c:778
+#: client/mapview_common.c:782
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -8131,7 +8131,7 @@ msgstr "ZAP"
 msgid "OFF"
 msgstr "VYP"
 
-#: client/packhand.c:2587
+#: client/packhand.c:2586
 msgid "Other"
 msgstr "Ostatní"
 
@@ -8179,7 +8179,7 @@ msgstr "Vlajka"
 #: client/gui-gtk-2.0/pages.c:1501
 #: client/gui-gtk/plrdlg.c:140
 #: client/gui-mui/plrdlg.c:167
-#: client/gui-win32/connectdlg.c:978
+#: client/gui-win32/connectdlg.c:988
 #: client/gui-win32/plrdlg.c:340
 msgid "Nation"
 msgstr "Národ"
@@ -8350,9 +8350,12 @@ msgstr "Naše území"
 
 #. TRANS: "Polish territory (5 turn ceasefire)"
 #: client/text.c:169
-#, c-format
+#, fuzzy, c-format
 msgid "%s territory (%d turn ceasefire)"
-msgstr "%s území (%d tah příměří)"
+msgid_plural "%s territory (%d turn ceasefire)"
+msgstr[0] "%s území (%d tah příměří)"
+msgstr[1] "%s území (%d tah příměří)"
+msgstr[2] "%s území (%d tah příměří)"
 
 #. TRANS: "Territory of the friendly Polish".  See the
 #: client/text.c:176
@@ -8372,9 +8375,12 @@ msgstr "Město: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn ceasefire)"
 #: client/text.c:200
-#, c-format
+#, fuzzy, c-format
 msgid "City: %s (%s, %d turn ceasefire)"
-msgstr "Město: %s (%s, %d tah příměří)"
+msgid_plural "City: %s (%s, %d turn ceasefire)"
+msgstr[0] "Město: %s (%s, %d tah příměří)"
+msgstr[1] "Město: %s (%s, %d tah příměří)"
+msgstr[2] "Město: %s (%s, %d tah příměří)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:208
@@ -8411,9 +8417,12 @@ msgstr "Jednotka: %s(%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn ceasefire)"
 #: client/text.c:260
-#, c-format
+#, fuzzy, c-format
 msgid "Unit: %s (%s, %d turn ceasefire)"
-msgstr "Jednotka: %s (%s, %d tah příměří)"
+msgid_plural "Unit: %s (%s, %d turn ceasefire)"
+msgstr[0] "Jednotka: %s (%s, %d tah příměří)"
+msgstr[1] "Jednotka: %s (%s, %d tah příměří)"
+msgstr[2] "Jednotka: %s (%s, %d tah příměří)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:268
@@ -8428,6 +8437,7 @@ msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Šance na vítězství: Ú:%d%% O:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
+#. FIXME: veteran status isn't handled properly here.
 #: client/text.c:292
 #, fuzzy, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s"
@@ -8480,7 +8490,10 @@ msgstr[2] "Průběh: %d tahů/objev (%d bodů/tah)"
 #: client/text.c:439
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
-msgstr ""
+msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: client/text.c:456
 #: client/gui-mui/mapview.c:190
@@ -8564,9 +8577,12 @@ msgstr "Energie:        %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:605
-#, c-format
+#, fuzzy, c-format
 msgid "Mass:            %5d ton"
-msgstr "Hmotnost:      %5d tun"
+msgid_plural "Mass:            %5d tons"
+msgstr[0] "Hmotnost:      %5d tun"
+msgstr[1] "Hmotnost:      %5d tun"
+msgstr[2] "Hmotnost:      %5d tun"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:610
@@ -9370,8 +9386,8 @@ msgstr "_Zobrazit"
 #: client/gui-gtk-2.0/cityrep.c:782
 #: client/gui-gtk-2.0/menu.c:725
 #: client/gui-gtk/cityrep.c:603
-#: client/gui-gtk/diplodlg.c:395
-#: client/gui-gtk/diplodlg.c:407
+#: client/gui-gtk/diplodlg.c:397
+#: client/gui-gtk/diplodlg.c:409
 #: client/gui-gtk/menu.c:674
 #: client/gui-mui/diplodlg.c:489
 #: client/gui-mui/diplodlg.c:524
@@ -10066,7 +10082,7 @@ msgstr "Jednotka"
 #: client/gui-gtk-2.0/wldlg.c:990
 #: client/gui-gtk/plrdlg.c:140
 #: client/gui-mui/plrdlg.c:166
-#: client/gui-win32/connectdlg.c:973
+#: client/gui-win32/connectdlg.c:983
 #: client/gui-win32/plrdlg.c:340
 #: data/Freeciv.in:80
 msgid "Name"
@@ -10161,84 +10177,84 @@ msgstr "Musíte si vybrat styl měst."
 msgid "You must type a legal name."
 msgstr "Musíte napsat platné jméno."
 
-#: client/gui-gtk-2.0/diplodlg.c:214
-#: client/gui-gtk/diplodlg.c:332
-#: client/gui-gtk/diplodlg.c:350
+#: client/gui-gtk-2.0/diplodlg.c:213
+#: client/gui-gtk/diplodlg.c:334
+#: client/gui-gtk/diplodlg.c:352
 #: client/gui-win32/diplodlg.c:150
 #: client/gui-xaw/diplodlg.c:383
 #: client/gui-xaw/diplodlg.c:401
 msgid "World-map"
 msgstr "Mapa světa"
 
-#: client/gui-gtk-2.0/diplodlg.c:220
-#: client/gui-gtk/diplodlg.c:337
-#: client/gui-gtk/diplodlg.c:355
+#: client/gui-gtk-2.0/diplodlg.c:219
+#: client/gui-gtk/diplodlg.c:339
+#: client/gui-gtk/diplodlg.c:357
 #: client/gui-win32/diplodlg.c:145
 #: client/gui-xaw/diplodlg.c:387
 #: client/gui-xaw/diplodlg.c:405
 msgid "Sea-map"
 msgstr "Mapa moří"
 
-#: client/gui-gtk-2.0/diplodlg.c:226
+#: client/gui-gtk-2.0/diplodlg.c:225
 msgid "_Maps"
 msgstr "_Mapy"
 
-#: client/gui-gtk-2.0/diplodlg.c:257
+#: client/gui-gtk-2.0/diplodlg.c:256
 msgid "_Advances"
 msgstr "_Objevy"
 
-#: client/gui-gtk-2.0/diplodlg.c:307
+#: client/gui-gtk-2.0/diplodlg.c:306
 #: client/gui-gtk-2.0/menu.c:817
 #: client/gui-gtk/menu.c:766
 #: client/gui-win32/menu.c:398
 msgid "_Cities"
 msgstr "_Města"
 
-#: client/gui-gtk-2.0/diplodlg.c:316
+#: client/gui-gtk-2.0/diplodlg.c:315
 msgid "_Give shared vision"
 msgstr "_Poskytnout svoje mapy"
 
-#: client/gui-gtk-2.0/diplodlg.c:329
+#: client/gui-gtk-2.0/diplodlg.c:328
 msgid "Give _embassy"
 msgstr "Dát _ambasádu"
 
-#: client/gui-gtk-2.0/diplodlg.c:371
+#: client/gui-gtk-2.0/diplodlg.c:358
 msgid "_Pacts"
 msgstr "_Smlouvy"
 
-#: client/gui-gtk-2.0/diplodlg.c:462
-#: client/gui-gtk/diplodlg.c:302
+#: client/gui-gtk-2.0/diplodlg.c:449
+#: client/gui-gtk/diplodlg.c:304
 #: client/gui-mui/diplodlg.c:480
 #: client/gui-win32/diplodlg.c:597
 #: data/Freeciv.in:269
 msgid "Diplomacy meeting"
 msgstr "Diplomatické setkání"
 
-#: client/gui-gtk-2.0/diplodlg.c:473
+#: client/gui-gtk-2.0/diplodlg.c:460
 #: client/gui-mui/diplodlg.c:535
 msgid "_Cancel meeting"
 msgstr "_Ukončit setkání"
 
-#: client/gui-gtk-2.0/diplodlg.c:475
+#: client/gui-gtk-2.0/diplodlg.c:462
 msgid "Accept _treaty"
 msgstr "Přijmout _dohodu"
 
-#: client/gui-gtk-2.0/diplodlg.c:504
+#: client/gui-gtk-2.0/diplodlg.c:491
 msgid "C_lauses:"
 msgstr "K_lauzule:"
 
-#: client/gui-gtk-2.0/diplodlg.c:551
-#: client/gui-gtk-2.0/diplodlg.c:607
+#: client/gui-gtk-2.0/diplodlg.c:538
+#: client/gui-gtk-2.0/diplodlg.c:594
 msgid "_Gold:"
 msgstr "_Zlata:"
 
-#: client/gui-gtk-2.0/diplodlg.c:563
-#: client/gui-gtk-2.0/diplodlg.c:619
+#: client/gui-gtk-2.0/diplodlg.c:550
+#: client/gui-gtk-2.0/diplodlg.c:606
 msgid "_Add Clause..."
 msgstr "_Přidat klauzuli..."
 
-#: client/gui-gtk-2.0/diplodlg.c:859
-#: client/gui-gtk/diplodlg.c:894
+#: client/gui-gtk-2.0/diplodlg.c:838
+#: client/gui-gtk/diplodlg.c:910
 #: client/gui-mui/diplodlg.c:382
 #: client/gui-win32/diplodlg.c:262
 #: client/gui-xaw/diplodlg.c:948
@@ -10355,7 +10371,7 @@ msgid "Solid unit icon background color in city dialog"
 msgstr "Neprůhledná barva pozadí jednotky v dialogu města"
 
 #: client/gui-gtk-2.0/gui_main.c:147
-#: client/gui-win32/gui_main.c:99
+#: client/gui-win32/gui_main.c:100
 msgid "Better fog-of-war drawing"
 msgstr "Lepší vykreslování clony války"
 
@@ -10369,7 +10385,7 @@ msgstr "Freeciv"
 #: client/gui-gtk-2.0/gui_main.c:841
 #: client/gui-gtk-2.0/gui_main.c:855
 #: client/gui-gtk/gui_main.c:678
-#: client/gui-win32/gui_main.c:403
+#: client/gui-win32/gui_main.c:404
 #: data/Freeciv.in:2645
 msgid "Turn Done"
 msgstr "Konec tahu"
@@ -10389,7 +10405,7 @@ msgstr "_Chat"
 #: client/gui-gtk-2.0/gui_main.c:977
 #: client/gui-gtk/gui_main.c:783
 #: client/gui-mui/gui_main.c:1032
-#: client/gui-win32/gui_main.c:454
+#: client/gui-win32/gui_main.c:460
 #: data/Freeciv.in:2836
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -10407,13 +10423,13 @@ msgstr "Jméno:"
 
 #: client/gui-gtk-2.0/gui_main.c:1240
 #: client/gui-gtk/connectdlg.c:433
-#: client/gui-win32/connectdlg.c:1047
+#: client/gui-win32/connectdlg.c:1057
 msgid "Host:"
 msgstr "Host:"
 
 #: client/gui-gtk-2.0/gui_main.c:1372
 #: client/gui-gtk/gui_main.c:1090
-#: client/gui-xaw/gui_main.c:716
+#: client/gui-xaw/gui_main.c:709
 #, c-format
 msgid ""
 "%s People\n"
@@ -10516,9 +10532,12 @@ msgstr "žádné maximum, "
 #: client/gui-gtk/happiness.c:305
 #: client/gui-mui/citydlg.c:2254
 #: client/gui-win32/happiness.c:258
-#, c-format
+#, fuzzy, c-format
 msgid "%d unit maximum, "
-msgstr "%d jednotka max., "
+msgid_plural "%d units maximum, "
+msgstr[0] "%d jednotka max., "
+msgstr[1] "%d jednotka max., "
+msgstr[2] "%d jednotka max., "
 
 #: client/gui-gtk-2.0/happiness.c:303
 #: client/gui-gtk/happiness.c:309
@@ -10902,8 +10921,8 @@ msgstr "Jak budeme nazývat naše nové město?"
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
 msgstr ""
 
-#: client/gui-gtk-2.0/mapview.c:960
-#: client/gui-win32/mapview.c:725
+#: client/gui-gtk-2.0/mapview.c:945
+#: client/gui-win32/mapview.c:736
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr "Lepší clona funguje pouze v truecolor. Vypíná se"
 
@@ -11917,14 +11936,14 @@ msgstr "Hesla nesouhlasí, zadejte heslo."
 #: client/gui-gtk-2.0/pages.c:645
 #: client/gui-gtk/connectdlg.c:382
 #: client/gui-mui/connectdlg.c:160
-#: client/gui-win32/connectdlg.c:913
+#: client/gui-win32/connectdlg.c:914
 msgid "Server Name"
 msgstr "Jméno serveru"
 
 #: client/gui-gtk-2.0/pages.c:646
 #: client/gui-gtk/connectdlg.c:382
 #: client/gui-mui/connectdlg.c:161
-#: client/gui-win32/connectdlg.c:913
+#: client/gui-win32/connectdlg.c:914
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
@@ -11932,7 +11951,7 @@ msgstr "Port"
 #: client/gui-gtk-2.0/pages.c:647
 #: client/gui-gtk/connectdlg.c:382
 #: client/gui-mui/connectdlg.c:162
-#: client/gui-win32/connectdlg.c:914
+#: client/gui-win32/connectdlg.c:915
 msgid "Version"
 msgstr "Verze"
 
@@ -11940,8 +11959,8 @@ msgstr "Verze"
 #: client/gui-gtk-2.0/pages.c:1503
 #: client/gui-gtk/connectdlg.c:383
 #: client/gui-mui/connectdlg.c:163
-#: client/gui-win32/connectdlg.c:914
-#: client/gui-win32/connectdlg.c:983
+#: client/gui-win32/connectdlg.c:915
+#: client/gui-win32/connectdlg.c:993
 msgid "Status"
 msgstr "Stav"
 
@@ -11951,7 +11970,7 @@ msgstr "Stav"
 #: client/gui-gtk/plrdlg.c:168
 #: client/gui-mui/connectdlg.c:164
 #: client/gui-mui/plrdlg.c:321
-#: client/gui-win32/connectdlg.c:914
+#: client/gui-win32/connectdlg.c:915
 #: client/gui-win32/plrdlg.c:346
 #: client/gui-xaw/menu.c:217
 #: data/Freeciv.in:3199
@@ -11962,7 +11981,7 @@ msgstr "Hráči"
 #: client/gui-gtk-2.0/pages.c:650
 #: client/gui-gtk/connectdlg.c:383
 #: client/gui-mui/connectdlg.c:165
-#: client/gui-win32/connectdlg.c:915
+#: client/gui-win32/connectdlg.c:916
 msgid "Comment"
 msgstr "Komentář"
 
@@ -12042,7 +12061,7 @@ msgstr "Vyberte _scénář:"
 #: client/gui-mui/citydlg.c:662
 #: client/gui-mui/worklistclass.c:237
 #: client/gui-win32/citydlg.c:1096
-#: client/gui-win32/connectdlg.c:988
+#: client/gui-win32/connectdlg.c:998
 #: client/gui-win32/wldlg.c:673
 #: client/gui-win32/wldlg.c:679
 msgid "Type"
@@ -12369,7 +12388,7 @@ msgid "Score"
 msgstr "Skóre"
 
 #: client/gui-gtk-2.0/repodlgs.c:1447
-#: client/gui-win32/connectdlg.c:1024
+#: client/gui-win32/connectdlg.c:1034
 #: client/gui-win32/repodlgs.c:889
 msgid "Game Options"
 msgstr "Možnosti hry"
@@ -12791,7 +12810,7 @@ msgstr "Změnit"
 #: client/gui-gtk/wldlg.c:492
 #: client/gui-win32/citydlg.c:1088
 #: client/gui-win32/cityrep.c:754
-#: client/gui-win32/connectdlg.c:1027
+#: client/gui-win32/connectdlg.c:1037
 #: client/gui-win32/dialogs.c:1667
 #: client/gui-win32/finddlg.c:128
 #: client/gui-win32/gotodlg.c:170
@@ -12952,7 +12971,7 @@ msgstr "Heslo znovu"
 #: client/gui-gtk/connectdlg.c:370
 #: client/gui-gtk/connectdlg.c:510
 #: client/gui-mui/gui_main.c:263
-#: client/gui-win32/connectdlg.c:1084
+#: client/gui-win32/connectdlg.c:1094
 #: client/gui-win32/menu.c:378
 #: data/Freeciv.in:104
 #: data/Freeciv.in:2537
@@ -12969,45 +12988,45 @@ msgid " Connect to Freeciv Server"
 msgstr " Připojit k Freeciv serveru"
 
 #: client/gui-gtk/connectdlg.c:409
-#: client/gui-win32/connectdlg.c:911
+#: client/gui-win32/connectdlg.c:912
 #: data/Freeciv.in:73
 msgid "Freeciv Server Selection"
 msgstr "Freeciv výběr serveru"
 
 #: client/gui-gtk/connectdlg.c:425
-#: client/gui-win32/connectdlg.c:1045
+#: client/gui-win32/connectdlg.c:1055
 msgid "Login:"
 msgstr "Login:"
 
 #: client/gui-gtk/connectdlg.c:441
-#: client/gui-win32/connectdlg.c:1048
+#: client/gui-win32/connectdlg.c:1058
 msgid "Port:"
 msgstr "Port:"
 
 #: client/gui-gtk/connectdlg.c:469
 #: client/gui-mui/connectdlg.c:178
-#: client/gui-win32/connectdlg.c:911
+#: client/gui-win32/connectdlg.c:912
 #: data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Metaserver"
 
 #: client/gui-gtk/connectdlg.c:486
 #: client/gui-gtk/connectdlg.c:507
-#: client/gui-win32/connectdlg.c:1069
-#: client/gui-win32/connectdlg.c:1077
+#: client/gui-win32/connectdlg.c:1079
+#: client/gui-win32/connectdlg.c:1087
 #: data/Freeciv.in:155
 msgid "Update"
 msgstr "Aktualizovat"
 
 #: client/gui-gtk/connectdlg.c:490
-#: client/gui-win32/connectdlg.c:912
+#: client/gui-win32/connectdlg.c:913
 msgid "Local Area Network"
 msgstr "Lokální síť"
 
 #: client/gui-gtk/connectdlg.c:516
 #: client/gui-gtk/dialogs.c:2066
 #: client/gui-mui/gui_main.c:209
-#: client/gui-win32/connectdlg.c:1086
+#: client/gui-win32/connectdlg.c:1096
 #: client/gui-win32/dialogs.c:550
 #: client/gui-xaw/menu.c:119
 #: data/Freeciv.in:115
@@ -13122,13 +13141,13 @@ msgstr "Ok"
 msgid "Disconnect"
 msgstr "Odpojit"
 
-#: client/gui-gtk/diplodlg.c:289
+#: client/gui-gtk/diplodlg.c:291
 #: data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
 msgstr ""
 
-#: client/gui-gtk/diplodlg.c:311
-#: client/gui-gtk/diplodlg.c:319
+#: client/gui-gtk/diplodlg.c:313
+#: client/gui-gtk/diplodlg.c:321
 #: client/gui-mui/diplodlg.c:647
 #: client/gui-mui/diplodlg.c:648
 #: client/gui-win32/diplodlg.c:605
@@ -13139,8 +13158,8 @@ msgstr ""
 msgid "The %s offerings"
 msgstr "%s nabízejí"
 
-#: client/gui-gtk/diplodlg.c:343
-#: client/gui-gtk/diplodlg.c:361
+#: client/gui-gtk/diplodlg.c:345
+#: client/gui-gtk/diplodlg.c:363
 #: client/gui-mui/diplodlg.c:487
 #: client/gui-mui/diplodlg.c:522
 #: client/gui-mui/diplodlg.c:549
@@ -13152,8 +13171,8 @@ msgstr "%s nabízejí"
 msgid "Maps"
 msgstr "Mapy"
 
-#: client/gui-gtk/diplodlg.c:369
-#: client/gui-gtk/diplodlg.c:381
+#: client/gui-gtk/diplodlg.c:371
+#: client/gui-gtk/diplodlg.c:383
 #: client/gui-mui/diplodlg.c:488
 #: client/gui-mui/diplodlg.c:523
 #: client/gui-mui/diplodlg.c:585
@@ -13165,8 +13184,8 @@ msgstr "Mapy"
 msgid "Advances"
 msgstr "Technologie"
 
-#: client/gui-gtk/diplodlg.c:424
-#: client/gui-gtk/diplodlg.c:431
+#: client/gui-gtk/diplodlg.c:426
+#: client/gui-gtk/diplodlg.c:433
 #: client/gui-mui/diplodlg.c:649
 #: client/gui-mui/diplodlg.c:650
 #: client/gui-win32/diplodlg.c:612
@@ -13177,8 +13196,8 @@ msgstr "Technologie"
 msgid "Gold(max %d)"
 msgstr "Zlato(max %d)"
 
-#: client/gui-gtk/diplodlg.c:439
-#: client/gui-gtk/diplodlg.c:448
+#: client/gui-gtk/diplodlg.c:441
+#: client/gui-gtk/diplodlg.c:450
 #: client/gui-mui/diplodlg.c:494
 #: client/gui-mui/diplodlg.c:529
 #: client/gui-win32/diplodlg.c:616
@@ -13187,7 +13206,13 @@ msgstr "Zlato(max %d)"
 msgid "Give shared vision"
 msgstr "_Poskytnout svoje mapy"
 
-#: client/gui-gtk/diplodlg.c:491
+#: client/gui-gtk/diplodlg.c:459
+#: client/gui-gtk/diplodlg.c:470
+#, fuzzy
+msgid "Give embassy"
+msgstr "Dát _ambasádu"
+
+#: client/gui-gtk/diplodlg.c:502
 #: client/gui-mui/diplodlg.c:495
 #: client/gui-mui/diplodlg.c:626
 #: client/gui-win32/diplodlg.c:618
@@ -13195,7 +13220,7 @@ msgstr "_Poskytnout svoje mapy"
 msgid "Pacts"
 msgstr "Smlouvy"
 
-#: client/gui-gtk/diplodlg.c:500
+#: client/gui-gtk/diplodlg.c:511
 #: client/gui-win32/diplodlg.c:624
 #: client/gui-xaw/diplodlg.c:538
 #, c-format
@@ -13207,8 +13232,8 @@ msgid ""
 "The %s %s %s"
 msgstr ""
 
-#: client/gui-gtk/diplodlg.c:530
-#: client/gui-gtk/diplodlg.c:539
+#: client/gui-gtk/diplodlg.c:541
+#: client/gui-gtk/diplodlg.c:550
 #: client/gui-mui/diplodlg.c:651
 #: client/gui-mui/diplodlg.c:652
 #: client/gui-win32/diplodlg.c:636
@@ -13219,19 +13244,19 @@ msgstr ""
 msgid "%s view:"
 msgstr "%s pohled:"
 
-#: client/gui-gtk/diplodlg.c:548
+#: client/gui-gtk/diplodlg.c:559
 #: client/gui-mui/diplodlg.c:516
 #: data/Freeciv.in:366
 msgid "Erase clause"
 msgstr "Smazat klauzuli"
 
-#: client/gui-gtk/diplodlg.c:552
+#: client/gui-gtk/diplodlg.c:563
 #: client/gui-win32/diplodlg.c:673
 #: data/Freeciv.in:501
 msgid "Accept treaty"
 msgstr "Přijmout dohodu"
 
-#: client/gui-gtk/diplodlg.c:557
+#: client/gui-gtk/diplodlg.c:568
 #: client/gui-win32/diplodlg.c:674
 #: data/Freeciv.in:510
 msgid "Cancel meeting"
@@ -13387,7 +13412,7 @@ msgid "Capital: %s"
 msgstr "Hlavní město: %s"
 
 #: client/gui-gtk/mapview.c:118
-#: client/gui-win32/mapview.c:224
+#: client/gui-win32/mapview.c:229
 #, c-format
 msgid ""
 "Population: %s\n"
@@ -14582,9 +14607,13 @@ msgstr ""
 #, fuzzy, c-format
 msgid ""
 "%s\n"
-"(%d turn/advance)%s\n"
+"(%d turn/advance)"
+msgid_plural ""
+"%s\n"
 "(%d turns/advance)"
-msgstr "Průběh: %d tah/objev (%d bodů/tah)"
+msgstr[0] "Průběh: %d tah/objev (%d bodů/tah)"
+msgstr[1] "Průběh: %d tah/objev (%d bodů/tah)"
+msgstr[2] "Průběh: %d tah/objev (%d bodů/tah)"
 
 #: client/gui-mui/repodlgs.c:326
 #: client/gui-mui/repodlgs.c:327
@@ -14617,7 +14646,10 @@ msgstr "Vojenský přehled"
 #: client/gui-xaw/repodlgs.c:1144
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
-msgstr ""
+msgid_plural "%2d: The %s ruler %s scored %d points\n"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
 
 #: client/gui-mui/repodlgs.c:869
 #: client/gui-win32/repodlgs.c:728
@@ -14798,45 +14830,45 @@ msgstr "Uvolnit město"
 msgid "Couldn't load the savegame"
 msgstr "Nelze nahrát uloženou hru"
 
-#: client/gui-win32/connectdlg.c:788
+#: client/gui-win32/connectdlg.c:789
 msgid "Load Game"
 msgstr "Nahrát hru"
 
-#: client/gui-win32/connectdlg.c:937
+#: client/gui-win32/connectdlg.c:947
 msgid "Welcome to Freeciv"
 msgstr "Vítejte ve Freeciv"
 
-#: client/gui-win32/connectdlg.c:953
+#: client/gui-win32/connectdlg.c:963
 msgid "Start New Game"
 msgstr "Start nové hry"
 
-#: client/gui-win32/connectdlg.c:955
+#: client/gui-win32/connectdlg.c:965
 msgid "Load Saved Game"
 msgstr "Nahrát uloženou hru"
 
-#: client/gui-win32/connectdlg.c:957
+#: client/gui-win32/connectdlg.c:967
 msgid "Connect To Network Game"
 msgstr "Připojit k síťové hře"
 
-#: client/gui-win32/connectdlg.c:967
+#: client/gui-win32/connectdlg.c:977
 msgid "Choose a nation to play"
 msgstr "Vyberte národ pro hru"
 
-#: client/gui-win32/connectdlg.c:1002
+#: client/gui-win32/connectdlg.c:1012
 msgid "Number of players (Including AI):"
 msgstr "Počet hráčů (včetně počítačových):"
 
-#: client/gui-win32/connectdlg.c:1010
+#: client/gui-win32/connectdlg.c:1020
 msgid "AI skill level:"
 msgstr "Úroveň počítačem ovládaných hráčů:"
 
-#: client/gui-win32/connectdlg.c:1026
+#: client/gui-win32/connectdlg.c:1036
 #: client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:944
 msgid "OK"
 msgstr "OK"
 
-#: client/gui-win32/connectdlg.c:1082
+#: client/gui-win32/connectdlg.c:1092
 msgid "Back"
 msgstr "Zpět"
 
@@ -14864,10 +14896,6 @@ msgstr "Smazat klauzuli"
 #: data/Freeciv.in:1162
 msgid "Airlift"
 msgstr "Letecký most"
-
-#: client/gui-win32/mapview.c:262
-msgid "(veteran)"
-msgstr "(veterán)"
 
 #: client/gui-win32/menu.c:321
 #: client/gui-xaw/menu.c:124
@@ -15025,43 +15053,43 @@ msgstr "Selhání při čtení PNG souboru: %s"
 msgid "PNG file has no palette: %s"
 msgstr "PNG soubor nemá paletu: %s"
 
-#: client/gui-xaw/gui_main.c:302
+#: client/gui-xaw/gui_main.c:304
 msgid "No version number in resources."
 msgstr "Číslo verze ve zdrojích chybí."
 
-#: client/gui-xaw/gui_main.c:303
+#: client/gui-xaw/gui_main.c:305
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr "Nejspíše máte někde starší (asi v1.0) soubor s Freeciv zdroji."
 
-#: client/gui-xaw/gui_main.c:311
+#: client/gui-xaw/gui_main.c:313
 msgid "Game version does not match Resource version."
 msgstr "Verze hry nesouhlasí s verzí zrojů."
 
-#: client/gui-xaw/gui_main.c:312
+#: client/gui-xaw/gui_main.c:314
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "Verze hry: %s - Verze zdroje: %s"
 
-#: client/gui-xaw/gui_main.c:314
+#: client/gui-xaw/gui_main.c:316
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr "Možná máte starší Freeciv soubor se zdroji v /usr/lib/X11/app-defaults"
 
-#: client/gui-xaw/gui_main.c:320
+#: client/gui-xaw/gui_main.c:322
 msgid "Using fallback resources - which is OK"
 msgstr ""
 
-#: client/gui-xaw/gui_main.c:331
+#: client/gui-xaw/gui_main.c:333
 msgid "Only color displays are supported for now..."
 msgstr "Jsou podporovány pouze barevné obrazovky..."
 
-#: client/gui-xaw/gui_main.c:363
-#: client/gui-xaw/gui_main.c:382
+#: client/gui-xaw/gui_main.c:365
+#: client/gui-xaw/gui_main.c:384
 #, c-format
 msgid "Unable to open fontset: %s"
 msgstr "Nelze otevřít sadu fontů: %s"
 
-#: client/gui-xaw/gui_main.c:368
-#: client/gui-xaw/gui_main.c:387
+#: client/gui-xaw/gui_main.c:370
+#: client/gui-xaw/gui_main.c:389
 #, c-format
 msgid "Font for charset %s is lacking"
 msgstr "Font pro znakovou sadu %s je neúplný"
@@ -15346,7 +15374,16 @@ msgstr ""
 "<p class=\"level\">Úroveň: %s</p>\n"
 "\n"
 
-#: manual/civmanual.c:212
+#: manual/civmanual.c:206
+#, fuzzy, c-format
+msgid ""
+"<p class=\"level\">Pregame level: %s</p>\n"
+"\n"
+msgstr ""
+"<p class=\"level\">Úroveň: %s</p>\n"
+"\n"
+
+#: manual/civmanual.c:216
 #, c-format
 msgid ""
 "<p>Description:</p>\n"
@@ -15355,7 +15392,7 @@ msgstr ""
 "<p>Popis:</p>\n"
 "\n"
 
-#: manual/civmanual.c:219
+#: manual/civmanual.c:223
 #, c-format
 msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
@@ -15364,82 +15401,82 @@ msgstr ""
 "<h1>Freeciv %s nápověda k terénu</h1>\n"
 "\n"
 
-#: manual/civmanual.c:221
+#: manual/civmanual.c:225
 #, c-format
 msgid "<table border=1><tr><th>Terrain</th>"
 msgstr "<table border=1><tr><th>Terén</th>"
 
-#: manual/civmanual.c:222
+#: manual/civmanual.c:226
 #, c-format
 msgid "<th>Food/ Shield/ Trade</th>"
 msgstr "<th>Jídlo/ Štít/ Obchod</th>"
 
-#: manual/civmanual.c:223
+#: manual/civmanual.c:227
 #, c-format
 msgid "<th>Special 1</th><th>Food/ Shield/ Trade</th>"
 msgstr "<th>Speciál 1</th><th>Jídlo/ Štít/ Obchod</th>"
 
-#: manual/civmanual.c:224
+#: manual/civmanual.c:228
 #, c-format
 msgid "<th>Special 2</th><th>Food/ Shield/ Trade</th>"
 msgstr "<th>Speciál 2</th><th>Jídlo/ Štít/ Obchod</th>"
 
-#: manual/civmanual.c:225
+#: manual/civmanual.c:229
 #, c-format
 msgid "<th>Move cost</th><th>Defense</th><th>Road +trade</th>\n"
 msgstr "<th>Přesun</th><th>Obrana</th><th>Cesta +obchod</th>\n"
 
-#: manual/civmanual.c:227
+#: manual/civmanual.c:231
 #, c-format
 msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
 msgstr "<th>Závlaha +jídlo</th><th>Doly +štíty</th>\n"
 
-#: manual/civmanual.c:228
+#: manual/civmanual.c:232
 #, c-format
 msgid "<th>Transform to</th>"
 msgstr "<th>Transformovat na</th>"
 
-#: manual/civmanual.c:265
+#: manual/civmanual.c:269
 #, c-format
 msgid "</table><br><br><br><table border=1>"
 msgstr "</table><br><br><br><table border=1>"
 
-#: manual/civmanual.c:266
+#: manual/civmanual.c:270
 #, c-format
 msgid "<caption>Time to perform action</caption>"
 msgstr "<caption>Doba na provedení akce</caption>"
 
-#: manual/civmanual.c:267
+#: manual/civmanual.c:271
 #, c-format
 msgid "<tr><th>Terrain</th>\n"
 msgstr "<tr><th>Terén</th>\n"
 
-#: manual/civmanual.c:268
+#: manual/civmanual.c:272
 #, c-format
 msgid "<th>Road</th><th>Irrigation</th>\n"
 msgstr "<th>Cesta</th><th>Závlaha</th>\n"
 
-#: manual/civmanual.c:269
+#: manual/civmanual.c:273
 #, c-format
 msgid "<th>Mining</th><th>Rail</th>\n"
 msgstr "<th>Doly</th><th>Železnice</th>\n"
 
-#: manual/civmanual.c:270
+#: manual/civmanual.c:274
 #, c-format
 msgid "<th>Airbase</th><th>Fortress</th>\n"
 msgstr "<th>Letiště</th><th>Opevnění</th>\n"
 
-#: manual/civmanual.c:271
+#: manual/civmanual.c:275
 #, c-format
 msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
 msgstr "<th>Odstranit znečištění</th><th>Odstranit radioaktivní spad</th>\n"
 
-#: manual/civmanual.c:272
+#: manual/civmanual.c:276
 #, c-format
 msgid "<th>Transform</th></tr>\n"
 msgstr "<th>Transformovat</th></tr>\n"
 
-#: manual/civmanual.c:298
+#: manual/civmanual.c:302
 #, c-format
 msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
@@ -15448,31 +15485,31 @@ msgstr ""
 "<h1>Freeciv %s nápověda ke stavbám</h1>\n"
 "\n"
 
-#: manual/civmanual.c:311
-#: manual/civmanual.c:340
+#: manual/civmanual.c:315
+#: manual/civmanual.c:344
 #, c-format
 msgid "<tr><td>Cost: <td>%d</tr>\n"
 msgstr "<tr><td>Stojí: <td>%d</tr>\n"
 
-#: manual/civmanual.c:312
-#: manual/civmanual.c:341
+#: manual/civmanual.c:316
+#: manual/civmanual.c:345
 #, c-format
 msgid "<tr><td>Upkeep: <td>%d</tr>\n"
 msgstr "<tr><td>Údržba: <td>%d</tr>\n"
 
-#: manual/civmanual.c:314
-#: manual/civmanual.c:343
+#: manual/civmanual.c:318
+#: manual/civmanual.c:347
 #, c-format
 msgid "<tr><td>Tech required: <td>%s</tr>\n"
 msgstr "<tr><td>Potřebná technologie: <td>%s</tr>\n"
 
-#: manual/civmanual.c:318
-#: manual/civmanual.c:347
+#: manual/civmanual.c:322
+#: manual/civmanual.c:351
 #, c-format
 msgid "<tr><td>Obsoleted by: <td>%s</tr>\n"
 msgstr "<tr><td>Zastarává objevem: <td>%s</tr>\n"
 
-#: manual/civmanual.c:327
+#: manual/civmanual.c:331
 #, c-format
 msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
@@ -20899,11 +20936,13 @@ msgid "?plural:Danes"
 msgstr "?plural:Dánové"
 
 #. TRANS: The third letter in "Blatand" should be
+#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xE5.
 #: data/nation/danish.ruleset:9
 msgid "The founding of the Danish kingdom is generally assigned to the reign of Harald Blatand, who unified what is now Denmark between 958AD and 988AD."
 msgstr "Založení Dánského království je přisuzováno říši Haralda Blatanda, který spojil nynější Dánsko v letech 958 - 988 n.l.  "
 
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
+#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xFA.
 #: data/nation/dunedain.ruleset:7
 msgid "Dunedain"
 msgstr ""
