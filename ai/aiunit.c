@@ -2553,60 +2553,13 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
 }
 
 /**************************************************************************
- do all the gritty nitty chess like analysis here... (argh)
+  Master manage unit function.
 **************************************************************************/
 void ai_manage_units(struct player *pplayer) 
 {
-  static struct timer *t = NULL;      /* alloc once, never free */
-  static int *unitids = NULL;         /* realloc'd, never freed */
-  static int max_units = 0;
-
-  int count, index;
-  struct unit *punit;
-  char *type_name;
-
-  t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
-
-  freelog(LOG_DEBUG, "Managing units for %s", pplayer->name);
-
-  count = genlist_size(&(pplayer->units.list));
-  if (count > 0) {
-    if (max_units < count) {
-      max_units = count;
-      unitids = fc_realloc(unitids, max_units * sizeof(int));
-    }
-    index = 0;
-    unit_list_iterate(pplayer->units, punit) {
-      unitids[index++] = punit->id;
-    }
-    unit_list_iterate_end;
-
-    for (index = 0; index < count; index++) {
-      punit = player_find_unit_by_id(pplayer, unitids[index]);
-      if (!punit) {
-	freelog(LOG_DEBUG, "Can't manage %s's dead unit %d", pplayer->name,
-		unitids[index]);
-	continue;
-      }
-      type_name = unit_type(punit)->name;
-
-      freelog(LOG_DEBUG, "Managing %s's %s %d@(%d,%d)", pplayer->name,
-	      type_name, unitids[index], punit->x, punit->y);
-
-      ai_manage_unit(pplayer, punit);
-      /* Note punit might be gone!! */
-
-      freelog(LOG_DEBUG, "Finished managing %s's %s %d", pplayer->name,
-	      type_name, unitids[index]);
-    }
-  }
-
-  freelog(LOG_DEBUG, "Managed %s's units successfully.", pplayer->name);
-
-  if (timer_in_use(t)) {
-    freelog(LOG_VERBOSE, "%s's units consumed %g milliseconds.",
-	    pplayer->name, 1000.0*read_timer_seconds(t));
-  }
+  unit_list_iterate_safe(pplayer->units, punit) {
+    ai_manage_unit(pplayer, punit);
+  } unit_list_iterate_safe_end;
 }
 
 /**************************************************************************
