@@ -9,9 +9,9 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
 flag="f.germany"
 flag_alt = "-"
 city_style = "European"
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",       _("Chancellor"),   _("Chancellor")
-                 "Fundamentalism",  _("Archbishop"),   _("Archbishop")
+ruler_titles = { "government",      "male_title",       "female_title"
+                 "Democracy",       _("Chancellor"),    _("Chancellor")
+                 "Fundamentalism",  _("Princebishop"),  _("Princebishop")
                }
 
 attack=2
