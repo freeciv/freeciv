@@ -1168,6 +1168,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
   /* This has the side effect of marking the warmap with the possible paths */
   if (find_the_shortest_path(punit, waypoint_x, waypoint_y, restriction)) {
     do { /* move the unit along the path chosen by find_the_shortest_path() while we can */
+      int last_tile;
       if (!punit->moves_left)
 	return;
 
@@ -1186,7 +1187,8 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
 
       if (!punit->moves_left)
 	return;
-      if (!handle_unit_move_request(punit, x, y, FALSE, FALSE)) {
+      last_tile = same_pos(x, y, punit->goto_dest_x, punit->goto_dest_y);
+      if (!handle_unit_move_request(punit, x, y, FALSE, !last_tile)) {
 	freelog(LOG_DEBUG, "Couldn't handle it.");
 	if (punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;

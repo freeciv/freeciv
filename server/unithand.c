@@ -924,11 +924,9 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   if (is_diplomat_unit(punit)
       && is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
 				      dest_x, dest_y)
-      && !(pcity && players_allied(punit->owner, pcity->owner)
-	   && (move_diplomat_city
-	       || (punit->activity==ACTIVITY_GOTO
-		   && !same_pos(punit->goto_dest_x, punit->goto_dest_y,
-				pcity->x, pcity->y))))) {
+      && (is_non_allied_unit_tile(pdesttile, punit->owner)
+	  || is_non_allied_city_tile(pdesttile, punit->owner)
+	  || !move_diplomat_city)) {
     struct packet_diplomat_action packet;
     if (punit->activity == ACTIVITY_GOTO && pplayer->ai.control)
       return 0;
