@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-25 22:15+0100\n"
+"POT-Creation-Date: 2004-11-26 09:45+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -3650,18 +3650,18 @@ msgstr "Der Bericht zur Lage der Nation ist leider nicht verfügbar."
 msgid "The %s of the %s"
 msgstr "Die %s der %s"
 
-#: server/report.c:1098
+#: server/report.c:1094
 #, c-format
 msgid "%2d: The %s %s scored %d point\n"
 msgid_plural "%2d: The %s %s scored %d points\n"
 msgstr[0] "%2d: Die %s %s erreichten %d Punkte.\n"
 msgstr[1] "%2d: Die %s %s erreichten %d Punkte.\n"
 
-#: server/report.c:1106
+#: server/report.c:1102
 msgid "Progress Scores:"
 msgstr "Spielstand: "
 
-#: server/report.c:1107 client/gui-gtk/repodlgs.c:1127
+#: server/report.c:1103 client/gui-gtk/repodlgs.c:1127
 #: client/gui-mui/repodlgs.c:870 client/gui-win32/repodlgs.c:719
 #: client/gui-xaw/repodlgs.c:1153
 msgid "The Greatest Civilizations in the world."
@@ -5386,36 +5386,36 @@ msgid ""
 "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr "Der Waffenstillstand mit %s ist beendet. Die %s sind jetzt neutral."
 
-#: server/srv_main.c:750
+#: server/srv_main.c:764
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Konnte das Spiel nicht in der Datei '%s' speichern"
 
-#: server/srv_main.c:752
+#: server/srv_main.c:766
 #, c-format
 msgid "Game saved as %s"
 msgstr "Spiel gespeichert als '%s'"
 
-#: server/srv_main.c:782
+#: server/srv_main.c:796
 msgid "The game is already running."
 msgstr "Das Spiel hat bereits angefangen."
 
-#: server/srv_main.c:786
+#: server/srv_main.c:800
 msgid "Starting game."
 msgstr "Spiel begonnen."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:833
+#: server/srv_main.c:847
 #, c-format
 msgid "Game: request for unknown report (type %d)"
 msgstr "Game: request for unknown report (type %d)"
 
-#: server/srv_main.c:896
+#: server/srv_main.c:910
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Warnung: Client %s ist zu alt und wurde abgewiesen"
 
-#: server/srv_main.c:905
+#: server/srv_main.c:919
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
@@ -5424,117 +5424,117 @@ msgstr ""
 "Version nach dem 28.11.2004 oder Freeciv 1.15.0 oder neuer."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:991
+#: server/srv_main.c:1005
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Got a packet of type %d from a dead or observer player"
 
-#: server/srv_main.c:1067
+#: server/srv_main.c:1081
 msgid "Please choose a non-blank name."
 msgstr "Es muß ein Name gewählt werden."
 
-#: server/srv_main.c:1076
+#: server/srv_main.c:1090
 msgid "That nation is already in use."
 msgstr "Diese Nation ist bereits vergeben."
 
-#: server/srv_main.c:1093
+#: server/srv_main.c:1107
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Ein anderer Spieler nimmt bereits unter dem Namen '%s' am Spiel teil. Bitte "
 "wählen Sie einen anderen Namen."
 
-#: server/srv_main.c:1109
+#: server/srv_main.c:1123
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Bitte wählen Sie einen Namen, der nur ASCII-Zeichen enthält."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:1129
+#: server/srv_main.c:1143
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
 msgstr "Trying to alloc nation outside of SELECT_RACES_STATE!"
 
-#: server/srv_main.c:1154
+#: server/srv_main.c:1168
 #, c-format
 msgid "Game: %s is the %s ruler %s."
 msgstr "Spiel: %s ist der %se Herrscher %s."
 
-#: server/srv_main.c:1182
+#: server/srv_main.c:1196
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Keine Nationen mehr vorhanden: Spieler %s entfernt."
 
-#: server/srv_main.c:1185
+#: server/srv_main.c:1199
 msgid "Game: Sorry, there are no nations left."
 msgstr ""
 "Mitspielen ist leider nicht möglich, da alle Nationen bereits vergeben sind."
 
-#: server/srv_main.c:1332
+#: server/srv_main.c:1346
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Keine Staaten mehr verfügbar. KI-Spieler %s nicht generiert."
 
-#: server/srv_main.c:1367
+#: server/srv_main.c:1381
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Anzahl der Staaten kleiner als AIFILL; AIFILL auf %d reduziert."
 
-#: server/srv_main.c:1374
+#: server/srv_main.c:1388
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Max. Anzahl der Spieler kleiner als AIFILL; AIFILL auf %d reduziert."
 
-#: server/srv_main.c:1398
+#: server/srv_main.c:1412
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s ist als KI-Spieler dazu gekommen."
 
-#: server/srv_main.c:1401 server/stdinhand.c:878
+#: server/srv_main.c:1415 server/stdinhand.c:878
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Spiel: Der KI-Spieler %s ist dazu gekommen."
 
-#: server/srv_main.c:1408
+#: server/srv_main.c:1422
 #, c-format
 msgid "Error creating new AI player: %s\n"
 msgstr "Fehler bei der Generierung des neuen KI-Spielers: %s\n"
 
-#: server/srv_main.c:1471
+#: server/srv_main.c:1485
 #, c-format
 msgid "Player %d"
 msgstr "Spieler %d"
 
-#: server/srv_main.c:1489
+#: server/srv_main.c:1503
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI kontrolliert die %s unter %s."
 
-#: server/srv_main.c:1495
+#: server/srv_main.c:1509
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spiel: %s beherrscht die %s."
 
-#: server/srv_main.c:1606
+#: server/srv_main.c:1620
 msgid "Starting new log"
 msgstr "Beginne neues Log"
 
-#: server/srv_main.c:1630
+#: server/srv_main.c:1644
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Sende Informationen an den Metaserver [%s]"
 
-#: server/srv_main.c:1653
+#: server/srv_main.c:1667
 msgid "Game: The game is over..."
 msgstr "Spiel: Das Spiel ist vorbei..."
 
-#: server/srv_main.c:1654
+#: server/srv_main.c:1668
 msgid "The game is over!"
 msgstr "Das Spiel ist vorbei!"
 
-#: server/srv_main.c:1688
+#: server/srv_main.c:1702
 msgid "Now accepting new client connections."
 msgstr "Warte auf Spieler..."
 
-#: server/srv_main.c:1775
+#: server/srv_main.c:1789
 msgid "Last player has disconnected: will need to restart."
 msgstr ""
 "Der letzte Spieler hat die Verbindung unterbrochen: Neustart erforderlich."
@@ -8474,22 +8474,48 @@ msgstr "* %s mit diesem Wissen können Straßen zu Eisenbahnlinien machen.\n"
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Ermöglicht %s, bewässertes Land in Ackerland zu verwandeln.\n"
 
-#: client/helpdata.c:1124
+#: client/helpdata.c:1090
+#, c-format
+msgid "* Pollution cannot be generated on this terrain."
+msgstr "* Auf diesem Geländetyp gibt es keine Umweltverschmutzung."
+
+#: client/helpdata.c:1095
+#, c-format
+msgid "* You cannot build cities on this terrain."
+msgstr "* Auf diesem Gelände können keine Städte gegründet werden."
+
+#: client/helpdata.c:1101
+#, c-format
+msgid "* The coastline of this terrain is unsafe."
+msgstr "* Die Küstenlinie dieses Geländetyps ist unsicher."
+
+#: client/helpdata.c:1106
+#, c-format
+msgid "* This terrain is unsafe for units to travel on."
+msgstr "* Bewegung auf diesem Geländetyp ist unsicher."
+
+# ? Ist das richtig?
+#: client/helpdata.c:1111
+#, c-format
+msgid "* Only naval units can travel on oceanic terrains."
+msgstr "* Nur See-Einheiten können sich auf dem Ozean bewegen."
+
+#: client/helpdata.c:1157
 #, c-format
 msgid "%s%d shield"
 msgstr "%s%d Schild(e)"
 
-#: client/helpdata.c:1129
+#: client/helpdata.c:1162
 #, c-format
 msgid "%s%d food"
 msgstr "%s%d Nahrung"
 
-#: client/helpdata.c:1134
+#: client/helpdata.c:1167
 #, c-format
 msgid "%s%d unhappy"
 msgstr "%s%d Unzufriedene(r)"
 
-#: client/helpdata.c:1139
+#: client/helpdata.c:1172
 #, c-format
 msgid "%s%d gold"
 msgstr "%s%d Goldstücke"
@@ -10881,9 +10907,10 @@ msgstr "Ganzer Bildschirm"
 msgid "Enable status report tabs"
 msgstr "Kartenreiter für Berichte verwenden"
 
+# ?
 #: client/gui-gtk-2.0/gui_main.c:143
 msgid "Solid unit icon background color"
-msgstr ""
+msgstr "Undurchsichtiger Hintergrund für Städte"
 
 #: client/gui-gtk-2.0/gui_main.c:483 client/gui-gtk-2.0/gui_main.c:1066
 #: client/gui-gtk/gui_main.c:381 client/gui-gtk/gui_main.c:853
