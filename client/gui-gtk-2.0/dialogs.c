@@ -42,6 +42,7 @@
 #include "clinet.h"
 #include "connectdlg_common.h"
 #include "control.h"
+#include "goto.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -1369,9 +1370,17 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
 
       unit_list_iterate(ptile->units, punit) {
         if (game.player_idx == punit->owner) {
-          /* Activate this unit. */
           pmyunit = punit;
-          request_new_unit_activity(punit, ACTIVITY_IDLE);
+
+          /* Activate this unit. */
+	  punit->focus_status = FOCUS_AVAIL;
+	  if (unit_has_orders(punit)) {
+	    request_orders_cleared(punit);
+	  }
+	  if (punit->activity != ACTIVITY_IDLE || punit->ai.control) {
+	    punit->ai.control = FALSE;
+	    request_new_unit_activity(punit, ACTIVITY_IDLE);
+	  }
         }
       } unit_list_iterate_end;
 
