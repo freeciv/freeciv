@@ -715,6 +715,7 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   int nav = (get_invention(pplayer, A_NAVIGATION) == TECH_KNOWN);
   struct ai_choice choice; /* for nav want only */
   int n = pplayer->player_no;
+  int save_v;
 
   choice.type = 1;
   choice.choice = U_CARAVEL;
@@ -850,6 +851,11 @@ gx, gy, v, x, y, v2, d, b);*/
   v = (v - food * FOOD_WEIGHTING) * 100 / (40 + fu);
   if (v < 0) v = 0; /* Bad Things happen without this line! :( -- Syela */
 
+  if (0 && v > 0)
+    printf("Settler %d@(%d,%d) wants to %d at (%d,%d) with desire %d\n",
+	   punit->id, punit->x, punit->y, t, gx, gy, v);
+  save_v = v;
+  
   boatid = find_boat(pplayer, &bx, &by, 1); /* might need 2 for body */
   if ((ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units), boatid)))
     really_generate_warmap(mycity, ferryboat, SEA_MOVING);
@@ -911,6 +917,10 @@ There was also a problem with workers suddenly coming onto unimproved tiles,
 either through city growth or de-elvisization, settlers being built and
 improving those tiles, and then immigrating shortly thereafter. -- Syela */
 
+	  if (v2>0 && pplayer->ai.expand!=100) {
+	    v2 = (v2 * pplayer->ai.expand) / 100;
+	  }
+
 /*if (w) printf("%s: v = %d, w = 1, v2 = %d\n", mycity->name, v, v2);*/
           if (map_get_continent(x, y) != co && !nav && near >= 8) {
             if (v2 > choice.want && !punit->id) choice.want = v2;
@@ -933,6 +943,10 @@ punit->x, punit->y, x, y, z, v2, d);*/
 
   choice.want -= v;
   if (choice.want > 0) ai_choose_ferryboat(pplayer, mycity, &choice);
+
+  if (0 && v != save_v)
+    printf("Settler %d@(%d,%d) wants to %d at (%d,%d) with desire %d\n",
+	   punit->id, punit->x, punit->y, t, gx, gy, v);
 
 /*if (map_get_terrain(punit->x, punit->y) == T_OCEAN)
 printf("Punit %d@(%d,%d) wants to %d at (%d,%d) with desire %d\n",

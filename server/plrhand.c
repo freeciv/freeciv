@@ -1057,6 +1057,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   plr->ai.tech_goal = secfile_lookup_int(file, "player%d.ai.tech_goal", plrno);
   plr->ai.handicap = 0;		/* set later */
   plr->ai.fuzzy = 0;		/* set later */
+  plr->ai.expand = 100;		/* set later */
   plr->ai.skill_level =
     secfile_lookup_int_default(file, game.skill_level,
 			       "player%d.ai.skill_level", plrno);

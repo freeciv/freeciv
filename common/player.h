@@ -110,6 +110,7 @@ struct player_ai {
   int handicap;			/* sum of enum handicap_type */
   int skill_level;		/* 0-10 value for save/load/display */
   int fuzzy;			/* chance in 1000 to mis-decide */
+  int expand;			/* percentage factor to value new cities */
   int warmth; /* threat of global warming */
 };
 

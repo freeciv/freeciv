@@ -281,6 +281,19 @@ int fuzzy_of_skill_level(int level)
 }
 
 /**************************************************************************
+Return the AI expansion tendency, a percentage factor to value new cities,
+compared to defaults.  0 means _never_ build new cities, > 100 means to
+(over?)value them even more than the default (already expansionistic) AI.
+**************************************************************************/
+int expansionism_of_skill_level(int level)
+{
+  int x[11] = { 100, 100, 100, 30/*easy*/, 100, 100, 100, 100, 100, 100, 100 };
+  
+  assert(level>=0 && level<=10);
+  return x[level];
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void save_command(char *arg)
@@ -473,6 +486,7 @@ void set_ai_level(char *name, int level)
     if (pplayer->ai.control) {
       pplayer->ai.handicap = handicap_of_skill_level(level);
       pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
+      pplayer->ai.expand = expansionism_of_skill_level(level);
       pplayer->ai.skill_level = level;
       printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
     } else {
@@ -484,6 +498,7 @@ void set_ai_level(char *name, int level)
       if (pplayer->ai.control) {
         pplayer->ai.handicap = handicap_of_skill_level(level);
 	pplayer->ai.fuzzy = fuzzy_of_skill_level(level);
+	pplayer->ai.expand = expansionism_of_skill_level(level);
 	pplayer->ai.skill_level = level;
         printf("%s is now %s.\n", pplayer->name, name_of_skill_level(level));
       }

@@ -261,6 +261,7 @@ void player_init(struct player *plr)
   plr->ai.handicap = 0;
   plr->ai.skill_level = 0;
   plr->ai.fuzzy = 0;
+  plr->ai.expand = 100;
   plr->future_tech=0;
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
