@@ -260,7 +260,9 @@ int fill_diplomacy_city_menu(Widget popupmenu,
       XtVaCreateManagedWidget(city_list_ptrs[j]->name, smeBSBObjectClass, 
 			      popupmenu, NULL);
     XtAddCallback(entry, XtNcallback, diplomacy_dialog_city_callback, 
-		  (XtPointer)(plr0->player_no*100000+plr1->player_no*10000+city_list_ptrs[j]->id)); 
+		  (XtPointer)(city_list_ptrs[j]->id*1024
+			      + plr0->player_no*32
+			      + plr1->player_no));
   }
   return i;
 }
@@ -641,14 +643,14 @@ void diplomacy_dialog_city_callback(Widget w, XtPointer client_data,
   
   choice=(size_t)client_data;
 
-  pa.plrno0=choice/100000;
-  choice -= pa.plrno0 * 100000;
-  pa.plrno1=(choice/10000);
-  choice -= pa.plrno1 * 10000;
+  pa.value = choice/1024;
+  choice -= pa.value * 1024;
+  pa.plrno0 = choice/32;
+  choice -= pa.plrno0 * 32;
+  pa.plrno1 = choice;
  
   pa.clause_type=CLAUSE_CITY;
   pa.plrno_from=pa.plrno0;
-  pa.value=choice;
     
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
 			     &pa);
