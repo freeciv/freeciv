@@ -56,8 +56,8 @@
 
 #define TILESPEC_SUFFIX ".tilespec"
 
-char *main_intro_filename;
-char *minimap_intro_filename;
+static char *main_intro_filename;
+static char *minimap_intro_filename;
 
 struct named_sprites sprites;
 
@@ -289,6 +289,26 @@ int tileset_small_sprite_height(void)
 int tileset_hex_height(void)
 {
   return hex_height;
+}
+
+/****************************************************************************
+  Return the path within the data directories where the main intro graphics
+  file can be found.  (It is left up to the GUI code to load and unload this
+  file.)
+****************************************************************************/
+const char *tileset_main_intro_filename(void)
+{
+  return main_intro_filename;
+}
+
+/****************************************************************************
+  Return the path within the data directories where the mini intro graphics
+  file can be found.  (It is left up to the GUI code to load and unload this
+  file.)
+****************************************************************************/
+const char *tileset_mini_intro_filename(void)
+{
+  return minimap_intro_filename;
 }
 
 /**************************************************************************

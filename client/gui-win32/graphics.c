@@ -80,8 +80,8 @@ extern BOOL (WINAPI * AlphaBlend)(HDC,int,int,int,int,HDC,int,int,int,int,BLENDF
 void
 load_intro_gfx(void)
 {
-  intro_gfx_sprite=load_gfxfile(main_intro_filename);
-  radar_gfx_sprite = load_gfxfile(minimap_intro_filename);     
+  intro_gfx_sprite=load_gfxfile(tileset_main_intro_filename());
+  radar_gfx_sprite = load_gfxfile(tileset_mini_intro_filename());     
 }
 
 /**************************************************************************

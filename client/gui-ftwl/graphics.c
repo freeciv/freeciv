@@ -52,8 +52,8 @@ bool overhead_view_supported(void)
 void load_intro_gfx(void)
 {
   /* PORTME */
-  intro_gfx_sprite = load_gfxfile(main_intro_filename);
-  radar_gfx_sprite = load_gfxfile(minimap_intro_filename);
+  intro_gfx_sprite = load_gfxfile(tileset_main_intro_filename());
+  radar_gfx_sprite = load_gfxfile(tileset_mini_intro_filename());
 }
 
 /**************************************************************************

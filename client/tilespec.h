@@ -376,10 +376,6 @@ struct sprite_vector *get_unit_explode_animation(void);
 struct Sprite *get_cursor_sprite(enum cursor_type cursor,
 				 int *hot_x, int *hot_y);
 
-/* full pathnames: */
-extern char *main_intro_filename;
-extern char *minimap_intro_filename;
-
 /* These variables contain the size of the tiles used within the game.
  *
  * "normal" tiles include most mapview graphics, particularly the basic
@@ -428,6 +424,8 @@ int tileset_full_tile_width(void);
 int tileset_full_tile_height(void);
 int tileset_small_sprite_width(void);
 int tileset_small_sprite_height(void);
+const char *tileset_main_intro_filename(void);
+const char *tileset_mini_intro_filename(void);
 
 struct Sprite *load_sprite(const char *tag_name);
 void unload_sprite(const char *tag_name);

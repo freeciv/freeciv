@@ -811,8 +811,8 @@ static ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
     colors_pen[i] = ObtainBestPenA(cm, r, g, b, 0); /* global in colors.c */
   }
 
-  data->intro_gfx_sprite = load_sprite(main_intro_filename, FALSE);
-  data->radar_gfx_sprite = load_sprite(minimap_intro_filename, FALSE);
+  data->intro_gfx_sprite = load_sprite(tileset_main_intro_filename(), FALSE);
+  data->radar_gfx_sprite = load_sprite(tileset_mini_intro_filename(), FALSE);
 
   if ((dh = data->drawhandle = ObtainDrawHandle(pen_shared_map, &_screen(o)->RastPort, _screen(o)->ViewPort.ColorMap,
 					   GGFX_DitherMode, DITHERMODE_NONE,
