@@ -34,8 +34,8 @@ struct section_entry {
   char *name;
   int  ivalue;
   char *svalue;
+  int  used;			/* number of times entry looked up */
 };
-
 
 void secfile_insert_int(struct section_file *my_section_file, 
 			int val, char *path, ...);
@@ -44,19 +44,25 @@ void secfile_insert_str(struct section_file *my_section_file,
 			char *sval, char *path, ...);
 
 
-
 int section_file_load(struct section_file *my_section_file, char *filename);
 int section_file_save(struct section_file *my_section_file, char *filename);
 void section_file_free(struct section_file *file);
 
 void section_file_init(struct section_file *file);
-
+void section_file_check_unused(struct section_file *file, char *filename);
 
 int secfile_lookup_int(struct section_file *my_section_file, 
 		       char *path, ...);
 
 char *secfile_lookup_str(struct section_file *my_section_file, 
 			 char *path, ...);
+
+int secfile_lookup_vec_dimen(struct section_file *my_section_file, 
+			     char *path, ...);
+int *secfile_lookup_int_vec(struct section_file *my_section_file,
+			    int *dimen, char *path, ...);
+char **secfile_lookup_str_vec(struct section_file *my_section_file,
+			      int *dimen, char *path, ...);
 
 int secfile_lookup_int_default(struct section_file *my_section_file,
                                int def, char *path, ...);

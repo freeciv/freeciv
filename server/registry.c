@@ -18,6 +18,98 @@
   however the interface is nice. ie:
   section_file_lookup_string(file, "player%d.unit%d.name", plrno, unitno); 
 ***************************************************************************/
+
+/**************************************************************************
+  Description of the file format:  (description by David Pfitzner
+  (dwp@mso.anu.edu.au), not an original author of the code)
+  
+  - Whitespace lines are ignored, as are lines where the first
+  non-whitespace character is ";" (comment lines).
+  
+  - A line with "[name]" labels the start of a section with
+  that name; one of these must be the first non-comment line in the file.
+  Any spaces within the brackets are included in the name, which
+  is probably not a good idea.
+
+  - Within a section, lines have one of the following forms:
+      subname="stringvalue"
+      subname=-digits
+      subname=digits
+    for a value with given name and string, negative integer, and
+    positive integer values, respectively.  These entries are
+    referenced in the following functions as "sectionname.subname".
+    The section name should not contain any dots ('.'); the subname
+    can, but they have no particular significance.
+    Spaces before the equals sign ('=') are included in the subname,
+    which again is probably not a good idea.  There can be whitespace
+    after the equals sign.
+
+  The above is the basic savefile format as originally implemented.
+  The following modifications/extensions are by dwp:
+
+  - Comments: originally any extra characters on the above lines
+  were ignored.  Now you should explicitly use the comment character ';'
+
+  - Vector format:
+  The line:
+      foo= 10, 11, "x"
+  is equivalent to the following original-format lines:
+      foo=10
+      foo,1=11
+      foo,2="x"
+  As in the example, in principle you can mix integers and strings,
+  but the calling program will probably require elements to be the
+  same type.   Note that the first element of a vector is not "foo,0",
+  in order that the name of the first element is the same whether or
+  not there are subsequent elements.  However as a convenience, if
+  you try to lookup "foo,0" then you get back "foo".  (So you should
+  never have "foo,0" as a real name in the datafile.)
+
+  - Tabular format:
+  This was introduced to allow tabular-style data which humans can
+  more easily parse and edit (for rulesets).  As a bonus, it also
+  makes savefiles smaller.
+  The following lines:
+      foo={ "bar","baz","bax"
+      "wow",    10,  -5
+      "cool",  "str"
+      "hmm",   314,  99, 33, 11
+      }
+  are equivalent to the following original-format lines:
+      foo0.bar="wow"
+      foo0.baz=10
+      foo0.bax=-5
+      foo1.bar="cool"
+      foo1.baz="str"
+      foo2.bar="hmm"
+      foo2.baz=314
+      foo2.bax=99
+      foo2.bax,1=33
+      foo2.bax,2=11
+  The first line specifies the base name and the column names, and the
+  subsequent lines have data.  Again while it is possible to mix string
+  and integer values in a column, and have either more or less values
+  in a row than there are column headings, the code which uses this
+  information (via the registry) may set more stringent conditions.
+  If a row has more entries than column headings, the last column
+  is treated as a vector (as above).
+
+  The equivalence above between the new and old formats is fairly
+  direct: internally, data is converted to the old format.
+  In principle it could be a good idea to represent the data
+  as a table (2-d array) internally, but the current method
+  seems sufficient and relatively simple...
+  
+  There is a limited ability to save data in the new format:
+  So long as the section_file is constructed in an expected way,
+  tabular data (with no missing or extra values) can be saved
+  in tabular form.  (See section_file_save().)
+  
+  With the new formats, it may be useful to have a line-continuation
+  mechanism. (?)  But that has not been implemented yet.
+  
+***************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,6 +132,8 @@
 **************************************************************************/
 #define DO_HASH 1
 #define HASH_DEBUG 1		/* 0,1,2 */
+
+#define SAVE_TABLES 1		/* set to 0 for old-style savefiles */
 
 struct hash_entry {
   struct section_entry *data;
@@ -65,6 +159,18 @@ static void secfilehash_insert(struct section_file *file,
 static void secfilehash_build(struct section_file *file);
 static void secfilehash_free(struct section_file *file);
 static char *minstrdup(char *str);
+
+
+struct flat_entry_list {
+  struct section_entry **plist;	/* list of pointers to individual mallocs */
+  int n;			/* number used */
+  int n_alloc;			/* number allocated */
+};
+
+
+static void parse_commalist(struct flat_entry_list *entries, char *buffer,
+			    char *filename, int lineno);
+
 
 /**************************************************************************
 ...
@@ -107,7 +213,152 @@ void section_file_free(struct section_file *file)
   dealloc_strbuffer();
 }
 
+/**************************************************************************
+  Print log messages for any entries in the file which have
+  not been looked up -- ie, unused or unrecognised entries.
+  To mark an entry as used without actually doing anything with it,
+  you could do something like:
+     section_file_lookup(&file, "foo.bar");  / * unused * /
+**************************************************************************/
+void section_file_check_unused(struct section_file *file, char *filename)
+{
+  struct genlist_iterator myiter, myiter2;
+  struct section *psection;
+  struct section_entry *pentry;
+  int any = 0;
 
+  genlist_iterator_init(&myiter, &file->section_list, 0);
+
+  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+    psection = (struct section *)ITERATOR_PTR(myiter);
+    genlist_iterator_init(&myiter2, &psection->entry_list, 0);
+    for(; ITERATOR_PTR(myiter2); ITERATOR_NEXT(myiter2)) {
+      pentry = (struct section_entry *)ITERATOR_PTR(myiter2);
+      if (!pentry->used) {
+	if (any==0 && filename!=NULL) {
+	  flog(LOG_NORMAL, "Unused entries in file %s:", filename);
+	  any = 1;
+	}
+	flog(LOG_NORMAL, "  unused entry: %s.%s", psection->name, pentry->name);
+      }
+    }
+  }
+}
+
+/**************************************************************************
+  Parse a comma-delimited list of strings and integers.
+
+  "buffer" is a line of data, which should be a comma-separated
+  list of strings (with double-quotes) and simple integers.
+  Whitespace between entries is ok.
+  We mess with the buffer by inserting nuls.
+  
+  The section entry structs in "entries" are individually malloced,
+  so they can be used in the other registry structs and then freed
+  later without problems.  (Though now strbuffermalloc is used,
+  so this is less important.)  "entries" should be consistent on
+  input so we can realloc list->tab as necessary.  (We use realloc
+  for this instead of the strbuffer stuff, as this is reused many
+  times during loading the datafile.)
+  
+  In the section_entry structs we fill in ivalue and svalue,
+  but not name (which is set to NULL).  svalue, if used, is 
+  strbuffermalloc-ed memory.
+  (As usual svalue==NULL implies integer, else string.)
+  
+  The number of values is returned in list->n; there should be
+  at least one value, and trailing commas are not permitted.
+  
+  "filename" and "lineno" are for error reporting.
+**************************************************************************/
+static void parse_commalist(struct flat_entry_list *entries, char *buffer,
+			    char *filename, int lineno)
+{
+  char *cptr=buffer, *start;
+  struct section_entry *this_entry;
+  int end=0;
+
+  entries->n = 0;
+  do {
+    /* skip initial whitespace, to get to start of next value: */
+    for(; *cptr && isspace(*cptr); cptr++);
+    if(!*cptr) {
+      /* could just "break" here to allow trailing commas */
+      flog(LOG_FATAL, "missing expected value in %s - line %d",
+	   filename, lineno);
+      exit(1);
+    }
+
+    /* prepare for next entry: */
+    entries->n++;
+    this_entry = strbuffermalloc(sizeof(struct section_entry));
+    if (entries->n > entries->n_alloc) {
+      entries->n_alloc = 2*entries->n+1;
+      entries->plist = realloc(entries->plist,
+			       entries->n_alloc*sizeof(struct section_entry*));
+    }
+    entries->plist[entries->n-1] = this_entry;
+    this_entry->name = NULL;
+    this_entry->used = 0;
+
+    /* deal with integer or string */
+    if(isdigit(*cptr) || *cptr=='-') {
+      
+      /* integer: skip more digits: */
+      start=cptr;
+      cptr++;
+      for(; *cptr && isdigit(*cptr); cptr++);
+      
+      /* skip optional trailing whitespace and check for end or comma: */
+      for(; *cptr && isspace(*cptr); cptr++);
+      if(*cptr=='\0' || *cptr==';') {
+	end=1;
+      } else if (*cptr!=',') {
+	flog(LOG_FATAL, "junk after integer in %s - line %d",
+	     filename, lineno);
+	exit(1);
+      } else {
+	cptr++;			/* skip comma */
+      }
+
+      this_entry->ivalue=atoi(start);
+      this_entry->svalue=NULL;
+      
+    } else if(*cptr == '\"') {
+
+      /* string: find next double-quotes and terminate sub-string */
+      start=++cptr;
+      for(; *cptr && *cptr!='\"'; cptr++);
+      if (!*cptr) {
+	flog(LOG_FATAL, "missing end of string in %s - line %d",
+	     filename, lineno);
+	exit(1);
+      }
+      *cptr++='\0';
+      
+      /* skip optional trailing whitespace and check for end or comma: */
+      for(; *cptr && isspace(*cptr); cptr++);
+      if(*cptr=='\0' || *cptr==';') {
+	end=1;
+      } else if (*cptr!=',') {
+	flog(LOG_FATAL, "junk after string in %s - line %d",
+	     filename, lineno);
+	exit(1);
+      } else {
+	cptr++;			/* skip comma */
+      }
+
+      this_entry->svalue=minstrdup(start);
+      this_entry->ivalue=0;
+      
+    } else {
+      flog(LOG_FATAL, "syntax error at value %d in %s - line %d",
+	   entries->n, filename, lineno);
+      exit(1);
+    }
+    
+  } while(!end);
+}
 
 /**************************************************************************
 ...
@@ -115,116 +366,143 @@ void section_file_free(struct section_file *file)
 int section_file_load(struct section_file *my_section_file, char *filename)
 {
   FILE *fs;
-  char buffer[512];
-  int lineno, ival=0;
-  struct section *current_section=0;
+  char buffer[512], temp_name[512];
+  int lineno;
+  struct section *current_section=NULL;
+  int table_state=0;		/* 1 when within tabular format */
+  int table_lineno=0;		/* row number in tabular, 0=top data row */
+  char *table_basename=NULL;	/* reuse, so normal malloc */
+  struct flat_entry_list columns = {NULL, 0, 0};
+  struct flat_entry_list entries = {NULL, 0, 0};
+  int i;
 
   if(!(fs=fopen(filename, "r")))
     return 0;
 
   section_file_init(my_section_file);
-
   lineno=0;
 
-  while(fgets(buffer, 512, fs)) {
+  while(fgets(buffer, sizeof(buffer), fs)) {
     char *cptr;
 
+    if (strlen(buffer)==sizeof(buffer)-1) {
+      flog(LOG_FATAL, "line too long in %s - line %d", filename, lineno);
+      exit(1);
+    }
     lineno++;
 
     for(cptr=buffer; *cptr && isspace(*cptr); cptr++);
 
-    if(!*cptr || *cptr==';')
-      continue;
+    if(!*cptr || *cptr==';') {
+      continue;			/* blank line or comment line */
 
-    else if(*cptr=='[') {
+    } else if(*cptr=='[') {
       struct section *psection;
+      char *sname;
 
+      if (table_state) {
+	flog(LOG_FATAL, "new section during table in %s - line %d",
+	     filename, lineno);
+	exit(1);
+      }
+      sname = cptr+1;
       for(++cptr; *cptr && *cptr!=']'; cptr++);
-      
       if(!*cptr) {
 	flog(LOG_FATAL, "missing ] in %s - line %d", filename, lineno);
 	exit(1);
       }
-
       *cptr='\0';
 
-      psection=(struct section *)strbuffermalloc(sizeof(struct section));
-      psection->name=strbufferdup(buffer+1);
+      psection = (struct section *)strbuffermalloc(sizeof(struct section));
+      psection->name = strbufferdup(sname);
       genlist_init(&psection->entry_list);
       genlist_insert(&my_section_file->section_list, psection, -1);
 
       current_section=psection;
 
-    }
-    else {
-      char *pname, *pvalue;
-      struct section_entry *pentry;
+    } else if(!current_section) {
+      
+      flog(LOG_FATAL, "entry defined before first section in %s - line %d", 
+	   filename, lineno);
+      exit(1);
+      
+    } else if(*cptr=='}') {
 
-      pvalue=0;
+      if (!table_state) {
+	flog(LOG_FATAL, "misplaced \"}\" in %s - line %d", filename, lineno);
+	exit(1);
+      }
+      free(table_basename);
+      table_basename=NULL;
+      table_state=0;
 
-      for(; *cptr && isspace(*cptr); cptr++);
+    } else if(table_state) {
 
-      if(!*cptr)
-	continue;
-
-      pname=cptr;
+      parse_commalist(&entries, cptr, filename, lineno);
+      for(i=0; i<entries.n; i++) {
+	if (i<columns.n) {
+	  sprintf(temp_name,"%s%d.%s", table_basename, table_lineno,
+		  columns.plist[i]->svalue);
+	} else {
+	  sprintf(temp_name,"%s%d.%s,%d", table_basename, table_lineno,
+		  columns.plist[columns.n-1]->svalue, i-columns.n+1);
+	}
+	entries.plist[i]->name = strbufferdup(temp_name);
+	genlist_insert(&current_section->entry_list, entries.plist[i], -1); 
+	my_section_file->num_entries++;
+      }
+      table_lineno++;
+      
+    } else {
+      char *pname=cptr;
 
       for(; *cptr && *cptr!='='; cptr++);
-      
       if(!*cptr) {
 	flog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
 	exit(1);
       }
-
-      
       *cptr++='\0';
-
       for(; *cptr && isspace(*cptr); cptr++);
-
-      if(isdigit(*cptr) || *cptr=='-')
-	ival=atoi(cptr);
-      else if(*cptr=='\"') {
-	pvalue=++cptr;
-	for(; *cptr && *cptr!='\"'; cptr++);
+      
+      if(isdigit(*cptr) || *cptr=='-' || *cptr=='\"') {
 	
-	if(!*cptr) {
-	  flog(LOG_FATAL, "expected end of string in %s - line %d", filename, lineno);
-	  exit(1);
+	parse_commalist(&entries, cptr, filename, lineno);
+	for(i=0; i<entries.n; i++) {
+	  if (i==0) {
+	    entries.plist[0]->name = strbufferdup(pname);
+	  } else {
+	    sprintf(temp_name,"%s,%d", pname, i);
+	    entries.plist[i]->name = strbufferdup(temp_name);
+	  }
+	  genlist_insert(&current_section->entry_list, entries.plist[i], -1); 
+	  my_section_file->num_entries++;
 	}
-
-	*cptr='\0';
-
-      }
-      else {
-	flog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
-	exit(1);
-      }
-
-
-      if(!current_section) {
-	flog(LOG_FATAL, "entry defined before first section in %s - line %d", 
-	    filename, lineno);
-	exit(1);
-      }
-
-      
-      pentry=(struct section_entry *)strbuffermalloc(sizeof(struct section_entry));
-      pentry->name=strbufferdup(pname);
-      
-      if(pvalue)  {
-	pentry->svalue=minstrdup(pvalue);
-      } else {
-	pentry->ivalue=ival;
-	pentry->svalue=0;
-      }
-      genlist_insert(&current_section->entry_list, pentry, -1);
-
-      my_section_file->num_entries++;
+	
+      } else if(*cptr=='{') {
+	
+	table_basename = mystrdup(pname);
+	parse_commalist(&columns, cptr+1, filename, lineno);
+	for(i=0; i<columns.n; i++) {
+	  if( !columns.plist[i]->svalue ) {
+	    flog(LOG_FATAL, "table format entry non-string in %s - line %d",
+		 filename, lineno);
+	    exit(1);
+	  } 
+	}
+	table_state=1;
+	table_lineno=0;
+      }	
     }
+  }
+  if (table_state) {
+    flog(LOG_FATAL, "finished file %s before end of table\n", filename);
+    exit(1);
   }
 
   fclose(fs);
-
+  free(columns.plist);
+  free(entries.plist);
+  
   if(DO_HASH) {
     secfilehash_build(my_section_file);
   }
@@ -233,40 +511,139 @@ int section_file_load(struct section_file *my_section_file, char *filename)
 }
 
 /**************************************************************************
-...
+ Save the previously filled in section_file to disk.
+ 
+ There is now limited ability to save in the new tabular format
+ (to give smaller savefiles).
+ The start of a table is detected by an entry with name of the form:
+    (alphabetical_component)(zero)(period)(alphanumeric_component)
+ Eg: u0.id, or c0.id, in the freeciv savefile.
+ The alphabetical component is taken as the "name" of the table,
+ and the component after the period as the first column name.
+ This should be followed by the other column values for u0,
+ and then subsequent u1, u2, etc, in strict order with no omissions,
+ and with all of the columns for all uN in the same order as for u0.
 **************************************************************************/
 int section_file_save(struct section_file *my_section_file, char *filename)
 {
   FILE *fs;
 
-  struct genlist_iterator myiter;
+  struct genlist_iterator sec_iter, ent_iter, save_iter, col_iter;
+  struct section *psection;
+  struct section_entry *pentry, *col_pentry;
 
   if(!(fs=fopen(filename, "w")))
     return 0;
 
+  for(genlist_iterator_init(&sec_iter, &my_section_file->section_list, 0);
+      (psection = ITERATOR_PTR(sec_iter));
+      ITERATOR_NEXT(sec_iter)) {
+    fprintf(fs, "\n[%s]\n", psection->name);
 
-  genlist_iterator_init(&myiter, &my_section_file->section_list, 0);
-  
+    for(genlist_iterator_init(&ent_iter, &psection->entry_list, 0);
+	(pentry = ITERATOR_PTR(ent_iter));
+	ITERATOR_NEXT(ent_iter)) {
 
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct genlist_iterator myiter2;
-    fprintf(fs, "\n[%s]\n",((struct section *)ITERATOR_PTR(myiter))->name);
+      /* Tables: break out of this loop if this is a non-table
+       * entry (pentry and ent_iter unchanged) or after table (pentry
+       * and ent_iter suitably updated, pentry possibly NULL).
+       * After each table, loop again in case the next entry
+       * is another table.
+       */
+      for(;;) {
+	char *c, *first, base[64];
+	int offset, irow, icol, ncol;
+	
+	/* Example: for first table name of "xyz0.blah":
+	 *  first points to the original string pentry->name
+	 *  base contains "xyz";
+	 *  offset=5 (so first+offset gives "blah")
+	 *  note strlen(base)=offset-2
+	 */
 
-    genlist_iterator_init(&myiter2, &((struct section *)
-			       ITERATOR_PTR(myiter))->entry_list, 0);
+	if(!SAVE_TABLES) break;
+	
+	c = first = pentry->name;
+	if(!*c || !isalpha(*c)) break;
+	for( ; *c && isalpha(*c); c++);
+	if(strncmp(c,"0.",2) != 0) break;
+	c+=2;
+	if(!*c || !isalnum(*c)) break;
 
-    for(; ITERATOR_PTR(myiter2); ITERATOR_NEXT(myiter2)) {
-      if(((struct section_entry *)ITERATOR_PTR(myiter2))->svalue)
-	fprintf(fs, "%s=\"%s\"\n", 
-		((struct section_entry *)ITERATOR_PTR(myiter2))->name,
-		((struct section_entry *)ITERATOR_PTR(myiter2))->svalue);
+	offset = c - first;
+	first[offset-2] = '\0';
+	strcpy(base, first);
+	first[offset-2] = '0';
+	fprintf(fs, "%s={", base);
+
+	/* Save an iterator at this first entry, which we can later use
+	 * to repeatedly iterate over column names:
+	 */
+	save_iter = ent_iter;
+
+	/* write the column names, and calculate ncol: */
+	ncol = 0;
+	col_iter = save_iter;
+	for( ; (col_pentry = ITERATOR_PTR(col_iter)); ITERATOR_NEXT(col_iter)) {
+	  if(strncmp(col_pentry->name, first, offset) != 0)
+	    break;
+	  fprintf(fs, "%c\"%s\"", (ncol==0?' ':','), col_pentry->name+offset);
+	  ncol++;
+	}
+	fprintf(fs, "\n");
+
+	/* Iterate over rows and columns, incrementing ent_iter as we go,
+	 * and writing values to the table.  Have a separate iterator
+	 * to the column names to check they all match.
+	 */
+	irow = icol = 0;
+	col_iter = save_iter;
+	for(;;) {
+	  char expect[128];	/* pentry->name we're expecting */
+
+	  pentry = ITERATOR_PTR(ent_iter);
+	  col_pentry = ITERATOR_PTR(col_iter);
+
+	  sprintf(expect, "%s%d.%s", base, irow, col_pentry->name+offset);
+
+	  /* break out of tabular if doesn't match: */
+	  if((!pentry) || (strcmp(pentry->name, expect) != 0)) {
+	    if(icol != 0) {
+	      flog(LOG_NORMAL, "unexpected exit from tabular at %s",
+		   pentry->name);
+	      fprintf(fs, "\n");
+	    }
+	    fprintf(fs, "}\n");
+	    break;
+	  }
+
+	  if(icol>0)
+	    fprintf(fs, ",");
+	  if(pentry->svalue)
+	    fprintf(fs, "\"%s\"", pentry->svalue);
+	  else
+	    fprintf(fs, "%d", pentry->ivalue);
+	  
+	  ITERATOR_NEXT(ent_iter);
+	  ITERATOR_NEXT(col_iter);
+	  
+	  icol++;
+	  if(icol==ncol) {
+	    fprintf(fs, "\n");
+	    irow++;
+	    icol = 0;
+	    col_iter = save_iter;
+	  }
+	}
+	if(!pentry) break;
+      }
+      if(!pentry) break;
+
+      if(pentry->svalue)
+	fprintf(fs, "%s=\"%s\"\n", pentry->name, pentry->svalue);
       else
-	fprintf(fs, "%s=%d\n", 
-		((struct section_entry *)ITERATOR_PTR(myiter2))->name,
-		((struct section_entry *)ITERATOR_PTR(myiter2))->ivalue);
+	fprintf(fs, "%s=%d\n", pentry->name, pentry->ivalue);
     }
-
-
   }
 
   if(ferror(fs) || fclose(fs) == EOF)
@@ -324,8 +701,6 @@ void secfile_insert_int(struct section_file *my_section_file,
   pentry->svalue=0;
   
 }
-
-
 
 /**************************************************************************
 ...
@@ -458,13 +833,26 @@ struct section_entry *section_file_lookup_internal(struct section_file
   char *pdelim;
   char sec_name[512];
   char ent_name[512];
+  char mod_fullpath[1024];
+  int len;
   struct genlist_iterator myiter;
   struct hash_entry *hentry;
+  struct section_entry *result;
 
+  /* treat "sec.foo,0" as "sec.foo": */
+  len = strlen(fullpath);
+  if(len>2 && fullpath[len-2]==',' && fullpath[len-1]=='0') {
+    strcpy(mod_fullpath, fullpath);
+    fullpath = mod_fullpath;	/* reassign local pointer 'fullpath' */
+    fullpath[len-2] = '\0';
+  }
+  
   if (secfilehash_hashash(my_section_file)) {
     hentry = secfilehash_lookup(my_section_file, fullpath, NULL);
     if (hentry->data) {
-      return hentry->data;
+      result = hentry->data;
+      result->used++;
+      return result;
     } else {
       return 0;
     }
@@ -486,8 +874,11 @@ struct section_entry *section_file_lookup_internal(struct section_file
 				 ITERATOR_PTR(myiter))->entry_list, 0);
       for(; ITERATOR_PTR(myiter2); ITERATOR_NEXT(myiter2)) {
    	if(!strcmp(((struct section_entry *)ITERATOR_PTR(myiter2))->name, 
-		   ent_name))
-	  return (struct section_entry *)ITERATOR_PTR(myiter2);
+		   ent_name)) {
+	  result = (struct section_entry *)ITERATOR_PTR(myiter2);
+	  result->used++;
+	  return result;
+	}
       }
     }
 
@@ -727,6 +1118,88 @@ static void secfilehash_free(struct section_file *file)
   free(file->hashd);
 }
 
+/**************************************************************************
+ Returns the number of elements in a "vector".
+ That is, returns the number of consecutive entries in the sequence:
+ "path,0" "path,1", "path,2", ...
+ If none, returns 0.
+**************************************************************************/
+int secfile_lookup_vec_dimen(struct section_file *my_section_file, 
+			     char *path, ...)
+{
+  char buf[512];
+  va_list ap;
+  int j=0;
+
+  va_start(ap, path);
+  vsprintf(buf, path, ap);
+  va_end(ap);
+
+  while(section_file_lookup(my_section_file, "%s,%d", buf, j)) {
+    j++;
+  }
+  return j;
+}
+
+/**************************************************************************
+ Return a pointer for a list of integers for a "vector".
+ The return value is malloced here, and should be freed by the user.
+ The size of the returned list is returned in (*dimen).
+ If the vector does not exist, returns NULL ands sets (*dimen) to 0.
+**************************************************************************/
+int *secfile_lookup_int_vec(struct section_file *my_section_file,
+			    int *dimen, char *path, ...)
+{
+  char buf[512];
+  va_list ap;
+  int j, *res;
+
+  va_start(ap, path);
+  vsprintf(buf, path, ap);
+  va_end(ap);
+
+  *dimen = secfile_lookup_vec_dimen(my_section_file, buf);
+  if (*dimen == 0) {
+    return NULL;
+  }
+  res = malloc((*dimen)*sizeof(int));
+  for(j=0; j<(*dimen); j++) {
+    res[j] = secfile_lookup_int(my_section_file, "%s,%d", buf, j);
+  }
+  return res;
+}
+
+/**************************************************************************
+ Return a pointer for a list of "strings" for a "vector".
+ The return value is malloced here, and should be freed by the user,
+ but the strings themselves are contained in the sectionfile
+ (as when a single string is looked up) and should not be altered
+ or freed by the user.
+ The size of the returned list is returned in (*dimen).
+ If the vector does not exist, returns NULL ands sets (*dimen) to 0.
+**************************************************************************/
+char **secfile_lookup_str_vec(struct section_file *my_section_file,
+			      int *dimen, char *path, ...)
+{
+  char buf[512];
+  va_list ap;
+  int j;
+  char **res;
+
+  va_start(ap, path);
+  vsprintf(buf, path, ap);
+  va_end(ap);
+
+  *dimen = secfile_lookup_vec_dimen(my_section_file, buf);
+  if (*dimen == 0) {
+    return NULL;
+  }
+  res = malloc((*dimen)*sizeof(char*));
+  for(j=0; j<(*dimen); j++) {
+    res[j] = secfile_lookup_str(my_section_file, "%s,%d", buf, j);
+  }
+  return res;
+}
 
 static char *strbuffer=NULL;
 static int strbufferoffset=65536;
@@ -831,4 +1304,3 @@ static char *minstrdup(char *str)
   }
   return d2;
 }
-
