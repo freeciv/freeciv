@@ -762,6 +762,15 @@ bool tilespec_read_toplevel(const char *tileset_name)
     terr->num_layers = MAX(1, terr->num_layers);
 
     for (l = 0; l < terr->num_layers; l++) {
+      terr->layer[l].is_tall
+	= secfile_lookup_bool_default(file, FALSE, "%s.layer%d_is_tall",
+				      terrains[i], l);
+      terr->layer[l].offset_x
+	= secfile_lookup_int_default(file, 0, "%s.layer%d_offset_x",
+				     terrains[i], l);
+      terr->layer[l].offset_y
+	= secfile_lookup_int_default(file, 0, "%s.layer%d_offset_y",
+				     terrains[i], l);
       terr->layer[l].match_type
 	= secfile_lookup_int_default(file, 0, "%s.layer%d_match_type",
 				     terrains[i], l);
@@ -772,6 +781,16 @@ bool tilespec_read_toplevel(const char *tileset_name)
 	terr->layer[l].cell_type = CELL_SINGLE;
       } else if (mystrcasecmp(cell_type, "rect") == 0) {
 	terr->layer[l].cell_type = CELL_RECT;
+	if (terr->layer[l].is_tall
+	    || terr->layer[l].offset_x > 0
+	    || terr->layer[l].offset_y > 0) {
+	  freelog(LOG_ERROR,
+		  _("Error in %s layer %d: you cannot have tall terrain or\n"
+		    "a sprite offset with a cell-based drawing method."),
+		  terrains[i], l);
+	  terr->layer[l].is_tall = FALSE;
+	  terr->layer[l].offset_x = terr->layer[l].offset_y = 0;
+	}
       } else {
 	freelog(LOG_ERROR, "Unknown cell type %s for %s.",
 		cell_type, terrains[i]);
@@ -1981,7 +2000,9 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
 	tileno = INDEX_NSEW(MATCH(DIR8_NORTH), MATCH(DIR8_SOUTH),
 			    MATCH(DIR8_EAST), MATCH(DIR8_WEST));
 
-	ADD_SPRITE_SIMPLE(draw->layer[l].match[tileno]);
+	ADD_SPRITE(draw->layer[l].match[tileno],
+		   draw->layer[l].is_tall ? DRAW_FULL : DRAW_NORMAL,
+		   TRUE, draw->layer[l].offset_x, draw->layer[l].offset_y);
       } else if (draw->layer[l].cell_type == CELL_RECT) {
 	/* Divide the tile up into four rectangular cells.  Now each of these
 	 * cells covers one corner, and each is adjacent to 3 different

@@ -114,6 +114,8 @@ struct terrain_drawing_data {
 
   int num_layers; /* Can only be 1 or 2. */
   struct {
+    bool is_tall;
+    int offset_x, offset_y;
     int match_type;
     enum cell_type cell_type;
 
