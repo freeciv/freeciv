@@ -12,6 +12,7 @@ civclient_DEPENDENCIES = ad2c cityicon.ico freeciv.ico ../common/libcivcommon.a
 civclient_LDADD        = ../common/libcivcommon.a
 
 civclient_SOURCES = \
+		cityicon.ico freeciv.ico ad2c \
 		Freeciv.h	\
 		canvas.c	\
 		canvas.h	\

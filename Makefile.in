@@ -64,10 +64,13 @@ PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 
-SUBDIRS = data common ai client server
+SUBDIRS=	data common ai client server
 
-EXTRA_DIST  = CREDITS HOWTOPLAY Imakefile Makefile.noimake \
-	freeciv_hackers_guide.txt civ ser
+EXTRA_DIST=	AUTHORS COPYING CREDITS ChangeLog HOWTOPLAY \
+		INSTALL Imakefile Makefile.in Makefile.noimake \
+		NEWS README README.AI \
+		civ configure configure.in freeciv_hackers_guide.txt \
+		install-sh mkinstalldirs ser
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES = 
