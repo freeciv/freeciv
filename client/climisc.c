@@ -382,6 +382,8 @@ Copy a string that describes the given clause into the return buffer.
 void client_diplomacy_clause_string(char *buf, int bufsiz,
 				    struct Clause *pclause)
 {
+  struct city *pcity;
+
   switch(pclause->type) {
   case CLAUSE_ADVANCE:
     my_snprintf(buf, bufsiz, _("The %s give %s"),
@@ -389,9 +391,15 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 		advances[pclause->value].name);
     break;
   case CLAUSE_CITY:
-    my_snprintf(buf, bufsiz, _("The %s give %s"),
-		get_nation_name_plural(pclause->from->nation),
-		find_city_by_id(pclause->value)->name);
+    pcity = find_city_by_id(pclause->value);
+    if (pcity) {
+      my_snprintf(buf, bufsiz, _("The %s give %s"),
+                  get_nation_name_plural(pclause->from->nation),
+		  pcity->name);
+    } else {
+      my_snprintf(buf, bufsiz,_("The %s give unknown city."),
+                  get_nation_name_plural(pclause->from->nation));
+    }
     break;
   case CLAUSE_GOLD:
     my_snprintf(buf, bufsiz, _("The %s give %d gold"),

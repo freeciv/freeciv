@@ -68,115 +68,224 @@ struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
 
 
 /**************************************************************************
-...
+pplayer clicked the accept button. If he accepted the treaty we check the
+clauses. If both players have now accepted the treaty we execute the agreed
+clauses.
 **************************************************************************/
 void handle_diplomacy_accept_treaty(struct player *pplayer, 
 				    struct packet_diplomacy_info *packet)
 {
   struct Treaty *ptreaty;
-  struct player *plr0, *plr1, *pgiver, *pdest;
-  
-  plr0=&game.players[packet->plrno0];
-  plr1=&game.players[packet->plrno1];
-  pgiver=&game.players[packet->plrno_from];
-  
-  if((ptreaty=find_treaty(plr0, plr1)) && pgiver==pplayer) {
-    if(ptreaty->plr0==pgiver)
-      ptreaty->accept0=!ptreaty->accept0;
-    else
-      ptreaty->accept1=!ptreaty->accept1;
-      
-    lsend_packet_diplomacy_info(&plr0->connections, 
-			       PACKET_DIPLOMACY_ACCEPT_TREATY, 
-			       packet);
-    lsend_packet_diplomacy_info(&plr1->connections, 
-			       PACKET_DIPLOMACY_ACCEPT_TREATY, 
-			       packet);
-    
-    if(ptreaty->accept0 && ptreaty->accept1) {
-      struct genlist_iterator myiter;
-      
-      lsend_packet_diplomacy_info(&plr0->connections,
-				 PACKET_DIPLOMACY_CANCEL_MEETING, 
-				 packet);
-      lsend_packet_diplomacy_info(&plr1->connections, 
-				 PACKET_DIPLOMACY_CANCEL_MEETING, 
-				 packet);
-      
-      notify_player(plr0,
-		    _("Game: A treaty containing %d clauses was agreed upon."),
-		    genlist_size(&ptreaty->clauses));
-      notify_player(plr1,
-		    _("Game: A treaty containing %d clauses was agreed upon."),
-		    genlist_size(&ptreaty->clauses));
-      gamelog(GAMELOG_TREATY, "%s and %s agree to a treaty",
-	      get_nation_name_plural(plr0->nation),
-	      get_nation_name_plural(plr1->nation));
-      
-      
-      /* verify gold! the player's gold amount could have changed during
-       * the meeting */
-      genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
-      for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-	struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
-	pgiver=pclause->from;
+  struct player *plr0, *plr1, *pgiver, *pdest, *other;
+  int *giver_accept;
 
-	if(pclause->type==CLAUSE_GOLD && pgiver->economic.gold<pclause->value) {
-	  
-	  notify_player(plr0, _("Game: The %s don't have the promised amount "
-				"of gold! Treaty canceled!"),
-			get_nation_name_plural(pgiver->nation));
-	  notify_player(plr1, _("Game: The %s don't have the promised amount "
-				"of gold! Treaty canceled!"),
-			get_nation_name_plural(pgiver->nation));
-	  goto cleanup;
+  plr0 = &game.players[packet->plrno0];
+  plr1 = &game.players[packet->plrno1];
+  pgiver = &game.players[packet->plrno_from];
+  ptreaty = find_treaty(plr0, plr1);
+
+  if (!ptreaty)
+    return;
+  if (pgiver != pplayer)
+    return;
+
+  if (ptreaty->plr0 == pgiver) {
+    giver_accept = &ptreaty->accept0;
+  } else {
+    giver_accept = &ptreaty->accept1;
+  }
+
+  other = (plr0==pplayer) ? plr1 : plr0;
+  if (! *giver_accept) { /* Tries to accept. */
+
+    /* Check that player who accepts can keep what (s)he promises. */
+
+    struct genlist_iterator myiter;
+
+    genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
+
+    for (;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+      struct Clause *pclause = (struct Clause *)ITERATOR_PTR(myiter);
+      struct city *pcity;
+
+      if (pclause->from == pplayer) {
+	switch(pclause->type) {
+	case CLAUSE_ADVANCE:
+	  if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
+	    freelog(LOG_ERROR,
+                    "The %s don't know tech %s, but try to give it to the %s.",
+		    get_nation_name_plural(pplayer->nation),
+		    advances[pclause->value].name,
+		    get_nation_name_plural(other->nation));
+	    notify_player(pplayer,
+			  _("Game: You don't have tech %s, you can't accept treaty."),
+			  advances[pclause->value].name);
+	    return;
+	  }
+	  break;
+	case CLAUSE_CITY:
+	  pcity = find_city_by_id(pclause->value);
+	  if (!pcity) { /* Can't find out cityname any more. */
+	    notify_player(pplayer,
+			  _("City you are trying to give no longer exists, "
+			    "you can't accept treaty."));
+	    return;
+	  }
+	  if (pcity->owner != pplayer->player_no) {
+	    notify_player(pplayer,
+			  _("You are not owner of %s, you can't accept treaty."),
+			  pcity->name);
+	    return;
+	  }
+	  if (pcity->improvements[B_PALACE]) {
+	    notify_player(pplayer,
+			  _("Game: Your capital (%s) is requested, "
+			    "you can't accept treaty."),
+			  pcity->name);
+	    return;
+	  }
+	  break;
+	case CLAUSE_GOLD:
+	  if (pplayer->economic.gold < pclause->value) {
+	    notify_player(pplayer,
+			  _("Game: You don't have enought gold, "
+			    "you can't accept treaty."));
+	    return;
+	  }
+	  break;
+	default:
 	}
       }
-      
-      genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
-      
-      for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-	struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+    }
+  }
 
-	pgiver=pclause->from;
-	pdest=(plr0==pgiver) ? plr1 : plr0;
-	
-	switch(pclause->type) {
-	 case CLAUSE_ADVANCE:
-	  notify_player(pdest, _("Game: You are taught the knowledge of %s."),
-			advances[pclause->value].name);
+  *giver_accept = ! *giver_accept;
 
-	  notify_embassies(pdest,pgiver,
-			   _("Game: The %s have aquired %s from the %s."),
-			   get_nation_name_plural(pdest->nation),
-			   advances[pclause->value].name,
-			   get_nation_name_plural(pgiver->nation));
-								 
-	  gamelog(GAMELOG_TECH, "%s acquire %s (Treaty) from %s",
-                  get_nation_name_plural(pdest->nation),
-                  advances[pclause->value].name,
-                  get_nation_name_plural(pgiver->nation));
+  lsend_packet_diplomacy_info(&plr0->connections, 
+			      PACKET_DIPLOMACY_ACCEPT_TREATY, 
+			      packet);
+  lsend_packet_diplomacy_info(&plr1->connections, 
+			      PACKET_DIPLOMACY_ACCEPT_TREATY, 
+			      packet);
 
-	  do_dipl_cost(pdest);
+  if (ptreaty->accept0 && ptreaty->accept1) {
+    struct genlist_iterator myiter;
 
-	  found_new_tech(pdest, pclause->value, 0, 1);
+    lsend_packet_diplomacy_info(&plr0->connections,
+				PACKET_DIPLOMACY_CANCEL_MEETING, 
+				packet);
+    lsend_packet_diplomacy_info(&plr1->connections, 
+				PACKET_DIPLOMACY_CANCEL_MEETING, 
+				packet);
+
+    notify_player(plr0,
+		  _("Game: A treaty containing %d clauses was agreed upon."),
+		  genlist_size(&ptreaty->clauses));
+    notify_player(plr1,
+		  _("Game: A treaty containing %d clauses was agreed upon."),
+		  genlist_size(&ptreaty->clauses));
+    gamelog(GAMELOG_TREATY, "%s and %s agree to a treaty",
+	    get_nation_name_plural(plr0->nation),
+	    get_nation_name_plural(plr1->nation));
+
+    /* Check that one who accepted treaty earlier still have everything
+       (s)he promised to give. */
+
+    genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
+    for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+      struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+      struct city *pcity;
+      if (pclause->from == other) {
+	switch (pclause->type) {
+	case CLAUSE_CITY:
+	  pcity = find_city_by_id(pclause->value);
+	  if (!pcity) { /* Can't find out cityname any more. */
+	    notify_player(plr0,
+			  _("Game: One of the cities %s is giving away is destroyed! "
+			    "Treaty canceled!"),
+			  get_nation_name_plural(other->nation));
+	    notify_player(plr1,
+			  _("Game: One of the cities %s is giving away is destroyed! "
+			    "Treaty canceled!"),
+			  get_nation_name_plural(other->nation));
+	    goto cleanup;
+	  }
+	  if (pcity->owner != other->player_no) {
+	    notify_player(plr0,
+			  _("Game: The %s no longer control %s! "
+			    "Treaty canceled!"),
+			  get_nation_name_plural(other->nation),
+			  pcity->name);
+	    notify_player(plr1,
+			  _("Game: The %s no longer control %s! "
+			    "Treaty canceled!"),
+			  get_nation_name_plural(other->nation),
+			  pcity->name);
+	    goto cleanup;
+	  }
+	case CLAUSE_GOLD:
+	  if (other->economic.gold < pclause->value) {
+	    notify_player(plr0,
+			  _("Game: The %s don't have the promised amount "
+			    "of gold! Treaty canceled!"),
+			  get_nation_name_plural(other->nation));
+	    notify_player(plr1,
+			  _("Game: The %s don't have the promised amount "
+			    "of gold! Treaty canceled!"),
+			  get_nation_name_plural(other->nation));
+	    goto cleanup;
+	  }
 	  break;
-	 case CLAUSE_GOLD:
-	  notify_player(pdest, _("Game: You get %d gold."), pclause->value);
-	  pgiver->economic.gold-=pclause->value;
-	  pdest->economic.gold+=pclause->value;
-	  break;
-	 case CLAUSE_MAP:
-	  give_map_from_player_to_player(pgiver, pdest);
-	  notify_player(pdest, _("Game: You receive %s's worldmap."),
-			pgiver->name);
-	  break;
-	 case CLAUSE_SEAMAP:
-	  give_seamap_from_player_to_player(pgiver, pdest);
-	  notify_player(pdest, _("Game: You receive %s's seamap."),
-			pgiver->name);
-	  break;
-	case CLAUSE_CITY:{
+	default:
+	}
+      }
+    }
+
+    genlist_iterator_init(&myiter, &ptreaty->clauses, 0);
+
+    for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+      struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
+
+      pgiver = pclause->from;
+      pdest = (plr0==pgiver) ? plr1 : plr0;
+
+      switch (pclause->type) {
+      case CLAUSE_ADVANCE:
+	notify_player(pdest, _("Game: You are taught the knowledge of %s."),
+		      advances[pclause->value].name);
+
+	notify_embassies(pdest,pgiver,
+			 _("Game: The %s have aquired %s from the %s."),
+			 get_nation_name_plural(pdest->nation),
+			 advances[pclause->value].name,
+			 get_nation_name_plural(pgiver->nation));
+
+	gamelog(GAMELOG_TECH, "%s acquire %s (Treaty) from %s",
+		get_nation_name_plural(pdest->nation),
+		advances[pclause->value].name,
+		get_nation_name_plural(pgiver->nation));
+
+	do_dipl_cost(pdest);
+
+	found_new_tech(pdest, pclause->value, 0, 1);
+	break;
+      case CLAUSE_GOLD:
+	notify_player(pdest, _("Game: You get %d gold."), pclause->value);
+	pgiver->economic.gold -= pclause->value;
+	pdest->economic.gold += pclause->value;
+	break;
+      case CLAUSE_MAP:
+	give_map_from_player_to_player(pgiver, pdest);
+	notify_player(pdest, _("Game: You receive %s's worldmap."),
+		      pgiver->name);
+	break;
+      case CLAUSE_SEAMAP:
+	give_seamap_from_player_to_player(pgiver, pdest);
+	notify_player(pdest, _("Game: You receive %s's seamap."),
+		      pgiver->name);
+	break;
+      case CLAUSE_CITY:
+	{
 	  struct city *pcity = find_city_by_id(pclause->value);
 	  struct city *pnewcity = NULL;
 
@@ -186,63 +295,62 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 		    pclause->value);
 	    break;
 	  }
-	  
+
 	  notify_player(pdest, _("Game: You receive city of %s from %s."),
 			pcity->name, pgiver->name);
-	  
+
 	  notify_player(pgiver, _("Game: You give city of %s to %s."),
 			pcity->name, pdest->name);
-	  
-	  if(!(pnewcity = transfer_city(pdest, pgiver, pcity, -1, 1, 1, 0))){
+
+	  pnewcity = transfer_city(pdest, pgiver, pcity, -1, 1, 1, 0);
+	  if (!pnewcity) {
 	    freelog(LOG_NORMAL, "Transfer city returned no city - skipping clause.");
 	    break;
 	  }
 	  break;
 	}
-	case CLAUSE_CEASEFIRE:
-	  pgiver->diplstates[pdest->player_no].type=DS_CEASEFIRE;
-	  pgiver->diplstates[pdest->player_no].turns_left=16;
-	  pdest->diplstates[pgiver->player_no].type=DS_CEASEFIRE;
-	  pdest->diplstates[pgiver->player_no].turns_left=16;
-	  notify_player(pgiver, _("Game: You agree on a cease-fire with %s."),
-			pdest->name);
-	  notify_player(pdest, _("Game: You agree on a cease-fire with %s."),
-			pgiver->name);
-	  break;
-	case CLAUSE_PEACE:
-	  pgiver->diplstates[pdest->player_no].type=DS_PEACE;
-	  pdest->diplstates[pgiver->player_no].type=DS_PEACE;
-	  notify_player(pgiver, _("Game: You agree on peace with %s."),
-			pdest->name);
-	  notify_player(pdest, _("Game: You agree on peace with %s."),
-			pgiver->name);    
-	  break;
-	case CLAUSE_ALLIANCE:
-	  pgiver->diplstates[pdest->player_no].type=DS_ALLIANCE;
-	  pdest->diplstates[pgiver->player_no].type=DS_ALLIANCE;
-	  notify_player(pgiver, _("Game: You agree on an alliance with %s."),
-			pdest->name);
-	  notify_player(pdest, _("Game: You agree on an alliance with %s."),
-			pgiver->name);
-	  break;          
-	case CLAUSE_VISION:
-	  give_shared_vision(pgiver, pdest);
-	  notify_player(pgiver, _("Game: You give shared vision to %s."),
-			pdest->name);
-	  notify_player(pgiver, _("Game: %s give you shared vision."),
-			pdest->name);
-	  break;
-	}
-	
+      case CLAUSE_CEASEFIRE:
+	pgiver->diplstates[pdest->player_no].type=DS_CEASEFIRE;
+	pgiver->diplstates[pdest->player_no].turns_left=16;
+	pdest->diplstates[pgiver->player_no].type=DS_CEASEFIRE;
+	pdest->diplstates[pgiver->player_no].turns_left=16;
+	notify_player(pgiver, _("Game: You agree on a cease-fire with %s."),
+		      pdest->name);
+	notify_player(pdest, _("Game: You agree on a cease-fire with %s."),
+		      pgiver->name);
+	break;
+      case CLAUSE_PEACE:
+	pgiver->diplstates[pdest->player_no].type=DS_PEACE;
+	pdest->diplstates[pgiver->player_no].type=DS_PEACE;
+	notify_player(pgiver, _("Game: You agree on peace with %s."),
+		      pdest->name);
+	notify_player(pdest, _("Game: You agree on peace with %s."),
+		      pgiver->name);    
+	break;
+      case CLAUSE_ALLIANCE:
+	pgiver->diplstates[pdest->player_no].type=DS_ALLIANCE;
+	pdest->diplstates[pgiver->player_no].type=DS_ALLIANCE;
+	notify_player(pgiver, _("Game: You agree on an alliance with %s."),
+		      pdest->name);
+	notify_player(pdest, _("Game: You agree on an alliance with %s."),
+		      pgiver->name);
+	break;          
+      case CLAUSE_VISION:
+	give_shared_vision(pgiver, pdest);
+	notify_player(pgiver, _("Game: You give shared vision to %s."),
+		      pdest->name);
+	notify_player(pgiver, _("Game: %s gives you shared vision."),
+		      pdest->name);
+	break;
       }
-cleanup:      
-      genlist_unlink(&treaties, ptreaty);
-      free(ptreaty);
-      send_player_info(plr0, 0);
-      send_player_info(plr1, 0);
+
     }
+  cleanup:      
+    genlist_unlink(&treaties, ptreaty);
+    free(ptreaty);
+    send_player_info(plr0, 0);
+    send_player_info(plr1, 0);
   }
-  
 }
 
 

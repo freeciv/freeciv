@@ -14,6 +14,7 @@
 #include <stdlib.h>
 
 #include "genlist.h"
+#include "log.h"
 #include "mem.h"
 #include "player.h"
 
@@ -80,15 +81,6 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
       /* same clause already there */
       return 0;
     }
-    if(type==CLAUSE_GOLD
-       && pclause->type==CLAUSE_GOLD
-       && pclause->from==pfrom) {
-      /* gold clause there, different value */
-      ptreaty->accept0=0;
-      ptreaty->accept1=0;
-      pclause->value=val;
-      return 1;
-    }
     if(is_pact_clause(type) &&
        is_pact_clause(pclause->type)) {
       /* pact clause already there */
@@ -96,6 +88,25 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
       ptreaty->accept1=0;
       pclause->type=type;
       return 1;
+    }
+    switch(type) {
+    case CLAUSE_ADVANCE:
+      if (pclause->value < A_FIRST || pclause->value >= A_LAST) {
+        freelog(LOG_ERROR, "Out of range tech value %i in clause.",
+	        pclause->value);
+        return 0;
+      }
+      break;
+    case CLAUSE_GOLD:
+      if (pclause->type==CLAUSE_GOLD && pclause->from==pfrom) {
+        /* gold clause there, different value */
+        ptreaty->accept0=0;
+        ptreaty->accept1=0;
+        pclause->value=val;
+        return 1;
+      }
+      break;
+    default:
     }
   }
    
