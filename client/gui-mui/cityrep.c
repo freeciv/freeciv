@@ -181,8 +181,6 @@ static void cityrep_buy(void)
     {
       struct packet_city_request packet;
       packet.city_id=pcity->id;
-      packet.name[0]='\0';
-      packet.worklist.name[0] = '\0';
       send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
     }
     else

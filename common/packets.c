@@ -1388,7 +1388,7 @@ static unsigned char *put_worklist(struct connection *pc,
   buffer = put_bool8(buffer, pwl->is_valid);
 
   if ((short_wls && pwl->is_valid) || !short_wls) {
-    if (real_wl) {
+    if (real_wl && pwl->is_valid) {
       buffer = put_string(buffer, pwl->name);
     } else {
       buffer = put_string(buffer, "\0");
@@ -1754,6 +1754,17 @@ int send_packet_city_request(struct connection *pc,
 			     enum packet_type req_type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
+
+  /* can't modify the packet directly */
+  struct worklist copy;
+
+  if (req_type == PACKET_CITY_WORKLIST) {
+    assert(packet->worklist.is_valid);
+    copy_worklist(&copy, &packet->worklist);
+  } else {
+    copy.is_valid = FALSE;
+  }
+  
   cptr=put_uint8(buffer+2, req_type);
   cptr=put_uint16(cptr, packet->city_id);
   cptr=put_uint8(cptr, packet->build_id);
@@ -1762,8 +1773,12 @@ int send_packet_city_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->worker_y);
   cptr=put_uint8(cptr, packet->specialist_from);
   cptr=put_uint8(cptr, packet->specialist_to);
-  cptr = put_worklist(pc, cptr, &packet->worklist, TRUE);
-  cptr=put_string(cptr, packet->name);
+  cptr = put_worklist(pc, cptr, &copy, TRUE);
+  if (req_type == PACKET_CITY_RENAME) {
+    cptr = put_string(cptr, packet->name);
+  } else {
+    cptr = put_string(cptr, "");
+  }
   put_uint16(buffer, cptr-buffer);
 
   return send_packet_data(pc, buffer, cptr-buffer);

@@ -270,8 +270,6 @@ static void request_city_change_production(struct city *pcity, int id, int is_un
   struct packet_city_request packet;
 
   packet.city_id = pcity->id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
   packet.build_id = id;
   packet.is_build_id_unit_id = is_unit_id;
 
@@ -285,8 +283,6 @@ static void request_city_change_specialist(struct city *pcity, int from, int to)
   struct packet_city_request packet;
 
   packet.city_id = pcity->id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
   packet.specialist_from = from;
   packet.specialist_to = to;
 
@@ -303,8 +299,6 @@ static void request_city_toggle_worker(struct city *pcity, int xtile, int ytile)
     packet.city_id = pcity->id;
     packet.worker_x = xtile;
     packet.worker_y = ytile;
-    packet.name[0] = '\0';
-    packet.worklist.name[0] = '\0';
 
     if (pcity->city_map[xtile][ytile] == C_TILE_WORKER)
       send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_SPECIALIST);
@@ -319,8 +313,6 @@ static void request_city_buy(struct city *pcity)
 {
   struct packet_city_request packet;
   packet.city_id = pcity->id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
 }
 /****************************************************************
@@ -332,8 +324,6 @@ static void request_city_sell(struct city *pcity, int sell_id)
 
   packet.city_id = pcity->id;
   packet.build_id = sell_id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
 }
 
@@ -828,7 +818,6 @@ static void city_rename(struct city_dialog **ppdialog)
   struct packet_city_request packet;
 
   packet.city_id=pdialog->pcity->id;
-  packet.worklist.name[0] = '\0';
   sz_strlcpy(packet.name, (char*)xget(pdialog->name_transparentstring, MUIA_TransparentString_Contents));
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
 }
@@ -896,8 +885,7 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
      worklist is actually just the current build target; don't send it
      to the server as part of the worklist. */
   packet.city_id=pdialog->pcity->id;
-  packet.name[0] = '\0';
-  packet.worklist.is_valid = 1;
+  packet.worklist.is_valid = TRUE;
   packet.worklist.name[0] = '\0';
   for (i = 0; i < MAX_LEN_WORKLIST-1; i++) {
     packet.worklist.wlefs[i] = pwl->wlefs[i+1];

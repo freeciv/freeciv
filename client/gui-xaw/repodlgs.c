@@ -757,8 +757,6 @@ void economy_selloff_callback(Widget w, XtPointer client_data,
 	count++; gold+=improvement_value(i);
         packet.city_id=pcity->id;
         packet.build_id=i;
-        packet.name[0]='\0';
-	packet.worklist.name[0] = '\0';
         send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
     }
   }

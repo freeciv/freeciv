@@ -327,8 +327,6 @@ void client_change_all(cid x, cid y)
 	packet.city_id = pcity->id;
 	packet.build_id = to_id;
 	packet.is_build_id_unit_id = to_is_unit;
-	packet.name[0] = '\0';
-	packet.worklist.name[0] = '\0';
 	send_packet_city_request (&aconnection, &packet,
 				  PACKET_CITY_CHANGE);
       }

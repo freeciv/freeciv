@@ -370,8 +370,6 @@ static void cityrep_buy(HWND hWnd)
         {
           struct packet_city_request packet;
           packet.city_id=pcity->id;
-          packet.name[0]='\0';
-          packet.worklist.name[0] = '\0';
           send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
         }
       else
@@ -520,8 +518,6 @@ static void cityrep_change_menu(HWND hWnd, cid cid)
 							  ID_CITYREP_LIST),
 					       cityids[i]);
       packet.city_id=pcity->id;
-      packet.name[0]='\0';
-      packet.worklist.name[0] = '\0';
       packet.build_id=number;
       packet.is_build_id_unit_id=is_unit;
       send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);  

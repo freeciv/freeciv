@@ -1400,8 +1400,7 @@ static void rename_city_callback(Widget w, XtPointer client_data,
 
   if((pdialog=(struct city_dialog *)client_data)) {
     packet.city_id=pdialog->pcity->id;
-    packet.worklist.name[0] = '\0';
-    sz_strlcpy(packet.name, input_dialog_get_input(w));
+     sz_strlcpy(packet.name, input_dialog_get_input(w));
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
   }
   input_dialog_destroy(w);
@@ -1967,8 +1966,6 @@ void citydlg_btn_select_citymap(Widget w, XEvent *event)
     packet.city_id=pcity->id;
     packet.worker_x=xtile;
     packet.worker_y=ytile;
-    packet.name[0]='\0';
-    packet.worklist.name[0] = '\0';
     
     if(pcity->city_map[xtile][ytile]==C_TILE_WORKER)
       send_packet_city_request(&aconnection, &packet, 
@@ -1989,8 +1986,6 @@ void elvis_callback(Widget w, XtPointer client_data, XtPointer call_data)
   pdialog=(struct city_dialog *)client_data;
 
   packet.city_id=pdialog->pcity->id;
-  packet.name[0]='\0';
-  packet.worklist.name[0] = '\0';
   packet.specialist_from=SP_ELVIS;
   packet.specialist_to=SP_SCIENTIST;
   
@@ -2009,8 +2004,6 @@ void scientist_callback(Widget w, XtPointer client_data, XtPointer call_data)
   pdialog=(struct city_dialog *)client_data;
 
   packet.city_id=pdialog->pcity->id;
-  packet.name[0]='\0';
-  packet.worklist.name[0] = '\0';
   packet.specialist_from=SP_SCIENTIST;
   packet.specialist_to=SP_TAXMAN;
   
@@ -2029,8 +2022,6 @@ void taxman_callback(Widget w, XtPointer client_data, XtPointer call_data)
   pdialog=(struct city_dialog *)client_data;
 
   packet.city_id=pdialog->pcity->id;
-  packet.name[0]='\0';
-  packet.worklist.name[0] = '\0';
   packet.specialist_from=SP_TAXMAN;
   packet.specialist_to=SP_ELVIS;
   
@@ -2050,8 +2041,6 @@ static void buy_callback_yes(Widget w, XtPointer client_data,
   pdialog=(struct city_dialog *)client_data;
 
   packet.city_id=pdialog->pcity->id;
-  packet.name[0]='\0';
-  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
 
   destroy_message_dialog(w);
@@ -2201,8 +2190,6 @@ static void change_to_callback(Widget w, XtPointer client_data,
     struct packet_city_request packet;
   
     packet.city_id=pdialog->pcity->id;
-    packet.name[0]='\0';
-    packet.worklist.name[0] = '\0';
     packet.build_id=pdialog->change_list_ids[ret->list_index];
     packet.is_build_id_unit_id=
       (ret->list_index >= pdialog->change_list_num_improvements);
@@ -2458,8 +2445,6 @@ void commit_city_worklist(struct worklist *pwl, void *data)
 
 	/* Change the current target */
 	packet.city_id=pdialog->pcity->id;
-	packet.name[0] = '\0';
-	packet.worklist.name[0] = '\0';
 	packet.build_id = id;
 	packet.is_build_id_unit_id = is_unit;
 	send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
@@ -2474,14 +2459,8 @@ void commit_city_worklist(struct worklist *pwl, void *data)
 
   /* Send the rest of the worklist on its way. */
   packet.city_id=pdialog->pcity->id;
-  packet.name[0] = '\0';
+  copy_worklist(&packet.worklist, pwl);
   packet.worklist.name[0] = '\0';
-  packet.worklist.is_valid = 1;
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    packet.worklist.wlefs[i] = pwl->wlefs[i];
-    packet.worklist.wlids[i] = pwl->wlids[i];
-  }
-    
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
 
   pdialog->worklist_shell = NULL;
@@ -2506,8 +2485,6 @@ static void sell_callback_yes(Widget w, XtPointer client_data,
 
   packet.city_id=pdialog->pcity->id;
   packet.build_id=pdialog->sell_id;
-  packet.name[0]='\0';
-  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
 
   destroy_message_dialog(w);

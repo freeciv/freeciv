@@ -381,8 +381,6 @@ void city_change_callback(Widget w, XtPointer client_data,
     build_nr = cid_id(my_cid);
 
     packet.city_id=pcity->id;
-    packet.name[0]='\0';
-    packet.worklist.name[0] = '\0';
     packet.build_id=build_nr;
     packet.is_build_id_unit_id=unit;
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
@@ -414,8 +412,6 @@ void city_buy_callback(Widget w, XtPointer client_data,
 	{
 	  struct packet_city_request packet;
 	  packet.city_id=pcity->id;
-	  packet.name[0]='\0';
-	  packet.worklist.name[0] = '\0';
 	  send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
 	}
       else

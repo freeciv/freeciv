@@ -410,9 +410,6 @@ static int set_worker(struct city *pcity, int x, int y, bool set_clear)
 	  pcity->name, pcity->id, x, y, set_clear ? "set" : "clear");
 
   packet.city_id = pcity->id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
-
   packet.worker_x = x;
   packet.worker_y = y;
   return send_packet_city_request(&aconnection, &packet,
@@ -515,8 +512,6 @@ static bool apply_result_on_server(struct city *pcity,
   connection_do_buffer(&aconnection);
 
   packet.city_id = pcity->id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
 
   /* Do checks */
   worker = count_worker(pcity, result);

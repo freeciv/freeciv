@@ -2820,8 +2820,6 @@ static void citizens_callback(GtkWidget * w, GdkEventButton * ev,
   }
 
   packet.city_id = pdialog->pcity->id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
   packet.specialist_from = type;
 
   switch (type) {
@@ -2877,8 +2875,6 @@ static gint button_down_citymap(GtkWidget * w, GdkEventButton * ev)
     packet.city_id = pcity->id;
     packet.worker_x = xtile;
     packet.worker_y = ytile;
-    packet.name[0] = '\0';
-    packet.worklist.name[0] = '\0';
 
     if (pcity->city_map[xtile][ytile] == C_TILE_WORKER)
       send_packet_city_request(&aconnection, &packet,
@@ -3007,8 +3003,6 @@ static void buy_callback_yes(GtkWidget * w, gpointer data)
   pdialog = (struct city_dialog *) data;
 
   packet.city_id = pdialog->pcity->id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
 
   destroy_message_dialog(w);
@@ -3167,8 +3161,6 @@ static void change_yes_callback(GtkWidget * w, gpointer data)
 					   (selection->data));
 
     packet.city_id = pdialog->pcity->id;
-    packet.name[0] = '\0';
-    packet.worklist.name[0] = '\0';
     packet.build_id = cid_id(cid);
     packet.is_build_id_unit_id = cid_is_unit(cid);
 
@@ -3284,8 +3276,6 @@ static void sell_callback_yes(GtkWidget * w, gpointer data)
 
   packet.city_id = pdialog->pcity->id;
   packet.build_id = pdialog->sell_id;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
 
   destroy_message_dialog(w);
@@ -3352,7 +3342,7 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  int i, k, id, is_unit;
+  int k, id, is_unit;
 
   /* Update the worklist.  Remember, though -- the current build
      target really isn't in the worklist; don't send it to the server
@@ -3386,8 +3376,6 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 
 	/* Change the current target */
 	packet.city_id = pdialog->pcity->id;
-	packet.name[0] = '\0';
-	packet.worklist.name[0] = '\0';
 	packet.build_id = id;
 	packet.is_build_id_unit_id = is_unit;
 	send_packet_city_request(&aconnection, &packet,
@@ -3403,14 +3391,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 
   /* Send the rest of the worklist on its way. */
   packet.city_id = pdialog->pcity->id;
-  packet.name[0] = '\0';
+  copy_worklist(&packet.worklist, pwl);
   packet.worklist.name[0] = '\0';
-  packet.worklist.is_valid = 1;
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    packet.worklist.wlefs[i] = pwl->wlefs[i];
-    packet.worklist.wlids[i] = pwl->wlids[i];
-  }
-
   send_packet_city_request(&aconnection, &packet, PACKET_CITY_WORKLIST);
 }
 
@@ -3474,7 +3456,6 @@ static void rename_callback_yes(GtkWidget * w, gpointer data)
 
   if (pdialog) {
     packet.city_id = pdialog->pcity->id;
-    packet.worklist.name[0] = '\0';
     sz_strlcpy(packet.name, input_dialog_get_input(w));
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_RENAME);
 
