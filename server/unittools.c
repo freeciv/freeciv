@@ -1636,7 +1636,8 @@ static void server_remove_unit(struct unit *punit)
      are built, so that no two settlers head towards the same city
      spot, we need to ensure this reservation is cleared should
      the settler die on the way. */
-  if (unit_owner(punit)->ai.control) {
+  if ((unit_owner(punit)->ai.control || punit->ai.control)
+      && punit->ai.ai_role != AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
   }
 
