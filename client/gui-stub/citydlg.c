@@ -36,3 +36,12 @@ refresh_unit_city_dialogs(struct unit *punit)
 {
 	/* PORTME */
 }
+
+/********************************************************************** 
+  Return whether the dialog for the given city is open.
+**********************************************************************/
+bool city_dialog_is_open(struct city *pcity)
+{
+  /* PORTME */
+  return FALSE;
+}

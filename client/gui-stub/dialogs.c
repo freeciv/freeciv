@@ -37,8 +37,7 @@ popup_unit_select_dialog(struct tile *ptile)
 	/* PORTME */
 }
 
-void
-races_toggles_set_sensitive(int bits1, int bits2)
+void races_toggles_set_sensitive(struct packet_nations_used *packet)
 {
 	/* PORTME */
 }

@@ -6,6 +6,10 @@
 
 #include "mapview.h"
 
+/* Mapview dimensions. */
+int map_view_x0, map_view_y0;
+int canvas_width, canvas_height;
+
 /***********************************************************************
   This function can be used by mapview_common code to determine the
   location and dimensions of the mapview canvas.
