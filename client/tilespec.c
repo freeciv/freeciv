@@ -626,7 +626,7 @@ static void tilespec_lookup_sprite_tags(void)
   }
 #endif
 
-#ifndef ISMETRIC
+#ifndef ISOMETRIC
   for(i=0; i<2; i++) {
     for(j=0; j<3; j++) {
       my_snprintf(buffer, sizeof(buffer), "tx.denmark_%d%d", i, j);

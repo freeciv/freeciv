@@ -179,10 +179,10 @@ struct named_sprites {
       *coast_cape[8][4], /* 4 = up down left right */
 #else
       *coast_cape[NUM_DIRECTION_NSEW],	      /* first unused */
+      *denmark[2][3],		/* row, column */
 #endif
       *darkness[NUM_DIRECTION_NSEW],         /* first unused */
-      *river_outlet[4],		/* indexed by enum Directions */
-      *denmark[2][3];		/* row, column */
+      *river_outlet[4];		/* indexed by enum Directions */
   } tx;				/* terrain extra */
 };
 
