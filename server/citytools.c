@@ -49,7 +49,6 @@
 #include "unittools.h"
 
 #include "aicity.h"
-#include "aidata.h"
 #include "aiunit.h"
 
 #include "citytools.h"
@@ -1035,11 +1034,6 @@ void remove_city(struct city *pcity)
   struct tile *ptile = pcity->tile;
   bool had_palace = is_capital(pcity);
   char *city_name = mystrdup(pcity->name);
-  struct ai_data *ai = ai_data_get(pplayer);
-
-  if (ai->wonder_city == pcity) {
-    ai->wonder_city = NULL;
-  }
 
   built_impr_iterate(pcity, i) {
     city_remove_improvement(pcity, i);

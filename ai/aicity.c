@@ -592,7 +592,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
   }
 
   /* Are we wonder city? Try to avoid building non-wonders very much. */
-  if (pcity == ai->wonder_city && !is_wonder(id)) {
+  if (pcity->id == ai->wonder_city && !is_wonder(id)) {
     v /= 5;
   }
 
@@ -668,12 +668,17 @@ static void calculate_wonder_helpers(struct player *pplayer,
   Unit_Type_id unittype;
   struct unit *ghost;
   int maxrange;
+  struct city *wonder_city = find_city_by_id(ai->wonder_city);
 
   city_list_iterate(pplayer->cities, acity) {
     acity->ai.distance_to_wonder_city = 0; /* unavailable */
   } city_list_iterate_end;
 
-  if (ai->wonder_city == NULL) {
+  if (wonder_city == NULL) {
+    return;
+  }
+  if (wonder_city->owner != pplayer->player_no) {
+    ai->wonder_city = 0;
     return;
   }
 
@@ -681,7 +686,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   if (unittype == U_LAST) {
     return;
   }
-  ghost = create_unit_virtual(pplayer, ai->wonder_city, unittype, 0);
+  ghost = create_unit_virtual(pplayer, wonder_city, unittype, 0);
   maxrange = unit_move_rate(ghost) * 7;
 
   pft_fill_unit_parameter(&parameter, ghost);
@@ -713,20 +718,27 @@ void ai_manage_buildings(struct player *pplayer)
 #define RECALC_SPEED 5
 {
   struct ai_data *ai = ai_data_get(pplayer);
+  struct city *wonder_city = find_city_by_id(ai->wonder_city);
+
+  if (wonder_city && wonder_city->owner != pplayer->player_no) {
+    /* We lost it to the enemy! */
+    ai->wonder_city = 0;
+    wonder_city = NULL;
+  }
 
   /* Preliminary analysis - find our Wonder City. Also check if it
    * is sane to continue building the wonder in it. If either does
    * not check out, make a Wonder City. */
-  if (!(ai->wonder_city != NULL
-        && ai->wonder_city->surplus[O_SHIELD] > 0
-        && !ai->wonder_city->is_building_unit
-        && is_wonder(ai->wonder_city->currently_building)
-        && can_build_improvement(ai->wonder_city, 
-                                 ai->wonder_city->currently_building)
-        && !improvement_obsolete(pplayer, ai->wonder_city->currently_building)
-        && !is_building_replaced(ai->wonder_city, 
-                                 ai->wonder_city->currently_building))
-      || ai->wonder_city == NULL) {
+  if (!(wonder_city != NULL
+        && wonder_city->surplus[O_SHIELD] > 0
+        && !wonder_city->is_building_unit
+        && is_wonder(wonder_city->currently_building)
+        && can_build_improvement(wonder_city, 
+                                 wonder_city->currently_building)
+        && !improvement_obsolete(pplayer, wonder_city->currently_building)
+        && !is_building_replaced(wonder_city, 
+                                 wonder_city->currently_building))
+      || wonder_city == NULL) {
     /* Find a new wonder city! */
     int best_candidate_value = 0;
     struct city *best_candidate = NULL;
@@ -766,7 +778,8 @@ void ai_manage_buildings(struct player *pplayer)
     } city_list_iterate_end;
     if (best_candidate) {
       CITY_LOG(LOG_DEBUG, best_candidate, "chosen as wonder-city!");
-      ai->wonder_city = best_candidate;
+      ai->wonder_city = best_candidate->id;
+      wonder_city = best_candidate;
     }
   }
   calculate_wonder_helpers(pplayer, ai);
@@ -782,7 +795,7 @@ void ai_manage_buildings(struct player *pplayer)
       continue;
     }
     city_list_iterate(pplayer->cities, pcity) {
-      if (pcity != ai->wonder_city && is_wonder(id)) {
+      if (pcity != wonder_city && is_wonder(id)) {
         /* Only wonder city should build wonders! */
         continue;
       }

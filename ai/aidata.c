@@ -498,10 +498,6 @@ struct ai_data *ai_data_get(struct player *pplayer)
     ai_data_phase_done(pplayer);
     ai_data_phase_init(pplayer, FALSE);
   }
-  if (ai->wonder_city && ai->wonder_city->owner != pplayer->player_no) {
-    /* We lost our wonder city :( */
-    ai->wonder_city = NULL;
-  }
   return ai;
 }
 
@@ -520,7 +516,7 @@ void ai_data_init(struct player *pplayer)
   memset(ai->government_want, 0,
 	 (game.government_count + 1) * sizeof(*ai->government_want));
 
-  ai->wonder_city = NULL;
+  ai->wonder_city = 0;
   ai->diplomacy.target = NULL;
   ai->diplomacy.strategy = WIN_OPEN;
   ai->diplomacy.timer = 0;

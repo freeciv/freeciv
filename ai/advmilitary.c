@@ -1253,7 +1253,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   freelog(LOG_DEBUG, "%s: danger = %d, grave_danger = %d, our_def = %d",
           pcity->name, pcity->ai.danger, pcity->ai.grave_danger, our_def);
 
-  if (pcity == ai->wonder_city && pcity->ai.grave_danger == 0) {
+  if (pcity->id == ai->wonder_city && pcity->ai.grave_danger == 0) {
     return; /* Other cities can build our defenders, thank you! */
   }
 
@@ -1358,7 +1358,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   if (pcity->surplus[O_SHIELD] <= 0 
       || pcity->ppl_unhappy[4] > pcity->ppl_unhappy[2]
-      || pcity == ai->wonder_city) {
+      || pcity->id == ai->wonder_city) {
     /* Things we consider below are not life-saving so we don't want to 
      * build them if our populace doesn't feel like it */
     return;

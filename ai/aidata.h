@@ -57,7 +57,7 @@ struct ai_dip_intel {
 BV_DEFINE(bv_id, MAX_NUM_ID);
 struct ai_data {
   /* The Wonder City */
-  struct city *wonder_city;
+  int wonder_city;
 
   /* Precalculated info about city improvements */
   enum ai_improvement_status impr_calc[MAX_NUM_ITEMS];

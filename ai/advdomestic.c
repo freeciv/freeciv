@@ -58,17 +58,18 @@ static void ai_choose_help_wonder(struct city *pcity,
   int caravans = 0;
   /* The type of the caravan */
   Unit_Type_id unit_type;
+  struct city *wonder_city = find_city_by_id(ai->wonder_city);
 
   if (num_role_units(F_HELP_WONDER) == 0) {
     /* No such units available in the ruleset */
     return;
   }
 
-  if (pcity == ai->wonder_city 
-      || ai->wonder_city == NULL
+  if (pcity == wonder_city 
+      || wonder_city == NULL
       || pcity->ai.distance_to_wonder_city <= 0
-      || ai->wonder_city->is_building_unit
-      || !is_wonder(ai->wonder_city->currently_building)) {
+      || wonder_city->is_building_unit
+      || !is_wonder(wonder_city->currently_building)) {
     /* A distance of zero indicates we are very far away, possibly
      * on another continent. */
     return;
@@ -99,16 +100,16 @@ static void ai_choose_help_wonder(struct city *pcity,
   }
 
   /* Check if wonder needs a little help. */
-  if (build_points_left(ai->wonder_city) 
+  if (build_points_left(wonder_city) 
       > unit_build_shield_cost(unit_type) * caravans) {
-    Impr_Type_id wonder = ai->wonder_city->currently_building;
-    int want = ai->wonder_city->ai.building_want[wonder];
+    Impr_Type_id wonder = wonder_city->currently_building;
+    int want = wonder_city->ai.building_want[wonder];
     int dist = pcity->ai.distance_to_wonder_city /
                get_unit_type(unit_type)->move_rate;
 
     want /= MAX(dist, 1);
     CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 
-             unit_name(unit_type), ai->wonder_city->name, want);
+             unit_name(unit_type), wonder_city->name, want);
     if (want > choice->want) {
       /* This sets our tech want in cases where we cannot actually build
        * the unit. */
@@ -145,14 +146,14 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   unit_type = best_role_unit(pcity, F_SETTLERS);
 
   if (unit_type != U_LAST
-      && (pcity != ai->wonder_city
+      && (pcity->id != ai->wonder_city
           || get_unit_type(unit_type)->pop_cost == 0)
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(get_unit_type(unit_type),
 			 	                    gov, O_FOOD)) {
     /* settler_want calculated in settlers.c called from ai_manage_cities() */
     int want = pcity->ai.settler_want;
 
-    if (ai->wonder_city == pcity) {
+    if (ai->wonder_city == pcity->id) {
       want /= 5;
     }
 
@@ -174,14 +175,14 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   unit_type = best_role_unit(pcity, F_CITIES);
 
   if (unit_type != U_LAST
-      && (pcity != ai->wonder_city
+      && (pcity->id != ai->wonder_city
           || get_unit_type(unit_type)->pop_cost == 0)
       && pcity->surplus[O_FOOD] >= utype_upkeep_cost(get_unit_type(unit_type),
 				                     gov, O_FOOD)) {
     /* founder_want calculated in settlers.c, called from ai_manage_cities(). */
     int want = pcity->ai.founder_want;
 
-    if (ai->wonder_city == pcity) {
+    if (ai->wonder_city == pcity->id) {
       want /= 5;
     }
 
