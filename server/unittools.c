@@ -1471,11 +1471,6 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
   punit->hp = MAX(punit->hp * unit_type(punit)->hp / old_hp, 1);
   punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
 
-  /* decrease veteran level by 1 */
-  if (punit->veteran > 0) {
-    punit->veteran--;
-  }
-
   conn_list_do_buffer(&pplayer->connections);
 
   /* apply new vision range */
