@@ -388,8 +388,6 @@ bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y);
 int map_move_cost(struct unit *punit, int x, int y);
 enum tile_special_type get_special_by_name(const char * name);
 const char *get_special_name(enum tile_special_type type);
-bool is_special_near_tile(int x, int y, enum tile_special_type spe);
-int count_special_near_tile(int x, int y, enum tile_special_type spe);
 bool is_safe_ocean(int x, int y);
 bool is_cardinally_adj_to_ocean(int x, int y);
 bool is_sea_usable(int x, int y);

@@ -589,23 +589,6 @@ static void make_deserts(void)
 }
 
 /*********************************************************************
- Returns the number of adjacent river tiles of a tile. This can be 0
- to 4.                                                     -Erik Sigra
-*********************************************************************/
-static int adjacent_river_tiles4(int x, int y)
-{
-  int num_adjacent  = 0;
-
-  cardinal_adjc_iterate(x, y, x1, y1) {
-    if (map_has_special(x1, y1, S_RIVER)) {
-      num_adjacent++;
-    }
-  } cardinal_adjc_iterate_end;
-
-  return num_adjacent;
-}
-
-/*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
 static int river_test_blocked(int x, int y)
@@ -627,7 +610,7 @@ static int river_test_blocked(int x, int y)
 *********************************************************************/
 static int river_test_rivergrid(int x, int y)
 {
-  return (adjacent_river_tiles4(x, y) > 1) ? 1 : 0;
+  return (count_special_near_tile(x, y, TRUE, S_RIVER) > 1) ? 1 : 0;
 }
 
 /*********************************************************************
@@ -654,7 +637,9 @@ static int river_test_adjacent_ocean(int x, int y)
 *********************************************************************/
 static int river_test_adjacent_river(int x, int y)
 {
-  return 4 - adjacent_river_tiles4(x, y);
+  /* This number must always be >= 0.  6 is the maximum number of
+   * cardinal directions. */
+  return 6 - count_special_near_tile(x, y, TRUE, S_RIVER);
 }
 
 /*********************************************************************
@@ -788,8 +773,8 @@ static struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
      Rivers must flow down to areas near other rivers when possible:
 
      Possible values:
-     n: 4 - adjacent_river_tiles4(...) (should be < 2 after the
-                                        4-river-grid test)
+     n: 6 - count_river_near_tile(...) (should be small after the
+                                        river-grid test)
 					
  * Adjacent highlands:
      (river_test_adjacent_highlands)
@@ -838,7 +823,7 @@ static bool make_river(int x, int y)
 
     /* Test if the river is done. */
     /* We arbitrarily make rivers end at the poles. */
-    if (adjacent_river_tiles4(x, y) != 0
+    if (count_special_near_tile(x, y, TRUE, S_RIVER) != 0
 	|| count_ocean_near_tile(x, y, TRUE) != 0
         || (map_get_terrain(x, y) == T_ARCTIC 
 	    && map_temperature(x, y) < 8 * MAX_TEMP / 100)) { 
@@ -982,7 +967,7 @@ static void make_rivers(void)
 
 	/* Don't start a river on a tile is surrounded by > 1 river +
 	   ocean tile. */
-	&& (adjacent_river_tiles4(x, y)
+	&& (count_special_near_tile(x, y, TRUE, S_RIVER)
 	    + count_ocean_near_tile(x, y, TRUE) <= 1)
 
 	/* Don't start a river on a tile that is surrounded by hills or
@@ -1997,12 +1982,12 @@ static void fill_island_rivers(int coast, long int *bucket,
       /* the first condition helps make terrain more contiguous,
 	 the second lets it avoid the coast: */
       if ((i * 3 > k * 2 
-	   || count_special_near_tile(x, y, S_RIVER) > 0
+	   || count_special_near_tile(x, y, FALSE, S_RIVER) > 0
 	   || myrand(100) < 50)
 	  && (!is_cardinally_adj_to_ocean(x, y) || myrand(100) < coast)) {
 	if (is_water_adjacent_to_tile(x, y)
 	    && count_ocean_near_tile(x, y, FALSE) < 4
-            && count_special_near_tile(x, y, S_RIVER) < 3) {
+            && count_special_near_tile(x, y, FALSE, S_RIVER) < 3) {
 	  map_set_special(x, y, S_RIVER);
 	  i--;
 	}

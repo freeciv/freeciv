@@ -187,6 +187,37 @@ int count_terrain_near_tile(int map_x, int map_y, bool cardinal_only,
 }
 
 /****************************************************************************
+  Returns TRUE iff any tile adjacent to (map_x,map_y) has the given special.
+****************************************************************************/
+bool is_special_near_tile(int map_x, int map_y, enum tile_special_type spe)
+{
+  adjc_iterate(map_x, map_y, adjc_x, adjc_y) {
+    if (map_has_special(adjc_x, adjc_y, spe)) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Returns the number of adjacent tiles that have the given map special.
+****************************************************************************/
+int count_special_near_tile(int map_x, int map_y, bool cardinal_only,
+			    enum tile_special_type spe)
+{
+  int count = 0;
+
+  variable_adjc_iterate(map_x, map_y, adjc_x, adjc_y, cardinal_only) {
+    if (map_has_special(adjc_x, adjc_y, spe)) {
+      count++;
+    }
+  } variable_adjc_iterate_end;
+
+  return count;
+}
+
+/****************************************************************************
   Returns TRUE iff any adjacent tile contains terrain with the given flag.
 ****************************************************************************/
 bool is_terrain_flag_near_tile(int map_x, int map_y,

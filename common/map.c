@@ -577,34 +577,6 @@ int map_distance(int x0, int y0, int x1, int y1)
   return map_vector_to_distance(dx, dy);
 }
 
-/***************************************************************
-  determines if any tile close to x,y has special spe
-***************************************************************/
-bool is_special_near_tile(int x, int y, enum tile_special_type spe)
-{
-  adjc_iterate(x, y, x1, y1) {
-    if (map_has_special(x1, y1, spe))
-      return TRUE;
-  } adjc_iterate_end;
-
-  return FALSE;
-}
-
-/***************************************************************
-  counts tiles close to x,y having special spe
-***************************************************************/
-int count_special_near_tile(int x, int y, enum tile_special_type spe)
-{
-  int count = 0;
-
-  adjc_iterate(x, y, x1, y1) {
-    if (map_has_special(x1, y1, spe))
-      count++;
-  } adjc_iterate_end;
-
-  return count;
-}
-
 /*************************************************************************
   This is used in mapgen for rivers going into ocen.  The name is 
   intentionally made awkward to prevent people from using it in place of

@@ -117,6 +117,11 @@ bool is_terrain_near_tile(int map_x, int map_y, Terrain_type_id t);
 int count_terrain_near_tile(int map_x, int map_y, bool cardinal_only,
 			    Terrain_type_id t);
 
+/* Functions to operate on a terrain special. */
+bool is_special_near_tile(int map_x, int map_y, enum tile_special_type spe);
+int count_special_near_tile(int map_x, int map_y, bool cardinal_only,
+			    enum tile_special_type spe);
+
 /* Functions to operate on a terrain flag. */
 bool is_terrain_flag_near_tile(int x, int y, enum terrain_flag_id flag);
 int count_terrain_flag_near_tile(int x, int y, bool cardinal_only,
