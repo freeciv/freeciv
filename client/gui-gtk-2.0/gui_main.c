@@ -749,7 +749,12 @@ static bool iget_conv(char *dst, size_t ndst, const unsigned char *src,
   gchar *out = g_locale_to_utf8(src, nsrc, NULL, &len, NULL);
   bool ret = TRUE;
 
-  if ((ndst > 0 && len >= ndst) || !out) {
+  if (!out) {
+    dst[0] = '\0';
+    return FALSE;
+  }
+
+  if (ndst > 0 && len >= ndst) {
     ret = FALSE;
     len = ndst - 1;
   }
