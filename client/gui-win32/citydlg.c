@@ -545,46 +545,38 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
 {
   int i, n;
   struct city *pcity=pdialog->pcity;
+  RECT rc;
   HBITMAP oldbit;
   oldbit=SelectObject(citydlgdc,pdialog->citizen_bmp);
+
 
   for(i=0, n=0; n<pcity->ppl_happy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=5 && pdialog->citizen_type[i]!=6) {
       pdialog->citizen_type[i]=5+i%2;
-      BitBlt(citydlgdc,i*SMALL_TILE_WIDTH,0,
-	     SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT,NULL,0,0,WHITENESS);
       draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
     }
   for(n=0; n<pcity->ppl_content[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=3 && pdialog->citizen_type[i]!=4) {
       pdialog->citizen_type[i]=3+i%2;
-      BitBlt(citydlgdc,i*SMALL_TILE_WIDTH,0,
-	     SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT,NULL,0,0,WHITENESS);     
       draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);  
     }
   for(n=0; n<pcity->ppl_unhappy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=7 && pdialog->citizen_type[i]!=8) {
       pdialog->citizen_type[i]=7+i%2;
-      BitBlt(citydlgdc,i*SMALL_TILE_WIDTH,0,
-	     SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT,NULL,0,0,WHITENESS);
       draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
     }
   for (n = 0; n < pcity->ppl_angry[4] && i < NUM_CITIZENS_SHOWN; n++, i++)
     if (pdialog->citizen_type[i] != 9 && pdialog->citizen_type[i] != 10) {
       pdialog->citizen_type[i] = 9 + i % 2;
-      BitBlt(citydlgdc, i * SMALL_TILE_WIDTH, 0,
-	     SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT, NULL, 0, 0, WHITENESS);
       draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]), citydlgdc,
 		  SMALL_TILE_WIDTH * i, 0);
     }
   for(n=0; n<pcity->ppl_elvis && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=0) {
       pdialog->citizen_type[i]=0;
-      BitBlt(citydlgdc,i*SMALL_TILE_WIDTH,0,
-	     SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT,NULL,0,0,WHITENESS);
       draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
       
@@ -592,29 +584,31 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
   for(n=0; n<pcity->ppl_scientist && i<NUM_CITIZENS_SHOWN; n++, i++)
     if(pdialog->citizen_type[i]!=1) {
       pdialog->citizen_type[i]=1;
-      
-      BitBlt(citydlgdc,i*SMALL_TILE_WIDTH,0,
-	     SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT,NULL,0,0,WHITENESS);
       draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
-      
     }
   for(n=0; n<pcity->ppl_taxman && i<NUM_CITIZENS_SHOWN; n++, i++)
-     if(pdialog->citizen_type[i]!=2) {
-       pdialog->citizen_type[i]=2;
-       BitBlt(citydlgdc,i*SMALL_TILE_WIDTH,0,
-	      SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT,NULL,0,0,WHITENESS);
-       draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
-		   SMALL_TILE_WIDTH*i,0);
-     }
+    if(pdialog->citizen_type[i]!=2) {
+      pdialog->citizen_type[i]=2;
+      draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
+		  SMALL_TILE_WIDTH*i,0);
+    }
+  
+  if (i<NUM_CITIZENS_SHOWN) {
+    rc.left=i*SMALL_TILE_WIDTH;
+    rc.right=NUM_CITIZENS_SHOWN*SMALL_TILE_WIDTH;
+    rc.top=0;
+    rc.bottom=SMALL_TILE_HEIGHT;
+    FillRect(citydlgdc,&rc,
+	     (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
+    FrameRect(citydlgdc,&rc,
+	      (HBRUSH)GetClassLong(pdialog->mainwindow,GCL_HBRBACKGROUND));
+  }
   
   for(; i<NUM_CITIZENS_SHOWN; i++) {
-    pdialog->citizen_type[i]=-1;
-    BitBlt(citydlgdc,i*SMALL_TILE_WIDTH,
-	   0,SMALL_TILE_WIDTH,SMALL_TILE_HEIGHT,
-	   NULL,0,0,WHITENESS);
-    
+    pdialog->citizen_type[i]=-1;    
   }   
+  
   BitBlt(hdc,pdialog->pop_x,pdialog->pop_y,
 	 NUM_CITIZENS_SHOWN*SMALL_TILE_WIDTH,
 	 SMALL_TILE_HEIGHT,
