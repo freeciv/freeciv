@@ -414,18 +414,12 @@ int can_eventually_build_unit(struct city *pcity, Unit_Type_id id)
 
 
 /**************************************************************************
-...
+ Returns how many thousand citizen live in this city.
 **************************************************************************/
 int city_population(struct city *pcity)
 {
-/*
-  int i;
-  int res=0;
-  for (i=1;i<=pcity->size;i++) res+=i;
-  return res*10000;
-*/
   /*  Sum_{i=1}^{n} i  ==  n*(n+1)/2  */
-  return pcity->size * (pcity->size+1) * 5000;
+  return pcity->size * (pcity->size + 1) * 5;
 }
 
 /**************************************************************************

@@ -1729,10 +1729,13 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
   if (pdialog->name_transparentstring)
   {
     set(pdialog->name_transparentstring,MUIA_TransparentString_Contents, pdialog->pcity->name);
-    settextf(pdialog->title_text, _("%s citizens"), int_to_text(city_population(pdialog->pcity)));
+    settextf(pdialog->title_text, _("%s citizens"),
+	     population_to_text(city_population(pdialog->pcity)));
   } else
   {
-    settextf(pdialog->title_text, _("%s - %s citizens"), pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
+    settextf(pdialog->title_text, _("%s - %s citizens"),
+	     pdialog->pcity->name,
+	     population_to_text(city_population(pdialog->pcity)));
   }
 }
 

@@ -63,7 +63,10 @@ char *create_centered_string(char *s);
 
 char * get_option(const char *option_name,char **argv,int *i,int argc);
 int is_option(const char *option_name,char *option);
+char *general_int_to_text(int nr, int decade_exponent);
 char *int_to_text(int nr);
+char *population_to_text(int thousand_citizen);
+
 char *get_sane_name(char *name);
 char *textyear(int year);
 int compare_strings(const void *first, const void *second);

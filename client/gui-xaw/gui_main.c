@@ -691,7 +691,7 @@ void main_show_info_popup(XEvent *event)
 		  "Net Income: %d\n"
 		  "Tax:%d Lux:%d Sci:%d\n"
 		  "Researching %s: %d/%d"),
-		int_to_text(civ_population(game.player_ptr)),
+		population_to_text(civ_population(game.player_ptr)),
 		textyear(game.year), game.turn,
 		game.player_ptr->economic.gold,
 		turn_gold_difference,

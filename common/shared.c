@@ -164,10 +164,11 @@ int is_option(const char *option_name,char *option)
 
 /***************************************************************
   Returns a statically allocated string containing a nicely-formatted
-  version of the given number according to the user's locale.
-  (Only works for numbers >= zero.)
+  version of the given number according to the user's locale.  (Only
+  works for numbers >= zero.) The actually number used for the
+  formatting is: nr*10^decade_exponent
 ***************************************************************/
-char *int_to_text(int nr)
+char *general_int_to_text(int nr, int decade_exponent)
 {
   static char buf[64]; /* Note that we'll be filling this in right to left. */
   char *grp = grouping;
@@ -175,6 +176,7 @@ char *int_to_text(int nr)
   int cnt;
 
   assert(nr >= 0);
+  assert(decade_exponent >= 0);
 
   if (nr == 0) {
     return "0";
@@ -184,11 +186,20 @@ char *int_to_text(int nr)
   *(--ptr) = '\0';
 
   cnt = 0;
-  while (nr != 0) {
-    int dig = nr % 10;
+  while (nr != 0 && decade_exponent >= 0) {
+    int dig;
+
     assert(ptr > buf);
+
+    if (decade_exponent > 0) {
+      dig = 0;
+      decade_exponent--;
+    } else {
+      dig = nr % 10;
+      nr /= 10;
+    }
+
     *(--ptr) = '0' + dig;
-    nr /= 10;
 
     cnt++;
     if (nr != 0 && cnt == *grp) {
@@ -210,6 +221,23 @@ char *int_to_text(int nr)
   }
 
   return ptr;
+}
+
+
+/***************************************************************
+...
+***************************************************************/
+char *int_to_text(int nr)
+{
+  return general_int_to_text(nr, 0);
+}
+
+/***************************************************************
+...
+***************************************************************/
+char *population_to_text(int thousand_citizen)
+{
+  return general_int_to_text(thousand_citizen, 3);
 }
 
 /***************************************************************

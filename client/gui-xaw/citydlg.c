@@ -1884,7 +1884,8 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   String now;
   
   my_snprintf(buf, sizeof(buf), _("%s - %s citizens"),
-	  pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
+	      pdialog->pcity->name,
+	      population_to_text(city_population(pdialog->pcity)));
 
   XtVaGetValues(pdialog->cityname_label, XtNlabel, &now, NULL);
   if(strcmp(now, buf)) {

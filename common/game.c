@@ -562,7 +562,7 @@ int civ_score(struct player *pplayer)
 }
 
 /**************************************************************************
-Count the # of citizen in a civilisation.
+Count the # of thousand citizen in a civilisation.
 **************************************************************************/
 int civ_population(struct player *pplayer)
 {

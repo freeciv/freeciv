@@ -1843,7 +1843,8 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
   char *now;
   
   my_snprintf(buf, sizeof(buf), _("%s - %s citizens"),
-	  pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
+	      pdialog->pcity->name,
+	      population_to_text(city_population(pdialog->pcity)));
 
   now=GTK_FRAME(pdialog->cityname_label)->label;
   if (strcmp(now, buf)) {

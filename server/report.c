@@ -514,7 +514,7 @@ static struct player *best_pollution(void)
 **************************************************************************/
 static int rank_calc_mil_service(struct player *pplayer)
 {
- return (pplayer->score.units*50000)/(100+civ_population(pplayer)/100);
+  return (pplayer->score.units * 5000) / (10 + civ_population(pplayer));
 }
 
 /**************************************************************************

@@ -75,7 +75,7 @@ struct player_score {
   int techout;
   int landarea;
   int settledarea;
-  int population;
+  int population; 	/* in thousand of citizen */
   int cities;
   int units;
   int pollution;

@@ -216,7 +216,8 @@ void update_info_label(void)
 {
   int d;
 
-  settextf(main_people_text, _("Population: %s"), int_to_text(civ_population(game.player_ptr)));
+  settextf(main_people_text, _("Population: %s"),
+	   population_to_text(civ_population(game.player_ptr)));
   settextf(main_year_text, _("Year: %s"), textyear(game.year));
   settextf(main_gold_text, _("Gold: %d"), game.player_ptr->economic.gold);
   settextf(main_tax_text, _("Tax:%d Lux:%d Sci:%d"),
