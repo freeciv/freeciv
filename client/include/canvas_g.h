@@ -13,12 +13,12 @@
 #ifndef FC__CANVAS_G_H
 #define FC__CANVAS_G_H
 
-#include "fc_types.h"
+#include "shared.h"		/* bool type */
 
 #include "colors_g.h"
-#include "sprite_g.h"
 
-struct canvas;
+struct Sprite;
+struct canvas;			/* opaque type, real type is gui-dep */
 
 /* Creator and destructor */
 struct canvas *canvas_create(int width, int height);

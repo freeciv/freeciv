@@ -10,19 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__SPRITE_G_H
-#define FC__SPRITE_G_H
+#ifndef FC__CANVAS_H
+#define FC__CANVAS_H
 
-struct Sprite;			/* opaque type, real type is gui-dep */
+#include "canvas_g.h"
 
-const char **gfx_fileextensions(void);
+struct osda;
+struct sw_widget;
 
-struct Sprite *load_gfxfile(const char *filename);
-struct Sprite *crop_sprite(struct Sprite *source,
-			   int x, int y, int width, int height,
-			   struct Sprite *mask,
-			   int mask_offset_x, int mask_offset_y);
-void get_sprite_dimensions(struct Sprite *sprite, int *width, int *height);
-void free_sprite(struct Sprite *s);
+struct canvas {
+  struct osda *osda;
+  struct sw_widget *widget;
+};
 
-#endif  /* FC__SPRITE_G_H */
+#endif  /* FC__CANVAS_H */

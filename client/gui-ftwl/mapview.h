@@ -22,4 +22,6 @@ void set_focus_tile(struct tile *ptile);
 void clear_focus_tile(void);
 struct tile *get_focus_tile(void);
 
+extern struct ct_string *text_templates[FONT_COUNT];
+
 #endif				/* FC__MAPVIEW_H */

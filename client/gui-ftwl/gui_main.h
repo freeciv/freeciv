@@ -18,13 +18,6 @@
 #include "gui_main_g.h"
 #include "common_types.h"
 
-struct osda;
-
-struct canvas {
-  struct osda *osda;
-  struct sw_widget *widget;
-};
-
 void popup_mapcanvas(void);
 void popdown_mapcanvas(void);
 
