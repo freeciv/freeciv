@@ -1281,7 +1281,7 @@ static void choose_government(void)
 void handle_player_info(struct packet_player_info *pinfo)
 {
   int i;
-  bool poptechup, new_tech;
+  bool poptechup, new_tech = FALSE;
   char msg[MAX_LEN_MSG];
   struct player *pplayer = &game.players[pinfo->playerno];
 
