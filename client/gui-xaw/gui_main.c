@@ -407,8 +407,9 @@ void ui_main(int argc, char *argv[])
   num_units_below = MAX(num_units_below,1);
   
   setup_widgets();
-  load_intro_gfx(); 
-  
+  load_intro_gfx();
+  load_cursors();
+
   XtSetKeyboardFocus(bottom_form, inputline_text);
   XtSetKeyboardFocus(below_menu_form, map_canvas);
   

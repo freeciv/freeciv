@@ -10,6 +10,6 @@ pkgdata_DATA = Freeciv	\
 	intro.xpm	\
 	radar.xpm
 
-EXTRA_DIST = $(pkgdata_DATA)
+EXTRA_DIST = $(pkgdata_DATA) goto_cursor.xbm goto_cursor_mask.xbm
 
 SUBDIRS = default civ1 classic

@@ -534,7 +534,7 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender, int
 {
   int fromtile=map_get_terrain(punit->x, punit->y);
   int totile=map_get_terrain(dest_x, dest_y);
-
+ 
   if(!is_military_unit(punit))
     return 0;
 

@@ -69,6 +69,7 @@ extern int draw_map_grid;
 
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
+extern Cursor goto_cursor;
 
 extern Pixmap map_canvas_store;
 extern int map_canvas_store_twidth, map_canvas_store_theight;
@@ -274,6 +275,12 @@ void update_unit_info_label(struct unit *punit)
 	    pcity ? pcity->name : "");
 
     xaw_set_label(unit_info_label, buffer);
+    if (goto_cursor != (Cursor) None) {
+      if (goto_state == punit->id)
+	XDefineCursor(display, XtWindow(map_canvas), goto_cursor);
+      else
+	XUndefineCursor(display, XtWindow(map_canvas));
+    }
   }
   else
     xaw_set_label(unit_info_label, "");

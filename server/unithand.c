@@ -839,8 +839,8 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
     struct city *pcity;
     
     if((pcity=map_get_city(dest_x, dest_y))) {
-      if ((pcity->owner!=punit->owner && (is_air_unit(punit) || 
-					  !is_military_unit(punit)))) {
+      if (pcity->owner!=punit->owner &&  
+	  (is_air_unit(punit) || !is_military_unit(punit))) {
 	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
 			 "Game: Only ground troops can take over a city.");
 	return 0;

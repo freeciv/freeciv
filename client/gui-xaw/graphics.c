@@ -31,10 +31,12 @@
 #include <climisc.h>
 #include <mem.h>
 
+#include <../data/goto_cursor.xbm>
+#include <../data/goto_cursor_mask.xbm>
+
 extern int display_depth;
 extern Widget map_canvas;
 extern Display *display;
-extern XColor colors[MAX_COLORS];
 extern GC fill_bg_gc;
 extern GC civ_gc, font_gc;
 extern Colormap cmap;
@@ -56,6 +58,7 @@ int NORMAL_TILE_HEIGHT;
 int ROAD_TILES;
 int RAIL_TILES;
 
+Cursor goto_cursor;
 
 /***************************************************************************
 ...
@@ -261,6 +264,31 @@ void load_tile_gfx(void)
   free_sprite(flags_sprite);
 }
 
+/***************************************************************************
+...
+***************************************************************************/
+void load_cursors(void)
+{
+  Pixmap pixmap, mask;
+  XColor white, black;
+
+  white.pixel = colors_standard[COLOR_STD_WHITE];
+  black.pixel = colors_standard[COLOR_STD_BLACK];
+  XQueryColor(display, cmap, &white);
+  XQueryColor(display, cmap, &black);
+
+  pixmap = XCreateBitmapFromData(display, root_window, goto_cursor_bits,
+				 goto_cursor_width, goto_cursor_height);
+  mask   = XCreateBitmapFromData(display, root_window, goto_cursor_mask_bits,
+				 goto_cursor_mask_width, goto_cursor_mask_height);
+
+  goto_cursor = XCreatePixmapCursor(display, pixmap, mask,
+				    &white, &black,
+				    goto_cursor_x_hot, goto_cursor_y_hot);
+
+  XFreePixmap(display, pixmap);
+  XFreePixmap(display, mask);
+}
 
 /***************************************************************************
 ...
