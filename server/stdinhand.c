@@ -188,6 +188,24 @@ struct proto_settings settings[] = {
   { NULL, NULL, NULL, 0, 0, 0}
 };
 
+typedef enum {
+    PNameOk,
+    PNameEmpty,
+    PNameTooLong,
+} PlayerNameStatus;
+
+PlayerNameStatus test_player_name(char* name)
+{
+  int len = strlen(name);
+
+  if (!len) {
+      return PNameEmpty;
+  } else if (len > 9) {
+      return PNameTooLong;
+  }
+
+  return PNameOk;
+}
 
 /**************************************************************************
 ...
@@ -230,7 +248,14 @@ void save_command(char *arg)
 **************************************************************************/
 void toggle_ai_player(char *arg)
 {
-  struct player *pplayer=find_player_by_name(arg);
+  struct player *pplayer;
+
+  if (test_player_name(arg) != PNameOk) {
+      puts("Name is either empty or too long, so it cannot be an AI.");
+      return;
+  }
+
+  pplayer=find_player_by_name(arg);
   if (!pplayer) {
     puts("No player by that name.");
     return;
@@ -252,10 +277,15 @@ void toggle_ai_player(char *arg)
 void create_ai_player(char *arg)
 {
   struct player *pplayer;
+  PlayerNameStatus PNameStatus;
    
   if (server_state==PRE_GAME_STATE) {
      if(game.nplayers==game.max_players) 
        puts ("Can't add more players, server is full.");
+     else if ((PNameStatus = test_player_name(arg)) == PNameEmpty)
+       puts("Can't use an empty name.");
+     else if (PNameStatus == PNameTooLong)
+       puts("The name exceeds the maximum of 9 chars.");
      else if ((pplayer=find_player_by_name(arg))) 
        puts("A player already exists by that name.");
      else {
@@ -280,7 +310,14 @@ void create_ai_player(char *arg)
 **************************************************************************/
 void remove_player(char *arg)
 {
-  struct player *pplayer=find_player_by_name(arg);
+  struct player *pplayer;
+
+  if (test_player_name(arg) != PNameOk) {
+      puts("Name is either empty or too long, so it cannot be a player.");
+      return;
+  }
+
+  pplayer=find_player_by_name(arg);
   
   if(!pplayer) {
     puts("No player by that name.");
@@ -348,14 +385,23 @@ void report_server_options(struct player *pplayer)
   
 }
 
-void set_ai_level(char *arg, int level)
+void set_ai_level(char *name, int level)
 {
-  struct player *pplayer=find_player_by_name(arg);
+  struct player *pplayer;
   char *nm[11] = { "NONE", "NONE", "NONE", "easy", "NONE",
                  "normal", "NONE", "hard", "NONE", "NONE", "NONE" };
   int h[11] = { 0, 0, 0, H_RATES+H_TARGETS+H_HUTS, 0,
                 H_RATES+H_TARGETS+H_HUTS, 0, 0, 0, 0, 0 };
   int i;
+
+  if (test_player_name(name) != PNameOk) {
+      puts("Name is either empty or too long, so it cannot be a player.");
+      return;
+  }
+
+  assert(level >= 0 && level < 11);
+
+  pplayer=find_player_by_name(name);
 
   if (pplayer) {
     if (pplayer->ai.control) {
@@ -518,7 +564,13 @@ void cut_player_connection(char *playername)
 {
   struct player *pplayer;
 
+  if (test_player_name(playername) != PNameOk) {
+      puts("Name is either empty or too long, so it cannot be a player.");
+      return;
+  }
+
   pplayer=find_player_by_name(playername);
+
   if(pplayer && pplayer->conn) {
     flog(LOG_NORMAL, "cutting connection to %s", playername);
     close_connection(pplayer->conn);
