@@ -214,7 +214,7 @@ static int city_desirability(struct player *pplayer, int x, int y)
   ptile = map_get_tile(x, y);
   if (ptile->terrain == T_OCEAN) return 0;
   pcity = map_get_city(x, y);
-  if (pcity && pcity->size > (game.add_to_size_limit - 1)) return 0;
+  if (pcity && pcity->size >= game.add_to_size_limit) return 0;
   if (!pcity && minimap[x][y] < 0) return 0;
   if (!pcity && minimap[x][y] > 0) return minimap[x][y];
 

@@ -415,7 +415,7 @@ int can_unit_add_to_city(struct unit *punit)
 
   if(!pcity)
     return 0;
-  if(pcity->size > game.add_to_size_limit)
+  if(pcity->size >= game.add_to_size_limit)
     return 0;
   if(pcity->owner != punit->owner)
     return 0;
