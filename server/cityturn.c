@@ -166,14 +166,13 @@ static void happy_copy(struct city *pcity, int i)
 **************************************************************************/
 static void citizen_happy_size(struct city *pcity)
 {
-  int citizens, tmp;
+  int workers, tmp;
+
+  workers = pcity->size - city_specialists(pcity);
   tmp = content_citizens(&game.players[pcity->owner]);
-  citizens = MIN(pcity->size, tmp); 
-  tmp = (citizens - city_specialists(pcity));
-  pcity->ppl_content[0] = MAX(0, tmp);
-  tmp = (pcity->size - (pcity->ppl_content[0] + city_specialists(pcity)));
-  pcity->ppl_unhappy[0] = MAX(0, tmp);
-  pcity->ppl_happy[0]=0;
+  pcity->ppl_content[0] = MAX(0, MIN(workers, tmp));
+  pcity->ppl_unhappy[0] = workers - pcity->ppl_content[0];
+  pcity->ppl_happy[0] = 0; /* no one is born happy */
 }
 
 /**************************************************************************
@@ -183,7 +182,8 @@ static void citizen_happy_luxury(struct city *pcity)
 {
   int x=pcity->luxury_total;
   happy_copy(pcity, 0);
-  /* make people happy, content are made happy first, then unhappy content etc.   each conversions costs 2 luxuries. */
+  /* make people happy, content are made happy first, then unhappy content,
+     etc.  each conversions costs 2 luxuries. */
   while (x>=2 && (pcity->ppl_content[1])) {
     pcity->ppl_content[1]--;
     pcity->ppl_happy[1]++;
