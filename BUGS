@@ -14,6 +14,13 @@ This lists only the most obvious bugs.  For a complete list, see:
 KNOWN BUGS:
 ===========
 
+ - Some lines containing special characters will show up blank if
+   your locale is set to "C". As a workaround set your locale to
+   something else, like "en_US".
+
+ - In the city dialog some buttons are too small for their text.
+   This varies between locales.
+
  - The easy AI is not easy enough for novice players.  If the AI is
    beating you up early in the game, try setting the "generator" server
    option to 2 or 3.  That is, in the server, before starting a game,
