@@ -749,7 +749,7 @@ char *secfile_lookup_str_int(struct section_file *my_section_file,
   char buf[MAX_LEN_BUFFER];
   va_list ap;
 
-  assert(ival);
+  assert(ival != NULL);
   
   va_start(ap, path);
   my_vsnprintf(buf, sizeof(buf), path, ap);
@@ -786,7 +786,7 @@ void secfile_insert_int(struct section_file *my_section_file,
   pentry=section_file_insert_internal(my_section_file, buf);
 
   pentry->ivalue=val;
-  pentry->svalue=0;  
+  pentry->svalue = NULL;
   pentry->comment = NULL;
 }
 
@@ -808,7 +808,7 @@ void secfile_insert_int_comment(struct section_file *my_section_file,
   pentry = section_file_insert_internal(my_section_file, buf);
 
   pentry->ivalue = val;
-  pentry->svalue = 0;
+  pentry->svalue = NULL;
   pentry->comment = sbuf_strdup(my_section_file->sb, comment);
 }
 
@@ -948,7 +948,8 @@ int section_file_lookup(struct section_file *my_section_file,
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  return BOOL_VAL(section_file_lookup_internal(my_section_file, buf));
+  return BOOL_VAL(section_file_lookup_internal(my_section_file, buf) !=
+		  NULL);
 }
 
 
@@ -985,8 +986,11 @@ section_file_lookup_internal(struct section_file *my_section_file,
     return result;
   }
 
-  if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
-    return 0;
+  /* i dont like strtok */
+  pdelim = strchr(fullpath, '.');
+  if (pdelim == NULL) {
+    return NULL;
+  }
 
   mystrlcpy(sec_name, fullpath, MIN(pdelim-fullpath+1, sizeof(sec_name)));
   sz_strlcpy(ent_name, pdelim+1);
@@ -1005,7 +1009,7 @@ section_file_lookup_internal(struct section_file *my_section_file,
   }
   section_list_iterate_end;
 
-  return 0;
+  return NULL;
 }
 
 

@@ -108,7 +108,7 @@ void spy_poison(struct player *pplayer, struct unit *pdiplomat,
 
   /* Update clients. */
   city_refresh (pcity);  
-  send_city_info (0, pcity);
+  send_city_info(NULL, pcity);
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(SPY_POISON, pplayer, NULL, pcity);
@@ -357,7 +357,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   /* Sabotage the unit by removing half its remaining hit points. */
   pvictim->hp /= 2;
-  send_unit_info (0, pvictim);
+  send_unit_info(NULL, pvictim);
 
   /* Notify everybody involved. */
   notify_player_ex(pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
@@ -469,7 +469,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Update clients. */
-  send_player_info (pplayer, 0);
+  send_player_info(pplayer, NULL);
 }
 
 /****************************************************************************
@@ -1045,7 +1045,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Update clients. */
-  send_city_info (0, pcity);
+  send_city_info(NULL, pcity);
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(DIPLOMAT_SABOTAGE, pplayer, NULL, pcity);
@@ -1315,8 +1315,8 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     victim_player->diplstates[offender->player_no].has_reason_to_cancel = 2;
     /* FIXME: Maybe we should try to cause a revolution is the offender's
        government has a senate */
-    send_player_info(offender, 0);
-    send_player_info(victim_player, 0);
+    send_player_info(offender, NULL);
+    send_player_info(victim_player, NULL);
   }
 
   return;

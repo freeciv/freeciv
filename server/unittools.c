@@ -819,7 +819,7 @@ static void update_unit_activity(struct unit *punit)
 	      map_get_tile(punit->x, punit->y)));
 	if (what != S_NO_SPECIAL) {
 	  map_clear_special(punit->x, punit->y, what);
-	  send_tile_info(0, punit->x, punit->y);
+	  send_tile_info(NULL, punit->x, punit->y);
 	  set_unit_activity(punit, ACTIVITY_IDLE);
 	}
 
@@ -1307,7 +1307,7 @@ static void place_partisans(struct city *pcity, int count)
     punit = create_unit(city_owner(pcity), x, y, u_type, 0, 0, -1);
     if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       punit->activity = ACTIVITY_FORTIFIED; /* yes; directly fortified */
-      send_unit_info(0, punit);
+      send_unit_info(NULL, punit);
     }
   }
 }
@@ -1596,7 +1596,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
 
   fog_area(pplayer,punit->x,punit->y,range);
 
-  send_unit_info(0, punit);
+  send_unit_info(NULL, punit);
   conn_list_do_unbuffer(&pplayer->connections);
 }
 
@@ -1703,7 +1703,7 @@ struct unit *create_unit_full(struct player *pplayer, int x, int y,
   else
     unfog_area(pplayer, x, y, unit_type(punit)->vision_range);
 
-  send_unit_info(0, punit);
+  send_unit_info(NULL, punit);
   maybe_make_first_contact(x, y, unit_owner(punit));
   wakeup_neighbor_sentries(punit);
 
@@ -1867,7 +1867,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
                      ransom);
     destroyer->economic.gold += ransom;
     pplayer->economic.gold -= ransom;
-    send_player_info(destroyer,0);   /* let me see my new gold :-) */
+    send_player_info(destroyer, NULL);   /* let me see my new gold :-) */
     unitcount = 1;
   }
 
@@ -2414,7 +2414,7 @@ static int unit_enter_hut(struct unit *punit)
   }
 
   map_get_tile(punit->x, punit->y)->special^=S_HUT;
-  send_tile_info(0, punit->x, punit->y);
+  send_tile_info(NULL, punit->x, punit->y);
 
   if (game.rgame.hut_overflight==OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
@@ -2745,7 +2745,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 	  /* on board transport; don't awaken */
 	  && !(move_type == LAND_MOVING && terrain == T_OCEAN)) {
 	set_unit_activity(penemy, ACTIVITY_IDLE);
-	send_unit_info(0, penemy);
+	send_unit_info(NULL, penemy);
       }
     } unit_list_iterate_end;
   } square_iterate_end;
@@ -2952,7 +2952,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
       pcargo->y = dest_y;
       unit_list_insert(&pdesttile->units, pcargo);
       check_unit_activity(pcargo);
-      send_unit_info_to_onlookers(0, pcargo, src_x, src_y, 1, 0);
+      send_unit_info_to_onlookers(NULL, pcargo, src_x, src_y, 1, 0);
       fog_area(pplayer, src_x, src_y, unit_type(pcargo)->vision_range);
       handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
     } unit_list_iterate_end;
@@ -2993,7 +2993,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
       ) {
     set_unit_activity(punit, ACTIVITY_SENTRY);
   }
-  send_unit_info_to_onlookers(0, punit, src_x, src_y, 0, 0);
+  send_unit_info_to_onlookers(NULL, punit, src_x, src_y, 0, 0);
 
   if (unit_profits_of_watchtower(punit)
       && psrctile->special & S_FORTRESS)
@@ -3069,7 +3069,7 @@ enum goto_result goto_route_execute(struct unit *punit)
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
 
-  assert(pgr);
+  assert(pgr != NULL);
   while (1) {
     freelog(LOG_DEBUG, "running a round\n");
 

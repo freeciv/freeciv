@@ -559,7 +559,7 @@ static void pack_iter_init(struct pack_iter *piter, struct connection *pc)
 **************************************************************************/
 static int pack_iter_remaining(struct pack_iter *piter)
 {
-  assert(piter);
+  assert(piter != NULL);
   if (piter->short_packet) {
     return -1;
   } else {
@@ -876,7 +876,7 @@ static unsigned char *put_uint16_vec8(unsigned char *buffer, int *val, int stop)
 **************************************************************************/
 static void iget_uint8(struct pack_iter *piter, int *val)
 {
-  assert(piter);
+  assert(piter != NULL);
   if (pack_iter_remaining(piter) < 1) {
     piter->short_packet = 1;
     if (val) *val = 0;
@@ -911,7 +911,7 @@ static void iget_sint8(struct pack_iter *piter, int *val)
 **************************************************************************/
 static void iget_uint16(struct pack_iter *piter, int *val)
 {
-  assert(piter);
+  assert(piter != NULL);
   if (pack_iter_remaining(piter) < 2) {
     piter->short_packet = 1;
     if (val) *val = 0;
@@ -931,7 +931,7 @@ static void iget_uint16(struct pack_iter *piter, int *val)
 **************************************************************************/
 static void iget_sint16(struct pack_iter *piter, int *val)
 {
-  assert(piter);
+  assert(piter != NULL);
   if (pack_iter_remaining(piter) < 2) {
     piter->short_packet = 1;
     if (val) *val = 0;
@@ -951,7 +951,7 @@ static void iget_sint16(struct pack_iter *piter, int *val)
 **************************************************************************/
 static void iget_uint32(struct pack_iter *piter, int *val)
 {
-  assert(piter);
+  assert(piter != NULL);
   if (pack_iter_remaining(piter) < 4) {
     piter->short_packet = 1;
     if (val) *val = 0;
@@ -993,7 +993,7 @@ static void iget_sint32(struct pack_iter *piter, int *val)
 static void iget_uint8_vec8(struct pack_iter *piter, int **val, int stop)
 {
   int count;
-  assert(piter);
+  assert(piter != NULL);
   if (pack_iter_remaining(piter) < 1) {
     piter->short_packet = 1;
     if (val) *val = NULL;
@@ -1043,7 +1043,7 @@ static void iget_sint8_vec8(struct pack_iter *piter, int **val, int stop)
 static void iget_uint16_vec8(struct pack_iter *piter, int **val, int stop)
 {
   int count;
-  assert(piter);
+  assert(piter != NULL);
   if (pack_iter_remaining(piter) < 1) {
     piter->short_packet = 1;
     if (val) *val = NULL;
@@ -1112,7 +1112,7 @@ static void iget_string(struct pack_iter *piter, char *mystring, int navail)
   int ps_len;			/* length in packet, not including null */
   int len;			/* length to copy, not including null */
 
-  assert(piter);
+  assert(piter != NULL);
   assert((navail>0) || (mystring==NULL));
 
   if (pack_iter_remaining(piter) < 1) {
@@ -1178,7 +1178,7 @@ static void iget_city_map(struct pack_iter *piter, char *str, int navail)
       {1,2,3, 5,6,7,8,9, 10,11, 13,14, 15,16,17,18,19, 21,22,23 };
   int i,j;
 
-  assert(piter);
+  assert(piter != NULL);
   assert((navail>0) || (str==NULL));
   
   if (pack_iter_remaining(piter) < 4) {
@@ -1251,7 +1251,7 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
   int data;			/* one bytes worth */
   int b;			/* one bits worth */
 
-  assert(piter);
+  assert(piter != NULL);
   assert(str!=NULL && navail>0);
   
   if (pack_iter_remaining(piter) < 1) {

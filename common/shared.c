@@ -526,8 +526,8 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   int ret;
   va_list ap;
 
-  assert(format);
-  assert(str);
+  assert(format != NULL);
+  assert(str != NULL);
   assert(n>0);
   
   len = strlen(str);

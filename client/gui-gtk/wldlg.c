@@ -149,7 +149,7 @@ void popup_worklists_report(struct player *pplr)
   accel = gtk_accel_group_new();
 
   assert(!report_dialog);
-  assert(pplr);
+  assert(pplr != NULL);
 
   report_dialog = fc_malloc(sizeof(struct worklist_report));
   report_dialog->pplr = pplr;
@@ -534,7 +534,7 @@ void update_worklist_report_dialog(void)
 *****************************************************************/
 static void global_dialog_cleanup(struct worklist_report *preport)
 {
-  assert(preport);
+  assert(preport != NULL);
 
   gtk_widget_destroy(preport->shell);
   memset(preport, 0, sizeof(*preport));
@@ -1450,7 +1450,7 @@ static void worklist_help(int id, int is_unit)
 *****************************************************************/
 static void cleanup_worklist_editor(struct worklist_editor *peditor)
 {
-  assert(peditor);
+  assert(peditor != NULL);
 
   if (peditor->embedded_in_city) {
     gtk_widget_destroy(peditor->shell);

@@ -225,7 +225,7 @@ int timer_in_use(struct timer *t)
 ***********************************************************************/
 void clear_timer(struct timer *t)
 {
-  assert(t);
+  assert(t != NULL);
   t->state = TIMER_STOPPED;
   t->sec = 0.0;
   t->usec = 0;
@@ -237,7 +237,7 @@ void clear_timer(struct timer *t)
 ***********************************************************************/
 void start_timer(struct timer *t)
 {
-  assert(t);
+  assert(t != NULL);
 
   if (t->use == TIMER_IGNORE) {
     return;
@@ -254,7 +254,7 @@ void start_timer(struct timer *t)
     }
   } else {
 #ifdef HAVE_GETTIMEOFDAY
-    int ret = gettimeofday(&t->start.tv, 0);
+    int ret = gettimeofday(&t->start.tv, NULL);
     if (ret == -1) {
       report_gettimeofday_failed(t);
       return;
@@ -287,7 +287,7 @@ void clear_timer_start(struct timer *t)
 ***********************************************************************/
 void stop_timer(struct timer *t)
 {
-  assert(t);
+  assert(t != NULL);
   
   if (t->use == TIMER_IGNORE) {
     return;
@@ -307,7 +307,7 @@ void stop_timer(struct timer *t)
   } else {
 #ifdef HAVE_GETTIMEOFDAY
     struct timeval now;
-    int ret = gettimeofday(&now, 0);
+    int ret = gettimeofday(&now, NULL);
     if (ret == -1) {
       report_gettimeofday_failed(t);
       return;
@@ -343,7 +343,7 @@ void stop_timer(struct timer *t)
 ***********************************************************************/
 double read_timer_seconds(struct timer *t)
 {
-  assert(t);
+  assert(t != NULL);
   
   if (t->use == TIMER_IGNORE) {
     return 0.0;
@@ -387,9 +387,9 @@ void usleep_since_timer_start(struct timer *t, long usec)
   long elapsed_usec;
   long wait_usec;
 
-  assert(t);
+  assert(t != NULL);
 
-  ret = gettimeofday(&tv_now, 0);
+  ret = gettimeofday(&tv_now, NULL);
 
   if ((ret == -1) ||
       (t->type != TIMER_USER) ||

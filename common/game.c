@@ -557,7 +557,7 @@ struct city *game_find_city_by_name(char *name)
     if((pcity=city_list_find_name(&game.players[i].cities, name)))
       return pcity;
 
-  return 0;
+  return NULL;
 }
 
 

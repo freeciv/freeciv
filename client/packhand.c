@@ -573,7 +573,7 @@ void handle_short_city(struct packet_short_city *packet)
 
   if (pcity && (pcity->owner != packet->owner)) {
     client_remove_city(pcity);
-    pcity = 0;
+    pcity = NULL;
     city_has_changed_owner = 1;
   }
 

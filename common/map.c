@@ -169,7 +169,7 @@ char *map_get_tile_fpt_text(int x, int y)
 ***************************************************************/
 int map_is_empty(void)
 {
-  return map.tiles==0;
+  return map.tiles == NULL;
 }
 
 /***************************************************************

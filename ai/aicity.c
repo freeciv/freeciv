@@ -250,22 +250,26 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
        (is_unit_choice_type(bestchoice.type) ||
         bestchoice.choice != pcity->currently_building))
-      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
-                   _("Game: The %s have stopped building The %s in %s."),
-                   get_nation_name_plural(pplayer->nation),
-                   get_impr_name_ex(pcity, pcity->currently_building),
-                   pcity->name);
+      notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_STOPPED,
+		       _("Game: The %s have stopped building The %s in %s."),
+		       get_nation_name_plural(pplayer->nation),
+		       get_impr_name_ex(pcity, pcity->currently_building),
+		       pcity->name);
 
     if (bestchoice.type == CT_BUILDING && (pcity->is_building_unit ||
                  pcity->currently_building != bestchoice.choice) &&
                  is_wonder(bestchoice.choice)) {
-      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
-                    _("Game: The %s have started building The %s in %s."),
-                    get_nation_name_plural(city_owner(pcity)->nation),
-                    get_impr_name_ex(pcity, bestchoice.choice), pcity->name);
+      notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_STARTED,
+		       _("Game: The %s have started building The %s in %s."),
+		       get_nation_name_plural(city_owner(pcity)->nation),
+		       get_impr_name_ex(pcity, bestchoice.choice),
+		       pcity->name);
       pcity->currently_building = bestchoice.choice;
       pcity->is_building_unit    = is_unit_choice_type(bestchoice.type);
-      generate_warmap(pcity, 0); /* need to establish distance to wondercity */
+
+      /* need to establish distance to wondercity */
+      generate_warmap(pcity, NULL);
+
       establish_city_distances(pplayer, pcity); /* for caravans in other cities */
     } else {
       pcity->currently_building = bestchoice.choice;

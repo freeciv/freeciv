@@ -244,7 +244,7 @@ to be doing; it just looks strange. -- Syela */
 
 static void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice)
 {
-  ai_select_tech(pplayer, 0, choice);
+  ai_select_tech(pplayer, NULL, choice);
 }
 
 void ai_next_tech_goal(struct player *pplayer)

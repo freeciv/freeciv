@@ -590,7 +590,7 @@ void cause_a_unit_changed_for_agent(char *name_of_calling_agent,
 {
   struct my_agent *agent = find_agent_by_name(name_of_calling_agent);
 
-  assert(agent->agent.unit_callbacks[CB_CHANGE]);
+  assert(agent->agent.unit_callbacks[CB_CHANGE] != NULL);
   enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit);
   call_handle_methods();
 }
@@ -603,7 +603,7 @@ void cause_a_city_changed_for_agent(char *name_of_calling_agent,
 {
   struct my_agent *agent = find_agent_by_name(name_of_calling_agent);
 
-  assert(agent->agent.city_callbacks[CB_CHANGE]);
+  assert(agent->agent.city_callbacks[CB_CHANGE] != NULL);
   enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity);
   call_handle_methods();
 }

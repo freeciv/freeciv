@@ -253,7 +253,7 @@ void clear_notify_window(void)
     ypos[i] = 0;
     event[i] = E_NOEVENT;
   }
-  string_ptrs[0]=0;
+  string_ptrs[0] = NULL;
   messages_total = 0;
   update_meswin_dialog();
   if(meswin_dialog_shell) {
@@ -293,7 +293,7 @@ void add_notify_window(struct packet_generic_message *packet)
   event[messages_total]= packet->event;
   string_ptrs[messages_total] = s;
   messages_total++;
-  string_ptrs[messages_total] = 0;
+  string_ptrs[messages_total] = NULL;
   if (!delay_meswin_update) {
     update_meswin_dialog();
     meswin_scroll_down();
@@ -421,7 +421,7 @@ void meswin_list_ucallback(GtkWidget *w, gint row, gint column)
 void meswin_close_callback(GtkWidget *w, gpointer data)
 {
   gtk_widget_destroy(meswin_dialog_shell);
-  meswin_dialog_shell=0;
+  meswin_dialog_shell = NULL;
   gtk_style_unref(meswin_visited_style);
   gtk_style_unref(meswin_not_visited_style);
 }

@@ -310,7 +310,7 @@ static void ai_manage_taxes(struct player *pplayer)
         pcity->food_stock + pcity->food_surplus < 0) 
        emergency_reallocate_workers(pplayer, pcity);
     if (pcity->shield_surplus < 0) {
-      defender = 0;
+      defender = NULL;
       unit_list_iterate(pcity->units_supported, punit)
         incity = map_get_city(punit->x, punit->y);
         if (incity && pcity->shield_surplus < 0) {

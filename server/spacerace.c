@@ -177,13 +177,13 @@ void handle_spaceship_launch(struct player *pplayer)
   ship->launch_year = game.year;
   arrival = ship->launch_year + (int) ship->travel_time;
 
-  notify_player_ex(0, -1, -1, E_SPACESHIP,
-		_("Game: The %s have launched a spaceship!  "
-		  "It is estimated to arrive on Alpha Centauri in %s."),
-		get_nation_name_plural(pplayer->nation),
-		textyear(arrival));
+  notify_player_ex(NULL, -1, -1, E_SPACESHIP,
+		   _("Game: The %s have launched a spaceship!  "
+		     "It is estimated to arrive on Alpha Centauri in %s."),
+		   get_nation_name_plural(pplayer->nation),
+		   textyear(arrival));
 
-  send_spaceship_info(pplayer, 0);
+  send_spaceship_info(pplayer, NULL);
 }
 
 /**************************************************************************
@@ -226,7 +226,7 @@ void handle_spaceship_action(struct player *pplayer,
     }
     ship->structure[num] = 1;
     spaceship_calc_derived(ship);
-    send_spaceship_info(pplayer, 0);
+    send_spaceship_info(pplayer, NULL);
     return;
   }
   if (action == SSHIP_ACT_PLACE_FUEL) {
@@ -336,11 +336,12 @@ void handle_spaceship_action(struct player *pplayer,
 **************************************************************************/
 void spaceship_lost(struct player *pplayer)
 {
-  notify_player_ex(0, -1, -1, E_SPACESHIP,
+  notify_player_ex(NULL, -1, -1, E_SPACESHIP,
 		   _("Game: Without guidance from the capital, the %s "
-                     "spaceship is lost!"), get_nation_name(pplayer->nation));
+		     "spaceship is lost!"),
+		   get_nation_name(pplayer->nation));
   spaceship_init(&pplayer->spaceship);
-  send_spaceship_info(pplayer, 0);
+  send_spaceship_info(pplayer, NULL);
 }
 
 /**************************************************************************
@@ -370,8 +371,9 @@ void check_spaceship_arrivals(void)
   if (best_pplayer) {
     best_pplayer->spaceship.state = SSHIP_ARRIVED;
     server_state = GAME_OVER_STATE;
-    notify_player_ex(0, -1, -1, E_SPACESHIP,
-		     _("Game: The %s spaceship has arrived at Alpha Centauri."),
+    notify_player_ex(NULL, -1, -1, E_SPACESHIP,
+		     _("Game: The %s spaceship has arrived "
+		       "at Alpha Centauri."),
 		     get_nation_name(best_pplayer->nation));
   }
 }

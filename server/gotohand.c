@@ -1277,7 +1277,7 @@ enum goto_result do_unit_goto(struct unit *punit,
       !goto_is_sane(punit, dest_x, dest_y, 0)) {
     punit->activity = ACTIVITY_IDLE;
     punit->connecting = 0;
-    send_unit_info(0, punit);
+    send_unit_info(NULL, punit);
     if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
       return GR_ARRIVED;
     } else {
@@ -1286,7 +1286,7 @@ enum goto_result do_unit_goto(struct unit *punit,
   }
 
   if(!punit->moves_left) {
-    send_unit_info(0, punit);
+    send_unit_info(NULL, punit);
     return GR_OUT_OF_MOVEPOINTS;
   }
 
@@ -1304,7 +1304,7 @@ enum goto_result do_unit_goto(struct unit *punit,
 	      punit->x, punit->y, dest_x, dest_y);
       punit->activity = ACTIVITY_IDLE;
       punit->connecting = 0;
-      send_unit_info(0, punit);
+      send_unit_info(NULL, punit);
       return GR_FAILED;
     }
   }
@@ -1339,7 +1339,7 @@ enum goto_result do_unit_goto(struct unit *punit,
 	freelog(LOG_DEBUG, "Couldn't handle it.");
 	if (punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;
-	  send_unit_info(0, punit);
+	  send_unit_info(NULL, punit);
 	  return GR_FAILED;
 	}
       } else {
@@ -1352,13 +1352,13 @@ enum goto_result do_unit_goto(struct unit *punit,
       /* Don't attack more than once per goto */
       if (penemy && !pplayer->ai.control) { /* Should I cancel for ai's too? */
  	punit->activity = ACTIVITY_IDLE;
- 	send_unit_info(0, punit);
+ 	send_unit_info(NULL, punit);
  	return GR_FOUGHT;
       }
 
       if(punit->x!=x || punit->y!=y) {
 	freelog(LOG_DEBUG, "Aborting, out of movepoints.");
-	send_unit_info(0, punit);
+	send_unit_info(NULL, punit);
 	return GR_OUT_OF_MOVEPOINTS;
       }
 
@@ -1378,7 +1378,7 @@ enum goto_result do_unit_goto(struct unit *punit,
 	    punit->x, punit->y, dest_x, dest_y);
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
     punit->connecting = 0;
-    send_unit_info(0, punit);
+    send_unit_info(NULL, punit);
     return GR_FAILED;
   }
   /** Finished moving the unit for this turn **/
@@ -1402,7 +1402,7 @@ enum goto_result do_unit_goto(struct unit *punit,
   }
 
   punit->connecting=0;
-  send_unit_info(0, punit);
+  send_unit_info(NULL, punit);
   return status;
 }
 

@@ -92,7 +92,7 @@ struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
        (ptreaty->plr0==plr1 && ptreaty->plr1==plr0))
       return ptreaty;
   }
-  return 0;
+  return NULL;
 }
 
 /**************************************************************************
@@ -375,8 +375,8 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
   cleanup:      
     genlist_unlink(&treaties, ptreaty);
     free(ptreaty);
-    send_player_info(plr0, 0);
-    send_player_info(plr1, 0);
+    send_player_info(plr0, NULL);
+    send_player_info(plr1, NULL);
   }
 }
 

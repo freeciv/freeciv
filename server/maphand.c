@@ -114,10 +114,10 @@ void global_warming(int effect)
     }
   }
 
-  notify_player_ex(0, -1, -1, E_GLOBAL_ECO,
+  notify_player_ex(NULL, -1, -1, E_GLOBAL_ECO,
 		   _("Game: Global warming has occurred!"));
-  notify_player(0, _("Game: Coastlines have been flooded and vast "
-		     "ranges of grassland have become deserts."));
+  notify_player(NULL, _("Game: Coastlines have been flooded and vast "
+			"ranges of grassland have become deserts."));
 }
 
 /**************************************************************************
@@ -158,10 +158,10 @@ void nuclear_winter(int effect)
     }
   }
 
-  notify_player_ex(0, -1, -1, E_GLOBAL_ECO,
+  notify_player_ex(NULL, -1, -1, E_GLOBAL_ECO,
 		   _("Game: Nuclear winter has occurred!"));
-  notify_player(0, _("Game: Wetlands have dried up and vast "
-		     "ranges of grassland have become tundra."));
+  notify_player(NULL, _("Game: Wetlands have dried up and vast "
+			"ranges of grassland have become tundra."));
 }
 
 /***************************************************************
@@ -195,7 +195,7 @@ void upgrade_city_rails(struct player *pplayer, int discovery)
   
   city_list_iterate(pplayer->cities, pcity) {
     map_set_special(pcity->x, pcity->y, S_RAILROAD);
-    send_tile_info(0, pcity->x, pcity->y);
+    send_tile_info(NULL, pcity->x, pcity->y);
   }
   city_list_iterate_end;
 
@@ -1143,7 +1143,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   } players_iterate_end;
 
   if (server_state == RUN_GAME_STATE)
-    send_player_info(pfrom, 0);
+    send_player_info(pfrom, NULL);
 }
 
 /***************************************************************
@@ -1190,8 +1190,9 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
     unbuffer_shared_vision(pplayer);
   } players_iterate_end;
 
-  if (server_state == RUN_GAME_STATE)
-    send_player_info(pfrom, 0);
+  if (server_state == RUN_GAME_STATE) {
+    send_player_info(pfrom, NULL);
+  }
 }
 
 /***************************************************************

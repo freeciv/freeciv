@@ -152,7 +152,7 @@ struct government *get_government(int gov)
 ***************************************************************/
 struct government *get_gov_pplayer(struct player *pplayer)
 {
-  assert(pplayer);
+  assert(pplayer != NULL);
   return get_government(pplayer->government);
 }
 
@@ -161,7 +161,7 @@ struct government *get_gov_pplayer(struct player *pplayer)
 ***************************************************************/
 struct government *get_gov_pcity(struct city *pcity)
 {
-  assert(pcity);
+  assert(pcity != NULL);
   return get_gov_pplayer(city_owner(pcity));
 }
 

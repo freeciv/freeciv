@@ -135,7 +135,7 @@ void popdown_help_dialog(void)
 {
   if(help_dialog_shell) {
     gtk_widget_destroy(help_dialog_shell);
-    help_dialog_shell=0;
+    help_dialog_shell = NULL;
   }
 }
 

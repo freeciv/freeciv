@@ -929,7 +929,7 @@ struct unit *unit_list_find(struct unit_list *This, int id)
     if(((struct unit *)ITERATOR_PTR(myiter))->id==id)
       return ITERATOR_PTR(myiter);
 
-  return 0;
+  return NULL;
 }
 
 /**************************************************************************

@@ -844,7 +844,7 @@ static struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0,
        (pdialog->treaty.plr0==plr1 && pdialog->treaty.plr1==plr0))
       return pdialog;
   }
-  return 0;
+  return NULL;
 }
 
 /*****************************************************************
@@ -863,7 +863,7 @@ static struct Diplomacy_dialog *find_diplomacy_by_input(GtkWidget *w)
       return pdialog;
     }
   }
-  return 0;
+  return NULL;
 }
 
 /*****************************************************************

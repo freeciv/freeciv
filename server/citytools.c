@@ -688,7 +688,7 @@ static void reestablish_city_trade_routes(struct city *pcity, int cities[4])
   for (i=0; i<4; i++) {
     if (cities[i]) {
       oldtradecity = find_city_by_id(cities[i]);
-      assert(oldtradecity);
+      assert(oldtradecity != NULL);
       if (can_establish_trade_route(pcity, oldtradecity)) {   
 	establish_trade_route(pcity, oldtradecity);
       }
@@ -756,7 +756,7 @@ struct city *transfer_city(struct player *ptaker,
     /* otherwise we might delete the homecity from under the unit
        in the client. */
     punit->homecity = 0;
-    send_unit_info(0, punit);
+    send_unit_info(NULL, punit);
   } unit_list_iterate_end;
   unit_list_unlink_all(&pcity->units_supported);
   unit_list_init(&pcity->units_supported);
@@ -859,7 +859,7 @@ struct city *transfer_city(struct player *ptaker,
      must change production. */
   /* advisor_choose_build(pcity);  we add the civ bug here :) */
 
-  send_city_info(0, pcity);
+  send_city_info(NULL, pcity);
 
   /* What wasn't obsolete for the old owner may be so now. */
   remove_obsolete_buildings_city(pcity, 1);
@@ -874,7 +874,7 @@ struct city *transfer_city(struct player *ptaker,
 		    " the city with railroads."),
 		  pcity->name);
     map_set_special(pcity->x, pcity->y, S_RAILROAD);
-    send_tile_info(0, pcity->x, pcity->y);
+    send_tile_info(NULL, pcity->x, pcity->y);
   }
 
   map_fog_pseudo_city_area(pgiver, pcity->x, pcity->y);
@@ -911,7 +911,7 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
     if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
       map_set_special(x, y, S_RAILROAD);
   }
-  send_tile_info(0, x, y);
+  send_tile_info(NULL, x, y);
 
   pcity=fc_malloc(sizeof(struct city));
 
@@ -1305,7 +1305,7 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
   struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
   struct city *pcity = map_get_city(x, y);
 
-  assert(pcity);
+  assert(pcity != NULL);
 
   packet->id=pdcity->id;
   packet->owner=pdcity->owner;
@@ -1425,7 +1425,7 @@ void send_player_cities(struct player *pplayer)
 **************************************************************************/
 void send_city_info(struct player *dest, struct city *pcity)
 {
-  assert(pcity);
+  assert(pcity != NULL);
 
   if (server_state != RUN_GAME_STATE && server_state != GAME_OVER_STATE)
     return;
@@ -1740,7 +1740,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
        because the worklist advances, then the wonder was completed -- 
        don't announce that the player has *stopped* building that wonder. 
        */
-    notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STOPPED,
+    notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_STOPPED,
 		     _("Game: The %s have stopped building The %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
 		     get_impr_name_ex(pcity, pcity->currently_building),
@@ -1781,12 +1781,13 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   /* If the city is building a wonder, tell the rest of the world
      about it. */
-  if (!pcity->is_building_unit && is_wonder(pcity->currently_building))
-    notify_player_ex(0, pcity->x, pcity->y, E_WONDER_STARTED,
+  if (!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
+    notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_STARTED,
 		     _("Game: The %s have started building The %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
 		     get_impr_name_ex(pcity, pcity->currently_building),
 		     pcity->name);
+  }
 }
 
 

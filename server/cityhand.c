@@ -203,7 +203,9 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity, int id)
   do_sell_building(pplayer, pcity, id);
 
   city_refresh(pcity);
-  send_city_info(0, pcity); /* If we sold the walls the other players should see it */
+
+  /* If we sold the walls the other players should see it */
+  send_city_info(NULL, pcity);
   send_player_info(pplayer, pplayer);
 }
 
@@ -398,7 +400,7 @@ void handle_city_rename(struct player *pplayer,
     /* more sanity tests! any existing city with that name? */
     sz_strlcpy(pcity->name, cp);
     city_refresh(pcity);
-    send_city_info(0, pcity);
+    send_city_info(NULL, pcity);
   } else {
     notify_player(pplayer, _("Game: %s is not a valid name."), preq->name);
   }

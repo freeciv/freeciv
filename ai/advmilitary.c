@@ -250,7 +250,7 @@ int assess_danger(struct city *pcity)
   memset(&virtualunit, 0, sizeof(struct unit));
   pplayer = city_owner(pcity);
 
-  generate_warmap(pcity, 0); /* generates both land and sea maps */
+  generate_warmap(pcity, NULL);	/* generates both land and sea maps */
 
   pcity->ai.grave_danger = 0;
   pcity->ai.diplomat_threat = 0;
@@ -682,9 +682,14 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   fstk = find_something_to_kill(pplayer, myunit, &x, &y);
 
   acity = map_get_city(x, y);
-  if (!acity) aunit = get_defender(myunit, x, y);
-  else aunit = 0;
-  if (acity && acity->owner == pplayer->player_no) acity = 0;
+  if (acity == NULL) {
+    aunit = get_defender(myunit, x, y);
+  } else {
+    aunit = NULL;
+  }
+  if (acity && acity->owner == pplayer->player_no) {
+    acity = NULL;
+  }
 
 /* this code block and the analogous block in f_s_t_k should be calls
 to the same utility function, but I don't want to break anything right

@@ -190,8 +190,9 @@ static void update_player_aliveness(struct player *pplayer)
        city_list_size(&pplayer->cities)==0) {
       pplayer->is_alive=0;
       if( !is_barbarian(pplayer) ) {
-        notify_player_ex(0, -1, -1, E_DESTROYED, _("Game: The %s are no more!"), 
-		         get_nation_name_plural(pplayer->nation));
+	notify_player_ex(NULL, -1, -1, E_DESTROYED,
+			 _("Game: The %s are no more!"),
+			 get_nation_name_plural(pplayer->nation));
         gamelog(GAMELOG_GENO, "%s civilization destroyed",
                 get_nation_name(pplayer->nation));
       }
@@ -847,8 +848,8 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
     pplayer2->diplstates[pplayer->player_no].turns_left =
     16;
 
-  send_player_info(pplayer, 0);
-  send_player_info(pplayer2, 0);
+  send_player_info(pplayer, NULL);
+  send_player_info(pplayer2, NULL);
 
   /* If the old state was alliance the players' units can share tiles
      illegally, and we need to call resolve_unit_stack() on all the players'
@@ -1042,18 +1043,16 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
       package_player_common(pplayer, &info);
 
       conn_list_iterate(*dest, pconn) {
-
-        /* Observer for all players. */
-        if (!pconn->player && pconn->observer)
-          package_player_info(pplayer, &info, 0, INFO_FULL);
-
-        /* Client not yet attached to player. */
-        else if (!pconn->player)
-          package_player_info(pplayer, &info, 0, INFO_MINIMUM);
-
-        /* Player clients (including one player observers) */
-        else
-          package_player_info(pplayer, &info, pconn->player, INFO_MINIMUM);
+	if (!pconn->player && pconn->observer) {
+	  /* Observer for all players. */
+	  package_player_info(pplayer, &info, NULL, INFO_FULL);
+	} else if (!pconn->player) {
+	  /* Client not yet attached to player. */
+	  package_player_info(pplayer, &info, NULL, INFO_MINIMUM);
+	} else {
+	  /* Player clients (including one player observers) */
+	  package_player_info(pplayer, &info, pconn->player, INFO_MINIMUM);
+	}
 
         send_packet_player_info(pconn, &info);
       } conn_list_iterate_end;
@@ -1725,7 +1724,7 @@ void civil_war(struct player *pplayer)
   cplayer = split_player(pplayer);
 
   /* So that clients get the correct game.nplayers: */
-  send_game_info(0);
+  send_game_info(NULL);
   
   /* Before units, cities, so clients know name of new nation
    * (for debugging etc).
@@ -1780,14 +1779,15 @@ void civil_war(struct player *pplayer)
   } city_list_iterate_end;
 
 
-  notify_player(0,
+  notify_player(NULL,
 		_("Game: The capture of %s's capital and the destruction "
 		  "of the empire's administrative\n"
 		  "      structures have sparked a civil war.  "
 		  "Opportunists have flocked to the rebel cause,\n"
 		  "      and the upstart %s now holds power in %d "
 		  "rebel provinces."),
-		pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
+		pplayer->name, cplayer->name,
+		city_list_size(&cplayer->cities));
 }  
 
 /**************************************************************************

@@ -27,7 +27,7 @@ void genlist_init(struct genlist *pgenlist)
   pgenlist->tail_link=&pgenlist->null_link;
   pgenlist->null_link.next=&pgenlist->null_link;
   pgenlist->null_link.prev=&pgenlist->null_link;
-  pgenlist->null_link.dataptr=0;
+  pgenlist->null_link.dataptr = NULL;
 }
 
 
@@ -227,7 +227,7 @@ void genlist_sort(struct genlist *pgenlist,
 
   if(compar==NULL) {
     free(sortbuf);
-    sortbuf = 0;
+    sortbuf = NULL;
     n_alloc = 0;
     return;
   }

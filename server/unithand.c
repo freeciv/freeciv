@@ -80,7 +80,7 @@ void handle_unit_goto_tile(struct player *pplayer,
 
     set_unit_activity(punit, ACTIVITY_GOTO);
 
-    send_unit_info(0, punit);
+    send_unit_info(NULL, punit);
 
     /* Normally units on goto does not pick up extra units, even if
        the units are in a city and are sentried. But if we just started
@@ -142,7 +142,7 @@ void handle_unit_connect(struct player *pplayer,
       set_unit_activity(punit, req->activity_type);
       punit->connecting = 1;
 
-      send_unit_info(0, punit);
+      send_unit_info(NULL, punit);
 
       /* avoid wasting first turn if unit cannot do the activity
 	 on the starting tile */
@@ -530,7 +530,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
     sync_cities();
   }
   wipe_unit(punit);
-  send_city_info(0, pcity);
+  send_city_info(NULL, pcity);
   notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		   _("Game: %s added to aid %s in growing."),
 		   unit_name, pcity->name);
@@ -729,7 +729,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       kills_citizen_after_attack(punit)) {
     city_reduce_size(pcity,1);
     city_refresh(pcity);
-    send_city_info(0, pcity);
+    send_city_info(NULL, pcity);
   }
   if (unit_flag(punit, F_ONEATTACK)) 
     punit->moves_left = 0;
@@ -826,7 +826,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     }
   }
 
-  send_unit_info(0, pwinner);
+  send_unit_info(NULL, pwinner);
 }
 
 /**************************************************************************
@@ -1247,7 +1247,7 @@ static void handle_unit_activity_dependencies(struct unit *punit,
 	  if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	      (punit2->activity_target == prereq)) {
 	    set_unit_activity(punit2, ACTIVITY_IDLE);
-	    send_unit_info(0, punit2);
+	    send_unit_info(NULL, punit2);
 	  }
 	unit_list_iterate_end;
       }
@@ -1260,7 +1260,7 @@ static void handle_unit_activity_dependencies(struct unit *punit,
       /* ai_manage_explorer sets the activity to idle, so we reset it */
       if (more_to_explore && (punit = find_unit_by_id(id))) {
 	set_unit_activity(punit, ACTIVITY_EXPLORE);
-	send_unit_info(0, punit);
+	send_unit_info(NULL, punit);
       }
     }
     break;
@@ -1285,7 +1285,7 @@ void handle_unit_activity_request(struct unit *punit,
       free(punit->pgr);
       punit->pgr = NULL;
     }
-    send_unit_info(0, punit);
+    send_unit_info(NULL, punit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
@@ -1308,7 +1308,8 @@ void handle_unit_activity_request_targeted(struct unit *punit,
       punit->pgr = NULL;
     }
 
-    send_unit_info_to_onlookers(0, punit, punit->x, punit->y, 0, select_unit);
+    send_unit_info_to_onlookers(NULL, punit, punit->x, punit->y, 0,
+				select_unit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
@@ -1343,7 +1344,7 @@ void handle_unit_unload_request(struct player *pplayer,
 
 	if (wakeup) {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2);
+	  send_unit_info(NULL, punit2);
 	}
       }
     } unit_list_iterate_end;

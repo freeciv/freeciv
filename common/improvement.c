@@ -309,7 +309,7 @@ static void fill_ranges_improv_lists(Impr_Status *implist[EFR_LAST],
   if (pplayer) {
     implist[EFR_PLAYER]=pplayer->improvements;
     if (cont >= 0) {
-      assert(pplayer->island_improv);
+      assert(pplayer->island_improv != NULL);
       implist[EFR_ISLAND] = &pplayer->island_improv[cont*game.num_impr_types];
     }
   }

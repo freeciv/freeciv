@@ -216,7 +216,7 @@ static void check_units(void) {
 
       if (punit->homecity) {
 	pcity = player_find_city_by_id(pplayer, punit->homecity);
-	assert(pcity);
+	assert(pcity != NULL);
 	assert(city_owner(pcity) == pplayer);
       }
 

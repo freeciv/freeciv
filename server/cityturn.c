@@ -129,7 +129,7 @@ void remove_obsolete_buildings_city(struct city *pcity, int refresh)
   if (sold && refresh) {
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
-    send_player_info(pplayer, 0); /* Send updated gold to all */
+    send_player_info(pplayer, NULL); /* Send updated gold to all */
   }
 }
 
@@ -944,7 +944,7 @@ static int city_build_building(struct player *pplayer, struct city *pcity)
     /* to eliminate micromanagement */
     if (is_wonder(pcity->currently_building)) {
       game.global_wonders[pcity->currently_building] = pcity->id;
-      notify_player_ex(0, pcity->x, pcity->y, E_WONDER_BUILD,
+      notify_player_ex(NULL, pcity->x, pcity->y, E_WONDER_BUILD,
 		       _("Game: The %s have finished building %s in %s."),
 		       get_nation_name_plural(pplayer->nation),
 		       get_impr_name_ex(pcity, pcity->currently_building),
@@ -973,14 +973,14 @@ static int city_build_building(struct player *pplayer, struct city *pcity)
       tech_researched(pplayer);
     }
     if (space_part && pplayer->spaceship.state == SSHIP_NONE) {
-      notify_player_ex(0, pcity->x, pcity->y, E_SPACESHIP,
+      notify_player_ex(NULL, pcity->x, pcity->y, E_SPACESHIP,
 		       _("Game: The %s have started "
 			 "building a spaceship!"),
 		       get_nation_name_plural(pplayer->nation));
       pplayer->spaceship.state = SSHIP_STARTED;
     }
     if (space_part) {
-      send_spaceship_info(pplayer, 0);
+      send_spaceship_info(pplayer, NULL);
     } else {
       city_refresh(pcity);
     }
@@ -1125,7 +1125,7 @@ static void check_pollution(struct city *pcity)
 	   && map_get_terrain(mx, my) <= T_TUNDRA)
 	  && (!(map_get_special(mx, my) & S_POLLUTION))) {
 	map_set_special(mx, my, S_POLLUTION);
-	send_tile_info(0, mx, my);
+	send_tile_info(NULL, mx, my);
 	notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
 			 E_POLLUTION, _("Game: Pollution near %s."),
 			 pcity->name);
@@ -1307,7 +1307,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
     check_pollution(pcity);
     city_incite_cost(pcity);
 
-    send_city_info(0, pcity);
+    send_city_info(NULL, pcity);
     if (pcity->anarchy>2 && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_ANARCHY,
 		       _("Game: The people have overthrown your %s, "

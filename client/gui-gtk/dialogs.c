@@ -552,8 +552,8 @@ static void spy_close_tech_callback(GtkWidget *w, gpointer data)
 
   if(spy_tech_shell_is_modal)
      gtk_widget_set_sensitive(top_vbox, TRUE);
-   gtk_widget_destroy(spy_tech_shell);
-   spy_tech_shell=0;
+  gtk_widget_destroy(spy_tech_shell);
+  spy_tech_shell = NULL;
 
   process_diplomat_arrival(NULL, 0);
 }
@@ -566,8 +566,8 @@ static void spy_close_sabotage_callback(GtkWidget *w, gpointer data)
 
   if(spy_sabotage_shell_is_modal)
      gtk_widget_set_sensitive(top_vbox, TRUE);
-   gtk_widget_destroy(spy_sabotage_shell);
-   spy_sabotage_shell=0;
+  gtk_widget_destroy(spy_sabotage_shell);
+  spy_sabotage_shell = NULL;
 
   process_diplomat_arrival(NULL, 0);
 }
@@ -617,7 +617,7 @@ static void spy_uselect_improvement_callback(GtkWidget *w, gint row,
 static void spy_steal_callback(GtkWidget *w, gpointer data)
 {  
   gtk_widget_destroy(spy_tech_shell);
-  spy_tech_shell = 0l;
+  spy_tech_shell = NULL;
   
   if(!steal_advance){
     freelog(LOG_ERROR, "Bug in spy steal tech code.");
@@ -646,7 +646,7 @@ static void spy_steal_callback(GtkWidget *w, gpointer data)
 static void spy_sabotage_callback(GtkWidget *w, gpointer data)
 {  
   gtk_widget_destroy(spy_sabotage_shell);
-  spy_sabotage_shell = 0l;
+  spy_sabotage_shell = NULL;
   
   if(!sabotage_improvement){
     freelog(LOG_ERROR, "Bug in spy sabotage code");
@@ -1150,7 +1150,7 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_ESTABLISH_TRADE);
     
   destroy_message_dialog(w);
-  caravan_dialog = 0;
+  caravan_dialog = NULL;
   process_caravan_arrival(NULL);
 }
 
@@ -1167,7 +1167,7 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
   send_packet_unit_request(&aconnection, &req, PACKET_UNIT_HELP_BUILD_WONDER);
 
   destroy_message_dialog(w);
-  caravan_dialog = 0;
+  caravan_dialog = NULL;
   process_caravan_arrival(NULL);
 }
 
@@ -1193,7 +1193,7 @@ static void caravan_keep_moving_callback(GtkWidget *w, gpointer data)
 #endif
   
   destroy_message_dialog(w);
-  caravan_dialog = 0;
+  caravan_dialog = NULL;
   process_caravan_arrival(NULL);
 }
 
@@ -1241,7 +1241,7 @@ void popup_caravan_dialog(struct unit *punit,
 *****************************************************************/
 int caravan_dialog_is_open(void)
 {
-  return BOOL_VAL(caravan_dialog);
+  return BOOL_VAL(caravan_dialog != NULL);
 }
 
 
@@ -1666,7 +1666,7 @@ static void unit_select_all_callback(GtkWidget *w, gpointer data)
 
   gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(unit_select_dialog_shell);
-  unit_select_dialog_shell=0;
+  unit_select_dialog_shell = NULL;
   
   for(i=0; i<unit_select_no; i++) {
     struct unit *punit = player_find_unit_by_id(game.player_ptr,
@@ -1692,7 +1692,7 @@ static void unit_select_callback(GtkWidget *w, int id)
 
   gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(unit_select_dialog_shell);
-  unit_select_dialog_shell=0;
+  unit_select_dialog_shell = NULL;
 }
 
 static int number_of_columns(int n)

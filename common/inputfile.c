@@ -151,7 +151,7 @@ static int my_is_comment(int c)
 ***********************************************************************/
 static void init_zeros(struct inputfile *inf)
 {
-  assert(inf);
+  assert(inf != NULL);
   inf->magic = INF_MAGIC;
   inf->filename = NULL;
   inf->fp = NULL;
@@ -170,10 +170,10 @@ static void init_zeros(struct inputfile *inf)
 ***********************************************************************/
 static void assert_sanity(struct inputfile *inf)
 {
-  assert(inf);
+  assert(inf != NULL);
   assert(inf->magic==INF_MAGIC);
-  assert(inf->filename);
-  assert(inf->fp);
+  assert(inf->filename != NULL);
+  assert(inf->fp != NULL);
   assert(inf->line_num >= 0);
   assert(inf->cur_line_pos >= 0);
   assert(inf->at_eof==0 || inf->at_eof==1);
@@ -204,7 +204,7 @@ struct inputfile *inf_open(const char *filename,
   struct inputfile *inf;
   fz_FILE *fp;
 
-  assert(filename);
+  assert(filename != NULL);
   assert(strlen(filename)>0);
   fp = fz_fopen(filename, "r", FZ_NOT_USED, FZ_NOT_USED);
   if (!fp) {
@@ -483,7 +483,7 @@ static void assign_flag_token(struct astring *astr, char val)
 {
   static char flag_token[2];
 
-  assert(astr);
+  assert(astr != NULL);
   flag_token[0] = val;
   flag_token[1] = '\0';
   astr_minsize(astr, 2);

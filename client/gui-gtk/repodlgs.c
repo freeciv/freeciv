@@ -962,8 +962,8 @@ void activeunits_close_callback(GtkWidget *w, gpointer data)
 
   if(activeunits_dialog_shell_is_modal)
      gtk_widget_set_sensitive(top_vbox, TRUE);
-   gtk_widget_destroy(activeunits_dialog_shell);
-   activeunits_dialog_shell=0;
+  gtk_widget_destroy(activeunits_dialog_shell);
+  activeunits_dialog_shell = NULL;
 }
 
 /****************************************************************

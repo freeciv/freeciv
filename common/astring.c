@@ -50,7 +50,7 @@
 void astr_init(struct astring *astr)
 {
   struct astring zero_astr = ASTRING_INIT;
-  assert(astr);
+  assert(astr != NULL);
   *astr = zero_astr;
 }
 
@@ -65,7 +65,7 @@ void astr_minsize(struct astring *astr, int n)
 {
   int n1;
   
-  assert(astr);
+  assert(astr != NULL);
   assert(astr->n_alloc>=0);
   
   astr->n = n;
@@ -87,11 +87,11 @@ void astr_free(struct astring *astr)
 {
   struct astring zero_astr = ASTRING_INIT;
 
-  assert(astr);
+  assert(astr != NULL);
   assert(astr->n_alloc>=0);
   
   if (astr->n_alloc) {
-    assert(astr->str);
+    assert(astr->str != NULL);
     free(astr->str);
   }
   *astr = zero_astr;
@@ -104,7 +104,7 @@ void astr_free(struct astring *astr)
 ***********************************************************************/
 void ath_init(struct athing *ath, int size)
 {
-  assert(ath);
+  assert(ath != NULL);
   ath->ptr = NULL;
   ath->n = 0;
   ath->n_alloc = 0;
@@ -121,7 +121,7 @@ void ath_minnum(struct athing *ath, int n)
 {
   int n1;
   
-  assert(ath);
+  assert(ath != NULL);
   assert(ath->n_alloc>=0);
   assert(ath->size>0);
   
@@ -144,12 +144,12 @@ void ath_free(struct athing *ath)
 {
   int size;
 
-  assert(ath);
+  assert(ath != NULL);
   assert(ath->n_alloc>=0);
   size = ath->size;
   
   if (ath->n_alloc) {
-    assert(ath->ptr);
+    assert(ath->ptr != NULL);
     free(ath->ptr);
   }
   ath_init(ath, size);

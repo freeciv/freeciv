@@ -1517,7 +1517,7 @@ static void open_metaserver_connection(struct connection *caller)
 {
   server_open_udp();
   if (send_server_info_to_metaserver(1,0)) {
-    notify_player(0, _("Open metaserver connection to [%s]."),
+    notify_player(NULL, _("Open metaserver connection to [%s]."),
 		  meta_addr_port());
     cmd_reply(CMD_METACONN, caller, C_OK,
 	      _("Metaserver connection opened."));
@@ -1531,7 +1531,7 @@ static void close_metaserver_connection(struct connection *caller)
 {
   if (send_server_info_to_metaserver(1,1)) {
     server_close_udp();
-    notify_player(0, _("Close metaserver connection to [%s]."),
+    notify_player(NULL, _("Close metaserver connection to [%s]."),
 		  meta_addr_port());
     cmd_reply(CMD_METACONN, caller, C_OK,
 	      _("Metaserver connection closed."));
@@ -1584,7 +1584,7 @@ static void metainfo_command(struct connection *caller, char *arg)
     cmd_reply(CMD_METAINFO, caller, C_METAERROR,
 	      _("Not reporting to the metaserver."));
   } else {
-    notify_player(0, _("Metaserver infostring set to '%s'."),
+    notify_player(NULL, _("Metaserver infostring set to '%s'."),
 		  srvarg.metaserver_info_line);
     cmd_reply(CMD_METAINFO, caller, C_OK,
 	      _("Metaserver info string set."));
@@ -1601,7 +1601,7 @@ static void metaserver_command(struct connection *caller, char *arg)
   sz_strlcpy(srvarg.metaserver_addr, arg);
   meta_addr_split();
 
-  notify_player(0, _("Metaserver is now [%s]."),
+  notify_player(NULL, _("Metaserver is now [%s]."),
 		meta_addr_port());
   cmd_reply(CMD_METASERVER, caller, C_OK,
 	    _("Metaserver address set."));
@@ -1687,7 +1687,7 @@ static void save_command(struct connection *caller, char *arg)
 **************************************************************************/
 void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 {
-  assert(pplayer);
+  assert(pplayer != NULL);
   if (is_barbarian(pplayer)) {
     cmd_reply(CMD_AITOGGLE, caller, C_FAIL,
 	      _("Cannot toggle a barbarian player."));
@@ -1696,7 +1696,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 
   pplayer->ai.control = !pplayer->ai.control;
   if (pplayer->ai.control) {
-    notify_player(0, _("Game: %s is now AI-controlled."), pplayer->name);
+    notify_player(NULL, _("Game: %s is now AI-controlled."), pplayer->name);
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under AI control."), pplayer->name);
     if (pplayer->ai.skill_level==0) {
@@ -1715,7 +1715,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     if (server_state == RUN_GAME_STATE)
       assess_danger_player(pplayer);
   } else {
-    notify_player(0, _("Game: %s is now human."), pplayer->name);
+    notify_player(NULL, _("Game: %s is now human."), pplayer->name);
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under human control."), pplayer->name);
 
@@ -1724,7 +1724,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
       check_player_government_rates(pplayer);
     }
   }
-  send_player_info(pplayer,0);
+  send_player_info(pplayer, NULL);
 }
 
 /**************************************************************************
@@ -2036,7 +2036,7 @@ static int set_cmdlevel(struct connection *caller,
 			struct connection *ptarget,
 			enum cmdlevel_id level)
 {
-  assert(ptarget);    /* only ever call me for specific connection */
+  assert(ptarget != NULL);    /* only ever call me for specific connection */
 
   if (caller && ptarget->access_level > caller->access_level) {
     /* Can this happen?  Caller must already have ALLOW_HACK
@@ -2100,8 +2100,8 @@ void notify_if_first_access_level_is_available(void)
 {
   if (first_access_level > default_access_level
       && !first_access_level_is_taken()) {
-    notify_player(0, _("Game: Anyone can assume command access level "
-		       "'%s' now by issuing the 'firstlevel' command."),
+    notify_player(NULL, _("Game: Anyone can assume command access level "
+			  "'%s' now by issuing the 'firstlevel' command."),
 		  cmdlevel_name(first_access_level));
   }
 }
@@ -2193,7 +2193,7 @@ static void cmdlevel_command(struct connection *caller, char *str)
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 	      _("Default command access level set to '%s'."),
 	      cmdlevel_name(level));
-    notify_player(0, _("Game: All players now have access level '%s'."),
+    notify_player(NULL, _("Game: All players now have access level '%s'."),
 		  cmdlevel_name(level));
     if (level > first_access_level) {
       first_access_level = level;
@@ -2207,7 +2207,8 @@ static void cmdlevel_command(struct connection *caller, char *str)
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 	      _("Default command access level set to '%s'."),
 	      cmdlevel_name(level));
-    notify_player(0, _("Game: New connections will have access level '%s'."),
+    notify_player(NULL,
+		  _("Game: New connections will have access level '%s'."),
 		  cmdlevel_name(level));
     if (level > first_access_level) {
       first_access_level = level;
@@ -2221,7 +2222,8 @@ static void cmdlevel_command(struct connection *caller, char *str)
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 	      _("'First come' command access level set to '%s'."),
 	      cmdlevel_name(level));
-    notify_player(0, _("Game: 'First come' command access level set to '%s'."),
+    notify_player(NULL,
+		  _("Game: 'First come' command access level set to '%s'."),
 		  cmdlevel_name(level));
     if (level < default_access_level) {
       default_access_level = level;
@@ -2270,9 +2272,9 @@ static void firstlevel_command(struct connection *caller)
     cmd_reply(CMD_FIRSTLEVEL, caller, C_OK,
 	_("Your command access level has been increased to '%s'."),
 		cmdlevel_name(first_access_level));
-    notify_player(0,
-	_("Game: Connection '%s' has grabbed 'first come' access level, '%s'."),
-		caller->name, cmdlevel_name(first_access_level));
+    notify_player(NULL, _("Game: Connection '%s' has grabbed "
+			  "'first come' access level, '%s'."),
+		  caller->name, cmdlevel_name(first_access_level));
   }
 }
 
@@ -2707,7 +2709,7 @@ static void set_command(struct connection *caller, char *str)
 	cmd_reply(CMD_SET, caller, C_OK, _("Option: %s has been set to %d."), 
 		  settings[cmd].name, val);
 	if (sset_is_to_client(cmd)) {
-	  notify_player(0, _("Option: %s has been set to %d."), 
+	  notify_player(NULL, _("Option: %s has been set to %d."),
 			settings[cmd].name, val);
 	  /* canonify map generator settings( all of which are int ) */
 	  adjust_terrain_param();
@@ -2715,7 +2717,7 @@ static void set_command(struct connection *caller, char *str)
 	     if sent before RUN_GAME_STATE, triggers a popdown_races_dialog()
 	     call in client/packhand.c#handle_game_info() */
 	  if (server_state==RUN_GAME_STATE)
-	    send_game_info(0);
+	    send_game_info(NULL);
 	}
       } else { /* check function returned an error */
 	cmd_reply(CMD_SET, caller, C_SYNTAX,
@@ -2737,7 +2739,7 @@ static void set_command(struct connection *caller, char *str)
 		  _("Option: %s has been set to \"%s\"."),
 		  op->name, op->svalue);
 	if (sset_is_to_client(cmd)) {
-	  notify_player(0, _("Option: %s has been set to \"%s\"."), 
+	  notify_player(NULL, _("Option: %s has been set to \"%s\"."),
 			op->name, op->svalue);
 	}
       } else { /* func_change_s barked. */
@@ -2835,7 +2837,7 @@ void handle_stdin_input(struct connection *caller, char *str)
     return;
   }
   if (!may_use(caller, cmd)) {
-    assert(caller);
+    assert(caller != NULL);
     cmd_reply(cmd, caller, C_FAIL,
 	      _("You are not allowed to use this command."));
     return;

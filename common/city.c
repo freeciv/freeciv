@@ -1041,7 +1041,7 @@ struct city *city_list_find_id(struct city_list *This, int id)
     if(((struct city *)ITERATOR_PTR(myiter))->id==id)
 	return ITERATOR_PTR(myiter);
   }
-  return 0;
+  return NULL;
 }
 
 /**************************************************************************
@@ -1057,7 +1057,7 @@ struct city *city_list_find_name(struct city_list *This, char *name)
     if(!mystrcasecmp(name, ((struct city *)ITERATOR_PTR(myiter))->name))
       return ITERATOR_PTR(myiter);
 
-  return 0;
+  return NULL;
 }
 
 /**************************************************************************

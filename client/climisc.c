@@ -74,7 +74,7 @@ void client_remove_unit(int unit_id)
 	   unit_name(punit->type), punit->x, punit->y, hc);
     
     if(punit==ufocus) {
-      set_unit_focus_no_center(0);
+      set_unit_focus_no_center(NULL);
       game_remove_unit(punit);
       advance_unit_focus();
     }
@@ -528,12 +528,12 @@ void center_on_something(void)
   } else if (city_list_size(&game.player_ptr->cities) > 0) {
     /* Just focus on any city. */
     pcity = city_list_get(&game.player_ptr->cities, 0);
-    assert(pcity);
+    assert(pcity != NULL);
     center_tile_mapcanvas(pcity->x, pcity->y);
   } else if (unit_list_size(&game.player_ptr->units) > 0) {
     /* Just focus on any unit. */
     punit = unit_list_get(&game.player_ptr->units, 0);
-    assert(punit);
+    assert(punit != NULL);
     center_tile_mapcanvas(punit->x, punit->y);
   } else {
     /* Just any known tile will do; search near the middle first. */
@@ -917,7 +917,7 @@ int collect_cids5(cid * dest_cids, struct city *pcity)
 {
   int id, cids_used = 0;
 
-  assert(pcity);
+  assert(pcity != NULL);
 
   for (id = 0; id < game.num_impr_types; id++) {
     if (pcity->improvements[id]) {
@@ -1020,7 +1020,7 @@ void renumber_island_impr_effect(int old, int newnumber)
     struct geff_vector *oldv, *newv;
     struct eff_global *olde, *newe;
 
-    assert(plr->island_improv);
+    assert(plr->island_improv != NULL);
     oldimpr=&plr->island_improv[game.num_impr_types*old];
     newimpr=&plr->island_improv[game.num_impr_types*newnumber];
 

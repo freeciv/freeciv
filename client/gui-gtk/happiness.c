@@ -80,7 +80,7 @@ static struct happiness_dialog *get_happiness_dialog(struct city *pcity)
     if (((struct happiness_dialog *) ITERATOR_PTR(myiter))->pcity == pcity)
       return ITERATOR_PTR(myiter);
 
-  return 0;
+  return NULL;
 }
 
 /**************************************************************************

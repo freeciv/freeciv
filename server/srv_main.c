@@ -221,9 +221,9 @@ static void send_all_info(struct conn_list *dest)
 
   send_game_info(dest);
   send_map_info(dest);
-  send_player_info_c(0, dest);
+  send_player_info_c(NULL, dest);
   send_conn_info(&game.est_connections, dest);
-  send_spaceship_info(0, dest);
+  send_spaceship_info(NULL, dest);
   send_all_known_tiles(dest);
   send_all_known_cities(dest);
   send_all_known_units(dest);
@@ -900,7 +900,7 @@ static void handle_turn_done(struct player *pplayer)
 
   check_for_full_turn_done();
 
-  send_player_info(pplayer, 0);
+  send_player_info(pplayer, NULL);
 }
 
 /**************************************************************************
@@ -1022,7 +1022,7 @@ static void join_game_accept(struct connection *pconn, int rejoin)
   struct packet_join_game_reply packet;
   struct player *pplayer = pconn->player;
 
-  assert(pplayer);
+  assert(pplayer != NULL);
   packet.you_can_join = 1;
   sz_strlcpy(packet.capability, our_capability);
   my_snprintf(packet.message, sizeof(packet.message),
@@ -1122,7 +1122,8 @@ void accept_new_player(char *name, struct connection *pconn)
   } else {
     freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
 	    name);
-    notify_player(0, _("Game: %s has been added as an AI-controlled player."),
+    notify_player(NULL,
+		  _("Game: %s has been added as an AI-controlled player."),
 		  name);
   }
 
@@ -1420,7 +1421,7 @@ void lost_connection_to_client(struct connection *pconn)
   pconn->established = 0;
   
   send_conn_info_remove(&pconn->self, &game.est_connections);
-  send_player_info(pplayer, 0);
+  send_player_info(pplayer, NULL);
   notify_if_first_access_level_is_available();
 
   /* Cancel diplomacy meetings */
@@ -1730,9 +1731,9 @@ static void main_loop(void)
     game_advance_year();
     check_spaceship_arrivals();
     freelog(LOG_DEBUG, "Sendplayerinfo");
-    send_player_info(0, 0);
+    send_player_info(NULL, NULL);
     freelog(LOG_DEBUG, "Sendgameinfo");
-    send_game_info(0);
+    send_game_info(NULL);
     freelog(LOG_DEBUG, "Sendyeartoclients");
     send_year_to_clients(game.year);
     freelog(LOG_DEBUG, "Sendinfotometaserver");
@@ -1971,7 +1972,7 @@ main_start_players:
 
   report_scores(1);
   show_map_to_all();
-  notify_player(0, _("Game: The game is over..."));
+  notify_player(NULL, _("Game: The game is over..."));
   gamelog(GAMELOG_NORMAL, "The game is over!");
   save_game_auto();
 

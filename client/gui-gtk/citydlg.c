@@ -3136,7 +3136,7 @@ static gint change_deleted_callback(GtkWidget * w, GdkEvent * ev,
 
   pdialog = (struct city_dialog *) data;
 
-  pdialog->change_shell = 0;
+  pdialog->change_shell = NULL;
   gtk_widget_set_sensitive(pdialog->shell, TRUE);
   return FALSE;
 }
@@ -3151,7 +3151,7 @@ static void change_no_callback(GtkWidget * w, gpointer data)
   pdialog = (struct city_dialog *) data;
 
   gtk_widget_destroy(w->parent->parent->parent);
-  pdialog->change_shell = 0;
+  pdialog->change_shell = NULL;
   gtk_widget_set_sensitive(pdialog->shell, TRUE);
 }
 
@@ -3178,7 +3178,7 @@ static void change_yes_callback(GtkWidget * w, gpointer data)
     send_packet_city_request(&aconnection, &packet, PACKET_CITY_CHANGE);
   }
   gtk_widget_destroy(w->parent->parent->parent);
-  pdialog->change_shell = 0;
+  pdialog->change_shell = NULL;
   gtk_widget_set_sensitive(pdialog->shell, TRUE);
 }
 

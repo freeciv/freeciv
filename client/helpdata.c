@@ -41,7 +41,7 @@
 
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
-  "Techs", "Terrain", "Governments", 0
+  "Techs", "Terrain", "Governments", NULL
 };
 
 

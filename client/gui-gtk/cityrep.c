@@ -1386,6 +1386,6 @@ static void config_ok_command_callback(GtkWidget *w, gpointer data)
   }
   gtk_widget_destroy(config_shell);
 
-  config_shell=0;
+  config_shell = NULL;
   city_report_dialog_update();
 }

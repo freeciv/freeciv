@@ -232,7 +232,7 @@ void tilespec_read_toplevel(const char *tileset_name)
   if (is_isometric && !isometric_view_supported()) {
     freelog(LOG_ERROR, _("Client does not support isometric tilesets."
 	    " Using default tileset instead."));
-    assert(tileset_name);
+    assert(tileset_name != NULL);
     section_file_free(file);
     free(fname);
     tilespec_read_toplevel(NULL);
@@ -241,7 +241,7 @@ void tilespec_read_toplevel(const char *tileset_name)
   if (!is_isometric && !overhead_view_supported()) {
     freelog(LOG_ERROR, _("Client does not support overhead view tilesets."
 	    " Using default tileset instead."));
-    assert(tileset_name);
+    assert(tileset_name != NULL);
     section_file_free(file);
     free(fname);
     tilespec_read_toplevel(NULL);
@@ -416,7 +416,7 @@ static char *nsew_str(int idx)
 /* Not very safe, but convenient: */
 #define SET_SPRITE(field, tag) do { \
        sprites.field = hash_lookup_data(sprite_hash, tag);\
-       assert(sprites.field);\
+       assert(sprites.field != NULL);\
     } while(0)
 
 /**********************************************************************
@@ -429,7 +429,7 @@ static void tilespec_lookup_sprite_tags(void)
   const char dir_char[] = "nsew";
   int i, j;
   
-  assert(sprite_hash);
+  assert(sprite_hash != NULL);
 
   SET_SPRITE(treaty_thumb[0], "treaty.disagree_thumb_down");
   SET_SPRITE(treaty_thumb[1], "treaty.agree_thumb_up");
@@ -649,8 +649,8 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(tx.river_outlet[i], buffer);
   }
 
-  sprites.city.tile_wall = 0;       /* no place to initialize this variable */
-  sprites.city.tile = 0;            /* no place to initialize this variable */
+  sprites.city.tile_wall = NULL;    /* no place to initialize this variable */
+  sprites.city.tile = NULL;         /* no place to initialize this variable */
 }
 
 /**********************************************************************
@@ -761,7 +761,7 @@ void tilespec_setup_tile_type(int id)
       tt->sprite[i] = lookup_sprite_tag_alt(buffer1, buffer2, 1, "tile_type",
 					    tt->terrain_name);
 
-      assert(tt->sprite[i]);
+      assert(tt->sprite[i] != NULL);
       /* should probably do something if NULL, eg generic default? */
     }
   }
@@ -773,7 +773,7 @@ void tilespec_setup_tile_type(int id)
 	= lookup_sprite_tag_alt(tt->special[i].graphic_str,
 				tt->special[i].graphic_alt,
 				name[0], "tile_type special", name);
-      assert(tt->special[i].sprite);
+      assert(tt->special[i].sprite != NULL);
     } else {
       tt->special[i].sprite = NULL;
     }
@@ -1626,7 +1626,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
       if (!citymode || punit->owner != game.player_idx) {
 	if ((!focus_unit_hidden || pfocus != punit) &&
 	    (draw_units || (draw_focus_unit && !focus_unit_hidden && punit == pfocus))) {
-	  no_backdrop=BOOL_VAL(pcity);
+	  no_backdrop = BOOL_VAL(pcity != NULL);
 	  sprs += fill_unit_sprite_array(sprs, punit, &dummy);
 	  no_backdrop=FALSE;
 	  if (unit_list_size(&ptile->units)>1)  
@@ -1663,7 +1663,7 @@ static void tilespec_setup_style_tile(int style, char *graphics)
     if (sp) {
       sprites.city.tile[style][city_styles[style].tiles_num] = sp;
       if (is_isometric) {
-	assert(sp_wall);
+	assert(sp_wall != NULL);
 	sprites.city.tile_wall[style][city_styles[style].tiles_num] = sp_wall;
       }
       city_styles[style].tresh[city_styles[style].tiles_num] = j;

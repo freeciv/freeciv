@@ -91,7 +91,7 @@ struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
     if(((struct spaceship_dialog *)ITERATOR_PTR(myiter))->pplayer==pplayer)
       return ITERATOR_PTR(myiter);
 
-  return 0;
+  return NULL;
 }
 
 /****************************************************************

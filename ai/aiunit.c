@@ -1116,7 +1116,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     q >>= unit_move_turns(punit, pcity->x, pcity->y);
   }
 
-  val = 0; acity = 0; aunit = 0;
+  val = 0; acity = NULL; aunit = NULL;
   if (unit_can_defend(punit->type)) {
 
 /* This is a defending unit that doesn't need to stay put. 
@@ -1538,8 +1538,11 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
         } else if (!is_tiles_adjacent(punit->x, punit->y, dest_x, dest_y)) {
 /* if what we want to kill is adjacent, and findvictim didn't want it, WAIT! */
           if ((went = ai_military_gothere(pplayer, punit, dest_x, dest_y))) {
-            if (went > 0) flag = punit->moves_left;
-            else punit = 0;
+	    if (went > 0) {
+	      flag = punit->moves_left;
+	    } else {
+	      punit = NULL;
+	    }
           } /* else we're having ZOC hell and need to break out of the loop */
         } /* else nothing to kill */
       } else { /* goto does NOT work for fast units */
@@ -2096,7 +2099,7 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
      *  possible otherwise that all diplomats we ever produce are home
      *  guard, and that's kind of silly.  -AJS, 20000130
      */
-    ctarget=0;
+    ctarget = NULL;
     dist=MAX(map.xsize, map.ysize);
     continent=map_get_continent(pdiplomat->x, pdiplomat->y);
     handicap = ai_handicap(pplayer, H_TARGETS);

@@ -1004,7 +1004,7 @@ static void fill_out_result(struct city *pcity, struct cma_result *result,
   } else {
     assert(scientists <= base_combination->max_scientists);
     assert(taxmen <= base_combination->max_taxmen);
-    assert(base_combination->cache1);
+    assert(base_combination->cache1 != NULL);
     assert(base_combination->all_entertainer.found_a_valid);
 
     slot = &base_combination->cache1[scientists *
@@ -1196,7 +1196,7 @@ static void add_combination(int fields_used,
   }
 
   /* Insert the given combination. */
-  assert(invalid_slot_for_insert);
+  assert(invalid_slot_for_insert != NULL);
 
   memcpy(invalid_slot_for_insert, combination, sizeof(struct combination));
   invalid_slot_for_insert->all_entertainer.found_a_valid = 0;

@@ -523,7 +523,7 @@ void players_list_ucallback(GtkWidget *w, gint row, gint column)
 void players_button_callback(GtkWidget *w, gpointer data)
 {
   gtk_widget_destroy(players_dialog_shell);
-  players_dialog_shell=0;
+  players_dialog_shell = NULL;
 }
 
 /**************************************************************************

@@ -77,8 +77,9 @@ void popup_goto_dialog(void)
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE)
     return;
-  if(get_unit_in_focus()==0)
+  if (get_unit_in_focus() == NULL) {
     return;
+  }
 
   get_center_tile_mapcanvas(&original_x, &original_y);
   
@@ -157,12 +158,13 @@ void popup_goto_dialog(void)
 **************************************************************************/
 static struct city *get_selected_city(void)
 {
-  GList *selection;
+  GList *selection = GTK_CLIST(goto_list)->selection;
   gchar *string;
   int len;
 
-  if (!(selection=GTK_CLIST(goto_list)->selection))
-    return 0;
+  if (selection == NULL) {
+    return NULL;
+  }
   
   gtk_clist_get_text(GTK_CLIST(goto_list),
 		     GPOINTER_TO_INT(selection->data), 0, &string);

@@ -202,8 +202,8 @@ void myusleep(unsigned long usec)
 ***********************************************************************/
 size_t mystrlcpy(char *dest, const char *src, size_t n)
 {
-  assert(dest);
-  assert(src);
+  assert(dest != NULL);
+  assert(src != NULL);
   assert(n>0);
 #ifdef HAVE_STRLCPY
   return strlcpy(dest, src, n);
@@ -221,8 +221,8 @@ size_t mystrlcpy(char *dest, const char *src, size_t n)
 
 size_t mystrlcat(char *dest, const char *src, size_t n)
 {
-  assert(dest);
-  assert(src);
+  assert(dest != NULL);
+  assert(src != NULL);
   assert(n>0);
 #ifdef HAVE_STRLCAT
   return strlcat(dest, src, n);
@@ -310,9 +310,9 @@ int my_vsnprintf(char *str, size_t n, const char *format, va_list ap)
   /* This may be overzealous, but I suspect any triggering of these to
    * be bugs.  */
 
-  assert(str);
+  assert(str != NULL);
   assert(n>0);
-  assert(format);
+  assert(format != NULL);
 
 #ifdef HAVE_WORKING_VSNPRINTF
   r = vsnprintf(str, n, format, ap);
@@ -370,7 +370,7 @@ int my_snprintf(char *str, size_t n, const char *format, ...)
   int ret;
   va_list ap;
 
-  assert(format);
+  assert(format != NULL);
   
   va_start(ap, format);
   ret = my_vsnprintf(str, n, format, ap);

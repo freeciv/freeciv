@@ -793,7 +793,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
   punit->goto_dest_x = x;
   punit->goto_dest_y = y;
   set_unit_activity(punit, ACTIVITY_GOTO);
-  send_unit_info(0, punit);
+  send_unit_info(NULL, punit);
   do_unit_goto(punit, GOTO_MOVE_ANY, 0);
   return 1;
 }
@@ -845,7 +845,7 @@ struct unit *other_passengers(struct unit *punit)
   unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit)
     if (is_ground_unit(aunit) && aunit != punit) return aunit;
   unit_list_iterate_end;
-  return 0;
+  return NULL;
 }
 
 /**************************************************************************
@@ -1359,7 +1359,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
         return;
       }
       set_unit_activity(punit, best_act);
-      send_unit_info(0, punit);
+      send_unit_info(NULL, punit);
       return;
     }
   }

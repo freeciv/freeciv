@@ -204,7 +204,7 @@ void attribute_flush(void)
 {
   struct player *pplayer = game.player_ptr;
 
-  assert(attribute_hash);
+  assert(attribute_hash != NULL);
 
   if (hash_num_entries(attribute_hash) == 0)
     return;
@@ -224,7 +224,7 @@ void attribute_flush(void)
 void attribute_restore(void)
 {
   struct player *pplayer = game.player_ptr;
-  assert(attribute_hash);
+  assert(attribute_hash != NULL);
   unserialize_hash(attribute_hash, pplayer->attribute_block.data,
 		   pplayer->attribute_block.length);
 }
@@ -242,7 +242,7 @@ void attribute_set(int key, int id, int x, int y, int data_length,
   freelog(ATTRIBUTE_LOG_LEVEL, "attribute_set(key=%d, id=%d, x=%d, y=%d, "
 	  "data_length=%d, data=%p)", key, id, x, y, data_length, data);
 
-  assert(attribute_hash);
+  assert(attribute_hash != NULL);
   assert(data_length >= 0);
 
   pkey = fc_malloc(sizeof(struct attr_key));
@@ -284,7 +284,7 @@ int attribute_get(int key, int id, int x, int y, int max_data_length,
 	  "max_data_length=%d, data=%p)", key, id, x, y, max_data_length,
 	  data);
 
-  assert(attribute_hash);
+  assert(attribute_hash != NULL);
 
   pkey.key = key;
   pkey.id = id;

@@ -498,8 +498,9 @@ struct unit *get_attacker(struct unit *defender, int x, int y)
   unit_list_iterate(map_get_tile(x, y)->units, attacker) {
     int build_cost = unit_type(attacker)->build_cost;
 
-    if (pplayers_allied(unit_owner(defender), unit_owner(attacker)))
-      return 0;
+    if (pplayers_allied(unit_owner(defender), unit_owner(attacker))) {
+      return NULL;
+    }
     unit_a = (int) (100000 * (unit_win_chance(attacker, defender)));
     if (unit_a > bestvalue ||
 	(unit_a == bestvalue && build_cost < best_cost)) {

@@ -1111,5 +1111,5 @@ void add_net_input(int sock)
 void remove_net_input(void)
 {
   gdk_input_remove(gdk_input_id);
-  gdk_window_set_cursor(root_window, 0);
+  gdk_window_set_cursor(root_window, NULL);
 }

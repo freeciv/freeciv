@@ -141,8 +141,8 @@ static struct player *create_barbarian_player(int land)
   freelog(LOG_VERBOSE, "Created barbarian %s, player %d", barbarians->name, 
                        barbarians->player_no);
 
-  send_game_info(0);
-  send_player_info(barbarians,0);
+  send_game_info(NULL);
+  send_player_info(barbarians, NULL);
 
   return barbarians;
 }
@@ -214,7 +214,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
   if( land_cnt >= 3 ) {           /* enough land, scatter guys around */
     unit_list_iterate(map_get_tile(x, y)->units, punit2) {
       if( punit2->owner == me ) {
-        send_unit_info( 0, punit2);
+        send_unit_info(NULL, punit2);
 	do {
 	  do {
 	    rand_neighbour(x, y, &xu, &yu);
@@ -231,7 +231,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
       int xb = -1, yb = -1;
       unit_list_iterate(map_get_tile(x, y)->units, punit2)
         if( punit2->owner == me ) {
-          send_unit_info( 0, punit2);
+          send_unit_info(NULL, punit2);
           while(1) {
 	    rand_neighbour(x, y, &xu, &yu);
 	    if (can_unit_move_to_tile_with_notify(punit2, xu, yu, TRUE))
@@ -258,7 +258,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
           alive = 0;
         }
         else
-          send_unit_info( 0, punit2);
+          send_unit_info(NULL, punit2);
       unit_list_iterate_end;
     }
   }
@@ -356,7 +356,7 @@ static void try_summon_barbarians(void)
 
   if(map_get_special(x,y) & S_HUT) { /* remove the hut in place of uprising */
     map_clear_special(x,y,S_HUT);
-    send_tile_info(0, x, y);
+    send_tile_info(NULL, x, y);
   }
 
   if( map_get_terrain(xu,yu) != T_OCEAN ) {        /* land barbarians */
@@ -384,9 +384,9 @@ static void try_summon_barbarians(void)
     create_unit( barbarians, xu, yu, get_role_unit(L_BARBARIAN_LEADER,0), 0, 0, -1);
   }
 
-  unit_list_iterate(map_get_tile(x,y)->units, punit2)
-    send_unit_info(0, punit2);
-  unit_list_iterate_end;
+  unit_list_iterate(map_get_tile(x, y)->units, punit2) {
+    send_unit_info(NULL, punit2);
+  } unit_list_iterate_end;
 
   /* to let them know where to get you */
   show_area(barbarians, xu, yu, 3);
