@@ -1607,7 +1607,7 @@ static void load_ruleset_terrain(struct section_file *file)
 
   terrain_type_iterate(i) {
       struct tile_type *t = &(tile_types[i]);
-      char *s1_name, *s2_name, **slist;
+      char **slist;
 
       sz_strlcpy(t->graphic_str,
 		 secfile_lookup_str(file,"%s.graphic", sec[i]));
@@ -1638,26 +1638,23 @@ static void load_ruleset_terrain(struct section_file *file)
       t->shield = secfile_lookup_int(file, "%s.shield", sec[i]);
       t->trade = secfile_lookup_int(file, "%s.trade", sec[i]);
 
-      s1_name = secfile_lookup_str(file, "%s.special_1_name", sec[i]);
-      name_strlcpy(t->special_1_name_orig, s1_name);
-      if (0 == strcmp(t->special_1_name_orig, "none")) {
-	t->special_1_name_orig[0] = '\0';
-      }
-      t->special_1_name = t->special_1_name_orig;
-      t->food_special_1 = secfile_lookup_int(file, "%s.food_special_1", sec[i]);
-      t->shield_special_1 = secfile_lookup_int(file, "%s.shield_special_1", sec[i]);
-      t->trade_special_1 = secfile_lookup_int(file, "%s.trade_special_1", sec[i]);
+      for (j = 0; j < MAX_NUM_SPECIALS; j++) {
+	char *name = secfile_lookup_str(file, "%s.special_%d_name",
+					sec[i], j + 1);
 
-      s2_name = secfile_lookup_str(file, "%s.special_2_name", sec[i]);
-      name_strlcpy(t->special_2_name_orig, s2_name);
-      if (0 == strcmp(t->special_2_name_orig, "none")) {
-	t->special_2_name_orig[0] = '\0';
-      }
-      t->special_2_name = t->special_2_name_orig;
-      t->food_special_2 = secfile_lookup_int(file, "%s.food_special_2", sec[i]);
-      t->shield_special_2 = secfile_lookup_int(file, "%s.shield_special_2", sec[i]);
-      t->trade_special_2 = secfile_lookup_int(file, "%s.trade_special_2", sec[i]);
-      for(j=0; j<2; j++) {
+	name_strlcpy(t->special[j].name_orig, name);
+	if (0 == strcmp(t->special[j].name_orig, "none")) {
+	  t->special[j].name_orig[0] = '\0';
+	}
+	t->special[j].name = t->special[j].name_orig;
+	t->special[j].food = secfile_lookup_int(file, "%s.food_special_%d",
+						sec[i], j + 1);
+	t->special[j].shield = secfile_lookup_int(file,
+						  "%s.shield_special_%d",
+						  sec[i], j + 1);
+	t->special[j].trade = secfile_lookup_int(file, "%s.trade_special_%d",
+						 sec[i], j + 1);
+
 	sz_strlcpy(t->special[j].graphic_str,
 		   secfile_lookup_str(file,"%s.graphic_special_%d",
 				      sec[i], j+1));
@@ -2961,15 +2958,15 @@ static void send_ruleset_terrain(struct conn_list *dest)
       packet.shield = t->shield;
       packet.trade = t->trade;
 
-      sz_strlcpy(packet.special_1_name, t->special_1_name_orig);
-      packet.food_special_1 = t->food_special_1;
-      packet.shield_special_1 = t->shield_special_1;
-      packet.trade_special_1 = t->trade_special_1;
+      sz_strlcpy(packet.special_1_name, t->special[0].name_orig);
+      packet.food_special_1 = t->special[0].food;
+      packet.shield_special_1 = t->special[0].shield;
+      packet.trade_special_1 = t->special[0].trade;
 
-      sz_strlcpy(packet.special_2_name, t->special_2_name_orig);
-      packet.food_special_2 = t->food_special_2;
-      packet.shield_special_2 = t->shield_special_2;
-      packet.trade_special_2 = t->trade_special_2;
+      sz_strlcpy(packet.special_2_name, t->special[1].name_orig);
+      packet.food_special_2 = t->special[1].food;
+      packet.shield_special_2 = t->special[1].shield;
+      packet.trade_special_2 = t->special[1].trade;
 
       sz_strlcpy(packet.graphic_str_special_1, t->special[0].graphic_str);
       sz_strlcpy(packet.graphic_alt_special_1, t->special[0].graphic_alt);

@@ -1773,8 +1773,9 @@ void tilespec_setup_tile_type(Terrain_type_id terrain)
     }
   }
 
-  for (i=0; i<2; i++) {
-    const char *name = (i != 0) ? tt->special_2_name : tt->special_1_name;
+  for (i = 0; i < MAX_NUM_SPECIALS; i++) {
+    const char *name = tt->special[i].name;
+
     if (name[0] != '\0') {
       draw->special[i]
 	= lookup_sprite_tag_alt(tt->special[i].graphic_str,

@@ -109,7 +109,7 @@ const char *map_get_tile_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, tile_types[ptile->terrain].special_1_name);
+    sz_strlcat(s, tile_types[ptile->terrain].special[0].name);
   }
   if (tile_has_special(ptile, S_SPECIAL_2)) {
     if (first) {
@@ -118,7 +118,7 @@ const char *map_get_tile_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, tile_types[ptile->terrain].special_2_name);
+    sz_strlcat(s, tile_types[ptile->terrain].special[1].name);
   }
   if (!first) {
     sz_strlcat(s, ")");
@@ -728,9 +728,9 @@ bool is_sea_usable(const struct tile *ptile)
 int get_tile_food_base(const struct tile *ptile)
 {
   if (tile_has_special(ptile, S_SPECIAL_1)) 
-    return tile_types[ptile->terrain].food_special_1;
+    return tile_types[ptile->terrain].special[0].food;
   else if (tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].food_special_2;
+    return tile_types[ptile->terrain].special[1].food;
   else
     return tile_types[ptile->terrain].food;
 }
@@ -741,9 +741,9 @@ int get_tile_food_base(const struct tile *ptile)
 int get_tile_shield_base(const struct tile *ptile)
 {
   if (tile_has_special(ptile, S_SPECIAL_1))
-    return tile_types[ptile->terrain].shield_special_1;
+    return tile_types[ptile->terrain].special[0].shield;
   else if(tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].shield_special_2;
+    return tile_types[ptile->terrain].special[1].shield;
   else
     return tile_types[ptile->terrain].shield;
 }
@@ -754,9 +754,9 @@ int get_tile_shield_base(const struct tile *ptile)
 int get_tile_trade_base(const struct tile *ptile)
 {
   if (tile_has_special(ptile, S_SPECIAL_1))
-    return tile_types[ptile->terrain].trade_special_1;
+    return tile_types[ptile->terrain].special[0].trade;
   else if (tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].trade_special_2;
+    return tile_types[ptile->terrain].special[1].trade;
   else
     return tile_types[ptile->terrain].trade;
 }

@@ -2492,16 +2492,16 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   t->food = p->food;
   t->shield = p->shield;
   t->trade = p->trade;
-  sz_strlcpy(t->special_1_name_orig, p->special_1_name);
-  t->special_1_name = t->special_1_name_orig;
-  t->food_special_1 = p->food_special_1;
-  t->shield_special_1 = p->shield_special_1;
-  t->trade_special_1 = p->trade_special_1;
-  sz_strlcpy(t->special_2_name_orig, p->special_2_name);
-  t->special_2_name = t->special_2_name_orig;
-  t->food_special_2 = p->food_special_2;
-  t->shield_special_2 = p->shield_special_2;
-  t->trade_special_2 = p->trade_special_2;
+  sz_strlcpy(t->special[0].name_orig, p->special_1_name);
+  t->special[0].name = t->special[0].name_orig;
+  t->special[0].food = p->food_special_1;
+  t->special[0].shield = p->shield_special_1;
+  t->special[0].trade = p->trade_special_1;
+  sz_strlcpy(t->special[1].name_orig, p->special_2_name);
+  t->special[1].name = t->special[1].name_orig;
+  t->special[1].food = p->food_special_2;
+  t->special[1].shield = p->shield_special_2;
+  t->special[1].trade = p->trade_special_2;
 
   sz_strlcpy(t->special[0].graphic_str, p->graphic_str_special_1);
   sz_strlcpy(t->special[0].graphic_alt, p->graphic_alt_special_1);
