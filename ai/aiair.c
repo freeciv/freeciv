@@ -333,7 +333,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       /* goto would be aborted: "Aborting GOTO for AI attack procedures"
        * now actually need to attack */
       /* We could use ai_military_findvictim here, but I don't trust it... */
-      set_unit_activity(punit, ACTIVITY_IDLE);
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
       if (is_tiles_adjacent(punit->x, punit->y,
                             goto_dest_x(punit), goto_dest_y(punit))) {
         (void) handle_unit_move_request(punit, goto_dest_x(punit),
@@ -349,7 +349,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
     } else {
       freelog(LOG_DEBUG, "%s cannot find anything to kill and is staying put", 
               unit_type(punit)->name);
-      set_unit_activity(punit, ACTIVITY_IDLE);
+      handle_unit_activity_request(punit, ACTIVITY_IDLE);
     }
   }
 
