@@ -1597,7 +1597,6 @@ static void server_remove_unit(struct unit *punit)
     gamelog(GAMELOG_NORMAL, _("Player %s lost a game loss unit and died"),
             unit_owner(punit)->name);
     unit_owner(punit)->is_dying = TRUE;
-    unit_owner(punit)->is_alive = FALSE;
   }
 
   game_remove_unit(punit);
