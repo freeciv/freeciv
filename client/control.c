@@ -345,9 +345,15 @@ struct unit *find_visible_unit(struct tile *ptile)
 void blink_active_unit(void)
 {
   static bool is_shown;
+  static struct unit *pblinking_unit;
   struct unit *punit;
 
   if((punit=get_unit_in_focus())) {
+    if (punit != pblinking_unit) {
+      /* When the focus unit changes, we reset the is_shown flag. */
+      pblinking_unit = punit;
+      is_shown = TRUE;
+    }
     if(is_shown) {
       set_focus_unit_hidden_state(TRUE);
       refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
