@@ -42,15 +42,5 @@ int find_a_unit_type();
 int can_unit_attack_tile(struct unit *punit, int dest_x, int dest_y);
 int build_points_left(struct city *pcity);
 int can_place_partisan(int x, int y);
-int is_already_assigned(struct unit *myunit, struct player *pplayer, 
-			int x, int y);
-int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j);
-int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j);
-int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j);
-int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j);
-int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j);
-int in_city_radius(int x, int y);
-int make_dy(int y1, int y2);
-int make_dx(int x1, int x2);
 
 #endif

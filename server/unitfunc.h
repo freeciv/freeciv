@@ -57,12 +57,6 @@ void get_a_tech(struct player *pplayer, struct player *target);
 void place_partisans(struct city *pcity,int count);
 void make_partisans(struct city *pcity);
 
-int auto_settler_do_goto(struct player *pplayer, struct unit *punit, 
-			 int x, int y);
-int auto_settler_findwork(struct player *pplayer, struct unit *punit); 
-void auto_settlers_player(struct player *pplayer); 
-void auto_settlers();
-
 #endif
 
 
