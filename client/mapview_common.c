@@ -41,6 +41,8 @@ struct canvas mapview_canvas;
 /* Overview oordinates of the upper left corner of the map overview. */
 int map_overview_x0, map_overview_y0;
 
+static void base_canvas_to_map_pos(int *map_x, int *map_y,
+				   int canvas_x, int canvas_y);
 static void center_tile_overviewcanvas(int map_x, int map_y);
 
 /**************************************************************************
@@ -178,16 +180,20 @@ enum color_std get_grid_color(int x1, int y1, int x2, int y2)
 **************************************************************************/
 bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
 {
+  int center_map_x, center_map_y, dx, dy;
+
   /*
-   * First we wrap the coordinates to hopefully be within the the
-   * GUI window.  This isn't perfect; notice that when the mapview
-   * approaches the size of the map some tiles won't be shown at
-   * all in iso-view.
+   * First we wrap the coordinates to hopefully be within the the mapview
+   * window.  We do this by finding the position closest to the center
+   * of the window.
    */
-  map_x = map_adjust_x(map_x);
-  if (map_x < mapview_canvas.map_x0) {
-    map_x += map.xsize;
-  }
+  /* TODO: Cache the value of this position */
+  base_canvas_to_map_pos(&center_map_x, &center_map_y,
+			 mapview_canvas.width / 2,
+			 mapview_canvas.height / 2);
+  map_distance_vector(&dx, &dy, center_map_x, center_map_y, map_x, map_y);
+  map_x = center_map_x + dx;
+  map_y = center_map_y + dy;
 
   if (is_isometric) {
     /* For a simpler example of this math, see city_to_canvas_pos(). */
@@ -237,13 +243,12 @@ bool map_to_canvas_pos(int *canvas_x, int *canvas_y, int map_x, int map_y)
 	  && *canvas_y < mapview_canvas.height);
 }
 
-/**************************************************************************
-  Finds the map coordinates corresponding to pixel coordinates.  Returns
-  TRUE if the position is real; in this case it will be normalized. Returns
-  FALSE if the tile is unreal - caller may use nearest_real_pos() if
-  required.
-**************************************************************************/
-bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
+/****************************************************************************
+  Finds the map coordinates corresponding to pixel coordinates.  The
+  resulting position is unwrapped and may be unreal.
+****************************************************************************/
+static void base_canvas_to_map_pos(int *map_x, int *map_y,
+                                  int canvas_x, int canvas_y)
 {
   const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
 
@@ -284,7 +289,18 @@ bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
 
   *map_x += mapview_canvas.map_x0;
   *map_y += mapview_canvas.map_y0;
+}
 
+
+/**************************************************************************
+  Finds the map coordinates corresponding to pixel coordinates.  Returns
+  TRUE if the position is real; in this case it will be normalized. Returns
+  FALSE if the tile is unreal - caller may use nearest_real_pos() if
+  required.
+**************************************************************************/
+bool canvas_to_map_pos(int *map_x, int *map_y, int canvas_x, int canvas_y)
+{
+  base_canvas_to_map_pos(map_x, map_y, canvas_x, canvas_y);
   return normalize_map_pos(map_x, map_y);
 }
 
