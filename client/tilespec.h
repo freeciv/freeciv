@@ -28,14 +28,15 @@ struct Sprite;			/* opaque; gui-dep */
 
 /* An edge is the border between two tiles.  This structure represents one
  * edge.  The tiles are given in the same order as the enumeration name. */
+enum edge_type {
+  EDGE_NS, /* North and south */
+  EDGE_WE, /* West and east */
+  EDGE_UD, /* Up and down (nw/se), for hex_width tilesets */
+  EDGE_LR, /* Left and right (ne/sw), for hex_height tilesets */
+  EDGE_COUNT
+};
 struct tile_edge {
-  enum {
-    EDGE_NS, /* North and south */
-    EDGE_WE, /* West and east */
-    EDGE_UD, /* Up and down (nw/se), for hex_width tilesets */
-    EDGE_LR, /* Left and right (ne/sw), for hex_height tilesets */
-    EDGE_COUNT
-  } type;
+  enum edge_type type;
 #define NUM_EDGE_TILES 2
   const struct tile *tile[NUM_EDGE_TILES];
 };
