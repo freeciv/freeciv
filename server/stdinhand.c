@@ -651,7 +651,7 @@ static bool metaserver_command(struct connection *caller, char *arg,
  This could be in common/player if the client ever gets
  told the ai player skill levels.
 ***************************************************************/
-static const char *name_of_skill_level(int level)
+const char *name_of_skill_level(int level)
 {
   const char *nm[11] = { "UNUSED", "away", "novice", "easy",
 			 "UNKNOWN", "normal", "UNKNOWN", "hard",
@@ -788,6 +788,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 
   if (server_state == RUN_GAME_STATE) {
     send_player_info(pplayer, NULL);
+    gamelog(GAMELOG_PLAYER, pplayer);
   }
 }
 
@@ -2876,6 +2877,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
     sz_strlcpy(pplayer->name, pconn->username);
   }
 
+  /* aitoggle the player back to human if necessary. */
+  if (pplayer->ai.control && game.auto_ai_toggle) {
+    toggle_ai_player_direct(NULL, pplayer);
+  }
+
   if (server_state == RUN_GAME_STATE) {
     send_packet_freeze_hint(pconn);
     send_rulesets(&pconn->self);
@@ -2885,11 +2891,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
     send_packet_start_turn(pconn);
-  }
-
-  /* aitoggle the player back to human if necessary. */
-  if (pplayer->ai.control && game.auto_ai_toggle) {
-    toggle_ai_player_direct(NULL, pplayer);
+    gamelog(GAMELOG_PLAYER, pplayer);
   }
 
   cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"), 
@@ -3019,6 +3021,10 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     if (is_newgame) {
       sz_strlcpy(pplayer->username, ANON_USER_NAME);
     }
+  }
+
+  if (server_state == RUN_GAME_STATE) {
+    gamelog(GAMELOG_PLAYER, pplayer);
   }
 
   end:;
@@ -3207,6 +3213,8 @@ static bool quit_game(struct connection *caller, bool check)
 {
   if (!check) {
     cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
+    gamelog(GAMELOG_JUDGE, GL_NONE);
+    gamelog(GAMELOG_END);
     server_quit();
   }
   return TRUE;

@@ -895,10 +895,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   map_fog_pseudo_city_area(pgiver, pcity->tile);
 
-  gamelog(GAMELOG_LOSEC, _("%s lose %s (%i,%i)"),
-	  get_nation_name_plural(pgiver->nation), pcity->name,
-	  pcity->tile->x, pcity->tile->y);
-
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
   if (had_palace && game.savepalace) {
@@ -920,8 +916,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
   struct nation_type *nation = get_nation_by_plr(pplayer);
 
   freelog(LOG_DEBUG, "Creating city %s", name);
-  gamelog(GAMELOG_FOUNDC, _("%s (%i, %i) founded by the %s"), name,
-	  ptile->x, ptile->y, nation->name_plural);
 
   if (terrain_control.may_road) {
     map_set_special(ptile, S_ROAD);
@@ -1031,6 +1025,8 @@ to use ferryboats.  I really should have identified this sooner. -- Syela */
     }
   } unit_list_iterate_end;
   sanity_check_city(pcity);
+
+  gamelog(GAMELOG_FOUNDCITY, pcity);
 }
 
 /**************************************************************************
@@ -1043,10 +1039,6 @@ void remove_city(struct city *pcity)
   struct tile *ptile = pcity->tile;
   bool had_palace = pcity->improvements[game.palace_building] != I_NONE;
   char *city_name = mystrdup(pcity->name);
-
-  gamelog(GAMELOG_LOSEC, _("%s lose %s (%i,%i)"),
-	  get_nation_name_plural(pplayer->nation), pcity->name,
-	  pcity->tile->x, pcity->tile->y);
 
   built_impr_iterate(pcity, i) {
     city_remove_improvement(pcity, i);
@@ -1216,10 +1208,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     notify_player_ex(cplayer, pcity->tile, E_CITY_LOST, 
 		     _("Game: %s has been destroyed by %s."), 
 		     pcity->name, pplayer->name);
-    gamelog(GAMELOG_LOSEC, _("%s (%s) (%i,%i) destroyed by %s"), pcity->name,
-	    get_nation_name(city_owner(pcity)->nation),
-	    pcity->tile->x, pcity->tile->y,
-	    get_nation_name_plural(pplayer->nation));
+    gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "destroyed");
     remove_city(pcity);
     if (do_civil_war) {
       civil_war(cplayer);
@@ -1241,10 +1230,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 		     _("Game: %s conquered %s and looted %d gold"
 		       " from the city."),
 		     pplayer->name, pcity->name, coins);
-    gamelog(GAMELOG_CONQ, _("%s (%s) (%i,%i) conquered by %s"), pcity->name,
-	    get_nation_name(city_owner(pcity)->nation),
-	    pcity->tile->x, pcity->tile->y,
-	    get_nation_name_plural(pplayer->nation));
+    gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "conquered");
   } else {
     notify_player_ex(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
 		     _("Game: You have liberated %s!"
@@ -1255,9 +1241,8 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
 		     _("Game: %s liberated %s and looted %d gold"
 		       " from the city."),
 		     pplayer->name, pcity->name, coins);
-    gamelog(GAMELOG_CONQ, _("%s (%s) (%i,%i) liberated by %s"), pcity->name,
-	    get_nation_name(city_owner(pcity)->nation), pcity->tile->x,
-	    pcity->tile->y, get_nation_name_plural(pplayer->nation));
+
+    gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "liberated");
   }
 
   get_a_tech(pplayer, cplayer);

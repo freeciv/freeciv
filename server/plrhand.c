@@ -153,9 +153,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 	notify_player_ex(pplayer, NULL, E_TECH_GAIN,
 			 _("Game: %s acquired from %s!"),
 			 get_tech_name(pplayer, i), buf);
-	gamelog(GAMELOG_TECH, _("%s discover %s (%s)"),
-		get_nation_name_plural(pplayer->nation),
-		get_tech_name(pplayer, i), buf);
+        gamelog(GAMELOG_TECH, pplayer, NULL, i, "steals");
 	notify_embassies(pplayer, NULL,
 			 _("Game: The %s have acquired %s from %s."),
 			 get_nation_name_plural(pplayer->nation),
@@ -216,14 +214,13 @@ void kill_player(struct player *pplayer) {
   }
 
   if (is_barbarian(pplayer)) {
-    gamelog(GAMELOG_GENO, _("The feared barbarian leader %s is no more"),
-        pplayer->name);
+    gamelog(GAMELOG_GENO, pplayer, 
+                          "The feared barbarian leader %s is no more");
     return;
   } else {
     notify_player_ex(NULL, NULL, E_DESTROYED, _("Game: The %s are no more!"),
                      get_nation_name_plural(pplayer->nation));
-    gamelog(GAMELOG_GENO, _("%s civilization destroyed"),
-            get_nation_name(pplayer->nation));
+    gamelog(GAMELOG_GENO, pplayer, "%s civilization destroyed");
   }
 
   /* Transfer back all cities not originally owned by player to their
@@ -291,9 +288,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   was_first = (game.global_advances[tech_found] == 0);
 
   if (was_first) {
-    gamelog(GAMELOG_TECH, _("%s are first to learn %s"),
-	    get_nation_name_plural(plr->nation),
-	    get_tech_name(plr, tech_found));
+    gamelog(GAMELOG_TECH, plr, NULL, tech_found);
     
     /* Alert the owners of any wonders that have been made obsolete */
     impr_type_iterate(id) {
@@ -503,18 +498,14 @@ static void tech_researched(struct player* plr)
 		     get_nation_name_plural(plr->nation),
 		     get_tech_name(plr, plr->research.researching));
 
-    gamelog(GAMELOG_TECH, _("%s discover %s"),
-	    get_nation_name_plural(plr->nation),
-	    get_tech_name(plr, plr->research.researching));
   } else {
     notify_embassies(plr, NULL,
 		     _("Game: The %s have researched Future Tech. %d."), 
 		     get_nation_name_plural(plr->nation),
 		     plr->future_tech);
   
-    gamelog(GAMELOG_TECH, _("%s discover Future Tech %d"),
-	    get_nation_name_plural(plr->nation), plr->future_tech);
   }
+  gamelog(GAMELOG_TECH, plr, NULL, plr->research.researching);
 
   /* Deduct tech cost */
   plr->research.bulbs_researched = 
@@ -742,10 +733,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
     } tech_type_iterate_end;
     assert(stolen_tech != A_NONE);
   }
-  gamelog(GAMELOG_TECH, _("%s steal %s from %s"),
-	  get_nation_name_plural(pplayer->nation),
-	  get_tech_name(pplayer, stolen_tech),
-	  get_nation_name_plural(target->nation));
+  gamelog(GAMELOG_TECH, pplayer, target, stolen_tech, "steals");
 
   notify_player_ex(pplayer, NULL, E_TECH_GAIN,
 		   _("Game: You steal %s from the %s."),
@@ -809,8 +797,7 @@ void handle_player_rates(struct player *pplayer,
     pplayer->economic.tax = tax;
     pplayer->economic.luxury = luxury;
     pplayer->economic.science = science;
-    gamelog(GAMELOG_EVERYTHING, _("RATE CHANGE: %s %i %i %i"),
-	    get_nation_name_plural(pplayer->nation), tax, luxury, science);
+    gamelog(GAMELOG_RATECHANGE, pplayer);
     conn_list_do_buffer(&pplayer->connections);
     global_city_refresh(pplayer);
     send_player_info(pplayer, pplayer);
@@ -891,10 +878,9 @@ static void finish_revolution(struct player *pplayer)
 		   _("Game: %s now governs the %s as a %s."), 
 		   pplayer->name, 
 		   get_nation_name_plural(pplayer->nation),
-		   get_government_name(government));  
-  gamelog(GAMELOG_GOVERNMENT, _("%s form a %s"),
-	  get_nation_name_plural(pplayer->nation),
-	  get_government_name(government));
+		   get_government_name(government));
+
+  gamelog(GAMELOG_GOVERNMENT, pplayer);
 
   if (!pplayer->ai.control) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
@@ -942,8 +928,7 @@ static void start_revolution(struct player *pplayer)
   notify_player_ex(pplayer, NULL, E_REVOLT_START,
 		   _("Game: The %s have incited a revolt!"),
 		   get_nation_name_plural(pplayer->nation));
-  gamelog(GAMELOG_REVOLT, _("The %s revolt!"),
-	  get_nation_name_plural(pplayer->nation));
+  gamelog(GAMELOG_REVOLT, pplayer);
 
   /* Now see if the revolution is instantaneous. */
   if (pplayer->revolution_finishes <= game.turn
@@ -1086,9 +1071,7 @@ void check_player_government_rates(struct player *pplayer)
   }
 
   if (changed) {
-    gamelog(GAMELOG_EVERYTHING, _("RATE CHANGE: %s %i %i %i"),
-	    get_nation_name_plural(pplayer->nation), pplayer->economic.tax,
-	    pplayer->economic.luxury, pplayer->economic.science);
+    gamelog(GAMELOG_RATECHANGE, pplayer);
   }
 }
 
@@ -1178,6 +1161,8 @@ repeat_break_treaty:
   pplayer->diplstates[pplayer2->player_no].turns_left =
     pplayer2->diplstates[pplayer->player_no].turns_left =
     16;
+
+  gamelog(GAMELOG_DIPLSTATE, pplayer, pplayer2, new_type);
 
   /* If the old state was alliance, the players' units can share tiles
      illegally, and we need to call resolve_unit_stacks() */
@@ -2038,7 +2023,9 @@ static struct player *split_player(struct player *pplayer)
   if (pplayer->ai.control) {
     assess_danger_player(pplayer);
   }
-		    
+
+  gamelog(GAMELOG_PLAYER, cplayer);
+  
   return cplayer;
 }
 

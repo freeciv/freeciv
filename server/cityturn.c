@@ -539,13 +539,14 @@ static void city_populate(struct city *pcity)
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (unit_type(punit)->upkeep[O_FOOD] > 0 
           && !unit_flag(punit, F_UNDISBANDABLE)) {
-	const char *utname = unit_type(punit)->name;
-	wipe_unit(punit);
+
 	notify_player_ex(city_owner(pcity), pcity->tile, E_UNIT_LOST,
 			 _("Game: Famine feared in %s, %s lost!"), 
-			 pcity->name, utname);
-	gamelog(GAMELOG_UNITFS, _("%s lose %s (famine)"),
-		get_nation_name_plural(city_owner(pcity)->nation), utname);
+			 pcity->name, unit_type(punit)->name);
+ 
+        gamelog(GAMELOG_UNITLOSS, punit, NULL, "%s lose %s (famine)");
+        wipe_unit(punit);
+
 	pcity->food_stock = (city_granary_size(pcity->size)
 			     * granary_savings(pcity)) / 100;
 	return;
@@ -940,16 +941,11 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		       get_nation_name_plural(pplayer->nation),
 		       get_impr_name_ex(pcity, pcity->currently_building),
 		       pcity->name);
-      gamelog(GAMELOG_WONDER, _("%s build %s in %s"),
-	      get_nation_name_plural(pplayer->nation),
-	      get_impr_name_ex(pcity, pcity->currently_building),
-	      pcity->name);
-
-    } else
-      gamelog(GAMELOG_IMP, _("%s build %s in %s"),
-	      get_nation_name_plural(pplayer->nation),
-	      get_impr_name_ex(pcity, pcity->currently_building),
-	      pcity->name);
+      /* TODO: if wonders become just-another-building, remove this */
+      gamelog(GAMELOG_WONDER, pcity);
+    } else {
+      gamelog(GAMELOG_BUILD, pcity);
+    }
 
     notify_player_ex(pplayer, pcity->tile, E_IMP_BUILD,
 		     _("Game: %s has finished building %s."), pcity->name,
@@ -1077,10 +1073,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 		     pcity->name,
 		     unit_types[pcity->currently_building].name);
 
-    gamelog(GAMELOG_UNIT, _("%s build %s in %s (%i,%i)"),
-	    get_nation_name_plural(pplayer->nation),
-	    unit_types[pcity->currently_building].name, pcity->name,
-	    pcity->tile->x, pcity->tile->y);
+    gamelog(GAMELOG_BUILD, pcity);
 
     /* If there's something in the worklist, change the build
        target. If there's nothing there, worklist_change_build_target
@@ -1410,10 +1403,7 @@ static bool disband_city(struct city *pcity)
 		   /* TRANS: Settler production leads to disbanded city. */
 		   _("Game: %s is disbanded into %s."), 
 		   pcity->name, unit_types[pcity->currently_building].name);
-  gamelog(GAMELOG_UNIT, _("%s (%i, %i) disbanded into %s by the %s"),
-	  pcity->name, ptile->x, ptile->y,
-	  unit_types[pcity->currently_building].name,
-	  get_nation_name_plural(pplayer->nation));
+  gamelog(GAMELOG_DISBANDCITY, pcity);
 
   remove_city(pcity);
   return TRUE;

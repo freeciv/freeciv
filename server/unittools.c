@@ -313,9 +313,7 @@ void player_restore_units(struct player *pplayer)
       notify_player_ex(pplayer, punit->tile, E_UNIT_LOST, 
           _("Game: Your %s has run out of hit points."), 
           unit_name(punit->type));
-      gamelog(GAMELOG_UNITF, _("%s lose a %s (out of hp)"),
-	      get_nation_name_plural(pplayer->nation),
-	      unit_name(punit->type));
+      gamelog(GAMELOG_UNITLOSS, punit, NULL, "out of hp");
       wipe_unit(punit);
       continue; /* Continue iterating... */
     }
@@ -332,9 +330,7 @@ void player_restore_units(struct player *pplayer)
         notify_player_ex(pplayer, punit->tile, E_UNIT_LOST, 
                          _("Game: Your %s has been lost on the high seas."),
                          unit_name(punit->type));
-        gamelog(GAMELOG_UNITTRI, _("%s's %s lost at sea"),
-	        get_nation_name_plural(pplayer->nation), 
-                unit_name(punit->type));
+        gamelog(GAMELOG_UNITLOSS, punit, NULL, "lost at sea");
         wipe_unit(punit);
         continue; /* Continue iterating... */
       } else if (loss_chance > 0) {
@@ -353,8 +349,7 @@ void player_restore_units(struct player *pplayer)
       notify_player_ex(pplayer, punit->tile, E_UNIT_LOST,
 		       _("Game: Your %s has been lost on unsafe terrain."),
 		       unit_name(punit->type));
-      gamelog(GAMELOG_UNITTRI, _("%s unit lost on unsafe terrain"),
-	      get_nation_name_plural(pplayer->nation));
+      gamelog(GAMELOG_UNITLOSS, punit, NULL, "unsafe terrain");
       wipe_unit(punit);
       continue;			/* Continue iterating... */
     }
@@ -406,9 +401,7 @@ void player_restore_units(struct player *pplayer)
       notify_player_ex(pplayer, punit->tile, E_UNIT_LOST, 
 		       _("Game: Your %s has run out of fuel."),
 		       unit_name(punit->type));
-      gamelog(GAMELOG_UNITF, _("%s lose a %s (fuel)"),
-	      get_nation_name_plural(pplayer->nation),
-	      unit_name(punit->type));
+      gamelog(GAMELOG_UNITLOSS, punit, NULL, "fuel");
       wipe_unit(punit);
     } 
   } unit_list_iterate_safe_end;
@@ -1534,8 +1527,7 @@ static void server_remove_unit(struct unit *punit)
                    unit_name(punit->type), unit_owner(punit)->name);
     notify_player(unit_owner(punit), _("Losing %s meant losing the game! "
                   "Be more careful next time!"), unit_name(punit->type));
-    gamelog(GAMELOG_NORMAL, _("Player %s lost a game loss unit and died"),
-            unit_owner(punit)->name);
+    gamelog(GAMELOG_UNITGAMELOSS, punit);
     unit_owner(punit)->is_dying = TRUE;
   }
 
@@ -1632,9 +1624,7 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
 			     _("Game: %s lost when %s was lost."),
 			     unit_type(pcargo)->name,
 			     ptype->name);
-	    gamelog(GAMELOG_UNITL, _("%s lose %s when %s lost"),
-		    get_nation_name_plural(pplayer->nation),
-		    unit_type(pcargo)->name, ptype->name);
+	    gamelog(GAMELOG_UNITLOSS, pcargo, NULL, "transport lost");
 	    server_remove_unit(pcargo);
 	  }
 	  if (++capacity >= 0) {
@@ -1710,10 +1700,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 		     _("Game: %s lost to an attack by %s's %s%s."),
 		     unit_type(punit)->name, destroyer->name,
 		     unit_name(pkiller->type), loc_str);
-    gamelog(GAMELOG_UNITL, _("%s lose %s to the %s"),
-	    get_nation_name_plural(pplayer->nation), unit_type(punit)->name,
-	    get_nation_name_plural(destroyer->nation));
 
+    gamelog(GAMELOG_UNITLOSS, punit, destroyer);
     wipe_unit(punit);
   } else { /* unitcount > 1 */
     int i;
@@ -1754,10 +1742,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 			   " from %s's %s."),
 			 unit_type(punit2)->name, destroyer->name,
 			 unit_name(pkiller->type));
-	gamelog(GAMELOG_UNITL, _("%s lose %s to the %s"),
-		get_nation_name_plural(unit_owner(punit2)->nation),
-		unit_type(punit2)->name,
-		get_nation_name_plural(destroyer->nation));
+
+        gamelog(GAMELOG_UNITLOSS, punit2, destroyer);
 	wipe_unit_spec_safe(punit2, FALSE);
       }
     }
@@ -2251,8 +2237,7 @@ static void hut_get_tech(struct unit *punit)
   notify_player_ex(pplayer, punit->tile, E_HUT_TECH,
 		   _("Game: You found %s in ancient scrolls of wisdom."),
 		   tech_name);
-  gamelog(GAMELOG_TECH, _("%s discover %s (Hut)"),
-	  get_nation_name_plural(pplayer->nation), tech_name);
+  gamelog(GAMELOG_TECH, pplayer, NULL, new_tech);
   notify_embassies(pplayer, NULL, _("Game: The %s have acquired %s"
 				    " from ancient scrolls of wisdom."),
 		   get_nation_name_plural(pplayer->nation), tech_name);
