@@ -15,7 +15,16 @@ of this file.
 
 Compiling freeciv
 =================
-Back to Freeciv. Have a look at the top of the Imakefile. There are a few
+
+  NOTE FOR FREECIV 1.6.x:
+
+  We are currently trialling a new system based on the GNU "configure"
+  system, which does not use Imake.  Until all bugs in this are ironed
+  out, the recommended way of building Freeciv is still as described
+  below.  Volunteers to debug the "configure" are needed.
+
+Freeciv uses "Imake", which comes with the X Window system.  This is
+driven by a file called "Imakefile".  In this file, there are a few
 parameters which you might want to alter.
 
 When you've finished, type 'xmkmf' and then 'make'.
