@@ -545,7 +545,7 @@ PACKET_PLAYER_INFO=39; is-info,sc
   GOLD gold;
   PERCENT tax, science,luxury;
 
-  UINT16 bulbs_last_turn; add-cap(union)
+  UINT16 bulbs_last_turn;
   UINT32 bulbs_researched;
   UINT32 techs_researched;
   UINT8 researching;
@@ -604,8 +604,7 @@ PACKET_UNIT_INFO=49; is-info,sc,lsend
   COORD x,y;
   CITY homecity;
 
-  UINT8 veteran; add-cap(veteran)
-  BOOL veteran_old; remove-cap(veteran)
+  UINT8 veteran;
   BOOL ai, paradropped, connecting, transported, done_moving;
 
   UNIT_TYPE type;
@@ -630,8 +629,7 @@ PACKET_UNIT_SHORT_INFO=50; is-info,sc,lsend
   COORD x,y;
   UNIT_TYPE type;
 
-  UINT8 veteran; add-cap(veteran)
-  BOOL veteran_old; remove-cap(veteran)
+  UINT8 veteran;
   BOOL occupied, goes_out_of_sight, transported;
 
   UINT8 hp, activity;
@@ -956,11 +954,11 @@ PACKET_RULESET_UNIT=96;sc,lsend
   UINT8 paratroopers_mr_req;
   UINT8 paratroopers_mr_sub;
 
-  STRING veteran_name[MAX_VET_LEVELS][MAX_LEN_NAME]; add-cap(veteran)
-  FLOAT power_fact[MAX_VET_LEVELS]; add-cap(veteran)
-  UINT8 move_bonus[MAX_VET_LEVELS]; add-cap(veteran)
+  STRING veteran_name[MAX_VET_LEVELS][MAX_LEN_NAME];
+  FLOAT power_fact[MAX_VET_LEVELS];
+  UINT8 move_bonus[MAX_VET_LEVELS];
 
-  UINT8 bombard_rate; add-cap(bombard)
+  UINT8 bombard_rate;
 
   STRING helptext[MAX_LEN_PACKET];
 
@@ -972,10 +970,10 @@ PACKET_RULESET_GAME=97;sc,lsend
   STRING specialist_name[SP_COUNT][MAX_LEN_NAME];
   UINT8 specialist_min_size[SP_COUNT];
   UINT8 specialist_bonus[SP_COUNT];
-  BOOL changable_tax; add-cap(spec)
-  UINT8 forced_science; add-cap(spec)
-  UINT8 forced_luxury; add-cap(spec)
-  UINT8 forced_gold; add-cap(spec)
+  BOOL changable_tax;
+  UINT8 forced_science;
+  UINT8 forced_luxury;
+  UINT8 forced_gold;
   UINT8 min_city_center_food;
   UINT8 min_city_center_shield;
   UINT8 min_city_center_trade;
@@ -994,9 +992,9 @@ PACKET_RULESET_GAME=97;sc,lsend
 
   BOOL killstack;
 
-  UINT8 trireme_loss_chance[MAX_VET_LEVELS]; add-cap(veteran)
-  UINT8 work_veteran_chance[MAX_VET_LEVELS]; add-cap(veteran)
-  UINT8 veteran_chance[MAX_VET_LEVELS]; add-cap(veteran)
+  UINT8 trireme_loss_chance[MAX_VET_LEVELS];
+  UINT8 work_veteran_chance[MAX_VET_LEVELS];
+  UINT8 veteran_chance[MAX_VET_LEVELS];
 end
 
 PACKET_RULESET_GOVERNMENT_RULER_TITLE=98;sc,lsend
@@ -1244,7 +1242,7 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 style_count;
   UINT8 borders;
   BOOL happyborders;
-  BOOL slow_invasions; add-cap(slow_invasions)
+  BOOL slow_invasions;
 
   STRING team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
 end

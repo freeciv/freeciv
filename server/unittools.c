@@ -1810,7 +1810,6 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->y = punit->y;
   packet->homecity = punit->homecity;
   packet->veteran = punit->veteran;
-  packet->veteran_old = (punit->veteran > 0);
   packet->type = punit->type;
   packet->movesleft = punit->moves_left;
   packet->hp = punit->hp;

@@ -389,7 +389,6 @@ struct packet_unit_info {
   int y;
   int homecity;
   int veteran;
-  bool veteran_old;
   bool ai;
   bool paradropped;
   bool connecting;
@@ -427,7 +426,6 @@ struct packet_unit_short_info {
   int y;
   Unit_Type_id type;
   int veteran;
-  bool veteran_old;
   bool occupied;
   bool goes_out_of_sight;
   bool transported;
