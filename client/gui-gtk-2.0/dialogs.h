@@ -26,7 +26,7 @@ GtkWidget *popup_message_dialog(GtkWidget * parent, char *dialogname,
 void destroy_message_dialog(GtkWidget *button);
 
 void destroy_me_callback(GtkWidget *w, gpointer data);
-void taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
+gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
 gint deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data);
 

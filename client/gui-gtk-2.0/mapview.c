@@ -394,16 +394,16 @@ void update_info_label( void )
 
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
-    gtk_pixmap_set(GTK_PIXMAP(econ_label[d]),
-    get_citizen_pixmap(0), NULL ); /* elvis tile */
+    gtk_image_set_from_pixmap(GTK_IMAGE(econ_label[d]),
+	get_citizen_pixmap(0), NULL); /* elvis tile */
  
   for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
-    gtk_pixmap_set(GTK_PIXMAP(econ_label[d]),
-    get_citizen_pixmap(1), NULL ); /* scientist tile */
+    gtk_image_set_from_pixmap(GTK_IMAGE(econ_label[d]),
+	get_citizen_pixmap(1), NULL); /* scientist tile */
  
    for(;d<10;d++)
-    gtk_pixmap_set(GTK_PIXMAP(econ_label[d]),
-    get_citizen_pixmap(2), NULL ); /* taxman tile */
+    gtk_image_set_from_pixmap(GTK_IMAGE(econ_label[d]),
+	get_citizen_pixmap(2), NULL); /* taxman tile */
  
   update_timeout_label();
 }
@@ -511,9 +511,12 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   sol = CLIP(0, sol, NUM_TILES_PROGRESS-1);
   flake = CLIP(0, flake, NUM_TILES_PROGRESS-1);
 
-  gtk_pixmap_set(GTK_PIXMAP(bulb_label), sprites.bulb[bulb]->pixmap, NULL);
-  gtk_pixmap_set(GTK_PIXMAP(sun_label), sprites.warming[sol]->pixmap, NULL);
-  gtk_pixmap_set(GTK_PIXMAP(flake_label), sprites.cooling[flake]->pixmap, NULL);
+  gtk_image_set_from_pixmap(GTK_IMAGE(bulb_label),
+			    sprites.bulb[bulb]->pixmap, NULL);
+  gtk_image_set_from_pixmap(GTK_IMAGE(sun_label),
+			    sprites.warming[sol]->pixmap, NULL);
+  gtk_image_set_from_pixmap(GTK_IMAGE(flake_label),
+			    sprites.cooling[flake]->pixmap, NULL);
 
   if (game.government_count==0) {
     /* not sure what to do here */
@@ -521,7 +524,8 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   } else {
     gov_sprite = get_government(gov)->sprite;
   }
-  gtk_pixmap_set(GTK_PIXMAP(government_label), gov_sprite->pixmap, NULL);
+  gtk_image_set_from_pixmap(GTK_IMAGE(government_label),
+			    gov_sprite->pixmap, NULL);
 }
 
 
@@ -756,7 +760,7 @@ void set_overview_dimensions(int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-gint overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
+gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
     if(radar_gfx_sprite)
@@ -899,7 +903,7 @@ void refresh_overview_viewrect(void)
 /**************************************************************************
 ...
 **************************************************************************/
-gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
+gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
   gint height, width;
   int tile_width, tile_height;

@@ -39,12 +39,12 @@ int		history_pos;
 /**************************************************************************
 ...
 **************************************************************************/
-void inputline_return(GtkWidget *w, gpointer data)
+void inputline_return(GtkEntry *w, gpointer data)
 {
   struct packet_generic_message apacket;
   const char *theinput;
 
-  theinput = gtk_entry_get_text(GTK_ENTRY(w));
+  theinput = gtk_entry_get_text(w);
   
   if (*theinput) {
     mystrlcpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME+1);
@@ -62,7 +62,7 @@ void inputline_return(GtkWidget *w, gpointer data)
     history_pos=-1;
   }
 
-  gtk_entry_set_text(GTK_ENTRY(w), "");
+  gtk_entry_set_text(w, "");
 }
 
 /**************************************************************************

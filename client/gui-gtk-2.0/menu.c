@@ -942,9 +942,8 @@ static void menus_rename(const char *path, char *s)
 
   if (GTK_IS_MENU(item))
     item=gtk_menu_get_attach_widget(GTK_MENU(item));
-  
-  gtk_set_label(GTK_BIN(item)->child, s);
-  gtk_label_parse_uline(GTK_LABEL(GTK_BIN(item)->child), s);
+
+  gtk_label_set_text_with_mnemonic(GTK_LABEL(GTK_BIN(item)->child), s);
 }
 
 

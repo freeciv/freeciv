@@ -171,7 +171,7 @@ void gui_server_connect(void)
   table = gtk_table_new (4, 2, FALSE);
   gtk_table_set_row_spacings (GTK_TABLE (table), 2);
   gtk_table_set_col_spacings (GTK_TABLE (table), 5);
-  gtk_container_border_width (GTK_CONTAINER (table), 5);
+  gtk_container_set_border_width(GTK_CONTAINER(table), 5);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, TRUE, 0);
 
   label=gtk_label_new(_("Name:"));
@@ -254,18 +254,15 @@ void gui_server_connect(void)
   g_signal_connect(update, "clicked",
 		   G_CALLBACK(meta_update_callback), NULL);
 
-  gtk_window_set_focus(GTK_WINDOW(dialog), iname);
+  gtk_widget_grab_focus(iname);
 
-  gtk_signal_connect(GTK_OBJECT(iname), "activate",
-        	      GTK_SIGNAL_FUNC(connect_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(ihost), "activate",
-        	      GTK_SIGNAL_FUNC(connect_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(iport), "activate",
-        	      GTK_SIGNAL_FUNC(connect_callback), NULL);
+  g_signal_connect(iname, "activate", G_CALLBACK(connect_callback), NULL);
+  g_signal_connect(ihost, "activate", G_CALLBACK(connect_callback), NULL);
+  g_signal_connect(iport, "activate", G_CALLBACK(connect_callback), NULL);
 
   gtk_widget_show_all(GTK_DIALOG(dialog)->vbox);
 
-  gtk_widget_set_usize(dialog, 450, 250);
+  gtk_widget_set_size_request(dialog, 450, 250);
   gtk_set_relative_position(toplevel, dialog, 50, 50);
   gtk_widget_show(dialog);
 }

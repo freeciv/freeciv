@@ -54,6 +54,7 @@ void popup_find_dialog(void)
   GtkTreeSelection  *selection;
   GtkCellRenderer   *renderer;
   GtkTreeViewColumn *column;
+  GtkTreePath       *path;
 
   if (find_dialog_shell) {
     gtk_widget_show(find_dialog_shell);
@@ -107,11 +108,17 @@ void popup_find_dialog(void)
                           GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_widget_set_usize(scrolled, -1, 200);
   gtk_container_add(GTK_CONTAINER(label),scrolled);
-  
+
   g_signal_connect(selection, "changed",
 		   G_CALLBACK(find_selection_callback), store);
 
   update_find_dialog(store);
+
+  path = gtk_tree_path_new_first();
+  gtk_tree_view_set_cursor(GTK_TREE_VIEW(find_view), path, NULL, FALSE);
+  gtk_tree_path_free(path);
+  gtk_widget_grab_focus(find_view);
+
   gtk_widget_show_all(scrolled);
   gtk_widget_show(find_dialog_shell);
 }

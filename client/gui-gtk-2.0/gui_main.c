@@ -134,8 +134,8 @@ static gint timer_id;                               /*       ditto        */
 static gint gdk_input_id;
 
 
-static gint show_info_button_release(GtkWidget *w, GdkEventButton *ev);
-static gint show_info_popup(GtkWidget *w, GdkEventButton *ev);
+static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
+static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
 static void end_turn_callback(GtkWidget *w, gpointer data);
 static void get_net_input(gpointer data, gint fid, GdkInputCondition condition);
@@ -144,14 +144,14 @@ static void set_wait_for_writable_socket(struct connection *pc,
 
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
-static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev);
+static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 
 static void tearoff_callback(GtkToggleButton *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
 static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
 
-static void select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
-                                        gpointer data);
+static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
+					    gpointer data);
 static gint timer_callback(gpointer data);
 
 /**************************************************************************
@@ -197,7 +197,7 @@ static gboolean inputline_focus(GtkWidget *w, GdkEventFocus *ev, gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev)
+static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 {
   /* inputline history code */
   if (GTK_WIDGET_HAS_FOCUS(inputline) || !GTK_WIDGET_IS_SENSITIVE(top_vbox)) {
@@ -230,7 +230,7 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev)
       gtk_entry_set_text(GTK_ENTRY(inputline), data);
 
     if (keypress)
-      gtk_signal_emit_stop_by_name(GTK_OBJECT(w), "key_press_event");
+      g_signal_stop_emission_by_name(w, "key_press_event");
 
     return keypress;
   }
@@ -365,7 +365,7 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev)
     }
   }
 
-  gtk_signal_emit_stop_by_name(GTK_OBJECT(w), "key_press_event");
+  g_signal_stop_emission_by_name(w, "key_press_event");
   return TRUE;
 }
 
@@ -377,7 +377,7 @@ static void tearoff_destroy(GtkWidget *w, gpointer data)
 {
   GtkWidget *p, *box = GTK_WIDGET(data);
 
-  p = gtk_object_get_user_data(GTK_OBJECT(w));
+  p = g_object_get_data(G_OBJECT(w), "prev_parent");
   gtk_widget_reparent(box, p);
 }
 
@@ -395,7 +395,7 @@ static void tearoff_callback(GtkToggleButton *b, gpointer data)
     gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
     g_signal_connect(G_OBJECT(w), "destroy", G_CALLBACK(tearoff_destroy), box);
 
-    gtk_object_set_user_data(GTK_OBJECT(w), box->parent);
+    g_object_set_data(G_OBJECT(w), "prev_parent", box->parent);
     gtk_widget_reparent(box, w);
     gtk_widget_show(w);
   } else {
@@ -441,7 +441,6 @@ static void setup_widgets(void)
   GtkWidget *box, *ebox, *hbox, *vbox;
   GtkWidget *avbox, *ahbox;
   GtkWidget *frame, *table, *paned, *menubar, *sw, *text;
-  GtkStyle  *text_style;
   int i;
 
   /* the window is divided into two panes. "top" and "message window" */ 
@@ -474,14 +473,14 @@ static void setup_widgets(void)
   gtk_widget_set_events(overview_canvas, GDK_EXPOSURE_MASK
         			       | GDK_BUTTON_PRESS_MASK );
 
-  gtk_drawing_area_size(GTK_DRAWING_AREA(overview_canvas), 160, 100);
+  gtk_widget_set_size_request(overview_canvas, 160, 100);
   gtk_box_pack_start(GTK_BOX(avbox), overview_canvas, FALSE, FALSE, 0);
 
-  gtk_signal_connect(GTK_OBJECT(overview_canvas), "expose_event",
-        	      (GtkSignalFunc) overview_canvas_expose, NULL);
+  g_signal_connect(overview_canvas, "expose_event",
+        	   G_CALLBACK(overview_canvas_expose), NULL);
 
-  gtk_signal_connect(GTK_OBJECT(overview_canvas), "button_press_event",
-        	      (GtkSignalFunc) butt_down_overviewcanvas, NULL);
+  g_signal_connect(overview_canvas, "button_press_event",
+        	   G_CALLBACK(butt_down_overviewcanvas), NULL);
 
   /* The Rest */
 
@@ -505,13 +504,14 @@ static void setup_widgets(void)
 
   main_label_info = gtk_label_new("\n\n\n\n");
   gtk_container_add(GTK_CONTAINER(ebox), main_label_info);
-  gtk_signal_connect(GTK_OBJECT(ebox),"button_press_event",
-                     GTK_SIGNAL_FUNC(show_info_popup), NULL);
+  g_signal_connect(ebox, "button_press_event",
+                   G_CALLBACK(show_info_popup), NULL);
 
   /* Production status */
 
   /* make a box so the table will be centered */
   box = gtk_hbox_new(FALSE, 0);
+  
   gtk_box_pack_start(GTK_BOX(avbox), box, FALSE, FALSE, 0);
 
   table = gtk_table_new(3, 10, FALSE);
@@ -526,47 +526,44 @@ static void setup_widgets(void)
 
     gtk_table_attach_defaults(GTK_TABLE(table), ebox, i, i + 1, 0, 1);
 
-    gtk_signal_connect(GTK_OBJECT(ebox), "button_press_event",
-                       GTK_SIGNAL_FUNC(taxrates_callback), GINT_TO_POINTER(i));
+    g_signal_connect(ebox, "button_press_event",
+                     G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
-    econ_label[i] = gtk_pixmap_new(get_citizen_pixmap(i < 5 ? 1 : 2), NULL);
-    gtk_pixmap_set_build_insensitive(GTK_PIXMAP(econ_label[i]), FALSE);
+    econ_label[i] = gtk_image_new_from_pixmap(get_citizen_pixmap(i < 5 ? 1 : 2),
+					      NULL);
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
 
   /* science, environmental, govt, timeout */
-  bulb_label = gtk_pixmap_new(sprites.bulb[0]->pixmap, NULL);
-  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(bulb_label), FALSE);
+  bulb_label = gtk_image_new_from_pixmap(sprites.bulb[0]->pixmap, NULL);
+  sun_label = gtk_image_new_from_pixmap(sprites.warming[0]->pixmap, NULL);
+  flake_label = gtk_image_new_from_pixmap(sprites.cooling[0]->pixmap, NULL);
+  government_label = gtk_image_new_from_pixmap(sprites.citizen[7]->pixmap,
+					       NULL);
 
-  sun_label  = gtk_pixmap_new(sprites.warming[0]->pixmap, NULL);
-  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(sun_label), FALSE);
+  for (i = 0; i < 4; i++) {
+    GtkWidget *w;
+    
+    switch (i) {
+      case 0: w = bulb_label;	      break;
+      case 1: w = sun_label;	      break;
+      case 2: w = flake_label;        break;
+      default:
+      case 3: w = government_label;   break;
+    }
 
-  flake_label = gtk_pixmap_new(sprites.cooling[0]->pixmap, NULL);
-  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(flake_label), FALSE);
-
-  government_label= gtk_pixmap_new(sprites.citizen[7]->pixmap, NULL);
-  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(government_label), FALSE);
+    g_object_set(w, "xalign", 0.0, "yalign", 0.0, "xpad", 0, "ypad", 0, NULL);
+    gtk_widget_set_size_request(w, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
+    gtk_table_attach_defaults(GTK_TABLE(table), w, i, i + 1, 1, 2);
+  }
 
   timeout_label = gtk_label_new("");
 
-  for (i = 0; i < 5; i++) {
-    frame = gtk_frame_new(NULL);
-    gtk_widget_set_usize(frame, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
+  frame = gtk_frame_new(NULL);
+  gtk_widget_set_size_request(frame, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
+  gtk_table_attach_defaults(GTK_TABLE(table), frame, 4, 10, 1, 2);
+  gtk_container_add(GTK_CONTAINER(frame), timeout_label);
 
-    if (i == 4) {
-      gtk_table_attach_defaults(GTK_TABLE(table), frame, i, i + 6, 1, 2);
-    } else {
-      gtk_table_attach_defaults(GTK_TABLE(table), frame, i, i + 1, 1, 2);
-    }
-
-    switch (i) {
-      case 0: gtk_container_add(GTK_CONTAINER(frame), bulb_label);       break;
-      case 1: gtk_container_add(GTK_CONTAINER(frame), sun_label);        break;
-      case 2: gtk_container_add(GTK_CONTAINER(frame), flake_label);      break;
-      case 3: gtk_container_add(GTK_CONTAINER(frame), government_label); break;
-      case 4: gtk_container_add(GTK_CONTAINER(frame), timeout_label);    break;
-    }
-  }
 
   /* turn done */
   turn_done_button = gtk_button_new_with_label(_("Turn Done"));
@@ -578,8 +575,8 @@ static void setup_widgets(void)
 
   gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 10, 2, 3);
 
-  gtk_signal_connect(GTK_OBJECT(turn_done_button), "clicked",
-                     GTK_SIGNAL_FUNC(end_turn_callback), NULL);
+  g_signal_connect(turn_done_button, "clicked",
+                   G_CALLBACK(end_turn_callback), NULL);
  
   /* Selected unit status */
 
@@ -604,9 +601,9 @@ static void setup_widgets(void)
   unit_pixmap_button = gtk_event_box_new();
   gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
   gtk_table_attach_defaults(GTK_TABLE(table), unit_pixmap_button, 0, 1, 0, 1);
-  gtk_signal_connect(GTK_OBJECT(unit_pixmap_button), "button_press_event",
-                     GTK_SIGNAL_FUNC(select_unit_pixmap_callback), 
-                     GINT_TO_POINTER(-1));
+  g_signal_connect(unit_pixmap_button, "button_press_event",
+                   G_CALLBACK(select_unit_pixmap_callback), 
+                   GINT_TO_POINTER(-1));
 
   for(i = 0; i < num_units_below; i++) {
     unit_below_pixmap[i] = gtk_pixcomm_new(root_window, UNIT_TILE_WIDTH,
@@ -614,20 +611,20 @@ static void setup_widgets(void)
     unit_below_pixmap_button[i] = gtk_event_box_new();
     gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
                       unit_below_pixmap[i]);
-    gtk_signal_connect(GTK_OBJECT(unit_below_pixmap_button[i]),
-                       "button_press_event",
-                        GTK_SIGNAL_FUNC(select_unit_pixmap_callback),
-                        GINT_TO_POINTER(i));
+    g_signal_connect(unit_below_pixmap_button[i],
+                     "button_press_event",
+                      G_CALLBACK(select_unit_pixmap_callback),
+                      GINT_TO_POINTER(i));
       
     gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
                               i, i + 1, 1, 2);
-    gtk_widget_set_usize(unit_below_pixmap[i],
-                         UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    gtk_widget_set_size_request(unit_below_pixmap[i],
+				UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
   }
 
-  more_arrow_pixmap = gtk_pixmap_new(sprites.right_arrow->pixmap, NULL);
-  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(more_arrow_pixmap), FALSE);
+  more_arrow_pixmap = gtk_image_new_from_pixmap(sprites.right_arrow->pixmap,
+						NULL);
   gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
 
   /* Map canvas and scrollbars */
@@ -647,7 +644,7 @@ static void setup_widgets(void)
                                    |GDK_KEY_PRESS_MASK
                                    |GDK_POINTER_MOTION_MASK);
 
-  gtk_drawing_area_size(GTK_DRAWING_AREA(map_canvas), 510, 300);
+  gtk_widget_set_size_request(map_canvas, 510, 300);
   gtk_container_add(GTK_CONTAINER(frame), map_canvas);
 
   map_horizontal_scrollbar = gtk_hscrollbar_new(NULL);
@@ -658,20 +655,20 @@ static void setup_widgets(void)
   gtk_table_attach(GTK_TABLE(table), map_vertical_scrollbar, 1, 2, 0, 1,
                    0, GTK_EXPAND|GTK_SHRINK|GTK_FILL, 0, 0);
 
-  gtk_signal_connect(GTK_OBJECT(map_canvas), "expose_event",
-                     GTK_SIGNAL_FUNC(map_canvas_expose), NULL);
+  g_signal_connect(map_canvas, "expose_event",
+                   G_CALLBACK(map_canvas_expose), NULL);
 
-  gtk_signal_connect(GTK_OBJECT(map_canvas), "motion_notify_event",
-                     GTK_SIGNAL_FUNC(move_mapcanvas), NULL);
+  g_signal_connect(map_canvas, "motion_notify_event",
+                   G_CALLBACK(move_mapcanvas), NULL);
 
-  gtk_signal_connect(GTK_OBJECT(map_canvas), "button_press_event",
-                     GTK_SIGNAL_FUNC(butt_down_mapcanvas), NULL);
+  g_signal_connect(map_canvas, "button_press_event",
+                   G_CALLBACK(butt_down_mapcanvas), NULL);
 
-  gtk_signal_connect(GTK_OBJECT(toplevel), "key_press_event",
-                     GTK_SIGNAL_FUNC(keyboard_handler), NULL);
+  g_signal_connect(toplevel, "key_press_event",
+                   G_CALLBACK(keyboard_handler), NULL);
 
-  gtk_signal_connect(GTK_OBJECT(map_canvas), "button_press_event",
-                     GTK_SIGNAL_FUNC(butt_down_wakeup), NULL);
+  g_signal_connect(map_canvas, "button_press_event",
+                   G_CALLBACK(butt_down_wakeup), NULL);
 
   /* *** The message window -- this is a detachable widget *** */
 
@@ -683,22 +680,20 @@ static void setup_widgets(void)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_ALWAYS);
   gtk_box_pack_start(GTK_BOX(avbox), sw, TRUE, TRUE, 0);
-  gtk_widget_set_usize(sw, 600, 100);
+  gtk_widget_set_size_request(sw, 600, 100);
 
   text = gtk_text_view_new();
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_container_add(GTK_CONTAINER(sw), text);
 
+  gtk_widget_set_name(text, "chatline");
+
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
   gtk_widget_realize(text);
 
-  main_message_area = GTK_TEXT_VIEW(text);
+  g_object_set(text, "left-margin", 5, NULL);
 
-  /* hack to make insensitive text readable */
-  text_style = gtk_style_copy(text->style);
-  text_style->base[GTK_STATE_INSENSITIVE] = text_style->base[GTK_STATE_NORMAL];
-  text_style->text[GTK_STATE_INSENSITIVE] = text_style->text[GTK_STATE_NORMAL];
-  gtk_widget_set_style(text, text_style);
+  main_message_area = GTK_TEXT_VIEW(text);
 
   set_output_window_text(
       _("Freeciv is free software and you are welcome to distribute copies of"
@@ -709,8 +704,7 @@ static void setup_widgets(void)
   inputline = gtk_entry_new();
   gtk_box_pack_start(GTK_BOX(avbox), inputline, FALSE, FALSE, 0);
 
-  gtk_signal_connect(GTK_OBJECT(inputline), "activate",
-                     GTK_SIGNAL_FUNC(inputline_return), NULL);
+  g_signal_connect(inputline, "activate", G_CALLBACK(inputline_return), NULL);
 
   g_signal_connect(G_OBJECT(inputline), "focus_in_event",
 		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(1));
@@ -806,8 +800,7 @@ void ui_main(int argc, char **argv)
 
   gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
 
-  gtk_signal_connect(GTK_OBJECT(toplevel), "delete_event",
-                     GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+  g_signal_connect(toplevel, "delete_event", G_CALLBACK(gtk_main_quit), NULL);
 
   display_color_type = get_visual();
   init_color_system();
@@ -972,17 +965,17 @@ void set_unit_icons_more_arrow(bool onoff)
  callback for clicking a unit icon underneath unit info box.
  these are the units on the same tile as the focus unit.
 **************************************************************************/
-static void select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
+static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
                                         gpointer data) 
 {
   int i = GPOINTER_TO_INT(data);
   struct unit *punit;
 
   if (i == -1)  /* unit currently selected */
-    return;
+    return TRUE;
 
   if (unit_ids[i] == 0) /* no unit displayed at this place */
-    return;
+    return TRUE;
 
   punit = find_unit_by_id(unit_ids[i]);
   if(punit) { /* should always be true at this point */
@@ -991,6 +984,8 @@ static void select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
       set_unit_focus(punit);
     }
   }
+
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1037,7 +1032,7 @@ static gint timer_callback(gpointer data)
 /**************************************************************************
 ...
 **************************************************************************/
-static gint show_info_button_release(GtkWidget *w, GdkEventButton *ev)
+static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   gtk_grab_remove(w);
   gdk_pointer_ungrab(GDK_CURRENT_TIME);
@@ -1048,7 +1043,7 @@ static gint show_info_button_release(GtkWidget *w, GdkEventButton *ev)
 /**************************************************************************
 ...
 **************************************************************************/
-static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
+static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   if(ev->button == 1) {
     GtkWidget *p;
@@ -1084,8 +1079,8 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
 		     NULL, NULL, ev->time);
     gtk_grab_add(p);
 
-    gtk_signal_connect_after(GTK_OBJECT(p), "button_release_event",
-                             GTK_SIGNAL_FUNC(show_info_button_release), NULL);
+    g_signal_connect_after(p, "button_release_event",
+                           G_CALLBACK(show_info_button_release), NULL);
   }
   return TRUE;
 }

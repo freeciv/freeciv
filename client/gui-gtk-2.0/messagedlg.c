@@ -45,7 +45,7 @@ void popup_messageopt_dialog(void)
   if (!shell)
     shell = create_messageopt_dialog();
 
-  gtk_widget_show(shell);
+  gtk_window_present(GTK_WINDOW(shell));
 }
 
 /**************************************************************************
@@ -55,6 +55,7 @@ GtkWidget *create_messageopt_dialog(void)
 {
   GtkWidget *shell, *form, *explanation;
   int n, i, j;
+  GtkTreePath *path;
   
   shell = gtk_dialog_new_with_buttons(_("Message Options"),
   	GTK_WINDOW(toplevel),
@@ -143,6 +144,11 @@ GtkWidget *create_messageopt_dialog(void)
 				   GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_widget_set_usize(sw, -1, 425);
     gtk_box_pack_start(GTK_BOX(form), sw, TRUE, TRUE, 0);
+
+    path = gtk_tree_path_new_first();
+    gtk_tree_view_set_cursor(GTK_TREE_VIEW(view), path, NULL, FALSE);
+    gtk_tree_path_free(path);
+    gtk_widget_grab_focus(view);
   }
 
   g_signal_connect(shell, "response",

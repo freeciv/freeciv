@@ -2251,7 +2251,7 @@ void destroy_me_callback( GtkWidget *w, gpointer data)
 /**************************************************************************
   Adjust tax rates from main window
 **************************************************************************/
-void taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int tax_end,lux_end,sci_end;
   size_t i;
@@ -2259,7 +2259,7 @@ void taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   struct packet_player_request packet;
   
   if (get_client_state()!=CLIENT_GAME_RUNNING_STATE)
-    return;
+    return TRUE;
   
   i= (size_t)data;
   
@@ -2280,5 +2280,5 @@ void taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
     packet.tax-= delta; packet.luxury+= delta;
   }
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
-
+  return TRUE;
 }

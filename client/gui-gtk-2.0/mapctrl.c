@@ -265,7 +265,7 @@ void set_turn_done_button_state(bool state)
 /**************************************************************************
 (RP:) wake up my own sentried units on the tile that was clicked
 **************************************************************************/
-gint butt_down_wakeup(GtkWidget *w, GdkEventButton *ev)
+gboolean butt_down_wakeup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int xtile, ytile;
 
@@ -284,7 +284,7 @@ gint butt_down_wakeup(GtkWidget *w, GdkEventButton *ev)
 /**************************************************************************
 ...
 **************************************************************************/
-gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev)
+gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int xtile, ytile;
   
@@ -342,7 +342,7 @@ void update_line(int window_x, int window_y)
 /**************************************************************************
 ...
 **************************************************************************/
-gint move_mapcanvas(GtkWidget *widget, GdkEventButton *event)
+gboolean move_mapcanvas(GtkWidget *widget, GdkEventMotion *event, gpointer data)
 {
   update_line(event->x, event->y);
   return TRUE;
@@ -394,7 +394,7 @@ void adjust_workers(GtkWidget *widget, GdkEventButton *ev)
 /**************************************************************************
 ...
 **************************************************************************/
-gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev)
+gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   int xtile, ytile;
 
