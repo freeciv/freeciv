@@ -2829,22 +2829,22 @@ Freeciv*mapcanvas.translations:\
    <MouseMoved>:      mouse-moved()                    \n\
    Shift<BtnDown>:    btn-adjust-workers()             \n\
    <BtnDown>:         btn-select-mapcanvas()           \n\
-   Ctrl<Key>g:        key-map-grid-toggle()            \n\
    Ctrl<Key>b:        key-map-borders-toggle()         \n\
+   Ctrl<Key>g:        key-map-grid-toggle()            \n\
    Ctrl<Key>n:        key-city-names-toggle()          \n\
    Ctrl<Key>p:        key-city-productions-toggle()    \n\
+   Ctrl<Key>w:        key-open-worklists()             \n\
    Shift Ctrl<Key>r:  key-unit-connect-road()          \n\
    Shift Ctrl<Key>l:  key-unit-connect-rail()          \n\
    Shift Ctrl<Key>i:  key-unit-connect-irrigate()      \n\
    Shift<Key>d:       key-unit-disband()               \n\
-   Shift<Key>l:       key-unit-load()                  \n\
-   Shift<Key>u:       key-unit-unload()                \n\
    Shift<Key>f:       key-open-find-city()             \n\
-   Ctrl<Key>w:        key-open-worklists()             \n\
+   Shift<Key>l:       key-open-goto-airlift()          \n\
    Shift<Key>n:       key-unit-nuke()                  \n\
    Shift<Key>p:       key-unit-pillage()               \n\
    Shift<Key>r:       key-open-revolution()            \n\
    Shift<Key>t:       key-open-rates()                 \n\
+   Shift<Key>u:       key-unit-unload-all()            \n\
    Shift<Key>w:       key-unit-wakeup-others()         \n\
    <Key>a:            key-unit-auto-attack-or-settle() \n\
    <Key>b:            key-unit-build-city-or-wonder()  \n\
@@ -2855,7 +2855,7 @@ Freeciv*mapcanvas.translations:\
    <Key>g:            key-unit-goto()                  \n\
    <Key>h:            key-unit-homecity()              \n\
    <Key>i:            key-unit-irrigate()              \n\
-   <Key>l:            key-open-goto-airlift()          \n\
+   <Key>l:            key-unit-load()                  \n\
    <Key>m:            key-unit-mine()                  \n\
    <Key>n:            key-unit-fallout()               \n\
    <Key>o:            key-unit-transform()             \n\
@@ -2864,7 +2864,7 @@ Freeciv*mapcanvas.translations:\
    <Key>r:            key-unit-road-or-traderoute()    \n\
    <Key>s:            key-unit-sentry()                \n\
    <Key>t:            key-city-workers()               \n\
-   <Key>u:            key-unit-unload-all()            \n\
+   <Key>u:            key-unit-unload()                \n\
    <Key>w:            key-unit-wait()                  \n\
    <Key>x:            key-unit-auto-explore()          \n\
    <Key>F1:           key-open-city-report()           \n\
@@ -2912,20 +2912,20 @@ Freeciv*mapcanvas.translations:\
 Freeciv*overviewcanvas.translations:\
    <BtnDown>:         btn-select-overviewcanvas()      \n\
    Ctrl<Key>g:        key-map-grid-toggle()            \n\
+   Ctrl<Key>i:        key-unit-connect-irrigate()      \n\
+   Ctrl<Key>l:        key-unit-connect-rail()          \n\
    Ctrl<Key>n:        key-city-names-toggle()          \n\
    Ctrl<Key>p:        key-city-productions-toggle()    \n\
    Ctrl<Key>r:        key-unit-connect-road()          \n\
-   Ctrl<Key>l:        key-unit-connect-rail()          \n\
-   Ctrl<Key>i:        key-unit-connect-irrigate()      \n\
-   Shift<Key>d:       key-unit-disband()               \n\
-   Shift<Key>l:       key-unit-load()                  \n\
-   Shift<Key>u:       key-unit-unload()                \n\
-   Shift<Key>f:       key-open-find-city()             \n\
    Ctrl<Key>w:        key-open-worklists()             \n\
+   Shift<Key>d:       key-unit-disband()               \n\
+   Shift<Key>f:       key-open-find-city()             \n\
+   Shift<Key>l:       key-open-goto-airlift()          \n\
    Shift<Key>n:       key-unit-nuke()                  \n\
    Shift<Key>p:       key-unit-pillage()               \n\
    Shift<Key>r:       key-open-revolution()            \n\
    Shift<Key>t:       key-open-rates()                 \n\
+   Shift<Key>u:       key-unit-unload-all()            \n\
    Shift<Key>w:       key-unit-wakeup-others()         \n\
    <Key>a:            key-unit-auto-attack-or-settle() \n\
    <Key>b:            key-unit-build-city-or-wonder()  \n\
@@ -2936,7 +2936,7 @@ Freeciv*overviewcanvas.translations:\
    <Key>g:            key-unit-goto()                  \n\
    <Key>h:            key-unit-homecity()              \n\
    <Key>i:            key-unit-irrigate()              \n\
-   <Key>l:            key-open-goto-airlift()          \n\
+   <Key>l:            key-unit-load()                  \n\
    <Key>m:            key-unit-mine()                  \n\
    <Key>n:            key-unit-fallout()               \n\
    <Key>o:            key-unit-transform()             \n\
@@ -2945,7 +2945,7 @@ Freeciv*overviewcanvas.translations:\
    <Key>r:            key-unit-road-or-traderoute()    \n\
    <Key>s:            key-unit-sentry()                \n\
    <Key>t:            key-city-workers()               \n\
-   <Key>u:            key-unit-unload-all()            \n\
+   <Key>u:            key-unit-unload()                \n\
    <Key>w:            key-unit-wait()                  \n\
    <Key>x:            key-unit-auto-explore()          \n\
    <Key>F1:           key-open-city-report()           \n\
