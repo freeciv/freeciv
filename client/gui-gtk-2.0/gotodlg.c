@@ -114,7 +114,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 /**************************************************************************
 ...
 **************************************************************************/
-void create_goto_dialog(void)
+static void create_goto_dialog(void)
 {
   GtkWidget *sw, *label, *vbox, *button;
   GtkCellRenderer *rend;
