@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.12.0\n"
-"POT-Creation-Date: 2000-10-30 16:57+0100\n"
+"POT-Creation-Date: 2000-11-13 08:04+0100\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <garfy@ehinzen.de>\n"
 
@@ -3846,7 +3846,7 @@ msgstr "<keine>"
 msgid "username %s, "
 msgstr "Benutzername %s, "
 
-#: server/stdinhand.c:3080
+#: data/nation/barbarian.ruleset:3 server/stdinhand.c:3080
 msgid "Barbarian"
 msgstr "barbarisch"
 
@@ -4646,12 +4646,12 @@ msgstr "Spiel: Kann erst nach Kriegserklärung angreifen."
 msgid "Game: %s can only move into your own zone of control."
 msgstr "Spiel: %s können sich nur in der eigenen Kontrollzone bewegen."
 
-#: server/unittools.c:645
+#: server/unittools.c:643
 #, c-format
 msgid "Game: Disbanded your %s at (%d, %d)."
 msgstr "Spiel: Einheit %s at (%d, %d) aufgelöst."
 
-#: server/unittools.c:669
+#: server/unittools.c:667
 #, c-format
 msgid "Game: Teleported your %s from (%d, %d) to %s."
 msgstr "Spiel: Habe %s von (%d, %d) nach %s teleportiert."
@@ -4753,6 +4753,16 @@ msgstr "G/L/F"
 #: client/cityrepdata.c:213
 msgid "Economy: Gold, Luxuries, Science"
 msgstr "Wirtschaft: Gold, Luxus, Forschung"
+
+# ?
+#: client/cityrepdata.c:215
+msgid "n"
+msgstr ""
+
+# ?
+#: client/cityrepdata.c:215
+msgid "T"
+msgstr ""
 
 #: client/cityrepdata.c:215
 msgid "Number of Trade Routes"
@@ -11984,17 +11994,15 @@ msgid ""
 "under Republic.  This wonder has no effect under other governments.)"
 msgstr "Zählt als Polizeiwache in jeder eigenen Stadt."
 
-#: data/civ1/buildings.ruleset:1748 data/civ2/buildings.ruleset:1738
-#: data/default/buildings.ruleset:1949
-msgid "Capitalization"
-msgstr "die Kapitalisierung"
+#: data/default/buildings.ruleset:1954
+msgid "Coinage"
+msgstr "Kapitalisierung"
 
-#: data/civ1/buildings.ruleset:1765 data/civ2/buildings.ruleset:1755
-#: data/default/buildings.ruleset:1966
+#: data/default/buildings.ruleset:1979
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
-"Capitalization means its shield production is converted to tax output "
-"(money)."
+"Coinage means its shield production is converted to tax output (money, "
+"coins!)."
 msgstr ""
 "Dies ist eigentlich keine Erweiterung. Es erlaubt (kostenfrei) die "
 "Produktion von Schilden in Steuern umzusetzen."
@@ -12084,6 +12092,19 @@ msgstr ""
 "\n"
 "Eine Stadt kann nur ein Solarkraftwerk, Wasserkraftwerk, Kohlekraftwerk oder "
 "Atomkraftwerk bauen."
+
+#: data/civ1/buildings.ruleset:1748 data/civ2/buildings.ruleset:1738
+msgid "Capitalization"
+msgstr "die Kapitalisierung"
+
+#: data/civ1/buildings.ruleset:1765 data/civ2/buildings.ruleset:1755
+msgid ""
+"This is not a normal improvement.  Instead, setting a city's production to "
+"Capitalization means its shield production is converted to tax output "
+"(money)."
+msgstr ""
+"Dies ist eigentlich keine Erweiterung. Es erlaubt (kostenfrei) die "
+"Produktion von Schilden in Steuern umzusetzen."
 
 #: data/civ1/buildings.ruleset:135 data/civ1/buildings.ruleset:170
 #: data/civ1/buildings.ruleset:205
@@ -14168,6 +14189,10 @@ msgstr "babylonisch"
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
 msgstr "?plural:Babylonier"
+
+#: data/nation/barbarian.ruleset:4
+msgid "?plural:Barbarians"
+msgstr "?plural:Barbaren"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
