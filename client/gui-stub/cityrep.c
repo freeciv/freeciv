@@ -36,7 +36,7 @@ void city_report_dialog_update(void)
 }
 
 /**************************************************************************
-  Update the city report dialog for a single city.
+  Update the information for a single city in the city report.
 **************************************************************************/
 void city_report_dialog_update_city(struct city *pcity)
 {

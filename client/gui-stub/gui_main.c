@@ -85,6 +85,9 @@ void sound_bell(void)
 /**************************************************************************
   Wait for data on the given socket.  Call input_from_server() when data
   is ready to be read.
+
+  This function is called after the client succesfully has connected
+  to the server.
 **************************************************************************/
 void add_net_input(int sock)
 {
@@ -93,6 +96,8 @@ void add_net_input(int sock)
 
 /**************************************************************************
   Stop waiting for any server network data.  See add_net_input().
+
+  This function is called if the client disconnects from the server.
 **************************************************************************/
 void remove_net_input(void)
 {
@@ -100,9 +105,14 @@ void remove_net_input(void)
 }
 
 /**************************************************************************
-  Set one of the unit icons in the information area based on punit.
-  NULL will be pased to clear the icon. idx==-1 will be passed to
-  indicate this is the active unit, or idx in [0..num_units_below-1] for
+  Set one of the unit icons (specified by idx) in the information area
+  based on punit.
+
+  punit is the unit the information should be taken from. Use NULL to
+  clear the icon.
+
+  idx specified which icon should be modified. Use idx==-1 to indicate
+  the icon for the active unit. Or idx in [0..num_units_below-1] for
   secondary (inactive) units on the same tile.
 **************************************************************************/
 void set_unit_icon(int idx, struct unit *punit)
@@ -112,8 +122,10 @@ void set_unit_icon(int idx, struct unit *punit)
 
 /**************************************************************************
   Most clients use an arrow (e.g., sprites.right_arrow) to indicate when
-  the units_below will not fit. This function is called to activate and
+  the units_below will not fit. This function is called to activate or
   deactivate the arrow.
+
+  Is disabled by default.
 **************************************************************************/
 void set_unit_icons_more_arrow(bool onoff)
 {

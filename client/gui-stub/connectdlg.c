@@ -33,7 +33,7 @@ static void try_to_autoconnect(void);
 
 
 /**************************************************************************
- really close and destroy the dialog.
+ Really close and destroy the dialog.
 **************************************************************************/
 void really_close_connection_dialog(void)
 {
@@ -41,7 +41,8 @@ void really_close_connection_dialog(void)
 }
 
 /**************************************************************************
- close and destroy the dialog.
+ Close and destroy the dialog. But only if we don't have a local
+ server running (that we started).
 **************************************************************************/
 void close_connection_dialog()
 {
@@ -49,7 +50,7 @@ void close_connection_dialog()
 }
 
 /**************************************************************************
- configure the dialog depending on what type of authentication request the
+ Configure the dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
 void handle_authentication_req(enum authentication_type type, char *message)
@@ -85,7 +86,10 @@ void handle_authentication_req(enum authentication_type type, char *message)
 }
 
 /**************************************************************************
- provide a packet handler for packet_game_load
+ Provide a packet handler for packet_game_load.
+
+ This regenerates the player information from a loaded game on the
+ server.
 **************************************************************************/
 void handle_game_load(struct packet_game_load *packet)
 { 

@@ -18,7 +18,8 @@
 #include "menu.h"
 
 /**************************************************************************
-  Update all of the menus (sensitivity, etc.) based on the current state.
+  Update all of the menus (sensitivity, name, etc.) based on the
+  current state.
 **************************************************************************/
 void update_menus(void)
 {

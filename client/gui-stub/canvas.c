@@ -46,7 +46,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 }
 
 /****************************************************************************
-  Draw some or all of a sprite onto the mapview or citydialog canvas.
+  Draw some or all of a sprite onto the canvas.
 ****************************************************************************/
 void canvas_put_sprite(struct canvas *pcanvas,
 		    int canvas_x, int canvas_y,
@@ -57,7 +57,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
 }
 
 /****************************************************************************
-  Draw a full sprite onto the mapview or citydialog canvas.
+  Draw a full sprite onto the canvas.
 ****************************************************************************/
 void canvas_put_sprite_full(struct canvas *pcanvas,
 			 int canvas_x, int canvas_y,
@@ -79,7 +79,7 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 }
 
 /****************************************************************************
-  Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
+  Draw a filled-in colored rectangle onto canvas.
 ****************************************************************************/
 void canvas_put_rectangle(struct canvas *pcanvas,
 		       enum color_std color,
@@ -108,7 +108,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 }
 
 /****************************************************************************
-  Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
+  Draw a 1-pixel-width colored line onto the canvas.
 ****************************************************************************/
 void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 		  enum line_type ltype, int start_x, int start_y,

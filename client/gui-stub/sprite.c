@@ -57,7 +57,11 @@ struct sprite *load_gfxfile(const char *filename)
   position of the source sprite will be at (0,0) in the new sprite, and
   the new sprite will have dimensions (width, height).
 
-  mask gives an additional mask to be used for clipping the new sprite.
+  mask gives an additional mask to be used for clipping the new
+  sprite. Only the transparency value of the mask is used in
+  crop_sprite. The formula is: dest_trans = src_trans *
+  mask_trans. Note that because the transparency is expressed as an
+  integer it is common to divide it by 256 afterwards.
 
   mask_offset_x, mask_offset_y is the offset of the mask relative to the
   origin of the source image.  The pixel at (mask_offset_x,mask_offset_y)

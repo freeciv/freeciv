@@ -51,16 +51,16 @@ void update_info_label(void)
 }
 
 /****************************************************************************
-  Update the information label which gives info on the current unit and
-  the square under the current unit, for specified unit.  Note that in
-  practice punit is always the focus unit.
+  Update the information label which gives info on the current unit
+  and the tile under the current unit, for specified unit.  Note that
+  in practice punit is always the focus unit.
 
   Clears label if punit is NULL.
 
-  Typically also updates the cursor for the map_canvas (this is related
-  because the info label may includes  "select destination" prompt etc).
-  And it may call update_unit_pix_label() to update the icons for units
-  on this square.
+  Typically also updates the cursor for the map_canvas (this is
+  related because the info label may includes "select destination"
+  prompt etc).  And it may call update_unit_pix_label() to update the
+  icons for units on this tile.
 ****************************************************************************/
 void update_unit_info_label(struct unit *punit)
 {
@@ -68,8 +68,8 @@ void update_unit_info_label(struct unit *punit)
 }
 
 /****************************************************************************
-  Update the timeout in the client window.  The timeout is the time until
-  the turn ends, in seconds.
+  Update the timeout display.  The timeout is the time until the turn
+  ends, in seconds.
 ****************************************************************************/
 void update_timeout_label(void)
 {
@@ -79,9 +79,10 @@ void update_timeout_label(void)
 }
 
 /****************************************************************************
-  If do_restore is FALSE it should change the turn button style (to draw
-  the user's attention to it).  If do_restore is TRUE this should reset
-  the turn done button to the default style.
+  If do_restore is FALSE it should change the turn button style (to
+  draw the user's attention to it).  If called regularly from a timer
+  this will give a blinking turn done button.  If do_restore is TRUE
+  this should reset the turn done button to the default style.
 ****************************************************************************/
 void update_turn_done_button(bool do_restore)
 {
@@ -141,7 +142,7 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
 }
 
 /****************************************************************************
-  Mark the rectangular region as 'dirty' so that we know to flush it
+  Mark the rectangular region as "dirty" so that we know to flush it
   later.
 ****************************************************************************/
 void dirty_rect(int canvas_x, int canvas_y,
@@ -196,7 +197,7 @@ void update_map_canvas_scrollbars_size(void)
 }
 
 /****************************************************************************
-  Update (refresh) all of the city descriptions on the mapview.
+  Update (refresh) all city descriptions on the mapview.
 ****************************************************************************/
 void update_city_descriptions(void)
 {

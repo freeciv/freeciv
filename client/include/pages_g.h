@@ -26,9 +26,6 @@ enum client_pages {
   PAGE_GAME		/* In game page. */
 };
 
-/**************************************************************************
-  Does a toplevel window page transition.
-**************************************************************************/
 void set_client_page(enum client_pages page);
 
 #endif  /* FC__PAGES_G_H */

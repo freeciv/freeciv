@@ -20,8 +20,7 @@
 #include "pages.h"
 
 /**************************************************************************
-  Sets the "page" that the client should show.  See documentation in
-  pages_g.h.
+  Sets the "page" that the client should show.  See also pages_g.h.
 **************************************************************************/
 void set_client_page(enum client_pages page)
 {

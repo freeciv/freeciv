@@ -84,13 +84,16 @@ const char **gfx_fileextensions(void)
 /****************************************************************
  Crop a sprite from a bigger sprite (called from the gui
  independend part)
- Note that the ImageData is not copied but only referenced,
- this saves memory (because Data of BitMaps are aligned) and
- loading time
 *****************************************************************/
 struct sprite *crop_sprite(struct sprite *source, int x, int y, int width, int height)
 {
   struct sprite *sprite = (struct sprite *) malloc(sizeof(struct sprite));
+
+  /* 
+   * Note that the ImageData is not copied but only referenced, this
+   * saves memory (because Data of BitMaps are aligned) and loading
+   * time.
+   */
 
   if (sprite)
   {
