@@ -5982,6 +5982,31 @@ done
 
 
 
+echo $ac_n "checking for SIGPIPE""... $ac_c" 1>&6
+echo "configure:5987: checking for SIGPIPE" >&5
+cat > conftest.$ac_ext <<EOF
+#line 5989 "configure"
+#include "confdefs.h"
+#include <signal.h>
+int main() {
+signal (SIGPIPE, SIG_IGN)
+; return 0; }
+EOF
+if { (eval echo configure:5996: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+  rm -rf conftest*
+  echo "$ac_t""yes" 1>&6
+                cat >> confdefs.h <<\EOF
+#define HAVE_SIGPIPE 1
+EOF
+
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  echo "$ac_t""no" 1>&6
+fi
+rm -f conftest*
+
 
         FREECIV_DATADIR="$datadir/freeciv"
         FREECIV_DATADIR=`(
@@ -5997,7 +6022,7 @@ EOF
 
 if test -n "$WITH_EFENCE"; then
   echo $ac_n "checking for malloc in -lefence""... $ac_c" 1>&6
-echo "configure:6001: checking for malloc in -lefence" >&5
+echo "configure:6026: checking for malloc in -lefence" >&5
 ac_lib_var=`echo efence'_'malloc | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -6005,7 +6030,7 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lefence  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 6009 "configure"
+#line 6034 "configure"
 #include "confdefs.h"
 /* Override any gcc2 internal prototype to avoid an error.  */
 /* We use char because int might match the return type of a gcc2
@@ -6016,7 +6041,7 @@ int main() {
 malloc()
 ; return 0; }
 EOF
-if { (eval echo configure:6020: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:6045: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else

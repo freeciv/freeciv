@@ -86,6 +86,7 @@
 #undef HAVE_LC_MESSAGES
 #undef HAVE_STPCPY
 #undef LOCALEDIR
+#define HAVE_SIGPIPE 1		/* ? dwp */
 
 #define ALWAYS_ROOT 1
 

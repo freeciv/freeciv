@@ -273,6 +273,13 @@ dnl We would AC_CHECK_FUNCS for socket as well, except it is complicated
 dnl by the fact that the -lsocket is in X_EXTRA_LIBS and/or SERVER_LIBS,
 dnl and not in LIBS.
 
+dnl Checks if SIGPIPE is usable
+AC_MSG_CHECKING([for SIGPIPE])
+AC_TRY_COMPILE([#include <signal.h>],[signal (SIGPIPE, SIG_IGN)],
+               [AC_MSG_RESULT([yes])
+                AC_DEFINE(HAVE_SIGPIPE)],
+               [AC_MSG_RESULT([no])])
+
 dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 AC_DEFINE_UNQUOTED(FREECIV_DATADIR, "$FREECIV_DATADIR")

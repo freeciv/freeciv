@@ -278,7 +278,7 @@ int server_open_socket(void)
 
 
   /* broken pipes are ignored. */
-#ifdef SIGPIPE
+#ifdef HAVE_SIGPIPE
   signal (SIGPIPE, SIG_IGN);
 #endif
 
