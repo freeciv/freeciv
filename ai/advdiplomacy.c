@@ -178,6 +178,55 @@ static bool ai_players_can_agree_on_ceasefire(struct player* player1,
 }
 
 /********************************************************************** 
+  Calculate a price of a tech.
+  Note that both AI players always evaluate the tech worth symetrically
+  This eases tech exchange.
+**********************************************************************/
+static int compute_tech_sell_price(struct player* giver, struct player* taker,
+				int tech_id)
+{
+    int worth;
+    
+    worth = ai_goldequiv_tech(taker, tech_id);
+    
+    /* Share and expect being shared brotherly between allies */
+    if (pplayers_allied(giver, taker)) {
+      worth /= 2;
+    }
+    if (players_on_same_team(giver, taker)) {
+      return 0;
+    }
+
+    /* Do not bother wanting a tech that we already have. */
+    if (get_invention(taker, tech_id) == TECH_KNOWN) {
+      return 0;
+    }
+
+    /* Calculate in tech leak to our opponents, guess 50% chance */
+    players_iterate(eplayer) {
+      if (eplayer == giver
+          || eplayer == taker
+          || !eplayer->is_alive
+          || get_invention(eplayer, tech_id) == TECH_KNOWN) {
+        continue;
+      }
+      
+      /* Don't risk it falling into enemy hands */
+      if (pplayers_allied(taker, eplayer) &&
+          is_player_dangerous(giver, eplayer)) {
+        return BIG_NUMBER;
+      }
+      
+      if (pplayers_allied(taker, eplayer) &&
+          !pplayers_allied(giver, eplayer)) {
+        /* Taker can enrichen his side with this tech */
+        worth += ai_goldequiv_tech(eplayer, tech_id) / 4;
+      }
+    } players_iterate_end;
+    return worth;
+}
+
+/********************************************************************** 
   Evaluate gold worth of a single clause in a treaty. Note that it
   sometimes matter a great deal who is giving what to whom, and
   sometimes (such as with treaties) it does not matter at all.
@@ -201,46 +250,13 @@ static int ai_goldequiv_clause(struct player *pplayer,
 
   switch (pclause->type) {
   case CLAUSE_ADVANCE:
+    
     if (give) {
-      worth -= ai_goldequiv_tech(aplayer, pclause->value);
+      worth -= compute_tech_sell_price(pplayer, aplayer, pclause->value);
     } else if (get_invention(pplayer, pclause->value) != TECH_KNOWN) {
-      worth += ai_goldequiv_tech(pplayer, pclause->value);
+      worth += compute_tech_sell_price(aplayer, pplayer, pclause->value);
     }
 
-    /* Share and expect being shared brotherly between allies */
-    if (pplayers_allied(pplayer, aplayer)) {
-      worth /= 2;
-    }
-    if (players_on_same_team(pplayer, aplayer)) {
-      worth = 0;
-      break;
-    }
-
-    /* Do not bother wanting a tech that we already have. */
-    if (!give && get_invention(pplayer, pclause->value) == TECH_KNOWN) {
-      break;
-    }
-
-    /* Calculate in tech leak to our opponents, guess 50% chance */
-    players_iterate(eplayer) {
-      if (eplayer == aplayer
-          || eplayer == pplayer
-          || !eplayer->is_alive
-          || get_invention(eplayer, pclause->value) == TECH_KNOWN) {
-        continue;
-      }
-      if (give && pplayers_allied(aplayer, eplayer)) {
-        if (is_player_dangerous(pplayer, eplayer)) {
-          /* Don't risk it falling into enemy hands */
-          worth = -BIG_NUMBER;
-          break;
-        }
-        worth -= ai_goldequiv_tech(eplayer, pclause->value) / 2;
-      } else if (!give && pplayers_allied(pplayer, eplayer)) {
-        /* We can enrichen our side with this tech */
-        worth += ai_goldequiv_tech(eplayer, pclause->value) / 4;
-      }
-    } players_iterate_end;
   break;
 
   case CLAUSE_ALLIANCE:
@@ -890,7 +906,60 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
     } players_iterate_end;
   }
 }
-
+/********************************************************************** 
+  Find two techs that can be exchanged and suggest that
+***********************************************************************/
+static void suggest_tech_exchange(struct player* player1,
+                                  struct player* player2)
+{
+  int worth[game.num_tech_types];
+    
+  tech_type_iterate(tech) {
+    if (tech == A_NONE) {
+      worth[tech] = 0;
+      continue;
+    }
+    if (get_invention(player1, tech) == TECH_KNOWN) {
+      if (get_invention(player2, tech) != TECH_KNOWN) {
+        worth[tech] = -compute_tech_sell_price(player1, player2, tech);
+      } else {
+        worth[tech] = 0;
+      }
+    } else {
+      if (get_invention(player2, tech) == TECH_KNOWN) {
+        worth[tech] = compute_tech_sell_price(player2, player1, tech);
+      } else {
+        worth[tech] = 0;
+      }
+    }
+  } tech_type_iterate_end;
+    
+    
+  tech_type_iterate(tech) {
+    if (worth[tech] <= 0) {
+      continue;
+    }
+    tech_type_iterate(tech2) {
+      if (worth[tech2] >= 0) {
+        continue;
+      }
+      /* tech2 is given by player1, tech is given by player2 */
+      int diff = worth[tech] + worth[tech2];
+      if ((diff > 0 && player1->economic.gold >= diff)
+          || (diff < 0 && player2->economic.gold >= -diff)
+	  || diff == 0) {
+        ai_diplomacy_suggest(player1, player2, CLAUSE_ADVANCE, tech2);
+	ai_diplomacy_suggest(player2, player1, CLAUSE_ADVANCE, tech);
+	if (diff > 0) {
+	  ai_diplomacy_suggest(player1, player2, CLAUSE_GOLD, diff);
+	} else if (diff < 0) {
+	  ai_diplomacy_suggest(player2, player1, CLAUSE_GOLD, -diff);
+	}
+	return;
+      }
+    } tech_type_iterate_end;
+  } tech_type_iterate_end;
+}
 /********************************************************************** 
   Offer techs and stuff to other player and ask for techs we need.
 ***********************************************************************/
@@ -923,6 +992,10 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
   }
   if (!player_has_embassy(aplayer, pplayer)) {
     ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_EMBASSY, 0);
+  }
+  
+  if (!ai_handicap(pplayer, H_DIPLOMACY) || aplayer->ai.control) {
+    suggest_tech_exchange(pplayer, aplayer);
   }
 }
 
