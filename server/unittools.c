@@ -2989,7 +2989,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
      * All players without shared vison with owner player get
      * REMOVE_UNIT package.
      */
-    send_unit_info_to_onlookers(NULL, punit, punit->x, punit->x, TRUE);    
+    send_unit_info_to_onlookers(NULL, punit, punit->x, punit->y, TRUE);
   }
   
   if ((pcity = map_get_city(src_x, src_y))) {
