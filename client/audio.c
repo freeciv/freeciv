@@ -87,19 +87,19 @@ bool audio_select_plugin(const char *const name)
   }
 
   if (!found) {
-    freelog(LOG_ERROR,
+    freelog(LOG_FATAL,
 	    _("Plugin '%s' isn't available. Available are %s"), name,
 	    audio_get_all_plugin_names());
-    return FALSE;
+    exit(EXIT_FAILURE);
   }
 
   if (!plugins[i].init()) {
-    freelog(LOG_ERROR, _("Plugin found but can't be initialized."));
+    freelog(LOG_ERROR, _("Plugin %s found but can't be initialized."), name);
     return FALSE;
   }
 
   selected_plugin = i;
-  freelog(LOG_NORMAL, _("Plugin '%s' is now selected"),
+  freelog(LOG_VERBOSE, _("Plugin '%s' is now selected"),
 	  plugins[selected_plugin].name);
   return TRUE;
 }
@@ -137,10 +137,30 @@ void audio_real_init(const char *const spec_name,
   char *filename, *file_capstr;
   char us_capstr[] = "+soundspec";
 
+  if (prefered_plugin_name && !strcmp(prefered_plugin_name, "none")) {
+    /* We explicitly choose none plugin, silently skip the code below */
+    freelog(LOG_VERBOSE, _("Proceeding with sound support disabled"));
+    tagfile = NULL;
+    return;
+  }
+  if (num_plugins_used == 1) {
+    /* We only have the dummy plugin, skip the code but issue an advertise */
+    freelog(LOG_NORMAL, _("No real audio plugin present, "
+      "Proceeding with sound support disabled"));
+    freelog(LOG_NORMAL,
+      _("For sound support, install either esound or SDL_mixer"));
+    freelog(LOG_NORMAL, 
+      _("Esound: http://www.tux.org/~ricdude/EsounD.html"));
+    freelog(LOG_NORMAL, _("SDL_mixer: http://www.libsdl.org/"
+      "projects/SDL_mixer/index.html"));
+    tagfile = NULL;
+    return;
+  }
   if (!spec_name) {
     freelog(LOG_FATAL, _("No audio ruleset given!"));
     exit(EXIT_FAILURE);
   }
+  freelog(LOG_VERBOSE, "Initializing sound using %s...", spec_name);
   filename = datafilename(spec_name);
   if (!filename) {
     freelog(LOG_ERROR, _("Cannot find audio spec-file \"%s\"."), spec_name);
@@ -175,20 +195,29 @@ void audio_real_init(const char *const spec_name,
 
   atexit(audio_shutdown);
 
-  if (prefered_plugin_name && audio_select_plugin(prefered_plugin_name)) {
+  if (prefered_plugin_name) {
+    if (!audio_select_plugin(prefered_plugin_name))
+      freelog(LOG_NORMAL, _("Proceeding with sound support disabled"));
     return;
   }
 
-  if (!audio_select_plugin("esd") && !audio_select_plugin("sdl")
-      && !audio_select_plugin("winmm") && !audio_select_plugin("amiga")) {
-    freelog(LOG_NORMAL,
-	    _("No real audio subsystem managed to initialize!"));
-    freelog(LOG_NORMAL,
-	    _("For sound support, install either esound or SDL_mixer"));
-    freelog(LOG_NORMAL, "Esound: http://www.tux.org/~ricdude/EsounD.html");
-    freelog(LOG_NORMAL, "SDL_mixer: http://www.libsdl.org/"
-	    "projects/SDL_mixer/index.html");
-  }
+#ifdef ESD
+  if (audio_select_plugin("esd")) return; 
+#endif
+#ifdef SDL
+  if (audio_select_plugin("sdl")) return; 
+#endif
+#ifdef WINMM
+  if (audio_select_plugin("winmm")) return;
+#endif
+#ifdef AMIGA
+  if (audio_select_plugin("amiga")) return;
+#endif
+  freelog(LOG_ERROR,
+    _("No real audio subsystem managed to initialize!"));
+  freelog(LOG_ERROR,
+    _("Perhaps there is some misconfigurationg or bad permissions"));
+  freelog(LOG_NORMAL, _("Proceeding with sound support disabled"));
 }
 
 /**************************************************************************
@@ -231,7 +260,7 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
 
   /* try playing primary tag first, if not go to alternative tag */
   if (!audio_play_tag(tag, FALSE) && !audio_play_tag(alt_tag, FALSE)) {
-    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag,
+    freelog(LOG_VERBOSE, "Neither of tags %s or %s found", tag,
 	    pretty_alt_tag);
   }
 }
@@ -249,7 +278,7 @@ void audio_play_music(const char *const tag, char *const alt_tag)
 
   /* try playing primary tag first, if not go to alternative tag */
   if (!audio_play_tag(tag, TRUE) && !audio_play_tag(alt_tag, TRUE)) {
-    freelog(LOG_VERBOSE, "Neither of tags %s and %s found", tag,
+    freelog(LOG_VERBOSE, "Neither of tags %s or %s found", tag,
 	    pretty_alt_tag);
   }
 }

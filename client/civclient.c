@@ -207,7 +207,6 @@ int main(int argc, char *argv[])
   boot_help_texts();
   tilespec_read_toplevel(tile_set_name); /* get tile sizes etc */
 
-  freelog(LOG_VERBOSE, "Initializing sound using %s...", sound_set_name);
   audio_real_init(sound_set_name, sound_plugin_name);
   audio_play_music("music_start", NULL);
 
