@@ -49,6 +49,7 @@
 #include "unittools.h"
 
 #include "aicity.h"
+#include "aidata.h"
 #include "aiunit.h"
 
 #include "savegame.h"
@@ -623,8 +624,11 @@ static void player_load(struct player *plr, int plrno,
   char *p;
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
   enum unit_activity activity;
+  struct ai_data *ai;
 
   server_player_init(plr, TRUE);
+  ai_data_init(plr);
+  ai = ai_data_get(plr);
 
   plr->ai.barbarian_type = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
                                                     plrno);
@@ -701,6 +705,22 @@ static void player_load(struct player *plr, int plrno,
   plr->is_male=secfile_lookup_bool_default(file, TRUE, "player%d.is_male", plrno);
   plr->is_alive=secfile_lookup_bool(file, "player%d.is_alive", plrno);
   plr->ai.control = secfile_lookup_bool(file, "player%d.ai.control", plrno);
+  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+    ai->diplomacy.player_intel[i].love
+         = secfile_lookup_int_default(file, 1, "player%d.ai.love%d", plrno, i);
+    ai->diplomacy.player_intel[i].spam 
+         = secfile_lookup_int_default(file, 0, "player%d.ai.spam%d", plrno, i);
+    ai->diplomacy.player_intel[i].ally_patience
+         = secfile_lookup_int_default(file, 0, "player%d.ai.patience%d", plrno, i);
+    ai->diplomacy.player_intel[i].warned_about_space
+         = secfile_lookup_int_default(file, 0, "player%d.ai.warn_space%d", plrno, i);
+    ai->diplomacy.player_intel[i].asked_about_peace
+         = secfile_lookup_int_default(file, 0, "player%d.ai.ask_peace%d", plrno, i);
+    ai->diplomacy.player_intel[i].asked_about_alliance
+         = secfile_lookup_int_default(file, 0, "player%d.ai.ask_alliance%d", plrno, i);
+    ai->diplomacy.player_intel[i].asked_about_ceasefire
+         = secfile_lookup_int_default(file, 0, "player%d.ai.ask_ceasefire%d", plrno, i);
+  }
   plr->ai.tech_goal = secfile_lookup_int(file, "player%d.ai.tech_goal", plrno);
   if (plr->ai.tech_goal == A_NONE
       || !tech_exists(plr->ai.tech_goal)) {
@@ -1401,6 +1421,7 @@ static void player_save(struct player *plr, int plrno,
   int i;
   char invs[A_LAST+1];
   struct player_spaceship *ship = &plr->spaceship;
+  struct ai_data *ai = ai_data_get(plr);
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
@@ -1426,6 +1447,22 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_bool(file, plr->is_male, "player%d.is_male", plrno);
   secfile_insert_bool(file, plr->is_alive, "player%d.is_alive", plrno);
   secfile_insert_bool(file, plr->ai.control, "player%d.ai.control", plrno);
+  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+    secfile_insert_int(file, ai->diplomacy.player_intel[i].love, 
+                       "player%d.ai.love%d", plrno, i);
+    secfile_insert_int(file, ai->diplomacy.player_intel[i].spam, 
+                       "player%d.ai.spam%d", plrno, i);
+    secfile_insert_int(file, ai->diplomacy.player_intel[i].ally_patience, 
+                       "player%d.ai.patience%d", plrno, i);
+    secfile_insert_int(file, ai->diplomacy.player_intel[i].warned_about_space, 
+                       "player%d.ai.warn_space%d", plrno, i);
+    secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_peace, 
+                       "player%d.ai.ask_peace%d", plrno, i);
+    secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_alliance, 
+                       "player%d.ai.ask_alliance%d", plrno, i);
+    secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_ceasefire, 
+                       "player%d.ai.ask_ceasefire%d", plrno, i);
+  }
   secfile_insert_int(file, plr->ai.tech_goal, "player%d.ai.tech_goal", plrno);
   secfile_insert_int(file, plr->ai.skill_level,
 		     "player%d.ai.skill_level", plrno);
