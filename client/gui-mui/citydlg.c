@@ -57,6 +57,7 @@
 
 /* MUI Imports */
 
+#include "autogroupclass.h"
 #include "muistuff.h"
 #include "mapclass.h"
 #include "worklistclass.h"
@@ -107,12 +108,8 @@ struct city_dialog
   Object *sell_button;
   Object *worklist_button;
 
-  Object *present_group;
-  Object *present2_group;
-  Object *present_space;
-  Object *supported_group;
-  Object *supported2_group;
-  Object *supported_space;
+  Object *present_group; /* auto group */
+  Object *supported_group; /* auto group */
 
   Object *close_button;
   Object *trade_button;
@@ -123,6 +120,7 @@ struct city_dialog
   struct city_prod prod;
 
   int sell_id;
+  Object *sell_wnd;
 
   Object *cityopt_wnd;
   Object *cityopt_cycle;
@@ -610,14 +608,6 @@ static void city_close(struct city_dialog **ppdialog)
 }
 
 /**************************************************************************
- Callback if a message window should be closed
-**************************************************************************/
-static void city_msg_no(struct popup_message_data *data)
-{
-  destroy_message_dialog(data->wnd);
-}
-
-/**************************************************************************
  Callback for the Yes in the Buy confirmation window
 **************************************************************************/
 static void city_buy_yes(struct popup_message_data *data)
@@ -625,6 +615,19 @@ static void city_buy_yes(struct popup_message_data *data)
   struct city *pcity = (struct city *) data->data;
   request_city_buy(pcity);
   destroy_message_dialog(data->wnd);
+}
+
+
+/**************************************************************************
+ Callback for the No in the Sell confirmation window
+**************************************************************************/
+static void city_sell_no(struct popup_message_data *data)
+{
+  struct city_dialog *pdialog = (struct city_dialog *)data->data;
+  destroy_message_dialog(data->wnd);
+  set(pdialog->sell_button, MUIA_Disabled, FALSE);
+  pdialog->sell_wnd = NULL;
+  pdialog->sell_id = -1;
 }
 
 /**************************************************************************
@@ -635,13 +638,11 @@ static void city_sell_yes(struct popup_message_data *data)
   struct city_dialog *pdialog = (struct city_dialog *) data->data;
 
   if (pdialog->sell_id >= 0)
-  {
     request_city_sell(pdialog->pcity, pdialog->sell_id);
-  }
-  else
-    pdialog->sell_id = -1;
 
   destroy_message_dialog(data->wnd);
+  pdialog->sell_wnd = NULL;
+  pdialog->sell_id = -1;
 }
 
 /**************************************************************************
@@ -906,6 +907,11 @@ static void city_browse(struct city_browse_msg *msg)
     {
       msg->pdialog->pcity = pcity_new;
       msg->pdialog->sell_id = -1;
+      if (msg->pdialog->sell_wnd)
+      {
+        destroy_message_dialog(msg->pdialog->sell_wnd);
+        msg->pdialog->sell_wnd = NULL;
+      }
 
       set(msg->pdialog->map_area, MUIA_CityMap_City, pcity_new);
       refresh_this_city_dialog(msg->pdialog);
@@ -941,7 +947,7 @@ static void city_buy(struct city_dialog **ppdialog)
 
     popup_message_dialog(pdialog->wnd, "Buy It!", buf,
 			 "_Yes", city_buy_yes, pdialog->pcity,
-			 "_No", city_msg_no, pdialog,
+			 "_No", message_close, 0,
 			 NULL);
   }
   else
@@ -950,7 +956,7 @@ static void city_buy(struct city_dialog **ppdialog)
 	    name, value, game.player_ptr->economic.gold);
 
     popup_message_dialog(pdialog->wnd, "Buy It!", buf,
-			 "_Darn", city_msg_no, pdialog,
+			 "_Darn", message_close, 0,
 			 NULL);
   }
 }
@@ -962,7 +968,7 @@ static void city_sell(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
   LONG sel = xget(pdialog->imprv_listview, MUIA_NList_Active);
-  if (sel >= 0)
+  if (sel >= 0 && !pdialog->sell_wnd)
   {
     LONG i = 0;
     char buf[512];
@@ -978,10 +984,12 @@ static void city_sell(struct city_dialog **ppdialog)
 	    improvement_value(i));
 
     pdialog->sell_id = i;
-    popup_message_dialog(pdialog->wnd, "Sell It!", buf,
-			 "_Yes", city_sell_yes, pdialog,
-			 "_No", city_msg_no, pdialog,
-			 NULL);
+    pdialog->sell_wnd = popup_message_dialog(pdialog->wnd,
+			"Sell It!", buf,
+			"_Yes", city_sell_yes, pdialog,
+			"_No", city_sell_no, pdialog,
+			NULL);
+    set(pdialog->sell_button, MUIA_Disabled, TRUE);
   }
 }
 
@@ -1239,6 +1247,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
     next_button = MakeButton("_>");
     pdialog->name_string = StringObject,
 	MUIA_String_Format, MUIV_String_Format_Center,
+	MUIA_CycleChain,1,
 	End;
   } else prev_button = next_button = pdialog->name_string = NULL;
 
@@ -1324,36 +1333,28 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 		End,
 	    End,
 	Child, HGroup,
-	    Child, VGroup,
-	        Child, HorizLineTextObject("Supported Units"),
-		Child, pdialog->supported_group = HGroupV,
-		    Child, pdialog->supported_space = HSpace(0),
-		    End,
+	    MUIA_VertWeight, 300,
+            Child, VGroup,
 	        Child, HorizLineTextObject("Present Units"),
 		Child, HGroup,
-		    Child, pdialog->present_group = HGroupV,
-			Child, pdialog->present_space = HSpace(0),
-			End,
-		    Child, VGroup,
-			MUIA_HorizWeight, 0,
-			Child, HVSpace,
-			Child, pdialog->activateunits_button = MakeButton("_Activate all"),
-			Child, pdialog->unitlist_button = MakeButton("_List"),
-			Child, HVSpace,
+		    Child, pdialog->present_group = AutoGroup,
 			End,
 		    End,
-		End,
-/*	    Child, BalanceObject, End,
-	    Child, VGroup,
-	        MUIA_HorizWeight,50,
-	        Child, HorizLineTextObject("Trade"),
-		Child, VGroupV,
-		    Child, pdialog->bigtrade_text = TextObject,
-			MUIA_Text_SetVMax, FALSE,
-			End,
+		Child, HGroup,
+		    MUIA_HorizWeight, 0,
+		    Child, HVSpace,
+		    Child, pdialog->activateunits_button = MakeButton("_Activate all"),
+		    Child, HVSpace,
+		    Child, pdialog->unitlist_button = MakeButton("_List"),
 		    Child, HVSpace,
 		    End,
-		End,*/
+		End,
+	    Child, BalanceObject, End,
+	    Child, VGroup,
+	        Child, HorizLineTextObject("Supported Units"),
+		Child, pdialog->supported_group = AutoGroup,
+		    End,
+		End,
 	    End,
 	Child, VGroup,
 	    MUIA_VertWeight,0,
@@ -1486,7 +1487,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   int shield;
 
   set(pdialog->buy_button, MUIA_Disabled, pcity->did_buy);
-  set(pdialog->sell_button, MUIA_Disabled, pcity->did_sell);
+  set(pdialog->sell_button, MUIA_Disabled, pcity->did_sell || pdialog->sell_wnd);
 
   if (pcity->is_building_unit)
   {
@@ -1568,7 +1569,8 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 }
 
 /****************************************************************
-...
+ Updates the displayed citizens. TODO: Optimize it (only one
+ group)
 *****************************************************************/
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
@@ -1661,13 +1663,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
   /* TODO: use unit id */
 
   DoMethod(pdialog->supported_group, MUIM_Group_InitChange);
-  if (pdialog->supported2_group)
-  {
-    DoMethod(pdialog->supported_group, OM_REMMEMBER, pdialog->supported2_group);
-    MUI_DisposeObject(pdialog->supported2_group);
-  }
+  DoMethod(pdialog->supported_group, MUIM_AutoGroup_DisposeChilds);
 
-  pdialog->supported2_group = HGroup, End;
 
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_supported);
@@ -1684,12 +1681,9 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog,
     punit = (struct unit *) ITERATOR_PTR(myiter);
     o = MakeUnit(punit, TRUE);
     if (o)
-      DoMethod(pdialog->supported2_group, OM_ADDMEMBER, o);
+      DoMethod(pdialog->supported_group, OM_ADDMEMBER, o);
   }
 
-  DoMethod(pdialog->supported2_group, OM_ADDMEMBER, VSpace(get_normal_tile_height()));
-  DoMethod(pdialog->supported_group, OM_ADDMEMBER, pdialog->supported2_group);
-  DoMethod(pdialog->supported_group, MUIM_Group_Sort, pdialog->supported2_group, pdialog->supported_space, NULL);
   DoMethod(pdialog->supported_group, MUIM_Group_ExitChange);
 }
 
@@ -1705,13 +1699,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
   /* TODO: use unit id */
 
   DoMethod(pdialog->present_group, MUIM_Group_InitChange);
-  if (pdialog->present2_group)
-  {
-    DoMethod(pdialog->present_group, OM_REMMEMBER, pdialog->present2_group);
-    MUI_DisposeObject(pdialog->present2_group);
-  }
-
-  pdialog->present2_group = HGroup, End;
+  DoMethod(pdialog->present_group, MUIM_AutoGroup_DisposeChilds); 
 
   if(pdialog->pcity->owner != game.player_idx) {
     plist = &(pdialog->pcity->info_units_present);
@@ -1730,13 +1718,10 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog, int un
     if (o)
     {
       DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 5, MUIM_CallHook, &civstandard_hook, city_present, pdialog, punit);
-      DoMethod(pdialog->present2_group, OM_ADDMEMBER, o);
+      DoMethod(pdialog->present_group, OM_ADDMEMBER, o);
     }
   }
 
-  DoMethod(pdialog->present2_group, OM_ADDMEMBER, VSpace(get_normal_tile_height()));
-  DoMethod(pdialog->present_group, OM_ADDMEMBER, pdialog->present2_group);
-  DoMethod(pdialog->present_group, MUIM_Group_Sort, pdialog->present2_group, pdialog->present_space, NULL);
   DoMethod(pdialog->present_group, MUIM_Group_ExitChange);
 }
 
@@ -1815,6 +1800,9 @@ static void close_city_dialog(struct city_dialog *pdialog)
     }
     set(pdialog->wnd, MUIA_Window_Open, FALSE);
     set(pdialog->cityopt_wnd, MUIA_Window_Open, FALSE);
+    if (pdialog->sell_wnd)
+      destroy_message_dialog(pdialog->sell_wnd);
+
     DoMethod(app, OM_REMMEMBER, pdialog->wnd);
     DoMethod(app, OM_REMMEMBER, pdialog->cityopt_wnd);
     MUI_DisposeObject(pdialog->wnd);
