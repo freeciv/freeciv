@@ -1246,8 +1246,9 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
         punit->goto_dest_x = bx;
         punit->goto_dest_y = by;
 	set_unit_activity(punit, ACTIVITY_GOTO);
-        do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-        if (!player_find_unit_by_id(pplayer, id)) return(-1); /* died */
+	if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+	  return -1;		/* died */
+	}
       }
       ptile = map_get_tile(punit->x, punit->y);
       ferryboat = unit_list_find(&ptile->units, punit->ai.ferryboat);
@@ -1276,8 +1277,9 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
                 if (def) set_unit_activity(def, ACTIVITY_SENTRY);
               }
             unit_list_iterate_end; /* passengers are safely stowed away */
-            do_unit_goto(ferryboat, GOTO_MOVE_ANY, FALSE);
-	    if (!player_find_unit_by_id(pplayer, boatid)) return(-1); /* died */
+	    if (do_unit_goto(ferryboat, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+	      return -1;	/* died */
+	    }
             set_unit_activity(punit, ACTIVITY_IDLE);
           } /* else wait, we can GOTO later. */
         }
@@ -1322,7 +1324,9 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 		punit->x, punit->y, dest_x, dest_y);
       }
       set_unit_activity(punit, ACTIVITY_GOTO);
-      do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+      if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+	return -1;		/* died */
+      }
       /* liable to bump into someone that will kill us.  Should avoid? */
     } else {
       freelog(LOG_DEBUG, "%s#%d@(%d,%d) not moving -> (%d, %d)",
@@ -1330,12 +1334,18 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 		    punit->x, punit->y, dest_x, dest_y);
     }
   }
-  if (player_find_unit_by_id(pplayer, id)) { /* didn't die */
-    punit->ai.ai_role = AIUNIT_NONE; /* in case we need to change */
-    if (x != punit->x || y != punit->y) return 1; /* moved */
-    else return 0; /* didn't move, didn't die */
+
+  /* Dead unit shouldn't reach this point */
+  assert(player_find_unit_by_id(pplayer, id));
+  
+  /* in case we need to change */
+  punit->ai.ai_role = AIUNIT_NONE;
+
+  if (x != punit->x || y != punit->y) {
+    return 1;			/* moved */
+  } else {
+    return 0;			/* didn't move, didn't die */
   }
-  return(-1); /* died */
 }
 
 /*************************************************************************
@@ -1895,8 +1905,10 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
         if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
 /* nothing to kill.  Adjacency is something for us to kill later. */
           if (is_sailing_unit(punit)) {
-            if (find_nearest_friendly_port(punit))
-	      do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+	    if (find_nearest_friendly_port(punit)
+		&& do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+	      return;
+	    }
           } else {
             ai_manage_explorer(punit); /* nothing else to do */
             /* you can still have some moves left here, but barbarians should
@@ -2026,7 +2038,6 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
      It is well constructed of teak, and looks seaworthy. */
   struct city *pcity;
   struct unit *bodyguard;
-  int id = punit->id;
   int best = 4 * unit_type(punit)->move_rate, x = punit->x, y = punit->y;
   int n = 0, p = 0;
 
@@ -2059,9 +2070,10 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
     else if (n == 0 && !map_get_city(punit->x, punit->y)) { /* rest in a city, for unhap */
       x = punit->goto_dest_x; y = punit->goto_dest_y;
-      if (find_nearest_friendly_port(punit))
-	do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-      if (!player_find_unit_by_id(pplayer, id)) return; /* oops! */
+      if (find_nearest_friendly_port(punit)
+	  && do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) == GR_DIED) {
+	return;			/* oops! */
+      }
       punit->goto_dest_x = x; punit->goto_dest_y = y;
       send_unit_info(pplayer, punit); /* to get the crosshairs right -- Syela */
     } else {
@@ -2112,9 +2124,9 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     punit->goto_dest_x = x;
     punit->goto_dest_y = y;
     set_unit_activity(punit, ACTIVITY_GOTO);
-    do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-    if ((punit = player_find_unit_by_id(pplayer, id)))
+    if (do_unit_goto(punit, GOTO_MOVE_ANY, FALSE) != GR_DIED) {
       set_unit_activity(punit, ACTIVITY_IDLE);
+    }
     return;
   }
 

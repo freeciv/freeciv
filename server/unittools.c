@@ -789,9 +789,10 @@ static void update_unit_activity(struct unit *punit)
 
   if (punit->connecting && !can_unit_do_activity(punit, activity)) {
     punit->activity_count = 0;
-    do_unit_goto(punit, get_activity_move_restriction(activity), FALSE);
-    if (!player_find_unit_by_id(pplayer, id))
+    if (do_unit_goto(punit, get_activity_move_restriction(activity), FALSE)
+	== GR_DIED) {
       return;
+    }
   }
 
   /* if connecting, automagically build prerequisities first */
@@ -963,16 +964,18 @@ static void update_unit_activity(struct unit *punit)
     send_tile_info(NULL, punit->x, punit->y);
     unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2) {
       if (punit2->activity == activity) {
-	int id2 = punit2->id;
+	bool alive = TRUE;
 	if (punit2->connecting) {
 	  punit2->activity_count = 0;
-	  do_unit_goto(punit2, get_activity_move_restriction(activity), FALSE);
-	}
-	else {
+	  alive = (do_unit_goto(punit2,
+				get_activity_move_restriction(activity),
+				FALSE) != GR_DIED);
+	} else {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
 	}
-	if (find_unit_by_id(id2))
+	if (alive) {
 	  send_unit_info(NULL, punit2);
+	}
       }
     } unit_list_iterate_end;
   }
@@ -994,9 +997,9 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (punit->activity == ACTIVITY_PATROL) {
-    goto_route_execute(punit);
-    if (!player_find_unit_by_id(pplayer, id))
+    if (goto_route_execute(punit) == GR_DIED) {
       return;
+    }
   }
 
   send_unit_info(NULL, punit);
