@@ -5,17 +5,17 @@ pkgdatadir = $(datadir)/@PACKAGE@/trident
 
 pkgdata_DATA =          \
 	auto_ll.spec	\
-	cities.xpm	\
+	cities.png	\
 	cities.spec	\
-	explosions.xpm	\
+	explosions.png	\
 	explosions.spec	\
-	flags.xpm	\
+	flags.png	\
 	flags.spec	\
-	roads.xpm	\
+	roads.png	\
 	roads.spec	\
-	tiles.xpm	\
+	tiles.png	\
 	tiles.spec	\
-	units.xpm	\
+	units.png	\
 	units.spec
 
 EXTRA_DIST = $(pkgdata_DATA)
