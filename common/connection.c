@@ -285,7 +285,7 @@ static bool add_connection_data(struct connection *pc,
 	    buf->nsize);
     /* room for more? */
     if(buf->nsize - buf->ndata < len) {
-      buf->nsize += MAX_LEN_PACKET;
+      buf->nsize = buf->ndata + len;
 
       /* added this check so we don't gobble up too much mem */
       if (buf->nsize > MAX_LEN_BUFFER) {
