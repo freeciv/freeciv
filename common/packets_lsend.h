@@ -108,12 +108,11 @@ void lsend_packet_sabotage_list(struct conn_list *dest,
 			      const struct packet_sabotage_list *packet);
 void lsend_packet_goto_route(struct conn_list *dest,
                            const struct packet_goto_route *packet,
-			   enum goto_route_type type);
+			   enum packet_type packet_type);
 void lsend_packet_attribute_chunk(struct conn_list *dest,
 				struct packet_attribute_chunk *packet);
 void lsend_packet_generic_empty(struct conn_list *dest, enum packet_type type);
 void lsend_packet_nations_used(struct conn_list *dest,
 			     const struct packet_nations_used *packet);
-void lsend_packet_endgame_report(struct conn_list *dest,
-                                 enum packet_type pt,
-                                 const struct packet_endgame_report *packet);
+void lsend_packet_endgame_report(struct conn_list *dest, enum packet_type pt,
+                               const struct packet_endgame_report *packet);

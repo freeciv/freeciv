@@ -377,10 +377,10 @@ void lsend_packet_sabotage_list(struct conn_list *dest,
 
 void lsend_packet_goto_route(struct conn_list *dest,
                            const struct packet_goto_route *packet,
-			   enum goto_route_type type)
+			   enum packet_type packet_type)
 {
   conn_list_iterate(*dest, pconn)
-    send_packet_goto_route(pconn, packet, type);
+    send_packet_goto_route(pconn, packet, packet_type);
   conn_list_iterate_end;
 }
 
@@ -407,9 +407,8 @@ void lsend_packet_nations_used(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
-void lsend_packet_endgame_report(struct conn_list *dest, 
-                                 enum packet_type pt,
-                                 const struct packet_endgame_report *packet)
+void lsend_packet_endgame_report(struct conn_list *dest, enum packet_type pt,
+                               const struct packet_endgame_report *packet)
 {
   conn_list_iterate(*dest, pconn)
     send_packet_endgame_report(pconn, pt, packet);
