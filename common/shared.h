@@ -46,8 +46,8 @@ typedef unsigned int RANDOM_TYPE;
 char *n_if_vowel(char ch);
 char *create_centered_string(char *s);
 
-char *get_option_text(char **argv, int *argcnt, int max_argcnt,
-		      char short_option, char *long_option);
+char * get_option(const char *option_name,char **argv,int *i,int argc);
+int is_option(const char *option_name,char *option);
 char *int_to_text(int nr);
 char *get_sane_name(char *name);
 char *textyear(int year);

@@ -113,48 +113,49 @@ char *create_centered_string(char *s)
   return r;
 }
 
+/**************************************************************************
+  return a char * to the parameter of the option or NULL.
+  *i can be increased to get next string in the array argv[]. 
+ **************************************************************************/
+
+char * get_option(const char *option_name,char **argv,int *i,int argc)
+{
+  int len = strlen(option_name);
+
+  if (!strcmp(option_name,argv[*i]) || 
+      (!strncmp(option_name,argv[*i],len) &&
+       argv[*i][len]=='=') ||
+     !strncmp(option_name+1,argv[*i],2))
+     {
+     argv[*i] += (argv[*i][1] != '-' ? 0 : len); 
+     
+     if (argv[*i][0] == '=')
+	argv[*i]++;
+       else {
+	if (*i < argc - 1) 
+	  (*i)++;
+	else {
+          fprintf(stderr, "Missing argument for %s\n", option_name);
+          exit(1);
+	  }
+	}
+	
+     return argv[*i];
+     }
+  
+  return NULL;
+}
 
 /***************************************************************
 ...
 ***************************************************************/
-char *get_option_text(char **argv, int *argcnt, int max_argcnt,
-		      char short_option, char *long_option)
+
+int is_option(const char *option_name,char *option)
 {
-  char s[512];
-  
-  sprintf(s, "-%c", short_option);
-  
-  if(!strncmp(s, argv[*argcnt], 2)) {
-    if(strlen(s)==strlen(argv[*argcnt])) {
-      if(*argcnt<max_argcnt-1) {
-	(*argcnt)++;
-	return argv[(*argcnt)++];
-      }
-      else
-	return "";
-    }
-    return 2+argv[(*argcnt)++];
-  }
-  
-  sprintf(s, "--%s", long_option);
-  
-  if(!strncmp(s, argv[*argcnt], strlen(long_option))) {
-    if(strlen(s)==strlen(argv[*argcnt])) {
-      if(*argcnt<max_argcnt-1) {
-	(*argcnt)++;
-	return argv[(*argcnt)++];
-      }
-      else
-	return "";
-    }
-    return strlen(long_option)+argv[(*argcnt)++];
-  }
-  
+  if (!strcmp(option_name,option) || 
+      !strncmp(option_name+1,option,2)) return 1;
   return 0;
 }
-
-
-
 
 /***************************************************************
 ...

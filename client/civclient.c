@@ -73,7 +73,7 @@ int did_advance_tech_this_turn;
 ...
 **************************************************************************/
 char usage[] = 
-"Usage: %s [-bhlpsv] [--bgcol] [--cmap] [--help] [--log] [--name]\n\t[--port] [--server] [--debug] [--version] [--tiles]\n";
+"Usage: %s [-hlNpsv][--help] [--log] [--Name] [--port]i\n\t [--server] [--debug] [--version] [--tiles]\n";
 
 /**************************************************************************
 ...

@@ -48,6 +48,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "spaceshipdlg.h"
+#include "shared.h"
 
 #include "gui_main.h"
 
@@ -159,7 +160,7 @@ static void print_usage(const char *argv0)
   fprintf(stderr, "Usage: %s [option ...]\nValid options are:\n", argv0);
   fprintf(stderr, "  -h, --help\t\tPrint a summary of the options.\n");
   fprintf(stderr, "  -l, --log=FILE\tUse FILE as logfile.\n");
-  fprintf(stderr, "  -n, --name=NAME\tUse NAME.\n");
+  fprintf(stderr, "  -N, --Name=NAME\tUse NAME.\n");
   fprintf(stderr, "  -p, --port=PORT\tConnect to PORT.\n");
   fprintf(stderr, "  -s, --server=SERVER\tConnect to the server SERVER.\n");
 #ifdef DEBUG
@@ -172,28 +173,15 @@ static void print_usage(const char *argv0)
   fprintf(stderr, "  -v, --version\t\tPrint the version number.\n");
 }
 
-/**************************************************************************
-  Complain and die if str is NULL.
-  Could also check whether it is empty (*str == '\0') but
-  there may be cases where it is useful to use, eg "--name="
-  to specify an empty name...
 **************************************************************************/
-static void check_arg(const char *str, const char *optname, const char *argv0)
-{
-  if (str==NULL) {
-    fprintf(stderr, "Missing argument for %s\n", optname);
-    print_usage(argv0);
-    exit(1);
-  }
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
-static void parse_options(int *argc, char **argv[])
+static void parse_options(int argc, char **argv)
 {
-  char *logfile=NULL;
+  char logfile[512]="";
+  char *option=NULL; /* really use as a pointer */
   int loglevel;
+  int i;
 
   /* set default argument values */
   loglevel=LOG_NORMAL;
@@ -215,159 +203,46 @@ static void parse_options(int *argc, char **argv[])
 
   strcpy(server_host, "localhost");
 
-  if (argc && argv)
+  i = 1;
+  while (i < argc)
   {
-    int i, j, k;
-    
-    for (i = 1; i < *argc;)
+    if (is_option("--help", argv[i])
     {
-      if (!strcmp ("--help", (*argv)[i]) ||
-              !strncmp ("-h", (*argv)[i], 2))
-      {
-	print_usage((*argv)[0]);
-	exit(0);
-      }
-      else if (!strcmp ("--version", (*argv)[i]) ||
-              !strncmp ("-v", (*argv)[i], 2))
-      {
-        fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
-        exit(0);
-      }
-      else if (!strcmp ("--log",  (*argv)[i]) ||
-              !strncmp ("--log=", (*argv)[i], 6) ||
-              !strncmp ("-l", (*argv)[i], 2))
-      {
-	char *opt_log = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 5);
-	
-	if (*opt_log == '=')
-	  opt_log++;
-	else
-	{
-	  (*argv)[i] = NULL;
-	  i += 1;
-	  opt_log = (*argv)[i];
-	}
-	check_arg(opt_log, "--log", (*argv)[0]);
-        (*argv)[i] = NULL;
-
-	logfile=opt_log;
-      }
-      else if (!strcmp ("--name",  (*argv)[i]) ||
-              !strncmp ("--name=", (*argv)[i], 7) ||
-              !strncmp ("-n", (*argv)[i], 2))
-      {
-	char *opt_name = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 6);
-	
-	if (*opt_name == '=')
-	  opt_name++;
-	else
-	{
-	  (*argv)[i] = NULL;
-	  i += 1;
-	  opt_name = (*argv)[i];
-	}
-	check_arg(opt_name, "--name", (*argv)[0]);
-        (*argv)[i] = NULL;
-
-	strcpy(name, opt_name);
-      }
-      else if (!strcmp ("--port",  (*argv)[i]) ||
-              !strncmp ("--port=", (*argv)[i], 7) ||
-              !strncmp ("-p", (*argv)[i], 2))
-      {
-	char *opt_port = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 6);
-	
-	if (*opt_port == '=')
-	  opt_port++;
-	else
-	{
-	  (*argv)[i] = NULL;
-	  i += 1;
-	  opt_port = (*argv)[i];
-	}
-	check_arg(opt_port, "--port", (*argv)[0]);
-        (*argv)[i] = NULL;
-
-	server_port=atoi(opt_port);
-      }
-      else if (!strcmp ("--server",  (*argv)[i]) ||
-              !strncmp ("--server=", (*argv)[i], 9) ||
-              !strncmp ("-s", (*argv)[i], 2))
-      {
-	char *opt_server = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 8);
-	
-	if (*opt_server == '=')
-	  opt_server++;
-	else
-	{
-	  (*argv)[i] = NULL;
-	  i += 1;
-	  opt_server = (*argv)[i];
-	}
-	check_arg(opt_server, "--server", (*argv)[0]);
-        (*argv)[i] = NULL;
-
-	strcpy(server_host, opt_server);
-      }
-      else if (!strcmp ("--debug",  (*argv)[i]) ||
-              !strncmp ("--debug=", (*argv)[i], 8) ||
-              !strncmp ("-d", (*argv)[i], 2))
-      {
-	char *opt_debug = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 7);
-	
-	if (*opt_debug == '=')
-	  opt_debug++;
-	else
-	{
-	  (*argv)[i] = NULL;
-	  i += 1;
-	  opt_debug = (*argv)[i];
-	}
-	check_arg(opt_debug, "--debug", (*argv)[0]);
-        (*argv)[i] = NULL;
-
-	loglevel=log_parse_level_str(opt_debug);
-	if (loglevel==-1) {
-	  exit(1);
-	}
-      }
-      else if (!strcmp ("--tiles",  (*argv)[i]) ||
-              !strncmp ("--tiles=", (*argv)[i], 8) ||
-              !strncmp ("-t", (*argv)[i], 2))
-      {
-	char *opt_tiles = (*argv)[i] + ((*argv)[i][1] != '-' ? 0 : 7);
-	
-	if (*opt_tiles == '=')
-	  opt_tiles++;
-	else
-	{
-	  (*argv)[i] = NULL;
-	  i += 1;
-	  opt_tiles = (*argv)[i];
-	}
-	check_arg(opt_tiles, "--tiles", (*argv)[0]);
-        (*argv)[i] = NULL;
-
-	tile_set_dir=opt_tiles;
-      }
-      i += 1;
+    print_usage(argv[0]);
+    exit(0);
     }
-
-    for (i = 1; i < *argc; i++)
+  else if (is_option("--version",argv[i])
     {
-      for (k = i; k < *argc; k++)
-        if ((*argv)[k] != NULL)
-          break;
-  
-      if (k > i)
-      {
-        k -= i;
-        for (j = i + k; j < *argc; j++)
-          (*argv)[j-k] = (*argv)[j];
-        *argc -= k;
+      fprintf(stderr, "%s\n", FREECIV_NAME_VERSION);
+      exit(0);
+    }
+    else if ((option = get_option("--log",argv,&i,argc)) != NULL)
+      strcpy(logfile,option);
+    else if ((option = get_option("--Name",argv,&i,argc)) != NULL)
+      strcpy(name, option);
+    else if ((option = get_option("--port",argv,&i,argc)) != NULL)
+      server_port=atoi(option);
+    else if ((option = get_option("--server",argv,&i,argc)) != NULL)
+      strcpy(server_host, option);
+    else if ((option = get_option("--debug",argv,&i,argc)) != NULL)
+    {
+      loglevel=log_parse_level_str(option);
+      if (loglevel==-1) {
+        exit(1);
       }
     }
+    else if ((option = get_option("--tiles",argv,&i,argc)) != NULL)
+      tile_set_dir=mystrdup(option);
+    /* tile_set_dir is declared in climisc.c as NULL.
+       That's why I use strdup. nb-- */
+    else {
+	 fprintf(stderr,"Unrecognized option %s\n",argv[i]);
+         print_usage(argv[0]);
+	 exit(1);
+      }
+    i += 1;
   }
+
   log_init(logfile, loglevel, NULL);
 }
 
@@ -721,10 +596,11 @@ void ui_main(int argc, char **argv)
 {
   GdkBitmap	      *icon_bitmap;
 
-  parse_options(&argc, &argv);
 
   /* Process GTK arguments */
   gtk_init(&argc, &argv);
+  /* GTK withdraw gtk options */
+  parse_options(argc, argv);
 
   boot_help_texts();	       /* after log_init */
 

@@ -151,6 +151,7 @@ int main(int argc, char *argv[])
   char *gamelog_filename=NULL;
   char *load_filename=NULL;
   char *script_filename=NULL;
+  char *option=NULL;
   int i;
   int save_counter=0;
   int loglevel=LOG_NORMAL;
@@ -253,89 +254,40 @@ int main(int argc, char *argv[])
   /* yes we do have reasons ;)                                   */
   i=1;
   while(i<argc) {
-    if(!strcmp("-f", argv[i]) || !strcmp("--file", argv[i])) { 
-      if(++i<argc) 
-	load_filename=argv[i];
-      else {
-	fprintf(stderr, "Error: filename not specified.\n");
-	h=1;
-	break;
-      }
-    }
-    else if(!strcmp("-h", argv[i]) || !strcmp("--help", argv[i])) { 
+    if ((option = get_option("--file",argv,&i,argc)) != NULL)
+	load_filename=option;
+    else if (is_option("--help", argv[i])) {
       h=1;
       break;
     }
-    else if(!strcmp("-l", argv[i]) || !strcmp("--log", argv[i])) { 
-      if(++i<argc) 
-	log_filename=argv[i];
-      else {
-	fprintf(stderr, "Error: filename not specified.\n");
-	h=1;
-	break;
-      }
-    }
-    else if(!strcmp("-g", argv[i]) || !strcmp("--gamelog", argv[i])) {
-      if(++i<argc)
-        gamelog_filename=argv[i];
-      else {
-        fprintf(stderr, "Error: Game log filename not specified.\n");
-        h=1;
-        break;
-      }
-    }
-    else if(!strcmp("-n", argv[i]) || !strcmp("--nometa", argv[i])) { 
+    else if ((option = get_option("--log",argv,&i,argc)) != NULL)
+	log_filename=option;
+    else if ((option = get_option("--gamelog",argv,&i,argc)) != NULL)
+        gamelog_filename=option;
+    else if(is_option("--nometa", argv[i])) { 
       fprintf(stderr, "Warning: the %s option is obsolete.  "
 	              "Use -m to enable the metaserver.\n", argv[i]);
       h=1;
     }
-    else if(!strcmp("-m", argv[i]) || !strcmp("--meta", argv[i])) {
-      n=0;
-    }
-    else if(!strcmp("-p", argv[i]) || !strcmp("--port", argv[i])) { 
-      if(++i<argc) 
-	port=atoi(argv[i]);
-      else {
-	fprintf(stderr, "Error: port not specified.\n");
-	h=1;
-	break;
-      }
-    }
-    else if(!strcmp("-r", argv[i]) || !strcmp("--read", argv[i])) { 
-      if (++i<argc)
-	script_filename=argv[i];
-      else {
-	fprintf(stderr, "Error: read script not specified.\n");
-	h=1;
-	break;
-      }
-    }
-    else if(!strcmp("-s", argv[i]) || !strcmp("--server", argv[i])) { 
-      if(++i<argc) 
-      	strcpy(metaserver_servername,argv[i]);
-      else {
-	fprintf(stderr, "Error: no name specified.\n");
-	h=1;
-	break;
-      }
-    }
-    else if(!strcmp("-d", argv[i]) || !strcmp("--debug", argv[i])) { 
-      if(++i<argc) {
-	loglevel = log_parse_level_str(argv[i]);
+    else if(is_option("--meta", argv[i]))
+        n=0;
+    else if ((option = get_option("--port",argv,&i,argc)) != NULL)
+	port=atoi(option);
+    else if ((option = get_option("--read",argv,&i,argc)) != NULL)
+	script_filename=option;
+    else if ((option = get_option("--server",argv,&i,argc)) != NULL)
+      	strcpy(metaserver_servername,option);
+    else if ((option = get_option("--debug",argv,&i,argc)) != NULL)
+      {
+	loglevel = log_parse_level_str(option);
 	if (loglevel == -1) {
 	  loglevel = LOG_NORMAL;
 	  h=1;
 	  break;
 	}
-      } else {
-	fprintf(stderr, "Error: no debug log level specified.\n");
-	h=1;
-	break;
       }
-    }
-    else if(!strcmp("-v", argv[i]) || !strcmp("--version", argv[i])) { 
+    else if(is_option("--version",argv[i])) 
       v=1;
-    }
     else {
       fprintf(stderr, "Error: unknown option '%s'\n", argv[i]);
       h=1;
