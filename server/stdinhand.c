@@ -1552,14 +1552,19 @@ static bool explain_option(struct connection *caller, char *str, bool check)
 
   if (*command != '\0') {
     cmd=lookup_option(command);
-    if (cmd==-1) {
-      cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("No explanation for that yet."));
+    if (cmd >= 0 && cmd < SETTINGS_NUM) {
+      show_help_option(caller, CMD_EXPLAIN, cmd);
+    } else if (cmd == -1 || cmd == -3) {
+      cmd_reply(CMD_EXPLAIN, caller, C_FAIL,
+		_("No explanation for that yet."));
       return FALSE;
-    } else if (cmd==-2) {
+    } else if (cmd == -2) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("Ambiguous option name."));
       return FALSE;
     } else {
-      show_help_option(caller, CMD_EXPLAIN, cmd);
+      freelog(LOG_ERROR, "Unexpected case %d in %s line %d",
+	      cmd, __FILE__, __LINE__);
+      return FALSE;
     }
   } else {
     show_help_option_list(caller, CMD_EXPLAIN);
