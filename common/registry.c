@@ -929,12 +929,24 @@ section_file_insert_internal(struct section_file *my_section_file,
   struct entry *pentry;
   struct sbuffer *sb = my_section_file->sb;
 
-  if(!(pdelim=strchr(fullpath, '.'))) /* i dont like strtok */
-    return 0;
+  if(!(pdelim=strchr(fullpath, '.'))) { /* d dont like strtok */
+    freelog(LOG_FATAL,
+	    "Insertion fullpath \"%s\" missing '.' for sectionfile %s",
+	    fullpath, secfile_filename(my_section_file));
+    exit(1);
+  }
   strncpy(sec_name, fullpath, pdelim-fullpath);
   sec_name[pdelim-fullpath]='\0';
   strcpy(ent_name, pdelim+1);
   my_section_file->num_entries++;
+  
+  if(strlen(sec_name)==0 || strlen(ent_name)==0) {
+    freelog(LOG_FATAL,
+	    "Insertion fullpath \"%s\" missing %s for sectionfile %s",
+	    fullpath, (strlen(sec_name)==0 ? "section" : "entry"),
+	    secfile_filename(my_section_file));
+    exit(1);
+  }
 
   /* Do a reverse search of sections, since we're most likely
    * to be adding to the lastmost section.
