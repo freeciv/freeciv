@@ -1171,7 +1171,7 @@ void ai_diplomacy_actions(struct player *pplayer)
                  "alliance, and yet you remain at peace with our mortal "
                  "enemy, %s! This is unacceptable, our alliance is no "
                  "more!"), pplayer->name, target->name);
-          PLAYER_LOG(LOG_DIPL2, pplayer, ai, "breaking useless alliance with ",
+          PLAYER_LOG(LOG_DIPL2, pplayer, ai, "breaking useless alliance with "
                      "%s", aplayer->name);
 	  /* to peace */
 	  handle_diplomacy_cancel_pact(pplayer, aplayer->player_no,

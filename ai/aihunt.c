@@ -293,7 +293,8 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
         dist1 = dist2 = 0;
       }
       UNIT_LOG(LOGLEVEL_HUNT, punit, "considering chasing %s(%d, %d) id %d "
-               "dist1 %d dist2 %d", unit_type(target)->name, target->tile,
+               "dist1 %d dist2 %d",
+	       unit_type(target)->name, TILE_XY(target->tile),
                target->id, dist1, dist2);
       /* We can't attack units stationary in cities. */
       if (map_get_city(target->tile) 
@@ -305,8 +306,9 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
           && dist1 >= dist2) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "giving up racing %s (%d, %d)->(%d, %d)",
                  unit_type(target)->name,
-		 target->ai.prev_pos ? *target->ai.prev_pos : NULL,
-                 target->tile);
+		 target->ai.prev_pos ? (*target->ai.prev_pos)->x : -1,
+                 target->ai.prev_pos ? (*target->ai.prev_pos)->y : -1,
+                 TILE_XY(target->tile));
         continue;
       }
       unit_list_iterate(ptile->units, sucker) {
@@ -320,7 +322,8 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
       if (stackcost < unit_type(punit)->build_cost
           && unit_win_chance(punit, defender) < 0.6) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "chickening out from attacking %s"
-                 "(%d, %d)", unit_type(defender)->name, defender->tile);
+                 "(%d, %d)", unit_type(defender)->name,
+                 TILE_XY(defender->tile));
         continue;
       }
       stackthreat *= 9; /* WAG */
@@ -329,7 +332,7 @@ int ai_hunter_findjob(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOGLEVEL_HUNT, punit, "considering hunting %s's %s(%d, %d) id "
                "id %d with want %d, dist1 %d, dist2 %d", 
                unit_owner(defender)->name, unit_type(defender)->name, 
-               defender->tile, defender->id, stackthreat, dist1, 
+               TILE_XY(defender->tile), defender->id, stackthreat, dist1,
                dist2);
       /* TO DO: probably ought to WAG down targets of players we are not (yet)
        * at war with */
@@ -393,7 +396,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
           if (victim == target) {
             sucker = victim;
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found primary target %d(%d, %d)"
-                     " dist %d", victim->id, victim->tile, 
+                     " dist %d", victim->id, TILE_XY(victim->tile), 
                      pos.total_MC);
             break; /* Our target! Get him!!! */
           }
@@ -404,7 +407,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
             /* Threat to our carrier. Kill it. */
             sucker = victim;
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found aux target %d(%d, %d)",
-                     victim->id, victim->tile);
+                     victim->id, TILE_XY(victim->tile));
             break;
           }
         } unit_list_iterate_end;
@@ -455,7 +458,7 @@ bool ai_hunter_manage(struct player *pplayer, struct unit *punit)
     return FALSE;
   }
   UNIT_LOG(LOGLEVEL_HUNT, punit, "hunting %d(%d, %d)",
-	   target->id, target->tile);
+	   target->id, TILE_XY(target->tile));
   sanity_target = target->id;
 
   /* Check if we can nuke it */

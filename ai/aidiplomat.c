@@ -517,7 +517,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
     } else {
       /* usually because we ended move early due to another unit */
       UNIT_LOG(LOG_DIPLOMAT, punit, "could not bribe target (%d, %d), "
-               " %d moves left", pos.tile, punit->moves_left);
+               " %d moves left", TILE_XY(pos.tile), punit->moves_left);
       return FALSE;
     }
   } pf_iterator_end;
