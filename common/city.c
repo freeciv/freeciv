@@ -1000,8 +1000,10 @@ struct city *city_list_find_name(struct city_list *This, char *name)
 }
 
 
+#ifdef CRUFT
 /**************************************************************************
-...
+  Find a city with the given coordinates by searching the list.  This function
+  is basiclly made obsolete by map_get_city(), which is O(1) instead of O(n).
 **************************************************************************/
 struct city *city_list_find_coor(struct city_list *This, int x, int y)
 {
@@ -1017,6 +1019,7 @@ struct city *city_list_find_coor(struct city_list *This, int x, int y)
 
   return 0;
 }
+#endif
 
 
 /**************************************************************************
