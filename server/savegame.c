@@ -2690,7 +2690,8 @@ static void player_save(struct player *plr, int plrno,
   i = -1;
   city_list_iterate(plr->cities, pcity) {
     int j, x, y;
-    char buf[512];
+    char citymap_buf[CITY_MAP_SIZE * CITY_MAP_SIZE + 1];
+    char impr_buf[MAX_NUM_ITEMS + 1];
 
     i++;
     secfile_insert_int(file, pcity->id, "player%d.c%d.id", plrno, i);
@@ -2764,14 +2765,25 @@ static void player_save(struct player *plr, int plrno,
     for(y=0; y<CITY_MAP_SIZE; y++) {
       for(x=0; x<CITY_MAP_SIZE; x++) {
 	switch (get_worker_city(pcity, x, y)) {
-	  case C_TILE_EMPTY:       buf[j++] = '0'; break;
-	  case C_TILE_WORKER:      buf[j++] = '1'; break;
-	  case C_TILE_UNAVAILABLE: buf[j++] = '2'; break;
+	case C_TILE_EMPTY:
+	  citymap_buf[j++] = '0';
+	  break;
+	case C_TILE_WORKER:
+	  citymap_buf[j++] = '1';
+	  break;
+	case C_TILE_UNAVAILABLE:
+	  citymap_buf[j++] = '2';
+	  break;
+	default:
+	  citymap_buf[j++] = '?';
+	  assert(0);
+	  break;
 	}
       }
     }
-    buf[j]='\0';
-    secfile_insert_str(file, buf, "player%d.c%d.workers", plrno, i);
+    citymap_buf[j]='\0';
+    assert(j < sizeof(citymap_buf));
+    secfile_insert_str(file, citymap_buf, "player%d.c%d.workers", plrno, i);
 
     secfile_insert_bool(file, pcity->is_building_unit, 
 		       "player%d.c%d.is_building_unit", plrno, i);
@@ -2791,22 +2803,25 @@ static void player_save(struct player *plr, int plrno,
     /* 1.14 servers depend on improvement order in ruleset. Here we
      * are trying to simulate 1.14.1 default order
      */
-    init_old_improvement_bitvector(buf);
+    init_old_improvement_bitvector(impr_buf);
     impr_type_iterate(id) {
       if (pcity->improvements[id] != I_NONE) {
-        add_improvement_into_old_bitvector(buf, id);
+        add_improvement_into_old_bitvector(impr_buf, id);
       }
     } impr_type_iterate_end;
-    secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
+    assert(strlen(impr_buf) < sizeof(impr_buf));
+    secfile_insert_str(file, impr_buf, "player%d.c%d.improvements", plrno, i);
 
     /* Save improvement list as bitvector. Note that improvement order
      * is saved in savefile.improvement_order.
      */
     impr_type_iterate(id) {
-      buf[id] = (pcity->improvements[id] != I_NONE) ? '1' : '0';
+      impr_buf[id] = (pcity->improvements[id] != I_NONE) ? '1' : '0';
     } impr_type_iterate_end;
-    buf[game.num_impr_types] = '\0';
-    secfile_insert_str(file, buf, "player%d.c%d.improvements_new", plrno, i);    
+    impr_buf[game.num_impr_types] = '\0';
+    assert(strlen(impr_buf) < sizeof(impr_buf));
+    secfile_insert_str(file, impr_buf,
+		       "player%d.c%d.improvements_new", plrno, i);    
 
     worklist_save(file, "player%d.c%d", plrno, i, &pcity->worklist);
 
