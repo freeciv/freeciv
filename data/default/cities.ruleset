@@ -48,7 +48,7 @@ angry_citizens = 1              ; set to zero to disable angry citizens
 ;               more info on city tiles
 ; citizens_graphic     = group of citizens tiles to use, see citizens/small
 ;                        spec for more info on citizens tiles
-; tech        = technology required for style to be used
+; reqs        = requirements for this city style (see README.effects)
 ; replaced_by = which style replaced this one
 
 [citystyle_european]
@@ -57,7 +57,7 @@ graphic     = "city.european"
 graphic_alt = "-"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-tech        = "None"
+; No reqs
 replaced_by = "Renaissance"
 
 [citystyle_classical]
@@ -66,7 +66,7 @@ graphic     = "city.classical"
 graphic_alt = "-"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-tech        = "None"
+; No reqs
 replaced_by = "Renaissance"
 
 [citystyle_tropical]
@@ -75,7 +75,7 @@ graphic     = "city.tropical"
 graphic_alt = "city.european"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-tech        = "None"
+; No reqs
 replaced_by = "Renaissance"
 
 [citystyle_asian]
@@ -84,7 +84,7 @@ graphic     = "city.asian"
 graphic_alt = "city.classical"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
-tech        = "None"
+; No reqs
 replaced_by = "Renaissance"
 
 [citystyle_renaissance]
@@ -93,7 +93,9 @@ graphic     = "city.industrial"
 graphic_alt = "-"
 citizens_graphic     = "renaissance"
 citizens_graphic_alt = "generic"
-tech        = "University"
+reqs = { "type", "name", "range"
+         "tech", "University", "Player"
+       }
 replaced_by = "Industrial"
 
 [citystyle_industrial]
@@ -102,7 +104,9 @@ graphic     = "city.industrial"
 graphic_alt = "-"
 citizens_graphic     = "industrial"
 citizens_graphic_alt = "generic"
-tech        = "Railroad"
+reqs = { "type", "name", "range"
+         "tech", "Railroad", "Player"
+       }
 replaced_by = "Modern"
 
 [citystyle_modern]
@@ -111,7 +115,9 @@ graphic     = "city.modern"
 graphic_alt = "-"
 citizens_graphic     = "modern"
 citizens_graphic_alt = "generic"
-tech        = "Automobile"
+reqs = { "type", "name", "range"
+         "tech", "Automobile", "Player"
+       }
 replaced_by = "PostModern"
 
 [citystyle_postmodern]
@@ -120,5 +126,7 @@ graphic     = "city.postmodern"
 graphic_alt = "-"
 citizens_graphic     = "postmodern"
 citizens_graphic_alt = "generic"
-tech        = "Superconductors"
+reqs = { "type", "name", "range"
+         "tech", "Superconductors", "Player"
+       }
 replaced_by = "-"

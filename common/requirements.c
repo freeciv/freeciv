@@ -614,3 +614,39 @@ bool is_req_active(enum target_type target,
   assert(0);
   return FALSE;
 }
+
+/****************************************************************************
+  Checks the requirement(s) to see if they are active on the given target.
+
+  target gives the type of the target
+  (player,city,building,tile) give the exact target
+
+  reqs gives the requirement array; num_reqs is the size of the array.  This
+  array may be REQ_NONE-terminated, otherwise all requirements in it will
+  be checked.  The function returns TRUE only if all requirements are active.
+
+  Make sure you give all aspects of the target when calling this function:
+  for instance if you have TARGET_CITY pass the city's owner as the target
+  player as well as the city itself as the target city.
+****************************************************************************/
+bool are_reqs_active(enum target_type target,
+		     const struct player *target_player,
+		     const struct city *target_city,
+		     Impr_Type_id target_building,
+		     const struct tile *target_tile,
+		     const struct requirement *reqs, int num_reqs)
+{
+  int i;
+
+  for (i = 0; i < num_reqs; i++) {
+    if (reqs[i].source.type == REQ_NONE) {
+      break; /* Short-circuit any more checks. */
+    } else if (!is_req_active(target, target_player, target_city,
+			      target_building, target_tile,
+			      &reqs[i])) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}

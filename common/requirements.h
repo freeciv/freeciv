@@ -81,6 +81,13 @@ struct requirement {
   TYPED_LIST_ITERATE(struct requirement, req_list, preq)
 #define requirement_list_iterate_end LIST_ITERATE_END
 
+#define SPECVEC_TAG requirement
+#define SPECVEC_TYPE struct requirement
+#include "specvec.h"
+#define requirement_vector_iterate(req_vec, preq) \
+  TYPED_VECTOR_ITERATE(struct requirement, req_vec, preq)
+#define requirement_vector_iterate_end VECTOR_ITERATE_END
+
 struct req_source req_source_from_str(const char *type, const char *value);
 struct req_source req_source_from_values(int type, int value);
 void req_source_get_values(struct req_source *source, int *type, int *value);
@@ -100,6 +107,12 @@ bool is_req_active(enum target_type target,
 		   Impr_Type_id target_building,
 		   const struct tile *target_tile,
 		   const struct requirement *req);
+bool are_reqs_active(enum target_type target,
+		     const struct player *target_player,
+		     const struct city *target_city,
+		     Impr_Type_id target_building,
+		     const struct tile *target_tile,
+		     const struct requirement *reqs, int num_reqs);
 
 int count_buildings_in_range(enum target_type target,
 			     const struct player *target_player,

@@ -2502,7 +2502,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
 **************************************************************************/
 void handle_ruleset_city(struct packet_ruleset_city *packet)
 {
-  int id;
+  int id, j;
   struct citystyle *cs;
 
   id = packet->style_id;
@@ -2513,7 +2513,12 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   }
   cs = &city_styles[id];
   
-  cs->techreq = packet->techreq;
+  for (j = 0; j < MAX_NUM_REQS; j++) {
+    cs->req[j] = req_from_values(packet->req_type[j],
+				 packet->req_range[j],
+				 packet->req_survives[j],
+				 packet->req_value[j]);
+  }
   cs->replaced_by = packet->replaced_by;
 
   sz_strlcpy(cs->name_orig, packet->name);

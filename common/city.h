@@ -321,7 +321,7 @@ struct citystyle {
   char graphic_alt[MAX_LEN_NAME];
   char citizens_graphic[MAX_LEN_NAME];
   char citizens_graphic_alt[MAX_LEN_NAME];
-  int techreq;                  /* tech required to use a style      */
+  struct requirement req[MAX_NUM_REQS];
   int replaced_by;              /* index to replacing style          */
                                 /* client side-only:                 */
   int tresh[MAX_CITY_TILES];    /* treshholds - what city size to use a tile */
@@ -469,6 +469,7 @@ int get_style_by_name(const char *);
 int get_style_by_name_orig(const char *);
 const char *get_city_style_name(int style);
 char* get_city_style_name_orig(int style);
+bool city_style_has_requirements(const struct citystyle *style);
 
 struct city *is_enemy_city_tile(const struct tile *ptile,
 				const struct player *pplayer);

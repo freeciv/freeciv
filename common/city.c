@@ -663,24 +663,12 @@ bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id)
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type)
 {
-  int i;
-
   if (pcity->size < game.rgame.specialists[type].min_size) {
     return FALSE;
   }
 
-  for (i = 0; i < MAX_NUM_REQS; i++) {
-    struct requirement *req = &game.rgame.specialists[type].req[i];
-
-    if (req->source.type == REQ_NONE) {
-      break; /* Short-circuit any more checks. */
-    } else if (!is_req_active(TARGET_CITY, city_owner(pcity), pcity,
-			      B_LAST, NULL, req)) {
-      return FALSE;
-    }
-  }
-
-  return TRUE;
+  return are_reqs_active(TARGET_CITY, city_owner(pcity), pcity, B_LAST, NULL,
+			 game.rgame.specialists[type].req, MAX_NUM_REQS);
 }
 
 /**************************************************************************
@@ -1257,7 +1245,8 @@ int get_player_city_style(const struct player *plr)
 
   while ((replace = city_styles[prev].replaced_by) != -1) {
     prev = replace;
-    if (get_invention(plr, city_styles[replace].techreq) == TECH_KNOWN) {
+    if (are_reqs_active(TARGET_PLAYER, plr, NULL, B_LAST, NULL,
+			city_styles[replace].req, MAX_NUM_REQS)) {
       style = replace;
     }
   }
@@ -1317,6 +1306,15 @@ const char *get_city_style_name(int style)
 char* get_city_style_name_orig(int style)
 {
    return city_styles[style].name_orig;
+}
+
+/****************************************************************************
+  Return whether the style has any requirements.  Styles without requirements
+  are special cases since only these may be used as starting city styles.
+****************************************************************************/
+bool city_style_has_requirements(const struct citystyle *style)
+{
+  return style->req[0].source.type != REQ_NONE;
 }
 
 /**************************************************************************

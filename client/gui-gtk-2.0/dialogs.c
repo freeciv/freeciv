@@ -1808,7 +1808,7 @@ static void create_races_dialog(void)
     struct Sprite *s;
     GtkTreeIter it;
 
-    if (city_styles[i].techreq != A_NONE) {
+    if (city_style_has_requirements(&city_styles[i])) {
       continue;
     }
 
@@ -2096,7 +2096,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
       /* Select city style for chosen nation. */
       cs = get_nation_city_style(selected_nation);
       for (i = 0, j = 0; i < game.styles_count; i++) {
-        if (city_styles[i].techreq != A_NONE) {
+        if (city_style_has_requirements(&city_styles[i])) {
 	  continue;
 	}
 

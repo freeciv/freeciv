@@ -855,10 +855,13 @@ struct packet_ruleset_nation {
 
 struct packet_ruleset_city {
   int style_id;
-  int techreq;
   char name[MAX_LEN_NAME];
   char citizens_graphic[MAX_LEN_NAME];
   char citizens_graphic_alt[MAX_LEN_NAME];
+  int req_type[MAX_NUM_REQS];
+  int req_range[MAX_NUM_REQS];
+  int req_value[MAX_NUM_REQS];
+  bool req_survives[MAX_NUM_REQS];
   char graphic[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   int replaced_by;

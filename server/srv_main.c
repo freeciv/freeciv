@@ -1165,9 +1165,9 @@ void handle_nation_select_req(struct player *pplayer,
   }  
   
   /* check sanity of the packet sent by client */
-  if (nation_no < 0 || nation_no >= game.nation_count ||
-      city_style < 0 || city_style >= game.styles_count ||
-      city_styles[city_style].techreq != A_NONE
+  if (nation_no < 0 || nation_no >= game.nation_count
+      || city_style < 0 || city_style >= game.styles_count
+      || city_style_has_requirements(&city_styles[city_style])
       || !nations_available[nation_no]) {
     return;
   }

@@ -24372,7 +24372,7 @@ void lsend_packet_ruleset_nation(struct conn_list *dest, const struct packet_rul
 
 #define cmp_packet_ruleset_city_100 cmp_const
 
-BV_DEFINE(packet_ruleset_city_100_fields, 8);
+BV_DEFINE(packet_ruleset_city_100_fields, 11);
 
 static struct packet_ruleset_city *receive_packet_ruleset_city_100(struct connection *pc, enum packet_type type)
 {
@@ -24405,29 +24405,76 @@ static struct packet_ruleset_city *receive_packet_ruleset_city_100(struct connec
     }
   }
   if (BV_ISSET(fields, 1)) {
+    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_get_string(&din, real_packet->citizens_graphic, sizeof(real_packet->citizens_graphic));
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_get_string(&din, real_packet->citizens_graphic_alt, sizeof(real_packet->citizens_graphic_alt));
+  }
+  if (BV_ISSET(fields, 4)) {
+    
     {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+        {
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->techreq = readin;
+      real_packet->req_type[i] = readin;
+    }
+      }
     }
   }
-  if (BV_ISSET(fields, 2)) {
-    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
-  }
-  if (BV_ISSET(fields, 3)) {
-    dio_get_string(&din, real_packet->citizens_graphic, sizeof(real_packet->citizens_graphic));
-  }
-  if (BV_ISSET(fields, 4)) {
-    dio_get_string(&din, real_packet->citizens_graphic_alt, sizeof(real_packet->citizens_graphic_alt));
-  }
   if (BV_ISSET(fields, 5)) {
-    dio_get_string(&din, real_packet->graphic, sizeof(real_packet->graphic));
+    
+    {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->req_range[i] = readin;
+    }
+      }
+    }
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
+    
+    {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->req_value[i] = readin;
+    }
+      }
+    }
   }
   if (BV_ISSET(fields, 7)) {
+    
+    {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+        dio_get_bool8(&din, &real_packet->req_survives[i]);
+      }
+    }
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_get_string(&din, real_packet->graphic, sizeof(real_packet->graphic));
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
+  }
+  if (BV_ISSET(fields, 10)) {
     {
       int readin;
     
@@ -24473,33 +24520,93 @@ static int send_packet_ruleset_city_100(struct connection *pc, const struct pack
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->techreq != real_packet->techreq);
+  differ = (strcmp(old->name, real_packet->name) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (strcmp(old->name, real_packet->name) != 0);
+  differ = (strcmp(old->citizens_graphic, real_packet->citizens_graphic) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (strcmp(old->citizens_graphic, real_packet->citizens_graphic) != 0);
+  differ = (strcmp(old->citizens_graphic_alt, real_packet->citizens_graphic_alt) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (strcmp(old->citizens_graphic_alt, real_packet->citizens_graphic_alt) != 0);
+
+    {
+      differ = (MAX_NUM_REQS != MAX_NUM_REQS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_REQS; i++) {
+          if (old->req_type[i] != real_packet->req_type[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (strcmp(old->graphic, real_packet->graphic) != 0);
+
+    {
+      differ = (MAX_NUM_REQS != MAX_NUM_REQS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_REQS; i++) {
+          if (old->req_range[i] != real_packet->req_range[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
-  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
+
+    {
+      differ = (MAX_NUM_REQS != MAX_NUM_REQS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_REQS; i++) {
+          if (old->req_value[i] != real_packet->req_value[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 6);}
 
-  differ = (old->replaced_by != real_packet->replaced_by);
+
+    {
+      differ = (MAX_NUM_REQS != MAX_NUM_REQS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_REQS; i++) {
+          if (old->req_survives[i] != real_packet->req_survives[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 7);}
+
+  differ = (strcmp(old->graphic, real_packet->graphic) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 8);}
+
+  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 9);}
+
+  differ = (old->replaced_by != real_packet->replaced_by);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 10);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -24511,24 +24618,61 @@ static int send_packet_ruleset_city_100(struct connection *pc, const struct pack
     dio_put_uint8(&dout, real_packet->style_id);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->techreq);
-  }
-  if (BV_ISSET(fields, 2)) {
     dio_put_string(&dout, real_packet->name);
   }
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 2)) {
     dio_put_string(&dout, real_packet->citizens_graphic);
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 3)) {
     dio_put_string(&dout, real_packet->citizens_graphic_alt);
   }
+  if (BV_ISSET(fields, 4)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+        dio_put_uint8(&dout, real_packet->req_type[i]);
+      }
+    } 
+  }
   if (BV_ISSET(fields, 5)) {
-    dio_put_string(&dout, real_packet->graphic);
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+        dio_put_uint8(&dout, real_packet->req_range[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 6)) {
-    dio_put_string(&dout, real_packet->graphic_alt);
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+        dio_put_uint8(&dout, real_packet->req_value[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 7)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_REQS; i++) {
+        dio_put_bool8(&dout, real_packet->req_survives[i]);
+      }
+    } 
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_put_string(&dout, real_packet->graphic);
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_put_string(&dout, real_packet->graphic_alt);
+  }
+  if (BV_ISSET(fields, 10)) {
     dio_put_sint8(&dout, real_packet->replaced_by);
   }
 

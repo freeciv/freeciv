@@ -195,6 +195,52 @@ static char *check_ruleset_capabilities(struct section_file *file,
   return datafile_options;
 }
 
+/**************************************************************************
+  Load a requirement list.  The list is returned as a static vector
+  (callers need not worry about freeing anything).
+**************************************************************************/
+static struct requirement_vector *lookup_req_list(struct section_file *file,
+						  const char *sec,
+						  const char *sub)
+{
+  char *type, *name;
+  int j;
+  const char *filename;
+  static struct requirement_vector list;
+
+  filename = secfile_filename(file);
+
+  requirement_vector_reserve(&list, 0);
+
+  for (j = 0;
+      (type = secfile_lookup_str_default(file, NULL, "%s.%s%d.type",
+					 sec, sub, j));
+      j++) {
+    char *range;
+    bool survives;
+    struct requirement req;
+
+    name = secfile_lookup_str(file, "%s.%s%d.name", sec, sub, j);
+    range = secfile_lookup_str(file, "%s.%s%d.range", sec, sub, j);
+
+    survives = secfile_lookup_bool_default(file, FALSE,
+	"%s.%s%d.survives", sec, sub, j);
+
+    req = req_from_str(type, range, survives, name);
+    if (req.source.type == REQ_LAST) {
+      /* Error.  Log it, clear the req and continue. */
+      freelog(LOG_ERROR,
+	  /* TRANS: Obscure ruleset error */
+	  _("Section %s has unknown req: \"%s\" \"%s\" (%s)"),
+	  sec, type, name, filename);
+      req.source.type = REQ_NONE;
+    }
+
+    requirement_vector_append(&list, &req);
+  }
+
+  return &list;
+}
 
 /**************************************************************************
  Lookup a string prefix.entry in the file and return the corresponding
@@ -2104,7 +2150,7 @@ static void load_ruleset_nations(struct section_file *file)
       pl->city_style = 0;
     }
 
-    while (city_styles[pl->city_style].techreq != A_NONE) {
+    while (city_style_has_requirements(&city_styles[pl->city_style])) {
       if (pl->city_style == 0) {
 	freelog(LOG_FATAL,
 	       "Nation %s: the default city style is not available "
@@ -2222,7 +2268,7 @@ Load cities.ruleset file
 static void load_ruleset_cities(struct section_file *file)
 {
   char **styles, *replacement;
-  int i, nval;
+  int i, nval, j;
   const char *filename = secfile_filename(file);
   char **specialist_names;
 
@@ -2319,6 +2365,8 @@ static void load_ruleset_cities(struct section_file *file)
 
   /* Get rest: */
   for( i=0; i<game.styles_count; i++) {
+    struct requirement_vector *reqs;
+
     sz_strlcpy(city_styles[i].graphic, 
 	       secfile_lookup_str(file, "%s.graphic", styles[i]));
     sz_strlcpy(city_styles[i].graphic_alt, 
@@ -2329,9 +2377,17 @@ static void load_ruleset_cities(struct section_file *file)
     sz_strlcpy(city_styles[i].citizens_graphic_alt, 
 	       secfile_lookup_str_default(file, "generic", 
 	    		"%s.citizens_graphic_alt", styles[i]));
-    city_styles[i].techreq = lookup_tech(file, styles[i], "tech", TRUE,
-                                         filename, city_styles[i].name);
-    
+
+    reqs = lookup_req_list(file, styles[i], "reqs");
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      if (reqs->size > j) {
+	city_styles[i].req[j] = reqs->p[j];
+      } else {
+	city_styles[i].req[j].source.type = REQ_NONE;
+	memset(&city_styles[i].req[j], 0, sizeof(city_styles[i].req[j]));
+      }
+    }
+
     replacement = secfile_lookup_str(file, "%s.replaced_by", styles[i]);
     if( strcmp(replacement, "-") == 0) {
       city_styles[i].replaced_by = -1;
@@ -2348,52 +2404,6 @@ static void load_ruleset_cities(struct section_file *file)
 
   section_file_check_unused(file, filename);
   section_file_free(file);
-}
-
-/**************************************************************************
-Load effects requirement list.
-**************************************************************************/
-static void load_req_list(struct section_file *file,
-    			  const char *sec, const char *sub,
-			  bool neg, struct effect *peffect)
-{
-  char *type, *name;
-  int j;
-  const char *filename;
-
-  filename = secfile_filename(file);
-
-  for (j = 0;
-      (type = secfile_lookup_str_default(file, NULL, "%s.%s%d.type",
-					 sec, sub, j));
-      j++) {
-    char *range;
-    bool survives;
-    struct requirement req;
-
-    name = secfile_lookup_str(file, "%s.%s%d.name", sec, sub, j);
-    range = secfile_lookup_str(file, "%s.%s%d.range", sec, sub, j);
-
-    survives = secfile_lookup_bool_default(file, FALSE,
-	"%s.%s%d.survives", sec, sub, j);
-
-    req = req_from_str(type, range, survives, name);
-    if (req.source.type == REQ_LAST) {
-      /* Error.  Log it, clear the req and continue. */
-      freelog(LOG_ERROR,
-	  /* TRANS: Obscure ruleset error */
-	  _("Section %s has unknown req: \"%s\" \"%s\" (%s)"),
-	  sec, type, name, filename);
-      req.source.type = REQ_NONE;
-    } else {
-      struct requirement *preq;
-
-      preq = fc_malloc(sizeof(*preq));
-      *preq = req;
-
-      effect_req_append(peffect, neg, preq);
-    }
-  }
 }
 
 /**************************************************************************
@@ -2430,8 +2440,18 @@ static void load_ruleset_effects(struct section_file *file)
 
     peffect = effect_new(eff, value);
 
-    load_req_list(file, sec[i], "reqs", FALSE, peffect);
-    load_req_list(file, sec[i], "nreqs", TRUE, peffect);
+    requirement_vector_iterate(lookup_req_list(file, sec[i], "reqs"), req) {
+      struct requirement *preq = fc_malloc(sizeof(*preq));
+
+      *preq = *req;
+      effect_req_append(peffect, FALSE, preq);
+    } requirement_vector_iterate_end;
+    requirement_vector_iterate(lookup_req_list(file, sec[i], "nreqs"), req) {
+      struct requirement *preq = fc_malloc(sizeof(*preq));
+
+      *preq = *req;
+      effect_req_append(peffect, TRUE, preq);
+    } requirement_vector_iterate_end;
   }
   free(sec);
 
@@ -2938,12 +2958,19 @@ static void send_ruleset_nations(struct conn_list *dest)
 static void send_ruleset_cities(struct conn_list *dest)
 {
   struct packet_ruleset_city city_p;
-  int k;
+  int k, j;
 
   for( k=0; k<game.styles_count; k++) {
     city_p.style_id = k;
-    city_p.techreq = city_styles[k].techreq;
     city_p.replaced_by = city_styles[k].replaced_by;
+
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      req_get_values(&city_styles[k].req[j],
+		     &city_p.req_type[j],
+		     &city_p.req_range[j],
+		     &city_p.req_survives[j],
+		     &city_p.req_value[j]);
+    }
 
     sz_strlcpy(city_p.name, city_styles[k].name_orig);
     sz_strlcpy(city_p.graphic, city_styles[k].graphic);
