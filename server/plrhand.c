@@ -1167,6 +1167,10 @@ repeat_break_treaty:
   /* If the old state was alliance, the players' units can share tiles
      illegally, and we need to call resolve_unit_stacks() */
   if (old_type == DS_ALLIANCE) {
+    /* The client needs updated diplomatic state, because it is used
+     * during calculation of new states of occupied flags in cities */
+    send_player_info(pplayer, NULL);
+    send_player_info(pplayer2, NULL);
     remove_allied_visibility(pplayer, pplayer2);
     remove_allied_visibility(pplayer2, pplayer);    
     resolve_unit_stacks(pplayer, pplayer2, TRUE);
