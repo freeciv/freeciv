@@ -1,47 +1,47 @@
 ===========================================================================
- Freecivs Stilvägledning
+ Freecivs StilvÃ¤gledning
 ===========================================================================
 
-Om man vill koda Freeciv och få sina patchar antagna så hjälper det
-att följa några enkla stilregler. Ja, några av dessa är en aning
-petiga, men krig utkämpas över de fånigaste saker...
+Om man vill koda Freeciv och fÃ¥ sina patchar antagna sÃ¥ hjÃ¤lper det
+att fÃ¶lja nÃ¥gra enkla stilregler. Ja, nÃ¥gra av dessa Ã¤r en aning
+petiga, men krig utkÃ¤mpas Ã¶ver de fÃ¥nigaste saker...
 
-- Freeciv är skrivet i C (förutom BEOS-klienten). Detta innebär att
-  C++-drag som "//"-kommentarer och variabeldeklarationer som inte är
-  i början av block är förbjudna.
+- Freeciv Ã¤r skrivet i C (fÃ¶rutom BEOS-klienten). Detta innebÃ¤r att
+  C++-drag som "//"-kommentarer och variabeldeklarationer som inte Ã¤r
+  i bÃ¶rjan av block Ã¤r fÃ¶rbjudna.
 
-- Använd K&R-indragsstil med indrag 2 (vid tveksamhet, använd
-  "indent -kr -i2 -l77"). Men man ska inte ändra stilen på kodstycken
-  som man inte ändrar på annat sätt eller skapar. Här är de viktigaste
+- AnvÃ¤nd K&R-indragsstil med indrag 2 (vid tveksamhet, anvÃ¤nd
+  "indent -kr -i2 -l77"). Men man ska inte Ã¤ndra stilen pÃ¥ kodstycken
+  som man inte Ã¤ndrar pÃ¥ annat sÃ¤tt eller skapar. HÃ¤r Ã¤r de viktigaste
   egenskaperna:
-    - den största tillåtna radlängden är 77 tecken
-    - blanksteg infogas före och efter operatorer ("int i, j, k;" i
-      stället för "int i,j,k;" och "if (foo <= bar) c = a + b;" i
-      stället för "if(foo<=bar) c=a+b;")
-    - funktionsklammern skall stå i den första kolonnen:
+    - den stÃ¶rsta tillÃ¥tna radlÃ¤ngden Ã¤r 77 tecken
+    - blanksteg infogas fÃ¶re och efter operatorer ("int i, j, k;" i
+      stÃ¤llet fÃ¶r "int i,j,k;" och "if (foo <= bar) c = a + b;" i
+      stÃ¤llet fÃ¶r "if(foo<=bar) c=a+b;")
+    - funktionsklammern skall stÃ¥ i den fÃ¶rsta kolonnen:
         int foo()
         {
           return 0;
         }
-      i stället för
+      i stÃ¤llet fÃ¶r
         int foo() {
           return 0;
         }
-    - tabavståndet skall vara 8
+    - tabavstÃ¥ndet skall vara 8
 
-- En tom rad ska sättas mellan 2 åtskilda kodstycken.
+- En tom rad ska sÃ¤ttas mellan 2 Ã¥tskilda kodstycken.
 
 ================================
  Kommentarer
 ================================
 
-- Varje funktion ska ha ett kommentarhuvud. Det ska vara ovanför
+- Varje funktion ska ha ett kommentarhuvud. Det ska vara ovanfÃ¶r
   funktionens implementering, inte prototypen:
 
 /*************************************************************************
- funktionsbeskrivningen ska vara här
- all användbar information såsom vad som anropar funktionen med mera
- skapa _inte_ en ny funktion utan någon form av kommentar
+ funktionsbeskrivningen ska vara hÃ¤r
+ all anvÃ¤ndbar information sÃ¥som vad som anropar funktionen med mera
+ skapa _inte_ en ny funktion utan nÃ¥gon form av kommentar
 *************************************************************************/
 
 int the_function_starts_here(int value) 
@@ -49,31 +49,31 @@ int the_function_starts_here(int value)
   ...
 }
 
-- Enradskommentarer: Kommentaren ska vara rätt indragen och stå
-  ovanför koden som kommenteas:
+- Enradskommentarer: Kommentaren ska vara rÃ¤tt indragen och stÃ¥
+  ovanfÃ¶r koden som kommenteas:
 
   int x;
 
-  /* Detta är en enradskommentar */
+  /* Detta Ã¤r en enradskommentar */
   x = 3;
 
-- Flerradskommentarer: Stjärnor ska stå framför kommentarraden:
+- Flerradskommentarer: StjÃ¤rnor ska stÃ¥ framfÃ¶r kommentarraden:
 
-  /* Detta är en
+  /* Detta Ã¤r en
    * flerradskommentar 
    * bla bla bla */
 
-- Kommentarer i deklarationer. Om man behöver kommentera en
-  variabeldeklaration så ska det göras så här:
+- Kommentarer i deklarationer. Om man behÃ¶ver kommentera en
+  variabeldeklaration sÃ¥ ska det gÃ¶ras sÃ¥ hÃ¤r:
 
   struct foo {
-    int bar;                    /* bar används för ....
+    int bar;                    /* bar anvÃ¤nds fÃ¶r ....
                                  * att ..... ska */
-    int blah;                   /* blah används för .... */
+    int blah;                   /* blah anvÃ¤nds fÃ¶r .... */
   };
 
-- Kommentarer i villkorssatser: Om man behöver en kommentar för att
-  visa programflödet så ska den stå nedanför if eller else:
+- Kommentarer i villkorssatser: Om man behÃ¶ver en kommentar fÃ¶r att
+  visa programflÃ¶det sÃ¥ ska den stÃ¥ nedanfÃ¶r if eller else:
 
   if(is_barbarian(pplayer)) {
     x++;
@@ -82,20 +82,20 @@ int the_function_starts_here(int value)
     x--;
   }
 
-- Kommentarer till översättare står före strängen som är märkt med
-  N_(), _() eller Q_() och har förstavelsen "TRANS:". Dessa
-  kommentarer kopieras till översättningsfilerna. De ska användas
-  närhelst man tycker att översättarna kan behöva lite mer
+- Kommentarer till Ã¶versÃ¤ttare stÃ¥r fÃ¶re strÃ¤ngen som Ã¤r mÃ¤rkt med
+  N_(), _() eller Q_() och har fÃ¶rstavelsen "TRANS:". Dessa
+  kommentarer kopieras till Ã¶versÃ¤ttningsfilerna. De ska anvÃ¤ndas
+  nÃ¤rhelst man tycker att Ã¶versÃ¤ttarna kan behÃ¶va lite mer
   information:
 
-    /* TRANS: Översätt inte "commandname". */
+    /* TRANS: Ã–versÃ¤tt inte "commandname". */
     printf(_("commandname <arg> [-o <optarg>]"));
 
 ================================
  Deklarera variabler
 ================================
 
-- Variabler kan tilldelas ett värde vid initialiseringen:
+- Variabler kan tilldelas ett vÃ¤rde vid initialiseringen:
 
 int foo(struct unit *punit)
 {
@@ -106,12 +106,12 @@ int foo(struct unit *punit)
   ...
 }
 
-- Efter variabeldeklarationerna ska det vara en tom rad före resten av
+- Efter variabeldeklarationerna ska det vara en tom rad fÃ¶re resten av
   funktionskroppen.
 
-- Sammanfoga deklarationer: Variabler behöver inte dekrareras på var
+- Sammanfoga deklarationer: Variabler behÃ¶ver inte dekrareras pÃ¥ var
   sin rad. De ska dock endast sammanfogas om de har liknande
-  användning.
+  anvÃ¤ndning.
 
 int foo(struct city *pcity)
 {
@@ -124,17 +124,17 @@ int foo(struct city *pcity)
  Klamrar
 ================================
 
-- Ytterligare klamrar på upprepningar: Lägg märke till att
-  *_iterate_end; ska stå på samma rad som slutklammern:
+- Ytterligare klamrar pÃ¥ upprepningar: LÃ¤gg mÃ¤rke till att
+  *_iterate_end; ska stÃ¥ pÃ¥ samma rad som slutklammern:
 
   unit_list_iterate(pcity->units_supported, punit) {
     kill(punit);
   } unit_list_iterate_end;
 
-- I switchsatser skall klamrar bara sättas där de behövs, till exempel
-  för att skydda variabler.
+- I switchsatser skall klamrar bara sÃ¤ttas dÃ¤r de behÃ¶vs, till exempel
+  fÃ¶r att skydda variabler.
 
-- Klammrar skall användas efter villkorssatser:
+- Klammrar skall anvÃ¤ndas efter villkorssatser:
 
   if (x == 3) {
     return;
@@ -151,13 +151,13 @@ int foo(struct city *pcity)
  inte
 
   if (x == 3)
-    return 1;  /* DÅLIGT! */
+    return 1;  /* DÃ…LIGT! */
 
 ================================
  Annat
 ================================
 
-- Om ett tomt block behövs så ska man sätta en förklarnde kommentar i
+- Om ett tomt block behÃ¶vs sÃ¥ ska man sÃ¤tta en fÃ¶rklarnde kommentar i
   det:
 
   while(*i++) {
@@ -165,36 +165,36 @@ int foo(struct city *pcity)
   }
 
 - Ordna inkluderingsfiler konsekvent: Alla systeminkluderingsfiler ska
-  stå först, inom <> och i bokstavsordning. Sedan ska alla
-  freecivinkluderingsfiler stå inom "" och ordnade efter katalog
+  stÃ¥ fÃ¶rst, inom <> och i bokstavsordning. Sedan ska alla
+  freecivinkluderingsfiler stÃ¥ inom "" och ordnade efter katalog
   (common, server, ...) och sedan i bokstavsordning. Det ska vara en
-  tom rad mellan styckena. Detta hjälper till att undvika dubbla
+  tom rad mellan styckena. Detta hjÃ¤lper till att undvika dubbla
   inkluderingar.
 
-- Om man använder systemberoende funktioner så ska man inte lägga till
-  #ifdef __CRAY__ eller liknande. Man ska i stället skriva ett prov
-  för funktionen i både configure.in och configure.ac och använda ett
-  meningsfullt makronamn i källkoden.
+- Om man anvÃ¤nder systemberoende funktioner sÃ¥ ska man inte lÃ¤gga till
+  #ifdef __CRAY__ eller liknande. Man ska i stÃ¤llet skriva ett prov
+  fÃ¶r funktionen i bÃ¥de configure.in och configure.ac och anvÃ¤nda ett
+  meningsfullt makronamn i kÃ¤llkoden.
 
-- Globala funktioner ska alltid ha prototyper i lämpliga
+- Globala funktioner ska alltid ha prototyper i lÃ¤mpliga
   inkluderingsfiler. Lokala funktioner ska alltid deklareras som
-  statiska. För att upptäcka detta och några andra problem skall man
-  använda följande varningsargument för gcc; "-Wall -Wpointer-arith
+  statiska. FÃ¶r att upptÃ¤cka detta och nÃ¥gra andra problem skall man
+  anvÃ¤nda fÃ¶ljande varningsargument fÃ¶r gcc; "-Wall -Wpointer-arith
   -Wcast-align -Wmissing-prototypes -Wmissing-declarations
   -Wstrict-prototypes -Wnested-externs".
 
-- Om man skickar patchar så ska man använda "diff -u" (eller "diff -r
+- Om man skickar patchar sÃ¥ ska man anvÃ¤nda "diff -u" (eller "diff -r
   -u" eller "cvs diff -u"). Se
-  <http://www.freeciv.org/contribute.html> för ytterligare
-  upplysningar. Man ska även ge patcharna beskrivande namn (till
+  <http://www.freeciv.org/contribute.html> fÃ¶r ytterligare
+  upplysningar. Man ska Ã¤ven ge patcharna beskrivande namn (till
   exempel "fix-foo-0.diff", men inte "freeciv.diff").
 
-- När man kör "diff" för en patch så ska man se till att utesluta
-  onödiga filer genom att använda kommandoradsargumentet "-X" för
+- NÃ¤r man kÃ¶r "diff" fÃ¶r en patch sÃ¥ ska man se till att utesluta
+  onÃ¶diga filer genom att anvÃ¤nda kommandoradsargumentet "-X" fÃ¶r
   programmet "diff":
 
     % diff -ruN -Xdiff_ignore freeciv_c freeciv > /tmp/fix-foo-0.diff
 
-  En föreslagen "diff_ignore"-fil följer med Freeciv.
+  En fÃ¶reslagen "diff_ignore"-fil fÃ¶ljer med Freeciv.
 
 ===========================================================================

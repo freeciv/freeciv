@@ -15,8 +15,8 @@
                           messagewin.c  -  description
                              -------------------
     begin                : Feb 2 2003
-    copyright            : (C) 2003 by Rafa≥ Bursig
-    email                : Rafa≥ Bursig <bursig@poczta.fm>
+    copyright            : (C) 2003 by Rafa≈Ç Bursig
+    email                : Rafa≈Ç Bursig <bursig@poczta.fm>
  **********************************************************************/
 #ifdef HAVE_CONFIG_H
 #include <config.h>

@@ -7,13 +7,13 @@ And I did not want to port gettext completely, which would have been
 much more work!
 
 Modification history;
-08.08.2000 : Dirk Stöcker <stoecker@epost.de>
+08.08.2000 : Dirk StÃ¶cker <stoecker@epost.de>
   Initial version
-27.08.2000 : Dirk Stöcker <stoecker@epost.de>
+27.08.2000 : Dirk StÃ¶cker <stoecker@epost.de>
   fixes to match changed calling mechanism
 26.09.2000 : Oliver Gantert <lucyg@t-online.de>
   changed includes to work with vbcc WarpOS
-16.12.2000 : Dirk Stöcker <stoecker@epost.de>
+16.12.2000 : Dirk StÃ¶cker <stoecker@epost.de>
   removed changes, as it works without also
 26.12.2001 : Sebastian Bauer <sebauer@t-online.de>
   uses now the prefered languages to determine the gmostr
@@ -173,16 +173,16 @@ struct LocaleConv {
 } LocaleConvTab[] = {
 {"deutsch", "de"},
 /*{"", "en_GB"}, does not exist on Amiga */
-{"español", "es"},
-{"français", "fr"},
+{"espaÃ±ol", "es"},
+{"franÃ§ais", "fr"},
 {"hrvatski", "hu"},
 {"italiano", "it"},
 {"nihongo", "ja"},
 {"nederlands", "nl"},
 {"norsk", "no"},
 {"polski", "pl"},
-{"português" , "pt"},
-{"português-brasil", "pt_BR"},
+{"portuguÃªs" , "pt"},
+{"portuguÃªs-brasil", "pt_BR"},
 {"russian", "ru"},
 {"svenska", "sv"},
 {"suomi","fi"},

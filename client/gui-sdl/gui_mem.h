@@ -15,8 +15,8 @@
                           gui_mem.h  -  description
                              -------------------
     begin                : Thu Apr 20 2000
-    copyright            : (C) 2002 by Rafa≥ Bursig
-    email                : Rafa≥ Bursig <bursig@poczta.fm>
+    copyright            : (C) 2002 by Rafa≈Ç Bursig
+    email                : Rafa≈Ç Bursig <bursig@poczta.fm>
  **********************************************************************/
 
 #ifndef FC__GUI_MEM_H

@@ -40,7 +40,7 @@ Licentie:
 =========
 
 Freeciv wordt uitgebracht onder de GNU General Public License. In het kort
-mag u dit programma onbeperkt kopiëren (inclusief source), maar kijk naar
+mag u dit programma onbeperkt kopiÃ«ren (inclusief source), maar kijk naar
 het bestand COPYING voor volledige details.
 
 
@@ -48,21 +48,21 @@ Compileren and installatie:
 ===========================
 
 Lees alstublieft het bestand INSTALL zorgvuldig voor instructies hoe
-u Freeciv gecompileerd en geïnstalleerd krijgt op uw machine.
+u Freeciv gecompileerd en geÃ¯nstalleerd krijgt op uw machine.
 
 
 Een nieuw spel beginnen:
 ========================
 
 Freeciv is eigenlijk twee programma's, een server en een client. Wanneer
-een spel loopt, dan zal er één serverprogramma draaien en zoveel clients
+een spel loopt, dan zal er Ã©Ã©n serverprogramma draaien en zoveel clients
 als er menselijke spelers zijn. De server heeft geen X nodig, maar de
 clients wel.
 
   OPMERKING:
   De volgende voorbeelden gaan ervan uit dat Freeciv op uw systeem 
-  geïnstalleerd is en dat de map die "civclient" en "civserver" bevat
-  zich in uw PATH bevindt. Als Freeciv niet geïnstalleerd is, dan wilt
+  geÃ¯nstalleerd is en dat de map die "civclient" en "civserver" bevat
+  zich in uw PATH bevindt. Als Freeciv niet geÃ¯nstalleerd is, dan wilt
   u wellicht de "civ" en "ser" programma's gebruiken. Deze kunt u vinden
   in de top van de Freeciv map. Ze worden op exact dezelfde wijze
   gebruikt als "civclient" en "civserver".
@@ -94,7 +94,7 @@ Server:
   |
   |  Twee belangrijke server concepten zijn Opdrachten en Opties.
   |  Opdrachten, zoals 'help', worden gebruikt om met de server te
-  |  communiceren.  Sommige opdrachten verwachten één of meer argumenten,
+  |  communiceren.  Sommige opdrachten verwachten Ã©Ã©n of meer argumenten,
   |  gescheiden door spaties.
   |  In veel gevallen kunnen opdrachten en argumenten worden ingekort.
   |  Opties zijn instellingen die de server sturen terwijl hij draait.
@@ -148,7 +148,7 @@ Client:
 
   |  % civclient --server neptune
 
-  Als u de enige menselijke speler bent, dan is slechts één client
+  Als u de enige menselijke speler bent, dan is slechts Ã©Ã©n client
   nodig. In standaard Unix-stijl kunt u de client "in de achtergrond"
   starten door toevoeging van een '&'-teken:
 
@@ -184,7 +184,7 @@ Client:
 Computerspelers:
 
   Er zijn twee manieren om KI-spelers te maken. De eerste is om
-  het aantal spelers (menselijk én KI) in te stellen met de 'aifill'
+  het aantal spelers (menselijk Ã©n KI) in te stellen met de 'aifill'
   server-opdracht. Bijvoorbeeld:
 
   |  > set aifill 7
@@ -278,7 +278,7 @@ Spelers kunnen de 'Enter'-toets gebruiken om het einde van hun zet te
 markeren of kunnen klikken op de 'Beurt klaar' knop.
 
 Gebruik de 'Spelers'-dialoog om te zien wie al klaar is met zijn beurt
-en op wie u zit te wachten. (Hé vriend, zit je te slapen of zo?? ;).
+en op wie u zit te wachten. (HÃ© vriend, zit je te slapen of zo?? ;).
 
 Gebruik de invoerregel aan de onderkant van het venster voor het sturen van
 berichten naar andere spelers.
@@ -317,12 +317,12 @@ webpagina's op:
   http://www.freeciv.org/manual/
 
 
-Beëindigen van het spel:
+BeÃ«indigen van het spel:
 ========================
 
 Er zijn drie manieren waarop een spel kan eindigen:
 
-1) Slechts één natie is overgebleven
+1) Slechts Ã©Ã©n natie is overgebleven
 2) Het eindjaar is bereikt
 3) Een speler bouwt en lanceert een ruimteschip dat vervolgens 
    Alfa Centauri bereikt.
@@ -364,9 +364,9 @@ Freeciv ondersteunt diverse nationale talen.
 
 U kunt kiezen welke lokale taal gebruikt wordt door het opgeven van
 een 'locale'. Elke locale heeft een standaard naam (bijv. 'de' voor
-Duits). Als u Freeciv geïnstalleerd hebt kunt u een locale kiezen door
+Duits). Als u Freeciv geÃ¯nstalleerd hebt kunt u een locale kiezen door
 de omgevingsvariabele 'LANG' in te stellen op die standaard naam
-vóórdat u civserver en civclient opstart.
+vÃ³Ã³rdat u civserver en civclient opstart.
 
 Bijvoorbeeld, aangenomen dat u de Nederlandse locale wilt gebruiken
 doet u:
@@ -382,7 +382,7 @@ Logberichten:
 =====================
 
 Zowel de client ald de server geven berichten die bekend staan als
-"logberichten". Er zijn vijf categoriëen van logberichten: "fataal",
+"logberichten". Er zijn vijf categoriÃ«en van logberichten: "fataal",
 "fout", "normaal", "uitgebreid" and "debug".
 
 Standaard worden fataal, fout en normaal-berichten afgedrukt op standaard
@@ -409,7 +409,7 @@ genereren terwijl alle andere debug-berichten onderdrukt worden. Om
 regels te beheersen gebruik "--debug 4:str1,min,max" en voor bestanden
 die in naam overeenkomen met str1 zullen van regel min tot regel max
 debug-berichten genereren, terwijl alle andere debug-berichten onderdrukt
-worden. Slechts één set van (min,max) kan per bestand worden toegepast.
+worden. Slechts Ã©Ã©n set van (min,max) kan per bestand worden toegepast.
 
 Voorbeeld:
 
@@ -473,7 +473,7 @@ stappen:
 
   1. Email naar <listar@freeciv.org>.
   2. Laat het onderwerp leeg
-  3. In het bericht van de email zet één van:
+  3. In het bericht van de email zet Ã©Ã©n van:
       Om mee te doen:
         subscribe freeciv
         subscribe freeciv-announce

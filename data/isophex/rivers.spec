@@ -10,7 +10,7 @@ artists = "
     Tim F. Smith <yoohootim@hotmail.com>
     Daniel Speyer <dspeyer@users.sf.net> (mix)
     Frederic Rodrigo <f.rodrigo@tuxfamily.org> (mix)
-    Andreas Røsdal <andrearo@pvv.ntnu.no> (hex mode)
+    Andreas RÃ¸sdal <andrearo@pvv.ntnu.no> (hex mode)
     Jason Short <jdorje@users.sf.net> (hex mixing)
 "
 

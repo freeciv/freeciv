@@ -15,8 +15,8 @@
                           colors.c  -  description
                              -------------------
     begin                : Mon Jul 15 2002
-    copyright            : (C) 2002 by Rafa≥ Bursig
-    email                : Rafa≥ Bursig <bursig@poczta.fm>
+    copyright            : (C) 2002 by Rafa≈Ç Bursig
+    email                : Rafa≈Ç Bursig <bursig@poczta.fm>
  **********************************************************************/
 
 #ifdef HAVE_CONFIG_H

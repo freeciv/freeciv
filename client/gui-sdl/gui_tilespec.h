@@ -15,7 +15,7 @@
                           gui_tilespec.h  -  description
                              -------------------
     begin                : Dec. 2 2002
-    copyright            : (C) 2002 by Rafa≥ Bursig
+    copyright            : (C) 2002 by Rafa≈Ç Bursig
     email                : Rafal Bursig <bursig@poczta.fm>
  **********************************************************************/
  

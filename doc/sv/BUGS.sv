@@ -2,164 +2,164 @@
 PROGRAMFEL
 ==========
 
-Freeciv 1.14.0 är en "driftssäker" utgåva och anses vara tillräckligt
-fri från programfel för dagligt bruk. Om man ändå hittar ett
-programfel skulle vi vilja få reda på det så att vi kan rätta
-det. Denna fil listar kända programfel i denna utgåva och ger
-information om att anmäla programfel.
+Freeciv 1.14.0 Ã¤r en "driftssÃ¤ker" utgÃ¥va och anses vara tillrÃ¤ckligt
+fri frÃ¥n programfel fÃ¶r dagligt bruk. Om man Ã¤ndÃ¥ hittar ett
+programfel skulle vi vilja fÃ¥ reda pÃ¥ det sÃ¥ att vi kan rÃ¤tta
+det. Denna fil listar kÃ¤nda programfel i denna utgÃ¥va och ger
+information om att anmÃ¤la programfel.
 
-Listan innehåller endast de tydligaste programfelen. För en
-fullständig lista, se:
+Listan innehÃ¥ller endast de tydligaste programfelen. FÃ¶r en
+fullstÃ¤ndig lista, se:
 
     http://www.freeciv.org/cgi-bin/bugs
 
-KÄNDA PROGRAMFEL:
+KÃ„NDA PROGRAMFEL:
 =================
 
- - Stadsförvaltningsinställningarna skickas endast till servern när
-   man trycker på "Avsluta omgång". Ändringarna som man gör i
-   stadsförvaltningsinställningarna samma omgång som man sparar går
-   därför förlorade.
+ - StadsfÃ¶rvaltningsinstÃ¤llningarna skickas endast till servern nÃ¤r
+   man trycker pÃ¥ "Avsluta omgÃ¥ng". Ã„ndringarna som man gÃ¶r i
+   stadsfÃ¶rvaltningsinstÃ¤llningarna samma omgÃ¥ng som man sparar gÃ¥r
+   dÃ¤rfÃ¶r fÃ¶rlorade.
 
- - Om man använder stadsförvaltningen så blir de sparade spelen inte
-   endian- och 64-bitarssäkra, så man kan inte använda filerna på
+ - Om man anvÃ¤nder stadsfÃ¶rvaltningen sÃ¥ blir de sparade spelen inte
+   endian- och 64-bitarssÃ¤kra, sÃ¥ man kan inte anvÃ¤nda filerna pÃ¥
    datorer med annan arkitektur.
 
- - De enkla datorstyrda fienderna är inte tillräckligt enkla för
-   nybörjare. Om de datorstyrda spelarna besegrar dig tidigt i spelet,
-   prova att sätta sververvalmöjligheten "generator" till 2 eller 3,
-   det vill säga skriv "set generator 2" eller "set generator 3" innan
-   spelet har satts igång.
+ - De enkla datorstyrda fienderna Ã¤r inte tillrÃ¤ckligt enkla fÃ¶r
+   nybÃ¶rjare. Om de datorstyrda spelarna besegrar dig tidigt i spelet,
+   prova att sÃ¤tta sververvalmÃ¶jligheten "generator" till 2 eller 3,
+   det vill sÃ¤ga skriv "set generator 2" eller "set generator 3" innan
+   spelet har satts igÃ¥ng.
 
- - De svåra datorstyrda fienderna är inte tillräckligt svåra för
-   erfarna spelare. De gör fortfarande dumma saker, till exempel så
-   föredrar de att lämna städer i upplopp i stället för att svälta ner
+ - De svÃ¥ra datorstyrda fienderna Ã¤r inte tillrÃ¤ckligt svÃ¥ra fÃ¶r
+   erfarna spelare. De gÃ¶r fortfarande dumma saker, till exempel sÃ¥
+   fÃ¶redrar de att lÃ¤mna stÃ¤der i upplopp i stÃ¤llet fÃ¶r att svÃ¤lta ner
    dem.
 
- - Ibland är det för många framsteg i "Mål"-menyn i
-   forskningsredogörelsen så att menyn sträcker sig utanför skärmens
-   underkant så att man inte kan välja alla framsteg. 
+ - Ibland Ã¤r det fÃ¶r mÃ¥nga framsteg i "MÃ¥l"-menyn i
+   forskningsredogÃ¶relsen sÃ¥ att menyn strÃ¤cker sig utanfÃ¶r skÃ¤rmens
+   underkant sÃ¥ att man inte kan vÃ¤lja alla framsteg. 
 
- - I bland kan man få meddelandena
+ - I bland kan man fÃ¥ meddelandena
    {ss} player for sample <01> not found
 	 {ss} player for sample <01> not found
-   när man använder ljuddrivrutinen esound. Detta är inget att oroa
-   sig för.
+   nÃ¤r man anvÃ¤nder ljuddrivrutinen esound. Detta Ã¤r inget att oroa
+   sig fÃ¶r.
 
- - Om man trycker Ctrl+C i klienten när man använder ljuddrivrutinen
-   esound kan det hända att den ljudslinga som för närvarande spelas
+ - Om man trycker Ctrl+C i klienten nÃ¤r man anvÃ¤nder ljuddrivrutinen
+   esound kan det hÃ¤nda att den ljudslinga som fÃ¶r nÃ¤rvarande spelas
    upp inte avbryts ordentligt.
 
- - Vissa världsunder börjar inte verka förrän omgången efter att de
-   har färdigställts. När man till exempel färdigställer Fyrtornet får
-   vissa triremer sitt extra drag först nästa omgång.
+ - Vissa vÃ¤rldsunder bÃ¶rjar inte verka fÃ¶rrÃ¤n omgÃ¥ngen efter att de
+   har fÃ¤rdigstÃ¤llts. NÃ¤r man till exempel fÃ¤rdigstÃ¤ller Fyrtornet fÃ¥r
+   vissa triremer sitt extra drag fÃ¶rst nÃ¤sta omgÃ¥ng.
 
- - XAW-klienten kan endast visa 25 städer i stadsredogörelsen.
+ - XAW-klienten kan endast visa 25 stÃ¤der i stadsredogÃ¶relsen.
 
- - Självständigt angrepp fungerar i allmänhet inte bra.
+ - SjÃ¤lvstÃ¤ndigt angrepp fungerar i allmÃ¤nhet inte bra.
 
- - När en förflyttningsväg planeras i servern, till exempel för en
-   självständig bosättare eller ett flygplan, används information som
-   inte är tillgänglig för spelaren.
+ - NÃ¤r en fÃ¶rflyttningsvÃ¤g planeras i servern, till exempel fÃ¶r en
+   sjÃ¤lvstÃ¤ndig bosÃ¤ttare eller ett flygplan, anvÃ¤nds information som
+   inte Ã¤r tillgÃ¤nglig fÃ¶r spelaren.
 
- - Forskningsdialogen uppdateras inte när man lär sig en teknologi.
-   Man måste stänga och öppna den.
+ - Forskningsdialogen uppdateras inte nÃ¤r man lÃ¤r sig en teknologi.
+   Man mÃ¥ste stÃ¤nga och Ã¶ppna den.
 
- - I GTK-klienten förekommer i bland skräp i området nära den lilla
+ - I GTK-klienten fÃ¶rekommer i bland skrÃ¤p i omrÃ¥det nÃ¤ra den lilla
    kartan.
 
- - Triremer hanteras inte bra i självständigt läge.
+ - Triremer hanteras inte bra i sjÃ¤lvstÃ¤ndigt lÃ¤ge.
 
- - LOG_DEBUG fungerar inte med andra kompilatorer än GCC.
+ - LOG_DEBUG fungerar inte med andra kompilatorer Ã¤n GCC.
 
- - När man sätter servervariabler kontrollerar servern ofta inte
-   värdena så bra som den skulle kunna.
+ - NÃ¤r man sÃ¤tter servervariabler kontrollerar servern ofta inte
+   vÃ¤rdena sÃ¥ bra som den skulle kunna.
 
- - Dåliga saker händer om man ändrar flera övergripande arbetslistor
+ - DÃ¥liga saker hÃ¤nder om man Ã¤ndrar flera Ã¶vergripande arbetslistor
    samtidigt.
 
- - Även i spel där datormotståndare är de enda motståndarna får de
-   möjlighet att utföra drag både före och efter den mänskliga
-   spelaren varje omgång. Detta ger i bland sken av att datorn gör 2
+ - Ã„ven i spel dÃ¤r datormotstÃ¥ndare Ã¤r de enda motstÃ¥ndarna fÃ¥r de
+   mÃ¶jlighet att utfÃ¶ra drag bÃ¥de fÃ¶re och efter den mÃ¤nskliga
+   spelaren varje omgÃ¥ng. Detta ger i bland sken av att datorn gÃ¶r 2
    drag.
 
- - Xaw-klienten fungerar inte bra ben KDEs fönsterhanterare. Försök
-   med gtk-klienten eller en annan fönsterhanterare.
+ - Xaw-klienten fungerar inte bra ben KDEs fÃ¶nsterhanterare. FÃ¶rsÃ¶k
+   med gtk-klienten eller en annan fÃ¶nsterhanterare.
 
-ANMÄLA PROGRAMFEL
+ANMÃ„LA PROGRAMFEL
 =================
 
-(Om det är ett fel i en översättning ska det anmälas till översättaren
-för språket i fråga. Se <http://www.freeciv.org/l10n.phtml> för namn
-på och epostadresser till översättarna.)
+(Om det Ã¤r ett fel i en Ã¶versÃ¤ttning ska det anmÃ¤las till Ã¶versÃ¤ttaren
+fÃ¶r sprÃ¥ket i frÃ¥ga. Se <http://www.freeciv.org/l10n.phtml> fÃ¶r namn
+pÃ¥ och epostadresser till Ã¶versÃ¤ttarna.)
 
-Så här gör man:
+SÃ¥ hÃ¤r gÃ¶r man:
 
-- Ser efter att det inte är något av programfelen i listan ovan! :-)
+- Ser efter att det inte Ã¤r nÃ¥got av programfelen i listan ovan! :-)
 
-- Tittar på <http://www.freeciv.org> och försäkrar sig om att man har
-  den nyaste versionen. (Vi kanske redan har rättat felet.)
+- Tittar pÃ¥ <http://www.freeciv.org> och fÃ¶rsÃ¤krar sig om att man har
+  den nyaste versionen. (Vi kanske redan har rÃ¤ttat felet.)
 
-  Man kanske vill prova en utvecklarversion från CVS-upplaget. De kan
-  hämtas från:
+  Man kanske vill prova en utvecklarversion frÃ¥n CVS-upplaget. De kan
+  hÃ¤mtas frÃ¥n:
 
         http://www.freeciv.org/latest.html
 
-- Tittar på Freecivs FAQ på <http://www.freeciv.org/faq> för att se om
-  något sätt att upphäva problemet har offentliggjorts.
+- Tittar pÃ¥ Freecivs FAQ pÃ¥ <http://www.freeciv.org/faq> fÃ¶r att se om
+  nÃ¥got sÃ¤tt att upphÃ¤va problemet har offentliggjorts.
 
-- Tittar på Freecivs system för spårning av programfel vid:
+- Tittar pÃ¥ Freecivs system fÃ¶r spÃ¥rning av programfel vid:
 
         http://www.freeciv.org/cgi-bin/bugs
 
-  för att se om programfelet redan har anmälts.
+  fÃ¶r att se om programfelet redan har anmÃ¤lts.
 
-- Anmäler programfelet
+- AnmÃ¤ler programfelet
 
-   Man kan änmäla ett programfel genom att skicka epost till
-    <bugs@freeciv.freeciv.org> eller på väven vid
+   Man kan Ã¤nmÃ¤la ett programfel genom att skicka epost till
+    <bugs@freeciv.freeciv.org> eller pÃ¥ vÃ¤ven vid
     <http://www.freeciv.org/cgi-bin/bugs>.
 
-   Om man vill skicka förslag till freecivutvecklarna utan att göra en
-   programfelsanmälan kan man skicka epost till
-   <freeciv-dev@freeciv.org>, freecivutvecklarnas sändlista.
+   Om man vill skicka fÃ¶rslag till freecivutvecklarna utan att gÃ¶ra en
+   programfelsanmÃ¤lan kan man skicka epost till
+   <freeciv-dev@freeciv.org>, freecivutvecklarnas sÃ¤ndlista.
 
-   Vad man ska nämna i sin programfelsanmälan:
+   Vad man ska nÃ¤mna i sin programfelsanmÃ¤lan:
 
-   - Beskrivning av problemet och i förekommande fall det felmeddeland
-     man får.
+   - Beskrivning av problemet och i fÃ¶rekommande fall det felmeddeland
+     man fÃ¥r.
 
-   - Vilken klient man använder (Gtk+ eller Xaw).
+   - Vilken klient man anvÃ¤nder (Gtk+ eller Xaw).
 
    - Namn och versionsnummer:
 
-       - Det operativsystem som man använder. Kommandot "uname -a" kan
-         vara användbart.
+       - Det operativsystem som man anvÃ¤nder. Kommandot "uname -a" kan
+         vara anvÃ¤ndbart.
 
-       - Versionsnumret för Freeciv.
+       - Versionsnumret fÃ¶r Freeciv.
 
-       - Om man använder Gtk+-klienten, versionsnumren (om man känner
-         till dem) för sina Gtk+-, glib- och imlibbibliotek.
+       - Om man anvÃ¤nder Gtk+-klienten, versionsnumren (om man kÃ¤nner
+         till dem) fÃ¶r sina Gtk+-, glib- och imlibbibliotek.
 
-       - Om man använder Xaw-klienten, versionsnumren (om man känner
-         till dem) för X-biblioteken, Xpm-biblioteket och
-         Xaw-biblioteket och i synnerhet om det är en variant såsom
+       - Om man anvÃ¤nder Xaw-klienten, versionsnumren (om man kÃ¤nner
+         till dem) fÃ¶r X-biblioteken, Xpm-biblioteket och
+         Xaw-biblioteket och i synnerhet om det Ã¤r en variant sÃ¥som
          Xaw3d, Xaw95 eller Nextaw.
 
-       - Om man kompilerar från källkod, namnet och versionsnumret för
+       - Om man kompilerar frÃ¥n kÃ¤llkod, namnet och versionsnumret fÃ¶r
          kompilatorn.
 
-       - Om man installerar från ett färdigkompilerat paket, dess
-         namn, vilken distribution det är för och varifrån man hämtat
+       - Om man installerar frÃ¥n ett fÃ¤rdigkompilerat paket, dess
+         namn, vilken distribution det Ã¤r fÃ¶r och varifrÃ¥n man hÃ¤mtat
          det.
 
-   - Om Freeciv "dumpar core", kan vi efterfråga en "stackspårning",
-     vilken ges vid användning av en avlusare. För detta behövs
-     "core"-filen, så var god behåll den ett tag.
+   - Om Freeciv "dumpar core", kan vi efterfrÃ¥ga en "stackspÃ¥rning",
+     vilken ges vid anvÃ¤ndning av en avlusare. FÃ¶r detta behÃ¶vs
+     "core"-filen, sÃ¥ var god behÃ¥ll den ett tag.
 
 YTTERLIGARE INFORMATION:
 ========================
 
-För mer information se Freecivs plats på världsväven:
+FÃ¶r mer information se Freecivs plats pÃ¥ vÃ¤rldsvÃ¤ven:
 
         http://www.freeciv.org/

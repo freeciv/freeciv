@@ -1,111 +1,111 @@
 ===========================================================================
- Ljudstöd
+ LjudstÃ¶d
 ===========================================================================
 
-Servern skickar en lista över förstahands- och andrahandsljudmärken
-till klienten för vissa händelser. Förstahandslmärkena är de som
-ändringsuppsättningen i fråga föredrar. Klienten behöver inte ha dessa
-ljud. Andrahandsmärkena ska hänvisa till standardljud som alla
+Servern skickar en lista Ã¶ver fÃ¶rstahands- och andrahandsljudmÃ¤rken
+till klienten fÃ¶r vissa hÃ¤ndelser. FÃ¶rstahandslmÃ¤rkena Ã¤r de som
+Ã¤ndringsuppsÃ¤ttningen i frÃ¥ga fÃ¶redrar. Klienten behÃ¶ver inte ha dessa
+ljud. AndrahandsmÃ¤rkena ska hÃ¤nvisa till standardljud som alla
 installationer av Freeciv ska ha.
 
-Märkena änvänds för att ge ett enkelt sätt att byta ljud. En
-beskrivningsfil änvänds för att ange ljudfiler till märkena. Ett byte
-av beskrivningsfil ändrar således ljuden. Det görs med
-kommandoradsargument enligt följande:
+MÃ¤rkena Ã¤nvÃ¤nds fÃ¶r att ge ett enkelt sÃ¤tt att byta ljud. En
+beskrivningsfil Ã¤nvÃ¤nds fÃ¶r att ange ljudfiler till mÃ¤rkena. Ett byte
+av beskrivningsfil Ã¤ndrar sÃ¥ledes ljuden. Det gÃ¶rs med
+kommandoradsargument enligt fÃ¶ljande:
 
   civclient --Sound minaljud.spec
 
-Då änvänds de ljudfiler som anges i filen "minaljud.spec". Man måste
-se till att ljudfilerna finns där det står att de ska finnas genom att
-kopiera eller länka dem dit, eller genom att ändra i
-beskrivningsfilen. Alla sökvägar är som standard relativa till
-katalogen "data/". Ljuduppsättningar kan laddas ner i tar-format från
+DÃ¥ Ã¤nvÃ¤nds de ljudfiler som anges i filen "minaljud.spec". Man mÃ¥ste
+se till att ljudfilerna finns dÃ¤r det stÃ¥r att de ska finnas genom att
+kopiera eller lÃ¤nka dem dit, eller genom att Ã¤ndra i
+beskrivningsfilen. Alla sÃ¶kvÃ¤gar Ã¤r som standard relativa till
+katalogen "data/". LjuduppsÃ¤ttningar kan laddas ner i tar-format frÃ¥n
 Freecivs webserver. Man packar upp dem med kommandot
-"tar zxvf stdsoundsX.tar.gz" (eller med WinZip för Windows) och lägger
-filerna i ovannämnda datakatalog.
+"tar zxvf stdsoundsX.tar.gz" (eller med WinZip fÃ¶r Windows) och lÃ¤gger
+filerna i ovannÃ¤mnda datakatalog.
 
-CVS-versionen innehåller varken ljudfiler eller beskrivningsfil. Man
-kan hämta ljuduppsättningar (ljudfiler med beskrivningsfil) från
-<ftp://ftp.freeciv.org/freeciv/contrib/sounds/>. På denna adress kan
-man även hitta extra ljudfiler för att ändra en befintlig
-ljuduppsättning eller skapa en ny.
+CVS-versionen innehÃ¥ller varken ljudfiler eller beskrivningsfil. Man
+kan hÃ¤mta ljuduppsÃ¤ttningar (ljudfiler med beskrivningsfil) frÃ¥n
+<ftp://ftp.freeciv.org/freeciv/contrib/sounds/>. PÃ¥ denna adress kan
+man Ã¤ven hitta extra ljudfiler fÃ¶r att Ã¤ndra en befintlig
+ljuduppsÃ¤ttning eller skapa en ny.
 
 ================================
  Insticksprogram
 ================================
 
-Ljudutmatningen i klienten görs av insticksprogram. Vilka
-insticksprogram som är tillgängliga avgörs av de bibliotek som hittas
-på värdsystemet. Man kan välja vilket insticksprogram som ska användas
+Ljudutmatningen i klienten gÃ¶rs av insticksprogram. Vilka
+insticksprogram som Ã¤r tillgÃ¤ngliga avgÃ¶rs av de bibliotek som hittas
+pÃ¥ vÃ¤rdsystemet. Man kan vÃ¤lja vilket insticksprogram som ska anvÃ¤ndas
 med kommandoradsargument:
 
   civclient --Plugin sdl
 
-Man kan välja "none" för att tysta klienten. Freeciv stödjer för
-närvarande följande insticksprogram:
+Man kan vÃ¤lja "none" fÃ¶r att tysta klienten. Freeciv stÃ¶djer fÃ¶r
+nÃ¤rvarande fÃ¶ljande insticksprogram:
   - dummy (none)
   - Esound (esd)
   - SDL with SDL_mixer library (sdl)
 
-För att lägga till stöd för ett nytt insticksprogram ändrar man dessa
-filer (där "något" är namnet på det nya insticksprogrammet):
-	configure.in			/* lägg till nytt prov */
-	acconfig.h			/* lägg till ny konfigurationsmetavariabel */
-	client/audio.c			/* länka in nytt insticksprogram */
-	client/Makefile.am		/* lägg till filerna nedan */
+FÃ¶r att lÃ¤gga till stÃ¶d fÃ¶r ett nytt insticksprogram Ã¤ndrar man dessa
+filer (dÃ¤r "nÃ¥got" Ã¤r namnet pÃ¥ det nya insticksprogrammet):
+	configure.in			/* lÃ¤gg till nytt prov */
+	acconfig.h			/* lÃ¤gg till ny konfigurationsmetavariabel */
+	client/audio.c			/* lÃ¤nka in nytt insticksprogram */
+	client/Makefile.am		/* lÃ¤gg till filerna nedan */
 	client/audio_whatever.c		/* insticksprogram */
 	client/audio_whatever.h		/* insticksprograms huvud */
 
 ================================
- Märken
+ MÃ¤rken
 ================================
 
-Det fins 2 slags ljudmärken:
- - angivna i regeluppsättningarna
+Det fins 2 slags ljudmÃ¤rken:
+ - angivna i regeluppsÃ¤ttningarna
  - angivna i programkoden
 
-Emedan det första kan väljas fritt, kan det andra inte ändras.
+Emedan det fÃ¶rsta kan vÃ¤ljas fritt, kan det andra inte Ã¤ndras.
 
-Ljudmärkena som hör till världsunder och stadsförbättringar,
-enhetsförflyttningar och strid måste anges i regeluppsättningarna.
-Freeciv skickar över dessa ljudmärken till klienten, där de översätts
-till filnamn med hjälp av beskrivningsfilen. Varje beskrivningsfil ska
-ha allmänna ljudmärken för världsunder ("w_generic"),
-stadsförbättringar ("b_generic"), enhetsförflyttningar ("m_generic")
+LjudmÃ¤rkena som hÃ¶r till vÃ¤rldsunder och stadsfÃ¶rbÃ¤ttringar,
+enhetsfÃ¶rflyttningar och strid mÃ¥ste anges i regeluppsÃ¤ttningarna.
+Freeciv skickar Ã¶ver dessa ljudmÃ¤rken till klienten, dÃ¤r de Ã¶versÃ¤tts
+till filnamn med hjÃ¤lp av beskrivningsfilen. Varje beskrivningsfil ska
+ha allmÃ¤nna ljudmÃ¤rken fÃ¶r vÃ¤rldsunder ("w_generic"),
+stadsfÃ¶rbÃ¤ttringar ("b_generic"), enhetsfÃ¶rflyttningar ("m_generic")
 och strid ("f_generic").
 
-Ljudmärken som hör till vissa händelser kommer från freecivkoden och
-kan inte ändras utifrån. Beskrivningsfilen tillordnar även ljudfiler
-för dessa märken. Märkenas namn är uppräkningsnamn (se
-common/events.h) bestående av gemena bokstäver. Således blir
-"E_POLLUTION" märket "e_pollution". Det finns ingen allmänt märke och
-ej heller några andrahandsmärken.
+LjudmÃ¤rken som hÃ¶r till vissa hÃ¤ndelser kommer frÃ¥n freecivkoden och
+kan inte Ã¤ndras utifrÃ¥n. Beskrivningsfilen tillordnar Ã¤ven ljudfiler
+fÃ¶r dessa mÃ¤rken. MÃ¤rkenas namn Ã¤r upprÃ¤kningsnamn (se
+common/events.h) bestÃ¥ende av gemena bokstÃ¤ver. SÃ¥ledes blir
+"E_POLLUTION" mÃ¤rket "e_pollution". Det finns ingen allmÃ¤nt mÃ¤rke och
+ej heller nÃ¥gra andrahandsmÃ¤rken.
 
-Det finns för närvarande endast ett musikstycke; inledningsstycket.
-Det spelas tills spelet börjar. Märket för detta musikstycke är
+Det finns fÃ¶r nÃ¤rvarande endast ett musikstycke; inledningsstycket.
+Det spelas tills spelet bÃ¶rjar. MÃ¤rket fÃ¶r detta musikstycke Ã¤r
 "music_start".
 
 ================================
- ATT GÖRA
+ ATT GÃ–RA
 ================================
 
-Det finns några saker som kan göras för att förbättra Freecivs
-ljudstöd:
-  * lägg till fler insticksprogram (gstreamer, arts, windows, ...)
-  * lägg till ett ljudmärke för varje forskningsframsteg
-  * lägg till stöd för ogg-filer
-  * lägg till fler händelsemärken
-  * hitta eller skapa bättre ljud och förbättra beskrivningsfilen
+Det finns nÃ¥gra saker som kan gÃ¶ras fÃ¶r att fÃ¶rbÃ¤ttra Freecivs
+ljudstÃ¶d:
+  * lÃ¤gg till fler insticksprogram (gstreamer, arts, windows, ...)
+  * lÃ¤gg till ett ljudmÃ¤rke fÃ¶r varje forskningsframsteg
+  * lÃ¤gg till stÃ¶d fÃ¶r ogg-filer
+  * lÃ¤gg till fler hÃ¤ndelsemÃ¤rken
+  * hitta eller skapa bÃ¤ttre ljud och fÃ¶rbÃ¤ttra beskrivningsfilen
 
 ================================
- Övrigt
+ Ã–vrigt
 ================================
 
-Ljudskapare; vänligen namnge ljudfilerna på ett intelligent sätt.
-Bifoga en informationsfil med namnet README. Den måste innehålla
-licensvillkoren. Om ljuden är fria från upphovsrättsanspråk ska det
-framgå.
+Ljudskapare; vÃ¤nligen namnge ljudfilerna pÃ¥ ett intelligent sÃ¤tt.
+Bifoga en informationsfil med namnet README. Den mÃ¥ste innehÃ¥lla
+licensvillkoren. Om ljuden Ã¤r fria frÃ¥n upphovsrÃ¤ttsansprÃ¥k ska det
+framgÃ¥.
 
-Skapare av ändringsuppsättnigar; vänligen gör andrahandsmärken som
-hänvisar till standardmärken så att de som inte har laddat ner den
-senaste och bästa ljuduppsättningen ändå kan njuta av spelet.
+Skapare av Ã¤ndringsuppsÃ¤ttnigar; vÃ¤nligen gÃ¶r andrahandsmÃ¤rken som
+hÃ¤nvisar till standardmÃ¤rken sÃ¥ att de som inte har laddat ner den
+senaste och bÃ¤sta ljuduppsÃ¤ttningen Ã¤ndÃ¥ kan njuta av spelet.

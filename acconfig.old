@@ -4,7 +4,7 @@
 
 /*
  *   Defaults for configuration settings
- *   by Falk Hüffner <falk.hueffner@student.uni-tuebingen.de>
+ *   by Falk HÃ¼ffner <falk.hueffner@student.uni-tuebingen.de>
  *   and others
  *
  *   Need to mention HAVE_lib here when using FC_CHECK_X_LIB

@@ -37,7 +37,7 @@
 /* This file has been created with use of vfprintf.c sources from FreeBSD
 distribution. It changed a lot, but the main work remained.
 
-Dirk Stöcker <stoecker@epost.de>
+Dirk StÃ¶cker <stoecker@epost.de>
 2000-12-28
 */
 

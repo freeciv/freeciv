@@ -2,14 +2,14 @@
 FEHLER
 ======                                                                                                 
 
-Freeciv 1.14.0 ist eine stabile Version, und kann für den täglichen
+Freeciv 1.14.0 ist eine stabile Version, und kann fÃ¼r den tÃ¤glichen
 Gebrauch als ausreichend fehlerfrei betrachtet werden. Informationen
-über Fehler sind jederzeit willkommen.
+Ã¼ber Fehler sind jederzeit willkommen.
 
 Diese Datei listet die bekannten Fehler dieser Version, und informiert
-darüber, wie Fehler berichtet werden können.
+darÃ¼ber, wie Fehler berichtet werden kÃ¶nnen.
 
-Hier sind nur die offensichtlichsten Fehler aufgeführt. Eine vollständige
+Hier sind nur die offensichtlichsten Fehler aufgefÃ¼hrt. Eine vollstÃ¤ndige
 Liste findet man unter:
 	
 	http://www.freeciv.org/cgi-bin/bugs
@@ -19,16 +19,16 @@ BEKANNTE FEHLER:
 ================
    
  - Die Einstellungen der Automatischen Stadtverwaltung werden erst am
-   Ende der Runde an den Server geschickt; deshalb gehen Änderungen, die
+   Ende der Runde an den Server geschickt; deshalb gehen Ã„nderungen, die
    in der gleichen Runde gemacht werden in der das Spiel abgespeichert
    wird verloren.
 
- - Wenn die Automatische Stadtverwaltung benutzt wird, können die
+ - Wenn die Automatische Stadtverwaltung benutzt wird, kÃ¶nnen die
    gespeicherten Spiele nur unter dem gleichen Betriebssystem
    verwendet werden.
 
  - Die auf "easy" gestellten Computerspieler sind nicht leicht genug
-   für neue Spieler. Wenn die KI schon in einer früher Spielphase
+   fÃ¼r neue Spieler. Wenn die KI schon in einer frÃ¼her Spielphase
    gewinnt, sollte die "generator" Option auf 2 oder 3 gestellt werden
    Im Server muss dazu vor dem Spielstart
         set generator 2      oder 
@@ -36,40 +36,40 @@ BEKANNTE FEHLER:
    eingegeben werden.
 
  - Die auf "hard" gestellten Computergegner sind nicht schwer genug
-   für sehr erfahrene Spieler, und sie tun immer noch einige dumme
-   Dinge. Zum Beispiel lassen sie Städte revoltieren, anstatt sie
+   fÃ¼r sehr erfahrene Spieler, und sie tun immer noch einige dumme
+   Dinge. Zum Beispiel lassen sie StÃ¤dte revoltieren, anstatt sie
    schrumpfen zu lassen.
 
- - Manchmal gibt es zu viele Fortschritte im "Ziel" Menü des
-   Fortschrittsdialoges, so daß das Menü unten aus dem Schirm
-   herausläuft, und sich manche Einträge nicht anwählen lassen.
+ - Manchmal gibt es zu viele Fortschritte im "Ziel" MenÃ¼ des
+   Fortschrittsdialoges, so daÃŸ das MenÃ¼ unten aus dem Schirm
+   herauslÃ¤uft, und sich manche EintrÃ¤ge nicht anwÃ¤hlen lassen.
    Dies tritt nur beim GTK+-1.2 Client auf.
 
- - Wenn man 'esound' verwendet, erhält man manchmal Meldungen wie
+ - Wenn man 'esound' verwendet, erhÃ¤lt man manchmal Meldungen wie
    	'{ss} player for sample <01> not found'
-   Diese können problemlos ignoriert werden.
+   Diese kÃ¶nnen problemlos ignoriert werden.
 
- - Wenn der Client mit Strg-C abgebrochen wird, während gerade eine
+ - Wenn der Client mit Strg-C abgebrochen wird, wÃ¤hrend gerade eine
    Soundausgabe mit dem esd Plugin erfolgt, wird der Sound eventuell
    nicht richtig beendet.
 
  - Einige Wirkungen von Wundern und Fortschritten treten erst nach
-   einer Runde Verzögerung ein. Wenn zum Beispiel der Leuchturm
+   einer Runde VerzÃ¶gerung ein. Wenn zum Beispiel der Leuchturm
    fertiggestellt wird, bekommen einige Triremen den Bewegungsbonus erst 
-   eine Runde später.
+   eine Runde spÃ¤ter.
 
- - Der Xaw Client kann im Stadtdialog nur maximal 25 Bürger anzeigen.
+ - Der Xaw Client kann im Stadtdialog nur maximal 25 BÃ¼rger anzeigen.
 
  - Das "automatische Angreifen" funktioniert nicht besonders gut.
 
- - Wenn der Server den Weg für einen "Gehe nach" Befehl festlegt, zum
-   Beispiel für einen automatische Siedler oder ein Flugzeug, benutzt
-   der Server Wissen, das dem Spieler nicht zur Verfügung steht.
+ - Wenn der Server den Weg fÃ¼r einen "Gehe nach" Befehl festlegt, zum
+   Beispiel fÃ¼r einen automatische Siedler oder ein Flugzeug, benutzt
+   der Server Wissen, das dem Spieler nicht zur VerfÃ¼gung steht.
 
  - Der Fortschrittsdialog wird nicht erneuert, wenn man einen
-   Fortschritt erhält. Man muß den Dialog schließen und wieder öffnen.
+   Fortschritt erhÃ¤lt. Man muÃŸ den Dialog schlieÃŸen und wieder Ã¶ffnen.
 
- - Im Gtk Clienten enthält die Anzeige unter der kleinen Karte manchmal
+ - Im Gtk Clienten enthÃ¤lt die Anzeige unter der kleinen Karte manchmal
    Unsinn.
 
  - Funktionen wie automatisches Erkunden beherrschen den Umgang mit
@@ -78,15 +78,15 @@ BEKANNTE FEHLER:
  - LOG_DEBUG funktioniert nur mit GCC Compilern.
 
  - Beim Setzen von Servervariablen werden manche Werte nicht gut
-   genug überprüft.
+   genug Ã¼berprÃ¼ft.
 
- - Wenn man gleichzeitig mehrere globale Arbeitslisten verändert,
+ - Wenn man gleichzeitig mehrere globale Arbeitslisten verÃ¤ndert,
    kann es zu schweren Fehlern kommen.
 
- - Auch im Einzelspiel hat die KI die Möglichkeit, sowohl vor als
+ - Auch im Einzelspiel hat die KI die MÃ¶glichkeit, sowohl vor als
    auch nach dem Zug des menschlichen Spielers zu ziehen. Das ergibt
    manchmal den Eindruck, als wenn ein Computerspieler zweimal ziehen
-   würde.
+   wÃ¼rde.
 
  - Der Xaw Client arbeitet mit dem KDE Windowmanager nicht gut zusammen.
    Verwenden Sie stattdessen den Gtk Clienten oder einen anderen 
@@ -96,32 +96,32 @@ BEKANNTE FEHLER:
 FEHLER MITTEILEN:
 =================
 
-(Fehler in der deutschen Übersetzung berichten Sie bitte an die 
-Mailingliste der deutschen Freeciv-Übersetzer <freeciv.de@freelists.org>.)
+(Fehler in der deutschen Ãœbersetzung berichten Sie bitte an die 
+Mailingliste der deutschen Freeciv-Ãœbersetzer <freeciv.de@freelists.org>.)
 
 Bitte gehen Sie so vor:
 
  - Sehen Sie nach, ob der Fehler nicht schon oben auf dieser Liste steht! ;-)
 
  - Schauen Sie auf der Freeciv Website nach, um sicherzugehen, dass Sie die
-   neueste Version verwenden (Der Fehler könnte schon korrigiert worden sein.)
+   neueste Version verwenden (Der Fehler kÃ¶nnte schon korrigiert worden sein.)
 
-   Insbesondere könnten Sie die neueste Entwicklerversion ausprobieren. Sie
-   können über FTP bekommen, unter:
+   Insbesondere kÃ¶nnten Sie die neueste Entwicklerversion ausprobieren. Sie
+   kÃ¶nnen Ã¼ber FTP bekommen, unter:
 
         http://www.freeciv.org/latest.html
 
- - Prüfen Sie die FAQ auf der Freeciv Website, ob dort steht, wie Sie den
-   Fehler umgehen können.
+ - PrÃ¼fen Sie die FAQ auf der Freeciv Website, ob dort steht, wie Sie den
+   Fehler umgehen kÃ¶nnen.
 
  - Schauen Sie im Freeciv Fehlerberichtssystem nach, ob der Fehler bereits
    berichtet wurde:
 
         http://www.freeciv.org/cgi-bin/bugs
 
- - Übermitteln Sie einen Fehlerbericht!
+ - Ãœbermitteln Sie einen Fehlerbericht!
 
-   Dazu können Sie entweder eine Mail an <bugs@freeciv.freeciv.org> schicken,
+   Dazu kÃ¶nnen Sie entweder eine Mail an <bugs@freeciv.freeciv.org> schicken,
    oder das Web-Interface unter <http://www.freeciv.org/cgi-bin/bugs> benutzen.
 
    Oder, wenn Sie den Freeciv Entwicklern lieber ein paar Kommentare schicken
@@ -149,14 +149,14 @@ Bitte gehen Sie so vor:
         Bibliotheken, insbesondere, ob es Standard Xaw oder eine der
         Varianten Xaw3d, Xaw95, oder Nextaw ist (falls bekannt).
  
-      - Wenn Sie Freeciv selber übersetzt haben, Name und Version des
+      - Wenn Sie Freeciv selber Ã¼bersetzt haben, Name und Version des
         Compilers.
 
-      - Wenn Sie ein Binärpaket installiert haben, den Namen des Pakets,
-        die Distribution, für die es gebaut wurde, und woher Sie es haben.
+      - Wenn Sie ein BinÃ¤rpaket installiert haben, den Namen des Pakets,
+        die Distribution, fÃ¼r die es gebaut wurde, und woher Sie es haben.
 
    - Wenn Freeciv eine "core" Datei produziert, werden wir Sie vielleicht
-     um einen "Stack Trace" bitten. Dafür brauchen Sie die core Datei, heben
+     um einen "Stack Trace" bitten. DafÃ¼r brauchen Sie die core Datei, heben
      Sie sie also bitte ein paar Tage auf.
 
 

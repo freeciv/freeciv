@@ -1,4 +1,4 @@
-Inhaltsverzeicnis der deutschen Dokumentation für Freeciv
+Inhaltsverzeicnis der deutschen Dokumentation fÃ¼r Freeciv
 =========================================================
 
 
@@ -7,10 +7,10 @@ Datei			Inhalt
 README.1st.de  		Aktuelle Hinweise (nur bei Bedarf)
 INHALT			dieser Text
 INSTALL.de    		Installationsanleitung
-INSTALL.debian.de       Installationshinweise für die Debian Distribution
+INSTALL.debian.de       Installationshinweise fÃ¼r die Debian Distribution
 NEWS.de            	Neues
 README.de		Das sollte man lesen
-HOWTOPLAY.de  		Einführung und Spieltips für Anfänger
-README.cma.de  		Erklärung der Automatischen Stadtverwaltung
+HOWTOPLAY.de  		EinfÃ¼hrung und Spieltips fÃ¼r AnfÃ¤nger
+README.cma.de  		ErklÃ¤rung der Automatischen Stadtverwaltung
 BUGS.de  		Bekannte Fehler
-README.rulesets.de	Über Regeln, die man ändern kann
+README.rulesets.de	Ãœber Regeln, die man Ã¤ndern kann
