@@ -20,47 +20,58 @@
 ***************************************************************************/
 
 /**************************************************************************
-  Description of the file format:  (description by David Pfitzner
-  (dwp@mso.anu.edu.au), not an original author of the code)
+  Description of the file format:
+  (This is based on a format by the original authors, with
+  various incremental extensions. --dwp)
   
   - Whitespace lines are ignored, as are lines where the first
-  non-whitespace character is ";" (comment lines).
-  Optionally '#' can also be used for comments. (new)
+  non-whitespace character is ';' (comment lines).
+  Optionally '#' can also be used for comments.
   
   - A line with "[name]" labels the start of a section with
-  that name; one of these must be the first non-comment line in the file.
-  Any spaces within the brackets are included in the name, which
-  is probably not a good idea.
+  that name; one of these must be the first non-comment line in
+  the file.  Any spaces within the brackets are included in the
+  name, but this feature (?) should probably not be used...
 
   - Within a section, lines have one of the following forms:
-      subname="stringvalue"
-      subname=-digits
-      subname=digits
-    for a value with given name and string, negative integer, and
-    positive integer values, respectively.  These entries are
-    referenced in the following functions as "sectionname.subname".
-    The section name should not contain any dots ('.'); the subname
-    can, but they have no particular significance.
-    There can be optional whitespace before and/or after the equals
-    sign (partly new: previously only after).
-    
+      subname = "stringvalue"
+      subname = -digits
+      subname = digits
+  for a value with given name and string, negative integer, and
+  positive integer values, respectively.  These entries are
+  referenced in the following functions as "sectionname.subname".
+  The section name should not contain any dots ('.'); the subname
+  can, but they have no particular significance.  There can be
+  optional whitespace before and/or after the equals sign.
+  You can put a newline after (but not before) the equals sign.
+  
   Backslash is an escape character in strings (double-quoted strings
   only, not names); recognised escapes are \n, \\, and \".
   (Any other \<char> is just treated as <char>.)
 
-  The above is the basic savefile format as originally implemented.
-  The following modifications/extensions are by dwp:
+  - Gettext markings:  You can surround strings like so:
+      foo = _("stringvalue")
+  The registry just ignores these extra markings, but this is
+  useful for marking strings for translations via gettext tools.
 
-  - Comments: originally any extra characters on the above lines
-  were ignored.  Now you should explicitly use the comment character ';'
+  - Multiline strings:  Strings can have embeded newlines, eg:
+    foo = _("
+    This is a string
+    over multiple lines
+    ")
+  This is equivalent to:
+    foo = _("\nThis is a string\nover multiple lines\n")
+  Note that if you missplace the trailing doublequote you can
+  easily end up with strange errors reading the file...
 
-  - Vector format:
-  The line:
-      foo= 10, 11, "x"
-  is equivalent to the following original-format lines:
-      foo=10
-      foo,1=11
-      foo,2="x"
+  - Vector format: An entry can have multiple values separated
+  by commas, eg:
+      foo = 10, 11, "x"
+  These are accessed by names "foo", "foo,1" and "foo,2"
+  (with section prefix as above).  So the above is equivalent to:
+      foo   = 10
+      foo,1 = 11
+      foo,2 = "x"
   As in the example, in principle you can mix integers and strings,
   but the calling program will probably require elements to be the
   same type.   Note that the first element of a vector is not "foo,0",
@@ -69,34 +80,31 @@
   you try to lookup "foo,0" then you get back "foo".  (So you should
   never have "foo,0" as a real name in the datafile.)
 
-  - Tabular format:
-  This was introduced to allow tabular-style data which humans can
-  more easily parse and edit (for rulesets).  As a bonus, it also
-  makes savefiles smaller.
-  The following lines:
-      foo={ "bar","baz","bax"
-      "wow",    10,  -5
-      "cool",  "str"
-      "hmm",   314,  99, 33, 11
+  - Tabular format:  The lines:
+      foo = { "bar",  "baz",   "bax"
+              "wow",   10,     -5
+              "cool",  "str"
+              "hmm",    314,   99, 33, 11
       }
-  are equivalent to the following original-format lines:
-      foo0.bar="wow"
-      foo0.baz=10
-      foo0.bax=-5
-      foo1.bar="cool"
-      foo1.baz="str"
-      foo2.bar="hmm"
-      foo2.baz=314
-      foo2.bax=99
-      foo2.bax,1=33
-      foo2.bax,2=11
+  are equivalent to the following:
+      foo0.bar = "wow"
+      foo0.baz = 10
+      foo0.bax = -5
+      foo1.bar = "cool"
+      foo1.baz = "str"
+      foo2.bar = "hmm"
+      foo2.baz = 314
+      foo2.bax = 99
+      foo2.bax,1 = 33
+      foo2.bax,2 = 11
   The first line specifies the base name and the column names, and the
-  subsequent lines have data.  Again while it is possible to mix string
-  and integer values in a column, and have either more or less values
-  in a row than there are column headings, the code which uses this
-  information (via the registry) may set more stringent conditions.
-  If a row has more entries than column headings, the last column
-  is treated as a vector (as above).
+  subsequent lines have data.  Again it is possible to mix string and
+  integer values in a column, and have either more or less values
+  in a row than there are column headings, but the code which uses
+  this information (via the registry) may set more stringent conditions.
+  If a row has more entries than column headings, the last column is
+  treated as a vector (as above).  You can optionally put a newline
+  after '=' and/or after '{'.
 
   The equivalence above between the new and old formats is fairly
   direct: internally, data is converted to the old format.
@@ -104,14 +112,21 @@
   as a table (2-d array) internally, but the current method
   seems sufficient and relatively simple...
   
-  There is a limited ability to save data in the new format:
+  There is a limited ability to save data in tabular:
   So long as the section_file is constructed in an expected way,
   tabular data (with no missing or extra values) can be saved
   in tabular form.  (See section_file_save().)
-  
-  With the new formats, it may be useful to have a line-continuation
-  mechanism. (?)  But that has not been implemented yet.
-  
+
+  - Multiline vectors: if the last non-comment non-whitespace
+  character in a line is a comma, the line is considered to
+  continue on to the next line.  Eg:
+      foo = 10,
+            11,
+            "x"
+  This is equivalent to the original "vector format" example above.
+  Such multi-lines can occur for column headings, vectors, or
+  table rows, again with some potential for strange errors...
+
 ***************************************************************************/
 
 /**************************************************************************
@@ -131,7 +146,9 @@
 #include <ctype.h>
 #include <stdarg.h>
 
+#include "astring.h"
 #include "genlist.h"
+#include "inputfile.h"
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
@@ -197,12 +214,6 @@ struct hash_data {
   int num_collisions;
 };
 
-struct flat_entry_list {
-  struct entry **plist;		/* list of pointers to individual mallocs */
-  int n;			/* number used */
-  int n_alloc;			/* number allocated */
-};
-
 static int hashfunc(char *name, int num_buckets);
 static int secfilehash_hashash(struct section_file *file);
 static void secfilehash_check(struct section_file *file);
@@ -213,11 +224,8 @@ static void secfilehash_insert(struct section_file *file,
 static void secfilehash_build(struct section_file *file);
 static void secfilehash_free(struct section_file *file);
 
-static char *minstrdup(struct sbuffer *sb, char *str);
+static char *minstrdup(struct sbuffer *sb, const char *str);
 static char *moutstr(char *str);
-
-static void parse_commalist(struct flat_entry_list *entries, char *buffer,
-			    char *filename, int lineno, struct sbuffer *sb);
 
 static struct entry*
 section_file_lookup_internal(struct section_file *my_section_file,  
@@ -295,283 +303,182 @@ void section_file_check_unused(struct section_file *file, char *filename)
 }
 
 /**************************************************************************
-  Parse a comma-delimited list of strings and integers.
-
-  "buffer" is a line of data, which should be a comma-separated
-  list of strings (with double-quotes) and simple integers.
-  Whitespace between entries is ok.
-  We mess with the buffer by inserting nuls.
-  
-  The section entry structs in "entries" are individually malloced,
-  so they can be used in the other registry structs and then freed
-  later without problems.  (Though now strbuffermalloc is used,
-  so this is less important.)  "entries" should be consistent on
-  input so we can realloc list->tab as necessary.  (We use realloc
-  for this instead of the strbuffer stuff, as this is reused many
-  times during loading the datafile.)
-  
-  In the entry structs we fill in ivalue and svalue,
-  but not name (which is set to NULL).  svalue, if used, is 
-  strbuffermalloc-ed memory.
-  (As usual svalue==NULL implies integer, else string.)
-  
-  The number of values is returned in list->n; there should be
-  at least one value, and trailing commas are not permitted.
-  
-  "filename" and "lineno" are for error reporting.
+  Return a new entry struct, allocated from sb, with given name,
+  and where tok is a "value" return token from inputfile.
+  The entry value has any escaped double-quotes etc removed.
 **************************************************************************/
-static void parse_commalist(struct flat_entry_list *entries, char *buffer,
-			    char *filename, int lineno, struct sbuffer *sb)
+struct entry *new_entry(struct sbuffer *sb, const char *name, const char *tok)
 {
-  char *cptr=buffer, *start;
-  struct entry *this_entry;
-  int end=0;
+  struct entry *pentry;
 
-  entries->n = 0;
-  do {
-    /* skip initial whitespace, to get to start of next value: */
-    for(; *cptr && isspace(*cptr); cptr++);
-    if(!*cptr) {
-      /* could just "break" here to allow trailing commas */
-      freelog(LOG_FATAL, "missing expected value in %s - line %d",
-	   filename, lineno);
-      exit(1);
-    }
-
-    /* prepare for next entry: */
-    entries->n++;
-    this_entry = sbuf_malloc(sb, sizeof(struct entry));
-    if (entries->n > entries->n_alloc) {
-      entries->n_alloc = 2*entries->n+1;
-      entries->plist = fc_realloc(entries->plist,
-				  entries->n_alloc*sizeof(struct entry*));
-    }
-    entries->plist[entries->n-1] = this_entry;
-    this_entry->name = NULL;
-    this_entry->used = 0;
-
-    /* deal with integer or string */
-    if(isdigit(*cptr) || *cptr=='-') {
-      
-      /* integer: skip more digits: */
-      start=cptr;
-      cptr++;
-      for(; *cptr && isdigit(*cptr); cptr++);
-      
-      /* skip optional trailing whitespace and check for end or comma: */
-      for(; *cptr && isspace(*cptr); cptr++);
-      if(*cptr=='\0' || *cptr==';' || *cptr=='#') {
-	end=1;
-      } else if (*cptr!=',') {
-	freelog(LOG_FATAL, "junk after integer in %s - line %d",
-	     filename, lineno);
-	exit(1);
-      } else {
-	cptr++;			/* skip comma */
-      }
-
-      this_entry->ivalue=atoi(start);
-      this_entry->svalue=NULL;
-      
-    } else if(*cptr == '\"') {
-
-      /* string: find next non-escaped double-quotes and terminate
-       * the sub-string */
-      start=++cptr;
-      for(; *cptr && (*cptr!='\"' || *(cptr-1)=='\\'); cptr++);
-      if (!*cptr) {
-	freelog(LOG_FATAL, "missing end of string in %s - line %d",
-	     filename, lineno);
-	exit(1);
-      }
-      *cptr++='\0';
-      
-      /* skip optional trailing whitespace and check for end or comma: */
-      for(; *cptr && isspace(*cptr); cptr++);
-      if(*cptr=='\0' || *cptr==';' || *cptr=='#') {
-	end=1;
-      } else if (*cptr!=',') {
-	freelog(LOG_FATAL, "junk after string in %s - line %d",
-	     filename, lineno);
-	exit(1);
-      } else {
-	cptr++;			/* skip comma */
-      }
-
-      this_entry->svalue=minstrdup(sb, start);
-      this_entry->ivalue=0;
-      
-    } else {
-      freelog(LOG_FATAL, "syntax error at value %d in %s - line %d",
-	   entries->n, filename, lineno);
-      exit(1);
-    }
-    
-  } while(!end);
+  pentry = sbuf_malloc(sb, sizeof(struct entry));
+  pentry->name = sbuf_strdup(sb, name);
+  if (tok[0] == '\"') {
+    pentry->svalue = minstrdup(sb, tok+1);
+    pentry->ivalue = 0;
+    freelog(LOG_DEBUG, "entry %s '%s'", name, pentry->svalue);
+  } else {
+    pentry->svalue = NULL;
+    pentry->ivalue = atoi(tok);
+    freelog(LOG_DEBUG, "entry %s %d", name, pentry->ivalue);
+  }
+  pentry->used = 0;
+  return pentry;
 }
+	
 
 /**************************************************************************
 ...
 **************************************************************************/
-int section_file_load(struct section_file *my_section_file, char *filename)
+int section_file_load(struct section_file *sf, char *filename)
 {
-  FILE *fs;
-  char buffer[512], temp_name[512];
-  int lineno;
-  struct section *current_section=NULL;
-  int table_state=0;		/* 1 when within tabular format */
-  int table_lineno=0;		/* row number in tabular, 0=top data row */
-  char *table_basename=NULL;	/* reuse, so normal malloc */
-  struct flat_entry_list columns = {NULL, 0, 0};
-  struct flat_entry_list entries = {NULL, 0, 0};
+  struct inputfile *inf;
+  struct section *psection = NULL;
+  struct entry *pentry;
+  int table_state = 0;		/* 1 when within tabular format */
+  int table_lineno = 0;		/* row number in tabular, 0=top data row */
   struct sbuffer *sb;
+  const char *tok;
   int i;
+  struct astring base_name = ASTRING_INIT;    /* for table or single entry */
+  struct astring entry_name = ASTRING_INIT;
+  struct athing columns_tab = ATHING_INIT(sizeof(struct astring));
+  struct astring *columns = NULL;	/* -> columns_tab.ptr */
 
-  if(!(fs=fopen(filename, "r"))) {
+  inf = inf_open(filename);
+  if (!inf) {
     freelog(LOG_NORMAL, "Could not open file \"%s\"", filename);
     return 0;
   }
+  section_file_init(sf);
+  sb = sf->sb;
 
-  section_file_init(my_section_file);
-  sb = my_section_file->sb;
-  lineno=0;
+  freelog(LOG_VERBOSE, "Reading file \"%s\"", filename);
 
-  while(fgets(buffer, sizeof(buffer), fs)) {
-    char *cptr;
-
-    if (strlen(buffer)==sizeof(buffer)-1) {
-      freelog(LOG_FATAL, "line too long in %s - line %d", filename, lineno);
-      exit(1);
+  while(!inf_at_eof(inf)) {
+    if (inf_token(inf, INF_TOK_EOL))
+      continue;
+    if (inf_at_eof(inf)) {
+      /* may only realise at eof after trying to real eol above */
+      break;
     }
-    lineno++;
-
-    for(cptr=buffer; *cptr && isspace(*cptr); cptr++);
-
-    if(*cptr=='\0' || *cptr==';' || *cptr=='#') {
-      continue;			/* blank line or comment line */
-
-    } else if(*cptr=='[') {
-      struct section *psection;
-      char *sname;
-
+    tok = inf_token(inf, INF_TOK_SECTION_NAME);
+    if (tok) {
       if (table_state) {
-	freelog(LOG_FATAL, "new section during table in %s - line %d",
-	     filename, lineno);
-	exit(1);
+	inf_die(inf, "new section during table");
       }
-      sname = cptr+1;
-      for(++cptr; *cptr && *cptr!=']'; cptr++);
-      if(!*cptr) {
-	freelog(LOG_FATAL, "missing ] in %s - line %d", filename, lineno);
-	exit(1);
-      }
-      *cptr='\0';
-
       psection = sbuf_malloc(sb, sizeof(struct section));
-      psection->name = sbuf_strdup(sb, sname);
+      psection->name = sbuf_strdup(sb, tok);
       entry_list_init(&psection->entries);
-      section_list_insert_back(my_section_file->sections, psection);
-
-      current_section=psection;
-
-    } else if(!current_section) {
-      
-      freelog(LOG_FATAL, "entry defined before first section in %s - line %d", 
-	   filename, lineno);
-      exit(1);
-      
-    } else if(*cptr=='}') {
-
-      if (!table_state) {
-	freelog(LOG_FATAL, "misplaced \"}\" in %s - line %d", filename, lineno);
-	exit(1);
-      }
-      free(table_basename);
-      table_basename=NULL;
-      table_state=0;
-
-    } else if(table_state) {
-
-      parse_commalist(&entries, cptr, filename, lineno, sb);
-      for(i=0; i<entries.n; i++) {
-	if (i<columns.n) {
-	  sprintf(temp_name,"%s%d.%s", table_basename, table_lineno,
-		  columns.plist[i]->svalue);
-	} else {
-	  sprintf(temp_name,"%s%d.%s,%d", table_basename, table_lineno,
-		  columns.plist[columns.n-1]->svalue, i-columns.n+1);
-	}
-	entries.plist[i]->name = sbuf_strdup(sb, temp_name);
-	entry_list_insert_back(&current_section->entries, entries.plist[i]); 
-	my_section_file->num_entries++;
-      }
-      table_lineno++;
-      
-    } else {
-      char *pname=cptr;
-
-      /* Name is ended by a space or equals sign: */
-      for(; *cptr && (*cptr!='=' && !isspace(*cptr)); cptr++);
-      if(!*cptr) {
-	freelog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
-	exit(1);
-      }
-      if (*cptr=='=') {
-	*cptr++='\0';
-      } else {
-	*cptr++='\0';
-	/* find the equals sign: */
-	for(; *cptr && *cptr!='='; cptr++);
-	if(!*cptr) {
-	  freelog(LOG_FATAL, "syntax error in %s - line %d", filename, lineno);
-	  exit(1);
-	}
-	cptr++;
-      }
-      /* skip any space after the equals: */
-      for(; *cptr && isspace(*cptr); cptr++);
-      
-      if(isdigit(*cptr) || *cptr=='-' || *cptr=='\"') {
-	
-	parse_commalist(&entries, cptr, filename, lineno, sb);
-	for(i=0; i<entries.n; i++) {
-	  if (i==0) {
-	    entries.plist[0]->name = sbuf_strdup(sb, pname);
-	  } else {
-	    sprintf(temp_name,"%s,%d", pname, i);
-	    entries.plist[i]->name = sbuf_strdup(sb, temp_name);
-	  }
-	  entry_list_insert_back(&current_section->entries, entries.plist[i]);
-	  my_section_file->num_entries++;
-	}
-	
-      } else if(*cptr=='{') {
-	
-	table_basename = mystrdup(pname);
-	parse_commalist(&columns, cptr+1, filename, lineno, sb);
-	for(i=0; i<columns.n; i++) {
-	  if( !columns.plist[i]->svalue ) {
-	    freelog(LOG_FATAL, "table format entry non-string in %s - line %d",
-		 filename, lineno);
-	    exit(1);
-	  } 
-	}
-	table_state=1;
-	table_lineno=0;
-      }	
+      section_list_insert_back(sf->sections, psection);
+      inf_token_required(inf, INF_TOK_EOL);
+      continue;
     }
+    if (!psection) {
+      inf_die(inf, "data before first section");
+    }
+    if (inf_token(inf, INF_TOK_TABLE_END)) {
+      if (!table_state) {
+	inf_die(inf, "misplaced \"}\"");
+      }
+      inf_token_required(inf, INF_TOK_EOL);
+      table_state=0;
+      continue;
+    }
+    if (table_state) {
+      i = -1;
+      do {
+	i++;
+	inf_token(inf, INF_TOK_EOL);  	/* allow a newline */
+	tok = inf_token_required(inf, INF_TOK_VALUE);
+	if (i<columns_tab.n) {
+	  astr_minsize(&entry_name, base_name.n + 10 + columns[i].n);
+	  sprintf(entry_name.str, "%s%d.%s", base_name.str,
+		  table_lineno, columns[i].str);
+	} else {
+	  astr_minsize(&entry_name, base_name.n + 20 + columns[i].n);
+	  sprintf(entry_name.str, "%s%d.%s,%d", base_name.str,
+		  table_lineno, columns[i].str, i-columns_tab.n+1);
+	}
+	pentry = new_entry(sb, entry_name.str, tok);
+	entry_list_insert_back(&psection->entries, pentry);
+	sf->num_entries++;
+      } while(inf_token(inf, INF_TOK_COMMA));
+      
+      inf_token(inf, INF_TOK_EOL);
+      table_lineno++;
+      continue;
+    }
+    
+    tok = inf_token_required(inf, INF_TOK_ENTRY_NAME);
+    /* need to store tok before next calls: */
+    astr_minsize(&base_name, strlen(tok)+1);
+    strcpy(base_name.str, tok);
+
+    inf_token(inf, INF_TOK_EOL);  	/* allow a newline */
+    
+    if (inf_token(inf, INF_TOK_TABLE_START)) {
+      i = -1;
+      do {
+	i++;
+	inf_token(inf, INF_TOK_EOL);  	/* allow a newline */
+	tok = inf_token_required(inf, INF_TOK_VALUE);
+	if( tok[0] != '\"' ) {
+	  inf_die(inf, "table column header non-string");
+	}
+	{ 	/* expand columns_tab: */
+	  int j, n_prev;
+	  n_prev = columns_tab.n_alloc;
+	  ath_minnum(&columns_tab, (i+1));
+	  columns = columns_tab.ptr;
+	  for(j=n_prev; j<columns_tab.n_alloc; j++) {
+	    astr_init(&columns[j]);
+	  }
+	}
+	astr_minsize(&columns[i], strlen(tok));
+	strcpy(columns[i].str, tok+1);
+	
+      } while(inf_token(inf, INF_TOK_COMMA));
+      
+      inf_token(inf, INF_TOK_EOL);
+      table_state=1;
+      table_lineno=0;
+      continue;
+    }
+    /* ordinary value: */
+    i = -1;
+    do {
+      i++;
+      inf_token(inf, INF_TOK_EOL);  	/* allow a newline */
+      tok = inf_token_required(inf, INF_TOK_VALUE);
+      if (i==0) {
+	pentry = new_entry(sb, base_name.str, tok);
+      } else {
+	astr_minsize(&entry_name, base_name.n + 20);
+	sprintf(entry_name.str, "%s,%d", base_name.str, i);
+	pentry = new_entry(sb, entry_name.str, tok);
+      }
+      entry_list_insert_back(&psection->entries, pentry);
+      sf->num_entries++;
+    } while(inf_token(inf, INF_TOK_COMMA));
   }
+  
   if (table_state) {
     freelog(LOG_FATAL, "finished file %s before end of table\n", filename);
     exit(1);
   }
 
-  fclose(fs);
-  free(columns.plist);
-  free(entries.plist);
+  inf_close(inf);
+  
+  astr_free(&base_name);
+  astr_free(&entry_name);
+  for(i=0; i<columns_tab.n_alloc; i++) {
+    astr_free(&columns[i]);
+  }
+  ath_free(&columns_tab);
   
   if(DO_HASH) {
-    secfilehash_build(my_section_file);
+    secfilehash_build(sf);
   }
     
   return 1;
@@ -1256,7 +1163,7 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
  Other '\c' sequences (any character 'c') are just passed
  through with the '\' removed (eg, includes '\\', '\"')
 ***************************************************************/
-static char *minstrdup(struct sbuffer *sb, char *str)
+static char *minstrdup(struct sbuffer *sb, const char *str)
 {
   char *dest = sbuf_malloc(sb, strlen(str)+1);
   char *d2=dest;
