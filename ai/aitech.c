@@ -43,55 +43,42 @@
 /*
    regression testing
 */
-enum government_type { 
-  G_ANARCHY, G_DESPOTISM, G_MONARCHY, G_COMMUNISM, G_REPUBLIC, G_DEMOCRACY,
-  G_LAST
-};
-/* temp hack: */
-#define A_MONARCHY  (get_government(G_MONARCHY)->required_tech)
-#define A_COMMUNISM (get_government(G_COMMUNISM)->required_tech)
-#define A_REPUBLIC  (get_government(G_REPUBLIC)->required_tech)
-#define A_DEMOCRACY (get_government(G_DEMOCRACY)->required_tech)
-static int get_government_tech(struct player *plr)
+static Tech_Type_id get_government_tech(struct player *plr)
 {
-  int government = get_nation_by_plr(plr)->goals.government;
-  if (can_change_to_government(plr, government))
-    return 0;
-  switch (government) {
-  case G_MONARCHY:
-    return A_MONARCHY;
-    break;
-
-  case G_COMMUNISM:
-    if (get_invention(plr, A_MONARCHY) == TECH_KNOWN)
-      return A_COMMUNISM;
-    else
-      return A_MONARCHY;
-    break;
-
-  case G_REPUBLIC:
-      return A_REPUBLIC;
-    break;
-
-  case G_DEMOCRACY:
-    if (get_invention(plr, A_REPUBLIC) == TECH_KNOWN)
-      return A_DEMOCRACY;
-    else 
-      return A_REPUBLIC;
-    break;
+  int goal = get_nation_by_plr(plr)->goals.government;
+  int subgoal = get_government(goal)->subgoal;
+  
+  if (can_change_to_government(plr, goal)) {
+    freelog(LOG_DEBUG, "get_gov_tech (%s): have %d", plr->name, goal);
+    return A_NONE;
   }
-  return 0; /* to make compiler happy */
+
+  if (subgoal >= 0) {
+    struct government *subgov = get_government(subgoal);
+    if (get_invention(plr, subgov->required_tech) == TECH_KNOWN) {
+      freelog(LOG_DEBUG, "get_gov_tech (%s): have sub %d %s",
+	      plr->name, goal, subgov->name);
+      return get_government(goal)->required_tech;
+    } else {
+      freelog(LOG_DEBUG, "get_gov_tech (%s): do sub %d %s",
+	      plr->name, goal, subgov->name);
+      return subgov->required_tech;
+    }
+  } else {
+    freelog(LOG_DEBUG, "get_gov_tech (%s): no sub %d", plr->name, goal);
+    return get_government(goal)->required_tech;
+  }
 }
 
 #else  /* following may need updating before enabled --dwp */
 
-static int get_government_tech(struct player *plr)
+static Tech_Type_id get_government_tech(struct player *plr)
 {
   int i, rating;
   int best_government = -1, best_rating = 0;
 
   for (i = 0; i < game.government_count; ++i) {
-    struct government *g = &governments[ i ];
+    struct government *g = get_government(i);
     rating = ai_evaluate_government (plr, g);
     if (rating > best_rating &&
         get_invention (plr, g->required_tech) != TECH_KNOWN) {
@@ -100,8 +87,8 @@ static int get_government_tech(struct player *plr)
     }
   }
   if (best_government == -1)
-    return 0;
-  return governments[ best_government ].required_tech;
+    return A_NONE;
+  return get_government(best_government)->required_tech;
 }
 #endif /* NEW_GOV_EVAL */
 

@@ -17,6 +17,7 @@ options="1.8.2 +tilespec +nontab"
 [governments]
 default="Despotism"
 when_anarchy="Anarchy"
+ai_goal="Republic"
 
 ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
     "Code of Laws", 150,   0, 1, 0
@@ -46,6 +47,8 @@ ai_tech_hints = { "tech", "turns_factor", "const_factor", "get_first", "done"
 ;		otherwise may be "-"
 ; flags       = special effects; see government.c for strings
 ; hints       = hints to the AI about how to use / behave with government
+; subgoal     = another government name or "-"; if main gov is nation or 
+;		AI goal government, aim for subgoal first.
 
 ; martial_law_max  = maximum number of units which can enforce martial law
 ;		     in the city
@@ -99,6 +102,7 @@ graphic     = "gov.anarchy"
 graphic_alt = "-"
 flags       = "-"
 hints       = "Favors_Growth"
+subgoal	    = "-"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -168,6 +172,7 @@ graphic     = "gov.despotism"
 graphic_alt = "-"
 flags       = "-"
 hints       = "Favors_Growth"
+subgoal	    = "-"
 
 martial_law_max  = 100  ; unlimited
 martial_law_per  = 1
@@ -235,6 +240,7 @@ graphic     = "gov.monarchy"
 graphic_alt = "-"
 flags       = "-"
 hints       = "Favors_Growth"
+subgoal	    = "-"
 
 martial_law_max  = 3
 martial_law_per  = 1
@@ -301,6 +307,7 @@ graphic     = "gov.communism"
 graphic_alt = "-"
 flags       = "Build_Veteran_Diplomats", "Inspires_Partisans"
 hints       = "Favors_Growth"
+subgoal	    = "Monarchy"
 
 martial_law_max  = 3
 martial_law_per  = 2
@@ -374,6 +381,7 @@ graphic     = "gov.republic"
 graphic_alt = "-"
 flags       = "Has_Senate"
 hints       = "Is_Nice"
+subgoal	    = "Monarchy"
 
 martial_law_max  = 0
 martial_law_per  = 0
@@ -451,6 +459,7 @@ graphic_alt = "-"
 flags       = "Has_Senate", "Revolution_When_Unhappy", 
               "Inspires_Partisans", "Unbribable"
 hints       = "Is_Nice" 
+subgoal	    = "Republic"
 
 martial_law_max  = 0
 martial_law_per  = 0

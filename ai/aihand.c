@@ -464,51 +464,57 @@ static void ai_manage_taxes(struct player *pplayer)
  change the government form, if it can and there is a good reason
 **************************************************************************/
 #ifndef NEW_GOV_EVAL
-/*
-   used for now for regression testing --dwp
-*/
-enum government_type { 
-  G_ANARCHY, G_DESPOTISM, G_MONARCHY, G_COMMUNISM, G_REPUBLIC, G_DEMOCRACY,
-  G_LAST
-};
 static void ai_manage_government(struct player *pplayer)
 {
-  int government = get_nation_by_plr(pplayer)->goals.government;
-  government = G_REPUBLIC; /* need to be REPUBLIC+ to love */
-/* advantages of DEMOCRACY: partisans, no bribes, no corrup, +1 content if courthouse */
-/* disadvantages of DEMOCRACY: doubled unhappiness from attacking units, anarchy */
-/* realistically we should allow DEMOC in some circumstances but not yet -- Syela */
-  if (pplayer->government == government)
-    return;
-  if (can_change_to_government(pplayer, government)) {
-    ai_government_change(pplayer, government);
+  int goal = get_nation_by_plr(pplayer)->goals.government;
+  int subgoal;
+  int failsafe;
+  
+  goal = game.ai_goal_government;
+  /* Was G_REPUBLIC; need to be REPUBLIC+ to love */
+  
+  /* advantages of DEMOCRACY:
+        partisans, no bribes, no corrup, +1 content if courthouse;
+     disadvantages of DEMOCRACY:
+        doubled unhappiness from attacking units, anarchy 
+     realistically we should allow DEMOC in some circumstances but
+     not yet -- Syela
+  */
+  if (pplayer->government == goal) {
+    freelog(LOG_DEBUG, "ai_man_gov (%s): there %d", pplayer->name, goal);
     return;
   }
-  switch (government) {
-  case G_COMMUNISM:
-    if (can_change_to_government(pplayer, G_MONARCHY)) 
-      ai_government_change(pplayer, G_MONARCHY);
-    break;
-  case G_DEMOCRACY:
-    if (can_change_to_government(pplayer, G_REPUBLIC)) 
-      ai_government_change(pplayer, G_REPUBLIC);
-    else if (can_change_to_government(pplayer, G_MONARCHY)) 
-      ai_government_change(pplayer, G_MONARCHY);
-    break;
-  case G_REPUBLIC:
-    if (can_change_to_government(pplayer, G_MONARCHY)) 
-      ai_government_change(pplayer, G_MONARCHY); /* better than despotism! -- Syela */
-    break;
+  if (can_change_to_government(pplayer, goal)) {
+    freelog(LOG_DEBUG, "ai_man_gov (%s): change %d", pplayer->name, goal);
+    ai_government_change(pplayer, goal);
+    return;
+  }
+  failsafe = 0;
+  while((subgoal = get_government(goal)->subgoal) >= 0) {
+    if (can_change_to_government(pplayer, subgoal)) {
+      freelog(LOG_DEBUG, "ai_man_gov (%s): change sub %d (%d)",
+	      pplayer->name, subgoal, goal);
+      ai_government_change(pplayer, subgoal);
+      break;
+    }
+    goal = subgoal;
+    if (++failsafe > game.government_count) {
+      freelog(LOG_NORMAL, "Loop in ai_manage_government? (%s)",
+	      pplayer->name);
+      return;
+    }
   }
 
-  if( pplayer->government == G_ANARCHY ){
+  if (pplayer->government == game.government_when_anarchy) {
     /* if the ai ever intends to stay anarchy, */
     /* change condition to if( (pplayer->revolution==0) && */
-    if( ((pplayer->revolution<=0) || (pplayer->revolution>5)) &&
-       can_change_to_government(pplayer, G_DESPOTISM) 
-       )
-      { ai_government_change(pplayer, G_DESPOTISM); }
-  }/* if ANARCHY */
+    if( ((pplayer->revolution<=0) || (pplayer->revolution>5))
+	&& can_change_to_government(pplayer, game.default_government)) {
+      freelog(LOG_DEBUG, "ai_man_gov (%s): change from anarchy",
+	      pplayer->name);
+      ai_government_change(pplayer, game.default_government);
+    }
+  }
 }
 
 #else  /* following may need updating before enabled --dwp */

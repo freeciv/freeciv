@@ -748,6 +748,7 @@ void game_init(void)
   game.government_count = 0;
   game.default_government = G_MAGIC;        /* flag */
   game.government_when_anarchy = G_MAGIC;   /* flag */
+  game.ai_goal_government = G_MAGIC;        /* flag */
 
   strcpy(game.demography, GAME_DEFAULT_DEMOGRAPHY);
 

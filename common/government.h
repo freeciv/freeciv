@@ -65,6 +65,7 @@ struct government
   char  graphic_str[MAX_LEN_NAME];
   char  graphic_alt[MAX_LEN_NAME];
   int   required_tech;		/* tech required to change to this gov */
+  int   subgoal;		/* for AI; another government or -1 */
 
   struct ruler_title *ruler_titles;
   int   num_ruler_titles;

@@ -979,6 +979,13 @@ static void load_ruleset_governments(char *ruleset_subdir)
   game.government_when_anarchy
     = lookup_government(&file, "governments.when_anarchy", filename);
   
+  game.ai_goal_government
+    = lookup_government(&file, "governments.ai_goal", filename);
+
+  freelog(LOG_DEBUG, "govs: def %d, anarchy %d, ai_goal %d",
+	  game.default_government, game.government_when_anarchy,
+	  game.ai_goal_government);
+  
   /* Because player_init is called before rulesets are loaded we set
    * all players governments here, if they have not been previously
    * set (eg by loading game).
@@ -1132,6 +1139,25 @@ static void load_ruleset_governments(char *ruleset_subdir)
     title->female_title[sizeof(title->female_title)-1] = '\0';
   }
 
+  /* subgoals: */
+  for(i=0; i<game.government_count; i++) {
+    char *sval;
+    g = &governments[i];
+    sval = secfile_lookup_str(&file, "%s.subgoal", sec[i]);
+    if (strcmp(sval, "-")==0) {
+      g->subgoal = -1;
+    } else {
+      struct government *subgov = find_government_by_name(sval);
+      if (subgov==NULL) {
+	freelog(LOG_FATAL, "Bad subgoal government \"%s\" for gov \"%s\" (%s)",
+		sval, g->name, filename);
+      } else {
+	g->subgoal = subgov - governments;
+      }
+    }
+    freelog(LOG_DEBUG, "%s subgoal %d", g->name, g->subgoal);
+  }
+    
   /* ai tech_hints: */
   j = -1;
   while((c = secfile_lookup_str_default(&file, NULL,

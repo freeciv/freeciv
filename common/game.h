@@ -86,6 +86,7 @@ struct civ_game {
   int government_count;
   int default_government;
   int government_when_anarchy;
+  int ai_goal_government;	/* kludge */
 
   int nation_count;
   int styles_count;
