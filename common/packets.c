@@ -370,7 +370,7 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
 {
   int len;
   get_uint16(buffer->data, &len);
-  memcpy(buffer->data, buffer->data+len, buffer->ndata-len);
+  memmove(buffer->data, buffer->data+len, buffer->ndata-len);
   buffer->ndata-=len;
 }
 
