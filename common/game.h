@@ -13,6 +13,7 @@
 #ifndef __GAME_H
 #define __GAME_H
 
+#include "shared.h"
 #include "player.h"
 
 #define GAME_DEFAULT_TIMEOUT 0
@@ -73,6 +74,7 @@ struct civ_game {
   int techpenalty;
   int razechance;
   int scorelog;
+  RANDOM_TYPE randseed;
   int aqueduct_size;
   int sewer_size;
 };

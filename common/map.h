@@ -183,9 +183,13 @@ int map_build_mine_time(int x, int y);
 #define MAP_MIN_HEIGHT           25
 #define MAP_MAX_HEIGHT           100
 
+#define GAME_DEFAULT_RANDSEED        0
+#define GAME_MIN_RANDSEED            0
+#define GAME_MAX_RANDSEED            (MAX_UINT32 >> 1)
+
 #define MAP_DEFAULT_SEED         0
 #define MAP_MIN_SEED             0
-#define MAP_MAX_SEED             50000
+#define MAP_MAX_SEED             GAME_MAX_RANDSEED
 
 #define MAP_DEFAULT_LANDMASS     30
 #define MAP_MIN_LANDMASS         20

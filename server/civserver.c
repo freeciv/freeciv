@@ -107,6 +107,8 @@ int races_avail[R_LAST];
 int races_used[R_LAST];
 int num_races_avail=R_LAST;
 
+int rand_init=0;
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -309,6 +311,15 @@ int main(int argc, char *argv[])
 	server_state=RUN_GAME_STATE;
     }
   }
+
+  if(!game.randseed) {
+    /* We strip the high bit for now because neither game file nor
+       server options can handle unsigned ints yet. - Cedric */
+    game.randseed = (unsigned int) time(NULL) & (MAX_UINT32 >> 1);
+  }
+ 
+  if(!rand_init)
+    mysrand(game.randseed);
 
   generate_ai_players();
    
@@ -1246,21 +1257,8 @@ generate_ai_players() - Selects a race for players created with server's
 
 void generate_ai_players()
 {
-  int i,j,player,race;
+  int i,player,race;
   char player_name[MAX_LENGTH_NAME];
-
-  /* My attempt to randomly seed the PRNG.
-     Without this we get the same AI players in every game -- at least
-     under Linux. Maybe this should be near the beginning of main()? 
-     - Cedric */
-
-  j=time(NULL)%60;
-  for(i=0;i<j;i++)
-      myrand(1);
-
-/* Editorial comment: Seeding the PRNG hinders development in many cases,
-but since this only happens at the start of a brand-new game, I don't
-see it as particularly harmful and am therefore leaving it intact. -- Syela */
 
   /* Select races for AI players generated with server 'create <name>' command */
 

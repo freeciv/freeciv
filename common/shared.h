@@ -69,7 +69,11 @@
 
 #define WIPEBIT(val, no) ((~(-1<<no))&val)  |   ((  (-1<<(no+1)) &val) >>1)
 
-char* n_if_vowel(char ch);
+#define MAX_UINT32 0xFFFFFFFF
+
+#define RANDOM_TYPE unsigned int
+
+char *n_if_vowel(char ch);
 char *create_centered_string(char *s);
 
 char *get_option_text(char **argv, int *argcnt, int max_argcnt,
@@ -80,8 +84,9 @@ char *textyear(int year);
 char *get_dot_separated_int(unsigned val);
 char *mystrdup(char *);
 int mystrcasecmp(char *str0, char *str1);
-int myrand(int size);
-void mysrand(unsigned int seed);
+RANDOM_TYPE myrand(int size);
+void mysrand(RANDOM_TYPE seed);
 int string_ptr_compare(const void *first, const void *second);
+void save_restore_random(void);
 
 #endif

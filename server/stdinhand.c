@@ -41,155 +41,162 @@ struct proto_settings {
   /* afterstart: 0=can be changed pre-start, 1=can be changed always,
      2=tile map generation option: can only be changed prior to having a tile map */
   int afterstart;
+  int to_client;		/* Ok to report this option to the client */
+				/* Eg: not: saveturns etc, seeds */
   int min_value, max_value, default_value;
 };
 
 struct proto_settings settings[] = {
   { "xsize", "Width of map in squares", 
-    &map.xsize, 2,  
+    &map.xsize, 2, 1,
     MAP_MIN_WIDTH, MAP_MAX_WIDTH, MAP_DEFAULT_WIDTH},
 
   { "ysize", "Height of map in squares", 
-    &map.ysize, 2,
+    &map.ysize, 2, 1,
     MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT},
 
   { "seed", "This single number defines the random sequence that generate the map\nSame seed will always produce same map, except 0, which gives a random map.", 
-    &map.seed, 2,
+    &map.seed, 2, 0,
     MAP_MIN_SEED,MAP_MAX_SEED, MAP_DEFAULT_SEED},
   
   { "landmass", "This number defines the percentage of the map that becomes land.", 
-    &map.landpercent, 2,
+    &map.landpercent, 2, 1,
     MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS},
 
   { "specials", "This number donates a percentage chance that a square is special.",
-    &map.riches, 0,
+    &map.riches, 0, 1,
     MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES},
 
   { "swamps", "How many swamps to create on the map.",
-    &map.swampsize, 2,
+    &map.swampsize, 2, 1,
     MAP_MIN_SWAMPS, MAP_MAX_SWAMPS, MAP_DEFAULT_SWAMPS},
 
   { "settlers", "How many settlers each player starts with.",
-    &game.settlers, 0,
+    &game.settlers, 0, 1,
     GAME_MIN_SETTLERS, GAME_MAX_SETTLERS, GAME_DEFAULT_SETTLERS},
 
   { "explorer", "How many explorer units the player starts with.",
-    &game.explorer, 0,
+    &game.explorer, 0, 1,
     GAME_MIN_EXPLORER, GAME_MAX_EXPLORER, GAME_DEFAULT_EXPLORER},
 
   { "deserts", "How many deserts to create on the map.",
-    &map.deserts, 2,
+    &map.deserts, 2, 1,
     MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS},
 
   { "rivers", "Denotes the total length of the rivers on the map.",
-    &map.riverlength, 2,
+    &map.riverlength, 2, 1,
     MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS},
 
   { "mountains", "How flat/high is the map, higher values give more mountains.", 
-    &map.mountains, 2,
+    &map.mountains, 2, 1,
     MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS},
 
   { "forests", "How much forest to create, higher values give more forest.", 
-    &map.forestsize, 2,
+    &map.forestsize, 2, 1,
     MAP_MIN_FORESTS, MAP_MAX_FORESTS, MAP_DEFAULT_FORESTS},
 
   { "huts", "how many 'bonus huts' should be created.",
-    &map.huts, 0,
+    &map.huts, 0, 1,
     MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS},
 
   { "generator", "made a more fair mapgenerator (2), but it only supports 7 players, and works on 80x50 maps only", 
-    &map.generator, 2,
+    &map.generator, 2, 1,
     MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR}, 
 
   { "gold", "how much gold does each players start with.",
-    &game.gold, 0,
+    &game.gold, 0, 1,
     GAME_MIN_GOLD, GAME_MAX_GOLD, GAME_DEFAULT_GOLD},
 
   { "techlevel", "How many initial advances does each player have.",
-    &game.tech, 0,
+    &game.tech, 0, 1,
     GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL},
 
   { "researchspeed", "How fast do players gain technology.",
-    &game.techlevel, 0,
+    &game.techlevel, 0, 1,
     GAME_MIN_RESEARCHLEVEL, GAME_MAX_RESEARCHLEVEL, GAME_DEFAULT_RESEARCHLEVEL},
 
   { "diplcost", "How many % of the price of researching a tech, does a tech cost when you exchange it in a diplomatic treaty.",
-    &game.diplcost, 0,
+    &game.diplcost, 0, 1,
     GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST},
 
   { "diplchance", "The 1:n chance of a diplomat/spy defeating a resident diplomat/spy while subverting or sabotaging a city.  Also the chance of a Spy returning from a sucessful mission",
-    &game.diplchance, 1,
+    &game.diplchance, 1, 1,
     GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE},
 
   { "freecost", "How many % of the price of researching a tech, does a tech cost when you get it for free.",
-    &game.freecost, 0,
+    &game.freecost, 0, 1,
     GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST},
 
   { "conquercost", "How many % of the price of researching a tech, does a tech cost when you get it by military force.",
-    &game.conquercost, 0,
+    &game.conquercost, 0, 1,
     GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST, GAME_DEFAULT_CONQUERCOST},
   
   { "unhappysize", "When do people get angry in a city.",
-    &game.unhappysize, 0,
+    &game.unhappysize, 0, 1,
     GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE},
 
   { "cityfactor", "How many cities will it take to increase unhappy faces in cities.",
-    &game.cityfactor, 0,
+    &game.cityfactor, 0, 1,
     GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR},
   { "railfood", "How many % railroads modifies food production.",
-     &game.rail_food, 0,
+     &game.rail_food, 0, 1,
      GAME_MIN_RAILFOOD, GAME_MAX_RAILFOOD, GAME_DEFAULT_RAILFOOD},
  
    { "railprod", "How many % railroads modifies shield production.",
-     &game.rail_prod, 0,
+     &game.rail_prod, 0, 1,
      GAME_MIN_RAILPROD, GAME_MAX_RAILPROD, GAME_DEFAULT_RAILPROD},
  
    { "railtrade", "How many % railroads modifies trade production.",
-     &game.rail_trade, 0,
+     &game.rail_trade, 0, 1,
      GAME_MIN_RAILTRADE, GAME_MAX_RAILTRADE, GAME_DEFAULT_RAILTRADE},
   { "foodbox", "Size * this parameter is what it takes for a city to grow by 1"
-    ,&game.foodbox, 0,
+    ,&game.foodbox, 0, 1,
     GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX},
   { "aqueductloss", "Percentage of food lost when city can't expand "
-    "without an aqueduct or sewer.", &game.aqueductloss, 0,
+    "without an aqueduct or sewer.",
+    &game.aqueductloss, 0, 1,
     GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, GAME_DEFAULT_AQUEDUCTLOSS},
   { "techpenalty", "% penalty if you change tech default it's 100%",
-    &game.techpenalty, 0,
+    &game.techpenalty, 0, 1,
     GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY, GAME_DEFAULT_TECHPENALTY},
   { "razechance", "% chance that each building in town is destroyed when conquered",
-    &game.razechance, 0,
+    &game.razechance, 0, 1,
     GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE},
  
   { "civstyle", "1= civ 1 (units, techs, buildings), 2= civ 2 style",
-    &game.civstyle, 0,
+    &game.civstyle, 0, 1,
     GAME_MIN_CIVSTYLE, GAME_MAX_CIVSTYLE, GAME_DEFAULT_CIVSTYLE},
 
   { "endyear", "In what year is the game over.", 
-    &game.end_year, 1,
+    &game.end_year, 1, 1,
     GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR},
 
   { "minplayers", "How many players are needed to start the game.",
-    &game.min_players, 0,
+    &game.min_players, 0, 1,
     GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS},
   
   { "maxplayers", "How many players are maximally wanted in game.",
-    &game.max_players, 0,
+    &game.max_players, 0, 1,
     GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS},
 
   { "saveturns", "How many turns between when the game is saved.",
-    &game.save_nturns, 1,
+    &game.save_nturns, 1, 0,
     0, 200, 10},
   { "timeout", "How many seconds can a turn max take (0 is no timeout).",
-    &game.timeout, 1,
+    &game.timeout, 1, 1,
     0, 999, GAME_DEFAULT_TIMEOUT},
 
   { "aifill", "Maximum number of AI players to create when game starts",
-    &game.aifill, 0,
+    &game.aifill, 0, 1,
     GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL},
 
   { "scorelog", "Logs players statistics every turn.  See the civscore.pl script in the contrib directory of the Freeciv web site for more information.",
-    &game.scorelog, 1,
+    &game.scorelog, 1, 0,
     GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG},
+
+  { "randseed", "Seed for random number generator.  The default value of zero uses the current timestamp as the seed.",
+    &game.randseed, 0, 0,
+    GAME_MIN_RANDSEED, GAME_MAX_RANDSEED, GAME_DEFAULT_RANDSEED},
 
   { NULL, NULL, NULL, 0, 0, 0}
 };
@@ -416,9 +423,16 @@ void report_server_options(struct player *pplayer)
   sprintf(title, "%-20svalue  (min , max)\n", "Variable");
 
   for (i=0;settings[i].name;i++) {
-    sprintf(buf2, "%-20s%c%-6d (%d,%d)\n", settings[i].name,(*settings[i].value==settings[i].default_value) ? '*' : ' ',  *settings[i].value, settings[i].min_value, settings[i].max_value);
-    strcat(buffer, buf2);
+    if (settings[i].to_client) {
+      sprintf(buf2, "%-20s%c%-6d (%d,%d)\n", settings[i].name,
+	      (*settings[i].value==settings[i].default_value) ? '*' : ' ',
+	      *settings[i].value, settings[i].min_value, settings[i].max_value);
+      strcat(buffer, buf2);
+    }
   }
+  i = strlen(buffer);
+  assert(i<sizeof(buffer));
+  flog(LOG_DEBUG, "report_server_options buffer len %d", i);
   page_player(pplayer, title, buffer);
   
 }
@@ -471,10 +485,12 @@ void show_command(char *str)
 {
   int i;
   puts(horiz_line);
-  printf("%-20svalue  (min , max)\n", "Variable");
+  printf("%-20svalue        (min , max)\n", "Variable");
   puts(horiz_line);
   for (i=0;settings[i].name;i++) {
-    printf("%-20s%c%-6d (%d,%d)\n", settings[i].name,(*settings[i].value==settings[i].default_value) ? '*' : ' ',  *settings[i].value, settings[i].min_value, settings[i].max_value);
+    printf("%-20s%c%-11d (%d,%d)\n", settings[i].name,
+	   (*settings[i].value==settings[i].default_value) ? '*' : ' ',
+	   *settings[i].value, settings[i].min_value, settings[i].max_value);
   }
   puts(horiz_line);
   puts("* means that it's the default for the variable");

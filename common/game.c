@@ -344,6 +344,7 @@ void game_init(void)
   game.scenario    = 0;
   strcpy(game.save_name, "civgame");
   game.save_nturns=10;
+  game.randseed=GAME_DEFAULT_RANDSEED;
 
   /* these will later have defaults, be adjustable, etc, via rulesets: */
   game.aqueduct_size = 8;

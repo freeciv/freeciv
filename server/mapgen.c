@@ -62,10 +62,10 @@ int desert_y(int y)
 }
 
 /**************************************************************************
-  make_mountains will convert all squares that is heigher than thill to
-  mountains and hills, notice that thill will be adjusted according to
+  make_mountains() will convert all squares that are higher than thill to
+  mountains and hills. Notice that thill will be adjusted according to
   the map.mountains value, so increase map.mountains and you'll get more 
-  hills and mountains, and vice versa  
+  hills and mountains (and vice versa).
 **************************************************************************/
 
 void make_mountains(int thill)
@@ -678,11 +678,12 @@ void choose_start_positions(void)
 **************************************************************************/
 void map_fractal_generate(void)
 {
-  /* random patch code just has to replace this code block */
+  save_restore_random();
+ 
   if (map.seed==0)
-    mysrand(time(NULL));
-  else 
-    mysrand(map.seed);
+    map.seed = (myrand(MAX_UINT32) ^ time(NULL)) & (MAX_UINT32 >> 1);
+
+  mysrand(map.seed);
   
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
@@ -702,6 +703,7 @@ void map_fractal_generate(void)
   
   /* print_map(); */
   make_huts(map.huts);
+  save_restore_random();
 }
 
 /**************************************************************************

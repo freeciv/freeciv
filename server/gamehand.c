@@ -30,8 +30,11 @@
 #include <log.h>
 
 extern char metaserver_info_line[];
+extern RANDOM_TYPE RandomState[];
+extern int iRandJ, iRandK, iRandX; 
+extern int rand_init;
 
-#define SAVEFILE_OPTIONS "1.7, scorelog, startoptions"
+#define SAVEFILE_OPTIONS "1.7, scorelog, startoptions, unirandom"
 
 /**************************************************************************
 ...
@@ -213,6 +216,7 @@ int game_load(struct section_file *file)
   int i;
   enum server_states tmp_server_state;
   char *savefile_options=" ";
+  char name[20],*string;
 
   game.version = secfile_lookup_int_default(file, 0, "game.version");
   tmp_server_state = (enum server_states)
@@ -272,6 +276,21 @@ int game_load(struct section_file *file)
   game.aqueductloss = secfile_lookup_int_default(file, game.aqueductloss,
 						 "game.aqueductloss");
   
+  if(has_capability("unirandom", savefile_options)) {
+    game.randseed = secfile_lookup_int(file, "game.randseed");
+    iRandJ = secfile_lookup_int(file,"random.index_J");
+    iRandK = secfile_lookup_int(file,"random.index_K");
+    iRandX = secfile_lookup_int(file,"random.index_X");
+    for(i=0;i<8;i++) {
+      sprintf(name,"random.table%d",i);
+      string=secfile_lookup_str(file,name);
+      sscanf(string,"%8X %8X %8X %8X %8X %8X %8X",&RandomState[7*i],
+	     &RandomState[7*i+1],&RandomState[7*i+2],&RandomState[7*i+3],
+	     &RandomState[7*i+4],&RandomState[7*i+5],&RandomState[7*i+6]);
+    }
+    rand_init=1;
+  }
+
   game.heating=0;
   if(tmp_server_state==PRE_GAME_STATE 
      || has_capability("startoptions", savefile_options)) {
@@ -340,6 +359,8 @@ void game_save(struct section_file *file)
 {
   int i;
   int version;
+  char name[20],temp[100];
+
   version = MAJOR_VERSION *10000 + MINOR_VERSION *100 + PATCH_VERSION; 
   secfile_insert_int(file, version, "game.version");
   secfile_insert_int(file, (int) server_state, "game.server_state");
@@ -376,6 +397,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.scorelog, "game.scorelog");
   secfile_insert_int(file, game.diplchance, "game.diplchance");
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
+  secfile_insert_int(file, game.randseed, "game.randseed");
 
   if (1) {
     /* Now always save these, so the server options reflect the
@@ -400,6 +422,20 @@ void game_save(struct section_file *file)
   } 
   if (server_state==PRE_GAME_STATE) {
     return;
+  } else {
+
+    secfile_insert_int(file,iRandJ,"random.index_J");
+    secfile_insert_int(file,iRandK,"random.index_K");
+    secfile_insert_int(file,iRandX,"random.index_X");
+
+    for(i=0;i<8;i++) {
+      sprintf(name,"random.table%d",i);
+      sprintf(temp,"%8X %8X %8X %8X %8X %8X %8X",RandomState[7*i],
+              RandomState[7*i+1],RandomState[7*i+2],RandomState[7*i+3],
+              RandomState[7*i+4],RandomState[7*i+5],RandomState[7*i+6]);
+      secfile_insert_str(file,temp,name);
+    }
+     
   }
 
   calc_unit_ordering();

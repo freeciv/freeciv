@@ -17,10 +17,14 @@
 
 #include <shared.h>
 
+/* Random Number Generator variables */
+RANDOM_TYPE RandomState[56];
+int iRandJ, iRandK, iRandX; 
+
 /**************************************************************************
 ... 
 **************************************************************************/
-char* n_if_vowel(char ch)
+char *n_if_vowel(char ch)
 {
 	if (strchr("AEIOUaeiou",ch))
 		return "n";
@@ -225,25 +229,6 @@ char *textyear(int year)
   return y;
 }
 
-int myrand(int size)
-{
-  /* Is it an operating system which says lrand48 is obsoleted by SVID 3?? */
-#if defined(linux) || defined(__EMX__) || defined(_WIN32)
-  return random()%size;
-#else
-  return lrand48()%size;
-#endif
-}
-
-void mysrand(unsigned int seed)
-{
-  /* Is it an operating system which says srand48 is obsoleted by SVID 3?? */
-#if defined(linux) || defined(__EMX__) || defined(_WIN32)
-  srandom(seed);
-#else
-  srand48(seed);
-#endif
-}
 
 /***************************************************************
 ...
@@ -266,4 +251,76 @@ string_ptr_compare() - fiddles with pointers to do a simple string compare
 int string_ptr_compare(const void *first, const void *second)
 {
    return mystrcasecmp(*((char **)first), *((char **)second));
+}
+
+
+/*************************************************************************
+   The following random number generator can be found in _The Art of 
+   Computer Programming Vol 2._ (2nd ed) by Donald E. Knuth. (C)  1998.
+   The algorithm is described in section 3.2.2 as Mitchell and Moore's
+   variant of a standard additive number generator.  Note that the
+   the constants 55 and 24 are not random.  Please become familiar with
+   this algorithm before you mess with it.
+
+   Since the additive number generator requires a table of numbers from
+   which to generate its random sequences, we must invent a way to 
+   populate that table from a single seed value.  I have chosen to do
+   this with a different PRNG, known as the "linear congruential method" 
+   (also found in Knuth, Vol2).  I must admit that my choices of constants
+   (3, 257, and MAX_UINT32) are probably not optimal, but they seem to
+   work well enough for our purposes.
+*************************************************************************/
+
+RANDOM_TYPE myrand(int size) 
+{ 
+
+    RANDOM_TYPE newRand;
+
+    newRand = (RandomState[iRandJ] + RandomState[iRandK]) & MAX_UINT32;
+
+    iRandX = (iRandX +1) % 56;
+    iRandJ = (iRandJ +1) % 56;
+    iRandK = (iRandK +1) % 56;
+    RandomState[iRandX] = newRand;
+
+    return newRand % size;
+    
+} 
+
+void mysrand(RANDOM_TYPE seed) 
+{ 
+    int  i; 
+
+    RandomState[0]=(seed & MAX_UINT32);
+
+    for(i=1;i<56;i++) {
+       RandomState[i]= (3 * RandomState[i-1] + 257) & MAX_UINT32;
+    }
+
+    iRandJ=(55-55);
+    iRandK=(55-24);
+    iRandX=(55-0);
+} 
+ 
+ 
+/*************************************************************************
+ save_restore_random() - Saves and restores the complete state of the 
+   random number generator to a temporary set of variables.  The first 
+   call to this function performs a save.  The second call performs 
+   a restore.  The third call performs a save again, etc.
+*************************************************************************/
+void save_restore_random(void)
+{
+   static RANDOM_TYPE State[56];
+   static int j, k, x;
+   static int mode=0;
+
+   if(mode) {
+      memcpy(RandomState,State,sizeof(RANDOM_TYPE)*56);
+      iRandJ=j; iRandK=k; iRandX=x;
+   } else {
+      memcpy(State,RandomState,sizeof(RANDOM_TYPE)*56);
+      j=iRandJ; k=iRandK; x=iRandX;
+   }
+   mode = mode+1 % 2;
 }
