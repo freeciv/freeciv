@@ -991,7 +991,7 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
   if (unit_flag(d_type, F_PIKEMEN) && unit_flag(a_type, F_HORSE)) 
     defensepower*=2;
   if (unit_flag(d_type, F_AEGIS) &&
-       (m_type == AIR_MOVING || m_type == HELI_MOVING)) defensepower*=2;
+       (m_type == AIR_MOVING || m_type == HELI_MOVING)) defensepower*=5;
   if (m_type == AIR_MOVING && pcity) {
     if (city_got_building(pcity, B_SAM))
       defensepower*=2;
@@ -1026,7 +1026,7 @@ int get_total_defense_power(struct unit *attacker, struct unit *defender)
   if (unit_flag(defender->type, F_PIKEMEN) && unit_flag(attacker->type, F_HORSE)) 
     defensepower*=2;
   if (unit_flag(defender->type, F_AEGIS) && (is_air_unit(attacker) || is_heli_unit(attacker)))
-    defensepower*=2;
+    defensepower*=5;
   if (is_air_unit(attacker)) {
     if (unit_behind_sam(defender))
       defensepower*=2;
