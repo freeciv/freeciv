@@ -75,7 +75,7 @@ tile_type for each terrain type
 expand with government bonuses??
 *****************************************************************/
 struct tile_type {
-  char terrain_name[MAX_LEN_NAME];     /* "" if unused */
+  const char *terrain_name; /* Translated string - doesn't need freeing. */
   char terrain_name_orig[MAX_LEN_NAME];	/* untranslated copy */
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -91,13 +91,13 @@ struct tile_type {
   int shield;
   int trade;
 
-  char special_1_name[MAX_LEN_NAME];   /* "" if none */
+  const char *special_1_name; /* Translated string - doesn't need freeing. */
   char special_1_name_orig[MAX_LEN_NAME]; /* untranslated copy */
   int food_special_1;
   int shield_special_1;
   int trade_special_1;
 
-  char special_2_name[MAX_LEN_NAME];   /* "" if none */
+  const char *special_2_name; /* Translated string - doesn't need freeing. */
   char special_2_name_orig[MAX_LEN_NAME]; /* untranslated copy */
   int food_special_2;
   int shield_special_2;

@@ -76,7 +76,7 @@ enum tech_state {
 };
 
 struct advance {
-  char name[MAX_LEN_NAME];
+  const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */

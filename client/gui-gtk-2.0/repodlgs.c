@@ -358,7 +358,7 @@ static void science_help_callback(GtkTreeView *view,
 *****************************************************************/
 static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 {
-  gchar *a_str, *b_str;
+  const gchar *a_str, *b_str;
   gchar text_a[512], text_b[512];
   gint a = GPOINTER_TO_INT(a_p), b = GPOINTER_TO_INT(b_p);
 
@@ -477,7 +477,7 @@ void science_dialog_update(void)
   /* sort the list and build from it the menu */
   sorting_list = g_list_sort(sorting_list, cmp_func);
   for (i = 0; i < g_list_length(sorting_list); i++) {
-    gchar *data;
+    const gchar *data;
 
     if (GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)) <
 	game.num_tech_types) {

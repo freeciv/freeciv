@@ -66,10 +66,9 @@ struct leader {
 };
 
 struct nation_type {
-  /* Pointer values are allocated in load_ruleset_nations() then freed in
-   * free_nations(). */
-  char name[MAX_LEN_NAME];
-  char name_plural[MAX_LEN_NAME];
+  /* Pointer values are allocated on load then freed in free_nations(). */
+  const char *name; /* Translated string - doesn't need freeing. */
+  const char *name_plural; /* Translated string - doesn't need freeing. */
   char flag_graphic_str[MAX_LEN_NAME];
   char flag_graphic_alt[MAX_LEN_NAME];
   int  leader_count;

@@ -195,7 +195,7 @@ void create_science_dialog(bool make_modal)
 {
   Widget science_form;
   Widget  close_command;
-  static char *tech_list_names_ptrs[A_LAST+1];
+  const static char *tech_list_names_ptrs[A_LAST + 1];
   int j, flag, num_list;
   size_t i;
   Dimension width;
@@ -471,7 +471,7 @@ void science_dialog_update(void)
   if(is_report_dialogs_frozen()) return;
   if(science_dialog_shell) {
     char text[512];
-    static char *tech_list_names_ptrs[A_LAST+1];
+    static const char *tech_list_names_ptrs[A_LAST + 1];
     int j, flag;
     size_t i;
     const char *report_title;
@@ -520,7 +520,7 @@ void science_dialog_update(void)
     tech_list_names_ptrs[j]=0;
     qsort(tech_list_names_ptrs, j, sizeof(char *), compare_strings_ptrs);
 
-    XawListChange(science_list, tech_list_names_ptrs, 0/*j*/, 0, 1);
+    XawListChange(science_list, (char **)tech_list_names_ptrs, 0/*j*/, 0, 1);
 
     XtDestroyWidget(popupmenu);
     

@@ -540,7 +540,7 @@ static void city_populate(struct city *pcity)
     unit_list_iterate_safe(pcity->units_supported, punit) {
       if (unit_type(punit)->food_cost > 0 
           && !unit_flag(punit, F_UNDISBANDABLE)) {
-	char *utname = unit_type(punit)->name;
+	const char *utname = unit_type(punit)->name;
 	wipe_unit(punit);
 	notify_player_ex(city_owner(pcity), pcity->tile, E_UNIT_LOST,
 			 _("Game: Famine feared in %s, %s lost!"), 

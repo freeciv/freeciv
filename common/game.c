@@ -540,72 +540,59 @@ int get_num_human_and_ai_players(void)
 void translate_data_names(void)
 {
   int i;
-  static const char too_long_msg[]
-    = "Translated name is too long, truncating: %s";
 
-#define name_strlcpy(dst, src) ((void) sz_loud_strlcpy(dst, src, too_long_msg))
-  
   tech_type_iterate(tech_id) {
     struct advance *tthis = &advances[tech_id];
-    sz_strlcpy(tthis->name_orig, tthis->name);
-    name_strlcpy(tthis->name, Q_(tthis->name_orig));
+
+    tthis->name = Q_(tthis->name_orig);
   } tech_type_iterate_end;
 
   unit_type_iterate(i) {
     struct unit_type *tthis = &unit_types[i];
-    sz_strlcpy(tthis->name_orig, tthis->name);
-    name_strlcpy(tthis->name, Q_(tthis->name_orig));
+
+    tthis->name = Q_(tthis->name_orig);
   } unit_type_iterate_end;
 
   impr_type_iterate(i) {
     struct impr_type *tthis = &improvement_types[i];
-    sz_strlcpy(tthis->name_orig, tthis->name);
-    name_strlcpy(tthis->name, Q_(tthis->name_orig));
+
+    tthis->name = Q_(tthis->name_orig);
   } impr_type_iterate_end;
 
   terrain_type_iterate(i) {
     struct tile_type *tthis = &tile_types[i];
-    sz_strlcpy(tthis->terrain_name_orig, tthis->terrain_name);
-    name_strlcpy(tthis->terrain_name,
-		 (strcmp(tthis->terrain_name_orig, "") != 0) ?
-			Q_(tthis->terrain_name_orig) : "");
-    sz_strlcpy(tthis->special_1_name_orig, tthis->special_1_name);
-    name_strlcpy(tthis->special_1_name,
-		 (strcmp(tthis->special_1_name_orig, "") != 0) ?
-			Q_(tthis->special_1_name_orig) : "");
-    sz_strlcpy(tthis->special_2_name_orig, tthis->special_2_name);
-    name_strlcpy(tthis->special_2_name,
-		 (strcmp(tthis->special_2_name_orig, "") != 0) ?
-			Q_(tthis->special_2_name_orig) : "");
+
+    tthis->terrain_name = ((strcmp(tthis->terrain_name_orig, "") != 0)
+			   ? Q_(tthis->terrain_name_orig) : "");
+
+    tthis->special_1_name = ((strcmp(tthis->special_1_name_orig, "") != 0)
+			     ? Q_(tthis->special_1_name_orig) : "");
+    tthis->special_2_name = ((strcmp(tthis->special_2_name_orig, "") != 0)
+			     ? Q_(tthis->special_2_name_orig) : "");
   } terrain_type_iterate_end;
 
   government_iterate(tthis) {
     int j;
 
-    sz_strlcpy(tthis->name_orig, tthis->name);
-    name_strlcpy(tthis->name, Q_(tthis->name_orig));
+    tthis->name = Q_(tthis->name_orig);
     for(j=0; j<tthis->num_ruler_titles; j++) {
       struct ruler_title *that = &tthis->ruler_titles[j];
-      sz_strlcpy(that->male_title_orig, that->male_title);
-      name_strlcpy(that->male_title, Q_(that->male_title_orig));
-      sz_strlcpy(that->female_title_orig, that->female_title);
-      name_strlcpy(that->female_title, Q_(that->female_title_orig));
+
+      that->male_title = Q_(that->male_title_orig);
+      that->female_title = Q_(that->female_title_orig);
     }
   } government_iterate_end;
   for (i=0; i<game.nation_count; i++) {
     struct nation_type *tthis = get_nation_by_idx(i);
-    sz_strlcpy(tthis->name_orig, tthis->name);
-    name_strlcpy(tthis->name, Q_(tthis->name_orig));
-    sz_strlcpy(tthis->name_plural_orig, tthis->name_plural);
-    name_strlcpy(tthis->name_plural, Q_(tthis->name_plural_orig));
+
+    tthis->name = Q_(tthis->name_orig);
+    tthis->name_plural = Q_(tthis->name_plural_orig);
   }
   for (i=0; i<game.styles_count; i++) {
     struct citystyle *tthis = &city_styles[i];
-    sz_strlcpy(tthis->name_orig, tthis->name);
-    name_strlcpy(tthis->name, Q_(tthis->name_orig));
-  }
 
-#undef name_strlcpy
+    tthis->name = Q_(tthis->name_orig);
+  }
 
 }
 

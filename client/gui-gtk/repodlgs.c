@@ -341,7 +341,7 @@ void science_help_callback(GtkWidget *w, gint row, gint column)
 *****************************************************************/
 static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 {
-  gchar *a_str, *b_str;
+  const gchar *a_str, *b_str;
   gchar text_a[512], text_b[512];
   gint a = GPOINTER_TO_INT(a_p), b = GPOINTER_TO_INT(b_p);
 
@@ -372,7 +372,7 @@ void science_dialog_update(void)
   if(science_dialog_shell) {
   char text[512];
   int i, j, hist;
-  static char *row	[1];
+  static const char *row[1];
   GtkWidget *item;
   GList *sorting_list = NULL;
   gfloat pct;
@@ -401,7 +401,7 @@ void science_dialog_update(void)
   for(i=0; i<g_list_length(sorting_list); i++) {
     j = GPOINTER_TO_INT(g_list_nth_data(sorting_list, i));
     row[0] = advances[j].name;
-    gtk_clist_append(GTK_CLIST(science_list[i%4]), row);
+    gtk_clist_append(GTK_CLIST(science_list[i%4]), (gchar **)row);
   }
   g_list_free(sorting_list);
   sorting_list = NULL;
@@ -451,7 +451,7 @@ void science_dialog_update(void)
   /* sort the list and build from it the menu */
   sorting_list = g_list_sort(sorting_list, cmp_func);
   for (i = 0; i < g_list_length(sorting_list); i++) {
-    gchar *data;
+    const gchar *data;
 
     if (GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)) <
 	game.num_tech_types) {
@@ -515,7 +515,7 @@ void science_dialog_update(void)
   /* sort the list and build from it the menu */
   sorting_list = g_list_sort(sorting_list, cmp_func);
   for (i = 0; i < g_list_length(sorting_list); i++) {
-    gchar *data =
+    const gchar *data =
 	advances[GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))].name;
 
     item = gtk_menu_item_new_with_label(data);

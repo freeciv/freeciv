@@ -254,8 +254,10 @@ static void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entrie
 			void (*menucallback)(Widget, XtPointer, XtPointer),
 			Widget parent);
 static void menu_entry_sensitive(enum MenuIndex menu, enum MenuID id, Bool s);
-static void menu_entry_rename(enum MenuIndex menu, enum MenuID id, int var, char *terr);
-static char *menu_entry_text(enum MenuIndex menu, int ent, int var, char *terr);
+static void menu_entry_rename(enum MenuIndex menu, enum MenuID id, int var,
+			      const char *terr);
+static char *menu_entry_text(enum MenuIndex menu, int ent, int var,
+			     const char *terr);
 
 static void revolution_menu_callback(Widget w, XtPointer client_data,
 				     XtPointer garbage);
@@ -983,7 +985,8 @@ void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entries[],
 /****************************************************************
 ...
 *****************************************************************/
-void menu_entry_rename(enum MenuIndex menu, enum MenuID id, int var, char *terr)
+void menu_entry_rename(enum MenuIndex menu, enum MenuID id, int var,
+		       const char *terr)
 {
   struct Menu *pmenu = menus[menu];
   int i;
@@ -1017,7 +1020,8 @@ void menu_entry_sensitive(enum MenuIndex menu, enum MenuID id, Bool s)
 /****************************************************************
 ...
 *****************************************************************/
-char *menu_entry_text(enum MenuIndex menu, int ent, int var, char *terr)
+static char *menu_entry_text(enum MenuIndex menu, int ent, int var,
+			     const char *terr)
 {
   struct Menu *pmenu = menus[menu];
   static char retbuf[256];

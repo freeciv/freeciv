@@ -1810,7 +1810,7 @@ void building_lost(struct city *pcity, Impr_Type_id id)
 void change_build_target(struct player *pplayer, struct city *pcity,
 			 int target, bool is_unit, enum event_type event)
 {
-  char *name;
+  const char *name;
   const char *source;
 
   /* If the city is already building this thing, don't do anything */

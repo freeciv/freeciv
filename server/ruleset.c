@@ -530,14 +530,16 @@ static void load_tech_names(struct section_file *file)
   }
 
   /* Initialize dummy tech A_NONE */
-  sz_strlcpy(advances[A_NONE].name, "None");
+  sz_strlcpy(advances[A_NONE].name_orig, "None");
+  advances[A_NONE].name = advances[A_NONE].name_orig;
 
   game.num_tech_types = num_techs + 1; /* includes A_NONE */
 
   a = &advances[A_FIRST];
   for (i = 0; i < num_techs; i++ ) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
-    name_strlcpy(a->name, name);
+    name_strlcpy(a->name_orig, name);
+    a->name = a->name_orig;
     a++;
   }
   free(sec);
@@ -716,7 +718,9 @@ static void load_unit_names(struct section_file *file)
 
   unit_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
-    name_strlcpy(unit_types[i].name, name);
+
+    name_strlcpy(unit_types[i].name_orig, name);
+    unit_types[i].name = unit_types[i].name_orig;
   } unit_type_iterate_end;
 
   free(sec);
@@ -1143,8 +1147,9 @@ static void load_building_names(struct section_file *file)
 
   impr_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
-    name_strlcpy(improvement_types[i].name, name);
-    improvement_types[i].name_orig[0] = 0;
+
+    name_strlcpy(improvement_types[i].name_orig, name);
+    improvement_types[i].name = improvement_types[i].name_orig;
   } impr_type_iterate_end;
 
   ruleset_cache_init();
@@ -1517,10 +1522,12 @@ static void load_terrain_names(struct section_file *file)
 
   terrain_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.terrain_name", sec[i]);
-    name_strlcpy(tile_types[i].terrain_name, name);
-    if (0 == strcmp(tile_types[i].terrain_name, "unused")) {
-      tile_types[i].terrain_name[0] = 0;
+
+    name_strlcpy(tile_types[i].terrain_name_orig, name);
+    if (0 == strcmp(tile_types[i].terrain_name_orig, "unused")) {
+      tile_types[i].terrain_name_orig[0] = '\0';
     }
+    tile_types[i].terrain_name = tile_types[i].terrain_name_orig;
   } terrain_type_iterate_end;
 
   free(sec);
@@ -1632,15 +1639,21 @@ static void load_ruleset_terrain(struct section_file *file)
       t->trade = secfile_lookup_int(file, "%s.trade", sec[i]);
 
       s1_name = secfile_lookup_str(file, "%s.special_1_name", sec[i]);
-      name_strlcpy(t->special_1_name, s1_name);
-      if (0 == strcmp(t->special_1_name, "none")) *(t->special_1_name) = '\0';
+      name_strlcpy(t->special_1_name_orig, s1_name);
+      if (0 == strcmp(t->special_1_name_orig, "none")) {
+	t->special_1_name_orig[0] = '\0';
+      }
+      t->special_1_name = t->special_1_name_orig;
       t->food_special_1 = secfile_lookup_int(file, "%s.food_special_1", sec[i]);
       t->shield_special_1 = secfile_lookup_int(file, "%s.shield_special_1", sec[i]);
       t->trade_special_1 = secfile_lookup_int(file, "%s.trade_special_1", sec[i]);
 
       s2_name = secfile_lookup_str(file, "%s.special_2_name", sec[i]);
-      name_strlcpy(t->special_2_name, s2_name);
-      if (0 == strcmp(t->special_2_name, "none")) *(t->special_2_name) = '\0';
+      name_strlcpy(t->special_2_name_orig, s2_name);
+      if (0 == strcmp(t->special_2_name_orig, "none")) {
+	t->special_2_name_orig[0] = '\0';
+      }
+      t->special_2_name = t->special_2_name_orig;
       t->food_special_2 = secfile_lookup_int(file, "%s.food_special_2", sec[i]);
       t->shield_special_2 = secfile_lookup_int(file, "%s.shield_special_2", sec[i]);
       t->trade_special_2 = secfile_lookup_int(file, "%s.trade_special_2", sec[i]);
@@ -1751,7 +1764,8 @@ static void load_government_names(struct section_file *file)
   government_iterate(gov) {
     char *name = secfile_lookup_str(file, "%s.name", sec[gov->index]);
 
-    name_strlcpy(gov->name, name);
+    name_strlcpy(gov->name_orig, name);
+    gov->name = gov->name_orig;
   } government_iterate_end;
   free(sec);
 }
@@ -1917,10 +1931,12 @@ static void load_ruleset_governments(struct section_file *file)
     title = &(g->ruler_titles[0]);
 
     title->nation = DEFAULT_TITLE;
-    sz_strlcpy(title->male_title,
+    sz_strlcpy(title->male_title_orig,
 	       secfile_lookup_str(file, "%s.ruler_male_title", sec[i]));
-    sz_strlcpy(title->female_title,
+    title->male_title = title->male_title_orig;
+    sz_strlcpy(title->female_title_orig,
 	       secfile_lookup_str(file, "%s.ruler_female_title", sec[i]));
+    title->female_title = title->female_title_orig;
   } government_iterate_end;
 
   /* ai tech_hints: */
@@ -2072,8 +2088,14 @@ static void load_nation_names(struct section_file *file)
     char *name_plural = secfile_lookup_str(file, "%s.plural", sec[i]);
     struct nation_type *pl = get_nation_by_idx(i);
 
-    name_strlcpy(pl->name, name);
-    name_strlcpy(pl->name_plural, name_plural);
+    name_strlcpy(pl->name_orig, name);
+    name_strlcpy(pl->name_plural_orig, name_plural);
+
+    /* These are overwritten later when translations are done.  However
+     * in the meantime some code (like the check below) accesses the name
+     * directly.  This isn't great but it would take some work to fix. */
+    pl->name = pl->name_orig;
+    pl->name_plural = pl->name_plural_orig;
 
     /* Check if nation name is already defined. */
     for(j = 0; j < i; j++) {
@@ -2524,7 +2546,8 @@ static void load_citystyle_names(struct section_file *file)
   /* Get names, so can lookup for replacements: */
   for (i = 0; i < game.styles_count; i++) {
     char *style_name = secfile_lookup_str(file, "%s.name", styles[i]);
-    name_strlcpy(city_styles[i].name, style_name);
+    name_strlcpy(city_styles[i].name_orig, style_name);
+    city_styles[i].name = city_styles[i].name_orig;
   }
   free(styles);
 }

@@ -724,7 +724,7 @@ static int create_advances_list(struct player *pplayer,
   advance_type[j] = -1;
 
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
-    gchar *row[1];
+    const gchar *row[1];
 
     for(i=A_FIRST; i<game.num_tech_types; i++) {
       if(get_invention(pvictim, i)==TECH_KNOWN && 
@@ -732,14 +732,14 @@ static int create_advances_list(struct player *pplayer,
 	  get_invention(pplayer, i)==TECH_REACHABLE)) {
 
 	row[0] = advances[i].name;
-	gtk_clist_append(GTK_CLIST(spy_advances_list), row);
+	gtk_clist_append(GTK_CLIST(spy_advances_list), (gchar **)row);
         advance_type[j++] = i;
       }
     }
 
     if(j > 0) {
       row[0] = _("At Spy's Discretion");
-      gtk_clist_append(GTK_CLIST(spy_advances_list), row);
+      gtk_clist_append(GTK_CLIST(spy_advances_list), (gchar **)row);
       advance_type[j++] = game.num_tech_types;
     }
   }
@@ -1868,8 +1868,8 @@ void create_races_dialog(void)
     for (i = 0; i < nations_in_class; i++) {
       race_names =
 	  g_list_append(race_names,
-		get_nation_by_idx(GPOINTER_TO_INT(g_list_nth_data
-				  (sorted_races_list[class_id], i)))->name);
+		(gchar *)get_nation_by_idx(GPOINTER_TO_INT(g_list_nth_data
+			(sorted_races_list[class_id], i)))->name);
     }
 
     per_row = 8;

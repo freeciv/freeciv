@@ -58,7 +58,7 @@ enum impr_range {
 
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
-  char name[MAX_LEN_NAME];
+  const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];		/* untranslated */
   char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */

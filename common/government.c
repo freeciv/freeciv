@@ -251,13 +251,17 @@ void set_ruler_title(struct government *gov, int nation,
 
   gov->num_ruler_titles++;
   gov->ruler_titles =
-    (struct ruler_title *)fc_realloc(gov->ruler_titles,
+    fc_realloc(gov->ruler_titles,
       gov->num_ruler_titles*sizeof(struct ruler_title));
   title = &(gov->ruler_titles[gov->num_ruler_titles-1]);
 
   title->nation = nation;
-  sz_strlcpy(title->male_title, male);
-  sz_strlcpy(title->female_title, female);
+
+  sz_strlcpy(title->male_title_orig, male);
+  title->male_title = title->male_title_orig;
+
+  sz_strlcpy(title->female_title_orig, female);
+  title->female_title = title->female_title_orig;
 }
 
 /***************************************************************
