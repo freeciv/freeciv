@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-02 22:45-0500\n"
-"PO-Revision-Date: 2004-10-27 18:47+0300\n"
+"POT-Creation-Date: 2005-01-26 15:24-0500\n"
+"PO-Revision-Date: 2005-01-20 13:15+0300\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -55,29 +55,29 @@ msgstr " (наблюдатель)"
 
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:547
-#, fuzzy, c-format
+#, c-format
 msgid "for building %s: bad effect requirement data '%s'"
-msgstr "У здания %s отсутсвуют данные запроса (%s)"
+msgstr "для здания %s: неверные данные предпосылок эффекта (%s)"
 
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:795 common/effects.c:810
 msgid "World-ranged effects are only supported for wonders."
-msgstr ""
+msgstr "Эффекты с радиусом действия World поддерживаются только для Чудес."
 
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:830
 msgid "Player-ranged effects are only supported for wonders."
-msgstr ""
+msgstr "Эффекты с радиусом действия Player поддерживаются только для Чудес."
 
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:851
 msgid "Island-ranged effects are only supported for wonders."
-msgstr ""
+msgstr "Эффекты с радиусом действия Island поддерживаются только для Чудес."
 
 #. TRANS: Obscure ruleset error.
 #: common/effects.c:925
 msgid "Surviving effects are only supported at world range."
-msgstr ""
+msgstr "Эффекты выживания поддерживаются только с радиусом World."
 
 #: common/map.c:62
 msgid "Special1"
@@ -229,20 +229,20 @@ msgstr "?дипсост:Нейтралитет"
 msgid "?diplomatic_state:War"
 msgstr "?дипсост:Война"
 
-#: common/player.c:594 client/gui-gtk-2.0/diplodlg.c:344
-#: client/gui-gtk/diplodlg.c:461 client/gui-mui/diplodlg.c:633
+#: common/player.c:594 client/gui-gtk-2.0/diplodlg.c:343
+#: client/gui-gtk/diplodlg.c:485 client/gui-mui/diplodlg.c:633
 #: client/gui-win32/diplodlg.c:306 client/gui-xaw/diplodlg.c:524
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?дипсост:Перемирие"
 
-#: common/player.c:595 client/gui-gtk-2.0/diplodlg.c:349
-#: client/gui-gtk/diplodlg.c:466 client/gui-mui/diplodlg.c:637
+#: common/player.c:595 client/gui-gtk-2.0/diplodlg.c:348
+#: client/gui-gtk/diplodlg.c:490 client/gui-mui/diplodlg.c:637
 #: client/gui-win32/diplodlg.c:307 client/gui-xaw/diplodlg.c:528
 msgid "?diplomatic_state:Peace"
 msgstr "?дипсост:Мир"
 
-#: common/player.c:596 client/gui-gtk-2.0/diplodlg.c:354
-#: client/gui-gtk/diplodlg.c:471 client/gui-mui/diplodlg.c:641
+#: common/player.c:596 client/gui-gtk-2.0/diplodlg.c:353
+#: client/gui-gtk/diplodlg.c:495 client/gui-mui/diplodlg.c:641
 #: client/gui-win32/diplodlg.c:308 client/gui-xaw/diplodlg.c:532
 msgid "?diplomatic_state:Alliance"
 msgstr "?дипсост:Альянс"
@@ -251,25 +251,26 @@ msgstr "?дипсост:Альянс"
 msgid "?diplomatic_state:Never met"
 msgstr "?дипсост:Не встречал"
 
-#: common/player.c:598 client/gui-gtk-2.0/diplodlg.c:362
-#: client/gui-gtk/diplodlg.c:479
+#: common/player.c:598
 msgid "?diplomatic_state:Team"
 msgstr "?дипсост:Союз"
 
 #. TRANS: Obscure ruleset error
-#: common/tech.c:113
+#: common/tech.c:114
 #, c-format
 msgid "tech \"%s\": requires itself"
 msgstr "технология \"%s\" требует себя"
 
-#: common/tech.c:581 common/tech.c:593 client/gui-gtk-2.0/inteldlg.c:355
+#. TRANS: "Unknown" tech
+#: common/tech.c:590 common/tech.c:613 client/gui-gtk-2.0/inteldlg.c:355
 #: client/gui-gtk-2.0/inteldlg.c:375 client/gui-gtk/inteldlg.c:140
 #: client/gui-mui/inteldlg.c:149 client/gui-win32/inteldlg.c:133
 #: client/gui-xaw/inteldlg.c:263
 msgid "(Unknown)"
 msgstr "(Неизвестно)"
 
-#: common/tech.c:584 server/settings.c:38 client/gui-gtk-2.0/helpdlg.c:293
+#. TRANS: "None" tech
+#: common/tech.c:593 server/settings.c:38 client/gui-gtk-2.0/helpdlg.c:293
 #: client/gui-gtk-2.0/helpdlg.c:745 client/gui-gtk-2.0/helpdlg.c:791
 #: client/gui-gtk-2.0/helpdlg.c:824 client/gui-gtk/helpdlg.c:379
 #: client/gui-gtk/helpdlg.c:713 client/gui-gtk/helpdlg.c:760
@@ -282,7 +283,7 @@ msgstr "(Неизвестно)"
 msgid "None"
 msgstr "Ничего"
 
-#: common/tech.c:587 client/gui-gtk-2.0/repodlgs.c:373
+#: common/tech.c:604 client/gui-gtk-2.0/repodlgs.c:373
 #: client/gui-gtk-2.0/repodlgs.c:381 client/gui-gtk-2.0/repodlgs.c:494
 #: client/gui-gtk/repodlgs.c:351 client/gui-gtk/repodlgs.c:359
 #: client/gui-gtk/repodlgs.c:460
@@ -506,9 +507,9 @@ msgid "Science"
 msgstr "Наука"
 
 #: utility/fciconv.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "Could not convert text from %s to %s: %s"
-msgstr "Невозможно отобразить текст на экране: %s"
+msgstr "Невозможно конвертировать текст из %s в %s: %s"
 
 #: utility/log.c:84
 #, c-format
@@ -667,14 +668,14 @@ msgstr "Игра: %s начали строить чудо %s в %s."
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Игра: %s продают %s (не нужны) за %d."
 
-#: ai/advdiplomacy.c:248
+#: ai/advdiplomacy.c:244
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty"
 msgstr ""
 "* %s (компьютер)* В режиме 'ушел от компьютера' компьютер не может подписать "
 "такой тоговор"
 
-#: ai/advdiplomacy.c:258
+#: ai/advdiplomacy.c:254
 #, c-format
 msgid ""
 "*%s (AI)* %s leads our alliance. You must contact and make peace with him "
@@ -683,17 +684,17 @@ msgstr ""
 "*%s (компьютер)* %s возглавляет наш союз. Вы должны сначала связаться с ним "
 "и заключить мир."
 
-#: ai/advdiplomacy.c:269
+#: ai/advdiplomacy.c:265
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s"
 msgstr "*%s (компьютер)* Сначала откажитесь от союза с %s, %s"
 
-#: ai/advdiplomacy.c:280
+#: ai/advdiplomacy.c:276
 #, c-format
 msgid "*%s (AI)* Begone scoundrel, we all know that you cannot be trusted!"
 msgstr "*%s (компьютер)* Прочь негодяй, мы знаем, что тебе нельзя доверять!"
 
-#: ai/advdiplomacy.c:292
+#: ai/advdiplomacy.c:288
 #, c-format
 msgid ""
 "*%s (AI)* I will not let you go that easy, %s. The current treaty stands."
@@ -701,7 +702,7 @@ msgstr ""
 "*%s (компьютер)* Тебе не удастся увильнуть так легко, %s. Текущий договор "
 "остаётся в силе."
 
-#: ai/advdiplomacy.c:309
+#: ai/advdiplomacy.c:305
 #, c-format
 msgid ""
 "*%s (AI)* %s recommended that I give you a ceasefire. This is your lucky day."
@@ -709,53 +710,53 @@ msgstr ""
 "*%s (компьютер)* %s рекомендует, чтобы я заключил с Вами перемирие. Вам "
 "повезло."
 
-#: ai/advdiplomacy.c:332
+#: ai/advdiplomacy.c:328
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s"
 msgstr "*%s (компьютер)* Давайте сначала прекратим военные действия, %s"
 
-#: ai/advdiplomacy.c:341
+#: ai/advdiplomacy.c:337
 #, c-format
 msgid "*%s (AI)* Let us first make peace, %s"
 msgstr "*%s (компьютер)* Давайте сначала заключим мир, %s"
 
-#: ai/advdiplomacy.c:409
+#: ai/advdiplomacy.c:405
 #, c-format
 msgid "*%s (AI)* You don't have the offered city!"
 msgstr "*%s (компьютер)* У Вас нет города, который Вы предложили!"
 
-#: ai/advdiplomacy.c:434
+#: ai/advdiplomacy.c:430
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr ""
 "*%s (компьютер)* Извините, но общее зрение с Вами для меня очень опасно."
 
-#: ai/advdiplomacy.c:529
+#: ai/advdiplomacy.c:524
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (компьютер)* Приветствую Вас как союзника, %s!"
 
-#: ai/advdiplomacy.c:532
+#: ai/advdiplomacy.c:527
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s"
 msgstr "*%s (компьютер)* Хорошо и пусть наш союз будет вечным, %s"
 
-#: ai/advdiplomacy.c:537
+#: ai/advdiplomacy.c:532
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (компьютер)* Миру - мир!"
 
-#: ai/advdiplomacy.c:541
+#: ai/advdiplomacy.c:536
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s"
 msgstr "*%s (компьютер)* Договорились, прекращаем военные действия, %s"
 
-#: ai/advdiplomacy.c:965
+#: ai/advdiplomacy.c:960
 #, c-format
 msgid "*%s (AI)* I will NOT accept such behaviour! This means WAR!"
 msgstr "*%s (компьютер)* Ваше поведение нетерпимо! Быть ВОЙНЕ!"
 
-#: ai/advdiplomacy.c:988
+#: ai/advdiplomacy.c:983
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
@@ -764,7 +765,7 @@ msgstr ""
 "*%s (компьютер)* Ваши попытки овладеть космическим пространством только для "
 "Вас самих выдают Ваши истинные замыслы. Я разрываю наш союз!"
 
-#: ai/advdiplomacy.c:1001
+#: ai/advdiplomacy.c:996
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -773,7 +774,7 @@ msgstr ""
 "*%s (компьютер)* Ваши попытки овладеть космическим пространством вызывают в "
 "нас сильное недовольство."
 
-#: ai/advdiplomacy.c:1003
+#: ai/advdiplomacy.c:998
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -782,12 +783,12 @@ msgstr ""
 "*%s (компьютер)* Если Вы не прекратите строить космический корабль, мы будем "
 "вынуждены принять меры!"
 
-#: ai/advdiplomacy.c:1027
+#: ai/advdiplomacy.c:1022
 #, c-format
 msgid "*%s (AI)* Your despicable actions will not go unpunished!"
 msgstr "*%s (компьютер)* Твои подлые деяния не пройдут безнаказанно!"
 
-#: ai/advdiplomacy.c:1031
+#: ai/advdiplomacy.c:1026
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -796,25 +797,25 @@ msgstr ""
 "*%s (компьютер)* Наконец у меня дошли до тебя руки! Ты, небось, думал - тебе "
 "удастся увильнуть от ответственности за свои преступления?"
 
-#: ai/advdiplomacy.c:1036
+#: ai/advdiplomacy.c:1031
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time"
 msgstr "*%s (компьютер)* Мир - в другой раз"
 
-#: ai/advdiplomacy.c:1053
+#: ai/advdiplomacy.c:1048
 #, c-format
 msgid "*%s (AI)* Your aggression against my allies was your last mistake!"
 msgstr ""
 "*%s (компьютер)* Твоя агрессия против моих союзников была твоей последней "
 "ошибкой!"
 
-#: ai/advdiplomacy.c:1075
+#: ai/advdiplomacy.c:1070
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (компьютер)* Извините, но общее зрение с Вами для меня не безопасно."
 
-#: ai/advdiplomacy.c:1143
+#: ai/advdiplomacy.c:1138
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally, we call upon you to destroy "
@@ -823,7 +824,7 @@ msgstr ""
 "*%s (компьютер)* Здравствуйте, уважаемый союзник. Помогите нам уничтожить "
 "нашего врага - %s"
 
-#: ai/advdiplomacy.c:1148
+#: ai/advdiplomacy.c:1143
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
@@ -832,7 +833,7 @@ msgstr ""
 "*%s (компьютер)* Приветствую Вас, союзник. Я вижу Вы все ещё не напали на "
 "нашего врага (%s). Должен ли я напоминать Вам о Ваших обещаниях?"
 
-#: ai/advdiplomacy.c:1153
+#: ai/advdiplomacy.c:1148
 #, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
@@ -843,14 +844,14 @@ msgstr ""
 "прежнему не напали на наших врагов (%s). Мы вынуждены расторгнуть наш союз с "
 "Вами!"
 
-#: ai/advdiplomacy.c:1182
+#: ai/advdiplomacy.c:1177
 #, c-format
 msgid "*%s (AI)* Greetings friend, may we suggest a joint campaign against %s?"
 msgstr ""
 "*%s (компьютер)* Здравствуйте, друг мой. Не хотите ли поучаствовать в "
 "совместной кампании против %s?"
 
-#: ai/advdiplomacy.c:1197
+#: ai/advdiplomacy.c:1192
 #, c-format
 msgid ""
 "*%s (AI)* Greetings neighbour, may we suggest a joint campaign against %s?"
@@ -858,7 +859,7 @@ msgstr ""
 "*%s (компьютер)* Приветствую Вас, сосед. Не хотите ли поучаствовать в "
 "совместной кампании против %s?"
 
-#: ai/advdiplomacy.c:1211
+#: ai/advdiplomacy.c:1206
 #, c-format
 msgid ""
 "*%s (AI)* %s is threatening us both, may we suggest a cessation of "
@@ -932,7 +933,7 @@ msgstr "Игра: %s куплено в %s за %d золотых."
 msgid "Game: You have bought this turn, can't change."
 msgstr "Игра: Вы покупали на этом ходу, невозможно изменить."
 
-#: server/cityhand.c:382 server/plrhand.c:400 server/stdinhand.c:373
+#: server/cityhand.c:382 server/plrhand.c:400 server/stdinhand.c:387
 #: server/unithand.c:176 server/unithand.c:462
 #, c-format
 msgid "Game: %s"
@@ -1304,29 +1305,29 @@ msgstr ""
 msgid "Game: %s is disbanded into %s."
 msgstr "Игра: %s расформированы в %s."
 
-#: server/civserver.c:92
+#: server/civserver.c:94
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
 msgstr ""
 "Предупреждение: настройка %s устарела. Используйте -m чтобы включить "
 "метасервер.\n"
 
-#: server/civserver.c:136
+#: server/civserver.c:138
 #, c-format
 msgid "Error: unknown option '%s'\n"
 msgstr "Ошибка: неизвестная настройка '%s'\n"
 
-#: server/civserver.c:147
+#: server/civserver.c:149
 #, c-format
 msgid "This is the server for %s"
 msgstr "Это сервер для %s"
 
-#: server/civserver.c:148
+#: server/civserver.c:150
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Вы можете узнать больше о Freeciv на %s"
 
-#: server/civserver.c:153 client/civclient.c:189
+#: server/civserver.c:155 client/civclient.c:191
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -1335,98 +1336,97 @@ msgstr ""
 "Использование: %s [настройка ...]\n"
 "Действующие настройки:\n"
 
-#: server/civserver.c:154
+#: server/civserver.c:156
 msgid "  -a  --auth\t\tEnable server authentication.\n"
 msgstr "  -a --auth\t\tРазрешить авторизацию на стороне сервера.\n"
 
-#: server/civserver.c:155
+#: server/civserver.c:157
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
 msgstr ""
 "  -G  --Guests\t\tРазрешить подключаться гостям, если авторизацию включена.\n"
 
-#: server/civserver.c:157
+#: server/civserver.c:159
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
 msgstr ""
 "  -N  --Newusers\tРазрешить подключаться новым пользователям, если "
 "авторизация включена.\n"
 
-#: server/civserver.c:159
+#: server/civserver.c:161
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b  --bind ADDR\tЖдать подключения клиентов по адресу ADDR\n"
 
-#: server/civserver.c:161 client/civclient.c:193
+#: server/civserver.c:163 client/civclient.c:195
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tУстановить уровень журнала отладки  (0 до 4,или 4:file1,"
 "min,max:...)\n"
 
-#: server/civserver.c:165 client/civclient.c:197
+#: server/civserver.c:167 client/civclient.c:199
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tУстановить уровень журнала отладки  (0 до 3)\n"
 
-#: server/civserver.c:167
+#: server/civserver.c:169
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FILE\tЗагрузить сохранённую игру FILE\n"
 
-#: server/civserver.c:169
+#: server/civserver.c:171
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog FILE\tИспользовать FILE для записи журнала игры\n"
 
-#: server/civserver.c:171 client/civclient.c:200
+#: server/civserver.c:173 client/civclient.c:202
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tНапечатать список настроек\n"
 
-#: server/civserver.c:173
+#: server/civserver.c:175
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -i, --info INFO\tДополнительная информация для метасервера\n"
 
-#: server/civserver.c:174
+#: server/civserver.c:176
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log FILE\tИспользовать FILE для записи журнала\n"
 
-#: server/civserver.c:175
+#: server/civserver.c:177
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
 msgstr ""
 "  -m, --meta\t\tСвязаться с метасервером и послать информацию о сервере\n"
 
-#: server/civserver.c:177
+#: server/civserver.c:179
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
 msgstr "  -M, --Metaserver ADDR\tИспользовать ADDR как адрес метасервера\n"
 
-#: server/civserver.c:180
+#: server/civserver.c:182
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port PORT\tЖдать подключения клиентов на порту PORT\n"
 
-#: server/civserver.c:182
+#: server/civserver.c:184
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr "  -q, --quitidle TIME\tВыйти, если нет игроков TIME секунд\n"
 
-#: server/civserver.c:184
+#: server/civserver.c:186
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
 msgstr ""
 "  -e, --exit-on-end\tКогда игра закончится, окно закроется вместо рестарта\n"
 
-#: server/civserver.c:187
+#: server/civserver.c:189
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
 msgstr "  -s, --saves DIR\tСохранить игры в каталог DIR\n"
 
-#: server/civserver.c:189
-#, fuzzy
+#: server/civserver.c:191
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-msgstr "  -s, --server HOST\tПодключиться к серверу HOST\n"
+msgstr "  -S, --ServerID ID\tУстановить идентификатор сервера в ID\n"
 
-#: server/civserver.c:190
+#: server/civserver.c:192
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FILE\tПрочитать начальный скрипт FILE\n"
 
-#: server/civserver.c:191 client/civclient.c:218
+#: server/civserver.c:193 client/civclient.c:220
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tВыдать номер версии\n"
 
-#: server/civserver.c:192 client/gui-gtk-2.0/gui_main.c:207
+#: server/civserver.c:194 client/gui-gtk-2.0/gui_main.c:207
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
-#: client/gui-xaw/gui_main.c:226
+#: client/gui-xaw/gui_main.c:228
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr "Сообщайте об ошибках к <%s>.\n"
@@ -2021,11 +2021,11 @@ msgstr ""
 "может подключиться под его именем. Обратите внимание, что указывается "
 "название подключения, не имя игрока."
 
-#: server/commands.c:300
+#: server/commands.c:299
 msgid "Grab the 'first come' command access level."
 msgstr "Получить уровень команд 'first come'."
 
-#: server/commands.c:301
+#: server/commands.c:300
 msgid ""
 "If 'cmdlevel first come' has been used to set a special 'first come'\n"
 "command access level, this is the command to grab it with."
@@ -2035,15 +2035,15 @@ msgstr ""
 "получить этот уровень."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:306
+#: server/commands.c:305
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <ход> <инкремент-хода> <значение> <множитель-значения>"
 
-#: server/commands.c:307
+#: server/commands.c:306
 msgid "See \"help timeoutincrease\"."
 msgstr "Смотрите \"help timeoutincrease\"."
 
-#: server/commands.c:308
+#: server/commands.c:307
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>.  Use this command in concert "
@@ -2055,15 +2055,15 @@ msgstr ""
 "по умолчанию: 0 0 0 1"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:314
+#: server/commands.c:313
 msgid "endgame <player1 player2 player3 ...>"
 msgstr "endgame < игрок1 игрок2 игрок3 ...>"
 
-#: server/commands.c:315
+#: server/commands.c:314
 msgid "End the game.  If players are listed, these win the game."
 msgstr "Закончить игру. Если упомянуты игроки, они выигрывают игру."
 
-#: server/commands.c:316
+#: server/commands.c:315
 msgid ""
 "This command ends the game immediately and credits the given players, if "
 "any, with winning it."
@@ -2072,15 +2072,15 @@ msgstr ""
 "заданы) победителями."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:321
+#: server/commands.c:320
 msgid "remove <player-name>"
 msgstr "remove <имя-игрока>"
 
-#: server/commands.c:322
+#: server/commands.c:321
 msgid "Fully remove player from game."
 msgstr "Удалить игрока из игры полностью."
 
-#: server/commands.c:323
+#: server/commands.c:322
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc.  Use with care!"
@@ -2089,7 +2089,7 @@ msgstr ""
 "осторожны!"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:328
+#: server/commands.c:327
 msgid ""
 "save\n"
 "save <file-name>"
@@ -2097,11 +2097,11 @@ msgstr ""
 "save\n"
 "save <имя-файла>"
 
-#: server/commands.c:330
+#: server/commands.c:329
 msgid "Save game to file."
 msgstr "Сохранить игру в файл."
 
-#: server/commands.c:331
+#: server/commands.c:330
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
@@ -2118,7 +2118,7 @@ msgstr ""
 "и используйте команду start как только игроки подключились."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:340
+#: server/commands.c:339
 msgid ""
 "load\n"
 "load <file-name>"
@@ -2126,11 +2126,11 @@ msgstr ""
 "load\n"
 "load <имя-файла>"
 
-#: server/commands.c:342
+#: server/commands.c:341
 msgid "Load game from file."
 msgstr "Загрузить игру из файла."
 
-#: server/commands.c:343
+#: server/commands.c:342
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
@@ -2139,35 +2139,30 @@ msgstr ""
 "правил и настройки сервера, теряются.\n"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:348
+#: server/commands.c:347
 msgid "read <file-name>"
 msgstr "read <имя-файла>"
 
-#: server/commands.c:349
+#: server/commands.c:348
 msgid "Process server commands from file."
 msgstr "Выполнить команды сервера из файла."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:353
+#: server/commands.c:352
 msgid "write <file-name>"
 msgstr "write <имя-файла>"
 
-#: server/commands.c:354
+#: server/commands.c:353
 msgid "Write current settings as server commands to file."
 msgstr "Записать текущие настройки в файл как команды сервера."
 
-#: server/commands.c:358
+#: server/commands.c:357
 msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "Переключить стиль исходящей информации сервера между нормальным и RFC."
 
 #: server/commands.c:361
-#, fuzzy
-msgid "serverid"
-msgstr "Наблюдатель"
-
-#: server/commands.c:362
 msgid "Simply returns the id of the server."
-msgstr ""
+msgstr "Просто возвращает идентификатор сервера."
 
 #: server/connecthand.c:84
 #, c-format
@@ -2399,7 +2394,7 @@ msgstr "Вы не владеете %s, нельзя заключить договор."
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
 msgstr "Игра: Требуют Вашу столицу (%s), нельзя заключить договор."
 
-#: server/diplhand.c:182 server/diplhand.c:297
+#: server/diplhand.c:182 server/diplhand.c:290
 #, c-format
 msgid ""
 "Game: You are at war with one of %s's allies - an alliance with %s is "
@@ -2407,7 +2402,7 @@ msgid ""
 msgstr ""
 "Игра: Вы находитесь в состоянии войны с союзниками %s, союз с %s невозможен."
 
-#: server/diplhand.c:189 server/diplhand.c:293
+#: server/diplhand.c:189 server/diplhand.c:286
 #, c-format
 msgid ""
 "Game: %s is at war with one of your allies - an alliance with %s is "
@@ -2439,97 +2434,92 @@ msgstr "Игра: Один из городов, который %s отдаёт, уничтожен! Договор отменен!"
 msgid "Game: The %s no longer control %s! Treaty canceled!"
 msgstr "Игра: %s более не контролируют %s! Договор отменен!"
 
-#: server/diplhand.c:306 server/diplhand.c:310
+#: server/diplhand.c:299 server/diplhand.c:303
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "Игра: %s не имеют обещанное количество денег! Договор отменен!"
 
-#: server/diplhand.c:337
+#: server/diplhand.c:330
 #, c-format
 msgid "Game: You gave an embassy to %s."
 msgstr "Игра: Вы создали посольство в %s."
 
-#: server/diplhand.c:340
+#: server/diplhand.c:333
 #, c-format
 msgid "Game: %s allowed you to create an embassy!"
 msgstr "Игра: %s разрешил Вам создать посольство!"
 
-#: server/diplhand.c:357
+#: server/diplhand.c:350
 #, c-format
 msgid "Game: You are taught the knowledge of %s."
 msgstr "Игра: Вам преподали знание %s."
 
-#: server/diplhand.c:361
+#: server/diplhand.c:354
 #, c-format
 msgid "Game: The %s have acquired %s from the %s."
 msgstr "Игра: %s приобрели %s от %s."
 
-#: server/diplhand.c:373
+#: server/diplhand.c:366
 #, c-format
 msgid "Game: You get %d gold."
 msgstr "Игра: Вы получили %d золотых."
 
-#: server/diplhand.c:380
+#: server/diplhand.c:373
 #, c-format
 msgid "Game: You receive %s's worldmap."
 msgstr "Игра: Вы получили карту мира %s."
 
-#: server/diplhand.c:386
+#: server/diplhand.c:379
 #, c-format
 msgid "Game: You receive %s's seamap."
 msgstr "Вы получили морскую карту %s."
 
-#: server/diplhand.c:402
+#: server/diplhand.c:395
 #, c-format
 msgid "Game: You receive city of %s from %s."
 msgstr "Игра: Вы захватили город %s у %s."
 
-#: server/diplhand.c:406
+#: server/diplhand.c:399
 #, c-format
 msgid "Game: You give city of %s to %s."
 msgstr "Игра: Вы сдали город %s. Захватчик - %s."
 
-#: server/diplhand.c:420 server/diplhand.c:423
+#: server/diplhand.c:413 server/diplhand.c:416
 #, c-format
 msgid "Game: You agree on a cease-fire with %s."
 msgstr "Игра: Вы договорились о перемирии с %s."
 
-#: server/diplhand.c:433 server/diplhand.c:436
+#: server/diplhand.c:426 server/diplhand.c:429
 #, c-format
 msgid "Game: You agree on a peace treaty with %s."
 msgstr "Игра: Вы договорились о мире с народом %s."
 
-#: server/diplhand.c:446 server/diplhand.c:449
+#: server/diplhand.c:439 server/diplhand.c:442
 #, c-format
 msgid "Game: You agree on an alliance with %s."
 msgstr "Игра: Вы заключили союз с %s."
 
-#: server/diplhand.c:458 server/diplhand.c:461
-#, c-format
-msgid "Game: You start a research pool with %s."
-msgstr "Игра: Вы начали исследовать %s."
-
-#: server/diplhand.c:501
+#: server/diplhand.c:452
 #, c-format
 msgid "Game: You give shared vision to %s."
 msgstr "Игра: Вы поделились Вашим зрением с %s."
 
-#: server/diplhand.c:504
+#: server/diplhand.c:455
 #, c-format
 msgid "Game: %s gives you shared vision."
 msgstr "Игра: %s поделились с Вами своим зрением."
 
-#: server/diplhand.c:642
+#: server/diplhand.c:593
 #, c-format
 msgid "Game: %s canceled the meeting!"
 msgstr "Игра: %s отказались от переговоров!"
 
-#: server/diplhand.c:648
+#: server/diplhand.c:599
 #, c-format
 msgid "Game: Meeting with %s canceled."
 msgstr "Игра: Встреча с %s прекращена."
 
-#: server/diplhand.c:688
+#: server/diplhand.c:639
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "Ваш дипломатический посланник был обезглавлен!"
 
@@ -3100,7 +3090,7 @@ msgstr "Игра: %s сейчас правит народом %s при форме правления %s."
 #: server/plrhand.c:929
 #, c-format
 msgid "Game: The %s have incited a revolt!"
-msgstr "Игра: %s начали революцию."
+msgstr "Игра: %s начали революцию!"
 
 #: server/plrhand.c:1030
 msgid "You should choose a new government from the government menu."
@@ -3125,7 +3115,7 @@ msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Уровень роскоши превысил максимально допустимый для %s, исправлено."
 
-#: server/plrhand.c:1122
+#: server/plrhand.c:1121
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s больше не делятся своим зрением!"
@@ -3177,31 +3167,31 @@ msgid ""
 msgstr ""
 "Игра: Ваш союзник %s объявил войну %s. Вы обязаны отменить альянс с %s."
 
-#: server/plrhand.c:1673
+#: server/plrhand.c:1670
 #, c-format
 msgid "Removing player %s."
 msgstr "Убираем игрока %s."
 
-#: server/plrhand.c:1674
+#: server/plrhand.c:1671
 msgid "Game: You've been removed from the game!"
 msgstr "Игра: Вы были удалены из игры!"
 
-#: server/plrhand.c:1677
+#: server/plrhand.c:1674
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Игра: %s был удален из игры."
 
-#: server/plrhand.c:1720 server/plrhand.c:1724
+#: server/plrhand.c:1717 server/plrhand.c:1721
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Игра: Вы вступили в контакт с народом, именуемым %s, их лидер - %s."
 
-#: server/plrhand.c:2116
+#: server/plrhand.c:2113
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
-msgstr "%s не могут начать гражданской войны - слишком много игороков"
+msgstr "%s не могут начать гражданской войны - слишком много игроков"
 
-#: server/plrhand.c:2138
+#: server/plrhand.c:2135
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -3210,12 +3200,12 @@ msgstr ""
 "Игра: В Вашей стране началась гражданская война, %s объявлен лидером "
 "повстанцев."
 
-#: server/plrhand.c:2158
+#: server/plrhand.c:2155
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Игра: %s перешел на сторону %s."
 
-#: server/plrhand.c:2172
+#: server/plrhand.c:2169
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -4448,13 +4438,15 @@ msgstr ""
 
 #: server/settings.c:625
 msgid "civstyle is an obsolete setting"
-msgstr ""
+msgstr "civstyle - устаревшая настройка"
 
 #: server/settings.c:626
 msgid ""
 "This setting is obsolete; it does nothing in the current version. It will be "
 "removed from future versions."
 msgstr ""
+"Эта настройка устарела; в текущей версии она не делает ничего. В будущих "
+"версиях она будет удалена."
 
 #: server/settings.c:632
 msgid "Chance of moving into tile after attack"
@@ -5276,7 +5268,7 @@ msgstr "Максимальное число игроков меньше чем aifill. aifill уменьшен до %d."
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s был добавлен как управляемый компьютером игрок."
 
-#: server/srv_main.c:1401 server/stdinhand.c:896
+#: server/srv_main.c:1401 server/stdinhand.c:910
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Игра: %s был добавлен как управляемый компьютером игрок."
@@ -5318,219 +5310,219 @@ msgstr "Принимаются подключения новых клиентов."
 msgid "Last player has disconnected: will need to restart."
 msgstr "Последний игрок отключился: необходим перезапуск."
 
-#: server/stdinhand.c:238
+#: server/stdinhand.c:239
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr "Голосование \"%s\" прошло успешно: %d за, %d против, %d воздержалось."
 
-#: server/stdinhand.c:243
+#: server/stdinhand.c:244
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
 msgstr "Голосование \"%s\" не удалось: %d против, %d за, %d воздержалось."
 
-#: server/stdinhand.c:356
+#: server/stdinhand.c:370
 msgid "(ambiguous)"
 msgstr "(двусмысленно)"
 
-#: server/stdinhand.c:357 client/packhand.c:1222
+#: server/stdinhand.c:371 client/packhand.c:1222
 msgid "(unknown)"
 msgstr "(неизвестно)"
 
-#: server/stdinhand.c:445
+#: server/stdinhand.c:459
 msgid "Name is empty, so cannot be a player."
 msgstr "Имя пусто, не может быть игроком."
 
-#: server/stdinhand.c:449
+#: server/stdinhand.c:463
 msgid "Name is too long, so cannot be a player."
 msgstr "Имя слишком длинно, не может быть игроком."
 
-#: server/stdinhand.c:453
+#: server/stdinhand.c:467
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Префикс имени игрока '%s' неоднозначен."
 
-#: server/stdinhand.c:457
+#: server/stdinhand.c:471
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Нет игрока с именем '%s'."
 
-#: server/stdinhand.c:461 server/stdinhand.c:496
+#: server/stdinhand.c:475 server/stdinhand.c:510
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "Неожиданный результат сравнения %d (%s) для '%s'."
 
-#: server/stdinhand.c:480
+#: server/stdinhand.c:494
 msgid "Name is empty, so cannot be a connection."
 msgstr "Имя пусто, не может быть подключением."
 
-#: server/stdinhand.c:484
+#: server/stdinhand.c:498
 msgid "Name is too long, so cannot be a connection."
 msgstr "Имя слишком длинно, не может быть подключением."
 
-#: server/stdinhand.c:488
+#: server/stdinhand.c:502
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Префикс имени подключения '%s' неоднозначен."
 
-#: server/stdinhand.c:492
+#: server/stdinhand.c:506
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Нет подключения с именем '%s'."
 
-#: server/stdinhand.c:511
+#: server/stdinhand.c:525
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Открыто подключение к метасерверу [%s]."
 
-#: server/stdinhand.c:523
+#: server/stdinhand.c:537
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Закрыто подключение к метасерверу [%s]."
 
-#: server/stdinhand.c:538
+#: server/stdinhand.c:552
 msgid "Metaserver connection is open."
 msgstr "Открыто подключение к метасерверу."
 
-#: server/stdinhand.c:541
+#: server/stdinhand.c:555
 msgid "Metaserver connection is closed."
 msgstr "Закрыто подключение к метасерверу."
 
-#: server/stdinhand.c:551
+#: server/stdinhand.c:565
 msgid "Metaserver connection is already open."
 msgstr "Подключение к метасерверу уже открыто."
 
-#: server/stdinhand.c:562
+#: server/stdinhand.c:576
 msgid "Metaserver connection is already closed."
 msgstr "Подключение к метасерверу уже закрыто."
 
-#: server/stdinhand.c:567
+#: server/stdinhand.c:581
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "Аргумент должен быть 'u','up','d','down' или '?'."
 
-#: server/stdinhand.c:587
+#: server/stdinhand.c:601
 #, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr "Строка патчей для метасервера установлена в '%s'."
 
-#: server/stdinhand.c:589
+#: server/stdinhand.c:603
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
 "Строка патчей для метасервера установлена в '%s', не связаны с метасервером."
 
-#: server/stdinhand.c:608
+#: server/stdinhand.c:622
 #, c-format
 msgid "Metaserver topic string set to '%s'."
 msgstr "Тема для метасервера установлена в '%s'."
 
-#: server/stdinhand.c:610
+#: server/stdinhand.c:624
 #, c-format
 msgid "Metaserver topic string set to '%s', not reporting to metaserver."
 msgstr "Тема для метасервера установлена в '%s', не связаны с метасервером."
 
-#: server/stdinhand.c:630
+#: server/stdinhand.c:644
 #, c-format
 msgid "Metaserver message string set to '%s'."
 msgstr "Инфострока для метасервера установлена в '%s'."
 
-#: server/stdinhand.c:632
+#: server/stdinhand.c:646
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
 "Инфострока для метасервера установлена в '%s', не связаны с метасервером."
 
-#: server/stdinhand.c:652
+#: server/stdinhand.c:666
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Метасервер сейчас [%s]."
 
-#: server/stdinhand.c:662
-#, fuzzy, c-format
+#: server/stdinhand.c:676
+#, c-format
 msgid "Server id: %s"
-msgstr "Оператор Сервера: %s"
+msgstr "ID сервера: %s"
 
-#: server/stdinhand.c:757
+#: server/stdinhand.c:771
 msgid "The game cannot be saved before it is started."
 msgstr "Игра не может быть сохранена до того как она запущена."
 
-#: server/stdinhand.c:773
+#: server/stdinhand.c:787
 msgid "Cannot toggle a barbarian player."
 msgstr "Невозможно переключить варварского игрока."
 
-#: server/stdinhand.c:780
+#: server/stdinhand.c:794
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s сейчас контролируeтся компьютером."
 
-#: server/stdinhand.c:796
+#: server/stdinhand.c:810
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s сейчас контролируeтся человеком"
 
-#: server/stdinhand.c:843
+#: server/stdinhand.c:857
 msgid "Can't add AI players once the game has begun."
 msgstr "Невозможно добавлять компьютерных игроков после начала игры."
 
-#: server/stdinhand.c:850
+#: server/stdinhand.c:864
 msgid "Can't add more players, server is full."
 msgstr "Невозможно добавлять игроков, сервер полон."
 
-#: server/stdinhand.c:856
+#: server/stdinhand.c:870
 msgid "Can't use an empty name."
 msgstr "Не возможно использовать пустое имя."
 
-#: server/stdinhand.c:863
+#: server/stdinhand.c:877
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Имя длиннее, чем максимум из %d символов."
 
-#: server/stdinhand.c:869
+#: server/stdinhand.c:883
 msgid "That name is not allowed."
 msgstr "Это имя нельзя использовать."
 
-#: server/stdinhand.c:875
+#: server/stdinhand.c:889
 msgid "A player already exists by that name."
 msgstr "Игрок с таким именем уже существует."
 
-#: server/stdinhand.c:881
+#: server/stdinhand.c:895
 msgid "A user already exists by that name."
 msgstr "Игрок с таким именем уже существует."
 
-#: server/stdinhand.c:903
+#: server/stdinhand.c:917
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Ошибка создания нового компьютерного игрока: %s."
 
-#: server/stdinhand.c:933
+#: server/stdinhand.c:947
 msgid "Players cannot be removed once the game has started."
 msgstr "Игроки не могут быть удалены после запуска игры."
 
-#: server/stdinhand.c:945
+#: server/stdinhand.c:959
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Удален игрок %s из игры."
 
-#: server/stdinhand.c:958
+#: server/stdinhand.c:972
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Загрузка скрипт-файла: %s"
 
-#: server/stdinhand.c:972
+#: server/stdinhand.c:986
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Не удалось прочитать скрипт-файл командной строки '%s'."
 
-#: server/stdinhand.c:974
+#: server/stdinhand.c:988
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Не удалось прочитать скрипт-файл '%s'."
 
-#: server/stdinhand.c:1069
+#: server/stdinhand.c:1083
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Не удалось записать скрипт-файл '%s'."
 
-#: server/stdinhand.c:1104
+#: server/stdinhand.c:1118
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -5539,7 +5531,7 @@ msgstr ""
 "Невозможно уменьшить уровень команд '%s' для подключения '%s'; Ваш уровень "
 "только '%s'."
 
-#: server/stdinhand.c:1158
+#: server/stdinhand.c:1172
 #, c-format
 msgid ""
 "Game: Anyone can assume command access level '%s' now by issuing the "
@@ -5548,307 +5540,307 @@ msgstr ""
 "Игра: Кто угодно может сейчас получить уровень доступа '%s', выполнив "
 "комамнду firstlevel."
 
-#: server/stdinhand.c:1191
+#: server/stdinhand.c:1205
 msgid "Command access levels in effect:"
 msgstr "Действующие уровни команд:"
 
-#: server/stdinhand.c:1199
+#: server/stdinhand.c:1213
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Уровень команд для новых подключений: %s"
 
-#: server/stdinhand.c:1202
+#: server/stdinhand.c:1216
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Уровень команд для первого взявшего его игрока: %s"
 
-#: server/stdinhand.c:1211
+#: server/stdinhand.c:1225
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Ошибка: уровень команд должен быть один из 'none', 'info', 'ctrl', или "
 "'hack'."
 
-#: server/stdinhand.c:1216
+#: server/stdinhand.c:1230
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr "Невозможно увеличить уровень команд до '%s'; у Вас только '%s'"
 
-#: server/stdinhand.c:1243 server/stdinhand.c:1291
+#: server/stdinhand.c:1257 server/stdinhand.c:1305
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Уровень доступа к командам установлен в '%s' для подключения %s."
 
-#: server/stdinhand.c:1247 server/stdinhand.c:1295
+#: server/stdinhand.c:1261 server/stdinhand.c:1309
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr "Невозможно установить уровень команд в '%s' для подключения %s."
 
-#: server/stdinhand.c:1257 server/stdinhand.c:1267 server/stdinhand.c:1284
+#: server/stdinhand.c:1271 server/stdinhand.c:1281 server/stdinhand.c:1298
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Уровень доступа к командам установлен в '%s' для новых игроков."
 
-#: server/stdinhand.c:1261 server/stdinhand.c:1272 server/stdinhand.c:1279
+#: server/stdinhand.c:1275 server/stdinhand.c:1286 server/stdinhand.c:1293
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Уровень команд для первого взявшего его игрока: '%s'"
 
-#: server/stdinhand.c:1317
+#: server/stdinhand.c:1331
 msgid "The 'firstlevel' command makes no sense from the server command line."
 msgstr "Команда 'firstlevel' не имеет смысла в командной строке сервера."
 
-#: server/stdinhand.c:1321
+#: server/stdinhand.c:1335
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Вы сейчас имеете уровень доступа '%s' или выше."
 
-#: server/stdinhand.c:1326
+#: server/stdinhand.c:1340
 #, c-format
 msgid "Someone else already has command access level '%s' or better."
 msgstr "Кто-либо уже имеет уровень команд '%s' или выше."
 
-#: server/stdinhand.c:1332
+#: server/stdinhand.c:1346
 #, c-format
 msgid "Command access level '%s' has been grabbed by connection %s."
 msgstr "Уровень доступа к командам установлен в '%s' для подключения %s."
 
-#: server/stdinhand.c:1384
+#: server/stdinhand.c:1398
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Неверный аргумент %d"
 
-#: server/stdinhand.c:1391
+#: server/stdinhand.c:1405
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr ""
 "Использование: timeoutincreate <ход> <инкремент-хода> <значение> <множитель-"
 "значения>."
 
-#: server/stdinhand.c:1399
+#: server/stdinhand.c:1413
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Динамический тайм-аут установлен в %d %d %d %d"
 
-#: server/stdinhand.c:1459 server/stdinhand.c:1462
+#: server/stdinhand.c:1473 server/stdinhand.c:1476
 msgid "Option:"
 msgstr "Настройка:"
 
-#: server/stdinhand.c:1472 server/stdinhand.c:3709
+#: server/stdinhand.c:1486 server/stdinhand.c:3735
 msgid "Description:"
 msgstr "Описание:"
 
-#: server/stdinhand.c:1477
+#: server/stdinhand.c:1491
 #, c-format
 msgid "Status: %s"
 msgstr "Состояние: %s"
 
-#: server/stdinhand.c:1478
+#: server/stdinhand.c:1492
 msgid "changeable"
 msgstr "изменяемый"
 
-#: server/stdinhand.c:1478
+#: server/stdinhand.c:1492
 msgid "fixed"
 msgstr "фиксированный"
 
-#: server/stdinhand.c:1484
+#: server/stdinhand.c:1498
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Значение:%d, Минимум: 0, По умолчанию: %d, Максимум: 1"
 
-#: server/stdinhand.c:1489
+#: server/stdinhand.c:1503
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Значение:%d, Минимум: %d, По умолчанию: %d, Максимум: %d"
 
-#: server/stdinhand.c:1495
+#: server/stdinhand.c:1509
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Значение: \"%s\", По умолчанию: \"%s\""
 
-#: server/stdinhand.c:1514
+#: server/stdinhand.c:1528
 msgid "Explanations are available for the following server options:"
 msgstr "Объяснения доступны для следующих настроек сервера:"
 
-#: server/stdinhand.c:1556
+#: server/stdinhand.c:1573
 msgid "No explanation for that yet."
 msgstr "Пока нет объяснения для этого."
 
-#: server/stdinhand.c:1559 server/stdinhand.c:2361
+#: server/stdinhand.c:1576 server/stdinhand.c:2380
 msgid "Ambiguous option name."
 msgstr "Двусмысленное имя настройки."
 
-#: server/stdinhand.c:1577
+#: server/stdinhand.c:1596
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Оператор Сервера: %s"
 
-#: server/stdinhand.c:1597
+#: server/stdinhand.c:1616
 #, c-format
 msgid "%-20svalue  (min , max)"
 msgstr "%-20sзначение (мин , макс)"
 
-#: server/stdinhand.c:1597 server/stdinhand.c:1912
+#: server/stdinhand.c:1616 server/stdinhand.c:1931
 msgid "Option"
 msgstr "Настройка"
 
-#: server/stdinhand.c:1599
+#: server/stdinhand.c:1618
 msgid "Server Options (initial)"
 msgstr "Настройки сервера (начальные)"
 
-#: server/stdinhand.c:1600
+#: server/stdinhand.c:1619
 msgid "Server Options (ongoing)"
 msgstr "Настройки сервера (текущие)"
 
-#: server/stdinhand.c:1751 server/stdinhand.c:1776 server/stdinhand.c:1791
+#: server/stdinhand.c:1770 server/stdinhand.c:1795 server/stdinhand.c:1810
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Игра: Компьютерный игрок '%s' имеет уровень сложности '%s'."
 
-#: server/stdinhand.c:1780
+#: server/stdinhand.c:1799
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s контролируется компьютером."
 
-#: server/stdinhand.c:1797
+#: server/stdinhand.c:1816
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Уровень компьютерных игроков по умолчанию установлен в '%s'"
 
-#: server/stdinhand.c:1812 server/stdinhand.c:2096
+#: server/stdinhand.c:1831 server/stdinhand.c:2115
 msgid "This command is client only."
 msgstr "Эта команда работает только в клиенте."
 
-#: server/stdinhand.c:1815
+#: server/stdinhand.c:1834
 msgid "Usage: away"
 msgstr "Использование: away"
 
-#: server/stdinhand.c:1818
+#: server/stdinhand.c:1837
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s в режиме 'ушел от компьютера'."
 
-#: server/stdinhand.c:1824
+#: server/stdinhand.c:1843
 #, c-format
 msgid "%s returned to game."
 msgstr "%s вернулся к игре."
 
-#: server/stdinhand.c:1865
+#: server/stdinhand.c:1884
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Извините, Вы не имеете доступа к просмотру настройки '%s'."
 
-#: server/stdinhand.c:1871
+#: server/stdinhand.c:1890
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Неизвестная настройка '%s'."
 
-#: server/stdinhand.c:1896
+#: server/stdinhand.c:1915
 msgid "All options"
 msgstr "Все настройки"
 
-#: server/stdinhand.c:1899
+#: server/stdinhand.c:1918
 msgid "Vital options"
 msgstr "Основные настройки"
 
-#: server/stdinhand.c:1902
+#: server/stdinhand.c:1921
 msgid "Situational options"
 msgstr "Ситуационные настройки"
 
-#: server/stdinhand.c:1905
+#: server/stdinhand.c:1924
 msgid "Rarely used options"
 msgstr "Редкоиспользуемые настройки"
 
-#: server/stdinhand.c:1908
+#: server/stdinhand.c:1927
 msgid "+ means you may change the option"
 msgstr "+ значит, что Вы можете менять настройку"
 
-#: server/stdinhand.c:1909
+#: server/stdinhand.c:1928
 msgid "= means the option is on its default value"
 msgstr "= значит, что настройка имеет значение по умолчанию"
 
-#: server/stdinhand.c:1912
+#: server/stdinhand.c:1931
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s значение (мин,макс)    "
 
-#: server/stdinhand.c:1915
+#: server/stdinhand.c:1934
 msgid "description"
 msgstr "описание"
 
-#: server/stdinhand.c:1976
+#: server/stdinhand.c:1995
 msgid "Try 'show situational' or 'show rare' to show more options"
 msgstr ""
 "Попробуйте 'show situational' или 'show rare' для просмотра дополнительных "
 "настроек"
 
-#: server/stdinhand.c:2023
+#: server/stdinhand.c:2042
 msgid "Cannot change teams once game has begun."
 msgstr "Невозможно сменить команду после начала игры."
 
-#: server/stdinhand.c:2033
+#: server/stdinhand.c:2052
 msgid "Undefined argument.  Usage: team <player> [team]."
 msgstr "Неопределённый аргумент. Используйте: team <игрок> [команда]."
 
-#: server/stdinhand.c:2050
+#: server/stdinhand.c:2069
 #, c-format
 msgid "Player %s is made teamless."
 msgstr "Игрок %s сейчас без команды."
 
-#: server/stdinhand.c:2059
+#: server/stdinhand.c:2078
 msgid "Only ASCII characters are allowed for team names."
 msgstr "Только ASCII символы разрешены для названий команд."
 
-#: server/stdinhand.c:2064
+#: server/stdinhand.c:2083
 msgid "Cannot team a barbarian."
 msgstr "Невозможно включить варварского игрока в команду."
 
-#: server/stdinhand.c:2069
+#: server/stdinhand.c:2088
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "Игрок %s в команде: %s"
 
-#: server/stdinhand.c:2090
+#: server/stdinhand.c:2109
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr "Неопределённый аргумент. Используйте: vote yes|no [номер]."
 
-#: server/stdinhand.c:2099
+#: server/stdinhand.c:2118
 msgid "Observers cannot vote."
 msgstr "Наблюдатели не могут голосовать."
 
-#: server/stdinhand.c:2110
+#: server/stdinhand.c:2129
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr "Голосование %d \"%s\": %d за, %d против"
 
-#: server/stdinhand.c:2117
+#: server/stdinhand.c:2136
 msgid "There are no votes going on."
 msgstr "Нет активных голосований."
 
-#: server/stdinhand.c:2138
+#: server/stdinhand.c:2157
 msgid "No legal last vote."
 msgstr "Неверное последнее голосование."
 
-#: server/stdinhand.c:2143
+#: server/stdinhand.c:2162
 msgid "Value must be integer."
 msgstr "Значение должно быть целым числом."
 
-#: server/stdinhand.c:2154
+#: server/stdinhand.c:2173
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Нет такого голосования (%d)."
 
-#: server/stdinhand.c:2158
+#: server/stdinhand.c:2177
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Вы голосовали за \"%s\"."
 
-#: server/stdinhand.c:2162
+#: server/stdinhand.c:2181
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Вы голосовали против \"%s\""
 
-#: server/stdinhand.c:2189
+#: server/stdinhand.c:2208
 msgid ""
 "Undefined arguments. Usage: debug <player <player> | city <x> <y> | units "
 "<x> <y> | unit <id>>."
@@ -5856,377 +5848,377 @@ msgstr ""
 "Аргументы не заданы. Использование: debug <player <имя-игрока> | city <x> "
 "<y> | unit <идентификатор>>."
 
-#: server/stdinhand.c:2195
+#: server/stdinhand.c:2214
 msgid "Can only use this command once game has begun."
 msgstr "Эту команду можно использовать только после начала игры."
 
-#: server/stdinhand.c:2222 server/stdinhand.c:2253
+#: server/stdinhand.c:2241 server/stdinhand.c:2272
 #, c-format
 msgid "%s no longer debugged"
 msgstr "Отладка %s закончена"
 
-#: server/stdinhand.c:2226
+#: server/stdinhand.c:2245
 #, c-format
 msgid "%s debugged"
 msgstr "Отладка %s начата"
 
-#: server/stdinhand.c:2239 server/stdinhand.c:2269
+#: server/stdinhand.c:2258 server/stdinhand.c:2288
 msgid "Value 2 & 3 must be integer."
 msgstr "Значения 2 и 3 должны быть целыми числами."
 
-#: server/stdinhand.c:2243 server/stdinhand.c:2273
+#: server/stdinhand.c:2262 server/stdinhand.c:2292
 msgid "Bad map coordinates."
 msgstr "Неверные координаты карты."
 
-#: server/stdinhand.c:2248
+#: server/stdinhand.c:2267
 msgid "No city at this coordinate."
 msgstr "Нет города с такими координатами."
 
-#: server/stdinhand.c:2279 server/stdinhand.c:2305
+#: server/stdinhand.c:2298 server/stdinhand.c:2324
 #, c-format
 msgid "%s's %s no longer debugged."
 msgstr "Отладка %s %s закончена."
 
-#: server/stdinhand.c:2283 server/stdinhand.c:2309
+#: server/stdinhand.c:2302 server/stdinhand.c:2328
 #, c-format
 msgid "%s's %s debugged."
 msgstr "Отладка %s %s начата."
 
-#: server/stdinhand.c:2296
+#: server/stdinhand.c:2315
 msgid "Value 2 must be integer."
 msgstr "Значение 2 должно быть целым числом."
 
-#: server/stdinhand.c:2300
+#: server/stdinhand.c:2319
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "Соединение %d не существует."
 
-#: server/stdinhand.c:2356
+#: server/stdinhand.c:2375
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Неопределённый аргумент. Используйте: set <настройка> <значение>."
 
-#: server/stdinhand.c:2366
+#: server/stdinhand.c:2385
 msgid "You are not allowed to set this option."
 msgstr "Вам не позволено изменять эту настройку."
 
-#: server/stdinhand.c:2371
+#: server/stdinhand.c:2390
 msgid "This setting can't be modified after the game has started."
 msgstr "Эта настройка не может быть изменена после запуска игры."
 
-#: server/stdinhand.c:2383 server/stdinhand.c:2409
+#: server/stdinhand.c:2402 server/stdinhand.c:2428
 msgid "Value must be an integer."
 msgstr "Значение должно быть целым числом."
 
-#: server/stdinhand.c:2387
+#: server/stdinhand.c:2406
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Значение вне допустимых пределов (минимум: 0, максимум: 1)."
 
-#: server/stdinhand.c:2400 server/stdinhand.c:2426
+#: server/stdinhand.c:2419 server/stdinhand.c:2445
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Настройка: %s была установлена в %d."
 
-#: server/stdinhand.c:2413
+#: server/stdinhand.c:2432
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Значение вне допустимых пределов (минимум: %d, максимум: %d)."
 
-#: server/stdinhand.c:2436
+#: server/stdinhand.c:2455
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr ""
 "Строка символов слишком длинна. Используйте: set <настройка> <значение>"
 
-#: server/stdinhand.c:2448
+#: server/stdinhand.c:2467
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Настройка: %s установлена в \"%s\"."
 
-#: server/stdinhand.c:2485
+#: server/stdinhand.c:2504
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Извините, вы не можете наблюдать глобально в этой игре."
 
-#: server/stdinhand.c:2488
+#: server/stdinhand.c:2507
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr ""
 "Извините, вы не можете взять управление глобальным наблюдателем. Вместо "
 "этого попробуйте просто наблюдать."
 
-#: server/stdinhand.c:2497
+#: server/stdinhand.c:2516
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за варварами."
 
-#: server/stdinhand.c:2500
+#: server/stdinhand.c:2519
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Извините, в этой игре нельзя брать управление варварами."
 
-#: server/stdinhand.c:2508
+#: server/stdinhand.c:2527
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за погибшими игроками."
 
-#: server/stdinhand.c:2511
+#: server/stdinhand.c:2530
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Извините, в этой игре нельзя брать управление погибшими игроками."
 
-#: server/stdinhand.c:2519
+#: server/stdinhand.c:2538
 msgid "Sorry, one can't observe AI players in this game."
 msgstr ""
 "Извините, в этой игре запрещено наблюдение за игроками, управляемыми "
 "компьютером."
 
-#: server/stdinhand.c:2522
+#: server/stdinhand.c:2541
 msgid "Sorry, one can't take AI players in this game."
 msgstr ""
 "Извините, в этой игре нельзя брать управление игроками, управляемыми "
 "компьютером."
 
-#: server/stdinhand.c:2531
+#: server/stdinhand.c:2550
 msgid "Sorry, one can't observe human players in this game."
 msgstr ""
 "Извините, в этой игре запрещено наблюдение за игроками, управляемыми людьми."
 
-#: server/stdinhand.c:2534
+#: server/stdinhand.c:2553
 msgid "Sorry, one can't take human players in this game."
 msgstr ""
 "Извините, в этой игре нельзя брать управление игроками, управляемыми людьми."
 
-#: server/stdinhand.c:2544
+#: server/stdinhand.c:2563
 msgid "Sorry, one can't observe in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за игроками."
 
-#: server/stdinhand.c:2549
+#: server/stdinhand.c:2568
 msgid "Sorry, one can't take players in this game."
 msgstr "Извините, в этой игре нельзя брать управление игроками."
 
-#: server/stdinhand.c:2555
+#: server/stdinhand.c:2574
 msgid "Sorry, one can't take players already connected in this game."
 msgstr ""
 "Извините, в этой игре нельзя брать управление игроками, которые уже "
 "подключены."
 
-#: server/stdinhand.c:2588
+#: server/stdinhand.c:2607
 msgid "Usage: observe [connection-name [player-name]]"
 msgstr "Использование: observe [имя-подключения [имя-игрока]]"
 
-#: server/stdinhand.c:2594
+#: server/stdinhand.c:2613
 msgid "Usage: observe [player-name]"
 msgstr "Использование: observe [имя-игрока]"
 
-#: server/stdinhand.c:2640
+#: server/stdinhand.c:2659
 msgid "Game: A global observer cannot be created: too many regular players."
 msgstr ""
 "Игра: Глобальный наблюдатель не может быть создан: слишком много обычных "
 "игроков."
 
-#: server/stdinhand.c:2671
+#: server/stdinhand.c:2690
 msgid "Game: A global observer has been created"
 msgstr "Игра: Глобальный наблюдатель был создан"
 
-#: server/stdinhand.c:2687
+#: server/stdinhand.c:2706
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr ""
 "%s итак контролирует %s. Если Вы используете команду 'observe', это уберет %s"
 
-#: server/stdinhand.c:2695
+#: server/stdinhand.c:2714
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s уже контролирует %s."
 
-#: server/stdinhand.c:2748
+#: server/stdinhand.c:2767
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s сейчас наблюдает за %s"
 
-#: server/stdinhand.c:2788
+#: server/stdinhand.c:2807
 msgid "Usage: take <connection-name> <player-name>"
 msgstr "Используйте: take <имя-подключения> <имя-игрока>"
 
-#: server/stdinhand.c:2793
+#: server/stdinhand.c:2812
 msgid "Usage: take <player-name>"
 msgstr "Использование: take <имя-игрока>"
 
-#: server/stdinhand.c:2799
+#: server/stdinhand.c:2818
 msgid "Usage: take [connection-name] <player-name>"
 msgstr "Используйте: take [имя-подключения] <имя-игрока>"
 
-#: server/stdinhand.c:2831
+#: server/stdinhand.c:2850
 #, c-format
 msgid "%s cannot be taken."
 msgstr "%s нельзя взять"
 
-#: server/stdinhand.c:2838
+#: server/stdinhand.c:2857
 #, c-format
 msgid "%s already controls %s"
 msgstr "%s уже контролирует %s"
 
-#: server/stdinhand.c:2862
+#: server/stdinhand.c:2881
 #, c-format
 msgid "being detached from %s."
 msgstr "отключается от %s."
 
-#: server/stdinhand.c:2915
+#: server/stdinhand.c:2934
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s сейчас контролируeт %s (%s, %s)"
 
-#: server/stdinhand.c:2917 server/stdinhand.c:3923
+#: server/stdinhand.c:2936 server/stdinhand.c:3949
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Варвары"
 
-#: server/stdinhand.c:2918 server/stdinhand.c:3925 client/plrdlg_common.c:228
+#: server/stdinhand.c:2937 server/stdinhand.c:3951 client/plrdlg_common.c:228
 #: client/gui-gtk-2.0/pages.c:1440 client/gui-gtk/plrdlg.c:141
 #: client/gui-win32/connectdlg.c:188 client/gui-win32/plrdlg.c:340
 msgid "AI"
 msgstr "Компьютер"
 
-#: server/stdinhand.c:2918 server/stdinhand.c:3927
+#: server/stdinhand.c:2937 server/stdinhand.c:3953
 #: client/gui-gtk-2.0/pages.c:1440 client/gui-gtk-2.0/pages.c:1467
 #: client/gui-win32/connectdlg.c:188 client/gui-win32/connectdlg.c:207
 msgid "Human"
 msgstr "Человек"
 
-#: server/stdinhand.c:2918 client/gui-gtk-2.0/pages.c:1439
+#: server/stdinhand.c:2937 client/gui-gtk-2.0/pages.c:1439
 #: client/gui-gtk-2.0/pages.c:1466 client/gui-win32/connectdlg.c:187
 #: client/gui-win32/connectdlg.c:206
 msgid "Alive"
 msgstr "Живой"
 
-#: server/stdinhand.c:2918 client/gui-gtk-2.0/pages.c:1439
+#: server/stdinhand.c:2937 client/gui-gtk-2.0/pages.c:1439
 #: client/gui-win32/connectdlg.c:187
 msgid "Dead"
 msgstr "Умер"
 
-#: server/stdinhand.c:2949
+#: server/stdinhand.c:2968
 msgid "Usage: detach <connection-name>"
 msgstr "Использование: detach <имя-подключения>"
 
-#: server/stdinhand.c:2969
+#: server/stdinhand.c:2988
 msgid "You can not detach other users."
 msgstr "Вы не можете отключать других пользователей."
 
-#: server/stdinhand.c:2978
+#: server/stdinhand.c:2997
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s не подключен ни к каким игрокам."
 
-#: server/stdinhand.c:3011
+#: server/stdinhand.c:3030
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s отключается от %s"
 
-#: server/stdinhand.c:3023
+#: server/stdinhand.c:3042
 #, c-format
 msgid "detaching from %s."
 msgstr "отключается от %s."
 
-#: server/stdinhand.c:3111
+#: server/stdinhand.c:3130
 msgid "Usage: load <filename>"
 msgstr "Использование: load <имя-файла>"
 
-#: server/stdinhand.c:3117
+#: server/stdinhand.c:3136
 msgid "Can't load a game while another is running."
 msgstr "Невозможно загрузить игру во время работы другой игры."
 
-#: server/stdinhand.c:3126
+#: server/stdinhand.c:3145
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Невозможно загрузить файл: %s"
 
-#: server/stdinhand.c:3183
+#: server/stdinhand.c:3202
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Текущий путь для данных: \"%s\""
 
-#: server/stdinhand.c:3190
+#: server/stdinhand.c:3209
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Каталог набора правил \"%s\" не найден"
 
-#: server/stdinhand.c:3195
+#: server/stdinhand.c:3214
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Каталог набора правил установлен в \"%s\""
 
-#: server/stdinhand.c:3233
+#: server/stdinhand.c:3252
 msgid "Goodbye."
 msgstr "Пока."
 
-#: server/stdinhand.c:3265
+#: server/stdinhand.c:3284
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Извините, Вы не можете использовать команды сервера."
 
-#: server/stdinhand.c:3301
+#: server/stdinhand.c:3320
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Внимание: '%s' интерпретировано как '%s', но оно двусмысленно. Попробуйте '%"
 "shelp'."
 
-#: server/stdinhand.c:3306
+#: server/stdinhand.c:3325
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Неизвестная команда. Попробуйте '%shelp'."
 
-#: server/stdinhand.c:3321
+#: server/stdinhand.c:3342
 msgid "Your new vote cancelled your previous vote."
 msgstr "Ваше новое голосование отменяет предыдущее голосование."
 
-#: server/stdinhand.c:3329
+#: server/stdinhand.c:3350
 #, c-format
 msgid "New vote, no. %d, by %s: %s."
 msgstr "Новый голос, номер %d, от %s: %s."
 
-#: server/stdinhand.c:3349
+#: server/stdinhand.c:3370
 msgid "You are not allowed to use this command."
 msgstr "Вы не можете пользоваться этой командой."
 
-#: server/stdinhand.c:3374
+#: server/stdinhand.c:3396
 msgid "(server prompt)"
 msgstr "(приглашение сервера)"
 
-#: server/stdinhand.c:3446
+#: server/stdinhand.c:3468
 msgid "The game must be running before you can see the score."
 msgstr "Игра должна начаться, прежде чем Вы сможете посмотреть счет."
 
-#: server/stdinhand.c:3507
+#: server/stdinhand.c:3529
 #, c-format
 msgid "But %s is dead!"
 msgstr "Но %s уже мёртв!"
 
-#: server/stdinhand.c:3526
+#: server/stdinhand.c:3548
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "Заканчиваем игру. Сервер перезагрузится как только все клиенты отключатся."
 
-#: server/stdinhand.c:3536
+#: server/stdinhand.c:3558
 msgid "Cannot end the game: no game running."
 msgstr "Невозможно закончить игру, игра не запущена."
 
-#: server/stdinhand.c:3580
+#: server/stdinhand.c:3602
 msgid "Not enough players, game will not start."
 msgstr "Недостаточно игроков, игра не начнется."
 
-#: server/stdinhand.c:3591
+#: server/stdinhand.c:3613
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Не возможно начать игру: ждем пока все клиенты отключатся."
 
-#: server/stdinhand.c:3597
+#: server/stdinhand.c:3619
 msgid "Cannot start the game: it has already been started."
 msgstr "Не возможно начать игру: она уже началась."
 
-#: server/stdinhand.c:3602
+#: server/stdinhand.c:3624
 msgid "Cannot start the game: it is already running."
 msgstr "Не возможно начать игру: она уже идет."
 
-#: server/stdinhand.c:3631
+#: server/stdinhand.c:3653
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Прерываем подключение %s."
 
-#: server/stdinhand.c:3650
+#: server/stdinhand.c:3672
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6265,66 +6257,71 @@ msgstr ""
 "  save   -  чтобы сохранить игру\n"
 "  quit   -  чтобы выйти"
 
-#: server/stdinhand.c:3685 server/stdinhand.c:3688
+#: server/stdinhand.c:3707 server/stdinhand.c:3710
 msgid "Command:"
 msgstr "Команда:"
 
-#: server/stdinhand.c:3692
+#: server/stdinhand.c:3714
 msgid "Synopsis: "
 msgstr "Краткая справка:"
 
-#: server/stdinhand.c:3701
+#: server/stdinhand.c:3723
 #, c-format
 msgid "Level: %s"
 msgstr "Уровень: %s"
 
 #: server/stdinhand.c:3726
+#, c-format
+msgid "Pregame level: %s"
+msgstr "Уровень перед игрой: %s"
+
+#: server/stdinhand.c:3752
 msgid "The following server commands are available:"
 msgstr "Следующие команды сервера доступны:"
 
-#: server/stdinhand.c:3801
+#: server/stdinhand.c:3827
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Аргумент команды help '%s' неоднозначен."
 
-#: server/stdinhand.c:3806
+#: server/stdinhand.c:3832
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Справка по '%s' не найдена."
 
-#: server/stdinhand.c:3865
+#: server/stdinhand.c:3891
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Плохой аргумент команды list: '%s'. Попробуйте '%shelp list'."
 
-#: server/stdinhand.c:3897
+#: server/stdinhand.c:3923
 msgid "List of players:"
 msgstr "Список игроков:"
 
-#: server/stdinhand.c:3902
+#: server/stdinhand.c:3928
 msgid "<no players>"
 msgstr "<нет игроков>"
 
-#: server/stdinhand.c:3919
+#: server/stdinhand.c:3945
 #, c-format
 msgid "user %s, "
 msgstr "пользователь %s, "
 
-#: server/stdinhand.c:3930
+#: server/stdinhand.c:3956
 msgid ", Dead"
 msgstr ", Умер"
 
-#: server/stdinhand.c:3933
+#: server/stdinhand.c:3959
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", уровень сложности %s"
 
-#: server/stdinhand.c:3937
+#: server/stdinhand.c:3963
 #, c-format
 msgid ", nation %s"
 msgstr ", народ - %s"
 
-#: server/stdinhand.c:3949
+#: server/stdinhand.c:3975
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -6332,20 +6329,20 @@ msgstr[0] " %d соединение:"
 msgstr[1] " %d соединения:"
 msgstr[2] " %d соединений:"
 
-#: server/stdinhand.c:3955
+#: server/stdinhand.c:3981
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s из %s (уровень команд %s), размер буфера=%dкб"
 
-#: server/stdinhand.c:3960
+#: server/stdinhand.c:3986
 msgid " (observer mode)"
 msgstr " (наблюдатель)"
 
-#: server/stdinhand.c:3976
+#: server/stdinhand.c:4002
 msgid "List of connections to server:"
 msgstr "Список соединений с сервером:"
 
-#: server/stdinhand.c:3980
+#: server/stdinhand.c:4006
 msgid "<no connections>"
 msgstr "<нет соединений>"
 
@@ -7436,52 +7433,52 @@ msgstr "Сейчас строит"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Накоплено,Цель,Ходы,Купить)"
 
-#: client/civclient.c:191
+#: client/civclient.c:193
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tПропустить диалог подключения\n"
 
-#: client/civclient.c:201
+#: client/civclient.c:203
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
 "  -l, --log FILE\tИспользовать FILE для записи журнала (сервер также "
 "использует эту команду)\n"
 
-#: client/civclient.c:203
+#: client/civclient.c:205
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tПодключиться к метасерверу HOST\n"
 
-#: client/civclient.c:205
+#: client/civclient.c:207
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAME\tИспользовать NAME как имя\n"
 
-#: client/civclient.c:207
+#: client/civclient.c:209
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tПодключиться к порту PORT сервера\n"
 
-#: client/civclient.c:209
+#: client/civclient.c:211
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tИспользовать PLUGIN для звукового вывода %s\n"
 
-#: client/civclient.c:211
+#: client/civclient.c:213
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
 "  -r, --read FILE\tПрочитать начальный скрипт FILE (только для сервера)\n"
 
-#: client/civclient.c:214
+#: client/civclient.c:216
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tПодключиться к серверу HOST\n"
 
-#: client/civclient.c:215
+#: client/civclient.c:217
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound FILE\tПрочитать звуковую информацию из FILE\n"
 
-#: client/civclient.c:216
+#: client/civclient.c:218
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr ""
 "  -t, --tiles FILE\tИспользовать файл данных FILE.tilespec для ячеек карты\n"
 
-#: client/civclient.c:219
+#: client/civclient.c:221
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -7491,30 +7488,30 @@ msgstr ""
 "\t\t\tПопробуйте \"%s -- --help\", если Вам нужна дополнительная "
 "информация.\n"
 
-#: client/civclient.c:241
+#: client/civclient.c:243
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Неверный порт \"%s\" указан настройкой --port.\n"
 
-#: client/civclient.c:243 client/civclient.c:256
+#: client/civclient.c:245 client/civclient.c:258
 msgid "Try using --help.\n"
 msgstr "Попробуйте использовать --help.\n"
 
-#: client/civclient.c:254
+#: client/civclient.c:256
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Неверный уровень настройки \"%s\" указан настройкой --debug.\n"
 
-#: client/civclient.c:264
+#: client/civclient.c:266
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Непонятная настройка: \"%s\"\n"
 
-#: client/civclient.c:485
+#: client/civclient.c:487
 msgid "Game started."
 msgstr "Игра началась."
 
-#: client/civclient.c:518
+#: client/civclient.c:520
 msgid "There was an error while auto connecting; aborting."
 msgstr "Ошибка во время подключения, прерываем выполнение."
 
@@ -7593,41 +7590,37 @@ msgid "The parties create an alliance"
 msgstr "Стороны договорились об альянсе"
 
 #: client/climisc.c:282
-msgid "The parties resume the research pool"
-msgstr "Стороны договорились совместно продолжать исследования"
-
-#: client/climisc.c:285
 #, c-format
 msgid "The %s gives shared vision"
 msgstr "%s делятся своим зрением"
 
-#: client/climisc.c:289
+#: client/climisc.c:286
 #, c-format
 msgid "The %s gives an embassy"
 msgstr "%s дают  посольство"
 
-#: client/climisc.c:870
+#: client/climisc.c:867
 msgid "Popup Request"
 msgstr "Открыть запрос"
 
-#: client/climisc.c:900
+#: client/climisc.c:897
 msgid "Exporting output window to civgame.log ..."
 msgstr "Экспортируем окно вывода в civgame.log ..."
 
-#: client/climisc.c:904
+#: client/climisc.c:901
 msgid "Export complete."
-msgstr "Экспопрт закончен."
+msgstr "Экспорт закончен."
 
-#: client/climisc.c:906
+#: client/climisc.c:903
 msgid "Export failed, couldn't write to file."
 msgstr "Экспорт провалился, не могу писать в файл."
 
-#: client/climisc.c:1018
+#: client/climisc.c:1015
 #, c-format
 msgid "Game: You don't buy %s in %s!"
 msgstr "Игра: Вы не купили %s в %s!"
 
-#: client/climisc.c:1038
+#: client/climisc.c:1035
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Игра: %s стоит %d золотых, а у Вас только %d золотых."
@@ -8291,11 +8284,13 @@ msgstr "Игра: Копируем %s в буфер обмена."
 msgid "Game: Clipboard is empty."
 msgstr "Игра: Буфер обмена пуст."
 
-#: client/mapview_common.c:778
+#: client/mapview_common.c:782
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
 msgstr ""
+"Пути длиннее 99 ходов не поддерживаются.\n"
+"Сообщите об этой ошибке по адресу bugs@freeciv.org."
 
 #: client/messagewin_common.c:113
 msgid "Game: "
@@ -8813,7 +8808,7 @@ msgstr "ВКЛ"
 msgid "OFF"
 msgstr "ВЫКЛ"
 
-#: client/packhand.c:2587
+#: client/packhand.c:2586
 msgid "Other"
 msgstr "Другое"
 
@@ -8850,7 +8845,7 @@ msgstr "Флаг"
 
 #: client/plrdlg_common.c:225 client/gui-gtk-2.0/dialogs.c:1621
 #: client/gui-gtk-2.0/pages.c:1501 client/gui-gtk/plrdlg.c:140
-#: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:978
+#: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:988
 #: client/gui-win32/plrdlg.c:340
 msgid "Nation"
 msgstr "Народ"
@@ -8901,30 +8896,28 @@ msgid "Ping"
 msgstr "Пинг"
 
 #: client/repodlgs_common.c:316
-#, fuzzy
 msgid "You cannot sell improvements."
-msgstr "Продать улучшения"
+msgstr "Вы не можете продать здания."
 
 #: client/repodlgs_common.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "Sold %d %s for %d gold."
-msgstr "Продано %d %s за %d золота"
+msgstr "Продано %d %s за %d золота."
 
 #: client/repodlgs_common.c:335
-#, fuzzy, c-format
+#, c-format
 msgid "No %s could be sold."
-msgstr "Нельзя продать %s"
+msgstr "Ни одного здания %s не может быть продано."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:354
-#, fuzzy
 msgid "You cannot disband units."
-msgstr "Вы не можете отключать других пользователей."
+msgstr "Вы не можете распустить соединения."
 
 #: client/repodlgs_common.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot be disbanded."
-msgstr "* Нельзя распустить.\n"
+msgstr "Соединение %s не может быть распущено."
 
 #: client/repodlgs_common.c:380
 #, c-format
@@ -8932,9 +8925,9 @@ msgid "Disbanded %d %s."
 msgstr "Распустить %d %s."
 
 #: client/repodlgs_common.c:383
-#, fuzzy, c-format
+#, c-format
 msgid "No %s could be disbanded."
-msgstr "Нельзя продать %s"
+msgstr "Ни одно соединение %s не может быть распущено."
 
 #: client/text.c:137
 msgid "?nation:Neutral"
@@ -9944,8 +9937,8 @@ msgid "S_how"
 msgstr "_Показывать"
 
 #: client/gui-gtk-2.0/cityrep.c:782 client/gui-gtk-2.0/menu.c:725
-#: client/gui-gtk/cityrep.c:603 client/gui-gtk/diplodlg.c:395
-#: client/gui-gtk/diplodlg.c:407 client/gui-gtk/menu.c:674
+#: client/gui-gtk/cityrep.c:603 client/gui-gtk/diplodlg.c:397
+#: client/gui-gtk/diplodlg.c:409 client/gui-gtk/menu.c:674
 #: client/gui-mui/diplodlg.c:489 client/gui-mui/diplodlg.c:524
 #: client/gui-mui/diplodlg.c:605 client/gui-mui/diplodlg.c:615
 #: client/gui-mui/gui_main.c:233 client/gui-win32/diplodlg.c:609
@@ -10472,7 +10465,7 @@ msgstr "Соединение"
 
 #: client/gui-gtk-2.0/dialogs.c:1430 client/gui-gtk-2.0/pages.c:1497
 #: client/gui-gtk-2.0/wldlg.c:990 client/gui-gtk/plrdlg.c:140
-#: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:973
+#: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:983
 #: client/gui-win32/plrdlg.c:340 data/Freeciv.in:80
 msgid "Name"
 msgstr "Название"
@@ -10529,11 +10522,11 @@ msgstr "_Мужской"
 
 #: client/gui-gtk-2.0/dialogs.c:1727
 msgid "_City Styles:"
-msgstr "_Стили городов:"
+msgstr "Стили _городов:"
 
 #: client/gui-gtk-2.0/dialogs.c:1768
 msgid "L_egend"
-msgstr "_Легенда"
+msgstr "Л_егенда"
 
 #: client/gui-gtk-2.0/dialogs.c:2095 client/gui-gtk/dialogs.c:2295
 #: client/gui-xaw/dialogs.c:2145
@@ -10556,70 +10549,70 @@ msgstr "Вы должны выбрать стиль Ваших городов."
 msgid "You must type a legal name."
 msgstr "Вы должны ввести нормальное имя."
 
-#: client/gui-gtk-2.0/diplodlg.c:214 client/gui-gtk/diplodlg.c:332
-#: client/gui-gtk/diplodlg.c:350 client/gui-win32/diplodlg.c:150
+#: client/gui-gtk-2.0/diplodlg.c:213 client/gui-gtk/diplodlg.c:334
+#: client/gui-gtk/diplodlg.c:352 client/gui-win32/diplodlg.c:150
 #: client/gui-xaw/diplodlg.c:383 client/gui-xaw/diplodlg.c:401
 msgid "World-map"
 msgstr "Карта Мира"
 
-#: client/gui-gtk-2.0/diplodlg.c:220 client/gui-gtk/diplodlg.c:337
-#: client/gui-gtk/diplodlg.c:355 client/gui-win32/diplodlg.c:145
+#: client/gui-gtk-2.0/diplodlg.c:219 client/gui-gtk/diplodlg.c:339
+#: client/gui-gtk/diplodlg.c:357 client/gui-win32/diplodlg.c:145
 #: client/gui-xaw/diplodlg.c:387 client/gui-xaw/diplodlg.c:405
 msgid "Sea-map"
 msgstr "Карта морей"
 
-#: client/gui-gtk-2.0/diplodlg.c:226
+#: client/gui-gtk-2.0/diplodlg.c:225
 msgid "_Maps"
-msgstr "Карты"
+msgstr "_Карты"
 
-#: client/gui-gtk-2.0/diplodlg.c:257
+#: client/gui-gtk-2.0/diplodlg.c:256
 msgid "_Advances"
-msgstr "Открытия"
+msgstr "_Открытия"
 
-#: client/gui-gtk-2.0/diplodlg.c:307 client/gui-gtk-2.0/menu.c:817
+#: client/gui-gtk-2.0/diplodlg.c:306 client/gui-gtk-2.0/menu.c:817
 #: client/gui-gtk/menu.c:766 client/gui-win32/menu.c:398
 msgid "_Cities"
-msgstr "Города"
+msgstr "_Города"
 
-#: client/gui-gtk-2.0/diplodlg.c:316
+#: client/gui-gtk-2.0/diplodlg.c:315
 msgid "_Give shared vision"
-msgstr "Поделиться зрением"
+msgstr "Поделиться _зрением"
 
-#: client/gui-gtk-2.0/diplodlg.c:329
+#: client/gui-gtk-2.0/diplodlg.c:328
 msgid "Give _embassy"
 msgstr "Разрешить _посольство"
 
-#: client/gui-gtk-2.0/diplodlg.c:371
+#: client/gui-gtk-2.0/diplodlg.c:358
 msgid "_Pacts"
-msgstr "Договоры"
+msgstr "_Договоры"
 
-#: client/gui-gtk-2.0/diplodlg.c:462 client/gui-gtk/diplodlg.c:302
+#: client/gui-gtk-2.0/diplodlg.c:449 client/gui-gtk/diplodlg.c:304
 #: client/gui-mui/diplodlg.c:480 client/gui-win32/diplodlg.c:597
 #: data/Freeciv.in:269
 msgid "Diplomacy meeting"
 msgstr "Дипломатическая встреча"
 
-#: client/gui-gtk-2.0/diplodlg.c:473 client/gui-mui/diplodlg.c:535
+#: client/gui-gtk-2.0/diplodlg.c:460 client/gui-mui/diplodlg.c:535
 msgid "_Cancel meeting"
 msgstr "Отменить переговоры"
 
-#: client/gui-gtk-2.0/diplodlg.c:475
+#: client/gui-gtk-2.0/diplodlg.c:462
 msgid "Accept _treaty"
 msgstr "Подписать"
 
-#: client/gui-gtk-2.0/diplodlg.c:504
+#: client/gui-gtk-2.0/diplodlg.c:491
 msgid "C_lauses:"
 msgstr "Статьи:"
 
-#: client/gui-gtk-2.0/diplodlg.c:551 client/gui-gtk-2.0/diplodlg.c:607
+#: client/gui-gtk-2.0/diplodlg.c:538 client/gui-gtk-2.0/diplodlg.c:594
 msgid "_Gold:"
 msgstr "Золото:"
 
-#: client/gui-gtk-2.0/diplodlg.c:563 client/gui-gtk-2.0/diplodlg.c:619
+#: client/gui-gtk-2.0/diplodlg.c:550 client/gui-gtk-2.0/diplodlg.c:606
 msgid "_Add Clause..."
 msgstr "Добавить статью..."
 
-#: client/gui-gtk-2.0/diplodlg.c:859 client/gui-gtk/diplodlg.c:894
+#: client/gui-gtk-2.0/diplodlg.c:838 client/gui-gtk/diplodlg.c:910
 #: client/gui-mui/diplodlg.c:382 client/gui-win32/diplodlg.c:262
 #: client/gui-xaw/diplodlg.c:948
 msgid "Game: Invalid amount of gold specified."
@@ -10711,9 +10704,9 @@ msgstr "Включить панель доклада состояния"
 msgid "Solid unit icon background color in city dialog"
 msgstr "Сплошной цвет иконки фона соединения в городском диалоге"
 
-#: client/gui-gtk-2.0/gui_main.c:147 client/gui-win32/gui_main.c:99
+#: client/gui-gtk-2.0/gui_main.c:147 client/gui-win32/gui_main.c:100
 msgid "Better fog-of-war drawing"
-msgstr ""
+msgstr "Улучшенная прорисовка Тумана войны"
 
 #: client/gui-gtk-2.0/gui_main.c:487 client/gui-gtk-2.0/gui_main.c:1074
 #: client/gui-gtk/gui_main.c:385 client/gui-gtk/gui_main.c:857
@@ -10721,14 +10714,14 @@ msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:841 client/gui-gtk-2.0/gui_main.c:855
-#: client/gui-gtk/gui_main.c:678 client/gui-win32/gui_main.c:403
+#: client/gui-gtk/gui_main.c:678 client/gui-win32/gui_main.c:404
 #: data/Freeciv.in:2645
 msgid "Turn Done"
 msgstr "Ход сделан"
 
 #: client/gui-gtk-2.0/gui_main.c:855
 msgid "Shift+Return"
-msgstr ""
+msgstr "Shift+Return"
 
 #: client/gui-gtk-2.0/gui_main.c:887
 msgid "_Map"
@@ -10739,7 +10732,7 @@ msgid "_Chat"
 msgstr "_Общение"
 
 #: client/gui-gtk-2.0/gui_main.c:977 client/gui-gtk/gui_main.c:783
-#: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:454
+#: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:460
 #: data/Freeciv.in:2836
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -10749,19 +10742,19 @@ msgstr ""
 "Freeciv является бесплатным продуктом и Вы имеете право распространять его "
 "копии\n"
 "при определённых условиях; смотрите пункт \"Копирование\" в меню Справка\n"
-"А теперь... Отправьте их всех в ад!"
+"А теперь... Пусть всем чертям станет тошно!"
 
 #: client/gui-gtk-2.0/gui_main.c:1233 client/gui-mui/citydlg.c:1557
 msgid "Name:"
 msgstr "Имя:"
 
 #: client/gui-gtk-2.0/gui_main.c:1240 client/gui-gtk/connectdlg.c:433
-#: client/gui-win32/connectdlg.c:1047
+#: client/gui-win32/connectdlg.c:1057
 msgid "Host:"
 msgstr "Хост:"
 
 #: client/gui-gtk-2.0/gui_main.c:1372 client/gui-gtk/gui_main.c:1090
-#: client/gui-xaw/gui_main.c:716
+#: client/gui-xaw/gui_main.c:709
 #, c-format
 msgid ""
 "%s People\n"
@@ -11136,9 +11129,11 @@ msgstr ""
 "Показывает Ваши нынешние уровни налогов/роскоши/науки; нажмите мышкой, чтобы "
 "их переключить."
 
-#: client/gui-gtk-2.0/mapview.c:960 client/gui-win32/mapview.c:725
+#: client/gui-gtk-2.0/mapview.c:945 client/gui-win32/mapview.c:736
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr ""
+"Улучшенная прорисовка тумана работает только в формате truecolor.  Отменяем "
+"её"
 
 #: client/gui-gtk-2.0/menu.c:231
 msgid "Leaving a local game will end it!"
@@ -11879,37 +11874,37 @@ msgid "Passwords don't match, enter password."
 msgstr "Пароли не совпадают, введите пароль."
 
 #: client/gui-gtk-2.0/pages.c:645 client/gui-gtk/connectdlg.c:382
-#: client/gui-mui/connectdlg.c:160 client/gui-win32/connectdlg.c:913
+#: client/gui-mui/connectdlg.c:160 client/gui-win32/connectdlg.c:914
 msgid "Server Name"
 msgstr "Имя сервера"
 
 #: client/gui-gtk-2.0/pages.c:646 client/gui-gtk/connectdlg.c:382
-#: client/gui-mui/connectdlg.c:161 client/gui-win32/connectdlg.c:913
+#: client/gui-mui/connectdlg.c:161 client/gui-win32/connectdlg.c:914
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Порт"
 
 #: client/gui-gtk-2.0/pages.c:647 client/gui-gtk/connectdlg.c:382
-#: client/gui-mui/connectdlg.c:162 client/gui-win32/connectdlg.c:914
+#: client/gui-mui/connectdlg.c:162 client/gui-win32/connectdlg.c:915
 msgid "Version"
 msgstr "Версия"
 
 #: client/gui-gtk-2.0/pages.c:648 client/gui-gtk-2.0/pages.c:1503
 #: client/gui-gtk/connectdlg.c:383 client/gui-mui/connectdlg.c:163
-#: client/gui-win32/connectdlg.c:914 client/gui-win32/connectdlg.c:983
+#: client/gui-win32/connectdlg.c:915 client/gui-win32/connectdlg.c:993
 msgid "Status"
 msgstr "Состояние"
 
 #: client/gui-gtk-2.0/pages.c:649 client/gui-gtk-2.0/plrdlg.c:295
 #: client/gui-gtk/connectdlg.c:383 client/gui-gtk/plrdlg.c:168
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
-#: client/gui-win32/connectdlg.c:914 client/gui-win32/plrdlg.c:346
+#: client/gui-win32/connectdlg.c:915 client/gui-win32/plrdlg.c:346
 #: client/gui-xaw/menu.c:217 data/Freeciv.in:3199 data/Freeciv.in:3200
 msgid "Players"
 msgstr "Игроки"
 
 #: client/gui-gtk-2.0/pages.c:650 client/gui-gtk/connectdlg.c:383
-#: client/gui-mui/connectdlg.c:165 client/gui-win32/connectdlg.c:915
+#: client/gui-mui/connectdlg.c:165 client/gui-win32/connectdlg.c:916
 msgid "Comment"
 msgstr "Комментарий"
 
@@ -11982,7 +11977,7 @@ msgstr "Выберите _сценарий"
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:314
 #: client/gui-gtk/wldlg.c:320 client/gui-mui/citydlg.c:633
 #: client/gui-mui/citydlg.c:662 client/gui-mui/worklistclass.c:237
-#: client/gui-win32/citydlg.c:1096 client/gui-win32/connectdlg.c:988
+#: client/gui-win32/citydlg.c:1096 client/gui-win32/connectdlg.c:998
 #: client/gui-win32/wldlg.c:673 client/gui-win32/wldlg.c:679
 msgid "Type"
 msgstr "Тип"
@@ -12254,7 +12249,7 @@ msgstr "Космический корабль\n"
 msgid "Score"
 msgstr "Счет"
 
-#: client/gui-gtk-2.0/repodlgs.c:1447 client/gui-win32/connectdlg.c:1024
+#: client/gui-gtk-2.0/repodlgs.c:1447 client/gui-win32/connectdlg.c:1034
 #: client/gui-win32/repodlgs.c:889
 msgid "Game Options"
 msgstr "Настройки игры"
@@ -12588,7 +12583,7 @@ msgstr "Изменить"
 #: client/gui-gtk/finddlg.c:108 client/gui-gtk/gamedlgs.c:312
 #: client/gui-gtk/inputdlg.c:135 client/gui-gtk/messagedlg.c:126
 #: client/gui-gtk/wldlg.c:492 client/gui-win32/citydlg.c:1088
-#: client/gui-win32/cityrep.c:754 client/gui-win32/connectdlg.c:1027
+#: client/gui-win32/cityrep.c:754 client/gui-win32/connectdlg.c:1037
 #: client/gui-win32/dialogs.c:1667 client/gui-win32/finddlg.c:128
 #: client/gui-win32/gotodlg.c:170 client/gui-win32/inputdlg.c:146
 #: client/gui-win32/messagedlg.c:216 client/gui-win32/ratesdlg.c:328
@@ -12688,7 +12683,7 @@ msgid "Verify Password"
 msgstr "Подтвердите пароль"
 
 #: client/gui-gtk/connectdlg.c:370 client/gui-gtk/connectdlg.c:510
-#: client/gui-mui/gui_main.c:263 client/gui-win32/connectdlg.c:1084
+#: client/gui-mui/gui_main.c:263 client/gui-win32/connectdlg.c:1094
 #: client/gui-win32/menu.c:378 data/Freeciv.in:104 data/Freeciv.in:2537
 msgid "Connect"
 msgstr "Подключиться"
@@ -12701,36 +12696,36 @@ msgstr "Выбрать"
 msgid " Connect to Freeciv Server"
 msgstr "Подключиться к серверу Freeciv"
 
-#: client/gui-gtk/connectdlg.c:409 client/gui-win32/connectdlg.c:911
+#: client/gui-gtk/connectdlg.c:409 client/gui-win32/connectdlg.c:912
 #: data/Freeciv.in:73
 msgid "Freeciv Server Selection"
 msgstr "Выбор сервера Freeciv"
 
-#: client/gui-gtk/connectdlg.c:425 client/gui-win32/connectdlg.c:1045
+#: client/gui-gtk/connectdlg.c:425 client/gui-win32/connectdlg.c:1055
 msgid "Login:"
 msgstr "Логин:"
 
-#: client/gui-gtk/connectdlg.c:441 client/gui-win32/connectdlg.c:1048
+#: client/gui-gtk/connectdlg.c:441 client/gui-win32/connectdlg.c:1058
 msgid "Port:"
 msgstr "Порт:"
 
 #: client/gui-gtk/connectdlg.c:469 client/gui-mui/connectdlg.c:178
-#: client/gui-win32/connectdlg.c:911 data/Freeciv.in:107
+#: client/gui-win32/connectdlg.c:912 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Метасервер"
 
 #: client/gui-gtk/connectdlg.c:486 client/gui-gtk/connectdlg.c:507
-#: client/gui-win32/connectdlg.c:1069 client/gui-win32/connectdlg.c:1077
+#: client/gui-win32/connectdlg.c:1079 client/gui-win32/connectdlg.c:1087
 #: data/Freeciv.in:155
 msgid "Update"
 msgstr "Обновить"
 
-#: client/gui-gtk/connectdlg.c:490 client/gui-win32/connectdlg.c:912
+#: client/gui-gtk/connectdlg.c:490 client/gui-win32/connectdlg.c:913
 msgid "Local Area Network"
 msgstr "Локальная сеть"
 
 #: client/gui-gtk/connectdlg.c:516 client/gui-gtk/dialogs.c:2066
-#: client/gui-mui/gui_main.c:209 client/gui-win32/connectdlg.c:1086
+#: client/gui-mui/gui_main.c:209 client/gui-win32/connectdlg.c:1096
 #: client/gui-win32/dialogs.c:550 client/gui-xaw/menu.c:119
 #: data/Freeciv.in:115 data/Freeciv.in:3187
 msgid "Quit"
@@ -12825,11 +12820,11 @@ msgstr "Ок"
 msgid "Disconnect"
 msgstr "Отключиться"
 
-#: client/gui-gtk/diplodlg.c:289 data/Freeciv.in:310
+#: client/gui-gtk/diplodlg.c:291 data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
 msgstr "По следующим вопросам достигнуто соглашение:"
 
-#: client/gui-gtk/diplodlg.c:311 client/gui-gtk/diplodlg.c:319
+#: client/gui-gtk/diplodlg.c:313 client/gui-gtk/diplodlg.c:321
 #: client/gui-mui/diplodlg.c:647 client/gui-mui/diplodlg.c:648
 #: client/gui-win32/diplodlg.c:605 client/gui-win32/diplodlg.c:653
 #: client/gui-xaw/diplodlg.c:356 client/gui-xaw/diplodlg.c:364
@@ -12837,7 +12832,7 @@ msgstr "По следующим вопросам достигнуто соглашение:"
 msgid "The %s offerings"
 msgstr "Предложения %s"
 
-#: client/gui-gtk/diplodlg.c:343 client/gui-gtk/diplodlg.c:361
+#: client/gui-gtk/diplodlg.c:345 client/gui-gtk/diplodlg.c:363
 #: client/gui-mui/diplodlg.c:487 client/gui-mui/diplodlg.c:522
 #: client/gui-mui/diplodlg.c:549 client/gui-mui/diplodlg.c:567
 #: client/gui-win32/diplodlg.c:607 client/gui-win32/diplodlg.c:655
@@ -12845,7 +12840,7 @@ msgstr "Предложения %s"
 msgid "Maps"
 msgstr "Карты"
 
-#: client/gui-gtk/diplodlg.c:369 client/gui-gtk/diplodlg.c:381
+#: client/gui-gtk/diplodlg.c:371 client/gui-gtk/diplodlg.c:383
 #: client/gui-mui/diplodlg.c:488 client/gui-mui/diplodlg.c:523
 #: client/gui-mui/diplodlg.c:585 client/gui-mui/diplodlg.c:595
 #: client/gui-win32/diplodlg.c:608 client/gui-win32/diplodlg.c:656
@@ -12853,7 +12848,7 @@ msgstr "Карты"
 msgid "Advances"
 msgstr "Открытия"
 
-#: client/gui-gtk/diplodlg.c:424 client/gui-gtk/diplodlg.c:431
+#: client/gui-gtk/diplodlg.c:426 client/gui-gtk/diplodlg.c:433
 #: client/gui-mui/diplodlg.c:649 client/gui-mui/diplodlg.c:650
 #: client/gui-win32/diplodlg.c:612 client/gui-win32/diplodlg.c:660
 #: client/gui-xaw/diplodlg.c:478 client/gui-xaw/diplodlg.c:485
@@ -12861,19 +12856,23 @@ msgstr "Открытия"
 msgid "Gold(max %d)"
 msgstr "Золото (макс. %d)"
 
-#: client/gui-gtk/diplodlg.c:439 client/gui-gtk/diplodlg.c:448
+#: client/gui-gtk/diplodlg.c:441 client/gui-gtk/diplodlg.c:450
 #: client/gui-mui/diplodlg.c:494 client/gui-mui/diplodlg.c:529
 #: client/gui-win32/diplodlg.c:616 client/gui-win32/diplodlg.c:664
 msgid "Give shared vision"
 msgstr "Поделиться зрением"
 
-#: client/gui-gtk/diplodlg.c:491 client/gui-mui/diplodlg.c:495
+#: client/gui-gtk/diplodlg.c:459 client/gui-gtk/diplodlg.c:470
+msgid "Give embassy"
+msgstr "Разрешить посольство"
+
+#: client/gui-gtk/diplodlg.c:502 client/gui-mui/diplodlg.c:495
 #: client/gui-mui/diplodlg.c:626 client/gui-win32/diplodlg.c:618
 #: data/Freeciv.in:492
 msgid "Pacts"
 msgstr "Договоры"
 
-#: client/gui-gtk/diplodlg.c:500 client/gui-win32/diplodlg.c:624
+#: client/gui-gtk/diplodlg.c:511 client/gui-win32/diplodlg.c:624
 #: client/gui-xaw/diplodlg.c:538
 #, c-format
 msgid ""
@@ -12889,7 +12888,7 @@ msgstr ""
 "и\n"
 "%s %s %s"
 
-#: client/gui-gtk/diplodlg.c:530 client/gui-gtk/diplodlg.c:539
+#: client/gui-gtk/diplodlg.c:541 client/gui-gtk/diplodlg.c:550
 #: client/gui-mui/diplodlg.c:651 client/gui-mui/diplodlg.c:652
 #: client/gui-win32/diplodlg.c:636 client/gui-win32/diplodlg.c:641
 #: client/gui-xaw/diplodlg.c:578 client/gui-xaw/diplodlg.c:589
@@ -12897,17 +12896,17 @@ msgstr ""
 msgid "%s view:"
 msgstr "%s мнение:"
 
-#: client/gui-gtk/diplodlg.c:548 client/gui-mui/diplodlg.c:516
+#: client/gui-gtk/diplodlg.c:559 client/gui-mui/diplodlg.c:516
 #: data/Freeciv.in:366
 msgid "Erase clause"
 msgstr "Убрать статью"
 
-#: client/gui-gtk/diplodlg.c:552 client/gui-win32/diplodlg.c:673
+#: client/gui-gtk/diplodlg.c:563 client/gui-win32/diplodlg.c:673
 #: data/Freeciv.in:501
 msgid "Accept treaty"
 msgstr "Подписать"
 
-#: client/gui-gtk/diplodlg.c:557 client/gui-win32/diplodlg.c:674
+#: client/gui-gtk/diplodlg.c:568 client/gui-win32/diplodlg.c:674
 #: data/Freeciv.in:510
 msgid "Cancel meeting"
 msgstr "Отменить переговоры"
@@ -13022,7 +13021,7 @@ msgstr "Исследуется: %s(%d/%d)"
 msgid "Capital: %s"
 msgstr "Столица: %s"
 
-#: client/gui-gtk/mapview.c:118 client/gui-win32/mapview.c:224
+#: client/gui-gtk/mapview.c:118 client/gui-win32/mapview.c:229
 #, c-format
 msgid ""
 "Population: %s\n"
@@ -14266,7 +14265,6 @@ msgid "Configure"
 msgstr "Конфиг."
 
 #: client/gui-win32/cma_fe.c:467
-#, fuzzy
 msgid "New"
 msgstr "Новый"
 
@@ -14286,44 +14284,44 @@ msgstr "Отпустить город"
 msgid "Couldn't load the savegame"
 msgstr "Невозможно загрузить сохранённую игру"
 
-#: client/gui-win32/connectdlg.c:788
+#: client/gui-win32/connectdlg.c:789
 msgid "Load Game"
 msgstr "Загрузить игру"
 
-#: client/gui-win32/connectdlg.c:937
+#: client/gui-win32/connectdlg.c:947
 msgid "Welcome to Freeciv"
 msgstr "Добро пожаловать"
 
-#: client/gui-win32/connectdlg.c:953
+#: client/gui-win32/connectdlg.c:963
 msgid "Start New Game"
 msgstr "Начать новую игру"
 
-#: client/gui-win32/connectdlg.c:955
+#: client/gui-win32/connectdlg.c:965
 msgid "Load Saved Game"
 msgstr "Загрузить сохранённую игру"
 
-#: client/gui-win32/connectdlg.c:957
+#: client/gui-win32/connectdlg.c:967
 msgid "Connect To Network Game"
 msgstr "Подключиться к сетевой игре"
 
-#: client/gui-win32/connectdlg.c:967
+#: client/gui-win32/connectdlg.c:977
 msgid "Choose a nation to play"
 msgstr "Выберите _народ, которым Вы будете играть:"
 
-#: client/gui-win32/connectdlg.c:1002
+#: client/gui-win32/connectdlg.c:1012
 msgid "Number of players (Including AI):"
 msgstr "Число игроков (Включая компьютерных игроков):"
 
-#: client/gui-win32/connectdlg.c:1010
+#: client/gui-win32/connectdlg.c:1020
 msgid "AI skill level:"
 msgstr "Уровень компьютерного противника (AI):"
 
-#: client/gui-win32/connectdlg.c:1026 client/gui-win32/inputdlg.c:145
+#: client/gui-win32/connectdlg.c:1036 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:944
 msgid "OK"
 msgstr "Ок"
 
-#: client/gui-win32/connectdlg.c:1082
+#: client/gui-win32/connectdlg.c:1092
 msgid "Back"
 msgstr "Назад"
 
@@ -14350,10 +14348,6 @@ msgstr "Убрать статью"
 #: client/gui-win32/gotodlg.c:166 data/Freeciv.in:1162
 msgid "Airlift"
 msgstr "Воздушная переброска"
-
-#: client/gui-win32/mapview.c:262
-msgid "(veteran)"
-msgstr "(ветеран)"
 
 #: client/gui-win32/menu.c:321 client/gui-xaw/menu.c:124
 msgid "Tax Rates"
@@ -14504,42 +14498,42 @@ msgstr "Не удалось прочесть PNG-файл: %s"
 msgid "PNG file has no palette: %s"
 msgstr "В файле PNG нет палитры: %s"
 
-#: client/gui-xaw/gui_main.c:302
+#: client/gui-xaw/gui_main.c:304
 msgid "No version number in resources."
 msgstr "Нет номера версии в ресурсах."
 
-#: client/gui-xaw/gui_main.c:303
+#: client/gui-xaw/gui_main.c:305
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr "По видимому у Вас старый (около v1.0) файл ресурсов Freeciv."
 
-#: client/gui-xaw/gui_main.c:311
+#: client/gui-xaw/gui_main.c:313
 msgid "Game version does not match Resource version."
 msgstr "Версия игры не совпадает с версией ресурсов."
 
-#: client/gui-xaw/gui_main.c:312
+#: client/gui-xaw/gui_main.c:314
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "Версия игры: %s - Версия ресурсов: %s"
 
-#: client/gui-xaw/gui_main.c:314
+#: client/gui-xaw/gui_main.c:316
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
 "Возможно, у Вас старый файл ресурсов Freeciv в /usr/lib/X11/app-defaults"
 
-#: client/gui-xaw/gui_main.c:320
+#: client/gui-xaw/gui_main.c:322
 msgid "Using fallback resources - which is OK"
 msgstr "Используем запасные ресурсы - это ничего"
 
-#: client/gui-xaw/gui_main.c:331
+#: client/gui-xaw/gui_main.c:333
 msgid "Only color displays are supported for now..."
 msgstr "Поддерживаем только цветные дисплеи..."
 
-#: client/gui-xaw/gui_main.c:363 client/gui-xaw/gui_main.c:382
+#: client/gui-xaw/gui_main.c:365 client/gui-xaw/gui_main.c:384
 #, c-format
 msgid "Unable to open fontset: %s"
 msgstr "Не удалось открыть набор шрифтов: %s"
 
-#: client/gui-xaw/gui_main.c:368 client/gui-xaw/gui_main.c:387
+#: client/gui-xaw/gui_main.c:370 client/gui-xaw/gui_main.c:389
 #, c-format
 msgid "Font for charset %s is lacking"
 msgstr "Отсустствует шрифт для кодировки %s"
@@ -14561,7 +14555,7 @@ msgid "Allows %s (with %s).\n"
 msgstr "Позволяет %s (с %s).\n"
 
 #: client/gui-xaw/inteldlg.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "Intelligence Diplomacy Information for the %s Empire"
 msgstr "Разведывательные данные для империи %s"
 
@@ -14608,7 +14602,7 @@ msgstr "Рост города"
 
 #: client/gui-xaw/menu.c:148
 msgid "Roads and Rails"
-msgstr "Дороги и ж/д"
+msgstr "Дороги и ж.д."
 
 #: client/gui-xaw/menu.c:151
 msgid "Fortress and Airbase"
@@ -14686,48 +14680,52 @@ msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Всего:                      %9d%9d%9d%9d"
 
 #: manual/civmanual.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write manual file %s."
-msgstr "Не удалось записать скрипт-файл '%s'."
+msgstr "Не удалось записать файл руководства '%s'."
 
 #: manual/civmanual.c:129
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
-msgstr "Выбор сервера Freeciv"
+msgstr ""
+"<h1>Настройки сервера Freeciv %s</h1>\n"
+"\n"
 
 #: manual/civmanual.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Level: %s.<br>"
-msgstr "Уровень: %s"
+msgstr "Уровень: %s.<br>"
 
 #: manual/civmanual.c:146
 #, c-format
 msgid "Category: %s.<br>"
-msgstr ""
+msgstr "Категория: %s.<br>"
 
 #: manual/civmanual.c:149
 #, c-format
 msgid "Can only be used in server console. "
-msgstr ""
+msgstr "Может быть использовано только в консоли сервера. "
 
 #: manual/civmanual.c:152
 #, c-format
 msgid "Can be changed during a game. "
-msgstr ""
+msgstr "Может быть изменено в ходе игры. "
 
 #: manual/civmanual.c:154
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
-msgstr ""
+msgstr "<b>Не</b> может быть изменено в ходе игры. "
 
 #: manual/civmanual.c:159
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
-msgstr "Значение:%d, Минимум: 0, По умолчанию: %d, Максимум: 1"
+msgstr ""
+"<p class=\"bounds\">Минимум: 0, По умолчанию: %d, Максимум: 1</p>\n"
+"\n"
 
 #: manual/civmanual.c:163 manual/civmanual.c:173
 #, c-format
@@ -14735,13 +14733,17 @@ msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">значение установлено в %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:168
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
-msgstr "Значение:%d, Минимум: %d, По умолчанию: %d, Максимум: %d"
+msgstr ""
+"<p class=\"bounds\">Минимум: %d, По умолчанию: %d, Максимум: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:178
 #, c-format
@@ -14749,6 +14751,8 @@ msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">По умолчанию: \"%s\"</p>\n"
+"\n"
 
 #: manual/civmanual.c:181
 #, c-format
@@ -14756,6 +14760,8 @@ msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Значение установлено в %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:190
 #, c-format
@@ -14763,13 +14769,17 @@ msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
 msgstr ""
+"<h1>Команды сервера Freeciv %s</h1>\n"
+"\n"
 
 #: manual/civmanual.c:196
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s%s  -  %s%s\n"
 "\n"
-msgstr "%s в %s (%s)\n"
+msgstr ""
+"%s%s  -  %s%s\n"
+"\n"
 
 #: manual/civmanual.c:199
 #, c-format
@@ -14779,6 +14789,10 @@ msgid ""
 "<td valign=\"top\"><pre>Synopsis:</pre></td>\n"
 "<td>"
 msgstr ""
+"<table>\n"
+"<tr>\n"
+"<td valign=\"top\"><pre>Краткое описание:</pre></td>\n"
+"<td>"
 
 #: manual/civmanual.c:203
 #, c-format
@@ -14786,129 +14800,149 @@ msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"level\">Уровень: %s</p>\n"
+"\n"
 
-#: manual/civmanual.c:212
-#, fuzzy, c-format
+#: manual/civmanual.c:206
+#, c-format
+msgid ""
+"<p class=\"level\">Pregame level: %s</p>\n"
+"\n"
+msgstr ""
+"<p class=\"level\">Предыгровой уровень: %s</p>\n"
+"\n"
+
+#: manual/civmanual.c:216
+#, c-format
 msgid ""
 "<p>Description:</p>\n"
 "\n"
-msgstr "Описание:"
+msgstr ""
+"<p>Описание:</p>\n"
+"\n"
 
-#: manual/civmanual.c:219
+#: manual/civmanual.c:223
 #, c-format
 msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
 msgstr ""
-
-#: manual/civmanual.c:221
-#, c-format
-msgid "<table border=1><tr><th>Terrain</th>"
-msgstr ""
-
-#: manual/civmanual.c:222
-#, c-format
-msgid "<th>Food/ Shield/ Trade</th>"
-msgstr ""
-
-#: manual/civmanual.c:223
-#, c-format
-msgid "<th>Special 1</th><th>Food/ Shield/ Trade</th>"
-msgstr ""
-
-#: manual/civmanual.c:224
-#, c-format
-msgid "<th>Special 2</th><th>Food/ Shield/ Trade</th>"
-msgstr ""
+"<h1>Помощь по рельефу Freeciv %s</h1>\n"
+"\n"
 
 #: manual/civmanual.c:225
 #, c-format
-msgid "<th>Move cost</th><th>Defense</th><th>Road +trade</th>\n"
-msgstr ""
+msgid "<table border=1><tr><th>Terrain</th>"
+msgstr "<table border=1><tr><th>Рельеф</th>"
+
+#: manual/civmanual.c:226
+#, c-format
+msgid "<th>Food/ Shield/ Trade</th>"
+msgstr "<th>Пища/ Щиты/ Торговля</th>"
 
 #: manual/civmanual.c:227
 #, c-format
-msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
-msgstr ""
+msgid "<th>Special 1</th><th>Food/ Shield/ Trade</th>"
+msgstr "<th>Специальное 1</th><th>Пища/ Щиты/ Торговля</th>"
 
 #: manual/civmanual.c:228
-#, fuzzy, c-format
+#, c-format
+msgid "<th>Special 2</th><th>Food/ Shield/ Trade</th>"
+msgstr "<th>Специальное 2</th><th>Пища/ Щиты/ Торговля</th>"
+
+#: manual/civmanual.c:229
+#, c-format
+msgid "<th>Move cost</th><th>Defense</th><th>Road +trade</th>\n"
+msgstr "<th>Стоимость движения</th><th>Защита</th><th>Бонус дороги (+торговля)</th>\n"
+
+#: manual/civmanual.c:231
+#, c-format
+msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
+msgstr "<th>Бонус орошения (+пища)</th><th>Бонус шахты (+щиты)</th>\n"
+
+#: manual/civmanual.c:232
+#, c-format
 msgid "<th>Transform to</th>"
-msgstr "Преобразовать в"
-
-#: manual/civmanual.c:265
-#, c-format
-msgid "</table><br><br><br><table border=1>"
-msgstr ""
-
-#: manual/civmanual.c:266
-#, c-format
-msgid "<caption>Time to perform action</caption>"
-msgstr ""
-
-#: manual/civmanual.c:267
-#, c-format
-msgid "<tr><th>Terrain</th>\n"
-msgstr ""
-
-#: manual/civmanual.c:268
-#, c-format
-msgid "<th>Road</th><th>Irrigation</th>\n"
-msgstr ""
+msgstr "<th>Преобразовывается в</th>"
 
 #: manual/civmanual.c:269
 #, c-format
-msgid "<th>Mining</th><th>Rail</th>\n"
-msgstr ""
+msgid "</table><br><br><br><table border=1>"
+msgstr "</table><br><br><br><table border=1>"
 
 #: manual/civmanual.c:270
 #, c-format
-msgid "<th>Airbase</th><th>Fortress</th>\n"
-msgstr ""
+msgid "<caption>Time to perform action</caption>"
+msgstr "<caption>Время выполнения действия</caption>"
 
 #: manual/civmanual.c:271
 #, c-format
-msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
-msgstr ""
+msgid "<tr><th>Terrain</th>\n"
+msgstr "<tr><th>Рельеф</th>\n"
 
 #: manual/civmanual.c:272
 #, c-format
-msgid "<th>Transform</th></tr>\n"
-msgstr ""
+msgid "<th>Road</th><th>Irrigation</th>\n"
+msgstr "<th>Дорога</th><th>Орошение</th>\n"
 
-#: manual/civmanual.c:298
+#: manual/civmanual.c:273
+#, c-format
+msgid "<th>Mining</th><th>Rail</th>\n"
+msgstr "<th>Шахта</th><th>Ж. д.</th>\n"
+
+#: manual/civmanual.c:274
+#, c-format
+msgid "<th>Airbase</th><th>Fortress</th>\n"
+msgstr "<th>Аэродром</th><th>Крепость</th>\n"
+
+#: manual/civmanual.c:275
+#, c-format
+msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
+msgstr ""
+"<th>Очистка загрязнения</th><th>Очистка радиоактивного загрязнения</th>\n"
+
+#: manual/civmanual.c:276
+#, c-format
+msgid "<th>Transform</th></tr>\n"
+msgstr "<th>Преобразование</th></tr>\n"
+
+#: manual/civmanual.c:302
 #, c-format
 msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Помощь по зданиям Freeciv %s</h1>\n"
+"\n"
 
-#: manual/civmanual.c:311 manual/civmanual.c:340
+#: manual/civmanual.c:315 manual/civmanual.c:344
 #, c-format
 msgid "<tr><td>Cost: <td>%d</tr>\n"
-msgstr ""
+msgstr "<tr><td>Стоимость: <td>%d</tr>\n"
 
-#: manual/civmanual.c:312 manual/civmanual.c:341
+#: manual/civmanual.c:316 manual/civmanual.c:345
 #, c-format
 msgid "<tr><td>Upkeep: <td>%d</tr>\n"
-msgstr ""
-
-#: manual/civmanual.c:314 manual/civmanual.c:343
-#, c-format
-msgid "<tr><td>Tech required: <td>%s</tr>\n"
-msgstr ""
+msgstr "<tr><td>Поддержка: <td>%d</tr>\n"
 
 #: manual/civmanual.c:318 manual/civmanual.c:347
 #, c-format
-msgid "<tr><td>Obsoleted by: <td>%s</tr>\n"
-msgstr ""
+msgid "<tr><td>Tech required: <td>%s</tr>\n"
+msgstr "<tr><td>Требуемая технология: <td>%s</tr>\n"
 
-#: manual/civmanual.c:327
+#: manual/civmanual.c:322 manual/civmanual.c:351
+#, c-format
+msgid "<tr><td>Obsoleted by: <td>%s</tr>\n"
+msgstr "<tr><td>Устаревает при: <td>%s</tr>\n"
+
+#: manual/civmanual.c:331
 #, c-format
 msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Помощь по чудесам Freeciv %s</h1>\n"
+"\n"
 
 #: data/Freeciv.in:111
 msgid "LAN Servers"
@@ -14927,9 +14961,8 @@ msgstr ""
 "Комментарий"
 
 #: data/Freeciv.in:215
-#, fuzzy
 msgid "Diplomacy"
-msgstr "_Дипломатия"
+msgstr "Дипломатия"
 
 #: data/Freeciv.in:474 data/Freeciv.in:483
 msgid "Shared vision"
@@ -15274,7 +15307,6 @@ msgid "  Present administrators: "
 msgstr "  Нынешние администраторы: "
 
 #: data/helpdata.txt:56
-#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
@@ -15286,9 +15318,9 @@ msgstr ""
 "Если Вы нашли ошибку напишите нам об этом (по-английски). Лучше всего это "
 "сделать, посетив Freeciv Bug Tracking System, на:\n"
 "\n"
-"  http://www.freeciv.org/cgi-bin/bugs\n"
+"  http://bugs.freeciv.org/\n"
 "\n"
-"или послав письмо на: bugs@cvs.freeciv.org"
+"или послав письмо на: bugs@freeciv.org"
 
 #: data/helpdata.txt:63
 msgid ""
@@ -15304,7 +15336,6 @@ msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv находится под лицензией GPL, которая включена здесь: "
 
 #: data/helpdata.txt:382
-#, fuzzy
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -15331,14 +15362,16 @@ msgstr ""
 "Если Вы хотите добавить локализацию (перевод) на Ваш язык, смотрите "
 "инструкции на:\n"
 "\n"
-"  http://www.freeciv.org/l10n.phtml\n"
+"  http://www.freeciv.org/index.php/Localization\n"
 "\n"
-"(Сначала проверьте, не переводится ли уже на Ваш язык)\n"
+"Сначала проверьте, не переводится ли уже на Ваш язык:\n"
+"\n"
+"  http://www.freeciv.org/index.php/Translations\n"
 "\n"
 "Если хотите, можете также присылать Ваши вопросы (по-английски) на лист "
-"рассылки разработчиков Freeciv:\n"
+"рассылки интернационализации Freeciv:\n"
 "\n"
-"  freeciv-dev@freeciv.org"
+"  freeciv-i18n@freeciv.org"
 
 #: data/helpdata.txt:405
 msgid ""
@@ -15390,7 +15423,6 @@ msgstr ""
 "метасерверу, имена игроков могут быть найдены на метасервере."
 
 #: data/helpdata.txt:433
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -15427,63 +15459,41 @@ msgid ""
 "    x: auto-e(x)plore\n"
 "space: unit stay put\n"
 msgstr ""
-"Клавиатура:\n"
-"=========\n"
-"  a: авто-колонисты (колонисты/инженеры)\n"
-"  a: авто-атаковать (военные соединения)\n"
-"  b: построить город (колонисты/инженеры)\n"
-"  b: помочь строить чудо (караванные соединения)\n"
-"  c: центрировать вид на соединении\n"
-"  C: связать соединение (потом выбрать цель левой кнопкой мыши)\n"
-"  d: действия дипломата/шпиона\n"
-"  D: распустить соединение\n"
-"  e: построить аэродром (аэродромное соединение)\n"
-"  f: укрепиться (военные соединения)\n"
-"  f: построить крепость (колонисты/инженеры)\n"
-"  F: открыть диалог Поиск Города\n"
-"  g: соединение - идти к... (потом выбрать цель левой кнопкой мыши)\n"
-"  g: добавить маршрут для команды идти к... (когда выбрано идти к...)\n"
-"  h: изменить домашний город (на город в котором находимся)\n"
-"  i: построить орошение/ферму (колонисты/инженеры; может изменить рельеф)\n"
-"  l: идти/перебросить по воздуху к городу\n"
-"  L: открыть диалог Рабочие Списки\n"
-"  m: построить шахту (колонисты/инженеры; может изменить рельеф)\n"
-"  n: очистить радиационные загрязнения\n"
-"  N: взорвать атомную бомбу\n"
-"  o: трансформировать рельеф\n"
-"  p: очистить загрязнение (колонисты/инженеры)\n"
-"  p: сбросить десант (десантные соединения)\n"
-"  P: уничтожить улучшения рельефа\n"
-"  q: патрулировать (потом выбрать цель левой кнопкой мыши)\n"
-"  q: добавить маршрут для патрулирования (когда выбрано патрулирование)\n"
-"  r: построить дорогу/железную дорогу (колонисты/инженеры)\n"
-"  r: установить торговый путь  (караванные соединения)\n"
-"  R: начать революцию\n"
-"  s: сторожить\n"
-"  t: показать квадраты, используемые городом (мышь над или рядом с городом)\n"
-"  T: открыть диалог с уровнем налогов\n"
-"  u: разгрузить корабль\n"
-"  U: выгрузить все соединения с корабля\n"
-"  w: подождать некоторое время внутри хода\n"
-"  W: разбудить другие соединения в квадрате\n"
-"  x: авто-исследовать\n"
-"\n"
-"  1: идти на юго-запад              F1: открыть Городской отчет\n"
-"  2: идти на юг                     F2: открыть Военный отчет\n"
-"  3: идти на юго-восток             F3: открыть диалог Игроки\n"
-"  4: идти на запад                  F5: открыть Торговый отчет\n"
-"  5: фокус на предыдущем соединении F6: открыть Научный отчет\n"
-"  6: идти на восток                 F7: открыть Чудеса Света\n"
-"  7: идти на северо-запад           F8: открыть Пять Лучших городов\n"
-"  8: идти на север                  F10: открыть диалог Сообщения\n"
-"  9: идти на северо-восток          F11: открыть Демографию\n"
-"                                    F12: открыть Космический корабль\n"
-"\n"
-"  home: центрировать на столице\n"
-"  стрелки: прокручивать карту       Control-g: вкл/выкл сетку\n"
-"  пробел: соединение стоит на месте Control-n: вкл/выкл названия городов\n"
-"  enter: завершить ход              Control-p: вкл/выкл городское "
-"производство\n"
+"Приказы соединению:\n"
+"===================\n"
+"    a: авто-колонисты (колонисты/инженеры)\n"
+"    a: авто-атаковать (военные соединения)\n"
+"    b: построить город (колонисты/инженеры)\n"
+"    b: помочь строить чудо (караванные соединения)\n"
+"    C: связать соединение (потом выбрать цель левой кнопкой мыши)\n"
+"    d: действия дипломата/шпиона\n"
+"    D: распустить соединение\n"
+"    e: построить аэродром (аэродромное соединение)\n"
+"    f: укрепиться (военные соединения)\n"
+"    f: построить крепость (колонисты/инженеры)\n"
+"    g: соединение - идти к... (потом выбрать цель левой кнопкой мыши)\n"
+"    g: добавить маршрут для команды идти к... (когда выбрано идти к...)\n"
+"    h: изменить домашний город (на город в котором находимся)\n"
+"    i: построить орошение/ферму (колонисты/инженеры; может изменить рельеф)\n"
+"    l: загрузить соединение на корабль    L: идти/перебросить по воздуху к "
+"городу\n"
+"    m: построить шахту (колонисты/инженеры; может изменить рельеф)\n"
+"    n: очистить радиационные загрязнения\n"
+"    N: взорвать атомную бомбу\n"
+"    o: трансформировать рельеф\n"
+"    p: очистить загрязнение (колонисты/инженеры)\n"
+"    p: сбросить десант (десантные соединения)\n"
+"    P: уничтожить улучшения рельефа\n"
+"    q: патрулировать (потом выбрать цель левой кнопкой мыши)\n"
+"    q: добавить маршрут для патрулирования (когда выбрано патрулирование)\n"
+"    r: построить дорогу/железную дорогу (колонисты/инженеры)\n"
+"    r: установить торговый путь  (караванные соединения)\n"
+"    s: сторожить\n"
+"    u: выгрузить соединение\n"
+"    U: выгрузить все соединения с корабля\n"
+"    w: подождать некоторое время внутри хода\n"
+"    x: авто-исследовать\n"
+"пробел: соединение стоит на месте\n"
 
 #: data/helpdata.txt:468
 msgid ""
@@ -15503,6 +15513,21 @@ msgid ""
 "  W: wake up other units on tile\n"
 "  c: center view on unit\n"
 msgstr ""
+"Движение соединения:\n"
+"====================\n"
+"  1: идти на юго-запад\n"
+"  2: идти на юг\n"
+"  3: идти на юго-восток\n"
+"  4: идти на запад\n"
+"  6: идти на восток\n"
+"  7: идти на северо-запад\n"
+"  8: идти на север\n"
+"  9: идти на северо-восток\n"
+"\n"
+"  5: фокус на предыдущем соединении\n"
+"  w: фокус на следующем соединении (ждать)\n"
+"  W: разбудить другие соединения в квадрате\n"
+"  c: центрировать вид на соединении\n"
 
 #: data/helpdata.txt:484
 msgid ""
@@ -15517,9 +15542,19 @@ msgid ""
 "        Ctrl-P: show city production on/off\n"
 "             t: show city workers (mouse over or near city)\n"
 msgstr ""
+"Главная карта (Комбинации клавиш):\n"
+"==================================\n"
+"     Shift-home: центрировать на столице\n"
+"  Shift-стрелки: прокручивать карту\n"
+"         Ctrl-G: вкл/выкл сетку\n"
+"         Ctrl-B: вкл/выкл государственные границы\n"
+"         Ctrl-N: вкл/выкл названия городов\n"
+"         Ctrl-R: вкл/выкл рост городов\n"
+"         Ctrl-P: вкл/выкл городское производство\n"
+"              t: показать квадраты, используемые городом (мышь над или рядом "
+"с городом)\n"
 
 #: data/helpdata.txt:495
-#, fuzzy
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -15547,26 +15582,26 @@ msgid ""
 msgstr ""
 "Мышь:\n"
 "=====\n"
-"  Щелчок левой кнопкой:  (на городе):    Открыть окно города\n"
-"                       (на соединении):  Активизировать соединение\n"
-"  Щелчок средней кнопкой:                Показать информацию о квадрате\n"
-"  Щелчок правой кнопкой:                 Центрировать вид на квадрате\n"
+"  Щелчок левой кнопкой на городе:      Открыть окно города\n"
+"  Щелчок левой кнопкой на соединении:  Активизировать соединение\n"
+"  Щелчок левой кнопкой и перетаскивание соединения: Команда 'Идти к...'\n"
+"  Щелчок средней кнопкой:              Показать информацию о квадрате\n"
+"  Щелчок правой кнопкой:               Центрировать вид на квадрате\n"
 "\n"
-"  Щелчок левой кнопкой + Shift: (город/соед.): Копировать производство(GTK)\n"
-"  Щелчок правой кнопкой + Shift: (город):      Вставить производство (GTK)\n"
+"  Щелчок левой кнопкой + Shift:           Копировать производство(GTK)\n"
+"  Щелчок правой кнопкой + Shift: (город): Вставить производство (GTK)\n"
 "\n"
 "  Щечок левой кнопкой + Shift + Control: Назначить рабочего с главной карты\n"
 "  Щелчок средней кнопкой + Control:      Пробудить сторожащие соединения\n"
 "\n"
-"  Щелкнуть правой кнопкой и тащить:  Войти в режим Выделения Ареала (GTK)\n"
 "\n"
-"  В режиме Выделения Ареала:\n"
+"  Режим Выделения Ареала (GTK):\n"
 "  ==========================\n"
-"  Щелчок левой кнопкой:          Изменить подсветку квадрата\n"
-"  Щелчок правой кнопкой:         Покинуть режим Выделения Ареала\n"
-"\n"
-"  Щелчок правой кнопкой + Shift: Вставить производство в подсвеченные "
+"  Щелкнуть правой кнопкой и тащить: Войти в режим Выделения Ареала\n"
+"  Щелчок левой кнопкой:             Изменить подсветку квадрата\n"
+"  Щелчок правой кнопкой + Shift:    Вставить производство в подсвеченные "
 "города\n"
+"  Щелчок правой кнопкой:            Покинуть режим Выделения Ареала\n"
 "\n"
 "  Города, которые становятся подсвеченными на карте,\n"
 "  будут также подсвечены в окне Списка Городов."
@@ -15593,6 +15628,23 @@ msgid ""
 "\n"
 "Shift-Return: Turn done"
 msgstr ""
+"     F1: открыть Городской отчет\n"
+"     F2: открыть Военный отчет\n"
+"     F3: открыть диалог Игроки\n"
+"     F5: открыть Торговый отчет\n"
+"     F6: открыть Научный отчет\n"
+"     F7: открыть Чудеса Света\n"
+"     F8: открыть Пять Лучших городов\n"
+"     F9: открыть диалог Сообщения\n"
+"    F11: открыть Демографию\n"
+"    F12: открыть Космический корабль\n"
+"\n"
+"      T: открыть диалог с уровнем налогов/роскоши/науки\n"
+"      F: открыть диалог Поиск Города\n"
+" Ctrl-L: открыть диалог Рабочие Списки\n"
+"      R: открыть диалог Революция\n"
+"\n"
+"Shift-Return: Завершить ход"
 
 #: data/helpdata.txt:543
 msgid ""
@@ -15603,13 +15655,11 @@ msgstr ""
 "Вы пишете, посылаются всем игрокам, за исключением следующих случаев:"
 
 #: data/helpdata.txt:546
-#, fuzzy
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
 msgstr ""
-"  - Сообщения, начинающиеся с '/' интерпретируются как команды сервера (если "
-"сервер достаточно новый, серверы версии 1.8.0 не являются таковыми) и "
+"  - Сообщения, начинающиеся с '/' интерпретируются как команды сервера  и "
 "выполняются, если у Вас есть необходимые права доступа."
 
 #: data/helpdata.txt:549
@@ -15618,19 +15668,24 @@ msgid ""
 "be abbreviated. The server looks for players named 'John' and if that fails "
 "tries to match a username beginning with 'John' (like 'Johnathan')."
 msgstr ""
+" - Сообщения, начинающиеся с 'Джон:' посылаются только игроку 'Джон'. Имена "
+"могут быть сокращены. Сервер ищет игрока с именем 'Джон' и, если поиск "
+"неудачен, пытается найти игрока с именем, начинающимся с 'Джон' (например, "
+"'Джонатан')."
 
 #: data/helpdata.txt:554
-#, fuzzy
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
 msgstr ""
-"  - Сообщения, начинающиеся с 'Джо:' посылаются только игроку Джо; имена "
-"игроков могут быть сокращены."
+"  - Сообщения, начинающиеся с 'Джон::' - такие же сообщения как и выше, но "
+"ищутся пользователи (не игроки!) с именем 'Джон'.  'Джонатан' также "
+"подпадает под определение."
 
 #: data/helpdata.txt:558
 msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgstr ""
+" - Сообщения, начинающиеся с '.', будут посланы только всем Вашим союзникам."
 
 #: data/helpdata.txt:563
 msgid "Worklist Editor"
@@ -21787,7 +21842,7 @@ msgstr "Выдуманный"
 
 #: data/nation/dunedain.ruleset:10
 msgid "The Men of the West from J.R.R. Tolkien's Middle Earth fantasies."
-msgstr "Люди Запада в книгах Дж. Р. Р. Толкиена про Средиземье."
+msgstr "Люди Запада в книгах Дж. Р. Р. Толкина про Средиземье."
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -22144,7 +22199,7 @@ msgid ""
 "series of wars launched against it in 1948, 1967 and 1973."
 msgstr ""
 "Государство Израиль было основано в 1948 году как разбросанная группа "
-"кантоном в британской Палестине и постепенно расширялось благодаря победам в "
+"кантонов в британской Палестине и постепенно расширялось благодаря победам в "
 "войнах 1948, 1967 и 1973 годов."
 
 #: data/nation/italian.ruleset:3
@@ -22309,7 +22364,7 @@ msgid ""
 "The armies of the Dark Lord Sauron, from J.R.R. Tolkien's Middle Earth "
 "fantasies."
 msgstr ""
-"Войска темного властелина Саурона, из книг Дж. Р. Р. Толкиена о Средиземье."
+"Войска темного властелина Саурона, из книг Дж. Р. Р. Толкина о Средиземье."
 
 #: data/nation/mordor.ruleset:15
 msgid "Overlord"
@@ -22429,8 +22484,8 @@ msgid ""
 "Rome was, in legend, founded by Romulus in 753 BC.  At its height, Rome "
 "controlled nearly all of Europe, northern Africa and Mesopotamia."
 msgstr ""
-"Согласно легенде, Рим был основан Ромулом ж 753 до н.э. В период расцвета "
-"Рим правил почти весй Европой, северной Африкой и Месопотамией."
+"Согласно легенде, Рим был основан Ромулом в 753 до н.э. В период расцвета "
+"Рим правил почти всей Европой, северной Африкой и Месопотамией."
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
@@ -22787,1523 +22842,37 @@ msgstr ""
 "центрально-западной Африки в южную в начале XVIII века, подчинив себе "
 "местные племена Хойсан и сталкиваясь с европейскими поселенцами."
 
-#~ msgid "Style of Civ rules"
-#~ msgstr "Стиль правил Цивилизации"
+#~ msgid "Game: You start a research pool with %s."
+#~ msgstr "Игра: Вы начали исследовать %s."
+
+#~ msgid "The parties resume the research pool"
+#~ msgstr "Стороны договорились совместно продолжать исследования"
+
+#~ msgid "(veteran)"
+#~ msgstr "(ветеран)"
 
 #~ msgid ""
-#~ "Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
-#~ "Currently this option affects the following rules:\n"
-#~ "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
-#~ "See also README.rulesets."
-#~ msgstr ""
-#~ "Устанавливает некоторые основные правила, 1 - значит Цивилизацию 1, 2 - "
-#~ "Цивилизацию 2.\n"
-#~ "Сейчас эта настройка влияет на следующие правила:\n"
-#~ "  - \"Аполлон\" показывает всю карту в режиме 2, только города в режиме "
-#~ "1.\n"
-#~ "Смотрите также README.rulesets."
-
-#~ msgid "Pollution:   %3d"
-#~ msgstr "Загрязнения:   %3d"
-
-#~ msgid "Granary: %3d/%-3d"
-#~ msgstr "Запас еды: %3d/%-3d"
-
-#~ msgid ""
-#~ "Food:    %2d (%+2d)\n"
-#~ "Prod:    %2d (%+2d)\n"
-#~ "Trade:   %2d (%+2d)"
-#~ msgstr ""
-#~ "Еда:     %2d (%+2d)\n"
-#~ "Произв:  %2d (%+2d)\n"
-#~ "Торгов:  %2d (%+2d)"
-
-#~ msgid ""
-#~ "Gold:    %2d (%+2d)\n"
-#~ "Luxury:  %2d\n"
-#~ "Science: %2d"
-#~ msgstr ""
-#~ "Золото:  %2d (%+2d)\n"
-#~ "Роскошь: %2d\n"
-#~ "Наука:   %2d"
-
-#~ msgid "%s lose %s (%i,%i)"
-#~ msgstr "%s потеряли %s (%i,%i)"
-
-#~ msgid "%s (%i, %i) founded by the %s"
-#~ msgstr "%s (%i, %i) основан народом %s"
-
-#~ msgid "%s (%s) (%i,%i) destroyed by %s"
-#~ msgstr "Игра: %s (%s) (%i,%i) был разрушен народом %s"
-
-#~ msgid "%s (%s) (%i,%i) conquered by %s"
-#~ msgstr "%s (%s) (%i,%i) захвачено %s"
-
-#~ msgid "%s (%s) (%i,%i) liberated by %s"
-#~ msgstr "%s (%s) (%i,%i) освобождено %s"
-
-#~ msgid "%s lose %s (famine)"
-#~ msgstr "%s потеряли %s (голод)"
-
-#~ msgid "%s build %s in %s"
-#~ msgstr "%s строят %s в городе %s."
-
-#~ msgid "%s build %s in %s (%i,%i)"
-#~ msgstr "%s строят %s в %s (%i,%i)"
-
-#~ msgid "%s (%i, %i) disbanded into %s by the %s"
-#~ msgstr "Игра: %s (%i, %i) расформированы в %s народом %s"
-
-#~ msgid "%s and %s agree to a treaty"
-#~ msgstr "%s и %s заключили договор"
-
-#~ msgid "%s acquire %s (Treaty) from %s"
-#~ msgstr "%s приобрели %s (Договор) от %s."
-
-#~ msgid "%s acquire %d gold from %s"
-#~ msgstr "%s получили %d золота от народа %s."
-
-#~ msgid "%s acquire the city %s from %s"
-#~ msgstr "%s приобрели город %s у народа %s."
-
-#~ msgid "%s agree on an alliance with %s"
-#~ msgstr "%s заключили союз с %s."
-
-#~ msgid "%s share vision with %s"
-#~ msgstr "%s поделились зрением с %s"
-
-#~ msgid "%s establish an embassy in %s (%s) (%i,%i)"
-#~ msgstr "%s устроили посольство в %s (%s) (%i,%i)"
-
-#~ msgid "%s steals Future Tech. %d from the %s"
-#~ msgstr "%s украл Технологию Будущего %d из %s."
-
-#~ msgid "%s steals %s from the %s"
-#~ msgstr "%s похитил %s от народа %s."
-
-#~ msgid "(%d,%d) land created from ocean"
-#~ msgstr "(%d,%d) земля создана из океана"
-
-#~ msgid "(%d,%d) ocean created from land"
-#~ msgstr "(%d,%d) океан создан из земли"
-
-#~ msgid "%s discover %s (%s)"
-#~ msgstr "%s открыли %s (%s)"
-
-#~ msgid "The feared barbarian leader %s is no more"
-#~ msgstr "%s, страшный лидер варваров, более не существует"
-
-#~ msgid "%s civilization destroyed"
-#~ msgstr "Цивилизация народа %s уничтожена"
-
-#~ msgid "%s are first to learn %s"
-#~ msgstr "%s первыми открыли %s"
-
-#~ msgid "%s discover %s"
-#~ msgstr "%s открыли %s"
-
-#~ msgid "%s discover Future Tech %d"
-#~ msgstr "%s открыли Технологию Будущего %d"
-
-#~ msgid "%s steal %s from %s"
-#~ msgstr "%s украли %s у %s"
-
-#~ msgid "RATE CHANGE: %s %i %i %i"
-#~ msgstr "ИЗМЕНЕНИЕ НАЛОГОВЫХ СТАВОК: %s %i %i %i"
-
-#~ msgid "%s form a %s"
-#~ msgstr "%s образуют %s"
-
-#~ msgid "The %s revolt!"
-#~ msgstr "%s начали революцию!"
-
-#~ msgid "The %s spaceship has arrived at Alpha Centauri."
-#~ msgstr "Космический корабль %s достиг Альфы Центавра."
-
-#~ msgid "Starting new log"
-#~ msgstr "Начинаем новый журнал."
-
-#~ msgid "The game is over!"
-#~ msgstr "Игра закончена!"
-
-#~ msgid "%s lose a %s (out of hp)"
-#~ msgstr "%s потеряли %s (закончилась огневая мощь)"
-
-#~ msgid "%s's %s lost at sea"
-#~ msgstr "%s потеряли %s в море"
-
-#~ msgid "%s unit lost on unsafe terrain"
-#~ msgstr "%s соединение потеряно на опасной территории"
-
-#~ msgid "%s lose a %s (fuel)"
-#~ msgstr "%s потеряли %s (горючее)"
-
-#~ msgid "Player %s lost a game loss unit and died"
-#~ msgstr "Игрок %s потерял ключевое соединение и погиб"
-
-#~ msgid "%s lose %s when %s lost"
-#~ msgstr "%s потеряли %s когда %s был потерян."
-
-#~ msgid "%s lose %s to the %s"
-#~ msgstr "%s потеряли %s в пользу народа %s"
-
-#~ msgid "%s discover %s (Hut)"
-#~ msgstr "%s открыли %s (Хижина)"
-
-#~ msgid "Doubles the effect of Temples, in all your cities."
-#~ msgstr "Удваивает эффект храмов во всех городах."
-
-#~ msgid "China has the largest population of any nation on earth."
-#~ msgstr "Китай имеет самое большое население в мире."
-
-#~ msgid "%s discover %s (building)"
-#~ msgstr "%s открыли %s (здание)"
-
-#~ msgid "Game: The %s have acquired %s from a building."
-#~ msgstr "Игра: %s приобрели %s из здания."
-
-#~ msgid "Game: Revolution finished"
-#~ msgstr "Игра: Революция закончена"
-
-#~ msgid ""
-#~ "Couldn't connect to the server. We probably couldn't start it from here. "
-#~ "You'll have to start one manually. Sorry..."
-#~ msgstr ""
-#~ "Невозможно подключиться к серверу. Нельзя стартовать сервер отсюда. Вы "
-#~ "должны запустить сервер вручную. Извините..."
-
-#~ msgid "Loading..."
-#~ msgstr "Загрузка..."
-
-#~ msgid "_Resume"
-#~ msgstr "_Продолжить"
-
-#~ msgid "_Start New Game"
-#~ msgstr "_Начать новую игру"
-
-#~ msgid "_Connect to Network Game"
-#~ msgstr "_Подключиться к сетевой игре"
-
-#~ msgid "_Connected Users:"
-#~ msgstr "_Подключённые игроки:"
-
-#~ msgid ""
-#~ "1 = standard, with random continents;\n"
+#~ "Maximum: 1</p>\n"
 #~ "\n"
-#~ "2 = equally sized large islands with one player each, and twice that many "
-#~ "smaller islands;\n"
+#~ msgstr ""
+#~ "Максимум: 1</p>\n"
 #~ "\n"
-#~ "3 = equally sized large islands with one player each, and a number of "
-#~ "other islands of similar size;\n"
+
+#~ msgid ""
+#~ "Maximum: %d</p>\n"
 #~ "\n"
-#~ "4 = equally sized large islands with two players on every island (or one "
-#~ "with three players for an odd number of players), and additional smaller "
-#~ "islands;\n"
+#~ msgstr ""
+#~ "Максимум: %d</p>\n"
 #~ "\n"
-#~ "5 = one or more large earthlike continents with some scatter.\n"
-#~ "\n"
-#~ "Note: values 2, 3 and 4 generate fairer but more boring maps.\n"
-#~ "(Zero indicates a scenario map.)"
-#~ msgstr ""
-#~ "1 = обычная, случайные континенты;\n"
-#~ "\n"
-#~ "2 = большие острова одинакового размера, по одному игроку на каждом, и "
-#~ "вдвое больше маленьких островов;\n"
-#~ "\n"
-#~ "3 = большие острова одинакового размера, по одному игроку на каждом, и "
-#~ "еще несколько островов того-же размера;\n"
-#~ "\n"
-#~ "4 = большие острова одинакового размера, по два игрока на каждом (на "
-#~ "одном - три, если игроков нечетное число), и несколько маленьких "
-#~ "островов;\n"
-#~ "\n"
-#~ "5 = один или более континентов земного типа, с некотором разбросом.\n"
-#~ "\n"
-#~ "Примечание: значения 2,3 и 4 генерируют более скучные карты.\n"
-#~ "(Нуль означает карту сценария.)"
-
-#~ msgid "* Can establish trade routes.\n"
-#~ msgstr "* Может устанавливать торговые пути.\n"
-
-#~ msgid "Map size in 1,000 tiles units"
-#~ msgstr "Размер карты в тысячах квадратов"
 
 #~ msgid ""
-#~ "Two-dimensional maps can wrap at the north-south or \n"
-#~ "east-west edges, and use a cartesian or isometric \n"
-#~ "rectangular grid.  See the manual for further explanation.\n"
-#~ "  0 Flat Earth (unwrapped)\n"
-#~ "  1 Earth (wraps E-W)\n"
-#~ "  2 Uranus (wraps N-S)\n"
-#~ "  3 Donut World (wraps N-S, E-W)\n"
-#~ "  4 Flat Earth (isometric)\n"
-#~ "  5 Earth (isometric)\n"
-#~ "  6 Uranus (isometric)\n"
-#~ "  7 Donut World (isometric)\n"
-#~ "  8 Flat Earth (hexagonal)\n"
-#~ "  9 Earth (hexagonal)\n"
-#~ " 10 Uranus (hexagonal)\n"
-#~ " 11 Donut World (hexagonal)\n"
-#~ " 12 Flat Earth (iso-hex)\n"
-#~ " 13 Earth (iso-hex)\n"
-#~ " 14 Uranus (iso-hex)\n"
-#~ " 15 Donut World (iso-hex)"
+#~ "<table>\n"
+#~ "<tr>\n"
+#~ "<td valign=\"top\">"
 #~ msgstr ""
-#~ "Двумерные карты могут соединяться северным-южным или \n"
-#~ "восточным-западным краями, и использоватя декартову или изометрическую \n"
-#~ "квадратную или шестиугольную сетку. Более подробное описание см. в "
-#~ "документации.\n"
-#~ "  0 Плоская Земля (нет соединений)\n"
-#~ "  1 Земля (соединены В-З)\n"
-#~ "  2 Уран (соединены С-Ю)\n"
-#~ "  3 Мир-Бублик (Тор) (соединены С-Ю,В-З)\n"
-#~ "  4 Плоская Земля (изометрическая)\n"
-#~ "  5 Земля (изометрическая)\n"
-#~ "  6 Уран (изометрическая)\n"
-#~ "  7 Мир-Бублик (Тор) (изометрическая)\n"
-#~ "  8 Плоская Земля (шестиугольная сеть)\n"
-#~ "  9 Земля (шестиугольная сеть)\n"
-#~ "  10 Уран (шестиугольная сеть)\n"
-#~ "  11 Мир-Бублик (Тор) (шестиугольная сеть)\n"
-#~ "  12 Плоская Земля (изометрическая, шестиугольная сеть)\n"
-#~ "  13 Земля (изометрическая, шестиугольная сеть)\n"
-#~ "  14 Уран (изометрическая, шестиугольная сеть)\n"
-#~ "  15 Мир-Бублик (Тор) (изометрическая, шестиугольная сеть)"
-
-#~ msgid "Amount of land vs ocean"
-#~ msgstr "Соотношение воды и суши"
-
-#~ msgid "Number of players to fill to with AI's"
-#~ msgstr "Число игроков для занятия компьютерными игроками"
-
-#~ msgid "Number of initial advances per player"
-#~ msgstr "Число начальных знаний на игрока"
-
-#~ msgid ""
-#~ "If this is set to greater than 0, nations will have territory delineated "
-#~ "by borders placed on the loci between cities, with the maximum distance "
-#~ "from any city specified."
-#~ msgstr ""
-#~ "Если установленное значение больше 0, страны будут владеть территорией, "
-#~ "очерченной границами, размещенными на позициях между городами с заданным "
-#~ "максимальным расстоянием от любого города."
-
-#~ msgid "Total users logged in : %d"
-#~ msgstr "Всего зарегистрировавшихся пользователей : %d"
-
-#~ msgid ""
-#~ "Start\n"
-#~ "Game"
-#~ msgstr ""
-#~ "Начать\n"
-#~ "игру"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "Settings"
-#~ msgstr ""
-#~ "Настройки\n"
-#~ "сервера"
-
-#~ msgid "Tabs"
-#~ msgstr "Вкладки"
-
-#~ msgid ""
-#~ "\n"
-#~ "veteran"
-#~ msgstr ""
-#~ "\n"
-#~ "ветеран"
-
-#~ msgid "land units"
-#~ msgstr "наземные соединения"
-
-#~ msgid "sea units"
-#~ msgstr "морские соединения"
-
-#~ msgid "heli units"
-#~ msgstr "вертолётные соединения"
-
-#~ msgid "air units"
-#~ msgstr "воздушные соединения"
-
-#~ msgid ""
-#~ "Disband if build\n"
-#~ "settler at size 1"
-#~ msgstr ""
-#~ "Распустить если строим\n"
-#~ "колон. при разм. 1"
-
-#~ msgid "Sorry, You have already bought here in this turn"
-#~ msgstr "Игра: Вы уже покупали в этом городе на этом ходу."
-
-#~ msgid "Buy It?"
-#~ msgstr "Купить?"
-
-#~ msgid "Sell It?"
-#~ msgstr "Продать?"
-
-#~ msgid "Options panel"
-#~ msgstr "Панель настроек"
-
-#~ msgid "Unit maintenance panel (%d %s)"
-#~ msgstr "Панель поддержки соединений (%d %s)"
-
-#~ msgid "unit"
-#~ msgid_plural "units"
-#~ msgstr[0] " соединение"
-#~ msgstr[1] " соединения"
-#~ msgstr[2] " соединений"
-
-#~ msgid "Garrison Panel (%d %s)"
-#~ msgstr "Панель гарнизона (%d %s)"
-
-#~ msgid "Info Panel"
-#~ msgstr "Панель информации"
-
-#~ msgid "Pollution : %d"
-#~ msgstr "Загрязнения : %d"
-
-#~ msgid "Pollution : none"
-#~ msgstr "Загрязнения : нет"
-
-#~ msgid "Trade routes : "
-#~ msgstr "Торговые пути : "
-
-#~ msgid "Trade : +%d"
-#~ msgstr "Торговля : +%d"
-
-#~ msgid "Happiness panel"
-#~ msgstr "Панель счастья"
-
-#~ msgid "Citizens"
-#~ msgstr "Граждане"
-
-#~ msgid "Food : %d per turn"
-#~ msgstr "Пища : %d за ход"
-
-#~ msgid "?food:Surplus : %d"
-#~ msgstr "?food:Избыток : %d"
-
-#~ msgid "Production : %d (%d) per turn"
-#~ msgstr "Производство : %d (%d) за ход"
-
-#~ msgid "?production:Support : %d"
-#~ msgstr "?production:Поддержка : %d"
-
-#~ msgid "Trade : %d per turn"
-#~ msgstr "Торговля : %d за ход"
-
-#~ msgid "Corruption : %d"
-#~ msgstr "Коррупция: %d"
-
-#~ msgid "Gold: %d (%d) per turn"
-#~ msgstr "Золото: %d (%d) за ход"
-
-#~ msgid "Upkeep : %d"
-#~ msgstr "Поддержка: %d"
-
-#~ msgid "Science: %d per turn"
-#~ msgstr "Наука: %d за ход"
-
-#~ msgid "Luxury: %d per turn"
-#~ msgstr "Роскошь: %d за ход"
-
-#~ msgid "City growth : blocked"
-#~ msgstr "Рост города : блокирован"
-
-#~ msgid "City growth : never"
-#~ msgstr "Рост города : никогда"
-
-#~ msgid "City shrinks : %d %s"
-#~ msgstr "Уменьшение города : %d %s"
-
-#~ msgid "turn"
-#~ msgid_plural "turns"
-#~ msgstr[0] "ход"
-#~ msgstr[1] "хода"
-#~ msgstr[2] "ходов"
-
-#~ msgid "City growth : %d %s"
-#~ msgstr "Рост города : %d %s"
-
-#~ msgid "finished"
-#~ msgstr "закончено"
-
-#~ msgid "City of %s (Population %s citizens)"
-#~ msgstr "Город %s (Население - %s жителей)"
-
-#~ msgid " - under CMA control."
-#~ msgstr " - под управлением АУГ."
-
-#~ msgid "Information panel"
-#~ msgstr "Панель информации"
-
-#~ msgid "Garrison panel"
-#~ msgstr "Панель гарнизона"
-
-#~ msgid "Maintenance panel"
-#~ msgstr "Панель поддержки"
-
-#~ msgid "Hurry production"
-#~ msgstr "Ускорить производство"
-
-#~ msgid "Prev city"
-#~ msgstr "Пред. город"
-
-#~ msgid "Next city"
-#~ msgstr "След. город"
-
-#~ msgid "size"
-#~ msgstr "размер"
-
-#~ msgid ""
-#~ "time\n"
-#~ "to grow"
-#~ msgstr ""
-#~ "время\n"
-#~ "до роста"
-
-#~ msgid "Cities Report"
-#~ msgstr "Городской отчет"
-
-#~ msgid "Exit Report"
-#~ msgstr "Выйти из отчета"
-
-#~ msgid "Information Report"
-#~ msgstr "Информационный отчет"
-
-#~ msgid "Happiness Report"
-#~ msgstr "Отчет о счастье"
-
-#~ msgid "Garrison Report"
-#~ msgstr "Гарнизонный отчет"
-
-#~ msgid "Maintenance Report"
-#~ msgstr "Отчет о поддержке"
-
-#~ msgid "worklist"
-#~ msgstr "список работ"
-
-#~ msgid ""
-#~ "\n"
-#~ "finshed"
-#~ msgstr ""
-#~ "\n"
-#~ "завершен"
-
-#~ msgid "City of %s (Population %s citizens) : %s"
-#~ msgstr "Город %s (Население - %s жителей) : %s"
-
-#~ msgid "Save settings as..."
-#~ msgstr "Сохранить настройки как..."
-
-#~ msgid "Load settings"
-#~ msgstr "Загрузить настройки"
-
-#~ msgid "Delete settings"
-#~ msgstr "Удалить настройки"
-
-#~ msgid "Creating Server List..."
-#~ msgstr "Создаем список серверов..."
-
-#~ msgid "Player Name :"
-#~ msgstr "Имя лидера :"
-
-#~ msgid "Freeciv Server :"
-#~ msgstr "Сервер Freeciv :"
-
-#~ msgid "Port :"
-#~ msgstr "Порт :"
-
-#~ msgid "Join Game"
-#~ msgstr "Вступить в игру"
-
-#~ msgid "Join Pubserver"
-#~ msgstr "Подключиться к общему серверу"
-
-#~ msgid "Join LAN Server"
-#~ msgstr "Подключиться к серверу локальной сети"
-
-#~ msgid "SDLClient welcomes you..."
-#~ msgstr "SDL-клиент приветствует Вас..."
-
-#~ msgid ""
-#~ "Freeciv is free software and you are welcome to distribute copies of it "
-#~ "under certain conditions;"
-#~ msgstr ""
-#~ "Freeciv является бесплатным продуктом и Вы имеете право распространять "
-#~ "его копии при определённых условиях;"
-
-#~ msgid "See the \"Copying\" item on the Help menu."
-#~ msgstr "Смотрите пункт \"Копирование\" в меню Справка."
-
-#~ msgid "Now.. Go give'em hell!"
-#~ msgstr "А теперь... Пусть всем чертям станет тошно!"
-
-#~ msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
-#~ msgstr "Контакт %s (%d / %d) %s(%d,%d,%d) %s"
-
-#~ msgid "Veteran"
-#~ msgstr "Ветеран"
-
-#~ msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
-#~ msgstr "%s %s %s (А:%d З:%d Х:%d Ог:%d) Зд:%d%%"
-
-#~ msgid " CtW: Att:%d%% Def:%d%%"
-#~ msgstr "Вер. победы: А:%d%% З:%d%%"
-
-#~ msgid "Terrain Info"
-#~ msgstr "Информация о рельефе"
-
-#~ msgid ""
-#~ "Terrain: %s\n"
-#~ "Food/Prod/Trade: %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Рельеф: %s\n"
-#~ "Еда/Произв/Торг: %s\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "\n"
-#~ "Minor Tribe Village"
-#~ msgstr ""
-#~ "\n"
-#~ "Деревня маленького племени"
-
-#~ msgid ""
-#~ "\n"
-#~ "Infrastructure: %s"
-#~ msgstr ""
-#~ "\n"
-#~ "Инфраструктура: %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "Our Territory"
-#~ msgstr ""
-#~ "\n"
-#~ "Наша территория"
-
-#~ msgid ""
-#~ "\n"
-#~ "Territory of the %s %s"
-#~ msgstr ""
-#~ "\n"
-#~ "Территория %s %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "Unclaimed territory"
-#~ msgstr ""
-#~ "\n"
-#~ "Ничейная территория"
-
-#~ msgid ""
-#~ "\n"
-#~ "City of %s"
-#~ msgstr ""
-#~ "\n"
-#~ "Город %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "(%s,%s)"
-#~ msgstr ""
-#~ "\n"
-#~ "(%s,%s)"
-
-#~ msgid "Terrain : UNKNOWN"
-#~ msgstr "Рельеф: НЕИЗВЕСТЕН"
-
-#~ msgid "Advanced Menu"
-#~ msgstr "Расширенное меню"
-
-#~ msgid "Zoom to : %s"
-#~ msgstr "Перейти к : %s"
-
-#~ msgid "Change C.M.A Settings"
-#~ msgstr "Изменить настройки АУГ"
-
-#~ msgid "Goto here"
-#~ msgstr "Перейти сюда"
-
-#~ msgid "Patrol here"
-#~ msgstr "Патрулировать здесь"
-
-#~ msgid "Connect here"
-#~ msgstr "Подключиться сюда"
-
-#~ msgid "Paradrop here"
-#~ msgstr "Сбросить с парашютом сюда"
-
-#~ msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-#~ msgstr "Активировать %s (%d / %d) %s (%d,%d,%d) %s"
-
-#~ msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
-#~ msgstr "%s %s %s (А:%d З:%d Х:%d Ог:%d) Зд:%d%%"
-
-#~ msgid "Sentry idle"
-#~ msgstr "Усыпить бездельников."
-
-#~ msgid "View Civiliopedia entry for %s"
-#~ msgstr "Посмотреть статью Цивилопедии: %s"
-
-#~ msgid "Your caravan has arrived at %s"
-#~ msgstr "Ваш караван прибыл в %s"
-
-#~ msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-#~ msgstr "Установить торговый путь с %s ( %d нау/зол + %d ед. торговли )"
-
-#~ msgid "Enter Marketplace ( %d R&G bonus )"
-#~ msgstr "Идти на рынок ( бонус : %d нау/зол )"
-
-#~ msgid "REVOLUTION!"
-#~ msgstr "РЕВОЛЮЦИЯ!"
-
-#~ msgid "Start"
-#~ msgstr "Начать"
-
-#~ msgid "World map"
-#~ msgstr "Карта Мира"
-
-#~ msgid "Sea map"
-#~ msgstr "Карта морей"
-
-#~ msgid "%s incident !"
-#~ msgstr "Инцидент с %s !"
-
-#~ msgid "Shall we declare WAR on them?"
-#~ msgstr "Должны ли мы объявить им ВОЙНУ?"
-
-#~ msgid "Foreign Minister"
-#~ msgstr "Министр иностранных дел"
-
-#~ msgid ""
-#~ "Sir!, %s ambassador has arrived\n"
-#~ "What are your wishes?"
-#~ msgstr ""
-#~ "Сир! Прибыл посол от %s.\n"
-#~ "Каковы будут Ваши желания?"
-
-#~ msgid "Declare WAR"
-#~ msgstr "Объявить ВОЙНУ"
-
-#~ msgid "Call Diplomatic Meeting"
-#~ msgstr "Созвать дипломатическую встречу"
-
-#~ msgid "Send him back"
-#~ msgstr "Отправить его обратно"
-
-#~ msgid "load_surf: Failed to load graphic file %s!"
-#~ msgstr "load_surf: Сбой загрузки графического файла %s!"
-
-#~ msgid "load_surf: Unable to convert file %s into screen's format!"
-#~ msgstr "load_surf: Не могу конвертировать файл %s в экранный формат!"
-
-#~ msgid "load_surf_with_flags: Unable to load file %s."
-#~ msgstr "load_surf_with_flags: Не могу загрузить файл %s."
-
-#~ msgid "Unable to convert image from file %s into format %d."
-#~ msgstr "Не могу конвертировать изображение из файла %s в формат %d."
-
-#~ msgid ""
-#~ "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
-#~ msgstr ""
-#~ "Не могу создать спрайт (поверхность) размером %d x %d %d Бит в формате %d"
-
-#~ msgid "Unable to initialize SDL library: %s"
-#~ msgstr "Не могу инициализировать SDL библиотеку: %s"
-
-#~ msgid "Unable to initialize  SDL_ttf library: %s"
-#~ msgstr "Не иогу инициализировать SDL_ttf библиотеку: %s"
-
-#~ msgid "No available mode for this resolution : %d x %d %d bpp"
-#~ msgstr "Нет доступных режимов для такого разрешения: %d x %d %d bpp"
-
-#~ msgid "Setting default resolution to : 640 x 480 16 bpp SW"
-#~ msgstr "Устанавливаем разрешение по умолчанию в: 640 x 480 16 bpp SW"
-
-#~ msgid "Unable to set this resolution: %d x %d %d bpp %s"
-#~ msgstr "Не могу установить это разрешение: %d x %d %d bpp %s"
-
-#~ msgid "Setting resolution to: %d x %d %d bpp"
-#~ msgstr "Устанавливаем разрешение в: %d x %d %d bpp"
-
-#~ msgid "load_surf: Unable to load graphic file %s!"
-#~ msgstr "load_surf: Не могу загрузить графический файл %s!"
-
-#~ msgid "%s load with own %d bpp format !"
-#~ msgstr "%s загружен с собственным %d bpp форматом!"
-
-#~ msgid "%s (%d bpp) load with screen (%d bpp) format !"
-#~ msgstr "%s (%d bpp) загружен с экранным (%d bpp) форматом!"
-
-#~ msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
-#~ msgstr "  -f,  --fullscreen\tЗапустить клиента в полноэкранном режиме\n"
-
-#~ msgid ""
-#~ "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux "
-#~ "and BeOS)\n"
-#~ msgstr ""
-#~ "  -e,  --eventthread\tИнициализировать подсистему событий в другом "
-#~ "подпроцессе (только для Линукса и БеОС)\n"
-
-#~ msgid "Using Video Output: %s"
-#~ msgstr "Используем видео-выход: %s"
-
-#~ msgid "Initializing Client"
-#~ msgstr "Инициализируем клиента"
-
-#~ msgid "Waiting for the beginning of the game"
-#~ msgstr "Ждем начала игры"
-
-#~ msgid "Error in create_string16: Aborting ..."
-#~ msgstr "Ошибка в create_string16: Прерываемся..."
-
-#~ msgid ""
-#~ "Error in SDL_create_str16_surf: Couldn't convert text to display format: %"
-#~ "s"
-#~ msgstr ""
-#~ "Ошибка в SDL_create_str16_surf: Не могу перевести текст в формат для "
-#~ "отображения: %s"
-
-#~ msgid ""
-#~ "SDL_create_str16_surf: Font is generally %d big, and string is %hd big"
-#~ msgstr ""
-#~ "SDL_create_str16_surf: Высота шрифта в общем %d, а высота строки %hd"
-
-#~ msgid "SDL_create_str16_surf: String is %d lenght"
-#~ msgstr "SDL_create_str16_surf: Длина строки %d"
-
-#~ msgid "Error in change_ptsize: Change ptsize failed"
-#~ msgstr "Ошибка в change_ptsize: Сбой изменения ptsize"
-
-#~ msgid ""
-#~ "Couldn't find stdfont.ttf file. Please link/copy/move anyunicode ttf font "
-#~ "to data dir as stdfont.ttf"
-#~ msgstr ""
-#~ "Не могу найти файл stdfont.ttf. Попробуйте создать скопировать/"
-#~ "передвинуть/сделать ссылку на любой шрифт в формате Unicode в каталог "
-#~ "\"data\" под именем stdfont.ttf"
-
-#~ msgid "Error in load_font: Couldn't load %d pt font from %s: %s"
-#~ msgstr "Ошибка в load_font: Не могу загрузить шрифт размера %d из %s: %s"
-
-#~ msgid "Error in unload_font: Trying unload from empty Font ARRAY"
-#~ msgstr "Ошибка в unload_font: Не могу выгрузить из пустого массива шрифтов"
-
-#~ msgid ""
-#~ "Error in unload_font: Trying unload Font which is not include in Font "
-#~ "ARRAY"
-#~ msgstr ""
-#~ "Ошибка в unload_font: Не могу выгрузить шрифт, которого нет в массиве "
-#~ "шрифтов"
-
-#~ msgid "Intelligence Information about %s Spaceship"
-#~ msgstr "Разведывательные данные про космический корабль %s"
-
-#~ msgid ""
-#~ "Ruler: %s %s  Government: %s\n"
-#~ "Capital: %s  Gold: %d\n"
-#~ "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-#~ "Researching: %s(%d/%d)"
-#~ msgstr ""
-#~ "Правитель: %s %s  Форма правления: %s\n"
-#~ "Столица: %s   Золото: %d\n"
-#~ "Налог: %d%%  Наука:%d%% Роскошь:%d%%\n"
-#~ "Ислледуем: %s(%d/%d)"
-
-#~ msgid "Their techs that we don't have :"
-#~ msgstr "Их технологии, которых нет у нас :"
-
-#~ msgid "Show Unit Info Window"
-#~ msgstr "Показать окно информации о соединении"
-
-#~ msgid "Hide Unit Info Window"
-#~ msgstr "Спрятать окно информации о соединении"
-
-#~ msgid "Show MiniMap"
-#~ msgstr "Показать миникарту"
-
-#~ msgid "Hide MiniMap"
-#~ msgstr "Убрать миникарту"
-
-#~ msgid "Show Log (F10)"
-#~ msgstr "Показать хурнал (F10)"
-
-#~ msgid "Hide Log (F10)"
-#~ msgstr "Спрятать журнал (F10)"
-
-#~ msgid "Single Tile Width"
-#~ msgstr "Ширина одного квадрата"
-
-#~ msgid "Single Tile Height"
-#~ msgstr "Высота одного квадрата"
-
-#~ msgid "Scale Minimap"
-#~ msgstr "Масштаб миникарты"
-
-#~ msgid "Exit"
-#~ msgstr "Выйти"
-
-#~ msgid "Width"
-#~ msgstr "Ширина"
-
-#~ msgid "Height"
-#~ msgstr "Высота"
-
-#~ msgid "Scale Unit Info"
-#~ msgstr "Масштаб инфо о соед."
-
-#~ msgid "Economy (F5)"
-#~ msgstr "Экономика (F5)"
-
-#~ msgid "Research (F6)"
-#~ msgstr "Исследования (F6)"
-
-#~ msgid "Revolution (Shift + R)"
-#~ msgstr "Революция (Shift + R)"
-
-#~ msgid "End Turn (Enter)"
-#~ msgstr "Завершить ход (Enter)"
-
-#~ msgid "Players (F3)"
-#~ msgstr "Игроки (F3)"
-
-#~ msgid ""
-#~ "Cities Report (F1)\n"
-#~ "or\n"
-#~ "Find City (Shift + F)"
-#~ msgstr ""
-#~ "Городской отчет (F1)\n"
-#~ "или\n"
-#~ "Найти город (Shift + F)"
-
-#~ msgid "Units (F2)"
-#~ msgstr "Соединения (F2)"
-
-#~ msgid "Toggle Minimap Mode (Shift + \\)"
-#~ msgstr "Переключить режим миникарты (Shift + \\)"
-
-#~ msgid ""
-#~ "The SDL event buffer is full; you may see drawing errors\n"
-#~ "as a result.  If you see this message often, please\n"
-#~ "report it to freeciv-dev@freeciv.org."
-#~ msgstr ""
-#~ "Буфер событий SDL переполнен, возможны ошибки отображения.\n"
-#~ "Если вы часто видите эту ошибку, пожалуйста напишите нам по\n"
-#~ "адресу: freeciv-dev@freeciv.org."
-
-#~ msgid ""
-#~ "Revolution (Shift + R)\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Революция (Shift + R)\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Research (F6)\n"
-#~ "%s (%d/%d)"
-#~ msgstr ""
-#~ "Исследование (F6)\n"
-#~ "%s (%d/%d)"
-
-#~ msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-#~ msgstr "%s Население: %s Год: %s Золото: %d Нал: %d Роск: %d Наука: %d "
-
-#~ msgid " with "
-#~ msgstr " с "
-
-#~ msgid ""
-#~ "\n"
-#~ "Food/Prod/Trade: %s"
-#~ msgstr ""
-#~ "\n"
-#~ "Еда/Произв/Торг: %s"
-
-#~ msgid ""
-#~ "End of Turn\n"
-#~ "(Press Enter)"
-#~ msgstr ""
-#~ "Конец хода\n"
-#~ "(нахмите Enter)"
-
-#~ msgid "sprite is NULL"
-#~ msgstr "спрайт - NULL"
-
-#~ msgid "No orders"
-#~ msgstr "Нет приказов"
-
-#~ msgid "Goto City"
-#~ msgstr "Идти в город"
-
-#~ msgid "Auto-Explore"
-#~ msgstr "Авто исследовать"
-
-#~ msgid "Auto-Attack"
-#~ msgstr "Авто атаковать"
-
-#~ msgid "Auto-Settler"
-#~ msgstr "Авто Колонисты"
-
-#~ msgid "Wake Up Others"
-#~ msgstr "Разбудить других"
-
-#~ msgid "Find Homecity"
-#~ msgstr "Найти родной город"
-
-#~ msgid "Transform Tile"
-#~ msgstr "Преобразовать квадрат"
-
-#~ msgid "Form Traderoute"
-#~ msgstr "Установить торговый путь"
-
-#~ msgid "Form Traderoute with %s ( %d R&G + %d trade ) (R)"
-#~ msgstr "Установить торговый путь с %s (%d Нау/Зол + %d торг) (R)"
-
-#~ msgid "Trade with %s ( %d R&G bonus ) (R)"
-#~ msgstr "Торговать с %s (бонус - %d Нау/Зол) (R)"
-
-#~ msgid "Cut Down to"
-#~ msgstr "Урезать до"
-
-#~ msgid "Irrigate to"
-#~ msgstr "Орошать до"
-
-#~ msgid "Plant Forest"
-#~ msgstr "Посадить лес"
-
-#~ msgid "Log"
-#~ msgstr "Журнал"
-
-#~ msgid "Add new worklist"
-#~ msgstr "Добавить список работ"
-
-#~ msgid ""
-#~ "Current Setup\n"
-#~ "Fullscreen %dx%d"
-#~ msgstr ""
-#~ "Текущие установки\n"
-#~ "Полный экран %dx%d"
-
-#~ msgid ""
-#~ "Current Setup\n"
-#~ "%dx%d"
-#~ msgstr ""
-#~ "Текущие установки\n"
-#~ "%dx%d"
-
-#~ msgid "No modes available!"
-#~ msgstr "Нет доступных режимов!"
-
-#~ msgid "All resolutions available."
-#~ msgstr "Все разрешения экрана доступны."
-
-#~ msgid "Smooth unit moves"
-#~ msgstr "Гладкое движение соединений"
-
-#~ msgid "Smooth unit move steps"
-#~ msgstr "Шаги гладкого движения соед."
-
-#~ msgid "Show focus animation"
-#~ msgstr "Показывать анимацию фокуса"
-
-#~ msgid "Show cursors animation"
-#~ msgstr "Показывать анимацию курсора"
-
-#~ msgid "Draw city map grid"
-#~ msgstr "Нарисовать сетку карты города"
-
-#~ msgid "Draw city worker map grid"
-#~ msgstr "Нарисовать сетку карты раборников города"
-
-#~ msgid "Special Resources"
-#~ msgstr "Специальные ресурсы"
-
-#~ msgid "Civ3 city text style"
-#~ msgstr "Стиль текста городов Цивилизации-3"
-
-#~ msgid "Video options"
-#~ msgstr "Настройки видео"
-
-#~ msgid "Sound options"
-#~ msgstr "Настройки звука"
-
-#~ msgid "Game options"
-#~ msgstr "Настройки игры"
-
-#~ msgid "Map options"
-#~ msgstr "Настройки карты"
-
-#~ msgid "disconnected"
-#~ msgstr "отключен"
-
-#~ msgid ""
-#~ "Name : %s\n"
-#~ "Nation : %s\n"
-#~ "Team : %s\n"
-#~ "Reputation : %s\n"
-#~ "Embassy :%s\n"
-#~ "State : %s\n"
-#~ "Idle : %d %s"
-#~ msgstr ""
-#~ "Имя: %s\n"
-#~ "Народ: %s\n"
-#~ "Команда: %s\n"
-#~ "Репутация: %s\n"
-#~ "Посольство: %s\n"
-#~ "Состояние: %s\n"
-#~ "Бездействует: %d %s"
-
-#~ msgid "Nations"
-#~ msgstr "Народы"
-
-#~ msgid "active"
-#~ msgstr "активен"
-
-#~ msgid ""
-#~ "under\n"
-#~ "construction"
-#~ msgstr ""
-#~ "в процессе\n"
-#~ "создания"
-
-#~ msgid ""
-#~ "soonest\n"
-#~ "completion"
-#~ msgstr ""
-#~ "скорое\n"
-#~ "завершение"
-
-#~ msgid "Total"
-#~ msgstr "Итого"
-
-#~ msgid "Units Report"
-#~ msgstr "Отчет соединений"
-
-#~ msgid ""
-#~ "We have %d of %s\n"
-#~ "(total value is : %d)\n"
-#~ "We can sell %d of them for %d gold"
-#~ msgstr ""
-#~ "У нас есть %d %s\n"
-#~ "(общая стоимость: %d)\n"
-#~ "Мы можем продать %d из них за %d золотых"
-
-#~ msgid "We can't sell any %s in this turn"
-#~ msgstr "Мы не можем продать %s в этот ход"
-
-#~ msgid "Economy Report"
-#~ msgstr "Экономический отчет"
-
-#~ msgid "Treasury: "
-#~ msgstr "Казна: "
-
-#~ msgid "Tax Rate: "
-#~ msgstr "Налоговые ставки: "
-
-#~ msgid "Total Income: "
-#~ msgstr "Суммарный доход: "
-
-#~ msgid "Total Cost: "
-#~ msgstr "Суммарный расход: "
-
-#~ msgid "Net Income: "
-#~ msgstr "Чистый доход: "
-
-#~ msgid "%s max rate : %d%%"
-#~ msgstr "%s макс уровень: %d%%"
-
-#~ msgid "FT"
-#~ msgstr "FT"
-
-#~ msgid ""
-#~ "Current output : 0\n"
-#~ "Research speed : none\n"
-#~ "Next's advance time : never"
-#~ msgstr ""
-#~ "Текущие поступления : 0\n"
-#~ "Скорость исследований : нет\n"
-#~ "Следующее открытие : никогда"
-
-#~ msgid "Next advance in %d turn"
-#~ msgid_plural "Next advance in %d turns"
-#~ msgstr[0] "Следующее открытие - через %d ход"
-#~ msgstr[1] "Следующее открытие - через %d хода"
-#~ msgstr[2] "Следующее открытие - через %d ходов"
-
-#~ msgid ""
-#~ "Current output : %d per turn\n"
-#~ "Research speed : %d %s/advance\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Текущие поступления : %d за ход\n"
-#~ "Скорость исследований : %d %s/открытие\n"
-#~ "%s"
-
-#~ msgid "step"
-#~ msgid_plural "steps"
-#~ msgstr[0] "шаг"
-#~ msgstr[1] "шага"
-#~ msgstr[2] "шагов"
-
-#~ msgid "What should we focus on now?"
-#~ msgstr "На чем мы должны сосредоточиться?"
-
-#~ msgid "Sellect target :"
-#~ msgstr "Выберите цель :"
-
-#~ msgid "%s's SpaceShip"
-#~ msgstr "Космический корабль %s"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "%d gold per turn"
-#~ msgstr ""
-#~ "%s\n"
-#~ "%d золота за ход"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "blocked!"
-#~ msgstr ""
-#~ "%s\n"
-#~ "заблокировано!"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "%s\n"
-#~ "%d %s"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "finished!"
-#~ msgstr ""
-#~ "%s\n"
-#~ "завершен!"
-
-#~ msgid "( %d elements )"
-#~ msgstr "( %d элементов )"
-
-#~ msgid ""
-#~ "Worklist of\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Рабочие списки\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "(%s)\n"
-#~ "%d/%d %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "(%s)\n"
-#~ "%d/%d %s\n"
-#~ "%s"
-
-#~ msgid "shield"
-#~ msgid_plural "shields"
-#~ msgstr[0] "щит"
-#~ msgstr[1] "щита"
-#~ msgstr[2] "щитов"
-
-#~ msgid ""
-#~ "%d/%d %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "%d/%d %s\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "(%s)\n"
-#~ "%d/%d %s\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "(%s)\n"
-#~ "%d/%d %s\n"
-#~ "%d %s"
-
-#~ msgid ""
-#~ "%d/%d %s\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "%d/%d %s\n"
-#~ "%d %s"
-
-#~ msgid "%d gold per turn"
-#~ msgstr "%d золота за ход"
-
-#~ msgid ""
-#~ "(%s)\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "(%s)\n"
-#~ "%d %s"
-
-#~ msgid "%d %s"
-#~ msgstr "%d %s"
-
-#~ msgid "shields into gold"
-#~ msgstr "щиты в золото"
-
-#~ msgid ""
-#~ "(%d/%d/%d)\n"
-#~ "%d/%d %s\n"
-#~ "never"
-#~ msgstr ""
-#~ "(%d/%d/%d)\n"
-#~ "%d/%d %s\n"
-#~ "никогда"
-
-#~ msgid ""
-#~ "(%d/%d/%d)\n"
-#~ "%d/%d %s\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "(%d/%d/%d)\n"
-#~ "%d/%d %s\n"
-#~ "%d %s"
-
-#~ msgid ""
-#~ "(%d/%d/%d)\n"
-#~ "%d %s"
-#~ msgstr ""
-#~ "(%d/%d/%d)\n"
-#~ "%d %s"
-
-#~ msgid "Pregame"
-#~ msgstr "Перед игрой"
-
-#~ msgid "Running"
-#~ msgstr "Действует"
-
-#~ msgid "Game over"
-#~ msgstr "Игра окончена"
-
-#~ msgid "Waiting"
-#~ msgstr "Ожидание"
-
-#~ msgid "Not reporting to the metaserver."
-#~ msgstr "Не соединяемся с метасервером."
-
-#~ msgid "Invalid metaserver URL, must start with 'http://'"
-#~ msgstr "Неправильный URL метасервера, должен начинаться с 'http://'"
-
-#~ msgid "Invalid $http_proxy value, cannot find separating '/'"
-#~ msgstr "Неправилжное значение $http_proxy, отсутствует разделяющая '/'"
-
-#~ msgid "Game: %s is not a valid name."
-#~ msgstr "Игра: %s - не является действительным именем."
-
-#~ msgid "Game: The %s have acquired %s and %s from %s."
-#~ msgstr "Игра: %s приобрели %s и %s от %s."
-
-#~ msgid ""
-#~ "Warning: your non-authenticating client is logging into an authenticating "
-#~ "server, logging in as guest connection '%s'."
-#~ msgstr ""
-#~ "Предупреждение: Ваш неавторизующийся клиент регистрируется на сервере с "
-#~ "авторизацией, регистрируемся как гостевое соединение '%s'."
-
-#~ msgid ""
-#~ "Your non-authenticating client is logging into an authenticating server. "
-#~ "Guest logins are not allowed. Sorry"
-#~ msgstr ""
-#~ "Ваш неавторизующийся клиент регистрируется на сервере с авторизацией. "
-#~ "Гостевые регистрации не разрешены. Извините"
-
-#~ msgid "Game: You can't subvert the capital of a nation."
-#~ msgstr "Игра: Вы не можете переманить столицу страны"
-
-#~ msgid "%s discover %s (Library)"
-#~ msgstr "%s открыли %s (Библиотека)"
-
-#~ msgid "Game: The %s have acquired %s from the Great Library."
-#~ msgstr "Игра: %s приобрели %s в Великой Библиотеке!"
-
-#~ msgid "Please choose a legal name."
-#~ msgstr "Выберите имя, соответствующее правилам."
-
-#~ msgid "Amount of river squares"
-#~ msgstr "Количество речных квадратов"
-
-#~ msgid "Amount of grass squares"
-#~ msgstr "Количество травяных квадратов"
-
-#~ msgid "Amount of forest squares"
-#~ msgstr "Количество лесных квадратов"
-
-#~ msgid "Amount of swamp squares"
-#~ msgstr "Количество заболоченных квадратов"
-
-#~ msgid "Amount of desert squares"
-#~ msgstr "Количество квадратов пустыни"
-
-#~ msgid "Number of initial explorers per player"
-#~ msgstr "Начальное число разведчиков на каждого игрока"
-
-#~ msgid "Number of turns players may meet after contact"
-#~ msgstr ""
-#~ "Число ходов, в течение которого игроки могут встречаться друг с другом "
-#~ "после контакта"
-
-#~ msgid ""
-#~ "If all players have not hit \"Turn Done\" before this time is up, then "
-#~ "the turn ends automatically. Zero means there is no timeout. Use this "
-#~ "with the command \"timeoutincrease\" to have a dynamic timer."
-#~ msgstr ""
-#~ "Если все игроки не нажали \"Конец хода\" пока это время не истекло, ход "
-#~ "заканчивается автоматически. Ноль значит время не ограничено. Используйте "
-#~ "вместе с командой \\\"timeoutincrease\\\", если Вам нужен динамический "
-#~ "таймер."
-
-#~ msgid "Bad team name."
-#~ msgstr "Плохое имя команды."
-
-#~ msgid "Game: Let's not build a city with such a stupid name."
-#~ msgstr "Игра: Давайте не будем строить город с таким дурацким названием."
-
-#~ msgid ""
-#~ "(The %s improvement is also required for a city to grow larger than size %"
-#~ "d.)  "
-#~ msgstr "(%s также требуется, чтобы город мог вырасти сверх %d жителей.)  "
-
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "Note that discovering %s or %s will obsolete any existing %s.  "
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "Заметьте, что открытие %s или %s сделает устаревшими все существующие %"
-#~ "s.  "
-
-#~ msgid "Draw Diagonal Roads/Rails"
-#~ msgstr "Рисовать диагон. дороги"
-
-#~ msgid "Choose Your New Government"
-#~ msgstr "Выберите Ваше новую форму правления"
-
-#~ msgid ""
-#~ "\n"
-#~ "              "
-#~ msgstr ""
-#~ "\n"
-#~ "              "
-
-#~ msgid "("
-#~ msgstr "("
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid ""
-#~ "A local server is still running. Use \"Connect to Network Game\" to "
-#~ "connect to it."
-#~ msgstr ""
-#~ "Локальный сервер всё ещё запущен. Используйте \"Подключиться к сетевой "
-#~ "игре\" для подключения к нему."
-
-#~ msgid "_End Game"
-#~ msgstr "_Закончить игру"
-
-#~ msgid "_Kingdom"
-#~ msgstr "_Государство"
-
-#~ msgid "Server Options"
-#~ msgstr "Настройки сервера"
-
-#~ msgid "Start Game"
-#~ msgstr "Начать игру"
-
-#~ msgid "End Game"
-#~ msgstr "Закончить игру"
-
-#~ msgid "Get Score"
-#~ msgstr "Получить счет"
-
-#~ msgid "Port: %d"
-#~ msgstr "Порт: %d"
-
-#~ msgid "Cannot create pipe"
-#~ msgstr "Не могу создать pipe"
-
-#~ msgid "Game Control"
-#~ msgstr "Управление игрой"
-
-#~ msgid "Select connection"
-#~ msgstr "Выбрать подключение"
-
-#~ msgid "Choose player to be"
-#~ msgstr "Выбрать кем играть"
-
-#~ msgid "Start game automatically?"
-#~ msgstr "Начать игру автоматически?"
-
-#~ msgid "Your name:"
-#~ msgstr "Ваше имя:"
-
-#~ msgid "Difficulty:"
-#~ msgstr "Сложность:"
-
-#~ msgid "medium"
-#~ msgstr "средний"
-
-#~ msgid "Total players (fill with AIs)"
-#~ msgstr "Всего игроков (дополнить компьютерными игроками)"
-
-#~ msgid "Start a game"
-#~ msgstr "Начать игру."
-
-#~ msgid "What do you wish to to?"
-#~ msgstr "Что Вы хотите сделать?"
-
-#~ msgid "New Game"
-#~ msgstr "Новая игра"
-
-#~ msgid "Quit Game"
-#~ msgstr "Выйти из игры"
-
-#~ msgid "Connect/_road"
-#~ msgstr "Соединить/_Дорогу"
-
-#~ msgid "Connect/rai_l"
-#~ msgstr "Соединить/_Железную дорогу"
-
-#~ msgid "Connect/_irrigate"
-#~ msgstr "Соединить/_Орошение"
-
-#~ msgid "Granary: %c%3d/%-3d"
-#~ msgstr "Запас еды: %c%3d/%-3d"
-
-#~ msgid "Prezydent"
-#~ msgstr "Президент"
-
-#~ msgid "Map width in squares"
-#~ msgstr "Ширина карты в квадратах"
-
-#~ msgid "Map height in squares"
-#~ msgstr "Высота карты в квадратах"
-
-#~ msgid "End the game."
-#~ msgstr "Закончить игру."
-
-#~ msgid "This command ends the game immediately."
-#~ msgstr "Эта команда заканчивает игру немедленно."
-
-#~ msgid ""
-#~ "In addition to providing for fishing, Rivers make for excellent lines of "
-#~ "communications and trade.\n"
-#~ "\n"
-#~ "Roads and railroads can only be built on River squares if your "
-#~ "civilization has learned Bridge Building technology."
-#~ msgstr ""
-#~ "В дополнение к рыбной ловле, Реки являются великолепными торговыми и "
-#~ "военными путями.\n"
-#~ "\n"
-#~ "Дороги и железные дороги могут быть построены на Речных квадратах только "
-#~ "после того, как Ваша цивилизация научится Мостостроению."
+#~ "<table>\n"
+#~ "<tr>\n"
+#~ "<td valign=\"top\">"
+
+#~ msgid "+trade</th>\n"
+#~ msgstr "(+торговля)</th>\n"
