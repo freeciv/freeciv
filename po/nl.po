@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.0\n"
-"POT-Creation-Date: 2001-10-26 10:30+0200\n"
-"PO-Revision-Date: 2001-10-26 11:15+0200\n"
+"POT-Creation-Date: 2001-10-26 11:54+0200\n"
+"PO-Revision-Date: 2001-10-26 12:00+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7361,6 +7361,92 @@ msgstr ""
 "Belasting:%d Luxe:%d Wetensch.%d\n"
 "Onderzoekt %s: %d/%d"
 
+#: client/gui-gtk/happiness.c:101 client/gui-xaw/menu.c:225
+#: data/helpdata.txt:1215
+msgid "Happiness"
+msgstr "Geluk"
+
+#: client/gui-gtk/happiness.c:249
+#, c-format
+msgid "Cities: %d total, %d over threshold of %d cities.\n"
+msgstr "Steden: %d totaal, %d boven drempelwaarde van %d steden.\n"
+
+#: client/gui-gtk/happiness.c:253
+#, c-format
+msgid "%d content before penalty with "
+msgstr "%d tevreden voor bezwaring met "
+
+#: client/gui-gtk/happiness.c:255
+#, c-format
+msgid "%d additional unhappy citizens."
+msgstr "%d toegevoegde ontevreden burgers."
+
+#: client/gui-gtk/happiness.c:271
+#, c-format
+msgid "Luxury: %d total (maximum %d usable). "
+msgstr "Luxe: %d totaal (maximaal %d bruikbaar). "
+
+#: client/gui-gtk/happiness.c:289
+msgid "Buildings: "
+msgstr "Gebouwen: "
+
+#: client/gui-gtk/happiness.c:296 client/gui-gtk/happiness.c:303
+#: client/gui-gtk/happiness.c:310 client/gui-gtk/happiness.c:331
+#: client/gui-gtk/happiness.c:394 client/gui-gtk/happiness.c:401
+#: client/gui-gtk/happiness.c:414 client/gui-gtk/happiness.c:421
+msgid ". "
+msgstr ". "
+
+#: client/gui-gtk/happiness.c:316 client/gui-gtk/happiness.c:407
+msgid ""
+"\n"
+"              "
+msgstr ""
+"\n"
+"              "
+
+#: client/gui-gtk/happiness.c:324
+msgid "("
+msgstr "("
+
+#: client/gui-gtk/happiness.c:328
+msgid ")"
+msgstr ")"
+
+#: client/gui-gtk/happiness.c:336 client/gui-gtk/happiness.c:426
+msgid "None. "
+msgstr "Geen."
+
+#: client/gui-gtk/happiness.c:354
+msgid "Units: "
+msgstr "Eenheden: "
+
+#: client/gui-gtk/happiness.c:358
+msgid "Martial law in effect ("
+msgstr "Krijgswet van toepassing ("
+
+#: client/gui-gtk/happiness.c:362
+msgid "no maximum, "
+msgstr "geen maximum, "
+
+#: client/gui-gtk/happiness.c:364
+#, c-format
+msgid "%d units maximum, "
+msgstr "%d eenheden maximum, "
+
+#: client/gui-gtk/happiness.c:367
+#, c-format
+msgid "%d per unit). "
+msgstr "%d per eenheid). "
+
+#: client/gui-gtk/happiness.c:370
+msgid "Military units in the field may cause unhappiness. "
+msgstr "Militaire eenheden in het veld kunnen ontevredenheid veroorzaken. "
+
+#: client/gui-gtk/happiness.c:387
+msgid "Wonders: "
+msgstr "Wereldwonderen: "
+
 #: client/gui-gtk/helpdlg.c:85 client/gui-gtk/helpdlg.c:88
 #: client/gui-gtk/helpdlg.c:92 client/gui-mui/helpdlg.c:490
 #: client/gui-mui/helpdlg.c:506 client/gui-win32/helpdlg.c:77
@@ -9930,10 +10016,6 @@ msgstr "Wereldwonder"
 #: client/gui-xaw/menu.c:224 data/helpdata.txt:1151
 msgid "Government"
 msgstr "Regering"
-
-#: client/gui-xaw/menu.c:225 data/helpdata.txt:1215
-msgid "Happiness"
-msgstr "Geluk"
 
 #: client/gui-xaw/menu.c:226 data/helpdata.txt:1288
 msgid "Space Race"
@@ -16456,9 +16538,6 @@ msgstr "?plural:Zoeloes"
 
 #~ msgid "The discovery of %s will increase this by 1.  "
 #~ msgstr "De ontdekking van %s zal dit verhogen met 1.  "
-
-#~ msgid "Low Funds                "
-#~ msgstr "Lage Fondsen                        "
 
 #~ msgid "Pollution                "
 #~ msgstr "Vervuiling                          "
