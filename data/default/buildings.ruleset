@@ -1347,7 +1347,7 @@ sound		= "w_asmiths_trading_co"
 sound_alt	= "w_generic"
 helptext	= _("\
 City improvements which would normally have an upkeep of 1 are free\
- of upkeep, for all cities.\
+ of upkeep, for all your cities.\
 ")
 
 [building_colossus]
@@ -1428,7 +1428,7 @@ sound		= "w_cure_for_cancer"
 sound_alt	= "w_generic"
 helptext	= _("\
 This stunning technological achievement makes one unhappy\
- citizen content in all cities.\
+ citizen content in all your cities.\
 ")
 ; NOTE:
 ; In Civ2 this makes 1 content citizen happy in all cities.
@@ -1542,7 +1542,7 @@ effect		=
 sound		= "w_great_wall"
 sound_alt	= "w_generic"
 helptext	= _("\
-Works as a City Wall in all cities.\
+Works as a City Wall in all your cities.\
 ")
 ; NOTE:
 ; Civ2 also doubles attack -vs- barbs,
@@ -1879,7 +1879,7 @@ effect		=
 sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
-Doubles the effect of Temples, in all cities.\
+Doubles the effect of Temples, in all your cities.\
 ")
 
 [building_pyramids]
@@ -2014,7 +2014,7 @@ effect		=
 sound		= "w_sun_tzus_war_academy"
 sound_alt	= "w_generic"
 helptext	= _("\
-All your new ground units become veterans (for all cities). \
+All your new ground units become veterans (for all of your cities). \
  The chance of a unit becoming a veteran after a battle increases\
  from 50% to 100%.\
 ")
