@@ -2637,15 +2637,18 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
 void send_all_known_units(struct player *dest)
 {
   int o,p;
-  for(p=0; p<game.nplayers; p++)  /* send the players units */
-    for(o=0; o<game.nplayers; o++)           /* dests */
+  for(p=0; p<game.nplayers; p++) { /* send the players units */
+    struct player *unitowner = &game.players[p];
+    for(o=0; o<game.nplayers; o++) { /* dests */
       if(!dest || &game.players[o]==dest) {
-	struct player *unitowner = &game.players[p];
-	struct player *pplayer = &game.players[o];
+	struct player *pplayer = get_player(o);
 	unit_list_iterate(unitowner->units,punit)
-	  send_unit_info(pplayer, punit);
+	  if (map_get_known_and_seen(punit->x, punit->y, o))
+	    send_unit_info(pplayer, punit);
 	unit_list_iterate_end;
       }
+    }
+  }
 }
 
 /**************************************************************************
