@@ -369,6 +369,7 @@ struct Sprite *get_treaty_thumb_sprite(bool on_off);
 struct sprite_vector *get_unit_explode_animation(void);
 struct Sprite *get_cursor_sprite(enum cursor_type cursor,
 				 int *hot_x, int *hot_y);
+struct Sprite *get_attention_crosshair_sprite(void);
 
 /* These variables contain the size of the tiles used within the game.
  *

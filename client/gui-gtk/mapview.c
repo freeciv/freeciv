@@ -781,7 +781,7 @@ void put_cross_overlay_tile(struct tile *ptile)
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
     pixmap_put_overlay_tile(map_canvas->window,
 			    canvas_x, canvas_y,
-			    sprites.user.attention);
+			    get_attention_crosshair_sprite());
   }
 }
 

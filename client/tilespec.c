@@ -3742,6 +3742,17 @@ struct Sprite *get_cursor_sprite(enum cursor_type cursor,
   return sprites.cursor[cursor].icon;
 }
 
+/****************************************************************************
+  Returns a sprite with the "user-attention" crosshair graphic.
+
+  FIXME: This function shouldn't be needed if the attention graphics are
+  drawn natively by the tileset code.
+****************************************************************************/
+struct Sprite *get_attention_crosshair_sprite(void)
+{
+  return sprites.user.attention;
+}
+
 /**************************************************************************
   Loads the sprite. If the sprite is already loaded a reference
   counter is increased. Can return NULL if the sprite couldn't be

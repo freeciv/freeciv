@@ -616,7 +616,7 @@ put_cross_overlay_tile(struct tile *ptile)
   tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
   if (tile_visible_mapcanvas(ptile)) {
     hdc=GetDC(map_window);
-    draw_sprite(sprites.user.attention,hdc,canvas_x,canvas_y);
+    draw_sprite(get_attention_crosshair_sprite(), hdc, canvas_x, canvas_y);
     ReleaseDC(map_window,hdc);
   }
 }
