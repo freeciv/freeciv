@@ -67,7 +67,7 @@ static const char *unit_class_names[] = {
 };
 
 /**************************************************************************
-...
+  Return a pointer for the unit type struct for the given unit type id.
 **************************************************************************/
 struct unit_type *get_unit_type(Unit_Type_id id)
 {
@@ -76,15 +76,15 @@ struct unit_type *get_unit_type(Unit_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return the unit type for this unit.
 **************************************************************************/
-struct unit_type *unit_type(struct unit *punit)
+struct unit_type *unit_type(const struct unit *punit)
 {
   return get_unit_type(punit->type);
 }
 
 /**************************************************************************
-...
+  Return TRUE iff this unit type is a ground/land/normal unit type.
 **************************************************************************/
 bool is_ground_unittype(Unit_Type_id id)
 {
@@ -92,7 +92,7 @@ bool is_ground_unittype(Unit_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return TRUE iff this unit type is an air unit type (including missiles).
 **************************************************************************/
 bool is_air_unittype(Unit_Type_id id)
 {
@@ -100,7 +100,7 @@ bool is_air_unittype(Unit_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return TRUE iff this unit type is a helicoptor unit type.
 **************************************************************************/
 bool is_heli_unittype(Unit_Type_id id)
 {
@@ -108,7 +108,7 @@ bool is_heli_unittype(Unit_Type_id id)
 }
 
 /**************************************************************************
-...
+  Return TRUE iff this unit type is a sailing/naval/sea/water unit type.
 **************************************************************************/
 bool is_water_unit(Unit_Type_id id)
 {
@@ -130,15 +130,16 @@ int utype_upkeep_cost(const struct unit_type *ut,
 }
 
 /**************************************************************************
-...
+  Return the "happy cost" (the number of citizens who are discontented)
+  for this unit.
 **************************************************************************/
-int utype_happy_cost(struct unit_type *ut, struct government *g)
+int utype_happy_cost(const struct unit_type *ut, const struct government *g)
 {
   return ut->happy_cost * g->unit_happy_cost_factor;
 }
 
 /**************************************************************************
-...
+  Return whether the given unit type (by ID) has the flag.
 **************************************************************************/
 bool unit_type_flag(Unit_Type_id id, int flag)
 {
@@ -155,7 +156,8 @@ bool unit_flag(const struct unit *punit, enum unit_flag_id flag)
 }
 
 /**************************************************************************
-...
+  Return whether the given unit type (by ID) has the role.  Roles are like
+  flags but have no meaning except to the AI.
 **************************************************************************/
 bool unit_has_role(Unit_Type_id id, int role)
 {
@@ -611,7 +613,7 @@ Unit_Type_id get_role_unit(int role, int index)
 Return "best" unit this city can build, with given role/flag.
 Returns U_LAST if none match. "Best" means highest unit type id.
 **************************************************************************/
-Unit_Type_id best_role_unit(struct city *pcity, int role)
+Unit_Type_id best_role_unit(const struct city *pcity, int role)
 {
   Unit_Type_id u;
   int j;

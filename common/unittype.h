@@ -224,7 +224,7 @@ extern struct unit_type unit_types[U_LAST];
 #define CHECK_UNIT_TYPE(ut) (assert((ut) >= 0 && (ut) < game.num_unit_types))
 
 struct unit_type *get_unit_type(Unit_Type_id id);
-struct unit_type *unit_type(struct unit *punit);
+struct unit_type *unit_type(const struct unit *punit);
 
 bool unit_type_flag(Unit_Type_id id, int flag);
 bool unit_flag(const struct unit *punit, enum unit_flag_id flag);
@@ -249,7 +249,7 @@ const char *get_units_with_flag_string(int flag);
 
 int utype_upkeep_cost(const struct unit_type *ut,
 		      const struct government *gov, Output_type_id otype);
-int utype_happy_cost(struct unit_type *ut, struct government *g);
+int utype_happy_cost(const struct unit_type *ut, const struct government *g);
 
 int can_upgrade_unittype(struct player *pplayer, Unit_Type_id id);
 int unit_upgrade_price(const struct player * const pplayer,
@@ -270,7 +270,7 @@ bool can_player_eventually_build_unit(struct player *p, Unit_Type_id id);
 void role_unit_precalcs(void);
 int num_role_units(int role);
 Unit_Type_id get_role_unit(int role, int index);
-Unit_Type_id best_role_unit(struct city *pcity, int role);
+Unit_Type_id best_role_unit(const struct city *pcity, int role);
 Unit_Type_id best_role_unit_for_player(struct player *pplayer, int role);
 Unit_Type_id first_role_unit_for_player(struct player *pplayer, int role);
 
