@@ -1211,12 +1211,32 @@ void city_incite_cost(struct city *pcity)
 int update_city_activity(struct player *pplayer, struct city *pcity)
 {
   int got_tech = 0;
+  int turns_growth, turns_granary;
+
   city_check_workers(pplayer, pcity);
   if (city_refresh(pcity) && 
       get_government(pcity->owner)>=G_REPUBLIC &&
       pcity->food_surplus>0 && pcity->size>4) {
     pcity->food_stock=pcity->size*game.foodbox+1; 
   }
+
+  if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit &&
+    (pcity->currently_building == B_GRANARY) && (pcity->food_surplus > 0)
+    && (pcity->shield_surplus > 0)) {
+    turns_growth = ((pcity->size * game.foodbox) - pcity->food_stock)
+                     / pcity->food_surplus;
+    turns_granary = (improvement_value(B_GRANARY) - pcity->shield_stock)
+                     / pcity->shield_surplus;
+    /* if growth and granary completion occur simultaneously, granary
+       preserves food.  -AJS */
+    if ((turns_growth < 5) && (turns_granary < 5) &&
+        (turns_growth < turns_granary)) {
+       notify_player_ex(city_owner(pcity), pcity->x, pcity->y,
+                     E_CITY_GRAN_THROTTLE,
+                    "Game: %s suggest throttling growth to use granary (being built) more effectively.", pcity->name);
+       }
+    }
+  
 
 /* the AI often has widespread disorder when the Gardens or Oracle
 become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */

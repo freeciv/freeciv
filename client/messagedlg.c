@@ -74,6 +74,7 @@ char *message_text[E_LAST]={
   "Diplomat Actions - Own   ",          /* E_MY_DIPLOMAT */
   "Unit Attack Failed       ",          /* E_UNIT_LOST_ATT */
   "Unit Attack Succeeded    ",          /* E_UNIT_WIN_ATT */
+  "Suggest Growth Throttling",          /* E_CITY_GRAN_THROTTLE */
 };
 
 
