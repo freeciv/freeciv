@@ -170,6 +170,96 @@ bool is_option(const char *option_name,char *option)
 }
 
 /***************************************************************
+  Like strcspn but also handles quotes, i.e. *reject chars are 
+  ignored if they are inside single or double quotes.
+***************************************************************/
+static size_t my_strcspn(const char *s, const char *reject)
+{
+  bool in_single_quotes = FALSE, in_double_quotes = FALSE;
+  size_t i, len = strlen(s);
+
+  for (i = 0; i < len; i++) {
+    if (s[i] == '"' && !in_single_quotes) {
+      in_double_quotes = !in_double_quotes;
+    } else if (s[i] == '\'' && !in_double_quotes) {
+      in_single_quotes = !in_single_quotes;
+    }
+
+    if (in_single_quotes || in_double_quotes) {
+      continue;
+    }
+
+    if (strchr(reject, s[i])) {
+      break;
+    }
+  }
+
+  return i;
+}
+
+/***************************************************************
+ Splits the string into tokens. The individual tokens are
+ returned. The delimiterset can freely be choosen.
+
+ i.e. "34 abc 54 87" with a delimiterset of " " will yield 
+      tokens={"34", "abc", "54", "87"}
+ 
+ Part of the input string can be quoted (single or double) to embedded
+ delimiter into tokens. For example,
+   command 'a name' hard "1,2,3,4,5" 99
+   create 'Mack "The Knife"'
+ will yield 5 and 2 tokens respectively using the delimiterset " ,".
+
+ Tokens which aren't used aren't modified (and memory is not
+ allocated). If the string would yield more tokens only the first
+ num_tokens are extracted.
+
+ The user has the responsiblity to free the memory allocated by
+ **tokens.
+***************************************************************/
+int get_tokens(const char *str, char **tokens, size_t num_tokens,
+	       const char *delimiterset)
+{
+  int token = 0;
+
+  assert(str != NULL);
+
+  for(;;) {
+    size_t len, padlength = 0;
+
+    /* skip leading delimiters */
+    str += strspn(str, delimiterset);
+
+    if (*str == '\0') {
+      break;
+    }
+
+    len = my_strcspn(str, delimiterset);
+
+    if (token >= num_tokens) {
+      break;
+    }
+
+    /* strip start/end quotes if they exist */
+    if ((str[0] == '"' && str[len - 1] == '"')
+	|| (str[0] == '\'' && str[len - 1] == '\'')) {
+      len -= 2;
+      padlength = 1;		/* to set the string past the end quote */
+      str++;
+    }
+  
+    tokens[token] = fc_malloc(len + 1);
+    mystrlcpy(tokens[token], str, len + 1);	/* adds the '\0' */
+
+    token++;
+
+    str += len + padlength;
+  }
+
+  return token;
+}
+
+/***************************************************************
   Returns a statically allocated string containing a nicely-formatted
   version of the given number according to the user's locale.  (Only
   works for numbers >= zero.) The actually number used for the

@@ -77,6 +77,8 @@ char *create_centered_string(char *s);
 
 char * get_option(const char *option_name,char **argv,int *i,int argc);
 bool is_option(const char *option_name,char *option);
+int get_tokens(const char *str, char **tokens, size_t num_tokens,
+	       const char *delimiterset);
 char *general_int_to_text(int nr, int decade_exponent);
 char *int_to_text(int nr);
 char *population_to_text(int thousand_citizen);
