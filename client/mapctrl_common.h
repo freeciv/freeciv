@@ -17,9 +17,15 @@
 #include "map.h"		/* enum direction8 */
 #include "shared.h"		/* bool type */
 
+#include "control.h"            /* quickselect_type */
+
 extern bool rbutton_down;
 extern bool rectangle_active;
 extern bool tiles_hilited_cities;
+
+extern bool keyboardless_goto_button_down;
+extern bool keyboardless_goto_active;
+extern int keyboardless_goto_start_x, keyboardless_goto_start_y;
 
 void anchor_selection_rectangle(int canvas_x, int canvas_y);
 void update_selection_rectangle(int canvas_x, int canvas_y);
@@ -32,9 +38,14 @@ void clipboard_paste_production(struct city *pcity);
 void upgrade_canvas_clipboard(void);
 
 void release_right_button(int canvas_x, int canvas_y);
+
+void release_goto_button(int canvas_x, int canvas_y);
+void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y);
+
 bool get_turn_done_button_state(void);
 void scroll_mapview(enum direction8 gui_dir);
-void action_button_pressed(int canvas_x, int canvas_y);
+void action_button_pressed(int canvas_x, int canvas_y,
+                enum quickselect_type qtype);
 void wakeup_button_pressed(int canvas_x, int canvas_y);
 void adjust_workers_button_pressed(int canvas_x, int canvas_y);
 void recenter_button_pressed(int canvas_x, int canvas_y);

@@ -72,6 +72,7 @@ bool map_scrollbars = TRUE;
 bool dialogs_on_top = TRUE;
 bool ask_city_name = TRUE;
 bool popup_new_cities = TRUE;
+bool keyboardless_goto = TRUE;
 
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
@@ -120,6 +121,7 @@ client_option options[] = {
   GEN_BOOL_OPTION(auto_turn_done,           N_("End Turn when done moving")),
   GEN_BOOL_OPTION(meta_accelerators,        N_("Use Alt/Meta for accelerators (GTK+ only)")),
   GEN_BOOL_OPTION(map_scrollbars,	    N_("Show Map Scrollbars (GTK+ only)")),
+  GEN_BOOL_OPTION(keyboardless_goto,        N_("Keyboardless goto (GTK+ only)")),
   GEN_BOOL_OPTION(dialogs_on_top,	    N_("Keep dialogs on top (GTK+ 2.0 only)")),
   GEN_BOOL_OPTION(ask_city_name,            N_("Prompt for city names")),
   GEN_BOOL_OPTION(popup_new_cities,         N_("Pop up city dialog for new cities")),

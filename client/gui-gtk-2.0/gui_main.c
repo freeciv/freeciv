@@ -474,6 +474,14 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
         key_center_capital();
         break;
 
+      case GDK_KP_Divide:
+        key_quickselect(SELECT_SEA);
+        break;
+
+      case GDK_KP_Multiply:
+        key_quickselect(SELECT_LAND);
+        break;
+
       default:
         return FALSE;
     }

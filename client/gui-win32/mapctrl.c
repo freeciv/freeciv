@@ -238,7 +238,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
 				    LOWORD(lParam), HIWORD(lParam))) {
       popit(LOWORD(lParam),HIWORD(lParam),xtile,ytile);
     } else {
-      action_button_pressed(LOWORD(lParam), HIWORD(lParam));
+      action_button_pressed(LOWORD(lParam), HIWORD(lParam), SELECT_POPUP);
     }
     break;
   case WM_MBUTTONDOWN:

@@ -73,6 +73,8 @@ bool non_ai_unit_focus;
 
 static struct unit *find_best_focus_candidate(bool accept_current);
 static void store_focus(void);
+static struct unit *quickselect(struct tile *ptile,
+                        enum quickselect_type qtype);
 
 /**************************************************************************
 ...
@@ -1239,11 +1241,12 @@ void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried)
 /**************************************************************************
  Handles everything when the user clicked a tile
 **************************************************************************/
-void do_map_click(int xtile, int ytile)
+void do_map_click(int xtile, int ytile, enum quickselect_type qtype)
 {
   struct city *pcity = map_get_city(xtile, ytile);
   struct tile *ptile = map_get_tile(xtile, ytile);
   struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
+  bool maybe_goto = FALSE;
 
   if (punit && hover_state != HOVER_NONE) {
     switch (hover_state) {
@@ -1275,26 +1278,38 @@ void do_map_click(int xtile, int ytile)
     }
     set_hover_state(NULL, HOVER_NONE);
     update_unit_info_label(punit);
-    return;
   }
-  
-  if (pcity && game.player_idx==pcity->owner) {
+
+  /* Bypass stack or city popup if quickselect is specified. */
+  else if (qtype) {
+    struct unit *qunit = quickselect(ptile, qtype);
+    if (qunit) {
+      set_unit_focus_and_select(qunit);
+      maybe_goto = keyboardless_goto;
+    }
+  }
+  /* Otherwise use popups. */
+  else if (pcity && game.player_idx==pcity->owner) {
     popup_city_dialog(pcity, FALSE);
-    return;
   }
-  
-  if (unit_list_size(&ptile->units) == 1
+  else if (unit_list_size(&ptile->units) == 0 && !pcity
+           && punit_focus) {
+    maybe_goto = keyboardless_goto;
+  }
+  else if (unit_list_size(&ptile->units) == 1
       && !unit_list_get(&ptile->units, 0)->occupy) {
     struct unit *punit=unit_list_get(&ptile->units, 0);
     if(game.player_idx==punit->owner) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+        maybe_goto = keyboardless_goto;
 	set_unit_focus_and_select(punit);
       }
     } else if (pcity) {
       /* Don't hide the unit in the city. */
       popup_unit_select_dialog(ptile);
     }
-  } else if(unit_list_size(&ptile->units) > 0) {
+  }
+  else if(unit_list_size(&ptile->units) > 0) {
     /* The stack list is always popped up, even if it includes enemy units.
      * If the server doesn't want the player to know about them it shouldn't
      * tell him!  The previous behavior would only pop up the stack if you
@@ -1303,6 +1318,130 @@ void do_map_click(int xtile, int ytile)
      * the tile (inconsistent). */
     popup_unit_select_dialog(ptile);
   }
+
+  /* See mapctrl_common.c */
+  keyboardless_goto_start_x = maybe_goto ? xtile : -1;
+  keyboardless_goto_start_y = maybe_goto ? ytile : -1;
+  keyboardless_goto_button_down = maybe_goto;
+  keyboardless_goto_active = FALSE;
+}
+
+/**************************************************************************
+ Quickselecting a unit is normally done with <control> left, right click,
+ or keypad / * for the current tile. Bypassing the stack popup is quite
+ convenient, and can be tactically important in furious multiplayer games.
+**************************************************************************/
+static struct unit *quickselect(struct tile *ptile,
+                          enum quickselect_type qtype)
+{
+  int listsize = unit_list_size(&ptile->units);
+  struct unit *panytransporter = NULL,
+              *panymovesea  = NULL, *panysea  = NULL,
+              *panymoveland = NULL, *panyland = NULL,
+              *panymoveunit = NULL, *panyunit = NULL;
+
+  assert(qtype > SELECT_POPUP);
+
+  if (listsize == 0) {
+    return NULL;
+  } else if (listsize == 1) {
+    struct unit *punit = unit_list_get(&ptile->units, 0);
+    return (game.player_idx == punit->owner) ? punit : NULL;
+  }
+
+  /*  Quickselect priorities. Units with moves left
+   *  before exhausted. Focus unit is excluded.
+   *
+   *    SEA:  Transporter
+   *          Sea unit
+   *          Any unit
+   *
+   *    LAND: Military land unit
+   *          Non-combatant
+   *          Sea unit
+   *          Any unit
+   */
+
+    unit_list_iterate(ptile->units, punit)  {
+  if(game.player_idx != punit->owner || punit == punit_focus) {
+    continue;
+  }
+  if (qtype == SELECT_SEA) {
+    /* Transporter. */
+    if (get_transporter_capacity(punit)) {
+      if (punit->moves_left > 0) {
+        return punit;
+      } else if (!panytransporter) {
+        panytransporter = punit;
+      }
+    }
+    /* Any sea, pref. moves left. */
+    else if (is_sailing_unit(punit)) {
+      if (punit->moves_left > 0) {
+        if (!panymovesea) {
+          panymovesea = punit;
+        }
+      } else if (!panysea) {
+          panysea = punit;
+      }
+    }
+  } else if (qtype == SELECT_LAND) {
+    if (is_ground_unit(punit))  {
+      if (punit->moves_left > 0) {
+        if (is_military_unit(punit)) {
+          return punit;
+        } else if (!panymoveland) {
+            panymoveland = punit;
+        }
+      } else if (!panyland) {
+        panyland = punit;
+      }
+    }
+    else if (is_sailing_unit(punit)) {
+      if (punit->moves_left > 0) {
+        panymovesea = punit;
+      } else {
+        panysea = punit;
+      }
+    }
+  }
+  if (punit->moves_left > 0 && !panymoveunit) {
+    panymoveunit = punit;
+  }
+  if (!panyunit) {
+    panyunit = punit;
+  }
+    } unit_list_iterate_end;
+
+  if (qtype == SELECT_SEA) {
+    if (panytransporter) {
+      return panytransporter;
+    } else if (panymovesea) {
+      return panymovesea;
+    } else if (panysea) {
+      return panysea;
+    } else if (panymoveunit) {
+      return panymoveunit;
+    } else if (panyunit) {
+      return panyunit;
+    }
+  }
+  else if (qtype == SELECT_LAND) {
+    if (panymoveland) {
+      return panymoveland;
+    } else if (panyland) {
+      return panyland;
+    } else if (panymovesea) {
+      return panymovesea;
+    } else if (panysea) {
+      return panysea;
+    } else if (panymoveunit) {
+      return panymoveunit;
+    } else if (panyunit) {
+      return panyunit;
+    }
+  }
+  return NULL;
 }
 
 /**************************************************************************
@@ -1373,7 +1512,7 @@ void do_unit_patrol_to(struct unit *punit, int x, int y)
 }
  
 /**************************************************************************
-...
+ The 'Escape' key.
 **************************************************************************/
 void key_cancel_action(void)
 {
@@ -1389,8 +1528,12 @@ void key_cancel_action(void)
     struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
 
     set_hover_state(NULL, HOVER_NONE);
-
     update_unit_info_label(punit);
+
+    keyboardless_goto_button_down = FALSE;
+    keyboardless_goto_active = FALSE;
+    keyboardless_goto_start_x =
+    keyboardless_goto_start_y = -1;
   }
 }
 
@@ -1888,4 +2031,18 @@ void key_focus_unit_toggle(void)
 void key_fog_of_war_toggle(void)
 {
   request_toggle_fog_of_war();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_quickselect(enum quickselect_type qtype)
+{
+  struct unit *punit;
+
+  if(punit_focus) {
+    punit = quickselect(map_get_tile(punit_focus->x, punit_focus->y),
+                        qtype);
+    set_unit_focus_and_select(punit);
+  }
 }

@@ -205,11 +205,15 @@ void mapctrl_btn_mapcanvas(XEvent *event)
     return;
   }
 
-  if (ev->button == Button1) {
-    action_button_pressed(ev->x, ev->y);
-  } else if (canvas_to_map_pos(&x, &y, ev->x, ev->y)
-	     && (ev->button == Button2 || ev->state & ControlMask)) {
+  if (ev->button == Button1 && (ev->state & ControlMask)) {
+    action_button_pressed(ev->x, ev->y, SELECT_SEA);
+  } else if (ev->button == Button1) {
+    action_button_pressed(ev->x, ev->y, SELECT_POPUP);
+  } else if (ev->button == Button2 &&
+             canvas_to_map_pos(&x, &y, ev->x, ev->y)) {
     popit(ev->x, ev->y, x, y);
+  } else if (ev->button == Button3 && (ev->state & ControlMask)) {
+    action_button_pressed(ev->x, ev->y, SELECT_LAND);
   } else if (ev->button == Button3) {
     recenter_button_pressed(ev->x, ev->y);
   }

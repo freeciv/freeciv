@@ -161,10 +161,14 @@ void set_turn_done_button_state(bool state)
 }
 
 /**************************************************************************
- Handle 'Right Mouse Button released'.
+ Handle 'Mouse button released'. Because of the quickselect feature,
+ the release of both left and right mousebutton can launch the goto.
 **************************************************************************/
 gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
+  if (ev->button == 1 || ev->button == 3) {
+    release_goto_button(ev->x, ev->y);
+  }
   if(ev->button == 3 && (rbutton_down || hover_state != HOVER_NONE))  {
     release_right_button(ev->x, ev->y);
   }
@@ -200,6 +204,10 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     if ((ev->state & GDK_SHIFT_MASK) && (ev->state & GDK_CONTROL_MASK)) {
       adjust_workers_button_pressed(ev->x, ev->y);
     }
+    /* <CONTROL> + LMB : Quickselect a sea unit. */
+    else if (ev->state & GDK_CONTROL_MASK) {
+      action_button_pressed(ev->x, ev->y, SELECT_SEA);
+    }
     /* <SHIFT> + LMB: Copy Production. */
     else if(is_real && (ev->state & GDK_SHIFT_MASK)) {
       clipboard_copy_production(xtile, ytile);
@@ -212,9 +220,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     }
     /* Plain LMB click. */
     else {
-      if (is_real) {
-        action_button_pressed(ev->x, ev->y);
-      }
+      action_button_pressed(ev->x, ev->y, SELECT_POPUP);
     }
     break;
 
@@ -232,8 +238,12 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
   case 3: /* RIGHT mouse button */
 
+    /* <CONTROL> + RMB : Quickselect a land unit. */
+    if (ev->state & GDK_CONTROL_MASK) {
+      action_button_pressed(ev->x, ev->y, SELECT_LAND);
+    }
     /* <SHIFT> + RMB: Paste Production. */
-    if(ev->state & GDK_SHIFT_MASK) {
+    else if(ev->state & GDK_SHIFT_MASK) {
       clipboard_paste_production(pcity);
       cancel_tile_hiliting();
     }
@@ -308,6 +318,9 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
   update_line(ev->x, ev->y);
   update_rect_at_mouse_pos();
+  if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
+    maybe_activate_keyboardless_goto(ev->x, ev->y);
+  }
   return TRUE;
 }
 

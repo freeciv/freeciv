@@ -56,6 +56,12 @@ bool tiles_hilited_cities = FALSE;
 static int clipboard = -1;
 static bool clipboard_is_unit;
 
+/* Goto with drag and drop. */
+bool keyboardless_goto_button_down = FALSE;
+bool keyboardless_goto_active = FALSE;
+int keyboardless_goto_start_x = -1,
+    keyboardless_goto_start_y = -1;
+
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
 
@@ -381,6 +387,44 @@ void upgrade_canvas_clipboard(void)
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+void release_goto_button(int canvas_x, int canvas_y)
+{
+  int tile_x, tile_y;
+
+  if (keyboardless_goto_active && hover_state == HOVER_GOTO &&
+      canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y)) {
+    struct unit *punit =
+        player_find_unit_by_id(game.player_ptr, hover_unit);
+    do_unit_goto(tile_x, tile_y);
+    set_hover_state(NULL, HOVER_NONE);
+    update_unit_info_label(punit);
+  }
+  keyboardless_goto_active = FALSE;
+  keyboardless_goto_button_down = FALSE;
+  keyboardless_goto_start_x = keyboardless_goto_start_y = -1;
+}
+
+/**************************************************************************
+ The goto hover state is only activated when the mouse pointer moves
+ beyond the tile where the button was depressed, to avoid mouse typos.
+**************************************************************************/
+void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
+{
+  int tile_x, tile_y;
+
+  if (get_unit_in_focus() &&
+      canvas_to_map_pos(&tile_x, &tile_y, canvas_x, canvas_y) &&
+      !same_pos(keyboardless_goto_start_x,
+                keyboardless_goto_start_y,
+                tile_x, tile_y)) {
+    keyboardless_goto_active = TRUE;
+    request_unit_goto();
+  }
+}
+
+/**************************************************************************
  Return TRUE iff the turn done button is enabled.
 **************************************************************************/
 bool get_turn_done_button_state()
@@ -420,7 +464,8 @@ void scroll_mapview(enum direction8 gui_dir)
   left-click) is pressed.  For more sophisticated user control use (or
   write) a different xxx_button_pressed function.
 **************************************************************************/
-void action_button_pressed(int canvas_x, int canvas_y)
+void action_button_pressed(int canvas_x, int canvas_y,
+                enum quickselect_type qtype)
 {
   int map_x, map_y;
 
@@ -428,7 +473,7 @@ void action_button_pressed(int canvas_x, int canvas_y)
     /* FIXME: Some actions here will need to check can_client_issue_orders.
      * But all we can check is the lowest common requirement. */
     if (canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y)) {
-      do_map_click(map_x, map_y);
+      do_map_click(map_x, map_y, qtype);
     }
   }
 }

@@ -1888,7 +1888,7 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
 	}		      
       }
     } else {
-      action_button_pressed(pButtonEvent->x, pButtonEvent->y);
+      action_button_pressed(pButtonEvent->x, pButtonEvent->y, SELECT_POPUP);
     }
   } else {
     if (pButtonEvent->button == SDL_BUTTON_MIDDLE) {

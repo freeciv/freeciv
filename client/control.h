@@ -24,6 +24,11 @@ enum cursor_hover_state {
   HOVER_PATROL
 };
 
+/* Selecting unit from a stack without popup. */
+enum quickselect_type {
+  SELECT_POPUP = 0, SELECT_SEA, SELECT_LAND
+};
+
 extern int hover_unit; /* unit hover_state applies to */
 extern enum cursor_hover_state hover_state;
 extern bool draw_goto_line;
@@ -34,7 +39,7 @@ void do_unit_goto(int x, int y);
 void do_unit_nuke(struct unit *punit);
 void do_unit_paradrop_to(struct unit *punit, int x, int y);
 void do_unit_patrol_to(struct unit *punit, int x, int y);
-void do_map_click(int xtile, int ytile);
+void do_map_click(int xtile, int ytile, enum quickselect_type qtype);
 
 void set_hover_state(struct unit *punit, enum cursor_hover_state state);
 void request_center_focus_unit(void);
@@ -119,6 +124,7 @@ void key_fog_of_war_toggle(void);
 void key_end_turn(void);
 void key_map_grid_toggle(void);
 void key_map_borders_toggle(void);
+void key_quickselect(enum quickselect_type qtype);
 void key_recall_previous_focus_unit(void);
 void key_unit_move(enum direction8 gui_dir);
 void key_unit_airbase(void);
