@@ -484,6 +484,11 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   struct city *incity, *nearcity1, *nearcity2;
   incity = map_get_city(pdefender->x, pdefender->y);
   
+  freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
+	  pplayer->name, unit_types[punit->type].name, 
+	  game.players[pdefender->owner].name, 
+	  unit_types[pdefender->type].name);
+
   if(unit_flag(punit->type, F_NUCLEAR)) {
     struct packet_nuke_tile packet;
     
@@ -543,6 +548,11 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   
   if(punit==plooser) {
     /* The attacker lost */
+    freelog(LOG_DEBUG, "Attacker lost: %s's %s against %s's %s.",
+	    pplayer->name, unit_types[punit->type].name, 
+	    game.players[pdefender->owner].name, 
+	    unit_types[pdefender->type].name);
+
     notify_player_ex(get_player(pwinner->owner),
 		     pwinner->x, pwinner->y, E_UNIT_WIN, 
 		     "Game: Your %s%s survived the pathetic attack"
@@ -565,6 +575,11 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   }
   else {
     /* The defender lost, the attacker punit lives! */
+    freelog(LOG_DEBUG, "Defender lost: %s's %s against %s's %s.",
+	    pplayer->name, unit_types[punit->type].name, 
+	    game.players[pdefender->owner].name, 
+	    unit_types[pdefender->type].name);
+
     punit->moved=1; /* We moved */
 
     notify_player_ex(get_player(pwinner->owner), 
