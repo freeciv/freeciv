@@ -838,8 +838,8 @@ void ai_eval_buildings(struct city *pcity)
     }
 
     if (values[id] != 0) 
-      freelog(LOG_DEBUG, "ai_eval_buildings: %s wants %s with desire %d.",
-        pcity->name, get_improvement_name(id), pcity->ai.building_want[id]);
+      CITY_LOG(LOG_DEBUG, pcity, "ai_eval_buildings: wants %s with desire %d.",
+               get_improvement_name(id), pcity->ai.building_want[id]);
   } impr_type_iterate_end;
 
   return;
@@ -971,9 +971,10 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
     /* Allowing multiple settlers per city now. I think this is correct.
      * -- Syela */
-    
+
     if (want > 0) {
-      CITY_LOG(LOG_DEBUG, pcity, "desires settlers with passion %d", want);
+      CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion %d", 
+               want);
       choice->want = want;
       choice->type = CT_NONMIL;
       ai_choose_role_unit(pplayer, pcity, choice, F_SETTLERS, want);
@@ -999,7 +1000,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       
     } else if (want < -choice->want) {
       /* We need boats to colonize! */
-      CITY_LOG(LOG_DEBUG, pcity, "desires settlers with passion %d and asks"
+      CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d and asks"
 	       " for a boat", want);
       choice->want = 0 - want;
       choice->type = CT_NONMIL;
