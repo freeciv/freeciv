@@ -3,10 +3,18 @@
 name=_("Polish")
 plural=_("?plural:Polish")
 class=_("Modern")
-leader="Mieszko I", "Wladyslaw Lokietek", "Kazimierz Wielki", "Jadwiga",
-       "Wladyslaw Jagiello", "Stefan Batory", "Jan III Sobieski",
-       "Stanislaw Poniatowski", "Kosciuszko", "Pilsudski"
-leader_sex="Male", "Male", "Male", "Female",
+leader="Mieszko I",
+       "Bolesław Chrobry",
+       "Władysław Łokietek", 
+       "Kazimierz Wielki",
+       "Jadwiga",
+       "Władyslaw Jagiełło",
+       "Stefan Batory",
+       "Jan III Sobieski",
+       "Stanisław Poniatowski",
+       "Tadeusz Kościuszko",
+       "Józef Piłsudski"
+leader_sex="Male", "Male", "Male", "Male", "Female",
            "Male", "Male", "Male", "Male", "Male", "Male"
 flag="f.poland"
 flag_alt = "-"
@@ -17,28 +25,121 @@ ruler_titles = { "government",      "male_title",      "female_title"
                  "Fundamentalism",  _("Prymas"),       _("Prymas")
                  "Monarchy",        _("King"),         _("Queen")
       "Communism",       _("Pierwszy Sekretarz"),      _("Pierwszy Sekretarz")
-                 "Republic",        _("Prezydent"),    _("Prezydent")
-                 "Democracy",       _("Prezydent"),    _("Prezydent")
+                 "Republic",        _("President"),    _("President")
+                 "Democracy",       _("President"),    _("President")
                }
 
 init_techs=""
 init_buildings=""
-tech_goals = "The Republic", "Trade", "Engineering", "Monotheism",
-             "Gunpowder", "Railroad"
+tech_goals = "The Republic",
+             "Trade",
+             "Engineering",
+             "Monotheism",
+             "Gunpowder",
+             "Railroad"
 wonder="Copernicus' Observatory"
 government="Democracy"
-civilwar_nations = "lithuanian", "silesian"
+civilwar_nations = "lithuanian", "silesian", "ukrainian"
 
 cities =
- "Gniezno", "Kraków", "Warszawa (river)", "Wroclaw", "Poznan", 
- "Gdansk (ocean)", "Szczecin", "Lódz", "Torun", "Bydgoszcz", "Lublin", 
- "Czestochowa", "Olsztyn", "Wloclawek", "Radom", "Kolobrzeg (ocean)", 
- "Kielce", "Bialystok", "Plock", "Rzeszów", "Tarnów", "Katowice", 
- "Bielsko-Biala", "Sandomierz", "Legnica", "Walbrzych", "Gdynia", 
- "Koszalin", "Slupsk", "Piotrków", "Konin", "Kalisz", "Krosno", 
- "Przemysl", "Tarnobrzeg", "Zamosc", "Chelm", "Suwalki", "Elblag", 
- "Zakopane (mountains)", "Oswiecim", "Glogow", "Jawor", 
- "Zielona Gora (hills, forest)",  "Jelenia Gora (hills)",
- "Boleslawiec", "Gorzow", "Hel", "Puck","Opole", "Kolo", 
- "Wisla (mountains, river)", "Klodzko"
-
+; Te bedą pierwsze, bo tak pasuje
+	"Kraków",
+	"Gniezno",
+; Obecne miasta wojewódzkie (2004)
+	"Warszawa (river)",
+	"Szczecin",
+	"Gdańsk",
+	"Białystok (hills)",
+	"Toruń (river)",
+	"Olsztyn",
+	"Bydgoszcz",
+	"Wrocław",
+	"Gorzów",
+	"Zielona Góra (hills, forest)",
+	"Poznań",
+	"Łódz",
+	"Lublin",
+	"Kielce",
+	"Opole",
+	"Katowice",
+	"Rzeszów",
+; Byłe miasta wojewódzkie
+	"Koszalin",
+	"Słupsk",
+	"Elbląg",
+	"Jelenia Góra (hills)",
+	"Piła",
+	"Włocławek",
+	"Płock",
+	"Ciechanów",
+	"Łomża",
+	"Konin",
+	"Siedlce",
+	"Biała Podlaska (forest)",
+	"Leszno",
+	"Kalisz",
+	"Sieradz",
+	"Skierniewice",
+	"Piotrków Trybunalski",
+	"Radom",
+	"Chełm",
+	"Legnica",
+	"Suwałki",
+	"Wałbrzych",
+	"Częstochowa",
+	"Tarnobrzeg",
+	"Tarnów",
+	"Zamość",
+	"Przemyśl",
+	"Bielsko-Biała",
+	"Nowy Sącz",
+	"Krosno",
+; Inne powyżej 100 tys
+	"Gdynia",
+	"Grudziądz",
+	"Bytom",
+	"Zabrze",
+	"Gliwice",
+	"Ruda Śląska",
+	"Rybnik",
+	"Tychy",
+	"Chorzów",
+	"Sosnowiec",
+	"Jastrzębie Zdrój",
+	"Dąbrowa Górnicza",
+; Inne ważne z różnych względów
+	"Lwów",
+	"Wilno",
+	"Kołobrzeg",
+	"Sopot (ocean)",
+	"Wolin",
+	"Świnoujscie (ocean)",
+	"Zakopane (mountains)",
+	"Stargard",
+	"Malbork",
+	"Ełk",
+	"Sochaczew",
+	"Łowicz",
+	"Września",
+	"Inowroclaw",
+	"Kruszwica",
+	"Głogów",
+	"Kłodzko",
+	"Sandomierz",
+	"Wiślica (river)",
+	"Łęczyca",
+	"Chełmno",
+	"Brzeg (river)",
+	"Wieluń",
+	"Starachowice",
+	"Skarżysko Kamienna",
+	"Ostrowiec Świętokrzyski",
+	"Stalowa Wola",
+	"Oświęcim",
+	"Wieliczka",
+	"Sanok",
+	"Jasło",
+	"Biłgoraj",
+	"Puławy",
+	"Cieszyn",
+	"Wisła (river)"
