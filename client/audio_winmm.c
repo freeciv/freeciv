@@ -24,7 +24,6 @@
 #include <mmsystem.h>
 
 #include "fcintl.h"
-#include "log.h"
 #include "support.h"
 
 #include "audio.h"
