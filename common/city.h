@@ -78,6 +78,8 @@ struct ai_city {
   int ai_role;
   /* building desirabilities - easiest to handle them here -- Syela */
   int building_want[B_LAST]; /* not sure these will always be < 256 */
+  int danger; /* eight miles better than calculating it twice */
+  int trade_want; /* saves a zillion calculations */
 };
 
 struct city {
@@ -99,6 +101,7 @@ struct city {
   int food_prod, food_surplus;
   int shield_prod, shield_surplus;
   int trade_prod, corruption;
+  int shield_bonus, tax_bonus, science_bonus; /* more CPU savings! */
 
   /* the totals */
   int luxury_total, tax_total, science_total;

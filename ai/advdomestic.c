@@ -15,7 +15,13 @@
 #include <game.h>
 #include <unit.h>
 #include <citytools.h>
-#include <advmilitary.h>
+
+struct move_cost_map {
+  unsigned char cost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+  struct city *warcity; /* so we know what we're dealing with here */
+};
+
+extern struct move_cost_map warmap; /* useful for caravans, I assure you -- Syela */
 
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, where 
@@ -24,35 +30,33 @@
     type = 1 means unit, type = 0 means building
 ***********************************************************************/
 
-extern struct move_cost_map {
-  unsigned char cost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-} warmap; /* useful for caravans, I assure you -- Syela */
-
 int ai_best_tile_value(struct city *pcity)
 {
-  int x, y, bx, by, food;
+  int x, y, bx, by, food, best, cur;
 
-  food = (pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity);
+/* food = (pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity); */
   food = 0; /* simply works better as far as I can tell */
   do {
     bx=0;
     by=0;
+    best = 0;
     city_map_iterate(x, y) {
       if(can_place_worker_here(pcity, x, y)) {
          if(bx==0 && by==0) {
             bx=x;
             by=y;
           } else {
-            if (better_tile(pcity, x, y, bx, by, food, 0)) {
+            if ((cur = city_tile_value(pcity, x, y, food, 0)) > best) {
               bx=x;
               by=y;
+              best = cur;
             }
           }
         }
     }
   } while(0);
   if (bx || by)
-     return(city_tile_value(pcity, bx, by, food, 0));
+     return(best);
   return 0;
 }
 
@@ -123,7 +127,7 @@ void ai_eval_buildings(struct city *pcity)
   int food_weighting[3] = { 15, 14, 13 };
   
   a = get_race(city_owner(pcity))->attack;
-  t = 8; /* trade_weighting */
+  t = pcity->ai.trade_want; /* trade_weighting */
   sci = (pcity->trade_prod * plr->economic.science + 50) / 100;
   tax = pcity->trade_prod - sci;
   sci *= t;
@@ -187,17 +191,18 @@ void ai_eval_buildings(struct city *pcity)
     values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
 
   def = assess_defense(pcity); /* not in the if so B_WALL can check them */
-  danger = assess_danger(pcity) - def;
+/* old wall code depended on danger, was a CPU hog and didn't really work anyway */
+/* it was so stupid, AI wouldn't start building walls until it was in danger */
+/* and it would have no chance to finish them before it was too late */
 
-  if (can_build_improvement(pcity, B_CITY) && !built_elsewhere(pcity, B_WALL)) {
-    if (def && danger > 0) values[B_CITY] = danger * 100 / def;
-  } /* this may be incorrect but it's worth a try; the 100 might be better as 80 */
+  if (can_build_improvement(pcity, B_CITY) && !built_elsewhere(pcity, B_WALL))
+    values[B_CITY] = 40; /* WAG */
 
   if (can_build_improvement(pcity, B_COLOSSEUM))
     values[B_COLOSSEUM] = building_value(get_colosseum_power(pcity), pcity, val);
   
   if (can_build_improvement(pcity, B_COURTHOUSE)) {
-    values[B_COURTHOUSE] = city_corruption(pcity, pcity->trade_prod) * t / 2;
+    values[B_COURTHOUSE] = pcity->corruption * t / 2;
     if (gov == G_DEMOCRACY) values[B_COLOSSEUM] += building_value(1, pcity, val);
   }
   
@@ -283,7 +288,7 @@ void ai_eval_buildings(struct city *pcity)
                     (game.nplayers - 2) / (game.nplayers); /* guessing */
 
       if (i == B_WALL)
-        if (def && danger > 0) values[B_WALL] = danger * 100 / def;
+        values[B_WALL] = 40; /* WAG */
 
       if (i == B_HANGING) /* will add the global effect to this. */
         values[i] = building_value(3, pcity, val) -

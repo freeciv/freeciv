@@ -952,9 +952,14 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     unit_list_init(&pcity->units_supported);
 
     p=secfile_lookup_str(file, "player%d.c%d.workers", plrno, i);
-    for(y=0; y<CITY_MAP_SIZE; y++)
-      for(x=0; x<CITY_MAP_SIZE; x++)
-	pcity->city_map[x][y]=(*p++=='1') ? C_TILE_WORKER : C_TILE_EMPTY;
+    for(y=0; y<CITY_MAP_SIZE; y++) {
+      for(x=0; x<CITY_MAP_SIZE; x++) {
+/* sorry, I have to change this to make ->worked work -- Syela */
+        if (*p++=='1') set_worker_city(pcity, x, y, C_TILE_WORKER);
+        else set_worker_city(pcity, x, y, C_TILE_EMPTY);
+      }
+    }
+/* was	pcity->city_map[x][y]=(*p++=='1') ? C_TILE_WORKER : C_TILE_EMPTY; */
 
     p=secfile_lookup_str(file, "player%d.c%d.improvements", plrno, i);
     
@@ -995,7 +1000,9 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
     punit->moves_left=secfile_lookup_int(file, "player%d.u%d.moves", plrno, i);
     punit->fuel= secfile_lookup_int(file, "player%d.u%d.fuel", plrno, i);
-    punit->activity=secfile_lookup_int(file, "player%d.u%d.activity",plrno, i);
+    set_unit_activity(punit, secfile_lookup_int(file, "player%d.u%d.activity",plrno, i));
+/* need to do this to assign/deassign settlers correctly -- Syela */
+/* was punit->activity=secfile_lookup_int(file, "player%d.u%d.activity",plrno, i); */
     punit->activity_count=secfile_lookup_int(file, 
 					     "player%d.u%d.activity_count",
 					     plrno, i);

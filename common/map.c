@@ -45,7 +45,7 @@ struct isledata islands[100];
 
 struct tile void_tile={
   T_UNKNOWN, S_NONE, 0, 0, 0, 
-  { {0}}
+  { {0}}, 0, 0, "abcdefg"
 };
 
 
@@ -356,8 +356,10 @@ void map_irrigate_tile(int x, int y)
   if(now==result) {
     map_set_special(x, y, S_IRRIGATION);
   }
-  else if(result!=T_LAST)
+  else if(result!=T_LAST) {
     map_set_terrain(x, y, result);
+    reset_move_costs(x, y);
+  }
   map_clear_special(x, y, S_MINE);
 }
 
@@ -375,9 +377,82 @@ void map_mine_tile(int x, int y)
   
   if(now==result) 
     map_set_special(x, y, S_MINE);
-  else if(result!=T_LAST) 
+  else if(result!=T_LAST) {
     map_set_terrain(x, y, result);
+    reset_move_costs(x, y);
+  }
   map_clear_special(x,y, S_IRRIGATION);
+}
+
+void reset_move_costs(int x, int y)
+{
+  int c, i, j, k, xx[3], yy[3];
+  int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int maxcost = 72; /* should be big enough without being TOO big */
+  struct tile *tile0, *tile1;
+  
+  tile0 = map_get_tile(x, y);
+  if((xx[2]=x+1)==map.xsize) xx[2]=0;
+  if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
+  xx[1] = x;
+  yy[0] = y - 1;
+  yy[1] = y; /* if these are out of range, map_get_tile will complain */
+  yy[2] = y + 1;
+
+  for (k = 0; k < 8; k++) {
+    i = ii[k]; j = jj[k]; /* saves CPU cycles? */
+    tile1 = map_get_tile(xx[i], yy[j]);
+    if (tile1->terrain == T_OCEAN || tile1->terrain == T_UNKNOWN) c = maxcost;
+    else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
+    else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
+    else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
+    else c = get_tile_type(tile1->terrain)->movement_cost*3;
+    tile0->move_cost[k] = c;
+  } /* next k */
+/* reverse!  This is not optimized, and hopefully not obfuscated either -- Syela */
+  tile1 = tile0;
+  for (k = 0; k < 8; k++) {
+    i = ii[k]; j = jj[k]; /* saves CPU cycles? */
+    tile0 = map_get_tile(xx[i], yy[j]);
+    if (tile1->terrain == T_OCEAN || tile1->terrain == T_UNKNOWN) c = maxcost;
+    else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
+    else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
+    else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
+    else c = get_tile_type(tile1->terrain)->movement_cost*3;
+    tile0->move_cost[7 - k] = c; /* this might muck with void_tile, but who cares? */
+  } /* next k */
+}
+
+void initialize_move_costs(void)
+{
+  int x, y, c, i, j, k, xx[3], yy[3];
+  int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int maxcost = 72; /* should be big enough without being TOO big */
+  struct tile *tile0, *tile1;
+
+  for (x = 0; x < map.xsize; x++) {
+    for (y = 0; y < map.ysize; y++) {
+      tile0 = map_get_tile(x, y);
+      if((xx[2]=x+1)==map.xsize) xx[2]=0;
+      if((xx[0]=x-1)==-1) xx[0]=map.xsize-1;
+      xx[1] = x;
+      yy[0] = y - 1;
+      yy[1] = y; /* if these are out of range, map_get_tile will complain */
+      yy[2] = y + 1;
+      for (k = 0; k < 8; k++) {
+        i = ii[k]; j = jj[k]; /* saves CPU cycles? */
+        tile1 = map_get_tile(xx[i], yy[j]);
+        if (tile1->terrain == T_OCEAN || tile1->terrain == T_UNKNOWN) c = maxcost;
+        else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
+        else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
+        else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
+        else c = get_tile_type(tile1->terrain)->movement_cost*3;
+        tile0->move_cost[k] = c;
+      } /* next k */
+    } /* next y */
+  } /* next x */
 }
 
 /***************************************************************
@@ -437,6 +512,8 @@ void tile_init(struct tile *ptile)
   ptile->known=0;
   ptile->city_id=0;
   unit_list_init(&ptile->units);
+  ptile->worked = -1; /* indicates player # or -1 if not worked */
+  ptile->assigned = 0; /* bitvector */
 }
 
 
@@ -446,7 +523,7 @@ void tile_init(struct tile *ptile)
 struct tile *map_get_tile(int x, int y)
 {
   if(y<0 || y>=map.ysize)
-    return map.tiles+map.xsize*map.ysize; /* fix by Syela */
+    return &void_tile; /* accurate fix by Syela */
   else
     return map.tiles+map_adjust_x(x)+y*map.xsize;
 }

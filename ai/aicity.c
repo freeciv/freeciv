@@ -116,7 +116,6 @@ void ai_manage_buildings(struct player *pplayer)
     pcity->ai.building_want[B_PYRAMIDS] = values[B_PYRAMIDS];
     pcity->ai.building_want[B_SETI] = values[B_SETI];
     pcity->ai.building_want[B_SUNTZU] = values[B_SUNTZU];
-    pcity->ai.building_want[B_WALL] = values[B_WALL];
     pcity->ai.building_want[B_WOMENS] = values[B_WOMENS];
   city_list_iterate_end;
 }

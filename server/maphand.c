@@ -42,6 +42,7 @@ void global_warming(int effect)
 	case T_FOREST:
 	  effect--;
 	  map_set_terrain(x, y, T_JUNGLE);
+          reset_move_costs(x, y);
           relight_square_if_known(0, x, y);
 	  break;
 	case T_DESERT:
@@ -49,6 +50,7 @@ void global_warming(int effect)
 	case T_GRASSLAND:
 	  effect--;
 	  map_set_terrain(x, y, T_SWAMP);
+          reset_move_costs(x, y);
           relight_square_if_known(0, x, y);
 	  break;
 	default:
@@ -61,6 +63,7 @@ void global_warming(int effect)
 	case T_FOREST:
 	  effect--;
 	  map_set_terrain(x, y, T_DESERT);
+          reset_move_costs(x, y);
           relight_square_if_known(0, x, y);
 	  break;
 	default:

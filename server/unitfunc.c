@@ -1078,17 +1078,21 @@ AI settlers improving enemy cities. */
 	  v=v2; gx=x; gy=y;
 	}
       } /* end if we are a legal destination */
-    } /* end city map iterate */
-  city_list_iterate_end;
-  if (same_pos(gx, gy, punit->x, punit->y)) {
-    set_unit_activity(punit, t);
-    send_unit_info(0, punit, 0);
-    return;
+     } /* end city map iterate */
+   city_list_iterate_end;
+/* ridiculous code is preserved above the #else for your amusement -- Syela */
+   if (gx!=-1 && gy!=-1) 
+     auto_settler_do_goto(pplayer, punit,gx, gy);
+   else 
+     punit->ai.control=0;
+
+  if (punit->ai.control && punit->moves_left && punit->activity == ACTIVITY_IDLE) {
+    if (same_pos(gx, gy, punit->x, punit->y)) {
+      set_unit_activity(punit, t);
+      send_unit_info(0, punit, 0);
+      return;
+    }
   }
-  if (gx!=-1 && gy!=-1) 
-    auto_settler_do_goto(pplayer, punit,gx, gy);
-  else 
-    punit->ai.control=0;
 }
 #endif
 
@@ -1111,9 +1115,6 @@ void auto_settlers_player(struct player *pplayer)
 	 is_ground_unit(punit))
 	set_unit_activity(punit, ACTIVITY_IDLE);
       if (punit->activity == ACTIVITY_IDLE)
-	auto_settler_findwork(pplayer, punit);
-      if (punit->ai.control && punit->moves_left && punit->activity == ACTIVITY_IDLE) 
-	/* fix for the lost turn */ /* Isn't this a CPU waster? -- Syela */
 	auto_settler_findwork(pplayer, punit);
 /* printf("Has been processed.\n"); */
     }

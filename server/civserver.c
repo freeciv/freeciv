@@ -256,6 +256,8 @@ int main(int argc, char *argv[])
     for (i=0;i<game.nplayers;i++) /* if we don't, the AI gets really confused */
       civ_score(&game.players[i]);
   }
+
+  initialize_move_costs(); /* this may be the wrong place to do this */
   
   send_all_info(0);
 

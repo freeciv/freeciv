@@ -168,6 +168,11 @@ int get_colosseum_power(struct city *pcity)
 **************************************************************************/
 int is_worked_here(int x, int y)
 {
+  return (map_get_tile(x, y)->worked >= 0); /* saves at least 10% of runtime CPU usage! */
+}
+
+int old_is_worked_here(int x, int y)
+{
   struct player *pplayer;
   int my, i;
   int xx;
@@ -205,7 +210,7 @@ int can_place_worker_here(struct city *pcity, int x, int y)
 
 int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed)
 { /* by Syela, unifies best_tile, best_food_tile, worst_elvis_tile */
-  int a, f, s;
+  int a;
   int i, j, k;
   int shield_weighting[3] = { 11, 13, 15 };
   int food_weighting[3] = { 15, 14, 13 };
@@ -214,20 +219,20 @@ int city_tile_value(struct city *pcity, int x, int y, int foodneed, int prodneed
   plr = city_owner(pcity);
 
   a = get_race(plr)->attack;
-  s = pcity->size;
 
   i = food_weighting[a];
-  if (foodneed > 0) i *= 10; /* all else is secondary until we are fed */
-  else { i *= 4; i /= s; }
   i *= get_food_tile(x, y, pcity);
+  if (foodneed > 0) i *= 10; /* all else is secondary until we are fed */
+  else { i *= 4; i /= pcity->size; }
   
   j = get_shields_tile(x, y, pcity) * shield_weighting[a] *
-      city_shield_bonus(pcity) / 100;
-  if (prodneed > 0) j *= 10; /* trying to avoid non-support of units */
-  k = get_trade_tile(x, y, pcity) * (8 - city_corruption(pcity, 8)) *
+      city_shield_bonus(pcity);
+  if (prodneed > 0) j /= 10; /* trying to avoid non-support of units */
+  else j /= 100;
+  k = get_trade_tile(x, y, pcity) * pcity->ai.trade_want *
       (city_tax_bonus(pcity) * plr->economic.tax +
        city_science_bonus(pcity) * plr->economic.science +
-       100 * plr->economic.luxury) / 100 / 100;
+       100 * plr->economic.luxury) / 10000;
   return(i + j + k);
 }  
   
@@ -492,7 +497,7 @@ int city_corruption(struct city *pcity, int trade)
 }
   
 
-int city_shield_bonus(struct city *pcity)
+int set_city_shield_bonus(struct city *pcity)
 {
   int tmp = 0;
   if (city_got_building(pcity, B_FACTORY)) {
@@ -508,14 +513,19 @@ int city_shield_bonus(struct city *pcity)
       city_got_building(pcity,B_NUCLEAR))
     tmp *= 1.5;
 
+  pcity->shield_bonus = tmp + 100;
   return (tmp + 100);
+}
 
+int city_shield_bonus(struct city *pcity)
+{
+  return pcity->shield_bonus;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-int city_tax_bonus(struct city *pcity)
+int set_city_tax_bonus(struct city *pcity)
 {
   int tax_bonus = 100;
   if (city_got_building(pcity, B_MARKETPLACE)) {
@@ -526,13 +536,19 @@ int city_tax_bonus(struct city *pcity)
 	tax_bonus+=50;
     }
   }
+  pcity->tax_bonus = tax_bonus;
   return tax_bonus;
+}
+
+int city_tax_bonus(struct city *pcity)
+{
+  return pcity->tax_bonus;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-int city_science_bonus(struct city *pcity)
+int set_city_science_bonus(struct city *pcity)
 {
   int science_bonus = 100;
   if (city_got_building(pcity, B_LIBRARY)) {
@@ -547,7 +563,13 @@ int city_science_bonus(struct city *pcity)
     science_bonus+=50;
   if (city_affected_by_wonder(pcity, B_ISAAC))
     science_bonus+=100;
+  pcity->science_bonus = science_bonus;
   return science_bonus;
+}
+
+int city_science_bonus(struct city *pcity)
+{
+  return pcity->science_bonus;
 }
 
 int wants_to_be_bigger(struct city *pcity)

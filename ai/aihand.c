@@ -43,6 +43,7 @@
 #include <aiunit.h>
 #include <aicity.h>
 #include <aitech.h>
+#include <sys/time.h>
 /****************************************************************************
   A man builds a city
   With banks and cathedrals
@@ -117,7 +118,14 @@ void ai_do_first_activities(struct player *pplayer)
 
 void ai_do_last_activities(struct player *pplayer)
 {
+  int sec, usec;
+  struct timeval tv;
+  gettimeofday(&tv, 0);
+  sec = tv.tv_sec; usec = tv.tv_usec;
   ai_manage_cities(pplayer);
+  gettimeofday(&tv, 0);
+  printf("%s's cities consumed %d microseconds.\n", pplayer->name,
+      (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
 /* if I were upgrading units, which I'm not, I would do it here -- Syela */ 
 /* printf("Managing %s's taxes.\n", pplayer->name); */
   ai_manage_taxes(pplayer); 
@@ -127,6 +135,9 @@ void ai_do_last_activities(struct player *pplayer)
   ai_manage_tech(pplayer); 
   ai_after_work(pplayer);
 /* printf("Done with %s.\n", pplayer->name); */
+  gettimeofday(&tv, 0);
+  printf("%s's last_activities consumed %d microseconds.\n", pplayer->name,
+      (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
 }
 
 /**************************************************************************
@@ -223,10 +234,12 @@ void ai_manage_taxes(struct player *pplayer)
 { /* total rewrite by Syela */
   int gnow=pplayer->economic.gold;
   int gthen=pplayer->ai.prev_gold;
-  int sad = 0, trade = 0, m, n, i, expense = 0;
+  int sad = 0, trade = 0, m, n, i, expense = 0, best;
   int elvises[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   int hhjj[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   int food_weighting[3] = { 15, 14, 13 }; 
+
+/* NOTE: 8 is the default ai.trade_want; that's where that comes from -- Syela */
  
   pplayer->economic.science += pplayer->economic.luxury;
 /* without the above line, auto_arrange does strange things we must avoid -- Syela */
@@ -246,9 +259,10 @@ void ai_manage_taxes(struct player *pplayer)
   pplayer->economic.luxury = 0;
   city_list_iterate(pplayer->cities, pcity) 
     n = (pcity->ppl_unhappy[4] - pcity->ppl_happy[4]) * 20; /* need this much lux */
+    best = ai_best_tile_value(pcity);
     for (i = 0; i <= 10; i++) {
       m = ((n - pcity->trade_prod * i + 19) / 20);
-      elvises[i] += MAX(m, 0) * ai_best_tile_value(pcity);
+      elvises[i] += MAX(m, 0) * best;
     }
 /* printf("Does %s want to be bigger? %d\n", pcity->name, wants_to_be_bigger(pcity)); */
     if (pcity->size > 4 && pplayer->government >= G_REPUBLIC &&

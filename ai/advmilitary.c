@@ -13,10 +13,14 @@
 #include <aitools.h>
 #include <game.h>
 #include <map.h>
+#include <advmilitary.h>
 
 struct move_cost_map {
   unsigned char cost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-} warmap;
+  struct city *warcity; /* so we know what we're dealing with here */
+};
+
+struct move_cost_map warmap;
 
 struct stack_element {
   unsigned char x, y;
@@ -60,6 +64,7 @@ void generate_warmap(struct city *pcity)
   struct tile *tile0, *tile1;
   struct city *acity;
 
+  warmap.warcity = pcity;
   for (x = 0; x < map.xsize; x++)
     for (y = 0; y < map.ysize; y++)
       warmap.cost[x][y] = maxcost;
@@ -82,12 +87,7 @@ void generate_warmap(struct city *pcity)
     yy[1] = y;
     for (k = 0; k < 8; k++) {
       i = ii[k]; j = jj[k]; /* saves CPU cycles? */
-      tile1 = map_get_tile(xx[i], yy[j]);
-      if (tile1->terrain == T_OCEAN) c = maxcost;
-      else if ((tile0->special & tile1->special) & S_RAILROAD) c = 0;
-      else if ((tile0->special & tile1->special) & S_ROAD) c = 1;
-      else if (tile0->terrain == T_RIVER && tile1->terrain == T_RIVER) c = 1;
-      else c = get_tile_type(tile1->terrain)->movement_cost*3;
+      c = tile0->move_cost[k];
       tm = warmap.cost[x][y] + c;
       if (warmap.cost[xx[i]][yy[j]] > tm) {
         warmap.cost[xx[i]][yy[j]] = tm;
@@ -101,7 +101,7 @@ void generate_warmap(struct city *pcity)
 /* warnodes is often as much as 2x the size of the continent -- Syela */
 }
 
-int assess_danger(struct city *pcity)
+void assess_danger(struct city *pcity)
 {
   struct unit *punit;
   int i, danger = 0, v, dist, con, m;
@@ -136,7 +136,8 @@ int assess_danger(struct city *pcity)
       unit_list_iterate_end;
     }
   } /* end for */
-  return(danger);
+  pcity->ai.danger = danger;
+/*  return(danger); NOT returning this so I don't miss anything this time! */
 }
 
 int assess_defense(struct city *pcity)
@@ -160,7 +161,7 @@ int assess_defense(struct city *pcity)
     type = 1 means unit, type = 0 means building
 ***********************************************************************/
 
-void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
+void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				    struct ai_choice *choice)
 {
   int def, danger, dist, ag, v;
@@ -172,7 +173,8 @@ void  military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   def = assess_defense(pcity);
 /* logically we should adjust this for race attack tendencies */
-  danger = assess_danger(pcity);
+  assess_danger(pcity); /* calling it now, rewriting old wall code */
+  danger = pcity->ai.danger; /* we now have our warmap and will use it! */
 /* printf("Assessed danger for %s = %d, Def = %d\n", pcity->name, danger, def); */
   danger -= def;
 

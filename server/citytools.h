@@ -39,8 +39,11 @@ int built_elsewhere(struct city *pc, int wonder);
 void eval_buildings(struct city *pcity,int *values);
 int do_make_unit_veteran(struct city *pcity, enum unit_type_id id);
 int city_corruption(struct city *pcity, int trade);
+int set_city_shield_bonus(struct city *pcity);
 int city_shield_bonus(struct city *pcity);
+int set_city_science_bonus(struct city *pcity);
 int city_science_bonus(struct city *pcity);
+int set_city_tax_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
 int wants_to_be_bigger(struct city *pcity);
 

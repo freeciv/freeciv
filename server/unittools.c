@@ -570,10 +570,10 @@ int benefit_road(struct player *pplayer, int x, int y)
     f=1;
   if ((spec_t & S_ROAD) && !f) 
     return 0; 
- if(is_unit_activity_on_tile(ACTIVITY_ROAD, x, y))
+/* if(is_unit_activity_on_tile(ACTIVITY_ROAD, x, y))
    return 0;
  if(is_unit_activity_on_tile(ACTIVITY_RAILROAD, x, y))
-   return 0;
+   return 0;                                                     Redundant */
  
   switch (tile_t) {
   case T_DESERT:
@@ -620,8 +620,8 @@ int benefit_mine(struct player *pplayer, int x, int y)
   enum tile_terrain_type tile_t=map_get_terrain(x, y);
   if ((spec_t & S_MINE))
     return 0;
- if(is_unit_activity_on_tile(ACTIVITY_MINE, x, y))
-   return 0;
+/* if(is_unit_activity_on_tile(ACTIVITY_MINE, x, y))
+   return 0;                                             Redundant */
 
   switch (tile_t) {
   case T_HILLS:
@@ -655,8 +655,8 @@ int benefit_irrigate(struct player *pplayer, int x, int y)
     return 0;
   if (!is_water_adjacent_to_tile(x, y))
     return 0;
- if(is_unit_activity_on_tile(ACTIVITY_IRRIGATE, x, y))
-   return 0;
+/* if(is_unit_activity_on_tile(ACTIVITY_IRRIGATE, x, y))
+   return 0;                                                  Redundant */
 
   switch (tile_t) {
   case T_DESERT:

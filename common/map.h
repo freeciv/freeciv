@@ -43,6 +43,9 @@ struct tile {
   unsigned short known;
   int city_id;
   struct unit_list units;
+  char worked; 
+  short assigned; /* these can save a lot of CPU usage -- Syela */
+  unsigned char move_cost[8]; /* don't know if this helps! */
 };
 
 
@@ -146,7 +149,7 @@ int is_starter_close(int x, int y, int nr, int dist);
 int is_good_tile(int x, int y);
 int is_special_close(int x, int y);
 void add_specials(int prob);
-
+void reset_move_costs(int x, int y);
 
 int same_pos(int x1, int y1, int x2, int y2);
 

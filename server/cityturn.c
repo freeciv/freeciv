@@ -70,6 +70,8 @@ void set_trade_prod(struct city *pcity)
     pcity->trade_prod+=trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
   }
   pcity->corruption = city_corruption(pcity, pcity->trade_prod);
+  pcity->ai.trade_want = 8 - city_corruption(pcity, 8);
+/* AI would calculate this 1000 times otherwise; better to do it once -- Syela */
   pcity->trade_prod -= pcity->corruption;
 }
 
@@ -118,9 +120,9 @@ void add_buildings_effect(struct city *pcity)
   int tax_bonus, science_bonus;
   int shield_bonus;
 
-  tax_bonus = city_tax_bonus(pcity);
-  science_bonus = city_science_bonus(pcity);
-  shield_bonus = city_shield_bonus(pcity);
+  tax_bonus = set_city_tax_bonus(pcity); /* this is the place to set them */
+  science_bonus = set_city_science_bonus(pcity);
+  shield_bonus = set_city_shield_bonus(pcity);
   
   pcity->shield_prod =(pcity->shield_prod*shield_bonus)/100;
   pcity->luxury_total=(pcity->luxury_total*tax_bonus)/100;
@@ -510,19 +512,21 @@ void remove_obsolete_buildings(struct player *pplayer)
 
 void worker_loop(struct city *pcity, int *foodneed, int *prodneed, int *workers)
 {
-  int x, y, bx, by;
+  int x, y, bx, by, best, cur;
   do {
     bx=0;
     by=0;
+    best = 0;
     city_map_iterate(x, y) {
       if(can_place_worker_here(pcity, x, y)) {
          if(bx==0 && by==0) {
 	    bx=x;
 	    by=y;
 	  } else {
-            if (better_tile(pcity, x, y, bx, by, *foodneed, *prodneed)) {
+            if ((cur = city_tile_value(pcity, x, y, *foodneed, *prodneed)) > best) {
 	      bx=x;
 	      by=y;
+              best = cur;
 	    }
 	  }
 	}
@@ -1140,6 +1144,12 @@ int update_city_activity(struct player *pplayer, struct city *pcity)
 void set_worker_city(struct city *pcity, int x, int y, 
 		     enum city_tile_type type) 
 {
+  if (pcity->city_map[x][y] == C_TILE_WORKER)
+   map_get_tile(pcity->x+x-2, pcity->y+y-2)->worked = -1;
   pcity->city_map[x][y]=type;
+/* this function is called far less than is_worked here */
+/* and these two ifs are a lot less CPU load then the iterates! */
+  if (type == C_TILE_WORKER)
+    map_get_tile(pcity->x+x-2, pcity->y+y-2)->worked = pcity->owner;
 }
 
