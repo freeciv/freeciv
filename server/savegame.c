@@ -598,6 +598,14 @@ static void player_load(struct player *plr, int plrno,
   plr->is_alive=secfile_lookup_bool(file, "player%d.is_alive", plrno);
   plr->ai.control = secfile_lookup_bool(file, "player%d.ai.control", plrno);
   plr->ai.tech_goal = secfile_lookup_int(file, "player%d.ai.tech_goal", plrno);
+  if (plr->ai.tech_goal == A_NONE
+      || !tech_exists(plr->ai.tech_goal)) {
+    /* The value of A_UNSET could change in the future, since it
+     * is not ruleset-dependent.  And it used to be A_NONE, so we check for
+     * that as well.  This is a hack since there's no way to distinguish
+     * from A_FUTURE (which shouldn't ever be here anyway). */
+    plr->ai.tech_goal = A_UNSET;
+  }
   plr->ai.handicap = 0;		/* set later */
   plr->ai.fuzzy = 0;		/* set later */
   plr->ai.expand = 100;		/* set later */
@@ -634,6 +642,14 @@ static void player_load(struct player *plr, int plrno,
 					     "player%d.researchpoints", plrno);
   plr->research.researching=secfile_lookup_int(file, 
 					     "player%d.researching", plrno);
+  if (plr->research.researching == A_NONE
+      || !tech_exists(plr->research.researching)) {
+    /* The value of A_FUTURE could change in the future, since it
+     * is not ruleset-dependent.  And it used to be A_NONE, so we check for
+     * that as well.  This is a hack since there's no way to distinguish
+     * from A_UNSET (which shouldn't ever be here anyway). */
+    plr->research.researching = A_FUTURE;
+  }
 
   p=secfile_lookup_str(file, "player%d.invs", plrno);
     
