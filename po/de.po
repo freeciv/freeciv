@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
-"POT-Creation-Date: 2002-11-17 08:37+0100\n"
+"POT-Creation-Date: 2002-11-19 12:42+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Language-Team: <freeciv.de@freelists.org>\n"
@@ -2300,18 +2300,18 @@ msgstr ""
 "Anzahl der Spieler (%d) ist kleiner als max. Anzahl der Spieler (%d); max. "
 "Anzahl der Spieler wird verkleinert."
 
-#: server/savegame.c:1711
+#: server/savegame.c:1730
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Das abgespeicherte Spiel ist zu alt (< 1.9.0)."
 
-#: server/savegame.c:1875
+#: server/savegame.c:1894
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Das im abgespeicherten Spiel benutzte 'terrain ruleset' wird nicht mehr "
 "unterstützt."
 
-#: server/savegame.c:1884
+#: server/savegame.c:1903
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -5078,7 +5078,7 @@ msgstr "Spiel: Nur %s können von See aus angreifen."
 msgid "Game: Cannot attack from sea."
 msgstr "Spiel: Kann nicht von See aus angreifen."
 
-#: server/unithand.c:869
+#: server/unithand.c:869 server/unittools.c:2295
 msgid "Game: Cannot attack unless you declare war first."
 msgstr "Spiel: Kann erst nach Kriegserklärung angreifen."
 
@@ -5346,20 +5346,20 @@ msgstr "Spiel: %s hat eine Atombombe gezündet."
 msgid "Game: %s transported succesfully."
 msgstr "Spiel: %s transportiert."
 
-#: server/unittools.c:2269
+#: server/unittools.c:2272
 msgid "Game: This unit type can not be paradropped."
 msgstr "Spiel: Diese Einheit kann nicht Fallschirmspringen."
 
-#: server/unittools.c:2278
+#: server/unittools.c:2281
 msgid "Game: The destination location is not known."
 msgstr "Spiel: Der Zielort ist nicht bekannt."
 
-#: server/unittools.c:2284
+#: server/unittools.c:2287
 msgid "Game: Cannot paradrop into ocean."
 msgstr ""
 "Spiel: Über dem Ozean können keine Fallschirmspringer abgesetzt werden."
 
-#: server/unittools.c:2293
+#: server/unittools.c:2304
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
@@ -5367,71 +5367,71 @@ msgstr ""
 "Die Entfernung zum Ziel (%i) ist größer als die Reichweite dieser Einheit (%"
 "i)."
 
-#: server/unittools.c:2305
+#: server/unittools.c:2316
 #, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
 msgstr "Spiel: Die %s landeten im Ozean und ertranken."
 
-#: server/unittools.c:2317
+#: server/unittools.c:2328 server/unittools.c:2340
 #, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Spiel: Die %s wurden von feindlichen Einheiten bei der Landung vernichtet."
 
-#: server/unittools.c:2340
+#: server/unittools.c:2363
 #, c-format
 msgid "Game: You found %d gold."
 msgstr "Spiel: %d Goldstücke erhalten."
 
-#: server/unittools.c:2366
+#: server/unittools.c:2389
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Spiel: %s aus überlieferten Texten gelernt."
 
-#: server/unittools.c:2368
+#: server/unittools.c:2391
 #, c-format
 msgid "%s discover %s (Hut)"
 msgstr "Die %s haben %s erforscht."
 
-#: server/unittools.c:2370
+#: server/unittools.c:2393
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr ""
 "Spiel: Die %s haben die Kenntnis über %s in überlieferten wissenschaftlichen "
 "Texten gefunden."
 
-#: server/unittools.c:2390
+#: server/unittools.c:2413
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Spiel: Eine Gruppe Söldner stellt sich zur Verfügung."
 
-#: server/unittools.c:2407
+#: server/unittools.c:2430
 msgid "Game: An abandoned village is here."
 msgstr "Spiel: Hier ist eine verlassene Ortschaft."
 
-#: server/unittools.c:2419
+#: server/unittools.c:2442
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Spiel: Barbarenhorde freigesetzt."
 
-#: server/unittools.c:2422
+#: server/unittools.c:2445
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spiel: Barbaren haben %s vernichtet."
 
-#: server/unittools.c:2438
+#: server/unittools.c:2461
 msgid "Game: You found a friendly city."
 msgstr "Spiel: Eine unabhängige Stadt schließt sich an."
 
-#: server/unittools.c:2443
+#: server/unittools.c:2466
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr "Spiel: Eine Gruppe Nomaden stellt sich zur Verfügung."
 
-#: server/unittools.c:2467
+#: server/unittools.c:2490
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Spiel: Durch den Überflug wurden die Eingeborenen so erschreckt,\n"
 "       daß sie in alle Himmelsrichtungen flohen."
 
-#: server/unittools.c:3106
+#: server/unittools.c:3129
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -7784,8 +7784,8 @@ msgstr "Anzeigen..."
 #: client/gui-gtk/diplodlg.c:406 client/gui-gtk/menu.c:626
 #: client/gui-mui/diplodlg.c:492 client/gui-mui/diplodlg.c:527
 #: client/gui-mui/diplodlg.c:608 client/gui-mui/diplodlg.c:618
-#: client/gui-mui/gui_main.c:227 client/gui-win32/diplodlg.c:622
-#: client/gui-win32/diplodlg.c:669 client/gui-win32/menu.c:313
+#: client/gui-mui/gui_main.c:227 client/gui-win32/diplodlg.c:629
+#: client/gui-win32/diplodlg.c:676 client/gui-win32/menu.c:313
 #: client/gui-xaw/cityrep.c:214 client/gui-xaw/cityrep.c:550
 #: client/gui-xaw/menu.c:142 client/gui-xaw/menu.c:197 data/Freeciv:368
 #: data/Freeciv:377 data/Freeciv:1510
@@ -8550,7 +8550,7 @@ msgid "The following clauses have been agreed upon:"
 msgstr "Folgende Vereinbarungen wurden getroffen:"
 
 #: client/gui-gtk-2.0/diplodlg.c:299 client/gui-gtk/diplodlg.c:301
-#: client/gui-mui/diplodlg.c:483 client/gui-win32/diplodlg.c:610
+#: client/gui-mui/diplodlg.c:483 client/gui-win32/diplodlg.c:617
 #: data/Freeciv:227
 msgid "Diplomacy meeting"
 msgstr "Konferenz"
@@ -8558,7 +8558,7 @@ msgstr "Konferenz"
 #: client/gui-gtk-2.0/diplodlg.c:308 client/gui-gtk-2.0/diplodlg.c:316
 #: client/gui-gtk/diplodlg.c:310 client/gui-gtk/diplodlg.c:318
 #: client/gui-mui/diplodlg.c:650 client/gui-mui/diplodlg.c:651
-#: client/gui-win32/diplodlg.c:618 client/gui-win32/diplodlg.c:665
+#: client/gui-win32/diplodlg.c:625 client/gui-win32/diplodlg.c:672
 #: client/gui-xaw/diplodlg.c:357 client/gui-xaw/diplodlg.c:365
 #, c-format
 msgid "The %s offerings"
@@ -8582,7 +8582,7 @@ msgstr "Seekarte"
 #: client/gui-gtk/diplodlg.c:342 client/gui-gtk/diplodlg.c:360
 #: client/gui-mui/diplodlg.c:490 client/gui-mui/diplodlg.c:525
 #: client/gui-mui/diplodlg.c:552 client/gui-mui/diplodlg.c:570
-#: client/gui-win32/diplodlg.c:620 client/gui-win32/diplodlg.c:667
+#: client/gui-win32/diplodlg.c:627 client/gui-win32/diplodlg.c:674
 #: data/Freeciv:332 data/Freeciv:341
 msgid "Maps"
 msgstr "Karten"
@@ -8591,7 +8591,7 @@ msgstr "Karten"
 #: client/gui-gtk/diplodlg.c:368 client/gui-gtk/diplodlg.c:380
 #: client/gui-mui/diplodlg.c:491 client/gui-mui/diplodlg.c:526
 #: client/gui-mui/diplodlg.c:588 client/gui-mui/diplodlg.c:598
-#: client/gui-win32/diplodlg.c:621 client/gui-win32/diplodlg.c:668
+#: client/gui-win32/diplodlg.c:628 client/gui-win32/diplodlg.c:675
 #: data/Freeciv:350 data/Freeciv:359
 msgid "Advances"
 msgstr "Forschungsergebnisse"
@@ -8599,7 +8599,7 @@ msgstr "Forschungsergebnisse"
 #: client/gui-gtk-2.0/diplodlg.c:421 client/gui-gtk-2.0/diplodlg.c:428
 #: client/gui-gtk/diplodlg.c:423 client/gui-gtk/diplodlg.c:430
 #: client/gui-mui/diplodlg.c:652 client/gui-mui/diplodlg.c:653
-#: client/gui-win32/diplodlg.c:624 client/gui-win32/diplodlg.c:671
+#: client/gui-win32/diplodlg.c:631 client/gui-win32/diplodlg.c:678
 #: client/gui-xaw/diplodlg.c:479 client/gui-xaw/diplodlg.c:486
 #, c-format
 msgid "Gold(max %d)"
@@ -8608,18 +8608,18 @@ msgstr "Gold (max %d)"
 #: client/gui-gtk-2.0/diplodlg.c:436 client/gui-gtk-2.0/diplodlg.c:445
 #: client/gui-gtk/diplodlg.c:438 client/gui-gtk/diplodlg.c:447
 #: client/gui-mui/diplodlg.c:497 client/gui-mui/diplodlg.c:532
-#: client/gui-win32/diplodlg.c:628 client/gui-win32/diplodlg.c:675
+#: client/gui-win32/diplodlg.c:635 client/gui-win32/diplodlg.c:682
 msgid "Give shared vision"
 msgstr "Karteneinsicht erlauben"
 
 #: client/gui-gtk-2.0/diplodlg.c:475 client/gui-gtk/diplodlg.c:477
 #: client/gui-mui/diplodlg.c:498 client/gui-mui/diplodlg.c:629
-#: client/gui-win32/diplodlg.c:630 data/Freeciv:450
+#: client/gui-win32/diplodlg.c:637 data/Freeciv:450
 msgid "Pacts"
 msgstr "Abkommen"
 
 #: client/gui-gtk-2.0/diplodlg.c:484 client/gui-gtk/diplodlg.c:486
-#: client/gui-win32/diplodlg.c:636 client/gui-xaw/diplodlg.c:539
+#: client/gui-win32/diplodlg.c:643 client/gui-xaw/diplodlg.c:539
 #, c-format
 msgid ""
 "This Eternal Treaty\n"
@@ -8637,7 +8637,7 @@ msgstr ""
 #: client/gui-gtk-2.0/diplodlg.c:514 client/gui-gtk-2.0/diplodlg.c:523
 #: client/gui-gtk/diplodlg.c:516 client/gui-gtk/diplodlg.c:525
 #: client/gui-mui/diplodlg.c:654 client/gui-mui/diplodlg.c:655
-#: client/gui-win32/diplodlg.c:648 client/gui-win32/diplodlg.c:653
+#: client/gui-win32/diplodlg.c:655 client/gui-win32/diplodlg.c:660
 #: client/gui-xaw/diplodlg.c:579 client/gui-xaw/diplodlg.c:590
 #, c-format
 msgid "%s view:"
@@ -8649,12 +8649,12 @@ msgid "Erase clause"
 msgstr "Klausel löschen"
 
 #: client/gui-gtk-2.0/diplodlg.c:536 client/gui-gtk/diplodlg.c:538
-#: client/gui-win32/diplodlg.c:683 data/Freeciv:459
+#: client/gui-win32/diplodlg.c:690 data/Freeciv:459
 msgid "Accept treaty"
 msgstr "Abkommen unterzeichnen"
 
 #: client/gui-gtk-2.0/diplodlg.c:541 client/gui-gtk/diplodlg.c:543
-#: client/gui-win32/diplodlg.c:684 data/Freeciv:468
+#: client/gui-win32/diplodlg.c:691 data/Freeciv:468
 msgid "Cancel meeting"
 msgstr "Konferenz verlassen"
 
@@ -8708,7 +8708,7 @@ msgstr "Gehe nach / Fliege nach"
 
 #: client/gui-gtk-2.0/gotodlg.c:96 client/gui-gtk-2.0/mapview.c:428
 #: client/gui-gtk/gotodlg.c:96 client/gui-gtk/mapview.c:430
-#: client/gui-mui/mapview.c:267 client/gui-xaw/mapview.c:268
+#: client/gui-mui/mapview.c:267 client/gui-xaw/mapview.c:270
 msgid "Select destination"
 msgstr "Bestimmungsort wählen"
 
@@ -9284,7 +9284,7 @@ msgid "What should we call our new city?"
 msgstr "Wie soll die neue Stadt heißen?"
 
 #: client/gui-gtk-2.0/mapview.c:353 client/gui-gtk/mapview.c:355
-#: client/gui-win32/mapview.c:597 client/gui-xaw/mapview.c:202
+#: client/gui-win32/mapview.c:597 client/gui-xaw/mapview.c:204
 msgid "?timeout:off"
 msgstr "?timeout:aus"
 
@@ -9303,7 +9303,7 @@ msgstr ""
 "St: %d Luxus: %d Forschung: %d"
 
 #: client/gui-gtk-2.0/mapview.c:422 client/gui-gtk/mapview.c:424
-#: client/gui-win32/mapview.c:572 client/gui-xaw/mapview.c:266
+#: client/gui-win32/mapview.c:572 client/gui-xaw/mapview.c:268
 msgid "(veteran)"
 msgstr "(Veteran)"
 
@@ -11878,7 +11878,7 @@ msgstr "Ermöglicht %s (mit %s).\n"
 msgid "City: %s(%s) %s"
 msgstr "Stadt: %s(%s) %s"
 
-#: client/gui-xaw/mapview.c:217
+#: client/gui-xaw/mapview.c:219
 #, c-format
 msgid ""
 "%s People\n"
@@ -15408,14 +15408,22 @@ msgid "Classical"
 msgstr "klassisch"
 
 #: data/default/cities.ruleset:40
+msgid "Tropical"
+msgstr "tropisch"
+
+#: data/default/cities.ruleset:47
+msgid "Asian"
+msgstr "asiatisch"
+
+#: data/default/cities.ruleset:54
 msgid "Industrial"
 msgstr "industriell"
 
-#: data/default/cities.ruleset:47
+#: data/default/cities.ruleset:61
 msgid "Modern"
 msgstr "modern"
 
-#: data/default/cities.ruleset:54
+#: data/default/cities.ruleset:68
 msgid "PostModern"
 msgstr "futuristisch"
 
@@ -17760,14 +17768,6 @@ msgstr "estnisch"
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
 msgstr "?plural:Esten"
-
-#: data/nation/filipino.ruleset:3
-msgid "Filipino"
-msgstr "filipinisch"
-
-#: data/nation/filipino.ruleset:4
-msgid "?plural:Filipinos"
-msgstr "?plural:Filipinos"
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
