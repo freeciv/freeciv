@@ -545,6 +545,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   parameter->is_pos_dangerous = NULL;
+  parameter->get_costs = NULL;
   parameter->get_zoc = NULL;
   BV_CLR_ALL(parameter->unit_flags);
 
