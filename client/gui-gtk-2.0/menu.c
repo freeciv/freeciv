@@ -793,7 +793,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	help_menu_callback,	MENU_HELP_ABOUT						}
 };
 
-
+#ifdef ENABLE_NLS
 /****************************************************************
   gettext-translates each "/" delimited component of menu path,
   puts them back together, and returns as a static string.
@@ -822,6 +822,7 @@ static char *menu_path_tok(char *path)
 
   return NULL;
 }
+#endif
 
 /****************************************************************
 ...
