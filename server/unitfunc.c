@@ -1097,7 +1097,7 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
 
 	v2=dist_mod(z, ai_calc_road(punit, pplayer, x, y));
 	if (v2>v) {
-	  if (map_get_special(punit->x, punit->y) & S_ROAD)
+	  if (map_get_special(x, y) & S_ROAD)
 	    t=ACTIVITY_RAILROAD;
 	  else
 	    t=ACTIVITY_ROAD;
