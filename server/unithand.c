@@ -31,7 +31,6 @@
 #include "packets.h"
 #include "player.h"
 #include "rand.h"
-#include "support.h"
 #include "unit.h"
 
 #include "citytools.h"
@@ -771,8 +770,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     
     notify_player_ex(unit_owner(plooser),
 		     def_x, def_y, E_UNIT_LOST_ATT,
-		     _
-		     ("Game: Your attacking %s failed against %s's %s%s!"),
+		     _("Game: Your attacking %s failed "
+		       "against %s's %s%s!"),
 		     unit_name(plooser->type), unit_owner(pwinner)->name,
 		     unit_name(pwinner->type),
 		     get_location_str_at(unit_owner(plooser),
@@ -997,12 +996,9 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
        depends on can_unit_attack_tile() not stopping it in the goto, so
        leave it here for now. */
     if (unit_type(punit)->attack_strength == 0) {
-      char message[MAX_LEN_NAME + 64];
-      my_snprintf(message, sizeof(message),
-		  _("Game: A %s cannot attack other units."),
-		  unit_name(punit->type));
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       message);
+		       _("Game: A %s cannot attack other units."),
+		       unit_name(punit->type));
       return 0;
     }
 
