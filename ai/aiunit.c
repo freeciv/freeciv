@@ -1610,11 +1610,18 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
 
   if (is_ground_unit(punit)) boatid = find_boat(pplayer, &bx, &by, 2);
   if (boatid != 0) ferryboat = player_find_unit_by_id(pplayer, boatid);
-  if (ferryboat) really_generate_warmap(map_get_city(ferryboat->x, ferryboat->y),
-                       ferryboat, SEA_MOVING);
+  if (ferryboat) {
+    really_generate_warmap(map_get_city(ferryboat->x, ferryboat->y),
+                           ferryboat, SEA_MOVING);
+  }
 
-  if (ferryboat) boatspeed = (unit_flag(ferryboat, F_TRIREME) ? 6 : 12);
-  else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN ? 6 : 12);
+  if (ferryboat) {
+    boatspeed = (unit_flag(ferryboat, F_TRIREME) 
+                  ? 2 * SINGLE_MOVE : 4 * SINGLE_MOVE);
+  } else {
+    boatspeed = ((get_invention(pplayer, game.rtech.nav) != TECH_KNOWN)
+                  ? 2 * SINGLE_MOVE : 4 * SINGLE_MOVE);
+  }
 
   if (is_ground_unit(punit) && punit->id == 0 &&
       is_terrain_near_tile(punit->x, punit->y, T_OCEAN)) harborcity++;
