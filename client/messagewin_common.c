@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include "fcintl.h"
+#include "map.h"
 #include "mem.h"
 
 #include "citydlg_g.h"

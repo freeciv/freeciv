@@ -26,10 +26,6 @@ used throughout the client.
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #include "city.h"
 #include "diptreaty.h"
 #include "fcintl.h"

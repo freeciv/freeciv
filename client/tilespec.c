@@ -22,8 +22,8 @@
 #endif
 
 #include <assert.h>
-#include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>		/* exit */
 #include <string.h>
 
 #include "astring.h"

@@ -15,6 +15,8 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+
 #include "city.h"
 #include "fcintl.h"
 #include "log.h"

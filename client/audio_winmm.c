@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <string.h>
 /************************************************************************* 
  This two includes are misordered, but it does not compile otherwise
 *************************************************************************/

@@ -19,6 +19,7 @@
 
 #include "game.h"
 #include "government.h"
+#include "mem.h"		/* free */
 
 #include "repodlgs_g.h"
 

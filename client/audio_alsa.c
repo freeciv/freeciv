@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <unistd.h>
-
 #include <audiofile.h>
 #include <alsa/asoundlib.h>
 

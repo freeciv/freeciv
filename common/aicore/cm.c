@@ -17,6 +17,7 @@
 
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "city.h"
 #include "fcintl.h"

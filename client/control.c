@@ -16,7 +16,6 @@
 #endif
 
 #include <assert.h>
-#include <stdio.h>
 
 #include "fcintl.h"
 #include "log.h"

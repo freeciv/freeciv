@@ -16,7 +16,6 @@
 #endif
 
 #include <assert.h>
-#include <string.h>
 
 #include "dataio.h"
 #include "fcintl.h"

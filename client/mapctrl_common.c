@@ -16,7 +16,7 @@
 #endif
 
 #include <assert.h>
-#include <stdarg.h>
+#include <stdlib.h>		/* qsort */
 
 #include "combat.h"
 #include "fcintl.h"

@@ -17,6 +17,7 @@
 
 #include <assert.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include "map.h"
 #include "combat.h"

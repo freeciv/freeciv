@@ -13,12 +13,11 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-  
+
+#include <assert.h>  
 #include <fcntl.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <signal.h>
 #include <time.h>
 
 #ifdef HAVE_SYS_TYPES_H
