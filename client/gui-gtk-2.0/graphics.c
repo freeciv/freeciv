@@ -393,21 +393,28 @@ void create_overlay_unit(struct canvas *pcanvas, int i)
   if (pcanvas->type == CANVAS_PIXBUF) {
     width = gdk_pixbuf_get_width(pcanvas->v.pixbuf);
     height = gdk_pixbuf_get_height(pcanvas->v.pixbuf);
+    gdk_pixbuf_fill(pcanvas->v.pixbuf, 0x00000000);
   } else {
+    if (pcanvas->type == CANVAS_PIXCOMM) {
+      gtk_pixcomm_clear(pcanvas->v.pixcomm);
+    }
+
     /* Guess */
     width = UNIT_TILE_WIDTH;
     height = UNIT_TILE_HEIGHT;
   }
 
-  /* Give tile a background color, based on the type of unit */
-  switch (type->move_type) {
-    case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
-    case SEA_MOVING:  bg_color = COLOR_STD_OCEAN;  break;
-    case HELI_MOVING: bg_color = COLOR_STD_YELLOW; break;
-    case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
-    default:	      bg_color = COLOR_STD_BLACK;  break;
+  if (solid_unit_icon_bg) {
+    /* Give tile a background color, based on the type of unit */
+    switch (type->move_type) {
+      case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
+      case SEA_MOVING:  bg_color = COLOR_STD_OCEAN;  break;
+      case HELI_MOVING: bg_color = COLOR_STD_YELLOW; break;
+      case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
+      default:	      bg_color = COLOR_STD_BLACK;  break;
+    }
+    canvas_put_rectangle(pcanvas, bg_color, 0, 0, width, height);
   }
-  canvas_put_rectangle(pcanvas, bg_color, 0, 0, width, height);
 
   /* Finally, put a picture of the unit in the tile */
   canvas_put_sprite(pcanvas, 0, 0, type->sprite, 

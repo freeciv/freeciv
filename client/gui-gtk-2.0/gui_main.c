@@ -85,6 +85,7 @@ int overview_canvas_store_height = 2 * 50;
 
 bool fullscreen_mode = TRUE;
 bool enable_tabs = TRUE;
+bool solid_unit_icon_bg = FALSE;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
@@ -139,6 +140,7 @@ client_option gui_options[] = {
   GEN_BOOL_OPTION(show_task_icons,	N_("Show worklist task icons")),
   GEN_BOOL_OPTION(fullscreen_mode,	N_("Fullscreen Mode")),
   GEN_BOOL_OPTION(enable_tabs,		N_("Enable status report tabs")),
+  GEN_BOOL_OPTION(solid_unit_icon_bg,	N_("Solid unit icon background color"))
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 

@@ -43,6 +43,7 @@ extern PangoFontDescription *        city_productions_font;
 
 extern bool fullscreen_mode;
 extern bool enable_tabs;
+extern bool solid_unit_icon_bg;
 
 extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;
