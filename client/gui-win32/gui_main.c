@@ -426,7 +426,8 @@ void create_main_window()
 			 " it\nunder certain conditions; See the \"Copying\" item on the Help"
 			 " menu.\nNow.. Go give'em hell!") );
   hchatline=fcwin_box_add_edit(main_win_box,"",40,
-			       IDOK,ES_WANTRETURN | ES_MULTILINE,
+			       IDOK, 
+			       ES_WANTRETURN | ES_AUTOVSCROLL | ES_MULTILINE,
 			       FALSE,FALSE,10);
   
   fcwin_set_box(root_window,main_win_box);
