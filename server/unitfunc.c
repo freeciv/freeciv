@@ -870,7 +870,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender)
   int attackpower=get_total_attack_power(attacker,defender);
   int defensepower=get_total_defense_power(attacker,defender);
 
-  flog(LOG_DEBUG, "attack:%d, defense:%d\n", attackpower, defensepower);
+  flog(LOG_DEBUG, "attack:%d, defense:%d", attackpower, defensepower);
   if (!attackpower) {
       attacker->hp=0; 
   } else if (!defensepower) {

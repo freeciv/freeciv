@@ -646,7 +646,7 @@ void choose_start_positions(void)
   for(k=0;k<99;k++){
     sum+= islands[k].starters;
     if(islands[k].starters!=0) 
-      flog(LOG_DEBUG,"%i ",k);
+      flog(LOG_DEBUG,"starters on isle %i", k);
   }
   assert(game.nplayers<=nr+sum);
   }
