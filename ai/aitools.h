@@ -30,10 +30,11 @@
 #define CITY_LOG(level, pcity, msg...)                       \
   {                                                          \
     char buffer[500];                                        \
-    sprintf(buffer, "%s's %s(%d,%d) [s%d d%d u%d] ",         \
+    sprintf(buffer, "%s's %s(%d,%d) [s%d d%d u%d g%d] ",     \
             city_owner(pcity)->name, pcity->name,            \
             pcity->x, pcity->y, pcity->size,                 \
-            pcity->ai.danger, pcity->ai.urgency);            \
+            pcity->ai.danger, pcity->ai.urgency,             \
+            pcity->ai.grave_danger);                         \
     cat_snprintf(buffer, sizeof(buffer), msg);               \
     freelog(MIN(LOGLEVEL_CITY, level), buffer);              \
   }

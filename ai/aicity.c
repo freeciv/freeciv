@@ -47,6 +47,7 @@
 #include "advmilitary.h"
 #include "aihand.h"
 #include "aitools.h"
+#include "aidata.h"
 #include "aiunit.h"
 
 #include "aicity.h"
@@ -277,29 +278,83 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
   } impr_type_iterate_end;
 }
 
+#define LOG_BUY LOG_NORMAL
 /************************************************************************** 
-...
+  Try to upgrade a city's units. limit is the last amount of gold we can
+  end up with after the upgrade. military is if we want to upgrade non-
+  military or military units.
 **************************************************************************/
-static void ai_new_spend_gold(struct player *pplayer)
+static void ai_upgrade_units(struct city *pcity, int limit, bool military)
 {
-  Unit_Type_id id;
-  int buycost, cost;
-  bool frugal = FALSE;
-  int trireme = 0;
-  int total, build, reserve;
-  bool did_upgrade;
+  struct player *pplayer = city_owner(pcity);
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
+    int id = can_upgrade_unittype(pplayer, punit->type);
+    if (military && (!is_military_unit(punit) || !is_ground_unit(punit))) {
+      /* Only upgrade military units this round */
+      continue;
+    } else if (!military && is_military_unit(punit)
+               && unit_type(punit)->transport_capacity == 0) {
+      /* Only civilians or tranports this round */
+      continue;
+    }
+    if (id >= 0) {
+      int cost = unit_upgrade_price(pplayer, punit->type, id);
+      if (pplayer->economic.gold - cost > limit) {
+        struct packet_unit_request packet;
+        packet.unit_id = punit->id;
+        packet.city_id = pcity->id;
+        CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
+                 unit_type(punit)->name, unit_types[id].name, cost,
+                 military ? "military" : "civilian");
+        handle_unit_upgrade_request(city_owner(pcity), &packet);
+      } else {
+        pplayer->ai.maxbuycost = MAX(pplayer->ai.maxbuycost, cost);
+      }
+    }
+  } unit_list_iterate_end;
+}
+
+/************************************************************************** 
+  Buy and upgrade stuff!
+**************************************************************************/
+static void ai_spend_gold(struct player *pplayer)
+{
   struct ai_choice bestchoice;
-  struct city *pcity = NULL;
+  struct ai_data *ai = ai_data_get(pplayer);
+  int cached_limit = ai_gold_reserve(pplayer);
 
-  reserve=ai_gold_reserve(pplayer);
-
+  /* Disband troops that are at home but don't serve a purpose.
+   * If we don't have surplus shield production, or the enemy
+   * has not started sailing yet, we also disband military units
+   * we don't need. */
+  city_list_iterate(pplayer->cities, pcity) {
+    struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+    unit_list_iterate(ptile->units, punit) {
+      if (((unit_types[punit->type].shield_cost > 0
+           && (pcity->shield_prod == 0 || !ai->threats.invasions))
+          || unit_has_role(punit->type, L_EXPLORER))
+          && pcity->id == punit->homecity
+          && pcity->ai.danger == 0 
+          && pcity->ai.urgency == 0
+          && is_ground_unit(punit)) {
+        struct packet_unit_request packet;
+        packet.unit_id = punit->id;
+        CITY_LOG(LOG_BUY, pcity, "disbanding %s to increase production",
+                 unit_name(punit->type));
+        handle_unit_disband(pplayer, &packet);
+      }
+    } unit_list_iterate_end;
+  } city_list_iterate_end;
+  
   do {
-    if (reserve > pplayer->economic.gold)
-      break;
+    int limit = cached_limit; /* cached_limit is our gold reserve */
+    struct city *pcity = NULL;
+    bool expensive; /* don't buy when it costs x2 unless we must */
+    int buycost;
 
+    /* Find highest wanted item on the buy list */
     init_choice(&bestchoice);
-
-    city_list_iterate(pplayer->cities, acity)
+    city_list_iterate(pplayer->cities, acity) {
       if (acity->anarchy != 0) continue;
       if (acity->ai.choice.want > bestchoice.want && ai_fuzzy(pplayer, TRUE)) {
         bestchoice.choice = acity->ai.choice.choice;
@@ -307,182 +362,135 @@ static void ai_new_spend_gold(struct player *pplayer)
         bestchoice.type = acity->ai.choice.type;
         pcity = acity;
       }
-    city_list_iterate_end;
+    } city_list_iterate_end;
 
+    /* We found nothing, so we're done */
     if (bestchoice.want == 0) break;
 
+    /* Not dealing with this city a second time */
+    pcity->ai.choice.want = 0;
+
     ASSERT_REAL_CHOICE_TYPE(bestchoice.type);
- 
-    if (is_unit_choice_type(bestchoice.type) &&
-        (!frugal || bestchoice.want > 200)) { /* if we want a unit */
 
-      buycost = city_buy_cost(pcity);
-      unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-        id = can_upgrade_unittype(pplayer, punit->type);
-        did_upgrade = FALSE;
-	freelog(LOG_DEBUG, "%s wants %s, %s -> %s", pcity->name,
-		unit_types[bestchoice.choice].name, 
-		unit_type(punit)->name,
-		(id>=0 ? unit_types[id].name : "-1"));
-        if (id == bestchoice.choice && ai_fuzzy(pplayer, TRUE)) {
-	  /* and I can simply upgrade a unit I already have */
-	  freelog(LOG_DEBUG, "Trying to upgrade in %s.", pcity->name);
-          cost = unit_upgrade_price(pplayer, punit->type, id);
-          if (cost < buycost) { /* and the upgrade would be cheaper */
-            if (cost < pplayer->economic.gold) { /* let's just upgrade */
-              pplayer->economic.gold -= cost;
-              notify_player(pplayer,
-			    _("Game: %s upgraded to %s in %s for %d gold."),
-			    unit_type(punit)->name, unit_types[id].name,
-			    pcity->name, cost);
-	      upgrade_unit(punit, id);
-              send_player_info(pplayer, pplayer);
-              bestchoice.want = 0; /* no reason to buy unit we already made */
-              pcity->ai.choice.want = 0; /* or deal with this city again */
-              did_upgrade = TRUE;
-            }
-          }
+    /* Try upgrade units at danger location (high want is usually danger) */
+    if (pcity->ai.danger > 1) {
+      if (bestchoice.type == CT_BUILDING && is_wonder(bestchoice.choice)) {
+        CITY_LOG(LOG_BUY, pcity, "Wonder being built in dangerous position!");
+      } else {
+        /* If we have urgent want, spend more */
+        int upgrade_limit = limit;
+        if (pcity->ai.urgency > 1) {
+          upgrade_limit = pplayer->ai.est_upkeep;
         }
-	if ((id == bestchoice.choice
-	     || (unit_has_role(bestchoice.choice, L_DEFEND_GOOD)
-		 && is_on_unit_upgrade_path(bestchoice.choice, punit->type)))
-	    && ai_fuzzy(pplayer, TRUE)) {
-          if (!did_upgrade) { /* might want to disband */
-	    build =
-		pcity->shield_stock + (unit_type(punit)->build_cost / 2);
-            total = get_unit_type(bestchoice.choice)->build_cost;
-            cost=(total-build)*2+(total-build)*(total-build)/20;
-            if ((bestchoice.want <= 100 && build >= total) ||
-                  (pplayer->economic.gold >= cost)) {
-	      freelog(LOG_VERBOSE, "%s disbanding %s in %s to help get %s",
-		   pplayer->name, unit_type(punit)->name, pcity->name,
-		   unit_types[bestchoice.choice].name);
-              notify_player(pplayer, _("Game: %s disbanded in %s."),
-			    unit_type(punit)->name, pcity->name);
-
-              do_unit_disband_safe(pcity, punit, &myiter);
-            }
-          }
-        }
-      unit_list_iterate_end;
+        /* Upgrade only military units now */
+        ai_upgrade_units(pcity, upgrade_limit, TRUE);
+      }
     }
 
-    if (bestchoice.want > 100 ||  /* either need defense or building NOW */
-        pplayer->research.researching == A_NONE) { /* nothing else to do */
-      buycost = city_buy_cost(pcity);
-      if (pcity->shield_stock == 0) {
-	/* nothing */
-      } else if (bestchoice.type == 0 && is_wonder(bestchoice.choice) &&
-               buycost >= 200) {
-	/* wait for more vans */
-      } else if (bestchoice.type != 0 && unit_type_flag(bestchoice.choice, F_CITIES) &&
-          !city_got_effect(pcity, B_GRANARY) && (pcity->size < 2 ||
-         pcity->food_stock < city_granary_size(pcity->size-1))) {
-	/* nothing */
-      } else if (bestchoice.type != 0 && bestchoice.type < 3 && /* not a defender */
-        buycost > unit_types[bestchoice.choice].build_cost * 2) { /* too expensive */
-        if ((unit_type_flag(bestchoice.choice, F_TRADE_ROUTE) 
-             || unit_type_flag(bestchoice.choice, F_HELP_WONDER)) 
-            && pplayer->ai.maxbuycost < 100) {
-          pplayer->ai.maxbuycost = 100;
+    /* Cost to complete production */
+    buycost = city_buy_cost(pcity);
+
+    if (buycost <= 0) {
+      continue; /* Already completed */
+    }
+
+    if (bestchoice.type != CT_BUILDING
+        && unit_type_flag(bestchoice.choice, F_CITIES)) {
+      if (!city_got_effect(pcity, B_GRANARY) 
+          && pcity->size == 1
+          && city_granary_size(pcity->size)
+             > pcity->food_stock + pcity->food_surplus) {
+        /* Don't build settlers in size 1 cities unless we grow next turn */
+        continue;
+      } else {
+        if (city_list_size(&pplayer->cities) <= 8) {
+          /* Make AI get gold for settlers early game */
+          pplayer->ai.maxbuycost = MAX(pplayer->ai.maxbuycost, buycost);
+        } else if (city_list_size(&pplayer->cities) > 25) {
+          /* Don't waste precious money buying settlers late game */
+          continue;
         }
       }
-#ifdef GRAVEDANGERWORKS
-      else if (bestchoice.type == 3 && pcity->size == 1 &&
-        pcity->ai.grave_danger > (assess_defense_quadratic(pcity) +
-  ai_city_defender_value(pcity, U_LEGION, bestchoice.choice)) * 2 &&
-               pcity->food_stock + pcity->food_surplus < 10) { /* We're DOOMED */
-	 freelog(LOG_VERBOSE, "%s is DOOMED!", pcity->name);
-         try_to_sell_stuff(pplayer, pcity); /* and don't buy stuff */
-         pcity->currently_building = ai_choose_defender_limited(pcity,
-                  pcity->shield_stock + pcity->shield_surplus, 0);
+    } else {
+      /* We are not a settler. Therefore we increase the cash need we
+       * balance our buy desire with to keep cash at hand for emergencies 
+       * and for upgrades */
+      limit *= 2;
+    }
+
+    /* It costs x2 to buy something with no shields contributed */
+    expensive = (pcity->shield_stock == 0)
+                || (pplayer->economic.gold - buycost < limit);
+
+    if (bestchoice.type == CT_ATTACKER 
+        && buycost > unit_types[bestchoice.choice].build_cost * 2) {
+       /* Too expensive for an offensive unit */
+       continue;
+    }
+
+    if (!expensive && bestchoice.type != CT_BUILDING
+        && (unit_type_flag(bestchoice.choice, F_TRADE_ROUTE) 
+            || unit_type_flag(bestchoice.choice, F_HELP_WONDER))
+        && buycost < unit_types[bestchoice.choice].build_cost * 2) {
+      /* We need more money for buying caravans. Increasing
+         maxbuycost will increase taxes */
+      pplayer->ai.maxbuycost = MAX(pplayer->ai.maxbuycost, buycost);
+    }
+
+    /* FIXME: Here Syela wanted some code to check if
+     * pcity was doomed, and we should therefore attempt
+     * to sell everything in it of non-military value */
+
+    if (pplayer->economic.gold - pplayer->ai.est_upkeep >= buycost
+        && (!expensive 
+            || (pcity->ai.grave_danger != 0 && assess_defense(pcity) == 0)
+            || (bestchoice.want > 200 && pcity->ai.urgency > 1))) {
+      /* Buy stuff */
+      CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want %d)",
+               bestchoice.type != CT_BUILDING ? unit_name(bestchoice.choice)
+               : get_improvement_name(bestchoice.choice), buycost,
+               bestchoice.want);
+      really_handle_city_buy(pplayer, pcity);
+    } else if (pcity->ai.grave_danger != 0 
+               && bestchoice.type == CT_DEFENDER
+               && assess_defense(pcity) == 0) {
+      /* We have no gold but MUST have a defender */
+      CITY_LOG(LOG_BUY, pcity, "must have %s but can't afford it (%d < %d)!",
+	       unit_name(bestchoice.choice), pplayer->economic.gold, buycost);
+      try_to_sell_stuff(pplayer, pcity);
+      if (pplayer->economic.gold - pplayer->ai.est_upkeep >= buycost) {
+        CITY_LOG(LOG_BUY, pcity, "now we can afford it (sold something)");
+        really_handle_city_buy(pplayer, pcity);
       }
-#endif
-      else if ((pplayer->economic.gold-pplayer->ai.est_upkeep) >= buycost
-	      && (!frugal || bestchoice.want > 200)) {
-	if (ai_fuzzy(pplayer, TRUE) || (pcity->ai.grave_danger != 0
-				    && assess_defense(pcity) == 0)) {
-	  really_handle_city_buy(pplayer, pcity); /* adequately tested now */
-	}
-      } else if (bestchoice.type != 0 || !is_wonder(bestchoice.choice)) {
-	freelog(LOG_DEBUG, "%s wants %s but can't afford to buy it"
-		      " (%d < %d).", pcity->name,
-		      (bestchoice.type != 0 ? unit_name(bestchoice.choice)
-		       : get_improvement_name(bestchoice.choice)),
-		      pplayer->economic.gold, buycost);
-        if (bestchoice.type != 0 && !unit_type_flag(bestchoice.choice, F_NONMIL)) {
-          if (pcity->ai.grave_danger != 0 && assess_defense(pcity) == 0) { /* oh dear */
-            try_to_sell_stuff(pplayer, pcity);
-            if ((pplayer->economic.gold-pplayer->ai.est_upkeep) >= buycost)
-              really_handle_city_buy(pplayer, pcity);
-/* don't need to waste gold here, but may as well spend our production */
-            else pcity->currently_building = ai_choose_defender_limited(pcity,
-                  pcity->shield_stock + pcity->shield_surplus, 0);
-          } else if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
-/* possibly upgrade units here */
-        } /* end panic subroutine */
-        if (is_unit_choice_type(bestchoice.type) 
-            /* considering Syela's comment, F_TRADE_ROUTE should not be here.
-             * leaving for cleanup crew consideration -mck */
-            && (unit_type_flag(bestchoice.choice, F_TRADE_ROUTE)
-                || unit_type_flag(bestchoice.choice, F_HELP_WONDER))) {
-          if (buycost > pplayer->ai.maxbuycost) {
-            pplayer->ai.maxbuycost = buycost;
-          }
-            /* Gudy reminded me AI was slow to build wonders, 
-             * I thought of the above -- Syela */
-        }
-        if (bestchoice.type == CT_BUILDING) {
-          switch (bestchoice.choice) {
-          case B_AQUEDUCT:
-            if (city_happy(pcity)) break;
-        /* PASS THROUGH */
-          case B_CITY: /* add other things worth raising taxes for here! -- Syela */
-          case B_TEMPLE:
-          case B_COASTAL:
-          case B_SAM:
-          case B_SDI:
-          case B_PALACE:
-          case B_COLOSSEUM:
-          case B_CATHEDRAL:
-            if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
-            break;
-/* granaries/harbors/wonders not worth the tax increase */
-          } /* end switch */
-        }
-/* I just saw Alexander save up for walls then buy a granary.  Never again! -- Syela */
-/*        if (bestchoice.want > 200 && pplayer->ai.maxbuycost) frugal++; */
-        if (pplayer->ai.maxbuycost != 0) frugal = TRUE; /* much more frugal -- Syela */
-      } /* end can't-afford else */
-    } /* end if want > 100 */
-    pcity->ai.choice.want = 0; /* not dealing with this city a second time */
-  } while (bestchoice.want > 0);
-/* always upgrade triremes, since they vanish and are FIELDUNITS */
-  if (num_role_units(F_TRIREME)==0)
-    id = -1;
-  else {
-    trireme = get_role_unit(F_TRIREME, 0);
-    id = can_upgrade_unittype(pplayer, trireme);
+      if (buycost > pplayer->ai.maxbuycost) {
+        /* Consequently we need to raise more money through taxes */
+        pplayer->ai.maxbuycost = MAX(pplayer->ai.maxbuycost, buycost);
+      }
+    }
+  } while (TRUE);
+
+  /* Civilian upgrades now */
+  city_list_iterate(pplayer->cities, pcity) {
+    struct tile *ptile = map_get_tile(pcity->x, pcity->y);
+    unit_list_iterate(ptile->units, punit) {
+      int limit = cached_limit;
+      /* Triremes are DANGEROUS!! */
+      if (unit_flag(punit, F_TRIREME)) {
+        limit = pplayer->ai.est_upkeep;
+      }
+      ai_upgrade_units(pcity, limit, FALSE);
+    } unit_list_iterate_end;
+  } city_list_iterate_end;
+
+  if (pplayer->economic.gold + cached_limit < pplayer->ai.maxbuycost) {
+    /* We have too much gold! Don't raise taxes */
+    pplayer->ai.maxbuycost = 0;
   }
-  if (id >= 0 && !frugal) {
-    unit_list_iterate(pplayer->units, punit)
-      if (punit->type != trireme) continue;
-      pcity = map_get_city(punit->x, punit->y);
-      if (!pcity) continue;
-      cost = unit_upgrade_price(pplayer, punit->type, id);
-      if (cost < pplayer->economic.gold && ai_fuzzy(pplayer, TRUE)) {
-	/* let's just upgrade */
-        pplayer->economic.gold -= cost;
-	upgrade_unit(punit, id);
-        notify_player(pplayer,
-		      _("Game: %s upgraded to %s in %s for %d gold."),
-		      unit_type(punit)->name, unit_types[id].name,
-		      pcity->name, cost);
-        send_player_info(pplayer, pplayer);
-      } /* end if upgrade */
-    unit_list_iterate_end;
-  } /* end if */
+
+  freelog(LOG_BUY, "%s wants to keep %d in reserve (tax factor %d)", 
+          pplayer->name, cached_limit, pplayer->ai.maxbuycost);
 }
+#undef LOG_BUY
 
 /**************************************************************************
  cities, build order and worker allocation stuff here..
@@ -515,7 +523,7 @@ we don't rely on the seamap being current since we will recalculate. -- Syela */
     ai_city_choose_build(pplayer, pcity);
   city_list_iterate_end;
 
-  ai_new_spend_gold(pplayer);
+  ai_spend_gold(pplayer);
 
   /* use ai_gov_tech_hints: */
   for(i=0; i<MAX_NUM_TECH_LIST; i++) {
