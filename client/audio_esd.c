@@ -53,7 +53,7 @@ static int sock = -1;
 /**************************************************************************
   Clean up
 **************************************************************************/
-static void shutdown()
+static void my_shutdown()
 {
   int i;
 
@@ -77,7 +77,7 @@ static void shutdown()
 /**************************************************************************
   Stop music
 **************************************************************************/
-static void stop()
+static void my_stop()
 {
   if (music_id != -1) {
     esd_sample_stop(sock, music_id);
@@ -87,7 +87,7 @@ static void stop()
 /**************************************************************************
   Wait
 **************************************************************************/
-static void wait()
+static void my_wait()
 {
   /* not implemented */
 }
@@ -95,8 +95,8 @@ static void wait()
 /**************************************************************************
   Play sound sample
 **************************************************************************/
-static bool play(const char *const tag, const char *const fullpath,
-		 bool repeat)
+static bool my_play(const char *const tag, const char *const fullpath,
+		    bool repeat)
 {
   static char program_name[] = "civclient";
   static int i;
@@ -159,7 +159,7 @@ static bool play(const char *const tag, const char *const fullpath,
 /**************************************************************************
   Initialize.
 **************************************************************************/
-static bool init(void)
+static bool my_init(void)
 {
   sock = esd_open_sound(NULL);
   if (sock >= 0) {
@@ -187,10 +187,10 @@ void audio_esd_init(void)
 
   sz_strlcpy(self.name, "esd");
   sz_strlcpy(self.descr, "ESound server plugin");
-  self.init = init;
-  self.shutdown = shutdown;
-  self.stop = stop;
-  self.wait = wait;
-  self.play = play;
+  self.init = my_init;
+  self.shutdown = my_shutdown;
+  self.stop = my_stop;
+  self.wait = my_wait;
+  self.play = my_play;
   audio_add_plugin(&self);
 }

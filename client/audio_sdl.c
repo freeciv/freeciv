@@ -38,8 +38,8 @@ static struct sample samples[MIX_CHANNELS];
 /**************************************************************************
   Play sound
 **************************************************************************/
-static bool play(const char *const tag, const char *const fullpath,
-		bool repeat)
+static bool my_play(const char *const tag, const char *const fullpath,
+		    bool repeat)
 {
   int i, j;
   Mix_Chunk *wave = NULL;
@@ -61,7 +61,7 @@ static bool play(const char *const tag, const char *const fullpath,
 
     Mix_PlayMusic(mus, -1);	/* -1 means loop forever */
     freelog(LOG_VERBOSE, "Playing file %s on music channel", fullpath);
-    /* in case we did a stop() recently; add volume controls later */
+    /* in case we did a my_stop() recently; add volume controls later */
     Mix_VolumeMusic(MIX_MAX_VOLUME);
 
   } else {
@@ -108,7 +108,7 @@ static bool play(const char *const tag, const char *const fullpath,
 /**************************************************************************
   Stop music
 **************************************************************************/
-static void stop()
+static void my_stop()
 {
   /* fade out over 2 sec */
   Mix_FadeOutMusic(2000);
@@ -119,7 +119,7 @@ static void stop()
   WARNING: If a channel is looping, it will NEVER exit! Always call
   music_stop() first!
 **************************************************************************/
-static void wait()
+static void my_wait()
 {
   while (Mix_Playing(-1) != 0) {
     SDL_Delay(100);
@@ -129,12 +129,12 @@ static void wait()
 /**************************************************************************
   Clean up.
 **************************************************************************/
-static void shutdown()
+static void my_shutdown()
 {
   int i;
 
-  stop();
-  wait();
+  my_stop();
+  my_wait();
 
   /* remove all buffers */
   for (i = 0; i < MIX_CHANNELS; i++) {
@@ -151,7 +151,7 @@ static void shutdown()
 /**************************************************************************
   Initialize.
 **************************************************************************/
-static bool init(void)
+static bool my_init(void)
 {
   /* Initialize variables */
   const int audio_rate = MIX_DEFAULT_FREQUENCY;
@@ -189,10 +189,10 @@ void audio_sdl_init(void)
 
   sz_strlcpy(self.name, "sdl");
   sz_strlcpy(self.descr, "Simple DirectMedia Library (SDL) mixer plugin");
-  self.init = init;
-  self.shutdown = shutdown;
-  self.stop = stop;
-  self.wait = wait;
-  self.play = play;
+  self.init = my_init;
+  self.shutdown = my_shutdown;
+  self.stop = my_stop;
+  self.wait = my_wait;
+  self.play = my_play;
   audio_add_plugin(&self);
 }

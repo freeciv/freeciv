@@ -31,29 +31,29 @@
 /**************************************************************************
   Clean up
 **************************************************************************/
-static void shutdown(void)
+static void my_shutdown(void)
 {
 }
 
 /**************************************************************************
   Stop music
 **************************************************************************/
-static void stop(void)
+static void my_stop(void)
 {
 }
 
 /**************************************************************************
   Wait
 **************************************************************************/
-static void wait(void)
+static void my_wait(void)
 {
 }
 
 /**************************************************************************
   Play sound sample
 **************************************************************************/
-static bool play(const char *const tag, const char *const fullpath,
-		 bool repeat)
+static bool my_play(const char *const tag, const char *const fullpath,
+		    bool repeat)
 {
 	static char cmdbuf[1024];
 	if (!fullpath) return FALSE;
@@ -74,7 +74,7 @@ static bool play(const char *const tag, const char *const fullpath,
 /**************************************************************************
   Initialize.
 **************************************************************************/
-static bool init(void)
+static bool my_init(void)
 {
   return TRUE;
 }
@@ -88,10 +88,10 @@ void audio_amiga_init(void)
 
   sz_strlcpy(self.name, "amiga");
   sz_strlcpy(self.descr, "Amiga audio plugin");
-  self.init = init;
-  self.shutdown = shutdown;
-  self.stop = stop;
-  self.wait = wait;
-  self.play = play;
+  self.init = my_init;
+  self.shutdown = my_shutdown;
+  self.stop = my_stop;
+  self.wait = my_wait;
+  self.play = my_play;
   audio_add_plugin(&self);
 }

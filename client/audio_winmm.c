@@ -30,7 +30,7 @@
 /**************************************************************************
   Stop music
 **************************************************************************/
-static void stop()
+static void my_stop()
 {
   sndPlaySound(NULL, 0);
 }
@@ -38,7 +38,7 @@ static void stop()
 /**************************************************************************
   Wait
 **************************************************************************/
-static void wait()
+static void my_wait()
 {
   /* not implemented */
 }
@@ -46,8 +46,8 @@ static void wait()
 /**************************************************************************
   Play sound sample
 **************************************************************************/
-static bool play(const char *const tag, const char *const fullpath,
-		 bool repeat)
+static bool my_play(const char *const tag, const char *const fullpath,
+		    bool repeat)
 {
   if (!fullpath) {
     return FALSE;
@@ -66,9 +66,9 @@ void audio_winmm_init(void)
 
   sz_strlcpy(self.name, "winmm");
   sz_strlcpy(self.descr, "WinMM plugin");
-  self.shutdown = stop;
-  self.stop = stop;
-  self.wait = wait;
-  self.play = play;
+  self.shutdown = my_stop;
+  self.stop = my_stop;
+  self.wait = my_wait;
+  self.play = my_play;
   audio_add_plugin(&self);
 }
