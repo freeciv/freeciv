@@ -2212,6 +2212,8 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   p=secfile_lookup_str(file, "player%d.invs", plrno);
     
   plr->capital=secfile_lookup_int(file, "player%d.capital", plrno);
+  plr->revolution=secfile_lookup_int_default(file, 0, "player%d.revolution",
+                                             plrno);
 
   for(i=0; i<game.num_tech_types; i++)
     set_invention(plr, i, (p[i]=='1') ? TECH_KNOWN : TECH_UNKNOWN);
@@ -2738,8 +2740,8 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   secfile_insert_int(file, plr->research.researching,
 		     "player%d.researching", plrno);  
 
-  secfile_insert_int(file, plr->capital, 
-		      "player%d.capital", plrno);
+  secfile_insert_int(file, plr->capital, "player%d.capital", plrno);
+  secfile_insert_int(file, plr->revolution, "player%d.revolution", plrno);
 
   for(i=0; i<game.num_tech_types; i++)
     invs[i]=(get_invention(plr, i)==TECH_KNOWN) ? '1' : '0';
