@@ -1719,18 +1719,18 @@ void handle_conn_info(struct packet_conn_info *pinfo)
   Handles a conn_ping_info packet from the server.  This packet contains
   ping times for each connection.
 **************************************************************************/
-void handle_conn_ping_info(struct packet_conn_ping_info *packet)
+void handle_conn_ping_info(int connections, int *conn_id, float *ping_time)
 {
   int i;
 
-  for (i = 0; i < packet->connections; i++) {
-    struct connection *pconn = find_conn_by_id(packet->conn_id[i]);
+  for (i = 0; i < connections; i++) {
+    struct connection *pconn = find_conn_by_id(conn_id[i]);
 
     if (!pconn) {
       continue;
     }
 
-    pconn->ping_time = packet->ping_time[i];
+    pconn->ping_time = ping_time[i];
     freelog(LOG_DEBUG, "conn-id=%d, ping=%fs", pconn->id,
 	    pconn->ping_time);
   }
@@ -2649,49 +2649,15 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   int i;
 
   specialist_type_iterate(sp) {
+    int *bonus = game.rgame.specialists[sp].bonus;
+
     sz_strlcpy(game.rgame.specialists[sp].name, packet->specialist_name[sp]);
-    if (has_capability("short_spec", aconnection.capability)) {
-      sz_strlcpy(game.rgame.specialists[sp].short_name,
-		 packet->specialist_short_name[sp]);
-    } else {
-      switch (sp) {
-      case SP_ELVIS:
-	sz_strlcpy(game.rgame.specialists[sp].short_name, N_("?Elvis:E"));
-	break;
-      case SP_TAXMAN:
-	sz_strlcpy(game.rgame.specialists[sp].short_name, N_("?Taxman:T"));
-	break;
-      case SP_SCIENTIST:
-	sz_strlcpy(game.rgame.specialists[sp].short_name,
-		   N_("?Scientist:S"));
-	break;
-      }
-    }
+    sz_strlcpy(game.rgame.specialists[sp].short_name,
+	       packet->specialist_short_name[sp]);
     game.rgame.specialists[sp].min_size = packet->specialist_min_size[sp];
-    if (has_capability("spec_multi", aconnection.capability)) {
-      int *bonus = game.rgame.specialists[sp].bonus;
-
-      output_type_iterate(o) {
-	bonus[o] = packet->specialist_bonus[sp * O_COUNT + o];
-      } output_type_iterate_end;
-    } else {
-      /* This is included for compatability. */
-      int bonus = packet->specialist_bonus_old[sp];
-
-      memset(game.rgame.specialists[sp].bonus, 0,
-	     O_COUNT * sizeof(*game.rgame.specialists[sp].bonus));
-      switch (sp) {
-      case SP_ELVIS:
-	game.rgame.specialists[sp].bonus[O_LUXURY] = bonus;
-	break;
-      case SP_SCIENTIST:
-	game.rgame.specialists[sp].bonus[O_SCIENCE] = bonus;
-	break;
-      case SP_TAXMAN:
-	game.rgame.specialists[sp].bonus[O_GOLD] = bonus;
-	break;
-      }
-    }
+    output_type_iterate(o) {
+      bonus[o] = packet->specialist_bonus[sp * O_COUNT + o];
+    } output_type_iterate_end;
   } specialist_type_iterate_end;
   tilespec_setup_specialist_types();
 

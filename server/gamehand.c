@@ -446,10 +446,6 @@ static const char *get_challenge_fullname(struct connection *pc)
 **************************************************************************/
 const char *new_challenge_filename(struct connection *pc)
 {
-  if (!has_capability("new_hack", pc->capability)) {
-    return "";
-  }
-
   gen_challenge_filename(pc);
   return get_challenge_filename(pc);
 }
@@ -466,11 +462,6 @@ void handle_single_want_hack_req(struct connection *pc,
   struct section_file file;
   char *token = NULL;
   bool you_have_hack = FALSE;
-
-  if (!has_capability("new_hack", pc->capability)) {
-    dsend_packet_single_want_hack_reply(pc, FALSE);
-    return ;
-  }
 
   if (section_file_load_nodup(&file, get_challenge_fullname(pc))) {
     token = secfile_lookup_str_default(&file, NULL, "challenge.token");

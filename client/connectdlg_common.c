@@ -413,36 +413,34 @@ and read the string, then the client is given hack access.
 *****************************************************************/ 
 void send_client_wants_hack(const char *filename)
 {
-  if (has_capability("new_hack", aconnection.capability)) {
-    if (filename[0] != '\0') {
-      struct packet_single_want_hack_req req;
-      struct section_file file;
+  if (filename[0] != '\0') {
+    struct packet_single_want_hack_req req;
+    struct section_file file;
 
-      if (!is_filename_safe(filename)) {
-	return;
-      }
-
-      /* get the full filename path */
-      interpret_tilde(challenge_fullname, sizeof(challenge_fullname),
-	  "~/.freeciv/");
-      make_dir(challenge_fullname);
-
-      sz_strlcat(challenge_fullname, filename);
-
-      /* generate an authentication token */ 
-      randomize_string(req.token, sizeof(req.token));
-
-      section_file_init(&file);
-      secfile_insert_str(&file, req.token, "challenge.token");
-      if (!section_file_save(&file, challenge_fullname, 0)) {
-	freelog(LOG_ERROR, "Couldn't write token to temporary file: %s",
-	    challenge_fullname);
-      }
-      section_file_free(&file);
-
-      /* tell the server what we put into the file */ 
-      send_packet_single_want_hack_req(&aconnection, &req);
+    if (!is_filename_safe(filename)) {
+      return;
     }
+
+    /* get the full filename path */
+    interpret_tilde(challenge_fullname, sizeof(challenge_fullname),
+		    "~/.freeciv/");
+    make_dir(challenge_fullname);
+
+    sz_strlcat(challenge_fullname, filename);
+
+    /* generate an authentication token */ 
+    randomize_string(req.token, sizeof(req.token));
+
+    section_file_init(&file);
+    secfile_insert_str(&file, req.token, "challenge.token");
+    if (!section_file_save(&file, challenge_fullname, 0)) {
+      freelog(LOG_ERROR, "Couldn't write token to temporary file: %s",
+	      challenge_fullname);
+    }
+    section_file_free(&file);
+
+    /* tell the server what we put into the file */ 
+    send_packet_single_want_hack_req(&aconnection, &req);
   }
 }
 
@@ -451,15 +449,13 @@ handle response (by the server) if the client has got hack or not.
 *****************************************************************/ 
 void handle_single_want_hack_reply(bool you_have_hack)
 {
-  if (has_capability("new_hack", aconnection.capability)) {
-    /* remove challenge file */
-    if (challenge_fullname[0] != '\0') {
-      if (remove(challenge_fullname) == -1) {
-	freelog(LOG_ERROR, "Couldn't remove temporary file: %s",
-	    challenge_fullname);
-      }
-      challenge_fullname[0] = '\0';
+  /* remove challenge file */
+  if (challenge_fullname[0] != '\0') {
+    if (remove(challenge_fullname) == -1) {
+      freelog(LOG_ERROR, "Couldn't remove temporary file: %s",
+	      challenge_fullname);
     }
+    challenge_fullname[0] = '\0';
   }
 
   if (you_have_hack) {

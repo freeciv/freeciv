@@ -389,7 +389,6 @@ struct packet_unit_info {
   int veteran;
   bool ai;
   bool paradropped;
-  bool connecting;
   bool transported;
   bool done_moving;
   Unit_Type_id type;
@@ -636,9 +635,6 @@ struct packet_conn_info {
 };
 
 struct packet_conn_ping_info {
-  int old_connections;
-  int old_conn_id[MAX_NUM_PLAYERS];
-  float old_ping_time[MAX_NUM_PLAYERS];
   int connections;
   int conn_id[MAX_NUM_CONNECTIONS];
   float ping_time[MAX_NUM_CONNECTIONS];
@@ -738,7 +734,6 @@ struct packet_ruleset_game {
   char specialist_name[SP_MAX][MAX_LEN_NAME];
   char specialist_short_name[SP_MAX][MAX_LEN_NAME];
   int specialist_min_size[SP_MAX];
-  int specialist_bonus_old[SP_MAX];
   int specialist_bonus[SP_MAX * O_MAX];
   bool changable_tax;
   int forced_science;
@@ -981,7 +976,6 @@ struct packet_ruleset_control {
 };
 
 struct packet_single_want_hack_req {
-  int old_token;
   char token[MAX_LEN_NAME];
 };
 

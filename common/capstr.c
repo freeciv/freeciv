@@ -73,23 +73,7 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-/* +2.0 is the capability string for the 2.0.x release(s).
- *
- * "connecting" means the unused "connecting" field of the unit_info packet
- * is present.
- *
- * "conn_ping_info" means the packet_conn_ping_info uses MAX_NUM_CONNECTIONS
- * not MAX_NUM_PLAYERS.
- *
- * "username_info" means that the username is sent in the player_info packet
- *
- * "new_hack" means a new-style hack-request method
- *
- * "spec_multi" means specialists may provide more than one type of output.
- * Note that actually using this feature with an unsupported client will
- * break it.
- *
- * "short_spec" means that specialists have short names in the ruleset
+/* +Freeciv.Devel.YYYY.MMM.DD is the base capability string.
  *
  *   - No new manditory capabilities can be added to the release branch; doing
  *     so would break network capability of supposedly "compatible" releases.
@@ -98,8 +82,7 @@ const char * const our_capability = our_capability_internal;
  *     as long as possible.  We want to maintain network compatibility with
  *     the stable branch for as long as possible.
  */
-#define CAPABILITY "+2.0 connecting conn_ping_info username_info new_hack " \
-                   "spec_multi short_spec"
+#define CAPABILITY "+Freeciv.Devel.2004.Dec.2"
 
 void init_our_capability(void)
 {

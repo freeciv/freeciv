@@ -3148,7 +3148,6 @@ static void send_ruleset_game(struct conn_list *dest)
 
   specialist_type_iterate(sp) {
     int *bonus = game.rgame.specialists[sp].bonus;
-    int max_bonus = 0;
 
     sz_strlcpy(misc_p.specialist_name[sp], game.rgame.specialists[sp].name);
     sz_strlcpy(misc_p.specialist_short_name[sp],
@@ -3157,11 +3156,7 @@ static void send_ruleset_game(struct conn_list *dest)
 
     output_type_iterate(o) {
       misc_p.specialist_bonus[sp * O_COUNT + o] = bonus[o];
-      max_bonus = MAX(max_bonus, bonus[0]);
     } output_type_iterate_end;
-
-    /* This is included for compatability. */
-    misc_p.specialist_bonus_old[sp] = max_bonus;
   } specialist_type_iterate_end;
   misc_p.changable_tax = game.rgame.changable_tax;
   misc_p.forced_science = game.rgame.forced_science;

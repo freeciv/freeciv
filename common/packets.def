@@ -92,9 +92,13 @@ Syntax:
      available at runtime. If you have a capability named
      "new_version" a field line may look like this:
        COORD x; add-cap(new_version)
+     when making an optional capability manditory, go through and remove
+     the add-cap flag for it while leaving the field intact.
 
      remove-cap: don't transfer this field if the given capability is
-     available at runtime.
+     available at runtime.  When making an optional capability manditory,
+     go through and remove entirely any fields marked as remove-cap with
+     that capability.
 
      dsend: request the creation of a dsend_packet_* function.  This is
      similar to a send function but instead of taking a packet struct
@@ -533,7 +537,7 @@ end
 PACKET_PLAYER_INFO=39; is-info,sc
   PLAYER playerno; key 
   STRING name[MAX_LEN_NAME];
-  STRING username[MAX_LEN_NAME]; add-cap(username_info)
+  STRING username[MAX_LEN_NAME];
 
   BOOL is_male;
   GOVERNMENT government;
@@ -610,7 +614,6 @@ PACKET_UNIT_INFO=49; is-info,sc,lsend
 
   UINT8 veteran;
   BOOL ai, paradropped;
-  BOOL connecting; remove-cap(connecting)
   BOOL transported, done_moving;
 
   UNIT_TYPE type;
@@ -853,14 +856,9 @@ end
 
 # Information about the ping times of the connections.
 PACKET_CONN_PING_INFO=87; sc,lsend
-  # "Old" values
-  UINT8 old_connections; remove-cap(conn_ping_info)
-  CONNECTION old_conn_id[MAX_NUM_PLAYERS:connections]; remove-cap(conn_ping_info)
-  float1000000(float) old_ping_time[MAX_NUM_PLAYERS:connections]; remove-cap(conn_ping_info)
-
-  UINT8 connections; add-cap(conn_ping_info)
-  CONNECTION conn_id[MAX_NUM_CONNECTIONS:connections]; add-cap(conn_ping_info)
-  float1000000(float) ping_time[MAX_NUM_CONNECTIONS:connections]; add-cap(conn_ping_info)
+  UINT8 connections;
+  CONNECTION conn_id[MAX_NUM_CONNECTIONS:connections];
+  float1000000(float) ping_time[MAX_NUM_CONNECTIONS:connections];
 end
 
 PACKET_CONN_PING=88;sc
@@ -972,10 +970,9 @@ end
 
 PACKET_RULESET_GAME=97;sc,lsend
   STRING specialist_name[SP_MAX][MAX_LEN_NAME];
-  STRING specialist_short_name[SP_MAX][MAX_LEN_NAME]; add-cap(short_spec)
+  STRING specialist_short_name[SP_MAX][MAX_LEN_NAME];
   UINT8 specialist_min_size[SP_MAX];
-  UINT8 specialist_bonus_old[SP_MAX]; remove-cap(spec_multi)
-  UINT8 specialist_bonus[SP_MAX * O_MAX]; add-cap(spec_multi)
+  UINT8 specialist_bonus[SP_MAX * O_MAX];
   BOOL changable_tax;
   UINT8 forced_science;
   UINT8 forced_luxury;
@@ -1257,8 +1254,7 @@ end
  Below are the packets that control single-player mode.  
 *********************************************************/
 PACKET_SINGLE_WANT_HACK_REQ=108;cs,handle-per-conn,no-handle
- UINT32 old_token; remove-cap(new_hack)
- STRING token[MAX_LEN_NAME]; add-cap(new_hack)
+ STRING token[MAX_LEN_NAME];
 end
 
 PACKET_SINGLE_WANT_HACK_REPLY=109;sc,dsend
