@@ -506,8 +506,8 @@ static void check_packet(struct data_in *din, struct connection *pc)
       /* This may be ok, eg a packet from a newer version with extra info
        * which we should just ignore */
       freelog(LOG_VERBOSE,
-	      "received long packet (type %d, len %d, rem %d)%s", type, len,
-	      rem, from);
+	      "received long packet (type %d, len %d, rem %lu)%s", type,
+	      len, (unsigned long)rem, from);
     }
   }
 }

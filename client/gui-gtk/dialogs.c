@@ -1970,8 +1970,8 @@ void create_races_dialog(void)
   race_names = NULL;
 
   for(i = 0; i < game.playable_nation_count; i++) {
-    race_names = g_list_append(race_names, 
-          get_nation_by_idx((int)g_list_nth_data(sorted_races_list, i))->name);
+    race_names = g_list_append(race_names, get_nation_by_idx(
+          GPOINTER_TO_INT(g_list_nth_data(sorted_races_list, i)))->name);
   }
 
   gtk_combo_set_popdown_strings(GTK_COMBO(races_by_name), race_names);
@@ -2136,8 +2136,8 @@ static void races_by_name_callback(GtkWidget *w, gpointer data)
 
   for(i = 0; i < g_list_length(sorted_races_list); i++) {
     if (strcmp(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_by_name)->entry)),
-               get_nation_by_idx(
-                   (int)g_list_nth_data(sorted_races_list, i))->name) == 0) {
+               get_nation_by_idx(GPOINTER_TO_INT(
+               g_list_nth_data(sorted_races_list, i)))->name) == 0) {
       if (GTK_WIDGET_SENSITIVE(races_toggles[i])) {
  	gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(races_toggles[i]), TRUE);
  	break;

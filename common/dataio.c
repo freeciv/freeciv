@@ -343,7 +343,7 @@ void dio_put_bit_string(struct data_out *dout, const char *value)
   size_t max = (unsigned short)(-1);
 
   if (bits > max) {
-    freelog(LOG_ERROR, "Bit string too long: %d bits.", bits);
+    freelog(LOG_ERROR, "Bit string too long: %lu bits.", (unsigned long)bits);
     assert(FALSE);
     bits = max;
   }
