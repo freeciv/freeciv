@@ -400,6 +400,9 @@ void reset_move_costs(int x, int y)
   yy[1] = y; /* if these are out of range, map_get_tile will complain */
   yy[2] = y + 1;
 
+/*  printf("Resetting move costs for (%d, %d) [%x%x%x%x%x%x%x%x]\n", x, y,
+tile0->move_cost[0],  tile0->move_cost[1], tile0->move_cost[2], tile0->move_cost[3],
+tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost[7]); */
   for (k = 0; k < 8; k++) {
     i = ii[k]; j = jj[k]; /* saves CPU cycles? */
     tile1 = map_get_tile(xx[i], yy[j]);
@@ -410,6 +413,9 @@ void reset_move_costs(int x, int y)
     else c = get_tile_type(tile1->terrain)->movement_cost*3;
     tile0->move_cost[k] = c;
   } /* next k */
+/*  printf("Reset move costs for (%d, %d) [%x%x%x%x%x%x%x%x]\n", x, y,
+tile0->move_cost[0],  tile0->move_cost[1], tile0->move_cost[2], tile0->move_cost[3],
+tile0->move_cost[4],  tile0->move_cost[5], tile0->move_cost[6], tile0->move_cost[7]); */
 /* reverse!  This is not optimized, and hopefully not obfuscated either -- Syela */
   tile1 = tile0;
   for (k = 0; k < 8; k++) {
@@ -587,6 +593,7 @@ void map_set_terrain(int x, int y, enum tile_terrain_type ter)
 void map_set_special(int x, int y, enum tile_special_type spe)
 {
   (map.tiles+x+y*map.xsize)->special|=spe;
+  if (spe == S_ROAD || spe == S_RAILROAD) reset_move_costs(x, y);
 }
 
 /***************************************************************
@@ -595,6 +602,7 @@ void map_set_special(int x, int y, enum tile_special_type spe)
 void map_clear_special(int x, int y, enum tile_special_type spe)
 {
   (map.tiles+x+y*map.xsize)->special&=~spe;
+  if (spe == S_ROAD || spe == S_RAILROAD) reset_move_costs(x, y);
 }
 
 
