@@ -319,9 +319,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   struct packet_unit_combat combat;
   struct unit *plooser, *pwinner;
   struct city *pcity;
-  struct city *incity, *nearcity;
+  struct city *incity, *nearcity1, *nearcity2;
   incity = map_get_city(pdefender->x, pdefender->y);
-  nearcity = dist_nearest_enemy_city(0, pdefender->x, pdefender->y);
   punit->moves_left-=3;
     
   if(punit->moves_left<0)
@@ -373,6 +372,9 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     if(map_get_known(punit->x, punit->y, &game.players[o]) ||
        map_get_known(pdefender->x, pdefender->y, &game.players[o]))
       send_packet_unit_combat(game.players[o].conn, &combat);
+
+  nearcity1 = dist_nearest_enemy_city(get_player(pwinner->owner), pdefender->x, pdefender->y);
+  nearcity2 = dist_nearest_enemy_city(get_player(plooser->owner), pdefender->x, pdefender->y);
   
   if(punit==plooser) {
     if (incity) notify_player_ex(&game.players[pwinner->owner], 
@@ -381,10 +383,17 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
                   unit_name(pwinner->type), incity->name,
 		  game.players[plooser->owner].name,
 		  unit_name(punit->type));
-    else if (nearcity) notify_player_ex(&game.players[pwinner->owner], 
+    else if (nearcity1 && is_tiles_adjacent(pdefender->x, pdefender->y, nearcity1->x,
+         nearcity1->y)) notify_player_ex(&game.players[pwinner->owner], 
+		     pwinner->x, pwinner->y, E_UNIT_WIN, 
+		  "Game: Your %s outside %s survived the pathetic attack from %s's %s.",
+                  unit_name(pwinner->type), nearcity1->name,
+		  game.players[plooser->owner].name,
+		  unit_name(punit->type));
+    else if (nearcity1) notify_player_ex(&game.players[pwinner->owner], 
 		     pwinner->x, pwinner->y, E_UNIT_WIN, 
 		  "Game: Your %s near %s survived the pathetic attack from %s's %s.",
-                  unit_name(pwinner->type), nearcity->name,
+                  unit_name(pwinner->type), nearcity1->name,
 		  game.players[plooser->owner].name,
 		  unit_name(punit->type));
     else notify_player_ex(&game.players[pwinner->owner], 
@@ -399,12 +408,19 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
 		  unit_name(pwinner->type), incity->name);
-    else if (nearcity) notify_player_ex(&game.players[plooser->owner], 
+    else if (nearcity2 && is_tiles_adjacent(pdefender->x, pdefender->y,
+      nearcity2->x, nearcity2->y)) notify_player_ex(&game.players[plooser->owner], 
+		     pdefender->x, pdefender->y, E_NOEVENT, 
+		     "Game: Your attacking %s failed against %s's %s outside %s!",
+                      unit_name(plooser->type),
+		  game.players[pwinner->owner].name,
+		  unit_name(pwinner->type), nearcity2->name);
+    else if (nearcity2) notify_player_ex(&game.players[plooser->owner], 
 		     pdefender->x, pdefender->y, E_NOEVENT, 
 		     "Game: Your attacking %s failed against %s's %s near %s!",
                       unit_name(plooser->type),
 		  game.players[pwinner->owner].name,
-		  unit_name(pwinner->type), nearcity->name);
+		  unit_name(pwinner->type), nearcity2->name);
     else notify_player_ex(&game.players[plooser->owner], 
 		     pdefender->x, pdefender->y, E_NOEVENT, 
 		     "Game: Your attacking %s failed against %s's %s!",
@@ -416,19 +432,26 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   else {
     if (incity) notify_player_ex(&game.players[pwinner->owner], 
 		     punit->x, punit->y, E_NOEVENT, 
-		     "Game: Your attacking %s was succesful against %s's %s at %s!",
+		     "Game: Your attacking %s was successful against %s's %s at %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
 		  unit_name(plooser->type), incity->name);
-    else if (nearcity) notify_player_ex(&game.players[pwinner->owner], 
+    else if (nearcity1 && is_tiles_adjacent(pdefender->x, pdefender->y,
+       nearcity1->x, nearcity1->y)) notify_player_ex(&game.players[pwinner->owner], 
 		     punit->x, punit->y, E_NOEVENT, 
-		     "Game: Your attacking %s was succesful against %s's %s near %s!",
+		     "Game: Your attacking %s was successful against %s's %s outside %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
-		  unit_name(plooser->type), nearcity->name);
+		  unit_name(plooser->type), nearcity1->name);
+    else if (nearcity1) notify_player_ex(&game.players[pwinner->owner], 
+		     punit->x, punit->y, E_NOEVENT, 
+		     "Game: Your attacking %s was successful against %s's %s near %s!",
+                      unit_name(pwinner->type),
+		  game.players[plooser->owner].name,
+		  unit_name(plooser->type), nearcity1->name);
     else notify_player_ex(&game.players[pwinner->owner], 
 		     punit->x, punit->y, E_NOEVENT, 
-		     "Game: Your attacking %s was succesful against %s's %s!",
+		     "Game: Your attacking %s was successful against %s's %s!",
                       unit_name(pwinner->type),
 		  game.players[plooser->owner].name,
 		  unit_name(plooser->type));
@@ -880,7 +903,8 @@ void handle_unit_auto_request(struct player *pplayer,
 void handle_unit_activity_request(struct player *pplayer, struct unit *punit, 
 				  enum unit_activity new_activity)
 {
-  if((punit->moves_left>0 || punit->activity==ACTIVITY_GOTO) && 
+  if((punit->moves_left>0 || punit->activity==ACTIVITY_GOTO ||
+      new_activity == ACTIVITY_EXPLORE) && 
      can_unit_do_activity(punit, new_activity)) {
     punit->activity=new_activity;
     punit->activity_count=0;
