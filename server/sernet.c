@@ -60,6 +60,7 @@
 #include "log.h"
 #include "packets.h"
 #include "shared.h"
+#include "support.h"		/* mystrerror */
 
 #include "civserver.h"
 #include "console.h"

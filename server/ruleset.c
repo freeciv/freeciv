@@ -30,6 +30,7 @@
 #include "nation.h"
 #include "packets.h"
 #include "registry.h"
+#include "support.h"
 #include "tech.h"
 #include "unit.h"
 

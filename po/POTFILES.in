@@ -5,6 +5,7 @@ common/log.c
 common/map.c
 common/mem.c
 common/shared.c
+common/support.c
 common/unit.c
 server/cityhand.c
 server/citytools.c

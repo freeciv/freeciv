@@ -20,6 +20,7 @@
 #include "map.h"
 #include "rand.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 #include "unit.h"
 

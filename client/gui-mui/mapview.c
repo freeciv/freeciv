@@ -27,6 +27,7 @@
 #include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "player.h"
+#include "support.h"		/* myusleep() */
 
 #include "control.h"
 #include "graphics.h"

@@ -29,7 +29,7 @@
 #include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "player.h"
-#include "shared.h"		/* myusleep() */
+#include "support.h"		/* myusleep() */
 #include "unit.h"
 
 #include "civclient.h"

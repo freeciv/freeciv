@@ -30,6 +30,7 @@
 #include "player.h"
 #include "registry.h"
 #include "shared.h"
+#include "support.h"
 
 #include "civserver.h"
 #include "console.h"

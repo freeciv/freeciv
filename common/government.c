@@ -19,6 +19,7 @@
 #include "mem.h"
 #include "player.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 
 #include "government.h"

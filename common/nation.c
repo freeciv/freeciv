@@ -24,6 +24,7 @@
 #include "log.h"
 #include "mem.h"
 #include "player.h"
+#include "support.h"
 #include "tech.h"
 
 #include "nation.h"

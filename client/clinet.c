@@ -64,6 +64,7 @@
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
+#include "support.h"
 #include "version.h"
 
 #include "chatline_g.h"

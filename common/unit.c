@@ -27,6 +27,7 @@
 #include "map.h"
 #include "mem.h"
 #include "player.h"
+#include "support.h"
 #include "tech.h"
 
 #include "unit.h"

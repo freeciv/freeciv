@@ -27,20 +27,6 @@
 #include <pwd.h>
 #endif
 
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_SELECT_H
-#include <sys/select.h>
-#endif
-
-#ifdef GENERATING_MAC
-#include <events.h> /* for WaitNextEvent() */
-#endif
-
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -247,34 +233,6 @@ char *textyear(int year)
   return y;
 }
 
-
-/***************************************************************
-  Compare strings like strcmp(), but ignoring case.
-***************************************************************/
-int mystrcasecmp(const char *str0, const char *str1)
-{
-  for(; tolower(*str0)==tolower(*str1); str0++, str1++)
-    if(*str0=='\0')
-      return 0;
-
-  return tolower(*str0)-tolower(*str1);
-}
-
-/***************************************************************
-  Compare strings like strncmp(), but ignoring case.
-  ie, only compares first n chars.
-***************************************************************/
-int mystrncasecmp(const char *str0, const char *str1, size_t n)
-{
-  size_t i;
-  
-  for(i=0; i<n && tolower(*str0)==tolower(*str1); i++, str0++, str1++)
-    if(*str0=='\0')
-      return 0;
-
-  return (i==n) ? 0 : (tolower(*str0)-tolower(*str1));
-}
-
 /**************************************************************************
 string_ptr_compare() - fiddles with pointers to do a simple string compare
                        when passed pointers to two strings -- called from
@@ -284,47 +242,6 @@ string_ptr_compare() - fiddles with pointers to do a simple string compare
 int string_ptr_compare(const void *first, const void *second)
 {
    return mystrcasecmp(*((const char **)first), *((const char **)second));
-}
-
-/***************************************************************
-...
-***************************************************************/
-char *mystrerror(int errnum)
-{
-#if defined(HAVE_STRERROR) || !defined(HAVE_CONFIG_H)
-  /* if we have real strerror() or if we're not using configure */
-  return strerror(errnum);
-#else
-  static char buf[64];
-  sprintf(buf, _("error %d (compiled without strerror)"), errnum);
-  return buf;
-#endif
-}
-
-/***************************************************************
-...
-***************************************************************/
-void myusleep(unsigned long usec)
-{
-#ifdef HAVE_USLEEP
-  usleep(usec);
-#else
-#ifdef HAVE_SNOOZE		/* BeOS */
-  snooze(usec);
-#else
-#ifdef GENERATING_MAC
-  EventRecord the_event;  /* dummy var for timesharing */
-  WaitNextEvent(0, &the_event, GetCaretTime(), nil); /* this is suposed to
-     give other application procseor time for the mac*/
-#else
-  struct timeval tv;
-
-  tv.tv_sec=0;
-  tv.tv_usec=100;
-  select(0, NULL, NULL, NULL, &tv);
-#endif
-#endif
-#endif
 }
 
 /***************************************************************************

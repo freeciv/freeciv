@@ -25,6 +25,7 @@
 #include "map.h"
 #include "mem.h"
 #include "shared.h"
+#include "support.h"
 #include "tech.h"
 
 #include "city.h"

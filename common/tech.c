@@ -17,6 +17,7 @@
 
 #include "game.h"
 #include "player.h"
+#include "support.h"
 
 #include "tech.h"
 

@@ -17,15 +17,19 @@
 /********************************************************************** 
   Replacements for functions which are not available on all platforms.
   Where the functions are available natively, these are just wrappers.
-  See also some functions in shared.h (some of which should be moved
-  here), and functions/macros in mem.h.  See support.c for more
-  comments.
+  See also mem.h, rand.h, and see support.c for more comments.
 ***********************************************************************/
 
 #include <stdlib.h>		/* size_t */
 #include <stdarg.h>
 
 #include "attribute.h"
+
+int mystrcasecmp(const char *str0, const char *str1);
+int mystrncasecmp(const char *str0, const char *str1, size_t n);
+
+char *mystrerror(int errnum);
+void myusleep(unsigned long usec);
 
 size_t mystrlcpy(char *dest, const char *src, size_t n);
 size_t mystrlcat(char *dest, const char *src, size_t n);
