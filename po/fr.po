@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-17 22:03+0100\n"
+"POT-Creation-Date: 2005-02-21 20:56-0500\n"
 "PO-Revision-Date: 1999-09-13 10:22+0200\n"
 "Last-Translator: Genevieve Gracian <ggracian@free.fr>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -2266,36 +2266,36 @@ msgstr ""
 "Serveur en version %d.%d.%d%s ; client en version %d.%d.%d%s. Une mise à "
 "jour peut sans doute aider !"
 
-#: server/connecthand.c:262
+#: server/connecthand.c:259
 #, c-format
 msgid "Invalid username '%s'"
 msgstr "Nom d'utilisateur invalide '%s'"
 
-#: server/connecthand.c:264
+#: server/connecthand.c:261
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr "Connexion depuis %s rejetée (nom invalide)"
 
-#: server/connecthand.c:272
+#: server/connecthand.c:269
 #, c-format
 msgid "'%s' already connected."
 msgstr "'%s' déjà connecté"
 
-#: server/connecthand.c:276
+#: server/connecthand.c:273
 #, c-format
 msgid "Rejected connection from %s with duplicate login name."
 msgstr "Rejet d'une connexion depuis %s avec un nom de login redondant"
 
-#: server/connecthand.c:292
+#: server/connecthand.c:289
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr "Attention: le nom d'invité '%s' a été pris, renommage en '%s'."
 
-#: server/connecthand.c:297
+#: server/connecthand.c:294
 msgid "Guests are not allowed on this server. Sorry."
 msgstr "Les invités ne sont pas autorisés sur ce serveur. Désolé"
 
-#: server/connecthand.c:317
+#: server/connecthand.c:314
 #, c-format
 msgid ""
 "There was an error reading the user database, logging in as guest connection "
@@ -2304,7 +2304,7 @@ msgstr ""
 "Il y a eu une erreur à la lecture de la base données des utilisateurs, "
 "entrée en tant que connexion invité '%s'."
 
-#: server/connecthand.c:322
+#: server/connecthand.c:319
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
@@ -2312,28 +2312,28 @@ msgstr ""
 "Il y a eu une erreur à la lecture de la base données des utilisateurs et les "
 "connexions d'invités ne sont pas autorisés. Désolé."
 
-#: server/connecthand.c:330
+#: server/connecthand.c:327
 #, c-format
 msgid "Enter password for %s:"
 msgstr "Entrez le mot de passe pour %s:"
 
-#: server/connecthand.c:338
+#: server/connecthand.c:335
 msgid "Enter a new password (and remember it)."
 msgstr "Entrez un nouveau mot de passe (et souvenez-vous en)."
 
-#: server/connecthand.c:342
+#: server/connecthand.c:339
 msgid "This server allows only preregistered users. Sorry."
 msgstr "Ce serveur n'autorise que les joueurs pre-enregistrés. Désolé."
 
-#: server/connecthand.c:370 server/connecthand.c:395
+#: server/connecthand.c:367 server/connecthand.c:392
 msgid "Sorry, too many wrong tries..."
 msgstr "Désolé, trop de mauvaises tentatives..."
 
-#: server/connecthand.c:378
+#: server/connecthand.c:375
 msgid "Your password is incorrect. Try again."
 msgstr "Votre mot de passe est incorrect. Essayez encore."
 
-#: server/connecthand.c:411
+#: server/connecthand.c:408
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
@@ -2341,14 +2341,14 @@ msgstr ""
 "Attention: Il y a eu une erreur à la sauvegarde dans la base de données. On "
 "continue mais vos stats ne seront pas sauvegardées."
 
-#: server/connecthand.c:492
+#: server/connecthand.c:489
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr ""
 "Votre mot de passe est trop court, la longueur minimum est %d. Essayez "
 "encore."
 
-#: server/connecthand.c:498
+#: server/connecthand.c:495
 #, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
@@ -2357,12 +2357,12 @@ msgstr ""
 "Le mot de passe doit avoir au moins %d lettres capitales, %d chiffres, et "
 "être long d'au moins %d caractères [imprimables]. Essayez encore."
 
-#: server/connecthand.c:542
+#: server/connecthand.c:539
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Connexion perdue: %s."
 
-#: server/connecthand.c:550
+#: server/connecthand.c:547
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Jeu : connexion perdue : %s."
@@ -6163,25 +6163,25 @@ msgstr "Barbare"
 
 #: server/stdinhand.c:2937 server/stdinhand.c:3945 client/plrdlg_common.c:228
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk/plrdlg.c:141
-#: client/gui-win32/connectdlg.c:188 client/gui-win32/plrdlg.c:340
+#: client/gui-win32/connectdlg.c:189 client/gui-win32/plrdlg.c:340
 msgid "AI"
 msgstr "IA"
 
 # AR
 #: server/stdinhand.c:2937 server/stdinhand.c:3947
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk-2.0/pages.c:1480
-#: client/gui-win32/connectdlg.c:188 client/gui-win32/connectdlg.c:207
+#: client/gui-win32/connectdlg.c:189 client/gui-win32/connectdlg.c:208
 msgid "Human"
 msgstr "Humain"
 
 #: server/stdinhand.c:2937 client/gui-gtk-2.0/pages.c:1452
-#: client/gui-gtk-2.0/pages.c:1479 client/gui-win32/connectdlg.c:187
-#: client/gui-win32/connectdlg.c:206
+#: client/gui-gtk-2.0/pages.c:1479 client/gui-win32/connectdlg.c:188
+#: client/gui-win32/connectdlg.c:207
 msgid "Alive"
 msgstr "Vivant"
 
 #: server/stdinhand.c:2937 client/gui-gtk-2.0/pages.c:1452
-#: client/gui-win32/connectdlg.c:187
+#: client/gui-win32/connectdlg.c:188
 msgid "Dead"
 msgstr "Mort"
 
@@ -7618,11 +7618,11 @@ msgstr "Niveau de débogage invalide \"%s\" spécifié pour l'option --debug.\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue: \"%s\"\n"
 
-#: client/civclient.c:487
+#: client/civclient.c:498
 msgid "Game started."
 msgstr "Partie commencée."
 
-#: client/civclient.c:520
+#: client/civclient.c:531
 msgid "There was an error while auto connecting; aborting."
 msgstr "La connection automatique a échoué ; abandon."
 
@@ -7763,6 +7763,11 @@ msgstr ""
 #: client/clinet.c:605
 msgid "Failed looking up host"
 msgstr "Échec de la recherche de la machine-hôte"
+
+#: client/clinet.c:658
+#, fuzzy
+msgid "Failed querying socket"
+msgstr "Création de la structure PNG impossible"
 
 #: client/connectdlg_common.c:78
 msgid "novice"
@@ -8974,7 +8979,7 @@ msgstr "Drapeau"
 
 #: client/plrdlg_common.c:225 client/gui-gtk-2.0/dialogs.c:1621
 #: client/gui-gtk-2.0/pages.c:1514 client/gui-gtk/plrdlg.c:140
-#: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:988
+#: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:992
 #: client/gui-win32/plrdlg.c:340
 msgid "Nation"
 msgstr "Nation"
@@ -10255,7 +10260,7 @@ msgid "Remove this preset?"
 msgstr "Supprimer ce pré-réglage"
 
 #: client/gui-gtk-2.0/connectdlg.c:137 client/gui-gtk/connectdlg.c:638
-#: client/gui-mui/connectdlg.c:272 client/gui-win32/connectdlg.c:645
+#: client/gui-mui/connectdlg.c:272 client/gui-win32/connectdlg.c:646
 #: client/gui-xaw/connectdlg.c:546
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
@@ -10271,7 +10276,7 @@ msgstr "Connection au serveur refusée. Veuillez démarrer le serveur."
 #: client/gui-gtk-2.0/connectdlg.c:161 client/gui-gtk-2.0/connectdlg.c:190
 #: client/gui-gtk/connectdlg.c:662 client/gui-gtk/connectdlg.c:692
 #: client/gui-mui/connectdlg.c:286 client/gui-mui/connectdlg.c:317
-#: client/gui-win32/connectdlg.c:661 client/gui-win32/connectdlg.c:699
+#: client/gui-win32/connectdlg.c:662 client/gui-win32/connectdlg.c:700
 #: client/gui-xaw/connectdlg.c:566 client/gui-xaw/connectdlg.c:592
 #, c-format
 msgid ""
@@ -10592,7 +10597,7 @@ msgstr "Unité"
 
 #: client/gui-gtk-2.0/dialogs.c:1430 client/gui-gtk-2.0/pages.c:1510
 #: client/gui-gtk-2.0/wldlg.c:990 client/gui-gtk/plrdlg.c:140
-#: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:983
+#: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:987
 #: client/gui-win32/plrdlg.c:340 data/Freeciv.in:80
 msgid "Name"
 msgstr "Nom"
@@ -10841,7 +10846,7 @@ msgid "Freeciv"
 msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:841 client/gui-gtk-2.0/gui_main.c:855
-#: client/gui-gtk/gui_main.c:678 client/gui-win32/gui_main.c:404
+#: client/gui-gtk/gui_main.c:678 client/gui-win32/gui_main.c:406
 #: data/Freeciv.in:2645
 msgid "Turn Done"
 msgstr "Fin du tour"
@@ -10859,7 +10864,7 @@ msgid "_Chat"
 msgstr "_Discussion"
 
 #: client/gui-gtk-2.0/gui_main.c:977 client/gui-gtk/gui_main.c:783
-#: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:460
+#: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:462
 #: data/Freeciv.in:2836
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -10876,7 +10881,7 @@ msgid "Name:"
 msgstr "Nom :"
 
 #: client/gui-gtk-2.0/gui_main.c:1240 client/gui-gtk/connectdlg.c:433
-#: client/gui-win32/connectdlg.c:1057
+#: client/gui-win32/connectdlg.c:1061
 msgid "Host:"
 msgstr "Hôte :"
 
@@ -11995,42 +12000,42 @@ msgid "C_onnect to Network Game"
 msgstr "Se c_onnecter à un jeu en réseau"
 
 #: client/gui-gtk-2.0/pages.c:555 client/gui-gtk/connectdlg.c:189
-#: client/gui-win32/connectdlg.c:289 client/gui-xaw/connectdlg.c:311
+#: client/gui-win32/connectdlg.c:290 client/gui-xaw/connectdlg.c:311
 msgid "Passwords don't match, enter password."
 msgstr "Les mots de passe ne correspondent pas, entrez le mot de passe."
 
 #: client/gui-gtk-2.0/pages.c:645 client/gui-gtk/connectdlg.c:382
-#: client/gui-mui/connectdlg.c:160 client/gui-win32/connectdlg.c:914
+#: client/gui-mui/connectdlg.c:160 client/gui-win32/connectdlg.c:918
 msgid "Server Name"
 msgstr "Nom du serveur"
 
 #: client/gui-gtk-2.0/pages.c:646 client/gui-gtk/connectdlg.c:382
-#: client/gui-mui/connectdlg.c:161 client/gui-win32/connectdlg.c:914
+#: client/gui-mui/connectdlg.c:161 client/gui-win32/connectdlg.c:918
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
 #: client/gui-gtk-2.0/pages.c:647 client/gui-gtk/connectdlg.c:382
-#: client/gui-mui/connectdlg.c:162 client/gui-win32/connectdlg.c:915
+#: client/gui-mui/connectdlg.c:162 client/gui-win32/connectdlg.c:919
 msgid "Version"
 msgstr "Version"
 
 #: client/gui-gtk-2.0/pages.c:648 client/gui-gtk-2.0/pages.c:1516
 #: client/gui-gtk/connectdlg.c:383 client/gui-mui/connectdlg.c:163
-#: client/gui-win32/connectdlg.c:915 client/gui-win32/connectdlg.c:993
+#: client/gui-win32/connectdlg.c:919 client/gui-win32/connectdlg.c:997
 msgid "Status"
 msgstr "Statut"
 
 #: client/gui-gtk-2.0/pages.c:649 client/gui-gtk-2.0/plrdlg.c:295
 #: client/gui-gtk/connectdlg.c:383 client/gui-gtk/plrdlg.c:168
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
-#: client/gui-win32/connectdlg.c:915 client/gui-win32/plrdlg.c:346
+#: client/gui-win32/connectdlg.c:919 client/gui-win32/plrdlg.c:346
 #: client/gui-xaw/menu.c:217 data/Freeciv.in:3199 data/Freeciv.in:3200
 msgid "Players"
 msgstr "Joueurs"
 
 #: client/gui-gtk-2.0/pages.c:650 client/gui-gtk/connectdlg.c:383
-#: client/gui-mui/connectdlg.c:165 client/gui-win32/connectdlg.c:916
+#: client/gui-mui/connectdlg.c:165 client/gui-win32/connectdlg.c:920
 msgid "Comment"
 msgstr "Commentaire"
 
@@ -12103,7 +12108,7 @@ msgstr "Choisissez un _scénario :"
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:314
 #: client/gui-gtk/wldlg.c:320 client/gui-mui/citydlg.c:633
 #: client/gui-mui/citydlg.c:662 client/gui-mui/worklistclass.c:237
-#: client/gui-win32/citydlg.c:1096 client/gui-win32/connectdlg.c:998
+#: client/gui-win32/citydlg.c:1096 client/gui-win32/connectdlg.c:1002
 #: client/gui-win32/wldlg.c:673 client/gui-win32/wldlg.c:679
 msgid "Type"
 msgstr "Type"
@@ -12374,7 +12379,7 @@ msgstr "Vaisseau spatial\n"
 msgid "Score"
 msgstr "Score"
 
-#: client/gui-gtk-2.0/repodlgs.c:1449 client/gui-win32/connectdlg.c:1034
+#: client/gui-gtk-2.0/repodlgs.c:1449 client/gui-win32/connectdlg.c:1038
 #: client/gui-win32/repodlgs.c:889
 msgid "Game Options"
 msgstr "Options du jeu"
@@ -12709,7 +12714,7 @@ msgstr "Changer"
 #: client/gui-gtk/finddlg.c:108 client/gui-gtk/gamedlgs.c:312
 #: client/gui-gtk/inputdlg.c:135 client/gui-gtk/messagedlg.c:126
 #: client/gui-gtk/wldlg.c:492 client/gui-win32/citydlg.c:1088
-#: client/gui-win32/cityrep.c:754 client/gui-win32/connectdlg.c:1037
+#: client/gui-win32/cityrep.c:754 client/gui-win32/connectdlg.c:1041
 #: client/gui-win32/dialogs.c:1667 client/gui-win32/finddlg.c:128
 #: client/gui-win32/gotodlg.c:170 client/gui-win32/inputdlg.c:146
 #: client/gui-win32/messagedlg.c:216 client/gui-win32/ratesdlg.c:328
@@ -12811,17 +12816,17 @@ msgstr "voir README.cma."
 msgid "Next"
 msgstr "Suivant"
 
-#: client/gui-gtk/connectdlg.c:141 client/gui-win32/connectdlg.c:143
+#: client/gui-gtk/connectdlg.c:141 client/gui-win32/connectdlg.c:144
 msgid "Password:"
 msgstr "Mot de passe:"
 
-#: client/gui-gtk/connectdlg.c:174 client/gui-win32/connectdlg.c:273
+#: client/gui-gtk/connectdlg.c:174 client/gui-win32/connectdlg.c:274
 #: client/gui-xaw/connectdlg.c:296
 msgid "Verify Password"
 msgstr "Vérification du mot de passe:"
 
 #: client/gui-gtk/connectdlg.c:370 client/gui-gtk/connectdlg.c:510
-#: client/gui-mui/gui_main.c:263 client/gui-win32/connectdlg.c:1094
+#: client/gui-mui/gui_main.c:263 client/gui-win32/connectdlg.c:1098
 #: client/gui-win32/menu.c:378 data/Freeciv.in:104 data/Freeciv.in:2537
 msgid "Connect"
 msgstr "Se connecter"
@@ -12834,43 +12839,43 @@ msgstr "Sélectionner"
 msgid " Connect to Freeciv Server"
 msgstr " Se connecter à un serveur Freeciv"
 
-#: client/gui-gtk/connectdlg.c:409 client/gui-win32/connectdlg.c:912
+#: client/gui-gtk/connectdlg.c:409 client/gui-win32/connectdlg.c:916
 #: data/Freeciv.in:73
 msgid "Freeciv Server Selection"
 msgstr "Sélection du Serveur Freeciv"
 
-#: client/gui-gtk/connectdlg.c:425 client/gui-win32/connectdlg.c:1055
+#: client/gui-gtk/connectdlg.c:425 client/gui-win32/connectdlg.c:1059
 msgid "Login:"
 msgstr "Login:"
 
-#: client/gui-gtk/connectdlg.c:441 client/gui-win32/connectdlg.c:1058
+#: client/gui-gtk/connectdlg.c:441 client/gui-win32/connectdlg.c:1062
 msgid "Port:"
 msgstr "Port :"
 
 #: client/gui-gtk/connectdlg.c:469 client/gui-mui/connectdlg.c:178
-#: client/gui-win32/connectdlg.c:912 data/Freeciv.in:107
+#: client/gui-win32/connectdlg.c:916 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr "Métaserveur"
 
 #: client/gui-gtk/connectdlg.c:486 client/gui-gtk/connectdlg.c:507
-#: client/gui-win32/connectdlg.c:1079 client/gui-win32/connectdlg.c:1087
+#: client/gui-win32/connectdlg.c:1083 client/gui-win32/connectdlg.c:1091
 #: data/Freeciv.in:155
 msgid "Update"
 msgstr "M.À.J."
 
-#: client/gui-gtk/connectdlg.c:490 client/gui-win32/connectdlg.c:913
+#: client/gui-gtk/connectdlg.c:490 client/gui-win32/connectdlg.c:917
 msgid "Local Area Network"
 msgstr "Réseau local"
 
 #: client/gui-gtk/connectdlg.c:516 client/gui-gtk/dialogs.c:2066
-#: client/gui-mui/gui_main.c:209 client/gui-win32/connectdlg.c:1096
+#: client/gui-mui/gui_main.c:209 client/gui-win32/connectdlg.c:1100
 #: client/gui-win32/dialogs.c:550 client/gui-xaw/menu.c:119
 #: data/Freeciv.in:115 data/Freeciv.in:3187
 msgid "Quit"
 msgstr "Quitter"
 
 #: client/gui-gtk/connectdlg.c:683 client/gui-mui/connectdlg.c:307
-#: client/gui-win32/connectdlg.c:691 client/gui-xaw/connectdlg.c:583
+#: client/gui-win32/connectdlg.c:692 client/gui-xaw/connectdlg.c:583
 #, c-format
 msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d second(s) "
@@ -14417,48 +14422,48 @@ msgstr "Contrôler la ville"
 msgid "Release city"
 msgstr "Libérer la ville"
 
-#: client/gui-win32/connectdlg.c:165
+#: client/gui-win32/connectdlg.c:166
 msgid "Couldn't load the savegame"
 msgstr "Impossible de charger le fichier de sauvegarde"
 
-#: client/gui-win32/connectdlg.c:789
+#: client/gui-win32/connectdlg.c:793
 msgid "Load Game"
 msgstr "Charger un jeu"
 
-#: client/gui-win32/connectdlg.c:947
+#: client/gui-win32/connectdlg.c:951
 msgid "Welcome to Freeciv"
 msgstr "Bienvenue à Freeciv"
 
-#: client/gui-win32/connectdlg.c:963
+#: client/gui-win32/connectdlg.c:967
 msgid "Start New Game"
 msgstr "Démarrer un nouveau jeu"
 
-#: client/gui-win32/connectdlg.c:965
+#: client/gui-win32/connectdlg.c:969
 msgid "Load Saved Game"
 msgstr "Charger un jeu"
 
-#: client/gui-win32/connectdlg.c:967
+#: client/gui-win32/connectdlg.c:971
 msgid "Connect To Network Game"
 msgstr "Se connecter à un jeu en réseau"
 
-#: client/gui-win32/connectdlg.c:977
+#: client/gui-win32/connectdlg.c:981
 msgid "Choose a nation to play"
 msgstr "Choisissez une nation à diriger"
 
-#: client/gui-win32/connectdlg.c:1012
+#: client/gui-win32/connectdlg.c:1016
 msgid "Number of players (Including AI):"
 msgstr "Nombre de joueurs (y compris IA) :"
 
-#: client/gui-win32/connectdlg.c:1020
+#: client/gui-win32/connectdlg.c:1024
 msgid "AI skill level:"
 msgstr "Niveau de l'IA :"
 
-#: client/gui-win32/connectdlg.c:1036 client/gui-win32/inputdlg.c:145
+#: client/gui-win32/connectdlg.c:1040 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:944
 msgid "OK"
 msgstr "OK"
 
-#: client/gui-win32/connectdlg.c:1092
+#: client/gui-win32/connectdlg.c:1096
 msgid "Back"
 msgstr "Retour"
 
