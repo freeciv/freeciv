@@ -640,7 +640,7 @@ int get_virtual_defense_power(int a_type, int d_type, int x, int y)
   } else if (m_type == SEA_MOVING && pcity) {
     if (city_got_building(pcity, B_COASTAL))
       defensepower*=2;
-  } else if (!unit_flag(a_type, F_IGTER) &&
+  } else if (!unit_flag(a_type, F_IGWALL) &&
           (m_type == LAND_MOVING || m_type == HELI_MOVING) &&
           pcity && city_got_citywalls(pcity))
     defensepower*=3;
