@@ -1466,10 +1466,10 @@ int naive_air_can_move_between(int moves, int src_x, int src_y,
     if (movescount <= 1)
       goto TRYFULL;
 
-    go_x = x > dest_x ?
-      (x-dest_x < map.xsize/2 ? -1 : 1):
-      (dest_x-x < map.xsize/2 ? 1 : -1);
-    go_y = dest_y > y ? 1 : -1;
+    go_x = (x > dest_x ?
+	    (x-dest_x < map.xsize/2 ? -1 : 1) :
+	    (dest_x-x < map.xsize/2 ? 1 : -1));
+    go_y = (dest_y > y ? 1 : -1);
 
     freelog(LOG_DEBUG, "%i,%i to %i,%i. go_x: %i, go_y:%i",
 	    x, y, dest_x, dest_y, go_x, go_y);
@@ -1479,7 +1479,7 @@ int naive_air_can_move_between(int moves, int src_x, int src_y,
 	    /* && is_real_tile(i, y+go_y) */
 	    && ! is_non_allied_unit_tile(ptile, playerid)) {
 	  x = i;
-	  y++;
+	  y += go_y;
 	  goto NEXTCYCLE;
 	}
       goto TRYFULL;
