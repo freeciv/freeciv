@@ -773,8 +773,9 @@ void resolve_unit_stack(int x, int y, int verbose)
 				    is_sailing_unit(cunit), NULL);
 
     if (pcity && ccity) {
-      /* Both unit owners have cities;
-	 teleport unit closest to its owner's city there. */
+      /* Both unit owners have cities; teleport unit farthest from its
+	 owner's city home. This also makes sure we get no loops from
+	 when we resolve the stack inside a city. */
       if (map_distance(x, y, pcity->x, pcity->y) 
 	  < map_distance(x, y, ccity->x, ccity->y))
 	teleport_unit_to_city(cunit, ccity, 0, verbose);
