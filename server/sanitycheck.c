@@ -228,8 +228,8 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   } city_map_iterate_end;
   if (workers + city_specialists(pcity) != pcity->size + 1) {
     die("%s is illegal (size%d w%d e%d t%d s%d) in %s line %d",
-        pcity->name, pcity->size, workers, pcity->ppl_elvis,
-        pcity->ppl_taxman, pcity->ppl_scientist, file, line);
+        pcity->name, pcity->size, workers, pcity->specialists[SP_ELVIS],
+        pcity->specialists[SP_TAXMAN], pcity->specialists[SP_SCIENTIST], file, line);
   }
 }
 

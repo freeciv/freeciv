@@ -356,8 +356,9 @@ static void print_city(struct city *pcity)
 	  pcity->name, pcity->id);
   freelog(LOG_NORMAL,
 	  "  size=%d, entertainers=%d, scientists=%d, taxmen=%d",
-	  pcity->size, pcity->ppl_elvis, pcity->ppl_scientist,
-	  pcity->ppl_taxman);
+	  pcity->size, pcity->specialists[SP_ELVIS],
+	  pcity->specialists[SP_SCIENTIST],
+	  pcity->specialists[SP_TAXMAN]);
   freelog(LOG_NORMAL, "  workers at:");
   my_city_map_iterate(pcity, x, y) {
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
@@ -638,9 +639,9 @@ static void real_fill_out_result(struct city *pcity,
     }
   } my_city_map_iterate_end;
 
-  pcity->ppl_elvis = result->entertainers;
-  pcity->ppl_scientist = result->scientists;
-  pcity->ppl_taxman = result->taxmen;
+  pcity->specialists[SP_ELVIS] = result->entertainers;
+  pcity->specialists[SP_SCIENTIST] = result->scientists;
+  pcity->specialists[SP_TAXMAN] = result->taxmen;
 
   /* Do a local recalculation of the city */
   generic_city_refresh(pcity, FALSE, NULL);

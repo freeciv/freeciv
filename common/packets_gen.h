@@ -171,9 +171,7 @@ struct packet_city_info {
   int ppl_content[5];
   int ppl_unhappy[5];
   int ppl_angry[5];
-  int ppl_elvis;
-  int ppl_scientist;
-  int ppl_taxman;
+  int specialists[SP_COUNT];
   int food_prod;
   int shield_prod;
   int trade_prod;

@@ -700,7 +700,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
       is_valid = map_to_city_map(&city_map_x, &city_map_y, acity, x, y);
       assert(is_valid);
       server_remove_worker_city(acity, city_map_x, city_map_y);
-      acity->ppl_elvis++;
+      acity->specialists[SP_ELVIS]++;
       if (!city_list_find_id(&minilist, acity->id)) {
 	city_list_insert(&minilist, acity);
       }

@@ -934,11 +934,12 @@ static void player_load(struct player *plr, int plrno,
 
     pcity->steal=secfile_lookup_int(file, "player%d.c%d.steal", plrno, i);
 
-    pcity->ppl_elvis=secfile_lookup_int(file, "player%d.c%d.nelvis", plrno, i);
-    pcity->ppl_scientist=secfile_lookup_int(file, 
-					  "player%d.c%d.nscientist", plrno, i);
-    pcity->ppl_taxman=secfile_lookup_int(file, "player%d.c%d.ntaxman",
-					 plrno, i);
+    pcity->specialists[SP_ELVIS]
+      = secfile_lookup_int(file, "player%d.c%d.nelvis", plrno, i);
+    pcity->specialists[SP_SCIENTIST]
+      = secfile_lookup_int(file, "player%d.c%d.nscientist", plrno, i);
+    pcity->specialists[SP_TAXMAN]
+      = secfile_lookup_int(file, "player%d.c%d.ntaxman", plrno, i);
 
     for (j = 0; j < NUM_TRADEROUTES; j++)
       pcity->trade[j]=secfile_lookup_int(file, "player%d.c%d.traderoute%d",
@@ -1046,7 +1047,7 @@ static void player_load(struct player *plr, int plrno,
 	    /* oops, inconsistent savegame; minimal fix: */
 	    freelog(LOG_VERBOSE, "Inconsistent worked for %s (%d,%d), "
 		    "converting to elvis", pcity->name, x, y);
-	    pcity->ppl_elvis++;
+	    pcity->specialists[SP_ELVIS]++;
 	    set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	  } else {
 	    set_worker_city(pcity, x, y, C_TILE_WORKER);
@@ -1686,10 +1687,12 @@ static void player_save(struct player *plr, int plrno,
 		       plrno, i);
     secfile_insert_int(file, pcity->size, "player%d.c%d.size", plrno, i);
     secfile_insert_int(file, pcity->steal, "player%d.c%d.steal", plrno, i);
-    secfile_insert_int(file, pcity->ppl_elvis, "player%d.c%d.nelvis", plrno, i);
-    secfile_insert_int(file, pcity->ppl_scientist, "player%d.c%d.nscientist", 
-		       plrno, i);
-    secfile_insert_int(file, pcity->ppl_taxman, "player%d.c%d.ntaxman", plrno, i);
+    secfile_insert_int(file, pcity->specialists[SP_ELVIS],
+		       "player%d.c%d.nelvis", plrno, i);
+    secfile_insert_int(file, pcity->specialists[SP_SCIENTIST],
+		       "player%d.c%d.nscientist", plrno, i);
+    secfile_insert_int(file, pcity->specialists[SP_TAXMAN],
+		       "player%d.c%d.ntaxman", plrno, i);
 
     for (j = 0; j < NUM_TRADEROUTES; j++)
       secfile_insert_int(file, pcity->trade[j], "player%d.c%d.traderoute%d", 
@@ -1935,7 +1938,7 @@ static void check_city(struct city *pcity)
 	int map_x, map_y;
 	bool is_real;
 
-	pcity->ppl_elvis++;
+	pcity->specialists[SP_ELVIS]++;
 	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	freelog(LOG_DEBUG, "Worked tile was unavailable!");
 

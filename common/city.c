@@ -1821,10 +1821,13 @@ static void set_tax_income(struct city *pcity)
   pcity->tax_total = tax;
   pcity->luxury_total = lux;
 
-  pcity->luxury_total += (pcity->ppl_elvis * game.rgame.base_elvis);
-  pcity->science_total += (pcity->ppl_scientist * game.rgame.base_scientist);
-  pcity->tax_total += (pcity->ppl_taxman * game.rgame.base_taxman) 
-                       + get_city_tithes_bonus(pcity);
+  pcity->luxury_total
+    += (pcity->specialists[SP_ELVIS] * game.rgame.base_elvis);
+  pcity->science_total
+    += (pcity->specialists[SP_SCIENTIST] * game.rgame.base_scientist);
+  pcity->tax_total
+    += ((pcity->specialists[SP_TAXMAN] * game.rgame.base_taxman) 
+	+ get_city_tithes_bonus(pcity));
 }
 
 /**************************************************************************
@@ -2416,7 +2419,9 @@ int city_waste(struct city *pcity, int shields)
 **************************************************************************/
 int city_specialists(struct city *pcity)
 {
-  return (pcity->ppl_elvis + pcity->ppl_scientist + pcity->ppl_taxman);
+  return (pcity->specialists[SP_ELVIS]
+	  + pcity->specialists[SP_SCIENTIST]
+	  + pcity->specialists[SP_TAXMAN]);
 }
 
 /**************************************************************************
@@ -2566,8 +2571,8 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->y = y;
   sz_strlcpy(pcity->name, name);
   pcity->size = 1;
-  pcity->ppl_elvis = 1;
-  pcity->ppl_scientist = pcity->ppl_taxman=0;
+  pcity->specialists[SP_ELVIS] = 1;
+  pcity->specialists[SP_SCIENTIST] = pcity->specialists[SP_TAXMAN] = 0;
   pcity->ppl_happy[4] = 0;
   pcity->ppl_content[4] = 1;
   pcity->ppl_unhappy[4] = 0;

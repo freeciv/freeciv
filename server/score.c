@@ -412,9 +412,9 @@ int civ_score(struct player *pplayer)
     pplayer->score.content += pcity->ppl_content[4];
     pplayer->score.unhappy += pcity->ppl_unhappy[4];
     pplayer->score.angry += pcity->ppl_angry[4];
-    pplayer->score.taxmen += pcity->ppl_taxman;
-    pplayer->score.scientists += pcity->ppl_scientist;
-    pplayer->score.elvis += pcity->ppl_elvis;
+    pplayer->score.taxmen += pcity->specialists[SP_TAXMAN];
+    pplayer->score.scientists += pcity->specialists[SP_SCIENTIST];
+    pplayer->score.elvis += pcity->specialists[SP_ELVIS];
     pplayer->score.population += city_population(pcity);
     pplayer->score.cities++;
     pplayer->score.pollution += pcity->pollution;

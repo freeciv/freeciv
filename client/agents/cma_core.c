@@ -158,8 +158,9 @@ static void print_city(struct city *pcity)
 	  pcity->name, pcity->id);
   freelog(LOG_NORMAL,
 	  "  size=%d, entertainers=%d, scientists=%d, taxmen=%d",
-	  pcity->size, pcity->ppl_elvis, pcity->ppl_scientist,
-	  pcity->ppl_taxman);
+	  pcity->size, pcity->specialists[SP_ELVIS],
+	  pcity->specialists[SP_SCIENTIST],
+	  pcity->specialists[SP_TAXMAN]);
   freelog(LOG_NORMAL, "  workers at:");
   my_city_map_iterate(pcity, x, y) {
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
@@ -281,9 +282,9 @@ static void get_current_as_result(struct city *pcity,
     }
   } my_city_map_iterate_end;
 
-  result->entertainers = pcity->ppl_elvis;
-  result->scientists = pcity->ppl_scientist;
-  result->taxmen = pcity->ppl_taxman;
+  result->entertainers = pcity->specialists[SP_ELVIS];
+  result->scientists = pcity->specialists[SP_SCIENTIST];
+  result->taxmen = pcity->specialists[SP_TAXMAN];
 
   assert(worker + result->entertainers + result->scientists +
 	 result->taxmen == pcity->size);
@@ -370,7 +371,8 @@ static bool apply_result_on_server(struct city *pcity,
   } my_city_map_iterate_end;
 
   /* Change surplus scientists to entertainers */
-  for (i = 0; i < pcity->ppl_scientist - result->scientists; i++) {
+  for (i = 0; i < pcity->specialists[SP_SCIENTIST] - result->scientists;
+       i++) {
     last_request_id = city_change_specialist(pcity, SP_SCIENTIST, SP_ELVIS);
     if (first_request_id == 0) {
       first_request_id = last_request_id;
@@ -378,7 +380,7 @@ static bool apply_result_on_server(struct city *pcity,
   }
 
   /* Change surplus taxmen to entertainers */
-  for (i = 0; i < pcity->ppl_taxman - result->taxmen; i++) {
+  for (i = 0; i < pcity->specialists[SP_TAXMAN] - result->taxmen; i++) {
     last_request_id = city_change_specialist(pcity, SP_TAXMAN, SP_ELVIS);
     if (first_request_id == 0) {
       first_request_id = last_request_id;
@@ -400,7 +402,8 @@ static bool apply_result_on_server(struct city *pcity,
   } my_city_map_iterate_end;
 
   /* Set scientists. */
-  for (i = 0; i < result->scientists - pcity->ppl_scientist; i++) {
+  for (i = 0; i < result->scientists - pcity->specialists[SP_SCIENTIST];
+       i++) {
     last_request_id = city_change_specialist(pcity, SP_ELVIS, SP_SCIENTIST);
     if (first_request_id == 0) {
       first_request_id = last_request_id;
@@ -408,7 +411,7 @@ static bool apply_result_on_server(struct city *pcity,
   }
 
   /* Set taxmen. */
-  for (i = 0; i < result->taxmen - pcity->ppl_taxman; i++) {
+  for (i = 0; i < result->taxmen - pcity->specialists[SP_TAXMAN]; i++) {
     last_request_id = city_change_specialist(pcity, SP_ELVIS, SP_TAXMAN);
     if (first_request_id == 0) {
       first_request_id = last_request_id;

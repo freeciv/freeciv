@@ -212,7 +212,7 @@ static int impr_happy_val(struct city *pcity, int happy, int tileval)
   /* How much one rebeling citizen counts - 16 is debatable value */
 #define SADVAL 16
   /* Number of elvises in the city */
-  int elvis = pcity->ppl_elvis;
+  int elvis = pcity->specialists[SP_ELVIS];
   /* Raw number of unhappy people */
   int sad = pcity->ppl_unhappy[0];
   /* Final number of content people */
@@ -247,8 +247,8 @@ static int impr_happy_val(struct city *pcity, int happy, int tileval)
   while (happy > 0) { happy--; value += SADVAL; }
   
   freelog(LOG_DEBUG, "%s: %d elvis %d sad %d content %d size %d val",
-		pcity->name, pcity->ppl_elvis, pcity->ppl_unhappy[4],
-		pcity->ppl_content[4], pcity->size, value);
+	  pcity->name, pcity->specialists[SP_ELVIS], pcity->ppl_unhappy[4],
+	  pcity->ppl_content[4], pcity->size, value);
 
   return value;
 #undef SADVAL
@@ -426,8 +426,9 @@ void ai_eval_buildings(struct city *pcity)
     sci = 0;
   }
 
-  est_food = 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman
-           + pcity->food_surplus; 
+  est_food = (2 * pcity->specialists[SP_SCIENTIST]
+	      + 2 * pcity->specialists[SP_TAXMAN]
+	      + pcity->food_surplus);
   prod = 
     (pcity->shield_prod * SHIELD_WEIGHTING * 100) / city_shield_bonus(pcity);
   needpower = (city_got_building(pcity, B_MFG) ? 2 :
@@ -439,13 +440,16 @@ void ai_eval_buildings(struct city *pcity)
   /* the AI used to really love granaries for nascent cities, which is OK  */
   /* as long as they aren't rated above Settlers and Laws is above Pottery */
   /* -- Syela */
-  grana = MAX(2,pcity->size);
+  grana = MAX(2, pcity->size);
   food  = food_weighting(grana);
   grana = food_weighting(grana + 1);
   hunger = 1;
   j = (pcity->size * 2) + settler_eats(pcity) - pcity->food_prod;
-  if (j >= 0 && pcity->ppl_scientist <= 0 && pcity->ppl_taxman <= 0) 
-    hunger += j+1;
+  if (j >= 0
+      && pcity->specialists[SP_SCIENTIST] <= 0
+      && pcity->specialists[SP_TAXMAN] <= 0) {
+    hunger += j + 1;
+  }
 
   /* rationale: barracks effectively doubles prod if building military units */
   /* if half our production is military, effective gain is 1/2 city prod     */
@@ -529,7 +533,8 @@ void ai_eval_buildings(struct city *pcity)
     case B_MARKETPLACE:
     case B_BANK:
     case B_STOCK:
-      values[id] = (tax + 3*pcity->ppl_taxman + pcity->ppl_elvis*wwtv)/2;
+      values[id] = (tax + 3 * pcity->specialists[SP_TAXMAN]
+		    + pcity->specialists[SP_ELVIS] * wwtv) / 2;
       break;
     case B_SUPERHIGHWAYS:
       values[id] = road_trade(pcity) * t;
@@ -952,8 +957,8 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Food surplus assuming that workers and elvii are already accounted for
    * and properly balanced. */
   int est_food = pcity->food_surplus
-                 + 2 * pcity->ppl_scientist
-                 + 2 * pcity->ppl_taxman;
+                 + 2 * pcity->specialists[SP_SCIENTIST]
+                 + 2 * pcity->specialists[SP_TAXMAN];
 
   init_choice(choice);
 

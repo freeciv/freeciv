@@ -26,7 +26,7 @@ enum production_class_type {
 };
 
 enum specialist_type {
-  SP_ELVIS, SP_SCIENTIST, SP_TAXMAN
+  SP_ELVIS, SP_SCIENTIST, SP_TAXMAN, SP_COUNT
 };
 
 enum city_tile_type {
@@ -231,7 +231,7 @@ struct city {
   int ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
 
   /* Specialists */
-  int ppl_elvis, ppl_scientist, ppl_taxman;
+  int specialists[SP_COUNT];
 
   /* trade routes */
   int trade[NUM_TRADEROUTES], trade_value[NUM_TRADEROUTES];

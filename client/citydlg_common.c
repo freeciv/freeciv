@@ -390,13 +390,13 @@ void get_city_citizen_types(struct city *pcity, int index,
     citizens[i] = CITIZEN_ANGRY;
   }
 
-  for (n = 0; n < pcity->ppl_elvis; n++, i++) {
+  for (n = 0; n < pcity->specialists[SP_ELVIS]; n++, i++) {
     citizens[i] = CITIZEN_ELVIS;
   }
-  for (n = 0; n < pcity->ppl_scientist; n++, i++) {
+  for (n = 0; n < pcity->specialists[SP_SCIENTIST]; n++, i++) {
     citizens[i] = CITIZEN_SCIENTIST;
   }
-  for (n = 0; n < pcity->ppl_taxman; n++, i++) {
+  for (n = 0; n < pcity->specialists[SP_TAXMAN]; n++, i++) {
     citizens[i] = CITIZEN_TAXMAN;
   }
 

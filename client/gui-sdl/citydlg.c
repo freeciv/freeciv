@@ -2362,9 +2362,10 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
 
-  count = pCity->ppl_happy[4] + pCity->ppl_content[4] +
-      pCity->ppl_unhappy[4] + pCity->ppl_angry[4] +
-      pCity->ppl_elvis + pCity->ppl_scientist + pCity->ppl_taxman;
+  count = (pCity->ppl_happy[4] + pCity->ppl_content[4]
+	   + pCity->ppl_unhappy[4] + pCity->ppl_angry[4]
+	   + pCity->specialists[SP_ELVIS] + pCity->specialists[SP_SCIENTIST]
+	   + pCity->specialists[SP_TAXMAN]);
 
   if (count * pIcons->pMale_Happy->w > 180) {
     step = (180 - pIcons->pMale_Happy->w) / (count - 1);
@@ -2436,22 +2437,22 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 	}
       }
 
-      if (pCity->ppl_elvis) {
-	for (i = 0; i < pCity->ppl_elvis; i++) {
+      if (pCity->specialists[SP_ELVIS]) {
+	for (i = 0; i < pCity->specialists[SP_ELVIS]; i++) {
 	  SDL_BlitSurface(pIcons->pSpec_Lux, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	}
       }
 
-      if (pCity->ppl_taxman) {
-	for (i = 0; i < pCity->ppl_taxman; i++) {
+      if (pCity->specialists[SP_TAXMAN]) {
+	for (i = 0; i < pCity->specialists[SP_TAXMAN]; i++) {
 	  SDL_BlitSurface(pIcons->pSpec_Tax, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	}
       }
 
-      if (pCity->ppl_scientist) {
-	for (i = 0; i < pCity->ppl_scientist; i++) {
+      if (pCity->specialists[SP_SCIENTIST]) {
+	for (i = 0; i < pCity->specialists[SP_SCIENTIST]; i++) {
 	  SDL_BlitSurface(pIcons->pSpec_Sci, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	}
@@ -3490,9 +3491,10 @@ static void redraw_city_dialog(struct city *pCity)
   /* count != 0 */
   /* ==================================================== */
   /* Draw Citizens */
-  count = pCity->ppl_happy[4] + pCity->ppl_content[4] +
-      pCity->ppl_unhappy[4] + pCity->ppl_angry[4] +
-      pCity->ppl_elvis + pCity->ppl_scientist + pCity->ppl_taxman;
+  count = (pCity->ppl_happy[4] + pCity->ppl_content[4]
+	   + pCity->ppl_unhappy[4] + pCity->ppl_angry[4]
+	   + pCity->specialists[SP_ELVIS] + pCity->specialists[SP_SCIENTIST]
+	   + pCity->specialists[SP_TAXMAN]);
 
   pBuf = get_citizen_surface(CITIZEN_ELVIS, 0);
   if (count > 13) {
@@ -3541,13 +3543,13 @@ static void redraw_city_dialog(struct city *pCity)
   pCityDlg->specs[1] = FALSE;
   pCityDlg->specs[2] = FALSE;
   
-  if (pCity->ppl_elvis) {
+  if (pCity->specialists[SP_ELVIS]) {
     pBuf = get_citizen_surface(CITIZEN_ELVIS, 0);
     pCityDlg->specs_area[0].x = dest.x;
     pCityDlg->specs_area[0].y = dest.y;
     pCityDlg->specs_area[0].w = pBuf->w;
     pCityDlg->specs_area[0].h = pBuf->h;
-    for (i = 0; i < pCity->ppl_elvis; i++) {
+    for (i = 0; i < pCity->specialists[SP_ELVIS]; i++) {
       SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
       pCityDlg->specs_area[0].w += step;
@@ -3556,13 +3558,13 @@ static void redraw_city_dialog(struct city *pCity)
     pCityDlg->specs[0] = TRUE;
   }
 
-  if (pCity->ppl_taxman) {
+  if (pCity->specialists[SP_TAXMAN]) {
     pBuf = get_citizen_surface(CITIZEN_TAXMAN, 0);
     pCityDlg->specs_area[1].x = dest.x;
     pCityDlg->specs_area[1].y = dest.y;
     pCityDlg->specs_area[1].w = pBuf->w;
     pCityDlg->specs_area[1].h = pBuf->h;
-    for (i = 0; i < pCity->ppl_taxman; i++) {
+    for (i = 0; i < pCity->specialists[SP_TAXMAN]; i++) {
       SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
       pCityDlg->specs_area[1].w += step;
@@ -3571,13 +3573,13 @@ static void redraw_city_dialog(struct city *pCity)
     pCityDlg->specs[1] = TRUE;
   }
 
-  if (pCity->ppl_scientist) {
+  if (pCity->specialists[SP_SCIENTIST]) {
     pBuf = get_citizen_surface(CITIZEN_SCIENTIST, 0);
     pCityDlg->specs_area[2].x = dest.x;
     pCityDlg->specs_area[2].y = dest.y;
     pCityDlg->specs_area[2].w = pBuf->w;
     pCityDlg->specs_area[2].h = pBuf->h;
-    for (i = 0; i < pCity->ppl_scientist; i++) {
+    for (i = 0; i < pCity->specialists[SP_SCIENTIST]; i++) {
       SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
       pCityDlg->specs_area[2].w += step;

@@ -4622,7 +4622,7 @@ static int cmp_packet_city_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_city_info_100_fields, 47);
+BV_DEFINE(packet_city_info_100_fields, 45);
 
 static struct packet_city_info *receive_packet_city_info_100(struct connection *pc, enum packet_type type)
 {
@@ -4707,42 +4707,43 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
     }
   }
   if (BV_ISSET(fields, 9)) {
-    dio_get_uint8(&din, (int *) &real_packet->ppl_elvis);
+    
+    {
+      int i;
+    
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_get_uint8(&din, (int *) &real_packet->specialists[i]);
+      }
+    }
   }
   if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->ppl_scientist);
-  }
-  if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->ppl_taxman);
-  }
-  if (BV_ISSET(fields, 12)) {
     dio_get_uint16(&din, (int *) &real_packet->food_prod);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 11)) {
     dio_get_uint16(&din, (int *) &real_packet->shield_prod);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 12)) {
     dio_get_uint16(&din, (int *) &real_packet->trade_prod);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 13)) {
     dio_get_sint16(&din, (int *) &real_packet->food_surplus);
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 14)) {
     dio_get_sint16(&din, (int *) &real_packet->shield_surplus);
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 15)) {
     dio_get_sint16(&din, (int *) &real_packet->tile_trade);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 16)) {
     dio_get_uint16(&din, (int *) &real_packet->food_stock);
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 17)) {
     dio_get_uint16(&din, (int *) &real_packet->shield_stock);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 18)) {
     dio_get_uint16(&din, (int *) &real_packet->corruption);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 19)) {
     
     {
       int i;
@@ -4752,7 +4753,7 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 20)) {
     
     {
       int i;
@@ -4762,62 +4763,62 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 21)) {
     dio_get_uint16(&din, (int *) &real_packet->luxury_total);
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 22)) {
     dio_get_uint16(&din, (int *) &real_packet->tax_total);
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 23)) {
     dio_get_uint16(&din, (int *) &real_packet->science_total);
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 24)) {
     dio_get_uint16(&din, (int *) &real_packet->pollution);
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 25)) {
     dio_get_uint16(&din, (int *) &real_packet->shield_waste);
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 26)) {
     dio_get_uint8(&din, (int *) &real_packet->currently_building);
   }
-  real_packet->is_building_unit = BV_ISSET(fields, 29);
-  if (BV_ISSET(fields, 30)) {
+  real_packet->is_building_unit = BV_ISSET(fields, 27);
+  if (BV_ISSET(fields, 28)) {
     dio_get_sint16(&din, (int *) &real_packet->turn_last_built);
   }
-  if (BV_ISSET(fields, 31)) {
+  if (BV_ISSET(fields, 29)) {
     dio_get_uint8(&din, (int *) &real_packet->changed_from_id);
   }
-  real_packet->changed_from_is_unit = BV_ISSET(fields, 32);
-  if (BV_ISSET(fields, 33)) {
+  real_packet->changed_from_is_unit = BV_ISSET(fields, 30);
+  if (BV_ISSET(fields, 31)) {
     dio_get_uint16(&din, (int *) &real_packet->before_change_shields);
   }
-  if (BV_ISSET(fields, 34)) {
+  if (BV_ISSET(fields, 32)) {
     dio_get_uint16(&din, (int *) &real_packet->disbanded_shields);
   }
-  if (BV_ISSET(fields, 35)) {
+  if (BV_ISSET(fields, 33)) {
     dio_get_uint16(&din, (int *) &real_packet->caravan_shields);
   }
-  if (BV_ISSET(fields, 36)) {
+  if (BV_ISSET(fields, 34)) {
     dio_get_uint16(&din, (int *) &real_packet->last_turns_shield_surplus);
   }
-  if (BV_ISSET(fields, 37)) {
+  if (BV_ISSET(fields, 35)) {
     dio_get_worklist(&din, &real_packet->worklist);
   }
-  if (BV_ISSET(fields, 38)) {
+  if (BV_ISSET(fields, 36)) {
     dio_get_bit_string(&din, real_packet->improvements, sizeof(real_packet->improvements));
   }
-  if (BV_ISSET(fields, 39)) {
+  if (BV_ISSET(fields, 37)) {
     dio_get_city_map(&din, real_packet->city_map, sizeof(real_packet->city_map));
   }
-  real_packet->did_buy = BV_ISSET(fields, 40);
-  real_packet->did_sell = BV_ISSET(fields, 41);
-  real_packet->was_happy = BV_ISSET(fields, 42);
-  real_packet->airlift = BV_ISSET(fields, 43);
-  real_packet->diplomat_investigate = BV_ISSET(fields, 44);
-  if (BV_ISSET(fields, 45)) {
+  real_packet->did_buy = BV_ISSET(fields, 38);
+  real_packet->did_sell = BV_ISSET(fields, 39);
+  real_packet->was_happy = BV_ISSET(fields, 40);
+  real_packet->airlift = BV_ISSET(fields, 41);
+  real_packet->diplomat_investigate = BV_ISSET(fields, 42);
+  if (BV_ISSET(fields, 43)) {
     dio_get_uint8(&din, (int *) &real_packet->city_options);
   }
-  if (BV_ISSET(fields, 46)) {
+  if (BV_ISSET(fields, 44)) {
     dio_get_uint16(&din, (int *) &real_packet->turn_founded);
   }
 
@@ -4938,53 +4939,57 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 8);}
 
-  differ = (old->ppl_elvis != real_packet->ppl_elvis);
+
+    {
+      differ = (SP_COUNT != SP_COUNT);
+      if(!differ) {
+        int i;
+        for (i = 0; i < SP_COUNT; i++) {
+          if (old->specialists[i] != real_packet->specialists[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 9);}
 
-  differ = (old->ppl_scientist != real_packet->ppl_scientist);
+  differ = (old->food_prod != real_packet->food_prod);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 10);}
 
-  differ = (old->ppl_taxman != real_packet->ppl_taxman);
+  differ = (old->shield_prod != real_packet->shield_prod);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 11);}
 
-  differ = (old->food_prod != real_packet->food_prod);
+  differ = (old->trade_prod != real_packet->trade_prod);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 12);}
 
-  differ = (old->shield_prod != real_packet->shield_prod);
+  differ = (old->food_surplus != real_packet->food_surplus);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 13);}
 
-  differ = (old->trade_prod != real_packet->trade_prod);
+  differ = (old->shield_surplus != real_packet->shield_surplus);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 14);}
 
-  differ = (old->food_surplus != real_packet->food_surplus);
+  differ = (old->tile_trade != real_packet->tile_trade);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 15);}
 
-  differ = (old->shield_surplus != real_packet->shield_surplus);
+  differ = (old->food_stock != real_packet->food_stock);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 16);}
 
-  differ = (old->tile_trade != real_packet->tile_trade);
+  differ = (old->shield_stock != real_packet->shield_stock);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 17);}
 
-  differ = (old->food_stock != real_packet->food_stock);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
-
-  differ = (old->shield_stock != real_packet->shield_stock);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
-
   differ = (old->corruption != real_packet->corruption);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 18);}
 
 
     {
@@ -5000,7 +5005,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 19);}
 
 
     {
@@ -5016,71 +5021,71 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(differ) {BV_SET(fields, 20);}
 
   differ = (old->luxury_total != real_packet->luxury_total);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 21);}
 
   differ = (old->tax_total != real_packet->tax_total);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 24);}
+  if(differ) {BV_SET(fields, 22);}
 
   differ = (old->science_total != real_packet->science_total);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
+  if(differ) {BV_SET(fields, 23);}
 
   differ = (old->pollution != real_packet->pollution);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
+  if(differ) {BV_SET(fields, 24);}
 
   differ = (old->shield_waste != real_packet->shield_waste);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 27);}
+  if(differ) {BV_SET(fields, 25);}
 
   differ = (old->currently_building != real_packet->currently_building);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 28);}
+  if(differ) {BV_SET(fields, 26);}
 
   differ = (old->is_building_unit != real_packet->is_building_unit);
   if(differ) {different++;}
-  if(packet->is_building_unit) {BV_SET(fields, 29);}
+  if(packet->is_building_unit) {BV_SET(fields, 27);}
 
   differ = (old->turn_last_built != real_packet->turn_last_built);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 30);}
+  if(differ) {BV_SET(fields, 28);}
 
   differ = (old->changed_from_id != real_packet->changed_from_id);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 31);}
+  if(differ) {BV_SET(fields, 29);}
 
   differ = (old->changed_from_is_unit != real_packet->changed_from_is_unit);
   if(differ) {different++;}
-  if(packet->changed_from_is_unit) {BV_SET(fields, 32);}
+  if(packet->changed_from_is_unit) {BV_SET(fields, 30);}
 
   differ = (old->before_change_shields != real_packet->before_change_shields);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 33);}
+  if(differ) {BV_SET(fields, 31);}
 
   differ = (old->disbanded_shields != real_packet->disbanded_shields);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 34);}
+  if(differ) {BV_SET(fields, 32);}
 
   differ = (old->caravan_shields != real_packet->caravan_shields);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 35);}
+  if(differ) {BV_SET(fields, 33);}
 
   differ = (old->last_turns_shield_surplus != real_packet->last_turns_shield_surplus);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 36);}
+  if(differ) {BV_SET(fields, 34);}
 
   differ = !are_worklists_equal(&old->worklist, &real_packet->worklist);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 37);}
+  if(differ) {BV_SET(fields, 35);}
 
   differ = (strcmp(old->improvements, real_packet->improvements) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 38);}
+  if(differ) {BV_SET(fields, 36);}
 
 
     {
@@ -5096,35 +5101,35 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 39);}
+  if(differ) {BV_SET(fields, 37);}
 
   differ = (old->did_buy != real_packet->did_buy);
   if(differ) {different++;}
-  if(packet->did_buy) {BV_SET(fields, 40);}
+  if(packet->did_buy) {BV_SET(fields, 38);}
 
   differ = (old->did_sell != real_packet->did_sell);
   if(differ) {different++;}
-  if(packet->did_sell) {BV_SET(fields, 41);}
+  if(packet->did_sell) {BV_SET(fields, 39);}
 
   differ = (old->was_happy != real_packet->was_happy);
   if(differ) {different++;}
-  if(packet->was_happy) {BV_SET(fields, 42);}
+  if(packet->was_happy) {BV_SET(fields, 40);}
 
   differ = (old->airlift != real_packet->airlift);
   if(differ) {different++;}
-  if(packet->airlift) {BV_SET(fields, 43);}
+  if(packet->airlift) {BV_SET(fields, 41);}
 
   differ = (old->diplomat_investigate != real_packet->diplomat_investigate);
   if(differ) {different++;}
-  if(packet->diplomat_investigate) {BV_SET(fields, 44);}
+  if(packet->diplomat_investigate) {BV_SET(fields, 42);}
 
   differ = (old->city_options != real_packet->city_options);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 45);}
+  if(differ) {BV_SET(fields, 43);}
 
   differ = (old->turn_founded != real_packet->turn_founded);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 46);}
+  if(differ) {BV_SET(fields, 44);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -5189,42 +5194,43 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
     } 
   }
   if (BV_ISSET(fields, 9)) {
-    dio_put_uint8(&dout, real_packet->ppl_elvis);
+  
+    {
+      int i;
+
+      for (i = 0; i < SP_COUNT; i++) {
+        dio_put_uint8(&dout, real_packet->specialists[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 10)) {
-    dio_put_uint8(&dout, real_packet->ppl_scientist);
-  }
-  if (BV_ISSET(fields, 11)) {
-    dio_put_uint8(&dout, real_packet->ppl_taxman);
-  }
-  if (BV_ISSET(fields, 12)) {
     dio_put_uint16(&dout, real_packet->food_prod);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint16(&dout, real_packet->shield_prod);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 12)) {
     dio_put_uint16(&dout, real_packet->trade_prod);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 13)) {
     dio_put_sint16(&dout, real_packet->food_surplus);
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 14)) {
     dio_put_sint16(&dout, real_packet->shield_surplus);
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_sint16(&dout, real_packet->tile_trade);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 16)) {
     dio_put_uint16(&dout, real_packet->food_stock);
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 17)) {
     dio_put_uint16(&dout, real_packet->shield_stock);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint16(&dout, real_packet->corruption);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 19)) {
   
     {
       int i;
@@ -5234,7 +5240,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
       }
     } 
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 20)) {
   
     {
       int i;
@@ -5244,62 +5250,62 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
       }
     } 
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 21)) {
     dio_put_uint16(&dout, real_packet->luxury_total);
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 22)) {
     dio_put_uint16(&dout, real_packet->tax_total);
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 23)) {
     dio_put_uint16(&dout, real_packet->science_total);
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 24)) {
     dio_put_uint16(&dout, real_packet->pollution);
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 25)) {
     dio_put_uint16(&dout, real_packet->shield_waste);
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 26)) {
     dio_put_uint8(&dout, real_packet->currently_building);
   }
-  /* field 29 is folded into the header */
-  if (BV_ISSET(fields, 30)) {
+  /* field 27 is folded into the header */
+  if (BV_ISSET(fields, 28)) {
     dio_put_sint16(&dout, real_packet->turn_last_built);
   }
-  if (BV_ISSET(fields, 31)) {
+  if (BV_ISSET(fields, 29)) {
     dio_put_uint8(&dout, real_packet->changed_from_id);
   }
-  /* field 32 is folded into the header */
-  if (BV_ISSET(fields, 33)) {
+  /* field 30 is folded into the header */
+  if (BV_ISSET(fields, 31)) {
     dio_put_uint16(&dout, real_packet->before_change_shields);
   }
-  if (BV_ISSET(fields, 34)) {
+  if (BV_ISSET(fields, 32)) {
     dio_put_uint16(&dout, real_packet->disbanded_shields);
   }
-  if (BV_ISSET(fields, 35)) {
+  if (BV_ISSET(fields, 33)) {
     dio_put_uint16(&dout, real_packet->caravan_shields);
   }
-  if (BV_ISSET(fields, 36)) {
+  if (BV_ISSET(fields, 34)) {
     dio_put_uint16(&dout, real_packet->last_turns_shield_surplus);
   }
-  if (BV_ISSET(fields, 37)) {
+  if (BV_ISSET(fields, 35)) {
     dio_put_worklist(&dout, &real_packet->worklist);
   }
-  if (BV_ISSET(fields, 38)) {
+  if (BV_ISSET(fields, 36)) {
     dio_put_bit_string(&dout, real_packet->improvements);
   }
-  if (BV_ISSET(fields, 39)) {
+  if (BV_ISSET(fields, 37)) {
     dio_put_city_map(&dout, real_packet->city_map);
   }
+  /* field 38 is folded into the header */
+  /* field 39 is folded into the header */
   /* field 40 is folded into the header */
   /* field 41 is folded into the header */
   /* field 42 is folded into the header */
-  /* field 43 is folded into the header */
-  /* field 44 is folded into the header */
-  if (BV_ISSET(fields, 45)) {
+  if (BV_ISSET(fields, 43)) {
     dio_put_uint8(&dout, real_packet->city_options);
   }
-  if (BV_ISSET(fields, 46)) {
+  if (BV_ISSET(fields, 44)) {
     dio_put_uint16(&dout, real_packet->turn_founded);
   }
 
@@ -20266,7 +20272,7 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
 
 #define cmp_packet_ruleset_unit_101 cmp_const
 
-BV_DEFINE(packet_ruleset_unit_101_fields, 35);
+BV_DEFINE(packet_ruleset_unit_101_fields, 33);
 
 static struct packet_ruleset_unit *receive_packet_ruleset_unit_101(struct connection *pc, enum packet_type type)
 {
@@ -20281,6 +20287,417 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_101(struct connec
 
   if (!*hash) {
     *hash = hash_new(hash_packet_ruleset_unit_101, cmp_packet_ruleset_unit_101);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    dio_get_uint8(&din, (int *) &real_packet->id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_get_string(&din, real_packet->sound_move, sizeof(real_packet->sound_move));
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_get_string(&din, real_packet->sound_move_alt, sizeof(real_packet->sound_move_alt));
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_get_string(&din, real_packet->sound_fight, sizeof(real_packet->sound_fight));
+  }
+  if (BV_ISSET(fields, 7)) {
+    dio_get_string(&din, real_packet->sound_fight_alt, sizeof(real_packet->sound_fight_alt));
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_get_uint8(&din, (int *) &real_packet->move_type);
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_get_uint16(&din, (int *) &real_packet->build_cost);
+  }
+  if (BV_ISSET(fields, 10)) {
+    dio_get_uint8(&din, (int *) &real_packet->pop_cost);
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_get_uint8(&din, (int *) &real_packet->attack_strength);
+  }
+  if (BV_ISSET(fields, 12)) {
+    dio_get_uint8(&din, (int *) &real_packet->defense_strength);
+  }
+  if (BV_ISSET(fields, 13)) {
+    dio_get_uint8(&din, (int *) &real_packet->move_rate);
+  }
+  if (BV_ISSET(fields, 14)) {
+    dio_get_uint8(&din, (int *) &real_packet->tech_requirement);
+  }
+  if (BV_ISSET(fields, 15)) {
+    dio_get_uint8(&din, (int *) &real_packet->impr_requirement);
+  }
+  if (BV_ISSET(fields, 16)) {
+    dio_get_uint8(&din, (int *) &real_packet->vision_range);
+  }
+  if (BV_ISSET(fields, 17)) {
+    dio_get_uint8(&din, (int *) &real_packet->transport_capacity);
+  }
+  if (BV_ISSET(fields, 18)) {
+    dio_get_uint8(&din, (int *) &real_packet->hp);
+  }
+  if (BV_ISSET(fields, 19)) {
+    dio_get_uint8(&din, (int *) &real_packet->firepower);
+  }
+  if (BV_ISSET(fields, 20)) {
+    dio_get_sint8(&din, (int *) &real_packet->obsoleted_by);
+  }
+  if (BV_ISSET(fields, 21)) {
+    dio_get_uint8(&din, (int *) &real_packet->fuel);
+  }
+  if (BV_ISSET(fields, 22)) {
+    dio_get_uint8(&din, (int *) &real_packet->happy_cost);
+  }
+  if (BV_ISSET(fields, 23)) {
+    dio_get_uint8(&din, (int *) &real_packet->shield_cost);
+  }
+  if (BV_ISSET(fields, 24)) {
+    dio_get_uint8(&din, (int *) &real_packet->food_cost);
+  }
+  if (BV_ISSET(fields, 25)) {
+    dio_get_uint8(&din, (int *) &real_packet->gold_cost);
+  }
+  if (BV_ISSET(fields, 26)) {
+    dio_get_uint8(&din, (int *) &real_packet->paratroopers_range);
+  }
+  if (BV_ISSET(fields, 27)) {
+    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_req);
+  }
+  if (BV_ISSET(fields, 28)) {
+    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_sub);
+  }
+  if (BV_ISSET(fields, 29)) {
+    dio_get_uint8(&din, (int *) &real_packet->bombard_rate);
+  }
+  if (BV_ISSET(fields, 30)) {
+    dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
+  }
+  if (BV_ISSET(fields, 31)) {
+    DIO_BV_GET(&din, real_packet->flags);
+  }
+  if (BV_ISSET(fields, 32)) {
+    DIO_BV_GET(&din, real_packet->roles);
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_ruleset_unit_101(struct connection *pc, const struct packet_ruleset_unit *packet)
+{
+  const struct packet_ruleset_unit *real_packet = packet;
+  packet_ruleset_unit_101_fields fields;
+  struct packet_ruleset_unit *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_UNIT];
+  int different = 0;
+  SEND_PACKET_START(PACKET_RULESET_UNIT);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_unit_101, cmp_packet_ruleset_unit_101);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->id != real_packet->id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (strcmp(old->name, real_packet->name) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = (strcmp(old->sound_move, real_packet->sound_move) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
+  differ = (strcmp(old->sound_move_alt, real_packet->sound_move_alt) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 5);}
+
+  differ = (strcmp(old->sound_fight, real_packet->sound_fight) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 6);}
+
+  differ = (strcmp(old->sound_fight_alt, real_packet->sound_fight_alt) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
+
+  differ = (old->move_type != real_packet->move_type);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 8);}
+
+  differ = (old->build_cost != real_packet->build_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 9);}
+
+  differ = (old->pop_cost != real_packet->pop_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 10);}
+
+  differ = (old->attack_strength != real_packet->attack_strength);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 11);}
+
+  differ = (old->defense_strength != real_packet->defense_strength);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 12);}
+
+  differ = (old->move_rate != real_packet->move_rate);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 13);}
+
+  differ = (old->tech_requirement != real_packet->tech_requirement);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 14);}
+
+  differ = (old->impr_requirement != real_packet->impr_requirement);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 15);}
+
+  differ = (old->vision_range != real_packet->vision_range);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 16);}
+
+  differ = (old->transport_capacity != real_packet->transport_capacity);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 17);}
+
+  differ = (old->hp != real_packet->hp);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 18);}
+
+  differ = (old->firepower != real_packet->firepower);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 19);}
+
+  differ = (old->obsoleted_by != real_packet->obsoleted_by);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 20);}
+
+  differ = (old->fuel != real_packet->fuel);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 21);}
+
+  differ = (old->happy_cost != real_packet->happy_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 22);}
+
+  differ = (old->shield_cost != real_packet->shield_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 23);}
+
+  differ = (old->food_cost != real_packet->food_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 24);}
+
+  differ = (old->gold_cost != real_packet->gold_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 25);}
+
+  differ = (old->paratroopers_range != real_packet->paratroopers_range);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 26);}
+
+  differ = (old->paratroopers_mr_req != real_packet->paratroopers_mr_req);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 27);}
+
+  differ = (old->paratroopers_mr_sub != real_packet->paratroopers_mr_sub);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 28);}
+
+  differ = (old->bombard_rate != real_packet->bombard_rate);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 29);}
+
+  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 30);}
+
+  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 31);}
+
+  differ = !BV_ARE_EQUAL(old->roles, real_packet->roles);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 32);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_string(&dout, real_packet->name);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_string(&dout, real_packet->graphic_str);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_string(&dout, real_packet->graphic_alt);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_put_string(&dout, real_packet->sound_move);
+  }
+  if (BV_ISSET(fields, 5)) {
+    dio_put_string(&dout, real_packet->sound_move_alt);
+  }
+  if (BV_ISSET(fields, 6)) {
+    dio_put_string(&dout, real_packet->sound_fight);
+  }
+  if (BV_ISSET(fields, 7)) {
+    dio_put_string(&dout, real_packet->sound_fight_alt);
+  }
+  if (BV_ISSET(fields, 8)) {
+    dio_put_uint8(&dout, real_packet->move_type);
+  }
+  if (BV_ISSET(fields, 9)) {
+    dio_put_uint16(&dout, real_packet->build_cost);
+  }
+  if (BV_ISSET(fields, 10)) {
+    dio_put_uint8(&dout, real_packet->pop_cost);
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_put_uint8(&dout, real_packet->attack_strength);
+  }
+  if (BV_ISSET(fields, 12)) {
+    dio_put_uint8(&dout, real_packet->defense_strength);
+  }
+  if (BV_ISSET(fields, 13)) {
+    dio_put_uint8(&dout, real_packet->move_rate);
+  }
+  if (BV_ISSET(fields, 14)) {
+    dio_put_uint8(&dout, real_packet->tech_requirement);
+  }
+  if (BV_ISSET(fields, 15)) {
+    dio_put_uint8(&dout, real_packet->impr_requirement);
+  }
+  if (BV_ISSET(fields, 16)) {
+    dio_put_uint8(&dout, real_packet->vision_range);
+  }
+  if (BV_ISSET(fields, 17)) {
+    dio_put_uint8(&dout, real_packet->transport_capacity);
+  }
+  if (BV_ISSET(fields, 18)) {
+    dio_put_uint8(&dout, real_packet->hp);
+  }
+  if (BV_ISSET(fields, 19)) {
+    dio_put_uint8(&dout, real_packet->firepower);
+  }
+  if (BV_ISSET(fields, 20)) {
+    dio_put_sint8(&dout, real_packet->obsoleted_by);
+  }
+  if (BV_ISSET(fields, 21)) {
+    dio_put_uint8(&dout, real_packet->fuel);
+  }
+  if (BV_ISSET(fields, 22)) {
+    dio_put_uint8(&dout, real_packet->happy_cost);
+  }
+  if (BV_ISSET(fields, 23)) {
+    dio_put_uint8(&dout, real_packet->shield_cost);
+  }
+  if (BV_ISSET(fields, 24)) {
+    dio_put_uint8(&dout, real_packet->food_cost);
+  }
+  if (BV_ISSET(fields, 25)) {
+    dio_put_uint8(&dout, real_packet->gold_cost);
+  }
+  if (BV_ISSET(fields, 26)) {
+    dio_put_uint8(&dout, real_packet->paratroopers_range);
+  }
+  if (BV_ISSET(fields, 27)) {
+    dio_put_uint8(&dout, real_packet->paratroopers_mr_req);
+  }
+  if (BV_ISSET(fields, 28)) {
+    dio_put_uint8(&dout, real_packet->paratroopers_mr_sub);
+  }
+  if (BV_ISSET(fields, 29)) {
+    dio_put_uint8(&dout, real_packet->bombard_rate);
+  }
+  if (BV_ISSET(fields, 30)) {
+    dio_put_string(&dout, real_packet->helptext);
+  }
+  if (BV_ISSET(fields, 31)) {
+  DIO_BV_PUT(&dout, packet->flags);
+  }
+  if (BV_ISSET(fields, 32)) {
+  DIO_BV_PUT(&dout, packet->roles);
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+#define hash_packet_ruleset_unit_102 hash_const
+
+#define cmp_packet_ruleset_unit_102 cmp_const
+
+BV_DEFINE(packet_ruleset_unit_102_fields, 35);
+
+static struct packet_ruleset_unit *receive_packet_ruleset_unit_102(struct connection *pc, enum packet_type type)
+{
+  packet_ruleset_unit_102_fields fields;
+  struct packet_ruleset_unit *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_ruleset_unit *clone;
+  RECEIVE_PACKET_START(packet_ruleset_unit, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_unit_102, cmp_packet_ruleset_unit_102);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -20430,10 +20847,10 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_101(struct connec
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_ruleset_unit_101(struct connection *pc, const struct packet_ruleset_unit *packet)
+static int send_packet_ruleset_unit_102(struct connection *pc, const struct packet_ruleset_unit *packet)
 {
   const struct packet_ruleset_unit *real_packet = packet;
-  packet_ruleset_unit_101_fields fields;
+  packet_ruleset_unit_102_fields fields;
   struct packet_ruleset_unit *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
   struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_UNIT];
@@ -20441,7 +20858,7 @@ static int send_packet_ruleset_unit_101(struct connection *pc, const struct pack
   SEND_PACKET_START(PACKET_RULESET_UNIT);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_unit_101, cmp_packet_ruleset_unit_101);
+    *hash = hash_new(hash_packet_ruleset_unit_102, cmp_packet_ruleset_unit_102);
   }
   BV_CLR_ALL(fields);
 
@@ -20759,417 +21176,6 @@ static int send_packet_ruleset_unit_101(struct connection *pc, const struct pack
   DIO_BV_PUT(&dout, packet->flags);
   }
   if (BV_ISSET(fields, 34)) {
-  DIO_BV_PUT(&dout, packet->roles);
-  }
-
-
-  if (old_from_hash) {
-    hash_delete_entry(*hash, old);
-  }
-
-  clone = old;
-
-  *clone = *real_packet;
-  hash_insert(*hash, clone, clone);
-  SEND_PACKET_END;
-}
-
-#define hash_packet_ruleset_unit_102 hash_const
-
-#define cmp_packet_ruleset_unit_102 cmp_const
-
-BV_DEFINE(packet_ruleset_unit_102_fields, 33);
-
-static struct packet_ruleset_unit *receive_packet_ruleset_unit_102(struct connection *pc, enum packet_type type)
-{
-  packet_ruleset_unit_102_fields fields;
-  struct packet_ruleset_unit *old;
-  struct hash_table **hash = &pc->phs.received[type];
-  struct packet_ruleset_unit *clone;
-  RECEIVE_PACKET_START(packet_ruleset_unit, real_packet);
-
-  DIO_BV_GET(&din, fields);
-
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_unit_102, cmp_packet_ruleset_unit_102);
-  }
-  old = hash_delete_entry(*hash, real_packet);
-
-  if (old) {
-    *real_packet = *old;
-  } else {
-    memset(real_packet, 0, sizeof(*real_packet));
-  }
-
-  if (BV_ISSET(fields, 0)) {
-    dio_get_uint8(&din, (int *) &real_packet->id);
-  }
-  if (BV_ISSET(fields, 1)) {
-    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
-  }
-  if (BV_ISSET(fields, 2)) {
-    dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
-  }
-  if (BV_ISSET(fields, 3)) {
-    dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
-  }
-  if (BV_ISSET(fields, 4)) {
-    dio_get_string(&din, real_packet->sound_move, sizeof(real_packet->sound_move));
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_get_string(&din, real_packet->sound_move_alt, sizeof(real_packet->sound_move_alt));
-  }
-  if (BV_ISSET(fields, 6)) {
-    dio_get_string(&din, real_packet->sound_fight, sizeof(real_packet->sound_fight));
-  }
-  if (BV_ISSET(fields, 7)) {
-    dio_get_string(&din, real_packet->sound_fight_alt, sizeof(real_packet->sound_fight_alt));
-  }
-  if (BV_ISSET(fields, 8)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_type);
-  }
-  if (BV_ISSET(fields, 9)) {
-    dio_get_uint16(&din, (int *) &real_packet->build_cost);
-  }
-  if (BV_ISSET(fields, 10)) {
-    dio_get_uint8(&din, (int *) &real_packet->pop_cost);
-  }
-  if (BV_ISSET(fields, 11)) {
-    dio_get_uint8(&din, (int *) &real_packet->attack_strength);
-  }
-  if (BV_ISSET(fields, 12)) {
-    dio_get_uint8(&din, (int *) &real_packet->defense_strength);
-  }
-  if (BV_ISSET(fields, 13)) {
-    dio_get_uint8(&din, (int *) &real_packet->move_rate);
-  }
-  if (BV_ISSET(fields, 14)) {
-    dio_get_uint8(&din, (int *) &real_packet->tech_requirement);
-  }
-  if (BV_ISSET(fields, 15)) {
-    dio_get_uint8(&din, (int *) &real_packet->impr_requirement);
-  }
-  if (BV_ISSET(fields, 16)) {
-    dio_get_uint8(&din, (int *) &real_packet->vision_range);
-  }
-  if (BV_ISSET(fields, 17)) {
-    dio_get_uint8(&din, (int *) &real_packet->transport_capacity);
-  }
-  if (BV_ISSET(fields, 18)) {
-    dio_get_uint8(&din, (int *) &real_packet->hp);
-  }
-  if (BV_ISSET(fields, 19)) {
-    dio_get_uint8(&din, (int *) &real_packet->firepower);
-  }
-  if (BV_ISSET(fields, 20)) {
-    dio_get_sint8(&din, (int *) &real_packet->obsoleted_by);
-  }
-  if (BV_ISSET(fields, 21)) {
-    dio_get_uint8(&din, (int *) &real_packet->fuel);
-  }
-  if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->happy_cost);
-  }
-  if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->shield_cost);
-  }
-  if (BV_ISSET(fields, 24)) {
-    dio_get_uint8(&din, (int *) &real_packet->food_cost);
-  }
-  if (BV_ISSET(fields, 25)) {
-    dio_get_uint8(&din, (int *) &real_packet->gold_cost);
-  }
-  if (BV_ISSET(fields, 26)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_range);
-  }
-  if (BV_ISSET(fields, 27)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_req);
-  }
-  if (BV_ISSET(fields, 28)) {
-    dio_get_uint8(&din, (int *) &real_packet->paratroopers_mr_sub);
-  }
-  if (BV_ISSET(fields, 29)) {
-    dio_get_uint8(&din, (int *) &real_packet->bombard_rate);
-  }
-  if (BV_ISSET(fields, 30)) {
-    dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
-  }
-  if (BV_ISSET(fields, 31)) {
-    DIO_BV_GET(&din, real_packet->flags);
-  }
-  if (BV_ISSET(fields, 32)) {
-    DIO_BV_GET(&din, real_packet->roles);
-  }
-
-  clone = fc_malloc(sizeof(*clone));
-  *clone = *real_packet;
-  if (old) {
-    free(old);
-  }
-  hash_insert(*hash, clone, clone);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_ruleset_unit_102(struct connection *pc, const struct packet_ruleset_unit *packet)
-{
-  const struct packet_ruleset_unit *real_packet = packet;
-  packet_ruleset_unit_102_fields fields;
-  struct packet_ruleset_unit *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_UNIT];
-  int different = 0;
-  SEND_PACKET_START(PACKET_RULESET_UNIT);
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_ruleset_unit_102, cmp_packet_ruleset_unit_102);
-  }
-  BV_CLR_ALL(fields);
-
-  old = hash_lookup_data(*hash, real_packet);
-  old_from_hash = (old != NULL);
-  if (!old) {
-    old = fc_malloc(sizeof(*old));
-    memset(old, 0, sizeof(*old));
-    force_send_of_unchanged = TRUE;
-  }
-
-  differ = (old->id != real_packet->id);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
-
-  differ = (strcmp(old->name, real_packet->name) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 1);}
-
-  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
-
-  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
-
-  differ = (strcmp(old->sound_move, real_packet->sound_move) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
-
-  differ = (strcmp(old->sound_move_alt, real_packet->sound_move_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
-
-  differ = (strcmp(old->sound_fight, real_packet->sound_fight) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
-
-  differ = (strcmp(old->sound_fight_alt, real_packet->sound_fight_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
-
-  differ = (old->move_type != real_packet->move_type);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
-
-  differ = (old->build_cost != real_packet->build_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
-
-  differ = (old->pop_cost != real_packet->pop_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
-
-  differ = (old->attack_strength != real_packet->attack_strength);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
-
-  differ = (old->defense_strength != real_packet->defense_strength);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
-
-  differ = (old->move_rate != real_packet->move_rate);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
-
-  differ = (old->tech_requirement != real_packet->tech_requirement);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
-
-  differ = (old->impr_requirement != real_packet->impr_requirement);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
-
-  differ = (old->vision_range != real_packet->vision_range);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
-
-  differ = (old->transport_capacity != real_packet->transport_capacity);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
-
-  differ = (old->hp != real_packet->hp);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
-
-  differ = (old->firepower != real_packet->firepower);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
-
-  differ = (old->obsoleted_by != real_packet->obsoleted_by);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
-
-  differ = (old->fuel != real_packet->fuel);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
-
-  differ = (old->happy_cost != real_packet->happy_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
-
-  differ = (old->shield_cost != real_packet->shield_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
-
-  differ = (old->food_cost != real_packet->food_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 24);}
-
-  differ = (old->gold_cost != real_packet->gold_cost);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
-
-  differ = (old->paratroopers_range != real_packet->paratroopers_range);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
-
-  differ = (old->paratroopers_mr_req != real_packet->paratroopers_mr_req);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 27);}
-
-  differ = (old->paratroopers_mr_sub != real_packet->paratroopers_mr_sub);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 28);}
-
-  differ = (old->bombard_rate != real_packet->bombard_rate);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 29);}
-
-  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 30);}
-
-  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 31);}
-
-  differ = !BV_ARE_EQUAL(old->roles, real_packet->roles);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 32);}
-
-  if (different == 0 && !force_send_of_unchanged) {
-    return 0;
-  }
-
-  DIO_BV_PUT(&dout, fields);
-
-  if (BV_ISSET(fields, 0)) {
-    dio_put_uint8(&dout, real_packet->id);
-  }
-  if (BV_ISSET(fields, 1)) {
-    dio_put_string(&dout, real_packet->name);
-  }
-  if (BV_ISSET(fields, 2)) {
-    dio_put_string(&dout, real_packet->graphic_str);
-  }
-  if (BV_ISSET(fields, 3)) {
-    dio_put_string(&dout, real_packet->graphic_alt);
-  }
-  if (BV_ISSET(fields, 4)) {
-    dio_put_string(&dout, real_packet->sound_move);
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_put_string(&dout, real_packet->sound_move_alt);
-  }
-  if (BV_ISSET(fields, 6)) {
-    dio_put_string(&dout, real_packet->sound_fight);
-  }
-  if (BV_ISSET(fields, 7)) {
-    dio_put_string(&dout, real_packet->sound_fight_alt);
-  }
-  if (BV_ISSET(fields, 8)) {
-    dio_put_uint8(&dout, real_packet->move_type);
-  }
-  if (BV_ISSET(fields, 9)) {
-    dio_put_uint16(&dout, real_packet->build_cost);
-  }
-  if (BV_ISSET(fields, 10)) {
-    dio_put_uint8(&dout, real_packet->pop_cost);
-  }
-  if (BV_ISSET(fields, 11)) {
-    dio_put_uint8(&dout, real_packet->attack_strength);
-  }
-  if (BV_ISSET(fields, 12)) {
-    dio_put_uint8(&dout, real_packet->defense_strength);
-  }
-  if (BV_ISSET(fields, 13)) {
-    dio_put_uint8(&dout, real_packet->move_rate);
-  }
-  if (BV_ISSET(fields, 14)) {
-    dio_put_uint8(&dout, real_packet->tech_requirement);
-  }
-  if (BV_ISSET(fields, 15)) {
-    dio_put_uint8(&dout, real_packet->impr_requirement);
-  }
-  if (BV_ISSET(fields, 16)) {
-    dio_put_uint8(&dout, real_packet->vision_range);
-  }
-  if (BV_ISSET(fields, 17)) {
-    dio_put_uint8(&dout, real_packet->transport_capacity);
-  }
-  if (BV_ISSET(fields, 18)) {
-    dio_put_uint8(&dout, real_packet->hp);
-  }
-  if (BV_ISSET(fields, 19)) {
-    dio_put_uint8(&dout, real_packet->firepower);
-  }
-  if (BV_ISSET(fields, 20)) {
-    dio_put_sint8(&dout, real_packet->obsoleted_by);
-  }
-  if (BV_ISSET(fields, 21)) {
-    dio_put_uint8(&dout, real_packet->fuel);
-  }
-  if (BV_ISSET(fields, 22)) {
-    dio_put_uint8(&dout, real_packet->happy_cost);
-  }
-  if (BV_ISSET(fields, 23)) {
-    dio_put_uint8(&dout, real_packet->shield_cost);
-  }
-  if (BV_ISSET(fields, 24)) {
-    dio_put_uint8(&dout, real_packet->food_cost);
-  }
-  if (BV_ISSET(fields, 25)) {
-    dio_put_uint8(&dout, real_packet->gold_cost);
-  }
-  if (BV_ISSET(fields, 26)) {
-    dio_put_uint8(&dout, real_packet->paratroopers_range);
-  }
-  if (BV_ISSET(fields, 27)) {
-    dio_put_uint8(&dout, real_packet->paratroopers_mr_req);
-  }
-  if (BV_ISSET(fields, 28)) {
-    dio_put_uint8(&dout, real_packet->paratroopers_mr_sub);
-  }
-  if (BV_ISSET(fields, 29)) {
-    dio_put_uint8(&dout, real_packet->bombard_rate);
-  }
-  if (BV_ISSET(fields, 30)) {
-    dio_put_string(&dout, real_packet->helptext);
-  }
-  if (BV_ISSET(fields, 31)) {
-  DIO_BV_PUT(&dout, packet->flags);
-  }
-  if (BV_ISSET(fields, 32)) {
   DIO_BV_PUT(&dout, packet->roles);
   }
 
@@ -21595,13 +21601,13 @@ static void ensure_valid_variant_packet_ruleset_unit(struct connection *pc)
   }
 
   if(FALSE) {
-  } else if((has_capability("veteran", pc->capability) && has_capability("veteran", our_capability)) && (has_capability("bombard", pc->capability) && has_capability("bombard", our_capability))) {
+  } else if((has_capability("bombard", pc->capability) && has_capability("bombard", our_capability)) && (has_capability("veteran", pc->capability) && has_capability("veteran", our_capability))) {
     variant = 100;
-  } else if((has_capability("veteran", pc->capability) && has_capability("veteran", our_capability)) && !(has_capability("bombard", pc->capability) && has_capability("bombard", our_capability))) {
-    variant = 101;
   } else if((has_capability("bombard", pc->capability) && has_capability("bombard", our_capability)) && !(has_capability("veteran", pc->capability) && has_capability("veteran", our_capability))) {
+    variant = 101;
+  } else if((has_capability("veteran", pc->capability) && has_capability("veteran", our_capability)) && !(has_capability("bombard", pc->capability) && has_capability("bombard", our_capability))) {
     variant = 102;
-  } else if(!(has_capability("veteran", pc->capability) && has_capability("veteran", our_capability)) && !(has_capability("bombard", pc->capability) && has_capability("bombard", our_capability))) {
+  } else if(!(has_capability("bombard", pc->capability) && has_capability("bombard", our_capability)) && !(has_capability("veteran", pc->capability) && has_capability("veteran", our_capability))) {
     variant = 103;
   } else {
     die("unknown variant");

@@ -381,7 +381,7 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
 
   UINT8 ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
 
-  UINT8 ppl_elvis, ppl_scientist, ppl_taxman;
+  UINT8 specialists[SP_COUNT];
 
   UINT16 food_prod, shield_prod, trade_prod;
   SINT16 food_surplus, shield_surplus, tile_trade;

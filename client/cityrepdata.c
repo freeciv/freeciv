@@ -116,30 +116,30 @@ static char *cr_entry_specialists(struct city *pcity)
 {
   static char buf[32];
   my_snprintf(buf, sizeof(buf), "%d/%d/%d",
-	      pcity->ppl_elvis,
-	      pcity->ppl_scientist,
-	      pcity->ppl_taxman);
+	      pcity->specialists[SP_ELVIS],
+	      pcity->specialists[SP_SCIENTIST],
+	      pcity->specialists[SP_TAXMAN]);
   return buf;
 }
 
 static char *cr_entry_entertainers(struct city *pcity)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_elvis);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[SP_ELVIS]);
   return buf;
 }
 
 static char *cr_entry_scientists(struct city *pcity)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_scientist);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[SP_SCIENTIST]);
   return buf;
 }
 
 static char *cr_entry_taxmen(struct city *pcity)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->ppl_taxman);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[SP_TAXMAN]);
   return buf;
 }
 

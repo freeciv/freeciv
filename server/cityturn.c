@@ -256,9 +256,9 @@ void auto_arrange_workers(struct city *pcity)
       server_set_worker_city(pcity, x, y);
     }
   } city_map_checked_iterate_end;
-  pcity->ppl_elvis = cmr.entertainers;
-  pcity->ppl_scientist = cmr.scientists;
-  pcity->ppl_taxman = cmr.taxmen;
+  pcity->specialists[SP_ELVIS] = cmr.entertainers;
+  pcity->specialists[SP_SCIENTIST] = cmr.scientists;
+  pcity->specialists[SP_TAXMAN] = cmr.taxmen;
 
   sanity_check_city(pcity);
 
@@ -401,13 +401,13 @@ bool city_reduce_size(struct city *pcity, int pop_loss)
 
   /* First try to kill off the specialists */
   while (pop_loss > 0 && city_specialists(pcity) > 0) {
-    if (pcity->ppl_taxman > 0) {
-      pcity->ppl_taxman--;
-    } else if (pcity->ppl_scientist > 0) {
-      pcity->ppl_scientist--;
+    if (pcity->specialists[SP_TAXMAN] > 0) {
+      pcity->specialists[SP_TAXMAN]--;
+    } else if (pcity->specialists[SP_SCIENTIST] > 0) {
+      pcity->specialists[SP_SCIENTIST]--;
     } else {
-      assert(pcity->ppl_elvis > 0);
-      pcity->ppl_elvis--; 
+      assert(pcity->specialists[SP_ELVIS] > 0);
+      pcity->specialists[SP_ELVIS]--; 
     }
     pop_loss--;
   }
@@ -509,13 +509,13 @@ static void city_increase_size(struct city *pcity)
        is_city_option_set(pcity, CITYO_NEW_TAXMAN))) {
 
     if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
-      pcity->ppl_scientist++;
+      pcity->specialists[SP_SCIENTIST]++;
     } else { /* now pcity->city_options & (1<<CITYO_NEW_TAXMAN) is true */
-      pcity->ppl_taxman++;
+      pcity->specialists[SP_TAXMAN]++;
     }
 
   } else {
-    pcity->ppl_taxman++; /* or else city is !sane */
+    pcity->specialists[SP_TAXMAN]++; /* or else city is !sane */
     auto_arrange_workers(pcity);
   }
 

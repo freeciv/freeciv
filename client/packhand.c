@@ -428,18 +428,18 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->y=packet->y;
   sz_strlcpy(pcity->name, packet->name);
   
-  pcity->size=packet->size;
-  for (i=0;i<5;i++) {
-    pcity->ppl_happy[i]=packet->ppl_happy[i];
-    pcity->ppl_content[i]=packet->ppl_content[i];
-    pcity->ppl_unhappy[i]=packet->ppl_unhappy[i];
+  pcity->size = packet->size;
+  for (i = 0; i < 5; i++) {
+    pcity->ppl_happy[i] = packet->ppl_happy[i];
+    pcity->ppl_content[i] = packet->ppl_content[i];
+    pcity->ppl_unhappy[i] = packet->ppl_unhappy[i];
     pcity->ppl_angry[i] = packet->ppl_angry[i];
   }
-  pcity->ppl_elvis=packet->ppl_elvis;
-  pcity->ppl_scientist=packet->ppl_scientist;
-  pcity->ppl_taxman=packet->ppl_taxman;
+  pcity->specialists[SP_ELVIS] = packet->specialists[SP_ELVIS];
+  pcity->specialists[SP_SCIENTIST] = packet->specialists[SP_SCIENTIST];
+  pcity->specialists[SP_TAXMAN] = packet->specialists[SP_TAXMAN];
 
-  pcity->city_options=packet->city_options;
+  pcity->city_options = packet->city_options;
 
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     pcity->trade[i]=packet->trade[i];
@@ -711,12 +711,12 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     int i;
     int x, y;
 
-    pcity->ppl_elvis          = 0;
-    pcity->ppl_scientist      = 0;
-    pcity->ppl_taxman         = 0;
+    pcity->specialists[SP_ELVIS] = 0;
+    pcity->specialists[SP_SCIENTIST] = 0;
+    pcity->specialists[SP_TAXMAN] = 0;
     for (i = 0; i < NUM_TRADEROUTES; i++) {
-      pcity->trade[i]=0;
-      pcity->trade_value[i]     = 0;
+      pcity->trade[i] = 0;
+      pcity->trade_value[i] = 0;
     }
     pcity->food_prod          = 0;
     pcity->food_surplus       = 0;

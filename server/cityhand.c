@@ -75,9 +75,9 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
   if ((to == SP_ELVIS && pcity->size < game.rgame.min_size_elvis)
       || (to == SP_TAXMAN && pcity->size < game.rgame.min_size_taxman)
       || (to == SP_SCIENTIST && pcity->size < game.rgame.min_size_scientist)
-      || (from == SP_ELVIS && pcity->ppl_elvis == 0)
-      || (from == SP_TAXMAN && pcity->ppl_taxman == 0)
-      || (from == SP_SCIENTIST && pcity->ppl_scientist == 0)
+      || (from == SP_ELVIS && pcity->specialists[SP_ELVIS] == 0)
+      || (from == SP_TAXMAN && pcity->specialists[SP_TAXMAN] == 0)
+      || (from == SP_SCIENTIST && pcity->specialists[SP_SCIENTIST] == 0)
       || (to != SP_ELVIS && to != SP_TAXMAN && to != SP_SCIENTIST)
       || (from != SP_ELVIS && from != SP_TAXMAN && from != SP_SCIENTIST)) {
     freelog(LOG_ERROR, "Error in specialist change request from client.");
@@ -85,22 +85,22 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
   }
 
   if (from == SP_ELVIS) {
-    pcity->ppl_elvis--;
+    pcity->specialists[SP_ELVIS]--;
   } else if (from == SP_TAXMAN) {
-    pcity->ppl_taxman--;
+    pcity->specialists[SP_TAXMAN]--;
   } else if (from == SP_SCIENTIST) {
-    pcity->ppl_scientist--;
+    pcity->specialists[SP_SCIENTIST]--;
   }
   switch (to) {
   case SP_TAXMAN:
-    pcity->ppl_taxman++;
+    pcity->specialists[SP_TAXMAN]++;
     break;
   case SP_SCIENTIST:
-    pcity->ppl_scientist++;
+    pcity->specialists[SP_SCIENTIST]++;
     break;
   case SP_ELVIS:
   default:
-    pcity->ppl_elvis++;
+    pcity->specialists[SP_ELVIS]++;
     break;
   }
 
@@ -127,7 +127,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
   }
   if (is_worker_here(pcity, worker_x, worker_y)) {
     server_remove_worker_city(pcity, worker_x, worker_y);
-    pcity->ppl_elvis++;
+    pcity->specialists[SP_ELVIS]++;
     city_refresh(pcity);
     sync_cities();
   } else {
@@ -167,12 +167,12 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 
   server_set_worker_city(pcity, worker_x, worker_y);
 
-  if (pcity->ppl_elvis > 0) 
-    pcity->ppl_elvis--;
-  else if (pcity->ppl_scientist > 0) 
-    pcity->ppl_scientist--;
+  if (pcity->specialists[SP_ELVIS] > 0) 
+    pcity->specialists[SP_ELVIS]--;
+  else if (pcity->specialists[SP_SCIENTIST] > 0) 
+    pcity->specialists[SP_SCIENTIST]--;
   else 
-    pcity->ppl_taxman--;
+    pcity->specialists[SP_TAXMAN]--;
 
   sanity_check_city(pcity);
   city_refresh(pcity);
