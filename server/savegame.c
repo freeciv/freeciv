@@ -1772,7 +1772,7 @@ static void check_city(struct city *pcity)
       if (!res) {
 	int map_x, map_y;
 	pcity->ppl_elvis++;
-	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	freelog(LOG_DEBUG, "Worked tile was unavailable!");
 
 	get_citymap_xy(pcity, x, y, &map_x, &map_y);
