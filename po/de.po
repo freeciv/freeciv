@@ -26,6 +26,9 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
+# Revision 1.35  2000/02/19 08:09:38  jjm
+# Third and final (hopefully) beta release (1.9.6) leading to version 1.10.0.
+#
 # Revision 1.34  2000/02/17 21:43:31  jjm
 # Update German (de) translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
@@ -44,7 +47,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.10.0\n"
-"POT-Creation-Date: 2000-02-17 21:13+0100\n"
+"POT-Creation-Date: 2000-02-19 02:28-0500\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <freeciv-de@ehinzen.de>\n"
 
@@ -4848,9 +4851,9 @@ msgstr "Einheit modernisieren"
 
 #: client/gui-gtk/citydlg.c:812 client/gui-gtk/citydlg.c:1192
 #: client/gui-gtk/citydlg.c:2107 client/gui-gtk/cityrep.c:994
-#: client/gui-gtk/dialogs.c:989 client/gui-gtk/dialogs.c:1011
-#: client/gui-gtk/dialogs.c:1039 client/gui-gtk/dialogs.c:1329
-#: client/gui-gtk/dialogs.c:1428 client/gui-gtk/gamedlgs.c:317
+#: client/gui-gtk/dialogs.c:985 client/gui-gtk/dialogs.c:1007
+#: client/gui-gtk/dialogs.c:1035 client/gui-gtk/dialogs.c:1325
+#: client/gui-gtk/dialogs.c:1424 client/gui-gtk/gamedlgs.c:317
 #: client/gui-gtk/inputdlg.c:107 client/gui-gtk/messagedlg.c:149
 #: client/gui-gtk/wldlg.c:470 client/gui-xaw/inputdlg.c:109 data/Freeciv:1060
 #: data/Freeciv:1115 data/Freeciv:1149 data/Freeciv:1169 data/Freeciv:1213
@@ -4980,7 +4983,7 @@ msgstr "Kaufen!"
 
 #: client/gui-gtk/citydlg.c:1511 client/gui-gtk/citydlg.c:1581
 #: client/gui-gtk/citydlg.c:1954 client/gui-gtk/dialogs.c:403
-#: client/gui-gtk/dialogs.c:942 client/gui-gtk/dialogs.c:1252
+#: client/gui-gtk/dialogs.c:938 client/gui-gtk/dialogs.c:1248
 #: client/gui-gtk/repodlgs.c:908 client/gui-xaw/citydlg.c:2569
 #: client/gui-xaw/cityrep.c:691 client/gui-xaw/messagedlg.c:74
 #: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:152
@@ -4992,7 +4995,7 @@ msgstr "Ja"
 
 #: client/gui-gtk/citydlg.c:1512 client/gui-gtk/citydlg.c:1583
 #: client/gui-gtk/citydlg.c:1955 client/gui-gtk/dialogs.c:404
-#: client/gui-gtk/dialogs.c:943 client/gui-gtk/dialogs.c:1253
+#: client/gui-gtk/dialogs.c:939 client/gui-gtk/dialogs.c:1249
 #: client/gui-gtk/repodlgs.c:909 client/gui-xaw/citydlg.c:2569
 #: client/gui-xaw/cityrep.c:691 client/gui-xaw/messagedlg.c:74
 #: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:152
@@ -5012,7 +5015,7 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1520 client/gui-gtk/citydlg.c:1569
 #: client/gui-gtk/citydlg.c:1593 client/gui-gtk/dialogs.c:411
-#: client/gui-gtk/dialogs.c:950 data/Freeciv:2163 data/Freeciv:2365
+#: client/gui-gtk/dialogs.c:946 data/Freeciv:2163 data/Freeciv:2365
 #: data/Freeciv:2395
 msgid "Darn"
 msgstr "Zurück"
@@ -5122,7 +5125,7 @@ msgid "Auto-attack vs helicopters"
 msgstr "Helikopter automatisch angreifen"
 
 #. ------- OK/Disc/Quit buttons -------
-#: client/gui-gtk/citydlg.c:2105 client/gui-gtk/dialogs.c:1830
+#: client/gui-gtk/citydlg.c:2105 client/gui-gtk/dialogs.c:1826
 #: client/gui-gtk/gamedlgs.c:308 client/gui-gtk/inputdlg.c:101
 #: client/gui-gtk/messagedlg.c:141 client/gui-gtk/wldlg.c:463
 #: client/gui-xaw/inputdlg.c:102 data/Freeciv:1207 data/Freeciv:1244
@@ -5262,7 +5265,7 @@ msgstr "Gewünschte Spalten markieren:"
 #. + Close
 #: client/gui-gtk/cityrep.c:1263 client/gui-gtk/dialogs.c:199
 #: client/gui-gtk/dialogs.c:324 client/gui-gtk/dialogs.c:684
-#: client/gui-gtk/dialogs.c:784 client/gui-gtk/dialogs.c:1667
+#: client/gui-gtk/dialogs.c:782 client/gui-gtk/dialogs.c:1663
 #: client/gui-gtk/gamedlgs.c:414 client/gui-gtk/helpdlg.c:445
 #: client/gui-gtk/inteldlg.c:184 client/gui-gtk/messagewin.c:148
 #: client/gui-gtk/repodlgs.c:237 client/gui-gtk/repodlgs.c:541
@@ -5329,7 +5332,7 @@ msgstr "Metaserver"
 msgid "Update"
 msgstr "Aktualisieren"
 
-#: client/gui-gtk/connectdlg.c:220 client/gui-gtk/dialogs.c:1404
+#: client/gui-gtk/connectdlg.c:220 client/gui-gtk/dialogs.c:1400
 #: client/gui-gtk/menu.c:566 client/gui-xaw/menu.c:167 data/Freeciv:87
 #: data/Freeciv:2419
 msgid "Connect"
@@ -5358,7 +5361,7 @@ msgstr ""
 "Die Schatzkammer enthält %d Goldstücke."
 
 #. "diplomatbribedialog"
-#: client/gui-gtk/dialogs.c:402 client/gui-gtk/dialogs.c:1037
+#: client/gui-gtk/dialogs.c:402 client/gui-gtk/dialogs.c:1033
 #: data/Freeciv:2327 data/Freeciv:2341
 msgid "Bribe Enemy Unit"
 msgstr "Feindliche Einheit bestechen"
@@ -5373,7 +5376,7 @@ msgstr ""
 "Die Schatzkammer enthält %d Goldstücke."
 
 #. "diplomatnogolddialog"
-#: client/gui-gtk/dialogs.c:410 client/gui-gtk/dialogs.c:949 data/Freeciv:2363
+#: client/gui-gtk/dialogs.c:410 client/gui-gtk/dialogs.c:945 data/Freeciv:2363
 msgid "Traitors Demand Too Much!"
 msgstr "Verräter verlangen zu viel!"
 
@@ -5381,7 +5384,7 @@ msgstr "Verräter verlangen zu viel!"
 msgid "Select Advance to Steal"
 msgstr "Wähle die zu stehlenden Forschungsergebnisse"
 
-#: client/gui-gtk/dialogs.c:666 client/gui-gtk/dialogs.c:1009
+#: client/gui-gtk/dialogs.c:666 client/gui-gtk/dialogs.c:1005
 #: data/Freeciv:2228 data/Freeciv:2242
 msgid "Steal Technology"
 msgstr "Forschungsergebnisse stehlen"
@@ -5391,32 +5394,32 @@ msgid "Steal"
 msgstr "Stehlen"
 
 # ?
-#: client/gui-gtk/dialogs.c:726 client/gui-gtk/dialogs.c:822
-#: client/gui-xaw/dialogs.c:753 client/gui-xaw/dialogs.c:841
+#: client/gui-gtk/dialogs.c:725 client/gui-gtk/dialogs.c:819
+#: client/gui-xaw/dialogs.c:752 client/gui-xaw/dialogs.c:838
 msgid "At Spy's Discretion"
 msgstr ""
 
-#: client/gui-gtk/dialogs.c:734 client/gui-xaw/dialogs.c:738
+#: client/gui-gtk/dialogs.c:732 client/gui-xaw/dialogs.c:738
 msgid "NONE"
 msgstr "NICHTS"
 
-#: client/gui-gtk/dialogs.c:760 data/Freeciv:2300
+#: client/gui-gtk/dialogs.c:758 data/Freeciv:2300
 msgid "Select Improvement to Sabotage"
 msgstr "Wähle die zu sabotierende Stadterweiterung"
 
-#: client/gui-gtk/dialogs.c:767 data/Freeciv:2285
+#: client/gui-gtk/dialogs.c:765 data/Freeciv:2285
 msgid "Sabotage Improvements"
 msgstr "Sabotiere Stadterweiterung"
 
-#: client/gui-gtk/dialogs.c:789 data/Freeciv:2316
+#: client/gui-gtk/dialogs.c:787 data/Freeciv:2316
 msgid "Sabotage"
 msgstr "Sabotiere"
 
-#: client/gui-gtk/dialogs.c:808 client/gui-xaw/dialogs.c:830
+#: client/gui-gtk/dialogs.c:806 client/gui-xaw/dialogs.c:828
 msgid "City Production"
 msgstr "Produktion ändern"
 
-#: client/gui-gtk/dialogs.c:938 client/gui-xaw/dialogs.c:977
+#: client/gui-gtk/dialogs.c:934 client/gui-xaw/dialogs.c:973
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -5426,11 +5429,11 @@ msgstr ""
 "Die Schatzkammer enthält %d Gold."
 
 #. "diplomatrevoltdialog"
-#: client/gui-gtk/dialogs.c:941 data/Freeciv:2352
+#: client/gui-gtk/dialogs.c:937 data/Freeciv:2352
 msgid "Incite a Revolt!"
 msgstr "Zu einer Revolte anstiften!"
 
-#: client/gui-gtk/dialogs.c:946 client/gui-xaw/dialogs.c:987
+#: client/gui-gtk/dialogs.c:942 client/gui-xaw/dialogs.c:983
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -5440,75 +5443,75 @@ msgstr ""
 "Die Schatzkammer enthält %d Goldstücke."
 
 #. "diplomatdialog"
-#: client/gui-gtk/dialogs.c:982
+#: client/gui-gtk/dialogs.c:978
 msgid " Choose Your Diplomat's Strategy"
 msgstr "Strategie des Diplomaten wählen"
 
-#: client/gui-gtk/dialogs.c:983 client/gui-gtk/dialogs.c:1035
-#: client/gui-xaw/dialogs.c:1025 client/gui-xaw/dialogs.c:1074
+#: client/gui-gtk/dialogs.c:979 client/gui-gtk/dialogs.c:1031
+#: client/gui-xaw/dialogs.c:1021 client/gui-xaw/dialogs.c:1070
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Der Diplomat erwartet seine Anweisungen"
 
-#: client/gui-gtk/dialogs.c:984 data/Freeciv:2189
+#: client/gui-gtk/dialogs.c:980 data/Freeciv:2189
 msgid "Establish embassy"
 msgstr "Botschaft eröffnen"
 
-#: client/gui-gtk/dialogs.c:985 data/Freeciv:2191
+#: client/gui-gtk/dialogs.c:981 data/Freeciv:2191
 msgid "Investigate City"
 msgstr "Stadt auskundschaften"
 
-#: client/gui-gtk/dialogs.c:986 data/Freeciv:2194
+#: client/gui-gtk/dialogs.c:982 data/Freeciv:2194
 msgid "Sabotage city"
 msgstr "Stadt sabotieren"
 
-#: client/gui-gtk/dialogs.c:987 data/Freeciv:2196
+#: client/gui-gtk/dialogs.c:983 data/Freeciv:2196
 msgid "Steal technology"
 msgstr "Forschungergebnisse stehlen"
 
-#: client/gui-gtk/dialogs.c:988 data/Freeciv:2199
+#: client/gui-gtk/dialogs.c:984 data/Freeciv:2199
 msgid "Incite a revolt"
 msgstr "Zur Revolte anstiften"
 
 #. "spydialog"
-#: client/gui-gtk/dialogs.c:1003 data/Freeciv:2209
+#: client/gui-gtk/dialogs.c:999 data/Freeciv:2209
 msgid "Choose Your Spy's Strategy"
 msgstr "Strategie des Spions wählen"
 
-#: client/gui-gtk/dialogs.c:1004 client/gui-gtk/dialogs.c:1036
-#: client/gui-xaw/dialogs.c:1046 client/gui-xaw/dialogs.c:1075
+#: client/gui-gtk/dialogs.c:1000 client/gui-gtk/dialogs.c:1032
+#: client/gui-xaw/dialogs.c:1042 client/gui-xaw/dialogs.c:1071
 msgid "Sir, the spy is waiting for your command"
 msgstr "Der Spion erwartet seine Anweisungen"
 
-#: client/gui-gtk/dialogs.c:1005 data/Freeciv:2214
+#: client/gui-gtk/dialogs.c:1001 data/Freeciv:2214
 msgid "Establish Embassy"
 msgstr "Botschaft eröffnen"
 
-#: client/gui-gtk/dialogs.c:1006 data/Freeciv:2217
+#: client/gui-gtk/dialogs.c:1002 data/Freeciv:2217
 msgid "Investigate City (free)"
 msgstr "Stadt auskundschaften (kostenlos)"
 
-#: client/gui-gtk/dialogs.c:1007 data/Freeciv:2221
+#: client/gui-gtk/dialogs.c:1003 data/Freeciv:2221
 msgid "Poison City"
 msgstr "Wasser vergiften"
 
-#: client/gui-gtk/dialogs.c:1008 data/Freeciv:2224
+#: client/gui-gtk/dialogs.c:1004 data/Freeciv:2224
 msgid "Industrial Sabotage"
 msgstr "Industrie sabotieren"
 
-#: client/gui-gtk/dialogs.c:1010 data/Freeciv:2231
+#: client/gui-gtk/dialogs.c:1006 data/Freeciv:2231
 msgid "Incite a Revolt"
 msgstr "Zur Revolte anstiften"
 
 #. "spybribedialog"
-#: client/gui-gtk/dialogs.c:1033 data/Freeciv:2339
+#: client/gui-gtk/dialogs.c:1029 data/Freeciv:2339
 msgid "Subvert Enemy Unit"
 msgstr "Feindliche Einheit unterwandern"
 
-#: client/gui-gtk/dialogs.c:1038 data/Freeciv:2343
+#: client/gui-gtk/dialogs.c:1034 data/Freeciv:2343
 msgid "Sabotage Enemy Unit"
 msgstr "Feindliche Einheit sabotieren"
 
-#: client/gui-gtk/dialogs.c:1122 client/gui-xaw/dialogs.c:1167
+#: client/gui-gtk/dialogs.c:1118 client/gui-xaw/dialogs.c:1163
 #, c-format
 msgid ""
 "Your caravan from %s reaches the city of %s.\n"
@@ -5516,97 +5519,97 @@ msgid ""
 msgstr "Karavane aus %s erreicht die Stadt %s."
 
 #. "caravandialog"
-#: client/gui-gtk/dialogs.c:1129 data/Freeciv:2170
+#: client/gui-gtk/dialogs.c:1125 data/Freeciv:2170
 msgid "Your Caravan Has Arrived"
 msgstr "Karavane ist angekommen"
 
-#: client/gui-gtk/dialogs.c:1131 data/Freeciv:2172
+#: client/gui-gtk/dialogs.c:1127 data/Freeciv:2172
 msgid "Establish traderoute"
 msgstr "Handelsweg gründen"
 
-#: client/gui-gtk/dialogs.c:1132 data/Freeciv:2174
+#: client/gui-gtk/dialogs.c:1128 data/Freeciv:2174
 msgid "Help build Wonder"
 msgstr "Beim Bau des Weltwunders helfen"
 
-#: client/gui-gtk/dialogs.c:1133 data/Freeciv:2177
+#: client/gui-gtk/dialogs.c:1129 data/Freeciv:2177
 msgid "Keep moving"
 msgstr "Weiterziehen"
 
-#: client/gui-gtk/dialogs.c:1188
+#: client/gui-gtk/dialogs.c:1184
 msgid "Choose Your New Government"
 msgstr "Wähle die neue Regierung"
 
-#: client/gui-gtk/dialogs.c:1195 data/Freeciv:2403
+#: client/gui-gtk/dialogs.c:1191 data/Freeciv:2403
 msgid "Select government type:"
 msgstr "Wähle die Regierungsform:"
 
 #. "revolutiondialog"
-#: client/gui-gtk/dialogs.c:1250 data/Freeciv:2371
+#: client/gui-gtk/dialogs.c:1246 data/Freeciv:2371
 msgid "Revolution!"
 msgstr "Revolution!"
 
-#: client/gui-gtk/dialogs.c:1251 client/gui-xaw/dialogs.c:1272
+#: client/gui-gtk/dialogs.c:1247 client/gui-xaw/dialogs.c:1268
 msgid "You say you wanna revolution?"
 msgstr "Sicher?"
 
-#: client/gui-gtk/dialogs.c:1305 data/Freeciv:2409
+#: client/gui-gtk/dialogs.c:1301 data/Freeciv:2409
 msgid "What To Pillage"
 msgstr "Was gebrandschatzt werden soll"
 
-#: client/gui-gtk/dialogs.c:1312 data/Freeciv:2411
+#: client/gui-gtk/dialogs.c:1308 data/Freeciv:2411
 msgid "Select what to pillage:"
 msgstr "Wähle aus, was gebrandschatzt werden soll:"
 
-#: client/gui-gtk/dialogs.c:1411 data/Freeciv:2421
+#: client/gui-gtk/dialogs.c:1407 data/Freeciv:2421
 msgid "Choose unit activity:"
 msgstr "Was soll die Einheit machen?"
 
-#: client/gui-gtk/dialogs.c:1612
+#: client/gui-gtk/dialogs.c:1608
 msgid "Unit selection"
 msgstr "Einheit auswählen"
 
-#: client/gui-gtk/dialogs.c:1673 data/Freeciv:498
+#: client/gui-gtk/dialogs.c:1669 data/Freeciv:498
 msgid "Ready all"
 msgstr "Alle aktivieren"
 
-#: client/gui-gtk/dialogs.c:1734
+#: client/gui-gtk/dialogs.c:1730
 msgid " What Nation Will You Be?"
 msgstr "Treffen Sie Ihre Wahl"
 
-#: client/gui-gtk/dialogs.c:1736
+#: client/gui-gtk/dialogs.c:1732
 msgid "Select nation and name"
 msgstr "Nationalität und Namen:"
 
 #. ------- leader sex toggles -------
-#: client/gui-gtk/dialogs.c:1778
+#: client/gui-gtk/dialogs.c:1774
 msgid "Select your sex"
 msgstr "Geschlecht:"
 
-#: client/gui-gtk/dialogs.c:1785
+#: client/gui-gtk/dialogs.c:1781
 msgid "Male"
 msgstr "männlich"
 
-#: client/gui-gtk/dialogs.c:1790 data/Freeciv:3003
+#: client/gui-gtk/dialogs.c:1786 data/Freeciv:3003
 msgid "Female"
 msgstr "weiblich"
 
-#: client/gui-gtk/dialogs.c:1810
+#: client/gui-gtk/dialogs.c:1806
 msgid "Select your city style"
 msgstr "Bauweise:"
 
-#: client/gui-gtk/dialogs.c:2042 client/gui-xaw/dialogs.c:2224
+#: client/gui-gtk/dialogs.c:2038 client/gui-xaw/dialogs.c:2220
 msgid "You must select a nation."
 msgstr "Es MUSS eine Nation gewählt werden."
 
-#: client/gui-gtk/dialogs.c:2047 client/gui-xaw/dialogs.c:2229
+#: client/gui-gtk/dialogs.c:2043 client/gui-xaw/dialogs.c:2225
 msgid "You must select your sex."
 msgstr "Es MUSS ein Geschlecht gewählt werden."
 
-#: client/gui-gtk/dialogs.c:2052 client/gui-xaw/dialogs.c:2234
+#: client/gui-gtk/dialogs.c:2048 client/gui-xaw/dialogs.c:2230
 msgid "You must select your city style."
 msgstr "Es MUSS eine Bauweise gewählt werden werden."
 
-#: client/gui-gtk/dialogs.c:2065 client/gui-xaw/dialogs.c:2248
+#: client/gui-gtk/dialogs.c:2061 client/gui-xaw/dialogs.c:2244
 msgid "You must type a legal name."
 msgstr "Es MUSS ein zulässiger Name eingegeben werden."
 
@@ -6181,12 +6184,12 @@ msgstr "_Befehle"
 msgid "Orders"
 msgstr "Befehle"
 
-#: client/gui-gtk/menu.c:526 client/gui-gtk/menu.c:905
+#: client/gui-gtk/menu.c:526 client/gui-gtk/menu.c:904
 #: client/gui-xaw/menu.c:140
 msgid "Build City"
 msgstr "Stadt gründen"
 
-#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:945
+#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:944
 #: client/gui-xaw/menu.c:142
 msgid "Build Road"
 msgstr "Straße bauen"
@@ -6214,7 +6217,7 @@ msgstr "Befestigung errichten"
 msgid "Build Airbase"
 msgstr "Fliegerhorst bauen"
 
-#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:934
+#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:933
 #: client/gui-xaw/menu.c:153
 msgid "Clean Pollution"
 msgstr "Umweltverschmutzung beseitigen"
@@ -6403,19 +6406,19 @@ msgstr "In %s ändern"
 msgid "Transform to %s"
 msgstr "In %s verändern"
 
-#: client/gui-gtk/menu.c:903 client/gui-xaw/menu.c:141
+#: client/gui-gtk/menu.c:902 client/gui-xaw/menu.c:141
 msgid "Add to City"
 msgstr "Zur Stadt hinzufügen"
 
-#: client/gui-gtk/menu.c:918 client/gui-xaw/menu.c:145
+#: client/gui-gtk/menu.c:917 client/gui-xaw/menu.c:145
 msgid "Build Farmland"
 msgstr "Erzeuge Ackerland"
 
-#: client/gui-gtk/menu.c:932 client/gui-xaw/menu.c:154
+#: client/gui-gtk/menu.c:931 client/gui-xaw/menu.c:154
 msgid "Paradrop"
 msgstr "Fallschirmspringen"
 
-#: client/gui-gtk/menu.c:942 client/gui-xaw/menu.c:143
+#: client/gui-gtk/menu.c:941 client/gui-xaw/menu.c:143
 msgid "Build Railroad"
 msgstr "Schienen verlegen"
 

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-02-17 18:03+0100\n"
+"POT-Creation-Date: 2000-02-19 02:28-0500\n"
 "PO-Revision-Date: 1999-09-13 10:22+0200\n"
 "Last-Translator: Freeciv french team <freeciv-fr@club.voila.fr>\n"
 "Language-Team: FRENCH <FR@li.org>\n"
@@ -2040,6 +2040,7 @@ msgid "Chance in diplomat/spy contests"
 msgstr "Réussite dans les actions des diplomates/espions"
 
 #: server/stdinhand.c:495
+#, c-format
 msgid ""
 "A Diplomat or Spy acting against a city which has one or more defending "
 "Diplomats or Spies has a diplchance (percent) chance to defeat each such "
@@ -4847,9 +4848,9 @@ msgstr "Mettre à jour l'unité"
 
 #: client/gui-gtk/citydlg.c:812 client/gui-gtk/citydlg.c:1192
 #: client/gui-gtk/citydlg.c:2107 client/gui-gtk/cityrep.c:994
-#: client/gui-gtk/dialogs.c:989 client/gui-gtk/dialogs.c:1011
-#: client/gui-gtk/dialogs.c:1039 client/gui-gtk/dialogs.c:1329
-#: client/gui-gtk/dialogs.c:1428 client/gui-gtk/gamedlgs.c:317
+#: client/gui-gtk/dialogs.c:985 client/gui-gtk/dialogs.c:1007
+#: client/gui-gtk/dialogs.c:1035 client/gui-gtk/dialogs.c:1325
+#: client/gui-gtk/dialogs.c:1424 client/gui-gtk/gamedlgs.c:317
 #: client/gui-gtk/inputdlg.c:107 client/gui-gtk/messagedlg.c:149
 #: client/gui-gtk/wldlg.c:470 client/gui-xaw/inputdlg.c:109 data/Freeciv:1060
 #: data/Freeciv:1115 data/Freeciv:1149 data/Freeciv:1169 data/Freeciv:1213
@@ -4979,7 +4980,7 @@ msgstr "Acheter!"
 
 #: client/gui-gtk/citydlg.c:1511 client/gui-gtk/citydlg.c:1581
 #: client/gui-gtk/citydlg.c:1954 client/gui-gtk/dialogs.c:403
-#: client/gui-gtk/dialogs.c:942 client/gui-gtk/dialogs.c:1252
+#: client/gui-gtk/dialogs.c:938 client/gui-gtk/dialogs.c:1248
 #: client/gui-gtk/repodlgs.c:908 client/gui-xaw/citydlg.c:2569
 #: client/gui-xaw/cityrep.c:691 client/gui-xaw/messagedlg.c:74
 #: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:152
@@ -4991,7 +4992,7 @@ msgstr "Oui"
 
 #: client/gui-gtk/citydlg.c:1512 client/gui-gtk/citydlg.c:1583
 #: client/gui-gtk/citydlg.c:1955 client/gui-gtk/dialogs.c:404
-#: client/gui-gtk/dialogs.c:943 client/gui-gtk/dialogs.c:1253
+#: client/gui-gtk/dialogs.c:939 client/gui-gtk/dialogs.c:1249
 #: client/gui-gtk/repodlgs.c:909 client/gui-xaw/citydlg.c:2569
 #: client/gui-xaw/cityrep.c:691 client/gui-xaw/messagedlg.c:74
 #: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:152
@@ -5011,7 +5012,7 @@ msgstr ""
 
 #: client/gui-gtk/citydlg.c:1520 client/gui-gtk/citydlg.c:1569
 #: client/gui-gtk/citydlg.c:1593 client/gui-gtk/dialogs.c:411
-#: client/gui-gtk/dialogs.c:950 data/Freeciv:2163 data/Freeciv:2365
+#: client/gui-gtk/dialogs.c:946 data/Freeciv:2163 data/Freeciv:2365
 #: data/Freeciv:2395
 msgid "Darn"
 msgstr "Renoncer"
@@ -5121,7 +5122,7 @@ msgid "Auto-attack vs helicopters"
 msgstr "Auto-attaquer les hélicoptères"
 
 #. ------- OK/Disc/Quit buttons -------
-#: client/gui-gtk/citydlg.c:2105 client/gui-gtk/dialogs.c:1830
+#: client/gui-gtk/citydlg.c:2105 client/gui-gtk/dialogs.c:1826
 #: client/gui-gtk/gamedlgs.c:308 client/gui-gtk/inputdlg.c:101
 #: client/gui-gtk/messagedlg.c:141 client/gui-gtk/wldlg.c:463
 #: client/gui-xaw/inputdlg.c:102 data/Freeciv:1207 data/Freeciv:1244
@@ -5263,7 +5264,7 @@ msgstr "Définir les colonnes"
 #. + Close
 #: client/gui-gtk/cityrep.c:1263 client/gui-gtk/dialogs.c:199
 #: client/gui-gtk/dialogs.c:324 client/gui-gtk/dialogs.c:684
-#: client/gui-gtk/dialogs.c:784 client/gui-gtk/dialogs.c:1667
+#: client/gui-gtk/dialogs.c:782 client/gui-gtk/dialogs.c:1663
 #: client/gui-gtk/gamedlgs.c:414 client/gui-gtk/helpdlg.c:445
 #: client/gui-gtk/inteldlg.c:184 client/gui-gtk/messagewin.c:148
 #: client/gui-gtk/repodlgs.c:237 client/gui-gtk/repodlgs.c:541
@@ -5330,7 +5331,7 @@ msgstr "Métaserveur"
 msgid "Update"
 msgstr "M.À.J."
 
-#: client/gui-gtk/connectdlg.c:220 client/gui-gtk/dialogs.c:1404
+#: client/gui-gtk/connectdlg.c:220 client/gui-gtk/dialogs.c:1400
 #: client/gui-gtk/menu.c:566 client/gui-xaw/menu.c:167 data/Freeciv:87
 #: data/Freeciv:2419
 msgid "Connect"
@@ -5359,7 +5360,7 @@ msgstr ""
 "Les finances contiennent %d or."
 
 #. "diplomatbribedialog"
-#: client/gui-gtk/dialogs.c:402 client/gui-gtk/dialogs.c:1037
+#: client/gui-gtk/dialogs.c:402 client/gui-gtk/dialogs.c:1033
 #: data/Freeciv:2327 data/Freeciv:2341
 msgid "Bribe Enemy Unit"
 msgstr "Corrompre l'unité ennemie"
@@ -5374,7 +5375,7 @@ msgstr ""
 "Les finances contiennent %d or."
 
 #. "diplomatnogolddialog"
-#: client/gui-gtk/dialogs.c:410 client/gui-gtk/dialogs.c:949 data/Freeciv:2363
+#: client/gui-gtk/dialogs.c:410 client/gui-gtk/dialogs.c:945 data/Freeciv:2363
 msgid "Traitors Demand Too Much!"
 msgstr "Les traîtres demandent trop !"
 
@@ -5382,7 +5383,7 @@ msgstr "Les traîtres demandent trop !"
 msgid "Select Advance to Steal"
 msgstr "Choisissez l'avancée que vous voulez voler"
 
-#: client/gui-gtk/dialogs.c:666 client/gui-gtk/dialogs.c:1009
+#: client/gui-gtk/dialogs.c:666 client/gui-gtk/dialogs.c:1005
 #: data/Freeciv:2228 data/Freeciv:2242
 msgid "Steal Technology"
 msgstr "Voler de la technologie"
@@ -5391,34 +5392,34 @@ msgstr "Voler de la technologie"
 msgid "Steal"
 msgstr "Voler"
 
-#: client/gui-gtk/dialogs.c:726 client/gui-gtk/dialogs.c:822
-#: client/gui-xaw/dialogs.c:753 client/gui-xaw/dialogs.c:841
+#: client/gui-gtk/dialogs.c:725 client/gui-gtk/dialogs.c:819
+#: client/gui-xaw/dialogs.c:752 client/gui-xaw/dialogs.c:838
 msgid "At Spy's Discretion"
 msgstr "Au choix de l'espion"
 
 # AR
-#: client/gui-gtk/dialogs.c:734 client/gui-xaw/dialogs.c:738
+#: client/gui-gtk/dialogs.c:732 client/gui-xaw/dialogs.c:738
 msgid "NONE"
 msgstr "RIEN"
 
-#: client/gui-gtk/dialogs.c:760 data/Freeciv:2300
+#: client/gui-gtk/dialogs.c:758 data/Freeciv:2300
 msgid "Select Improvement to Sabotage"
 msgstr "Choisissez le bâtiment que vous voulez saboter"
 
-#: client/gui-gtk/dialogs.c:767 data/Freeciv:2285
+#: client/gui-gtk/dialogs.c:765 data/Freeciv:2285
 msgid "Sabotage Improvements"
 msgstr "Saboter des bâtiments"
 
-#: client/gui-gtk/dialogs.c:789 data/Freeciv:2316
+#: client/gui-gtk/dialogs.c:787 data/Freeciv:2316
 msgid "Sabotage"
 msgstr "Sabotage"
 
 # AR
-#: client/gui-gtk/dialogs.c:808 client/gui-xaw/dialogs.c:830
+#: client/gui-gtk/dialogs.c:806 client/gui-xaw/dialogs.c:828
 msgid "City Production"
 msgstr "Production de la ville"
 
-#: client/gui-gtk/dialogs.c:938 client/gui-xaw/dialogs.c:977
+#: client/gui-gtk/dialogs.c:934 client/gui-xaw/dialogs.c:973
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -5428,11 +5429,11 @@ msgstr ""
 "Les finances contiennent %d or."
 
 #. "diplomatrevoltdialog"
-#: client/gui-gtk/dialogs.c:941 data/Freeciv:2352
+#: client/gui-gtk/dialogs.c:937 data/Freeciv:2352
 msgid "Incite a Revolt!"
 msgstr "Inciter à la révolte"
 
-#: client/gui-gtk/dialogs.c:946 client/gui-xaw/dialogs.c:987
+#: client/gui-gtk/dialogs.c:942 client/gui-xaw/dialogs.c:983
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -5442,75 +5443,75 @@ msgstr ""
 "Les finances contiennent %d or."
 
 #. "diplomatdialog"
-#: client/gui-gtk/dialogs.c:982
+#: client/gui-gtk/dialogs.c:978
 msgid " Choose Your Diplomat's Strategy"
 msgstr " Choisissez la stratégie de votre diplomate"
 
-#: client/gui-gtk/dialogs.c:983 client/gui-gtk/dialogs.c:1035
-#: client/gui-xaw/dialogs.c:1025 client/gui-xaw/dialogs.c:1074
+#: client/gui-gtk/dialogs.c:979 client/gui-gtk/dialogs.c:1031
+#: client/gui-xaw/dialogs.c:1021 client/gui-xaw/dialogs.c:1070
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Monsieur, le diplomate attend vos ordres"
 
-#: client/gui-gtk/dialogs.c:984 data/Freeciv:2189
+#: client/gui-gtk/dialogs.c:980 data/Freeciv:2189
 msgid "Establish embassy"
 msgstr "Établir une ambassade"
 
-#: client/gui-gtk/dialogs.c:985 data/Freeciv:2191
+#: client/gui-gtk/dialogs.c:981 data/Freeciv:2191
 msgid "Investigate City"
 msgstr "Étudier la ville"
 
-#: client/gui-gtk/dialogs.c:986 data/Freeciv:2194
+#: client/gui-gtk/dialogs.c:982 data/Freeciv:2194
 msgid "Sabotage city"
 msgstr "Saboter la ville"
 
-#: client/gui-gtk/dialogs.c:987 data/Freeciv:2196
+#: client/gui-gtk/dialogs.c:983 data/Freeciv:2196
 msgid "Steal technology"
 msgstr "Voler de la technologie"
 
-#: client/gui-gtk/dialogs.c:988 data/Freeciv:2199
+#: client/gui-gtk/dialogs.c:984 data/Freeciv:2199
 msgid "Incite a revolt"
 msgstr "Inciter à la révolte"
 
 #. "spydialog"
-#: client/gui-gtk/dialogs.c:1003 data/Freeciv:2209
+#: client/gui-gtk/dialogs.c:999 data/Freeciv:2209
 msgid "Choose Your Spy's Strategy"
 msgstr "Choisissez la stratégie de votre espion"
 
-#: client/gui-gtk/dialogs.c:1004 client/gui-gtk/dialogs.c:1036
-#: client/gui-xaw/dialogs.c:1046 client/gui-xaw/dialogs.c:1075
+#: client/gui-gtk/dialogs.c:1000 client/gui-gtk/dialogs.c:1032
+#: client/gui-xaw/dialogs.c:1042 client/gui-xaw/dialogs.c:1071
 msgid "Sir, the spy is waiting for your command"
 msgstr "Monsieur, l'espion attend vos ordres"
 
-#: client/gui-gtk/dialogs.c:1005 data/Freeciv:2214
+#: client/gui-gtk/dialogs.c:1001 data/Freeciv:2214
 msgid "Establish Embassy"
 msgstr "Établir une ambassade"
 
-#: client/gui-gtk/dialogs.c:1006 data/Freeciv:2217
+#: client/gui-gtk/dialogs.c:1002 data/Freeciv:2217
 msgid "Investigate City (free)"
 msgstr "Étudier la ville (librement)"
 
-#: client/gui-gtk/dialogs.c:1007 data/Freeciv:2221
+#: client/gui-gtk/dialogs.c:1003 data/Freeciv:2221
 msgid "Poison City"
 msgstr "Empoisonner la ville"
 
-#: client/gui-gtk/dialogs.c:1008 data/Freeciv:2224
+#: client/gui-gtk/dialogs.c:1004 data/Freeciv:2224
 msgid "Industrial Sabotage"
 msgstr "Saboter une construction"
 
-#: client/gui-gtk/dialogs.c:1010 data/Freeciv:2231
+#: client/gui-gtk/dialogs.c:1006 data/Freeciv:2231
 msgid "Incite a Revolt"
 msgstr "Inciter à la révolte"
 
 #. "spybribedialog"
-#: client/gui-gtk/dialogs.c:1033 data/Freeciv:2339
+#: client/gui-gtk/dialogs.c:1029 data/Freeciv:2339
 msgid "Subvert Enemy Unit"
 msgstr "Corrompre une unité ennemie"
 
-#: client/gui-gtk/dialogs.c:1038 data/Freeciv:2343
+#: client/gui-gtk/dialogs.c:1034 data/Freeciv:2343
 msgid "Sabotage Enemy Unit"
 msgstr "Saboter une unité ennemie"
 
-#: client/gui-gtk/dialogs.c:1122 client/gui-xaw/dialogs.c:1167
+#: client/gui-gtk/dialogs.c:1118 client/gui-xaw/dialogs.c:1163
 #, c-format
 msgid ""
 "Your caravan from %s reaches the city of %s.\n"
@@ -5520,97 +5521,97 @@ msgstr ""
 "Et maintenant ?"
 
 #. "caravandialog"
-#: client/gui-gtk/dialogs.c:1129 data/Freeciv:2170
+#: client/gui-gtk/dialogs.c:1125 data/Freeciv:2170
 msgid "Your Caravan Has Arrived"
 msgstr "Votre caravane est arrivée"
 
-#: client/gui-gtk/dialogs.c:1131 data/Freeciv:2172
+#: client/gui-gtk/dialogs.c:1127 data/Freeciv:2172
 msgid "Establish traderoute"
 msgstr "Établir une route commerciale"
 
-#: client/gui-gtk/dialogs.c:1132 data/Freeciv:2174
+#: client/gui-gtk/dialogs.c:1128 data/Freeciv:2174
 msgid "Help build Wonder"
 msgstr "Aider à la construction de merveilles"
 
-#: client/gui-gtk/dialogs.c:1133 data/Freeciv:2177
+#: client/gui-gtk/dialogs.c:1129 data/Freeciv:2177
 msgid "Keep moving"
 msgstr "Continuer sa route"
 
-#: client/gui-gtk/dialogs.c:1188
+#: client/gui-gtk/dialogs.c:1184
 msgid "Choose Your New Government"
 msgstr "Choisissez votre nouveau gouvernement"
 
-#: client/gui-gtk/dialogs.c:1195 data/Freeciv:2403
+#: client/gui-gtk/dialogs.c:1191 data/Freeciv:2403
 msgid "Select government type:"
 msgstr "Choisissez le type de gouvernement :"
 
 #. "revolutiondialog"
-#: client/gui-gtk/dialogs.c:1250 data/Freeciv:2371
+#: client/gui-gtk/dialogs.c:1246 data/Freeciv:2371
 msgid "Revolution!"
 msgstr "Révolution !"
 
-#: client/gui-gtk/dialogs.c:1251 client/gui-xaw/dialogs.c:1272
+#: client/gui-gtk/dialogs.c:1247 client/gui-xaw/dialogs.c:1268
 msgid "You say you wanna revolution?"
 msgstr "Vous voulez faire la révolution ?"
 
-#: client/gui-gtk/dialogs.c:1305 data/Freeciv:2409
+#: client/gui-gtk/dialogs.c:1301 data/Freeciv:2409
 msgid "What To Pillage"
 msgstr "Que piller"
 
-#: client/gui-gtk/dialogs.c:1312 data/Freeciv:2411
+#: client/gui-gtk/dialogs.c:1308 data/Freeciv:2411
 msgid "Select what to pillage:"
 msgstr "Choisissez ce que vous voulez piller"
 
-#: client/gui-gtk/dialogs.c:1411 data/Freeciv:2421
+#: client/gui-gtk/dialogs.c:1407 data/Freeciv:2421
 msgid "Choose unit activity:"
 msgstr "Choisissez l'activité de l'unité:"
 
-#: client/gui-gtk/dialogs.c:1612
+#: client/gui-gtk/dialogs.c:1608
 msgid "Unit selection"
 msgstr "Choix de l'unité"
 
-#: client/gui-gtk/dialogs.c:1673 data/Freeciv:498
+#: client/gui-gtk/dialogs.c:1669 data/Freeciv:498
 msgid "Ready all"
 msgstr "Préparer tous"
 
-#: client/gui-gtk/dialogs.c:1734
+#: client/gui-gtk/dialogs.c:1730
 msgid " What Nation Will You Be?"
 msgstr " Quel peuple voulez-vous être ?"
 
-#: client/gui-gtk/dialogs.c:1736
+#: client/gui-gtk/dialogs.c:1732
 msgid "Select nation and name"
 msgstr "Choisissez un peuple et un nom"
 
 #. ------- leader sex toggles -------
-#: client/gui-gtk/dialogs.c:1778
+#: client/gui-gtk/dialogs.c:1774
 msgid "Select your sex"
 msgstr "Voulez vous être un homme ou une femme ?"
 
-#: client/gui-gtk/dialogs.c:1785
+#: client/gui-gtk/dialogs.c:1781
 msgid "Male"
 msgstr "Un homme"
 
-#: client/gui-gtk/dialogs.c:1790 data/Freeciv:3003
+#: client/gui-gtk/dialogs.c:1786 data/Freeciv:3003
 msgid "Female"
 msgstr "Une femme"
 
-#: client/gui-gtk/dialogs.c:1810
+#: client/gui-gtk/dialogs.c:1806
 msgid "Select your city style"
 msgstr "Choisissez le style de vos villes"
 
-#: client/gui-gtk/dialogs.c:2042 client/gui-xaw/dialogs.c:2224
+#: client/gui-gtk/dialogs.c:2038 client/gui-xaw/dialogs.c:2220
 msgid "You must select a nation."
 msgstr "Vous devez choisir un peuple."
 
-#: client/gui-gtk/dialogs.c:2047 client/gui-xaw/dialogs.c:2229
+#: client/gui-gtk/dialogs.c:2043 client/gui-xaw/dialogs.c:2225
 msgid "You must select your sex."
 msgstr "Vous devez choisir entre homme ou femme."
 
-#: client/gui-gtk/dialogs.c:2052 client/gui-xaw/dialogs.c:2234
+#: client/gui-gtk/dialogs.c:2048 client/gui-xaw/dialogs.c:2230
 msgid "You must select your city style."
 msgstr "Vous devez choisir le style de vos villes."
 
-#: client/gui-gtk/dialogs.c:2065 client/gui-xaw/dialogs.c:2248
+#: client/gui-gtk/dialogs.c:2061 client/gui-xaw/dialogs.c:2244
 msgid "You must type a legal name."
 msgstr "Vous devez taper un nom valide."
 
@@ -6174,12 +6175,12 @@ msgstr "_Ordres"
 msgid "Orders"
 msgstr "Ordres"
 
-#: client/gui-gtk/menu.c:526 client/gui-gtk/menu.c:905
+#: client/gui-gtk/menu.c:526 client/gui-gtk/menu.c:904
 #: client/gui-xaw/menu.c:140
 msgid "Build City"
 msgstr "Bâtir une ville"
 
-#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:945
+#: client/gui-gtk/menu.c:528 client/gui-gtk/menu.c:944
 #: client/gui-xaw/menu.c:142
 msgid "Build Road"
 msgstr "Construire une route"
@@ -6207,7 +6208,7 @@ msgstr "Construire une forteresse"
 msgid "Build Airbase"
 msgstr "Construire une base aérienne"
 
-#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:934
+#: client/gui-gtk/menu.c:540 client/gui-gtk/menu.c:933
 #: client/gui-xaw/menu.c:153
 msgid "Clean Pollution"
 msgstr "Dépolluer"
@@ -6396,19 +6397,19 @@ msgstr "Changer en %s"
 msgid "Transform to %s"
 msgstr "Transformer en %s"
 
-#: client/gui-gtk/menu.c:903 client/gui-xaw/menu.c:141
+#: client/gui-gtk/menu.c:902 client/gui-xaw/menu.c:141
 msgid "Add to City"
 msgstr "Ajouter à la ville"
 
-#: client/gui-gtk/menu.c:918 client/gui-xaw/menu.c:145
+#: client/gui-gtk/menu.c:917 client/gui-xaw/menu.c:145
 msgid "Build Farmland"
 msgstr "Construire une Ferme"
 
-#: client/gui-gtk/menu.c:932 client/gui-xaw/menu.c:154
+#: client/gui-gtk/menu.c:931 client/gui-xaw/menu.c:154
 msgid "Paradrop"
 msgstr "Parachuter"
 
-#: client/gui-gtk/menu.c:942 client/gui-xaw/menu.c:143
+#: client/gui-gtk/menu.c:941 client/gui-xaw/menu.c:143
 msgid "Build Railroad"
 msgstr "Construire un chemin de fer"
 
@@ -7593,6 +7594,7 @@ msgstr ""
 "Fusiliers."
 
 #: data/helpdata.txt:550
+#, c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
 "or outside cities can create or reduce unhappiness. Also remember that when "
@@ -7943,6 +7945,7 @@ msgstr ""
 "aériennes pour qu'on les considère comme un type d'unité séparé.)"
 
 #: data/helpdata.txt:737
+#, c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
 "benefit from roads and railroads.  They cannot move on ocean squares except "
@@ -8222,6 +8225,7 @@ msgstr ""
 #. ; odds are the same both ways, but I think my explanation may be a
 #. ; little simpler for non-programmers who may be reading this.
 #: data/helpdata.txt:870
+#, c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
 "was not a veteran already.  If the winner's civilization has the Sun Tzu's "
@@ -8296,6 +8300,7 @@ msgstr ""
 "de 202 pour le défenseur."
 
 #: data/helpdata.txt:903
+#, c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
 "the number is greater than 202 (about a 28% chance), the defender loses 1 "
@@ -8310,6 +8315,7 @@ msgstr ""
 #. ; defender's 20 HP total.  The defender should win the other 20,
 #. ; killing the attacker.
 #: data/helpdata.txt:913
+#, c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
 "defender.  The defender will probably lose somewhere around 40% of its hit "
@@ -8365,6 +8371,7 @@ msgstr ""
 "respectivement de 180 et 225."
 
 #: data/helpdata.txt:940
+#, c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
 "than 225 (about a 44% chance) the defender loses 2 hit points (the "
@@ -8381,6 +8388,7 @@ msgstr ""
 #. ; Troops (precisely to 0 hit points), and inflict 12 hit points on
 #. ; the Battleship's 40 HP total.
 #: data/helpdata.txt:951
+#, c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
 "is 25% less likely to score a hit in any given round, but when it does, it "
@@ -9073,6 +9081,7 @@ msgstr "Banque"
 
 #: data/civ1/buildings.ruleset:71 data/civ2/buildings.ruleset:79
 #: data/default/buildings.ruleset:79
+#, c-format
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
@@ -9233,6 +9242,7 @@ msgstr "Centrale hydro-électrique"
 
 #: data/civ1/buildings.ruleset:244 data/civ2/buildings.ruleset:260
 #: data/default/buildings.ruleset:260
+#, c-format
 msgid ""
 "Reduces the amount of pollution generated in a city.  It also increases the "
 "shield production of a Factory or Mfg. Plant in the city: a Factory and a "
@@ -9259,6 +9269,7 @@ msgstr "Bibliothèque"
 
 #: data/civ1/buildings.ruleset:267 data/civ2/buildings.ruleset:283
 #: data/default/buildings.ruleset:283
+#, c-format
 msgid "Increases the science output in a city by 50%."
 msgstr "Augmente de 50% la recherche scientifique d'une ville."
 
@@ -9269,6 +9280,7 @@ msgstr "Marché"
 
 #: data/civ1/buildings.ruleset:279 data/civ2/buildings.ruleset:295
 #: data/default/buildings.ruleset:295
+#, c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "Augmente de 50% les revenus de luxe et de taxe d'une ville."
 
@@ -9294,6 +9306,7 @@ msgstr "Usine"
 # AR
 #: data/civ1/buildings.ruleset:305 data/civ2/buildings.ruleset:321
 #: data/default/buildings.ruleset:321
+#, c-format
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
@@ -9307,6 +9320,7 @@ msgstr "Centrale nucléaire"
 
 #: data/civ1/buildings.ruleset:318 data/civ2/buildings.ruleset:334
 #: data/default/buildings.ruleset:334
+#, c-format
 msgid ""
 "Reduces the amount of pollution generated in a city.  It also increases the "
 "shield production of a Factory or Mfg. Plant in the city: a Factory and a "
@@ -9400,6 +9414,7 @@ msgstr "Centrale électrique"
 
 #: data/civ1/buildings.ruleset:389 data/civ2/buildings.ruleset:421
 #: data/default/buildings.ruleset:421
+#, c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 75% production bonus, and a "
@@ -9423,6 +9438,7 @@ msgstr "Usine de recyclage"
 
 #: data/civ1/buildings.ruleset:411 data/civ2/buildings.ruleset:443
 #: data/default/buildings.ruleset:443
+#, c-format
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by a "
 "city by 65%."
@@ -9436,6 +9452,7 @@ msgid "Research Lab"
 msgstr "Laboratoire de recherche"
 
 #: data/civ2/buildings.ruleset:456 data/default/buildings.ruleset:456
+#, c-format
 msgid ""
 "Together with a Library and a University, a Research Lab increases the "
 "science production of a city by 150%."
@@ -9573,6 +9590,7 @@ msgid "Stock Exchange"
 msgstr "Bourse"
 
 #: data/civ2/buildings.ruleset:576 data/default/buildings.ruleset:576
+#, c-format
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
@@ -9587,6 +9605,7 @@ msgstr "Autoroutes"
 
 # AR
 #: data/civ2/buildings.ruleset:589 data/default/buildings.ruleset:589
+#, c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
 msgstr ""
@@ -9599,6 +9618,7 @@ msgid "Supermarket"
 msgstr "Supermarché"
 
 #: data/civ2/buildings.ruleset:602 data/default/buildings.ruleset:602
+#, c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
 "used around the city.  Farmland squares are those which have been irrigated "
@@ -9632,6 +9652,7 @@ msgstr "Université"
 
 #: data/civ1/buildings.ruleset:581 data/civ2/buildings.ruleset:630
 #: data/default/buildings.ruleset:630
+#, c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
@@ -9690,6 +9711,7 @@ msgstr "Observatoire de Copernic"
 
 #: data/civ1/buildings.ruleset:630 data/civ2/buildings.ruleset:683
 #: data/default/buildings.ruleset:683
+#, c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr ""
 "Accroît la recherche scientifique de 50% dans la ville ou il à été construit."
@@ -9802,6 +9824,7 @@ msgstr "Collège Isaac Newton"
 
 #: data/civ1/buildings.ruleset:743 data/civ2/buildings.ruleset:792
 #: data/default/buildings.ruleset:792
+#, c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr ""
 "Accroît la recherche scientifique de 100% dans la ville où il est construit"
@@ -10072,6 +10095,7 @@ msgid "Double effects of Cathedrals."
 msgstr "Double les effets des Cathédrales."
 
 #: data/civ1/buildings.ruleset:877
+#, c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "Augmente la production de science dans chaque ville de 50%."
 
@@ -10233,12 +10257,12 @@ msgid "Monarchy"
 msgstr "Monarchie"
 
 #: data/civ1/governments.ruleset:283 data/civ2/governments.ruleset:281
-#: data/default/governments.ruleset:282
+#: data/default/governments.ruleset:282 data/default/nations.ruleset:1514
 msgid "King"
 msgstr "Roi"
 
 #: data/civ1/governments.ruleset:284 data/civ2/governments.ruleset:282
-#: data/default/governments.ruleset:283
+#: data/default/governments.ruleset:283 data/default/nations.ruleset:1514
 msgid "Queen"
 msgstr "Reine"
 
@@ -10427,7 +10451,7 @@ msgstr "Démocratie"
 #: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
 #: data/civ2/governments.ruleset:554 data/civ2/governments.ruleset:555
 #: data/default/governments.ruleset:504 data/default/governments.ruleset:505
-#: data/default/nations.ruleset:1039
+#: data/default/nations.ruleset:1046
 msgid "President"
 msgstr "Président"
 
@@ -10551,7 +10575,7 @@ msgstr "Allemands"
 msgid "Chancellor"
 msgstr "Chancelier"
 
-#: data/default/nations.ruleset:134 data/default/nations.ruleset:384
+#: data/default/nations.ruleset:134 data/default/nations.ruleset:385
 msgid "Archbishop"
 msgstr "Archevêque"
 
@@ -10579,7 +10603,7 @@ msgstr "Américain"
 msgid "?plural:Americans"
 msgstr "Américains"
 
-#: data/default/nations.ruleset:210 data/default/nations.ruleset:1279
+#: data/default/nations.ruleset:210 data/default/nations.ruleset:1294
 msgid "Speaker"
 msgstr "Prêcheur"
 
@@ -10595,13 +10619,13 @@ msgstr "Grec"
 msgid "?plural:Greeks"
 msgstr "Grecs"
 
-#: data/default/nations.ruleset:249 data/default/nations.ruleset:490
-#: data/default/nations.ruleset:599 data/default/nations.ruleset:856
-#: data/default/nations.ruleset:890 data/default/nations.ruleset:934
-#: data/default/nations.ruleset:969 data/default/nations.ruleset:1001
-#: data/default/nations.ruleset:1040 data/default/nations.ruleset:1181
-#: data/default/nations.ruleset:1221 data/default/nations.ruleset:1280
-#: data/default/nations.ruleset:1313 data/default/nations.ruleset:1371
+#: data/default/nations.ruleset:249 data/default/nations.ruleset:493
+#: data/default/nations.ruleset:602 data/default/nations.ruleset:863
+#: data/default/nations.ruleset:897 data/default/nations.ruleset:941
+#: data/default/nations.ruleset:976 data/default/nations.ruleset:1008
+#: data/default/nations.ruleset:1047 data/default/nations.ruleset:1188
+#: data/default/nations.ruleset:1236 data/default/nations.ruleset:1295
+#: data/default/nations.ruleset:1328 data/default/nations.ruleset:1386
 msgid "Prime Minister"
 msgstr "Premier Ministre"
 
@@ -10617,385 +10641,428 @@ msgstr "Indiens"
 msgid "Maharaja"
 msgstr "Maharajah"
 
-#: data/default/nations.ruleset:312
+#: data/default/nations.ruleset:313
 msgid "Russian"
 msgstr "Russe"
 
-#: data/default/nations.ruleset:313
+#: data/default/nations.ruleset:314
 msgid "?plural:Russians"
 msgstr "Russes"
 
-#: data/default/nations.ruleset:321
+#: data/default/nations.ruleset:322
 msgid "Czar"
 msgstr "Tzar"
 
-#: data/default/nations.ruleset:321
+#: data/default/nations.ruleset:322
 msgid "Czarina"
 msgstr "Tzarine"
 
-#: data/default/nations.ruleset:322
+#: data/default/nations.ruleset:323
 msgid "Patriarch"
 msgstr "Patriarche"
 
-#: data/default/nations.ruleset:322
+#: data/default/nations.ruleset:323
 msgid "Matriarch"
 msgstr "Matriarche"
 
-#: data/default/nations.ruleset:347
+#: data/default/nations.ruleset:348
 msgid "Zulu"
 msgstr "Zoulou"
 
-#: data/default/nations.ruleset:348
+#: data/default/nations.ruleset:349
 msgid "?plural:Zulus"
 msgstr "Zoulous"
 
-#: data/default/nations.ruleset:375
+#: data/default/nations.ruleset:376
 msgid "French"
 msgstr "Français"
 
-#: data/default/nations.ruleset:376
+#: data/default/nations.ruleset:377
 msgid "?plural:French"
 msgstr "Français"
 
-#: data/default/nations.ruleset:383
+#: data/default/nations.ruleset:384
 msgid "Premier"
 msgstr "Premier"
 
-#: data/default/nations.ruleset:408
+#: data/default/nations.ruleset:411
 msgid "Aztec"
 msgstr "Aztec"
 
-#: data/default/nations.ruleset:409
+#: data/default/nations.ruleset:412
 msgid "?plural:Aztecs"
 msgstr "Aztecs"
 
-#: data/default/nations.ruleset:437
+#: data/default/nations.ruleset:440
 msgid "Chinese"
 msgstr "Chinois"
 
-#: data/default/nations.ruleset:438
+#: data/default/nations.ruleset:441
 msgid "?plural:Chinese"
 msgstr "Chinois"
 
-#: data/default/nations.ruleset:445
+#: data/default/nations.ruleset:448
 msgid "Chairman"
 msgstr "Président"
 
-#: data/default/nations.ruleset:445
+#: data/default/nations.ruleset:448
 msgid "Chairperson"
 msgstr "Présidente"
 
-#: data/default/nations.ruleset:480
+#: data/default/nations.ruleset:483
 msgid "English"
 msgstr "Anglais"
 
-#: data/default/nations.ruleset:481
+#: data/default/nations.ruleset:484
 msgid "?plural:English"
 msgstr "Anglais"
 
-#: data/default/nations.ruleset:491
+#: data/default/nations.ruleset:494
 msgid "Lord Protector"
 msgstr "Seigneur Protecteur"
 
-#: data/default/nations.ruleset:491
+#: data/default/nations.ruleset:494
 msgid "Lady Protector"
 msgstr "Dame Protectrice"
 
-#: data/default/nations.ruleset:523
+#: data/default/nations.ruleset:526
 msgid "Mongol"
 msgstr "Mongol"
 
-#: data/default/nations.ruleset:524
+#: data/default/nations.ruleset:527
 msgid "?plural:Mongols"
 msgstr "Mongols"
 
-#: data/default/nations.ruleset:531
+#: data/default/nations.ruleset:534
 msgid "Khan"
 msgstr "Khan"
 
-#: data/default/nations.ruleset:532
+#: data/default/nations.ruleset:535
 msgid "Great Khan"
 msgstr "Grand Khan"
 
-#: data/default/nations.ruleset:556
+#: data/default/nations.ruleset:559
 msgid "Turk"
 msgstr "Turc"
 
-#: data/default/nations.ruleset:557
+#: data/default/nations.ruleset:560
 msgid "?plural:Turks"
 msgstr "Turcs"
 
-#: data/default/nations.ruleset:567
+#: data/default/nations.ruleset:570
 msgid "Sultan"
 msgstr "Sultan"
 
-#: data/default/nations.ruleset:591
+#: data/default/nations.ruleset:594
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: data/default/nations.ruleset:592
+#: data/default/nations.ruleset:595
 msgid "?plural:Spanish"
 msgstr "Espagnols"
 
-#: data/default/nations.ruleset:622
+#: data/default/nations.ruleset:625
 msgid "Persian"
 msgstr "Perse"
 
-#: data/default/nations.ruleset:623
+#: data/default/nations.ruleset:626
 msgid "?plural:Persians"
 msgstr "Perses"
 
-#: data/default/nations.ruleset:631
+#: data/default/nations.ruleset:634
 msgid "Shah"
 msgstr "Shah"
 
-#: data/default/nations.ruleset:656
+#: data/default/nations.ruleset:660
 msgid "Arab"
 msgstr "Arabe"
 
-#: data/default/nations.ruleset:657
+#: data/default/nations.ruleset:661
 msgid "?plural:Arabs"
 msgstr "Arabes"
 
-#: data/default/nations.ruleset:665
+#: data/default/nations.ruleset:669
 msgid "Caliph"
 msgstr "Calife"
 
-#: data/default/nations.ruleset:690
+#: data/default/nations.ruleset:694
 msgid "Carthaginian"
 msgstr "Carthaginois"
 
-#: data/default/nations.ruleset:691
+#: data/default/nations.ruleset:695
 msgid "?plural:Carthaginians"
 msgstr "Carthaginois"
 
-#: data/default/nations.ruleset:721
+#: data/default/nations.ruleset:725
 msgid "Inca"
 msgstr "Inca"
 
-#: data/default/nations.ruleset:722
+#: data/default/nations.ruleset:726
 msgid "?plural:Incas"
 msgstr "Incas"
 
-#: data/default/nations.ruleset:730
+#: data/default/nations.ruleset:734
 msgid "Warlord"
 msgstr "Seigneur de guerre"
 
-#: data/default/nations.ruleset:754
+#: data/default/nations.ruleset:758
 msgid "Viking"
 msgstr "Viking"
 
-#: data/default/nations.ruleset:755
+#: data/default/nations.ruleset:759
 msgid "?plural:Vikings"
 msgstr "Vikings"
 
-#: data/default/nations.ruleset:789
+#: data/default/nations.ruleset:793
 msgid "Polish"
 msgstr "Polonais"
 
-#: data/default/nations.ruleset:790
+#: data/default/nations.ruleset:794
 msgid "?plural:Polish"
 msgstr "Polonais"
 
-#: data/default/nations.ruleset:820
+#: data/default/nations.ruleset:801
+msgid "Prymas"
+msgstr ""
+
+#: data/default/nations.ruleset:827
 msgid "Hungarian"
 msgstr "Hongrois"
 
-#: data/default/nations.ruleset:821
+#: data/default/nations.ruleset:828
 msgid "?plural:Hungarians"
 msgstr "Hongrois"
 
-#: data/default/nations.ruleset:848
+#: data/default/nations.ruleset:855
 msgid "Danish"
 msgstr "Danois"
 
-#: data/default/nations.ruleset:849
+#: data/default/nations.ruleset:856
 msgid "?plural:Danes"
 msgstr "Danois"
 
-#: data/default/nations.ruleset:882
+#: data/default/nations.ruleset:889
 msgid "Dutch"
 msgstr "Hollandais"
 
-#: data/default/nations.ruleset:883
+#: data/default/nations.ruleset:890
 msgid "?plural:Dutch"
 msgstr "Hollandais"
 
-#: data/default/nations.ruleset:926
+#: data/default/nations.ruleset:933
 msgid "Swedish"
 msgstr "Suédois"
 
-#: data/default/nations.ruleset:927
+#: data/default/nations.ruleset:934
 msgid "?plural:Swedes"
 msgstr "Suédois"
 
-#: data/default/nations.ruleset:959
+#: data/default/nations.ruleset:966
 msgid "Japanese"
 msgstr "Japonais"
 
-#: data/default/nations.ruleset:960
+#: data/default/nations.ruleset:967
 msgid "?plural:Japanese"
 msgstr "Japonais"
 
-#: data/default/nations.ruleset:968
+#: data/default/nations.ruleset:975
 msgid "Shogun"
 msgstr "Shogun"
 
-#: data/default/nations.ruleset:992
+#: data/default/nations.ruleset:999
 msgid "Portuguese"
 msgstr "Portugais"
 
-#: data/default/nations.ruleset:993
+#: data/default/nations.ruleset:1000
 msgid "?plural:Portuguese"
 msgstr "Portugais"
 
-#: data/default/nations.ruleset:1030
+#: data/default/nations.ruleset:1037
 msgid "Finnish"
 msgstr "Finlandais"
 
-#: data/default/nations.ruleset:1031
+#: data/default/nations.ruleset:1038
 msgid "?plural:Finns"
 msgstr "Finlandais"
 
-#: data/default/nations.ruleset:1080
+#: data/default/nations.ruleset:1087
 msgid "Sioux"
 msgstr "Sioux"
 
-#: data/default/nations.ruleset:1081
+#: data/default/nations.ruleset:1088
 msgid "?plural:Sioux"
 msgstr "Sioux"
 
-#: data/default/nations.ruleset:1089
+#: data/default/nations.ruleset:1096
 msgid "Chief"
 msgstr "Chef"
 
-#: data/default/nations.ruleset:1090
+#: data/default/nations.ruleset:1097
 msgid "Great Chief"
 msgstr "Grand Chef"
 
-#: data/default/nations.ruleset:1112
+#: data/default/nations.ruleset:1119
 msgid "Czech"
 msgstr "Tchèque"
 
-#: data/default/nations.ruleset:1113
+#: data/default/nations.ruleset:1120
 msgid "?plural:Czechs"
 msgstr "Tchèques"
 
-#: data/default/nations.ruleset:1130
+#: data/default/nations.ruleset:1137
 msgid "Thane"
 msgstr "Baron"
 
-#: data/default/nations.ruleset:1130
+#: data/default/nations.ruleset:1137
 msgid "Prophetess"
 msgstr "Prophétesse"
 
-#: data/default/nations.ruleset:1172
+#: data/default/nations.ruleset:1179
 msgid "Australian"
 msgstr "Australien"
 
-#: data/default/nations.ruleset:1173
+#: data/default/nations.ruleset:1180
 msgid "?plural:Australians"
 msgstr "Australiens"
 
-#: data/default/nations.ruleset:1205
+#: data/default/nations.ruleset:1220
 msgid "Welsh"
 msgstr "Gallois"
 
-#: data/default/nations.ruleset:1206
+#: data/default/nations.ruleset:1221
 msgid "?plural:Welsh"
 msgstr "Gallois"
 
-#: data/default/nations.ruleset:1220
+#: data/default/nations.ruleset:1235
 msgid "Prince"
 msgstr "Prince"
 
-#: data/default/nations.ruleset:1220
+#: data/default/nations.ruleset:1235
 msgid "Princess"
 msgstr "Princesse"
 
-#: data/default/nations.ruleset:1243
+#: data/default/nations.ruleset:1258
 msgid "Korean"
 msgstr "Coréen"
 
-#: data/default/nations.ruleset:1244
+#: data/default/nations.ruleset:1259
 msgid "?plural:Koreans"
 msgstr "Coréens"
 
-#: data/default/nations.ruleset:1270
+#: data/default/nations.ruleset:1285
 msgid "Scottish"
 msgstr "Ecossais"
 
-#: data/default/nations.ruleset:1271
+#: data/default/nations.ruleset:1286
 msgid "?plural:Scottish"
 msgstr "Ecossais"
 
-#: data/default/nations.ruleset:1304
+#: data/default/nations.ruleset:1319
 msgid "Israeli"
 msgstr "Israélien"
 
-#: data/default/nations.ruleset:1305
+#: data/default/nations.ruleset:1320
 msgid "?plural:Israelis"
 msgstr "Israéliens"
 
-#: data/default/nations.ruleset:1338
+#: data/default/nations.ruleset:1353
 msgid "Argentine"
 msgstr "Argentin"
 
-#: data/default/nations.ruleset:1339
+#: data/default/nations.ruleset:1354
 msgid "?plural:Argentines"
 msgstr "Argentins"
 
-#: data/default/nations.ruleset:1363
+#: data/default/nations.ruleset:1378
 msgid "Canadian"
 msgstr "Canandien"
 
-#: data/default/nations.ruleset:1364
+#: data/default/nations.ruleset:1379
 msgid "?plural:Canadians"
 msgstr "Canadiens"
 
-#: data/default/nations.ruleset:1398
+#: data/default/nations.ruleset:1413
 msgid "Ukrainian"
 msgstr "Ukrainien"
 
-#: data/default/nations.ruleset:1399
+#: data/default/nations.ruleset:1414
 msgid "?plural:Ukrainians"
 msgstr "Ukrainiens"
 
-#: data/default/nations.ruleset:1406
+#: data/default/nations.ruleset:1421
 msgid "Hetman"
 msgstr ""
 
 # AR
-#: data/default/nations.ruleset:1429
+#: data/default/nations.ruleset:1444
 msgid "Lithuanian"
 msgstr "Lituanien"
 
-#: data/default/nations.ruleset:1430
+#: data/default/nations.ruleset:1445
 msgid "?plural:Lithuanians"
 msgstr "Lituaniens"
 
-#: data/default/nations.ruleset:1437
+#: data/default/nations.ruleset:1452
 msgid "Great Duke"
 msgstr "Grand Duc"
 
-#: data/default/nations.ruleset:1437
+#: data/default/nations.ruleset:1452
 msgid "Great Duchess"
 msgstr "Grande Duchesse"
 
-#: data/default/nations.ruleset:1462
+#: data/default/nations.ruleset:1477
+#, fuzzy
+msgid "Kenyan"
+msgstr "Coréen"
+
+#: data/default/nations.ruleset:1478
+#, fuzzy
+msgid "?plural:Kenyans"
+msgstr "Coréens"
+
+#: data/default/nations.ruleset:1505
+msgid "Dúnedain"
+msgstr ""
+
+#: data/default/nations.ruleset:1506
+#, fuzzy
+msgid "?plural:Dúnedan"
+msgstr "Indiens"
+
+#: data/default/nations.ruleset:1537
+#, fuzzy
+msgid "Vietnamese"
+msgstr "Renommer"
+
+#: data/default/nations.ruleset:1538
+#, fuzzy
+msgid "?plural:Vietnamese"
+msgstr "Chinois"
+
+#: data/default/nations.ruleset:1560
+#, fuzzy
+msgid "Thai"
+msgstr "Baron"
+
+#: data/default/nations.ruleset:1561
+#, fuzzy
+msgid "?plural:Thai"
+msgstr "Chinois"
+
+#: data/default/nations.ruleset:1587
 msgid "Olympic"
 msgstr "Olympien"
 
-#: data/default/nations.ruleset:1463
+#: data/default/nations.ruleset:1588
 msgid "?plural:Olympians"
 msgstr "Olympiens"
 
-#: data/default/nations.ruleset:1488
+#: data/default/nations.ruleset:1613
 msgid "Krevi"
 msgstr ""
 
 # AR
-#: data/default/nations.ruleset:1489
+#: data/default/nations.ruleset:1614
 msgid "?plural:Krevis"
 msgstr ""
 
