@@ -523,52 +523,73 @@ int tile_visible_and_not_on_border_mapcanvas(int x, int y)
 }
 
 /**************************************************************************
-...
+Animates punit's "smooth" move from (x0,y0) to (x0+dx,y0+dy).
+Note: Works only for adjacent-square moves.
+(Tiles need not be square.)
 **************************************************************************/
 void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 {
-  int i;
+  static struct timer *anim_timer = NULL; 
   int dest_x, dest_y;
 
-  dest_x=map_adjust_x(x0+dx);
-  dest_y=map_adjust_y(y0+dy);
+  /* only works for adjacent-square moves */
+  if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
+      ((dx == 0) && (dy == 0))) {
+    return;
+  }
 
-  if(player_can_see_unit(game.player_ptr, punit) && (
-     tile_visible_mapcanvas(x0, y0) || 
-     tile_visible_mapcanvas(dest_x, dest_y))) {
-    int x, y;
+  dest_x = map_adjust_x(x0+dx);
+  dest_y = map_adjust_y(y0+dy);
 
-    put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
+  if (player_can_see_unit(game.player_ptr, punit) &&
+      (tile_visible_mapcanvas(x0, y0) ||
+       tile_visible_mapcanvas(dest_x, dest_y))) {
+    int i, steps;
+    int start_x, start_y;
+    int this_x, this_y;
 
-    if(x0>=map_view_x0)
-      x=(x0-map_view_x0)*NORMAL_TILE_WIDTH;
-    else
-      x=(map.xsize-map_view_x0+x0)*NORMAL_TILE_WIDTH;
-    
-    y=(y0-map_view_y0)*NORMAL_TILE_HEIGHT;
+    if (smooth_move_unit_steps < 2) {
+      steps = 2;
+    } else if (smooth_move_unit_steps >
+	       MIN(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT)) {
+      steps = MIN(NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    } else {
+      steps = smooth_move_unit_steps;
+    }
 
-    for(i=0; i<NORMAL_TILE_WIDTH; i++) {
-      if(dy>0)
-	XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
-		  civ_gc, x, y, NORMAL_TILE_WIDTH, 1, x, y);
-      else if(dy<0)
-	XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
-		  civ_gc, x, y+NORMAL_TILE_HEIGHT-1, NORMAL_TILE_WIDTH, 1,
-		  x, y+NORMAL_TILE_HEIGHT-1);
-      
-      if(dx>0)
-	XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
-		  civ_gc, x, y, 1, NORMAL_TILE_HEIGHT, x, y);
-      else if(dx<0)
-	XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
-		  civ_gc, x+NORMAL_TILE_WIDTH-1, y, 1, NORMAL_TILE_HEIGHT,
-		  x+NORMAL_TILE_WIDTH-1, y);
+    if(x0 >= map_view_x0) {
+      start_x = (x0 - map_view_x0) * NORMAL_TILE_WIDTH;
+    } else {
+      start_x = (map.xsize - map_view_x0 + x0) * NORMAL_TILE_WIDTH;
+    }
+    start_y = (y0 - map_view_y0) * NORMAL_TILE_HEIGHT;
 
-      x+=dx; y+=dy;
-      
-      XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas),
-		civ_gc, 0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, x, y);
+    this_x = start_x;
+    this_y = start_y;
+
+    for (i = 1; i <= steps; i++) {
+      anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+      XCopyArea(display, map_canvas_store, XtWindow(map_canvas), civ_gc,
+		this_x, this_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+		this_x, this_y);
+
+      this_x = start_x + (dx * ((i * NORMAL_TILE_WIDTH) / steps));
+      this_y = start_y + (dy * ((i * NORMAL_TILE_HEIGHT) / steps));
+
+      XCopyArea(display, map_canvas_store, single_tile_pixmap, civ_gc,
+		this_x, this_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+		0, 0);
+      put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
+
+      XCopyArea(display, single_tile_pixmap, XtWindow(map_canvas), civ_gc,
+		0, 0, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+		this_x, this_y);
+
       XSync(display, 0);
+      if (i < steps) {
+	usleep_since_timer_start(anim_timer, 10000);
+      }
     }
   }
 }
@@ -954,7 +975,7 @@ void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile)
 {
   struct Sprite *mysprite;
 
-  if(use_solid_color_behind_units) {
+  if(solid_color_behind_units) {
     XSetForeground(display, fill_bg_gc,
 		   colors_standard[player_color(city_owner(pcity))]);
     XFillRectangle(display, pm, fill_bg_gc, 
@@ -1162,7 +1183,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
               sprites[0]->width, sprites[0]->height, x1,y1);
     } else
     {
-      /* normally when use_solid_color_behind_units */
+      /* normally when solid_color_behind_units */
       struct city *pcity;
       struct player *pplayer=NULL;
 

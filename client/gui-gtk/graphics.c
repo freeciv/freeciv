@@ -47,7 +47,7 @@
 
 extern GtkWidget *	toplevel;
 extern GdkWindow *	root_window;
-extern int 		use_solid_color_behind_units;
+extern int 		solid_color_behind_units;
 
 SPRITE *		intro_gfx_sprite;
 SPRITE *		radar_gfx_sprite;
@@ -351,7 +351,7 @@ GdkPixmap *create_overlay_unit(int i)
         	     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
   /* If we're using flags, put one on the tile */
-  if(!use_solid_color_behind_units)  {
+  if(!solid_color_behind_units)  {
     struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
 
     gdk_gc_set_clip_origin(civ_gc, 0, 0);

@@ -750,7 +750,7 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity)
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   
   if(!no_backdrop) {
-    if(!use_solid_color_behind_units) {
+    if(!solid_color_behind_units) {
       /* will be the first sprite if flags_are_transparent == FALSE */
       *sprs++ = get_city_nation_flag_sprite(pcity);
     } else *sprs++ = NULL;
@@ -793,7 +793,7 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit)
   int ihp;
 
   if(!no_backdrop) {
-    if(!use_solid_color_behind_units) {
+    if(!solid_color_behind_units) {
       /* will be the first sprite if flags_are_transparent == FALSE */
       *sprs++ = get_unit_nation_flag_sprite(punit);
     } else {
@@ -905,7 +905,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
   pcity=map_get_city(abs_x0, abs_y0);
   pfocus=get_unit_in_focus();
 
-  if(!flags_are_transparent || use_solid_color_behind_units) {
+  if(!flags_are_transparent || solid_color_behind_units) {
     /* non-transparent flags -> just draw city or unit */
 
     if((punit=find_visible_unit(ptile))) {

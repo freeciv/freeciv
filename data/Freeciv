@@ -1204,42 +1204,27 @@ Freeciv*optionpopup.title:        _("Options")
 Freeciv*optionpopup*Label.background:   lightblue
 Freeciv*optionpopup*Toggle.background:  cyan
 
-Freeciv*optionpopup*Toggle.shapeStyle:  ShapeOval
+Freeciv*optionpopup*Toggle.shapeStyle:     ShapeOval
+Freeciv*optionpopup*Toggle.width:          50
+Freeciv*optionpopup*Toggle.internalHeight: 0
 
 Freeciv*optionlabel.label:             _("Set local options")
 Freeciv*optionlabel.borderWidth:       0
-!Freeciv*optionlabel.top:               chainTop
-!Freeciv*optionlabel.bottom:            chainTop
-!Freeciv*optionlabel.left:              chainLeft
-!Freeciv*optionlabel.right:             chainLeft
-
-!Freeciv*optionpopup*Toggle.top:        chainTop
-!Freeciv*optionpopup*Toggle.bottom:     chainTop
-!Freeciv*optionpopup*Toggle.left:       chainLeft
-!Freeciv*optionpopup*Toggle.right:      chainLeft
-!Freeciv*optionpopup*Label.top:         chainTop
-!Freeciv*optionpopup*Label.bottom:      chainTop
-!Freeciv*optionpopup*Label.left:        chainLeft
-!Freeciv*optionpopup*Label.right:       chainLeft
 
 ! dummy labels:
-Freeciv*optionpopup*toggle.label:          Yes
-Freeciv*optionpopup*toggle.internalHeight: 0
 Freeciv*optionpopup*label.label:           XXXXXXXXXXXXXXXXXXXXXXXXXXX
 Freeciv*optionpopup*label.borderWidth:     0
 
+Freeciv*optionpopup*input.*.foreground:    black
+Freeciv*optionpopup*input.*.background:    cyan
+Freeciv*optionpopup*input.width:           50
+Freeciv*optionpopup*input.*.editType:      edit
+
 Freeciv*optionokcommand.label:          _("Ok")
-!Freeciv*optionokcommand.top:            chainBottom
-!Freeciv*optionokcommand.bottom:         chainBottom
-!Freeciv*optionokcommand.left:           chainLeft
-!Freeciv*optionokcommand.right:          chainLeft
 
 Freeciv*optioncancelcommand.label:      _("Cancel")
 Freeciv*optioncancelcommand.fromHoriz:  optionokcommand
-!Freeciv*optioncancelcommand.top:        chainBottom
-!Freeciv*optioncancelcommand.bottom:     chainBottom
-!Freeciv*optioncancelcommand.left:       chainLeft
-!Freeciv*optioncancelcommand.right:      chainLeft
+
 
 !
 ! The message options dialog

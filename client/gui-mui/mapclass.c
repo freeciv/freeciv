@@ -55,7 +55,6 @@
 APTR pen_shared_map;
 
 extern int draw_diagonal_roads;
-extern int use_solid_color_behind_units;
 
 /****************************************************************
 ...
@@ -555,7 +554,7 @@ void put_tile(struct RastPort *rp, int destx, int desty, int x, int y, int abs_x
     }
     else
     {
-      /* normally when use_solid_color_behind_units */
+      /* normally when solid_color_behind_units */
       struct city *pcity;
       struct player *pplayer = NULL;
 

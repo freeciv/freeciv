@@ -378,9 +378,18 @@ GtkWidget *option_dialog_shell;
 static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 {
   client_option *o;
+  char *dp;
 
   for (o=options; o->name; ++o) {
-    *(o->p_value) = GTK_TOGGLE_BUTTON(o->p_gui_data)->active;
+    switch (o->type) {
+    case COT_BOOL:
+      *(o->p_value) = GTK_TOGGLE_BUTTON(o->p_gui_data)->active;
+      break;
+    case COT_INT:
+      dp = gtk_entry_get_text(GTK_ENTRY(o->p_gui_data));
+      *(o->p_value) = atoi(dp);
+      break;
+    }
   }
 
   gtk_widget_set_sensitive(toplevel, TRUE);
@@ -393,7 +402,7 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 *****************************************************************/
 static void create_option_dialog(void)
 {
-  GtkWidget *button;
+  GtkWidget *button, *box, *label;
   GtkAccelGroup *accel=gtk_accel_group_new();
   client_option *o;
 
@@ -405,14 +414,30 @@ static void create_option_dialog(void)
 
   gtk_window_set_title( GTK_WINDOW( option_dialog_shell ), _("Set local options") );
 
-
   for (o=options; o->name; ++o) {
-    o->p_gui_data = (void *)gtk_check_button_new_with_label ( _(o->description) );
-    gtk_box_pack_start (GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox), GTK_WIDGET(o->p_gui_data), TRUE, TRUE, 0);
+    switch (o->type) {
+    case COT_BOOL:
+      o->p_gui_data = (void *)gtk_check_button_new_with_label ( _(o->description) );
+      gtk_box_pack_start (GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
+			  GTK_WIDGET(o->p_gui_data), TRUE, TRUE, 0);
+      break;
+    case COT_INT:
+      box = gtk_hbox_new(FALSE, 0);
+      gtk_box_pack_start (GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
+			  GTK_WIDGET(box), TRUE, TRUE, 0);
+      label = gtk_label_new(_(o->description));
+      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+      gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(label), TRUE, TRUE, 0);
+      o->p_gui_data = gtk_entry_new_with_max_length(5);
+      gtk_widget_set_usize(o->p_gui_data, 45, 0);
+      gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(o->p_gui_data), TRUE, TRUE, 0);
+      break;
+    }
   }
 
   button = gtk_button_new_with_label( _("Close") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( option_dialog_shell )->action_area ), button, TRUE, TRUE, 0 );
+  gtk_box_pack_start( GTK_BOX( GTK_DIALOG( option_dialog_shell )->action_area ),
+		      button, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( button, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( button );
   gtk_signal_connect(GTK_OBJECT(button),"clicked",
@@ -430,15 +455,23 @@ static void create_option_dialog(void)
 void popup_option_dialog(void)
 {
   client_option *o;
+  char valstr[64];
 
   create_option_dialog();
 
   for (o=options; o->name; ++o) {
-    gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(o->p_gui_data), *(o->p_value));
+    switch (o->type) {
+    case COT_BOOL:
+      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(o->p_gui_data), *(o->p_value));
+      break;
+    case COT_INT:
+      my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_value));
+      gtk_entry_set_text(GTK_ENTRY(o->p_gui_data), valstr);
+      break;
+    }
   }
 
 /*  gtk_set_relative_position(toplevel, option_dialog_shell, 25, 25);*/
   gtk_widget_show(option_dialog_shell);
   gtk_widget_set_sensitive(toplevel, FALSE);
 }
-

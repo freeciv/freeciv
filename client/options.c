@@ -32,13 +32,12 @@
 
 #include "options.h"
 
-int draw_map_grid=0;
-int draw_city_names=1;
-int draw_city_productions=0;
+/** Local Options: **/
 
-int use_solid_color_behind_units=0;
+int solid_color_behind_units=0;
 int sound_bell_at_new_turn=0;
 int smooth_move_units=1;
+int smooth_move_unit_steps=3;
 int do_combat_animation=1;
 int ai_popup_windows=0;
 int ai_manual_turn_done=1;
@@ -49,24 +48,43 @@ int center_when_popup_city=1;
 int concise_city_production=0;
 int auto_turn_done=0;
 
-#define GEN_OPTION(name, description) { #name, description, &name, NULL }
-#define NULL_OPTION { NULL, NULL, NULL, NULL }
+#define GEN_OPTION(name, desc, type) { #name, desc, type, &name, NULL }
+#define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, NULL, NULL }
 
 client_option options[] = {
-  GEN_OPTION(use_solid_color_behind_units,  N_("Solid unit background color")),
-  GEN_OPTION(sound_bell_at_new_turn,	    N_("Sound bell at new turn     ")),
-  GEN_OPTION(smooth_move_units,		    N_("Smooth unit moves          ")),
-  GEN_OPTION(do_combat_animation,	    N_("Show combat animation      ")),
-  GEN_OPTION(ai_popup_windows,		    N_("Popup dialogs in AI Mode   ")),
-  GEN_OPTION(ai_manual_turn_done,	    N_("Manual Turn Done in AI Mode")),
-  GEN_OPTION(auto_center_on_unit,	    N_("Auto Center on Units       ")),
-  GEN_OPTION(wakeup_focus,		    N_("Focus on Awakened Units    ")),
-  GEN_OPTION(draw_diagonal_roads,	    N_("Draw Diagonal Roads/Rails  ")),
-  GEN_OPTION(center_when_popup_city,	    N_("Center map when Popup city ")),
-  GEN_OPTION(concise_city_production,	    N_("Concise City Production    ")),
-  GEN_OPTION(auto_turn_done, 		    N_("End Turn when done moving  ")),
-  NULL_OPTION
+  GEN_OPTION(solid_color_behind_units,	N_("Solid unit background color"), COT_BOOL),
+  GEN_OPTION(sound_bell_at_new_turn,	N_("Sound bell at new turn     "), COT_BOOL),
+  GEN_OPTION(smooth_move_units,		N_("Smooth unit moves          "), COT_BOOL),
+  GEN_OPTION(smooth_move_unit_steps,	N_("Smooth unit move steps     "), COT_INT),
+  GEN_OPTION(do_combat_animation,	N_("Show combat animation      "), COT_BOOL),
+  GEN_OPTION(ai_popup_windows,		N_("Popup dialogs in AI Mode   "), COT_BOOL),
+  GEN_OPTION(ai_manual_turn_done,	N_("Manual Turn Done in AI Mode"), COT_BOOL),
+  GEN_OPTION(auto_center_on_unit,	N_("Auto Center on Units       "), COT_BOOL),
+  GEN_OPTION(wakeup_focus,		N_("Focus on Awakened Units    "), COT_BOOL),
+  GEN_OPTION(draw_diagonal_roads,	N_("Draw Diagonal Roads/Rails  "), COT_BOOL),
+  GEN_OPTION(center_when_popup_city,	N_("Center map when Popup city "), COT_BOOL),
+  GEN_OPTION(concise_city_production,	N_("Concise City Production    "), COT_BOOL),
+  GEN_OPTION(auto_turn_done, 		N_("End Turn when done moving  "), COT_BOOL),
+  GEN_OPTION_TERMINATOR
 };
+
+/** View Options: **/
+
+int draw_map_grid=0;
+int draw_city_names=1;
+int draw_city_productions=0;
+
+#define VIEW_OPTION(name) { #name, &name }
+#define VIEW_OPTION_TERMINATOR { NULL, NULL }
+
+view_option view_options[] = {
+  VIEW_OPTION(draw_map_grid),
+  VIEW_OPTION(draw_city_names),
+  VIEW_OPTION(draw_city_productions),
+  VIEW_OPTION_TERMINATOR
+};
+
+/** Message Options: **/
 
 unsigned int messages_where[E_LAST];
 int sorted_events[E_LAST];
@@ -152,8 +170,8 @@ void init_messages_where(void)
 
 
 /****************************************************************
- The "options" file handles actual "options", and also message
- options, and city report settings
+ The "options" file handles actual "options", and also view options,
+ message options, and city report settings
 *****************************************************************/
 
 /****************************************************************
@@ -227,6 +245,7 @@ void load_options(void)
   char *name;
   int i;
   client_option *o;
+  view_option *v;
 
   name = option_file_name();
   if (name==NULL) {
@@ -239,6 +258,10 @@ void load_options(void)
   for (o=options; o->name; o++) {
     *(o->p_value) =
       secfile_lookup_int_default(&sf, *(o->p_value), "%s.%s", prefix, o->name);
+  }
+  for (v=view_options; v->name; v++) {
+    *(v->p_value) =
+      secfile_lookup_int_default(&sf, *(v->p_value), "%s.%s", prefix, v->name);
   }
   for (i=0; i<E_LAST; i++) {
     messages_where[i] =
@@ -264,6 +287,7 @@ void save_options(void)
 {
   FILE *option_file;
   client_option *o;
+  view_option *v;
   int i;
 
   option_file = open_option_file("w");
@@ -279,6 +303,9 @@ void save_options(void)
 
   for (o=options; o->name; o++) {
     fprintf(option_file, "%s = %d\n", o->name, *(o->p_value));
+  }
+  for (v=view_options; v->name; v++) {
+    fprintf(option_file, "%s = %d\n", v->name, *(v->p_value));
   }
   for (i=0; i<E_LAST; i++) {
     fprintf(option_file, "message_where_%2.2d = %d  # %s\n",

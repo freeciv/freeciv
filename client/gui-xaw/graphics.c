@@ -58,7 +58,7 @@ extern GC civ_gc, font_gc;
 extern Colormap cmap;
 extern Window root_window;
 extern XFontStruct *main_font_struct;
-extern int use_solid_color_behind_units;
+extern int solid_color_behind_units;
 
 struct Sprite *intro_gfx_sprite;
 struct Sprite *radar_gfx_sprite;
@@ -360,7 +360,7 @@ Pixmap create_overlay_unit(int i)
 		 NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
 
   /* If we're using flags, put one on the tile */
-  if(!use_solid_color_behind_units)  {
+  if(!solid_color_behind_units)  {
     struct Sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
 
     XSetClipOrigin(display, civ_gc, 0,0);

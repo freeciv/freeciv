@@ -13,13 +13,12 @@
 #ifndef FC__OPTIONS_H
 #define FC__OPTIONS_H
 
-extern int draw_map_grid;
-extern int draw_city_names;
-extern int draw_city_productions;
+/** Local Options: **/
 
-extern int use_solid_color_behind_units;
+extern int solid_color_behind_units;
 extern int sound_bell_at_new_turn;
 extern int smooth_move_units;
+extern int smooth_move_unit_steps;
 extern int do_combat_animation;
 extern int ai_popup_windows;
 extern int ai_manual_turn_done;
@@ -30,9 +29,14 @@ extern int center_when_popup_city;
 extern int concise_city_production;
 extern int auto_turn_done;
 
+enum client_option_type {
+  COT_BOOL,
+  COT_INT
+};
 typedef struct {
 	char *name;
 	char *description;
+	enum client_option_type type;
 	int  *p_value;
 
 	/* volatile */
@@ -40,6 +44,17 @@ typedef struct {
 } client_option;
 extern client_option options[];
 
+/** View Options: **/
+
+extern int draw_map_grid;
+extern int draw_city_names;
+extern int draw_city_productions;
+
+typedef struct {
+	char *name;
+	int  *p_value;
+} view_option;
+extern view_option view_options[];
 
 /** Message Options: **/
 
