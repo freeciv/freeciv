@@ -47,7 +47,6 @@ static GtkWidget *players_dialog_shell;
 static GtkWidget *players_list;
 static GtkTreeSelection *players_selection;
 static GtkWidget *players_menu;
-static GtkWidget *players_close_command;
 static GtkWidget *players_int_command;
 static GtkWidget *players_meet_command;
 static GtkWidget *players_war_command;
@@ -55,10 +54,7 @@ static GtkWidget *players_vision_command;
 static GtkWidget *players_sship_command;
 static GtkListStore *store;
 
-/* the sortable columns need two indexes */
-static int playerindex_to_listindex[MAX_NUM_PLAYERS];
-
-static GdkPixbuf *flags[MAX_NUM_PLAYERS];
+static GdkPixbuf *flags[MAX_NUM_NATIONS];
 
 static void create_players_dialog(void);
 static void players_meet_callback(GtkMenuItem *item, gpointer data);
@@ -101,13 +97,9 @@ static void players_destroy_callback(GtkObject *object, gpointer data)
 **************************************************************************/
 static gboolean button_press(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
-  if (ev->button != 1) {
-    gtk_menu_popup(GTK_MENU(players_menu),
-      NULL, NULL, NULL, NULL, ev->button, ev->time);
-    return TRUE;
-  } else {
-    return FALSE;
-  }
+  gtk_menu_popup(GTK_MENU(players_menu),
+    NULL, NULL, NULL, NULL, ev->button, ev->time);
+  return FALSE;
 }
 
 /**************************************************************************
@@ -120,7 +112,6 @@ static gboolean key_press(GtkWidget *w, GdkEventKey *ev, gpointer data)
   case GDK_space:
     gtk_menu_popup(GTK_MENU(players_menu),
       NULL, NULL, NULL, NULL, 0, ev->time);
-    return TRUE;
 
   default:
     return FALSE;
@@ -191,6 +182,7 @@ void create_players_dialog(void)
     N_("Host"),
     N_("Idle Turns")
   };
+  static gchar **titles;
 
   static GType model_types[NUM_COLUMNS+2] = {
     G_TYPE_STRING,
@@ -209,24 +201,35 @@ void create_players_dialog(void)
     G_TYPE_INT
   };
 
-  static gchar **titles;
+  static GtkStateType base[] = {
+    COLOR_STD_BLACK,
+    COLOR_STD_OCEAN,
+    COLOR_STD_BLACK,
+    COLOR_STD_OCEAN,
+    COLOR_STD_BLACK
+  };
+  static GtkStateType text[] = {
+    COLOR_STD_WHITE,
+    COLOR_STD_WHITE,
+    COLOR_STD_WHITE,
+    COLOR_STD_WHITE,
+    COLOR_STD_WHITE
+  };
+
   int i;
   GtkAccelGroup *accel = gtk_accel_group_new();
-  GtkTreeModel *model;
   GtkWidget *sep;
 
   model_types[1] = GDK_TYPE_PIXBUF;
   model_types[12] = GDK_TYPE_COLOR;
 
-  /* initialises the indexes, necessary for update_players_dialog */
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
-    playerindex_to_listindex[i] = -1;
-  }
-
   if (!titles) titles = intl_slist(NUM_COLUMNS, titles_);
 
-  players_dialog_shell = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(players_dialog_shell), _("Players"));
+  players_dialog_shell = gtk_dialog_new_with_buttons(_("Players"),
+    NULL,
+    0,
+    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+    NULL);
 
   g_signal_connect(players_dialog_shell, "destroy",
     G_CALLBACK(players_destroy_callback), NULL);
@@ -235,17 +238,19 @@ void create_players_dialog(void)
 
   store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
 
-  model = gtk_tree_model_sort_new_with_model(GTK_TREE_MODEL(store));
+  players_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   g_object_unref(store);
-
-  players_list = gtk_tree_view_new_with_model(model);
 
   players_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(players_list));
   g_signal_connect(players_selection, "changed",
         G_CALLBACK(selection_callback), NULL);
 
-  gtk_widget_modify_base(players_list,
-    GTK_STATE_NORMAL, colors_standard[COLOR_STD_BLACK]);
+  for (i = 0; i < ARRAY_SIZE(base); i++) {
+    gtk_widget_modify_base(players_list, i, colors_standard[base[i]]);
+  }
+  for (i = 0; i < ARRAY_SIZE(text); i++) {
+    gtk_widget_modify_text(players_list, i, colors_standard[text[i]]);
+  }
 
   for (i = 0; i < NUM_COLUMNS; i++) {
     GtkCellRenderer *renderer;
@@ -261,11 +266,9 @@ void create_players_dialog(void)
 
       col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
         "active", i, NULL);
-      gtk_tree_view_column_set_sort_column_id(col, i);
     } else {
       renderer = gtk_cell_renderer_text_new();
       g_object_set(renderer,
-      	"background-gdk", colors_standard[COLOR_STD_BLACK],
 	"weight", "bold",
 	NULL);
 
@@ -274,20 +277,14 @@ void create_players_dialog(void)
       gtk_tree_view_column_set_sort_column_id(col, i);
     }
 
-    if (i == DEF_SORT_COLUMN) {
-      gtk_tree_view_column_set_sort_indicator(col, TRUE);
-    }
-
     gtk_tree_view_append_column(GTK_TREE_VIEW(players_list), col);
   }
+
+  gtk_tree_view_set_search_column(GTK_TREE_VIEW(players_list), DEF_SORT_COLUMN);
 
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(players_dialog_shell)->vbox),
     players_list);
   gtk_widget_show_all(players_list);
-
-  players_close_command=gtk_dialog_add_button(GTK_DIALOG(players_dialog_shell),
-    GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
-  gtk_button_set_relief(GTK_BUTTON(players_close_command), GTK_RELIEF_NONE);
 
   players_menu = gtk_menu_new();
   gtk_menu_set_accel_group(GTK_MENU(players_menu), accel);
@@ -357,46 +354,87 @@ void create_players_dialog(void)
     GTK_RESPONSE_CLOSE);
 }
 
+
+/**************************************************************************
+...
+**************************************************************************/
+#define MIN_DIMENSION 5
+
+/* 
+ * Builds the flag pixmap.
+ */
+static void build_flag(Nation_Type_id nation)
+{
+  if (!flags[nation]) {
+    int x0, y0, x1, y1, w, h;
+    GdkPixbuf *scaled;
+    SPRITE *flag;
+
+    if (!(flag = get_nation_by_idx(nation)->flag_sprite)) {
+      return;
+    }
+
+    /* calculate the bounding box ... */
+    sprite_get_bounding_box(flag, &x0, &y0, &x1, &y1);
+
+    assert(x0 != -1);
+    assert(y0 != -1);
+    assert(x1 != -1);
+    assert(y1 != -1);
+
+    w = (x1 - x0) + 1;
+    h = (y1 - y0) + 1;
+
+    /* if the flag is smaller then 5 x 5, something is wrong */
+    assert(w >= MIN_DIMENSION && h >= MIN_DIMENSION);
+
+    /* croping */
+    scaled = gdk_pixbuf_get_from_drawable(NULL,
+      flag->pixmap,
+      gdk_colormap_get_system(),
+      x0, y0,
+      0, 0,
+      w, h);
+
+    /* and finaly store the scaled flag pixbuf in the static flags array */
+    flags[nation] = scaled;
+  }
+}
+
+
 /* 
  * Builds the text for the cells of a row in the player report. If
  * update is TRUE, only the changable entries are build.
  */
-static void build_row(GtkTreeIter *it, int i, bool update)
+static void build_row(GtkTreeIter *it, int i)
 {
-  static char dsbuf[32], idlebuf[32];
+  static char dsbuf[32];
+  gchar *team, *state;
   const struct player_diplstate *pds;
+  gint idle;
+  struct player *plr = get_player(i);
+  GdkColor *state_col;
   GValue value = { 0, };
 
-  g_value_init(&value, G_TYPE_STRING);
-
-  /* we assume that neither name, team nor the nation of a player changes */
-  if (!update) {
-    /* the playername */
-    g_value_set_static_string(&value, game.players[i].name);
-    gtk_list_store_set_value(store, it, 0, &value);
-
-    /* the playerid */
-    gtk_list_store_set(store, it, PLRNO_COLUMN, i, -1);
-
-    /* the nation */
-    g_value_set_static_string(&value, get_nation_name(game.players[i].nation));
-    gtk_list_store_set_value(store, it, 2, &value);
-
-    /* the team */
-    if (game.players[i].team != TEAM_NONE) {
-      g_value_set_static_string(&value,
-        team_get_by_id(game.players[i].team)->name);
-    } else {
-      g_value_set_static_string(&value, "");
-    }
-    gtk_list_store_set_value(store, it, 3, &value);
+  /* the team */
+  if (plr->team != TEAM_NONE) {
+    team = team_get_by_id(plr->team)->name;
+  } else {
+    team = "";
   }
+
+  gtk_list_store_set(store, it,
+    0, (gchar *)plr->name,   	      	      /* the playername */
+    2, (gchar *)get_nation_name(plr->nation), /* the nation */
+    3, (gchar *)team,
+    PLRNO_COLUMN, (gint)i,    	      	      /* the playerid */
+    -1);
 
   /* text for diplstate type and turns -- not applicable if this is me */
   if (i == game.player_idx) {
     strcpy(dsbuf, "-");
   } else {
-    pds = pplayer_get_diplstate(game.player_ptr, get_player(i));
+    pds = pplayer_get_diplstate(game.player_ptr, plr);
     if (pds->type == DS_CEASEFIRE) {
       my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		  diplstate_text(pds->type), pds->turns_left);
@@ -406,93 +444,61 @@ static void build_row(GtkTreeIter *it, int i, bool update)
   }
 
   /* text for state */
-  if (game.players[i].is_alive) {
-    if (game.players[i].is_connected) {
-      if (game.players[i].turn_done) {
-      	g_value_set_static_string(&value, _("done"));
+  if (plr->is_alive) {
+    if (plr->is_connected) {
+      if (plr->turn_done) {
+      	state = _("done");
       } else {
-      	g_value_set_static_string(&value, _("moving"));
+      	state = _("moving");
       }
     } else {
-      g_value_set_static_string(&value, "");
+      state = "";
     }
   } else {
-    g_value_set_static_string(&value, _("R.I.P"));
+    state = _("R.I.P");
   }
-  gtk_list_store_set_value(store, it, 9, &value);
 
   /* text for idleness */
-  if (game.players[i].nturns_idle > 3) {
-    my_snprintf(idlebuf, sizeof(idlebuf),
-		PL_("(idle %d turn)", "(idle %d turns)",
-		    game.players[i].nturns_idle - 1),
-		game.players[i].nturns_idle - 1);
+  if (plr->nturns_idle > 3) {
+    idle = plr->nturns_idle - 1;
   } else {
-    idlebuf[0] = '\0';
+    idle = 0;
   }
-
-  /* text for reputation */
-  g_value_set_static_string(&value,reputation_text(game.players[i].reputation));
-  gtk_list_store_set_value(store, it, 8, &value);
 
   /* assemble the whole lot */
-  g_value_set_static_string(&value,
-    get_embassy_status(game.player_ptr, &game.players[i]));
-  gtk_list_store_set_value(store, it, 5, &value);
-
-  g_value_set_static_string(&value,
-    get_vision_status(game.player_ptr, &game.players[i]));
-  gtk_list_store_set_value(store, it, 7, &value);
+  g_value_init(&value, G_TYPE_STRING);
+  g_value_set_static_string(&value, state);
+  gtk_list_store_set_value(store, it, 9, &value);
+  g_value_unset(&value);
 
   gtk_list_store_set(store, it,
-     4, game.players[i].ai.control,
-     6, dsbuf,
-    10, player_addr_hack(&game.players[i]),   /* Fixme */
-    11, (game.players[i].nturns_idle > 3) ? (game.players[i].nturns_idle - 1):0,
+     4, (gboolean)plr->ai.control,
+     5, (gchar *)get_embassy_status(game.player_ptr, plr),
+     6, (gchar *)dsbuf,
+     7, (gchar *)get_vision_status(game.player_ptr, plr),
+     8, (gchar *)reputation_text(plr->reputation),
+    10, (gchar *)player_addr_hack(plr),   	      	    /* Fixme */
+    11, (gint)idle,
     -1);
-}
 
-#define MIN_DIMENSION 5
+   /* set flag. */
+   build_flag(plr->nation);
+   if (flags[plr->nation]) {
+     gtk_list_store_set(store, it, 1, flags[plr->nation], -1);
+   }
 
-/* 
- * Builds the flag pixmap.
- */
-static void build_flag(int plrno)
-{
-  int start_x, start_y, end_x, end_y, flag_h, flag_w;
-  SPRITE *flag;
-  GdkPixbuf *scaled;
-
-  flag = get_nation_by_plr(&game.players[plrno])->flag_sprite;
-  if (!flag) {
-    flags[plrno] = NULL;
-    return;
-  }
-
-  /* calculate the bounding box ... */
-  sprite_get_bounding_box(flag, &start_x, &start_y, &end_x, &end_y);
-
-  assert(start_x != -1);
-  assert(start_y != -1);
-  assert(end_x != -1);
-  assert(end_y != -1);
-
-  flag_w = (end_x - start_x) + 1;
-  flag_h = (end_y - start_y) + 1;
-
-  /* if the flag is smaller then 5 x 5, something is wrong */
-  assert(flag_w >= MIN_DIMENSION && flag_h >= MIN_DIMENSION);
-
-  /* croping */
-  scaled = gdk_pixbuf_get_from_drawable(NULL,
-    flag->pixmap,
-    gdk_colormap_get_system(),
-    start_x, start_y,
-    0, 0,
-    flag_w, flag_h);
-
-  /* and finaly store the scaled flag pixbuf in the static flags array */
-  flags[plrno] = scaled;
+   /* now add some eye candy ... */
+   switch (pplayer_get_diplstate(game.player_ptr, plr)->type) {
+   case DS_WAR:
+     state_col = colors_standard[COLOR_STD_RED];
+     break;
+   case DS_ALLIANCE:
+     state_col = colors_standard[COLOR_STD_GROUND];
+     break;
+   default:
+     state_col = colors_standard[COLOR_STD_WHITE];
+   }
+   gtk_list_store_set(store, it, 12, state_col, -1);
 }
 
 
@@ -502,63 +508,55 @@ static void build_flag(int plrno)
 void update_players_dialog(void)
 {
   if (players_dialog_shell && !is_plrdlg_frozen()) {
-    GdkColor *state_col;
-    int i, row;
-    GtkTreeIter it;
-    GtkTreePath *path;
+    gboolean exists[MAX_NUM_PLAYERS];
+    gint i;
+    ITree it, it_next;
+
+    for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+      exists[i] = FALSE;
+    }
+
+    itree_begin(GTK_TREE_MODEL(store), &it);
+    while (!itree_end(&it)) {
+      gint plrno;
+
+      it_next = it;
+      itree_next(&it_next);
+
+      itree_get(&it, PLRNO_COLUMN, &plrno, -1);
+
+      /*
+       * The nation already had a row in the player report. In that
+       * case we just update the row.
+       */
+      if (plrno >= 0 && plrno < game.nplayers) {
+      	exists[plrno] = TRUE;
+
+        build_row(&it.it, plrno);
+      } else {
+      	gtk_list_store_remove(store, &it.it);
+      }
+
+      it = it_next;
+    }
 
     for (i = 0; i < game.nplayers; i++) {
+      GtkTreeIter iter;
+
       /* skip barbarians */
       if (is_barbarian(&game.players[i])) {
 	continue;
       }
 
-      row = playerindex_to_listindex[i];
-
-      if (row == -1) {
+      if (!exists[i]) {
 	/* 
 	 * A nation is not in the player report yet. This happens when
 	 * the report is just opened and after a split.
 	 */
-      	gtk_list_store_append(store, &it);
+      	gtk_list_store_append(store, &iter);
 
-      	path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &it);
-	row = gtk_tree_path_get_indices(path)[0];
-	playerindex_to_listindex[i] = row;
-	gtk_tree_path_free(path);
-
-      	build_row(&it, i, FALSE);
-
-	build_flag(i);
-	if (flags[i]) {
-      	  gtk_list_store_set(store, &it, 1, flags[i], -1);
-	}
-      } else {
-	/* 
-	 * The nation already had a row in the player report. In that
-	 * case we just update the row. 
-	 */
-      	path = gtk_tree_path_new();
-	gtk_tree_path_append_index(path, row);
-      	gtk_tree_model_get_iter(GTK_TREE_MODEL(store), &it, path);
-	gtk_tree_path_free(path);
-
-      	build_row(&it, i, TRUE);
+        build_row(&iter, i);
       }
-
-      /* now add some eye candy ... */
-      switch (pplayer_get_diplstate(game.player_ptr, get_player(i))->type) {
-      case DS_WAR:
-	state_col = colors_standard[COLOR_STD_RED];
-	break;
-      case DS_ALLIANCE:
-	state_col = colors_standard[COLOR_STD_GROUND];
-	break;
-      default:
-	state_col = colors_standard[COLOR_STD_WHITE];
-      }
-
-      gtk_list_store_set(store, &it, 12, state_col, -1);
     }
   }
 }
