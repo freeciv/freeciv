@@ -4,9 +4,9 @@ BUGS c.q. FOUTEN
 
 Freeciv 1.13.0 is een "stabiele" versie en wordt bug/foutvrij genoeg geacht
 voor dagelijks gebruik. Indien u echter een bug ontdekt dan willen we dat echt
-graag weten, zodat we die kunnen verhelpen. Dit document is een opsomming van
+graag weten, zodat we dat kunnen verhelpen. Dit document is een opsomming van
 ons bekende fouten in deze versie en geeft informatie over hoe u een nieuwe
-fout kunt rapporteren.
+bug kunt rapporteren.
 
 De opsomming betreft uitsluitend de meest zichtbare fouten. Voor een complete
 opsomming zie:
@@ -25,6 +25,10 @@ BEKENDE FOUTEN:
    die u maakt in dezelfde beurt als die waarin u het spel opslaat komen als
    gevolg hiervan dus niet in het opgeslagen spel terecht.
 
+ - Als u de burgemeester gebruikt is het resulterende opgeslagen spel niet
+   'endian' en 64bit veilig. U kunt deze spelen dus niet overdragen naar een
+   computer met een andere architectuur.
+
  - De 'easy' KI is niet gemakkelijk genoeg voor beginnende spelers. Als de KI
    u al in het beginstadium van het spel op uw donder geeft, probeer dan de
    'generator' serveroptie op 2 of 3 te zetten. Uiteraard voordat u het spel
@@ -33,7 +37,7 @@ BEKENDE FOUTEN:
    of:
        set generator 3
 
- - De 'hard' KI is niet sterk genoeg voor erg ervaren spelers en doet nog
+ - De 'hard' KI is niet sterk genoeg voor zeer ervaren spelers en doet nog
    steeds enkele domme dingen. Hij verkiest het bijv. om steden in opstand te
    laten boven het laten uithongeren/krimpen.
 
@@ -62,14 +66,14 @@ BEKENDE FOUTEN:
  - De wetenschapsdialoog wordt niet bijgewerkt wanneer u een vooruitgang
    boekt. U dient hem te sluiten en opnieuw te openen.
 
- - In de gtk client is er soms rommel in het gebied naast de minikaart.
+ - In de Gtk client is er soms rommel in het gebied naast de minikaart.
 
  - Automatische routines zoals auto-onderzoek kunnen niet zo goed overweg
    met triremen.
 
- - LOG_DEBUG werkt niet zo best met niet-GCC compilers.
+ - LOG_DEBUG werkt niet met niet-GCC compilers.
 
- - De kleurmarkering in het gtk-berichtenvenster gaat verloren indien de
+ - De kleurmarkering in het Gtk-berichtenvenster gaat verloren indien de
    dialoog gesloten en heropend wordt.
 
  - Bij het instellen van servervariabelen controleert de server de waarden
@@ -84,6 +88,10 @@ BEKENDE FOUTEN:
 
  - De xaw client werkt niet erg goed in combinatie met de KDE window manager.
    Probeer de GTK client te gebruiken of gebruik een andere window manager.
+
+ - Versie 1.13.0 werkt niet met versie 1.12.0 en eerder. Merk op dat de client
+   nu wat harder stopt door een boodschap af te drukken op stdout en daarna te
+   stoppen.
 
 RAPPORTEREN VAN FOUTEN:
 =======================
