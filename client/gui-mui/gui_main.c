@@ -125,7 +125,7 @@ static void parse_options(int argc, char **argv)
  it lets the unit blink and update the timeout
  belongs maybe to civclient.c
 **************************************************************************/
-void handle_timer(void)
+static void handle_timer(void)
 {
   static int flip;
 
@@ -168,18 +168,18 @@ STATIC BOOL connected;		/* TRUE, if connected to the server */
 STATIC int connected_sock;
 
 Object *app;
-Object *main_menu;
-Object *main_order_menu;
+static Object *main_menu;
+static Object *main_order_menu;
 Object *main_wnd;
 Object *main_output_listview;
-Object *main_chatline_string;
+static Object *main_chatline_string;
 
 Object *main_people_text;
 Object *main_year_text;
 Object *main_gold_text;
 Object *main_tax_text;
-Object *main_info_group;
-Object *main_turndone_group;
+static Object *main_info_group;
+static Object *main_turndone_group;
 Object *main_turndone_button;
 Object *main_econ_sprite[10];
 Object *main_bulb_sprite;
@@ -195,9 +195,9 @@ Object *main_hometown_text;
 Object *main_unit_unit;
 
 Object *main_map_area;
-Object *main_map_hscroller;
-Object *main_map_vscroller;
-Object *main_map_scrollbutton;
+static Object *main_map_hscroller;
+static Object *main_map_vscroller;
+static Object *main_map_scrollbutton;
 
 Object *main_overview_area;
 Object *main_overview_group;
@@ -206,9 +206,7 @@ static struct MsgPort *timer_port;
 static struct timerequest *timer_req;
 static ULONG timer_outstanding;
 
-static struct Hook main_chatline_hook;
-
-Object *menu_find_item(ULONG udata);
+static Object *menu_find_item(ULONG udata);
 
 /****************************************************************
  This describes the pull down menu
@@ -962,6 +960,7 @@ static int init_gui(void)
     DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "numericpad enter", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, END_TURN);
     DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "return", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_POPUP_CITY);
     DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "escape", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, UNIT_ESCAPE);
+    DoMethod(main_wnd, MUIM_Notify, MUIA_Window_InputEvent, "help", main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, MENU_HELP_ABOUT);
 
     /* Menu */
     while (MenuData[i].nm_Type != NM_END)
@@ -1068,7 +1067,7 @@ static void loop(void)
 /****************************************************************
  Find an item with the given Userdata
 *****************************************************************/
-Object *menu_find_item(ULONG udata)
+static Object *menu_find_item(ULONG udata)
 {
   if (udata >= MENU_ORDER && udata < MENU_REPORT)
   {
@@ -1080,7 +1079,7 @@ Object *menu_find_item(ULONG udata)
 /****************************************************************
  Enable/Disable a menu entry
 *****************************************************************/
-void menu_entry_sensitive(ULONG udata, ULONG sens)
+static void menu_entry_sensitive(ULONG udata, ULONG sens)
 {
   Object *item = menu_find_item(udata);
   if (item)
@@ -1093,7 +1092,7 @@ void menu_entry_sensitive(ULONG udata, ULONG sens)
 /****************************************************************
  Enable/Disable a menu title
 *****************************************************************/
-void menu_title_sensitive(ULONG udata, ULONG sens)
+static void menu_title_sensitive(ULONG udata, ULONG sens)
 {
   Object *item = menu_find_item(udata);
   if (item)
@@ -1106,7 +1105,7 @@ void menu_title_sensitive(ULONG udata, ULONG sens)
 /****************************************************************
  Rename a menu entry
 *****************************************************************/
-void menu_entry_rename(ULONG udata, char *newtitle, BOOL force)
+static void menu_entry_rename(ULONG udata, char *newtitle, BOOL force)
 {
   Object *item = menu_find_item(udata);
   if (item)

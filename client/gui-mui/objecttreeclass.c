@@ -7,8 +7,6 @@
 #include <libraries/mui.h>
 
 #include <clib/alib_protos.h>
-
-#define USE_SYSBASE
 #include <proto/exec.h>
 #include <proto/muimaster.h>
 #include <proto/utility.h>
@@ -64,7 +62,7 @@ STATIC ULONG Tree_Length(struct ObjectTree_Node *node)
 }
 */
 
-LONG ObjectTree_CalcHeight(struct ObjectTree_Node *node)
+static LONG ObjectTree_CalcHeight(struct ObjectTree_Node *node)
 {
   struct ObjectTree_Node *n = (struct ObjectTree_Node *)List_First(&node->list);
   LONG height=0;
@@ -87,7 +85,7 @@ LONG ObjectTree_CalcHeight(struct ObjectTree_Node *node)
   return height;
 }
 
-VOID ObjectTree_Layout(struct ObjectTree_Node *node, LONG left, LONG top)
+static VOID ObjectTree_Layout(struct ObjectTree_Node *node, LONG left, LONG top)
 {
   struct ObjectTree_Node *n;
   LONG t;
@@ -107,7 +105,7 @@ VOID ObjectTree_Layout(struct ObjectTree_Node *node, LONG left, LONG top)
   }
 }
 
-VOID ObjectTree_DrawLines(Object *group, struct ObjectTree_Node *node)
+static VOID ObjectTree_DrawLines(Object *group, struct ObjectTree_Node *node)
 {
   struct ObjectTree_Node *n;
   if (!node || !group) return;
@@ -143,7 +141,7 @@ VOID ObjectTree_DrawLines(Object *group, struct ObjectTree_Node *node)
   }
 }
 
-VOID ObjectTree_Clear_Group(APTR pool, Object *group, struct ObjectTree_Node *node)
+static VOID ObjectTree_Clear_Group(APTR pool, Object *group, struct ObjectTree_Node *node)
 {
   struct ObjectTree_Node *n;
   if(!node) return;
@@ -181,66 +179,63 @@ STATIC APTR ObjectTree_Find(struct ObjectTree_Node *node, Object *o)
 
 HOOKPROTONH(ObjectTree_Group_Layout, ULONG, Object *obj, struct MUI_LayoutMsg *lm)
 {
+  ULONG ret;
   LONG vert_spacing = 4;
   LONG horiz_spacing = 4;
+  Object *cstate = (Object *)lm->lm_Children->mlh_Head;
+  Object *child;
 
   switch (lm->lm_Type)
   {
-    case  MUILM_MINMAX:
-          {
-            Object *cstate = (Object *)lm->lm_Children->mlh_Head;
-	    Object *child;
+  case  MUILM_MINMAX:
+    {
+      WORD maxminwidth  = 0;
+      WORD maxminheight = 0;
 
-	    WORD maxminwidth  = 0;
-	    WORD maxminheight = 0;
+      /* find out biggest widths & heights of our children */
+      while ((child = (Object*)NextObject(&cstate)))
+      {
+        if (maxminwidth <MUI_MAXMAX && _minwidth (child) > maxminwidth ) maxminwidth  = _minwidth (child);
+        if (maxminheight<MUI_MAXMAX && _minheight(child) > maxminheight) maxminheight = _minheight(child);
+      }
 
-	    /* find out biggest widths & heights of our children */
+      /* set the result fields in the message */
+      lm->lm_MinMax.MinWidth  = 2*maxminwidth+horiz_spacing;
+      lm->lm_MinMax.MinHeight = 2*maxminheight+vert_spacing;
+      lm->lm_MinMax.DefWidth  = 4*maxminwidth+3*horiz_spacing;
+      lm->lm_MinMax.DefHeight = 4*maxminheight+3*vert_spacing;
+      lm->lm_MinMax.MaxWidth  = MUI_MAXMAX;
+      lm->lm_MinMax.MaxHeight = MUI_MAXMAX;
+    }
+    ret = 0;
+    break;
+  case  MUILM_LAYOUT:
+    {
+      LONG max_right=0;
+      LONG max_bottom=0;
 
-	    while ((child = (Object*)NextObject(&cstate)))
-	    {
-	      if (maxminwidth <MUI_MAXMAX && _minwidth (child) > maxminwidth ) maxminwidth  = _minwidth (child);
-	      if (maxminheight<MUI_MAXMAX && _minheight(child) > maxminheight) maxminheight = _minheight(child);
-            }
+      struct ObjectTree_Node *root_node = ((struct ObjectTree_Data*)INST_DATA(CL_ObjectTree->mcc_Class,obj))->first_node;
 
-	    /* set the result fields in the message */
+       ObjectTree_Layout(root_node, 0,0);
 
-	    lm->lm_MinMax.MinWidth  = 2*maxminwidth+horiz_spacing;
-	    lm->lm_MinMax.MinHeight = 2*maxminheight+vert_spacing;
-	    lm->lm_MinMax.DefWidth  = 4*maxminwidth+3*horiz_spacing;
-	    lm->lm_MinMax.DefHeight = 4*maxminheight+3*vert_spacing;
-	    lm->lm_MinMax.MaxWidth  = MUI_MAXMAX;
-	    lm->lm_MinMax.MaxHeight = MUI_MAXMAX;
-	    return(0);
-	  }
+       while ((child = (Object*)NextObject(&cstate)))
+       {
+         if (_right(child) > max_right) max_right = _right(child);
+         if (_bottom(child) > max_bottom) max_bottom = _bottom(child);
+       }
 
-	  case  MUILM_LAYOUT:
-		{
-		  Object *cstate = (Object *)lm->lm_Children->mlh_Head;
-		  Object *child;
+       max_right -= _mleft(obj) - 1;
+       max_bottom -= _mtop(obj) - 1;
 
-		  LONG max_right=0;
-		  LONG max_bottom=0;
-
-		  struct ObjectTree_Node *root_node = ((struct ObjectTree_Data*)INST_DATA(CL_ObjectTree->mcc_Class,obj))->first_node;
-
-		  ObjectTree_Layout(root_node, 0,0);
-
-		  while ((child = (Object*)NextObject(&cstate)))
-		  {
-		    if (_right(child) > max_right) max_right = _right(child);
-		    if (_bottom(child) > max_bottom) max_bottom = _bottom(child);
-		  }
-
-		  max_right -= _mleft(obj) - 1;
-		  max_bottom -= _mtop(obj) - 1;
-
-		  if(lm->lm_Layout.Width < max_right) lm->lm_Layout.Width = max_right;
-		  if(lm->lm_Layout.Height < max_bottom) lm->lm_Layout.Height = max_bottom;
-
-		  return TRUE;
-                }
+       if(lm->lm_Layout.Width < max_right) lm->lm_Layout.Width = max_right;
+       if(lm->lm_Layout.Height < max_bottom) lm->lm_Layout.Height = max_bottom;
+    }
+    ret = TRUE;
+    break;
+  default:
+    ret = MUILM_UNKNOWN;
   }
-  return MUILM_UNKNOWN;
+  return ret;
 }
 
 
@@ -253,17 +248,7 @@ STATIC ULONG ObjectTree_New(struct IClass *cl, Object * o, struct opSet *msg)
        TAG_MORE, msg->ops_AttrList)))
   {
     struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o);
-/*
-    struct TagItem *tl = msg->ops_AttrList;
-    struct TagItem *ti;
 
-    while ((ti = NextTagItem(&tl)))
-    {
-      switch (ti->ti_Tag)
-      {
-      }
-    }
-*/
     if ((data->pool = CreatePool(0,2048,2048)))
     {
       return (ULONG)o;
@@ -331,27 +316,14 @@ STATIC VOID ObjectTree_ClearSubNodes(struct IClass * cl, Object * o, struct MUIP
 
   if(!node) return;
 
-/*  n = (struct ObjectTree_Node *)List_First(&((struct ObjectTree_Node *)msg->parent)->list); */
-
   while((n = (struct ObjectTree_Node *)RemTail((struct List*)&node->list)))
   {
     ObjectTree_Clear_Group(data->pool,o,n);
   }
-/*
-
-  while(n)
-  {
-    ObjectTree_Clear_Group(data->pool,o,n);
-    n = (struct ObjectTree_Node *)Node_Next(n);
-  }
-
-*/
-
 }
 
 STATIC BOOL ObjectTree_HasSubNodes(/*struct IClass * cl, */Object * o, struct MUIP_ObjectTree_ClearSubNodes *msg)
 {
-/*  struct ObjectTree_Data *data = (struct ObjectTree_Data *) INST_DATA(cl, o); */
   struct ObjectTree_Node *node = (struct ObjectTree_Node *)msg->parent;
 
   if(!node) return FALSE;

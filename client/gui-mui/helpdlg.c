@@ -53,42 +53,42 @@
 #include "muistuff.h"
 IMPORT Object *app;
 
-Object *help_wnd;
-Object *help_topic_listview;
-Object *help_topic_text;
-Object *help_text_listview;
-Object *help_right_group;
+static Object *help_wnd;
+static Object *help_topic_listview;
+static Object *help_topic_text;
+static Object *help_text_listview;
+static Object *help_right_group;
 
-Object *help_page_group;
-Object *help_page_balance;
+static Object *help_page_group;
+static Object *help_page_balance;
 
-Object *help_imprv_cost_text;
-Object *help_imprv_upkeep_text;
-Object *help_imprv_needs_button;	/* tech */
+static Object *help_imprv_cost_text;
+static Object *help_imprv_upkeep_text;
+static Object *help_imprv_needs_button;	/* tech */
 
-Object *help_wonder_cost_text;
-Object *help_wonder_needs_button;	/* tech */
-Object *help_wonder_obsolete_button;	/* tech */
+static Object *help_wonder_cost_text;
+static Object *help_wonder_needs_button;	/* tech */
+static Object *help_wonder_obsolete_button;	/* tech */
 
-Object *help_tech_group;	/* Allows tech with tech */
-Object *help_tech_tree;	/* The tree of techs */
+static Object *help_tech_group;	/* Allows tech with tech */
+static Object *help_tech_tree;	/* The tree of techs */
 
-Object *help_unit_sprite;
-Object *help_unit_cost_text;
-Object *help_unit_attack_text;
-Object *help_unit_defense_text;
-Object *help_unit_move_text;
-Object *help_unit_vision_text;
-Object *help_unit_firepower_text;
-Object *help_unit_hitpoints_text;
-Object *help_unit_basic_upkeep_text;
-Object *help_unit_needs_button;
-Object *help_unit_obsolete_button;
+static Object *help_unit_sprite;
+static Object *help_unit_cost_text;
+static Object *help_unit_attack_text;
+static Object *help_unit_defense_text;
+static Object *help_unit_move_text;
+static Object *help_unit_vision_text;
+static Object *help_unit_firepower_text;
+static Object *help_unit_hitpoints_text;
+static Object *help_unit_basic_upkeep_text;
+static Object *help_unit_needs_button;
+static Object *help_unit_obsolete_button;
 
-Object *help_terrain_move_text;
-Object *help_terrain_defense_text;
-Object *help_terrain_dynamic_group; /* the tile types */
-Object *help_terrain_static_group;
+static Object *help_terrain_move_text;
+static Object *help_terrain_defense_text;
+static Object *help_terrain_dynamic_group; /* the tile types */
+static Object *help_terrain_static_group;
 
 static enum help_page_type help_last_page;
 extern char long_buffer[64000];	/* helpdata.c */
@@ -185,6 +185,34 @@ static Object *MakeHelpButton(STRPTR label, enum help_page_type type)
 	     MUIA_UserData, type,
 	     MUIA_Weight, 0,
 	     TAG_DONE);
+    DoMethod(button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, button);
+  }
+  return button;
+}
+
+/****************************************************************
+ Creates a tech help button
+*****************************************************************/
+static Object *MakeHelpButtonTech(int tech)
+{
+  Object *button = MUI_MakeObject(MUIO_Button, advances[tech].name);
+  ULONG bg;
+
+  switch(get_invention(game.player_ptr, tech))
+  {
+  case TECH_KNOWN:
+    bg = MUII_FILL;
+    break;
+  case TECH_REACHABLE:
+    bg = MUII_SHINE;
+    break;
+  default: /* also TECH_UNKNOWN */
+    bg = MUII_ButtonBack;
+  }
+
+  if(button)
+  {
+    SetAttrs(button, MUIA_UserData, HELP_TECH, MUIA_Weight, 0, MUIA_CycleChain, 1, MUIA_Background, bg, TAG_DONE);
     DoMethod(button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, button);
   }
   return button;
@@ -301,71 +329,52 @@ static void clear_page_objects(void)
 static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
 {
   APTR leaf = 0;
-/*
-  int type;
-  char *bg="";*/
+  ULONG bg;
+
   char label[MAX_LEN_NAME+3];
-  /*
-  type = (tech==A_LAST) ? TECH_UNKNOWN : get_invention(game.player_ptr, tech);
-  switch(type) {
-    case TECH_UNKNOWN:
-      bg=TREE_NODE_UNKNOWN_TECH_BG;
-      break;
-    case TECH_KNOWN:
-      bg=TREE_NODE_KNOWN_TECH_BG;
-      break;
-    case TECH_REACHABLE:
-      bg=TREE_NODE_REACHABLE_TECH_BG;
-      break;
-  }
- */ 
   if(!tech_exists(tech))
   {
     Object *o = MakeButton("Removed");
-/*    leaf = */(APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
-/*    bg=TREE_NODE_REMOVED_TECH_BG;
-    l=XtVaCreateManagedWidget("treenode", commandWidgetClass, 
-			      tree,
-			      XtNlabel, label,
-			      XtNbackground, bg, NULL);
-    XtVaSetValues(l, XtVaTypedArg, XtNbackground, 
-		  XtRString, bg, strlen(bg)+1, NULL);*/
-     return;
+    DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
+    return;
+  }
+
+  switch(get_invention(game.player_ptr, tech))
+  {
+  case TECH_KNOWN:
+    bg = MUII_FILL;
+    break;
+  case TECH_REACHABLE:
+    bg = MUII_SHINE;
+    break;
+  default: /* also TECH_UNKNOWN */
+    bg = MUII_ButtonBack;
   }
   
   sprintf(label,"%s:%d",advances[tech].name,
                         tech_goal_turns(game.player_ptr,tech));
-  
 
   if(parent)
   {
-    Object *o = MakeButton(label);
-    if (o)
+    Object *o = MUI_MakeObject(MUIO_Button, label);
+    if(o)
     {
+      SetAttrs(o, MUIA_CycleChain, 1, MUIA_Background, bg, TAG_DONE);
       DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, help_tree_leaf, o);
       set(o,MUIA_UserData, tech);
       leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,parent,o);
     }
   } else
   {
-    Object *o = MakeButton(label);
-    if (o)
+    Object *o = MUI_MakeObject(MUIO_Button, label);
+    if(o)
     {
+      SetAttrs(o, MUIA_CycleChain, 1, MUIA_Background, bg, TAG_DONE);
       DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, help_tree_leaf, o);
-/*      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_tree_leaf, o); */
       set(o,MUIA_UserData, tech);
       leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
     }
   }
-
-/*
-  XtAddCallback(l, XtNcallback, help_tree_node_callback, (XtPointer)tech);
-
-  XtVaSetValues(l, XtVaTypedArg, XtNbackground, 
-		XtRString, bg, strlen(bg)+1, NULL);
-
-*/
-
   
   if(--levels>0) {
     if(advances[tech].req[0]!=A_NONE)
@@ -471,9 +480,6 @@ static void create_help_page(enum help_page_type type)
 
     case HELP_TERRAIN:
       help_page_group = VGroup,
-/*	Child, help_terrain_dynamic_group = HGroup,
-	    Child, VSpace(0),
-	    End,*/
 	Child, help_terrain_static_group = HGroup,
 	    Child, help_terrain_move_text = TextObject, MUIA_Text_PreParse, "\33c", End,
 	    Child, help_terrain_defense_text = TextObject, MUIA_Text_PreParse, "\33c", End,
@@ -487,7 +493,7 @@ static void create_help_page(enum help_page_type type)
 	    Child, HSpace(0),
 	    End,
 	Child, help_tech_tree = ObjectTreeObject,
-	    VirtualFrame,
+            VirtualFrame,
 	    End,
 	End;
       help_page_balance = BalanceObject,End;
@@ -658,7 +664,7 @@ static void help_update_unit_type(const struct help_item *pitem,
       text = get_unit_type(utype->obsoleted_by)->name;
     SetAttrs(help_unit_obsolete_button,
 	     MUIA_Text_Contents, text,
-	     MUIA_UserData, HELP_UNIT,	/*utype->obsoleted_by,*/
+	     MUIA_UserData, HELP_UNIT,
 	      TAG_DONE);
 
     set(help_unit_sprite, MUIA_Sprite_Sprite, get_unit_type(i)->sprite);
@@ -742,7 +748,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	    group = o = HGroup,
 	      GroupSpacing(0),
 	      Child, MakeLabel("Allows "),
-	      Child, button = MakeHelpButton(advances[j].name, HELP_TECH),
+	      Child, button = MakeHelpButtonTech(j),
 	      End;
 
 	    if (o)
@@ -753,7 +759,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	      o = HGroup,
 		GroupSpacing(0),
 		Child, MakeLabel(" (with "),
-		Child, button = MakeHelpButton(advances[advances[j].req[1]].name, HELP_TECH),
+		Child, button = MakeHelpButtonTech(advances[j].req[1]),
 		Child, MakeLabel(")"),
 		End;
 	      if (o)
@@ -771,9 +777,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	    o = HGroup,
 	      GroupSpacing(0),
 	      Child, MakeLabel("Allows "),
-	      Child, button = MakeHelpButton(advances[j].name, HELP_TECH),
+	      Child, button = MakeHelpButtonTech(j),
 	      Child, MakeLabel(" (with "),
-	      Child, button2 = MakeHelpButton(advances[advances[j].req[0]].name, HELP_TECH),
+	      Child, button2 = MakeHelpButtonTech(advances[j].req[0]),
 	      Child, MakeLabel(")"),
 	      Child, HSpace(0),
 	      End;
@@ -807,17 +813,15 @@ static void help_update_terrain(const struct help_item *pitem,
   if (i < T_COUNT)
   {
     struct tile_type *tile = get_tile_type(i);
-    char buf[256],*bptr=buf;
-    int nleft=sizeof(buf),nl=0;
-    int sp_food,sp_shield,sp_trade;
-    Object *o,*t,*g;
+    char buf[256];
+    Object *o,*g;
 
     settextf(help_terrain_move_text, "Movecost: %ld", tile_types[i].movement_cost);
     settextf(help_terrain_defense_text, "Defense: %ld.%ld", (tile_types[i].defense_bonus / 10), tile_types[i].defense_bonus % 10);
 
     DoMethod(help_right_group, MUIM_Group_InitChange);
     DoMethod(help_page_group, MUIM_Group_InitChange);
-    if (help_terrain_dynamic_group)
+    if(help_terrain_dynamic_group)
     {
       DoMethod(help_page_group, OM_REMMEMBER, help_terrain_dynamic_group);
       MUI_DisposeObject(help_terrain_dynamic_group);
@@ -825,170 +829,55 @@ static void help_update_terrain(const struct help_item *pitem,
 
     help_terrain_dynamic_group = VGroup,End;
 
-    sp_food = tile->food;
-    sp_shield = tile->shield;
-    sp_trade = tile->trade;
-
-    {
-      o = HGroup,
+    my_snprintf(buf,sizeof(buf),"Food:   %d\nShield: %d\nTrade:  %d",tile->food, tile->shield, tile->trade);
+    if((o = HGroup,
               Child, HSpace(0),
 	      Child, TextObject, MUIA_Text_Contents, "", End,
 	      Child, SpriteObject, MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1], End,
-	      Child, t = TextObject, End,
+	      Child, TextObject, MUIA_Text_Contents, buf, End,
               Child, HSpace(0),
-	      End;
-
-      if (o)
-      {
-
-      	{
-      	  my_snprintf(bptr,nleft,"Food: %d",sp_food);
-	  bptr = end_of_strn(bptr, &nleft);
-      	  nl=1;
-      	}
-
-      	{
-      	  if (nl&&nleft)
-      	  {
-	    nleft--;
-	    *bptr++='\n';
-      	  }
-      	  my_snprintf(bptr,nleft,"Shield: %d",sp_shield);
-	  bptr = end_of_strn(bptr, &nleft);
-      	  nl=1;
-      	}
-
-      	{
-      	  if (nl&&nleft)
-      	  {
-	    nleft--;
-	    *bptr++='\n';
-      	  }
-      	  my_snprintf(bptr,nleft,"Trade: %d",sp_trade);
-	  bptr = end_of_strn(bptr, &nleft);
-      	  nl=1;
-      	}
-      	settext(t,buf);
-      	DoMethod(help_terrain_dynamic_group, OM_ADDMEMBER, o);
-      }
+	      End))
+    {
+      DoMethod(help_terrain_dynamic_group, OM_ADDMEMBER, o);
     }
 
     g = HGroup, Child, HSpace(0), End;
 
-    /* Special 1 */
-    bptr=buf;
-    nleft=sizeof(buf);
-    nl=0;
-    *bptr=0;
-    sp_food = tile->food_special_1;
-    sp_shield = tile->shield_special_1;
-    sp_trade = tile->trade_special_1;
-    if (sp_food || sp_shield || sp_trade)
-    {
-      o = HGroup,
+    my_snprintf(buf,sizeof(buf),"Food:   %d\nShield: %d\nTrade:  %d",tile->food_special_1, tile->shield_special_1,
+    tile->trade_special_1);
+    if((o = HGroup,
               Child, HSpace(0),
 	      Child, TextObject, MUIA_Text_Contents, tile->special_1_name, End,
 	      Child, SpriteObject,
 		  MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
 		  MUIA_Sprite_OverlaySprite, tile->special[0].sprite,
 		  End,
-	      Child, t = TextObject, End,
+	      Child, TextObject, MUIA_Text_Contents, buf, End,
               Child, HSpace(0),
-	      End;
-
-      if (o)
-      {
-      	if (sp_food)
-      	{
-      	  my_snprintf(bptr,nleft,"Food: %d",sp_food);
-	  bptr = end_of_strn(bptr, &nleft);
-      	  nl=1;
-      	}
-      	if (sp_shield)
-      	{
-      	  if (nl&&nleft)
-      	  {
-	    nleft--;
-	    *bptr++='\n';
-      	  }
-      	  my_snprintf(bptr,nleft,"Shield: %d",sp_shield);
-	  bptr = end_of_strn(bptr, &nleft);
-      	  nl=1;
-      	}
-      	if (sp_trade)
-      	{
-      	  if (nl&&nleft)
-      	  {
-	    nleft--;
-	    *bptr++='\n';
-      	  }
-      	  my_snprintf(bptr,nleft,"Trade: %d",sp_trade);
-	  bptr = end_of_strn(bptr, &nleft);
-      	  nl=1;
-      	}
-      	settext(t,buf);
-      	DoMethod(g, OM_ADDMEMBER, o);
-      }
+	      End))
+    {
+      DoMethod(g, OM_ADDMEMBER, o);
     }
 
-    /* Special 2 */
-    bptr=buf;
-    nleft=sizeof(buf);
-    nl=0;
-    *bptr=0;
-    sp_food = tile->food_special_2;
-    sp_shield = tile->shield_special_2;
-    sp_trade = tile->trade_special_2;
-    if (sp_food || sp_shield || sp_trade)
-    {
-      o = HGroup,
+    my_snprintf(buf,sizeof(buf),"Food:   %d\nShield: %d\nTrade:  %d",tile->food_special_2, tile->shield_special_2,
+    tile->trade_special_2);
+    if((o = HGroup,
               Child, HSpace(0),
 	      Child, TextObject, MUIA_Text_Contents, tile->special_2_name, End,
 	      Child, SpriteObject,
 		  MUIA_Sprite_Sprite, tile->sprite[NUM_DIRECTION_NSEW - 1],
 		  MUIA_Sprite_OverlaySprite, tile->special[1].sprite,
 		  End,
-	      Child, t = TextObject, End,
+	      Child, TextObject, MUIA_Text_Contents, buf, End,
               Child, HSpace(0),
-	      End;
-
-      if (o)
-      {
-      	if (sp_food)
-      	{
-      	  my_snprintf(bptr,nleft,"Food: %d",sp_food);
-	  bptr = end_of_strn(bptr, &nleft);
-      	  nl=1;
-      	}
-      	if (sp_shield)
-      	{
-      	  if (nl&&nleft)
-      	  {
-	    nleft--;
-	    *bptr++='\n';
-      	  }
-      	  my_snprintf(bptr,nleft,"Shield: %d",sp_shield);
-	  bptr = end_of_strn(bptr, &nleft);
-      	  nl=1;
-      	}
-      	if (sp_trade)
-      	{
-      	  if (nl&&nleft)
-      	  {
-	    nleft--;
-	    *bptr++='\n';
-      	  }
-      	  my_snprintf(bptr,nleft,"Trade: %d",sp_trade);
-	  bptr = end_of_strn(bptr, &nleft);
-      	  nl=1;
-      	}
-      	settext(t,buf);
-      	DoMethod(g, OM_ADDMEMBER, o);
-      }
+	      End))
+    {
+      DoMethod(g, OM_ADDMEMBER, o);
     }
 
     DoMethod(g, OM_ADDMEMBER, HSpace(0));
     DoMethod(help_terrain_dynamic_group, OM_ADDMEMBER, g);
+
     DoMethod(help_page_group, OM_ADDMEMBER, help_terrain_dynamic_group);
     DoMethod(help_page_group, MUIM_Group_Sort, help_terrain_dynamic_group, help_terrain_static_group, NULL);
     DoMethod(help_page_group, MUIM_Group_ExitChange);

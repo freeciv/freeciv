@@ -63,9 +63,7 @@
 
 IMPORT Object *app;
 
-/* TODO: o Rename of the city
- *       o Unit Context Menu
- */
+/* TODO: Unit Context Menu */
 
 #define NUM_CITYOPT_TOGGLES 5
 
@@ -149,7 +147,7 @@ static void activate_unit(struct unit *punit)
 /****************************************************************
  ...
 *****************************************************************/
-void request_city_change_production(struct city *pcity, int id, int is_unit_id)
+static void request_city_change_production(struct city *pcity, int id, int is_unit_id)
 {
   struct packet_city_request packet;
 
@@ -164,7 +162,7 @@ void request_city_change_production(struct city *pcity, int id, int is_unit_id)
 /****************************************************************
  ...
 *****************************************************************/
-void request_city_change_specialist(struct city *pcity, int from, int to)
+static void request_city_change_specialist(struct city *pcity, int from, int to)
 {
   struct packet_city_request packet;
 
@@ -179,7 +177,7 @@ void request_city_change_specialist(struct city *pcity, int from, int to)
 /****************************************************************
  ...
 *****************************************************************/
-void request_city_toggle_worker(struct city *pcity, int xtile, int ytile)
+static void request_city_toggle_worker(struct city *pcity, int xtile, int ytile)
 {
   struct packet_city_request packet;
   packet.city_id = pcity->id;
@@ -196,7 +194,7 @@ void request_city_toggle_worker(struct city *pcity, int xtile, int ytile)
 /****************************************************************
  ...
 *****************************************************************/
-void request_city_buy(struct city *pcity)
+static void request_city_buy(struct city *pcity)
 {
   struct packet_city_request packet;
   packet.city_id = pcity->id;
@@ -207,7 +205,7 @@ void request_city_buy(struct city *pcity)
 /****************************************************************
  ...
 *****************************************************************/
-void request_city_sell(struct city *pcity, int sell_id)
+static void request_city_sell(struct city *pcity, int sell_id)
 {
   struct packet_city_request packet;
 
@@ -223,29 +221,28 @@ void request_city_sell(struct city *pcity, int sell_id)
 static struct genlist dialog_list;
 static int dialog_list_has_been_initialised;
 
-struct city_dialog *get_city_dialog(struct city *pcity);
-struct city_dialog *create_city_dialog(struct city *pcity, int make_modal);
-void close_city_dialog(struct city_dialog *pdialog);
+static struct city_dialog *get_city_dialog(struct city *pcity);
+static struct city_dialog *create_city_dialog(struct city *pcity);
+static void close_city_dialog(struct city_dialog *pdialog);
 
-void city_dialog_update_improvement_list(struct city_dialog *pdialog);
-void city_dialog_update_title(struct city_dialog *pdialog);
-void city_dialog_update_supported_units(struct city_dialog *pdialog, int id);
-void city_dialog_update_present_units(struct city_dialog *pdialog, int id);
-void city_dialog_update_citizens(struct city_dialog *pdialog);
-void city_dialog_update_map(struct city_dialog *pdialog);
-void city_dialog_update_food(struct city_dialog *pdialog);
-void city_dialog_update_production(struct city_dialog *pdialog);
-void city_dialog_update_output(struct city_dialog *pdialog);
-void city_dialog_update_building(struct city_dialog *pdialog);
-void city_dialog_update_storage(struct city_dialog *pdialog);
-void city_dialog_update_pollution(struct city_dialog *pdialog);
+static void city_dialog_update_improvement_list(struct city_dialog *pdialog);
+static void city_dialog_update_title(struct city_dialog *pdialog);
+static void city_dialog_update_supported_units(struct city_dialog *pdialog, int id);
+static void city_dialog_update_present_units(struct city_dialog *pdialog, int id);
+static void city_dialog_update_citizens(struct city_dialog *pdialog);
+static void city_dialog_update_map(struct city_dialog *pdialog);
+static void city_dialog_update_production(struct city_dialog *pdialog);
+static void city_dialog_update_output(struct city_dialog *pdialog);
+static void city_dialog_update_building(struct city_dialog *pdialog);
+static void city_dialog_update_storage(struct city_dialog *pdialog);
+static void city_dialog_update_pollution(struct city_dialog *pdialog);
 
-void open_cityopt_dialog(struct city_dialog *pdialog);
+static void open_cityopt_dialog(struct city_dialog *pdialog);
 
 /****************************************************************
 ...
 *****************************************************************/
-struct city_dialog *get_city_dialog(struct city *pcity)
+static struct city_dialog *get_city_dialog(struct city *pcity)
 {
   struct genlist_iterator myiter;
 
@@ -267,7 +264,7 @@ struct city_dialog *get_city_dialog(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
-void refresh_this_city_dialog(struct city_dialog *pdialog)
+static void refresh_this_city_dialog(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
   int units = (unit_list_size(&map_get_tile(pcity->x, pcity->y)->units) ? TRUE : FALSE);
@@ -361,11 +358,10 @@ void popup_city_dialog(struct city *pcity, int make_modal)
   struct city_dialog *pdialog;
 
   if (!(pdialog = get_city_dialog(pcity)))
-    pdialog = create_city_dialog(pcity, make_modal);
+    pdialog = create_city_dialog(pcity);
 
   if (pdialog)
     set(pdialog->wnd, MUIA_Window_Open, TRUE);
-
 }
 
 /****************************************************************
@@ -758,7 +754,7 @@ static void rename_city_hook(struct input_dialog_data *data)
 /****************************************************************
  Callback for the Rename button
 *****************************************************************/
-void city_rename(struct city_dialog **ppdialog)
+static void city_rename(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
 
@@ -826,7 +822,7 @@ static int city_change(struct city_dialog **ppdialog)
 /****************************************************************
   Commit the changes to the worklist for the city.
 *****************************************************************/
-void commit_city_worklist(struct worklist *pwl, void *data)
+static void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct packet_city_request packet;
   struct city_dialog *pdialog = (struct city_dialog *)data;
@@ -862,7 +858,7 @@ void commit_city_worklist(struct worklist *pwl, void *data)
 /****************************************************************
 ...
 *****************************************************************/
-void cancel_city_worklist(void *data)
+static void cancel_city_worklist(void *data)
 {
   struct city_dialog *pdialog = (struct city_dialog *)data;
   pdialog->worklist_wnd = NULL;
@@ -872,7 +868,7 @@ void cancel_city_worklist(void *data)
 /****************************************************************
   Display the city's worklist.
 *****************************************************************/
-void city_worklist(struct city_dialog **ppdialog)
+static void city_worklist(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
 
@@ -1087,7 +1083,7 @@ static void city_prod_close_real(struct city_prod **ppcprod)
 /****************************************************************
  city_prod_destroy destroy the object after use
 *****************************************************************/
-void city_prod_destroy(struct city_prod **ppcprod)
+static void city_prod_destroy(struct city_prod **ppcprod)
 {
   set((*ppcprod)->wnd, MUIA_Window_Open, FALSE);
   DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, city_prod_close_real, *ppcprod);
@@ -1260,7 +1256,7 @@ void popup_city_production_dialog(struct city *pcity)
 /**************************************************************************
  Allocate and initialize a new city dialog
 **************************************************************************/
-struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
+static struct city_dialog *create_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
   static char *newcitizen_labels[] =
@@ -1492,7 +1488,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_pollution(struct city_dialog *pdialog)
+static void city_dialog_update_pollution(struct city_dialog *pdialog)
 {
   /* TODO: differnt colors? */
   settextf(pdialog->pollution_text, "%3ld", pdialog->pcity->pollution);
@@ -1502,7 +1498,7 @@ void city_dialog_update_pollution(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_storage(struct city_dialog *pdialog)
+static void city_dialog_update_storage(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
   settextf(pdialog->granary_text, "%3ld/%3ld", pcity->food_stock, game.foodbox * (pcity->size + 1));
@@ -1511,7 +1507,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_building(struct city_dialog *pdialog)
+static void city_dialog_update_building(struct city_dialog *pdialog)
 {
   char buf[32], buf2[64], buf3[128];
   struct city *pcity = pdialog->pcity;
@@ -1575,7 +1571,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_production(struct city_dialog *pdialog)
+static void city_dialog_update_production(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
   settextf(pdialog->food_text, "%2d (%+2d)", pcity->food_prod, pcity->food_surplus);
@@ -1585,7 +1581,7 @@ void city_dialog_update_production(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_output(struct city_dialog *pdialog)
+static void city_dialog_update_output(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
   settextf(pdialog->gold_text, "%2d (%+2d)", pcity->tax_total, city_gold_surplus(pcity));
@@ -1597,7 +1593,7 @@ void city_dialog_update_output(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_map(struct city_dialog *pdialog)
+static void city_dialog_update_map(struct city_dialog *pdialog)
 {
   DoMethod(pdialog->map_area, MUIM_CityMap_Refresh);
 }
@@ -1605,7 +1601,7 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_citizens(struct city_dialog *pdialog)
+static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   int n;
   struct city *pcity = pdialog->pcity;
@@ -1686,7 +1682,7 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_supported_units(struct city_dialog *pdialog,
+static void city_dialog_update_supported_units(struct city_dialog *pdialog,
 					int unitid)
 {
   struct unit_list *plist;
@@ -1731,7 +1727,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
+static void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 {
   struct unit_list *plist;
   struct genlist_iterator myiter;
@@ -1778,7 +1774,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_title(struct city_dialog *pdialog)
+static void city_dialog_update_title(struct city_dialog *pdialog)
 {
   settextf(pdialog->title_text, "%s - %s citizens", pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
 }
@@ -1786,7 +1782,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void city_dialog_update_improvement_list(struct city_dialog *pdialog)
+static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   int i, j = 0, refresh = FALSE;
 
@@ -1825,7 +1821,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void close_city_dialog(struct city_dialog *pdialog)
+static void close_city_dialog(struct city_dialog *pdialog)
 {
   if (pdialog)
   {
@@ -1857,7 +1853,7 @@ void close_city_dialog(struct city_dialog *pdialog)
 /**************************************************************************
  Open the City Options dialog for this city
 **************************************************************************/
-void open_cityopt_dialog(struct city_dialog *pdialog)
+static void open_cityopt_dialog(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
   int i, state, newcitizen_index;
