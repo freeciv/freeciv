@@ -382,6 +382,97 @@ static void gui_distance_vector(int *gui_dx, int *gui_dy,
 }
 
 /****************************************************************************
+  Move the GUI origin to the given normalized, clipped origin.  This may
+  be called many times when sliding the mapview.
+****************************************************************************/
+static void base_set_mapview_origin(int gui_x0, int gui_y0)
+{
+  int old_gui_x0, old_gui_y0, dx, dy;
+  const int width = mapview_canvas.width, height = mapview_canvas.height;
+  int common_x0, common_x1, common_y0, common_y1;
+  int update_x0, update_x1, update_y0, update_y1;
+  struct tile *map_center;
+
+  /* Then update everything.  This does some tricky math to avoid having
+   * to do unnecessary redraws in update_map_canvas.  This makes for ugly
+   * code but speeds up the mapview by a large factor. */
+
+  /* We need to calculate the vector of movement of the mapview.  So
+   * we find the GUI distance vector and then use this to calculate
+   * the original mapview origin relative to the current position.  Thus
+   * if we move one tile to the left, even if this causes GUI positions
+   * to wrap the distance vector is only one tile. */
+  normalize_gui_pos(&gui_x0, &gui_y0);
+  gui_distance_vector(&dx, &dy,
+		      mapview_canvas.gui_x0, mapview_canvas.gui_y0,
+		      gui_x0, gui_y0);
+  old_gui_x0 = gui_x0 - dx;
+  old_gui_y0 = gui_y0 - dy;
+
+  mapview_canvas.gui_x0 = gui_x0;
+  mapview_canvas.gui_y0 = gui_y0;
+
+  /* Find the overlapping area of the new and old mapview.  This is
+   * done in GUI coordinates.  Note that if the GUI coordinates wrap
+   * no overlap will be found. */
+  common_x0 = MAX(old_gui_x0, gui_x0);
+  common_x1 = MIN(old_gui_x0, gui_x0) + width;
+  common_y0 = MAX(old_gui_y0, gui_y0);
+  common_y1 = MIN(old_gui_y0, gui_y0) + height;
+
+  if (common_x1 > common_x0 && common_y1 > common_y0) {
+    /* Do a partial redraw only.  This means the area of overlap (a
+     * rectangle) is copied.  Then the remaining areas (two rectangles)
+     * are updated through update_map_canvas. */
+    struct canvas *target = mapview_canvas.tmp_store;
+
+    if (old_gui_x0 < gui_x0) {
+      update_x0 = MAX(old_gui_x0 + width, gui_x0);
+      update_x1 = gui_x0 + width;
+    } else {
+      update_x0 = gui_x0;
+      update_x1 = MIN(old_gui_x0, gui_x0 + width);
+    }
+    if (old_gui_y0 < gui_y0) {
+      update_y0 = MAX(old_gui_y0 + height, gui_y0);
+      update_y1 = gui_y0 + height;
+    } else {
+      update_y0 = gui_y0;
+      update_y1 = MIN(old_gui_y0, gui_y0 + height);
+    }
+
+    dirty_all();
+    canvas_copy(target, mapview_canvas.store,
+		common_x0 - old_gui_x0,
+		common_y0 - old_gui_y0,
+		common_x0 - gui_x0, common_y0 - gui_y0,
+		common_x1 - common_x0, common_y1 - common_y0);
+    mapview_canvas.tmp_store = mapview_canvas.store;
+    mapview_canvas.store = target;
+
+    if (update_y1 > update_y0) {
+      update_map_canvas(0, update_y0 - gui_y0,
+			width, update_y1 - update_y0);
+    }
+    if (update_x1 > update_x0) {
+      update_map_canvas(update_x0 - gui_x0, common_y0 - gui_y0,
+			update_x1 - update_x0, common_y1 - common_y0);
+    }
+  } else {
+    update_map_canvas_visible();
+  }
+
+  map_center = get_center_tile_mapcanvas();
+  center_tile_overviewcanvas(map_center);
+  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
+    create_line_at_mouse_pos();
+  }
+  if (rectangle_active) {
+    update_rect_at_mouse_pos();
+  }
+}
+
+/****************************************************************************
   Change the mapview origin, clip it, and update everything.
 ****************************************************************************/
 void set_mapview_origin(int gui_x0, int gui_y0)
@@ -403,89 +494,32 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     gui_y0 = CLIP(ymin, gui_y0, ymax - ysize);
   }
 
-  /* Then update everything.  This does some tricky math to avoid having
-   * to do unnecessary redraws in update_map_canvas.  This makes for ugly
-   * code but speeds up the mapview by a large factor. */
-  if (mapview_canvas.gui_x0 != gui_x0 || mapview_canvas.gui_y0 != gui_y0) {
-    int old_gui_x0, old_gui_y0, dx, dy;
-    const int width = mapview_canvas.store_width;
-    const int height = mapview_canvas.store_height;
-    int common_x0, common_x1, common_y0, common_y1;
-    int update_x0, update_x1, update_y0, update_y1;
-
-    /* We need to calculate the vector of movement of the mapview.  So
-     * we find the GUI distance vector and then use this to calculate
-     * the original mapview origin relative to the current position.  Thus
-     * if we move one tile to the left, even if this causes GUI positions
-     * to wrap the distance vector is only one tile. */
-    gui_distance_vector(&dx, &dy,
-			mapview_canvas.gui_x0, mapview_canvas.gui_y0,
-			gui_x0, gui_y0);
-    old_gui_x0 = gui_x0 - dx;
-    old_gui_y0 = gui_y0 - dy;
-
-    mapview_canvas.gui_x0 = gui_x0;
-    mapview_canvas.gui_y0 = gui_y0;
-
-    /* Find the overlapping area of the new and old mapview.  This is
-     * done in GUI coordinates.  Note that if the GUI coordinates wrap
-     * no overlap will be found. */
-    common_x0 = MAX(old_gui_x0, gui_x0);
-    common_x1 = MIN(old_gui_x0, gui_x0) + width;
-    common_y0 = MAX(old_gui_y0, gui_y0);
-    common_y1 = MIN(old_gui_y0, gui_y0) + height;
-
-    if (common_x1 > common_x0 && common_y1 > common_y0) {
-      /* Do a partial redraw only.  This means the area of overlap (a
-       * rectangle) is copied.  Then the remaining areas (two rectangles)
-       * are updated through update_map_canvas. */
-      struct canvas *target = mapview_canvas.tmp_store;
-
-      if (old_gui_x0 < gui_x0) {
-	update_x0 = MAX(old_gui_x0 + width, gui_x0);
-	update_x1 = gui_x0 + width;
-      } else {
-	update_x0 = gui_x0;
-	update_x1 = MIN(old_gui_x0, gui_x0 + width);
-      }
-      if (old_gui_y0 < gui_y0) {
-	update_y0 = MAX(old_gui_y0 + height, gui_y0);
-	update_y1 = gui_y0 + height;
-      } else {
-	update_y0 = gui_y0;
-	update_y1 = MIN(old_gui_y0, gui_y0 + height);
-      }
-
-      dirty_all();
-      canvas_copy(target, mapview_canvas.store,
-		  common_x0 - old_gui_x0,
-		  common_y0 - old_gui_y0,
-		  common_x0 - gui_x0, common_y0 - gui_y0,
-		  common_x1 - common_x0, common_y1 - common_y0);
-      mapview_canvas.tmp_store = mapview_canvas.store;
-      mapview_canvas.store = target;
-
-      if (update_y1 > update_y0) {
-	update_map_canvas(0, update_y0 - gui_y0,
-			  width, update_y1 - update_y0);
-      }
-      if (update_x1 > update_x0) {
-	update_map_canvas(update_x0 - gui_x0, common_y0 - gui_y0,
-			  update_x1 - update_x0, common_y1 - common_y0);
-      }
-    } else {
-      update_map_canvas_visible();
-    }
-
-    center_tile_overviewcanvas(get_center_tile_mapcanvas());
-    update_map_canvas_scrollbars();
-    if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
-      create_line_at_mouse_pos();
-    }
+  if (mapview_canvas.gui_x0 == gui_x0 && mapview_canvas.gui_y0 == gui_y0) {
+    return;
   }
-  if (rectangle_active) {
-    update_rect_at_mouse_pos();
+
+  if (smooth_center_slide_msec > 0) {
+    int start_x = mapview_canvas.gui_x0, start_y = mapview_canvas.gui_y0;
+    int diff_x, diff_y;
+    double timing_sec = (double)smooth_center_slide_msec / 1000.0, mytime;
+    static struct timer *anim_timer;
+
+    gui_distance_vector(&diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
+    anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
+
+    do {
+      mytime = MIN(read_timer_seconds(anim_timer), timing_sec);
+
+      base_set_mapview_origin(start_x + diff_x * (mytime / timing_sec),
+			      start_y + diff_y * (mytime / timing_sec));
+      flush_dirty();
+      gui_flush();
+    } while (mytime < timing_sec);
+  } else {
+    base_set_mapview_origin(gui_x0, gui_y0);
   }
+
+  update_map_canvas_scrollbars();
 }
 
 /****************************************************************************
