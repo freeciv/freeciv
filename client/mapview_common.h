@@ -142,6 +142,10 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y);
 
 void put_unit(struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y);
+void put_city(struct city *pcity,
+	      struct canvas *pcanvas, int canvas_x, int canvas_y);
+void put_terrain(int map_x, int map_y,
+		 struct canvas *pcanvas, int canvas_x, int canvas_y);
 
 void put_city_tile_output(struct city *pcity, int city_x, int city_y,
 			  struct canvas *pcanvas,

@@ -823,7 +823,8 @@ static void put_drawn_sprites(struct canvas *pcanvas,
 }
 
 /**************************************************************************
-  Draw the given unit onto the canvas store at the given location.
+  Draw the given unit onto the canvas store at the given location.  The
+  area of drawing is UNIT_TILE_HEIGHT x UNIT_TILE_WIDTH.
 **************************************************************************/
 void put_unit(struct unit *punit,
 	      struct canvas *pcanvas, int canvas_x, int canvas_y)
@@ -832,6 +833,41 @@ void put_unit(struct unit *punit,
   int count = fill_sprite_array(drawn_sprites, -1, -1, NULL,
 				punit, NULL, FALSE);
 
+  canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
+  put_drawn_sprites(pcanvas, canvas_x, canvas_y,
+		    count, drawn_sprites, FALSE);
+}
+
+/**************************************************************************
+  Draw the given city onto the canvas store at the given location.  The
+  area of drawing is UNIT_TILE_HEIGHT x UNIT_TILE_WIDTH.
+**************************************************************************/
+void put_city(struct city *pcity,
+	      struct canvas *pcanvas, int canvas_x, int canvas_y)
+{
+  struct drawn_sprite drawn_sprites[40];
+  int count = fill_sprite_array(drawn_sprites, -1, -1, NULL,
+				NULL, pcity, FALSE);
+
+  canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
+  put_drawn_sprites(pcanvas, canvas_x, canvas_y,
+		    count, drawn_sprites, FALSE);
+}
+
+/**************************************************************************
+  Draw the given tile terrain onto the canvas store at the given location.
+  The area of drawing is UNIT_TILE_HEIGHT x UNIT_TILE_WIDTH (even though
+  most tiles are not this tall).
+**************************************************************************/
+void put_terrain(int map_x, int map_y,
+		 struct canvas *pcanvas, int canvas_x, int canvas_y)
+{
+  struct drawn_sprite drawn_sprites[40];
+  struct tile *ptile = map_get_tile(map_x, map_y);
+  int count = fill_sprite_array(drawn_sprites, map_x, map_y, ptile,
+				NULL, NULL, FALSE);
+
+  /* Use full tile height, even for terrains. */
   canvas_y += (UNIT_TILE_HEIGHT - NORMAL_TILE_HEIGHT);
   put_drawn_sprites(pcanvas, canvas_x, canvas_y,
 		    count, drawn_sprites, FALSE);
