@@ -476,7 +476,7 @@ fi
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h sys/time.h sys/types.h unistd.h)
+AC_CHECK_HEADERS(fcntl.h sys/time.h sys/types.h unistd.h sys/utsname.h)
 dnl Avoid including the unix emulation layer if we build mingw executables
 dnl There would be type conflicts between winsock and bsd/unix includes
 if test "x$MINGW32" != "xyes"; then
@@ -506,7 +506,7 @@ AC_FUNC_VSNPRINTF
 
 AC_CHECK_FUNCS(fileno gethostname getpwuid gettimeofday inet_aton \
                select snooze strerror strcasecmp strncasecmp \
-               strlcat strlcpy strstr usleep vsnprintf)
+               strlcat strlcpy strstr usleep vsnprintf uname)
 
 dnl The use of both AC_FUNC_VSNPRINTF and AC_CHECK_FUNCS(vsnprintf) is
 dnl deliberate.

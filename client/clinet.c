@@ -53,6 +53,10 @@
 #include <winsock.h>
 #endif
 
+#ifdef HAVE_SYS_UTSNAME_H
+#include <sys/utsname.h>
+#endif
+
 #include "capstr.h"
 #include "fcintl.h"
 #include "game.h"
@@ -350,6 +354,10 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   char *server;
   int port;
   char str[512];
+  char machine_string[128];
+#ifdef HAVE_UNAME
+  struct utsname un;
+#endif 
 
   if ((proxy_url = getenv("http_proxy"))) {
     if (strncmp(proxy_url,"http://",strlen("http://"))) {
@@ -416,13 +424,30 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     my_closesocket(s);
     return NULL;
   }
+
+#ifdef HAVE_UNAME
+  uname(&un);
+  my_snprintf(machine_string,sizeof(machine_string),
+              "%s %s [%s]",
+              un.sysname,
+              un.release,
+              un.machine);
+#else /* ! HAVE_UNAME */
+  /* Fill in here if you are making a binary without sys/utsname.h and know
+     the OS name, release number, and machine architechture */
+  my_snprintf(machine_string,sizeof(machine_string),
+              "unknown unknown [unknown]");
+#endif /* HAVE_UNAME */
+
   my_snprintf(str,sizeof(str),
-              "GET %s%s%s HTTP/1.0\r\nUser-Agent: Freeciv/%s %s\r\n\r\n",
+              "GET %s%s%s HTTP/1.0\r\nUser-Agent: Freeciv/%s %s %s\r\n\r\n",
               proxy_url ? "" : "/",
               urlpath,
               proxy_url ? metaserver : "",
               VERSION_STRING,
-              client_string);
+              client_string,
+              machine_string);
+
 #ifdef HAVE_FDOPEN
   f=fdopen(s,"r+");
   fwrite(str,1,strlen(str),f);

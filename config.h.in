@@ -1,4 +1,4 @@
-/* config.h.in.  Generated automatically from configure.in by autoheader 2.13.  */
+/* config.h.in.  Generated automatically from configure.in by autoheader.  */
 #ifndef FC_CONFIG_H
 #define FC_CONFIG_H
 
@@ -230,6 +230,9 @@ student.uni-tuebingen.de>
 /* Define if you have the tsearch function.  */
 #undef HAVE_TSEARCH
 
+/* Define if you have the uname function.  */
+#undef HAVE_UNAME
+
 /* Define if you have the usleep function.  */
 #undef HAVE_USLEEP
 
@@ -301,6 +304,9 @@ student.uni-tuebingen.de>
 
 /* Define if you have the <sys/uio.h> header file.  */
 #undef HAVE_SYS_UIO_H
+
+/* Define if you have the <sys/utsname.h> header file.  */
+#undef HAVE_SYS_UTSNAME_H
 
 /* Define if you have the <termios.h> header file.  */
 #undef HAVE_TERMIOS_H
