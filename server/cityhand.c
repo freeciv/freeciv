@@ -156,7 +156,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   city_refresh(pcity);
   city_incite_cost(pcity);
   send_city_info(0, pcity, 0);
-  ai_calculate_city_value(map_get_continent(pcity->x, pcity->y));
+/* fnord -- Syela */
 }
 
 /**************************************************************************
