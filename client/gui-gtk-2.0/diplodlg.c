@@ -471,6 +471,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     rend, "text", 0, NULL);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
 				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), view);
@@ -483,13 +485,13 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     "yalign", 0.5,
     NULL);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 2);
   gtk_widget_show_all(vbox);
 
 
   /* bottom area. */
   bottom = gtk_hbox_new(TRUE, 18);
-  gtk_box_pack_start(GTK_BOX(vbox), bottom, FALSE, FALSE, 6);
+  gtk_box_pack_start(GTK_BOX(vbox), bottom, FALSE, FALSE, 10);
 
   /* us. */
   vbox = gtk_vbox_new(FALSE, 18);
