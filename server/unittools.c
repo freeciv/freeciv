@@ -2773,6 +2773,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   struct player *pplayer = get_player(playerid);
   struct tile *psrctile = map_get_tile(src_x, src_y);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
+  struct city *pcity;
 
   CHECK_MAP_POS(dest_x, dest_y);
 
@@ -2871,7 +2872,17 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
       ) {
     set_unit_activity(punit, ACTIVITY_SENTRY);
   }
+
+  /* Send updated information to anyone watching.  If the unit moves
+   * in or out of a city we update the 'occupied' field.  Note there may
+   * be cities at both src and dest under some rulesets. */
   send_unit_info_to_onlookers(NULL, punit, src_x, src_y, FALSE);
+  if ((pcity = map_get_city(src_x, src_y))) {
+    refresh_dumb_city(pcity);
+  }
+  if ((pcity = map_get_city(dest_x, dest_y))) {
+    refresh_dumb_city(pcity);
+  }
 
   /* The hidden units might not have been previously revealed 
    * because when we did the unfogging, the unit was still 

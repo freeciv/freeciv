@@ -67,7 +67,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 		  bool dipl_invest);
 
 void reality_check_city(struct player *pplayer,int x, int y);
-void update_dumb_city(struct player *pplayer, struct city *pcity);
+bool update_dumb_city(struct player *pplayer, struct city *pcity);
+void refresh_dumb_city(struct city *pcity);
 
 void create_city(struct player *pplayer, const int x, const int y,
 		 const char *name);

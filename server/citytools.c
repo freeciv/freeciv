@@ -1343,6 +1343,29 @@ static void package_dumb_city(struct player* pplayer, int x, int y,
 }
 
 /**************************************************************************
+  Update plrtile information about the city, and send out information to
+  the clients if it has changed.
+**************************************************************************/
+void refresh_dumb_city(struct city *pcity)
+{
+  players_iterate(pplayer) {
+    /* This loop includes the city owner, just for consistency. */
+    if (map_get_known_and_seen(pcity->x, pcity->y, pplayer)
+	|| player_has_traderoute_with_city(pplayer, pcity)) {
+      if (update_dumb_city(pplayer, pcity)) {
+	struct packet_short_city sc_pack;
+
+	package_dumb_city(pplayer, pcity->x, pcity->y, &sc_pack);
+	lsend_packet_short_city(&pplayer->connections, &sc_pack);
+      }
+    }
+  } players_iterate_end;
+
+  /* Don't send to non-player observers since they don't have 'dumb city'
+   * information. */
+}
+
+/**************************************************************************
   Broadcast info about a city to all players who observe the tile. 
   If the player can see the city we update the city info first.
   If not we just use the info from the players private map.
@@ -1607,17 +1630,32 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 updates a players knowledge about a city. If the player_tile already
 contains a city it must be the same city (avoid problems by always calling
 reality_check city first)
+
+Returns TRUE iff anything has changed for the player city (i.e., if the
+client needs to be updated with a *short* city packet).  This information
+is only used in refresh_dumb_cities; elsewhere the data is (of necessity)
+broadcast regardless.
 **************************************************************************/
-void update_dumb_city(struct player *pplayer, struct city *pcity)
+bool update_dumb_city(struct player *pplayer, struct city *pcity)
 {
   struct player_tile *plrtile = map_get_player_tile(pcity->x, pcity->y,
 						    pplayer);
-  struct dumb_city *pdcity;
+  struct dumb_city *pdcity = plrtile->city;
+
+  if (pdcity
+      && pdcity->id == pcity->id
+      && strcmp(pdcity->name, pcity->name) == 0
+      && pdcity->size == pcity->size
+      && pdcity->has_walls == city_got_citywalls(pcity)
+      && pdcity->occupied == pcity->occupied 
+      && pdcity->owner == pcity->owner) {
+    return FALSE;
+  }
+
   if (!plrtile->city) {
-    plrtile->city = fc_malloc(sizeof(struct dumb_city));
+    pdcity = plrtile->city = fc_malloc(sizeof(struct dumb_city));
     plrtile->city->id = pcity->id;
   }
-  pdcity = plrtile->city;
   if (pdcity->id != pcity->id) {
     freelog(LOG_ERROR, "Trying to update old city (wrong ID)"
 	    " at %i,%i for player %s", pcity->x, pcity->y, pplayer->name);
@@ -1629,6 +1667,8 @@ void update_dumb_city(struct player *pplayer, struct city *pcity)
   pdcity->occupied =
       (unit_list_size(&(map_get_tile(pcity->x, pcity->y)->units)) > 0);
   pdcity->owner = pcity->owner;
+
+  return TRUE;
 }
 
 /**************************************************************************
