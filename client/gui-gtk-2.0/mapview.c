@@ -522,12 +522,12 @@ void refresh_overview_viewrect(void)
   int gui_x, gui_y;
 
   /* Copy the part of the overview to the right of map_overview_x0. */
-  gdk_draw_pixmap(overview_canvas->window, civ_gc, overview_canvas_store,
-		  x0, 0, 0, 0, x1, dy);
+  gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
+		    x0, 0, 0, 0, x1, dy);
 
   /* Copy the part of the overview to the left of map_overview_x0. */
-  gdk_draw_pixmap(overview_canvas->window, civ_gc, overview_canvas_store,
-		  0, 0, x1, 0, x0, dy)
+  gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
+		    0, 0, x1, 0, x0, dy);
 
   /* Find the origin of the mapview, in overview (gui) coordinates. */
   map_to_overview_pos(&gui_x, &gui_y,
