@@ -1723,6 +1723,7 @@ void lost_connection_to_client(struct connection *pconn)
 
   if (game.is_new_game
       && !pplayer->is_connected /* eg multiple controllers */
+      && !pplayer->ai.control    /* eg created AI player */
       && (server_state==PRE_GAME_STATE || server_state==SELECT_RACES_STATE)) {
     server_remove_player(pplayer);
   }

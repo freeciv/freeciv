@@ -3227,6 +3227,7 @@ void server_remove_player(struct player *pplayer)
     abort();
   }
 
+  freelog(LOG_NORMAL, _("Removing player %s."), pplayer->name);
   notify_player(pplayer, _("Game: You've been removed from the game!"));
 
   /* Note it is ok to remove the _current_ item in a list_iterate: */

@@ -1516,7 +1516,9 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 	      _("%s is now under human control."), pplayer->name);
 
     /* because the hard AI `cheats' with government rates but humans shouldn't */
-    check_player_government_rates(pplayer);
+    if (!game.is_new_game) {
+      check_player_government_rates(pplayer);
+    }
   }
   send_player_info(pplayer,0);
 }
