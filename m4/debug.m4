@@ -8,14 +8,12 @@ AC_ARG_ENABLE(debug,
   *)   AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
 esac], [enable_debug=some])
 
+dnl -g is added by AC_PROG_CC if the compiler understands it
 if test "x$enable_debug" = "xyes"; then
-  test "$cflags_set" = set || CFLAGS="$CFLAGS -g"
   CPPFLAGS="$CPPFLAGS -DDEBUG"
 else
   if test "x$enable_debug" = "xno"; then
     CPPFLAGS="$CPPFLAGS -DNDEBUG"
-  else
-    test "$cflags_set" = set || CFLAGS="$CFLAGS -g"
   fi
 fi
 ])
