@@ -27,6 +27,8 @@ used throughout the client.
 #include <mapctrl.h>
 #include <map.h>
 
+extern Widget outputwindow_text;
+
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -116,3 +118,15 @@ void client_remove_city(int city_id)
   }
 }
 
+void log_output_window(void)
+{ /* I have no idea what module this belongs in -- Syela */
+  String theoutput;
+  FILE *flog;
+  
+  append_output_window("Exporting output window to civgame.log ...");
+  XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
+  flog = fopen("civgame.log", "w"); /* should allow choice of name? */
+  fprintf(flog, "%s", theoutput);
+  fclose(flog);
+  append_output_window("Export complete.");
+}

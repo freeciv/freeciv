@@ -23,7 +23,7 @@
 #include <dialogs.h>
 #include <plrdlg.h>
 #include <meswindlg.h>
-#include <mapctrl.h>
+#include <mapctrl.h> 
 #include <repodlgs.h>
 #include <ratesdlg.h>
 #include <optiondlg.h>
@@ -34,7 +34,8 @@
 #include <messagedlg.h>
 #include <map.h>
 #include <gotodlg.h>
-#include <mapctrl.h>
+#include <mapctrl.h> /* good to know I'm not the only one with .h problems -- Syela */
+#include <climisc.h>
 
 enum MenuID {
   MENU_END_OF_LIST=0,
@@ -47,6 +48,7 @@ enum MenuID {
   MENU_GAME_PLAYERS,
   MENU_GAME_MESSAGES,
   MENU_GAME_SERVER_OPTIONS,
+  MENU_GAME_OUTPUT_LOG,
   MENU_GAME_QUIT,
   
   MENU_ORDER_AUTO,
@@ -108,6 +110,7 @@ struct MenuEntry game_menu_entries[]={
     { "Players",        MENU_GAME_PLAYERS, 0 },
     { "Messages",       MENU_GAME_MESSAGES, 0 },
     { "Server options", MENU_GAME_SERVER_OPTIONS, 0 },
+    { "Export log",     MENU_GAME_OUTPUT_LOG, 0 }, /* added by Syela */
     { "Quit",           MENU_GAME_QUIT, 0 },
     { 0, MENU_END_OF_LIST, 0 },
 };
@@ -179,6 +182,7 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_PLAYERS, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS, 0);
+    menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 0);
   
   }
@@ -195,6 +199,7 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_PLAYERS, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 1);
   
 
@@ -292,6 +297,9 @@ void game_menu_callback(Widget w, XtPointer client_data, XtPointer garbage)
     break;
   case MENU_GAME_SERVER_OPTIONS:
     send_report_request(REPORT_SERVER_OPTIONS);
+    break;
+  case MENU_GAME_OUTPUT_LOG:
+    log_output_window();
     break;
   case MENU_GAME_QUIT:
     exit(0);

@@ -862,7 +862,7 @@
 "*reportcityform.bottom:              chainBottom",
 "*reportcityform.left:                chainLeft",
 "*reportcityform.right:               chainRight",
-"*reportcitylabel.width:              400",
+"*reportcitylabel.width:              500",
 "*reportcitylabel.justify:            center",
 "*reportcitylabel.borderWidth:        0",
 "*reportcitylabel.background:         lightblue",
