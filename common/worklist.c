@@ -212,6 +212,9 @@ bool are_worklists_equal(const struct worklist *wlist1,
 {
   int i, len = worklist_length(wlist1);
 
+  if (wlist1->is_valid != wlist2->is_valid) {
+    return FALSE;
+  }
   if (worklist_length(wlist2) != len) {
     return FALSE;
   }
