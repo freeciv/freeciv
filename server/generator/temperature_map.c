@@ -103,7 +103,9 @@ void create_tmap(bool real)
   /* Notice: if colatitude is load from a scenario never call adjust has
              scenario maybe has a odd colatitude ditribution and adjust will
 	     brack it */
-  adjust_int_map(temperature_map, MAX_COLATITUDE);
+  if (!map.alltemperate) {
+    adjust_int_map(temperature_map, MAX_COLATITUDE);
+  }
   /* now simplify to 4 base values */ 
   for (i = 0; i < MAX_MAP_INDEX; i++) {
     int t = temperature_map[i];
