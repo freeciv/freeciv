@@ -22,7 +22,7 @@
 #include "gamelog.h"
 #include "report.h"
 #include "settings.h"
-#include "stdinhand_info.h"
+#include "stdinhand.h"
 
 /* Category names must match the values in enum sset_category. */
 const char *sset_category_names[] = {N_("Geological"),
@@ -42,6 +42,149 @@ const char *sset_level_names[] = {N_("None"),
 				  N_("Rare")};
 const int OLEVELS_NUM = ARRAY_SIZE(sset_level_names);
 
+
+/**************************************************************************
+  Verify that notradesize is always smaller than fulltradesize
+**************************************************************************/
+static bool notradesize_callback(int value, const char **error_message)
+{
+  if (value < game.fulltradesize) {
+    return TRUE;
+  }
+
+  *error_message = _("notradesize must be always smaller than "
+		     "fulltradesize; keeping old value.");
+  return FALSE;
+}
+
+/**************************************************************************
+  Verify that fulltradesize is always bigger than notradesize
+**************************************************************************/
+static bool fulltradesize_callback(int value, const char **error_message)
+{
+  if (value > game.notradesize) {
+    return TRUE;
+  }
+
+  *error_message = _("fulltradesize must be always bigger than "
+		     "notradesize; keeping old value.");
+  return FALSE;
+}
+
+/**************************************************************************
+  A callback invoked when autotoggle is set.
+**************************************************************************/
+static bool autotoggle_callback(bool value, const char **reject_message)
+{
+  reject_message = NULL;
+  if (!value) {
+    return TRUE;
+  }
+
+  players_iterate(pplayer) {
+    if (!pplayer->ai.control && !pplayer->is_connected) {
+      toggle_ai_player_direct(NULL, pplayer);
+    }
+  } players_iterate_end;
+
+  return TRUE;
+}
+
+/*************************************************************************
+  Verify that a given allowtake string is valid.  See
+  game.allow_take.
+*************************************************************************/
+static bool allowtake_callback(const char *value, const char **error_string)
+{
+  int len = strlen(value), i;
+  bool havecharacter_state = FALSE;
+
+  /* We check each character individually to see if it's valid.  This
+   * does not check for duplicate entries.
+   *
+   * We also track the state of the machine.  havecharacter_state is
+   * true if the preceeding character was a primary label, e.g.
+   * NHhAadb.  It is false if the preceeding character was a modifier
+   * or if this is the first character. */
+
+  for (i = 0; i < len; i++) {
+    /* Check to see if the character is a primary label. */
+    if (strchr("HhAadb", value[i])) {
+      havecharacter_state = TRUE;
+      continue;
+    }
+
+    /* If we've already passed a primary label, check to see if the
+     * character is a modifier. */
+    if (havecharacter_state && strchr("1234", value[i])) {
+      havecharacter_state = FALSE;
+      continue;
+    }
+
+    /* Looks like the character was invalid. */
+    *error_string = _("Allowed take string contains invalid\n"
+		      "characters.  Try \"help allowtake\".");
+    return FALSE;
+  }
+
+  /* All characters were valid. */
+  *error_string = NULL;
+  return TRUE;
+}
+
+/*************************************************************************
+  Verify that a given startunits string is valid.  See
+  game.start_units.
+*************************************************************************/
+static bool startunits_callback(const char *value, const char **error_string)
+{
+  int len = strlen(value), i;
+  bool have_founder = FALSE;
+
+  /* We check each character individually to see if it's valid, and
+   * also make sure there is at least one city founder. */
+
+  for (i = 0; i < len; i++) {
+    /* Check for a city founder */
+    if (value[i] == 'c') {
+      have_founder = TRUE;
+      continue;
+    }
+    if (strchr("cwxksfdDaA", value[i])) {
+      continue;
+    }
+
+    /* Looks like the character was invalid. */
+    *error_string = _("Starting units string contains invalid\n"
+		      "characters.  Try \"help startunits\".");
+    return FALSE;
+  }
+
+  if (!have_founder) {
+    *error_string = _("Starting units string does not contain\n"
+		      "at least one city founder.  Try \n"
+		      "\"help startunits\".");
+    return FALSE;
+  }
+  /* All characters were valid. */
+  *error_string = NULL;
+  return TRUE;
+}
+
+/*************************************************************************
+  Verify that a given maxplayers string is valid.
+*************************************************************************/
+static bool maxplayers_callback(int value, const char **error_string)
+{
+  if (value < game.nplayers) {
+    *error_string =_("Number of players is higher than requested value; "
+		     "Keeping old value.");
+    return FALSE;
+  }
+
+  error_string = NULL;
+  return TRUE;
+}
 
 #define GEN_BOOL(name, value, sclass, scateg, slevel, to_client,	\
 		 short_help, extra_help, func, default)			\
@@ -239,7 +382,7 @@ struct settings_s settings[] = {
           N_("The maximal number of human and AI players who can be in "
              "the game. When this number of players are connected in "
              "the pregame state, any new players who try to connect "
-             "will be rejected."), valid_max_players,
+             "will be rejected."), maxplayers_callback,
 	  GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS)
 
   GEN_INT("aifill", game.aifill,
@@ -271,7 +414,7 @@ struct settings_s settings[] = {
 		"    D   = Good defense unit (eg. Phalanx)\n"
 		"    a   = Fast attack unit (eg. Horsemen)\n"
 		"    A   = Strong attack unit (eg. Catapult)\n"),
-		is_valid_startunits, GAME_DEFAULT_START_UNITS)
+		startunits_callback, GAME_DEFAULT_START_UNITS)
 
   GEN_INT("dispersion", game.dispersion,
 	  SSET_GAME_INIT, SSET_SOCIOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
@@ -360,7 +503,7 @@ struct settings_s settings[] = {
 	     "The penalty is 100% (no trade at all) for sizes up to "
 	     "notradesize, and decreases gradually to 0% (no penalty "
 	     "except the normal corruption) for size=fulltradesize.  "
-	     "See also notradesize."), valid_fulltradesize, 
+	     "See also notradesize."), fulltradesize_callback, 
 	  GAME_MIN_FULLTRADESIZE, GAME_MAX_FULLTRADESIZE, 
 	  GAME_DEFAULT_FULLTRADESIZE)
 
@@ -371,7 +514,7 @@ struct settings_s settings[] = {
 	     "produce trade at all. The produced trade increases "
 	     "gradually for cities larger than notradesize and smaller "
 	     "than fulltradesize.  See also fulltradesize."),
-	  valid_notradesize,
+	  notradesize_callback,
 	  GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE,
 	  GAME_DEFAULT_NOTRADESIZE)
 
@@ -675,14 +818,14 @@ struct settings_s settings[] = {
                 "     4 = No controller allowed, observers allowed;\n\n"
                 "* \"Displacing a connection\" means that you may take over "
                 "a player that another user already has control of."),
-                is_valid_allowtake, GAME_DEFAULT_ALLOW_TAKE)
+                allowtake_callback, GAME_DEFAULT_ALLOW_TAKE)
 
   GEN_BOOL("autotoggle", game.auto_ai_toggle,
 	   SSET_META, SSET_NETWORK, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	   N_("Whether AI-status toggles with connection"),
 	   N_("If this is set to 1, AI status is turned off when a player "
-	      "connects, and on when a player disconnects."), autotoggle, 
-	   GAME_DEFAULT_AUTO_AI_TOGGLE)
+	      "connects, and on when a player disconnects."),
+	   autotoggle_callback, GAME_DEFAULT_AUTO_AI_TOGGLE)
 
   GEN_INT("endyear", game.end_year,
 	  SSET_META, SSET_SOCIOLOGY, SSET_TO_CLIENT, SSET_VITAL,
@@ -770,8 +913,7 @@ struct settings_s settings[] = {
 		"    r = display \"rank\" column\n"
 		"    b = display \"best nation\" column\n"
 		"(The order of these characters is not significant, but their case is.)"),
-	     is_valid_demography,
-	     GAME_DEFAULT_DEMOGRAPHY)
+	     is_valid_demography, GAME_DEFAULT_DEMOGRAPHY)
 
   GEN_INT("saveturns", game.save_nturns,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,

@@ -13,15 +13,6 @@
 #ifndef FC__STDINHAND_C_H
 #define FC__STDINHAND_C_H
 
-bool valid_notradesize(int value, const char **reject_message);
-bool valid_fulltradesize(int value, const char **reject_message);
-bool autotoggle(bool value, const char **reject_message);
-bool is_valid_allowtake(const char *allow_take,
-                          const char **error_string);
-bool is_valid_startunits(const char *start_units,
-                         const char **error_string);
-bool valid_max_players(int v, const char **r_m);
-
 bool sset_is_changeable(int idx);
 
 #define SSET_MAX_LEN  16             /* max setting name length (plus nul) */
