@@ -1,5 +1,6 @@
 # List of source files containing translatable strings.
 # (Filenames relative to toplevel dir.)
+common/city.c
 common/log.c
 common/map.c
 common/mem.c
