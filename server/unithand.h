@@ -48,6 +48,10 @@ void handle_unit_auto_request(struct player *pplayer,
 			      struct packet_unit_request *req);
 void handle_unit_activity_request(struct player *pplayer, struct unit *punit, 
 				  enum unit_activity new_activity);
+void handle_unit_activity_request_targeted(struct player *pplayer,
+					   struct unit *punit, 
+					   enum unit_activity new_activity,
+					   int new_target);
 void handle_unit_unload_request(struct player *pplayer, 
 				struct packet_unit_request *req);
 void handle_unit_nuke(struct player *pplayer, 

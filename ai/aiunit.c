@@ -135,7 +135,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   if (best <= lmt * 3) {
     punit->goto_dest_x = dest_x;
     punit->goto_dest_y = dest_y;
-    punit->activity = ACTIVITY_GOTO;
+    set_unit_activity(punit, ACTIVITY_GOTO);
     do_unit_goto(pplayer, punit);
     return; /* maybe have moves left but I want to return anyway. */
   }
@@ -212,7 +212,7 @@ void ai_manage_explorer(struct player *pplayer, struct unit *punit)
   if (best > 0) {
     punit->goto_dest_x = dest_x;
     punit->goto_dest_y = dest_y;
-    punit->activity = ACTIVITY_GOTO;
+    set_unit_activity(punit, ACTIVITY_GOTO);
     do_unit_goto(pplayer, punit);
     return;
   }
@@ -632,7 +632,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
       if (!same_pos(x, y, bx, by)) {
         punit->goto_dest_x = bx;
         punit->goto_dest_y = by;
-        punit->activity = ACTIVITY_GOTO;
+	set_unit_activity(punit, ACTIVITY_GOTO);
         do_unit_goto(pplayer,punit);
         if (!unit_list_find(&pplayer->units, id)) return(-1); /* died */
       }
@@ -709,7 +709,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 		unit_types[punit->type].name, punit->id,
 		punit->x, punit->y, dest_x, dest_y);
       }
-      punit->activity = ACTIVITY_GOTO;
+      set_unit_activity(punit, ACTIVITY_GOTO);
       do_unit_goto(pplayer,punit);
       /* liable to bump into someone that will kill us.  Should avoid? */
     } else {
@@ -906,7 +906,7 @@ void ai_military_gohome(struct player *pplayer,struct unit *punit)
 		   punit->goto_dest_x, punit->goto_dest_y);
       punit->goto_dest_x=pcity->x;
       punit->goto_dest_y=pcity->y;
-      punit->activity=ACTIVITY_GOTO;
+      set_unit_activity(punit, ACTIVITY_GOTO);
       do_unit_goto(pplayer,punit);
     }
   } else {
@@ -1396,7 +1396,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   if (best < 4 * unit_types[punit->type].move_rate) {
     punit->goto_dest_x = x;
     punit->goto_dest_y = y;
-    punit->activity = ACTIVITY_GOTO;
+    set_unit_activity(punit, ACTIVITY_GOTO);
     do_unit_goto(pplayer,punit);
     if ((punit = unit_list_find(&pplayer->units, id)))
       set_unit_activity(punit, ACTIVITY_IDLE);
@@ -1413,7 +1413,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       freelog(LOG_DEBUG, "No friends.  Going home.");
       punit->goto_dest_x = pcity->x;
       punit->goto_dest_y = pcity->y;
-      punit->activity = ACTIVITY_GOTO;
+      set_unit_activity(punit, ACTIVITY_GOTO);
       do_unit_goto(pplayer,punit);
       return;
     }

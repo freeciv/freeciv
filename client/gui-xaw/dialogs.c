@@ -120,6 +120,9 @@ void unit_select_all_callback(Widget w, XtPointer client_data,
 
 int is_showing_government_dialog;
 
+int is_showing_pillage_dialog = FALSE;
+struct unit *unit_to_use_to_pillage;
+
 int caravan_city_id;
 int caravan_unit_id;
 
@@ -1198,6 +1201,72 @@ void popup_revolution_dialog(void)
 		       revolution_callback_yes, 0,
 		       revolution_callback_no, 0, 
 		       0);
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
+static void pillage_callback(Widget w, XtPointer client_data, 
+			     XtPointer call_data)
+{
+  if (!is_showing_pillage_dialog) {
+    destroy_message_dialog (w);
+    return;
+  }
+
+  if (client_data) {
+    request_new_unit_activity_targeted (unit_to_use_to_pillage,
+					ACTIVITY_PILLAGE,
+					(int)client_data);
+  }
+
+  destroy_message_dialog (w);
+  is_showing_pillage_dialog = FALSE;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void popup_pillage_dialog(struct unit *punit, int may_pillage)
+{
+  Widget shell, form, dlabel, button, prev;
+  int what;
+
+  if (is_showing_pillage_dialog) {
+    return;
+  }
+  is_showing_pillage_dialog = TRUE;
+  unit_to_use_to_pillage = punit;
+
+  XtSetSensitive (toplevel, FALSE);
+
+  shell = XtCreatePopupShell ("pillagedialog", transientShellWidgetClass,
+			      toplevel, NULL, 0);
+  form = XtVaCreateManagedWidget ("form", formWidgetClass, shell, NULL);
+  dlabel = XtVaCreateManagedWidget ("dlabel", labelWidgetClass, form, NULL);
+
+  prev = dlabel;
+  while (may_pillage) {
+    what = get_preferred_pillage (may_pillage);
+    button =
+      XtVaCreateManagedWidget ("button", commandWidgetClass, form,
+			       XtNfromVert, prev,
+			       XtNlabel,
+			         (XtArgVal)(map_get_infrastructure_text (what)),
+			       NULL);
+    XtAddCallback (button, XtNcallback, pillage_callback, (XtPointer)what);
+    prev = button;
+    may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
+  }
+  button =
+    XtVaCreateManagedWidget ("closebutton", commandWidgetClass, form,
+			     XtNfromVert, prev,
+			     NULL);
+  XtAddCallback (button, XtNcallback, pillage_callback, NULL);
+
+  xaw_set_relative_position (toplevel, shell, 10, 0);
+  XtPopup (shell, XtGrabNone);
 }
 
 

@@ -733,8 +733,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
 {
   punit->goto_dest_x=map_adjust_x(x);
   punit->goto_dest_y=map_adjust_y(y);
-  punit->activity=ACTIVITY_GOTO;
-  punit->activity_count=0;
+  set_unit_activity(punit, ACTIVITY_GOTO);
   send_unit_info(0, punit, 0);
   do_unit_goto(pplayer, punit);
   return 1;

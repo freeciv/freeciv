@@ -132,23 +132,9 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 				     NULL);
     }
 
-    if(ptile->special&S_ROAD || ptile->special&S_IRRIGATION ||
-       ptile->special&S_RAILROAD || ptile->special&S_MINE ||
-       ptile->special&S_FORTRESS || ptile->special&S_FARMLAND) {
-      sprintf(s, "Infrastructure: ");
-      if(ptile->special&S_ROAD)
-	strcat(s, "Road/");
-      if(ptile->special&S_RAILROAD)
-	strcat(s, "Railroad/");
-      if(ptile->special&S_IRRIGATION)
-	strcat(s, "Irrigation/");
-      if(ptile->special&S_FARMLAND)
-	strcat(s, "Farmland/");
-      if(ptile->special&S_MINE)
-	strcat(s, "Mine/");
-      if(ptile->special&S_FORTRESS)
-	strcat(s, "Fortress/");
-      *(s+strlen(s)-1)='\0';
+    if(get_tile_infrastructure_set(ptile)) {
+      strcpy(s, "Infrastructure: ");
+      strcat(s, map_get_infrastructure_text(ptile->special));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
 				     NULL);

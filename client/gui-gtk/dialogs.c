@@ -90,6 +90,9 @@ int race_selected;
 
 int is_showing_government_dialog;
 
+int is_showing_pillage_dialog = FALSE;
+struct unit *unit_to_use_to_pillage;
+
 int caravan_city_id;
 int caravan_unit_id;
 
@@ -1185,6 +1188,87 @@ void popup_revolution_dialog(void)
 }
 
 
+/****************************************************************
+...
+*****************************************************************/
+static void pillage_callback(GtkWidget *w, gpointer data)
+{
+  if (!is_showing_pillage_dialog) {
+    destroy_message_dialog (w);
+    return;
+  }
+
+  if (data) {
+    request_new_unit_activity_targeted (unit_to_use_to_pillage,
+					ACTIVITY_PILLAGE,
+					(int)data);
+  }
+
+  destroy_message_dialog (w);
+  is_showing_pillage_dialog = FALSE;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void popup_pillage_dialog(struct unit *punit, int may_pillage)
+{
+  GtkWidget *dshell, *button, *dlabel, *vbox;
+  int what;
+
+  if (!is_showing_pillage_dialog) {
+    is_showing_pillage_dialog = TRUE;
+    unit_to_use_to_pillage = punit;
+
+    gtk_widget_set_sensitive (toplevel, FALSE);
+
+    dshell = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
+
+    gtk_signal_connect (
+      GTK_OBJECT (dshell),
+      "delete_event",
+      GTK_SIGNAL_FUNC (popup_mes_del_callback),
+      (gpointer)toplevel
+    );
+
+    gtk_window_set_title (GTK_WINDOW(dshell), "What To Pillage");
+
+    vbox = gtk_vbox_new (0,TRUE);
+    gtk_container_add (GTK_CONTAINER (dshell), vbox);
+
+    gtk_container_border_width (GTK_CONTAINER (vbox), 5);
+
+    dlabel = gtk_label_new ("Select what to pillage:");
+    gtk_box_pack_start (GTK_BOX (vbox), dlabel, TRUE, FALSE, 0);
+
+    gtk_object_set_data (GTK_OBJECT (vbox), "parent", (gpointer)toplevel);
+
+    while (may_pillage) {
+      what = get_preferred_pillage (may_pillage);
+      button = gtk_button_new_with_label (map_get_infrastructure_text (what));
+      gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, FALSE, 0);
+      gtk_signal_connect (
+        GTK_OBJECT (button),
+        "clicked",
+        GTK_SIGNAL_FUNC (pillage_callback),
+        (gpointer)what
+      );
+      may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
+    }
+    button = gtk_button_new_with_label ("Cancel");
+    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, FALSE, 0);
+    gtk_signal_connect (
+      GTK_OBJECT (button),
+      "clicked",
+      GTK_SIGNAL_FUNC (pillage_callback),
+      NULL
+    );
+
+    gtk_widget_show_all (vbox);
+    gtk_widget_show (dshell);
+  }
+}
 
 
 /****************************************************************

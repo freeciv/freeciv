@@ -83,6 +83,7 @@ struct unit {
   enum unit_activity activity;
   int goto_dest_x, goto_dest_y;
   int activity_count;
+  int activity_target;
   enum unit_focus_status focus_status;
   int ord_map, ord_city;
   /* ord_map and ord_city are the order index of this unit in tile.units
@@ -211,8 +212,14 @@ int unit_can_airlift_to(struct unit *punit, struct city *pcity);
 
 int can_unit_change_homecity(struct unit *punit);
 int can_unit_do_activity(struct unit *punit, enum unit_activity activity);
+int can_unit_do_activity_targeted(struct unit *punit,
+				  enum unit_activity activity, int target);
+void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
+void set_unit_activity_targeted(struct unit *punit,
+				enum unit_activity new_activity, int new_target);
 int can_unit_do_auto(struct unit *punit); 
 int is_unit_activity_on_tile(enum unit_activity activity, int x, int y);
+int get_unit_tile_pillage_set(int x, int y);
 int unit_value(enum unit_type_id id);
 int is_military_unit(struct unit *this_unit);           /* !set !dip !cara */
 int is_ground_threat(struct player *pplayer, struct unit *punit);

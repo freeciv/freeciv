@@ -285,7 +285,7 @@ static void orders_menu_callback(gpointer callback_data,
     break;
    case MENU_ORDER_PILLAGE:
     if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_PILLAGE);
+      request_unit_pillage(get_unit_in_focus());
      break;
    case MENU_ORDER_EXPLORE:
     if(get_unit_in_focus())

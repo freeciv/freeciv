@@ -23,6 +23,9 @@ void do_map_click(int xtile, int ytile);
 void request_center_focus_unit(void);
 void request_move_unit_direction(struct unit *punit, int dx, int dy); /* used by key_xxx */
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
+void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity act,
+					int tgt);
+void request_unit_pillage(struct unit *punit);
 void request_unit_auto(struct unit *punit);
 void request_unit_build_city(struct unit *punit);
 void request_unit_caravan_action(struct unit *punit, enum packet_type action);

@@ -2285,10 +2285,20 @@ Freeciv*upgradenodialog.*.button0.fromVert:  dlabel
 !
 ! government dialog
 !
-Freeciv*governmentdialog.title: Choose Your New Government
-Freeciv*governmentdialog.*.dlabel.borderWidth:  0
-Freeciv*governmentdialog.*.dlabel.label: Select government type:
-Freeciv*governmentdialog.*.button.width: 200
+Freeciv*governmentdialog.title:			Your New Government
+Freeciv*governmentdialog.*.dlabel.borderWidth:	0
+Freeciv*governmentdialog.*.dlabel.label:	Select government type:
+Freeciv*governmentdialog.*.button.width:	200
+
+!
+! pillage dialog
+!
+Freeciv*pillagedialog.title:			What To Pillage
+Freeciv*pillagedialog.*.dlabel.borderWidth:	0
+Freeciv*pillagedialog.*.dlabel.label:		Select what to pillage:
+Freeciv*pillagedialog.*.button.width:		200
+Freeciv*pillagedialog.*.closebutton.width:	200
+Freeciv*pillagedialog.*.closebutton.label:	Cancel
 
 !
 ! leftcolumnform

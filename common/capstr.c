@@ -70,7 +70,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
     " +terrainrulesets1 +governmentrulesets1 +num_units +tilespec" \
-    " +ruleset_control"
+    " +ruleset_control +ask_pillage"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
@@ -96,6 +96,8 @@ const char * const our_capability = our_capability_internal;
    
    "ruleset_control" means new ruleset_control packet, and related
    new handling of some ruleset info.
+
+   "ask_pillage" means that the player is asked for what to pillage.
 */
 
 void init_our_capability(void)

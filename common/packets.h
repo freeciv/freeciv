@@ -263,6 +263,7 @@ struct packet_unit_info {
   int ai;
   int fuel;
   int goto_dest_x, goto_dest_y;
+  int activity_target;
 };
 
 

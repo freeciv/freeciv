@@ -345,7 +345,46 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
   struct unit req_unit;
   req_unit=*punit;
   req_unit.activity=act;
+  req_unit.activity_target=0;
   send_unit_info(&req_unit);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity act,
+					int tgt)
+{
+  struct unit req_unit;
+  req_unit=*punit;
+  req_unit.activity=act;
+  req_unit.activity_target=tgt;
+  send_unit_info(&req_unit);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void request_unit_pillage(struct unit *punit)
+{
+  struct tile * ptile;
+  int pspresent;
+  int psworking;
+  int what;
+  int would;
+
+  ptile = map_get_tile(punit->x, punit->y);
+  pspresent = get_tile_infrastructure_set(ptile);
+  psworking = get_unit_tile_pillage_set(punit->x, punit->y);
+  what = get_preferred_pillage(pspresent & (~psworking));
+  would = what | map_get_infrastructure_prerequisite (what);
+
+  if ((game.civstyle==2) &&
+      ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {
+    popup_pillage_dialog(punit, pspresent & (~psworking));
+  } else {
+    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, what);
+  }
 }
 
 /**************************************************************************
@@ -789,7 +828,7 @@ void key_unit_clean_pollution(void)
 void key_unit_pillage(void)
 {
   if(get_unit_in_focus())
-    request_new_unit_activity(punit_focus, ACTIVITY_PILLAGE);
+    request_unit_pillage(punit_focus);
 }
 
 /**************************************************************************

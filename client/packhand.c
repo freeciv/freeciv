@@ -379,7 +379,8 @@ void handle_unit_info(struct packet_unit_info *packet)
   punit=unit_list_find(&game.players[packet->owner].units, packet->id);
   
   if(punit) {
-    if(punit->activity!=packet->activity) { /* change activity */
+    if((punit->activity!=packet->activity)         /* change activity */
+       || (punit->activity_target!=packet->activity_target)) { /*   or act's target */
       repaint_unit=1;
       if(wakeup_focus && (punit->owner==game.player_idx)
                       && (punit->activity==ACTIVITY_SENTRY)) {
@@ -388,6 +389,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       }
 
       punit->activity=packet->activity;
+      punit->activity_target=packet->activity_target;
 
       if(punit->owner==game.player_idx) 
         refresh_unit_city_dialogs(punit);
@@ -529,6 +531,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->fuel=packet->fuel;
     punit->goto_dest_x=packet->goto_dest_x;
     punit->goto_dest_y=packet->goto_dest_y;
+    punit->activity_target=packet->activity_target;
     punit->ai.control=packet->ai;
     
     punit->activity_count=0;	/* never used in client/ or common/  --dwp */

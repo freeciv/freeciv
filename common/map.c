@@ -511,6 +511,81 @@ int get_tile_trade_base(struct tile * ptile)
 /***************************************************************
 ...
 ***************************************************************/
+int get_tile_infrastructure_set(struct tile * ptile)
+{
+  return
+    ptile->special &
+    (S_ROAD | S_RAILROAD | S_IRRIGATION | S_FARMLAND | S_MINE | S_FORTRESS);
+}
+
+/***************************************************************
+  Return a (static) string with special(s) name(s);
+  eg: "Mine"
+  eg: "Road/Irrigation/Farmland"
+***************************************************************/
+char *map_get_infrastructure_text(int spe)
+{
+  static char s[64];
+
+  *s = '\0';
+
+  if(spe&S_ROAD)
+    strcat(s, "Road/");
+  if(spe&S_RAILROAD)
+    strcat(s, "Railroad/");
+  if(spe&S_IRRIGATION)
+    strcat(s, "Irrigation/");
+  if(spe&S_FARMLAND)
+    strcat(s, "Farmland/");
+  if(spe&S_MINE)
+    strcat(s, "Mine/");
+  if(spe&S_FORTRESS)
+    strcat(s, "Fortress/");
+
+  if(*s)
+    *(s+strlen(s)-1)='\0';
+
+  return (s);
+}
+
+/***************************************************************
+...
+***************************************************************/
+int map_get_infrastructure_prerequisite(int spe)
+{
+  int prereq = S_NO_SPECIAL;
+
+  if (spe&S_RAILROAD)
+    prereq|=S_ROAD;
+  if (spe&S_FARMLAND)
+    prereq|=S_IRRIGATION;
+
+  return (prereq);
+}
+
+/***************************************************************
+...
+***************************************************************/
+int get_preferred_pillage(int pset)
+{
+  if(pset&S_FARMLAND)
+    return S_FARMLAND;
+  if(pset&S_IRRIGATION)
+    return S_IRRIGATION;
+  if(pset&S_MINE)
+    return S_MINE;
+  if(pset&S_FORTRESS)
+    return S_FORTRESS;
+  if(pset&S_RAILROAD)
+    return S_RAILROAD;
+  if(pset&S_ROAD)
+    return S_ROAD;
+  return S_NO_SPECIAL;
+}
+
+/***************************************************************
+...
+***************************************************************/
 int is_water_adjacent_to_tile(int x, int y)
 {
   struct tile *ptile, *ptile_n, *ptile_e, *ptile_s, *ptile_w;

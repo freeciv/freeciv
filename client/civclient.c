@@ -316,6 +316,7 @@ void send_unit_info(struct unit *punit)
   info.type=punit->type;
   info.movesleft=punit->moves_left;
   info.activity=punit->activity;
+  info.activity_target=punit->activity_target;
 
   send_packet_unit_info(&aconnection, &info);
 }

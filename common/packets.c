@@ -1351,6 +1351,7 @@ int send_packet_unit_info(struct connection *pc,
   cptr=put_int8(cptr, req->activity_count);
   cptr=put_int8(cptr, req->goto_dest_x);
   cptr=put_int8(cptr, req->goto_dest_y);
+  cptr=put_int16(cptr, req->activity_target);
   if(req->fuel) cptr=put_int8(cptr, req->fuel);
   
   put_int16(buffer, cptr-buffer);
@@ -1526,6 +1527,7 @@ receive_packet_unit_info(struct connection *pc)
   iget_int8(&iter, &packet->activity_count);
   iget_int8(&iter, &packet->goto_dest_x);
   iget_int8(&iter, &packet->goto_dest_y);
+  iget_int16(&iter, &packet->activity_target);
   if (pack_iter_remaining(&iter) >= 1) {
     iget_int8(&iter, &packet->fuel);
   } else {

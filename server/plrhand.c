@@ -1883,7 +1883,10 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     punit->activity_count=secfile_lookup_int(file, 
 					     "player%d.u%d.activity_count",
 					     plrno, i);
-    
+    punit->activity_target=secfile_lookup_int_default(file, 0,
+						"player%d.u%d.activity_target",
+						plrno, i);
+
     punit->goto_dest_x=secfile_lookup_int(file, 
 					  "player%d.u%d.goto_x", plrno,i);
     punit->goto_dest_y=secfile_lookup_int(file, 
@@ -2004,6 +2007,9 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
 				plrno, i);
     secfile_insert_int(file, punit->activity_count, 
 				"player%d.u%d.activity_count",
+				plrno, i);
+    secfile_insert_int(file, punit->activity_target, 
+				"player%d.u%d.activity_target",
 				plrno, i);
     secfile_insert_int(file, punit->moves_left, "player%d.u%d.moves",
 		                plrno, i);

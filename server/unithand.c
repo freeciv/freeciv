@@ -56,8 +56,7 @@ void handle_unit_goto_tile(struct player *pplayer,
     punit->goto_dest_x=req->x;
     punit->goto_dest_y=req->y;
 
-    punit->activity=ACTIVITY_GOTO;
-    punit->activity_count=0;
+    set_unit_activity(punit, ACTIVITY_GOTO);
 
     send_unit_info(0, punit, 0);
       
@@ -456,12 +455,14 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
       punit->ai.control=0;
       handle_unit_move_request(pplayer, punit, pinfo->x, pinfo->y);
     }
-    else if(punit->activity!=pinfo->activity || punit->ai.control==1) {
+    else if(punit->activity!=pinfo->activity || punit->activity_target!=pinfo->activity_target ||
+	    punit->ai.control==1) {
       /* Treat change in ai.control as change in activity, so
        * idle autosettlers behave correctly when selected --dwp
        */
       punit->ai.control=0;
-      handle_unit_activity_request(pplayer, punit, pinfo->activity);
+      handle_unit_activity_request_targeted(pplayer, punit,
+					    pinfo->activity, pinfo->activity_target);
     }
   }
 }
@@ -1214,7 +1215,30 @@ void handle_unit_auto_request(struct player *pplayer,
   punit->ai.control=1;
   send_unit_info(pplayer, punit, 0);
 }
- 
+
+/**************************************************************************
+...
+**************************************************************************/
+static void handle_unit_activity_dependencies(struct unit *punit,
+					      enum unit_activity old_activity,
+					      int old_target)
+{
+  if (punit->activity == ACTIVITY_IDLE) {
+    if (old_activity == ACTIVITY_PILLAGE) {
+      int prereq = map_get_infrastructure_prerequisite(old_target);
+      if (prereq) {
+	unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2)
+	  if ((punit2->activity == ACTIVITY_PILLAGE) &&
+	      (punit2->activity_target == prereq)) {
+	    set_unit_activity(punit2, ACTIVITY_IDLE);
+	    send_unit_info(0, punit2, 0);
+	  }
+	unit_list_iterate_end;
+      }
+    }
+  }
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1222,9 +1246,28 @@ void handle_unit_activity_request(struct player *pplayer, struct unit *punit,
 				  enum unit_activity new_activity)
 {
   if(can_unit_do_activity(punit, new_activity)) {
-    punit->activity=new_activity;
-    punit->activity_count=0;
+    enum unit_activity old_activity = punit->activity;
+    int old_target = punit->activity_target;
+    set_unit_activity(punit, new_activity);
     send_unit_info(0, punit, 0);
+    handle_unit_activity_dependencies(punit, old_activity, old_target);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_unit_activity_request_targeted(struct player *pplayer,
+					   struct unit *punit, 
+					   enum unit_activity new_activity,
+					   int new_target)
+{
+  if(can_unit_do_activity_targeted(punit, new_activity, new_target)) {
+    enum unit_activity old_activity = punit->activity;
+    int old_target = punit->activity_target;
+    set_unit_activity_targeted(punit, new_activity, new_target);
+    send_unit_info(0, punit, 0);
+    handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
 

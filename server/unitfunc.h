@@ -60,7 +60,6 @@ int get_total_attack_power(struct unit *attacker, struct unit *defender);
 int get_total_defense_power(struct unit *attacker, struct unit *defender);
 int get_simple_defense_power(int d_type, int x, int y);
 int get_virtual_defense_power(int a_type, int d_type, int x, int y);
-void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void do_nuke_tile(int x, int y);
 void do_nuclear_explosion(int x, int y);
 int try_move_unit(struct unit *punit, int dest_x, int dest_y); 

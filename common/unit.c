@@ -747,6 +747,15 @@ int can_unit_do_auto(struct unit *punit)
 **************************************************************************/
 int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 {
+  return can_unit_do_activity_targeted(punit, activity, 0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int can_unit_do_activity_targeted(struct unit *punit,
+				  enum unit_activity activity, int target)
+{
   struct tile *ptile;
   struct tile_type *type;
   struct player *pplayer;
@@ -828,11 +837,20 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 	   get_invention(&game.players[punit->owner], A_RAILROAD)==TECH_KNOWN;
 
   case ACTIVITY_PILLAGE:
-    return is_ground_unit(punit) && punit->moves_left &&
-           ((ptile->special&S_ROAD) || (ptile->special&S_RAILROAD) ||
-	    (ptile->special&S_FORTRESS) || (ptile->special&S_FARMLAND) ||
-	    (ptile->special&S_IRRIGATION) || (ptile->special&S_MINE)) &&
-	   !is_unit_activity_on_tile(ACTIVITY_PILLAGE, punit->x, punit->y);
+    {
+      int pspresent;
+      int psworking;
+      pspresent = get_tile_infrastructure_set(ptile);
+      if (pspresent && is_ground_unit(punit) && punit->moves_left) {
+	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
+	if (target == S_NO_SPECIAL)
+	  return ((pspresent & (~psworking)) != 0);
+	else
+	  return ((pspresent & (~psworking) & target) != 0);
+      } else {
+	return 0;
+      }
+    }
 
   case ACTIVITY_TRANSFORM:
     return terrain_control.may_transform &&
@@ -847,6 +865,27 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 }
 
 /**************************************************************************
+  assign a new task to a unit.
+**************************************************************************/
+void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
+{
+  punit->activity=new_activity;
+  punit->activity_count=0;
+  punit->activity_target=0;
+}
+
+/**************************************************************************
+  assign a new targeted task to a unit.
+**************************************************************************/
+void set_unit_activity_targeted(struct unit *punit,
+				enum unit_activity new_activity, int new_target)
+{
+  punit->activity=new_activity;
+  punit->activity_count=0;
+  punit->activity_target=new_target;
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 int is_unit_activity_on_tile(enum unit_activity activity, int x, int y)
@@ -856,6 +895,19 @@ int is_unit_activity_on_tile(enum unit_activity activity, int x, int y)
       return 1;
   unit_list_iterate_end;
   return 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int get_unit_tile_pillage_set(int x, int y)
+{
+  int tgt_ret = S_NO_SPECIAL;
+  unit_list_iterate(map_get_tile(x, y)->units, punit)
+    if(punit->activity==ACTIVITY_PILLAGE)
+      tgt_ret |= punit->activity_target;
+  unit_list_iterate_end;
+  return tgt_ret;
 }
 
 /**************************************************************************
@@ -935,7 +987,13 @@ char *unit_activity_text(struct unit *punit)
    case ACTIVITY_SENTRY:
     return "Sentry";
    case ACTIVITY_PILLAGE:
-    return "Pillage";
+     if(punit->activity_target == 0) {
+       return "Pillage";
+     } else {
+       strcpy(text, "Pillage: ");
+       strcat(text, map_get_infrastructure_text(punit->activity_target));
+       return (text);
+     }
    case ACTIVITY_GOTO:
     return "Goto";
    case ACTIVITY_EXPLORE:

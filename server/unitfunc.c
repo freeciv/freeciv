@@ -1101,9 +1101,8 @@ void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id ty
     punit->hp=get_unit_type(punit->type)->hp;
   else
     punit->hp = hp_left;
-  punit->activity=ACTIVITY_IDLE;
-  punit->activity_count=0;
-  
+  set_unit_activity(punit, ACTIVITY_IDLE);
+
   punit->upkeep=0;
   punit->upkeep_food=0;
   punit->upkeep_gold=0;
@@ -1176,15 +1175,6 @@ void update_unit_activities(struct player *pplayer)
 }
 
 /**************************************************************************
-  assign a new task to a unit.
-**************************************************************************/
-void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
-{
-  punit->activity=new_activity;
-  punit->activity_count=0;
-}
-
-/**************************************************************************
   Calculate the total amount of activity performed by all units on a tile
   for a given task.
 **************************************************************************/
@@ -1196,6 +1186,25 @@ static int total_activity (int x, int y, enum unit_activity act)
   ptile = map_get_tile (x, y);
   unit_list_iterate (ptile->units, punit)
     if (punit->activity == act)
+      total += punit->activity_count;
+  unit_list_iterate_end;
+  return total;
+}
+
+/**************************************************************************
+  Calculate the total amount of activity performed by all units on a tile
+  for a given task and target.
+**************************************************************************/
+static int total_activity_targeted (int x, int y,
+				    enum unit_activity act,
+				    int tgt)
+{
+  struct tile *ptile;
+  int total = 0;
+
+  ptile = map_get_tile (x, y);
+  unit_list_iterate (ptile->units, punit)
+    if ((punit->activity == act) && (punit->activity_target == tgt))
       total += punit->activity_count;
   unit_list_iterate_end;
   return total;
@@ -1219,23 +1228,35 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
       handle_unit_activity_request(pplayer, punit, ACTIVITY_EXPLORE);
     else return;
   }
-  
-   if(punit->activity==ACTIVITY_PILLAGE && punit->activity_count>=1) {
-      if(map_get_special(punit->x, punit->y)&S_FARMLAND)
-	map_clear_special(punit->x, punit->y, S_FARMLAND);
-      else if(map_get_special(punit->x, punit->y)&S_IRRIGATION)
-	map_clear_special(punit->x, punit->y, S_IRRIGATION);
-      else if(map_get_special(punit->x, punit->y)&S_MINE)
-        map_clear_special(punit->x, punit->y, S_MINE);
-      else if(map_get_special(punit->x, punit->y)&S_FORTRESS)
-	map_clear_special(punit->x, punit->y, S_FORTRESS);
-      else if(map_get_special(punit->x, punit->y)&S_RAILROAD)
-	map_clear_special(punit->x, punit->y, S_RAILROAD);
-      else 
-	map_clear_special(punit->x, punit->y, S_ROAD);
-    send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
-    set_unit_activity(punit, ACTIVITY_IDLE);
-   }
+
+  if(punit->activity==ACTIVITY_PILLAGE) {
+    if (punit->activity_target == 0) {     /* case for old save files */
+      if (punit->activity_count >= 1) {
+	int what =
+	  get_preferred_pillage(
+	    get_tile_infrastructure_set(
+	      map_get_tile(punit->x, punit->y)));
+	if (what != S_NO_SPECIAL) {
+	  map_clear_special(punit->x, punit->y, what);
+	  send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+	  set_unit_activity(punit, ACTIVITY_IDLE);
+	}
+      }
+    }
+    else if (total_activity_targeted (punit->x, punit->y,
+				      ACTIVITY_PILLAGE, punit->activity_target) >= 1) {
+      int what_pillaged = punit->activity_target;
+      map_clear_special(punit->x, punit->y, what_pillaged);
+      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+        if ((punit2->activity == ACTIVITY_PILLAGE) &&
+	    (punit2->activity_target == what_pillaged)) {
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2, 0);
+	}
+      unit_list_iterate_end;
+      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    }
+  }
 
   if(punit->activity==ACTIVITY_POLLUTION) {
     if (total_activity (punit->x, punit->y, ACTIVITY_POLLUTION) >= 3) {
@@ -1346,6 +1367,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
      map_get_terrain(punit->x, punit->y)==T_OCEAN &&
      is_ground_unit(punit))
     set_unit_activity(punit, ACTIVITY_SENTRY);
+
   send_unit_info(0, punit, 0);
 }
 
@@ -1748,7 +1770,8 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
   info.fuel=punit->fuel;
   info.goto_dest_x=punit->goto_dest_x;
   info.goto_dest_y=punit->goto_dest_y;
-    
+  info.activity_target=punit->activity_target;
+
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest)
       if(dosend || map_get_known(info.x, info.y, &game.players[o]))

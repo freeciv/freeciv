@@ -534,7 +534,7 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     break;
    case MENU_ORDER_PILLAGE:
     if(get_unit_in_focus())
-      request_new_unit_activity(get_unit_in_focus(), ACTIVITY_PILLAGE);
+      request_unit_pillage(get_unit_in_focus());
     break;
    case MENU_ORDER_HOMECITY:
     if(get_unit_in_focus())
