@@ -213,8 +213,8 @@ static void happiness_dialog_update_luxury(struct happiness_dlg
   int nleft = sizeof(buf);
   struct city *pcity = pdialog->pcity;
 
-  my_snprintf(bptr, nleft, _("Luxury: %d total (maximum %d usable). "),
-              pcity->luxury_total, 2 * pcity->size);
+  my_snprintf(bptr, nleft, _("Luxury: %d total."),
+              pcity->luxury_total);
 
   SetWindowText(pdialog->mod_label[LUXURIES], buf);
 }
@@ -295,6 +295,7 @@ static void happiness_dialog_update_units(struct happiness_dlg *pdialog)
   struct city *pcity = pdialog->pcity;
   struct government *g = get_gov_pcity(pcity);
   int mlmax = g->martial_law_max;
+  int uhcfac = g->unit_happy_cost_factor;
 
   my_snprintf(bptr, nleft, _("Units: "));
   bptr = end_of_strn(bptr, &nleft);
@@ -311,9 +312,14 @@ static void happiness_dialog_update_units(struct happiness_dlg *pdialog)
     bptr = end_of_strn(bptr, &nleft);
 
     my_snprintf(bptr, nleft, _("%d per unit). "), g->martial_law_per);
-  } else {
+  }
+  else if (uhcfac > 0) {
     my_snprintf(bptr, nleft,
                 _("Military units in the field may cause unhappiness. "));
+  }
+  else {
+    my_snprintf(bptr, nleft,
+                _("Military units have no happiness effect. "));
   }
 
   SetWindowText(pdialog->mod_label[UNITS], buf);
@@ -388,8 +394,9 @@ static void refresh_happiness_bitmap(HBITMAP bmp,
   int n1 = pcity->ppl_happy[index];
   int n2 = n1 + pcity->ppl_content[index];
   int n3 = n2 + pcity->ppl_unhappy[index];
-  int n4 = n3 + pcity->ppl_elvis;
-  int n5 = n4 + pcity->ppl_scientist;
+  int n4 = n3 + pcity->ppl_angry[index];
+  int n5 = n4 + pcity->ppl_elvis;
+  int n6 = n5 + pcity->ppl_scientist;
   int num_citizens = pcity->size;
   int pix_width = HAPPINESS_PIX_WIDTH * SMALL_TILE_WIDTH;
   int offset = MIN(SMALL_TILE_WIDTH, pix_width / num_citizens);
@@ -407,10 +414,12 @@ static void refresh_happiness_bitmap(HBITMAP bmp,
     else if (i < n2)
       citizen_type = 3 + i % 2;
     else if (i < n3)
-      citizen_type = 7 + 1 % 2;
+      citizen_type = 7 + i % 2;
     else if (i < n4)
-      citizen_type = 0;
+      citizen_type = 9 + i % 2;
     else if (i < n5)
+      citizen_type = 0;
+    else if (i < n6)
       citizen_type = 1;
     else
       citizen_type = 2;
