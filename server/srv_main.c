@@ -1781,8 +1781,9 @@ static void main_loop(void)
 
     conn_list_do_unbuffer(&game.game_connections);
 
-    if (is_game_over()) 
+    if (is_game_over()) {
       server_state=GAME_OVER_STATE;
+    }
   }
 
   /* 
@@ -1847,12 +1848,13 @@ void srv_main(void)
   }
 
   freelog(LOG_NORMAL, _("Now accepting new client connections."));
-  while(server_state==PRE_GAME_STATE)
+  while(server_state == PRE_GAME_STATE) {
     sniff_packets(); /* Accepting commands. */
+  }
 
   (void) send_server_info_to_metaserver(TRUE, FALSE);
 
-  if(game.is_new_game) {
+  if (game.is_new_game) {
     load_rulesets();
     /* otherwise rulesets were loaded when savegame was loaded */
   }
@@ -1865,9 +1867,9 @@ main_start_players:
   send_rulesets(&game.est_connections);
 
   num_nations_avail = game.playable_nation_count;
-  for(i=0; i<game.playable_nation_count; i++) {
-    nations_avail[i]=i;
-    nations_used[i]=i;
+  for (i = 0; i < game.playable_nation_count; i++) {
+    nations_avail[i] = i;
+    nations_used[i] = i;
   }
 
   if (game.auto_ai_toggle) {
@@ -1890,7 +1892,7 @@ main_start_players:
     }
   } players_iterate_end;
 
-  while(server_state==SELECT_RACES_STATE) {
+  while(server_state == SELECT_RACES_STATE) {
     bool flag = FALSE;
 
     sniff_packets();
@@ -1902,14 +1904,14 @@ main_start_players:
       }
     } players_iterate_end;
 
-    if(!flag) {
+    if (!flag) {
       if (game.nplayers > 0) {
-	server_state=RUN_GAME_STATE;
+	server_state = RUN_GAME_STATE;
       } else {
 	con_write(C_COMMENT,
 		  _("Last player has disconnected: will need to restart."));
-	server_state=PRE_GAME_STATE;
-	while(server_state==PRE_GAME_STATE) {
+	server_state = PRE_GAME_STATE;
+	while(server_state == PRE_GAME_STATE) {
 	  sniff_packets();
 	}
 	goto main_start_players;
@@ -1917,29 +1919,32 @@ main_start_players:
     }
   }
 
-  if(game.randseed == 0) {
+  if (game.randseed == 0) {
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
     game.randseed = time(NULL) & (MAX_UINT32 >> 1);
   }
  
-  if(!myrand_is_init())
+  if (!myrand_is_init()) {
     mysrand(game.randseed);
+  }
 
-#ifdef TEST_RANDOM		/* not defined anywhere, set it if you want it */
+#ifdef TEST_RANDOM /* not defined anywhere, set it if you want it */
   test_random1(200);
   test_random1(2000);
   test_random1(20000);
   test_random1(200000);
 #endif
     
-  if(game.is_new_game)
+  if (game.is_new_game) {
     generate_ai_players();
+  }
    
   /* if we have a tile map, and map.generator==0, call map_fractal_generate
      anyway, to make the specials and huts */
-  if(map_is_empty() || (map.generator == 0 && game.is_new_game))
+  if (map_is_empty() || (map.generator == 0 && game.is_new_game)) {
     map_fractal_generate();
+  }
 
   if (map.num_continents == 0) {
     assign_continent_numbers();
@@ -1949,7 +1954,7 @@ main_start_players:
   gamelog_map();
   /* start the game */
 
-  server_state=RUN_GAME_STATE;
+  server_state = RUN_GAME_STATE;
   (void) send_server_info_to_metaserver(TRUE, FALSE);
 
   if(game.is_new_game) {
@@ -1960,13 +1965,13 @@ main_start_players:
       player_map_allocate(pplayer);
       init_tech(pplayer, game.tech);
       player_limit_to_government_rates(pplayer);
-      pplayer->economic.gold=game.gold;
+      pplayer->economic.gold = game.gold;
     } players_iterate_end;
-    game.max_players=game.nplayers;
+    game.max_players = game.nplayers;
 
     /* we don't want random start positions in a scenario which already
-       provides them.  -- Gudy */
-    if(map.num_start_positions==0) {
+       provides them. -- Gudy */
+    if(map.num_start_positions == 0) {
       create_start_positions();
     }
   }
@@ -1992,8 +1997,9 @@ main_start_players:
   send_all_info(&game.game_connections);
   lsend_packet_generic_empty(&game.est_connections, PACKET_THAW_HINT);
   
-  if(game.is_new_game)
+  if(game.is_new_game) {
     init_new_game();
+  }
 
   game.is_new_game = FALSE;
 
