@@ -70,5 +70,8 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
 			      int *dimen, char *path, ...)
                               fc__attribute((format (printf, 3, 4)));
 
+char **secfile_get_secnames_prefix(struct section_file *my_section_file,
+				   char *prefix, int *num);
+
 #endif  /* FC__REGISTRY_H */
 

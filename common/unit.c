@@ -35,6 +35,21 @@ struct unit_type unit_types[U_LAST];
    server/ruleset.c (for the server)
    client/packhand.c (for the client) */
 
+static char *move_type_names[] = {
+  "Land", "Sea", "Heli", "Air"
+};
+static char *flag_names[] = {
+  "Caravan", "Missile", "IgZOC", "NonMil", "IgTer", "Carrier",
+  "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS",
+  "Fighter", "Marines", "Submarine", "Settlers", "Diplomat",
+  "Trireme", "Nuclear", "Spy", "Transform"
+};
+static char *role_names[] = {
+  "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
+  "DefendOk", "DefendGood", "AttackFast", "AttackStrong",
+  "Ferryboat"
+};
+
 /***************************************************************
 ...
 ***************************************************************/
@@ -1096,4 +1111,59 @@ enum unit_type_id best_role_unit(struct city *pcity, int role)
     }
   }
   return U_LAST;
+}
+
+/**************************************************************************
+  Convert unit_move_type names to enum; case insensitive;
+  returns 0 if can't match.
+**************************************************************************/
+enum unit_move_type unit_move_type_from_str(char *s)
+{
+  enum unit_move_type i;
+
+  /* a compile-time check would be nicer, but this will do: */
+  assert(sizeof(move_type_names)/sizeof(char*)==AIR_MOVING-LAND_MOVING+1);
+
+  for(i=LAND_MOVING; i<=AIR_MOVING; i++) {
+    if (mystrcasecmp(move_type_names[i-LAND_MOVING], s)==0) {
+      return i;
+    }
+  }
+  return 0;
+}
+
+/**************************************************************************
+  Convert flag names to enum; case insensitive;
+  returns F_LAST if can't match.
+**************************************************************************/
+enum unit_flag_id unit_flag_from_str(char *s)
+{
+  enum unit_flag_id i;
+
+  assert(sizeof(flag_names)/sizeof(char*)==F_LAST);
+  
+  for(i=0; i<F_LAST; i++) {
+    if (mystrcasecmp(flag_names[i], s)==0) {
+      return i;
+    }
+  }
+  return F_LAST;
+}
+
+/**************************************************************************
+  Convert role names to enum; case insensitive;
+  returns L_LAST if can't match.
+**************************************************************************/
+enum unit_role_id unit_role_from_str(char *s)
+{
+  enum unit_role_id i;
+
+  assert(sizeof(role_names)/sizeof(char*)==L_LAST-L_FIRST);
+  
+  for(i=L_FIRST; i<L_LAST; i++) {
+    if (mystrcasecmp(role_names[i-L_FIRST], s)==0) {
+      return i;
+    }
+  }
+  return L_LAST;
 }

@@ -50,6 +50,13 @@ static void send_ruleset_units(struct player *dest);
 static void send_ruleset_buildings(struct player *dest);
 static void send_ruleset_terrain(struct player *dest);
 
+static void old_load_ruleset_units(char *filename, char *datafile_options,
+				   struct section_file *file);
+static void new_load_ruleset_units(char *filename, char *datafile_options,
+				   struct section_file *file);
+static void after_load_ruleset_units(char *filename);
+
+
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
   "subdir" = "default", "civ1", "custom", ...
@@ -294,6 +301,29 @@ static void load_ruleset_units(char *ruleset_subdir)
 {
   struct section_file file;
   char *filename, *datafile_options;
+
+  filename = openload_ruleset_file(&file, ruleset_subdir, "units");
+  datafile_options = check_ruleset_capabilities(&file, "1.7", filename);
+  section_file_lookup(&file,"datafile.description"); /* unused */
+
+  if (has_capability("nontabular", datafile_options)) {
+    new_load_ruleset_units(filename, datafile_options, &file);
+  } else {
+    old_load_ruleset_units(filename, datafile_options, &file);
+  }
+  section_file_check_unused(&file, filename);
+  section_file_free(&file);
+  after_load_ruleset_units(filename);
+  return;
+}
+
+/**************************************************************************
+  This is for old-style (tabular) units.ruleset files.
+  This support could disappear in future.
+**************************************************************************/
+static void old_load_ruleset_units(char *filename, char *datafile_options,
+				   struct section_file *file)
+{
   char prefix[64];
   struct unit_type *u;
   int max_hp, max_firepower;
@@ -301,21 +331,19 @@ static void load_ruleset_units(char *ruleset_subdir)
   int i, j, ival, nval, num_flag_names;
   char *sval, **slist;
 
-  filename = openload_ruleset_file(&file, ruleset_subdir, "units");
-  datafile_options = check_ruleset_capabilities(&file, "1.7", filename);
-  section_file_lookup(&file,"datafile.description"); /* unused */
+  section_file_lookup(file,"datafile.description"); /* unused */
 
   max_hp =
-    secfile_lookup_int_default(&file, 0, "unit_adjustments.max_hitpoints");
+    secfile_lookup_int_default(file, 0, "unit_adjustments.max_hitpoints");
   max_firepower =
-    secfile_lookup_int_default(&file, 0, "unit_adjustments.max_firepower");
+    secfile_lookup_int_default(file, 0, "unit_adjustments.max_firepower");
   game.firepower_factor =
-    secfile_lookup_int_default(&file, 1, "unit_adjustments.firepower_factor");
+    secfile_lookup_int_default(file, 1, "unit_adjustments.firepower_factor");
 
   /* The names: */
   for( i=0; i<U_LAST; i++ ) {
     u = &unit_types[i];
-    strcpy(u->name, secfile_lookup_str(&file, "units.u1%d.name", i));
+    strcpy(u->name, secfile_lookup_str(file, "units.u1%d.name", i));
   }
 
   /* Tech requirement is used to flag removed unit_types, which
@@ -325,17 +353,17 @@ static void load_ruleset_units(char *ruleset_subdir)
   for( i=0; i<U_LAST; i++ ) {
     u = &unit_types[i];
     sprintf(prefix, "units.u1%d", i);
-    u->tech_requirement = lookup_tech(&file, prefix, "tech_requirement",
+    u->tech_requirement = lookup_tech(file, prefix, "tech_requirement",
 				      0, filename, u->name);
   }
   for( i=0; i<U_LAST; i++ ) {
     u = &unit_types[i];
     sprintf(prefix, "units.u1%d", i);
     if (unit_type_exists(i)) {
-      u->obsoleted_by = lookup_unit_type(&file, prefix, "obsoleted_by", 0,
+      u->obsoleted_by = lookup_unit_type(file, prefix, "obsoleted_by", 0,
 					 filename, u->name);
     } else {
-      section_file_lookup(&file, "%s.obsoleted_by", prefix);  /* unused */
+      section_file_lookup(file, "%s.obsoleted_by", prefix);  /* unused */
       u->obsoleted_by = -1;
     }
   }
@@ -345,46 +373,46 @@ static void load_ruleset_units(char *ruleset_subdir)
     u = &unit_types[i];
     sprintf(prefix, "units.u2%d", i);
     
-    sval = secfile_lookup_str(&file, "%s.name", prefix);
+    sval = secfile_lookup_str(file, "%s.name", prefix);
     if (strcmp(u->name, sval) != 0) {
       freelog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
 	   "block 2 (%s)", u->name, sval, filename);
     }
 
-    u->move_type = ival = secfile_lookup_int(&file,"%s.move_type", prefix);
+    u->move_type = ival = secfile_lookup_int(file,"%s.move_type", prefix);
     if (ival<LAND_MOVING || ival>AIR_MOVING) {
       freelog(LOG_FATAL, "for unit_type \"%s\": bad move_type %d (%s)",
 	   u->name, ival, filename);
       exit(1);
     }
     u->graphics =
-      secfile_lookup_int(&file,"%s.graphics", prefix);
+      secfile_lookup_int(file,"%s.graphics", prefix);
     u->build_cost =
-      secfile_lookup_int(&file,"%s.build_cost", prefix);
+      secfile_lookup_int(file,"%s.build_cost", prefix);
     u->attack_strength =
-      secfile_lookup_int(&file,"%s.attack_strength", prefix);
+      secfile_lookup_int(file,"%s.attack_strength", prefix);
     u->defense_strength =
-      secfile_lookup_int(&file,"%s.defense_strength", prefix);
+      secfile_lookup_int(file,"%s.defense_strength", prefix);
     u->move_rate =
-      3*secfile_lookup_int(&file,"%s.move_rate", prefix);
+      3*secfile_lookup_int(file,"%s.move_rate", prefix);
     
     u->vision_range =
-      secfile_lookup_int(&file,"%s.vision_range", prefix);
+      secfile_lookup_int(file,"%s.vision_range", prefix);
     u->transport_capacity =
-      secfile_lookup_int(&file,"%s.transport_capacity", prefix);
-    u->hp = secfile_lookup_int(&file,"%s.hitpoints", prefix);
+      secfile_lookup_int(file,"%s.transport_capacity", prefix);
+    u->hp = secfile_lookup_int(file,"%s.hitpoints", prefix);
     if( max_hp && u->hp > max_hp ) {
       u->hp = max_hp;
     }
-    u->firepower = secfile_lookup_int(&file,"%s.firepower", prefix);
+    u->firepower = secfile_lookup_int(file,"%s.firepower", prefix);
     if( max_firepower && u->firepower > max_firepower ) {
       u->firepower = max_firepower;
     }
-    u->fuel = secfile_lookup_int(&file,"%s.fuel", prefix);
+    u->fuel = secfile_lookup_int(file,"%s.fuel", prefix);
   }
   
   /* third block: flags */
-  flag_names = secfile_lookup_str_vec(&file, &num_flag_names,
+  flag_names = secfile_lookup_str_vec(file, &num_flag_names,
 				      "units.flag_names");
   if (num_flag_names==0) {
     freelog(LOG_FATAL, "Couldn't find units.flag_names in %s", filename);
@@ -396,12 +424,12 @@ static void load_ruleset_units(char *ruleset_subdir)
     u->flags = 0;
     sprintf(prefix, "units.u3%d", i);
     
-    sval = secfile_lookup_str(&file, "%s.name", prefix);
+    sval = secfile_lookup_str(file, "%s.name", prefix);
     if (strcmp(u->name, sval) != 0) {
       freelog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
 	   "block 3 (%s)", u->name, sval, filename);
     }
-    slist = secfile_lookup_str_vec(&file, &nval, "%s.flags", prefix );
+    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", prefix );
     for(j=0; j<nval; j++) {
       sval = slist[j];
       if(strcmp(sval,"")==0) {
@@ -419,7 +447,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   free(flag_names);
     
   /* fourth block: roles */
-  flag_names = secfile_lookup_str_vec(&file, &num_flag_names,
+  flag_names = secfile_lookup_str_vec(file, &num_flag_names,
 				      "units.role_names");
   if (num_flag_names==0) {
     freelog(LOG_FATAL, "Couldn't find units.role_names in %s", filename);
@@ -431,12 +459,12 @@ static void load_ruleset_units(char *ruleset_subdir)
     u->roles = 0;
     sprintf(prefix, "units.u4%d", i);
     
-    sval = secfile_lookup_str(&file, "%s.name", prefix);
+    sval = secfile_lookup_str(file, "%s.name", prefix);
     if (strcmp(u->name, sval) != 0) {
       freelog(LOG_NORMAL, "for unit_type \"%s\": mismatch name \"%s\" in "
 	   "block 4 (%s)", u->name, sval, filename);
     }
-    slist = secfile_lookup_str_vec(&file, &nval, "%s.roles", prefix );
+    slist = secfile_lookup_str_vec(file, &nval, "%s.roles", prefix );
     for(j=0; j<nval; j++) {
       sval = slist[j];
       if(strcmp(sval,"")==0) {
@@ -452,7 +480,151 @@ static void load_ruleset_units(char *ruleset_subdir)
     free(slist);
   }
   free(flag_names);
+}
+
+/**************************************************************************
+...  
+**************************************************************************/
+static void new_load_ruleset_units(char *filename, char *datafile_options,
+				   struct section_file *file)
+{
+  struct unit_type *u;
+  int max_hp, max_firepower;
+  int i, j, ival, nval;
+  char *sval, **slist, **sec;
+
+  section_file_lookup(file,"datafile.description"); /* unused */
+
+  max_hp =
+    secfile_lookup_int_default(file, 0, "units_adjust.max_hitpoints");
+  max_firepower =
+    secfile_lookup_int_default(file, 0, "units_adjust.max_firepower");
+  game.firepower_factor =
+    secfile_lookup_int_default(file, 1, "units_adjust.firepower_factor");
+
+  /* The names: */
+  sec = secfile_get_secnames_prefix(file, "unit_", &nval);
+  if(nval != U_LAST) {
+    /* sometime this restriction should be removed */
+    freelog(LOG_FATAL, "Bad number of units %d (%s)", nval, filename);
+    exit(1);
+  }
+  for( i=0; i<U_LAST; i++ ) {
+    u = &unit_types[i];
+    strcpy(u->name, secfile_lookup_str(file, "%s.name", sec[i]));
+  }
+
+  /* Tech requirement is used to flag removed unit_types, which
+     we might want to know for other fields.  After this we
+     can use unit_type_exists()
+  */
+  for( i=0; i<U_LAST; i++ ) {
+    u = &unit_types[i];
+    u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
+				      0, filename, u->name);
+  }
+  for( i=0; i<U_LAST; i++ ) {
+    u = &unit_types[i];
+    if (unit_type_exists(i)) {
+      u->obsoleted_by = lookup_unit_type(file, sec[i],
+					 "obsolete_by", 0, filename, u->name);
+    } else {
+      section_file_lookup(file, "%s.obsolete_by", sec[i]);  /* unused */
+      u->obsoleted_by = -1;
+    }
+  }
+
+  /* main stats: */
+  for( i=0; i<U_LAST; i++ ) {
+    u = &unit_types[i];
     
+    sval = secfile_lookup_str(file, "%s.move_type", sec[i]);
+    ival = unit_move_type_from_str(sval);
+    if (ival==0) {
+      freelog(LOG_FATAL, "for unit_type \"%s\": bad move_type %s (%s)",
+	   u->name, sval, filename);
+      exit(1);
+    }
+    u->move_type = ival;
+    u->graphics =
+      secfile_lookup_int(file,"%s.graphic", sec[i]);
+    u->build_cost =
+      secfile_lookup_int(file,"%s.build_cost", sec[i]);
+    u->attack_strength =
+      secfile_lookup_int(file,"%s.attack", sec[i]);
+    u->defense_strength =
+      secfile_lookup_int(file,"%s.defense", sec[i]);
+    u->move_rate =
+      3*secfile_lookup_int(file,"%s.move_rate", sec[i]);
+    
+    u->vision_range =
+      secfile_lookup_int(file,"%s.vision_range", sec[i]);
+    u->transport_capacity =
+      secfile_lookup_int(file,"%s.transport_cap", sec[i]);
+    u->hp = secfile_lookup_int(file,"%s.hitpoints", sec[i]);
+    if( max_hp && u->hp > max_hp ) {
+      u->hp = max_hp;
+    }
+    u->firepower = secfile_lookup_int(file,"%s.firepower", sec[i]);
+    if( max_firepower && u->firepower > max_firepower ) {
+      u->firepower = max_firepower;
+    }
+    u->fuel = secfile_lookup_int(file,"%s.fuel", sec[i]);
+  }
+  
+  /* flags */
+  for(i=0; i<U_LAST; i++) {
+    u = &unit_types[i];
+    u->flags = 0;
+    
+    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
+    for(j=0; j<nval; j++) {
+      sval = slist[j];
+      if(strcmp(sval,"")==0) {
+	continue;
+      }
+      ival = unit_flag_from_str(sval);
+      if (ival==F_LAST) {
+	freelog(LOG_NORMAL, "for unit_type \"%s\": bad flag name \"%s\" (%s)",
+	     u->name, sval, filename);
+      }
+      u->flags |= (1<<ival);
+    }
+    free(slist);
+  }
+    
+  /* roles */
+  for(i=0; i<U_LAST; i++) {
+    u = &unit_types[i];
+    u->roles = 0;
+    
+    slist = secfile_lookup_str_vec(file, &nval, "%s.roles", sec[i] );
+    for(j=0; j<nval; j++) {
+      sval = slist[j];
+      if(strcmp(sval,"")==0) {
+	continue;
+      }
+      ival = unit_role_from_str(sval);
+      if (ival==L_LAST) {
+	freelog(LOG_NORMAL, "for unit_type \"%s\": bad role name \"%s\" (%s)",
+	     u->name, sval, filename);
+      }
+      u->roles |= (1<<ival);
+    }
+    free(slist);
+  }
+  free(sec);
+}
+
+/**************************************************************************
+  This does some consistency checking, and pre-calcs, after loading
+  units ruleset data.
+**************************************************************************/
+static void after_load_ruleset_units(char *filename)
+{
+  struct unit_type *u;
+  int i, j;
+
   /* Some more consistency checking: */
   for( i=0; i<U_LAST; i++ ) {
     if (unit_type_exists(i)) {
@@ -513,10 +685,8 @@ static void load_ruleset_units(char *ruleset_subdir)
     }
   }
 
-  section_file_check_unused(&file, filename);
-  section_file_free(&file);
 }
-
+  
 /**************************************************************************
 ...  
 **************************************************************************/

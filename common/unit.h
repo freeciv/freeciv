@@ -283,6 +283,10 @@ int unit_upgrade_price(struct player *pplayer, enum unit_type_id from, enum unit
 int unit_type_exists(enum unit_type_id id);
 enum unit_type_id find_unit_type_by_name(char *s);
 
+enum unit_move_type unit_move_type_from_str(char *s);
+enum unit_flag_id unit_flag_from_str(char *s);
+enum unit_role_id unit_role_from_str(char *s);
+
 void role_unit_precalcs(void);
 int num_role_units(int role);
 enum unit_type_id get_role_unit(int role, int index);

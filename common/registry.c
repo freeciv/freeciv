@@ -1321,3 +1321,53 @@ static char *moutstr(char *str)
   *dest = '\0';
   return buf;
 }
+
+/***************************************************************
+  Returns pointer to list of strings giving all section names
+  which start with prefix, and sets the number of such sections
+  in (*num).  If there are none such, returns NULL and sets
+  (*num) to zero.  The returned pointer is malloced, and it is
+  the responsibilty of the caller to free this pointer, but the
+  actual strings pointed to are part of the section_file data,
+  and should not be freed by the caller (nor used after the
+  section_file has been freed or changed).  The section names
+  returned are in the order they appeared in the original file.
+***************************************************************/
+char **secfile_get_secnames_prefix(struct section_file *my_section_file,
+				   char *prefix, int *num)
+{
+  struct genlist_iterator myiter;
+  char **ret;
+  int len, i;
+
+  len = strlen(prefix);
+
+  /* count 'em: */
+  genlist_iterator_init(&myiter, &my_section_file->section_list, 0);
+  for(i=0; ITERATOR_PTR(myiter); ) {
+    struct section *psection=(struct section *)ITERATOR_PTR(myiter);
+    if (strncmp(psection->name, prefix, len) == 0) {
+      i++;
+    }
+    ITERATOR_NEXT(myiter);
+  }
+  (*num) = i;
+
+  if (i==0) {
+    return NULL;
+  }
+  
+  ret = fc_malloc((*num)*sizeof(char*));
+  
+  genlist_iterator_init(&myiter, &my_section_file->section_list, 0);
+  for(i=0; ITERATOR_PTR(myiter); ) {
+    struct section *psection=(struct section *)ITERATOR_PTR(myiter);
+    if (strncmp(psection->name, prefix, len) == 0) {
+      ret[i++] = psection->name;
+    }
+    ITERATOR_NEXT(myiter);
+  }
+  return ret;
+}
+
+
