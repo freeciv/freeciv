@@ -1715,14 +1715,14 @@ cities =
   "Coribe", "Rossell y Rius", "General Alvear",
   "Ushaia", "Los Antiguos", "Puerto Alegre", "Quevedo", 
 ; Eastern Europe 
-  "Kannonkoski", "Uusikaupunki", "Ulfborg", "Wloszczowa", 
+  "Kannonkoski", "Ulfborg", "Wloszczowa", 
   "Drohiczyn", "Vrchlabi", "Oroshaza", "Klagenfurt", 
   "Pisz", "Krokowa", "Partizanske", "Ozd", 
   "Jimbolia", "Peshkopi", "Galaxidhion", "Naxos", 
 ; Iceland 
   "Thingvellir", "Honningsvag", "Vikna", "Jokkmokk",
 ; Scandinavia 
-  "Rimbo", "Kukkola", "Viitasaari",
+  "Rimbo", "Kukkola",
   "Guderup", "Grindsted", "Store Andst", "Odder", 
   "Vrigstad", "Trollhaetten", "Kinsarvik", "Grimstad", 
 ; Ireland 
