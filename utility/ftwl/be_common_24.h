@@ -24,6 +24,10 @@ struct image {
   struct ct_rect full_rect;
 };
 
+/* I have no idea what MASK_UNKNOWN is, but it should
+ * be defined by name instead of throwing the number zero
+ * around all the time. - Per */
+#define MASK_UNKNOWN 0x00
 #define MASK_ALPHA  0x01
 #define MASK_OPAQUE 0x02
 

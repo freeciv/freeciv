@@ -47,7 +47,7 @@ static XImage *root_image;
 static GC gc_plain;
 
 /*************************************************************************
-  ...
+  Initialize video mode and window.
 *************************************************************************/
 void be_init(const struct ct_size *screen_size, bool fullscreen)
 {

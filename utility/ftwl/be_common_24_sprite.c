@@ -43,7 +43,6 @@ static struct Sprite *ctor_sprite(struct image *image)
 /*************************************************************************
   ...
 *************************************************************************/
-
 void be_free_sprite(struct Sprite *sprite)
 {
   free(sprite);
@@ -60,7 +59,8 @@ struct Sprite *be_crop_sprite(struct Sprite *source,
 
   ct_clip_rect(&region, &source->image->full_rect);
 
-  image_set_mask(result->image, &result->image->full_rect, 0);
+  /* why do we do this?? */
+  image_set_mask(result->image, &result->image->full_rect, MASK_UNKNOWN);
 
   image_copy_full(source->image, result->image, &region);
 
