@@ -305,44 +305,53 @@ static int assess_danger_unit(struct city *pcity, struct unit *punit)
 }
 
 /************************************************************************** 
-...
+  Assess distance between punit and pcity.
 **************************************************************************/
 static int assess_distance(struct city *pcity, struct unit *punit,
                            int move_rate, int boatid, int boatdist,
                            int boatspeed)
 {
-  int x, y, distance;
+  int x, y, distance = 0;
 
-  if (same_pos(punit->x, punit->y, pcity->x, pcity->y))
+  if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
     return 0;
+  }
 
-  if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y))
+  if (is_tiles_adjacent(punit->x, punit->y, pcity->x, pcity->y)) {
     distance = SINGLE_MOVE;
-  else if (is_sailing_unit(punit))
+  } else if (is_sailing_unit(punit)) {
     distance = WARMAP_SEACOST(punit->x, punit->y);
-  else if (!is_ground_unit(punit))
+  } else if (!is_ground_unit(punit)) {
     distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y)
                * SINGLE_MOVE;
-  else if (unit_flag(punit, F_IGTER))
+  } else if (unit_flag(punit, F_IGTER)) {
     distance = real_map_distance(punit->x, punit->y, pcity->x, pcity->y);
-  else
+  } else {
     distance = WARMAP_COST(punit->x, punit->y);
+  }
 
   /* If distance = 9, a chariot is 1.5 turns away.  NOT 2 turns away. */
-  if (distance < SINGLE_MOVE) distance = SINGLE_MOVE;
+  if (distance < SINGLE_MOVE) {
+    distance = SINGLE_MOVE;
+  }
 
   if (is_ground_unit(punit) && boatid != 0
       && find_beachhead(punit, pcity->x, pcity->y, &x, &y)) {
     /* Sea travellers. */
 
     y = WARMAP_SEACOST(punit->x, punit->y);
-    if (y >= 6 * THRESHOLD)
+    if (y >= 6 * THRESHOLD) {
       y = real_map_distance(pcity->x, pcity->y, punit->x, punit->y) * SINGLE_MOVE;
+    }
 
     x = MAX(y, boatdist) * move_rate / boatspeed;
 
-    if (distance > x) distance = x;
-    if (distance < SINGLE_MOVE) distance = SINGLE_MOVE;
+    if (distance > x) {
+      distance = x;
+    }
+    if (distance < SINGLE_MOVE) {
+      distance = SINGLE_MOVE;
+    }
   }
 
   return distance;
