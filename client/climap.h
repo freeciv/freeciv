@@ -14,8 +14,12 @@
 #ifndef FC__CLIMAP_H
 #define FC__CLIMAP_H
 
+#include "map.h"                /* enum direction8 */
 #include "terrain.h"            /* enum known_type */
 
 enum known_type tile_get_known(int x, int y);
+
+enum direction8 gui_to_map_dir(enum direction8 gui_dir);
+enum direction8 map_to_gui_dir(enum direction8 map_dir);
 
 #endif

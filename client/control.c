@@ -1380,75 +1380,15 @@ void key_end_turn(void)
 }
 
 /**************************************************************************
-...
+  Move the focus unit in the given direction.  Here directions are
+  defined according to the GUI, so that north is "up" in the interface.
 **************************************************************************/
-void key_move_north(void)
+void key_unit_move(enum direction8 gui_dir)
 {
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, DIR8_NORTH);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_north_east(void)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, DIR8_NORTHEAST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_east(void)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, DIR8_EAST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_south_east(void)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, DIR8_SOUTHEAST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_south(void)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, DIR8_SOUTH);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_south_west(void)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, DIR8_SOUTHWEST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_west(void)
-{
-  if(get_unit_in_focus())
-    request_move_unit_direction(punit_focus, DIR8_WEST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void key_move_north_west(void)
-{
-  if(get_unit_in_focus())
-     request_move_unit_direction(punit_focus, DIR8_NORTHWEST);
+  if (get_unit_in_focus()) {
+    enum direction8 map_dir = gui_to_map_dir(gui_dir);
+    request_move_unit_direction(get_unit_in_focus(), map_dir);
+  }
 }
 
 /**************************************************************************

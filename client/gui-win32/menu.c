@@ -469,32 +469,34 @@ static HMENU my_create_menu(struct my_menu **items)
 **************************************************************************/
 static void handle_numpad(int code)
 {
-  if (is_isometric) {
-    switch (code)
-      {
-      case IDM_NUMPAD_BASE+1: key_move_south(); break;
-      case IDM_NUMPAD_BASE+2: key_move_south_east(); break;
-      case IDM_NUMPAD_BASE+3: key_move_east(); break;
-      case IDM_NUMPAD_BASE+4: key_move_south_west(); break;
-      case IDM_NUMPAD_BASE+5: focus_to_next_unit(); break;
-      case IDM_NUMPAD_BASE+6: key_move_north_east(); break;
-      case IDM_NUMPAD_BASE+7: key_move_west(); break;
-      case IDM_NUMPAD_BASE+8: key_move_north_west(); break;
-      case IDM_NUMPAD_BASE+9: key_move_north(); break;
-      }
-  } else {
-    switch (code) 
-      { 
-      case IDM_NUMPAD_BASE+1: key_move_south_west(); break;
-      case IDM_NUMPAD_BASE+2: key_move_south(); break;
-      case IDM_NUMPAD_BASE+3: key_move_south_east(); break;
-      case IDM_NUMPAD_BASE+4: key_move_west(); break;
-      case IDM_NUMPAD_BASE+5: focus_to_next_unit(); break;
-      case IDM_NUMPAD_BASE+6: key_move_east(); break;
-      case IDM_NUMPAD_BASE+7: key_move_north_west(); break;
-      case IDM_NUMPAD_BASE+8: key_move_north(); break;
-      case IDM_NUMPAD_BASE+9: key_move_north_east(); break;
-      }
+  switch (code) { 
+  case IDM_NUMPAD_BASE + 1:
+    key_unit_move(DIR8_SOUTHWEST);
+    break;
+  case IDM_NUMPAD_BASE + 2:
+    key_unit_move(DIR8_SOUTH);
+    break;
+  case IDM_NUMPAD_BASE + 3:
+    key_unit_move(DIR8_SOUTHEAST);
+    break;
+  case IDM_NUMPAD_BASE + 4:
+    key_unit_move(DIR8_WEST);
+    break;
+  case IDM_NUMPAD_BASE + 5:
+    focus_to_next_unit();
+    break;
+  case IDM_NUMPAD_BASE + 6:
+    key_unit_move(DIR8_EAST);
+    break;
+  case IDM_NUMPAD_BASE + 7:
+    key_unit_move(DIR8_NORTHWEST);
+    break;
+  case IDM_NUMPAD_BASE + 8:
+    key_unit_move(DIR8_NORTH);
+    break;
+  case IDM_NUMPAD_BASE + 9:
+    key_unit_move(DIR8_NORTHEAST);
+    break;
   }
 }
 

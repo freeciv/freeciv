@@ -243,42 +243,42 @@ static void gui_main_loop(void)
 	    break;
 	  case SDLK_UP:
 	  case SDLK_KP8:
-	    key_move_north_west();
+	    key_unit_move(DIR8_NORTH);
 	    break;
 
 	  case SDLK_PAGEUP:
 	  case SDLK_KP9:
-	    key_move_north();
+	    key_unit_move(DIR8_NORTHEAST);
 	    break;
 
 	  case SDLK_RIGHT:
 	  case SDLK_KP6:
-	    key_move_north_east();
+	    key_unit_move(DIR8_EAST);
 	    break;
 
 	  case SDLK_PAGEDOWN:
 	  case SDLK_KP3:
-	    key_move_east();
+	    key_unit_move(DIR8_SOUTHEAST);
 	    break;
 
 	  case SDLK_DOWN:
 	  case SDLK_KP2:
-	    key_move_south_east();
+	    key_unit_move(DIR8_SOUTH);
 	    break;
 
 	  case SDLK_END:
 	  case SDLK_KP1:
-	    key_move_south();
+	    key_unit_move(DIR8_SOUTHWEST);
 	    break;
 
 	  case SDLK_LEFT:
 	  case SDLK_KP4:
-	    key_move_south_west();
+	    key_unit_move(DIR8_WEST);
 	    break;
 
 	  case SDLK_HOME:
 	  case SDLK_KP7:
-	    key_move_west();
+	    key_unit_move(DIR8_NORTHWEST);
 	    break;
 
 	  case SDLK_KP5:

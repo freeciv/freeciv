@@ -153,42 +153,42 @@ static void xaw_key_map_grid_toggle(Widget w, XEvent *event, String *argv, Cardi
 
 static void xaw_key_move_north(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  key_move_north();
+  key_unit_move(DIR8_NORTH);
 }
 
 static void xaw_key_move_north_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  key_move_north_east();
+  key_unit_move(DIR8_NORTHEAST);
 }
 
 static void xaw_key_move_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  key_move_east();
+  key_unit_move(DIR8_EAST);
 }
 
 static void xaw_key_move_south_east(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  key_move_south_east();
+  key_unit_move(DIR8_SOUTHEAST);
 }
 
 static void xaw_key_move_south(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  key_move_south();
+  key_unit_move(DIR8_SOUTH);
 }
 
 static void xaw_key_move_south_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  key_move_south_west();
+  key_unit_move(DIR8_SOUTHWEST);
 }
 
 static void xaw_key_move_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  key_move_west();
+  key_unit_move(DIR8_WEST);
 }
 
 static void xaw_key_move_north_west(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  key_move_north_west();
+  key_unit_move(DIR8_NORTHWEST);
 }
 
 static void xaw_key_open_city_report(Widget w, XEvent *event, String *argv, Cardinal *argc)

@@ -19,6 +19,7 @@
 #include "shared.h"
 
 #include "climap.h"
+#include "tilespec.h"           /* is_isometric */
 
 /***************************************************************
  pplayer is only used in the server
@@ -57,4 +58,38 @@ void map_set_continent(int x, int y, struct player *pplayer, int val)
 enum known_type tile_get_known(int x, int y)
 {
   return (enum known_type) map_get_tile(x, y)->known;
+}
+
+/**************************************************************************
+  Convert the given GUI direction into a map direction.
+
+  GUI directions correspond to the current viewing interface, so that
+  DIR8_NORTH is up on the mapview.  map directions correspond to the
+  underlying map tiles, so that DIR8_NORTH means moving with a vector of
+  (0,-1).  Neither necessarily corresponds to "north" on the underlying
+  world (once iso-maps are possible).
+
+  See also map_to_gui_dir().
+**************************************************************************/
+enum direction8 gui_to_map_dir(enum direction8 gui_dir)
+{
+  if (is_isometric) {
+    return dir_ccw(gui_dir);
+  } else {
+    return gui_dir;
+  }
+}
+
+/**************************************************************************
+  Convert the given GUI direction into a map direction.
+
+  See also gui_to_map_dir().
+**************************************************************************/
+enum direction8 map_to_gui_dir(enum direction8 map_dir)
+{
+  if (is_isometric) {
+    return dir_cw(map_dir);
+  } else {
+    return map_dir;
+  }
 }

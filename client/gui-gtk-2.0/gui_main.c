@@ -338,111 +338,63 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
     return keypress;
   }
 
-  if (is_isometric && !client_is_observer()) {
+  if (!client_is_observer()) {
     switch (ev->keyval) {
       case GDK_Up:
       case GDK_KP_Up:
       case GDK_8:
-      case GDK_KP_8: 		key_move_north_west();	break;
+      case GDK_KP_8:
+	key_unit_move(DIR8_NORTH);
+	break;
 
       case GDK_Page_Up:
       case GDK_KP_Page_Up:
       case GDK_9:
-      case GDK_KP_9: 		key_move_north();	break;
+      case GDK_KP_9:
+	key_unit_move(DIR8_NORTHEAST);
+	break;
 
       case GDK_Right:
       case GDK_KP_Right:
       case GDK_6:
-      case GDK_KP_6: 		key_move_north_east();	break;
+      case GDK_KP_6:
+	key_unit_move(DIR8_EAST);
+	break;
 
       case GDK_Page_Down:
       case GDK_KP_Page_Down:
       case GDK_3:
-      case GDK_KP_3: 		key_move_east();	break;
+      case GDK_KP_3:
+	key_unit_move(DIR8_SOUTHEAST);
+	break;
 
       case GDK_Down:
       case GDK_KP_Down:
       case GDK_2:
-      case GDK_KP_2: 		key_move_south_east();	break;
+      case GDK_KP_2:
+	key_unit_move(DIR8_SOUTH);
+	break;
 
       case GDK_End:
       case GDK_KP_End:
       case GDK_1:
-      case GDK_KP_1: 		key_move_south();	break;
+      case GDK_KP_1:
+	key_unit_move(DIR8_SOUTHWEST);
+	break;
 
       case GDK_Left:
       case GDK_KP_Left:
       case GDK_4:
-      case GDK_KP_4: 		key_move_south_west();	break;
-
-      case GDK_Home:
-      case GDK_KP_Home:
-      case GDK_7:
-      case GDK_KP_7: 		key_move_west();	break;
- 
-      case GDK_KP_Begin:
-      case GDK_5:
-      case GDK_KP_5:
-        focus_to_next_unit();
-        break;
-  
-      case GDK_Return:
-      case GDK_KP_Enter:
-        key_end_turn();
-        break;
-  
-      case GDK_Escape:
-        key_cancel_action();
-        break;
-  
-      case GDK_t:
-        key_city_workers(w, ev);
-        break;
-
-      default:
-        return FALSE;
-    }
-  } else if (!client_is_observer()) {
-    switch (ev->keyval) {
-      case GDK_Up:
-      case GDK_KP_Up:
-      case GDK_8:
-      case GDK_KP_8: 		key_move_north();	break;
-
-      case GDK_Page_Up:
-      case GDK_KP_Page_Up:
-      case GDK_9:
-      case GDK_KP_9: 		key_move_north_east();	break;
-
-      case GDK_Right:
-      case GDK_KP_Right:
-      case GDK_6:
-      case GDK_KP_6: 		key_move_east();	break;
-
-      case GDK_Page_Down:
-      case GDK_KP_Page_Down:
-      case GDK_3:
-      case GDK_KP_3: 		key_move_south_east();	break;
-
-      case GDK_Down:
-      case GDK_KP_Down:
-      case GDK_2:
-      case GDK_KP_2: 		key_move_south();	break;
-
-      case GDK_End:
-      case GDK_KP_End:
-      case GDK_1:
-      case GDK_KP_1: 		key_move_south_west();	break;
-
-      case GDK_Left:
-      case GDK_KP_Left:
-      case GDK_4:
-      case GDK_KP_4: 		key_move_west();	break;
+      case GDK_KP_4:
+	key_unit_move(DIR8_WEST);
+	break;
 
       case GDK_Home:
       case GDK_KP_Home:		
       case GDK_7:
-      case GDK_KP_7: 		key_move_north_west();	break;
+      case GDK_KP_7:
+	key_unit_move(DIR8_NORTHWEST);
+	break;
 
       case GDK_KP_Begin:
       case GDK_Return:
