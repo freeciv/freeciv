@@ -584,6 +584,8 @@ void set_client_state(enum client_states newstate)
       client_remove_all_cli_conn();
       set_unit_focus_no_center(NULL);
       clear_notify_window();
+      attribute_free();
+      attribute_init();
       game_free();
       game_init();
     }

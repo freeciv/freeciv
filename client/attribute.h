@@ -47,6 +47,7 @@ enum attr_tile {
  * Generic methods.
  */
 void attribute_init(void);
+void attribute_free(void);
 void attribute_flush(void);
 void attribute_restore(void);
 void attribute_set(int key, int id, int x, int y, size_t data_length,

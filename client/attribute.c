@@ -48,6 +48,26 @@ void attribute_init()
 }
 
 /****************************************************************************
+...
+*****************************************************************************/
+void attribute_free()
+{
+  int i, entries = hash_num_entries(attribute_hash);
+
+  assert(attribute_hash != NULL);
+
+  for (i = 0; i < entries; i++) {
+    const void *pkey = hash_key_by_number(attribute_hash, 0);
+    void *pvalue = hash_delete_entry(attribute_hash, pkey);
+
+    free(pvalue);
+  }
+
+  hash_free(attribute_hash);
+  attribute_hash = NULL;
+}
+
+/****************************************************************************
  This method isn't endian safe and there will also be problems if
  sizeof(int) at serialization time is different from sizeof(int) at
  deserialization time.
