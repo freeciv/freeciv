@@ -14,7 +14,9 @@
 #define FC__DIALOGS_H
 
 #include "dialogs_g.h"
-HWND popup_message_dialog(HWND parent,char *dialogname, char *text, ...);
+
+HWND popup_message_dialog(HWND parent, char *dialogname,
+			  const char *text, ...);
 void destroy_message_dialog(HWND dlg);
 void message_dialog_button_set_sensitive(HWND dlg,int id,int state);
 BOOL unitselect_init(HINSTANCE hInstance);

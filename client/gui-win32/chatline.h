@@ -15,6 +15,7 @@
 #define FC__CHATLINE_H
 
 #include "chatline_g.h"
-void handle_chatline();
-void append_output_winodw();
+
+void handle_chatline(void);
+
 #endif  /* FC__CHATLINE_H */

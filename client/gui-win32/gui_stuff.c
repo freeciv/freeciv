@@ -251,7 +251,7 @@ static LONG APIENTRY layout_wnd_proc(HWND hWnd,
 /**************************************************************************
 
 **************************************************************************/
-void init_layoutwindow()
+void init_layoutwindow(void)
 {
   WNDCLASS *wndclass;
   wndclass=fc_malloc(sizeof(WNDCLASS));
@@ -333,7 +333,7 @@ HWND fcwin_create_layouted_window(WNDPROC user_wndproc,
 /**************************************************************************
 
 **************************************************************************/
-struct fcwin_box * fcwin_box_new(int horiz, HWND owner, int same_size)
+static struct fcwin_box * fcwin_box_new(int horiz, HWND owner, int same_size)
 {
   struct fcwin_box *fcb;
   fcb=fc_malloc(sizeof(struct fcwin_box));
@@ -546,7 +546,7 @@ void fcwin_box_add_win(struct fcwin_box *box,
 /**************************************************************************
 
 **************************************************************************/
-void button_minsize(LPPOINT minsize, void *data)
+static void button_minsize(LPPOINT minsize, void *data)
 {
   win_minsize(minsize,data);
   minsize->x=minsize->x+4;
@@ -987,7 +987,7 @@ static void combo_minsize(POINT *minsize,void *data)
 /**************************************************************************
 
 **************************************************************************/
-void combo_setsize(LPRECT size,void *data)
+static void combo_setsize(LPRECT size, void *data)
 {
   struct list_data *ld=data;
   MoveWindow(ld->win,size->left,size->top,

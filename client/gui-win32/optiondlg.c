@@ -22,9 +22,11 @@
 #include "fcintl.h"
 #include "game.h"
 #include "support.h"
+#include "options.h"
+
 #include "gui_stuff.h"
 #include "gui_main.h"
-#include "options.h"
+#include "optiondlg.h"
 
 static HWND option_dialog;
 

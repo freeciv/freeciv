@@ -31,7 +31,8 @@
 #include "support.h"
 #include "timing.h"
 #include "version.h"
- 
+
+#include "citydlg.h" 
 #include "civclient.h"
 #include "climap.h"
 #include "climisc.h"
@@ -67,7 +68,6 @@ int map_view_height;
 extern int seconds_to_turndone;   
 void update_map_canvas_scrollbars_size(void);
 void refresh_overview_viewrect_real(HDC hdcp);
-void set_overview_win_dim(int w,int h);
 void put_one_tile_full(HDC hdc, int x, int y,
 			      int canvas_x, int canvas_y, int citymode);
 static void pixmap_put_tile_iso(HDC hdc, int x, int y,

@@ -124,7 +124,7 @@ extern int map_win_y;
 extern int map_win_width;
 extern int map_win_height;
 extern HWND root_window;
-extern void do_mainwin_layout();
+extern void do_mainwin_layout(void);
 extern int overview_win_x;
 extern int overview_win_y;
 extern int overview_win_width;
@@ -142,5 +142,8 @@ extern HWND map_window;
 extern HWND map_scroll_h;
 extern HWND map_scroll_v;
 extern struct fcwin_box *output_box;
+
+void set_overview_win_dim(int w, int h);
+
 #endif  /* RC_INVOKED */
 #endif  /* FC__GUI_MAIN_H */

@@ -62,7 +62,7 @@ static int sort_column=2;
 /******************************************************************
 
 *******************************************************************/
-void players_meet(int player_index)
+static void players_meet(int player_index)
 {
   if (player_has_embassy(game.player_ptr,&game.players[player_index])) {
     struct packet_diplomacy_info pa;
@@ -81,7 +81,7 @@ void players_meet(int player_index)
 /******************************************************************
 
 *******************************************************************/
-void players_war(int player_index)
+static void players_war(int player_index)
 {
   struct packet_generic_integer pa;  
   pa.value = player_index;
@@ -92,7 +92,7 @@ void players_war(int player_index)
 /******************************************************************
 
 *******************************************************************/
-void players_vision(int player_index)
+static void players_vision(int player_index)
 {
   struct packet_generic_integer pa;  
   pa.value = player_index;
@@ -103,7 +103,7 @@ void players_vision(int player_index)
 /******************************************************************
 
 *******************************************************************/
-void players_intel(int player_index)
+static void players_intel(int player_index)
 {
   if(player_has_embassy(game.player_ptr, &game.players[player_index]))
     popup_intel_dialog(&game.players[player_index]);
@@ -113,7 +113,7 @@ void players_intel(int player_index)
 /******************************************************************
 
 *******************************************************************/
-void players_sship(int player_index)
+static void players_sship(int player_index)
 {
   popup_spaceship_dialog(&game.players[player_index]);
 }
@@ -201,7 +201,8 @@ static void build_row(char **row, int i, int update)
 /******************************************************************
 
 *******************************************************************/
-int CALLBACK sort_proc(LPARAM lParam1,LPARAM lParam2,LPARAM lParamSort)
+static int CALLBACK sort_proc(LPARAM lParam1, LPARAM lParam2,
+			      LPARAM lParamSort)
 {
   char text1[128];
   char text2[128];
@@ -340,7 +341,7 @@ static LONG CALLBACK players_proc(HWND dlg,UINT message,
 /******************************************************************
 
 *******************************************************************/
-void create_players_dialog()
+static void create_players_dialog(void)
 {
   int i;
   static char *titles_[NUM_COLUMNS] =

@@ -174,7 +174,7 @@ static void add_server_control_buttons()
 /*************************************************************************
   Exit without killing the server
 *************************************************************************/
-void quit_client_only()
+void quit_client_only(void)
 {
   CloseHandle(server_process);
   server_process=INVALID_HANDLE_VALUE;
@@ -184,7 +184,7 @@ void quit_client_only()
 /*************************************************************************
  
 *************************************************************************/
-void show_server_window()
+void show_server_window(void)
 {
   ShowWindow(server_window,SW_SHOWNORMAL);
 }
@@ -764,7 +764,7 @@ static void create_server_window()
 /**************************************************************************
 
 **************************************************************************/
-char getc_from_pipe()
+static char getc_from_pipe(void)
 {
   char tmp[2];
   DWORD rlen; 
@@ -786,7 +786,8 @@ char getc_from_pipe()
 /**************************************************************************
 
 **************************************************************************/
-void get_line_from_pipe(char *buf, int bufsize) {
+static void get_line_from_pipe(char *buf, int bufsize)
+{
   int i;
   i=0;
   do {
@@ -802,7 +803,7 @@ void get_line_from_pipe(char *buf, int bufsize) {
 /**************************************************************************
 
 **************************************************************************/
-bool wait_for_prompt()
+static bool wait_for_prompt(void)
 {
   char tmp;
   do {
@@ -855,7 +856,7 @@ static void start_server(char *cmdline)
 /**************************************************************************
  Starts the server without arguments.
 **************************************************************************/
-void start_server_for_new_game()
+static void start_server_for_new_game(void)
 {
   char cmdline[512];
   server_port=min_free_port();

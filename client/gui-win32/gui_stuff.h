@@ -23,7 +23,7 @@ typedef void (*t_fcsetsize)(RECT *,void *);
 typedef void (*t_fcdelwidget)(void *);
 
 /* has to be called once */
-void init_layoutwindow();
+void init_layoutwindow(void);
 enum childwin_mode {
   REAL_CHILD,
   JUST_CLEANUP,

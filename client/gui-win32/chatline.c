@@ -58,7 +58,7 @@
  A backup of the string (without the newline) is sent to the server
  Is there a nicer way to handle this?
 **************************************************************************/
-void handle_chatline()
+void handle_chatline(void)
 {
   static char msg_buf[MAX_LEN_MSG-MAX_LEN_USERNAME+1];
   char msg_buf2[MAX_LEN_MSG-MAX_LEN_USERNAME+1];
@@ -76,7 +76,7 @@ void handle_chatline()
 /**************************************************************************
 
 **************************************************************************/
-void append_output_window_real(char *astring)
+static void append_output_window_real(const char *astring)
 {
   int len;
   len=Edit_GetTextLength(logoutput_win);
@@ -92,7 +92,7 @@ void real_append_output_window(const char *astring)
      /* We need to add \r to lineends */ 
 {
 
-  char *str;
+  const char *str;
   char *str2;
   char buf[512];
   str=astring;

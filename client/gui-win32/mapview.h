@@ -24,9 +24,9 @@ void pixmap_frame_tile_red(HDC hdc, int x, int y);
 void put_unit_city_overlays(struct unit *punit, HDC hdc, int x, int y);
 void put_one_tile_full(HDC hdc, int x, int y,
 		       int canvas_x, int canvas_y, int citymode);
-void check_mapstore();
-void map_resize();
-void init_map_win();
+void check_mapstore(void);
+void map_resize(void);
+void init_map_win(void);
 void map_expose(HDC hdc);
 void overview_expose(HDC hdc);
 void map_handle_hscroll(int pos);

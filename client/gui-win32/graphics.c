@@ -495,12 +495,14 @@ void draw_fog_part(HDC hdc,int x, int y,int w, int h,
     draw_sprite_part(&fog_sprite,hdc,x,y,w,h,xsrc,ysrc);
 }
 
+#if 0
 /**************************************************************************
 
 **************************************************************************/
-void  crop_sprite_real(struct Sprite *source)
+static void crop_sprite_real(struct Sprite *source)
 {
 } 
+#endif
         
 /**************************************************************************
 

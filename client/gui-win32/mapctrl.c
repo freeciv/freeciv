@@ -335,7 +335,7 @@ static LONG CALLBACK map_wnd_proc(HWND hwnd,UINT message,WPARAM wParam, LPARAM l
 /**************************************************************************
 
 **************************************************************************/
-void init_mapwindow()
+void init_mapwindow(void)
 {
   WNDCLASS *wndclass;
   wndclass=fc_malloc(sizeof(WNDCLASS));
@@ -436,7 +436,7 @@ popup_newcity_dialog(struct unit *punit, char *suggestname)
 /**************************************************************************
 
 **************************************************************************/
-void center_on_unit()
+void center_on_unit(void)
 {
    request_center_focus_unit(); 
 }

@@ -53,10 +53,10 @@ static int max_list_width;
 /**************************************************************************
 
 **************************************************************************/
-LONG APIENTRY MsgdlgProc(HWND hWnd,
-			 UINT message,
-			 UINT wParam,
-			 LONG lParam)
+static LONG APIENTRY MsgdlgProc(HWND hWnd,
+				UINT message,
+				UINT wParam,
+				LONG lParam)
 {
   switch(message)
     {

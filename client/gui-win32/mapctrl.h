@@ -17,9 +17,9 @@
 void map_handle_rbut(int x, int y);
 void map_handle_lbut(int x, int y);
 void map_handle_move(int window_x, int window_y);
-void center_on_unit();
-void init_mapwindow();
-void focus_to_next_unit();
+void center_on_unit(void);
+void init_mapwindow(void);
+void focus_to_next_unit(void);
 void overview_handle_rbut(int x, int y);
 void indicator_handle_but(int x);
 #endif  /* FC__MAPCTRL_H */

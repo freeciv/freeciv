@@ -97,7 +97,7 @@ struct fcwin_box *output_box;
 /**************************************************************************
 
 **************************************************************************/
-void HandleRMouse(int x, int y)
+static void HandleRMouse(int x, int y)
 {
   SetFocus(root_window);
 }
@@ -105,7 +105,7 @@ void HandleRMouse(int x, int y)
 /**************************************************************************
 
 **************************************************************************/
-void HandleLMouse(int x, int y)
+static void HandleLMouse(int x, int y)
 {
   SetFocus(root_window);
   if ((x>overview_win_x)&&(x<overview_win_x+overview_win_width)
@@ -119,7 +119,7 @@ void HandleLMouse(int x, int y)
 /**************************************************************************
 
  **************************************************************************/
-void HandlePaint(HDC hdc)
+static void HandlePaint(HDC hdc)
 {
   overview_expose(hdc);
 }
@@ -127,17 +127,16 @@ void HandlePaint(HDC hdc)
 /**************************************************************************
 
 **************************************************************************/
-void do_mainwin_layout()
+void do_mainwin_layout(void)
 {
   fcwin_redo_layout(root_window);
  
 }
 
-
 /**************************************************************************
 
 **************************************************************************/
-void set_overview_win_dim(int w,int h)
+void set_overview_win_dim(int w, int h)
 {
   overview_win_width=w;
   overview_win_height=h;
@@ -145,7 +144,8 @@ void set_overview_win_dim(int w,int h)
   do_mainwin_layout();
   
 }
-void Handle_Hscroll(HWND hWnd,HWND hWndCtl,UINT code,int pos)
+
+static void Handle_Hscroll(HWND hWnd, HWND hWndCtl, UINT code, int pos)
 {
   int PosCur,PosMax,PosMin,id;
   PosCur=ScrollBar_GetPos(hWndCtl);
@@ -297,11 +297,8 @@ static void map_setsize(LPRECT newsize, void *data)
 /**************************************************************************
 
 **************************************************************************/
-LONG APIENTRY FreecivWndProc (
-                           HWND hWnd,
-                           UINT message,
-                           UINT wParam,
-                           LONG lParam)
+static LONG APIENTRY FreecivWndProc(HWND hWnd, UINT message,
+				    UINT wParam, LONG lParam)
 {
   HDC hdc;
   PAINTSTRUCT ps;
@@ -360,7 +357,7 @@ LONG APIENTRY FreecivWndProc (
 /**************************************************************************
 
 **************************************************************************/
-void create_main_window()
+static void create_main_window(void)
 {
   HINSTANCE riched;
   struct fcwin_box *upper;

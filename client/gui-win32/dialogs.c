@@ -576,7 +576,7 @@ static int number_of_rows(int n)
 /**************************************************************************
 
 **************************************************************************/     
-void popdown_unit_select_dialog()
+static void popdown_unit_select_dialog(void)
 {
   if (unit_select_main)
     DestroyWindow(unit_select_main);
@@ -585,11 +585,8 @@ void popdown_unit_select_dialog()
 /**************************************************************************
 
 **************************************************************************/
-LONG APIENTRY unitselect_proc (
-                           HWND hWnd,
-                           UINT message,
-                           UINT wParam,
-                           LONG lParam)
+static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
+				     UINT wParam, LONG lParam)
 {
   int id;
   int i;
@@ -1781,7 +1778,8 @@ void popup_pillage_dialog(struct unit *punit,
 /**************************************************************************
 
 **************************************************************************/
-HWND popup_message_dialog(HWND parent,char *dialogname, char *text, ...)
+HWND popup_message_dialog(HWND parent, char *dialogname,
+			  const char *text, ...)
 {
   int idcount;
   va_list args;

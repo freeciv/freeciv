@@ -204,7 +204,7 @@ struct my_menu {
 /**************************************************************************
 
 **************************************************************************/
-HACCEL my_create_menu_acceltable()
+HACCEL my_create_menu_acceltable(void)
 {
   return CreateAcceleratorTable(menuaccel,accelcount);
 }
@@ -435,7 +435,7 @@ static int my_append_menu(HMENU menu, struct my_menu *item, HMENU submenu)
 /**************************************************************************
 
 **************************************************************************/
-HMENU my_create_menu(struct my_menu **items)
+static HMENU my_create_menu(struct my_menu **items)
 {
   HMENU menu;
   if ((*items)->id==IDM_BEGIN) {
@@ -467,7 +467,7 @@ HMENU my_create_menu(struct my_menu **items)
 /**************************************************************************
 
 **************************************************************************/
-void handle_numpad(int code)
+static void handle_numpad(int code)
 {
   if (is_isometric) {
     switch (code)
@@ -845,7 +845,7 @@ static void my_rename_menu(HMENU hmenu,int id,char *newstr)
 /**************************************************************************
 
 **************************************************************************/
-HMENU create_mainmenu()
+HMENU create_mainmenu(void)
 {
   struct my_menu *items=main_menu;
   return my_create_menu(&items);

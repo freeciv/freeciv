@@ -461,7 +461,8 @@ void city_dialog_update_output(struct city_dialog *pdialog)
 
 void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf2[100], buf[32], *descr;
+  char buf2[100], buf[32];
+  const char *descr;
   struct city *pcity=pdialog->pcity;    
   
   EnableWindow(pdialog->buy_but,!pcity->did_buy);
@@ -984,10 +985,10 @@ static void buy_callback_no(HWND w, void * data)
 **************************************************************************/
         
 
-void buy_callback(struct city_dialog *pdialog)
+static void buy_callback(struct city_dialog *pdialog)
 {
   int value;
-  char *name;
+  const char *name;
   char buf[512];    
    if(pdialog->pcity->is_building_unit) {
     name=get_unit_type(pdialog->pcity->currently_building)->name;
@@ -1045,7 +1046,7 @@ static void sell_callback_no(HWND w, void * data)
 /****************************************************************
 ...
 *****************************************************************/            
-void sell_callback(struct city_dialog *pdialog)
+static void sell_callback(struct city_dialog *pdialog)
 {
   char buf[100];
   if (pdialog->id_selected<0) {
@@ -1157,7 +1158,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 **************************************************************************/
 
      
-void change_callback(struct city_dialog *pdialog)
+static void change_callback(struct city_dialog *pdialog)
 {
   HWND dlg;
   
@@ -1318,7 +1319,7 @@ static void rename_city_callback(HWND w, void * data)
 /****************************************************************
 ...
 *****************************************************************/    
-void rename_callback(struct city_dialog *pdialog)
+static void rename_callback(struct city_dialog *pdialog)
 {
   input_dialog_create(pdialog->mainwindow,
                       /*"shellrenamecity"*/_("Rename City"),
@@ -1419,7 +1420,7 @@ static void supported_units_activate_close_callback(HWND w, void * data){
 **************************************************************************/
 
 
-void activate_callback(struct city_dialog *pdialog)
+static void activate_callback(struct city_dialog *pdialog)
 {
   activate_all_units(pdialog->pcity->x, pdialog->pcity->y);
 }      
@@ -1427,7 +1428,7 @@ void activate_callback(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-void show_units_callback(struct city_dialog *pdialog)
+static void show_units_callback(struct city_dialog *pdialog)
 {
   struct tile *ptile = map_get_tile(pdialog->pcity->x, pdialog->pcity->y);
  
@@ -1535,7 +1536,7 @@ static void present_units_fortify_callback(HWND w, void * data)
 **************************************************************************/
 
 
-void unitupgrade_callback_yes(HWND w, void * data)
+static void unitupgrade_callback_yes(HWND w, void * data)
 {
   struct unit *punit;
  
@@ -1549,7 +1550,7 @@ void unitupgrade_callback_yes(HWND w, void * data)
 /****************************************************************
 ...
 *****************************************************************/
-void unitupgrade_callback_no(HWND w, void * data)
+static void unitupgrade_callback_no(HWND w, void * data)
 {
   destroy_message_dialog(w);
 }
@@ -1557,7 +1558,7 @@ void unitupgrade_callback_no(HWND w, void * data)
 /****************************************************************
 ...
 *****************************************************************/       
-void upgrade_callback(HWND w, void * data)
+static void upgrade_callback(HWND w, void * data)
 {
   struct unit *punit;
   char buf[512];
@@ -1612,7 +1613,7 @@ void upgrade_callback(HWND w, void * data)
 **************************************************************************/
 
 
-void city_dlg_click_supported(struct city_dialog *pdialog, int n)
+static void city_dlg_click_supported(struct city_dialog *pdialog, int n)
 {
   struct unit *punit;
   struct city *pcity;  
@@ -1639,7 +1640,7 @@ void city_dlg_click_supported(struct city_dialog *pdialog, int n)
 **************************************************************************/
 
 
-void city_dlg_click_present(struct city_dialog *pdialog,int n)
+static void city_dlg_click_present(struct city_dialog *pdialog, int n)
 {
   struct unit *punit;
   struct city *pcity;
@@ -1690,7 +1691,7 @@ void city_dlg_click_present(struct city_dialog *pdialog,int n)
 **************************************************************************/
 
 
-void city_dlg_click_map(struct city_dialog *pdialog,int x,int y)
+static void city_dlg_click_map(struct city_dialog *pdialog, int x, int y)
 { 
   struct packet_city_request packet;    
   struct city *pcity;
@@ -1712,7 +1713,7 @@ void city_dlg_click_map(struct city_dialog *pdialog,int x,int y)
 **************************************************************************/
 
 
-void city_dlg_click_citizens(struct city_dialog *pdialog,int n)
+static void city_dlg_click_citizens(struct city_dialog *pdialog, int n)
 {
   struct packet_city_request packet;
   if (pdialog->citizen_type[n]<0)
@@ -1879,11 +1880,8 @@ static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
 **************************************************************************/
 
 
-LONG APIENTRY CitydlgWndProc (
-                           HWND hWnd,
-                           UINT message,
-                           UINT wParam,
-                           LONG lParam)
+static LONG APIENTRY CitydlgWndProc(HWND hWnd, UINT message,
+				    UINT wParam, LONG lParam)
 {
   HBITMAP old;
   LPNMHDR nmhdr;
@@ -2074,7 +2072,7 @@ popdown_city_dialog(struct city *pcity)
 **************************************************************************/
 
 
-void popdown_cityopt_dialog()
+static void popdown_cityopt_dialog(void)
 {
 }
 

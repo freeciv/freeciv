@@ -361,7 +361,7 @@ static void cityrep_buy(HWND hWnd)
   for(i=0;i<selcount;i++)
     {
       int value;
-      char *name;
+      const char *name;
       char buf[512];            
       pcity=(struct city *)ListBox_GetItemData(GetDlgItem(hWnd,
 							  ID_CITYREP_LIST),
@@ -388,11 +388,11 @@ static void cityrep_buy(HWND hWnd)
     }
 }
   
-
+#if 0
 /**************************************************************************
 
 **************************************************************************/
-void cityrep_refresh(HWND hWnd)
+static void cityrep_refresh(HWND hWnd)
 {
     int cityids[256];
   int selcount;
@@ -419,6 +419,8 @@ void cityrep_refresh(HWND hWnd)
 				  &packet);      
     }
 }
+#endif
+
 /**************************************************************************
 
 **************************************************************************/
@@ -617,7 +619,8 @@ static void list_sameisland_select(HWND hLst)
 /**************************************************************************
 
 **************************************************************************/
-void list_impr_or_unit_select(HWND hLst,int num, TestCityFunc *test_func)
+static void list_impr_or_unit_select(HWND hLst, int num,
+				     TestCityFunc *test_func)
 {
   int i,rows;
   list_all_select(hLst,FALSE);
