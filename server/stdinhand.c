@@ -1912,16 +1912,16 @@ static bool show_command(struct connection *caller, char *str, bool check)
     case SSET_NONE:
       break;
     case SSET_ALL:
-      cmd_reply_show(N_("All options"));
+      cmd_reply_show(_("All options"));
       break;
     case SSET_VITAL:
-      cmd_reply_show(N_("Vital options"));
+      cmd_reply_show(_("Vital options"));
       break;
     case SSET_SITUATIONAL:
-      cmd_reply_show(N_("Situational options"));
+      cmd_reply_show(_("Situational options"));
       break;
     case SSET_RARE:
-      cmd_reply_show(N_("Rarely used options"));
+      cmd_reply_show(_("Rarely used options"));
       break;
   }
   cmd_reply_show(_("+ means you may change the option"));
