@@ -1565,13 +1565,6 @@ static void load_ruleset_governments(struct section_file *file)
   game.government_when_anarchy
     = lookup_government(file, "governments.when_anarchy", filename);
   
-  game.ai_goal_government
-    = lookup_government(file, "governments.ai_goal", filename);
-
-  freelog(LOG_DEBUG, "govs: def %d, anarchy %d, ai_goal %d",
-	  game.default_government, game.government_when_anarchy,
-	  game.ai_goal_government);
-  
   /* Because player_init is called before rulesets are loaded we set
    * all players governments here, if they have not been previously
    * set (eg by loading game).
