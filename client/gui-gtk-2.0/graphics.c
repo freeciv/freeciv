@@ -617,3 +617,42 @@ SPRITE *crop_blankspace(SPRITE *s)
 
   return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1);
 }
+
+/*********************************************************************
+ Converts a sprite to a GdkPixbuf.
+*********************************************************************/
+GdkPixbuf *gdk_pixbuf_new_from_sprite(SPRITE *src)
+{
+  GdkPixbuf *dst;
+  int x, y, w, h;
+  guchar *pixels;
+  GdkImage *img;
+
+  w = src->width;
+  h = src->height;
+  
+  /* convert pixmap */
+  dst = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8, w, h);
+  gdk_pixbuf_get_from_drawable(dst, src->pixmap, NULL, 0, 0, 0, 0, w, h);
+
+  /* convert mask */
+  img = gdk_drawable_get_image(src->mask, 0, 0, w, h);
+
+  pixels = gdk_pixbuf_get_pixels(dst);
+
+  for (y = 0; y < h; y++) {
+    for (x = 0; x < w; x++) {
+      pixels += 3;
+	    
+      if (gdk_image_get_pixel(img, x, y)) {
+	*pixels++ = 255;
+      } else {
+	*pixels++ = 0;
+      }
+    }
+  }
+  gdk_image_destroy(img);
+
+  return dst;
+}
+
