@@ -2332,8 +2332,6 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       freelog(LOG_DEBUG, "  build_cost %3d", b->build_cost);
       freelog(LOG_DEBUG, "  upkeep      %2d", b->upkeep);
       freelog(LOG_DEBUG, "  sabotage   %3d", b->sabotage);
-      freelog(LOG_DEBUG, "  effect...");
-      freelog(LOG_DEBUG, "  variant     %2d", b->variant);	/* FIXME: remove when gen-impr obsoletes */
       freelog(LOG_DEBUG, "  helptext    %s", b->helptext);
     } impr_type_iterate_end;
   }
