@@ -1028,6 +1028,7 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
   unit_list_init(&pnewcity->units_supported);
   city_list_insert(&pplayer->cities, pnewcity);
 
+  give_citymap_from_player_to_player(pcity, cplayer, pplayer);
   map_unfog_city_area(pnewcity);
 
   /* transfer_city_units() destroys the city's units_supported

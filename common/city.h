@@ -249,6 +249,26 @@ extern int city_map_iterate_outwards_indices[(CITY_MAP_SIZE*CITY_MAP_SIZE)-4][2]
       if (! ((dx == -(int)(CITY_MAP_SIZE/2) || dx == (int)(CITY_MAP_SIZE/2)) && \
 	     (dy == -(int)(CITY_MAP_SIZE/2) || dy == (int)(CITY_MAP_SIZE/2))) )
 
+/* Iterate a city radius in map coordinates; skip non-existant squares */
+
+#define map_city_radius_iterate(city_x, city_y, x_itr, y_itr) \
+{ \
+  int MCMI_x, MCMI_y; \
+  for (MCMI_x=0; MCMI_x<CITY_MAP_SIZE; MCMI_x++) { \
+    for (MCMI_y=0; MCMI_y<CITY_MAP_SIZE; MCMI_y++) { \
+      if (! ((MCMI_x == 0 || MCMI_x == (CITY_MAP_SIZE-1)) \
+	     && (MCMI_y == 0 || MCMI_y == (CITY_MAP_SIZE-1))) ) { \
+        y_itr = city_y + MCMI_y - CITY_MAP_SIZE/2; \
+        if (y_itr < 0 || y_itr >= map.ysize) \
+	  continue; \
+	x_itr = map_adjust_x(city_x + MCMI_x - CITY_MAP_SIZE/2);
+
+#define map_city_radius_iterate_end \
+      } \
+    } \
+  } \
+}
+
 
 
 struct ai_choice {

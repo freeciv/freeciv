@@ -132,6 +132,21 @@ void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdes
 }
 
 /**************************************************************************
+...
+**************************************************************************/
+void give_citymap_from_player_to_player(struct city *pcity,
+					struct player *pfrom, struct player *pdest)
+{
+  int x, y;
+
+  connection_do_buffer(pdest->conn);
+  map_city_radius_iterate(pcity->x, pcity->y, x, y) {
+    give_tile_info_from_player_to_player(pfrom, pdest, x, y);
+  } map_city_radius_iterate_end;
+  connection_do_unbuffer(pdest->conn);
+}
+
+/**************************************************************************
 dest can be NULL meaning all players
 **************************************************************************/
 void send_all_known_tiles(struct player *dest)
@@ -740,51 +755,37 @@ void map_unfog_city_area(struct city *pcity)
 }
 
 /**************************************************************************
-There don't have to be a city.
+There doesn't have to be a city.
 **************************************************************************/
 void map_unfog_pseudo_city_area(struct player *pplayer, int x,int y)
 {
-  int i;
+  int x_itr, y_itr;
 
-  freelog(LOG_DEBUG, "Unfogging city area at %i,%i",x,y);
+  freelog(LOG_DEBUG, "Unfogging city area at %i,%i", x, y);
 
-  unfog_area(pplayer,x,y,1);
-  for (i = x-1;i<=x+1;i++)
-    if (is_real_tile(i,y+2))
-      unfog_area(pplayer,map_adjust_x(i),y+2,0);
-  for (i = x-1;i<=x+1;i++)
-    if (is_real_tile(i,y-2))
-      unfog_area(pplayer,map_adjust_x(i),y-2,0);
-  for (i = y-1;i<=y+1;i++)
-    if (is_real_tile(x+2,i))
-      unfog_area(pplayer,map_adjust_x(x+2),i,0);
-  for (i = y-1;i<=y+1;i++)
-    if (is_real_tile(x+2,i))
-      unfog_area(pplayer,map_adjust_x(x-2),i,0);
+  map_city_radius_iterate(x, y, x_itr, y_itr) {
+    if (map_get_known(x_itr, y_itr, pplayer))
+      unfog_area(pplayer, x_itr, y_itr, 0);
+    else
+      map_change_seen(x_itr, y_itr, pplayer->player_no, +1);
+  } map_city_radius_iterate_end;
 }
 
 /**************************************************************************
-There don't have to be a city.
+There doesn't have to be a city.
 **************************************************************************/
 void map_fog_pseudo_city_area(struct player *pplayer, int x,int y)
 {
-  int i;
+  int x_itr, y_itr;
 
-  freelog(LOG_DEBUG, "Fogging city area at %i,%i",x,y);
+  freelog(LOG_DEBUG, "Fogging city area at %i,%i", x, y);
 
-  fog_area(pplayer,x,y,1);
-  for (i = x-1;i<=x+1;i++)
-    if (is_real_tile(i,y+2))
-      fog_area(pplayer,map_adjust_x(i),y+2,0);
-  for (i = x-1;i<=x+1;i++)
-    if (is_real_tile(i,y-2))
-      fog_area(pplayer,map_adjust_x(i),y-2,0);
-  for (i = y-1;i<=y+1;i++)
-    if (is_real_tile(x+2,i))
-      fog_area(pplayer,map_adjust_x(x+2),i,0);
-  for (i = y-1;i<=y+1;i++)
-    if (is_real_tile(x-2,i))
-      fog_area(pplayer,map_adjust_x(x-2),i,0);
+  map_city_radius_iterate(x, y, x_itr, y_itr) {
+    if (map_get_known(x_itr, y_itr, pplayer))
+      fog_area(pplayer, x_itr, y_itr, 0);
+    else
+      map_change_seen(x_itr, y_itr, pplayer->player_no, -1);
+  } map_city_radius_iterate_end;
 }
 
 /**************************************************************************

@@ -37,6 +37,8 @@ struct player_tile{
 void global_warming(int effect);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
+void give_citymap_from_player_to_player(struct city *pcity,
+					struct player *pfrom, struct player *pdest);
 void send_all_known_tiles(struct player *dest);
 void send_tile_info(struct player *dest, int x, int y);
 void unfog_area(struct player *pplayer, int x, int y, int len);
