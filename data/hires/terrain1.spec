@@ -60,7 +60,7 @@ tiles = { "row", "column","tag"
  1,   2, "ts.buffalo"
  1,   3, "ts.wheat"
 
- 7,   7, "ts.grassland_resources"
+ 7,   7, "ts.grassland_resources", "ts.river_resources"
 
  3,   2, "ts.pheasant"
  3,   3, "ts.silk"
@@ -82,9 +82,12 @@ tiles = { "row", "column","tag"
 
  9,   2, "ts.gems"
  9,   3, "ts.fruit"
+ 9,   5, "ts.seals"
+ 9,   6, "ts.forest_game"
 
  10,  2, "ts.fish"
  10,  3, "ts.whales"
+ 10,  5, "ts.horses"
 
 
 ;roads - we follow the the numbering of the DIR_D[XY] arrays

@@ -686,7 +686,7 @@ static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
 
   sp = hash_lookup_data(sprite_hash, tag);
   if (sp) return sp;
-  printf("using alternative for %s\n", tag);
+
   sp = hash_lookup_data(sprite_hash, alt);
   if (sp) {
     freelog(loglevel, "Using alternate graphic %s (instead of %s) for %s %s",
@@ -738,8 +738,12 @@ void tilespec_setup_tile_type(int id)
 
   if (is_isometric) {
     my_snprintf(buffer1, sizeof(buffer1), "%s1", tt->graphic_str);
-    tt->sprite[0] = lookup_sprite_tag_alt(buffer1, NULL, 1, "tile_type",
-					  tt->terrain_name);
+    if (id != T_RIVER) {
+      tt->sprite[0] = lookup_sprite_tag_alt(buffer1, NULL, 1, "tile_type",
+					    tt->terrain_name);
+    } else {
+      tt->sprite[0] = NULL;
+    }
   } else {
     for(i=0; i<NUM_DIRECTION_NSEW; i++) {
       nsew = nsew_str(i);
@@ -1092,12 +1096,24 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   ttype = map_get_terrain(x, y);
   tspecial = map_get_special(x, y);
 
+  /* A little hack to avoid drawing seperate T_RIVER isometric tiles. */
+  if (ttype == T_RIVER) {
+    ttype = T_GRASSLAND;
+    tspecial |= S_RIVER;
+  }
+
   for (dir=0; dir<8; dir++) {
     int x1 = x + DIR_DX2[dir];
     int y1 = y + DIR_DY2[dir];
     if (normalize_map_pos(&x1, &y1)) {
       ttype_near[dir] = map_get_terrain(x1, y1);
       tspecial_near[dir] = map_get_special(x1, y1);
+
+      /* hacking away the river here... */
+      if (ttype_near[dir] == T_RIVER) {
+	ttype_near[dir] = T_GRASSLAND;
+	tspecial_near[dir] |= S_RIVER;
+      }
     } else {
       ttype_near[dir] = T_UNKNOWN;
       tspecial_near[dir] = S_NO_SPECIAL;
