@@ -1727,6 +1727,19 @@ void get_citizen_output(const struct city *pcity, int *output)
   add_specialist_output(pcity, output);
 }
 
+/****************************************************************************
+  This function sets all the values in the pcity->bonus[] array.  This should
+  be called near the beginning of generic_city_refresh.  It doesn't depend on
+  anything else in the refresh and doesn't change when workers are moved
+  around (but does change when buildings are built, etc.).
+****************************************************************************/
+static inline void set_city_bonuses(struct city *pcity)
+{
+  output_type_iterate(o) {
+    pcity->bonus[o] = get_city_output_bonus(pcity, o);
+  } output_type_iterate_end;
+}
+
 /**************************************************************************
   Modify the incomes according to the taxrates and # of specialists.
 **************************************************************************/
@@ -1759,11 +1772,6 @@ static inline void set_tax_income(struct city *pcity)
 **************************************************************************/
 static void add_buildings_effect(struct city *pcity)
 {
-  /* this is the place to set them */
-  output_type_iterate(o) {
-    pcity->bonus[o] = get_city_output_bonus(pcity, o);
-  } output_type_iterate_end;
-
   pcity->prod[O_SHIELD] = (pcity->prod[O_SHIELD] * pcity->bonus[O_SHIELD]) / 100;
   pcity->prod[O_LUXURY] = (pcity->prod[O_LUXURY] * pcity->bonus[O_LUXURY]) / 100;
   pcity->prod[O_GOLD] = (pcity->prod[O_GOLD] * pcity->bonus[O_GOLD]) / 100;
@@ -2192,6 +2200,7 @@ void generic_city_refresh(struct city *pcity,
 {
   int prev_tile_trade = pcity->citizen_base[O_TRADE];
 
+  set_city_bonuses(pcity);	/* Calculate the bonus[] array values. */
   set_food_trade_shields(pcity);
   citizen_happy_size(pcity);
   set_tax_income(pcity);	/* calc base luxury, tax & bulbs */
