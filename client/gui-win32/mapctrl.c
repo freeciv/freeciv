@@ -111,6 +111,7 @@ static void popit(int x, int y, int xtile, int ytile)
   HWND popup;
   POINT pt;
   RECT rc;
+  RECT rc2;
   struct fcwin_box *vbox;
   static struct map_position cross_list[2+1];
   struct map_position *cross_head = cross_list;
@@ -217,9 +218,19 @@ static void popit(int x, int y, int xtile, int ytile)
   GetWindowRect(popup,&rc);
   pt.x=x;
   pt.y=y;
-  ClientToScreen(map_window,&pt);
-  MoveWindow(popup,pt.x+16,pt.y-rc.bottom+rc.top,
-	     rc.right-rc.left,rc.bottom-rc.top,FALSE);
+  ClientToScreen(map_window, &pt);
+  rc2.left = rc.left + pt.x + 16;
+  rc2.right = rc.right + pt.x + 16;
+  rc2.top = rc.top + pt.y - rc.bottom;
+  rc2.bottom = rc.bottom - rc.top + rc2.top;
+  GetWindowRect(root_window,&rc);
+  if (rc2.right > rc.right) {
+    rc2.left -= (rc2.right - rc.right);
+    rc2.right = rc.right;
+  }
+  MoveWindow(popup, rc2.left, rc2.top,
+	     rc2.right - rc2.left,
+	     rc2.bottom - rc2.top, FALSE);
   ShowWindow(popup,SW_SHOWNORMAL);
   popit_popup=popup;
 } 
