@@ -1253,20 +1253,24 @@ int get_building_bonus(const struct city *pcity, Impr_Type_id id,
   The returned vector must be freed (building_vector_free) when the caller
   is done with it.
 **************************************************************************/
-struct building_vector get_city_bonus_sources(const struct city *pcity,
-					      enum effect_type effect_type)
+struct effect_source_vector get_city_bonus_sources(const struct city *pcity,
+						 enum effect_type effect_type)
 {
   struct player *pplayer = city_owner(pcity);
-  struct building_vector sources;
+  struct effect_source_vector sources;
 
-  building_vector_init(&sources);
+  effect_source_vector_init(&sources);
 
   building_vector_iterate(get_buildings_with_effect(effect_type), pbldg) {
-    if (get_effect_value(TARGET_CITY, pplayer, pcity,
-			 B_LAST, NULL, *pbldg, effect_type) != 0) {
-      building_vector_append(&sources, pbldg);
+    struct effect_source e;
+
+    e.building = *pbldg;
+    e.effect_value = get_effect_value(TARGET_CITY, pplayer, pcity,
+				      B_LAST, NULL, *pbldg, effect_type);
+    if (e.effect_value != 0) {
+      effect_source_vector_append(&sources, &e);
     }
-  } building_vector_iterate_end;
+  } effect_source_vector_iterate_end;
 
   return sources;
 }
