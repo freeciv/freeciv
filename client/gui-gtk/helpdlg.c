@@ -221,7 +221,11 @@ static void help_hyperlink_callback(GtkWidget *w, enum help_page_type type)
 
   s=GTK_LABEL(GTK_BUTTON(w)->child)->label;
 
-  if (strcmp (s, "(Never)") && strcmp (s, "None"))
+  /* May be able to skip, or may need to modify, advances[A_NONE].name
+     below, depending on which i18n is done elsewhere.
+  */
+  if (strcmp(s, _("(Never)")) && strcmp(s, _("None"))
+      && strcmp(s, advances[A_NONE].name))
     select_help_item_string(s, type);
 }
 
