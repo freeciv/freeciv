@@ -1473,12 +1473,13 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
     if (same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
       UNIT_LOG(LOG_DEBUG, punit, "go home successful; role AI_NONE");
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+
       /* aggro defense goes here -- Syela */
       /* Attack anything that won't kill us */
       (void) ai_military_rampage(punit, RAMPAGE_ANYTHING, 
                                  RAMPAGE_ANYTHING);
     } else {
-      (void) ai_unit_goto(punit, pcity->x, pcity->y);
+      (void) ai_gothere(pplayer, punit, pcity->x, pcity->y);
     }
   }
 }
@@ -2793,7 +2794,13 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
     ai_manage_military(pplayer,punit); 
     return;
   } else {
-    (void) ai_manage_explorer(punit); /* what else could this be? -- Syela */
+    int id = punit->id;
+    /* what else could this be? -- Syela */
+    if (!ai_manage_explorer(punit)
+        && find_unit_by_id(id)) {
+      ai_unit_new_role(punit, AIUNIT_DEFEND_HOME, -1, -1);
+      ai_military_gohome(pplayer, punit);
+    }
     return;
   }
 }
