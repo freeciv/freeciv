@@ -24,6 +24,7 @@
 #include <clib/alib_protos.h>
 #include <proto/intuition.h>
 
+#include "climisc.h"
 #include "fcintl.h"
 #include "gui_main.h"
 #include "muistuff.h"
@@ -40,22 +41,24 @@ void append_output_window(char *astring)
  the are somewhat related and append_output_window is already here.  --dwp
 **************************************************************************/
 void log_output_window(void)
-{ 
-	char *str;
-	int i,entries = xget(main_output_listview, MUIA_NList_Entries);
-  FILE *fp;
-  
-  append_output_window(_("Exporting output window to civgame.log ..."));
-  fp = fopen("civgame.log", "w"); /* should allow choice of name? */
+{
+  /* for terminating '\0' byte */
+  size_t size = 1;
+  char *mem = fc_malloc(size);
+  int i, entries = xget(main_output_listview, MUIA_NList_Entries);
 
-  for (i=0;i<entries;i++)
-  {
-  	DoMethod(main_output_listview, MUIM_NList_GetEntry, i, &str);
-  	fprintf(fp,"%s\n",str);
+  mem[0] = '\0';
+
+  for (i = 0; i < entries; i++) {
+    char *str;
+
+    DoMethod(main_output_listview, MUIM_NList_GetEntry, i, &str);
+    size += strlen(str) + 1;
+    mem = fc_realloc(mem, size);
+    cat_snprintf(mem, size, "%s\n", str);
   }
-
-  fclose(fp);
-  append_output_window(_("Export complete."));
+  write_chatline_content(mem);
+  free(mem);
 }
 
 /**************************************************************************

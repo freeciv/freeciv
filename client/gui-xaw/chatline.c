@@ -29,6 +29,7 @@
 #include "shared.h"		/* wordwrap_string() */
 #include "support.h"
 
+#include "climisc.h"
 #include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -130,16 +131,11 @@ void append_output_window(char *astring)
  the are somewhat related and append_output_window is already here.  --dwp
 **************************************************************************/
 void log_output_window(void)
-{ 
+{
   String theoutput;
-  FILE *fp;
-  
-  append_output_window(_("Exporting output window to civgame.log ..."));
+
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
-  fp = fopen("civgame.log", "w"); /* should allow choice of name? */
-  fprintf(fp, "%s", theoutput);
-  fclose(fp);
-  append_output_window(_("Export complete."));
+  write_chatline_content(theoutput);
 }
 
 /**************************************************************************

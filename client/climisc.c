@@ -1162,3 +1162,20 @@ void create_event(int x, int y, int event, const char *format, ...)
 
   handle_chat_msg(&packet);
 }
+
+/**************************************************************************
+  Writes the supplied string into the file civgame.log.
+**************************************************************************/
+void write_chatline_content(const char *txt)
+{
+  FILE *fp = fopen("civgame.log", "w");	/* should allow choice of name? */
+
+  append_output_window(_("Exporting output window to civgame.log ..."));
+  if (fp) {
+    fputs(txt, fp);
+    fclose(fp);
+    append_output_window(_("Export complete."));
+  } else {
+    append_output_window(_("Export failed, couldn't write to file."));
+  }
+}
