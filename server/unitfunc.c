@@ -216,7 +216,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
  	j++;
       }
     }
-    if (!j)
+    if (!j) {
       if (target->future_tech > pplayer->future_tech) {
  	notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
  			 "Game: Your diplomat stole Future Tech. %d from %s",
@@ -232,6 +232,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
  			 "Game: No new technology found in %s", pcity->name);
  	return;
       }
+    }
     
     if (pcity->steal) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
@@ -326,7 +327,7 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
    * This needs to be changed to take into account veteran status.
    */
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
-    if (unit_flag(punit->type, F_DIPLOMAT))
+    if (unit_flag(punit->type, F_DIPLOMAT)) {
       if (myrand(game.diplchance)) {
 	
 	/* Attacking Spy/Diplomat dies (N-1:N) */
@@ -358,7 +359,7 @@ int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
 			 pcity->name);
 	wipe_unit(0, punit);
       }
-  
+    }
   unit_list_iterate_end; 
   return 1;
 }
