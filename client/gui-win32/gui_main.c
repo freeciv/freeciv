@@ -274,6 +274,9 @@ static void map_setsize(LPRECT newsize, void *data)
   if ((mx==map_win_x)&&(map_win_y==my)&&
       (map_win_width==mw)&&(map_win_height==mh))
     return;
+  if ((mw<(2*NORMAL_TILE_WIDTH))||(mh<(2*NORMAL_TILE_HEIGHT))) {
+    return;
+  }
   map_win_x=mx;
   map_win_y=my;
   map_win_height=mh;
