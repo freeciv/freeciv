@@ -945,15 +945,15 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
 
     if(sprites[0])
     {
-			if(flags_are_transparent)
-			{
-				pixmap_put_overlay_tile(pm, xtile, ytile, sprites[0]);
-			}	else
-			{
+      if(flags_are_transparent)
+      {
+        pixmap_put_overlay_tile(pm, xtile, ytile, sprites[0]);
+      } else
+      {
         XCopyArea(display, sprites[0]->pixmap, pm, civ_gc, 0, 0,
                   sprites[0]->width, sprites[0]->height, 
                   xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);
-			}
+      }
     } else
     {
       XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+

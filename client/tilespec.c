@@ -820,8 +820,8 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
     /* non-transparent flags -> just draw city or unit. */
     if((pcity=map_get_city(abs_x0, abs_y0))
        && (citymode || !(punit=get_unit_in_focus())
-	     || punit->x!=abs_x0 || punit->y!=abs_y0
-	     || (unit_list_size(&ptile->units)==0))) {
+       || punit->x!=abs_x0 || punit->y!=abs_y0
+       || (unit_list_size(&ptile->units)==0))) {
 
       /* above, unit_list_size==0 happens when focus unit is blinking --dwp */ 
       sprs += fill_city_sprite_array(sprs,pcity);
