@@ -34,10 +34,10 @@ cities =
   "Santiago", "La Serena", "Concepción", "Valparaíso (hills)",
   "Rancagua", "Talca", "Punta Arenas (ocean)", "Copiapó",
   "Puerto Montt (ocean)", "Antofagasta", "Iquique", "Coyhaique",
-  "Temuco", "Viña del mar (ocean)", "Coquimbo", "San Antonio",
-  "La Calera (hills)", "Chillán", "Talcahuano", "Osorno", "Valdivia",
-  "Puerto Varas (ocean)", "Llanquihue", "Ancud", "Castro", "Calama",
-  "Arica", "Constitución", "Chañaral", "Cauquenes",
+  "Temuco (forest, river)", "Viña del mar (ocean)", "Coquimbo",
+  "San Antonio", "La Calera (hills)", "Chillán", "Talcahuano", "Osorno",
+  "Valdivia", "Puerto Varas (ocean)", "Llanquihue", "Ancud", "Castro",
+  "Calama", "Arica", "Constitución", "Chañaral", "Cauquenes",
   "Puente alto (river, hills)", "Talagante", "Melipilla", "Peumo",
   "Puerto Natales (ocean)", "Lota", "Ovalle", "Huasco", "Mejillones",
   "Victoria", "San Felipe", "Frutillar", "Illapel", "Angol",
@@ -46,5 +46,7 @@ cities =
   "Puerto Aisén (ocean)", "Tomé", "Mulchén", "Taltal", "Putre",
   "Vicuña", "Combarbalá", "Los Andes (hills)", "Quillota", "Molina",
   "Chanco", "Parral", "Bulnes", "Yungay", "Coronel", "Yumbel",
-  "Traiguén", "Pitrufquén", "Calbuco", "Maullín", "Pelequén",
-  "Algarrobo", "Puerto Toro (ocean)", "Cachiyuyo", "Pelotillehue"
+  "Traiguén (river)", "Pitrufquén", "Calbuco (ocean)",
+  "Maullín (swamp)", "Pelequén", "Algarrobo", "Puerto Toro (ocean)",
+  "Cachiyuyo", "Pelotillehue"
+
