@@ -2,13 +2,43 @@
 Welcome to Freeciv 1.11
 =======================
 
-This is release 1.11.0.
+This is release 1.11.4.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 1.11.0:
+
+ - Readline support added to the server.
+ - May now disperse initial units over specified area.  See "dispersion"
+   server option.
+ - May now arrange for first client to connect to have a higher cmdlevel
+   than the following clients.  See "cmdlevel" server option.
+ - Save files now transparently (un)compressed when (loaded) saved.
+ - Now requires a minimum number of ocean tiles to be adjacent to a land
+   tile wished to be transformed into ocean.  Default is 1.
+ - Added Nuclear Fallout.  Industrialization and population still
+   generate Pollution.  Dropping a Nuke generates Nuclear Fallout, which
+   is distinct from Pollution.  There is a new command to clean Fallout
+   vs. cleaning Pollution.  Fallout contributes to Nuclear Winter --
+   which also changes terrain, but tends to Desert, Tundra and Glacier.
+   Added a new "cooling" icon to the info area to indicate the progress
+   towards Nuclear Winter, and also an icon for Fallout on the main map.
+   AIs are now more aggressive at cleaning up Pollution, but not Fallout.
+ - Ported to OpenVMS.
+ - Moved most of the dependencies on the "civstyle" server option to
+   separate values in game.ruleset files.
+ - Fixed bugs in "turns to build" displays.
+ - Fixed bug whereby Diplomat/Spy investigations of cities did not
+   reveal the correct supported and present unit lists.
+ - Fixed multiple bugs in go-to code.
+ - Fixed bug where starting a revolution, saving the game and restarting
+   the server would allow switching governments without anarchy.
+ - Fix bug that you could paradrop into cities you were at war with even
+   if they contained enemy units.
 
 WHAT'S CHANGED SINCE 1.10.0:
 

@@ -20,112 +20,115 @@ contributions to the Freeciv project.
      David Pfitzner <dwp@mso.anu.edu.au> (Dec 1998 to Oct 1999 [1.8.0 to 1.9.0])
      Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> (Jan 1999 to Jun 1999 [1.8.0])
 
-  Coders since 1.10.0 release:
+  Coders since 1.11.0 release:
 
-     Thue Janus Kristensen <thue@diku.dk>
-	(fog of war, air unit goto, 30 players, diplomatic states,
-	patches, bugfixes, cleanup)
-     Robert Rendell <rob@universe.serc.rmit.edu.au>
-	(timeout impr., patches, bugfixes, cleanup)
      Jeff Mallatt <jjm@codewell.com>
-	(gen. improvements part 1, diplomatic states, drawing impr.,
-	patches, bugfixes, cleanup)
-     Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>
-	(network code impr., patches, bugfixes, cleanup)
-     Tomasz Wegrzanowski <maniek@beer.com> (patches, cleanup)
-     Joseph Beckenbach <jrb3@bdhsw.com> (BeOS, cleanup)
-     Sebastian Bauer <sebauer@t-online.de> (Amiga, cleanup)
-     David Pfitzner <dwp@mso.anu.edu.au>
-	(rulesout, split nations, registry impr., hashes,
-	patches, bugfixes, cleanup)
-     Dan Gohman <gohmandj@mrs.umn.edu> (cleanup)
-     Andrew McGuinness <cogers@yahoo.com> (cleanup)
-     Tuomas Airaksinen <tuma@linuxfan.com> (cleanup)
-     Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>
-	(diplomatic states, patch)
-     Paul Thomas <paul.thomas@cmis.csiro.au> (diplomatic states)
-     IQ <iquin@technologist.com> (gen. improvements part 1, cleanup)
-     Daniel Zinsli <s830+priv@ii.uib.no> (patches, bugfixes)
-     Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (bugfix)
-     Nicolas Brunel <brunel@ham.esil.univ-mrs.fr> (bugfixes)
-     Greg Wooledge <wooledge@kellnet.com> (bugfix)
-     Richard Atkins <rja@pcug.org.au> (patches)
-     Daniel Sjolie <deepone@acc.umu.se> (bugfix)
-     Eric Brunet <ebrunet@clipper.ens.fr> (patch)
-     Anders Wegge Jakobsen <wegge@wegge.dk> (bugfix)
-     Cameron Morland <cjmorlan@uwaterloo.ca> (land/ocean xfm)
-     Moses Lei <trumpkin@wizard.net> (patch)
-     Raimar Falke <rf13@inf.tu-dresden.de> (patches)
-     Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu> (bugfixes)
-     Pieter J. Kersten <kersten@dia.eur.nl> (patch, bugfix)
-     Reinier Post <reinpost@win.tue.nl> (info, bugfixes)
-     Mike Jing <miky40@hotmail.com> (patch, bugfix)
-     Lalo Martins <lalo@hackandroll.org> (Debian)
-     Kero van Gelder <kero@dds.nl> (patch)
-     Marko Lindqvist <caz@assari.cc.tut.fi> (patches)
+	(nuclear fallout, readline, patches, bugfixes)
+     Thue Janus Kristensen <thue@diku.dk> (readline, bugfixes, cleanup)
+     Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de> (Amiga, bugfix)
+     David Pfitzner <dwp@mso.anu.edu.au> (zlib, bugfixes, cleanup)
+     Tomasz Wegrzanowski <maniek@beer.com> ("dispersion" opt.)
+     Reinier Post <reinpost@win.tue.nl> ("cmdlevel first" cmd.)
+     Andreas Kemnade <akemnade@t-online.de> (bugfix)
+     Markus Linnala <maage@cs.tut.fi> (zlib)
+     IQ <iquin@technologist.com> (cleanup)
+     Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt> (bugfix, cleanup)
+     Roger Tucker <roger.tucker@wcom.com> (OpenVMS)
+     Marko Lindqvist <caz@assari.cc.tut.fi> (game.ruleset, bugfixes)
+     Joseph Beckenbach <jrb3@bdhsw.com> (BeOS)
+     Gaute Strokkenes <gs234@cam.ac.uk> (bugfix)
+     Robert Rendell <rob@universe.serc.rmit.edu.au> (bugfix)
+     Kero van Gelder <kero@dds.nl> (bugfix)
+     Karl-Ingo Friese <kif@informatik.uni-hannover.de> (bugfix)
 
-  Coders up to 1.10.0 release:
+  Coders up to 1.11.0 release:
      (Version numbers refer to the first non-beta release
      to contain that patch or bugfix.)
 
-     David Pfitzner <dwp@mso.anu.edu.au>
-	(safer strings, server 'help' cmd., tilespec impr. 1.10.0,
-	tilespec 1.9.0, co-admin 1.8.x, 1.7.2, patches 1.8.x,
-	rulesets, spacerace, 1.7.x)
+     Thue Janus Kristensen <thue@diku.dk>
+	(fog of war, air unit goto, 30 players, diplomatic states, patches
+	1.11.0, bugfix 1.10.0)
+     Robert Rendell <rob@universe.serc.rmit.edu.au>
+	(timeout impr., patches 1.11.0)
      Jeff Mallatt <jjm@codewell.com>
-	(co-admin, diplomat/spy cleanup, Xaw key/menu cleanup 1.10.0,
-	terrain rulesets 1.9.0, patches 1.8.x, diagonal roads)
-     Sebastian Bauer <sebauer@t-online.de>
-	(Amiga, turns-remaining 1.10.0, paratroopers, airbases, Amiga 1.9.0,
-	patch 1.8.1)
+	(co-admin 1.11.x, 1.10.x, gen. improvements part 1, diplomatic states,
+	drawing impr., patches 1.11.0, diplomat/spy cleanup, Xaw key/menu
+	cleanup 1.10.0, terrain rulesets 1.9.0, patches 1.8.x, diagonal roads)
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>
-	(Gtk+ speedup 1.10.0, Gtk+ client port/patches/maint 1.9.0, 1.8.1)
+	(network code impr., patches 1.11.0, Gtk+ speedup 1.10.0, Gtk+ client
+	port/patches/maint 1.9.0, 1.8.1)
+     Tomasz Wegrzanowski <maniek@beer.com> (patches 1.11.0, patches 1.10.0)
+     Joseph Beckenbach <jrb3@bdhsw.com>
+	(BeOS 1.11.0, 1.10.0, 1.9.0, cleanup 1.11.0, multi-client 1.10.0)
+     Sebastian Bauer <sebauer@t-online.de>
+	(Amiga 1.11.0, 1.10.0, 1.9.0, cleanup 1.11.0, turns-remaining 1.10.0,
+	paratroopers, airbases 1.8.1)
+     David Pfitzner <dwp@mso.anu.edu.au>
+	(rulesout, split nations, registry impr., hashes, patches 1.11.0,
+	safer strings, 'help' cmd., tilespec impr. 1.10.0, tilespec 1.9.0,
+	co-admin 1.8.x, 1.7.2, patches 1.8.x, rulesets, spacerace, 1.7.x)
+     Dan Gohman <gohmandj@mrs.umn.edu> (cleanup 1.11.0)
+     Andrew McGuinness <cogers@yahoo.com> (cleanup 1.11.0, get-tech 1.10.0)
+     Tuomas Airaksinen <tuma@linuxfan.com> (cleanup 1.11.0)
+     Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>
+	(diplomatic states, patch 1.11.0, explode animation 1.10.0, mini style
+	guide 1.9.0, patches 1.8.x, spacerace, 1.7.0, 1.6.0, autoconf support)
+     Paul Thomas <paul.thomas@cmis.csiro.au> (diplomatic states 1.11.0)
+     IQ <iquin@technologist.com>
+	(gen. improvements part 1, cleanup 1.11.0, "concise" opt.,
+	better gen 2+ rivers 1.10.0)
+     Daniel Zinsli <s830+priv@ii.uib.no>
+	(patches, bugfixes 1.11.0, turns-remaining 1.10.0)
+     Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (bugfix 1.11.0)
      Nicolas Brunel <brunel@ham.esil.univ-mrs.fr>
-	(cleanup 1.10.0, options, --metaserver 1.9.0,
+	(bugfixes 1.11.0, cleanup 1.10.0, options, --metaserver 1.9.0,
 	co-admin and patches 1.8.x, ai diplomat use)
+     Greg Wooledge <wooledge@kellnet.com>
+	(bugfix 1.11.0, "occupychance" 1.10.0, bugfixes 1.9.0,
+	helptext and other patches 1.8.0, 1.7.2, 1.7.0)
+     Richard Atkins <rja@pcug.org.au> (patches 1.11.0)
+     Daniel Sjolie <deepone@acc.umu.se>
+	(bugfix 1.11.0, unit "Cities" flag 1.10.0,
+	Gtk+ City Report sorting 1.9.0)
+     Eric Brunet <ebrunet@clipper.ens.fr> (patch 1.11.0)
+     Anders Wegge Jakobsen <wegge@wegge.dk> (bugfix 1.11.0, bugfix 1.10.0)
+     Cameron Morland <cjmorlan@uwaterloo.ca> (land/ocean xfm 1.11.0)
+     Moses Lei <trumpkin@wizard.net> (patch 1.11.0)
+     Raimar Falke <rf13@inf.tu-dresden.de> (patches 1.11.0)
+     Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>
+	(co-admin 1.11.0-1.8.1, bugfixes 1.11.0, AI diplomats 1.10.0,
+	AI spacerace 1.9.0, admin help 1.8.1, patches 1.8.x, 1.7.2, 1.7.1)
+     Pieter J. Kersten <kersten@dia.eur.nl> (patch, bugfix 1.11.0)
+     Reinier Post <reinpost@win.tue.nl>
+	(info, bugfixes 1.11.0, 'read' and 'write' cmds. 1.10.0,
+	bugfixes 1.9.0, patches 1.8.1, server commands from clients, 1.7.x)
+     Mike Jing <miky40@hotmail.com> (patches 1.11.0, rapture impr. 1.10.0)
+     Lalo Martins <lalo@hackandroll.org>
+	(Debian 1.11.0, patch 1.8.0 client --help, --version)
+     Kero van Gelder <kero@dds.nl> (patch 1.11.0)
+     Marko Lindqvist <caz@assari.cc.tut.fi> (patches 1.11.0)
+
      Karl-Ingo Friese <kif@informatik.uni-hannover.de> (Gtk+ speedup 1.10.0)
      Corin Anderson <corin@the4cs.com> (worklists 1.10.0, bugfix 1.9.0)
-     Tomasz Wegrzanowski <maniek@beer.com> (Mich's Var 1 1.10.0)
      Markus Linnala <maage@cs.tut.fi>
 	(bugfixes 1.10.0, patches 1.9.0, 1.8.1, logging, 1.7.x, configure)
      Daniel Burrows <Daniel_Burrows@brown.edu>
 	(Gtk+ patch 1.10.0, hp regeneration patches 1.8.0)
-     Mike Jing <miky40@hotmail.com> (rapture impr. 1.10.0)
-     IQ <iquin@technologist.com> ("concise" opt., better gen 2+ rivers 1.10.0)
      Per I. Mathisen <Per.Inge.Mathisen@idi.ntnu.no>
 	(cmd-line parse cleanup 1.10.0, patches 1.8.x,
 	server console, 1.7.2, 1.7.1)
-     Greg Wooledge <wooledge@kellnet.com>
-	("occupychance" 1.10.0, bugfixes 1.9.0,
-	helptext and other patches 1.8.0, 1.7.2, 1.7.0)
-     Andrew McGuinness <andrew_mcguinness@bigfoot.com> (get-tech impr. 1.10.0)
-     Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>
-	(explode animation 1.10.0, mini style guide 1.9.0, patches 1.8.x,
-	spacerace, 1.7.0, 1.6.0, autoconf support)
-     Daniel Zinsli <s830+priv@ii.uib.no> (turns-remaining)
-     Reinier Post <reinpost@win.tue.nl>
-	(server 'read' and 'write' cmds. 1.10.0, bugfixes 1.9.0,
-	patches 1.8.1, server commands from clients, 1.7.x)
      Egbert Hinzen <garfy@ehinzen.de> (bugfixes 1.10.0)
-     Thue Janus Kristensen <thue@diku.dk> (bugfix 1.10.0)
      John-Marc Chandonia <jmc@cmpharm.ucsf.edu>
 	(bugfix 1.10.0, Gtk+ "Change All" dialog 1.9.0)
      Jarda Benkovsky <pvt.benkovsk@pvtnet.cz> (connect feature 1.10.0)
      Peter Schaefer <schaefer@dfu.de>
 	(AI fix, bugfix 1.10.0, Gtk+ patch 1.9.0,
 	mapgen and other patches 1.8.x, 1.7.x, 1.6.x)
-     Joseph Beckenbach <jrb3@bdhsw.com> (multi-client 1.10.0, BeOS 1.9.0)
-     Daniel Sjolie <deepone@acc.umu.se>
-	(unit "Cities" flag 1.10.0, Gtk+ City Report sorting 1.9.0)
-     Anders Wegge Jakobsen <wegge@wegge.dk> (bugfix 1.10.0)
      PJA <pja@pdc.kth.se> (bugfix 1.10.0)
      Jerzy Klek <qpkjeek@epk.ericsson.se>
 	(barbarians 1.10.0, nations ruleset, city styles 1.9.0)
      Sebastian Wilhelmi <wilhelmi@ira.uka.de> (Gtk+ City Report impr. 1.10.0)
 
-     Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>
-	(AI diplomats 1.10.0, AI spacerace 1.9.0, admin help 1.8.1,
-	patches 1.8.x, 1.7.2, 1.7.1)
      Sune Kirkeby <sune@interspace.dk>
 	(governments ruleset, unit upkeep 1.9.0, patches 1.8.1)
      David Pérez Serrada <dperezs@nexo.es> (i18n 1.9.0)
@@ -163,7 +166,6 @@ contributions to the Freeciv project.
 	(autoattack patch 1.8.0)
      Daniel Gudlat <gudlat@informatik.hu-berlin.de>
 	(scenario related patches 1.8.0, 1.7.2)
-     Lalo Martins <lalo@hackandroll.org> (patch 1.8.0 client --help, --version)
      Christopher C Chimelis <chris@classnet.med.miami.edu> (patch 1.8.0 Alpha)
      Bussi Andrea <bta@edu.al.unipmn.it> (patch 1.8.0 2-button mouse)
      Fabrice Noilhan <Fabrice.Noilhan@ens.fr> (patch 1.8.0 Solaris)
@@ -211,6 +213,7 @@ contributions to the Freeciv project.
 
   Graphics:
 
+     Jussi Asp <ja66598@uta.fi> (engels fog)
      Tatu Rissanen <tatu.rissanen@hut.fi> ("trident" tileset, now default)
      Ralph Engels <rengels@hydra.informatik.uni-ulm.de> ("engels" tileset)
      Marco Saupe <msaupe@saale-net.de> (intro graphics, trident city styles)
@@ -239,34 +242,41 @@ contributions to the Freeciv project.
      Daniel Gudlat <gudlat@informatik.hu-berlin.de> (Earth)
      Jerzy Klek <qpkjeek@epk.ericsson.se> (Europe v1.1)
 
-  Ruleset data since 1.10.0 release:
+  Ruleset data since 1.11.0 release:
 
-     Tomasz Wegrzanowski <maniek@beer.com> (nations)
-     Robert Brady <rwb197@ecs.soton.ac.uk> (nations)
+     Gianni Ciolli <ciolli@math.unifi.it> (nations)
+     Wong TM [Huang Deming] <lookmeow@magix.com.sg> (nations)
+     Martin Willemoes Hansen <mwh@stampede.org> (nations)
      Martin McMahon <martin.mcmahon@ukonline.co.uk> (nations)
-     Joaquin Cuenca Abela <cuenca@ie2.u-psud.fr> (nations)
-     Lalo Martins <lalo@hackandroll.org> (nations)
-     Richard Garrel <rgarrel@bhnet.com.br> (nations)
-     Tuomas Airaksinen <tuma@linuxfan.com> (nations)
-     Jan Heidefuss <jan_heidefuss@yahoo.de> (nations)
-     Paul Zastoupil <paulz@dunedain.net> (nations)
-     riq <riq@ciudad.com.ar> (nations)
-     IQ <iquin@technologist.com> (buildings)
-     Jeff Mallatt <jjm@codewell.com> (units, buildings)
-     Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de> (nations)
+     Erik Sigra <sigra@home.se> (nations)
+     Tomasz Wegrzanowski <maniek@beer.com> (nations)
+     Jerzy Klek <qpkjeek@epk.ericsson.se> (nations)
+     Aivo Kalu <aivo.kalu@mfa.ee> (nations)
 
-  Ruleset data up to 1.10.0 release:
+  Ruleset data up to 1.11.0 release:
      (Version numbers refer to the first non-beta release
      to contain that information.)
+
+     Tomasz Wegrzanowski <maniek@beer.com> (nations 1.11.0, 1.10.0)
+     Robert Brady <rwb197@ecs.soton.ac.uk>
+	(nations 1.11.0, nations, buildings 1.10.0)
+     Martin McMahon <martin.mcmahon@ukonline.co.uk> (nations 1.11.0)
+     Joaquin Cuenca Abela <cuenca@ie2.u-psud.fr> (nations 1.11.0)
+     Lalo Martins <lalo@hackandroll.org> (nations 1.11.0)
+     Richard Garrel <rgarrel@bhnet.com.br> (nations 1.11.0)
+     Tuomas Airaksinen <tuma@linuxfan.com> (nations 1.11.0)
+     Jan Heidefuss <jan_heidefuss@yahoo.de> (nations 1.11.0)
+     Paul Zastoupil <paulz@dunedain.net> (nations 1.11.0, 1.10.0)
+     riq <riq@ciudad.com.ar> (nations 1.11.0)
+     IQ <iquin@technologist.com> (buildings 1.11.0)
+     Jeff Mallatt <jjm@codewell.com> (units, buildings 1.11.0, terrain 1.9.0)
+     Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de> (nations 1.11.0)
 
      David Pfitzner <dwp@mso.anu.edu.au>
 	(units 1.10.0, buildings 1.9.0, 1.8.0, governments 1.9.0,
 	techs 1.9.0, 1.8.0, terrain 1.9.0, units 1.8.0)
-     Tomasz Wegrzanowski <maniek@beer.com> (nations 1.10.0)
-     Paul Zastoupil <paulz@dunedain.net> (nations 1.10.0)
      Craig Johnston <cjohnston@lycosmail.com> (nations 1.10.0)
      Eric S. Raymond <esr@snark.thyrsus.com> (nations 1.10.0)
-     Robert Brady <rwb197@ecs.soton.ac.uk> (nations, buildings 1.10.0)
      Mika Korhonen <mikak@ee.oulu.fi> (nations 1.10.0, nations 1.9.0)
      Jason Todd <idjason@home.com> (nations 1.10.0)
      Sean Connor <sec@konatsu.dhs.org> (nations 1.10.0)
@@ -282,7 +292,6 @@ contributions to the Freeciv project.
      Jarda Benkovsky <pvt.benkovsk@pvtnet.cz> (nations 1.9.0)
      Mattias Andersson <tamasis@softhome.net> (nations 1.9.0)
      Sebastian Bauer <sebauer@t-online.de> (techs, units 1.9.0)
-     Jeff Mallatt <jjm@codewell.com> (terrain 1.9.0)
      Andrew Donkin <ard@scms.waikato.ac.nz> (terrain 1.9.0)
 
      Greg Wooledge <wooledge@kellnet.com> (buildings 1.8.0)
@@ -328,60 +337,73 @@ contributions to the Freeciv project.
 
      Peter Dam Mains <lancelot@daimi.au.dk>
 
-  Bug reports since 1.10.0 release:
+  Bug reports since 1.11.0 release:
 
-     Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de>
-     Christian Knoke <chrisk@enter.de>
-     Egbert Hinzen <garfy@ehinzen.de>
-     Shalon Wood <dstar@pele.cx>
-     Anthony DeRobertis <derobert@erols.com>
-     Peter Zelezny <zed@linux.com>
-     Jussi Asp <ja66598@uta.fi>
-     Peter Welzien <welzien@canit.se>
-     Mario <gianmario.scotti@nokia.com>
-     Daniel Sjolie <deepone@acc.umu.se>
-     Robert Brady <rrwb197@ecs.soton.ac.uk>
-     Laurent Vibert <lvibert@irisa.fr>
-     Patrice LaFlamme <patrix@patrix.org>
-     Vincent <skorpion@optonline.net>
-     Lance Levsen <l.levsen@printwest.com>
-     Rizos Sakellariou <rizos@rice.edu>
-     Thomas Aglassinger <agi@rieska.oulu.fi>
      Urban Mueller <mueller@relog.ch>
-     AP Remmers <aremmers@nerdherd.org>
+     Marko Lindqvist <caz@assari.cc.tut.fi>
+     Michael Kiermaier <michael.kiermaier@gmx.net>
+     Tomasz Wegrzanowski <maniek@beer.com>
+     Gaute Strokkenes <gs234@cam.ac.uk>
      Jan Heidefuss <jan_heidefuss@yahoo.de>
-     Mark Nettle <markn@teach.bhs.mq.edu.au>
-     Paul Zastoupil <paulz@dunedain.net>
-     Mark Hayden <hayden@ispchannel.com>
-     jf <jean-francois.bonnet@math-info.univ-paris5.fr>
-     David Chester <David@chescam.demon.co.uk>
-     Jim Smith <atilla_ca@yahoo.com>
-     Jamie Love <jdl28@cosc.canterbury.ac.nz>
-     Igor Nazarov <nazarov@math.unm.edu>
-     Karl-Ingo Friese <kif@informatik.uni-hannover.de>
-     Mike Webb <mjw@codewell.com>
+     Gaute Strokkenes <gs234@cam.ac.uk>
+     Mark Polo <mark@zenit.org>
+     Martin Manns <mmanns@gmx.net>
+     Christian Knoke <chrisk@enter.de>
+     Jeff Mallatt <jjm@codewell.com>
      Alex Davidoff <aldave@tirastel.md>
-     Brett Smith <brett@aether.dhs.org>
-     Dennis Seekles <seekles@astro.rug.nl>
-     Marc Espie <espie@cvs.openbsd.org>
-     Erik Thiele <erikyyy@erikyyy.de>
-     Piotr Sulecki <piotr.sulecki@ios.krakow.pl>
-     Marcus Bleicher <bleicher@nta2.lbl.gov>
-     Scott Kullberg <sekullbe@mediaone.net>
-     Niels Leander van Reymersdal <quazion@atari.org>
-     Martin Kenward <mkenward@pickles.physics.mun.ca>
-     Jan Dittberner <jan@jan-dittberner.de>
-     Goswin Brederlow <goswin.brederlow@student.uni-tuebingen.de>
-     Daniel Birep <birod@registerednurses.com>
-     Erwan Deriaz <deriaz@eleves.bretagne.ens-cachan.fr>
-     David Scheid <david.scheid@compaq.com>
-     Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de>
-     Stepan Roh <sroh7497@ss1000.ms.mff.cuni.cz>
 
-  Bug reports up to 1.10.0 release:
+  Bug reports up to 1.11.0 release:
      (Version numbers refer to the release the bug was reported on.)
 
-     Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de> (1.9.0)
+     Gerhard Killesreiter <killesreiter@physik.uni-freiburg.de>
+	(1.10.0, 1.9.0)
+     Christian Knoke <chrisk@enter.de> (1.10.0)
+     Egbert Hinzen <garfy@ehinzen.de> (1.10.0, 1.9.0)
+     Shalon Wood <dstar@pele.cx> (1.10.0)
+     Anthony DeRobertis <derobert@erols.com> (1.10.0)
+     Peter Zelezny <zed@linux.com> (1.10.0)
+     Jussi Asp <ja66598@uta.fi> (1.10.0)
+     Peter Welzien <welzien@canit.se> (1.10.0)
+     Mario <gianmario.scotti@nokia.com> (1.10.0)
+     Daniel Sjolie <deepone@acc.umu.se> (1.10.0)
+     Robert Brady <rrwb197@ecs.soton.ac.uk> (1.10.0)
+     Laurent Vibert <lvibert@irisa.fr> (1.10.0)
+     Patrice LaFlamme <patrix@patrix.org> (1.10.0)
+     Vincent <skorpion@optonline.net> (1.10.0)
+     Lance Levsen <l.levsen@printwest.com> (1.10.0)
+     Rizos Sakellariou <rizos@rice.edu> (1.10.0, 1.8.1, 1.8.0)
+     Thomas Aglassinger <agi@rieska.oulu.fi> (1.10.0)
+     Urban Mueller <mueller@relog.ch> (1.10.0)
+     AP Remmers <aremmers@nerdherd.org> (1.10.0)
+     Jan Heidefuss <jan_heidefuss@yahoo.de> (1.10.0)
+     Mark Nettle <markn@teach.bhs.mq.edu.au> (1.10.0)
+     Paul Zastoupil <paulz@dunedain.net> (1.10.0)
+     Mark Hayden <hayden@ispchannel.com> (1.10.0)
+     jf <jean-francois.bonnet@math-info.univ-paris5.fr> (1.10.0)
+     David Chester <David@chescam.demon.co.uk> (1.10.0)
+     Jim Smith <atilla_ca@yahoo.com> (1.10.0, 1.8.1)
+     Jamie Love <jdl28@cosc.canterbury.ac.nz> (1.10.0)
+     Igor Nazarov <nazarov@math.unm.edu> (1.10.0)
+     Karl-Ingo Friese <kif@informatik.uni-hannover.de> (1.10.0)
+     Mike Webb <mjw@codewell.com> (1.10.0)
+     Alex Davidoff <aldave@tirastel.md> (1.10.0)
+     Brett Smith <brett@aether.dhs.org> (1.10.0)
+     Dennis Seekles <seekles@astro.rug.nl> (1.10.0)
+     Marc Espie <espie@cvs.openbsd.org> (1.10.0)
+     Erik Thiele <erikyyy@erikyyy.de> (1.10.0)
+     Piotr Sulecki <piotr.sulecki@ios.krakow.pl> (1.10.0)
+     Marcus Bleicher <bleicher@nta2.lbl.gov> (1.10.0)
+     Scott Kullberg <sekullbe@mediaone.net> (1.10.0)
+     Niels Leander van Reymersdal <quazion@atari.org> (1.10.0)
+     Martin Kenward <mkenward@pickles.physics.mun.ca> (1.10.0)
+     Jan Dittberner <jan@jan-dittberner.de> (1.10.0)
+     Goswin Brederlow <goswin.brederlow@student.uni-tuebingen.de> (1.10.0)
+     Daniel Birep <birod@registerednurses.com> (1.10.0)
+     Erwan Deriaz <deriaz@eleves.bretagne.ens-cachan.fr> (1.10.0)
+     David Scheid <david.scheid@compaq.com> (1.10.0)
+     Enrico Scholz <enrico.scholz@informatik.tu-chemnitz.de> (1.10.0)
+     Stepan Roh <sroh7497@ss1000.ms.mff.cuni.cz> (1.10.0)
+
      David R. Relyea <relyea@slac.stanford.edu> (1.9.0)
      Pascal Andoux <pascal@yalbinet.com> (1.9.0)
      Massimo Campostrini <campo@mailbox.difi.unipi.it> (1.9.0)
@@ -392,7 +414,6 @@ contributions to the Freeciv project.
      IQ <iquin@technologist.com> (1.9.0)
      Jez Bromley <jmb65@cam.ac.uk> (1.9.0)
      Daniel Zinsli <s830+priv@ii.uib.no> (1.9.0)
-     Egbert Hinzen <garfy@ehinzen.de> (1.9.0)
      Tobias Brox <tobix@irctos.org> (1.9.0)
      Falk Hueffner <falk.hueffner@student.uni-tuebingen.de> (1.9.0)
      Reinier Post <reinpost@win.tue.nl> (1.9.0)
@@ -403,7 +424,6 @@ contributions to the Freeciv project.
      Mikolaj Konarski <mikon@mimuw.edu.pl> (1.9.0)
      Greg Wooledge <wooledge@kellnet.com> (1.9.0)
 
-     Rizos Sakellariou <rizos@cs.rice.edu> (1.8.1, 1.8.0)
      Marko Lindqvist <caz@students.cc.tut.fi> (1.8.1, 1.8.0)
      Artur Biesiadowski <abies@pg.gda.pl> (1.8.1)
      Reuben Thomas <rrt1001@cam.ac.uk> (1.8.1)
@@ -417,7 +437,6 @@ contributions to the Freeciv project.
      David Ronis <ronis@onsager.chem.mcgill.ca> (1.8.1)
      Christoph Kutzinski <kutzi@gmx.de> (1.8.1)
      Matthew Hunt <mph@astro.caltech.edu> (1.8.1)
-     Jim Smith <atilla_ca@yahoo.com> (1.8.1)
 
      Patrick Smith <patsmith@pobox.com> (1.8.0)
      Todd Goodman <tsg1@earthlink.net> (1.8.0)
@@ -452,57 +471,51 @@ contributions to the Freeciv project.
 
      David King <crkinger@usa.net> (new Freeciv Client and Server Guides)
 
-  Localization (l10n) since 1.10.0 release:
+  Localization (l10n) since 1.11.0 release:
 
      Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (ja.po)
-     Egbert Hinzen <garfy@ehinzen.de> (de.po, README.de)
-     Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt> (pt.po)
-     Tomasz Wegrzanowski <maniek@beer.com> (pl.po)
-     Christian Knoke <chrisk@enter.de> (de.po)
-     Frank Osterfeld <fraos@gmx.de> (de.po)
-     Jens Georg <jgeorg@ldknet.org> (INSTALL.de)
+     Egbert Hinzen <egbert@ehinzen.de> (de.po)
      Pieter J. Kersten <kersten@dia.eur.nl> (nl.po)
-     Gabor Dukai <dukai@eunet.yu> (hu.po)
-     Lalo Martins <lalo@hackandroll.org> (pt_BR.po)
-     Piotr Sulecki <piotr.sulecki@ios.krakow.pl> (pl.po)
-     Olivier Beyssac <ob@r14.freenix.org> (fr.po)
-     Pascal Audoux <audoux@yalbi.com> (fr.po)
-     Benoit Timbert <benoit.timbert@enst-bretagne.fr> (fr.po)
-     Nicolas Lannier <archeide@yahoo.com> (fr.po)
-     Franck Reinquin <freinquin@infonie.fr> (fr.po)
-     Philippe Fremy <fremy@yalbi.com> (fr.po)
+     David Pfitzner <dwp@mso.anu.edu.au> (en_GB.po)
 
-  Localization (l10n) up to 1.10.0 release:
+  Localization (l10n) up to 1.11.0 release:
      (Version numbers refer to the first non-beta release
      to contain the translations.)
 
-     Egbert Hinzen <garfy@ehinzen.de> (de.po, README.de 1.10.0)
-     Gabor Dukai <dukai@EUnet.yu> (hu.po 1.10.0)
-     Philippe Fremy <fremy@yalbi.com> (fr.po 1.10.0)
-     Eric Brunet <ebrunet@clipper.ens.fr> (fr.po 1.10.0)
+     Sawada Katsuya <amanatto@mail2.dddd.ne.jp> (ja.po 1.11.0)
+     Egbert Hinzen <garfy@ehinzen.de> (de.po, README.de 1.11.0, 1.10.0)
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>
-	(pt.po 1.10.0, pt.po 1.9.0)
+	(pt.po 1.11.0, 1.10.0, 1.9.0)
+     Tomasz Wegrzanowski <maniek@beer.com> (pl.po 1.11.0)
+     Christian Knoke <chrisk@enter.de> (de.po 1.11.0)
+     Frank Osterfeld <fraos@gmx.de> (de.po 1.11.0)
+     Jens Georg <jgeorg@ldknet.org> (INSTALL.de 1.11.0, 1.10.0)
+     Pieter J. Kersten <kersten@dia.eur.nl> (nl.po 1.11.0)
+     Gabor Dukai <dukai@eunet.yu> (hu.po 1.11.0, 1.10.0)
+     Lalo Martins <lalo@hackandroll.org> (pt_BR.po 1.11.0, 1.9.0)
+     Piotr Sulecki <piotr.sulecki@ios.krakow.pl> (pl.po 1.11.0)
+     Olivier Beyssac <ob@r14.freenix.org> (fr.po 1.11.0, 1.10.0)
+     Pascal Audoux <audoux@yalbi.com> (fr.po 1.11.0, 1.10.0)
+     Benoit Timbert <benoit.timbert@enst-bretagne.fr> (fr.po 1.11.0, 1.10.0)
+     Nicolas Lannier <archeide@yahoo.com> (fr.po 1.11.0, 1.10.0)
+     Franck Reinquin <freinquin@infonie.fr> (fr.po 1.11.0, 1.10.0)
+     Philippe Fremy <fremy@yalbi.com> (fr.po 1.11.0, 1.10.0)
+
+     Eric Brunet <ebrunet@clipper.ens.fr> (fr.po 1.10.0)
      Stig Erik Sandoe <stig@ii.uib.no> (no.po 1.10.0)
      Paul Zastoupil <paulz@dunedain.net> (es.po 1.10.0)
      Per I. Mathisen <Per.Inge.Mathisen@idi.ntnu.no> (no.po 1.10.0)
      Jorgen Skjaanes <jorgen@gulesider.no> (no.po 1.10.0)
      Robert Brady <rwb197@ecs.soton.ac.uk> (en_GB.po 1.10.0)
-     Jens Georg <jgeorg@ldknet.org> (INSTALL.de 1.10.0)
      Valek Filippov <frob@df.ru> (ru.po 1.10.0)
      Thiago J. Bauermann <jungmann@cwb.matrix.com.br> (pt_BR.po 1.10.0)
      Moritz Muehlenhoff <muehlenhoff@gmx.de> (de.po 1.10.0)
-     Nicolas Lannier <archeide@yahoo.com> (fr.po 1.10.0)
-     Pascal Audoux <audoux@yalbi.com> (fr.po 1.10.0)
-     Benoit Timbert <benoit.timbert@maisel-gw.enst-bretagne.fr> (fr.po 1.10.0)
-     Franck Reinquin <freinquin@infonie.fr> (fr.po 1.10.0)
      Lionel Triay <lionel@acomi.net> (fr.po 1.10.0)
      Loic Vigneras <loic.vigneras@wanadoo.fr> (fr.po 1.10.0)
      Christian Marillat <marillat@alpes-net.fr> (fr.po 1.10.0)
-     Olivier Beyssac <ob@r14.freenix.org> (fr.po 1.10.0)
      Arnaud Gomes-do-Vale <arnaud@carrosse.frmug.org> (fr.po 1.10.0)
 
      Manop Huber <Saphir@cs.tu-berlin.de> (de.po 1.9.0)
-     Lalo Martins <lalo@hackandroll.org> (pt_BR.po 1.9.0)
      Artur Biesiadowski <abies@pg.gda.pl> (pl.po 1.9.0)
      Denis Bodor <dbodor@linuxmag-france.org> (fr.po 1.9.0)
      David Pérez Serrada <dperezs@laguna.dvnet.es> (es.po 1.9.0)
@@ -549,6 +562,8 @@ contributions to the Freeciv project.
      Justin Hopkins <hop@elwood.pionet.net> (Windows - native)
      Mark Nettle <mark@bluefire.com.au> (Fantasy modpack)
      Alexandre Beraud <a_beraud@lemel.fr> (Window Maker launcher)
+     Roger Tucker <roger.tucker@wcom.com> (OpenVMS)
+     Andreas Kemnade <akemnade@t-online.de> (Windows - Gtk+)
 
   Others:
 

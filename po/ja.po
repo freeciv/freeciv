@@ -21,7 +21,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.1-devel\n"
-"POT-Creation-Date: 2000-07-16 20:41+0900\n"
+"POT-Creation-Date: 2000-07-17 11:03-0400\n"
 "PO-Revision-Date: 2000-07-16 21:34+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
@@ -80,55 +80,55 @@ msgstr ""
 msgid "last message repeated once"
 msgstr ""
 
-#: common/map.c:47
+#: common/map.c:51
 msgid "Special1"
 msgstr ""
 
-#: common/map.c:48 common/map.c:651 common/unit.c:745
+#: common/map.c:52 common/map.c:655 common/unit.c:745
 msgid "Road"
 msgstr "Æ»Ï©"
 
-#: common/map.c:49 common/map.c:655 common/unit.c:747
+#: common/map.c:53 common/map.c:659 common/unit.c:747
 msgid "Irrigation"
 msgstr "ÞõÞô"
 
-#: common/map.c:50 common/map.c:653 common/unit.c:752 data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439 data/default/techs.ruleset:439
+#: common/map.c:54 common/map.c:657 common/unit.c:752 data/civ1/techs.ruleset:439 data/civ2/techs.ruleset:439 data/default/techs.ruleset:439
 msgid "Railroad"
 msgstr "Å´Æ»"
 
-#: common/map.c:51 common/map.c:659 common/unit.c:746
+#: common/map.c:55 common/map.c:663 common/unit.c:746
 msgid "Mine"
 msgstr "¹Û»³"
 
-#: client/cityrepdata.c:218 common/map.c:52 common/unit.c:744 server/plrhand.c:840
+#: client/cityrepdata.c:218 common/map.c:56 common/unit.c:744 server/plrhand.c:840
 msgid "Pollution"
 msgstr "¸ø³²"
 
-#: common/map.c:53
+#: common/map.c:57
 msgid "Hut"
 msgstr ""
 
-#: common/map.c:54 common/map.c:661 common/unit.c:750
+#: common/map.c:58 common/map.c:665 common/unit.c:750
 msgid "Fortress"
 msgstr "Í×ºÉ"
 
-#: common/map.c:55
+#: common/map.c:59
 msgid "Special2"
 msgstr ""
 
-#: common/map.c:56 data/civ1/terrain.ruleset:470 data/classic/terrain.ruleset:470
+#: common/map.c:60 data/civ1/terrain.ruleset:470 data/classic/terrain.ruleset:470
 msgid "River"
 msgstr "Àî"
 
-#: common/map.c:57 common/map.c:657
+#: common/map.c:61 common/map.c:661
 msgid "Farmland"
 msgstr "ÇÀÃÏ"
 
-#: common/map.c:58 common/map.c:663 common/unit.c:757
+#: common/map.c:62 common/map.c:667 common/unit.c:757
 msgid "Airbase"
 msgstr "Èô¹Ô¾ì"
 
-#: common/map.c:59 common/unit.c:758
+#: common/map.c:63 common/unit.c:758
 msgid "Fallout"
 msgstr ""
 
@@ -1051,15 +1051,15 @@ msgstr "AI¤Ï %2$s ¤Ë¤è¤Ã¤Æ¼£À¤¤µ¤ì¤¿ %1$s Ì±Â²¤ò¥³¥ó¥È¥í¡¼¥ë¤·¤Æ¤¤¤Þ¤¹¡£"
 msgid "Game: %s rules the %s."
 msgstr ""
 
-#: server/console.c:162
+#: server/console.c:178
 msgid "Ok. RFC-style set."
 msgstr ""
 
-#: server/console.c:164
+#: server/console.c:180
 msgid "Ok. Standard style set."
 msgstr ""
 
-#: server/console.c:183
+#: server/console.c:199
 msgid "For introductory help, type 'help'."
 msgstr "½éÊâÅª¤Ê¥Ø¥ë¥×¤¬Íß¤·¤±¤ì¤Ð¡¢ 'help' ¤ÈÂÇ¤Ã¤Æ²¼¤µ¤¤¡£"
 
@@ -10159,12 +10159,13 @@ msgid "?plural:Danes"
 msgstr "¥Ç¥ó¥Þ¡¼¥¯Ì±Â²"
 
 #: data/nation/dunedain.ruleset:3
-msgid "Dúîedain"
+msgid "Dúnedain"
 msgstr ""
 
 #: data/nation/dunedain.ruleset:4
-msgid "?plural:Dúîedan"
-msgstr ""
+#, fuzzy
+msgid "?plural:Dúnedan"
+msgstr "¥¤¥ó¥ÉÌ±Â²"
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
