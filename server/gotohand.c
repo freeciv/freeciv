@@ -986,7 +986,7 @@ void do_unit_goto(struct player *pplayer, struct unit *punit,
     punit->activity=ACTIVITY_IDLE;
   else if (punit->moves_left) {
     struct connection *pc = pplayer->conn;
-    if (pc && has_capability("ocean_reclamation", pc->capability)) {
+    if (pc && has_capability("advance_focus_packet", pc->capability)) {
       struct packet_generic_integer packet;
       packet.value = punit->id;
       send_packet_generic_integer(pc, PACKET_ADVANCE_FOCUS,
