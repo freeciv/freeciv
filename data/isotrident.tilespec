@@ -58,6 +58,7 @@ files =
 ;  "misc/techs.spec",
   "misc/treaty.spec",
   "isotrident/nuke.spec",
+  "trident/explosions.spec",
   "isotrident/cities.spec",
   "isotrident/morecities.spec"
 
