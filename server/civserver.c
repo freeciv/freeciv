@@ -893,7 +893,9 @@ void handle_alloc_race(int player_no, struct packet_alloc_race *packet)
     if(game.players[i].race==packet->race_no) {
        send_select_race(&game.players[player_no]); /* it failed - race taken */
        return;
-    } else if (!strcmp(game.players[i].name,packet->name)) { /* name taken */
+    } else /* check to see if name has been taken */
+       if (!strcmp(game.players[i].name,packet->name) && 
+            game.players[i].race != R_LAST) { 
        notify_player(&game.players[player_no],
 		     "Another player named '%s' has already joined the game.  "
 		     "Please choose another name.", packet->name);
