@@ -1928,10 +1928,12 @@ static void create_races_dialog(void)
     gtk_list_store_append(store, &it);
 
     last = city_styles[i].tiles_num-1;
-    s = crop_blankspace(sprites.city.tile[i][last]);
 
+    s = crop_blankspace(sprites.city.tile[i][last]);
     img = gdk_pixbuf_new_from_sprite(s);
+    free_sprite(s);
     gtk_list_store_set(store, &it, 0, i, 1, img, 2, city_styles[i].name, -1);
+    g_object_unref(img);
   }
 
   /* Legend pane. */

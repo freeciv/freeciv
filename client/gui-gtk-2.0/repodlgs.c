@@ -909,35 +909,6 @@ void popdown_activeunits_report_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-static void activeunits_cell_data_func(GtkTreeViewColumn *col,
-				       GtkCellRenderer *cell,
-				       GtkTreeModel *model, GtkTreeIter *it,
-				       gpointer data)
-{
-  gboolean  b;
-  gchar    *s;
-  GValue    value = { 0, };
-
-  if (!it)
-    return;
-
-  gtk_tree_model_get(model, it, 0, &s, 6, &b, -1);
-
-  g_value_init(&value, G_TYPE_BOOLEAN);
-
-  if (!b && (*s == '\0' || GPOINTER_TO_INT(data) == 1)) {
-    g_value_set_boolean(&value, FALSE);
-  } else {
-    g_value_set_boolean(&value, TRUE);
-  }
-
-  g_object_set_property(G_OBJECT(cell), "visible", &value);
-  g_value_unset(&value);
-}
-					     
-/****************************************************************
-...
-*****************************************************************/
 void create_activeunits_report_dialog(bool make_modal)
 {
   static char *titles[AU_COL] = {
@@ -1010,7 +981,7 @@ void create_activeunits_report_dialog(bool make_modal)
       renderer = gtk_cell_renderer_toggle_new();
       
       col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
-	"active", i, NULL);
+	"active", i, "visible", AU_COL, NULL);
     } else {
       renderer = gtk_cell_renderer_text_new();
       
@@ -1019,17 +990,8 @@ void create_activeunits_report_dialog(bool make_modal)
     }
 
     if (i > 0) {
-      GValue value = { 0, };
-
-      g_value_init(&value, G_TYPE_FLOAT);
-      g_value_set_float(&value, 1.0);
-      g_object_set_property(G_OBJECT(renderer), "xalign", &value);
-      g_value_unset(&value);
-
+      g_object_set(G_OBJECT(renderer), "xalign", 1.0, NULL);
       gtk_tree_view_column_set_alignment(col, 1.0);
-
-      gtk_tree_view_column_set_cell_data_func(col, renderer,
-	activeunits_cell_data_func, GINT_TO_POINTER(i), NULL);
     }
 
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
