@@ -1446,62 +1446,6 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
 #define ADD_SPRITE_SIMPLE(s) ADD_SPRITE(s, DRAW_NORMAL, TRUE, 0, 0)
 #define ADD_SPRITE_FULL(s) ADD_SPRITE(s, DRAW_FULL, TRUE, 0, 0)
 
-/**********************************************************************
-  Fill in the sprite array for the city
-***********************************************************************/
-static int fill_city_sprite_array(struct drawn_sprite *sprs,
-				  struct city *pcity, bool *solid_bg)
-{
-  struct drawn_sprite *save_sprs = sprs;
-
-  *solid_bg = FALSE;
-
-  if (!solid_color_behind_units) {
-    ADD_SPRITE(get_city_nation_flag_sprite(pcity), DRAW_FULL, TRUE,
-	       flag_offset_x, flag_offset_y);
-  } else {
-    *solid_bg = TRUE;
-  }
-
-  if (pcity->client.occupied) {
-    ADD_SPRITE_SIMPLE(get_city_occupied_sprite(pcity));
-  }
-
-  ADD_SPRITE_SIMPLE(get_city_sprite(pcity));
-
-  if (city_got_citywalls(pcity)) {
-    ADD_SPRITE_SIMPLE(get_city_wall_sprite(pcity));
-  }
-
-  if (map_has_special(pcity->x, pcity->y, S_POLLUTION)) {
-    ADD_SPRITE_SIMPLE(sprites.tx.pollution);
-  }
-  if (map_has_special(pcity->x, pcity->y, S_FALLOUT)) {
-    ADD_SPRITE_SIMPLE(sprites.tx.fallout);
-  }
-
-  if (pcity->client.unhappy) {
-    ADD_SPRITE_SIMPLE(sprites.city.disorder);
-  }
-
-  if (tile_get_known(pcity->x, pcity->y) == TILE_KNOWN_FOGGED
-      && draw_fog_of_war) {
-    ADD_SPRITE_SIMPLE(sprites.tx.fog);
-  }
-
-  /* Put the size sprites last, so that they are not obscured
-   * (and because they can be hard to read if fogged).
-   */
-  if (pcity->size >= 10) {
-    assert(pcity->size < 100);
-    ADD_SPRITE_SIMPLE(sprites.city.size_tens[pcity->size / 10]);
-  }
-
-  ADD_SPRITE_SIMPLE(sprites.city.size[pcity->size % 10]);
-
-  return sprs - save_sprs;
-}
-
 /**************************************************************************
   Assemble some data that is used in building the tile sprite arrays.
     (map_x, map_y) : the (normalized) map position
@@ -2146,70 +2090,89 @@ The sprites are drawn in the following order:
  4) mine
  5) huts
 ***********************************************************************/
-int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
-			       int x, int y, bool citymode,
-			       bool *solid_bg, enum color_std *bg_color)
+int fill_tile_sprite_array(struct drawn_sprite *sprs,
+			   bool *solid_bg, enum color_std *bg_color,
+			   int map_x, int map_y, bool citymode)
 {
   enum tile_terrain_type ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
   int tileno, dir;
-  struct tile *ptile = map_get_tile(x, y);
+  struct tile *ptile = map_get_tile(map_x, map_y);
   struct city *pcity = ptile->city;
-  struct unit *punit = get_drawable_unit(x, y, citymode);
+  struct unit *punit = get_drawable_unit(map_x, map_y, citymode);
   struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;
+  bool unit_only = FALSE, city_only = FALSE;
 
-  *solid_bg = FALSE;
-
-  if (tile_get_known(x, y) == TILE_UNKNOWN)
-    return -1;
-
-  build_tile_data(x, y, &ttype, &tspecial, ttype_near, tspecial_near);
-
-  sprs += fill_terrain_sprite_array(sprs, x, y, ttype_near);
-
-  if (is_ocean(ttype) && draw_terrain) {
-    for (dir = 0; dir < 4; dir++) {
-      if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
-	ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
-      }
-    }
+  if (tile_get_known(map_x, map_y) == TILE_UNKNOWN) {
+    *solid_bg = TRUE;
+    *bg_color = COLOR_STD_BLACK;
+    return 0;
   }
 
-  sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
-					   pcity);
-
-  if (draw_terrain) {
-    /* Draw rivers on top of irrigation. */
-    if (contains_special(tspecial, S_RIVER)) {
-      tileno = INDEX_NSEW(contains_special(tspecial_near[DIR8_NORTH], S_RIVER)
-			  || is_ocean(ttype_near[DIR8_NORTH]),
-			  contains_special(tspecial_near[DIR8_SOUTH], S_RIVER)
-			  || is_ocean(ttype_near[DIR8_SOUTH]),
-			  contains_special(tspecial_near[DIR8_EAST], S_RIVER)
-			  || is_ocean(ttype_near[DIR8_EAST]),
-			  contains_special(tspecial_near[DIR8_WEST], S_RIVER)
-			  || is_ocean(ttype_near[DIR8_WEST]));
-      ADD_SPRITE_SIMPLE(sprites.tx.spec_river[tileno]);
+  /* Set up background color. */
+  *solid_bg = FALSE;
+  if (solid_color_behind_units) {
+    if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
+      *solid_bg = unit_only = TRUE;
+      *bg_color = player_color(unit_owner(punit));
+    } else if (pcity && draw_cities) {
+      *solid_bg = city_only = TRUE;
+      *bg_color = player_color(city_owner(pcity));
     }
-  } else {
+  } else if (!draw_terrain) {
     *solid_bg = TRUE;
     *bg_color = COLOR_STD_BACKGROUND;
   }
-  
-  sprs += fill_road_rail_sprite_array(sprs,
-				      tspecial, tspecial_near, pcity);
 
-  if (draw_specials) {
-    if (contains_special(tspecial, S_SPECIAL_1)) {
-      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
-    } else if (contains_special(tspecial, S_SPECIAL_2)) {
-      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
+  build_tile_data(map_x, map_y,
+		  &ttype, &tspecial, ttype_near, tspecial_near);
+
+  /* Terrain and specials. */
+  if (!unit_only && !city_only) {
+    sprs += fill_terrain_sprite_array(sprs, map_x, map_y, ttype_near);
+
+    if (is_ocean(ttype) && draw_terrain) {
+      for (dir = 0; dir < 4; dir++) {
+	if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
+	  ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
+	}
+      }
     }
-  }
 
-  if (!is_ocean(ttype)) {
-    if (contains_special(tspecial, S_FORTRESS) && draw_fortress_airbase) {
+    sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near,
+					 pcity);
+
+    if (draw_terrain && contains_special(tspecial, S_RIVER)) {
+      /* Draw rivers on top of irrigation. */
+      tileno = INDEX_NSEW((contains_special(tspecial_near[DIR8_NORTH],
+					    S_RIVER)
+			   || is_ocean(ttype_near[DIR8_NORTH])),
+			  (contains_special(tspecial_near[DIR8_SOUTH],
+					    S_RIVER)
+			   || is_ocean(ttype_near[DIR8_SOUTH])),
+			  (contains_special(tspecial_near[DIR8_EAST],
+					    S_RIVER)
+			   || is_ocean(ttype_near[DIR8_EAST])),
+			  (contains_special(tspecial_near[DIR8_WEST],
+					    S_RIVER)
+			   || is_ocean(ttype_near[DIR8_WEST])));
+      ADD_SPRITE_SIMPLE(sprites.tx.spec_river[tileno]);
+    }
+  
+    sprs += fill_road_rail_sprite_array(sprs,
+					tspecial, tspecial_near, pcity);
+
+    if (draw_specials) {
+      if (contains_special(tspecial, S_SPECIAL_1)) {
+	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
+      } else if (contains_special(tspecial, S_SPECIAL_2)) {
+	ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
+      }
+    }
+
+    if (draw_fortress_airbase && contains_special(tspecial, S_FORTRESS)
+	&& sprites.tx.fortress_back) {
       ADD_SPRITE_SIMPLE(sprites.tx.fortress_back);
     }
 
@@ -2218,40 +2181,57 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
       ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->mine);
     }
     
-    if (contains_special(tspecial, S_HUT) && draw_specials) {
+    if (draw_specials && contains_special(tspecial, S_HUT)) {
       ADD_SPRITE_SIMPLE(sprites.tx.village);
     }
   }
 
-  /* Add grid. */
-  sprs->type = DRAWN_GRID;
-  sprs++;
+  if (is_isometric) {
+    /* Add grid.  In classic view this is done later. */
+    sprs->type = DRAWN_GRID;
+    sprs++;
+  }
 
-  if (pcity && draw_cities) {
-    ADD_SPRITE(get_city_nation_flag_sprite(pcity),
-	       DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
+  /* City.  Some city sprites are drawn later. */
+  if (pcity && draw_cities && !unit_only) {
+    if (!solid_color_behind_units) {
+      ADD_SPRITE(get_city_nation_flag_sprite(pcity),
+		 DRAW_FULL, TRUE, flag_offset_x, flag_offset_y);
+    }
     if (pcity->client.occupied) {
       ADD_SPRITE_FULL(get_city_occupied_sprite(pcity));
     }
     ADD_SPRITE_FULL(get_city_sprite(pcity));
+    if (!is_isometric && city_got_citywalls(pcity)) {
+      /* In iso-view the city wall is a part of the city sprite. */
+      ADD_SPRITE_SIMPLE(get_city_wall_sprite(pcity));
+    }
     if (pcity->client.unhappy) {
       ADD_SPRITE_FULL(sprites.city.disorder);
     }
   }
 
-  if (draw_fortress_airbase && contains_special(tspecial, S_AIRBASE)) {
-    ADD_SPRITE_FULL(sprites.tx.airbase);
+  if (!unit_only && !city_only) {
+    if (draw_fortress_airbase && contains_special(tspecial, S_AIRBASE)) {
+      ADD_SPRITE_FULL(sprites.tx.airbase);
+    }
+
+    if (draw_pollution && contains_special(tspecial, S_POLLUTION)) {
+      ADD_SPRITE_SIMPLE(sprites.tx.pollution);
+    }
+    if (draw_pollution && contains_special(tspecial, S_FALLOUT)) {
+      ADD_SPRITE_SIMPLE(sprites.tx.fallout);
+    }
   }
 
-  if (draw_pollution && contains_special(tspecial, S_POLLUTION)) {
-    ADD_SPRITE_SIMPLE(sprites.tx.pollution);
-  }
-  if (draw_pollution && contains_special(tspecial, S_FALLOUT)) {
-    ADD_SPRITE_SIMPLE(sprites.tx.fallout);
+  if (!is_isometric && draw_fog_of_war
+      && tile_get_known(map_x, map_y) == TILE_KNOWN_FOGGED) {
+    /* Fogging in non-iso is done this way. */
+    ADD_SPRITE_SIMPLE(sprites.tx.fog);
   }
 
   /* City size.  Drawing this under fog makes it hard to read. */
-  if (pcity && draw_cities) {
+  if (pcity && draw_cities && !unit_only) {
     if (pcity->size >= 10) {
       ADD_SPRITE(sprites.city.size_tens[pcity->size / 10], DRAW_FULL,
 		 FALSE, 0, 0);
@@ -2260,169 +2240,29 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
 	       FALSE, 0, 0);
   }
 
-  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
-    bool stacked = (unit_list_size(&map_get_tile(x, y)->units) > 1);
-    bool backdrop = !pcity;
-
-    sprs += fill_unit_sprite_array(sprs, punit, solid_bg, stacked, backdrop);
-  }
-
-  if (draw_fortress_airbase && contains_special(tspecial, S_FORTRESS)) {
-    ADD_SPRITE_FULL(sprites.tx.fortress);
-  }
-
-  return sprs - save_sprs;
-}
-
-/**********************************************************************
-  Fill in the sprite array for the tile at position (abs_x0,abs_y0)
-
-The sprites are drawn in the following order:
- 1) basic terrain type
- 2) river
- 3) irritation
- 4) road/railroad
- 5) specials
- 6) mine
- 7) hut
- 8) fortress
- 9) airbase
-10) pollution
-11) fallout
-12) FoW
-***********************************************************************/
-int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
-			   bool citymode, bool *solid_bg,
-			   enum color_std *bg_color)
-{
-  enum tile_terrain_type ttype, ttype_near[8];
-  enum tile_special_type tspecial, tspecial_near[8];
-  int dir, tileno;
-  struct tile *ptile;
-  struct city *pcity;
-  struct unit *pfocus;
-  struct unit *punit;
-  struct drawn_sprite *save_sprs = sprs;
-
-  *solid_bg = FALSE;
-  *bg_color = COLOR_STD_BACKGROUND;
-
-  ptile=map_get_tile(abs_x0, abs_y0);
-
-  if (tile_get_known(abs_x0, abs_y0) == TILE_UNKNOWN) {
-    return 0;
-  }
-
-  pcity=map_get_city(abs_x0, abs_y0);
-  pfocus=get_unit_in_focus();
-
-  if (solid_color_behind_units) {
-    punit = get_drawable_unit(abs_x0, abs_y0, citymode);
-    if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
-      bool stacked = (unit_list_size(&ptile->units) > 1);
-
-      sprs += fill_unit_sprite_array(sprs, punit, solid_bg,
-				     stacked, TRUE);
-
-      *bg_color = player_color(unit_owner(punit));
-      return sprs - save_sprs;
-    }
-
-    if (pcity && draw_cities) {
-      sprs += fill_city_sprite_array(sprs, pcity, solid_bg);
-      *bg_color = player_color(city_owner(pcity));
-      return sprs - save_sprs;
-    }
-  }
-
-  build_tile_data(abs_x0, abs_y0, 
-		  &ttype, &tspecial, ttype_near, tspecial_near);
-
-  sprs += fill_terrain_sprite_array(sprs, abs_x0, abs_y0, ttype_near);
-
-  if (!draw_terrain) {
-    *solid_bg = TRUE;
-  }
-
-  if (is_ocean(ttype) && draw_terrain) {
-    for (dir = 0; dir < 4; dir++) {
-      if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
-	ADD_SPRITE_SIMPLE(sprites.tx.river_outlet[dir]);
-      }
-    }
-  }
-
-  if (contains_special(tspecial, S_RIVER) && draw_terrain) {
-    tileno = INDEX_NSEW(contains_special(tspecial_near[DIR8_NORTH], S_RIVER)
-			|| is_ocean(ttype_near[DIR8_NORTH]),
-			contains_special(tspecial_near[DIR8_SOUTH], S_RIVER)
-			|| is_ocean(ttype_near[DIR8_SOUTH]),
-			contains_special(tspecial_near[DIR8_EAST], S_RIVER)
-			|| is_ocean(ttype_near[DIR8_EAST]),
-			contains_special(tspecial_near[DIR8_WEST], S_RIVER)
-			|| is_ocean(ttype_near[DIR8_WEST]));
-    ADD_SPRITE_SIMPLE(sprites.tx.spec_river[tileno]);
-  }
-
-  sprs += fill_irrigation_sprite_array(sprs, tspecial, tspecial_near, pcity);
-  sprs += fill_road_rail_sprite_array(sprs, tspecial, tspecial_near, pcity);
-
-  if(draw_specials) {
-    if (contains_special(tspecial, S_SPECIAL_1))
-      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[0]);
-    else if (contains_special(tspecial, S_SPECIAL_2))
-      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->special[1]);
-  }
-
-  if (draw_mines && contains_special(tspecial, S_MINE)
-      && sprites.terrain[ttype]->mine) {
-    ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->mine);
-  }
-
-  if(contains_special(tspecial, S_HUT) && draw_specials) {
-    ADD_SPRITE_SIMPLE(sprites.tx.village);
-  }
-  if(contains_special(tspecial, S_FORTRESS) && draw_fortress_airbase) {
-    ADD_SPRITE_SIMPLE(sprites.tx.fortress);
-  }
-  if(contains_special(tspecial, S_AIRBASE) && draw_fortress_airbase) {
-    ADD_SPRITE_SIMPLE(sprites.tx.airbase);
-  }
-  if(contains_special(tspecial, S_POLLUTION) && draw_pollution) {
-    ADD_SPRITE_SIMPLE(sprites.tx.pollution);
-  }
-  if(contains_special(tspecial, S_FALLOUT) && draw_pollution) {
-    ADD_SPRITE_SIMPLE(sprites.tx.fallout);
-  }
-  if(tile_get_known(abs_x0,abs_y0) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
-    ADD_SPRITE_SIMPLE(sprites.tx.fog);
-  }
-
-  if (pcity && draw_cities) {
+  if (punit && !city_only
+      && (draw_units || (punit == pfocus && draw_focus_unit))) {
+    bool stacked = (unit_list_size(&map_get_tile(map_x, map_y)->units) > 1);
+    bool backdrop = !pcity && !unit_only;
     bool dummy;
 
-    sprs += fill_city_sprite_array(sprs, pcity, &dummy);
+    sprs += fill_unit_sprite_array(sprs, punit, &dummy, stacked, backdrop);
   }
 
-  punit = find_visible_unit(ptile);
-  if (punit) {
-    if (!citymode || punit->owner != game.player_idx) {
-      if ((!focus_unit_hidden || pfocus != punit) &&
-	  (draw_units || (draw_focus_unit && !focus_unit_hidden
-			  && punit == pfocus))) {
-	bool dummy;
-	bool stacked = (unit_list_size(&ptile->units) > 1);
-	bool backdrop = !pcity;
-
-	sprs += fill_unit_sprite_array(sprs, punit, &dummy,
-				       stacked, backdrop);
-      }
+  if (!unit_only && !city_only) {
+    if (is_isometric && draw_fortress_airbase
+	&& contains_special(tspecial, S_FORTRESS)) {
+      /* Draw fortress front in iso-view (non-iso view only has a fortress
+       * back). */
+      ADD_SPRITE_FULL(sprites.tx.fortress);
     }
   }
 
-  /* Add grid. */
-  sprs->type = DRAWN_GRID;
-  sprs++;
+  if (!is_isometric) {
+    /* Add grid.  In iso-view this is done earlier. */
+    sprs->type = DRAWN_GRID;
+    sprs++;
+  }
 
   return sprs - save_sprs;
 }

@@ -974,8 +974,8 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   if (!width || !(height || height_unit))
     return;
 
-  count = fill_tile_sprite_array_iso(tile_sprs,
-				     x, y, citymode, &solid_bg, &bg_color);
+  count = fill_tile_sprite_array(tile_sprs, &solid_bg, &bg_color,
+				 x, y, citymode);
 
   if (count == -1) { /* tile is unknown */
     pixmap_put_black_tile_iso(pm, canvas_x, canvas_y,

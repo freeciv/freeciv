@@ -1001,8 +1001,8 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
   bool is_real = normalize_map_pos(&map_x, &map_y);
 
   if (is_real && tile_get_known(map_x, map_y)) {
-    int count = fill_tile_sprite_array(tile_sprs, map_x, map_y, citymode,
-				       &solid_bg, &bg_color);
+    int count = fill_tile_sprite_array(tile_sprs, &solid_bg, &bg_color,
+				       map_x, map_y, citymode);
     int i = 0;
 
     if (solid_bg) {

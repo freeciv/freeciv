@@ -66,16 +66,11 @@ void tilespec_free_city_tiles(int count);
 
 /* Gfx support */
 
-int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
-			       int x, int y, bool citymode,
-			       bool *solid_bg, enum color_std *bg_color);
-int fill_tile_sprite_array(struct drawn_sprite *sprs, int abs_x0, int abs_y0,
-			   bool citymode, bool *solid_bg,
-			   enum color_std *bg_color);
+int fill_tile_sprite_array(struct drawn_sprite *sprs,
+			   bool *solid_bg, enum color_std *bg_color,
+			   int map_x, int map_y, bool citymode);
 int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
 			   bool *solid_bg, bool stack, bool backdrop);
-int fill_city_sprite_array_iso(struct drawn_sprite *sprs,
-			       struct city *pcity);
 
 enum color_std player_color(struct player *pplayer);
 enum color_std overview_tile_color(int x, int y);
