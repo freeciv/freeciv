@@ -32,8 +32,102 @@
 #include "civclient.h"
 #include "control.h"
 #include "goto.h"
+#include "text.h"
 
 #include "gui_text.h"
+
+/*
+ * An individual add(_line) string has to fit into GROW_TMP_SIZE. One buffer
+ * of GROW_TMP_SIZE size will be allocated for the entire client.
+ */
+#define GROW_TMP_SIZE	(1024)
+
+/* 
+ * Initial size of the buffer for each function.  It may later be
+ * grown as needed.
+ */
+#define START_SIZE	10
+
+static void real_add_line(char **buffer, size_t * buffer_size,
+			  const char *format, ...)
+fc__attribute((format(printf, 3, 4)));
+static void real_add(char **buffer, size_t * buffer_size,
+		     const char *format, ...)
+fc__attribute((format(printf, 3, 4)));
+
+#define add_line(...) real_add_line(&out,&out_size, __VA_ARGS__)
+#define add(...) real_add(&out,&out_size, __VA_ARGS__)
+
+#define INIT			\
+  static char *out = NULL;	\
+  static size_t out_size = 0;	\
+  if (!out) {			\
+    out_size = START_SIZE;	\
+    out = fc_malloc(out_size);	\
+  }				\
+  out[0] = '\0';
+
+#define RETURN	return out;
+
+/****************************************************************************
+  Formats the parameters and appends them. Grows the buffer if
+  required.
+****************************************************************************/
+static void grow_printf(char **buffer, size_t *buffer_size,
+			const char *format, va_list ap)
+{
+  size_t new_len;
+  static char buf[GROW_TMP_SIZE];
+
+  if (my_vsnprintf(buf, sizeof(buf), format, ap) == -1) {
+    die("Formatted string bigger than %lu", (unsigned long)sizeof(buf));
+  }
+
+  new_len = strlen(*buffer) + strlen(buf) + 1;
+
+  if (new_len > *buffer_size) {
+    /* It's important that we grow the buffer geometrically, otherwise the
+     * overhead adds up quickly. */
+    size_t new_size = MAX(new_len, *buffer_size * 2);
+
+    freelog(LOG_VERBOSE, "expand from %lu to %lu to add '%s'",
+	    (unsigned long)*buffer_size, (unsigned long)new_size, buf);
+
+    *buffer_size = new_size;
+    *buffer = fc_realloc(*buffer, *buffer_size);
+  }
+  mystrlcat(*buffer, buf, *buffer_size);
+}
+
+/****************************************************************************
+  Add a full line of text to the buffer.
+****************************************************************************/
+static void real_add_line(char **buffer, size_t * buffer_size,
+			  const char *format, ...)
+{
+  va_list args;
+
+  if ((*buffer)[0] != '\0') {
+    real_add(buffer, buffer_size, "%s", "\n");
+  }
+
+  va_start(args, format);
+  grow_printf(buffer, buffer_size, format, args);
+  va_end(args);
+}
+
+/****************************************************************************
+  Add the text to the buffer.
+****************************************************************************/
+static void real_add(char **buffer, size_t * buffer_size, const char *format,
+		     ...)
+{
+  va_list args;
+
+  va_start(args, format);
+  grow_printf(buffer, buffer_size, format, args);
+  va_end(args);
+}
 
 /****************************************************************************
   Return a short tooltip text for a terrain tile.
@@ -96,7 +190,7 @@ static void calc_effect(enum unit_activity activity, int x, int y, int diff[3])
   stats_after[2] = get_trade_tile(x,y);
 
   *map_get_tile(x, y) = backup;
-  reset_move_costs();
+  reset_move_costs(x, y);
   /* hopefully everything is now back in place */
 
   diff[0] = stats_after[0] - stats_before[0];
