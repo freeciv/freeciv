@@ -892,14 +892,6 @@ void game_remove_player(int plrno)
   struct player *pplayer=&game.players[plrno];
 
   if (is_barbarian(pplayer)) game.nbarbarians--;
-  
-  unit_list_iterate(pplayer->units, punit) 
-    game_remove_unit(punit->id);
-  unit_list_iterate_end;
-
-  city_list_iterate(pplayer->cities, pcity) 
-    game_remove_city(pcity);
-  city_list_iterate_end;
 }
 
 /***************************************************************
@@ -908,41 +900,18 @@ void game_remove_player(int plrno)
 void game_renumber_players(int plrno)
 {
   int i;
-  
+
   for(i=plrno; i<game.nplayers-1; ++i) {
     game.players[i]=game.players[i+1];
     game.players[i].player_no=i;
-    unit_list_iterate(game.players[i].units, punit)
-      punit->owner=i;
-    unit_list_iterate_end;
-
-    city_list_iterate(game.players[i].cities, pcity) {
-      pcity->owner=i;
-      pcity->original= (pcity->original<plrno) ? pcity->original : pcity->original-1;
-    }
-    city_list_iterate_end;
   }
 
   if(game.player_idx>plrno) {
     game.player_idx--;
     game.player_ptr=&game.players[game.player_idx];
   }
-  
-  game.nplayers--;
-  
-  for (i=0; i<game.nplayers; i++) {
-    struct player *pplayer = get_player(i);
-    int j;
-    for (j=plrno; j<game.nplayers; j++) {
-      pplayer->diplstates[j] = pplayer->diplstates[j+1];
-    }
-    pplayer->diplstates[game.nplayers].type = DS_NEUTRAL;
-    pplayer->diplstates[game.nplayers].has_reason_to_cancel = 0;
-  }
 
-  for(i=0; i<game.nplayers; ++i) {
-    game.players[i].embassy = WIPEBIT(game.players[i].embassy, plrno);
-  }
+  game.nplayers--;
 }
 
 /**************************************************************************

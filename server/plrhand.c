@@ -2943,15 +2943,21 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
 void server_remove_player(struct player *pplayer)
 {
   struct packet_generic_integer pack;
-  int o, x, y, idx;
-  
+  int o, idx;
+
+  /* Not allowed after a game has started */
+  if (!(game.is_new_game && (server_state==PRE_GAME_STATE ||
+			     server_state==SELECT_RACES_STATE))) {
+    freelog(LOG_FATAL, "You can't remove players after the game has started!");
+    abort();
+  }
+
   notify_player(pplayer, _("Game: You've been removed from the game!"));
   if(pplayer->conn)
     close_connection(pplayer->conn);
   pplayer->conn=NULL;
   notify_player(0, _("Game: %s has been removed from the game."),
 		pplayer->name);
-  check_for_full_turn_done();
   
   idx=pplayer->player_no;
   pack.value=pplayer->player_no;
@@ -2959,29 +2965,7 @@ void server_remove_player(struct player *pplayer)
   for(o=0; o<game.nplayers; o++)
     send_packet_generic_integer(game.players[o].conn, PACKET_REMOVE_PLAYER,
 				&pack);
-/* I can't put the worker stuff in game_remove_city because it's in common */
-/* I can't use remove_city here because of traderoutes.  Therefore ... */
-  city_list_iterate(pplayer->cities, pcity)
-    city_map_iterate(x,y) {
-      set_worker_city(pcity, x, y, C_TILE_EMPTY);
-    }
-    remove_city_from_minimap(x, y);
-    /* same stupid problem as above, related to the citycache.
-       Thanks, Anders. */
-    /* idex_unregister_city() will happen in game_remove_player() */
-  city_list_iterate_end;
 
   game_remove_player(pplayer->player_no);
   game_renumber_players(pplayer->player_no);
-  player_map_renumber(idx);
-
-  if (map.tiles) {
-    for(y=0; y<map.ysize; ++y)
-      for(x=0; x<map.xsize; ++x) {
-	struct tile *ptile = map_get_tile(x, y);
-	ptile->known = WIPEBIT(ptile->known, idx);
-	ptile->sent = WIPEBIT(ptile->sent, idx);
-	ptile->assigned = WIPEBIT(ptile->assigned, idx);
-      }
-  }
 }

@@ -1513,6 +1513,13 @@ static void remove_player(struct player *caller, char *arg)
     return;
   }
 
+  if (!(game.is_new_game && (server_state==PRE_GAME_STATE ||
+			     server_state==SELECT_RACES_STATE))) {
+    cmd_reply(CMD_REMOVE, caller, C_FAIL,
+	      _("Players cannot be removed once the game has started"));
+    return;
+  }
+
   sz_strlcpy(name, pplayer->name);
   server_remove_player(pplayer);
   cmd_reply(CMD_REMOVE, caller, C_OK,

@@ -54,13 +54,6 @@ extern struct connection aconnection;
 **************************************************************************/
 void client_remove_player(int plrno)
 {
-  struct player *pplayer=&game.players[plrno];
-  unit_list_iterate(pplayer->units, punit) 
-    client_remove_unit(punit->id);
-  unit_list_iterate_end;
-  city_list_iterate(pplayer->cities, pcity) 
-    client_remove_city(pcity);
-  city_list_iterate_end;
   game_renumber_players(plrno);
 }
 
