@@ -32,42 +32,50 @@
 #include <events.h>
 #include <aicity.h>
 #include <settlers.h>
+#include <log.h>
 
-/* Cityptr cache, saves enormous amounts of CPU time. -- Syela */
-struct stupid {
-  struct city *ptr;
-};
-
-struct stupid *citycache;
-int citycachesize = 0;
+static struct city **citycache = NULL;
+static int citycachesize = 0;
 
 void initialize_city_cache(void)
 {
-  ;
+  int i;
+
+  if(citycache) free(citycache);
+  citycachesize=128;
+  citycache=malloc(sizeof(*citycache) * citycachesize);
+  for(i=0;i<citycachesize;i++) citycache[i]=NULL;
 }
 
-void reallocate_cache(int id)
+void reallocate_cache(void)
 {
-  citycache = (struct stupid *)realloc(citycache, sizeof(struct stupid) * (id + 1024));
-  for (; citycachesize < id + 1024; citycachesize++)
-    citycache[citycachesize].ptr = NULL;
+  int i;
+
+  log(LOG_NORMAL,"Increasing max city id index from %d to %d",
+      citycachesize,citycachesize*2);
+  citycachesize*=2;
+  citycache=realloc(citycache,sizeof(*citycache)*citycachesize);
+  for(i=citycachesize/2;i<citycachesize;i++)  citycache[i]=NULL;
 }
 
 void add_city_to_cache(struct city *pcity)
 {
-  if (pcity->id >= citycachesize) reallocate_cache(pcity->id);
-  citycache[pcity->id].ptr = pcity;
+  if(pcity->id < citycachesize)  {
+	citycache[pcity->id]=pcity;
+  } else {
+    reallocate_cache();
+    add_city_to_cache(pcity);
+  }
 }
 
 void remove_city_from_cache(int id)
 {
-  citycache[id].ptr = 0;
+  citycache[id]=NULL;
 }
 
 struct city *find_city_by_id(int id)
 {
-  if (id > 0) return(citycache[id].ptr);
-  else return(0);
+  return citycache[id];
 }
 
 /**************************************************************************
