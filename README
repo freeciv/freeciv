@@ -30,17 +30,18 @@ Server:
   >h
   Available commands
   -------------------------------------
-  c P      - cut connection to player
-  h        - this help
-  l        - list players
-  q        - quit game and shutdown server
-  remove P - fully remove player from game
-  score    - show current score
-  show     - list server options
-  help     - help on server options
-  set      - set options
-  s        - start game
-  meta S   - set the metastring to S
+  c P       - cut connection to player
+  h         - this help
+  l         - list players
+  q         - quit game and shutdown server
+  remove P  - fully remove player from game
+  score     - show current score
+  show      - list server options
+  help      - help on server options
+  set       - set options
+  s         - start game
+  meta S    - set the metastring to S
+  ai <name> - set player <NAME> to be an ai player
 
   Now use the 'set' command to set the various variables for the game. 
   You can get a list of the variables with the 'show' command.
