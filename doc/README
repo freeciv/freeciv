@@ -1,6 +1,6 @@
-====================
-Freeciv Version 1.14
-====================
+=====================
+Freeciv Version 2.0.0
+=====================
 
 Welcome to Freeciv!
 
@@ -128,17 +128,20 @@ Server:
 
   For example:
 
-  |  > help xsize
-  |  Option: xsize  -  Map width in squares
-  |  Status: changeable
-  |  Value: 80, Minimum: 40, Default: 80, Maximum: 200
+  | > help size
+  |  Option: size  -  Map size in 1,000 tiles units
+  |  Description:
+  |    This value is used to determine the map dimensions.
+  |      size = 4 is a normal map of 4,000 tiles (default)
+  |      size = 20 is a huge map of 20,000 tiles
+  | Status: changeable
+  | Value: 4, Minimum: 1, Default: 4, Maximum: 29
 
   And:
 
-  |  > set xsize 100
-  |  > set ysize 80
+  |  > set size 8
 
-  This will make the map twice as large as the default of 80x50.
+  This will make the map twice as large as the default.
 
 Client:
 
@@ -235,7 +238,7 @@ Announcing the game:
 If you do not want to limit your opponents to local friends or AI players,
 visit the Freeciv metaserver:
 
-  http://meta.freeciv.org/metaserver/
+  http://meta.freeciv.org/metaserver.phtml
 
 It is a list of Freeciv servers.  To make your own server announce itself
 there, start civserver with the '--meta' option, or just '-m' for short.
@@ -243,8 +246,8 @@ there, start civserver with the '--meta' option, or just '-m' for short.
 Caveats:
 
  1) Due to the inclusion of new features, different client and server
-    versions are often incompatible. The 1.14.0 version is for example
-    incompatible with 1.13.0 or earlier versions.
+    versions are often incompatible. The 2.0.0 version is for example
+    incompatible with 1.14.2 or earlier versions.
 
  2) If the Metaserver button in the connection dialog doesn't work,
     check if your ISP uses a mandatory WWW proxy and make civclient
@@ -295,6 +298,9 @@ You can send a message to an individual player (e.g., 'peter') like so:
 The server is smart enough to perform "name completion", so if you had
 typed "pet:", it will find a player name that matches the part of the
 name you typed.
+
+You can send a message to all your allies by prefixing it with the 
+letter '.' (yes, that is a period).
 
 You can issue server commands from the client input line:
 
