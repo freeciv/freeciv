@@ -44,10 +44,10 @@ style "help_text"
 style "chatline"
 {
   font_name = "Monospace 9"
-  base[NORMAL] = "black"
-  text[NORMAL] = { 0.9, 0.9, 0.9 }
-  base[INSENSITIVE] = "black"
-  text[INSENSITIVE] = { 0.9, 0.9, 0.9 }
+  base[NORMAL] = "white"
+  text[NORMAL] = "black"
+  base[INSENSITIVE] = "white"
+  text[INSENSITIVE] = "black"
 }
 
 style "monospace_label"
