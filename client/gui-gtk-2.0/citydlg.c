@@ -560,7 +560,7 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
     N_("Granary:"),
     N_("Change in:"),
     N_("Corruption:"),
-    N_("Waste: "),
+    N_("Waste:"),
     N_("Pollution:")
   };
   static bool output_label_done;
