@@ -490,9 +490,6 @@ static void create_city_report_dialog(int make_modal)
         city_change_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_change_command, GTK_CAN_DEFAULT );
 
-  gtk_signal_connect( GTK_OBJECT( city_change_command ), "event",
-	GTK_SIGNAL_FUNC( city_change_callback ), NULL );
-
   city_change_all_command = gtk_accelbutton_new(_("Change _All"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         city_change_all_command, TRUE, TRUE, 0 );
@@ -508,14 +505,13 @@ static void create_city_report_dialog(int make_modal)
         city_select_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_select_command, GTK_CAN_DEFAULT );
 
-  gtk_signal_connect(GTK_OBJECT(city_select_command), "event",
-	GTK_SIGNAL_FUNC(city_select_callback), NULL);
-
   city_config_command	= gtk_accelbutton_new(_("Con_figure"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         city_config_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_config_command, GTK_CAN_DEFAULT );
 
+  gtk_signal_connect(GTK_OBJECT(city_select_command), "event",
+	GTK_SIGNAL_FUNC(city_select_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(close_command), "clicked",
 	GTK_SIGNAL_FUNC(city_close_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(city_center_command), "clicked",
@@ -528,6 +524,8 @@ static void create_city_report_dialog(int make_modal)
 	GTK_SIGNAL_FUNC(city_refresh_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(city_config_command), "clicked",
 	GTK_SIGNAL_FUNC(city_config_callback), NULL);
+  gtk_signal_connect( GTK_OBJECT( city_change_command ), "event",
+	GTK_SIGNAL_FUNC( city_change_callback ), NULL );
   gtk_signal_connect(GTK_OBJECT(city_change_all_command), "clicked",
 	GTK_SIGNAL_FUNC(city_change_all_callback), NULL);
   gtk_signal_connect(GTK_OBJECT(city_list), "select_row",
