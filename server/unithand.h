@@ -17,8 +17,10 @@
 #include "unit.h"
 void handle_unit_goto_tile(struct player *pplayer, 
 			   struct packet_unit_request *req);
-void handle_upgrade_unit_request(struct player *pplayer, 
-			    struct packet_unittype_info *packet);
+void handle_upgrade_unittype_request(struct player *pplayer, 
+				     struct packet_unittype_info *packet);
+void handle_unit_upgrade_request(struct player *pplayer,
+				 struct packet_unit_request *packet);
 void handle_diplomat_action(struct player *pplayer, 
 			    struct packet_diplomat_action *packet);
 void handle_unit_change_homecity(struct player *pplayer, 

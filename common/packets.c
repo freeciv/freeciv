@@ -121,8 +121,9 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_UNIT_GOTO_TILE:
   case PACKET_UNIT_AUTO:
   case PACKET_UNIT_UNLOAD:
-    return recieve_packet_unit_request(pc);
   case PACKET_UNIT_UPGRADE:
+    return recieve_packet_unit_request(pc);
+  case PACKET_UNITTYPE_UPGRADE:
     return recieve_packet_unittype_info(pc);
   case PACKET_UNIT_COMBAT:
     return recieve_packet_unit_combat(pc);
@@ -915,7 +916,7 @@ int send_packet_new_year(struct connection *pc, struct
 int send_packet_unittype_info(struct connection *pc, int type, int action)
 {
   unsigned char buffer[MAX_PACKET_SIZE], *cptr;
-  cptr=put_int8(buffer+2, PACKET_UNIT_UPGRADE);
+  cptr=put_int8(buffer+2, PACKET_UNITTYPE_UPGRADE);
   cptr=put_int8(cptr, type);
   cptr=put_int8(cptr, action);
   put_int16(buffer, cptr-buffer);

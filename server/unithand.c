@@ -58,10 +58,10 @@ void handle_unit_goto_tile(struct player *pplayer,
 }
 
 /**************************************************************************
-...
+ Upgrade all units of a given type.
 **************************************************************************/
-void handle_upgrade_unit_request(struct player *pplayer, 
-			    struct packet_unittype_info *packet)
+void handle_upgrade_unittype_request(struct player *pplayer, 
+				     struct packet_unittype_info *packet)
 {
   int cost;
   int to_unit;
@@ -95,6 +95,45 @@ void handle_upgrade_unit_request(struct player *pplayer,
     notify_player(pplayer, "Game: No units could be upgraded.");
   }
 }
+
+/**************************************************************************
+ Upgrade a single unit
+**************************************************************************/
+void handle_unit_upgrade_request(struct player *pplayer,
+                                 struct packet_unit_request *packet)
+{
+  int cost;
+  int to_unit;
+  struct unit *punit;
+  struct city *pcity;
+  
+  if(!(punit=unit_list_find(&pplayer->units, packet->unit_id))) return;
+  if(!(pcity=find_city_by_id(packet->city_id))) return;
+
+  if(punit->x!=pcity->x || punit->y!=pcity->y)  {
+    notify_player(pplayer, "Game: illegal move, unit not in city!");
+    return;
+  }
+  if((to_unit=can_upgrade_unittype(pplayer, punit->type)) == -1) {
+    notify_player(pplayer, "Game: illegal package, can't upgrade %s (yet).", 
+		  unit_types[punit->type].name);
+    return;
+  }
+  cost = unit_upgrade_price(pplayer, punit->type, to_unit);
+  if(cost > pplayer->economic.gold) {
+    notify_player(pplayer, "Game: Insufficient funds, upgrade costs %d", cost);
+    return;
+  }
+  pplayer->economic.gold -= cost;
+  if(punit->hp==get_unit_type(punit->type)->hp) 
+    punit->hp=get_unit_type(to_unit)->hp;
+  punit->type = to_unit;
+  send_unit_info(0, punit, 0);
+  send_player_info(pplayer, pplayer);
+  notify_player(pplayer, "Game: Unit upgraded to %s for %d credits", 
+		unit_types[to_unit].name, cost);
+}
+
 
 /***************************************************************
 ...  Tell the client the cost of inciting a revolt

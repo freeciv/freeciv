@@ -217,9 +217,23 @@ void request_unit_change_homecity(struct unit *punit)
     req.name[0]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_CHANGE_HOMECITY);
   }
-  
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void request_unit_upgrade(struct unit *punit)
+{
+  struct city *pcity;
+
+  if((pcity=game_find_city_by_coor(punit->x, punit->y)))  {
+    struct packet_unit_request req;
+    req.unit_id=punit->id;
+    req.city_id=pcity->id;
+    req.name[0]='\0';
+    send_packet_unit_request(&aconnection, &req, PACKET_UNIT_UPGRADE);
+  }
+}
 
 /**************************************************************************
 ...

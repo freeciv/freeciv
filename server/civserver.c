@@ -784,8 +784,8 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_unit_unload_request(pplayer, (struct packet_unit_request *)packet);
     break;
 
-  case PACKET_UNIT_UPGRADE:
-    handle_upgrade_unit_request(pplayer, (struct packet_unittype_info *)packet);
+  case PACKET_UNITTYPE_UPGRADE:
+    handle_upgrade_unittype_request(pplayer, (struct packet_unittype_info *)packet);
     break;
 
   case PACKET_UNIT_ESTABLISH_TRADE:
@@ -827,6 +827,9 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
   case PACKET_INCITE_INQ:
     handle_incite_inq(pplayer, (struct packet_generic_integer *)packet);
+    break;
+  case PACKET_UNIT_UPGRADE:
+    handle_unit_upgrade_request(pplayer, (struct packet_unit_request *)packet);
     break;
   default:
     log(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);

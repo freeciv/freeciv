@@ -833,6 +833,10 @@ Freeciv.iconName: Freeciv
 *presentunitsdialog.*.button4.foreground: White
 *presentunitsdialog.*.button4.background: Blue
 
+*presentunitsdialog.*.button5.label:    Upgrade unit
+*presentunitsdialog.*.button5.fromVert:	button4
+*presentunitsdialog.*.button5.width:	200
+
 !
 ! Supported units dialog in city dialog
 !

@@ -26,6 +26,7 @@ void request_unit_move_done(void);
 void request_unit_build_city(struct unit *punit);
 void request_unit_disband(struct unit *punit);
 void request_unit_change_homecity(struct unit *punit);
+void request_unit_upgrade(struct unit *punit);
 void request_unit_auto(struct unit *punit);
 void request_unit_unload(struct unit *punit);
 

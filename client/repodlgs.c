@@ -1300,7 +1300,7 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 void upgrade_callback_yes(Widget w, XtPointer client_data, 
                                  XtPointer call_data)
 {
-  send_packet_unittype_info(&aconnection, (int)client_data, PACKET_UNIT_UPGRADE);
+  send_packet_unittype_info(&aconnection, (int)client_data, PACKET_UNITTYPE_UPGRADE);
   destroy_message_dialog(w);
 }
 

@@ -681,7 +681,19 @@ void present_units_homecity_callback(Widget w, XtPointer client_data,
   destroy_message_dialog(w);
 }
 
+/****************************************************************
+...
+*****************************************************************/
+void present_units_upgrade_callback(Widget w, XtPointer client_data,
+				    XtPointer call_data)
+{
+  struct unit *punit;
 
+  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
+    request_unit_upgrade(punit);
+
+  destroy_message_dialog(w);
+}
 
 /****************************************************************
 ...
@@ -703,20 +715,33 @@ void present_units_callback(Widget w, XtPointer client_data,
   struct city *pcity;
   struct city_dialog *pdialog;
   
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
-    if((pcity=game_find_city_by_coor(punit->x, punit->y)))
-      if((pdialog=get_city_dialog(pcity))) {
-	popup_message_dialog(pdialog->shell, 
-			     "presentunitsdialog", 
-			     unit_description(punit),
-			     present_units_activate_callback, punit->id,
-			     present_units_activate_close_callback, punit->id, /* act+c */
-			     present_units_disband_callback, punit->id,
-			     present_units_homecity_callback, punit->id,
-			     present_units_cancel_callback, 0, 0);
-      }
+  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)) &&
+     (pcity=game_find_city_by_coor(punit->x, punit->y)) &&
+     (pdialog=get_city_dialog(pcity))) {
+    if(can_upgrade_unittype(game.player_ptr, punit->type)==-1)  {
+      popup_message_dialog(pdialog->shell, 
+			   "presentunitsdialog", 
+			   unit_description(punit),
+			   present_units_activate_callback, punit->id,
+			   present_units_activate_close_callback, punit->id,
+			   present_units_disband_callback, punit->id,
+			   present_units_homecity_callback, punit->id,
+			   present_units_cancel_callback, 0, 
+			   NULL);
+    } else {
+      popup_message_dialog(pdialog->shell, 
+			   "presentunitsdialog", 
+			   unit_description(punit),
+			   present_units_activate_callback, punit->id,
+			   present_units_activate_close_callback, punit->id,
+			   present_units_disband_callback, punit->id,
+			   present_units_homecity_callback, punit->id,
+			   present_units_cancel_callback, 0, 
+			   present_units_upgrade_callback, punit->id,
+			   0);
+    }
+  }
 }
-
 
 /****************************************************************
 ...
