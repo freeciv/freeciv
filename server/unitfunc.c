@@ -1086,8 +1086,13 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
          map_get_tile(gx, gy)->assigned | 1<<pplayer->player_no;
      if (!same_pos(gx, gy, punit->x, punit->y))
        auto_settler_do_goto(pplayer, punit,gx, gy);
-   } else
-     punit->ai.control=0;
+   } else {
+     if (benefit_road(pplayer, punit->x, punit->y)) {
+/* VERY TEMPORARY FIX for idle 2nd settler until multiple cityspots are known -- Syela */
+       gx = punit->x; gy = punit->y;
+       t = (map_get_tile(gx, gy)->special & S_ROAD ? ACTIVITY_RAILROAD : ACTIVITY_ROAD);
+     } else punit->ai.control=0;
+  }
 
   if (punit->ai.control && punit->moves_left && punit->activity == ACTIVITY_IDLE) {
     if (same_pos(gx, gy, punit->x, punit->y)) {
