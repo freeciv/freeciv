@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.43\n"
 "POT-Creation-Date: 2002-12-16 03:48+0100\n"
-"PO-Revision-Date: 2002-12-16 04:19+0100\n"
+"PO-Revision-Date: 2002-12-16 04:30+0100\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -4391,7 +4391,7 @@ msgstr "Beskrivning:"
 #: server/stdinhand.c:2306
 #, c-format
 msgid "Status: %s"
-msgstr "Status: %s"
+msgstr "Denna valmöjlighet är %s."
 
 #: server/stdinhand.c:2307
 msgid "changeable"
@@ -4399,7 +4399,7 @@ msgstr "ändringsbar"
 
 #: server/stdinhand.c:2307
 msgid "fixed"
-msgstr "fast"
+msgstr "fastlåst"
 
 #: server/stdinhand.c:2313
 #, c-format
