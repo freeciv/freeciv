@@ -146,6 +146,15 @@ Client:
 
   % civclient &
 
+  Another option for the client you may like to try is the '-tiles'
+  option, which can be used to select different "tilesets" (that is,
+  different graphics for the map terrain, units, and so on).  The
+  distribution comes with two tilesets: the default set, and an
+  enhanced version of the original tiles, which may be specified 
+  by starting the client with:
+
+  % civclient -tiles classic
+
 Computer Players:
 
   There are two ways to create AI players.  The first is to set 
