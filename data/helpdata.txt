@@ -539,7 +539,7 @@ general, the steps are:
 
     The golden rule of taking care of a city is that there should be
     at least as many happy citizens as unhappy citizens.  A city
-    where this is not so is labeled with a lightning bolt.  Take
+    where this is not so is labelled with a lightning bolt.  Take
     care not to let this happen to any of your cities, as unhappy
     cities produce nothing, and will soon revolt.
 
@@ -1788,14 +1788,14 @@ reaches of the world.  They are very cold, and hence difficult to
 work with.
 ---
 # Grassland
-Grasslands afford exceptional agricultural opportunites.
+Grasslands afford exceptional agricultural opportunities.
 ---
 # Hills
 In addition to being amenable to agriculture, Hills are frequently
 rich in resources.
 ---
 # Jungle
-Jungles are densely overgrowmn, making agriculture somewhat
+Jungles are densely overgrown, making agriculture somewhat
 problematic.
 ---
 # Mountains
@@ -1810,7 +1810,7 @@ Ocean squares can never be polluted.
 ---
 # Plains
 Plains are very broad, sparse regions, which makes trade slightly
-inconvienent.
+inconvenient.
 ---
 # River
 In addition to providing for fishing, Rivers make for excellent
@@ -1909,7 +1909,7 @@ corruption.)  A Courthouse will reduce the level of corruption in a
 city.
 
 TIP 1: Offensive military campaigns are difficult under Republican
-       and Democractic governments unless you give your citizens
+       and Democratic governments unless you give your citizens
        lots of luxuries to keep them happy.  When conquering other
        civilizations, it may be helpful to switch to one of the more
        militant styles of government.
