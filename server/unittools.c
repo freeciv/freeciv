@@ -1322,41 +1322,35 @@ void bounce_unit(struct unit *punit, bool verbose)
   }
 }
 
+
 /**************************************************************************
-  When in civil war or an alliance breaks there will potentially be units 
-  from both sides coexisting on the same squares.  This routine resolves 
-  this by first bouncing off non-allied units from their cities, then by 
-  bouncing both players' units in now illegal multiowner stacks.  To avoid
-  drowning due to removal of transports, we bounce everyone (including
-  third parties' units) from ocean tiles.
+  Throw pplayer's units from non allied cities
+
+  If verbose is true, pplayer gets messages about where each units goes.
+**************************************************************************/
+static void throw_units_from_illegal_cities(struct player *pplayer,
+                                           bool verbose)
+{
+  unit_list_iterate_safe(pplayer->units, punit) {
+    struct tile *ptile = map_get_tile(punit->x, punit->y);
+
+    if (ptile->city && !pplayers_allied(city_owner(ptile->city), pplayer)) {
+      bounce_unit(punit, verbose);
+    }
+  } unit_list_iterate_safe_end;    
+}
+
+/**************************************************************************
+  For each pplayer's unit, check if we stack illegally, if so,
+  bounce both players' units. If on ocean tile, bounce everyone
+  to avoid drowning. This function assumes that cities are clean.
 
   If verbose is true, the unit owner gets messages about where each
   units goes.
 **************************************************************************/
-void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
-                         bool verbose)
+static void resolve_stack_conflicts(struct player *pplayer,
+                                    struct player *aplayer, bool verbose)
 {
-  /* Throw aplayer's units out of pplayer's cities */
-  city_list_iterate(pplayer->cities, pcity) {
-    struct unit *punit;
-    while ((punit = is_non_allied_unit_tile(map_get_tile(pcity->x, pcity->y),
-                                            pplayer))) {
-      bounce_unit(punit, verbose);
-    }
-  } city_list_iterate_end;
-
-  /* Throw pplayer's units out of aplayer's cities */
-  city_list_iterate(aplayer->cities, pcity) {
-    struct unit *punit;
-    while ((punit = is_non_allied_unit_tile(map_get_tile(pcity->x, pcity->y),
-                                            aplayer))) {
-      bounce_unit(punit, verbose);
-    }
-  } city_list_iterate_end;
-
-  /* Now cities are clean - do non-city stacks. For each unit, check
-   * if we stack illegally, if so, bounce both players' units. If
-   * on ocean tile, bounce everyone to avoid drowning. */
   unit_list_iterate_safe(pplayer->units, punit) {
     int x = punit->x, y = punit->y;
     struct tile *ptile = map_get_tile(x, y);
@@ -1371,6 +1365,27 @@ void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
       } unit_list_iterate_end;
     }    
   } unit_list_iterate_safe_end;
+}
+				
+/**************************************************************************
+  When in civil war or an alliance breaks there will potentially be units 
+  from both sides coexisting on the same squares.  This routine resolves 
+  this by first bouncing off non-allied units from their cities, then by 
+  bouncing both players' units in now illegal multiowner stacks.  To avoid
+  drowning due to removal of transports, we bounce everyone (including
+  third parties' units) from ocean tiles.
+
+  If verbose is true, the unit owner gets messages about where each
+  units goes.
+**************************************************************************/
+void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
+                         bool verbose)
+{
+  throw_units_from_illegal_cities(pplayer, verbose);
+  throw_units_from_illegal_cities(aplayer, verbose);
+  
+  resolve_stack_conflicts(pplayer, aplayer, verbose);
+  resolve_stack_conflicts(aplayer, pplayer, verbose);
 }
 
 /**************************************************************************
