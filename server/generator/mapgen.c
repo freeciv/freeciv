@@ -31,9 +31,8 @@
 #include "shared.h"
 #include "srv_main.h"
 
-#include "mapgen.h"
-
 #include "height_map.h"
+#include "mapgen.h"
 #include "mapgen_topology.h"
 #include "startpos.h"
 #include "temperature_map.h"
@@ -300,7 +299,7 @@ static bool ok_for_separate_poles(struct tile *ptile)
 ****************************************************************************/
 static void make_polar_land(void)
 {
-  assign_continent_numbers();
+  assign_continent_numbers(FALSE);
   whole_map_iterate(ptile) {
     if ((tmap_is(ptile, TT_FROZEN ) &&
 	ok_for_separate_poles(ptile))
@@ -945,8 +944,6 @@ static void make_land(void)
   destroy_placed_map();
 
   make_rivers(); /* use a new placed_map. destroy older before call */
-
-  assign_continent_numbers();
 }
 
 /**************************************************************************
@@ -1016,24 +1013,35 @@ void map_fractal_generate(bool autosize)
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
-    if (map.generator == 5 ) {
-      make_pseudofractal1_hmap();
-    }
-    if (map.generator == 4) {
-      mapgenerator4();
-    }
+    
     if (map.generator == 3) {
-      mapgenerator3();
+      /* 2 or 3 players per isle? */
+      if (map.startpos == 2 || (map.startpos == 3)) { 
+	mapgenerator4();
+      }
+      if (map.startpos <= 1) {
+	/* single player per isle */
+	mapgenerator3();
+      }
+      if (map.startpos == 4) {
+	/* "variable" single player */
+	mapgenerator2();
+      }
     }
+
     if (map.generator == 2) {
-      mapgenerator2();
+      make_pseudofractal1_hmap(1 + ((map.startpos == 0
+				     || map.startpos == 3)
+				    ? 0 : game.nplayers));
     }
-    if (map.generator == 1 ) {
-      make_random_hmap(1 + SQSIZE);
+
+    if (map.generator == 1) {
+      make_random_hmap(MAX(1, 1 + SQSIZE 
+			   - (map.startpos ? game.nplayers / 4 : 0)));
     }
 
     /* if hmap only generator make anything else */
-    if (map.generator == 1 || map.generator == 5) {
+    if (map.generator == 1 || map.generator == 2) {
       make_land();
       free(height_map);
       height_map = NULL;
@@ -1041,8 +1049,6 @@ void map_fractal_generate(bool autosize)
     if (!map.tinyisles) {
       remove_tiny_islands();
     }
-  } else {
-    assign_continent_numbers();
   }
 
   if (!temperature_is_initialized()) {
@@ -1061,6 +1067,33 @@ void map_fractal_generate(bool autosize)
   /* restore previous random state: */
   set_myrand_state(rstate);
   destroy_tmap();
+
+  /* We don't want random start positions in a scenario which already
+   * provides them. */
+  if (map.num_start_positions == 0) {
+    switch (map.generator) {
+    case 0:
+    case 1:
+      create_start_positions(map.startpos);
+      break;
+    case 2:
+      if (map.startpos == 0) {
+	create_start_positions(MT_ALL);
+      } else {
+	create_start_positions(map.startpos);
+      }
+      break;
+    case 3:
+      if (map.startpos <= 1 || (map.startpos == 4)) {
+	create_start_positions(MT_SINGLE);
+      } else {
+	create_start_positions(MT_2or3);
+      }
+      break;
+    }
+  }
+
+  assign_continent_numbers(FALSE);
 }
 
 /**************************************************************************
@@ -1126,9 +1159,6 @@ static void make_huts(int number)
 	number--;
 	map_set_special(ptile, S_HUT);
 	set_placed_near_pos(ptile, 3);
-	    /* Don't add to islands[].goodies because islands[] not
-	       setup at this point, except for generator>1, but they
-	       have pre-set starters anyway. */
       }
     }
   }
@@ -1555,7 +1585,6 @@ static bool make_island(int islemass, int starters,
     if (i <= 0) {
       return FALSE;
     }
-    islands[pstate->isleindex].starters = starters;
     assert(starters >= 0);
     freelog(LOG_VERBOSE, "island %i", pstate->isleindex);
 
@@ -1616,9 +1645,7 @@ static bool make_island(int islemass, int starters,
 **************************************************************************/
 static void initworld(struct gen234_state *pstate)
 {
-  int i;
   height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
-  islands = fc_malloc((MAP_NCONT+1)*sizeof(struct isledata));
   create_placed_map(); /* land tiles which aren't placed yet */
   create_tmap(FALSE);
   
@@ -1636,12 +1663,7 @@ static void initworld(struct gen234_state *pstate)
   
   /* Set poles numbers.  After the map is generated continents will 
    * be renumbered. */
-  assign_continent_numbers(); 
-
   make_island(0, 0, pstate, 0);
-  for(i = 0; i <= map.num_continents; i++ ) {
-      islands[i].starters = 0;
-  }
 }  
 
 /* This variable is the Default Minimum Specific Island Size, 

@@ -52,7 +52,7 @@ struct player_tile {
 /* The maximum number of continents and oceans. */
 #define MAP_NCONT 300
 
-void assign_continent_numbers(void);
+void assign_continent_numbers(bool skip_unsafe);
 
 void global_warming(int effect);
 void nuclear_winter(int effect);
@@ -106,4 +106,5 @@ enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
                                               Terrain_type_id oldter);
 int get_continent_size(Continent_id id);
 int get_ocean_size(Continent_id id);
+
 #endif  /* FC__MAPHAND_H */

@@ -56,11 +56,29 @@
 #define iterate_axe_end \
     } \
 } 
+#define whole_map_iterate_filtered(ptile, pdata, pfilter)                   \
+{									    \
+  bool (*_filter)(const struct tile *ptile, const void *data) = (pfilter);  \
+  const void *_data = (pdata);						    \
+									    \
+  whole_map_iterate(ptile) {                                                \
+    if (_filter && !(_filter)(ptile, _data)) {				    \
+      continue;                                                             \
+    }
+
+#define whole_map_iterate_filtered_end					    \
+  } whole_map_iterate_end						    \
+}
 
 bool is_normal_nat_pos(int x, int y);
 
 /* int maps tools */
-void adjust_int_map(int *int_map, int int_map_max);
+void adjust_int_map_filtered(int *int_map, int int_map_max, void *data,
+				   bool (*filter)(const struct tile *ptile,
+						  const void *data));
+#define adjust_int_map(int_map, int_map_max) \
+  adjust_int_map_filtered(int_map, int_map_max, (void *)NULL, \
+	     (bool (*)(const struct tile *ptile, const void *data) )NULL)
 void smooth_int_map(int *int_map, bool zeroes_at_edges);
 
 /* placed_map tool*/

@@ -196,6 +196,7 @@ void map_init(void)
   map.wetness               = MAP_DEFAULT_WETNESS;
   map.steepness             = MAP_DEFAULT_STEEPNESS;
   map.generator             = MAP_DEFAULT_GENERATOR;
+  map.startpos              = MAP_DEFAULT_STARTPOS;
   map.tinyisles             = MAP_DEFAULT_TINYISLES;
   map.separatepoles         = MAP_DEFAULT_SEPARATE_POLES;
   map.alltemperate          = MAP_DEFAULT_ALLTEMPERATE;

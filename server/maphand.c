@@ -52,14 +52,24 @@ static int ocean_sizes[MAP_NCONT];
 
 /**************************************************************************
   Number this tile and nearby tiles (recursively) with the specified
-  continent number, using a flood-fill algorithm.
+  continent number nr, using a flood-fill algorithm.
 
   is_land tells us whether we are assigning continent numbers or ocean 
   numbers.
+
+  if skip_unsafe is specified then "unsafe" terrains are skipped.  This
+  is useful for mapgen algorithms.
 **************************************************************************/
-static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
+static void assign_continent_flood(struct tile *ptile, bool is_land,
+				   int nr, bool skip_unsafe)
 {
   if (map_get_continent(ptile) != 0) {
+    return;
+  }
+  
+  if (skip_unsafe && terrain_has_flag(map_get_terrain(ptile), TER_UNSAFE)) {
+    /* FIXME: This should check a specialized flag, not the TER_UNSAFE
+     * flag which may not even be present. */
     return;
   }
 
@@ -77,7 +87,7 @@ static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
   }
 
   adjc_iterate(ptile, tile1) {
-    assign_continent_flood(tile1, is_land, nr);
+    assign_continent_flood(tile1, is_land, nr, skip_unsafe);
   } adjc_iterate_end;
 }
 
@@ -110,17 +120,18 @@ static void recalculate_lake_surrounders(void)
 }
 
 /**************************************************************************
-  Assign continent and ocean numbers to all tiles, and set
-  map.num_continents and map.num_oceans.
-  
-  Recalculate continent and ocean sizes
+  Assigns continent and ocean numbers to all tiles, and set
+  map.num_continents and map.num_oceans.  Recalculates continent and
+  ocean sizes, and lake_surrounders[] arrays.
 
   Continents have numbers 1 to map.num_continents _inclusive_.
   Oceans have (negative) numbers -1 to -map.num_oceans _inclusive_.
-  
-  Also recalculate lake_surrounders[] arrays
+
+  If skip_unsafe is specified then unsafe terrains are not used to
+  connect continents.  This is useful for generator code so that polar
+  regions don't connect landmasses.
 **************************************************************************/
-void assign_continent_numbers(void)
+void assign_continent_numbers(bool skip_unsafe)
 {
   int i;
   
@@ -140,18 +151,23 @@ void assign_continent_numbers(void)
 
   /* Assign new numbers */
   whole_map_iterate(ptile) {
+    const Terrain_type_id ter = map_get_terrain(ptile);
+
     if (map_get_continent(ptile) != 0) {
       /* Already assigned. */
       continue;
     }
-    if (!is_ocean(map_get_terrain(ptile))) {
-      map.num_continents++;
-      assert(map.num_continents < MAP_NCONT);
-      assign_continent_flood(ptile, TRUE, map.num_continents);
-    } else {
-      map.num_oceans++;
-      assert(map.num_oceans < MAP_NCONT);
-      assign_continent_flood(ptile, FALSE, -map.num_oceans);
+
+    if (!skip_unsafe || !terrain_has_flag(ter, TER_UNSAFE)) {
+      if (!is_ocean(ter)) {
+	map.num_continents++;
+	assert(map.num_continents < MAP_NCONT);
+	assign_continent_flood(ptile, TRUE, map.num_continents, skip_unsafe);
+      } else {
+	map.num_oceans++;
+	assert(map.num_oceans < MAP_NCONT);
+	assign_continent_flood(ptile, FALSE, -map.num_oceans, skip_unsafe);
+      }
     }
   } whole_map_iterate_end;
 
@@ -1463,7 +1479,7 @@ enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
   }
 
   if (change_type != OLC_NONE) {
-    assign_continent_numbers();
+    assign_continent_numbers(FALSE);
     allot_island_improvs();
 
     /* New continent numbers for all tiles to all players */
@@ -1706,7 +1722,8 @@ void map_calculate_borders(void)
 /*************************************************************************
   Return size in tiles of the given continent(not ocean)
 *************************************************************************/
-int get_continent_size(Continent_id id) {
+int get_continent_size(Continent_id id)
+{
   assert(id > 0);
   return continent_sizes[id];
 }

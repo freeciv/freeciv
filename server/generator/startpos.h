@@ -13,12 +13,14 @@
 #ifndef FC__STARTING_POSITIONS
 #define FC__STARTING_POSITIONS
 
-void create_start_positions(void);
-/* This is manipulated directly by gen234 */
-struct isledata {
-  int goodies;
-  int starters;
+enum start_mode {
+  MT_DEFAULT,
+  MT_SINGLE,
+  MT_2or3,
+  MT_ALL,
+  MT_VARIABLE
 };
-extern struct isledata *islands;
+
+void create_start_positions(enum start_mode mode);
 
 #endif

@@ -275,20 +275,30 @@ struct settings_s settings[] = {
   GEN_INT("generator", map.generator,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
 	  N_("Method used to generate map"),
-	  N_("1 = standard, with random continents;\n\n"
-	     "2 = equally sized large islands with one player each, and "
-	     "twice that many smaller islands;\n\n"
-	     "3 = equally sized large islands with one player each, and "
-	     "a number of other islands of similar size;\n\n"
-	     "4 = equally sized large islands with two players on every "
-	     "island (or one with three players for an odd number of "
-	     "players), and additional smaller islands;\n\n"
-	     "5 = one or more large earthlike continents with some "
-	     "scatter.\n\n"
-	     "Note: values 2, 3 and 4 generate fairer but more boring "
-	     "maps.\n"
-	     "(Zero indicates a scenario map.)"), NULL,
+	  N_("0 = Scenario map - no generator;\n"
+	     "1 = Fully random height generator;              [4]\n"
+	     "2 = Pseudo-fractal height generator;             [3]\n"
+	     "3 = Island-based generator (fairer but boring)   [1]\n"
+	     "\n"
+	     "Numbers in [] give the default values for placement of "
+	     "starting positions.  If the default value of startpos is "
+	     "used then a startpos setting will be chosen based on the "
+	     "generator.  See the \"startpos\" setting."), NULL,
 	  MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR)
+
+  GEN_INT("startpos", map.startpos,
+	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
+	  N_("Method used to choice starts pos"),
+	  N_("0 = Generator's choice.  Selecting this setting means\n"
+	     "    the default value will be picked based on the generator\n"
+	     "    chosen.  See the \"generator\" setting.\n"
+	     "1 = Try to place one player per continent.\n"
+	     "2 = Try to place two players per continent.\n"
+	     "3 = Try to place all players on a single continent.\n"
+	     "4 = Place players depending on size of continents.\n"
+	     "Note: generators try to create the right number of continents "
+	     "for the choice of start pos and to the number of players"),
+	  NULL, MAP_MIN_STARTPOS, MAP_MAX_STARTPOS, MAP_DEFAULT_STARTPOS)
 
   GEN_BOOL("tinyisles", map.tinyisles,
 	   SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
