@@ -70,12 +70,14 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.13.0 conn_info"
+#define CAPABILITY "+1.13.0 conn_info turn_founded"
   
 /* "+1.13.0" is protocol for 1.13.0 release.
   
    "conn_info" is sending the conn_id field. To preserve compatability
    with old clients trying to connect this should persist across releases.
+
+   "turn_founded" transfers turn_founded of struct city to the client.
 */
 
 void init_our_capability(void)

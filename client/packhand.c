@@ -404,6 +404,7 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity->turn_last_built=packet->turn_last_built;
   pcity->turn_changed_target=packet->turn_changed_target;
+  pcity->turn_founded = packet->turn_founded;
   pcity->changed_from_id=packet->changed_from_id;
   pcity->changed_from_is_unit=packet->changed_from_is_unit;
   pcity->before_change_shields=packet->before_change_shields;
@@ -615,7 +616,7 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->currently_building = 0;
     init_worklist(&pcity->worklist);
     pcity->airlift            = FALSE;
-    pcity->did_buy            = 0;
+    pcity->did_buy            = FALSE;
     pcity->did_sell           = FALSE;
     pcity->was_happy          = FALSE;
 

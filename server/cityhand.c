@@ -230,15 +230,15 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 
   assert(pcity && player_owns_city(pplayer, pcity));
  
-  if (pcity->did_buy > 0) {
+  if (pcity->turn_founded == game.turn) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		  _("Game: You have already bought this turn."));
+		  _("Game: Cannot buy in city created this turn."));
     return;
   }
 
-  if (pcity->did_buy < 0) {
+  if (pcity->did_buy) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
-		  _("Game: Cannot buy in city created this turn."));
+		  _("Game: You have already bought this turn."));
     return;
   }
 
@@ -281,7 +281,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
      * fully well add the missing shields there. */
     pcity->disbanded_shields += total - pcity->shield_stock;
     pcity->shield_stock=total; /* AI wants this -- Syela */
-    pcity->did_buy=1; /* !PS: no need to set buy flag otherwise */
+    pcity->did_buy = TRUE;	/* !PS: no need to set buy flag otherwise */
   }
   city_refresh(pcity);
   
@@ -360,7 +360,7 @@ void handle_city_change(struct player *pplayer,
      return;
    if (!preq->is_build_id_unit_id && !can_build_improvement(pcity, preq->build_id))
      return;
-  if (pcity->did_buy && pcity->shield_stock) { /* did_buy > 0 should be same -- Syela */
+  if (pcity->did_buy && pcity->shield_stock) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		     _("Game: You have bought this turn, can't change."));
     return;

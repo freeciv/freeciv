@@ -604,8 +604,8 @@ bool wants_to_be_bigger(struct city *pcity)
   if (city_got_building(pcity, B_AQUEDUCT)
       && pcity->size < game.sewer_size) return TRUE;
   if (!pcity->is_building_unit) {
-    if (pcity->currently_building == B_SEWER && pcity->did_buy == 1) return TRUE;
-    if (pcity->currently_building == B_AQUEDUCT && pcity->did_buy == 1) return TRUE;
+    if (pcity->currently_building == B_SEWER && pcity->did_buy) return TRUE;
+    if (pcity->currently_building == B_AQUEDUCT && pcity->did_buy) return TRUE;
   } /* saves a lot of stupid flipflops -- Syela */
   return FALSE;
 }
@@ -1026,7 +1026,8 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   pcity->trade_prod=0;
   pcity->original = pplayer->player_no;
   pcity->is_building_unit = TRUE;
-  pcity->did_buy=-1; /* code so we get a different message */
+  pcity->turn_founded = game.turn;
+  pcity->did_buy = TRUE;
   pcity->did_sell = FALSE;
   pcity->airlift = FALSE;
   pcity->currently_building=best_role_unit(pcity, L_FIRSTBUILD);
@@ -1654,6 +1655,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->turn_last_built=pcity->turn_last_built;
   packet->turn_changed_target=pcity->turn_changed_target;
+  packet->turn_founded = pcity->turn_founded;
   packet->changed_from_id=pcity->changed_from_id;
   packet->changed_from_is_unit=pcity->changed_from_is_unit;
   packet->before_change_shields=pcity->before_change_shields;

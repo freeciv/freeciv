@@ -770,8 +770,16 @@ static void player_load(struct player *plr, int plrno,
       secfile_lookup_int_default(file, 0,
 				 "player%d.c%d.caravan_shields", plrno, i);
 
-    pcity->did_buy=secfile_lookup_int(file,
-				      "player%d.c%d.did_buy", plrno,i);
+    pcity->turn_founded =
+	secfile_lookup_int_default(file, -2, "player%d.c%d.turn_founded",
+				   plrno, i);
+
+    j = secfile_lookup_int(file, "player%d.c%d.did_buy", plrno, i);
+    pcity->did_buy = (i != 0);
+    if (j == -1 && pcity->turn_founded == -2) {
+      pcity->turn_founded = game.turn;
+    }
+
     pcity->did_sell =
       secfile_lookup_bool_default(file, FALSE, "player%d.c%d.did_sell", plrno,i);
     
@@ -1425,7 +1433,15 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, pcity->anarchy, "player%d.c%d.anarchy", plrno,i);
     secfile_insert_int(file, pcity->rapture, "player%d.c%d.rapture", plrno,i);
     secfile_insert_bool(file, pcity->was_happy, "player%d.c%d.was_happy", plrno,i);
-    secfile_insert_int(file, pcity->did_buy, "player%d.c%d.did_buy", plrno,i);
+    if (pcity->turn_founded == game.turn) {
+      j = -1;
+    } else {
+      assert(pcity->did_buy == TRUE || pcity->did_buy == FALSE);
+      j = pcity->did_buy;
+    }
+    secfile_insert_int(file, j, "player%d.c%d.did_buy", plrno, i);
+    secfile_insert_int(file, pcity->turn_founded,
+		       "player%d.c%d.turn_founded", plrno, i);
     secfile_insert_bool(file, pcity->did_sell, "player%d.c%d.did_sell", plrno,i);
     secfile_insert_bool(file, pcity->airlift, "player%d.c%d.airlift", plrno,i);
 

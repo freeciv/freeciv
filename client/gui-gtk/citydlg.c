@@ -3524,14 +3524,26 @@ static void close_city_dialog(struct city_dialog *pdialog)
 }
 
 /************************************************************************
+  Helper for switch_city_callback.
+*************************************************************************/
+static int city_comp_by_turn_founded(const void *a, const void *b)
+{
+  struct city *pcity1 = *((struct city **) a);
+  struct city *pcity2 = *((struct city **) b);
+
+  return pcity1->turn_founded - pcity2->turn_founded;
+}
+
+/************************************************************************
   Callback for the prev/next buttons. Switches to the previous/next
   city.
 *************************************************************************/
 static void switch_city_callback(GtkWidget *w, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
-  int i, j, dir, size = city_list_size(&game.player_ptr->cities);
+  int i, dir, non_open_size, size = city_list_size(&game.player_ptr->cities);
   struct city *new_pcity = NULL;
+  struct city **array;
 
   assert(city_dialogs_have_been_initialised);
   assert(size >= 1);
@@ -3551,30 +3563,37 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
     dir = 1;
   }
 
+  array = fc_malloc(size * sizeof(struct city *));
+
+  non_open_size = 0;
   for (i = 0; i < size; i++) {
-    if (pdialog->pcity == city_list_get(&game.player_ptr->cities, i)) {
-      break;
+    struct city *other_pcity = city_list_get(&game.player_ptr->cities, i);
+    if (other_pcity == pdialog->pcity || !get_city_dialog(other_pcity)) {
+      array[non_open_size] = other_pcity;
+      non_open_size++;
     }
   }
 
-  assert(i < size);
+  assert(non_open_size > 0);
 
-  for (j = 1; j < size; j++) {
-    struct city *other_pcity = city_list_get(&game.player_ptr->cities,
-					     (i + dir * j + size) % size);
-    struct city_dialog *other_pdialog = get_city_dialog(other_pcity);
-
-    assert(other_pdialog != pdialog);
-    if (!other_pdialog) {
-      new_pcity = other_pcity;
-      break;
-    }
-  }
-
-  if (!new_pcity) {
-    /* Every other city has an open city dialog. */
+  if (non_open_size == 1) {
+    free(array);
     return;
   }
+
+  qsort(array, non_open_size, sizeof(struct city *),
+	city_comp_by_turn_founded);
+
+  for (i = 0; i < non_open_size; i++) {
+    if (pdialog->pcity == array[i]) {
+      break;
+    }
+  }
+
+  assert(i < non_open_size);
+
+  new_pcity = array[(i + dir + non_open_size) % non_open_size];
+  free(array);
 
   /* cleanup worklist and happiness dialogs */
   if(pdialog->wl_editor->changed){

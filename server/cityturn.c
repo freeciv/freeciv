@@ -1297,7 +1297,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
     pcity->is_updated=TRUE;
 
     pcity->did_sell=FALSE;
-    pcity->did_buy=0;
+    pcity->did_buy = FALSE;
     if (city_got_building(pcity, B_AIRPORT))
       pcity->airlift=TRUE;
     else

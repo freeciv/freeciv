@@ -365,6 +365,7 @@ struct packet_city_info {
   bool airlift;
   bool diplomat_investigate;
   int city_options;
+  int turn_founded;
 };
 
 

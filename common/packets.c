@@ -2314,6 +2314,10 @@ int send_packet_city_info(struct connection *pc,
 
   /* only 8 options allowed before need to extend protocol */
   cptr=put_uint8(cptr, req->city_options);
+
+  if (has_capability("turn_founded", pc->capability)) {
+    cptr = put_uint32(cptr, req->turn_founded);
+  }
   
   for (data = 0; data < NUM_TRADEROUTES; data++) {
     if(req->trade[data] != 0)  {
@@ -2394,6 +2398,12 @@ receive_packet_city_info(struct connection *pc)
 		  sizeof(packet->improvements));
 
   iget_uint8(&iter, &packet->city_options);
+
+  if (has_capability("turn_founded", pc->capability)) {
+    iget_uint32(&iter, &packet->turn_founded);
+  } else {
+    packet->turn_founded = -1;
+  }
 
   for (data = 0; data < NUM_TRADEROUTES; data++) {
     if (pack_iter_remaining(&iter) < 3)

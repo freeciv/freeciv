@@ -266,7 +266,7 @@ struct city {
   struct unit_list units_supported;
   int steal;		      /* diplomats steal once; for spies, gets harder */
   /* turn states */
-  int did_buy;
+  bool did_buy;
   bool did_sell, is_updated;
   int turn_last_built;	      /* The last year in which something was built */
   int turn_changed_target;    /* Suffer shield loss at most once per turn */
@@ -284,6 +284,8 @@ struct city {
 
   /* server variable. indicates if the city map is synced with the client. */
   bool synced;
+    
+  int turn_founded;		/* In which turn was the city founded? */
 
   /* info for dipl/spy investigation -- used only in client */
   struct unit_list info_units_supported;
