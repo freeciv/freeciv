@@ -829,6 +829,14 @@ void handle_start_phase(int phase)
     }
 
     player_set_unit_focus_status(game.player_ptr);
+
+    city_list_iterate(game.player_ptr->cities, pcity) {
+      pcity->client.colored = FALSE;
+    } city_list_iterate_end;
+    unit_list_iterate(game.player_ptr->units, punit) {
+      punit->client.colored = FALSE;
+    } unit_list_iterate_end;
+    update_map_canvas_visible();
   }
 
   update_info_label();
