@@ -806,6 +806,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
 		event->xexpose.x, event->xexpose.y,
 		event->xexpose.width, event->xexpose.height,
 		event->xexpose.x, event->xexpose.y);
+      show_city_descriptions();
     }
   }
   refresh_overview_canvas();

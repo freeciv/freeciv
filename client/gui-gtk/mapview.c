@@ -840,6 +840,7 @@ gint map_canvas_expose( GtkWidget *widget, GdkEventExpose *event )
 	gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
 		event->area.x, event->area.y, event->area.x, event->area.y,
 		event->area.width, event->area.height );
+	show_city_descriptions();
       }
     }
     refresh_overview_canvas();
