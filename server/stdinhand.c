@@ -418,16 +418,6 @@ static struct settings_s settings[] = {
 	  GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, 
 	  GAME_DEFAULT_AQUEDUCTLOSS)
 
-  GEN_INT("notradesize", game.notradesize, SSET_RULES, SSET_TO_CLIENT,
-	  N_("Maximum size of a city without trade"),
-	  N_("All the cities of smaller or equal size to this do not "
-	     "produce trade at all. The produced trade increases "
-	     "gradually for cities larger than notradesize and smaller "
-	     "than fulltradesize.  See also fulltradesize."),
-	  valid_notradesize,
-	  GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE,
-	  GAME_DEFAULT_NOTRADESIZE)
-
   GEN_INT("fulltradesize", game.fulltradesize, SSET_RULES, SSET_TO_CLIENT,
 	  N_("Minimum city size to get full trade"),
 	  N_("There is a trade penalty in all cities smaller than this. "
@@ -437,6 +427,16 @@ static struct settings_s settings[] = {
 	     "See also notradesize."), valid_fulltradesize, 
 	  GAME_MIN_FULLTRADESIZE, GAME_MAX_FULLTRADESIZE, 
 	  GAME_DEFAULT_FULLTRADESIZE)
+
+  GEN_INT("notradesize", game.notradesize, SSET_RULES, SSET_TO_CLIENT,
+	  N_("Maximum size of a city without trade"),
+	  N_("All the cities of smaller or equal size to this do not "
+	     "produce trade at all. The produced trade increases "
+	     "gradually for cities larger than notradesize and smaller "
+	     "than fulltradesize.  See also fulltradesize."),
+	  valid_notradesize,
+	  GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE,
+	  GAME_DEFAULT_NOTRADESIZE)
 
   GEN_INT("unhappysize", game.unhappysize, SSET_RULES, SSET_TO_CLIENT,
 	  N_("City size before people become unhappy"),
