@@ -270,6 +270,32 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 /**************************************************************************
 ...
 **************************************************************************/
+void blink_active_unit(void)
+{
+  static int is_shown;
+  struct unit *punit;
+  
+  if((punit=get_unit_in_focus())) {
+    struct tile *ptile;
+    ptile=map_get_tile(punit->x, punit->y);
+
+    if(is_shown) {
+      struct unit_list units;
+      units=ptile->units;
+      unit_list_init(&ptile->units);
+      refresh_tile_mapcanvas(punit->x, punit->y, 1);
+      ptile->units=units;
+    } else {
+      refresh_tile_mapcanvas(punit->x, punit->y, 1);
+    }
+    
+    is_shown=!is_shown;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void request_unit_goto(void)
 {
   struct unit *punit=get_unit_in_focus();
@@ -1229,3 +1255,4 @@ void key_unit_wakeup_others(void)
   if(get_unit_in_focus())
     request_unit_wakeup(punit_focus);
 }
+

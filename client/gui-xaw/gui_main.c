@@ -47,6 +47,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "colors.h"
+#include "control.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_stuff.h"		/* I_SW() */

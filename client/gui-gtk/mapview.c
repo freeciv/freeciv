@@ -215,37 +215,6 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 /**************************************************************************
 ...
 **************************************************************************/
-void blink_active_unit(void)
-{
-  static int is_shown;
-  struct unit *punit;
-  
-  if((punit=get_unit_in_focus())) {
-    struct tile *ptile;
-    ptile=map_get_tile(punit->x, punit->y);
-
-    if(is_shown) {
-      struct unit_list units;
-      units=ptile->units;
-      unit_list_init(&ptile->units);
-      refresh_tile_mapcanvas(punit->x, punit->y, 1);
-      ptile->units=units;
-    }
-    else {
-      /* make sure that the blinking unit is always on the top */      
-      unit_list_unlink(&ptile->units, punit);
-      unit_list_insert(&ptile->units, punit);
-      refresh_tile_mapcanvas(punit->x, punit->y, 1);
-    }
-      
-    is_shown=!is_shown;
-  }
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
 void set_overview_dimensions(int x, int y)
 {
   gtk_widget_set_usize(overview_canvas, 2*x, 2*y);

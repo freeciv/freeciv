@@ -129,12 +129,6 @@ put_city_workers(struct city *pcity, int color)
 }
 
 void
-blink_active_unit(void)
-{
-	/* PORTME */
-}
-
-void
 move_unit_map_canvas(struct unit *punit, int x0, int y0, int x1, int y1)
 {
 	/* PORTME */
