@@ -473,6 +473,7 @@ static void remove_tiny_islands(void)
     for (x=0;x<map.xsize;x++) {
       if (is_tiny_island(x,y)) {
 	map_set_terrain(x,y, T_OCEAN);
+	map_clear_special(x, y, S_RIVER);
       }
     }
   }
