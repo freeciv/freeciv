@@ -161,7 +161,7 @@ void set_unit_focus_no_center(struct unit *punit)
 }
 
 /**************************************************************************
-The only difference is that here we draw the "cross".
+ The only difference is that here we draw the "cross".
 **************************************************************************/
 void set_unit_focus_and_select(struct unit *punit)
 {
