@@ -634,15 +634,16 @@ static void advisor_choose_build(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  /* Emergency. I have never seen that this code has been called. -- Per */
+  /* Build something random, undecided. */
   impr_type_iterate(i) {
     if (can_build_improvement(pcity, i) && i != B_PALACE) {
-      /* build something random, undecided */
-      pcity->currently_building = i;
-      pcity->is_building_unit = FALSE;
-      return;
+      id = i;
+      break;
     }
   } impr_type_iterate_end;
+  if (id >= 0 && id < B_LAST) {
+    change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
+  }
 }
 
 /**************************************************************************
