@@ -2366,6 +2366,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 	my_snprintf(buffer, sizeof(buffer),
 		    _("Option: %s has been set to %d."), op->name,
 		    *(op->bool_value) ? 1 : 0);
+	do_update = TRUE;
       }
     }
     break;
@@ -2413,6 +2414,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 	my_snprintf(buffer, sizeof(buffer),
 		    _("Option: %s has been set to \"%s\"."), op->name,
 		    op->string_value);
+	do_update = TRUE;
       }
     }
     break;
