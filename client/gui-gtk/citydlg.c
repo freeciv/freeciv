@@ -395,6 +395,8 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			NORMAL_TILE_WIDTH*5, NORMAL_TILE_HEIGHT*5);
   gtk_container_add(GTK_CONTAINER(frame), pdialog->map_canvas);
   
+  gtk_widget_realize (pdialog->map_canvas);
+
   /* "production queue" vbox */
   box=gtk_vbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(pdialog->sub_form), box, TRUE, TRUE, 0);
