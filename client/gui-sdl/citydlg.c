@@ -229,17 +229,10 @@ static int city_dlg_callback(struct GUI *pWindow)
     }
   }
 
-#if 0  
-  if (move_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
-    sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow);
-    redraw_city_dialog(pCityDlg->pCity);
-    flush_dirty();
-  } else {
-    if(sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
-      flush_rect(pWindow->size);
-    }      
-  }
-#endif
+  if(sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
+    flush_rect(pWindow->size);
+  }      
+  
   return -1;
 
 SEND:

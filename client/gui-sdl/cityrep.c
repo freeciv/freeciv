@@ -24,7 +24,6 @@
 
 #include "city.h"
 #include "fcintl.h"
-#include "log.h"
 #include "game.h"
 #include "packets.h"
 #include "shared.h"

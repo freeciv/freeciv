@@ -1158,7 +1158,7 @@ void Init_MapView(void)
 			pBuf->size.w - FRAME_WH - pIcon_theme->w, FRAME_WH);
   FREESURFACE(pIcon_theme);  
   
-  SDL_SetAlpha(pBuf->theme , 0x0 , 0x0);
+  SDL_SetAlpha(pBuf->theme, 0x0, 0x0);
   pBuf->action = minimap_window_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_MINI_MAP_WINDOW, pBuf);
@@ -1512,7 +1512,7 @@ bool map_event_handler(SDL_keysym Key)
     return FALSE;
 
     case SDLK_KP5:
-      advance_unit_focus();
+      key_recall_previous_focus_unit();
     return FALSE;
       
     case SDLK_g:

@@ -47,6 +47,7 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "control.h"
+#include "goto.h"
 #include "packhand.h"
 
 #include "colors.h"
@@ -919,24 +920,33 @@ static int goto_here_callback(struct GUI *pWidget)
 **************************************************************************/
 static int patrol_here_callback(struct GUI *pWidget)
 {
-  /*int x = pWidget->data.cont->id0;
+  int x = pWidget->data.cont->id0;
   int y = pWidget->data.cont->id1;
-  struct unit *pUnit = player_find_unit_by_id(game.player_ptr,
-                                   pWidget->data.cont->value);*/
   struct unit *pUnit = get_unit_in_focus();
     
   popdown_advanced_terrain_dialog();
-
-  /* Port Me */
   
   if(pUnit) {
-    if (is_air_unit(pUnit)) {
-      append_output_window(_("Game: Sorry, airunit patrol not yet implemented."));
-    } else {
-      /*send_patrol_route(pUnit);*/
-    }
+    enter_goto_state(pUnit);
+    /* may not work */
+    do_unit_patrol_to(pUnit, x, y);
+    exit_goto_state();
   }
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int paradrop_here_callback(struct GUI *pWidget)
+{
+  int x = pWidget->data.cont->id0;
+  int y = pWidget->data.cont->id1;
+    
+  popdown_advanced_terrain_dialog();
   
+  /* may not work */
+  do_unit_paradrop_to(get_unit_in_focus(), x, y);
   return -1;
 }
 
@@ -954,7 +964,7 @@ void popup_advanced_terrain_dialog(int x , int y)
   SDL_Rect area;
   struct CONTAINER *pCont;
   char cBuf[255]; 
-  int n , w = 0, h , units_h = 0, canvas_x , canvas_y ;
+  int n, w = 0, h, units_h = 0, canvas_x, canvas_y ;
   
   if (pAdvanced_Terrain_Dlg) {
     return;
@@ -1056,11 +1066,11 @@ void popup_advanced_terrain_dialog(int x , int y)
 	    _("Change Production"), change_production_callback);
 	    
     pBuf->data.city = pCity;
-    set_wstate(pBuf , FC_WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
   
-    add_to_gui_list(ID_LABEL , pBuf);
+    add_to_gui_list(ID_LABEL, pBuf);
     
-    w = MAX(w , pBuf->size.w);
+    w = MAX(w, pBuf->size.w);
     h += pBuf->size.h;
     /* -------------- */
     
@@ -1068,11 +1078,11 @@ void popup_advanced_terrain_dialog(int x , int y)
 	    _("Hurry production"), hurry_production_callback);
 	    
     pBuf->data.city = pCity;
-    set_wstate(pBuf , FC_WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
   
-    add_to_gui_list(ID_LABEL , pBuf);
+    add_to_gui_list(ID_LABEL, pBuf);
     
-    w = MAX(w , pBuf->size.w);
+    w = MAX(w, pBuf->size.w);
     h += pBuf->size.h;
     /* ----------- */
   
@@ -1082,9 +1092,9 @@ void popup_advanced_terrain_dialog(int x , int y)
     pBuf->data.city = pCity;
     set_wstate(pBuf, FC_WS_NORMAL);
   
-    add_to_gui_list(ID_LABEL , pBuf);
+    add_to_gui_list(ID_LABEL, pBuf);
     
-    w = MAX(w , pBuf->size.w);
+    w = MAX(w, pBuf->size.w);
     h += pBuf->size.h;
     
   }
@@ -1101,20 +1111,19 @@ void popup_advanced_terrain_dialog(int x , int y)
     create_active_iconlabel(pBuf, pWindow->dst, pStr, _("Goto here"),
 						    goto_here_callback);
     pBuf->data.cont = pCont;
-    set_wstate(pBuf , FC_WS_NORMAL);
+    set_wstate(pBuf, FC_WS_NORMAL);
         
     add_to_gui_list(MAX_ID - 1000 - pFocus_Unit->id, pBuf);
     
-    w = MAX(w , pBuf->size.w);
+    w = MAX(w, pBuf->size.w);
     h += pBuf->size.h;
     /* ----------- */
     
     create_active_iconlabel(pBuf, pWindow->dst, pStr, _("Patrol here"),
 						    patrol_here_callback);
     pBuf->data.cont = pCont;
-    /*set_wstate(pBuf , FC_WS_NORMAL);*/
-    pBuf->string16->forecol = *(get_game_colorRGB(COLOR_STD_DISABLED));
-    
+    set_wstate(pBuf, FC_WS_NORMAL);
+        
     add_to_gui_list(MAX_ID - 1000 - pFocus_Unit->id, pBuf);
     
     w = MAX(w , pBuf->size.w);
@@ -1129,10 +1138,31 @@ void popup_advanced_terrain_dialog(int x , int y)
   
       add_to_gui_list(ID_LABEL, pBuf);
     
+      w = MAX(w, pBuf->size.w);
+      h += pBuf->size.h;
+      
+    }
+
+    if(can_unit_paradrop(pFocus_Unit) && pTile->known &&
+      !(is_ocean(pTile->terrain) && is_ground_unit(pFocus_Unit)) &&
+      !(is_sailing_unit(pFocus_Unit) && (!is_ocean(pTile->terrain) || !pCity)) &&
+      !(((pCity && pplayers_non_attack(game.player_ptr, city_owner(pCity))) 
+      || is_non_attack_unit_tile(pTile, game.player_ptr))) &&
+      (unit_type(pFocus_Unit)->paratroopers_range >=
+	    real_map_distance(pFocus_Unit->x, pFocus_Unit->y, x, y))) {
+	      
+      create_active_iconlabel(pBuf, pWindow->dst, pStr, _("Paradrop here"),
+						    paradrop_here_callback);
+      pBuf->data.cont = pCont;
+      set_wstate(pBuf, FC_WS_NORMAL);
+  
+      add_to_gui_list(ID_LABEL, pBuf);
+    
       w = MAX(w , pBuf->size.w);
       h += pBuf->size.h;
       
     }
+
   }
   pAdvanced_Terrain_Dlg->pBeginWidgetList = pBuf;
   
@@ -4024,12 +4054,10 @@ static void redraw_nations_dialog(void);
 **************************************************************************/
 static int nations_dialog_callback(struct GUI *pWindow)
 {
-#if 0  
-  return std_move_window_group_callback(pNations->pBeginWidgetList,
-  								pWindow);
-#else
+  if(sellect_window_group_dialog(pNations->pBeginWidgetList, pWindow)) {
+    flush_rect(pWindow->size);
+  }      
   return -1;
-#endif  
 }
 
 /**************************************************************************
@@ -4278,7 +4306,7 @@ static int city_style_callback(struct GUI *pWidget)
 {
   struct GUI *pGUI = get_widget_pointer_form_main_list(MAX_ID - 1000 -
 					    pNations->nation_city_style);
-  set_wstate(pGUI , FC_WS_NORMAL);
+  set_wstate(pGUI, FC_WS_NORMAL);
   redraw_icon2(pGUI);
   sdl_dirty_rect(pGUI->size);
   
@@ -4515,7 +4543,7 @@ static void create_nations_dialog(void)
 
   /* create window widget */
   pWindow =
-     create_window(Main.gui, create_str16_from_char
+     create_window(NULL, create_str16_from_char
 	(_("Nation Wizard : What nation will you be?"), 12), w, h, 0);
   pWindow->string16->style |= TTF_STYLE_BOLD;
   
@@ -4527,7 +4555,7 @@ static void create_nations_dialog(void)
   /* ---------------------------- */
   
   /* Create Nations Buttons and set window start pos*/
-  create_nations_buttons(&w , &h);
+  create_nations_buttons(&w, &h);
   
   pBuf = get_logo_gfx();
   if (resize_window(pWindow, pBuf, NULL, w, h)) {

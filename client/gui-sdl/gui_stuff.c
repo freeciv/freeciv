@@ -1222,7 +1222,7 @@ int std_move_window_group_callback(struct GUI *pBeginWidgetList,
   } else {
     if(sellect_window_group_dialog(pBeginWidgetList, pWindow)) {
       flush_rect(pWindow->size);
-    }      
+    }
   }
   return (-1);
 }

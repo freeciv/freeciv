@@ -158,11 +158,14 @@ static int unit_order_callback(struct GUI *pOrder_Widget)
   case ID_UNIT_ORDER_GOTO:
     key_unit_goto();
     break;
+  case ID_UNIT_ORDER_GOTO_CITY:
+    popup_goto_dialog();
+    break;
   case ID_UNIT_ORDER_AIRLIFT:
     /*      popup_goto_dialog(); */
     break;
-  case ID_UNIT_ORDER_GOTO_CITY:
-    popup_goto_dialog();
+  case ID_UNIT_ORDER_RETURN:
+    request_unit_return(pUnit);
     break;
   case ID_UNIT_ORDER_DISBAND:
     key_unit_disband();
@@ -426,6 +429,17 @@ void create_units_order_widgets(void)
   pBuf->string16 = create_str16_from_char(cBuf, 10);
   pBuf->key = SDLK_g;
   add_to_gui_list(ID_UNIT_ORDER_GOTO, pBuf);
+
+  my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Return to nearest city"), " (Shift + G)");
+  pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
+			  (WF_HIDDEN | WF_DRAW_THEME_TRANSPARENT |
+			   WF_WIDGET_HAS_INFO_LABEL));
+  set_wstate(pBuf, FC_WS_NORMAL);
+  pBuf->action = unit_order_callback;
+  pBuf->string16 = create_str16_from_char(cBuf, 10);
+  pBuf->key = SDLK_g;
+  pBuf->mod = KMOD_SHIFT;
+  add_to_gui_list(ID_UNIT_ORDER_RETURN, pBuf);
 
   my_snprintf(cBuf, sizeof(cBuf),"%s%s", _("Patrol"), " (Q)");
   pBuf = create_themeicon(pTheme->OPatrol_Icon, Main.gui,
@@ -984,6 +998,8 @@ void update_menus(void)
 
       if (can_unit_paradrop(pUnit)) {
 	local_show(ID_UNIT_ORDER_PARADROP);
+      } else {
+	local_hide(ID_UNIT_ORDER_PARADROP);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_FALLOUT)) {
@@ -1004,7 +1020,7 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_PILLAGE);
       }
 
-      if (pTile->city && can_unit_change_homecity(pUnit)) {
+      if (can_unit_change_homecity(pUnit) && pTile->city->id != pUnit->homecity) {
 	local_show(ID_UNIT_ORDER_HOMECITY);
       } else {
 	local_hide(ID_UNIT_ORDER_HOMECITY);
@@ -1081,6 +1097,12 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_AIRLIFT);
       }
 
+      if (!pTile->city) {
+        local_show(ID_UNIT_ORDER_RETURN);
+      } else {
+	local_hide(ID_UNIT_ORDER_RETURN);
+      }
+      
       set_new_order_widget_start_pos();
       counter = redraw_order_widgets();
 
