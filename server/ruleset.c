@@ -545,6 +545,15 @@ static void load_ruleset_units(char *ruleset_subdir)
     u->shield_cost = secfile_lookup_int(file, "%s.uk_shield", sec[i]);
     u->food_cost   = secfile_lookup_int(file, "%s.uk_food", sec[i]);
     u->gold_cost   = secfile_lookup_int(file, "%s.uk_gold", sec[i]);
+
+    u->helptext = NULL;
+    sval = secfile_lookup_str_default(file, NULL, "%s.helptext", sec[i]);
+    if (sval) {
+      sval = skip_leading_spaces(sval);
+      if (strlen(sval)) {
+	u->helptext = mystrdup(sval);
+      }
+    }
   }
   
   /* flags */
@@ -1403,6 +1412,7 @@ static void send_ruleset_units(struct player *dest)
     packet.food_cost = u->food_cost;
     packet.gold_cost = u->gold_cost;
     packet.paratroopers_range = u->paratroopers_range;
+    packet.helptext = u->helptext;   /* pointer assignment */
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {

@@ -192,6 +192,8 @@ struct unit_type {
   int gold_cost;   /* gold upkeep (n/a now, maybe later) */
 
   int paratroopers_range; /* only valid for F_PARATROOPERS */
+
+  char *helptext;
 };
 
 

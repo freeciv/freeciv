@@ -489,6 +489,13 @@ struct packet_ruleset_unit {
   int gold_cost;   /* gold upkeep (n/a now, maybe later) */
 
   int paratroopers_range; /* max range of paratroopers, F_PARATROOPERS */
+
+  /* Following is a pointer to malloced memory; on the server, it
+     points to putype->helptext, malloced earlier; on the client,
+     it is malloced when packet received, and then putype->helptext
+     is assigned to allocated pointer.
+  */
+  char *helptext;
 };
 
 struct packet_ruleset_tech {

@@ -1,6 +1,6 @@
 
 ; Modifying this file:
-; You shouldn't modify this file except to make bugfixes or
+; You should not modify this file except to make bugfixes or
 ; for other "maintenance".  If you want to make custom changes,
 ; you should create a new datadir subdirectory and copy this file
 ; into that directory, and then modify that copy.  Then use the
@@ -28,7 +28,7 @@ firepower_factor=1              ; convenient for Civ1
 ; The order here matters: later units are considered "better" for
 ; a given flag or role.  
 ;
-; The actual tag used (the * in [unit_*]) doesn't matter, except 
+; The actual tag used (the * in [unit_*]) does not matter, except 
 ; it must be unique within this file, and it may be used in debug 
 ; output when reading this file.
 ;
@@ -49,6 +49,8 @@ firepower_factor=1              ; convenient for Civ1
 ; uk_*          = upkeep costs, these are used as base values in the game
 ; flags         = special flag strings, as in common/unit.h,unit.c
 ; roles         = special role strings, as in common/unit.h,unit.c
+; helptext	= optional help text string; should escape all raw newlines 
+;		  so that xgettext parsing works
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
@@ -77,6 +79,21 @@ uk_food       = 1
 uk_gold       = 0
 flags         = "Settlers", "NonMil"
 roles         = ""
+helptext      = _("\
+Setters are one of the key units in the game.  They can be used to\
+ found new cities, irrigate land, build roads, railroads, fortresses\
+ and mines, and clean up pollution.  Upkeep for Settlers is in food\
+ as well as production, and a Setter can die if its supporting city\
+ runs out of food.\
+\n\n\
+Settlers and Engineers may work together to decrease the amount of\
+ time required for long projects.  If two or more Settlers and/or\
+ Engineers are both working on the same task in the same square,\
+ their efforts will be added together each turn until the task is\
+ finished.  Be careful not to dedicate too many workers to one task,\
+ though; excess effort can be wasted, and a group of Settlers and/or\
+ Engineers is highly vulnerable to enemy attacks.\
+")
 
 [unit_engineers]
 name          = "Engineers"
@@ -100,6 +117,19 @@ uk_food       = 1
 uk_gold       = 0
 flags         = "Settlers", "NonMil", "Transform"
 roles         = ""
+helptext      = _("\
+Engineers are similar to Settlers, but they work twice as fast and\
+ move twice as fast.  Engineers may also perform major terrain\
+ transformations (for example, converting Tundra into Desert) which\
+ are beyond the capabilities of Settlers.\
+\n\n\
+TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers\
+ require the same resources as ordinary Settlers.\
+\n\n\
+TIP 2:  If you manage to build Leonardo's Workshop, research\
+ Explosives before the Workshop becomes obsolete.  This way,\
+ your Settler units will be upgraded for free.\
+")
 
 [unit_warriors]
 name          = "Warriors"
@@ -123,6 +153,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "DefendOk", "FirstBuild"
+helptext      = _("\
+This unit may be built from the start of the game.  It is the\
+ weakest unit.\
+")
 
 [unit_phalanx]
 name          = "Phalanx"
@@ -284,6 +318,18 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "IgTer", "IgZOC"
 roles         = "DefendGood", "Partisan"
+helptext      = _("\
+A number of Partisans are granted free when an enemy conquers your\
+ city, but only under these conditions:\
+\n\n\
+ - Guerilla Warfare must be known by at least 1 player.\
+\n\n\
+ - You must be the player who originally built the city.\
+\n\n\
+ - You must know about Communism and Gunpowder.\
+\n\n\
+ - You must run either a Democracy or a Communist government.\
+")
 
 [unit_alpine_troops]
 name          = "Alpine Troops"
@@ -401,6 +447,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = ""
 roles         = "DefendGood"
+helptext      = _("\
+Mechanized Infantry; this unit has the strongest defence strength\
+ of any land unit, but is only available near the end of the\
+ technology tree.\
+")
 
 [unit_horsemen]
 name          = "Horsemen"
@@ -746,6 +797,12 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit", "OneAttack"
 roles         = ""
+helptext      = _("\
+The Helicopter is a very powerful unit, as it can both fly and\
+ conquer cities.  Care must be exercised, because Helicopters lose a\
+ small amount of health for every turn not spent in a city, unless\
+ you have the United Nations wonder.\
+")
 
 [unit_stealth_fighter]
 name          = "Stealth Fighter"
@@ -769,6 +826,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit", "Fighter"
 roles         = ""
+helptext      = _("\
+An improved Fighter, with improved attack and a higher movement\
+ radius.\
+")
 
 [unit_stealth_bomber]
 name          = "Stealth Bomber"
@@ -792,6 +853,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit", "OneAttack"
 roles         = ""
+helptext      = _("\
+An improved Bomber, with improved attack and a higher movement\
+ radius.\
+")
 
 [unit_trireme]
 name          = "Trireme"
@@ -930,6 +995,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit"
 roles         = ""
+helptext      = _("\
+TIP:  A very fast unit, which is very useful for hunting down enemy\
+ Transports.\
+")
 
 [unit_cruiser]
 name          = "Cruiser"
@@ -1022,6 +1091,13 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit", "Submarine"
 roles         = ""
+helptext      = _("\
+This unit is invisible unless it is next to an enemy unit or city.\
+ It cannot make shore bombardments against enemy land units or cities.\
+\n\n\
+Submarines have a very high strategic value, but have a weak\
+ defence.\
+")
 
 [unit_carrier]
 name          = "Carrier"
@@ -1045,6 +1121,11 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit", "Carrier"
 roles         = ""
+helptext      = _("\
+TIP:  Guard Carriers with a handful of fast-moving ships and a\
+ battleship, as losing a fully-equipped Carrier is VERY\
+ painful and expensive.\
+")
 
 [unit_transport]
 name          = "Transport"
@@ -1091,6 +1172,10 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit", "OneAttack", "Missile"
 roles         = ""
+helptext      = _("\
+TIP:  A handful of these can successfully keep the waters around\
+ your treasured homeland free of enemy ships.\
+")
 
 [unit_nuclear]
 name          = "Nuclear"
@@ -1114,6 +1199,25 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit", "OneAttack", "Missile", "Nuclear"
 roles         = ""
+helptext      = _("\
+You can build Nuclear units when you have the required advance, and\
+ the Manhattan Project wonder has been built by any player.\
+\n\n\
+On impact, the blast will destroy any unit in a 3x3-square area,\
+ including friendly units.  When striking a city, the city size is\
+ halved, and the surrounding squares are polluted.\
+\n\n\
+TIP 1:  Nuking the ocean will not generate pollution, and is a most\
+ effective (but expensive!!) way of getting rid of enemy\
+ ships.\
+\n\n\
+TIP 2:  You may be involved in a situation where you've invaded an\
+ enemy country en masse, but the enemy cities are too strong.\
+ Before using a Nuclear unit, assemble a gang of Settlers\
+ and/or Engineers next to the city and have them ready to fix\
+ the pollution on the same turn it occurs!  This minimises the\
+ chance of global warming.  Eco-friendly nukes!\
+")
 
 [unit_diplomat]
 name          = "Diplomat"
@@ -1137,6 +1241,24 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil"
 roles         = ""
+helptext      = _("\
+- A Diplomat can establish embassies with other civilizations\
+ by moving into another player's city.\
+\n\n\
+- Diplomats can also try to sabotage enemy production, or steal\
+ an advance from an enemy city.  (An advance can only be stolen\
+ once per city).\
+\n\n\
+- A Diplomat can also bribe an enemy unit, if that unit is the only\
+ one on its square.\
+\n\n\
+- Diplomats can even start a revolution in an enemy city and turn\
+ it into your own, if you have the money!\
+\n\n\
+- In some game strategies, hordes of Diplomats can be used to wreak\
+ havoc on the enemy.  Little wonder that Diplomats are often\
+ viewed with suspicion and fear!\
+")
 
 [unit_spy]
 name          = "Spy"
@@ -1160,6 +1282,25 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
 roles         = ""
+helptext      = _("\
+A Spy is a full time professional and as such is much more\
+ skilled in the arts of espionage than her Diplomat predecessor.\
+\n\n\
+The most inoffensive skills in a Spy's repertoire are her ability\
+ to investigate cities - revealing detailed information, and\
+ the establishment of embassies.  However, if your Spy has gained\
+ herself a reputation for clandestine behaviour she will be\
+ executed if she tries to establish an embassy.\
+\n\n\
+She can also be used to: poison the water supply of an enemy city\
+ (reducing the population); steal specific technology; and sabotage\
+ predetermined city targets (note: sabotaging improvements in a\
+ capital or sabotaging City Walls increases the risks of capture).\
+ A Spy can also infiltrate a city and ferment a revolt.\
+\n\n\
+A Spy can also be of aid on the battlefield - sabotaging enemy units\
+ as well as bribing them to change allegiance.\
+")
 
 [unit_caravan]
 name          = "Caravan"
@@ -1183,6 +1324,14 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Caravan", "IgZOC", "NonMil"
 roles         = ""
+helptext      = _("\
+Every Caravan that is used to build a wonder will add 50 shields\
+ towards the production of the wonder.\
+\n\n\
+TIP:  A well-known strategy is to build wonders in one turn, by\
+ stockpiling a stack of Caravans, then bringing them all\
+ into the city where the wonder is to be built.\
+")
 
 [unit_freight]
 name          = "Freight"
@@ -1206,6 +1355,9 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Caravan", "IgZOC", "NonMil"
 roles         = ""
+helptext      = _("\
+The Freight unit replaces the Caravan, and moves at twice the speed.\
+")
 
 [unit_explorer]
 name          = "Explorer"
@@ -1229,6 +1381,9 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "IgTer", "IgZOC", "NonMil"
 roles         = "Explorer"
+helptext      = _("\
+Explorers are very useful for mapping unknown territory.\
+")
 
 [u_specials]
 partisan_req = "Gunpowder","Communism"

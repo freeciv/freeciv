@@ -1078,6 +1078,9 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->gold_cost          = p->gold_cost;
   u->paratroopers_range = p->paratroopers_range;
 
+  free(u->helptext);
+  u->helptext = p->helptext;	/* pointer assignment */
+
   tilespec_setup_unit_type(p->id);
 }
 

@@ -1997,6 +1997,11 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_string(cptr, packet->graphic_alt);
   if(unit_flag(packet->id, F_PARATROOPERS))
     cptr=put_int16(cptr, packet->paratroopers_range);
+
+  /* This must be last, so client can determine length: */
+  if(packet->helptext) {
+    cptr=put_string(cptr, packet->helptext);
+  }
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -2011,6 +2016,7 @@ receive_packet_ruleset_unit(struct connection *pc)
   struct pack_iter iter;
   struct packet_ruleset_unit *packet=
     fc_malloc(sizeof(struct packet_ruleset_unit));
+  int len;
 
   pack_iter_init(&iter, pc);
 
@@ -2040,6 +2046,14 @@ receive_packet_ruleset_unit(struct connection *pc)
   if(packet->flags & (1L<<F_PARATROOPERS))
     iget_int16(&iter, &packet->paratroopers_range);
   else packet->paratroopers_range=0;
+
+  len = pack_iter_remaining(&iter);
+  if (len) {
+    packet->helptext = fc_malloc(len);
+    iget_string(&iter, packet->helptext, len);
+  } else {
+    packet->helptext = NULL;
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

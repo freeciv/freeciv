@@ -696,7 +696,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
   }
   if (unit_flag(i, F_MARINES)) {
     sprintf(buf+strlen(buf), _("* Can attack from aboard sea units: against"
-			       " enemy cities and\n  onto land squares."));
+			       " enemy cities and onto land squares."));
   }
   if (unit_flag(i, F_PARATROOPERS)) {
     sprintf(buf+strlen(buf), _("* Can be paradropped from a city with airport"
@@ -740,7 +740,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
   if (unit_flag(i, F_TRIREME)) {
     sprintf(buf+strlen(buf),
 	    _("* Must end turn in a city or next to land,"
-	      " or has a 50%% risk of\n  being lost at sea."));
+	      " or has a 50%% risk of being lost at sea."));
   }
   if (utype->fuel>0) {
     sprintf(buf+strlen(buf), _("* Must end "));
@@ -757,12 +757,16 @@ void helptext_unit(char *buf, int i, const char *user_text)
 	get_unit_type(get_role_unit(F_SUBMARINE,0))->transport_capacity) {
       sprintf(buf+strlen(buf), _(" or Submarine"));
     }
-    sprintf(buf+strlen(buf), _(",\n  or will run out of fuel and be lost.\n"));
+    sprintf(buf+strlen(buf), _(", or will run out of fuel and be lost.\n"));
   }
   if (strlen(buf)) {
     sprintf(buf+strlen(buf), "\n");
   } 
+  if (utype->helptext) {
+    sprintf(buf+strlen(buf), "%s\n\n", _(utype->helptext));
+  }
   strcpy(buf+strlen(buf), user_text);
+  wordwrap_string(buf, 68);
 }
 
 /****************************************************************
