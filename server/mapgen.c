@@ -432,9 +432,9 @@ void make_land(void)
 }
 
 /**************************************************************************
- returns if this is a 1x1 island (which we remove)
+  Returns if this is a 1x1 island
 **************************************************************************/
-int tiny_island(int x, int y) 
+static int is_tiny_island(int x, int y) 
 {
   if (map_get_terrain(x,y)==T_OCEAN) return 0;
   if (map_get_terrain(x-1,y)!=T_OCEAN) return 0;
@@ -445,19 +445,19 @@ int tiny_island(int x, int y)
 }
 
 /**************************************************************************
-  removes all 1x1 islands
+  Removes all 1x1 islands (sets them to ocean).
 **************************************************************************/
-void filter_land(void)
+static void remove_tiny_islands(void)
 {
   int x,y;
   
-  for (y=0;y<map.ysize;y++)
+  for (y=0;y<map.ysize;y++) {
     for (x=0;x<map.xsize;x++) {
-      /* Remove Islands that is only 1x1 */
-      if (tiny_island(x,y)) {
+      if (is_tiny_island(x,y)) {
 	map_set_terrain(x,y, T_OCEAN);
       }
     }
+  }
 }
 
 /**************************************************************************
@@ -702,7 +702,7 @@ void map_fractal_generate(void)
       mapgenerator2();
     if( map.generator == 1 )
       mapgenerator1();
-    filter_land();
+    remove_tiny_islands();
   }
 
   if(game.scenario!=1) /* type 1 scenarios already provide specials */
