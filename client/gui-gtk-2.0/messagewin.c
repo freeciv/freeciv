@@ -132,7 +132,7 @@ void create_meswin_dialog(void)
   meswin_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(meswin_dialog_shell),"delete_event",
         GTK_SIGNAL_FUNC(meswin_close_callback),NULL );
-  gtk_accel_group_attach(accel, GTK_OBJECT(meswin_dialog_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(meswin_dialog_shell));
 
   gtk_window_set_title( GTK_WINDOW(meswin_dialog_shell), _("Messages") );
 

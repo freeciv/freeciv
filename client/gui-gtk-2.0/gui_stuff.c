@@ -92,27 +92,7 @@ void gtk_set_label(GtkWidget *w, char *text)
 **************************************************************************/
 GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel)
 {
-  GtkWidget *button;
-  GtkWidget *accel_label;
-  guint accel_key;
-  GdkModifierType accel_mod;
-
-  button = gtk_button_new ();
-
-  accel_label = gtk_widget_new (GTK_TYPE_ACCEL_LABEL,
-				"GtkWidget::visible", TRUE,
-				"GtkWidget::parent", button,
-				"GtkAccelLabel::accel_widget", button,
-				NULL);
-  accel_key = gtk_label_parse_uline (GTK_LABEL (accel_label), label);
-
-  accel_mod = meta_accelerators ? GDK_MOD1_MASK : 0;
-
-  if ((accel_key != GDK_VoidSymbol) && accel)
-    gtk_widget_add_accelerator (button, "clicked", accel,
-				accel_key, accel_mod, GTK_ACCEL_LOCKED);
-
-  return button;
+  return gtk_button_new_with_mnemonic(label);
 }
 
 /**************************************************************************

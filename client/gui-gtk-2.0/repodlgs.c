@@ -152,7 +152,7 @@ void create_science_dialog(int make_modal)
   science_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(science_dialog_shell),"delete_event",
         GTK_SIGNAL_FUNC(science_close_callback),NULL );
-  gtk_accel_group_attach(accel, GTK_OBJECT(science_dialog_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(science_dialog_shell));
 
   gtk_window_set_title (GTK_WINDOW(science_dialog_shell), _("Science"));
 
@@ -176,10 +176,6 @@ void create_science_dialog(int make_modal)
   gtk_widget_show_all(popupmenu);
 
   science_current_label=gtk_progress_bar_new();
-  gtk_progress_bar_set_bar_style(GTK_PROGRESS_BAR(science_current_label),
-				 GTK_PROGRESS_CONTINUOUS);
-  gtk_progress_set_show_text(GTK_PROGRESS(science_current_label), TRUE);
-
   gtk_box_pack_start( GTK_BOX( hbox ), science_current_label,TRUE, FALSE, 0 );
   gtk_widget_set_usize(science_current_label, 0, 25);
 
@@ -253,16 +249,16 @@ void science_change_callback(GtkWidget *widget, gpointer data)
      * there may be a better way to do this?  --dwp */
     science_dialog_update();
   } else {
-    gfloat pct;
+    gdouble pct;
 
     my_snprintf(text, sizeof(text), "%d/%d",
 		game.player_ptr->research.bulbs_researched,
 		total_bulbs_required(game.player_ptr));
-    pct=CLAMP((gfloat) game.player_ptr->research.bulbs_researched /
+    pct=CLAMP((gdouble) game.player_ptr->research.bulbs_researched /
 		total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
-    gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
-    gtk_progress_set_format_string(GTK_PROGRESS(science_current_label), text);
+    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
+    gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
     
     packet.tech=to;
     send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RESEARCH);
@@ -367,7 +363,7 @@ void science_dialog_update(void)
   static char *row	[1];
   GtkWidget *item;
   GList *sorting_list = NULL;
-  gfloat pct;
+  gdouble pct;
   int turns_to_advance;
   int steps;
 
@@ -418,11 +414,11 @@ void science_dialog_update(void)
 	      game.player_ptr->research.bulbs_researched,
 	      total_bulbs_required(game.player_ptr));
 
-  pct=CLAMP((gfloat) game.player_ptr->research.bulbs_researched /
+  pct=CLAMP((gdouble) game.player_ptr->research.bulbs_researched /
 	    total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
-  gtk_progress_set_percentage(GTK_PROGRESS(science_current_label), pct);
-  gtk_progress_set_format_string(GTK_PROGRESS(science_current_label), text);
+  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
+  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
 
   /* collect all techs which are reachable in the next step
    * hist will hold afterwards the techid of the current choice
@@ -571,7 +567,7 @@ void create_economy_report_dialog(int make_modal)
   economy_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(economy_dialog_shell),"delete_event",
         GTK_SIGNAL_FUNC(economy_close_callback),NULL );
-  gtk_accel_group_attach(accel, GTK_OBJECT(economy_dialog_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(economy_dialog_shell));
 
   gtk_window_set_title(GTK_WINDOW(economy_dialog_shell),_("Economy"));
 
@@ -826,7 +822,7 @@ void create_activeunits_report_dialog(int make_modal)
   activeunits_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(activeunits_dialog_shell),"delete_event",
         GTK_SIGNAL_FUNC(activeunits_close_callback),NULL );
-  gtk_accel_group_attach(accel, GTK_OBJECT(activeunits_dialog_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(activeunits_dialog_shell));
 
   gtk_window_set_title(GTK_WINDOW(activeunits_dialog_shell),_("Units"));
 

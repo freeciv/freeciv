@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <gdk/gdkkeysyms.h>
+
 #include "fcintl.h"
 #include "mem.h"
 #include "packets.h"
@@ -39,7 +41,7 @@ int		history_pos;
 void inputline_return(GtkWidget *w, gpointer data)
 {
   struct packet_generic_message apacket;
-  char *theinput;
+  const char *theinput;
 
   theinput = gtk_entry_get_text(GTK_ENTRY(w));
   
@@ -67,13 +69,20 @@ void inputline_return(GtkWidget *w, gpointer data)
 **************************************************************************/
 void append_output_window(char *astring)
 {
-  gtk_text_freeze(GTK_TEXT(main_message_area));
-  gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, "\n", -1);
-  gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, astring, -1);
-  gtk_text_thaw(GTK_TEXT(main_message_area));
+  GtkTextBuffer *buf;
+  GtkTextIter i;
+  GtkTextMark *mark;
+  
+  buf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
+  gtk_text_buffer_get_end_iter(buf, &i);
+  gtk_text_buffer_insert(buf, &i, "\n", -1);
+  gtk_text_buffer_insert(buf, &i, astring, -1);
 
-  /* move the scrollbar forward by a ridiculous amount */
-  gtk_range_default_vmotion(GTK_RANGE(text_scrollbar), 0, 10000);
+  /* have to use a mark, or this won't work properly */
+  gtk_text_buffer_get_end_iter(buf, &i);
+  mark = gtk_text_buffer_create_mark(buf, NULL, &i, FALSE);
+  gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(main_message_area), mark);
+  gtk_text_buffer_delete_mark(buf, mark);
 }
 
 /**************************************************************************
@@ -107,8 +116,8 @@ void clear_output_window(void)
 **************************************************************************/
 void set_output_window_text(const char *text)
 {
-  gtk_text_freeze(GTK_TEXT(main_message_area));
-  gtk_editable_delete_text(GTK_EDITABLE(main_message_area), 0, -1);
-  gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL, text, -1);
-  gtk_text_thaw(GTK_TEXT(main_message_area));
+  GtkTextBuffer *buf;
+  
+  buf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
+  gtk_text_buffer_set_text(buf, text, -1);
 }

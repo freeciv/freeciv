@@ -163,7 +163,7 @@ void popup_worklists_report(struct player *pplr)
 
   gtk_window_set_position(GTK_WINDOW(report_dialog->shell),
 			  GTK_WIN_POS_MOUSE);
-  gtk_accel_group_attach(accel, GTK_OBJECT(report_dialog->shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(report_dialog->shell));
 
   /* Create the list of global worklists. */
 
@@ -338,7 +338,7 @@ struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   peditor->shell = gtk_vbox_new(FALSE, 0);
   gtk_object_set_user_data(GTK_OBJECT(peditor->shell), peditor);
 
-  gtk_accel_group_attach(accel, GTK_OBJECT(peditor->shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(peditor->shell));
 
   /* Make an hbox to stick the dialog's clists and their buttons into. */
 

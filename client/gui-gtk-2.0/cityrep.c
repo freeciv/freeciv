@@ -197,7 +197,7 @@ static void append_impr_or_unit_to_menu_sub(GtkWidget * menu,
 					    gboolean append_wonders,
 					    gboolean change_prod,
 					    TestCityFunc test_func,
-					    GtkSignalFunc callback)
+					    GCallback callback)
 {
   cid cids[U_LAST + B_LAST];
   struct item items[U_LAST + B_LAST];
@@ -296,7 +296,7 @@ append_impr_or_unit_to_menu(GtkWidget *menu,
 				    FALSE, FALSE, change_prod,
 				    (gboolean(*)(struct city *, gint))
 				    test_func,
-				    select_impr_or_unit_callback);
+				    G_CALLBACK(select_impr_or_unit_callback));
     /* Add a separator */
     gtk_menu_append(GTK_MENU(menu), gtk_menu_item_new());
   }
@@ -306,7 +306,7 @@ append_impr_or_unit_to_menu(GtkWidget *menu,
     append_impr_or_unit_to_menu_sub(menu, _("No Units Available"),
 				    TRUE, FALSE, change_prod,
 				    test_func,
-				    select_impr_or_unit_callback);
+				    G_CALLBACK(select_impr_or_unit_callback));
   }
 
   if (append_improvements) {
@@ -320,7 +320,7 @@ append_impr_or_unit_to_menu(GtkWidget *menu,
 				    FALSE, TRUE, change_prod,
 				    (gboolean(*)(struct city *, gint))
 				    test_func,
-				    select_impr_or_unit_callback);
+				    G_CALLBACK(select_impr_or_unit_callback));
   }
   
   gtk_object_set_data(GTK_OBJECT(menu), "freeciv_test_func", test_func);
@@ -535,7 +535,7 @@ static void create_city_report_dialog(int make_modal)
   city_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(city_dialog_shell),"delete_event",
         GTK_SIGNAL_FUNC(city_close_callback),NULL );
-  gtk_accel_group_attach(accel, GTK_OBJECT(city_dialog_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(city_dialog_shell));
 
   gtk_window_set_title(GTK_WINDOW(city_dialog_shell),_("Cities"));
 

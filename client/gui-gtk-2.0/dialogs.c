@@ -138,18 +138,8 @@ static int connect_unit_y;
 /****************************************************************
 ...
 *****************************************************************/
-static void notify_command_callback(GtkWidget *w, GtkWidget *t)
-{
-  gtk_widget_destroy( t );
-  gtk_widget_set_sensitive( top_vbox, TRUE );
-}
-
-/****************************************************************
-...
-*****************************************************************/
 gint deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
-  gtk_widget_set_sensitive( top_vbox, TRUE );
   return FALSE;
 }
 
@@ -159,21 +149,25 @@ gint deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 *****************************************************************/
 void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
-  GtkWidget *notify_dialog_shell, *notify_command;
+  GtkWidget *notify_dialog_shell;
   GtkWidget *notify_label, *notify_headline, *notify_scrolled;
-  GtkAccelGroup *accel=gtk_accel_group_new();
   
-  notify_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect( GTK_OBJECT(notify_dialog_shell),"delete_event",
-	GTK_SIGNAL_FUNC(deleted_callback),NULL );
-  gtk_accel_group_attach(accel, GTK_OBJECT(notify_dialog_shell));
+  notify_dialog_shell = gtk_dialog_new_with_buttons(caption,
+  	GTK_WINDOW(toplevel),
+	GTK_DIALOG_MODAL,
+	GTK_STOCK_CLOSE,
+	GTK_RESPONSE_NONE,
+	NULL);
+
+  g_signal_connect(notify_dialog_shell, "response",
+		   G_CALLBACK(gtk_widget_destroy), NULL);
+  g_signal_connect(notify_dialog_shell, "destroy",
+		   G_CALLBACK(deleted_callback), NULL);
   gtk_widget_set_name(notify_dialog_shell, "Freeciv");
 
-  gtk_window_set_title( GTK_WINDOW( notify_dialog_shell ), caption );
-  
   gtk_container_border_width( GTK_CONTAINER(GTK_DIALOG(notify_dialog_shell)->vbox), 5 );
 
-  gtk_widget_realize (notify_dialog_shell);
+  gtk_widget_realize(notify_dialog_shell);
 
   notify_headline = gtk_label_new( headline);   
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->vbox ),
@@ -197,27 +191,12 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->vbox ),
 	notify_scrolled, TRUE, TRUE, 0 );
 
-
-  notify_command = gtk_button_new_with_label( _("Close") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(notify_dialog_shell)->action_area ),
-	notify_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( notify_command, GTK_CAN_DEFAULT );
-  gtk_widget_grab_default( notify_command );
-  gtk_widget_add_accelerator(notify_command, "clicked",
-	accel, GDK_Escape, 0, 0);
-
-  gtk_signal_connect( GTK_OBJECT( notify_command ), "clicked",
-	GTK_SIGNAL_FUNC( notify_command_callback ), notify_dialog_shell );
-
-  
   gtk_widget_show_all( GTK_DIALOG(notify_dialog_shell)->vbox );
   gtk_widget_show_all( GTK_DIALOG(notify_dialog_shell)->action_area );
 
-  gtk_widget_set_usize(notify_dialog_shell, 0, 265);
+  gtk_widget_set_usize(notify_dialog_shell, -1, 265);
   gtk_set_relative_position (toplevel, notify_dialog_shell, 10, 10);
   gtk_widget_show( notify_dialog_shell );
-
-  gtk_widget_set_sensitive( top_vbox, FALSE );
 }
 
 /****************************************************************
@@ -686,7 +665,7 @@ static int create_advances_list(struct player *pplayer,
   spy_tech_shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(spy_tech_shell),_("Steal Technology"));
   gtk_window_set_position (GTK_WINDOW(spy_tech_shell), GTK_WIN_POS_MOUSE);
-  gtk_accel_group_attach(accel, GTK_OBJECT(spy_tech_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(spy_tech_shell));
   
   spy_advances_list = gtk_clist_new_with_titles(1, title);
   gtk_clist_column_titles_passive(GTK_CLIST(spy_advances_list));
@@ -785,7 +764,7 @@ static int create_improvements_list(struct player *pplayer,
   spy_sabotage_shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(spy_sabotage_shell),_("Sabotage Improvements"));
   gtk_window_set_position (GTK_WINDOW(spy_sabotage_shell), GTK_WIN_POS_MOUSE);
-  gtk_accel_group_attach(accel, GTK_OBJECT(spy_sabotage_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(spy_sabotage_shell));
   
   spy_improvements_list = gtk_clist_new_with_titles(1, title);
   gtk_clist_column_titles_passive(GTK_CLIST(spy_improvements_list));
@@ -1599,7 +1578,7 @@ GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
   
   dshell=gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
-  gtk_accel_group_attach(accel, GTK_OBJECT(dshell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(dshell));
 
   gtk_signal_connect( GTK_OBJECT(dshell),"delete_event",
 	GTK_SIGNAL_FUNC(popup_mes_del_callback),(gpointer)parent );
@@ -1733,7 +1712,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 
   unit_select_dialog_shell = gtk_dialog_new();
   gtk_signal_connect(GTK_OBJECT(unit_select_dialog_shell), "delete_event",
-		     unit_select_callback, NULL);
+		     G_CALLBACK(unit_select_callback), NULL);
   gtk_window_set_position (GTK_WINDOW(unit_select_dialog_shell), GTK_WIN_POS_MOUSE);
 
   gtk_window_set_title(GTK_WINDOW(unit_select_dialog_shell),
@@ -2131,7 +2110,7 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 **************************************************************************/
 static void races_name_callback( GtkWidget *w, gpointer data )
 {
-  char *lead;
+  const char *lead;
   int nat;
 
   nat = races_buttons_get_current();
@@ -2204,7 +2183,7 @@ static int city_style_get_current(void)
 static void races_buttons_callback( GtkWidget *w, gpointer data )
 {
   int selected, selected_sex, selected_style;
-  char *s;
+  const char *s;
 
   struct packet_alloc_nation packet;
 

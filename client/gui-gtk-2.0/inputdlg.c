@@ -28,9 +28,9 @@
 /****************************************************************
 ...
 *****************************************************************/
-char *input_dialog_get_input(GtkWidget *button)
+const char *input_dialog_get_input(GtkWidget *button)
 {
-  char *dp;
+  const char *dp;
   GtkWidget *winput;
       
   winput=gtk_object_get_data(GTK_OBJECT(button->parent->parent->parent),

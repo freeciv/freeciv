@@ -234,7 +234,7 @@ static void create_rates_dialog(void)
   gtk_signal_connect( GTK_OBJECT(rates_dialog_shell),"delete_event",
       GTK_SIGNAL_FUNC(deleted_callback),NULL );
   gtk_window_set_position (GTK_WINDOW(rates_dialog_shell), GTK_WIN_POS_MOUSE);
-  gtk_accel_group_attach(accel, GTK_OBJECT(rates_dialog_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(rates_dialog_shell));
 
   gtk_window_set_title( GTK_WINDOW( rates_dialog_shell ), _("Select tax, luxury and science rates") );
 
@@ -376,7 +376,7 @@ static GtkWidget *option_dialog_shell;
 static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 {
   client_option *o;
-  char *dp;
+  const char *dp;
 
   for (o=options; o->name; ++o) {
     switch (o->type) {
@@ -409,7 +409,7 @@ static void create_option_dialog(void)
   gtk_signal_connect( GTK_OBJECT(option_dialog_shell),"delete_event",
       GTK_SIGNAL_FUNC(deleted_callback),NULL );
   gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
-  gtk_accel_group_attach(accel, GTK_OBJECT(option_dialog_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(option_dialog_shell));
   gtk_container_set_border_width(
   		GTK_CONTAINER(GTK_DIALOG(option_dialog_shell)->vbox), 5);
 

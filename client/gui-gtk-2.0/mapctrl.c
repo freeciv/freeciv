@@ -111,6 +111,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 
   if(tile_get_known(xtile, ytile) >= TILE_KNOWN_FOGGED) {
     p=gtk_window_new(GTK_WINDOW_POPUP);
+    gtk_widget_set_app_paintable(p, TRUE);
+    gtk_container_set_border_width(GTK_CONTAINER(p), 4);
     b=gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(p), b);
     my_snprintf(s, sizeof(s), _("Terrain: %s"),
@@ -230,7 +232,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     popy= event->y_root-(8*count);
     if( popy<0 )
       popy= 0;      
-    gtk_widget_popup(p, popx, popy);
+    gtk_window_move(GTK_WINDOW(p), popx, popy);
+    gtk_widget_show(p);
     gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
 		     NULL, NULL, event->time);
     gtk_grab_add(p);

@@ -20,7 +20,6 @@
 #include <stdarg.h>
 
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
 
 #include "events.h"
 #include "fcintl.h"
@@ -39,35 +38,27 @@
 
 #include "messagedlg.h"
 
+#define NUM_LISTS 1
+
 /*************************************************************************/
+static GtkWidget *shell;
+static GtkTreeStore *model[NUM_LISTS];
+
 static GtkWidget *create_messageopt_dialog(void);
-static void messageopt_ok_command_callback(GtkWidget * w, gpointer data);
-static void messageopt_cancel_command_callback(GtkWidget * w, gpointer data);
-static GtkWidget *messageopt_toggles[E_LAST][NUM_MW];
+static void messageopt_command_callback(GtkWidget *w, gint response_id);
+static void messageopt_destroy_callback(GtkWidget *w, gpointer data);
+static void item_toggled(GtkCellRendererToggle *cell,
+			 gchar *spath, gpointer data);
 
 /**************************************************************************
 ... 
 **************************************************************************/
 void popup_messageopt_dialog(void)
 {
-  GtkWidget *shell;
-  int i, j, state;
+  if (!shell)
+    shell = create_messageopt_dialog();
 
-  shell=create_messageopt_dialog();
-
-  /* Doing this here makes the "No"'s centered consistently */
-  for(i=0; i<E_LAST; i++) {
-    for(j=0; j<NUM_MW; j++) {
-      state = messages_where[i] & (1<<j);
-      gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(messageopt_toggles[i][j]),
-	state);
-    }
-  }
-  
-/*  gtk_set_relative_position(toplevel, shell, 15, 0);*/
-  gtk_window_set_position (GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   gtk_widget_show(shell);
-  gtk_widget_set_sensitive(top_vbox, FALSE);
 }
 
 /**************************************************************************
@@ -75,89 +66,102 @@ void popup_messageopt_dialog(void)
 **************************************************************************/
 GtkWidget *create_messageopt_dialog(void)
 {
-  GtkWidget *shell, *form, *explanation, *ok, *cancel, *col1, *col2;
-  GtkWidget *colhead1, *colhead2;
-  GtkWidget *label;
-  GtkWidget *toggle=0;
-  int i, j;
-  GtkAccelGroup *accel=gtk_accel_group_new();
+  GtkWidget *shell, *form, *explanation;
+  int n, i, j;
   
-  shell=gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(shell), _("Message Options"));
-  gtk_container_set_border_width(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), 5);
-  gtk_accel_group_attach(accel, GTK_OBJECT(shell));
+  shell = gtk_dialog_new_with_buttons(_("Message Options"),
+  	GTK_WINDOW(toplevel),
+	0,
+	GTK_STOCK_OK,
+	GTK_RESPONSE_ACCEPT,
+	GTK_STOCK_CANCEL,
+	GTK_RESPONSE_REJECT,
+	NULL);
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
 
-  explanation=gtk_label_new(_("Where to Display Messages\nOut = Output window,"
-		      " Mes = Messages window, Pop = Popup individual window"));
+  explanation = gtk_label_new(NULL);
+  gtk_label_set_markup(GTK_LABEL(explanation),
+    _("<span foreground=\"blue\"><i>Where to display messages?\n"
+      "<b>Out</b>put window ; "
+      "<b>Mes</b>sages window ; "
+      "<b>Pop</b>up individual window</i></span>"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), explanation,
-		FALSE, FALSE, 0);
+	FALSE, FALSE, 0);
+  gtk_widget_show(explanation);	
 
-  form=gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), form, FALSE, FALSE, 0);
+  form = gtk_hbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), form, TRUE, TRUE, 5);
 
-  colhead1=gtk_frame_new(NULL);
-  gtk_box_pack_start(GTK_BOX(form), colhead1, TRUE, TRUE, 0);
+  for (n=0; n<NUM_LISTS; n++) {
+    model[n] = gtk_tree_store_new(5,
+     G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_INT);
+  }
 
-  col1=gtk_table_new(E_LAST/2+2, NUM_MW+1, FALSE);
-  gtk_container_add(GTK_CONTAINER(colhead1), col1);
+  for (i=0; i<E_LAST; i++)  {
+    GtkTreeIter it;
 
-  colhead2=gtk_frame_new(NULL);
-  gtk_box_pack_start(GTK_BOX(form), colhead2, TRUE, TRUE, 0);
+    n = (i % NUM_LISTS);
 
-  col2=gtk_table_new(E_LAST/2+2, NUM_MW+1, FALSE);
-  gtk_container_add(GTK_CONTAINER(colhead2), col2);
+    gtk_tree_store_append(model[n], &it, NULL);
+    gtk_tree_store_set(model[n], &it,
+    	3, get_message_text(sorted_events[i]), 4, sorted_events[i], -1);
 
-  label = gtk_label_new(_("Out:"));
-  gtk_table_attach_defaults(GTK_TABLE(col1), label, 1, 2, 0, 1);
-  label = gtk_label_new(_("Mes:"));
-  gtk_table_attach_defaults(GTK_TABLE(col1), label, 2, 3, 0, 1);
-  label = gtk_label_new(_("Pop:"));
-  gtk_table_attach_defaults(GTK_TABLE(col1), label, 3, 4, 0, 1);
-  label = gtk_label_new(_("Out:"));
-  gtk_table_attach_defaults(GTK_TABLE(col2), label, 1, 2, 0, 1);
-  label = gtk_label_new(_("Mes:"));
-  gtk_table_attach_defaults(GTK_TABLE(col2), label, 2, 3, 0, 1);
-  label = gtk_label_new(_("Pop:"));
-  gtk_table_attach_defaults(GTK_TABLE(col2), label, 3, 4, 0, 1);
-
-  for(i=0; i<E_LAST; i++)  {
-    int line = (i%E_LAST);
-    int is_col1 = i<(E_LAST/2);
-
-    label = gtk_label_new(get_message_text(sorted_events[i]));
-    gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
-    gtk_table_attach_defaults(GTK_TABLE(is_col1?col1:col2), label,
-               0, 1, line+1, line+2);
-    for(j=0; j<NUM_MW; j++) {
-      toggle = gtk_check_button_new();
-      gtk_table_attach_defaults(GTK_TABLE(is_col1?col1:col2), toggle,
-               j+1, j+2, line+1, line+2);
-      messageopt_toggles[sorted_events[i]][j]=toggle;
+    for (j=0; j<NUM_MW; j++) {
+      gtk_tree_store_set(model[n], &it,
+        j, messages_where[sorted_events[i]] & (1<<j), -1);
     }
   }
 
-  ok=gtk_button_new_with_label(_("Ok"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->action_area), ok,
-	TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(ok, GTK_CAN_DEFAULT);
-  gtk_widget_grab_default(ok);
-  gtk_widget_add_accelerator(ok, "clicked", accel, GDK_Escape, 0,
-	GTK_ACCEL_VISIBLE);
+  for (n=0; n<NUM_LISTS; n++) {
+    GtkWidget *view, *sw;
+    GtkCellRenderer *renderer;
+    gint col;
 
-  cancel=gtk_button_new_with_label(_("Cancel"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->action_area), cancel,
-	TRUE, TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(cancel, GTK_CAN_DEFAULT);
-  
-  gtk_signal_connect(GTK_OBJECT(ok), "clicked",
-	messageopt_ok_command_callback, shell);
-  gtk_signal_connect(GTK_OBJECT(cancel), "clicked",
-	messageopt_cancel_command_callback, shell);
-  gtk_signal_connect(GTK_OBJECT(shell), "delete_event",
-        GTK_SIGNAL_FUNC(messageopt_cancel_command_callback), shell);
+    view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(model[n]));
+    g_object_unref(G_OBJECT(model[n]));
 
-  gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
-  gtk_widget_show_all(GTK_DIALOG(shell)->action_area);
+    renderer = gtk_cell_renderer_text_new();
+    col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+	-1, _("Event"), renderer, "text", 3, NULL);
+
+    renderer = gtk_cell_renderer_toggle_new();
+    g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(0));
+    g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(item_toggled),
+		     model[n]);
+
+    col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+	-1, _("Out"), renderer, "active", 0, NULL);
+
+    renderer = gtk_cell_renderer_toggle_new();
+    g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(1));
+    g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(item_toggled),
+		     model[n]);
+
+    col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+  	-1, _("Mes"), renderer, "active", 1, NULL);
+
+    renderer = gtk_cell_renderer_toggle_new();
+    g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(2));
+    g_signal_connect(G_OBJECT(renderer), "toggled", G_CALLBACK(item_toggled),
+		     model[n]);
+
+    col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+  	-1, _("Pop"), renderer, "active", 2, NULL);
+
+    sw = gtk_scrolled_window_new(NULL, NULL);
+    gtk_container_add(GTK_CONTAINER(sw), view);
+
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				   GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+    gtk_widget_set_usize(sw, -1, 425);
+    gtk_box_pack_start(GTK_BOX(form), sw, TRUE, TRUE, 0);
+  }
+
+  g_signal_connect(shell, "response",
+		   G_CALLBACK(messageopt_command_callback), NULL);
+  g_signal_connect(shell, "destroy",
+		   G_CALLBACK(messageopt_destroy_callback), NULL);
+  gtk_widget_show_all(form);
 
   return shell;
 }
@@ -165,28 +169,63 @@ GtkWidget *create_messageopt_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void messageopt_cancel_command_callback(GtkWidget *w, gpointer data)
+static void messageopt_destroy_callback(GtkWidget *w, gpointer data)
 {
-  gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy((GtkWidget *)data);
+  gtk_widget_destroy(shell);
+  shell = NULL;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void messageopt_ok_command_callback(GtkWidget *w, gpointer data)
+static void messageopt_command_callback(GtkWidget *w, gint response_id)
 {
-  int i, j;
+  if (response_id == GTK_RESPONSE_ACCEPT) {
+    GtkTreeIter it;
+    gint n, j, i;
+    gboolean toggle;
 
-  gtk_widget_set_sensitive(top_vbox, TRUE);
+    for (i=0; i<E_LAST; i++) {
+      messages_where[i] = 0;
+    }
 
-  for(i=0;i<E_LAST;i++)  {
-    messages_where[i] = 0;
-    for(j=0; j<NUM_MW; j++) {
-      if (GTK_TOGGLE_BUTTON(messageopt_toggles[i][j])->active)
-        messages_where[i] |= (1<<j);
+    for (n=0; n<NUM_LISTS; n++) {
+      gtk_tree_model_get_iter_first(GTK_TREE_MODEL(model[n]), &it);
+
+      do {
+        for (j=0; j<NUM_MW; j++) {
+	  gtk_tree_model_get(GTK_TREE_MODEL(model[n]), &it,
+		j, &toggle, 4, &i, -1);
+
+	  if (toggle)
+	    messages_where[i] |= (1<<j);
+	}
+      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(model[n]), &it));
     }
   }
+  messageopt_destroy_callback(w, NULL);
+}
 
-  gtk_widget_destroy((GtkWidget *)data);
+/**************************************************************************
+...
+**************************************************************************/
+static void item_toggled(GtkCellRendererToggle *cell,
+			 gchar *spath, gpointer data)
+{
+  GtkTreeModel *model = GTK_TREE_MODEL(data);
+  GtkTreePath *path;
+  GtkTreeIter it;
+  gboolean toggle;
+  gint column;
+
+  path = gtk_tree_path_new_from_string(spath);
+
+  column = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(cell), "column"));
+
+  gtk_tree_model_get_iter(model, &it, path);
+  gtk_tree_model_get(model, &it, column, &toggle, -1);
+  toggle ^= 1;
+  gtk_tree_store_set(GTK_TREE_STORE(model), &it, column, toggle, -1);
+
+  gtk_tree_path_free(path);
 }

@@ -18,7 +18,7 @@
  */
 
 /*
- * Modified by the GTK+ Team and others 1997-1999.  See the AUTHORS
+ * Modified by the GTK+ Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
@@ -42,6 +42,7 @@ extern "C" {
 #define GTK_PIXCOMM_CLASS(klass)	 (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_PIXCOMM, GtkPixcommClass))
 #define GTK_IS_PIXCOMM(obj)		 (GTK_CHECK_TYPE ((obj), GTK_TYPE_PIXCOMM))
 #define GTK_IS_PIXCOMM_CLASS(klass)	 (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_PIXCOMM))
+#define GTK_PIXCOMM_GET_CLASS(obj)	 (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_PIXCOMM, GtkPixcommClass))
 
 
 typedef struct _GtkPixcomm	GtkPixcomm;
@@ -51,13 +52,9 @@ struct _GtkPixcomm
 {
   GtkMisc misc;
   
-  GdkPixmap *pixmap;
+  gint w, h;
   GdkBitmap *mask;
-  GdkPixmap *pixmap_insensitive;
-
-  GdkGC     *fg_gc;
-  GdkGC     *mask_fg_gc;
-  GdkGC     *mask_bg_gc;
+  GdkPixmap *pixmap;
 };
 
 struct _GtkPixcommClass
@@ -66,7 +63,7 @@ struct _GtkPixcommClass
 };
 
 
-GtkType	   gtk_pixcomm_get_type	 (void);
+GtkType	   gtk_pixcomm_get_type	 (void) G_GNUC_CONST;
 GtkWidget* gtk_pixcomm_new	 (GdkWindow *window, gint width, gint height);
 void       gtk_pixcomm_copyto	 (GtkPixcomm *pixcomm, SPRITE *src,
 				  gint x, gint y, gboolean refresh);

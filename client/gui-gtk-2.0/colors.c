@@ -14,8 +14,6 @@
 
 #include <gtk/gtk.h>
 
-#include <gdk_imlib.h>
-
 #include "log.h"
 #include "mem.h"
 
@@ -67,7 +65,7 @@ static void alloc_standard_colors (void)
     colors_standard[i]->green= colors_standard_rgb[i].g<<8;
     colors_standard[i]->blue = colors_standard_rgb[i].b<<8;
   
-    gdk_imlib_best_color_get (colors_standard[i]);
+    gdk_rgb_find_color(cmap, colors_standard[i]);
   }
 }
 
@@ -78,12 +76,9 @@ enum Display_color_type get_visual(void)
 {
   GdkVisual *visual;
 
-  gdk_imlib_init();
+  gtk_widget_push_colormap (gdk_rgb_get_colormap());
 
-  gtk_widget_push_visual (gdk_imlib_get_visual());
-  gtk_widget_push_colormap (gdk_imlib_get_colormap());
-
-  visual = gdk_imlib_get_visual();
+  visual = gtk_widget_get_default_visual();
 
   if (visual->type == GDK_VISUAL_STATIC_GRAY) { 
     /* StaticGray, use black and white */

@@ -20,7 +20,6 @@
 #include <ctype.h>
 
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
 
 #include "fcintl.h"
 #include "game.h"
@@ -33,94 +32,85 @@
 #include "finddlg.h"
 
 static GtkWidget *find_dialog_shell;
-static GtkWidget *find_label;
-static GtkWidget *find_list;
-static GtkWidget *find_center_command;
-static GtkWidget *find_cancel_command;
+static GtkWidget *find_view;
 
-static void update_find_dialog(GtkWidget *find_list);
+static void update_find_dialog(GtkListStore *store);
 
-static void find_center_command_callback(GtkWidget *w, gpointer data);
-static void find_cancel_command_callback(GtkWidget *w, gpointer data);
-static void find_list_callback(GtkWidget *w, gint row, gint column);
+static void find_command_callback(GtkWidget *w, gint response_id);
+static void find_destroy_callback(GtkWidget *w, gpointer data);
+static void find_selection_callback(GtkTreeSelection *selection,
+				    GtkTreeModel *model);
 
-static int original_x, original_y;
+static int pos_x, pos_y;
 
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
 void popup_find_dialog(void)
 {
-  GtkWidget *scrolled;
-  GtkAccelGroup *accel=gtk_accel_group_new();
+  GtkWidget         *label;
+  GtkWidget         *scrolled;
+  GtkListStore      *store;
+  GtkTreeSelection  *selection;
+  GtkCellRenderer   *renderer;
+  GtkTreeViewColumn *column;
 
-  get_center_tile_mapcanvas(&original_x, &original_y);
+  if (find_dialog_shell) {
+    gtk_widget_show(find_dialog_shell);
+    return;
+  }
 
-  gtk_widget_set_sensitive(top_vbox, FALSE);
-  
-  find_dialog_shell=gtk_widget_new(GTK_TYPE_DIALOG,
-				   "GtkWindow::title", _("Find City"),
-				   "GtkWindow::window_position",
-				     GTK_WIN_POS_MOUSE,
-				   "GtkObject::signal::delete_event",
-				     deleted_callback, NULL,
-				   NULL);
-  gtk_accel_group_attach(accel, GTK_OBJECT(find_dialog_shell));
+  get_center_tile_mapcanvas(&pos_x, &pos_y);
 
-  find_label=gtk_widget_new(GTK_TYPE_FRAME,
-			    "GtkFrame::label", _("Select a city:"),
-			    "GtkWidget::parent",
-			      GTK_DIALOG(find_dialog_shell)->vbox,
-			    "GtkWidget::visible", TRUE,
-			    NULL);
+  find_dialog_shell = gtk_dialog_new_with_buttons(_("Find City"),
+  	GTK_WINDOW(toplevel),
+	0,
+	GTK_STOCK_FIND,
+	GTK_RESPONSE_ACCEPT,
+	GTK_STOCK_CANCEL,
+	GTK_RESPONSE_REJECT,
+	NULL);
+  gtk_window_set_position(GTK_WINDOW(find_dialog_shell), GTK_WIN_POS_MOUSE);
 
-  find_list=gtk_clist_new(1);
-  gtk_clist_set_column_width(GTK_CLIST(find_list), 0,
-	GTK_CLIST(find_list)->clist_window_width);
-  gtk_clist_set_auto_sort (GTK_CLIST (find_list), TRUE);
+  g_signal_connect(find_dialog_shell, "response",
+		   G_CALLBACK(find_command_callback), NULL);
+  g_signal_connect(find_dialog_shell, "destroy",
+		   G_CALLBACK(find_destroy_callback), NULL);
+
+  label = gtk_widget_new(GTK_TYPE_FRAME,
+			 "GtkFrame::label", _("Select a city:"),
+			 "GtkWidget::parent",
+			   GTK_DIALOG(find_dialog_shell)->vbox,
+			 "GtkWidget::visible", TRUE,
+			 NULL);
+
+  store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
+
+  find_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(find_view));
+  g_object_unref(G_OBJECT(store));
+  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(find_view));
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(find_view), FALSE);
+
+  renderer = gtk_cell_renderer_text_new();
+  column = gtk_tree_view_column_new_with_attributes(NULL, renderer,
+  	"text", 0, NULL);
+  gtk_tree_view_column_set_sort_order(column, GTK_SORT_ASCENDING);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(find_view), column);
+
   scrolled = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled), find_list);
+  gtk_container_add(GTK_CONTAINER(scrolled), find_view);
 
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
                           GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_widget_set_usize(scrolled, 250, 300);
-  gtk_container_add(GTK_CONTAINER(find_label),scrolled);
-  gtk_widget_show(find_list);
-  gtk_widget_show(scrolled);
+  gtk_widget_set_usize(scrolled, -1, 200);
+  gtk_container_add(GTK_CONTAINER(label),scrolled);
   
-  find_center_command=
-    gtk_widget_new(GTK_TYPE_BUTTON,
-		   "GtkButton::label", _("Center"),
-		   "GtkWidget::parent",
-		     GTK_DIALOG(find_dialog_shell)->action_area,
-		   "GtkObject::signal::clicked",
-		     find_center_command_callback, NULL,
-		   "GtkWidget::visible", TRUE,
-		   NULL);
-  GTK_WIDGET_SET_FLAGS(find_center_command, GTK_CAN_DEFAULT);
-  gtk_widget_grab_default(find_center_command);
+  g_signal_connect(selection, "changed",
+		   G_CALLBACK(find_selection_callback), store);
 
-  gtk_widget_add_accelerator(find_center_command, "clicked",
-	accel, GDK_Return, 0, 0);
-
-  find_cancel_command=
-    gtk_widget_new(GTK_TYPE_BUTTON,
-		   "GtkButton::label", _("Cancel"),
-		   "GtkWidget::parent",
-		     GTK_DIALOG(find_dialog_shell)->action_area,
-		   "GtkObject::signal::clicked",
-		     find_cancel_command_callback, NULL,
-		   "GtkWidget::visible", TRUE,
-		   NULL);
-  GTK_WIDGET_SET_FLAGS(find_cancel_command, GTK_CAN_DEFAULT);
-
-  gtk_widget_add_accelerator(find_cancel_command, "clicked",
-	accel, GDK_Escape, 0, 0);
-
-  gtk_signal_connect(GTK_OBJECT(find_list), "select_row",
-		GTK_SIGNAL_FUNC(find_list_callback), NULL);
-  
-  update_find_dialog(find_list);
+  update_find_dialog(store);
+  gtk_widget_show_all(scrolled);
   gtk_widget_show(find_dialog_shell);
 }
 
@@ -129,24 +119,19 @@ void popup_find_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void update_find_dialog(GtkWidget *find_list)
+static void update_find_dialog(GtkListStore *store)
 {
   int i;
-  
-  gchar *row[1];
+  GtkTreeIter it;
 
-  gtk_clist_freeze(GTK_CLIST(find_list));
-  gtk_clist_clear(GTK_CLIST(find_list));
+  gtk_list_store_clear(store);
 
-  for(i=0; i<game.nplayers; i++) {
+  for(i = 0; i < game.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity) 
-	row[0] = pcity->name;
-	gtk_clist_append(GTK_CLIST(find_list), row);
+	gtk_list_store_append(store, &it);
+	gtk_list_store_set(store, &it, 0, pcity->name, 1, pcity, -1);
     city_list_iterate_end;
-
   }
-  gtk_clist_thaw(GTK_CLIST(find_list));
-  gtk_widget_show_all(find_list);
 }
 
 /**************************************************************************
@@ -155,50 +140,58 @@ static void update_find_dialog(GtkWidget *find_list)
 static void popdown_find_dialog(void)
 {
   gtk_widget_destroy(find_dialog_shell);
-  gtk_widget_set_sensitive(top_vbox, TRUE);
+  find_dialog_shell = NULL;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void find_center_command_callback(GtkWidget *w, gpointer data)
+static void find_command_callback(GtkWidget *w, gint response_id)
 {
-  struct city *pcity;
-  GList *selection;
+  if (response_id == GTK_RESPONSE_ACCEPT) {
+    GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeIter it;
 
-  if ((selection=GTK_CLIST(find_list)->selection))
-  {
-    gchar *string;
-    gint row=(gint)selection->data;
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(find_view));
 
-    gtk_clist_get_text(GTK_CLIST(find_list), row, 0, &string);
+    if (gtk_tree_selection_get_selected(selection, &model, &it)) {
+      struct city *pcity;
 
-    if(string&&(pcity=game_find_city_by_name(string)))
-      center_tile_mapcanvas(pcity->x, pcity->y);
+      gtk_tree_model_get(model, &it, 1, &pcity, -1);
+
+      if (pcity) {
+        pos_x = pcity->x;
+        pos_y = pcity->y;
+      }
+    }
   }
-  
+  find_destroy_callback(w, NULL);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static void find_destroy_callback(GtkWidget *w, gpointer data)
+{
+  center_tile_mapcanvas(pos_x, pos_y);
   popdown_find_dialog();
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void find_cancel_command_callback(GtkWidget *w, gpointer data)
+static void find_selection_callback(GtkTreeSelection *selection,
+				    GtkTreeModel *model)
 {
-  center_tile_mapcanvas(original_x, original_y);
-  popdown_find_dialog();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void find_list_callback(GtkWidget *w, gint row, gint column)
-{
+  GtkTreeIter it;
   struct city *pcity;
-  gchar *string;
 
-  gtk_clist_get_text(GTK_CLIST(find_list), row, 0, &string);
+  if (!gtk_tree_selection_get_selected(selection, NULL, &it))
+    return;
 
-  if(string&&(pcity=game_find_city_by_name(string)))
-	center_tile_mapcanvas(pcity->x, pcity->y);
+  gtk_tree_model_get(model, &it, 1, &pcity, -1);
+
+  if (pcity)
+    center_tile_mapcanvas(pcity->x, pcity->y);
 }

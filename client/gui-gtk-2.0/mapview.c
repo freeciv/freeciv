@@ -88,7 +88,7 @@ static void put_overlay_tile_gpixmap(GtkPixcomm *p,
 static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
 			    int canvas_x, int canvas_y);
 static void put_line(GdkDrawable *pm, int x, int y, int dir);
-static void show_city_descriptions(void);
+static void show_city_descriptions(GdkRectangle *area);
 
 static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
 				 int canvas_x, int canvas_y,
@@ -976,7 +976,7 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 	gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
 		ev->area.x, ev->area.y, ev->area.x, ev->area.y,
 		ev->area.width, ev->area.height );
-	show_city_descriptions();
+	show_city_descriptions(&ev->area);
       }
     }
     refresh_overview_canvas();
@@ -1299,7 +1299,7 @@ void update_map_canvas_visible(void)
 		      map_canvas_store_twidth,map_canvas_store_theight, TRUE);
   }
 
-  show_city_descriptions();
+  show_city_descriptions(NULL);
 }
 
 /**************************************************************************
@@ -1313,37 +1313,40 @@ void update_city_descriptions(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void draw_shadowed_string(GdkDrawable * drawable,
-				 GdkFont * font,
-				 GdkGC * black_gc,
-				 GdkGC * white_gc,
-				 gint x, gint y, const gchar * string)
+static void draw_shadowed_string(GdkDrawable *drawable,
+				 GdkGC *black_gc,
+				 GdkGC *white_gc,
+				 gint x, gint y, PangoLayout *layout)
 {
-  gdk_draw_string(drawable, font, black_gc, x + 1, y + 1, string);
-  gdk_draw_string(drawable, font, white_gc, x, y, string);
+  gdk_draw_layout(drawable, black_gc, x + 1, y + 1, layout);
+  gdk_draw_layout(drawable, white_gc, x, y, layout);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_desc_at_tile(int x, int y)
+static void show_desc_at_tile(PangoLayout *layout, int x, int y)
 {
   static char buffer[512];
   struct city *pcity;
   if ((pcity = map_get_city(x, y))) {
     int canvas_x, canvas_y;
-    int w;
+    PangoRectangle rect;
 
     get_canvas_xy(x, y, &canvas_x, &canvas_y);
     if (draw_city_names) {
       my_snprintf(buffer, sizeof(buffer), "%s", pcity->name);
-      w = gdk_string_width(main_font, buffer);
-      draw_shadowed_string(map_canvas->window, main_font,
+      
+      pango_layout_set_font_description(layout, main_font);
+      pango_layout_set_text(layout, buffer, -1);
+
+      pango_layout_get_pixel_extents(layout, &rect, NULL);
+      draw_shadowed_string(map_canvas->window,
 			   toplevel->style->black_gc,
 			   toplevel->style->white_gc,
-			   canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+			   canvas_x + NORMAL_TILE_WIDTH / 2 - rect.width / 2,
 			   canvas_y + NORMAL_TILE_HEIGHT +
-			   main_font->ascent, buffer);
+			   PANGO_ASCENT(rect), layout);
     }
 
     if (draw_city_productions && (pcity->owner==game.player_idx)) {
@@ -1352,16 +1355,20 @@ static void show_desc_at_tile(int x, int y)
       get_city_mapview_production(pcity, buffer, sizeof(buffer));
 
       if (draw_city_names)
-	y_offset = main_font->ascent + main_font->descent;
+	y_offset = rect.height + 3;
       else
 	y_offset = 0;
-      w = gdk_string_width(city_productions_font, buffer);
-      draw_shadowed_string(map_canvas->window, city_productions_font,
+
+	pango_layout_set_font_description(layout, city_productions_font);
+	pango_layout_set_text(layout, buffer, -1);
+
+	pango_layout_get_pixel_extents(layout, &rect, NULL);
+	draw_shadowed_string(map_canvas->window,
 			   toplevel->style->black_gc,
 			   toplevel->style->white_gc,
-			   canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+			   canvas_x + NORMAL_TILE_WIDTH / 2 - rect.width / 2,
 			   canvas_y + NORMAL_TILE_HEIGHT +
-			   main_font->ascent + y_offset, buffer);
+			   PANGO_ASCENT(rect) + y_offset, layout);
     }
   }
 }
@@ -1369,10 +1376,16 @@ static void show_desc_at_tile(int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-static void show_city_descriptions(void)
+static void show_city_descriptions(GdkRectangle *area)
 {
+  PangoLayout *layout;
+
   if (!draw_city_names && !draw_city_productions)
     return;
+
+  layout = pango_layout_new(gdk_pango_context_get());
+  gdk_gc_set_clip_rectangle(toplevel->style->black_gc, area);
+  gdk_gc_set_clip_rectangle(toplevel->style->white_gc, area);
 
   if (is_isometric ) {
     int x, y;
@@ -1385,7 +1398,7 @@ static void show_city_descriptions(void)
 	x = (x_base + w);
 	y = y_base - w;
 	if (normalize_map_pos(&x, &y)) {
-	  show_desc_at_tile(x, y);
+	  show_desc_at_tile(layout, x, y);
 	}
       }
     }
@@ -1397,11 +1410,15 @@ static void show_city_descriptions(void)
 	int y = map_view_y0 + y1;
 
 	if (normalize_map_pos(&x, &y)) {
-	  show_desc_at_tile(x, y);
+	  show_desc_at_tile(layout, x, y);
 	}
       }
     }
   }
+
+  gdk_gc_set_clip_rectangle(toplevel->style->black_gc, NULL);
+  gdk_gc_set_clip_rectangle(toplevel->style->white_gc, NULL);
+  g_object_unref(G_OBJECT(layout));
 }
 
 /**************************************************************************

@@ -81,68 +81,66 @@ bool overhead_view_supported(void)
 #define COLOR_MOTTO_FACE_G    0x71
 #define COLOR_MOTTO_FACE_B    0xE3
 
-void load_intro_gfx( void )
+void load_intro_gfx(void)
 {
-  int tot, lin, y, w;
+  int tot, y;
   char s[64];
   GdkColor face;
   GdkGC *face_gc;
-  char *motto = freeciv_motto();
+  PangoLayout *layout;
+  PangoRectangle rect;
 
-  /* metrics */
-
-  lin=main_font->ascent+main_font->descent;
+  layout = pango_layout_new(gdk_pango_context_get());
+  pango_layout_set_font_description(layout, main_font);
 
   /* get colors */
-
   face.red  = COLOR_MOTTO_FACE_R<<8;
   face.green= COLOR_MOTTO_FACE_G<<8;
   face.blue = COLOR_MOTTO_FACE_B<<8;
-
-  gdk_imlib_best_color_get (&face);
+  face_gc = gdk_gc_new(root_window);
 
   /* Main graphic */
-
   intro_gfx_sprite = load_gfxfile(main_intro_filename);
   tot=intro_gfx_sprite->width;
 
-  face_gc = gdk_gc_new(root_window);
+  pango_layout_set_text(layout, freeciv_motto(), -1);
+  pango_layout_get_pixel_extents(layout, &rect, NULL);
 
-  y=intro_gfx_sprite->height-(2*lin);
+  y = intro_gfx_sprite->height-45;
 
-  w = gdk_string_width(main_font, motto);
-  gdk_gc_set_foreground (face_gc, &face);
-  gdk_draw_string(intro_gfx_sprite->pixmap, main_font,
-		  face_gc, tot/2-w/2, y, motto);
-
+  gdk_gc_set_rgb_fg_color(face_gc, &face);
+  gdk_draw_layout(intro_gfx_sprite->pixmap, face_gc,
+		  (tot-rect.width) / 2, y, layout);
   gdk_gc_destroy (face_gc);
 
   /* Minimap graphic */
-
   radar_gfx_sprite = load_gfxfile(minimap_intro_filename);
   tot=radar_gfx_sprite->width;
-
-  y=radar_gfx_sprite->height-(lin+((int)(1.5*main_font->descent)));
-
-  w = gdk_string_width(main_font, word_version());
-  gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->black_gc, (tot/2-w/2)+1, y+1, word_version());
-  gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->white_gc, tot/2-w/2, y, word_version());
-
-  y+=lin;
 
   my_snprintf(s, sizeof(s), "%d.%d.%d%s",
 	      MAJOR_VERSION, MINOR_VERSION,
 	      PATCH_VERSION, VERSION_LABEL);
-  w = gdk_string_width( main_font, s );
-  gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->black_gc, (tot/2-w/2)+1, y+1, s);
-  gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->white_gc, tot/2-w/2, y, s);
+  pango_layout_set_text(layout, s, -1);
+  pango_layout_get_pixel_extents(layout, &rect, NULL);
+
+  y = radar_gfx_sprite->height - (rect.height + 6);
+
+  gdk_draw_layout(radar_gfx_sprite->pixmap, toplevel->style->black_gc,
+		  (tot - rect.width) / 2 + 1, y + 1, layout);
+  gdk_draw_layout(radar_gfx_sprite->pixmap, toplevel->style->white_gc,
+		  (tot - rect.width) / 2, y, layout);
+
+  pango_layout_set_text(layout, word_version(), -1);
+  pango_layout_get_pixel_extents(layout, &rect, NULL);
+  y-=rect.height+3;
+
+  gdk_draw_layout(radar_gfx_sprite->pixmap, toplevel->style->black_gc,
+		  (tot - rect.width) / 2 + 1, y + 1, layout);
+  gdk_draw_layout(radar_gfx_sprite->pixmap, toplevel->style->white_gc,
+		  (tot - rect.width) / 2, y, layout);
 
   /* done */
-
+  g_object_unref(G_OBJECT(layout));
   return;
 }
 
@@ -160,8 +158,8 @@ struct Sprite *crop_sprite(struct Sprite *source,
   gdk_draw_pixmap(mypixmap, civ_gc, source->pixmap, x, y, 0, 0,
 		  width, height);
 
-  mask=gdk_pixmap_new(mask_bitmap, width, height, 1);
-  gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1 );
+  mask = gdk_pixmap_new(NULL, width, height, 1);
+  gdk_draw_rectangle(mask, mask_bg_gc, TRUE, 0, 0, -1, -1);
   	    
   gdk_draw_pixmap(mask, mask_fg_gc, source->mask, x, y, 0, 0,
 		  width, height);
@@ -301,33 +299,25 @@ char **gfx_fileextensions(void)
 ***************************************************************************/
 struct Sprite *load_gfxfile(const char *filename)
 {
-  GdkBitmap	*m;
-  GdkImlibImage *im;
-  SPRITE	*mysprite;
-  int		 w, h;
+  GdkPixbuf *im;
+  SPRITE    *mysprite;
+  int	     w, h;
 
-  if(!(im=gdk_imlib_load_image((char*)filename))) {
+  if (!(im = gdk_pixbuf_new_from_file(filename, NULL))) {
     freelog(LOG_FATAL, "Failed reading XPM file: %s", filename);
     exit(EXIT_FAILURE);
   }
 
   mysprite=fc_malloc(sizeof(struct Sprite));
 
-  w=im->rgb_width; h=im->rgb_height;
+  w = gdk_pixbuf_get_width(im); h = gdk_pixbuf_get_height(im);
+  gdk_pixbuf_render_pixmap_and_mask(im, &mysprite->pixmap, &mysprite->mask, 1);
 
-  if(!gdk_imlib_render (im, w, h)) {
-    freelog(LOG_FATAL, "failed render of sprite struct for %s", filename);
-    exit(EXIT_FAILURE);
-  }
-  
-  mysprite->pixmap    = gdk_imlib_move_image (im);
-  m		      = gdk_imlib_move_mask  (im);
-  mysprite->mask      = m;
-  mysprite->has_mask  = (m != NULL);
+  mysprite->has_mask  = (mysprite->mask != NULL);
   mysprite->width     = w;
   mysprite->height    = h;
 
-  gdk_imlib_destroy_image (im);
+  g_object_unref(G_OBJECT(im));
 
   return mysprite;
 }
@@ -337,7 +327,10 @@ struct Sprite *load_gfxfile(const char *filename)
 ***************************************************************************/
 void free_sprite(SPRITE *s)
 {
-  gdk_imlib_free_pixmap(s->pixmap);
+  if (s->pixmap)
+    g_object_unref(G_OBJECT(s->pixmap));
+  if (s->mask)
+    g_object_unref(G_OBJECT(s->mask));
   free(s);
   return;
 }

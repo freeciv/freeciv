@@ -162,7 +162,7 @@ void create_players_dialog(void)
 			  0);
   gtk_signal_connect( GTK_OBJECT(players_dialog_shell),"delete_event",
         GTK_SIGNAL_FUNC(players_button_callback),NULL);
-  gtk_accel_group_attach(accel, GTK_OBJECT(players_dialog_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(players_dialog_shell));
 
   gtk_window_set_title(GTK_WINDOW(players_dialog_shell), _("Players"));
 

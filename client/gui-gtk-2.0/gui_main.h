@@ -17,8 +17,9 @@
 
 #include "gui_main_g.h"
 
-extern GdkFont *        main_font;
-extern GdkFont *        city_productions_font;
+extern PangoFontDescription *        main_font;
+extern PangoFontDescription *        city_productions_font;
+
 extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;
 extern GdkGC *          mask_bg_gc;
@@ -39,7 +40,7 @@ extern int              overview_canvas_store_height;
 extern GdkPixmap *      single_tile_pixmap;
 extern int              single_tile_pixmap_width;
 extern int              single_tile_pixmap_height;
-extern GtkText *        main_message_area;
+extern GtkTextView *	main_message_area;
 extern GtkWidget *      text_scrollbar;
 extern GtkWidget *      toplevel;
 extern GtkWidget *      top_vbox;

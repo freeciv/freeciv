@@ -88,7 +88,7 @@ void popup_goto_dialog(void)
   goto_dialog_shell=gtk_dialog_new();
   gtk_signal_connect(GTK_OBJECT(goto_dialog_shell), "delete_event",
 	GTK_SIGNAL_FUNC(deleted_callback), NULL);
-  gtk_accel_group_attach(accel, GTK_OBJECT(goto_dialog_shell));
+//  gtk_accel_group_attach(accel, GTK_OBJECT(goto_dialog_shell));
   gtk_window_set_position (GTK_WINDOW(goto_dialog_shell), GTK_WIN_POS_MOUSE);
 
   gtk_window_set_title(GTK_WINDOW(goto_dialog_shell), _("Goto/Airlift Unit"));

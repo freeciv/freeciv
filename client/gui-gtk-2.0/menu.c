@@ -52,6 +52,7 @@
 #include "menu.h"
 
 static GtkItemFactory *item_factory = NULL;
+GtkAccelGroup *toplevel_accel = NULL;
 static enum unit_activity road_activity;
 
 static void menus_rename(const char *path, char *s);
@@ -683,13 +684,13 @@ static GtkItemFactoryEntry menu_items[]	=
 	orders_menu_callback,	MENU_ORDER_PATROL					},
   { "/" N_("Orders") "/" N_("_Go to"),			"g",
 	orders_menu_callback,	MENU_ORDER_GOTO						},
-  { "/" N_("Orders") "/" N_("Go|Airlift to City"),	"l",
+  { "/" N_("Orders") "/" N_("Go\\/Airlift to City"),	"l",
 	orders_menu_callback,	MENU_ORDER_GOTO_CITY					},
   { "/" N_("Orders") "/sep4",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Orders") "/" N_("Disband Unit"),		"<shift>d",
 	orders_menu_callback,	MENU_ORDER_DISBAND					},
-  { "/" N_("Orders") "/" N_("Diplomat|Spy Actions"),	"d",
+  { "/" N_("Orders") "/" N_("Diplomat\\/Spy Actions"),	"d",
 	orders_menu_callback,	MENU_ORDER_DIPLOMAT_DLG					},
   { "/" N_("Orders") "/" N_("Explode Nuclear"),        "<shift>n",
 	orders_menu_callback,	MENU_ORDER_NUKE						},
@@ -842,12 +843,11 @@ static const char *translate_menu_path(const char *path, int remove_uline)
 void setup_menus(GtkWidget *window, GtkWidget **menubar)
 {
   const int nmenu_items = ARRAY_SIZE(menu_items);
-  GtkAccelGroup *accel;
   int i;
 
-  accel=gtk_accel_group_new();
-
-  item_factory=gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>", accel);
+  toplevel_accel = gtk_accel_group_new();
+  item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>",toplevel_accel);
+  gtk_accel_group_lock(toplevel_accel);
    
   for(i=0; i<nmenu_items; i++) {
     menu_items[i].path = mystrdup(translate_menu_path(menu_items[i].path, 0));
@@ -855,14 +855,10 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
   
   gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
 
-  gtk_accel_group_attach(accel, GTK_OBJECT(window));
+  gtk_window_add_accel_group(GTK_WINDOW(window), toplevel_accel);
 
   if(menubar)
     *menubar=gtk_item_factory_get_widget(item_factory, "<main>");
-
-  /* kluge to get around gtk's interpretation of "/" in menu item names */
-  menus_rename("<main>/_Orders/Go|Airlift to City", _("Go/Air_lift to City"));
-  menus_rename("<main>/_Orders/Diplomat|Spy Actions", _("_Diplomat/Spy Actions"));
 }
 
 /****************************************************************
@@ -1049,7 +1045,7 @@ void update_menus(void)
                           can_unit_do_connect(punit, ACTIVITY_IDLE));
       menus_set_sensitive("<main>/_Orders/Patrol (_Q)",
                           can_unit_do_activity(punit, ACTIVITY_PATROL));
-      menus_set_sensitive("<main>/_Orders/Diplomat|Spy Actions",
+      menus_set_sensitive("<main>/_Orders/Diplomat\\/Spy Actions",
                           (is_diplomat_unit(punit)
                            && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
 						     punit->x, punit->y)));

@@ -91,8 +91,8 @@ GtkWidget *toplevel;
 GtkWidget *top_vbox;
 GdkWindow *root_window;
 
-GdkFont *main_font;
-GdkFont *city_productions_font;
+PangoFontDescription *main_font;
+PangoFontDescription *city_productions_font;
 
 GdkGC *civ_gc;
 GdkGC *mask_fg_gc;
@@ -126,8 +126,7 @@ static GtkWidget *more_arrow_pixmap;
 
 static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in 
                                             * information display: (or 0) */
-GtkText   *main_message_area;
-GtkWidget *text_scrollbar;
+GtkTextView *main_message_area;
 static GtkWidget *inputline;
 
 static enum Display_color_type display_color_type;  /* practically unused */
@@ -147,8 +146,7 @@ static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev);
 
-static gint tearoff_delete(GtkWidget *w, GdkEvent *ev, GtkWidget *box);
-static void tearoff_callback(GtkWidget *but, GtkWidget *box);
+static void tearoff_callback(GtkToggleButton *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
 static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
 
@@ -186,7 +184,20 @@ static void parse_options(int argc, char **argv)
 /**************************************************************************
  handles main window keyboard events.
 **************************************************************************/
-static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
+static gboolean inputline_focus(GtkWidget *w, GdkEventFocus *ev, gpointer data)
+{
+  if (GPOINTER_TO_INT(data) != 0) {
+    gtk_window_remove_accel_group(GTK_WINDOW(toplevel), toplevel_accel);
+  } else {
+    gtk_window_add_accel_group(GTK_WINDOW(toplevel), toplevel_accel);
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev)
 {
   /* inputline history code */
   if (GTK_WIDGET_HAS_FOCUS(inputline) || !GTK_WIDGET_IS_SENSITIVE(top_vbox)) {
@@ -362,40 +373,33 @@ static gint keyboard_handler(GtkWidget *w, GdkEventKey *ev)
  reattaches the detached widget when the user closes it via 
  the window manager.
 **************************************************************************/
-static gint tearoff_delete(GtkWidget *w, GdkEvent *ev, GtkWidget *box)
+static void tearoff_destroy(GtkWidget *w, gpointer data)
 {
-  GtkWidget *p;
-
-  gtk_widget_hide(w);
-  p = ((GtkBoxChild *) GTK_BOX(box)->children->data)->widget;
-  gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(p), FALSE);
+  GtkWidget *p, *box = GTK_WIDGET(data);
 
   p = gtk_object_get_user_data(GTK_OBJECT(w));
   gtk_widget_reparent(box, p);
-  return TRUE;
 }
 
 /**************************************************************************
  callback for the toggle button in the detachable widget: causes the
  widget to detach or reattach.
 **************************************************************************/
-static void tearoff_callback(GtkWidget *but, GtkWidget *box)
+static void tearoff_callback(GtkToggleButton *b, gpointer data)
 {
+  GtkWidget *box = GTK_WIDGET(data);
   GtkWidget *w;
 
-  if (GTK_TOGGLE_BUTTON(but)->active) {
+  if (gtk_toggle_button_get_active(b)) {
     w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
     gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
-    gtk_signal_connect(GTK_OBJECT(w), "delete_event",
-    		       GTK_SIGNAL_FUNC(tearoff_delete), box);
+    g_signal_connect(G_OBJECT(w), "destroy", G_CALLBACK(tearoff_destroy), box);
 
     gtk_object_set_user_data(GTK_OBJECT(w), box->parent);
     gtk_widget_reparent(box, w);
     gtk_widget_show(w);
   } else {
     w = box->parent;
-    tearoff_delete(w, NULL, box);
     gtk_widget_destroy(w);
   }
 }
@@ -418,8 +422,7 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
 
   b = gtk_toggle_button_new();
   gtk_box_pack_start(GTK_BOX(ahbox), b, FALSE, FALSE, 0);
-  gtk_signal_connect(GTK_OBJECT(b), "clicked",
-        	      GTK_SIGNAL_FUNC(tearoff_callback), ahbox);
+  g_signal_connect(G_OBJECT(b), "toggled", G_CALLBACK(tearoff_callback), ahbox);
 
   /* cosmetic effects */
   sep = gtk_vseparator_new();
@@ -437,7 +440,7 @@ static void setup_widgets(void)
 {
   GtkWidget *box, *ebox, *hbox, *vbox;
   GtkWidget *avbox, *ahbox;
-  GtkWidget *frame, *table, *paned, *menubar, *text;
+  GtkWidget *frame, *table, *paned, *menubar, *sw, *text;
   GtkStyle  *text_style;
   int i;
 
@@ -672,27 +675,26 @@ static void setup_widgets(void)
   gtk_paned_pack2(GTK_PANED(paned), ahbox, TRUE, TRUE);
   avbox = detached_widget_fill(ahbox);
 
-  hbox = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(avbox), hbox, TRUE, TRUE, 0);
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
+  				 GTK_POLICY_ALWAYS);
+  gtk_box_pack_start(GTK_BOX(avbox), sw, TRUE, TRUE, 0);
+  gtk_widget_set_usize(sw, 600, 100);
 
-  text = gtk_text_new(NULL, NULL);
-  gtk_box_pack_start(GTK_BOX(hbox), text, TRUE, TRUE, 0);
-  gtk_widget_set_usize(text, 600, 100);
+  text = gtk_text_view_new();
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
+  gtk_container_add(GTK_CONTAINER(sw), text);
 
-  gtk_text_set_editable(GTK_TEXT(text), FALSE);
-  gtk_text_set_word_wrap(GTK_TEXT(text), 1);
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
   gtk_widget_realize(text);
-  main_message_area = GTK_TEXT(text);
+
+  main_message_area = GTK_TEXT_VIEW(text);
 
   /* hack to make insensitive text readable */
   text_style = gtk_style_copy(text->style);
   text_style->base[GTK_STATE_INSENSITIVE] = text_style->base[GTK_STATE_NORMAL];
   text_style->text[GTK_STATE_INSENSITIVE] = text_style->text[GTK_STATE_NORMAL];
   gtk_widget_set_style(text, text_style);
-
-  text_scrollbar = gtk_vscrollbar_new(GTK_TEXT(text)->vadj);
-  gtk_box_pack_start(GTK_BOX(hbox), text_scrollbar, FALSE, FALSE, 0);
-  gtk_widget_realize(text_scrollbar);
 
   set_output_window_text(
       _("Freeciv is free software and you are welcome to distribute copies of"
@@ -705,6 +707,12 @@ static void setup_widgets(void)
 
   gtk_signal_connect(GTK_OBJECT(inputline), "activate",
                      GTK_SIGNAL_FUNC(inputline_return), NULL);
+
+  g_signal_connect(G_OBJECT(inputline), "focus_in_event",
+		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(1));
+
+  g_signal_connect(G_OBJECT(inputline), "focus_out_event",
+		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(0));
 
 
   /* Other things to take care of */
@@ -719,37 +727,30 @@ static void setup_widgets(void)
 void ui_main(int argc, char **argv)
 {
   GdkBitmap *icon_bitmap;
-  gchar *homedir, *rc_file;
+  GtkStyle *has_resources;
+  PangoLanguage *lang;
 
   parse_options(argc, argv);
 
   /* tell GTK+ library which locale */
 
 #ifdef HAVE_LOCALE_H
-  /* Freeciv assumes that all the world uses ISO-8859-1.  This
-     assumption is not quite true, but used to work more or less.
-     This is a workaround until we can fix the problem properly
-     in the next release.  */
-# ifdef HAVE_PUTENV
-    if(strcmp(setlocale(LC_CTYPE, (const char *)NULL), "C") == 0)
-      putenv("LC_CTYPE=en_US.ISO8859-1");
-# endif
+  setlocale(LC_CTYPE, "en_US.UTF-8");
+  gtk_disable_setlocale();
 #endif
-
-  gtk_set_locale();
-
   /* GTK withdraw gtk options. Process GTK arguments */
   gtk_init(&argc, &argv);
 
+  lang = gtk_get_default_language();
+  freelog(LOG_NORMAL, "LANGUAGE=\"%s\"", pango_language_to_string(lang));
+
   /* Load resources */
-  gtk_rc_parse_string(fallback_resources);
-
-  homedir = g_get_home_dir();	/* should i gfree() this also? --vasc */
-  rc_file = g_strdup_printf("%s%s%s", homedir, G_DIR_SEPARATOR_S, "freeciv.rc");
-  gtk_rc_parse(rc_file);
-  g_free (rc_file);
-
-
+  has_resources = gtk_rc_get_style_by_paths(gtk_settings_get_default(),
+					    "Freeciv*", NULL, G_TYPE_NONE);
+  if (!has_resources) {
+    freelog(LOG_DEBUG, _("Using fallback resources - which is OK"));
+    gtk_rc_parse_string(fallback_resources);
+  }
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_widget_realize(toplevel);
@@ -770,12 +771,12 @@ void ui_main(int argc, char **argv)
 
   civ_gc = gdk_gc_new(root_window);
 
-  if (!(main_font=gdk_font_load(city_names_font))) {
-      freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
-      exit(EXIT_FAILURE);
+  if (!(main_font = pango_font_description_from_string("Sans Bold 13"))) {
+    freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
+    exit(EXIT_FAILURE);
   }
 
-  if (!(city_productions_font = gdk_font_load(city_productions_font_name))) {
+  if (!(city_productions_font=pango_font_description_from_string("Serif 11"))) {
     freelog(LOG_FATAL, "failed loading font: %s", city_productions_font_name);
     exit(EXIT_FAILURE);
   }
@@ -1024,15 +1025,16 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
 	    total_bulbs_required(game.player_ptr));
     
     p = gtk_window_new(GTK_WINDOW_POPUP);
+    gtk_widget_set_app_paintable(p, TRUE);
+    gtk_container_set_border_width(GTK_CONTAINER(p), 4);
+    gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", p,
         			   "GtkLabel::label", buf,
 				   "GtkWidget::visible", TRUE,
         			   NULL);
-    gtk_widget_realize(p);
-    
-    gtk_widget_popup(p, ev->x_root-p->requisition.width/2,
-			ev->y_root-p->requisition.height/2);
+    gtk_widget_show(p);
+
     gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
 		     NULL, NULL, ev->time);
     gtk_grab_add(p);

@@ -21,6 +21,6 @@ GtkWidget *input_dialog_create(GtkWidget *parent, char *dialogname,
 			       void *cancel_callback, gpointer cancel_cli_data);
 
 void input_dialog_destroy(GtkWidget *button);
-char *input_dialog_get_input(GtkWidget *button);
+const char *input_dialog_get_input(GtkWidget *button);
 
 #endif  /* FC__INPUTDLG_H */

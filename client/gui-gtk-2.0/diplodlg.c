@@ -876,7 +876,7 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
   
   if((pdialog=find_diplomacy_by_input(w))) {
     struct player *pgiver;
-    char *dp;
+    const char *dp;
     int amount;
     
     pgiver=(w==pdialog->dip_gold_entry0) ? 
