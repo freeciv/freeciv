@@ -1526,6 +1526,9 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       GtkWidget *cmd, *pix;
       struct unit_node node;
 
+      int unit_height = (is_isometric) ?
+	UNIT_TILE_HEIGHT : UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT / 2;
+
       cmd = gtk_button_new();
       node.cmd = cmd;
 
@@ -1533,7 +1536,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       gtk_widget_add_events(cmd,
 	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-      pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, unit_height);
       node.pix = pix;
 
       gtk_container_add(GTK_CONTAINER(cmd), pix);

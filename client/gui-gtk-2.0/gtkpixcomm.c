@@ -95,14 +95,10 @@ gtk_pixcomm_get_type(void)
 static void
 gtk_pixcomm_class_init(GtkPixcommClass *klass)
 {
-  GObjectClass *gobject_class;
-  GtkObjectClass *object_class;
-  GtkWidgetClass *widget_class;
+  GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
+  GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
 
   parent_class = g_type_class_peek_parent(klass);
-  gobject_class = G_OBJECT_CLASS(klass);
-  object_class = GTK_OBJECT_CLASS(klass);
-  widget_class = GTK_WIDGET_CLASS(klass);
 
   object_class->destroy = gtk_pixcomm_destroy;
   widget_class->expose_event = gtk_pixcomm_expose;
@@ -208,10 +204,11 @@ gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
   g_return_val_if_fail(GTK_IS_PIXCOMM(widget), FALSE);
   g_return_val_if_fail(ev!=NULL, FALSE);
 
-  if (GTK_WIDGET_VISIBLE(widget) && GTK_WIDGET_MAPPED(widget)) {
+  if (GTK_WIDGET_DRAWABLE(widget)) {
     GtkPixcomm *p;
     GtkMisc *misc;
     gint x, y;
+    gfloat xalign;
     guint i;
 
     p = GTK_PIXCOMM(widget);
@@ -220,12 +217,20 @@ gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
     if (p->actions->len <= 0)
       return FALSE;
 
-    x=(widget->allocation.x * (1.0 - misc->xalign) +
-      (widget->allocation.x + widget->allocation.width
-      - (widget->requisition.width  - misc->xpad * 2)) * misc->xalign) + 0.5;
-    y=(widget->allocation.y * (1.0 - misc->yalign) +
-      (widget->allocation.y + widget->allocation.height
-      - (widget->requisition.height - misc->ypad * 2)) * misc->yalign) + 0.5;
+    if (gtk_widget_get_direction(widget) == GTK_TEXT_DIR_LTR) {
+      xalign = misc->xalign;
+    } else {
+      xalign = 1.0 - misc->xalign;
+    }
+
+    x = floor(widget->allocation.x + misc->xpad
+	+ ((widget->allocation.width - widget->requisition.width) *
+	  xalign)
+	+ 0.5);
+    y = floor(widget->allocation.y + misc->ypad 
+	+ ((widget->allocation.height - widget->requisition.height) *
+	  misc->yalign)
+	+ 0.5);
 
     /* draw! */
     for (i = 0; i < p->actions->len; i++) {
@@ -233,27 +238,31 @@ gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
 
       switch (rop->type) {
       case OP_FILL:
-        gdk_gc_set_foreground(civ_gc, rop->color);
-        gdk_draw_rectangle(widget->window, civ_gc, TRUE, x, y, p->w, p->h);
+        gdk_gc_set_foreground(widget->style->black_gc, rop->color);
+        gdk_draw_rectangle(widget->window, widget->style->black_gc, TRUE,
+	    x, y, p->w, p->h);
         break;
 
       case OP_COPY:
         if (rop->src->has_mask) {
-          gdk_gc_set_clip_origin(civ_gc, x + rop->x, y + rop->y);
-          gdk_gc_set_clip_mask(civ_gc, rop->src->mask);
+          gdk_gc_set_clip_mask(widget->style->black_gc, rop->src->mask);
+          gdk_gc_set_clip_origin(widget->style->black_gc,
+	      x + rop->x, y + rop->y);
 
-          gdk_draw_drawable(widget->window, civ_gc, rop->src->pixmap,
-                            0, 0,
-			    x + rop->x, y + rop->y,
-			    rop->src->width, rop->src->height);
+          gdk_draw_drawable(widget->window, widget->style->black_gc,
+	      rop->src->pixmap,
+	      0, 0,
+	      x + rop->x, y + rop->y,
+	      rop->src->width, rop->src->height);
 
-          gdk_gc_set_clip_mask(civ_gc, NULL);
-          gdk_gc_set_clip_origin(civ_gc, 0, 0);
+          gdk_gc_set_clip_origin(widget->style->black_gc, 0, 0);
+          gdk_gc_set_clip_mask(widget->style->black_gc, NULL);
         } else {
-          gdk_draw_drawable(widget->window, civ_gc, rop->src->pixmap,
-                          0, 0,
-			  x + rop->x, y + rop->y,
-			  rop->src->width, rop->src->height);
+          gdk_draw_drawable(widget->window, widget->style->black_gc,
+	      rop->src->pixmap,
+	      0, 0,
+	      x + rop->x, y + rop->y,
+	      rop->src->width, rop->src->height);
 	}
         break;
 
