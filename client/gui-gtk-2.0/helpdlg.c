@@ -52,14 +52,13 @@
  * Globals.
  */
 static GtkWidget *help_dialog_shell;
-static GtkWidget *help_clist;
-static GtkWidget *help_view_scrolled;
+static GtkWidget *help_view_sw;
 
 static GtkWidget *help_view;
 
 static GtkWidget *help_frame;
-static GtkWidget *help_text;
-static GtkWidget *help_text_scrolled;
+static GtkTextBuffer *help_text;
+static GtkWidget *help_text_sw;
 static GtkWidget *help_vbox;
 static GtkWidget *unit_tile;
 static GtkWidget *help_box;
@@ -68,7 +67,9 @@ static GtkWidget *help_wtable;
 static GtkWidget *help_utable;
 static GtkWidget *help_ttable;
 static GtkWidget *help_tree;
-static GtkWidget *help_tree_scrolled;
+static GtkTreeStore *tstore;
+
+static GtkWidget *help_tree_sw;
 static GtkWidget *help_tree_expand;
 static GtkWidget *help_tree_expand_unknown;
 static GtkWidget *help_tree_collapse;
@@ -79,10 +80,7 @@ static GtkWidget *help_wlabel[6];
 static GtkWidget *help_ulabel[5][5];
 static GtkWidget *help_tlabel[4][5];
 
-typedef struct help_tree_node {
-  int tech;
-  int turns_to_tech;
-} help_tndata;
+static bool help_advances[A_LAST];
 
 static char *help_ilabel_name[6] =
 { N_("Cost:"), NULL, N_("Upkeep:"), NULL, N_("Requirement:"), NULL };
@@ -145,20 +143,11 @@ void popdown_help_dialog(void)
 *****************************************************************/
 void popup_help_dialog_typed(char *item, enum help_page_type htype)
 {
-/*
-  Position x, y;
-  Dimension width, height;
-*/
   if(!help_dialog_shell) {
     create_help_dialog();
-/*
-    XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
-    XtTranslateCoords(toplevel, (Position) width/10, (Position) height/10,
-		      &x, &y);
-    XtVaSetValues(help_dialog_shell, XtNx, x, XtNy, y, NULL);
-*/
+    gtk_set_relative_position(toplevel, help_dialog_shell, 10, 10);
   }
-  gtk_widget_show(help_dialog_shell);
+  gtk_window_present(GTK_WINDOW(help_dialog_shell));
 
   select_help_item_string(item, htype);
 }
@@ -174,26 +163,6 @@ void popup_help_dialog_string(char *item)
   popup_help_dialog_typed(_(item), HELP_ANY);
 }
 
-/****************************************************************
-Called when destroying a node in the help_tree
-*****************************************************************/
-static void destroy_help_tndata(gpointer data) {
-  if (data)
-    free(data);
-}
-
-/****************************************************************
-Called when creating a node in the help_tree to ensure that no
-duplicate subtrees are generated.
-*****************************************************************/
-static int help_tndata_compare(gpointer d1, gpointer d2) {
-  help_tndata *a = (help_tndata *)d1;
-  help_tndata *b = (help_tndata *)d2;
-  if (!a)
-    return (b != NULL);
-  return (a->tech != b->tech);
-}      
-
 /**************************************************************************
 Called by help_update_tech and itself
 Creates a node in the given tree for the given tech, and creates child
@@ -203,106 +172,100 @@ subtrees, so that if Literacy occurs twice in a tech tree, only the first
 will have children. Color codes the node based on when it will be
 discovered: red >2 turns, yellow 1 turn, green 0 turns (discovered).
 **************************************************************************/
-static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
-			     int expanded_levels, GtkCTreeNode *parent)
+static void create_tech_tree(int tech, int levels,
+			     int expanded_levels, GtkTreeIter *parent)
 {
-  GtkCTreeNode *l;
-  gchar        *text[1];
   int	        bg;
-  char          label [MAX_LEN_NAME+3];
-  gboolean      leaf;
-  help_tndata  *d = fc_malloc(sizeof(help_tndata));
-  bool           original;
+  int           turns_to_tech;
+  bool          original;
+  GtkTreeIter   l;
+  GValue        value = { 0, };
 
-  text[0] = label;
-  if ( advances[tech].req[0] == A_LAST && advances[tech].req[1] == A_LAST )
-  {
-    sz_strlcpy(label, _("Removed"));
+  if (advances[tech].req[0] == A_LAST && advances[tech].req[1] == A_LAST) {
     bg = COLOR_STD_RED;
-    l = gtk_ctree_insert_node(ctree, parent, NULL, text, 10,
-				NULL, NULL, NULL, NULL, TRUE, TRUE);
-    d->tech = tech;
-    d->turns_to_tech = -1;
-    gtk_ctree_node_set_row_data_full(ctree, l, d, destroy_help_tndata);
-    gtk_ctree_node_set_background(ctree, l, colors_standard[bg]);
+
+    gtk_tree_store_append(tstore, &l, parent);
+    help_advances[tech] = TRUE;
+
+    g_value_init(&value, G_TYPE_STRING);
+    g_value_set_static_string(&value, _("Removed"));
+    gtk_tree_store_set_value(tstore, &l, 0, &value);
+    g_value_unset(&value);
+
+    gtk_tree_store_set(tstore, &l,
+		       1, -1,
+		       2, tech,
+		       3, colors_standard[bg],
+		       -1);
     return;
   }
 
-  switch (get_invention(game.player_ptr, tech))
-  {
+  switch (get_invention(game.player_ptr, tech)) {
   case TECH_UNKNOWN:	      bg = COLOR_STD_RED;	      break;
   case TECH_KNOWN:	      bg = COLOR_STD_GROUND;	      break;
   case TECH_REACHABLE:        bg = COLOR_STD_YELLOW;	      break;
   default:		      bg = COLOR_STD_WHITE;	      break;
   }
-  d->tech = tech;
-  d->turns_to_tech = num_unknown_techs_for_goal(game.player_ptr, tech);
-  l = gtk_ctree_find_by_row_data_custom(ctree, NULL, d, (GCompareFunc)help_tndata_compare);
+  turns_to_tech = num_unknown_techs_for_goal(game.player_ptr, tech);
+
   /* l is the original in the tree. */
-  original = (l == NULL);
+  original = !help_advances[tech];
 
-  my_snprintf(label, sizeof(label), "%s:%d", advances[tech].name,
-	      d->turns_to_tech);
+  gtk_tree_store_append(tstore, &l, parent);
+  help_advances[tech] = TRUE;
 
-  leaf = (advances[tech].req[0] == A_NONE && advances[tech].req[1] == A_NONE);
+  g_value_init(&value, G_TYPE_STRING);
+  g_value_set_static_string(&value, advances[tech].name);
+  gtk_tree_store_set_value(tstore, &l, 0, &value);
+  g_value_unset(&value);
 
-  l = gtk_ctree_insert_node(ctree, parent, NULL, text, 10,
-				 NULL, NULL, NULL, NULL, leaf, TRUE);
-  gtk_ctree_node_set_row_data_full(ctree, l, d, destroy_help_tndata);
-  gtk_ctree_node_set_background(ctree, l, colors_standard[bg]);
-
-  if (d->turns_to_tech <= 1) {
+  gtk_tree_store_set(tstore, &l,
+		     1, turns_to_tech,
+		     2, tech,
+		     3, colors_standard[bg],
+		     -1);
+/*
+  if (turns_to_tech <= 1) {
     expanded_levels = 0;
   }
 
   if (expanded_levels > 0) {
-    gtk_ctree_expand(ctree, l);
-    expanded_levels--;
-  } else {
-    gtk_ctree_collapse(ctree, l);
-  }
+    GtkTreePath  *path;
 
-  if ( --levels <= 0 )
+    path = gtk_tree_model_get_path(GTK_TREE_MODEL(tstore), &l);
+    gtk_tree_view_expand_row(GTK_TREE_VIEW(help_tree), path, FALSE);
+    gtk_tree_path_free(path);
+
+    expanded_levels--;
+  }
+*/
+  if (--levels <= 0)
       return;
 
   if (original) {
     /* only add children to orginals */
-    if ( advances[tech].req[0] != A_NONE )
-      create_tech_tree(ctree, advances[tech].req[0], levels, expanded_levels, l);
-    if ( advances[tech].req[1] != A_NONE )
-      create_tech_tree(ctree, advances[tech].req[1], levels, expanded_levels, l);
+    if (advances[tech].req[0] != A_NONE)
+      create_tech_tree(advances[tech].req[0], levels, expanded_levels, &l);
+    if (advances[tech].req[1] != A_NONE)
+      create_tech_tree(advances[tech].req[1], levels, expanded_levels, &l);
   }
   return;
 }
 
 /**************************************************************************
 Selects the help page for the tech in the tree that was double clicked.
-As a ctree eats the GDK_2BUTTON_PRESS events that would normally go through
-to the clist parent (it turns them into "ctree_expand" or "ctree_collapse"
-events), we have to register a "button_press_event" callback instead.
 **************************************************************************/
-static int help_tech_tree_mouse_callback(GtkWidget *w, GdkEventButton *ev)
+static void help_tech_tree_activated_callback(GtkTreeView *view,
+					      GtkTreePath *path,
+					      GtkTreeViewColumn *col,
+					      gpointer data)
 {
-  GtkCTree *ctree = GTK_CTREE(w);
-  GtkCList *clist = GTK_CLIST(w);
-  GtkCTreeNode *node;
-  help_tndata *d;
-  int row;
-  int col;
-  /* check we have an event for the ctree */
-  if (!ev || (ev->window != clist->clist_window))
-    return FALSE;
-  /* check there is a row where the user clicked */
-  if (gtk_clist_get_selection_info(clist, ev->x, ev->y, &row, &col) == FALSE)
-    return FALSE;
-  /* grab the double click */
-  if (ev->type == GDK_2BUTTON_PRESS) {
-    node = gtk_ctree_node_nth(ctree, row);
-    d = (help_tndata *)gtk_ctree_node_get_row_data(ctree, node);
-    select_help_item_string(advances[d->tech].name, HELP_TECH);
-    return TRUE;
-  }
-  return FALSE;
+  GtkTreeIter it;
+  gint tech;
+
+  gtk_tree_model_get_iter(GTK_TREE_MODEL(tstore), &it, path);
+  gtk_tree_model_get(GTK_TREE_MODEL(tstore), &it, 2, &tech, -1);
+  select_help_item_string(advances[tech].name, HELP_TECH);
 }
 
 /**************************************************************************
@@ -310,8 +273,7 @@ Called when "Expand All" button is clicked
 **************************************************************************/
 static void help_tech_tree_expand_callback(GtkWidget *w, gpointer data)
 {
-  GtkCTree *ctree = GTK_CTREE(data);
-  gtk_ctree_expand_recursive(ctree, gtk_ctree_node_nth(ctree, 0));
+  gtk_tree_view_expand_all(GTK_TREE_VIEW(data));
 }
 
 /**************************************************************************
@@ -319,10 +281,9 @@ Called when "Collapse All" button is clicked
 **************************************************************************/
 static void help_tech_tree_collapse_callback(GtkWidget *w, gpointer data)
 {
-  GtkCTree *ctree = GTK_CTREE(data);
-  gtk_ctree_collapse_recursive(ctree, gtk_ctree_node_nth(ctree, 0));
+  gtk_tree_view_collapse_all(GTK_TREE_VIEW(data));
 }
-
+#ifdef UNUSED
 /**************************************************************************
 Called by "Reset Tree" and "Expand Unknown" button callbacks
 **************************************************************************/
@@ -333,19 +294,22 @@ static void help_tech_tree_node_expand(GtkCTree *ctree, GtkCTreeNode *node,
   if (d->turns_to_tech > 1)
     gtk_ctree_expand(ctree, node);
 }
-
+#endif
 /**************************************************************************
 Called when "Reset tree" button is clicked
 **************************************************************************/
 static void help_tech_tree_reset_callback(GtkWidget *w, gpointer data)
 {
-  GtkCTree *ctree = GTK_CTREE(data);
+#ifdef UNUSED
   /* Collapse the whole tree */
-  gtk_ctree_collapse_recursive(ctree, gtk_ctree_node_nth(ctree, 0));
+  gtk_tree_view_collapse_all(GTK_TREE_VIEW(data));
   /* Expand the deserving */
+/*
   gtk_ctree_pre_recursive_to_depth(ctree, gtk_ctree_node_nth(ctree, 0), 
 				   TECH_TREE_EXPANDED_DEPTH,
 				   help_tech_tree_node_expand, NULL);
+*/
+#endif
 }
 
 /**************************************************************************
@@ -353,12 +317,15 @@ Called when "Expand Unknown" button is clicked
 **************************************************************************/
 static void help_tech_tree_expand_unknown_callback(GtkWidget *w, gpointer data)
 {
-  GtkCTree *ctree = GTK_CTREE(data);
+#ifdef UNUSED
   /* Collapse the whole tree */
-  gtk_ctree_collapse_recursive(ctree, gtk_ctree_node_nth(ctree, 0));
+  gtk_tree_view_collapse_all(GTK_TREE_VIEW(data));
   /* Expand the deserving */
+/*
   gtk_ctree_pre_recursive(ctree, gtk_ctree_node_nth(ctree, 0), 
 			  help_tech_tree_node_expand, NULL);
+*/
+#endif
 }
 
 /**************************************************************************
@@ -380,33 +347,45 @@ static void help_hyperlink_callback(GtkWidget *w)
     select_help_item_string(s, type);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
 {
   GtkWidget *button;
 
   button = gtk_button_new();
+  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   gtk_container_add(GTK_CONTAINER(button), label);
+  gtk_widget_show(button);
   g_signal_connect_swapped(button, "clicked",
 			   G_CALLBACK(help_hyperlink_callback), label);
   g_object_set_data(G_OBJECT(label), "page_type", GUINT_TO_POINTER(type));
   return button;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static GtkWidget *help_slink_new(gchar *txt, enum help_page_type type)
 {
   GtkWidget *button, *label;
 
-  button = gtk_button_new();
-  label = gtk_label_new(txt);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
-  gtk_container_add(GTK_CONTAINER(button), label);
+  button = gtk_button_new_with_label(txt);
+  gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
+  label = GTK_BIN(button)->child;
+  gtk_widget_set_name(label, "help link");
+  gtk_widget_show(button);
   g_signal_connect_swapped(button, "clicked",
 			   G_CALLBACK(help_hyperlink_callback), label);
   g_object_set_data(G_OBJECT(label), "page_type", GUINT_TO_POINTER(type));
   return button;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static void selected_topic(GtkTreeSelection *selection, GtkTreeModel *model)
 {
   GtkTreeIter it;
@@ -422,10 +401,34 @@ static void selected_topic(GtkTreeSelection *selection, GtkTreeModel *model)
 /**************************************************************************
 ...
 **************************************************************************/
+static void help_box_hide(void)
+{
+  gtk_widget_hide(help_box);
+
+  gtk_widget_hide(unit_tile);
+
+  gtk_widget_hide(help_itable);
+  gtk_widget_hide(help_wtable);
+  gtk_widget_hide(help_utable);
+  gtk_widget_hide(help_ttable);
+  
+  gtk_widget_hide(unit_tile);
+
+  gtk_widget_hide(help_vbox);
+  gtk_widget_hide(help_text_sw);
+
+  gtk_widget_hide(help_tree_sw);
+  gtk_widget_hide(help_tree_buttons_hbox);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void create_help_dialog(void)
 {
   GtkWidget *hbox;
   GtkWidget *button;
+  GtkWidget *text;
   int	     i, j;
   GtkCellRenderer   *renderer;
   GtkTreeViewColumn *col;
@@ -433,18 +436,24 @@ static void create_help_dialog(void)
   GtkTreeStore      *store;
   GtkTreeSelection  *selection;
 
-  help_dialog_shell = gtk_dialog_new();
+  help_dialog_shell = gtk_dialog_new_with_buttons(_("Freeciv Help Browser"),
+  	NULL,
+	0,
+	GTK_STOCK_CLOSE,
+	GTK_RESPONSE_CLOSE,
+	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(help_dialog_shell),
+	GTK_RESPONSE_CLOSE);
   gtk_widget_set_name(help_dialog_shell, "Freeciv");
 
+  g_signal_connect(help_dialog_shell, "response",
+		   G_CALLBACK(gtk_widget_destroy), NULL);
   g_signal_connect(help_dialog_shell, "destroy",
 		   G_CALLBACK(gtk_widget_destroyed), &help_dialog_shell);
 
-  gtk_window_set_title( GTK_WINDOW( help_dialog_shell ), _("Freeciv Help Browser") );
-  gtk_container_border_width( GTK_CONTAINER( help_dialog_shell ), 5 );
-
-  hbox = gtk_hbox_new( FALSE, 5 );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(help_dialog_shell)->vbox ),
-  	  hbox, TRUE, TRUE, 0 );
+  hbox = gtk_hbox_new(FALSE, 5);
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(help_dialog_shell)->vbox), hbox);
+  gtk_widget_show(hbox);
 
   /* build tree store. */
   store = gtk_tree_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
@@ -488,26 +497,25 @@ static void create_help_dialog(void)
   col = gtk_tree_view_column_new_with_attributes(NULL, renderer, "text",0,NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(help_view), col);
 
-  help_clist = gtk_clist_new(1);
-  gtk_clist_set_column_width(GTK_CLIST(help_clist), 0, GTK_CLIST(help_clist)->clist_window_width);
-  help_view_scrolled = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_view_scrolled),
+  help_view_sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_view_sw),
   			  GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_usize(help_view_scrolled, 180, -1);
-  gtk_container_add(GTK_CONTAINER(help_view_scrolled), help_view);
+  gtk_widget_set_usize(help_view_sw, 230, -1);
+  gtk_container_add(GTK_CONTAINER(help_view_sw), help_view);
+  gtk_widget_show(help_view);
+  gtk_box_pack_start(GTK_BOX(hbox), help_view_sw, FALSE, FALSE, 0);
+  gtk_widget_show(help_view_sw);
 
-  gtk_box_pack_start(GTK_BOX(hbox), help_view_scrolled, FALSE, FALSE, 0);
+  help_frame = gtk_frame_new("");
+  gtk_box_pack_start(GTK_BOX(hbox), help_frame, TRUE, TRUE, 0);
+  gtk_widget_set_usize(help_frame, 480, 350);
+  gtk_widget_show(help_frame);
 
-  help_frame = gtk_frame_new( "" );
-  gtk_box_pack_start( GTK_BOX( hbox ), help_frame, TRUE, TRUE, 0 );
-  gtk_widget_set_usize(help_frame, 580, 350);
-
-  help_box = gtk_vbox_new( FALSE, 5 );
-  gtk_container_add( GTK_CONTAINER( help_frame ), help_box );
-
+  help_box = gtk_vbox_new(FALSE, 5);
+  gtk_container_add(GTK_CONTAINER(help_frame), help_box);
 
   unit_tile = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-  gtk_box_pack_start( GTK_BOX( help_box ), unit_tile, FALSE, FALSE, 0 );
+  gtk_box_pack_start(GTK_BOX(help_box), unit_tile, FALSE, FALSE, 0);
 
   help_itable = gtk_table_new(1, 6, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_itable, FALSE, FALSE, 0);
@@ -515,15 +523,17 @@ static void create_help_dialog(void)
   for (i=0; i<6; i++) {
     help_ilabel[i] =
 	gtk_label_new(help_ilabel_name[i] ? _(help_ilabel_name[i]) : "");
-    gtk_widget_set_name(help_ilabel[i], "help label");
 
     if (i==5) {
       button = help_hyperlink_new(help_ilabel[i], HELP_TECH);
       gtk_table_attach_defaults(GTK_TABLE(help_itable), button, i, i+1, 0, 1);
+      gtk_widget_set_name(help_ilabel[i], "help link");
+    } else {
+      gtk_table_attach_defaults(GTK_TABLE(help_itable),
+			        help_ilabel[i], i, i+1, 0, 1);
+      gtk_widget_set_name(help_ilabel[i], "help label");
     }
-    else
-    gtk_table_attach_defaults(GTK_TABLE(help_itable),
-					help_ilabel[i], i, i+1, 0, 1);
+    gtk_widget_show(help_ilabel[i]);
   }
 
   help_wtable = gtk_table_new(1, 6, FALSE);
@@ -532,15 +542,17 @@ static void create_help_dialog(void)
   for (i=0; i<6; i++) {
     help_wlabel[i] =
 	gtk_label_new(help_wlabel_name[i] ? _(help_wlabel_name[i]) : "");
-    gtk_widget_set_name(help_wlabel[i], "help label");
 
     if (i==3 || i==5) {
       button = help_hyperlink_new(help_wlabel[i], HELP_TECH);
       gtk_table_attach_defaults(GTK_TABLE(help_wtable), button, i, i+1, 0, 1);
+      gtk_widget_set_name(help_wlabel[i], "help link");
+    } else {
+      gtk_table_attach_defaults(GTK_TABLE(help_wtable),
+			        help_wlabel[i], i, i+1, 0, 1);
+      gtk_widget_set_name(help_wlabel[i], "help label");
     }
-    else
-    gtk_table_attach_defaults(GTK_TABLE(help_wtable),
-					help_wlabel[i], i, i+1, 0, 1);
+    gtk_widget_show(help_wlabel[i]);
   }
 
 
@@ -548,25 +560,25 @@ static void create_help_dialog(void)
   gtk_box_pack_start(GTK_BOX(help_box), help_utable, FALSE, FALSE, 0);
 
   for (i=0; i<5; i++)
-    for (j=0; j<5; j++)
-    {
+    for (j=0; j<5; j++) {
       help_ulabel[j][i] =
 	  gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
-      gtk_widget_set_name(help_ulabel[j][i], "help label");
 
-      if (j==4 && (i==1 || i==4))
-      {
+      if (j==4 && (i==1 || i==4)) {
 	if (i==1)
-          button = help_hyperlink_new(help_ulabel[j][i], HELP_TECH);
+	  button = help_hyperlink_new(help_ulabel[j][i], HELP_TECH);
 	else
-          button = help_hyperlink_new(help_ulabel[j][i], HELP_UNIT);
+	  button = help_hyperlink_new(help_ulabel[j][i], HELP_UNIT);
 
         gtk_table_attach_defaults(GTK_TABLE(help_utable),
 					    button, i, i+1, j, j+1);
+        gtk_widget_set_name(help_ulabel[j][i], "help link");
+      } else {
+        gtk_table_attach_defaults(GTK_TABLE(help_utable),
+			          help_ulabel[j][i], i, i+1, j, j+1);
+        gtk_widget_set_name(help_ulabel[j][i], "help label");
       }
-      else
-      gtk_table_attach_defaults(GTK_TABLE(help_utable),
-					  help_ulabel[j][i], i, i+1, j, j+1);
+      gtk_widget_show(help_ulabel[j][i]);
     }
 
 
@@ -581,39 +593,62 @@ static void create_help_dialog(void)
 
       gtk_table_attach_defaults(GTK_TABLE(help_ttable),
 					  help_tlabel[j][i], i, i+1, j, j+1);
+      gtk_widget_show(help_tlabel[j][i]);
     }
   }
 
 
-  help_vbox=gtk_vbox_new(FALSE, 1);
-  gtk_box_pack_start( GTK_BOX(help_box), help_vbox, FALSE, FALSE, 0 );
+  help_vbox = gtk_vbox_new(FALSE, 1);
+  gtk_container_set_border_width(GTK_CONTAINER(help_vbox), 5);
+  gtk_box_pack_start(GTK_BOX(help_box), help_vbox, FALSE, FALSE, 0);
+					     
+  text = gtk_text_view_new();
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
+  gtk_container_set_border_width(GTK_CONTAINER(text), 5);
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
+  gtk_widget_set_name(text, "help text");
+  help_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text));
+  gtk_widget_show(text);
 
-  help_text_scrolled = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_text_scrolled),
+  help_text_sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_text_sw),
   			  GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-  help_text = gtk_text_view_new();
-  gtk_container_add(GTK_CONTAINER(help_text_scrolled), help_text);
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(help_text), FALSE);
-  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(help_text), GTK_WRAP_NONE);
-  gtk_box_pack_start(GTK_BOX(help_box), help_text_scrolled, TRUE, TRUE, 0);
-  gtk_text_view_set_left_margin(GTK_TEXT_VIEW(help_text), 5);
-  gtk_widget_set_name(help_text, "help text");
+  gtk_container_add(GTK_CONTAINER(help_text_sw), text);
+  gtk_box_pack_start(GTK_BOX(help_box), help_text_sw, TRUE, TRUE, 0);
 
-  help_tree = gtk_ctree_new(1,0);
-  gtk_clist_set_column_width(GTK_CLIST(help_tree), 0, GTK_CLIST(help_tree)->clist_window_width);
-  gtk_ctree_set_line_style(GTK_CTREE(help_tree),GTK_CTREE_LINES_DOTTED);
-  gtk_clist_set_column_justification(GTK_CLIST(help_tree),0,1);
-  gtk_ctree_set_expander_style(GTK_CTREE(help_tree),
-  				  GTK_CTREE_EXPANDER_CIRCULAR);
+  /* build tech store. */
+  tstore = gtk_tree_store_new(4,
+			      G_TYPE_STRING,	/* tech name */
+			      G_TYPE_INT,	/* turns to tech */
+			      G_TYPE_INT,	/* tech id */
+			      GDK_TYPE_COLOR);	/* color */
+  help_tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(tstore));
+  g_object_unref(tstore);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(help_tree), FALSE);
 
-  g_signal_connect(help_tree, "button_press_event",
-		   G_CALLBACK(help_tech_tree_mouse_callback), NULL);
-  help_tree_scrolled = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_add(GTK_CONTAINER(help_tree_scrolled), help_tree);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_tree_scrolled),
-  			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+  g_signal_connect(help_tree, "row_activated",
+		   G_CALLBACK(help_tech_tree_activated_callback), NULL);
 
-  gtk_box_pack_start( GTK_BOX( help_box ), help_tree_scrolled, TRUE, TRUE, 0 );
+  renderer = gtk_cell_renderer_text_new();
+  g_object_set(renderer, "weight", "bold", NULL);
+
+  col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
+	"text", 0, "background_gdk", 3, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(help_tree), col);
+
+  renderer = gtk_cell_renderer_text_new();
+  g_object_set(renderer, "weight", "bold", "xalign", 1.0, NULL);
+
+  col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
+	"text", 1, "background_gdk", 3, NULL);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(help_tree), col);
+
+  help_tree_sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(help_tree_sw),
+				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_container_add(GTK_CONTAINER(help_tree_sw), help_tree);
+  gtk_widget_show(help_tree);
+  gtk_box_pack_start(GTK_BOX(help_box), help_tree_sw, TRUE, TRUE, 0);
 
   help_tree_expand = gtk_button_new_with_label(_("Expand All"));
   help_tree_collapse = gtk_button_new_with_label(_("Collapse All"));
@@ -628,29 +663,16 @@ static void create_help_dialog(void)
   g_signal_connect(help_tree_expand_unknown, "clicked",
 		   G_CALLBACK(help_tech_tree_expand_unknown_callback),
 		   help_tree);
-  help_tree_buttons_hbox = gtk_hbox_new(FALSE, 5);
-  gtk_box_pack_start(GTK_BOX(help_tree_buttons_hbox), help_tree_expand,
-		     FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(help_tree_buttons_hbox), help_tree_collapse,
-		     FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(help_tree_buttons_hbox), help_tree_reset,
-		     FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(help_tree_buttons_hbox),
-		     help_tree_expand_unknown, FALSE, FALSE, 0);
+
+  help_tree_buttons_hbox = gtk_hbutton_box_new();
+  gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_expand);
+  gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_collapse);
+  gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_reset);
+  gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox),
+	help_tree_expand_unknown);
   gtk_box_pack_start(GTK_BOX(help_box), help_tree_buttons_hbox,
-		     FALSE, FALSE, 0);
-
-  button = gtk_button_new_with_label( _("Close") );
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(help_dialog_shell)->action_area ),
-      button, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( button, GTK_CAN_DEFAULT );
-  gtk_widget_grab_default( button );
-
-  g_signal_connect_swapped(button, "clicked",
-			   G_CALLBACK(popdown_help_dialog), help_dialog_shell);
-
-  gtk_widget_show_all( GTK_DIALOG(help_dialog_shell)->vbox );
-  gtk_widget_hide_all( help_box );
+	FALSE, FALSE, 0);
+  gtk_widget_show_all(help_tree_buttons_hbox);
 
   create_help_page(HELP_TEXT);
   return;
@@ -672,7 +694,6 @@ static void help_update_improvement(const struct help_item *pitem,
 				    char *title, int which)
 {
   char *buf = &long_buffer[0];
-  GtkTextBuffer *b;
   
   create_help_page(HELP_IMPROVEMENT);
   
@@ -695,13 +716,11 @@ static void help_update_improvement(const struct help_item *pitem,
     gtk_set_label(help_ilabel[5], _("(Never)"));
 /*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3);*/
   }
-  gtk_widget_show_all(help_itable);
+  gtk_widget_show(help_itable);
 
   helptext_improvement(buf, which, pitem->text);
-  b = gtk_text_view_get_buffer(GTK_TEXT_VIEW(help_text));
-  gtk_text_buffer_set_text(b, buf, -1);
-  gtk_widget_show(help_text);
-  gtk_widget_show(help_text_scrolled);
+  gtk_text_buffer_set_text(help_text, buf, -1);
+  gtk_widget_show(help_text_sw);
 }
   
 /**************************************************************************
@@ -711,7 +730,6 @@ static void help_update_wonder(const struct help_item *pitem,
 			       char *title, int which)
 {
   char *buf = &long_buffer[0];
-  GtkTextBuffer *b;
 
   create_help_page(HELP_WONDER);
 
@@ -734,13 +752,11 @@ static void help_update_wonder(const struct help_item *pitem,
     gtk_set_label(help_wlabel[5], _("None"));
 /*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3); */
   }
-  gtk_widget_show_all(help_wtable);
+  gtk_widget_show(help_wtable);
 
   helptext_wonder(buf, which, pitem->text);
-  b = gtk_text_view_get_buffer(GTK_TEXT_VIEW(help_text));
-  gtk_text_buffer_set_text(b, buf, -1);
-  gtk_widget_show(help_text);
-  gtk_widget_show(help_text_scrolled);
+  gtk_text_buffer_set_text(help_text, buf, -1);
+  gtk_widget_show(help_text_sw);
 }
 
 /**************************************************************************
@@ -750,7 +766,6 @@ static void help_update_unit_type(const struct help_item *pitem,
 				  char *title, int i)
 {
   char *buf = &long_buffer[0];
-  GtkTextBuffer *b;
 
   create_help_page(HELP_UNIT);
 
@@ -785,12 +800,11 @@ static void help_update_unit_type(const struct help_item *pitem,
 
     helptext_unit(buf, i, pitem->text);
 
-    b = gtk_text_view_get_buffer(GTK_TEXT_VIEW(help_text));
-    gtk_text_buffer_set_text(b, buf, -1);
-    gtk_widget_show(help_text);
-    gtk_widget_show(help_text_scrolled);
+    gtk_text_buffer_set_text(help_text, buf, -1);
+    gtk_widget_show(help_text_sw);
 
-    create_overlay_unit(unit_tile, i);
+    create_overlay_unit(unit_tile
+    , i);
     gtk_widget_show(unit_tile);
   }
   else {
@@ -807,12 +821,29 @@ static void help_update_unit_type(const struct help_item *pitem,
 /*    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);*/
     gtk_set_label(help_ulabel[4][4], _("None"));
 
-    b = gtk_text_view_get_buffer(GTK_TEXT_VIEW(help_text));
-    gtk_text_buffer_set_text(b, buf, -1);
-    gtk_widget_show(help_text);
-    gtk_widget_show(help_text_scrolled);
+    gtk_text_buffer_set_text(help_text, buf, -1);
+    gtk_widget_show(help_text_sw);
   }
-  gtk_widget_show_all(help_utable);
+  gtk_widget_show(help_utable);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static char *my_chomp(char *str, size_t len)
+{
+  gchar *i;
+
+  if (!str || !*str)
+    return str;
+
+  i = str + len;
+  for (i = g_utf8_find_prev_char(str, i);
+       (i && g_unichar_isspace(g_utf8_get_char(i)));
+       i = g_utf8_find_prev_char(str, i)) {
+    *i = '\0';
+  }
+  return str;
 }
 
 /**************************************************************************
@@ -827,27 +858,43 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
   create_help_page(HELP_TECH);
 
   if (!is_future_tech(i)) {
+    GtkTextBuffer *txt;
+    size_t len;
+
     gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
 
-    gtk_clist_freeze(GTK_CLIST(help_tree));
-    gtk_clist_clear(GTK_CLIST(help_tree));
-    create_tech_tree(GTK_CTREE(help_tree), i, TECH_TREE_DEPTH,
-		     TECH_TREE_EXPANDED_DEPTH, NULL);
-    gtk_clist_thaw(GTK_CLIST(help_tree));
-    gtk_widget_show_all(help_tree_scrolled);
-    gtk_widget_show_all(help_tree_buttons_hbox);
+    for (j = 0; j < ARRAY_SIZE(help_advances); j++) {
+      help_advances[j] = FALSE;
+    }
+    gtk_tree_store_clear(tstore);
+    create_tech_tree(i, TECH_TREE_DEPTH, TECH_TREE_EXPANDED_DEPTH, NULL);
+    gtk_widget_show(help_tree_sw);
+    gtk_widget_show(help_tree_buttons_hbox);
 
     helptext_tech(buf, i, pitem->text);
+    len = strlen(buf);
     if (advances[i].helptext) {
-      if (strlen(buf)) strcat(buf, "\n");
-      sprintf(buf+strlen(buf), "%s\n", _(advances[i].helptext));
+      if (len) strcat(buf, "\n");
+      sprintf(buf+len, "%s\n", _(advances[i].helptext));
+      len = strlen(buf);
     }
-    wordwrap_string(buf, 68);
 
-    w = gtk_label_new(buf);
-    gtk_misc_set_alignment(GTK_MISC(w), 0.0, 0.0);
-    gtk_label_set_justify(GTK_LABEL(w), GTK_JUSTIFY_LEFT);
-    gtk_container_add(GTK_CONTAINER(help_vbox), w);
+    my_chomp(buf, len);
+
+    w = gtk_text_view_new();
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(w), GTK_WRAP_WORD);
+    gtk_widget_set_name(w, "help text");
+    gtk_container_set_border_width(GTK_CONTAINER(w), 5);
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(w), FALSE);
+    gtk_box_pack_start(GTK_BOX(help_vbox), w, TRUE, TRUE, 0);
+    gtk_widget_show(w);
+
+    txt = gtk_text_view_get_buffer(GTK_TEXT_VIEW(w));
+    gtk_text_buffer_set_text(txt, buf, -1);
+
+    w = gtk_hseparator_new();
+    gtk_box_pack_start(GTK_BOX(help_vbox), w, TRUE, TRUE, 5);
+    gtk_widget_show(w);
 
     impr_type_iterate(j) {
       if(i==improvement_types[j].tech_req) {
@@ -860,6 +907,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = gtk_label_new(".");
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+        gtk_widget_show_all(hbox);
       }
       if(i==improvement_types[j].obsolete_by) {
         hbox = gtk_hbox_new(FALSE, 0);
@@ -871,6 +919,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = gtk_label_new(".");
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+        gtk_widget_show_all(hbox);
       }
     } impr_type_iterate_end;
 
@@ -884,6 +933,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       w = gtk_label_new(".");
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+      gtk_widget_show_all(hbox);
     } unit_type_iterate_end;
 
     for(j=0; j<game.num_tech_types; ++j) {
@@ -897,6 +947,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           w = gtk_label_new(".");
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+          gtk_widget_show_all(hbox);
 	}
 	else {
           hbox = gtk_hbox_new(FALSE, 0);
@@ -911,6 +962,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
           w = gtk_label_new(Q_("?techhelp:)."));
           gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+          gtk_widget_show_all(hbox);
 	}
       }
       if(i==advances[j].req[1]) {
@@ -926,9 +978,10 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
         w = gtk_label_new(Q_("?techhelp:)."));
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+        gtk_widget_show_all(hbox);
       }
     }
-    gtk_widget_show_all(help_vbox);
+    gtk_widget_show(help_vbox);
   }
 }
 
@@ -939,7 +992,6 @@ static void help_update_terrain(const struct help_item *pitem,
 				char *title, int i)
 {
   char *buf = &long_buffer[0];
-  GtkTextBuffer *b;
 
   create_help_page(HELP_TERRAIN);
 
@@ -1052,12 +1104,10 @@ static void help_update_terrain(const struct help_item *pitem,
 
   helptext_terrain(buf, i, pitem->text);
   
-  b = gtk_text_view_get_buffer(GTK_TEXT_VIEW(help_text));
-  gtk_text_buffer_set_text(b, buf, -1);
-  gtk_widget_show(help_text);
-  gtk_widget_show(help_text_scrolled);
+  gtk_text_buffer_set_text(help_text, buf, -1);
+  gtk_widget_show(help_text_sw);
 
-  gtk_widget_show_all(help_ttable);
+  gtk_widget_show(help_ttable);
 }
 
 /**************************************************************************
@@ -1067,7 +1117,6 @@ static void help_update_government(const struct help_item *pitem,
 				   char *title, struct government *gov)
 {
   char *buf = &long_buffer[0];
-  GtkTextBuffer *b;
 
   if (!gov) {
     strcat(buf, pitem->text);
@@ -1075,10 +1124,8 @@ static void help_update_government(const struct help_item *pitem,
     helptext_government(buf, gov-governments, pitem->text);
   }
   create_help_page(HELP_TEXT);
-  b = gtk_text_view_get_buffer(GTK_TEXT_VIEW(help_text));
-  gtk_text_buffer_set_text(b, buf, -1);
-  gtk_widget_show(help_text);
-  gtk_widget_show(help_text_scrolled);
+  gtk_text_buffer_set_text(help_text, buf, -1);
+  gtk_widget_show(help_text_sw);
 }
 
 /**************************************************************************
@@ -1088,15 +1135,13 @@ static void help_update_dialog(const struct help_item *pitem)
 {
   int i;
   char *top;
-  GtkTextBuffer *b;
 
   /* figure out what kind of item is required for pitem ingo */
 
   for(top=pitem->topic; *top==' '; ++top);
 
-  gtk_widget_hide_all(help_box);
-  b = gtk_text_view_get_buffer(GTK_TEXT_VIEW(help_text));
-  gtk_text_buffer_set_text(b, "", -1);
+  help_box_hide();
+  gtk_text_buffer_set_text(help_text, "", -1);
 
   switch(pitem->type) {
   case HELP_IMPROVEMENT:
@@ -1126,10 +1171,8 @@ static void help_update_dialog(const struct help_item *pitem)
     /* it was a pure text item */ 
     create_help_page(HELP_TEXT);
 
-    b = gtk_text_view_get_buffer(GTK_TEXT_VIEW(help_text));
-    gtk_text_buffer_set_text(b, pitem->text, -1);
-    gtk_widget_show(help_text);
-    gtk_widget_show(help_text_scrolled);
+    gtk_text_buffer_set_text(help_text, pitem->text, -1);
+    gtk_widget_show(help_text_sw);
     break;
   }
   set_title_topic(pitem->topic);

@@ -23,11 +23,22 @@ style "help_label"
   fg[INSENSITIVE] = { 1.0, 0.0, 0.0 }
 }
 
+style "help_link"
+{
+  font_name = "Sans 10"
+
+  fg[PRELIGHT] = { 0.0, 0.0, 1.0 }
+  fg[ACTIVE] = { 0.0, 0.0, 1.0 }
+  fg[NORMAL] = { 0.0, 0.0, 1.0 }
+  fg[INSENSITIVE] = { 0.0, 0.0, 1.0 }
+}
+
 style "help_text"
 {
-  font_name = "Monospace 11"
-  base[NORMAL] = { 0.0, 0.0, 0.0 }
-  text[NORMAL] = { 0.7, 0.7, 0.7 }
+  font_name = "Monospace 10"
+  bg[NORMAL] = { 0.9, 0.9, 0.9 }
+  base[NORMAL] = { 0.9, 0.9, 0.9 }
+  text[NORMAL] = { 0.0, 0.0, 0.0 }
 }
 
 style "chatline"
@@ -50,6 +61,7 @@ widget	"Freeciv*.city label"		style	"city_label"
 widget	"Freeciv*.notify label"		style	"notify_label"
 widget	"Freeciv*.spaceship label"	style	"spaceship_label"
 widget	"Freeciv*.help label"		style	"help_label"
+widget	"Freeciv*.help link"		style	"help_link"
 widget	"Freeciv*.help text"		style	"help_text"
 widget	"*.Freeciv.monomenu.*"		style	"monospace_label"
 widget	"Freeciv*.chatline"		style	"chatline"
