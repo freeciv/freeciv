@@ -292,7 +292,6 @@ static void update_environmental_upset(enum tile_special_type cause,
       upset_action_fn((map.xsize / 10) + (map.ysize / 10) + ((*accum) * 5));
       *accum = 0;
       *level+=4;
-      send_all_known_tiles(&game.game_connections);
     }
   }
 
