@@ -1551,6 +1551,7 @@ void server_player_init(struct player *pplayer, bool initmap)
   if (initmap) {
     player_map_allocate(pplayer);
   }
+  pplayer->player_no = pplayer-game.players;
   ai_data_init(pplayer);
 }
 
@@ -1628,6 +1629,8 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     check_city_workers(pplayer1);
     check_city_workers(pplayer2);
     return;
+  } else {
+    assert(pplayer_get_diplstate(pplayer2, pplayer1)->type != DS_NO_CONTACT);
   }
   if (player_has_embassy(pplayer1, pplayer2)
       || player_has_embassy(pplayer2, pplayer1)) {
@@ -1812,7 +1815,6 @@ static struct player *split_player(struct player *pplayer)
 
   /* make a new player */
   server_player_init(cplayer, TRUE);
-  ai_data_init(cplayer);
 
   /* select a new name and nation for the copied player. */
   /* Rebel will always be an AI player */
@@ -1825,29 +1827,42 @@ static struct player *split_player(struct player *pplayer)
   cplayer->revolution_finishes = game.turn + 1;
   cplayer->capital = TRUE;
 
-  /* This should probably be DS_NEUTRAL when AI knows about diplomacy,
-   * but for now AI players are always at war.
-   */
+  /* cplayer is not yet part of players_iterate which goes only
+     to game.nplayers. */
   players_iterate(other_player) {
-    cplayer->diplstates[other_player->player_no].type = DS_NEUTRAL;
+    /* Barbarians are at war with everybody */
+    if (is_barbarian(other_player)) {
+      cplayer->diplstates[other_player->player_no].type = DS_WAR;
+      other_player->diplstates[cplayer->player_no].type = DS_WAR;
+    } else {
+      cplayer->diplstates[other_player->player_no].type = DS_NO_CONTACT;
+      other_player->diplstates[cplayer->player_no].type = DS_NO_CONTACT;
+    }
+
     cplayer->diplstates[other_player->player_no].has_reason_to_cancel = 0;
     cplayer->diplstates[other_player->player_no].turns_left = 0;
-    other_player->diplstates[cplayer->player_no].type = DS_NEUTRAL;
+    cplayer->diplstates[other_player->player_no].contact_turns_left = 0;
     other_player->diplstates[cplayer->player_no].has_reason_to_cancel = 0;
     other_player->diplstates[cplayer->player_no].turns_left = 0;
+    other_player->diplstates[cplayer->player_no].contact_turns_left = 0;
     
     /* Send so that other_player sees updated diplomatic info;
-     * cplayer and pplayer will be sent later anyway
+     * pplayer will be sent later anyway
      */
-    if (other_player != cplayer && other_player != pplayer) {
+    if (other_player != pplayer) {
       send_player_info(other_player, other_player);
     }
   }
   players_iterate_end;
 
+  game.nplayers++;
+  game.max_players = game.nplayers;
+
   /* Split the resources */
   
-  cplayer->economic.gold = pplayer->economic.gold/2;
+  cplayer->economic.gold = pplayer->economic.gold;
+  cplayer->economic.gold /= 2;
+  pplayer->economic.gold -= cplayer->economic.gold;
 
   /* Copy the research */
 
@@ -1880,7 +1895,6 @@ static struct player *split_player(struct player *pplayer)
     pplayer->government = game.government_when_anarchy;
     pplayer->revolution_finishes = game.turn + 1;
   }
-  pplayer->economic.gold = cplayer->economic.gold;
   pplayer->research.bulbs_researched = 0;
   pplayer->embassy = 0; /* all embassies destroyed */
 
@@ -1900,9 +1914,6 @@ static struct player *split_player(struct player *pplayer)
 
   give_map_from_player_to_player(pplayer, cplayer);
 
-  game.nplayers++;
-  game.max_players = game.nplayers;
-  
   /* Not sure if this is necessary, but might be a good idea
      to avoid doing some ai calculations with bogus data:
   */
@@ -1920,16 +1931,13 @@ civil_war_triggered:
  * The capture of a capital is not a sure fire way to throw
 and empire into civil war.  Some governments are more susceptible 
 than others, here are the base probabilities:
- *      Anarchy   	90%   
+Anarchy   	90%
 Despotism 	80%
 Monarchy  	70%
-Fundamentalism  60% (In case it gets implemented one day)
+Fundamentalism  60% (Only in civ2 ruleset)
 Communism 	50%
-  	Republic  	40%
-Democracy 	30%	
- * Note:  In the event that Fundamentalism is added, you need to
-update the array government_civil_war[G_LAST] in player.c
- * [ SKi: That would now be data/default/governments.ruleset. ]
+Republic  	40%
+Democracy 	30%
  * In addition each city in revolt adds 5%, each city in rapture 
 subtracts 5% from the probability of a civil war.  
  * If you have at least 1 turns notice of the impending loss of 
