@@ -76,7 +76,7 @@ enum city_options {
  *
 * The constant may be changed since it isn't externally visible.
  */
-#define MAX_CITY_SIZE					50
+#define MAX_CITY_SIZE					100
 
 /* Iterate a city map */
 
