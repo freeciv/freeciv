@@ -203,10 +203,15 @@ unsigned short map_get_continent(int x, int y);
 void initialize_move_costs(void);
 void reset_move_costs(int x, int y);
 
+/* Maximum value of index (for sanity checks and allocations) */
+#define MAX_MAP_INDEX map.xsize * map.ysize
+
 #ifdef DEBUG
 #define CHECK_MAP_POS(x,y) assert(is_normal_map_pos((x),(y)))
+#define CHECK_INDEX(index) assert((index) >= 0 && (index) < MAX_MAP_INDEX)
 #else
 #define CHECK_MAP_POS(x,y) ((void)0)
+#define CHECK_INDEX(index) ((void)0)
 #endif
 
 #define map_adjust_x(X)            \
@@ -221,6 +226,12 @@ void reset_move_costs(int x, int y);
 
 #define map_inx(x,y) \
   (CHECK_MAP_POS((x),(y)), (x)+(y)*map.xsize)
+
+/* index_to_map_pos(int *, int *, int) inverts map_inx */
+#define index_to_map_pos(pmap_x, pmap_y, index) \
+  (CHECK_INDEX(index),                          \
+   *(pmap_x) = (index) % map.xsize,             \
+   *(pmap_y) = (index) / map.ysize)
 
 #define DIRSTEP(dest_x, dest_y, dir)	\
 (    (dest_x) = DIR_DX[(dir)],      	\
