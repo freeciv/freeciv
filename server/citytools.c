@@ -746,7 +746,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
      cities or maybe destroyed */
   unit_list_iterate_safe(*units, vunit) {
     struct city *new_home_city = map_get_city(vunit->x, vunit->y);
-    if (new_home_city && new_home_city != exclude_city) {
+    if (new_home_city && new_home_city != exclude_city
+	&& city_owner(new_home_city) == unit_owner(vunit)) {
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
       transfer_unit(vunit, new_home_city, verbose);
