@@ -38,13 +38,14 @@ nit-picky, but wars are fought over the silliest things...
  Comments
 ================================
 
-- Every function should have a comment header. It should be above the 
+- Every function should have a comment header.  The comment should look 
+  like the example below, indented by two spaces.  It should be above the 
   function's implementation, not the prototype:
 
 /*************************************************************************
- the description of the function should be here
- any information is helpful, such as who calls this function, etc.
- do _not_ introduce a new function without some sort of comment.
+  the description of the function should be here
+  any information is helpful, such as who calls this function, etc.
+  do _not_ introduce a new function without some sort of comment.
 *************************************************************************/
 int the_function_starts_here(int value) 
 {
