@@ -26,3 +26,12 @@ void set_client_page(enum client_pages page)
   /* PORTME */
 }
 
+/****************************************************************************
+  Set the list of available rulesets.  The default ruleset should be
+  "default", and if the user changes this then set_ruleset() should be
+  called.
+****************************************************************************/
+void gui_set_rulesets(char rulesets[][64], int ruleset_count)
+{
+  /* PORTME */
+}
