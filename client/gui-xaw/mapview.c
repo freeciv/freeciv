@@ -1542,17 +1542,5 @@ someone please tell me why - pu
 **************************************************************************/
 void my_XawScrollbarSetThumb(Widget w, float top, float shown)
 {
-  Arg arglist[2];
-
-  if(sizeof(float)>sizeof(XtArgVal)) {
-    XtSetArg(arglist[0], XtCTopOfThumb, &top);
-    XtSetArg(arglist[1], XtNshown, &shown);
-   }
-  else {
-    XtArgVal *l_top=(XtArgVal*)&top;
-    XtArgVal *l_shown=(XtArgVal*)&shown; 
-    XtSetArg(arglist[0], XtNtopOfThumb, *l_top);
-    XtSetArg(arglist[1], XtNshown, *l_shown);
-   }
-  XtSetValues(w, arglist, 2);
+    XawScrollbarSetThumb(w, top, shown);
 }
