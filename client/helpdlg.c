@@ -62,6 +62,7 @@ Widget help_unit_move, help_unit_move_data;
 Widget help_unit_hp, help_unit_hp_data;
 Widget help_unit_fp, help_unit_fp_data;
 Widget help_unit_cost, help_unit_cost_data;
+Widget help_unit_visrange, help_unit_visrange_data;
 Widget help_unit_tile;
 
 enum help_page_type {HELP_TEXT, HELP_UNIT, HELP_IMPROVEMENT, HELP_WONDER, HELP_TECH} help_type;
@@ -453,7 +454,7 @@ void create_help_page(enum help_page_type type)
 					NULL);
 
      
-     help_unit_cost=XtVaCreateManagedWidget("helpunitcost", 
+    help_unit_cost=XtVaCreateManagedWidget("helpunitcost", 
 					  labelWidgetClass, 
 					  help_right_form,
 					  NULL);
@@ -461,7 +462,7 @@ void create_help_page(enum help_page_type type)
 					       labelWidgetClass, 
 					       help_right_form,
 					       NULL);
-     help_unit_attack=XtVaCreateManagedWidget("helpunitattack", 
+    help_unit_attack=XtVaCreateManagedWidget("helpunitattack", 
 					     labelWidgetClass, 
 					     help_right_form,
 					     NULL);
@@ -507,11 +508,20 @@ void create_help_page(enum help_page_type type)
 					  help_right_form,
 					  NULL);
     help_unit_hp_data=XtVaCreateManagedWidget("helpunithpdata", 
-					       labelWidgetClass, 
-					       help_right_form,
+					      labelWidgetClass, 
+					      help_right_form,
 					      NULL);
+   
+    help_unit_visrange=XtVaCreateManagedWidget("helpunitvisrange",
+    					       labelWidgetClass,
+					       help_right_form,
+					       NULL);
+    help_unit_visrange_data=XtVaCreateManagedWidget("helpunitvisrangedata",
+    						    labelWidgetClass,
+						    help_right_form,
+						    NULL);
      
-     help_improvement_req=XtVaCreateManagedWidget("helpimprreq", 
+    help_improvement_req=XtVaCreateManagedWidget("helpimprreq", 
 						  labelWidgetClass, 
 						  help_right_form,
 						  XtNfromVert,help_unit_hp, 
@@ -624,6 +634,8 @@ void help_update_dialog(struct help_item *pitem)
        xaw_set_label(help_unit_fp_data, buf);
        sprintf(buf, "%d ", get_unit_type(i)->hp);
        xaw_set_label(help_unit_hp_data, buf);
+       sprintf(buf, "%d ", get_unit_type(i)->vision_range);
+       xaw_set_label(help_unit_visrange_data, buf);
        XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
 
        if(get_unit_type(i)->tech_requirement==A_LAST)
