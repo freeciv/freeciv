@@ -1828,16 +1828,16 @@ static void city_landlocked_sell_coastal_improvements(int x, int y)
   (Should be called after any potential ocean/land terrain changes.)
 **************************************************************************/
 static void check_terrain_ocean_land_change(int x, int y,
-					    enum tile_terrain_type old)
+					    enum tile_terrain_type oldter)
 {
-  enum tile_terrain_type new = map_get_terrain(x, y);
+  enum tile_terrain_type newter = map_get_terrain(x, y);
 
-  if ((old == T_OCEAN) && (new != T_OCEAN)) {
+  if ((oldter == T_OCEAN) && (newter != T_OCEAN)) {
     /* ocean to land ... */
     city_landlocked_sell_coastal_improvements(x, y);
     assign_continent_numbers();
     gamelog(GAMELOG_MAP, "(%d,%d) land created from ocean", x, y);
-  } else if ((old != T_OCEAN) && (new == T_OCEAN)) {
+  } else if ((oldter != T_OCEAN) && (newter == T_OCEAN)) {
     /* land to ocean ... */
     assign_continent_numbers();
     gamelog(GAMELOG_MAP, "(%d,%d) ocean created from land", x, y);

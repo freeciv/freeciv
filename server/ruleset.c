@@ -48,7 +48,7 @@ static int lookup_tech(struct section_file *file, char *prefix,
 		       char *description);
 static char *lookup_helptext(struct section_file *file, char *prefix);
 
-static enum tile_terrain_type lookup_terrain(char *name, int this);
+static enum tile_terrain_type lookup_terrain(char *name, int tthis);
 
 static void load_ruleset_techs(char *ruleset_subdir);
 static void load_ruleset_units(char *ruleset_subdir);
@@ -334,7 +334,7 @@ static int match_name_from_list(char *name, char **list, int n_list)
 /**************************************************************************
  Lookup a terrain name in the tile_types array; return its index.
 **************************************************************************/
-static enum tile_terrain_type lookup_terrain(char *name, int this)
+static enum tile_terrain_type lookup_terrain(char *name, int tthis)
 {
   int i;
 
@@ -344,7 +344,7 @@ static enum tile_terrain_type lookup_terrain(char *name, int this)
     }
   else if (0 == strcmp(name, "yes"))
     {
-      return (this);
+      return (tthis);
     }
 
   for (i = T_FIRST; i < T_COUNT; i++)
