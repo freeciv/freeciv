@@ -743,7 +743,7 @@ goals.\
 The Celebrate checkbox lets your city - celebrate. This will work \
 only with a high luxury rate. See help about 'Happiness'.\
 \n\n\
-Clicking on 'Change permanently' puts the city under control of \
+Clicking on 'Control city' puts the city under control of \
 the CMA, 'Release city' passes control back to you.\
 \n\n\
 For ease of use, you can save your slider setting as a preset \
