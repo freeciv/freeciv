@@ -460,7 +460,7 @@ general, the steps are:
 
  7. Explore the world.
 
-    Aftr you have fortified your cities with troops, build Triremes
+    After you have fortified your cities with troops, build Triremes
     in the cities near the sea.  Use the Triremes to map the world
     in search of opponents and new lands.  If you are on an island,
     you should spend less on military and more on expansion.  Or if
@@ -485,7 +485,7 @@ general, the steps are:
     well, especially in the beginning of the game.  But to improve,
     you need to study the various units and advances, and PRACTICE,
     PRACTICE, PRACTICE!  Freeciv has many twists, so if you haven't
-    played a simular game before, try consulting the Freeciv WWW
+    played a similar game before, try consulting the Freeciv WWW
     pages at http://freeciv.ultraviolet.org
     You'll find more tips for playing, and details of how to contact
     other players.
@@ -556,9 +556,9 @@ this by 1.
 # City Walls
 City Walls make it easier to defend a city.  They triple the defence
 strength of units within the city against ground and helicopter
-units.  They are uneffective aginst airborne and sea units as well
+units.  They are ineffective against airborne and sea units as well
 as Howitzers.  City Walls also prevent the loss of population which
-occurs when a defending unit is destroyed.
+occurs when a defending unit is destroyed by a land unit.
 ---
 # Coastal Defense
 Increases the defence strength of units within a city by a factor
@@ -965,9 +965,50 @@ Democracy.  Reduced by 1 under all other form governments.
 ---
 #Units
 Units can be used for three purposes: Attack, Defense, and
-Reconnaisance.  How useful a particular Unit is for each of these
+Reconnaissance.  How useful a particular Unit is for each of these
 roles, depends on the Unit's strength in attack, defense and it's
 ability to move.
+
+There are four general types of unit: Land, Sea, Air, and 
+Helicopter.  (Helicopters are sufficiently different from other air
+units that it is easiest to think of them as a separate unit type.)
+
+Land units move on land, and suffer the movement effects of Terrain,
+but benefit from roads and railroads.  They cannot move on ocean 
+squares except when carried by an appropriate sea unit.  When at 
+sea, they cannot attack or defend for themselves, but rely on the 
+sea unit carrying them.  Land units are the only units subject to 
+zones of control.  On land, land units can Fortify to get a 50%
+defensive bonus; land units in cities automatically get this bonus,
+whether fortified or not.  When a land unit successfully attacks a 
+city without City Walls, the city is reduced by one population 
+point.  Land units with zero attack strength are non-military units:
+they require no upkeep, have no happiness effects, and cannot attack
+enemy units or capture enemy cities.
+
+Sea units move on ocean squares and into cities next to ocean 
+squares.  They can only be built by such cities.  The movement rate
+of sea units is affected by several Wonders (Lighthouse, Magellan's
+Expedition) and by the Advance of Nuclear Power.  Most sea units can
+attack units on the coast and in coastal cities, but they cannot 
+enter an enemy city to capture it, even if the city is undefended.
+
+Air units can move on any square not occupied by an enemy unit or
+enemy city.  The movement rate of air units is not affected by loss
+of hitpoints.  Air units require fuel, which is obtained by ending
+their turn in a friendly city or Carrier (or a Submarine for missile
+units).  The number of turns an air unit can last without fuel 
+varies by the unit type (see the individual units).  Like sea units,
+air units are unable to enter an empty enemy city to capture it.
+When outside cities, air units can only be attacked by Fighters (or
+Stealth Fighters).  Air units cannot be used to explore villages.
+
+Like air units, Helicopters can move on any square not occupied by 
+an enemy unit or enemy city, and their movement rate is not affected
+by loss of hitpoints.  Helicopters do not require fuel, but they 
+lose a small amount of health for every turn not spent in a city, 
+unless you have the United Nations wonder.  Unlike other air units,
+Helicopters can capture enemy cities.
 ---
 # AEGIS Cruiser
 Doubles defence against missiles and aircraft.
@@ -1160,8 +1201,11 @@ units (other than Cavalry).
 # Riflemen
 ---
 # Settlers
-Used to found new cities, build roads, irrigate land and
-build mines.  One of the key units in the game.
+Setters are one of the key units in the game.  They can be used to
+found new cities, irrigate land, build roads, railroads, fortresses
+and mines, and clean up pollution.  Upkeep for settlers is in food 
+rather than production, and a setter can die if its supporting city
+runs out of food.
 ---
 # Spy
 An improved Diplomat, which has an extra move point.  (On speed?)
@@ -1176,8 +1220,11 @@ radius.
 ---
 # Submarine
 This unit is invisible unless the enemy is very close.  It can
-carry up to 8 missiles.  This unit has a very high strategic value,
-but has a weak defence.
+carry up to 8 missiles.  Submarines cannot make shore bombardments
+against enemy land units or cities.  
+
+Submarines have a very high strategic value, but have a weak 
+defence.
 ---
 # Transport
 This unit can convey up to 8 land-based units across water.
@@ -1262,7 +1309,7 @@ though there were a road joining them.
 With Resources, River squares will produce 1 Production.
 Rivers can be irrigated but not mined.
 Roads and railroads can only be built on River squares if your
-civilzation has learned Bridge Building technology.
+civilization has learned Bridge Building technology.
 ---
 # Swamp
 Food: 1.  Production: 0.  Trade: 0.  Movement: 2.  Defense: 1.5.
@@ -1412,8 +1459,9 @@ aggressive units:
    inside a city or inside a fortress within 3 squares of a friendly
    city
 
- - air units (including missiles) and sea units with an attack
-   strength greater than 0, regardless of their location
+ - air units (including missiles and helicopters) and sea units 
+   with an attack strength greater than 0, regardless of their 
+   location
 
 The citizens of a city will tolerate 1 aggressive unit; subsequent
 units will generate 1 unhappy citizen each.
