@@ -1279,6 +1279,21 @@ void show_ending(void)
 
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+
+void show_map_to_all(void)
+{
+  int i=0;
+  struct player *pplayer;
+
+  for (i=0;i<game.nplayers;i++) {
+    pplayer = &game.players[i];
+    map_know_all(pplayer);
+    send_all_known_tiles(pplayer);
+  }
+}
 
 /**************************************************************************
 ...

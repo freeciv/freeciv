@@ -69,6 +69,7 @@ void do_dipl_cost(struct player *pplayer);
 void do_free_cost(struct player *pplayer);
 void do_conquer_cost(struct player *pplayer);
 void show_ending(void);
+void show_map_to_all(void);
 void player_load(struct player *plr, int plrno, struct section_file *file);
 void player_save(struct player *plr, int plrno, struct section_file *file);
 

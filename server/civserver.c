@@ -500,7 +500,7 @@ main_start_players:
   }
 
   show_ending();
-  
+  show_map_to_all();
   notify_player(0, _("Game: The game is over..."));
 
   while(server_state==GAME_OVER_STATE) {
