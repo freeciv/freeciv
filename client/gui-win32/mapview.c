@@ -918,11 +918,13 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   struct canvas canvas_store={hdc,NULL};
   int count, i;
   bool fog, solid_bg, is_real;
+  enum color_std bg_color;
 
   if (!width || !(height || height_unit))
     return;
 
-  count = fill_tile_sprite_array_iso(tile_sprs, x, y, citymode, &solid_bg);
+  count = fill_tile_sprite_array_iso(tile_sprs, x, y, citymode,
+				     &solid_bg, &bg_color);
 
   if (count == -1) { /* tile is unknown */
     pixmap_put_black_tile_iso(hdc, canvas_x, canvas_y,
@@ -937,19 +939,19 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
     HPEN oldpen;
     HBRUSH oldbrush;
     POINT points[4];
-    points[0].x=canvas_x+NORMAL_TILE_WIDTH/2;
-    points[0].y=canvas_y;
-    points[1].x=canvas_x;
-    points[1].y=canvas_y+NORMAL_TILE_HEIGHT/2;
-    points[2].x=canvas_x+NORMAL_TILE_WIDTH/2;
-    points[2].y=canvas_y+NORMAL_TILE_HEIGHT;
-    points[3].x=canvas_x+NORMAL_TILE_WIDTH;
-    points[3].y=canvas_y+NORMAL_TILE_HEIGHT/2;
-    oldpen=SelectObject(hdc,pen_std[COLOR_STD_BACKGROUND]); 
-    oldbrush=SelectObject(hdc,brush_std[COLOR_STD_BACKGROUND]);
-    Polygon(hdc,points,4);
-    SelectObject(hdc,oldpen);
-    SelectObject(hdc,oldbrush);
+    points[0].x = canvas_x + NORMAL_TILE_WIDTH / 2;
+    points[0].y = canvas_y;
+    points[1].x = canvas_x;
+    points[1].y = canvas_y + NORMAL_TILE_HEIGHT / 2;
+    points[2].x = canvas_x + NORMAL_TILE_WIDTH / 2;
+    points[2].y = canvas_y + NORMAL_TILE_HEIGHT;
+    points[3].x = canvas_x + NORMAL_TILE_WIDTH;
+    points[3].y = canvas_y + NORMAL_TILE_HEIGHT / 2;
+    oldpen = SelectObject(hdc, pen_std[bg_color]); 
+    oldbrush = SelectObject(hdc, brush_std[bg_color]);
+    Polygon(hdc, points, 4);
+    SelectObject(hdc, oldpen);
+    SelectObject(hdc, oldbrush);
   }
 
   /*** Draw terrain and specials ***/

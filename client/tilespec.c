@@ -2147,7 +2147,8 @@ The sprites are drawn in the following order:
  5) huts
 ***********************************************************************/
 int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
-			       int x, int y, bool citymode, bool *solid_bg)
+			       int x, int y, bool citymode,
+			       bool *solid_bg, enum color_std *bg_color)
 {
   enum tile_terrain_type ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
@@ -2193,6 +2194,7 @@ int fill_tile_sprite_array_iso(struct drawn_sprite *sprs,
     }
   } else {
     *solid_bg = TRUE;
+    *bg_color = COLOR_STD_BACKGROUND;
   }
   
   sprs += fill_road_rail_sprite_array(sprs,

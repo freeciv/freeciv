@@ -1026,13 +1026,14 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   struct drawn_sprite tile_sprs[80];
   int count, i;
   bool solid_bg, fog;
+  enum color_std bg_color;
   struct canvas canvas_store = {.type = CANVAS_PIXMAP, .v.pixmap = pm};
 
   if (!width || !(height || height_unit))
     return;
 
   count = fill_tile_sprite_array_iso(tile_sprs,
-				     x, y, citymode, &solid_bg);
+				     x, y, citymode, &solid_bg, &bg_color);
 
   if (count == -1) { /* tile is unknown */
     pixmap_put_black_tile_iso(pm, canvas_x, canvas_y,
@@ -1049,7 +1050,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   if (solid_bg) {
     gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
     gdk_gc_set_clip_mask(fill_bg_gc, sprites.black_tile->mask);
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BACKGROUND]);
+    gdk_gc_set_foreground(fill_bg_gc, colors_standard[bg_color]);
 
     gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
 		       canvas_x+offset_x, canvas_y+offset_y,
