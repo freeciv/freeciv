@@ -196,6 +196,7 @@ static void reject_new_connection(const char *msg, struct connection *pconn)
   send_packet_server_join_reply(pconn, &packet);
   freelog(LOG_NORMAL, _("Client rejected: %s."), conn_description(pconn));
   flush_connection_send_buffer_all(pconn);
+  close_connection(pconn);
 }
 
 /**************************************************************************
