@@ -74,10 +74,9 @@ static char *cr_entry_hstate_verbose(struct city *pcity)
 static char *cr_entry_workers(struct city *pcity)
 {
   static char buf[32];
-  my_snprintf(buf, sizeof(buf), "%d/%d/%d",
-	      pcity->ppl_happy[4],
-	      pcity->ppl_content[4],
-	      pcity->ppl_unhappy[4]);
+  my_snprintf(buf, sizeof(buf), "%d/%d/%d/%d", pcity->ppl_happy[4],
+	      pcity->ppl_content[4], pcity->ppl_unhappy[4],
+	      pcity->ppl_angry[4]);
   return buf;
 }
 
@@ -200,8 +199,8 @@ struct city_report_spec city_report_specs[] = {
                                       FUNC_TAG(hstate_verbose) },
   { 0,  1, 1, NULL,  NULL,            N_("Concise *=Rapture, X=Disorder"),
                                       FUNC_TAG(hstate_concise) },
-  { 1,  8, 1, N_("Workers"), N_("H/C/U"),
-                                      N_("Workers: Happy, Content, Unhappy"),
+  { 1, 10, 1, N_("Workers"), N_("H/C/U/A"),
+                                      N_("Workers: Happy, Content, Unhappy, Angry"),
                                       FUNC_TAG(workers) },
   { 0,  7, 1, N_("Special"), N_("E/S/T"),
                                       N_("Entertainers, Scientists, Taxmen"),

@@ -1941,6 +1941,8 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->freecost);
   cptr=put_uint8(cptr, pinfo->conquercost);
   cptr=put_uint8(cptr, pinfo->unhappysize);
+  if (pc && has_capability("angrycitizen", pc->capability))
+    cptr = put_uint8(cptr, pinfo->angrycitizen);
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     cptr=put_uint8(cptr, pinfo->global_advances[i]);
@@ -1996,6 +1998,10 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->freecost);
   iget_uint8(&iter, &pinfo->conquercost);
   iget_uint8(&iter, &pinfo->unhappysize);
+  if (pc && has_capability("angrycitizen", pc->capability))
+    iget_uint8(&iter, &pinfo->angrycitizen);
+  else
+    pinfo->angrycitizen = 0;
   
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     iget_uint8(&iter, &pinfo->global_advances[i]);
@@ -2235,7 +2241,9 @@ int send_packet_city_info(struct connection *pc,
   
   cptr=put_uint8(cptr, req->size);
 
-  for(data=0;data<5;data++) {
+  for (data = 0; data < 5; data++) {
+    if (pc && has_capability("angrycitizen", pc->capability))
+      cptr = put_uint8(cptr, req->ppl_angry[data]);
     cptr=put_uint8(cptr, req->ppl_happy[data]);
     cptr=put_uint8(cptr, req->ppl_content[data]);
     cptr=put_uint8(cptr, req->ppl_unhappy[data]);
@@ -2319,6 +2327,10 @@ receive_packet_city_info(struct connection *pc)
   
   iget_uint8(&iter, &packet->size);
   for(data=0;data<5;data++) {
+    if (pc && has_capability("angrycitizen", pc->capability))
+      iget_uint8(&iter, &packet->ppl_angry[data]);
+    else
+      packet->ppl_angry[data] = 0;
     iget_uint8(&iter, &packet->ppl_happy[data]);
     iget_uint8(&iter, &packet->ppl_content[data]);
     iget_uint8(&iter, &packet->ppl_unhappy[data]);

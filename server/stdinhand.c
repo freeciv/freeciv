@@ -498,6 +498,15 @@ static struct settings_s settings[] = {
        "city are content, and subsequent citizens are unhappy.  "
        "See also cityfactor.") },
 
+  { "angrycitizen", &game.angrycitizen, NULL, NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_ANGRYCITIZEN, GAME_MAX_ANGRYCITIZEN,
+    GAME_DEFAULT_ANGRYCITIZEN,
+    N_("Whether angry citizens are enabled"),
+    N_("Introduces angry citizens like civilization II. Angry citizens "
+       "have to become unhappy before any other class of citizens may "
+       "be considered. See also unhappysize, cityfactor and governments.") },
+
   { "cityfactor", &game.cityfactor, NULL, NULL,
     SSET_RULES, SSET_TO_CLIENT,
     GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR,

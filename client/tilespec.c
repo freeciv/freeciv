@@ -459,6 +459,8 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(citizen[6], "citizen.happy_1");
   SET_SPRITE(citizen[7], "citizen.unhappy_0");
   SET_SPRITE(citizen[8], "citizen.unhappy_1");
+  SET_SPRITE(citizen[9], "citizen.angry_0");
+  SET_SPRITE(citizen[10], "citizen.angry_1");
 
   SET_SPRITE(spaceship.solar_panels, "spaceship.solar_panels");
   SET_SPRITE(spaceship.life_support, "spaceship.life_support");

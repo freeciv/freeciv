@@ -215,7 +215,7 @@ struct city {
      ppl_*[2] is distribution after after building effects.
      ppl_*[3] is distribution after units enfored martial order.
      ppl_*[4] is distribution after wonders. (final result.) */
-  int ppl_happy[5], ppl_content[5], ppl_unhappy[5];
+  int ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
 
   /* Specialists */
   int ppl_elvis, ppl_scientist, ppl_taxman;

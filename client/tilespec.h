@@ -66,7 +66,7 @@ struct unit *get_drawable_unit(int x, int y, int citymode);
                              (!!(e))*BIT_EAST  | (!!(w))*BIT_WEST)
 
 #define NUM_TILES_PROGRESS 8
-#define NUM_TILES_CITIZEN 9
+#define NUM_TILES_CITIZEN 11
 #define NUM_TILES_HP_BAR 11
 #define NUM_TILES_DIGITS 10
 

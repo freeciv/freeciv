@@ -332,7 +332,7 @@ struct packet_city_info {
   char name[MAX_LEN_NAME];
 
   int size;
-  int ppl_happy[5], ppl_content[5], ppl_unhappy[5];
+  int ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
   int ppl_elvis, ppl_scientist, ppl_taxman;
   int food_prod, food_surplus;
   int shield_prod, shield_surplus;
@@ -808,6 +808,7 @@ struct packet_game_info {
   int cooling;
   int cityfactor;
   int unhappysize;
+  int angrycitizen;
   int diplcost,freecost,conquercost;
   int global_advances[A_LAST];
   int global_wonders[B_LAST];

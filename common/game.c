@@ -699,6 +699,7 @@ void game_init(void)
   game.cityfactor  = GAME_DEFAULT_CITYFACTOR;
   game.civilwarsize= GAME_DEFAULT_CIVILWARSIZE;
   game.unhappysize = GAME_DEFAULT_UNHAPPYSIZE;
+  game.angrycitizen= GAME_DEFAULT_ANGRYCITIZEN;
   game.foodbox     = GAME_DEFAULT_FOODBOX;
   game.aqueductloss= GAME_DEFAULT_AQUEDUCTLOSS;
   game.killcitizen = GAME_DEFAULT_KILLCITIZEN;

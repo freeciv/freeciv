@@ -1992,6 +1992,7 @@ void game_load(struct section_file *file)
     game.nuclearwinter = secfile_lookup_int_default(file, 0, "game.nuclearwinter");
     game.coolinglevel  = secfile_lookup_int_default(file, 8, "game.coolinglevel");
     game.unhappysize   = secfile_lookup_int(file, "game.unhappysize");
+    game.angrycitizen  = secfile_lookup_int_default(file, 0, "game.angrycitizen");
 
     if (game.version >= 10100) {
       game.cityfactor  = secfile_lookup_int(file, "game.cityfactor");
@@ -2353,6 +2354,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.nuclearwinter, "game.nuclearwinter");
   secfile_insert_int(file, game.coolinglevel, "game.coolinglevel");
   secfile_insert_int(file, game.unhappysize, "game.unhappysize");
+  secfile_insert_int(file, game.angrycitizen, "game.angrycitizen");
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
   secfile_insert_int(file, game.civilwarsize, "game.civilwarsize");
   secfile_insert_int(file, game.diplcost, "game.diplcost");

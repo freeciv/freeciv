@@ -325,6 +325,7 @@ void handle_city_info(struct packet_city_info *packet)
     pcity->ppl_happy[i]=packet->ppl_happy[i];
     pcity->ppl_content[i]=packet->ppl_content[i];
     pcity->ppl_unhappy[i]=packet->ppl_unhappy[i];
+    pcity->ppl_angry[i] = packet->ppl_angry[i];
   }
   pcity->ppl_elvis=packet->ppl_elvis;
   pcity->ppl_scientist=packet->ppl_scientist;

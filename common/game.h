@@ -80,6 +80,7 @@ struct civ_game {
   int nbarbarians;
   int occupychance;
   int unhappysize;
+  int angrycitizen;
   char *startmessage;
   int conn_id;			/* client-only: id client known to server as */
   int player_idx;
@@ -268,6 +269,10 @@ extern int is_server;
 #define GAME_DEFAULT_UNHAPPYSIZE 4
 #define GAME_MIN_UNHAPPYSIZE     1
 #define GAME_MAX_UNHAPPYSIZE     6
+
+#define GAME_DEFAULT_ANGRYCITIZEN 0
+#define GAME_MIN_ANGRYCITIZEN     0
+#define GAME_MAX_ANGRYCITIZEN     1
 
 #define GAME_DEFAULT_END_YEAR    2000
 #define GAME_MIN_END_YEAR        GAME_START_YEAR

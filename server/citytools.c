@@ -828,9 +828,10 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   pcity->size=1;
   pcity->ppl_elvis=1;
   pcity->ppl_scientist=pcity->ppl_taxman=0;
-  pcity->ppl_happy[4]=0;
-  pcity->ppl_content[4]=1;
-  pcity->ppl_unhappy[4]=0;
+  pcity->ppl_happy[4] = 0;
+  pcity->ppl_content[4] = 1;
+  pcity->ppl_unhappy[4] = 0;
+  pcity->ppl_angry[4] = 0;
   pcity->was_happy=0;
   pcity->steal=0;
   for (i=0;i<4;i++)
@@ -1396,6 +1397,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     packet->ppl_happy[i]=pcity->ppl_happy[i];
     packet->ppl_content[i]=pcity->ppl_content[i];
     packet->ppl_unhappy[i]=pcity->ppl_unhappy[i];
+    packet->ppl_angry[i]=pcity->ppl_angry[i];
   }
   packet->ppl_elvis=pcity->ppl_elvis;
   packet->ppl_scientist=pcity->ppl_scientist;
