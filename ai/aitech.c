@@ -99,7 +99,7 @@ static Tech_Type_id get_government_tech(struct player *plr)
 **************************************************************************/
 static int get_wonder_tech(struct player *plr)
 {
-  int tech = A_NONE;
+  Tech_Type_id tech = A_NONE;
   int building = get_nation_by_plr(plr)->goals.wonder;
   
   if (!improvement_exists(building))
@@ -120,11 +120,12 @@ static void ai_next_tech_goal_default(struct player *pplayer,
   struct nation_type *prace;
   int bestdist = A_LAST + 1;
   int dist, i;
-  int goal = 0;
-  int tech;
+  Tech_Type_id goal = A_NONE;
+  Tech_Type_id tech;
+
   prace = get_nation_by_plr(pplayer);
   for (i = 0 ; i < MAX_NUM_TECH_GOALS; i++) {
-    int j = prace->goals.tech[i];
+    Tech_Type_id j = prace->goals.tech[i];
     if (!tech_exists(j) || get_invention(pplayer, j) == TECH_KNOWN) 
       continue;
     dist = tech_goal_turns(pplayer, j);
@@ -150,7 +151,7 @@ static void ai_next_tech_goal_default(struct player *pplayer,
       goal = tech;
     }
   }
-  if (goal) {
+  if (goal != A_NONE) {
     choice->choice = goal;
     choice->want = 1;
   }
@@ -170,7 +171,8 @@ static void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur,
 static void find_prerequisites(struct player *pplayer, int i, int *prereq)
 {
   /* add tech_want[i] / j to all subtechs */
-  int t1, t2, known;
+  Tech_Type_id t1, t2;
+  int known;
 
   t1 = advances[i].req[0];
   t2 = advances[i].req[1];
@@ -192,7 +194,8 @@ static void find_prerequisites(struct player *pplayer, int i, int *prereq)
 static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
 			   struct ai_choice *gol)
 {
-  int i, j, k;
+  Tech_Type_id i, k, l;
+  int j;
   int values[A_LAST];
   int goal_values[A_LAST];
   int prereq[A_LAST];
@@ -202,13 +205,13 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
   memset(values, 0, sizeof(values));
   memset(goal_values, 0, sizeof(goal_values));
   memset(cache, 0, sizeof(cache));
-  for (i = A_NONE; i < game.num_tech_types; i++) {
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
     j = pplayer->ai.tech_turns[i];
     if (j) { /* if we already got it we don't want it */
       values[i] += pplayer->ai.tech_want[i];
       memset(prereq, 0, sizeof(prereq));
       find_prerequisites(pplayer, i, prereq);
-      for (k = A_NONE; k < game.num_tech_types; k++) {
+      for (k = A_FIRST; k < game.num_tech_types; k++) {
         if (prereq[k]) {
           cache[i][k]++;
           values[k] += pplayer->ai.tech_want[i] / j;
@@ -217,9 +220,9 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
     }
   }
 
-  for (i = A_NONE; i < game.num_tech_types; i++) {
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
     if (pplayer->ai.tech_turns[i]) {
-      for (k = A_NONE; k < game.num_tech_types; k++) {
+      for (k = A_FIRST; k < game.num_tech_types; k++) {
         if (cache[i][k]) {
           goal_values[i] += values[k];
         }
@@ -239,16 +242,16 @@ to be doing; it just looks strange. -- Syela */
     } else goal_values[i] = 0;
   }
 
-  j = 0; k = 0;
-  for (i = A_NONE; i < game.num_tech_types; i++) {
-    if (values[i] > values[j] && get_invention(pplayer, i) == TECH_REACHABLE) j = i;
+  l = A_NONE; k = A_NONE;
+  for (i = A_FIRST; i < game.num_tech_types; i++) {
+    if (values[i] > values[l] && get_invention(pplayer, i) == TECH_REACHABLE) l = i;
     if (goal_values[i] > goal_values[k]) k = i;
   }
   freelog(LOG_DEBUG, "%s wants %s with desire %d (%d).", pplayer->name,
-		advances[j].name, values[j], pplayer->ai.tech_want[j]);
+		advances[l].name, values[l], pplayer->ai.tech_want[l]);
   if (choice) {
-    choice->choice = j;
-    choice->want = values[j] / c;
+    choice->choice = l;
+    choice->want = values[l] / c;
     choice->type = values[pplayer->research.researching] / c; /* hijacking this ...
                                           in order to leave tech_wants alone */
   }
@@ -271,7 +274,7 @@ static void ai_select_tech_goal(struct player *pplayer, struct ai_choice *choice
 
 void calculate_tech_turns(struct player *pplayer)
 {
-  int i;
+  Tech_Type_id i;
   memset(pplayer->ai.tech_turns, 0, sizeof(pplayer->ai.tech_turns));
   for (i = A_FIRST; i < game.num_tech_types; i++) {
     pplayer->ai.tech_turns[i] = tech_goal_turns(pplayer, i);
