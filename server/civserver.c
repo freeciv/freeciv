@@ -1737,9 +1737,9 @@ static void generate_ai_players(void)
 /*************************************************************************
  Used in pick_ai_player_name() below; buf has size at least MAX_LEN_NAME;
 *************************************************************************/
-static int good_name(char *try, char *buf) {
-  if (!find_player_by_name(try)) {
-     mystrlcpy(buf, try, MAX_LEN_NAME);
+static int good_name(char *ptry, char *buf) {
+  if (!find_player_by_name(ptry)) {
+     mystrlcpy(buf, ptry, MAX_LEN_NAME);
      return 1;
   }
   return 0;
