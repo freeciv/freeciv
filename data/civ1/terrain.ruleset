@@ -138,7 +138,7 @@ fallout_trade_penalty=50
 ; transform_time       = time to transform; if 0, cannot transform
 ; flags                = General flags for this terrain:
 ;   - NoBarbs          = Barbarians will not be spawned here.
-;   - NoPollution      = Pollution won't be put on this terrain type.
+;   - NoPollution      = Pollution will not be put on this terrain type.
 ;   - Starter          = Players will only be started on "Starter" terrain.
 ;   - Oceanic          = This is an "ocean" terrain.  This has a big effect
 ;                        on gameplay.  Naval units can move on oceanic terrain,
