@@ -379,7 +379,7 @@ static void pixmap_put_sprite(Pixmap pixmap,
 			      int offset_x, int offset_y,
 			      int width, int height)
 {
-  if (sprite->mask) {
+  if (sprite->has_mask) {
     XSetClipOrigin(display, civ_gc, canvas_x, canvas_y);
     XSetClipMask(display, civ_gc, sprite->mask);
   }
@@ -390,7 +390,7 @@ static void pixmap_put_sprite(Pixmap pixmap,
 	    width, height, 
 	    canvas_x, canvas_y);
 
-  if (sprite->mask) {
+  if (sprite->has_mask) {
     XSetClipMask(display, civ_gc, None);
   }
 }
@@ -453,7 +453,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 			     struct Sprite *psprite, enum color_std color,
 			     int canvas_x, int canvas_y)
 {
-  if (psprite->mask) {
+  if (psprite->has_mask) {
     XSetClipOrigin(display, fill_tile_gc, canvas_x, canvas_y);
     XSetClipMask(display, fill_tile_gc, psprite->mask);
   }
@@ -462,7 +462,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
   XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
 		 canvas_x, canvas_y, psprite->width, psprite->height);
 
-  if (psprite->mask) {
+  if (psprite->has_mask) {
     XSetClipMask(display, fill_tile_gc, None);
   }
 }
@@ -473,7 +473,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
 			    int canvas_x, int canvas_y)
 {
-  if (psprite->mask) {
+  if (psprite->has_mask) {
     XSetClipOrigin(display, fill_tile_gc, canvas_x, canvas_y);
     XSetClipMask(display, fill_tile_gc, psprite->mask);
   }
@@ -484,7 +484,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
   XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
 		 canvas_x, canvas_y, psprite->width, psprite->height);
 
-  if (psprite->mask) {
+  if (psprite->has_mask) {
     XSetClipMask(display, fill_tile_gc, None);
   }
 }
