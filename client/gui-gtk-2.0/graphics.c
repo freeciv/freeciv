@@ -407,9 +407,8 @@ SPRITE* sprite_scale(SPRITE *src, int new_w, int new_h)
   GdkPixbuf *original, *im;
   SPRITE    *mysprite;
 
-  original = gdk_pixbuf_new_from_sprite(src);
+  original = sprite_get_pixbuf(src);
   im = gdk_pixbuf_scale_simple(original, new_w, new_h, GDK_INTERP_BILINEAR);
-  g_object_unref(original);
 
   mysprite=fc_malloc(sizeof(struct Sprite));
 
