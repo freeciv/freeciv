@@ -5,7 +5,9 @@
 
 AC_DEFUN([FC_XAW_CLIENT],
 [
-  if test "$client" = xaw || test "$client" = yes ; then
+  if test "$client" = yes ; then
+    AC_MSG_WARN([Not checking for XAW; use --enable-client=xaw to enable])
+  elif test "$client" = xaw ; then
     dnl Checks for X:
     AC_PATH_XTRA
 
