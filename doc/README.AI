@@ -22,16 +22,22 @@ INTRODUCTION
 ============ 
 
 The Freeciv AI is widely recognized as being as good as or better
-militarywise as the AI of certain other games it is natural to compare
+military-wise as the AI of certain other games it is natural to compare
 it with.  It is, however, still too easy for experienced players.
 
-The code base used to in bad shape but it has gotten a lot 
-better.
+The code base used to be in a bad shape but it has gotten a lot
+better.  The reason for this is that the developer (Syela) who in a
+few months put together a working AI had suddenly disappeared.  His
+bright ideas could only be matched by his inability to name variables
+and to comment the code.  Subsequent AI developers were not brave (or
+stupid?) enough to start from scratch, taking instead a small bite
+here and there, trying hard not to break much, to understand Syela's
+original design and only then to throw it away.  Or perfect it.
 
 Not all code is residing in ai/, but it is also dissolved in little 
 chunks in the whole server/.  Aside that, server/settlers.c is only AI 
 stuff - the problem is, that most of it is used also for the 
-autosettlers, so we can't separate it from the server.  
+auto-settlers, so we can't separate it from the server.  
 server/gotohand.c is a left-over from the previous path-finding system 
 which is slowly being phased out.
 
@@ -182,7 +188,45 @@ figures that a Howitzer would do this job even better, so bumps up our
 desire for Robotics.
 
 This is the idea, anyway.  In practice, it is more complicated and
-probably less effecient.
+probably less efficient.
+
+
+FERRY SYSTEM
+============
+
+The ferry (i.e. boats transporting land units) system of Freeciv is
+probably better described by statistical mechanics than by logic.
+Both ferries and prospective passenger (PP) move around in what looks
+like a random fashion, trying to get closer to each other.  On
+average, they succeed.  This behaviour has good reasons behind it, is
+hell to debug but means that small bugs don't affect overall picture
+visibly (and stay unfixed as a result).
+
+Each turn both boats and PPs forget all about prior arrangements
+(unless the passenger is actually _in_ the boat).  Then each will look
+for the closest partner, exchange cards and head towards it.  This is
+done in a loop which goes through all units in essentially random
+order.
+
+Because most units recalculate their destination every turn, ignoring
+prior arrangements is the only good strategy -- it means that a boat
+will not rely on the PP to notify it when it's not needed anymore.
+This is not very effective but can only be changed when the PPs behave
+more responsibly.  See diplomat code for more responsible behaviour --
+they try to check if the old target is still good before trying to
+find a new one.
+
+When a boat has a passenger, it's a different story.  The boat doesn't
+do any calculations, instead one of the passengers is given full
+control and it is the passenger who drives the boat.
+
+When boat-building code stabilizes, it can be seen how many free boats
+there are, on average, per PP.  If there are more boats than PPs, it
+makes sense that only PPs should look for boats.  If boats are few,
+they should be the ones choosing.  This can be done both dynamically
+(both possibilities are coded and the appropriate is chosen every
+turn) and statically (after much testing only one system remains).
+Now they exist in parallel, although developed to a different degree.
 
 
 DIPLOMACY
@@ -215,7 +259,7 @@ are so much smarter and know how to exploit diplomacy, while for AIs
 they mostly only add constraints on what it can do.  Another is that it
 can be very difficult to write diplomacy that is useful for and not in
 the way of modpacks.  Which means diplomacy either has to be optional,
-or have finegrained controls on who can do what diplomatic deals to
+or have fine-grained controls on who can do what diplomatic deals to
 whom, set from rulesets.  The latter is not yet well implemented.
 
 
