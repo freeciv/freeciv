@@ -66,7 +66,7 @@
 
 #define TIMER_INTERVAL 500              /* milliseconds */ 
 
-const char *client_string = "gui-gtk";
+const char *client_string = "gui-gtk-2.0";
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
