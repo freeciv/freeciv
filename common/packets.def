@@ -198,7 +198,7 @@ type YEAR     		= SINT16
 type HP     		= UINT8
 type PERCENT  		= UINT8
 type GOLD		= UINT32
-type TURN		= UINT16
+type TURN		= SINT16
 
 /****************************************************
 The remaining lines are the definition of the packets. These are
@@ -553,7 +553,7 @@ PACKET_PLAYER_INFO=39; is-info,sc
   UINT16 future_tech;
   UINT8 tech_goal;
   BOOL is_connected;
-  UINT8 revolution;
+  TURN revolution_finishes;
   BOOL ai;
   UINT8 barbarian_type;
   uint32(unsigned int) gives_shared_vision;

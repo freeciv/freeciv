@@ -351,6 +351,15 @@ static void check_players(void)
 	assert(pplayer->diplstates[pplayer2->player_no].turns_left
 	       == pplayer2->diplstates[pplayer->player_no].turns_left);
     } players_iterate_end;
+
+    if (pplayer->revolution_finishes == -1) {
+      assert(pplayer->government != game.government_when_anarchy);
+    } else if (pplayer->revolution_finishes > game.turn) {
+      assert(pplayer->government == game.government_when_anarchy);
+    } else {
+      /* Things may vary in this case depending on when the sanity_check
+       * call is made.  No better check is possible. */
+    }
   } players_iterate_end;
 
   /* Sanity checks on living and dead players. */

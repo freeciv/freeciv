@@ -157,13 +157,35 @@ void great_library(struct player *pplayer)
 }
 
 /**************************************************************************
-Count down if the player are in a revolution, notify him when revolution
-has ended.
+  See if the player has finished their revolution.  This function should
+  be called at the beginning of a player's phase.
 **************************************************************************/
 void update_revolution(struct player *pplayer)
 {
-  if (pplayer->revolution > 0) {
-    pplayer->revolution--;
+  /* The player's revolution counter is stored in the revolution_finishes
+   * field.  This value has the following meanings:
+   *   - If negative (-1), then the player is not in a revolution.  In this
+   *     case the player should never be in anarchy.
+   *   - If positive, the player is in the middle of a revolution.  In this
+   *     case the value indicates the turn in which the revolution finishes.
+   *     * If this value is > than the current turn, then the revolution is
+   *       in progress.  In this case the player should always be in anarchy.
+   *     * If the value is == to the current turn, then the revolution is
+   *       finished.  The player may now choose a government.  However the
+   *       value isn't reset until the end of the turn.  If the player has
+   *       chosen a government by the end of the turn, then the revolution is
+   *       over and the value is reset to -1.
+   *     * If the player doesn't pick a government then the revolution
+   *       continues.  At this point the value is <= to the current turn,
+   *       and the player can leave the revolution at any time.  The value
+   *       is reset at the end of any turn when a non-anarchy government is
+   *       chosen.
+   */
+  if (pplayer->revolution_finishes <= game.turn
+      && pplayer->government != game.government_when_anarchy) {
+    /* Reset the revolution counter.  If the player has another revolution
+     * they'll have to re-enter anarchy. */
+    pplayer->revolution_finishes = -1;
   }
 }
 
@@ -851,13 +873,13 @@ void handle_player_tech_goal(struct player *pplayer, int tech)
 **************************************************************************/
 void handle_player_government(struct player *pplayer, int government)
 {
-  if (pplayer->government != game.government_when_anarchy ||
-      government < 0 || government >= game.government_count ||
+  if (government < 0 || government >= game.government_count ||
       !can_change_to_government(pplayer, government)) {
     return;
   }
 
-  if (pplayer->revolution <= 5 && pplayer->revolution > 0) {
+  if (pplayer->revolution_finishes < 0
+      || pplayer->revolution_finishes > game.turn) {
     return;
   }
 
@@ -889,15 +911,18 @@ void handle_player_government(struct player *pplayer, int government)
 **************************************************************************/
 void handle_player_revolution(struct player *pplayer)
 {
-  if (pplayer->revolution <= 5
-      && pplayer->revolution > 0
-      && pplayer->government == game.government_when_anarchy) {
+  if (pplayer->government == game.government_when_anarchy) {
+    /* Already having a revolution. */
     return;
   }
-  if (game.revolution_length == 0) {
-    pplayer->revolution = myrand(5) + 1;
-  } else {
-    pplayer->revolution = game.revolution_length;
+  if (pplayer->revolution_finishes < 0) {
+    /* Start a revolution from scratch (otherwise a revolution is in
+     * progress, even if the player isn't in anarchy). */
+    if (game.revolution_length == 0) {
+      pplayer->revolution_finishes = game.turn + myrand(5) + 1;
+    } else {
+      pplayer->revolution_finishes = game.revolution_length;
+    }
   }
   pplayer->government=game.government_when_anarchy;
   notify_player_ex(pplayer, -1, -1, E_REVOLT_START,
@@ -909,7 +934,7 @@ void handle_player_revolution(struct player *pplayer)
   check_player_government_rates(pplayer);
   global_city_refresh(pplayer);
   if (player_owns_active_govchange_wonder(pplayer)) {
-    pplayer->revolution = 0;
+    pplayer->revolution_finishes = game.turn;
   }
   send_player_info(pplayer, pplayer);
 }
@@ -1072,7 +1097,7 @@ repeat_break_treaty:
     notify_player_ex(pplayer, -1, -1, E_TREATY_BROKEN,
                      _("Game: Your reputation is now %s."),
                      reputation_text(pplayer->reputation));
-    if (has_senate && pplayer->revolution == 0) {
+    if (has_senate && pplayer->revolution_finishes < 0) {
       if (myrand(GAME_MAX_REPUTATION) > pplayer->reputation) {
         notify_player_ex(pplayer, -1, -1, E_ANARCHY,
                          _("Game: The senate decides to dissolve "
@@ -1445,11 +1470,7 @@ static void package_player_info(struct player *plr,
     packet->techs_researched= plr->research.techs_researched;
     packet->researching     = plr->research.researching;
     packet->future_tech     = plr->future_tech;
-    if (plr->revolution != 0) {
-      packet->revolution    = 1;
-    } else {
-      packet->revolution    = 0;
-    }
+    packet->revolution_finishes = plr->revolution_finishes;
   } else {
     for (i = A_FIRST; i < game.num_tech_types; i++) {
       packet->inventions[i] = '0';
@@ -1462,7 +1483,7 @@ static void package_player_info(struct player *plr,
     packet->techs_researched= 0;
     packet->researching     = A_NOINFO;
     packet->future_tech     = 0;
-    packet->revolution      = 0;
+    packet->revolution_finishes = -1;
   }
 
   /* We have to inform the client that the other players also know
@@ -1798,7 +1819,7 @@ static struct player *split_player(struct player *pplayer)
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
   cplayer->government = game.government_when_anarchy;  
-  cplayer->revolution = 1;
+  cplayer->revolution_finishes = game.turn + 1;
   cplayer->capital = TRUE;
 
   /* This should probably be DS_NEUTRAL when AI knows about diplomacy,
@@ -1854,7 +1875,7 @@ static struct player *split_player(struct player *pplayer)
   /* change the original player */
   if (pplayer->government != game.government_when_anarchy) {
     pplayer->government = game.government_when_anarchy;
-    pplayer->revolution = 1;
+    pplayer->revolution_finishes = game.turn + 1;
   }
   pplayer->economic.gold = cplayer->economic.gold;
   pplayer->research.bulbs_researched = 0;

@@ -333,7 +333,7 @@ struct packet_player_info {
   int future_tech;
   int tech_goal;
   bool is_connected;
-  int revolution;
+  int revolution_finishes;
   bool ai;
   int barbarian_type;
   unsigned int gives_shared_vision;

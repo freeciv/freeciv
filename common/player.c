@@ -94,6 +94,7 @@ void player_init(struct player *plr)
   plr->government=game.default_government;
   plr->nation = NO_NATION_SELECTED;
   plr->team = TEAM_NONE;
+  plr->revolution_finishes = -1;
   plr->capital = FALSE;
   unit_list_init(&plr->units);
   city_list_init(&plr->cities);

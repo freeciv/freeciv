@@ -1615,7 +1615,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->is_alive=pinfo->is_alive;
 
   pplayer->ai.barbarian_type = pinfo->barbarian_type;
-  pplayer->revolution=pinfo->revolution;
+  pplayer->revolution_finishes = pinfo->revolution_finishes;
   if(pplayer->ai.control!=pinfo->ai)  {
     pplayer->ai.control=pinfo->ai;
     if(pplayer==game.player_ptr)  {
@@ -1626,7 +1626,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   }
   
   if (pplayer == game.player_ptr
-      && (pplayer->revolution < 1 || pplayer->revolution > 5)
+      && pplayer->revolution_finishes >= 0
+      && pplayer->revolution_finishes <= game.turn
       && pplayer->government == game.government_when_anarchy
       && (!game.player_ptr->ai.control || ai_popup_windows)
       && can_client_change_view()

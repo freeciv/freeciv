@@ -634,10 +634,14 @@ void ai_government_change(struct player *pplayer, int gov)
   if (gov == pplayer->government) {
     return;
   }
-  pplayer->revolution = 0;
   pplayer->government = game.government_when_anarchy;
+
+  /* The AI cheats by having instant revolutions.
+   * TODO: turn this into a player handicap. */
+  pplayer->revolution_finishes = game.turn;
+
   handle_player_government(pplayer, gov);
-  pplayer->revolution = -1; /* yes, I really mean this. -- Syela */
+  /* The revolution_finishes value need not be reset at this point. */
   city_list_iterate(pplayer->cities, pcity) {
     auto_arrange_workers(pcity); /* update cities */
   } city_list_iterate_end;

@@ -493,6 +493,10 @@ static void begin_phase(bool is_new_phase)
   flush_packets();  /* to curb major city spam */
   conn_list_do_unbuffer(&game.game_connections);
 
+  shuffled_players_iterate(pplayer) {
+    update_revolution(pplayer);
+  } shuffled_players_iterate_end;
+
   if (is_new_phase) {
     /* Try to avoid hiding events under a diplomacy dialog */
     players_iterate(pplayer) {
@@ -550,7 +554,6 @@ static void end_phase(void)
   /* Refresh cities */
   shuffled_players_iterate(pplayer) {
     great_library(pplayer);
-    update_revolution(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
     pplayer->research.changed_from=-1;

@@ -3289,7 +3289,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
     dio_get_uint32(&din, (int *) &real_packet->timeout);
   }
   if (BV_ISSET(fields, 6)) {
-    dio_get_uint16(&din, (int *) &real_packet->turn);
+    dio_get_sint16(&din, (int *) &real_packet->turn);
   }
   if (BV_ISSET(fields, 7)) {
     dio_get_sint16(&din, (int *) &real_packet->year);
@@ -3587,7 +3587,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_uint32(&dout, real_packet->timeout);
   }
   if (BV_ISSET(fields, 6)) {
-    dio_put_uint16(&dout, real_packet->turn);
+    dio_put_sint16(&dout, real_packet->turn);
   }
   if (BV_ISSET(fields, 7)) {
     dio_put_sint16(&dout, real_packet->year);
@@ -4862,7 +4862,7 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
   }
   real_packet->is_building_unit = BV_ISSET(fields, 27);
   if (BV_ISSET(fields, 28)) {
-    dio_get_uint16(&din, (int *) &real_packet->turn_last_built);
+    dio_get_sint16(&din, (int *) &real_packet->turn_last_built);
   }
   if (BV_ISSET(fields, 29)) {
     dio_get_uint8(&din, (int *) &real_packet->changed_from_id);
@@ -4905,7 +4905,7 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
     dio_get_uint8(&din, (int *) &real_packet->city_options);
   }
   if (BV_ISSET(fields, 44)) {
-    dio_get_uint16(&din, (int *) &real_packet->turn_founded);
+    dio_get_sint16(&din, (int *) &real_packet->turn_founded);
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -5356,7 +5356,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   }
   /* field 27 is folded into the header */
   if (BV_ISSET(fields, 28)) {
-    dio_put_uint16(&dout, real_packet->turn_last_built);
+    dio_put_sint16(&dout, real_packet->turn_last_built);
   }
   if (BV_ISSET(fields, 29)) {
     dio_put_uint8(&dout, real_packet->changed_from_id);
@@ -5399,7 +5399,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
     dio_put_uint8(&dout, real_packet->city_options);
   }
   if (BV_ISSET(fields, 44)) {
-    dio_put_uint16(&dout, real_packet->turn_founded);
+    dio_put_sint16(&dout, real_packet->turn_founded);
   }
 
 
@@ -8520,7 +8520,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
   }
   real_packet->turn_done = BV_ISSET(fields, 7);
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint16(&din, (int *) &real_packet->nturns_idle);
+    dio_get_sint16(&din, (int *) &real_packet->nturns_idle);
   }
   real_packet->is_alive = BV_ISSET(fields, 9);
   if (BV_ISSET(fields, 10)) {
@@ -8568,7 +8568,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
   }
   real_packet->is_connected = BV_ISSET(fields, 22);
   if (BV_ISSET(fields, 23)) {
-    dio_get_uint8(&din, (int *) &real_packet->revolution);
+    dio_get_sint16(&din, (int *) &real_packet->revolution_finishes);
   }
   real_packet->ai = BV_ISSET(fields, 24);
   if (BV_ISSET(fields, 25)) {
@@ -8728,7 +8728,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(packet->is_connected) {BV_SET(fields, 22);}
 
-  differ = (old->revolution != real_packet->revolution);
+  differ = (old->revolution_finishes != real_packet->revolution_finishes);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 23);}
 
@@ -8792,7 +8792,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   }
   /* field 7 is folded into the header */
   if (BV_ISSET(fields, 8)) {
-    dio_put_uint16(&dout, real_packet->nturns_idle);
+    dio_put_sint16(&dout, real_packet->nturns_idle);
   }
   /* field 9 is folded into the header */
   if (BV_ISSET(fields, 10)) {
@@ -8840,7 +8840,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   }
   /* field 22 is folded into the header */
   if (BV_ISSET(fields, 23)) {
-    dio_put_uint8(&dout, real_packet->revolution);
+    dio_put_sint16(&dout, real_packet->revolution_finishes);
   }
   /* field 24 is folded into the header */
   if (BV_ISSET(fields, 25)) {
@@ -8946,7 +8946,7 @@ static struct packet_player_info *receive_packet_player_info_101(struct connecti
   }
   real_packet->turn_done = BV_ISSET(fields, 7);
   if (BV_ISSET(fields, 8)) {
-    dio_get_uint16(&din, (int *) &real_packet->nturns_idle);
+    dio_get_sint16(&din, (int *) &real_packet->nturns_idle);
   }
   real_packet->is_alive = BV_ISSET(fields, 9);
   if (BV_ISSET(fields, 10)) {
@@ -8991,7 +8991,7 @@ static struct packet_player_info *receive_packet_player_info_101(struct connecti
   }
   real_packet->is_connected = BV_ISSET(fields, 21);
   if (BV_ISSET(fields, 22)) {
-    dio_get_uint8(&din, (int *) &real_packet->revolution);
+    dio_get_sint16(&din, (int *) &real_packet->revolution_finishes);
   }
   real_packet->ai = BV_ISSET(fields, 23);
   if (BV_ISSET(fields, 24)) {
@@ -9147,7 +9147,7 @@ static int send_packet_player_info_101(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(packet->is_connected) {BV_SET(fields, 21);}
 
-  differ = (old->revolution != real_packet->revolution);
+  differ = (old->revolution_finishes != real_packet->revolution_finishes);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 22);}
 
@@ -9211,7 +9211,7 @@ static int send_packet_player_info_101(struct connection *pc, const struct packe
   }
   /* field 7 is folded into the header */
   if (BV_ISSET(fields, 8)) {
-    dio_put_uint16(&dout, real_packet->nturns_idle);
+    dio_put_sint16(&dout, real_packet->nturns_idle);
   }
   /* field 9 is folded into the header */
   if (BV_ISSET(fields, 10)) {
@@ -9256,7 +9256,7 @@ static int send_packet_player_info_101(struct connection *pc, const struct packe
   }
   /* field 21 is folded into the header */
   if (BV_ISSET(fields, 22)) {
-    dio_put_uint8(&dout, real_packet->revolution);
+    dio_put_sint16(&dout, real_packet->revolution_finishes);
   }
   /* field 23 is folded into the header */
   if (BV_ISSET(fields, 24)) {
@@ -19302,7 +19302,7 @@ static struct packet_new_year *receive_packet_new_year_100(struct connection *pc
     dio_get_sint16(&din, (int *) &real_packet->year);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_get_uint16(&din, (int *) &real_packet->turn);
+    dio_get_sint16(&din, (int *) &real_packet->turn);
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -19356,7 +19356,7 @@ static int send_packet_new_year_100(struct connection *pc, const struct packet_n
     dio_put_sint16(&dout, real_packet->year);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint16(&dout, real_packet->turn);
+    dio_put_sint16(&dout, real_packet->turn);
   }
 
 

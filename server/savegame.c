@@ -1630,8 +1630,25 @@ static void player_load(struct player *plr, int plrno,
   }
     
   plr->capital = secfile_lookup_bool(file, "player%d.capital", plrno);
-  plr->revolution = secfile_lookup_int_default(file, 0, "player%d.revolution",
-					       plrno);
+
+  {
+    /* The old-style "revolution" value indicates the number of turns until
+     * the revolution is complete, or 0 if there is no revolution.  The
+     * new-style "revolution_finishes" value indicates the turn in which
+     * the revolution will complete (which may be less than the current
+     * turn) or -1 if there is no revolution. */
+    int revolution = secfile_lookup_int_default(file, 0, "player%d.revolution",
+						plrno);
+
+    if (revolution == 0) {
+      revolution = -1;
+    } else {
+      revolution = game.turn + revolution;
+    }
+    plr->revolution_finishes
+      = secfile_lookup_int_default(file, revolution,
+				   "player%d.revolution_finishes", plrno);
+  }
 
   update_research(plr);
 
@@ -2268,7 +2285,24 @@ static void player_save(struct player *plr, int plrno,
                   plr->research.researching);  
 
   secfile_insert_bool(file, plr->capital, "player%d.capital", plrno);
-  secfile_insert_int(file, plr->revolution, "player%d.revolution", plrno);
+
+  secfile_insert_int(file, plr->revolution_finishes,
+		     "player%d.revolution_finishes", plrno);
+  {
+    /* Insert the old-style "revolution" value, for forward compatibility.
+     * See the loading code for more explanation. */
+    int revolution;
+
+    if (plr->revolution_finishes < 0) {
+      /* No revolution. */
+      revolution = 0;
+    } else if (plr->revolution_finishes <= game.turn) {
+      revolution = 1; /* Approximation. */
+    } else {
+      revolution = plr->revolution_finishes - game.turn;
+    }
+    secfile_insert_int(file, revolution, "player%d.revolution", plrno);
+  }
 
   /* 1.14 servers depend on technology order in ruleset. Here we are trying
    * to simulate 1.14.1 default order */

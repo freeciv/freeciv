@@ -188,7 +188,10 @@ struct player {
   bool is_alive;
   bool is_dying; /* set once the player is in the process of dying */
   bool got_tech; /* set once the player is fully dead */
-  int revolution;
+
+  /* Turn in which the player's revolution is over; see update_revolution. */
+  int revolution_finishes;
+
   bool capital; /* used to give player init_buildings in first city. */
   int embassy;
   int reputation;
