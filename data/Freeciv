@@ -381,6 +381,9 @@ Freeciv.iconName: Freeciv
 *shellrenamecity*iinput*background: white
 *shellrenamecity*iinput*foreground: black
 
+!
+! unit select dialog
+!
 *unitselectdialogshell.title: 
 *unitselectform.unitselectclosecommand.background: blue
 *unitselectform.unitselectclosecommand.foreground: white
@@ -393,6 +396,11 @@ Freeciv.iconName: Freeciv
 
 *unitselectform*background: lightblue
 *unitselectform*foreground: black
+
+*unitselectform.unitselectcommands0.internalWidth: 2
+*unitselectform.unitselectcommands0.internalHeight: 2
+*unitselectform.unitselectcommands1.internalWidth: 2
+*unitselectform.unitselectcommands1.internalHeight: 2
 
 
 !
@@ -634,7 +642,7 @@ Freeciv.iconName: Freeciv
 *helpdialog.*.helpunittile.fromVert: helptext
 *helpdialog.*.helpunittile.fromHoriz: helpunitmovedata
 *helpdialog.*.helpunittile.left: chainLeft
-*helpdialog.*.helpunittile.right: chainRight
+*helpdialog.*.helpunittile.right: chainLeft
 *helpdialog.*.helpunittile.top: chainTop
 *helpdialog.*.helpunittile.bottom: chainTop
 *helpdialog.*.helpunittile.foreground: lightblue
@@ -1915,8 +1923,8 @@ Now.. Go give'em hell!
 *citysubform.background: white
 *citysubform.foreground: black
 
-*citymapcanvas.width: 150
-*citymapcanvas.height: 150
+!*citymapcanvas.width: 150
+!*citymapcanvas.height: 150
 
 *cityimprovview.allowVert: True
 
@@ -1987,8 +1995,8 @@ Science: 25
 *supportunitcanvas.borderWidth:                0
 *supportunitcanvas.internalWidth:              0
 *supportunitcanvas.internalHeight:             0
-*supportunitcanvas.width:                     30
-*supportunitcanvas.height:                    44
+!*supportunitcanvas.width:                     30
+!*supportunitcanvas.height:                    44
 
 *presentunitlabel.label: Units present:
 *presentunitlabel.internalWidth:               0
@@ -2000,8 +2008,8 @@ Science: 25
 *presentunitcanvas.borderWidth:              0
 *presentunitcanvas.internalWidth:            0
 *presentunitcanvas.internalHeight:           0
-*presentunitcanvas.width:                    30
-*presentunitcanvas.height:                   44
+!*presentunitcanvas.width:                    30
+!*presentunitcanvas.height:                   44
 !*presentunitcanvas.background:          lightblue
 
 
