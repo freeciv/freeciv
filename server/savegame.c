@@ -43,6 +43,7 @@
 #include "ruleset.h"
 #include "spacerace.h"
 #include "srv_main.h"
+#include "unittools.h"
 
 #include "aicity.h"
 #include "aiunit.h"
@@ -58,7 +59,8 @@ static const char terrain_chars[] = "adfghjm prstu";
  * include it when appropriate for maximum savegame compatibility.)
  */
 #define SAVEFILE_OPTIONS "1.7 startoptions spacerace2 rulesets" \
-" diplchance_percent worklists2 map_editor known32fix turn attributes"
+" diplchance_percent worklists2 map_editor known32fix turn " \
+"attributes watchtower"
 
 /***************************************************************
 Quote the memory block denoted by data and length so it consists only
@@ -1171,9 +1173,15 @@ static void player_load(struct player *plr, int plrno,
 	map_set_known(x1, y1, plr);
       } square_iterate_end;
     }
+
     /* allocate the unit's contribution to fog of war */
-    unfog_area(unit_owner(punit), punit->x, punit->y,
-	       get_unit_type(punit->type)->vision_range);
+    if (unit_profits_of_watchtower(punit)
+	&& map_get_special(punit->x, punit->y) & S_FORTRESS)
+      unfog_area(unit_owner(punit), punit->x, punit->y,
+		 get_watchtower_vision(punit));
+    else
+      unfog_area(unit_owner(punit), punit->x, punit->y,
+		 get_unit_type(punit->type)->vision_range);
 
     unit_list_insert_back(&plr->units, punit);
 
@@ -2005,6 +2013,16 @@ void game_load(struct section_file *file)
       game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
     }
 
+    if (has_capability("watchtower", savefile_options)) {
+      game.watchtower_extra_vision =
+	  secfile_lookup_int(file, "game.watchtower_extra_vision");
+      game.watchtower_vision =
+	  secfile_lookup_int(file, "game.watchtower_vision");
+    } else {
+      game.watchtower_extra_vision = 0;
+      game.watchtower_vision = 1;
+    }
+
     sz_strlcpy(game.save_name,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
 					  "game.save_name"));
@@ -2368,6 +2386,8 @@ void game_save(struct section_file *file)
   secfile_insert_str(file, game.ruleset.cities, "game.ruleset.cities");
   secfile_insert_str(file, game.ruleset.game, "game.ruleset.game");
   secfile_insert_str(file, game.demography, "game.demography");
+  secfile_insert_int(file, game.watchtower_vision, "game.watchtower_vision");
+  secfile_insert_int(file, game.watchtower_extra_vision, "game.watchtower_extra_vision");
 
   if (1) {
     /* Now always save these, so the server options reflect the

@@ -27,9 +27,9 @@ struct advance advances[A_LAST];
    client/packhand.c (for the client) */
 
 static const char *flag_names[] = {
-  "Bonus_Tech","Boat_Fast","Bridge","Railroad","Fortress",
-  "Population_Pollution_Inc","Trade_Revenue_Reduce","Airbase","Farmland",
-  "Reduce_Trireme_Loss1", "Reduce_Trireme_Loss2"
+  "Bonus_Tech", "Boat_Fast", "Bridge", "Railroad", "Fortress",
+  "Watchtower", "Population_Pollution_Inc", "Trade_Revenue_Reduce",
+  "Airbase", "Farmland", "Reduce_Trireme_Loss1", "Reduce_Trireme_Loss2"
 };
 /* Note that these strings must correspond with the enums in tech_flag_id,
    in common/tech.h */

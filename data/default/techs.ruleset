@@ -38,6 +38,7 @@ options="1.9"
 ; "Railroad" = "Settler" unit types can build rail roads
 ; "Farmland" = "Settler" unit types can build farmland
 ; "Fortress" = "Settler" unit types can build fortress
+; "Watchtower" = Units get enhanced visionrange in a fortress
 ; "Population_Pollution_Inc" = Increase the pollution factor created by
 ;                              popultaion by one
 ; "Trade_Revenue_Reduce" = When known by the player establishing a trade
@@ -271,7 +272,7 @@ flags    = "Population_Pollution_Inc"
 name     = _("Invention")
 req1     = "Engineering"
 req2     = "Literacy"
-flags    = ""
+flags    = "Watchtower"
 
 [advance_iron_working]
 name     = _("Iron Working")

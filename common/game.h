@@ -138,6 +138,9 @@ struct civ_game {
   int playable_nation_count;
   int styles_count;
 
+  int watchtower_extra_vision;
+  int watchtower_vision;
+
   struct {
     char techs[MAX_LEN_NAME];
     char units[MAX_LEN_NAME];
@@ -400,6 +403,14 @@ extern struct civ_game game;
 #define GAME_DEFAULT_REPUTATION 1000
 #define GAME_MAX_REPUTATION 1000
 #define GAME_REPUTATION_INCR 2
+
+#define GAME_DEFAULT_WATCHTOWER_VISION 2
+#define GAME_MIN_WATCHTOWER_VISION 1
+#define GAME_MAX_WATCHTOWER_VISION 3
+
+#define GAME_DEFAULT_WATCHTOWER_EXTRA_VISION 0
+#define GAME_MIN_WATCHTOWER_EXTRA_VISION 0
+#define GAME_MAX_WATCHTOWER_EXTRA_VISION 2
 
 #define GAME_START_YEAR -4000
 

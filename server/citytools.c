@@ -904,8 +904,20 @@ void create_city(struct player *pplayer, const int x, const int y, char *name)
   city_refresh(pcity);
 
   city_incite_cost(pcity);
+
+  /* Put vision back to normal, if fortress acted as a watchtower */
+  if (player_knows_techs_with_flag(pplayer, TF_WATCHTOWER)
+      && map_get_tile(x, y)->special & S_FORTRESS) {
+    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+      unfog_area(pplayer, punit->x, punit->y,
+		 get_unit_type(punit->type)->vision_range);
+      fog_area(pplayer, punit->x, punit->y, get_watchtower_vision(punit));
+    }
+    unit_list_iterate_end;
+  }
   map_clear_special(x, y, S_FORTRESS);
   send_tile_info(NULL, x, y);
+
   initialize_infrastructure_cache(pcity);
   reset_move_costs(x, y);
 /* I stupidly thought that setting S_ROAD took care of this, but of course

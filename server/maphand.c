@@ -673,14 +673,17 @@ For removing a unit. The actual removal is done in server_remove_unit
 **************************************************************************/
 void remove_unit_sight_points(struct unit *punit)
 {
-  int x = punit->x, y = punit->y, range =
-      get_unit_type(punit->type)->vision_range;
+  int x = punit->x, y = punit->y;
   struct player *pplayer = unit_owner(punit);
 
   freelog(LOG_DEBUG, "Removing unit sight points at  %i,%i", punit->x,
 	  punit->y);
 
-  fog_area(pplayer, x, y, range);
+  if (map_get_special(punit->x, punit->y) & S_FORTRESS
+      && unit_profits_of_watchtower(punit))
+    fog_area(pplayer, x, y, get_watchtower_vision(punit));
+  else
+    fog_area(pplayer, x, y, get_unit_type(punit->type)->vision_range);
 }
 
 /**************************************************************************

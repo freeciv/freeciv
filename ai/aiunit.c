@@ -189,8 +189,14 @@ int ai_manage_explorer(struct unit *punit)
   int id = punit->id; /* we can now die because easy AI may accidently
 			 stumble on huts it fuzzily ignored */
   int best_x = -1, best_y = -1;
-  int range = get_unit_type(punit->type)->vision_range;
   int move_rate = unit_move_rate(punit);
+  int range;
+
+  if (unit_profits_of_watchtower(punit)
+      && map_get_tile(punit->x, punit->y)->special & S_FORTRESS)
+    range =get_watchtower_vision(punit);
+  else
+    range = get_unit_type(punit->type)->vision_range;
 
   if (punit->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(punit, ACTIVITY_IDLE);

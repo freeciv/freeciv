@@ -545,6 +545,27 @@ static struct settings_s settings[] = {
        "  4 = heli\n"
        "  8 = air") },
 
+  { "wtowervision", &game.watchtower_vision, NULL, NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_WATCHTOWER_VISION, GAME_MAX_WATCHTOWER_VISION, GAME_DEFAULT_WATCHTOWER_VISION,
+    N_("Range of vision for units in a fortress"),
+    N_("watchtower vision range: If set to 1, it has no effect.\n"
+       "If 2 or larger, the vision range of a unit inside a fortress is\n"
+       "set to this value, if the necessary invention has been made.\n"
+       "This invention is determined by the flag 'Watchtower' in the\n"
+       "techs ruleset. Also see wtowerevision.") },
+
+  { "wtowerevision", &game.watchtower_extra_vision, NULL, NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    GAME_MIN_WATCHTOWER_EXTRA_VISION, GAME_MAX_WATCHTOWER_EXTRA_VISION, GAME_DEFAULT_WATCHTOWER_EXTRA_VISION,
+    N_("Extra vision range for units in a fortress"),
+    N_("watchtower extra vision range: If set to 0, it has no effect. \n"
+       "If larger than 0, the visionrange of a unit is raised by this value,\n"
+       "if the unit is inside a fortress and the invention determined \n"
+       "by the flag 'Watchtower' in the techs ruleset has been made. \n"
+       "Always the larger value of wtowervision and wtowerevision will \n"
+       "be used. Also see wtowervision.") },
+
 /* Flexible rules: these can be changed after the game has started.
  *
  * The distinction between "rules" and "flexible rules" is not always
