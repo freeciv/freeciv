@@ -14,8 +14,8 @@ city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Dyktator"),     _("Dyktatorka")
                  "Fundamentalism",  _("Prymas"),       _("Prymas")
-                 "Monarchy",        _("Krol"),         _("Krolowa")
-      	"Communism",       _("Pierwszy Sekretarz"),      _("Pierwszy Sekretarz")
+                 "Monarchy",        _("Król"),         _("Królowa")
+      "Communism",       _("Pierwszy Sekretarz"),      _("Pierwszy Sekretarz")
                  "Republic",        _("Prezydent"),    _("Prezydent")
                  "Democracy",       _("Prezydent"),    _("Prezydent")
                }
@@ -30,12 +30,13 @@ wonder="Copernicus' Observatory"
 government="Democracy"
 
 cities =
- "Gniezno", "Krakow", "Warszawa", "Wroclaw", "Poznan", "Gdansk",
- "Szczecin", "Lodz", "Torun", "Bydgoszcz", "Lublin", "Czestochowa",
+ "Gniezno", "Kraków", "Warszawa", "Wroclaw", "Poznan", "Gdansk",
+ "Szczecin", "Lódz", "Torun", "Bydgoszcz", "Lublin", "Czestochowa",
  "Olsztyn", "Wloclawek", "Radom", "Kolobrzeg", "Kielce", "Bialystok",
- "Plock", "Rzeszow", "Tarnow", "Katowice", "Bielsko-Biala",
+ "Plock", "Rzeszów", "Tarnów", "Katowice", "Bielsko-Biala",
  "Sandomierz", "Legnica", "Walbrzych", "Gdynia", "Koszalin",
- "Slupsk", "Piotrkow", "Konin", "Kalisz", "Krosno", "Przemysl",
+ "Slupsk", "Piotrków", "Konin", "Kalisz", "Krosno", "Przemysl",
  "Tarnobrzeg", "Zamosc", "Chelm", "Suwalki", "Elblag", "Zakopane",
  "Oswiecim", "Glogow", "Jawor", "Zielona Gora", "Jelenia Gora",
  "Boleslawiec", "Gorzow", "Hel", "Puck","Opole", "Kolo"
+
