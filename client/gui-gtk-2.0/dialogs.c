@@ -2349,34 +2349,3 @@ gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
   send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
   return TRUE;
 }
-
-
-/**************************************************************************
-...
-**************************************************************************/
-static void nuke_children(gpointer data, gpointer user_data)
-{
-  if (data != user_data) {
-    if (GTK_IS_WINDOW(data) && GTK_WINDOW(data)->type == GTK_WINDOW_TOPLEVEL) {
-      gtk_widget_destroy(data);
-    }
-  }
-}
-
-/********************************************************************** 
-  This function is called when the client disconnects or the game is
-  over.  It should close all dialog windows for that game.
-***********************************************************************/
-void popdown_all_game_dialogs(void)
-{
-  GList *res;
-
-  res = gtk_window_list_toplevels();
-
-  g_list_foreach(res, (GFunc)g_object_ref, NULL);
-  g_list_foreach(res, nuke_children, toplevel);
-  g_list_foreach(res, (GFunc)g_object_unref, NULL);
-
-  g_list_free(res);
-}
-
