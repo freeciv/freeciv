@@ -14,6 +14,7 @@ artists = "
     Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal)
     Robert Brady <rwb197@ecs.soton.ac.uk> (England... Krevi)
     Tomasz Wegrzanowski <maniek@beer.com> (more flags added)
+    Paul Zastoupil <paulz@adnc.com> (Dunedain, Mordor)
 "
 
 [file]
@@ -95,4 +96,5 @@ tiles = { "row", "column", "tag"
   4,  8, "f.armenia"
   4,  9, "f.azerbaijan"
   4, 10, "f.boer"         ; old south african
+  4, 11, "f.mordor"
 }

@@ -1591,6 +1591,38 @@ cities =
   "Laem Chabang", "Kanchanaburi", "Surat Thani", "Thammarat", "Phuket"
 
 
+[nation_mordor]
+
+name=_("Mordor")
+plural=_("?plural:Mordors")
+leader="Sauron", "Angmar", "Gorthaur"
+leader_sex="Male", "Male", "Male"
+flag = "f.mordor"
+flag_alt = "-"
+city_style = "Classical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Overlord"),     _("Overlord")
+                 "Monarchy",        _("Dark Lord"),    _("Dark Lord")
+}
+
+attack=0
+expand=2
+civilized=2
+advisors=100,100,100,100,100,100,100
+tech_goals = "Monarchy", "Bronze Working", "Iron Working", "Construction"
+wonder="Sun Tzu's War Academy"
+government="Monarchy"
+
+cities =
+  "Barad-Dûr", "Durthang", "Orodruin", "Morannon", "Dol Guldur",
+  "Minas Morgul", "Cirith Ungol", "Moria", "Angmar", "Gorgoroth",
+  "Morgai", "Nurn", "Khand", "Rhûn", "Harad", "Dagorlad", "Ephel Dúath",
+  "Ered Lithui", "Emyn Muil", "Núrnen", "Poros", "Harnen", "Lugbúrz",
+  "Angband", "Carn Dûm", "Utumno", "Amon Amarth", "Uruk-hai", "Olog-hai",
+  "Azog", "Bolg", "Gorbag", "Shagrat", "Grishnákh", "Glamhoth"
+
+
 ;[nation_olympic]
 ;
 ;name=_("Olympic")
@@ -1664,7 +1696,7 @@ tech_goals = "Warrior Code"
 wonder = "Apollo Program"
 government = "Despotism"
 
-cities = "Mordor"
+cities = "Nowhere"
 
 ; nothing more needed for barbarians
 
