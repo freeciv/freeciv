@@ -114,28 +114,40 @@
  * we let any map data type to be empty, and just print an
  * informative warning message about it. */
 
-#define LOAD_MAP_DATA(secfile_lookup_line, set_xy_char)         \
-{                                                               \
-  int y;                                                        \
-  for (y = 0; y < map.ysize; y++) {                             \
-    char *line = secfile_lookup_line;                           \
-    int x;                                                      \
-    if (!line || strlen(line) != map.xsize) {                   \
-      freelog(LOG_ERROR, _("The save file contains incomplete " \
-              "map data.  This can happen with old saved "      \
-              "games, or it may indicate an invalid saved "     \
-              "game file.  Proceed at your own risk."));        \
-      continue;                                                 \
-    }                                                           \
-    for(x = 0; x < map.xsize; x++) {                            \
-      char ch = line[x];                                        \
-      if (regular_map_pos_is_normal(x, y)) {                    \
-	set_xy_char;                                            \
-      } else {                                                  \
-	assert(ch == '#');                                      \
-      }                                                         \
-    }                                                           \
-  }                                                             \
+#define LOAD_MAP_DATA(secfile_lookup_line, set_xy_char)                       \
+{                                                                             \
+  int y;                                                                      \
+  bool warning_printed = FALSE;                                               \
+  for (y = 0; y < map.ysize; y++) {                                           \
+    char *line = secfile_lookup_line;                                         \
+    int x;                                                                    \
+    if (!line || strlen(line) != map.xsize) {                                 \
+      if(!warning_printed) {                                                  \
+        freelog(LOG_ERROR, _("The save file contains incomplete "             \
+                "map data.  This can happen with old saved "                  \
+                "games, or it may indicate an invalid saved "                 \
+                "game file.  Proceed at your own risk."));                    \
+        if(!line) {                                                           \
+          freelog(LOG_ERROR, _("Reason: line not found"));                    \
+        } else {                                                              \
+          freelog(LOG_ERROR, _("Reason: line too short "                      \
+                  "(expected %d got %d"), map.xsize, strlen(line));           \
+        }                                                                     \
+        freelog(LOG_ERROR, "secfile_lookup_line='%s'",                        \
+                #secfile_lookup_line);                                        \
+        warning_printed = TRUE;                                               \
+      }                                                                       \
+      continue;                                                               \
+    }                                                                         \
+    for(x = 0; x < map.xsize; x++) {                                          \
+      char ch = line[x];                                                      \
+      if (regular_map_pos_is_normal(x, y)) {                                  \
+        set_xy_char;                                                          \
+      } else {                                                                \
+        assert(ch == '#');                                                    \
+      }                                                                       \
+    }                                                                         \
+  }                                                                           \
 }
 
 /* The following should be removed when compatibility with
