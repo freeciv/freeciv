@@ -134,9 +134,9 @@ Here's what to do:
          (if you know them) of your Gtk+, glib, and imlib libraries.
 
        - If you are using the Xaw client, the version numbers (if you
-         know them) of the X libraries, the Xpm library, and the Xaw
-         library, and particularly whether it is standard Xaw, or a
-         variant such as Xaw3d, Xaw95, or Nextaw.
+         know them) of the X libraries, the PNG library, the Z library,
+         and the Xaw library, and particularly whether it is standard
+         Xaw, or a variant such as Xaw3d, Xaw95, or Nextaw.
 
        - If you're compiling from source code, the name
          and version number of the compiler.

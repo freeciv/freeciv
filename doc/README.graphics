@@ -57,11 +57,11 @@ reloaded later as necessary.
 Individual spec files:
 ----------------------
 
-Each spec file describes one graphics file (currently xpm format only)
-as specified in the spec file.  The graphics file must be in the
-Freeciv data path, but not necessarily "near" the spec file.  (Thus
-you could have multiple spec files using a single graphics file in
-different ways.)
+Each spec file describes one graphics file (PNG format is standard,
+although some clients may accept other formats as well) as specified in
+the spec file.  The graphics file must be in the Freeciv data path, but
+not necessarily in the same location as the spec file.  Note you can have
+multiple spec files using a single graphics file in different ways.
 
 The main data described in the spec file is in sections named
 [grid_*], where * is some arbitrary tag (but unique within each file).
