@@ -350,7 +350,14 @@ void disband_all_units(Unit_Type_id type, bool in_cities_only,
   int count = 0;
 
   if (!can_client_issue_orders()) {
+    /* TRANS: Obscure observer error. */
     my_snprintf(message, message_sz, _("You cannot disband units."));
+    return;
+  }
+
+  if (unit_type_flag(type, F_UNDISBANDABLE)) {
+    my_snprintf(message, message_sz, _("%s cannot be disbanded."),
+		unit_name(type));
     return;
   }
 
