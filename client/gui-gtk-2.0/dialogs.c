@@ -244,7 +244,7 @@ void popup_notify_goto_dialog(char *headline, char *lines, int x, int y)
         GTK_RESPONSE_CLOSE,
         NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
-  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
 
   label = gtk_label_new(lines);
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), label);
