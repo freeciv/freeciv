@@ -26,6 +26,11 @@
 
 struct Sprite;			/* opaque; gui-dep */
 
+/* Create the sprite_vector type. */
+#define SPECVEC_TAG sprite
+#define SPECVEC_TYPE struct Sprite *
+#include "specvec.h"
+
 /* An edge is the border between two tiles.  This structure represents one
  * edge.  The tiles are given in the same order as the enumeration name. */
 enum edge_type {
@@ -89,6 +94,8 @@ enum mapview_layer {
   }									    \
 }
 
+#define NUM_TILES_PROGRESS 8
+
 struct tileset;
 
 extern struct tileset *tileset;
@@ -134,64 +141,6 @@ struct unit *get_drawable_unit(struct tile *ptile,
 			       const struct city *citymode);
 
 
-/* This the way directional indices are now encoded: */
-#define MAX_INDEX_CARDINAL 		64
-#define MAX_INDEX_HALF                  16
-#define MAX_INDEX_VALID			256
-
-#define NUM_TILES_PROGRESS 8
-#define NUM_TILES_CITIZEN CITIZEN_LAST
-#define NUM_TILES_HP_BAR 11
-#define NUM_TILES_DIGITS 10
-#define NUM_TILES_SELECT 4
-#define MAX_NUM_CITIZEN_SPRITES 6
-
-/* This could be moved to common/map.h if there's more use for it. */
-enum direction4 {
-  DIR4_NORTH = 0, DIR4_SOUTH, DIR4_EAST, DIR4_WEST
-};
-
-enum match_style {
-  MATCH_NONE, MATCH_BOOLEAN, MATCH_FULL
-};
-
-enum cell_type {
-  CELL_SINGLE, CELL_RECT
-};
-
-#define MAX_NUM_LAYERS 2
-
-/* Create the sprite_vector type. */
-#define SPECVEC_TAG sprite
-#define SPECVEC_TYPE struct Sprite *
-#include "specvec.h"
-
-struct terrain_drawing_data {
-  char *name;
-  char *mine_tag;
-
-  int num_layers; /* Can only be 1 or 2. */
-  struct {
-    bool is_tall;
-    int offset_x, offset_y;
-
-    enum match_style match_style;
-    int match_type, match_count;
-
-    enum cell_type cell_type;
-
-    struct sprite_vector base;
-    struct Sprite *match[MAX_INDEX_CARDINAL];
-    struct Sprite **cells;
-  } layer[MAX_NUM_LAYERS];
-
-  bool is_blended;
-  struct Sprite *blend[4]; /* indexed by a direction4 */
-
-  struct Sprite *special[2];
-  struct Sprite *mine;
-};
-
 enum cursor_type {
   CURSOR_GOTO,
   CURSOR_PATROL,
@@ -222,149 +171,6 @@ enum spaceship_part {
   SPACESHIP_PROPULSION,
   SPACESHIP_COUNT
 };
-
-struct named_sprites {
-  struct Sprite
-    *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
-    *treaty_thumb[2],     /* 0=disagree, 1=agree */
-    *right_arrow,
-
-    *icon[ICON_COUNT],
-
-    /* The panel sprites for showing tax % allocations. */
-    *tax_luxury, *tax_science, *tax_gold,
-    *dither_tile;     /* only used for isometric view */
-
-  struct {
-    struct Sprite
-      *tile,
-      *worked_tile,
-      *unworked_tile;
-  } mask;
-
-  struct citizen_graphic {
-    /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
-     * sprites, as defined by the tileset. */
-    int count;
-    struct Sprite *sprite[MAX_NUM_CITIZEN_SPRITES];
-  } citizen[NUM_TILES_CITIZEN], specialist[SP_MAX];
-  struct Sprite *spaceship[SPACESHIP_COUNT];
-  struct {
-    int hot_x, hot_y;
-    struct Sprite *icon;
-  } cursor[CURSOR_LAST];
-  struct {
-    struct Sprite
-      /* for roadstyle 0 */
-      *dir[8],     /* all entries used */
-      /* for roadstyle 1 */
-      *even[MAX_INDEX_HALF],    /* first unused */
-      *odd[MAX_INDEX_HALF],     /* first unused */
-      /* for roadstyle 0 and 1 */
-      *isolated,
-      *corner[8], /* Indexed by direction; only non-cardinal dirs used. */
-      *total[MAX_INDEX_VALID];     /* includes all possibilities */
-  } road, rail;
-  struct {
-    struct sprite_vector unit;
-    struct Sprite *nuke;
-  } explode;
-  struct {
-    struct Sprite
-      *hp_bar[NUM_TILES_HP_BAR],
-      *vet_lev[MAX_VET_LEVELS],
-      *select[NUM_TILES_SELECT],
-      *auto_attack,
-      *auto_settler,
-      *auto_explore,
-      *fallout,
-      *fortified,
-      *fortifying,
-      *fortress,
-      *airbase,
-      *go_to,			/* goto is a C keyword :-) */
-      *irrigate,
-      *mine,
-      *pillage,
-      *pollution,
-      *road,
-      *sentry,
-      *stack,
-      *loaded,
-      *transform,
-      *connect,
-      *patrol,
-      *lowfuel,
-      *tired;
-  } unit;
-  struct {
-    struct Sprite
-      *unhappy[2],
-      *output[O_MAX][2];
-  } upkeep;
-  struct {
-    struct Sprite
-      *occupied,
-      *disorder,
-      *size[NUM_TILES_DIGITS],
-      *size_tens[NUM_TILES_DIGITS],		/* first unused */
-      *tile_foodnum[NUM_TILES_DIGITS],
-      *tile_shieldnum[NUM_TILES_DIGITS],
-      *tile_tradenum[NUM_TILES_DIGITS],
-      ***tile_wall,      /* only used for isometric view */
-      ***tile;
-    struct sprite_vector worked_tile_overlay;
-    struct sprite_vector unworked_tile_overlay;
-  } city;
-  struct {
-    struct Sprite
-      *turns[NUM_TILES_DIGITS],
-      *turns_tens[NUM_TILES_DIGITS];
-  } path;
-  struct {
-    struct Sprite *attention;
-  } user;
-  struct {
-    struct Sprite
-      *farmland[MAX_INDEX_CARDINAL],
-      *irrigation[MAX_INDEX_CARDINAL],
-      *pollution,
-      *village,
-      *fortress,
-      *fortress_back,
-      *airbase,
-      *fallout,
-      *fog,
-      **fullfog,
-      *spec_river[MAX_INDEX_CARDINAL],
-      *darkness[MAX_INDEX_CARDINAL],         /* first unused */
-      *river_outlet[4];		/* indexed by enum direction4 */
-  } tx;				/* terrain extra */
-  struct {
-    struct Sprite
-      *main[EDGE_COUNT],
-      *city[EDGE_COUNT],
-      *worked[EDGE_COUNT],
-      *unavailable,
-      *selected[EDGE_COUNT],
-      *coastline[EDGE_COUNT],
-      *borders[EDGE_COUNT][2],
-      *player_borders[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS][EDGE_COUNT][2];
-  } grid;
-  struct {
-    struct Sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-    struct Sprite *background; /* Generic background */
-  } backgrounds;
-  struct {
-    struct sprite_vector overlays;
-    struct Sprite *background; /* Generic background color */
-    struct Sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-  } colors;
-
-  struct terrain_drawing_data *terrain[MAX_NUM_TERRAINS];
-};
-
-extern struct named_sprites sprites;
 
 struct Sprite *get_spaceship_sprite(struct tileset *t,
 				    enum spaceship_part part);
