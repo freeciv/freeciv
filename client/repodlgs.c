@@ -181,7 +181,7 @@ static char *cr_entry_building(struct city *pcity)
 
 struct city_report_spec {
   int show;			/* modify this to customize */
-  int width;			/* -1 means variable; rightmost only */
+  int width;			/* 0 means variable; rightmost only */
   int space;			/* number of leading spaces (see below) */
   char *title1;
   char *title2;
@@ -204,11 +204,11 @@ struct city_report_spec {
 */
 
 static struct city_report_spec city_report_specs[] = {
-  { 1, 15, 0, "",  "Name",            "City Name",
+  { 1,-15, 0, "",  "Name",            "City Name",
                                       FUNC_TAG(cityname) },
   { 0,  2, 1, "",  "Sz",              "Size",
                                       FUNC_TAG(size) },
-  { 1,  8, 1, "",  "State",           "Rapture/Peace/Disorder",
+  { 1, -8, 1, "",  "State",           "Rapture/Peace/Disorder",
                                       FUNC_TAG(hstate_verbose) },
   { 0,  1, 1, "",  "",                "Concise *=Rapture, X=Disorder",
                                       FUNC_TAG(hstate_concise) },
@@ -226,7 +226,7 @@ static struct city_report_spec city_report_specs[] = {
                                       FUNC_TAG(food) },
   { 0,  3, 1, "", "Pol",              "Pollution",
                                       FUNC_TAG(pollution) },
-  { 1, -1, 1, "Currently Building",   "(Stock,Target,Buy Cost)",
+  { 1,  0, 1, "Currently Building",   "(Stock,Target,Buy Cost)",
                                       "Currently Building",
                                       FUNC_TAG(building) }
 };
@@ -415,18 +415,13 @@ static void get_city_text(struct city *pcity, char *text)
 
   text[0] = '\0';		/* init for strlen */
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
-    if(spec->show) {
-      if(spec->space>0) {
-	sprintf(text+strlen(text), "%*s", spec->space, " ");
-      }
-      if(spec->width>0) {
-	sprintf(text+strlen(text), "%-*s",
-		spec->width, (spec->func)(pcity));
-      } else {
-	sprintf(text+strlen(text), "%s",
-		(spec->func)(pcity));
-      }
-    }
+    if(!spec->show) continue;
+
+    if(spec->space>0)
+      sprintf(text+strlen(text), "%*s", spec->space, " ");
+
+    sprintf(text+strlen(text), "%*s",
+	    spec->width, (spec->func)(pcity));
   }
 }
 
@@ -442,18 +437,13 @@ static char *get_city_table_header(void)
   text[0] = '\0';		/* init for strlen */
   for(j=0; j<=1; j++) {
     for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
-      if(spec->show) {
-	if(spec->space>0) {
-	  sprintf(text+strlen(text), "%*s", spec->space, " ");
-	}
-	if(spec->width>0) {
-	  sprintf(text+strlen(text), "%-*s", spec->width,
-		  (j==0?spec->title1:spec->title2));
-	} else {
-	  sprintf(text+strlen(text), "%s", 
-		  (j==0?spec->title1:spec->title2));
-	}
-      }
+      if(!spec->show) continue;
+
+      if(spec->space>0)
+	sprintf(text+strlen(text), "%*s", spec->space, " ");
+
+      sprintf(text+strlen(text), "%*s", spec->width,
+	      (j?spec->title2:spec->title1));
     }
     if (j==0) strcat(text, "\n");
   }
