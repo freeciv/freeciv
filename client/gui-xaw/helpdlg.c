@@ -65,9 +65,7 @@ static Widget help_title;
 static Widget help_improvement_cost, help_improvement_cost_data;
 static Widget help_improvement_upkeep, help_improvement_upkeep_data;
 static Widget help_improvement_req, help_improvement_req_data;
-static Widget help_improvement_variant, help_improvement_variant_data;
 static Widget help_wonder_obsolete, help_wonder_obsolete_data;
-static Widget help_wonder_variant, help_wonder_variant_data;
 
 static Widget help_tech_tree;
 static Widget help_tree_viewport;
@@ -407,18 +405,7 @@ static void create_help_page(enum help_page_type type)
 				labelWidgetClass, 
 				help_right_form,
 				NULL);
-      help_improvement_variant =
-	I_L(XtVaCreateManagedWidget("helpimprvariant", 
-				    labelWidgetClass, 
-				    help_right_form,
-				    NULL));
-      help_improvement_variant_data =
-	XtVaCreateManagedWidget("helpimprvariantdata",
-				labelWidgetClass, 
-				help_right_form,
-				NULL);
-    }
-    else {
+    } else {
       help_wonder_obsolete =
 	I_L(XtVaCreateManagedWidget("helpwonderobsolete", 
 				    labelWidgetClass, 
@@ -426,16 +413,6 @@ static void create_help_page(enum help_page_type type)
 				    NULL));
       help_wonder_obsolete_data =
 	XtVaCreateManagedWidget("helpwonderobsoletedata", 
-				labelWidgetClass, 
-				help_right_form,
-				NULL);
-      help_wonder_variant =
-	I_L(XtVaCreateManagedWidget("helpwondervariant", 
-				    labelWidgetClass, 
-				    help_right_form,
-				    NULL));
-      help_wonder_variant_data =
-	XtVaCreateManagedWidget("helpwondervariantdata",
 				labelWidgetClass, 
 				help_right_form,
 				NULL);
@@ -776,8 +753,6 @@ static void help_update_improvement(const struct help_item *pitem,
     xaw_set_label(help_improvement_cost_data, buf);
     sprintf(buf, "%d ", imp->upkeep);
     xaw_set_label(help_improvement_upkeep_data, buf);
-    sprintf(buf, "%d ", imp->variant);
-    xaw_set_label(help_improvement_variant_data, buf);
     if (imp->tech_req == A_LAST) {
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
@@ -789,7 +764,6 @@ static void help_update_improvement(const struct help_item *pitem,
   else {
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_improvement_upkeep_data, "0 ");
-    xaw_set_label(help_improvement_variant_data,"0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
     create_tech_tree(help_tech_tree, 0, A_LAST, 3);
   }
@@ -812,8 +786,6 @@ static void help_update_wonder(const struct help_item *pitem,
     struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d ", impr_build_shield_cost(which));
     xaw_set_label(help_improvement_cost_data, buf);
-    sprintf(buf, "%d ", imp->variant);
-    xaw_set_label(help_wonder_variant_data, buf);
     if (imp->tech_req == A_LAST) {
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
@@ -831,7 +803,6 @@ static void help_update_wonder(const struct help_item *pitem,
   else {
     /* can't find wonder */
     xaw_set_label(help_improvement_cost_data, "0 ");
-    xaw_set_label(help_wonder_variant_data, "0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
     xaw_set_label(help_wonder_obsolete_data, _("None"));
     create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3); 
