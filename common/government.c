@@ -88,11 +88,11 @@ enum government_flag_id government_flag_from_str(const char *s)
 /***************************************************************
 ...
 ***************************************************************/
-int government_has_flag(const struct government *gov,
+bool government_has_flag(const struct government *gov,
 			enum government_flag_id flag)
 {
   assert(flag>=G_FIRST_FLAG && flag<G_LAST_FLAG);
-  return gov->flags & (1<<flag);
+  return TEST_BIT(gov->flags, flag);
 }
 
 /***************************************************************
@@ -116,11 +116,11 @@ enum government_hint_id government_hint_from_str(const char *s)
 /***************************************************************
 ...
 ***************************************************************/
-int government_has_hint(const struct government *gov,
+bool government_has_hint(const struct government *gov,
 			enum government_hint_id hint)
 {
   assert(hint>=G_FIRST_HINT && hint<G_LAST_HINT);
-  return gov->hints & (1<<hint);
+  return TEST_BIT(gov->hints, hint);
 }
 
 /***************************************************************

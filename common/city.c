@@ -2277,5 +2277,5 @@ void get_worker_on_map_position(int map_x, int map_y, enum city_tile_type
 **************************************************************************/
 bool is_city_option_set(struct city *pcity, enum city_options option)
 {
-  return (pcity->city_options & (1u << option)) != 0;
+  return TEST_BIT(pcity->city_options, option);
 }

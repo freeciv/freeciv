@@ -1319,7 +1319,7 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
     iget_uint8(piter, &data);
     for(b=0; b<8 && i<npack; b++,i++) {
       if (i < navail) {
-	if(data&(1<<b)) str[i]='1'; else str[i]='0';
+	if(TEST_BIT(data, b)) str[i]='1'; else str[i]='0';
       }
     }
   }
@@ -1955,16 +1955,14 @@ int send_packet_conn_info(struct connection *pc,
 			  const struct packet_conn_info *pinfo)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  int data;
  
   cptr=put_uint8(buffer+2, PACKET_CONN_INFO);
   
   cptr=put_uint32(cptr, pinfo->id);
   
-  data = pinfo->used ? 1 : 0;
-  data |= pinfo->established ? 2 : 0;
-  data |= pinfo->observer ? 4 : 0;
-  cptr=put_uint8(cptr, data);
+  cptr = put_uint8(cptr, (COND_SET_BIT(pinfo->used, 0) |
+			  COND_SET_BIT(pinfo->established, 1) |
+			  COND_SET_BIT(pinfo->observer, 2)));
   
   cptr=put_uint8(cptr, pinfo->player_num);
   cptr=put_uint8(cptr, pinfo->access_level);
@@ -2384,14 +2382,13 @@ int send_packet_city_info(struct connection *pc,
 
   cptr = put_worklist(pc, cptr, &req->worklist, TRUE);
 
-  data=req->is_building_unit?1:0;
-  data|=req->did_buy?2:0;
-  data|=req->did_sell?4:0;
-  data|=req->was_happy?8:0;
-  data|=req->airlift?16:0;
-  data|=req->diplomat_investigate?32:0; /* gentler implementation -- Syela */
-  data|=req->changed_from_is_unit?64:0;
-  cptr=put_uint8(cptr, data);
+  cptr = put_uint8(cptr, (COND_SET_BIT(req->is_building_unit, 0) |
+			  COND_SET_BIT(req->did_buy, 1) |
+			  COND_SET_BIT(req->did_sell, 2) |
+			  COND_SET_BIT(req->was_happy, 3) |
+			  COND_SET_BIT(req->airlift, 4) |
+			  COND_SET_BIT(req->diplomat_investigate, 5) |
+			  COND_SET_BIT(req->changed_from_is_unit, 6)));
 
   cptr=put_city_map(cptr, (char*)req->city_map);
   cptr=put_bit_string(cptr, (char*)req->improvements);
@@ -2513,7 +2510,6 @@ int send_packet_short_city(struct connection *pc,
                            const struct packet_short_city *req)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  int i;
 
   cptr=put_uint8(buffer+2, PACKET_SHORT_CITY);
   cptr=put_uint16(cptr, req->id);
@@ -2524,8 +2520,9 @@ int send_packet_short_city(struct connection *pc,
   
   cptr=put_uint8(cptr, req->size);
 
-  i = (req->happy?1:0) | (req->capital?2:0) | (req->walls?4:0);
-  cptr=put_uint8(cptr, i);
+  cptr = put_uint8(cptr, (COND_SET_BIT(req->happy, 0) |
+			  COND_SET_BIT(req->capital, 1) |
+			  COND_SET_BIT(req->walls, 2)));
 
   if (has_capability("short_city_tile_trade", pc->capability)) {
     cptr = put_uint16(cptr, req->tile_trade);
