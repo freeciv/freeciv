@@ -1758,27 +1758,17 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   struct city *pcity = pdialog->pcity;
   int max_shield, shield;
 
-  set(pdialog->buy_button, MUIA_Disabled, pcity->did_buy);
+  set(pdialog->buy_button, MUIA_Disabled, city_can_buy(pcity));
   set(pdialog->sell_button, MUIA_Disabled, pcity->did_sell || pdialog->sell_wnd);
 
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
+  shield = pcity->shield_stock;
   if (pcity->is_building_unit) {
-    shield = pcity->shield_stock;
     max_shield = unit_build_shield_cost(pcity->currently_building);
     descr = get_unit_type(pcity->currently_building)->name;
   } else {
-    if (pcity->currently_building == B_CAPITAL) {
-      /* You can't buy Capitalization */
-      set(pdialog->buy_button, MUIA_Disabled, TRUE);
-
-      shield = 0;
-      max_shield = 1;
-    } else {
-      shield = pcity->shield_stock;
-      max_shield =
-	  impr_build_shield_cost(pcity->currently_building);
-    }
+    max_shield = impr_build_shield_cost(pcity->currently_building);
     descr = get_impr_name_ex(pcity, pcity->currently_building);
   }
 

@@ -476,7 +476,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   const char *descr;
   struct city *pcity=pdialog->pcity;    
   
-  EnableWindow(pdialog->buy_but,!pcity->did_buy);
+  EnableWindow(pdialog->buy_but, city_can_buy(pcity));
   EnableWindow(pdialog->sell_but, !pcity->did_sell);
 
   get_city_dialog_production(pcity, buf, sizeof(buf));
@@ -484,10 +484,6 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   if (pcity->is_building_unit) {
     descr = get_unit_type(pcity->currently_building)->name;
   } else {
-    if (pcity->currently_building == B_CAPITAL) {
-      /* You can't buy Capitalization. */
-      EnableWindow(pdialog->buy_but, FALSE);
-    }
     descr = get_impr_name_ex(pcity, pcity->currently_building);
   }
 

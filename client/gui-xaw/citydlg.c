@@ -1476,10 +1476,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   char buf[32];
   struct city *pcity=pdialog->pcity;
 
-  if (pcity->currently_building==B_CAPITAL)
-    XtSetSensitive(pdialog->buy_command, False);
-  else
-    XtSetSensitive(pdialog->buy_command, !pcity->did_buy);
+  XtSetSensitive(pdialog->buy_command, city_can_buy(pcity));
   XtSetSensitive(pdialog->sell_command, !pcity->did_sell);
 
   xaw_set_label(pdialog->building_label,

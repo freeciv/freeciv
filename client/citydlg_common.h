@@ -64,6 +64,7 @@ int city_change_production(struct city *pcity, bool is_unit, int build_id);
 int city_set_worklist(struct city *pcity, struct worklist *pworklist);
 void city_get_queue(struct city *pcity, struct worklist *pqueue);
 void city_set_queue(struct city *pcity, struct worklist *pqueue);
+bool city_can_buy(const struct city *pcity);
 int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id);
 int city_buy_production(struct city *pcity);
 int city_change_specialist(struct city *pcity, enum specialist_type from,

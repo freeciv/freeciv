@@ -1786,7 +1786,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   int cost;
 
   gtk_widget_set_sensitive(pdialog->overview.buy_command,
-			   can_client_issue_orders() && !pcity->did_buy);
+			   city_can_buy(pcity));
   gtk_widget_set_sensitive(pdialog->overview.sell_command,
 			   can_client_issue_orders() && !pcity->did_sell);
 			
@@ -1796,13 +1796,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     cost = unit_build_shield_cost(pcity->currently_building);
     descr = get_unit_type(pcity->currently_building)->name;
   } else {
-    if (pcity->currently_building == B_CAPITAL) {
-      /* You can't buy capitalization */
-      gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
-      cost = 0;
-    } else {
-      cost = impr_build_shield_cost(pcity->currently_building);;
-    }
+    cost = impr_build_shield_cost(pcity->currently_building);;
     descr = get_impr_name_ex(pcity, pcity->currently_building);
   }
 

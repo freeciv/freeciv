@@ -26,6 +26,7 @@
 #include "mapview_g.h"
 
 #include "citydlg_common.h"
+#include "civclient.h"		/* for can_client_issue_orders() */
 #include "climap.h"
 #include "clinet.h"
 #include "control.h"
@@ -541,6 +542,16 @@ void city_set_queue(struct city *pcity, struct worklist *pqueue)
       city_set_worklist(pcity, &copy);
     }
   }
+}
+
+/**************************************************************************
+  Return TRUE iff the city can buy.
+**************************************************************************/
+bool city_can_buy(const struct city *pcity)
+{
+  return (can_client_issue_orders()
+	  && !pcity->did_buy
+	  && city_buy_cost(pcity) > 0);
 }
 
 /**************************************************************************
