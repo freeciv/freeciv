@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.18\n"
-"POT-Creation-Date: 2001-10-28 20:20+0100\n"
-"PO-Revision-Date: 2001-10-28 21:01GMT+1\n"
+"Project-Id-Version: 0.19\n"
+"POT-Creation-Date: 2001-10-30 18:43+0100\n"
+"PO-Revision-Date: 2001-10-30 19:38GMT+1\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgstr "?föråldrat:å"
 #: client/gui-mui/citydlg.c:527 client/gui-mui/worklistclass.c:107
 #: client/gui-win32/citydlg.c:1242 common/city.c:1402
 msgid "Wonder"
-msgstr "Under"
+msgstr "Världsunder"
 
 #: client/gui-mui/citydlg.c:529 client/gui-mui/worklistclass.c:104
 #: client/gui-win32/citydlg.c:1243 common/city.c:1404
@@ -124,7 +124,7 @@ msgstr "Järnväg"
 msgid "Mine"
 msgstr "Gruva"
 
-#: client/cityrepdata.c:220 client/options.c:120 common/map.c:59
+#: client/cityrepdata.c:220 client/options.c:122 common/map.c:59
 #: common/unit.c:521 server/report.c:896
 msgid "Pollution"
 msgstr "Förorening"
@@ -345,7 +345,7 @@ msgstr "Förändra"
 msgid "Patrol"
 msgstr "Vaktrunda"
 
-#: client/gui-gtk/citydlg.c:2289 client/gui-mui/citydlg.c:714
+#: client/gui-gtk/citydlg.c:2293 client/gui-mui/citydlg.c:714
 #: client/gui-win32/citydlg.c:1368 client/gui-xaw/citydlg.c:1468
 #: common/unit.c:537
 msgid "Unknown"
@@ -470,12 +470,22 @@ msgstr "Spel: %s har övergivits. Medborgarna lämnar staden som %s."
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Spel: %s säljer %s (som ej behövs) för %d."
 
-#: server/barbarian.c:396
+#: server/autoattack.c:132
+#, c-format
+msgid "Game: Auto-Attack: %s's %s found a too tough enemy (%s)"
+msgstr "Spel: Självständigt angrepp: %ss %s hittade en för stark fiende (%s)"
+
+#: server/autoattack.c:162
+#, c-format
+msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
+msgstr "Spel: Självständigt angrepp: %ss %s angriper %ss %s"
+
+#: server/barbarian.c:398
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Infödingsuppror nära %s lett av %s."
 
-#: server/barbarian.c:400
+#: server/barbarian.c:402
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "Sjörövare siktade nära %s!"
@@ -565,14 +575,16 @@ msgstr "Spel: Ändrade hemstad för %s till %s."
 #: server/citytools.c:1016
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr "Spel: Flyttar ut %s ur den upplösta staden %s för att undvika strandning."
+msgstr ""
+"Spel: Flyttar ut %s ur den upplösta staden %s för att undvika strandning."
 
 #: server/citytools.c:1027
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
 "stranded."
-msgstr "Spel: När %s upplöstes kunde inte vår %s komma ut och strandade därför."
+msgstr ""
+"Spel: När %s upplöstes kunde inte vår %s komma ut och strandade därför."
 
 #: server/citytools.c:1123
 #, c-format
@@ -626,7 +638,8 @@ msgstr "Spel: %s säljer %s (föråldrad) för %d."
 #: server/cityturn.c:331
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
-msgstr "Spel: Påpekande: Världsundret %s i %s kommer att färdigställas nästa omgång."
+msgstr ""
+"Spel: Påpekande: Världsundret %s i %s kommer att färdigställas nästa omgång."
 
 #: server/cityturn.c:363
 #, c-format
@@ -706,7 +719,8 @@ msgstr ""
 
 #: server/cityturn.c:744
 #, c-format
-msgid "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
+msgid ""
+"Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
 "Spel: %s kan inte bygga %s från arbetslistan; Anledning okänd!  Skjuter "
 "upp..."
@@ -794,12 +808,14 @@ msgstr "Spel: Friden är återställd i %s."
 #: server/cityturn.c:1308
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
-msgstr "Spel: Medborgarna har störtat vår regering (%s). Vårt land är i vild ofrid."
+msgstr ""
+"Spel: Medborgarna har störtat vår regering (%s). Vårt land är i vild ofrid."
 
 #: server/cityturn.c:1333
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
-msgstr "Spel: %s kan inte färdigställa %s än. Vi kan inte överge vår enda stad."
+msgstr ""
+"Spel: %s kan inte färdigställa %s än. Vi kan inte överge vår enda stad."
 
 #: server/cityturn.c:1350
 #, c-format
@@ -843,7 +859,8 @@ msgstr "  -h , --help\t\tSkriv en sammanfattning av valmöjligheterna\n"
 
 #: server/civserver.c:126
 msgid "  -r, --read FILE\tRead startup script FILE\n"
-msgstr "  -r, --read FIL\tLäs FIL innehållande skript vid programkörningens början\n"
+msgstr ""
+"  -r, --read FIL\tLäs FIL innehållande skript vid programkörningens början\n"
 
 #: server/civserver.c:127
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
@@ -878,7 +895,8 @@ msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr "  -q, --quitidle TID\tAvsluta om inga spelare på TID sekunder\n"
 
 #: client/civclient.c:121 server/civserver.c:136
-msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
+msgid ""
+"  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUMMER\tSätt avlusningsloggningsläget (0 till 4, eller 4:file1,"
 "min,max:...)\n"
@@ -916,7 +934,8 @@ msgstr "Spel: Vi har inte teknologin %s, så vi kan inte godkänna avtalet."
 
 #: server/diplhand.c:156
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr "Staden som vi försöker ge finns inte längre, så vi kan inte godkänna avtalet."
+msgstr ""
+"Staden som vi försöker ge finns inte längre, så vi kan inte godkänna avtalet."
 
 #: server/diplhand.c:162
 #, c-format
@@ -930,7 +949,8 @@ msgstr "Spel: Vår huvudstad (%s) efterfrågas, så vi kan inte godkänna avtale
 
 #: server/diplhand.c:177
 msgid "Game: You don't have enough gold, you can't accept treaty."
-msgstr "Spel: Vi har inte tillräckligt mycket guld så vi kan inte godkänna avtalet."
+msgstr ""
+"Spel: Vi har inte tillräckligt mycket guld så vi kan inte godkänna avtalet."
 
 #: server/diplhand.c:207 server/diplhand.c:210
 #, c-format
@@ -939,7 +959,8 @@ msgstr "Spel: Ett avtal innehållande %d satser blivit överenskommet."
 
 #: server/diplhand.c:227 server/diplhand.c:231
 #, c-format
-msgid "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
+msgid ""
+"Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
 msgstr ""
 "Spel: En av städerna som %s ger bort är förstörd! Avtalet träder inte i "
 "kraft!"
@@ -952,7 +973,8 @@ msgstr "Spel: %s styr inte längre %s! Avtalet träder inte i kraft!"
 #: server/diplhand.c:253 server/diplhand.c:257
 #, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr "Spel: %s har inte den utlovade mängden guld! Avtalet träder inte i kraft!"
+msgstr ""
+"Spel: %s har inte den utlovade mängden guld! Avtalet träder inte i kraft!"
 
 #: server/diplhand.c:275
 #, c-format
@@ -1055,7 +1077,8 @@ msgstr ""
 #: server/diplomats.c:257
 #, c-format
 msgid "You executed a %s the %s had sent to establish an embassy in %s"
-msgstr "Vi avrättade en %s som %s hade sänt för att inrätta en beskickning i %s."
+msgstr ""
+"Vi avrättade en %s som %s hade sänt för att inrätta en beskickning i %s."
 
 #: server/diplomats.c:269
 #, c-format
@@ -1172,7 +1195,8 @@ msgstr "Spel: Vår %s tillfångatogs vid ett försök att anstifta ett uppror!"
 #: server/diplomats.c:774
 #, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
-msgstr "Spel: Vi tillfångatog en %s %s som försökte driva fram ett uppror i %s!"
+msgstr ""
+"Spel: Vi tillfångatog en %s %s som försökte driva fram ett uppror i %s!"
 
 #: server/diplomats.c:796
 #, c-format
@@ -1285,22 +1309,26 @@ msgstr "Spel: %s har orsakat en olyckshändelse vid mutandet av vår %s."
 #: server/diplomats.c:1264
 #, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
-msgstr "Spel: Vi har orsakat en olyckshändelse vid stjälandet av teknologi från %s."
+msgstr ""
+"Spel: Vi har orsakat en olyckshändelse vid stjälandet av teknologi från %s."
 
 #: server/diplomats.c:1268
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
-msgstr "Spel: %s har orsakat en olyckshändelse vid stjälandet av teknologi från oss."
+msgstr ""
+"Spel: %s har orsakat en olyckshändelse vid stjälandet av teknologi från oss."
 
 #: server/diplomats.c:1274
 #, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
-msgstr "Spel: Vi har orsakat en olyckshändelse vid anstiftandet av ett uppror i %s."
+msgstr ""
+"Spel: Vi har orsakat en olyckshändelse vid anstiftandet av ett uppror i %s."
 
 #: server/diplomats.c:1277
 #, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
-msgstr "Spel: %s har orsakat en olyckshändelse vid anstiftandet av ett uppror i %s."
+msgstr ""
+"Spel: %s har orsakat en olyckshändelse vid anstiftandet av ett uppror i %s."
 
 #: client/gui-mui/mapview.c:221 server/gamehand.c:181
 #, c-format
@@ -1337,51 +1365,54 @@ msgstr "Spel: Det finns ingen anslutning med namnet %s."
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Spel: Det finns ingen spelare eller anslutning med namnet %s."
 
-#: server/mapgen.c:1102
+#: server/mapgen.c:1099
 msgid "Map generator: not enough start positions, fixing."
 msgstr "Kartskapare: för få startplatser, åtgärdar."
 
-#: server/mapgen.c:1105
+#: server/mapgen.c:1102
 #, c-format
 msgid "The map has %i starting positions on %i isles."
 msgstr "Kartan har %i startplatser på %i öar."
 
-#: server/mapgen.c:1672
+#: server/mapgen.c:1669
 msgid "High landmass - this may take a few seconds."
 msgstr "Hög landmassa - detta kan ta några sekunder."
 
-#: server/mapgen.c:1870
+#: server/mapgen.c:1867
 msgid "Falling back to generator 2."
 msgstr "Faller tillbaka till skapare 2."
 
-#: server/mapgen.c:1884
+#: server/mapgen.c:1881
 msgid "Generator 3 didn't place all big islands."
 msgstr "Skapare 3 satte inte ut alla stora öar."
 
-#: server/mapgen.c:1907
+#: server/mapgen.c:1904
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Skapare 3 lämnade %li landmassa outsatt."
 
-#: server/maphand.c:119
+#: server/maphand.c:118
 msgid "Game: Global warming has occurred!"
 msgstr "Spel: Global uppvärmning har inträffat!"
 
-#: server/maphand.c:120
+#: server/maphand.c:119
 msgid ""
 "Game: Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
-msgstr "Spel: Kustlinjer har svämmats över och stora ytor gräsland har blivit öken."
+msgstr ""
+"Spel: Kustlinjer har svämmats över och stora ytor gräsland har blivit öken."
 
-#: server/maphand.c:164
+#: server/maphand.c:162
 msgid "Game: Nuclear winter has occurred!"
 msgstr "Spel: Atomvinter har inträffat!"
 
-#: server/maphand.c:165
-msgid "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr "Spel: Sumpmarker har torkat ut och stora ytor gräsland har blivit tundra."
+#: server/maphand.c:163
+msgid ""
+"Game: Wetlands have dried up and vast ranges of grassland have become tundra."
+msgstr ""
+"Spel: Sumpmarker har torkat ut och stora ytor gräsland har blivit tundra."
 
-#: server/maphand.c:186
+#: server/maphand.c:184
 msgid ""
 "Game: New hope sweeps like fire through the country as the discovery of "
 "railroad is announced.\n"
@@ -1391,7 +1422,7 @@ msgstr ""
 "meddelas.\n"
 "      Arbetare samlas frivilligt och bygger järnvägar genom alla städer."
 
-#: server/maphand.c:192
+#: server/maphand.c:190
 msgid ""
 "Game: The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
@@ -1401,7 +1432,7 @@ msgstr ""
 "järnväg.\n"
 "      Arbetare samlas frivilligt och bygger järnvägar genom alla städer."
 
-#: server/maphand.c:1221
+#: server/maphand.c:1219
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s ger oss inte längre delad anblick!"
@@ -1473,7 +1504,8 @@ msgstr ""
 #: server/plrhand.c:286
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
-msgstr "Spel: Vi lärde oss %s. Våra vetenskapsmän inriktar sig på %s. Målet är %s."
+msgstr ""
+"Spel: Vi lärde oss %s. Våra vetenskapsmän inriktar sig på %s. Målet är %s."
 
 #: server/plrhand.c:295
 #, c-format
@@ -1602,16 +1634,19 @@ msgstr "Spel: Skattesats överskred högsta tillåtna satsen för %s; anpassad."
 #: server/plrhand.c:732
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
-msgstr "Spel: Forskningssatsen överskred högsta tillåtna satsen för %s; anpassad."
+msgstr ""
+"Spel: Forskningssatsen överskred högsta tillåtna satsen för %s; anpassad."
 
 #: server/plrhand.c:738
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
-msgstr "Spel: Överflödssatsen överskred högsta tillåtna satsen för %s, anpassad."
+msgstr ""
+"Spel: Överflödssatsen överskred högsta tillåtna satsen för %s, anpassad."
 
 #: server/plrhand.c:793
 #, c-format
-msgid "The senate passes your bill because of the constant provocations of the %s."
+msgid ""
+"The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 "Senaten godkänner din proposition på grund av de ständiga provokationerna "
 "från %s."
@@ -1960,7 +1995,8 @@ msgstr "tillhandahållna valmöjligheter: %s"
 
 #: server/ruleset.c:172
 msgid "Ruleset datafile claims required option(s) which we don't support:"
-msgstr "Regeluppsättningsdatafil kräver valmöjlighet(er) som vi inte tillhandahåller:"
+msgstr ""
+"Regeluppsättningsdatafil kräver valmöjlighet(er) som vi inte tillhandahåller:"
 
 #: server/ruleset.c:2545
 msgid "Loading rulesets"
@@ -2004,7 +2040,8 @@ msgstr "åkerland"
 
 #: server/savegame.c:290
 #, c-format
-msgid "Number of starts (%d) are lower than max_players (%d), lowering max_players."
+msgid ""
+"Number of starts (%d) are lower than max_players (%d), lowering max_players."
 msgstr ""
 "Antalet platser att börja på (%d) är lägre än max_players (%d), sänker "
 "max_players."
@@ -2057,7 +2094,8 @@ msgstr ""
 "drivmedelkomponenter!"
 
 #: server/spacerace.c:260
-msgid "Game: Your spaceship already has the maximum number of Propulsion Components!"
+msgid ""
+"Game: Your spaceship already has the maximum number of Propulsion Components!"
 msgstr ""
 "Spel: Vårt rymdskepp har redan det högsta möjliga antalet "
 "framdrivningskomponenter!"
@@ -2067,18 +2105,23 @@ msgid "Game: You don't have any unplaced Space Modules!"
 msgstr "Spel: Vi har inga outsatta rymdmoduler!"
 
 #: server/spacerace.c:280
-msgid "Game: Your spaceship already has the maximum number of Habitation Modules!"
-msgstr "Spel: Vårt rymdskepp har redan det högsta möjliga antalet bostadsmoduler!"
+msgid ""
+"Game: Your spaceship already has the maximum number of Habitation Modules!"
+msgstr ""
+"Spel: Vårt rymdskepp har redan det högsta möjliga antalet bostadsmoduler!"
 
 #: server/spacerace.c:300
-msgid "Game: Your spaceship already has the maximum number of Life Support Modules!"
+msgid ""
+"Game: Your spaceship already has the maximum number of Life Support Modules!"
 msgstr ""
 "Spel: Vårt rymdskepp har redan det högsta möjliga antalet "
 "livsunderstödsmoduler!"
 
 #: server/spacerace.c:320
-msgid "Game: Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr "Spel: Vårt rymdskepp har redan det högsta möjliga antalet solpanelsmoduler!"
+msgid ""
+"Game: Your spaceship already has the maximum number of Solar Panel Modules!"
+msgstr ""
+"Spel: Vårt rymdskepp har redan det högsta möjliga antalet solpanelsmoduler!"
 
 #: server/spacerace.c:339
 #, c-format
@@ -2101,7 +2144,8 @@ msgstr ""
 
 #: server/srv_main.c:329
 #, c-format
-msgid "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
+msgid ""
+"Game: The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr "Spel: Vapenstilleståndet med %s har upphört. Vi är nu neutrala mot %s."
 
 #: server/srv_main.c:485
@@ -2177,7 +2221,8 @@ msgstr "Välkommen till servern %s på port %d."
 #: server/srv_main.c:1082
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
-msgstr "Omgångsblockerande spel: väntar på att %s ska göra färdigt sin omgång..."
+msgstr ""
+"Omgångsblockerande spel: väntar på att %s ska göra färdigt sin omgång..."
 
 #: server/srv_main.c:1125
 #, c-format
@@ -2267,7 +2312,8 @@ msgstr "%s avvisades: inget iakktagande av datorstyrda spelare."
 
 #: server/srv_main.c:1299
 msgid "Sorry, no reconnections to human-mode players in this game."
-msgstr "Ledsen, inga återanslutningar till människostyrda spelare i detta spel."
+msgstr ""
+"Ledsen, inga återanslutningar till människostyrda spelare i detta spel."
 
 #: server/srv_main.c:1302
 #, c-format
@@ -2399,7 +2445,8 @@ msgstr "Spel: Spelet är över..."
 
 #: server/stdinhand.c:157
 msgid "Invalid ruleset subdirectory, keeping old value."
-msgstr "Ogiltig underkatalog för regeluppsättningar, behåller det gamla värdet."
+msgstr ""
+"Ogiltig underkatalog för regeluppsättningar, behåller det gamla värdet."
 
 #: server/stdinhand.c:194
 msgid "Map width in squares"
@@ -2445,7 +2492,8 @@ msgid "Amount of hills/mountains"
 msgstr "Mängd kullar/berg"
 
 #: server/stdinhand.c:228
-msgid "Small values give flat maps, higher values give more hills and mountains."
+msgid ""
+"Small values give flat maps, higher values give more hills and mountains."
 msgstr "Små värden ger flata kartor, högre värden ger fler kullar och berg."
 
 #: server/stdinhand.c:234
@@ -3474,7 +3522,8 @@ msgid "Send message to all connections."
 msgstr "Skickar meddelanden till alla klienter."
 
 #: server/stdinhand.c:1064
-msgid "For each connected client, pops up a window showing the message entered."
+msgid ""
+"For each connected client, pops up a window showing the message entered."
 msgstr "Öppnar ett fönster som visar meddelandet hos varje ansluten klient."
 
 #: server/stdinhand.c:1068
@@ -3542,8 +3591,10 @@ msgid "Create an AI player with a given name."
 msgstr "Skapa en datorstyrd spelare med ett givet namn."
 
 #: server/stdinhand.c:1103
-msgid "The 'create' command is only available before the game has been started."
-msgstr "Kommandot \"create\" är endast tillgängligt innan spelet har satts i gång."
+msgid ""
+"The 'create' command is only available before the game has been started."
+msgstr ""
+"Kommandot \"create\" är endast tillgängligt innan spelet har satts i gång."
 
 #. TRANS: translate text between <> only
 #: server/stdinhand.c:1108
@@ -3955,7 +4006,8 @@ msgstr "%s är nu under mänsklig styrning."
 
 #: server/stdinhand.c:1722
 msgid "Can't add AI players once the game has begun."
-msgstr "Kan inte lägga till datorstyrda spelare när spelet väl har satts i gång."
+msgstr ""
+"Kan inte lägga till datorstyrda spelare när spelet väl har satts i gång."
 
 #: server/stdinhand.c:1729
 msgid "Can't add more players, server is full."
@@ -4083,15 +4135,18 @@ msgid "Command access level for first player to take it: %s"
 msgstr "Kommandoåtkomstläget för den första spelaren som tar det: %s"
 
 #: server/stdinhand.c:2118
-msgid "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
+msgid ""
+"Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Fel: kommandoåtkomstläget måste vara en av \"none\", \"info\", \"ctrl\" "
 "eller \"hack\"."
 
 #: server/stdinhand.c:2123
 #, c-format
-msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
-msgstr "Kan inte öka kommandoåtkomstläget till \"%s\"; du själv har endast \"%s\"."
+msgid ""
+"Cannot increase command access level to '%s'; you only have '%s' yourself."
+msgstr ""
+"Kan inte öka kommandoåtkomstläget till \"%s\"; du själv har endast \"%s\"."
 
 #: server/stdinhand.c:2145 server/stdinhand.c:2200
 #, c-format
@@ -4334,7 +4389,8 @@ msgstr "Spelet måste vara i gång innnan man kan se värderingen."
 
 #: server/stdinhand.c:2918
 #, c-format
-msgid "Reduced maxplayers from %i to %i to fit to the number of start positions."
+msgid ""
+"Reduced maxplayers from %i to %i to fit to the number of start positions."
 msgstr ""
 "Minskade maxplayers från %i till %i för att passa antalet tillgängliga "
 "platser att börja på."
@@ -4506,94 +4562,96 @@ msgid "<no connections>"
 msgstr "<inga anslutningar>"
 
 #: server/stdinhand.c:3370
-msgid "notradesize must be always smaller than fulltradesize, keeping old value."
+msgid ""
+"notradesize must be always smaller than fulltradesize, keeping old value."
 msgstr "notradesize måste alltid vara < fulltradesize, behåller gammalt värde."
 
 #: server/stdinhand.c:3383
-msgid "fulltradesize must be always bigger than notradesize, keeping old value."
+msgid ""
+"fulltradesize must be always bigger than notradesize, keeping old value."
 msgstr "fulltradesize måste alltid vara > notradesize, behåller gammalt värde."
 
-#: server/unithand.c:166 server/unithand.c:217
+#: server/unithand.c:165 server/unithand.c:216
 #, c-format
 msgid "Game: Illegal package, can't upgrade %s (yet)."
 msgstr "Spel: Ogiltigt paket, kan inte ersätta %s (än)."
 
-#: server/unithand.c:187
+#: server/unithand.c:186
 #, c-format
 msgid "Game: %d %s upgraded to %s for %d gold."
 msgstr "Spel: %d %s ersatt med %s för %d guld."
 
-#: server/unithand.c:192
+#: server/unithand.c:191
 msgid "Game: No units could be upgraded."
 msgstr "Spel: Inga enheter kunde ersättas."
 
-#: server/unithand.c:212
+#: server/unithand.c:211
 msgid "Game: Illegal move, unit not in city!"
 msgstr "Spel: Ogiltigt drag, enheten är ej i en stad!"
 
-#: server/unithand.c:223
+#: server/unithand.c:222
 #, c-format
 msgid "Game: Insufficient funds, upgrade costs %d."
 msgstr "Spel: Otillräckliga medel, ersättning kostar %d."
 
-#: server/unithand.c:230
+#: server/unithand.c:229
 #, c-format
 msgid "Game: %s upgraded to %s for %d gold."
 msgstr "Spel: %s ersatt med %s för %d guld."
 
-#: server/unithand.c:449
+#: server/unithand.c:448
 msgid "Game: Can't place city here."
 msgstr "Spel: Kan inte förlägga stad hit."
 
-#: server/unithand.c:456
+#: server/unithand.c:455
 #, c-format
 msgid "Game: Only %s can build a city."
 msgstr "Spel: Endast %s kan grunda en stad."
 
-#: server/unithand.c:461
+#: server/unithand.c:460
 msgid "Game: Can't build a city."
 msgstr "Spel: Kan inte bygga en stad."
 
-#: server/unithand.c:470
+#: server/unithand.c:469
 #, c-format
 msgid "Game: Only %s can add to a city."
 msgstr "Spel: Endast %s kan utöka en stad."
 
-#: server/unithand.c:475
+#: server/unithand.c:474
 msgid "Game: Can't add to a city."
 msgstr "Spel: Kan inte utöka stad."
 
-#: server/unithand.c:481
+#: server/unithand.c:480
 #, c-format
 msgid "Game: %s unit has no moves left to add to %s."
 msgstr "Spel: %senheten har inga drag kvar för att utöka %s."
 
-#: server/unithand.c:486
+#: server/unithand.c:485
 #, c-format
 msgid "Game: %s unit has no moves left to build city."
 msgstr "Spel: %s har inga drag kvar för att grunda en stad."
 
-#: server/unithand.c:491
+#: server/unithand.c:490
 #, c-format
 msgid "Game: %s is too big to add %s."
 msgstr "Spel: %s är för stort för att lägga till %s."
 
-#: server/unithand.c:496 server/unithand.c:502
+#: server/unithand.c:495 server/unithand.c:501
 #, c-format
 msgid "Game: %s needs %s to grow, so you cannot add %s."
 msgstr "Spel: %s behöver %s för att växa, så vi kan inte lägga till %s."
 
-#: server/unithand.c:511
+#: server/unithand.c:510
 #, c-format
 msgid "Game: Can't add %s to %s."
 msgstr "Spel: kan inte lägga %s till %s."
 
-#: server/unithand.c:536
+#: server/unithand.c:535
 #, c-format
 msgid "Game: %s added to aid %s in growing."
 msgstr "Spel: %s tillades för att hjälpa %s att växa."
 
-#: server/unithand.c:553
+#: server/unithand.c:552
 msgid "Game: Let's not build a city with such a stupid name."
 msgstr ""
 "Spel: Låt oss inte grunda en stad med ett sådant löjligt namn. (VARNING: På "
@@ -4604,116 +4662,117 @@ msgstr ""
 "spelet att godta namnet på grund av det avslutande blanksteget. "
 "(Översättarens anmärkning.))"
 
-#: server/unithand.c:690
+#: server/unithand.c:689
 msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr "Spel: Vår kärnvapenmissil sköts ned av missilförsvar, vilket slöseri."
 
-#: server/unithand.c:693
+#: server/unithand.c:692
 #, c-format
 msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Spel: Kärnvapenangreppet mot %s avvärjdes av vårt missilförsvar."
 
-#: server/unithand.c:765
+#: server/unithand.c:764
 #, c-format
 msgid "Game: Your %s%s survived the pathetic attack from %s's %s."
 msgstr "Spel: Vår %s%s överlevde det löjliga angreppet från %ss %s."
 
-#: server/unithand.c:775
+#: server/unithand.c:773
 #, c-format
 msgid "Game: Your attacking %s failed against %s's %s%s!"
 msgstr "Spel: Vår angripande %s misslyckades mot %ss %s%s!"
 
-#: server/unithand.c:792
+#: server/unithand.c:791
 #, c-format
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
 msgstr "Spel: Vår angripande %s lyckades mot %ss %s%s!"
 
-#: server/unithand.c:839
+#: server/unithand.c:838
 msgid "Game: Cancel treaty in the players dialog first (F3)."
 msgstr "Spel: Avbryt avtal i spearedialogen först (F3)."
 
-#: server/unithand.c:933
+#: server/unithand.c:932
 msgid "Game: Unit must be on land to perform diplomatic action."
 msgstr "Spel: Enheter måste vara på land för att utföra budbärarhandlingar."
 
-#: server/unithand.c:935
+#: server/unithand.c:934
 msgid "Game: No diplomat action possible."
 msgstr "Spel: Ingen budbärarhandling är möjlig."
 
-#: server/unithand.c:945
+#: server/unithand.c:944
 msgid "Game: You can't attack there."
 msgstr "Spel: Vi kan inte angripa här."
 
-#: server/unithand.c:951
+#: server/unithand.c:950
 msgid "Game: This unit has no moves left."
 msgstr "spel: Denna enhet har inga drag kvar."
 
-#: server/unithand.c:957
+#: server/unithand.c:956
 #, c-format
 msgid ""
 "Game: Can't attack %s's unit in the city of %s because you are not at war "
 "with %s."
-msgstr "Spel: Vi kan inte angripa %ss enhet i staden %s, ty vi är inte i krig mot %s."
+msgstr ""
+"Spel: Vi kan inte angripa %ss enhet i staden %s, ty vi är inte i krig mot %s."
 
-#: server/unithand.c:969
+#: server/unithand.c:968
 msgid "Game: Aborting GOTO for AI attack procedures."
 msgstr "Spel: Avbryter GÅTILL för datorstyrt angreppsförfarande."
 
-#: server/unithand.c:976
+#: server/unithand.c:975
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr "Spel: %s avbröt GÅTILL för att det är enheter i vägen."
 
-#: server/unithand.c:1002
+#: server/unithand.c:1000
 #, c-format
 msgid "Game: A %s cannot attack other units."
 msgstr "Spel: En %s kan inte angripa andra enheter."
 
-#: server/unithand.c:1018
+#: server/unithand.c:1014
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
 msgstr "Spel: Inget krig förklarat mot %s, kan inte angripa."
 
-#: server/unithand.c:1032
+#: server/unithand.c:1028
 #, c-format
 msgid "Game: %s doesn't want to leave its bodyguard."
 msgstr "Spel: %s vill inte lämna sin livvakt."
 
-#: server/unithand.c:1045
+#: server/unithand.c:1041
 #, c-format
 msgid "Game: %s ending move early to stay out of trouble."
 msgstr "Spel: %s avslutar sitt drag tidigt för att hålla sig utanför problem."
 
-#: server/unithand.c:1055
+#: server/unithand.c:1051
 msgid "Game: Only ground troops can take over a city."
 msgstr "Spel: Endast landenheter kan ta över en stad."
 
-#: server/unithand.c:1062
+#: server/unithand.c:1058
 #, c-format
 msgid "Game: No war declared against %s, cannot take over city."
 msgstr "Spel: Inget krig förklarat mot %s, kan inte ta över staden."
 
-#: server/unithand.c:1136
+#: server/unithand.c:1132
 #, c-format
 msgid "Game: Your %s helps build the %s in %s (%d remaining)."
 msgstr "Spel: Vår %s hjälper till att bygga %s i %s (%d återstår)."
 
-#: server/unithand.c:1178
+#: server/unithand.c:1174
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
 msgstr "Spel: Ledsen, vår %s kan inte inrätta en handelsled hit!"
 
-#: server/unithand.c:1184
+#: server/unithand.c:1180
 #, c-format
 msgid "      A traderoute already exists between %s and %s!"
 msgstr "      Det finns redan en handelsled mellan %s och %s!"
 
-#: server/unithand.c:1191 server/unithand.c:1197
+#: server/unithand.c:1187 server/unithand.c:1193
 #, c-format
 msgid "      The city of %s already has 4 trade routes!"
 msgstr "      Staden %s har redan 4 handelsleder!"
 
-#: server/unithand.c:1207
+#: server/unithand.c:1203
 #, c-format
 msgid ""
 "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
@@ -4896,7 +4955,8 @@ msgstr "Spel: Kan inte hoppa fallskärm i havet."
 
 #: server/unittools.c:2242
 #, c-format
-msgid "Game: The distance to the target (%i) is greater than the unit's range (%i)."
+msgid ""
+"Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Spel: Avståndet till målet (%i) är större än enhetens räckvidd (%i)."
 
 #: server/unittools.c:2254
@@ -4952,7 +5012,8 @@ msgstr "Spel: Barbarer har dödat vår %s!"
 
 #: server/unittools.c:2396
 msgid "Game: Friendly nomads are impressed by you, and join you."
-msgstr "Spel: Vänliga nomader är imponerade av oss och ställer sig till förfogande."
+msgstr ""
+"Spel: Vänliga nomader är imponerade av oss och ställer sig till förfogande."
 
 #: server/unittools.c:2420
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
@@ -4960,8 +5021,10 @@ msgstr "Spel: Vår överflygning skrämde stammen. Den skingras av skräck."
 
 #: server/unittools.c:3042
 #, c-format
-msgid "Game: Your %s cancelled patrol order because it encountered a foreign unit."
-msgstr "Spel: Vår %s avbröt sin vaktrunda för att den påträffade en fiendeenhet."
+msgid ""
+"Game: Your %s cancelled patrol order because it encountered a foreign unit."
+msgstr ""
+"Spel: Vår %s avbröt sin vaktrunda för att den påträffade en fiendeenhet."
 
 #: server/unittools.c:3162
 #, c-format
@@ -5256,7 +5319,7 @@ msgstr "%s ger oss delad anblick"
 msgid "Lost connection to server!"
 msgstr "Förlorade anslutningen till servern!"
 
-#: client/clinet.c:157 client/clinet.c:460
+#: client/clinet.c:157 client/clinet.c:516
 msgid "Failed looking up host"
 msgstr "Misslyckades med värdsökningen"
 
@@ -5264,15 +5327,15 @@ msgstr "Misslyckades med värdsökningen"
 msgid "Disconnecting from server."
 msgstr "Kopplar från servern."
 
-#: client/clinet.c:414
+#: client/clinet.c:470
 msgid "Invalid $http_proxy value, must start with 'http://'"
 msgstr "Ogiltigt $http_proxy-värde, måste börja med \"http://\""
 
-#: client/clinet.c:421
+#: client/clinet.c:477
 msgid "Invalid metaserver URL, must start with 'http://'"
 msgstr "Ogiltig metaserver-URL, måste börja med \"http://\""
 
-#: client/clinet.c:451
+#: client/clinet.c:507
 msgid "Invalid $http_proxy value, cannot find separating '/'"
 msgstr "Ogiltigt $http_proxy-värde, kan inte finna skiljande \"/\""
 
@@ -5380,7 +5443,8 @@ msgstr "Tillåter alla spelare med kunskap om %s att bygga %s-enheter. "
 #: client/helpdata.c:592
 #, c-format
 msgid "* Can carry and refuel %d air units.\n"
-msgstr "* Kan bära och återfylla drivmedelsbehållarna hos %d flygenheter åt gången.\n"
+msgstr ""
+"* Kan bära och återfylla drivmedelsbehållarna hos %d flygenheter åt gången.\n"
 
 #: client/helpdata.c:595
 #, c-format
@@ -5430,7 +5494,8 @@ msgstr "* Kan endast angripa enheter på havsrutor (inga landangrepp).\n"
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares."
-msgstr "* Kan angripa från ombord på sjöenheter: mot fientliga städer och landrutor."
+msgstr ""
+"* Kan angripa från ombord på sjöenheter: mot fientliga städer och landrutor."
 
 #: client/helpdata.c:635
 #, c-format
@@ -5606,261 +5671,265 @@ msgstr "%s%d otillfredställda"
 msgid "%s%d gold"
 msgstr "%s%d guld"
 
-#: client/options.c:56
+#: client/options.c:57
 msgid "Solid unit background color"
 msgstr "Fast enhetsbakgrundsfärg"
 
-#: client/options.c:57
+#: client/options.c:58
 msgid "Sound bell at new turn"
 msgstr "Ring i klocka vid ny omgång"
 
-#: client/options.c:58
+#: client/options.c:59
 msgid "Smooth unit moves"
 msgstr "Smidiga enhetsförflyttningar"
 
-#: client/options.c:59
+#: client/options.c:60
 msgid "Smooth unit move steps"
 msgstr "Smidiga enhetsförflyttningar, steg"
 
-#: client/options.c:60
+#: client/options.c:61
 msgid "Show combat animation"
 msgstr "Visa kampanimationer"
 
-#: client/options.c:61
+#: client/options.c:62
 msgid "Popup dialogs in AI Mode"
 msgstr "Öppna dialoger i datorstyrt läge"
 
-#: client/options.c:62
+#: client/options.c:63
 msgid "Manual Turn Done in AI Mode"
 msgstr "Manuell avsluta omgång i datorstyrt läge"
 
-#: client/options.c:63
+#: client/options.c:64
 msgid "Auto Center on Units"
 msgstr "Självcentrering på enheter"
 
-#: client/options.c:64
+#: client/options.c:65
 msgid "Auto Center on Combat"
 msgstr "Självcentrering på kamp"
 
-#: client/options.c:65
+#: client/options.c:66
 msgid "Focus on Awakened Units"
 msgstr "Fokus på uppvaknade enheter"
 
-#: client/options.c:66
+#: client/options.c:67
 msgid "Draw Diagonal Roads/Rails"
 msgstr "Rita diagonala vägar/järnvägar"
 
-#: client/options.c:67
+#: client/options.c:68
 msgid "Center map when Popup city"
 msgstr "Centrera kartan vid öppning av stadsfönster"
 
-#: client/options.c:68
+#: client/options.c:69
 msgid "Concise City Production"
 msgstr "Kortfattad visning av vad städer bygger"
 
-#: client/options.c:69
+#: client/options.c:70
 msgid "End Turn when done moving"
 msgstr "Avsluta omgången när alla drag har slutförts"
 
-#: client/options.c:119
+#: client/options.c:71
+msgid "Use Alt/Meta for accelerators (GTK only)"
+msgstr "Använd Alt/Meta för påskyndarkommandon (endast GTK)"
+
+#: client/options.c:121
 msgid "Low Funds"
 msgstr "Brist på pengar"
 
-#: client/options.c:121
+#: client/options.c:123
 msgid "Global Eco-Disaster"
 msgstr "Global ekologisk katastrof"
 
-#: client/options.c:122
+#: client/options.c:124
 msgid "Civil Disorder"
 msgstr "Upplopp"
 
-#: client/options.c:123
+#: client/options.c:125
 msgid "City Celebrating"
 msgstr "Stad firar"
 
-#: client/options.c:124
+#: client/options.c:126
 msgid "City Normal"
 msgstr "Stad normal"
 
-#: client/options.c:125
+#: client/options.c:127
 msgid "City Growth"
 msgstr "Stadstillväxt"
 
-#: client/options.c:126
+#: client/options.c:128
 msgid "City Needs Aqueduct"
 msgstr "Stad behöver vattenledning"
 
-#: client/options.c:127
+#: client/options.c:129
 msgid "Famine in City"
 msgstr "Hungersnöd i stad"
 
-#: client/options.c:128
+#: client/options.c:130
 msgid "City Captured/Destroyed"
 msgstr "Stad erövrad/förstörd"
 
-#: client/options.c:129
+#: client/options.c:131
 msgid "Building Unavailable Item"
 msgstr "Stad bygger otillgängligt objekt"
 
-#: client/options.c:130
+#: client/options.c:132
 msgid "Wonder Started"
 msgstr "Världsunder har börjat byggas"
 
-#: client/options.c:131
+#: client/options.c:133
 msgid "Wonder Finished"
 msgstr "Världsunder färdigställt"
 
-#: client/options.c:132
+#: client/options.c:134
 msgid "Improvement Built"
 msgstr "Stadsförbättring färdigställd"
 
-#: client/options.c:133
+#: client/options.c:135
 msgid "New Improvement Selected"
 msgstr "Ny stadsförbättring vald"
 
-#: client/options.c:134
+#: client/options.c:136
 msgid "Forced Improvement Sale"
 msgstr "Stadsförbättring tvångavyttrad"
 
-#: client/options.c:135
+#: client/options.c:137
 msgid "Production Upgraded"
 msgstr "Tillverkning ersatt"
 
-#: client/options.c:136
+#: client/options.c:138
 msgid "Unit Built"
 msgstr "Bygger enhet"
 
-#: client/options.c:137
+#: client/options.c:139
 msgid "Unit Defender Destroyed"
 msgstr "Försvarande enhet förintad"
 
-#: client/options.c:138
+#: client/options.c:140
 msgid "Unit Defender Survived"
 msgstr "Försvarande enhet överlevde"
 
-#: client/options.c:139
+#: client/options.c:141
 msgid "Collapse to Anarchy"
 msgstr "Sammanbrott till regeringslöshet"
 
-#: client/options.c:140
+#: client/options.c:142
 msgid "Diplomat Actions - Enemy"
 msgstr "Budbärarhandlingar - fientliga"
 
-#: client/options.c:141
+#: client/options.c:143
 msgid "Tech from Great Library"
 msgstr "Fick teknologi från det Stora Biblioteket"
 
-#: client/options.c:142
+#: client/options.c:144
 msgid "Player Destroyed"
 msgstr "Spelare förintad"
 
-#: client/options.c:143
+#: client/options.c:145
 msgid "Improvement Bought"
 msgstr "Förbättring köpt"
 
-#: client/options.c:144
+#: client/options.c:146
 msgid "Improvement Sold"
 msgstr "Stadsförbättringar"
 
-#: client/options.c:145
+#: client/options.c:147
 msgid "Unit Bought"
 msgstr "Enhet köpt"
 
-#: client/options.c:146
+#: client/options.c:148
 msgid "Wonder Stopped"
 msgstr "Världsunder avbrutet"
 
-#: client/options.c:147
+#: client/options.c:149
 msgid "City Needs Aq Being Built"
 msgstr "Stad behöver vattenledning (byggs)"
 
-#: client/options.c:148
+#: client/options.c:150
 msgid "Diplomat Actions - Own"
 msgstr "Budbärarhandlingar - egna"
 
-#: client/options.c:149
+#: client/options.c:151
 msgid "Unit Attack Failed"
 msgstr "Enhetsangrepp misslyckades"
 
-#: client/options.c:150
+#: client/options.c:152
 msgid "Unit Attack Succeeded"
 msgstr "Enhetsangrepp lyckades"
 
-#: client/options.c:151
+#: client/options.c:153
 msgid "Suggest Growth Throttling"
 msgstr "Föreslå tillväxthämning"
 
-#: client/options.c:152
+#: client/options.c:154
 msgid "Spaceship Events"
 msgstr "Rymdskeppshändelser"
 
-#: client/options.c:153
+#: client/options.c:155
 msgid "Barbarian Uprising"
 msgstr "Barbarisk resning"
 
-#: client/options.c:154
+#: client/options.c:156
 msgid "Worklist Events"
 msgstr "Arbetslistehändelser"
 
-#: client/options.c:155
+#: client/options.c:157
 msgid "Pact Cancelled"
 msgstr "Pakt bruten"
 
-#: client/options.c:156
+#: client/options.c:158
 msgid "Diplomatic Incident"
 msgstr "Diplomatisk händelse"
 
-#: client/options.c:157
+#: client/options.c:159
 msgid "First Contact"
 msgstr "Första möte"
 
-#: client/options.c:158
+#: client/options.c:160
 msgid "City May Soon Grow"
 msgstr "Stad kan snart växa"
 
-#: client/options.c:159
+#: client/options.c:161
 msgid "Wonder Made Obsolete"
 msgstr "Världsunder föråldrat"
 
-#: client/options.c:160
+#: client/options.c:162
 msgid "Famine Feared in City"
 msgstr "Hungersnöd fruktad i stad"
 
-#: client/options.c:161
+#: client/options.c:163
 msgid "Wonder Will Be Finished Next Turn"
 msgstr "Världsunder kommer att färdigställas"
 
-#: client/options.c:162
+#: client/options.c:164
 msgid "Learned New Government"
 msgstr "Lärde oss ny regeringsform"
 
-#: client/options.c:163
+#: client/options.c:165
 msgid "City Nuked"
 msgstr "Stad atombombad"
 
-#: client/options.c:164
+#: client/options.c:166
 msgid "Messages from the Server Operator"
 msgstr "Meddelanden från serverhandhavaren"
 
-#: client/options.c:232
+#: client/options.c:234
 msgid "Cannot find your home directory"
 msgstr "Kan inte finna din hemkatalog"
 
-#: client/options.c:263
+#: client/options.c:265
 #, c-format
 msgid "Settings file is %s"
 msgstr "Inställningar i fil %s"
 
-#: client/options.c:266
+#: client/options.c:268
 #, c-format
 msgid "Cannot write to file %s"
 msgstr "Kan inte skriva till fil %s"
 
-#: client/options.c:331
+#: client/options.c:333
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
 
-#: client/options.c:357
+#: client/options.c:359
 msgid "Saved settings."
 msgstr "Sparade inställningar."
 
@@ -5926,7 +5995,8 @@ msgid "Could not open \"%s\"."
 msgstr "Kunde inte öppna \"%s\"."
 
 #: client/tilespec.c:232
-msgid "Client does not support isometric tilesets. Using default tileset instead."
+msgid ""
+"Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 "Klienten klarar inte av att visa isometriska rutbilder. Använder "
 "standardrutbilder i stället."
@@ -5959,336 +6029,336 @@ msgstr "Export färdig."
 msgid "Cleared output window."
 msgstr "Rensade utdatafönstret."
 
-#: client/gui-gtk/citydlg.c:540 client/gui-mui/citydlg.c:1284
+#: client/gui-gtk/citydlg.c:544 client/gui-mui/citydlg.c:1284
 msgid "Food:"
 msgstr "Mat:"
 
-#: client/gui-gtk/citydlg.c:541
+#: client/gui-gtk/citydlg.c:545
 msgid "Prod:"
 msgstr "Tillverkning:"
 
-#: client/gui-gtk/citydlg.c:542 client/gui-mui/citydlg.c:1288
+#: client/gui-gtk/citydlg.c:546 client/gui-mui/citydlg.c:1288
 msgid "Trade:"
 msgstr "Handel:"
 
-#: client/gui-gtk/citydlg.c:543 data/civ1/terrain.ruleset:368
+#: client/gui-gtk/citydlg.c:547 data/civ1/terrain.ruleset:368
 #: data/civ2/terrain.ruleset:376 data/classic/terrain.ruleset:368
 #: data/default/terrain.ruleset:376
 msgid "Gold"
 msgstr "Guld"
 
-#: client/gui-gtk/citydlg.c:544 client/gui-mui/citydlg.c:1292
+#: client/gui-gtk/citydlg.c:548 client/gui-mui/citydlg.c:1292
 #: client/gui-mui/gamedlgs.c:221
 msgid "Luxury:"
 msgstr "Överflöd:"
 
-#: client/gui-gtk/citydlg.c:545 client/gui-mui/citydlg.c:1294
+#: client/gui-gtk/citydlg.c:549 client/gui-mui/citydlg.c:1294
 #: client/gui-mui/gamedlgs.c:228
 msgid "Science:"
 msgstr "Forskning:"
 
-#: client/gui-gtk/citydlg.c:546 client/gui-mui/citydlg.c:1296
+#: client/gui-gtk/citydlg.c:550 client/gui-mui/citydlg.c:1296
 msgid "Granary:"
 msgstr "sädeslager:"
 
-#: client/gui-gtk/citydlg.c:547
+#: client/gui-gtk/citydlg.c:551
 msgid "Change in:"
-msgstr "Ändra i:"
+msgstr "Förändring om:"
 
-#: client/gui-gtk/citydlg.c:548
+#: client/gui-gtk/citydlg.c:552
 msgid "Corruption:"
 msgstr "Mutning:"
 
-#: client/gui-gtk/citydlg.c:549 client/gui-mui/citydlg.c:1298
+#: client/gui-gtk/citydlg.c:553 client/gui-mui/citydlg.c:1298
 msgid "Pollution:"
 msgstr "Förorening:"
 
-#: client/gui-gtk/citydlg.c:594
+#: client/gui-gtk/citydlg.c:598
 msgid "City improvements"
 msgstr "Stadsförbättringar"
 
-#: client/gui-gtk/citydlg.c:595 client/gui-mui/citydlg.c:586
+#: client/gui-gtk/citydlg.c:599 client/gui-mui/citydlg.c:586
 msgid "Upkeep"
 msgstr "Underhåll"
 
-#: client/gui-gtk/citydlg.c:598
+#: client/gui-gtk/citydlg.c:602
 msgid "City _Overview"
 msgstr "Stadsö_versikt"
 
-#: client/gui-gtk/citydlg.c:622
+#: client/gui-gtk/citydlg.c:626
 msgid "City info"
 msgstr "Stadsinformation"
 
-#: client/gui-gtk/citydlg.c:628
+#: client/gui-gtk/citydlg.c:632
 msgid "City map"
 msgstr "Stadkarta"
 
-#: client/gui-gtk/citydlg.c:710 client/gui-gtk/citydlg.c:766
-#: client/gui-gtk/citydlg.c:989 client/gui-gtk/citydlg.c:1048
+#: client/gui-gtk/citydlg.c:714 client/gui-gtk/citydlg.c:770
+#: client/gui-gtk/citydlg.c:993 client/gui-gtk/citydlg.c:1052
 msgid "<"
 msgstr "<"
 
-#: client/gui-gtk/citydlg.c:716 client/gui-gtk/citydlg.c:772
-#: client/gui-gtk/citydlg.c:994 client/gui-gtk/citydlg.c:1052
+#: client/gui-gtk/citydlg.c:720 client/gui-gtk/citydlg.c:776
+#: client/gui-gtk/citydlg.c:998 client/gui-gtk/citydlg.c:1056
 msgid ">"
 msgstr ">"
 
-#: client/gui-gtk/citydlg.c:794
-msgid "Currently building"
-msgstr "Bygger"
-
-#: client/gui-gtk/citydlg.c:812
+#: client/gui-gtk/citydlg.c:816
 #, c-format
 msgid "%d/%d %d turns"
 msgstr "%d/%d %d omgångar"
 
-#: client/gui-gtk/citydlg.c:815 client/gui-gtk/cityrep.c:422
+#: client/gui-gtk/citydlg.c:819 client/gui-gtk/cityrep.c:422
 #: client/gui-mui/citydlg.c:1325 client/gui-mui/cityrep.c:396
 msgid "_Buy"
 msgstr "_Köp"
 
-#: client/gui-gtk/citydlg.c:820 client/gui-gtk/citydlg.c:3108
+#: client/gui-gtk/citydlg.c:824 client/gui-gtk/citydlg.c:3112
 #: client/gui-gtk/cityrep.c:427
 msgid "_Change"
 msgstr "Ä_ndra"
 
-#: client/gui-gtk/citydlg.c:862 client/gui-gtk/citydlg.c:1983
-#: client/gui-gtk/citydlg.c:3342 client/gui-win32/citydlg.c:857
+#: client/gui-gtk/citydlg.c:866 client/gui-gtk/citydlg.c:1987
+#: client/gui-gtk/citydlg.c:3346 client/gui-win32/citydlg.c:857
 msgid "Sell"
 msgstr "Sälj"
 
-#: client/gui-gtk/citydlg.c:895 client/gui-gtk/menu.c:707
+#: client/gui-gtk/citydlg.c:899 client/gui-gtk/menu.c:707
 #: client/gui-gtk/menu.c:748 client/gui-win32/menu.c:354
 #: client/gui-win32/menu.c:373
 msgid "_Units"
 msgstr "En_heter"
 
-#: client/gui-gtk/citydlg.c:937 client/gui-win32/citydlg.c:890
+#: client/gui-gtk/citydlg.c:941 client/gui-win32/citydlg.c:890
 msgid "Supported units"
 msgstr "Understödda enheter"
 
-#: client/gui-gtk/citydlg.c:941 client/gui-mui/citydlg.c:1334
+#: client/gui-gtk/citydlg.c:945 client/gui-mui/citydlg.c:1334
 #: client/gui-win32/citydlg.c:895
 msgid "Units present"
 msgstr "Närvarande enheter"
 
-#: client/gui-gtk/citydlg.c:1071
+#: client/gui-gtk/citydlg.c:1075
 msgid "_Activate present units"
 msgstr "Gör närv_arande enheter verksamma"
 
-#: client/gui-gtk/citydlg.c:1077
+#: client/gui-gtk/citydlg.c:1081
 msgid "_Sentry idle units"
 msgstr "_Sätt overksamma enheter på vakt"
 
-#: client/gui-gtk/citydlg.c:1083
+#: client/gui-gtk/citydlg.c:1087
 msgid "_List present units"
 msgstr "_Räkna upp närvarande enheter"
 
-#: client/gui-gtk/citydlg.c:1108 client/gui-mui/citydlg.c:1326
+#: client/gui-gtk/citydlg.c:1112 client/gui-mui/citydlg.c:1326
 msgid "_Worklist"
 msgstr "_Arbetslista"
 
-#: client/gui-gtk/citydlg.c:1132
+#: client/gui-gtk/citydlg.c:1136
 msgid "_Happiness"
 msgstr "Lycklig_het"
 
-#: client/gui-gtk/citydlg.c:1186
+#: client/gui-gtk/citydlg.c:1190
 msgid "_Trade Routes"
 msgstr "Handels_vägar"
 
-#: client/gui-gtk/citydlg.c:1196
+#: client/gui-gtk/citydlg.c:1200
 msgid "Established trade routes"
 msgstr "Inrättade handelsvägar"
 
-#: client/gui-gtk/citydlg.c:1217
+#: client/gui-gtk/citydlg.c:1221
 msgid "_Misc. Settings"
 msgstr "Övriga i_nställningar"
 
-#: client/gui-gtk/citydlg.c:1219
+#: client/gui-gtk/citydlg.c:1223
 msgid "Entertainers"
 msgstr "Underhållare"
 
-#: client/gui-gtk/citydlg.c:1220 client/gui-mui/citydlg.c:1235
+#: client/gui-gtk/citydlg.c:1224 client/gui-mui/citydlg.c:1235
 #: client/gui-win32/citydlg.c:2111 client/gui-xaw/citydlg.c:2654
 msgid "Scientists"
 msgstr "Vetenskapsmän"
 
-#: client/gui-gtk/citydlg.c:1221 client/gui-mui/citydlg.c:1236
+#: client/gui-gtk/citydlg.c:1225 client/gui-mui/citydlg.c:1236
 #: client/gui-win32/citydlg.c:2113 client/gui-xaw/citydlg.c:2654
 msgid "Taxmen"
 msgstr "Skattmasar"
 
-#: client/gui-gtk/citydlg.c:1224
+#: client/gui-gtk/citydlg.c:1228
 msgid "City Overview page"
 msgstr "Stadsöversikt"
 
-#: client/gui-gtk/citydlg.c:1225
+#: client/gui-gtk/citydlg.c:1229
 msgid "Units page"
 msgstr "Enheter"
 
-#: client/gui-gtk/citydlg.c:1226
+#: client/gui-gtk/citydlg.c:1230
 msgid "Worklist page"
 msgstr "Arbetslista"
 
-#: client/gui-gtk/citydlg.c:1227
+#: client/gui-gtk/citydlg.c:1231
 msgid "Happiness page"
 msgstr "Lycklighet"
 
-#: client/gui-gtk/citydlg.c:1229
+#: client/gui-gtk/citydlg.c:1233
 msgid "Trade Routes page"
 msgstr "Handelsvägar"
 
-#: client/gui-gtk/citydlg.c:1230
+#: client/gui-gtk/citydlg.c:1234
 msgid "This Misc. Settings page"
 msgstr "Denna sida"
 
-#: client/gui-gtk/citydlg.c:1231
+#: client/gui-gtk/citydlg.c:1235
 msgid "Last active page"
 msgstr "Senast visade sida"
 
-#: client/gui-gtk/citydlg.c:1245
+#: client/gui-gtk/citydlg.c:1249
 msgid "City options"
 msgstr "Stadsvalmöjligheter"
 
-#: client/gui-gtk/citydlg.c:1254
+#: client/gui-gtk/citydlg.c:1258
 msgid "Auto attack vs"
 msgstr "Självständigt angrepp mot"
 
-#: client/gui-gtk/citydlg.c:1262
+#: client/gui-gtk/citydlg.c:1266
 msgid "Air units"
 msgstr "Flygenheter"
 
-#: client/gui-gtk/citydlg.c:1268
+#: client/gui-gtk/citydlg.c:1272
 msgid "Helicopters"
 msgstr "Helikoptrar"
 
-#: client/gui-gtk/citydlg.c:1274
+#: client/gui-gtk/citydlg.c:1278
 msgid "Land units"
 msgstr "Landenheter"
 
-#: client/gui-gtk/citydlg.c:1279
+#: client/gui-gtk/citydlg.c:1283
 msgid "Sea units"
 msgstr "Sjöenheter"
 
-#: client/gui-gtk/citydlg.c:1300 client/gui-win32/citydlg.c:2116
+#: client/gui-gtk/citydlg.c:1304 client/gui-win32/citydlg.c:2116
 msgid "Disband if build settler at size 1"
 msgstr "Upplös vid färdigställning av bosättare vid storlek 1"
 
-#: client/gui-gtk/citydlg.c:1314 client/gui-win32/citydlg.c:2108
+#: client/gui-gtk/citydlg.c:1318 client/gui-win32/citydlg.c:2108
 msgid "New citizens are"
 msgstr "Nya medborgare är"
 
-#: client/gui-gtk/citydlg.c:1334
+#: client/gui-gtk/citydlg.c:1338
 msgid "City name"
 msgstr "Stadsnamn"
 
-#: client/gui-gtk/citydlg.c:1340 client/gui-gtk/wldlg.c:222
+#: client/gui-gtk/citydlg.c:1344 client/gui-gtk/wldlg.c:222
 #: client/gui-win32/citydlg.c:902 data/Freeciv:1940 data/Freeciv:2962
 msgid "Rename"
 msgstr "Byt namn"
 
-#: client/gui-gtk/citydlg.c:1350
+#: client/gui-gtk/citydlg.c:1354
 msgid "Next time open"
 msgstr "Visa när stadsdialogen öppnas"
 
-#: client/gui-gtk/citydlg.c:1439 client/gui-gtk/citydlg.c:1447
+#: client/gui-gtk/citydlg.c:1443 client/gui-gtk/citydlg.c:1451
 #, c-format
 msgid "City of %s"
 msgstr "%s"
 
-#: client/gui-gtk/citydlg.c:1506
+#: client/gui-gtk/citydlg.c:1510
 msgid "Close dialog"
 msgstr "Stäng"
 
-#: client/gui-gtk/citydlg.c:1513
+#: client/gui-gtk/citydlg.c:1517
 msgid "_Prev city"
 msgstr "_Föregående stad"
 
-#: client/gui-gtk/citydlg.c:1521
+#: client/gui-gtk/citydlg.c:1525
 msgid "_Next city"
 msgstr "_Nästa stad"
 
-#: client/gui-gtk/citydlg.c:1580 client/gui-mui/citydlg.c:1745
+#: client/gui-gtk/citydlg.c:1584 client/gui-mui/citydlg.c:1745
 #: client/gui-xaw/citydlg.c:1900
 #, c-format
 msgid "%s - %s citizens"
 msgstr "%s - %s medborgare"
 
-#: client/gui-gtk/citydlg.c:1874 client/gui-gtk/citydlg.c:1898
+#: client/gui-gtk/citydlg.c:1878 client/gui-gtk/citydlg.c:1902
 #: client/gui-mui/citydlg.c:1499 client/gui-mui/citydlg.c:1522
 #: client/gui-win32/citydlg.c:415 client/gui-win32/citydlg.c:436
 #, c-format
 msgid "%3d/%3d %3d turn"
 msgstr "%3d/%3d %3d omgång"
 
-#: client/gui-gtk/citydlg.c:1874 client/gui-gtk/citydlg.c:1898
+#: client/gui-gtk/citydlg.c:1878 client/gui-gtk/citydlg.c:1902
 #: client/gui-mui/citydlg.c:1499 client/gui-mui/citydlg.c:1522
 #: client/gui-win32/citydlg.c:415 client/gui-win32/citydlg.c:437
 #, c-format
 msgid "%3d/%3d %3d turns"
 msgstr "%3d/%3d %3d omgångar"
 
-#: client/gui-gtk/citydlg.c:1889 client/gui-win32/citydlg.c:428
+#: client/gui-gtk/citydlg.c:1882 client/gui-gtk/citydlg.c:1913
+msgid "Currently building"
+msgstr "Bygger"
+
+#: client/gui-gtk/citydlg.c:1893 client/gui-win32/citydlg.c:428
 #, c-format
 msgid "%3d/XXX XXX turns"
 msgstr "%3d/XXX XXX omgångar"
 
-#: client/gui-gtk/citydlg.c:1978
+#: client/gui-gtk/citydlg.c:1982
 #, c-format
 msgid "Upkeep (Total: %d)"
-msgstr "Omkostnader (Totalt: %d)"
+msgstr "Omkostnader (Sammanlagt: %d)"
 
-#: client/gui-gtk/citydlg.c:2127
+#: client/gui-gtk/citydlg.c:2131
 #, c-format
 msgid "Supported units (%d)"
 msgstr "Understödda enheter (%d)"
 
-#: client/gui-gtk/citydlg.c:2262
+#: client/gui-gtk/citydlg.c:2266
 #, c-format
 msgid "Present units (%d)"
 msgstr "Närvarande enheter (%d)"
 
-#: client/gui-gtk/citydlg.c:2289
+#: client/gui-gtk/citydlg.c:2293
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: client/gui-gtk/citydlg.c:2292
+#: client/gui-gtk/citydlg.c:2296
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "Handel med %s ger %d handel.\n"
 
-#: client/gui-gtk/citydlg.c:2298
+#: client/gui-gtk/citydlg.c:2302
 msgid "No trade routes exist."
 msgstr "Inga handelsvägar finns."
 
-#: client/gui-gtk/citydlg.c:2301
+#: client/gui-gtk/citydlg.c:2305
 #, c-format
 msgid "Total trade from trade routes: %d"
 msgstr "Sammanlagd handel från handelsvägar: %d"
 
-#: client/gui-gtk/citydlg.c:2471 client/gui-gtk/citydlg.c:2501
+#: client/gui-gtk/citydlg.c:2475 client/gui-gtk/citydlg.c:2505
 #: client/gui-win32/citydlg.c:1627 client/gui-win32/citydlg.c:1655
 #: data/Freeciv:1163 data/Freeciv:1199
 msgid "Unit Commands"
 msgstr "Enhetskommandon"
 
-#: client/gui-gtk/citydlg.c:2472 client/gui-gtk/citydlg.c:2502
+#: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2506
 #: client/gui-win32/citydlg.c:1629 client/gui-win32/citydlg.c:1657
 msgid "_Activate unit"
 msgstr "_Gör enhet verksam"
 
-#: client/gui-gtk/citydlg.c:2473 client/gui-gtk/citydlg.c:2503
+#: client/gui-gtk/citydlg.c:2477 client/gui-gtk/citydlg.c:2507
 #: client/gui-win32/citydlg.c:1631 client/gui-win32/citydlg.c:1659
 msgid "Activate unit, _close dialog"
 msgstr "Gör enhet verksam, stäng dialog"
 
-#: client/gui-gtk/citydlg.c:2475 client/gui-gtk/citydlg.c:2508
+#: client/gui-gtk/citydlg.c:2479 client/gui-gtk/citydlg.c:2512
 #: client/gui-win32/citydlg.c:1633 client/gui-win32/citydlg.c:1665
 msgid "_Disband unit"
 msgstr "_Upplös enhet"
 
-#: client/gui-gtk/citydlg.c:2476 client/gui-gtk/citydlg.c:2513
+#: client/gui-gtk/citydlg.c:2480 client/gui-gtk/citydlg.c:2517
 #: client/gui-gtk/dialogs.c:1063 client/gui-gtk/dialogs.c:1088
 #: client/gui-gtk/dialogs.c:1120 client/gui-gtk/gotodlg.c:127
 #: client/gui-mui/citydlg.c:1155 client/gui-mui/citydlg.c:1400
@@ -6305,37 +6375,37 @@ msgstr "_Upplös enhet"
 msgid "_Cancel"
 msgstr "_Avbryt"
 
-#: client/gui-gtk/citydlg.c:2505 client/gui-win32/citydlg.c:1661
+#: client/gui-gtk/citydlg.c:2509 client/gui-win32/citydlg.c:1661
 msgid "_Sentry unit"
 msgstr "_Sätt enhet på vakt"
 
-#: client/gui-gtk/citydlg.c:2507 client/gui-win32/citydlg.c:1663
+#: client/gui-gtk/citydlg.c:2511 client/gui-win32/citydlg.c:1663
 msgid "_Fortify unit"
 msgstr "_Befäst enhet"
 
-#: client/gui-gtk/citydlg.c:2510 client/gui-win32/citydlg.c:1667
+#: client/gui-gtk/citydlg.c:2514 client/gui-win32/citydlg.c:1667
 msgid "Make new _homecity"
 msgstr "Gör till ny _hemstad"
 
-#: client/gui-gtk/citydlg.c:2512 client/gui-win32/citydlg.c:1669
+#: client/gui-gtk/citydlg.c:2516 client/gui-win32/citydlg.c:1669
 msgid "_Upgrade unit"
 msgstr "_Ersätt enhet"
 
-#: client/gui-gtk/citydlg.c:2698 client/gui-mui/dialogs.c:1888
+#: client/gui-gtk/citydlg.c:2702 client/gui-mui/dialogs.c:1888
 #: client/gui-win32/citydlg.c:1579 client/gui-xaw/citydlg.c:2154
 #, c-format
 msgid "Sorry: cannot upgrade %s."
 msgstr "Ledsen: kan inte ersätta %s."
 
-#: client/gui-gtk/citydlg.c:2701 client/gui-gtk/citydlg.c:2724
+#: client/gui-gtk/citydlg.c:2705 client/gui-gtk/citydlg.c:2728
 #: client/gui-mui/dialogs.c:1889 client/gui-mui/dialogs.c:1913
 #: client/gui-win32/citydlg.c:1580 client/gui-win32/citydlg.c:1604
 #: data/Freeciv:2417
 msgid "Upgrade Unit!"
 msgstr "Ersätt Enhet!"
 
-#: client/gui-gtk/citydlg.c:2701 client/gui-gtk/citydlg.c:2726
-#: client/gui-gtk/citydlg.c:3003 client/gui-gtk/dialogs.c:416
+#: client/gui-gtk/citydlg.c:2705 client/gui-gtk/citydlg.c:2730
+#: client/gui-gtk/citydlg.c:3007 client/gui-gtk/dialogs.c:416
 #: client/gui-gtk/dialogs.c:992 client/gui-mui/dialogs.c:238
 #: client/gui-mui/dialogs.c:521 client/gui-win32/citydlg.c:1019
 #: client/gui-win32/citydlg.c:1581 client/gui-win32/citydlg.c:1605
@@ -6344,7 +6414,7 @@ msgstr "Ersätt Enhet!"
 msgid "Darn"
 msgstr "Synd"
 
-#: client/gui-gtk/citydlg.c:2707 client/gui-mui/dialogs.c:1898
+#: client/gui-gtk/citydlg.c:2711 client/gui-mui/dialogs.c:1898
 #: client/gui-win32/citydlg.c:1587 client/gui-xaw/citydlg.c:2163
 #, c-format
 msgid ""
@@ -6354,15 +6424,15 @@ msgstr ""
 "Ersätt %s med %s för %d guld?\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk/citydlg.c:2713 client/gui-gtk/repodlgs.c:944
+#: client/gui-gtk/citydlg.c:2717 client/gui-gtk/repodlgs.c:944
 #: client/gui-mui/dialogs.c:1902 client/gui-mui/repodlgs.c:820
 #: client/gui-win32/citydlg.c:1592 client/gui-win32/repodlgs.c:603
 #: data/Freeciv:2406
 msgid "Upgrade Obsolete Units"
 msgstr "Ersätt föråldrade enheter"
 
-#: client/gui-gtk/citydlg.c:2713 client/gui-gtk/citydlg.c:2995
-#: client/gui-gtk/citydlg.c:3279 client/gui-gtk/dialogs.c:408
+#: client/gui-gtk/citydlg.c:2717 client/gui-gtk/citydlg.c:2999
+#: client/gui-gtk/citydlg.c:3283 client/gui-gtk/dialogs.c:408
 #: client/gui-gtk/dialogs.c:984 client/gui-gtk/dialogs.c:1352
 #: client/gui-mui/citydlg.c:950 client/gui-mui/citydlg.c:990
 #: client/gui-mui/dialogs.c:512 client/gui-mui/dialogs.c:1159
@@ -6373,8 +6443,8 @@ msgstr "Ersätt föråldrade enheter"
 msgid "_Yes"
 msgstr "_Ja"
 
-#: client/gui-gtk/citydlg.c:2715 client/gui-gtk/citydlg.c:2996
-#: client/gui-gtk/citydlg.c:3280 client/gui-gtk/dialogs.c:409
+#: client/gui-gtk/citydlg.c:2719 client/gui-gtk/citydlg.c:3000
+#: client/gui-gtk/citydlg.c:3284 client/gui-gtk/dialogs.c:409
 #: client/gui-gtk/dialogs.c:985 client/gui-gtk/dialogs.c:1353
 #: client/gui-mui/citydlg.c:951 client/gui-mui/citydlg.c:991
 #: client/gui-mui/dialogs.c:513 client/gui-mui/dialogs.c:1160
@@ -6385,7 +6455,7 @@ msgstr "_Ja"
 msgid "_No"
 msgstr "_Nej"
 
-#: client/gui-gtk/citydlg.c:2719 client/gui-mui/dialogs.c:1908
+#: client/gui-gtk/citydlg.c:2723 client/gui-mui/dialogs.c:1908
 #: client/gui-win32/citydlg.c:1599 client/gui-xaw/citydlg.c:2173
 #, c-format
 msgid ""
@@ -6395,7 +6465,7 @@ msgstr ""
 "Att ersätta %s med %s kostar %d guld.\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk/citydlg.c:2990 client/gui-mui/citydlg.c:946
+#: client/gui-gtk/citydlg.c:2994 client/gui-mui/citydlg.c:946
 #: client/gui-win32/citydlg.c:1006 client/gui-xaw/citydlg.c:2093
 #, c-format
 msgid ""
@@ -6405,14 +6475,14 @@ msgstr ""
 "Vill du köpa %s för %d guld\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk/citydlg.c:2994 client/gui-gtk/citydlg.c:3003
+#: client/gui-gtk/citydlg.c:2998 client/gui-gtk/citydlg.c:3007
 #: client/gui-mui/citydlg.c:949 client/gui-mui/citydlg.c:959
 #: client/gui-win32/citydlg.c:1009 client/gui-win32/citydlg.c:1018
 #: data/Freeciv:2153 data/Freeciv:2183
 msgid "Buy It!"
 msgstr "Köp det!"
 
-#: client/gui-gtk/citydlg.c:2999 client/gui-mui/citydlg.c:956
+#: client/gui-gtk/citydlg.c:3003 client/gui-mui/citydlg.c:956
 #: client/gui-win32/citydlg.c:1015 client/gui-xaw/citydlg.c:2102
 #, c-format
 msgid ""
@@ -6422,20 +6492,20 @@ msgstr ""
 "%s kostar %d guld.\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk/citydlg.c:3060 client/gui-gtk/wldlg.c:310
+#: client/gui-gtk/citydlg.c:3064 client/gui-gtk/wldlg.c:310
 #: client/gui-gtk/wldlg.c:316 client/gui-mui/citydlg.c:556
 #: client/gui-mui/citydlg.c:585 client/gui-mui/worklistclass.c:213
 #: client/gui-win32/citydlg.c:1205
 msgid "Type"
 msgstr "Typ"
 
-#: client/gui-gtk/citydlg.c:3060 client/gui-gtk/wldlg.c:311
+#: client/gui-gtk/citydlg.c:3064 client/gui-gtk/wldlg.c:311
 #: client/gui-gtk/wldlg.c:317 client/gui-mui/citydlg.c:557
 #: client/gui-mui/worklistclass.c:214 client/gui-win32/citydlg.c:1208
 msgid "Info"
 msgstr "Information"
 
-#: client/gui-gtk/citydlg.c:3060 client/gui-gtk/repodlgs.c:557
+#: client/gui-gtk/citydlg.c:3064 client/gui-gtk/repodlgs.c:557
 #: client/gui-gtk/wldlg.c:312 client/gui-gtk/wldlg.c:318
 #: client/gui-mui/citydlg.c:559 client/gui-mui/repodlgs.c:494
 #: client/gui-mui/worklistclass.c:215 client/gui-win32/citydlg.c:1212
@@ -6443,47 +6513,47 @@ msgstr "Information"
 msgid "Cost"
 msgstr "Kostnad"
 
-#: client/gui-gtk/citydlg.c:3060 client/gui-gtk/wldlg.c:319
+#: client/gui-gtk/citydlg.c:3064 client/gui-gtk/wldlg.c:319
 #: client/gui-win32/citydlg.c:1214
 msgid "Turns"
 msgstr "Omgångar"
 
-#: client/gui-gtk/citydlg.c:3082 client/gui-win32/citydlg.c:1184
+#: client/gui-gtk/citydlg.c:3086 client/gui-win32/citydlg.c:1184
 #: data/Freeciv:2012
 msgid "Change Production"
 msgstr "Ändra tillverkning"
 
-#: client/gui-gtk/citydlg.c:3116
+#: client/gui-gtk/citydlg.c:3120
 msgid "Ca_ncel"
 msgstr "_Avbryt"
 
-#: client/gui-gtk/citydlg.c:3124 client/gui-gtk/menu.c:728
+#: client/gui-gtk/citydlg.c:3128 client/gui-gtk/menu.c:728
 #: client/gui-mui/citydlg.c:1154 client/gui-win32/menu.c:365
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: client/gui-gtk/citydlg.c:3274 client/gui-mui/citydlg.c:984
+#: client/gui-gtk/citydlg.c:3278 client/gui-mui/citydlg.c:984
 #: client/gui-win32/citydlg.c:1070 client/gui-xaw/citydlg.c:2553
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Sälj %s för %d guld?"
 
-#: client/gui-gtk/citydlg.c:3278 client/gui-mui/citydlg.c:989
+#: client/gui-gtk/citydlg.c:3282 client/gui-mui/citydlg.c:989
 #: client/gui-win32/citydlg.c:1074 data/Freeciv:2172
 msgid "Sell It!"
 msgstr "Sälj det!"
 
-#: client/gui-gtk/citydlg.c:3353
+#: client/gui-gtk/citydlg.c:3357
 #, c-format
 msgid "Sell (worth %d gold)"
 msgstr "Sälj (värt %d guld)"
 
-#: client/gui-gtk/citydlg.c:3462 client/gui-win32/citydlg.c:1329
+#: client/gui-gtk/citydlg.c:3466 client/gui-win32/citydlg.c:1329
 #: data/Freeciv:524
 msgid "Rename City"
 msgstr "Byt namn på stad"
 
-#: client/gui-gtk/citydlg.c:3464 client/gui-win32/citydlg.c:1330
+#: client/gui-gtk/citydlg.c:3468 client/gui-win32/citydlg.c:1330
 #: client/gui-xaw/citydlg.c:1425
 msgid "What should we rename the city to?"
 msgstr "Vad ska vi kalla staden?"
@@ -6581,7 +6651,8 @@ msgstr "Förbättringar i stad"
 
 #: client/gui-gtk/cityrep.c:733 client/gui-win32/cityrep.c:709
 msgid "Game: Select a unit or improvement to change production to."
-msgstr "Spel: Välj en enhet eller stadsförbättring att ändra tillverkningen till."
+msgstr ""
+"Spel: Välj en enhet eller stadsförbättring att ändra tillverkningen till."
 
 #: client/gui-gtk/cityrep.c:767 client/gui-win32/cityrep.c:756
 #: data/Freeciv:1691
@@ -7277,6 +7348,92 @@ msgstr ""
 "Nettoinkomst: %d\n"
 "Skatt:%d Överflöd:%d Forskning:%d\n"
 "Forskar fram %s: %d/%d"
+
+#: client/gui-gtk/happiness.c:101 client/gui-xaw/menu.c:225
+#: data/helpdata.txt:1215
+msgid "Happiness"
+msgstr "Lycklighet"
+
+#: client/gui-gtk/happiness.c:249
+#, c-format
+msgid "Cities: %d total, %d over threshold of %d cities.\n"
+msgstr "Städer: %d sammanlagt, %d över tröskeln för %d städer.\n"
+
+#: client/gui-gtk/happiness.c:253
+#, c-format
+msgid "%d content before penalty with "
+msgstr "%d nöjda före straff med "
+
+#: client/gui-gtk/happiness.c:255
+#, c-format
+msgid "%d additional unhappy citizens."
+msgstr "%d ytterligare otillfredsställda medborgare."
+
+#: client/gui-gtk/happiness.c:271
+#, c-format
+msgid "Luxury: %d total (maximum %d usable). "
+msgstr "Överflöd: %d sammanlagt (högst %d är användbart). "
+
+#: client/gui-gtk/happiness.c:289
+msgid "Buildings: "
+msgstr "Byggnader: "
+
+#: client/gui-gtk/happiness.c:296 client/gui-gtk/happiness.c:303
+#: client/gui-gtk/happiness.c:310 client/gui-gtk/happiness.c:331
+#: client/gui-gtk/happiness.c:394 client/gui-gtk/happiness.c:401
+#: client/gui-gtk/happiness.c:414 client/gui-gtk/happiness.c:421
+msgid ". "
+msgstr ". "
+
+#: client/gui-gtk/happiness.c:316 client/gui-gtk/happiness.c:407
+msgid ""
+"\n"
+"              "
+msgstr ""
+"\n"
+"              "
+
+#: client/gui-gtk/happiness.c:324
+msgid "("
+msgstr "("
+
+#: client/gui-gtk/happiness.c:328
+msgid ")"
+msgstr ")"
+
+#: client/gui-gtk/happiness.c:336 client/gui-gtk/happiness.c:426
+msgid "None. "
+msgstr "Inga. "
+
+#: client/gui-gtk/happiness.c:354
+msgid "Units: "
+msgstr "Enheter: "
+
+#: client/gui-gtk/happiness.c:358
+msgid "Martial law in effect ("
+msgstr "Undantagstillstånd råder ("
+
+#: client/gui-gtk/happiness.c:362
+msgid "no maximum, "
+msgstr "inget högsta värde, "
+
+#: client/gui-gtk/happiness.c:364
+#, c-format
+msgid "%d units maximum, "
+msgstr "%d är högsta antalet enheter, "
+
+#: client/gui-gtk/happiness.c:367
+#, c-format
+msgid "%d per unit). "
+msgstr "%d per enhet). "
+
+#: client/gui-gtk/happiness.c:370
+msgid "Military units in the field may cause unhappiness. "
+msgstr "Krigsenheter i fält kan orsaka otillfredsställdhet. "
+
+#: client/gui-gtk/happiness.c:387
+msgid "Wonders: "
+msgstr "Världsunder: "
 
 #: client/gui-gtk/helpdlg.c:85 client/gui-gtk/helpdlg.c:88
 #: client/gui-gtk/helpdlg.c:92 client/gui-mui/helpdlg.c:490
@@ -9186,8 +9343,10 @@ msgid "Build Railroad"
 msgstr "Bygg järnväg"
 
 #: client/gui-mui/gui_main.c:1462
-msgid "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
-msgstr "Kunde inte öppna huvudfönstret (grafikproblem eller för liten skärmyta).\n"
+msgid ""
+"Couldn't open the main window (Gfx memory problem or screensize too small)\n"
+msgstr ""
+"Kunde inte öppna huvudfönstret (grafikproblem eller för liten skärmyta).\n"
 
 #: client/gui-mui/helpdlg.c:565 data/Freeciv:832
 msgid "Firepower:"
@@ -9557,7 +9716,8 @@ msgstr "Stadsvalmöjligheter"
 
 #: client/gui-win32/cityrep.c:700
 msgid "Game: Select a unit or improvement to change production from."
-msgstr "Spel: Välj en enhet eller stadsförbättring att ändra tillverkningen från."
+msgstr ""
+"Spel: Välj en enhet eller stadsförbättring att ändra tillverkningen från."
 
 #: client/gui-win32/cityrep.c:715
 msgid "Game: That's the same thing!"
@@ -9726,7 +9886,8 @@ msgstr "Inget versionsnummer i tillgångarna."
 
 #: client/gui-xaw/gui_main.c:296
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
-msgstr "Du har troligen en gammal (ungefär V1.0) Freeciv tillgångsfil någonstans."
+msgstr ""
+"Du har troligen en gammal (ungefär V1.0) Freeciv tillgångsfil någonstans."
 
 #: client/gui-xaw/gui_main.c:304
 msgid "Game version does not match Resource version."
@@ -9852,10 +10013,6 @@ msgstr "Arbetare"
 msgid "Government"
 msgstr "Regering"
 
-#: client/gui-xaw/menu.c:225 data/helpdata.txt:1215
-msgid "Happiness"
-msgstr "Lycklighet"
-
 #: client/gui-xaw/menu.c:226 data/helpdata.txt:1288
 msgid "Space Race"
 msgstr "Rymdkapplöpning"
@@ -9977,7 +10134,8 @@ msgid "Where to Display Messages"
 msgstr "Var meddelanden visas"
 
 #: data/Freeciv:1261
-msgid "Out = Output window, Mes = Messages window, Pop = Popup individual window"
+msgid ""
+"Out = Output window, Mes = Messages window, Pop = Popup individual window"
 msgstr "Ut = Utdatafönser, Med = Meddelandefönster, Öpp = Öppna eget fönster"
 
 #: data/Freeciv:1270
@@ -10230,7 +10388,7 @@ msgid ""
 "\n"
 "  freeciv-dev@freeciv.org"
 msgstr ""
-"Detta är version 0.18 av den svenska översättningen av Freeciv. Den "
+"Detta är version 0.19 av den svenska översättningen av Freeciv. Den "
 "innehåller vissa fel som ännu inte kan rättas till, eftersom det kräver "
 "omfattande arbete på programmeringssidan, utanför den svenska "
 "översättningen. Exempel på sådana fel är versal/gemen och böjningsformer av "
@@ -10244,6 +10402,8 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.19; 2001-10-30\n"
+"  Uppdateringar.\n"
 "Version 0.18; 2001-10-28\n"
 "  Uppdateringar.\n"
 "Version 0.17; 2001-10-18\n"
@@ -11169,14 +11329,16 @@ msgid "Next, the defender's strength is modified."
 msgstr "Därefter beräknas försvararens styrka."
 
 #: data/helpdata.txt:851
-msgid " - If the defender is a veteran, then its strength is multiplied by 1.5."
+msgid ""
+" - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " - Om försvararen är erfaren, multipliceras styrkan med 1.5."
 
 #: data/helpdata.txt:854
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
-msgstr " - Sedan multipliceras försvararens styrka med landskapets försvarsfaktor."
+msgstr ""
+" - Sedan multipliceras försvararens styrka med landskapets försvarsfaktor."
 
 #: data/helpdata.txt:857
 msgid ""
@@ -11232,7 +11394,8 @@ msgstr ""
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
-msgstr " - Om försvararen är i en fästning (och inte i en stad), fördubblas styrkan."
+msgstr ""
+" - Om försvararen är i en fästning (och inte i en stad), fördubblas styrkan."
 
 #: data/helpdata.txt:881
 msgid ""
@@ -11627,7 +11790,8 @@ msgid ""
 msgstr " - Enheter kan åka oändligt långt utan kostnad längs järnväg."
 
 #: data/helpdata.txt:1099
-msgid " - A road may increase the trade resources produced by some types of terrain."
+msgid ""
+" - A road may increase the trade resources produced by some types of terrain."
 msgstr " - Väg kan öka handeln som fås från ett slags landskap."
 
 #: data/helpdata.txt:1102
@@ -11651,7 +11815,8 @@ msgstr ""
 "en i taget. Se även hjälpavsnittet kamp för ytterligare förklaring."
 
 #: data/helpdata.txt:1112
-msgid "You may also build Airbases, at which your air units may land and refuel."
+msgid ""
+"You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 "Man kan även bygga flygbaser, på vilka flygplan kan landa och återfylla sina "
 "drivmedelsbehållare."
@@ -12157,7 +12322,8 @@ msgstr "kustförsvar"
 msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
-msgstr "Fördubblar försvarsstyrkan mot angrepp från sjöenheter, för enheter i städer."
+msgstr ""
+"Fördubblar försvarsstyrkan mot angrepp från sjöenheter, för enheter i städer."
 
 #: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:272
 #: data/default/buildings.ruleset:460
@@ -12618,7 +12784,8 @@ msgstr "motorvägar"
 #: data/civ1/buildings.ruleset:1002 data/civ2/buildings.ruleset:993
 #: data/default/buildings.ruleset:1200
 #, no-c-format
-msgid "Increases trade resources by 50% on all squares with roads or railroads."
+msgid ""
+"Increases trade resources by 50% on all squares with roads or railroads."
 msgstr "Ökar handeln i alla rutor med vägar eller järnvägar med 50%"
 
 #: data/civ1/buildings.ruleset:1008 data/civ2/buildings.ruleset:999
@@ -12760,7 +12927,8 @@ msgstr "Eiffeltornet"
 #: data/civ1/buildings.ruleset:1241 data/civ2/buildings.ruleset:1232
 #: data/default/buildings.ruleset:1443
 #, no-c-format
-msgid "When built, every civilization's attitude toward you is improved by 25%."
+msgid ""
+"When built, every civilization's attitude toward you is improved by 25%."
 msgstr ""
 "När det färdigställs förbättras varje civilisations inställning till oss med "
 "25%."
@@ -12863,7 +13031,8 @@ msgstr "Leonardos Verkstäder"
 #: data/civ1/buildings.ruleset:1440 data/civ2/buildings.ruleset:1426
 #: data/default/buildings.ruleset:1638
 msgid "Upgrades one obsolete unit per game turn."
-msgstr "Ersätter 1 föråldrad enhet varje omgång om det finns någon föråldrad enhet."
+msgstr ""
+"Ersätter 1 föråldrad enhet varje omgång om det finns någon föråldrad enhet."
 
 #: data/civ1/buildings.ruleset:1445 data/civ2/buildings.ruleset:1431
 #: data/default/buildings.ruleset:1643
@@ -12962,7 +13131,8 @@ msgstr "Shakespeares Teater"
 #: data/civ1/buildings.ruleset:1651 data/civ2/buildings.ruleset:1636
 #: data/default/buildings.ruleset:1848
 msgid "Makes all unhappy citizens content, in the city where it is located."
-msgstr "Gör alla otillfredställda invånare nöjda i staden där den befinner sig."
+msgstr ""
+"Gör alla otillfredställda invånare nöjda i staden där den befinner sig."
 
 #: data/civ1/buildings.ruleset:1656 data/civ2/buildings.ruleset:1641
 #: data/default/buildings.ruleset:1853
@@ -13168,7 +13338,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:308
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
-msgstr "Underhåller en stads medborgare. Gör 3 otillfredställda medborgare nöjda."
+msgstr ""
+"Underhåller en stads medborgare. Gör 3 otillfredställda medborgare nöjda."
 
 #: data/civ1/buildings.ruleset:827
 msgid ""
@@ -14572,7 +14743,8 @@ msgstr "Vete"
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
-msgstr "Slätter är mycket stora, glesa områden, vilket gör handel en aning olägligt."
+msgstr ""
+"Slätter är mycket stora, glesa områden, vilket gör handel en aning olägligt."
 
 #: data/civ1/terrain.ruleset:509 data/civ2/terrain.ruleset:510
 #: data/classic/terrain.ruleset:509 data/default/terrain.ruleset:510
@@ -14611,7 +14783,8 @@ msgstr "Pälsar"
 
 #: data/civ1/terrain.ruleset:575 data/civ2/terrain.ruleset:576
 #: data/classic/terrain.ruleset:575 data/default/terrain.ruleset:576
-msgid "Tundra are broad, cold regions, fit for some agriculture and little else."
+msgid ""
+"Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "Tundra är stora, kalla områden, lämpliga för lite jordbruk och lite lite "
 "annat."
@@ -14723,8 +14896,10 @@ msgstr "krigare"
 
 #: data/civ1/units.ruleset:159 data/civ2/units.ruleset:163
 #: data/default/units.ruleset:163
-msgid "This unit may be built from the start of the game.  It is the weakest unit."
-msgstr "Denna enhet kan byggas från spelets början. Det är den svagaste enheten."
+msgid ""
+"This unit may be built from the start of the game.  It is the weakest unit."
+msgstr ""
+"Denna enhet kan byggas från spelets början. Det är den svagaste enheten."
 
 #: data/civ1/units.ruleset:165 data/civ2/units.ruleset:169
 #: data/default/units.ruleset:169
@@ -14922,7 +15097,8 @@ msgstr "smygbombplan"
 
 #: data/civ2/units.ruleset:902 data/default/units.ruleset:896
 msgid "An improved Bomber, with improved attack and a higher movement radius."
-msgstr "Ett förbättrat bombflygplan, med bättre angreppsstyrka och högre rörlighet."
+msgstr ""
+"Ett förbättrat bombflygplan, med bättre angreppsstyrka och högre rörlighet."
 
 #: data/civ1/units.ruleset:868 data/civ2/units.ruleset:908
 #: data/default/units.ruleset:902
@@ -14984,7 +15160,8 @@ msgstr "undervattensbåt"
 #: data/civ1/units.ruleset:1106 data/civ2/units.ruleset:1151
 #: data/default/units.ruleset:1145
 msgid "Submarines have a very high strategic value, but have a weak defence."
-msgstr "Undervattensbåtar har mycket högt strategiskt värde, men svagt försvar."
+msgstr ""
+"Undervattensbåtar har mycket högt strategiskt värde, men svagt försvar."
 
 #: data/civ1/units.ruleset:1112 data/civ2/units.ruleset:1157
 #: data/default/units.ruleset:1151
@@ -16055,4 +16232,3 @@ msgstr "zulu"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:zuluerna"
-
