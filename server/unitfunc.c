@@ -2530,7 +2530,7 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
 
   /* FIXME: this is a fog-of-war cheat.
      You get to know if there is an enemy on the tile*/
-  if (is_non_attack_unit_tile(map_get_tile(dest_x, dest_y), punit->owner)) {
+  if (is_non_allied_unit_tile(map_get_tile(dest_x, dest_y), punit->owner)) {
     notify_player_ex(unit_owner(punit), dest_x, dest_y, E_NOEVENT,
 		     _("Game: Cannot paradrop because there are"
 		       " enemy units on the destination location."));
