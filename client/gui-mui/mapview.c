@@ -223,13 +223,16 @@ void update_info_label(void)
 
   d = 0;
   for (; d < (game.player_ptr->economic.luxury) / 10; d++)
-    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_citizen_sprite(0));
+    set(main_econ_sprite[d], MUIA_Sprite_Sprite,
+	get_citizen_sprite(CITIZEN_ELVIS, d, NULL));
 
   for (; d < (game.player_ptr->economic.science + game.player_ptr->economic.luxury) / 10; d++)
-    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_citizen_sprite(1));
+    set(main_econ_sprite[d], MUIA_Sprite_Sprite,
+	get_citizen_sprite(CITIZEN_SCIENTIST, d, NULL));
 
   for (; d < 10; d++)
-    set(main_econ_sprite[d], MUIA_Sprite_Sprite, get_citizen_sprite(2));
+    set(main_econ_sprite[d], MUIA_Sprite_Sprite,
+	get_citizen_sprite(CITIZEN_TAXMAN, d, NULL));
 
   update_timeout_label();
 }
@@ -353,7 +356,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
   if (game.government_count == 0)
   {
     /* not sure what to do here */
-    gov_sprite = sprites.citizen[7];
+    gov_sprite = get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL);
   }
   else
   {

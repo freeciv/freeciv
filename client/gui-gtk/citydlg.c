@@ -1671,40 +1671,47 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   i = 0;	/* tracks the # of the citizen we are currently placing. */
   for (n = 0; n < pcity->ppl_happy[4]; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(5 + i % 2), i * width, 0, TRUE);
+		       get_citizen_sprite(CITIZEN_HAPPY, i, pcity),
+		       i * width, 0, TRUE);
   }
 
   for (n = 0; n < pcity->ppl_content[4]; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(3 + i % 2), i * width, 0, TRUE);
+		       get_citizen_sprite(CITIZEN_CONTENT, i, pcity),
+		       i * width, 0, TRUE);
   }
 
   for (n = 0; n < pcity->ppl_unhappy[4]; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(7 + i % 2), i * width, 0, TRUE);
+		       get_citizen_sprite(CITIZEN_UNHAPPY, i, pcity),
+		       i * width, 0, TRUE);
   }
 
   for (n = 0; n < pcity->ppl_angry[4]; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(9 + i % 2), i * width, 0, TRUE);
+		       get_citizen_sprite(CITIZEN_ANGRY, i, pcity),
+		       i * width, 0, TRUE);
   }
 
   pdialog->first_elvis = i;
   for (n = 0; n < pcity->ppl_elvis; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(0), i * width, 0, TRUE);
+		       get_citizen_sprite(CITIZEN_ELVIS, i, pcity),
+		       i * width, 0, TRUE);
   }
 
   pdialog->first_scientist = i;
   for (n = 0; n < pcity->ppl_scientist; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(1), i * width, 0, TRUE);
+		       get_citizen_sprite(CITIZEN_SCIENTIST, i, pcity),
+		       i * width, 0, TRUE);
   }
 
   pdialog->first_taxman = i;
   for (n = 0; n < pcity->ppl_taxman; n++, i++) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(2), i * width, 0, TRUE);
+		       get_citizen_sprite(CITIZEN_TAXMAN, i, pcity),
+		       i * width, 0, TRUE);
   }
 /*  gtk_widget_set_sensitive(pdialog->citizen_pixmap,*/
 /*                           !cma_is_city_under_agent(pcity, NULL));*/

@@ -430,13 +430,13 @@ static void draw_rates(HDC hdc)
   int d;
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
-    draw_sprite(get_citizen_sprite(0), hdc,
+    draw_sprite(get_citizen_sprite(CITIZEN_ELVIS, d, NULL), hdc,
 		SMALL_TILE_WIDTH*d,taxinfoline_y);/* elvis tile */
   for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
-    draw_sprite(get_citizen_sprite(1), hdc,
+    draw_sprite(get_citizen_sprite(CITIZEN_SCIENTIST, d, NULL), hdc,
 		SMALL_TILE_WIDTH*d,taxinfoline_y); /* scientist tile */    
   for(;d<10;d++)
-    draw_sprite(get_citizen_sprite(2), hdc,
+    draw_sprite(get_citizen_sprite(CITIZEN_TAXMAN, d, NULL), hdc,
 		SMALL_TILE_WIDTH*d,taxinfoline_y); /* taxman tile */  
 }
 
@@ -556,7 +556,7 @@ set_indicator_icons(int bulb, int sol, int flake, int gov)
   indicator_sprite[2]=sprites.cooling[flake];
   if (game.government_count==0) {
     /* not sure what to do here */
-    indicator_sprite[3] = sprites.citizen[7];
+    indicator_sprite[3] = get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL);
   } else {
     indicator_sprite[3] = get_government(gov)->sprite;    
   }

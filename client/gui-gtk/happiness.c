@@ -28,6 +28,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "happiness.h"
+#include "mapview.h"
 #include "tilespec.h"
 
 /* semi-arbitrary number that controls the width of the happiness widget */
@@ -158,7 +159,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
 {
   int i;
-  int citizen_type;
+  enum citizen_type citizen_type;
   int n1 = pcity->ppl_happy[index];
   int n2 = n1 + pcity->ppl_content[index];
   int n3 = n2 + pcity->ppl_unhappy[index];
@@ -175,22 +176,22 @@ static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index)
 
   for (i = 0; i < num_citizens; i++) {
     if (i < n1)
-      citizen_type = 5 + i % 2;
+      citizen_type = CITIZEN_HAPPY;
     else if (i < n2)
-      citizen_type = 3 + i % 2;
+      citizen_type = CITIZEN_CONTENT;
     else if (i < n3)
-      citizen_type = 7 + i % 2;
+      citizen_type = CITIZEN_UNHAPPY;
     else if (i < n4)
-      citizen_type = 9 + i % 2;
+      citizen_type = CITIZEN_ANGRY;
     else if (i < n5)
-      citizen_type = 0;
+      citizen_type = CITIZEN_ELVIS;
     else if (i < n6)
-      citizen_type = 1;
+      citizen_type = CITIZEN_SCIENTIST;
     else
-      citizen_type = 2;
+      citizen_type = CITIZEN_TAXMAN;
 
     gdk_draw_pixmap(happiness_pixmap, civ_gc,
-		    sprites.citizen[citizen_type]->pixmap,
+		    get_citizen_pixmap(citizen_type, i, pcity),
 		    0, 0, i * offset, 0, SMALL_TILE_WIDTH,
 		    SMALL_TILE_HEIGHT);
   }

@@ -1950,14 +1950,14 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   for (n = 0; n < pcity->ppl_happy[4]; n++)
   {
-    Object *o = MakeSprite(get_citizen_sprite(5 + n % 2));
+    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_HAPPY, n, pcity));
     if (o)
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
   }
 
   for (n = 0; n < pcity->ppl_content[4]; n++)
   {
-    Object *o = MakeSprite(get_citizen_sprite(3 + n % 2));
+    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_CONTENT, n, pcity));
     if (o)
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
   }
@@ -1965,20 +1965,20 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   for (n = 0; n < pcity->ppl_unhappy[4]; n++)
   {
-    Object *o = MakeSprite(get_citizen_sprite(7 + n % 2));
+    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_UNHAPPY, n, pcity));
     if (o)
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
   }
 
   for (n = 0; n < pcity->ppl_angry[4]; n++) {
-    Object *o = MakeSprite(get_citizen_sprite(9 + n % 2));
+    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_ANGRY, n, pcity));
     if (o)
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
   }
 
   for (n = 0; n < pcity->ppl_elvis; n++)
   {
-    Object *o = MakeSprite(get_citizen_sprite(0));
+    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_ELVIS, n, pcity));
     if (o)
     {
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
@@ -1988,7 +1988,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   for (n = 0; n < pcity->ppl_scientist; n++)
   {
-    Object *o = MakeSprite(get_citizen_sprite(1));
+    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_SCIENTIST, n, pcity));
     if (o)
     {
       DoMethod(pdialog->citizen2_group, OM_ADDMEMBER, o);
@@ -1998,7 +1998,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   for (n = 0; n < pcity->ppl_taxman; n++)
   {
-    Object *o = MakeSprite(get_citizen_sprite(2));
+    Object *o = MakeSprite(get_citizen_sprite(CITIZEN_TAXMAN, n, pcity));
 
     if (o)
     {
@@ -2493,8 +2493,9 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
     int n1 = pcity->ppl_happy[i];
     int n2 = n1 + pcity->ppl_content[i];
     int n3 = n2 + pcity->ppl_unhappy[i];
-    int n4 = n3 + pcity->ppl_elvis;
-    int n5 = n4 + pcity->ppl_scientist;
+    int n4 = n3 + pcity->ppl_angry[i];
+    int n5 = n4 + pcity->ppl_elvis;
+    int n6 = n5 + pcity->ppl_scientist;
     int num_citizens = pcity->size;
 
     DoMethod(pdialog->happiness_citizen_group[i],MUIM_Group_InitChange);
@@ -2504,19 +2505,22 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
       int citizen_type;
       Object *obj;
       if (j < n1)
-        citizen_type = 5 + j % 2;
+        citizen_type = CITIZEN_HAPPY;
       else if (j < n2)
-        citizen_type = 3 + j % 2;
+        citizen_type = CITIZEN_CONTENT;
       else if (j < n3)
-        citizen_type = 7 + j % 2;
-      else if (j < n4)
-        citizen_type = 0;
-      else if (j < n5)
-        citizen_type = 1;
-      else
-        citizen_type = 2;
+        citizen_type = CITIZEN_UNHAPPY;
+      else if (j < n4) {
+	citizen_type = CITIZEN_ANGRY;
+      }  else if (j < n5) {
+        citizen_type = CITIZEN_ELVIS;
+      } else if (j < n6) {
+        citizen_type = CITIZEN_SCIENTIST;
+      } else {
+        citizen_type = CITIZEN_TAXMAN;
+      }
 
-      if ((obj = MakeSprite(get_citizen_sprite(citizen_type))))
+      if ((obj = MakeSprite(get_citizen_sprite(citizen_type, j, pcity))))
       {
 	DoMethod(pdialog->happiness_citizen_group[i], OM_ADDMEMBER, obj);
       }

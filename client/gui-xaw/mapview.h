@@ -17,13 +17,16 @@
 
 #include "mapview_g.h"
 
+#include "citydlg_common.h"
+
 #include "graphics.h"
 
 struct unit;
 struct city;
 
 Pixmap get_thumb_pixmap(int onoff);
-Pixmap get_citizen_pixmap(int frame);
+Pixmap get_citizen_pixmap(enum citizen_type type, int cnum,
+			  struct city *pcity);
 
 void put_unit_pixmap(struct unit *punit, Pixmap pm,
 		     int canvas_x, int canvas_y);

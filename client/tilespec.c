@@ -554,6 +554,34 @@ static void tilespec_load_one(const char *spec_filename)
 }
 
 /**********************************************************************
+  Returns a text name for the citizen, as used in the tileset.
+***********************************************************************/
+static const char *get_citizen_name(enum citizen_type citizen)
+{
+  /* These strings are used in reading the tileset.  Do not
+   * translate. */
+  switch (citizen) {
+  case CITIZEN_ELVIS:
+    return "entertainer";
+  case CITIZEN_SCIENTIST:
+    return "scientist";
+  case CITIZEN_TAXMAN:
+    return "tax_collector";
+  case CITIZEN_HAPPY:
+    return "happy";
+  case CITIZEN_CONTENT:
+    return "content";
+  case CITIZEN_UNHAPPY:
+    return "unhappy";
+  case CITIZEN_ANGRY:
+    return "angry";
+  default:
+    die("unknown citizen type %d", (int) citizen);
+  }
+  return NULL;
+}
+
+/**********************************************************************
   Return string n0s0e0w0 such that INDEX_NSEW(n,s,e,w) = idx
   The returned string is pointer to static memory.
 ***********************************************************************/
@@ -612,18 +640,31 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(coast_color, "t.coast_color");
   }
 
-  /* This uses internal code for citizens array/index: */
-  SET_SPRITE(citizen[0], "citizen.entertainer");
-  SET_SPRITE(citizen[1], "citizen.scientist");
-  SET_SPRITE(citizen[2], "citizen.tax_collector");
-  SET_SPRITE(citizen[3], "citizen.content_0");
-  SET_SPRITE(citizen[4], "citizen.content_1");
-  SET_SPRITE(citizen[5], "citizen.happy_0");
-  SET_SPRITE(citizen[6], "citizen.happy_1");
-  SET_SPRITE(citizen[7], "citizen.unhappy_0");
-  SET_SPRITE(citizen[8], "citizen.unhappy_1");
-  SET_SPRITE(citizen[9], "citizen.angry_0");
-  SET_SPRITE(citizen[10], "citizen.angry_1");
+  /* Load the citizen sprite graphics. */
+  for (i = 0; i < NUM_TILES_CITIZEN; i++) {
+    my_snprintf(buffer, sizeof(buffer), "citizen.%s", get_citizen_name(i));
+    sprites.citizen[i].sprite[0] = hash_lookup_data(sprite_hash, buffer);
+    if (sprites.citizen[i].sprite[0]) {
+      /*
+       * If this form exists, use it as the only sprite.  This allows
+       * backwards compatability with tilesets that use e.g.,
+       * citizen.entertainer.
+       */
+      sprites.citizen[i].count = 1;
+      continue;
+    }
+
+    for (j = 0; j < NUM_TILES_CITIZEN; j++) {
+      my_snprintf(buffer, sizeof(buffer), "citizen.%s_%d",
+		  get_citizen_name(i), j);
+      sprites.citizen[i].sprite[j] = hash_lookup_data(sprite_hash, buffer);
+      if (!sprites.citizen[i].sprite[j]) {
+	break;
+      }
+    }
+    sprites.citizen[i].count = j;
+    assert(j > 0);
+  }
 
   SET_SPRITE(spaceship.solar_panels, "spaceship.solar_panels");
   SET_SPRITE(spaceship.life_support, "spaceship.life_support");
@@ -2042,10 +2083,16 @@ void tilespec_free_tiles(void)
 }
 
 /**************************************************************************
-  Return a sprite for the given citizen.
+  Return a sprite for the given citizen.  The citizen's type is given,
+  as well as their index (in the range [0..pcity->size)).  The
+  citizen's city can be used to determine which sprite to use (a NULL
+  value indicates there is no city; i.e., the sprite is just being
+  used as a picture).
 **************************************************************************/
-struct Sprite *get_citizen_sprite(int citizen)
+struct Sprite *get_citizen_sprite(enum citizen_type type, int citizen_index,
+				  struct city *pcity)
 {
-  citizen = CLIP(0, citizen, NUM_TILES_CITIZEN - 1);
-  return sprites.citizen[citizen];
+  assert(type >= 0 && type < NUM_TILES_CITIZEN);
+  citizen_index %= sprites.citizen[type].count;
+  return sprites.citizen[type].sprite[citizen_index];
 }

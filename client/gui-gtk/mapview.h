@@ -17,6 +17,7 @@
 
 #include "gtkpixcomm.h"
 
+#include "citydlg_common.h"
 #include "mapview_g.h"
 #include "mapview_common.h"
 
@@ -26,7 +27,8 @@ struct unit;
 struct city;
 
 GdkPixmap *get_thumb_pixmap(int onoff);
-GdkPixmap *get_citizen_pixmap(int frame);
+GdkPixmap *get_citizen_pixmap(enum citizen_type type, int citizen_index,
+			      struct city *pcity);
 
 gint overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev);
 gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev);

@@ -727,6 +727,7 @@ static void setup_widgets(void)
 
   /* citizens for taxrates */
   for (i = 0; i < 10; i++) {
+    enum citizen_type c = i < 5 ? CITIZEN_SCIENTIST : CITIZEN_TAXMAN;
     ebox = gtk_event_box_new();
     gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
 
@@ -735,7 +736,7 @@ static void setup_widgets(void)
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
-    econ_label[i] = gtk_image_new_from_pixmap(get_citizen_pixmap(i < 5 ? 1 : 2),
+    econ_label[i] = gtk_image_new_from_pixmap(get_citizen_pixmap(c, i, NULL),
 					      NULL);
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }
@@ -744,8 +745,9 @@ static void setup_widgets(void)
   bulb_label = gtk_image_new_from_pixmap(sprites.bulb[0]->pixmap, NULL);
   sun_label = gtk_image_new_from_pixmap(sprites.warming[0]->pixmap, NULL);
   flake_label = gtk_image_new_from_pixmap(sprites.cooling[0]->pixmap, NULL);
-  government_label = gtk_image_new_from_pixmap(sprites.citizen[7]->pixmap,
-					       NULL);
+  government_label
+    = gtk_image_new_from_pixmap(get_citizen_pixmap(CITIZEN_UNHAPPY, 0, NULL),
+				NULL);
 
   for (i = 0; i < 4; i++) {
     GtkWidget *w;

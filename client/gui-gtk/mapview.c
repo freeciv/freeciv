@@ -357,15 +357,15 @@ void update_info_label( void )
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
     gtk_pixmap_set(GTK_PIXMAP(econ_label[d]),
-    get_citizen_pixmap(0), NULL ); /* elvis tile */
+		   get_citizen_pixmap(CITIZEN_ELVIS, d, NULL), NULL);
  
   for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
     gtk_pixmap_set(GTK_PIXMAP(econ_label[d]),
-    get_citizen_pixmap(1), NULL ); /* scientist tile */
+		   get_citizen_pixmap(CITIZEN_SCIENTIST, d, NULL), NULL);
  
    for(;d<10;d++)
     gtk_pixmap_set(GTK_PIXMAP(econ_label[d]),
-    get_citizen_pixmap(2), NULL ); /* taxman tile */
+		   get_citizen_pixmap(CITIZEN_TAXMAN, d, NULL), NULL);
  
   update_timeout_label();
 }
@@ -443,12 +443,12 @@ GdkPixmap *get_thumb_pixmap(int onoff)
 }
 
 /**************************************************************************
-...
+  Access wrapper for get_citizen_sprite.
 **************************************************************************/
-GdkPixmap *get_citizen_pixmap(int frame)
+GdkPixmap *get_citizen_pixmap(enum citizen_type type, int citizen_index,
+			      struct city *pcity)
 {
-  frame = CLIP(0, frame, NUM_TILES_CITIZEN-1);
-  return sprites.citizen[frame]->pixmap;
+  return get_citizen_sprite(type, citizen_index, pcity)->pixmap;
 }
 
 /**************************************************************************
@@ -468,7 +468,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 
   if (game.government_count==0) {
     /* not sure what to do here */
-    gov_sprite = sprites.citizen[7]; 
+    gov_sprite = get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL); 
   } else {
     gov_sprite = get_government(gov)->sprite;
   }

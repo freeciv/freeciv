@@ -94,7 +94,7 @@ struct city_dialog {
   int present_y;
   Impr_Type_id sell_id;
   
-  int citizen_type[NUM_CITIZENS_SHOWN];
+  enum citizen_type citizen_type[NUM_CITIZENS_SHOWN];
   int support_unit_ids[NUM_UNITS_SHOWN];
   int present_unit_ids[NUM_UNITS_SHOWN];
   int change_list_ids[B_LAST+1+U_LAST+1];
@@ -614,46 +614,46 @@ void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
 
 
   for(i=0, n=0; n<pcity->ppl_happy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=5 && pdialog->citizen_type[i]!=6) {
-      pdialog->citizen_type[i]=5+i%2;
-      draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
+    if (pdialog->citizen_type[i] != CITIZEN_HAPPY) {
+      pdialog->citizen_type[i] = CITIZEN_HAPPY;
+      draw_sprite(get_citizen_sprite(CITIZEN_HAPPY, i, pcity), citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
     }
   for(n=0; n<pcity->ppl_content[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=3 && pdialog->citizen_type[i]!=4) {
-      pdialog->citizen_type[i]=3+i%2;
-      draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
+    if (pdialog->citizen_type[i] != CITIZEN_CONTENT) {
+      pdialog->citizen_type[i] = CITIZEN_CONTENT;
+      draw_sprite(get_citizen_sprite(CITIZEN_CONTENT, i, pcity), citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);  
     }
   for(n=0; n<pcity->ppl_unhappy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=7 && pdialog->citizen_type[i]!=8) {
-      pdialog->citizen_type[i]=7+i%2;
-      draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
+    if (pdialog->citizen_type[i] != CITIZEN_UNHAPPY) {
+      pdialog->citizen_type[i] = CITIZEN_UNHAPPY;
+      draw_sprite(get_citizen_sprite(CITIZEN_UNHAPPY, i, pcity), citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
     }
   for (n = 0; n < pcity->ppl_angry[4] && i < NUM_CITIZENS_SHOWN; n++, i++)
-    if (pdialog->citizen_type[i] != 9 && pdialog->citizen_type[i] != 10) {
-      pdialog->citizen_type[i] = 9 + i % 2;
-      draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]), citydlgdc,
+    if (pdialog->citizen_type[i] != CITIZEN_ANGRY) {
+      pdialog->citizen_type[i] = CITIZEN_ANGRY;
+      draw_sprite(get_citizen_sprite(CITIZEN_ANGRY, i, pcity), citydlgdc,
 		  SMALL_TILE_WIDTH * i, 0);
     }
   for(n=0; n<pcity->ppl_elvis && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=0) {
-      pdialog->citizen_type[i]=0;
-      draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
+    if (pdialog->citizen_type[i] != CITIZEN_ELVIS) {
+      pdialog->citizen_type[i] = CITIZEN_ELVIS;
+      draw_sprite(get_citizen_sprite(CITIZEN_ELVIS, i, pcity), citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
       
      }
   for(n=0; n<pcity->ppl_scientist && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=1) {
-      pdialog->citizen_type[i]=1;
-      draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
+    if (pdialog->citizen_type[i] != CITIZEN_SCIENTIST) {
+      pdialog->citizen_type[i] = CITIZEN_SCIENTIST;
+      draw_sprite(get_citizen_sprite(CITIZEN_SCIENTIST, i, pcity), citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
     }
   for(n=0; n<pcity->ppl_taxman && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=2) {
-      pdialog->citizen_type[i]=2;
-      draw_sprite(get_citizen_sprite(pdialog->citizen_type[i]),citydlgdc,
+    if (pdialog->citizen_type[i] != CITIZEN_TAXMAN) {
+      pdialog->citizen_type[i] = CITIZEN_TAXMAN;
+      draw_sprite(get_citizen_sprite(CITIZEN_TAXMAN, i, pcity), citydlgdc,
 		  SMALL_TILE_WIDTH*i,0);
     }
   

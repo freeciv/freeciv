@@ -21,6 +21,8 @@
 #include "map.h"		/* NUM_DIRECTION_NSEW */
 
 #include "colors_g.h"
+
+#include "citydlg_common.h"	/* enum citizen_type */
 #include "options.h"
 
 struct Sprite;			/* opaque; gui-dep */
@@ -75,9 +77,10 @@ struct unit *get_drawable_unit(int x, int y, bool citymode);
                              ((w) ? BIT_WEST  : 0))
 
 #define NUM_TILES_PROGRESS 8
-#define NUM_TILES_CITIZEN 11
+#define NUM_TILES_CITIZEN CITIZEN_LAST
 #define NUM_TILES_HP_BAR 11
 #define NUM_TILES_DIGITS 10
+#define MAX_NUM_CITIZEN_SPRITES 6
 
 /* This could be moved to common/map.h if there's more use for it. */
 enum direction4 {
@@ -89,13 +92,19 @@ struct named_sprites {
     *bulb[NUM_TILES_PROGRESS],
     *warming[NUM_TILES_PROGRESS],
     *cooling[NUM_TILES_PROGRESS],
-    *citizen[NUM_TILES_CITIZEN],   /* internal code... */
     *treaty_thumb[2],     /* 0=disagree, 1=agree */
     *right_arrow,
 
     *black_tile,      /* only used for isometric view */
     *dither_tile,     /* only used for isometric view */
     *coast_color;     /* only used for isometric view */
+
+  struct {
+    /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
+     * sprites, as defined by the tileset. */
+    int count;
+    struct Sprite *sprite[MAX_NUM_CITIZEN_SPRITES];
+  } citizen[NUM_TILES_CITIZEN];
   struct {
     struct Sprite
       *solar_panels,
@@ -192,7 +201,8 @@ struct named_sprites {
 
 extern struct named_sprites sprites;
 
-struct Sprite *get_citizen_sprite(int citizen);
+struct Sprite *get_citizen_sprite(enum citizen_type type, int citizen_index,
+				  struct city *pcity);
 
 extern char current_tile_set_name[512];
 

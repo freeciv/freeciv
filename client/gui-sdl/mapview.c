@@ -762,7 +762,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
     struct Sprite *sprite = NULL;
     if (game.government_count == 0) {
       /* not sure what to do here */
-      sprite = sprites.citizen[7];
+      sprite = get_citizen_sprite(CITIZEN_UNHAPPY, 0, NULL);
     } else {
       sprite = get_government(gov)->sprite;
     }
