@@ -1,12 +1,12 @@
 # Swedish translation for Freeciv
-# Copyright (C) 2000-2003 Erik Sigra
+# Copyright (C) 2000-2004 Erik Sigra
 # Erik Sigra <freeciv@home.se>, <sigra@home.se>.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.49\n"
-"POT-Creation-Date: 2003-12-31 13:42+0100\n"
-"PO-Revision-Date: 2003-12-31 13:45+0100\n"
+"Project-Id-Version: 0.50\n"
+"POT-Creation-Date: 2004-01-05 22:25+0100\n"
+"PO-Revision-Date: 2004-01-10 00:25+0100\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -167,35 +167,35 @@ msgstr ""
 
 #: common/player.c:557
 msgid "Spotless"
-msgstr "Fläckfritt"
+msgstr "fläckfri"
 
 #: common/player.c:559
 msgid "Excellent"
-msgstr "Utmärkt"
+msgstr "utmärkt"
 
 #: common/player.c:561
 msgid "Honorable"
-msgstr "Hedervärt"
+msgstr "ärevördig"
 
 #: common/player.c:563
 msgid "Questionable"
-msgstr "Tveksamt"
+msgstr "tveksam"
 
 #: common/player.c:565
 msgid "Dishonorable"
-msgstr "Ohedervärt"
+msgstr "oärlig"
 
 #: common/player.c:567
 msgid "Poor"
-msgstr "Dåligt"
+msgstr "dålig"
 
 #: common/player.c:569
 msgid "Despicable"
-msgstr "Förakningsvärt"
+msgstr "förakningsvärd"
 
 #: common/player.c:571
 msgid "Atrocious"
-msgstr "Förbrytaraktigt"
+msgstr "skurkaktig"
 
 #: common/player.c:581
 msgid "?diplomatic_state:Neutral"
@@ -228,7 +228,7 @@ msgstr "?diplomatic_state:förbund"
 
 #: common/player.c:586
 msgid "?diplomatic_state:Never met"
-msgstr "?diplomatic_state:Aldrig mötts"
+msgstr "?diplomatic_state:aldrig mötts"
 
 #: common/shared.c:161
 #, c-format
@@ -352,13 +352,13 @@ msgid "Fortified"
 msgstr "Befäst"
 
 #: common/unit.c:558 client/gui-mui/gui_main.c:247
-#: client/gui-mui/mapclass.c:1681 client/gui-mui/mapclass.c:2968
+#: client/gui-mui/mapclass.c:1680 client/gui-mui/mapclass.c:2967
 #: client/gui-sdl/menu.c:564 client/gui-xaw/menu.c:175
 msgid "Sentry"
 msgstr "Vakta"
 
 #: common/unit.c:560 client/gui-gtk-2.0/menu.c:696 client/gui-gtk/menu.c:697
-#: client/gui-mui/gui_main.c:248 client/gui-mui/mapclass.c:1683
+#: client/gui-mui/gui_main.c:248 client/gui-mui/mapclass.c:1682
 #: client/gui-sdl/menu.c:554 client/gui-win32/menu.c:334
 #: client/gui-xaw/menu.c:176
 msgid "Pillage"
@@ -1159,7 +1159,8 @@ msgstr "Spel: Friden är återställd i %s."
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
-"Spel: Medborgarna ha störtat vår regering (%s). Vårt land är i vild ofrid."
+"Spel: Medborgarna ha störtat vår regering (%s). Vårt land härjas av "
+"oroligheter."
 
 #: server/cityturn.c:1404
 #, c-format
@@ -1560,7 +1561,7 @@ msgstr ""
 #: server/diplhand.c:252 server/diplhand.c:257
 #, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
-msgstr "Spel: %s styr inte längre %s! Avtalet träder inte i kraft!"
+msgstr "Spel: %s styra ej längre %s! Avtalet träder ej i kraft!"
 
 #: server/diplhand.c:289 server/diplhand.c:293
 #, c-format
@@ -2158,7 +2159,7 @@ msgstr "Den fruktade barbarledaren %s har förintats"
 #: server/plrhand.c:226
 #, c-format
 msgid "Game: The %s are no more!"
-msgstr "Spel: %s finns inte mer!"
+msgstr "Spel: %s finnas ej mer!"
 
 #: server/plrhand.c:228
 #, c-format
@@ -2188,7 +2189,7 @@ msgstr ""
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr ""
-"Spel: Vi lärde oss %s. Våra vetenskapsmän inriktar sig på %s. Målet är %s."
+"Spel: Vi lärde oss %s. Våra vetenskapsmän inrikta sig på %s. Målet är %s."
 
 #: server/plrhand.c:361
 #, c-format
@@ -3385,7 +3386,7 @@ msgstr ""
 "Det finns en handelsbegränsning för alla städer mindre än detta värde. "
 "Begränsningen är 100% (ingen handel alls) för städer upp till notradesize "
 "och minskar gradvis till 0% (ingen begränsning förutom vanlig mutning) för "
-"städer av storlek fulltradesize. Se även notradesize."
+"städer av storlek fulltradesize. Se även \"notradesize\"."
 
 #: server/stdinhand.c:460
 msgid "Maximum size of a city without trade"
@@ -3397,8 +3398,9 @@ msgid ""
 "The produced trade increases gradually for cities larger than notradesize "
 "and smaller than fulltradesize.  See also fulltradesize."
 msgstr ""
-"Inga städer med storle <= detta värde ge någon handel alls. Handeln öker "
-"gradvis för städer > notradesize och < fulltradesize. Se även fulltradesize."
+"Inga städer med storlek <= detta värde ge någon handel alls. Handeln öker "
+"gradvis för städer > \"notradesize\" och < \"fulltradesize\". Se även "
+"\"fulltradesize\"."
 
 #: server/stdinhand.c:470
 msgid "City size before people become unhappy"
@@ -3409,9 +3411,9 @@ msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy.  See also cityfactor."
 msgstr ""
-"Innan andra faktorer inverkar, äro de första unhappysize medborgarna i en "
-"stad nöjda, och de efterföljande medborgarna äro otillfredställda. Se även "
-"cityfactor."
+"Innan andra faktorer inverkar, äro de första \"unhappysize\" medborgarna i "
+"en stad nöjda, och de efterföljande medborgarna äro otillfredställda. Se "
+"även \"cityfactor\"."
 
 #
 #: server/stdinhand.c:478
@@ -3554,7 +3556,7 @@ msgstr ""
 "gör att enheter i fästningar får denna siktvidd förutsatt att den "
 "nödvändiga\n"
 "teknologin har erhållits. Denna teknologi bestäms av flaggan \"Watchtower\"\n"
-"i regeluppsättningen för teknologier. Se även wtowerevision."
+"i regeluppsättningen för teknologier. Se även \"wtowerevision\"."
 
 #: server/stdinhand.c:562
 msgid "Extra vision range for units in a fortress"
@@ -3572,7 +3574,7 @@ msgstr ""
 "siktvidden med detta värde för enheter i fästningar om den nödvändiga\n"
 "teknologin har erhållits. Denna teknologi bestäms av flaggan \"Watchtower\"\n"
 "i regelfilen för teknologier. Det största värdet av wtowervision och \n"
-"wtowerevision kommer att användas. Se även wtowervision."
+"wtowerevision kommer att användas. Se även \"wtowervision\"."
 
 #: server/stdinhand.c:574
 msgid "National border's radius"
@@ -5523,10 +5525,11 @@ msgstr ""
 "Välkommen - detta är den inledande hjälptexten för Freecivservern.\n"
 "\n"
 "2 Viktiga serverbegrepp äro kommandon och valmöjligheter.\n"
-"Kommandon, såsom \"help\", används för att växelverka med servern.\n"
+"Kommandon, såsom \"help\", användas för att växelverka med servern.\n"
 "Vissa kommandon ta ett eller flera argument, åtskilda av blanksteg.\n"
 "I många fall kunna kommandon och kommandoargument förkortas.\n"
-"Valmöjligheter äro inställningar som styr servern medan den är i gång.\n"
+"Valmöjligheter äro inställningar som styra servern medan den är i\n"
+"gång.\n"
 "\n"
 "För att ta reda på hur man får ytterligare upplysningar om kommandon\n"
 "och valmöjligheter, använd \"help help\"\n"
@@ -6482,10 +6485,10 @@ msgid "Best defending units"
 msgstr "Bästa försvarande enheter"
 
 #: client/cityrepdata.c:455 client/cityrepdata.c:457
-#: client/gui-gtk-2.0/cityrep.c:1292 client/gui-gtk-2.0/cityrep.c:1313
-#: client/gui-gtk-2.0/cityrep.c:1332 client/gui-gtk-2.0/cityrep.c:1351
+#: client/gui-gtk-2.0/cityrep.c:1293 client/gui-gtk-2.0/cityrep.c:1314
+#: client/gui-gtk-2.0/cityrep.c:1333 client/gui-gtk-2.0/cityrep.c:1352
 #: client/gui-gtk-2.0/menu.c:659 client/gui-gtk-2.0/repodlgs.c:933
-#: client/gui-gtk/cityrep.c:555 client/gui-gtk/menu.c:660
+#: client/gui-gtk/cityrep.c:556 client/gui-gtk/menu.c:660
 #: client/gui-gtk/repodlgs.c:895 client/gui-mui/citydlg.c:1374
 #: client/gui-mui/gui_main.c:228 client/gui-sdl/optiondlg.c:1763
 #: client/gui-sdl/repodlgs.c:370 client/gui-win32/menu.c:315
@@ -6643,9 +6646,9 @@ msgstr "?waste:Slö"
 msgid "Waste"
 msgstr "Slöreri"
 
-#: client/cityrepdata.c:490 client/gui-gtk-2.0/cityrep.c:1298
-#: client/gui-gtk-2.0/cityrep.c:1575 client/gui-gtk/cityrep.c:561
-#: client/gui-gtk/cityrep.c:936 client/gui-mui/citydlg.c:1377
+#: client/cityrepdata.c:490 client/gui-gtk-2.0/cityrep.c:1299
+#: client/gui-gtk-2.0/cityrep.c:1576 client/gui-gtk/cityrep.c:562
+#: client/gui-gtk/cityrep.c:937 client/gui-mui/citydlg.c:1377
 msgid "CMA"
 msgstr "Stadsförvaltning"
 
@@ -6725,31 +6728,31 @@ msgstr "Spel: Ändrar bygget av varje %s till %s."
 
 #: client/climisc.c:203
 msgid "?embassy:Both"
-msgstr "?embassy:Båda"
+msgstr "?embassy:båda"
 
 #: client/climisc.c:205
 msgid "?embassy:Yes"
-msgstr "?embassy:Ja"
+msgstr "?embassy:ja"
 
 #: client/climisc.c:208
 msgid "?embassy:With Us"
-msgstr "?embassy:Med oss"
+msgstr "?embassy:med oss"
 
 #: client/climisc.c:211
 msgid "?embassy:Contact"
-msgstr "?embassy:Förbindelse"
+msgstr "?embassy:förbindelse"
 
 #: client/climisc.c:224
 msgid "?vision:Both"
-msgstr "?vision:Båda"
+msgstr "?vision:båda"
 
 #: client/climisc.c:226
 msgid "?vision:To Them"
-msgstr "?vision:Till dem"
+msgstr "?vision:till dem"
 
 #: client/climisc.c:229
 msgid "?vision:To Us"
-msgstr "?vision:Till oss"
+msgstr "?vision:till oss"
 
 #: client/climisc.c:245 client/climisc.c:252
 #, c-format
@@ -8104,15 +8107,15 @@ msgstr ""
 "Stadsförvaltning: %s har ändrats flera gånger. Detta kan vara ett fel i "
 "Freeciv eller otur. Stadsförvaltningen lämnar nu sitt uppdrag."
 
-#: client/agents/cma_fec.c:236 client/gui-gtk-2.0/cityrep.c:553
-#: client/gui-gtk-2.0/cityrep.c:572 client/gui-gtk/cityrep.c:461
-#: client/gui-gtk/cityrep.c:480 client/gui-sdl/citydlg.c:2194
+#: client/agents/cma_fec.c:236 client/gui-gtk-2.0/cityrep.c:554
+#: client/gui-gtk-2.0/cityrep.c:573 client/gui-gtk/cityrep.c:462
+#: client/gui-gtk/cityrep.c:481 client/gui-sdl/citydlg.c:2194
 #: client/gui-sdl/plrdlg.c:209
 msgid "none"
 msgstr "ingen"
 
-#: client/agents/cma_fec.c:252 client/gui-gtk-2.0/cityrep.c:593
-#: client/gui-gtk/cityrep.c:501
+#: client/agents/cma_fec.c:252 client/gui-gtk-2.0/cityrep.c:594
+#: client/gui-gtk/cityrep.c:502
 msgid "custom"
 msgstr "valfritt"
 
@@ -8252,15 +8255,15 @@ msgstr "Stadsförbättr_ingar:"
 msgid "Pro_duction"
 msgstr "t_illverkning"
 
-#: client/gui-gtk-2.0/citydlg.c:783 client/gui-gtk-2.0/cityrep.c:825
-#: client/gui-gtk/citydlg.c:846 client/gui-gtk/cityrep.c:644
+#: client/gui-gtk-2.0/citydlg.c:783 client/gui-gtk-2.0/cityrep.c:826
+#: client/gui-gtk/citydlg.c:846 client/gui-gtk/cityrep.c:645
 #: client/gui-mui/citydlg.c:1468 client/gui-mui/cityrep.c:369
 msgid "_Buy"
 msgstr "_Köp"
 
 #: client/gui-gtk-2.0/citydlg.c:805 client/gui-gtk/citydlg.c:1162
 msgid "_Happiness"
-msgstr "_Lycklighet"
+msgstr "Belåten_het"
 
 #: client/gui-gtk-2.0/citydlg.c:856
 msgid "C_MA"
@@ -8310,7 +8313,7 @@ msgstr "Tillverkningssida"
 #: client/gui-gtk-2.0/citydlg.c:921 client/gui-gtk/citydlg.c:1290
 #: client/gui-mui/citydlg.c:1384
 msgid "Happiness page"
-msgstr "Lycklighet"
+msgstr "Belåtenhetssida"
 
 #: client/gui-gtk-2.0/citydlg.c:922 client/gui-gtk/citydlg.c:1291
 #: client/gui-mui/citydlg.c:1385
@@ -8426,8 +8429,8 @@ msgstr "Inga handelsvägar finns."
 msgid "Total trade from trade route %d"
 msgstr "Sammanlagd handel från handelsvägar %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1923 client/gui-gtk-2.0/cityrep.c:813
-#: client/gui-gtk/citydlg.c:2481 client/gui-gtk/cityrep.c:634
+#: client/gui-gtk-2.0/citydlg.c:1923 client/gui-gtk-2.0/cityrep.c:814
+#: client/gui-gtk/citydlg.c:2481 client/gui-gtk/cityrep.c:635
 #: client/gui-mui/cityrep.c:367
 msgid "Cen_ter"
 msgstr "Cen_trera"
@@ -8569,33 +8572,33 @@ msgstr "Byt namn på stad"
 msgid "What should we rename the city to?"
 msgstr "Vad skola vi kalla staden?"
 
-#: client/gui-gtk-2.0/cityrep.c:681 client/gui-gtk/citydlg.c:851
+#: client/gui-gtk-2.0/cityrep.c:682 client/gui-gtk/citydlg.c:851
 #: client/gui-gtk/citydlg.c:2981 client/gui-mui/citydlg.c:1631
 msgid "_Change"
 msgstr "Än_dra"
 
-#: client/gui-gtk-2.0/cityrep.c:686
+#: client/gui-gtk-2.0/cityrep.c:687
 msgid "Add _First"
 msgstr "Lägg till _först"
 
-#: client/gui-gtk-2.0/cityrep.c:691
+#: client/gui-gtk-2.0/cityrep.c:692
 msgid "Add _Next"
 msgstr "Lägg till som _nästa"
 
-#: client/gui-gtk-2.0/cityrep.c:696
+#: client/gui-gtk-2.0/cityrep.c:697
 msgid "Add _Last"
 msgstr "_Lägg till sist"
 
-#: client/gui-gtk-2.0/cityrep.c:701
+#: client/gui-gtk-2.0/cityrep.c:702
 msgid "_Select"
 msgstr "_Välj"
 
-#: client/gui-gtk-2.0/cityrep.c:705
+#: client/gui-gtk-2.0/cityrep.c:706
 msgid "S_how"
 msgstr "_Visa"
 
-#: client/gui-gtk-2.0/cityrep.c:782 client/gui-gtk-2.0/menu.c:657
-#: client/gui-gtk/cityrep.c:602 client/gui-gtk/diplodlg.c:400
+#: client/gui-gtk-2.0/cityrep.c:783 client/gui-gtk-2.0/menu.c:657
+#: client/gui-gtk/cityrep.c:603 client/gui-gtk/diplodlg.c:400
 #: client/gui-gtk/diplodlg.c:412 client/gui-gtk/menu.c:658
 #: client/gui-mui/diplodlg.c:495 client/gui-mui/diplodlg.c:530
 #: client/gui-mui/diplodlg.c:611 client/gui-mui/diplodlg.c:621
@@ -8608,21 +8611,21 @@ msgstr "_Visa"
 msgid "Cities"
 msgstr "Städer"
 
-#: client/gui-gtk-2.0/cityrep.c:819 client/gui-gtk/cityrep.c:639
+#: client/gui-gtk-2.0/cityrep.c:820 client/gui-gtk/cityrep.c:640
 #: client/gui-mui/cityrep.c:368
 msgid "_Popup"
 msgstr "Ö_ppna"
 
-#: client/gui-gtk-2.0/cityrep.c:831 client/gui-mui/cityrep.c:371
+#: client/gui-gtk-2.0/cityrep.c:832 client/gui-mui/cityrep.c:371
 msgid "_Refresh"
 msgstr "Uppdate_ra"
 
-#: client/gui-gtk-2.0/cityrep.c:1294 client/gui-gtk-2.0/cityrep.c:1315
-#: client/gui-gtk-2.0/cityrep.c:1334 client/gui-gtk-2.0/cityrep.c:1353
+#: client/gui-gtk-2.0/cityrep.c:1295 client/gui-gtk-2.0/cityrep.c:1316
+#: client/gui-gtk-2.0/cityrep.c:1335 client/gui-gtk-2.0/cityrep.c:1354
 #: client/gui-gtk-2.0/menu.c:641 client/gui-gtk-2.0/menu.c:643
 #: client/gui-gtk-2.0/menu.c:645 client/gui-gtk-2.0/menu.c:647
 #: client/gui-gtk-2.0/menu.c:649 client/gui-gtk-2.0/menu.c:651
-#: client/gui-gtk/cityrep.c:552 client/gui-gtk/menu.c:642
+#: client/gui-gtk/cityrep.c:553 client/gui-gtk/menu.c:642
 #: client/gui-gtk/menu.c:644 client/gui-gtk/menu.c:646
 #: client/gui-gtk/menu.c:648 client/gui-gtk/menu.c:650
 #: client/gui-gtk/menu.c:652 client/gui-mui/gui_main.c:220
@@ -8630,91 +8633,91 @@ msgstr "Uppdate_ra"
 msgid "Improvements"
 msgstr "Stadsförbättringar"
 
-#: client/gui-gtk-2.0/cityrep.c:1296 client/gui-gtk-2.0/cityrep.c:1317
-#: client/gui-gtk-2.0/cityrep.c:1336 client/gui-gtk-2.0/cityrep.c:1355
-#: client/gui-gtk/cityrep.c:558 client/gui-xaw/menu.c:230
+#: client/gui-gtk-2.0/cityrep.c:1297 client/gui-gtk-2.0/cityrep.c:1318
+#: client/gui-gtk-2.0/cityrep.c:1337 client/gui-gtk-2.0/cityrep.c:1356
+#: client/gui-gtk/cityrep.c:559 client/gui-xaw/menu.c:230
 msgid "Wonders"
 msgstr "Arbetare"
 
-#: client/gui-gtk-2.0/cityrep.c:1471 client/gui-gtk/cityrep.c:855
+#: client/gui-gtk-2.0/cityrep.c:1472 client/gui-gtk/cityrep.c:856
 #: client/gui-gtk/gotodlg.c:122 client/gui-win32/cityrep.c:440
 #: client/gui-win32/gotodlg.c:168 data/Freeciv:1142
 msgid "All Cities"
 msgstr "Alla städer"
 
-#: client/gui-gtk-2.0/cityrep.c:1476 client/gui-gtk/cityrep.c:861
+#: client/gui-gtk-2.0/cityrep.c:1477 client/gui-gtk/cityrep.c:862
 #: client/gui-win32/cityrep.c:441
 msgid "No Cities"
 msgstr "Inga städer"
 
-#: client/gui-gtk-2.0/cityrep.c:1481 client/gui-gtk/cityrep.c:867
+#: client/gui-gtk-2.0/cityrep.c:1482 client/gui-gtk/cityrep.c:868
 #: client/gui-win32/cityrep.c:442
 msgid "Invert Selection"
 msgstr "Invertera val"
 
-#: client/gui-gtk-2.0/cityrep.c:1491 client/gui-gtk/cityrep.c:899
+#: client/gui-gtk-2.0/cityrep.c:1492 client/gui-gtk/cityrep.c:900
 msgid "Building Units"
 msgstr "Bygger enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1497 client/gui-gtk/cityrep.c:893
+#: client/gui-gtk-2.0/cityrep.c:1498 client/gui-gtk/cityrep.c:894
 msgid "Building Improvements"
 msgstr "Bygger stadsförbättringar"
 
-#: client/gui-gtk-2.0/cityrep.c:1503 client/gui-gtk/cityrep.c:905
+#: client/gui-gtk-2.0/cityrep.c:1504 client/gui-gtk/cityrep.c:906
 msgid "Building Wonders"
 msgstr "Bygger världsunder"
 
-#: client/gui-gtk-2.0/cityrep.c:1515
+#: client/gui-gtk-2.0/cityrep.c:1516
 msgid "Building Unit"
 msgstr "Bygger enhet"
 
-#: client/gui-gtk-2.0/cityrep.c:1519
+#: client/gui-gtk-2.0/cityrep.c:1520
 msgid "Building Improvement"
 msgstr "Bygger stadsförbättring"
 
-#: client/gui-gtk-2.0/cityrep.c:1523
+#: client/gui-gtk-2.0/cityrep.c:1524
 msgid "Building Wonder"
 msgstr "Bygger världsunder"
 
-#: client/gui-gtk-2.0/cityrep.c:1531 client/gui-gtk/cityrep.c:876
+#: client/gui-gtk-2.0/cityrep.c:1532 client/gui-gtk/cityrep.c:877
 #: client/gui-win32/cityrep.c:444
 msgid "Coastal Cities"
 msgstr "Kuststäder"
 
-#: client/gui-gtk-2.0/cityrep.c:1536 client/gui-gtk/cityrep.c:882
+#: client/gui-gtk-2.0/cityrep.c:1537 client/gui-gtk/cityrep.c:883
 #: client/gui-win32/cityrep.c:445
 msgid "Same Island"
 msgstr "Samma ö"
 
-#: client/gui-gtk-2.0/cityrep.c:1546 client/gui-gtk/cityrep.c:915
+#: client/gui-gtk-2.0/cityrep.c:1547 client/gui-gtk/cityrep.c:916
 #: client/gui-mui/citydlg.c:1455 client/gui-mui/citydlg.c:1494
 #: client/gui-win32/cityrep.c:448
 msgid "Supported Units"
 msgstr "Understödda enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1549 client/gui-gtk/cityrep.c:918
+#: client/gui-gtk-2.0/cityrep.c:1550 client/gui-gtk/cityrep.c:919
 #: client/gui-win32/cityrep.c:455
 msgid "Units Present"
 msgstr "Närvarande enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1553 client/gui-gtk/cityrep.c:921
+#: client/gui-gtk-2.0/cityrep.c:1554 client/gui-gtk/cityrep.c:922
 #: client/gui-win32/cityrep.c:470
 msgid "Improvements in City"
 msgstr "Förbättringar i stad"
 
-#: client/gui-gtk-2.0/cityrep.c:1557
+#: client/gui-gtk-2.0/cityrep.c:1558
 msgid "Wonders in City"
 msgstr "Världsunder i stad"
 
-#: client/gui-gtk-2.0/cityrep.c:1566 client/gui-gtk/cityrep.c:928
+#: client/gui-gtk-2.0/cityrep.c:1567 client/gui-gtk/cityrep.c:929
 msgid "Available Units"
 msgstr "Tillgängliga enheter"
 
-#: client/gui-gtk-2.0/cityrep.c:1569 client/gui-gtk/cityrep.c:924
+#: client/gui-gtk-2.0/cityrep.c:1570 client/gui-gtk/cityrep.c:925
 msgid "Available Improvements"
 msgstr "Tillgängliga stadsförbättringar"
 
-#: client/gui-gtk-2.0/cityrep.c:1572 client/gui-gtk/cityrep.c:932
+#: client/gui-gtk-2.0/cityrep.c:1573 client/gui-gtk/cityrep.c:933
 msgid "Available Wonders"
 msgstr "Tillgängliga världsunder"
 
@@ -9542,7 +9545,7 @@ msgstr ""
 #: client/gui-win32/citydlg.c:781 client/gui-win32/happiness.c:92
 #: client/gui-xaw/menu.c:232 data/helpdata.txt:1295
 msgid "Happiness"
-msgstr "Lycklighet"
+msgstr "Belåtenhet"
 
 #: client/gui-gtk-2.0/happiness.c:243 client/gui-gtk/happiness.c:249
 #: client/gui-mui/citydlg.c:2230 client/gui-win32/happiness.c:195
@@ -9657,7 +9660,7 @@ msgstr "Krigsenheter i fält kunna orsaka otillfredsställdhet. "
 #: client/gui-gtk-2.0/happiness.c:371 client/gui-gtk/happiness.c:377
 #: client/gui-win32/happiness.c:324
 msgid "Military units have no happiness effect. "
-msgstr "Krigsenheter ha ingen lycklighetpåsverkan."
+msgstr "Krigsenheter ha ingen belåtenhetpåsverkan."
 
 #: client/gui-gtk-2.0/happiness.c:389 client/gui-gtk/happiness.c:395
 #: client/gui-mui/citydlg.c:2336 client/gui-win32/happiness.c:341
@@ -10411,7 +10414,7 @@ msgid "Diplomat\\/Spy Actions"
 msgstr "Budbärar\\/spejarhandlingar"
 
 #: client/gui-gtk-2.0/menu.c:728 client/gui-gtk/menu.c:729
-#: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1693
+#: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1692
 #: client/gui-sdl/menu.c:389 client/gui-win32/menu.c:351
 #: client/gui-xaw/menu.c:195
 msgid "Explode Nuclear"
@@ -11277,67 +11280,67 @@ msgstr "_Avbryt"
 msgid "Sell (worth %d gold)"
 msgstr "Sälj (värt %d guld)"
 
-#: client/gui-gtk/cityrep.c:348 client/gui-win32/cityrep.c:245
+#: client/gui-gtk/cityrep.c:349 client/gui-win32/cityrep.c:245
 msgid "No Buildings Available"
 msgstr "Inga byggnader äro tillgängliga."
 
-#: client/gui-gtk/cityrep.c:360 client/gui-win32/cityrep.c:256
+#: client/gui-gtk/cityrep.c:361 client/gui-win32/cityrep.c:256
 msgid "No Units Available"
 msgstr "Inga enheter äro tillgängliga."
 
-#: client/gui-gtk/cityrep.c:372 client/gui-win32/cityrep.c:269
+#: client/gui-gtk/cityrep.c:373 client/gui-win32/cityrep.c:269
 msgid "No Wonders Available"
 msgstr "Inga världsunder äro tillgängliga"
 
-#: client/gui-gtk/cityrep.c:571 data/Freeciv:1644
+#: client/gui-gtk/cityrep.c:572 data/Freeciv:1644
 msgid "Change All..."
 msgstr "Ändra alla..."
 
-#: client/gui-gtk/cityrep.c:628 client/gui-gtk/plrdlg.c:174
+#: client/gui-gtk/cityrep.c:629 client/gui-gtk/plrdlg.c:174
 #: client/gui-gtk/repodlgs.c:1184
 msgid "C_lose"
 msgstr "S_täng"
 
-#: client/gui-gtk/cityrep.c:649
+#: client/gui-gtk/cityrep.c:650
 msgid "_Change..."
 msgstr "Än_dra..."
 
-#: client/gui-gtk/cityrep.c:654
+#: client/gui-gtk/cityrep.c:655
 msgid "_Select..."
 msgstr "_Välj..."
 
-#: client/gui-gtk/cityrep.c:659
+#: client/gui-gtk/cityrep.c:660
 msgid "Con_figure..."
 msgstr "Ställ _In..."
 
-#: client/gui-gtk/cityrep.c:965 client/gui-win32/cityrep.c:692
+#: client/gui-gtk/cityrep.c:966 client/gui-win32/cityrep.c:692
 msgid "Game: Select a unit or improvement to change production to."
 msgstr ""
 "Spel: Välj en enhet eller stadsförbättring att ändra tillverkningen till."
 
-#: client/gui-gtk/cityrep.c:999 client/gui-win32/cityrep.c:741
+#: client/gui-gtk/cityrep.c:1000 client/gui-win32/cityrep.c:741
 #: data/Freeciv:1744
 msgid "From:"
 msgstr "Från:"
 
-#: client/gui-gtk/cityrep.c:1000 client/gui-win32/cityrep.c:749
+#: client/gui-gtk/cityrep.c:1001 client/gui-win32/cityrep.c:749
 #: data/Freeciv:1754
 msgid "To:"
 msgstr "Till:"
 
-#: client/gui-gtk/cityrep.c:1028 client/gui-win32/cityrep.c:733
+#: client/gui-gtk/cityrep.c:1029 client/gui-win32/cityrep.c:733
 #: data/Freeciv:1738
 msgid "Change Production Everywhere"
 msgstr "Ändra tillverkningen överallt"
 
-#: client/gui-gtk/cityrep.c:1128 client/gui-win32/citydlg.c:869
+#: client/gui-gtk/cityrep.c:1129 client/gui-win32/citydlg.c:869
 #: client/gui-win32/citydlg.c:1156 client/gui-win32/cityrep.c:745
 #: client/gui-win32/cityrep.c:879 data/Freeciv:1386 data/Freeciv:1636
 #: data/Freeciv:1792 data/Freeciv:2088
 msgid "Change"
 msgstr "Ändra"
 
-#: client/gui-gtk/cityrep.c:1137 client/gui-gtk/dialogs.c:1307
+#: client/gui-gtk/cityrep.c:1138 client/gui-gtk/dialogs.c:1307
 #: client/gui-gtk/dialogs.c:1387 client/gui-gtk/finddlg.c:108
 #: client/gui-gtk/gamedlgs.c:312 client/gui-gtk/inputdlg.c:135
 #: client/gui-gtk/messagedlg.c:126 client/gui-gtk/wldlg.c:491
@@ -11361,16 +11364,16 @@ msgstr "Ändra"
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: client/gui-gtk/cityrep.c:1418 data/Freeciv:1719
+#: client/gui-gtk/cityrep.c:1419 data/Freeciv:1719
 msgid "Configure Cities Report"
 msgstr "Ställ in stadsredogörelsen"
 
-#: client/gui-gtk/cityrep.c:1421 client/gui-mui/cityrep.c:273
+#: client/gui-gtk/cityrep.c:1422 client/gui-mui/cityrep.c:273
 #: client/gui-win32/cityrep.c:127 data/Freeciv:1724
 msgid "Set columns shown"
 msgstr "Välj visade kolumner"
 
-#: client/gui-gtk/cityrep.c:1445 client/gui-gtk/dialogs.c:230
+#: client/gui-gtk/cityrep.c:1446 client/gui-gtk/dialogs.c:230
 #: client/gui-gtk/dialogs.c:387 client/gui-gtk/dialogs.c:700
 #: client/gui-gtk/dialogs.c:798 client/gui-gtk/dialogs.c:1733
 #: client/gui-gtk/gamedlgs.c:489 client/gui-gtk/helpdlg.c:614
@@ -11755,7 +11758,7 @@ msgstr "Inkomst: %6d Sammanlagt kostnad: %6d"
 msgid "Totals: ..."
 msgstr "Sammanlagda: ..."
 
-#: client/gui-gtk/repodlgs.c:920 client/gui-mui/mapclass.c:2978
+#: client/gui-gtk/repodlgs.c:920 client/gui-mui/mapclass.c:2977
 #: client/gui-sdl/dialogs.c:478 client/gui-sdl/menu.c:421
 #: client/gui-win32/repodlgs.c:715 data/Freeciv:1950
 msgid "Upgrade"
@@ -12272,61 +12275,61 @@ msgid "Order"
 msgstr "Befallningar"
 
 #: client/gui-mui/gui_main.c:235 client/gui-mui/gui_main.c:1276
-#: client/gui-mui/mapclass.c:1663 client/gui-win32/menu.c:959
+#: client/gui-mui/mapclass.c:1662 client/gui-win32/menu.c:959
 #: client/gui-xaw/menu.c:157
 msgid "Build City"
 msgstr "_Bygg stad"
 
 #: client/gui-mui/gui_main.c:236 client/gui-mui/gui_main.c:1319
-#: client/gui-mui/mapclass.c:1667 client/gui-sdl/menu.c:683
+#: client/gui-mui/mapclass.c:1666 client/gui-sdl/menu.c:683
 #: client/gui-sdl/menu.c:987 client/gui-win32/menu.c:995
 #: client/gui-xaw/menu.c:159
 msgid "Build Road"
 msgstr "Bygg väg"
 
 #: client/gui-mui/gui_main.c:237 client/gui-mui/gui_main.c:1301
-#: client/gui-mui/mapclass.c:1717 client/gui-sdl/menu.c:645
+#: client/gui-mui/mapclass.c:1716 client/gui-sdl/menu.c:645
 #: client/gui-sdl/menu.c:1079 client/gui-win32/menu.c:918
 #: client/gui-xaw/menu.c:164
 msgid "Build Mine"
 msgstr "Bygg gruva"
 
 #: client/gui-mui/gui_main.c:238 client/gui-mui/gui_main.c:1292
-#: client/gui-mui/mapclass.c:1710 client/gui-sdl/menu.c:656
+#: client/gui-mui/mapclass.c:1709 client/gui-sdl/menu.c:656
 #: client/gui-sdl/menu.c:1043 client/gui-win32/menu.c:917
 #: client/gui-xaw/menu.c:161
 msgid "Build Irrigation"
 msgstr "Bygg bevattning"
 
 #: client/gui-mui/gui_main.c:239 client/gui-mui/gui_main.c:1310
-#: client/gui-mui/mapclass.c:1724 client/gui-win32/menu.c:919
+#: client/gui-mui/mapclass.c:1723 client/gui-win32/menu.c:919
 #: client/gui-xaw/menu.c:166
 msgid "Transform Terrain"
 msgstr "Omvandla landskap"
 
-#: client/gui-mui/gui_main.c:241 client/gui-mui/mapclass.c:1671
+#: client/gui-mui/gui_main.c:241 client/gui-mui/mapclass.c:1670
 #: client/gui-sdl/menu.c:624 client/gui-xaw/menu.c:168
 msgid "Build Fortress"
 msgstr "Bygg fästning"
 
-#: client/gui-mui/gui_main.c:242 client/gui-mui/mapclass.c:1673
+#: client/gui-mui/gui_main.c:242 client/gui-mui/mapclass.c:1672
 #: client/gui-sdl/menu.c:604 client/gui-xaw/menu.c:169
 msgid "Build Airbase"
 msgstr "Bygg flygbas"
 
 #: client/gui-mui/gui_main.c:243 client/gui-mui/gui_main.c:1245
-#: client/gui-mui/mapclass.c:1675 client/gui-sdl/menu.c:594
+#: client/gui-mui/mapclass.c:1674 client/gui-sdl/menu.c:594
 #: client/gui-win32/menu.c:986 client/gui-xaw/menu.c:170
 msgid "Clean Pollution"
 msgstr "Rensa förorening"
 
-#: client/gui-mui/gui_main.c:244 client/gui-mui/mapclass.c:1677
+#: client/gui-mui/gui_main.c:244 client/gui-mui/mapclass.c:1676
 #: client/gui-sdl/menu.c:574 client/gui-xaw/menu.c:172
 msgid "Clean Nuclear Fallout"
 msgstr "Rensa radioaktivt nedfall"
 
-#: client/gui-mui/gui_main.c:246 client/gui-mui/mapclass.c:1679
-#: client/gui-mui/mapclass.c:2947 client/gui-sdl/menu.c:614
+#: client/gui-mui/gui_main.c:246 client/gui-mui/mapclass.c:1678
+#: client/gui-mui/mapclass.c:2946 client/gui-sdl/menu.c:614
 #: client/gui-win32/menu.c:332 client/gui-xaw/menu.c:174
 msgid "Fortify"
 msgstr "Befäst"
@@ -12335,7 +12338,7 @@ msgstr "Befäst"
 msgid "Make Homecity"
 msgstr "Gör till hemstad"
 
-#: client/gui-mui/gui_main.c:251 client/gui-mui/mapclass.c:1695
+#: client/gui-mui/gui_main.c:251 client/gui-mui/mapclass.c:1694
 #: client/gui-sdl/menu.c:534 client/gui-xaw/menu.c:179
 msgid "Unload"
 msgstr "Lasta ur"
@@ -12344,17 +12347,17 @@ msgstr "Lasta ur"
 msgid "Wake up others"
 msgstr "Väck övriga (_Q)"
 
-#: client/gui-mui/gui_main.c:254 client/gui-mui/mapclass.c:1685
+#: client/gui-mui/gui_main.c:254 client/gui-mui/mapclass.c:1684
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:182
 msgid "Auto Settler"
 msgstr "Förbättra landskap självständigt"
 
-#: client/gui-mui/gui_main.c:255 client/gui-mui/mapclass.c:1687
+#: client/gui-mui/gui_main.c:255 client/gui-mui/mapclass.c:1686
 #: client/gui-win32/menu.c:341 client/gui-xaw/menu.c:183
 msgid "Auto Attack"
 msgstr "Angrip självständigt"
 
-#: client/gui-mui/gui_main.c:256 client/gui-mui/mapclass.c:1689
+#: client/gui-mui/gui_main.c:256 client/gui-mui/mapclass.c:1688
 #: client/gui-xaw/menu.c:184
 msgid "Auto Explore"
 msgstr "Utforska självständigt"
@@ -12442,24 +12445,24 @@ msgstr ""
 msgid "Change to %s"
 msgstr "Ändra till %s"
 
-#: client/gui-mui/gui_main.c:1240 client/gui-mui/mapclass.c:1691
+#: client/gui-mui/gui_main.c:1240 client/gui-mui/mapclass.c:1690
 #: client/gui-sdl/menu.c:584 client/gui-win32/menu.c:984
 #: client/gui-xaw/menu.c:171
 msgid "Paradrop"
 msgstr "Hoppa fallskärm"
 
-#: client/gui-mui/gui_main.c:1272 client/gui-mui/mapclass.c:1665
+#: client/gui-mui/gui_main.c:1272 client/gui-mui/mapclass.c:1664
 #: client/gui-sdl/menu.c:710 client/gui-sdl/menu.c:960
 #: client/gui-win32/menu.c:955 client/gui-xaw/menu.c:158
 msgid "Add to City"
 msgstr "Utöka stad"
 
-#: client/gui-mui/gui_main.c:1288 client/gui-mui/mapclass.c:1707
+#: client/gui-mui/gui_main.c:1288 client/gui-mui/mapclass.c:1706
 #: client/gui-win32/menu.c:971 client/gui-xaw/menu.c:162
 msgid "Build Farmland"
 msgstr "Gör till åkerland"
 
-#: client/gui-mui/gui_main.c:1315 client/gui-mui/mapclass.c:1669
+#: client/gui-mui/gui_main.c:1315 client/gui-mui/mapclass.c:1668
 #: client/gui-sdl/menu.c:679 client/gui-sdl/menu.c:981
 #: client/gui-win32/menu.c:992 client/gui-xaw/menu.c:160
 msgid "Build Railroad"
@@ -12532,58 +12535,58 @@ msgstr "Infrastruktur: "
 msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
 msgstr "A:%d F:%d EK:%d TP:%d/%d%s%s"
 
-#: client/gui-mui/mapclass.c:173 client/gui-win32/mapctrl.c:188
+#: client/gui-mui/mapclass.c:172 client/gui-win32/mapctrl.c:188
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d0%%"
 msgstr "A:%d F:%d EK:%d TP:%d0%%"
 
-#: client/gui-mui/mapclass.c:1634
+#: client/gui-mui/mapclass.c:1633
 #, c-format
 msgid "City %s"
 msgstr "Stad %s"
 
-#: client/gui-mui/mapclass.c:1636
+#: client/gui-mui/mapclass.c:1635
 #, c-format
 msgid "Unit %s"
 msgstr "Enhet %s"
 
-#: client/gui-mui/mapclass.c:1638
+#: client/gui-mui/mapclass.c:1637
 #, c-format
 msgid "Tile %s"
 msgstr "Ruta %s"
 
-#: client/gui-mui/mapclass.c:1651 client/gui-win32/messagewin.c:151
+#: client/gui-mui/mapclass.c:1650 client/gui-win32/messagewin.c:151
 #: data/Freeciv:3293
 msgid "Popup City"
 msgstr "Öppna stad"
 
-#: client/gui-mui/mapclass.c:1697
+#: client/gui-mui/mapclass.c:1696
 msgid "Wake up"
 msgstr "Väck"
 
-#: client/gui-mui/mapclass.c:1699 client/gui-mui/mapclass.c:2931
-#: client/gui-mui/mapclass.c:3080
+#: client/gui-mui/mapclass.c:1698 client/gui-mui/mapclass.c:2930
+#: client/gui-mui/mapclass.c:3079
 msgid "Activate"
 msgstr "Verksam"
 
-#: client/gui-mui/mapclass.c:1753
+#: client/gui-mui/mapclass.c:1752
 msgid "List all units"
 msgstr "Lista alla enheter"
 
-#: client/gui-mui/mapclass.c:1768
+#: client/gui-mui/mapclass.c:1767
 msgid "Connect to this location"
 msgstr "Anslut hit"
 
-#: client/gui-mui/mapclass.c:1771
+#: client/gui-mui/mapclass.c:1770
 msgid "Goto this location"
 msgstr "Gå hit"
 
-#: client/gui-mui/mapclass.c:2937 client/gui-mui/mapclass.c:3084
+#: client/gui-mui/mapclass.c:2936 client/gui-mui/mapclass.c:3083
 #: client/gui-sdl/menu.c:410
 msgid "Disband"
 msgstr "Upplös"
 
-#: client/gui-mui/mapclass.c:2956 client/gui-sdl/citydlg.c:535
+#: client/gui-mui/mapclass.c:2955 client/gui-sdl/citydlg.c:535
 #: data/Freeciv:1186
 msgid "Make new homecity"
 msgstr "Gör till ny hemstad"
@@ -12949,7 +12952,7 @@ msgstr "Handel : +%d"
 
 #: client/gui-sdl/citydlg.c:2226 client/gui-sdl/citydlg.c:3707
 msgid "Happiness panel"
-msgstr "Lycklighet"
+msgstr "Belåtenhet"
 
 #: client/gui-sdl/citydlg.c:2576
 msgid "Citizens"
@@ -13110,7 +13113,7 @@ msgstr "Upplysningsredogörelse"
 
 #: client/gui-sdl/cityrep.c:219
 msgid "Happiness Report"
-msgstr "Lycklighetsredogörelse"
+msgstr "Belåtenhetsredogörelse"
 
 #: client/gui-sdl/cityrep.c:230
 msgid "Garrison Report"
@@ -15184,6 +15187,11 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.50; 2004-01-10\n"
+"  Rättelser. Ändring föreslagen av Henning Norén\n"
+"  <henning punkt noren punkt 402 vid student punkt lu punkt se>\n"
+"  (översättningen av \"Atrocious\" från \"förbrytaraktig\" till\n"
+"  \"skurkaktig\").\n"
 "Version 0.49; 2003-12-31\n"
 "  Rättelser, varav vissa från Henning Norén\n"
 "  <henning punkt noren punkt 402 vid student punkt lu punkt se>\n"
@@ -15250,9 +15258,9 @@ msgstr ""
 "  Uppdateringar.\n"
 "Version 0.21; 2001-11-20\n"
 "  Uppdateringar.\n"
-"  Rättelse från Mattias Andersson <tamasis@softhome.net>.\n"
+"  Rättelse från Mattias Andersson <tamasis vid softhome punkt net>.\n"
 "Version 0.20; 2001-11-09\n"
-"  Rättelse från Mattias Andersson <tamasis@softhome.net>.\n"
+"  Rättelse från Mattias Andersson <tamasis vid softhome punkt net>.\n"
 "Version 0.19; 2001-10-30\n"
 "  Uppdateringar.\n"
 "Version 0.18; 2001-10-28\n"
@@ -15262,13 +15270,14 @@ msgstr ""
 "Version 0.16; 2001-10-13\n"
 "  Uppdateringar.\n"
 "Version 0.15; 2001-10-10\n"
-"  Rättelser från Mattias Andersson <tamasis@softhome.net>.\n"
+"  Rättelser från Mattias Andersson <tamasis vid softhome punkt net>.\n"
 "Version 0.14; 2001-09-23\n"
 "  Uppdateringar.\n"
 "Version 0.13; 2001-07-27\n"
-"  Rättelser, varav vissa från Dennis Björklund <db@zigo.dhs.org>\n"
-"  (bland annat ändring av översättningen av \"seed\" i samband med\n"
-"  slumptal från \"säd\" till \"frö\"), och uppdateringar.\n"
+"  Rättelser, varav vissa från Dennis Björklund\n"
+"  <db vid zigo punkt dhs punkt org> (bland annat ändring av\n"
+"  översättningen av \"seed\" i samband med slumptal från \"säd\" till\n"
+"  \"frö\"), och uppdateringar.\n"
 "Version 0.12; 2001-07-04\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.11; 2001-01-24\n"
@@ -15283,13 +15292,13 @@ msgstr ""
 "Version 0.8; 2000-09-03\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.7; 2000-09-03\n"
-"  Rättelser och uppdateringar. Amigaklienten översatt (otestad).\n"
+"  Rättelser och uppdateringar. Amigaklienten översatt (oprövad).\n"
 "Version 0.6; 2000-08-28\n"
 "  Rättelser.\n"
 "Version 0.5; 2000-08-18\n"
 "  Rättleser (skrivfel) och uppdateringar. Bytt ut många enkla\n"
 "  citattecken mot dubbla citattecken enligt förslag från Mattias\n"
-"  Andersson <tamasis@softhome.net>.\n"
+"  Andersson <tamasis vid softhome punkt net>.\n"
 "Version 0.4; 2000-07-29\n"
 "  Rättleser och uppdateringar.\n"
 "Version 0.3; 2000-07-28\n"
@@ -15305,12 +15314,12 @@ msgstr ""
 "Henning Norén\n"
 "<henning punkt noren punkt 402 vid student punkt lu punkt se>\n"
 "  Rättelser och förslag 2003-12.\n"
-"Mattias Andersson <tamasis@softhome.net>\n"
+"Mattias Andersson <tamasis vid softhome punkt net>\n"
 "  har vid flera tillfällen under perioden 2000-07-27 till\n"
 "  30 bidragit med rättelser och hänvisningar.\n"
 "  Rättelser 2001-10-08.\n"
 "  Rättelse 2001-11-09.\n"
-"Dennis Björklund <db@zigo.dhs.org>\n"
+"Dennis Björklund <db vid zigo punkt dhs punkt org>\n"
 "  Rättelser 2001-07-27.\n"
 "\n"
 "Anpassning av översättningen (endast för vana användare):\n"
@@ -16071,7 +16080,7 @@ msgstr ""
 "sätt inte för höga minsta överskott. Använd faktorerna i stället.\n"
 "\n"
 "Kryssrutan \"Fira\" låter staden fira. Detta går endast med hög "
-"överflödssats. Se hjälp om \"Lycklighet\".\n"
+"överflödssats. Se hjälp om \"belåtenhet\".\n"
 "\n"
 "Man kan spara rullningslistinställningarna med ett namn. Klicka på 'lägg "
 "till förinställt värde' och ange ett namn för inställningen. Man kan använda "
@@ -16163,7 +16172,7 @@ msgstr ""
 "inte. När en landenhet lyckas med ett angrepp mot en stad utan stadsmurar, "
 "minskar invånarantalet med 1. Landenheter med angreppsstyrka 0 är "
 "ickekrigsenheter. De kräver inget underhåll och ha heller ingen inverkan på "
-"hemstadens lycklighet, och kunna ej angripa fientliga enheter eller erövra "
+"hemstadens belåtenhet, och kunna ej angripa fientliga enheter eller erövra "
 "fientliga städer."
 
 #: data/helpdata.txt:847
@@ -16807,8 +16816,8 @@ msgid ""
 "destroyed one at a time.  See the Combat help section for further details."
 msgstr ""
 "Bosättare och ingenjörer kunna även bygga fästningar. Enheter inuti en "
-"fästning försvarar sig med dubbel styrka; och enheter i en fästning förstörs "
-"en i taget. Se även hjälpavsnittet kamp för ytterligare förklaring."
+"fästning försvara sig med dubbel styrka och de förstöras en i taget. Se även "
+"hjälpavsnittet \"kamp\" för ytterligare förklaring."
 
 #: data/helpdata.txt:1185
 msgid ""
@@ -16885,7 +16894,7 @@ msgid ""
 "citizens' happiness, and many other game factors."
 msgstr ""
 "Regeringsformen påverkar städers tillverkning och handel, medborgarnas "
-"lycklighet och många andra spelfaktorer."
+"belåtenhet och många andra spelfaktorer."
 
 #: data/helpdata.txt:1228
 msgid ""
@@ -17116,7 +17125,7 @@ msgstr ""
 "överflöd görs 1 nöjd medborgare lycklig. Efter omvandling av alla nöjda "
 "medborgare till lyckliga medborgare, omvandlas otillfredställda medborgare "
 "till lyckliga och/eller nöjda. Även vissa världsunder ha inverkan på "
-"medborgarnas lycklighet (se passande stycken för närmare upplysningar)."
+"medborgarnas belåtenhet (se passande stycken för närmare upplysningar)."
 
 #: data/helpdata.txt:1350
 msgid ""
@@ -17135,8 +17144,8 @@ msgid ""
 msgstr ""
 "Under många regeringsformer kan närvaron av krigsenheter skapa belåtenhet "
 "genom att införa undantagstillstånd. Under republik eller folkstyre däremot, "
-"kunna krigsenheter skapa otillfredställdhet (se regering för enskildheter). "
-"I detta fall hjälper inte de ovannämnda stadsförbättringarna. Denna form av "
+"kunna krigsenheter skapa otillfredställdhet (se \"regering\"). I detta fall "
+"hjälper inte de ovannämnda stadsförbättringarna. Denna form av "
 "otillfredställdhet kan bekämpas genom att färdigställa polisstaioner, "
 "passande världsunder (såsom Hängande Trädgårdarna, Johann Sebastan Bachs "
 "Katedral, Bot mot Cancer, Shakespeares Teater, och Kvinnlig Rösträtt; märk "
@@ -18514,7 +18523,7 @@ msgstr ""
 "skulle ge > 2 enheter mat, sköldar eller handel, drabbas av en minskning med "
 "1 (till exempel en gläslandsruta med bevattningsanläggning som vanligtvis "
 "skulle ge 3 mat ger 2 mat utan regering). (Denna minskning upphävs om staden "
-"firar, se \"lycklighet\".)\n"
+"firar, se \"belåtenhet\".)\n"
 "\n"
 "När man inte har någon regering kan varje stad understödja ett antal "
 "krigsenheter lika stort som stadens storlek, utan att betala underhåll. "
@@ -18570,11 +18579,11 @@ msgstr ""
 "\n"
 "Envälde är mest drabbat av mutor av alla regeringsformer.\n"
 "\n"
-"Eb bosättare kostar 1 mat varje omgång under envälde. Rutor som annars "
+"En bosättare kostar 1 mat varje omgång under envälde. Rutor som annars "
 "skulle ge > 2 enheter mat, sköldar eller handel, drabbas av en minskning med "
 "1 (till exempel en gläslandsruta med bevattningsanläggning som vanligtvis "
 "skulle ge 3 mat ger 2 mat under envälde). (Denna minskning upphävs om staden "
-"firar, se \"lycklighet\".)\n"
+"firar, se \"belåtenhet\".)\n"
 "\n"
 "Den högsta satsen som kan sättas för skatt, överflöd eller forskning är "
 "60%.\n"
@@ -18641,7 +18650,7 @@ msgstr ""
 "Varje bosättare kostar 1 mat varje omgång under monarki.\n"
 "\n"
 "Om en stad under monarki firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 70%.\n"
@@ -18709,7 +18718,7 @@ msgstr ""
 "Varje bosättare kostar 1 mat varje omgång under kommunism.\n"
 "\n"
 "Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 80%.\n"
@@ -18777,7 +18786,7 @@ msgstr ""
 "handel ge 1 handel till i bonus under republik.\n"
 "\n"
 "En firande stad i en republik växer 1 medborgare varje omgång; se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 80%.\n"
@@ -18858,7 +18867,7 @@ msgstr ""
 "handel får 1 handel till under folkstyre.\n"
 "\n"
 "Städer som firar under folkstyre växer med 1 medborgare varje omgång, se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenhet\".\n"
 "\n"
 "Det finns inga satsbegränsningar under folkstyre; man kan sätta skatt, "
 "överflöd eller forskning till 100%.\n"
@@ -18914,7 +18923,7 @@ msgstr ""
 "skulle ge > 2 enheter mat, sköldar eller handel, drabbas av en minskning med "
 "1 (till exempel en gläslandsruta med bevattningsanläggning som vanligtvis "
 "skulle ge 3 mat ger 2 mat utan regering). (Denna minskning upphävs om staden "
-"firar, se \"lycklighet\".)\n"
+"firar, se \"belåtenhet\".)\n"
 "\n"
 "När man inte har någon regering kan varje stad understödja ett antal "
 "krigsenheter lika stort som stadens storlek, utan att betala underhåll. "
@@ -18953,11 +18962,11 @@ msgstr ""
 "\n"
 "Envälde är mest drabbat av mutor och slöseri av alla regeringsformer.\n"
 "\n"
-"Eb bosättare kostar 1 mat varje omgång under envälde. Rutor som annars "
+"En bosättare kostar 1 mat varje omgång under envälde. Rutor som annars "
 "skulle ge > 2 enheter mat, sköldar eller handel, drabbas av en minskning med "
 "1 (till exempel en gläslandsruta med bevattningsanläggning som vanligtvis "
 "skulle ge 3 mat ger 2 mat under envälde). (Denna minskning upphävs om staden "
-"firar, se \"lycklighet\".)\n"
+"firar, se \"belåtenhet\".)\n"
 "\n"
 "Den högsta satsen som kan sättas för skatt, överflöd eller forskning är "
 "60%.\n"
@@ -19001,7 +19010,7 @@ msgstr ""
 "Varje bosättare kostar 1 mat varje omgång under monarki.\n"
 "\n"
 "Om en stad under monarki firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 70%.\n"
@@ -19055,7 +19064,7 @@ msgstr ""
 "Varje bosättare kostar 2 mat varje omgång under kommunism.\n"
 "\n"
 "Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 80%.\n"
@@ -19127,7 +19136,7 @@ msgstr ""
 "Bosättare förbrukar 2 man per omgång under fundamentalism.\n"
 "\n"
 "Om en stad firar under fundamentalism, får den 1 ytterligare handel i varje "
-"ruta som redan ge minst 1 handel. Se lycklighet för enskildheter.\n"
+"ruta som redan ge minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta satsen för forskning, skatt och överflöd är 80%.\n"
 "\n"
@@ -19183,7 +19192,7 @@ msgstr ""
 "handel ge 1 handel till i bonus under republik.\n"
 "\n"
 "En firande stad i en republik växer 1 medborgare varje omgång; se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 80%.\n"
@@ -19244,7 +19253,7 @@ msgstr ""
 "handel får 1 handel till under folkstyre.\n"
 "\n"
 "Städer som firar under folkstyre växer med 1 medborgare varje omgång, se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenhet\".\n"
 "\n"
 "Det finns inga satsbegränsningar under folkstyre; man kan sätta skatt, "
 "överflöd eller forskning till 100%.\n"
@@ -19297,7 +19306,7 @@ msgstr ""
 "skulle ge > 2 enheter mat, sköldar eller handel, drabbas av en minskning med "
 "1 (till exempel en gräslandsruta med bevattningsanläggning som vanligtvis "
 "skulle ge 3 mat ger 2 mat under envälde). (Denna minskning upphävs om staden "
-"firar, se \"lycklighet\".)\n"
+"firar, se \"belåtenhet\".)\n"
 "\n"
 "Under envälde kan varje stad understödja ett antal krigsenheter lika stort "
 "som stadens storlek, utan att betala underhåll. (Varje överskjutande enhet "
@@ -19336,7 +19345,7 @@ msgstr ""
 "Varje bosättare kostar 1 mat varje omgång under monarki.\n"
 "\n"
 "Om en stad under monarki firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Under monarki kan varje stad understödja upp till 3 krigsenheter utan att "
 "betala underhåll. (Varje överskjutande enhet kostar 1 sköld.)\n"
@@ -19385,7 +19394,7 @@ msgstr ""
 "Varje bosättare kostar 1 mat varje omgång under kommunism.\n"
 "\n"
 "Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Budbärare och spejare som skapas under kommunism är alltid erfarna.\n"
 "\n"
@@ -19436,7 +19445,7 @@ msgstr ""
 "handel ge 1 handel till i bonus under republik.\n"
 "\n"
 "En firande stad i en republik växer 1 medborgare varje omgång; se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenhet\".\n"
 "\n"
 "Under republik kräver krigsenheter 1 sköld vardera i underhåll. Dessutom "
 "betraktas följande enheter som fältenheter:\n"
@@ -19491,7 +19500,7 @@ msgstr ""
 "handel får 1 handel till under folkstyre.\n"
 "\n"
 "Städer som firar i en folkstyre växer med 1 medborgare varje omgång, se "
-"\"lycklighet\" för enskildheter.\n"
+"\"belåtenhet\".\n"
 "\n"
 "Under folkstyre kräver krigsenheter 1 sköld i underhåll. Dessutom ge "
 "följande enheter otillfredsställelse:\n"
@@ -19554,7 +19563,7 @@ msgstr ""
 "Varje bosättare kostar 2 mat varje omgång under kommunism.\n"
 "\n"
 "Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
-"som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
+"som redan ger minst 1 handel. Se \"belåtenhet\".\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
 "forskning är 80%.\n"
@@ -20739,7 +20748,7 @@ msgstr ""
 "- En budbärare kan till och med anstifta ett uppror i en fientlig stad och "
 "omvända den till sin civilisation om man har tillräckligt med pengar!\n"
 "\n"
-"- I vissa spelstrategier används horder av budbärare för att stöka till "
+"- I vissa spelstrategier användas horder av budbärare för att stöka till "
 "fienden. Inget under att budbärare ofta ses med misstänksamhet och skräck!"
 
 #: data/default/units.ruleset:1597 data/civ2/units.ruleset:1513
