@@ -1585,7 +1585,7 @@ Therefore, it will consider becoming a bodyguard. -- Syela */
     freelog(LOG_DEBUG, "%s@(%d, %d) going to defend %s@(%d, %d)",
 		  unit_type(punit)->name, punit->x, punit->y,
 		  unit_type(aunit)->name, aunit->x, aunit->y);
-  } else if (unit_attack_desirability(punit->type) != 0 ||
+  } else if (ai_unit_attack_desirability(punit->type) != 0 ||
       (pcity && !same_pos(pcity->x, pcity->y, punit->x, punit->y)))
      ai_unit_new_role(punit, AIUNIT_ATTACK);
   else {

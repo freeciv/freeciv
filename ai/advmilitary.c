@@ -479,51 +479,57 @@ trying again, but this will require yet more tedious observation -- Syela */
 }
 
 /************************************************************************** 
-How much we would want that unit..?
+  How much we would want that unit to defend a city? (Do not use this 
+  function to find bodyguards for ships or air units.)
 **************************************************************************/
-int unit_desirability(Unit_Type_id i, bool defender)
+int ai_unit_defence_desirability(Unit_Type_id i)
 {
   int desire = get_unit_type(i)->hp;
   int attack = get_unit_type(i)->attack_strength;
   int defense = get_unit_type(i)->defense_strength;
 
-  if (unit_types[i].move_type != SEA_MOVING || !defender) {
+  if (unit_types[i].move_type != LAND_MOVING
+      && unit_types[i].move_type != HELI_MOVING) {
+    /* Sea units get 1 firepower in Pearl Harbour,
+     * and helicopters very bad against air units */
     desire *= get_unit_type(i)->firepower;
   }
-
-  /* It's irrelevant for defenders how fast they move. */
-  desire *= defender ? SINGLE_MOVE : get_unit_type(i)->move_rate;
-
-  if (defender) {
-    desire *= defense;
-  } else if (defense > attack) {
-    /* We shouldn't use defense units as attackers. */
-    return 0;
-  } else {
-    desire *= attack;
+  desire *= defense;
+  desire += get_unit_type(i)->move_rate;
+  desire += attack;
+  if (unit_type_flag(i, F_PIKEMEN)) {
+    desire += desire / 2;
   }
-
-  if (unit_type_flag(i, F_IGTER) && !defender) {
-    desire *= 3;
-  }
-  if (unit_type_flag(i, F_PIKEMEN) && defender) {
-    desire = (3 * desire) / 2;
-  }
-  if (unit_types[i].move_type == LAND_MOVING && defender) {
-    /* Irnoclads could be *so* tempting.. */
-    desire = (3 * desire) / 2;
-  }
-
   return desire;
 }
 
 /************************************************************************** 
-...
+  How much we would want that unit to attack with?
 **************************************************************************/
-int unit_attack_desirability(Unit_Type_id i)
+int ai_unit_attack_desirability(Unit_Type_id i)
 {
-  return unit_desirability(i, FALSE);
-} 
+  int desire = get_unit_type(i)->hp;
+  int attack = get_unit_type(i)->attack_strength;
+  int defense = get_unit_type(i)->defense_strength;
+
+  desire *= get_unit_type(i)->move_rate;
+  desire *= get_unit_type(i)->firepower;
+  desire *= attack;
+  desire += defense;
+  if (unit_type_flag(i, F_IGTER)) {
+    desire += desire / 2;
+  }
+  if (unit_type_flag(i, F_IGTIRED)) {
+    desire += desire / 4;
+  }
+  if (unit_type_flag(i, F_MARINES)) {
+    desire += desire / 4;
+  }
+  if (unit_type_flag(i, F_IGWALL)) {
+    desire += desire / 4;
+  }
+  return desire;
+}
 
 /************************************************************************** 
 What would be the best defender for that city?
@@ -552,7 +558,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
       int tech_dist = num_unknown_techs_for_goal(pplayer,
                         unit_types[unit_type].tech_requirement);
       /* How much we want the unit? */
-      int desire = unit_desirability(unit_type, TRUE);
+      int desire = ai_unit_defence_desirability(unit_type);
       
       /* We won't leave the castle empty when driving out to battlefield. */
       if (!defended && unit_type_flag(unit_type, F_FIELDUNIT)) desire = 0;

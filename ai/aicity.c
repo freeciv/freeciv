@@ -558,7 +558,7 @@ static Unit_Type_id ai_choose_attacker(struct city *pcity,
   int cur;
 
   simple_ai_unit_type_iterate(i) {
-    cur = unit_attack_desirability(i);
+    cur = ai_unit_attack_desirability(i);
     if (which == unit_types[i].move_type) {
       if (can_build_unit(pcity, i) && (cur > best || (cur == best &&
  get_unit_type(i)->build_cost <= get_unit_type(bestid)->build_cost))) {
@@ -652,7 +652,7 @@ Unit_Type_id ai_choose_defender_limited(struct city *pcity, int n,
     if (can_build_unit(pcity, i) && get_unit_type(i)->build_cost <= n &&
         (m == LAND_MOVING || m == SEA_MOVING) &&
         (m == which || which == 0)) {
-      j = unit_desirability(i, TRUE);
+      j = ai_unit_defence_desirability(i);
       j *= j;
       if (unit_type_flag(i, F_FIELDUNIT) && !isdef) j = 0; /* This is now confirmed */
       if (walls && m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
