@@ -41,7 +41,6 @@
 
 extern signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
 
-static void set_trade_prod(struct city *pcity);
 static void set_tax_income(struct city *pcity);
 static void set_food_trade_shields(struct city *pcity);
 static void add_buildings_effect(struct city *pcity);
@@ -73,20 +72,6 @@ static void sanity_check_city(struct city *pcity);
 static void disband_city(struct city *pcity);
 
 static int update_city_activity(struct player *pplayer, struct city *pcity);
-
-void set_trade_prod(struct city *pcity)
-{
-  int i;
-  for (i=0;i<4;i++) {
-    pcity->trade_value[i]=trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
-    pcity->trade_prod+=pcity->trade_value[i];
-  }
-  pcity->corruption = city_corruption(pcity, pcity->trade_prod);
-  pcity->ai.trade_want = 8 - city_corruption(pcity, 8);
-/* AI would calculate this 1000 times otherwise; better to do it once -- Syela */
-  pcity->trade_prod -= pcity->corruption;
-}
-
 
 /**************************************************************************
 calculate the incomes according to the taxrates and # of specialists.
@@ -347,6 +332,7 @@ void set_pollution(struct city *pcity)
 **************************************************************************/
 void set_food_trade_shields(struct city *pcity)
 {
+  int i;
   int x,y;
   pcity->food_prod=0;
   pcity->shield_prod=0;
@@ -366,7 +352,15 @@ void set_food_trade_shields(struct city *pcity)
   pcity->tile_trade=pcity->trade_prod;
   
   pcity->food_surplus=pcity->food_prod-pcity->size*2;
-  set_trade_prod(pcity);
+
+  for (i=0;i<4;i++) {
+    pcity->trade_value[i]=trade_between_cities(pcity, find_city_by_id(pcity->trade[i]));
+    pcity->trade_prod+=pcity->trade_value[i];
+  }
+  pcity->corruption = city_corruption(pcity, pcity->trade_prod);
+  pcity->ai.trade_want = 8 - city_corruption(pcity, 8);
+/* AI would calculate this 1000 times otherwise; better to do it once -- Syela */
+  pcity->trade_prod -= pcity->corruption;
 }
 
 /**************************************************************************
