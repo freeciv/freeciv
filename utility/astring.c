@@ -145,6 +145,10 @@ void astr_clear(struct astring *astr)
 {
   assert(astr != NULL);
 
-  astr_minsize(astr, 1);
+  if (astr->n == 0) {
+    /* astr_minsize is really astr_size, so we don't want to reduce the
+     * size. */
+    astr_minsize(astr, 1);
+  }
   astr->str[0] = '\0';
 }
