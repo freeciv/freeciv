@@ -1976,6 +1976,8 @@ void game_load(struct section_file *file)
 
     /* Make sure everything is consistent. */
     players_iterate(pplayer) {
+      update_research(pplayer);
+
       unit_list_iterate(pplayer->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
 	  freelog(LOG_ERROR, "ERROR: Unit doing illegal activity in savegame!");
@@ -1986,8 +1988,6 @@ void game_load(struct section_file *file)
       city_list_iterate(pplayer->cities, pcity) {
 	check_city(pcity);
       } city_list_iterate_end;
-
-      update_research(pplayer);
     } players_iterate_end;
   } else {
     game.nplayers = 0;
