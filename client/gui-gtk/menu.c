@@ -110,6 +110,7 @@ enum MenuID {
   MENU_ORDER_DISBAND,
   MENU_ORDER_BUILD_WONDER,
   MENU_ORDER_TRADEROUTE,
+  MENU_ORDER_DIPLOMAT_DLG,
   MENU_ORDER_DONE,
   MENU_ORDER_NUKE,
 
@@ -343,6 +344,10 @@ static void orders_menu_callback(gpointer callback_data,
     if(get_unit_in_focus())
       request_unit_caravan_action(get_unit_in_focus(),
 				 PACKET_UNIT_ESTABLISH_TRADE);
+     break;
+   case MENU_ORDER_DIPLOMAT_DLG:
+    if(get_unit_in_focus())
+      key_unit_diplomat_actions();
      break;
    case MENU_ORDER_DONE:
     if(get_unit_in_focus())
@@ -606,6 +611,8 @@ static GtkItemFactoryEntry menu_items[]	=
     MENU_ORDER_BUILD_WONDER						      },
   { "/" N_("Orders") "/" N_("Make Trade Route"), "<shift>r",	orders_menu_callback,
     MENU_ORDER_TRADEROUTE						      },
+  { "/" N_("Orders") "/" N_("Diplomat|Spy Actions"), "<shift>b", orders_menu_callback,
+    MENU_ORDER_DIPLOMAT_DLG						      },
   { "/" N_("Orders") "/" N_("Explode Nuclear"), "<shift>n",	orders_menu_callback,
     MENU_ORDER_NUKE							      },
   { "/" N_("Orders") "/sep5",		NULL,		NULL,
@@ -951,6 +958,10 @@ void update_menus(void)
 			   unit_can_help_build_wonder_here(punit));
       menus_set_sensitive("<main>/Orders/Make Trade Route",
 			   unit_can_est_traderoute_here(punit));
+      menus_set_sensitive("<main>/Orders/Diplomat|Spy Actions",
+			  (is_diplomat_unit(punit)
+			   && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
+						     punit->x, punit->y)));
 
       if (unit_flag(punit->type, F_CITIES)
 	 && map_get_city(punit->x, punit->y)) {

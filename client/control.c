@@ -1324,6 +1324,21 @@ void key_unit_connect(void)
 /**************************************************************************
 ...
 **************************************************************************/
+void key_unit_diplomat_actions(void)
+{
+  struct city *pcity;		/* need pcity->id */
+  if(get_unit_in_focus()
+     && is_diplomat_unit(punit_focus)
+     && (pcity = map_get_city(punit_focus->x, punit_focus->y))
+     && !diplomat_dialog_is_open()    /* confusing otherwise? */
+     && diplomat_can_do_action(punit_focus, DIPLOMAT_ANY_ACTION,
+			       punit_focus->x, punit_focus->y))
+     process_diplomat_arrival(punit_focus, pcity->id);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void key_unit_disband(void)
 {
   if(get_unit_in_focus())

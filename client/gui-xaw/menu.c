@@ -175,6 +175,7 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Disband Unit"), 0         },     "D", MENU_ORDER_DISBAND, 0 },
     { { N_("Help Build Wonder"), 0    },     "b", MENU_ORDER_BUILD_WONDER, 0 },
     { { N_("Make Trade Route"), 0     },     "r", MENU_ORDER_TRADEROUTE, 0 },
+    { { N_("Diplomat/Spy Actions"), 0 },     "b", MENU_ORDER_DIPLOMAT_DLG, 0},
     { { N_("Explode Nuclear"), 0      },     "N", MENU_ORDER_NUKE, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Wait"), 0                 },     "w", MENU_ORDER_WAIT, 0 },
@@ -337,6 +338,10 @@ void update_menus(void)
 			   unit_can_help_build_wonder_here(punit));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_TRADEROUTE,
 			   unit_can_est_traderoute_here(punit));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_DIPLOMAT_DLG,
+			   (is_diplomat_unit(punit)
+			    && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
+						      punit->x, punit->y)));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_NUKE,
                            unit_flag(punit->type, F_NUCLEAR));
 
@@ -579,6 +584,9 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_ORDER_TRADEROUTE:
     key_unit_traderoute();
+    break;
+  case MENU_ORDER_DIPLOMAT_DLG:
+    key_unit_diplomat_actions();
     break;
   case MENU_ORDER_NUKE:
     key_unit_nuke();

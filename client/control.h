@@ -87,6 +87,7 @@ void key_unit_auto_settle(void);
 void key_unit_build_city(void);
 void key_unit_build_wonder(void);
 void key_unit_connect(void);
+void key_unit_diplomat_actions(void);
 void key_unit_disband(void);
 void key_unit_done(void);
 void key_unit_fallout(void);
