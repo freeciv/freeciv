@@ -1117,8 +1117,12 @@ static void setup_isledata(void)
 /**************************************************************************
   where do the different races start on the map? well this function tries
   to spread them out on the different islands.
+
+  FIXME: MAXTRIES used to be 1.000.000, but has been raised to 10.000.000
+         because a set of values hit the limit. At some point we want to
+         make a better solution.
 **************************************************************************/
-#define MAXTRIES 1000000
+#define MAXTRIES 10000000
 void create_start_positions(void)
 {
   int nr=0;
