@@ -913,7 +913,7 @@ void ai_military_gohome(struct player *pplayer,struct unit *punit)
 
 int find_something_to_kill(struct player *pplayer, struct unit *punit, int *x, int *y)
 {
-  int a, b, c, d, e, m, n, v, i, f, a0, b0, ab, g;
+  int a=0, b, c, d, e, m, n, v, i, f, a0, b0, ab, g;
   int aa = 0, bb = 0, cc = 0, dd = 0, bestb0 = 0;
   int con = map_get_continent(punit->x, punit->y);
   struct player *aplayer;

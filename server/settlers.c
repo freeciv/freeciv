@@ -789,7 +789,7 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   struct unit *ferryboat;	/* if non-null, boatid boat at unit's x,y */
   
   int x, y, i, j;
-  int a, b, d;
+  int a, b=0, d=0;
   int worst;
   int save_newv;		/* for debugging only */
   
