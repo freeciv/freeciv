@@ -882,39 +882,13 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
   send_player_info(pplayer, NULL);
   send_player_info(pplayer2, NULL);
 
-  /* If the old state was alliance the players' units can share tiles
+  /* If the old state was alliance, the players' units can share tiles
      illegally, and we need to call resolve_unit_stack() on all the players'
-     units. We can't just iterate through the unitlist as it could get
-     corrupted when resolve_unit_stack() deletes units. */
+     potentially shared unit positions. */
   if (old_type == DS_ALLIANCE) {
-    int *resolve_list = NULL;
-    int tot_units = unit_list_size(&(pplayer->units))
-      + unit_list_size(&(pplayer2->units));
-    int no_units = unit_list_size(&(pplayer->units));
-    int i;
-
-    if (tot_units > 0)
-      resolve_list = fc_malloc(tot_units * 2 * sizeof(int));
-    i = 0;
-    unit_list_iterate(pplayer->units, punit) {
-      resolve_list[i]   = punit->x;
-      resolve_list[i+1] = punit->y;
-      i += 2;
-    } unit_list_iterate_end;
-
-    no_units = unit_list_size(&(pplayer2->units));
-    unit_list_iterate(pplayer2->units, punit) {
-      resolve_list[i]   = punit->x;
-      resolve_list[i+1] = punit->y;
-      i += 2;
-    } unit_list_iterate_end;
-
-    if (resolve_list) {
-      for (i = 0; i < tot_units * 2; i += 2)
-	resolve_unit_stack(resolve_list[i], resolve_list[i+1], TRUE);
-      free(resolve_list);
-      resolve_list = NULL;
-    }
+    unit_list_iterate_safe(pplayer->units, punit) {
+      resolve_unit_stack(punit->x, punit->y, TRUE);
+    } unit_list_iterate_safe_end;
   }
 
   /* 
