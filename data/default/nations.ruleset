@@ -13,8 +13,7 @@ options="1.9"
 
 ; Below: nations data in sections [nation_*] for
 ; all nations available. If you want to have more
-; nations just add one at the end. There is a maximum
-; of 63 nations however. I hope it is enough :-)
+; nations just add one at the end.
 ;
 ; Notes:
 ;
