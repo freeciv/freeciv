@@ -732,6 +732,8 @@ void game_init(void)
   game.timeout     = GAME_DEFAULT_TIMEOUT;
   game.tcptimeout  = GAME_DEFAULT_TCPTIMEOUT;
   game.netwait     = GAME_DEFAULT_NETWAIT;
+  game.last_ping   = 0;
+  game.pingtimeout = GAME_DEFAULT_PINGTIMEOUT;
   game.end_year    = GAME_DEFAULT_END_YEAR;
   game.year        = GAME_START_YEAR;
   game.min_players = GAME_DEFAULT_MIN_PLAYERS;

@@ -643,6 +643,14 @@ static struct settings_s settings[] = {
        "seconds, for all client connection TCP buffers to unblock. Zero means "
        "the server will not wait at all.") },
 
+  { "pingtimeout", &game.pingtimeout, NULL, NULL,
+    SSET_META, SSET_TO_CLIENT,
+    GAME_MIN_PINGTIMEOUT, GAME_MAX_PINGTIMEOUT, GAME_DEFAULT_PINGTIMEOUT,
+    N_("Maximum seconds between PINGs"),
+    N_("The civserver will poll the clients with a PING request each time this "
+       "period elapses. If a client doesn't reply with a PONG before the "
+       "next server PING request the client is disconnected.") },
+
   { "turnblock", &game.turnblock, NULL, NULL,
     SSET_META, SSET_TO_CLIENT,
     0, 1, 0,

@@ -228,8 +228,11 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
   case PACKET_TURN_DONE:
     return receive_packet_generic_message(pc);
 
+  case PACKET_CONN_PING:
+  case PACKET_CONN_PONG:
   case PACKET_BEFORE_NEW_YEAR:
-    return receive_packet_before_new_year(pc);
+    return receive_packet_generic_empty(pc);
+
   case PACKET_NEW_YEAR:
     return receive_packet_new_year(pc);
 
@@ -2104,12 +2107,12 @@ int send_packet_unittype_info(struct connection *pc, int type, int action)
 /**************************************************************************
 ...
 **************************************************************************/
-struct packet_before_new_year *
-receive_packet_before_new_year(struct connection *pc)
+struct packet_generic_empty *
+receive_packet_generic_empty(struct connection *pc)
 {
   struct pack_iter iter;
-  struct packet_before_new_year *packet=
-    fc_malloc(sizeof(struct packet_before_new_year));
+  struct packet_generic_empty *packet=
+    fc_malloc(sizeof(struct packet_generic_empty));
 
   pack_iter_init(&iter, pc);
   pack_iter_end(&iter, pc);
@@ -2119,13 +2122,11 @@ receive_packet_before_new_year(struct connection *pc)
 
 /**************************************************************************
 ...
-(Used to be called send_packet_before_end_year; changed for consistency
--- referred to as "before new year" in more places.)
 **************************************************************************/
-int send_packet_before_new_year(struct connection *pc)
+int send_packet_generic_empty(struct connection *pc, int type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-  cptr=put_uint8(buffer+2, PACKET_BEFORE_NEW_YEAR);
+  cptr=put_uint8(buffer+2, type);
   put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }

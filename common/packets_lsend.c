@@ -204,13 +204,6 @@ void lsend_packet_unit_request(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
-void lsend_packet_before_new_year(struct conn_list *dest)
-{
-  conn_list_iterate(*dest, pconn)
-    send_packet_before_new_year(pconn);
-  conn_list_iterate_end;
-}
-
 void lsend_packet_unittype_info(struct conn_list *dest, int type, int action)
 {
   conn_list_iterate(*dest, pconn)
@@ -352,6 +345,13 @@ void lsend_packet_goto_route(struct conn_list *dest,
 {
   conn_list_iterate(*dest, pconn)
     send_packet_goto_route(pconn, packet, type);
+  conn_list_iterate_end;
+}
+
+void lsend_packet_generic_empty(struct conn_list *dest, int type)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_generic_empty(pconn, type);
   conn_list_iterate_end;
 }
 

@@ -29,6 +29,7 @@ struct player;
 
 #define MAX_LEN_PACKET   4096
 #define MAX_LEN_CAPSTR    512
+#define MAX_LEN_BUFFER   (MAX_LEN_PACKET * 32)
 
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
@@ -93,6 +94,8 @@ struct connection {
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
   time_t last_write;
+  int ponged;		        /* have received a PACKET_CONN_PONG? */
+
   struct conn_list self;	/* list with this connection as single element */
   char name[MAX_LEN_NAME];
   char addr[MAX_LEN_ADDR];

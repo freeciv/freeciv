@@ -662,7 +662,7 @@ static void update_diplomatics(void)
 **************************************************************************/
 static void before_end_year(void)
 {
-  lsend_packet_before_new_year(&game.est_connections);
+  lsend_packet_generic_empty(&game.est_connections, PACKET_BEFORE_NEW_YEAR);
 }
 
 /**************************************************************************
@@ -1119,6 +1119,9 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
   case PACKET_PATROL_ROUTE:
     handle_patrol_route(pplayer, (struct packet_goto_route *)packet);
+    break;
+  case PACKET_CONN_PONG:
+    pconn->ponged = 1;
     break;
   default:
     freelog(LOG_ERROR, "Received unknown packet %d from %s",

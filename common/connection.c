@@ -239,11 +239,20 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
     /* room for more? */
     if(buf->nsize - buf->ndata < len) {
       buf->nsize += MAX_LEN_PACKET;
-      if (!(buf->data = fc_realloc(buf->data, buf->nsize))) {
+
+      /* added this check so we don't gobble up too much mem */
+      if (buf->nsize > MAX_LEN_BUFFER) {
 	if (close_callback) {
 	  (*close_callback)(pc);
 	}
 	return 0;
+      } else {
+        if (!(buf->data = fc_realloc(buf->data, buf->nsize))) {
+	  if (close_callback) {
+	    (*close_callback)(pc);
+	  }
+	  return 0;
+	}
       }
     }
     memcpy(buf->data + buf->ndata, data, len);
@@ -261,17 +270,14 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
   if (pc && pc->used) {
     if(pc->send_buffer->do_buffer_sends) {
       if (!add_connection_data(pc, data, len)) {
-	flush_connection_send_buffer_all(pc);
-	if (!add_connection_data(pc, data, len)) {
-	  freelog(LOG_ERROR, "send buffer filled, packet discarded (1), for %s",
-		  conn_description(pc));
-	}
+	freelog(LOG_ERROR, "cut connection %s due to huge send buffer (1)",
+		conn_description(pc));
       }
     }
     else {
       flush_connection_send_buffer_all(pc);
       if (!add_connection_data(pc, data, len)) {
-	freelog(LOG_ERROR, "send buffer filled, packet discarded (2), for %s",
+	freelog(LOG_ERROR, "cut connection %s due to huge send buffer (2)",
 		conn_description(pc));
       }
       flush_connection_send_buffer_all(pc);

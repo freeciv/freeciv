@@ -115,6 +115,8 @@ enum packet_type {
   PACKET_PLAYER_REMOVE_VISION,
   PACKET_GOTO_ROUTE,
   PACKET_PATROL_ROUTE,
+  PACKET_CONN_PING,
+  PACKET_CONN_PONG,
   PACKET_LAST  /* leave this last */
 };
 
@@ -262,9 +264,6 @@ send to each client whenever the turn has ended.
 *********************************************************/
 struct packet_new_year {
   int year;
-};
-struct packet_before_new_year {
-  int dummy;
 };
 
 
@@ -431,6 +430,14 @@ struct packet_generic_message {
 *********************************************************/
 struct packet_generic_integer {
   int value;
+};
+
+
+/*********************************************************
+  like the packet above. 
+*********************************************************/
+struct packet_generic_empty {
+  int dummy;
 };
 
 
@@ -971,10 +978,6 @@ int send_packet_unit_request(struct connection *pc,
 			     const struct packet_unit_request *packet,
 			     enum packet_type req_type);
 
-int send_packet_before_new_year(struct connection *pc);
-struct packet_before_new_year *
-receive_packet_before_new_year(struct connection *pc);
-
 int send_packet_unittype_info(struct connection *pc, int type, int action);
 struct packet_unittype_info *receive_packet_unittype_info(struct connection *pc);
 
@@ -1063,6 +1066,10 @@ int send_packet_goto_route(struct connection *pc,
                            const struct packet_goto_route *packet,
 			   enum goto_route_type type);
 struct packet_goto_route *receive_packet_goto_route(struct connection *pc);
+
+int send_packet_generic_empty(struct connection *pc, int type);
+struct packet_generic_empty *
+receive_packet_generic_empty(struct connection *pc);
 
 #include "packets_lsend.h"		/* lsend_packet_* functions */
 

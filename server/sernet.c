@@ -65,6 +65,7 @@
 #include <readline/history.h>
 #endif
 
+#include "capability.h"	/* 'ping_packet' capability */
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
@@ -326,6 +327,27 @@ int sniff_packets(void)
       return 2;
     }
 
+
+    /* send PACKET_CONN_PING & cut mute players */
+    if ((time(NULL)>game.last_ping + game.pingtimeout)) {
+      for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
+       struct connection *pconn = &connections[i];
+       if(pconn->used && has_capability("ping_packet", pconn->capability)) {
+	 send_packet_generic_empty(pconn, PACKET_CONN_PING);
+
+	 if (pconn->ponged) {
+	   pconn->ponged = 0;
+	 } else {
+	   freelog(LOG_NORMAL, "cut connection %s due to ping timeout",
+		   conn_description(pconn));
+	   close_socket_callback(pconn);
+	 }
+       }
+      }
+      game.last_ping = time(NULL);
+    }
+
+
     tv.tv_sec=1;
     tv.tv_usec=0;
 
@@ -539,6 +561,7 @@ static int server_accept_connection(int sockfd)
       pconn->buffer = new_socket_packet_buffer();
       pconn->send_buffer = new_socket_packet_buffer();
       pconn->last_write = 0;
+      pconn->ponged = 1;
       pconn->first_packet = 1;
       pconn->byte_swap = 0;
       pconn->capability[0] = '\0';

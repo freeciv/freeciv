@@ -61,6 +61,8 @@ struct civ_game {
   int timeout;
   int tcptimeout;
   int netwait;
+  time_t last_ping;
+  int pingtimeout;
   time_t turn_start;
   int end_year;
   int year;
@@ -349,6 +351,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_NETWAIT         4
 #define GAME_MIN_NETWAIT             0
 #define GAME_MAX_NETWAIT             20
+
+#define GAME_DEFAULT_PINGTIMEOUT     60
+#define GAME_MIN_PINGTIMEOUT         60
+#define GAME_MAX_PINGTIMEOUT         1800
 
 #define GAME_DEFAULT_BARBARIANRATE   2
 #define GAME_MIN_BARBARIANRATE       0

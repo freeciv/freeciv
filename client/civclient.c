@@ -371,6 +371,10 @@ void handle_packet_input(char *packet, int type)
     handle_conn_info((struct packet_conn_info *)packet);
     break;
     
+  case PACKET_CONN_PING:
+    send_packet_generic_empty(&aconnection, PACKET_CONN_PONG);
+    break;
+
   default:
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
     /* Old clients (<= some 1.11.5-devel, capstr +1.11) used to exit()

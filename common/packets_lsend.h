@@ -65,7 +65,6 @@ void lsend_packet_player_request(struct conn_list *dest,
 void lsend_packet_unit_request(struct conn_list *dest, 
 			     const struct packet_unit_request *packet,
 			     enum packet_type req_type);
-void lsend_packet_before_new_year(struct conn_list *dest);
 void lsend_packet_unittype_info(struct conn_list *dest, int type, int action);
 void lsend_packet_ruleset_control(struct conn_list *dest, 
 				const struct packet_ruleset_control *pinfo);
@@ -102,3 +101,4 @@ void lsend_packet_sabotage_list(struct conn_list *dest,
 void lsend_packet_goto_route(struct conn_list *dest,
                            const struct packet_goto_route *packet,
 			   enum goto_route_type type);
+void lsend_packet_generic_empty(struct conn_list *dest, int type);

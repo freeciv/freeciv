@@ -74,7 +74,7 @@ const char * const our_capability = our_capability_internal;
 " game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
 " event00_fix conn_info gen_impr_oversights diplo_move_city packet_short_city" \
 " indef_impr_types worklist_true_ids shared_vision activity_patrol" \
-" gen_granary_size happiness_display production_change_fix2"
+" gen_granary_size happiness_display production_change_fix2 ping_packet"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
