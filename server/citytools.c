@@ -620,15 +620,9 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   int x = vcity->x;
   int y = vcity->y;
 
-  struct genlist_iterator myiter;
-
   printf("Transferring City Units to new owner");
 
-  genlist_iterator_init(&myiter, &pvictim->units.list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct unit *vunit=(struct unit *)ITERATOR_PTR(myiter);
-
+  unit_list_iterate(pvictim->units, vunit)
     /* Is unit in the city? */
     
     if(same_pos(vunit->x, vunit->y, x, y)){
@@ -663,5 +657,5 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	}
       }
     }
-  }
+  unit_list_iterate_end;
 }
