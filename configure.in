@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 dnl Initialize with some random file to ensure the source is here.
 AC_INIT(common/game.c)
-AM_INIT_AUTOMAKE(freeciv, 1.5.4cvs)
+AM_INIT_AUTOMAKE(freeciv,1.6.1)
 AM_CONFIG_HEADER(config.h)
 
 dnl Evaluate options. Example:

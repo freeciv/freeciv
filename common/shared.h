@@ -16,9 +16,9 @@
 /* client/server should always have the same major and minor versions */
 /* different patch versions are compatible */
 #define MAJOR_VERSION  1
-#define MINOR_VERSION  5
-#define PATCH_VERSION  4
-#define VERSION_STRING "1.5.4"
+#define MINOR_VERSION  6
+#define PATCH_VERSION  1
+#define VERSION_STRING "1.6.1"
 
 #define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING
 

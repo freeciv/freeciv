@@ -1,0 +1,125 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:554: checking for a BSD compatible install
+configure:623: checking whether build environment is sane
+configure:670: checking for working aclocal
+configure:683: checking for working autoconf
+configure:696: checking for working automake
+configure:709: checking for working autoheader
+configure:722: checking for working makeinfo
+configure:735: checking whether make sets ${MAKE}
+configure:769: checking for gcc
+configure:846: checking whether the C compiler (gcc  ) works
+configure:860: gcc -o conftest    conftest.c  1>&5
+configure:880: checking whether the C compiler (gcc  ) is a cross-compiler
+configure:885: checking whether we are using GNU C
+configure:894: gcc -E conftest.c
+configure:909: checking whether gcc accepts -g
+configure:939: checking for ranlib
+configure:967: checking how to run the C preprocessor
+configure:988: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1032: checking for X
+configure:1346: checking for dnet_ntoa in -ldnet
+configure:1365: gcc -o conftest -g -O2   conftest.c -ldnet   1>&5
+ld: cannot open -ldnet: No such file or directory
+configure: failed program was:
+#line 1354 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char dnet_ntoa();
+
+int main() {
+dnet_ntoa()
+; return 0; }
+configure:1387: checking for dnet_ntoa in -ldnet_stub
+configure:1406: gcc -o conftest -g -O2   conftest.c -ldnet_stub   1>&5
+ld: cannot open -ldnet_stub: No such file or directory
+configure: failed program was:
+#line 1395 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char dnet_ntoa();
+
+int main() {
+dnet_ntoa()
+; return 0; }
+configure:1435: checking for gethostbyname
+configure:1463: gcc -o conftest -g -O2   conftest.c  1>&5
+configure:1533: checking for connect
+configure:1561: gcc -o conftest -g -O2   conftest.c  1>&5
+configure:1625: checking for remove
+configure:1653: gcc -o conftest -g -O2   conftest.c  1>&5
+configure:1717: checking for shmat
+configure:1745: gcc -o conftest -g -O2   conftest.c  1>&5
+configure:1818: checking for IceConnectionNumber in -lICE
+configure:1837: gcc -o conftest -g -O2   -L/usr/X11R6/lib conftest.c -lICE   1>&5
+configure:1868: checking for XOpenDisplay in -lX11
+configure:1887: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lX11  -L/usr/X11R6/lib   -L/usr/X11R6/lib 1>&5
+configure:1916: checking for XpmReadFileToPixmap in -lXpm
+configure:1935: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lXpm  -L/usr/X11R6/lib -lX11   -L/usr/X11R6/lib 1>&5
+configure:1964: checking for main in -lXmu
+configure:1979: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lXmu  -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2007: checking for XShapeCombineMask in -lXext
+configure:2026: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lXext  -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2054: checking for main in -lXaw
+configure:2069: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lXaw  -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2097: checking for main in -lXt
+configure:2112: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lXt  -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2140: checking for XpmReadFileToPixmap in -lXpm
+configure:2187: checking for main in -lsocket
+configure:2202: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lsocket  -lXpm -lXt -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+ld: cannot open -lsocket: No such file or directory
+configure: failed program was:
+#line 2195 "configure"
+#include "confdefs.h"
+
+int main() {
+main()
+; return 0; }
+configure:2230: checking for main in -lnsl
+configure:2245: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lnsl  -lXpm -lXt -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2273: checking for main in -lnls
+configure:2288: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lnls  -lnsl -lXpm -lXt -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+ld: cannot open -lnls: No such file or directory
+configure: failed program was:
+#line 2281 "configure"
+#include "confdefs.h"
+
+int main() {
+main()
+; return 0; }
+configure:2317: checking return type of signal handlers
+configure:2339: gcc -c -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11  conftest.c 1>&5
+configure:2358: checking for vprintf
+configure:2386: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lnsl -lXpm -lXt -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2465: checking for gethostname
+configure:2493: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lnsl -lXpm -lXt -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2465: checking for select
+configure:2493: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lnsl -lXpm -lXt -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2465: checking for socket
+configure:2493: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lnsl -lXpm -lXt -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2465: checking for strerror
+configure:2493: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lnsl -lXpm -lXt -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2519: checking for ANSI C header files
+configure:2532: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:2599: gcc -o conftest -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11   conftest.c -lnsl -lXpm -lXt -lXaw -lXext -lXmu -lXpm -lX11   -L/usr/X11R6/lib 1>&5
+configure:2626: checking for sys/time.h
+configure:2636: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:2626: checking for unistd.h
+configure:2636: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:2666: checking for xpm.h
+configure:2676: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:2672: xpm.h: No such file or directory
+configure: failed program was:
+#line 2671 "configure"
+#include "confdefs.h"
+#include <xpm.h>
+configure:2704: checking for working const
+configure:2758: gcc -c -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11  conftest.c 1>&5
+configure:2779: checking whether time.h and sys/time.h may both be included
+configure:2793: gcc -c -g -O2  -I/usr/X11R6/include -I/usr/X11R6/include -I/usr/X11R6/include/X11  conftest.c 1>&5
