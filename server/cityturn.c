@@ -1176,11 +1176,28 @@ static int worklist_change_build_target(struct player *pplayer, struct city *pci
 	 we can build. */
       if (new_target == target) {
 	/* Nope, no use.  *sigh*  */
-	notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
-			 _("Game: %s can't build %s from the worklist; "
-			   "tech not yet available.  Postponing..."),
-			 pcity->name,
-			 get_impr_name_ex(pcity, target));
+	if (!player_knows_improvement_tech(pplayer, target)) {
+	  notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+			   _("Game: %s can't build %s from the worklist; "
+			     "tech not yet available.  Postponing..."),
+			   pcity->name,
+			   get_impr_name_ex(pcity, target));
+	} else if (improvement_types[target].bldg_req != B_LAST) {
+	  notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+			   _("Game: %s can't build %s from the worklist; "
+			     "need to have %s first.  Postponing..."),
+			   pcity->name,
+			   get_impr_name_ex(pcity, target),
+			   get_impr_name_ex(pcity, improvement_types[target].bldg_req));
+	} else {
+	  /* This shouldn't happen...
+	     FIXME: make can_build_improvement() return a reason enum. */
+	  notify_player_ex(pplayer, pcity->x, pcity->y, E_CITY_CANTBUILD,
+			   _("Game: %s can't build %s from the worklist; "
+			     "Reason unknown!  Postponing..."),
+			   pcity->name,
+			   get_impr_name_ex(pcity, target));
+	}
 	continue;
       } else {
 	/* Hey, we can upgrade the improvement!  */
