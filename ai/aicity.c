@@ -1017,8 +1017,13 @@ void ai_manage_cities(struct player *pplayer)
     establish_city_distances(pplayer, pcity);
     /* Will record its findings in pcity->settler_want */ 
     contemplate_terrain_improvements(pcity);
-    /* Will record its findings in pcity->founder_want */ 
-    contemplate_new_city(pcity);
+
+    if (pcity->ai.next_founder_want_recalc <= game.turn) {
+      /* Will record its findings in pcity->founder_want */ 
+      contemplate_new_city(pcity);
+      /* Avoid recalculating all the time.. */
+      pcity->ai.next_founder_want_recalc = game.turn + myrand(RECALC_SPEED) + RECALC_SPEED;
+    } 
   } city_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity) {

@@ -204,6 +204,7 @@ struct ai_city {
    * Negative values indicate that the city needs a boat first;
    * -value is the degree of want in that case. */
   int settler_want, founder_want;
+  int next_founder_want_recalc; /* do not recalc founder_want every turn */
   bool founder_boat; /* if the city founder will need a boat */
   int invasion; /* who's coming to kill us, for attack co-ordination */
   int attack, bcost; /* This is also for invasion - total power and value of
