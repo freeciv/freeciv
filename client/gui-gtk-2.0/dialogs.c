@@ -69,9 +69,6 @@ static GList      *sorted_races_list = NULL; /* contains a list of race
 					      as the races_dialog is
 					      poped up. */
 /******************************************************************/
-static GtkWidget  *notify_dialog_shell;
-
-/******************************************************************/
 static GtkWidget  *spy_tech_shell;
 static GtkWidget  *spy_advances_list;
 static GtkWidget  *spy_steal_command;
@@ -144,25 +141,22 @@ static int connect_unit_y;
 *****************************************************************/
 void popup_notify_dialog(char *caption, char *headline, char *lines)
 {
-  GtkWidget *label, *headline_label, *sw;
+  GtkWidget *shell, *label, *headline_label, *sw;
 
-  notify_dialog_shell = gtk_dialog_new_with_buttons(
+  shell = gtk_dialog_new_with_buttons(
 	caption,
 	GTK_WINDOW(toplevel),
-	GTK_DIALOG_MODAL,
+	0,
 	GTK_STOCK_CLOSE,
 	GTK_RESPONSE_CLOSE,
 	NULL);
-  gtk_dialog_set_default_response(GTK_DIALOG(notify_dialog_shell),
+  gtk_dialog_set_default_response(GTK_DIALOG(shell),
     GTK_RESPONSE_CLOSE);
-  g_signal_connect(notify_dialog_shell, "response",
-		   G_CALLBACK(gtk_widget_destroy), NULL);
-  g_signal_connect(notify_dialog_shell, "destroy",
-		   G_CALLBACK(gtk_widget_destroyed), &notify_dialog_shell);
-  gtk_widget_set_name(notify_dialog_shell, "Freeciv");
+  g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+  gtk_widget_set_name(shell, "Freeciv");
 
   headline_label = gtk_label_new(headline);   
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(notify_dialog_shell)->vbox),
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox),
 		     headline_label, FALSE, FALSE, 0);
   gtk_widget_set_name(headline_label, "notify label");
 
@@ -179,25 +173,15 @@ void popup_notify_dialog(char *caption, char *headline, char *lines)
   gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
 
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(notify_dialog_shell)->vbox), sw,
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), sw,
     TRUE, TRUE, 0);
 
-  gtk_widget_show_all(GTK_DIALOG(notify_dialog_shell)->vbox);
+  gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
 
-  gtk_widget_set_size_request(notify_dialog_shell, -1, 265);
-  gtk_window_set_position(GTK_WINDOW(notify_dialog_shell),
+  gtk_widget_set_size_request(shell, -1, 265);
+  gtk_window_set_position(GTK_WINDOW(shell),
     GTK_WIN_POS_CENTER_ON_PARENT);
-  gtk_window_present(GTK_WINDOW(notify_dialog_shell));
-}
-
-/****************************************************************
- Closes the notify dialog.
-*****************************************************************/
-void popdown_notify_dialog(void)
-{
-  if (notify_dialog_shell) {
-    gtk_widget_destroy(notify_dialog_shell);
-  }
+  gtk_window_present(GTK_WINDOW(shell));
 }
 
 /****************************************************************

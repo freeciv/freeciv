@@ -24,8 +24,6 @@ GtkWidget *popup_message_dialog(GtkWidget * parent, const char *dialogname,
 				const char *text, ...);
 void destroy_message_dialog(GtkWidget *button);
 
-void popdown_notify_dialog(void);
-
 gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
 #endif  /* FC__DIALOGS_H */
