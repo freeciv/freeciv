@@ -1,3 +1,7 @@
+2003-06-04  Duarte Loreto <happyguy_pt@hotmail.com>
+
+        * pt.po: Updated and fixed some miss-spells.
+
 2001-06-15  gettextize  <bug-gnu-utils@gnu.org>
 
 	* Makefile.in.in: Upgrade to gettext-0.10.38.
