@@ -167,15 +167,6 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
   int range = unit_type(punit)->vision_range;
   int desirable = 0;
   int unknown = 0;
-  Continent_id continent;
-
-  /* Localize the unit */
-  
-  if (is_ground_unit(punit)) {
-    continent = map_get_continent(x, y);
-  } else {
-    continent = 0;
-  }
 
   /* First do some checks that would make a tile completely non-desirable.
    * If we're a trireme and we could die at the given tile, or if there
@@ -185,7 +176,6 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
   if ((unit_flag(punit, F_TRIREME) && 
        is_likely_trireme_loss(pplayer, x, y))
       || map_get_city(x, y)
-      || map_get_continent(x, y) != continent
       || (is_barbarian(pplayer) && map_has_special(x, y, S_HUT))) {
     return 0;
   }
