@@ -86,6 +86,7 @@ int overview_canvas_store_height = 2 * 50;
 bool fullscreen_mode = TRUE;
 bool enable_tabs = TRUE;
 bool solid_unit_icon_bg = FALSE;
+bool better_fog = TRUE;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
@@ -178,7 +179,13 @@ client_option gui_options[] = {
 		  N_("If this is enabled then units will be shown in the "
 		     "city dialog production tab with a color-coded "
 		     "solid background."),
-		  COC_INTERFACE)
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(better_fog,
+		  N_("Better fog-of-war drawing"),
+		  N_("If this is enabled then a better method is used for "
+		     "drawing fog-of-war.  It is not any slower but will "
+		     "consume about twice as much memory."),
+		  COC_GRAPHICS)
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
