@@ -1142,8 +1142,12 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
       }
       /* Go make a city! */
       ai_unit_new_role(punit, AIUNIT_BUILD_CITY, result.tile);
-      /* Reserve best other tile */
-      citymap_reserve_tile(result.other_tile, punit->id);
+      if (result.other_tile) {
+	/* Reserve best other tile (if there is one). */
+	/* FIXME: what is an "other tile" and why would we want to reserve
+	 * it? */
+	citymap_reserve_tile(result.other_tile, punit->id);
+      }
       punit->goto_tile = result.tile; /* TMP */
     } else if (best_impr > 0) {
       UNIT_LOG(LOG_SETTLER, punit, "improves terrain instead of founding");
