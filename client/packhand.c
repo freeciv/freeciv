@@ -358,7 +358,8 @@ void handle_chat_msg(struct packet_generic_message *packet)
     append_output_window(packet->message);
   if (where & MW_MESSAGES)
     add_notify_window(packet);
-  if (where & MW_POPUP)
+  if ((where & MW_POPUP) &&
+      (!game.player_ptr->ai.control || ai_popup_windows))
     popup_notify_goto_dialog("Popup Request", packet->message, 
 			     packet->x, packet->y);
 }
@@ -1428,15 +1429,17 @@ void handle_incite_cost(struct packet_generic_values *packet)
   struct city *pcity=find_city_by_id(packet->id);
   struct unit *punit=find_unit_by_id(packet->id);
 
-  if(pcity)  {
+  if(pcity) {
     pcity->incite_revolt_cost = packet->value1;
-    popup_incite_dialog(pcity);
+    if(!game.player_ptr->ai.control || ai_popup_windows)
+      popup_incite_dialog(pcity);
     return;
   }
 
   if(punit) {
     punit->bribe_cost = packet->value1;
-    popup_bribe_dialog(punit);
+    if(!game.player_ptr->ai.control || ai_popup_windows)
+      popup_bribe_dialog(punit);
   }
 }
 
