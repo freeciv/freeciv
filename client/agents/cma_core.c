@@ -1718,6 +1718,7 @@ static void handle_city(struct city *pcity)
 	  pcity->id, pcity->x, pcity->y, city_owner(pcity)->name);
 
   if (city_owner(pcity) != game.player_ptr) {
+    cma_release_city(pcity);
     create_event(pcity->x, pcity->y, E_CITY_CMA_RELEASE,
 		 _("CMA: You lost control of %s. Detaching from city."),
 		 pcity->name);
