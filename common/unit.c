@@ -1640,7 +1640,7 @@ int base_trireme_loss_pct(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 int base_unsafe_terrain_loss_pct(struct player *pplayer, struct unit *punit)
 {
-  return is_air_unit(punit) ? 0 : 15;
+  return (is_air_unit(punit) || is_heli_unit(punit)) ? 0 : 15;
 }
 
 /**************************************************************************
