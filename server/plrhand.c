@@ -393,7 +393,7 @@ void log_civ_score()
 
   if (fp == NULL)
     {
-      if (game.year > 4000)
+      if (game.year > GAME_START_YEAR)
 	fp = fopen("civscore.log","a");
       else
 	{

@@ -235,7 +235,7 @@ int map_build_mine_time(int x, int y);
 #define GAME_MAX_UNHAPPYSIZE 6
 
 #define GAME_DEFAULT_END_YEAR    2000
-#define GAME_MIN_END_YEAR        -4000
+#define GAME_MIN_END_YEAR        GAME_START_YEAR
 #define GAME_MAX_END_YEAR        5000
 
 #define GAME_DEFAULT_MIN_PLAYERS     1

@@ -17,6 +17,8 @@
 
 #define GAME_DEFAULT_TIMEOUT 0
 
+#define GAME_START_YEAR -4000
+
 enum server_states { 
   PRE_GAME_STATE, 
   SELECT_RACES_STATE, 

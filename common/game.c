@@ -333,7 +333,7 @@ void game_init(void)
   game.skill_level = 0;
   game.timeout     = GAME_DEFAULT_TIMEOUT;
   game.end_year    = GAME_DEFAULT_END_YEAR;
-  game.year        = -4000;
+  game.year        = GAME_START_YEAR;
   game.min_players = GAME_DEFAULT_MIN_PLAYERS;
   game.max_players = GAME_DEFAULT_MAX_PLAYERS;
   game.aifill      = GAME_DEFAULT_AIFILL;
