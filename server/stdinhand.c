@@ -1011,9 +1011,9 @@ static struct command commands[] = {
       "Note that this command now takes connection names, not player names."
       )
   },
-  {"firstlevel", ALLOW_INFO,  /* ! */
-   /* translate <> only */
-   N_("firstlevel\n"),
+  {"firstlevel", ALLOW_INFO,  /* Not really "informational", but needs to
+				 be ALLOW_INFO to be useful. */
+   "firstlevel",
    N_("Grab the 'first come' command access level."),
    N_("If 'cmdlevel first come' has been used to set a special 'first come'\n"
       "command access level, this is the command to grab it with."
@@ -1868,15 +1868,11 @@ static int set_cmdlevel(struct connection *caller,
 }
 
 /********************************************************************
-...
+  Returns true if there is at least one established connection.
 *********************************************************************/
 static int a_connection_exists(void)
 {
-  conn_list_iterate(game.est_connections, pconn) {
-    return 1;
-  }
-  conn_list_iterate_end;
-  return 0;
+  return BOOL_VAL(conn_list_size(&game.est_connections));
 }
 
 /********************************************************************
