@@ -181,11 +181,13 @@ bool ai_unit_goto(struct unit *punit, int x, int y)
 
 /**************************************************************************
   Ensure unit sanity by telling charge that we won't bodyguard it anymore,
-  add and remove city spot reservation, and set destination.
+  tell bodyguard it can roam free if our job is done, add and remove city 
+  spot reservation, and set destination.
 **************************************************************************/
 void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 {
   struct unit *charge = find_unit_by_id(punit->ai.charge);
+  struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
 
   if (punit->activity == ACTIVITY_GOTO) {
     /* It would indicate we're going somewhere otherwise */
@@ -207,6 +209,10 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task, int x, int y)
 /* TODO:
   punit->goto_dest_x = x;
   punit->goto_dest_y = y; */
+
+  if (punit->ai.ai_role == AIUNIT_NONE && bodyguard) {
+    ai_unit_new_role(bodyguard, AIUNIT_NONE, -1, -1);
+  }
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
     assert(is_normal_map_pos(x, y));
@@ -258,6 +264,9 @@ static void ai_unit_bodyguard_move(int unitid, int x, int y)
   assert(pplayer != NULL);
   punit = find_unit_by_id(bodyguard->ai.charge);
   assert(punit != NULL);
+
+  assert(punit->ai.bodyguard == bodyguard->id);
+  assert(bodyguard->ai.charge == punit->id);
 
   if (!is_tiles_adjacent(x, y, bodyguard->x, bodyguard->y)) {
     return;
