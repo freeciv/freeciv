@@ -133,13 +133,12 @@ bool government_has_hint(const struct government *gov,
 ***************************************************************/
 struct government *find_government_by_name(const char *name)
 {
-  int i;
-
-  for (i = 0; i < game.government_count; i++) {
-    if (mystrcasecmp(governments[i].name, name) == 0) {
-      return &governments[i];
+  government_iterate(gov) {
+    if (mystrcasecmp(gov->name, name) == 0) {
+      return gov;
     }
-  }
+  } government_iterate_end;
+
   return NULL;
 }
 
@@ -148,7 +147,9 @@ struct government *find_government_by_name(const char *name)
 ***************************************************************/
 struct government *get_government(int gov)
 {
-  assert(game.government_count > 0 && gov >= 0 && gov < game.government_count);
+  assert(game.government_count > 0 && gov >= 0
+	 && gov < game.government_count);
+  assert(governments[gov].index == gov);
   return &governments[gov];
 }
 
@@ -281,8 +282,14 @@ void set_ruler_title(struct government *gov, int nation,
 ***************************************************************/
 void governments_alloc(int num)
 {
+  int index;
+
   governments = fc_calloc(num, sizeof(struct government));
   game.government_count = num;
+
+  for (index = 0; index < num; index++) {
+    governments[index].index = index;
+  }
 }
 
 /***************************************************************
@@ -302,11 +309,9 @@ static void government_free(struct government *gov)
 ***************************************************************/
 void governments_free(void)
 {
-  int i;
-
-  for (i = 0; i < game.government_count; i++) {
-    government_free(get_government(i));
-  }
+  government_iterate(gov) {
+    government_free(gov);
+  } government_iterate_end;
   free(governments);
   governments = NULL;
   game.government_count = 0;

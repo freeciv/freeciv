@@ -319,7 +319,6 @@ void ai_best_government(struct player *pplayer)
 {
   struct ai_data *ai = ai_data_get(pplayer);
   int best_val = 0;
-  int i;
   int bonus = 0; /* in percentage */
   int current_gov = pplayer->government;
 
@@ -333,12 +332,11 @@ void ai_best_government(struct player *pplayer)
   }
 
   if (ai->govt_reeval == 0) {
-    for (i = 0; i < game.government_count; i++) {
-      struct government *gov = &governments[i];
+    government_iterate(gov) {
       int val = 0;
       int dist;
 
-      if (i == game.government_when_anarchy) {
+      if (gov->index == game.government_when_anarchy) {
         continue; /* pointless */
       }
       pplayer->government = gov->index;
@@ -384,8 +382,8 @@ void ai_best_government(struct player *pplayer)
 
       dist = MAX(1, num_unknown_techs_for_goal(pplayer, gov->required_tech));
       val = amortize(val, dist);
-      ai->government_want[i] = val; /* Save want */
-    }
+      ai->government_want[gov->index] = val; /* Save want */
+    } government_iterate_end;
     /* Now reset our gov to it's real state. */
     pplayer->government = current_gov;
     city_list_iterate(pplayer->cities, acity) {
@@ -400,20 +398,18 @@ void ai_best_government(struct player *pplayer)
   ai->govt_reeval--;
 
   /* Figure out which government is the best for us this turn. */
-  for (i = 0; i < game.government_count; i++) {
-    struct government *gov = &governments[i];
-
-    if (ai->government_want[i] > best_val 
-        && can_change_to_government(pplayer, i)) {
-      best_val = ai->government_want[i];
-      ai->goal.revolution = i;
+  government_iterate(gov) {
+    if (ai->government_want[gov->index] > best_val 
+        && can_change_to_government(pplayer, gov->index)) {
+      best_val = ai->government_want[gov->index];
+      ai->goal.revolution = gov->index;
     }
-    if (ai->government_want[i] > ai->goal.govt.val) {
-      ai->goal.govt.idx = i;
-      ai->goal.govt.val = ai->government_want[i];
+    if (ai->government_want[gov->index] > ai->goal.govt.val) {
+      ai->goal.govt.idx = gov->index;
+      ai->goal.govt.val = ai->government_want[gov->index];
       ai->goal.govt.req = gov->required_tech;
     }
-  }
+  } government_iterate_end;
   /* Goodness of the ideal gov is calculated relative to the goodness of the
    * best of the available ones. */
   ai->goal.govt.val -= best_val;

@@ -284,13 +284,13 @@ void boot_help_texts(void)
 	    genlist_insert(&category_nodes, pitem, -1);
 	  }
 	} else if(current_type==HELP_GOVERNMENT) {
-	  for(i=0; i<game.government_count; i++) {
-	      pitem = new_help_item(current_type);
-	      my_snprintf(name, sizeof(name), " %s", get_government(i)->name);
-	      pitem->topic = mystrdup(name);
-	      pitem->text = mystrdup("");
-	      genlist_insert(&category_nodes, pitem, -1);
-	  }
+	  government_iterate(gov) {
+	    pitem = new_help_item(current_type);
+	    my_snprintf(name, sizeof(name), " %s", gov->name);
+	    pitem->topic = mystrdup(name);
+	    pitem->text = mystrdup("");
+	    genlist_insert(&category_nodes, pitem, -1);
+	  } government_iterate_end;
 	} else if(current_type==HELP_IMPROVEMENT) {
 	  impr_type_iterate(i) {
 	    if(improvement_exists(i) && !is_wonder(i)) {
@@ -774,8 +774,6 @@ void helptext_unit(char *buf, int i, const char *user_text)
 *****************************************************************/
 void helptext_tech(char *buf, int i, const char *user_text)
 {
-  int gov;
-  
   assert(buf&&user_text);
   strcpy(buf, user_text);
 
@@ -806,13 +804,12 @@ void helptext_tech(char *buf, int i, const char *user_text)
     }
   }
 
-  for(gov=0; gov<game.government_count; gov++) {
-    struct government *g = get_government(gov);
+  government_iterate(g) {
     if (g->required_tech == i) {
       sprintf(buf+strlen(buf), _("Allows changing government to %s.\n"),
 	      g->name);
     }
-  }
+  } government_iterate_end;
   if(tech_flag(i,TF_BONUS_TECH)) {
     sprintf(buf+strlen(buf),
 	    _("The first player to research %s gets an immediate advance.\n"),

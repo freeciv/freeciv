@@ -209,7 +209,6 @@ Logging & notification is not done here as it depends on how the tech came.
 void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 		    bool saving_bulbs)
 {
-  int i;
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
   bool macro_polo_was_obsolete = wonder_obsolete(B_MARCO);
@@ -244,14 +243,14 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     } impr_type_iterate_end;
   }
 
-  for (i=0; i<game.government_count; i++) {
-    if (tech_found == governments[i].required_tech) {
+  government_iterate(gov) {
+    if (tech_found == gov->required_tech) {
       notify_player_ex(plr,-1,-1, E_NEW_GOVERNMENT,
 		       _("Game: Discovery of %s makes the government form %s"
 			 " available. You may want to start a revolution."),
-		       advances[tech_found].name, get_government_name(i));
+		       advances[tech_found].name, gov->name);
     }
-  }
+  } government_iterate_end;
     
   if (tech_flag(tech_found, TF_BONUS_TECH) && was_first) {
     bonus_tech_hack = TRUE;

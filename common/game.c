@@ -994,9 +994,9 @@ void translate_data_names(void)
 		 (strcmp(tthis->special_2_name_orig, "") != 0) ?
 			Q_(tthis->special_2_name_orig) : "");
   }
-  for (i=0; i<game.government_count; i++) {
+  government_iterate(tthis) {
     int j;
-    struct government *tthis = &governments[i];
+
     sz_strlcpy(tthis->name_orig, tthis->name);
     name_strlcpy(tthis->name, Q_(tthis->name_orig));
     for(j=0; j<tthis->num_ruler_titles; j++) {
@@ -1006,7 +1006,7 @@ void translate_data_names(void)
       sz_strlcpy(that->female_title_orig, that->female_title);
       name_strlcpy(that->female_title, Q_(that->female_title_orig));
     }
-  }
+  } government_iterate_end;
   for (i=0; i<game.nation_count; i++) {
     struct nation_type *tthis = get_nation_by_idx(i);
     sz_strlcpy(tthis->name_orig, tthis->name);

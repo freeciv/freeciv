@@ -198,4 +198,17 @@ void set_ruler_title(struct government *gov, int nation,
 void governments_alloc(int num);
 void governments_free(void);
 
+#define government_iterate(gov)                                             \
+{                                                                           \
+  int GI_index;                                                             \
+                                                                            \
+  for (GI_index = 0; GI_index < game.government_count; GI_index++) {        \
+    struct government *gov = get_government(GI_index);                      \
+    {
+
+#define government_iterate_end                                              \
+    }                                                                       \
+  }                                                                         \
+}
+
 #endif  /* FC__GOVERNMENT_H */

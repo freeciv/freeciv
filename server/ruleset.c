@@ -1495,7 +1495,7 @@ static void load_ruleset_terrain(struct section_file *file)
 **************************************************************************/
 static void load_government_names(struct section_file *file)
 {
-  int nval, i;
+  int nval;
   char **sec;
   const char *filename = secfile_filename(file);
 
@@ -1515,12 +1515,13 @@ static void load_government_names(struct section_file *file)
   }
   governments_alloc(nval);
 
-  /* first fill in government names so find_government_by_name will work -SKi */
-  for(i = 0; i < game.government_count; i++) {
-    char *name = secfile_lookup_str(file, "%s.name", sec[i]);
-    name_strlcpy(governments[i].name, name);
-    governments[i].index = i;
-  }
+  /* Government names are needed early so that get_government_by_name will
+   * work. */
+  government_iterate(gov) {
+    char *name = secfile_lookup_str(file, "%s.name", sec[gov->index]);
+
+    name_strlcpy(gov->name, name);
+  } government_iterate_end;
   free(sec);
 }
 
@@ -1530,7 +1531,6 @@ static void load_government_names(struct section_file *file)
 static void load_ruleset_governments(struct section_file *file)
 {
   char *datafile_options;
-  struct government *g = NULL;
   int i, j, nval;
   char *c;
   char **sec, **slist;
@@ -1565,8 +1565,8 @@ static void load_ruleset_governments(struct section_file *file)
   }
 
   /* easy ones: */
-  for(i=0; i<game.government_count; i++) {
-    g = &governments[i];
+  government_iterate(g) {
+    int i = g->index;
     
     g->required_tech
       = lookup_tech(file, sec[i], "tech_req", FALSE, filename, g->name);
@@ -1659,14 +1659,13 @@ static void load_ruleset_governments(struct section_file *file)
       = secfile_lookup_int(file, "%s.production_food_penalty,1", sec[i]);
     
     g->helptext = lookup_helptext(file, sec[i]);
-  }
+  } government_iterate_end;
 
   
   /* flags: */
-  for(i=0; i<game.government_count; i++) {
-    g = &governments[i];
+  government_iterate(g) {
     g->flags = 0;
-    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
+    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[g->index]);
     for(j=0; j<nval; j++) {
       char *sval = slist[j];
       enum government_flag_id flag = government_flag_from_str(sval);
@@ -1681,13 +1680,12 @@ static void load_ruleset_governments(struct section_file *file)
       }
     }
     free(slist);
-  }
+  } government_iterate_end;
 
   /* hints: */
-  for(i=0; i<game.government_count; i++) {
-    g = &governments[i];
+  government_iterate(g) {
     g->hints = 0;
-    slist = secfile_lookup_str_vec(file, &nval, "%s.hints", sec[i]);
+    slist = secfile_lookup_str_vec(file, &nval, "%s.hints", sec[g->index]);
     for(j=0; j<nval; j++) {
       char *sval = slist[j];
       enum government_hint_id hint = government_hint_from_str(sval);
@@ -1702,13 +1700,12 @@ static void load_ruleset_governments(struct section_file *file)
       }
     }
     free(slist);
-  }
+  } government_iterate_end;
 
   /* titles */
-  for(i=0; i<game.government_count; i++) {
+  government_iterate(g) {
+    int i = g->index;
     struct ruler_title *title;
-
-    g = &governments[i];
 
     g->num_ruler_titles = 1;
     g->ruler_titles = fc_calloc(1, sizeof(struct ruler_title));
@@ -1719,13 +1716,12 @@ static void load_ruleset_governments(struct section_file *file)
 	       secfile_lookup_str(file, "%s.ruler_male_title", sec[i]));
     sz_strlcpy(title->female_title,
 	       secfile_lookup_str(file, "%s.ruler_female_title", sec[i]));
-  }
+  } government_iterate_end;
 
   /* subgoals: */
-  for(i=0; i<game.government_count; i++) {
+  government_iterate(g) {
     char *sval;
-    g = &governments[i];
-    sval = secfile_lookup_str(file, "%s.subgoal", sec[i]);
+    sval = secfile_lookup_str(file, "%s.subgoal", sec[g->index]);
     if (strcmp(sval, "-")==0) {
       g->subgoal = -1;
     } else {
@@ -1738,7 +1734,7 @@ static void load_ruleset_governments(struct section_file *file)
       }
     }
     freelog(LOG_DEBUG, "%s subgoal %d", g->name, g->subgoal);
-  }
+  } government_iterate_end;
     
   /* ai tech_hints: */
   j = -1;
@@ -2662,14 +2658,11 @@ static void send_ruleset_governments(struct conn_list *dest)
   struct packet_ruleset_government gov;
   struct packet_ruleset_government_ruler_title title;
   struct ruler_title *p_title;
-  struct government *g;
-  int i, j;
+  int j;
 
-  for (i = 0; i < game.government_count; i++) {
-    g = &governments[i];
-
+  government_iterate(g) {
     /* send one packet_government */
-    gov.id                 = i;
+    gov.id                 = g->index;
 
     gov.required_tech    = g->required_tech;
     gov.max_rate         = g->max_rate;
@@ -2736,7 +2729,7 @@ static void send_ruleset_governments(struct conn_list *dest)
     for(j=0; j<g->num_ruler_titles; j++) {
       p_title = &g->ruler_titles[j];
 
-      title.gov = i;
+      title.gov = g->index;
       title.id = j;
       title.nation = p_title->nation;
       sz_strlcpy(title.male_title, p_title->male_title);
@@ -2744,7 +2737,7 @@ static void send_ruleset_governments(struct conn_list *dest)
     
       lsend_packet_ruleset_government_ruler_title(dest, &title);
     }
-  }
+  } government_iterate_end;
 }
 
 /**************************************************************************

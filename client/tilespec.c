@@ -344,9 +344,9 @@ void tilespec_reread(const char *tileset_name)
   unit_type_iterate(id) {
     tilespec_setup_unit_type(id);
   } unit_type_iterate_end;
-  for (id = 0; id < game.government_count; id++) {
-    tilespec_setup_government(id);
-  }
+  government_iterate(gov) {
+    tilespec_setup_government(gov->index);
+  } government_iterate_end;
   for (id = 0; id < game.nation_count; id++) {
     tilespec_setup_nation_flag(id);
   }
