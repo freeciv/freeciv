@@ -225,7 +225,7 @@ void ai_manage_taxes(struct player *pplayer)
   int cities = 0;
   struct packet_unit_request pack;
   struct city *incity; /* stay a while, until the night is over */
-  struct unit *visitor; /* stay a while, stay forever */
+  struct unit *defender;
   int maxrate = 10;
 
   if (ai_handicap(pplayer, H_RATES))
@@ -367,17 +367,26 @@ pplayer->name, trade, expense, m, n);*/
         pcity->food_stock + pcity->food_surplus < 0) 
        emergency_reallocate_workers(pplayer, pcity);
     if (pcity->shield_surplus < 0) {
-      visitor = 0;
+      defender = 0;
       unit_list_iterate(pcity->units_supported, punit)
         incity = map_get_city(punit->x, punit->y);
         if (incity && pcity->shield_surplus < 0) {
           if (incity == pcity) {
-            if (visitor) {
+            if (defender) {
+              if (unit_vulnerability_virtual(punit) <
+                  unit_vulnerability_virtual(defender)) {
 printf("Disbanding %s in %s\n", unit_types[punit->type].name, pcity->name);
-              pack.unit_id = punit->id;
-              handle_unit_disband(pplayer, &pack);
-              city_refresh(pcity);
-            } else visitor = punit;
+                pack.unit_id = punit->id;
+                handle_unit_disband(pplayer, &pack);
+                city_refresh(pcity);
+              } else {
+printf("Disbanding %s in %s\n", unit_types[defender->type].name, pcity->name);
+                pack.unit_id = defender->id;
+                handle_unit_disband(pplayer, &pack);
+                city_refresh(pcity);
+                defender = punit;
+              }
+            } else defender = punit;
           } else if (incity->shield_surplus > 0) {
             pack.unit_id = punit->id;
             pack.city_id = incity->id;
@@ -387,11 +396,16 @@ printf("Reassigning %s from %s to %s\n", unit_types[punit->type].name, pcity->na
           }
         } /* end if */
       unit_list_iterate_end;
-      if (pcity->shield_surplus < 0 && visitor) { /* AAAAAAAaaaaaaaAAAAAAAaaaaaaaAAAAAAA */
-printf("Disbanding %s in %s\n", unit_types[visitor->type].name, pcity->name);
-        pack.unit_id = visitor->id;
-        handle_unit_disband(pplayer, &pack);
-        city_refresh(pcity);
+      if (pcity->shield_surplus < 0) {
+        unit_list_iterate(pcity->units_supported, punit)
+          if (punit != defender && pcity->shield_surplus < 0) {
+/* the defender MUST NOT be disbanded! -- Syela */
+printf("Disbanding %s's %s.\n", pcity->name, unit_types[punit->type].name);
+            pack.unit_id = punit->id;
+            handle_unit_disband(pplayer, &pack);
+            city_refresh(pcity);
+          }
+        unit_list_iterate_end;
       }
     } /* end if we can't meet payroll */
     send_city_info(city_owner(pcity), pcity, 1);
