@@ -527,6 +527,8 @@ void *get_packet_from_connection(struct connection *pc,
     return receive_packet_ruleset_city(pc);
   case PACKET_RULESET_GAME:
     return receive_packet_ruleset_game(pc);
+  case PACKET_RULESET_CALENDAR:
+    return receive_packet_ruleset_calendar(pc);
 
   case PACKET_SPACESHIP_INFO:
     return receive_packet_spaceship_info(pc);
@@ -2051,6 +2053,9 @@ int send_packet_game_info(struct connection *pc,
   cptr = put_uint32(cptr, pinfo->timeout);
   cptr=put_uint32(cptr, pinfo->end_year);
   cptr=put_uint32(cptr, pinfo->year);
+  if (has_capability("calendar", pc->capability)) {
+    cptr = put_sint16(cptr, pinfo->spaceage_year);
+  }
   cptr=put_uint8(cptr, pinfo->min_players);
   cptr=put_uint8(cptr, pinfo->max_players);
   cptr=put_uint8(cptr, pinfo->nplayers);
@@ -2099,6 +2104,11 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint32(&iter, &pinfo->timeout);
   iget_uint32(&iter, &pinfo->end_year);
   iget_uint32(&iter, &pinfo->year);
+  if (has_capability("calendar", pc->capability)) {
+    iget_sint16(&iter, &pinfo->spaceage_year);
+  } else {
+    pinfo->spaceage_year = GAME_MAX_END_YEAR + 1;
+  }
   iget_uint8(&iter, &pinfo->min_players);
   iget_uint8(&iter, &pinfo->max_players);
   iget_uint8(&iter, &pinfo->nplayers);
@@ -2876,6 +2886,10 @@ int send_packet_ruleset_control(struct connection *pc,
   cptr=put_uint8(cptr, packet->num_unit_types);
   cptr=put_uint8(cptr, packet->num_impr_types);
   cptr=put_uint8(cptr, packet->num_tech_types);
+
+  if (has_capability("calendar", pc->capability)) {
+    cptr = put_uint8(cptr, packet->num_calendars);
+  }
  
   cptr=put_uint8(cptr, packet->nation_count);
   cptr=put_uint8(cptr, packet->playable_nation_count);
@@ -2912,6 +2926,12 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_uint8(&iter, &packet->num_unit_types);
   iget_uint8(&iter, &packet->num_impr_types);
   iget_uint8(&iter, &packet->num_tech_types);
+
+  if (has_capability("calendar", pc->capability)) {
+    iget_uint8(&iter, &packet->num_calendars);
+  } else {
+    packet->num_calendars = 0;
+  }
 
   iget_uint8(&iter, &packet->nation_count);
   iget_uint8(&iter, &packet->playable_nation_count);
@@ -3680,6 +3700,42 @@ receive_packet_ruleset_city(struct connection *pc)
   iget_string(&iter, packet->name, MAX_LEN_NAME);
   iget_string(&iter, packet->graphic, MAX_LEN_NAME);
   iget_string(&iter, packet->graphic_alt, MAX_LEN_NAME);
+
+  RECEIVE_PACKET_END(packet);
+}
+
+/*************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_calendar(struct connection *pc,
+    				 const struct packet_ruleset_calendar *packet)
+{
+  SEND_PACKET_START(PACKET_RULESET_CALENDAR);
+
+  cptr = put_uint8(cptr, packet->id);
+  cptr = put_string(cptr, packet->name);
+  cptr = put_sint16(cptr, packet->first_year);
+  cptr = put_uint8(cptr, packet->turn_years);
+  cptr = put_uint8(cptr, packet->req_tech);
+  cptr = put_uint8(cptr, packet->early_tech);
+
+  SEND_PACKET_END;
+}
+
+/*************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_calendar *
+receive_packet_ruleset_calendar(struct connection *pc)
+{
+  RECEIVE_PACKET_START(packet_ruleset_calendar, packet);
+
+  iget_uint8(&iter, &packet->id);
+  iget_string(&iter, packet->name, sizeof(packet->name));
+  iget_sint16(&iter, &packet->first_year);
+  iget_uint8(&iter, &packet->turn_years);
+  iget_uint8(&iter, &packet->req_tech);
+  iget_uint8(&iter, &packet->early_tech);
 
   RECEIVE_PACKET_END(packet);
 }

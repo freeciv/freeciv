@@ -25,6 +25,8 @@
 
 #define MAX_LEN_DEMOGRAPHY  16
 #define MAX_LEN_ALLOW_CONNECT 16
+#define MAX_CALENDAR 20
+#define C_LAST MAX_CALENDAR
 
 enum server_states { 
   PRE_GAME_STATE, 
@@ -44,6 +46,15 @@ enum client_states {
 
 struct unit;
 struct city;
+
+struct calendar {
+  int id;
+  char name[MAX_LEN_NAME];
+  int first_year;
+  int turn_years;
+  int req_tech;
+  int early_tech;
+};
 
 #define OVERFLIGHT_NOTHING  1
 #define OVERFLIGHT_FRIGHTEN 2
@@ -74,6 +85,7 @@ struct civ_game {
   int end_year;
   int year;
   int turn;
+  int spaceage_year; /* The year in which the first space craft is launched */
   int researchcost; /* Multiplier on cost of new research */
   int diplcost, freecost, conquercost;
   int diplchance;
@@ -152,6 +164,7 @@ struct civ_game {
   int nation_count;
   int playable_nation_count;
   int styles_count;
+  int num_calendars;
 
   int watchtower_extra_vision;
   int watchtower_vision;
@@ -200,6 +213,8 @@ struct civ_game {
   char demography[MAX_LEN_DEMOGRAPHY];
   char allow_connect[MAX_LEN_ALLOW_CONNECT];
 
+  struct calendar calendars[C_LAST];
+
   /* used by the map editor to control game_save; could be used by the server too */
   struct {
     bool save_random;
@@ -230,6 +245,8 @@ void ruleset_data_free(void);
 
 int game_next_year(int);
 void game_advance_year(void);
+const struct calendar *game_get_calendar(int year);
+const struct calendar *game_get_current_calendar(void);
 
 int civ_population(struct player *pplayer);
 struct city *game_find_city_by_name(const char *name);
@@ -254,6 +271,7 @@ int get_num_human_and_ai_players(void);
 void update_island_impr_effect(int oldmax, int maxcont);
 
 void update_all_effects(void);
+void setup_default_calendars(void);
 
 extern struct civ_game game;
 extern bool is_server;

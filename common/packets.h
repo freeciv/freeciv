@@ -126,6 +126,7 @@ enum packet_type {
   PACKET_PLAYER_ATTRIBUTE_BLOCK,
   PACKET_START_TURN,
   PACKET_SELECT_NATION_OK,
+  PACKET_RULESET_CALENDAR,
   PACKET_LAST  /* leave this last */
 };
 
@@ -571,6 +572,7 @@ struct packet_ruleset_control {
   int nation_count;
   int playable_nation_count;
   int style_count;
+  int num_calendars;
 };
 
 /*********************************************************
@@ -800,6 +802,15 @@ struct packet_ruleset_game {
   int global_init_techs[MAX_NUM_TECH_LIST];
 };
 
+struct packet_ruleset_calendar {
+  int id;
+  char name[MAX_LEN_NAME];
+  int first_year;
+  int turn_years;
+  int req_tech;
+  int early_tech;
+};
+
 /*********************************************************
 ...
 *********************************************************/
@@ -813,6 +824,7 @@ struct packet_game_info {
   int end_year;
   int year;
   int turn;
+  int spaceage_year;
   int min_players, max_players, nplayers;
   int player_idx;
   int globalwarming;
@@ -1077,6 +1089,10 @@ int send_packet_ruleset_game(struct connection *pc,
                              const struct packet_ruleset_game *packet);
 struct packet_ruleset_game *
 receive_packet_ruleset_game(struct connection *pc);
+int send_packet_ruleset_calendar(struct connection *pc,
+    				 const struct packet_ruleset_calendar *packet);
+struct packet_ruleset_calendar *
+receive_packet_ruleset_calendar(struct connection *pc);
 
 int send_packet_generic_values(struct connection *pc, enum packet_type type,
 			       const struct packet_generic_values *req);

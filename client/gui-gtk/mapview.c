@@ -373,14 +373,16 @@ void update_info_label( void )
 {
   char buffer	[512];
   int  d;
+  const struct calendar *cal = game_get_current_calendar();
 
   gtk_frame_set_label( GTK_FRAME( main_frame_civ_name ), get_nation_name(game.player_ptr->nation) );
 
   my_snprintf(buffer, sizeof(buffer),
-	      _("Population: %s\nYear: %s\n"
+	      _("Population: %s\nYear: %s\n%s (%d yr/turn)\n"
 		"Gold %d\nTax: %d Lux: %d Sci: %d"),
 	      population_to_text(civ_population(game.player_ptr)),
-	      textyear(game.year), game.player_ptr->economic.gold,
+	      textyear(game.year), cal->name, cal->turn_years,
+              game.player_ptr->economic.gold,
 	      game.player_ptr->economic.tax,
 	      game.player_ptr->economic.luxury,
 	      game.player_ptr->economic.science);

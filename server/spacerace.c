@@ -21,6 +21,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "gamelog.h"
+#include "gamehand.h"
 #include "log.h"
 #include "packets.h"
 #include "shared.h"
@@ -185,6 +186,9 @@ void handle_spaceship_launch(struct player *pplayer)
 		   textyear(arrival));
 
   send_spaceship_info(pplayer, NULL);
+
+  game.spaceage_year = game.year;
+  send_game_info(NULL);
 }
 
 /**************************************************************************

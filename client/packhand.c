@@ -1053,6 +1053,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.end_year=pinfo->end_year;
   game.year=pinfo->year;
   game.turn=pinfo->turn;
+  game.spaceage_year = pinfo->spaceage_year;
   game.min_players=pinfo->min_players;
   game.max_players=pinfo->max_players;
   game.nplayers=pinfo->nplayers;
@@ -1669,6 +1670,10 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.num_unit_types = packet->num_unit_types;
   game.num_impr_types = packet->num_impr_types;
   game.num_tech_types = packet->num_tech_types;
+  game.num_calendars  = packet->num_calendars;
+  if (game.num_calendars == 0) {
+    setup_default_calendars();
+  }
 
   governments_alloc(packet->government_count);
 
@@ -2161,6 +2166,28 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   game.rgame.granary_food_inc = packet->granary_food_inc;
   game.rgame.tech_cost_style = packet->tech_cost_style;
   game.rgame.tech_leakage = packet->tech_leakage;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_calendar(struct packet_ruleset_calendar *p)
+{
+  struct calendar *c;
+
+  if (p->id < 0 || p->id >= game.num_calendars || p->id >= C_LAST) {
+    freelog(LOG_ERROR,
+            "Received bad calendar %d in handle_ruleset_calendar()", p->id);
+    return;
+  }
+  c = &game.calendars[p->id];
+
+  c->id = p->id;
+  sz_strlcpy(c->name, p->name);
+  c->first_year = p->first_year;
+  c->turn_years = p->turn_years;
+  c->req_tech   = p->req_tech;
+  c->early_tech = p->early_tech;
 }
 
 /**************************************************************************

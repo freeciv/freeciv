@@ -88,6 +88,8 @@ void lsend_packet_ruleset_city(struct conn_list *dest,
 			     const struct packet_ruleset_city *packet);
 void lsend_packet_ruleset_game(struct conn_list *dest,
                              const struct packet_ruleset_game *packet);
+void lsend_packet_ruleset_calendar(struct conn_list *dest,
+    				 const struct packet_ruleset_calendar *packet);
 void lsend_packet_generic_values(struct conn_list *dest, enum packet_type type,
 			       const struct packet_generic_values *req);
 void lsend_packet_spaceship_info(struct conn_list *dest,

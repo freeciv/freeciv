@@ -382,6 +382,10 @@ void handle_packet_input(void *packet, int type)
     handle_ruleset_city((struct packet_ruleset_city *)packet);
     break;
 
+  case PACKET_RULESET_CALENDAR:
+    handle_ruleset_calendar((struct packet_ruleset_calendar *)packet);
+    break;
+
   case PACKET_RULESET_GAME:
     handle_ruleset_game((struct packet_ruleset_game *)packet);
     break;

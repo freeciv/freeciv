@@ -1822,6 +1822,7 @@ void srv_main(void)
   if(game.is_new_game) {
     load_rulesets();
     /* otherwise rulesets were loaded when savegame was loaded */
+    game.year = game.calendars[0].first_year;
   }
 
   nations_avail = fc_calloc(game.playable_nation_count, sizeof(int));
