@@ -707,32 +707,45 @@ Do things one at a time; the server will send us an updated
 spaceship_info packet, and we'll be back here to do anything
 which is left.
 **************************************************************************/
-int spaceship_autoplace(struct player_spaceship *ship)
+int spaceship_autoplace(struct player *pplayer, struct player_spaceship *ship)
 {
   struct packet_spaceship_action packet;
   int i;
   
   if (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
-    if (ship->habitation==0) {
-      packet.action = SSHIP_ACT_PLACE_HABITATION;
+    
+    int nice = (pplayer->government >= G_REPUBLIC);
+    /* "nice" governments prefer to keep success 100%;
+     * others build habitation first (for score?)  (Thanks Lalo.)
+     */
+
+    packet.action =
+      (ship->habitation==0)   ? SSHIP_ACT_PLACE_HABITATION :
+      (ship->life_support==0) ? SSHIP_ACT_PLACE_LIFE_SUPPORT :
+      (ship->solar_panels==0) ? SSHIP_ACT_PLACE_SOLAR_PANELS :
+      ((ship->habitation < ship->life_support)
+       && (ship->solar_panels*2 >= ship->habitation + ship->life_support + 1))
+                              ? SSHIP_ACT_PLACE_HABITATION :
+      (ship->solar_panels*2 < ship->habitation + ship->life_support)
+                              ? SSHIP_ACT_PLACE_SOLAR_PANELS :
+      (ship->life_support<ship->habitation)
+                              ? SSHIP_ACT_PLACE_LIFE_SUPPORT :
+      (nice && (ship->life_support <= ship->habitation)
+       && (ship->solar_panels*2 >= ship->habitation + ship->life_support + 1))
+                              ? SSHIP_ACT_PLACE_LIFE_SUPPORT :
+      (nice)                  ? SSHIP_ACT_PLACE_SOLAR_PANELS :
+                                SSHIP_ACT_PLACE_HABITATION;
+
+    if (packet.action == SSHIP_ACT_PLACE_HABITATION) {
       packet.num = ship->habitation + 1;
-    } else if (ship->life_support==0) {
-      packet.action = SSHIP_ACT_PLACE_LIFE_SUPPORT;
+    } else if(packet.action == SSHIP_ACT_PLACE_LIFE_SUPPORT) {
       packet.num = ship->life_support + 1;
-    } else if (ship->solar_panels==0) {
-      packet.action = SSHIP_ACT_PLACE_SOLAR_PANELS;
-      packet.num = ship->solar_panels + 1;
-    } else if (ship->life_support < ship->habitation) {
-      packet.action = SSHIP_ACT_PLACE_LIFE_SUPPORT;
-      packet.num = ship->life_support + 1;
-    } else if (ship->solar_panels < (ship->habitation + ship->life_support)/2) {
-      packet.action = SSHIP_ACT_PLACE_SOLAR_PANELS;
-      packet.num = ship->solar_panels + 1;
     } else {
-      packet.action = SSHIP_ACT_PLACE_HABITATION;
-      packet.num = ship->habitation + 1;
+      packet.num = ship->solar_panels + 1;
     }
+    assert(packet.num<=NUM_SS_MODULES/3);
+
     send_packet_spaceship_action(&aconnection, &packet);
     return 1;
   }
@@ -860,7 +873,7 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
   }
   update_menus();
 
-  if (!spaceship_autoplace(ship)) {
+  if (!spaceship_autoplace(pplayer, ship)) {
     refresh_spaceship_dialog(pplayer);
   }
 }
