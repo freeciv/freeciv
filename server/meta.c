@@ -36,6 +36,7 @@ The info string should look like this:
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -62,6 +63,7 @@ The info string should look like this:
 #endif
 
 #include "fcintl.h"
+#include "log.h"
 #include "packets.h"
 #include "support.h"
 
@@ -190,7 +192,8 @@ void server_open_udp(void)
 	 && ((hp = gethostbyname(servername)) == NULL));
 #endif
   if (bad) {
-    perror(_("Metaserver: address error"));
+    freelog(LOG_NORMAL, _("Metaserver: bad address: [%s]."),
+	    servername);
     con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
     con_flush();
     return;
@@ -209,7 +212,8 @@ void server_open_udp(void)
   bad = ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0);
 #endif
   if (bad) {
-    perror(_("Metaserver: can't open datagram socket"));
+    freelog(LOG_DEBUG, "Metaserver: can't open datagram socket: %s",
+	    mystrerror(errno));
     con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
     con_flush();
     return;
@@ -229,7 +233,8 @@ void server_open_udp(void)
   bad = (bind(sockfd, (struct sockaddr *) &cli_addr, sizeof(cli_addr)) < 0);
 #endif
   if (bad) {
-    perror(_("Metaserver: can't bind local address"));
+    freelog(LOG_DEBUG, "Metaserver: can't bind local address: %s",
+	    mystrerror(errno));
     con_puts(C_METAERROR, _("Not reporting to the metaserver in this game."));
     con_flush();
     return;
