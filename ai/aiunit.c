@@ -2300,7 +2300,8 @@ static bool ai_ferry_findcargo(struct unit *punit)
 static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity;
-  struct tile *ptile = map_get_tile(punit->x, punit->y);
+  int oldbossid = -1;	/* Loop prevention. If boss doesn't want to move,
+			 * neither do we. */
 
   CHECK_UNIT(punit);
 
@@ -2313,97 +2314,107 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   }
 
   /* Check if we are an empty barbarian boat and so not needed */
-  if (is_barbarian(pplayer) 
-      && unit_list_size(&ptile->units) < 2 ) {
+  if (is_barbarian(pplayer) && !punit->occupy) {
     wipe_unit(punit);
     return;
   }
 
-  /* Do we have the passenger-in-charge on board? */
-  if (punit->ai.passenger > 0 
-      && !unit_list_find(&ptile->units, punit->ai.passenger)) {
-    UNIT_LOG(LOGLEVEL_FERRY, punit, "lost passenger-in-charge[%d], resetting",
-             punit->ai.passenger);
-    ai_set_passenger(punit, NULL);
-  }
+  do {
+    /* Do we have the passenger-in-charge on board? */
+    struct tile *ptile = map_get_tile(punit->x, punit->y);
 
-  if (punit->ai.passenger <= 0) {
-    struct unit *candidate = NULL;
-    
-    /* Try to select passanger-in-charge from among our passengers */
-    unit_list_iterate(ptile->units, aunit) {
-      if (aunit->ai.ferryboat != punit->id 
-          && aunit->ai.ferryboat != FERRY_WANTED) {
-        continue;
-      }
-      
-      if (aunit->ai.ai_role != AIUNIT_ESCORT) {
-        candidate = aunit;
-        break;
-      } else {
-        /* Bodyguards shouldn't be in charge of boats so continue looking */
-        candidate = aunit;
-      }
-    } unit_list_iterate_end;
-    
-    if (candidate) {
+    if (punit->ai.passenger > 0 
+        && !unit_list_find(&ptile->units, punit->ai.passenger)) {
       UNIT_LOG(LOGLEVEL_FERRY, punit, 
-               "appointed %s[%d] our passenger-in-charge",
-               unit_type(candidate)->name, candidate->id);
-      if (candidate->ai.ferryboat == FERRY_WANTED) {
-        ai_set_ferry(candidate, punit);
-      }
-      ai_set_passenger(punit, candidate);
+	       "lost passenger-in-charge[%d], resetting",
+               punit->ai.passenger);
+      ai_set_passenger(punit, NULL);
+    } else if (oldbossid > 0) {
+      /* Need to look for a new boss */
+      UNIT_LOG(LOGLEVEL_FERRY, punit, "taking control back from [%d]", 
+	       oldbossid);
+      ai_set_passenger(punit, NULL);
     }
+
+    if (punit->ai.passenger <= 0) {
+      struct unit *candidate = NULL;
+    
+      /* Try to select passanger-in-charge from among our passengers */
+      unit_list_iterate(ptile->units, aunit) {
+        if (aunit->ai.ferryboat != punit->id 
+            && aunit->ai.ferryboat != FERRY_WANTED) {
+          continue;
+        }
+      
+        if (aunit->ai.ai_role != AIUNIT_ESCORT) {
+          candidate = aunit;
+          break;
+        } else {
+          /* Bodyguards shouldn't be in charge of boats so continue looking */
+          candidate = aunit;
+        }
+      } unit_list_iterate_end;
+      
+      if (candidate && candidate->id == oldbossid) {
+	/* The boss decided to stay put on the ferry. We aren't moving. */
+	return;
+      }
+
+      if (candidate) {
+        UNIT_LOG(LOGLEVEL_FERRY, punit, 
+                 "appointed %s[%d] our passenger-in-charge",
+                 unit_type(candidate)->name, candidate->id);
+        if (candidate->ai.ferryboat == FERRY_WANTED) {
+          ai_set_ferry(candidate, punit);
+        }
+        ai_set_passenger(punit, candidate);
+      }
+    }
+
+    if (punit->ai.passenger > 0) {
+      struct unit *boss = find_unit_by_id(punit->ai.passenger);
+      int id = punit->id;                  /* To check if survived */
+
+      assert(boss != NULL);
+      oldbossid = punit->ai.passenger;
+
+      if (unit_flag(boss, F_SETTLERS) || unit_flag(boss, F_CITIES)) {
+        /* Temporary hack: settlers all go in the end, forcing them 
+         * earlier might mean uninitialised cache, so just wait for them */
+        return;
+      }
+
+      UNIT_LOG(LOGLEVEL_FERRY, punit, "passing control to %s[%d]",
+		unit_type(boss)->name, boss->id);
+      ai_manage_unit(pplayer, boss);
+    
+      if (!find_unit_by_id(id) || punit->moves_left <= 0) {
+        return;
+      }
+    } else {
+      /* Cannot select a passenger-in-charge */
+      break;
+    }
+  } while (punit->occupy);
+
+  /* Not carrying anyone, even the ferryman */
+
+  if (IS_ATTACKER(punit) && punit->moves_left > 0) {
+     /* AI used to build frigates to attack and then use them as ferries 
+      * -- Syela */
+     ai_manage_military(pplayer, punit);
+     return;
   }
 
-  if (punit->ai.passenger > 0) {
-    int bossid = punit->ai.passenger;    /* For reference */
-    struct unit *boss = find_unit_by_id(bossid);
-    int id = punit->id;                  /* To check if survived */
-    int moves_left = punit->moves_left;  /* Loop prevention */
+  UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is not carrying anyone.");
+  ai_set_passenger(punit, NULL);
+  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  CHECK_UNIT(punit);
 
-    assert(boss != NULL);
-
-    if (unit_flag(boss, F_SETTLERS) || unit_flag(boss, F_CITIES)) {
-      /* Temporary hack: settlers all go in the end, forcing them 
-       * earlier might mean uninitialised cache, so just wait for them */
-      return;
-    }
-
-    UNIT_LOG(LOGLEVEL_FERRY, punit, "passing control to %s[%d]",
-             unit_type(boss)->name, bossid);
-    ai_manage_unit(pplayer, boss);
-    
-    if (!find_unit_by_id(id) || punit->moves_left < moves_left) {
-      return;
-    }
-    /* We are alive and didn't spend any moves.  We are stuck! 
-     * NB: it can be that punit->ai.passenger has changed by now,
-     * for example if the boss has landed */
-    UNIT_LOG(LOGLEVEL_FERRY, punit, "taking control back from [%d]", 
-             bossid);
-
-  } else {
-    /* Not carrying anyone, even the ferryman */
-
-   if (IS_ATTACKER(punit) && punit->moves_left > 0) {
-      /* AI used to build frigates to attack and then use them as ferries 
-       * -- Syela */
-      ai_manage_military(pplayer, punit);
-      return;
-    }
-
-    UNIT_LOG(LOGLEVEL_FERRY, punit, "Ferryboat is not carrying anyone.");
-    ai_set_passenger(punit, NULL);
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    CHECK_UNIT(punit);
-
-    /* Try to find passengers */
-    if (ai_ferry_findcargo(punit)) {
-      ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
-      return;
-    }
+  /* Try to find passengers */
+  if (ai_ferry_findcargo(punit)) {
+    ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
+    return;
   }
 
   CHECK_UNIT(punit);
