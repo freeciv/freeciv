@@ -2,9 +2,9 @@
 FEHLER
 ======                                                                                                 
 
-Stand:  28.09.2001
+Stand:  05.06.2002
 
-Freeciv 1.12.0 ist eine stabile Version, und kann für den täglichen
+Freeciv 1.13.0 ist eine stabile Version, und kann für den täglichen
 Gebrauch als ausreichend fehlerfrei betrachtet werden. Informationen
 über Fehler sind jederzeit willkommen.
 
@@ -42,7 +42,9 @@ BEKANNTE FEHLER:
    Fortschrittsdialoges, so daß das Menü unten aus dem Schirm
    herausläuft, und sich manche Einträge nicht anwählen lassen.
 
- - Der Server schneidet sehr lange Hostnamen ab.
+ - Wenn man 'esound' verwendet, erhält man manchmal Meldungen wie
+   	'{ss} player for sample <01> not found'
+   Diese können problemlos ignoriert werden.
 
  - Einige Wirkungen von Wundern und Fortschritten treten erst nach
    einer Runde Verzögerung ein. Wenn zum Beispiel der Leuchturm
@@ -51,8 +53,7 @@ BEKANNTE FEHLER:
 
  - Der Xaw Client kann im Stadtdialog nur maximal 25 Bürger anzeigen.
 
- - Das "automatische Angreifen" funktioniert allgemein nicht
-   besonders gut.
+ - Das "automatische Angreifen" funktioniert nicht besonders gut.
 
  - Wenn der Server den Weg für einen "Gehe nach" Befehl festlegt, zum
    Beispiel für einen automatische Siedler oder ein Flugzeug, benutzt
@@ -64,7 +65,7 @@ BEKANNTE FEHLER:
  - Im Gtk Clienten enthält die Anzeige unter der kleinen Karte manchmal
    Unsinn.
 
- - Automatische Funktionen wie automatisches Erkunden behandeln
+ - Funktionen wie automatisches Erkunden beherrschen den Umgang mit
    Triremen nicht sehr gut.
 
  - LOG_DEBUG funktioniert nur mit GCC Compilern.
@@ -76,7 +77,7 @@ BEKANNTE FEHLER:
    genug überprüft.
 
  - Wenn man gleichzeitig mehrere globale Arbeitslisten verändert,
-   passieren böse Dinge.
+   kann es zu schweren Fehlern kommen.
 
  - Auch im Einzelspiel hat die KI die Möglichkeit, sowohl vor als
    auch nach dem Zug des menschlichen Spielers zu ziehen. Das ergibt
@@ -91,8 +92,8 @@ BEKANNTE FEHLER:
 FEHLER MITTEILEN:
 =================
 
-Fehler in der deutschen Übersetzung berichten Sie bitte an Egbert Hinzen 
-<garfy@ehinzen.de>.
+(Fehler in der deutschen Übersetzung berichten Sie bitte an die 
+Mailingliste der deutschen Freeciv-Übersetzer <freeciv.de@freelists.org>.)
 
 Bitte gehen Sie so vor:
 
@@ -158,6 +159,6 @@ Bitte gehen Sie so vor:
 WEITERE INFORMATIONEN:
 ======================
 
-Weitere Informationen finden Sie, wie immer, auf der Freeciv Website:
+Weitere Informationen finden Sie auf der Freeciv Website:
 
         http://www.freeciv.org/
