@@ -380,62 +380,25 @@ struct Sprite *load_gfxfile(const char *filename)
 
   if (png_get_PLTE(pngp, infop, &palette, &npalette)) {
     int i;
+    XColor *mycolors;
 
     pcolorarray = fc_malloc(npalette * sizeof(*pcolorarray));
 
+    mycolors = fc_malloc(npalette * sizeof(*mycolors));
+
     for (i = 0; i < npalette; i++) {
-      XColor mycolor;
-
-      mycolor.red  = palette[i].red << 8;
-      mycolor.green = palette[i].green << 8;
-      mycolor.blue = palette[i].blue << 8;
-
-      if (XAllocColor(display, cmap, &mycolor)) {
-	pcolorarray[i] = mycolor.pixel;
-      } else {
-	/* We're out of colors.  For the rest of the palette, just
-	   find the closes match and use it. */
-	XColor *cols;
-	int ncols, j;
-
-	ncols = DefaultVisual(display, screen_number)->map_entries;
-	cols = fc_malloc(sizeof(XColor) * ncols);
-
-	for (j = 0; j < ncols; j++) {
-	  cols[j].pixel = j;
-	}
-
-    	XGrabServer(display);
-
-	XQueryColors(display, cmap, cols, ncols);
-
-	for (; i < npalette; i++) {
-	  int best = INT_MAX;
-	  unsigned long pixel=0;
-
-	  for (j = 0; j < ncols; j++) {
-	    int rd, gd, bd, dist;
-	    
-	    rd = (cols[j].red  >> 8) - palette[i].red;
-	    gd = (cols[j].green >> 8) - palette[i].green;
-	    bd = (cols[j].blue >> 8) - palette[i].blue;
-	    dist = rd * rd + gd * gd + bd * bd;
-	    
-	    if (dist < best) {
-	      best = dist;
-	      pixel = j;
-	    }
-	  }
-
-    	  XAllocColor(display, cmap, &cols[pixel]);
-	  pcolorarray[i] = pixel;
-	}
-
-    	XUngrabServer(display);
-	free(cols);
-	break;
-      }
+      mycolors[i].red  = palette[i].red << 8;
+      mycolors[i].green = palette[i].green << 8;
+      mycolors[i].blue = palette[i].blue << 8;
     }
+
+    alloc_colors(mycolors, npalette);
+
+    for (i = 0; i < npalette; i++) {
+      pcolorarray[i] = mycolors[i].pixel;
+    }
+
+    free(mycolors);
   } else {
     freelog(LOG_FATAL, _("PNG file has no palette: %s"), filename);
     exit(EXIT_FAILURE);
@@ -532,7 +495,7 @@ void free_sprite(struct Sprite *s)
   if (s->has_mask) {
     XFreePixmap(display, s->mask);
   }
-  XFreeColors(display, cmap, s->pcolorarray, s->ncols, 0);
+  free_colors(s->pcolorarray, s->ncols);
   free(s->pcolorarray);
   free(s);
 }

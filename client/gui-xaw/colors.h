@@ -19,6 +19,7 @@
 
 #include "colors_g.h"
 
+void alloc_colors(XColor *colors, int ncols);
 void free_colors(unsigned long *pixels, int ncols);
 
 extern unsigned long colors_standard[COLOR_STD_LAST];
