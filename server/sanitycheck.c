@@ -35,16 +35,16 @@ static void check_specials(void)
     int terrain = map_get_terrain(x, y);
     int special = map_get_special(x, y);
 
-    if (BOOL_VAL(special & S_RAILROAD))
+    if (contains_special(special, S_RAILROAD))
       assert(special & S_ROAD);
-    if (BOOL_VAL(special & S_FARMLAND))
+    if (contains_special(special, S_FARMLAND))
       assert(special & S_IRRIGATION);
-    if (BOOL_VAL(special & S_SPECIAL_1))
+    if (contains_special(special, S_SPECIAL_1))
       assert(!(special & S_SPECIAL_2));
 
-    if (BOOL_VAL(special & S_MINE))
+    if (contains_special(special, S_MINE))
       assert(get_tile_type(terrain)->mining_result == terrain);
-    if (BOOL_VAL(special & S_IRRIGATION))
+    if (contains_special(special, S_IRRIGATION))
       assert(get_tile_type(terrain)->irrigation_result == terrain);
 
     assert(terrain >= T_ARCTIC && terrain < T_UNKNOWN);

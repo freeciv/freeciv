@@ -414,7 +414,7 @@ bool ai_manage_explorer(struct unit *punit)
           /* FIXME? Why we don't do same tests like in part 2? --pasky */
           if (((unknown > most_unknown) ||
                (unknown == most_unknown && myrand(2)))
-              && !(is_barbarian(pplayer) && BOOL_VAL(ptile->special & S_HUT))) {
+              && !(is_barbarian(pplayer) && tile_has_special(ptile, S_HUT))) {
             best_x = x1;
             best_y = y1;
             most_unknown = unknown;

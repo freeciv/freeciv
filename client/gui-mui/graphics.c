@@ -1381,19 +1381,19 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
 		  offset_x, offset_y_unit,
 		  width, height_unit, fog);
   }
-  if (BOOL_VAL(special & S_AIRBASE) && draw_fortress_airbase)
+  if (contains_special(special, S_AIRBASE) && draw_fortress_airbase)
     put_overlay_tile_draw(rp,
 			  canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
 			  sprites.tx.airbase,
 			  offset_x, offset_y_unit,
 			  width, height_unit, fog);
-  if (BOOL_VAL(special & S_FALLOUT) && draw_pollution)
+  if (contains_special(special, S_FALLOUT) && draw_pollution)
     put_overlay_tile_draw(rp,
 			  canvas_x, canvas_y,
 			  sprites.tx.fallout,
 			  offset_x, offset_y,
 			  width, height, fog);
-  if (BOOL_VAL(special & S_POLLUTION) && draw_pollution)
+  if (contains_special(special, S_POLLUTION) && draw_pollution)
     put_overlay_tile_draw(rp,
 			  canvas_x, canvas_y,
 			  sprites.tx.pollution,
@@ -1429,7 +1429,7 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
 			    width, height_unit, fog);
   }
 
-  if (BOOL_VAL(special & S_FORTRESS) && draw_fortress_airbase)
+  if (contains_special(special, S_FORTRESS) && draw_fortress_airbase)
     put_overlay_tile_draw(rp,
 			  canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
 			  sprites.tx.fortress,

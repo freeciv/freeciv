@@ -564,7 +564,7 @@ bool can_unit_paradrop(struct unit *punit)
     return FALSE;
 
   ptile=map_get_tile(punit->x, punit->y);
-  if (BOOL_VAL(ptile->special & S_AIRBASE))
+  if (tile_has_special(ptile, S_AIRBASE))
     return TRUE;
 
   if(!(pcity = map_get_city(punit->x, punit->y)))
@@ -628,16 +628,16 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     return TRUE;
 
   case ACTIVITY_POLLUTION:
-    return unit_flag(punit, F_SETTLERS) && BOOL_VAL(ptile->special & S_POLLUTION);
+    return unit_flag(punit, F_SETTLERS) && tile_has_special(ptile, S_POLLUTION);
 
   case ACTIVITY_FALLOUT:
-    return unit_flag(punit, F_SETTLERS) && BOOL_VAL(ptile->special & S_FALLOUT);
+    return unit_flag(punit, F_SETTLERS) && tile_has_special(ptile, S_FALLOUT);
 
   case ACTIVITY_ROAD:
     return (terrain_control.may_road &&
 	    unit_flag(punit, F_SETTLERS) &&
-	    !BOOL_VAL(ptile->special & S_ROAD) && type->road_time &&
-	    ((ptile->terrain != T_RIVER && !BOOL_VAL(ptile->special & S_RIVER))
+	    !tile_has_special(ptile, S_ROAD) && type->road_time &&
+	    ((ptile->terrain != T_RIVER && !tile_has_special(ptile, S_RIVER))
 	     || player_knows_techs_with_flag(pplayer, TF_BRIDGE)));
 
   case ACTIVITY_MINE:
@@ -646,7 +646,7 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     if (terrain_control.may_mine &&
 	unit_flag(punit, F_SETTLERS) &&
 	( (ptile->terrain==type->mining_result && 
-	   !BOOL_VAL(ptile->special & S_MINE)) ||
+	   !tile_has_special(ptile, S_MINE)) ||
 	  (ptile->terrain!=type->mining_result &&
 	   type->mining_result!=T_LAST &&
 	   (ptile->terrain!=T_OCEAN || type->mining_result==T_OCEAN ||
@@ -667,8 +667,8 @@ bool can_unit_do_activity_targeted(struct unit *punit,
      * *Do* allow it if they're transforming - the irrigation may survive */
     if (terrain_control.may_irrigate &&
 	unit_flag(punit, F_SETTLERS) &&
-	(!BOOL_VAL(ptile->special & S_IRRIGATION) ||
-	 (!BOOL_VAL(ptile->special & S_FARMLAND) &&
+	(!tile_has_special(ptile, S_IRRIGATION) ||
+	 (!tile_has_special(ptile, S_FARMLAND) &&
 	  player_knows_techs_with_flag(pplayer, TF_FARMLAND))) &&
 	( (ptile->terrain==type->irrigation_result && 
 	   is_water_adjacent_to_tile(punit->x, punit->y)) ||
@@ -700,12 +700,12 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     return (unit_flag(punit, F_SETTLERS) &&
 	    !map_get_city(punit->x, punit->y) &&
 	    player_knows_techs_with_flag(pplayer, TF_FORTRESS) &&
-	    !BOOL_VAL(ptile->special & S_FORTRESS) && ptile->terrain!=T_OCEAN);
+	    !tile_has_special(ptile, S_FORTRESS) && ptile->terrain!=T_OCEAN);
 
   case ACTIVITY_AIRBASE:
     return (unit_flag(punit, F_AIRBASE) &&
 	    player_knows_techs_with_flag(pplayer, TF_AIRBASE) &&
-	    !BOOL_VAL(ptile->special & S_AIRBASE) && ptile->terrain!=T_OCEAN);
+	    !tile_has_special(ptile, S_AIRBASE) && ptile->terrain!=T_OCEAN);
 
   case ACTIVITY_SENTRY:
     return TRUE;
@@ -714,12 +714,12 @@ bool can_unit_do_activity_targeted(struct unit *punit,
     /* if the tile has road, the terrain must be ok.. */
     return (terrain_control.may_road &&
 	    unit_flag(punit, F_SETTLERS) &&
-	    (BOOL_VAL(ptile->special & S_ROAD) ||
+	    (tile_has_special(ptile, S_ROAD) ||
 	     (punit->connecting &&
 	      (type->road_time &&
-	       ((ptile->terrain!=T_RIVER && !BOOL_VAL(ptile->special & S_RIVER))
+	       ((ptile->terrain!=T_RIVER && !tile_has_special(ptile, S_RIVER))
 		|| player_knows_techs_with_flag(pplayer, TF_BRIDGE))))) &&
-	    !BOOL_VAL(ptile->special & S_RAILROAD) &&
+	    !tile_has_special(ptile, S_RAILROAD) &&
 	    player_knows_techs_with_flag(pplayer, TF_RAILROAD));
 
   case ACTIVITY_PILLAGE:
@@ -729,7 +729,8 @@ bool can_unit_do_activity_targeted(struct unit *punit,
       pspresent = get_tile_infrastructure_set(ptile);
       if (pspresent && is_ground_unit(punit)) {
 	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
-	if (ptile->city && BOOL_VAL(target & (S_ROAD | S_RAILROAD)))
+	if (ptile->city && (contains_special(target, S_ROAD) ||
+			    contains_special(target, S_RAILROAD)))
 	    return FALSE;
 	if (target == S_NO_SPECIAL) {
 	  if (ptile->city)

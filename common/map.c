@@ -93,13 +93,13 @@ char *map_get_tile_info_text(int x, int y)
   bool first;
 
   sz_strlcpy(s, tile_types[ptile->terrain].terrain_name);
-  if (BOOL_VAL(ptile->special & S_RIVER)) {
+  if (tile_has_special(ptile, S_RIVER)) {
     sz_strlcat(s, "/");
     sz_strlcat(s, _(get_special_name(S_RIVER)));
   }
 
   first = TRUE;
-  if (BOOL_VAL(ptile->special & S_SPECIAL_1)) {
+  if (tile_has_special(ptile, S_SPECIAL_1)) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, " (");
@@ -108,7 +108,7 @@ char *map_get_tile_info_text(int x, int y)
     }
     sz_strlcat(s, tile_types[ptile->terrain].special_1_name);
   }
-  if (BOOL_VAL(ptile->special & S_SPECIAL_2)) {
+  if (tile_has_special(ptile, S_SPECIAL_2)) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, " (");
@@ -122,7 +122,7 @@ char *map_get_tile_info_text(int x, int y)
   }
 
   first = TRUE;
-  if (BOOL_VAL(ptile->special & S_POLLUTION)) {
+  if (tile_has_special(ptile, S_POLLUTION)) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, " [");
@@ -131,7 +131,7 @@ char *map_get_tile_info_text(int x, int y)
     }
     sz_strlcat(s, _(get_special_name(S_POLLUTION)));
   }
-  if (BOOL_VAL(ptile->special & S_FALLOUT)) {
+  if (tile_has_special(ptile, S_FALLOUT)) {
     if (first) {
       first = FALSE;
       sz_strlcat(s, " [");
@@ -519,8 +519,10 @@ bool is_hut_close(int x, int y)
 bool is_special_close(int x, int y)
 {
   square_iterate(x, y, 1, x1, y1) {
-    if (map_has_special(x1, y1, (S_SPECIAL_1 | S_SPECIAL_2)))
+    if (map_has_special(x1, y1, S_SPECIAL_1)
+	|| map_has_special(x1, y1, S_SPECIAL_2)) {
       return TRUE;
+    }
   } square_iterate_end;
 
   return FALSE;
@@ -545,9 +547,9 @@ bool is_sea_usable(int x, int y)
 ***************************************************************/
 int get_tile_food_base(struct tile * ptile)
 {
-  if (BOOL_VAL(ptile->special & S_SPECIAL_1)) 
+  if (tile_has_special(ptile, S_SPECIAL_1)) 
     return tile_types[ptile->terrain].food_special_1;
-  else if (BOOL_VAL(ptile->special & S_SPECIAL_2))
+  else if (tile_has_special(ptile, S_SPECIAL_2))
     return tile_types[ptile->terrain].food_special_2;
   else
     return tile_types[ptile->terrain].food;
@@ -558,9 +560,9 @@ int get_tile_food_base(struct tile * ptile)
 ***************************************************************/
 int get_tile_shield_base(struct tile * ptile)
 {
-  if (BOOL_VAL(ptile->special & S_SPECIAL_1))
+  if (tile_has_special(ptile, S_SPECIAL_1))
     return tile_types[ptile->terrain].shield_special_1;
-  else if(BOOL_VAL(ptile->special&S_SPECIAL_2))
+  else if(tile_has_special(ptile, S_SPECIAL_2))
     return tile_types[ptile->terrain].shield_special_2;
   else
     return tile_types[ptile->terrain].shield;
@@ -571,9 +573,9 @@ int get_tile_shield_base(struct tile * ptile)
 ***************************************************************/
 int get_tile_trade_base(struct tile * ptile)
 {
-  if (BOOL_VAL(ptile->special & S_SPECIAL_1))
+  if (tile_has_special(ptile, S_SPECIAL_1))
     return tile_types[ptile->terrain].trade_special_1;
-  else if (BOOL_VAL(ptile->special & S_SPECIAL_2))
+  else if (tile_has_special(ptile, S_SPECIAL_2))
     return tile_types[ptile->terrain].trade_special_2;
   else
     return tile_types[ptile->terrain].trade;
@@ -592,24 +594,24 @@ char *map_get_infrastructure_text(int spe)
   s[0] = '\0';
 
   /* Since railroad requires road, Road/Railroad is redundant */
-  if (BOOL_VAL(spe & S_RAILROAD))
+  if (contains_special(spe, S_RAILROAD))
     cat_snprintf(s, sizeof(s), "%s/", _("Railroad"));
-  else if (BOOL_VAL(spe & S_ROAD))
+  else if (contains_special(spe, S_ROAD))
     cat_snprintf(s, sizeof(s), "%s/", _("Road"));
 
   /* Likewise for farmland on irrigation */
-  if (BOOL_VAL(spe & S_FARMLAND))
+  if (contains_special(spe, S_FARMLAND))
     cat_snprintf(s, sizeof(s), "%s/", _("Farmland"));
-  else if (BOOL_VAL(spe & S_IRRIGATION))
+  else if (contains_special(spe, S_IRRIGATION))
     cat_snprintf(s, sizeof(s), "%s/", _("Irrigation"));
 
-  if (BOOL_VAL(spe & S_MINE))
+  if (contains_special(spe, S_MINE))
     cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
 
-  if (BOOL_VAL(spe & S_FORTRESS))
+  if (contains_special(spe, S_FORTRESS))
     cat_snprintf(s, sizeof(s), "%s/", _("Fortress"));
 
-  if (BOOL_VAL(spe & S_AIRBASE))
+  if (contains_special(spe, S_AIRBASE))
     cat_snprintf(s, sizeof(s), "%s/", _("Airbase"));
 
   p = s + strlen(s) - 1;
@@ -626,9 +628,9 @@ int map_get_infrastructure_prerequisite(int spe)
 {
   int prereq = S_NO_SPECIAL;
 
-  if (BOOL_VAL(spe & S_RAILROAD))
+  if (contains_special(spe, S_RAILROAD))
     prereq |= S_ROAD;
-  if (BOOL_VAL(spe & S_FARMLAND))
+  if (contains_special(spe, S_FARMLAND))
     prereq |= S_IRRIGATION;
 
   return prereq;
@@ -639,19 +641,19 @@ int map_get_infrastructure_prerequisite(int spe)
 ***************************************************************/
 int get_preferred_pillage(int pset)
 {
-  if (BOOL_VAL(pset & S_FARMLAND))
+  if (contains_special(pset, S_FARMLAND))
     return S_FARMLAND;
-  if (BOOL_VAL(pset & S_IRRIGATION))
+  if (contains_special(pset, S_IRRIGATION))
     return S_IRRIGATION;
-  if (BOOL_VAL(pset & S_MINE))
+  if (contains_special(pset, S_MINE))
     return S_MINE;
-  if (BOOL_VAL(pset & S_FORTRESS))
+  if (contains_special(pset, S_FORTRESS))
     return S_FORTRESS;
-  if (BOOL_VAL(pset & S_AIRBASE))
+  if (contains_special(pset, S_AIRBASE))
     return S_AIRBASE;
-  if (BOOL_VAL(pset & S_RAILROAD))
+  if (contains_special(pset, S_RAILROAD))
     return S_RAILROAD;
-  if (BOOL_VAL(pset & S_ROAD))
+  if (contains_special(pset, S_ROAD))
     return S_ROAD;
   return S_NO_SPECIAL;
 }
@@ -666,16 +668,16 @@ bool is_water_adjacent_to_tile(int x, int y)
   ptile = map_get_tile(x, y);
   if (ptile->terrain == T_OCEAN
       || ptile->terrain == T_RIVER
-      || BOOL_VAL(ptile->special & S_RIVER)
-      || BOOL_VAL(ptile->special & S_IRRIGATION))
+      || tile_has_special(ptile, S_RIVER)
+      || tile_has_special(ptile, S_IRRIGATION))
     return TRUE;
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
     ptile = map_get_tile(x1, y1);
     if (ptile->terrain == T_OCEAN
 	|| ptile->terrain == T_RIVER
-	|| BOOL_VAL(ptile->special & S_RIVER)
-	|| BOOL_VAL(ptile->special & S_IRRIGATION))
+	|| tile_has_special(ptile, S_RIVER)
+	|| tile_has_special(ptile, S_IRRIGATION))
       return TRUE;
   } cartesian_adjacent_iterate_end;
 
@@ -958,16 +960,16 @@ static int tile_move_cost_ptrs(struct unit *punit, struct tile *t1,
 
   if (punit && !is_ground_unit(punit))
     return SINGLE_MOVE;
-  if (BOOL_VAL(t1->special & S_RAILROAD) && BOOL_VAL(t2->special & S_RAILROAD))
+  if (tile_has_special(t1, S_RAILROAD) && tile_has_special(t2, S_RAILROAD))
     return MOVE_COST_RAIL;
 /* return (unit_move_rate(punit)/RAIL_MAX) */
   if (punit && unit_flag(punit, F_IGTER))
     return SINGLE_MOVE/3;
-  if (BOOL_VAL(t1->special & S_ROAD) && BOOL_VAL(t2->special & S_ROAD))
+  if (tile_has_special(t1, S_ROAD) && tile_has_special(t2, S_ROAD))
     return MOVE_COST_ROAD;
 
   if (((t1->terrain == T_RIVER) && (t2->terrain == T_RIVER)) ||
-      (BOOL_VAL(t1->special & S_RIVER) && BOOL_VAL(t2->special & S_RIVER))) {
+      (tile_has_special(t1, S_RIVER) && tile_has_special(t2, S_RIVER))) {
     cardinal_move = is_move_cardinal(x1, y1, x2, y2);
     switch (terrain_control.river_move_mode) {
     case RMV_NORMAL:
@@ -1181,7 +1183,34 @@ enum tile_special_type map_get_special(int x, int y)
 ***************************************************************/
 bool map_has_special(int x, int y, enum tile_special_type special)
 {
-  return BOOL_VAL(MAP_TILE(x, y)->special & special);
+  return contains_special(MAP_TILE(x, y)->special, special);
+}
+
+/***************************************************************
+ Returns TRUE iff the given tile has the given special.
+***************************************************************/
+bool tile_has_special(struct tile *ptile, enum tile_special_type special)
+{
+  return contains_special(ptile->special, special);
+}
+  
+/***************************************************************
+ Returns TRUE iff the given special is found in the given set.
+***************************************************************/
+bool contains_special(enum tile_special_type set,
+		      enum tile_special_type to_test_for)
+{
+  enum tile_special_type masked = set & to_test_for;
+
+  assert(0 == (int) S_NO_SPECIAL);
+
+  /*
+   * contains_special should only be called with one S_* in
+   * to_test_for.
+   */
+  assert(masked == S_NO_SPECIAL || masked == to_test_for);
+
+  return masked == to_test_for;
 }
 
 /***************************************************************
@@ -1199,8 +1228,9 @@ void map_set_special(int x, int y, enum tile_special_type spe)
 {
   MAP_TILE(x, y)->special |= spe;
 
-  if (BOOL_VAL(spe & (S_ROAD | S_RAILROAD)))
+  if (contains_special(spe, S_ROAD) || contains_special(spe, S_RAILROAD)) {
     reset_move_costs(x, y);
+  }
 }
 
 /***************************************************************
@@ -1210,8 +1240,9 @@ void map_clear_special(int x, int y, enum tile_special_type spe)
 {
   MAP_TILE(x, y)->special &= ~spe;
 
-  if (BOOL_VAL(spe & (S_ROAD | S_RAILROAD)))
+  if (contains_special(spe, S_ROAD) || contains_special(spe, S_RAILROAD)) {
     reset_move_costs(x, y);
+  }
 }
 
 /***************************************************************
