@@ -642,6 +642,7 @@ AC_CONFIG_FILES([Makefile
 	  data/flags/Makefile
 	  data/misc/Makefile 
 	  data/trident/Makefile 
+	  data/isophex/Makefile 
 	  data/isotrident/Makefile 
 	  data/default/Makefile 
 	  data/civ1/Makefile 

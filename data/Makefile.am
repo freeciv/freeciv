@@ -1,10 +1,11 @@
 ## Process this file with automake to produce Makefile.in
 
 if CLIENT
-COMMON_CLIENT_FILES = \
-	isotrident.tilespec \
-	trident.tilespec \
-	trident_shields.tilespec \
+COMMON_CLIENT_FILES =			\
+	isophex.tilespec		\
+	isotrident.tilespec		\
+	trident.tilespec		\
+	trident_shields.tilespec	\
 	helpdata.txt
 if CLIENT_GUI_XAW
 CLIENT_EXTRA_FILES = Freeciv
@@ -35,6 +36,7 @@ EXTRA_DIST = \
 	Freeciv	\
 	freeciv.rc	\
 	freeciv.rc-2.0	\
+	isophex.tilespec	\
 	isotrident.tilespec \
 	trident.tilespec	\
 	trident_shields.tilespec	\
@@ -44,7 +46,7 @@ EXTRA_DIST = \
 	history.serv
 
 if CLIENT
-CLIENTDATADIRS = misc flags isotrident trident 
+CLIENTDATADIRS = misc flags isotrident trident isophex
 else
 CLIENTDATADIRS = 
 endif

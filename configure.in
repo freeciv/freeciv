@@ -631,6 +631,7 @@ AC_OUTPUT(Makefile
           data/Makefile 
 	  data/flags/Makefile
 	  data/misc/Makefile 
+	  data/isophex/Makefile
 	  data/isotrident/Makefile 
 	  data/trident/Makefile 
 	  data/default/Makefile 
