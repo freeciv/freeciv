@@ -74,7 +74,7 @@ TEndpointInfo meta_info;
 EndpointRef meta_ep;
 InetAddress serv_addr;
 #else /* Unix network globals */
-static int			sockfd,n,in_size;
+static int			sockfd=0;
 static struct sockaddr_in	cli_addr,serv_addr;
 #endif /* end network global selector */
 
@@ -89,7 +89,7 @@ int send_to_metaserver(char *desc, char *info)
   xmit.udata.maxlen = MAX_LEN_PACKET;
   xmit.udata.buf=buffer;
 #else  
-  if(sockfd==0)
+  if(sockfd<=0)
     return 0;
 #endif
   cptr=put_uint16(buffer+2,  PACKET_UDP_PCKT);
@@ -100,8 +100,8 @@ int send_to_metaserver(char *desc, char *info)
   xmit.udata.len=strlen((const char *)buffer);
   err=OTSndUData(meta_ep, &xmit);
 #else
-  n=sendto(sockfd, buffer, cptr-buffer,0, 
-	   (struct sockaddr *) &serv_addr, sizeof(serv_addr) );
+  sendto(sockfd, buffer, cptr-buffer,0, 
+	 (struct sockaddr *) &serv_addr, sizeof(serv_addr) );
 #endif
   return 1;
 }
@@ -111,7 +111,10 @@ void server_close_udp(void)
 #ifdef GENERATING_MAC  /* mac networking */
   OTUnbind(meta_ep);
 #else
+  if(sockfd<=0)
+    return;
   close(sockfd);
+  sockfd=0;
 #endif
 }
 
@@ -125,6 +128,7 @@ void server_open_udp(void)
   InetSvcRef ref=OTOpenInternetServices(kDefaultInternetServicesPath, 0, &err1);
   InetHostInfo hinfo;
 #else
+  int in_size;
   struct hostent *hp;
   u_int bin;
 #endif
