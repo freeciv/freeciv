@@ -170,10 +170,14 @@ void myusleep(unsigned long usec)
   /* suposed to give other application processor time for the mac */
   WaitNextEvent(0, &the_event, usec, 0L);
 #else
+#ifdef WIN32_NATIVE
+  Sleep(usec / 1000);
+#else
   struct timeval tv;
   tv.tv_sec=0;
   tv.tv_usec=usec;
   select(0, NULL, NULL, NULL, &tv);
+#endif
 #endif
 #endif
 #endif

@@ -62,7 +62,11 @@ GdkCursor *		patrol_cursor;
 ***************************************************************************/
 bool isometric_view_supported(void)
 {
+#ifdef WIN32_NATIVE
+  return FALSE;
+#else
   return TRUE;
+#endif
 }
 
 /***************************************************************************

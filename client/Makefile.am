@@ -168,6 +168,7 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(WINMM_FILES) \
 	audio_none.c    \
 	audio_none.h
 
+civclient_LDFLAGS = @CLIENT_LDFLAGS@
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a \
 	../common/libcivcommon.a agents/libagents.a
 civclient_LDADD        = @gui_sources@/libguiclient.a \

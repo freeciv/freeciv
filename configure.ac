@@ -343,6 +343,7 @@ if test x$client != xno; then
       CLIENT_LIBS="$GTK_LIBS"
       if test x"$MINGW32" = "xyes"; then
         CFLAGS="$CFLAGS -mms-bitfields"
+        CLIENT_LDFLAGS="$LDFLAGS -mwindows"
       fi
       found_client=yes
     fi
@@ -500,6 +501,7 @@ fi
 AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)
 AC_SUBST(CLIENT_LIBS)
+AC_SUBST(CLIENT_LDFLAGS)
 AC_SUBST(SOUND_CFLAGS)
 AC_SUBST(SOUND_LIBS)
 AM_CONDITIONAL(ESD, test "x$ESD" = "xyes")
