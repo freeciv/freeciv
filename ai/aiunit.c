@@ -264,6 +264,7 @@ int ai_manage_explorer(struct unit *punit)
 	if (map_get_terrain(x2, y2) != T_OCEAN)
 	  landnear = 1;
       } square_iterate_end;
+
       if (unknown > most_unknown
 	  && (landnear || !unit_flag(punit->type, F_TRIREME))
 	  && map_get_continent(x1, y1) == con
@@ -506,27 +507,26 @@ static int reinforcements_value(struct unit *punit, int x, int y)
 
 static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *punit)
 { 
-  int val, val2 = 0, val3 = 0, i, j, x, y;
+  int val, val2 = 0, val3 = 0;
   struct tile *ptile;
 
   if (!pcity) return 0;
 
-  x=pcity->x;
-  y=pcity->y;
-  for (j = y - 1; j <= y + 1; j++) {
-    if (j < 0 || j >= map.ysize) continue;
-    for (i = x - 1; i <= x + 1; i++) {
-      ptile = map_get_tile(i, j);
-      unit_list_iterate(ptile->units, aunit)
-        if (aunit == punit || aunit->owner != punit->owner) continue;
-        val = (unit_belligerence_basic(aunit));
-        if (val) {
-          val2 += val;
-          val3 += unit_types[aunit->type].build_cost;
-        }
-      unit_list_iterate_end;
+  square_iterate(pcity->x, pcity->y, 1, i, j) {
+    ptile = map_get_tile(i, j);
+    unit_list_iterate(ptile->units, aunit) {
+      if (aunit == punit || aunit->owner != punit->owner)
+	continue;
+      val = (unit_belligerence_basic(aunit));
+      if (val) {
+	val2 += val;
+	val3 += unit_types[aunit->type].build_cost;
+      }
     }
+    unit_list_iterate_end;
   }
+  square_iterate_end
+
   pcity->ai.a = val2;
   pcity->ai.f = val3;
   return(val2);
@@ -535,20 +535,21 @@ static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *p
 #ifdef UNUSED
 static int reinforcements_cost(struct unit *punit, int x, int y)
 { /* I might rather have one function which does this and the above -- Syela */
-  int val = 0, i, j;
+  int val = 0;
   struct tile *ptile;
 
-  for (j = y - 1; j <= y + 1; j++) {
-    if (j < 0 || j >= map.ysize) continue;
-    for (i = x - 1; i <= x + 1; i++) {
-      ptile = map_get_tile(i, j);
-      unit_list_iterate(ptile->units, aunit)
-        if (aunit == punit || aunit->owner != punit->owner) continue;
-        if (unit_belligerence_basic(aunit))
-          val += unit_types[aunit->type].build_cost;
-      unit_list_iterate_end;
+  square_iterate(x, y, 1, i, j) {
+    ptile = map_get_tile(i, j);
+    unit_list_iterate(ptile->units, aunit) {
+      if (aunit == punit || aunit->owner != punit->owner)
+	continue;
+      if (unit_belligerence_basic(aunit))
+	val += unit_types[aunit->type].build_cost;
     }
+    unit_list_iterate_end;
   }
+  square_iterate_end;
+
   return(val);
 }
 #endif
@@ -558,23 +559,30 @@ static int reinforcements_cost(struct unit *punit, int x, int y)
 **************************************************************************/
 static int is_my_turn(struct unit *punit, struct unit *pdef)
 {
-  int val = unit_belligerence_primitive(punit), i, j, cur, d;
+  int val = unit_belligerence_primitive(punit), cur, d;
   struct tile *ptile;
-  for (j = pdef->y - 1; j <= pdef->y + 1; j++) {
-    if (j < 0 || j >= map.ysize) continue;
-    for (i = pdef->x - 1; i <= pdef->x + 1; i++) {
-      ptile = map_get_tile(i, j);
-      unit_list_iterate(ptile->units, aunit)
-        if (aunit == punit || aunit->owner != punit->owner) continue;
-        if (!can_unit_attack_unit_at_tile(aunit, pdef, pdef->x, pdef->y)) continue;
-        d = get_virtual_defense_power(aunit->type, pdef->type, pdef->x, pdef->y);
-        if (!d) return 1; /* Thanks, Markus -- Syela */
-        cur = unit_belligerence_primitive(aunit) *
-              get_virtual_defense_power(punit->type, pdef->type, pdef->x, pdef->y) / d;
-        if (cur > val && ai_fuzzy(unit_owner(punit),1)) return(0);
-      unit_list_iterate_end;
+
+  square_iterate(pdef->x, pdef->y, 1, i, j) {
+    ptile = map_get_tile(i, j);
+    unit_list_iterate(ptile->units, aunit) {
+      if (aunit == punit || aunit->owner != punit->owner)
+	continue;
+      if (!can_unit_attack_unit_at_tile(aunit, pdef, pdef->x, pdef->y))
+	continue;
+      d =
+	  get_virtual_defense_power(aunit->type, pdef->type, pdef->x,
+				    pdef->y);
+      if (!d)
+	return 1;		/* Thanks, Markus -- Syela */
+      cur = unit_belligerence_primitive(aunit) *
+	  get_virtual_defense_power(punit->type, pdef->type, pdef->x,
+				    pdef->y) / d;
+      if (cur > val && ai_fuzzy(unit_owner(punit), 1))
+	return (0);
     }
+    unit_list_iterate_end;
   }
+  square_iterate_end;
   return(1);
 }
 
@@ -592,7 +600,7 @@ work of Syela - mostly to fix the ZOC/goto strangeness
 static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
 				  int *dest_x, int *dest_y)
 {
-  int x, y, x1, y1, k;
+  int x, y;
   int best = 0, a, b, c, d, e, f;
   struct unit *pdef;
   struct unit *patt;
@@ -611,12 +619,7 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
     unit_list_iterate_end;
   } /* ferryboats do not attack.  no. -- Syela */
 
-  for (k = 0; k < 8; k++) {
-    x1 = x + DIR_DX[k];
-    y1 = y + DIR_DY[k];
-    if (!normalize_map_pos(&x1, &y1))
-      continue;
-
+  adjc_iterate(x, y, x1, y1) {
     pdef = get_defender(punit, x1, y1);
     if (pdef) {
       patt = get_attacker(punit, x1, y1);
@@ -682,6 +685,8 @@ bodyguarding catapult - patt will resolve this bug nicely -- Syela */
       } /* next to nothing is better than nothing */
     }
   }
+  adjc_iterate_end;
+
   return(best);
 }
 
@@ -732,23 +737,22 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 {
-  int x1, y1, dir, l, ok, t, best = 0;
+  int ok, t, best = 0;
 
-  for (dir = 0; dir < 8; dir++) {
-    x1 = dest_x + DIR_DX[dir];
-    y1 = dest_y + DIR_DY[dir];
-    if (!normalize_map_pos(&x1, &y1))
-      continue;
-
+  adjc_iterate(dest_x, dest_y, x1, y1) {
     ok = 0;
     t = map_get_terrain(x1, y1);
     if (warmap.seacost[x1][y1] <= 6 * THRESHOLD && t != T_OCEAN) { /* accessible beachhead */
-      for (l = 0; l < 8 && !ok; l++) {
-        if (map_get_terrain(x1 + DIR_DX[l], y1 + DIR_DY[l]) == T_OCEAN) {
-	  if (is_my_zoc(unit_owner(punit), x1 + DIR_DX[l], y1 + DIR_DY[l]))
+      adjc_iterate(x1, y1, x2, y2) {
+	if (map_get_terrain(x2, y2) == T_OCEAN) {
+	  if (is_my_zoc(unit_owner(punit), x2, y2)) {
 	    ok++;
-        }
+	    break;		/* out of adjc_iterate */
+	  }
+	}
       }
+      adjc_iterate_end;
+
       if (ok) { /* accessible beachhead with zoc-ok water tile nearby */
         ok = get_tile_type(t)->defense_bonus;
 	if (map_get_special(x1, y1) & S_RIVER)
@@ -760,6 +764,7 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
       }
     }
   }
+  adjc_iterate_end;
 
   return(best);
 }
@@ -771,22 +776,20 @@ So this finds the nearest land tile on the same continent as the city.
 **************************************************************************/
 static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y)
 {
-  int i, j;
-  int xx, yy, best_xx = punit->x, best_yy = punit->y;
+  int best_xx = punit->x, best_yy = punit->y;
   int dist = 100;
   int search_dist = real_map_distance( pc->x, pc->y, punit->x, punit->y );
-  
-  for( i = 1-search_dist; i < search_dist; i++ ) {
-    for( j = 1-search_dist; j < search_dist; j++ ) {
-      xx = map_adjust_x(punit->x + i);
-      yy = map_adjust_y(punit->y + j);
-      if( map_same_continent( xx, yy, pc->x, pc->y ) &&
-          real_map_distance( punit->x, punit->y, xx, yy ) < dist ) {
-        dist = real_map_distance( punit->x, punit->y, xx, yy );
-        best_xx = xx; best_yy = yy;
-      }
+
+  square_iterate(punit->x, punit->y, search_dist - 1, xx, yy) {
+    if (map_same_continent(xx, yy, pc->x, pc->y) &&
+	real_map_distance(punit->x, punit->y, xx, yy) < dist) {
+      dist = real_map_distance(punit->x, punit->y, xx, yy);
+      best_xx = xx;
+      best_yy = yy;
     }
   }
+  square_iterate_end;
+
   *x = best_xx;
   *y = best_yy;
 }
@@ -1798,8 +1801,6 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
 **************************************************************************/
 static int unit_can_be_retired(struct unit *punit)
 {
-  int x, y, x1;
-
   if( punit->fuel ) {   /* fuel abused for barbarian life span */
     punit->fuel--;
     return 0;
@@ -1809,15 +1810,12 @@ static int unit_can_be_retired(struct unit *punit)
       (map_get_tile(punit->x, punit->y), unit_owner(punit))) return 0;
 
   /* check if there is enemy nearby */
-  for(x = punit->x - 3; x < punit->x + 4; x++)
-    for(y = punit->y - 3; y < punit->y + 4; y++) { 
-      if( y < 0 || y > map.ysize )
-        continue;
-      x1 = map_adjust_x(x);
-      if (is_enemy_city_tile(map_get_tile(x1, y), unit_owner(punit)) ||
-	  is_enemy_unit_tile(map_get_tile(x1, y), unit_owner(punit)))
-        return 0;
-    }
+  square_iterate(punit->x, punit->y, 3, x, y) {
+    if (is_enemy_city_tile(map_get_tile(x, y), unit_owner(punit)) ||
+	is_enemy_unit_tile(map_get_tile(x, y), unit_owner(punit)))
+      return 0;
+  }
+  square_iterate_end;
 
   return 1;
 }
@@ -2021,7 +2019,7 @@ int is_ai_simple_military(Unit_Type_id type)
  */
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 {
-  int i, x, y, handicap, has_emb, continent, dist, rmd, oic, did;
+  int i, handicap, has_emb, continent, dist, rmd, oic, did;
   struct packet_unit_request req;
   struct packet_diplomat_action dact;
   struct city *pcity, *ctarget;
@@ -2050,26 +2048,23 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
        * We may want this to be a city_map_iterate, or a warmap distance
        * check, but this will suffice for now.  -AJS
        */
-      for (x= -1; x<= 1; x++) {
-	for (y= -1; y<= 1; y++) {
-	  if (x == 0 && y == 0) continue;
-	  if (diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE,
-				     pcity->x+x, pcity->y+y)) {
-	    /* A lone trespasser! Seize him! -AJS */
-	    ptile=map_get_tile(pcity->x+x, pcity->y+y);
-	    ptres = unit_list_get(&ptile->units, 0);
-	    ptres->bribe_cost=unit_bribe_cost (ptres);
-	    if ( ptres->bribe_cost <
-		 (pplayer->economic.gold-pplayer->ai.est_upkeep)) {
-	      dact.diplomat_id=pdiplomat->id;
-	      dact.target_id=ptres->id;
-	      dact.action_type=DIPLOMAT_BRIBE;
-	      handle_diplomat_action(pplayer, &dact);
-	      return;
-	    }
+      adjc_iterate(pcity->x, pcity->y, x, y) {
+	if (diplomat_can_do_action(pdiplomat, DIPLOMAT_BRIBE, x, y)) {
+	  /* A lone trespasser! Seize him! -AJS */
+	  ptile = map_get_tile(x, y);
+	  ptres = unit_list_get(&ptile->units, 0);
+	  ptres->bribe_cost = unit_bribe_cost(ptres);
+	  if (ptres->bribe_cost <
+	      (pplayer->economic.gold - pplayer->ai.est_upkeep)) {
+	    dact.diplomat_id = pdiplomat->id;
+	    dact.target_id = ptres->id;
+	    dact.action_type = DIPLOMAT_BRIBE;
+	    handle_diplomat_action(pplayer, &dact);
+	    return;
 	  }
 	}
       }
+      adjc_iterate_end;
     }
     /*
      *  We're wandering in the desert, or there is more than one diplomat
@@ -2158,8 +2153,8 @@ not possible it runs away. When on coast, it may disappear with 33% chance.
 **************************************************************************/
 static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader)
 {
-  int con = map_get_continent(leader->x, leader->y), i, x, y, dx, dy,
-    safest = 0, safest_x = leader->x, safest_y = leader->y;
+  int i, con = map_get_continent(leader->x, leader->y);
+  int safest = 0, safest_x = leader->x, safest_y = leader->y;
   struct unit *closest_unit = NULL;
   int dist, mindist = 10000;
 
@@ -2233,22 +2228,21 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
   do {
     int last_x, last_y;
-    freelog(LOG_DEBUG, "Barbarian leader: moves left: %d\n", leader->moves_left);
-    for (dx = -1; dx <= 1; dx++) {
-      for (dy = -1; dy <= 1; dy++) {
-	x = map_adjust_x(leader->x + dx);
-	y = map_adjust_y(leader->y + dy);
+    freelog(LOG_DEBUG, "Barbarian leader: moves left: %d\n",
+	    leader->moves_left);
 
-	if (warmap.cost[x][y] > safest
-	    && can_unit_move_to_tile(leader, x, y, FALSE)) {
-	  safest = warmap.cost[x][y];
-	  freelog(LOG_DEBUG, "Barbarian leader: safest is %d, %d, safeness %d",
-                  x, y, safest);
-	  safest_x = x;
-	  safest_y = y;
-	}
+    square_iterate(leader->x, leader->y, 1, x, y) {
+      if (warmap.cost[x][y] > safest
+	  && can_unit_move_to_tile(leader, x, y, FALSE)) {
+	safest = warmap.cost[x][y];
+	freelog(LOG_DEBUG,
+		"Barbarian leader: safest is %d, %d, safeness %d", x, y,
+		safest);
+	safest_x = x;
+	safest_y = y;
       }
-    }
+    } 
+    square_iterate_end;
 
     if (same_pos(leader->x, leader->y, safest_x, safest_y)) {
       freelog(LOG_DEBUG, "Barbarian leader reached the safest position.");
@@ -2276,4 +2270,3 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
     }
   } while (leader->moves_left > 0);
 }
-
