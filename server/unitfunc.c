@@ -1117,6 +1117,14 @@ void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id ty
     punit->moves_left=unit_move_rate(punit);
   else
     punit->moves_left=moves_left;
+
+  /* Assume that if moves_left<0 then the unit is "fresh",
+     and not moved; else the unit has had something happen
+     to it (eg, bribed) which we treat as equivalent to moved.
+     (Otherwise could pass moved arg too...)  --dwp
+  */
+  punit->moved = (moves_left>=0);
+  
   send_unit_info(0, punit, 0);
 }
 

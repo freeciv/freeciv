@@ -1375,6 +1375,8 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 					      plrno, i);
     punit->ord_city=secfile_lookup_int_default(file, 0, "player%d.u%d.ord_city",
 					       plrno, i);
+    punit->moved=secfile_lookup_int_default(file, 0, "player%d.u%d.moved",
+					    plrno, i);
       
     unit_list_insert_back(&plr->units, punit);
 
@@ -1491,6 +1493,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     secfile_insert_int(file, punit->ai.control, "player%d.u%d.ai", plrno, i);
     secfile_insert_int(file, punit->ord_map, "player%d.u%d.ord_map", plrno, i);
     secfile_insert_int(file, punit->ord_city, "player%d.u%d.ord_city", plrno, i);
+    secfile_insert_int(file, punit->moved, "player%d.u%d.moved", plrno, i);
   }
 
   genlist_iterator_init(&myiter, &plr->cities.list, 0);
