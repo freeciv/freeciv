@@ -31,9 +31,12 @@ struct ai_data;
 #define LOGLEVEL_HUNT LOG_DEBUG
 
 void PLAYER_LOG(int level, struct player *pplayer, struct ai_data *ai,
-                const char *msg, ...);
-void CITY_LOG(int level, struct city *pcity, const char *msg, ...);
-void UNIT_LOG(int level, struct unit *punit, const char *msg, ...);
+                const char *msg, ...)
+     fc__attribute((format (printf, 4, 5)));
+void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
+     fc__attribute((format (printf, 3, 4)));
+void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
+     fc__attribute((format (printf, 3, 4)));
 void BODYGUARD_LOG(int level, struct unit *punit, const char *msg);
 
 #endif  /* FC__AILOG_H */
