@@ -85,6 +85,11 @@ clients cannot connect to the included server.
 
 History
 ~~~~~~~
+Version 1.17 (xx.xx.2002)
+ - corresponds to latest Freeciv 1.12.x
+ - improved citywindow
+ - no longer needs the usergroup.library
+
 Version 1.16 (17.08.2001)
  - corrensponds to latest Freeciv 1.12.0
  - bug fixes

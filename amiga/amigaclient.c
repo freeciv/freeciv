@@ -24,7 +24,6 @@ function main() and call main2() afterwards. This depends on your compiler.
 #include <errno.h>
 #include <time.h>
 
-#include <libraries/usergroup.h>
 #include <workbench/startup.h>
 
 #include <clib/alib_protos.h>
@@ -33,7 +32,6 @@ function main() and call main2() afterwards. This depends on your compiler.
 #include <proto/exec.h>
 #include <proto/icon.h>
 #include <proto/socket.h>
-#include <proto/usergroup.h>
 #ifdef MIAMI_SDK
 #include <bsdsocket/socketbasetags.h>
 #else /* AmiTCP */
@@ -53,7 +51,6 @@ extern struct ExecBase *SysBase;
 extern struct DosLibrary *DOSBase;
 
 struct Library *SocketBase = 0;
-struct Library *UserGroupBase = 0;
 struct Library *GuiGFXBase = 0;
 struct Library *MUIMasterBase = 0;
 struct Library *DataTypesBase = 0;
@@ -78,7 +75,6 @@ static void civ_exitfunc(void)
 {
 	if(CyberGfxBase) CloseLibrary(CyberGfxBase);
   if(MUIMasterBase) CloseLibrary(MUIMasterBase);
-  if(UserGroupBase) CloseLibrary(UserGroupBase);
   if(SocketBase) CloseLibrary(SocketBase);
   if(GuiGFXBase) CloseLibrary(GuiGFXBase);
   if(DataTypesBase) CloseLibrary(DataTypesBase);
@@ -179,42 +175,32 @@ int main(int argc, char **argv)
                        SBTM_SETVAL(SBTC_LOGTAGPTR), "civclient",
                        TAG_END);
         
-        if((UserGroupBase = OpenLibrary(USERGROUPNAME, USERGROUPVERSION)))
+        if((MUIMasterBase = OpenLibrary(MUIMASTER_NAME,MUIMASTER_VMIN)))
         {
-          ug_SetupContextTags("civclient",
-                   UGT_INTRMASK, SIGBREAKB_CTRL_C,
-                   UGT_ERRNOPTR(sizeof(errno)), &errno,
-                   TAG_END);
-
-          if((MUIMasterBase = OpenLibrary(MUIMASTER_NAME,MUIMASTER_VMIN)))
+        	CyberGfxBase = OpenLibrary("cybergraphics.library",39);
+          if((IntuitionBase = (struct IntuitionBase *) OpenLibrary("intuition.library", 37)))
           {
-          	CyberGfxBase = OpenLibrary("cybergraphics.library",39);
-            if((IntuitionBase = (struct IntuitionBase *) OpenLibrary("intuition.library", 37)))
+            if((UtilityBase = (struct UtilityBase *) OpenLibrary("utility.library", 37)))
             {
-              if((UtilityBase = (struct UtilityBase *) OpenLibrary("utility.library", 37)))
+              if((GfxBase = (struct GfxBase *) OpenLibrary("graphics.library", 37)))
               {
-                if((GfxBase = (struct GfxBase *) OpenLibrary("graphics.library", 37)))
+                if((LayersBase = OpenLibrary("layers.library", 37)))
                 {
-                  if((LayersBase = OpenLibrary("layers.library", 37)))
-                  {
-                    /* Reserve 0 for stdin */
-                    Dup2Socket(-1,0);
+                  /* Reserve 0 for stdin */
+                  Dup2Socket(-1,0);
 
-                    /* all went well, call main function */
-                    if(!argc)
-                      ret = civ_main(1, stdargv);
-                    else
-                      ret = civ_main(argc, argv);
-                  }
+                  /* all went well, call main function */
+                  if(!argc)
+                    ret = civ_main(1, stdargv);
+                  else
+                    ret = civ_main(argc, argv);
                 }
               }
             }
           }
-          else
-            printf("Couldn't open " MUIMASTER_NAME "!\n");
         }
         else
-          printf("Couldn't open " USERGROUPNAME "!\n");
+          printf("Couldn't open " MUIMASTER_NAME "!\n");
       }
       else
         printf("Couldn't open datatypes.library version 39\n");

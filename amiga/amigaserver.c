@@ -25,7 +25,6 @@ function main() and call main2() afterwards. This depends on your compiler.
 #include "version.h"
 
 #include <exec/memory.h>
-#include <libraries/usergroup.h>
 #include <workbench/startup.h>
 
 #include <clib/alib_protos.h>
@@ -34,7 +33,6 @@ function main() and call main2() afterwards. This depends on your compiler.
 #include <proto/exec.h>
 #include <proto/icon.h>
 #include <proto/socket.h>
-#include <proto/usergroup.h>
 #ifdef MIAMI_SDK
 #include <bsdsocket/socketbasetags.h>
 #else /* AmiTCP */
@@ -57,7 +55,6 @@ extern struct ExecBase *SysBase;
 extern struct DosLibrary *DOSBase;
 
 struct Library *SocketBase = 0;
-struct Library *UserGroupBase = 0;
 struct IntuitionBase *IntuitionBase = 0;
 struct Library *IconBase = 0;
 static char *stdargv[1] = {
@@ -108,7 +105,6 @@ static void civ_exitfunc(void)
     WaitPort(stdin_port);
   }
 
-  if(UserGroupBase) CloseLibrary(UserGroupBase);
   if(SocketBase) CloseLibrary(SocketBase);
   if(IntuitionBase) CloseLibrary((struct Library *) IntuitionBase);
 
@@ -260,28 +256,19 @@ int main(int argc, char **argv)
                 {
                   SocketBaseTags(SBTM_SETVAL(SBTC_ERRNOPTR(sizeof(errno))), &errno, SBTM_SETVAL(SBTC_HERRNOLONGPTR), &h_errno, SBTM_SETVAL(SBTC_LOGTAGPTR), "civserver", TAG_END);
 
-                  if((UserGroupBase = OpenLibrary(USERGROUPNAME, USERGROUPVERSION)))
+                  /* Reserve 0 for stdin */
+                  Dup2Socket(-1,0);
+
+                  send_stdin_write_packet();
+
+                  /* all went well, call main function */
+                  if(!argc)
                   {
-                    ug_SetupContextTags("civserver", UGT_INTRMASK, SIGBREAKB_CTRL_C, UGT_ERRNOPTR(sizeof(errno)), &errno, TAG_END);
-
-                    /* Reserve 0 for stdin */
-                    Dup2Socket(-1,0);
-
-                    send_stdin_write_packet();
-
-                    /* all went well, call main function */
-                    if(!argc)
-                    {
-                      ret = civ_main(1, stdargv);
-                    }
-                    else
-                    {
-                      ret = civ_main(argc, argv);
-                    }
+                    ret = civ_main(1, stdargv);
                   }
                   else
                   {
-                    printf("Couldn't open " USERGROUPNAME"\n");
+                    ret = civ_main(argc, argv);
                   }
                 }
                 else
