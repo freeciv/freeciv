@@ -252,12 +252,21 @@ void put_unit_city_overlays(struct unit *punit, HDC hdc, int x, int y)
 /**************************************************************************
 
 **************************************************************************/
-void pixmap_frame_tile_red(HDC hdc,int x, int y)
+void pixmap_frame_tile_red(HDC hdc, int canvas_x, int canvas_y)
 {
   HPEN old;
   old=SelectObject(hdc,pen_std[COLOR_STD_RED]);
-  mydrawrect(hdc,x*NORMAL_TILE_WIDTH,y*NORMAL_TILE_HEIGHT,
-	     NORMAL_TILE_WIDTH-1,NORMAL_TILE_HEIGHT-1);
+  if (is_isometric) {
+    MoveToEx(hdc, canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y, NULL);
+    LineTo(hdc, canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1);
+    LineTo(hdc, canvas_x+NORMAL_TILE_WIDTH/2-1,
+	   canvas_y+NORMAL_TILE_HEIGHT-1);
+    LineTo(hdc, canvas_x, canvas_y+NORMAL_TILE_HEIGHT/2-1);
+    LineTo(hdc, canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y);
+  } else {
+    mydrawrect(hdc,canvas_x,canvas_y,
+	       NORMAL_TILE_WIDTH-1,NORMAL_TILE_HEIGHT-1);
+  }  
   SelectObject(hdc,old);
 }
 

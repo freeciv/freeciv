@@ -534,7 +534,8 @@ static void city_dialog_update_map_ovh(HDC hdc,struct city_dialog *pdialog)
                                city_get_shields_tile(x, y, pcity),
                                city_get_trade_tile(x, y, pcity));
 	else if(pcity->city_map[x][y]==C_TILE_UNAVAILABLE)
-	  pixmap_frame_tile_red(citydlgdc, x, y);
+	  pixmap_frame_tile_red(citydlgdc, x*NORMAL_TILE_WIDTH,
+				y*NORMAL_TILE_HEIGHT);
       }
       else {
 	BitBlt(citydlgdc,x*NORMAL_TILE_WIDTH,
