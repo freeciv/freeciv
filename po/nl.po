@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.10.0\n"
-"POT-Creation-Date: 2000-06-21 12:40-0400\n"
-"PO-Revision-Date: 2000-03-16 16:45+MET\n"
+"POT-Creation-Date: 2000-06-22 11:56+0200\n"
+"PO-Revision-Date: 2000-06-22 16:45+MET\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -109,6 +109,65 @@ msgstr "Luchthaven"
 #, c-format
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Te weinig geheugen bij proberen om %s %lu bytes op regel %d van %s."
+
+#: common/player.c:423
+msgid "Spotless"
+msgstr "Onberispelijk"
+
+#: common/player.c:425
+msgid "Excellent"
+msgstr "Uitstekend"
+
+#: common/player.c:427
+msgid "Honorable"
+msgstr "Eerbaar"
+
+#: common/player.c:429
+msgid "Questionable"
+msgstr "Dubieuze"
+
+#: common/player.c:431
+msgid "Dishonorable"
+msgstr "Oneerbare"
+
+#: common/player.c:433
+msgid "Poor"
+msgstr "Slecht"
+
+#: common/player.c:435
+msgid "Despicable"
+msgstr "Verachtelijk"
+
+#: common/player.c:437
+msgid "Atrocious"
+msgstr "Gruwelijk"
+
+#: common/player.c:447
+msgid "Neutral"
+msgstr "Neutraal"
+
+#: common/player.c:448
+msgid "War"
+msgstr "Oorlog"
+
+#: client/gui-gtk/diplodlg.c:424 client/gui-xaw/diplodlg.c:485
+#: common/player.c:449
+msgid "Cease-fire"
+msgstr "Wapenstilstand"
+
+#: client/cityrepdata.c:69 client/gui-gtk/diplodlg.c:429
+#: client/gui-xaw/diplodlg.c:489 common/player.c:450
+msgid "Peace"
+msgstr "Vrede"
+
+#: client/gui-gtk/diplodlg.c:434 client/gui-xaw/diplodlg.c:493
+#: common/player.c:451
+msgid "Alliance"
+msgstr "Alliantie"
+
+#: common/player.c:452
+msgid "No Contact"
+msgstr "Geen contact"
 
 #: common/shared.c:130
 #, c-format
@@ -304,7 +363,7 @@ msgid "Game: The %s have started building The %s in %s."
 msgstr "Spel: De %s zijn begonnen met het bouwen van De %s in %s."
 
 #: ai/aicity.c:357 ai/aicity.c:485
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s upgraded to %s in %s for %d gold."
 msgstr "Spel: %s opgewaardeerd naar %s in %s voor %d credits."
 
@@ -342,7 +401,7 @@ msgid "Game: You have already sold something here this turn."
 msgstr "Spel: U hebt hier deze beurt al iets verkocht."
 
 #: server/cityhand.c:409
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You sell %s in %s for %d gold."
 msgstr "Spel: U verkoopt %s in %s voor %d credits."
 
@@ -450,7 +509,7 @@ msgid "Game: %s is selling %s (obsolete) for %d."
 msgstr "Spel: %s verkoopt %s (verouderd) voor %d."
 
 #: server/cityturn.c:755
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
 "effectively."
@@ -458,13 +517,13 @@ msgstr ""
 "Spel: %s adviseert groeibeperking om %s (in aanbouw) beter te benutten."
 
 #: server/cityturn.c:764
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s may soon grow to size %i."
-msgstr "Spel: %s groeit naar grootte %d."
+msgstr "Spel: %s kan binnenkort groeien naar grootte %i."
 
 #: server/cityturn.c:784
 msgid "Game: WARNING, we're LOW on FUNDS sire."
-msgstr "Spel: WAARSCHUWING, de SCHATKIST raakt LEEG majesteit."
+msgstr "Spel: WAARSCHUWING, de SCHATKIST raakt LEEG sire."
 
 #: server/cityturn.c:833 server/cityturn.c:852
 #, c-format
@@ -742,12 +801,16 @@ msgid ""
 "Game: Concerned citizens point out that the cease-fire with %s will run out "
 "soon."
 msgstr ""
+"Spel: Bezorgde burgers wijzen u erop dat de wapenstilstand met %s binnenkort "
+"zal aflopen."
 
 #: server/civserver.c:804
 #, c-format
 msgid ""
 "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr ""
+"Spel: De wapenstilstand met %s is afgelopen. U bent nu neutraal tegenover de "
+"%s."
 
 #: server/civserver.c:922
 #, c-format
@@ -975,9 +1038,9 @@ msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
 
 #: server/civserver.c:1777
-#, fuzzy, c-format
+#, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
-msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
+msgstr "Maxplayer kleiner dan aifill: aifill teruggebracht naar %d."
 
 #: server/civserver.c:1799
 #, c-format
@@ -1068,19 +1131,19 @@ msgid "Game: You give city of %s to %s."
 msgstr "Spel: U geeft de stad %s aan %s."
 
 #: server/diplhand.c:207 server/diplhand.c:209
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You agree on a cease-fire with %s."
-msgstr "Spel: U hebt %d credits gevonden."
+msgstr "Spel: U gaat akkoord met een wapenstilstand met %s."
 
 #: server/diplhand.c:215 server/diplhand.c:217
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You agree on peace with %s."
-msgstr "Spel: U geeft de stad %s aan %s."
+msgstr "Spel: U gaat akkoord met het sluiten van vrede met %s."
 
 #: server/diplhand.c:223 server/diplhand.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You agree on an alliance with %s."
-msgstr "Spel: %s verklaart alliantie aan %s."
+msgstr "Spel: U gaat akkoord met het sluiten van een alliantie met %s."
 
 #: server/diplhand.c:326
 #, c-format
@@ -1160,6 +1223,8 @@ msgstr ""
 msgid ""
 "Number of starts (%d) are lower than max_players (%d), lowering max_players."
 msgstr ""
+"Aantal startplaatsen (%d) is lager dan max_players (%d), ik verlaag "
+"max_players."
 
 #: server/meta.c:160
 msgid "Not reporting to the metaserver in this game."
@@ -1171,61 +1236,61 @@ msgid "Metaserver: bad address: [%s]."
 msgstr "Metaserver: verkeerd adres: [%s]"
 
 #: server/plrhand.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the RICHEST Civilizations in the World."
-msgstr "Herodot's rapport over de RIJKSTE beschavingen ter wereld."
+msgstr "%s rapport over de RIJKSTE beschavingen ter wereld."
 
 #: server/plrhand.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most ADVANCED Civilizations in the World."
-msgstr "Herodot's rapport over de MODERNSTE beschavingen ter wereld."
+msgstr "%s rapport over de MODERNSTE beschavingen ter wereld."
 
 #: server/plrhand.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most MILITARIZED Civilizations in the World."
-msgstr "Herodot's rapport over de BEST BEWAPENDE beschavingen ter wereld."
+msgstr "%s rapport over de BEST BEWAPENDE beschavingen ter wereld."
 
 #: server/plrhand.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the HAPPIEST Civilizations in the World."
-msgstr "Herodot's rapport over de GELUKKIGSTE beschavingen ter wereld."
+msgstr "%s rapport over de GELUKKIGSTE beschavingen ter wereld."
 
 #: server/plrhand.c:77
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the LARGEST Civilizations in the World."
-msgstr "Herodot's rapport over de GROOTSTE beschavingen ter wereld."
+msgstr "%s rapport over de GROOTSTE beschavingen ter wereld."
 
 #: server/plrhand.c:81
 msgid "Herodotus'"
-msgstr ""
+msgstr "Herodotus'"
 
 #: server/plrhand.c:82
 msgid "Thucydides'"
-msgstr ""
+msgstr "Thucydides"
 
 #: server/plrhand.c:83
 msgid "Pliny the Elder's"
-msgstr ""
+msgstr "Pliny de Ouder's"
 
 #: server/plrhand.c:84
 msgid "Livy's"
-msgstr ""
+msgstr "Livy's"
 
 #: server/plrhand.c:85
 msgid "Toynbee's"
-msgstr ""
+msgstr "Toynbee's"
 
 #: server/plrhand.c:86
 msgid "Gibbon's"
-msgstr ""
+msgstr "Gibbon's"
 
 #: server/plrhand.c:87
 msgid "Ssu-ma Ch'ien's"
-msgstr ""
+msgstr "Ssu-ma Ch'ien's"
 
 #: server/plrhand.c:88
 msgid "Pan Ku's"
-msgstr ""
+msgstr "Pan Ku's"
 
 #: server/plrhand.c:105
 msgid "Magnificent"
@@ -1525,32 +1590,36 @@ msgstr "Spel: Waarde voor luxe overschreidt het maximum voor %s; aangepast."
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
+"De senaat accepteert uw voorstel vanwege de aanhoudende provocaties van de "
+"%s."
 
 #: server/plrhand.c:1893
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your reputation is now %s."
-msgstr "Spel: Uw %s stal %s van %s."
+msgstr "Spel: Uw reputatie is nu %s."
 
 #: server/plrhand.c:1897
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
+"Spel: De senaat besluit tot oplossing in plaats van uw akties nog langer te "
+"ondersteunen."
 
 #: server/plrhand.c:1950
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The diplomatic state between %s and the %s is now %s."
-msgstr "Spel: De %s vernietigden de %s in %s."
+msgstr "Spel: De diplomatieke toestand tussen %s en de %s is nu %s."
 
 #: server/plrhand.c:1955
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
-msgstr "Spel: %s heeft de vergadering afgezegd!"
+msgstr "Spel: %s heeft de diplomatieke overeenkomst verbroken!"
 
 #: server/plrhand.c:1958
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
-msgstr "Spel: De %s vernietigden de %s in %s."
+msgstr "Spel: De diplomatieke toestand tussen de %s en de %s is nu %s."
 
 #: server/plrhand.c:2057
 msgid "Message too long in page_player_generic!!"
@@ -1566,9 +1635,9 @@ msgid "Game: %s has been removed from the game."
 msgstr "Spel: %s is uit het spel verwijderd."
 
 #: server/plrhand.c:3057 server/plrhand.c:3061
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
-msgstr "Spel: U hebt een ambassade gevestigd in %s."
+msgstr "Spel: U hebt contact gemaakt met de %s, geregeerd door %s."
 
 #: server/ruleset.c:96
 #, c-format
@@ -2095,7 +2164,6 @@ msgid "Style of Civ rules"
 msgstr "Stijl van Civ regels"
 
 #: server/stdinhand.c:450
-#, fuzzy
 msgid ""
 "Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
 "Currently this option affects the following rules:\n"
@@ -2115,6 +2183,7 @@ msgstr ""
 "  - In Civ2 kunnen steden niet direct naast elkaar worden gebouwd.\n"
 "  - In Civ2 verdwijnen hutten als je eroverheen vliegt.\n"
 "  - In Civ2 produceren steden op bergen wat voeding.\n"
+"  - Apollo toont de gehele kaart in Civ2, en slechts steden in Civ1.\n"
 "Zie ook README.rulesets en de techs, units, buildings en terrain-opties."
 
 #: server/stdinhand.c:464
@@ -2138,7 +2207,7 @@ msgstr ""
 
 #: server/stdinhand.c:474
 msgid "Reduce city population after attack"
-msgstr ""
+msgstr "Verminder de stedelijke bevolking na een aanval"
 
 #: server/stdinhand.c:475
 msgid ""
@@ -2149,6 +2218,13 @@ msgid ""
 "  4 = heli\n"
 "  8 = air"
 msgstr ""
+"Deze vlag geeft aan of de stedelijke bevolking wordt verminderd na een "
+"geslaagde aanval van een vijandelijk eenheid, afhankelijk van zijn "
+"bewegingstype (wordt ge-OR't):\n"
+"  1 = land\n"
+"  2 = zee\n"
+"  4 = heli\n"
+"  8 = lucht"
 
 #: server/stdinhand.c:498
 msgid "Barbarian appearance frequency"
@@ -2181,15 +2257,14 @@ msgid "Whether to enable fog of war"
 msgstr "Of er oorlogsmist gebruikt moet worden"
 
 #: server/stdinhand.c:515
-#, fuzzy
 msgid ""
 "If this is set to 1, only those units and cities within the sightrange of "
 "your own units and cities will be revealed to you. You will not see new "
 "cities or terrain changes in squares not observed."
 msgstr ""
 "Als deze op 1 gezet is zullen alleen de eenheden binnen het gezichtsveld van "
-"uw eigen eenheden aan u worden getoond. U zult nog steeds terreinwijzigingen "
-"als wegen e.d. op al het ontdekte land zien."
+"uw eigen eenheden en steden aan u worden getoond. U zult geen steden en "
+"terreinwijzigingen in niet bekeken vlakken zien."
 
 #: server/stdinhand.c:522
 msgid "Chance in diplomat/spy contests"
@@ -2237,13 +2312,16 @@ msgstr ""
 
 #: server/stdinhand.c:556
 msgid "Whether AI-status toggles with connection"
-msgstr ""
+msgstr "Of de KI-status wijzigt bij verbinding"
 
 #: server/stdinhand.c:557
 msgid ""
 "If this is set to 1, AI status is turned off when a player connects, and on "
 "when a player disconnects."
 msgstr ""
+"Als deze op 1 wordt gezet dan zal de KI-status uitgezet worden wanneer een "
+"speler verbinding maakt en aangezet worden als een speler de verbinding "
+"verbreekt."
 
 #: server/stdinhand.c:563
 msgid "Year the game ends"
@@ -2275,16 +2353,16 @@ msgstr ""
 
 #: server/stdinhand.c:582
 msgid "Fixed-length turns play mode"
-msgstr ""
+msgstr "Vaste lengte zetten spel modus"
 
 #: server/stdinhand.c:583
-#, fuzzy
 msgid ""
 "If this is set to 1 the game turn will not advance until the timeout has "
 "expired, irrespective of players clicking on \"Turn Done\"."
 msgstr ""
-"Als dit op 1 wordt gezet, dan zal de beurt niet voorbij zijn totdat alle "
-"spelers dit hebben aangegeven, inclusief de niet-verbonden spelers."
+"Als deze op 1 wordt gezet, dan zal de beurt niet voorbij zijn totdat de "
+"tijdspanne is verlopen, ongeacht of de spelers nu wel of niet op \"Beurt "
+"Klaar\" gedrukt hebben."
 
 #: server/stdinhand.c:589
 msgid "What is in the Demographics report"
@@ -2814,7 +2892,7 @@ msgstr "Geen speler met de naam '%s'."
 #: server/stdinhand.c:1180
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
-msgstr ""
+msgstr "Onverwachte match_result %d (%s) voor '%s'."
 
 #: server/stdinhand.c:1195
 #, c-format
@@ -2936,9 +3014,8 @@ msgid "Created new AI player: %s."
 msgstr "Nieuwe KI-speler gemaakt: %s."
 
 #: server/stdinhand.c:1493
-#, fuzzy
 msgid "Players cannot be removed once the game has started"
-msgstr "Deze instelling kan niet veranderd worden nadat het spel begonnen is."
+msgstr "Spelers kunnen niet worden verwijderd nadat het spel begonnen is."
 
 #: server/stdinhand.c:1500
 #, c-format
@@ -3153,9 +3230,9 @@ msgid "Option: %s has been set to %d."
 msgstr "Optie: %s is gezet op %d."
 
 #: server/stdinhand.c:2173
-#, fuzzy, c-format
+#, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
-msgstr "Waarde: %d, Minimaal: %d, Standaard: %d, Maximaal: %d"
+msgstr "Waarde buiten bereik (minimaal: %d, maximaal: %d)."
 
 #: server/stdinhand.c:2180 server/stdinhand.c:2183
 #, c-format
@@ -3195,6 +3272,8 @@ msgstr "Het spel moet begonnen zijn voordat u de score kunt zien."
 msgid ""
 "Reduced maxplayers from %i to %i to fitto the number of start positions."
 msgstr ""
+"Verminderde maxplayers van %i naar %i om het aantal startposities te "
+"evenaren."
 
 #: server/stdinhand.c:2361
 msgid ""
@@ -3202,6 +3281,9 @@ msgid ""
 "there must be something wrong with the savegame or you adjusted the "
 "maxplayers value."
 msgstr ""
+"Moest het aantal spelers verminderen tot het aantal startposities op de "
+"kaart, er moet iets mis zijn met het opgeslagen spel of u hebt de waarde van "
+"maxplayers veranderd."
 
 #: server/stdinhand.c:2373
 msgid "Not enough players, game will not start."
@@ -3442,7 +3524,7 @@ msgstr "<geen spelers>"
 #: server/stdinhand.c:2715
 #, c-format
 msgid "%s (Barbarian, %s)"
-msgstr ""
+msgstr "%s (Barbaren, %s)"
 
 #: server/stdinhand.c:2723
 #, c-format
@@ -3714,35 +3796,41 @@ msgid "Game: Your %s was captured after completing her mission."
 msgstr "Spel: Uw %s is gevangengenomen na afronding van haar missie."
 
 #: server/unitfunc.c:1257
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
-msgstr "Spel: Uw %s heeft %s's %s met succes omgekocht."
+msgstr "Spel: U hebt een schandaal veroorzaakt met het omkopen van %s's %s."
 
 #: server/unitfunc.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
-msgstr "Spel: %s is klaar met het bouwen van %s."
+msgstr "Spel: %s heeft een schandaal veroorzaakt met het omkopen van %s's %s."
 
 #: server/unitfunc.c:1269
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
-msgstr "Spel: Uw %s werd betrapt bij een poging technologie te stelen van %s."
+msgstr ""
+"Spel: U hebt een schandaal veroorzaakt met het stelen van technologie van %s."
 
 #: server/unitfunc.c:1273
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
-msgstr "Spel: Uw %s werd betrapt bij een poging technologie te stelen van %s."
+msgstr ""
+"Spel: %s heeft een schandaal veroorzaakt met het stelen van technologie van "
+"u."
 
 #: server/unitfunc.c:1279
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
 msgstr ""
-"Spel: U betrapte een%s %s %s in een poging een opstand te ontketenen in %s!"
+"Spel: U hebt een schandaal veroorzaakt met uw poging een opstand te "
+"ontketenen in %s."
 
 #: server/unitfunc.c:1282
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
-msgstr "Spel: Een%s %s %s is ge-elimineerd bij het infiltreren van %s."
+msgstr ""
+"Spel: %s heeft een schandaal veroorzaakt met het ontketenen van een opstand "
+"in %s."
 
 #: server/unitfunc.c:1431
 #, c-format
@@ -3755,9 +3843,9 @@ msgid "Game: Your %s has run out of hit points."
 msgstr "Spel: Uw %s heeft geen slagpunten meer."
 
 #: server/unitfunc.c:1483
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s has returned to refuel."
-msgstr "Spel: Uw %s heeft geen brandstof meer."
+msgstr "Spel: Uw %s is teruggekeerd om te tanken."
 
 #: server/unitfunc.c:1523
 #, c-format
@@ -3770,41 +3858,48 @@ msgid "Game: Your %s has been lost on the high seas."
 msgstr "Spel: Uw %s is verloren gegaan op de diepzee."
 
 #: server/unitfunc.c:1974
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
-msgstr "Spel: U verkoopt %s in %s voor %d credits."
+msgstr "Spel: U verkoopt %s in %s (nu ingesloten door land) voor %d goud."
 
 #: server/unitfunc.c:2275
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Moved your %s due to changing land to sea at (%d, %d)."
 msgstr ""
-"Spel: Teleporteerde uw %s naar %s aangezien er geen transport ruimte op vlak "
-"is (%d, %d)."
+"Spel: Verplaatste uw %s in verband met het veranderen van land naar zee bij "
+"(%d, %d)."
 
 #: server/unitfunc.c:2300
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea at (%d, %d)."
 msgstr ""
+"Spel: Uw %s aan boord gestuurd vanwege de verandering van land naar zee bij "
+"(%d, %d)."
 
 #: server/unitfunc.c:2315
 #, c-format
 msgid "Game: Disbanded your %s due to changing land to sea at (%d, %d)."
 msgstr ""
+"Spel: Uw %s ontbonden vanwege de verandering van land naar zee bij (%d, %d)."
 
 #: server/unitfunc.c:2345
 #, c-format
 msgid "Game: Moved your %s due to changing sea to land at (%d, %d)."
 msgstr ""
+"Spel: Verplaatste uw %s vanwege de verandering van zee naar land bij (%d, "
+"%d)."
 
 #: server/unitfunc.c:2370
 #, c-format
 msgid "Game: Docked your %s due to changing sea to land at (%d, %d)."
 msgstr ""
+"Spel: Uw %s afgemeerd vanwege de verandering van zee naar land bij (%d, %d)."
 
 #: server/unitfunc.c:2385
 #, c-format
 msgid "Game: Disbanded your %s due to changing sea to land at (%d, %d)."
 msgstr ""
+"Spel: Uw %s ontbonden vanwege de verandering van zee naar land bij (%d, %d)."
 
 #: server/unitfunc.c:2479
 #, c-format
@@ -3828,6 +3923,8 @@ msgstr "Spel: Kan niet paradroppen in de oceaan."
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
+"Spel: De afstand naar het doel (%i) is groter dan het bereik van de eenheid "
+"(%i)."
 
 #: server/unitfunc.c:2535
 msgid ""
@@ -3918,9 +4015,9 @@ msgid "Game: Illegal package, can't upgrade %s (yet)."
 msgstr "Spel: Illegaal pakket, kan %s (nog) niet opwaarderen."
 
 #: server/unithand.c:138
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %d %s upgraded to %s for %d gold."
-msgstr "Spel: %d %s opgewaardeerd naar %s voor %d credits."
+msgstr "Spel: %d %s opgewaardeerd naar %s voor %d goud."
 
 #: server/unithand.c:143
 msgid "Game: No units could be upgraded."
@@ -3936,9 +4033,9 @@ msgid "Game: Insufficient funds, upgrade costs %d."
 msgstr "Spel: Onvoldoende fondsen, opwaardering kost %d."
 
 #: server/unithand.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s upgraded to %s for %d gold."
-msgstr "Spel: %s opgewaardeerd naar %s voor %d credits."
+msgstr "Spel: %s opgewaardeerd naar %s voor %d goud."
 
 #: server/unithand.c:366
 #, c-format
@@ -4019,9 +4116,9 @@ msgstr ""
 "terreur."
 
 #: server/unithand.c:705 server/unithand.c:713 server/unithand.c:719
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You found %d gold."
-msgstr "Spel: U krijgt %d goud."
+msgstr "Spel: U vond %d goud."
 
 #: server/unithand.c:727
 msgid "Game: You found ancient scrolls of wisdom."
@@ -4077,15 +4174,17 @@ msgid ""
 "Game: Can't attack %s's unit in the city of %s because you are not at war "
 "with %s."
 msgstr ""
+"Spel: Kan %s's eenheden in de stad niet aanvallen omdat u niet in oorlog "
+"bent met %s."
 
 #: server/unithand.c:900
 msgid "Game: Aborting GOTO for AI attack procedures."
 msgstr "Spel: Breek GA NAAR af voor KI-aanvals procedures."
 
 #: server/unithand.c:907
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
-msgstr "Spel: %s ontdekte Toekomst Tech. %d in de stad."
+msgstr "Spel: %s brak GA NAAR af aangezien er eenheden in de weg staan."
 
 #: server/unithand.c:933
 #, c-format
@@ -4095,7 +4194,7 @@ msgstr "Spel: Een %s kan geen andere eenheden aanvallen."
 #: server/unithand.c:949
 #, c-format
 msgid "Game: No war declared against %s, cannot attack."
-msgstr ""
+msgstr "Spel: Geen oorlog verklaard aan %s, kan niet aanvallen."
 
 #: server/unithand.c:963
 #, c-format
@@ -4110,12 +4209,12 @@ msgstr ""
 
 #: server/unithand.c:986
 msgid "Game: Only ground troops can take over a city."
-msgstr "Spel: Alleen grondtroepen kunnen een stad overnemen."
+msgstr "Spel: Alleen grondtroepen kunnen een stad innemen."
 
 #: server/unithand.c:993
-#, fuzzy, c-format
+#, c-format
 msgid "Game: No war declared against %s, cannot take over city."
-msgstr "Spel: Alleen grondtroepen kunnen een stad overnemen."
+msgstr "Spel: Geen oorlog verklaart aan %s, kan stad niet innemen."
 
 #: server/unithand.c:1069
 #, c-format
@@ -4185,9 +4284,8 @@ msgid "Game: Cannot attack from sea."
 msgstr "Spel: Kan niet aanvallen vanuit zee."
 
 #: server/unittools.c:126 server/unittools.c:135
-#, fuzzy
 msgid "Game: Cannot attack unless you declare war first."
-msgstr "Spel: Kan niet aanvallen vanuit zee."
+msgstr "Spel: Kan niet aanvallen voordat u de oorlog verklaard heeft."
 
 #: server/unittools.c:143
 #, c-format
@@ -4195,9 +4293,9 @@ msgid "Game: %s can only move into your own zone of control."
 msgstr "Spel: %s kan alleen binnen uw eigen invloedssfeer bewegen."
 
 #: server/unittools.c:780
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Disbanded your %s at (%d, %d)."
-msgstr "Spel: Teleporteerde uw %s van (%d, %d) naar %s."
+msgstr "Spel: Ontbond uw %s bij (%d, %d)."
 
 #: server/unittools.c:804
 #, c-format
@@ -4211,11 +4309,6 @@ msgstr "Extase"
 #: client/cityrepdata.c:69
 msgid "Disorder"
 msgstr "Onlusten"
-
-#: client/cityrepdata.c:69 client/gui-gtk/diplodlg.c:429
-#: client/gui-xaw/diplodlg.c:489
-msgid "Peace"
-msgstr "Vrede"
 
 #: client/cityrepdata.c:147
 msgid "(worklist)"
@@ -4346,9 +4439,8 @@ msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tVerbind met de server op HOST\n"
 
 #: client/civclient.c:111
-#, fuzzy
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
-msgstr "  -t, --tiles DIR\tKijk in data subdirectory DIR voor vlakken\n"
+msgstr "  -t, --tiles BESTAND\tKijk in data bestand BESTAND voor vlakken\n"
 
 #: client/civclient.c:113
 msgid "  -s, --sound FILE\tRead sound information from FILE\n"
@@ -4366,6 +4458,55 @@ msgstr "Niet-herkende optie: \"%s\"\n"
 #: client/civclient.c:348
 msgid "Received unknown packet from server!"
 msgstr "Ontving onbekend pakket van server!"
+
+#: client/climisc.c:331
+#, c-format
+msgid "?seconds:%d"
+msgstr "?seconden:%d"
+
+#. < 99.5 minutes
+#: client/climisc.c:333
+#, c-format
+msgid "?minutes:%dm"
+msgstr "?minuten:%dm"
+
+#. < 99.5 hours
+#: client/climisc.c:335
+#, c-format
+msgid "?hours:%dh"
+msgstr "?uren:%dh"
+
+#: client/climisc.c:348 client/climisc.c:353
+#, c-format
+msgid "The %s give %s"
+msgstr "De %s geven %s"
+
+#: client/climisc.c:358
+#, c-format
+msgid "The %s give %d gold"
+msgstr "De %s geven %d goud"
+
+#: client/climisc.c:363
+#, c-format
+msgid "The %s give their worldmap"
+msgstr "De %s geven hun wereldkaart"
+
+#: client/climisc.c:367
+#, c-format
+msgid "The %s give their seamap"
+msgstr "De %s geven hun zeekaart"
+
+#: client/climisc.c:371
+msgid "The parties agree on a cease-fire"
+msgstr "De partijen gaan akkoord met een wapenstilstand"
+
+#: client/climisc.c:374
+msgid "The parties agree on a peace"
+msgstr "De partijen gaan akkoord met vrede"
+
+#: client/climisc.c:377
+msgid "The parties create an alliance"
+msgstr "De partijen sluiten een alliantie"
 
 #: client/clinet.c:102
 msgid "Invalid hostname"
@@ -4536,10 +4677,11 @@ msgstr "* Kan vijandelijke luchteenheden aanvallen.\n"
 #: client/helpdata.c:673
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr ""
+"* Is onzichtbaar tenzij direct naast een vijandelijke eenheid of stad.\n"
 
 #: client/helpdata.c:677
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
-msgstr ""
+msgstr "* Kan alleen eenheden op zeevlakken aanvallen (geen landaanvallen).\n"
 
 #: client/helpdata.c:681
 msgid ""
@@ -4590,6 +4732,7 @@ msgstr "* Negeert terreineffecten (ziet alle vlakken als wegen).\n"
 #: client/helpdata.c:719
 msgid "* Attacks with full strength even if less than one movement left.\n"
 msgstr ""
+"* Valt aan met volledige sterkte, zelfs als minder dan één beweging over.\n"
 
 #: client/helpdata.c:722
 msgid "* Ignores zones of control.\n"
@@ -4759,7 +4902,6 @@ msgid "Smooth unit moves          "
 msgstr "Vloeiende bewegingen eenheid        "
 
 #: client/options.c:58
-#, fuzzy
 msgid "Smooth unit move steps     "
 msgstr "Vloeiende bewegingen eenheid        "
 
@@ -4958,27 +5100,23 @@ msgstr "Werklijst Gebeurtenissen            "
 
 #. E_WORKLIST
 #: client/options.c:129
-#, fuzzy
 msgid "Pact Cancelled           "
-msgstr "Wereldwijde Opwarming               "
+msgstr "Verdrag Verbroken                   "
 
 #. E_CANCEL_PACT
 #: client/options.c:130
-#, fuzzy
 msgid "Diplomatic Incident      "
-msgstr "Diplomatieke Aktie - Zelf           "
+msgstr "Diplomatiek Schandaal               "
 
 #. E_DIPL_INCIDENT
 #: client/options.c:131
-#, fuzzy
 msgid "First Contact            "
-msgstr "Stad Normaal                        "
+msgstr "Eerste contact                      "
 
 #. E_FIRST_CONTACT
 #: client/options.c:132
-#, fuzzy
 msgid "City May Soon Grow       "
-msgstr "Stadsgroei                          "
+msgstr "Stad kan binnenkort groeien         "
 
 #: client/options.c:196
 msgid "Cannot find your home directory"
@@ -5399,7 +5537,7 @@ msgstr "Verkoop Het!"
 
 #: client/gui-gtk/citydlg.c:2102
 msgid "Elvises"
-msgstr ""
+msgstr "Elvis'sen"
 
 #: client/gui-gtk/citydlg.c:2102 client/gui-xaw/citydlg.c:2589
 msgid "Scientists"
@@ -5415,7 +5553,7 @@ msgstr "Stads Opties"
 
 #: client/gui-gtk/citydlg.c:2165
 msgid "New citizens are"
-msgstr ""
+msgstr "Nieuwe burgers zijn"
 
 #: client/gui-gtk/citydlg.c:2187
 msgid "Disband if build settler at size 1"
@@ -5456,7 +5594,7 @@ msgstr "Ok"
 #: data/Freeciv:2013 data/Freeciv:2090 data/Freeciv:2204 data/Freeciv:2237
 #: data/Freeciv:2345 data/Freeciv:2413 data/Freeciv:2423
 msgid "Cancel"
-msgstr "Afbreken"
+msgstr "Annuleren"
 
 #. Add all buildings
 #: client/gui-gtk/cityrep.c:347
@@ -5771,6 +5909,8 @@ msgid ""
 "Your %s has arrived at %s.\n"
 "What is your command?"
 msgstr ""
+"Uw %s is aangekomen bij %s.\n"
+"Hoe luiden uw bevelen?"
 
 #. "diplomatdialog"
 #: client/gui-gtk/dialogs.c:1034
@@ -5984,20 +6124,9 @@ msgstr "Steden"
 msgid "Gold(max %d)"
 msgstr "Goud(max %d)"
 
-#: client/gui-gtk/diplodlg.c:424 client/gui-xaw/diplodlg.c:485
-#, fuzzy
-msgid "Cease-fire"
-msgstr "Metaserver"
-
-#: client/gui-gtk/diplodlg.c:434 client/gui-xaw/diplodlg.c:493
-#, fuzzy
-msgid "Alliance"
-msgstr "Vooruitgangen"
-
 #: client/gui-gtk/diplodlg.c:441 data/Freeciv:432
-#, fuzzy
 msgid "Pacts"
-msgstr "Taktiek"
+msgstr "Verdragen"
 
 #: client/gui-gtk/diplodlg.c:450 client/gui-xaw/diplodlg.c:499
 #, c-format
@@ -6092,7 +6221,7 @@ msgstr ""
 "Freeciv is vrije software en u bent vrij om onder bepaalde voorwaarden\n"
 "kopieën ervan te verspreiden; Zie het \"Kopieëren\" gedeelte in het Help "
 "menu.\n"
-"Nu.. Geef ze op hun donder!"
+"Nu.. Geef ze van katoen!"
 
 #: client/gui-gtk/gui_main.c:589
 msgid "Freeciv"
@@ -6228,23 +6357,20 @@ msgid "Freeciv Help Browser"
 msgstr "Freeciv Handleiding"
 
 #: client/gui-gtk/helpdlg.c:587
-#, fuzzy
 msgid "Expand All"
-msgstr "Verander Alles"
+msgstr "Klap Alles Open"
 
 #: client/gui-gtk/helpdlg.c:588
-#, fuzzy
 msgid "Collapse All"
-msgstr "Verander Alles"
+msgstr "Klap Alles Dicht"
 
 #: client/gui-gtk/helpdlg.c:589
 msgid "Reset Tree"
-msgstr ""
+msgstr "Herstel Boom"
 
 #: client/gui-gtk/helpdlg.c:590
-#, fuzzy
 msgid "Expand Unknown"
-msgstr "Onbekend"
+msgstr "Expansie Onbekend"
 
 #: client/gui-gtk/helpdlg.c:830 client/gui-gtk/helpdlg.c:854
 #: client/gui-gtk/helpdlg.c:867 client/gui-gtk/helpdlg.c:877
@@ -6253,9 +6379,8 @@ msgid "Allows "
 msgstr "Staat toe"
 
 #: client/gui-gtk/helpdlg.c:841
-#, fuzzy
 msgid "Obsoletes "
-msgstr "Verouderd"
+msgstr "Veroudert"
 
 #: client/gui-gtk/helpdlg.c:881 client/gui-gtk/helpdlg.c:896
 msgid " (with "
@@ -6508,14 +6633,12 @@ msgid "Map Grid"
 msgstr "Kaart Raster"
 
 #: client/gui-gtk/menu.c:533 client/gui-xaw/menu.c:135
-#, fuzzy
 msgid "City Names"
-msgstr "Stadsnaam"
+msgstr "Stadsnamen"
 
 #: client/gui-gtk/menu.c:535 client/gui-xaw/menu.c:136
-#, fuzzy
 msgid "City Productions"
-msgstr "Stads Produktie"
+msgstr "Stads Produkties"
 
 #: client/gui-gtk/menu.c:539 client/gui-xaw/menu.c:138
 msgid "Center View"
@@ -6712,14 +6835,12 @@ msgid "Chatline"
 msgstr "Chatregel"
 
 #: client/gui-gtk/menu.c:644 client/gui-xaw/menu.c:202
-#, fuzzy
 msgid "Playing"
-msgstr "Vlakten"
+msgstr "Spelen"
 
 #: client/gui-gtk/menu.c:648 client/gui-xaw/menu.c:204
-#, fuzzy
 msgid "Improvements"
-msgstr "Help Verbeteringen"
+msgstr "Verbeteringen"
 
 #: client/gui-gtk/menu.c:650 client/gui-xaw/menu.c:205 data/helpdata.txt:727
 msgid "Units"
@@ -6731,7 +6852,7 @@ msgstr "Gevecht"
 
 #: client/gui-gtk/menu.c:654 client/gui-xaw/menu.c:207
 msgid "ZOC"
-msgstr ""
+msgstr "IS"
 
 #: client/gui-gtk/menu.c:656 client/gui-xaw/menu.c:208 data/helpdata.txt:705
 msgid "Technology"
@@ -6742,7 +6863,6 @@ msgid "Terrain"
 msgstr "Terrein"
 
 #: client/gui-gtk/menu.c:660 client/gui-xaw/menu.c:210
-#, fuzzy
 msgid "Wonders"
 msgstr "Wereldwonder"
 
@@ -6831,14 +6951,12 @@ msgid "Embassy"
 msgstr "Ambassade"
 
 #: client/gui-gtk/plrdlg.c:85
-#, fuzzy
 msgid "Dipl.State"
-msgstr "Toestand"
+msgstr "Dipl.Toestand"
 
 #: client/gui-gtk/plrdlg.c:85
-#, fuzzy
 msgid "Reputation"
-msgstr "Bevolking"
+msgstr "Reputatie"
 
 #: client/gui-gtk/plrdlg.c:86 data/Freeciv:79
 msgid "Host"
@@ -6853,9 +6971,8 @@ msgid "_Meet"
 msgstr "Ont_moet"
 
 #: client/gui-gtk/plrdlg.c:127
-#, fuzzy
 msgid "_Cancel Treaty"
-msgstr "_Afbreken"
+msgstr "_Verbreek Verdrag"
 
 #: client/gui-gtk/plrdlg.c:133
 msgid "_Spaceship"
@@ -7279,9 +7396,9 @@ msgid "Allows %s.\n"
 msgstr "Staat %s toe.\n"
 
 #: client/gui-xaw/helpdlg.c:920
-#, fuzzy, c-format
+#, c-format
 msgid "Obsoletes %s.\n"
-msgstr "Verouderd"
+msgstr "Veroudert %s.\n"
 
 #: client/gui-xaw/helpdlg.c:935 client/gui-xaw/helpdlg.c:939
 #, c-format
@@ -7654,11 +7771,12 @@ msgid " Ok "
 msgstr " Ok "
 
 #: data/Freeciv:3061
-#, fuzzy
 msgid ""
 "Name             Race         Embassy  Dipl.State      Reputation    State   "
 " Host"
-msgstr "Naam             Ras          Ambassade Staat   Host"
+msgstr ""
+"Naam             Ras          Embass.  Dipl.Toestand   Reputatie     "
+"Toestand Host"
 
 #: data/Freeciv:3081
 msgid "Intelligence"
@@ -7669,9 +7787,8 @@ msgid "Meet"
 msgstr "Ontmoet"
 
 #: data/Freeciv:3097
-#, fuzzy
 msgid "Cancel pact"
-msgstr "Afbreken"
+msgstr "Verbreek verdrag"
 
 #: data/helpdata.txt:38
 msgid ""
@@ -7788,7 +7905,7 @@ msgstr ""
 "\n"
 "  http://proxyhost:proxypoortnummer/\n"
 "\n"
-"voordat us civclient start."
+"voordat u civclient start."
 
 #: data/helpdata.txt:417
 msgid ""
@@ -7906,7 +8023,7 @@ msgstr ""
 "  W: (W)ek andere eenheden op vlak\n"
 "  t: toon vlakken die stad gebruikt (muis boven of bij stad)\n"
 "  T: open belas(t)ing/luxe/wetenschap waarden dialoog\n"
-"  x: auto-onderzoek\n"
+"  x: auto-verken\n"
 "\n"
 "  1: beweeg zuidwest                 F1: open Steden Rapport\n"
 "  2: beweeg zuid                     F2: open Militair Rapport\n"
@@ -8524,6 +8641,8 @@ msgid ""
 "population of a City without City Walls by one point upon a successful "
 "attack."
 msgstr ""
+"Afhankelijk van de server instellingen kan elk type eenheid de bevolking van "
+"een stad zonder Stadswallen met één punt verminderen na een geslaagde aanval."
 
 #: data/helpdata.txt:804
 msgid ""
@@ -8704,7 +8823,6 @@ msgstr ""
 "zonder Stadswallen dan wordt de stadsgrootte met 1 verminderd."
 
 #: data/helpdata.txt:883
-#, fuzzy
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -9083,7 +9201,7 @@ msgstr ""
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
-"U mag oog Luchthavens bouwen, waarop luchteenheden kunnen landen en "
+"U mag ook Luchthavens bouwen, waarop luchteenheden kunnen landen en "
 "brandstof kunnen innemen."
 
 #: data/helpdata.txt:1074
@@ -9321,7 +9439,7 @@ msgid ""
 "penalty for squares which produce more than 2 units of any resource (food, "
 "shields or trade)."
 msgstr ""
-" - Onder Anarchie of Despotisme zal de normale belasting op vlakken met een "
+" - Onder Anarchie of Tirannie zal de normale belasting op vlakken met een "
 "produktie groter dan twee van welk type dan ook (voeding, schilden, handel) "
 "vervallen."
 
@@ -9510,16 +9628,17 @@ msgid "Aqueduct"
 msgstr "Aquaduct"
 
 #: data/civ2/buildings.ruleset:76 data/default/buildings.ruleset:249
-#, fuzzy
 msgid ""
 "Allows a city to grow larger than size 8.  A Sewer System is also required "
 "for a city to grow larger than size 12."
-msgstr "(Een%s %s is ook nodig voor een stad om groter te groeien dan %d.)  "
+msgstr ""
+"Staat een stad toe om groter te groeien dan grootte 8. Om groter te groeien "
+"dan grootte 12 is ook een Riolering nodig."
 
 #: data/civ1/buildings.ruleset:81 data/civ2/buildings.ruleset:82
 #: data/default/buildings.ruleset:255
 msgid "Bank"
-msgstr ""
+msgstr "Bank"
 
 #: data/civ1/buildings.ruleset:99 data/civ2/buildings.ruleset:100
 #: data/default/buildings.ruleset:273
@@ -9573,6 +9692,12 @@ msgid ""
 "of Communism lessens the affect of a Cathedral, reducing by one the number "
 "of unhappy citizens made content."
 msgstr ""
+"Een Kathedraal maakt drie ontevreden burgers tevreden in een stad, wat het "
+"makkelijker maakt om in die stad de orde te handhaven. De ontdekking van "
+"Theologie vergroot het effect van een Kathedraal door een extra ontevreden "
+"burger tevreden te maken. De ontdekking van het Communisme vermindert het "
+"effect van een Kathedraal, er wordt dan één ontevreden burger minder "
+"tevreden."
 
 #: data/civ1/buildings.ruleset:234 data/civ2/buildings.ruleset:216
 #: data/default/buildings.ruleset:389
@@ -9613,13 +9738,12 @@ msgid "Colosseum"
 msgstr "Colosseum"
 
 #: data/default/buildings.ruleset:459
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)"
 msgstr ""
 "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden "
-"stedelingen tevreden."
+"stedelingen tevreden. (Vier na de ontdekking van Electriciteit"
 
 #: data/civ1/buildings.ruleset:309 data/civ2/buildings.ruleset:292
 #: data/default/buildings.ruleset:467
@@ -9644,13 +9768,12 @@ msgstr "Fabriek"
 
 #: data/civ1/buildings.ruleset:353 data/civ2/buildings.ruleset:336
 #: data/default/buildings.ruleset:511
-#, fuzzy
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
 msgstr ""
-"Verhoogt de schildproduktie in een stad met 50% maar draagt ook aanzienlijk "
-"bij aan vervuiling."
+"Verhoogt de schildproduktie in een stad met 50%. Deze verhoging kan ook "
+"aanzienlijk bijdragen aan vervuiling."
 
 #: data/civ1/buildings.ruleset:359 data/civ2/buildings.ruleset:342
 #: data/default/buildings.ruleset:517
@@ -9688,7 +9811,6 @@ msgid "Hydro Plant"
 msgstr "Waterkracht Centrale"
 
 #: data/default/buildings.ruleset:587
-#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -9700,11 +9822,12 @@ msgid ""
 "Plant.  A city can only build a Hydro Plant if it is next to (or on) a "
 "Mountain or River tile."
 msgstr ""
-"Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
-"ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Waterkrachtcentrale samen geven een bonus van 75% en een "
-"Fabriek, Assemblage Hal en een Waterkrachtcentrale samen geven een bonus van "
-"150%.\n"
+"Vermindert de hoeveelheid verontreiniging die een stad maakt met 50%. Het "
+"verhoogt ook de schild-produktie van een Fabriek of Assemblage Hal in de "
+"stad: een Fabriek en een Waterkrachtcentrale samen geven een bonus van 75% "
+"en een Fabriek, Assemblage Hal en een Waterkrachtcentrale samen geven een "
+"bonus van 150%.\n"
+"\n"
 "Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
 "of één Kerncentrale bezitten. Een stad kan pas een Waterkrachtcentrale "
 "bouwen als het op of naast een Berg- of Riviervlak ligt."
@@ -9738,14 +9861,13 @@ msgstr "Massavervoer"
 
 #: data/civ1/buildings.ruleset:504 data/civ2/buildings.ruleset:487
 #: data/default/buildings.ruleset:666
-#, fuzzy
 msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
 msgstr ""
-"Neutraliseert de verontreiniging die wordt veroorzaakt door een bevolking. "
-"De grootte van de bevolking heeft eenvoudigweg geen invloed meer op de "
-"hoeveelheid verontreiniging in een stad."
+"Neutraliseert de verontreiniging die wordt veroorzaakt door de bevolking. De "
+"grootte van de bevolking heeft eenvoudigweg geen invloed meer op de "
+"hoeveelheid verontreiniging die een stad produceert."
 
 #: data/civ1/buildings.ruleset:511 data/civ2/buildings.ruleset:494
 #: data/default/buildings.ruleset:673
@@ -9768,7 +9890,6 @@ msgid "Nuclear Plant"
 msgstr "Kerncentrale"
 
 #: data/default/buildings.ruleset:716
-#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -9779,12 +9900,13 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
-"ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Kerncentrale samen geven een bonus van 75% en een Fabriek, "
-"Assemblage Hal en een Kerncentrale samen geven een bonus van 150%.\n"
-"Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
-"of één Kerncentrale bezitten."
+"Vermindert de hoeveelheid verontreiniging die een stad maakt met 50%. Het "
+"verhoogt ook de schild-produktie van een Fabriek of Assemblage Hal in de "
+"stad: een Fabriek en een Kerncentrale samen geven een bonus van 75%en een "
+"Fabriek, Assemblage Hal en een Kerncentrale samen geven een bonus van 150%.\n"
+"\n"
+"Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of "
+"één Electriciteitscentrale of één Kerncentrale bezitten."
 
 #: data/civ1/buildings.ruleset:569 data/civ2/buildings.ruleset:552
 #: data/default/buildings.ruleset:734
@@ -9863,7 +9985,7 @@ msgid "Power Plant"
 msgstr "Electriciteits Centrale"
 
 #: data/default/buildings.ruleset:860
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 75% production bonus, and a "
@@ -9872,11 +9994,11 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
-"Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
-"ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Electriciteitscentrale samen geven een bonus van 75% en een "
-"Fabriek, Assemblage Hal en een Electriciteitscentrale samen geven een bonus "
-"van 150%.\n"
+"Verhoogt de schild-produktie van een Fabriek of Assemblage Hal in de stad: "
+"een Fabriek en een Electriciteitscentrale samen geven een bonus van 75% en "
+"een Fabriek, Assemblage Hal en een Electriciteitscentrale samen geven een "
+"bonus van 150%.\n"
+"\n"
 "Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
 "of één Kerncentrale bezitten."
 
@@ -9887,13 +10009,13 @@ msgstr "Kringloop Centrum"
 
 #: data/civ1/buildings.ruleset:719 data/civ2/buildings.ruleset:703
 #: data/default/buildings.ruleset:892
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Building a recycling center reduces the amount of pollution generated by "
 "production in a city by 66%."
 msgstr ""
 "Het bouwen van een Kringloop Centrum vermindert de hoeveelheid "
-"verontreiniging die een stad maakt met 65%."
+"verontreiniging die een stad maakt met 66%."
 
 #: data/civ1/buildings.ruleset:725 data/civ2/buildings.ruleset:709
 #: data/default/buildings.ruleset:898
@@ -9902,14 +10024,15 @@ msgstr "Onderzoeks Laboratorium"
 
 #: data/civ1/buildings.ruleset:742 data/civ2/buildings.ruleset:726
 #: data/default/buildings.ruleset:915
-#, fuzzy
 msgid ""
 "Together with a Library , a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
 msgstr ""
-"Samen met een Bibliotheek en een Universiteit verhoogt een Onderzoeks "
-"Laboratorium de wetenschappelijke opbrengsten van een stad met 150%."
+"Samen met een Bibliotheek verhoogt een Onderzoeks Laboratorium de "
+"wetenschappelijke opbrengsten van een stad met 100%. Samen met een "
+"Bibliotheek en een Universiteit wordt de wetenschappelijke opbrengst van een "
+"stad met 150% verhoogt."
 
 #: data/civ1/buildings.ruleset:750 data/civ2/buildings.ruleset:734
 #: data/default/buildings.ruleset:923
@@ -9948,11 +10071,12 @@ msgstr "Riolering"
 
 #: data/civ1/buildings.ruleset:818 data/civ2/buildings.ruleset:802
 #: data/default/buildings.ruleset:991
-#, fuzzy
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
-msgstr "(Een%s %s is ook nodig voor een stad om groter te groeien dan %d.)  "
+msgstr ""
+"Staat een stad in staat om groter dan grootte 12 te groeien. Een Aquaduct is "
+"eerst nodig om de stad groter dan grootte 8 te laten groeien."
 
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:808
 #: data/default/buildings.ruleset:997
@@ -9960,7 +10084,7 @@ msgid "Solar Plant"
 msgstr "Zonnekracht Centrale"
 
 #: data/default/buildings.ruleset:1017
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
@@ -9972,10 +10096,12 @@ msgid ""
 msgstr ""
 "Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
 "ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Kerncentrale samen geven een bonus van 75% en een Fabriek, "
-"Assemblage Hal en een Kerncentrale samen geven een bonus van 150%.\n"
-"Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
-"of één Kerncentrale bezitten."
+"Fabriek en een Zonnekrachtcentrale samen geven een bonus van 75% en een "
+"Fabriek, Assemblage Hal en een Zonnekrachtcentrale samen geven een bonus van "
+"150%.\n"
+"\n"
+"Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of "
+"één Electriciteitscentrale of één Kerncentrale bezitten."
 
 #: data/civ1/buildings.ruleset:858 data/civ2/buildings.ruleset:842
 #: data/default/buildings.ruleset:1035
@@ -9984,7 +10110,6 @@ msgstr "Ruimte Component"
 
 #: data/civ1/buildings.ruleset:875 data/civ2/buildings.ruleset:859
 #: data/default/buildings.ruleset:1052
-#, fuzzy
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
@@ -10043,7 +10168,6 @@ msgstr "Ruimte Struktuur"
 
 #: data/civ1/buildings.ruleset:938 data/civ2/buildings.ruleset:922
 #: data/default/buildings.ruleset:1115
-#, fuzzy
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -10141,7 +10265,6 @@ msgid "Apollo Program"
 msgstr "Apollo Programma"
 
 #: data/civ2/buildings.ruleset:1070 data/default/buildings.ruleset:1264
-#, fuzzy
 msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
@@ -10149,7 +10272,7 @@ msgid ""
 msgstr ""
 "Alle steden op de kaart worden zichtbaar voor de speler die dit bezit. Het "
 "stelt alle spelers in de gelegenheid om te beginnen met het bouwen van "
-"ruimteschepen (aangenomen dat zij alle benodigde technologieën onderzocht "
+"ruimteschepen (aangenomen dat zij alle benodigde technologieën verworven "
 "hebben)."
 
 #: data/civ1/buildings.ruleset:1093 data/civ2/buildings.ruleset:1077
@@ -10173,13 +10296,12 @@ msgstr "Colossus"
 
 #: data/civ1/buildings.ruleset:1133 data/civ2/buildings.ruleset:1117
 #: data/default/buildings.ruleset:1311
-#, fuzzy
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
 msgstr ""
-"Elk vlag rond de stad waar dit wonder is gebouwd krijgt een extra "
-"handelspunt."
+"Elk vlag rond de stad waar dit wonder is gebouwd krijgt en die al enige "
+"handel produceert krijgt een extra handelspunt."
 
 #: data/civ1/buildings.ruleset:1139 data/civ2/buildings.ruleset:1123
 #: data/default/buildings.ruleset:1317
@@ -10235,6 +10357,8 @@ msgstr "Eiffeltoren"
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
 msgstr ""
+"Wanneer deze wordt gebouwt, dan verbetert de houding van elke beschaving ten "
+"opzichte van u met 25%."
 
 #: data/civ1/buildings.ruleset:1233 data/civ2/buildings.ruleset:1217
 #: data/default/buildings.ruleset:1413
@@ -10286,7 +10410,6 @@ msgid "Hoover Dam"
 msgstr "Hoover Dam"
 
 #: data/civ2/buildings.ruleset:1312 data/default/buildings.ruleset:1509
-#, fuzzy
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)\n"
@@ -10297,11 +10420,10 @@ msgid ""
 "on, a Mountain or River tile)."
 msgstr ""
 "Werkt als een Waterkrachtcentrale in iedere stad. (Dit vermindert de "
-"vervuiling en vergroot het effect van Fabrieken en Fabrikagehallen.) Net "
-"zoals een waterkrachtcentrale kan de Hoover Dam alleen gebouwd worden in een "
-"stad die naast (of op) een Berg- of Riviervlak staat. Echter, het effect "
-"geldt voor alle steden in uw beschaving op hetzelfde continent, ongeacht hun "
-"locatie."
+"vervuiling en vergroot het effect van Fabrieken en Fabrikagehallen.)\n"
+"Net zoals een waterkrachtcentrale kan de Hoover Dam alleen gebouwd worden in "
+"een stad die naast (of op) een Berg- of Riviervlak staat. Echter, het effect "
+"geldt voor alle steden in uw beschaving, ongeacht hun locatie."
 
 #: data/civ1/buildings.ruleset:1343 data/civ2/buildings.ruleset:1323
 #: data/default/buildings.ruleset:1520
@@ -10379,9 +10501,10 @@ msgstr "Manhattan Project"
 
 #: data/civ1/buildings.ruleset:1502 data/civ2/buildings.ruleset:1477
 #: data/default/buildings.ruleset:1674
-#, fuzzy
 msgid "Allows all players with knowledge of Rocketry to build Nuclear units."
-msgstr "Staat alle spelers met kennis van %s om %s eenheden te bouwen.  "
+msgstr ""
+"Stelt alle spelers met kennis van Raketten in staat om Nucleaire eenheden te "
+"bouwen.  "
 
 #: data/civ1/buildings.ruleset:1507 data/civ2/buildings.ruleset:1482
 #: data/default/buildings.ruleset:1679
@@ -10406,6 +10529,11 @@ msgid ""
 "discovery of Communism lessens the affect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
 msgstr ""
+"Telt als een Kathedraal in elk van uw steden. (Dit maakt drie ontevreden "
+"burgers tevreden in een stad. De ontdekking van Theologie vergroot het "
+"effect van een Kathedraal door een extra ontevreden burger tevreden te "
+"maken. De ontdekking van het Communisme vermindert het effect van een "
+"Kathedraal, er wordt dan één ontevreden burger minder tevreden."
 
 #: data/civ1/buildings.ruleset:1552 data/civ2/buildings.ruleset:1533
 #: data/default/buildings.ruleset:1730
@@ -10432,7 +10560,6 @@ msgid "SETI Program"
 msgstr "SETI Programma"
 
 #: data/civ2/buildings.ruleset:1595 data/default/buildings.ruleset:1792
-#, fuzzy
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
@@ -10521,16 +10648,14 @@ msgstr ""
 "betekent dat alle produktie wordt omgezet naar belasting (geld)."
 
 #: data/civ2/buildings.ruleset:286
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)"
 msgstr ""
 "Vermaakt de inwoners van een stad en maakt daarbij drie ontevreden "
-"stedelingen tevreden."
+"stedelingen tevreden. (Vier na de ontdekking van Electriciteit)"
 
 #: data/civ2/buildings.ruleset:411
-#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -10542,17 +10667,18 @@ msgid ""
 "Plant.  A city can only build a Hydro Plant if it is next to (or on) a "
 "Mountain or River tile."
 msgstr ""
-"Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
-"ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Waterkrachtcentrale samen geven een bonus van 75% en een "
-"Fabriek, Assemblage Hal en een Waterkrachtcentrale samen geven een bonus van "
-"150%.\n"
-"Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
-"of één Kerncentrale bezitten. Een stad kan pas een Waterkrachtcentrale "
-"bouwen als het op of naast een Berg- of Riviervlak ligt."
+"Vermindert de hoeveelheid verontreiniging die een stad maakt met 50%. Het "
+"verhoogt ook de schild-produktie van een Fabriek of Assemblage Hal in de "
+"stad: een Fabriek en een Waterkrachtcentrale samen geven een bonus van 100% "
+"en een Fabriek, Assemblage Hal en een Waterkrachtcentrale samen geven een "
+"bonus van 150%.\n"
+"\n"
+"Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of "
+"één Electriciteitscentrale of één Kerncentrale bezitten. Een stad kan alleen "
+"een Waterkrachtcentrale bouwen als het op of naast een Berg- of Riviervlak "
+"ligt."
 
 #: data/civ2/buildings.ruleset:536
-#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -10563,15 +10689,16 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
-"ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Kerncentrale samen geven een bonus van 75% en een Fabriek, "
-"Assemblage Hal en een Kerncentrale samen geven een bonus van 150%.\n"
-"Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
-"of één Kerncentrale bezitten."
+"Vermindert de hoeveelheid verontreiniging die een stad maakt met 50%. Het "
+"verhoogt ook de schild-produktie van een Fabriek of Assemblage Hal in de "
+"stad: een Fabriek en een Kerncentrale samen geven een bonus van 100% en een "
+"Fabriek, Assemblage Hal en een Kerncentrale samen geven een bonus van 150%.\n"
+"\n"
+"Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of "
+"één Electriciteitscentrale of één Kerncentrale bezitten."
 
 #: data/civ1/buildings.ruleset:690 data/civ2/buildings.ruleset:674
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
 "Factory and a Power Plant together give a 100% production bonus, and a "
@@ -10580,16 +10707,16 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
-"Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
-"ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Electriciteitscentrale samen geven een bonus van 75% en een "
-"Fabriek, Assemblage Hal en een Electriciteitscentrale samen geven een bonus "
-"van 150%.\n"
-"Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
-"of één Kerncentrale bezitten."
+"Verhoogt de schild-produktie van een Fabriek of Assemblage Hal in de stad: "
+"een Fabriek en een Electriciteitscentrale samen geven een bonus van 100% en "
+"een Fabriek, Assemblage Hal en een Electriciteitscentrale samen geven een "
+"bonus van 150%.\n"
+"\n"
+"Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of "
+"één Electriciteitscentrale of één Kerncentrale bezitten."
 
 #: data/civ1/buildings.ruleset:843 data/civ2/buildings.ruleset:827
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
 "increases the shield production of a Factory or Mfg. Plant in the city: a "
@@ -10601,15 +10728,16 @@ msgid ""
 msgstr ""
 "Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
 "ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Kerncentrale samen geven een bonus van 75% en een Fabriek, "
-"Assemblage Hal en een Kerncentrale samen geven een bonus van 150%.\n"
-"Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
-"of één Kerncentrale bezitten."
+"Fabriek en een Zonnekrachtcentrale samen geven een bonus van 100% en een "
+"Fabriek, Assemblage Hal en een Zonnekrachtcentrale samen geven een bonus van "
+"150%.\n"
+"\n"
+"Een stad kan slechts één Zonnekrachtcentrale of één Waterkrachtcentrale of "
+"één Electriciteitscentrale of één Kerncentrale bezitten."
 
 #: data/civ1/buildings.ruleset:76
-#, fuzzy
 msgid "Allows a city to grow larger than size 10."
-msgstr "Staat een stad toe te groeien tot meer dan %d."
+msgstr "Staat een stad toe groter te groeien dan grootte 10."
 
 #: data/civ1/buildings.ruleset:132 data/civ1/buildings.ruleset:167
 #: data/civ1/buildings.ruleset:202
@@ -10625,12 +10753,11 @@ msgstr ""
 "zonder beweging in de stad blijven, volledig hersteld."
 
 #: data/civ1/buildings.ruleset:228
-#, fuzzy
 msgid ""
 "A Cathedral makes 4 unhappy citizens content in a city, making it easier to "
 "maintain order in that city."
 msgstr ""
-"Een Kathedraal maakt twee ontevreden stedelingen in een stad tevreden, wat "
+"Een Kathedraal maakt vier ontevreden stedelingen in een stad tevreden, wat "
 "het makkelijker maakt om de orde te bewaren."
 
 #: data/civ1/buildings.ruleset:255
@@ -10654,7 +10781,6 @@ msgstr ""
 "stedelingen tevreden."
 
 #: data/civ1/buildings.ruleset:428
-#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -10666,17 +10792,17 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
-"Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
-"ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Waterkrachtcentrale samen geven een bonus van 75% en een "
-"Fabriek, Assemblage Hal en een Waterkrachtcentrale samen geven een bonus van "
-"150%.\n"
+"Vermindert de hoeveelheid verontreiniging die een stad maakt met 50%. Het "
+"verhoogt ook de schild-produktie van een Fabriek of Assemblage Hal in de "
+"stad: een Fabriek en een Waterkrachtcentrale samen geven een bonus van 100% "
+"en een Fabriek, Assemblage Hal en een Waterkrachtcentrale samen geven een "
+"bonus van 150%.\n"
+"\n"
 "Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
 "of één Kerncentrale bezitten. Een stad kan pas een Waterkrachtcentrale "
 "bouwen als het op of naast een Berg- of Riviervlak ligt."
 
 #: data/civ1/buildings.ruleset:553
-#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -10686,10 +10812,11 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
-"Vermindert de hoeveelheid verontreiniging die een stad maakt. Het verhoogt "
-"ook de schild-produktie van een Fabriek of Assemblage Hal in de stad: een "
-"Fabriek en een Kerncentrale samen geven een bonus van 75% en een Fabriek, "
-"Assemblage Hal en een Kerncentrale samen geven een bonus van 150%.\n"
+"Vermindert de hoeveelheid verontreiniging die een stad maakt met 50%. Het "
+"verhoogt ook de schild-produktie van een Fabriek of Assemblage Hal in de "
+"stad: een Fabriek en een Kerncentrale samen geven een bonus van 100% en een "
+"Fabriek, Assemblage Hal en een Kerncentrale samen geven een bonus van 150%.\n"
+"\n"
 "Een stad kan slechts één Waterkrachtcentrale of één Electriciteitscentrale "
 "of één Kerncentrale bezitten."
 
@@ -10820,20 +10947,20 @@ msgstr ""
 "snel mogelijk uitgeven, in plaats van belasting te betalen en onderzoek te "
 "verrichten.\n"
 "\n"
-"Anarchie levert iets minder corruptie dan onder Despotisme maar iets meer "
+"Anarchie levert iets minder corruptie dan onder Tirannie maar iets meer "
 "ontevredenheid.\n"
 "\n"
 "Kolonisten verbruiken 1 voeding per beurt. Vlakken die normaal gesproken "
 "meer dan twee eenheden voedsel, hulpbronnen of handel zouden leveren krijgen "
 "een 1-eenheid belasting (bv. een geïrigeerd grasland vlak zou normaal drie "
-"voedingen opleveren, maar levert slechts twee op onder Despotisme). (Deze "
+"voedingen opleveren, maar levert slechts twee op onder Tirannie). (Deze "
 "belasting vervalt zolang de stad iets viert; zie Geluk.)\n"
 "\n"
-"Onder Despotisme kan elk van uw steden evenveel militaire eenheden "
-"onderhouden als de stad burgers telt zonder onderhoud te betalen. (Alle "
-"volgende eenheden kosten elk 1 poduktiepunt per beurt.)\n"
+"Onder Tirannie kan elk van uw steden evenveel militaire eenheden onderhouden "
+"als de stad burgers telt zonder onderhoud te betalen. (Alle volgende "
+"eenheden kosten elk 1 poduktiepunt per beurt.)\n"
 "\n"
-"U kunt krijgstucht opleggen onder Despotisme; elke militaire eenheid in een "
+"U kunt krijgstucht opleggen onder Tirannie; elke militaire eenheid in een "
 "stad houdt 1 ontevreden burger tevreden. (Tenminste, opstandige burgers "
 "zullen zich tevreden gedragen en zullen geen wanorde veroorzaken.)"
 
@@ -10853,7 +10980,6 @@ msgid "Empress"
 msgstr "Regentes"
 
 #: data/civ2/governments.ruleset:215 data/default/governments.ruleset:216
-#, fuzzy
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -10877,25 +11003,26 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Onder Despotisme bent u de absolute alleenheerser over uw volk. Uw "
-"beheersing over uw burgers is grotendeels gebaseerd op krijgstucht.\n"
+"Onder Tirannie bent u de absolute alleenheerser over uw volk. Uw beheersing "
+"over uw burgers is grotendeels gebaseerd op krijgstucht.\n"
 "\n"
-"Despotisme leidt aan de hoogste mate van corruptie van alle "
-"regeringsvormen.\n"
+"Tirannie leidt aan de hoogste mate van corruptie van alle regeringsvormen.\n"
 "\n"
 "Kolonisten verbruiken 1 voeding per beurt. Vlakken die normaal gesproken "
 "meer dan twee eenheden voedsel, hulpbronnen of handel zouden leveren krijgen "
 "een 1-eenheid belasting (bv. een geïrigeerd grasland vlak zou normaal drie "
-"voedingen opleveren, maar levert slechts twee op onder Despotisme). (Deze "
+"voeding opleveren, maar levert slechts twee op onder Tirannie). (Deze "
 "belasting vervalt zolang de stad iets viert; zie Geluk.)\n"
 "\n"
-"Onder Despotisme kan elk van uw steden evenveel militaire eenheden "
-"onderhouden als de stad burgers telt zonder onderhoud te betalen. (Alle "
-"volgende eenheden kosten elk 1 poduktiepunt per beurt.)\n"
+"De maximale waarden voor wetenschap, belasting of luxe zijn 60%.\n"
 "\n"
-"U kunt krijgstucht opleggen onder Despotisme; elke militaire eenheid in een "
-"stad houdt 1 ontevreden burger tevreden. (Tenminste, opstandige burgers "
-"zullen zich tevreden gedragen en zullen geen wanorde veroorzaken.)"
+"Onder Tirannie kan elk van uw steden evenveel militaire eenheden onderhouden "
+"als de stad burgers telt zonder onderhoud te betalen. (Alle volgende "
+"eenheden kosten elk 1 poduktiepunt per beurt.)\n"
+"\n"
+"U kunt krijgstucht opleggen onder Tirannie; elke militaire eenheid in een "
+"stad houdt 1 ontevreden burger tevreden. (Tenminste, ontevreden burgers "
+"zullen zich gedragen en zullen geen wanorde veroorzaken.)"
 
 #: data/civ1/governments.ruleset:243 data/civ1/techs.ruleset:367
 #: data/civ2/governments.ruleset:243 data/civ2/techs.ruleset:367
@@ -10914,7 +11041,6 @@ msgid "Queen"
 msgstr "Koningin"
 
 #: data/civ2/governments.ruleset:286 data/default/governments.ruleset:287
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -10948,6 +11074,8 @@ msgstr ""
 "handel in elk vlak dat al tenminste 1 handel oplevert. Zie geluk voor "
 "details.\n"
 "\n"
+"De maximale waarden voor wetenschap, belasting of luxe zijn 70%.\n"
+"\n"
 "Onder Monarchie kunnen uw steden drie militaire eenheden ondersteunen zonder "
 "onderhoud te hoeven betalen. (Alle extra eenheden gebruiken elk 1 "
 "voedingspunt per beurt.)\n"
@@ -10969,7 +11097,6 @@ msgid "Comrade"
 msgstr "Kameraad"
 
 #: data/civ2/governments.ruleset:356 data/default/governments.ruleset:357
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -11017,6 +11144,8 @@ msgstr ""
 "handelspunt per vlak waar al tenminste 1 handelspunt wordt verdient. Zie "
 "geluk voor details.\n"
 "\n"
+"De maximale waarden voor wetenschap, belasting of luxe zijn 80%.\n"
+"\n"
 "Diplomaten en Spionnen die tijdens Communisme worden gemaakt, zijn altijd "
 "vereranen.\n"
 "\n"
@@ -11040,7 +11169,6 @@ msgid "Consul"
 msgstr "Consul"
 
 #: data/civ2/governments.ruleset:484 data/default/governments.ruleset:434
-#, fuzzy
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -11084,6 +11212,8 @@ msgstr ""
 "Republikeinse steden die iets vieren groeien met 1 burger per beurt; zie "
 "geluk voor details.\n"
 "\n"
+"De maximale waarden voor wetenschap, belasting of luxe zijn 80%.\n"
+"\n"
 "Onder een Republiek verbruiken militaire eenheden 1 produktiepunt per beurt "
 "voor onderhoud. Daarnaast worden de volgende eenheden als agressief "
 "beschouwd:\n"
@@ -11111,7 +11241,6 @@ msgid "President"
 msgstr "President"
 
 #: data/civ2/governments.ruleset:565 data/default/governments.ruleset:515
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -11157,6 +11286,8 @@ msgstr ""
 "Democratische steden die iets vieren groeien met een snelheid van 1 burger "
 "per beurt; zie Geluk voor details.\n"
 "\n"
+"Er zijn geen beperkingen aan de waarden voor wetenschap, belasting en luxe "
+"onder Democratie: u kunt deze op 100% zetten.\n"
 "Onder een Democratie verbruiken militaire eenheden elk 1 produktieschild "
 "voor instandhouding. Daar bovenop veroorzaken de volgende eenheden ongemak:\n"
 "\n"
@@ -11214,23 +11345,22 @@ msgid ""
 "will keep one unhappy citizen content.  (Or at least, unhappy citizens will "
 "act content, and will not cause disorder.)"
 msgstr ""
-"Onder Despotisme bent u de absolute alleenheerser over uw volk. Uw "
-"beheersing over uw burgers is grotendeels gebaseerd op krijgstucht.\n"
+"Onder Tirannie bent u de absolute alleenheerser over uw volk. Uw beheersing "
+"over uw burgers is grotendeels gebaseerd op krijgstucht.\n"
 "\n"
-"Despotisme leidt aan de hoogste mate van corruptie van alle "
-"regeringsvormen.\n"
+"Tirannie leidt aan de hoogste mate van corruptie van alle regeringsvormen.\n"
 "\n"
 "Kolonisten verbruiken 1 voeding per beurt. Vlakken die normaal gesproken "
 "meer dan twee eenheden voedsel, hulpbronnen of handel zouden leveren krijgen "
 "een 1-eenheid belasting (bv. een geïrigeerd grasland vlak zou normaal drie "
-"voedingen opleveren, maar levert slechts twee op onder Despotisme). (Deze "
+"voedingen opleveren, maar levert slechts twee op onder Tirannie). (Deze "
 "belasting vervalt zolang de stad iets viert; zie Geluk.)\n"
 "\n"
-"Onder Despotisme kan elk van uw steden evenveel militaire eenheden "
-"onderhouden als de stad burgers telt zonder onderhoud te betalen. (Alle "
-"volgende eenheden kosten elk 1 poduktiepunt per beurt.)\n"
+"Onder Tirannie kan elk van uw steden evenveel militaire eenheden onderhouden "
+"als de stad burgers telt zonder onderhoud te betalen. (Alle volgende "
+"eenheden kosten elk 1 poduktiepunt per beurt.)\n"
 "\n"
-"U kunt krijgstucht opleggen onder Despotisme; elke militaire eenheid in een "
+"U kunt krijgstucht opleggen onder Tirannie; elke militaire eenheid in een "
 "stad houdt 1 ontevreden burger tevreden. (Tenminste, opstandige burgers "
 "zullen zich tevreden gedragen en zullen geen wanorde veroorzaken.)"
 
@@ -11705,7 +11835,7 @@ msgstr "Navigatie"
 #: data/civ1/techs.ruleset:391 data/civ2/techs.ruleset:391
 #: data/default/techs.ruleset:391
 msgid "Nuclear Fission"
-msgstr "Kernfusie"
+msgstr "Kernsplitsing"
 
 #: data/civ1/techs.ruleset:397 data/civ2/techs.ruleset:397
 #: data/default/techs.ruleset:397
@@ -12472,6 +12602,8 @@ msgstr "Onderzeeër"
 #: data/default/units.ruleset:1103
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr ""
+"Onderzeeërs hebben een zeer hoge strategische waarde, maar hebben een zwakke "
+"verdediging"
 
 #: data/civ1/units.ruleset:1069 data/civ2/units.ruleset:1109
 #: data/default/units.ruleset:1109
@@ -12850,14 +12982,12 @@ msgid "?plural:Bavarians"
 msgstr "?plural:Baverianen"
 
 #: data/nation/boer.ruleset:3
-#, fuzzy
 msgid "Boer"
-msgstr "Bommenwerper"
+msgstr "Boer"
 
 #: data/nation/boer.ruleset:4
-#, fuzzy
 msgid "?plural:Boers"
-msgstr "?plural:Duitsers"
+msgstr "?plural:Boeren"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -12872,7 +13002,6 @@ msgid "Dictator"
 msgstr "Dictator"
 
 #: data/nation/brazilian.ruleset:13 data/nation/roman.ruleset:12
-#, fuzzy
 msgid "Dictatrix"
 msgstr "Dictator"
 
@@ -12921,14 +13050,12 @@ msgid "?plural:Chinese"
 msgstr "?plural:Chinezen"
 
 #: data/nation/cornish.ruleset:3
-#, fuzzy
 msgid "Cornish"
-msgstr "Communisme"
+msgstr "Cornish"
 
 #: data/nation/cornish.ruleset:4
-#, fuzzy
 msgid "?plural:Cornish"
-msgstr "?plural:Polen"
+msgstr "?plural:Cornish"
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -13003,23 +13130,20 @@ msgid "Lady Protector"
 msgstr "Vrouwe Beschermer"
 
 #: data/nation/estonian.ruleset:3
-#, fuzzy
 msgid "Estonian"
-msgstr "Egyptische"
+msgstr "Estoniaanse"
 
 #: data/nation/estonian.ruleset:4
-#, fuzzy
 msgid "?plural:Estonians"
-msgstr "?plural:Egyptenaren"
+msgstr "?plural:Estonianen"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr ""
+msgstr "Fillipijnse"
 
 #: data/nation/filipino.ruleset:4
-#, fuzzy
 msgid "?plural:Filipinos"
-msgstr "?plural:Finnen"
+msgstr "?plural:Fillipijnen"
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -13098,14 +13222,12 @@ msgid "Maharaja"
 msgstr "Maharadja"
 
 #: data/nation/irish.ruleset:3
-#, fuzzy
 msgid "Irish"
-msgstr "Vis"
+msgstr "Ierse"
 
 #: data/nation/irish.ruleset:4
-#, fuzzy
 msgid "?plural:Irish"
-msgstr "?plural:Israëlische"
+msgstr "?plural:Ieren"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -13116,14 +13238,12 @@ msgid "?plural:Israelis"
 msgstr "?plural:Israëlische"
 
 #: data/nation/italian.ruleset:3
-#, fuzzy
 msgid "Italian"
-msgstr "Australische"
+msgstr "Italiaanse"
 
 #: data/nation/italian.ruleset:4
-#, fuzzy
 msgid "?plural:Italians"
-msgstr "?plural:Australiërs"
+msgstr "?plural:Italianen"
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
@@ -13162,14 +13282,12 @@ msgid "?plural:Krevis"
 msgstr "?plural:Krevianen"
 
 #: data/nation/latvian.ruleset:3
-#, fuzzy
 msgid "Latvian"
-msgstr "Partisanen"
+msgstr "Latviaanse"
 
 #: data/nation/latvian.ruleset:4
-#, fuzzy
 msgid "?plural:Latvians"
-msgstr "?plural:Baverianen"
+msgstr "?plural:Latvianen"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -13418,18 +13536,6 @@ msgstr "Zoeloes"
 #~ msgid "Cleared output window.\n"
 #~ msgstr "Uitvoervenster geschoond.\n"
 
-#~ msgid "The %s give %s"
-#~ msgstr "De %s geven %s"
-
-#~ msgid "The %s give %d gold"
-#~ msgstr "De %s geven %d goud"
-
-#~ msgid "The %s give their worldmap"
-#~ msgstr "De %s geven hun wereldkaart"
-
-#~ msgid "The %s give their seamap"
-#~ msgstr "De %s geven hun zeekaart"
-
 #~ msgid "Help Languages"
 #~ msgstr "Help Talen"
 
@@ -13452,7 +13558,7 @@ msgstr "Zoeloes"
 #~ msgstr "Help Gevechten"
 
 #~ msgid "Help ZOC"
-#~ msgstr "Help ZOC"
+#~ msgstr "Help IS"
 
 #~ msgid "Help Technology"
 #~ msgstr "Help Technologie"
