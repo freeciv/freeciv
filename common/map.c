@@ -531,12 +531,7 @@ bool is_starter_close(int x, int y, int nr, int dist)
   if (map_has_special(x, y, S_HUT))
     return TRUE;
   
-  /* don't want them starting on the poles unless the poles are
-     connected to more land: */
-  if (map_get_continent(x, y) <= 2 && map.generator != 0
-      && map.separatepoles) {
-    return TRUE;
-  }
+  /* Nobody will start on the poles since they aren't valid terrain. */
 
   /* don't start too close to someone else: */
   for (i=0;i<nr;i++) {
