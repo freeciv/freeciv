@@ -794,6 +794,10 @@ ui_main(int argc, char *argv[])
       free(cb);
     }
 
+    /* If we're idle, give up the CPU. */
+    if (idle) {
+      Sleep(1);
+    }
   }
 
   free_timer(callback_timer);
