@@ -26,6 +26,7 @@
 #include <unitfunc.h>
 #include <maphand.h>
 #include <aicity.h>
+#include <unittools.h>
 
 extern struct move_cost_map warmap;
 signed short int minimap[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
@@ -446,6 +447,14 @@ int ai_calc_pollution(struct city *pcity, struct player *pplayer, int i, int j)
   return(m);
 }
 
+int is_wet(struct player *pplayer, int x, int y)
+{
+  if (!map_get_known(x, y, pplayer) && !pplayer->ai.control) return 0;
+  if (map_get_terrain(x,y) == T_OCEAN || map_get_terrain(x,y) == T_RIVER ||
+      map_get_special(x,y)&S_IRRIGATION) return 1;
+  return 0;
+}
+
 int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
 {
   int x, y, m;
@@ -459,8 +468,9 @@ int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j)
 
   if((ptile->terrain==type->irrigation_result &&
      !(ptile->special&S_IRRIGATION) &&
-     !(ptile->special&S_MINE) && !(ptile->city_id) && /* Duh! */
-     is_water_adjacent_to_tile(x, y))) {
+     !(ptile->special&S_MINE) && !(ptile->city_id) &&
+     (is_wet(pplayer,x,y) || is_wet(pplayer,x,y-1) || is_wet(pplayer,x,y+1) ||
+     is_wet(pplayer,x-1,y) || is_wet(pplayer,x+1,y)))) {
     map_set_special(x, y, S_IRRIGATION);
     m = city_tile_value(pcity, i, j, 0, 0);
     map_clear_special(x, y, S_IRRIGATION);
@@ -718,6 +728,7 @@ AI settlers improving enemy cities. */ /* arguably should include city_spot */
       y = map_adjust_y(pcity->y + j - 2);
       if (map_get_continent(x, y) == co &&
           warmap.cost[x][y] <= THRESHOLD * m &&
+          !enemies_at(punit, x, y) && /* helps some, not nearly enough */
           !is_already_assigned(punit, pplayer, x, y)) {
 /* calling is_already_assigned once instead of four times for obvious reasons */
 /* structure is much the same as it once was but subroutines are not -- Syela */
