@@ -79,6 +79,16 @@ void popup_players_dialog(void)
   gtk_window_present(GTK_WINDOW(players_dialog_shell));
 }
 
+/****************************************************************
+ Closes the players dialog.
+*****************************************************************/
+void popdown_players_dialog(void)
+{
+  if (players_dialog_shell) {
+    gtk_widget_destroy(players_dialog_shell);
+  }
+}
+
 /**************************************************************************
 ...
 **************************************************************************/

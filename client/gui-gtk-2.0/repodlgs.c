@@ -61,7 +61,6 @@ static GtkWidget *popupmenu, *goalmenu;
 
 /******************************************************************/
 static void create_economy_report_dialog(bool make_modal);
-static void economy_destroy_callback(GtkWidget *w, gpointer data);
 static void economy_command_callback(GtkWidget *w, gint response_id);
 static void economy_selection_callback(GtkTreeSelection *selection,
 				       gpointer data);
@@ -77,7 +76,6 @@ static int economy_dialog_shell_is_modal;
 /******************************************************************/
 static void create_activeunits_report_dialog(bool make_modal);
 static void activeunits_command_callback(GtkWidget *w, gint response_id);
-static void activeunits_destroy_callback(GtkWidget *w, gpointer data);
 static void activeunits_selection_callback(GtkTreeSelection *selection,
 					   gpointer data);
 static int activeunits_type[U_LAST];
@@ -118,6 +116,17 @@ void popup_science_dialog(bool make_modal)
   gtk_window_present(GTK_WINDOW(science_dialog_shell));
 }
 
+
+/****************************************************************
+ Closes the science dialog.
+*****************************************************************/
+void popdown_science_dialog(void)
+{
+  if (science_dialog_shell) {
+    gtk_widget_destroy(science_dialog_shell);
+  }
+}
+ 
 
 /****************************************************************
 ...
@@ -536,6 +545,17 @@ void popup_economy_report_dialog(bool make_modal)
 
 
 /****************************************************************
+ Close the economy report dialog.
+****************************************************************/
+void popdown_economy_report_dialog(void)
+{
+  if (economy_dialog_shell) {
+    gtk_widget_destroy(economy_dialog_shell);
+  }
+}
+ 
+
+/****************************************************************
 ...
 *****************************************************************/
 void create_economy_report_dialog(bool make_modal)
@@ -631,7 +651,7 @@ void create_economy_report_dialog(bool make_modal)
   g_signal_connect(economy_dialog_shell, "response",
 		   G_CALLBACK(economy_command_callback), NULL);
   g_signal_connect(economy_dialog_shell, "destroy",
-		   G_CALLBACK(economy_destroy_callback), NULL);
+		   G_CALLBACK(gtk_widget_destroyed), &economy_dialog_shell);
 
   economy_report_dialog_update();
   gtk_window_set_default_size(GTK_WINDOW(economy_dialog_shell), -1, 350);
@@ -664,14 +684,6 @@ static void economy_selection_callback(GtkTreeSelection *selection,
     gtk_widget_set_sensitive(sellobsolete_command, FALSE);
     gtk_widget_set_sensitive(sellall_command, FALSE);
   }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void economy_destroy_callback(GtkWidget *w, gpointer data)
-{
-  economy_dialog_shell = NULL;
 }
 
 /****************************************************************
@@ -785,6 +797,17 @@ void popup_activeunits_report_dialog(bool make_modal)
 }
 
 
+/****************************************************************
+ Closes the units report dialog.
+****************************************************************/
+void popdown_activeunits_report_dialog(void)
+{
+  if (activeunits_dialog_shell) {
+    gtk_widget_destroy(activeunits_dialog_shell);
+  }
+}
+
+ 
 /****************************************************************
 ...
 *****************************************************************/
@@ -920,7 +943,7 @@ void create_activeunits_report_dialog(bool make_modal)
   g_signal_connect(activeunits_dialog_shell, "response",
 		   G_CALLBACK(activeunits_command_callback), NULL);
   g_signal_connect(activeunits_dialog_shell, "destroy",
-		   G_CALLBACK(activeunits_destroy_callback), NULL);
+		   G_CALLBACK(gtk_widget_destroyed), &activeunits_dialog_shell);
 
   activeunits_report_dialog_update();
   gtk_window_set_default_size(GTK_WINDOW(activeunits_dialog_shell), -1, 350);
@@ -997,14 +1020,6 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
     send_packet_unittype_info(&aconnection, ut1, PACKET_UNITTYPE_UPGRADE);
   }
   gtk_widget_destroy(shell);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void activeunits_destroy_callback(GtkWidget *w, gpointer data)
-{
-  activeunits_dialog_shell = NULL;
 }
 
 /****************************************************************
