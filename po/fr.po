@@ -1518,7 +1518,7 @@ msgstr "%s est le premier à découvrir %s."
 #: server/plrhand.c:1482
 #, c-format
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
-msgstr "Jeu : la découverte de %s rend %S OBSOLÈTE à %s !"
+msgstr "Jeu : la découverte de %s rend %s OBSOLÈTE à %s !"
 
 #: server/plrhand.c:1508
 #, c-format
@@ -4296,7 +4296,7 @@ msgstr "  -s, --server S\tSe connecter au serveur S\n"
 
 #: client/civclient.c:113
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
-msgstr "  -t, --tiles F\tUtiliser le fichier de données F.tilespec pour les tiles\n"
+msgstr "  -t, --tiles F\t\tUtiliser le fichier de données F.tilespec pour les tiles\n"
 
 #: client/civclient.c:115
 msgid "  -s, --sound FILE\tRead sound information from FILE\n"
@@ -4304,7 +4304,7 @@ msgstr "  -s, --sound F\tLire les informations sur le son dans le fichier F\n"
 
 #: client/civclient.c:117
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
-msgstr "  -m, --meta M\t\tse connecter au metaserveur M\n"
+msgstr "  -m, --meta M\t\tSe connecter au metaserveur M\n"
 
 #: client/civclient.c:146
 #, c-format
@@ -4606,7 +4606,7 @@ msgstr "* Ignore les zones de contrôle.\n"
 
 #: client/helpdata.c:723
 msgid "* A non-military unit (cannot attack; no martial law).\n"
-msgstr "* Une unité non-militaire (ne peut attaquer; pas de loi martiale).\n"
+msgstr "* Unité non-militaire (ne peut attaquer ; pas de loi martiale).\n"
 
 #: client/helpdata.c:727
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
