@@ -807,11 +807,8 @@ static void player_load(struct player *plr, int plrno,
     pcity->did_sell =
       secfile_lookup_bool_default(file, FALSE, "player%d.c%d.did_sell", plrno,i);
     
-    if (game.version >=10300) 
-      pcity->airlift=secfile_lookup_bool(file,
-					"player%d.c%d.airlift", plrno,i);
-    else
-      pcity->airlift = FALSE;
+    pcity->airlift = secfile_lookup_bool_default(file, FALSE,
+                                        "player%d.c%d.airlift", plrno,i);
 
     pcity->city_options =
       secfile_lookup_int_default(file, CITYOPT_DEFAULT,
@@ -1231,6 +1228,16 @@ static void worklist_save(struct section_file *file,
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     secfile_insert_int(file, pwl->wlefs[i], efpath, plrno, wlinx, i);
     secfile_insert_int(file, pwl->wlids[i], idpath, plrno, wlinx, i);
+    if (pwl->wlefs[i] == WEF_END) {
+      break;
+    }
+  }
+
+  /* Fill out remaining worklist entries. */
+  for (i++; i < MAX_LEN_WORKLIST; i++) {
+    /* These values match what worklist_load fills in for unused entries. */
+    secfile_insert_int(file, WEF_END, efpath, plrno, wlinx, i);
+    secfile_insert_int(file, 0, idpath, plrno, wlinx, i);
   }
 }
 
