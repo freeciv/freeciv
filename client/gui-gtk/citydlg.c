@@ -1976,14 +1976,16 @@ static void city_dialog_update_improvement_list(struct city_dialog
     strings[0] = items[item].descr;
     strings[1] = buf;
 
-    my_snprintf(buf, sizeof(buf), "%d", get_improvement_type(id)->upkeep);
+    /* This takes effects (like Adam Smith's) into account. */
+    my_snprintf(buf, sizeof(buf), "%d",
+		improvement_upkeep(pdialog->pcity, id));
 
     row = gtk_clist_append(GTK_CLIST(pdialog->overview.improvement_list),
 			   strings);
     gtk_clist_set_row_data(GTK_CLIST(pdialog->overview.improvement_list),
 			   row, GINT_TO_POINTER(id));
 
-    total += get_improvement_type(id)->upkeep;
+    total += improvement_upkeep(pdialog->pcity, id);
   }
   gtk_clist_thaw(GTK_CLIST(pdialog->overview.improvement_list));
 
