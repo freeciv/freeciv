@@ -64,6 +64,7 @@ struct city *transfer_city(struct player *pplayer,
 			   int transfer_unit_verbose, int resolve_stack, int raze);
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
 				     int sea_required, struct city *pexclcity);
+void handle_unit_enter_city(struct unit *punit, struct city *pcity);
 
 void adjust_city_free_cost(int *num_free, int *this_cost);
 

@@ -44,6 +44,7 @@
 #include "maphand.h"
 #include "plrhand.h"
 #include "sernet.h"
+#include "settlers.h"
 #include "srv_main.h"
 #include "unithand.h"
 
@@ -2342,6 +2343,177 @@ int do_paradrop(struct unit *punit, int dest_x, int dest_y)
   }
 }
 
+
+/**************************************************************************
+  Get gold from entering a hut.
+**************************************************************************/
+static void hut_get_gold(struct unit *punit, int cred)
+{
+  struct player *pplayer = unit_owner(punit);
+  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT, 
+		   _("Game: You found %d gold."), cred);
+  pplayer->economic.gold += cred;
+}
+
+/**************************************************************************
+  Get a tech from entering a hut.
+**************************************************************************/
+static void hut_get_tech(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  int res_ed, res_ing, new_tech;
+  
+  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		   _("Game: You found ancient scrolls of wisdom."));
+
+  /* Save old values, choose tech, then restore old values: */
+  res_ed = pplayer->research.researched;
+  res_ing = pplayer->research.researching;
+  
+  choose_random_tech(pplayer);
+  new_tech = pplayer->research.researching;
+  
+  pplayer->research.researched = res_ed;
+  pplayer->research.researching = res_ing;
+ 
+  if (new_tech!=A_NONE) {
+    const char *tech_name = advances[new_tech].name;
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: You gain knowledge about %s."), tech_name);
+
+    gamelog(GAMELOG_TECH,"%s discover %s (Hut)",
+	    get_nation_name_plural(pplayer->nation), tech_name);
+
+    notify_embassies(pplayer, (struct player *)0,
+		     _("Game: The %s have aquired %s"
+		       " from ancient scrolls of wisdom."),
+		     get_nation_name_plural(pplayer->nation), tech_name);
+
+    found_new_tech(pplayer,new_tech,0,1);
+  }
+  else {
+    pplayer->future_tech++;
+    notify_player(pplayer,
+		  _("Game: You gain knowledge about Future Tech. %d."),
+		  pplayer->future_tech);
+    pplayer->research.researchpoints++; /* don't call found_new_tech() */
+  }
+  do_free_cost(pplayer);
+}
+
+/**************************************************************************
+  Get a mercenary unit from entering a hut.
+**************************************************************************/
+static void hut_get_mercenaries(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  
+  notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		   _("Game: A band of friendly mercenaries joins your cause."));
+  create_unit(pplayer, punit->x, punit->y, find_a_unit_type(L_HUT,L_HUT_TECH),
+	      0, punit->homecity, -1);
+}
+
+/**************************************************************************
+  Get barbarians from hut, unless close to a city.
+  Unit may die: returns 1 if unit is alive after, or 0 if it was killed.
+**************************************************************************/
+static int hut_get_barbarians(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  int ok = 1;
+
+  if (city_exists_within_city_radius(punit->x, punit->y, 1)) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: An abandoned village is here."));
+  }
+  else {
+    /* save coords and type in case unit dies */
+    int punit_x = punit->x;
+    int punit_y = punit->y;
+    Unit_Type_id type = punit->type;
+
+    ok = unleash_barbarians(pplayer, punit_x, punit_y);
+
+    if (ok) {
+      notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
+		       _("Game: You have unleashed a horde of barbarians!"));
+    } else {
+      notify_player_ex(pplayer, punit_x, punit_y, E_NOEVENT,
+		       _("Game: Your %s has been killed by barbarians!"),
+		       unit_name(type));
+    }
+  }
+  return ok;
+}
+
+/**************************************************************************
+  Get new city from hut, or settlers (nomads) if terrain is poor.
+**************************************************************************/
+static void hut_get_city(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  
+  if (is_ok_city_spot(punit->x, punit->y)) {
+    create_city(pplayer, punit->x, punit->y, city_name_suggestion(pplayer));
+  } else {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: Friendly nomads are impressed by you,"
+		       " and join you."));
+    create_unit(pplayer, punit->x, punit->y, get_role_unit(F_CITIES,0),
+		0, punit->homecity, -1);
+  }
+}
+
+/**************************************************************************
+Return 1 if unit is alive, and 0 if it was killed
+**************************************************************************/
+static int unit_enter_hut(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  int ok = 1;
+
+  if (game.rgame.hut_overflight==OVERFLIGHT_NOTHING && is_air_unit(punit)) {
+    return ok;
+  }
+
+  map_get_tile(punit->x, punit->y)->special^=S_HUT;
+  send_tile_info(0, punit->x, punit->y);
+
+  if (game.rgame.hut_overflight==OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {
+    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+		     _("Game: Your overflight frightens the tribe;"
+		       " they scatter in terror."));
+    return ok;
+  }
+
+  switch (myrand(12)) {
+  case 0:
+    hut_get_gold(punit, 25);
+    break;
+  case 1: case 2: case 3:
+    hut_get_gold(punit, 50);
+    break;
+  case 4:
+    hut_get_gold(punit, 100);
+    break;
+  case 5: case 6: case 7:
+    hut_get_tech(punit);
+    break;
+  case 8: case 9:
+    hut_get_mercenaries(punit);
+    break;
+  case 10:
+    ok = hut_get_barbarians(punit);
+    break;
+  case 11:
+    hut_get_city(punit);
+    break;
+  }
+  send_player_info(pplayer, pplayer);       /* eg, gold */
+  return ok;
+}
+
 /**************************************************************************
 Assigns units on ptrans' tile to ptrans if they should be. This is done by
 setting their transported_by fields to the id of ptrans.
@@ -2858,7 +3030,7 @@ int move_unit(struct unit *punit, int dest_x, int dest_y,
   conn_list_do_unbuffer(&pplayer->connections);
 
   if (map_get_tile(dest_x, dest_y)->special&S_HUT)
-    return handle_unit_enter_hut(punit);
+    return unit_enter_hut(punit);
   else
     return 1;
 }
