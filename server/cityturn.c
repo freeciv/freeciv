@@ -233,13 +233,13 @@ void auto_arrange_workers(struct city *pcity)
   /* Now apply results */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, mapx, mapy) {
     if (pcity->city_map[x][y] == C_TILE_WORKER
-        && !cmr.worker_positions_used[x][y]
-        && !is_city_center(x, y)) {
+	&& !is_city_center(x, y)
+	&& !cmr.worker_positions_used[x][y]) {
       server_remove_worker_city(pcity, x, y);
     }
     if (pcity->city_map[x][y] != C_TILE_WORKER
-        && cmr.worker_positions_used[x][y]
-        && !is_city_center(x, y)) {
+	&& !is_city_center(x, y)
+	&& cmr.worker_positions_used[x][y]) {
       server_set_worker_city(pcity, x, y);
     }
   } city_map_checked_iterate_end;
