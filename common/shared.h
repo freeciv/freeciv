@@ -44,7 +44,6 @@ char *get_option_text(char **argv, int *argcnt, int max_argcnt,
 char *int_to_text(int nr);
 char *get_sane_name(char *name);
 char *textyear(int year);
-char *get_dot_separated_int(unsigned val);
 int mystrcasecmp(char *str0, char *str1);
 int string_ptr_compare(const void *first, const void *second);
 
