@@ -18,8 +18,8 @@ server.
 common/ dir, allowing the client to do some of the world updates itself. 
 The end_of_turn city-refresh was for example performed both on the server 
 and on the client. However things got quite complex, more and more info
-was needed on the client-side(security prob). Little by little we moved more 
-code to the server, and as of 1.5 the client is quite dumb -PU]
+was needed on the client-side(security problem). Little by little we moved 
+more code to the server, and as of 1.5 the client is quite dumb -PU]
 
 ===========================================================================
 Server
@@ -42,10 +42,10 @@ call waits for packets or input on stdin(server-op commands).
 ===========================================================================
 Datastructures
 ===========================================================================
-If you study the code, you'll soon come upon the genlist contructs.
+If you study the code, you'll soon come upon the genlist constructs.
 The genlist is a simple double-linked list, into which any kind of 
 data can be inserted. The basic genlist is only used in a few places,
-as it's completly type-unsafe(void*).
+as it's completely type-unsafe(void*).
 However the genlist is used as a "base-class" for some typesafe versions,
 which are used all over the program. unit_list is just one example:
 
@@ -53,7 +53,7 @@ struct unit_list {
   struct genlist list;
 };
 
-Here's an example of how to use an iterater, to scan a genlist:
+Here's an example of how to use an iterator, to scan a genlist:
 
 {
   struct unit_list *punit_list;
@@ -77,7 +77,7 @@ pointed to by the iterator, NULL if the iterator doesn't point to
 an element.
 ITERATOR_NEXT(myiter) moves the iterator one element forward.
 
-Careful! The above idiom with the for-contruct can be pretty lethal!
+Careful! The above idiom with the for-construct can be pretty lethal!
 If you inside the for-loop removes the element pointed to by myiter,
 then ITERATOR_NEXT(myiter) will probably return garbage.
 
@@ -108,8 +108,8 @@ been handled much more elegant. Well Claus just did this for 1.5.3 -PU]
 Network and packets
 =========================================================================
 The basic netcode is located in server/sernet.c and client/clinet.c.
-Notice the XtAppAddInput() call in clinet, that tells Xt to call
-the callback functions, when soemthing happens on the client socket.
+Notice the XtAppAddInput() call in client, that tells Xt to call
+the callback functions, when something happens on the client socket.
 
 All information passed between the server and clients, is send as
 serialized packet structures. These packets structures are all
@@ -132,7 +132,7 @@ a unit disband is performed.
 1)  A player disbands a unit.
 2)  The client initializes a packet_unit_request structure, and calls the
     packet layer with this structure and packet type: PACKET_UNIT_DISBAND
-3)  The packet layer serialiazes the structure, wraps it up in a packet
+3)  The packet layer serializes the structure, wraps it up in a packet
     containing the type, the packetlength and the serialized data. Finally
     the data is send to the server.
 4)  On the server the packet is read. Based on the type, the corresponding
@@ -182,7 +182,7 @@ with a green border in one of the main directions. Hills, mountains,
 forests and rivers are treated in special cases.
 
 [IMO we should have gotten rid of libxpm long ago. The graphics should
-be drawn in 24bit, and then quantizied runtime, if the client is displayed
+be drawn in 24bit, and then quantized runtime, if the client is displayed
 on a pseudocolor display. 
 The current tile system should be converted to something like civ2's.
 They get away with drawing way less tiles, and it looks better. -PU]
@@ -224,8 +224,8 @@ TILE_KNOWN_NODRAW however is a special value, given to all unknown tiles,
 sharing border with a known. Because of how the tile-drawing system works,
 the client has to know the terrain and specials of such tiles.
 
-[If I was to recode this, I'd drop the ugly TILE_KNOWN_NODRAW value,
-and have the server tell me excact which kind of graphics should be
+[If I were to recode this, I'd drop the ugly TILE_KNOWN_NODRAW value,
+and have the server tell me exactly which kind of graphics should be
 drawn at each tile. -PU]
 
 =========================================================================
@@ -283,11 +283,11 @@ Misc - The idea trashcan
 an unique id. This id is really only required when a reference to an entity
 is to be serialized(saved or distributed over the net). However in the
 current code, the id is also used for comparing, looking up and in general
-referencing entities. This results in a lot of mess, unnessesary duplicate
-functions. Often when programming, one wondering if some function needs
-the id or a pointer when refering to an entity. -PU]
+referencing entities. This results in a lot of mess and unnecessary duplicate
+functions. Often when programming, one wonders if some function needs
+the id or a pointer when referring to an entity. -PU]
 
 [Currently there's a 1-to-1 mapping between players and connections. Some
-interesting results could be archived, if more connections could be attached
+interesting results could be achieved, if more connections could be attached
 to a single player(race). That way 2 persons could play cooperate, splitting 
 the work between them. -PU]

@@ -52,7 +52,7 @@ Peter Skov:            Included a help function in the "change button of the
                        citydialog" and several other dialogboxes.
                        Also made a patch to save "server settings"
 Peter Meerwald:        OS/2 version of FreeCiv (XFree86)
-Michael Hohensee:      Draw new units. (Cruiser miss, freigt, battleship, 
+Michael Hohensee:      Draw new units. (Cruise missile, freight, battleship, 
                        partisans, explorer, archer) and wrote a very nice 
                        HOWTOPLAY document. 
 Rajala Ilkka:          Patch concerning Partisan bug when reloading a saved game. 
