@@ -1039,6 +1039,8 @@ void key_unit_pollution(void)
   if(get_unit_in_focus())
     if(can_unit_do_activity(punit_focus, ACTIVITY_POLLUTION))
       request_new_unit_activity(punit_focus, ACTIVITY_POLLUTION);
+    /* Fast fix */
+    else key_unit_paradrop();
 }
 
 /**************************************************************************
