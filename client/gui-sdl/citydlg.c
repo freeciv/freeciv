@@ -1565,7 +1565,11 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
     }
     else
     {
-      pWindow->size.y = canvas_y - NORMAL_TILE_HEIGHT;
+      if(canvas_y - NORMAL_TILE_HEIGHT < 0) {
+	pWindow->size.y = 0;
+      } else {
+        pWindow->size.y = canvas_y - NORMAL_TILE_HEIGHT;
+      }
     }
   }
 

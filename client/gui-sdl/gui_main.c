@@ -165,6 +165,8 @@ static void gui_main_loop(void)
   struct city *pCity;
     
   LSHIFT = FALSE;
+  LCTRL = FALSE;
+  LALT = FALSE;
   is_unit_move_blocked = FALSE;
   
   t1 = SDL_GetTicks();
@@ -218,13 +220,22 @@ static void gui_main_loop(void)
         return;
     
       case SDL_KEYUP:
-        /* find if Shifts are released */
-        if (Main.event.key.keysym.sym == SDLK_RSHIFT) {
-	  RSHIFT = FALSE;
-        } else {
-	  if (Main.event.key.keysym.sym == SDLK_LSHIFT) {
+        switch (Main.event.key.keysym.sym) {
+	  /* find if Shifts are released */
+	  case SDLK_RSHIFT:
+	    RSHIFT = FALSE;
+	  break;
+	  case SDLK_LSHIFT:
 	    LSHIFT = FALSE;
-          } 
+	  break;
+	  case SDLK_LCTRL:
+	    LCTRL = FALSE;
+	  break;
+	  case SDLK_LALT:
+	    LALT = FALSE;
+	  break;
+	  default:
+	  break;
 	}
         break;
       case SDL_KEYDOWN:
@@ -264,6 +275,16 @@ static void gui_main_loop(void)
 	    case SDLK_LSHIFT:
 	      /* Left Shift is Pressed */
 	      LSHIFT = TRUE;
+	    break;
+	    
+	    case SDLK_LCTRL:
+	      /* Left CTRL is Pressed */
+	      LCTRL = TRUE;
+	    break;
+	    
+	    case SDLK_LALT:
+	      /* Left ALT is Pressed */
+	      LALT = TRUE;
 	    break;
 	    
 	    case SDLK_UP:
@@ -492,6 +513,7 @@ void ui_init(void)
   
   /* auto center new windows in X enviroment */
   putenv((char *)"SDL_VIDEO_CENTERED=yes");
+  
   init_sdl(iSDL_Flags);
   
   freelog(LOG_NORMAL, _("Using Video Output: %s"),

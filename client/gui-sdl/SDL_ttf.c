@@ -53,6 +53,11 @@
 #include "mmx.h"
 #endif
 
+/* fix freetype header bug */
+#ifndef FT_OPEN_STREAM
+#define FT_OPEN_STREAM	ft_open_stream
+#endif
+
 /* FIXME: Right now we assume the gray-scale renderer Freetype is using
    supports 256 shades of gray, but we should instead key off of num_grays
    in the result FT_Bitmap after the FT_Render_Glyph() call. */

@@ -213,15 +213,7 @@ END:
 **************************************************************************/
 static bool has_city_airport(struct city *pCity)
 {
-  if (!pCity) {
-    return FALSE;
-  }
-
-  if (pCity->improvements[B_AIRPORT] == I_ACTIVE) {
-    return TRUE;
-  }
-
-  return FALSE;
+  return (pCity && city_got_building(pCity, B_AIRPORT));
 }
 
 static Uint16 redraw_order_widgets(void)
@@ -247,7 +239,6 @@ static Uint16 redraw_order_widgets(void)
   }
 
   return count;
-
 }
 
 
@@ -269,22 +260,32 @@ void set_new_order_widgets_dest_buffers(void)
 **************************************************************************/
 static void set_new_order_widget_start_pos(void)
 {
-  struct GUI *pMiniMap =
-      get_widget_pointer_form_main_list(ID_MINI_MAP_WINDOW);
-  struct GUI *pInfoWind =
-      get_widget_pointer_form_main_list(ID_UNITS_WINDOW);
+  struct GUI *pMiniMap = get_minimap_window_widget();
+  struct GUI *pInfoWind = get_unit_info_window_widget();
   struct GUI *pTmpWidget = pBeginOrderWidgetList;
-  Sint16 sx, sy, xx;
-  Uint16 count = 0, lines = 1, w, count_on_line;
+  Sint16 sx, sy, xx, yy = 0;
+  int count = 0, lines = 1, w = 0, count_on_line;
 
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
-    xx = pMiniMap->size.x + pMiniMap->size.w;
+    xx = pMiniMap->size.x + pMiniMap->size.w + 10;
   } else {
-    xx = pMiniMap->size.x + 36;
+    xx = pMiniMap->size.x + 36 + 10;
   }
 
-  w = pInfoWind->size.x - xx;
-  count_on_line = w / (pTmpWidget->size.w + 5);
+  w = (pInfoWind->size.x - 10) - xx;
+  
+  if ( w < pTmpWidget->size.w + 10 ) {
+    if(pMiniMap->size.h == pInfoWind->size.h) {
+      xx = 0;
+      w = Main.gui->w;
+      yy = pInfoWind->size.h;
+    } else {
+      w = Main.gui->w - xx - 20;
+      yy = pInfoWind->size.h;
+    }
+  }
+    
+  count_on_line = (w + pTmpWidget->size.w + 4)/ (pTmpWidget->size.w + 5);
 
   /* find how many to reposition */
   while (TRUE) {
@@ -305,19 +306,15 @@ static void set_new_order_widget_start_pos(void)
 
   if (count - count_on_line > 0) {
 
-    if (div(count, count_on_line).rem) {
-      lines = (count / count_on_line) + 1;
-    } else {
-      lines = (count / count_on_line);
-    }
-
+    lines = (count + (count_on_line - 1)) / count_on_line;
+  
     count = count_on_line - ((count_on_line * lines) - count);
 
   }
 
   sx = xx + (w - count * (pTmpWidget->size.w + 5)) / 2;
 
-  sy = pTmpWidget->dst->h - lines * (pTmpWidget->size.h + 5);
+  sy = pTmpWidget->dst->h - yy - lines * (pTmpWidget->size.h + 5);
 
   while (TRUE) {
 
@@ -334,7 +331,7 @@ static void set_new_order_widget_start_pos(void)
 
 	sx = xx + (w - count * (pTmpWidget->size.w + 5)) / 2;
 
-	sy = pTmpWidget->dst->h - lines * (pTmpWidget->size.h + 5);
+	sy = pTmpWidget->dst->h - yy - lines * (pTmpWidget->size.h + 5);
       }
 
     }

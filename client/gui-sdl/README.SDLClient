@@ -1,8 +1,8 @@
 First off all :
 
  -  Some part of graphic and SDL gfx code come from Michael Speck
-    and his "LGeneral" Great Thaks for his job... but I dont known
-    if he agree to I use his graphic( but LGeneral is on GPL )
+    and his "LGeneral" Great Thaks for his job... but I don't known
+    if he agree that I use his graphic ( but LGeneral is on GPL )
      
  -  zoom and putline functions come from SDL_gfx-2.0 lib and
     it is on LGPL licence. I won't use new lib only to this functions.
@@ -42,8 +42,11 @@ If you don't have current cvs version of SDL then remove #define SDL_CVS line
 If your CPU has MMX registers then goto gui-sdl/graphics.h line 31 and 
 define HAVE_MMX1 parm.
 
+If you report draw bug in SDLClient then please attach your 
+screen bits per pixel coding.
+
 In Game:
-    - use <Right Shift>+Enter to show input dialog.
+    - <Right Shift> + Enter to show input dialog.
     - <F10> hide/show log window
     - <ctrl - w> hide/show fog of war
     - <ctrl - r> hide/show road/RR
@@ -62,7 +65,10 @@ In Game:
     - <F2> - units report
     - <F5> - economy report
     - <F6> - science report
-    - <Shift + LMB> - advenced menu
+    - <Left Shift + LMB> - advenced menu
+    - <left CTRL + LBM on city> - open prduction dialog.
+    - <left ALT + LBM on city> - open buy production dialog
+                                 (work only in fullscreen).
     - <MMB> - advenced menu
     - if actice unit stay on city then <Enter> key enter the city.
     - <Tab> - options dlg.
@@ -80,4 +86,10 @@ In Game:
     - <LMB> on "worklist item" - swap "item" up
     - <RMB> on "worklist item" - swap "item" down
     - <MMB> on "worklist item" - remove "item" from worklist.
+    In MiniMap :
+    - <LMB> center map here.
+    - <RMB> open minimap scalling dialog.
+    In Unit Info Window
+    - <LMB> - next unit.
+    - <RMB> - center on focused unit.
     

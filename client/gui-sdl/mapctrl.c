@@ -63,18 +63,16 @@
 #include "menu.h"
 #include "tilespec.h"
 #include "cma_core.h"
+#include "wldlg.h"
 
 #include "mapctrl.h"
 
 extern int OVERVIEW_START_X;
 extern int OVERVIEW_START_Y;
 
-/* New City Dialog */
 static struct SMALL_DLG *pNewCity_Dlg = NULL;
+static struct SMALL_DLG *pScall_MiniMap_Dlg = NULL;
   
-#define MINI_MAP_W		196
-#define MINI_MAP_H		106
-
 #define HIDDEN_MINI_MAP_W	36
 
 #define UNITS_W			196
@@ -82,6 +80,8 @@ static struct SMALL_DLG *pNewCity_Dlg = NULL;
 
 #define HIDDEN_UNITS_W		36
 
+static int MINI_MAP_W = 196;
+static int MINI_MAP_H = 106;
 bool draw_goto_patrol_lines = FALSE;
 static struct GUI *pNew_Turn_Button = NULL;
 static struct GUI *pUnits_Info_Window = NULL;
@@ -90,7 +90,9 @@ static struct GUI *pFind_City_Button = NULL;
 static struct GUI *pRevolution_Button = NULL;
 static struct GUI *pTax_Button = NULL;
 static struct GUI *pResearch_Button = NULL;
-  
+
+static int popdown_scall_minmap_dlg_callback(struct GUI *pWidget);
+
 /**************************************************************************
   ...
 **************************************************************************/
@@ -318,6 +320,8 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
     pMap = pMap->prev;
     real_redraw_icon(pMap);
   
+    popdown_scall_minmap_dlg_callback(NULL);
+  
   } else {
     /* show MiniMap */
     FREE(pMap_Button->string16->text);
@@ -340,7 +344,7 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
   return -1;
 }
 
-/* =================== New City Dialog ========================= */
+/* ====================================================================== */
 
 /**************************************************************************
   ...
@@ -383,7 +387,6 @@ static int move_new_city_dlg_callback(struct GUI *pWindow)
   return std_move_window_group_callback(pNewCity_Dlg->pBeginWidgetList, pWindow);
 }
 
-
 static int togle_msg_window(struct GUI *pWidget)
 {
   
@@ -405,26 +408,321 @@ static int togle_msg_window(struct GUI *pWidget)
   flush_dirty();
   return -1;
 }
+/* ============================================================== */
+static int move_scall_minmap_dlg_callback(struct GUI *pWindow)
+{
+  return std_move_window_group_callback(pScall_MiniMap_Dlg->pBeginWidgetList,
+								pWindow);
+}
+
+static int popdown_scall_minmap_dlg_callback(struct GUI *pWidget)
+{
+  if(pScall_MiniMap_Dlg) {
+    popdown_window_group_dialog(pScall_MiniMap_Dlg->pBeginWidgetList,
+    				pScall_MiniMap_Dlg->pEndWidgetList);
+    FREE(pScall_MiniMap_Dlg);
+    if(pWidget) {
+      flush_dirty();
+    }
+  }
+  return -1;
+}
+
+static int resize_minimap(void)
+{
+  int w = OVERVIEW_TILE_WIDTH * map.xsize;
+  int h = OVERVIEW_TILE_HEIGHT * map.ysize;
+  int current_w = pMiniMap_Window->size.w - 30 - DOUBLE_FRAME_WH;
+  int current_h = pMiniMap_Window->size.h - DOUBLE_FRAME_WH;
+  if((((current_w > 160) || (w > 160)) && (current_w != w)) ||
+    (((current_h > 100) || (h > 100)) && (current_h != h))) {
+    Remake_MiniMap(w, h);
+  }
+  center_minimap_on_minimap_window();
+  refresh_overview_canvas();
+  update_menus();
+  refresh_overview_viewrect();
+  
+  return 0;
+}
+
+static int up_width_callback(struct GUI *pWidget)
+{
+  redraw_widget(pWidget);
+  sdl_dirty_rect(pWidget->size);
+  if(((OVERVIEW_TILE_WIDTH + 1) * map.xsize + 30 + DOUBLE_FRAME_WH) <=
+					pUnits_Info_Window->size.x) {
+    char cBuf[4];
+    OVERVIEW_TILE_WIDTH++;
+    
+    FREE(pWidget->next->string16->text);
+    my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
+    pWidget->next->string16->text = convert_to_utf16(cBuf);
+    redraw_label(pWidget->next);
+    sdl_dirty_rect(pWidget->next->size);
+    
+    resize_minimap();
+  }
+  flush_dirty();
+  return -1;
+}
+
+static int down_width_callback(struct GUI *pWidget)
+{
+  redraw_widget(pWidget);
+  sdl_dirty_rect(pWidget->size);
+  if(OVERVIEW_TILE_WIDTH > 1) {
+    char cBuf[4];
+    OVERVIEW_TILE_WIDTH--;
+    
+    FREE(pWidget->prev->string16->text);
+    my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
+    pWidget->prev->string16->text = convert_to_utf16(cBuf);
+    redraw_label(pWidget->prev);
+    sdl_dirty_rect(pWidget->prev->size);
+    
+    resize_minimap();
+  }
+  flush_dirty();
+  return -1;
+}
+
+static int up_height_callback(struct GUI *pWidget)
+{
+  redraw_widget(pWidget);
+  sdl_dirty_rect(pWidget->size);
+  if(Main.gui->h -
+    ((OVERVIEW_TILE_HEIGHT +1) * map.ysize + DOUBLE_FRAME_WH) >= 40) {
+    char cBuf[4];
+    OVERVIEW_TILE_HEIGHT++;
+    FREE(pWidget->next->string16->text);
+    my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
+    pWidget->next->string16->text = convert_to_utf16(cBuf);
+    redraw_label(pWidget->next);
+    sdl_dirty_rect(pWidget->next->size);
+    resize_minimap();
+  }
+  flush_dirty();
+  return -1;
+}
+
+static int down_height_callback(struct GUI *pWidget)
+{
+  redraw_widget(pWidget);
+  sdl_dirty_rect(pWidget->size);
+  if(OVERVIEW_TILE_HEIGHT > 1) {
+    char cBuf[4];
+    OVERVIEW_TILE_HEIGHT--;
+    
+    FREE(pWidget->prev->string16->text);
+    my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
+    pWidget->prev->string16->text = convert_to_utf16(cBuf);
+    redraw_label(pWidget->prev);
+    sdl_dirty_rect(pWidget->prev->size);
+    
+    resize_minimap();
+  }
+  flush_dirty();
+  return -1;
+}
+
+
+static void popup_minimap_scall_dialog(void)
+{
+  SDL_Surface *pText1, *pText2;
+  SDL_String16 *pStr = NULL;
+  struct GUI *pWindow = NULL;
+  struct GUI *pBuf = NULL;
+  char cBuf[4];
+  int h = WINDOW_TILE_HIGH + FRAME_WH + 1, w = 0;
+  
+  if(pScall_MiniMap_Dlg || !(SDL_Client_Flags & CF_MINI_MAP_SHOW)) {
+    return;
+  }
+  
+  pStr = create_str16_from_char(_("Single Tile Width"), 12);
+  pText1 = create_text_surf_from_str16(pStr);
+  w = MAX(w, pText1->w + 30);
+  FREE(pStr->text);
+  
+  pStr->text = convert_to_utf16(_("Single Tile Height"));
+  pText2 = create_text_surf_from_str16(pStr);
+  w = MAX(w, pText2->w + 30);
+  FREESTRING16(pStr);
+  
+  pScall_MiniMap_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+    
+  /* create window */
+  pStr = create_str16_from_char(_("Scall Minimap"), 12);
+  pStr->style |= TTF_STYLE_BOLD;
+  pWindow = create_window(NULL, pStr, 10, 10, 0);
+  pWindow->action = move_scall_minmap_dlg_callback;
+  set_wstate(pWindow, WS_NORMAL);
+  w = MAX(w, pWindow->size.w);
+  add_to_gui_list(ID_WINDOW, pWindow);
+  pScall_MiniMap_Dlg->pEndWidgetList = pWindow;
+  
+  /* ----------------- */
+  pBuf = create_themeicon_button(pTheme->L_ARROW_Icon, pWindow->dst, NULL, 0);
+  pBuf->action = down_width_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
+  add_to_gui_list(ID_BUTTON, pBuf);
+  
+  my_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_WIDTH);
+  pStr = create_str16_from_char(cBuf, 24);
+  pStr->style |= TTF_STYLE_BOLD;
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf->size.w = MAX(50, pBuf->size.w);
+  h += pBuf->size.h + 5;
+  add_to_gui_list(ID_LABEL, pBuf);
+  
+  pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst, NULL, 0);
+  pBuf->action = up_width_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
+  add_to_gui_list(ID_BUTTON, pBuf);
+  
+  
+  /* ------------ */
+  pBuf = create_themeicon_button(pTheme->L_ARROW_Icon, pWindow->dst, NULL, 0);
+  pBuf->action = down_height_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
+  add_to_gui_list(ID_BUTTON, pBuf);
+  
+  my_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_HEIGHT);
+  pStr = create_str16_from_char(cBuf, 24);
+  pStr->style |= TTF_STYLE_BOLD;
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf->size.w = MAX(50, pBuf->size.w);
+  h += pBuf->size.h + 20;
+  add_to_gui_list(ID_LABEL, pBuf);
+  
+  pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst, NULL, 0);
+  pBuf->action = up_height_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
+  add_to_gui_list(ID_BUTTON, pBuf);
+  w = MAX(w , pBuf->size.w * 2 + pBuf->next->size.w + 20);
+  
+  /* ------------ */
+  pStr = create_str16_from_char(_("Exit"), 12);
+  pBuf = create_themeicon_button(pTheme->CANCEL_Icon,
+						  pWindow->dst, pStr, 0);
+  pBuf->action = popdown_scall_minmap_dlg_callback;
+  set_wstate(pBuf, WS_NORMAL);
+  pScall_MiniMap_Dlg->pBeginWidgetList = pBuf;
+  add_to_gui_list(ID_BUTTON, pBuf);
+  h += pBuf->size.h + 10;
+  w = MAX(w, pBuf->size.w + 20);
+  /* ------------ */
+  
+  h += 20; 
+  
+  if (Main.event.motion.x + w > pWindow->dst->w)
+  {
+    if (Main.event.motion.x - w >= 0)
+    {
+      pWindow->size.x = Main.event.motion.x - w;
+    }
+    else
+    {
+      pWindow->size.x = (pWindow->dst->w - w) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.x = Main.event.motion.x;
+  }
+    
+  if (Main.event.motion.y + h >= pWindow->dst->h)
+  {
+    if (Main.event.motion.y - h >= 0)
+    {
+      pWindow->size.y = Main.event.motion.y - h;
+    }
+    else
+    {
+      pWindow->size.y = (pWindow->dst->h - h) / 2;
+    }
+  }
+  else
+  {
+    pWindow->size.y = Main.event.motion.y;
+  }
+  
+
+  resize_window(pWindow, NULL,
+		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
+
+  blit_entire_src(pText1, pWindow->theme, 15, WINDOW_TILE_HIGH + 5);
+  FREESURFACE(pText1);
+  
+  /* width label */
+  pBuf = pWindow->prev->prev;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 20;
+  pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
+  
+  /* width left button */
+  pBuf->next->size.y = pBuf->size.y + pBuf->size.h - pBuf->next->size.h;
+  pBuf->next->size.x = pBuf->size.x - pBuf->next->size.w;
+  
+  /* width right button */
+  pBuf->prev->size.y = pBuf->size.y + pBuf->size.h - pBuf->prev->size.h;
+  pBuf->prev->size.x = pBuf->size.x + pBuf->size.w;
+  
+  /* height label */
+  pBuf = pBuf->prev->prev->prev;
+  pBuf->size.y = pBuf->next->next->next->size.y + pBuf->next->next->next->size.h + 20;
+  pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
+  
+  blit_entire_src(pText2, pWindow->theme, 15, pBuf->size.y - pWindow->size.y - pText2->h - 2);
+  FREESURFACE(pText2);
+    
+  /* height left button */
+  pBuf->next->size.y = pBuf->size.y + pBuf->size.h - pBuf->next->size.h;
+  pBuf->next->size.x = pBuf->size.x - pBuf->next->size.w;
+  
+  /* height right button */
+  pBuf->prev->size.y = pBuf->size.y + pBuf->size.h - pBuf->prev->size.h;
+  pBuf->prev->size.x = pBuf->size.x + pBuf->size.w;
+  
+  /* exit button */
+  pBuf = pBuf->prev->prev;
+  pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
+  pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - 10;
+  
+  /* -------------------- */
+  redraw_group(pScall_MiniMap_Dlg->pBeginWidgetList, pWindow, 0);
+  flush_rect(pWindow->size);
+  
+}
 
 static int minimap_window_callback(struct GUI *pWidget)
 {
-    
-  if ((SDL_Client_Flags & CF_MINI_MAP_SHOW) &&  
-      (Main.event.motion.x >= OVERVIEW_START_X) &&
-      (Main.event.motion.x <
-	  OVERVIEW_START_X + OVERVIEW_TILE_WIDTH * map.xsize) &&
-      (Main.event.motion.y >=
-	  Main.gui->h - pMiniMap_Window->size.h + OVERVIEW_START_Y) &&
-      (Main.event.motion.y <
-	  Main.gui->h - pMiniMap_Window->size.h + OVERVIEW_START_Y +
+  switch(Main.event.button.button) {
+    case SDL_BUTTON_RIGHT:    
+      popup_minimap_scall_dialog();
+    break;
+    default:
+      if ((SDL_Client_Flags & CF_MINI_MAP_SHOW) &&  
+         (Main.event.motion.x >= OVERVIEW_START_X) &&
+         (Main.event.motion.x <
+	   OVERVIEW_START_X + OVERVIEW_TILE_WIDTH * map.xsize) &&
+         (Main.event.motion.y >=
+	   Main.gui->h - pMiniMap_Window->size.h + OVERVIEW_START_Y) &&
+         (Main.event.motion.y <
+	   Main.gui->h - pMiniMap_Window->size.h + OVERVIEW_START_Y +
 			  OVERVIEW_TILE_HEIGHT * map.ysize)) {
-    center_tile_mapcanvas(
-        (Main.event.motion.x - OVERVIEW_START_X) / OVERVIEW_TILE_WIDTH,
-	(Main.event.motion.y -
+        center_tile_mapcanvas(
+          (Main.event.motion.x - OVERVIEW_START_X) / OVERVIEW_TILE_WIDTH,
+	  (Main.event.motion.y -
 	    (Main.gui->h - pMiniMap_Window->size.h + OVERVIEW_START_Y)) /
 						    OVERVIEW_TILE_HEIGHT);
+      }
+    break;
   }
-  
   return -1;
 }
 
@@ -507,7 +805,7 @@ void set_new_mini_map_window_pos(void)
   struct GUI *pMM_Window = pMiniMap_Window;
     
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
-    new_x = 166;
+    new_x = pMM_Window->size.w - 30;
   } else {
     new_x = FRAME_WH + 3;
   }
@@ -532,7 +830,7 @@ void set_new_mini_map_window_pos(void)
   pMM_Window = pMM_Window->prev;
   pMM_Window->size.x = new_x;
   pMM_Window->size.y = Main.screen->h - MINI_MAP_H + FRAME_WH + 2 +
-      						(pMM_Window->size.h << 1);
+      						pMM_Window->size.h * 2;
   pMM_Window->dst = Main.gui;
   
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
@@ -540,6 +838,79 @@ void set_new_mini_map_window_pos(void)
   pMM_Window->size.x = new_x;
   pMM_Window->size.y = Main.screen->h - FRAME_WH - pMM_Window->size.h - 2;
   pMM_Window->dst = Main.gui;
+}
+
+
+void Remake_MiniMap(int w, int h)
+{
+  SDL_Surface *pSurf;
+  struct GUI *pWidget = pMiniMap_Window;
+    
+  if(w < 160) {
+    w = 196;
+  } else {
+    w += 30 + DOUBLE_FRAME_WH;
+  }
+  
+  if(h < 100) {
+    h = 106;
+  } else {
+    h += DOUBLE_FRAME_WH;
+  }
+  
+  if(pWidget->size.w > w || pWidget->size.h > h) {
+    /* clear area under old map window */
+    SDL_FillRect(pWidget->dst, &pWidget->size , 0x0);
+    sdl_dirty_rect(pWidget->size);
+  }
+  
+  pWidget->size.y = Main.gui->h - h;
+  pWidget->size.w = w;
+  pWidget->size.h = h;
+  
+  pSurf = create_surf(w , h , SDL_SWSURFACE);
+  FREESURFACE(pWidget->theme);
+  pWidget->theme = SDL_DisplayFormatAlpha(pSurf);
+  FREESURFACE(pSurf);
+     
+  draw_frame(pWidget->theme, 0, 0, pWidget->size.w, pWidget->size.h);
+  
+  pSurf = ResizeSurface(pTheme->Block, 30,
+					pWidget->size.h - DOUBLE_FRAME_WH, 1);
+  
+  blit_entire_src(pSurf , pWidget->theme ,
+			pWidget->size.w - FRAME_WH - pSurf->w, FRAME_WH);
+  FREESURFACE(pSurf);  
+  
+  SDL_SetAlpha(pWidget->theme , 0x0 , 0x0);
+  
+  /* new turn button */
+  pWidget = pWidget->prev;
+  FREESURFACE(pWidget->gfx);
+  pWidget->size.x = w - 30;
+  pWidget->size.y = pWidget->dst->h - h + FRAME_WH + 2;
+  
+  /* show/hide log */
+  pWidget = pWidget->prev;
+  FREESURFACE(pWidget->gfx);
+  pWidget->size.x = w - 30;
+  pWidget->size.y = pWidget->dst->h - h + FRAME_WH + 2 + pWidget->size.h;
+  
+  /* find city */
+  pWidget = pWidget->prev;
+  FREESURFACE(pWidget->gfx);
+  pWidget->size.x = w - 30;
+  pWidget->size.y = pWidget->dst->h - h + FRAME_WH + 2 + pWidget->size.h * 2;
+  
+  /* hide/show mini map */
+  pWidget = pWidget->prev;
+  FREESURFACE(pWidget->gfx);
+  pWidget->size.x = w - 30;
+  pWidget->size.y = pWidget->dst->h - FRAME_WH - pWidget->size.h - 2;
+  
+  MINI_MAP_W = w;
+  MINI_MAP_H = h;
+  
 }
 
 /**************************************************************************
@@ -823,7 +1194,8 @@ void enable_and_redraw_revolution_button(void)
 void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
 {
   int col, row;
-
+  struct city *pCity;
+    
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     return;
   }
@@ -837,11 +1209,29 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
   
   draw_goto_patrol_lines = FALSE;
   
-  if (!LSHIFT && pButtonEvent->button == SDL_BUTTON_LEFT) {
-    action_button_pressed(pButtonEvent->x, pButtonEvent->y);
+  if (pButtonEvent->button == SDL_BUTTON_LEFT) {
+    if(LSHIFT || LALT || LCTRL) {
+      if (canvas_to_map_pos(&col, &row,
+			    (int) pButtonEvent->x, (int) pButtonEvent->y)) {
+	if(LSHIFT) {
+	  popup_advanced_terrain_dialog(col, row);
+	} else {
+	  if(((pCity = map_get_tile(col, row)->city) != NULL) &&
+	    (pCity->owner == game.player_idx)) {
+	    if(LCTRL) {
+	      popup_worklist_editor(pCity, &(pCity->worklist));
+	    } else {
+	      /* LALT - this work only with fullscreen mode */
+	      popup_hurry_production_dialog(pCity, NULL);
+	    }
+	  }
+	}		      
+      }
+    } else {
+      action_button_pressed(pButtonEvent->x, pButtonEvent->y);
+    }
   } else {
-    if (pButtonEvent->button == SDL_BUTTON_MIDDLE ||
-      (LSHIFT && pButtonEvent->button == SDL_BUTTON_LEFT)) {
+    if (pButtonEvent->button == SDL_BUTTON_MIDDLE) {
       if (canvas_to_map_pos(&col, &row,
 			    (int) pButtonEvent->x, (int) pButtonEvent->y)) {
         popup_advanced_terrain_dialog(col, row);

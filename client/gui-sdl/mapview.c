@@ -1062,26 +1062,40 @@ void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 /* =============================== Mini Map ============================ */
 /* ===================================================================== */
 
+void center_minimap_on_minimap_window(void)
+{
+  struct GUI *pMMap = get_minimap_window_widget();
+  OVERVIEW_START_X = FRAME_WH +
+	  (pMMap->size.w - 30 - DOUBLE_FRAME_WH -
+				  OVERVIEW_TILE_WIDTH * map.xsize) / 2;
+  OVERVIEW_START_Y = FRAME_WH + (pMMap->size.h - DOUBLE_FRAME_WH -
+			  OVERVIEW_TILE_HEIGHT * map.ysize) / 2;
+}
+
 /**************************************************************************
   Set the dimensions for the map overview, in map units (tiles).
   Typically each tile will be a 2x2 rectangle, although this may vary.
 **************************************************************************/
 void set_overview_dimensions(int w, int h)
 {
-
-  struct GUI *pMMap = NULL;
-
+  struct GUI *pMMap = get_minimap_window_widget();
+  int width = pMMap->size.w - 30 - DOUBLE_FRAME_WH;
+  int height = pMMap->size.h - DOUBLE_FRAME_WH;
+  
   freelog(LOG_DEBUG,
     "MAPVIEW: 'set_overview_dimensions' call with x = %d  y = %d", w, h);
 
-  OVERVIEW_TILE_WIDTH = MAX(1, 160 / w);
-  OVERVIEW_TILE_HEIGHT = MAX(1, 100 / h);
+  if(w > width || h > height) {
+    Remake_MiniMap(w, h);
+    width = pMMap->size.w - 30 - DOUBLE_FRAME_WH;
+    height = pMMap->size.h - DOUBLE_FRAME_WH;
+  }
   
-  OVERVIEW_START_X = FRAME_WH + (160 - OVERVIEW_TILE_WIDTH * map.xsize) / 2;
-  OVERVIEW_START_Y = FRAME_WH + (100 - OVERVIEW_TILE_WIDTH * map.ysize) / 2;
+  OVERVIEW_TILE_WIDTH = MAX(1, width / w);
+  OVERVIEW_TILE_HEIGHT = MAX(1, height / h);
+  center_minimap_on_minimap_window();
   
   enable(ID_TOGGLE_UNITS_WINDOW_BUTTON);
-
   enable(ID_TOGGLE_MAP_WINDOW_BUTTON);
   enable(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON);
   enable(ID_REVOLUTION);
@@ -1126,7 +1140,9 @@ void overview_update_tile(int x, int y)
 void refresh_overview_canvas(void)
 {
   struct GUI *pMMap = get_minimap_window_widget();
-  SDL_Rect map_area = {FRAME_WH, FRAME_WH, 160, 100}; 
+  SDL_Rect map_area = {FRAME_WH, FRAME_WH,
+			pMMap->size.w - 30 - DOUBLE_FRAME_WH,
+    			pMMap->size.h - DOUBLE_FRAME_WH}; 
   SDL_Rect cell_size = {OVERVIEW_START_X, OVERVIEW_START_Y,
 			OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT};
   SDL_Color std_color;
@@ -1249,12 +1265,16 @@ void refresh_overview_viewrect(void)
     
     map_area.x += OVERVIEW_START_X;
     map_area.y += OVERVIEW_START_Y;
-    map_area.w = MIN(160 , OVERVIEW_TILE_WIDTH * map.xsize);
-    map_area.h = MIN(100 , OVERVIEW_TILE_HEIGHT * map.ysize);
+    map_area.w = MIN(pMMap->size.w - 30 - DOUBLE_FRAME_WH,
+					    OVERVIEW_TILE_WIDTH * map.xsize);
+    map_area.h = MIN(pMMap->size.h - DOUBLE_FRAME_WH,
+					    OVERVIEW_TILE_HEIGHT * map.ysize);
     
-    putframe(pMMap->dst , map_area.x - 1, map_area.y - 1,
+    if(OVERVIEW_START_X != FRAME_WH || OVERVIEW_START_Y != FRAME_WH) {
+      putframe(pMMap->dst , map_area.x - 1, map_area.y - 1,
 			map_area.x + map_area.w + 1,
     			map_area.y + map_area.h + 1, 0xFFFFFFFF);
+    }
     
     /* The x's and y's are in overview coordinates. */
     map_w = mapview_canvas.tile_width;
@@ -1455,8 +1475,7 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
   des.x = map_x;
   des.y = map_y;
   
-  count =
-      fill_unit_sprite_array(pSprites, pUnit, &dummy);
+  count = fill_unit_sprite_array(pSprites, pUnit, &dummy);
 
   des.x += NORMAL_TILE_WIDTH / 4;
 
