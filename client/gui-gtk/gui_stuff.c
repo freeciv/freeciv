@@ -91,55 +91,6 @@ void gtk_set_label(GtkWidget *w, char *text)
 /**************************************************************************
 ...
 **************************************************************************/
-void gtk_changed_pixmap(GtkWidget *p)	/* fooling GTK+ -vasco */
-{
-  if (!GTK_IS_PIXMAP(p))
-    return;
-
-  if (GTK_PIXMAP(p)->pixmap_insensitive) {
-    gdk_pixmap_unref (GTK_PIXMAP(p)->pixmap_insensitive);
-    GTK_PIXMAP(p)->pixmap_insensitive=NULL;
-  }
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void gtk_clear_pixmap(GtkWidget *w)
-{
-  if (!GTK_IS_PIXMAP(w))
-    return;
-  gdk_draw_rectangle(GTK_PIXMAP(w)->mask, mask_bg_gc, TRUE, 0, 0, -1, -1);
-  gtk_changed_pixmap(w);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-static void gtk_destroyed_pixmap (gpointer data)
-{
-  gdk_pixmap_unref ((GdkPixmap *)data);
-}
-
-GtkWidget *gtk_new_pixmap(gint width, gint height)
-{
-  GtkWidget *ret;
-  GdkPixmap *p, *m;
-
-  ret=gtk_pixmap_new(p=gdk_pixmap_new(root_window, width, height,-1),
-		     m=gdk_pixmap_new(root_window, width, height, 1));
-  gtk_object_set_data_by_id_full (GTK_OBJECT (ret), 1, p, gtk_destroyed_pixmap);
-  gtk_object_set_data_by_id_full (GTK_OBJECT (ret), 2, m, gtk_destroyed_pixmap);
-
-  return ret;
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
 GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel)
 {
   GtkWidget *button;

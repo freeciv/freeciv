@@ -16,9 +16,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget *gtk_accelbutton_new(const gchar *label, GtkAccelGroup *accel);
-void gtk_changed_pixmap(GtkWidget *w);
-void gtk_clear_pixmap(GtkWidget *w);
-GtkWidget *gtk_new_pixmap(gint width, gint height);
 void gtk_set_label(GtkWidget *w, char *text);
 void gtk_set_bitmap(GtkWidget *w, GdkPixmap *pm);
 void gtk_expose_now(GtkWidget *w);
