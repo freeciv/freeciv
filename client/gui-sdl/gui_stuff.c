@@ -813,7 +813,7 @@ void del_widget_pointer_from_gui_list(struct GUI *pGUI)
   NOTE: This is used by My (move) GUI Window mechanism.  Return 0 if is
   first.
 **************************************************************************/
-int is_this_widget_first_on_list(struct GUI *pGUI)
+bool is_this_widget_first_on_list(struct GUI *pGUI)
 {
   return pGUI != pBeginWidgetList;
 }
@@ -847,7 +847,7 @@ void move_widget_to_front_of_gui_list(struct GUI *pGUI)
 **************************************************************************/
 void del_main_list(void)
 {
-  return del_gui_list(pBeginWidgetList);
+  del_gui_list(pBeginWidgetList);
 }
 
 /**************************************************************************
@@ -2414,7 +2414,7 @@ int redraw_edit(struct GUI *pEdit_Widget , SDL_Surface *pDest)
 **************************************************************************/
 void edit_field(struct GUI *pEdit_Widget , SDL_Surface *pDest)
 {
-  Uint8 chr;
+  char chr;
   SDL_Rect rDest;
   SDL_Surface *pEdit = NULL;
   Uint16 *pUniChar = NULL;
@@ -2689,8 +2689,14 @@ void edit_field(struct GUI *pEdit_Widget , SDL_Surface *pDest)
 
 	  /* convert and add to chain */
 	  /* ugly fix */
-	  chr = (Uint8) (Main.event.key.keysym.unicode);
-	  pUniChar = convert_to_utf16(&chr);
+	  if(Main.event.key.keysym.unicode < 0x80 &&
+		    Main.event.key.keysym.unicode > 0) {
+	    chr = (char)(Main.event.key.keysym.unicode);
+	    pUniChar = convert_to_utf16(&chr);
+          } else {
+	    *pUniChar = Main.event.key.keysym.unicode;
+          }
+	  
 	  pInputChain->prev->chr[0] = *pUniChar;
 	  pInputChain->prev->chr[1] = 0;
 	  FREE(pUniChar);

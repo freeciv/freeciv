@@ -439,9 +439,9 @@ static int socket_thread(void *socket)
     tv.tv_sec = 0;
     tv.tv_usec = 0;
     
-    result = select(net_socket + 1, &civfdset, NULL, NULL, &tv); 
-    if( result < 0) {
-      if ( errno != EINTR ) {
+    result = select(net_socket + 1, &civfdset, NULL, NULL, &tv);
+    if(result < 0) {
+      if (errno != EINTR) {
 	break;
       } else {
 	continue;

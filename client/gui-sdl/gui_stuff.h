@@ -139,7 +139,7 @@ void init_gui_list(Uint16 ID, struct GUI *pGUI);
 void add_to_gui_list(Uint16 ID, struct GUI *pGUI);
 void del_widget_pointer_from_gui_list(struct GUI *pGUI);
 
-int is_this_widget_first_on_list(struct GUI *pGUI);
+bool is_this_widget_first_on_list(struct GUI *pGUI);
 void move_widget_to_front_of_gui_list(struct GUI *pGUI);
 
 void del_gui_list(struct GUI *pGUI_List);

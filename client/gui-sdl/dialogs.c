@@ -987,7 +987,8 @@ void popup_advanced_terrain_dialog(int x , int y)
   
   if (!n && !pCity && !pFocus_Unit)
   {
-    return popup_terrain_info_dialog(pTile , x , y);
+    popup_terrain_info_dialog(pTile , x , y);
+    return;
   }
   
   h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
@@ -4385,7 +4386,8 @@ void popup_revolution_dialog(void)
       (pWindow, pLogo, NULL, pWindow->size.w, pWindow->size.h)) {
     FREESURFACE(pLogo);
   }
-
+  
+  SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
   /* enable widgets */
   set_wstate(pCancel_Button, WS_NORMAL);
   set_wstate(pOK_Button, WS_NORMAL);
@@ -5111,6 +5113,8 @@ static void create_nations_dialog(void)
   if (resize_window(pWindow, pBuf, NULL, w, h)) {
     FREESURFACE(pBuf);
   }
+  
+  SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
   
   /* create disconnection button */
   pWidget =

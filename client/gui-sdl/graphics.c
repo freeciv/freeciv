@@ -380,18 +380,15 @@ static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
   } else if (y1 > pDest->h) {
     y1 = pDest->h;
   }
-
-  lng = (y1 - y0);
-
-  if (!lng) return;
   
-  if (lng < 0) {
-    int tmp = y0;
-    y0 = y1;
-    y1 = tmp;
-    lng *= -1;
+  if (y1 - y0 < 0) {
+    lng = y0 - y1;
+  } else {
+    lng = y1 - y0;
   }
-
+  
+  if (!lng) return;
+    
   buf_ptr = ((Uint8 *) pDest->pixels + (y0 * pitch));
   max = buf_ptr + (lng * pitch);
 
@@ -459,14 +456,14 @@ static void put_hline(SDL_Surface * pDest, int y, Sint16 x0, Sint16 x1,
     x1 = pDest->w;
   }
 
-  lng = (x1 - x0);
+  if (x1 - x0 < 0) {
+    lng = (x0 - x1);
+  } else {
+    lng = (x1 - x0);
+  }
   
   if (!lng) return;
   
-  if (lng < 0) {
-    lng *= -1;
-  }
-
   buf_ptr = ((Uint8 *) pDest->pixels + (y * pDest->pitch));
   
   switch (pDest->format->BytesPerPixel) {
