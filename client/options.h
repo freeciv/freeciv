@@ -43,6 +43,7 @@ extern bool center_when_popup_city;
 extern bool concise_city_production;
 extern bool auto_turn_done;
 extern bool meta_accelerators;
+extern bool map_scrollbars;
 
 enum client_option_type {
   COT_BOOL,

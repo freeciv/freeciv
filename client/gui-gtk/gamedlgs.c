@@ -396,6 +396,14 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 
   gtk_widget_set_sensitive(top_vbox, TRUE);
   gtk_widget_destroy(option_dialog_shell);
+
+  if (map_scrollbars) {
+    gtk_widget_show(map_horizontal_scrollbar);
+    gtk_widget_show(map_vertical_scrollbar);
+  } else {
+    gtk_widget_hide(map_horizontal_scrollbar);
+    gtk_widget_hide(map_vertical_scrollbar);
+  }
 }
 
 
