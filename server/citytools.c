@@ -475,13 +475,13 @@ int set_city_shield_bonus(struct city *pcity)
       tmp = 100;
     else
       tmp = 50;
-  }
 
-  if (city_affected_by_wonder(pcity, B_HOOVER) ||
-      city_got_building(pcity, B_POWER) ||
-      city_got_building(pcity, B_HYDRO) ||
-      city_got_building(pcity,B_NUCLEAR))
-    tmp *= 1.5;
+    if (city_affected_by_wonder(pcity, B_HOOVER) ||
+        city_got_building(pcity, B_POWER) ||
+        city_got_building(pcity, B_HYDRO) ||
+        city_got_building(pcity,B_NUCLEAR))
+      tmp *= 1.5;
+  }
 
   pcity->shield_bonus = tmp + 100;
   return (tmp + 100);
