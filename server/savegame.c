@@ -861,10 +861,8 @@ static void player_load(struct player *plr, int plrno,
     pcity->did_sell =
       secfile_lookup_bool_default(file, FALSE, "player%d.c%d.did_sell", plrno,i);
     
-    if (game.version >= 10300) {
-      pcity->airlift=secfile_lookup_bool(file,
+    pcity->airlift = secfile_lookup_bool_default(file, FALSE,
 					"player%d.c%d.airlift", plrno,i);
-    }
 
     pcity->city_options =
       secfile_lookup_int_default(file, CITYOPT_DEFAULT,
