@@ -69,8 +69,8 @@ struct spaceship_dialog {
   Widget close_command;
 };
 
-struct genlist dialog_list;
-int dialog_list_has_been_initialised;
+static struct genlist dialog_list;
+static int dialog_list_has_been_initialised;
 
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
 struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer);

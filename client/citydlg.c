@@ -101,8 +101,8 @@ struct city_dialog {
   int is_modal;
 };
 
-struct genlist dialog_list;
-int dialog_list_has_been_initialised;
+static struct genlist dialog_list;
+static int dialog_list_has_been_initialised;
 
 struct city_dialog *get_city_dialog(struct city *pcity);
 struct city_dialog *create_city_dialog(struct city *pcity, int make_modal);
