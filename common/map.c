@@ -359,18 +359,18 @@ void map_mine_tile(int x, int y)
 
 int tile_move_cost(struct unit *punit, int x, int y)
 {
-  struct tile *t=map_get_tile(x, y);
-  if (t->special&S_RAILROAD)
+  struct tile *t1=map_get_tile(punit->x,punit->y);
+  struct tile *t2=map_get_tile(x,y);
+
+  if( (t1->special&S_RAILROAD) && (t2->special&S_RAILROAD) )
     return 0;
-  if (unit_flag(punit->type, F_IGTER)) 
+  if(unit_flag(punit->type, F_IGTER)) 
     return 1;
-  if (t->terrain==T_OCEAN)
-    return 3;
-  if (t->special&S_ROAD)
+  if( (t1->special&S_ROAD) && (t2->special&S_ROAD) )
     return 1;
-  if (t->terrain == T_RIVER) 
+  if( (t1->terrain==T_RIVER) && (t2->terrain==T_RIVER) )
     return 1;
- return (get_tile_type(t->terrain)->movement_cost*3);
+  return(get_tile_type(t2->terrain)->movement_cost*3);
 }
 
 /***************************************************************
@@ -380,8 +380,7 @@ int map_move_cost(struct unit *punit, int x1, int y1)
 {
   if (!is_ground_unit(punit))
     return 3;
-  return (tile_move_cost(punit, punit->x, punit->y)+
-	  tile_move_cost(punit, x1, y1)+1)/2; 
+  return tile_move_cost(punit, x1, y1);
 }
 
 /***************************************************************
