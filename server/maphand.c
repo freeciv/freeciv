@@ -319,8 +319,8 @@ void send_all_known_tiles(struct conn_list *dest)
       }
     } conn_list_iterate_end;
     conn_list_do_unbuffer(dest);
+    flush_packets();
   }
-  flush_packets();
 }
 
 /**************************************************************************

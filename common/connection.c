@@ -269,10 +269,12 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
 {
   if (pc && pc->used) {
     if(pc->send_buffer->do_buffer_sends) {
+      flush_connection_send_buffer_packets(pc);
       if (!add_connection_data(pc, data, len)) {
 	freelog(LOG_ERROR, "cut connection %s due to huge send buffer (1)",
 		conn_description(pc));
       }
+      flush_connection_send_buffer_packets(pc);
     }
     else {
       flush_connection_send_buffer_all(pc);
