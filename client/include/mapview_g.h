@@ -21,6 +21,15 @@ struct city;
 
 #define CORNER_TILES     0
 
+/* number of "rows" in each graphics file */
+#define ROWS_TILES   (18)
+#define ROWS_UNITS   (3)
+#define ROWS_SMALL   (1)
+#define ROWS_TREATY  (1)
+#define ROWS_ROADS   (4)
+#define ROWS_SPACE   (1)
+#define ROWS_FLAGS   (2)
+
 #define NUKE_TILE0        1*20+17
 #define NUKE_TILE1        1*20+18
 #define NUKE_TILE2        1*20+19
@@ -106,13 +115,13 @@ extern int UNIT_TILES;
 
 #define FOOD_NUMBERS     17*20
 
-#define BULB_TILES       18*20
-#define GOVERNMENT_TILES 18*20+8
-#define SUN_TILES        18*20+14
-#define PEOPLE_TILES     18*20+22
-#define RIGHT_ARROW_TILE 18*20+30
+#define BULB_TILES       ROWS_TILES*20
+#define GOVERNMENT_TILES ROWS_TILES*20+8
+#define SUN_TILES        ROWS_TILES*20+14
+#define PEOPLE_TILES     ROWS_TILES*20+22
+#define RIGHT_ARROW_TILE ROWS_TILES*20+30
 
-#define THUMB_TILES      18*20+31
+#define THUMB_TILES      ROWS_TILES*20+31
 
 int map_canvas_adjust_x(int x);
 int map_canvas_adjust_y(int y);

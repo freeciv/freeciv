@@ -34,6 +34,7 @@
 #include "colors.h"
 
 #include "graphics.h"
+#include "mapview_g.h"
 
 #include "goto_cursor.xbm"
 #include "goto_cursor_mask.xbm"
@@ -145,15 +146,16 @@ void load_tile_gfx(void)
   space_sprite = load_xpmfile(tilefilename("space.xpm"));
   flags_sprite = load_xpmfile(tilefilename("flags.xpm"));
 
-  ntiles= (20*19) + (20*3) + (31*1) + 3 + (16*4) + 6 + (14*2);
+  ntiles = (20*ROWS_TILES) + (20*ROWS_UNITS) + (31*ROWS_SMALL) +
+    (3*ROWS_TREATY) + (16*ROWS_ROADS) + (6*ROWS_SPACE) + (14*ROWS_FLAGS);
 
   tile_sprites=fc_malloc(ntiles*sizeof(SPRITE *));
 
   NORMAL_TILE_WIDTH=big_sprite->width/20;
-  NORMAL_TILE_HEIGHT=big_sprite->height/18;
+  NORMAL_TILE_HEIGHT=big_sprite->height/ROWS_TILES;
   
   i=0;
-  for(y=0, a=0; a<19 && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT) {
+  for(y=0, a=0; a<ROWS_TILES && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT) {
     for(x=0; x<big_sprite->width; x+=NORMAL_TILE_WIDTH) {
       tile_sprites[i++] = crop_sprite(big_sprite, x, y,
 				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
@@ -161,10 +163,10 @@ void load_tile_gfx(void)
   }
 
   if(small_sprite->width != SMALL_TILE_WIDTH*31 ||
-     small_sprite->height != SMALL_TILE_HEIGHT*1)  {
+     small_sprite->height != SMALL_TILE_HEIGHT*ROWS_SMALL)  {
     freelog(LOG_FATAL, "XPM file small.xpm is the wrong size!");
     freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
-	 SMALL_TILE_WIDTH*31,SMALL_TILE_HEIGHT*1,
+	 SMALL_TILE_WIDTH*31,SMALL_TILE_HEIGHT*ROWS_SMALL,
 	small_sprite->width, small_sprite->height);
     exit(1);
   }
@@ -193,10 +195,10 @@ void load_tile_gfx(void)
   }
 
   if(unit_sprite->width != NORMAL_TILE_WIDTH*20 ||
-     unit_sprite->height != NORMAL_TILE_HEIGHT*3)  {
+     unit_sprite->height != NORMAL_TILE_HEIGHT*ROWS_UNITS)  {
     freelog(LOG_FATAL, "XPM file units.xpm is the wrong size!");
     freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
-	 NORMAL_TILE_WIDTH*20,NORMAL_TILE_HEIGHT*3,
+	 NORMAL_TILE_WIDTH*20,NORMAL_TILE_HEIGHT*ROWS_UNITS,
 	unit_sprite->width, unit_sprite->height);
     exit(1);
   }
@@ -210,10 +212,10 @@ void load_tile_gfx(void)
   }
 
   if(roads_sprite->width != NORMAL_TILE_WIDTH*16 ||
-     roads_sprite->height != NORMAL_TILE_HEIGHT*4)  {
+     roads_sprite->height != NORMAL_TILE_HEIGHT*ROWS_ROADS)  {
     freelog(LOG_FATAL, "XPM file roads.xpm is the wrong size!");
     freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
-	 NORMAL_TILE_WIDTH*16,NORMAL_TILE_HEIGHT*4,
+	 NORMAL_TILE_WIDTH*16,NORMAL_TILE_HEIGHT*ROWS_ROADS,
 	roads_sprite->width, roads_sprite->height);
     exit(1);
   }
@@ -243,10 +245,10 @@ void load_tile_gfx(void)
   }
 
   if(flags_sprite->width != NORMAL_TILE_WIDTH*14 ||
-     flags_sprite->height != NORMAL_TILE_HEIGHT*2)  {
+     flags_sprite->height != NORMAL_TILE_HEIGHT*ROWS_FLAGS)  {
     freelog(LOG_FATAL, "XPM file flags.xpm is the wrong size!");
     freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
-	 NORMAL_TILE_WIDTH*14,NORMAL_TILE_HEIGHT*2,
+	 NORMAL_TILE_WIDTH*14,NORMAL_TILE_HEIGHT*ROWS_FLAGS,
 	flags_sprite->width, flags_sprite->height);
     exit(1);
   }
