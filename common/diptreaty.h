@@ -1,7 +1,20 @@
-#ifndef __DIPTREATY__H
-#define __DIPTREATY__H
+/********************************************************************** 
+ Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
 
-enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP, CLAUSE_SEAMAP, CLAUSE_CITY};
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+#ifndef FC__DIPTREATY_H
+#define FC__DIPTREATY_H
+
+enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP,
+		   CLAUSE_SEAMAP, CLAUSE_CITY};
 
 struct Clause {
   enum clause_type type;
@@ -21,4 +34,5 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
 	       enum clause_type type, int val);
 int remove_clause(struct Treaty *ptreaty, struct player *pfrom, 
 		  enum clause_type type, int val);
-#endif
+
+#endif /* FC__DIPTREATY_H */
