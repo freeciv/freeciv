@@ -514,7 +514,7 @@ static void trade_sell(int *data)
 	  (*data || improvement_obsolete(game.player_ptr, i) || wonder_replacement(pcity, i)))
     {
       count++;
-      gold += improvement_value(i);
+      gold += impr_sell_gold(i);
 
       city_sell_improvement(pcity, i);
     }

@@ -1042,7 +1042,7 @@ static void sell_callback(struct city_dialog *pdialog)
   pdialog->sell_id = pdialog->id_selected;
   my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
 	      get_impr_name_ex(pdialog->pcity, pdialog->id_selected),
-	      improvement_value(pdialog->id_selected));
+	      impr_sell_gold(pdialog->id_selected));
   
   popup_message_dialog(pdialog->mainwindow, /*"selldialog" */
 		       _("Sell It!"), buf, _("_Yes"),

@@ -145,14 +145,14 @@ static const char *const get_prod_complete_string(struct city *pcity,
 
   stock = pcity->shield_stock;
   if (pcity->is_building_unit) {
-    cost = get_unit_type(pcity->currently_building)->build_cost;
+    cost = unit_build_shield_cost(pcity->currently_building);
   } else {
     if (pcity->currently_building == B_CAPITAL) {
       my_snprintf(buffer, sizeof(buffer),
 		  get_improvement_type(pcity->currently_building)->name);
       return buffer;
     }
-    cost = get_improvement_type(pcity->currently_building)->build_cost;
+    cost = impr_build_shield_cost(pcity->currently_building);
   }
 
   stock += surplus;
@@ -580,7 +580,8 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
 
 	  }
 
-	  my_snprintf(cost, sizeof(cost), "%d", get_unit_type(which)->build_cost);
+	  my_snprintf(cost, sizeof(cost),
+		      "%d", unit_build_shield_cost(which));
 	  my_snprintf(rounds, sizeof(rounds), "%d",
 		      city_turns_to_build(pcity, which, TRUE, TRUE));
 	}
@@ -613,7 +614,7 @@ HOOKPROTO(city_prod_display, int, char **array, APTR msg)
 
       if (which != B_CAPITAL)
       {
-	my_snprintf(cost, sizeof(cost), "%d", get_improvement_type(which)->build_cost);
+	my_snprintf(cost, sizeof(cost), "%d", impr_build_shield_cost(which));
 	my_snprintf(rounds, sizeof(rounds), "%d",
 		    city_turns_to_build(pcity, which, FALSE, TRUE));
       }
@@ -996,8 +997,8 @@ static void city_sell(struct city_dialog **ppdialog)
     if (is_wonder(i))
       return;
 
-    my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"), get_impr_name_ex(pdialog->pcity, i),
-	    improvement_value(i));
+    my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
+		get_impr_name_ex(pdialog->pcity, i), impr_sell_gold(i));
 
     pdialog->sell_id = i;
     pdialog->sell_wnd = popup_message_dialog(pdialog->wnd,
@@ -1766,7 +1767,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
   if (pcity->is_building_unit) {
     shield = pcity->shield_stock;
-    max_shield = get_unit_type(pcity->currently_building)->build_cost;
+    max_shield = unit_build_shield_cost(pcity->currently_building);
     descr = get_unit_type(pcity->currently_building)->name;
   } else {
     if (pcity->currently_building == B_CAPITAL) {
@@ -1778,7 +1779,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     } else {
       shield = pcity->shield_stock;
       max_shield =
-	  get_improvement_type(pcity->currently_building)->build_cost;
+	  impr_build_shield_cost(pcity->currently_building);
     }
     descr = get_impr_name_ex(pcity, pcity->currently_building);
   }

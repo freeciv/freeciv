@@ -359,11 +359,11 @@ static void economy_dlg_sell(HWND hWnd,int data)
       i=economy_improvement_type[row];
 
       city_list_iterate(game.player_ptr->cities, pcity) {      
-	if(!pcity->did_sell && city_got_building(pcity, i) &&
-	   (data ||
-	    improvement_obsolete(game.player_ptr,i) ||
-	    wonder_replacement(pcity, i) ))  {
-	  count++; gold+=improvement_value(i);
+	if (!pcity->did_sell && city_got_building(pcity, i)
+	    && (data || improvement_obsolete(game.player_ptr,i)
+		|| wonder_replacement(pcity, i)))  {
+	  count++;
+	  gold += impr_sell_gold(i);
 	  city_sell_improvement(pcity, i);
 	}            
       } city_list_iterate_end;

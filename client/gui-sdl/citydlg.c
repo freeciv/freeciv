@@ -1442,7 +1442,7 @@ static int sell_imprvm_dlg_callback(struct GUI *pImpr)
 
   my_snprintf(cBuf, sizeof(cBuf), _("Sell %s for %d gold?"),
 	      get_impr_name_ex(pCityDlg->pCity, id),
-	      improvement_value(id));
+	      impr_sell_gold(id));
 
 
   /* create text label */
@@ -3346,7 +3346,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* draw productions shields progress */
   if (pCity->is_building_unit) {
     struct unit_type *pUnit = get_unit_type(pCity->currently_building);
-    cost = pUnit->build_cost;
+    cost = unit_build_shield_cost(pCity->currently_building);
     count = cost / 10;
         
     copy_chars_to_string16(pStr, pUnit->name);
@@ -3386,7 +3386,7 @@ static void redraw_city_dialog(struct city *pCity)
 	redraw_widget(pCityDlg->pBuy_Button);
       }
 
-      cost = pImpr->build_cost;
+      cost = impr_build_shield_cost(pCity->currently_building);
       count = cost / 10;
       
     }

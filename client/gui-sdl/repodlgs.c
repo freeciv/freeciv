@@ -1467,7 +1467,7 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
 
   imp = pWidget->data.cont->id0;
   total_count = pWidget->data.cont->id1;
-  value = improvement_value(imp);
+  value = impr_sell_gold(imp);
   
   city_list_iterate(game.player_ptr->cities, pCity) {
     if(!pCity->did_sell && city_got_building(pCity, imp)) {

@@ -374,10 +374,10 @@ static char *cr_entry_building(struct city *pcity)
 
     if(pcity->is_building_unit) {
       name = get_unit_type(pcity->currently_building)->name;
-      cost = get_unit_type(pcity->currently_building)->build_cost;
+      cost = unit_build_shield_cost(pcity->currently_building);
     } else {
       name = get_impr_name_ex(pcity, pcity->currently_building);
-      cost = get_improvement_type(pcity->currently_building)->build_cost;
+      cost = impr_build_shield_cost(pcity->currently_building);
     }
 
     my_snprintf(buf, sizeof(buf), "%s (%d/%d/%s/%d)%s", name,

@@ -1899,7 +1899,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
   if (pcity->is_building_unit) {
-    cost = get_unit_type(pcity->currently_building)->build_cost;
+    cost = unit_build_shield_cost(pcity->currently_building);
     descr = get_unit_type(pcity->currently_building)->name;
   } else {
     if (pcity->currently_building == B_CAPITAL) {
@@ -1907,7 +1907,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
       cost = 0;
     } else {
-      cost = get_improvement_type(pcity->currently_building)->build_cost;;
+      cost = impr_build_shield_cost(pcity->currently_building);;
     }
     descr = get_impr_name_ex(pcity, pcity->currently_building);
   }
@@ -3116,7 +3116,7 @@ static void sell_callback(GtkWidget * w, gpointer data)
 
   pdialog->sell_id = id;
   my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
-	      get_impr_name_ex(pdialog->pcity, id), improvement_value(id));
+	      get_impr_name_ex(pdialog->pcity, id), impr_sell_gold(id));
 
   pdialog->sell_shell = popup_message_dialog(pdialog->shell,
 					     _("Sell It!"), buf,
@@ -3171,7 +3171,7 @@ static void select_impr_list_callback(GtkWidget * w, gint row, gint column,
     if (!is_wonder(id)) {
       char buf[64];
       my_snprintf(buf, sizeof(buf), _("Sell (worth %d gold)"),
-		  improvement_value(id));
+		  impr_sell_gold(id));
       gtk_set_label(GTK_BUTTON(pdialog->overview.sell_command)->child,
 		    buf);
       gtk_widget_set_sensitive(pdialog->overview.sell_command,

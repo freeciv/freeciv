@@ -474,7 +474,7 @@ static void help_update_improvement(const struct help_item *pitem,
  
   if (which<B_LAST) {
     struct impr_type *imp = &improvement_types[which];
-    sprintf(buf, "%d", imp->build_cost);
+    sprintf(buf, "%d", impr_build_shield_cost(which));
     SetWindowText(help_ilabel[1], buf);
     sprintf(buf, "%d", imp->upkeep);
     SetWindowText(help_ilabel[3], buf);
@@ -507,7 +507,7 @@ static void help_update_wonder(const struct help_item *pitem,
  
   if (which<B_LAST) {
     struct impr_type *imp = &improvement_types[which];
-    sprintf(buf, "%d", imp->build_cost);
+    sprintf(buf, "%d", impr_build_shield_cost(which));
     SetWindowText(help_ilabel[1], buf);
     if (imp->tech_req == A_LAST) {
       SetWindowText(help_ilabel[3], _("(Never)"));
@@ -702,7 +702,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   unit_num=i;
   if (i<game.num_unit_types) {
     struct unit_type *utype = get_unit_type(i);
-    sprintf(buf, "%d", utype->build_cost);
+    sprintf(buf, "%d", unit_build_shield_cost(i));
     SetWindowText(help_ulabel[0][1], buf);
     sprintf(buf, "%d", utype->attack_strength);
     SetWindowText(help_ulabel[0][4], buf);

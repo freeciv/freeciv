@@ -930,10 +930,10 @@ static const char * get_production_name(struct city *pCity,
         
   if(is_unit) {
     struct unit_type *pType = get_unit_type(id);
-    *cost = pType->build_cost;
+    *cost = unig_build_value(id);
     return pType->name;
   } else {
-    *cost = get_improvement_type(id)->build_cost;
+    *cost = impr_build_shield_cost(id);
     return get_impr_name_ex(pCity, id);
   }
 }
@@ -1436,24 +1436,31 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
           if (turns == FC_INFINITY) {
 	    if(state) {
               my_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d/%d %s\n%s"),
-		 state, pCity->shield_stock, pImpr->build_cost,
-	      	 PL_("shield","shields", pImpr->build_cost), _("never"));
+			  state, pCity->shield_stock,
+			  impr_build_shield_cost(imp),
+			  PL_("shield", "shields",
+			      impr_build_shield_cost(imp)),
+			  _("never"));
 	    } else {
 	      my_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%s"),
-		 pCity->shield_stock, pImpr->build_cost,
-	      	 PL_("shield","shields", pImpr->build_cost), _("never"));
+			  pCity->shield_stock, impr_build_shield_cost(imp),
+			  PL_("shield","shields",
+			      impr_build_shield_cost(imp)), _("never"));
 	    }	  
           } else {
             if (state) {
 	      my_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d/%d %s\n%d %s"),
-		      state, pCity->shield_stock, pImpr->build_cost,
-	      	      PL_("shield","shields", pImpr->build_cost),
-		      turns, PL_("turn", "turns", turns));
+			  state, pCity->shield_stock,
+			  impr_build_shield_cost(imp),
+			  PL_("shield","shields",
+			      impr_build_shield_cost(imp)),
+			  turns, PL_("turn", "turns", turns));
             } else {
 	      my_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%d %s"),
-		      pCity->shield_stock, pImpr->build_cost,
-	              PL_("shield","shields", pImpr->build_cost),
-		      turns, PL_("turn", "turns", turns));
+			  pCity->shield_stock, impr_build_shield_cost(imp),
+			  PL_("shield","shields",
+			      impr_build_shield_cost(imp)),
+			  turns, PL_("turn", "turns", turns));
             }
           }
         } else {
@@ -1466,11 +1473,14 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
         if(imp != B_CAPITAL) {
           if(state) {
             my_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d %s"),
-		state, pImpr->build_cost,
-		    PL_("shield","shields", pImpr->build_cost));
+			state, impr_build_shield_cost(imp),
+			PL_("shield","shields",
+			    impr_build_shield_cost(imp)));
           } else {
-	    my_snprintf(cBuf, sizeof(cBuf), _("%d %s"), pImpr->build_cost,
-	    			PL_("shield","shields", pImpr->build_cost));
+	    my_snprintf(cBuf, sizeof(cBuf), _("%d %s"),
+			impr_build_shield_cost(imp),
+			PL_("shield","shields",
+			    impr_build_shield_cost(imp)));
           }
         } else {
           my_snprintf(cBuf, sizeof(cBuf), _("shields into gold"));
@@ -1553,15 +1563,15 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 		    _("(%d/%d/%d)\n%d/%d %s\nnever"),
 		    pUnit->attack_strength,
 		    pUnit->defense_strength, pUnit->move_rate / SINGLE_MOVE,
-		    pCity->shield_stock, pUnit->build_cost,
-	  	    PL_("shield","shields", pUnit->build_cost));
+		    pCity->shield_stock, unit_build_shield_cost(un),
+	  	    PL_("shield","shields", unit_build_shield_cost(un)));
         } else {
           my_snprintf(cBuf, sizeof(cBuf),
 		    _("(%d/%d/%d)\n%d/%d %s\n%d %s"),
 		    pUnit->attack_strength,
 		    pUnit->defense_strength, pUnit->move_rate / SINGLE_MOVE,
-		    pCity->shield_stock, pUnit->build_cost, 
-	  	    PL_("shield","shields", pUnit->build_cost),
+		    pCity->shield_stock, unit_build_shield_cost(un), 
+	  	    PL_("shield","shields", unit_build_shield_cost(un)),
 		    turns, PL_("turn", "turns", turns));
         }
       } else {
@@ -1569,8 +1579,8 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 		    _("(%d/%d/%d)\n%d %s"),
 		    pUnit->attack_strength,
 		    pUnit->defense_strength, pUnit->move_rate / SINGLE_MOVE,
-		    pUnit->build_cost,
-		    PL_("shield","shields", pUnit->build_cost));
+		    unit_build_shield_cost(un),
+		    PL_("shield","shields", unit_build_shield_cost(un)));
       }
 
       copy_chars_to_string16(pStr, cBuf);

@@ -1498,7 +1498,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
   if (pcity->is_building_unit) {
-    cost = get_unit_type(pcity->currently_building)->build_cost;
+    cost = unit_build_shield_cost(pcity->currently_building);
     descr = get_unit_type(pcity->currently_building)->name;
   } else {
     if (pcity->currently_building == B_CAPITAL) {
@@ -1506,7 +1506,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
       cost = 0;
     } else {
-      cost = get_improvement_type(pcity->currently_building)->build_cost;;
+      cost = impr_build_shield_cost(pcity->currently_building);;
     }
     descr = get_impr_name_ex(pcity, pcity->currently_building);
   }
@@ -2404,7 +2404,7 @@ static void sell_callback(Impr_Type_id id, gpointer data)
     GTK_MESSAGE_QUESTION,
     GTK_BUTTONS_YES_NO,
     _("Sell %s for %d gold?"),
-    get_impr_name_ex(pdialog->pcity, id), improvement_value(id));
+    get_impr_name_ex(pdialog->pcity, id), impr_sell_gold(id));
   pdialog->sell_shell = shl;
   
   gtk_window_set_title(GTK_WINDOW(shl), _("Sell It!"));

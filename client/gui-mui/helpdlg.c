@@ -613,8 +613,10 @@ static void help_update_improvement(const struct help_item *pitem,
   {
     struct impr_type *imp = &improvement_types[which];
 
-    DoMethod(help_imprv_cost_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->build_cost);
-    DoMethod(help_imprv_upkeep_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->upkeep);
+    DoMethod(help_imprv_cost_text, MUIM_SetAsString,
+	     MUIA_Text_Contents, "%ld", impr_build_shield_cost(which));
+    DoMethod(help_imprv_upkeep_text, MUIM_SetAsString,
+	     MUIA_Text_Contents, "%ld", imp->upkeep);
     UpdateTechButton(help_imprv_needs_button, imp->tech_req);
   }
 
@@ -636,7 +638,8 @@ static void help_update_wonder(const struct help_item *pitem,
   {
     struct impr_type *imp = &improvement_types[which];
 
-    DoMethod(help_wonder_cost_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->build_cost);
+    DoMethod(help_wonder_cost_text, MUIM_SetAsString,
+	     MUIA_Text_Contents, "%ld", impr_build_shield_cost(which));
 
     UpdateTechButton(help_wonder_needs_button, imp->tech_req);
     UpdateTechButton(help_wonder_obsolete_button, imp->obsolete_by);
@@ -668,14 +671,20 @@ static void help_update_unit_type(const struct help_item *pitem,
     struct unit_type *utype = get_unit_type(i);
     char *text;
 
-    settextf(help_unit_cost_text, _("Cost: %ld"), utype->build_cost);
-    DoMethod(help_unit_attack_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", utype->attack_strength);
-    DoMethod(help_unit_defense_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", utype->defense_strength);
-    DoMethod(help_unit_move_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", utype->move_rate / 3);
-    DoMethod(help_unit_firepower_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", utype->firepower);
+    settextf(help_unit_cost_text,
+	     _("Cost: %ld"), unit_build_shield_cost(which));
+    DoMethod(help_unit_attack_text, MUIM_SetAsString,
+	     MUIA_Text_Contents, "%ld", utype->attack_strength);
+    DoMethod(help_unit_defense_text, MUIM_SetAsString,
+	     MUIA_Text_Contents, "%ld", utype->defense_strength);
+    DoMethod(help_unit_move_text, MUIM_SetAsString,
+	     MUIA_Text_Contents, "%ld", utype->move_rate / 3);
+    DoMethod(help_unit_firepower_text, MUIM_SetAsString,
+	     MUIA_Text_Contents, "%ld", utype->firepower);
     settextf(help_unit_hitpoints_text, "%ld", utype->hp);
     settextf(help_unit_vision_text, "%ld", utype->vision_range);
-    set(help_unit_basic_upkeep_text, MUIA_Text_Contents, helptext_unit_upkeep_str(i));
+    set(help_unit_basic_upkeep_text, MUIA_Text_Contents,
+	helptext_unit_upkeep_str(i));
 
     UpdateTechButton(help_unit_needs_button, utype->tech_requirement);
 

@@ -769,7 +769,7 @@ static void help_update_improvement(const struct help_item *pitem,
   
   if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
-    sprintf(buf, "%d ", imp->build_cost);
+    sprintf(buf, "%d ", impr_build_shield_cost(which));
     xaw_set_label(help_improvement_cost_data, buf);
     sprintf(buf, "%d ", imp->upkeep);
     xaw_set_label(help_improvement_upkeep_data, buf);
@@ -807,7 +807,7 @@ static void help_update_wonder(const struct help_item *pitem,
 
   if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
-    sprintf(buf, "%d ", imp->build_cost);
+    sprintf(buf, "%d ", impr_build_shield_cost(which));
     xaw_set_label(help_improvement_cost_data, buf);
     sprintf(buf, "%d ", imp->variant);
     xaw_set_label(help_wonder_variant_data, buf);
@@ -849,7 +849,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   create_help_page(HELP_UNIT);
   if (i<game.num_unit_types) {
     struct unit_type *utype = get_unit_type(i);
-    sprintf(buf, "%d ", utype->build_cost);
+    sprintf(buf, "%d ", unit_build_shield_cost(i));
     xaw_set_label(help_unit_cost_data, buf);
     sprintf(buf, "%d ", utype->attack_strength);
     xaw_set_label(help_unit_attack_data, buf);

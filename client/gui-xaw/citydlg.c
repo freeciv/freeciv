@@ -2371,7 +2371,7 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	pdialog->sell_id = i;
 	my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
 		    get_impr_name_ex(pdialog->pcity, i),
-		    improvement_value(i));
+		    impr_sell_gold(i));
 
 	popup_message_dialog(pdialog->shell, "selldialog", buf,
 			     sell_callback_yes, pdialog, 0,

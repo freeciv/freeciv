@@ -711,7 +711,7 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
  	        || improvement_obsolete(game.player_ptr, row_type.type)
 		|| wonder_replacement(pcity, row_type.type))) {
  	  count++;
-	  gold += improvement_value(row_type.type);
+	  gold += impr_sell_gold(row_type.type);
 	  city_sell_improvement(pcity, row_type.type);
 	}
       } city_list_iterate_end;

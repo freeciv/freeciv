@@ -584,13 +584,13 @@ void worklist_id_to_name(char buf[], int id, bool is_unit,
 {
   if (is_unit)
     sprintf(buf, "%s (%d)",
-	    get_unit_name(id), get_unit_type(id)->build_cost);
+	    get_unit_name(id), unit_build_shield_cost(id));
   else if (pcity)
     sprintf(buf, "%s (%d)",
-	    get_impr_name_ex(pcity, id), get_improvement_type(id)->build_cost);
+	    get_impr_name_ex(pcity, id), impr_build_shield_cost(id));
   else
     sprintf(buf, "%s (%d)",
-	    get_improvement_name(id), get_improvement_type(id)->build_cost);
+	    get_improvement_name(id), impr_build_shield_cost(id));
 }
 
 

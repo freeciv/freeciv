@@ -731,12 +731,13 @@ void economy_selloff_callback(Widget w, XtPointer client_data,
   i=economy_improvement_type[ret->list_index];
 
   city_list_iterate(game.player_ptr->cities, pcity) {
-    if(!pcity->did_sell && city_got_building(pcity, i) && 
-       (client_data ||
-	improvement_obsolete(game.player_ptr,i) ||
-        wonder_replacement(pcity, i) ))  {
-	count++; gold+=improvement_value(i);
-	city_sell_improvement(pcity, i);
+    if (!pcity->did_sell && city_got_building(pcity, i)
+	&& (client_data
+	    || improvement_obsolete(game.player_ptr,i)
+	    || wonder_replacement(pcity, i)))  {
+      count++;
+      gold += impr_sell_gold(i);
+      city_sell_improvement(pcity, i);
     }
   } city_list_iterate_end;
 

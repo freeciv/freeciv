@@ -333,7 +333,7 @@ void popup_impr_info(Impr_Type_id impr)
   
   if (impr != B_CAPITAL)
   {
-    sprintf(buffer, "%s %d", N_("Cost:"), pImpr_type->build_cost);
+    sprintf(buffer, "%s %d", N_("Cost:"), impr_build_shield_cost(impr));
     pBuf = create_iconlabel_from_chars(NULL,
 		    pWindow->dst, buffer, 12, 0);
     pBuf->ID = ID_LABEL;
@@ -699,8 +699,8 @@ void popup_unit_info(Unit_Type_id type_id)
     char local[2048];
     
     my_snprintf(local, sizeof(local), "%s %d %s",
-	      N_("Cost:"), pUnit->build_cost,
-	      PL_("shield", "shields", pUnit->build_cost));
+	      N_("Cost:"), unit_build_shield_cost(type_id),
+	      PL_("shield", "shields", unit_build_shield_cost(type_id)));
   
     if(pUnit->pop_cost)
     {

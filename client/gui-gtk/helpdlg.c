@@ -648,7 +648,7 @@ static void help_update_improvement(const struct help_item *pitem,
   
   if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
-    sprintf(buf, "%d", imp->build_cost);
+    sprintf(buf, "%d", impr_build_shield_cost(which));
     gtk_set_label(help_ilabel[1], buf);
     sprintf(buf, "%d", imp->upkeep);
     gtk_set_label(help_ilabel[3], buf);
@@ -688,7 +688,7 @@ static void help_update_wonder(const struct help_item *pitem,
 
   if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
-    sprintf(buf, "%d", imp->build_cost);
+    sprintf(buf, "%d", impr_build_shield_cost(which));
     gtk_set_label(help_wlabel[1], buf);
     if (imp->tech_req == A_LAST) {
       gtk_set_label(help_wlabel[3], _("(Never)"));
@@ -732,7 +732,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
   if (i<game.num_unit_types) {
     struct unit_type *utype = get_unit_type(i);
-    sprintf(buf, "%d", utype->build_cost);
+    sprintf(buf, "%d", unit_build_shield_cost(i));
     gtk_set_label(help_ulabel[0][1], buf);
     sprintf(buf, "%d", utype->attack_strength);
     gtk_set_label(help_ulabel[0][4], buf);

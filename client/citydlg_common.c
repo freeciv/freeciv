@@ -144,9 +144,9 @@ void get_city_dialog_production(struct city *pcity,
   stock = pcity->shield_stock;
 
   if (pcity->is_building_unit) {
-    cost = get_unit_type(pcity->currently_building)->build_cost;
+    cost = unit_build_shield_cost(pcity->currently_building);
   } else {
-    cost = get_improvement_type(pcity->currently_building)->build_cost;
+    cost = impr_build_shield_cost(pcity->currently_building);
   }
 
   if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
@@ -200,10 +200,10 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 
     if (is_unit) {
       name = get_unit_name(id);
-      cost = get_unit_type(id)->build_cost;
+      cost = unit_build_shield_cost(id);
     } else {
       name = get_impr_name_ex(pcity, id);
-      cost = get_improvement_type(id)->build_cost;
+      cost = impr_build_shield_cost(id);
     }
 
     if (turns < 999) {
@@ -239,7 +239,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
       my_snprintf(buf[1], column_size, "%d/%d/%d", ptype->attack_strength,
 		  ptype->defense_strength, ptype->move_rate / 3);
     }
-    my_snprintf(buf[2], column_size, "%d", ptype->build_cost);
+    my_snprintf(buf[2], column_size, "%d", unit_build_shield_cost(id));
   } else {
     /* Total & turns left meaningless on capitalization */
     if (id == B_CAPITAL) {
@@ -268,7 +268,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
       }
 
       my_snprintf(buf[2], column_size, "%d",
-		  get_improvement_type(id)->build_cost);
+		  impr_build_shield_cost(id));
     }
   }
 

@@ -752,7 +752,7 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
 	   improvement_obsolete(game.player_ptr, i) ||
 	   wonder_replacement(pcity, i) )) {
 	count++; 
-	gold += improvement_value(i);
+	gold += impr_sell_gold(i);
 	city_sell_improvement(pcity, i);
       }
     } city_list_iterate_end;

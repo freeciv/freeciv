@@ -637,7 +637,7 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 
     if (is_unit) {
       name = get_unit_name(id);
-      cost = get_unit_type(id)->build_cost;
+      cost = unit_build_shield_cost(id);
       pitem->section = unit_type_flag(id, F_NONMIL) ? 2 : 3;
     } else {
       name = get_impr_name_ex(pcity, id);
@@ -645,7 +645,7 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 	cost = -1;
 	pitem->section = 1;
       } else {
-	cost = get_improvement_type(id)->build_cost;
+	cost = impr_build_shield_cost(id);
 	if (is_wonder(id)) {
       	  pitem->section = 4;
         } else {

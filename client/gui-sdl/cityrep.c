@@ -490,12 +490,12 @@ static void real_info_city_report_dialog_update(void)
       pLogo = ResizeSurface(GET_SURF(pUnit->sprite), 36, 24, 1);
       SDL_SetColorKey(pLogo,
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pLogo));
-      togrow = pUnit->build_cost;
+      togrow = unit_build_shield_cost(pCity->currently_building);
       pName = pUnit->name;
     } else {
       struct impr_type *pImprv = get_improvement_type(pCity->currently_building);
       pLogo = ResizeSurface(GET_SURF(pImprv->sprite), 36, 24, 1);
-      togrow = pImprv->build_cost;
+      togrow = impr_build_shield_cost(pCity->currently_building);
       pName = pImprv->name;
     }
     
@@ -1015,12 +1015,12 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
     pLogo = ResizeSurface(GET_SURF(pUnit->sprite), 36, 24, 1);
     SDL_SetColorKey(pLogo,
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pLogo));
-    togrow = pUnit->build_cost;
+    togrow = unit_build_shield_cost(pCity->currently_building);
     pName = pUnit->name;
   } else {
     struct impr_type *pImprv = get_improvement_type(pCity->currently_building);
     pLogo = ResizeSurface(GET_SURF(pImprv->sprite), 36, 24, 1);
-    togrow = pImprv->build_cost;
+    togrow = impr_build_shield_cost(pCity->currently_building);
     pName = pImprv->name;
   }
     
