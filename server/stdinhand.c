@@ -546,6 +546,7 @@ static struct settings_s settings[] = {
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE,
     N_("Chance in diplomat/spy contests"),
+    /* xgettext:no-c-format */
     N_("A Diplomat or Spy acting against a city which has one or more "
        "defending Diplomats or Spies has a diplchance (percent) chance to "
        "defeat each such defender.  Also, the chance of a Spy returning "
