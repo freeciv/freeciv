@@ -21,9 +21,9 @@
 /* client/server should always have the same major and minor versions */
 /* different patch versions are compatible */
 #define MAJOR_VERSION  1
-#define MINOR_VERSION  7
-#define PATCH_VERSION  2
-#define VERSION_STRING "1.7.2"
+#define MINOR_VERSION  8 
+#define PATCH_VERSION  0 
+#define VERSION_STRING "1.8.0"
 #define IS_BETA_VERSION 1 
 
 #endif /* HAVE_CONFIG_H */

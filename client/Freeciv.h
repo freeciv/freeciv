@@ -4,7 +4,7 @@
 "Freeciv*gotAppDefFile:                       True",
 "Freeciv*server:                              localhost",
 "Freeciv*port:                                5555",
-"Freeciv*version:                             1.7.2",
+"Freeciv*version:                             1.8.0",
 "Freeciv*logLevel:                            1",
 "Freeciv*Command.foreground: White",
 "Freeciv*Command.background: Blue",
