@@ -1013,7 +1013,7 @@ void update_menus(void)
 
       /* remove previous government entries. */
       iter = gtk_container_get_children(GTK_CONTAINER(parent));
-      for (iter = g_list_nth(iter, 3); iter; iter = iter_next) {
+      for (iter = g_list_nth(iter, 2); iter; iter = iter_next) {
         iter_next = iter->next;
 
         gtk_container_remove(GTK_CONTAINER(parent), GTK_WIDGET(iter->data));
