@@ -308,58 +308,11 @@ bool unit_really_ignores_citywalls(struct unit *punit)
 }
 
 /**************************************************************************
- a wrapper function that returns whether or not the unit is on a citysquare
- with citywalls
-**************************************************************************/
-bool unit_behind_walls(struct unit *punit)
-{
-  struct city *pcity;
-  
-  if((pcity=map_get_city(punit->x, punit->y)))
-    return city_got_citywalls(pcity);
-  
-  return FALSE;
-}
-
-/**************************************************************************
  a wrapper function returns 1 if the unit is on a square with fortress
 **************************************************************************/
 bool unit_on_fortress(struct unit *punit)
 {
   return map_has_special(punit->x, punit->y, S_FORTRESS);
-}
-
-/**************************************************************************
- a wrapper function returns 1 if the unit is on a square with coastal defense
-**************************************************************************/
-bool unit_behind_coastal(struct unit *punit)
-{
-  struct city *pcity;
-  if((pcity=map_get_city(punit->x, punit->y)))
-    return city_got_building(pcity, B_COASTAL);
-  return FALSE;
-}
-
-/**************************************************************************
- a wrapper function returns 1 if the unit is on a square with sam site
-**************************************************************************/
-bool unit_behind_sam(struct unit *punit)
-{
-  struct city *pcity;
-  if((pcity=map_get_city(punit->x, punit->y)))
-    return city_got_building(pcity, B_SAM);
-  return FALSE;
-}
-
-/**************************************************************************
- a wrapper function returns 1 if the unit is on a square with sdi defense
-**************************************************************************/
-bool unit_behind_sdi(struct unit *punit)
-{
-  struct city *pcity;
-  if((pcity=map_get_city(punit->x, punit->y)))
-    return city_got_building(pcity, B_SDI);
-  return FALSE;
 }
 
 /**************************************************************************
