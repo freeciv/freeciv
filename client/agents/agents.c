@@ -231,7 +231,7 @@ static void call_handle_methods(void)
 
   currently_running = FALSE;
 
-  if (!agents_busy()) {
+  if (!agents_busy() && !game.player_ptr->turn_done) {
     set_turn_done_button_state(TRUE);
   }
 }
