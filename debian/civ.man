@@ -1,0 +1,30 @@
+.TH FREECIV 6 "December 1997"
+.SH NAME
+civ \- Wrapper for civclient
+.SH SYNOPSIS
+.B civ
+[
+.I \-options
+]
+[
+.I \-toolkitoptions
+] 
+
+.SH DESCRIPTION
+This script sets FREECIV_DATADIR to the standard location of the Freeciv
+data directory on a Debian system, and then invokes
+.BR civclient .
+
+.SH OPTIONS
+.PP
+.B civ
+passes all of its options to
+.BR civclient .
+
+.SH "SEE ALSO"
+.BR civclient "(6), " civserver (6).
+
+.SH AUTHORS
+     Allan Ove Kjeldbjerg - allan@daimi.aau.dk
+     Claus Leth Gregersen - leth@daimi.aau.dk
+     Peter Joachim Unold  - pjunold@daimi.aau.dk

@@ -1,0 +1,3 @@
+#!/bin/sh
+export FREECIV_DATADIR=/usr/lib/games/freeciv/data
+exec civclient ${1+"$@"}

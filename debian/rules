@@ -1,0 +1,90 @@
+#! /usr/bin/make -f
+
+DEBDIR = debian/tmp/DEBIAN
+BINDIR = debian/tmp/usr/games
+LIBDIR = debian/tmp/usr/lib/games/freeciv
+APPDIR = debian/tmp/usr/X11R6/lib/X11/app-defaults
+DOCDIR = debian/tmp/usr/doc/freeciv
+XAWDIR = debian/tmp/usr/lib/xaw-wrappers/conf
+MANDIR = debian/tmp/usr/man
+MENUDIR = debian/tmp/usr/lib/menu
+
+config:
+	$(checkdir)
+	# xmkmf is hard to find if you're root.
+	./configure
+	touch config
+
+build: config
+	$(checkdir)
+	make CDEBUGFLAGS="-O2 -g -Wall"
+	touch build
+
+clean:
+	$(checkdir)
+	-rm -f config build
+# Assume that if the makefile doesn't exist, it was deleted by a previous
+# "make clean" so there's no need to repeat it.
+	-make clean
+	-rm -f debian/*~ Makefile Makefile.bak core
+	-rm -rf debian/tmp* debian/files debian/substvars
+
+binary-indep:
+
+binary-arch: checkroot build
+	$(checkdir)
+	-rm -rf debian/tmp*
+# debian/tmp
+	install -d ${DEBDIR}
+	install -p -m 755 debian/postinst ${DEBDIR}
+	install -p -m 755 debian/postrm ${DEBDIR}
+# binaries
+	install -d ${BINDIR}
+	install -p -m 755 debian/civ ${BINDIR}
+	install -p -s -m 755 client/civclient ${BINDIR}
+	install -p -s -m 755 server/civserver ${BINDIR}
+# xaw-wrappers config entry
+	install -d ${XAWDIR}
+	install -p -m 644 debian/xaw-wrappers ${XAWDIR}/freeciv
+# manpages
+	install -d ${MANDIR}/man6
+	install -p -m 644 debian/civclient.man ${MANDIR}/man6/civclient.6
+	install -p -m 644 debian/civserver.man ${MANDIR}/man6/civserver.6
+	install -p -m 644 debian/civ.man ${MANDIR}/man6/civ.6
+	gzip -9 ${MANDIR}/man6/*.6
+# menu entry
+	install -d ${MENUDIR}
+	install -p -m 644 debian/menu ${MENUDIR}/freeciv
+# data
+	install -d ${LIBDIR}/data
+	install -p -m 644 data/*.xpm ${LIBDIR}/data
+	install -p -m 644 data/*.txt ${LIBDIR}/data  
+# app-defaults
+	install -d ${APPDIR}
+	install -p -m 644 data/Freeciv ${APPDIR}
+# documentation
+	install -d ${DOCDIR}
+	install -p -m 644 debian/copyright ${DOCDIR}
+	install -p -m 644 debian/changelog ${DOCDIR}/changelog.Debian
+	gzip -9v ${DOCDIR}/changelog.Debian
+	install -p -m 644 CHANGES ${DOCDIR}/changelog
+	gzip -9v ${DOCDIR}/changelog
+	install -p -m 644 README ${DOCDIR}
+	install -p -m 644 CREDITS ${DOCDIR}
+	install -p -m 644 HOWTOPLAY ${DOCDIR}
+	install -p -m 644 debian/README.Debian ${DOCDIR}
+#
+	dpkg-shlibdeps client/civclient server/civserver
+	dpkg-gencontrol -isp -pfreeciv -Pdebian/tmp
+	dpkg --build debian/tmp ..
+
+define checkdir
+	test -f server/civserver.c -a -f debian/rules
+endef
+
+binary: binary-indep binary-arch
+
+checkroot:
+	test root = "`whoami`"
+
+.PHONY: clean binary binary-arch binary-indep checkroot

@@ -1,0 +1,134 @@
+freeciv (1.6.0-1) unstable; urgency=low
+
+  * New debian maintainer.
+
+ -- James Blackwell <james@merconline.com>  Fri, 29 May 1998 17:12:22 -0700
+
+freeciv (1.5.4-1) unstable; urgency=low
+
+  * New upstream source.
+
+ -- Richard Braakman <dark@xs4all.nl>  Wed, 25 Feb 1998 19:39:15 +0100
+
+freeciv (1.5.3-1) unstable; urgency=low
+
+  * New upstream source.
+  * Manpages were dropped from upstream; include the ones from freeciv 1.5.2
+    in the debian directory and install them.
+
+ -- Richard Braakman <dark@xs4all.nl>  Wed, 25 Feb 1998 19:39:15 +0100
+
+freeciv (1.5.2-1) unstable; urgency=low
+
+  * New upstream source.
+  * Install the helptexts too.  (Oops :-).  This fixes bug #18547.
+
+ -- Richard Braakman <dark@xs4all.nl>  Wed, 25 Feb 1998 19:39:15 +0100
+
+freeciv (1.5.1-1) unstable; urgency=low
+
+  * New upstream source.
+  * Install a manpage for the civ script.  (#17957)
+  * Corrected FSF address in copyright file.
+  * Install files with -p to preserve timestamps.
+
+ -- Richard Braakman <dark@xs4all.nl>  Mon,  9 Feb 1998 18:44:17 +0100
+
+freeciv (1.5.0-1) unstable; urgency=low
+
+  * New upstream source (BETA).
+  * Include Section and Priority fields in binary package.
+  * Standards-Version 2.4.0.0.
+
+ -- Richard Braakman <dark@xs4all.nl>  Wed,  4 Feb 1998 15:11:04 +0100
+
+freeciv (1.4.6-1) unstable; urgency=low
+
+  * New upstream source (BETA).
+  * Install new HOWTOPLAY document.
+  * Install new civclient and civserver manpages.
+  * Install menu entry (civclient can now start independently).
+
+ -- Richard Braakman <dark@xs4all.nl>  Wed, 21 Jan 1998 18:53:16 +0100
+
+freeciv (1.4.5-1) unstable; urgency=low
+
+  * New upstream source (BETA).
+  * Renamed README.debian to README.Debian.
+  * Recommend at least version 0.10 of xaw-wrappers.
+  * Don't make clean target depend on configure target.
+  * Bug #10927 fixed upstream (minimap is now sized correctly for the
+    xsize/ysize set by the server)
+  * Bug #11169 fixed upstream (server now saves all information when
+    saving)
+
+ -- Richard Braakman <dark@xs4all.nl>  Thu,  4 Dec 1997 17:52:15 +0100
+
+freeciv (1.0k-4) unstable; urgency=low
+
+  * Added entries for (libc5) xaw3d and nextaw to xaw-wrappers file,
+    to avoid coredumps.
+  * Added entry for compat xaw95 and libc6 xaw95g even though they
+    do not exist yet.
+  * Oops, when I made freeciv recommend xaw-wrappers I accidentally
+    made it recommend (rather than depend on) its shared libraries too.
+    Fixed.
+  
+ -- Richard Braakman <dark@xs4all.nl>  Mon, 17 Nov 1997 13:07:25 +0100
+
+freeciv (1.0k-3) unstable; urgency=low
+
+  * Added note by upstream author to README.debian.
+  * Patched save-game routine to check for write errors. (#11521)
+
+ -- Richard Braakman <dark@xs4all.nl>  Mon, 17 Nov 1997 11:53:25 +0100
+
+freeciv (1.0k-2) unstable; urgency=low
+
+  * Installed config entry for xaw-wrappers, because freeciv requires
+    the original Xaw library.
+  * Recommend xaw-wrappers for that reason.
+  * Previous changelog was incorrect: I decided not to install menu
+    entries after all, because the programs are not very useful when
+    run without flags.
+
+ -- Richard Braakman <dark@xs4all.nl>  Sun,  9 Nov 1997 12:01:12 +0100
+
+freeciv (1.0k-1) unstable; urgency=low
+
+  * New maintainer.
+  * New upstream release.
+  * Use pristine upstream source.
+  * Application defaults file no longer a conffile. (fixes bug #11230)
+  * Changed debian/rules layout.
+  * Use debian-specific civ script, changed $* to ${1+"$@"}. (fixes bug #10157)
+  * Removed "ser" script; it just called civserver and polluted the namespace.
+  * Recompiled for libc6. (fixes bug #12953)
+  * Installed menu entries for server and client.
+
+ -- Richard Braakman <dark@xs4all.nl>  Thu,  6 Nov 1997 21:46:14 +0100
+
+freeciv (1.0j-2) unstable; urgency=low
+
+  * Imakefile: set XAWLIB to use libXaw.
+
+ -- Karl Sackett <krs@debian.org>  Thu,  5 Jun 1997 09:47:47 -0500
+
+freeciv (1.0j-1) unstable; urgency=low
+
+  * New upstream release.
+  * freeciv library files moved to /usr/lib/games/freeciv, FREECIV_
+    DATADIR changed accordingly.
+
+ -- Karl Sackett <krs@debian.org>  Mon, 26 May 1997 11:26:48 -0500
+
+freeciv (1.0i-1) unstable; urgency=low
+
+  * First Debian release.
+  * civ: FREECIV_DATADIR set to /usr/games/freeciv/data.
+
+ -- Karl Sackett <krs@debian.org>  Tue, 1 Apr 1997 10:37:50 -0600
+
+Local variables:
+mode: debian-changelog
+End:

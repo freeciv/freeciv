@@ -1,0 +1,20 @@
+Source: freeciv
+Section: games
+Priority: optional
+Maintainer: Richard Braakman <dark@xs4all.nl>
+Standards-Version: 2.4.0.0
+
+Package: freeciv
+Architecture: any
+Depends: ${shlibs:Depends}
+Recommends: xaw-wrappers (>= 0.10)
+Description: A free Civilization clone for Unix and X.
+ FreeCiv is a clone of Civilization, distributed under the GPL and
+ implemented for X.  FreeCiv is a turn-based strategy game, in which
+ each player becomes leader of a civilization, fighting to obtain
+ the ultimate goal: The extinction of all other civilizations.
+ .
+ FreeCiv recommends xaw-wrappers because it requires the original
+ Xaw library and cannot work with replacements like xaw3d and nextaw.
+ The xaw-wrappers package is necessary if you have such replacement
+ libraries installed.

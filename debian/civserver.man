@@ -1,0 +1,67 @@
+.\" Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+.\"   This program is free software; you can redistribute it and/or modify
+.\"   it under the terms of the GNU General Public License as published by
+.\"   the Free Software Foundation; either version 2, or (at your option)
+.\"   any later version.
+.\"
+.\"   This program is distributed in the hope that it will be useful,
+.\"   but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"   GNU General Public License for more details.
+.\"
+.TH FREECIV 6 "December 1997"
+.SH NAME
+civserver \- The server for the Freeciv game
+.SH SYNOPSIS
+.B civserver
+[
+.I \-options
+]
+
+.SH DESCRIPTION
+Freeciv is a turn-based strategy game, in which each player becomes
+leader of a civilization, fighting to obtain the ultimate goal:
+The extinction of all other civilizations.
+
+This is the server program used to establish a Freeciv server - See also
+.IR civclient (6)
+.PP
+.SH OPTIONS
+.PP
+.TP 8
+.BI \-help 
+Show a simple help screen
+.TP 8
+.BI \-log " file"
+Dump game-log to
+.I file
+.TP 8
+.BI \-nometa
+The server will not send reports to the meta-server about the
+game.
+.TP 8
+.B \-file "savefile"
+Specifies name of a savefile to load game from. This is the way
+a server-operator restores a game.
+.TP 8
+.B \-port "number"
+Specifies the port-number of the server.
+.TP 8
+.B \-version
+Shows version of the client.
+.SH "EXAMPLE"
+.PP
+civserver -file oldgame.sav -port 2244
+.SH "SEE ALSO"
+.IR civclient (6)
+.SH BUGS
+.PP
+No known
+.SH "MORE INFO"
+The Freeciv homepage is located at http://www.daimi.aau.dk/~allan/freeciv.html.
+Updates and new info is first posted there.
+
+.SH AUTHORS
+     Allan Ove Kjeldbjerg - allan@daimi.aau.dk
+     Claus Leth Gregersen - leth@daimi.aau.dk
+     Peter Joachim Unold  - pjunold@daimi.aau.dk
