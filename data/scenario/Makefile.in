@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p4 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -104,7 +104,7 @@ gui_sources = @gui_sources@
 
 pkgdatadir = $(datadir)/@PACKAGE@/scenario
 
-pkgdata_DATA =  	british-isles-80x76-v2.51.sav 	earth-160x90-v1.sav 	earth-160x90-v2.sav 	earth-80x50-v1.sav 	earth-80x50-v2.sav 	europe-200x100-v1.sav 	europe-200x100-v2.sav
+pkgdata_DATA =  	british-isles-85x80-v2.77.sav 	earth-160x90-v1.sav 	earth-160x90-v2.sav 	earth-80x50-v1.sav 	earth-80x50-v2.sav 	europe-200x100-v1.sav 	europe-200x100-v2.sav 	hagworld-120x60-v1.2.sav 	iberian-peninsula-136x100-v1.0.sav
 
 
 EXTRA_DIST = $(pkgdata_DATA)
