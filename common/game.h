@@ -73,6 +73,8 @@ struct civ_game {
   int techpenalty;
   int razechance;
   int scorelog;
+  int aqueduct_size;
+  int sewer_size;
 };
 
 struct lvldat {

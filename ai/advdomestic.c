@@ -213,11 +213,12 @@ void ai_eval_buildings(struct city *pcity)
   } /* rewrite by Syela - old values seemed very random */
 
   if (could_build_improvement(pcity, B_AQUEDUCT)) {
-    if (city_happy(pcity) && pcity->size > 7 && est_food > 0)
+    int asz = game.aqueduct_size;
+    if (city_happy(pcity) && pcity->size > asz-1 && est_food > 0)
       values[B_AQUEDUCT] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
          pcity->size * game.foodbox)>>1) - pcity->food_stock) * food;
-    else values[B_AQUEDUCT] = food * est_food * 8 * game.foodbox /
-           MAX(1, ((9 - MIN(8, pcity->size)) * MAX(8, pcity->size) *
+    else values[B_AQUEDUCT] = food * est_food * asz * game.foodbox /
+           MAX(1, ((asz+1 - MIN(asz, pcity->size)) * MAX(asz, pcity->size) *
            game.foodbox - pcity->food_stock));
   }
 
@@ -329,11 +330,12 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     values[B_SDI] = 50; /* WAG */
   
   if (could_build_improvement(pcity, B_SEWER)) {
-    if (city_happy(pcity) && pcity->size > 11 && est_food > 0)
+    int ssz = game.sewer_size;
+    if (city_happy(pcity) && pcity->size > ssz-1 && est_food > 0)
       values[B_SEWER] = ((((city_got_effect(pcity, B_GRANARY) ? 3 : 2) *
          pcity->size * game.foodbox)>>1) - pcity->food_stock) * food;
-    else values[B_SEWER] = food * est_food * 12 * game.foodbox /
-          MAX(1, ((13 - MIN(12, pcity->size)) * MAX(12, pcity->size) *
+    else values[B_SEWER] = food * est_food * ssz * game.foodbox /
+          MAX(1, ((ssz+1 - MIN(ssz, pcity->size)) * MAX(ssz, pcity->size) *
           game.foodbox - pcity->food_stock));
   }
 

@@ -338,9 +338,11 @@ void eval_buildings(struct city *pcity,int *values)
   if (can_build_improvement(pcity, B_SUPERMARKET))
     values[B_SUPERMARKET]=pcity->size*55;
 
-  if (can_build_improvement(pcity, B_AQUEDUCT) && pcity->size > 6)
+  if (can_build_improvement(pcity, B_AQUEDUCT)
+      && pcity->size > game.aqueduct_size-2)
     values[B_AQUEDUCT]=pcity->size*125+pcity->food_surplus*50;
-  if (can_build_improvement(pcity, B_SEWER) && pcity->size > 11)
+  if (can_build_improvement(pcity, B_SEWER)
+      && pcity->size > game.sewer_size-1)
     values[B_SEWER]=pcity->size*100+pcity->food_surplus*50;
   
   if (can_build_improvement(pcity, B_HARBOUR) && (pcity->size > 5)) 
@@ -573,9 +575,10 @@ int city_science_bonus(struct city *pcity)
 
 int wants_to_be_bigger(struct city *pcity)
 {
-  if (pcity->size < 8) return 1;
+  if (pcity->size < game.aqueduct_size) return 1;
   if (city_got_building(pcity, B_SEWER)) return 1;
-  if (city_got_building(pcity, B_AQUEDUCT) && pcity->size < 12) return 1;
+  if (city_got_building(pcity, B_AQUEDUCT)
+      && pcity->size < game.sewer_size) return 1;
   if (!pcity->is_building_unit) {
     if (pcity->currently_building == B_SEWER && pcity->did_buy == 1) return 1;
     if (pcity->currently_building == B_AQUEDUCT && pcity->did_buy == 1) return 1;

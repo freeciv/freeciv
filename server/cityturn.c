@@ -745,7 +745,8 @@ void city_increase_size(struct city *pcity)
 {
   int has_granary = city_got_effect(pcity, B_GRANARY);
   
-  if (!city_got_building(pcity, B_AQUEDUCT) && pcity->size>=8) {/* need aqueduct */
+  if (!city_got_building(pcity, B_AQUEDUCT)
+      && pcity->size>=game.aqueduct_size) {/* need aqueduct */
     notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
 	  "Game: %s needs Aqueducts to grow any further", pcity->name);
     /* Granary can only hold so much */
@@ -754,7 +755,8 @@ void city_increase_size(struct city *pcity)
     return;
   }
 
-  if (!city_got_building(pcity, B_SEWER) && pcity->size>=12) {/* need sewer */
+  if (!city_got_building(pcity, B_SEWER)
+      && pcity->size>=game.sewer_size) {/* need sewer */
     notify_player_ex(city_owner(pcity), pcity->x, pcity->y, E_CITY_AQUEDUCT,
       "Game: %s needs Sewer system to grow any further", pcity->name);
     /* Granary can only hold so much */

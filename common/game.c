@@ -344,6 +344,10 @@ void game_init(void)
   game.scenario    = 0;
   strcpy(game.save_name, "civgame");
   game.save_nturns=10;
+
+  /* these will later have defaults, be adjustable, etc, via rulesets: */
+  game.aqueduct_size = 8;
+  game.sewer_size = 12;
   
   map_init();
   
