@@ -285,7 +285,7 @@ static struct NewMenu MenuData[] =
   MAKE_TITLE("Kingdom", MENU_KINGDOM),
   MAKE_ITEM("Tax Rate...", MENU_KINGDOM_TAX_RATE, "SHIFT T", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
-  MAKE_ITEM("Find City...", MENU_KINGDOM_FIND_CITY, "SHIFT C", NM_COMMANDSTRING),
+  MAKE_ITEM("Find City...", MENU_KINGDOM_FIND_CITY, "CTRL F", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("REVOLUTION...", MENU_KINGDOM_REVOLUTION, "SHIFT R", NM_COMMANDSTRING),
 
@@ -294,8 +294,6 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("Center View", MENU_VIEW_CENTER_VIEW, "c", NM_COMMANDSTRING),
 
   MAKE_TITLE("Order", MENU_ORDER),
-  MAKE_ITEM("Auto Settler", MENU_ORDER_AUTO_SETTLER, "a", NM_COMMANDSTRING),
-  MAKE_ITEM("Auto Attack", MENU_ORDER_AUTO_ATTACK, "SHIFT A", NM_COMMANDSTRING),
   MAKE_ITEM("Build City", MENU_ORDER_BUILD_CITY, "b", NM_COMMANDSTRING),
   MAKE_ITEM("Build Road", MENU_ORDER_ROAD, "r", NM_COMMANDSTRING),
   MAKE_ITEM("Build Mine", MENU_ORDER_MINE, "m", NM_COMMANDSTRING),
@@ -306,22 +304,27 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("Build Airbase", MENU_ORDER_AIRBASE, "e", NM_COMMANDSTRING),
   MAKE_ITEM("Clean Pollution", MENU_ORDER_POLLUTION, "p", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
-  MAKE_ITEM("Auto Explore", MENU_ORDER_AUTO_EXPLORE, "x", NM_COMMANDSTRING),
-  MAKE_ITEM("Explode Nuclear", MENU_ORDER_NUKE, "SHIFT N", NM_COMMANDSTRING),
-  MAKE_ITEM("Unload", MENU_ORDER_UNLOAD, "u", NM_COMMANDSTRING),
-  MAKE_ITEM("Go to", MENU_ORDER_GOTO, "g", NM_COMMANDSTRING),
-  MAKE_ITEM("Go/Airlist to City", MENU_ORDER_GOTO_CITY, "l", NM_COMMANDSTRING),
-  MAKE_ITEM("Make Homecity", MENU_ORDER_HOMECITY, "h", NM_COMMANDSTRING),
-  MAKE_SEPERATOR,
   MAKE_ITEM("Fortify", MENU_ORDER_FORTIFY, "f", NM_COMMANDSTRING),
   MAKE_ITEM("Sentry", MENU_ORDER_SENTRY, "s", NM_COMMANDSTRING),
+  MAKE_ITEM("Pillage", MENU_ORDER_PILLAGE, "SHIFT P", NM_COMMANDSTRING),
+  MAKE_SEPERATOR,
+  MAKE_ITEM("Make Homecity", MENU_ORDER_HOMECITY, "h", NM_COMMANDSTRING),
+  MAKE_ITEM("Unload", MENU_ORDER_UNLOAD, "u", NM_COMMANDSTRING),
+  MAKE_ITEM("Wake up others", MENU_ORDER_WAKEUP_OTHERS, "SHIFT W", NM_COMMANDSTRING),
+  MAKE_SEPERATOR,
+  MAKE_ITEM("Auto Settler", MENU_ORDER_AUTO_SETTLER, "a", NM_COMMANDSTRING),
+  MAKE_ITEM("Auto Attack", MENU_ORDER_AUTO_ATTACK, "SHIFT A", NM_COMMANDSTRING),
+  MAKE_ITEM("Auto Explore", MENU_ORDER_AUTO_EXPLORE, "x", NM_COMMANDSTRING),
+  MAKE_ITEM("Connect", MENU_ORDER_CONNECT, "SHIFT C", NM_COMMANDSTRING),
+  MAKE_ITEM("Go to", MENU_ORDER_GOTO, "g", NM_COMMANDSTRING),
+  MAKE_ITEM("Go/Airlist to City", MENU_ORDER_GOTO_CITY, "l", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Disband Unit", MENU_ORDER_DISBAND, "SHIFT D", NM_COMMANDSTRING),
-  MAKE_ITEM("Wake up others", MENU_ORDER_WAKEUP_OTHERS, "SHIFT W", NM_COMMANDSTRING),
-  MAKE_ITEM("Wait", MENU_ORDER_WAIT, "w", NM_COMMANDSTRING),
-  MAKE_ITEM("Pillage", MENU_ORDER_PILLAGE, "SHIFT P", NM_COMMANDSTRING),
   MAKE_ITEM("Help Build Wonder", MENU_ORDER_BUILD_WONDER, "SHIFT B", NM_COMMANDSTRING),
   MAKE_ITEM("Make Trade Route", MENU_ORDER_TRADEROUTE, "SHIFT R", NM_COMMANDSTRING),
+  MAKE_ITEM("Explode Nuclear", MENU_ORDER_NUKE, "SHIFT N", NM_COMMANDSTRING),
+  MAKE_SEPERATOR,
+  MAKE_ITEM("Wait", MENU_ORDER_WAIT, "w", NM_COMMANDSTRING),
   MAKE_ITEM("Done", MENU_ORDER_DONE, "SPACE", NM_COMMANDSTRING),
 
   MAKE_TITLE("Report", MENU_REPORT),
@@ -545,6 +548,10 @@ static void control_callback(ULONG * value)
       break;
     case MENU_ORDER_ROAD:
       key_unit_road();
+      break;
+    case MENU_ORDER_CONNECT:
+      if(get_unit_in_focus())
+        request_unit_connect();
       break;
     case MENU_ORDER_POLLUTION:
       key_unit_pollution();
@@ -1214,6 +1221,7 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_AUTO_SETTLER, (can_unit_do_auto(punit) && unit_flag(punit->type, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER_AUTO_ATTACK, (can_unit_do_auto(punit) && !unit_flag(punit->type, F_SETTLERS)));
       menu_entry_sensitive(MENU_ORDER_AUTO_EXPLORE, can_unit_do_activity(punit, ACTIVITY_EXPLORE));
+      menu_entry_sensitive(MENU_ORDER_CONNECT, can_unit_do_connect(punit, ACTIVITY_IDLE) && has_capability ("unit_connect", aconnection.capability));
       menu_entry_sensitive(MENU_ORDER_GOTO_CITY, any_cities);
       menu_entry_sensitive(MENU_ORDER_BUILD_WONDER, unit_can_help_build_wonder_here(punit));
       menu_entry_sensitive(MENU_ORDER_TRADEROUTE, unit_can_est_traderoute_here(punit));

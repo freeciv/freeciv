@@ -82,6 +82,10 @@ int unit_to_use_to_pillage;
 int diplomat_id;
 int diplomat_target_id;
 
+static int is_showing_unit_connect_dialog = FALSE;
+static int unit_to_use_to_connect;
+static int connect_unit_x;
+static int connect_unit_y;
 
 /****************************************************************
  Called from the Application object so it is safe to dispose the
@@ -1059,17 +1063,18 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
     if(count)
     {
       struct New_Msg_Dlg *msg_dlg;
-      int i;
-
-      is_showing_pillage_dialog = TRUE;
-      unit_to_use_to_pillage = punit->id;
-      may_pillage = may_pillage_save;
 
       if((msg_dlg = (struct New_Msg_Dlg*)malloc(sizeof(struct New_Msg_Dlg)*(count+2))))
       {
-        for(i=0;i<count;i++)
-        {
-          int what = get_preferred_pillage (may_pillage);
+	int i;
+
+	is_showing_pillage_dialog = TRUE;
+	unit_to_use_to_pillage = punit->id;
+	may_pillage = may_pillage_save;
+
+	for(i=0;i<count;i++)
+	{
+	  int what = get_preferred_pillage (may_pillage);
 	
           msg_dlg[i].label = strdup(map_get_infrastructure_text(what));
           msg_dlg[i].function = (APTR)pillage_button;
@@ -1084,7 +1089,7 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
 	
         msg_dlg[++i].label = NULL;
 	
-        popup_message_dialog_args(main_wnd, "What to Pillage",
+        popup_message_dialog_args(main_wnd, "Freeciv - Pillage",
                                   "Select what to pillage:",msg_dlg);
 
         for(i=0;i<count;i++)
@@ -1094,6 +1099,96 @@ void popup_pillage_dialog(struct unit *punit, int may_pillage)
         }
 
         free(msg_dlg);
+      }
+    }
+  }
+}
+
+/****************************************************************
+ Callback for a connect button
+*****************************************************************/
+static void connect_button(struct popup_message_data *msg)
+{
+  is_showing_unit_connect_dialog = FALSE;
+
+  if(msg->data)
+  {
+    struct unit *punit;
+    int activity = (int)msg->data;
+
+    if ((punit = find_unit_by_id(unit_to_use_to_connect)))
+    {
+      if (activity != ACTIVITY_IDLE)
+      {
+        struct packet_unit_connect req;
+        req.activity_type = activity;
+        req.unit_id = punit->id;
+        req.dest_x = connect_unit_x;
+        req.dest_y = connect_unit_y;
+        send_packet_unit_connect(&aconnection, &req);
+      } else
+      {
+	update_unit_info_label(punit);
+      }
+    }
+  }
+  message_close(msg);
+}
+
+/****************************************************************
+popup dialog which prompts for activity type (unit connect)
+*****************************************************************/
+void popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
+{
+  if(!is_showing_unit_connect_dialog)
+  {
+    int count = 0;
+    int activity;
+
+    for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++)
+    {
+      if (!can_unit_do_connect (punit, activity)) continue;
+      count++;
+    }
+
+    if (count)
+    {
+      struct New_Msg_Dlg *msg_dlg;
+
+      is_showing_unit_connect_dialog = TRUE;
+      unit_to_use_to_connect = punit->id;
+      connect_unit_x = dest_x;
+      connect_unit_y = dest_y;
+
+      if((msg_dlg = (struct New_Msg_Dlg*)malloc(sizeof(struct New_Msg_Dlg)*(count+2))))
+      {
+	int i=0;
+
+	for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++)
+	{
+	  if ( !can_unit_do_connect (punit, activity)) continue;
+          msg_dlg[i].label = strdup(get_activity_text(activity));
+          msg_dlg[i].function = (APTR)connect_button;
+          msg_dlg[i].data = (APTR)activity;
+          i++;
+        }
+
+        msg_dlg[i].label = "_Cancel";
+        msg_dlg[i].function = (APTR)connect_button;
+        msg_dlg[i].data = NULL;
+
+        msg_dlg[++i].label = NULL;
+
+        popup_message_dialog_args(main_wnd, "Freeciv - Connect",
+                                  "Choose unit activity:",msg_dlg);
+
+        for(i=0;i<count;i++)
+        {
+          if(msg_dlg[i].label)
+            free(msg_dlg[i].label);
+        }
+
+      	free(msg_dlg);
       }
     }
   }

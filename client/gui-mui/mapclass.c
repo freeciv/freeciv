@@ -36,6 +36,7 @@
 #include "clinet.h"
 #include "citydlg.h"
 #include "control.h"
+#include "dialogs.h"
 #include "mapview.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -388,7 +389,7 @@ struct Sprite *get_citizen_sprite(int frame)
 *****************************************************************/
 struct Sprite *get_thumb_sprite(int onoff)
 {
-  return sprites.treaty_thumb[!!onoff];
+  return sprites.treaty_thumb[BOOL_VAL(onoff)];
 }
 
 
@@ -734,7 +735,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 		  ptype->defense_strength, ptype->firepower, punit->hp,
 		  ptype->hp, punit->veteran ? " V" : "", uc);
 
-	  if (punit->activity == ACTIVITY_GOTO)
+	  if(punit->activity==ACTIVITY_GOTO || punit->connecting) 
 	  {
 	    cross_head->x = punit->goto_dest_x;
 	    cross_head->y = punit->goto_dest_y;
@@ -1823,6 +1824,12 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	      {
 		Map_MakeContextBarlabel(menu_title);
 	      }
+
+	      if (can_unit_do_connect(punit, ACTIVITY_IDLE))
+	      {
+		Map_MakeContextItem(menu_title, "Connect to this location", PACK_USERDATA(focus, UNIT_CONNECT_TO));
+	      }
+
 	      Map_MakeContextItem(menu_title, "Goto this location", PACK_USERDATA(focus, UNIT_GOTOLOC));
 
 	      data->click.x = x;
@@ -1863,6 +1870,16 @@ STATIC ULONG Map_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_C
       if (punit)
       {
 	request_unit_goto_location(punit, data->click.x, data->click.y);
+      }
+    }
+    break;
+
+  case UNIT_CONNECT_TO:
+    {
+      struct unit *punit = UNPACK_UNIT(udata);
+      if (punit)
+      {
+        popup_unit_connect_dialog(punit, data->click.x, data->click.y);
       }
     }
     break;
@@ -2052,17 +2069,6 @@ STATIC ULONG CityMap_Set(struct IClass * cl, Object * o, struct opSet * msg)
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG CityMap_Get(struct IClass * cl, Object * o, struct opGet * msg)
-{
-  struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
-  switch (msg->opg_AttrID)
-  {
-  default:
-    return DoSuperMethodA(cl, o, (Msg) msg);
-  }
-  return 1;
-}
-
 STATIC ULONG CityMap_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
@@ -2106,13 +2112,6 @@ STATIC ULONG CityMap_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMi
   msg->MinMaxInfo->DefHeight += get_normal_tile_height() * 5;
   msg->MinMaxInfo->MaxHeight += get_normal_tile_height() * 5;
   return 0;
-}
-
-STATIC ULONG CityMap_Show(struct IClass * cl, Object * o, Msg msg)
-{
-  struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
-  DoSuperMethodA(cl, o, msg);
-  return 1;
 }
 
 STATIC ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
@@ -2208,7 +2207,6 @@ STATIC ULONG CityMap_HandleInput(struct IClass * cl, Object * o, struct MUIP_Han
 
 STATIC ULONG CityMap_Refresh(struct IClass * cl, Object * o, Msg msg)
 {
-  struct CityMap_Data *data = (struct CityMap_Data *) INST_DATA(cl, o);
   MUI_Redraw(o, MADF_DRAWUPDATE);
   return 0;
 }
@@ -2221,8 +2219,6 @@ STATIC __asm __saveds ULONG CityMap_Dispatcher(register __a0 struct IClass * cl,
     return CityMap_New(cl, obj, (struct opSet *) msg);
   case OM_DISPOSE:
     return CityMap_Dispose(cl, obj, msg);
-  case OM_GET:
-    return CityMap_Get(cl, obj, (struct opGet *) msg);
   case OM_SET:
     return CityMap_Set(cl, obj, (struct opSet *) msg);
   case MUIM_Setup:
@@ -2231,8 +2227,6 @@ STATIC __asm __saveds ULONG CityMap_Dispatcher(register __a0 struct IClass * cl,
     return CityMap_Cleanup(cl, obj, msg);
   case MUIM_AskMinMax:
     return CityMap_AskMinMax(cl, obj, (struct MUIP_AskMinMax *) msg);
-  case MUIM_Show:
-    return CityMap_Show(cl, obj, msg);
   case MUIM_Draw:
     return CityMap_Draw(cl, obj, (struct MUIP_Draw *) msg);
   case MUIM_HandleInput:
@@ -2455,28 +2449,6 @@ STATIC ULONG Sprite_Set(struct IClass * cl, Object * o, struct opSet * msg)
   return DoSuperMethodA(cl, o, (Msg) msg);
 }
 
-STATIC ULONG Sprite_Setup(struct IClass * cl, Object * o, Msg msg)
-{
-  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
-  if (!DoSuperMethodA(cl, o, msg))
-    return FALSE;
-
-  MUI_RequestIDCMP(o, IDCMP_MOUSEBUTTONS);
-
-  return TRUE;
-
-}
-
-STATIC ULONG Sprite_Cleanup(struct IClass * cl, Object * o, Msg msg)
-{
-  struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
-
-  MUI_RejectIDCMP(o, IDCMP_MOUSEBUTTONS);
-
-  DoSuperMethodA(cl, o, msg);
-  return 0;
-}
-
 STATIC ULONG Sprite_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax * msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
@@ -2503,13 +2475,8 @@ STATIC ULONG Sprite_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMin
 STATIC ULONG Sprite_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 {
   struct Sprite_Data *data = (struct Sprite_Data *) INST_DATA(cl, o);
-  struct RastPort *rp = _rp(o);
-  APTR cliphandle;
-
   DoSuperMethodA(cl, o, (Msg) msg);
-
   put_sprite(_rp(o), data->sprite, _mleft(o), _mtop(o));
-
   return 0;
 }
 
@@ -2523,10 +2490,6 @@ STATIC __asm __saveds ULONG Sprite_Dispatcher(register __a0 struct IClass * cl, 
     return Sprite_Dispose(cl, obj, msg);
   case OM_SET:
     return Sprite_Set(cl, obj, (struct opSet *) msg);
-  case MUIM_Setup:
-    return Sprite_Setup(cl, obj, msg);
-  case MUIM_Cleanup:
-    return Sprite_Cleanup(cl, obj, msg);
   case MUIM_AskMinMax:
     return Sprite_AskMinMax(cl, obj, (struct MUIP_AskMinMax *) msg);
   case MUIM_Draw:

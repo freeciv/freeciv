@@ -178,7 +178,7 @@ Tech_Type_id find_tech_by_name(const char *s)
 int tech_flag(int tech, int flag)
 {
   assert(flag>=0 && flag<TF_LAST);
-  return (advances[tech].flags & (1<<flag))?TRUE:FALSE;
+  return BOOL_VAL(advances[tech].flags & (1<<flag));
 }
 
 /**************************************************************************
