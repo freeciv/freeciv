@@ -238,8 +238,18 @@ void handle_unit_combat(struct packet_unit_combat *packet)
     }
 
     if (show_combat) {
-      decrease_unit_hp_smooth(punit0, packet->attacker_hp,
-			      punit1, packet->defender_hp);
+      int hp0 = packet->attacker_hp, hp1 = packet->defender_hp;
+
+      if (do_combat_animation) {
+	decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
+      } else {
+	punit0->hp = hp0;
+	punit1->hp = hp1;
+
+	set_units_in_combat(NULL, NULL);
+	refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
+	refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
+      }
     }
   }
 }

@@ -1139,7 +1139,8 @@ move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
 }
 
 /**************************************************************************
-
+ This function is called to decrease a unit's HP smoothly in battle
+ when combat_animation is turned on.
 **************************************************************************/
 void
 decrease_unit_hp_smooth(struct unit *punit0, int hp0,
@@ -1150,17 +1151,6 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   static struct timer *anim_timer = NULL; 
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
   int i;
-  
-  if (!do_combat_animation) {
-    punit0->hp = hp0;
-    punit1->hp = hp1;
-
-    set_units_in_combat(NULL, NULL);
-    refresh_tile_mapcanvas(punit0->x, punit0->y, 1);
-    refresh_tile_mapcanvas(punit1->x, punit1->y, 1);
-
-    return;
-  }
   
   set_units_in_combat(punit0, punit1);
 
