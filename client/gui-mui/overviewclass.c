@@ -109,8 +109,11 @@ struct Overview_Data
 
 static VOID Overview_HandleMouse(Object * o, struct Overview_Data *data, LONG x, LONG y)
 {
-  x = ((x - _mleft(o)) % _mwidth(o))/data->ov_ScaleX;
+  x = (x - _mleft(o))/data->ov_ScaleX;
   y = (y - _mtop(o))/data->ov_ScaleY;
+
+	if (x < 0) x = 0;
+	else if (x >= data->ov_MapWidth * data->ov_ScaleX) x = data->ov_MapWidth * data->ov_ScaleX - 1;
 
   if (is_isometric) {
     x -= data->rect_width/2;
@@ -121,8 +124,6 @@ static VOID Overview_HandleMouse(Object * o, struct Overview_Data *data, LONG x,
     x -= data->rect_width / 2;
     y -= data->rect_height / 2;
   }
-
-  x = map_adjust_x(x);
 
   if (y < 0)
     y = 0;
@@ -260,22 +261,31 @@ static VOID Overview_DrawRect(Object *o, struct Overview_Data *data)
     MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
   } else
   {
-    LONG x1,x2,y1,y2,scalex,scaley;
-    BOOL twoparts;
+    int x1,x2,y1,y2,scalex,scaley;
+    int twoparts;
 
     scalex = data->ov_ScaleX;
     scaley = data->ov_ScaleY;
 
-    x1 = _mleft(o) + map_adjust_x(data->rect_left) * scalex;
-    x2 = _mleft(o) + map_adjust_x(data->rect_left + data->rect_width) * scalex;
+		x1 = data->rect_left;
+		x2 = x1 + data->rect_width - 1;
+		y1 = data->rect_top;
+		y2 = y1 + data->rect_height - 1;
 
-    y1 = _mtop(o) + data->rect_top * scaley;
-    y2 = y1 + data->rect_height * scaley - 1;
+		/* Wrap the coordinates, so we can find out, if the view rectangle must be splitted */
+		normalize_map_pos(&x1,&y1);
+		normalize_map_pos(&x2,&y2);
+
+		x1 = _mleft(o) + x1 * scalex;
+		x2 = _mleft(o) + x2 * scaley;
+		y1 = _mtop(o) + y1 * scalex;
+		y2 = _mtop(o) + y2 * scaley;
+
 
     if (x2 < x1)
-      twoparts = TRUE;
+      twoparts = 1;
     else
-      twoparts = FALSE;
+      twoparts = 0;
 
     Move( rp, x1, y2);
     SetAPen( rp, data->pen_white);
@@ -508,29 +518,32 @@ static ULONG Overview_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * ms
     {
       if (data->update == 1)
       {
-      	/* Refresh Single */
-      	LONG x,y,rx1,rx2,ry1,ry2,pix_x,pix_y;
+      	/* refresh a single piece of the map */
+      	int x,y,rx1,rx2,ry1,ry2,pix_x,pix_y;
 
-	x = data->x;
-	y = data->y;
+        x = data->x;
+        y = data->y;
 
-	pix_x = _mleft(o) + x*scalex;
-	pix_y = _mtop(o) + y*scaley;
+        pix_x = _mleft(o) + x*scalex;
+        pix_y = _mtop(o) + y*scaley;
 
-	SetAPen(_rp(o), data->color);
-	RectFill(_rp(o), pix_x, pix_y, pix_x + scalex - 1, pix_y + scaley - 1);
+        SetAPen(_rp(o), data->color);
+        RectFill(_rp(o), pix_x, pix_y, pix_x + scalex - 1, pix_y + scaley - 1);
 
         /* Check if the view rectangle has been overwritten */
-	rx1 = map_adjust_x(data->rect_left);
-	rx2 = map_adjust_x(data->rect_left + data->rect_width - 1);
-	ry1 = data->rect_top;
-	ry2 = ry1 + data->rect_height - 1;
+        rx1 = data->rect_left;
+        rx2 = data->rect_left + data->rect_width - 1;
+        ry1 = data->rect_top;
+        ry2 = ry1 + data->rect_height - 1;
+
+				normalize_map_pos(&rx1,&ry1);
+				normalize_map_pos(&rx2,&ry2);
 
         if (((x == rx1 || x == rx2) && (y >= ry1 && y <= ry2)) ||
             ((y == ry1 || y == ry2) && (x >= rx1 && x <= rx2))) {
-	  Overview_DrawRect(o,data);
-	}
-	return 0;
+          Overview_DrawRect(o,data);
+        }
+        return 0;
       }
     }
 

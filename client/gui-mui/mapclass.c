@@ -36,6 +36,7 @@
 #include "timing.h"
 
 #include "civclient.h"
+#include "climisc.h"
 #include "citydlg.h"
 #include "control.h"
 #include "colors.h"
@@ -1586,6 +1587,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	if (write_to_screen) {
 	  LONG pix_width = width * get_normal_tile_width();
 	  LONG pix_height = height * get_normal_tile_height();
+	  int canvas_x, canvas_y;
 
 	  get_canvas_xy(x, y, &canvas_x, &canvas_y);
 
@@ -2345,7 +2347,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	  LONG y2 = y1 + get_normal_tile_height() - 1;
 
 	  if (is_valid_city_coords(x, y)) {
-	    LONG tilex, tiley;
+	    int tilex, tiley;
 
 	    if (city_map_to_map(&tilex, &tiley, pcity, x, y)
 		&& tile_get_known(tilex, tiley)) {

@@ -106,8 +106,8 @@ SERVERDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}server ${INC}${FREECIV_DI
 
 AMIGASERVEROBJS = ${OBJDIR}amigaserver.o
 
-CLIENTOBJS = ${OBJDIR}client/cityrepdata.o ${OBJDIR}client/civclient.o ${OBJDIR}client/climisc.o \
- ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/goto.o ${OBJDIR}client/helpdata.o \
+CLIENTOBJS = ${OBJDIR}client/attribute.o ${OBJDIR}client/citydlg_common.o ${OBJDIR}client/cityrepdata.o ${OBJDIR}client/civclient.o ${OBJDIR}client/climisc.o \
+ ${OBJDIR}client/clinet.o ${OBJDIR}client/control.o ${OBJDIR}client/goto.o ${OBJDIR}client/helpdata.o ${OBJDIR}client/mapview_common.o\
  ${OBJDIR}client/options.o ${OBJDIR}client/packhand.o ${OBJDIR}client/tilespec.o
 CLIENTDIRS = ${INC}`cd` ${INCDIRS} ${INC}${FREECIV_DIR}client ${INC}${FREECIV_DIR}common \
  ${INC}${FREECIV_DIR}client/include
@@ -457,6 +457,12 @@ ${OBJDIR}server/unittools.o: ${FREECIV_DIR}server/unittools.c
 
 # Client Files
 
+${OBJDIR}client/attribute.o: ${FREECIV_DIR}client/attribute.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/attribute.c ${CLIENTDIRS} ${TO}$@
+
+${OBJDIR}client/citydlg_common.o: ${FREECIV_DIR}client/citydlg_common.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/citydlg_common.c ${CLIENTDIRS} ${TO}$@
+
 ${OBJDIR}client/cityrepdata.o : ${FREECIV_DIR}client/cityrepdata.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/cityrepdata.c ${CLIENTDIRS} ${TO}$@
 
@@ -477,6 +483,9 @@ ${OBJDIR}client/goto.o: ${FREECIV_DIR}client/goto.c
 
 ${OBJDIR}client/helpdata.o: ${FREECIV_DIR}client/helpdata.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/helpdata.c ${CLIENTDIRS} ${TO}$@
+
+${OBJDIR}client/mapview_common.o: ${FREECIV_DIR}client/mapview_common.c
+  ${CC} ${CCFLAGS} ${FREECIV_DIR}client/mapview_common.c ${CLIENTDIRS} ${TO}$@
 
 ${OBJDIR}client/options.o: ${FREECIV_DIR}client/options.c
   ${CC} ${CCFLAGS} ${FREECIV_DIR}client/options.c ${CLIENTDIRS} ${TO}$@

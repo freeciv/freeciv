@@ -24,6 +24,7 @@
 #include <proto/muimaster.h>
 
 #include "fcintl.h"
+#include "log.h"
 #include "mem.h"
 #include "support.h"
 #include "version.h"
@@ -34,6 +35,10 @@
 #include "clinet.h"
 #include "gui_main.h"
 #include "muistuff.h"
+
+extern char server_host[512];
+extern char player_name[512];
+extern int server_port;
 
 static Object *connect_wnd;
 static Object *connect_name_string;
@@ -242,3 +247,77 @@ void gui_server_connect(void)
     set(connect_wnd, MUIA_Window_Open, TRUE);
   }
 }
+
+/**************************************************************************
+  Make an attempt to autoconnect to the server.  If the server isn't
+  there yet, arrange for this routine to be called again in about
+  AUTOCONNECT_INTERVAL milliseconds.  If anything else goes wrong, log
+  a fatal error.
+**************************************************************************/
+static int try_to_autoconnect()
+{
+// Implement me
+  return 0;
+#if 0
+  char errbuf[512];
+  static int count = 0;
+
+  count++;
+
+  /* abort if after 10 seconds the server couldn't be reached */
+
+  if (AUTOCONNECT_INTERVAL * count >= 10000) {
+    freelog(LOG_FATAL,
+	    _("Failed to contact server \"%s\" at port "
+	      "%d as \"%s\" after %d attempts"),
+	    server_host, server_port, connect_name, count);
+    
+  }
+
+  switch (try_to_connect(connect_name, errbuf, sizeof(errbuf))) {
+  case 0:			/* Success! */
+    return;
+  case ECONNREFUSED:		/* Server not available (yet) - wait & retry */
+     /*PORTME*/ schedule_timer
+	(AUTOCONNECT_INTERVAL, try_to_autoconnect, NULL);
+  default:			/* All other errors are fatal */
+    freelog(LOG_FATAL,
+	    _("Error contacting server \"%s\" at port %d "
+	      "as \"%s\":\n %s\n"),
+	    server_host, server_port, connect_name, errbuf);
+     /*PORTME*/ exit_application(error code);
+  }
+#endif
+}
+
+/**************************************************************************
+  Start trying to autoconnect to civserver.
+  Calls get_server_address(), then arranges for
+  autoconnect_callback(), which calls try_to_connect(), to be called
+  roughly every AUTOCONNECT_INTERVAL milliseconds, until success,
+  fatal error or user intervention.
+**************************************************************************/
+void server_autoconnect()
+{
+  char buf[512];
+  int outcome;
+
+  my_snprintf(buf, sizeof(buf),
+	      _("Auto-connecting to server \"%s\" at port %d "
+		"as \"%s\" every %d.%d second(s) for %d times"),
+	      server_host, server_port, player_name,
+	      AUTOCONNECT_INTERVAL / 1000,AUTOCONNECT_INTERVAL % 1000, 
+	      MAX_AUTOCONNECT_ATTEMPTS);
+  append_output_window(buf);
+
+  outcome = get_server_address(server_host, server_port, buf, sizeof(buf));
+  if (outcome < 0) {
+    freelog(LOG_FATAL,
+	    _("Error contacting server \"%s\" at port %d "
+	      "as \"%s\":\n %s\n"),
+	    server_host, server_port, player_name, buf);
+    exit(1);
+  }
+  try_to_autoconnect();
+}
+

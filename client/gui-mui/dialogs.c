@@ -506,7 +506,7 @@ void popup_incite_dialog(struct city *pcity)
     my_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
 		pcity->name);
     popup_message_dialog(main_wnd, _("City can't be incited!"), buf,
-			 _("Darn"), diplomat_incite_no_callback, 0, 0);
+			 _("Darn"), diplomat_incite_no, 0, 0);
   } else if (game.player_ptr->economic.gold >= pcity->incite_revolt_cost) {
     my_snprintf(buf, sizeof(buf),_("Incite a revolt for %d gold?\nTreasury contains %d gold."),
             pcity->incite_revolt_cost, game.player_ptr->economic.gold);

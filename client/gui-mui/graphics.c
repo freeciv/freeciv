@@ -36,6 +36,7 @@
 #include "map.h"
 #include "options.h"
 
+#include "climisc.h"
 #include "colors.h"
 #include "control.h"
 #include "goto.h"

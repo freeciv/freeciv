@@ -15,6 +15,10 @@ Modification history;
   changed includes to work with vbcc WarpOS
 16.12.2000 : Dirk Stöcker <stoecker@epost.de>
   removed changes, as it works without also
+26.12.2001 : Sebastian Bauer <sebauer@t-online.de>
+  uses now the prefered languages to determine the gmostr
+26.12.2001 : Sebastian Bauer <sebauer@t-online.de>
+  lets SAS open the locale library for us now
 */
 
 #include <stdio.h>
@@ -62,7 +66,6 @@ struct loaded_domain
 };
 
 static struct loaded_domain domain = {0, 0, 0, 0, 0, 0, 0};
-struct LocaleBase *LocaleBase = 0;
 
 static long openmo(char *dir, char *loc)
 {
@@ -134,13 +137,26 @@ struct LocaleConv {
 {"português-brasil", "pt_BR"},
 {"russian", "ru"},
 {"svenska", "sv"},
+{"suomi","fi"},
 {0, 0},
 };
 
+/* Returns NULL if is not in the list */
+static char *find_gmostr(char *lang)
+{
+	int i;
+	if (!lang) return NULL;
+	for (i=0;LocaleConvTab[i].langstr;i++)
+	{
+		if (!strcmp(LocaleConvTab[i].langstr,lang)) return LocaleConvTab[i].gmostr;
+	}
+	return NULL;
+}
+
 void bindtextdomain(char * pack, char * dir)
 {
-  char langstr[3];
-  int i, j;
+	struct Locale *l;
+  int i;
 
   if(openmo(dir, getenv("LANG")))
     return;
@@ -148,34 +164,18 @@ void bindtextdomain(char * pack, char * dir)
   if(openmo(dir, getenv("LANGUAGE")))
     return;
 
-  if((LocaleBase = (struct LocaleBase *) OpenLibrary("locale.library", 38)))
-  {
-    struct Locale *l;
-    if((l = OpenLocale(0)))
-    {
-      langstr[0] = l->loc_LanguageName[0];
-      langstr[1] = l->loc_LanguageName[1];
-      langstr[2] = 0;
+	if((l = OpenLocale(0)))
+	{
+		for (i=0;i<10;i++)
+		{
+			if (!openmo(dir,find_gmostr(l->loc_PrefLanguages[i])))
+			{
+				if (openmo(dir,l->loc_PrefLanguages[i])) break;
+			} else break;
+		}
 
-      for(i = 0; LocaleConvTab[i].langstr; ++i)
-      {
-        j = strlen(LocaleConvTab[i].langstr);
-        if(l->loc_LanguageName[j] = '.' && !strncmp(LocaleConvTab[i].langstr, l->loc_LanguageName, j))
-          break;
-      }
-
-      if(!openmo(dir, LocaleConvTab[i].gmostr)) /* failed, try first 2 chars */
-      {
-        langstr[0] = l->loc_LanguageName[0];
-        langstr[1] = l->loc_LanguageName[1];
-        langstr[2] = 0;
-
-        openmo(dir, langstr);
-      }
-      CloseLocale(l);
-    }
-    CloseLibrary((struct Library *) LocaleBase);
-  }
+		CloseLocale(l);
+	}
 }
 
 #define HASHWORDBITS 32
@@ -204,7 +204,7 @@ static char *find_msg(const char * msgid)
 {
   long top, act, bottom;
 
-  if(!domain.data)
+  if(!domain.data || !msgid)
     return NULL;
 
   /* Locate the MSGID and its translation.  */
