@@ -704,17 +704,17 @@ static GtkWidget *create_city_report_menubar(void)
   city_change_command = item;
   create_change_menu(item);
 
-  item = gtk_menu_item_new_with_mnemonic(_("_First"));
+  item = gtk_menu_item_new_with_mnemonic(_("Add _First"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   city_first_command = item;
   create_first_menu(item);
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Next"));
+  item = gtk_menu_item_new_with_mnemonic(_("Add _Next"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   city_next_command = item;
   create_next_menu(item);
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Last"));
+  item = gtk_menu_item_new_with_mnemonic(_("Add _Last"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   city_last_command = item;
   create_last_menu(item);
