@@ -1228,7 +1228,7 @@ static void city_prod_help(struct city_prod **ppcprod)
 static void city_cma_changed(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog; 
-  struct cma_parameter param;
+  struct cm_parameter param;
   int i;
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
@@ -1265,11 +1265,11 @@ static void city_cma_changed(struct city_dialog **ppdialog)
 static void city_cma_change(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog; 
-  struct cma_result result;
-  struct cma_parameter param;
+  struct cm_result result;
+  struct cm_parameter param;
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
-  cma_query_result(pdialog->pcity, &param, &result);
+  cm_query_result(pdialog->pcity, &param, &result);
   cma_apply_result(pdialog->pcity, &result);
 }
 
@@ -1279,7 +1279,7 @@ static void city_cma_change(struct city_dialog **ppdialog)
 static void city_cma_permanent(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
-  struct cma_parameter param;
+  struct cm_parameter param;
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
   cma_put_city_under_agent(pdialog->pcity, &param);
@@ -2208,8 +2208,8 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 static void refresh_cma_dialog(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
-  struct cma_result result;
-  struct cma_parameter param;
+  struct cm_result result;
+  struct cm_parameter param;
   int controlled = cma_is_city_under_agent(pcity, NULL);
   int preset_index;
   int i;
@@ -2217,7 +2217,7 @@ static void refresh_cma_dialog(struct city_dialog *pdialog)
   cmafec_get_fe_parameter(pcity, &param);
 
   /* fill in result label */
-  cma_query_result(pcity, &param, &result);
+  cm_query_result(pcity, &param, &result);
 
   if (!result.found_a_valid) {
     for (i = 0; i < 10; i++)
@@ -2465,6 +2465,8 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
     get_city_citizen_types(pcity, i, citizens);
 
     for (j = 0; j < num_citizens; j++) {
+      Object *obj;
+
       obj = MakeSprite(get_citizen_sprite(citizens[j], j, pcity));
       if (obj) {
 	DoMethod(pdialog->happiness_citizen_group[i], OM_ADDMEMBER, obj);

@@ -722,7 +722,7 @@ struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0,
 {
   if(!dialog_list_list_has_been_initialised) {
     dialog_list_init(&dialog_list);
-    dialog_list_list_has_been_initialised = TUR;
+    dialog_list_list_has_been_initialised = 1;
   }
 
   dialog_list_iterate(dialog_list, pdialog) {

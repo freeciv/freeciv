@@ -262,7 +262,9 @@ struct Map_Data
 
   LONG update;			/* 1 = Tile; 2 = MoveUnit; 3 = Scroll; 4 = ShowCityNames */
   LONG x, y, width, height, write_to_screen;	/* Drawing (1) */
-  LONG dest_x, dest_y, x0, y0, dx, dy;	/* Drawing (2) */
+//  LONG dest_x, dest_y, x0, y0, dx, dy;	/* Drawing (2) */
+  int old_canvas_x, old_canvas_y, new_canvas_x, new_canvas_y;	/* Drawing (2) */
+
   struct unit *punit;		/* Drawing (2) */
   LONG old_horiz_first;		/* Drawing (3) */
   LONG old_vert_first;		/* Drawing (3) */
@@ -536,18 +538,18 @@ static void Map_Priv_ShowCityDescriptions(Object *o, struct Map_Data *data)
   }
 }
 
-static void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
+static void Map_Priv_DrawUnitAnimationFrame(Object *o, struct Map_Data *data)
 {
-  int x0, y0, dx, dy, w, h;
   struct unit *punit;
-  static struct timer *anim_timer = NULL; 
+  int old_canvas_x; int old_canvas_y; int new_canvas_x; int new_canvas_y;
 
   punit = data->punit;
-  x0 = data->x0;
-  y0 = data->y0;
-  dx = data->dx;
-  dy = data->dy;
+  old_canvas_x = data->old_canvas_x;
+  old_canvas_y = data->old_canvas_y;
+  new_canvas_x = data->new_canvas_x;
+  new_canvas_y = data->new_canvas_y;
 
+#if 0
   {
     int i, steps;
     int start_x, start_y;
@@ -643,6 +645,7 @@ static void Map_Priv_MoveUnit(Object *o, struct Map_Data *data)
       }
     }
   }
+#endif
 }
 
 static void Map_Priv_ExplodeUnit(Object *o, struct Map_Data *data)
@@ -1260,7 +1263,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
       if (data->update == 2)
       {
-	Map_Priv_MoveUnit(o,data);
+	Map_Priv_DrawUnitAnimationFrame(o,data);
       }
 
       if (data->update == 3) drawmap = TRUE;
@@ -1904,17 +1907,38 @@ static ULONG Map_Refresh(struct IClass * cl, Object * o, struct MUIP_Map_Refresh
   return 0;
 }
 
-static ULONG Map_MoveUnit(struct IClass * cl, Object * o, struct MUIP_Map_MoveUnit * msg)
+
+#if 0
+
+
+  /* Clear old sprite. */
+  gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store, old_canvas_x,
+		  old_canvas_y, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
+		  UNIT_TILE_HEIGHT);
+
+  /* Draw the new sprite. */
+  gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store, new_canvas_x,
+		  new_canvas_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+  put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
+
+  /* Write to screen. */
+  gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap, 0, 0,
+		  new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
+		  UNIT_TILE_HEIGHT);
+
+  /* Flush. */
+  gdk_flush();
+#endif
+
+static ULONG Map_DrawUnitAnimationFrame(struct IClass * cl, Object * o, struct MUIP_Map_DrawUnitAnimationFrame * msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
 
   data->punit = msg->punit;
-  data->x0 = msg->x0;
-  data->y0 = msg->y0;
-  data->dx = msg->dx;
-  data->dy = msg->dy;
-  data->dest_x = msg->dest_x;
-  data->dest_y = msg->dest_y;
+  data->old_canvas_x = msg->old_canvas_x;
+  data->old_canvas_y = msg->old_canvas_y;
+  data->new_canvas_x = msg->new_canvas_x;
+  data->new_canvas_y = msg->new_canvas_y;
   data->update = 2;
   MUI_Redraw(o, MADF_DRAWUPDATE);
   return 0;
@@ -1984,54 +2008,34 @@ DISPATCHERPROTO(Map_Dispatcher)
 {
   switch (msg->MethodID)
   {
-  case OM_NEW:
-    return Map_New(cl, obj, (struct opSet *) msg);
-  case OM_DISPOSE:
-    return Map_Dispose(cl, obj, msg);
-  case OM_GET:
-    return Map_Get(cl, obj, (struct opGet *) msg);
-  case OM_SET:
-    return Map_Set(cl, obj, (struct opSet *) msg);
-  case MUIM_Setup:
-    return Map_Setup(cl, obj, msg);
-  case MUIM_Cleanup:
-    return Map_Cleanup(cl, obj, msg);
-  case MUIM_AskMinMax:
-    return Map_AskMinMax(cl, obj, (struct MUIP_AskMinMax *) msg);
-  case MUIM_Show:
-    return Map_Show(cl, obj, msg);
-  case MUIM_Hide:
-    return Map_Hide(cl, obj, msg);
-  case MUIM_Draw:
-    return Map_Draw(cl, obj, (struct MUIP_Draw *) msg);
-  case MUIM_HandleInput:
-    return Map_HandleInput(cl, obj, (struct MUIP_HandleInput *) msg);
-  case MUIM_ContextMenuBuild:
-    return Map_ContextMenuBuild(cl, obj, (struct MUIP_ContextMenuBuild *) msg);
-  case MUIM_ContextMenuChoice:
-    return Map_ContextMenuChoice(cl, obj, (struct MUIP_ContextMenuChoice *) msg);
+    case OM_NEW: return Map_New(cl, obj, (struct opSet *) msg);
+    case OM_DISPOSE: return Map_Dispose(cl, obj, msg);
+    case OM_GET: return Map_Get(cl, obj, (struct opGet *) msg);
+    case OM_SET: return Map_Set(cl, obj, (struct opSet *) msg);
+    case MUIM_Setup:  return Map_Setup(cl, obj, msg);
+    case MUIM_Cleanup: return Map_Cleanup(cl, obj, msg);
+    case MUIM_AskMinMax: return Map_AskMinMax(cl, obj, (struct MUIP_AskMinMax *) msg);
+    case MUIM_Show: return Map_Show(cl, obj, msg);
+    case MUIM_Hide: return Map_Hide(cl, obj, msg);
+    case MUIM_Draw: return Map_Draw(cl, obj, (struct MUIP_Draw *) msg);
+    case MUIM_HandleInput: return Map_HandleInput(cl, obj, (struct MUIP_HandleInput *) msg);
+    case MUIM_ContextMenuBuild: return Map_ContextMenuBuild(cl, obj, (struct MUIP_ContextMenuBuild *) msg);
+    case MUIM_ContextMenuChoice: return Map_ContextMenuChoice(cl, obj, (struct MUIP_ContextMenuChoice *) msg);
 
-  case MUIM_Map_Refresh:
-    return Map_Refresh(cl, obj, (struct MUIP_Map_Refresh *) msg);
-  case MUIM_Map_MoveUnit:
-    return Map_MoveUnit(cl, obj, (struct MUIP_Map_MoveUnit *) msg);
-  case MUIM_Map_ShowCityDescriptions:
-    return Map_ShowCityDescriptions(cl, obj/*, msg*/);
-  case MUIM_Map_PutCityWorkers:
-    return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);
-  case MUIM_Map_PutCrossTile:
+    case MUIM_Map_Refresh: return Map_Refresh(cl, obj, (struct MUIP_Map_Refresh *) msg);
+    case MUIM_Map_DrawUnitAnimationFrame: return Map_DrawUnitAnimationFrame(cl, obj, (struct MUIP_Map_DrawUnitAnimationFrame *)msg);
+    case MUIM_Map_ShowCityDescriptions: return Map_ShowCityDescriptions(cl, obj/*, msg*/);
+    case MUIM_Map_PutCityWorkers: return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);
+    case MUIM_Map_PutCrossTile:
 // implement me
 #ifdef DISABLED
-    return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);
+         return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);
 #else
-    return 0;
+         return 0;
 #endif
-  case MUIM_Map_ExplodeUnit:
-    return Map_ExplodeUnit(cl, obj, (struct MUIP_Map_ExplodeUnit *) msg);
-  case MUIM_Map_DrawMushroom:
-    return Map_DrawMushroom(cl, obj, (struct MUIP_Map_DrawMushroom *)msg);
-  case MUIM_Map_DrawSegment:
-    return Map_DrawSegment(cl, obj, (struct MUIP_Map_DrawSegment *)msg);
+    case MUIM_Map_ExplodeUnit: return Map_ExplodeUnit(cl, obj, (struct MUIP_Map_ExplodeUnit *) msg);
+    case MUIM_Map_DrawMushroom: return Map_DrawMushroom(cl, obj, (struct MUIP_Map_DrawMushroom *)msg);
+    case MUIM_Map_DrawSegment: return Map_DrawSegment(cl, obj, (struct MUIP_Map_DrawSegment *)msg);
   }
 
   return (DoSuperMethodA(cl, obj, msg));

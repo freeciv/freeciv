@@ -366,33 +366,38 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-  This function has been replaced by draw_unit_animation_frame().
+  Draw a single frame of animation.  This function needs to clear the old
+  image and draw the new one.  It must flush output to the display.
 **************************************************************************/
-void move_unit_map_canvas(struct unit *punit, int x0, int y0, int dx, int dy)
+void draw_unit_animation_frame(struct unit *punit,
+			       bool first_frame, bool last_frame,
+			       int old_canvas_x, int old_canvas_y,
+			       int new_canvas_x, int new_canvas_y)
 {
-#error
-  int dest_x, dest_y, is_real;
-  /* only works for adjacent-square moves */
-  if ((dx < -1) || (dx > 1) || (dy < -1) || (dy > 1) ||
-      ((dx == 0) && (dy == 0))) {
-    return;
-  }
+	DoMethod(main_map_area, MUIM_Map_DrawUnitAnimationFrame,
+		punit, first_frame, last_frame, old_canvas_x, old_canvas_y, new_canvas_x, new_canvas_y);
 
-  if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
-    set_hover_state(NULL, HOVER_NONE);
-    update_unit_info_label(punit);
-  }
+#if 0
 
-  dest_x = x0 + dx;
-  dest_y = y0 + dy;
-  is_real = normalize_map_pos(&dest_x, &dest_y);
-  assert(is_real);
 
-  if (player_can_see_unit(game.player_ptr, punit) &&
-      (tile_visible_mapcanvas(x0, y0) ||
-       tile_visible_mapcanvas(dest_x, dest_y))) {
-    DoMethod(main_map_area, MUIM_Map_MoveUnit, punit, x0, y0, dx, dy, dest_x, dest_y);
-  }
+  /* Clear old sprite. */
+  gdk_draw_pixmap(map_canvas->window, civ_gc, map_canvas_store, old_canvas_x,
+		  old_canvas_y, old_canvas_x, old_canvas_y, UNIT_TILE_WIDTH,
+		  UNIT_TILE_HEIGHT);
+
+  /* Draw the new sprite. */
+  gdk_draw_pixmap(single_tile_pixmap, civ_gc, map_canvas_store, new_canvas_x,
+		  new_canvas_y, 0, 0, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+  put_unit_pixmap(punit, single_tile_pixmap, 0, 0);
+
+  /* Write to screen. */
+  gdk_draw_pixmap(map_canvas->window, civ_gc, single_tile_pixmap, 0, 0,
+		  new_canvas_x, new_canvas_y, UNIT_TILE_WIDTH,
+		  UNIT_TILE_HEIGHT);
+
+  /* Flush. */
+  gdk_flush();
+#endif
 }
 
 /**************************************************************************
@@ -454,15 +459,17 @@ void refresh_overview_viewrect(void)
 }
 
 /**************************************************************************
-  FIXME: this function has been moved into mapview_common.  See
-  MUIM_Map_ShowCityDescriptions.
+...
 **************************************************************************/
-void show_city_descriptions(void)
+void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
 {
-  if (!draw_city_names && !draw_city_productions)
-    return;
+  static char buffer[512], buffer2[32];
+  enum color_std color;
 
-  DoMethod(main_map_area, MUIM_Map_ShowCityDescriptions);
+  get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
+				     buffer2, sizeof(buffer2), &color);
+
+	printf("show_city_desc() %s %s %d %d\n",buffer,buffer2, canvas_x, canvas_y);
 }
 
 /**************************************************************************
