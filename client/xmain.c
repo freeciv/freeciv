@@ -462,7 +462,7 @@ void x_main(int argc, char *argv[])
 **************************************************************************/
 void setup_widgets(void)
 {
-  int i;
+  long i;
 
   main_form = XtVaCreateManagedWidget("mainform", formWidgetClass, 
 				      toplevel, 
