@@ -878,21 +878,15 @@ int trade_between_cities(struct city *pc1, struct city *pc2)
   int bonus = 0;
 
   if (pc1 && pc2) {
-    struct player *p1 = city_owner(pc1);
-    struct player *p2 = city_owner(pc2);
-
     bonus = (pc1->tile_trade + pc2->tile_trade + 4) / 8;
 
-    /* if neither player knows the cities are on the
-     * same contient, then double the bonus */
-    if ( !((map_get_continent(pc1->x, pc1->y, p1) ==
-            map_get_continent(pc2->x, pc2->y, p1)) ||
-           (map_get_continent(pc1->x, pc1->y, p2) ==
-            map_get_continent(pc2->x, pc2->y, p2))) ) {
+    /* Double if on different continents. */
+    if (map_get_continent(pc1->x, pc1->y) !=
+	map_get_continent(pc2->x, pc2->y)) {
       bonus *= 2;
     }
 
-    if (p1 == p2) {
+    if (pc1->owner == pc2->owner) {
       bonus /= 2;
     }
   }
@@ -1007,8 +1001,8 @@ bool city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
   case B_HOOVER:
   case B_BACH:
     if (improvement_variant(id)==1) {
-      return (map_get_continent(tmp->x, tmp->y, city_owner(tmp)) ==
-	      map_get_continent(pcity->x, pcity->y, city_owner(pcity)));
+      return (map_get_continent(tmp->x, tmp->y) ==
+	      map_get_continent(pcity->x, pcity->y));
     } else {
       return TRUE;
     }

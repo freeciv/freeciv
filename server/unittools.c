@@ -1205,8 +1205,9 @@ static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
     value = get_virtual_defense_power(U_LAST, u_type, x1, y1, FALSE, FALSE);
     value *= 10;
 
-    if (ptile->continent != map_get_continent(pcity->x, pcity->y, NULL))
+    if (ptile->continent != map_get_continent(pcity->x, pcity->y)) {
       value /= 2;
+    }
 
     value -= myrand(value/3);
 

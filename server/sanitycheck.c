@@ -99,14 +99,14 @@ static void check_map(void)
   whole_map_iterate(x, y) {
     struct tile *ptile = map_get_tile(x, y);
     struct city *pcity = map_get_city(x, y);
-    int cont = map_get_continent(x, y, NULL);
+    int cont = map_get_continent(x, y);
     if (is_ocean(map_get_terrain(x, y))) {
       assert(cont == 0);
     } else {
       assert(cont != 0);
       adjc_iterate(x, y, x1, y1) {
 	if (!is_ocean(map_get_terrain(x1, y1))) {
-	  assert(map_get_continent(x1, y1, NULL) == cont);
+	  assert(map_get_continent(x1, y1) == cont);
 	}
       } adjc_iterate_end;
     }

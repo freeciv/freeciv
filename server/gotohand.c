@@ -1215,23 +1215,21 @@ bool goto_is_sane(struct unit *punit, int x, int y, bool omni)
        * and with a boat */
       if (ground_unit_transporter_capacity(x, y, pplayer) > 0) {
         adjc_iterate(x, y, tmp_x, tmp_y) {
-          if (map_get_continent(tmp_x, tmp_y, pplayer) == 
-              map_get_continent(punit->x, punit->y, pplayer))
+          if (map_get_continent(tmp_x, tmp_y) == 
+              map_get_continent(punit->x, punit->y))
             /* The target is adjacent to our continent! */
             return TRUE;
         } adjc_iterate_end;
       }
     } else {
       /* Going to a land tile: better be our continent */
-      if (map_get_continent(punit->x, punit->y, pplayer) 
-            == map_get_continent(x, y, pplayer)) {
+      if (map_get_continent(punit->x, punit->y) == map_get_continent(x, y)) {
         return TRUE;
       } else {
         /* Well, it's not our continent, but maybe we are on a boat
          * adjacent to the target continent? */
 	adjc_iterate(punit->x, punit->y, tmp_x, tmp_y) {
-	  if (map_get_continent(tmp_x, tmp_y, pplayer) 
-                == map_get_continent(x, y, pplayer)) {
+	  if (map_get_continent(tmp_x, tmp_y) == map_get_continent(x, y)) {
 	    return TRUE;
           }
 	} adjc_iterate_end;

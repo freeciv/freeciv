@@ -21,30 +21,6 @@
 #include "climap.h"
 #include "tilespec.h"           /* is_isometric */
 
-/***************************************************************
- pplayer is only used in the server
-***************************************************************/
-bool map_get_known(int x, int y, struct player *pplayer)
-{
-  return tile_get_known(x, y) != TILE_UNKNOWN;
-}
-
-/***************************************************************
- pplayer is only used in the server
-***************************************************************/
-unsigned short map_get_continent(int x, int y, struct player *pplayer)
-{
-  return map_get_tile(x, y)->continent;
-}
-
-/***************************************************************
- pplayer is only used in the server
-***************************************************************/
-void map_set_continent(int x, int y, struct player *pplayer, int val)
-{
-  map_get_tile(x, y)->continent = val;
-}
-
 /************************************************************************
  A tile's "known" field is used by the server to store whether _each_
  player knows the tile.  Client-side, it's used as an enum known_type

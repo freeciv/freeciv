@@ -413,7 +413,7 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
   /* Localize the unit */
   
   if (is_ground_unit(punit)) {
-    continent = map_get_continent(x, y, NULL);
+    continent = map_get_continent(x, y);
   } else {
     continent = 0;
   }
@@ -426,7 +426,7 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
   if ((unit_flag(punit, F_TRIREME) && 
        is_likely_trireme_loss(pplayer, x, y))
       || map_get_city(x, y)
-      || map_get_continent(x, y, NULL) != continent
+      || map_get_continent(x, y) != continent
       || (is_barbarian(pplayer) && map_has_special(x, y, S_HUT))) {
     return 0;
   }
@@ -699,8 +699,8 @@ bool ai_manage_explorer(struct unit *punit)
     }
 
     if (pcity && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
-      if (map_get_continent(pcity->x, pcity->y, NULL) 
-          == map_get_continent(x, y, NULL)
+      if (map_get_continent(pcity->x, pcity->y)
+          == map_get_continent(x, y)
           || (is_sailing_unit(punit) 
               && is_ocean_near_tile(pcity->x, pcity->y))) {
         UNIT_LOG(LOG_DEBUG, punit, "sending explorer home by foot");
@@ -753,7 +753,7 @@ static struct city *wonder_on_continent(struct player *pplayer, int cont)
   city_list_iterate(pplayer->cities, pcity) 
     if (!(pcity->is_building_unit) 
         && is_wonder(pcity->currently_building)
-        && map_get_continent(pcity->x, pcity->y, NULL) == cont) {
+        && map_get_continent(pcity->x, pcity->y) == cont) {
       return pcity;
   }
   city_list_iterate_end;
@@ -1288,8 +1288,7 @@ static void find_city_beach( struct city *pc, struct unit *punit, int *x, int *y
   CHECK_UNIT(punit);
   
   square_iterate(punit->x, punit->y, search_dist, xx, yy) {
-    if (map_get_continent(xx, yy, NULL) == 
-        map_get_continent(pc->x, pc->y, NULL)
+    if (map_get_continent(xx, yy) == map_get_continent(pc->x, pc->y)
         && real_map_distance(punit->x, punit->y, xx, yy) < dist) {
 
       dist = real_map_distance(punit->x, punit->y, xx, yy);
@@ -1854,7 +1853,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   /* Our total attack value with reinforcements */
   int attack;
   int move_time, move_rate;
-  int con = map_get_continent(punit->x, punit->y, NULL);
+  int con = map_get_continent(punit->x, punit->y);
   struct unit *pdef;
   int maxd, needferry;
   /* Do we have access to sea? */
@@ -2115,7 +2114,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         /* Yes, we like this target */
         if (punit->id != 0 && is_ground_unit(punit) 
             && !unit_flag(punit, F_MARINES)
-            && map_get_continent(acity->x, acity->y, NULL) != con) {
+            && map_get_continent(acity->x, acity->y) != con) {
           /* a non-virtual ground unit is trying to attack something on 
            * another continent.  Need a beachhead which is adjacent 
            * to the city and an available ocean tile */
@@ -2164,7 +2163,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       }
 
       if (is_ground_unit(punit) 
-          && (map_get_continent(aunit->x, aunit->y, NULL) != con 
+          && (map_get_continent(aunit->x, aunit->y) != con 
               || WARMAP_COST(aunit->x, aunit->y) >= maxd)) {
         /* Impossible or too far to walk */
         continue;
@@ -2384,7 +2383,7 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 
   if (punit->ai.ai_role == AIUNIT_NONE) {
     if ((pcity = wonder_on_continent(pplayer, 
-                             map_get_continent(punit->x, punit->y, NULL))) 
+                                     map_get_continent(punit->x, punit->y))) 
         && unit_flag(punit, F_HELP_WONDER)
         && build_points_left(pcity) > (pcity->shield_surplus * 2)) {
       if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
@@ -2409,8 +2408,8 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
          if (pplayers_at_war(pplayer, aplayer)) continue;
          city_list_iterate(pplayer->cities,pdest) {
            if (pcity && can_establish_trade_route(pcity, pdest)
-               && map_get_continent(pcity->x, pcity->y, NULL) 
-                    == map_get_continent(pdest->x, pdest->y, NULL)) {
+               && map_get_continent(pcity->x, pcity->y) 
+                                == map_get_continent(pdest->x, pdest->y)) {
              tradeval=trade_between_cities(pcity, pdest);
              if (tradeval != 0) {
                if (best < tradeval) {
@@ -2878,7 +2877,7 @@ not possible it runs away. When on coast, it may disappear with 33% chance.
 **************************************************************************/
 static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader)
 {
-  int con = map_get_continent(leader->x, leader->y, NULL);
+  int con = map_get_continent(leader->x, leader->y);
   int safest = 0, safest_x = leader->x, safest_y = leader->y;
   struct unit *closest_unit = NULL;
   int dist, mindist = 10000;
@@ -2898,7 +2897,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
   unit_list_iterate(pplayer->units, aunit) {
     if (unit_has_role(aunit->type, L_BARBARIAN_LEADER)
 	|| !is_ground_unit(aunit)
-	|| map_get_continent(aunit->x, aunit->y, NULL) != con)
+	|| map_get_continent(aunit->x, aunit->y) != con)
       continue;
 
     if (WARMAP_COST(aunit->x, aunit->y) < mindist) {
@@ -2909,8 +2908,8 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
 
   if (closest_unit
       && !same_pos(closest_unit->x, closest_unit->y, leader->x, leader->y)
-      && (map_get_continent(leader->x, leader->y, NULL)
-          == map_get_continent(closest_unit->x, closest_unit->y, NULL))) {
+      && (map_get_continent(leader->x, leader->y)
+          == map_get_continent(closest_unit->x, closest_unit->y))) {
     (void) ai_unit_goto(leader, closest_unit->x, closest_unit->y);
     return; /* sticks better to own units with this -- jk */
   }
@@ -2923,7 +2922,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
     unit_list_iterate(other_player->units, aunit) {
       if (is_military_unit(aunit)
 	  && is_ground_unit(aunit)
-	  && map_get_continent(aunit->x, aunit->y, NULL) == con) {
+	  && map_get_continent(aunit->x, aunit->y) == con) {
 	/* questionable assumption: aunit needs as many moves to reach us as we
 	   need to reach it */
 	dist = WARMAP_COST(aunit->x, aunit->y) - unit_move_rate(aunit);

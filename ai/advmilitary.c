@@ -1394,7 +1394,7 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
                                      : get_unit_type(freight)->move_rate;
 
   if (!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
-    wonder_continent = map_get_continent(pcity->x, pcity->y, NULL);
+    wonder_continent = map_get_continent(pcity->x, pcity->y);
   } else {
     wonder_continent = 0;
   }
@@ -1403,8 +1403,7 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
   city_list_iterate(pplayer->cities, othercity) {
     distance = WARMAP_COST(othercity->x, othercity->y);
     if (wonder_continent != 0
-        && map_get_continent(othercity->x, othercity->y, NULL) 
-             == wonder_continent) {
+        && map_get_continent(othercity->x, othercity->y) == wonder_continent) {
       othercity->ai.distance_to_wonder_city = distance;
     }
 

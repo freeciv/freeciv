@@ -64,7 +64,7 @@ static int ai_eval_threat_land(struct player *pplayer, struct city *pcity)
     return 40;
   }
 
-  continent = map_get_continent(pcity->x, pcity->y, NULL);
+  continent = map_get_continent(pcity->x, pcity->y);
   vulnerable = ai->threats.continent[continent]
                || city_got_building(pcity, B_PALACE)
                || (ai->threats.invasions
@@ -103,7 +103,7 @@ static int ai_eval_threat_air(struct player *pplayer, struct city *pcity)
     return 50;
   }
 
-  continent = map_get_continent(pcity->x, pcity->y, NULL);
+  continent = map_get_continent(pcity->x, pcity->y);
   vulnerable = ai->threats.air
                && (ai->threats.continent[continent]
                    || is_water_adjacent_to_tile(pcity->x, pcity->y) 
@@ -134,7 +134,7 @@ static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
   /* No non-allied player has nuclear capability yet. */
   if (ai->threats.nuclear == 0) { return 0; }
 
-  continent = map_get_continent(pcity->x, pcity->y, NULL);
+  continent = map_get_continent(pcity->x, pcity->y);
   if (ai->threats.continent[continent]
       || is_water_adjacent_to_tile(pcity->x, pcity->y)
       || city_got_building(pcity, B_PALACE)) {
@@ -154,7 +154,7 @@ static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
 static int ai_eval_threat_missile(struct player *pplayer, struct city *pcity)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  int continent = map_get_continent(pcity->x, pcity->y, NULL);
+  int continent = map_get_continent(pcity->x, pcity->y);
   bool vulnerable = is_water_adjacent_to_tile(pcity->x, pcity->y)
                     || ai->threats.continent[continent]
                     || city_got_building(pcity, B_PALACE);
@@ -848,7 +848,7 @@ static void ai_choose_help_wonder(struct player *pplayer, struct city *pcity,
 {
   /* Continent where the city is --- we won't be aiding any wonder 
    * construction on another continent */
-  int continent = map_get_continent(pcity->x, pcity->y, NULL);
+  int continent = map_get_continent(pcity->x, pcity->y);
   /* Total count of caravans available or already being built 
    * on this continent */
   int caravans = 0;
@@ -863,7 +863,7 @@ static void ai_choose_help_wonder(struct player *pplayer, struct city *pcity,
   /* Count existing caravans */
   unit_list_iterate(pplayer->units, punit) {
     if (unit_flag(punit, F_HELP_WONDER)
-        && map_get_continent(punit->x, punit->y, NULL) == continent)
+        && map_get_continent(punit->x, punit->y) == continent)
       caravans++;
   } unit_list_iterate_end;
 
@@ -873,7 +873,7 @@ static void ai_choose_help_wonder(struct player *pplayer, struct city *pcity,
         && unit_type_flag(acity->currently_building, F_HELP_WONDER)
         && acity->shield_stock >=
              get_unit_type(acity->currently_building)->build_cost
-        && map_get_continent(acity->x, acity->y, NULL) == continent)
+        && map_get_continent(acity->x, acity->y) == continent)
       caravans++;
   } city_list_iterate_end;
 
@@ -894,7 +894,7 @@ static void ai_choose_help_wonder(struct player *pplayer, struct city *pcity,
      * to finish the wonder. */
     if (!acity->is_building_unit
         && is_wonder(acity->currently_building)
-        && map_get_continent(acity->x, acity->y, NULL) == continent
+        && map_get_continent(acity->x, acity->y) == continent
         && acity != pcity
         && build_points_left(acity) >
              get_unit_type(unit_type)->build_cost * caravans) {

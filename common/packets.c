@@ -1154,7 +1154,9 @@ struct packet_tile_info *receive_packet_tile_info(struct connection *pc)
   dio_get_uint8(&din, &packet->type);
   dio_get_uint16(&din, &packet->special);
   dio_get_uint8(&din, &packet->known);
-
+  if (has_capability("continent", pc->capability)) {
+    dio_get_uint16(&din, (int *)&packet->continent);
+  }
   RECEIVE_PACKET_END(packet);
 }
 
@@ -1182,6 +1184,9 @@ int send_packet_tile_info(struct connection *pc,
   dio_put_uint8(&dout, pinfo->type);
   dio_put_uint16(&dout, pinfo->special);
   dio_put_uint8(&dout, pinfo->known);
+  if (has_capability("continent", pc->capability)) {
+    dio_put_uint16(&dout, pinfo->continent);
+  }
 
   SEND_PACKET_END;
 }

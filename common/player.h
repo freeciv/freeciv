@@ -203,8 +203,6 @@ struct player {
   Impr_Status *island_improv; /* improvements with equiv_range==Island, dimensioned to
 			 	 [map.num_continents][game.num_impr_types] */
 
-  int num_continents;
-
   struct {
     int length;
     void *data;

@@ -35,7 +35,6 @@ struct dumb_city{
 struct player_tile {
   enum tile_terrain_type terrain;
   enum tile_special_type special;
-  unsigned short continent;
   unsigned short seen;
   unsigned short own_seen;
   /* If you build a city with an unknown square within city radius

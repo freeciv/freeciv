@@ -903,7 +903,7 @@ static int evaluate_city_building(struct unit *punit,
   int best_newv = 0, best_moves = 0;
   struct player *pplayer = unit_owner(punit);
   bool nav_known          = (get_invention(pplayer, game.rtech.nav) == TECH_KNOWN);
-  int ucont              = map_get_continent(punit->x, punit->y, pplayer);
+  int ucont              = map_get_continent(punit->x, punit->y);
   int mv_rate            = unit_type(punit)->move_rate;
   int food_upkeep        = unit_food_upkeep(punit);
   int food_cost          = unit_foodbox_cost(punit);
@@ -934,7 +934,7 @@ static int evaluate_city_building(struct unit *punit,
 	&& !is_ocean(map_get_terrain(x, y))
 	&& !BV_CHECK_MASK(territory[x][y], my_enemies)
 	/* pretty good, hope it's enough! -- Syela */
-	&& (near < 8 || map_get_continent(x, y, pplayer) != ucont)
+	&& (near < 8 || map_get_continent(x, y) != ucont)
 	&& city_can_be_built_here(x,y)
 	&& !city_exists_within_city_radius(x, y, FALSE)) {
 
@@ -980,7 +980,7 @@ static int evaluate_city_building(struct unit *punit,
       newv = amortize(b, moves);
 
       b = (food_upkeep * FOOD_WEIGHTING) * MORT;
-      if (map_get_continent(x, y, pplayer) != ucont) {
+      if (map_get_continent(x, y) != ucont) {
         b += SHIELD_WEIGHTING * MORT;
       }
       newv -= (b - amortize(b, moves));
@@ -1009,8 +1009,7 @@ static int evaluate_city_building(struct unit *punit,
       }
 #endif
 
-      if (map_get_continent(x, y, pplayer) != ucont 
-          && !nav_known && near >= 8) {
+      if (map_get_continent(x, y) != ucont && !nav_known && near >= 8) {
 #ifdef REALLY_DEBUG_THIS
 	freelog(LOG_DEBUG,
 		"%s (%d, %d) rejected city at (%d, %d) to %d, newv = %d, moves = %d" \
@@ -1051,7 +1050,7 @@ static int evaluate_improvements(struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   bool in_use;			/* true if the target square is being used
 				   by one of our cities */
-  int ucont           = map_get_continent(punit->x, punit->y, pplayer);
+  int ucont           = map_get_continent(punit->x, punit->y);
   int mv_rate         = unit_type(punit)->move_rate;
   int mv_turns;			/* estimated turns to move to target square */
   int oldv;			/* current value of consideration tile */
@@ -1076,7 +1075,7 @@ static int evaluate_improvements(struct unit *punit,
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE)
 	continue;
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
-      if (map_get_continent(x, y, pplayer) == ucont
+      if (map_get_continent(x, y) == ucont
 	  && WARMAP_COST(x, y) <= THRESHOLD * mv_rate
 	  && !BV_CHECK_MASK(territory[x][y], my_enemies)
 	  /* pretty good, hope it's enough! -- Syela */

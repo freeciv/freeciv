@@ -84,7 +84,8 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     gtk_container_add(GTK_CONTAINER(p), b);
 
 #ifdef DEBUG    
-    my_snprintf(s, sizeof(s), _("Location: (%d, %d)"), xtile, ytile);
+    my_snprintf(s, sizeof(s), _("Location: (%d, %d) [%d]"), xtile, ytile, 
+                ptile->continent);
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				    "GtkLabel::label", s, NULL);
 #endif /* DEBUG */

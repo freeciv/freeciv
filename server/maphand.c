@@ -359,6 +359,7 @@ void send_tile_info(struct conn_list *dest, int x, int y)
       info.known = TILE_KNOWN;
       info.type = ptile->terrain;
       info.special = ptile->special;
+      info.continent = ptile->continent;
       if (pplayer) {
 	update_tile_knowledge(pplayer,x,y);
       }
@@ -392,6 +393,7 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
     info.known=TILE_KNOWN;
     info.type = ptile->terrain;
     info.special = ptile->special;
+    info.continent = ptile->continent;
   }
   else if (map_get_known(x, y, pplayer)) {
     if (map_get_seen(x, y, pplayer) != 0) { /* known and seen */
@@ -403,10 +405,12 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
     plrtile = map_get_player_tile(x, y, pplayer);
     info.type = plrtile->terrain;
     info.special = plrtile->special;
+    info.continent = ptile->continent;
   } else { /* unknown (the client needs these sometimes to draw correctly) */
     info.known = TILE_UNKNOWN;
     info.type = ptile->terrain;
     info.special = ptile->special;
+    info.continent = ptile->continent;
   }
   lsend_packet_tile_info(dest, &info);
 }
@@ -852,7 +856,6 @@ static void map_change_own_seen(int x, int y, struct player *pplayer,
 void map_set_known(int x, int y, struct player *pplayer)
 {
   map_get_tile(x, y)->known |= (1u<<pplayer->player_no);
-  update_continents(x, y, pplayer);
 }
 
 /***************************************************************
@@ -972,7 +975,6 @@ static void player_tile_init(int x, int y, struct player *pplayer)
 
   plrtile->terrain = T_UNKNOWN;
   plrtile->special = S_NO_SPECIAL;
-  plrtile->continent = 0;
   plrtile->city = NULL;
 
   plrtile->seen = 0;
@@ -1004,30 +1006,9 @@ void update_tile_knowledge(struct player *pplayer, int x, int y)
 {
   struct tile *ptile = map_get_tile(x, y);
   struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
-  bool was_land = (!is_ocean(plrtile->terrain) && 
-                   plrtile->terrain != T_UNKNOWN);
 
   plrtile->terrain = ptile->terrain;
   plrtile->special = ptile->special;
-
-  /* a rare case that happens when we transform land to ocean.
-   * we need to update continent numbers correctly.
-   * this will only be a problem if we now have two continents where
-   * we only had one before the transform. the check is nasty and the
-   * case is rare, so simply renumber everything. */
-  if (was_land && is_ocean(ptile->terrain) &&
-      map_get_known_and_seen(x, y, pplayer)) {
-    whole_map_iterate(x1, y1) {
-      map_set_continent(x1, y1, pplayer, 0);
-    } whole_map_iterate_end;
-    pplayer->num_continents = 0;
-
-    whole_map_iterate(x1, y1) {
-      if (map_get_known(x1, y1, pplayer)) { 
-        update_continents(x1, y1, pplayer);
-      }
-    } whole_map_iterate_end;
-  }
 }
 
 /***************************************************************
@@ -1374,30 +1355,6 @@ bool is_coast_seen(int x, int y, struct player *pplayer)
   return FALSE;
 }
 
-/***************************************************************
-...
-***************************************************************/
-unsigned short map_get_continent(int x, int y, struct player *pplayer)
-{
-  if (pplayer) {
-    return map_get_player_tile(x, y, pplayer)->continent;
-  } else {
-    return map_get_tile(x, y)->continent;
-  }
-}
-
-/***************************************************************
-...
-***************************************************************/
-void map_set_continent(int x, int y, struct player *pplayer, int val)
-{
-  if (pplayer) {
-    map_get_player_tile(x, y, pplayer)->continent = val;
-  } else {
-    map_get_tile(x, y)->continent = val;
-  }
-}
-
 /**************************************************************************
   Set the tile to be a river if required.
   It's required if one of the tiles nearby would otherwise be part of a
@@ -1427,9 +1384,105 @@ static void ocean_to_land_fix_rivers(int x, int y)
 }
 
 /**************************************************************************
+  Recursively renumber the client continent at (x,y) with continent
+  number 'new'.  Ie, renumber (x,y) tile and recursive adjacent
+  land tiles with the same previous continent ('old').
+**************************************************************************/
+static void renumber_continent(int x, int y, int newnum)
+{
+  unsigned short old;
+
+  if(!normalize_map_pos(&x, &y)) {
+    return;
+  }
+  
+  old = map_get_continent(x, y);
+  
+  map_set_continent(x, y, newnum);
+  adjc_iterate(x, y, i, j) {
+    if (!is_ocean(map_get_terrain(i, j))
+        && map_get_continent(i, j) == old) {
+      freelog(LOG_DEBUG,
+              " renumbering continent %d to %d at (%d %d)", old, newnum, i, j);
+      renumber_continent(i, j, newnum);
+    }
+  } adjc_iterate_end;
+}
+
+/**************************************************************************
+  We just transformed (x,y). If we changed it from ocean to land, check to
+  see if we merged a continent. (assign a continent number if we didn't)
+  If we changed it from land to ocean, check to see if we split a continent 
+  in pieces.
+
+  There are two special cases: we raised atlantis and have ourselves a shiny
+  new island. so we set it to map.num_continents + 1 (this btw is impossible
+  under the current transform rules, but it's an easy enough case that we 
+  check for it here anyway), or we sunk a little atoll. In that case, we'll 
+  return FALSE, even though we lost a continent. 
+  It shouldn't make a difference.
+
+  As a bonus, we set the transformed tile's new continent number here.
+**************************************************************************/
+static bool check_for_continent_change(int x, int y)
+{
+  unsigned short con = 0, unused = map.num_continents + 1;
+
+  if (is_ocean(map_get_terrain(x, y))) {
+    map_set_continent(x, y, 0);
+    /* check for land surrounding this tile. */
+    adjc_iterate(x, y, i, j) {
+      if (!is_ocean(map_get_terrain(i, j))) {
+        /* we found a land tile, check for another */
+        adjc_iterate(x, y, l, m) {
+          if (!(l == i && j == m) && !is_ocean(map_get_terrain(l, m))) {
+            /* we found a second adjacent land tile. renumber it */
+            con = map_get_continent(l, m);
+            renumber_continent(l, m, unused);
+
+            /* did the original tile get renumbered? if it did, then we
+             * didn't split the continent. if it's different, then 
+             * we are the proud owner of separate continents */
+            if (map_get_continent(i, j) == unused) {
+              renumber_continent(l, m, con);
+            } else {
+              return TRUE;
+            }
+          }
+        } adjc_iterate_end; 
+      }
+    } adjc_iterate_end;
+  } else {
+    /* check for land surrounding this tile. */
+    adjc_iterate(x, y, i, j) {
+      if (!is_ocean(map_get_terrain(i, j))) {
+        if (con == 0) {
+          con = map_get_continent(i, j);
+        } else if (map_get_continent(i, j) != con) {
+          return TRUE;
+        }
+      }
+    } adjc_iterate_end;
+
+    if (con == 0) {
+      /* we raised atlantis */
+      map_set_continent(x, y, ++map.num_continents);
+    } else {
+      /* set the tile to something adjacent to it */
+      map_set_continent(x, y, con);
+    }
+  }
+
+  return FALSE;
+}
+
+/**************************************************************************
   Checks for terrain change between ocean and land.  Handles side-effects.
   (Should be called after any potential ocean/land terrain changes.)
   Also, returns an enum ocean_land_change, describing the change, if any.
+
+  if we did a land change, we do everything in our power to avoid reassigning
+  continent numbers.
 **************************************************************************/
 enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
                                                 enum tile_terrain_type oldter)
@@ -1441,22 +1494,20 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
     ocean_to_land_fix_rivers(x, y);
     city_landlocked_sell_coastal_improvements(x, y);
 
-    /* change continent numbers */
-    assign_continent_numbers();
-    players_iterate(pplayer) {
-      if (map_get_known_and_seen(x, y, pplayer)) {
-        update_continents(x, y, pplayer);
-      }
-    } players_iterate_end;
+    if (check_for_continent_change(x, y)) {
+      assign_continent_numbers();
+      send_all_known_tiles(NULL);
+    }
 
     gamelog(GAMELOG_MAP, _("(%d,%d) land created from ocean"), x, y);
     return OLC_OCEAN_TO_LAND;
   } else if (!is_ocean(oldter) && is_ocean(newter)) {
     /* land to ocean ... */
 
-    /* player-specific continent update is taken 
-     * care of in update_tile_knowledge() */
-    assign_continent_numbers();
+    if (check_for_continent_change(x, y)) {
+      assign_continent_numbers();
+      send_all_known_tiles(NULL);
+    }
 
     gamelog(GAMELOG_MAP, _("(%d,%d) ocean created from land"), x, y);
     return OLC_LAND_TO_OCEAN;

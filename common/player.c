@@ -110,7 +110,6 @@ void player_init(struct player *plr)
   /* Blank lists of Island-range improvements and effects (these are
      initialised by player_init_island_impr) */
   plr->island_improv = NULL;
-  plr->num_continents = 0;
 
   plr->attribute_block.data = NULL;
   plr->attribute_block.length = 0;

@@ -45,8 +45,8 @@
 #include "citydlg_g.h"
 #include "cityrep_g.h"
 #include "civclient.h"
-#include "climisc.h"
 #include "climap.h"
+#include "climisc.h"
 #include "clinet.h"		/* aconnection */
 #include "control.h"
 #include "dialogs_g.h"
@@ -1583,7 +1583,6 @@ This was once very ugly...
 void handle_tile_info(struct packet_tile_info *packet)
 {
   struct tile *ptile = map_get_tile(packet->x, packet->y);
-  enum tile_terrain_type old_terrain = ptile->terrain;
   enum known_type old_known = ptile->known;
   bool tile_changed = FALSE;
 
@@ -1608,25 +1607,16 @@ void handle_tile_info(struct packet_tile_info *packet)
   }
 
   /* update continents */
-  if ((packet->known >= TILE_KNOWN_FOGGED &&
-       old_known == TILE_UNKNOWN && !is_ocean(ptile->terrain)) ||
-      (is_ocean(old_terrain) && !is_ocean(ptile->terrain))) {
-    /* new knowledge or new land -- update can handle incrementally */
-    update_continents(packet->x, packet->y, game.player_ptr);
-    map.num_continents = game.player_ptr->num_continents;
-  } else if (old_known >= TILE_KNOWN_FOGGED &&
-	     (!is_ocean(old_terrain) && is_ocean(ptile->terrain))) {
-    /* land changed into ocean -- rebuild continents map from scratch */
-    whole_map_iterate(x, y) {
-      map_set_continent(x, y, NULL, 0);
-    } whole_map_iterate_end;
-    map.num_continents = game.player_ptr->num_continents = 0;
-    whole_map_iterate(x, y) {
-      if ((tile_get_known(x, y) >= TILE_KNOWN_FOGGED) &&
-	  !is_ocean(map_get_terrain(x, y)))
-	update_continents(x, y, game.player_ptr);
-    }
-    whole_map_iterate_end;
+  if (ptile->continent != packet->continent && ptile->continent != 0) {
+    /* we're renumbering continents, somebody did a transform. */
+    map.num_continents = 0;
+  }
+
+  ptile->continent = packet->continent;
+
+  if (ptile->continent > map.num_continents) {
+    map.num_continents = ptile->continent;
+    /* reallot island effects here */
   }
 
   /* refresh tiles */

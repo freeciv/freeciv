@@ -265,6 +265,7 @@ struct packet_city_request
 *********************************************************/
 struct packet_tile_info {
   int x, y, type, special, known;
+  unsigned short continent;
 };
 
 

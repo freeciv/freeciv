@@ -1226,9 +1226,6 @@ static void player_map_load(struct player *plr, int plrno,
 	if (map_get_city(x, y)) {
 	  update_dumb_city(plr, map_get_city(x, y));
 	}
-        update_continents(x, y, plr);
-      } else if (map_get_known(x, y, plr)) {
-        update_continents(x, y, plr);
       }
     } whole_map_iterate_end;
 
@@ -1243,7 +1240,6 @@ static void player_map_load(struct player *plr, int plrno,
 	update_tile_knowledge(plr, x, y);
 	if (pcity)
 	  update_dumb_city(plr, pcity);
-        update_continents(x, y, plr);
       }
     } whole_map_iterate_end;
   }

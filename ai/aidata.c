@@ -52,7 +52,7 @@ static struct ai_data aidata[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   defending units, and ignore enemy units that are incapable of harming 
   us, instead of just checking attack strength > 1.
 **************************************************************************/
-void ai_data_turn_init(struct player *pplayer)
+void ai_data_turn_init(struct player *pplayer) 
 {
   struct ai_data *ai = &aidata[pplayer->player_no];
   int i, nuke_units = num_role_units(F_NUCLEAR);
@@ -80,7 +80,7 @@ void ai_data_turn_init(struct player *pplayer)
      * enough to warrant city walls. Concentrate instead on 
      * coastal fortresses and hunting down enemy transports. */
     city_list_iterate(aplayer->cities, acity) {
-      int continent = map_get_continent(acity->x, acity->y, NULL);
+      int continent = map_get_continent(acity->x, acity->y);
       ai->threats.continent[continent] = TRUE;
     } city_list_iterate_end;
 
@@ -147,7 +147,7 @@ void ai_data_turn_init(struct player *pplayer)
   ai->explore.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
   whole_map_iterate(x, y) {
     struct tile *ptile = map_get_tile(x, y);
-    int continent = (int)map_get_continent(x, y, NULL);
+    int continent = (int)map_get_continent(x, y);
 
     if (is_ocean(ptile->terrain)) {
       if (ai->explore.sea_done && ai_handicap(pplayer, H_TARGETS) 
@@ -157,7 +157,7 @@ void ai_data_turn_init(struct player *pplayer)
       /* skip rest, which is land only */
       continue;
     }
-    if (ai->explore.continent[continent]) {
+    if (ai->explore.continent[ptile->continent]) {
       /* we don't need more explaining, we got the point */
       continue;
     }
@@ -184,14 +184,14 @@ void ai_data_turn_init(struct player *pplayer)
   ai->stats.cities = fc_calloc(ai->num_continents + 1, sizeof(int));
   ai->stats.average_production = 0;
   city_list_iterate(pplayer->cities, pcity) {
-    ai->stats.cities[(int)map_get_continent(pcity->x, pcity->y, NULL)]++;
+    ai->stats.cities[(int)map_get_continent(pcity->x, pcity->y)]++;
     ai->stats.average_production += pcity->shield_surplus;
   } city_list_iterate_end;
   ai->stats.average_production /= MAX(1, city_list_size(&pplayer->cities));
   unit_list_iterate(pplayer->units, punit) {
     struct tile *ptile = map_get_tile(punit->x, punit->y);
     if (!is_ocean(ptile->terrain) && unit_flag(punit, F_SETTLERS)) {
-      ai->stats.workers[(int)map_get_continent(punit->x, punit->y, NULL)]++;
+      ai->stats.workers[(int)map_get_continent(punit->x, punit->y)]++;
     }
   } unit_list_iterate_end;
 
@@ -215,7 +215,8 @@ void ai_data_turn_init(struct player *pplayer)
 /**************************************************************************
   Clean up our mess.
 **************************************************************************/
-void ai_data_turn_done(struct player *pplayer) {
+void ai_data_turn_done(struct player *pplayer)
+{
   struct ai_data *ai = &aidata[pplayer->player_no];
 
   free(ai->explore.continent); ai->explore.continent = NULL;

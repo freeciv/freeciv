@@ -780,8 +780,8 @@ static void same_island_iterate(GtkTreeModel *model, GtkTreePath *path,
     itree_get(&it, 0, &res, -1);
     pcity = res;
 
-    if (map_get_continent(pcity->x, pcity->y, NULL)
-    	    == map_get_continent(selectedcity->x, selectedcity->y, NULL)) {
+    if (map_get_continent(pcity->x, pcity->y)
+    	    == map_get_continent(selectedcity->x, selectedcity->y)) {
       itree_select(city_selection, &it);
     }
   }
