@@ -543,6 +543,15 @@ void *hash_delete_entry(struct hash_table *h, const void *key)
 }
 
 /**************************************************************************
+  Delete all entries of the hash.
+**************************************************************************/
+void hash_delete_all_entries(struct hash_table *h)
+{
+  while (hash_num_entries(h) > 0)
+    hash_delete_entry(h, hash_key_by_number(h, 0));
+}
+
+/**************************************************************************
   Lookup: return existence:
 **************************************************************************/
 int hash_key_exists(const struct hash_table *h, const void *key)
@@ -576,4 +585,37 @@ unsigned int hash_num_buckets(const struct hash_table *h)
 unsigned int hash_num_deleted(const struct hash_table *h)
 {
   return h->num_deleted;
+}
+
+/**************************************************************************
+  Enumeration: returns the pointer to a key. The keys are returned in
+  random order.
+**************************************************************************/
+const void *hash_key_by_number(const struct hash_table *h,
+			       unsigned int entry_number)
+{
+  int bucket_nr, counter = 0;
+  assert(entry_number < h->num_entries);
+
+  for (bucket_nr = 0; bucket_nr < h->num_buckets; bucket_nr++) {
+    struct hash_bucket *bucket = &h->buckets[bucket_nr];
+
+    if (bucket->used != BUCKET_USED)
+      continue;
+
+    if (entry_number == counter)
+      return bucket->key;
+    counter++;
+  }
+  /* never reached */
+  assert(0);
+}
+
+/**************************************************************************
+  Enumeration: returns the pointer to a value. 
+**************************************************************************/
+const void *hash_value_by_number(const struct hash_table *h,
+				 unsigned int entry_number)
+{
+  return hash_lookup_data(h, hash_key_by_number(h, entry_number));
 }

@@ -46,7 +46,6 @@ enum handicap_type {
 /* anything else I have forgotten?  Let me know. -- Syela */
 };
 
-
 struct player_economic {
   int gold;
   int tax;
@@ -162,6 +161,10 @@ struct player {
   Impr_Status improvements[B_LAST]; /* improvements with equiv_range==Player */
   Impr_Status *island_improv; /* improvements with equiv_range==Island, dimensioned to
 			 	 [map.num_continents][game.num_impr_types] */
+  struct {
+    int length;
+    void *data;
+  } attribute_block;
 };
 
 void player_init(struct player *plr);

@@ -108,6 +108,9 @@ void player_init(struct player *plr)
   /* Blank lists of Island-range improvements (these are initialised
      elsewhere (server: player_map_allocate) */
   plr->island_improv = NULL;
+
+  plr->attribute_block.data = NULL;
+  plr->attribute_block.length = 0;
 }
 
 /***************************************************************

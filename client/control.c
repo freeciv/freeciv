@@ -1459,14 +1459,11 @@ void key_fog_of_war_toggle(void)
 **************************************************************************/
 void key_end_turn(void)
 {
-  if(!game.player_ptr->turn_done) {
-    struct packet_generic_message gen_packet;
-    gen_packet.message[0]='\0';
-    send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
+  if (!game.player_ptr->turn_done) {
+    send_turn_done();
     set_turn_done_button_state(FALSE);
   }
 }
-
 /**************************************************************************
 ...
 **************************************************************************/

@@ -1715,3 +1715,21 @@ void civil_war(struct player *pplayer)
 		  "rebel provinces."),
 		pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
 }  
+
+/**************************************************************************
+ The client has send as a chunk of the attribute block.
+**************************************************************************/
+void handle_player_attribute_chunk(struct player *pplayer,
+				   struct packet_attribute_chunk *chunk)
+{
+  generic_handle_attribute_chunk(pplayer, chunk);
+}
+
+/**************************************************************************
+ The client request an attribute block.
+**************************************************************************/
+void handle_player_attribute_block(struct player *pplayer,
+				   struct packet_player_request *packet)
+{
+  send_attribute_block(pplayer, pplayer->current_conn);
+}

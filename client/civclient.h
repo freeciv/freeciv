@@ -22,6 +22,8 @@ void send_unit_info(struct unit *punit);
 void send_move_unit(struct unit *punit);
 void send_goto_unit(struct unit *punit, int dest_x, int dest_y);
 void send_report_request(enum report_type type);
+void send_attribute_block_request(void);
+void send_turn_done(void);
 
 void user_ended_turn(void);
 

@@ -52,6 +52,12 @@ int hash_key_exists(const struct hash_table *h, const void *key);
 void *hash_lookup_data(const struct hash_table *h, const void *key);
 
 void *hash_delete_entry(struct hash_table *h, const void *key);
+void hash_delete_all_entries(struct hash_table *h);
+
+const void *hash_key_by_number(const struct hash_table *h,
+			       unsigned int entry_number);
+const void *hash_value_by_number(const struct hash_table *h,
+				 unsigned int entry_number);
 
 unsigned int hash_num_entries(const struct hash_table *h);
 unsigned int hash_num_buckets(const struct hash_table *h);

@@ -58,5 +58,6 @@ void handle_ruleset_city(struct packet_ruleset_city *packet);
 void handle_ruleset_game(struct packet_ruleset_game *packet);
 void handle_diplomat_action(struct packet_diplomat_action *packet);
 void handle_sabotage_list(struct packet_sabotage_list *packet);
+void handle_player_attribute_chunk(struct packet_attribute_chunk *packet);
 
 #endif /* FC__PACKHAND_H */

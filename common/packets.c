@@ -292,6 +292,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
   case PACKET_PLAYER_RESEARCH:
   case PACKET_PLAYER_TECH_GOAL:
   case PACKET_PLAYER_WORKLIST:
+  case PACKET_PLAYER_ATTRIBUTE_BLOCK:
     return receive_packet_player_request(pc);
 
   case PACKET_UNIT_BUILD_CITY:
@@ -373,6 +374,9 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult
 
   case PACKET_UNIT_AIRLIFT:
     return receive_packet_unit_request(pc);
+
+  case PACKET_ATTRIBUTE_CHUNK:
+    return receive_packet_attribute_chunk(pc);
 
   default:
     freelog(LOG_ERROR, "unknown packet type %d received from %s",
@@ -1492,11 +1496,15 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_worklist(cptr, &packet->worklist,
                     req_type == PACKET_PLAYER_WORKLIST);
   cptr=put_uint8(cptr, packet->wl_idx);
+
+  if (pc && has_capability("attributes", pc->capability)) {
+    cptr = put_uint8(cptr, packet->attribute_block);
+  }
+
   put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
 }
-
 
 /*************************************************************************
 ...
@@ -1517,6 +1525,10 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->tech);
   iget_worklist(&iter, &preq->worklist);
   iget_uint8(&iter, &preq->wl_idx);
+  if (pc && has_capability("attributes", pc->capability))
+    iget_uint8(&iter, &preq->attribute_block);
+  else
+    preq->attribute_block = 0;
   
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(pc->buffer);
@@ -3947,4 +3959,135 @@ struct packet_goto_route *receive_packet_goto_route(struct connection *pc)
     freelog(LOG_ERROR, "invalid type in receive_packet_goto_route()");
     return NULL;
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_attribute_chunk(struct connection *pc,
+				struct packet_attribute_chunk *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+
+  assert(packet->total_length > 0
+	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
+  /* 500 bytes header, just to be sure */
+  assert(packet->chunk_length > 0
+	 && packet->chunk_length < MAX_LEN_PACKET - 500);
+  assert(packet->chunk_length <= packet->total_length);
+  assert(packet->offset >= 0 && packet->offset < packet->total_length);
+
+  freelog(LOG_DEBUG, "sending attribute chunk %d/%d %d", packet->offset,
+	  packet->total_length, packet->chunk_length);
+
+  cptr = put_uint8(buffer + 2, PACKET_ATTRIBUTE_CHUNK);
+
+  cptr = put_uint32(cptr, packet->offset);
+  cptr = put_uint32(cptr, packet->total_length);
+  cptr = put_uint32(cptr, packet->chunk_length);
+
+  memcpy(cptr, packet->data, packet->chunk_length);
+  cptr += packet->chunk_length;
+
+  put_uint16(buffer, cptr - buffer);
+  send_connection_data(pc, buffer, cptr - buffer);
+
+  return 0;
+}
+
+/**************************************************************************
+..
+**************************************************************************/
+struct packet_attribute_chunk *receive_packet_attribute_chunk(struct
+							      connection
+							      *pc)
+{
+  struct pack_iter iter;
+  struct packet_attribute_chunk *packet =
+      fc_malloc(sizeof(struct packet_attribute_chunk));
+
+  pack_iter_init(&iter, pc);
+
+  iget_uint32(&iter, &packet->offset);
+  iget_uint32(&iter, &packet->total_length);
+  iget_uint32(&iter, &packet->chunk_length);
+
+  assert(packet->total_length > 0
+	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
+  /* 500 bytes header, just to be sure */
+  assert(packet->chunk_length > 0
+	 && packet->chunk_length < MAX_LEN_PACKET - 500);
+  assert(packet->chunk_length <= packet->total_length);
+  assert(packet->offset >= 0 && packet->offset < packet->total_length);
+
+  assert(pack_iter_remaining(&iter) != -1);
+  assert(pack_iter_remaining(&iter) == packet->chunk_length);
+
+  memcpy(packet->data, iter.ptr, packet->chunk_length);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(pc->buffer);
+
+  freelog(LOG_DEBUG, "received attribute chunk %d/%d %d", packet->offset,
+	  packet->total_length, packet->chunk_length);
+
+  return packet;
+}
+
+/**************************************************************************
+ Updates pplayer->attribute_block according to the given packet.
+**************************************************************************/
+void generic_handle_attribute_chunk(struct player *pplayer,
+				    struct packet_attribute_chunk *chunk)
+{
+  /* first one in a row */
+  if (chunk->offset == 0) {
+    if (pplayer->attribute_block.data != NULL) {
+      free(pplayer->attribute_block.data);
+      pplayer->attribute_block.data = NULL;
+    }
+    pplayer->attribute_block.data = fc_malloc(chunk->total_length);
+    pplayer->attribute_block.length = chunk->total_length;
+  }
+  memcpy((char *) (pplayer->attribute_block.data) + chunk->offset,
+	 chunk->data, chunk->chunk_length);
+}
+
+/**************************************************************************
+ Split the attribute block into chunks and send them over pconn.
+**************************************************************************/
+void send_attribute_block(const struct player *pplayer,
+			  struct connection *pconn)
+{
+  struct packet_attribute_chunk packet;
+  int current_chunk, chunks, bytes_left;
+
+  if (pplayer->attribute_block.data == NULL)
+    return;
+
+  assert(pplayer->attribute_block.length > 0 &&
+	 pplayer->attribute_block.length < MAX_ATTRIBUTE_BLOCK);
+
+  chunks =
+      (pplayer->attribute_block.length - 1) / ATTRIBUTE_CHUNK_SIZE + 1;
+  bytes_left = pplayer->attribute_block.length;
+
+  connection_do_buffer(pconn);
+
+  for (current_chunk = 0; current_chunk < chunks; current_chunk++) {
+    int size_of_current_chunk = MIN(bytes_left, ATTRIBUTE_CHUNK_SIZE);
+
+    packet.offset = ATTRIBUTE_CHUNK_SIZE * current_chunk;
+    packet.total_length = pplayer->attribute_block.length;
+    packet.chunk_length = size_of_current_chunk;
+
+    memcpy(packet.data,
+	   (char *) (pplayer->attribute_block.data) + packet.offset,
+	   packet.chunk_length);
+    bytes_left -= packet.chunk_length;
+
+    send_packet_attribute_chunk(pconn, &packet);
+  }
+
+  connection_do_unbuffer(pconn);
 }

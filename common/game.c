@@ -876,6 +876,11 @@ void game_remove_all_players(void)
 ***************************************************************/
 void game_remove_player(struct player *pplayer)
 {
+  if (pplayer->attribute_block.data != NULL) {
+    free(pplayer->attribute_block.data);
+    pplayer->attribute_block.data = NULL;
+  }
+
   unit_list_iterate(pplayer->units, punit) 
     game_remove_unit(punit);
   unit_list_iterate_end;

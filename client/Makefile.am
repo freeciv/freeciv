@@ -104,6 +104,8 @@ INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
 civclient_SOURCES = \
+	attribute.h	\
+	attribute.c	\
 	cityrepdata.c	\
 	cityrepdata.h	\
 	civclient.c	\

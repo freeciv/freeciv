@@ -20,8 +20,10 @@
 #include "spaceship.h"
 #include "worklist.h"
 
-#define MAX_LEN_USERNAME    10	     /* see below */
-#define MAX_LEN_MSG       1536
+#define MAX_LEN_USERNAME        10        /* see below */
+#define MAX_LEN_MSG             1536
+#define MAX_ATTRIBUTE_BLOCK     (1024*64) /* largest attribute block */
+#define ATTRIBUTE_CHUNK_SIZE    (1024*2)  /* attribute chunk size to use */
 
 /* Note that MAX_LEN_USERNAME cannot be expanded, because it
    is used for the name in the first packet sent by the client,
@@ -118,6 +120,8 @@ enum packet_type {
   PACKET_CONN_PING,
   PACKET_CONN_PONG,
   PACKET_UNIT_AIRLIFT,
+  PACKET_ATTRIBUTE_CHUNK,
+  PACKET_PLAYER_ATTRIBUTE_BLOCK,
   PACKET_LAST  /* leave this last */
 };
 
@@ -234,6 +238,7 @@ struct packet_player_request
   int tech;                              /* research */
   struct worklist worklist;              /* one worklist */
   int wl_idx;                            /* which worklist */
+  int attribute_block;                   /* send attribute block as chunks */
 };
 
 /*********************************************************
@@ -857,6 +862,13 @@ struct packet_goto_route
   int unit_id;
 };
 
+struct packet_attribute_chunk
+{
+  int offset, total_length, chunk_length;
+  /* to keep memory management simple don't allocate dynamic memory */
+  unsigned char data[ATTRIBUTE_CHUNK_SIZE];
+};
+
 /* These two are non-static for meta.c; others are now static --dwp */
 unsigned char *put_uint16(unsigned char *buffer, int val);
 unsigned char *put_string(unsigned char *buffer, const char *mystring);
@@ -1064,6 +1076,16 @@ int send_packet_goto_route(struct connection *pc,
                            const struct packet_goto_route *packet,
 			   enum goto_route_type type);
 struct packet_goto_route *receive_packet_goto_route(struct connection *pc);
+
+int send_packet_attribute_chunk(struct connection *pc,
+				struct packet_attribute_chunk *packet);
+struct packet_attribute_chunk *receive_packet_attribute_chunk(struct
+							      connection
+							      *pc);
+void send_attribute_block(const struct player *pplayer,
+			  struct connection *pconn);
+void generic_handle_attribute_chunk(struct player *pplayer,
+				    struct packet_attribute_chunk *chunk);
 
 int send_packet_generic_empty(struct connection *pc, int type);
 struct packet_generic_empty *

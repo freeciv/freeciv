@@ -214,6 +214,11 @@ static int is_game_over(void)
 **************************************************************************/
 static void send_all_info(struct conn_list *dest)
 {
+  conn_list_iterate(*dest, pconn) {
+      send_attribute_block(pconn->player,pconn);
+  }
+  conn_list_iterate_end;
+
   send_game_info(dest);
   send_map_info(dest);
   send_player_info_c(0, dest);
@@ -843,6 +848,17 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   case PACKET_UNIT_AIRLIFT:
     handle_unit_airlift(pplayer, (struct packet_unit_request *)packet);
     break;
+  case PACKET_ATTRIBUTE_CHUNK:
+    handle_player_attribute_chunk(pplayer,
+				  (struct packet_attribute_chunk *)
+				  packet);
+    break;
+  case PACKET_PLAYER_ATTRIBUTE_BLOCK:
+    handle_player_attribute_block(pplayer,
+				  (struct packet_player_request *)
+				  packet);
+    break;
+
   default:
     freelog(LOG_ERROR, "Received unknown packet %d from %s",
 	    type, conn_description(pconn));

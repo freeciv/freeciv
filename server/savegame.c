@@ -58,7 +58,56 @@ static const char terrain_chars[] = "adfghjm prstu";
  * include it when appropriate for maximum savegame compatibility.)
  */
 #define SAVEFILE_OPTIONS "1.7 startoptions spacerace2 rulesets" \
-" diplchance_percent worklists2 map_editor known32fix turn"
+" diplchance_percent worklists2 map_editor known32fix turn attributes"
+
+/***************************************************************
+Quote the memory block denoted by data and length so it consists only
+of " a-f0-9:". The returned string has to be freed by the caller using
+free().
+***************************************************************/
+static char *quote_block(const void *const data, int length)
+{
+  char *buffer = malloc(length * 3 + 10);
+  int offset, i;
+
+  sprintf(buffer, "%d:", length);
+  offset = strlen(buffer);
+
+  for (i = 0; i < length; i++) {
+    sprintf(buffer + offset, "%02x ", ((unsigned char *) data)[i]);
+    offset += 3;
+  }
+  return buffer;
+}
+
+/***************************************************************
+Unquote a string. The unquoted data is written into dest. If the
+unqoted data will be largern than dest_length the function aborts. It
+returns the actual length of the unquoted block.
+***************************************************************/
+static int unquote_block(const char *const quoted_, void *dest,
+			 int dest_length)
+{
+  int i, length, parsed, tmp;
+  char *endptr;
+  const char *quoted = quoted_;
+
+  parsed = sscanf(quoted, "%d", &length);
+  assert(parsed == 1);
+
+  assert(length <= dest_length);
+  quoted = strchr(quoted, ':') + 1;
+
+  for (i = 0; i < length; i++) {
+    tmp = strtol(quoted, &endptr, 16);
+    assert((endptr - quoted) == 2);
+    assert(*endptr == ' ');
+    assert((tmp & 0xff) == tmp);
+    ((unsigned char *) dest)[i] = tmp;
+    quoted += 3;
+  }
+  return length;
+}
 
 /***************************************************************
  Note -- as of v1.6.4 you should use savefile_options (instead of
@@ -750,7 +799,7 @@ static void player_load(struct player *plr, int plrno,
       secfile_lookup_int_default(file, DS_NEUTRAL,
 				 "player%d.diplstate%d.type", plrno, i);
     plr->diplstates[i].turns_left = 
-      secfile_lookup_int_default(file, 0,
+      secfile_lookup_int_default(file, -2,
 				 "player%d.diplstate%d.turns_left", plrno, i);
     plr->diplstates[i].has_reason_to_cancel = 
       secfile_lookup_int_default(file, 0,
@@ -1129,6 +1178,53 @@ static void player_load(struct player *plr, int plrno,
     unit_list_insert_back(&plr->units, punit);
 
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
+  }
+
+  if (section_file_lookup(file, "player%d.attribute_block_length", plrno)) {
+    int raw_length1, raw_length2, part_nr, parts,quoted_length;
+    char *quoted;
+
+    raw_length1 =
+	secfile_lookup_int(file, "player%d.attribute_block_length", plrno);
+    if (plr->attribute_block.data != NULL) {
+      free(plr->attribute_block.data);
+      plr->attribute_block.data = NULL;
+    }
+    plr->attribute_block.data = fc_malloc(raw_length1);
+    plr->attribute_block.length = raw_length1;
+
+    quoted_length = secfile_lookup_int
+	(file, "player%d.attribute_block_length_quoted", plrno);
+    quoted = fc_malloc(quoted_length + 1);
+    quoted[0] = 0;
+
+    parts =
+	secfile_lookup_int(file, "player%d.attribute_block_parts", plrno);
+
+    for (part_nr = 0; part_nr < parts; part_nr++) {
+      char *current = secfile_lookup_str(file,
+					 "player%d.attribute_block_data.part%d",
+					 plrno, part_nr);
+      if (!current)
+	break;
+      freelog(LOG_DEBUG,"quoted_length=%d quoted=%d current=%d",
+	      quoted_length,	
+	      strlen(quoted),strlen(current));
+      assert(strlen(quoted) + strlen(current) <= quoted_length);
+      strcat(quoted, current);
+    }
+    if (quoted_length != strlen(quoted)) {
+      freelog(LOG_NORMAL, "quoted_length=%d quoted=%d", quoted_length,
+	      strlen(quoted));
+      assert(0);
+    }
+
+    raw_length2 =
+	unquote_block(quoted,
+		      plr->attribute_block.data,
+		      plr->attribute_block.length);
+    assert(raw_length1 == raw_length2);
+    free(quoted);
   }
 }
 
@@ -1702,6 +1798,41 @@ static void player_save(struct player *plr, int plrno,
 	  }
     }
     secfile_insert_int(file, i, "player%d.total_ncities", plrno);
+  }
+
+#define PART_SIZE (2*1024)
+  if (plr->attribute_block.data != NULL) {
+    char *quoted = quote_block(plr->attribute_block.data,
+			       plr->attribute_block.length);
+    char part[PART_SIZE + 1];
+    int current_part_nr, parts, bytes_left;
+
+    secfile_insert_int(file, plr->attribute_block.length,
+		       "player%d.attribute_block_length", plrno);
+    secfile_insert_int(file, strlen(quoted),
+		       "player%d.attribute_block_length_quoted", plrno);
+
+    parts = (strlen(quoted) - 1) / PART_SIZE + 1;
+    bytes_left = strlen(quoted);
+
+    secfile_insert_int(file, parts,
+		       "player%d.attribute_block_parts", plrno);
+
+    for (current_part_nr = 0; current_part_nr < parts; current_part_nr++) {
+      int size_of_current_part = MIN(bytes_left, PART_SIZE);
+
+      assert(bytes_left);
+
+      memcpy(part, quoted + PART_SIZE * current_part_nr,
+	     size_of_current_part);
+      part[size_of_current_part] = 0;
+      secfile_insert_str(file, part,
+			 "player%d.attribute_block_data.part%d", plrno,
+			 current_part_nr);
+      bytes_left -= size_of_current_part;
+    }
+    assert(bytes_left == 0);
+    free(quoted);
   }
 }
 

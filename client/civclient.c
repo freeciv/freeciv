@@ -58,6 +58,7 @@
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 #include "tilespec.h"
+#include "attribute.h"
 
 #include "civclient.h"
 
@@ -173,6 +174,7 @@ int main(int argc, char *argv[])
   init_messages_where();
   init_our_capability();
   game_init();
+  attribute_init();
 
   /* This seed is not saved anywhere; randoms in the client should
      have cosmetic effects only (eg city name suggestions).  --dwp */
@@ -383,6 +385,11 @@ void handle_packet_input(char *packet, int type)
     send_packet_generic_empty(&aconnection, PACKET_CONN_PONG);
     break;
 
+  case PACKET_ATTRIBUTE_CHUNK:
+    handle_player_attribute_chunk((struct packet_attribute_chunk *)
+ 				  packet);
+    break;
+
   default:
     freelog(LOG_ERROR, "Received unknown packet (type %d) from server!", type);
     /* Old clients (<= some 1.11.5-devel, capstr +1.11) used to exit()
@@ -394,19 +401,27 @@ void handle_packet_input(char *packet, int type)
   free(packet);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void user_ended_turn(void)
+{
+  send_turn_done();
+}
 
 /**************************************************************************
 ...
 **************************************************************************/
-
-void user_ended_turn(void)
+void send_turn_done(void)
 {
   struct packet_generic_message gen_packet;
-  gen_packet.message[0]='\0';
+
+  attribute_flush();
+
+  gen_packet.message[0] = '\0';
 
   send_packet_generic_message(&aconnection, PACKET_TURN_DONE, &gen_packet);
 }
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -553,3 +568,15 @@ static void client_remove_all_cli_conn(void)
 
 void dealloc_id(int id); /* double kludge (suppress a possible warning) */
 void dealloc_id(int id) { }/* kludge */
+
+/**************************************************************************
+..
+**************************************************************************/
+void send_attribute_block_request()
+{
+  struct packet_player_request packet;
+
+  packet.attribute_block = 1;
+  send_packet_player_request(&aconnection, &packet,
+			     PACKET_PLAYER_ATTRIBUTE_BLOCK);
+}
