@@ -243,6 +243,8 @@ Magellan's Exp.: Variant=0: gives sea units 2 extra move points
 Great Wall:	 Uses same variant and effect as City Walls.
 Leo's Workshop:  Variant=0: Upgrades one obsolete unit per game turn.
 		 Variant=1: Upgrades all obsolete units each turn.
+Michelangelo's:  Variant=0: same as a Cathedral in every city
+		 Variant=1: doubles effect of cathedrals
 
 Other differences between Civ1 and Civ2/Freeciv which have not been
 implemented as variants:
@@ -253,9 +255,6 @@ Copernicus' Obs.: Freeciv: science output +50% in a city
 Isaac Newton's:   Freeciv: science output +100% in a city
 		  Civ1:    "increases effects of Libraries and 
 			   Universities" - by how much??
-Michelangelo's:   Freeciv: same as a Cathedral in every city
-		  Civ1:     "increases effect of cathedrals" - by
-			    how much??
 
 There are other more minor Civ1/Civ2/Freeciv differences, which 
 could be handled using variants, for:
