@@ -3218,6 +3218,19 @@ static char *player_generator(char *text, int state)
 }
 
 /**************************************************************************
+The connection names, from game.all_connections.
+**************************************************************************/
+static const char *connection_name_accessor(int idx)
+{
+  return conn_list_get(&game.all_connections, idx)->name;
+}
+static char *connection_generator(char *text, int state)
+{
+  return generic_generator(text, state, conn_list_size(&game.all_connections),
+			   connection_name_accessor);
+}
+
+/**************************************************************************
 The valid arguments to "rulesout".
 **************************************************************************/
 static char *rulesout_generator(char *text, int state)
@@ -3226,16 +3239,33 @@ static char *rulesout_generator(char *text, int state)
 }
 
 /**************************************************************************
-The valid arguments (first argument) to "cmdlevel".
+The valid arguments for the first argument to "cmdlevel".
 Extra accessor function since cmdlevel_name() takes enum argument, not int.
 **************************************************************************/
-static const char *cmdlevel_accessor(int idx)
+static const char *cmdlevel_arg1_accessor(int idx)
 {
   return cmdlevel_name(idx);
 }
-static char *cmdlevel_generator(char *text, int state)
+static char *cmdlevel_arg1_generator(char *text, int state)
 {
-  return generic_generator(text, state, ALLOW_NUM, cmdlevel_accessor);
+  return generic_generator(text, state, ALLOW_NUM, cmdlevel_arg1_accessor);
+}
+
+/**************************************************************************
+The valid arguments for the second argument to "cmdlevel":
+"first" or "new" or a connection name.
+**************************************************************************/
+static const char *cmdlevel_arg2_accessor(int idx)
+{
+  return ((idx==0) ? "first" :
+	  (idx==1) ? "new" :
+	  connection_name_accessor(idx-2));
+}
+static char *cmdlevel_arg2_generator(char *text, int state)
+{
+  return generic_generator(text, state,
+			   2 + conn_list_size(&game.all_connections),
+			   cmdlevel_arg2_accessor);
 }
 
 /**************************************************************************
@@ -3307,13 +3337,11 @@ static int is_command(int start)
 Commands that may be followed by a player name
 **************************************************************************/
 static const int player_cmd[] = {
-  CMD_CUT,
   CMD_RENAME,
   CMD_AITOGGLE,
   CMD_EASY,
   CMD_NORMAL,
   CMD_HARD,
-  CMD_CMDLEVEL,
   CMD_REMOVE,
   -1
 };
@@ -3349,18 +3377,38 @@ static int is_player(int start)
   int i = 0;
 
   while (player_cmd[i] != -1) {
-    if (player_cmd[i] == CMD_CMDLEVEL) {
-      if (contains_str_before_start(start, commands[CMD_CMDLEVEL].name, 1)
-	  && num_tokens(start) == 2)
-	return 1;
-    } else {
-      if (contains_str_before_start(start, commands[player_cmd[i]].name, 0))
-	return 1;
+    if (contains_str_before_start(start, commands[player_cmd[i]].name, 0)) {
+      return 1;
     }
     i++;
   }
 
   return 0;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int is_connection(int start)
+{
+  return contains_str_before_start(start, commands[CMD_CUT].name, 0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int is_cmdlevel_arg2(int start)
+{
+  return (contains_str_before_start(start, commands[CMD_CMDLEVEL].name, 1)
+	  && num_tokens(start) == 2);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static int is_cmdlevel_arg1(int start)
+{
+  return contains_str_before_start(start, commands[CMD_CMDLEVEL].name, 0);
 }
 
 /**************************************************************************
@@ -3433,14 +3481,6 @@ static int is_filename(int start)
 /**************************************************************************
 ...
 **************************************************************************/
-static int is_cmdlevel(int start)
-{
-  return contains_str_before_start(start, commands[CMD_CMDLEVEL].name, 0);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static int is_help(int start)
 {
   return contains_str_before_start(start, commands[CMD_HELP].name, 0);
@@ -3473,8 +3513,12 @@ char **freeciv_completion(char *text, int start, int end)
     matches = completion_matches(text, rulesout_generator);
   } else if (is_list(start)) {
     matches = completion_matches(text, list_generator);
-  } else if (is_cmdlevel(start)) { /* before is_player! */
-    matches = completion_matches(text, cmdlevel_generator);
+  } else if (is_cmdlevel_arg2(start)) {
+    matches = completion_matches(text, cmdlevel_arg2_generator);
+  } else if (is_cmdlevel_arg1(start)) {
+    matches = completion_matches(text, cmdlevel_arg1_generator);
+  } else if (is_connection(start)) {
+    matches = completion_matches(text, connection_generator);
   } else if (is_player(start)) {
     matches = completion_matches(text, player_generator);
   } else if (is_server_option(start)) {
