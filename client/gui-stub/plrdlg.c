@@ -4,6 +4,18 @@
 
 
 void
+plrdlg_update_delay_on(void)
+{
+	/* PORTME */
+}
+
+void
+plrdlg_update_delay_off(void)
+{
+	/* PORTME */
+}
+
+void
 popup_players_dialog(void)
 {
 	/* PORTME */
