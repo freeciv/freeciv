@@ -272,17 +272,17 @@ void ai_manage_tech(struct player *pplayer)
   if (choice.choice != pplayer->research.researching) {
     if ((choice.want - choice.type) > penalty &&             /* changing */
    penalty + pplayer->research.researched <= research_time(pplayer)) {
-      printf("%s switching from %s to %s with penalty of %d.\n",
+/*printf("%s switching from %s to %s with penalty of %d.\n",
         pplayer->name, advances[pplayer->research.researching].name,
-        advances[choice.choice].name, penalty);
+        advances[choice.choice].name, penalty);*/
       choose_tech(pplayer, choice.choice);
     }
   }
 /* crossing my fingers on this one! -- Syela (seems to have worked!) */
   if (gol.choice != pplayer->ai.tech_goal) {
-    printf("%s changing goal from %s (want = %d) to %s (want = %d)\n",
+/*printf("%s changing goal from %s (want = %d) to %s (want = %d)\n",
 pplayer->name, advances[pplayer->ai.tech_goal].name, gol.type,
-advances[gol.choice].name, gol.want);
+advances[gol.choice].name, gol.want);*/
     choose_tech_goal(pplayer, gol.choice);
   }
 }
