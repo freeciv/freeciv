@@ -21,8 +21,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.1-devel\n"
-"POT-Creation-Date: 2000-07-17 11:03-0400\n"
-"PO-Revision-Date: 2000-07-16 21:34+09:00\n"
+"POT-Creation-Date: 2000-07-20 19:25+0900\n"
+"PO-Revision-Date: 2000-07-20 20:57+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "MIME-Version: 1.0\n"
@@ -130,7 +130,7 @@ msgstr "Èô¹Ô¾ì"
 
 #: common/map.c:63 common/unit.c:758
 msgid "Fallout"
-msgstr ""
+msgstr "»à¤Î³¥"
 
 #: common/mem.c:38
 #, c-format
@@ -171,7 +171,7 @@ msgstr "¶Ë°­¤Ê"
 
 #: common/player.c:447
 msgid "Neutral"
-msgstr ""
+msgstr "ÃæÎ©"
 
 #: common/player.c:448
 msgid "War"
@@ -502,7 +502,7 @@ msgid ""
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
 
-#: server/citytools.c:1082
+#: server/citytools.c:1084
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -1189,7 +1189,7 @@ msgstr ""
 
 #: server/maphand.c:154
 msgid "Game: Nuclear winter has occurred!"
-msgstr ""
+msgstr "Game: ³Ë¤ÎÅß¤¬µ¯¤³¤ê¤Þ¤·¤¿!"
 
 #: server/maphand.c:155
 msgid "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
@@ -1508,95 +1508,95 @@ msgstr ""
 msgid "%s discover Future Tech %d"
 msgstr ""
 
-#: server/plrhand.c:1650
+#: server/plrhand.c:1651
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Game: µ»½Ñ¤ÎÌÜÉ¸¤Ï%s¤Ç¤¹¡£"
 
-#: server/plrhand.c:1686
+#: server/plrhand.c:1687
 msgid "Game: Cannot change rates before game start."
 msgstr ""
 
-#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1699
+#: client/gui-gtk/gamedlgs.c:246 server/plrhand.c:1700
 msgid "Tax"
 msgstr "ÀÇ"
 
-#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1701
+#: client/gui-gtk/gamedlgs.c:266 server/plrhand.c:1702
 msgid "Luxury"
 msgstr "ìÔÂô"
 
-#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1703
+#: client/gui-gtk/gamedlgs.c:286 server/plrhand.c:1704
 msgid "Science"
 msgstr "²Ê³Ø"
 
-#: server/plrhand.c:1704
+#: server/plrhand.c:1705
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Game: %s¤Î³ä¹ç¤¬%s¤ÎºÇÂç¤ò±Û¤¨¤Æ¤¤¤Þ¤¹¡£"
 
-#: server/plrhand.c:1762
+#: server/plrhand.c:1763
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Game: %s¤Ï%s¤ò%s¤Ç¼£¤á¤ë¤è¤¦¤Ë¤Ê¤ê¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:1797
+#: server/plrhand.c:1798
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Game: %s¤Ï³×Ì¿¤òÂ¥¤µ¤ì¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:1824
+#: server/plrhand.c:1825
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr ""
 
-#: server/plrhand.c:1830
+#: server/plrhand.c:1831
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 
-#: server/plrhand.c:1836
+#: server/plrhand.c:1837
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr ""
 
-#: server/plrhand.c:1891
+#: server/plrhand.c:1892
 #, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 
-#: server/plrhand.c:1901
+#: server/plrhand.c:1902
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Game: ¤¢¤Ê¤¿¤ÎÉ¾È½¤Ï%s¤Ë¤Ê¤ê¤Þ¤·¤¿¡£"
 
-#: server/plrhand.c:1905
+#: server/plrhand.c:1906
 msgid "Game: The senate decides to dissolve rather than support your actions any longer."
 msgstr ""
 
-#: server/plrhand.c:1958 server/plrhand.c:1966
+#: server/plrhand.c:1959 server/plrhand.c:1967
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr ""
 
-#: server/plrhand.c:1963
+#: server/plrhand.c:1964
 #, c-format
 msgid "Game: %s cancelled the diplomatic agreement!"
 msgstr ""
 
-#: server/plrhand.c:2065
+#: server/plrhand.c:2066
 msgid "Message too long in page_player_generic!!"
 msgstr ""
 
-#: server/plrhand.c:3048
+#: server/plrhand.c:3049
 msgid "Game: You've been removed from the game!"
 msgstr ""
 
-#: server/plrhand.c:3052
+#: server/plrhand.c:3053
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr ""
 
-#: server/plrhand.c:3087 server/plrhand.c:3091
+#: server/plrhand.c:3088 server/plrhand.c:3092
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Game: ¤¢¤Ê¤¿¤Ï %2$s ¤Ë¤è¤Ã¤ÆÅý¼£¤µ¤ì¤¿ %1$s ¤ÈÀÜ¿¨¤·¤Þ¤·¤¿¡£"
@@ -1888,11 +1888,12 @@ msgstr "¥×¥ì¥¤¥ä¡¼¤´¤È¤ÎÃµº÷¼Ô¤Î½é´ü¿ô"
 
 #: server/stdinhand.c:276
 msgid "Area where initial units are located"
-msgstr ""
+msgstr "ºÇ½é¤ÎÉôÂâ¤¬ÃÖ¤«¤ì¤ëÈÏ°Ï"
 
 #: server/stdinhand.c:277
+#, fuzzy
 msgid "This is half the length of a side of the square within which the initial units are dispersed."
-msgstr ""
+msgstr "¤³¤ì¤Ï¡¢ºÇ½é¤ÎÉôÂâ¤¬Ê¬»¶¤¹¤ëÅÚÃÏ¤ÎÊÒÂ¦¤ÎÄ¹¤µ¤ÎÈ¾Ê¬¤Ç¤¹¡£"
 
 #: server/stdinhand.c:283
 msgid "Starting gold per player"
@@ -2053,6 +2054,11 @@ msgid ""
 "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
 "See also README.rulesets."
 msgstr ""
+"´ðÁÃ¥ë¡¼¥ë¤òÀßÄê¤·¤Þ¤¹¡£ 1,2 ¤Ï¤½¤ì¤¾¤ì Civ1, Civ2 ¤Î¥¹¥¿¥¤¥ë¤ò°ÕÌ£¤·\n"
+"¤Þ¤¹¡£¸½ºß¡¢¤³¤Î¥ª¥×¥·¥ç¥ó¤Ï¼¡¤Î¥ë¡¼¥ë¤Ë±Æ¶Á¤·¤Þ¤¹:\n"
+"  - ¥¢¥Ý¥í¤Ï Civ2 ¤Ç¤ÏÃÏ¿ÞÁ´Éô¤òÌÀ¤é¤«¤Ë¤·¤Þ¤¹¤¬¡¢ Civ1 ¤Ç¤ÏÅÔ»Ô¤À¤±¤ò\n"
+"    ÌÀ¤é¤«¤Ë¤·¤Þ¤¹¡£\n"
+"README.rulesets ¤ò¸«¤Æ²¼¤µ¤¤¡£"
 
 #: server/stdinhand.c:478
 msgid "Chance of moving into tile after attack"
@@ -2198,7 +2204,7 @@ msgstr ""
 "Ê¸»ú¤È¤½¤Î°ÕÌ£¤Ï°Ê²¼¤ÎÄÌ¤ê¤Ç¤¹:\n"
 "    N = ¿Í¸ý¤ò´Þ¤á¤ë                 P = À¸»º¤ò´Þ¤á¤ë\n"
 "    A = ÅÚÃÏÌÌÀÑ¤ò´Þ¤á¤ë             E = ·ÐºÑ¤ò´Þ¤á¤ë\n"
-"    S = Æþ¿¢ÌÌÀÑ¤ò´Þ¤á¤ë        M = Military Service ¤ò´Þ¤á¤ë\n"
+"    S = Æþ¿¢ÌÌÀÑ¤ò´Þ¤á¤ë             M = Military Service ¤ò´Þ¤á¤ë\n"
 "    R = Research Speed ¤ò´Þ¤á¤ë      O = Pollution ¤ò´Þ¤á¤ë\n"
 "    L = Literacy ¤ò´Þ¤á¤ë\n"
 "Additionally, the following characters control whether or not certain columns are displayed in the report:\n"
@@ -2208,21 +2214,23 @@ msgstr ""
 
 #: server/stdinhand.c:623
 msgid "Turns per auto-save"
-msgstr ""
+msgstr "¼«Æ°ÊÝÂ¸¤Î´Ö³Ö"
 
 #: server/stdinhand.c:624
 msgid ""
 "The game will be automatically saved per this number of turns.\n"
 "Zero means never auto-save."
 msgstr ""
+"¥²¡¼¥à¤Ï¤³¤³¤Ç»ØÄê¤·¤¿¥¿¡¼¥ó¤´¤È¤Ë¼«Æ°Åª¤ËÊÝÂ¸¤µ¤ì¤Þ¤¹¡£\n"
+"¥¼¥í¤Ï¼«Æ°ÊÝÂ¸¤·¤Ê¤¤¤³¤È¤ò°ÕÌ£¤·¤Þ¤¹¡£"
 
 #: server/stdinhand.c:638
 msgid "Savegame compression level"
-msgstr ""
+msgstr "¥»¡¼¥Ö¥²¡¼¥à¤Î°µ½Ì¥ì¥Ù¥ë"
 
 #: server/stdinhand.c:639
 msgid "If non-zero, saved games will be compressed using zlib (gzip format).  Larger values will give better compression but take longer.  If the maximum is zero this server was not compiled to use zlib."
-msgstr ""
+msgstr "Èó¥¼¥í¤Ê¤é¡¢¥²¡¼¥à¤Ï zlib (gzip ¥Õ¥©¡¼¥Þ¥Ã¥È)¤ò»È¤Ã¤Æ°µ½Ì¤µ¤ì¤Þ¤¹¡£Âç¤­¤ÊÃÍ¤ÏÎÉ¤¤°µ½Ì¤òÀ¸¤ß¤Þ¤¹¤¬¡¢»þ´Ö¤¬¤«¤«¤ê¤Þ¤¹¡£ºÇÂçÃÍ¤¬¥¼¥í¤Î»þ¤Ï¡¢¥µ¡¼¥Ð¤Ï zlib ¤ò»È¤¦¤è¤¦¤Ë¥³¥ó¥Ñ¥¤¥ë¤µ¤ì¤Æ¤¤¤Þ¤»¤ó¡£"
 
 #: server/stdinhand.c:646
 msgid "Whether to log player statistics"
@@ -2560,11 +2568,11 @@ msgstr "rulesout <¥ë¡¼¥ë·Á¼°> <¥Õ¥¡¥¤¥ëÌ¾>"
 
 #: server/stdinhand.c:985
 msgid "Write selected rules information to file."
-msgstr ""
+msgstr "¸½ºß¤Î¥ë¡¼¥ë¾ðÊó¤ò¥Õ¥¡¥¤¥ë¤Ø½ñ¤­½Ð¤¹¡£"
 
 #: server/stdinhand.c:986
 msgid "Write a file with information from currently loaded ruleset data.  Requires that the ruleset data has been loaded (e.g., after 'start').  Currently the only option for <rules-type> is 'techs', which writes information about all the advances (technologies).  This can be used by the 'techtree' utility program to produce a graph of the advances."
-msgstr ""
+msgstr "¸½ºß¥í¡¼¥É¤µ¤ì¤Æ¤¤¤ë¥ë¡¼¥ë¥»¥Ã¥È¡¦¥Ç¡¼¥¿¤ò¥Õ¥¡¥¤¥ë¤Ø½ñ¤­½Ð¤·¤Þ¤¹¡£¥ë¡¼¥ë¥»¥Ã¥È¡¦¥Ç¡¼¥¿¤Ï´û¤Ë¥í¡¼¥É¤µ¤ì¤Æ¤¤¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹(¶ñÂÎÅª¤Ë¤Ï 'start' ¤Î¸å¤Ç¸Æ¤Ó¤Þ¤¹)¡£¸½ºß¤Ï <¥ë¡¼¥ë·Á¼°> ¤Î¥ª¥×¥·¥ç¥ó¤Ï 'techs' ¤À¤±¤Ç¤¹¡£¤³¤ì¤ÏÁ´¤Æ¤Î²Ê³Ø¤ò½ñ¤­½Ð¤·¤Þ¤¹¡£¤³¤ì¤Ë¤è¤Ã¤Æ½ÐÎÏ¤µ¤ì¤¿¥Õ¥¡¥¤¥ë¤Ï 'techtree' ¥æ¡¼¥Æ¥£¥ê¥Æ¥£¡¼¡¦¥×¥í¥°¥é¥à¤¬²Ê³Ø¥Ä¥ê¡¼¤òÀ¸À®¤¹¤ë¤Î¤Ë»È¤ï¤ì¤Þ¤¹¡£"
 
 #. translate <> only
 #: server/stdinhand.c:994
@@ -2612,9 +2620,9 @@ msgid "Name is too long, so cannot be a player."
 msgstr "Ì¾Á°¤¬Ä¹²á¤®¤Þ¤¹¡£¥×¥ì¥¤¥ä¡¼¤òÀµ¤·¤¯ÆþÎÏ¤·¤Æ²¼¤µ¤¤¡£"
 
 #: server/stdinhand.c:1217
-#, c-format
+#, fuzzy, c-format
 msgid "Player name prefix '%s' is ambiguous."
-msgstr ""
+msgstr "¥×¥ì¥¤¥ä¡¼Ì¾¤ÎÀèÆ¬ÉôÊ¬ '%s' ¤Ï°ì°Õ¤Ç¤Ï¤¢¤ê¤Þ¤»¤ó¡£"
 
 #: server/stdinhand.c:1221
 #, c-format
@@ -2757,7 +2765,7 @@ msgstr ""
 #: server/stdinhand.c:1554
 #, c-format
 msgid "Sorry, the '%s' command is not implemented yet."
-msgstr ""
+msgstr "¤¹¤ß¤Þ¤»¤ó¡£'%s'¥³¥Þ¥ó¥É¤Ï¤Þ¤À¼ÂÁõ¤µ¤ì¤Æ¤¤¤Þ¤»¤ó¡£"
 
 #: server/stdinhand.c:1584
 #, c-format
@@ -2883,7 +2891,7 @@ msgstr "¥ª¥×¥·¥ç¥ó:"
 
 #: server/stdinhand.c:1976 server/stdinhand.c:2656
 msgid "Description:"
-msgstr "²òÀâ:"
+msgstr "ÀâÌÀ:"
 
 #: server/stdinhand.c:1981
 #, c-format
@@ -2910,15 +2918,15 @@ msgstr "¸½ºßÃÍ: \"%s\", ´ûÄêÃÍ: \"%s\""
 
 #: server/stdinhand.c:2009
 msgid "Explanations are available for the following server options:"
-msgstr "°Ê²¼¤Ëµó¤²¤ë¥µ¡¼¥Ð¥ª¥×¥·¥ç¥ó¤Ë¤Ï¡¢²òÀâ¤¬¤¢¤ê¤Þ¤¹:"
+msgstr "°Ê²¼¤Ëµó¤²¤ë¥µ¡¼¥Ð¥ª¥×¥·¥ç¥ó¤Ë¤Ï¡¢ÀâÌÀ¤¬¤¢¤ê¤Þ¤¹:"
 
 #: server/stdinhand.c:2049
 msgid "No explanation for that yet."
-msgstr ""
+msgstr "¤½¤ÎÀâÌÀ¤Ï¤Þ¤À¤¢¤ê¤Þ¤»¤ó¡£"
 
 #: server/stdinhand.c:2052 server/stdinhand.c:2289
 msgid "Ambiguous option name."
-msgstr ""
+msgstr "¥ª¥×¥·¥ç¥óÌ¾¤ò¾ÊÎ¬¤·²á¤®¤Ç¤¹¡£"
 
 #: server/stdinhand.c:2076
 #, c-format
@@ -3056,16 +3064,16 @@ msgstr "¥²¡¼¥à¤ò³«»Ï¤Ç¤­¤Þ¤»¤ó: ´û¤Ë¥²¡¼¥à¤Ï»Ï¤Þ¤Ã¤Æ¤¤¤Þ¤¹¡£"
 #: server/stdinhand.c:2561
 #, c-format
 msgid "Cutting connection to %s."
-msgstr ""
+msgstr "%s¤È¤ÎÀÜÂ³¤òÀÚ¤ê¤Þ¤·¤¿¡£"
 
 #: server/stdinhand.c:2566
 #, c-format
 msgid "Sorry, %s is not connected."
-msgstr ""
+msgstr "¤¹¤ß¤Þ¤»¤ó¡£%s¤ÏÀÜÂ³¤µ¤ì¤Æ¤¤¤Þ¤»¤ó¡£"
 
 #: server/stdinhand.c:2585
 msgid "Goodbye."
-msgstr ""
+msgstr "¤µ¤è¤¦¤Ê¤é¡£"
 
 #: server/stdinhand.c:2597
 msgid ""
@@ -3291,7 +3299,7 @@ msgstr "%s (AI, Æñ°×ÅÙ %s) ¤Ï´Ñ»¡¤µ¤ì¤Æ¤¤¤Þ¤»¤ó"
 #: server/stdinhand.c:2888
 #, c-format
 msgid "%s (human %s, command level %s) is connected from %s"
-msgstr "%s (¿Í´Ö %s, ¥³¥Þ¥ó¥É¥ì¥Ù¥ë %s) ¤Ï %s ¤«¤éÀÜÂ³¤µ¤ì¤Æ¤¤¤Þ¤¹"
+msgstr "%s (¿Í´Ö %s, ¥³¥Þ¥ó¥É¥ì¥Ù¥ë %s) ¤Ï %s ¤«¤éÀÜÂ³¤·¤Æ¤¤¤Þ¤¹"
 
 #: server/stdinhand.c:2895
 #, c-format
@@ -3802,12 +3810,12 @@ msgstr ""
 
 #: server/unithand.c:530
 msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
-msgstr ""
+msgstr "Game: ¤¢¤Ê¤¿¤Î³Ë¥ß¥µ¥¤¥ë¤Ï SDI ËÉ±Ò¥·¥¹¥Æ¥à¤Ë¤è¤Ã¤ÆÂÇ¤ÁÍî¤È¤µ¤ì¤Þ¤·¤¿¡£¤¢¤¡¡£"
 
 #: server/unithand.c:534
 #, c-format
 msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
-msgstr ""
+msgstr "Game: %s ¤Ø¤Î³Ë¹¶·â¤Ï SDI ËÉ±Ò¥·¥¹¥Æ¥à¤Ë¤è¤Ã¤ÆÈò¤±¤é¤ì¤Þ¤·¤¿¡£"
 
 #: server/unithand.c:606
 #, c-format
@@ -4024,7 +4032,7 @@ msgstr "Ì¾Á°"
 
 #: client/cityrepdata.c:194
 msgid "City Name"
-msgstr ""
+msgstr "ÅÔ»ÔÌ¾"
 
 #: client/cityrepdata.c:196
 msgid "Sz"
@@ -4166,29 +4174,29 @@ msgstr "¥µ¡¼¥Ð¤«¤éÌ¤ÃÎ¤Î¥Ñ¥±¥Ã¥È¤ò¼õ¤±¼è¤ê¤Þ¤·¤¿¡£"
 #: client/climisc.c:332
 #, c-format
 msgid "?seconds:%02ds"
-msgstr ""
+msgstr "%02dÉÃ"
 
 #. < 60 minutes
 #: client/climisc.c:335
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
-msgstr ""
+msgstr "%02dÊ¬%02dÉÃ"
 
 #. < 100 hours
 #: client/climisc.c:338
 #, c-format
 msgid "?hrs/mns/scs:%02dh %02dm %02ds"
-msgstr ""
+msgstr "%02d»þ´Ö%02dÊ¬%02dÉÃ"
 
 #. < 100 days
 #: client/climisc.c:341
 #, c-format
 msgid "?dys/hrs/mns:%02dd %02dh %02dm"
-msgstr ""
+msgstr "%02dÆü%02d»þ´Ö%02dÊ¬"
 
 #: client/climisc.c:344
 msgid "?duration:overflow"
-msgstr ""
+msgstr "¥ª¡¼¥Ð¡¼¥Õ¥í¡¼"
 
 #: client/climisc.c:355 client/climisc.c:360
 #, c-format
@@ -4260,7 +4268,7 @@ msgstr ""
 
 #: client/control.c:765
 msgid "Game: Only nuclear units can do this."
-msgstr ""
+msgstr "Game: ³ËÊ¼´ïÉôÂâ¤À¤±¤¬¤³¤ì¤ò¹Ô¤Ê¤¨¤Þ¤¹¡£"
 
 #: client/control.c:783
 msgid "Game: Only paratrooper units can do this."
@@ -4411,7 +4419,7 @@ msgstr "* ¥¿¡¼¥ó¤Î½ª¤ï¤ê¤Ë¹¶·â¤·¤Þ¤¹¡£\n"
 
 #: client/helpdata.c:704
 msgid "* This unit's attack causes a nuclear explosion!\n"
-msgstr ""
+msgstr "* ¤³¤ÎÉôÂâ¤Î¹¶·â¤Ï³ËÇúÈ¯¤ò°ú¤­µ¯¤³¤·¤Þ¤¹!\n"
 
 #: client/helpdata.c:707
 msgid "* Ignores the effects of city walls.\n"
@@ -6112,6 +6120,19 @@ msgstr "ÉôÂâ: %s(%s%s)"
 msgid "  (%d more)"
 msgstr ""
 
+#: client/gui-gtk/mapctrl.c:182 client/gui-xaw/mapctrl.c:173
+#, c-format
+msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
+msgstr ""
+
+#: client/gui-gtk/mapctrl.c:185 client/gui-xaw/mapctrl.c:175
+msgid " V"
+msgstr ""
+
+#: client/gui-gtk/mapctrl.c:193 client/gui-xaw/mapctrl.c:184
+msgid "A:%d D:%d FP:%d HP:%d0%%"
+msgstr ""
+
 #: client/gui-gtk/mapview.c:268 client/gui-xaw/mapview.c:248
 msgid "?timeout:off"
 msgstr ""
@@ -6263,7 +6284,7 @@ msgstr "±øÀ÷¤ò¤­¤ì¤¤¤Ë¤¹¤ë"
 
 #: client/gui-gtk/menu.c:567 client/gui-xaw/menu.c:158
 msgid "Clean Nuclear Fallout"
-msgstr ""
+msgstr "»à¤Î³¥¤ò¤­¤ì¤¤¤Ë¤¹¤ë"
 
 #: client/gui-gtk/menu.c:571 client/gui-xaw/menu.c:160
 msgid "Fortify"
@@ -6910,19 +6931,6 @@ msgstr ""
 msgid "City: %s(%s) %s"
 msgstr ""
 
-#: client/gui-xaw/mapctrl.c:173
-#, c-format
-msgid "A:%d D:%d FP:%d HP:%d/%d%s%s"
-msgstr ""
-
-#: client/gui-xaw/mapctrl.c:175
-msgid " V"
-msgstr ""
-
-#: client/gui-xaw/mapctrl.c:184
-msgid "A:%d D:%d FP:%d HP:%d0%%"
-msgstr ""
-
 #: client/gui-xaw/mapview.c:263
 #, c-format
 msgid ""
@@ -7345,7 +7353,7 @@ msgstr ""
 
 #: data/helpdata.txt:401
 msgid "Before a game is started, anyone can connect to the server by supplying its hostname and port number (5555 by default). If the server is started with the -m flag, it will report to the metaserver,"
-msgstr ""
+msgstr "¥²¡¼¥à¤ò³«»Ï¤¹¤ëÁ°¤Ê¤é¡¢¥Û¥¹¥ÈÌ¾¤È¥Ý¡¼¥È(5555 ¤¬¥Ç¥Õ¥©¥ë¥È)¤òÍ¿¤¨¤ë¤³¤È¤ÇÃ¯¤Ç¤â¥µ¡¼¥Ð¤ØÀÜÂ³¤Ç¤­¤Þ¤¹¡£¥µ¡¼¥Ð¤¬ -m ÉÕ¤­¤Ç¼Â¹Ô¤µ¤ì¤Æ¤¤¤¿¤é¡¢¥á¥¿¥µ¡¼¥Ð¤ØÊó¹ð¤·¤Þ¤¹¡£"
 
 #: data/helpdata.txt:408
 msgid ""
@@ -7355,10 +7363,15 @@ msgid ""
 "\n"
 "before starting civclient."
 msgstr ""
+"¥¯¥é¥¤¥¢¥ó¥È¤â¤Þ¤¿¡¢¤³¤Î¾ðÊó¤ò¼è¤Ã¤Æ¤¯¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£ÀÜÂ³¥À¥¤¥¢¥í¥°¤Ç¥á¥¿¥µ¡¼¥Ð¥Ü¥¿¥ó¤ò»È¤Ã¤Æ²¼¤µ¤¤¡£·ë²Ì¤¬É½¼¨¤µ¤ì¤Ê¤±¤ì¤Ð¡¢¤¢¤Ê¤È¤Î WWW ¥Ö¥é¥¦¥¶¤¬ HTTP proxy ¤ò»È¤Ã¤Æ¤¤¤Ê¤¤¤«Ä´¤Ù¤Æ¤ß¤Æ²¼¤µ¤¤¡£ civclient ¤¬Æ±¤¸¥¯¥é¥¤¥¢¥ó¥È¤ò»È¤¦¤Ë¤Ï¡¢ civlient ¤ò³«»Ï¤¹¤ëÁ°¤Ë $http_proxy ´Ä¶­ÊÑ¿ô¤ò\n"
+"\n"
+"  http://proxyhost:proxyportnumber/\n"
+"\n"
+"¤ËÀßÄê¤·¤Þ¤¹¡£"
 
 #: data/helpdata.txt:417
 msgid "When the game has started, everyone can connect as any player who isn't already connected, including AI players.  Merely connecting to an AI player doesn't make it human controlled; this is a independent server setting.  If you lose connection early in the game and reconnect, use the name you chose for your ruler, not your original nickname!  If the server is reporting on the metaserver, the player names can be found there."
-msgstr ""
+msgstr "¥²¡¼¥à¤ò³«»Ï¤·¤Æ¤¤¤ë»þ¡¢¤â¤¦ÀÜÂ³¤·¤Æ¤¤¤Ê¤¤¥×¥ì¥¤¥ä¡¼(AI ¥×¥ì¥¤¥ä¡¼¤ò´Þ¤à)¤È¤·¤ÆÃ¯¤Ç¤âÀÜÂ³¤Ç¤­¤Þ¤¹¡£AI ¥×¥ì¥¤¥ä¡¼¤Ë¤è¤ëÀÜÂ³¤Ï¡¢Ã±¤Ë¿Í´Ö¤¬¥³¥ó¥È¥í¡¼¥ë¤·¤Æ¤¤¤Ê¤¤¤À¤±¤Ç¤¹¡£¥µ¡¼¥Ð¤ÎÀßÄê¤Ë´Ø·¸¤¢¤ê¤Þ¤»¤ó¡£¤â¤·¤¢¤Ê¤¿¤¬¤¢¤ë¥²¡¼¥à¤ÎÀÜÂ³¤ò¼º¤Ê¤Ã¤ÆºÆÀÜÂ³¤ò¤¹¤ë¤Ê¤é¡¢¥ª¥ê¥¸¥Ê¥ë¤Î¥Ë¥Ã¥¯¥Í¡¼¥à¤Ç¤Ï¤Ê¤¯»ÙÇÛ¼Ô¤ÎÌ¾Á°¤ò»È¤¤¤Þ¤¹¡£¥µ¡¼¥Ð¤¬¥á¥¿¥µ¡¼¥Ð¤ØÊó¹ð¤·¤Æ¤¤¤ë¤Ê¤é¡¢¥×¥ì¥¤¥ä¡¼Ì¾¤Ï¤½¤³¤ËÉ½¤ì¤Þ¤¹¡£"
 
 #: data/helpdata.txt:429
 msgid ""
@@ -7479,15 +7492,15 @@ msgstr ""
 
 #: data/helpdata.txt:489
 msgid "The client has a primitive chat interface.  The lines you type are sent to all players, except:"
-msgstr ""
+msgstr "¥¯¥é¥¤¥¢¥ó¥È¤Ï¸¶»ÏÅª¤Ê¥Á¥ã¥Ã¥È¥¤¥ó¥¿¡¼¥Õ¥§¡¼¥¹¤ò»ý¤Á¤Þ¤¹¡£¤¢¤Ê¤¿¤¬ÂÇ¤Ã¤¿¹Ô¤ÏÁ´¤Æ¤Î¥×¥ì¥¤¥ä¡¼¤ËÁ÷¤é¤ì¤Þ¤¹¡£Îã³°¤Ï:"
 
 #: data/helpdata.txt:492
 msgid "  - Messages starting with 'foo:' are private messages to the player named 'foo'; player names can be abbreviated."
-msgstr ""
+msgstr "  - 'foo:' ¤Ç»Ï¤Þ¤ë¥á¥Ã¥»¡¼¥¸¤Ï 'foo' ¤È¤¤¤¦Ì¾Á°¤Î¥×¥ì¥¤¥ä¡¼¤Ø¤Î¥×¥é¥¤¥Ù¡¼¥È¥á¥Ã¥»¡¼¥¸¤Ç¤¹¡£¥×¥ì¥¤¥ä¡¼Ì¾¤Ï¾ÊÎ¬¤Ç¤­¤Þ¤¹¡£"
 
 #: data/helpdata.txt:495
 msgid "  - Messages starting with '/' are interpreted as server commands (if the server is recent enough; regular 1.8.0 servers are not) and executed, if you have the required access rights."
-msgstr ""
+msgstr "  - '/' ¤Ç»Ï¤Þ¤ë¥á¥Ã¥»¡¼¥¸¤Ï¥µ¡¼¥Ð¥³¥Þ¥ó¥É¤È²ò¼á(¥µ¡¼¥Ð¤¬½½Ê¬¿·¤·¤±¤ì¤Ð¡£ÉáÄÌ¤Î 1.8.0 ¥µ¡¼¥Ð¤ÏÌµÍý)¤µ¤ì¡¢Í×µá¤µ¤ì¤ë¥¢¥¯¥»¥¹¸¢¸Â¤ò»ý¤Ã¤Æ¤¤¤ë¤Ê¤é¼Â¹Ô¤µ¤ì¤Þ¤¹¡£"
 
 #: data/helpdata.txt:502
 msgid "Strategy and tactics"
@@ -9856,6 +9869,11 @@ msgid ""
 msgstr ""
 "¤¢¤Ê¤¿¤¬É¬Í×¤Ê²Ê³Ø¤ò»ý¤Ã¤Æ¤¤¤Æ¡¢²¿¤ì¤«¤Î¥×¥ì¥¤¥ä¡¼¤Ë¤è¤Ã¤Æ¥Þ¥ó¥Ï¥Ã¥¿¥ó·×²è¤ÎÉÔ»×µÄ¤¬·ú¤Æ¤é¤ì¤Æ¤¤¤¿¤é¡¢³ËÊ¼´ï¤òÀ½Â¤¤Ç¤­¤Þ¤¹¡£\n"
 "\n"
+"¾×ÆÍ»þ¡¢ÇúÈ¯¤Ë¤è¤Ã¤Æ 3x3 ¤ÎÈÏ°Ï¤Ë¤¤¤ëÉôÂâÁ´¤Æ¤¬Á´ÌÇ¤·¤Þ¤¹¡£¤³¤ì¤Ë¤ÏÍ§¹¥Åª¤ÊÉôÂâ¤â´Þ¤Þ¤ì¤Þ¤¹¡£ÅÔ»Ô¤ËÅö¤¿¤Ã¤¿»þ¤Ë¤ÏÂç¤­¤µ¤ÏÈ¾Ê¬¤Ë¤Ê¤ê¡¢¤Þ¤ï¤ê¤ÎÅÚÃÏ¤Ë¤Ï»à¤Î³¥¤¬¹ß¤ê¤Þ¤¹¡£\n"
+"\n"
+"¥Ò¥ó¥È 1: ³¤¤Ø¤Î³Ë¹¶·â¤Ï»à¤Î³¥¤òµ¯¤³¤·¤Þ¤»¤ó¡£¤³¤ì¤ÏÅ¨¤ÎÁ¥¤òÇÓ½ü¤¹¤ëºÇ¤â¸ú²Ì¤Î¤¢¤ë(¤·¤«¤·¹â²Á¤Ê)ÊýË¡¤Ç¤¹¡£\n"
+"\n"
+"¥Ò¥ó¥È 2: ¤¢¤Ê¤¿¤Ï¡Ä¤À¤¬¡¢Å¨ÅÔ»Ô¤¬¤¢¤Þ¤ê¤Ë¤â¶¯¤¤¤È¤¤¤¦¤è¤¦¤Ê¾õ¶·¤ÇÉ¬Í×¤È¤¹¤ë¤«¤â¤·¤ì¤Þ¤ó¡£³ËÊ¼´ï¤ò»È¤¦Á°¤Ë³«Âó¼Ô¤«¥¨¥ó¥¸¥Ë¥¢¤ò½¸¤á¡¢³ËÇúÈ¯¤ÈÆ±¤¸¥¿¡¼¥ó¤Ë»à¤Î³¥¤Î¸å»ÏËö¤·¤Þ¤¹¡£¡©¡© ¤³¤ì¤Ë¤è¤ê³Ë¤ÎÅß¤Î´í¸±¤òºÇ¾®¤Ë¤Ç¤­¤Þ¤¹¡£¤³¤ì¤Ç¥¨¥³³ËÊ¼´ï!"
 
 #: data/civ1/units.ruleset:1186 data/civ2/units.ruleset:1229 data/default/units.ruleset:1229
 msgid "Diplomat"
@@ -9946,13 +9964,12 @@ msgid "When barbarian leader is killed on a tile without any defending units, th
 msgstr "²¿¤é¤«¤ÎËÉ¸æÉôÂâ¤Ê¤·¤Ç¥¿¥¤¥ë¾å¤ÇÌîÈÚ¿Í¤Î¥Ð¡¼¥Ð¥ê¥¢¥ó¤¬»¦¤µ¤ì¤¿»þ¡¢¶â100¤Î¿ÈÂå¶â¤¬¤¬Ê§¤ï¤ì¤Þ¤¹¡£¤³¤ì¤ÏÃÏ¾åÉôÂâ¤È¥Ø¥ê¥³¥×¥¿¡¼¤À¤±¤Çµ¯¤³¤ê¤Þ¤¹¡£"
 
 #: data/civ1/units.ruleset:94
-#, fuzzy
 msgid ""
 "Setters are one of the key units in the game.  They can be used to found new cities, irrigate land, build roads, railroads, fortresses and mines, and clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as well as production, and a Setter can die if its supporting city runs out of food.\n"
 "\n"
 "Settlers may work together to decrease the amount of time required for long projects.  If two or more Settlers are both working on the same task in the same square, their efforts will be added together each turn until the task is finished.  Be careful not to dedicate too many workers to one task, though; excess effort can be wasted, and a group of Settlers is highly vulnerable to enemy attacks."
 msgstr ""
-"³«Âó¼Ô¤Ï½ÅÍ×¤ÊÉôÂâ¤Î°ì¤Ä¤Ç¤¹¡£¿·¤·¤¤ÅÔ»Ô¤ÎºîÀ®¡¢ÅÚÃÏ¤òÞõÞô¡¢Æ»Ï©¡¢Å´Æ»¡¢Í×ºÉ¡¢¹Û»³¤ÎºîÀ®¡¢¸ø³²¤Î½üµî¤Î¤¿¤á¤Ë»È¤¤¤Þ¤¹¡£³«Âó¼Ô¤ò°Ý»ý¤Ë¤Ï¡¢¿©ÎÁ¤ÈÀ¸»ºÊª¤¬É¬Í×¤Ç¤¹¡£³«Âó¼Ô¤ò°Ý»ý¤·¤Æ¤¤¤ëÅÔ»Ô¤¬¿©ÎÁÉÔÂ­¤Ë¤Ê¤Ã¤¿¤é¡¢³«Âó¼Ô¤Ïµ²¤¨»à¤Ë¤·¤Þ¤¹¡£\n"
+"³«Âó¼Ô¤Ï½ÅÍ×¤ÊÉôÂâ¤Î°ì¤Ä¤Ç¤¹¡£¿·¤·¤¤ÅÔ»Ô¤ÎºîÀ®¡¢ÅÚÃÏ¤òÞõÞô¡¢Æ»Ï©¡¢Å´Æ»¡¢Í×ºÉ¡¢¹Û»³¤ÎºîÀ®¡¢¸ø³²¡¢»à¤Î³¥¤Î½üµî¤Î¤¿¤á¤Ë»È¤¤¤Þ¤¹¡£³«Âó¼Ô¤ò°Ý»ý¤Ë¤Ï¡¢¿©ÎÁ¤ÈÀ¸»ºÊª¤¬É¬Í×¤Ç¤¹¡£³«Âó¼Ô¤ò°Ý»ý¤·¤Æ¤¤¤ëÅÔ»Ô¤¬¿©ÎÁÉÔÂ­¤Ë¤Ê¤Ã¤¿¤é¡¢³«Âó¼Ô¤Ïµ²¤¨»à¤Ë¤·¤Þ¤¹¡£\n"
 "\n"
 "³«Âó¼Ô¤Ï¤Þ¤¿¡¢¶¨ÎÏ¤·Ä¹¤¤¥×¥í¥¸¥§¥¯¥È¤ÇÍ×µá¤µ¤ì¤ë»þ´Ö¤ò¸º¤é¤·¤Þ¤¹¡£¤â¤·ÆóÉôÂâ°Ê¾å¤Î³«Âó¼Ô¤òÆ±¤¸ÅÚÃÏ¤ÇÆ±¤¸ºî¶È¤µ¤»¤¿¤é¡¢¤½¤Î¸ú²Ì¤ÏÎ¾Êý¤ò²Ã¤¨¤¿¤â¤Î¤Ë¤Ê¤ê¤Þ¤¹¡£°ì¤Ä¤Îºî¶È¤ËÂÐ¤·¤ÆÂ¿¤¯¤Î³«Âó¼Ô¤ò¤¬¤¤¤ë¤³¤È¤ò¿´ÇÛ¤¹¤ëÉ¬Í×¤Ï¤¢¤ê¤Þ¤»¤ó¤¬¡¢Í¾Ê¬¤ÊÏ«ÎÏ¤ÏÌµÂÌ¤Ë¤Ê¤ê¤µ¤é¤Ë³«Âó¼Ô¤Î¤Þ¤È¤Þ¤ê¤ÏÅ¨¤Î¹¶·â¤Ë¤È¤Æ¤âÌµËÉÈ÷¤Ç¤¹¡£"
 
@@ -9977,6 +9994,11 @@ msgid ""
 msgstr ""
 "¤¢¤Ê¤¿¤¬É¬Í×¤Ê²Ê³Ø¤ò»ý¤Ã¤Æ¤¤¤Æ¡¢²¿¤ì¤«¤Î¥×¥ì¥¤¥ä¡¼¤Ë¤è¤Ã¤Æ¥Þ¥ó¥Ï¥Ã¥¿¥ó·×²è¤ÎÉÔ»×µÄ¤¬·ú¤Æ¤é¤ì¤Æ¤¤¤¿¤é¡¢³ËÊ¼´ï¤òÀ½Â¤¤Ç¤­¤Þ¤¹¡£\n"
 "\n"
+"¾×ÆÍ»þ¡¢ÇúÈ¯¤Ë¤è¤Ã¤Æ 3x3 ¤ÎÈÏ°Ï¤Ë¤¤¤ëÉôÂâÁ´¤Æ¤¬Á´ÌÇ¤·¤Þ¤¹¡£¤³¤ì¤Ë¤ÏÍ§¹¥Åª¤ÊÉôÂâ¤â´Þ¤Þ¤ì¤Þ¤¹¡£ÅÔ»Ô¤ËÅö¤¿¤Ã¤¿»þ¤Ë¤ÏÂç¤­¤µ¤ÏÈ¾Ê¬¤Ë¤Ê¤ê¡¢¤Þ¤ï¤ê¤ÎÅÚÃÏ¤Ë¤Ï»à¤Î³¥¤¬¹ß¤ê¤Þ¤¹¡£\n"
+"\n"
+"¥Ò¥ó¥È 1: ³¤¤Ø¤Î³Ë¹¶·â¤Ï»à¤Î³¥¤òµ¯¤³¤·¤Þ¤»¤ó¡£¤³¤ì¤ÏÅ¨¤ÎÁ¥¤òÇÓ½ü¤¹¤ëºÇ¤â¸ú²Ì¤Î¤¢¤ë(¤·¤«¤·¹â²Á¤Ê)ÊýË¡¤Ç¤¹¡£\n"
+"\n"
+"¥Ò¥ó¥È 2: ¤¢¤Ê¤¿¤Ï¡Ä¤À¤¬¡¢Å¨ÅÔ»Ô¤¬¤¢¤Þ¤ê¤Ë¤â¶¯¤¤¤È¤¤¤¦¤è¤¦¤Ê¾õ¶·¤ÇÉ¬Í×¤È¤¹¤ë¤«¤â¤·¤ì¤Þ¤ó¡£³ËÊ¼´ï¤ò»È¤¦Á°¤Ë³«Âó¼Ô¤ò½¸¤á¡¢³ËÇúÈ¯¤ÈÆ±¤¸¥¿¡¼¥ó¤Ë»à¤Î³¥¤Î¸å»ÏËö¤·¤Þ¤¹¡£¡©¡© ¤³¤ì¤Ë¤è¤ê³Ë¤ÎÅß¤Î´í¸±¤òºÇ¾®¤Ë¤Ç¤­¤Þ¤¹¡£¤³¤ì¤Ç¥¨¥³³ËÊ¼´ï!"
 
 #: data/civ1/units.ruleset:1348
 msgid "When barbarian leader is killed on a tile without any defending units, the 100 gold ransom is paid, but only to land units."
@@ -10159,12 +10181,12 @@ msgid "?plural:Danes"
 msgstr "¥Ç¥ó¥Þ¡¼¥¯Ì±Â²"
 
 #: data/nation/dunedain.ruleset:3
-msgid "Dúnedain"
+msgid "Dúîedain"
 msgstr ""
 
 #: data/nation/dunedain.ruleset:4
 #, fuzzy
-msgid "?plural:Dúnedan"
+msgid "?plural:Dúîedan"
 msgstr "¥¤¥ó¥ÉÌ±Â²"
 
 #: data/nation/dutch.ruleset:3
@@ -10599,23 +10621,3 @@ msgstr "¥º¡¼¥ë¡¼¿Í"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "¥º¡¼¥ë¡¼Â²"
-
-#~ msgid "Polluted "
-#~ msgstr "±øÀ÷¤µ¤ì¤¿"
-
-#, fuzzy
-#~ msgid ""
-#~ "Sets some basic rules; 1 means style of Civ1, 2 means Civ2.\n"
-#~ "Currently this option affects the following rules:\n"
-#~ "  - Civ2 exposes more area at the very start of a new game.\n"
-#~ "  - Civ2 allows the player to pick which improvement to pillage.\n"
-#~ "  - In Civ2, cities cannot be built next to each other.\n"
-#~ "  - In Civ2, overflight of a hut causes it to disappear.\n"
-#~ "  - In Civ2, cities on mountains produce some food.\n"
-#~ "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
-#~ "See also README.rulesets and the techs, units, buildings and terrain options."
-#~ msgstr ""
-#~ "´ðÁÃ¥ë¡¼¥ë¤òÀßÄê¤·¤Þ¤¹¡£ 1,2 ¤Ï¤½¤ì¤¾¤ì Civ1, Civ2 ¤Î¥¹¥¿¥¤¥ë¤ò°ÕÌ£¤·\n"
-#~ "¤Þ¤¹¡£¸½ºß¡¢¤³¤Î¥ª¥×¥·¥ç¥ó¤Ï¼¡¤Î¥ë¡¼¥ë¤Ë±Æ¶Á¤·¤Þ¤¹:\n"
-#~ "  - Civ2 ¤Ï¡¢¿·¤·¤¤¥²¡¼¥à¤Î³«»Ï»þ¤Ë¤È¤Æ¤âÂ¿¤¯¤ÎÎÎ°è¤ò´í¸±¤Ë¤µ¤é¤·¤Þ¤¹¡£*?*\n"
-#~ "  - Civ2 ¤Ï\n"
