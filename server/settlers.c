@@ -15,6 +15,7 @@
 #include <assert.h>
 
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "packets.h"
@@ -828,7 +829,8 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
     else food_cost = 40 * (mycity->size - 1) / mycity->size;
     if (city_got_effect(mycity, B_GRANARY)) food_cost -= 20;
   }
-  food_upkeep = (get_government(pplayer->player_no) > G_COMMUNISM ? 2 : 1);
+  food_upkeep = utype_food_cost(get_unit_type(punit->type),
+				get_gov_pplayer(pplayer));
   if (punit->id && !punit->homecity) food_upkeep = 0; /* thanks, Peter */
 
   /** First find the best square to upgrade,

@@ -19,6 +19,7 @@
 #include "capstr.h"
 #include "events.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -487,6 +488,14 @@ void handle_unit_info(struct packet_unit_info *packet)
       punit->upkeep=packet->upkeep;
       repaint_city=1;
     }
+    if (punit->upkeep_food!=packet->upkeep_food) {
+      punit->upkeep_food=packet->upkeep_food;
+      repaint_city=1;
+    }
+    if (punit->upkeep_gold!=packet->upkeep_gold) {
+      punit->upkeep_gold=packet->upkeep_gold;
+      repaint_city=1;
+    }
     if (repaint_city) {
       if((pcity=find_city_by_id(punit->homecity))) {
 	refresh_city_dialog(pcity);
@@ -516,6 +525,8 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->unhappiness=packet->unhappiness;
     punit->activity=packet->activity;
     punit->upkeep=packet->upkeep;
+    punit->upkeep_food=packet->upkeep_food;
+    punit->upkeep_gold=packet->upkeep_gold;
     punit->fuel=packet->fuel;
     punit->goto_dest_x=packet->goto_dest_x;
     punit->goto_dest_y=packet->goto_dest_y;
@@ -732,13 +743,14 @@ which is left.
 static int spaceship_autoplace(struct player *pplayer,
 			       struct player_spaceship *ship)
 {
+  struct government *g = get_gov_pplayer(pplayer);
   struct packet_spaceship_action packet;
   int i;
   
   if (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
     
-    int nice = (pplayer->government >= G_REPUBLIC);
+    int nice = g->flags & G_IS_NICE;
     /* "nice" governments prefer to keep success 100%;
      * others build habitation first (for score?)  (Thanks Massimo.)
      */
@@ -1009,6 +1021,10 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->fuel               = p->fuel;
   u->flags              = p->flags;
   u->roles              = p->roles;
+  u->happy_cost         = p->happy_cost;
+  u->shield_cost        = p->shield_cost;
+  u->food_cost          = p->food_cost;
+  u->gold_cost          = p->gold_cost;
 }
 
 /**************************************************************************
@@ -1038,6 +1054,91 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->obsolete_by      = p->obsolete_by;     
   b->variant          = p->variant;         
  
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_ruleset_government(struct packet_ruleset_government *p)
+{
+  struct government *gov;
+
+  if (p->id < 0 || p->id >= G_MAGIC) {
+    freelog(LOG_NORMAL, "Received bad government id %d", p->id);
+    return;
+  }
+  
+  if (p->id >= game.government_count) {
+    game.government_count = p->id + 1;
+    governments = fc_realloc(governments,
+			     game.government_count * sizeof (struct government));
+  }
+
+  gov = &governments[p->id];
+
+  gov->index             = p->id;
+
+  gov->required_tech     = p->required_tech;
+  gov->graphic           = p->graphic;
+  gov->max_rate          = p->max_rate;
+  gov->civil_war         = p->civil_war;
+  gov->martial_law_max   = p->martial_law_max;
+  gov->martial_law_per   = p->martial_law_per;
+  gov->empire_size_mod   = p->empire_size_mod;
+  gov->rapture_size      = p->rapture_size;
+  
+  gov->unit_happy_cost_factor  = p->unit_happy_cost_factor;
+  gov->unit_shield_cost_factor = p->unit_shield_cost_factor;
+  gov->unit_food_cost_factor   = p->unit_food_cost_factor;
+  gov->unit_gold_cost_factor   = p->unit_gold_cost_factor;
+  
+  gov->free_happy          = p->free_happy;
+  gov->free_shield         = p->free_shield;
+  gov->free_food           = p->free_food;
+  gov->free_gold           = p->free_gold;
+
+  gov->trade_before_penalty   = p->trade_before_penalty;
+  gov->shields_before_penalty = p->shields_before_penalty;
+  gov->food_before_penalty    = p->food_before_penalty;
+
+  gov->celeb_trade_before_penalty   = p->celeb_trade_before_penalty;
+  gov->celeb_shields_before_penalty = p->celeb_shields_before_penalty;
+  gov->celeb_food_before_penalty    = p->celeb_food_before_penalty;
+
+  gov->trade_bonus         = p->trade_bonus;
+  gov->shield_bonus        = p->shield_bonus;
+  gov->food_bonus          = p->food_bonus;
+
+  gov->celeb_trade_bonus   = p->celeb_trade_bonus;
+  gov->celeb_shield_bonus  = p->celeb_shield_bonus;
+  gov->celeb_food_bonus    = p->celeb_food_bonus;
+
+  gov->corruption_level    = p->corruption_level;
+  gov->corruption_modifier = p->corruption_modifier;
+  gov->fixed_corruption_distance = p->fixed_corruption_distance;
+  gov->corruption_distance_factor = p->corruption_distance_factor;
+  gov->extra_corruption_distance = p->extra_corruption_distance;
+
+  gov->flags               = p->flags;
+    
+  gov->name                = mystrdup(p->name);
+
+  gov->ruler_title         = fc_calloc(p->ruler_title_count + 1,
+				       sizeof(struct ruler_title));
+}
+void handle_ruleset_government_ruler_title
+  (struct packet_ruleset_government_ruler_title *p)
+{
+  struct government *gov;
+
+  if(p->gov < 0 || p->gov >= game.government_count) {
+    freelog(LOG_NORMAL, "Received bad government num %d for title", p->gov);
+    return;
+  }
+  gov = &governments[p->gov];
+  gov->ruler_title[p->id].race = p->race;
+  gov->ruler_title[p->id].male_title = mystrdup(p->male_title);
+  gov->ruler_title[p->id].female_title = mystrdup(p->female_title);
 }
 
 /**************************************************************************

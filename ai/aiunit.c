@@ -18,6 +18,7 @@
 
 #include "city.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "packets.h"
@@ -970,8 +971,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   pcity = map_get_city(punit->x, punit->y);
 
   if (pcity && (!punit->id || pcity->id == punit->homecity))
-      unhap = ai_assess_military_unhappiness(pcity, 
-                        get_government(pplayer->player_no));
+    unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
 
   *x = punit->x; *y = punit->y;
   ab = unit_belligerence_basic(punit);

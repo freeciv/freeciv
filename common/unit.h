@@ -18,6 +18,7 @@
 
 struct player;
 struct city;
+struct government;
 
 enum unit_type_id { 
   U_SETTLERS, 
@@ -116,6 +117,8 @@ struct unit {
   int hp;
   int unhappiness;
   int upkeep;
+  int upkeep_food;
+  int upkeep_gold;
   int foul;
   int fuel;
   int bribe_cost;
@@ -200,8 +203,14 @@ struct unit_type {
   int firepower;
   int obsoleted_by;
   int fuel;
+
   unsigned int flags;
   unsigned int roles;
+
+  int happy_cost;  /* unhappy people in home city */
+  int shield_cost; /* normal upkeep cost */
+  int food_cost;   /* settler food cost */
+  int gold_cost;   /* gold upkeep (n/a now, maybe later) */
 };
 
 
@@ -270,6 +279,11 @@ int is_transporter_with_free_space(struct player *pplayer, int x, int y);
 int is_enough_transporter_space(struct player *pplayer, int x, int y);
 int get_transporter_capacity(struct unit *punit);
 int is_ground_units_transport(struct unit *punit);
+
+int utype_shield_cost(struct unit_type *ut, struct government *g);
+int utype_food_cost(struct unit_type *ut, struct government *g);
+int utype_happy_cost(struct unit_type *ut, struct government *g);
+int utype_gold_cost(struct unit_type *ut, struct government *g);
 
 void move_unit_list_to_tile(struct unit_list *units, int x, int y);
 void transporter_cargo_to_unitlist(struct unit *ptran, struct unit_list *list);

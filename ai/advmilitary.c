@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 
@@ -737,8 +738,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
     } /* end dealing with units */
 
     if (pcity->id == myunit->homecity || !myunit->id)
-        unhap = ai_assess_military_unhappiness(pcity, 
-                                   get_government(pplayer->player_no));
+      unhap = ai_assess_military_unhappiness(pcity, get_gov_pplayer(pplayer));
 
     if (is_ground_unit(myunit) && !sanity && !boatid)
       needferry = 40; /* cost of ferry */

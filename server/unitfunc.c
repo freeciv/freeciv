@@ -16,6 +16,7 @@
 
 #include "city.h"
 #include "events.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -161,9 +162,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     pvictim->bribe_cost = unit_bribe_cost(pvictim);
   }
   if(pplayer->economic.gold>=pvictim->bribe_cost) {
-    if(game.players[pvictim->owner].government==G_DEMOCRACY)
+    if(get_gov_iplayer(pvictim->owner)->flags & G_UNBRIBABLE)
       notify_player_ex(pplayer, pdiplomat->x, pdiplomat->y, E_NOEVENT, 
-	"Game: You can't bribe a unit from a democratic nation.");
+	"Game: You can't bribe a unit from this nation.");
     else {
       pplayer->economic.gold-=pvictim->bribe_cost;
       notify_player_ex(&game.players[pvictim->owner], 
@@ -426,9 +427,9 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   cplayer=city_owner(pcity);
   if (cplayer==pplayer || cplayer==NULL) 
     return;
-  if(game.players[cplayer->player_no].government==G_DEMOCRACY) {
+  if(get_gov_pplayer(cplayer)->flags & G_UNBRIBABLE) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		       "Game: You can't subvert a city from a democratic nation.");
+		       "Game: You can't subvert a city from this nation.");
       return;
   }
   
@@ -1557,7 +1558,9 @@ void place_partisans(struct city *pcity,int count)
 **************************************************************************/
 void make_partisans(struct city *pcity)
 {
+  struct government *g = get_gov_pcity(pcity);
   int partisans;
+
   if (num_role_units(L_PARTISAN)==0)
     return;
   if (!game.global_advances[A_GUERILLA] || pcity->original != pcity->owner)
@@ -1565,8 +1568,7 @@ void make_partisans(struct city *pcity)
   if (get_invention(city_owner(pcity), A_COMMUNISM) != TECH_KNOWN 
       && get_invention(city_owner(pcity), A_GUNPOWDER) != TECH_KNOWN)
     return;
-  if (get_government(pcity->owner)!=G_DEMOCRACY
-      && get_government(pcity->owner)!=G_COMMUNISM) 
+  if (! g->flags & G_INSPIRES_PARTISANS)
     return;
   
   partisans = myrand(1 + pcity->size/2) + 1;
@@ -1738,6 +1740,8 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
   info.activity_count=punit->activity_count;
   info.unhappiness=punit->unhappiness;
   info.upkeep=punit->upkeep;
+  info.upkeep_food=punit->upkeep_food;
+  info.upkeep_gold=punit->upkeep_gold;
   info.ai=punit->ai.control;
   info.fuel=punit->fuel;
   info.goto_dest_x=punit->goto_dest_x;

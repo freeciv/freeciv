@@ -17,6 +17,7 @@
 
 #include "city.h"
 #include "events.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "packets.h"
@@ -220,6 +221,7 @@ int zoc_ok_move(struct unit *punit, int x, int y)
 **************************************************************************/
 int unit_bribe_cost(struct unit *punit)
 {  
+  struct government *g = get_gov_iplayer(punit->owner);
   int cost;
   struct city *capital;
   int dist;
@@ -233,8 +235,8 @@ int unit_bribe_cost(struct unit *punit)
   }
   else
     dist=32;
-    if (get_government(punit->owner)==G_COMMUNISM)
-      dist = MIN(10, dist);
+  if (g->fixed_corruption_distance)
+    dist = MIN(g->fixed_corruption_distance, dist);
   cost=(cost/(dist+2))*(get_unit_type(punit->type)->build_cost/10);
   if (unit_flag(punit->type, F_SETTLERS)) 
     cost/=2;

@@ -277,6 +277,10 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     return receive_packet_ruleset_terrain(pc);
   case PACKET_RULESET_TERRAIN_CONTROL:
     return receive_packet_ruleset_terrain_control(pc);
+  case PACKET_RULESET_GOVERNMENT:
+    return receive_packet_ruleset_government(pc);
+  case PACKET_RULESET_GOVERNMENT_RULER_TITLE:
+    return receive_packet_ruleset_government_ruler_title(pc);
 
   case PACKET_SPACESHIP_INFO:
     return receive_packet_spaceship_info(pc);
@@ -1358,8 +1362,11 @@ int send_packet_unit_info(struct connection *pc,
   cptr=put_int8(cptr, req->type);
   cptr=put_int8(cptr, req->movesleft);
   cptr=put_int8(cptr, req->hp);
-  pack=(req->upkeep&0x3)|((req->unhappiness&0x3)<<2)|((req->activity&0xf)<<4);
-  cptr=put_int8(cptr, pack);
+  cptr=put_int8(cptr, req->upkeep);
+  cptr=put_int8(cptr, req->upkeep_food);
+  cptr=put_int8(cptr, req->upkeep_gold);
+  cptr=put_int8(cptr, req->unhappiness);
+  cptr=put_int8(cptr, req->activity);
   cptr=put_int8(cptr, req->activity_count);
   cptr=put_int8(cptr, req->goto_dest_x);
   cptr=put_int8(cptr, req->goto_dest_y);
@@ -1530,9 +1537,11 @@ receive_packet_unit_info(struct connection *pc)
   iget_int8(&iter, &packet->type);
   iget_int8(&iter, &packet->movesleft);
   iget_int8(&iter, &packet->hp);
-  iget_int8(&iter, &pack);
-  packet->activity=pack>>4; packet->upkeep=pack&0x3;
-  packet->unhappiness=(pack>>2)&0x3;
+  iget_int8(&iter, &packet->upkeep);
+  iget_int8(&iter, &packet->upkeep_food);
+  iget_int8(&iter, &packet->upkeep_gold);
+  iget_int8(&iter, &packet->unhappiness);
+  iget_int8(&iter, &packet->activity);
   iget_int8(&iter, &packet->activity_count);
   iget_int8(&iter, &packet->goto_dest_x);
   iget_int8(&iter, &packet->goto_dest_y);
@@ -1871,6 +1880,10 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_int8(cptr, packet->fuel);
   cptr=put_int32(cptr, packet->flags);
   cptr=put_int32(cptr, packet->roles);
+  cptr=put_int8(cptr, packet->happy_cost);   /* unit upkeep -- SKi */
+  cptr=put_int8(cptr, packet->shield_cost);
+  cptr=put_int8(cptr, packet->food_cost);
+  cptr=put_int8(cptr, packet->gold_cost);
   cptr=put_string(cptr, packet->name);
   put_int16(buffer, cptr-buffer);
 
@@ -1906,6 +1919,10 @@ receive_packet_ruleset_unit(struct connection *pc)
   iget_int8(&iter, &packet->fuel);
   iget_int32(&iter, &packet->flags);
   iget_int32(&iter, &packet->roles);
+  iget_int8(&iter, &packet->happy_cost);   /* unit upkeep -- SKi */
+  iget_int8(&iter, &packet->shield_cost);
+  iget_int8(&iter, &packet->food_cost);
+  iget_int8(&iter, &packet->gold_cost);
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   pack_iter_end(&iter, pc);
@@ -2164,6 +2181,175 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   iget_int16(&iter, &packet->river_base);
   iget_int16(&iter, &packet->outlet_base);
   iget_int16(&iter, &packet->denmark_base);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_ruleset_government(struct connection *pc,
+			     struct packet_ruleset_government *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr=put_int8(buffer+2, PACKET_RULESET_GOVERNMENT);
+  
+  cptr=put_int8(cptr, packet->id);
+  
+  cptr=put_int8(cptr, packet->required_tech);
+  cptr=put_int8(cptr, packet->graphic);
+  cptr=put_int8(cptr, packet->max_rate);
+  cptr=put_int8(cptr, packet->civil_war);
+  cptr=put_int8(cptr, packet->martial_law_max);
+  cptr=put_int8(cptr, packet->martial_law_per);
+  cptr=put_int8(cptr, packet->empire_size_mod);
+  cptr=put_int8(cptr, packet->rapture_size);
+  
+  cptr=put_int8(cptr, packet->unit_happy_cost_factor);
+  cptr=put_int8(cptr, packet->unit_shield_cost_factor);
+  cptr=put_int8(cptr, packet->unit_food_cost_factor);
+  cptr=put_int8(cptr, packet->unit_gold_cost_factor);
+  
+  cptr=put_int8(cptr, packet->free_happy);
+  cptr=put_int8(cptr, packet->free_shield);
+  cptr=put_int8(cptr, packet->free_food);
+  cptr=put_int8(cptr, packet->free_gold);
+
+  cptr=put_int8(cptr, packet->trade_before_penalty);
+  cptr=put_int8(cptr, packet->shields_before_penalty);
+  cptr=put_int8(cptr, packet->food_before_penalty);
+
+  cptr=put_int8(cptr, packet->celeb_trade_before_penalty);
+  cptr=put_int8(cptr, packet->celeb_shields_before_penalty);
+  cptr=put_int8(cptr, packet->celeb_food_before_penalty);
+
+  cptr=put_int8(cptr, packet->trade_bonus);
+  cptr=put_int8(cptr, packet->shield_bonus);
+  cptr=put_int8(cptr, packet->food_bonus);
+
+  cptr=put_int8(cptr, packet->celeb_trade_bonus);
+  cptr=put_int8(cptr, packet->celeb_shield_bonus);
+  cptr=put_int8(cptr, packet->celeb_food_bonus);
+
+  cptr=put_int8(cptr, packet->corruption_level);
+  cptr=put_int8(cptr, packet->corruption_modifier);
+  cptr=put_int8(cptr, packet->fixed_corruption_distance);
+  cptr=put_int8(cptr, packet->corruption_distance_factor);
+  cptr=put_int8(cptr, packet->extra_corruption_distance);
+
+  cptr=put_int8(cptr, packet->flags);
+
+  cptr=put_int8(cptr, packet->ruler_title_count);
+
+  cptr=put_string(cptr, packet->name);
+
+  freelog(LOG_DEBUG, "send gov %s", packet->name);
+
+  put_int16(buffer, cptr-buffer);
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+int send_packet_ruleset_government_ruler_title(struct connection *pc,
+			     struct packet_ruleset_government_ruler_title *packet)
+{
+  unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  cptr=put_int8(buffer+2, PACKET_RULESET_GOVERNMENT_RULER_TITLE);
+  
+  cptr=put_int8(cptr, packet->gov);
+  cptr=put_int8(cptr, packet->id);
+  cptr=put_int8(cptr, packet->race);
+
+  cptr=put_string(cptr, packet->male_title);
+  cptr=put_string(cptr, packet->female_title);
+  
+  put_int16(buffer, cptr-buffer);
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_ruleset_government *
+receive_packet_ruleset_government(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_ruleset_government *packet=
+    fc_calloc(1, sizeof(struct packet_ruleset_government));
+
+  pack_iter_init(&iter, pc);
+
+  iget_int8(&iter, &packet->id);
+  
+  iget_int8(&iter, &packet->required_tech);
+  iget_int8(&iter, &packet->graphic);
+  iget_int8(&iter, &packet->max_rate);
+  iget_int8(&iter, &packet->civil_war);
+  iget_int8(&iter, &packet->martial_law_max);
+  iget_int8(&iter, &packet->martial_law_per);
+  iget_int8(&iter, &packet->empire_size_mod);
+  if(packet->empire_size_mod > 127) packet->empire_size_mod-=256;
+  iget_int8(&iter, &packet->rapture_size);
+  
+  iget_int8(&iter, &packet->unit_happy_cost_factor);
+  iget_int8(&iter, &packet->unit_shield_cost_factor);
+  iget_int8(&iter, &packet->unit_food_cost_factor);
+  iget_int8(&iter, &packet->unit_gold_cost_factor);
+  
+  iget_int8(&iter, &packet->free_happy);
+  iget_int8(&iter, &packet->free_shield);
+  iget_int8(&iter, &packet->free_food);
+  iget_int8(&iter, &packet->free_gold);
+
+  iget_int8(&iter, &packet->trade_before_penalty);
+  iget_int8(&iter, &packet->shields_before_penalty);
+  iget_int8(&iter, &packet->food_before_penalty);
+
+  iget_int8(&iter, &packet->celeb_trade_before_penalty);
+  iget_int8(&iter, &packet->celeb_shields_before_penalty);
+  iget_int8(&iter, &packet->celeb_food_before_penalty);
+
+  iget_int8(&iter, &packet->trade_bonus);
+  iget_int8(&iter, &packet->shield_bonus);
+  iget_int8(&iter, &packet->food_bonus);
+
+  iget_int8(&iter, &packet->celeb_trade_bonus);
+  iget_int8(&iter, &packet->celeb_shield_bonus);
+  iget_int8(&iter, &packet->celeb_food_bonus);
+
+  iget_int8(&iter, &packet->corruption_level);
+  iget_int8(&iter, &packet->corruption_modifier);
+  iget_int8(&iter, &packet->fixed_corruption_distance);
+  iget_int8(&iter, &packet->corruption_distance_factor);
+  iget_int8(&iter, &packet->extra_corruption_distance);
+
+  iget_int8(&iter, &packet->flags);
+
+  iget_int8(&iter, &packet->ruler_title_count);
+
+  iget_string(&iter, packet->name, sizeof(packet->name));
+  
+  freelog(LOG_DEBUG, "recv gov %s", packet->name);
+
+  pack_iter_end(&iter, pc);
+  remove_packet_from_buffer(&pc->buffer);
+  return packet;
+}
+struct packet_ruleset_government_ruler_title *
+receive_packet_ruleset_government_ruler_title(struct connection *pc)
+{
+  struct pack_iter iter;
+  struct packet_ruleset_government_ruler_title *packet=
+    fc_malloc(sizeof(struct packet_ruleset_government_ruler_title));
+
+  pack_iter_init(&iter, pc);
+
+  iget_int8(&iter, &packet->gov);
+  iget_int8(&iter, &packet->id);
+  iget_int8(&iter, &packet->race);
+
+  iget_string(&iter, packet->male_title, sizeof(packet->male_title));
+  iget_string(&iter, packet->female_title, sizeof(packet->female_title));
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

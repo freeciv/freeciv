@@ -13,6 +13,7 @@
 
 #include <assert.h>
 
+#include "government.h"
 #include "packets.h"
 #include "spaceship.h"
 #include "spacerace.h"
@@ -26,13 +27,14 @@
 
 int ai_spaceship_autoplace(struct player *pplayer, struct player_spaceship *ship)
 {
+  struct government *g = get_gov_pplayer(pplayer);
   struct packet_spaceship_action packet;
   int i,retval=0;
   
   while (ship->modules > (ship->habitation + ship->life_support
 		       + ship->solar_panels)) {
     
-    int nice = (pplayer->government >= G_REPUBLIC);
+    int nice = g->flags & G_IS_NICE;
     /* "nice" governments prefer to keep success 100%;
      * others build habitation first (for score?)  (Thanks Massimo.)
      */

@@ -1,0 +1,203 @@
+
+; Modifying this file:
+; You shouldn't modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "set governments <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not cope well with anything more
+; than minor changes.
+
+[datafile]
+description="Default governments data for Freeciv (as Civ2, minus fundamentalism)"
+options="1.8.2"
+
+[governments]
+count=6
+default="Despotism"
+when_anarchy="Anarchy"
+
+names = { "name"
+          "Anarchy"
+          "Despotism"
+          "Monarchy"
+          "Communism"
+;         "Fundamentalism"
+          "Republic"
+          "Democracy"
+};
+
+; at present an empty list is required here, even for those government forms
+; that always are available -SKi
+required_tech = { "government",       "tech"
+                  "Anarchy"
+                  "Despotism"
+                  "Monarchy",         "Monarchy"
+                  "Communism",        "Communism"
+;                 "Fundamentalism",   "Fundamentalism"
+                  "Republic",         "The Republic"
+                  "Democracy",        "Democracy"
+};
+
+; Icon offsets from GOVERNMENT_TILES in small.xpm:
+; (Would be nice to do this better...)
+graphic = { "government",  "offset"
+                "Anarchy",          0
+                "Despotism",        1
+                "Monarchy",         2
+                "Communism",        3
+;               "Fundamentalism",   21  ;-)
+                "Republic",         4
+                "Democracy",        5
+};
+
+; Unit upkeep cost factors:
+; TODO: check Communism food_factor (should be 1?); 
+;       current is for regression testing
+unit_upkeep = { "government",  "happy_factor", "shield_factor", "food_factor", "gold_factor"
+                "Anarchy",          0,      1,    1,     0
+                "Despotism",        0,      1,    1,     1
+                "Monarchy",         0,      1,    1,     1
+                "Communism",        0,      1,    2,     1
+;               "Fundamentalism",   0,      1,    1,     1
+                "Republic",         1,      1,    2,     1
+                "Democracy",        2,      1,    2,     1
+};
+
+; Base cost which does not have to be paid for:
+; Special value: "CitySize"
+; TODO: check free_shield for Communism?
+free_upkeep = { "government",       "free_happy",  "free_shield",  "free_food",  "free_gold"
+               "Anarchy",          0,           "CitySize",   0,          0
+               "Despotism",        0,           "CitySize",   0,          0
+               "Monarchy",         0,           3,            0,          0
+               "Communism",        0,           3,            0,          0
+;              "Fundamentalism",   0,           10,           0,          0
+               "Republic",         1,           0,            0,          0
+               "Democracy",        0,           0,            0,          0
+};
+
+; corruption:
+;  level:           percent of actual calculated corruption that is applied
+;  modifier:        greater-than-zero divisor; the higher the less corruption
+;  fixed_distance:  use this distance for all cities
+;  distance_factor: multiply actual distance with this
+;  extra_distance:  add this to the calculated distance
+corruption = { "government",      "level", "modifier", "fixed_distance", "distance_factor", "extra_distance"
+               "Anarchy",         100,     40,         0,                1,                 0
+               "Despotism",       100,     27,         0,                2,                 3
+               "Monarchy",        100,     67,         0,                1,                 0
+               "Communism",       50,      80,         10,               1,                 0
+;               "Fundamentalism",  100,     80,         0,                1,                 0
+               "Republic",        100,     67,         0,                1,                 0
+               "Democracy",       0,       1,          0,                0,                 0
+};
+
+; production bonuses
+bonus = { "government",      "trade_bonus", "shield_bonus", "food_bonus"
+          "Anarchy",         0,             0,              0
+          "Despotism",       0,             0,              0
+          "Monarchy",        0,             0,              0
+          "Communism",       0,             0,              0
+;         "Fundamentalism",  0,             0,              0
+          "Republic",        1,             0,              0
+          "Democracy",       1,             0,              0
+};
+
+; celebrating production bonuses
+celeb_bonus = { "government",      "trade_bonus", "shield_bonus", "food_bonus"
+          "Anarchy",         0,             0,              0
+          "Despotism",       0,             0,              0
+          "Monarchy",        1,             0,              0
+          "Communism",       1,             0,              0
+;         "Fundamentalism",  1,             0,              0
+          "Republic",        1,             0,              0
+          "Democracy",       1,             0,              0
+};
+
+; production penalties
+penalty = { "government",      "trade_before", "shields_before", "food_before"
+            "Anarchy",         2,              2,                2
+            "Despotism",       2,              2,                2
+            "Monarchy",        0,              0,                0
+            "Communism",       0,              0,                0
+;           "Fundamentalism",  0,              0,                0
+            "Republic",        0,              0,                0
+            "Democracy",       0,              0,                0
+};
+
+; celebrating production penalties
+celeb_penalty = { "government",      "trade_before", "shields_before", "food_before"
+            "Anarchy",         0,              0,                0
+            "Despotism",       0,              0,                0
+            "Monarchy",        0,              0,                0
+            "Communism",       0,              0,                0
+;           "Fundamentalism",  0,              0,                0
+            "Republic",        0,              0,                0
+            "Democracy",       0,              0,                0
+};
+
+flags = {  "government",     "flags"
+           "Anarchy",        "FAVORS_GROWTH"
+           "Despotism",      "FAVORS_GROWTH"
+           "Monarchy",       "FAVORS_GROWTH"
+           "Communism",      "BUILD_VETERAN_DIPLOMAT", "INSPIRES_PARTISANS", "FAVORS_GROWTH"
+;          "Fundamentalism", "FAVORS_GROWTH"
+           "Republic",       "HAS_SENATE", "IS_NICE"
+           "Democracy",      "HAS_SENATE", "REVOLUTION_WHEN_UNHAPPY", "INSPIRES_PARTISANS", "IS_NICE"
+};
+
+; TODO: check max_rates 
+; (these max_rates are same as pre-govt-ruleset, for regression --dwp)
+; Assume martial_law_max=100 is enough to correspond to unlimited...
+others = { "government",      "martial_law_max",  "martial_law_per", "max_rates",    "civil_war", "empire_size_mod", "rapture_size"
+           "Anarchy",         100,     1,         100,            90,        -5,                    0
+           "Despotism",       100,     1,          60,            80,        -4,                    0
+           "Monarchy",        3,       1,        70,            70,          -3,                    0
+           "Communism",       3,       2,        80,            50,          -2,                    0
+;          "Fundamentalism",  0,       1,        80,            60,          -1,                    0
+           "Republic",        0,       0,        80,            40,          -1,                    5
+           "Democracy",       0,       0,       100,            30,          0,                    5
+};
+
+; "-" is the default title
+ruler_titles = { "government",       "race",        "male_title",      "female_title"
+                 "Anarchy",          "-",           "Mr.",             "Ms."
+                 "Despotism",        "-",           "Emperor",         "Empress"
+                 "Despotism",        "Roman",       "Dictator",        "Dictator"
+                 "Despotism",        "Egyptian",    "Pharaoh",         "Pharaoh"
+;                "Despotism",        "Vikings",     "Warlord",         "Warlord"
+;                "Despotism",        "Sioux",       "Chief",           "Chief"
+                 "Monarchy",         "-",           "King",            "Queen"
+                 "Monarchy",         "Roman",       "Imperator",       "Imperatrix"
+                 "Monarchy",         "Egyptian",    "Great Pharaoh",   "Great Pharaoh"
+                 "Monarchy",         "Indian",      "Maharaja",        "Maharaja"
+                 "Monarchy",         "Russian",     "Czar",            "Czarina"
+;                "Monarchy",         "Japanese",    "Shogun",          "Shogun"
+;                "Monarchy",         "Persian",     "Shah",            "Shah"
+;                "Monarchy",         "Sioux",       "Great Chief",     "Great Chief"
+;                "Monarchy",         "Arab",        "Sultan",          "Sultan"
+                 "Communism",        "-",           "Comrade",         "Comrade"
+                 "Communism",        "Chinese",     "Chairman",        "Chairperson"
+;                "Fundamentalism",   "-",           "High Priest",     "High Priestess"
+;                "Fundamentalism",   "German",      "Archbishop",      "Archbishop"
+;                "Fundamentalism",   "American",    "Reverend",        "Reverend"
+;                "Fundamentalism",   "Russian",     "Patriarch",       "Matriarch"
+;                "Fundamentalism",   "French",      "Archbishop",      "Archbishop"
+;                "Fundamentalism",   "English",     "Lord Protector",  "Lady Protector"
+;                "Fundamentalism",   "Celt",        "Druid",           "Druid"
+;                "Fundamentalism",   "Spanish",     "Archbishop",      "Archbishop"
+;                "Fundamentalism",   "Persian",     "Ayatollah",       "Ayatollah"
+;                "Fundamentalism",   "Arab",        "Ayatollah",       "Ayatollah"
+                 "Republic",         "-",           "Consul",          "Consul"
+                 "Republic",         "American",    "Speaker",         "Speaker"
+                 "Democracy",        "-",           "President",       "President"
+                 "Democracy",        "German",      "Chancellor",      "Chancellor"
+                 "Democracy",        "Greek",       "Prime Minister",  "Prime Minister"
+                 "Democracy",        "French",      "Premier",         "Premier"
+                 "Democracy",        "English",     "Prime Minister",  "Prime Minister"
+;                "Democracy",        "Japanese",    "Prime Minister",  "Prime Minister"
+};
+

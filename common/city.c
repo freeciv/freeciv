@@ -15,6 +15,7 @@
 #include <string.h>
 
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -1061,10 +1062,10 @@ int get_shields_tile(int x, int y, struct city *pcity)
   int s=0;
   enum tile_special_type spec_t=map_get_special(pcity->x+x-2, pcity->y+y-2);
   enum tile_terrain_type tile_t=map_get_terrain(pcity->x+x-2, pcity->y+y-2);
-
-  int gov=get_government(pcity->owner);
-  if (city_celebrating(pcity))
-    gov+=2;
+  struct government *g = get_gov_pcity(pcity);
+  int celeb = city_celebrating(pcity);
+  int before_penalty = (celeb ? g->celeb_shields_before_penalty
+			: g->shields_before_penalty);
 
   if (spec_t & S_SPECIAL_1) 
     s=get_tile_type(tile_t)->shield_special_1;
@@ -1085,7 +1086,10 @@ int get_shields_tile(int x, int y, struct city *pcity)
     s++;
   if (tile_t==T_OCEAN && city_got_building(pcity, B_OFFSHORE))
     s++;
-  if (s>2 && gov <=G_DESPOTISM) 
+  /* government shield bonus & penalty */
+  if (s)
+    s += (celeb ? g->celeb_shield_bonus : g->shield_bonus);
+  if (before_penalty && s > before_penalty)
     s--;
   if (spec_t & S_POLLUTION)
     s-=(s*terrain_control.pollution_shield_penalty)/100; /* The shields here is icky */
@@ -1100,10 +1104,8 @@ int get_trade_tile(int x, int y, struct city *pcity)
 {
   enum tile_special_type spec_t=map_get_special(pcity->x+x-2, pcity->y+y-2);
   enum tile_terrain_type tile_t=map_get_terrain(pcity->x+x-2, pcity->y+y-2);
+  struct government *g = get_gov_pcity(pcity);
   int t;
-  int gov=get_government(pcity->owner);
-  if (city_celebrating(pcity)) 
-    gov+=2;
  
   if (spec_t & S_SPECIAL_1) 
     t=get_tile_type(tile_t)->trade_special_1;
@@ -1119,21 +1121,25 @@ int get_trade_tile(int x, int y, struct city *pcity)
     t += (get_tile_type(tile_t))->road_trade_incr;
   }
   if (t) {
+    int celeb = city_celebrating(pcity);
+    int before_penalty = (celeb ? g->celeb_trade_before_penalty
+			  : g->trade_before_penalty);
+    
     if (spec_t & S_RAILROAD)
       t+=(t*terrain_control.rail_trade_bonus)/100;
 
-	/* Civ1 specifically documents that Railroad trade increase is before 
-     * Democracy/Republic bonus  -AJS */
-
-    if (gov >=G_REPUBLIC)
-      t++; 
+    /* Civ1 specifically documents that Railroad trade increase is before 
+     * Democracy/Republic [government in general now -- SKi] bonus  -AJS */
+    if (t)
+      t += (celeb ? g->celeb_trade_bonus : g->trade_bonus);
 
     if(city_affected_by_wonder(pcity, B_COLLOSSUS)) 
       t++;
     if((spec_t&S_ROAD) && city_got_building(pcity, B_SUPERHIGHWAYS))
       t+=(t*terrain_control.road_superhighway_trade_bonus)/100;
  
-    if (t>2 && gov <=G_DESPOTISM) 
+    /* government trade penalty -- SKi */
+    if (before_penalty && t > before_penalty) 
       t--;
     if (spec_t & S_POLLUTION)
       t-=(t*terrain_control.pollution_trade_penalty)/100; /* The trade here is dirty */
@@ -1153,15 +1159,15 @@ int get_food_tile(int x, int y, struct city *pcity)
   enum tile_special_type spec_t=map_get_special(pcity->x+x-2, pcity->y+y-2);
   enum tile_terrain_type tile_t=map_get_terrain(pcity->x+x-2, pcity->y+y-2);
   struct tile_type *type;
-  int gov=get_government(pcity->owner);
+  struct government *g = get_gov_pcity(pcity);
+  int celeb = city_celebrating(pcity);
+  int before_penalty = (celeb ? g->celeb_food_before_penalty
+			: g->food_before_penalty);
   int city_auto_water;
 
   type=get_tile_type(tile_t);
   city_auto_water = (x==2 && y==2 && tile_t==type->irrigation_result
 		     && terrain_control.may_irrigate);
-
-  if (city_celebrating(pcity))
-    gov+=2;
 
   if (spec_t & S_SPECIAL_1) 
     f=get_tile_type(tile_t)->food_special_1;
@@ -1184,7 +1190,9 @@ int get_food_tile(int x, int y, struct city *pcity)
   if (spec_t & S_RAILROAD)
     f+=(f*terrain_control.rail_food_bonus)/100;
 
-  if (f>2 && gov <=G_DESPOTISM) 
+  if (f)
+    f += (celeb ? g->celeb_food_bonus : g->food_bonus);
+  if (before_penalty && f > before_penalty) 
     f--;
 
   if (spec_t & S_POLLUTION)
@@ -1524,4 +1532,52 @@ int city_name_compare(const void *p1, const void *p2)
 {
   return mystrcasecmp( (*(const struct city**)p1)->name,
 		       (*(const struct city**)p2)->name );
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int citygov_free_shield(struct city *pcity, struct government *gov)
+{
+  if (gov->free_shield == G_CITY_SIZE_FREE) {
+    return pcity->size;
+  } else {
+    return gov->free_shield;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int citygov_free_happy(struct city *pcity, struct government *gov)
+{
+  if (gov->free_happy == G_CITY_SIZE_FREE) {
+    return pcity->size;
+  } else {
+    return gov->free_happy;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int citygov_free_food(struct city *pcity, struct government *gov)
+{
+  if (gov->free_food == G_CITY_SIZE_FREE) {
+    return pcity->size;
+  } else {
+    return gov->free_food;
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int citygov_free_gold(struct city *pcity, struct government *gov)
+{
+  if (gov->free_gold == G_CITY_SIZE_FREE) {
+    return pcity->size;
+  } else {
+    return gov->free_gold;
+  }
 }

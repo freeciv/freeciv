@@ -2191,20 +2191,8 @@ Freeciv*upgradenodialog.*.button0.fromVert:  dlabel
 !
 Freeciv*governmentdialog.title: Choose Your New Government
 Freeciv*governmentdialog.*.dlabel.borderWidth:  0
-Freeciv*governmentdialog.*.button0.label:     Despotism
-Freeciv*governmentdialog.*.button0.fromVert:  dlabel
-Freeciv*governmentdialog.*.button1.label:     Monarchy
-Freeciv*governmentdialog.*.button1.fromVert:  dlabel
-Freeciv*governmentdialog.*.button1.fromHoriz: button0
-Freeciv*governmentdialog.*.button2.label:     Communism
-Freeciv*governmentdialog.*.button2.fromVert:  dlabel
-Freeciv*governmentdialog.*.button2.fromHoriz: button1
-Freeciv*governmentdialog.*.button3.label:     Republic
-Freeciv*governmentdialog.*.button3.fromVert:  dlabel
-Freeciv*governmentdialog.*.button3.fromHoriz: button2
-Freeciv*governmentdialog.*.button4.label:     Democracy
-Freeciv*governmentdialog.*.button4.fromVert:  dlabel
-Freeciv*governmentdialog.*.button4.fromHoriz: button3
+Freeciv*governmentdialog.*.dlabel.label: Select government type:
+Freeciv*governmentdialog.*.button.width: 200
 
 !
 ! leftcolumnform

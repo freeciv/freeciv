@@ -252,6 +252,14 @@ void handle_packet_input(char *packet, int type)
     handle_ruleset_terrain_control((struct terrain_misc *)packet);
     break;
 
+  case PACKET_RULESET_GOVERNMENT:
+    handle_ruleset_government((struct packet_ruleset_government *)packet);
+    break;
+  
+  case PACKET_RULESET_GOVERNMENT_RULER_TITLE:
+    handle_ruleset_government_ruler_title((struct packet_ruleset_government_ruler_title *)packet);
+    break;
+  
   case PACKET_INCITE_COST:
     handle_incite_cost((struct packet_generic_values *)packet);
     break;

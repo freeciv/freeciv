@@ -16,6 +16,7 @@
 #include <assert.h>
 
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -489,6 +490,38 @@ int is_water_unit(enum unit_type_id id)
 int is_military_unit(struct unit *this_unit)
 {
   return (unit_flag(this_unit->type, F_NONMIL) == 0);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int utype_shield_cost(struct unit_type *ut, struct government *g)
+{
+  return ut->shield_cost * g->unit_shield_cost_factor;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int utype_food_cost(struct unit_type *ut, struct government *g)
+{
+  return ut->food_cost * g->unit_food_cost_factor;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int utype_happy_cost(struct unit_type *ut, struct government *g)
+{
+  return ut->happy_cost * g->unit_happy_cost_factor;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int utype_gold_cost(struct unit_type *ut, struct government *g)
+{
+  return ut->gold_cost * g->unit_gold_cost_factor;
 }
 
 /**************************************************************************

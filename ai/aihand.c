@@ -17,6 +17,7 @@
 
 #include "city.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "packets.h"
@@ -242,6 +243,7 @@ void ai_spend_gold(struct player *pplayer, int gold)
 **************************************************************************/
 static void ai_manage_taxes(struct player *pplayer) 
 {
+  struct government *g = get_gov_pplayer(pplayer);
   int gnow = pplayer->economic.gold;
   int sad = 0, trade = 0, m, n, i, expense = 0, tot;
   int waste[40]; /* waste with N elvises */
@@ -286,7 +288,7 @@ static void ai_manage_taxes(struct player *pplayer)
     /* this code must be ABOVE the elvises[] if SIMPLISTIC is off */
     freelog(LOG_DEBUG, "Does %s want to be bigger? %d",
 		  pcity->name, wants_to_be_bigger(pcity));
-    if (pcity->size > 4 && pplayer->government >= G_REPUBLIC &&
+    if (g->rapture_size && pcity->size >= g->rapture_size  &&
         pcity->food_surplus > 0 &&
         !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity) &&
 	ai_fuzzy(pplayer,1)) {
@@ -461,6 +463,14 @@ static void ai_manage_taxes(struct player *pplayer)
 /**************************************************************************
  change the government form, if it can and there is a good reason
 **************************************************************************/
+#ifndef NEW_GOV_EVAL
+/*
+   used for now for regression testing --dwp
+*/
+enum government_type { 
+  G_ANARCHY, G_DESPOTISM, G_MONARCHY, G_COMMUNISM, G_REPUBLIC, G_DEMOCRACY,
+  G_LAST
+};
 static void ai_manage_government(struct player *pplayer)
 {
   int government = get_race(pplayer)->goals.government;
@@ -501,3 +511,59 @@ static void ai_manage_government(struct player *pplayer)
   }/* if ANARCHY */
 }
 
+#else  /* following may need updating before enabled --dwp */
+
+#define DEBUG_AMG_RATING        (0)
+#define DEBUG_AMG_BOOST		(0)
+#define DEBUG_AMG_CHANGED	(0)
+#define DEBUG_AMG_CHOICE	(1)
+static void ai_manage_government(struct player *pplayer)
+{
+  static int prev_rating[10][10];  /* these are for debugging only */
+  static int prev_choice[10];      /* -- SKi*/
+  int best_government = pplayer->government,
+      best_rating = ai_evaluate_government(pplayer, get_gov_pplayer(pplayer));
+  int i;
+
+  for (i=0; i<game.government_count; ++i) {
+    struct government *g = &governments[ i ];
+    int rating;
+
+    rating = ai_evaluate_government (pplayer, g);
+    /* give bonus to current government */
+/*    if (i == pplayer->government)
+      rating += 2500; */
+
+    if (DEBUG_AMG_RATING && prev_rating[pplayer->player_no][i] != rating && (rating > 0 || rating > prev_rating[pplayer->player_no][i]))
+      freelog (LOG_DEBUG, "%d: ai_manage_government: %s: %s: %d (%+d)", game.year, pplayer->name, g->name, rating, rating - prev_rating[pplayer->player_no][i]);
+    prev_rating[pplayer->player_no][i] = rating;
+    /* compare this government with the best so far */
+    if (rating > best_rating || best_government == -1) {
+      if (can_change_to_government(pplayer, i)) {
+        /* Use this thing! -- SKi */
+        best_government = i;
+        best_rating = rating;
+      } else {
+        if (get_invention(pplayer, g->required_tech) != TECH_KNOWN && rating > 0) {
+          /* Research this thing! -- SKi */
+	  if (DEBUG_AMG_BOOST)
+            freelog (LOG_DEBUG, "%d: ai_manage_government: boosting %s for %s (%d -> %d)",
+              game.year,
+	      advances[ g->required_tech ].name, pplayer->name,
+              pplayer->ai.tech_want[ g->required_tech ],
+              pplayer->ai.tech_want[ g->required_tech ] + rating * 2);
+          pplayer->ai.tech_want[ g->required_tech ] += 250 + rating / 2; /* need constant modifier? */
+        }
+      }
+    }
+  }
+  if ((DEBUG_AMG_CHANGED && prev_choice[pplayer->player_no] != best_government) || DEBUG_AMG_CHOICE)
+    freelog (LOG_DEBUG, "%d: %s chooses new government: %s", game.year, pplayer->name, governments[best_government].name);
+  prev_choice[pplayer->player_no] = best_government;
+
+  if (pplayer->government != best_government) {
+    ai_government_change(pplayer, best_government);
+  }
+  return;
+}
+#endif /* NEW_GOV_EVAL */

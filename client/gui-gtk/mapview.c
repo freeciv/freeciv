@@ -25,6 +25,7 @@
 #include <gdk_imlib.h>
 
 #include "game.h"
+#include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "shared.h"		/* myusleep() */
 
@@ -427,14 +428,17 @@ SPRITE *get_citizen_sprite(int frame)
 **************************************************************************/
 void set_bulb_sol_government(int bulb, int sol, int government)
 {
+  int gov_graphic = GOVERNMENT_TILES + government_graphic(government);
+
   if (bulb <0) bulb = 0;
+  if (gov_graphic > RIGHT_ARROW_TILE) gov_graphic = RIGHT_ARROW_TILE;
 
   gtk_pixmap_set(GTK_PIXMAP(bulb_label), get_tile_sprite(BULB_TILES+bulb)->pixmap,NULL);
 
   gtk_pixmap_set(GTK_PIXMAP(sun_label), get_tile_sprite(SUN_TILES+sol)->pixmap,NULL);
   
   gtk_pixmap_set(GTK_PIXMAP(government_label), 
-		 get_tile_sprite(GOVERNMENT_TILES+government)->pixmap,NULL);
+		 get_tile_sprite(gov_graphic)->pixmap, NULL);
 }
 
 
@@ -1118,16 +1122,19 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p, int xtile, int ytile)
 **************************************************************************/
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p)
 {
-  if(punit->upkeep) {
-    if(unit_flag(punit->type, F_SETTLERS)) {
-      put_overlay_tile_gpixmap(p, 0, 1, CITY_FOOD_TILES+punit->upkeep-1);
-    }
-    else
-      put_overlay_tile_gpixmap(p, 0, 1, CITY_SHIELD_TILE);
-  }
-  
-  if(punit->unhappiness)
-    put_overlay_tile_gpixmap(p, 0, 1, CITY_MASK_TILES+punit->unhappiness-1);
+  /* draw overlay pixmaps */
+  /* FIXME:
+   * For now only two food, one shield and two masks can be drawn per unit,
+   * the proper way to do this is probably something like what Civ II does.
+   * (One food/shield/mask drawn N times, possibly one top of itself. -- SKi */
+  if (punit->upkeep_food > 0)
+    put_overlay_tile_gpixmap (p, 0, 1, (CITY_FOOD_TILES +
+					(punit->upkeep_food > 1 ? 1 : 0)));
+  if (punit->upkeep > 0)
+    put_overlay_tile_gpixmap (p, 0, 1, CITY_SHIELD_TILE);
+  if (punit->unhappiness > 0)
+    put_overlay_tile_gpixmap (p, 0, 1, (CITY_MASK_TILES +
+					(punit->unhappiness > 1 ? 1 : 0)));
 }
 
 

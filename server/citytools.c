@@ -15,6 +15,7 @@
 
 #include "city.h"
 #include "events.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -85,7 +86,7 @@ int content_citizens(struct player *pplayer)
 {
   int cities =  city_list_size(&pplayer->cities);
   int content = game.unhappysize;
-  int basis   = game.cityfactor - (G_DEMOCRACY - pplayer->government);
+  int basis   = game.cityfactor + get_gov_pplayer(pplayer)->empire_size_mod;
 
   if (cities > basis) 
     content--;
@@ -239,16 +240,19 @@ int best_food_tile(struct city *pcity, int x, int y, int bx, int by)
 **************************************************************************/
 int settler_eats(struct city *pcity)
 {
-  int eat=0;
+  struct government *g = get_gov_pcity(pcity);
+  int free_food   = citygov_free_food(pcity, g);
+  int eat = 0;
+
   unit_list_iterate(pcity->units_supported, this_unit) {
-    if (unit_flag(this_unit->type, F_SETTLERS)) {
-      eat++;
-      if (get_government(pcity->owner)>=G_COMMUNISM) {
-        eat++;
-      }
+    int food_cost = utype_food_cost(get_unit_type(this_unit->type), g);
+    adjust_city_free_cost(&free_food, &food_cost);
+    if (food_cost > 0) {
+      eat += food_cost;
     }
   }
   unit_list_iterate_end;
+
   return eat;
 }
 
@@ -284,9 +288,9 @@ int built_elsewhere(struct city *pc, int wonder)
 **************************************************************************/
 void eval_buildings(struct city *pcity,int *values)
 {
-  int i, gov, tech;
+  int i, tech;
   struct player *plr = city_owner(pcity);
-  gov = get_government(pcity->owner);
+  struct government *g = get_gov_pcity(pcity);
   tech = (plr->research.researching != A_NONE);
     
   for (i=0;i<B_LAST;i++) {
@@ -299,7 +303,7 @@ void eval_buildings(struct city *pcity,int *values)
     values[i]=0;
   }
   
-  if (gov <= G_COMMUNISM || pcity->size < 5) {
+  if (g->flags & G_FAVORS_GROWTH || pcity->size < 5) {
     if (can_build_improvement(pcity, B_GRANARY)) 
       values[B_GRANARY]=pcity->food_surplus*50;
   }
@@ -329,11 +333,11 @@ void eval_buildings(struct city *pcity,int *values)
     if (can_build_improvement(pcity, B_STOCK)) 
       values[B_STOCK]=pcity->tax_total*100;
   
-  if (gov > G_COMMUNISM)
+  if (g->flags & G_IS_NICE)
     if (can_build_improvement(pcity, B_SUPERHIGHWAYS)) 
       values[B_SUPERHIGHWAYS]=pcity->trade_prod*60;
   if (can_build_improvement(pcity, B_COURTHOUSE)) {
-    if (gov != G_DEMOCRACY) 
+    if (g->corruption_level) 
       values[B_COURTHOUSE]=pcity->corruption*100;
     else 
       values[B_COURTHOUSE]=pcity->ppl_unhappy[4]*200+pcity->ppl_elvis*400;
@@ -421,7 +425,7 @@ void eval_buildings(struct city *pcity,int *values)
 int do_make_unit_veteran(struct city *pcity, enum unit_type_id id)
 {
   if (unit_flag(id,F_DIPLOMAT))
-    return(get_government(pcity->owner)==G_COMMUNISM);
+    return get_gov_pcity(pcity)->flags & G_BUILD_VETERAN_DIPLOMAT;
 
   if (is_ground_unittype(id) || improvement_variant(B_BARRACKS)==1)
     return city_got_barracks(pcity);
@@ -436,15 +440,16 @@ corruption, corruption is halfed during love the XXX days.
 **************************************************************************/
 int city_corruption(struct city *pcity, int trade)
 {
+  struct government *g = get_gov_pcity(pcity);
   struct city *capital;
   int dist;
   int val;
-  int corruption[]= { 40,27,67,80,67,0}; /* original {12,8,16,20,24,0} */
-  if (get_government(pcity->owner)==G_DEMOCRACY) {
-    return(0);
+
+  if (g->corruption_level == 0) {
+    return 0;
   }
-  if (get_government(pcity->owner)==G_COMMUNISM) {
-    dist=10;
+  if (g->fixed_corruption_distance) {
+    dist = g->fixed_corruption_distance;
   } else {
     capital=find_palace(city_owner(pcity));
     if (!capital)
@@ -454,16 +459,14 @@ int city_corruption(struct city *pcity, int trade)
       dist=MIN(36,tmp);
     }
   }
-  if (get_government(pcity->owner) == G_DESPOTISM)
-    dist = dist*2 + 3; /* yes, DESPOTISM is even worse than ANARCHY */
-  
-  val=trade*dist/corruption[get_government(pcity->owner)];
+  dist = dist * g->corruption_distance_factor + g->extra_corruption_distance;
+  val=trade*dist/g->corruption_modifier;
 
   if (city_got_building(pcity, B_COURTHOUSE) ||   
       city_got_building(pcity, B_PALACE))
     val /= 2;
-  if (get_government(pcity->owner)==G_COMMUNISM)
-    val /= 2;
+  val *= g->corruption_level;
+  val /= 100;
   if (val >= trade && val)
     val = trade - 1;
   return(val); /* how did y'all let me forget this one? -- Syela */
@@ -782,6 +785,8 @@ static struct player *split_player(struct player *pplayer)
  * Note:  In the event that Fundamentalism is added, you need to
  * update the array government_civil_war[G_LAST] in player.c
  *
+ * [ SKi: That would now be data/default/governments.ruleset. ]
+ *
  * In addition each city in revolt adds 5%, each city in rapture 
  * subtracts 5% from the probability of a civil war.  
  *
@@ -969,3 +974,27 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 
   return pnewcity;
 }
+
+/**************************************************************************
+  Here num_free is eg government->free_unhappy, and this_cost is
+  the unhappy cost for a single unit.  We subtract this_cost from
+  num_free as much as possible. 
+
+  Note this treats the free_cost as number of eg happiness points,
+  not number of eg military units.  This seems to make more sense
+  and makes results not depend on order of calculation. --dwp
+**************************************************************************/
+void adjust_city_free_cost(int *num_free, int *this_cost)
+{
+  if (*num_free <= 0 || *this_cost <= 0) {
+    return;
+  }
+  if (*num_free >= *this_cost) {
+    *num_free -= *this_cost;
+    *this_cost = 0;
+  } else {
+    *this_cost -= *num_free;
+    *num_free = 0;
+  }
+}
+

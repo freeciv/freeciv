@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "unit.h"
@@ -180,7 +181,8 @@ static int pollution_cost(struct player *pplayer, struct city *pcity,
  
 void ai_eval_buildings(struct city *pcity)
 {
-  int i, gov, val, a, t, food, j, k, hunger, bar, grana;
+  struct government *g = get_gov_pcity(pcity);
+  int i, val, a, t, food, j, k, hunger, bar, grana;
   int tax, prod, sci, values[B_LAST];
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   struct player *pplayer = city_owner(pcity);
@@ -213,8 +215,6 @@ void ai_eval_buildings(struct city *pcity)
   i -= pcity->food_prod; /* amazingly left out for a week! -- Syela */
   if (i > 0 && !pcity->ppl_scientist && !pcity->ppl_taxman) hunger = i + 1;
   else hunger = 1;
-
-  gov = get_government(pcity->owner);
 
   for (i=0;i<B_LAST;i++) {
     values[i]=0;
@@ -298,8 +298,11 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
     values[B_COLOSSEUM] = building_value(4, pcity, val) - building_value(3, pcity, val);
   
   if (could_build_improvement(pcity, B_COURTHOUSE)) {
-    values[B_COURTHOUSE] = (pcity->corruption * t)/2;
-    if (gov == G_DEMOCRACY) values[B_COURTHOUSE] += building_value(1, pcity, val);
+    if (g->corruption_level == 0) {
+      values[B_COURTHOUSE] += building_value (1, pcity, val);
+    } else {
+      values[B_COURTHOUSE] = (pcity->corruption * t)/2;
+    }
   }
   
   if (could_build_improvement(pcity, B_FACTORY))
@@ -512,6 +515,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
+  struct government *g = get_gov_pplayer(pplayer);
   int set, con, i, want, iunit;
   struct ai_choice cur;
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
@@ -522,9 +526,11 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   choice->want   = 0;
   choice->type   = 0;
   set = city_get_settlers(pcity);
-  con = map_get_continent(pcity->x, pcity->y); 
+  con = map_get_continent(pcity->x, pcity->y);
 
-  if (est_food > (get_government(pcity->owner) >= G_REPUBLIC ? 2 : 1)) {
+  i = best_role_unit(pcity, F_SETTLERS);
+
+  if (est_food > utype_food_cost(get_unit_type(i), g)) {
 /* allowing multiple settlers per city now.  I think this is correct. -- Syela */
 /* settlers are an option */
 /* settler_want calculated in settlers.c, called from ai_manage_city */

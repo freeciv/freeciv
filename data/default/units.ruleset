@@ -12,7 +12,7 @@
 
 [datafile]
 description="Default unit_type data for Freeciv (as Civ2, minus a few units)"
-options="1.8.2"
+options="1.8.2a"
 
 [units_adjust]
 max_hitpoints=0                 ; 0 means no max
@@ -37,6 +37,7 @@ firepower_factor=1              ; convenient for Civ1
 ; move_type     = "Land" or "Sea" or "Air" or "Heli"
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)
 ; fuel          = number of turns, for air units
+; uk_*          = upkeep costs, these are used as base values in the game
 ; flags         = special flag strings, as in common/unit.h,unit.c
 ; roles         = special role strings, as in common/unit.h,unit.c
 
@@ -55,6 +56,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 0
+uk_shield     = 0  ; 1, except regression testing
+uk_food       = 1
+uk_gold       = 0
 flags         = "Settlers", "NonMil"
 roles         = ""
 
@@ -73,6 +78,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 0
+uk_shield     = 0  ; 1, except regression testing
+uk_food       = 1
+uk_gold       = 0
 flags         = "Settlers", "NonMil", "Transform"
 roles         = ""
 
@@ -91,6 +100,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "DefendOk", "FirstBuild"
 
@@ -109,6 +122,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "DefendGood", "FirstBuild"
 
@@ -127,6 +144,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "DefendOk"
 
@@ -145,6 +166,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "DefendOk", "Hut"
 
@@ -163,6 +188,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "Pikemen"
 roles         = "DefendGood", "FirstBuild"
 
@@ -181,6 +210,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "DefendGood", "FirstBuild", "HutTech"
 
@@ -199,6 +232,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "DefendGood"
 
@@ -217,6 +254,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "IgTer", "IgZOC"
 roles         = "DefendGood", "Partisan"
 
@@ -235,6 +276,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "IgTer"
 roles         = "DefendGood"
 
@@ -253,6 +298,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "DefendGood", "FirstBuild"
 
@@ -271,6 +320,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "Marines"
 roles         = "DefendOk"
 
@@ -289,6 +342,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "DefendOk"
 
@@ -307,6 +364,10 @@ move_rate     = 3
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "DefendGood"
 
@@ -325,6 +386,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast", "Hut"
 
@@ -343,6 +408,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast", "Hut"
 
@@ -361,6 +430,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "AttackFast"
 
@@ -379,6 +452,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast"
 
@@ -397,6 +474,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast", "HutTech"
 
@@ -415,6 +496,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast"
 
@@ -433,6 +518,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "AttackFast"
 
@@ -451,6 +540,10 @@ move_rate     = 3
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "AttackFast"
 
@@ -469,6 +562,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "AttackStrong"
 
@@ -487,6 +584,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "AttackStrong"
 
@@ -505,6 +606,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "AttackStrong"
 
@@ -523,6 +628,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "IgWall"
 roles         = "AttackStrong"
 
@@ -541,6 +650,10 @@ move_rate     = 10
 vision_range  = 2
 transport_cap = 0
 fuel          = 1
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "Fighter"
 roles         = ""
 
@@ -559,6 +672,10 @@ move_rate     = 8
 vision_range  = 2
 transport_cap = 0
 fuel          = 2
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "OneAttack"
 roles         = ""
 
@@ -577,6 +694,10 @@ move_rate     = 6
 vision_range  = 2
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "OneAttack"
 roles         = ""
 
@@ -595,6 +716,10 @@ move_rate     = 14
 vision_range  = 2
 transport_cap = 0
 fuel          = 1
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "Fighter"
 roles         = ""
 
@@ -613,6 +738,10 @@ move_rate     = 12
 vision_range  = 2
 transport_cap = 0
 fuel          = 2
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "OneAttack"
 roles         = ""
 
@@ -631,6 +760,10 @@ move_rate     = 3
 vision_range  = 1
 transport_cap = 2
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "Trireme"
 roles         = "Ferryboat"
 
@@ -649,6 +782,10 @@ move_rate     = 3
 vision_range  = 1
 transport_cap = 3
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "Ferryboat"
 
@@ -667,6 +804,10 @@ move_rate     = 4
 vision_range  = 1
 transport_cap = 4
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "Ferryboat"
 
@@ -685,6 +826,10 @@ move_rate     = 4
 vision_range  = 1
 transport_cap = 2
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit"
 roles         = ""
 
@@ -703,6 +848,10 @@ move_rate     = 4
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit"
 roles         = ""
 
@@ -721,6 +870,10 @@ move_rate     = 6
 vision_range  = 2
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit"
 roles         = ""
 
@@ -739,6 +892,10 @@ move_rate     = 5
 vision_range  = 2
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit"
 roles         = ""
 
@@ -757,6 +914,10 @@ move_rate     = 5
 vision_range  = 2
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "AEGIS"
 roles         = ""
 
@@ -775,6 +936,10 @@ move_rate     = 4
 vision_range  = 2
 transport_cap = 0
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit"
 roles         = ""
 
@@ -793,6 +958,10 @@ move_rate     = 3
 vision_range  = 2
 transport_cap = 8
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "Submarine"
 roles         = ""
 
@@ -811,6 +980,10 @@ move_rate     = 5
 vision_range  = 2
 transport_cap = 8
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "Carrier"
 roles         = ""
 
@@ -829,6 +1002,10 @@ move_rate     = 5
 vision_range  = 2
 transport_cap = 8
 fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = ""
 roles         = "Ferryboat"
 
@@ -847,6 +1024,10 @@ move_rate     = 12
 vision_range  = 1
 transport_cap = 0
 fuel          = 1
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "OneAttack", "Missile"
 roles         = ""
 
@@ -865,6 +1046,10 @@ move_rate     = 16
 vision_range  = 1
 transport_cap = 0
 fuel          = 1
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
 flags         = "FieldUnit", "OneAttack", "Missile", "Nuclear"
 roles         = ""
 
@@ -883,6 +1068,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil"
 roles         = ""
 
@@ -901,6 +1090,10 @@ move_rate     = 3
 vision_range  = 2
 transport_cap = 0
 fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
 roles         = ""
 
@@ -919,6 +1112,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
 flags         = "Caravan", "IgZOC", "NonMil"
 roles         = ""
 
@@ -937,6 +1134,10 @@ move_rate     = 2
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
 flags         = "Caravan", "IgZOC", "NonMil"
 roles         = ""
 
@@ -955,6 +1156,10 @@ move_rate     = 1
 vision_range  = 1
 transport_cap = 0
 fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
 flags         = "IgTer", "IgZOC", "NonMil"
 roles         = "Explorer"
 

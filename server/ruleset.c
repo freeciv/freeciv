@@ -18,6 +18,7 @@
 #include "capability.h"
 #include "city.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "mem.h"
@@ -44,11 +45,13 @@ static void load_ruleset_techs(char *ruleset_subdir);
 static void load_ruleset_units(char *ruleset_subdir);
 static void load_ruleset_buildings(char *ruleset_subdir);
 static void load_ruleset_terrain(char *ruleset_subdir);
+static void load_ruleset_governments(char *ruleset_subdir);
 
 static void send_ruleset_techs(struct player *dest);
 static void send_ruleset_units(struct player *dest);
 static void send_ruleset_buildings(struct player *dest);
 static void send_ruleset_terrain(struct player *dest);
+static void send_ruleset_governments(struct player *dest);
 
 /**************************************************************************
   Do initial section_file_load on a ruleset file.
@@ -309,7 +312,7 @@ static void load_ruleset_units(char *ruleset_subdir)
   char *sval, **slist, **sec;
 
   filename = openload_ruleset_file(file, ruleset_subdir, "units");
-  datafile_options = check_ruleset_capabilities(file, "1.8.2", filename);
+  datafile_options = check_ruleset_capabilities(file, "1.8.2a", filename);
   section_file_lookup(file,"datafile.description"); /* unused */
 
   max_hp =
@@ -387,6 +390,11 @@ static void load_ruleset_units(char *ruleset_subdir)
       u->firepower = max_firepower;
     }
     u->fuel = secfile_lookup_int(file,"%s.fuel", sec[i]);
+
+    u->happy_cost  = secfile_lookup_int(file, "%s.uk_happy", sec[i]);
+    u->shield_cost = secfile_lookup_int(file, "%s.uk_shield", sec[i]);
+    u->food_cost   = secfile_lookup_int(file, "%s.uk_food", sec[i]);
+    u->gold_cost   = secfile_lookup_int(file, "%s.uk_gold", sec[i]);
   }
   
   /* flags */
@@ -717,6 +725,326 @@ static void load_ruleset_terrain(char *ruleset_subdir)
 }
 
 /**************************************************************************
+...  
+**************************************************************************/
+static void load_ruleset_governments(char *ruleset_subdir)
+{
+  struct section_file file;
+  char *filename, *datafile_options;
+  struct government *g = NULL;
+  int i, j;
+  char *c;
+
+  filename = openload_ruleset_file(&file, ruleset_subdir, "governments");
+  datafile_options = check_ruleset_capabilities(&file, "1.8.2", filename);
+  section_file_lookup(&file,"datafile.description"); /* unused */
+
+  game.government_count = secfile_lookup_int(&file, "governments.count");
+  if (game.government_count == 0) {
+    freelog(LOG_FATAL, "no governments!");
+    exit(1);
+  }
+  governments = fc_calloc(game.government_count, sizeof(struct government));
+
+  /* first fill in government names so find_government_by_name will work -SKi */
+  for(i = 0; i < game.government_count; i++) {
+    g = &governments[i];
+
+    /* get government name --SKi */
+    c = secfile_lookup_str(&file, "governments.names%d.name", i);
+    if (!c) {
+      freelog(LOG_FATAL, "government %d has no name!", i);
+      exit(1);
+    }
+    g->index = i;
+    g->name  = mystrdup(c);
+  }
+
+  /* read default government -- SKi */
+  game.default_government = 1;
+  c = secfile_lookup_str_default(&file, NULL, "governments.default");
+  if (c) {
+    game.default_government = find_government_by_name(c)->index;
+  }
+
+  /* because player_init is called before rulesets are loaded we set
+   * all players governments here (but only if is_new_game). --SKi
+   * But is_new_game does not have its correct value at this point,
+   * due to scenarios; now init to G_MAGIC, check that here --dwp
+   */
+  for(i=0; i<MAX_NUM_PLAYERS; i++) {
+    if (game.players[i].government == G_MAGIC) {
+      game.players[i].government = game.default_government;
+    }
+  }
+
+  /* read government to use when in anarchy -- SKi */
+  game.government_when_anarchy = 0;
+  c = secfile_lookup_str_default(&file, NULL, "governments.when_anarchy");
+  if (c) {
+    game.government_when_anarchy = find_government_by_name(c)->index;
+  }
+
+  /* get list of required techs --SKi */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.required_tech%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+    c = secfile_lookup_str_default(&file, NULL, "governments.required_tech%d.tech", i);
+    if (c == NULL) {
+      g->required_tech = A_NONE;
+    } else if ((g->required_tech = find_tech_by_name(c)) == A_LAST) {
+      freelog(LOG_FATAL, "government type %s required non-existant tech %s", g->name, c);
+      exit(1);
+    }
+    ++i;
+  }
+
+  /* get graphics offsets */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.graphic%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+    g->graphic = secfile_lookup_int(&file, "governments.graphic%d.offset", i);
+    ++i;
+  }
+
+  /* get *_cost_factor fields */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.unit_upkeep%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+
+    g->unit_happy_cost_factor
+      = secfile_lookup_int(&file, "governments.unit_upkeep%d.happy_factor", i);
+    g->unit_shield_cost_factor
+      = secfile_lookup_int(&file, "governments.unit_upkeep%d.shield_factor", i);
+    g->unit_food_cost_factor
+      = secfile_lookup_int(&file, "governments.unit_upkeep%d.food_factor", i);
+    g->unit_gold_cost_factor
+      = secfile_lookup_int(&file, "governments.unit_upkeep%d.gold_factor", i);
+
+    ++i;
+  }
+
+  /* get free_* fields --SKi */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.free_upkeep%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+
+    c = secfile_lookup_str_int(&file, &j,
+			       "governments.free_upkeep%d.free_happy", i);
+    if (c==NULL) {
+      g->free_happy = j;
+    } else if (strcmp(c, "CitySize") == 0) {
+      g->free_happy = G_CITY_SIZE_FREE;
+    } else {
+      freelog(LOG_FATAL, "Bad free_happy string %s for %s (%s)",
+	      c, g->name, filename);
+      exit(1);
+    }
+    c = secfile_lookup_str_int(&file, &j,
+			       "governments.free_upkeep%d.free_shield", i);
+    if (c==NULL) {
+      g->free_shield = j;
+    } else if (strcmp(c, "CitySize") == 0) {
+      g->free_shield = G_CITY_SIZE_FREE;
+    } else {
+      freelog(LOG_FATAL, "Bad free_shield string %s for %s (%s)",
+	      c, g->name, filename);
+      exit(1);
+    }
+    c = secfile_lookup_str_int(&file, &j,
+			       "governments.free_upkeep%d.free_food", i);
+    if (c==NULL) {
+      g->free_food = j;
+    } else if (strcmp(c, "CitySize") == 0) {
+      g->free_food = G_CITY_SIZE_FREE;
+    } else {
+      freelog(LOG_FATAL, "Bad free_food string %s for %s (%s)",
+	      c, g->name, filename);
+      exit(1);
+    }
+    c = secfile_lookup_str_int(&file, &j,
+			       "governments.free_upkeep%d.free_gold", i);
+    if (c==NULL) {
+      g->free_gold = j;
+    } else if (strcmp(c, "CitySize") == 0) {
+      g->free_gold = G_CITY_SIZE_FREE;
+    } else {
+      freelog(LOG_FATAL, "Bad free_gold string %s for %s (%s)",
+	      c, g->name, filename);
+      exit(1);
+    }
+    ++i;
+  }
+
+  /* get corruption fields --SKi */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.corruption%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+
+    g->corruption_level
+      = secfile_lookup_int(&file, "governments.corruption%d.level", i);
+    g->corruption_modifier
+      = secfile_lookup_int(&file, "governments.corruption%d.modifier", i);
+    g->fixed_corruption_distance
+      = secfile_lookup_int(&file, "governments.corruption%d.fixed_distance", i);
+    g->corruption_distance_factor
+      = secfile_lookup_int(&file, "governments.corruption%d.distance_factor", i);
+    g->extra_corruption_distance
+      = secfile_lookup_int(&file, "governments.corruption%d.extra_distance", i);
+
+    ++i;
+  }
+
+  /* get production bonuses --SKi */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.bonus%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+
+    g->trade_bonus
+      = secfile_lookup_int(&file, "governments.bonus%d.trade_bonus", i);
+    g->shield_bonus
+      = secfile_lookup_int(&file, "governments.bonus%d.shield_bonus", i);
+    g->food_bonus
+      = secfile_lookup_int(&file, "governments.bonus%d.food_bonus", i);
+
+    ++i;
+  }
+
+  /* get production bonuses when celebrating */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.celeb_bonus%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+
+    g->celeb_trade_bonus
+      = secfile_lookup_int(&file, "governments.celeb_bonus%d.trade_bonus", i);
+    g->celeb_shield_bonus
+      = secfile_lookup_int(&file, "governments.celeb_bonus%d.shield_bonus", i);
+    g->celeb_food_bonus
+      = secfile_lookup_int(&file, "governments.celeb_bonus%d.food_bonus", i);
+
+    ++i;
+  }
+
+  /* get production penalties --SKi */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.penalty%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+
+    g->trade_before_penalty
+      = secfile_lookup_int(&file, "governments.penalty%d.trade_before", i);
+    g->shields_before_penalty
+      = secfile_lookup_int(&file, "governments.penalty%d.shields_before", i);
+    g->food_before_penalty
+      = secfile_lookup_int(&file, "governments.penalty%d.food_before", i);
+
+    ++i;
+  }
+
+  /* get production penalties when celebrating */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.celeb_penalty%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+
+    g->celeb_trade_before_penalty
+      = secfile_lookup_int(&file, "governments.celeb_penalty%d.trade_before", i);
+    g->celeb_shields_before_penalty
+      = secfile_lookup_int(&file, "governments.celeb_penalty%d.shields_before", i);
+    g->celeb_food_before_penalty
+      = secfile_lookup_int(&file, "governments.celeb_penalty%d.food_before", i);
+
+    ++i;
+  }
+
+  /* get government flags -- SKi */
+  i = 0;
+  g->flags = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.flags%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+
+    j = 0;
+    while ((c = secfile_lookup_str_default(&file, NULL, "governments.flags%d.flags,%d", i, j)) != NULL) {
+      if (strcmp(c, "BUILD_VETERAN_DIPLOMAT") == 0) {
+        g->flags |= G_BUILD_VETERAN_DIPLOMAT;
+      } else if (strcmp(c, "REVOLUTION_WHEN_UNHAPPY") == 0) {
+        g->flags |= G_REVOLUTION_WHEN_UNHAPPY;
+      } else if (strcmp(c, "HAS_SENATE") == 0) {
+        g->flags |= G_HAS_SENATE;
+      } else if (strcmp(c, "UNBRIBABLE") == 0) {
+        g->flags |= G_UNBRIBABLE;
+      } else if (strcmp(c, "INSPIRES_PARTISANS") == 0) {
+        g->flags |= G_INSPIRES_PARTISANS;
+      } else if (strcmp(c, "IS_NICE") == 0) {
+        g->flags |= G_IS_NICE;
+      } else if (strcmp(c, "FAVORS_GROWTH") == 0) {
+        g->flags |= G_FAVORS_GROWTH;
+      } else {
+        freelog(LOG_FATAL, "government %s has unknown flag %s", g->name, c);
+        exit(1);
+      }
+      ++j;
+    }
+
+    ++i;
+  }
+
+  /* get other fields -- SKi */
+  i = 0;
+  while ((c = secfile_lookup_str_default(&file, NULL, "governments.others%d.government", i)) != NULL) {
+    g = find_government_by_name(c);
+    g->martial_law_max
+      = secfile_lookup_int(&file, "governments.others%d.martial_law_max", i);
+    g->martial_law_per
+      = secfile_lookup_int(&file, "governments.others%d.martial_law_per", i);
+    g->max_rate
+      = secfile_lookup_int(&file, "governments.others%d.max_rates", i);
+    g->civil_war
+      = secfile_lookup_int(&file, "governments.others%d.civil_war", i);
+    g->empire_size_mod
+      = secfile_lookup_int(&file, "governments.others%d.empire_size_mod", i);
+    g->rapture_size
+      = secfile_lookup_int(&file, "governments.others%d.rapture_size", i);
+    ++i;
+  }
+
+  /* get ruler titles -- SKi */
+  for (i = 0; i < game.government_count; ++i) {
+    int titles = 0;
+    struct ruler_title t_last = NULL_RULER_TITLE;
+    g = &governments[i];
+
+    j = -1;
+    while ((c = secfile_lookup_str_default(&file, NULL, "governments.ruler_titles%d.government", ++j)) != NULL) {
+      struct ruler_title t;
+
+      if (find_government_by_name(c) != g) {
+        continue;
+      }
+
+      /* t.race */
+      c = secfile_lookup_str(&file, "governments.ruler_titles%d.race", j);
+      if (strcmp(c, "-") == 0) {
+        t.race = DEFAULT_TITLE;
+      } else if ((t.race = find_race_by_name(c)) == -1) {
+        freelog(LOG_FATAL, "government type %s has ruler title for non existing race %s", g->name, c);
+        exit (1);
+      }
+      /* t.male_title */
+      t.male_title = mystrdup(secfile_lookup_str(&file, "governments.ruler_titles%d.male_title", j));
+      /* t.female_title */
+      t.female_title = mystrdup(secfile_lookup_str(&file, "governments.ruler_titles%d.female_title", j));
+ 
+      g->ruler_title = fc_realloc(g->ruler_title, ++titles * sizeof(struct ruler_title));
+      g->ruler_title[titles-1] = t;
+    }
+    g->ruler_title = fc_realloc(g->ruler_title, (titles + 1) * sizeof(struct ruler_title));
+    g->ruler_title[titles] = t_last; 
+  }
+
+  section_file_check_unused(&file, filename);
+  section_file_free(&file);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void send_ruleset_units(struct player *dest)
@@ -743,6 +1071,10 @@ static void send_ruleset_units(struct player *dest)
     packet.fuel = u->fuel;
     packet.flags = u->flags;
     packet.roles = u->roles;
+    packet.happy_cost = u->happy_cost;
+    packet.shield_cost = u->shield_cost;
+    packet.food_cost = u->food_cost;
+    packet.gold_cost = u->gold_cost;
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {
@@ -875,10 +1207,97 @@ static void send_ruleset_terrain(struct player *dest)
 /**************************************************************************
 ...  
 **************************************************************************/
+static void send_ruleset_governments(struct player *dest)
+{
+  struct packet_ruleset_government gov;
+  struct packet_ruleset_government_ruler_title title;
+  struct ruler_title *p_title;
+  struct government *g;
+  int i, j, to;
+
+  for (i = 0; i < game.government_count; ++i) {
+    g = &governments[i];
+
+    /* send one packet_government */
+    gov.id                 = i;
+
+    gov.required_tech    = g->required_tech;
+    gov.graphic          = g->graphic;
+    gov.max_rate         = g->max_rate;
+    gov.civil_war        = g->civil_war;
+    gov.martial_law_max  = g->martial_law_max;
+    gov.martial_law_per  = g->martial_law_per;
+    gov.empire_size_mod  = g->empire_size_mod;
+    gov.rapture_size     = g->rapture_size;
+    
+    gov.unit_happy_cost_factor  = g->unit_happy_cost_factor;
+    gov.unit_shield_cost_factor = g->unit_shield_cost_factor;
+    gov.unit_food_cost_factor   = g->unit_food_cost_factor;
+    gov.unit_gold_cost_factor   = g->unit_gold_cost_factor;
+    
+    gov.free_happy  = g->free_happy;
+    gov.free_shield = g->free_shield;
+    gov.free_food   = g->free_food;
+    gov.free_gold   = g->free_gold;
+
+    gov.trade_before_penalty = g->trade_before_penalty;
+    gov.shields_before_penalty = g->shields_before_penalty;
+    gov.food_before_penalty = g->food_before_penalty;
+
+    gov.celeb_trade_before_penalty = g->celeb_trade_before_penalty;
+    gov.celeb_shields_before_penalty = g->celeb_shields_before_penalty;
+    gov.celeb_food_before_penalty = g->celeb_food_before_penalty;
+
+    gov.trade_bonus = g->trade_bonus;
+    gov.shield_bonus = g->shield_bonus;
+    gov.food_bonus = g->food_bonus;
+
+    gov.celeb_trade_bonus = g->celeb_trade_bonus;
+    gov.celeb_shield_bonus = g->celeb_shield_bonus;
+    gov.celeb_food_bonus = g->celeb_food_bonus;
+
+    gov.corruption_level = g->corruption_level;
+    gov.corruption_modifier = g->corruption_modifier;
+    gov.fixed_corruption_distance = g->fixed_corruption_distance;
+    gov.corruption_distance_factor = g->corruption_distance_factor;
+    gov.extra_corruption_distance = g->extra_corruption_distance;
+    
+    for (p_title = g->ruler_title, j = 0; p_title->male_title != NULL; ++p_title, ++j);
+    gov.ruler_title_count = j;
+    
+    strcpy (gov.name, g->name);
+    
+    for(to=0; to<game.nplayers; to++) {           /* dests */
+      if(dest==0 || get_player(to)==dest) {
+	send_packet_ruleset_government(get_player(to)->conn, &gov);
+      }
+    }
+    
+    /* send one packet_government_ruler_title per ruler title */
+    for (p_title = g->ruler_title, j = 0; p_title->male_title != NULL; ++p_title, ++j) {
+      title.gov = i;
+      title.id = j;
+      title.race = p_title->race;
+      strcpy (title.male_title, p_title->male_title);
+      strcpy (title.female_title, p_title->female_title);
+    
+      for(to=0; to<game.nplayers; to++) {           /* dests */
+        if(dest==0 || get_player(to)==dest) {
+	  send_packet_ruleset_government_ruler_title(get_player(to)->conn, &title);
+        }
+      }
+    }
+  }
+}
+
+/**************************************************************************
+...  
+**************************************************************************/
 void load_rulesets(void)
 {
   freelog(LOG_NORMAL, "Loading rulesets");
   load_ruleset_techs(game.ruleset.techs);
+  load_ruleset_governments(game.ruleset.governments);
   load_ruleset_units(game.ruleset.units);
   load_ruleset_buildings(game.ruleset.buildings);
   load_ruleset_terrain(game.ruleset.terrain);
@@ -899,6 +1318,7 @@ void send_rulesets(struct player *dest)
   }
   
   send_ruleset_techs(dest);
+  send_ruleset_governments(dest);
   send_ruleset_units(dest);
   send_ruleset_buildings(dest);
   send_ruleset_terrain(dest);

@@ -21,6 +21,7 @@
 #include "pixcomm.h"
 
 #include "game.h"
+#include "government.h"		/* government_graphic() */
 #include "map.h"
 #include "shared.h"		/* myusleep() */
 #include "unit.h"
@@ -387,13 +388,16 @@ Pixmap get_citizen_pixmap(int frame)
 **************************************************************************/
 void set_bulb_sol_government(int bulb, int sol, int government)
 {
+  int gov_graphic = GOVERNMENT_TILES + government_graphic(government);
+  
   if (bulb <0) bulb = 0;
+  if (gov_graphic > RIGHT_ARROW_TILE) gov_graphic = RIGHT_ARROW_TILE;
+  
   xaw_set_bitmap(bulb_label, get_tile_sprite(BULB_TILES+bulb)->pixmap);
 
   xaw_set_bitmap(sun_label, get_tile_sprite(SUN_TILES+sol)->pixmap);
   
-  xaw_set_bitmap(government_label, 
-		 get_tile_sprite(GOVERNMENT_TILES+government)->pixmap);
+  xaw_set_bitmap(government_label, get_tile_sprite(gov_graphic)->pixmap);
 }
 
 /**************************************************************************
@@ -985,20 +989,21 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
 **************************************************************************/
 void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 {
+  /* wipe the slate clean */
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
   XFillRectangle(display, pm, fill_bg_gc, 0, NORMAL_TILE_WIDTH, 
 		 NORMAL_TILE_HEIGHT, NORMAL_TILE_HEIGHT+SMALL_TILE_HEIGHT);
 
-  if(punit->upkeep) {
-    if(unit_flag(punit->type, F_SETTLERS)) {
-      pixmap_put_overlay_tile(pm, 0, 1, CITY_FOOD_TILES+punit->upkeep-1);
-    }
-    else
-      pixmap_put_overlay_tile(pm, 0, 1, CITY_SHIELD_TILE);
-  }
-  
-  if(punit->unhappiness)
-    pixmap_put_overlay_tile(pm, 0, 1, CITY_MASK_TILES+punit->unhappiness-1);
+  /* draw overlay pixmaps */
+  /* FIXME: see comment in gtk version */
+  if (punit->upkeep_food > 0)
+    pixmap_put_overlay_tile (pm, 0, 1, (CITY_FOOD_TILES +
+					(punit->upkeep_food > 1 ? 1 : 0)));
+  if (punit->upkeep > 0)
+    pixmap_put_overlay_tile (pm, 0, 1, CITY_SHIELD_TILE);
+  if (punit->unhappiness > 0)
+    pixmap_put_overlay_tile (pm, 0, 1, (CITY_MASK_TILES +
+					(punit->unhappiness > 1 ? 1 : 0)));
 }
 
 

@@ -18,6 +18,7 @@
 #include "city.h"
 #include "events.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "packets.h"
@@ -93,11 +94,12 @@ int ai_city_build_peaceful_unit(struct city *pcity)
 
 static void ai_manage_buildings(struct player *pplayer)
 { /* we have just managed all our cities but not chosen build for them yet */
+  struct government *g = get_gov_pplayer(pplayer);
   int i, j, values[B_LAST], leon = 0, palace = 0, corr = 0;
   memset(values, 0, sizeof(values));
   memset(pplayer->ai.tech_want, 0, sizeof(pplayer->ai.tech_want));
 
-  if (find_palace(pplayer) || pplayer->government == G_DEMOCRACY) palace = 1;
+  if (find_palace(pplayer) || g->corruption_level == 0) palace = 1;
   city_list_iterate(pplayer->cities, pcity)
     ai_eval_buildings(pcity);
     if (!palace) corr += pcity->corruption * 8;
@@ -120,8 +122,8 @@ static void ai_manage_buildings(struct player *pplayer)
   /* This was: > G_DESPOTISM; should maybe remove test, depending
    * on new government evaluation etc, but used for now for
    * regression testing --dwp */
-  if (pplayer->government != game.default_government
-      && pplayer->government != game.government_when_anarchy) {
+  if (g->index != game.default_government
+      && g->index != game.government_when_anarchy) {
     for (i = 0; i < B_LAST; i++) {
       j = improvement_types[i].tech_requirement;
       if (get_invention(pplayer, j) != TECH_KNOWN)
@@ -770,7 +772,8 @@ void ai_manage_city(struct player *pplayer, struct city *pcity)
 
 static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
 {
-  int x,y, foodneed, prodneed, gov;
+  struct government *g = get_gov_pcity(pcity);
+  int x,y, foodneed, prodneed;
   int luxneed, pwr, e;
 
   foodneed=(pcity->size *2) + settler_eats(pcity);
@@ -788,9 +791,14 @@ static int ai_find_elvis_pos(struct city *pcity, int *xp, int *yp)
   unit_list_iterate(pcity->units_supported, punit)
     if (is_military_unit(punit)) prodneed++;
   unit_list_iterate_end;
-  gov = get_government(pcity->owner);
-  if (gov == G_DESPOTISM) prodneed -= pcity->size;
-  if (gov == G_MONARCHY || gov == G_COMMUNISM) prodneed -= 3;
+  
+  /* FIXME: I think this 'if' test should probably be removed,
+     (the action should always be taken) but it is here for now
+     for regression testing --dwp
+  */
+  if (g->index != game.government_when_anarchy) {
+    prodneed -= citygov_free_shield(pcity, g);
+  }
 
   *xp = 0;
   *yp = 0;

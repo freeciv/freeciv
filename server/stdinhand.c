@@ -272,6 +272,15 @@ static struct settings_s settings[] = {
     "  the game will be initialized from this file.  See also README.rulesets.",
     game.ruleset.techs, GAME_DEFAULT_RULESET },
 
+  { "governments", NULL,
+    SSET_RULES, SSET_TO_CLIENT,
+    0, 0, 0,
+    "Data subdir containing governments.ruleset",
+    "  This should specify a subdirectory of the data directory, containing a\n"
+    "  file called \"governments.ruleset\".  The government types available in\n"
+    "  the game will be initialized from this file.  See also README.rulesets.",
+    game.ruleset.governments, GAME_DEFAULT_RULESET },
+
   { "units", NULL,
     SSET_RULES, SSET_TO_CLIENT,
     0, 0, 0,

@@ -39,5 +39,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *packet);
 void handle_ruleset_building(struct packet_ruleset_building *packet);
 void handle_ruleset_terrain(struct packet_ruleset_terrain *packet);
 void handle_ruleset_terrain_control(struct terrain_misc *packet);
+void handle_ruleset_government(struct packet_ruleset_government *packet);
+void handle_ruleset_government_ruler_title(struct packet_ruleset_government_ruler_title *packet);
 
 #endif /* FC__PACKHAND_H */

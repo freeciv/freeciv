@@ -15,6 +15,7 @@
 #include <string.h>
 
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "player.h"
 #include "tech.h"
@@ -38,6 +39,14 @@
 /**************************************************************************
 .. calculate next government wish.
 **************************************************************************/
+#ifndef NEW_GOV_EVAL
+/*
+   regression testing
+*/
+enum government_type { 
+  G_ANARCHY, G_DESPOTISM, G_MONARCHY, G_COMMUNISM, G_REPUBLIC, G_DEMOCRACY,
+  G_LAST
+};
 static int get_government_tech(struct player *plr)
 {
   int government = get_race(plr)->goals.government;
@@ -68,6 +77,28 @@ static int get_government_tech(struct player *plr)
   }
   return 0; /* to make compiler happy */
 }
+
+#else  /* following may need updating before enabled --dwp */
+
+static int get_government_tech(struct player *plr)
+{
+  int i, rating;
+  int best_government = -1, best_rating = 0;
+
+  for (i = 0; i < game.government_count; ++i) {
+    struct government *g = &governments[ i ];
+    rating = ai_evaluate_government (plr, g);
+    if (rating > best_rating &&
+        get_invention (plr, g->required_tech) != TECH_KNOWN) {
+      best_rating = rating;
+      best_government = i;
+    }
+  }
+  if (best_government == -1)
+    return 0;
+  return governments[ best_government ].required_tech;
+}
+#endif /* NEW_GOV_EVAL */
 
 static int get_wonder_tech(struct player *plr)
 {

@@ -16,6 +16,7 @@
 
 #include "city.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "shared.h"
@@ -148,24 +149,6 @@ char *default_race_leader_names[] = {
   "Genghis"
 };
 
-int government_rates[G_LAST] = {
-  100, 60, 70, 80, 80, 100
-};
-
-int government_civil_war[G_LAST] = {
-  90, 80, 70, 50, 40, 30
-};
-
-char *government_names[G_LAST] = {
-  "Anarchy", "Despotism", "Monarchy",
-  "Communism", "Republic", "Democracy"
-};
-
-char *ruler_titles[G_LAST] = {
-  "Mr.", "Emperor", "King", /* even for Elizabeth */ 
-  "Comrade", "President", "President"
-};
-
 /***************************************************************
 ...
 ***************************************************************/
@@ -221,13 +204,30 @@ struct player_race *get_race(struct player *plr)
 }
 
 /***************************************************************
-...
-TODO: use other parameters
 TODO: move this and some following functions to government.c
 ***************************************************************/
 char *get_ruler_title(int gov, int male, int race)
 {
-  return ruler_titles[gov];
+  struct ruler_title *best_match = NULL;
+  struct ruler_title *title;
+  
+  title = governments[gov].ruler_title;
+  do {
+    if (title->race == DEFAULT_TITLE && best_match == NULL) {
+      best_match = title;
+    } else if (title->race == race) {
+      best_match = title;
+      break;
+    }
+    ++title;
+  } while (title->male_title != NULL);
+
+  if (best_match) {
+    return male ? best_match->male_title : best_match->female_title;
+  } else {
+    freelog (LOG_NORMAL, "get_ruler_title: found no title for government %d", gov);
+    return "Mr.";
+  }
 }
 
 /***************************************************************
@@ -235,7 +235,7 @@ char *get_ruler_title(int gov, int male, int race)
 ***************************************************************/
 int get_government_max_rate(int type)
 {
-  return government_rates[type];
+  return governments[type].max_rate;
 }
 
 /***************************************************************
@@ -244,7 +244,7 @@ Added for civil war probability computation - Kris Bubendorfer
 int get_government_civil_war_prob(int type)
 {
   if(type >= 0 && type < game.government_count)
-    return government_civil_war[type];
+    return governments[type].civil_war;
   return 0;
 }
 
@@ -253,43 +253,25 @@ int get_government_civil_war_prob(int type)
 ***************************************************************/
 char *get_government_name(int type)
 {
-  return government_names[type];
+  return governments[type].name;
 }
 
 /***************************************************************
-...
+  Can change to government if appropriate tech exists, and one of:
+   - no required tech (required is A_NONE)
+   - player has required tech
+   - we have an appropriate wonder
 ***************************************************************/
-int can_change_to_government(struct player *pplayer, int gov)
+int can_change_to_government(struct player *pplayer, int government)
 {
-  if (gov>=G_LAST)
+  int req = governments[government].required_tech;
+  
+  if (!tech_exists(req))
     return 0;
-
-  switch (gov) {
-  case G_ANARCHY:
-  case G_DESPOTISM: 
-    return 1;
-    break;
-  case G_MONARCHY:
-    if (get_invention(pplayer, A_MONARCHY)==TECH_KNOWN)
-      return 1;
-    break;
-  case G_COMMUNISM:
-    if (get_invention(pplayer, A_COMMUNISM)==TECH_KNOWN)
-      return 1;
-    break;
-  case G_REPUBLIC:
-    if (get_invention(pplayer, A_REPUBLIC)==TECH_KNOWN)
-      return 1;
-    break;
-  case G_DEMOCRACY:
-    if (get_invention(pplayer, A_DEMOCRACY)==TECH_KNOWN)
-        return 1;
-    break;
-  default:
-    return 0;			/* unknown govt type */
-    break;
-  }
-  return player_owns_active_govchange_wonder(pplayer);
+  else 
+    return (req == A_NONE
+	    || (get_invention(pplayer, req) == TECH_KNOWN)
+	    || player_owns_active_govchange_wonder(pplayer));
 }
 
 /***************************************************************
@@ -495,42 +477,28 @@ int ai_fuzzy(struct player *pplayer, int normal_decision)
 }
 
 /**************************************************************************
-  Convert government names to enum; case insensitive;
-  returns G_LAST if can't match.
-  Should be replaced when government ruleset goes in.
-**************************************************************************/
-static enum government_type government_from_str(const char *s)
-{
-  int i;
-
-  assert(sizeof(government_names)/sizeof(char*)==G_LAST);
-  
-  for(i=0; i<G_LAST; i++) {
-    if (mystrcasecmp(government_names[i], s)==0) {
-      return i;
-    }
-  }
-  return G_LAST;
-}
-
-/**************************************************************************
   This converts the goal strings in races[] to integers.
   This should only be done after rulesets are loaded!
+  Messages are LOG_VERBOSE because its quite possible they
+  are not real errors.
 **************************************************************************/
 void init_race_goals(void)
 {
   char *str, *name;
   int val, i, j;
   struct player_race *prace;
+  struct government *gov;
 
   for(prace=races; prace<races+R_LAST; prace++) {
     name = prace->name_plural;
     str = prace->goals_str.government;
-    val = government_from_str(str);
-    if(val == G_LAST) {
-      freelog(LOG_NORMAL, "Didn't match goal government name \"%s\" for %s",
+    gov = find_government_by_name(str);
+    if(gov == NULL) {
+      freelog(LOG_VERBOSE, "Didn't match goal government name \"%s\" for %s",
 	      str, name);
-      val = G_MONARCHY;		/* ?? */
+      val = game.government_when_anarchy;  /* flag value (no goal) (?) */
+    } else {
+      val = gov->index;
     }
     freelog(LOG_DEBUG, "%s gov goal %d %s", name, val, str);
     prace->goals.government = val;

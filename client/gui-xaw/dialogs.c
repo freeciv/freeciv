@@ -27,6 +27,7 @@
 #include <X11/Xaw/SmeBSB.h>
 
 #include "game.h"
+#include "government.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -1130,32 +1131,37 @@ static void government_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void popup_government_dialog(void)
 {
-  if(!is_showing_government_dialog) {
-    Widget shl;
-
-    is_showing_government_dialog=1;
+  Widget shell, form, dlabel, button, prev;
+  int i, can_change;
   
-    shl=popup_message_dialog(toplevel, "governmentdialog", 
-			     "Select government type:",
-			     government_callback, G_DESPOTISM,
-			     government_callback, G_MONARCHY,
-			     government_callback, G_COMMUNISM,
-			     government_callback, G_REPUBLIC,
-			     government_callback, G_DEMOCRACY, 0);
-    
-    if(!can_change_to_government(game.player_ptr, G_DESPOTISM))
-      XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
-    if(!can_change_to_government(game.player_ptr, G_MONARCHY))
-      XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
-    if(!can_change_to_government(game.player_ptr, G_COMMUNISM))
-      XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
-    if(!can_change_to_government(game.player_ptr, G_REPUBLIC))
-      XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
-    if(!can_change_to_government(game.player_ptr, G_DEMOCRACY))
-      XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
+  if(is_showing_government_dialog) {
+    return;
   }
-}
+  is_showing_government_dialog=1;
 
+  XtSetSensitive(toplevel, FALSE);
+
+  shell = XtCreatePopupShell("governmentdialog", transientShellWidgetClass,
+			     toplevel, NULL, 0);
+  form = XtVaCreateManagedWidget("form", formWidgetClass, shell, NULL);
+  dlabel = XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL);
+
+  prev = dlabel;
+  for (i=0; i < game.government_count; ++i) {
+    if (i == game.government_when_anarchy) continue;
+    can_change = can_change_to_government(game.player_ptr, i);
+    button = XtVaCreateManagedWidget("button", commandWidgetClass, form,
+				     XtNfromVert, prev,
+				     XtNlabel, (XtArgVal)governments[i].name,
+				     NULL);
+    XtAddCallback(button, XtNcallback, government_callback, (XtPointer)i);
+    XtSetSensitive(button, can_change ? TRUE : FALSE);
+    prev = button;
+  }
+  
+  xaw_set_relative_position(toplevel, shell, 10, 0);
+  XtPopup(shell, XtGrabNone);
+}
 
 
 /****************************************************************

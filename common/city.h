@@ -18,6 +18,7 @@
 #include "unit.h"		/* struct unit_list */
 
 struct player;
+struct government;
 
 enum improvement_type_id {
   B_AIRPORT=0, B_AQUEDUCT, B_BANK, B_BARRACKS, B_BARRACKS2, B_BARRACKS3, 
@@ -78,8 +79,6 @@ enum city_options {
 
 /* for new city: default auto-attack options all on, others off: */
 #define CITYOPT_DEFAULT (CITYOPT_AUTOATTACK_BITS)
-
-#define get_government(X) (game.players[X].government)
 
 #define CITY_MAP_SIZE 5
 
@@ -278,5 +277,11 @@ struct city *find_city_by_id(int id);
 void initialize_city_cache(void);
 void add_city_to_cache(struct city *pcity);
 void remove_city_from_cache(int id);
+
+/* city free cost values depending on government: */
+int citygov_free_shield(struct city *pcity, struct government *gov);
+int citygov_free_happy(struct city *pcity, struct government *gov);
+int citygov_free_food(struct city *pcity, struct government *gov);
+int citygov_free_gold(struct city *pcity, struct government *gov);
 
 #endif  /* FC__CITY_H */

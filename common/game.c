@@ -15,6 +15,7 @@
 #include <string.h>
 
 #include "city.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "player.h"
@@ -286,11 +287,10 @@ void game_init(void)
   strcpy(game.ruleset.governments, GAME_DEFAULT_RULESET);
   game.firepower_factor = 1;
 
-  /* temporary fixed values: */
-  game.government_count = G_LAST;
-  game.default_government = G_DESPOTISM;
-  game.government_when_anarchy = G_ANARCHY;
-
+  game.government_count = 0;
+  game.default_government = G_MAGIC;        /* flag */
+  game.government_when_anarchy = G_MAGIC;   /* flag */
+  
   map_init();
   
   for(i=0; i<MAX_NUM_PLAYERS; i++)

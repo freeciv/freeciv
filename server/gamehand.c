@@ -331,6 +331,9 @@ int game_load(struct section_file *file)
 	 secfile_lookup_str_default(file, "default", "game.ruleset.buildings"));
   strcpy(game.ruleset.terrain,
 	 secfile_lookup_str_default(file, "classic", "game.ruleset.terrain"));
+  strcpy(game.ruleset.governments,
+	 secfile_lookup_str_default(file, "default",
+				    "game.ruleset.governments"));
 
   game.spacerace = secfile_lookup_int_default(file, game.spacerace,
 					      "game.spacerace");
@@ -495,6 +498,7 @@ void game_save(struct section_file *file)
   secfile_insert_str(file, game.ruleset.units, "game.ruleset.units");
   secfile_insert_str(file, game.ruleset.buildings, "game.ruleset.buildings");
   secfile_insert_str(file, game.ruleset.terrain, "game.ruleset.terrain");
+  secfile_insert_str(file, game.ruleset.governments, "game.ruleset.governments");
 
   if (1) {
     /* Now always save these, so the server options reflect the

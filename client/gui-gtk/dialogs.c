@@ -20,6 +20,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "game.h"
+#include "government.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -41,6 +42,9 @@ extern int flags_are_transparent;
 extern int ai_popup_windows;
 extern GdkGC *fill_bg_gc;
 
+/******************************************************************/
+static gint popup_mes_del_callback(GtkWidget *widget, GdkEvent *event,
+				   gpointer data);
 
 /******************************************************************/
 GtkWidget	*races_dialog_shell=NULL;
@@ -1093,43 +1097,54 @@ static void government_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 void popup_government_dialog(void)
 {
-  if(!is_showing_government_dialog) {
-    GtkWidget *shl, *button;
+  int i;
+  GtkWidget *dshell, *button, *dlabel, *vbox;
 
+  if(!is_showing_government_dialog) {
     is_showing_government_dialog=1;
   
-    shl=popup_message_dialog(toplevel, /*"governmentdialog"*/"Choose Your New Government", 
-			     "Select government type:",
-			     "Despotism", government_callback, G_DESPOTISM,
-			     "Monarchy", government_callback, G_MONARCHY,
-			     "Communism", government_callback, G_COMMUNISM,
-			     "Republic", government_callback, G_REPUBLIC,
-			     "Democracy", government_callback, G_DEMOCRACY, 0);
-    if(!can_change_to_government(game.player_ptr, G_DESPOTISM))
-    {
-	button = gtk_object_get_data( GTK_OBJECT( shl ), "button0" );
-	gtk_widget_set_sensitive( button, FALSE );
+    gtk_widget_set_sensitive(toplevel, FALSE);
+  
+    dshell=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
+
+    gtk_signal_connect(
+      GTK_OBJECT(dshell),
+      "delete_event",
+      GTK_SIGNAL_FUNC(popup_mes_del_callback),
+      (gpointer) toplevel
+    );
+
+    gtk_window_set_title(GTK_WINDOW(dshell), "Choose Your New Government");
+
+    vbox = gtk_vbox_new(0,TRUE);
+    gtk_container_add(GTK_CONTAINER(dshell),vbox);
+
+    gtk_container_border_width(GTK_CONTAINER(vbox),5);
+
+    dlabel = gtk_label_new("Select government type:");
+    gtk_box_pack_start(GTK_BOX(vbox), dlabel, TRUE, FALSE, 0);
+
+    gtk_object_set_data(GTK_OBJECT(vbox), "parent",(gpointer) toplevel);
+
+    for (i=0; i<game.government_count; ++i) {
+      struct government *g = &governments[i];
+
+      if (i == game.government_when_anarchy) continue;
+      button=gtk_button_new_with_label(g->name);
+      gtk_box_pack_start(GTK_BOX(vbox), button, TRUE, FALSE, 0);
+      gtk_signal_connect(
+        GTK_OBJECT(button),
+        "clicked",
+        GTK_SIGNAL_FUNC(government_callback),
+        (gpointer) g->index
+      );
+      if(!can_change_to_government(game.player_ptr, i))
+	gtk_widget_set_sensitive(button, FALSE);
     }
-    if(!can_change_to_government(game.player_ptr, G_MONARCHY))
-    {
-	button = gtk_object_get_data( GTK_OBJECT( shl ), "button1" );
-	gtk_widget_set_sensitive( button, FALSE );
-    }
-    if(!can_change_to_government(game.player_ptr, G_COMMUNISM))
-    {
-	button = gtk_object_get_data( GTK_OBJECT( shl ), "button2" );
-	gtk_widget_set_sensitive( button, FALSE );
-    }
-    if(!can_change_to_government(game.player_ptr, G_REPUBLIC))
-    {
-	button = gtk_object_get_data( GTK_OBJECT( shl ), "button3" );
-	gtk_widget_set_sensitive( button, FALSE );
-    }
-    if(!can_change_to_government(game.player_ptr, G_DEMOCRACY))
-    {
-	button = gtk_object_get_data( GTK_OBJECT( shl ), "button4" );
-	gtk_widget_set_sensitive( button, FALSE );
-    }
+ 
+    gtk_widget_show_all( vbox );
+    gtk_widget_show(dshell);  
   }
 }
 

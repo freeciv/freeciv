@@ -94,7 +94,9 @@ enum packet_type {
   PACKET_SPACESHIP_ACTION,
   PACKET_UNIT_NUKE,
   PACKET_RULESET_TERRAIN,
-  PACKET_RULESET_TERRAIN_CONTROL
+  PACKET_RULESET_TERRAIN_CONTROL,
+  PACKET_RULESET_GOVERNMENT,
+  PACKET_RULESET_GOVERNMENT_RULER_TITLE
 };
 
 enum report_type {
@@ -255,6 +257,8 @@ struct packet_unit_info {
   int activity_count;
   int unhappiness;
   int upkeep;
+  int upkeep_food;
+  int upkeep_gold;
   int ai;
   int fuel;
   int goto_dest_x, goto_dest_y;
@@ -439,6 +443,11 @@ struct packet_ruleset_unit {
   int fuel;
   int flags;
   int roles;			/* a client-side-ai might be interested */
+
+  int happy_cost;  /* unhappy people in home city */
+  int shield_cost; /* normal upkeep cost */
+  int food_cost;   /* settler food cost */
+  int gold_cost;   /* gold upkeep (n/a now, maybe later) */
 };
 
 struct packet_ruleset_tech {
@@ -496,6 +505,64 @@ struct packet_ruleset_terrain {
 
   enum tile_terrain_type transform_result;
   int transform_time;
+};
+
+struct packet_ruleset_government {
+  int id;
+      
+  int required_tech;
+  int graphic;
+  int max_rate;
+  int civil_war;
+  int martial_law_max;
+  int martial_law_per;
+  int empire_size_mod;
+  int rapture_size;
+      
+  int unit_happy_cost_factor;
+  int unit_shield_cost_factor;
+  int unit_food_cost_factor;
+  int unit_gold_cost_factor;
+      
+  int free_happy;
+  int free_shield;
+  int free_food;
+  int free_gold;
+      
+  int trade_before_penalty;
+  int shields_before_penalty;
+  int food_before_penalty;
+      
+  int celeb_trade_before_penalty;
+  int celeb_shields_before_penalty;
+  int celeb_food_before_penalty;
+      
+  int trade_bonus;
+  int shield_bonus;
+  int food_bonus;
+      
+  int celeb_trade_bonus;
+  int celeb_shield_bonus;
+  int celeb_food_bonus;
+      
+  int corruption_level;
+  int corruption_modifier;
+  int fixed_corruption_distance;
+  int corruption_distance_factor;
+  int extra_corruption_distance;
+      
+  int flags;
+      
+  int ruler_title_count;
+       
+  char name[MAX_LEN_NAME];
+};
+struct packet_ruleset_government_ruler_title {
+  int gov;
+  int id;
+  int race;
+  char male_title[MAX_LEN_NAME];
+  char female_title[MAX_LEN_NAME];
 };
 
 
@@ -720,6 +787,15 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
 					struct terrain_misc *packet);
 struct terrain_misc *
 receive_packet_ruleset_terrain_control(struct connection *pc);
+
+int send_packet_ruleset_government(struct connection *pc,
+				struct packet_ruleset_government *packet);
+struct packet_ruleset_government *
+receive_packet_ruleset_government(struct connection *pc);
+int send_packet_ruleset_government_ruler_title(struct connection *pc,
+				struct packet_ruleset_government_ruler_title *packet);
+struct packet_ruleset_government_ruler_title *
+receive_packet_ruleset_government_ruler_title(struct connection *pc);
 
 int send_packet_before_end_year(struct connection *pc);
 

@@ -16,6 +16,7 @@
 
 #include "city.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "packets.h"
@@ -166,52 +167,312 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 /**********************************************************************
 The following evaluates the unhappiness caused by military units
 in the field (or aggressive) at a city when at Republic or Democracy
+
+Now generalised somewhat for government rulesets, though I'm not sure
+whether it is fully general for all possible parameters/combinations.
+ --dwp
 **********************************************************************/
-int ai_assess_military_unhappiness(struct city *pcity, int gov)
+int ai_assess_military_unhappiness(struct city *pcity,
+				   struct government *g)
 {
-  int unhap=0;
-  int have_police;
-  int variant;
-  
-  if (gov < G_REPUBLIC)
+  int free_happy, have_police, variant;
+  int unhap = 0;
+
+  /* bail out now if happy_cost is 0 */
+  if (g->unit_happy_cost_factor == 0) {
     return 0;
+  }
   
+  free_happy  = citygov_free_happy(pcity, g);
   have_police = city_got_effect(pcity, B_POLICE);
   variant = improvement_variant(B_WOMENS);
-  
-  if (gov == G_REPUBLIC) {
-    if (have_police && variant==1 )
-      return 0;
-    
-    unit_list_iterate(pcity->units_supported, punit) {
-      if (unit_being_aggressive(punit) || is_field_unit(punit)) {
-	unhap++;
-      }
-    }
-    unit_list_iterate_end;
-    unhap--;		       /* One free unhappy under Republic */
-    if (have_police) unhap--;  /* variant==0 */
-  } 
-  else if (gov == G_DEMOCRACY) {
-    unit_list_iterate(pcity->units_supported, punit) {
-      if (have_police && variant==1) {
-	if (unit_being_aggressive(punit)) {
-	  unhap++;
-	}
-      } else {
-	if (unit_being_aggressive(punit)) {
-	  unhap += 2;
-	} else if (is_field_unit(punit)) {
-	  unhap += 1;
-	}
-      }
-    }
-    unit_list_iterate_end;
-    if (have_police && variant==0) {
-      unhap -= 2;
-    }
+
+  if (variant==0 && have_police) {
+    /* ??  This does the right thing for normal Republic and Democ -- dwp */
+    free_happy += g->unit_happy_cost_factor;
   }
-  if (unhap < 0) unhap = 0;
   
+  unit_list_iterate(pcity->units_supported, punit) {
+    int happy_cost = utype_happy_cost(get_unit_type(punit->type), g);
+
+    if (happy_cost<=0)
+      continue;
+
+    /* See discussion/rules in cityturn.c:city_support() --dwp */
+    if (!unit_being_aggressive(punit)) {
+      if (is_field_unit(punit)) {
+	happy_cost = 1;
+      } else {
+	happy_cost = 0;
+      }
+    }
+    if (happy_cost<=0)
+      continue;
+
+    if (variant==1 && have_police) {
+      happy_cost--;
+    }
+    adjust_city_free_cost(&free_happy, &happy_cost);
+    
+    if (happy_cost>0)
+      unhap += happy_cost;
+  }
+  unit_list_iterate_end;
+ 
+  if (unhap < 0) unhap = 0;
   return unhap;
 }
+
+#ifndef NEW_GOV_EVAL		/* needs updating before enabled --dwp */
+
+/**********************************************************************
+  Evaluate a government form, still pretty sketchy.
+**********************************************************************/
+
+/* 
+ * This evaluation should be more dynamic (based on players current
+ * needs, like expansion, at war, etc, etc).
+ * -SKi
+ */
+
+/*
+ * 0 is my first attempt at government evaluation
+ * 1 is new evaluation based on patch from rizos
+ * -SKi
+ */
+#if 1
+
+#define DEBUG_AEG_PRODUCTION (1)
+
+int ai_evaluate_government (struct player *pplayer, struct government *g)
+{
+  int current_gov      = pplayer->government;
+  int shield_surplus   = 0;
+  int food_surplus     = 0;
+  int trade_prod       = 0;
+  int shield_need      = 0;
+  int food_need        = 0;
+  /*
+  int happy            = 0;
+  int unhappy          = 0;
+  */
+  int unhappy_cities   = 0;
+  int gov_overthrown   = 0;
+  int score            = 0;
+
+  pplayer->government = g->index;
+
+  city_list_iterate(pplayer->cities, pcity) {
+    struct city tmp_city = *pcity; 
+    int x, y;
+
+    city_refresh (&tmp_city);
+     
+    /* the 4 lines that follow are copied from ai_manage_city -
+       we don't need the sell_obsolete_buildings */
+    city_check_workers (pplayer, &tmp_city);
+    auto_arrange_workers (&tmp_city);
+    if (ai_fix_unhappy (&tmp_city))
+       ai_scientists_taxmen (&tmp_city);
+
+    trade_prod     += tmp_city.trade_prod;
+    if (tmp_city.shield_prod > 0)
+      shield_surplus += tmp_city.shield_surplus;
+    else
+      shield_need    += tmp_city.shield_surplus;
+    if (tmp_city.food_surplus > 0)
+      food_surplus   += tmp_city.food_surplus;
+    else
+      food_need      += tmp_city.food_surplus;
+    /*
+    happy            += tmp_city.happy;
+    unhappy          += tmp_city.unhappy;
+    */
+
+    if (city_unhappy (&tmp_city)) {
+      unhappy_cities++;
+      /* the following is essential to prevent falling into anarchy */
+      if (tmp_city.anarchy > 0 && g->flags & G_REVOLUTION_WHEN_UNHAPPY) 
+        gov_overthrown = 1;
+    }
+
+    /* the following is essential because the above may change the ptile->worked */
+    city_map_iterate(x, y) {
+       struct tile *ptile = map_get_tile(pcity->x+x-2, pcity->y+y-2);
+       if (ptile->worked == &tmp_city)
+           ptile->worked = NULL;
+       set_worker_city(pcity, x, y, get_worker_city(pcity, x, y));
+    }
+  } city_list_iterate_end;
+
+  pplayer->government = current_gov;
+
+  score =
+    3 * trade_prod
+  + 2 * shield_surplus + 2 * food_surplus
+  - 4 * shield_need - 4 * food_need
+  ;
+  score = gov_overthrown ? 0 : MAX(score, 0);
+
+  if (DEBUG_AEG_PRODUCTION)
+    freelog (LOG_DEBUG, "a_e_g (%12s) = score=%3d; trade=%3d; shield=%3d/%3d; food=%3d/%3d;", g->name, score, trade_prod, shield_surplus, shield_need, food_surplus, food_need);
+  return score;
+}
+
+#else
+
+#define DEBUG_AEG_EMPIRE	(0)
+#define DEBUG_AEG_CORRUPTION	(0)
+#define DEBUG_AEG_EXTRA_FOOD	(0)
+#define DEBUG_AEG_EXTRA_SHIELD	(0)
+#define DEBUG_AEG_EXTRA_HAPPY	(0)
+#define DEBUG_AEG_BONUS_TRADE	(0)
+#define DEBUG_AEG_PENALTY	(0)
+#define DEBUG_AEG_FREE		(0)
+
+int ai_evaluate_government (struct player *pplayer, struct government *g)
+{
+  static struct player *p_last_player;
+  static int    last_year;
+
+  struct city *capital = find_palace(pplayer);
+  int rating = 25000, rating_before;
+  int avg_city_size = 0;
+  int empire_size = 0;
+  int aggressive_units = 0;
+  int free_aggressive_units = 0;
+  int upkept_units = 0;
+  int free_upkept_units = 0;
+  int eating_units = 0;
+  int free_eating_units = 0;
+  int trade_fields = 0;
+  int total_distance = 0;
+
+  city_list_iterate (pplayer->cities, this_city) {
+    int free_shield = citygov_free_shield(this_city, g);
+    int free_happy  = citygov_free_happy(this_city, g);
+    int free_food   = citygov_free_food(this_city, g);
+
+    ++empire_size;
+    avg_city_size += this_city->size;
+    trade_fields += this_city->tile_trade;
+
+    total_distance += g->extra_corruption_distance;
+    if (g->fixed_corruption_distance) {
+      total_distance += g->fixed_corruption_distance;
+    } else if (capital) {
+      total_distance += min(36, map_distance(capital->x, capital->y, this_city->x, this_city->y)); 
+    } else {
+      total_distance += 36;
+    }
+
+    unit_list_iterate (this_city->units_supported, this_unit) {
+      struct unit_type *ut = &unit_types[ this_unit->type ];
+      if (unit_being_aggressive (this_unit)) {
+        if (free_happy) {
+	  --free_happy;
+	  ++free_aggressive_units;
+	}
+        ++aggressive_units;
+      }
+      if (ut->shield_cost) {
+        if (free_shield) {
+	  --free_shield;
+	  ++free_upkept_units;
+	}
+        ++upkept_units;
+      }
+      if (ut->food_cost) {
+        if (free_food) {
+	  --free_food;
+	  ++free_eating_units;
+	}
+        ++eating_units;
+      }
+    } unit_list_iterate_end;
+  } city_list_iterate_end;
+  if (empire_size)
+    avg_city_size /= empire_size;
+  else
+    avg_city_size = 0;
+  
+  if (DEBUG_AEG_EMPIRE && (p_last_player != pplayer || last_year != game.year)) {
+    freelog (LOG_DEBUG, "%s:\tEmpire of %s (%d): s=%d,c=%d,a=%d,u=%d,e=%d,t=%d",
+      g->name, pplayer->name, game.year,
+      empire_size, avg_city_size, aggressive_units, upkept_units, eating_units,
+      trade_fields
+    );
+  }
+
+  /*
+   * Government flags, these were intentionally left out of the evaluation:
+   * G_IS_NICE       - Has no impact on rules.
+   * G_FAVORS_GROWTH - Ditto.
+   * -- SKi
+   */
+  rating_before = rating;
+  if (g->flags & G_BUILD_VETERAN_DIPLOMAT) {
+    rating += 100; /* ignore this advantage for now -- SKi */
+  }
+  if (g->flags & G_REVOLUTION_WHEN_UNHAPPY) {
+    rating -= 50000; /* very bad! */
+  }
+  if (g->flags & G_HAS_SENATE) {
+    rating -= 300; /* undesirable */
+  }
+  if (g->flags & G_UNBRIBABLE) {
+    rating += 100; /* nice */
+  }
+  if (g->flags & G_INSPIRES_PARTISANS) {
+    rating += 100; /* nice */
+  }
+
+  /* punish governments for their extra upkeep costs */
+  rating_before = rating;
+#if 0 /* FIXME --dwp */
+  if (g->extra_happy_cost != G_NO_UPKEEP)
+    rating -= g->extra_happy_cost * 150 * aggressive_units;
+  if (DEBUG_AEG_EXTRA_HAPPY && rating != rating_before) freelog (LOG_DEBUG, "extra_happy_cost changed rating for %s by %d", g->name, rating - rating_before);
+  rating_before = rating;
+  if (g->extra_shield_cost != G_NO_UPKEEP)
+    rating -= g->extra_shield_cost * 150 * upkept_units;
+  if (DEBUG_AEG_EXTRA_SHIELD && rating != rating_before) freelog (LOG_DEBUG, "extra_shield_cost changed rating for %s by %d", g->name, rating - rating_before);
+  rating_before = rating;
+  if (g->extra_food_cost != G_NO_UPKEEP)
+    rating -= g->extra_food_cost * 150 * eating_units;
+  if (DEBUG_AEG_EXTRA_FOOD && rating != rating_before) freelog (LOG_DEBUG, "extra_food_cost changed rating for %s by %d", g->name, rating - rating_before);
+#endif
+
+  /* reward governments that give us some upkeep for free */
+  rating_before= rating;
+  rating += free_upkept_units * 250;
+  if (DEBUG_AEG_FREE && rating != rating_before) freelog (LOG_DEBUG, "free upkeep changed rating for %s by %d", g->name, rating - rating_before);
+
+  /* Punish governments for their production penalties. */
+  rating_before = rating;
+  if (g->trade_before_penalty)
+    rating -= max(g->trade_before_penalty - 2, 2) * 400;
+  /* trade bonuses */
+  rating_before = rating;
+  if (g->trade_bonus)
+    rating += g->trade_bonus * 350 * trade_fields;
+  if (DEBUG_AEG_BONUS_TRADE && rating != rating_before) freelog (LOG_DEBUG, "trade bonus changed rating for %s by %d", g->name, rating - rating_before);
+  /* corruption level */
+  rating_before = rating;
+  rating += (100 - g->corruption_level) * 50;
+  rating -= g->corruption_level * max(0, 100 - g->corruption_modifier) * trade_fields / 45;
+  rating -= total_distance * g->corruption_distance_factor * trade_fields / 3;
+  if (DEBUG_AEG_CORRUPTION) freelog(LOG_DEBUG, "corruption changed rating for %s by %d", g->name, rating - rating_before);
+  /* empire_size_factor */
+  rating_before = rating;
+  if (g->empire_size_factor > empire_size)
+    rating += 500;
+
+  p_last_player = pplayer;
+  last_year = game.year;
+
+  return rating;
+}
+#endif
+
+#endif /* NEW_GOV_EVAL */

@@ -12,5 +12,6 @@ set civstyle 2
 # Rulesets:
 set terrain civ2
 set techs civ2
+set governments civ2
 set units civ2
 set buildings civ2

@@ -6,6 +6,7 @@ pkgdatadir = $(datadir)/@PACKAGE@/civ2
 pkgdata_DATA =          \
 	terrain.ruleset	\
 	techs.ruleset	\
+	governments.ruleset \
 	units.ruleset	\
 	buildings.ruleset
 

@@ -16,6 +16,7 @@
 #include "city.h"
 #include "events.h"
 #include "game.h"
+#include "government.h"
 #include "log.h"
 #include "map.h"
 #include "player.h"
@@ -58,7 +59,6 @@ static void citizen_happy_wonders(struct city *pcity);
 static void unhappy_city_check(struct city *pcity);
 
 static void city_populate(struct city *pcity);
-static void city_settlersupport(struct city *pcity);
 static void city_increase_size(struct city *pcity);
 static void city_reduce_size(struct city *pcity);
 
@@ -88,8 +88,7 @@ static void set_tax_income(struct city *pcity)
   pcity->tax_total = 0;
   rate = pcity->trade_prod;
   while (rate) {
-    if( game.players[pcity->owner].government
-	!= game.government_when_anarchy ){
+    if( get_gov_pcity(pcity)->index != game.government_when_anarchy ){
       tax += (100 - game.players[pcity->owner].economic.science - game.players[pcity->owner].economic.luxury);
       sci += game.players[pcity->owner].economic.science;
       lux += game.players[pcity->owner].economic.luxury;
@@ -189,18 +188,12 @@ static void citizen_happy_luxury(struct city *pcity)
 
 /**************************************************************************
 ...
+ Note Suffrage/Police is always dealt with elsewhere now --dwp 
 **************************************************************************/
 static void citizen_happy_units(struct city *pcity, int unhap)
 {
   int step;         
 
-  if (improvement_variant(B_WOMENS)==0
-      && city_got_effect(pcity, B_POLICE)) {
-    if (get_government(pcity->owner)==G_DEMOCRACY)
-      unhap-=2;
-    else
-      unhap--;
-  }
   if (unhap>0) {                                                           
     step=MIN(unhap,pcity->ppl_content[3]);                          
     pcity->ppl_content[3]-=step;
@@ -227,6 +220,7 @@ static void citizen_happy_units(struct city *pcity, int unhap)
 **************************************************************************/
 static void citizen_happy_buildings(struct city *pcity)
 {
+  struct government *g = get_gov_pcity(pcity);
   int faces=0;
   happy_copy(pcity, 1);
   
@@ -234,7 +228,7 @@ static void citizen_happy_buildings(struct city *pcity)
     faces+=get_temple_power(pcity);
   }
   if (city_got_building(pcity,B_COURTHOUSE) &&
-      get_government(pcity->owner) == G_DEMOCRACY ) {
+      g->corruption_level == 0) {
     faces++;
   }
 
@@ -400,24 +394,6 @@ void global_city_refresh(struct player *pplayer)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-static void city_settlersupport(struct city *pcity)
-{
-  unit_list_iterate(pcity->units_supported, punit) {
-    if (unit_flag(punit->type, F_SETTLERS)) {
-      pcity->food_surplus--;
-      punit->upkeep=1;
-      if (get_government(pcity->owner)>=G_COMMUNISM) {
-	pcity->food_surplus--;
-	punit->upkeep=2;
-      }
-    }
-  }
-  unit_list_iterate_end;
-}
-
-/**************************************************************************
 An "aggressive" unit is a unit which may cause unhappiness
 under a Republic or Democracy.
 A unit is *not* aggressive if one or more of following is true:
@@ -446,95 +422,111 @@ int unit_being_aggressive(struct unit *punit)
 **************************************************************************/
 static void city_support(struct city *pcity)
 { 
-  int milunits=0;
-  int city_units=0;
-  int unhap=0;
-  int gov=get_government(pcity->owner);
-  int orig_suffrage_applies = (improvement_variant(B_WOMENS)==1 &&
-			       city_got_effect(pcity, B_POLICE));
-  happy_copy(pcity, 2);
-  city_settlersupport(pcity);
-  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, this_unit) {
-    if (is_military_unit(this_unit))
-      city_units++;
-  }
-  unit_list_iterate_end;
-  unit_list_iterate(pcity->units_supported, this_unit) {
-    this_unit->unhappiness=0;
-    if (!unit_flag(this_unit->type, F_SETTLERS))
-      this_unit->upkeep=0;
-    if (is_military_unit(this_unit)) {
-      milunits++;
-      switch (gov) {
-      case G_ANARCHY:
-      case G_DESPOTISM:
-	if (milunits>pcity->size) {
-	  pcity->shield_surplus--;
-	  this_unit->upkeep=1;
-	} 
-	break;
-      case G_MONARCHY:
-      case G_COMMUNISM:
-	if (milunits>3) {
-	  pcity->shield_surplus--;
-	  this_unit->upkeep=1;
-	} 
-	break;
-      case G_REPUBLIC:
-	pcity->shield_surplus--;
-	this_unit->upkeep=1;
-	if (!orig_suffrage_applies && (unit_being_aggressive(this_unit)
-					|| is_field_unit(this_unit))) {
-	  if (unhap)
-	    this_unit->unhappiness=1;
-	  unhap++;
-	}
-	break;
-      case G_DEMOCRACY:
-	pcity->shield_surplus--;
-	this_unit->upkeep=1;
-	if (unit_being_aggressive(this_unit)) {
-	  this_unit->unhappiness=2;
-	} else if (is_field_unit(this_unit)) {
-	  this_unit->unhappiness=1;
-	}
-	if (this_unit->unhappiness>0 && orig_suffrage_applies) {
-	  this_unit->unhappiness--;
-	}
-	unhap += this_unit->unhappiness;
-	break;
-      default:
-	break;
-      }
-    } 
-  }
-  unit_list_iterate_end;
-  
-  switch (gov) {
-  case G_ANARCHY:
-  case G_DESPOTISM:
-    city_units = MIN(city_units, pcity->ppl_unhappy[3]);
-    pcity->ppl_unhappy[3]-= city_units;
-    pcity->ppl_content[3]+= city_units;
-    break;
-  case G_MONARCHY:
-    city_units = MIN(3, city_units);
-    city_units = MIN(pcity->ppl_unhappy[3], city_units);
-    pcity->ppl_unhappy[3]-= city_units;
-    pcity->ppl_content[3]+= city_units;
-    break;
-  case G_COMMUNISM:
-    city_units = MIN(3, city_units);
-    city_units = MIN(pcity->ppl_unhappy[3], city_units*2);
-    pcity->ppl_unhappy[3]-= city_units;
-    pcity->ppl_content[3]+= city_units;
-    break;
-  case G_REPUBLIC:
-    unhap--;
-  case G_DEMOCRACY:
-    citizen_happy_units(pcity, unhap);
+  struct government *g = get_gov_pcity(pcity);
+
+  int have_police = city_got_effect(pcity, B_POLICE);
+  int variant = improvement_variant(B_WOMENS);
+
+  int free_happy  = citygov_free_happy(pcity, g);
+  int free_shield = citygov_free_shield(pcity, g);
+  int free_food   = citygov_free_food(pcity, g);
+  int free_gold   = citygov_free_gold(pcity, g);
+
+  if (variant==0 && have_police) {
+    /* ??  This does the right thing for normal Republic and Democ -- dwp */
+    free_happy += g->unit_happy_cost_factor;
   }
 
+  happy_copy(pcity, 2);
+
+  /*
+   * If you modify anything here these places might also need updating:
+   * - ai/aitools.c : ai_assess_military_unhappiness
+   *   Military discontentment evaluation for AI.
+   *
+   * P.S.  This list is by no means complete.
+   * --SKi
+   */
+
+  /* military units in this city (need _not_ be home city) can make
+     unhappy citizens content
+  */
+  if (g->martial_law_max > 0) {
+    int city_units = 0;
+    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, this_unit) {
+      if (city_units < g->martial_law_max && is_military_unit(this_unit))
+	city_units++;
+    }
+    unit_list_iterate_end;
+    city_units *= g->martial_law_per;
+    city_units = MIN(city_units, pcity->ppl_unhappy[3]);
+    pcity->ppl_unhappy[3] -= city_units;
+    pcity->ppl_content[3] += city_units;
+  }
+    
+  /* loop over units, subtracting appropriate amounts of food, shields,
+   * gold etc -- SKi */
+  unit_list_iterate(pcity->units_supported, this_unit) {
+    struct unit_type *ut = get_unit_type(this_unit->type);
+    int shield_cost = utype_shield_cost(ut, g);
+    int happy_cost = utype_happy_cost(ut, g);
+    int food_cost = utype_food_cost(ut, g);
+    int gold_cost = utype_gold_cost(ut, g);
+
+    /* set current upkeep on unit to zero */
+    this_unit->unhappiness = 0;
+    this_unit->upkeep      = 0;
+    this_unit->upkeep_food = 0;
+    this_unit->upkeep_gold = 0;
+
+    /* This is how I think it should work (dwp)
+     * Base happy cost (unhappiness) assumes unit is being aggressive;
+     * non-aggressive units don't pay this, _except_ that field units
+     * still pay 1.  Should this be always 1, or modified by other
+     * factors?   Will treat as flat 1.
+     */
+    if (happy_cost > 0 && !unit_being_aggressive(this_unit)) {
+      if (is_field_unit(this_unit)) {
+	happy_cost = 1;
+      } else {
+	happy_cost = 0;
+      }
+    }
+    if (happy_cost > 0 && variant==1 && have_police) {
+      happy_cost--;
+    }
+
+    /* subtract values found above from city's resources -- SKi */
+    if (happy_cost > 0) {
+      adjust_city_free_cost(&free_happy, &happy_cost);
+      if (happy_cost > 0) {
+	citizen_happy_units (pcity, happy_cost);
+        this_unit->unhappiness = happy_cost;
+      }
+    }
+    if (shield_cost > 0) {
+      adjust_city_free_cost(&free_shield, &shield_cost);
+      if (shield_cost > 0) {
+        pcity->shield_surplus -= shield_cost;
+        this_unit->upkeep      = shield_cost;
+      }
+    }
+    if (food_cost > 0) {
+      adjust_city_free_cost(&free_food, &food_cost);
+      if (food_cost > 0) {
+        pcity->food_surplus -= food_cost;
+        this_unit->upkeep_food = food_cost;
+      }
+    }
+    if (gold_cost > 0) {
+      adjust_city_free_cost(&free_gold, &gold_cost);
+      if (gold_cost > 0) {
+        /* FIXME: This is not implemented -- SKi */
+        this_unit->upkeep_gold = gold_cost;
+      }
+    }
+  }
+  unit_list_iterate_end;
 }
 
 
@@ -666,10 +658,11 @@ int  add_adjust_workers(struct city *pcity)
 
 void auto_arrange_workers(struct city *pcity)
 {
-  int workers=pcity->size;
+  struct government *g = get_gov_pcity(pcity);
+  int workers = pcity->size;
   int taxwanted,sciwanted;
   int x,y;
-  int foodneed, prodneed, gov;
+  int foodneed, prodneed;
 
   city_map_iterate(x, y)
     if (get_worker_city(pcity, x, y)==C_TILE_WORKER) 
@@ -679,12 +672,22 @@ void auto_arrange_workers(struct city *pcity)
   foodneed=(pcity->size *2 -get_food_tile(2,2, pcity)) + settler_eats(pcity);
   prodneed = 0;
   prodneed -= get_shields_tile(2,2,pcity);
-  unit_list_iterate(pcity->units_supported, punit)
-    if (is_military_unit(punit)) prodneed++;
+  
+  /* FIXME: I think this 'if' test should probably be removed,
+     (the action should always be taken) but it is here for now
+     for regression testing --dwp
+  */
+  if (g->index != game.government_when_anarchy) {
+    prodneed -= citygov_free_shield(pcity, g);
+  }
+
+  unit_list_iterate(pcity->units_supported, this_unit) {
+    int shield_cost = utype_shield_cost(get_unit_type(this_unit->type), g);
+    if (shield_cost > 0) {
+      prodneed += shield_cost;
+    }
+  }
   unit_list_iterate_end;
-  gov = get_government(pcity->owner);
-  if (gov == G_DESPOTISM) prodneed -= pcity->size;
-  if (gov == G_MONARCHY || gov == G_COMMUNISM) prodneed -= 3;
   
   taxwanted=pcity->ppl_taxman;
   sciwanted=pcity->ppl_scientist;
@@ -1241,7 +1244,7 @@ static void sanity_check_city(struct city *pcity)
 **************************************************************************/
 void city_incite_cost(struct city *pcity)
 {
-
+  struct government *g = get_gov_pcity(pcity);
   struct city *capital;
   int dist;
   
@@ -1258,8 +1261,8 @@ void city_incite_cost(struct city *pcity)
       dist=32;
     if (city_got_building(pcity, B_COURTHOUSE)) 
       dist/=2;
-    if (get_government(city_owner(pcity)->player_no)==G_COMMUNISM)
-      dist = MIN(10, dist);
+    if (g->fixed_corruption_distance)
+      dist = MIN(g->fixed_corruption_distance, dist);
     pcity->incite_revolt_cost/=(dist + 3);
     pcity->incite_revolt_cost*=pcity->size;
     if (city_unhappy(pcity))
@@ -1274,13 +1277,16 @@ void city_incite_cost(struct city *pcity)
 **************************************************************************/
 static int update_city_activity(struct player *pplayer, struct city *pcity)
 {
+  struct government *g = get_gov_pcity(pcity);
   int got_tech = 0;
   int turns_growth, turns_granary;
 
   city_check_workers(pplayer, pcity);
-  if (city_refresh(pcity) && 
-      get_government(pcity->owner)>=G_REPUBLIC &&
-      pcity->food_surplus>0 && pcity->size>4) {
+
+  /* fill citys food box if it is in rapture -- SKi */
+  if (city_refresh(pcity) && g->rapture_size &&
+      pcity->size >= g->rapture_size &&
+      pcity->food_surplus > 0) {
     pcity->food_stock=pcity->size*game.foodbox+1; 
   }
 
@@ -1362,7 +1368,7 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
     city_incite_cost(pcity);
 
     send_city_info(0, pcity, 0);
-    if (pcity->anarchy>2 && get_government(pplayer->player_no)==G_DEMOCRACY) {
+    if (pcity->anarchy>2 && g->flags & G_REVOLUTION_WHEN_UNHAPPY) {
       notify_player_ex(pplayer, pcity->x, pcity->y, E_ANARCHY,
 		       "Game: The people have overthrown your democracy, your country is in turmoil");
       handle_player_revolution(pplayer);
