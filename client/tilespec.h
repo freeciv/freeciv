@@ -141,6 +141,9 @@ struct named_sprites {
     *treaty_thumb[2],     /* 0=disagree, 1=agree */
     *right_arrow,
 
+    /* The panel sprites for showing tax % allocations. */
+    *tax_luxury, *tax_science, *tax_gold,
+
     *black_tile,      /* only used for isometric view */
     *dither_tile;     /* only used for isometric view */
 

@@ -974,6 +974,10 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(dither_tile, "t.dither_tile");
   }
 
+  SET_SPRITE(tax_luxury, "s.tax_luxury");
+  SET_SPRITE(tax_science, "s.tax_science");
+  SET_SPRITE(tax_gold, "s.tax_gold");
+
   /* Load the citizen sprite graphics. */
   for (i = 0; i < NUM_TILES_CITIZEN; i++) {
     my_snprintf(buffer, sizeof(buffer), "citizen.%s", get_citizen_name(i));

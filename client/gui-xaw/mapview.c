@@ -176,16 +176,13 @@ void update_info_label(void)
 
   d=0;
   for(;d<(game.player_ptr->economic.luxury)/10;d++)
-    xaw_set_bitmap(econ_label[d],
-		   get_citizen_pixmap(CITIZEN_ELVIS, d, NULL));
+    xaw_set_bitmap(econ_label[d], sprites.tax_luxury->pixmap);
  
   for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
-    xaw_set_bitmap(econ_label[d],
-		   get_citizen_pixmap(CITIZEN_SCIENTIST, d, NULL));
+    xaw_set_bitmap(econ_label[d], sprites.tax_science->pixmap);
  
    for(;d<10;d++)
-    xaw_set_bitmap(econ_label[d],
-		   get_citizen_pixmap(CITIZEN_TAXMAN, d, NULL));
+     xaw_set_bitmap(econ_label[d], sprites.tax_gold->pixmap);
  
   update_timeout_label();
 }

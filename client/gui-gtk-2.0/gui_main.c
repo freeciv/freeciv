@@ -803,7 +803,6 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(ebox), table2);
   
   for (i = 0; i < 10; i++) {
-    enum citizen_type c = i < 5 ? CITIZEN_SCIENTIST : CITIZEN_TAXMAN;
     ebox = gtk_event_box_new();
     gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
 
@@ -812,7 +811,7 @@ static void setup_widgets(void)
     g_signal_connect(ebox, "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
 
-    sprite = get_citizen_sprite(c, i, NULL);
+    sprite = i < 5 ? sprites.tax_science : sprites.tax_gold;
     econ_label[i] = gtk_image_new_from_pixmap(sprite->pixmap, sprite->mask);
     gtk_container_add(GTK_CONTAINER(ebox), econ_label[i]);
   }

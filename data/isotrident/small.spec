@@ -68,6 +68,12 @@ tiles = { "row", "column", "tag"
   0, 40, "s.cooling_flake_6"
   0, 41, "s.cooling_flake_7"
 
+; Panel tax icons
+
+  0, 23, "s.tax_luxury"
+  0, 24, "s.tax_science"
+  0, 25, "s.tax_gold"
+
 ; Citizen icons:
 
   0, 23, "citizen.entertainer"
