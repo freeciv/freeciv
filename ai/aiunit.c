@@ -2295,8 +2295,8 @@ static bool ai_ferry_findcargo(struct unit *punit)
     } unit_list_iterate_end;
   }
 
-  freelog(LOG_ERROR, "AI Passengers counting reported false positive %d",
-          passengers);
+  UNIT_LOG(LOG_ERROR, punit,
+           "AI Passengers counting reported false positive %d", passengers);
   pf_destroy_map(map);
   return FALSE;
 }
@@ -2342,31 +2342,32 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   }
 
   if (punit->ai.passenger <= 0) {
-    struct unit *bodyguard = NULL;
+    struct unit *candidate = NULL;
     
-    /* Try to select passanger-in-charge from among their passengers */
+    /* Try to select passanger-in-charge from among our passengers */
     unit_list_iterate(ptile->units, aunit) {
-      if (aunit->ai.ferryboat != punit->id) {
+      if (aunit->ai.ferryboat != punit->id 
+          && aunit->ai.ferryboat != FERRY_WANTED) {
         continue;
       }
       
       if (aunit->ai.ai_role != AIUNIT_ESCORT) {
-        /* Bodyguards shouldn't be in charge of boats... */
-        UNIT_LOG(LOGLEVEL_FERRY, punit, 
-                 "appointed %s[%d] our passenger-in-charge",
-                 unit_type(aunit)->name, aunit->id);
-        punit->ai.passenger = aunit->id;
+        candidate = aunit;
         break;
       } else {
-        bodyguard = aunit;
+        /* Bodyguards shouldn't be in charge of boats so continue looking */
+        candidate = aunit;
       }
     } unit_list_iterate_end;
     
-    if (punit->ai.passenger <= 0 && bodyguard) {
+    if (candidate) {
       UNIT_LOG(LOGLEVEL_FERRY, punit, 
-               "has to take %s[%d] as our passenger-in-charge",
-               unit_type(bodyguard)->name, bodyguard->id);
-      punit->ai.passenger = bodyguard->id;
+               "appointed %s[%d] our passenger-in-charge",
+               unit_type(candidate)->name, candidate->id);
+      if (candidate->ai.ferryboat == FERRY_WANTED) {
+        ai_set_ferry(candidate, punit);
+      }
+      ai_set_passenger(punit, candidate);
     }
   }
 
