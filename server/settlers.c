@@ -975,7 +975,7 @@ static int evaluate_city_building(struct unit *punit,
 	 build a city at Y */
       moves *= 2;
       /* and then build its NEXT city halfway between X and Y. -- Syela */
-      b = city_desirability(pplayer, x, y) * (ai_fuzzy(pplayer, TRUE) ? 1 : 0);
+      b = city_desirability(pplayer, x, y);
       newv = amortize(b, moves);
 
       b = (food_upkeep * FOOD_WEIGHTING) * MORT;
@@ -1261,8 +1261,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
    * if so, modify: gx, gy, best_newv, best_act
    */
   if (unit_flag(punit, F_CITIES) &&
-      pplayer->ai.control &&
-      ai_fuzzy(pplayer, TRUE)) {    /* don't want to make cities otherwise */
+      pplayer->ai.control) {
     int nx, ny;
     int want = evaluate_city_building(punit, &nx, &ny, &ferryboat);
 
@@ -1287,7 +1286,8 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   if (unit_flag(punit, F_CITIES) &&
       best_act == ACTIVITY_UNKNOWN /* flag */) {
     punit->ai.ai_role = AIUNIT_BUILD_CITY;
-    /* FIXME: is the unit taken off the minimap if it dies? */
+    /* FIXME: is the unit taken off the minimap if it dies?
+     * Or if he decides to build a road instead? */
     add_city_to_minimap(gx, gy);
   } else {
     punit->ai.ai_role = AIUNIT_AUTO_SETTLER;

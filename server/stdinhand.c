@@ -1645,7 +1645,7 @@ compared to defaults.  0 means _never_ build new cities, > 100 means to
 **************************************************************************/
 static int expansionism_of_skill_level(int level)
 {
-  int x[11] = { -1, 100, 100, 30/*easy*/, 100, 100, 100, 100, 100, 100, 100 };
+  int x[11] = { -1, 100, 100, 10/*easy*/, 100, 100, 100, 100, 100, 100, 100 };
   
   assert(level>0 && level<=10);
   return x[level];
