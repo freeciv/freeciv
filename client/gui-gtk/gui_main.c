@@ -596,12 +596,12 @@ void ui_main(int argc, char **argv)
   gtk_set_locale();
 #endif
 
-  /* Load resources */
-  gtk_rc_parse_string(fallback_resources);
-
   /* GTK withdraw gtk options */
   /* Process GTK arguments */
   gtk_init(&argc, &argv);
+
+  /* Load resources */
+  gtk_rc_parse_string(fallback_resources);
 
   homedir = g_get_home_dir();	/* should i gfree() this also? --vasc */
   rc_file = g_strdup_printf("%s%s%s", homedir, G_DIR_SEPARATOR_S, "freeciv.rc");
