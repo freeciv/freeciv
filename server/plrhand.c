@@ -375,6 +375,82 @@ void demographics_report(struct player *pplayer)
   page_player(pplayer, "Demographics Report.       ", buffer);
 }
 
+/* create a log file of the civilizations so you can see what was happening */
+log_civ_score()
+{
+  int i,j,fom; /* fom == figure-of-merit */
+  static FILE *fp = NULL;
+  struct unit *punit;
+
+  if (fp == NULL)
+    {
+      if (game.year > 4000)
+	fp = fopen("civscore.log","a");
+      else
+	{
+	  fp = fopen("civscore.log","w");
+	  if (fp == NULL)
+	    return;
+	  fprintf(fp,"0 pop\n");
+	  fprintf(fp,"1 bnp\n");
+	  fprintf(fp,"2 mfg\n");
+	  fprintf(fp,"3 cities\n");
+	  fprintf(fp,"4 techs\n");
+	  fprintf(fp,"5 munits\n");
+	  fprintf(fp,"6 settlers\n");
+	  fprintf(fp,"end\n");
+	  for (j = 0;j < game.nplayers;j++)
+	    fprintf(fp,"%d %s\n",j,game.players[j].name);
+	  fprintf(fp,"end\n");
+	}
+    }
+
+  if (fp == NULL)
+    return;
+
+  for (i = 0;i <= 6;i++) {
+    for (j = 0;j < game.nplayers;j++) {
+      switch (i) {
+      case 0:
+	fom = total_player_citizens(&game.players[j]);
+	break;
+      case 1:
+	fom = game.players[j].score.bnp;
+	break;
+      case 2:
+	fom = game.players[j].score.mfg;
+	break;
+      case 3:
+	fom = game.players[j].score.cities;
+	break;
+      case 4:
+	fom = game.players[j].score.techs;
+	break;
+      case 5:
+	fom = 0;
+	/* count up military units */
+	unit_list_iterate(game.players[j].units, punit) 
+	  if (is_military_unit(punit))
+	    fom++;
+	unit_list_iterate_end;
+	break;
+      case 6:
+	fom = 0;
+	/* count up settlers */
+	unit_list_iterate(game.players[j].units, punit) 
+	  if (unit_flag(punit->type,F_SETTLERS))
+	    fom++;
+	unit_list_iterate_end;
+	break;
+      }
+
+      fprintf(fp,"%d %d %d %d\n",i,j,game.year,fom);
+    }
+  }
+
+  fflush(fp);
+}
+
 void make_history_report()
 {
   static int report=0;
@@ -382,6 +458,9 @@ void make_history_report()
   int i;
   for (i=0;i<game.nplayers;i++) 
     civ_score(&game.players[i]);
+
+  if (game.scorelog)
+    log_civ_score();
 
   if (game.nplayers==1)
     return;

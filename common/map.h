@@ -302,4 +302,8 @@ int map_build_mine_time(int x, int y);
 #define GAME_MIN_CIVSTYLE            1
 #define GAME_MAX_CIVSTYLE            2
 
+#define GAME_DEFAULT_SCORELOG        0
+#define GAME_MIN_SCORELOG            0
+#define GAME_MAX_SCORELOG            1
+
 #endif

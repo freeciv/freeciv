@@ -69,6 +69,7 @@ struct civ_game {
   int foodbox;
   int techpenalty;
   int razechance;
+  int scorelog;
 };
 
 struct lvldat {

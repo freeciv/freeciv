@@ -181,6 +181,10 @@ struct proto_settings settings[] = {
     &game.aifill, 1,
     GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL},
 
+  { "scorelog", "Log each players statistics to generate graphs",
+    &game.scorelog, 1,
+    GAME_MIN_SCORELOG, GAME_MAX_SCORELOG, GAME_DEFAULT_SCORELOG},
+
   { NULL, NULL, NULL, 0, 0, 0}
 };
 
