@@ -112,6 +112,24 @@ static int greed(int missing_love)
   }
 }
 
+/****************************************************************************
+  Convert clause into diplomatic state
+****************************************************************************/
+static enum diplstate_type pact_clause_to_diplstate_type(enum clause_type type)
+{
+  switch(type) {
+    case CLAUSE_ALLIANCE:
+	return DS_ALLIANCE;
+    case CLAUSE_PEACE:
+        return DS_PEACE;
+    case CLAUSE_CEASEFIRE:
+	return DS_CEASEFIRE;
+    default:
+	assert(0);
+	return DS_WAR;
+  }
+}
+
 /********************************************************************** 
   How much is a tech worth to player measured in gold
 ***********************************************************************/
@@ -230,12 +248,15 @@ static int compute_tech_sell_price(struct player* giver, struct player* taker,
   Evaluate gold worth of a single clause in a treaty. Note that it
   sometimes matter a great deal who is giving what to whom, and
   sometimes (such as with treaties) it does not matter at all.
+  ds_after means a pact offered in the same treaty or current diplomatic
+  state
 ***********************************************************************/
 static int ai_goldequiv_clause(struct player *pplayer, 
                                struct player *aplayer,
                                struct Clause *pclause,
                                struct ai_data *ai,
-                               bool verbose)
+                               bool verbose,
+			       enum diplstate_type ds_after)
 {
   int worth = 0; /* worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
@@ -452,7 +473,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
 
   case CLAUSE_VISION:
     if (give) {
-      if (pplayers_allied(pplayer, aplayer)) {
+      if (pplayers_allied(pplayer, aplayer) || ds_after == DS_ALLIANCE) {
         if (!shared_vision_is_safe(pplayer, aplayer)) {
           notify(aplayer, _("*%s (AI)* Sorry, sharing vision with you "
 	                    "is not safe."),
@@ -471,7 +492,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
     break;
   case CLAUSE_EMBASSY:
     if (give) {
-      if (pplayers_in_peace(pplayer, aplayer)) {
+      if (ds_after == DS_PEACE || ds_after == DS_ALLIANCE) {
         worth = 0;
       } else {
         worth = -BIG_NUMBER; /* No. */
@@ -496,18 +517,24 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
                         struct Treaty *ptreaty)
 {
   int total_balance = 0;
-  bool has_treaty = FALSE;
   bool only_gifts = TRUE;
   struct ai_data *ai = ai_data_get(pplayer);
+  enum diplstate_type ds_after =
+    pplayer_get_diplstate(pplayer, aplayer)->type;
 
   assert(!is_barbarian(pplayer));
-
+  
+  clause_list_iterate(ptreaty->clauses, pclause) {
+    if (is_pact_clause(pclause->type)) {
+      ds_after = pact_clause_to_diplstate_type(pclause->type);
+    }
+  } clause_list_iterate_end;
+  
   /* Evaluate clauses */
   clause_list_iterate(ptreaty->clauses, pclause) {
-    total_balance += ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE);
-    if (is_pact_clause(pclause->type)) {
-      has_treaty = TRUE;
-    }
+    total_balance +=
+      ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE, ds_after);
+    
     if (pclause->type != CLAUSE_GOLD && pclause->type != CLAUSE_MAP
         && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
         && (pclause->type != CLAUSE_ADVANCE 
@@ -524,7 +551,7 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
 
   /* If we are at war, and no peace is offered, then no deal, unless
    * it is just gifts, in which case we gratefully accept. */
-  if (pplayers_at_war(pplayer, aplayer) && !has_treaty && !only_gifts) {
+  if (ds_after == DS_WAR && !only_gifts) {
     return;
   }
 
@@ -581,12 +608,21 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
   int total_balance = 0;
   bool gift = TRUE;
   struct ai_data *ai = ai_data_get(pplayer);
+  enum diplstate_type ds_after =
+    pplayer_get_diplstate(pplayer, aplayer)->type;
 
   assert(pplayer != aplayer);
+  
+  clause_list_iterate(ptreaty->clauses, pclause) {
+    if (is_pact_clause(pclause->type)) {
+      ds_after = pact_clause_to_diplstate_type(pclause->type);
+    }
+  } clause_list_iterate_end;
 
   /* Evaluate clauses */
   clause_list_iterate(ptreaty->clauses, pclause) {
-    int balance = ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE);
+    int balance =
+      ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE, ds_after);
 
     total_balance += balance;
     gift = (gift && (balance >= 0));
@@ -1261,7 +1297,8 @@ void ai_diplomacy_actions(struct player *pplayer)
 
     case DS_PEACE:
       clause.type = CLAUSE_ALLIANCE;
-      if (ai_goldequiv_clause(pplayer, aplayer, &clause, ai, FALSE) < 0
+      if (ai_goldequiv_clause(pplayer, aplayer,
+                              &clause, ai, FALSE, DS_ALLIANCE) < 0
           || (adip->asked_about_alliance > 0 && !aplayer->ai.control)
           || !target) {
         /* Note that we don't ever ask for alliance unless we have a target */
@@ -1276,7 +1313,8 @@ void ai_diplomacy_actions(struct player *pplayer)
     case DS_CEASEFIRE:
     case DS_NEUTRAL:
       clause.type = CLAUSE_PEACE;
-      if (ai_goldequiv_clause(pplayer, aplayer, &clause, ai, FALSE) < 0
+      if (ai_goldequiv_clause(pplayer, aplayer, &clause,
+                              ai, FALSE, CLAUSE_PEACE) < 0
           || (adip->asked_about_peace > 0 && !aplayer->ai.control)
           || !target) {
         /* Note that we don't ever ask for peace unless we have a target */
@@ -1291,7 +1329,8 @@ void ai_diplomacy_actions(struct player *pplayer)
     case DS_NO_CONTACT: /* but we do have embassy! weird. */
     case DS_WAR:
       clause.type = CLAUSE_CEASEFIRE;
-      if (ai_goldequiv_clause(pplayer, aplayer, &clause, ai, FALSE) < 0
+      if (ai_goldequiv_clause(pplayer, aplayer,
+                              &clause, ai, FALSE, CLAUSE_CEASEFIRE) < 0
           || (adip->asked_about_ceasefire > 0 && !aplayer->ai.control)
           || !target) {
         break; /* Fight until the end! */
