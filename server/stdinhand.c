@@ -69,7 +69,7 @@ static void show_list(struct connection *caller, char *arg);
 static void show_connections(struct connection *caller);
 static void set_ai_level(struct connection *caller, char *name, int level);
 
-static char horiz_line[] =
+static const char horiz_line[] =
 "------------------------------------------------------------------------------";
 
 /* The following classes determine what can be changed when.
@@ -854,7 +854,7 @@ enum command_id {
   CMD_AMBIGUOUS		/* used as a possible iteration result */
 };
 
-static struct command commands[] = {
+static const struct command commands[] = {
   {"start",	ALLOW_CTRL,
    "start",
    N_("Start the game, or restart after loading a savegame."),
@@ -2113,11 +2113,9 @@ static int lookup_option(const char *name)
 {
   enum m_pre_result result;
   int ind;
-  static int num = 0;		/* number of options */
 
-  while (settings[num].name!=NULL) num++;
-
-  result = match_prefix(optname_accessor, num, 0, mystrncasecmp, name, &ind);
+  result = match_prefix(optname_accessor, SETTINGS_NUM, 0, mystrncasecmp,
+			name, &ind);
 
   return ((result < M_PRE_AMBIGUOUS) ? ind :
 	  (result == M_PRE_AMBIGUOUS) ? -2 : -1);
@@ -2834,7 +2832,7 @@ static void show_help_command(struct connection *caller,
 			      enum command_id help_cmd,
 			      enum command_id id)
 {
-  struct command *cmd = &commands[id];
+  const struct command *cmd = &commands[id];
   
   if (cmd->short_help) {
     cmd_reply(help_cmd, caller, C_COMMENT,
@@ -3414,7 +3412,7 @@ static int is_command(int start)
 /**************************************************************************
 Commands that may be followed by a player name
 **************************************************************************/
-int player_cmd[] = {
+static const int player_cmd[] = {
   CMD_CUT,
   CMD_RENAME,
   CMD_AITOGGLE,
@@ -3474,7 +3472,7 @@ static int is_player(int start)
 /**************************************************************************
 Commands that may be followed by a server option name
 **************************************************************************/
-int server_option_cmd[] = {
+static const int server_option_cmd[] = {
   CMD_EXPLAIN,
   CMD_SET,
   CMD_SHOW,
@@ -3508,7 +3506,7 @@ static int is_rulesout(int start)
 /**************************************************************************
 Commands that may be followed by a filename
 **************************************************************************/
-int filename_cmd[] = {
+static const int filename_cmd[] = {
   CMD_SAVE,
   CMD_READ_SCRIPT,
   CMD_WRITE_SCRIPT,
