@@ -1446,8 +1446,14 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
   }
 
   /* Draw the goto lines on top of the whole thing. This is done last as
-   * we want it completely on top. */
-  gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
+   * we want it completely on top.
+   *
+   * Note that a pixel right on the border of a tile may actually contain a
+   * goto line from an adjacent tile.  Thus we draw any extra goto lines
+   * from adjacent tiles (if they're close enough). */
+  gui_rect_iterate(gui_x0 - GOTO_WIDTH, gui_y0 - GOTO_WIDTH,
+		   width + 2 * GOTO_WIDTH, height + 2 * GOTO_WIDTH,
+		   map_x, map_y, draw) {
     if (((draw & D_B) || (draw & D_M))
 	&& normalize_map_pos(&map_x, &map_y)) {
       adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
@@ -1670,7 +1676,7 @@ void draw_segment(int src_x, int src_y, enum direction8 dir)
 **************************************************************************/
 void undraw_segment(int src_x, int src_y, int dir)
 {
-  int dest_x, dest_y;
+  int dest_x, dest_y, canvas_x, canvas_y, canvas_dx, canvas_dy;
 
   assert(!is_drawn_line(src_x, src_y, dir));
 
@@ -1678,26 +1684,17 @@ void undraw_segment(int src_x, int src_y, int dir)
     assert(0);
   }
 
-  refresh_tile_mapcanvas(src_x, src_y, FALSE);
-  refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
+  /* Note that if source and dest tiles are not adjacent (because the
+   * mapview wraps around) this will not give the correct behavior.  This is
+   * consistent with the current design which fails when the size of the
+   * mapview approaches the size of the map. */
+  (void) map_to_canvas_pos(&canvas_x, &canvas_y, src_x, src_y);
+  map_to_gui_vector(&canvas_dx, &canvas_dy, DIR_DX[dir], DIR_DY[dir]);
 
-  if (!is_isometric) {
-    if (NORMAL_TILE_WIDTH % 2 == 0 || NORMAL_TILE_HEIGHT % 2 == 0) {
-      if (dir == DIR8_NORTHEAST) {
-	/* Since the tile doesn't have a middle we draw an extra pixel
-	 * on the adjacent tile when drawing in this direction. */
-	if (!MAPSTEP(dest_x, dest_y, src_x, src_y, DIR8_EAST)) {
-	  assert(0);
-	}
-	refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
-      } else if (dir == DIR8_SOUTHWEST) {	/* the same */
-	if (!MAPSTEP(dest_x, dest_y, src_x, src_y, DIR8_SOUTH)) {
-	  assert(0);
-	}
-	refresh_tile_mapcanvas(dest_x, dest_y, FALSE);
-      }
-    }
-  }
+  update_map_canvas(MIN(canvas_x, canvas_x + canvas_dx),
+		    MIN(canvas_y, canvas_y + canvas_dy),
+		    ABS(canvas_dx) + NORMAL_TILE_WIDTH,
+		    ABS(canvas_dy) + NORMAL_TILE_HEIGHT);
 }
 
 /****************************************************************************
