@@ -17,6 +17,8 @@
 
 #include <stdio.h>
 
+#include "fciconv.h"
+
 #include "options.h"
 
 #include "gui_main.h"
@@ -44,7 +46,7 @@ void ui_init(void)
 void ui_main(int argc, char *argv[])
 {
   /* PORTME */
-  fprintf(stderr, "Freeciv rules!\n");
+  fc_fprintf(stderr, "Freeciv rules!\n");
 }
 
 /**************************************************************************

@@ -182,19 +182,21 @@ void ui_main(int argc, char *argv[])
 
   while (i < argc) {
     if (is_option("--help", argv[i])) {
-      fprintf(stderr, _("  -d, --dump\t\tEnable screen dumper\n"));
+      fc_fprintf(stderr, _("  -d, --dump\t\tEnable screen dumper\n"));
       if (be_supports_fullscreen()) {
-	fprintf(stderr,
-		_("  -f, --fullscreen\tSwitch to full-screen at start\n"));
+	fc_fprintf(stderr,
+		   _("  -f, --fullscreen\t"
+		     "Switch to full-screen at start\n"));
       }
-      fprintf(stderr, _("  -h, --help\t\tThis list\n"));
-      fprintf(stderr,
-	      _
-	      ("  -r, --res <res>\tUse the given resolution [Default: %s]\n"),
-	      DEFAULT_RESOLUTION);
-      fprintf(stderr,
-	      _("  -t, --theme <name>\tUse the given theme [Default: %s]\n"),
-	      DEFAULT_THEME);
+      fc_fprintf(stderr, _("  -h, --help\t\tThis list\n"));
+      fc_fprintf(stderr,
+		 _("  -r, --res <res>\t"
+		   "Use the given resolution [Default: %s]\n"),
+		 DEFAULT_RESOLUTION);
+      fc_fprintf(stderr,
+		 _("  -t, --theme <name>\t"
+		   "Use the given theme [Default: %s]\n"),
+		 DEFAULT_THEME);
       exit(EXIT_SUCCESS);
     } else if (is_option("--dump", argv[i])) {
       freelog(LOG_NORMAL, "enabling screen dumper");

@@ -47,6 +47,7 @@
 #include <proto/usergroup.h>
 
 #include "capability.h"
+#include "fciconv.h"
 #include "fcintl.h"
 #include "mem.h"
 #include "netintf.h"
@@ -104,7 +105,7 @@ const int num_gui_options = ARRAY_SIZE(gui_options);
 static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
-  fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS); 
+  fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS); 
 }
 
 /**************************************************************************

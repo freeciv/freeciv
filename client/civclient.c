@@ -173,37 +173,42 @@ int main(int argc, char *argv[])
      argv[1 + ui_options] = argv[i];
      ui_options++;
    } else if (is_option("--help", argv[i])) {
-    fprintf(stderr, _("Usage: %s [option ...]\n"
+    fc_fprintf(stderr, _("Usage: %s [option ...]\n"
 		      "Valid options are:\n"), argv[0]);
-    fprintf(stderr, _("  -a, --autoconnect\tSkip connect dialog\n"));
+    fc_fprintf(stderr, _("  -a, --autoconnect\tSkip connect dialog\n"));
 #ifdef DEBUG
-    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
+    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
                                   " or 4:file1,min,max:...)\n"));
 #else
-    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
+    fc_fprintf(stderr,
+	       _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
 #endif
-    fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
-    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile "
+    fc_fprintf(stderr,
+	       _("  -h, --help\t\tPrint a summary of the options\n"));
+    fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile "
                       "(spawned server also uses this)\n"));
-    fprintf(stderr, _("  -m, --meta HOST\t"
+    fc_fprintf(stderr, _("  -m, --meta HOST\t"
 		      "Connect to the metaserver at HOST\n"));
-    fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
-    fprintf(stderr, _("  -p, --port PORT\tConnect to server port PORT\n"));
-    fprintf(stderr, _("  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"),
+    fc_fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
+    fc_fprintf(stderr,
+	       _("  -p, --port PORT\tConnect to server port PORT\n"));
+    fc_fprintf(stderr,
+	       _("  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"),
 	    audio_get_all_plugin_names());
-    fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE "
+    fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE "
                       "(for spawned server only)\n"));
-    fprintf(stderr, _("  -s, --server HOST\tConnect to the server at HOST\n"));
-    fprintf(stderr, _("  -S, --Sound FILE\tRead sound tags from FILE\n"));
-    fprintf(stderr, _("  -t, --tiles FILE\t"
+    fc_fprintf(stderr,
+	       _("  -s, --server HOST\tConnect to the server at HOST\n"));
+    fc_fprintf(stderr, _("  -S, --Sound FILE\tRead sound tags from FILE\n"));
+    fc_fprintf(stderr, _("  -t, --tiles FILE\t"
 		      "Use data file FILE.tilespec for tiles\n"));
-    fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-    fprintf(stderr, _("      --\t\t"
+    fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+    fc_fprintf(stderr, _("      --\t\t"
 		      "Pass any following options to the UI.\n"
 		      "\t\t\tTry \"%s -- --help\" for more.\n"), argv[0]);
     exit(EXIT_SUCCESS);
    } else if (is_option("--version",argv[i])) {
-    fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
+    fc_fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
     exit(EXIT_SUCCESS);
    } else if ((option = get_option("--log",argv,&i,argc))) {
       logfile = mystrdup(option); /* never free()d */
@@ -235,7 +240,7 @@ int main(int argc, char *argv[])
    else if (is_option("--", argv[i])) {
      ui_separator = TRUE;
    } else { 
-      fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
+      fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       exit(EXIT_FAILURE);
    }
    i++;

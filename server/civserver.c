@@ -24,6 +24,7 @@
 #include <Dialogs.h>
 #endif
 
+#include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"
@@ -75,8 +76,8 @@ int main(int argc, char *argv[])
     else if ((option = get_option("--gamelog", argv, &inx, argc)))
       srvarg.gamelog_filename = option;
     else if (is_option("--nometa", argv[inx])) {
-      fprintf(stderr, _("Warning: the %s option is obsolete.  "
-			"Use -m to enable the metaserver.\n"), argv[inx]);
+      fc_fprintf(stderr, _("Warning: the %s option is obsolete.  "
+			   "Use -m to enable the metaserver.\n"), argv[inx]);
       showhelp = TRUE;
     } else if (is_option("--meta", argv[inx]))
       srvarg.metaserver_no_send = FALSE;
@@ -117,7 +118,7 @@ int main(int argc, char *argv[])
     } else if (is_option("--version", argv[inx]))
       showvers = TRUE;
     else {
-      fprintf(stderr, _("Error: unknown option '%s'\n"), argv[inx]);
+      fc_fprintf(stderr, _("Error: unknown option '%s'\n"), argv[inx]);
       showhelp = TRUE;
       break;
     }
@@ -125,7 +126,7 @@ int main(int argc, char *argv[])
   }
 
   if (showvers && !showhelp) {
-    fprintf(stderr, "%s \n", freeciv_name_version());
+    fc_fprintf(stderr, "%s \n", freeciv_name_version());
     exit(EXIT_SUCCESS);
   }
   con_write(C_VERSION, _("This is the server for %s"), freeciv_name_version());
@@ -133,33 +134,45 @@ int main(int argc, char *argv[])
 	    WEBSITE_URL);
 
   if (showhelp) {
-    fprintf(stderr, _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
-    fprintf(stderr, _("  -a  --auth\t\tEnable server authentication.\n"));
-    fprintf(stderr, _("  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"));
-    fprintf(stderr, _("  -N  --Newusers\tAllow new users to login if auth is enabled.\n"));
-    fprintf(stderr, _("  -b  --bind ADDR\tListen for clients on ADDR\n"));
+    fc_fprintf(stderr,
+	       _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
+    fc_fprintf(stderr, _("  -a  --auth\t\tEnable server authentication.\n"));
+    fc_fprintf(stderr, _("  -G  --Guests\t\tAllow guests to "
+			 "login if auth is enabled.\n"));
+    fc_fprintf(stderr, _("  -N  --Newusers\tAllow new users to "
+			 "login if auth is enabled.\n"));
+    fc_fprintf(stderr, _("  -b  --bind ADDR\tListen for clients on ADDR\n"));
 #ifdef DEBUG
-    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
+    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
 		      " or 4:file1,min,max:...)\n"));
 #else
-    fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
+    fc_fprintf(stderr,
+	       _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
 #endif
-    fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
-    fprintf(stderr, _("  -g, --gamelog FILE\tUse FILE as game logfile\n"));
-    fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
-    fprintf(stderr, _("  -i, --info INFO\tExtra info for the metaserver\n"));
-    fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
-    fprintf(stderr, _("  -m, --meta\t\tNotify metaserver and send server's info\n"));
-    fprintf(stderr, _("  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"));
+    fc_fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
+    fc_fprintf(stderr,
+	       _("  -g, --gamelog FILE\tUse FILE as game logfile\n"));
+    fc_fprintf(stderr,
+	       _("  -h, --help\t\tPrint a summary of the options\n"));
+    fc_fprintf(stderr,
+	       _("  -i, --info INFO\tExtra info for the metaserver\n"));
+    fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
+    fc_fprintf(stderr, _("  -m, --meta\t\tNotify metaserver and "
+			 "send server's info\n"));
+    fc_fprintf(stderr, _("  -M, --Metaserver ADDR\tSet ADDR "
+			 "as metaserver address\n"));
 
-    fprintf(stderr, _("  -p, --port PORT\tListen for clients on port PORT\n"));
-    fprintf(stderr, _("  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"));
-    fprintf(stderr, _("  -e, --exit-on-end\t"
+    fc_fprintf(stderr, _("  -p, --port PORT\tListen for clients on "
+			 "port PORT\n"));
+    fc_fprintf(stderr, _("  -q, --quitidle TIME\tQuit if no players "
+			 "for TIME seconds\n"));
+    fc_fprintf(stderr, _("  -e, --exit-on-end\t"
 		      "When a game ends, exit instead of restarting\n"));
-    fprintf(stderr, _("  -s, --saves DIR\tSave games to directory DIR\n"));
-    fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
-    fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-    fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+    fc_fprintf(stderr,
+	       _("  -s, --saves DIR\tSave games to directory DIR\n"));
+    fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
+    fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+    fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
     exit(EXIT_SUCCESS);
   }
 

@@ -43,14 +43,15 @@
 #include <SDL/SDL.h>
 
 #include "fcintl.h"
+#include "fciconv.h"
 #include "log.h"
-#include "game.h"
-#include "map.h"
+#include "shared.h"
+#include "support.h"
 
 #include "gui_mem.h"
 
-#include "shared.h"
-#include "support.h"
+#include "game.h"
+#include "map.h"
 #include "version.h"
 
 #include "gui_string.h"
@@ -150,9 +151,11 @@ const int num_gui_options = ARRAY_SIZE(gui_options);
 static void print_usage(const char *argv0)
 {
   /* add client-specific usage information here */
-  fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
-  fprintf(stderr, _("  -f,  --fullscreen\tStart Client in Fulscreen mode\n"));
-  fprintf(stderr, _("  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and BeOS)\n"));
+  fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+  fc_fprintf(stderr,
+	     _("  -f,  --fullscreen\tStart Client in Fulscreen mode\n"));
+  fc_fprintf(stderr, _("  -e,  --eventthread\tInit Event Subsystem in "
+		       "other thread (only Linux and BeOS)\n"));
 }
 
 /**************************************************************************
