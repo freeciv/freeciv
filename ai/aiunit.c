@@ -258,7 +258,6 @@ int ai_manage_explorer(struct unit *punit)
   /* BEGIN PART ONE: Look for huts.  Non-Barbarian Ground units ONLY. */
   if (!is_barbarian(pplayer)
       && is_ground_unit(punit)) { /* boats don't hunt huts */
-    int x1, y1;
     int maxcost = pplayer->ai.control ? 2 * THRESHOLD : 3;
     int bestcost = maxcost * 3 + 1;
 
@@ -304,7 +303,6 @@ int ai_manage_explorer(struct unit *punit)
   while (punit->moves_left) {
     int most_unknown = 0;
     int unknown;
-    int x1, y1, x2, y2;
     int landnear;
 
     /* evaluate all adjacent tiles */
@@ -359,7 +357,6 @@ int ai_manage_explorer(struct unit *punit)
 	  && !is_non_allied_unit_tile(ptile, punit->owner)
 	  && !is_non_allied_city_tile(ptile, punit->owner)
 	  && tile_is_accessible(punit, x1, y1)) {
-	int x2, y2;
 	square_iterate(x1, y1, range, x2, y2) {
 	  if (!map_get_known(x2, y2, pplayer))
 	    unknown++;

@@ -272,6 +272,7 @@ extern struct tile_type tile_types[T_LAST];
 */
 #define iterate_outward(ARG_start_x, ARG_start_y, ARG_max_dist, ARG_x_itr, ARG_y_itr) \
 {                                                                             \
+  int ARG_x_itr, ARG_y_itr;                                                   \
   int MACRO_max_dx = map.xsize/2;                                             \
   int MACRO_min_dx = -(MACRO_max_dx - (map.xsize%2 ? 0 : 1));                 \
   int MACRO_xcycle = 1;                                                       \
@@ -323,6 +324,7 @@ extern struct tile_type tile_types[T_LAST];
  */
 #define square_iterate(SI_center_x, SI_center_y, radius, SI_x_itr, SI_y_itr)  \
 {                                                                             \
+  int SI_x_itr, SI_y_itr;                                                     \
   int SI_x_itr1;                                                              \
   for (SI_y_itr = (SI_center_y) - (radius);                                   \
        SI_y_itr <= (SI_center_y) + (radius); SI_y_itr++) {                    \
@@ -340,6 +342,7 @@ extern struct tile_type tile_types[T_LAST];
 /* Iterate through all tiles adjacent to a tile */
 #define adjc_iterate(RI_center_x, RI_center_y, RI_x_itr, RI_y_itr)            \
 {                                                                             \
+  int RI_x_itr, RI_y_itr;                                                     \
   int RI_x_itr1;                                                              \
   for (RI_y_itr = RI_center_y - 1;                                            \
        RI_y_itr <= RI_center_y + 1; RI_y_itr++) {                             \

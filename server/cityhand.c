@@ -749,7 +749,6 @@ void send_player_cities(struct player *pplayer)
 **************************************************************************/
 static void send_adjacent_cities(struct city *pcity)
 {
-  int x, y;
   square_iterate(pcity->x, pcity->y, CITY_MAP_SIZE-1, x, y) {
     struct city *pcity2 = map_get_city(x, y);
     if (pcity2 && pcity2 != pcity) {

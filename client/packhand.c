@@ -250,7 +250,6 @@ void handle_game_state(struct packet_generic_integer *packet)
       center_tile_mapcanvas(punit->x, punit->y);
     } else {
       /* Just any known tile will do; search near the middle first. */
-      int x, y;
       iterate_outward(map.xsize/2, map.ysize/2,
 		      MAX(map.xsize/2, map.ysize/2),
 		      x, y) {

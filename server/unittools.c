@@ -837,7 +837,6 @@ void player_restore_units(struct player *pplayer)
       if (punit->fuel == 1
 	  && !is_airunit_refuel_point(punit->x, punit->y,
 				      punit->owner, punit->type, 1)) {
-	int x_itr, y_itr;
 	iterate_outward(punit->x, punit->y, punit->moves_left/3, x_itr, y_itr) {
 	  if (is_airunit_refuel_point(x_itr, y_itr, punit->owner, punit->type, 0)
 	      && (air_can_move_between(punit->moves_left/3, punit->x, punit->y,
@@ -2796,7 +2795,6 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 *****************************************************************/
 static void wakeup_neighbor_sentries(struct unit *punit)
 {
-  int x, y;
   /* There may be sentried units with a sightrange>3, but we don't
      wake them up if the punit is farther away than 3. */
   square_iterate(punit->x, punit->y, 3, x, y) {

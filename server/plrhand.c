@@ -1294,8 +1294,6 @@ void make_contact(int player1, int player2, int x, int y)
 **************************************************************************/
 void maybe_make_first_contact(int x, int y, int playerid)
 {
-  int x_itr, y_itr;
-
   square_iterate(x, y, 1, x_itr, y_itr) {
     struct tile *ptile = map_get_tile(x_itr, y_itr);
     struct city *pcity = ptile->city;

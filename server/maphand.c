@@ -463,7 +463,6 @@ static void really_unfog_area(struct player *pplayer, int x, int y)
 **************************************************************************/
 void unfog_area(struct player *pplayer, int x, int y, int len)
 {
-  int abs_x, abs_y;
   int playerid = pplayer->player_no;
   /* Did the tile just become visible?
      - send info about units and cities and the tile itself */
@@ -496,8 +495,6 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 static void send_NODRAW_tiles(struct player *pplayer, struct conn_list *dest,
 			      int x, int y, int len)
 {
-  int abs_x,abs_y;
-  
   conn_list_do_buffer(dest);
   square_iterate(x, y, len+1, abs_x, abs_y) {
     if (!map_get_sent(abs_x, abs_y, pplayer)) {
@@ -529,7 +526,6 @@ static void really_fog_area(struct player *pplayer, int x, int y)
 **************************************************************************/
 void fog_area(struct player *pplayer, int x, int y, int len)
 {
-  int abs_x, abs_y;
   int playerid = pplayer->player_no;
 
   buffer_shared_vision(pplayer);
@@ -718,8 +714,6 @@ Shows area, ie send terrain etc., even if still fogged, sans units and cities.
 **************************************************************************/
 void show_area(struct player *pplayer, int x, int y, int len)
 {
-  int abs_x, abs_y;
-
   buffer_shared_vision(pplayer);
   square_iterate(x, y, len, abs_x, abs_y) {
     /* the player himself */
