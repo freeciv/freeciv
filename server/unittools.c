@@ -2394,28 +2394,6 @@ void assign_units_to_transporter(struct unit *ptrans, bool take_from_land)
   int capacity = get_transporter_capacity(ptrans);
   struct tile *ptile = map_get_tile(x, y);
 
-  /*** FIXME: We kludge AI compatability problems with the new code away here ***/
-  if (is_sailing_unit(ptrans)
-      && is_ground_units_transport(ptrans)
-      && unit_owner(ptrans)->ai.control) {
-    unit_list_iterate(ptile->units, pcargo) {
-      if (pcargo->owner == playerid) {
-	pcargo->transported_by = -1;
-      }
-    } unit_list_iterate_end;
-
-    unit_list_iterate(ptile->units, pcargo) {
-      if ((is_ocean(ptile->terrain) || pcargo->activity == ACTIVITY_SENTRY)
-	  && capacity > 0
-	  && is_ground_unit(pcargo)
-	  && pcargo->owner == playerid) {
-	pcargo->transported_by = ptrans->id;
-	capacity--;
-      }
-    } unit_list_iterate_end;
-    return;
-  }
-
   /*** Ground units transports first ***/
   if (is_ground_units_transport(ptrans)) {
     int available =
@@ -2974,6 +2952,17 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
   maybe_make_contact(dest_x, dest_y, unit_owner(punit));
 
   conn_list_do_unbuffer(&pplayer->connections);
+
+  if (is_ocean(map_get_terrain(src_x, src_y))
+      && ground_unit_transporter_capacity(src_x, src_y, pplayer) < 0) {
+    die("%s's %s (id %d) left a unit stranded in the ocean without a "
+        "transport at position (%d, %d). Capacity on old tile is %d "
+        " and %d on new tile, which is at position (%d, %d). ransport_units "
+        "is %s", pplayer->name, unit_name(punit->type), punit->id, src_x, src_y,
+        ground_unit_transporter_capacity(src_x, src_y, pplayer),
+        ground_unit_transporter_capacity(dest_x, dest_y, pplayer),
+        dest_x, dest_y, transport_units ? "true" : "false");
+  }
 
   if (map_has_special(dest_x, dest_y, S_HUT)) {
     return unit_enter_hut(punit);
