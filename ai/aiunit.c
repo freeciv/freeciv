@@ -748,11 +748,12 @@ int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y)
 	if (map_get_terrain(x2, y2) == T_OCEAN) {
 	  if (is_my_zoc(unit_owner(punit), x2, y2)) {
 	    ok++;
-	    break;		/* out of adjc_iterate */
+	    goto OK;		/* out of adjc_iterate */
 	  }
 	}
       }
       adjc_iterate_end;
+      OK:
 
       if (ok) { /* accessible beachhead with zoc-ok water tile nearby */
         ok = get_tile_type(t)->defense_bonus;
