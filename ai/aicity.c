@@ -136,13 +136,24 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
 static inline int city_want(struct player *pplayer, struct city *acity, 
                             struct ai_data *ai)
 {
-  int want = 0, prod[O_COUNT];
+  int want = 0, prod[O_COUNT], bonus[O_COUNT], waste[O_COUNT], i;
 
+  /* The below calculation mostly duplicates set_city_production(). */
   get_citizen_output(acity, prod); /* this also clears prod[] */
+  for (i = 0; i < NUM_TRADEROUTES; i++) {
+    prod[O_TRADE] += acity->trade_value[i];
+  }
+  prod[O_GOLD] += get_city_tithes_bonus(acity);
   output_type_iterate(o) {
-    prod[o] -= city_waste(acity, o, prod[o]);
+    bonus[o] = get_city_output_bonus(acity, o);
+    waste[o] = city_waste(acity, o, prod[o] * bonus[o] / 100);
   } output_type_iterate_end;
-  add_tax_income(pplayer, prod);
+  add_tax_income(pplayer,
+		 prod[O_TRADE] * bonus[O_TRADE] / 100 - waste[O_TRADE],
+		 prod);
+  output_type_iterate(o) {
+    prod[o] = prod[o] * bonus[o] / 100 - waste[o];
+  } output_type_iterate_end;
 
   built_impr_iterate(acity, i) {
     prod[O_GOLD] -= improvement_upkeep(acity, i);
@@ -152,21 +163,11 @@ static inline int city_want(struct player *pplayer, struct city *acity,
 
   want += prod[O_FOOD] * ai->food_priority;
   if (prod[O_SHIELD] != 0) {
-    want += ((prod[O_SHIELD] * get_city_output_bonus(acity, O_SHIELD)) / 100)
-            * ai->shield_priority;
+    want += prod[O_SHIELD] * ai->shield_priority;
     want -= city_pollution(acity, prod[O_SHIELD]) * ai->pollution_priority;
   }
-  if (prod[O_LUXURY] > 0) {
-    want += ((prod[O_LUXURY] * get_city_output_bonus(acity, O_LUXURY)) / 100)
-            * ai->luxury_priority;
-  }
-  if (prod[O_SCIENCE] > 0) {
-    want += ((prod[O_SCIENCE] * get_city_output_bonus(acity, O_SCIENCE)) / 100)
-            * ai->science_priority;
-  }
-  if (prod[O_GOLD] > 0) {
-    prod[O_GOLD] *= get_city_output_bonus(acity, O_GOLD) / 100;
-  }
+  want += prod[O_LUXURY] * ai->luxury_priority;
+  want += prod[O_SCIENCE] * ai->science_priority;
   want += prod[O_GOLD] * ai->gold_priority;
 
   return want;
