@@ -979,7 +979,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   struct tile *ptile;
   /* Our transport */
   struct unit *ferryboat = NULL;
-  /* Out target */
+  /* Our target */
   struct city *acity;
   /* Defender of the target city/tile */
   struct unit *pdef; 
@@ -1124,9 +1124,9 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
 
   if (best_choice.want > choice->want) {
-    /* We want attacker more that what we have selected before */
+    /* We want attacker more than what we have selected before */
     copy_if_better_choice(&best_choice, choice);
-    freelog(LOG_DEBUG, "%s has chosen attacker, %s, want=%d",
+    CITY_LOG(LOG_DEBUG, pcity, "ksw: %s has chosen attacker, %s, want=%d",
             pcity->name, unit_types[choice->choice].name, choice->want);
 
     if (go_by_boat && !ferryboat) { /* need a new ferry */
@@ -1190,7 +1190,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
   Impr_Type_id id;
 
   /* Sanity */
-  if (!is_unit_choice_type(choice->choice)) return;
+  if (!is_unit_choice_type(choice->type)) return;
   if (unit_type_flag(choice->choice, F_NONMIL)) return;
   if (do_make_unit_veteran(pcity, choice->choice)) return;
 
