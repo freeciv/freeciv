@@ -48,6 +48,7 @@
 #include "helpdlg.h"
 
 /* Amiga Client Stuff */
+#include "colortextclass.h"
 #include "mapclass.h"
 #include "objecttreeclass.h"
 #include "muistuff.h"
@@ -71,7 +72,8 @@ static Object *help_wonder_needs_button;	/* tech */
 static Object *help_wonder_obsolete_button;	/* tech */
 
 static Object *help_tech_group;	/* Allows tech with tech */
-static Object *help_tech_tree;	/* The tree of techs */
+static Object *help_tech_scrollgroup;   /* the Scrollgroup Object */
+static Object *help_tech_tree;	/* the tree of techs (inside the SgO) */
 
 static Object *help_unit_sprite;
 static Object *help_unit_cost_text;
@@ -155,7 +157,7 @@ static void help_topic_active(ULONG * newact)
 *****************************************************************/
 static void help_hyperlink(Object ** text_obj)
 {
-  char *s = (char *) xget(*text_obj, MUIA_Text_Contents);
+  char *s = (char *) xget(*text_obj, MUIA_Text_Contents); /* works also for ColorButtons */
   enum help_page_type type = (enum help_page_type) xget(*text_obj, MUIA_UserData);
 
   if (strcmp(s, _("(Never)")) && strcmp(s, _("None"))
@@ -195,24 +197,32 @@ static Object *MakeHelpButton(STRPTR label, enum help_page_type type)
 *****************************************************************/
 static Object *MakeHelpButtonTech(int tech)
 {
-  Object *button = MUI_MakeObject(MUIO_Button, advances[tech].name);
+  Object *button;
   ULONG bg;
 
   switch(get_invention(game.player_ptr, tech))
   {
   case TECH_KNOWN:
-    bg = MUII_FILL;
+    bg = 0x0000ff00; /* green */
     break;
   case TECH_REACHABLE:
-    bg = MUII_SHINE;
+    bg = 0x00ffff00; /* yellow */
     break;
   default: /* also TECH_UNKNOWN */
-    bg = MUII_ButtonBack;
+    bg = 0x00ff0000; /* red */
   }
+
+  button = ColorTextObject,
+    ButtonFrame,
+    MUIA_UserData, HELP_TECH,
+    MUIA_Weight, 0,
+    MUIA_ColorText_Background, bg,
+    MUIA_ColorText_Contents, advances[tech].name,
+    MUIA_InputMode, MUIV_InputMode_RelVerify,
+    End;
 
   if(button)
   {
-    SetAttrs(button, MUIA_UserData, HELP_TECH, MUIA_Weight, 0, MUIA_CycleChain, 1, MUIA_Background, bg, TAG_DONE);
     DoMethod(button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, button);
   }
   return button;
@@ -307,6 +317,7 @@ static void clear_page_objects(void)
     help_wonder_needs_button =
     help_wonder_obsolete_button =
     help_tech_group =
+    help_tech_scrollgroup =
     help_tech_tree =
     help_unit_sprite =
     help_unit_cost_text =
@@ -328,6 +339,7 @@ static void clear_page_objects(void)
 *****************************************************************/
 static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
 {
+  Object *o;
   APTR leaf = 0;
   ULONG bg;
 
@@ -342,38 +354,32 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
   switch(get_invention(game.player_ptr, tech))
   {
   case TECH_KNOWN:
-    bg = MUII_FILL;
+    bg = 0x0000ff00; /* green */
     break;
   case TECH_REACHABLE:
-    bg = MUII_SHINE;
+    bg = 0x00ffff00; /* yellow */
     break;
   default: /* also TECH_UNKNOWN */
-    bg = MUII_ButtonBack;
+    bg = 0x00ff0000; /* red */
   }
   
   sprintf(label,"%s:%d",advances[tech].name,
                         tech_goal_turns(game.player_ptr,tech));
 
-  if(parent)
+  o = ColorTextObject,
+      ButtonFrame,
+      MUIA_UserData, tech,
+      MUIA_Weight, 0,
+      MUIA_ColorText_Background, bg,
+      MUIA_ColorText_Contents, label,
+      MUIA_InputMode, MUIV_InputMode_RelVerify,
+      MUIA_CycleChain, 1,
+      End;
+
+  if(o)
   {
-    Object *o = MUI_MakeObject(MUIO_Button, label);
-    if(o)
-    {
-      SetAttrs(o, MUIA_CycleChain, 1, MUIA_Background, bg, TAG_DONE);
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, help_tree_leaf, o);
-      set(o,MUIA_UserData, tech);
-      leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,parent,o);
-    }
-  } else
-  {
-    Object *o = MUI_MakeObject(MUIO_Button, label);
-    if(o)
-    {
-      SetAttrs(o, MUIA_CycleChain, 1, MUIA_Background, bg, TAG_DONE);
-      DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, help_tree_leaf, o);
-      set(o,MUIA_UserData, tech);
-      leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
-    }
+    DoMethod(o, MUIM_Notify, MUIA_Pressed, FALSE, app, 7, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, help_tree_leaf, o);
+    leaf = (APTR)DoMethod(tree, MUIM_ObjectTree_AddNode,parent,o);
   }
   
   if(--levels>0) {
@@ -492,8 +498,8 @@ static void create_help_page(enum help_page_type type)
 	Child, help_tech_group = VGroup,
 	    Child, HSpace(0),
 	    End,
-	Child, help_tech_tree = ObjectTreeObject,
-            VirtualFrame,
+	Child, help_tech_scrollgroup = ScrollgroupObject,
+	    MUIA_Scrollgroup_Contents, help_tech_tree = ObjectTreeObject, VirtualFrame, End,
 	    End,
 	End;
       help_page_balance = BalanceObject,End;
@@ -789,7 +795,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	  }
 	}
 	DoMethod(help_page_group, OM_ADDMEMBER, help_tech_group);
-	DoMethod(help_page_group, MUIM_Group_Sort, help_tech_group, help_tech_tree, NULL);
+	DoMethod(help_page_group, MUIM_Group_Sort, help_tech_group, help_tech_scrollgroup, NULL);
       }
 
       DoMethod(help_right_group, MUIM_Group_ExitChange);

@@ -100,7 +100,7 @@ CLIENTGUIOBJS = $(OBJDIR)client/gui-mui/chatline.o $(OBJDIR)client/gui-mui/cityd
  $(OBJDIR)client/gui-mui/objecttreeclass.o $(OBJDIR)client/gui-mui/worklistclass.o \
  $(OBJDIR)client/gui-mui/overviewclass.o $(OBJDIR)client/gui-mui/mapclass.o \
  ${OBJDIR}client/gui-mui/scrollbuttonclass.o $(OBJDIR)client/gui-mui/historystringclass.o \
- $(OBJDIR)client/gui-mui/muistuff.o
+ ${OBJDIR}client/gzu-mui/colortextclass.o $(OBJDIR)client/gui-mui/muistuff.o
 CLIENTGUIDIRS  = IDIR=`cd` $(INCDIRS) IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}client/include IDIR=${FREECIV_DIR}client
 
 AMIGACLIENTOBJS = ${OBJDIR}amigaclient.o
@@ -486,6 +486,9 @@ ${OBJDIR}client/gui-mui/wldlg.o: ${CGP}wldlg.c
 
 ${OBJDIR}client/gui-mui/muistuff.o: ${CGP}muistuff.c
   ${CC} ${CCFLAGS} ${CGP}muistuff.c ${CLIENTGUIDIRS} ${TO}$@
+
+${OBJDIR}client/gui-mui/colortextclass.o: ${CGP}colortextclass.c
+  ${CC} ${CCFLAGS} ${CGP}colortextclass.c ${CLIENTGUIDIRS} ${TO}$@
 
 ${OBJDIR}client/gui-mui/overviewclass.o: ${CGP}overviewclass.c
   ${CC} ${CCFLAGS} ${CGP}overviewclass.c ${CLIENTGUIDIRS} ${TO}$@

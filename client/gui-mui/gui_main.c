@@ -78,6 +78,7 @@
 #include "wldlg.h"
 
 /* Amiga Client Stuff */
+#include "colortextclass.h"
 #include "historystringclass.h"
 #include "mapclass.h"
 #include "muistuff.h"
@@ -809,6 +810,7 @@ static void free_classes(void)
   delete_worklist_class();
   delete_scrollbutton_class();
   delete_historystring_class();
+  delete_colortext_class();
 }
 
 /****************************************************************
@@ -822,7 +824,8 @@ static int init_classes(void)
         if (create_worklist_class())
           if (create_scrollbutton_class())
 	    if (create_historystring_class())
-	      return TRUE;
+	      if (create_colortext_class())
+		return TRUE;
   return FALSE;
 }
 

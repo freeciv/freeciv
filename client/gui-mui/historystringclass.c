@@ -26,7 +26,6 @@
 #include <proto/intuition.h>
 #include <proto/muimaster.h>
 
-#include "scrollbuttonclass.h"
 #include "muistuff.h"
 
 #define INPUTLINE_MAXLINES 20
