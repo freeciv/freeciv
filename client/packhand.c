@@ -2428,13 +2428,16 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
     = p->celeb_shields_before_penalty;
   gov->celeb_output_before_penalty[O_FOOD] = p->celeb_food_before_penalty;
 
-  gov->trade_bonus         = p->trade_bonus;
-  gov->shield_bonus        = p->shield_bonus;
-  gov->food_bonus          = p->food_bonus;
+  memset(gov->output_inc_tile, 0, O_COUNT * sizeof(*gov->output_inc_tile));
+  gov->output_inc_tile[O_TRADE] = p->trade_bonus;
+  gov->output_inc_tile[O_SHIELD] = p->shield_bonus;
+  gov->output_inc_tile[O_FOOD] = p->food_bonus;
 
-  gov->celeb_trade_bonus   = p->celeb_trade_bonus;
-  gov->celeb_shield_bonus  = p->celeb_shield_bonus;
-  gov->celeb_food_bonus    = p->celeb_food_bonus;
+  memset(gov->celeb_output_inc_tile, 0,
+	 O_COUNT * sizeof(*gov->celeb_output_inc_tile));
+  gov->celeb_output_inc_tile[O_TRADE] = p->celeb_trade_bonus;
+  gov->celeb_output_inc_tile[O_SHIELD] = p->celeb_shield_bonus;
+  gov->celeb_output_inc_tile[O_FOOD] = p->celeb_food_bonus;
 
   gov->corruption_level    = p->corruption_level;
   gov->fixed_corruption_distance = p->fixed_corruption_distance;

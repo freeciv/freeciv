@@ -293,7 +293,9 @@ void ai_best_government(struct player *pplayer)
       if (government_has_flag(gov, G_FANATIC_TROOPS)) {
         bonus += 3; /* WAG */
       }
-      val += gov->trade_bonus + gov->shield_bonus + gov->food_bonus;
+      output_type_iterate(o) {
+	val += gov->output_inc_tile[o];
+      } output_type_iterate_end;
 
       val += (val * bonus) / 100;
 

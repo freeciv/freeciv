@@ -111,15 +111,11 @@ struct government
   int output_before_penalty[O_MAX];
   int celeb_output_before_penalty[O_MAX];
 
-  /* government production bonuses -- SKi */
-  int   trade_bonus;
-  int   shield_bonus;
-  int   food_bonus;
-
-  /* government production bonuses when celebrating */
-  int   celeb_trade_bonus;
-  int   celeb_shield_bonus;
-  int   celeb_food_bonus;
+  /* government production bonuses.  These act as an EFT_XXX_INC_TILE
+   * effect.  There are separate values for celebrating versus normal
+   * cities. */
+  int output_inc_tile[O_MAX];
+  int celeb_output_inc_tile[O_MAX];
 
   /* corruption modifiers -- SKi */
   int   corruption_level;

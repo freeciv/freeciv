@@ -1848,21 +1848,14 @@ static void load_ruleset_governments(struct section_file *file)
     g->waste_max_distance_cap
       = secfile_lookup_int_default(file, 36, "%s.waste_max_distance_cap", sec[i]); 
 
-    g->trade_bonus
-      = secfile_lookup_int(file, "%s.production_trade_bonus", sec[i]);
-    g->shield_bonus
-      = secfile_lookup_int(file, "%s.production_shield_bonus", sec[i]);
-    g->food_bonus
-      = secfile_lookup_int(file, "%s.production_food_bonus", sec[i]);
-
-    g->celeb_trade_bonus
-      = secfile_lookup_int(file, "%s.production_trade_bonus,1", sec[i]);
-    g->celeb_shield_bonus
-      = secfile_lookup_int(file, "%s.production_shield_bonus,1", sec[i]);
-    g->celeb_food_bonus
-      = secfile_lookup_int(file, "%s.production_food_bonus,1", sec[i]);
-
     output_type_iterate(o) {
+      g->output_inc_tile[o]
+	= secfile_lookup_int_default(file, 0, "%s.production_%s_bonus",
+				     sec[i], get_output_identifier(o));
+      g->celeb_output_inc_tile[o]
+	= secfile_lookup_int_default(file, 0, "%s.production_%s_bonus,1",
+				     sec[i], get_output_identifier(o));
+
       g->output_before_penalty[o]
 	= secfile_lookup_int_default(file, FC_INFINITY,
 				     "%s.production_%s_penalty", sec[i],
@@ -3035,13 +3028,13 @@ static void send_ruleset_governments(struct conn_list *dest)
       = g->celeb_output_before_penalty[O_SHIELD];
     gov.celeb_food_before_penalty = g->celeb_output_before_penalty[O_FOOD];
 
-    gov.trade_bonus = g->trade_bonus;
-    gov.shield_bonus = g->shield_bonus;
-    gov.food_bonus = g->food_bonus;
+    gov.trade_bonus = g->output_inc_tile[O_TRADE];
+    gov.shield_bonus = g->output_inc_tile[O_SHIELD];
+    gov.food_bonus = g->output_inc_tile[O_FOOD];
 
-    gov.celeb_trade_bonus = g->celeb_trade_bonus;
-    gov.celeb_shield_bonus = g->celeb_shield_bonus;
-    gov.celeb_food_bonus = g->celeb_food_bonus;
+    gov.celeb_trade_bonus = g->celeb_output_inc_tile[O_TRADE];
+    gov.celeb_shield_bonus = g->celeb_output_inc_tile[O_SHIELD];
+    gov.celeb_food_bonus = g->celeb_output_inc_tile[O_FOOD];
 
     gov.corruption_level = g->corruption_level;
     gov.fixed_corruption_distance = g->fixed_corruption_distance;
