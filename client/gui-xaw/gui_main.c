@@ -59,6 +59,7 @@
 #include <optiondlg.h>
 #include <spaceshipdlg.h>
 #include <repodlgs.h>
+#include <options.h>
 
 AppResources appResources;
 
@@ -101,7 +102,7 @@ XtResource resources[] = {
 /**************************************************************************
 ...
 **************************************************************************/
-static XrmOptionDescRec options[] = {
+static XrmOptionDescRec cmd_options[] = {
 /* { "-help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },*/
  { "-log",     ".log",         XrmoptionSepArg, (XPointer)"True" },
  { "-name",    ".name",        XrmoptionSepArg, (XPointer)"True" },
@@ -109,8 +110,8 @@ static XrmOptionDescRec options[] = {
  { "-server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
  { "-debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
  { "-tiles",   ".tileset",     XrmoptionSepArg, (XPointer)"True" },
-/* { "-version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" },
- { "--help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },*/
+/* { "-version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" },*/
+/* { "--help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },*/
  { "--log",     ".log",         XrmoptionSepArg, (XPointer)"True" },
  { "--name",    ".name",        XrmoptionSepArg, (XPointer)"True" },
  { "--port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
@@ -273,9 +274,10 @@ void ui_main(int argc, char *argv[])
   toplevel = XtVaAppInitialize(
 	       &app_context,               /* Application context */
 	       "Freeciv",                  /* application class name */
-	       options, XtNumber(options), /* command line option list */
+	       cmd_options, XtNumber(cmd_options),
+	                                   /* command line option list */
 	       &argc, argv,                /* command line args */
-	       &fallback_resources[1],      /* for missing app-defaults file */
+	       &fallback_resources[1],     /* for missing app-defaults file */
 	       XtNallowShellResize, True,
 	       NULL);              
 

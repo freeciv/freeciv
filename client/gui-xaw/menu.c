@@ -40,6 +40,7 @@
 #include <unit.h>
 #include <spaceshipdlg.h>
 #include <mem.h>
+#include <options.h>
 
 enum MenuID {
   MENU_END_OF_LIST=0,

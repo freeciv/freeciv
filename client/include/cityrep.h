@@ -10,8 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __CITYREP_H
-#define __CITYREP_H
+#ifndef FC__CITYREP_H
+#define FC__CITYREP_H
+
+struct city;
 
 void popup_city_report_dialog(int make_modal);
 void city_report_dialog_update();
@@ -24,4 +26,4 @@ int num_city_report_spec(void);
 int *city_report_spec_show_ptr(int i);
 char *city_report_spec_tagname(int i);
 
-#endif
+#endif  /* FC__CITYREP_H */

@@ -42,12 +42,12 @@
 #include <log.h>
 #include <cityrep.h>
 #include <mem.h>
+#include <options.h>
 
 extern Widget toplevel, main_form;
 
 extern struct connection aconnection;
 extern int delay_report_update;
-extern int center_when_popup_city;
 
 /* abbreviate long city names to this length in the city report: */
 #define REPORT_CITYNAME_ABBREV 15 

@@ -89,7 +89,8 @@ INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I$(srcdir)/@gui_sources@ 
 civclient_SOURCES = \
 	civclient.c	\
 	climisc.c	\
-	packhand.c
+	packhand.c	\
+	options.c
 
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a
 civclient_LDADD        = @gui_sources@/libguiclient.a ../common/libcivcommon.a @CLIENT_LIBS@
@@ -107,7 +108,7 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-civclient_OBJECTS =  civclient.o climisc.o packhand.o
+civclient_OBJECTS =  civclient.o climisc.o packhand.o options.o
 civclient_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
@@ -119,7 +120,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-DEP_FILES =  .deps/civclient.P .deps/climisc.P .deps/packhand.P
+DEP_FILES =  .deps/civclient.P .deps/climisc.P .deps/options.P \
+.deps/packhand.P
 SOURCES = $(civclient_SOURCES)
 OBJECTS = $(civclient_OBJECTS)
 

@@ -34,6 +34,7 @@
 #include <gui_stuff.h>
 #include <unit.h>
 #include <spaceshipdlg.h>
+#include <options.h>
 
 
 GtkItemFactory *item_factory=NULL;

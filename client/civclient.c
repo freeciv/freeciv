@@ -47,17 +47,6 @@ int server_port;
 int is_server = 0;
 
 enum client_states client_state=CLIENT_BOOT_STATE;
-int use_solid_color_behind_units;
-int sound_bell_at_new_turn;
-int smooth_move_units=1;
-int flags_are_transparent=1;
-int ai_popup_windows=0;
-int ai_manual_turn_done=1;
-int auto_center_on_unit=1;
-int wakeup_focus=1;
-int draw_diagonal_roads=1;
-int center_when_popup_city=1;
-int draw_map_grid=0;
 
 int seconds_to_turndone;
 

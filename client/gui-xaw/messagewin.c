@@ -37,10 +37,9 @@
 #include <map.h>
 #include <citydlg.h>
 #include <mem.h>
+#include <options.h>
 
 extern Widget toplevel;
-extern int ai_popup_windows;
-extern int center_when_popup_city;
 
 Widget meswin_dialog_shell;
 Widget meswin_form;

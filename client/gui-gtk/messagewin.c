@@ -33,11 +33,10 @@
 #include <gui_stuff.h>
 #include <colors.h>
 #include <mem.h>
+#include <options.h>
 
 extern GtkWidget *toplevel;
 extern struct player_race races[];
-extern int ai_popup_windows;
-extern int center_when_popup_city;
 
 GtkWidget *meswin_dialog_shell;
 GtkWidget *meswin_list;

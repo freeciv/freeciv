@@ -45,6 +45,7 @@
 #include <helpdlg.h>
 #include <optiondlg.h>
 #include <spaceshipdlg.h>
+#include <options.h>
 
 #define NOTIFY_DIALOG_FONT	"-b&h-lucidatypewriter-bold-r-normal-*-12-*-*-*-*-*-*-*"
 

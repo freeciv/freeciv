@@ -973,98 +973,98 @@ Freeciv*optionpopup*Toggle.shapeStyle:  ShapeOval
 Freeciv*optionlabel.label:             Set local options
 Freeciv*optionlabel.borderWidth:       0
 
-Freeciv*optionbglabel.label:           Solid unit background color
-Freeciv*optionbglabel.borderWidth:     0
-Freeciv*optionbglabel.fromVert:        optionlabel
+Freeciv*option_use_solid_color_behind_units_label.label:           Solid unit background color
+Freeciv*option_use_solid_color_behind_units_label.borderWidth:     0
+Freeciv*option_use_solid_color_behind_units_label.fromVert:        optionlabel
 
-Freeciv*optionbgtoggle.label:          Yes
-Freeciv*optionbgtoggle.fromVert:       optionlabel
-Freeciv*optionbgtoggle.fromHoriz:      optionbglabel
-Freeciv*optionbgtoggle.internalHeight: 0
+Freeciv*option_use_solid_color_behind_units_toggle.label:          Yes
+Freeciv*option_use_solid_color_behind_units_toggle.fromVert:       optionlabel
+Freeciv*option_use_solid_color_behind_units_toggle.fromHoriz:      option_use_solid_color_behind_units_label
+Freeciv*option_use_solid_color_behind_units_toggle.internalHeight: 0
 
-Freeciv*optionbelllabel.label:         Sound bell at new turn\ \ \ \ \ 
-Freeciv*optionbelllabel.borderWidth:   0
-Freeciv*optionbelllabel.fromVert:      optionbglabel
+Freeciv*option_sound_bell_at_new_turn_label.label:         Sound bell at new turn\ \ \ \ \ 
+Freeciv*option_sound_bell_at_new_turn_label.borderWidth:   0
+Freeciv*option_sound_bell_at_new_turn_label.fromVert:      option_use_solid_color_behind_units_label
 
-Freeciv*optionbelltoggle.label:          Yes
-Freeciv*optionbelltoggle.fromVert:       optionbglabel
-Freeciv*optionbelltoggle.fromHoriz:      optionbelllabel
-Freeciv*optionbelltoggle.internalHeight: 0
+Freeciv*option_sound_bell_at_new_turn_toggle.label:          Yes
+Freeciv*option_sound_bell_at_new_turn_toggle.fromVert:       option_use_solid_color_behind_units_label
+Freeciv*option_sound_bell_at_new_turn_toggle.fromHoriz:      option_sound_bell_at_new_turn_label
+Freeciv*option_sound_bell_at_new_turn_toggle.internalHeight: 0
 
-Freeciv*optionmovelabel.label:         Smooth unit moves\ \ \ \ \ \ \ \ \ \ 
-Freeciv*optionmovelabel.borderWidth:   0
-Freeciv*optionmovelabel.fromVert:      optionbelltoggle
+Freeciv*option_smooth_move_units_label.label:         Smooth unit moves\ \ \ \ \ \ \ \ \ \ 
+Freeciv*option_smooth_move_units_label.borderWidth:   0
+Freeciv*option_smooth_move_units_label.fromVert:      option_sound_bell_at_new_turn_toggle
 
-Freeciv*optionmovetoggle.label:          Yes
-Freeciv*optionmovetoggle.fromVert:       optionbelltoggle
-Freeciv*optionmovetoggle.fromHoriz:      optionmovelabel
-Freeciv*optionmovetoggle.internalHeight: 0
+Freeciv*option_smooth_move_units_toggle.label:          Yes
+Freeciv*option_smooth_move_units_toggle.fromVert:       option_sound_bell_at_new_turn_toggle
+Freeciv*option_smooth_move_units_toggle.fromHoriz:      option_smooth_move_units_label
+Freeciv*option_smooth_move_units_toggle.internalHeight: 0
 
-Freeciv*optionflaglabel.label:         Flags are transparent\ \ \ \ \ \ 
-Freeciv*optionflaglabel.borderWidth:   0
-Freeciv*optionflaglabel.fromVert:      optionmovetoggle
+Freeciv*option_flags_are_transparent_label.label:         Flags are transparent\ \ \ \ \ \ 
+Freeciv*option_flags_are_transparent_label.borderWidth:   0
+Freeciv*option_flags_are_transparent_label.fromVert:      option_smooth_move_units_toggle
 
-Freeciv*optionflagtoggle.label:          Yes
-Freeciv*optionflagtoggle.fromVert:       optionmovetoggle
-Freeciv*optionflagtoggle.fromHoriz:      optionflaglabel
-Freeciv*optionflagtoggle.internalHeight: 0
+Freeciv*option_flags_are_transparent_toggle.label:          Yes
+Freeciv*option_flags_are_transparent_toggle.fromVert:       option_smooth_move_units_toggle
+Freeciv*option_flags_are_transparent_toggle.fromHoriz:      option_flags_are_transparent_label
+Freeciv*option_flags_are_transparent_toggle.internalHeight: 0
 
-Freeciv*optionaipopuplabel.label:         Popup dialogs in AI Mode\ \ \ 
-Freeciv*optionaipopuplabel.borderWidth:   0
-Freeciv*optionaipopuplabel.fromVert:      optionflagtoggle
+Freeciv*option_ai_popup_windows_label.label:         Popup dialogs in AI Mode\ \ \ 
+Freeciv*option_ai_popup_windows_label.borderWidth:   0
+Freeciv*option_ai_popup_windows_label.fromVert:      option_flags_are_transparent_toggle
 
-Freeciv*optionaipopuptoggle.label:          Yes
-Freeciv*optionaipopuptoggle.fromVert:       optionflagtoggle
-Freeciv*optionaipopuptoggle.fromHoriz:      optionaipopuplabel
-Freeciv*optionaipopuptoggle.internalHeight: 0
+Freeciv*option_ai_popup_windows_toggle.label:          Yes
+Freeciv*option_ai_popup_windows_toggle.fromVert:       option_flags_are_transparent_toggle
+Freeciv*option_ai_popup_windows_toggle.fromHoriz:      option_ai_popup_windows_label
+Freeciv*option_ai_popup_windows_toggle.internalHeight: 0
 
-Freeciv*optionaiturndonelabel.label:         Manual Turn Done in AI Mode
-Freeciv*optionaiturndonelabel.borderWidth:   0
-Freeciv*optionaiturndonelabel.fromVert:      optionaipopuptoggle
+Freeciv*option_ai_manual_turn_done_label.label:         Manual Turn Done in AI Mode
+Freeciv*option_ai_manual_turn_done_label.borderWidth:   0
+Freeciv*option_ai_manual_turn_done_label.fromVert:      option_ai_popup_windows_toggle
 
-Freeciv*optionaiturndonetoggle.label:          Yes
-Freeciv*optionaiturndonetoggle.fromVert:       optionaipopuptoggle
-Freeciv*optionaiturndonetoggle.fromHoriz:      optionaiturndonelabel
-Freeciv*optionaiturndonetoggle.internalHeight: 0
+Freeciv*option_ai_manual_turn_done_toggle.label:          Yes
+Freeciv*option_ai_manual_turn_done_toggle.fromVert:       option_ai_popup_windows_toggle
+Freeciv*option_ai_manual_turn_done_toggle.fromHoriz:      option_ai_manual_turn_done_label
+Freeciv*option_ai_manual_turn_done_toggle.internalHeight: 0
 
-Freeciv*optionautocenterlabel.label:         Auto Center on Units\ \ \ \ \ \ \ 
-Freeciv*optionautocenterlabel.borderWidth:   0
-Freeciv*optionautocenterlabel.fromVert:      optionaiturndonetoggle
+Freeciv*option_auto_center_on_unit_label.label:         Auto Center on Units\ \ \ \ \ \ \ 
+Freeciv*option_auto_center_on_unit_label.borderWidth:   0
+Freeciv*option_auto_center_on_unit_label.fromVert:      option_ai_manual_turn_done_toggle
 
-Freeciv*optionautocentertoggle.label:          Yes
-Freeciv*optionautocentertoggle.fromVert:       optionaiturndonetoggle
-Freeciv*optionautocentertoggle.fromHoriz:      optionautocenterlabel
-Freeciv*optionautocentertoggle.internalHeight: 0
+Freeciv*option_auto_center_on_unit_toggle.label:          Yes
+Freeciv*option_auto_center_on_unit_toggle.fromVert:       option_ai_manual_turn_done_toggle
+Freeciv*option_auto_center_on_unit_toggle.fromHoriz:      option_auto_center_on_unit_label
+Freeciv*option_auto_center_on_unit_toggle.internalHeight: 0
 
-Freeciv*optionwakeupfocuslabel.label:         Focus on Awakened Units\ \ \ \ 
-Freeciv*optionwakeupfocuslabel.borderWidth:   0
-Freeciv*optionwakeupfocuslabel.fromVert:      optionautocentertoggle
+Freeciv*option_wakeup_focus_label.label:         Focus on Awakened Units\ \ \ \ 
+Freeciv*option_wakeup_focus_label.borderWidth:   0
+Freeciv*option_wakeup_focus_label.fromVert:      option_auto_center_on_unit_toggle
 
-Freeciv*optionwakeupfocustoggle.label:          Yes
-Freeciv*optionwakeupfocustoggle.fromVert:       optionautocentertoggle
-Freeciv*optionwakeupfocustoggle.fromHoriz:      optionwakeupfocuslabel
-Freeciv*optionwakeupfocustoggle.internalHeight: 0
+Freeciv*option_wakeup_focus_toggle.label:          Yes
+Freeciv*option_wakeup_focus_toggle.fromVert:       option_auto_center_on_unit_toggle
+Freeciv*option_wakeup_focus_toggle.fromHoriz:      option_wakeup_focus_label
+Freeciv*option_wakeup_focus_toggle.internalHeight: 0
 
-Freeciv*optiondiagonalroadslabel.label:	      Draw Diagonal Roads/Rails\ \ 
-Freeciv*optiondiagonalroadslabel.borderWidth: 0
-Freeciv*optiondiagonalroadslabel.fromVert:    optionwakeupfocustoggle
+Freeciv*option_draw_diagonal_roads_label.label:	      Draw Diagonal Roads/Rails\ \ 
+Freeciv*option_draw_diagonal_roads_label.borderWidth: 0
+Freeciv*option_draw_diagonal_roads_label.fromVert:    option_wakeup_focus_toggle
 
-Freeciv*optiondiagonalroadstoggle.label:	Yes
-Freeciv*optiondiagonalroadstoggle.fromVert:	optionwakeupfocustoggle
-Freeciv*optiondiagonalroadstoggle.fromHoriz:	optiondiagonalroadslabel
-Freeciv*optiondiagonalroadstoggle.internalHeight: 0
+Freeciv*option_draw_diagonal_roads_toggle.label:	Yes
+Freeciv*option_draw_diagonal_roads_toggle.fromVert:	option_wakeup_focus_toggle
+Freeciv*option_draw_diagonal_roads_toggle.fromHoriz:	option_draw_diagonal_roads_label
+Freeciv*option_draw_diagonal_roads_toggle.internalHeight: 0
 
-Freeciv*optioncenpoplabel.label:	      Center map when Popup city\ 
-Freeciv*optioncenpoplabel.borderWidth: 0
-Freeciv*optioncenpoplabel.fromVert:    optiondiagonalroadstoggle
+Freeciv*option_center_when_popup_city_label.label:	      Center map when Popup city\ 
+Freeciv*option_center_when_popup_city_label.borderWidth: 0
+Freeciv*option_center_when_popup_city_label.fromVert:    option_draw_diagonal_roads_toggle
 
-Freeciv*optioncenpoptoggle.label:	Yes
-Freeciv*optioncenpoptoggle.fromVert:	optiondiagonalroadstoggle
-Freeciv*optioncenpoptoggle.fromHoriz:	optioncenpoplabel
-Freeciv*optioncenpoptoggle.internalHeight: 0
+Freeciv*option_center_when_popup_city_toggle.label:	Yes
+Freeciv*option_center_when_popup_city_toggle.fromVert:	option_draw_diagonal_roads_toggle
+Freeciv*option_center_when_popup_city_toggle.fromHoriz:	option_center_when_popup_city_label
+Freeciv*option_center_when_popup_city_toggle.internalHeight: 0
 
 Freeciv*optionokcommand.label:          Close
-Freeciv*optionokcommand.fromVert:       optioncenpoplabel
+Freeciv*optionokcommand.fromVert:       option_center_when_popup_city_label
 
 !
 ! The message options dialog
