@@ -869,6 +869,9 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
   int count, which, target;
   const char *prod;
+  /* Twice as difficult if target is specified. */
+  int success_prob = (improvement >= B_LAST ? game.diplchance 
+                      : game.diplchance / 2); 
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity)
@@ -892,9 +895,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   freelog (LOG_DEBUG, "sabotage: infiltrated");
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
-  /* (Twice as difficult if target is specified.) */
-  if ((myrand (100) >= game.diplchance) ||
-      ((improvement != B_LAST) && (myrand (100) >= game.diplchance))) {
+  if (myrand (100) >= success_prob) {
     notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		     _("Game: Your %s was caught in the attempt"
 		       " of industrial sabotage!"),
@@ -1029,7 +1030,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
      * If target was specified, and it is in the capital or are
      * City Walls, then there is a 50% chance of getting caught.
      */
-    vulnerability = get_improvement_type(improvement)->sabotage;
+    vulnerability = get_improvement_type(target)->sabotage;
 
     vulnerability -= (vulnerability
 		      * get_city_bonus(pcity, EFT_SPY_RESISTANT) / 100);
@@ -1044,7 +1045,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			 " to sabotage the %s in %s!"),
 		       get_nation_name(pplayer->nation),
 		       unit_name(pdiplomat->type),
-		       get_improvement_name(improvement), pcity->name);
+		       get_improvement_name(target), pcity->name);
       wipe_unit(pdiplomat);
       freelog (LOG_DEBUG, "sabotage: caught in capital or on city walls");
       return;
