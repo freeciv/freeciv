@@ -18,6 +18,8 @@
 
 #include "colors_g.h"
 
+struct unit;
+
 /*
 The bottom row of the map was sometimes hidden.
 
