@@ -924,18 +924,8 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
 
   /* ensure that the connecting unit will perform it's activity
      on the destination file too. */
-  if (punit->connecting) {
-    int  tmp_moves_left = punit->moves_left;
-    int  can_do_it;
-
-    /* FIXME: can_unit_do_activity() takes into account moves_left.
-       We can't.  -- edheldil */
-    punit->moves_left = 1;
-    can_do_it = can_unit_do_activity (punit, punit->activity);
-    punit->moves_left = tmp_moves_left;
-
-    if (can_do_it) return;
-  }
+  if (punit->connecting && can_unit_do_activity(punit, punit->activity))
+    return;
 
   punit->activity=ACTIVITY_IDLE;
   punit->connecting=0;

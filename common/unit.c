@@ -1031,7 +1031,7 @@ int can_unit_do_activity_targeted(struct unit *punit,
     return terrain_control.may_transform &&
            (ptile->terrain != T_OCEAN) &&
            (ptile->terrain != T_RIVER) &&
-	   unit_flag(punit->type, F_TRANSFORM) && punit->moves_left;
+	   unit_flag(punit->type, F_TRANSFORM);
 
   default:
     freelog(LOG_NORMAL,"Unknown activity %d\n",activity);
