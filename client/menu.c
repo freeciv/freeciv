@@ -123,14 +123,14 @@ struct Menu *game_menu, *orders_menu, *reports_menu, *help_menu;
 struct MenuEntry game_menu_entries[]={
     { "Find City",      MENU_GAME_FIND_CITY, 0 },
     { "Options",        MENU_GAME_OPTIONS, 0 },
-    { "Msg Options",    MENU_GAME_MSG_OPTIONS, 0 },
+    { "Message Options", MENU_GAME_MSG_OPTIONS, 0 },
     { "Save Settings",  MENU_GAME_SAVE_SETTINGS, 0 },
     { "Rates",          MENU_GAME_RATES, 0 },
     { "Revolution",     MENU_GAME_REVOLUTION, 0 },
     { "Players",        MENU_GAME_PLAYERS, 0 },
     { "Messages",       MENU_GAME_MESSAGES, 0 },
-    { "Server options 1", MENU_GAME_SERVER_OPTIONS1, 0 },
-    { "Server options 2", MENU_GAME_SERVER_OPTIONS2, 0 },
+    { "Server opt initial", MENU_GAME_SERVER_OPTIONS1, 0 },
+    { "Server opt ongoing", MENU_GAME_SERVER_OPTIONS2, 0 },
     { "Export log",     MENU_GAME_OUTPUT_LOG, 0 }, /* added by Syela */
     { "Clear log",      MENU_GAME_CLEAR_OUTPUT, 0 },
     { "Disconnect",     MENU_GAME_DISCONNECT, 0 }, /* added by Syela */
