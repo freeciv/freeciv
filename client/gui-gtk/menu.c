@@ -1213,32 +1213,31 @@ void update_menus(void)
 	  road_activity=ACTIVITY_ROAD;  
 	}
 	menus_rename("<main>/_Orders/Build _Road", roadtext);
-      }
-      else
+      } else {
 	menus_rename("<main>/_Orders/Build _Road", _("Build _Road"));
+      }
 
       ttype = map_get_tile(punit->x, punit->y)->terrain;
       tinfo = get_tile_type(ttype);
-      if ((tinfo->irrigation_result != T_LAST) && (tinfo->irrigation_result != ttype))
-	{
-	  my_snprintf (irrtext, sizeof(irrtext), irrfmt,
-		   (get_tile_type(tinfo->irrigation_result))->terrain_name);
-	}
-      else if (map_has_special(punit->x, punit->y, S_IRRIGATION) &&
-	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
-	{
-	  sz_strlcpy (irrtext, _("Bu_ild Farmland"));
-	}
-      if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype))
-	{
-	  my_snprintf (mintext, sizeof(mintext), minfmt,
-		   (get_tile_type(tinfo->mining_result))->terrain_name);
-	}
-      if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype))
-	{
-	  my_snprintf (transtext, sizeof(transtext), transfmt,
-		   (get_tile_type(tinfo->transform_result))->terrain_name);
-	}
+      if (tinfo->irrigation_result != T_NONE
+	  && tinfo->irrigation_result != ttype) {
+	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
+		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
+      } else if (map_has_special(punit->x, punit->y, S_IRRIGATION)
+		 && player_knows_techs_with_flag(game.player_ptr,
+						 TF_FARMLAND)) {
+	sz_strlcpy(irrtext, _("Bu_ild Farmland"));
+      }
+      if (tinfo->mining_result != T_NONE
+	  && tinfo->mining_result != ttype) {
+	my_snprintf(mintext, sizeof(mintext), minfmt,
+		    (get_tile_type(tinfo->mining_result))->terrain_name);
+      }
+      if (tinfo->transform_result != T_NONE
+	  && tinfo->transform_result != ttype) {
+	my_snprintf(transtext, sizeof(transtext), transfmt,
+		    (get_tile_type(tinfo->transform_result))->terrain_name);
+      }
 
       menus_rename("<main>/_Orders/Build _Irrigation", irrtext);
       menus_rename("<main>/_Orders/Build _Mine", mintext);

@@ -91,44 +91,45 @@ void free_help_texts(void)
   help_list_unlink_all(&help_nodes);
 }
 
-/****************************************************************
-...
- FIXME: check buffer length
-*****************************************************************/
+/****************************************************************************
+  Insert generated data for the helpdate name.
+
+  Currently only for terrain ("TerrainAlterations") is such a table created.
+****************************************************************************/
 static void insert_generated_table(const char* name, char* outbuf)
 {
-  if (0 == strcmp (name, "TerrainAlterations"))
-    {
-      int i;
-      strcat (outbuf, _("Terrain     Road   Irrigation     Mining         Transform\n"));
-      strcat (outbuf, "---------------------------------------------------------------\n");
-      for (i = T_FIRST; i < T_COUNT; i++)
-	{
-	  if (*(tile_types[i].terrain_name) != '\0')
-	    {
-	      outbuf = strchr (outbuf, '\0');
-	      sprintf(outbuf,
-		 "%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
-		 tile_types[i].terrain_name,
-		 tile_types[i].road_time,
-		 tile_types[i].irrigation_time,
-		 ((tile_types[i].irrigation_result == i) ||
-		  (tile_types[i].irrigation_result == T_LAST)) ? "" :
-		  tile_types[tile_types[i].irrigation_result].terrain_name,
-		 tile_types[i].mining_time,
-		 ((tile_types[i].mining_result == i) ||
-		  (tile_types[i].mining_result == T_LAST)) ? "" :
-		  tile_types[tile_types[i].mining_result].terrain_name,
-		 tile_types[i].transform_time,
-		 ((tile_types[i].transform_result == i) ||
-		  (tile_types[i].transform_result == T_LAST)) ? "" :
-		  tile_types[tile_types[i].transform_result].terrain_name
-                );
-	    }
-	}
-      strcat (outbuf, "\n");
-      strcat (outbuf, _("(Railroads and fortresses require 3 turns, regardless of terrain.)"));
+  if (0 == strcmp (name, "TerrainAlterations")) {
+    int i;
+
+    strcat(outbuf, _("Terrain     Road   Irrigation     Mining         "
+		      "Transform\n"));
+    strcat(outbuf, "---------------------------------------------------"
+	   "------------\n");
+    for (i = T_FIRST; i < T_COUNT; i++) {
+      if (*(tile_types[i].terrain_name) != '\0') {
+	outbuf = strchr(outbuf, '\0');
+	sprintf(outbuf,
+		"%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
+		tile_types[i].terrain_name,
+		tile_types[i].road_time,
+		tile_types[i].irrigation_time,
+		((tile_types[i].irrigation_result == i
+		  || tile_types[i].irrigation_result == T_NONE) ? ""
+		 : tile_types[tile_types[i].irrigation_result].terrain_name),
+		tile_types[i].mining_time,
+		((tile_types[i].mining_result == i
+		  || tile_types[i].mining_result == T_NONE) ? ""
+		 : tile_types[tile_types[i].mining_result].terrain_name),
+		tile_types[i].transform_time,
+		((tile_types[i].transform_result == i
+		 || tile_types[i].transform_result == T_NONE) ? ""
+		 : tile_types[tile_types[i].transform_result].terrain_name));
+      }
     }
+    strcat(outbuf, "\n");
+    strcat(outbuf, _("(Railroads and fortresses require 3 turns, "
+		     "regardless of terrain.)"));
+  }
   return;
 }
 

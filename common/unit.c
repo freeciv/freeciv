@@ -865,7 +865,7 @@ bool can_unit_do_activity_targeted_at(struct unit *punit,
 	&& ((ptile->terrain == type->mining_result
 	     && !tile_has_special(ptile, S_MINE))
 	    || (ptile->terrain != type->mining_result
-		&& type->mining_result != T_LAST
+		&& type->mining_result != T_NONE
 		&& (!is_ocean(ptile->terrain)
 		    || is_ocean(type->mining_result)
 		    || can_reclaim_ocean(map_x, map_y))
@@ -895,7 +895,7 @@ bool can_unit_do_activity_targeted_at(struct unit *punit,
 	&& ((ptile->terrain == type->irrigation_result
 	     && is_water_adjacent_to_tile(map_x, map_y))
 	    || (ptile->terrain != type->irrigation_result
-		&& type->irrigation_result != T_LAST
+		&& type->irrigation_result != T_NONE
 		&& (!is_ocean(ptile->terrain)
 		    || is_ocean(type->irrigation_result)
 		    || can_reclaim_ocean(map_x, map_y))
@@ -981,7 +981,7 @@ bool can_unit_do_activity_targeted_at(struct unit *punit,
 
   case ACTIVITY_TRANSFORM:
     return (terrain_control.may_transform
-	    && type->transform_result != T_LAST
+	    && type->transform_result != T_NONE
 	    && ptile->terrain != type->transform_result
 	    && (!is_ocean(ptile->terrain)
 		|| is_ocean(type->transform_result)

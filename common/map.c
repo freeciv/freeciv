@@ -926,14 +926,15 @@ void map_irrigate_tile(int x, int y)
     } else {
       map_set_special(x, y, S_IRRIGATION);
     }
-  }
-  else if (result != T_LAST) {
+  } else if (result != T_NONE) {
     map_set_terrain(x, y, result);
     if (is_ocean(result)) {
       clear_infrastructure(x, y);
       clear_dirtiness(x, y);
-      map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
-					   rivers in oceans, don't clear this! */
+
+      /* FIXME: When rest of code can handle
+       * rivers in oceans, don't clear this! */
+      map_clear_special(x, y, S_RIVER);
     }
     reset_move_costs(x, y);
   }
@@ -950,15 +951,17 @@ void map_mine_tile(int x, int y)
   now = map_get_terrain(x, y);
   result = tile_types[now].mining_result;
   
-  if (now == result) 
+  if (now == result) {
     map_set_special(x, y, S_MINE);
-  else if (result != T_LAST) {
+  } else if (result != T_NONE) {
     map_set_terrain(x, y, result);
     if (is_ocean(result)) {
       clear_infrastructure(x, y);
       clear_dirtiness(x, y);
-      map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
-					   rivers in oceans, don't clear this! */
+
+      /* FIXME: When rest of code can handle
+       * rivers in oceans, don't clear this! */
+      map_clear_special(x, y, S_RIVER);
     }
     reset_move_costs(x, y);
   }
@@ -1003,8 +1006,9 @@ void map_transform_tile(int x, int y)
   now = map_get_terrain(x, y);
   result = tile_types[now].transform_result;
   
-  if (result != T_LAST)
+  if (result != T_NONE) {
     change_terrain(x, y, result);
+  }
 }
 
 /**************************************************************************

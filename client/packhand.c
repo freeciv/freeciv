@@ -2322,7 +2322,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   } \
   b->elem[p->count] = last;
 
-  T(terr_gate, terr_gate_count, T_LAST);
+  T(terr_gate, terr_gate_count, T_NONE);
   T(spec_gate, spec_gate_count, S_NO_SPECIAL);
   T(equiv_dupl, equiv_dupl_count, B_LAST);
   T(equiv_repl, equiv_repl_count, B_LAST);
@@ -2352,7 +2352,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 	      "None" :
 	      improvement_types[b->bldg_req].name);
       freelog(LOG_DEBUG, "  terr_gate...");
-      for (inx = 0; b->terr_gate[inx] != T_LAST; inx++) {
+      for (inx = 0; b->terr_gate[inx] != T_NONE; inx++) {
 	freelog(LOG_DEBUG, "    %2d/%s",
 		b->terr_gate[inx], get_terrain_name(b->terr_gate[inx]));
       }
@@ -2439,11 +2439,9 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 	ptr = strchr(ptr, '\0');
 	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " aff_terr=%d/%s",
 		    b->effect[inx].aff_terr,
-		    (b->effect[inx].aff_terr == T_LAST) ?
-		    "None" :
-		    (b->effect[inx].aff_terr == T_UNKNOWN) ?
-		    "All" :
-		    get_terrain_name(b->effect[inx].aff_terr));
+		    (b->effect[inx].aff_terr == T_NONE) ? "None"
+		    : ((b->effect[inx].aff_terr == T_UNKNOWN) ? "All"
+		       : get_terrain_name(b->effect[inx].aff_terr)));
 	ptr = strchr(ptr, '\0');
 	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " aff_spec=%04X/%s",
 		    b->effect[inx].aff_spec,

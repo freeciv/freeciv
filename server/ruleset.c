@@ -485,7 +485,7 @@ static Terrain_type_id lookup_terrain(char *name,
 
   if (*name == '\0' || (0 == strcmp(name, "none")) 
       || (0 == strcmp(name, "no"))) {
-    return (T_LAST);
+    return T_NONE;
   } else if (0 == strcmp(name, "yes")) {
     return (tthis);
   }
@@ -499,7 +499,7 @@ static Terrain_type_id lookup_terrain(char *name,
   /* TRANS: message for an obscure ruleset error. */
   freelog(LOG_ERROR, _("Unknown terrain %s in entry %s."),
 	  name, tile_types[tthis].terrain_name);
-  return T_LAST;
+  return T_NONE;
 }
 
 /**************************************************************************
@@ -1191,7 +1191,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	k++;
       }
     }
-    b->terr_gate[k] = T_LAST;
+    b->terr_gate[k] = T_NONE;
     free(list);
 
     list = secfile_lookup_str_vec(file, &count, "%s.spec_gate", sec[i]);
@@ -1391,14 +1391,14 @@ static void load_ruleset_buildings(struct section_file *file)
 	secfile_lookup_str_default(file, "", "%s.effect%d.aff_terr", sec[i], j);
       if (*item != '\0') {
 	if (0 == strcmp("None", item)) {
-	  e->aff_terr = T_LAST;
+	  e->aff_terr = T_NONE;
 	} else {
 	  e->aff_terr = get_terrain_by_name(item);
 	  if (e->aff_terr == T_UNKNOWN) {
 	    freelog(LOG_ERROR,
 		    "for %s effect[%d].aff_terr couldn't match terrain \"%s\" (%s)",
 		    b->name, j, item, filename);
-	    e->aff_terr = T_LAST;
+	    e->aff_terr = T_NONE;
 	    problem = TRUE;
 	  }
 	}
@@ -2898,7 +2898,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
       packet.elem[packet.count] =  b->elem[packet.count]; \
     }
 
-    T(terr_gate, terr_gate_count, T_LAST);
+    T(terr_gate, terr_gate_count, T_NONE);
     T(spec_gate, spec_gate_count, S_NO_SPECIAL);
     T(equiv_dupl, equiv_dupl_count, B_LAST);
     T(equiv_repl, equiv_repl_count, B_LAST);

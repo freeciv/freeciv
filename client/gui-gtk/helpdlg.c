@@ -919,112 +919,96 @@ static void help_update_terrain(const struct help_item *pitem,
 
   create_help_page(HELP_TERRAIN);
 
-  if (i < T_COUNT)
-    {
-      sprintf (buf, "%d/%d.%d",
-	       tile_types[i].movement_cost,
-	       (int)(tile_types[i].defense_bonus/10), tile_types[i].defense_bonus%10);
-      gtk_set_label (help_tlabel[0][1], buf);
+  if (i < T_COUNT) {
+    sprintf(buf, "%d/%d.%d",
+	    tile_types[i].movement_cost,
+	    (int)(tile_types[i].defense_bonus/10),
+	    tile_types[i].defense_bonus%10);
+    gtk_set_label(help_tlabel[0][1], buf);
 
-      sprintf (buf, "%d/%d/%d",
-	       tile_types[i].food,
-	       tile_types[i].shield,
-	       tile_types[i].trade);
-      gtk_set_label (help_tlabel[0][4], buf);
+    sprintf(buf, "%d/%d/%d",
+	    tile_types[i].food,
+	    tile_types[i].shield,
+	    tile_types[i].trade);
+    gtk_set_label(help_tlabel[0][4], buf);
 
-      if (*(tile_types[i].special_1_name))
-	{
-	  sprintf (buf, _("%s F/R/T:"),
-		   tile_types[i].special_1_name);
-	  gtk_set_label (help_tlabel[1][0], buf);
-	  sprintf (buf, "%d/%d/%d",
-		   tile_types[i].food_special_1,
-		   tile_types[i].shield_special_1,
-		   tile_types[i].trade_special_1);
-	  gtk_set_label (help_tlabel[1][1], buf);
-	} else {
-	  gtk_set_label (help_tlabel[1][0], "");
-	  gtk_set_label (help_tlabel[1][1], "");
-	}
-
-      if (*(tile_types[i].special_2_name))
-	{
-	  sprintf (buf, _("%s F/R/T:"),
-		   tile_types[i].special_2_name);
-	  gtk_set_label (help_tlabel[1][3], buf);
-	  sprintf (buf, "%d/%d/%d",
-		   tile_types[i].food_special_2,
-		   tile_types[i].shield_special_2,
-		   tile_types[i].trade_special_2);
-	  gtk_set_label (help_tlabel[1][4], buf);
-	} else {
-	  gtk_set_label (help_tlabel[1][3], "");
-	  gtk_set_label (help_tlabel[1][4], "");
-	}
-
-      if (tile_types[i].road_trade_incr > 0)
-	{
-	  sprintf (buf, _("+%d Trade / %d"),
-		   tile_types[i].road_trade_incr,
-		   tile_types[i].road_time);
-	}
-      else if (tile_types[i].road_time > 0)
-	{
-	  sprintf (buf, _("no extra / %d"),
-		   tile_types[i].road_time);
-	}
-      else
-	{
-	  strcpy (buf, _("n/a"));
-	}
-      gtk_set_label (help_tlabel[2][1], buf);
-
-      strcpy (buf, _("n/a"));
-      if (tile_types[i].irrigation_result == i)
-	{
-	  if (tile_types[i].irrigation_food_incr > 0)
-	    {
-	      sprintf (buf, _("+%d Food / %d"),
-		       tile_types[i].irrigation_food_incr,
-		       tile_types[i].irrigation_time);
-	    }
-	}
-      else if (tile_types[i].irrigation_result != T_LAST)
-	{
-	  sprintf (buf, "%s / %d",
-		   tile_types[tile_types[i].irrigation_result].terrain_name,
-		   tile_types[i].irrigation_time);
-	}
-      gtk_set_label (help_tlabel[2][4], buf);
-
-      strcpy (buf, _("n/a"));
-      if (tile_types[i].mining_result == i)
-	{
-	  if (tile_types[i].mining_shield_incr > 0)
-	    {
-	      sprintf (buf, _("+%d Res. / %d"),
-		       tile_types[i].mining_shield_incr,
-		       tile_types[i].mining_time);
-	    }
-	}
-      else if (tile_types[i].mining_result != T_LAST)
-	{
-	  sprintf (buf, "%s / %d",
-		   tile_types[tile_types[i].mining_result].terrain_name,
-		   tile_types[i].mining_time);
-	}
-      gtk_set_label (help_tlabel[3][1], buf);
-
-      if (tile_types[i].transform_result != T_LAST)
-	{
-	  sprintf (buf, "%s / %d",
-		   tile_types[tile_types[i].transform_result].terrain_name,
-		   tile_types[i].transform_time);
-	} else {
-	  strcpy (buf, "n/a");
-	}
-      gtk_set_label (help_tlabel[3][4], buf);
+    if (*(tile_types[i].special_1_name)) {
+      sprintf(buf, _("%s F/R/T:"),
+	      tile_types[i].special_1_name);
+      gtk_set_label(help_tlabel[1][0], buf);
+      sprintf(buf, "%d/%d/%d",
+	      tile_types[i].food_special_1,
+	      tile_types[i].shield_special_1,
+	      tile_types[i].trade_special_1);
+      gtk_set_label(help_tlabel[1][1], buf);
+    } else {
+      gtk_set_label(help_tlabel[1][0], "");
+      gtk_set_label(help_tlabel[1][1], "");
     }
+
+    if (*(tile_types[i].special_2_name)) {
+      sprintf(buf, _("%s F/R/T:"),
+	      tile_types[i].special_2_name);
+      gtk_set_label(help_tlabel[1][3], buf);
+      sprintf(buf, "%d/%d/%d",
+	      tile_types[i].food_special_2,
+	      tile_types[i].shield_special_2,
+	      tile_types[i].trade_special_2);
+      gtk_set_label(help_tlabel[1][4], buf);
+    } else {
+      gtk_set_label(help_tlabel[1][3], "");
+      gtk_set_label(help_tlabel[1][4], "");
+    }
+
+    if (tile_types[i].road_trade_incr > 0) {
+      sprintf(buf, _("+%d Trade / %d"),
+	      tile_types[i].road_trade_incr,
+	      tile_types[i].road_time);
+    } else if (tile_types[i].road_time > 0) {
+      sprintf(buf, _("no extra / %d"),
+	      tile_types[i].road_time);
+    } else {
+      strcpy(buf, _("n/a"));
+    }
+    gtk_set_label(help_tlabel[2][1], buf);
+
+    strcpy(buf, _("n/a"));
+    if (tile_types[i].irrigation_result == i) {
+      if (tile_types[i].irrigation_food_incr > 0) {
+	sprintf(buf, _("+%d Food / %d"),
+		tile_types[i].irrigation_food_incr,
+		tile_types[i].irrigation_time);
+      }
+    } else if (tile_types[i].irrigation_result != T_NONE) {
+      sprintf(buf, "%s / %d",
+	      tile_types[tile_types[i].irrigation_result].terrain_name,
+	      tile_types[i].irrigation_time);
+    }
+    gtk_set_label(help_tlabel[2][4], buf);
+
+    strcpy(buf, _("n/a"));
+    if (tile_types[i].mining_result == i) {
+      if (tile_types[i].mining_shield_incr > 0) {
+	sprintf(buf, _("+%d Res. / %d"),
+		tile_types[i].mining_shield_incr,
+		tile_types[i].mining_time);
+      }
+    } else if (tile_types[i].mining_result != T_NONE) {
+      sprintf(buf, "%s / %d",
+	      tile_types[tile_types[i].mining_result].terrain_name,
+	      tile_types[i].mining_time);
+    }
+    gtk_set_label(help_tlabel[3][1], buf);
+
+    if (tile_types[i].transform_result != T_NONE) {
+      sprintf(buf, "%s / %d",
+	      tile_types[tile_types[i].transform_result].terrain_name,
+	      tile_types[i].transform_time);
+    } else {
+      strcpy(buf, "n/a");
+    }
+    gtk_set_label(help_tlabel[3][4], buf);
+  }
 
   helptext_terrain(buf, i, pitem->text);
   

@@ -1282,44 +1282,37 @@ void update_menus(void) /* from menu.c */
 
       ttype = map_get_tile(punit->x, punit->y)->terrain;
       tinfo = get_tile_type(ttype);
-      if ((tinfo->irrigation_result != T_LAST) && (tinfo->irrigation_result != ttype))
-      {
-	my_snprintf(irrtext, sizeof(irrtext), chgfmt, (get_tile_type(tinfo->irrigation_result))->terrain_name);
-      }
-      else if (map_has_special(punit->x, punit->y, S_IRRIGATION) &&
-	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
-      {
+      if ((tinfo->irrigation_result != T_NONE)
+	  && (tinfo->irrigation_result != ttype)) {
+	my_snprintf(irrtext, sizeof(irrtext), chgfmt,
+		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
+      } else if (map_has_special(punit->x, punit->y, S_IRRIGATION)
+		 && player_knows_techs_with_flag(game.player_ptr,
+						 TF_FARMLAND)) {
 	sz_strlcpy(irrtext, _("Build Farmland"));
-      }
-      else
-      {
+      } else {
         sz_strlcpy(irrtext, _("Build Irrigation"));
       }
 
-      if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype))
-      {
-	my_snprintf(mintext, sizeof(mintext), chgfmt, (get_tile_type(tinfo->mining_result))->terrain_name);
-      }
-      else
-      {
+      if ((tinfo->mining_result != T_NONE)
+	  && (tinfo->mining_result != ttype)) {
+	my_snprintf(mintext, sizeof(mintext), chgfmt,
+		    (get_tile_type(tinfo->mining_result))->terrain_name);
+      } else {
         sz_strlcpy(mintext, _("Build Mine"));
       }
 
-      if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype))
-      {
-	my_snprintf(transtext, sizeof(transtext), chgfmt, (get_tile_type(tinfo->transform_result))->terrain_name);
-      }
-      else
-      {
+      if ((tinfo->transform_result != T_NONE)
+	  && (tinfo->transform_result != ttype)) {
+	my_snprintf(transtext, sizeof(transtext), chgfmt,
+		    (get_tile_type(tinfo->transform_result))->terrain_name);
+      } else {
         sz_strlcpy(transtext, _("Transform Terrain"));
       }
 
-      if (map_has_special(punit->x, punit->y, S_ROAD))
-      {
+      if (map_has_special(punit->x, punit->y, S_ROAD)) {
 	menu_entry_rename(MENU_ORDER_ROAD, _("Build Railroad"), FALSE);
-      }
-      else
-      {
+      } else {
 	menu_entry_rename(MENU_ORDER_ROAD, _("Build Road"), FALSE);
       }
       menu_entry_rename(MENU_ORDER_IRRIGATE, irrtext, FALSE);

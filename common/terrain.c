@@ -114,7 +114,7 @@ Terrain_type_id get_flag_terrain(enum terrain_flag_id flag)
   } terrain_type_iterate_end;
 
   die("Reached end of get_flag_terrain!");
-  return T_LAST;
+  return T_NONE;
 }
 
 /****************************************************************************

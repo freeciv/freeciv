@@ -379,16 +379,20 @@ bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id)
   spec_gate = impr->spec_gate;
   terr_gate = impr->terr_gate;
 
-  if (*spec_gate==S_NO_SPECIAL && *terr_gate==T_LAST) return TRUE;
+  if (*spec_gate == S_NO_SPECIAL && *terr_gate == T_NONE) {
+    return TRUE;
+  }
 
   for (;*spec_gate!=S_NO_SPECIAL;spec_gate++) {
     if (map_has_special(pcity->x, pcity->y, *spec_gate) ||
         is_special_near_tile(pcity->x,pcity->y,*spec_gate)) return TRUE;
   }
 
-  for (;*terr_gate!=T_LAST;terr_gate++) {
-    if (map_get_terrain(pcity->x,pcity->y) == *terr_gate ||
-        is_terrain_near_tile(pcity->x,pcity->y,*terr_gate)) return TRUE;
+  for (; *terr_gate != T_NONE; terr_gate++) {
+    if (map_get_terrain(pcity->x,pcity->y) == *terr_gate
+        || is_terrain_near_tile(pcity->x,pcity->y,*terr_gate)) {
+      return TRUE;
+    }
   }
 
   return FALSE;

@@ -143,7 +143,7 @@ void global_warming(int effect)
     } else {
       new = get_tile_type(old)->warmer_drier_result;
     }
-    if (new != T_LAST && old != new) {
+    if (new != T_NONE && old != new) {
       effect--;
       change_terrain(x, y, new);
       send_tile_info(NULL, x, y);
@@ -184,7 +184,7 @@ void nuclear_winter(int effect)
     } else {
       new = get_tile_type(old)->cooler_drier_result;
     }
-    if (new != T_LAST && old != new) {
+    if (new != T_NONE && old != new) {
       effect--;
       change_terrain(x, y, new);
       send_tile_info(NULL, x, y);

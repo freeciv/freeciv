@@ -1295,49 +1295,51 @@ void update_menus(void)
 
       ttype = map_get_tile(punit->x, punit->y)->terrain;
       tinfo = get_tile_type(ttype);
-      if ((tinfo->irrigation_result != T_LAST) && (tinfo->irrigation_result != ttype))
-	{
-	  my_snprintf (irrtext, sizeof(irrtext), irrfmt,
-		   (get_tile_type(tinfo->irrigation_result))->terrain_name);
-	}
-      else if (map_has_special(punit->x, punit->y, S_IRRIGATION) &&
-	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
-	{
-	  sz_strlcpy (irrtext, _("Bu_ild Farmland"));
-	}
-      if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype))
-	{
-	  my_snprintf (mintext, sizeof(mintext), minfmt,
-		   (get_tile_type(tinfo->mining_result))->terrain_name);
-	}
-      if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype))
-	{
-	  my_snprintf (transtext, sizeof(transtext), transfmt,
-		   (get_tile_type(tinfo->transform_result))->terrain_name);
-	}
+      if (tinfo->irrigation_result != T_NONE
+	  && tinfo->irrigation_result != ttype) {
+	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
+		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
+      } else if (map_has_special(punit->x, punit->y, S_IRRIGATION)
+		 && player_knows_techs_with_flag(game.player_ptr,
+						 TF_FARMLAND)) {
+	sz_strlcpy(irrtext, _("Bu_ild Farmland"));
+      }
+      if (tinfo->mining_result != T_NONE
+	  && tinfo->mining_result != ttype) {
+	my_snprintf(mintext, sizeof(mintext), minfmt,
+		    (get_tile_type(tinfo->mining_result))->terrain_name);
+      }
+      if (tinfo->transform_result != T_NONE
+	  && tinfo->transform_result != ttype) {
+	my_snprintf(transtext, sizeof(transtext), transfmt,
+		    (get_tile_type(tinfo->transform_result))->terrain_name);
+      }
 
       menus_rename("<main>/_Orders/Build _Irrigation", irrtext);
       menus_rename("<main>/_Orders/Build _Mine", mintext);
       menus_rename("<main>/_Orders/Transf_orm Terrain", transtext);
 
-      if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
+      if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
 	menus_rename("<main>/_Orders/Build _Fortress", _("_Fortify"));
-      else
+      } else {
 	menus_rename("<main>/_Orders/Build _Fortress", _("Build _Fortress"));
+      }
 
-      if (unit_flag(punit, F_PARATROOPERS))
+      if (unit_flag(punit, F_PARATROOPERS)) {
 	menus_rename("<main>/_Orders/Clean _Pollution", _("_Paradrop"));
-      else
+      } else {
 	menus_rename("<main>/_Orders/Clean _Pollution", _("Clean _Pollution"));
+      }
 
-      if (!unit_flag(punit, F_SETTLERS))
+      if (!unit_flag(punit, F_SETTLERS)) {
 	menus_rename("<main>/_Orders/_Auto Settler", _("_Auto Attack"));
-      else
+      } else {
 	menus_rename("<main>/_Orders/_Auto Settler", _("_Auto Settler"));
+      }
 
       menus_set_sensitive("<main>/_Orders", TRUE);
-    }
-    else
+    } else {
       menus_set_sensitive("<main>/_Orders", FALSE);
+    }
   }
 }

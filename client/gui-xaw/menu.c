@@ -444,7 +444,8 @@ void update_menus(void)
 			  TEXT_ORDER_CITY_BUILD, NULL);
       }
 
-      if ((tinfo->irrigation_result != T_LAST) && (tinfo->irrigation_result != ttype)) {
+      if ((tinfo->irrigation_result != T_NONE)
+	  && (tinfo->irrigation_result != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
 			  (get_tile_type(tinfo->irrigation_result))->terrain_name);
@@ -458,7 +459,8 @@ void update_menus(void)
 			  TEXT_ORDER_IRRIGATE_IRRIGATE, NULL);
       }
 
-      if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype)) {
+      if ((tinfo->mining_result != T_NONE)
+	  && (tinfo->mining_result != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_CHANGE_TO,
 			  (get_tile_type(tinfo->mining_result))->terrain_name);
@@ -467,7 +469,8 @@ void update_menus(void)
 			  TEXT_ORDER_MINE_MINE, NULL);
       }
 
-      if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype)) {
+      if ((tinfo->transform_result != T_NONE)
+	  && (tinfo->transform_result != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TRANSFORM_TO,
 			  (get_tile_type(tinfo->transform_result))->terrain_name);

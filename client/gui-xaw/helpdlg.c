@@ -1043,7 +1043,7 @@ static void help_update_terrain(const struct help_item *pitem,
 		       tile_types[i].irrigation_time);
 	    }
 	}
-      else if (tile_types[i].irrigation_result != T_LAST)
+      else if (tile_types[i].irrigation_result != T_NONE)
 	{
 	  sprintf (buf, "%s / %d",
 		   tile_types[tile_types[i].irrigation_result].terrain_name,
@@ -1061,7 +1061,7 @@ static void help_update_terrain(const struct help_item *pitem,
 		       tile_types[i].mining_time);
 	    }
 	}
-      else if (tile_types[i].mining_result != T_LAST)
+      else if (tile_types[i].mining_result != T_NONE)
 	{
 	  sprintf (buf, "%s / %d",
 		   tile_types[tile_types[i].mining_result].terrain_name,
@@ -1069,7 +1069,7 @@ static void help_update_terrain(const struct help_item *pitem,
 	}
       xaw_set_label (help_terrain_mining_result_time_data, buf);
 
-      if (tile_types[i].transform_result != T_LAST)
+      if (tile_types[i].transform_result != T_NONE)
 	{
 	  sprintf (buf, "%s / %d",
 		   tile_types[tile_types[i].transform_result].terrain_name,

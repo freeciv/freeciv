@@ -65,8 +65,9 @@ enum tile_special_type {
 /* Changing this breaks savegame and network compatability. */
 enum tile_terrain_type {
   T_ARCTIC, T_DESERT, T_FOREST, T_GRASSLAND, T_HILLS, T_JUNGLE, 
-  T_MOUNTAINS, T_OCEAN, T_PLAINS, T_UNUSED, T_SWAMP, T_TUNDRA, T_UNKNOWN,
-  T_LAST, /* last terrain type */
+  T_MOUNTAINS, T_OCEAN, T_PLAINS, T_UNUSED, T_SWAMP, T_TUNDRA,
+  T_UNKNOWN, /* A special flag meaning unknown terrain. */
+  T_NONE, /* A special flag meaning no terrain. */
   T_ANY   /* A special flag that matches "any" terrain type. */
 };
 

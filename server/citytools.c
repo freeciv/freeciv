@@ -2070,7 +2070,7 @@ void city_landlocked_sell_coastal_improvements(int x, int y)
         }
 
         while (!is_ocean(improvement_types[impr].terr_gate[i])
-               && improvement_types[impr].terr_gate[i] != T_LAST) {
+               && improvement_types[impr].terr_gate[i] != T_NONE) {
           i++;
         }
 
