@@ -716,19 +716,12 @@ static void radio_command_callback(GtkToggleButton *w, gpointer data)
 const char *get_aiskill_setting(void)
 {
   int i;
-  char buf[32];
 
-  sz_strlcpy(buf, gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(aiskill)->entry)));
-
- for (i = 0; i < NUM_SKILL_LEVELS; i++) {
-    if (strcmp(buf, _(skill_level_names[i])) == 0) {
-      return skill_level_names[i];
-    }
+  if ((i = gtk_option_menu_get_history(GTK_OPTION_MENU(aiskill))) != -1) {
+    return skill_level_names[i];
+  } else {
+    return /* TRANS: don't translate */ "normal";
   }
-
-  /* an error of some kind, should never get here. */ 
-  assert(0);
-  return /* TRANS: don't translate */ "normal";
 }
 
 /**************************************************************************
@@ -737,14 +730,13 @@ const char *get_aiskill_setting(void)
 void gui_server_connect(void)
 {
   GtkWidget *label, *table, *scrolled, *listsaved, *listmeta, *listlan;
-  GtkWidget *hbox, *vbox, *updatemeta, *updatelan, *align;
+  GtkWidget *hbox, *vbox, *updatemeta, *updatelan, *align, *menu, *item;
   GtkWidget *radio;
   int i;
   char buf[256];
   GtkCellRenderer *trenderer, *prenderer;
   GtkTreeSelection *selectionsaved, *selectionmeta, *selectionlan;
   GSList *group = NULL;
-  GList *items = NULL;
   GtkAdjustment *adj;
 
   if (dialog) {
@@ -858,13 +850,14 @@ void gui_server_connect(void)
                        NULL);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 
-  aiskill = gtk_combo_new();
-
-  gtk_editable_set_editable(GTK_EDITABLE(GTK_COMBO(aiskill)->entry), FALSE);
+  aiskill = gtk_option_menu_new();
+  menu = gtk_menu_new();
   for (i = 0; i < NUM_SKILL_LEVELS; i++) {
-    items = g_list_append(items, _(skill_level_names[i]));
+    item = gtk_menu_item_new_with_label(_(skill_level_names[i]));
+    gtk_widget_show(item);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   }
-  gtk_combo_set_popdown_strings(GTK_COMBO(aiskill), items);
+  gtk_option_menu_set_menu(GTK_OPTION_MENU(aiskill), menu);
   gtk_box_pack_start(GTK_BOX(hbox), aiskill, FALSE, FALSE, 0);
 
 
