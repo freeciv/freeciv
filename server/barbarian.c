@@ -161,7 +161,7 @@ static struct player *create_barbarian_player(int land)
     barbarians->ai.is_barbarian = LAND_BARBARIAN;
   else
     barbarians->ai.is_barbarian = SEA_BARBARIAN;
-  set_ai_level_directer(barbarians, 5);           /* be a normal player */
+  set_ai_level_directer(barbarians, game.skill_level);
   init_tech(barbarians, game.tech);
 
   game.nplayers++;
