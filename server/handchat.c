@@ -41,7 +41,9 @@ static void form_chat_name(struct connection *pconn, char *buffer, size_t len)
 {
   struct player *pplayer = pconn->player;
 
-  if (!pplayer || strcmp(pplayer->name, ANON_PLAYER_NAME) == 0) {
+  if (!pplayer
+      || pconn->observer
+      || strcmp(pplayer->name, ANON_PLAYER_NAME) == 0) {
     my_snprintf(buffer, len, "(%s)", pconn->username);
   } else {
     my_snprintf(buffer, len, "%s", pplayer->name);
