@@ -1053,8 +1053,8 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit,
     *sprs++ = s;
   }
 
-  if(punit->ai.control) {
-    if(is_military_unit(punit)) {
+  if (punit->ai.control && punit->activity != ACTIVITY_EXPLORE) {
+    if (is_military_unit(punit)) {
       *sprs++ = sprites.unit.auto_attack;
     } else {
       *sprs++ = sprites.unit.auto_settler;
