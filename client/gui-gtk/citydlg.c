@@ -2294,13 +2294,22 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
   for (k = 0; k < MAX_LEN_WORKLIST; k++) {
     if (! worklist_peek_ith(pwl, &id, &is_unit, k))
       break;
+    int same_as_current_build = id == pdialog->pcity->currently_building
+      && is_unit == pdialog->pcity->is_building_unit;
+
+    /* Very special case: If we are currently building a wonder we
+       allow the construction to continue, even if we the wonder is
+       finished elsewhere, ie unbuildable. */
+    if (k == 0 && !is_unit && is_wonder(id) && same_as_current_build) {
+      worklist_remove(pwl, k);
+      break;
+    }
 
     /* If it can be built... */
     if (( is_unit && can_build_unit(pdialog->pcity, id)) ||
 	(!is_unit && can_build_improvement(pdialog->pcity, id))) {
       /* ...but we're not yet building it, then switch. */
-      if (id != pdialog->pcity->currently_building || 
-	  is_unit != pdialog->pcity->is_building_unit) {
+      if (!same_as_current_build) {
 
 	/* Change the current target */
 	packet.city_id=pdialog->pcity->id;
