@@ -229,11 +229,15 @@ void reset_move_costs(int x, int y);
 /*
  * Returns true if the step yields a new valid map position. If yes
  * (dest_x, dest_y) is set to the new map position.
+ *
+ * Direct calls to DIR_DXY should be avoided and DIRSTEP should be
+ * used. But to allow dest and src to be the same, as in
+ *    MAPSTEP(x, y, x, y, dir)
+ * we bend this rule here.
  */
 #define MAPSTEP(dest_x, dest_y, src_x, src_y, dir)	\
-(    DIRSTEP(dest_x, dest_y, dir),			\
-     (dest_x) += (src_x),		   		\
-     (dest_y) += (src_y),   				\
+(    (dest_x) = (src_x) + DIR_DX[(dir)],   		\
+     (dest_y) = (src_y) + DIR_DY[(dir)],		\
      normalize_map_pos(&(dest_x), &(dest_y)))
 
 struct city *map_get_city(int x, int y);
