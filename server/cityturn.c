@@ -205,7 +205,11 @@ void auto_arrange_workers(struct city *pcity)
    * are on a different scale.  Later the ai may wish to adjust its
    * priorities - this should be done via a separate set of variables. */
   if (pcity->size > 1) {
-    cmp.factor[FOOD] = 10;
+    if (pcity->size <= game.notradesize) {
+      cmp.factor[FOOD] = 15;
+    } else {
+      cmp.factor[FOOD] = 10;
+    }
   } else {
     /* Growing to size 2 is the highest priority. */
     cmp.factor[FOOD] = 20;
