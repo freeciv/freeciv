@@ -147,7 +147,6 @@ cities =
   "Rosheim (forest, hills, !ocean)",
   "Schmalkalden (forest, hills, !ocean)",
   "Lutter (forest, hills)",
-  "Barmen (grassland, plains, hills, river)",
   "Wiesloch (forest, hills, river, !ocean)",
   "Rosslau (grassland, plains, river)",
   "Minden (grassland, hills, swamp, river)",
@@ -156,6 +155,4 @@ cities =
   "Philippsburg (grassland, forest, hills, !ocean)",
   "Halberstadt (plains, hills)",
   "Bad Hersfeld (forest, hills)",
-  "Altenburg (forest, hills, !ocean)",
-  "Klostergrab",
-  "Elberfeld (grassland, plains, hills, river)"
+  "Altenburg (forest, hills, !ocean)"
