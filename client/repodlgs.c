@@ -75,6 +75,7 @@ Widget science_label;
 Widget science_current_label, science_goal_label;
 Widget science_change_menu_button, science_goal_menu_button;
 Widget science_list, science_help_toggle;
+Widget science_help_note;
 int science_dialog_shell_is_modal;
 Widget popupmenu, goalmenu;
 
@@ -358,6 +359,11 @@ void create_science_dialog(int make_modal)
 				                     science_form,
 						     NULL);
 
+  science_help_note = XtVaCreateManagedWidget("sciencehelpnote", 
+					      labelWidgetClass,
+					      science_form,
+					      NULL);
+  
   science_help_toggle = XtVaCreateManagedWidget("sciencehelptoggle", 
 						toggleWidgetClass, 
 						science_form,

@@ -1145,9 +1145,20 @@ Freeciv.iconName: Freeciv
 *sciencechangemenubutton.left:        chainLeft
 *sciencechangemenubutton.right:       chainLeft
 
+*sciencehelpnote.label:              \ On/Off:
+*sciencehelpnote.fromVert:           sciencelabel
+*sciencehelpnote.fromHoriz:          sciencechangemenubutton
+*sciencehelpnote.internalHeight:     0
+*sciencehelpnote.borderWidth:        0
+*sciencehelpnote.background:         lightblue
+*sciencehelpnote.top:                chainTop
+*sciencehelpnote.bottom:             chainTop
+*sciencehelpnote.left:               chainLeft
+*sciencehelpnote.right:              chainRight
+
 *sciencehelptoggle.label:          Help
 *sciencehelptoggle.fromVert:       sciencelabel
-*sciencehelptoggle.fromHoriz:      sciencechangemenubutton
+*sciencehelptoggle.fromHoriz:      sciencehelpnote
 *sciencehelptoggle.internalHeight: 0
 *sciencehelptoggle.background:     cyan
 *sciencehelptoggle.top:         chainTop
@@ -1176,7 +1187,7 @@ Freeciv.iconName: Freeciv
 
 *sciencelist.fromVert:            sciencegoallabel
 *sciencelist.forceColumns:        true
-*sciencelist.defaultColumns:      3
+*sciencelist.defaultColumns:      4
 *sciencelist.verticalList:        true
 *sciencelist.background:          cyan
 *sciencelist.resizable:           true
