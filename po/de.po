@@ -9617,7 +9617,7 @@ msgstr "Einheit auflösen"
 
 #: client/gui-gtk-2.0/menu.c:704
 msgid "Diplomat\\/Spy Actions"
-msgstr "Aktionen von Diplomaten/Spionen"
+msgstr "Aktionen von Diplomaten\\/Spionen"
 
 #: client/gui-gtk-2.0/menu.c:706 client/gui-gtk/menu.c:705
 #: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1683
