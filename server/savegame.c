@@ -1764,7 +1764,7 @@ static void check_city(struct city *pcity)
     switch (pcity->city_map[x][y]) {
     case C_TILE_EMPTY:
       if (!res) {
-	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+	set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
 	freelog(LOG_DEBUG, "unavailable tile marked as empty!");
       }
       break;
@@ -1785,7 +1785,7 @@ static void check_city(struct city *pcity)
       break;
     case C_TILE_UNAVAILABLE:
       if (res) {
-	pcity->city_map[x][y] = C_TILE_EMPTY;
+	set_worker_city(pcity, x, y, C_TILE_EMPTY);
 	freelog(LOG_DEBUG, "Empty tile Marked as unavailable!");
       }
       break;
