@@ -137,7 +137,12 @@ bool base_city_map_to_map(int *map_x, int *map_y,
   assert(is_valid_city_coords(city_map_x, city_map_y));
   *map_x = city_center_x + city_map_x - CITY_MAP_SIZE / 2;
   *map_y = city_center_y + city_map_y - CITY_MAP_SIZE / 2;
-  return normalize_map_pos(map_x, map_y);
+
+  /* We check the border first to avoid doing an unnecessary
+   * normalization; this is just an optimization. */
+  return (!IS_BORDER_MAP_POS(city_center_x, city_center_y,
+                            CITY_MAP_SIZE / 2)
+         || normalize_map_pos(map_x, map_y));
 }
 
 /**************************************************************************
