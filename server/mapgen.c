@@ -1000,28 +1000,39 @@ void assign_continent_numbers(void)
 ****************************************************************************/
 static int get_tile_value(int x, int y)
 {
-  switch (map_get_terrain(x, y)) {
+  struct tile *ptile = map_get_tile(x, y);
+  enum tile_terrain_type old_terrain;
+  enum tile_special_type old_special;
+  int value, irrig_bonus, mine_bonus;
 
-    /* range 0 .. 5 , 2 standard */
+  /* Give one point for each food / shield / trade produced. */
+  value = (get_food_tile(x, y)
+	   + get_shields_tile(x, y)
+	   + get_trade_tile(x, y));
 
-  case T_FOREST:
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 3 : 5;
-  case T_GRASSLAND:
-  case T_PLAINS:
-  case T_HILLS:
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 2 : 4;
-  case T_DESERT:
-  case T_OCEAN:/* must be called with usable seas */    
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 1 : 3;
-  case T_SWAMP:
-  case T_JUNGLE:
-  case T_MOUNTAINS:
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 0 : 3;
-  /* case T_ARCTIC: */
-  /* case T_TUNDRA: */
-  default:
-    return (map_get_special(x, y) == S_NO_SPECIAL) ? 0 : 1;
-  }
+  old_terrain = ptile->terrain;
+  old_special = ptile->special;
+
+  map_set_special(x, y, S_ROAD);
+  map_irrigate_tile(x, y);
+  irrig_bonus = (get_food_tile(x, y)
+		 + get_shields_tile(x, y)
+		 + get_trade_tile(x, y)) - value;
+
+  ptile->terrain = old_terrain;
+  ptile->special = old_special;
+  map_set_special(x, y, S_ROAD);
+  map_mine_tile(x, y);
+  mine_bonus = (get_food_tile(x, y)
+		 + get_shields_tile(x, y)
+		 + get_trade_tile(x, y)) - value;
+
+  ptile->terrain = old_terrain;
+  ptile->special = old_special;
+
+  value += MAX(0, MAX(mine_bonus, irrig_bonus)) / 2;
+
+  return value;
 }
 
 /**************************************************************************
