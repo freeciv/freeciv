@@ -408,6 +408,28 @@ static bool trireme_is_pos_dangerous(const struct tile *ptile,
 	  || (is_ocean(ptile->terrain) && !is_safe_ocean(ptile)))
 	  && ptile->city == NULL);
 }
+/****************************************************************************
+  Position-dangerous callback for air units.
+****************************************************************************/
+static bool air_is_pos_dangerous(const struct tile *ptile,
+				 enum known_type known,
+				 struct pf_parameter *param)
+{
+  /* FIXME: bombers with fuel remaining should not worry about danger. */
+
+  if (is_allied_city_tile(ptile, param->owner)) {
+    return FALSE;
+  }
+
+  if (map_has_special(ptile, S_AIRBASE)) {
+    /* All airbases are considered non-dangerous, although non-allied ones
+     * are inaccessible. */
+    return FALSE;
+  }
+
+  /* Carriers are ignored since they are likely to move. */
+  return TRUE;
+}
 
 /**********************************************************************
   Position-dangerous callback for all units other than triremes.
@@ -447,9 +469,22 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     break;
   case AIR_MOVING:
     parameter->get_MC = single_airmove;
+    parameter->is_pos_dangerous = air_is_pos_dangerous;
+    parameter->turn_mode = TM_WORST_TIME;
     break;
-  default:
-    die("unknown move_type");
+  case HELI_MOVING:
+    /* Helicoptors are treated similarly to airplanes. */
+    parameter->get_MC = single_airmove;
+    if (get_player_bonus(unit_owner(punit), EFT_UNIT_RECOVER)
+	>= unit_type(punit)->hp / 10) {
+      /* United nations cancels out helicoptor fuel loss. */
+      parameter->is_pos_dangerous = NULL;
+    } else {
+      /* Otherwise, don't risk fuel loss. */
+      parameter->is_pos_dangerous = air_is_pos_dangerous;
+      parameter->turn_mode = TM_WORST_TIME;
+    }
+    break;
   }
 
   if (unit_type(punit)->move_type == LAND_MOVING 
@@ -486,7 +521,8 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
   case SEA_MOVING:
     parameter->get_MC = sea_overlap_move;
     break;
-  default:
+  case AIR_MOVING:
+  case HELI_MOVING:
     die("Unsupported move_type");
   }
 
@@ -515,7 +551,8 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
   case SEA_MOVING:
     parameter->get_MC = sea_attack_move;
     break;
-  default:
+  case AIR_MOVING:
+  case HELI_MOVING:
     die("Unsupported move_type");
   }
 

@@ -648,14 +648,9 @@ void request_unit_goto(enum unit_orders last_order)
   if (hover_state != HOVER_GOTO) {
     set_hover_state(punit, HOVER_GOTO, ACTIVITY_LAST, last_order);
     update_unit_info_label(punit);
-    /* Not yet implemented for air units, including helicopters. */
-    if (is_air_unit(punit) || is_heli_unit(punit)) {
-      draw_goto_line = FALSE;
-    } else {
-      enter_goto_state(punit);
-      create_line_at_mouse_pos();
-    }
-  } else if (!is_air_unit(punit) && !is_heli_unit(punit)) {
+    enter_goto_state(punit);
+    create_line_at_mouse_pos();
+  } else {
     assert(goto_is_active());
     goto_add_waypoint();
   }
@@ -798,11 +793,6 @@ void request_unit_airlift(struct unit *punit, struct city *pcity)
 void request_unit_return(struct unit *punit)
 {
   struct pf_path *path;
-
-  if (is_air_unit(punit) || is_heli_unit(punit)) {
-    /* PF doesn't support air or helicopter units yet. */
-    return;
-  }
 
   if ((path = path_to_nearest_allied_city(punit))) {
     int turns = pf_last_position(path)->turn;
@@ -1076,13 +1066,8 @@ void request_unit_patrol(void)
   if (hover_state != HOVER_PATROL) {
     set_hover_state(punit, HOVER_PATROL, ACTIVITY_LAST, ORDER_LAST);
     update_unit_info_label(punit);
-    /* Not yet implemented for air units, including helicopters. */
-    if (is_air_unit(punit) || is_heli_unit(punit)) {
-      draw_goto_line = FALSE;
-    } else {
-      enter_goto_state(punit);
-      create_line_at_mouse_pos();
-    }
+    enter_goto_state(punit);
+    create_line_at_mouse_pos();
   } else {
     assert(goto_is_active());
     goto_add_waypoint();
@@ -1712,19 +1697,14 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 **************************************************************************/
 void do_unit_patrol_to(struct unit *punit, struct tile *ptile)
 {
-  if (is_air_unit(punit)) {
-    append_output_window(_("Sorry, airunit patrol not yet implemented."));
-    return;
-  } else {
-    struct tile *dest_tile;
+  struct tile *dest_tile;
 
-    draw_line(ptile);
-    dest_tile = get_line_dest();
-    if (ptile == dest_tile) {
-      send_patrol_route(punit);
-    } else {
-      append_output_window(_("Didn't find a route to the destination!"));
-    }
+  draw_line(ptile);
+  dest_tile = get_line_dest();
+  if (ptile == dest_tile) {
+    send_patrol_route(punit);
+  } else {
+    append_output_window(_("Didn't find a route to the destination!"));
   }
 
   set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);

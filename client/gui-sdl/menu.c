@@ -1224,12 +1224,6 @@ void update_menus(void)
 	local_hide(ID_UNIT_ORDER_AIRLIFT);
       }
 
-      if (!pTile->city && !is_air_unittype(pUnit->type)) {
-        local_show(ID_UNIT_ORDER_RETURN);
-      } else {
-	local_hide(ID_UNIT_ORDER_RETURN);
-      }
-      
       if (pTile->city && can_upgrade_unittype(game.player_ptr, pUnit->type) != -1) {
 	local_show(ID_UNIT_ORDER_UPGRADE);
       } else {

@@ -429,8 +429,6 @@ void update_menus(void)
 			   unit_can_help_build_wonder_here(punit));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_TRADEROUTE,
 			   unit_can_est_traderoute_here(punit));
-      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_RETURN,
-			   !(is_air_unit(punit) || is_heli_unit(punit)));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_DIPLOMAT_DLG,
 			   (is_diplomat_unit(punit)
 			    && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
