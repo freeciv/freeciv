@@ -608,7 +608,6 @@ void send_city_info(struct player *dest, struct city *pcity, int dosend)
   packet.food_stock=pcity->food_stock;
   packet.shield_stock=pcity->shield_stock;
   packet.pollution=pcity->pollution;
-  packet.incite_revolt_cost=pcity->incite_revolt_cost;
   
   packet.is_building_unit=pcity->is_building_unit;
   packet.currently_building=pcity->currently_building;

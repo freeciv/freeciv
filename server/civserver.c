@@ -713,71 +713,71 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_chat_msg(pplayer, (struct packet_generic_message *)packet);
     break;
 
-   case PACKET_CITY_SELL:
+  case PACKET_CITY_SELL:
     handle_city_sell(pplayer, (struct packet_city_request *)packet);
     break;
 
-   case PACKET_CITY_BUY:
+  case PACKET_CITY_BUY:
     handle_city_buy(pplayer, (struct packet_city_request *)packet);
     break;
    
-   case PACKET_CITY_CHANGE:
+  case PACKET_CITY_CHANGE:
     handle_city_change(pplayer, (struct packet_city_request *)packet);
     break;
 
-   case PACKET_CITY_MAKE_SPECIALIST:
+  case PACKET_CITY_MAKE_SPECIALIST:
     handle_city_make_specialist(pplayer, (struct packet_city_request *)packet);
     break;
 
-   case PACKET_CITY_MAKE_WORKER:
+  case PACKET_CITY_MAKE_WORKER:
     handle_city_make_worker(pplayer, (struct packet_city_request *)packet);
     break;
 
-   case PACKET_CITY_CHANGE_SPECIALIST:
+  case PACKET_CITY_CHANGE_SPECIALIST:
     handle_city_change_specialist(pplayer, (struct packet_city_request *)packet);
     break;
 
-   case PACKET_CITY_RENAME:
+  case PACKET_CITY_RENAME:
     handle_city_rename(pplayer, (struct packet_city_request *)packet);
     break;
 
-   case PACKET_PLAYER_RATES:
+  case PACKET_PLAYER_RATES:
     handle_player_rates(pplayer, (struct packet_player_request *)packet);
     break;
 
-   case PACKET_PLAYER_REVOLUTION:
+  case PACKET_PLAYER_REVOLUTION:
     handle_player_revolution(pplayer);
     break;
 
-   case PACKET_PLAYER_GOVERNMENT:
+  case PACKET_PLAYER_GOVERNMENT:
     handle_player_government(pplayer, (struct packet_player_request *)packet);
     break;
 
-   case PACKET_PLAYER_RESEARCH:
+  case PACKET_PLAYER_RESEARCH:
     handle_player_research(pplayer, (struct packet_player_request *)packet);
     break;
 
-   case PACKET_PLAYER_TECH_GOAL:
+  case PACKET_PLAYER_TECH_GOAL:
     handle_player_tech_goal(pplayer, (struct packet_player_request *)packet);
     break;
 
-   case PACKET_UNIT_BUILD_CITY:
+  case PACKET_UNIT_BUILD_CITY:
     handle_unit_build_city(pplayer, (struct packet_unit_request *)packet);
     break;
 
-   case PACKET_UNIT_DISBAND:
+  case PACKET_UNIT_DISBAND:
     handle_unit_disband(pplayer, (struct packet_unit_request *)packet);
     break;
 
-   case PACKET_UNIT_CHANGE_HOMECITY:
+  case PACKET_UNIT_CHANGE_HOMECITY:
     handle_unit_change_homecity(pplayer, (struct packet_unit_request *)packet);
     break;
 
-   case PACKET_UNIT_AUTO:
+  case PACKET_UNIT_AUTO:
     handle_unit_auto_request(pplayer, (struct packet_unit_request *)packet);
     break;
 
-   case PACKET_UNIT_UNLOAD:
+  case PACKET_UNIT_UNLOAD:
     handle_unit_unload_request(pplayer, (struct packet_unit_request *)packet);
     break;
 
@@ -785,27 +785,26 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     handle_upgrade_unit_request(pplayer, (struct packet_unittype_info *)packet);
     break;
 
-   case PACKET_UNIT_ESTABLISH_TRADE:
+  case PACKET_UNIT_ESTABLISH_TRADE:
     handle_unit_establish_trade(pplayer, (struct packet_unit_request *)packet);
     break;
 
-   case PACKET_UNIT_HELP_BUILD_WONDER:
+  case PACKET_UNIT_HELP_BUILD_WONDER:
     handle_unit_help_build_wonder(pplayer, (struct packet_unit_request *)packet);
     break;
 
-   case PACKET_UNIT_GOTO_TILE:
+  case PACKET_UNIT_GOTO_TILE:
     handle_unit_goto_tile(pplayer, (struct packet_unit_request *)packet);
     break;
     
-   case PACKET_DIPLOMAT_ACTION:
+  case PACKET_DIPLOMAT_ACTION:
     handle_diplomat_action(pplayer, (struct packet_diplomat_action *)packet);
     break;
-
-   case PACKET_REPORT_REQUEST:
+  case PACKET_REPORT_REQUEST:
     handle_report_request(pplayer, 
      ((struct packet_generic_integer *)packet)->value);
     break;
-   case PACKET_DIPLOMACY_INIT_MEETING:
+  case PACKET_DIPLOMACY_INIT_MEETING:
     handle_diplomacy_init(pplayer, (struct packet_diplomacy_info *)packet);
     break;
   case PACKET_DIPLOMACY_CANCEL_MEETING:
@@ -822,6 +821,9 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     break;
   case PACKET_CITY_REFRESH:
     handle_city_refresh(pplayer, (struct packet_generic_integer *)packet);
+    break;
+  case PACKET_INCITE_INQ:
+    handle_incite_inq(pplayer, (struct packet_generic_integer *)packet);
     break;
   default:
     log(LOG_NORMAL, "uh got an unknown packet from %s", game.players[i].name);

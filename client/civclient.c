@@ -197,6 +197,10 @@ void handle_packet_input(char *packet, int type)
   case PACKET_REMOVE_PLAYER:
     handle_remove_player((struct packet_generic_integer *)packet);
     break;
+
+  case PACKET_INCITE_COST:
+    handle_incite_cost((struct packet_generic_values *)packet);
+    break;
     
   default:
     log(LOG_FATAL, "Received unknown packet from server!");

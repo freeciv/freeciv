@@ -449,42 +449,46 @@ void diplomat_incite_no_callback(Widget w, XtPointer client_data,
 }
 
 
-
 /****************************************************************
-...
+...  Ask the server how much the revolt is going to cost us
 *****************************************************************/
 void diplomat_incite_callback(Widget w, XtPointer client_data, 
 			      XtPointer call_data)
 {
-  char buf[512];
   struct city *pcity;
+  struct packet_generic_integer packet;
 
   destroy_message_dialog(w);
-  
-   if(find_unit_by_id(diplomat_id) && 
-     (pcity=find_city_by_id(diplomat_target_id))) { 
-      
-      if(game.player_ptr->economic.gold>=pcity->incite_revolt_cost) {
-	 sprintf(buf, "Incite a revolt for %d gold?\nTreasury contains %d gold.", 
-		 pcity->incite_revolt_cost,
-		 game.player_ptr->economic.gold);
-	 popup_message_dialog(toplevel, "diplomatrevoltdialog", buf,
-			      diplomat_incite_yes_callback, 0,
-			      diplomat_incite_no_callback, 0, 0);
-      }
-    else {
-      sprintf(buf, "Inciting a revolt costs %d gold.\nTreasury contains %d gold.", 
-	      pcity->incite_revolt_cost,
-	      game.player_ptr->economic.gold);
-      popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
-			   diplomat_incite_no_callback, 0, 
-			   0);
-    }
-  
-  }
 
+  if(find_unit_by_id(diplomat_id) && 
+     (pcity=find_city_by_id(diplomat_target_id))) { 
+    packet.value = diplomat_target_id;
+    send_packet_generic_integer(&aconnection, PACKET_INCITE_INQ, &packet);
+  }
 }
 
+/****************************************************************
+...  Popup the yes/no dialog for inciting, since we know the cost now
+*****************************************************************/
+void popup_incite_dialog(struct city *pcity)
+{
+  char buf[128];
+
+  if(game.player_ptr->economic.gold>=pcity->incite_revolt_cost) {
+   sprintf(buf, "Incite a revolt for %d gold?\nTreasury contains %d gold.", 
+	   pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+   diplomat_target_id = pcity->id;
+   popup_message_dialog(toplevel, "diplomatrevoltdialog", buf,
+			diplomat_incite_yes_callback, 0,
+			diplomat_incite_no_callback, 0, 0);
+  } else {
+   sprintf(buf, "Inciting a revolt costs %d gold.\nTreasury contains %d gold.", 
+	      pcity->incite_revolt_cost, game.player_ptr->economic.gold);
+   popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
+			diplomat_incite_no_callback, 0, 
+			0);
+  }
+}
 
 
 /****************************************************************

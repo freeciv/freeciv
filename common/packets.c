@@ -75,6 +75,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_REPORT_REQUEST:
   case PACKET_REMOVE_PLAYER:  
   case PACKET_CITY_REFRESH:
+  case PACKET_INCITE_INQ:
     return recieve_packet_generic_integer(pc);
     
   case PACKET_ALLOC_RACE:
@@ -137,6 +138,10 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
   case PACKET_DIPLOMACY_ACCEPT_TREATY:
   case PACKET_DIPLOMACY_SIGN_TREATY:
     return recieve_packet_diplomacy_info(pc);
+
+  case PACKET_INCITE_COST:
+    return recieve_packet_generic_values(pc);
+
   default:
     log(LOG_NORMAL, "unknown packet type received");
     remove_packet_from_buffer(&pc->buffer);
@@ -1008,7 +1013,6 @@ int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
   cptr=put_int16(cptr, req->food_stock);
   cptr=put_int16(cptr, req->shield_stock);
   cptr=put_int16(cptr, req->pollution);
-  cptr=put_int32(cptr, req->incite_revolt_cost);
   cptr=put_int8(cptr, req->currently_building);
 
   data=req->is_building_unit?1:0;
@@ -1076,7 +1080,6 @@ recieve_packet_city_info(struct connection *pc)
   cptr=get_int16(cptr, &packet->food_stock);
   cptr=get_int16(cptr, &packet->shield_stock);
   cptr=get_int16(cptr, &packet->pollution);
-  cptr=get_int32(cptr, &packet->incite_revolt_cost);
   cptr=get_int8(cptr, &packet->currently_building);
 
   cptr=get_int8(cptr, &data);
@@ -1381,6 +1384,50 @@ recieve_packet_alloc_race(struct connection *pc)
   cptr=get_int8(cptr, NULL);
   cptr=get_int32(cptr, &packet->race_no);
   cptr=get_string(cptr, packet->name);
+
+  remove_packet_from_buffer(&pc->buffer);
+
+  return packet;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int send_packet_generic_values(struct connection *pc, int type,
+			       struct packet_generic_values *req)
+{
+  unsigned char buffer[MAX_PACKET_SIZE], *cptr;
+  
+  cptr=put_int8(buffer+2, type);
+  cptr=put_int16(cptr, req->id);
+  cptr=put_int32(cptr, req->value1);
+  cptr=put_int32(cptr, req->value2);
+
+  put_int16(buffer, cptr-buffer);
+
+  return send_connection_data(pc, buffer, cptr-buffer);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct packet_generic_values *
+recieve_packet_generic_values(struct connection *pc)
+{
+  unsigned char *cptr;
+  int length;
+  struct packet_generic_values *packet=
+    malloc(sizeof(struct packet_generic_values));
+
+  cptr=get_int16(pc->buffer.data, &length);
+  cptr=get_int8(cptr, NULL);
+  cptr=get_int16(cptr, &packet->id);
+  if(pc->buffer.data+length-cptr >= 4)
+    cptr=get_int32(cptr, &packet->value1);
+  else packet->value1=0;
+  if(pc->buffer.data+length-cptr >= 4)
+    cptr=get_int32(cptr, &packet->value2);
+  else packet->value2=0;
 
   remove_packet_from_buffer(&pc->buffer);
 

@@ -175,7 +175,6 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->food_stock=packet->food_stock;
   pcity->shield_stock=packet->shield_stock;
   pcity->pollution=packet->pollution;
-  pcity->incite_revolt_cost=packet->incite_revolt_cost;
     
   pcity->is_building_unit=packet->is_building_unit;
   pcity->currently_building=packet->currently_building;
@@ -647,4 +646,17 @@ void handle_select_race(struct packet_generic_integer *packet)
   }
   else
     log(LOG_DEBUG, "got a select race packet in an incompatible state");
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void handle_incite_cost(struct packet_generic_values *packet)
+{
+  struct city *pcity=find_city_by_id(packet->id);
+
+  if(pcity)  {
+    pcity->incite_revolt_cost = packet->value1;
+    popup_incite_dialog(pcity);
+  }
 }

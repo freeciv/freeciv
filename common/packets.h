@@ -77,7 +77,9 @@ enum packet_type {
   PACKET_UNIT_UPGRADE,
   PACKET_UNIT_UNLOAD,
   PACKET_PLAYER_TECH_GOAL,
-  PACKET_CITY_REFRESH
+  PACKET_CITY_REFRESH,
+  PACKET_INCITE_INQ,
+  PACKET_INCITE_COST
 };
 
 enum report_type {
@@ -255,7 +257,6 @@ struct packet_city_info {
   int food_stock;
   int shield_stock;
   int pollution;
-  int incite_revolt_cost;
 
   int is_building_unit;
   int currently_building;
@@ -381,6 +382,13 @@ struct packet_map_info {
   int is_earth;
 };
 
+/*********************************************************
+...
+*********************************************************/
+struct packet_generic_values {
+  int id;
+  int value1,value2;
+};
 
 /*********************************************************
 this is where the data is first collected, whenever it
@@ -486,10 +494,6 @@ int send_packet_alloc_race(struct connection *pc,
 struct packet_alloc_race *recieve_packet_alloc_race(struct connection *pc);
 
 
-
-
-
-
 int send_packet_generic_message(struct connection *pc, int type,
 				struct packet_generic_message *message);
 struct packet_generic_message *recieve_packet_generic_message(struct 
@@ -527,6 +531,11 @@ struct packet_before_new_year *recieve_packet_before_new_year(struct connection 
 int send_packet_unittype_info(struct connection *pc, int type, int action);
 struct packet_unittype_info *recieve_packet_unittype_info(struct connection *pc);
 int send_packet_before_end_year(struct connection *pc);
+
+int send_packet_generic_values(struct connection *pc, int type,
+			       struct packet_generic_values *req);
+struct packet_generic_values *
+recieve_packet_generic_values(struct connection *pc);
 
 void *get_packet_from_connection(struct connection *pc, int *ptype);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
