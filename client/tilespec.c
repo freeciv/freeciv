@@ -2030,13 +2030,11 @@ static int fill_unit_sprite_array(struct drawn_sprite *sprs,
     }
   }
 
-  if (punit->connecting) {
-    ADD_SPRITE_FULL(sprites.unit.connect);
-  }
-
   if (unit_has_orders(punit)) {
     if (punit->orders.repeat) {
       ADD_SPRITE_FULL(sprites.unit.patrol);
+    } else if (punit->activity != ACTIVITY_IDLE) {
+      ADD_SPRITE_SIMPLE(sprites.unit.connect);
     } else {
       ADD_SPRITE_FULL(sprites.unit.go_to);
     }

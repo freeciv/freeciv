@@ -35,6 +35,8 @@ extern enum unit_activity connect_activity;
 extern bool draw_goto_line;
 extern bool non_ai_unit_focus;
 
+bool can_unit_do_connect(struct unit *punit, enum unit_activity activity);
+
 void do_move_unit(struct unit *punit, struct unit *target_unit);
 void do_unit_goto(int x, int y);
 void do_unit_nuke(struct unit *punit);

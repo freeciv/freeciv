@@ -559,31 +559,6 @@ bool can_unit_do_auto(struct unit *punit)
 }
 
 /**************************************************************************
-Return whether the unit can connect with given activity (or with
-any activity if activity arg is set to ACTIVITY_IDLE)
-**************************************************************************/
-bool can_unit_do_connect (struct unit *punit, enum unit_activity activity) 
-{
-  struct player *pplayer = unit_owner(punit);
-
-  if (!unit_flag(punit, F_SETTLERS))
-    return FALSE;
-
-  if (activity == ACTIVITY_IDLE)   /* IDLE here means "any activity" */
-    return TRUE;
-
-  if (activity == ACTIVITY_ROAD 
-      || activity == ACTIVITY_IRRIGATE 
-      || (activity == ACTIVITY_RAILROAD
-	  && player_knows_techs_with_flag(pplayer, TF_RAILROAD))
-      || (activity == ACTIVITY_FORTRESS 
-	  && player_knows_techs_with_flag(pplayer, TF_FORTRESS)))
-  return TRUE;
-
-  return FALSE;
-}
-
-/**************************************************************************
   Return the name of the activity in a static buffer.
 **************************************************************************/
 const char *get_activity_text(enum unit_activity activity)
@@ -773,9 +748,6 @@ bool can_unit_continue_current_activity(struct unit *punit)
   enum unit_activity current2 = 
               (current == ACTIVITY_FORTIFIED) ? ACTIVITY_FORTIFYING : current;
   bool result;
-
-  if (punit->connecting)
-    return can_unit_do_connect(punit, current);
 
   punit->activity = ACTIVITY_IDLE;
   punit->activity_target = S_NO_SPECIAL;
@@ -1001,7 +973,6 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   punit->activity=new_activity;
   punit->activity_count=0;
   punit->activity_target = S_NO_SPECIAL;
-  punit->connecting = FALSE;
   if (new_activity == ACTIVITY_IDLE && punit->moves_left > 0) {
     /* No longer done. */
     punit->done_moving = FALSE;
@@ -1491,14 +1462,14 @@ bool can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y,
 			   bool igzoc)
 {
   return MR_OK == test_unit_move_to_tile(punit->type, unit_owner(punit),
-					 punit->activity, punit->connecting,
+					 punit->activity,
 					 punit->x, punit->y, dest_x, dest_y,
 					 igzoc);
 }
 
 /**************************************************************************
   unit can be moved if:
-  1) the unit is idle or on goto or connecting.
+  1) the unit is idle or on server goto.
   2) the target location is on the map
   3) the target location is next to the unit
   4) there are no non-allied units on the target tile
@@ -1513,9 +1484,9 @@ bool can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y,
 enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 					     struct player *unit_owner,
 					     enum unit_activity activity,
-					     bool connecting, int src_x,
-					     int src_y, int dest_x,
-					     int dest_y, bool igzoc)
+					     int src_x, int src_y,
+					     int dest_x, int dest_y,
+					     bool igzoc)
 {
   struct tile *pfromtile, *ptotile;
   bool zoc;
@@ -1523,8 +1494,7 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 
   /* 1) */
   if (activity != ACTIVITY_IDLE
-      && activity != ACTIVITY_GOTO
-      && !connecting) {
+      && activity != ACTIVITY_GOTO) {
     return MR_BAD_ACTIVITY;
   }
 
@@ -1733,7 +1703,6 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->moves_left = unit_move_rate(punit);
   punit->moved = FALSE;
   punit->paradropped = FALSE;
-  punit->connecting = FALSE;
   punit->done_moving = FALSE;
   if (is_barbarian(pplayer)) {
     punit->fuel = BARBARIAN_LIFE;

@@ -196,7 +196,7 @@ int could_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y)
 
   result =
       test_unit_move_to_tile(punit->type, unit_owner(punit),
-                             ACTIVITY_IDLE, FALSE, punit->x, punit->y, 
+                             ACTIVITY_IDLE, punit->x, punit->y, 
                              dest_x, dest_y, unit_flag(punit, F_IGZOC));
   if (result == MR_OK) {
     return 1;

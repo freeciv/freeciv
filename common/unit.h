@@ -156,7 +156,6 @@ struct unit {
   bool debug;
   bool moved;
   bool paradropped;
-  bool connecting;
 
   /* This value is set if the unit is done moving for this turn. This
    * information is used by the client.  The invariant is:
@@ -253,7 +252,6 @@ bool can_unit_unload(struct unit *punit, struct unit *ptrans);
 bool can_unit_paradrop(struct unit *punit);
 bool can_unit_bombard(struct unit *punit);
 bool can_unit_change_homecity(struct unit *punit);
-bool can_unit_do_connect(struct unit *punit, enum unit_activity activity);
 const char *get_activity_text(enum unit_activity activity);
 bool can_unit_continue_current_activity(struct unit *punit);
 bool can_unit_do_activity(struct unit *punit, enum unit_activity activity);
@@ -331,9 +329,9 @@ bool can_unit_move_to_tile(struct unit *punit, int dest_x, int dest_y,
 enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 					     struct player *unit_owner,
 					     enum unit_activity activity,
-					     bool connecting, int src_x,
-					     int src_y, int dest_x,
-					     int dest_y, bool igzoc);
+					     int src_x, int src_y,
+					     int dest_x, int dest_y,
+					     bool igzoc);
 bool unit_type_really_ignores_zoc(Unit_Type_id type);
 bool zoc_ok_move(struct unit *punit, int x, int y);
 

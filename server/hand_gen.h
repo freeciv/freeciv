@@ -58,7 +58,6 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id);
 void handle_unit_nuke(struct player *pplayer, int unit_id);
 void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int x, int y);
 void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id);
-void handle_unit_connect(struct player *pplayer, int unit_id, enum unit_activity activity_type, int dest_x, int dest_y);
 void handle_unit_bribe_inq(struct connection *pc, int unit_id);
 void handle_unit_type_upgrade(struct player *pplayer, Unit_Type_id type);
 void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id, enum diplomat_actions action_type, int target_id, int value);

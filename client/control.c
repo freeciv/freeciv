@@ -620,6 +620,41 @@ void request_unit_goto(void)
 }
 
 /**************************************************************************
+  Return whether the unit can connect with given activity (or with
+  any activity if activity arg is set to ACTIVITY_IDLE)
+
+  This function is client-specific.
+**************************************************************************/
+bool can_unit_do_connect (struct unit *punit, enum unit_activity activity) 
+{
+  struct player *pplayer = unit_owner(punit);
+  Terrain_type_id terrain = map_get_terrain(punit->x, punit->y);
+  struct tile_type *ttype = get_tile_type(terrain);
+
+  if (!can_unit_do_activity(punit, activity)) {
+    return FALSE;
+  }
+
+  switch (activity) {
+  case ACTIVITY_ROAD:
+    return TRUE;
+  case ACTIVITY_RAILROAD:
+    if (!player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
+      return FALSE;
+    }
+    return TRUE;
+  case ACTIVITY_IRRIGATE:
+    if (ttype->irrigation_result != terrain) {
+      return FALSE;
+    }
+    return TRUE;
+  default:
+    break;
+  }
+  return FALSE;
+}
+
+/**************************************************************************
 prompt player for entering destination point for unit connect
 (e.g. connecting with roads)
 **************************************************************************/
@@ -633,6 +668,12 @@ void request_unit_connect(enum unit_activity activity)
     /* Enter or change the hover connect state. */
     set_hover_state(punit_focus, HOVER_CONNECT, activity);
     update_unit_info_label(punit_focus);
+
+    enter_goto_state(punit_focus);
+    create_line_at_mouse_pos();
+  } else {
+    assert(goto_is_active());
+    goto_add_waypoint();
   }
 }
 
@@ -1640,13 +1681,23 @@ void do_unit_patrol_to(struct unit *punit, int x, int y)
 void do_unit_connect(struct unit *punit, int x, int y,
 		     enum unit_activity activity)
 {
-  struct packet_unit_connect req;
+  if (is_air_unit(punit)) {
+    append_output_window(_("Game: Sorry, airunit connect "
+			   "not yet implemented."));
+  } else {
+    int dest_x, dest_y;
 
-  req.activity_type = activity;
-  req.unit_id = punit->id;
-  req.dest_x = x;
-  req.dest_y = y;
-  send_packet_unit_connect(&aconnection, &req);
+    draw_line(x, y);
+    get_line_dest(&dest_x, &dest_y);
+    if (same_pos(dest_x, dest_y, x, y)) {
+      send_connect_route(punit, activity);
+    } else {
+      append_output_window(_("Game: Didn't find a route to "
+			     "the destination!"));
+    }
+  }
+
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST);
 }
  
 /**************************************************************************

@@ -1289,9 +1289,6 @@ static void load_player_units(struct player *plr, int plrno,
       = secfile_lookup_int_default(file, (int) S_NO_SPECIAL,
 				   "player%d.u%d.activity_target", plrno, i);
 
-    punit->connecting
-      = secfile_lookup_bool_default(file, FALSE,
-				    "player%d.u%d.connecting", plrno, i);
     punit->done_moving = secfile_lookup_bool_default(file,
 	(punit->moves_left == 0), "player%d.u%d.done_moving", plrno, i);
 
@@ -1360,7 +1357,7 @@ static void load_player_units(struct player *plr, int plrno,
 			"player%d.u%d.activity_list", plrno, i);
 	punit->has_orders = TRUE;
 	for (j = 0; j < len; j++) {
-	  if (orders_buf[j] == '\0' || dir_buf == '\0'
+	  if (orders_buf[j] == '\0' || dir_buf[j] == '\0'
 	      || act_buf[j] == '\0') {
 	    freelog(LOG_ERROR, _("Savegame error: invalid unit orders."));
 	    free_unit_orders(punit);
@@ -2440,9 +2437,6 @@ static void player_save(struct player *plr, int plrno,
 				plrno, i);
     secfile_insert_int(file, punit->activity_target, 
 				"player%d.u%d.activity_target",
-				plrno, i);
-    secfile_insert_bool(file, punit->connecting, 
-				"player%d.u%d.connecting",
 				plrno, i);
     secfile_insert_bool(file, punit->done_moving,
 			"player%d.u%d.done_moving", plrno, i);

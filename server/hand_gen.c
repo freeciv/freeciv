@@ -224,14 +224,6 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_unit_airlift *)packet)->city_id);
     return TRUE;
 
-  case PACKET_UNIT_CONNECT:
-    handle_unit_connect(pplayer,
-      ((struct packet_unit_connect *)packet)->unit_id,
-      ((struct packet_unit_connect *)packet)->activity_type,
-      ((struct packet_unit_connect *)packet)->dest_x,
-      ((struct packet_unit_connect *)packet)->dest_y);
-    return TRUE;
-
   case PACKET_UNIT_BRIBE_INQ:
     handle_unit_bribe_inq(pconn,
       ((struct packet_unit_bribe_inq *)packet)->unit_id);

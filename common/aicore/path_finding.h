@@ -324,11 +324,6 @@ struct pf_parameter {
   int (*get_EC) (int x, int y, enum known_type known,
 		 struct pf_parameter * param);
 
-  /* Same as above but this extra cost may depend on both origin and target
-   * tiles. Can be NULL. */
-  int (*get_moveEC) (int from_x, int from_y, enum direction8 dir,
-                     int to_x, int to_y, struct pf_parameter * param);
-
   /* Although the rules governing ZoC are universal, the amount of
    * information available at server and client is different. To 
    * compensate for it, we might need to supply our own version 
@@ -343,6 +338,32 @@ struct pf_parameter {
    * position. Can be NULL. */
   bool (*is_pos_dangerous) (int x, int y, enum known_type,
                             struct pf_parameter * param);
+
+  /* This is a jumbo callback which overrides all previous ones.  It takes 
+   * care of everything (ZOC, known, costs etc).  
+   * Variables:
+   *   from_x, from_y        -- position of the source tile
+   *   from_cost, from_extra -- costs of the source tile
+   *   to_x, to_y            -- position of the dest tile
+   *   to_cost, to_extra     -- costs of the dest tile
+   *   dir                   -- direction from source to dest
+   *   param                 -- a pointer to this struct
+   * If the dest tile hasn't been reached before, to_cost is -1.
+   *
+   * The callback should:
+   * - evaluate the costs of the move
+   * - calculate the cost of the whole path
+   * - compare it to the ones recorded at dest tile
+   * - if new cost are not better, return -1
+   * - if new costs are better, record them in to_cost/to_extra and return
+   *   the cost-of-the-path which is the overall measure of goodness of the 
+   *   path (less is better) and used to order newly discovered locations. */
+  int (*get_costs) (int from_x, int from_y, 
+		    enum direction8 dir,
+		    int to_x, int to_y, 
+		    int from_cost, int from_extra,
+		    int *to_cost, int *to_extra,
+		    struct pf_parameter *param);
 
   /* User provided data. Can be used to attach arbitrary information
    * to the map. */

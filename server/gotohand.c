@@ -1309,7 +1309,6 @@ enum goto_result do_unit_goto(struct unit *punit,
   if (same_pos(punit->x, punit->y, dest_x, dest_y) ||
       !goto_is_sane(punit, dest_x, dest_y, FALSE)) {
     punit->activity = ACTIVITY_IDLE;
-    punit->connecting = FALSE;
     send_unit_info(NULL, punit);
     if (same_pos(punit->x, punit->y, dest_x, dest_y)) {
       return GR_ARRIVED;
@@ -1337,7 +1336,6 @@ enum goto_result do_unit_goto(struct unit *punit,
 	      pplayer->name, unit_type(punit)->name,
 	      punit->x, punit->y, dest_x, dest_y);
       punit->activity = ACTIVITY_IDLE;
-      punit->connecting = FALSE;
       send_unit_info(NULL, punit);
       return GR_FAILED;
     }
@@ -1401,13 +1399,6 @@ enum goto_result do_unit_goto(struct unit *punit,
 	return GR_OUT_OF_MOVEPOINTS;
       }
 
-      /* single step connecting unit when it can do it's activity */
-      if (punit->connecting
-	  && can_unit_do_activity(punit, punit->activity)) {
-	/* for connecting unit every step is a destination */
-	return GR_ARRIVED;
-      }
-
       freelog(LOG_DEBUG, "Moving on.");
     } while(!same_pos(x, y, waypoint_x, waypoint_y));
   } else {
@@ -1416,16 +1407,10 @@ enum goto_result do_unit_goto(struct unit *punit,
 	    pplayer->name, unit_type(punit)->name,
 	    punit->x, punit->y, dest_x, dest_y);
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    punit->connecting = FALSE;
     send_unit_info(NULL, punit);
     return GR_FAILED;
   }
   /** Finished moving the unit for this turn **/
-
-  /* ensure that the connecting unit will perform it's activity
-     on the destination file too. */
-  if (punit->connecting && can_unit_do_activity(punit, punit->activity))
-    return GR_ARRIVED;
 
   /* normally we would just do this unconditionally, but if we had an
      airplane goto we might not be finished even if the loop exited */
@@ -1437,7 +1422,6 @@ enum goto_result do_unit_goto(struct unit *punit,
     status = GR_OUT_OF_MOVEPOINTS;
   }
 
-  punit->connecting = FALSE;
   send_unit_info(NULL, punit);
   return status;
 }

@@ -625,7 +625,9 @@ void update_turn_done_button_state()
 **************************************************************************/
 void update_line(int canvas_x, int canvas_y)
 {
-  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+  if ((hover_state == HOVER_GOTO
+       || hover_state == HOVER_PATROL
+       || hover_state == HOVER_CONNECT)
       && draw_goto_line) {
     int x, y, old_x, old_y;
 
@@ -645,7 +647,9 @@ void update_line(int canvas_x, int canvas_y)
 ****************************************************************************/
 void overview_update_line(int overview_x, int overview_y)
 {
-  if ((hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+  if ((hover_state == HOVER_GOTO
+       || hover_state == HOVER_PATROL
+       || hover_state == HOVER_CONNECT)
       && draw_goto_line) {
     int x, y, old_x, old_y;
 

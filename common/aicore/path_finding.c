@@ -106,7 +106,6 @@ struct pf_map {
   struct pf_node *lattice;      /* Lattice of nodes */
   utiny_t *status;		/* Array of node statuses 
 				 * (enum pf_node_status really) */
-  bool extras;                  /* Are any extra-cost callbacks supplied? */
   struct pqueue *danger_queue;	/* Dangerous positions go there */
   struct danger_node *d_lattice;	/* Lattice with danger stuff */
 };
@@ -189,7 +188,7 @@ static int adjust_cost(const struct pf_map *pf_map, int cost)
   Calculates cached values of the target node: 
   node_known_type and zoc
 ******************************************************************/
-static void init_node(struct pf_map *pf_map, struct pf_node * node, 
+static void init_node(struct pf_map *pf_map, struct pf_node *node, 
                          int x, int y)
 {
   struct pf_parameter *params = pf_map->params;
@@ -232,7 +231,6 @@ static void init_node(struct pf_map *pf_map, struct pf_node * node,
   }
 }
 
-
 /*****************************************************************
   Obtain cost-of-path from pure cost and extra cost
 *****************************************************************/
@@ -241,6 +239,72 @@ static int get_total_CC(struct pf_map *pf_map, int cost, int extra)
   return PF_TURN_FACTOR * cost + extra * pf_map->params->move_rate;
 }
 
+/**************************************************************************
+  Bare-bones PF iterator.  All Freeciv rules logic is hidden in get_costs
+  callback (compare to pf_next function).
+  Plan: 1. Process previous position
+        2. Get new nearest position and return it
+**************************************************************************/
+static bool jumbo_iterate_map(struct pf_map *pf_map)
+{
+  mapindex_t index;
+  struct pf_node *node = &pf_map->lattice[pf_map->index];
+
+  pf_map->status[pf_map->index] = NS_PROCESSED;
+
+  /* Processing Stage */
+  /* The previous position is contained in {x,y} fields of map */
+
+  adjc_dir_iterate(pf_map->x, pf_map->y, x1, y1, dir) {
+    mapindex_t index1 = map_pos_to_index(x1, y1);
+    struct pf_node *node1 = &pf_map->lattice[index1];
+    utiny_t *status = &pf_map->status[index1];
+    int priority;    
+
+
+    if (*status == NS_PROCESSED) {
+      /* This gives 15% speedup */
+      continue;
+    }
+
+    if (*status == NS_UNINIT) {
+      node1->cost = -1;
+    }
+
+    /* User-supplied callback get_costs takes care of everything (ZOC, 
+     * known, costs etc).  See explanations in path_finding.h */
+    priority = pf_map->params->get_costs(pf_map->x, pf_map->y, dir, x1, y1, 
+					 node->cost, node->extra_cost,
+					 &node1->cost, &node1->extra_cost, 
+					 pf_map->params);
+    if (priority >= 0) {
+      /* We found a better route to xy1, record it 
+       * (the costs are recorded already) */
+      *status = NS_NEW;
+      node1->dir_to_here = dir;
+      pq_insert(pf_map->queue, index1, -priority);
+    }
+
+  } adjc_dir_iterate_end;
+
+  /* Get the next nearest node */
+  for (;;) {
+    bool removed = pq_remove(pf_map->queue, &index);
+
+    if (!removed) {
+      return FALSE;
+    }
+    if (pf_map->status[index] == NS_NEW) {
+      break;
+    }
+    /* If the node has already been processed, get the next one. */
+  }
+
+  pf_map->index = index;
+  index_to_map_pos(&(pf_map->x), &(pf_map->y), index);
+
+  return TRUE;
+}
 
 /*****************************************************************
   Primary method for iterative path-finding.
@@ -255,6 +319,11 @@ bool pf_next(struct pf_map *pf_map)
   if (pf_map->params->is_pos_dangerous) {
     /* It's a lot different if is_pos_dangerous is defined */
     return danger_iterate_map(pf_map);
+  }
+
+  if (pf_map->params->get_costs) {
+    /* It is somewhat different when we have the jumbo callback */
+    return jumbo_iterate_map(pf_map);
   }
 
   pf_map->status[pf_map->index] = NS_PROCESSED;
@@ -308,17 +377,10 @@ bool pf_next(struct pf_map *pf_map)
       cost += node->cost;
 
       /* Evaluate the extra cost if it's relevant */
-      if (pf_map->extras) {
+      if (pf_map->params->get_EC) {
         extra = node->extra_cost;
-        if (pf_map->params->get_EC) {
-          /* Add the cached value */
-          extra += node1->extra_tile;
-        }
-        if (pf_map->params->get_moveEC) {
-          /* This one cannot be cached */
-          extra += pf_map->params->get_moveEC(pf_map->x, pf_map->y, dir, 
-                                              x1, y1, pf_map->params);
-        }
+	/* Add the cached value */
+	extra += node1->extra_tile;
       }
 
       /* Update costs and add to queue, if we found a better route to xy1. */
@@ -336,8 +398,7 @@ bool pf_next(struct pf_map *pf_map)
 	}
       }
 
-    }
-    adjc_dir_iterate_end;
+    } adjc_dir_iterate_end;
   }
 
   /* Get the next nearest node */
@@ -417,12 +478,8 @@ struct pf_map *pf_create_map(const struct pf_parameter *const parameter)
     pf_map->d_lattice[pf_map->index].step = 0;
   }
 
-  pf_map->extras = (parameter->get_EC != NULL 
-                    || parameter->get_moveEC != NULL);
-
   return pf_map;
 }
-
 
 /*********************************************************************
   After usage the map must be destroyed.

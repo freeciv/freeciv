@@ -595,20 +595,6 @@ static void update_unit_activity(struct unit *punit)
 
   unit_restore_movepoints(pplayer, punit);
 
-  if (punit->connecting && !can_unit_do_activity(punit, activity)) {
-    punit->activity_count = 0;
-    if (do_unit_goto(punit, get_activity_move_restriction(activity), FALSE)
-	== GR_DIED) {
-      return;
-    }
-  }
-
-  /* if connecting, automagically build prerequisities first */
-  if (punit->connecting && activity == ACTIVITY_RAILROAD &&
-      !map_has_special(punit->x, punit->y, S_ROAD)) {
-    activity = ACTIVITY_ROAD;
-  }
-
   if (activity == ACTIVITY_EXPLORE) {
     bool more_to_explore = ai_manage_explorer(punit);
 
@@ -781,18 +767,8 @@ static void update_unit_activity(struct unit *punit)
     update_tile_knowledge(punit->x, punit->y);
     unit_list_iterate (map_get_tile(punit->x, punit->y)->units, punit2) {
       if (punit2->activity == activity) {
-	bool alive = TRUE;
-	if (punit2->connecting) {
-	  punit2->activity_count = 0;
-	  alive = (do_unit_goto(punit2,
-				get_activity_move_restriction(activity),
-				FALSE) != GR_DIED);
-	} else {
-	  set_unit_activity(punit2, ACTIVITY_IDLE);
-	}
-	if (alive) {
-	  send_unit_info(NULL, punit2);
-	}
+	set_unit_activity(punit2, ACTIVITY_IDLE);
+	send_unit_info(NULL, punit2);
       }
     } unit_list_iterate_end;
   }
@@ -1835,7 +1811,6 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   }
   packet->activity_target = punit->activity_target;
   packet->paradropped = punit->paradropped;
-  packet->connecting = punit->connecting;
   packet->done_moving = punit->done_moving;
   if (punit->transported_by == -1) {
     packet->transported = FALSE;
@@ -2629,8 +2604,7 @@ static void check_unit_activity(struct unit *punit)
   if (punit->activity != ACTIVITY_IDLE
       && punit->activity != ACTIVITY_SENTRY
       && punit->activity != ACTIVITY_EXPLORE
-      && punit->activity != ACTIVITY_GOTO
-      && !punit->connecting) {
+      && punit->activity != ACTIVITY_GOTO) {
     set_unit_activity(punit, ACTIVITY_IDLE);
   }
 }

@@ -729,13 +729,6 @@ PACKET_UNIT_AIRLIFT=65;cs,dsend
   CITY city_id;
 end
 
-PACKET_UNIT_CONNECT=66;cs
-  UNIT unit_id;
-  ACTIVITY activity_type;
-  COORD dest_x;
-  COORD dest_y;
-end
-
 PACKET_UNIT_BRIBE_INQ=67;cs,handle-per-conn,dsend
   UNIT unit_id;
 end

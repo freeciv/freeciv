@@ -101,44 +101,6 @@ void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
 }
 
 /**************************************************************************
-Handler for PACKET_UNIT_CONNECT request. The unit is send on way and will 
-build something (roads only for now) along the way, using server-side
-path-finding. 
-
-FIXME: This should be rewritten to use client-side path finding along so 
-that we can show in the client where the road-to-be-built will be and 
-enable the use of waypoints to alter this route. - Per
-**************************************************************************/
-void handle_unit_connect(struct player *pplayer, int unit_id,
-			 enum unit_activity activity_type, int dest_x,
-			 int dest_y)
-{
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
-
-  if (!is_normal_map_pos(dest_x, dest_y) || !punit
-      || !can_unit_do_connect(punit, activity_type)) {
-    return;
-  }
-
-  set_goto_dest(punit, dest_x, dest_y);
-
-  set_unit_activity(punit, activity_type);
-  punit->connecting = TRUE;
-
-  send_unit_info(NULL, punit);
-
-  /* 
-   * Avoid wasting first turn if unit cannot do the activity on the
-   * starting tile.
-   */
-  if (!can_unit_do_activity(punit, activity_type)) {
-    (void) do_unit_goto(punit,
-			get_activity_move_restriction(activity_type),
-			FALSE);
-  }
-}
-
-/**************************************************************************
  Upgrade all units of a given type.
 **************************************************************************/
 void handle_unit_type_upgrade(struct player *pplayer, Unit_Type_id type)
@@ -938,7 +900,7 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit, int dest_x,
 
   reason =
       test_unit_move_to_tile(punit->type, unit_owner(punit),
-			     punit->activity, punit->connecting,
+			     punit->activity,
 			     punit->x, punit->y, dest_x, dest_y, igzoc);
   if (reason == MR_OK)
     return TRUE;
@@ -1615,6 +1577,7 @@ void handle_unit_orders(struct player *pplayer,
   if (!punit || packet->length < 0 || punit->activity != ACTIVITY_IDLE) {
     return;
   }
+
 
   for (i = 0; i < packet->length; i++) {
     switch (packet->orders[i]) {

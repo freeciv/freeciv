@@ -521,13 +521,6 @@ struct packet_unit_airlift {
   int city_id;
 };
 
-struct packet_unit_connect {
-  int unit_id;
-  enum unit_activity activity_type;
-  int dest_x;
-  int dest_y;
-};
-
 struct packet_unit_bribe_inq {
   int unit_id;
 };
@@ -1108,8 +1101,7 @@ enum packet_type {
   PACKET_UNIT_NUKE,
   PACKET_UNIT_PARADROP_TO,
   PACKET_UNIT_AIRLIFT,
-  PACKET_UNIT_CONNECT,
-  PACKET_UNIT_BRIBE_INQ,
+  PACKET_UNIT_BRIBE_INQ = 67,
   PACKET_UNIT_BRIBE_INFO,
   PACKET_UNIT_TYPE_UPGRADE,
   PACKET_UNIT_DIPLOMAT_ACTION,           /* 70 */
@@ -1433,9 +1425,6 @@ int dsend_packet_unit_paradrop_to(struct connection *pc, int unit_id, int x, int
 struct packet_unit_airlift *receive_packet_unit_airlift(struct connection *pc, enum packet_type type);
 int send_packet_unit_airlift(struct connection *pc, const struct packet_unit_airlift *packet);
 int dsend_packet_unit_airlift(struct connection *pc, int unit_id, int city_id);
-
-struct packet_unit_connect *receive_packet_unit_connect(struct connection *pc, enum packet_type type);
-int send_packet_unit_connect(struct connection *pc, const struct packet_unit_connect *packet);
 
 struct packet_unit_bribe_inq *receive_packet_unit_bribe_inq(struct connection *pc, enum packet_type type);
 int send_packet_unit_bribe_inq(struct connection *pc, const struct packet_unit_bribe_inq *packet);

@@ -245,9 +245,6 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_UNIT_AIRLIFT:
     return receive_packet_unit_airlift(pc, type);
 
-  case PACKET_UNIT_CONNECT:
-    return receive_packet_unit_connect(pc, type);
-
   case PACKET_UNIT_BRIBE_INQ:
     return receive_packet_unit_bribe_inq(pc, type);
 
@@ -601,9 +598,6 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_UNIT_AIRLIFT:
     return "PACKET_UNIT_AIRLIFT";
-
-  case PACKET_UNIT_CONNECT:
-    return "PACKET_UNIT_CONNECT";
 
   case PACKET_UNIT_BRIBE_INQ:
     return "PACKET_UNIT_BRIBE_INQ";
@@ -14991,204 +14985,6 @@ int dsend_packet_unit_airlift(struct connection *pc, int unit_id, int city_id)
   return send_packet_unit_airlift(pc, real_packet);
 }
 
-#define hash_packet_unit_connect_100 hash_const
-
-#define cmp_packet_unit_connect_100 cmp_const
-
-BV_DEFINE(packet_unit_connect_100_fields, 4);
-
-static struct packet_unit_connect *receive_packet_unit_connect_100(struct connection *pc, enum packet_type type)
-{
-  packet_unit_connect_100_fields fields;
-  struct packet_unit_connect *old;
-  struct hash_table **hash = &pc->phs.received[type];
-  struct packet_unit_connect *clone;
-  RECEIVE_PACKET_START(packet_unit_connect, real_packet);
-
-  DIO_BV_GET(&din, fields);
-
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_unit_connect_100, cmp_packet_unit_connect_100);
-  }
-  old = hash_delete_entry(*hash, real_packet);
-
-  if (old) {
-    *real_packet = *old;
-  } else {
-    memset(real_packet, 0, sizeof(*real_packet));
-  }
-
-  if (BV_ISSET(fields, 0)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->unit_id = readin;
-    }
-  }
-  if (BV_ISSET(fields, 1)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->activity_type = readin;
-    }
-  }
-  if (BV_ISSET(fields, 2)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->dest_x = readin;
-    }
-  }
-  if (BV_ISSET(fields, 3)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->dest_y = readin;
-    }
-  }
-
-  clone = fc_malloc(sizeof(*clone));
-  *clone = *real_packet;
-  if (old) {
-    free(old);
-  }
-  hash_insert(*hash, clone, clone);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_unit_connect_100(struct connection *pc, const struct packet_unit_connect *packet)
-{
-  const struct packet_unit_connect *real_packet = packet;
-  packet_unit_connect_100_fields fields;
-  struct packet_unit_connect *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_CONNECT];
-  int different = 0;
-  SEND_PACKET_START(PACKET_UNIT_CONNECT);
-
-  if (!*hash) {
-    *hash = hash_new(hash_packet_unit_connect_100, cmp_packet_unit_connect_100);
-  }
-  BV_CLR_ALL(fields);
-
-  old = hash_lookup_data(*hash, real_packet);
-  old_from_hash = (old != NULL);
-  if (!old) {
-    old = fc_malloc(sizeof(*old));
-    memset(old, 0, sizeof(*old));
-    force_send_of_unchanged = TRUE;
-  }
-
-  differ = (old->unit_id != real_packet->unit_id);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
-
-  differ = (old->activity_type != real_packet->activity_type);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 1);}
-
-  differ = (old->dest_x != real_packet->dest_x);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
-
-  differ = (old->dest_y != real_packet->dest_y);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
-
-  if (different == 0 && !force_send_of_unchanged) {
-    return 0;
-  }
-
-  DIO_BV_PUT(&dout, fields);
-
-  if (BV_ISSET(fields, 0)) {
-    dio_put_uint16(&dout, real_packet->unit_id);
-  }
-  if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->activity_type);
-  }
-  if (BV_ISSET(fields, 2)) {
-    dio_put_uint8(&dout, real_packet->dest_x);
-  }
-  if (BV_ISSET(fields, 3)) {
-    dio_put_uint8(&dout, real_packet->dest_y);
-  }
-
-
-  if (old_from_hash) {
-    hash_delete_entry(*hash, old);
-  }
-
-  clone = old;
-
-  *clone = *real_packet;
-  hash_insert(*hash, clone, clone);
-  SEND_PACKET_END;
-}
-
-static void ensure_valid_variant_packet_unit_connect(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[PACKET_UNIT_CONNECT] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-  } else if(TRUE) {
-    variant = 100;
-  } else {
-    die("unknown variant");
-  }
-  pc->phs.variant[PACKET_UNIT_CONNECT] = variant;
-}
-
-struct packet_unit_connect *receive_packet_unit_connect(struct connection *pc, enum packet_type type)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %s",
-	    conn_description(pc));
-    return NULL;
-  }
-  assert(pc->phs.variant != NULL);
-  if(!is_server) {
-    freelog(LOG_ERROR, "Receiving packet_unit_connect at the client.");
-  }
-  ensure_valid_variant_packet_unit_connect(pc);
-
-  switch(pc->phs.variant[PACKET_UNIT_CONNECT]) {
-    case 100: return receive_packet_unit_connect_100(pc, type);
-    default: die("unknown variant"); return NULL;
-  }
-}
-
-int send_packet_unit_connect(struct connection *pc, const struct packet_unit_connect *packet)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %s",
-	    conn_description(pc));
-    return -1;
-  }
-  assert(pc->phs.variant != NULL);
-  if(is_server) {
-    freelog(LOG_ERROR, "Sending packet_unit_connect from the server.");
-  }
-  ensure_valid_variant_packet_unit_connect(pc);
-
-  switch(pc->phs.variant[PACKET_UNIT_CONNECT]) {
-    case 100: return send_packet_unit_connect_100(pc, packet);
-    default: die("unknown variant"); return -1;
-  }
-}
-
 #define hash_packet_unit_bribe_inq_100 hash_const
 
 #define cmp_packet_unit_bribe_inq_100 cmp_const
@@ -15747,7 +15543,7 @@ static struct packet_unit_diplomat_action *receive_packet_unit_diplomat_action_1
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->value = readin;
     }
   }
@@ -15817,7 +15613,7 @@ static int send_packet_unit_diplomat_action_100(struct connection *pc, const str
     dio_put_uint16(&dout, real_packet->target_id);
   }
   if (BV_ISSET(fields, 3)) {
-    dio_put_uint16(&dout, real_packet->value);
+    dio_put_sint16(&dout, real_packet->value);
   }
 
 
