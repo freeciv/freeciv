@@ -281,8 +281,9 @@ struct canvas *canvas_create(int width, int height)
 **************************************************************************/
 void canvas_free(struct canvas *store)
 {
-  assert(store->type == CANVAS_PIXMAP);
-  g_object_unref(store->v.pixmap);
+  if (store->type == CANVAS_PIXMAP) {
+    g_object_unref(store->v.pixmap);
+  }
   free(store);
 }
 
@@ -530,6 +531,7 @@ void prepare_show_city_descriptions(void)
 void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		    struct city *pcity, int *width, int *height)
 {
+  if (pcanvas->type == CANVAS_PIXMAP) {
   static char buffer[512], buffer2[32];
   PangoRectangle rect, rect2;
   enum color_std color;
@@ -615,6 +617,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 
     *width = MAX(*width, rect.width);
     *height += rect.height;
+  }
   }
 }
 
@@ -744,7 +747,6 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 			    int canvas_x, int canvas_y,
 			    struct Sprite *sprite)
 {
-  assert(sprite->pixmap);
   canvas_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
 		    0, 0, sprite->width, sprite->height);
 }
@@ -758,8 +760,10 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      struct Sprite *psprite,
 			      bool fog, int fog_x, int fog_y)
 {
-  pixmap_put_overlay_tile_draw(pcanvas->v.pixmap, canvas_x, canvas_y,
-			       psprite, fog);
+  if (pcanvas->type == CANVAS_PIXMAP) {
+    pixmap_put_overlay_tile_draw(pcanvas->v.pixmap, canvas_x, canvas_y,
+				 psprite, fog);
+  }
 }
 
 /**************************************************************************
@@ -797,14 +801,16 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 			     struct Sprite *psprite, enum color_std color,
 			     int canvas_x, int canvas_y)
 {
-  gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
-  gdk_gc_set_clip_mask(fill_bg_gc, psprite->mask);
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
+  if (pcanvas->type == CANVAS_PIXMAP) {
+    gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_bg_gc, psprite->mask);
+    gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
 
-  gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
-		     canvas_x, canvas_y, psprite->width, psprite->height);
+    gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
+		       canvas_x, canvas_y, psprite->width, psprite->height);
 
-  gdk_gc_set_clip_mask(fill_bg_gc, NULL);
+    gdk_gc_set_clip_mask(fill_bg_gc, NULL);
+  }
 }
 
 /****************************************************************************
@@ -813,16 +819,18 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
 void canvas_fog_sprite_area(struct canvas *pcanvas, struct Sprite *psprite,
 			    int canvas_x, int canvas_y)
 {
-  gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-  gdk_gc_set_clip_mask(fill_tile_gc, psprite->mask);
-  gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
-  gdk_gc_set_stipple(fill_tile_gc, black50);
-  gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
+  if (pcanvas->type == CANVAS_PIXMAP) {
+    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_tile_gc, psprite->mask);
+    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_gc_set_stipple(fill_tile_gc, black50);
+    gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
 
-  gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,
-		     canvas_x, canvas_y, psprite->width, psprite->height);
+    gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,
+		       canvas_x, canvas_y, psprite->width, psprite->height);
 
-  gdk_gc_set_clip_mask(fill_tile_gc, NULL); 
+    gdk_gc_set_clip_mask(fill_tile_gc, NULL); 
+  }
 }
 
 /**************************************************************************
@@ -832,26 +840,28 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy)
 {
-  GdkGC *gc = NULL;
+  if (pcanvas->type == CANVAS_PIXMAP) {
+    GdkGC *gc = NULL;
 
-  switch (ltype) {
-  case LINE_NORMAL:
-    gc = thin_line_gc;
-    break;
-  case LINE_BORDER:
-    gc = border_line_gc;
-    break;
-  case LINE_TILE_FRAME:
-    gc = thick_line_gc;
-    break;
-  case LINE_GOTO:
-    gc = thick_line_gc;
-    break;
+    switch (ltype) {
+    case LINE_NORMAL:
+      gc = thin_line_gc;
+      break;
+    case LINE_BORDER:
+      gc = border_line_gc;
+      break;
+    case LINE_TILE_FRAME:
+      gc = thick_line_gc;
+      break;
+    case LINE_GOTO:
+      gc = thick_line_gc;
+      break;
+    }
+
+    gdk_gc_set_foreground(gc, colors_standard[color]);
+    gdk_draw_line(pcanvas->v.pixmap, gc,
+		  start_x, start_y, start_x + dx, start_y + dy);
   }
-
-  gdk_gc_set_foreground(gc, colors_standard[color]);
-  gdk_draw_line(pcanvas->v.pixmap, gc,
-		start_x, start_y, start_x + dx, start_y + dy);
 }
 
 /**************************************************************************
@@ -861,8 +871,12 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
 		 int src_x, int src_y, int dest_x, int dest_y,
 		 int width, int height)
 {
-  gdk_draw_drawable(dest->v.pixmap, fill_bg_gc, src->v.pixmap,
-		    src_x, src_y, dest_x, dest_y, width, height);
+  if (dest->type == src->type) {
+    if (src->type == CANVAS_PIXMAP) {
+      gdk_draw_drawable(dest->v.pixmap, fill_bg_gc, src->v.pixmap,
+			src_x, src_y, dest_x, dest_y, width, height);
+    }
+  }
 }
 
 /**************************************************************************
@@ -919,28 +933,30 @@ void put_city_worker(struct canvas *pcanvas,
 		     enum color_std color, enum city_tile_type worker,
 		     int canvas_x, int canvas_y)
 {
-  if (worker == C_TILE_EMPTY) {
-    gdk_gc_set_stipple(fill_tile_gc, gray25);
-  } else if (worker == C_TILE_WORKER) {
-    gdk_gc_set_stipple(fill_tile_gc, gray50);
-  } else {
-    return;
-  }
+  if (pcanvas->type == CANVAS_PIXMAP) {
+    if (worker == C_TILE_EMPTY) {
+      gdk_gc_set_stipple(fill_tile_gc, gray25);
+    } else if (worker == C_TILE_WORKER) {
+      gdk_gc_set_stipple(fill_tile_gc, gray50);
+    } else {
+      return;
+    }
 
-  gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
-  gdk_gc_set_foreground(fill_tile_gc, colors_standard[color]);
+    gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
+    gdk_gc_set_foreground(fill_tile_gc, colors_standard[color]);
 
-  if (is_isometric) {
-    gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
-    gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
-  }
+    if (is_isometric) {
+      gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+      gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
+    }
 
-  gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,
-		     canvas_x, canvas_y,
-		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    gdk_draw_rectangle(pcanvas->v.pixmap, fill_tile_gc, TRUE,
+		       canvas_x, canvas_y,
+		       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
-  if (is_isometric) {
-    gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+    if (is_isometric) {
+      gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+    }
   }
 }
 
