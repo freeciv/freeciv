@@ -704,6 +704,16 @@ static int may_set_option(struct player *pplayer, int option_idx)
 }
 
 /**************************************************************************
+  Whether the player can set the specified option, taking into account
+  both access and the game state.  pplayer == NULL means console.
+**************************************************************************/
+static int may_set_option_now(struct player *pplayer, int option_idx)
+{
+  return (may_set_option(pplayer, option_idx)
+	  && sset_is_changeable(option_idx));
+}
+
+/**************************************************************************
   feedback related to server commands
   caller == NULL means console.
   No longer duplicate all output to console.
@@ -1418,13 +1428,13 @@ static void show_command(struct player *caller, char *str)
       if (SETTING_IS_INT(op)) {
         len = sprintf(&buf[strlen(buf)],
 		      "%-*s %c%c%-4d (%d,%d)", OPTION_NAME_SPACE, op->name,
-		      may_set_option(caller,i) ? '+' : ' ',
+		      may_set_option_now(caller,i) ? '+' : ' ',
 		      ((*op->value==op->default_value) ? '=' : ' '),
 		      *op->value, op->min_value, op->max_value);
       } else {
         len = sprintf(&buf[strlen(buf)],
 		      "%-*s %c%c     \"%s\"", OPTION_NAME_SPACE, op->name,
-		      may_set_option(caller,i) ? '+' : ' ',
+		      may_set_option_now(caller,i) ? '+' : ' ',
 		      ((strcmp(op->svalue, op->default_svalue)==0) ? '=' : ' '),
 		      op->svalue);
       }
