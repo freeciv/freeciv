@@ -1942,6 +1942,7 @@ static void create_races_dialog(void)
   races_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text));
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
+  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(text), FALSE);
   gtk_text_view_set_left_margin(GTK_TEXT_VIEW(text), 6);
   gtk_text_view_set_right_margin(GTK_TEXT_VIEW(text), 6);
 
