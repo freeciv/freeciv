@@ -44,6 +44,7 @@ static void mapgenerator4(void);
 static void mapgenerator5(void);
 static void smooth_map(void);
 static void adjust_map(int minval);
+static void adjust_terrain_param(void);
 
 #define RIVERS_MAXTRIES 32767
 enum river_map_type {RS_BLOCKED = 0, RS_RIVER = 1};
@@ -1158,6 +1159,7 @@ void map_fractal_generate(void)
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.generator != 0) {
     map_allocate();
+    adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
     if (map.generator == 5 )
@@ -1188,11 +1190,8 @@ void map_fractal_generate(void)
 
 /**************************************************************************
  Convert terrain parameters from the server into percents for the generators
-
- This function needs to be called from the server everytime a
- a parameter changes. It will be called again at game start, too.
 **************************************************************************/
-void adjust_terrain_param(void)
+static void adjust_terrain_param(void)
 {
   int total;
   int polar = 5; /* FIXME: convert to a server option */
@@ -1239,8 +1238,6 @@ static void mapgenerator1(void)
   int minval=5000000;
   height_map=fc_malloc (sizeof(int)*map.xsize*map.ysize);
 
-  adjust_terrain_param();
-  
   whole_map_iterate(x, y) {
     hmap(x, y) = myrand(40) + ((500 - abs(map.ysize / 2 - y)) / 10);
   } whole_map_iterate_end;
@@ -1792,7 +1789,6 @@ static void mapgenerator2(void)
     return;
   }
 
-  adjust_terrain_param();
   pstate->totalmass =
       ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
       100;
@@ -1846,7 +1842,6 @@ static void mapgenerator3(void)
     return;
   }
 
-  adjust_terrain_param();
   pstate->totalmass =
       ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
       100;
@@ -1944,7 +1939,6 @@ static void mapgenerator4(void)
 
   spares= (map.landpercent-5)/30;
 
-  adjust_terrain_param();
   pstate->totalmass =
       ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
       100;
@@ -2075,8 +2069,6 @@ static void mapgenerator5(void)
   int avoidedge = (50 - map.landpercent) * step / 100 + step / 3; 
 
   height_map = fc_malloc(sizeof(int) * map.xsize * map.ysize);
-
-  adjust_terrain_param();
 
   /* initialize map */
   whole_map_iterate(x, y) {

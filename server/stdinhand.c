@@ -3000,8 +3000,6 @@ static void set_command(struct connection *caller, char *str)
   }
 
   if (do_update) {
-    /* canonify map generator settings (all of which are int) */
-    adjust_terrain_param();
     /* 
      * send any modified game parameters to the clients -- if sent
      * before RUN_GAME_STATE, triggers a popdown_races_dialog() call
