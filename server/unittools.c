@@ -77,6 +77,21 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y)
     notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT, "Game: Can only move into your own zone of control.");
   return zoc;
 }
+/**************************************************************************
+... 
+**************************************************************************/
+int can_unit_see_tile(struct unit *punit, int x, int y)
+{
+struct tile *ptile;
+if (ptile = map_get_tile(punit->x,punit->y))
+   {
+   return 1;
+   }
+else
+   {
+   return 0;
+   }
+}
 
 /**************************************************************************
 ... 
