@@ -73,42 +73,27 @@ void global_warming(int effect)
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
+    enum tile_terrain_type old, new;
+
     rand_map_pos(&x, &y);
-    if (!is_ocean(map_get_terrain(x, y))) {
-      if (is_terrain_ecologically_wet(x, y)) {
-	switch (map_get_terrain(x, y)) {
-	case T_FOREST:
-	  effect--;
-	  change_terrain(x, y, T_JUNGLE);
-	  send_tile_info(NULL, x, y);
-	  break;
-	case T_DESERT:
-	case T_PLAINS:
-	case T_GRASSLAND:
-	  effect--;
-	  change_terrain(x, y, T_SWAMP);
-	  send_tile_info(NULL, x, y);
-	  break;
-	default:
-	  break;
-	}
-      } else {
-	switch (map_get_terrain(x, y)) {
-	case T_PLAINS:
-	case T_GRASSLAND:
-	case T_FOREST:
-	  effect--;
-	  change_terrain(x, y, T_DESERT);
-	  send_tile_info(NULL, x, y);
-	  break;
-	default:
-	  break;
-	}
-      }
+    old = map_get_terrain(x, y);
+    if (is_terrain_ecologically_wet(x, y)) {
+      new = get_tile_type(old)->warmer_wetter_result;
+    } else {
+      new = get_tile_type(old)->warmer_drier_result;
+    }
+    if (new != T_LAST && old != new) {
+      effect--;
+      change_terrain(x, y, new);
+      send_tile_info(NULL, x, y);
       unit_list_iterate(map_get_tile(x, y)->units, punit) {
-	if (!can_unit_continue_current_activity(punit))
+	if (!can_unit_continue_current_activity(punit)) {
 	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	}
       } unit_list_iterate_end;
+    } else if (old == new) {
+      /* This counts toward warming although nothing is changed. */
+      effect--;
     }
   }
 
@@ -129,30 +114,27 @@ void nuclear_winter(int effect)
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
+    enum tile_terrain_type old, new;
+
     rand_map_pos(&x, &y);
-    if (!is_ocean(map_get_terrain(x, y))) {
-      switch (map_get_terrain(x, y)) {
-      case T_JUNGLE:
-      case T_SWAMP:
-      case T_PLAINS:
-      case T_GRASSLAND:
-	effect--;
-	change_terrain(x, y,
-		       is_terrain_ecologically_wet(x, y) ? T_DESERT : T_TUNDRA);
-	send_tile_info(NULL, x, y);
-	break;
-      case T_TUNDRA:
-	effect--;
-	change_terrain(x, y, T_ARCTIC);
-	send_tile_info(NULL, x, y);
-	break;
-      default:
-	break;
-      }
+    old = map_get_terrain(x, y);
+    if (is_terrain_ecologically_wet(x, y)) {
+      new = get_tile_type(old)->cooler_wetter_result;
+    } else {
+      new = get_tile_type(old)->cooler_drier_result;
+    }
+    if (new != T_LAST && old != new) {
+      effect--;
+      change_terrain(x, y, new);
+      send_tile_info(NULL, x, y);
       unit_list_iterate(map_get_tile(x, y)->units, punit) {
-	if (!can_unit_continue_current_activity(punit))
+	if (!can_unit_continue_current_activity(punit)) {
 	  handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	}
       } unit_list_iterate_end;
+    } else if (old == new) {
+      /* This counts toward winter although nothing is changed. */
+      effect--;
     }
   }
 

@@ -124,6 +124,7 @@ static char *valid_ruleset_filename(const char *subdir, const char *whichset)
   if (dfilename)
     return dfilename;
 
+  /* TRANS: message for an obscure ruleset error. */
   freelog(LOG_ERROR, _("Trying alternative ruleset filename syntax."));
   my_snprintf(filename, sizeof(filename), "%s_%s.ruleset", subdir, whichset);
   dfilename = datafilename(filename);
@@ -145,7 +146,8 @@ static void openload_ruleset_file(struct section_file *file, const char *whichse
 
   if (!dfilename) {
     freelog(LOG_FATAL,
-	_("Could not find a readable \"%s\" ruleset file."), whichset);
+	    /* TRANS: message for an obscure ruleset error. */
+	    _("Could not find a readable \"%s\" ruleset file."), whichset);
     exit(EXIT_FAILURE);
   }
 
@@ -155,7 +157,9 @@ static void openload_ruleset_file(struct section_file *file, const char *whichse
   sz_strlcpy(sfilename, dfilename);
 
   if (!section_file_load(file,sfilename)) {
-    freelog(LOG_FATAL, _("Could not load ruleset file \"%s\"."), sfilename);
+    freelog(LOG_FATAL,
+	    /* TRANS: message for an obscure ruleset error. */
+	    _("Could not load ruleset file \"%s\"."), sfilename);
     exit(EXIT_FAILURE);
   }
 }
@@ -492,7 +496,10 @@ static enum tile_terrain_type lookup_terrain(char *name,
     }
   }
 
-  return T_UNKNOWN;
+  /* TRANS: message for an obscure ruleset error. */
+  freelog(LOG_ERROR, _("Unknown terrain %s in entry %s."),
+	  name, tile_types[tthis].terrain_name);
+  return T_LAST;
 }
 
 /**************************************************************************
@@ -1674,6 +1681,19 @@ static void load_ruleset_terrain(struct section_file *file)
       t->clean_fallout_time = 
           secfile_lookup_int_default(file, 3, "%s.clean_fallout_time", sec[i]);
 
+      t->warmer_wetter_result
+	= lookup_terrain(secfile_lookup_str(file, "%s.warmer_wetter_result",
+					    sec[i]), i);
+      t->warmer_drier_result
+	= lookup_terrain(secfile_lookup_str(file, "%s.warmer_drier_result",
+					    sec[i]), i);
+      t->cooler_wetter_result
+	= lookup_terrain(secfile_lookup_str(file, "%s.cooler_wetter_result",
+					    sec[i]), i);
+      t->cooler_drier_result
+	= lookup_terrain(secfile_lookup_str(file, "%s.cooler_drier_result",
+					    sec[i]), i);
+
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
       BV_CLR_ALL(t->flags);
       for (j = 0; j < nval; j++) {
@@ -1681,7 +1701,7 @@ static void load_ruleset_terrain(struct section_file *file)
 	enum terrain_flag_id flag = terrain_flag_from_str(sval);
 
 	if (flag == TER_LAST) {
-	  /* TRANS: Rare error message. */
+	  /* TRANS: message for an obscure ruleset error. */
 	  freelog(LOG_FATAL, _("Terrain %s has unknown flag %s"),
 		  t->terrain_name, sval);
 	  exit(EXIT_FAILURE);

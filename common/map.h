@@ -121,6 +121,9 @@ struct tile_type {
   int clean_pollution_time;
   int clean_fallout_time;
 
+  enum tile_terrain_type warmer_wetter_result, warmer_drier_result;
+  enum tile_terrain_type cooler_wetter_result, cooler_drier_result;
+
   bv_terrain_flags flags;
 
   char *helptext;

@@ -147,6 +147,16 @@ fallout_trade_penalty=50
 ;                        "no"  -- cannot transform
 ;                        terrain name -- transformation changes to that terrain
 ; transform_time       = time to transform; if 0, cannot transform
+; warmer_wetter_result = result of global warming for wet terrains; one of:
+;                        "no"  -- no change; doesn't count for warming
+;                        "yes" -- no change; counts for warming
+;                        terrain name -- warming changes to that terrain
+; warmer_drier_result  = result of global warming for dry terrains;
+;                        see warmer_wetter_result
+; cooler_wetter_result = result of nuclear winter for wet terrains;
+;                        see warmer_wetter_result
+; cooler_drier_result  = result of nuclear winter for dry terrains;
+;                        see warmer_wetter_result
 ; flags                = General flags for this terrain:
 ;   - NoBarbs          = Barbarians will not be spawned here.
 ;   - NoPollution      = Pollution will not be put on this terrain type.
@@ -202,6 +212,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
 flags                = "NoBarbs", "CanHaveRiver", "UnsafeCoast", "Unsafe"
 helptext	     = _("\
 Glaciers are found only in the most northerly or southerly\
@@ -246,6 +260,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "Swamp"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
 flags                = "CanHaveRiver"
 helptext	     = _("\
 Deserts are regions of extreme dryness, making agriculture and\
@@ -289,6 +307,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "Jungle"
+warmer_drier_result  = "Desert"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
 flags                = "CanHaveRiver"
 helptext	     = _("\
 Forests are densely wooded, making agriculture somewhat\
@@ -332,6 +354,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "Swamp"
+warmer_drier_result  = "Desert"
+cooler_wetter_result = "Desert"
+cooler_drier_result  = "Tundra"
 flags                = "Starter", "CanHaveRiver"
 helptext	     = _("\
 Grasslands afford exceptional agricultural opportunities.\
@@ -374,6 +400,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
 flags                = "CanHaveRiver"
 helptext	     = _("\
 In addition to being amenable to agriculture, Hills are frequently\
@@ -417,6 +447,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "Desert"
+cooler_drier_result  = "Tundra"
 flags                = "CanHaveRiver"
 helptext	     = _("\
 Jungles are densely overgrown, making agriculture somewhat\
@@ -460,6 +494,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
 flags                = "CanHaveRiver"
 helptext	     = _("\
 Mountains are regions of extreme altitude, making agriculture and\
@@ -503,6 +541,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
 flags                = "Oceanic", "NoPollution", "UnsafeCoast", "NoCities"
 helptext	     = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
@@ -548,6 +590,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "Swamp"
+warmer_drier_result  = "Desert"
+cooler_wetter_result = "Desert"
+cooler_drier_result  = "Tundra"
 flags                = "Starter", "CanHaveRiver"
 helptext	     = _("\
 Plains are very broad, sparse regions, which makes trade slightly\
@@ -591,6 +637,10 @@ airbase_time         = 0
 fortress_time        = 0
 clean_pollution_time = 0
 clean_fallout_time   = 0
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
 
 [terrain_swamp]
 terrain_name         = _("Swamp")
@@ -629,6 +679,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "Desert"
+cooler_drier_result  = "Tundra"
 flags                = "CanHaveRiver"
 helptext	     = _("\
 Swamps suffer from an over-abundance of water, making agriculture\
@@ -672,6 +726,10 @@ airbase_time         = 3
 fortress_time        = 3
 clean_pollution_time = 3
 clean_fallout_time   = 3
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "Glacier"
+cooler_drier_result  = "Glacier"
 flags                = "NoBarbs", "CanHaveRiver"
 helptext	     = _("\
 Tundra are broad, cold regions, fit for some agriculture and little\
