@@ -1,3 +1,259 @@
+Sat Dec 26 03:02:37 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* NEWS: Last minute changes, including AI difficulty levels and
+ 	thanks to David.
+	
+Sat Dec 26 02:56:58 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* AUTHORS: Added Martin Hansen to recognise the work he's doing
+ 	with the new web pages.
+	
+Sat Dec 26 02:33:33 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* HOWTOPLAY: Put in pointers to INSTALL and README, because
+ 	otherwise I think people might be confused by a document called
+ 	"HOWTOPLAY".
+	
+Sat Dec 26 02:27:15 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* NEWS, configure, configure.in, client/Freeciv.h,
+ 	common/shared.h, data/Freeciv: Updated version numbers to 1.7.2.
+  	Patch submitted by David Pfitzner <dwp@mso.anu.edu.au>.
+	
+Wed Dec 23 10:02:33 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* NEWS: Updated NEWS for 1.7.2.
+	
+Wed Dec 23 10:01:18 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.noimake: Removed unused "VERSION" in Makefile.noimake.
+	
+Tue Dec 22 10:21:59 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS, HOWTOPLAY, INSTALL, README, server/stdinhand.c: Minor
+ 	doc fixes.
+	
+Mon Dec 21 16:12:08 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* server/civserver.c, server/civserver.h, server/meta.c,
+ 	server/meta.h, server/sernet.c, server/stdinhand.c,
+ 	server/stdinhand.h: - Rationalised prompt printing, so we only get
+ 	one when we need it.  It makes startup look a lot nicer.  - Added
+ 	an int return to the metaserver send routines, so callers know
+ 	whether it was successful or not.  - Unfolded some routines to
+ 	avoid lots of elses or long ifs.  Basically, if a routine could
+ 	drop out, drop out immediately with return, rather than skip an if
+ 	or else if until the end.  - Changed the format of human players
+ 	from player[someplace] to <player@someplace>.  It's more like
+ 	other things we see, like mail addresses.  - Made some messages
+ 	correctly handle singular cases.  - Made the list command (and the
+ 	corresponding client command) look nicer for AI players.  -
+ 	Changed the default meta-server info line from "Blood's Music II"
+ 	to "(default)".  Kinda boring I know... :-( - Warn the server-op
+ 	if they try a "meta" command, and we can't send to the metaserver.
+  	- Changed "help_command()" to "explain_option()".  - Patched the
+ 	stdin handler so blank lines are ignored.  - "Help" now does what
+ 	"h" does.  Explaining options is now done by "explain".
+	
+Mon Dec 21 15:34:12 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* README:
+  	 - Now only contains README-stuff!!
+	 - Added introduction section.
+	 - Moved website section to the front.
+	 - Added pointer to the GPL.
+	 - Beefed up instructions on running the server and client.
+	 - Updated the list of server commands.
+	 - Clarified non-localhost example.
+	 - Clarified AI creation.
+	 - Clarified purpose of metaserver.
+	 - Improved bug-reporting section.
+	 - Improved section on mailing lists and new releases.
+	
+Mon Dec 21 15:33:22 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* INSTALL:
+  	 - Rewrote lots of stuff.
+	 - Added prerequisite section.
+	 - Now only contains configuration, installing and compiling! :-)
+	
+Mon Dec 21 15:31:30 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* HOWTOPLAY:
+  	 - Fixed grammar.
+	 - Rearranged, so that strategy is first, and options is later.
+	 - Made mention of Greggurabi's 12 steps.
+	 - Made mention of Dave's techtree.
+	
+Mon Dec 21 15:28:53 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* AUTHORS:
+  	 - Generally tidied things up.
+	 - Condensed people who did not contribute to the 1.7 series.
+	 - Verified that everyone in the ChangeLog is in this file.
+	 - Added Dave to the administrators (hi dave!)
+	
+Mon Dec 21 07:19:37 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS: Minor AUTHORS fixes.
+	
+Mon Dec 21 07:18:01 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/plrhand.c: Fix messages from, eg, "..the Mongol has
+ 	Researched..."  to "..the Mongols have researched..."  Patch
+ 	submitted by Mika Korhonen <mikak@ee.oulu.fi>.
+	
+Sat Dec 19 10:13:20 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/mapctrl.c: Slightly improve what happens when focus
+ 	shifts to units which have been given the "wait" command.  In
+ 	particular, if there is only one available unit, it keeps the
+ 	focus if it tries to wait.
+	
+Sat Dec 19 10:11:00 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/mapctrl.c: Refresh the tile of previous focus unit in
+ 	set_unit_focus(), when required, to avoid the previous focus unit
+ 	sometimes disappearing when the focus changes.
+	
+Sat Dec 19 10:08:36 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/mapctrl.c: Allow units to keep focus at the end of a goto
+ 	if they have movement left.
+	
+Fri Dec 18 10:15:23 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unitfunc.c: Fixed "spy eliminated" messages to use
+ 	unit_name().  Bug reported by Reinier Post.  Also #if-ed out some
+ 	code in diplomat_incite(), so now spies/diplomats get the usual
+ 	diplchance chance to defend against inciters, rather than being
+ 	perfect defenders.
+	
+Thu Dec 17 11:07:44 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* AUTHORS, common/diptreaty.c: Adding or changing treaty clauses
+ 	after a gold clause exists was broken.  Bug report from Mika
+ 	Korhonen <mikak@ees2.oulu.fi>.
+	
+Thu Dec 17 10:12:16 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/unitfunc.c: When a spy steals tech, say "spy" not
+ 	"diplomat" in messages.  Bug reported by Andrew Schulman.
+	
+Wed Dec 16 11:15:54 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/handchat.c: Attempt to allow ':' character in chat line
+ 	messages more flexibly, while still allowing messages directed to
+ 	one player, and noticing some player name typos.  Based in part on
+ 	a patch by Reinier Post <rp@win.tue.nl>
+	
+Wed Dec 16 10:37:31 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* data/helpdata.txt: In help text, clarified effect of
+ 	Hydro/Nuclear/Power Plants, and for some wonders clarified whether
+ 	the effect is for all cities or not.
+	
+Wed Dec 16 08:40:22 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ChangeLog: Minor fixes to ChangeLog.
+	
+Wed Dec 16 08:37:43 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* .cvsignore: Added undep.sh to cvsignore.
+	
+Wed Dec 16 08:35:51 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/player.c: Changed "Gandi" to "Gandhi".
+	
+Tue Dec 15 10:30:27 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* Makefile.in, configure, configure.in, ai/Makefile.in,
+ 	undep.sh.in, client/Makefile.in, common/Makefile.in,
+ 	data/Makefile.in, server/Makefile.in: Added a configure option
+ 	--disable-cvs-deps, to mangle the configure-produced Makefiles
+ 	produced from cvs sources, to remove the dependency calculation
+ 	parts, which depend on features of gcc and gmake.  If the options
+ 	is not specified, configure makes a decision based on whether gcc
+ 	is being used; ideally it should also check for gmake, but
+ 	doesn't.  If the dependency calculation parts are removed, you
+ 	should always do "make clean" before "make" if any header files
+ 	(.h files) change.
+	
+Tue Dec 15 09:56:45 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aicity.c: When AI adjusts workers in neighbouring cities to
+ 	cope with city emergencies, first check if we own the neighbouring
+ 	cities!!  From bug report by Andrew Schulman.
+	
+Tue Dec 15 09:51:06 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/advmilitary.c, ai/aicity.c, ai/aihand.c, client/repodlgs.c,
+ 	server/cityturn.c, server/gotohand.c, server/unitfunc.c: Commented
+ 	out a case where client wrote to stdout, and changed some server
+ 	and ai stdout printfs to debug level log messages.
+	
+Sun Dec 13 17:48:52 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/citydlg.c, client/citydlg.h: Made activate_unit() use a
+ 	unit pointer as an argument instead of a unit ID.  Added a
+ 	prototype for it into the header file too.
+	
+Sun Dec 13 17:36:02 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* data/Freeciv, client/Freeciv.h, client/citydlg.c: Clicking the
+ 	middle button on a unit in the city dialog will cause the
+ 	"activate and close" action to be taken, without having to go
+ 	through a pop-up menu.
+	
+Sun Dec 13 17:33:30 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* client/pixcomm.c: Replaced the Notify action with one that
+ 	passes the XEvent as the call_data to the callback.  This way the
+ 	callback can take different actions based on what button or key
+ 	activated it.
+	
+Sun Dec 13 01:06:43 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aiunit.c: Fixed some more cases of map.xsize instead of
+ 	map.ysize.
+	
+Sat Dec 12 12:07:36 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* server/mapgen.c, server/unitfunc.c: Minor fixes to some debug
+ 	log messages.
+	
+Sat Dec 12 11:59:08 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* common/log.c: Slightly improved handling of repeated log
+ 	messages.
+	
+Sat Dec 12 11:54:46 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* ai/aiunit.c: Fixed a segfault bug when an easy AI explorer gets
+ 	killed in a fuzzily ignored hut.
+	
+Sat Dec 12 04:18:53 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* configure, configure.in: Made configure.in require autoconf
+ 	version 2.12 or later.  May not be quite correct, but autoconf
+ 	version 2.9 is reported not to work, and version 2.12 is known to
+ 	work.
+	
+Sat Dec 12 03:33:58 1998  David Pfitzner <dwp@mso.anu.edu.au>:
+
+	* client/packhand.c: Fix to infamous bug when investigating
+ 	cities, leading to occasional segfaults and other anomalies (bug
+ 	reported by many people).  When a unit moves out of known area,
+ 	remove the unit's pointer (about to be freed) from its home city
+ 	supported units list.  Note that when you investigate a city,
+ 	units outside known territory don't get shown in the supported
+ 	units area.
+	
+Thu Dec 10 15:49:02 1998  Mitch Davis <mjd@alphalink.com.au>:
+
+	* ChangeLog: Updated the ChangeLog for the changes between 1.7.1
+ 	and 1.7.2.
+	
 Thu Dec 10 10:16:34 1998  David Pfitzner <dwp@mso.anu.edu.au>:
 
 	* ai/aicity.c: When AI stops building a wonder, use
