@@ -213,8 +213,9 @@ static void HBITMAP2BITMAP(HBITMAP hbmp,BITMAP *bmp)
 static HBITMAP getcachehbitmap(BITMAP *bmp, int *cache_id)
 {
   struct Bitmap_cache *bmpc;
+
   bmpc = &bitmap_cache[*cache_id];
-  if (bmpc->src != bmp) {
+  if ((*cache_id == -1) || (bmpc->src != bmp)) {
     unsigned char *src, *dst;
     BITMAP alphabmp;
 
@@ -334,8 +335,8 @@ struct Sprite *crop_sprite(struct Sprite *sprsrc,
   int row, col;
 
   mysprite = fc_malloc(sizeof(struct Sprite));
-  mysprite->img_cache_id = 0;
-  mysprite->fog_cache_id = 0;
+  mysprite->img_cache_id = -1;
+  mysprite->fog_cache_id = -1;
   mysprite->width = width;
   mysprite->height = height;
   mysprite->has_mask = 0;
@@ -530,8 +531,8 @@ struct Sprite *load_gfxfile(const char *filename)
 
   mysprite->has_mask = has_mask;
   mysprite->has_fog = 0;
-  mysprite->img_cache_id = 0;
-  mysprite->fog_cache_id = 0;
+  mysprite->img_cache_id = -1;
+  mysprite->fog_cache_id = -1;
   mysprite->width = width;
   mysprite->height = height;
 

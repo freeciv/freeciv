@@ -172,6 +172,7 @@ struct canvas *get_mapview_window(void)
     mapview_canvas.bmp = NULL;
     mapview_canvas.wnd = map_window;
     mapview_canvas.tmp = NULL;
+    mapview_canvas_init = TRUE;
   }
   return &mapview_canvas;
 }
@@ -203,12 +204,12 @@ void get_text_size(int *width, int *height,
   RECT rc;
   HDC hdc;
 
-  /* Might as well get the mapview window. */
-  hdc = canvas_get_hdc(get_mapview_window());
+
+  hdc = GetDC(root_window);
 
   DrawText(hdc, text, strlen(text), &rc, DT_CALCRECT);
 
-  canvas_release_hdc(get_mapview_window());
+  ReleaseDC(root_window, hdc);
 
   if (width) {
     *width = rc.right - rc.left + 1;
@@ -222,8 +223,6 @@ void get_text_size(int *width, int *height,
   Draw the text onto the canvas in the given color and font.  The canvas
   position does not account for the ascent of the text; this function must
   take care of this manually.  The text will not be NULL but may be empty.
-
-  FIXME: handle different fonts.
 ****************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		     enum client_font font, enum color_std color,
@@ -747,9 +746,15 @@ void canvas_put_sprite(struct canvas *pcanvas,
 		       struct Sprite *sprite,
 		       int offset_x, int offset_y, int width, int height)
 {
+  struct Sprite *tmp;
   HDC hdc = canvas_get_hdc(pcanvas);
 
-  draw_sprite(sprite, hdc, canvas_x, canvas_y);
+  /* FIXME: make a new function for drawing partial sprites. */
+  tmp = crop_sprite(sprite, offset_x, offset_y, width, height, NULL, 0, 0);
+
+  draw_sprite(tmp, hdc, canvas_x, canvas_y);
+
+  free_sprite(tmp);
 
   canvas_release_hdc(pcanvas);
 }
@@ -761,8 +766,11 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 			    int canvas_x, int canvas_y,
 			    struct Sprite *sprite)
 {
-  canvas_put_sprite(pcanvas, canvas_x, canvas_y, sprite,
-		    0, 0, sprite->width, sprite->height);
+  HDC hdc = canvas_get_hdc(pcanvas);
+
+  draw_sprite(sprite, hdc, canvas_x, canvas_y);
+
+  canvas_release_hdc(pcanvas);
 }
 
 /****************************************************************************
