@@ -63,8 +63,8 @@ void handle_city_name_suggestion_req(struct player *pplayer, int value)
 ...
 **************************************************************************/
 void handle_city_change_specialist(struct player *pplayer, int city_id,
-				   enum specialist_type from,
-				   enum specialist_type to)
+				   Specialist_type_id from,
+				   Specialist_type_id to)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 

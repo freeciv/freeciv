@@ -18,7 +18,7 @@
 
 #include "shared.h"		/* bool type */
 
-#include "city.h"		/* enum specialist_type */
+#include "city.h"		/* Specialist_type_id */
 #include "fc_types.h"
 
 struct canvas;
@@ -32,7 +32,7 @@ struct citizen_type {
     CITIZEN_ANGRY,
     CITIZEN_LAST
   } type;
-  enum specialist_type spec_type;
+  Specialist_type_id spec_type;
 };
 
 int get_citydlg_canvas_width(void);
@@ -67,8 +67,8 @@ void city_set_queue(struct city *pcity, struct worklist *pqueue);
 bool city_can_buy(const struct city *pcity);
 int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id);
 int city_buy_production(struct city *pcity);
-int city_change_specialist(struct city *pcity, enum specialist_type from,
-			   enum specialist_type to);
+int city_change_specialist(struct city *pcity, Specialist_type_id from,
+			   Specialist_type_id to);
 int city_toggle_worker(struct city *pcity, int city_x, int city_y);
 int city_rename(struct city *pcity, const char *name);
 

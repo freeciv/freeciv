@@ -7565,7 +7565,7 @@ int send_packet_city_change_specialist(struct connection *pc, const struct packe
   }
 }
 
-int dsend_packet_city_change_specialist(struct connection *pc, int city_id, enum specialist_type from, enum specialist_type to)
+int dsend_packet_city_change_specialist(struct connection *pc, int city_id, Specialist_type_id from, Specialist_type_id to)
 {
   struct packet_city_change_specialist packet, *real_packet = &packet;
 

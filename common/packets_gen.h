@@ -262,8 +262,8 @@ struct packet_city_make_worker {
 
 struct packet_city_change_specialist {
   int city_id;
-  enum specialist_type from;
-  enum specialist_type to;
+  Specialist_type_id from;
+  Specialist_type_id to;
 };
 
 struct packet_city_rename {
@@ -1274,7 +1274,7 @@ int dsend_packet_city_make_worker(struct connection *pc, int city_id, int worker
 
 struct packet_city_change_specialist *receive_packet_city_change_specialist(struct connection *pc, enum packet_type type);
 int send_packet_city_change_specialist(struct connection *pc, const struct packet_city_change_specialist *packet);
-int dsend_packet_city_change_specialist(struct connection *pc, int city_id, enum specialist_type from, enum specialist_type to);
+int dsend_packet_city_change_specialist(struct connection *pc, int city_id, Specialist_type_id from, Specialist_type_id to);
 
 struct packet_city_rename *receive_packet_city_rename(struct connection *pc, enum packet_type type);
 int send_packet_city_rename(struct connection *pc, const struct packet_city_rename *packet);

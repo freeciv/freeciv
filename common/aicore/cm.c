@@ -513,7 +513,7 @@ void cm_copy_result_from_city(const struct city *pcity,
  Wraps the array access to cache2.secondary_stats.
 *****************************************************************************/
 static struct secondary_stat *get_secondary_stat(int trade, int specialists,
-						 enum specialist_type
+						 Specialist_type_id
 						 specialist_type)
 {
   freelog(LOG_DEBUG, "second: trade=%d spec=%d type=%d", trade, specialists,

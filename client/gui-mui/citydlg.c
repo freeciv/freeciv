@@ -1028,7 +1028,7 @@ static void city_click(struct city_map_msg *msg)
 static void city_citizen(struct city_citizen_msg *msg)
 {
   struct city_dialog *pdialog = msg->pdialog;
-  enum specialist_type from = msg->type, to;
+  Specialist_type_id from = msg->type, to;
 
   switch (from)  {
   case CITIZEN_ELVIS:

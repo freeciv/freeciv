@@ -422,7 +422,7 @@ void get_city_citizen_types(struct city *pcity, int index,
 void city_rotate_specialist(struct city *pcity, int citizen_index)
 {
   struct citizen_type citizens[MAX_CITY_SIZE];
-  enum specialist_type from, to;
+  Specialist_type_id from, to;
 
   if (citizen_index < 0 || citizen_index >= pcity->size) {
     return;
@@ -573,8 +573,8 @@ int city_buy_production(struct city *pcity)
 /**************************************************************************
   Change a specialist in the given city.  Return the request ID.
 **************************************************************************/
-int city_change_specialist(struct city *pcity, enum specialist_type from,
-			   enum specialist_type to)
+int city_change_specialist(struct city *pcity, Specialist_type_id from,
+			   Specialist_type_id to)
 {
   return dsend_packet_city_change_specialist(&aconnection, pcity->id, from,
 					     to);

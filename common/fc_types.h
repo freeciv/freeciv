@@ -20,6 +20,7 @@
 
 typedef signed short Continent_id;
 typedef enum tile_terrain_type Terrain_type_id;
+typedef enum specialist_type Specialist_type_id;
 
 /* TODO: Remove this enum and make this an integer when gen-eff is done. */
 typedef enum {

@@ -516,7 +516,7 @@ bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id)
   Returns TRUE iff if the given city can use this kind of specialist.
 ****************************************************************************/
 bool city_can_use_specialist(const struct city *pcity,
-			     enum specialist_type type)
+			     Specialist_type_id type)
 {
   return pcity->size >= game.rgame.specialists[type].min_size;
 }
