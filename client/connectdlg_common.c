@@ -17,6 +17,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <assert.h>  
 #include <fcntl.h>
 #include <stdio.h>
+#include <signal.h>             /* SIGTERM and kill */
 #include <string.h>
 #include <time.h>
 
