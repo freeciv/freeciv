@@ -299,7 +299,7 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     return TRUE;
 }
 
-void tearoff_callback (GtkWidget *but, GtkWidget *box)
+static void tearoff_callback (GtkWidget *but, GtkWidget *box)
 {
     GtkWidget *w, *p;
 
@@ -321,7 +321,7 @@ void tearoff_callback (GtkWidget *but, GtkWidget *box)
     }
 }
 
-GtkWidget *detached_widget_new(GtkWidget **avbox)
+static GtkWidget *detached_widget_new(GtkWidget **avbox)
 {
     GtkWidget *ahbox, *b, *sep;
 

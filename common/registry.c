@@ -307,7 +307,8 @@ void section_file_check_unused(struct section_file *file, char *filename)
   and where tok is a "value" return token from inputfile.
   The entry value has any escaped double-quotes etc removed.
 **************************************************************************/
-struct entry *new_entry(struct sbuffer *sb, const char *name, const char *tok)
+static struct entry *new_entry(struct sbuffer *sb, const char *name,
+			       const char *tok)
 {
   struct entry *pentry;
 

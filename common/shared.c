@@ -246,7 +246,7 @@ char *textyear(int year)
 /***************************************************************
 ...
 ***************************************************************/
-int mystrcasecmp(char *str0, char *str1)
+int mystrcasecmp(const char *str0, const char *str1)
 {
   for(; tolower(*str0)==tolower(*str1); str0++, str1++)
     if(*str0=='\0')
@@ -263,7 +263,7 @@ string_ptr_compare() - fiddles with pointers to do a simple string compare
 
 int string_ptr_compare(const void *first, const void *second)
 {
-   return mystrcasecmp(*((char **)first), *((char **)second));
+   return mystrcasecmp(*((const char **)first), *((const char **)second));
 }
 
 /***************************************************************

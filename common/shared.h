@@ -51,7 +51,7 @@ int is_option(const char *option_name,char *option);
 char *int_to_text(int nr);
 char *get_sane_name(char *name);
 char *textyear(int year);
-int mystrcasecmp(char *str0, char *str1);
+int mystrcasecmp(const char *str0, const char *str1);
 int string_ptr_compare(const void *first, const void *second);
 
 char *mystrerror(int errnum);

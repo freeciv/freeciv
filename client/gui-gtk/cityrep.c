@@ -299,7 +299,7 @@ int city_dialog_shell_is_modal;
 /*
  * Sort cities by column...
  */
-void sort_cities_callback( GtkButton *button, gpointer *data )
+static void sort_cities_callback( GtkButton *button, gpointer *data )
 {
   int sort_column = GPOINTER_TO_INT( data );
 

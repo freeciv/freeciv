@@ -54,14 +54,14 @@ enum historian_type {
         HISTORIAN_HAPPIEST=3,
         HISTORIAN_LARGEST=4};
 
-char *historian_message[]={
+static char *historian_message[]={
     "Herodot's report on the RICHEST Civilizations in the World.",
     "Herodot's report on the most ADVANCED Civilizations in the World.",
     "Herodot's report on the most MILITARIZED Civilizations in the World.",
     "Herodot's report on the HAPPIEST Civilizations in the World.",
     "Herodot's report on the LARGEST Civilizations in the World."};
 
-void update_player_aliveness(struct player *pplayer);
+static void update_player_aliveness(struct player *pplayer);
 
 struct player_score_entry {
   int idx;
@@ -70,10 +70,15 @@ struct player_score_entry {
 
 static int secompare(const void *a, const void *b)
 {
-  return (((struct player_score_entry *)b)->value-((struct player_score_entry *)a)->value);
+  return (((const struct player_score_entry *)b)->value -
+	  ((const struct player_score_entry *)a)->value);
 }
 
-char *greatness[]={"Magnificent", "Glorious", "Great", "Decent", "Mediocre", "Hilarious", "Worthless", "Pathetic", "Useless","Useless","Useless","Useless","Useless","Useless"};
+static char *greatness[] = {
+  "Magnificent", "Glorious", "Great", "Decent", "Mediocre", "Hilarious",
+  "Worthless", "Pathetic", "Useless","Useless","Useless","Useless",
+  "Useless","Useless"
+};
 
 static void historian_generic(enum historian_type which_news)
 {
@@ -84,30 +89,30 @@ static void historian_generic(enum historian_type which_news)
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
-	 if (game.players[i].is_alive) {
-         switch(which_news) {
-         case HISTORIAN_RICHEST:
-				size[j].value=game.players[i].economic.gold;
-				break;
-	      case HISTORIAN_ADVANCED:
-				size[j].value=game.players[i].score.techs
-								  +game.players[i].future_tech;
-            break;
-	      case HISTORIAN_MILITARY:
-				size[j].value=game.players[i].score.units;
-				break;
-         case HISTORIAN_HAPPIEST: 
-				size[j].value=
-      ((game.players[i].score.happy-game.players[i].score.unhappy)*1000)
-               /(1+total_player_citizens(&game.players[i]));
-		      break;
-	      case HISTORIAN_LARGEST:
-				size[j].value=total_player_citizens(&game.players[i]);
-				break;
-	      }
-         size[j].idx=i;
-			j++;
-	  } /* else the player is dead */
+    if (game.players[i].is_alive) {
+      switch(which_news) {
+      case HISTORIAN_RICHEST:
+	size[j].value=game.players[i].economic.gold;
+	break;
+      case HISTORIAN_ADVANCED:
+	size[j].value = (game.players[i].score.techs
+			 +game.players[i].future_tech);
+	break;
+      case HISTORIAN_MILITARY:
+	size[j].value=game.players[i].score.units;
+	break;
+      case HISTORIAN_HAPPIEST: 
+	size[j].value=
+	  ((game.players[i].score.happy-game.players[i].score.unhappy)*1000)
+	  /(1+total_player_citizens(&game.players[i]));
+	break;
+      case HISTORIAN_LARGEST:
+	size[j].value=total_player_citizens(&game.players[i]);
+	break;
+      }
+      size[j].idx=i;
+      j++;
+    } /* else the player is dead */
   }
   qsort(size, j, sizeof(struct player_score_entry), secompare);
   buffer[0]=0;
@@ -551,7 +556,7 @@ void update_player_activities(struct player *pplayer)
 ...
 **************************************************************************/
 
-void update_player_aliveness(struct player *pplayer)
+static void update_player_aliveness(struct player *pplayer)
 {
   if(pplayer->is_alive) {
     if(unit_list_size(&pplayer->units)==0 && 

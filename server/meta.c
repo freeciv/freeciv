@@ -58,7 +58,6 @@ TEndpointInfo meta_info;
 EndpointRef meta_ep;
 InetAddress serv_addr;
 #else /* Unix network globals */
-extern int errno;
 static int			sockfd,n,in_size;
 static struct sockaddr_in	cli_addr,serv_addr;
 #endif /* end network global selector */
