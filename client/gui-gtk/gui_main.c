@@ -147,10 +147,6 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev);
 #endif
 
 static gint timer_callback(gpointer data);
-static void child_detached(GtkHandleBox *handle_box, GtkWidget *widget,
-			   gpointer user_data);
-static void output_detached(GtkHandleBox *handle_box, GtkWidget *widget,
-			    gpointer user_data);
 
 
 /**************************************************************************
@@ -425,6 +421,27 @@ static gint keyboard_handler(GtkWidget *widget, GdkEventKey *event)
     return TRUE;
 }
 
+void tearoff_callback (GtkWidget *but, GtkWidget *box)
+{
+    GtkWidget *w, *p;
+
+    if (GTK_TOGGLE_BUTTON (but)->active)
+    {
+	w = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
+
+	gtk_object_set_user_data (GTK_OBJECT (w), box->parent);
+	gtk_widget_reparent (box, w);
+	gtk_widget_show (w);
+    }
+    else
+    {
+        w = box->parent;
+	p = gtk_object_get_user_data (GTK_OBJECT (w));
+	gtk_widget_reparent (box, p);
+	gtk_widget_destroy (w);
+    }
+}
 
 /**************************************************************************
 ...
@@ -433,17 +450,13 @@ static void setup_widgets(void)
 {
   GtkWidget	      *vbox;
   GtkWidget	      *hbox;
-  GtkWidget	      *hbox2;
   GtkWidget	      *vbox1;
-  GtkWidget	      *vbox2;
   GtkWidget           *avbox;
-  GtkWidget           *handle_box;
-
   GtkWidget	      *frame;
 
   GtkWidget	      *menubar;
   GtkWidget	      *table;
-  GtkWidget	      *ebox, *paned;
+  GtkWidget	      *ebox, *paned, *b;
   GtkStyle	      *text_style;
   int		       i;
 
@@ -462,37 +475,33 @@ static void setup_widgets(void)
   vbox1 = gtk_vbox_new( FALSE, 0 );
   gtk_box_pack_start( GTK_BOX( hbox ), vbox1, FALSE, FALSE, 0 );
 
-  handle_box = gtk_handle_box_new();
-  gtk_container_border_width(GTK_CONTAINER(handle_box), 5);
-  gtk_signal_connect( GTK_OBJECT( handle_box ), "child_detached",
-        	      GTK_SIGNAL_FUNC( child_detached ), (gpointer)hbox );
-  gtk_box_pack_start( GTK_BOX( vbox1 ), handle_box, FALSE, FALSE, 0 );
+  avbox = gtk_vbox_new(FALSE, 5);
+  gtk_container_add(GTK_CONTAINER(vbox1), avbox);
 
-  hbox2 = gtk_hbox_new( FALSE, 0 );
-  gtk_container_add(GTK_CONTAINER(handle_box), hbox2);
-
-
+  b = gtk_toggle_button_new ();
+  gtk_box_pack_start( GTK_BOX( avbox ), b, FALSE, FALSE, 0 );
+  gtk_signal_connect(GTK_OBJECT(b), "clicked",
+        	      GTK_SIGNAL_FUNC(tearoff_callback), avbox);
   overview_canvas	      = gtk_drawing_area_new();
 
   gtk_widget_set_events( overview_canvas, GDK_EXPOSURE_MASK
         			      | GDK_BUTTON_PRESS_MASK );
 
   gtk_drawing_area_size( GTK_DRAWING_AREA( overview_canvas ), 160, 100 );
-  gtk_box_pack_start(GTK_BOX(hbox2), overview_canvas, TRUE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(avbox), overview_canvas, TRUE, TRUE, 0);
 
   gtk_signal_connect( GTK_OBJECT( overview_canvas ), "expose_event",
         	      (GtkSignalFunc) overview_canvas_expose, NULL );
   gtk_signal_connect( GTK_OBJECT( overview_canvas ), "button_press_event",
         	      (GtkSignalFunc) butt_down_overviewcanvas, NULL );
 
-  handle_box = gtk_handle_box_new();
-  gtk_container_border_width(GTK_CONTAINER(handle_box), 5);
-  gtk_signal_connect( GTK_OBJECT( handle_box ), "child_detached",
-		      GTK_SIGNAL_FUNC( child_detached ), (gpointer)hbox );
-  gtk_box_pack_start(GTK_BOX(vbox1), handle_box, FALSE, FALSE, 0);
-  
   avbox = gtk_vbox_new(FALSE, 5);
-  gtk_container_add(GTK_CONTAINER(handle_box), avbox);
+  gtk_container_add(GTK_CONTAINER(vbox1), avbox);
+
+  b = gtk_toggle_button_new ();
+  gtk_box_pack_start( GTK_BOX( avbox ), b, FALSE, FALSE, 0 );
+  gtk_signal_connect(GTK_OBJECT(b), "clicked",
+        	      GTK_SIGNAL_FUNC(tearoff_callback), avbox);
 
   {   /* Info on player's civilization */
       GtkWidget *vbox4;
@@ -578,15 +587,6 @@ static void setup_widgets(void)
   gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 5, 1, 2);
   }
  
-  handle_box = gtk_handle_box_new();
-  gtk_container_border_width(GTK_CONTAINER(handle_box), 5);
-  gtk_signal_connect( GTK_OBJECT( handle_box ), "child_detached",
-		      GTK_SIGNAL_FUNC( child_detached ), (gpointer)hbox );
-  gtk_box_pack_start(GTK_BOX(vbox1), handle_box, FALSE, FALSE, 0);
-
-  avbox = gtk_vbox_new(FALSE, 5);
-  gtk_container_add(GTK_CONTAINER(handle_box), avbox);
-
   { /* selected unit status */
     GtkWidget *ubox;
 
@@ -624,11 +624,8 @@ static void setup_widgets(void)
     gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
   }
 
-  vbox2 = gtk_vbox_new( FALSE, 0 );
-  gtk_box_pack_start( GTK_BOX( hbox ), vbox2, TRUE, TRUE, 0 );
-
   table = gtk_table_new( 2, 2, FALSE );
-  gtk_box_pack_start( GTK_BOX( vbox2 ), table, TRUE, TRUE, 0 );
+  gtk_box_pack_start( GTK_BOX( hbox ), table, TRUE, TRUE, 0 );
 
   frame = gtk_frame_new( NULL );
   gtk_table_attach(GTK_TABLE(table), frame,
@@ -664,21 +661,20 @@ static void setup_widgets(void)
   {   /* the message window */
       GtkWidget *text, *vbox3;
 
-      handle_box = gtk_handle_box_new();
-      gtk_container_border_width(GTK_CONTAINER(handle_box), 5);
-      gtk_signal_connect( GTK_OBJECT( handle_box ), "child_detached",
-			  GTK_SIGNAL_FUNC( output_detached ), (gpointer)paned );
-      gtk_paned_pack2(GTK_PANED(paned), handle_box, TRUE, TRUE);
-
       vbox3 = gtk_vbox_new(FALSE, 5);
-      gtk_container_add(GTK_CONTAINER(handle_box), vbox3);
+      gtk_paned_pack2(GTK_PANED(paned), vbox3, TRUE, TRUE);
+
+      b = gtk_toggle_button_new ();
+      gtk_box_pack_start( GTK_BOX( vbox3 ), b, FALSE, FALSE, 0 );
+      gtk_signal_connect(GTK_OBJECT(b), "clicked",
+			 GTK_SIGNAL_FUNC(tearoff_callback), vbox3);
 
       hbox = gtk_hbox_new(FALSE, 0);
       gtk_box_pack_start(GTK_BOX(vbox3), hbox, TRUE, TRUE, 0);
 
       text = gtk_text_new(NULL, NULL);
       gtk_box_pack_start(GTK_BOX(hbox), text, TRUE, TRUE, 0);
-      gtk_widget_set_usize(text, 600, 150);
+      gtk_widget_set_usize(text, 600, 100);
       gtk_text_set_editable (GTK_TEXT (text), FALSE);
 
       text_scrollbar = gtk_vscrollbar_new (GTK_TEXT(text)->vadj);
@@ -711,28 +707,6 @@ static void setup_widgets(void)
 /*  gtk_key_snooper_install(keyboard_handler, NULL);*/
 
   gtk_widget_show_all(vbox);
-}
-
-/*
- * so hbox is resized when the handle_boxes are detached
- * this can be done only when all the handle_boxes are detached
- * but I don't think it makes the whole thing slowlier if it's
- * done each time.
- */
-static void child_detached(GtkHandleBox *handle_box, GtkWidget *widget,
-			   gpointer user_data)
-{
-  gtk_widget_queue_resize(GTK_WIDGET(user_data));
-}
-
-/*
- * so the gutter of the paned is correctly positionned when the
- * output/chat window is detached
- */
-static void output_detached(GtkHandleBox *handle_box, GtkWidget *widget,
-		     gpointer user_data)
-{
-  gtk_paned_set_position(GTK_PANED(user_data), -1);
 }
 
 /**************************************************************************
