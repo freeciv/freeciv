@@ -904,68 +904,33 @@ Freeciv*optionokcommand.label:          Close
 Freeciv*optionokcommand.fromVert:       optionwakeupfocuslabel
 
 !
-! The messageopts dialog
+! The message options dialog
 !
-Freeciv*messageoptpopup.title:        Message Options
+Freeciv*messageoptpopup.title:	Message Options
 
-Freeciv*messageoptpopup*Label.background:   lightblue
-Freeciv*messageoptpopup*Toggle.background:  cyan
+Freeciv*messageoptpopup*Label.background:  lightblue
+Freeciv*messageoptpopup*Label.borderWidth: 0
+Freeciv*messageoptpopup*Toggle.background: cyan
+Freeciv*messageoptpopup*Toggle.shapeStyle: ShapeOval
+Freeciv*messageoptpopup*Toggle.internalHeight: 0
+Freeciv*messageoptpopup*Toggle.label: Yes
 
-Freeciv*messageoptpopup*Toggle.shapeStyle:  ShapeOval
+Freeciv*messageopttitle.label:  Where to Display Messages
+Freeciv*messageoptexpl.label:  \
+Out = Output window, Mes = Messages window, Pop = Popup individual window 
+Freeciv*messageoptexpl.fromVert:  messageopttitle
 
-Freeciv*messageoptlabel.label:             Set message options
-Freeciv*messageoptlabel.borderWidth:       0
-Freeciv*messageoptlabel.background:        lightblue
+Freeciv*messageoptcol1.fromVert:  messageoptexpl
+Freeciv*messageoptcol2.fromVert:  messageoptexpl
+Freeciv*messageoptcol2.fromHoriz: messageoptcol1
 
-Freeciv*messageoptloflabel.label:           Warn when low on funds\ 
-Freeciv*messageoptloflabel.borderWidth:     0
-Freeciv*messageoptloflabel.fromVert:        messageoptlabel
+Freeciv*messageoptcolhead.label: \                          Out: Mes: Pop:
 
-Freeciv*messageoptloftoggle.label:          Yes
-Freeciv*messageoptloftoggle.fromVert:       messageoptlabel
-Freeciv*messageoptloftoggle.fromHoriz:      messageoptloflabel
-Freeciv*messageoptloftoggle.internalHeight: 0
-
-Freeciv*messageoptpolabel.label:         Notify on pollution\ \ \ \ 
-Freeciv*messageoptpolabel.borderWidth:   0
-Freeciv*messageoptpolabel.fromVert:      messageoptloflabel
-
-Freeciv*messageoptpotoggle.label:          Yes
-Freeciv*messageoptpotoggle.fromVert:       messageoptloflabel
-Freeciv*messageoptpotoggle.fromHoriz:      messageoptpolabel
-Freeciv*messageoptpotoggle.internalHeight: 0
-
-Freeciv*messageoptcdlabel.label:         Notify on city disorder
-Freeciv*messageoptcdlabel.borderWidth:   0
-Freeciv*messageoptcdlabel.fromVert:      messageoptpotoggle
-
-Freeciv*messageoptcdtoggle.label:          Yes
-Freeciv*messageoptcdtoggle.fromVert:       messageoptpotoggle
-Freeciv*messageoptcdtoggle.fromHoriz:      messageoptcdlabel
-Freeciv*messageoptcdtoggle.internalHeight: 0
-
-Freeciv*messageoptokcommand.label:          Close
-Freeciv*messageoptokcommand.fromVert:       messageoptcdlabel
-
-
-!
-! The message filter dialog
-!
-Freeciv*messagefilterpopup.title:	Message Filter
-
-Freeciv*messagefilterpopup*Label.background:  lightblue
-Freeciv*messagefilterpopup*Label.borderWidth: 0
-Freeciv*messagefilterpopup*Toggle.background: cyan
-Freeciv*messagefilterpopup*Toggle.shapeStyle: ShapeOval
-Freeciv*messagefilterpopup*Toggle.internalHeight: 0
-
-Freeciv*messagefiltercol1.fromVert:  messagefilterlabel
-Freeciv*messagefiltercol2.fromVert:  messagefilterlabel
-Freeciv*messagefiltercol2.fromHoriz: messagefiltercol1
-
-Freeciv*messagefilterlabel.label:     Message Types to Display
-Freeciv*messagefilterokcommand.label: Close
-Freeciv*messagefilterokcommand.fromVert: messagefiltercol1
+Freeciv*messageoptokcommand.label:     Ok
+Freeciv*messageoptokcommand.fromVert:  messageoptcol1
+Freeciv*messageoptcancelcommand.label: Cancel
+Freeciv*messageoptcancelcommand.fromVert:  messageoptcol1
+Freeciv*messageoptcancelcommand.fromHoriz: messageoptokcommand
 
 !
 ! The rates selection dialog

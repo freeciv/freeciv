@@ -33,8 +33,6 @@
 #include <chatline.h>
 #include <xstuff.h>
 #include <packets.h>
-#include <events.h>
-#include <dialogs.h>
 #include <mapview.h>
 #include <map.h>
 #include <citydlg.h>
@@ -242,11 +240,6 @@ void add_notify_window(struct packet_generic_message *packet)
   char *s;
   int nspc;
   
-  if (message_values[packet->event]) 
-    popup_notify_goto_dialog("Popup Request", packet->message, 
-			     packet->x, 
-			     packet->y);
-
   meswin_allocate();
   s = (char *)malloc(strlen(packet->message) + 50);
   if (!strncmp(packet->message, "Game: ", 6)) 

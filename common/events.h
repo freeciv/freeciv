@@ -34,7 +34,4 @@ enum {
   E_LAST
 };
 
-extern int message_values[E_LAST];
-
 #endif
-

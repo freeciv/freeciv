@@ -19,6 +19,7 @@
 #include <graphics.h>
 #include <menu.h>
 #include <events.h>
+#include <messagedlg.h>
 #include <clinet.h>		/* aconnection */
 
 extern int seconds_to_turndone;
@@ -31,7 +32,6 @@ extern int wakeup_focus;
 extern char name[512];
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
-extern int message_filter[E_LAST];
 
 
 /**************************************************************************
@@ -266,14 +266,20 @@ void handle_before_new_year()
 **************************************************************************/
 void handle_chat_msg(struct packet_generic_message *packet)
 {
-  if(packet->event >= E_LAST)  {
-    flog(LOG_NORMAL,"Unknown event type %d!\n", packet->event);
-  } else if(packet->event > E_NOEVENT)  {
-    if(message_filter[packet->event]) add_notify_window(packet);
-    else return;
+  int where = MW_OUTPUT;	/* where to display the message */
+  
+  if (packet->event >= E_LAST)  {
+    flog(LOG_NORMAL,"Unknown event type %d!", packet->event);
+  } else if (packet->event >= 0)  {
+    where = messages_where[packet->event];
   }
-
-  append_output_window(packet->message);
+  if (where & MW_OUTPUT)
+    append_output_window(packet->message);
+  if (where & MW_MESSAGES)
+    add_notify_window(packet);
+  if (where & MW_POPUP)
+    popup_notify_goto_dialog("Popup Request", packet->message, 
+			     packet->x, packet->y);
 }
  
 /**************************************************************************

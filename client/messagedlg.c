@@ -39,13 +39,7 @@ extern Widget toplevel, main_form;
 extern struct connection aconnection;
 extern Display	*display;
 
-extern int message_values[E_LAST];
-
-int message_filter[E_LAST]={
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1};
+unsigned int messages_where[E_LAST];
 
 static char *message_text[E_LAST]={
   "Low Funds                ", 		/* E_LOW_ON_FUNDS */
@@ -79,132 +73,59 @@ static char *message_text[E_LAST]={
 };
 
 
-/******************************************************************/
-Widget messageopt_dialog_shell;
-Widget messageopt_lof_toggle;
-Widget messageopt_po_toggle;
-Widget messageopt_cd_toggle;
-
-/******************************************************************/
-void create_messageopt_dialog(void);
-
-void messageopt_ok_command_callback(Widget w, XtPointer client_data, 
-			        XtPointer call_data);
-
 /****************************************************************
 ... 
 *****************************************************************/
-void popup_messageopt_dialog(void)
+void init_messages_where(void)
 {
-  create_messageopt_dialog();
-  XtVaSetValues(messageopt_lof_toggle, XtNstate, message_values[E_LOW_ON_FUNDS], 
-  	        XtNlabel, message_values[E_LOW_ON_FUNDS]?"Yes":"No", NULL);
-  XtVaSetValues(messageopt_po_toggle, XtNstate, message_values[E_POLLUTION],
-  	        XtNlabel, message_values[E_POLLUTION]?"Yes":"No", NULL);
-  XtVaSetValues(messageopt_cd_toggle, XtNstate, message_values[E_CITY_DISORDER],
-  	        XtNlabel, message_values[E_CITY_DISORDER]?"Yes":"No", NULL);
-  
-  xaw_set_relative_position(toplevel, messageopt_dialog_shell, 25, 25);
-  XtPopup(messageopt_dialog_shell, XtGrabNone);
-  XtSetSensitive(main_form, FALSE);
-}
+  int i;
 
-/****************************************************************
-...
-*****************************************************************/
-void create_messageopt_dialog(void)
-{
-  Widget messageopt_form, messageopt_label;
-  Widget messageopt_ok_command;
-  
-  messageopt_dialog_shell = XtCreatePopupShell("messageoptpopup", 
-					  transientShellWidgetClass,
-					  toplevel, NULL, 0);
-
-  messageopt_form = XtVaCreateManagedWidget("messageoptform", 
-				        formWidgetClass, 
-				        messageopt_dialog_shell, NULL);   
-
-  messageopt_label = XtVaCreateManagedWidget("messageoptlabel", 
-					 labelWidgetClass, 
-					 messageopt_form, NULL);   
-  
-  XtVaCreateManagedWidget("messageoptloflabel", 
-			  labelWidgetClass, 
-			  messageopt_form, NULL);
-  messageopt_lof_toggle = XtVaCreateManagedWidget("messageoptloftoggle", 
-					     toggleWidgetClass, 
-					     messageopt_form,
-					     NULL);
-  
-  XtVaCreateManagedWidget("messageoptpolabel", 
-			  labelWidgetClass, 
-			  messageopt_form, NULL);
-  messageopt_po_toggle = XtVaCreateManagedWidget("messageoptpotoggle", 
-					       toggleWidgetClass, 
-					       messageopt_form,
-					       NULL);
-  
-  
-  XtVaCreateManagedWidget("messageoptcdlabel", 
-			  labelWidgetClass, 
-			  messageopt_form, NULL);
-  messageopt_cd_toggle = XtVaCreateManagedWidget("messageoptcdtoggle", 
-						toggleWidgetClass, 
-						messageopt_form,
-						NULL);
-  
-  messageopt_ok_command = XtVaCreateManagedWidget("messageoptokcommand", 
-					      commandWidgetClass,
-					      messageopt_form,
-					      NULL);
-  
-  XtAddCallback(messageopt_lof_toggle, XtNcallback, toggle_callback, NULL);
-  XtAddCallback(messageopt_po_toggle, XtNcallback, toggle_callback, NULL);
-  XtAddCallback(messageopt_cd_toggle, XtNcallback, toggle_callback, NULL);
-  XtAddCallback(messageopt_ok_command, XtNcallback, 
-		messageopt_ok_command_callback, NULL);
-
-  XtRealizeWidget(messageopt_dialog_shell);
-
-  xaw_horiz_center(messageopt_label);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void messageopt_ok_command_callback(Widget w, XtPointer client_data, 
-			       XtPointer call_data)
-{
-  Boolean b;
-  
-  XtSetSensitive(main_form, TRUE);
-  XtDestroyWidget(messageopt_dialog_shell);
-
-  XtVaGetValues(messageopt_lof_toggle, XtNstate, &b, NULL);
-  message_values[E_LOW_ON_FUNDS]=b;
-  XtVaGetValues(messageopt_po_toggle, XtNstate, &b, NULL);
-  message_values[E_POLLUTION]=b;
-  XtVaGetValues(messageopt_cd_toggle, XtNstate, &b, NULL);
-  message_values[E_CITY_DISORDER]=b;
+  for(i=0; i<E_LAST; i++) {
+    messages_where[i] = MW_OUTPUT | MW_MESSAGES;
+  }
 }
 
 /*************************************************************************/
-Widget create_messagefilter_dialog(void);
-void messagefilter_ok_command_callback(Widget w, XtPointer client_data, 
+Widget create_messageopt_dialog(void);
+void messageopt_ok_command_callback(Widget w, XtPointer client_data, 
 			               XtPointer call_data);
-static Widget messagefilter_toggles[E_LAST];
+void messageopt_cancel_command_callback(Widget w, XtPointer client_data, 
+					XtPointer call_data);
+static Widget messageopt_toggles[E_LAST][NUM_MW];
+
+/**************************************************************************
+Comparison function for qsort; i1 and i2 are pointers to integers which
+index message_text[].
+**************************************************************************/
+int compar_message_texts(const void *i1, const void *i2)
+{
+  int j1 = *(const int*)i1;
+  int j2 = *(const int*)i2;
+  
+  return strcmp(message_text[j1], message_text[j2]);
+}
 
 /**************************************************************************
 ... 
 **************************************************************************/
-void popup_messagefilter_dialog(void)
+void popup_messageopt_dialog(void)
 {
   Widget shell;
+  int i, j, state;
 
-  shell=create_messagefilter_dialog();
+  shell=create_messageopt_dialog();
+
+  /* Doing this here makes the "No"'s centered consistently */
+  for(i=0; i<E_LAST; i++) {
+    for(j=0; j<NUM_MW; j++) {
+      state = messages_where[i] & (1<<j);
+      XtVaSetValues(messageopt_toggles[i][j],
+		    XtNstate, state,
+		    XtNlabel, state?"Yes":"No", NULL);
+    }
+  }
   
-  xaw_set_relative_position(toplevel, shell, 25, 0);
+  xaw_set_relative_position(toplevel, shell, 15, 0);
   XtPopup(shell, XtGrabNone);
   XtSetSensitive(main_form, FALSE);
 }
@@ -212,65 +133,94 @@ void popup_messagefilter_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-Widget create_messagefilter_dialog(void)
+Widget create_messageopt_dialog(void)
 {
-  Widget shell,form,title,close,col1,col2;
+  Widget shell,form,title,explanation,ok,cancel,col1,col2;
+  Widget colhead1, colhead2;
   Widget label,last_label=0;
-  Widget toggle;
-  int i;
+  Widget toggle=0;
+  int i, j;
+  int sorted[E_LAST];
   
-  shell = XtCreatePopupShell("messagefilterpopup",
+  shell = XtCreatePopupShell("messageoptpopup",
 			     transientShellWidgetClass,
 			     toplevel, NULL, 0);
 
-  form = XtVaCreateManagedWidget("messagefilterform", 
+  form = XtVaCreateManagedWidget("messageoptform", 
 				 formWidgetClass, 
 				 shell, NULL);   
 
-  title = XtVaCreateManagedWidget("messagefilterlabel",
+  title = XtVaCreateManagedWidget("messageopttitle",
   				  labelWidgetClass,
 				  form, NULL);
 
-  col1 = XtVaCreateManagedWidget("messagefiltercol1",
+  explanation = XtVaCreateManagedWidget("messageoptexpl",
+  				  labelWidgetClass,
+				  form, NULL);
+
+  col1 = XtVaCreateManagedWidget("messageoptcol1",
   				 formWidgetClass,
 				 form, NULL);
 
-  col2 = XtVaCreateManagedWidget("messagefiltercol2",
+  col2 = XtVaCreateManagedWidget("messageoptcol2",
   				 formWidgetClass,
 				 form, NULL);
+  
+  colhead1 = XtVaCreateManagedWidget("messageoptcolhead",
+				     labelWidgetClass,
+				     col1, NULL);
+
+  colhead2 = XtVaCreateManagedWidget("messageoptcolhead",
+				     labelWidgetClass,
+				     col2, NULL);
 
   for(i=0;i<E_LAST;i++)  {
+    sorted[i] = i;
+  }
+  qsort(sorted, E_LAST, sizeof(int), compar_message_texts);
+  
+  for(i=0;i<E_LAST;i++)  {
     int top_line = (!i || i==E_LAST/2);
+    int is_col1 = i<E_LAST/2;
     label = XtVaCreateManagedWidget("label",
 				    labelWidgetClass,
-				    i<E_LAST/2?col1:col2,
-				    XtNlabel, message_text[i],
-				    top_line?NULL:XtNfromVert, last_label,
+				    is_col1?col1:col2,
+				    XtNlabel, message_text[sorted[i]],
+				    XtNfromVert, top_line?
+				    is_col1?colhead1:colhead2:last_label,
 				    NULL);
-    toggle = XtVaCreateManagedWidget("toggle",
-    				     toggleWidgetClass,
-				     i<E_LAST/2?col1:col2,
-				     XtNlabel, message_filter[i]?"Yes":"No ",
-				     XtNstate, message_filter[i],
-				     XtNfromHoriz, label,
-				     top_line?NULL:XtNfromVert, last_label,
-				     NULL);
-    XtAddCallback(toggle, XtNcallback, toggle_callback, NULL);
+    for(j=0; j<NUM_MW; j++) {
+      toggle = XtVaCreateManagedWidget("toggle",
+				       toggleWidgetClass,
+				       is_col1?col1:col2,
+				       XtNfromHoriz, (j==0?label:toggle),
+				       XtNfromVert, top_line?
+				       is_col1?colhead1:colhead2:last_label,
+				       NULL);
+      XtAddCallback(toggle, XtNcallback, toggle_callback, NULL);
+      messageopt_toggles[sorted[i]][j]=toggle;
+    }
 
-    messagefilter_toggles[i]=toggle;
     last_label=label; 
   }
 
-  close = XtVaCreateManagedWidget("messagefilterokcommand",
-  				  commandWidgetClass,
-				  form,
-				  NULL);
-  XtAddCallback(close, XtNcallback, messagefilter_ok_command_callback, 
+  ok = XtVaCreateManagedWidget("messageoptokcommand",
+			       commandWidgetClass,
+			       form,
+			       NULL);
+  cancel = XtVaCreateManagedWidget("messageoptcancelcommand",
+				   commandWidgetClass,
+				   form,
+				   NULL);
+  XtAddCallback(ok, XtNcallback, messageopt_ok_command_callback, 
+                (XtPointer)shell);
+  XtAddCallback(cancel, XtNcallback, messageopt_cancel_command_callback, 
                 (XtPointer)shell);
   
   XtRealizeWidget(shell);
 
   xaw_horiz_center(title);
+  xaw_horiz_center(explanation);
 
   return shell;
 }
@@ -278,18 +228,32 @@ Widget create_messagefilter_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void messagefilter_ok_command_callback(Widget w, XtPointer client_data, 
+void messageopt_cancel_command_callback(Widget w, XtPointer client_data, 
+					XtPointer call_data)
+{
+  XtSetSensitive(main_form, TRUE);
+  XtDestroyWidget((Widget)client_data);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void messageopt_ok_command_callback(Widget w, XtPointer client_data, 
 			               XtPointer call_data)
 {
-  int i;
+  int i, j;
   Boolean b;
   
   XtSetSensitive(main_form, TRUE);
 
   for(i=0;i<E_LAST;i++)  {
-    XtVaGetValues(messagefilter_toggles[i], XtNstate, &b, NULL);
-    message_filter[i]=b;
+    messages_where[i] = 0;
+    for(j=0; j<NUM_MW; j++) {
+      XtVaGetValues(messageopt_toggles[i][j], XtNstate, &b, NULL);
+      if (b) messages_where[i] |= (1<<j);
+    }
   }
 
   XtDestroyWidget((Widget)client_data);
 }
+

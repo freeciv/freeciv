@@ -32,13 +32,13 @@
 #include <citydlg.h>
 #include <diplodlg.h>
 #include <repodlgs.h>
-#include <events.h>
 #include <meswindlg.h>
 #include <climisc.h>
 #include <packhand.h>
 #include <menu.h>
 #include <connectdlg.h>
 #include <helpdlg.h>
+#include <messagedlg.h>
 
 char server_host[512];
 char name[512];
@@ -61,7 +61,7 @@ int last_turn_gold_amount;
 int turn_gold_difference;
 
 int did_advance_tech_this_turn;
-int message_values[E_LAST];
+
 void handle_move_unit(struct packet_move_unit *packet);
 void handle_new_year(struct packet_new_year *ppacket);
 void handle_city_info(struct packet_city_info *packet);
@@ -79,6 +79,7 @@ void handle_remove_player(struct packet_generic_integer *packet);
 int main(int argc, char *argv[])
 {
   /*  audio_init(); */
+  init_messages_where();
   game_init();
   x_main(argc, argv);
   return 0;
