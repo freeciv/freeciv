@@ -6,6 +6,7 @@ Some effects are not suitable for certain assignments.
 If you have multiple effects of one type their AMOUNTs will be additively
 cumulative.  For many effects this is undesirable.
 
+
 .name may be one of:
 
 "Tech_Parasite"	- gains advances known by AMOUNT other players.
@@ -148,9 +149,15 @@ cumulative.  For many effects this is undesirable.
 "Air_Vet_Combat"- Increases the chance of units of this type becoming veteran
 		  after combat by AMOUNT percent
 
+"Gain_AI_Love"  - Increase AI's love for you by AMOUNT units (out of 1000)
+                  per turn
+
+"Regen_Reputation" - Increase your reputation by AMOUNT units (out of 1000)
+                  per turn
+
+
 .range may be one of: 
              "None", "Local", "City", "Continent", "Player", "World"
-
 .value	   = integral AMOUNT parameter for many effects
 	    (must be in the range -32767 to 32767)
 .survives  = 1 if effect survives destruction (wonders only)

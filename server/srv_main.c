@@ -48,6 +48,7 @@
 #include "capstr.h"
 #include "city.h"
 #include "dataio.h"
+#include "effects.h"
 #include "events.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -439,8 +440,11 @@ static void update_diplomatics(void)
   	}
         }
     } players_iterate_end;
-    player1->reputation = MIN(player1->reputation + GAME_REPUTATION_INCR,
-			      GAME_MAX_REPUTATION);
+    player1->reputation = 
+      MIN((get_player_bonus(player1, EFT_REGEN_REPUTATION) * 
+           GAME_MAX_REPUTATION / 1000) + 
+	  player1->reputation + GAME_REPUTATION_INCR,
+          GAME_MAX_REPUTATION);
   } players_iterate_end;
 }
 

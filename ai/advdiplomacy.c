@@ -743,7 +743,12 @@ void ai_diplomacy_calculate(struct player *pplayer, struct ai_data *ai)
       MIN(player_in_territory(pplayer, aplayer) * (MAX_AI_LOVE / 100),
           pplayers_allied(aplayer, pplayer) ? 
 	    ai->diplomacy.love_incr - 1 : (MAX_AI_LOVE / 2));
-	  
+ 
+    /* Increase the love if aplayer has got a building that makes 
+     * us love him more. Typically it's Eiffel Tower */
+    pplayer->ai.love[aplayer->player_no] +=
+      get_player_bonus(aplayer, EFT_GAIN_AI_LOVE) * MAX_AI_LOVE / 1000;
+  	  
     /* Massage our numbers to keep love and its opposite on the ground. 
      * Gravitate towards zero. */
     pplayer->ai.love[aplayer->player_no] -= 

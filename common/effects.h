@@ -114,6 +114,8 @@ enum effect_type {
   EFT_MISSILE_DEFEND,
   EFT_NO_UPKEEP,
   EFT_NO_INCITE,
+  EFT_REGEN_REPUTATION,
+  EFT_GAIN_AI_LOVE,
   EFT_LAST	/* keep this last */
 };
 
