@@ -925,14 +925,11 @@ static void set_overview_tile_foreground_color(int x, int y)
 **************************************************************************/
 void refresh_overview_canvas(void)
 {
-  int x, y;
-  
-  for(y=0; y<map.ysize; y++)
-    for(x=0; x<map.xsize; x++) {
-      set_overview_tile_foreground_color(x, y);
-      gdk_draw_rectangle( overview_canvas_store, fill_bg_gc, TRUE, x*2, y*2,
-			2, 2 );
-    }
+  whole_map_iterate(x, y) {
+    set_overview_tile_foreground_color(x, y);
+    gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE, x * 2,
+		       y * 2, 2, 2);
+  } whole_map_iterate_end;
 
   gdk_gc_set_foreground( fill_bg_gc, colors_standard[COLOR_STD_BLACK] );
 }

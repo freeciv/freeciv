@@ -276,16 +276,14 @@ static void update_environmental_upset(enum tile_special_type cause,
 				       int *current, int *accum, int *level,
 				       void (*upset_action_fn)(int))
 {
-  int x, y, count;
+  int count;
 
   count = 0;
-  for (x = 0; x < map.xsize; x++) {
-    for (y = 0; y < map.ysize; y++) {
-      if (map_get_special(x,y) & cause) {
-	count++;
-      }
+  whole_map_iterate(x, y) {
+    if (map_get_special(x, y) & cause) {
+      count++;
     }
-  }
+  } whole_map_iterate_end;
 
   *current = count;
   *accum += count;

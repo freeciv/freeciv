@@ -484,9 +484,9 @@ static void map_load(struct section_file *file)
 
   /* Should be handled as part of send_all_know_tiles,
      but do it here too for safety */
-  for(y=0; y<map.ysize; y++)
-    for(x=0; x<map.xsize; x++)
-      map_get_tile(x,y)->sent = 0;
+  whole_map_iterate(x, y) {
+    map_get_tile(x, y)->sent = 0;
+  } whole_map_iterate_end;
 }
 
 /***************************************************************
@@ -1245,9 +1245,9 @@ static void player_map_load(struct player *plr, int plrno,
   int x,y,i;
 
   if (!plr->is_alive)
-    for (x=0; x<map.xsize; x++)
-      for (y=0; y<map.ysize; y++)
-	map_change_seen(x, y, plr, +1);
+    whole_map_iterate(x, y) {
+      map_change_seen(x, y, plr, +1);
+    } whole_map_iterate_end;
 
   /* load map if:
      1) it from a fog of war build
@@ -1393,30 +1393,29 @@ static void player_map_load(struct player *plr, int plrno,
 
     /* This shouldn't be neccesary if the savegame was consistent, but there
        is a bug in some pre-1.11 savegames. Anyway, it can't hurt */
-    for (x=0; x<map.xsize; x++) {
-      for (y=0; y<map.ysize; y++) {
-	if (map_get_known_and_seen(x, y, get_player(plrno))) {
-	  update_tile_knowledge(plr, x, y);
-	  reality_check_city(plr, x, y);
-	  if (map_get_city(x, y)) {
-	    update_dumb_city(plr, map_get_city(x, y));
-	  }
+    whole_map_iterate(x, y) {
+      if (map_get_known_and_seen(x, y, get_player(plrno))) {
+	update_tile_knowledge(plr, x, y);
+	reality_check_city(plr, x, y);
+	if (map_get_city(x, y)) {
+	  update_dumb_city(plr, map_get_city(x, y));
 	}
       }
-    }
+    } whole_map_iterate_end;
 
   } else {
-    /* We have an old savegame or fog of war was turned off; the players private
-       knowledge is set to be what he could see without fog of war */
-    for(y=0; y<map.ysize; y++)
-      for(x=0; x<map.xsize; x++)
-	if (map_get_known(x, y, plr)) {
-	  struct city *pcity = map_get_city(x,y);
-	  update_player_tile_last_seen(plr, x, y);
-	  update_tile_knowledge(plr, x, y);
-	  if (pcity)
-	    update_dumb_city(plr, pcity);
-	}
+    /* We have an old savegame or fog of war was turned off; the
+       players private knowledge is set to be what he could see
+       without fog of war */
+    whole_map_iterate(x, y) {
+      if (map_get_known(x, y, plr)) {
+	struct city *pcity = map_get_city(x, y);
+	update_player_tile_last_seen(plr, x, y);
+	update_tile_knowledge(plr, x, y);
+	if (pcity)
+	  update_dumb_city(plr, pcity);
+      }
+    } whole_map_iterate_end;
   }
 }
 
@@ -1792,18 +1791,23 @@ static void player_save(struct player *plr, int plrno,
       struct dumb_city *pdcity;
       i = 0;
       
-      for (x = 0; x < map.xsize; x++)
-	for (y = 0; y < map.ysize; y++)
-	  if ((pdcity = map_get_player_tile(x, y, plr)->city)) {
-	    secfile_insert_int(file, pdcity->id, "player%d.dc%d.id", plrno, i);
-	    secfile_insert_int(file, x, "player%d.dc%d.x", plrno, i);
-	    secfile_insert_int(file, y, "player%d.dc%d.y", plrno, i);
-	    secfile_insert_str(file, pdcity->name, "player%d.dc%d.name", plrno, i);
-	    secfile_insert_int(file, pdcity->size, "player%d.dc%d.size", plrno, i);
-	    secfile_insert_int(file, pdcity->has_walls, "player%d.dc%d.has_walls", plrno, i);    
-	    secfile_insert_int(file, pdcity->owner, "player%d.dc%d.owner", plrno, i);
-	    i++;
-	  }
+      whole_map_iterate(x, y) {
+	if ((pdcity = map_get_player_tile(x, y, plr)->city)) {
+	  secfile_insert_int(file, pdcity->id, "player%d.dc%d.id", plrno,
+			     i);
+	  secfile_insert_int(file, x, "player%d.dc%d.x", plrno, i);
+	  secfile_insert_int(file, y, "player%d.dc%d.y", plrno, i);
+	  secfile_insert_str(file, pdcity->name, "player%d.dc%d.name",
+			     plrno, i);
+	  secfile_insert_int(file, pdcity->size, "player%d.dc%d.size",
+			     plrno, i);
+	  secfile_insert_int(file, pdcity->has_walls,
+			     "player%d.dc%d.has_walls", plrno, i);
+	  secfile_insert_int(file, pdcity->owner, "player%d.dc%d.owner",
+			     plrno, i);
+	  i++;
+	}
+      } whole_map_iterate_end;
     }
     secfile_insert_int(file, i, "player%d.total_ncities", plrno);
   }
@@ -1851,38 +1855,36 @@ static void player_save(struct player *plr, int plrno,
 ***************************************************************/
 static void calc_unit_ordering(void)
 {
-  int i, j, x, y;
+  int i, j;
   
   for(i=0; i<game.nplayers; i++) {
     /* to avoid junk values for unsupported units: */
-    unit_list_iterate(get_player(i)->units, punit) 
+    unit_list_iterate(get_player(i)->units, punit) {
       punit->ord_city = 0;
-    unit_list_iterate_end;
+    } unit_list_iterate_end;
     city_list_iterate(get_player(i)->cities, pcity) {
       j = 0;
-      unit_list_iterate(pcity->units_supported, punit) 
+      unit_list_iterate(pcity->units_supported, punit) {
 	punit->ord_city = j++;
-      unit_list_iterate_end;
-    }
-    city_list_iterate_end;
+      } unit_list_iterate_end;
+    } city_list_iterate_end;
   }
 
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++) {
-      j = 0;
-      unit_list_iterate(map_get_tile(x,y)->units, punit) 
-	punit->ord_map = j++;
-      unit_list_iterate_end;
-    }
-  }
+  whole_map_iterate(x, y) {
+    j = 0;
+    unit_list_iterate(map_get_tile(x, y)->units, punit) {
+      punit->ord_map = j++;
+    } unit_list_iterate_end;
+  } whole_map_iterate_end;
 }
+
 /***************************************************************
  For each city and tile, sort unit lists according to
  ord_city and ord_map values.
 ***************************************************************/
 static void apply_unit_ordering(void)
 {
-  int i, x, y;
+  int i;
   
   for(i=0; i<game.nplayers; i++) {
     city_list_iterate(get_player(i)->cities, pcity) {
@@ -1891,11 +1893,9 @@ static void apply_unit_ordering(void)
     city_list_iterate_end;
   }
 
-  for(y=0; y<map.ysize; y++) {
-    for(x=0; x<map.xsize; x++) { 
-      unit_list_sort_ord_map(&map_get_tile(x,y)->units);
-    }
-  }
+  whole_map_iterate(x, y) {
+    unit_list_sort_ord_map(&map_get_tile(x, y)->units);
+  } whole_map_iterate_end;
 }
 
 /***************************************************************

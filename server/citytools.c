@@ -1257,19 +1257,15 @@ void send_all_known_cities(struct conn_list *dest)
 {
   conn_list_do_buffer(dest);
   conn_list_iterate(*dest, pconn) {
-    int x, y;
     struct player *pplayer = pconn->player;
     if (pplayer==NULL && !pconn->observer) {
       continue;
     }
-    for(y=0; y<map.ysize; y++) {
-      for(x=0; x<map.xsize; x++) {
-	if (pplayer==NULL
-	    || map_get_player_tile(x, y, pplayer)->city) {
-	  send_city_info_at_tile(pplayer, &pconn->self, NULL, x, y);
-	}
+    whole_map_iterate(x, y) {
+      if (pplayer == NULL || map_get_player_tile(x, y, pplayer)->city) {
+	send_city_info_at_tile(pplayer, &pconn->self, NULL, x, y);
       }
-    }
+    } whole_map_iterate_end;
   }
   conn_list_iterate_end;
   conn_list_do_unbuffer(dest);

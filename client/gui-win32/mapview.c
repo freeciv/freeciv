@@ -1101,30 +1101,28 @@ put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
 void
 refresh_overview_canvas(void)
 {
-  HDC hdc;
-  int x, y;
+  HDC hdc=GetDC(root_window);
   int pos;
   RECT rc;
-  hdc=GetDC(root_window);
-  for(y=0; y<map.ysize; y++)
-    for(x=0; x<map.xsize; x++) {
-      rc.left=x*2;
-      rc.right=rc.left+2;
-      rc.top=y*2;
-      rc.bottom=rc.top+2;
-      FillRect(overviewstoredc,&rc,brush_std[overview_tile_color(x, y)]); 
-      pos= x + map.xsize/2 - (map_view_x + map_win_width/2);
-  
-      pos %= map.xsize;
-      if (pos < 0)
-	pos += map.xsize;
-      rc.left=overview_win_x+pos*2;
-      rc.right=rc.left+2;
-      rc.top=overview_win_y+y*2;
-      rc.bottom=rc.top+2;
-      FillRect(hdc,&rc,brush_std[overview_tile_color(x,y)]);
- 
-    }  
+
+  whole_map_iterate(x, y) {
+    rc.left = x * 2;
+    rc.right = rc.left + 2;
+    rc.top = y * 2;
+    rc.bottom = rc.top + 2;
+    FillRect(overviewstoredc, &rc, brush_std[overview_tile_color(x, y)]);
+    pos = x + map.xsize / 2 - (map_view_x + map_win_width / 2);
+
+    pos %= map.xsize;
+    if (pos < 0)
+      pos += map.xsize;
+    rc.left = overview_win_x + pos * 2;
+    rc.right = rc.left + 2;
+    rc.top = overview_win_y + y * 2;
+    rc.bottom = rc.top + 2;
+    FillRect(hdc, &rc, brush_std[overview_tile_color(x, y)]);
+  } whole_map_iterate_end;
+
   ReleaseDC(root_window,hdc);
 }
 

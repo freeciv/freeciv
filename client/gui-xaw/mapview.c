@@ -565,14 +565,11 @@ static void set_overview_tile_foreground_color(int x, int y)
 **************************************************************************/
 void refresh_overview_canvas(void)
 {
-  int x, y;
-  
-  for(y=0; y<map.ysize; y++)
-    for(x=0; x<map.xsize; x++) {
-      set_overview_tile_foreground_color(x, y);
-      XFillRectangle(display, overview_canvas_store, fill_bg_gc, x*2, y*2, 
-		     2, 2);
-    }
+  whole_map_iterate(x, y) {
+    set_overview_tile_foreground_color(x, y);
+    XFillRectangle(display, overview_canvas_store, fill_bg_gc, x * 2,
+		   y * 2, 2, 2);
+  } whole_map_iterate_end;
 
   XSetForeground(display, fill_bg_gc, 0);
 }

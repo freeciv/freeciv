@@ -1424,10 +1424,10 @@ static void assign_settlers_player(struct player *pplayer)
 
 static void assign_settlers(void)
 {
-  int i, x, y;
-  for (x = 0; x < map.xsize; x++)
-    for (y = 0; y < map.ysize; y++)
-      map_get_tile(x, y)->assigned = 0;
+  int i;
+  whole_map_iterate(x, y) {
+    map_get_tile(x, y)->assigned = 0;
+  } whole_map_iterate_end;
 
   for (i = 0; i < game.nplayers; i++) {
     assign_settlers_player(shuffled_player(i));
@@ -1477,10 +1477,11 @@ noticeably slow the game, feel free to replace this else{}  -- Syela */
 **************************************************************************/
 static void assign_territory(void)
 {
-  int i, x, y;
-  for (x = 0; x < map.xsize; x++)
-    for (y = 0; y < map.ysize; y++)
-      territory[x][y] = 0xFFFFFFFF;
+  int i;
+
+  whole_map_iterate(x, y) {
+    territory[x][y] = 0xFFFFFFFF;
+  } whole_map_iterate_end;
 
   for (i = 0; i < game.nplayers; i++) {
     assign_territory_player(shuffled_player(i));

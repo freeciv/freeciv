@@ -762,11 +762,10 @@ static void make_rivers(void)
 **************************************************************************/
 static void make_plains(void)
 {
-  int x,y;
-  for (y=0;y<map.ysize;y++)
-    for (x=0;x<map.xsize;x++)
-      if (map_get_terrain(x, y)==T_GRASSLAND && myrand(100)>50)
-	map_set_terrain(x, y, T_PLAINS);
+  whole_map_iterate(x, y) {
+    if (map_get_terrain(x, y) == T_GRASSLAND && myrand(100) > 50)
+      map_set_terrain(x, y, T_PLAINS);
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************
@@ -824,7 +823,6 @@ static void make_fair(void)
 **************************************************************************/
 static void make_land(void)
 {
-  int x, y;
   int tres=(maxval*map.landpercent)/100;
   int count=0;
   int total=(map.xsize*map.ysize*map.landpercent)/100;
@@ -833,15 +831,14 @@ static void make_land(void)
     forever++;
     if (forever>50) break; /* loop elimination */
     count=0;
-    for (y=0;y<map.ysize;y++)
-      for (x=0;x<map.xsize;x++) {
-	if (hmap(x, y)<tres)
-	  map_set_terrain(x, y, T_OCEAN);
-	else {
-	  map_set_terrain(x, y, T_GRASSLAND);
-	  count++;
-	}
+    whole_map_iterate(x, y) {
+      if (hmap(x, y) < tres)
+	map_set_terrain(x, y, T_OCEAN);
+      else {
+	map_set_terrain(x, y, T_GRASSLAND);
+	count++;
       }
+    } whole_map_iterate_end;
     if (count>total)
       tres*=11;
     else
@@ -918,12 +915,11 @@ static int assign_continent_flood(int x, int y, int nr)
 **************************************************************************/
 void assign_continent_numbers(void)
 {
-  int x, y;
   int isle = 1;
 
-  for (y=0; y<map.ysize; y++)
-    for (x=0; x<map.xsize; x++)
-      map_set_continent(x, y, 0);
+  whole_map_iterate(x, y) {
+    map_set_continent(x, y, 0);
+  } whole_map_iterate_end;
 
   if (map.generator != 0) {
     assign_continent_flood(0, 0, 1);
@@ -931,13 +927,11 @@ void assign_continent_numbers(void)
     isle = 3;
   }
       
-  for (y=0; y<map.ysize; y++) {
-    for (x=0; x<map.xsize; x++) { 
-      if (!map_get_continent(x, y) && map_get_terrain(x, y)!=T_OCEAN) {
-	assign_continent_flood(x, y, isle++);
-      }
+  whole_map_iterate(x, y) {
+    if (!map_get_continent(x, y) && map_get_terrain(x, y) != T_OCEAN) {
+      assign_continent_flood(x, y, isle++);
     }
-  }
+  } whole_map_iterate_end;
   map.num_continents = isle-1;
   freelog(LOG_VERBOSE, "Map has %d continents", map.num_continents);
 }
@@ -949,7 +943,7 @@ void assign_continent_numbers(void)
 **************************************************************************/
 static void setup_isledata(void)
 {
-  int x,y;
+  int x;
   int good, mingood, maxgood;
   int riches;
   int starters;
@@ -970,15 +964,13 @@ static void setup_isledata(void)
   }
 
   /* get x and y positions: (top left) */
-  for (y=0; y<map.ysize; y++) {
-    for (x=0; x<map.xsize; x++) {
-      int cont = map_get_continent(x, y);
-      if (islands[cont].x == -1) {
-	islands[cont].x = x;
-	islands[cont].y = y;
-      }
+  whole_map_iterate(x, y) {
+    int cont = map_get_continent(x, y);
+    if (islands[cont].x == -1) {
+      islands[cont].x = x;
+      islands[cont].y = y;
     }
-  }
+  } whole_map_iterate_end;
 
   /* Add up the goodies: for useable ocean, add value to continent
      for _every_ adjacent land tile.  This is IMO not very good,
@@ -987,30 +979,29 @@ static void setup_isledata(void)
      results of the previous method which used flood_fill().  --dwp
      This is also the correct place to add S_HUT bonus.
   */
-  for (y=0; y<map.ysize; y++) {
-    for (x=0; x<map.xsize; x++) {
-      int cont = map_get_continent(x, y);
-      if (cont) {
-	islands[cont].goodies += is_good_tile(x, y);
-	if (map_get_special(x,y) & S_HUT) {
-	  islands[cont].goodies += 0; /* 3; */   /* regression testing */
+  whole_map_iterate(x, y) {
+    int cont = map_get_continent(x, y);
+    if (cont) {
+      islands[cont].goodies += is_good_tile(x, y);
+      if (map_get_special(x, y) & S_HUT) {
+	islands[cont].goodies += 0;	/* 3; *//* regression testing */
+      }
+    } else {
+      assert(map_get_terrain(x, y) == T_OCEAN);
+      /* no need to check is_sea_usable(x,y), because will
+         only use for adjacent land (cont1>0) below */
+      {
+	int goodval = is_good_tile(x, y);
+	square_iterate(x, y, 1, x1, y1) {
+	  int cont1 = map_get_continent(x1, y1);
+	  if (cont1 > 0) {
+	    islands[cont1].goodies += goodval;
+	  }
 	}
-      } else {
-	assert(map_get_terrain(x, y)==T_OCEAN);
-	/* no need to check is_sea_usable(x,y), because will
-	   only use for adjacent land (cont1>0) below */
-	{
-	  int goodval = is_good_tile(x, y);
-	  square_iterate(x, y, 1, x1, y1) {
-	    int cont1 = map_get_continent(x1, y1);
-	    if (cont1>0) {  
-	      islands[cont1].goodies += goodval;
-	    }
-	  } square_iterate_end;
-	}
+	square_iterate_end;
       }
     }
-  }
+  } whole_map_iterate_end;
   
   /* the arctic and the antarctic are continents 1 and 2 for generator>0*/
   if (map.generator>0) {
@@ -1296,12 +1287,9 @@ void adjust_terrain_param(void)
 **************************************************************************/
 static void adjust_map(int minval)
 {
-  int x,y;
-  for (y=0;y<map.ysize;y++) {
-    for (x=0;x<map.xsize;x++) {
-      hmap(x, y) -= minval;
-    }
-  }
+  whole_map_iterate(x, y) {
+    hmap(x, y) -= minval;
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************
@@ -1309,17 +1297,16 @@ static void adjust_map(int minval)
 **************************************************************************/
 static void mapgenerator1(void)
 {
-  int x,y, i;
+  int i;
   int minval=5000000;
   height_map=fc_malloc (sizeof(int)*map.xsize*map.ysize);
 
   adjust_terrain_param();
   
-  for (y=0;y<map.ysize;y++) {
-    for (x=0;x<map.xsize;x++) {
-      hmap(x, y) = myrand(40)+((500-abs(map.ysize/2-y))/10);
-    }
-  }
+  whole_map_iterate(x, y) {
+    hmap(x, y) = myrand(40) + ((500 - abs(map.ysize / 2 - y)) / 10);
+  } whole_map_iterate_end;
+
   for (i=0;i<1500;i++) {
     height_map[myrand(map.ysize*map.xsize)]+=myrand(5000);
     if (!(i%100)) {
@@ -1331,13 +1318,13 @@ static void mapgenerator1(void)
   smooth_map(); 
   smooth_map(); 
 
-  for (y=0;y<map.ysize;y++)
-    for (x=0;x<map.xsize;x++) {
-      if (hmap(x, y)>maxval) 
-	maxval=hmap(x, y);
-      if (hmap(x, y)<minval)
-	minval=hmap(x, y);
-    }
+  whole_map_iterate(x, y) {
+    if (hmap(x, y) > maxval)
+      maxval = hmap(x, y);
+    if (hmap(x, y) < minval)
+      minval = hmap(x, y);
+  } whole_map_iterate_end;
+
   maxval-=minval;
   adjust_map(minval);
 
@@ -1351,35 +1338,33 @@ static void mapgenerator1(void)
 **************************************************************************/
 static void smooth_map(void)
 {
-  int x,y;
   int mx,my,px,py;
   int a;
   
-  for (y=0;y<map.ysize;y++) {
-    my=map_adjust_y(y-1);
-    py=map_adjust_y(y+1);
-    for (x=0;x<map.xsize;x++) {
-      mx=map_adjust_x(x-1);
-      px=map_adjust_x(x+1);
-      a=hmap(x, y)*2;
-      
-      a+=hmap(px, my);
-      a+=hmap(mx, my);
-      a+=hmap(mx, py);
-      a+=hmap(px, py);
+  whole_map_iterate(x, y) {
+    my = map_adjust_y(y - 1);
+    py = map_adjust_y(y + 1);
+    mx = map_adjust_x(x - 1);
+    px = map_adjust_x(x + 1);
+    a = hmap(x, y) * 2;
 
-      a+=hmap(x, my);
-      a+=hmap(mx, y);
-      
-      a+=hmap(x, py);
-      a+=hmap(px, y);
+    a += hmap(px, my);
+    a += hmap(mx, my);
+    a += hmap(mx, py);
+    a += hmap(px, py);
 
-      a+=myrand(60);
-      a-=30;
-      if (a<0) a=0;
-      hmap(x, y) = a/10;
-    }
-  }
+    a += hmap(x, my);
+    a += hmap(mx, y);
+
+    a += hmap(x, py);
+    a += hmap(px, y);
+
+    a += myrand(60);
+    a -= 30;
+    if (a < 0)
+      a = 0;
+    hmap(x, y) = a / 10;
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************

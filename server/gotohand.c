@@ -1300,33 +1300,31 @@ matter.
 **************************************************************************/
 static void make_list_of_refuel_points(struct player *pplayer)
 {
-  int x, y;
   struct refuel *prefuel;
   struct city *pcity;
   struct tile *ptile;
 
   refuellist_size = 0;
 
-  for (x = 0; x < map.xsize; x++) {
-    for (y = 0; y < map.ysize; y++) {
-      ptile = map_get_tile(x,y);
-      if ((pcity = is_allied_city_tile(ptile, pplayer))
-	  && !is_non_allied_unit_tile(ptile, pplayer)) {
-	prefuel = fc_malloc(sizeof(struct refuel));
-	init_refuel(prefuel, x, y, FUEL_CITY, MAP_MAX_HEIGHT+MAP_MAX_WIDTH, 0);
-	refuels[refuellist_size++] = prefuel;
-	continue;
-      }
-      if ((ptile = map_get_tile(x,y))->special&S_AIRBASE) {
-	if (is_non_allied_unit_tile(ptile, pplayer))
-	  continue;
-	prefuel = fc_malloc(sizeof(struct refuel));
-	init_refuel(prefuel, x, y,
-		    FUEL_AIRBASE, MAP_MAX_HEIGHT+MAP_MAX_WIDTH, 0);
-	refuels[refuellist_size++] = prefuel;
-      }
+  whole_map_iterate(x, y) {
+    ptile = map_get_tile(x, y);
+    if ((pcity = is_allied_city_tile(ptile, pplayer))
+	&& !is_non_allied_unit_tile(ptile, pplayer)) {
+      prefuel = fc_malloc(sizeof(struct refuel));
+      init_refuel(prefuel, x, y, FUEL_CITY, MAP_MAX_HEIGHT + MAP_MAX_WIDTH,
+		  0);
+      refuels[refuellist_size++] = prefuel;
+      continue;
     }
-  }
+    if ((ptile = map_get_tile(x, y))->special & S_AIRBASE) {
+      if (is_non_allied_unit_tile(ptile, pplayer))
+	continue;
+      prefuel = fc_malloc(sizeof(struct refuel));
+      init_refuel(prefuel, x, y,
+		  FUEL_AIRBASE, MAP_MAX_HEIGHT + MAP_MAX_WIDTH, 0);
+      refuels[refuellist_size++] = prefuel;
+    }
+  } whole_map_iterate_end;
 }
 
 /**************************************************************************
