@@ -1313,55 +1313,43 @@ void update_city_descriptions(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void draw_shadowed_string(GdkDrawable * drawable,
-				 GdkFont * font,
-				 GdkGC * black_gc,
-				 GdkGC * white_gc,
-				 gint x, gint y, const gchar * string)
-{
-  gdk_draw_string(drawable, font, black_gc, x + 1, y + 1, string);
-  gdk_draw_string(drawable, font, white_gc, x, y, string);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static void show_desc_at_tile(int x, int y)
 {
   static char buffer[512];
   struct city *pcity;
   if ((pcity = map_get_city(x, y))) {
     int canvas_x, canvas_y;
-    int w;
+    int w, ascent;
 
     get_canvas_xy(x, y, &canvas_x, &canvas_y);
     if (draw_city_names) {
       my_snprintf(buffer, sizeof(buffer), "%s", pcity->name);
-      w = gdk_string_width(main_font, buffer);
-      draw_shadowed_string(map_canvas->window, main_font,
-			   toplevel->style->black_gc,
-			   toplevel->style->white_gc,
-			   canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
-			   canvas_y + NORMAL_TILE_HEIGHT +
-			   main_font->ascent, buffer);
+      gdk_string_extents(main_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
+      gtk_draw_shadowed_string(map_canvas->window, main_fontset,
+			       toplevel->style->black_gc,
+			       toplevel->style->white_gc,
+			       canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+			       canvas_y + NORMAL_TILE_HEIGHT +
+			       ascent, buffer);
     }
 
     if (draw_city_productions && (pcity->owner==game.player_idx)) {
       int y_offset;
 
-      get_city_mapview_production(pcity, buffer, sizeof(buffer));
-
       if (draw_city_names)
-	y_offset = main_font->ascent + main_font->descent;
+	y_offset = gdk_string_height(main_fontset, buffer);
       else
 	y_offset = 0;
-      w = gdk_string_width(city_productions_font, buffer);
-      draw_shadowed_string(map_canvas->window, city_productions_font,
-			   toplevel->style->black_gc,
-			   toplevel->style->white_gc,
-			   canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
-			   canvas_y + NORMAL_TILE_HEIGHT +
-			   main_font->ascent + y_offset, buffer);
+
+      get_city_mapview_production(pcity, buffer, sizeof(buffer));
+
+      gdk_string_extents(prod_fontset, buffer, NULL, NULL, &w, &ascent, NULL);
+      gtk_draw_shadowed_string(map_canvas->window, prod_fontset,
+			       toplevel->style->black_gc,
+			       toplevel->style->white_gc,
+			       canvas_x + NORMAL_TILE_WIDTH / 2 - w / 2,
+			       canvas_y + NORMAL_TILE_HEIGHT +
+			       ascent + 3 + y_offset, buffer);
     }
   }
 }

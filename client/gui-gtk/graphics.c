@@ -80,9 +80,25 @@ bool overhead_view_supported(void)
 #define COLOR_MOTTO_FACE_G    0x71
 #define COLOR_MOTTO_FACE_B    0xE3
 
+/**************************************************************************
+...
+**************************************************************************/
+void gtk_draw_shadowed_string(GdkDrawable *drawable,
+			      GdkFont *fontset,
+			      GdkGC *black_gc,
+			      GdkGC *white_gc,
+			      gint x, gint y, const gchar *string)
+{
+  gdk_draw_string(drawable, fontset, black_gc, x + 1, y + 1, string);
+  gdk_draw_string(drawable, fontset, white_gc, x, y, string);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void load_intro_gfx( void )
 {
-  int tot, lin, y, w;
+  int tot, y, w, descent;
   char s[64];
   GdkColor face;
   GdkGC *face_gc;
@@ -90,15 +106,13 @@ void load_intro_gfx( void )
 
   /* metrics */
 
-  lin=main_font->ascent+main_font->descent;
-
   /* get colors */
 
   face.red  = COLOR_MOTTO_FACE_R<<8;
   face.green= COLOR_MOTTO_FACE_G<<8;
   face.blue = COLOR_MOTTO_FACE_B<<8;
 
-  gdk_imlib_best_color_get (&face);
+  gdk_imlib_best_color_get(&face);
 
   /* Main graphic */
 
@@ -107,39 +121,41 @@ void load_intro_gfx( void )
 
   face_gc = gdk_gc_new(root_window);
 
-  y=intro_gfx_sprite->height-(2*lin);
+  y = intro_gfx_sprite->height - (2 * gdk_string_height(main_fontset, motto));
 
-  w = gdk_string_width(main_font, motto);
-  gdk_gc_set_foreground (face_gc, &face);
-  gdk_draw_string(intro_gfx_sprite->pixmap, main_font,
-		  face_gc, tot/2-w/2, y, motto);
+  w = gdk_string_width(main_fontset, motto);
+  gdk_gc_set_foreground(face_gc, &face);
+  gdk_draw_string(intro_gfx_sprite->pixmap, main_fontset,
+		  face_gc, tot / 2 - w / 2, y, motto);
 
-  gdk_gc_destroy (face_gc);
+  gdk_gc_destroy(face_gc);
 
   /* Minimap graphic */
 
   radar_gfx_sprite = load_gfxfile(minimap_intro_filename);
-  tot=radar_gfx_sprite->width;
-
-  y=radar_gfx_sprite->height-(lin+((int)(1.5*main_font->descent)));
-
-  w = gdk_string_width(main_font, word_version());
-  gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->black_gc, (tot/2-w/2)+1, y+1, word_version());
-  gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->white_gc, tot/2-w/2, y, word_version());
-
-  y+=lin;
+  tot = radar_gfx_sprite->width;
 
   my_snprintf(s, sizeof(s), "%d.%d.%d%s",
 	      MAJOR_VERSION, MINOR_VERSION,
 	      PATCH_VERSION, VERSION_LABEL);
-  w = gdk_string_width( main_font, s );
-  gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->black_gc, (tot/2-w/2)+1, y+1, s);
-  gdk_draw_string(radar_gfx_sprite->pixmap, main_font,
-		  toplevel->style->white_gc, tot/2-w/2, y, s);
 
+  gdk_string_extents(main_fontset, s, NULL, NULL, &w, NULL, &descent);
+  y = radar_gfx_sprite->height - descent - 5;
+  
+  gtk_draw_shadowed_string(radar_gfx_sprite->pixmap,
+			   main_fontset,
+			   toplevel->style->black_gc,
+			   toplevel->style->white_gc,
+			   tot / 2 - w / 2, y, s);
+
+  w  = gdk_string_width(main_fontset, word_version());
+  y -= gdk_string_height(main_fontset, s) + 3;
+
+  gtk_draw_shadowed_string(radar_gfx_sprite->pixmap,
+			   main_fontset,
+			   toplevel->style->black_gc,
+			   toplevel->style->white_gc,
+			   tot / 2 - w / 2, y, word_version());
   /* done */
 
   return;

@@ -28,6 +28,7 @@
 #endif
 
 #include <gtk/gtk.h>
+#include <gtk/gtkinvisible.h>
 #include <gdk/gdkkeysyms.h>
 
 #include "fcintl.h"
@@ -91,8 +92,8 @@ GtkWidget *toplevel;
 GtkWidget *top_vbox;
 GdkWindow *root_window;
 
-GdkFont *main_font;
-GdkFont *city_productions_font;
+GdkFont *main_fontset;
+GdkFont *prod_fontset;
 
 GdkGC *civ_gc;
 GdkGC *mask_fg_gc;
@@ -783,14 +784,28 @@ void ui_main(int argc, char **argv)
 
   civ_gc = gdk_gc_new(root_window);
 
-  if (!(main_font=gdk_font_load(city_names_font))) {
-      freelog(LOG_FATAL, "failed loading font: %s", city_names_font);
-      exit(EXIT_FAILURE);
-  }
+  {
+    GtkWidget *w;
+    GtkStyle *style;
+    
+    /* Hack to get fonts from resources... */
+    w = gtk_invisible_new();
+    gtk_widget_set_name(w, "city names");
+    gtk_container_add(GTK_CONTAINER(toplevel), w);
+    style = gtk_rc_get_style(w);
 
-  if (!(city_productions_font = gdk_font_load(city_productions_font_name))) {
-    freelog(LOG_FATAL, "failed loading font: %s", city_productions_font_name);
-    exit(EXIT_FAILURE);
+    main_fontset = style->font;
+    gdk_font_ref(main_fontset);
+    gtk_widget_destroy(w);
+
+    w = gtk_invisible_new();
+    gtk_widget_set_name(w, "city productions");
+    gtk_container_add(GTK_CONTAINER(toplevel), w);
+    style = gtk_rc_get_style(w);
+
+    prod_fontset = style->font;
+    gdk_font_ref(prod_fontset);
+    gtk_widget_destroy(w);
   }
 
   fill_bg_gc = gdk_gc_new(root_window);

@@ -37,6 +37,12 @@ extern GdkCursor * drop_cursor;
 extern GdkCursor * nuke_cursor;
 extern GdkCursor * patrol_cursor;
 
+void gtk_draw_shadowed_string(GdkDrawable *drawable,
+			      GdkFont *fontset,
+			      GdkGC *black_gc,
+			      GdkGC *white_gc,
+			      gint x, gint y, const gchar *string);
+
 SPRITE *ctor_sprite_mask(GdkPixmap *mypixmap, GdkPixmap *mask,
 			 int width, int height);
 void sprite_draw_black_border(SPRITE * sprite);

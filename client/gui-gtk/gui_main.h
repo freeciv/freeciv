@@ -17,8 +17,8 @@
 
 #include "gui_main_g.h"
 
-extern GdkFont *        main_font;
-extern GdkFont *        city_productions_font;
+extern GdkFont *        main_fontset;
+extern GdkFont *        prod_fontset;
 extern GdkGC *          civ_gc;
 extern GdkGC *          mask_fg_gc;
 extern GdkGC *          mask_bg_gc;
