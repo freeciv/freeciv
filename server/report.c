@@ -494,17 +494,17 @@ static int get_unhappypop(struct player *pplayer)
 
 static int get_taxmen(struct player *pplayer)
 {
-  return pplayer->score.taxmen;
+  return pplayer->score.specialists[SP_TAXMAN];
 }
 
 static int get_scientists(struct player *pplayer)
 {
-  return pplayer->score.scientists;
+  return pplayer->score.specialists[SP_SCIENTIST];
 }
 
 static int get_elvis(struct player *pplayer)
 {
-  return pplayer->score.elvis;
+  return pplayer->score.specialists[SP_ELVIS];
 }
 
 static int get_gov(struct player *pplayer)
