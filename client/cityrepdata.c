@@ -39,15 +39,10 @@
 
 static const char *cr_entry_cityname(const struct city *pcity)
 {
-  static char buf[REPORT_CITYNAME_ABBREV+1];
-  if (strlen(pcity->name) <= REPORT_CITYNAME_ABBREV) {
-    return pcity->name;
-  } else {
-    strncpy(buf, pcity->name, REPORT_CITYNAME_ABBREV-1);
-    buf[REPORT_CITYNAME_ABBREV-1] = '.';
-    buf[REPORT_CITYNAME_ABBREV] = '\0';
-    return buf;
-  }
+  /* We used to truncate the name to 14 bytes.  This should not be needed
+   * in any modern GUI library and may give an invalid string if a
+   * multibyte character is clipped. */
+  return pcity->name;
 }
 
 static const char *cr_entry_size(const struct city *pcity)

@@ -17,9 +17,6 @@
 
 #include "fc_types.h"
 
-/* abbreviate long city names to this length in the city report: */
-#define REPORT_CITYNAME_ABBREV 15
-
 /* Number of city report columns: have to set this manually now... */
 #define NUM_CREPORT_COLS 33
 
