@@ -300,8 +300,9 @@ unsigned char *put_int32(unsigned char *buffer, int val)
 **************************************************************************/
 unsigned char *put_string(unsigned char *buffer, char *mystring)
 {
-  strcpy(buffer, mystring);
-  return buffer+strlen(mystring)+1;
+  int len = strlen(mystring) + 1;
+  memcpy(buffer, mystring, len);
+  return buffer+len;
 }
 
 
@@ -310,9 +311,16 @@ unsigned char *put_string(unsigned char *buffer, char *mystring)
 **************************************************************************/
 unsigned char *get_string(unsigned char *buffer, char *mystring)
 {
-  if(mystring)
-    strcpy(mystring, buffer);
-  return buffer+strlen(mystring)+1;
+  unsigned char *c;
+  int len;
+
+  /* avoid using strlen (or strcpy) on an (unsigned char*)  --dwp */
+  for(c=buffer; *c; c++) ;
+  len = c-buffer+1;
+  if(mystring) {
+    memcpy(mystring, buffer, len);
+  }
+  return buffer+len;
 }
 
 /**************************************************************************

@@ -46,7 +46,7 @@ int send_to_metaserver(char *desc, char *info)
   cptr=put_string(cptr, info);
   put_int16(buffer, cptr-buffer);
   
-  n=sendto(sockfd, buffer, cptr-buffer,0, 
+  n=sendto(sockfd, (const void*)buffer, cptr-buffer,0, 
 	   (struct sockaddr *) &serv_addr, sizeof(serv_addr) );
   
   return 1;

@@ -157,8 +157,8 @@ void request_unit_build_city(struct unit *punit)
     input_dialog_create(toplevel, "shellnewcityname", 
 			"What should we call our new city?",
 			city_name_suggestion(game.player_ptr),
-			name_new_city_callback, (XtPointer)punit->id,
-			name_new_city_callback, (XtPointer)0);
+			(void*)name_new_city_callback, (XtPointer)punit->id,
+			(void*)name_new_city_callback, (XtPointer)0);
   }
   else {
     struct packet_unit_request req;
