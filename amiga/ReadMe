@@ -1,10 +1,10 @@
-Short:     Amiga V1.13 - Freeciv 1.11.5-devel(beta)
+Short:     Amiga V1.14 - Freeciv 1.11.5-devel(beta)
 Uploader:  sebauer@t-online.de (Sebastian Bauer)
 Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
 Type:      game/2play
-Kurz:      Amiga V1.13 - Freeciv 1.11.5-devel(beta)
+Kurz:      Amiga V1.14 - Freeciv 1.11.5-devel(beta)
 Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
-Version:   1.13
+Version:   1.14
 
 Introduction
 ~~~~~~~~~~~~
@@ -30,14 +30,14 @@ Following combinations seem to work:
 Please contact me if you use other datatypes and Freeciv works correctly
 with them.
 
-Also always use the latest guigfx.library. The current version is 17.1
+Also always use the latest guigfx.library. The current version is 18.0
 and this can be found at:
- http://209.201.55.167/binarydistillery/guigfx/guigfxlib.lha.
+ http://www.neoscientists.org/~bifat/binarydistillery/guigfxlib/guigfxlib.lha
 or Aminet
 
 Render.library can be found at
- http://209.201.55.167/binarydistillery/renderlib/renderlib.lha
-Again. guigfx.library version 17.1 needs at least render.library
+ http://www.neoscientists.org/~bifat/binarydistillery/renderlib/renderlib.lha
+Again. guigfx.library version 18.0 needs at least render.library
 version 30. Other (newer) guigfx libraries may require later versions.
 
 Please also let Freeciv open on a big enough screen. A screen with the
@@ -85,6 +85,12 @@ clients cannot connect to the included server.
 
 History
 ~~~~~~~
+Version 1.14 (31.12.2000)
+ - corrensponds to latest Freeciv 1.11.5-devel (beta)
+ - that means client goto and a new patrol command
+ - now supports locale files (current versions are included)
+   (done by Dirk Stoecker)
+
 Version 1.13 (22.09.2000)
  - corresponds to Freeciv 1.11.5-devel (beta)
  - should require less chip ram now on aga machines

@@ -1489,8 +1489,9 @@ STATIC ULONG Map_Get(struct IClass * cl, Object * o, struct opGet * msg)
     	    struct Window *wnd = (struct Window *)xget(_win(o),MUIA_Window_Window);
     	    if (wnd)
     	    {
-    	      *msg->opg_Storage = data->horiz_first + (wnd->MouseX - _mleft(o))/get_normal_tile_width();
-	      *msg->opg_Storage = map_adjust_x(*msg->opg_Storage);
+    	      LONG x = data->horiz_first + (wnd->MouseX - _mleft(o))/get_normal_tile_width();
+    	      if  (x<0) x=0;
+    	      *msg->opg_Storage = map_adjust_x(x);
     	    }
     	  }
 	  break;
@@ -1500,8 +1501,9 @@ STATIC ULONG Map_Get(struct IClass * cl, Object * o, struct opGet * msg)
     	    struct Window *wnd = (struct Window *)xget(_win(o),MUIA_Window_Window);
     	    if (wnd)
     	    {
-    	      *msg->opg_Storage = data->vert_first + (wnd->MouseY - _mtop(o))/get_normal_tile_height();
-	      *msg->opg_Storage = map_adjust_y(*msg->opg_Storage);
+    	      LONG y = data->vert_first + (wnd->MouseY - _mtop(o))/get_normal_tile_height();
+    	      if (y<0) y=0;
+    	      *msg->opg_Storage = map_adjust_y(y);
 	    }
     	  }
 	  break;
@@ -1949,7 +1951,7 @@ STATIC ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 		Map_Priv_PutLine(data,_rp(o),map_start_x+_mleft(o), map_start_y+_mtop(o), dest_x, dest_y, 7-dir, 0);
 	      Map_Priv_PutLine(data,data->map_layer->rp,map_start_x, map_start_y, dest_x, dest_y, 7-dir, 0);
 
-	      goto_map.drawn[dest_x][dest_y] |= (1<<(7-dir));
+	      goto_map.drawn[dest_x][dest_y] &= ~(1<<(7-dir));
             }
             break;
           }
