@@ -58,8 +58,12 @@ else
 fi
 
 AC_ARG_WITH(xaw3d,
- 	[  --with-xaw3d            compile with Xaw3d instead of Xaw ],
+ 	[  --with-xaw3d            use the Xaw3d widget set ],
 	WITH_XAW3D=1
+)
+AC_ARG_WITH(xaw,
+	[  --with-xaw              use the Xaw widget set],
+	WITH_XAW=1
 )
 
 AC_ARG_ENABLE(client,
@@ -123,6 +127,18 @@ if test "$CVS_DEPS" = "maybe"; then
 fi
 
 if test x$client = xtrue; then
+  if test "x$WITH_XAW3D" = "x" && test "x$WITH_XAW" = "x"; then
+    AM_PATH_GTK(1.2.1, gtk_found="yes", gtk_found="", imlib_found="")
+    if test "x$gtk_found" = "xyes"; then
+      AM_PATH_GDK_IMLIB(1.9.2, imlib_found="yes", imlib_found="")
+    fi
+  fi
+    
+  if test "x$imlib_found" = "xyes"; then
+    CLIENT_CFLAGS="$GDK_IMLIB_CFLAGS"
+    CLIENT_LIBS="$GDK_IMLIB_LIBS"
+    gui_sources="gui-gtk"
+  else
     dnl Checks for X:
     AC_PATH_XTRA
 
@@ -164,7 +180,14 @@ if test x$client = xtrue; then
     fi
     dnl Don't do following because don't want server to link with X:
     dnl LIBS="$LIBS $X_LIBS $X_EXTRA_LIBS"
+    CLIENT_CFLAGS="$X_CFLAGS"
+    CLIENT_LIBS="$X_LIBS $X_PRE_LIBS $X_EXTRA_LIBS"
+    gui_sources="gui-xaw"
+  fi
 fi
+AC_SUBST(gui_sources)
+AC_SUBST(CLIENT_CFLAGS)
+AC_SUBST(CLIENT_LIBS)
 
 dnl Checks for non-X libraries:
 if test x$server = xtrue; then
@@ -189,12 +212,16 @@ dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(sys/ioctl.h sys/time.h unistd.h)
 if test x$client = xtrue; then
-    dnl Want to get appropriate -I flags:
-    fc_save_CPPFLAGS="$CPPFLAGS"
+  dnl Want to get appropriate -I flags:
+  fc_save_CPPFLAGS="$CPPFLAGS"
+  if test "x$imlib_found" = "xyes"; then
+    CPPFLAGS="$CPPFLAGS $GDK_IMLIB_CFLAGS"
+  else
     CPPFLAGS="$CPPFLAGS $X_CFLAGS"
     AC_CHECK_HEADER(X11/xpm.h, , 
         AC_MSG_ERROR(Need X11/xpm.h header; perhaps try/adjust --with-xpm-include))
-    CPPFLAGS="$fc_save_CPPFLAGS"
+  fi
+  CPPFLAGS="$fc_save_CPPFLAGS"
 fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
@@ -219,4 +246,4 @@ dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 AC_DEFINE_UNQUOTED(FREECIV_DATADIR, "$FREECIV_DATADIR")
 
-AC_OUTPUT(Makefile data/Makefile data/default/Makefile data/civ1/Makefile data/classic/Makefile common/Makefile ai/Makefile client/Makefile server/Makefile undep.sh, [ chmod +x undep.sh ; ./undep.sh ])
+AC_OUTPUT(Makefile data/Makefile data/default/Makefile data/civ1/Makefile data/classic/Makefile common/Makefile ai/Makefile client/Makefile client/gui-gtk/Makefile client/gui-xaw/Makefile server/Makefile undep.sh, [ chmod +x undep.sh ; ./undep.sh ])
