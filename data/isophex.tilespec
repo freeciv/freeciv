@@ -1,0 +1,144 @@
+
+[tilespec]
+
+; Format and options of this tilespec file:
+options = "+tilespec3"
+
+; A simple name for the tileset specified by this file:
+name = "isophex"
+
+; TODO: add more overall information fields on tiles, 
+; eg, description, authors, colors, etc.
+
+; Basic tile sizes:
+normal_tile_width  = 64
+normal_tile_height = 32
+small_tile_width   = 15
+small_tile_height  = 20
+
+; Use roadstyle 0 (old iso style)
+roadstyle = 0
+
+; Use darkness style 1 (single-sprite)
+darkness_style = 2
+ 
+; offset the flags by this amount when drawing units
+flag_offset_x = 17
+flag_offset_y = 11
+
+; Hex data.
+is_hex = 1
+is_isometric = 0
+hex_side = 16
+
+; Font to use to draw city names:
+city_names_font = "9x15bold"
+
+; Font to use to draw city productions:
+city_productions_font = "6x13"
+
+; Should flags be drawn as transparent:  (else opaque)
+flags_are_transparent = 1
+
+; These are special because they get freed and reloaded
+; as required:
+main_intro_file    = "misc/intro"
+minimap_intro_file = "misc/radar"
+
+; Below, the graphics spec files; must be somewhere (anywhere) in 
+; the data path. Order may be important for color allocation on 
+; low-color systems, and if there are any duplicate tags (lattermost
+; tag is used).
+files = 
+  "isophex/terrain1.spec",
+  "isophex/terrain2.spec",
+  "isophex/darkness.spec",
+  "isophex/tiles.spec",
+  "isophex/rivers.spec",
+  "misc/small.spec",
+  "isotrident/units.spec",
+  "misc/flags.spec",
+  "misc/space.spec",
+  "misc/treaty.spec",
+  "isotrident/nuke.spec",
+  "isotrident/cities.spec",
+  "isophex/gold.spec",
+  "isotrident/morecities.spec"
+
+
+; Terrain info - see README.graphics
+
+[layer0]
+match_style = "BOOL"
+match_types = "ocean", "other"
+
+[layer1]
+match_style = "BOOL"
+match_types = "forest", "hills", "mountains"
+
+[terrain_arctic]
+is_blended = 1
+num_layers = 1
+layer0_match_type = "other"
+mine_sprite = "tx.oil_mine"
+
+[terrain_desert]
+is_blended = 1
+num_layers = 1
+layer0_match_type = "other"
+mine_sprite = "tx.oil_mine"
+
+[terrain_forest]
+is_blended = 1
+num_layers = 2
+layer0_match_type = "other"
+layer1_match_style = "bool"
+layer1_match_type = "forest"
+
+[terrain_grassland]
+is_blended = 1
+num_layers = 1
+layer0_match_type = "other"
+
+[terrain_hills]
+is_blended = 1
+num_layers = 2
+layer0_match_type = "other"
+layer1_match_style = "bool"
+layer1_match_type = "hills"
+mine_sprite = "tx.mine"
+
+[terrain_jungle]
+is_blended = 1
+num_layers = 1
+layer0_match_type = "other"
+
+[terrain_mountains]
+is_blended = 1
+num_layers = 2
+layer0_match_type = "other"
+layer1_match_style = "bool"
+layer1_match_type = "mountains"
+mine_sprite = "tx.mine"
+
+[terrain_ocean]
+is_blended = 1
+num_layers = 1
+layer0_match_style = "bool"
+layer0_match_type = "ocean"
+layer0_cell_type = "rect"
+
+[terrain_plains]
+is_blended = 1
+num_layers = 1
+layer0_match_type = "other"
+
+[terrain_swamp]
+is_blended = 1
+num_layers = 1
+layer0_match_type = "other"
+
+[terrain_tundra]
+is_blended = 1
+num_layers = 1
+layer0_match_type = "other"
