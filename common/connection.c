@@ -198,10 +198,8 @@ static int write_socket_data(struct connection *pc,
 **************************************************************************/
 static void flush_connection_send_buffer(struct connection *pc)
 {
-  if(pc) {
-    if(pc->send_buffer->ndata) {
-      write_socket_data(pc, pc->send_buffer);
-    }
+  if(pc && pc->used && pc->send_buffer && pc->send_buffer->ndata) {
+    write_socket_data(pc, pc->send_buffer);
   }
 }
 
@@ -211,7 +209,7 @@ static void flush_connection_send_buffer(struct connection *pc)
 static int add_connection_data(struct connection *pc, unsigned char *data,
 			       int len)
 {
-  if (pc) {
+  if (pc && pc->used && pc->send_buffer) {
     if(10*MAX_LEN_PACKET-pc->send_buffer->ndata >= len) { /* room for more? */
       memcpy(pc->send_buffer->data + pc->send_buffer->ndata, data, len);
       pc->send_buffer->ndata += len;
@@ -227,7 +225,7 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 **************************************************************************/
 int send_connection_data(struct connection *pc, unsigned char *data, int len)
 {
-  if(pc) {
+  if (pc && pc->used && pc->send_buffer) {
     if(pc->send_buffer->do_buffer_sends) {
       if (!add_connection_data(pc, data, len)) {
 	flush_connection_send_buffer(pc);
@@ -252,8 +250,9 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
 **************************************************************************/
 void connection_do_buffer(struct connection *pc)
 {
-  if(pc)
+  if (pc && pc->used && pc->send_buffer) {
     pc->send_buffer->do_buffer_sends++;
+  }
 }
 
 /**************************************************************************
@@ -263,8 +262,12 @@ void connection_do_buffer(struct connection *pc)
 **************************************************************************/
 void connection_do_unbuffer(struct connection *pc)
 {
-  if(pc) {
+  if (pc && pc->used && pc->send_buffer) {
     pc->send_buffer->do_buffer_sends--;
+    if (pc->send_buffer->do_buffer_sends < 0) {
+      freelog(LOG_NORMAL, "Too many calls to unbuffer %s!", pc->name);
+      pc->send_buffer->do_buffer_sends = 0;
+    }
     if(pc->send_buffer->do_buffer_sends == 0)
       flush_connection_send_buffer(pc);
   }
