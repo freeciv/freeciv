@@ -223,6 +223,7 @@ static Object *menu_find_item(ULONG udata);
 #define MAKE_SEPERATOR {NM_ITEM, NM_BARLABEL, NULL, 0, 0, (APTR)0}
 #define MAKE_END {NM_END,NULL,0,0,0,(APTR)0}
 
+/* localized in init_gui() */
 static struct NewMenu MenuData[] =
 {
   MAKE_TITLE("Game", MENU_GAME),
@@ -236,7 +237,7 @@ static struct NewMenu MenuData[] =
   MAKE_SIMPLEITEM("Server opt ongoing...", MENU_GAME_SERVER_OPTIONS2),
   MAKE_SIMPLEITEM("Export Log", MENU_GAME_OUTPUT_LOG),
   MAKE_SIMPLEITEM("Clear Log", MENU_GAME_CLEAR_OUTPUT),
-  MAKE_SIMPLEITEM("Disconnect...", MENU_GAME_DISCONNECT),
+  MAKE_SIMPLEITEM("Disconnect", MENU_GAME_DISCONNECT),
   MAKE_SEPERATOR,
   MAKE_ITEM("Quit", MENU_GAME_QUIT, "Q", 0),
 
@@ -249,9 +250,9 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("REVOLUTION...", MENU_KINGDOM_REVOLUTION, "SHIFT R", NM_COMMANDSTRING),
 
   MAKE_TITLE("View", MENU_VIEW),
-  MAKE_ITEM("Map Grid?", MENU_VIEW_SHOW_MAP_GRID, "CTRL G", NM_COMMANDSTRING|MENUTOGGLE|CHECKIT),
-  MAKE_ITEM("City Names?", MENU_VIEW_SHOW_CITY_NAMES,NULL,MENUTOGGLE|CHECKIT),
-  MAKE_ITEM("City Productions?", MENU_VIEW_SHOW_CITY_PRODUCTIONS,NULL,MENUTOGGLE|CHECKIT),
+  MAKE_ITEM("Map Grid", MENU_VIEW_SHOW_MAP_GRID, "CTRL G", NM_COMMANDSTRING|MENUTOGGLE|CHECKIT),
+  MAKE_ITEM("City Names", MENU_VIEW_SHOW_CITY_NAMES,NULL,MENUTOGGLE|CHECKIT),
+  MAKE_ITEM("City Productions", MENU_VIEW_SHOW_CITY_PRODUCTIONS,NULL,MENUTOGGLE|CHECKIT),
   MAKE_SEPERATOR,
   MAKE_ITEM("Center View", MENU_VIEW_CENTER_VIEW, "c", NM_COMMANDSTRING),
 
@@ -280,7 +281,7 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("Auto Explore", MENU_ORDER_AUTO_EXPLORE, "x", NM_COMMANDSTRING),
   MAKE_ITEM("Connect", MENU_ORDER_CONNECT, "SHIFT C", NM_COMMANDSTRING),
   MAKE_ITEM("Go to", MENU_ORDER_GOTO, "g", NM_COMMANDSTRING),
-  MAKE_ITEM("Go/Airlist to City", MENU_ORDER_GOTO_CITY, "l", NM_COMMANDSTRING),
+  MAKE_ITEM("Go/Airlift to City", MENU_ORDER_GOTO_CITY, "l", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Disband Unit", MENU_ORDER_DISBAND, "SHIFT D", NM_COMMANDSTRING),
   MAKE_ITEM("Help Build Wonder", MENU_ORDER_BUILD_WONDER, "SHIFT B", NM_COMMANDSTRING),
@@ -297,29 +298,29 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM("Military Report...", MENU_REPORT_MILITARY, "F2", NM_COMMANDSTRING),
   MAKE_SEPERATOR,
   MAKE_ITEM("Wonders of the World", MENU_REPORT_WOW, "F7", NM_COMMANDSTRING),
-  MAKE_ITEM("Top 5 Cities", MENU_REPORT_TOP_CITIES, "F8", NM_COMMANDSTRING),
+  MAKE_ITEM("Top Five Cities", MENU_REPORT_TOP_CITIES, "F8", NM_COMMANDSTRING),
   MAKE_ITEM("Demographics", MENU_REPORT_DEMOGRAPHIC, "F9", NM_COMMANDSTRING),
   MAKE_ITEM("Spaceship", MENU_REPORT_SPACESHIP, "F10", NM_COMMANDSTRING),
 
   MAKE_TITLE("Help", MENU_HELP),
-  MAKE_SIMPLEITEM("Languages", MENU_HELP_LANGUAGES),
-  MAKE_SIMPLEITEM("Connecting", MENU_HELP_CONNECTING),
-  MAKE_SIMPLEITEM("Controls", MENU_HELP_CONTROLS),
-  MAKE_SIMPLEITEM("Chatline", MENU_HELP_CHATLINE),
-  MAKE_SIMPLEITEM("Playing", MENU_HELP_PLAYING),
-  MAKE_SIMPLEITEM("Improvements", MENU_HELP_IMPROVEMENTS),
-  MAKE_SIMPLEITEM("Units", MENU_HELP_UNITS),
-  MAKE_SIMPLEITEM("Combat", MENU_HELP_COMBAT),
-  MAKE_SIMPLEITEM("ZOC", MENU_HELP_ZOC),
-  MAKE_SIMPLEITEM("Technology", MENU_HELP_TECH),
-  MAKE_SIMPLEITEM("Terrain", MENU_HELP_TERRAIN),
-  MAKE_SIMPLEITEM("Wonders", MENU_HELP_WONDERS),
-  MAKE_SIMPLEITEM("Government", MENU_HELP_GOVERNMENT),
-  MAKE_SIMPLEITEM("Happiness", MENU_HELP_HAPPINESS),
-  MAKE_SIMPLEITEM("Space Race", MENU_HELP_SPACE_RACE),
+  MAKE_SIMPLEITEM(HELP_LANGUAGES_ITEM, MENU_HELP_LANGUAGES),
+  MAKE_SIMPLEITEM(HELP_CONNECTING_ITEM, MENU_HELP_CONNECTING),
+  MAKE_SIMPLEITEM(HELP_CONTROLS_ITEM, MENU_HELP_CONTROLS),
+  MAKE_SIMPLEITEM(HELP_CHATLINE_ITEM, MENU_HELP_CHATLINE),
+  MAKE_SIMPLEITEM(HELP_PLAYING_ITEM, MENU_HELP_PLAYING),
+  MAKE_SIMPLEITEM(HELP_IMPROVEMENTS_ITEM, MENU_HELP_IMPROVEMENTS),
+  MAKE_SIMPLEITEM(HELP_UNITS_ITEM, MENU_HELP_UNITS),
+  MAKE_SIMPLEITEM(HELP_COMBAT_ITEM, MENU_HELP_COMBAT),
+  MAKE_SIMPLEITEM(HELP_ZOC_ITEM, MENU_HELP_ZOC),
+  MAKE_SIMPLEITEM(HELP_TECHS_ITEM, MENU_HELP_TECH),
+  MAKE_SIMPLEITEM(HELP_TERRAIN_ITEM, MENU_HELP_TERRAIN),
+  MAKE_SIMPLEITEM(HELP_WONDERS_ITEM, MENU_HELP_WONDERS),
+  MAKE_SIMPLEITEM(HELP_GOVERNMENT_ITEM, MENU_HELP_GOVERNMENT),
+  MAKE_SIMPLEITEM(HELP_HAPPINESS_ITEM, MENU_HELP_HAPPINESS),
+  MAKE_SIMPLEITEM(HELP_SPACE_RACE_ITEM, MENU_HELP_SPACE_RACE),
   MAKE_SEPERATOR,
-  MAKE_SIMPLEITEM("Copying", MENU_HELP_COPYING),
-  MAKE_SIMPLEITEM("About", MENU_HELP_ABOUT),
+  MAKE_SIMPLEITEM(HELP_COPYING_ITEM, MENU_HELP_COPYING),
+  MAKE_SIMPLEITEM(HELP_ABOUT_ITEM, MENU_HELP_ABOUT),
 
   MAKE_END
 };
@@ -854,16 +855,26 @@ static void free_gui(void)
 *****************************************************************/
 static int init_gui(void)
 {
+#ifdef ENABLE_NLS
+  struct NewMenu *nm;
+
+  for(nm = MenuData; nm->nm_Type != NM_END; ++nm)
+  {
+    if(nm->nm_Label != NM_BARLABEL)
+      nm->nm_Label = _(nm->nm_Label);
+  }
+#endif
+
   init_civstandard_hook();
   if (!init_classes())
     return FALSE;
 
   app = ApplicationObject,
-    MUIA_Application_Title, "Freeciv Client",
+    MUIA_Application_Title, _("Freeciv Client"),
     MUIA_Application_Version, VERSIONSTRING,
     MUIA_Application_Copyright, COPYRIGHTSTRING,
     MUIA_Application_Author, AUTHORSTRING,
-    MUIA_Application_Description, "Client for Freeciv",
+    MUIA_Application_Description, _("Client for Freeciv"),
     MUIA_Application_Base, "CIVCLIENT",
 
     SubWindow, main_wnd = WindowObject,
@@ -888,7 +899,7 @@ static int init_gui(void)
                         End,
                     Child, main_info_group = VGroup,
                         Child, main_turndone_group = HGroup,
-                            Child, main_turndone_button = MakeButton("Turn\nDone"),
+                            Child, main_turndone_button = MakeButton(_("Turn\nDone")),
                             End,
                         End,
                     Child, HGroup,
@@ -993,9 +1004,9 @@ static int init_gui(void)
     DoMethod(main_wnd, MUIM_Notify, MUIA_Window_MenuAction, MUIV_EveryTime, main_wnd, 4, MUIM_CallHook, &civstandard_hook, control_callback, MUIV_TriggerValue);
 
     append_output_window(
-      "Freeciv is free software and you are welcome to distribute copies of"
+      _("Freeciv is free software and you are welcome to distribute copies of"
        " it\nunder certain conditions; See the \"Copying\" item on the Help"
-			  " menu.\nNow.. Go give'em hell!");
+			  " menu.\nNow.. Go give'em hell!"));
 
     return TRUE;
   }
@@ -1206,7 +1217,7 @@ void update_menus(void) /* from menu.c */
 
     if (punit)
     {
-      const char *chgfmt = "Change to %s";
+      const char *chgfmt = _("Change to %s");
       static char irrtext[64];
       static char mintext[64];
       static char transtext[64];
@@ -1224,12 +1235,12 @@ void update_menus(void) /* from menu.c */
 
       if (can_unit_paradrop(punit))
       {
-	menu_entry_rename(MENU_ORDER_POLLUTION, "Paradrop", FALSE);
+	menu_entry_rename(MENU_ORDER_POLLUTION, _("Paradrop"), FALSE);
 	menu_entry_sensitive(MENU_ORDER_POLLUTION, TRUE);
       }
       else
       {
-	menu_entry_rename(MENU_ORDER_POLLUTION, "Clean Pollution", FALSE);
+	menu_entry_rename(MENU_ORDER_POLLUTION, _("Clean Pollution"), FALSE);
 	menu_entry_sensitive(MENU_ORDER_POLLUTION, can_unit_do_activity(punit, ACTIVITY_POLLUTION));
       }
 
@@ -1253,11 +1264,11 @@ void update_menus(void) /* from menu.c */
 
       if (unit_flag(punit->type, F_CITIES) && map_get_city(punit->x, punit->y))
       {
-	menu_entry_rename(MENU_ORDER_BUILD_CITY, "Add to City", FALSE);
+	menu_entry_rename(MENU_ORDER_BUILD_CITY, _("Add to City"), FALSE);
       }
       else
       {
-	menu_entry_rename(MENU_ORDER_BUILD_CITY, "Build City", FALSE);
+	menu_entry_rename(MENU_ORDER_BUILD_CITY, _("Build City"), FALSE);
       }
 
       ttype = map_get_tile(punit->x, punit->y)->terrain;
@@ -1269,31 +1280,31 @@ void update_menus(void) /* from menu.c */
       else if ((map_get_tile(punit->x, punit->y)->special & S_IRRIGATION) &&
 	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND))
       {
-	strcpy(irrtext, "Build Farmland");
+	strcpy(irrtext, _("Build Farmland"));
       }
       else
-	strcpy(irrtext, "Build Irrigation");
+	strcpy(irrtext, _("Build Irrigation"));
 
       if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype))
       {
 	sprintf(mintext, chgfmt, (get_tile_type(tinfo->mining_result))->terrain_name);
       }
       else
-	strcpy(mintext, "Build Mine");
+	strcpy(mintext, _("Build Mine"));
       if ((tinfo->transform_result != T_LAST) && (tinfo->transform_result != ttype))
       {
 	sprintf(transtext, chgfmt, (get_tile_type(tinfo->transform_result))->terrain_name);
       }
       else
-	strcpy(transtext, "Transform terrain");
+	strcpy(transtext, _("Transform terrain"));
 
       if (map_get_tile(punit->x, punit->y)->special & S_ROAD)
       {
-	menu_entry_rename(MENU_ORDER_ROAD, "Build Railroad", FALSE);
+	menu_entry_rename(MENU_ORDER_ROAD, _("Build Railroad"), FALSE);
       }
       else
       {
-	menu_entry_rename(MENU_ORDER_ROAD, "Build Road", FALSE);
+	menu_entry_rename(MENU_ORDER_ROAD, _("Build Road"), FALSE);
       }
       menu_entry_rename(MENU_ORDER_IRRIGATE, irrtext, FALSE);
       menu_entry_rename(MENU_ORDER_MINE, mintext, FALSE);
@@ -1381,7 +1392,7 @@ void ui_main(int argc, char *argv[])
 	loop();
       }
       else
-	printf("Couldn't open the main window (Gfx memory problem or screensize too small)\n");
+	printf(_("Couldn't open the main window (Gfx memory problem or screensize too small)\n"));
     }
   }
 }

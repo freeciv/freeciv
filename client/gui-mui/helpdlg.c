@@ -227,9 +227,9 @@ static char *GetTechText(int tech)
   char *text;
 
   if(tech == A_LAST)
-    text = "(Never)";
+    text = _("(Never)");
   else if(tech == TECHTYPE_NONE)
-    text = "None";
+    text = _("None");
   else
     text = advances[tech].name;
 
@@ -286,7 +286,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type htype)
   if (!help_wnd)
   {
     help_wnd = WindowObject,
-      MUIA_Window_Title, "Help",
+      MUIA_Window_Title, _("Help"),
       MUIA_Window_ID, MAKE_ID('H','E','L','P'),
 
       WindowContents, HGroup,
@@ -348,7 +348,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type htype)
 *****************************************************************/
 void popup_help_dialog_string(char *item)
 {
-  popup_help_dialog_typed(item, HELP_ANY);
+  popup_help_dialog_typed(_(item), HELP_ANY);
 }
 
 
@@ -395,7 +395,7 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
   char label[MAX_LEN_NAME+3];
   if(!tech_exists(tech))
   {
-    Object *o = MakeButton("Removed");
+    Object *o = MakeButton(_("Removed"));
     DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
     return;
   }
@@ -488,11 +488,11 @@ static void create_help_page(enum help_page_type type)
     {
     case HELP_IMPROVEMENT:
       help_page_group = HGroup,
-	Child, MakeLabel("Cost:"),
+	Child, MakeLabel(_("Cost:")),
 	Child, help_imprv_cost_text = TextObject, End,
-	Child, MakeLabel("Upkeep:"),
+	Child, MakeLabel(_("Upkeep:")),
 	Child, help_imprv_upkeep_text = TextObject, End,
-	Child, MakeLabel("Needs:"),
+	Child, MakeLabel(_("Requirement:")),
 	Child, help_imprv_needs_button = MakeTechButton(TECHTYPE_NOTSET),
 	End;
 
@@ -504,11 +504,11 @@ static void create_help_page(enum help_page_type type)
 
     case HELP_WONDER:
       help_page_group = HGroup,
-	Child, MakeLabel("Cost:"),
+	Child, MakeLabel(_("Cost:")),
 	Child, help_wonder_cost_text = TextObject, End,
-	Child, MakeLabel("Needs:"),
+	Child, MakeLabel(_("Requirement:")),
 	Child, help_wonder_needs_button = MakeTechButton(TECHTYPE_NOTSET),
-	Child, MakeLabel("Obsolete by:"),
+	Child, MakeLabel(_("Obsolete by:")),
 	Child, help_wonder_obsolete_button = MakeTechButton(TECHTYPE_NOTSET),
 	End;
 
@@ -555,25 +555,25 @@ static void create_help_page(enum help_page_type type)
 	    Child, help_unit_cost_text = TextObject, MUIA_Text_PreParse, "\33c", End,
 	    End,
 	Child, ColGroup(4),
-	    Child, MakeLabel("Attack:"),
+	    Child, MakeLabel(_("Attack:")),
 	    Child, help_unit_attack_text = TextObject, End,
-	    Child, MakeLabel("Defense:"),
+	    Child, MakeLabel(_("Defense:")),
 	    Child, help_unit_defense_text = TextObject, End,
-	    Child, MakeLabel("Move:"),
+	    Child, MakeLabel(_("Move:")),
 	    Child, help_unit_move_text = TextObject, End,
-	    Child, MakeLabel("Vision:"),
+	    Child, MakeLabel(_("Vision:")),
 	    Child, help_unit_vision_text = TextObject, End,
-	    Child, MakeLabel("Firepower:"),
+	    Child, MakeLabel(_("Firepower:")),
 	    Child, help_unit_firepower_text = TextObject, End,
-	    Child, MakeLabel("Hitpoints:"),
+	    Child, MakeLabel(_("Hitpoints:")),
 	    Child, help_unit_hitpoints_text = TextObject, End,
-	    Child, MakeLabel("Basic Upkeep: "),
+	    Child, MakeLabel(_("Basic Upkeep:")),
 	    Child, help_unit_basic_upkeep_text = TextObject, End,
 	    Child, HSpace(0),
 	    Child, HSpace(0),
-	    Child, MakeLabel("Needs:"),
+	    Child, MakeLabel(_("Requirement:")),
 	    Child, help_unit_needs_button = MakeTechButton(TECHTYPE_NOTSET),
-	    Child, MakeLabel("Obsolete by: "),
+	    Child, MakeLabel(_("Obsolete by:")),
 	    Child, help_unit_obsolete_button = MakeButton(""),
 	    End,
 	End;
@@ -673,7 +673,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     struct unit_type *utype = get_unit_type(i);
     char *text;
 
-    settextf(help_unit_cost_text, "Cost: %ld", utype->build_cost);
+    settextf(help_unit_cost_text, _("Cost: %ld"), utype->build_cost);
     DoMethod(help_unit_attack_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", utype->attack_strength);
     DoMethod(help_unit_defense_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", utype->defense_strength);
     DoMethod(help_unit_move_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", utype->move_rate / 3);
@@ -685,7 +685,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     UpdateTechButton(help_unit_needs_button, utype->tech_requirement);
 
     if (utype->obsoleted_by == -1)
-      text = "None";
+      text = _("None");
     else
       text = get_unit_type(utype->obsoleted_by)->name;
     SetAttrs(help_unit_obsolete_button,
@@ -748,9 +748,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
 	  o = HGroup,
 	    GroupSpacing(0),
-	    Child, MakeLabel("Allows "),
+	    Child, MakeLabel(_("Allows ")),
 	    Child, button = MakeHelpButton(improvement_types[j].name, is_wonder(j) ? HELP_WONDER : HELP_IMPROVEMENT),
-	    Child, is_wonder(j) ? MakeLabel(" wonder") : MakeLabel(" improvement"),
+	    Child, is_wonder(j) ? MakeLabel(_(" wonder")) : MakeLabel(_(" improvement")),
 	    Child, HSpace(0),
 	    End;
 
@@ -766,9 +766,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
 	  o = HGroup,
 	    GroupSpacing(0),
-	    Child, MakeLabel("Allows "),
+	    Child, MakeLabel(_("Allows ")),
 	    Child, button = MakeHelpButton(get_unit_type(j)->name, HELP_UNIT),
-	    Child, MakeLabel(" unit"),
+	    Child, MakeLabel(_(" unit")),
 	    Child, HSpace(0),
 	    End;
 
@@ -785,7 +785,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	    Object *group;
 	    group = o = HGroup,
 	      GroupSpacing(0),
-	      Child, MakeLabel("Allows "),
+	      Child, MakeLabel(_("Allows ")),
 	      Child, button = MakeHelpButtonTech(j),
 	      End;
 
@@ -796,7 +796,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	    {
 	      o = HGroup,
 		GroupSpacing(0),
-		Child, MakeLabel(" (with "),
+		Child, MakeLabel(_(" (with ")),
 		Child, button = MakeHelpButtonTech(advances[j].req[1]),
 		Child, MakeLabel(")"),
 		End;
@@ -814,9 +814,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	    Object *button2;
 	    o = HGroup,
 	      GroupSpacing(0),
-	      Child, MakeLabel("Allows "),
+	      Child, MakeLabel(_("Allows ")),
 	      Child, button = MakeHelpButtonTech(j),
-	      Child, MakeLabel(" (with "),
+	      Child, MakeLabel(_(" (with ")),
 	      Child, button2 = MakeHelpButtonTech(advances[j].req[0]),
 	      Child, MakeLabel(")"),
 	      Child, HSpace(0),
@@ -854,8 +854,8 @@ static void help_update_terrain(const struct help_item *pitem,
     char buf[256];
     Object *o,*g;
 
-    settextf(help_terrain_move_text, "Movecost: %ld", tile_types[i].movement_cost);
-    settextf(help_terrain_defense_text, "Defense: %ld.%ld", (tile_types[i].defense_bonus / 10), tile_types[i].defense_bonus % 10);
+    settextf(help_terrain_move_text, _("Movecost: %ld"), tile_types[i].movement_cost);
+    settextf(help_terrain_defense_text, _("Defense: %ld.%ld"), (tile_types[i].defense_bonus / 10), tile_types[i].defense_bonus % 10);
 
     DoMethod(help_right_group, MUIM_Group_InitChange);
     DoMethod(help_page_group, MUIM_Group_InitChange);
@@ -867,7 +867,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
     help_terrain_dynamic_group = VGroup,End;
 
-    my_snprintf(buf,sizeof(buf),"Food:   %d\nShield: %d\nTrade:  %d",tile->food, tile->shield, tile->trade);
+    my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),tile->food, tile->shield, tile->trade);
     if((o = HGroup,
               Child, HSpace(0),
 	      Child, TextObject, MUIA_Text_Contents, "", End,
@@ -881,7 +881,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
     g = HGroup, Child, HSpace(0), End;
 
-    my_snprintf(buf,sizeof(buf),"Food:   %d\nShield: %d\nTrade:  %d",tile->food_special_1, tile->shield_special_1,
+    my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),tile->food_special_1, tile->shield_special_1,
     tile->trade_special_1);
     if((o = HGroup,
               Child, HSpace(0),
@@ -897,7 +897,7 @@ static void help_update_terrain(const struct help_item *pitem,
       DoMethod(g, OM_ADDMEMBER, o);
     }
 
-    my_snprintf(buf,sizeof(buf),"Food:   %d\nShield: %d\nTrade:  %d",tile->food_special_2, tile->shield_special_2,
+    my_snprintf(buf,sizeof(buf),_("Food:   %d\nShield: %d\nTrade:  %d"),tile->food_special_2, tile->shield_special_2,
     tile->trade_special_2);
     if((o = HGroup,
               Child, HSpace(0),

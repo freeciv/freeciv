@@ -25,6 +25,12 @@ There are some settings you may change in the smakefile:
  INCDIRS     Allows to include additional include directories. Normally
              this will be the Miami or AmiTCP SDK directory or empty.
 
+To make the server call 'smake dirs civserver' (dirs creates directories).
+To make the client call 'smake dirs civclient' (dirs creates directories).
+To transform the locale files call 'smake dirs civclient' (dirs creates
+directories)
+You need not add the dirs always, when they have been created already.
+
 What to know about compiling process?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The files server/civserver.c and client/civclient.c contain the main()
@@ -57,6 +63,18 @@ int main(int argc, char *argv)
 
 The free process is handled with atexit(), so the libraries are freed on
 abnormal program abortion also.
+
+The gettext.c and libintl.h files.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+These two files allow support of NLS. This is not a complete gettext
+implementation, but enough for freeciv port.
+The environment variable "LANG" or "LANGUAGE" must contain the language
+string (e.g. >de< for german locale). The function also tries to convert
+the system language to the form used in freeciv distribution. If this
+does not work add a new conversion entry to LocaleConvTab in gettext.c.
+
+The language files are stored in locale directory in form xx.mo. Where
+xx is the language identifier as used im po directory of source tree.
 
 How to make with VBCC?
 ~~~~~~~~~~~~~~~~~~~~~~

@@ -23,6 +23,7 @@
 #include <proto/exec.h>
 #include <proto/muimaster.h>
 
+#include "fcintl.h"
 #include "mem.h"
 #include "version.h"
 
@@ -156,12 +157,12 @@ HOOKPROTONH(connect_meta_display, void, char **array, struct server *entry)
     *array = entry->metastring;
   } else
   {
-    *array++ = "Server Name";
-    *array++ = "Port";
-    *array++ = "Version";
-    *array++ = "Status";
-    *array++ = "Players";
-    *array = "Comment";
+    *array++ = _("Server Name");
+    *array++ = _("Port");
+    *array++ = _("Version");
+    *array++ = _("Status");
+    *array++ = _("Players");
+    *array = _("Comment");
   }
 }
 
@@ -171,7 +172,11 @@ HOOKPROTONH(connect_meta_display, void, char **array, struct server *entry)
 void gui_server_connect(void)
 {
   Object *page_group;
-  STATIC STRPTR pages[] = {"Server Selection", "Metaserver",NULL};
+  STATIC STRPTR pages[3];
+  
+  pages[0] = _("Server Selection");
+  pages[1] = _("Metaserver");
+  pages[2] = 0;
 
   if(!connect_wnd)
   {
@@ -184,7 +189,7 @@ void gui_server_connect(void)
     display_hook.h_Entry = (HOOKFUNC)connect_meta_display;
 
     connect_wnd = WindowObject,
-	MUIA_Window_Title, "Connect to Freeciv Server",
+	MUIA_Window_Title, _("Connect to Freeciv Server"),
 	MUIA_Window_ID, MAKE_ID('C','O','N','N'),
 
 	WindowContents, VGroup,
@@ -193,14 +198,14 @@ void gui_server_connect(void)
 		MUIA_Register_Frame,TRUE,
 
 		Child, ColGroup(2),
-		    Child, MakeLabel("_Name"),
-		    Child, connect_name_string = MakeString("_Name",64),
+		    Child, MakeLabel(_("_Name")),
+		    Child, connect_name_string = MakeString(_("_Name"),64),
 
-		    Child, MakeLabel("_Host"),
-		    Child, connect_host_string = MakeString("_Host",64),
+		    Child, MakeLabel(_("_Host")),
+		    Child, connect_host_string = MakeString(_("_Host"),64),
 
-		    Child, MakeLabel("_Port"),
-		    Child, connect_port_string = MakeInteger("_Port"),
+		    Child, MakeLabel(_("_Port")),
+		    Child, connect_port_string = MakeInteger(_("_Port")),
 										End,
 
 		    Child, VGroup,
@@ -217,8 +222,8 @@ void gui_server_connect(void)
 		End,
 
 	    Child, HGroup,
-		Child, connect_connect_button = MakeButton("_Connect"),
-		Child, connect_quit_button = MakeButton("_Quit"),
+		Child, connect_connect_button = MakeButton(_("_Connect")),
+		Child, connect_quit_button = MakeButton(_("_Quit")),
 		End,
 	    End,
 	End;

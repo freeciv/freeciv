@@ -19,6 +19,7 @@
 #include <proto/muimaster.h>
 
 #include "events.h"
+#include "fcintl.h"
 #include "options.h"
 #include "messagedlg.h"
 
@@ -65,11 +66,11 @@ void popup_messageopt_dialog(void)
 
     option_wnd = WindowObject,
       MUIA_Window_ID, MAKE_ID('O','P','T','M'),
-      MUIA_Window_Title, "Message Options",
+      MUIA_Window_Title, _("Message Options"),
       WindowContents, VGroup,
         Child, TextObject,
-          MUIA_Text_Contents,"Where to Display Messages\n"
-          "Out = Output window, Mes = Messages window, Pop = Popup individual window",
+          MUIA_Text_Contents,_("Where to Display Messages\n"
+          "Out = Output window, Mes = Messages window, Pop = Popup individual window"),
           MUIA_Text_PreParse, "\33c",
           End,
         Child, HGroupV,
@@ -85,8 +86,8 @@ void popup_messageopt_dialog(void)
             End,
           End,
         Child, HGroup,
-          Child, ok_button = MakeButton("_Ok"),
-          Child, cancel_button = MakeButton("_Cancel"),
+          Child, ok_button = MakeButton(_("_Ok")),
+          Child, cancel_button = MakeButton(_("_Cancel")),
           End,
         End,
       End;
@@ -96,28 +97,28 @@ void popup_messageopt_dialog(void)
       for(i = 0; i < 2 && !err; ++i)
       {
         if((o = MakeLabel("")))     DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
-        if((o = MakeLabel("Out:"))) DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
-        if((o = MakeLabel("Mes:"))) DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
-        if((o = MakeLabel("Pop:"))) DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
+        if((o = MakeLabel(_("Out:")))) DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
+        if((o = MakeLabel(_("Mes:")))) DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
+        if((o = MakeLabel(_("Pop:")))) DoMethod(group[i], OM_ADDMEMBER, o); else ++err;
       }
       for(i=0; i < E_LAST && !err; i++)
       {
-        if((o = MakeLabel(message_text[sorted_events[i]])))
+        if((o = MakeLabel(_(message_text[sorted_events[i]]))))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, o);
         else
           ++err;
 
-        if((message_option_objects[i].Out = MakeCheck(message_text[sorted_events[i]], FALSE)))
+        if((message_option_objects[i].Out = MakeCheck(_(message_text[sorted_events[i]]), FALSE)))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, message_option_objects[i].Out);
         else
           ++err;
 
-        if((message_option_objects[i].Mes = MakeCheck(message_text[sorted_events[i]], FALSE)))
+        if((message_option_objects[i].Mes = MakeCheck(_(message_text[sorted_events[i]]), FALSE)))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, message_option_objects[i].Mes);
         else
           ++err;
 
-        if((message_option_objects[i].Pop = MakeCheck(message_text[sorted_events[i]], FALSE)))
+        if((message_option_objects[i].Pop = MakeCheck(_(message_text[sorted_events[i]]), FALSE)))
           DoMethod(group[i < (E_LAST/2) ? 0: 1], OM_ADDMEMBER, message_option_objects[i].Pop);
         else
           ++err;

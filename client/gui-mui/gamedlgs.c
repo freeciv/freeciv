@@ -25,6 +25,7 @@
 #include <proto/muimaster.h>
 
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
@@ -208,26 +209,26 @@ static void create_rates_dialog(void)
     return;
 
   rates_wnd = WindowObject,
-      MUIA_Window_Title, "Set tax, luxury and science rates",
+      MUIA_Window_Title, _("Set tax, luxury and science rates"),
       WindowContents, VGroup,
           Child, rates_title_text = TextObject, End,
 
           Child, ColGroup(2),
-              Child, MakeLabel("Tax:"),
+              Child, MakeLabel(_("Tax:")),
               Child, rates_tax_slider = SliderObject,
                   MUIA_Numeric_Min, 0,
                   MUIA_Numeric_Max, 10,
                   MUIA_Numeric_Format, "%ld0%%",
                   End,
 
-              Child, MakeLabel("Luxury:"),
+              Child, MakeLabel(_("Luxury:")),
               Child, rates_luxury_slider = SliderObject,
                   MUIA_Numeric_Min, 0,
                   MUIA_Numeric_Max, 10,
                   MUIA_Numeric_Format, "%ld0%%",
                   End,
 
-              Child, MakeLabel("Science:"),
+              Child, MakeLabel(_("Science:")),
               Child, rates_science_slider = SliderObject,
                   MUIA_Numeric_Min, 0,
                   MUIA_Numeric_Max, 10,
@@ -236,8 +237,8 @@ static void create_rates_dialog(void)
               End,
 
           Child, HGroup,
-              Child, ok_button = MakeButton("_Ok"),
-              Child, cancel_button = MakeButton("_Cancel"),
+              Child, ok_button = MakeButton(_("_Ok")),
+              Child, cancel_button = MakeButton(_("_Cancel")),
               End,
           End,
       End;
@@ -257,7 +258,7 @@ static void create_rates_dialog(void)
 static void update_rates_dialog(void)
 {
   int max_rate = get_government_max_rate(game.player_ptr->government);
-  settextf(rates_title_text, "%s max rate: %d%%",
+  settextf(rates_title_text, _("%s max rate: %d%%"),
 	   get_government_name(game.player_ptr->government),
 	   max_rate);
 
@@ -317,7 +318,7 @@ static void create_option_dialog(void)
 
     option_wnd = WindowObject,
         MUIA_Window_ID, MAKE_ID('O','P','T','I'),
-        MUIA_Window_Title, "Set local options",
+        MUIA_Window_Title, _("Set local options"),
         WindowContents, VGroup,
             Child, HGroup,
                 Child, HSpace(0),
@@ -325,8 +326,8 @@ static void create_option_dialog(void)
                 Child, HSpace(0),
                 End,
             Child, HGroup,
-                Child, ok_button = MakeButton("_Ok"),
-                Child, cancel_button = MakeButton("_Cancel"),
+                Child, ok_button = MakeButton(_("_Ok")),
+                Child, cancel_button = MakeButton(_("_Cancel")),
                 End,
             End,
         End;
@@ -336,8 +337,8 @@ static void create_option_dialog(void)
       for (o = options; o->name; ++o)
       {
 	Object *check, *label;
-	check = MakeCheck(o->description, FALSE);
-	label = MakeLabel(o->description);
+	check = MakeCheck(_(o->description), FALSE);
+	label = MakeLabel(_(o->description));
 
 	if (check && label)
 	{

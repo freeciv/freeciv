@@ -107,12 +107,12 @@ int ioctl(int fd, unsigned int request, char *argp);
 /* #undef HAVE_LIBXMU */
 /* #undef HAVE_LIBXPM */
 /* #undef HAVE_LIBXT */
-/* #undef ENABLE_NLS */
+#define ENABLE_NLS
 /* #undef HAVE_CATGETS */
-/* #undef HAVE_GETTEXT */
+#define HAVE_GETTEXT
 /* #undef HAVE_LC_MESSAGES */
 /* #undef HAVE_STPCPY */
-/* #undef LOCALEDIR */
+#define LOCALEDIR "PROGDIR:locale"
 #define DEFAULT_DATA_PATH "PROGDIR:data"
 /* #undef HAVE_SIGPIPE */
 /* #undef XPM_H_NO_X11 */
@@ -262,16 +262,16 @@ int ioctl(int fd, unsigned int request, char *argp);
 /* #undef HAVE_SYS_TERMIO_H */
 
 /* Define if you have the <sys/time.h> header file.  */
-#undef HAVE_SYS_TIME_H
+#define HAVE_SYS_TIME_H
 
 /* Define if you have the <sys/types.h> header file.  */
-#undef HAVE_SYS_TYPES_H
+#define HAVE_SYS_TYPES_H
 
 /* Define if you have the <sys/uio.h> header file.  */
-#undef HAVE_SYS_UIO_H
+/* #define HAVE_SYS_UIO_H */
 
 /* Define if you have the <termios.h> header file.  */
-#undef HAVE_TERMIOS_H
+/* #undef HAVE_TERMIOS_H */
 
 /* Define if you have the <unistd.h> header file.  */
 #if !defined(__VBCC__) || !defined(MIAMI_SDK)
@@ -288,7 +288,7 @@ int ioctl(int fd, unsigned int request, char *argp);
 /* #undef HAVE_LIBZ */
 
 /* Name of package */
-/* #undef PACKAGE */
+#define PACKAGE "freeciv"
 
 /* Version number of package */
 /* #undef VERSION */
