@@ -523,7 +523,7 @@ int can_unit_do_activity(struct unit *punit, enum unit_activity activity)
 
   if(punit->activity==ACTIVITY_IDLE) {
     if(activity==ACTIVITY_FORTIFY) { 
-      return (is_ground_unit(punit));
+      return (is_ground_unit(punit) && !unit_flag(punit->type, F_SETTLERS));
     }
     if(activity==ACTIVITY_SENTRY)
       return 1;
