@@ -435,13 +435,14 @@ void update_unit_info_label(struct unit *punit)
     gtk_frame_set_label( GTK_FRAME(unit_info_frame), buffer);
 
 
-    my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s",
+    my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s%s",
 		(hover_unit == punit->id) ?
 		_("Select destination") : unit_activity_text(punit),
 		map_get_tile_info_text(punit->x, punit->y),
 		infrastructure ?
 		map_get_infrastructure_text(infrastructure) : "",
-		infrastructure ? "\n" : "", pcity ? pcity->name : "");
+		infrastructure ? "\n" : "", pcity ? pcity->name : "",
+		infrastructure ? "" : "\n");
     gtk_set_label( unit_info_label, buffer);
 
     if (hover_unit != punit->id)
@@ -467,7 +468,7 @@ void update_unit_info_label(struct unit *punit)
     }
   } else {
     gtk_frame_set_label( GTK_FRAME(unit_info_frame),"");
-    gtk_set_label(unit_info_label,"\n\n");
+    gtk_set_label(unit_info_label,"\n\n\n");
     gdk_window_set_cursor(root_window, NULL);
   }
   update_unit_pix_label(punit);

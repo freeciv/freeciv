@@ -171,7 +171,7 @@ static void create_meswin_dialog(void)
 			   GDK_WINDOW_TYPE_HINT_NORMAL);
   gtk_dialog_set_default_response(GTK_DIALOG(meswin_shell),
 	GTK_RESPONSE_CLOSE);
-  gtk_window_set_default_size(GTK_WINDOW(meswin_shell), 450, 280);
+  gtk_window_set_default_size(GTK_WINDOW(meswin_shell), 520, 300);
 
   cmd = gtk_stockbutton_new(GTK_STOCK_JUMP_TO, _("_Goto location"));
   gtk_widget_set_sensitive(cmd, FALSE);
