@@ -216,7 +216,6 @@ int main(int argc, char *argv[])
 
   /* termination */
   attribute_flush();
-  audio_shutdown();
   my_shutdown_network();
 
   exit(EXIT_SUCCESS);

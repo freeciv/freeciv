@@ -17,6 +17,7 @@
 
 #include <string.h>
 #include <assert.h>
+#include <stdlib.h>
 
 #include "support.h"
 #include "fcintl.h"
@@ -76,6 +77,8 @@ bool audio_select_plugin(const char *const name)
 
   if (found && i != selected_plugin) {
     freelog(LOG_DEBUG, "Shutting down %s", plugins[selected_plugin].name);
+    plugins[selected_plugin].stop();
+    plugins[selected_plugin].wait();
     plugins[selected_plugin].shutdown();
   }
 
@@ -162,6 +165,8 @@ void audio_real_init(const char *const spec_name,
     freelog(LOG_FATAL, _("supported options: %s"), us_capstr);
     exit(EXIT_FAILURE);
   }
+
+  atexit(audio_shutdown);
 
   if (prefered_plugin_name && audio_select_plugin(prefered_plugin_name)) {
     return;
@@ -261,8 +266,10 @@ void audio_shutdown()
   audio_play_sound("e_game_quit", NULL);
   plugins[selected_plugin].wait();
   plugins[selected_plugin].shutdown();
+
   if (tagfile) {
     section_file_free(tagfile);
+    tagfile = NULL;
   }
 }
 
