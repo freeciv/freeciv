@@ -169,6 +169,7 @@ int main(int argc, char *argv[])
   char *option=NULL;
   int save_counter=0;
   int loglevel=LOG_NORMAL;
+  struct timer *eot_timer;	/* time server processing at end-of-turn */
 
   init_nls();
   dont_run_as_root(argv[0], "freeciv_server");
@@ -398,6 +399,12 @@ main_start_players:
     }
   }
 
+  /* When to start this timer the first time round is a bit arbitrary:
+     here start straight after stop sniffing for select_races and
+     before all following server initialization etc.
+  */
+  eot_timer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
+
   if(!game.randseed) {
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
@@ -488,8 +495,15 @@ main_start_players:
     freelog(LOG_DEBUG, "Aistartturn");
     ai_start_turn();
 
+    /* Before sniff (human player activites), report time to now: */
+    freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
+	    read_timer_seconds(eot_timer));
+	    
     freelog(LOG_DEBUG, "sniffingpackets");
     while(sniff_packets()==1);
+
+    /* After sniff, re-zero the timer: (read-out above on next loop) */
+    clear_timer_start(eot_timer);
     
     for(i=0;i<game.nplayers;i++)
       connection_do_buffer(game.players[i].conn);
