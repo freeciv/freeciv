@@ -1,6 +1,8 @@
 #define OverviewObject NewObject(CL_Overview->mcc_Class, NULL
 
+#ifndef LIBRARIES_MUI_H
 #include <libraries/mui.h>
+#endif
 
 #define MUIA_Overview_Width           (TAG_USER+0x3000001) /* IG LONG */
 #define MUIA_Overview_Height          (TAG_USER+0x3000002) /* IG LONG */

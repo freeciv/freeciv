@@ -78,6 +78,7 @@
 #include "wldlg.h"
 
 /* Amiga Client Stuff */
+#include "historystringclass.h"
 #include "mapclass.h"
 #include "muistuff.h"
 #include "objecttreeclass.h"
@@ -335,68 +336,6 @@ void enable_turn_done_button(void)
   if (game.player_ptr->ai.control && !ai_manual_turn_done)
     user_ended_turn();
   set(main_turndone_button, MUIA_Disabled, !(!game.player_ptr->ai.control || ai_manual_turn_done));
-}
-
-/****************************************************************
- Edit Hook for the Chatline String Gadget (Should create a new
- subclass)
-*****************************************************************/
-HOOKPROTO(inputline_edit, int, struct SGWork *sgw, ULONG *msg)
-{
-  #define INPUTLINE_MAXLINES 20
-  #define INPUTLINE_MAXCHARS 256
-  static char lines[INPUTLINE_MAXLINES][INPUTLINE_MAXCHARS];
-  static int line;
-  static int maxline;
-
-  if (*msg != SGH_KEY) return 0;
-
-  if (sgw->EditOp == EO_ENTER)
-  {
-    if (line >= INPUTLINE_MAXLINES - 1 && line)
-    {
-      /* The end of the histrory buffer is reached */
-      CopyMem(lines[1],lines[0],INPUTLINE_MAXCHARS*(INPUTLINE_MAXLINES-1));
-      maxline = --line;
-    }
-
-    if (line < INPUTLINE_MAXLINES - 1)
-    {
-      /* Copy the current line to the history buffer */
-      mystrlcpy(&lines[line][0],sgw->WorkBuffer,INPUTLINE_MAXCHARS);
-      maxline = ++line;
-      lines[line][0] = 0;
-    }
-  } else
-  {
-    if (sgw->IEvent->ie_Class == IECLASS_RAWKEY)
-    {
-      switch (sgw->IEvent->ie_Code)
-      {
-        case  CURSORUP:
-	      if(line)
-	      {
-                line--;
-	        mystrlcpy(sgw->WorkBuffer,&lines[line][0],INPUTLINE_MAXCHARS);
-                sgw->Actions |= SGA_USE;
-                sgw->BufferPos = sgw->NumChars = strlen(sgw->WorkBuffer);
-	      }
-	      break;
-
-        case  CURSORDOWN:
-	      if (line < maxline)
-	      {
-                line++;
-	        mystrlcpy(sgw->WorkBuffer,&lines[line][0],INPUTLINE_MAXCHARS);
-                sgw->Actions |= SGA_USE;
-                sgw->BufferPos = sgw->NumChars = strlen(sgw->WorkBuffer);
-	      }
-	      break;
-      }	     
-    }
-  }
-
-  return 0;
 }
 
 /****************************************************************
@@ -871,6 +810,7 @@ static void free_classes(void)
   delete_objecttree_class();
   delete_worklist_class();
   delete_scrollbutton_class();
+  delete_historystring_class();
 }
 
 /****************************************************************
@@ -883,7 +823,8 @@ static int init_classes(void)
       if (create_objecttree_class())
         if (create_worklist_class())
           if (create_scrollbutton_class())
-	    return TRUE;
+	    if (create_historystring_class())
+	      return TRUE;
   return FALSE;
 }
 
@@ -978,7 +919,9 @@ static int init_gui(void)
                     MUIA_NList_AutoCopyToClip, TRUE,
                     End,
                 End,
-            Child, main_chatline_string = MakeString("", 64),
+            Child, main_chatline_string = HistoryStringObject,
+		StringFrame,
+		End,
             End,
         End,
     End;
@@ -1416,10 +1359,6 @@ void ui_main(int argc, char *argv[])
 
       DoMethod(main_turndone_group, MUIM_Group_ExitChange);
       DoMethod(main_info_group, MUIM_Group_ExitChange);
-
-      /* Initialize the custom edit hook */
-      main_chatline_hook.h_Entry = (HOOKFUNC)inputline_edit;
-      set(main_chatline_string, MUIA_String_EditHook, &main_chatline_hook);
 
       set(main_wnd, MUIA_Window_Open, TRUE);
 

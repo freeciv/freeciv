@@ -29,6 +29,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "inteldlg.h"
 #include "spaceshipdlg.h"
@@ -142,7 +143,7 @@ HOOKPROTONH(players_render, void, char **array, ULONG playerno)
 
     *array++ = namebuf;
     *array++ = get_nation_name(game.players[i].nation);
-    *array++ = player_has_embassy(game.player_ptr, &game.players[i]) ? "X" : " ";
+    *array++ = get_embassy_status(game.player_ptr, &game.players[i]);
     *array++ = dsbuf;
     *array++ = repbuf;
     *array++ = statebuf;

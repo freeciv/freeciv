@@ -280,87 +280,11 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 }
 
 /****************************************************************
-...
-Should also check connectedness, and show non-connected
-parts differently.
+ Should also check connectedness, and show non-connected
+ parts differently.
 *****************************************************************/
 void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 {
-/*
-   int i, j, k, x, y;  
-   struct Sprite *sprite = sprites.spaceship.habitation;   /* for size */
-  struct player_spaceship *ship = &pdialog->pplayer->spaceship;
-
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-  gdk_draw_rectangle(pdialog->image_canvas->window, fill_bg_gc, TRUE,
-		     0, 0, sprite->width * 7, sprite->height * 7);
-
-  for (i = 0; i < NUM_SS_MODULES; i++)
-  {
-    j = i / 3;
-    k = i % 3;
-    if ((k == 0 && j >= ship->habitation)
-	|| (k == 1 && j >= ship->life_support)
-	|| (k == 2 && j >= ship->solar_panels))
-    {
-      continue;
-    }
-    x = modules_info[i].x * sprite->width / 4 - sprite->width / 2;
-    y = modules_info[i].y * sprite->height / 4 - sprite->height / 2;
-
-    sprite = (k == 0 ? sprites.spaceship.habitation :
-	      k == 1 ? sprites.spaceship.life_support :
-	      sprites.spaceship.solar_panels);
-    gdk_gc_set_clip_origin(civ_gc, x, y);
-    gdk_gc_set_clip_mask(civ_gc, sprite->mask);
-    gdk_draw_pixmap(pdialog->image_canvas->window, civ_gc, sprite->pixmap,
-		    0, 0,
-		    x, y,
-		    sprite->width, sprite->height);
-    gdk_gc_set_clip_mask(civ_gc, NULL);
-  }
-
-  for (i = 0; i < NUM_SS_COMPONENTS; i++)
-  {
-    j = i / 2;
-    k = i % 2;
-    if ((k == 0 && j >= ship->fuel)
-	|| (k == 1 && j >= ship->propulsion))
-    {
-      continue;
-    }
-    x = components_info[i].x * sprite->width / 4 - sprite->width / 2;
-    y = components_info[i].y * sprite->height / 4 - sprite->height / 2;
-
-    sprite = (k == 0) ? sprites.spaceship.fuel : sprites.spaceship.propulsion;
-
-    gdk_gc_set_clip_origin(civ_gc, x, y);
-    gdk_gc_set_clip_mask(civ_gc, sprite->mask);
-    gdk_draw_pixmap(pdialog->image_canvas->window, civ_gc, sprite->pixmap,
-		    0, 0,
-		    x, y,
-		    sprite->width, sprite->height);
-    gdk_gc_set_clip_mask(civ_gc, NULL);
-  }
-
-  sprite = sprites.spaceship.structural;
-
-  for (i = 0; i < NUM_SS_STRUCTURALS; i++)
-  {
-    if (!ship->structure[i])
-      continue;
-    x = structurals_info[i].x * sprite->width / 4 - sprite->width / 2;
-    y = structurals_info[i].y * sprite->height / 4 - sprite->height / 2;
-
-    gdk_gc_set_clip_origin(civ_gc, x, y);
-    gdk_gc_set_clip_mask(civ_gc, sprite->mask);
-    gdk_draw_pixmap(pdialog->image_canvas->window, civ_gc, sprite->pixmap,
-		    0, 0,
-		    x, y,
-		    sprite->width, sprite->height);
-    gdk_gc_set_clip_mask(civ_gc, NULL);
-  }
-  */
 }
 
 /****************************************************************

@@ -5,7 +5,6 @@
 
 #include <intuition/intuitionbase.h>
 #include <libraries/mui.h>
-#include <guigfx/guigfx.h>
 
 #include <clib/alib_protos.h>
 
