@@ -1426,16 +1426,13 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
       package_player_common(pplayer, &info);
 
       conn_list_iterate(*dest, pconn) {
-	if (!pconn->player && pconn->observer) {
-	  /* Observer for all players. */
-	  package_player_info(pplayer, &info, NULL, INFO_FULL);
-	} else if (!pconn->player) {
-	  /* Client not yet attached to player. */
-	  package_player_info(pplayer, &info, NULL, INFO_MINIMUM);
-	} else {
-	  /* Player clients (including one player observers) */
+	if (pconn->player && pconn->player->is_observer) {
+	  /* Global observer. */
+	  package_player_info(pplayer, &info, pconn->player, INFO_FULL);
+	} else if (pconn->player) {
+	  /* Players (including regular observers) */
 	  package_player_info(pplayer, &info, pconn->player, INFO_MINIMUM);
-	}
+	} 
 
         send_packet_player_info(pconn, &info);
       } conn_list_iterate_end;
