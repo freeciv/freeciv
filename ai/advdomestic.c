@@ -24,6 +24,7 @@
 #include <aicity.h>
 #include <aiunit.h>
 #include <settlers.h>
+#include <unittools.h>
 
 /********************************************************************** 
 ... this function should assign a value to choice and want and type, where 
@@ -124,6 +125,38 @@ int farmland_food(struct city *pcity)
   return(i); 
 }
 
+int pollution_cost(struct player *pplayer, struct city *pcity, enum improvement_type_id id)
+{
+  int p, mod = 0, poppul = 0, a, b, c;
+  p = pcity->shield_prod;
+  if (city_got_building(pcity, B_RECYCLING) || id == B_RECYCLING) p /= 3;
+  else if (city_got_building(pcity, B_HYDRO) ||
+           city_affected_by_wonder(pcity, B_HOOVER) ||
+           city_got_building(pcity, B_NUCLEAR) ||
+           id == B_HYDRO || id == B_HOOVER || id == B_NUCLEAR) p /= 2;
+
+  if (!city_got_building(pcity, B_MASS) || id == B_MASS) {
+    if (get_invention(pplayer, A_INDUSTRIALIZATION)==TECH_KNOWN)  mod=1;
+    if (get_invention(pplayer, A_AUTOMOBILE)==TECH_KNOWN) mod=2;
+    if (get_invention(pplayer, A_MASS)==TECH_KNOWN) mod=3;
+    if (get_invention(pplayer, A_PLASTICS)==TECH_KNOWN) mod=4;
+    poppul=(pcity->size*mod)/4;
+    p += poppul;
+  }
+  p -= 20;
+  if (p < 0) p = 0;
+  b = (POLLUTION_WEIGHTING + pplayer->ai.warmth)<<6;
+  if (pcity->pollution > 0) {
+    a = amortize(b, 100 / pcity->pollution);
+    c = ((a * b) / (MAX(1, b - a)))>>6;
+  } else c = 0;
+  if (p) {
+    a = amortize(b, 100 / p);
+    c -= ((a * b) / (MAX(1, b - a)))>>6;
+  }
+  return(c); /* benefit or cost of this building */
+}
+ 
 void ai_eval_buildings(struct city *pcity)
 {
   int i, gov, tech, val, a, t, food, j, k, hunger, bar, grana;
@@ -153,7 +186,6 @@ void ai_eval_buildings(struct city *pcity)
 /* because the benefit doesn't come immediately, and to stop stupidity */
 /* the AI used to really love granaries for nascent cities, which is OK */
 /* as long as they aren't rated above Settlers and Laws is above Pottery -- Syela*/
-  if (city_got_building(pcity, B_GRANARY)) food *= 2; /* for aqueducts mainly */
   i = (pcity->size * 2) + settler_eats(pcity);
   i -= pcity->food_prod; /* amazingly left out for a week! -- Syela */
   if (i > 0 && !pcity->ppl_scientist && !pcity->ppl_taxman) hunger = i + 1;
@@ -167,9 +199,10 @@ void ai_eval_buildings(struct city *pcity)
   } /* rewrite by Syela - old values seemed very random */
 
   if (could_build_improvement(pcity, B_AQUEDUCT)) {
-    if (city_happy(pcity) && pcity->size > 4 && est_food > 0)
-      values[B_AQUEDUCT] = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
-      (game.foodbox>>1) - pcity->food_stock) * food / (9 - MIN(8, pcity->size));
+    if (city_happy(pcity) && pcity->size > 7 && est_food > 0)
+      values[B_AQUEDUCT] = (((((city_got_building(pcity, B_GRANARY) ||
+         city_affected_by_wonder(pcity, B_PYRAMIDS)) ? 3 : 2) *
+         pcity->size * game.foodbox)>>1) - pcity->food_stock) * food;
     else values[B_AQUEDUCT] = food * est_food * 8 * game.foodbox /
            MAX(1, ((9 - MIN(8, pcity->size)) * MAX(8, pcity->size) *
            game.foodbox - pcity->food_stock));
@@ -280,9 +313,10 @@ void ai_eval_buildings(struct city *pcity)
     values[B_SDI] = 50; /* WAG */
   
   if (could_build_improvement(pcity, B_SEWER)) {
-    if (city_happy(pcity) && pcity->size > 4 && est_food > 0)
-       values[B_SEWER] = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) * 
-       (game.foodbox>>1) - pcity->food_stock) * food / (13 - MIN(12, pcity->size)); 
+    if (city_happy(pcity) && pcity->size > 11 && est_food > 0)
+      values[B_SEWER] = (((((city_got_building(pcity, B_GRANARY) ||
+         city_affected_by_wonder(pcity, B_PYRAMIDS)) ? 3 : 2) *
+         pcity->size * game.foodbox)>>1) - pcity->food_stock) * food;
     else values[B_SEWER] = food * est_food * 12 * game.foodbox /
           MAX(1, ((13 - MIN(12, pcity->size)) * MAX(12, pcity->size) *
           game.foodbox - pcity->food_stock));
@@ -303,9 +337,15 @@ void ai_eval_buildings(struct city *pcity)
   if (could_build_improvement(pcity, B_UNIVERSITY))
     values[B_UNIVERSITY] = sci>>1;
 
-/* ignored: AIRPORT, MASS, PALACE, POLICE, PORT, */
-/* RECYCLING, and any effects of pollution. -- Syela */
-/* military advisor will deal with CITY */
+  if (could_build_improvement(pcity, B_MASS))
+    values[B_MASS] = pollution_cost(pplayer, pcity, B_MASS);
+
+  if (could_build_improvement(pcity, B_RECYCLING))
+    values[B_RECYCLING] = pollution_cost(pplayer, pcity, B_RECYCLING);
+
+/* not dealt with yet - pollution costs/advantages of prod-enhancers */
+/* ignored: AIRPORT, PALACE, and POLICE. -- Syela*/
+/* military advisor will deal with CITY and PORT */
 
   for (i = 0; i < B_LAST; i++) {
     if (is_wonder(i) && could_build_improvement(pcity, i) && !wonder_obsolete(i)) {
@@ -409,6 +449,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   int set, con, i, want;
   struct ai_choice cur;
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
+  int vans = 0;
 /* had to add the scientist guess here too -- Syela */
 
   choice->choice = 0;
@@ -455,9 +496,20 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     }
   }
 
+  unit_list_iterate(pplayer->units, punit)
+    if (unit_flag(punit->type, F_CARAVAN) &&
+        map_get_continent(punit->x, punit->y) == con) vans++;
+  unit_list_iterate_end;
+  city_list_iterate(pplayer->cities, acity)
+    if (acity->is_building_unit &&
+        unit_flag(acity->currently_building, F_CARAVAN) &&
+        map_get_continent(acity->x, acity->y) == con) vans++;
+  city_list_iterate_end;
+
   city_list_iterate(pplayer->cities, acity)
     if (!acity->is_building_unit && is_wonder(acity->currently_building)
-        && acity != pcity) { /* can't believe I forgot this! */
+        && map_get_continent(acity->x, acity->y) == con /* VERY important! */
+        && acity != pcity && build_points_left(acity) > 50 * vans) {
       want = pcity->ai.building_want[acity->currently_building];
 /* distance to wonder city was established after manage_bu and before this */
 /* if we just started building a wonder during a_c_c_b, the started_building */

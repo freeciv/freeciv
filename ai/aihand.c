@@ -267,17 +267,21 @@ void ai_manage_taxes(struct player *pplayer)
 /* this code must be ABOVE the elvises[] if SIMPLISTIC is off */
 /* printf("Does %s want to be bigger? %d\n", pcity->name, wants_to_be_bigger(pcity)); */
     if (pcity->size > 4 && pplayer->government >= G_REPUBLIC &&
+        pcity->food_surplus > 0 &&
         !pcity->ppl_unhappy[4] && wants_to_be_bigger(pcity)) {
-/*      printf("%d happy people in %s\n", pcity->ppl_happy[4], pcity->name); */
+/*      printf("%d happy people in %s\n", pcity->ppl_happy[4], pcity->name);*/
       n = (((pcity->size + 1)>>1) - pcity->ppl_happy[4]) * 20;
       if (n > pcity->ppl_content[1] * 20) n += (n - pcity->ppl_content[1] * 20);
+      m = (((((city_got_building(pcity, B_GRANARY) || city_affected_by_wonder(pcity,
+           B_PYRAMIDS)) ? 3 : 2) * pcity->size * game.foodbox)>>1) -
+           pcity->food_stock) * food_weighting(pcity->size);
+/*printf("Checking HHJJ for %s, m = %d\n", pcity->name, m);*/
+      tot = 0;
       for (i = 0; i <= 10; i++) {
-        if (pcity->trade_prod * i * city_tax_bonus(pcity) >= n * 100 &&
-                  pcity->food_surplus > 0) {
-          m = (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
-              (game.foodbox>>1) - pcity->food_stock) *
-              food_weighting(pcity->size);
+        if (pcity->trade_prod * i * city_tax_bonus(pcity) >= n * 100) {
+/*if (!tot) printf("%s celebrates at %d.\n", pcity->name, i * 10);*/
           hhjj[i] += (pcity->was_happy ? m : m>>1);
+          tot++;
         }
       }
     } /* hhjj[i] is (we think) the desirability of partying with lux = 10 * i */
@@ -355,6 +359,7 @@ void ai_manage_taxes(struct player *pplayer)
 
   city_list_iterate(pplayer->cities, pcity) 
     pcity->ppl_elvis = 0;
+    city_refresh(pcity);
     add_adjust_workers(pcity);
     city_refresh(pcity);
     if (ai_fix_unhappy(pcity))

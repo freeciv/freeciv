@@ -576,7 +576,7 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
 /* establish faraway for THIS city, and establish d_t_w_c for ALL cities */
 
   if (!pcity->is_building_unit && is_wonder(pcity->currently_building))
-    wondercity = 1;
+    wondercity = map_get_continent(pcity->x, pcity->y);
   else wondercity = 0;
   if (get_invention(pplayer, A_CORPORATION) == TECH_KNOWN)
     freight = 6;
@@ -585,7 +585,8 @@ void establish_city_distances(struct player *pplayer, struct city *pcity)
   pcity->ai.downtown = 0;
   city_list_iterate(pplayer->cities, othercity)
     dist = warmap.cost[othercity->x][othercity->y];
-    if (wondercity) othercity->ai.distance_to_wonder_city = dist;
+    if (wondercity && map_get_continent(othercity->x, othercity->y) == wondercity)
+      othercity->ai.distance_to_wonder_city = dist;
     dist += freight - 1; dist /= freight;
     pcity->ai.downtown += MAX(0, 5 - dist); /* four three two one fire */
   city_list_iterate_end;

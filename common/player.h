@@ -106,6 +106,7 @@ struct player_ai {
   int tech_want[A_LAST];
   int tech_turns[A_LAST]; /* saves zillions of calculations! */
   int handicap;
+  int warmth; /* threat of global warming */
 };
 
 struct player {

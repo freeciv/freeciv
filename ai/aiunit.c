@@ -696,7 +696,7 @@ void ai_manage_caravan(struct player *pplayer, struct unit *punit)
   if (punit->activity != ACTIVITY_IDLE)
     return;
   if (punit->ai.ai_role == AIUNIT_NONE) {
-    if ((pcity = wonder_on_continent(pplayer, map_get_continent(punit->x, punit->y))) && build_points_left(pcity)) {
+    if ((pcity = wonder_on_continent(pplayer, map_get_continent(punit->x, punit->y))) && build_points_left(pcity) > (pcity->shield_surplus<<1)) {
       if (!same_pos(pcity->x, pcity->y, punit->x, punit->y)) {
 	auto_settler_do_goto(pplayer,punit, pcity->x, pcity->y);
         handle_unit_activity_request(pplayer, punit, ACTIVITY_IDLE);

@@ -681,7 +681,8 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   else {
     if (mycity->size == 1) fu = 20;
     else fu = 40 * (mycity->size - 1) / mycity->size;
-    if (city_got_building(mycity, B_GRANARY)) fu -= 20;
+    if (city_got_building(mycity, B_GRANARY) ||
+        city_affected_by_wonder(mycity, B_PYRAMIDS)) fu -= 20;
   }
 
   gx=-1;
@@ -781,6 +782,7 @@ gx, gy, v, x, y, v2, d, b);*/
         } /* end else */
 
 	v2 = pcity->ai.detox[i][j];
+        if (v2) v2 += pplayer->ai.warmth;
         b = (v2 - val)<<6; /* arbitrary, for rounding errors */
         if (b > 0) {    
           d = (3 * 3 + z + m - 1) / m + z;
@@ -932,6 +934,9 @@ void initialize_infrastructure_cache(struct city *pcity)
 as punits arrive at adjacent tiles and start laying road -- Syela */
     pcity->ai.railroad[i][j] = ai_calc_railroad(pcity, pplayer, i, j);
   }
+  pplayer->ai.warmth = WARMING_FACTOR * civ_population(pplayer) * 5 *
+                       game.globalwarming / (map.xsize * map.ysize *
+                       map.landpercent * 2); /* threat of warming */
 }
 
 /************************************************************************** 

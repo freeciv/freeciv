@@ -143,8 +143,8 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   city_list_iterate_end;
  
   for(i=0; i<B_LAST; i++) {
-    if (!is_wonder(i) ||  (!built_elsewhere(pcity, i) &&
-        !is_building_other_wonder(pcity) &&
+    if (!is_wonder(i) || (!is_building_other_wonder(pcity) &&
+/* built_elsewhere removed; it was very, very bad with multi-continent empires */
 /* city_got_building(pcity, B_TEMPLE) && - too much to ask for, I think */
         !pcity->ai.grave_danger && /* otherwise caravans will be killed! */
 /*        pcity->shield_prod * cities >= prod &&         this shouldn't matter much */

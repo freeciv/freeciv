@@ -302,8 +302,9 @@ unit_types[punit->type].name, unit_types[id].name); */
     if (bestchoice.want > 100) { /* either need defense or building NOW */
       buycost = city_buy_cost(pcity);
       if (!pcity->shield_stock) ;
-      else if (bestchoice.type && unit_flag(bestchoice.choice,
-          F_SETTLERS) && !city_got_building(pcity, B_GRANARY) && (pcity->size < 2 ||
+      else if (bestchoice.type && unit_flag(bestchoice.choice, F_SETTLERS) &&
+          !city_affected_by_wonder(pcity, B_PYRAMIDS) &&
+          !city_got_building(pcity, B_GRANARY) && (pcity->size < 2 ||
           pcity->food_stock < (pcity->size - 1) * game.foodbox)) ;
       else if (bestchoice.type && bestchoice.type < 3 && /* not a defender */
         pcity->shield_stock * 3 < buycost) ; /* too expensive */
