@@ -1535,7 +1535,8 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
   static SDL_Rect copy, des;
   static SDL_Rect src_hp = {0,0,0,0};
   static SDL_Rect src_flag = {0,0,0,0};
-  static int dummy, count;
+  static int count, i;
+  bool solid_bg;
 
   if(!pUnit) {
     return;
@@ -1544,7 +1545,7 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
   des.x = map_x;
   des.y = map_y;
   
-  count = fill_unit_sprite_array(pSprites, pUnit, &dummy);
+  count = fill_unit_sprite_array(pSprites, pUnit, &solid_bg);
 
   des.x += NORMAL_TILE_WIDTH / 4;
 
@@ -1571,9 +1572,9 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface * pDest,
   des.x = map_x;
   des.y = map_y;
   copy = des;    
-  for (dummy = 1; dummy < count - 1; dummy++) {
-    if (pSprites[dummy]) {
-      SDL_BlitSurface(GET_SURF(pSprites[dummy]), NULL, pDest, &des);
+  for (i = 1; i < count - 1; i++) {
+    if (pSprites[i]) {
+      SDL_BlitSurface(GET_SURF(pSprites[i]), NULL, pDest, &des);
       des = copy;	    
     }
   }
@@ -1616,8 +1617,8 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   static struct unit *pUnit = NULL, *pFocus = NULL;
   static enum tile_special_type special;
   static enum tile_terrain_type terrain;
-  static int count, i, solid_bg;
-  static bool fog, full_ocean;
+  static int count, i;
+  static bool fog, full_ocean, solid_bg;
 
   count =
       fill_tile_sprite_array_iso(pTile_sprs, pCoasts, pDither, map_col,

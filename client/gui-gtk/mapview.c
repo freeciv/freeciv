@@ -63,7 +63,7 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 struct Sprite *ssprite,
 					 int offset_x, int offset_y,
 					 int width, int height,
-					 int fog);
+					 bool fog);
 static void really_draw_segment(int src_x, int src_y, int dir,
 				bool write_to_screen, bool force);
 static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
@@ -1044,7 +1044,7 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 struct Sprite *ssprite,
 					 int offset_x, int offset_y,
 					 int width, int height,
-					 int fog)
+					 bool fog)
 {
   if (!ssprite || !width || !height)
     return;
@@ -1308,7 +1308,7 @@ static void put_city_pixmap_draw(struct city *pcity, GdkPixmap *pm,
 				 int canvas_x, int canvas_y,
 				 int offset_x, int offset_y_unit,
 				 int width, int height_unit,
-				 int fog)
+				 bool fog)
 {
   struct Sprite *sprites[80];
   int count = fill_city_sprite_array_iso(sprites, pcity);
@@ -1351,7 +1351,7 @@ Only used for isometric view.
 static void dither_tile(GdkDrawable *pixmap, struct Sprite **dither,
 			int canvas_x, int canvas_y,
 			int offset_x, int offset_y,
-			int width, int height, int fog)
+			int width, int height, bool fog)
 {
   if (!width || !height)
     return;
@@ -1436,8 +1436,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   struct unit *punit, *pfocus;
   enum tile_special_type special;
   int count, i = 0;
-  int fog;
-  int solid_bg;
+  bool solid_bg, fog;
   struct canvas_store canvas_store = {pm};
 
   if (!width || !(height || height_unit))

@@ -78,7 +78,7 @@ static void really_draw_segment(HDC mapstoredc,int src_x, int src_y, int dir,
 static void dither_tile(HDC hdc, struct Sprite **dither,
                         int canvas_x, int canvas_y,
                         int offset_x, int offset_y,
-                        int width, int height, int fog);
+                        int width, int height, bool fog);
 static void put_line(HDC hdc, int x, int y, 
 		     int dir, bool write_to_screen);
 static void draw_rates(HDC hdc);
@@ -175,7 +175,8 @@ void map_expose(HDC hdc)
 **************************************************************************/
 void put_unit_pixmap(struct unit *punit, HDC hdc,int canvas_x,int canvas_y)
 {
-  int solid_bg;
+  bool solid_bg;
+
   if (is_isometric) {
     struct Sprite *sprites[40];        
     int count = fill_unit_sprite_array(sprites, punit,&solid_bg);        
@@ -1059,7 +1060,7 @@ static void pixmap_put_black_tile_iso(HDC hdc,
 static void dither_tile(HDC hdc, struct Sprite **dither,
                         int canvas_x, int canvas_y,
                         int offset_x, int offset_y,
-                        int width, int height, int fog)
+                        int width, int height, bool fog)
 {
   if (!width || !height)
     return;
@@ -1182,7 +1183,7 @@ static void pixmap_put_overlay_tile_draw(HDC hdc,
                                          struct Sprite *ssprite,
                                          int offset_x, int offset_y,
                                          int width, int height,
-                                         int fog)
+                                         bool fog)
 {
   if (!ssprite || !width || !height)
     return;
@@ -1315,7 +1316,7 @@ static void put_unit_pixmap_draw(struct unit *punit, HDC hdc,
                                  int width, int height_unit)
 {
   struct Sprite *sprites[40];
-  int dummy;
+  bool dummy;
   int count = fill_unit_sprite_array(sprites, punit, &dummy);
   int i;
 
@@ -1336,7 +1337,7 @@ static void put_city_pixmap_draw(struct city *pcity,HDC hdc,
                                  int canvas_x, int canvas_y,
                                  int offset_x, int offset_y_unit,
                                  int width, int height_unit,
-                                 int fog)
+				 bool fog)
 {
   struct Sprite *sprites[80];
   int count = fill_city_sprite_array_iso(sprites, pcity);
@@ -1370,9 +1371,7 @@ static void pixmap_put_tile_iso(HDC hdc, int x, int y,
   struct unit *punit, *pfocus;
   enum tile_special_type special;
   int count, i = 0;
-  int fog;
-  int solid_bg;
-  int is_real;
+  bool fog, solid_bg, is_real;
 
   if (!width || !(height || height_unit))
     return;

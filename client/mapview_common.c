@@ -417,8 +417,8 @@ void put_unit(struct unit *punit, struct canvas_store *pcanvas_store,
 	      int unit_width, int unit_height)
 {
   struct Sprite *sprites[40];
-  int solid_bg, i;
-  int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
+  bool solid_bg;
+  int count = fill_unit_sprite_array(sprites, punit, &solid_bg), i;
 
   if (!is_isometric && solid_bg) {
     gui_put_rectangle(pcanvas_store, player_color(unit_owner(punit)),
@@ -509,16 +509,16 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode)
 {
   struct Sprite *tile_sprs[80];
-  int fill_bg; /* FIXME: should be bool */
+  bool solid_bg;
   struct player *pplayer;
   bool is_real = normalize_map_pos(&map_x, &map_y);
 
   if (is_real && tile_get_known(map_x, map_y)) {
     int count = fill_tile_sprite_array(tile_sprs, map_x, map_y, citymode,
-				       &fill_bg, &pplayer);
+				       &solid_bg, &pplayer);
     int i = 0;
 
-    if (fill_bg) {
+    if (solid_bg) {
       enum color_std color = pplayer ? player_color(pplayer)
 	      : COLOR_STD_BACKGROUND;
       gui_put_rectangle(pcanvas_store, color, canvas_x, canvas_y,

@@ -52,10 +52,12 @@ void tilespec_free_city_tiles(int count);
 int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			       struct Sprite **dither,
 			       int x, int y, bool citymode,
-			       int *solid_bg);
+			       bool *solid_bg);
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
-			   bool citymode, int *solid_bg, struct player **pplayer);
-int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit, int *solid_bg);
+			   bool citymode, bool *solid_bg,
+			   struct player **pplayer);
+int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit,
+			   bool *solid_bg);
 int fill_city_sprite_array_iso(struct Sprite **sprs, struct city *pcity);
 
 enum color_std player_color(struct player *pplayer);

@@ -1256,16 +1256,16 @@ static struct Sprite *get_city_occupied_sprite(struct city *pcity)
   Fill in the sprite array for the city
 ***********************************************************************/
 static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
-				  int *solid_bg)
+				  bool *solid_bg)
 {
   struct Sprite **save_sprs=sprs;
 
-  *solid_bg = 0;
+  *solid_bg = FALSE;
   if (!no_backdrop) {
     if(!solid_color_behind_units) {
       *sprs++ = get_city_nation_flag_sprite(pcity);
     } else {
-      *solid_bg = 1;
+      *solid_bg = TRUE;
     }
   }
 
@@ -1380,11 +1380,11 @@ static void build_tile_data(int map_x, int map_y,
   Fill in the sprite array for the unit
 ***********************************************************************/
 int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit,
-			   int *solid_bg)
+			   bool *solid_bg)
 {
   struct Sprite **save_sprs=sprs;
   int ihp;
-  *solid_bg = 0;
+  *solid_bg = FALSE;
 
   if (is_isometric) {
     if (!no_backdrop) {
@@ -1395,7 +1395,7 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit,
       if (!solid_color_behind_units) {
 	*sprs++ = get_unit_nation_flag_sprite(punit);
       } else {
-	*solid_bg = 1;
+	*solid_bg = TRUE;
       }
     }
   }
@@ -1820,7 +1820,7 @@ The sprites are drawn in the following order:
 int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
 			       struct Sprite **dither,
 			       int x, int y, bool citymode,
-			       int *solid_bg)
+			       bool *solid_bg)
 {
   enum tile_terrain_type ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
@@ -1828,7 +1828,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   struct city *pcity;
   struct Sprite **save_sprs = sprs;
 
-  *solid_bg = 0;
+  *solid_bg = FALSE;
 
   if (tile_get_known(x, y) == TILE_UNKNOWN)
     return -1;
@@ -1901,7 +1901,7 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
       }
     }
   } else {
-    *solid_bg = 1;
+    *solid_bg = TRUE;
 
     /* This call is duplicated because it is normally
      * drawn underneath rivers. */
@@ -2012,7 +2012,8 @@ The sprites are drawn in the following order:
 12) FoW
 ***********************************************************************/
 int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
-			   bool citymode, int *solid_bg, struct player **pplayer)
+			   bool citymode, bool *solid_bg,
+			   struct player **pplayer)
 {
   enum tile_terrain_type ttype, ttype_near[8];
   enum tile_special_type tspecial, tspecial_near[8];
@@ -2027,7 +2028,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   int den_y=map.ysize*.24;
 
   struct Sprite **save_sprs=sprs;
-  *solid_bg = 0;
+  *solid_bg = FALSE;
   *pplayer = NULL;
 
   ptile=map_get_tile(abs_x0, abs_y0);
@@ -2079,7 +2080,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   if (draw_terrain)
     *sprs++=mysprite;
   else
-    *solid_bg = 1;
+    *solid_bg = TRUE;
 
   if(is_ocean(ttype) && draw_terrain) {
     int dir;
@@ -2172,7 +2173,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   }
 
   if (pcity && draw_cities) {
-    int dummy;
+    bool dummy;
 
     sprs += fill_city_sprite_array(sprs, pcity, &dummy);
   }
@@ -2183,7 +2184,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
       if ((!focus_unit_hidden || pfocus != punit) &&
 	  (draw_units || (draw_focus_unit && !focus_unit_hidden
 			  && punit == pfocus))) {
-	int dummy;
+	bool dummy;
 
 	no_backdrop = (pcity != NULL);
 	sprs += fill_unit_sprite_array(sprs, punit, &dummy);
