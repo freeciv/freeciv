@@ -28,7 +28,6 @@
 #include "path_finding.h"
 #include "pf_tools.h"
 #include "player.h"
-#include "rand.h"
 #include "shared.h"
 #include "timing.h"
 #include "unit.h"
