@@ -19,16 +19,7 @@ government = "Democracy"
 
 cities =
   "Dublin", "Belfast", "Cork", "Galway", "Lifford", "Drogheda", "Killarney",
-  "Sligo", "Wicklow", "Shannon", "Castlebar", "Foynes",
+  "Sligo", "Wicklow", "Waterford", "Shannon", "Castlebar", "Foynes",
   "Tullamore", "Derry", "Armagh", "Glenarm", "Ballina", "Dunglow",
-  "Tuam", "Ballycastle", "Ballinasloe", "Keady", "Bantry",
-  "Kenmare", "Edenderry", "Ballybunion", "Banagher"
-
-coastal_cities =
-  "Portlaoise"
-
-river_cities =
-  "Waterford"
-
-hills_cities =
-  "Carncastle"
+  "Tuam", "Ballycastle", "Ballinasloe", "Keady", "Portlaoise", "Bantry",
+  "Kenmare", "Edenderry", "Ballybunion", "Banagher", "Carncastle"

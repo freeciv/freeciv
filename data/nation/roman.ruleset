@@ -26,13 +26,12 @@ government="Republic"
 cities =
   "Roma", "Capua", "Veii", "Beneventum", "Corfinium", "Ancona",
   "Tarentum", "Brundisium", "Ravenna", "Pisa", "Genova", "Mediolanum",
-  "Aquileia", "Florentia", "Bononia", "Verona", "Ostia", 
+  "Aquileia", "Florentia", "Bononia", "Verona", "Ostia", "Agrigentum",
   "Syracusae", "Neapolis", "Pompeii", "Salernum", "Tarraco",
   "Carthago", "Barcino", "Bracara", "Carthago Nova", "Baiae",
   "Noviomagus", "Vindobona", "Atuatuca", "Caesarea", "Ierusalem",
-  "Trapezus", "Durocortorum", "Lutetia", "Burdigala", 
-  "Utica", "Lugdunum", "Londinium", 
-  "Camulodunum", "Dubris",
+  "Trapezus", "Durocortorum", "Lutetia", "Burdigala", "Portus Namnetum",
+  "Utica", "Lugdunum", "Londinium", "Aquae Sulis", "Camulodunum", "Dubris",
   "Eburacum", "Coriovallum", "Perusia", "Leptis Magna", "Corduba", "Edessa",
   "Ariminum", "Narbo Martius", "Pergamum", "Vienna", "Hispalis",
   "Salonae", "Cyrenae", "Dyrrachium", "Luni", "Noreia", "Ephesus",
@@ -42,12 +41,3 @@ cities =
   "Sabrata", "Attalea", "Sinope", "Hippo Regius", "Gesoriacum",
   "Velia", "Segesta", "Gaza", "Aleria", "Colonia Agrippina",
   "Agentoracum", "Moguntiacum", "Arretium", "Thapsus", "Altinum", "Tarsus"
-
-hills_cities =
-  "Aquae Sulis"
-
-grassland_cities =
-  "Agrigentum"
-
-coastal_cities =
-  "Portus Namnetum"

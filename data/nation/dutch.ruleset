@@ -26,33 +26,18 @@ government="Democracy"
 ;later important towns added at the end
 
 cities =
-  "Utrecht", "Leiden", "Haarlem", "Delft", 
+  "Amsterdam", "Utrecht", "Leiden", "Haarlem", "Delft", "Alkmaar",
   "Hoorn", "Enkhuizen", "'s-Gravenhage", "Dordrecht", "Gouda", "Naarden",
-  "Delfshaven", "Vlaardingen",
-  "Middelburg", "Goes", "Veere", "Vlissingen", 
+  "Rotterdam", "Delfshaven", "Schiedam", "Vlaardingen",
+  "Middelburg", "Goes", "Veere", "Vlissingen", "Brouwershaven",
   "Deventer", "Kampen", "Zutphen", "Zwolle", "Arnhem", "Amersfoort",
   "Groningen", "Leeuwarden", "Dokkum", "Sneek", "Stavoren", "Franeker",
-  "Breda", "Nijmegen", "Venlo", "Maastricht",
-  "Eindhoven", "Hulst", "Batavia", "Willemstad",
+  "Breda", "'s-Hertogenbosch", "Nijmegen", "Venlo", "Roermond", "Maastricht",
+  "Helmond", "Eindhoven", "Bergen op Zoom", "Hulst", "Batavia", "Willemstad",
   "Tilburg", "Enschede", "Hengelo", "Almelo", "Oss",
   "Heerlen", "Sittard", "Geleen", "Weert",
-  "Apeldoorn", "Ede", "Wageningen", 
-  "Assen", "Emmen", "Drachten", "Delfzijl", 
-  "Zaandam", "Beverwijk", "Velsen", "Purmerend", "Hilversum", "Bussum",  
-  "Woerden", "Spijkenisse", "Terneuzen", "Emmeloord", "Lelystad", "Almere"
-
-coastal_cities =
-  "Amsterdam", "Bergen op Zoom", "Rotterdam", "Schiedam", "Veendam",
-  "Brouwershaven", "Zoetermeer", "Alkmaar"
-
-swamp_cities =
-  "Veenendaal", "Hoogeveen"
-
-river_cities =
-  "Alphen a/d Rijn", "Capelle a/d IJssell", "Aalsmeerderbrug"
-
-forest_cities =
-  "'s-Hertogenbosch"
-
-hills_cities =
-  "Roermond", "Helmond"
+  "Apeldoorn", "Ede", "Wageningen", "Veenendaal",
+  "Assen", "Emmen", "Hoogeveen", "Drachten", "Delfzijl", "Veendam",
+  "Zaandam", "Beverwijk", "Velsen", "Purmerend", "Hilversum", "Bussum",
+  "Alphen a/d Rijn", "Zoetermeer", "Woerden", "Capelle a/d IJssel",
+  "Spijkenisse", "Terneuzen", "Emmeloord", "Lelystad", "Almere"

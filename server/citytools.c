@@ -52,11 +52,126 @@
 
 #include "citytools.h"
 
+static int evaluate_city_name_priority(int x, int y,
+				       struct city_name *city_name,
+				       int default_priority);
+static char *search_for_city_name(int x, int y, struct city_name *city_names);
 static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 				 enum city_tile_type type);
 
-char **misc_city_names; 
-int num_misc_city_names;
+struct city_name *misc_city_names;
+
+/****************************************************************
+Returns the priority of the city name at the given position,
+using its own internal algorithm.  Lower priority values are
+more desired, and all priorities are non-negative.
+
+This function takes into account game.natural_city_names, and
+should be able to deal with any future options we want to add.
+*****************************************************************/
+static int evaluate_city_name_priority(int x, int y,
+				       struct city_name *city_name,
+				       int default_priority)
+{
+  /* Lower values mean higher priority. */
+  float priority = (float)default_priority;
+  int goodness;
+  enum tile_terrain_type type;
+
+  /* Increasing this value will increase the difference caused by
+     (non-)matching terrain.  A matching terrain is mult_factor
+     "better" than an unlisted terrain, which is mult_factor
+     "better" than a non-matching terrain. */
+  const float mult_factor = 1.4;
+
+  /*
+   * If natural city names aren't being used, we just return the
+   * base value.  This will have the effect of the first-listed
+   * city being used.  We do this here rather than special-casing
+   * it elewhere because this localizes everything to this
+   * function, even though it's a bit inefficient.
+   */
+  if (!game.natural_city_names) {
+    return default_priority;
+  }
+
+  /*
+   * Assuming we're using the natural city naming system, we use
+   * an internal alorithm to calculate the priority of each name.
+   * It's a pretty fuzzy algorithm; we basically do the following:
+   *   - Change the priority scale from 0..n to 10..n+10.  This means
+   *     each successive city is 10% lower priority than the first.
+   *   - Multiply by a semi-random number.  This has the effect of
+   *     decreasing rounding errors in the successive calculations,
+   *     as well as introducing a smallish random effect.
+   *   - Check over all the applicable terrains, and
+   *     multiply or divide the priority based on whether or not
+   *     the terrain matches.  See comment below.
+   */
+
+  priority += 10.0;
+  priority *= 10.0 + myrand(5);
+
+  /*
+   * The terrain priority in the city_name struct will be either
+   * -1, 0, or 1.  We therefore take this as-is if the terrain is
+   * present, or negate it if not.
+   *
+   * The reason we multiply as well as divide the value is so
+   * that cities that don't care what terrain they are on (which
+   * is the default) will be left in the middle of the pack.  If
+   * we _only_ multiplied (or divided), then cities that had more
+   * terrain labels would have their priorities hurt (or helped).
+   */
+  goodness = map_has_special(x, y, S_RIVER) ?
+	      city_name->river : -city_name->river;
+  if (goodness > 0) {
+    priority /= mult_factor;
+  } else if (goodness < 0) {
+    priority *= mult_factor;
+  }
+
+  for (type = T_FIRST; type < T_COUNT; type++) {
+    /* Now we do the same for every available terrain. */
+    goodness = is_terrain_near_tile(x, y, type) ?
+		 city_name->terrain[type] : -city_name->terrain[type];
+    if (goodness > 0) {
+      priority /= mult_factor;
+    } else if (goodness < 0) {
+      priority *= mult_factor;
+    }
+  }
+
+  return (int)priority;	
+}
+
+/****************************************************************
+Searches through a city name list (a struct city_name array)
+to pick the best available city name, and returns a pointer to
+it.  The function checks if the city name is available and calls
+evaluate_city_name_priority to determine the priority of the
+city name.  If the list has no valid entries in it, NULL will be
+returned.
+*****************************************************************/
+static char *search_for_city_name(int x, int y, struct city_name *city_names)
+{
+  int choice, best_priority = -1;
+  char* best_name = NULL;
+
+  for (choice = 0; city_names[choice].name; choice++) {
+    if (!game_find_city_by_name(city_names[choice].name)) {
+      int priority = evaluate_city_name_priority(x, y, &city_names[choice],
+					         choice);
+
+      if (best_priority == -1 || priority < best_priority) {
+        best_priority = priority;
+        best_name = city_names[choice].name;
+      }
+    }
+  }
+
+  return best_name;
+}
 
 /****************************************************************
 Come up with a default name when a new city is about to be built.
@@ -69,9 +184,10 @@ by caller.
 *****************************************************************/
 char *city_name_suggestion(struct player *pplayer, int x, int y)
 {
-  char **nptr;
-  int i, j;
+  char *name;
+  int i;
   struct nation_type *nation = get_nation_by_plr(pplayer);
+  /* tempname must be static because it's returned below. */
   static char tempname[MAX_LEN_NAME];
 
   static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
@@ -81,54 +197,15 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
   
   CHECK_MAP_POS(x,y);
 
-#define SEARCH_AND_RETURN_CITY_NAME(list)   \
-    for(nptr=list; *nptr; nptr++) {         \
-      if(!game_find_city_by_name(*nptr)) {  \
-        return *nptr;                       \
-      }                                     \
-    }
-
-  /* 
-   * Use a special name if the tile has a river, is coastal or there
-   * is an available name depending on the terrain.
-   */ 
-
-  /* deal with rivers */
-  if (map_has_special(x, y, S_RIVER)) {
-    if (is_terrain_near_tile(x, y, T_OCEAN)) {
-      /* coastal river */
-      SEARCH_AND_RETURN_CITY_NAME(nation->default_crcity_names);
-    } else {
-      /* non-coastal river */
-      SEARCH_AND_RETURN_CITY_NAME(nation->default_rcity_names);
-    }
-  }
-
   /* coastal */
-  if (is_terrain_near_tile(x, y, T_OCEAN)) {
-    SEARCH_AND_RETURN_CITY_NAME(nation->default_ccity_names);
+  name = search_for_city_name(x, y, nation->city_names);
+  if (name) {
+    return name;
   }
-  
-  /* check terrain type */
-  SEARCH_AND_RETURN_CITY_NAME(nation->
-			      default_tcity_names[map_get_terrain(x, y)]);
 
-  /* we haven't found a name: it's a normal tile or they're all used */
-  SEARCH_AND_RETURN_CITY_NAME(nation->default_city_names);
-
-#undef SEARCH_AND_RETURN_CITY_NAME
-
-  if (num_misc_city_names > 0) {
-    j = myrand(num_misc_city_names);
-  
-    for (i = 0; i < num_misc_city_names; i++) {
-      if (j >= num_misc_city_names) {
-	j = 0;
-      }
-      if (!game_find_city_by_name(misc_city_names[j])) 
-	return misc_city_names[j];
-      j++;
-    }
+  name = search_for_city_name(x, y, misc_city_names);
+  if (name) {
+    return name;
   }
 
   for (i = 1; i <= num_tiles; i++ ) {
@@ -137,6 +214,8 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
       return tempname;
   }
   
+  /* This had better be impossible! */
+  assert(FALSE);
   return _("A poorly-named city");
 }
 

@@ -28,6 +28,27 @@ struct player;
 enum advisor_type {ADV_ISLAND, ADV_MILITARY, ADV_TRADE, ADV_SCIENCE, ADV_FOREIGN, 
                    ADV_ATTITUDE, ADV_DOMESTIC, ADV_LAST};
 
+/*
+ * The city_name structure holds information about a default choice for
+ * the city name.  The "name" field is, of course, just the name for
+ * the city.  The "river" and "terrain" fields are entries recording
+ * whether the terrain is present near the city - we give higher priority
+ * to cities which have matching terrain.  In the case of a river we only
+ * care if the city is _on_ the river, for other terrain features we give
+ * the bonus if the city is close to the terrain.  Both of these entries
+ * may hold a value of 0 (no preference), 1 (city likes the terrain), or -1
+ * (city doesn't like the terrain).
+ *
+ * This is controlled through the nation's ruleset like this:
+ *   cities = "Washington (ocean, river, swamp)", "New York (!mountains)"
+ */
+typedef int ternary;
+struct city_name {
+  char* name;
+  ternary river;
+  ternary terrain[T_COUNT];	
+};
+
 struct nation_type {
   char name[MAX_LEN_NAME];
   char name_plural[MAX_LEN_NAME];
@@ -37,11 +58,7 @@ struct nation_type {
   char *leader_name[MAX_NUM_LEADERS];
   bool  leader_is_male[MAX_NUM_LEADERS];
   int city_style;
-  char **default_city_names;
-  char **default_rcity_names;		/* river city names */
-  char **default_crcity_names;		/* coastal-river city names */
-  char **default_ccity_names;		/* coastal city names */
-  char **default_tcity_names[T_COUNT];	/* terrain-specific city names */
+  struct city_name *city_names;		/* The default city names. */
   struct Sprite *flag_sprite;
 
   /* untranslated copies: */

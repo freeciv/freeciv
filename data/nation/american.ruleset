@@ -28,26 +28,14 @@ cities =
   "Atlanta", "Chicago", "Buffalo", "St. Louis", "Detroit",
   "New Orleans", "Baltimore", "Denver", "Cincinnati", "Dallas",
   "Minneapolis", "Houston", "San Antonio", "San Francisco", "Seattle",
-  "Miami", "Cleveland", "Pittsburgh", "Salt Lake City", "San Diego", 
-  "Phoenix", "Kansas City", "Indianapolis", "Orlando", "Milwaukee", 
-  "Honolulu", "Las Vegas", "Nashville", 
-  "Charlotte", "El Paso", "Spokane", "Tacoma", "Fort Worth", "Austin", 
-  "Sacramento", "Oklahoma City", "St. Paul", "Jacksonville", 
-  "Madison", "Lubbock", "Amarillo", "Omaha", "Baton Rouge", "Tucson",
-  "Erie", "Flint", "Trenton", "Newark", "Arlington", "Reno",
+  "Portland", "Miami", "Cleveland", "Pittsburgh",
+  "Salt Lake City", "San Diego", "Phoenix", "Kansas City", "Indianapolis",
+  "Orlando", "Milwaukee", "Honolulu", "Boise", "Las Vegas", "Springfield",
+  "Nashville", "Hartford", "Charlotte", "El Paso", "Anchorage",
+  "Spokane", "Tacoma", "Fort Worth", "Austin", "Sacramento", "Oklahoma City",
+  "St. Paul", "Jacksonville", "Sioux Falls", "Madison", "Lubbock",
+  "Amarillo", "Omaha", "Baton Rouge", "Little Rock", "Tucson",
+  "Erie", "Flint", "Trenton", "Newark", "Arlington", "Richmond", "Reno",
   "Santa Fe", "Tulsa", "Anapolis", "Dover", "Akron", "Urbana-Champaign"
 
-river_cities = 
-  "Riverside", "Grand Rapids", "Hartford", "Sioux Falls"
 
-plains_cities =
-  "Springfield"
-
-coastal_cities =
-  "Portland", "Long Beach", "Virginia Beach", "Huntington Beach"
-
-hills_cities =
-  "Colorado Springs", "Mesa", "Anchorage", "Richmond", "Little Rock"
-
-forest_cities =
-  "Boise"

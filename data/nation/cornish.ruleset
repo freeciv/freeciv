@@ -18,22 +18,11 @@ wonder = "King Richard's Crusade"
 government = "Republic"
 
 cities =
-  "Bodmin", "Redruth", "Helston", "St. Keverne", "St. Mewan",
+  "Truro", "Newquay", "Falmouth", "Penzance", "Bodmin",
+  "St. Ives", "Redruth", "Helston", "Saltash", "Wadebridge",
+  "St. Austell", "Penryn", "Torpoint", "St. Keverne", "St. Mewan",
   "St. Dennis", "Bugle", "St. Stephen", "Grampound", "Trewoon",
-  "Tregony", "Coombe", "Bissoe", "Swanpool", "Reawla", 
-  "Hellesveor", "Trink" 
-
-river_cities =
-  "Wadebridge", "Polmassick", "Ladock", "Crowlas"
-
-coastal_river_cities = 
-  "Newquay", "Saltash", "Torpoint","Lelant"
-
-coastal_cities =
-  "Truro", "Falmouth", "Penzance", "St Ives", 
-  "St Austell", "Newlyn", "Mousehole", "Marazion",
-  "Penryn", "St Mawes", "Gwithian"
-
-hills_cities =
-  "Cardinham", "North hill", "Michaelstow", "Bolventor",
-  "Halvosso", "Madron"
+  "Tregony", "Polmassick", "Ladock", "Coombe", "St. Mawes",
+  "Bissom", "Swanpool", "Halvosso", "Newlyn", "Mousehole",
+  "Marazion", "Madron", "Crowlas", "Reawla", "Hellesveor",
+  "Trink", "Lelant", "Gwithian"

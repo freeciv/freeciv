@@ -31,19 +31,9 @@ wonder="Hoover Dam"
 government="Democracy"
 
 cities =
-  "Caerphily", "Llanfyllin", "Abergavenny", "Wrexham"
+  "Cardiff", "Swansea", "Newport", "Barry", "Port Talbot", "Carmarthen",
+  "Caerphily", "Methyr Tydfil", "Pembroke", "Fishguard", "Aberystwith",
+  "Lampeter", "Llandovery", "Brecon", "Flint", "Caemarfon", "Llanfyllin",
+  "Holyhead", "Tywyn", "Llandeilo", "Cwmbran"
 
-river_cities =
-  "Carmarthen", "Brecon", "Llandovery", "Llandeilo", "Cwmbran", 
-  "Methyr Tydfil", "Lampeter", "Pontypool"
 
-coastal_river_cities =
-  "Cardiff", "Swansea",  "Aberystwith", "Newport", "Port Talbot", 
-  "Pembroke", "MilfordHaven", "Bridgend", "Flint"
-
-coastal_cities =
-  "Barry", "Colwyn Bay", "Bangor", "Fishguard", "Cardigan", "Holyhead",
-  "Porthmadog", "Caernarfon", "Tywyn"
-
-hills_cities =
-  "Machynlleth", "Carno"

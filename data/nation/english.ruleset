@@ -26,36 +26,19 @@ wonder="King Richard's Crusade"
 government="Democracy"
 
 cities =
-  "Birmingham", "Manchester", "Coventry",
-  "Leicester", "Bolton", "Colchester", "Gloucester",
-  "Durham", "Eastleigh", "Winchester",
-  "Hereford", "Ipswich", "Kettering", 
-  "Leek", "*Lutterworth", 
-  "Market Bosworth", "Market Harborough",  
-  "Stevenage", "Swindon", 
-  "Wolverhampton", "Yeovil", "*Halifax", 
-  "Rochdale", "Burnley"  
+  "London", "Birmingham", "Liverpool", "Manchester", "Leeds", "York",
+  "Newcastle", "Canterbury", "Bradford", "Derby", "Southampton",
+  "Middlesborough", "Sheffield", "Nottingham", "Coventry", "Bath", "Bristol",
+  "Brighton", "Portsmouth", "Hull", "Leicester", "Plymouth", "Bournemouth",
+  "Sunderland", "Stoke-on-Trent", "Bolton", "Norwich", "Oxford", "Colchester",
+  "Reading", "Cambridge", "Gloucester", "Blackpool", "Stratford-upon-Avon",
+  "Durham", "Eastleigh", "Winchester", "Folkestone", "Dover",
+  "Huntingdon", "Hereford", "Ipswich", "Kettering", "King's Lynn",
+  "Kidderminster", "Leek", "Lincoln", "Lutterworth", "Macclesfield",
+  "Market Bosworth", "Market Harborough", "Melton Mowbray", "Nuneaton",
+  "Oakham", "Peterborough", "Pickering", "Preston", "Poole", "Rochester",
+  "Ramsgate", "Southend", "Stevenage", "Ashford", "Swindon", "Torquay",
+  "Wolverhampton", "Weymouth", "Yeovil", "Halifax", "Oldham",
+  "Rochdale", "Blackburn", "Burnley", "Lancaster", "Northampton",
+  "Salisbury", "Cowes"
 
-river_cities = 
-  "London", "Leeds", "Hull", "Nottingham", "Stratford-upon-Avon", "Bradford",
-  "York", "Derby","Middlesbrough", "Oxford", "Cambridge", "Stoke-on-Trent",
-  "Plymouth", "Norwich", "Northampton", "Canterbury", "Sheffield", "Bath",
-  "Salisbury", "Reading","Huntingdon", "Lincoln", "Peterborough", "Preston", 
-  "Blackburn", "Lancaster","Pickering","Kidderminster", "Melton Mowbray", 
-  "Nuneaton", "Oakham", "Ashford"
-
-coastal_river_cities = 
-  "Liverpool", "Newcastle",
-  "Southhampton", "Bristol", "Bournemouth", "SunderLand",
-  "King's Lynn", "Rochester"
-
-coastal_cities = 
-  "Blackpool", "Dover", "Ramsgate", "Folkestone", "Brighton","Poole",
-  "Weymouth", "Torquay", "Portsmouth","Cowes", "Southend"
-
-grassland_cities =
-  "Macclesfield"
-
-hills_cities = 
-  "Great Malvern", "Cheddar", "Crowborough", "Burgess Hill", "Avebury", 
-  "Penrith", "Kendal"

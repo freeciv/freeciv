@@ -607,6 +607,13 @@ static struct settings_s settings[] = {
 	      "choosed city, regardless on the knowledge of Masonry."), NULL, 
 	   GAME_DEFAULT_SAVEPALACE)
 
+  GEN_BOOL("naturalcitynames", game.natural_city_names,
+           SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+           N_("Whether to use natural city names"),
+           N_("If enabled, the default city names will be determined based "
+              "on the surrounding terrain."),
+           NULL, GAME_DEFAULT_NATURALCITYNAMES)
+
 /* Meta options: these don't affect the internal rules of the game, but
  * do affect players.  Also options which only produce extra server
  * "output" and don't affect the actual game.

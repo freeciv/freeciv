@@ -31,6 +31,7 @@
 #include "nation.h"
 #include "packets.h"
 #include "registry.h"
+#include "shared.h"
 #include "support.h"
 #include "tech.h"
 #include "unit.h"
@@ -76,6 +77,9 @@ static void load_government_names(struct section_file *file);
 static void load_terrain_names(struct section_file *file);
 static void load_citystyle_names(struct section_file *file);
 static void load_nation_names(struct section_file *file);
+static struct city_name* load_city_name_list(struct section_file *file,
+					     char *secfile_str1,
+					     char *secfile_str2);
 
 static void load_ruleset_techs(struct section_file *file);
 static void load_ruleset_units(struct section_file *file);
@@ -1833,6 +1837,141 @@ static void load_nation_names(struct section_file *file)
 }
 
 /**************************************************************************
+  This function loads a city name list from a section file.  The file and
+  two section names (which will be concatenated) are passed in.  The
+  malloc'ed city name list (which is all filled out) will be returned.
+**************************************************************************/
+static struct city_name* load_city_name_list(struct section_file *file,
+					     char *secfile_str1,
+					     char *secfile_str2)
+{
+  int dim, j;
+  struct city_name *city_names;
+  int value;
+
+  /* First we read the strings from the section file (above). */
+  char **cities = secfile_lookup_str_vec(file, &dim, "%s%s",
+                                         secfile_str1, secfile_str2);
+
+  /*
+   * Now we allocate enough room in the city_names array to store
+   * all the name data.  The array is NULL-terminated by
+   * having a NULL name at the end.
+   */
+  city_names = fc_calloc(dim + 1, sizeof(struct city_name));
+  city_names[dim].name = NULL;
+
+  /*
+   * Each string will be of the form
+   * "<cityname> (<label>, <label>, ...)".  The cityname is just the
+   * name for this city, while each "label" matches a terrain type
+   * for the city (or "river"), with a preceeding !, -, or ~ to negate
+   * it.  The parentheses are optional (but necessary to have the
+   * settings, of course).  Our job is now to parse this into the
+   * city_name structure.
+   */
+  for (j = 0, value = 1; j < dim; j++, value++) {
+    char *name = strchr(cities[j], '(');
+
+    /*
+     * Now we wish to determine values for all of the city labels.
+     * A value of 0 means no preference (which is necessary so that
+     * the use of this is optional); -1 means the label is negated
+     * and 1 means it's labelled.  Mostly the parsing just involves
+     * a lot of ugly string handling...
+     */
+    memset(city_names[j].terrain, 0,
+	   T_COUNT * sizeof(city_names[j].terrain[0]));
+    city_names[j].river = 0;
+
+    if (name) {
+      /*
+       * 0-terminate the original string, then find the
+       * close-parenthesis so that we can make sure we stop there.
+       */
+      char *next = strchr(name + 1, ')');
+      if (!next) {
+	freelog(LOG_ERROR,
+	        "Badly formed city name %s in city name "
+	        "ruleset \"%s%s\": unmatched parenthesis.",
+	        cities[j], secfile_str1, secfile_str2);
+	assert(FALSE);
+      } else { /* if (!next) */
+        name[0] = next[0] = '\0';
+        name++;
+
+        /* Handle the labels one at a time. */
+        do {
+	  int setting;
+
+	  next = strchr(name, ',');
+	  if (next) {
+	    next[0] = '\0';
+	  }
+	  remove_leading_trailing_spaces(name);
+	
+	  /*
+	   * The ! is used to mark a negative, which is recorded
+	   * with a -1.  Otherwise we use a 1.  '-' and '~' have
+	   * the same meaning.
+	   */
+	  if (name[0] == '!' || name[0] == '-' || name[0] == '~') {
+	    name++;
+	    setting = -1;
+	  } else {
+	    setting = 1;
+	  }
+	
+	  if (!strcmp(name, "river")) {
+	    city_names[j].river = setting;
+	  } else {
+	    /* "handled" tracks whether we find a match (for error handling) */
+	    bool handled = FALSE;
+	    enum tile_terrain_type type;
+	
+	    for (type = T_FIRST; type < T_COUNT && !handled; type++) {
+              /*
+               * Note that at this time (before a call to
+               * translate_data_names) the terrain_name fields contains an
+               * untranslated string.  Note that name of T_RIVER is "".
+               * However this is not a problem because we take care of rivers
+               * separately.
+               */
+	      if (!mystrcasecmp(name, tile_types[type].terrain_name)) {
+	        city_names[j].terrain[type] = setting;
+	        handled = TRUE;
+	      }
+	    }
+	    if (!handled) {
+	      freelog(LOG_ERROR, "Unreadable terrain description %s "
+	              "in city name ruleset \"%s%s\" - skipping it.",
+	    	      name, secfile_str1, secfile_str2);
+	      assert(FALSE);
+	    }
+	  }
+	  name = next ? next + 1 : NULL;
+        } while (name && name[0]);
+      } /* if (!next) */
+    } /* if (name) */
+    remove_leading_trailing_spaces(cities[j]);
+    city_names[j].name = mystrdup(cities[j]);
+    if (check_name(city_names[j].name)) {
+      /* The ruleset contains a name that is too long.  This shouldn't
+	 happen - if it does, the author should get immediate feedback */
+      freelog(LOG_ERROR, "City name %s in ruleset for %s%s is too long "
+	      "- shortening it.",
+              city_names[j].name, secfile_str1, secfile_str2);
+      assert(FALSE);
+      city_names[j].name[MAX_LEN_NAME - 1] = '\0';
+    }
+  }
+  if (cities) {
+    free(cities);
+  }
+  return city_names;
+}
+
+/**************************************************************************
 Load nations.ruleset file
 **************************************************************************/
 static void load_ruleset_nations(struct section_file *file)
@@ -1842,9 +1981,8 @@ static void load_ruleset_nations(struct section_file *file)
   struct government *gov;
   int *res, dim, val, i, j, nval;
   char temp_name[MAX_LEN_NAME];
-  char **cities, **techs, **leaders, **sec;
+  char **techs, **leaders, **sec;
   const char *filename = secfile_filename(file);
-  enum tile_terrain_type type;
 
   datafile_options = check_ruleset_capabilities(file, "+1.9", filename);
 
@@ -2054,72 +2192,13 @@ static void load_ruleset_nations(struct section_file *file)
 
     /* read city names */
 
-#define BASE_READ_CITY_NAME_LIST(target,format,arg1,arg2,arg3)  \
-  cities = secfile_lookup_str_vec(file, &dim, format,           \
-                                  arg1, arg2, arg3);            \
-  target = fc_calloc(dim + 1, sizeof(char *));                  \
-  target[dim] = NULL;                                           \
-  for (j = 0; j < dim; j++) {                                   \
-    target[j] = mystrdup(cities[j]);                            \
-    if (check_name(cities[j])) {                                \
-      target[j][MAX_LEN_NAME - 1] = 0;                          \
-    }                                                           \
-  }                                                             \
-  if (cities) {                                                 \
-    free(cities);                                               \
-  }
-
-#define READ_CITY_NAME_LIST(target_field,format,arg)            \
-  BASE_READ_CITY_NAME_LIST(pl->target_field, "%s." format "%s", \
-                           sec[i], arg, "cities")
-
     /* read "normal" city names */
-    READ_CITY_NAME_LIST(default_city_names, "%s", "");
 
-    /* read river city names */
-    READ_CITY_NAME_LIST(default_rcity_names, "%s", "river_");
-
-    /* read coastal-river city names */
-    READ_CITY_NAME_LIST(default_crcity_names, "%s","coastal_river_");
-
-    /* read coastal city names */
-    READ_CITY_NAME_LIST(default_ccity_names, "%s", "coastal_");
-
-    /* 
-     * Read terrain-specific city names. 
-     */    
-    for (type = T_FIRST; type < T_COUNT; type++) {
-      size_t k;
-      char namebuf[MAX_LEN_NAME];
-
-      /*
-       * Note that at this time (before a call to
-       * translate_data_names) the terrain_name fields contains an
-       * untranslated string. Note that name of T_RIVER is "". However
-       * this is not a problem because we take care of this using
-       * default_rcity_names.
-       */
-      (void) mystrlcpy(namebuf, tile_types[type].terrain_name,
-		       sizeof(tile_types[type].terrain_name));
-
-      /* transform to lower case */
-      for (k = 0; k < strlen(namebuf); k++) {
-	namebuf[k] = tolower(namebuf[k]);
-      }
-
-      READ_CITY_NAME_LIST(default_tcity_names[type], "%s_", namebuf);
-    }
+    pl->city_names = load_city_name_list(file, sec[i], ".cities");
   }
 
   /* read miscellaneous city names */
-  BASE_READ_CITY_NAME_LIST(misc_city_names, "misc.cities%s%s%s", "", "",
-			   "");
-
-  /* dim is set in BASE_READ_CITY_NAME_LIST */
-  num_misc_city_names = dim;
-
-#undef READ_CITY_NAME_LIST
-#undef BASE_READ_CITY_NAME_LIST
+  misc_city_names = load_city_name_list(file, "misc.cities", "");
 
   free(sec);
   section_file_check_unused(file, filename);

@@ -167,6 +167,9 @@ void alloc_nations(int num)
   nations = (struct nation_type *)fc_calloc(num, sizeof(struct nation_type));
 }
 
+/***************************************************************
+ De-allocate the currently allocated nations.
+***************************************************************/
 void free_nations(int num)
 {
   int i, j;
@@ -175,6 +178,15 @@ void free_nations(int num)
   for( i = 0; i < num; i++) {
     for( j = 0; j < nations[i].leader_count; j++) {
       free( nations[i].leader_name[j] );
+    }
+    if (nations[i].city_names) {
+      /* Unfortunately, this monstrosity of a loop is necessary given the 
+	 setup of city_names.  But that setup does make things simpler
+	 elsewhere. */
+      for (j = 0; nations[i].city_names[j].name; j++) {
+	free(nations[i].city_names[j].name);
+      }
+      free(nations[i].city_names);
     }
   }
   free(nations);

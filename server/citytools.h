@@ -15,6 +15,7 @@
 
 #include "packets.h"
 #include "city.h"
+#include "nation.h" /* for struct city_name */
 
 #define FOOD_WEIGHTING 19
 #define SHIELD_WEIGHTING 17
@@ -80,8 +81,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 			 int target, bool is_unit, int event);
 
 char *city_name_suggestion(struct player *pplayer, int x, int y);
-extern char **misc_city_names; 
-extern int num_misc_city_names;
+extern struct city_name *misc_city_names;
 
 
 bool city_can_work_tile(struct city *pcity, int city_x, int city_y);

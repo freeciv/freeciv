@@ -24,38 +24,19 @@ wonder="Hoover Dam"
 government="Democracy"
 
 cities =
-  "Canberra", "Sydney", "Brisbane", "Adelaide", "Perth",
+  "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide", "Perth",
   "Darwin", "Hobart", "Wollongong", "Rockhampton", "Launceston",
   "Townsville", "Albany", "Bunbury", "Kalgoorlie", "Meekatharra",
-  "Winton", "Quilpie", "Cairns", "Ballarat",
+  "Winton", "Alice Springs", "Quilpie", "Cairns", "Southport", "Ballarat",
   "Waneroo", "Fremantle", "Whyalla", "Albury", "Bathurst", "Dubbo",
-  "Mackay", "Newcastle", "Monkey Mia", "Grafton",
+  "Mackay", "Newcastle", "Byron Bay", "Monkey Mia", "Grafton",
   "Wagga Wagga", "Lismore", "Bourke", "Tamworth", "Woomera", "Carnarvon",
-  "Esperance", "Katherine", "Oodnadatta", "Hughenden",
-  "Geelong", "Wyndham", "Broome", "Onslow", "Geraldton", "Meekathrra", 
-  "Ceduna", "Longreach", "Renmark", "Mildura", "Hay", "Bega", "Toowoomba",
+  "Esperance", "Katherine", "Oodnadatta", "Broken Hill", "Hughenden",
+  "Geelong", "Mt. Isa", "Pine Creek", "Daly Waters", "Wyndham", "Broome",
+  "Onslow", "Geraldton", "Meekathrra", "Tennant Creek", "Ceduna",
+  "Longreach", "Renmark", "Mildura", "Hay", "Bega", "Toowoomba",
   "Queenstown", "Coober Pedy", "Bendigo", "Derby", "Cunnamulla", "Walgett",
-  "Dampier", "Yorketown", "Kiama", "Moe", "Warwick", 
+  "Dampier", "Exmouth", "Yorketown", "Kiama", "Moe", "Warwick", "Gosford",
   "Bowen", "Ingham", "Gympie", "Caloundra", "Taree", "Katoomba", "Proserpine"
 
-river_cities = 
-  "Badgery's Creek", "Bridgetown", "Brookton", "Coldstream", "Fall's Creek",
-  "Isisford", "Swanbourne", "Melbourne", "Tennant Creek", "Gosford"
 
-coastal_river_cities =
-  "Byron Bay", "Southport", "Daly Waters", "Exmouth"
-
-coastal_cities =
-  "Adele Island", "Airey's Inlet", "Black Point", 
-  "Blackwater", "Bull Bay", "Cape Don", "Coff's Harbour", "Cygnet Bay",
-  "Eddystone Point", "Jervis Bay", "Bateman's Bay", "Northcliffe",
-  "Port Augusta", "Port Fairy", "Port Macquarie", "Redcliffe", "Swansea",
-  "Victor Harbour", "White Cliffs"
-
-
-hills_cities =
-  "Alice Springs", "Ararat", "Balgo Hills", "Broken Hill", "Dunn's Hill", 
-  "Hillston", "Hunter's Hill", "Lookout Hill", "Swan Hill", "Mt. Isa"
-
-forest_cities =
-  "Pine Creek", "Braidwood", "Homebush", "Inglewood"

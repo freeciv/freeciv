@@ -32,25 +32,16 @@ government="Democracy"
 
 cities =
   "Santiago", "La Serena", "Concepción", "Valparaíso", "Rancagua",
-  "Talca", "Punta Arenas", "Copiapó", "Antofagasta",
-  "Iquique", "Coyhaique", "Temuco", "Coquimbo",
+  "Talca", "Punta Arenas", "Copiapó", "Puerto Montt", "Antofagasta",
+  "Iquique", "Coyhaique", "Temuco", "Viña del mar", "Coquimbo",
   "San Antonio", "La Calera", "Chillán", "Talcahuano", "Osorno",
-  "Valdivia", "Llanquihue", "Ancud", "Castro", "Calama",
-  "Arica", "Constitución", "Chañaral", "Cauquenes", 
-  "Talagante", "Melipilla", "Peumo", "Lota", "Ovalle",
+  "Valdivia", "Puerto Varas", "Llanquihue", "Ancud", "Castro", "Calama",
+  "Arica", "Constitución", "Chañaral", "Cauquenes", "Puente alto",
+  "Talagante", "Melipilla", "Peumo", "Puerto Natales", "Lota", "Ovalle",
   "Huasco", "Mejillones", "Victoria", "San Felipe", "Frutillar",
   "Illapel", "Angol", "San Fernando", "Toltén", "Curicó", "Pisagua",
   "Tocopilla", "Vallenar", "Caldera", "Lebu", "La Ligua", "Villarrica",
   "Pucón", "Mulchén", "Taltal", "Putre", "Vicuña", "Combarbalá",
-  "Quillota", "Molina", "Chanco", "Parral", "Bulnes",
+  "Los Andes", "Quillota", "Molina", "Chanco", "Parral", "Bulnes",
   "Yungay", "Coronel", "Yumbel", "Traiguén", "Pitrufquén", "Calbuco",
   "Maullín", "Pelequén", "Cachiyuyo"
-
-coastal_cities =
-  "Puerto Montt", "Viña del mar", "Puerto Varas", "Puerto Natales"
-
-river_cities =
-  "Puente alto"
-
-hills_cities =
-  "Los Andes"

@@ -129,6 +129,7 @@ struct civ_game {
   int sewer_size;
   int add_to_size_limit;
   bool savepalace;
+  bool natural_city_names;
   bool spacerace;
   bool turnblock;
   bool fixedlength;
@@ -334,6 +335,8 @@ extern bool is_server;
 #define GAME_MAX_CIVILWARSIZE        1000
 
 #define GAME_DEFAULT_SAVEPALACE      TRUE
+
+#define GAME_DEFAULT_NATURALCITYNAMES TRUE
 
 #define GAME_DEFAULT_FOODBOX         10
 #define GAME_MIN_FOODBOX             5

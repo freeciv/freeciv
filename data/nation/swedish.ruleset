@@ -78,22 +78,11 @@ government="Democracy"
 ; */ <-- avoid gettext warnings
 
 cities =
- "Uppsala", "Sigtuna", "Sollentuna", "Husaby", "Falun", "Mora",
- "Visby", "Viborg", "Gävle", "Göteborg", "Karlstad", "Kalmar",
- "Helsingborg", "Ystad", "Lund", "Halmstad", "Kristianstad",
- "Karlskrona", "Trollhättan", "Åstorp"
-
-river_cities =
-  "Örebro", "Luleå", "Piteå", "Skellefteå", "Umeå", "Jokkmokk", "Åhus"
-
-coastal_river_cities = "Orsa"
-
-grassland_cities = "Linköping", "Norrköping", "Jönköping", "Nyköping"
-
-coastal_cities =
-  "Birka", "Holmgård", "Stockholm", "Malmö", "Växjö", "Hässleholm",
-  "Östersund", "Oskarshamn", "Söderhamn", "Sundsvall"
-
-hills_cities = "Västerås", "Kiruna"
-
-forest_cities = "Karlskoga", "Hultsfred", "Skoghall"
+ "Stockholm", "Uppsala", "Sollentuna", "Sigtuna", "Birka",
+ "Norrköping", "Linköping", "Örebro", "Gävle", "Västerås",
+ "Göteborg", "Karlstad", "Växjö", "Kalmar", "Visby",
+ "Malmö", "Helsingborg", "Ystad",  "Lund", "Luleå", "Kiruna",
+ "Halmstad", "Östersund", "Nyköping", "Söderhamn", "Sundsvall",
+ "Piteå", "Skellefteå", "Umeå", "Jönköping", "Kristianstad",
+ "Karlskrona", "Mora", "Oskarshamn", "Hässleholm", "Falun",
+ "Viborg", "Holmgård", "Orsa", "Trollhättan", "Jokkmokk"
