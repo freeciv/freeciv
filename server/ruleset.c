@@ -715,6 +715,11 @@ static void load_ruleset_units(struct section_file *file)
     u->gold_cost   = secfile_lookup_int(file, "%s.uk_gold", sec[i]);
 
     u->helptext = lookup_helptext(file, sec[i]);
+
+    /* These may be overwritten later. */
+    u->paratroopers_range = 0;
+    u->paratroopers_mr_req = 0;
+    u->paratroopers_mr_sub = 0;
   } unit_type_iterate_end;
   
   /* flags */
@@ -746,16 +751,13 @@ static void load_ruleset_units(struct section_file *file)
       assert(unit_type_flag(i, ival));
 
       if(ival == F_PARATROOPERS) {
+	/* Overwrite the earlier values. */
         u->paratroopers_range = secfile_lookup_int(file,
             "%s.paratroopers_range", sec[i]);
         u->paratroopers_mr_req = 3*secfile_lookup_int(file,
             "%s.paratroopers_mr_req", sec[i]);
         u->paratroopers_mr_sub = 3*secfile_lookup_int(file,
             "%s.paratroopers_mr_sub", sec[i]);
-      } else {
-        u->paratroopers_range = 0;
-        u->paratroopers_mr_req = 0;
-        u->paratroopers_mr_sub = 0;
       }
     }
     free(slist);
