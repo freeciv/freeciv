@@ -387,7 +387,7 @@ int reinforcements_cost(struct unit *punit, int x, int y)
 
 int is_my_turn(struct unit *punit, struct unit *pdef)
 {
-  int val = unit_belligerence_primitive(punit), i, j, cur;
+  int val = unit_belligerence_primitive(punit), i, j, cur, d;
   struct tile *ptile;
   for (j = pdef->y - 1; j <= pdef->y + 1; j++) {
     if (j < 0 || j >= map.xsize) continue;
@@ -396,9 +396,10 @@ int is_my_turn(struct unit *punit, struct unit *pdef)
       unit_list_iterate(ptile->units, aunit)
         if (aunit == punit || aunit->owner != punit->owner) continue;
         if (!can_unit_attack_unit_at_tile(aunit, pdef, pdef->x, pdef->y)) continue;
+        d = get_virtual_defense_power(aunit->type, pdef->type, pdef->x, pdef->y);
+        if (!d) return 1; /* Thanks, Markus -- Syela */
         cur = unit_belligerence_primitive(aunit) *
-              get_virtual_defense_power(punit->type, pdef->type, pdef->x, pdef->y) /
-              get_virtual_defense_power(aunit->type, pdef->type, pdef->x, pdef->y);
+              get_virtual_defense_power(punit->type, pdef->type, pdef->x, pdef->y) / d;
         if (cur > val) return(0);
       unit_list_iterate_end;
     }
