@@ -500,12 +500,12 @@ static int get_lanservers(HWND list)
 
     server_list_iterate(*server_list, pserver) {
 
-      row[0] = pserver->name;
+      row[0] = pserver->host;
       row[1] = pserver->port;
       row[2] = pserver->version;
-      row[3] = _(pserver->status);
-      row[4] = pserver->players;
-      row[5] = pserver->metastring;
+      row[3] = _(pserver->state);
+      row[4] = pserver->nplayers;
+      row[5] = pserver->message;
 
       fcwin_listview_add_row(list,0,6,row);
 
@@ -542,12 +542,12 @@ static int get_meta_list(HWND list, char *errbuf, int n_errbuf)
     row[i] = buf[i];
 
   server_list_iterate(*server_list, pserver) {
-    sz_strlcpy(buf[0], pserver->name);
+    sz_strlcpy(buf[0], pserver->host);
     sz_strlcpy(buf[1], pserver->port);
     sz_strlcpy(buf[2], pserver->version);
-    sz_strlcpy(buf[3], _(pserver->status));
-    sz_strlcpy(buf[4], pserver->players);
-    sz_strlcpy(buf[5], pserver->metastring);
+    sz_strlcpy(buf[3], _(pserver->state));
+    sz_strlcpy(buf[4], pserver->nplayers);
+    sz_strlcpy(buf[5], pserver->message);
     fcwin_listview_add_row(list, 0, 6, row);
   } server_list_iterate_end;
   
