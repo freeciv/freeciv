@@ -534,6 +534,31 @@ static void end_turn(void)
   marco_polo_make_contact();
   make_history_report();
   send_player_turn_notifications(NULL);
+
+  /* Output some ranking and AI debugging info here. */
+  if (game.turn % 10 == 0) {
+    players_iterate(pplayer) {
+      int workers = 0, food = 0, shields = 0, trade = 0, settlers = 0;
+
+      /* Compile statistics */
+      unit_list_iterate(pplayer->units, punit) {
+        if (unit_flag(punit, F_CITIES)) {
+          settlers++; 
+        }
+      } unit_list_iterate_end;
+      city_list_iterate(pplayer->cities, pcity) {
+        workers += pcity->size;
+        shields += pcity->shield_prod;
+        food += pcity->food_prod;
+        trade += pcity->trade_prod;
+      } city_list_iterate_end;
+      gamelog(GAMELOG_NORMAL, "INFO %s cities %d, pop %d "
+              "food %d, prod %d, trade %d, settlers %d, units %d",
+              pplayer->name, city_list_size(&pplayer->cities), workers, food,
+              shields, trade, settlers, unit_list_size(&pplayer->units));
+    } players_iterate_end;
+  }
+
   freelog(LOG_DEBUG, "Turn ended.");
   game.turn_start = time(NULL);
 }
