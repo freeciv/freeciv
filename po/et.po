@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2002-07-14 16:00+0200\n"
-"PO-Revision-Date: 2002-07-15 12:13+0300\n"
+"PO-Revision-Date: 2002-07-22 16:44+0300\n"
 "Last-Translator: Ahti Akel <akel@stallion.ee>\n"
 "Language-Team: estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -62,8 +62,8 @@ msgstr ""
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
 msgstr ""
-"Freeciv tuleb kompileerida DEBUG võtmega, et saaks kasutada debug levelit "
-"%d.\n"
+"Freeciv tuleb kompileerida DEBUG võtmega, et saaks kasutada debug "
+"levelit %d.\n"
 
 #: common/log.c:104 common/log.c:115 common/log.c:155
 #, c-format
@@ -83,7 +83,7 @@ msgstr "Tühi failinimi log level argumendis \"%s\".\n"
 #: common/log.c:259
 #, c-format
 msgid "Couldn't open logfile: %s for appending.\n"
-msgstr ""
+msgstr "Ei suuda lisamiseks %s faili avada.\n"
 
 #: common/log.c:272 common/log.c:290
 #, c-format
