@@ -203,12 +203,20 @@ void upgrade_city_rails(struct player *pplayer, bool discovery)
 }
 
 /**************************************************************************
+Return TRUE iff the player me really gives shared vision to player them.
+**************************************************************************/
+static bool really_gives_vision(struct player *me, struct player *them)
+{
+  return TEST_BIT(me->really_gives_vision, them->player_no);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void buffer_shared_vision(struct player *pplayer)
 {
   players_iterate(pplayer2) {
-    if (pplayer->really_gives_vision & (1<<pplayer2->player_no))
+    if (really_gives_vision(pplayer, pplayer2))
       conn_list_do_buffer(&pplayer2->connections);
   } players_iterate_end;
   conn_list_do_buffer(&pplayer->connections);
@@ -220,7 +228,7 @@ static void buffer_shared_vision(struct player *pplayer)
 static void unbuffer_shared_vision(struct player *pplayer)
 {
   players_iterate(pplayer2) {
-    if (pplayer->really_gives_vision & (1<<pplayer2->player_no))
+    if (really_gives_vision(pplayer, pplayer2))
       conn_list_do_unbuffer(&pplayer2->connections);
   } players_iterate_end;
   conn_list_do_unbuffer(&pplayer->connections);
@@ -503,8 +511,7 @@ void unfog_area(struct player *pplayer, int x, int y, int len)
 
     /* players (s)he gives shared vision */
     players_iterate(pplayer2) {
-      int playerid2 = pplayer2->player_no;
-      if (!(pplayer->really_gives_vision & (1<<playerid2)))
+      if (!really_gives_vision(pplayer, pplayer2))
 	continue;
 
       if (map_get_seen(abs_x, abs_y, pplayer2) == 1
@@ -566,8 +573,7 @@ void fog_area(struct player *pplayer, int x, int y, int len)
 
       /* players (s)he gives shared vision */
       players_iterate(pplayer2) {
-	int playerid2 = pplayer2->player_no;
-	if (!(pplayer->really_gives_vision & (1<<playerid2)))
+	if (!really_gives_vision(pplayer, pplayer2))
 	  continue;
 	if (map_get_seen(abs_x, abs_y, pplayer2) == 0)
 	  really_fog_area(pplayer2, abs_x, abs_y);
@@ -628,8 +634,7 @@ static void shared_vision_change_seen(int x, int y, struct player *pplayer, int 
   map_change_own_seen(x, y, pplayer, change);
 
   players_iterate(pplayer2) {
-    int playerid2 = pplayer2->player_no;
-    if (pplayer->really_gives_vision & (1<<playerid2))
+    if (really_gives_vision(pplayer, pplayer2))
       map_change_seen(x, y, pplayer2, change);
   } players_iterate_end;
 }
@@ -749,7 +754,7 @@ void show_area(struct player *pplayer, int x, int y, int len)
 
     /* players (s)he gives shared vision */
     players_iterate(pplayer2) {
-      if (pplayer->really_gives_vision & (1<<pplayer2->player_no)) {
+      if (really_gives_vision(pplayer, pplayer2)) {
 	really_show_area(pplayer2, abs_x, abs_y);
 	reveal_pending_seen(pplayer2, abs_x, abs_y, 0);
       }
@@ -1046,8 +1051,7 @@ static void give_tile_info_from_player_to_player(struct player *pfrom,
   really_give_tile_info_from_player_to_player(pfrom, pdest, x, y);
 
   players_iterate(pplayer2) {
-    int playerid2 = pplayer2->player_no;
-    if (!(pdest->really_gives_vision & (1<<playerid2)))
+    if (!really_gives_vision(pdest, pplayer2))
       continue;
     really_give_tile_info_from_player_to_player(pfrom, pplayer2, x, y);
   } players_iterate_end;
@@ -1073,11 +1077,11 @@ static void create_vision_dependencies(void)
     added = 0;
     players_iterate(pplayer) {
       players_iterate(pplayer2) {
-	if (pplayer->really_gives_vision & (1<<pplayer2->player_no)
+	if (really_gives_vision(pplayer, pplayer2)
 	    && pplayer != pplayer2) {
 	  players_iterate(pplayer3) {
-	    if (pplayer2->really_gives_vision & (1<<pplayer3->player_no)
-		&& !(pplayer->really_gives_vision & (1<<pplayer3->player_no))
+	    if (really_gives_vision(pplayer2, pplayer3)
+		&& !really_gives_vision(pplayer, pplayer3)
 		&& pplayer != pplayer3) {
 	      pplayer->really_gives_vision |= (1<<pplayer3->player_no);
 	      added++;
@@ -1115,7 +1119,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   players_iterate(pplayer) {
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
-      if (pplayer->really_gives_vision & (1<<pplayer2->player_no)
+      if (really_gives_vision(pplayer, pplayer2)
 	  && !(save_vision[pplayer->player_no] & (1<<pplayer2->player_no))) {
 	freelog(LOG_DEBUG, "really giving shared vision from %s to %s\n",
 	       pplayer->username, pplayer2->username);
@@ -1169,7 +1173,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   players_iterate(pplayer) {
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
-      if (!(pplayer->really_gives_vision & (1<<pplayer2->player_no))
+      if (!really_gives_vision(pplayer, pplayer2)
 	  && save_vision[pplayer->player_no] & (1<<pplayer2->player_no)) {
 	freelog(LOG_DEBUG, "really removing shared vision from %s to %s\n",
 	       pplayer->username, pplayer2->username);
