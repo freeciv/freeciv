@@ -785,6 +785,7 @@ void set_unit_focus(struct unit *punit)
 
     punit->focus_status=FOCUS_AVAIL;
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
+    put_cross_overlay_tile(punit->x, punit->y);
   }
 
   update_unit_info_label(punit);
