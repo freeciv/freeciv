@@ -8,21 +8,13 @@
 # For Japanese users:
 #
 # こんなことをわざわざ書くのは恥ずかしいんですが、はっきりいって私の訳は
-# ヘボヘボで、本来他人に公開できるようなレベルではないと思います。しかし、
-# 私にとって実際、こんなヘボイ訳でも役に立っているし、英語の苦手な他の人
-# にも役に立つと考えて公開しています。
+# とてもひどいもので、本来他人に公開できるようなレベルではないと思います。
+# しかし、私にとって実際、こんな下手な訳でも役に立っていますし、英語の苦
+# 手な他の人にも役に立つだろうと考えて公開しています。
 #
-# わざわざこの po ファイルを見てくれているあなた。ダサイ訳や未訳を一つで
-# も送って下さい。こんな訳はベースにする価値がないから一から訳し直したい
-# というなら、それでもかまいません。また、継続的にメンテナンスしてくれる
-# 方なら喜んで Primary Contacter を譲ります。
-#
-#
-# 現在気づいているバグ
-# gtk のメニューの
-# _Help と Help(_H) がらみ(jjmに報告済み)
-#
-# あと、 xaw版はテストしていません。誰かテストしたら報告下さい。
+# わざわざこの po ファイルを見て下さっているあなた。私のダサイ訳を直した
+# り、未訳のところを訳して送って下さい。あと、継続的にメンテナンスしてく
+# れる方なら喜んで Primary Contacter を譲ります。
 #
 # メールをお待ちしています。
 #, fuzzy
@@ -30,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.10.5-devel\n"
 "POT-Creation-Date: 2000-06-22 04:38+0900\n"
-"PO-Revision-Date: 2000-06-12 02:55+09:00\n"
+"PO-Revision-Date: 2000-06-23 05:58+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "MIME-Version: 1.0\n"
@@ -230,7 +222,7 @@ msgstr "略奪"
 
 #: common/unit.c:769 data/Freeciv:1108
 msgid "Goto"
-msgstr ""
+msgstr "移動"
 
 #: common/unit.c:770
 msgid "Explore"
@@ -462,7 +454,7 @@ msgstr ""
 #: server/cityturn.c:764
 #, c-format
 msgid "Game: %s may soon grow to size %i."
-msgstr ""
+msgstr "Game: %sはまもなく大きさ%iに増えます。"
 
 #: server/cityturn.c:784
 msgid "Game: WARNING, we're LOW on FUNDS sire."
@@ -3706,12 +3698,12 @@ msgstr ""
 #: server/unithand.c:1123 server/unithand.c:1129
 #, c-format
 msgid "      The city of %s already has 4 trade routes!"
-msgstr ""
+msgstr "      都市%sには既に 4つの交易路があります。"
 
 #: server/unithand.c:1139
 #, c-format
 msgid "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold and research."
-msgstr ""
+msgstr "%3$sへ、%2$sからの%1$sが到着し、金と研究における歳入の総計は %4$d になりました。"
 
 #: server/unithand.c:1196
 #, c-format
@@ -4710,28 +4702,28 @@ msgstr "新しい都市名を何と名づけますか?"
 #: client/gui-gtk/citydlg.c:922 client/gui-xaw/citydlg.c:1446
 #, c-format
 msgid "These trade routes have been established with %s:\n"
-msgstr ""
+msgstr "以下の交易路が %s と確立されています。\n"
 
 #: client/gui-gtk/citydlg.c:932 client/gui-gtk/citydlg.c:937 client/gui-xaw/citydlg.c:1456 client/gui-xaw/citydlg.c:1460
 #, c-format
 msgid "%32s: %2d Trade/Year\n"
-msgstr ""
+msgstr "%32s: %2d 交易/年\n"
 
 #: client/gui-gtk/citydlg.c:944 client/gui-xaw/citydlg.c:1466
 msgid "No trade routes exist.\n"
-msgstr ""
+msgstr "交易路は存在しません。\n"
 
 #: client/gui-gtk/citydlg.c:946 client/gui-xaw/citydlg.c:1468
 #, c-format
 msgid ""
 "\n"
 "Total trade %d Trade/Year\n"
-msgstr ""
+msgstr "\n合計   %d 交易/年\n"
 
 #. "citytradedialog"
 #: client/gui-gtk/citydlg.c:950 data/Freeciv:2145
 msgid "Trade Routes"
-msgstr ""
+msgstr "交易路"
 
 #: client/gui-gtk/citydlg.c:952 client/gui-gtk/menu.c:606 client/gui-xaw/menu.c:180
 msgid "Done"
@@ -5527,15 +5519,15 @@ msgstr ""
 
 #: client/gui-gtk/gotodlg.c:91 data/Freeciv:1090
 msgid "Goto/Airlift Unit"
-msgstr ""
+msgstr "部隊を移動/空輸"
 
 #: client/gui-gtk/gotodlg.c:93 client/gui-gtk/mapview.c:333 client/gui-xaw/mapview.c:310
 msgid "Select destination"
-msgstr ""
+msgstr "行き先の選択"
 
 #: client/gui-gtk/gotodlg.c:109
 msgid "_Goto"
-msgstr ""
+msgstr "移動(_G)"
 
 #: client/gui-gtk/gui_main.c:415 data/Freeciv:2472
 msgid "Turn Done"
@@ -6002,7 +5994,7 @@ msgstr "移動"
 
 #: client/gui-gtk/menu.c:590
 msgid "Go|Airlift to City"
-msgstr ""
+msgstr "都市へ移動|空輸"
 
 #: client/gui-gtk/menu.c:594 client/gui-xaw/menu.c:174
 msgid "Disband Unit"
@@ -6010,11 +6002,11 @@ msgstr "部隊解散"
 
 #: client/gui-gtk/menu.c:596 client/gui-xaw/menu.c:175
 msgid "Help Build Wonder"
-msgstr ""
+msgstr "不思議建築を手伝う"
 
 #: client/gui-gtk/menu.c:598 client/gui-xaw/menu.c:176
 msgid "Make Trade Route"
-msgstr ""
+msgstr "交易路を確立する"
 
 #: client/gui-gtk/menu.c:600 client/gui-xaw/menu.c:177
 msgid "Explode Nuclear"
@@ -6193,11 +6185,11 @@ msgstr "大使館"
 
 #: client/gui-gtk/plrdlg.c:85
 msgid "Dipl.State"
-msgstr ""
+msgstr "外交状態"
 
 #: client/gui-gtk/plrdlg.c:85
 msgid "Reputation"
-msgstr ""
+msgstr "評判"
 
 #: client/gui-gtk/plrdlg.c:86 data/Freeciv:79
 msgid "Host"
@@ -6212,9 +6204,8 @@ msgid "_Meet"
 msgstr ""
 
 #: client/gui-gtk/plrdlg.c:127
-#, fuzzy
 msgid "_Cancel Treaty"
-msgstr "取り消し(_C)"
+msgstr "条約取り消し(_C)"
 
 #: client/gui-gtk/plrdlg.c:133
 msgid "_Spaceship"
@@ -6647,7 +6638,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:172
 msgid "Go/Airlift to City"
-msgstr ""
+msgstr "都市へ移動/空輸"
 
 #: client/gui-xaw/repodlgs.c:215 client/gui-xaw/repodlgs.c:397 client/gui-xaw/repodlgs.c:505
 #, c-format
@@ -6710,11 +6701,11 @@ msgstr ""
 
 #: data/Freeciv:1091
 msgid "Select destination:"
-msgstr ""
+msgstr "行き先の選択:"
 
 #: data/Freeciv:1115
 msgid "Airlift"
-msgstr ""
+msgstr "空輸"
 
 #: data/Freeciv:1147 data/Freeciv:1183
 msgid "Activate unit"
@@ -6842,11 +6833,11 @@ msgstr ""
 
 #: data/Freeciv:2175
 msgid "Establish traderoute"
-msgstr ""
+msgstr "交易路を確立する"
 
 #: data/Freeciv:2177
 msgid "Help build Wonder"
-msgstr ""
+msgstr "不思議建築を手伝う"
 
 #: data/Freeciv:2180
 msgid "Keep moving"
@@ -6977,9 +6968,8 @@ msgid "Meet"
 msgstr ""
 
 #: data/Freeciv:3097
-#, fuzzy
 msgid "Cancel pact"
-msgstr "取り消し"
+msgstr "条約取り消し"
 
 #: data/helpdata.txt:38
 msgid "Freeciv is a turn-based strategy game, in which each player becomes the leader of a civilization, fighting to obtain the ultimate goal: The extinction of all other civilizations."
@@ -7146,15 +7136,15 @@ msgstr ""
 "  f: 土地に要塞を築く  (開拓部隊)\n"
 "  g: 部隊移動  (左クリックで移動先を選ぶ)\n"
 "  h: 住人にする  (現在いる場所の都市へ)\n"
-"  i: build (i)rrigation/farmland  (may convert terrain)\n"
-"  l: go/air(l)ift to city\n"
-"  m: build (m)ine  (may convert terrain)\n"
+"  i: 灌漑する/農地にする  (地形を変化させることもある)\n"
+"  l: 都市へ移動/空輸\n"
+"  m: 鉱山を作る  (地形を変化させることもある)\n"
 "  N: explode (N)uclear\n"
 "  o: transf(o)rm terrain\n"
 "  p: clean (p)ollution\n"
 "  P: (P)illage terrain alteration\n"
-"  r: 道路/鉄道を作る  (settler units)\n"
-"  r: establish trade (r)oute  (caravan units)\n"
+"  r: 道路/鉄道を作る  (開拓部隊)\n"
+"  r: 交易路を確立する  (キャラバン部隊)\n"
 "  R: incite a (R)evolution\n"
 "  s: (s)entry unit\n"
 "  u: (u)nload boat\n"
@@ -7491,7 +7481,7 @@ msgstr ""
 
 #: data/helpdata.txt:890
 msgid " Combat example 1"
-msgstr ""
+msgstr " 戦闘例1"
 
 #: data/helpdata.txt:891
 msgid "Suppose a veteran Cannon (A:8, D:1, HP:20, F:1) with 2/3 movement points left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1) inside a city with City Walls built on a Forest tile."
@@ -7525,7 +7515,7 @@ msgstr ""
 
 #: data/helpdata.txt:927
 msgid " Combat example 2"
-msgstr ""
+msgstr " 戦闘例2"
 
 #: data/helpdata.txt:928
 msgid "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built on a Grassland tile, with City Walls and a Coastal Defense."
@@ -7796,12 +7786,14 @@ msgid "Airport"
 msgstr "空港"
 
 #: data/civ1/buildings.ruleset:47 data/civ2/buildings.ruleset:47 data/default/buildings.ruleset:220
-#, fuzzy
 msgid ""
 "Allows a city to produce veteran air units.  Also, damaged air units which stay in town for one full turn without moving are completely restored.\n"
 "\n"
 "Two cities with Airports can airlift one unit per turn.  Airlifting instantly transports the unit from one city to another and will use all of the unit's movement points.  A unit must have some movement points left to be airlifted."
-msgstr "ベテランの空軍を都市で作れるようになります。"
+msgstr ""
+"ベテランの空中部隊を都市で作れるようになります。また、傷つけられた空中部隊を都市に移動せずに滞在させると、一ターンで完全に回復できます。\n"
+"\n"
+"空港のある二都市間では、一ターンにつき一部隊を空輸できます。空輸とは、ある都市から他の都市へ一瞬で輸送することです。この時、部隊の移動ポイントを全て使います。部隊を空輸するには、その部隊に幾らか移動ポイントが残っていなければなりません。"
 
 #: data/civ1/buildings.ruleset:59 data/civ2/buildings.ruleset:59 data/default/buildings.ruleset:232
 msgid "Aqueduct"
@@ -7881,9 +7873,8 @@ msgid "Factory"
 msgstr "工場"
 
 #: data/civ1/buildings.ruleset:353 data/civ2/buildings.ruleset:336 data/default/buildings.ruleset:511
-#, fuzzy
 msgid "Increases the shield production in a city by 50%.  This increase may also contribute significantly to pollution."
-msgstr "都市の防御生産物を 50% 増やしますが、同時に公害を著しく増やします。"
+msgstr "都市の防御生産物を 50% 増やします。同時に公害を著しく増やすかもしれません。"
 
 #: data/civ1/buildings.ruleset:359 data/civ2/buildings.ruleset:342 data/default/buildings.ruleset:517
 msgid "Granary"
@@ -7935,22 +7926,21 @@ msgid "Mass Transit"
 msgstr "大量輸送"
 
 #: data/civ1/buildings.ruleset:504 data/civ2/buildings.ruleset:487 data/default/buildings.ruleset:666
-#, fuzzy
 msgid "Neutralizes the pollution generated by the population.  The population simply has no effect on the pollution generated in the city."
 msgstr "人工の増加による公害を中和します。この都市での人工の増加は、公害にまったく影響を与えません。"
 
 #: data/civ1/buildings.ruleset:511 data/civ2/buildings.ruleset:494 data/default/buildings.ruleset:673
 msgid "Mfg. Plant"
-msgstr ""
+msgstr "製造工場"
 
 #: data/civ1/buildings.ruleset:528 data/civ2/buildings.ruleset:511 data/default/buildings.ruleset:690
 #, c-format
 msgid "Together with a Factory, a Manufacturing Plant increases the shield production in a city by 100%."
-msgstr ""
+msgstr "工場と連携して都市の防御生産物を 100% 増やします。"
 
 #: data/civ1/buildings.ruleset:534 data/civ2/buildings.ruleset:517 data/default/buildings.ruleset:696
 msgid "Nuclear Plant"
-msgstr ""
+msgstr "原子力発電所"
 
 #: data/default/buildings.ruleset:716
 msgid ""
@@ -7961,7 +7951,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:569 data/civ2/buildings.ruleset:552 data/default/buildings.ruleset:734
 msgid "Offshore Platform"
-msgstr ""
+msgstr "海上プラットフォーム"
 
 #: data/civ1/buildings.ruleset:586 data/civ2/buildings.ruleset:569 data/default/buildings.ruleset:751
 msgid "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs to be coastal to build this improvement."
@@ -8026,7 +8016,7 @@ msgstr "研究所は図書館、大学と連携し、都市の研究成果を 150% 増やします。"
 
 #: data/civ1/buildings.ruleset:750 data/civ2/buildings.ruleset:734 data/default/buildings.ruleset:923
 msgid "SAM Battery"
-msgstr "SAM 一式"
+msgstr "対空ミサイル陣地"
 
 #: data/civ1/buildings.ruleset:768 data/civ2/buildings.ruleset:752 data/default/buildings.ruleset:941
 msgid "Doubles the defense of all units inside the city when attacked by non-nuclear air units."
@@ -8034,7 +8024,7 @@ msgstr "核兵器以外の空中部隊に攻撃された時、都市内の全ての部隊の防御力を二倍にし
 
 #: data/civ1/buildings.ruleset:774 data/civ2/buildings.ruleset:758 data/default/buildings.ruleset:947
 msgid "SDI Defense"
-msgstr "SDI 防衛"
+msgstr "SDI 防衛システム"
 
 #: data/civ1/buildings.ruleset:792 data/civ2/buildings.ruleset:776 data/default/buildings.ruleset:965
 msgid "Protects a city from attacks from Nuclear units.  Nuclear attacks simply have no effect on the city.  Also, doubles defence against non-nuclear missiles."
@@ -8062,7 +8052,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:858 data/civ2/buildings.ruleset:842 data/default/buildings.ruleset:1035
 msgid "Space Component"
-msgstr ""
+msgstr "宇宙コンポーネント"
 
 #: data/civ1/buildings.ruleset:875 data/civ2/buildings.ruleset:859 data/default/buildings.ruleset:1052
 msgid ""
@@ -8073,7 +8063,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:885 data/civ2/buildings.ruleset:869 data/default/buildings.ruleset:1062
 msgid "Space Module"
-msgstr ""
+msgstr "宇宙モジュール"
 
 #: data/civ1/buildings.ruleset:902 data/civ2/buildings.ruleset:886 data/default/buildings.ruleset:1079
 msgid ""
@@ -8092,7 +8082,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:921 data/civ2/buildings.ruleset:905 data/default/buildings.ruleset:1098
 msgid "Space Structural"
-msgstr ""
+msgstr "宇宙船体構造物"
 
 #: data/civ1/buildings.ruleset:938 data/civ2/buildings.ruleset:922 data/default/buildings.ruleset:1115
 msgid ""
@@ -8781,7 +8771,7 @@ msgstr "アルファベット"
 
 #: data/civ1/techs.ruleset:61 data/civ2/techs.ruleset:61 data/default/techs.ruleset:61
 msgid "Amphibious Warfare"
-msgstr ""
+msgstr "上陸戦"
 
 #: data/civ1/techs.ruleset:67 data/civ2/techs.ruleset:67 data/default/techs.ruleset:67
 msgid "Astronomy"
@@ -8825,7 +8815,7 @@ msgstr "法律"
 
 #: data/civ1/techs.ruleset:127 data/civ2/techs.ruleset:127 data/default/techs.ruleset:127
 msgid "Combined Arms"
-msgstr ""
+msgstr "陸海空共同軍"
 
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133 data/default/techs.ruleset:133
 msgid "Combustion"
@@ -8925,7 +8915,7 @@ msgstr "指揮"
 
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307 data/default/techs.ruleset:307
 msgid "Machine Tools"
-msgstr ""
+msgstr "工作機械"
 
 #: data/civ1/techs.ruleset:313 data/civ2/techs.ruleset:313 data/default/techs.ruleset:313
 msgid "Magnetism"
@@ -8961,7 +8951,7 @@ msgstr "小型化"
 
 #: data/civ1/techs.ruleset:361 data/civ2/techs.ruleset:361 data/default/techs.ruleset:361
 msgid "Mobile Warfare"
-msgstr ""
+msgstr "機動戦"
 
 #: data/civ1/techs.ruleset:373 data/civ2/techs.ruleset:373 data/default/techs.ruleset:373
 msgid "Monotheism"
@@ -9792,19 +9782,19 @@ msgstr ""
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr ""
+msgstr "カナダ人"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr ""
+msgstr "カナダ民族"
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
-msgstr ""
+msgstr "カルタゴ人"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
-msgstr ""
+msgstr "カルタゴ民族"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
@@ -9816,19 +9806,19 @@ msgstr "中国民族"
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr ""
+msgstr "コーンウォール人"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr ""
+msgstr "コーンウォール民族"
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr ""
+msgstr "チェコ人"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr ""
+msgstr "チェコ民族"
 
 #: data/nation/czech.ruleset:21
 msgid "Thane"
@@ -9857,27 +9847,28 @@ msgstr "ドイツ民族"
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
-msgstr ""
+msgstr "オランダ人"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
-msgstr ""
+msgstr "オランダ民族"
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr ""
+msgstr "エジブト人"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
-msgstr ""
+msgstr "エジプト民族"
 
 #: data/nation/egyptian.ruleset:12
 msgid "Pharaoh"
-msgstr ""
+msgstr "ファラオ"
 
 #: data/nation/egyptian.ruleset:13
+#, fuzzy
 msgid "Great Pharaoh"
-msgstr ""
+msgstr "偉大なファラオ"
 
 #: data/nation/english.ruleset:3
 msgid "English"
@@ -9897,37 +9888,35 @@ msgstr ""
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr ""
+msgstr "エストニア人"
 
 #: data/nation/estonian.ruleset:4
-#, fuzzy
 msgid "?plural:Estonians"
-msgstr "インド民族"
+msgstr "エストニア民族"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr ""
+msgstr "フィリピン人"
 
 #: data/nation/filipino.ruleset:4
-#, fuzzy
 msgid "?plural:Filipinos"
-msgstr "オリンピア族"
+msgstr "フィリピン民族"
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr ""
+msgstr "フィンランド人"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
-msgstr ""
+msgstr "フィンランド民族"
 
 #: data/nation/french.ruleset:3
 msgid "French"
-msgstr ""
+msgstr "フランス人"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
-msgstr ""
+msgstr "フランス民族"
 
 #: data/nation/french.ruleset:11
 msgid "Premier"
@@ -10179,11 +10168,11 @@ msgstr ""
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
-msgstr ""
+msgstr "スコットランド人"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scottish"
-msgstr ""
+msgstr "スコットランド民族"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -10288,36 +10277,6 @@ msgstr "ズールー人"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "ズールー族"
-
-#~ msgid "Help Languages"
-#~ msgstr "ヘルプ 言語"
-
-#~ msgid "Help Connecting"
-#~ msgstr "ヘルプ 接続"
-
-#~ msgid "Help Controls"
-#~ msgstr "ヘルプ 操作"
-
-#~ msgid "Help Chatline"
-#~ msgstr "ヘルプ チャット行"
-
-#~ msgid "Help Units"
-#~ msgstr "ヘルプ 部隊"
-
-#~ msgid "Help ZOC"
-#~ msgstr "ヘルプ ZOC"
-
-#~ msgid "Help Technology"
-#~ msgstr "ヘルプ 技術"
-
-#~ msgid "Help Terrain"
-#~ msgstr "ヘルプ 地形"
-
-#~ msgid "Help Wonders"
-#~ msgstr "ヘルプ 不思議"
-
-#~ msgid "Help Government"
-#~ msgstr "ヘルプ 政治体制"
 
 #~ msgid "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy citizens content in each city."
 #~ msgstr "各都市に大聖堂を持っているものとみなします。これは各都市の不幸な人々3を収容します。"
