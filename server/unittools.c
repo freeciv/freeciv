@@ -63,11 +63,6 @@ static void handle_leonardo(struct player *pplayer);
 
 static void sentry_transported_idle_units(struct unit *ptrans);
 
-static void refuel_air_units_from_carriers(struct player *pplayer);
-static struct unit *find_best_air_unit_to_refuel(struct player *pplayer, 
-						 int x, int y, bool missile);
-static struct unit *choose_more_important_refuel_target(struct unit *punit1,
-							struct unit *punit2);
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 static int hp_gain_coord(struct unit *punit);
 
@@ -248,37 +243,6 @@ static void handle_leonardo(struct player *pplayer)
 }
 
 /***************************************************************************
-Select which unit is more important to refuel:
-It's more important to refuel plane which has less fuel.
-If those are equal then we refuel more valuable unit.
-If those are equal then we refuel veteran unit.
-If those are equal then we refuel unit which has more hp.
-If those are equal then we refuel the first unit.
-****************************************************************************/
-static struct unit *choose_more_important_refuel_target(struct unit *punit1,
-							struct unit *punit2)
-{
-  if (punit1->fuel != punit2->fuel)
-    return punit1->fuel < punit2->fuel? punit1: punit2;
-  
-  if (unit_build_shield_cost(punit1->type)
-      != unit_build_shield_cost(punit2->type)) {
-    return (unit_build_shield_cost(punit1->type)
-	    > unit_build_shield_cost(punit2->type)) ? punit1 : punit2;
-  }
-  
-  if (punit1->veteran != punit2->veteran) {
-    return punit1->veteran > punit2->veteran ? punit1 : punit2;
-  }
-
-  if (punit1->hp != punit2->hp) {
-    return punit1->hp > punit2->hp ? punit1: punit2;
-  }
-
-  return punit1;
-}
-
-/***************************************************************************
   Pay the cost of supported units of one city
 ***************************************************************************/
 void pay_for_units(struct player *pplayer, struct city *pcity)
@@ -307,89 +271,6 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
       pplayer->economic.gold -= punit->upkeep_gold;
     }
   } unit_list_iterate_safe_end;
-}
-
-/***************************************************************************
-...
-****************************************************************************/
-static struct unit *find_best_air_unit_to_refuel(struct player *pplayer, 
-						 int x, int y, bool missile)
-{
-  struct unit *best_unit = NULL;
-
-  unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (unit_owner(punit) == pplayer
-        && is_air_unit(punit)
-        && (!missile || unit_flag(punit, F_MISSILE))) {
-      /* We must check that it isn't already refuelled. */ 
-      if (punit->fuel < unit_type(punit)->fuel) { 
-        if (!best_unit) {
-          best_unit = punit;
-        } else {
-          best_unit = choose_more_important_refuel_target(best_unit, punit);
-        }
-      }
-    }
-  } unit_list_iterate_end;
-  return best_unit;
-}
-
-/***************************************************************************
-  Refuel fuel-based units up to carrying capacity of carriers on the
-  same tile.
-****************************************************************************/
-static void refuel_air_units_from_carriers(struct player *pplayer)
-{
-  struct unit_list carriers;
-  struct unit_list missile_carriers;
-  
-  struct unit *punit_to_refuel;
-  
-  unit_list_init(&carriers);
-  unit_list_init(&missile_carriers);
-
-  /* Make a list of all missile and aircraft carriers. */
-  unit_list_iterate(pplayer->units, punit) {
-    if (unit_flag(punit, F_CARRIER)) {
-      unit_list_insert(&carriers, punit);
-    } else if (unit_flag(punit, F_MISSILE_CARRIER)) {
-      unit_list_insert(&missile_carriers, punit);
-    }
-  } unit_list_iterate_end;
-
-  /* Now iterate through missile_carriers and refuel as many 
-   * missiles as possible. */
-  unit_list_iterate(missile_carriers, punit) {
-    int cargo_fuel = unit_type(punit)->transport_capacity;
-
-    while (cargo_fuel > 0) {
-      punit_to_refuel = find_best_air_unit_to_refuel(
-          pplayer, punit->x, punit->y, TRUE /*missile */);
-      if (!punit_to_refuel) {
-        break; /* Didn't find any */
-      }
-      punit_to_refuel->fuel = unit_type(punit_to_refuel)->fuel;
-      cargo_fuel--;
-    }
-  } unit_list_iterate_end;
-
-  /* Now refuel air units from carriers (also not yet refuelled missiles) */
-  unit_list_iterate(carriers, punit) {
-    int cargo_fuel = unit_type(punit)->transport_capacity;
-
-    while(cargo_fuel > 0) {
-      punit_to_refuel = find_best_air_unit_to_refuel(
-          pplayer, punit->x, punit->y, FALSE /* any */);
-      if (!punit_to_refuel) {
-        break; /* Didn't find any */
-      }
-      punit_to_refuel->fuel = unit_type(punit_to_refuel)->fuel;
-      cargo_fuel--;
-    }
-  } unit_list_iterate_end;
-
-  unit_list_unlink_all(&carriers);
-  unit_list_unlink_all(&missile_carriers);
 }
 
 /***************************************************************************
@@ -485,17 +366,17 @@ void player_restore_units(struct player *pplayer)
       /* 6) Update fuel */
       punit->fuel--;
 
-      /* 7) Automatically refuel air units in cities and airbases */
-      if (map_get_city(punit->x, punit->y) ||
-	  map_has_special(punit->x, punit->y, S_AIRBASE))
+      /* 7) Automatically refuel air units in cities, airbases, and
+       *    transporters (carriers). */
+      if (map_get_city(punit->x, punit->y)
+	  || map_has_special(punit->x, punit->y, S_AIRBASE)
+	  || punit->transported_by != -1) {
 	punit->fuel=unit_type(punit)->fuel;
+      }
     }
   } unit_list_iterate_safe_end;
 
-  /* 8) Use carriers and submarines to refuel air units */
-  refuel_air_units_from_carriers(pplayer);
-  
-  /* 9) Check if there are air units without fuel */
+  /* 8) Check if there are air units without fuel */
   unit_list_iterate_safe(pplayer->units, punit) {
     if (is_air_unit(punit) && punit->fuel <= 0
         && unit_type(punit)->fuel > 0) {
