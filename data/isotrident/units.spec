@@ -78,7 +78,6 @@ tiles = { "row", "column", "tag"
 
 ; Veteran Levels: up to 9 military honors for experienced units
 
-  3, 10, "unit.vet_0"
   3, 0, "unit.vet_1"
   3, 1, "unit.vet_2"
   3, 2, "unit.vet_3"

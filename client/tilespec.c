@@ -1204,9 +1204,11 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE(unit.hp_bar[i], buffer);
   }
 
-  for(i = 0; i < MAX_VET_LEVELS; i++) {
+  for (i = 0; i < MAX_VET_LEVELS; i++) {
+    /* Veteran level sprites are optional.  For instance "green" units
+     * usually have no special graphic. */
     my_snprintf(buffer, sizeof(buffer), "unit.vet_%d", i);
-    SET_SPRITE(unit.vet_lev[i], buffer);
+    sprites.unit.vet_lev[i] = load_sprite(buffer);
   }
 
   SET_SPRITE(city.disorder, "city.disorder");
@@ -1856,10 +1858,12 @@ int fill_unit_sprite_array(struct drawn_sprite *sprs, struct unit *punit,
 
   if (stack || punit->occupy) {
     ADD_SPRITE_FULL(sprites.unit.stack);
-  } else {
+  }
+
+  if (sprites.unit.vet_lev[punit->veteran]) {
     ADD_SPRITE_FULL(sprites.unit.vet_lev[punit->veteran]);
   }
- 
+
   ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / unit_type(punit)->hp;
   ihp = CLIP(0, ihp, NUM_TILES_HP_BAR-1);
   ADD_SPRITE_FULL(sprites.unit.hp_bar[ihp]);
