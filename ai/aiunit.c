@@ -31,7 +31,7 @@
 #include <aiunit.h>
 #include <aicity.h>
 #include <maphand.h>
-
+#include <sys/time.h>
 
 /**************************************************************************
  do all the gritty nitty chess like analysis here... (argh)
@@ -39,12 +39,19 @@
 
 void ai_manage_units(struct player *pplayer) 
 {
+  int sec, usec;
+  struct timeval tv;
+  gettimeofday(&tv, 0);
+  sec = tv.tv_sec; usec = tv.tv_usec;
 /*  printf("Managing units for %s\n", pplayer->name);  */
   unit_list_iterate(pplayer->units, punit)
 /*  printf("Managing %s's %s\n", pplayer->name, unit_types[punit->type].name); */
       ai_manage_unit(pplayer, punit); 
   unit_list_iterate_end;
 /*  printf("Managed units successfully.\n");  */
+  gettimeofday(&tv, 0);
+  printf("%s's units consumed %d microseconds.\n", pplayer->name,
+       (tv.tv_sec - sec) * 1000000 + (tv.tv_usec - usec));
 }
  
 /**************************************************************************
@@ -436,6 +443,8 @@ void ai_manage_military(struct player *pplayer,struct unit *punit)
 int ai_military_findvictim(struct player *pplayer,struct unit *punit)
 { /* work of Syela - mostly to fix the ZOC/goto strangeness */
   int xx[3], yy[3], x, y;
+  int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
+  int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
   int i, j, k, weakest, v;
   int dest;
   struct unit *pdef;
@@ -460,11 +469,11 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
   if ((yy[2]=y+1)==map.ysize) yy[2]=y;
   yy[1] = y;
 
-  for (k = 0; k < 9; k++) {
-    i = k / 3; j = k % 3;
-    if (k != 4) {
-      pdef = get_defender(pplayer, punit, xx[i], yy[j]);
-      if (pdef) {
+  for (k = 0; k < 8; k++) {
+    i = ii[k]; j = jj[k]; /* saves CPU cycles? */
+    pdef = get_defender(pplayer, punit, xx[i], yy[j]);
+    if (pdef) {
+      if (can_unit_attack_tile(punit, xx[i], yy[j])) { /* thanks, Roar */
         v = get_total_defense_power(punit, pdef) * pdef->hp * 
                  get_unit_type(pdef->type)->firepower *
              get_total_defense_power(punit, pdef) * pdef->hp * 
@@ -486,7 +495,7 @@ int ai_military_findvictim(struct player *pplayer,struct unit *punit)
           weakest = v; dest = yy[j] * map.xsize + xx[i];
          } /* else printf("NOT better than %d is %d (%s)\n", weakest, v,
              unit_types[pdef->type].name);   */
-      } else {
+      } else { /* no pdef */
         pcity = map_get_city(xx[i], yy[j]);
         if (pcity) {
           if (pcity->owner != pplayer->player_no) { /* free goodies */
