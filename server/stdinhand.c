@@ -2459,7 +2459,19 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
 {
   const char *allow;
 
-  if (is_barbarian(pplayer)) {
+  if (pplayer->is_observer) {
+    if (!(allow = strchr(game.allow_take, (game.is_new_game ? 'O' : 'o')))) {
+      if (will_obs) {
+        mystrlcpy(msg, _("Sorry, one can't observe globally in this game."),
+                  MAX_LEN_MSG);
+      } else {
+        mystrlcpy(msg, _("Sorry, you can't take a global observer. Observe "
+                         "it instead."),
+                  MAX_LEN_MSG);
+      }
+      return FALSE;
+    }
+  } else if (is_barbarian(pplayer)) {
     if (!(allow = strchr(game.allow_take, 'b'))) {
       if (will_obs) {
         mystrlcpy(msg, _("Sorry, one can't observe barbarians in this game."),
@@ -2611,7 +2623,8 @@ static bool observe_command(struct connection *caller, char *str, bool check)
       }
 
       pplayer = &game.players[game.nplayers];
-      server_player_init(pplayer, server_state == RUN_GAME_STATE);
+      server_player_init(pplayer, 
+                         (server_state == RUN_GAME_STATE) || !game.is_new_game);
       sz_strlcpy(pplayer->name, OBSERVER_NAME);
       sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
@@ -2623,7 +2636,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
       pplayer->is_alive = FALSE;
       pplayer->was_created = FALSE;
 
-      if (server_state == RUN_GAME_STATE) {
+      if ((server_state == RUN_GAME_STATE) || !game.is_new_game) {
         pplayer->nation = OBSERVER_NATION;
         init_tech(pplayer, 0);
         map_know_and_see_all(pplayer);
