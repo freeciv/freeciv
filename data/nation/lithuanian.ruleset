@@ -19,15 +19,9 @@ tech_goals = "Monarchy","Chivalry","The Republic","Railroad","Explosives"
 wonder="Copernicus' Observatory"
 government = "Republic"
 
-; Some of these names are not spelled correctly
-; Some of these names are not Lithuanian, but Latvian, Estian or Belarusian
-; they were in Lithuania in some part of history and are not in freeciv yet,
-; so I put them here
 cities =
-  "Vilnius", "Kaunas", "Klaipeda", "Grodno", "Riga", "Siauliai",
-  "Tallin", "Sluck", "Bobruysk", "Minsk", "Slonim",
-  "Brest Litovsk", "Tartu", "Kobrin", "Polock", "Daugavpilsk",
-  "Parnava", "Lipava", "Yelgava", "Yurmala", "Rosienie", "Vindava",
-  "Narva", "Kohtla-Järve"
-
-
+  "Vilnius", "Kaunas", "Klaipeda", "Siauliai",
+  "Alytus", "Panevezys", "Ukmerge", "Telsiai", "Raseinai",
+  "Adutiskis", "Kedainiai", "Plunge", "Rietavas",
+  "Silute", "Merkipe", "Jurbarkas", "Palanga",
+  "Mazeikiai", "Kursenai"

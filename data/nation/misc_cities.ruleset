@@ -259,7 +259,6 @@ cities =
   "Vrigstad", "Trollhaetten", "Kinsarvik", "Grimstad", 
 ; Belgium 
   "Lisp", "Knokke", "Bialy", "Bor",
-  "Hel", "Puck",
 ; Germany 
   "Diepholz", "Sangerhausen", "Biedenkopf", 
   "Mosbach", "Butzbach", "Goslar", "Studenka",
@@ -310,4 +309,6 @@ cities =
   "Gniewomierowice", "Budziwojów", "Trzcianki",
 ; random things
   "Monaco", "San Marino", "Andorra", "Geneva", "Zurich",
-  "Bedford Falls"
+  "Bedford Falls", "Grodno", "Sluck", "Bobruysk", "Minsk", "Slonim",
+  "Brest Litovsk", "Kobrin", "Polock", "Daugavpilsk", "Parnava",
+  "Lipava", "Yelgava", "Rosienie", "Vindava", "Narva"
