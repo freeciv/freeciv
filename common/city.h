@@ -209,7 +209,9 @@ struct ai_city {
 
   /* so we can contemplate with warmap fresh and decide later */
   int settler_want, founder_want; /* for builder (F_SETTLERS) and founder (F_CITIES) */
-  int a, f, invasion; /* who's coming to kill us, for attack co-ordination */
+  int invasion; /* who's coming to kill us, for attack co-ordination */
+  int attack, bcost; /* This is also for invasion - total power and value of
+                      * all units coming to kill us. */
 };
 
 struct city {

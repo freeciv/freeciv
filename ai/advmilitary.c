@@ -478,191 +478,315 @@ int unit_attack_desirability(Unit_Type_id i)
 } 
 
 /************************************************************************** 
-...
+What would be the best defender for that city?
+Records the best defender type in choice.
+Also sets the technology want for the units we can't build yet.
 **************************************************************************/
 static void process_defender_want(struct player *pplayer, struct city *pcity,
-				  int danger, struct ai_choice *choice)
+                                  int danger, struct ai_choice *choice)
 {
-  Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
-  Tech_Type_id tech_req;
-  int j, k, l, m, n;
-  int best= 0;
   bool walls = city_got_citywalls(pcity);
-  int desire[U_LAST]; /* what you get is what you seek */
   bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
-  bool isdef = has_a_normal_defender(pcity);
+  bool defended = has_a_normal_defender(pcity);
+  /* Technologies we would like to have. */
+  int tech_desire[U_LAST];
+  /* Our favourite unit. */
+  int best = 0;
+  Unit_Type_id best_unit_type = 0; /* FIXME: 0 is legal value! */
 
-  memset(desire, 0, sizeof(desire));
-  simple_ai_unit_type_iterate(i) {
-    m = unit_types[i].move_type;
-    if ((m == LAND_MOVING || m == SEA_MOVING)) {
-      k = num_unknown_techs_for_goal(pplayer,unit_types[i].tech_requirement);
-      j = unit_desirability(i, TRUE);
-      if (!isdef && unit_type_flag(i, F_FIELDUNIT)) j = 0;
-      j /= 15; /* good enough, no rounding errors */
-      j *= j;
-      if (can_build_unit(pcity, i)) {
-        if (walls && m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
-        if ((j > best || (j == best && get_unit_type(i)->build_cost <=
-                               get_unit_type(bestid)->build_cost)) &&
-            unit_types[i].build_cost <= pcity->shield_stock + 40) {
-          best = j;
-          bestid = i;
+  memset(tech_desire, 0, sizeof(tech_desire));
+  
+  simple_ai_unit_type_iterate (unit_type) {
+    int move_type = unit_types[unit_type].move_type;
+    
+    if (move_type == LAND_MOVING || move_type == SEA_MOVING) {
+      /* How many technologies away it is? */
+      int tech_dist = num_unknown_techs_for_goal(pplayer,
+                        unit_types[unit_type].tech_requirement);
+      /* How much we want the unit? */
+      int desire = unit_desirability(unit_type, TRUE);
+      
+      /* We won't leave the castle empty when driving out to battlefield. */
+      if (!defended && unit_type_flag(unit_type, F_FIELDUNIT)) desire = 0;
+      
+      desire /= POWER_DIVIDER/2; /* Good enough, no rounding errors. */
+      desire *= desire;
+      
+      if (can_build_unit(pcity, unit_type)) {
+        /* We can build the unit now... */
+      
+        if (walls && move_type == LAND_MOVING) {
+          desire *= pcity->ai.wallvalue;
+          /* TODO: More use of POWER_FACTOR ! */
+          desire /= POWER_FACTOR;
         }
-      } else if (k > 0 && (shore || m == LAND_MOVING) &&
-                unit_types[i].tech_requirement != A_LAST) {
-        if (m == LAND_MOVING) { j *= pcity->ai.wallvalue; j /= 10; }
+        
+        if ((desire > best ||
+             (desire == best && get_unit_type(unit_type)->build_cost <=
+                                get_unit_type(best_unit_type)->build_cost))
+            && unit_types[unit_type].build_cost <= pcity->shield_stock + 40) {
+          best = desire;
+          best_unit_type = unit_type;
+        }
+        
+      } else if (tech_dist > 0 && (shore || move_type == LAND_MOVING)
+                 && unit_types[unit_type].tech_requirement != A_LAST) {
+        /* We first need to develop the tech required by the unit... */
 
-	/* cost (shield equiv) of gaining these techs */
-	l = total_bulbs_required_for_goal(pplayer,
-					  unit_types[i].tech_requirement);
-	l /= 4;
-        l /= city_list_size(&pplayer->cities);
-/* Katvrr advises that with danger high, l should be weighted more heavily */
-        desire[i] = j * danger / (unit_types[i].build_cost + l);
+        /* Cost (shield equivalent) of gaining these techs. */
+        /* FIXME? Katvrr advises that this should be weighted more heavily in
+         * big danger. */
+        int tech_cost = total_bulbs_required_for_goal(pplayer,
+                          unit_types[unit_type].tech_requirement) / 4
+                        / city_list_size(&pplayer->cities);
+        
+        /* Contrary to the above, we don't care if walls are actually built 
+         * - we're looking into the future now. */
+        if (move_type == LAND_MOVING) {
+          desire *= pcity->ai.wallvalue;
+          desire /= POWER_FACTOR;
+        }
+
+        /* Yes, there's some similarity with kill_desire(). */
+        tech_desire[unit_type] = desire * danger /
+                                (unit_types[unit_type].build_cost + tech_cost);
       }
     }
   } simple_ai_unit_type_iterate_end;
-
-  if (!walls && unit_types[bestid].move_type == LAND_MOVING) {
+  
+  if (!walls && unit_types[best_unit_type].move_type == LAND_MOVING) {
     best *= pcity->ai.wallvalue;
-    best /= 10;
-  } /* was getting four-figure desire for battleships otherwise. -- Syela */
-/* Phalanx would be 16 * danger / 20.  Pikemen would be 36 * danger / (20 + l) */
+    best /= POWER_FACTOR;
+  }
 
-  if (best == 0) best = 1;   /* avoid divide-by-zero below */
+  if (best == 0) best = 1; /* Avoid division by zero below. */
 
-/* multiply by unit_types[bestid].build_cost / best */
-  simple_ai_unit_type_iterate(i) {
-    if (desire[i] != 0) {
-      tech_req = unit_types[i].tech_requirement;
-      n = desire[i] * unit_types[bestid].build_cost / best;
-      pplayer->ai.tech_want[tech_req] += n;
+  /* Request appropriate techs for units we want to build. */
+  
+  simple_ai_unit_type_iterate (unit_type) {
+    if (tech_desire[unit_type]) {
+      Tech_Type_id tech_req = unit_types[unit_type].tech_requirement;
+      int desire = tech_desire[unit_type]
+                   * unit_types[best_unit_type].build_cost / best;
+      
+      pplayer->ai.tech_want[tech_req] += desire;
+      
       freelog(LOG_DEBUG, "%s wants %s for defense with desire %d <%d>",
-		    pcity->name, advances[tech_req].name, n, desire[i]);
+              pcity->name, advances[tech_req].name, desire,
+              tech_desire[unit_type]);
     }
   } simple_ai_unit_type_iterate_end;
-
-  choice->choice = bestid;
+  
+  choice->choice = best_unit_type;
   choice->want = danger;
   choice->type = CT_DEFENDER;
   return;
 }
 
 /************************************************************************** 
-n is type of defender, vet is vet status, x,y is location of target
-I decided this funct wasn't confusing enough, so I made k_s_w send
-it some more variables for it to meddle with -- Syela
+This function decides, what unit would be best for erasing enemy. It is called,
+when we just want to kill something, we've found it but we don't have the unit
+for killing that built yet - here we'll choose the type of that unit.
+
+We will also set increase the technology want to get units which could perform
+the job better.
+
+I decided this funct wasn't confusing enough, so I made kill_something_with
+send it some more variables for it to meddle with. -- Syela
+
+TODO: Get rid of these parameters :).
+
+(x,y) is location of the target.
+(best_value, best_choice) is pre-filled with our current choice, we only 
+  consider units of the same move_type as best_choice
 **************************************************************************/
-static void process_attacker_want(struct player *pplayer,
-			    struct city *pcity, int b, Unit_Type_id n,
-                            bool vet, int x, int y, bool unhap, int *e0, int *v,
-                            int bx, int by, int boatspeed, int needferry)
-{
-  Tech_Type_id j;
-  int a, c, d, e, b0, f, g, fprime;
-  int k, l, m, q;
-  bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
+static void process_attacker_want(struct player *pplayer, struct city *pcity,
+                                  int value, Unit_Type_id victim_unit_type,
+                                  bool veteran, int x, int y, bool unhap,
+                                  int *best_value, int *best_choice,
+                                  int boatx, int boaty, int boatspeed,
+                                  int needferry)
+{ 
+  /* The enemy city.  acity == NULL means stray enemy unit */
   struct city *acity = map_get_city(x, y);
-  int movetype = unit_types[*v].move_type;
+  bool shore = is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN);
+  int orig_move_type = unit_types[*best_choice].move_type;
+  int victim_move_rate = (acity ? 1
+                                : (unit_types[victim_unit_type].move_rate *
+                             (unit_type_flag(victim_unit_type, F_IGTER) ? 3
+                                                                        : 1)));
+  int victim_count = (acity ? unit_list_size(&(map_get_tile(x, y)->units)) + 1
+                            : 1);
 
-  simple_ai_unit_type_iterate(i) {
-    m = unit_types[i].move_type;
-    j = unit_types[i].tech_requirement;
-    if (j != A_LAST) k = num_unknown_techs_for_goal(pplayer,j);
-    else k = 0;
-    if ((m == LAND_MOVING || (m == SEA_MOVING && shore)) && j != A_LAST &&
-         (k != 0 || !can_build_unit_direct(pcity, unit_types[i].obsoleted_by)) &&
-         unit_types[i].attack_strength > 0 && /* otherwise we get SIGFPE's */
-         m == movetype) { /* I don't think I want the duplication otherwise -- Syela */
-      bool will_be_veteran = (m == LAND_MOVING
-			      || player_knows_improvement_tech(pplayer,
-							       B_PORT));
+  simple_ai_unit_type_iterate (unit_type) {
+    Tech_Type_id tech_req = unit_types[unit_type].tech_requirement;
+    int move_type = unit_types[unit_type].move_type;
+    int tech_dist;
+    
+    if (tech_req != A_LAST) {
+      tech_dist = num_unknown_techs_for_goal(pplayer, tech_req);
+    } else {
+      tech_dist = 0;
+    }
+    
+    if ((move_type == LAND_MOVING || (move_type == SEA_MOVING && shore))
+        && tech_req != A_LAST
+        && (tech_dist > 0 ||
+            !can_build_unit_direct(pcity, unit_types[unit_type].obsoleted_by))
+        && unit_types[unit_type].attack_strength > 0 /* or we'll get SIGFPE */
+        && move_type == orig_move_type) {
+      /* TODO: Case for B_AIRPORT. -- Raahul */
+      bool will_be_veteran = (move_type == LAND_MOVING ||
+                              player_knows_improvement_tech(pplayer, B_PORT));
+      /* Cost (shield equivalent) of gaining these techs. */
+      /* FIXME? Katvrr advises that this should be weighted more heavily in big
+       * danger. */
+      int tech_cost = total_bulbs_required_for_goal(pplayer,
+                        unit_types[unit_type].tech_requirement) / 4
+                      / city_list_size(&pplayer->cities);
+      int move_rate = unit_types[unit_type].move_rate;
+      int move_time;
+      int bcost_balanced = build_cost_balanced(unit_type);
+      /* See description of kill_desire() for info about this variables. */
+      int bcost = unit_types[unit_type].build_cost;
+      int vuln;
+      int attack = base_unit_belligerence_primitive(unit_type, will_be_veteran,
+                     SINGLE_MOVE, unit_types[unit_type].hp);
+      /* Values to be computed */
+      int desire, want;
+      
+      /* Take into account reinforcements strength */
+      if (acity) attack += acity->ai.attack;
+      
+      attack *= attack;
 
-      /* cost (shield equiv) of gaining these techs */
-      l = total_bulbs_required_for_goal(pplayer,
-					unit_types[i].tech_requirement);
-      l /= 4;
-
-      l /= city_list_size(&pplayer->cities);
-/* Katvrr advises that with danger high, l should be weighted more heavily */
-
-      a = base_unit_belligerence_primitive(i, will_be_veteran, SINGLE_MOVE,
-					   unit_types[i].hp);
-      if (acity) a += acity->ai.a;
-      a *= a;
-      /* b is unchanged */
-
-      m = unit_types[i].move_rate;
-      q = (acity ? 1 : unit_types[n].move_rate * (unit_type_flag(n, F_IGTER) ? 3 : 1));
-      if (unit_type_flag(i, F_IGTER)) m *= SINGLE_MOVE; /* not quite right */
-      if (unit_types[i].move_type == LAND_MOVING) {
-        if (boatspeed != 0) { /* has to be a city, so don't bother with q */
-          c = (warmap.cost[bx][by] + m - 1) / m + 1 +
-                warmap.seacost[x][y] / boatspeed; /* kluge */
-          if (unit_type_flag(i, F_MARINES)) c -= 1;
-        } else if (warmap.cost[x][y] <= m) c = 1;
-        else c = (warmap.cost[x][y] * q + m - 1) / m;
-      } else if (unit_types[i].move_type == SEA_MOVING) {
-        if (warmap.seacost[x][y] <= m) c = 1;
-        else c = (warmap.seacost[x][y] * q + m - 1) / m;
-      } else if (real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE <= m) c = 1;
-      else c = real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE * q / m;
-
-      d = unit_vulnerability_virtual2(i, n, x, y, FALSE, vet, FALSE, 0);
-
-      if (unit_types[i].move_type == LAND_MOVING && acity &&
-          c > (player_knows_improvement_tech(city_owner(acity),
-					     B_CITY) ? 2 : 4) &&
-          !unit_type_flag(i, F_IGWALL) && !city_got_citywalls(acity)) d *= 9; 
-
-      f = unit_types[i].build_cost;
-      fprime = build_cost_balanced(i);
-
-      if (acity) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
-      else g = 1;
-      if (unit_types[i].move_type != LAND_MOVING && d == 0) b0 = 0;
-/* not bothering to s/!d/!pdef here for the time being -- Syela */
-      else if ((unit_types[i].move_type == LAND_MOVING ||
-              unit_types[i].move_type == HELI_MOVING) && acity &&
-              acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
-      else {
-	if (!acity) {
-	  b0 = kill_desire(b, a, f, d, g);
-	} else {
-	  int a_squared = acity->ai.a * acity->ai.a;
-
-	  b0 = kill_desire(b, a, f + acity->ai.f, d, g);
-	  if (b * a_squared > acity->ai.f * d) {
-	    b0 -= kill_desire(b, a_squared, acity->ai.f, d, g);
-	  }
-	}
+      if (unit_type_flag(unit_type, F_IGTER)) {
+        /* TODO: Use something like IGTER_MOVE_COST. -- Raahul */
+        move_rate *= SINGLE_MOVE;
       }
-      if (b0 > 0) {
-        b0 -= l * SHIELD_WEIGHTING;
-        b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
+
+      /* Set the move_time appropriatelly. */
+      
+      switch(move_type) {
+      case LAND_MOVING:
+        if (boatspeed > 0) {
+          /* It's either city or too far away, so don't bother with
+           * victim_move_rate. */
+          move_time = (warmap.cost[boatx][boaty] + move_rate - 1) / move_rate
+                      + 1 + warmap.seacost[x][y] / boatspeed; /* kludge */
+          if (unit_type_flag(unit_type, F_MARINES)) move_time -= 1;
+          
+        } else if (warmap.cost[x][y] <= move_rate) {
+          /* It's adjacent. */
+          move_time = 1;
+
+        } else {
+          /* Cost for attacking the victim. */
+          /* FIXME? Why we should multiply the cost by move rate?! --pasky */
+          move_time = (warmap.cost[x][y] * victim_move_rate + move_rate - 1)
+                      / move_rate;
+        }
+        break;
+      case SEA_MOVING:
+        if (warmap.seacost[x][y] <= move_rate) {
+          /* It's adjectent. */
+          move_time = 1;
+          
+        } else {
+          /* See above. */
+          move_time = (warmap.seacost[x][y] * victim_move_rate + move_rate - 1)
+                      / move_rate;
+        }
+        break;
+      default:
+        /* FIXME? This is never reached? */
+        if (real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE 
+            <= move_rate) {
+          /* It's adjectent. */
+          move_time = 1;
+        } else {
+          move_time = real_map_distance(pcity->x, pcity->y, x, y) * SINGLE_MOVE
+                      * victim_move_rate / move_rate;
+        }
       }
-      e = military_amortize(b0, MAX(1, c), fprime + needferry);
-      if (e > 0) {
-        if (k != 0) {
-          pplayer->ai.tech_want[j] += e;
-	  if (movetype == SEA_MOVING) {	   /* huh? */
-	    freelog(LOG_DEBUG,
-		    "%s wants %s, %s to punish %s@(%d, %d) with desire %d.", 
-		    pcity->name, advances[j].name, unit_name(i),
-		    (acity ? acity->name : "punit"), x, y, e);
-	  } else {
-	    freelog(LOG_DEBUG,
-		    "%s wants %s, %s for something with desire %d.", 
-		    pcity->name, advances[j].name, unit_name(i), e);
-	  }
-	} else if (e > *e0) {
-	  freelog(LOG_DEBUG, "%s overriding %s(%d) with %s(%d)"
-		  " [a=%d,b=%d,c=%d,d=%d,f=%d]",
-		  pcity->name, unit_name(*v), *e0, unit_name(i), e,
-		  a, b, c, d, f);
-          *v = i;
-          *e0 = e;
+
+      /* Estimate strength of the enemy. */
+      
+      vuln = unit_vulnerability_virtual2(unit_type, victim_unit_type, x, y,
+                                         FALSE, veteran, FALSE, 0);
+
+      if (move_type == LAND_MOVING && acity
+          && move_time > (player_knows_improvement_tech(city_owner(acity),
+                                                        B_CITY) ? 2 : 4)
+          && !unit_type_flag(unit_type, F_IGWALL)
+          && !city_got_citywalls(acity)) {
+        /* Bonus of Citywalls can be expressed as * 3 (because Citywalls have
+         * 200% defense bonus [TODO: genimpr]), and vulnerability is quadratic,
+         * thus we multiply it by 9. */
+        /* FIXME: Use acity->ai.wallvalue? --pasky */
+        vuln *= 9;
+      }
+
+      /* Not bothering to s/!vuln/!pdef/ here for the time being. -- Syela
+       * (this is noted elsewhere as terrible bug making warships yoyoing) 
+       * as the warships will go to enemy cities hoping that the enemy builds 
+       * something for them to kill*/
+      if (move_type != LAND_MOVING && vuln == 0) {
+        desire = 0;
+        
+      } else if ((move_type == LAND_MOVING || move_type == HELI_MOVING)
+                 && acity && acity->ai.invasion == 2) {
+        desire = bcost * SHIELD_WEIGHTING;
+        
+      } else {
+        if (!acity) {
+          desire = kill_desire(value, attack, bcost, vuln, victim_count);
+          
+        } else {
+          int city_attack = acity->ai.attack * acity->ai.attack;
+
+          /* See aiunit.c:find_something_to_kill() for comments. */
+          
+          desire = kill_desire(value, attack, (bcost + acity->ai.bcost), vuln,
+                               victim_count);
+          
+          if (value * city_attack > acity->ai.bcost * vuln) {
+            desire -= kill_desire(value, city_attack, acity->ai.bcost, vuln,
+                                  victim_count);
+          }
+        }
+      }
+      
+      desire -= tech_cost * SHIELD_WEIGHTING;
+      /* We can be possibly making some people of our homecity unhappy - then
+       * we don't want to travel too far away to our victims. */
+      /* TODO: Unify the 'unhap' dependency to some common function. */
+      desire -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING
+                             : SHIELD_WEIGHTING);
+
+      want = military_amortize(desire, MAX(1, move_time),
+                               bcost_balanced + needferry);
+      
+      if (want > 0) {
+        if (tech_dist > 0) {
+          /* This is a future unit, tell the scientist how much we need it */
+          pplayer->ai.tech_want[tech_req] += want;
+          
+          freelog(LOG_DEBUG,
+                  "%s wants %s, %s to punish %s@(%d, %d) with desire %d.", 
+                  pcity->name, advances[tech_req].name, unit_name(unit_type),
+                  (acity ? acity->name : "enemy"), x, y, want);
+          
+        } else if (want > *best_value) {
+          /* This is a real unit and we really want it */
+          freelog(LOG_DEBUG, "%s overriding %s(%d) with %s(%d)"
+                  " [attack=%d,value=%d,move_time=%d,vuln=%d,bcost=%d]",
+                  pcity->name, unit_name(*best_choice), *best_value,
+                  unit_name(unit_type), want, attack, value, move_time, vuln,
+                  bcost);
+
+          *best_choice = unit_type;
+          *best_value = want;
         }
       }
     }
@@ -722,7 +846,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
     vet = myunit->veteran;
 
     a = unit_belligerence_basic(myunit);
-    if (acity) a += acity->ai.a;
+    if (acity) a += acity->ai.attack;
     a *= a;
 
     if (acity) {
@@ -829,11 +953,11 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
       if (!acity) {
 	b0 = kill_desire(b, a, f, d, g);
       } else {
-	int a_squared = acity->ai.a * acity->ai.a;
+       int a_squared = acity->ai.attack * acity->ai.attack;
 
-	b0 = kill_desire(b, a, f + acity->ai.f, d, g);
-	if (b * a_squared > acity->ai.f * d) {
-	  b0 -= kill_desire(b, a_squared, acity->ai.f, d, g);
+       b0 = kill_desire(b, a, f + acity->ai.bcost, d, g);
+       if (b * a_squared > acity->ai.bcost * d) {
+         b0 -= kill_desire(b, a_squared, acity->ai.bcost, d, g);
 	}
       }
     }

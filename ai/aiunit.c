@@ -860,8 +860,8 @@ static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *p
     unit_list_iterate_end;
   } square_iterate_end;
 
-  pcity->ai.a = val2;
-  pcity->ai.f = val3;
+  pcity->ai.attack = val2;
+  pcity->ai.bcost = val3;
   return(val2);
 }
 
@@ -1581,8 +1581,8 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
       if (unit_type(aunit)->attack_strength >
         unit_type(aunit)->transport_capacity) { /* attacker */
         a = unit_belligerence_basic(aunit);
-        pcity->ai.a += a;
-        pcity->ai.f += unit_type(aunit)->build_cost;
+        pcity->ai.attack += a;
+        pcity->ai.bcost += unit_type(aunit)->build_cost;
       }
     }
 /* dealing with invasion stuff */
@@ -1683,7 +1683,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
 	      && !city_got_citywalls(acity))
 	    d *= 9;
 
-          a = (ab + acity->ai.a) * (ab + acity->ai.a);
+          a = (ab + acity->ai.attack) * (ab + acity->ai.attack);
 /* Avoiding handling upkeep aggregation this way -- Syela */
 
           g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
@@ -1696,18 +1696,18 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
           else if ((is_ground_unit(punit) || is_heli_unit(punit)) &&
                    acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
           else {
-            int a_squared = acity->ai.a * acity->ai.a;
+            int a_squared = acity->ai.attack * acity->ai.attack;
             
-            b0 = kill_desire(b, a, (f + acity->ai.f), d, g);
-            if (b * a_squared > acity->ai.f * d) {
+            b0 = kill_desire(b, a, (f + acity->ai.bcost), d, g);
+            if (b * a_squared > acity->ai.bcost * d) {
               /* If there're enough units to do the job, we don't need this
                * one. */
-              /* FIXME: The problem with ai.f is that bigger it is, less is our
-               * desire to go help other units.  Now suppose we need five
+              /* FIXME: The problem with ai.bcost is that bigger it is, less is
+               * our desire to go help other units.  Now suppose we need five
                * cavalries to take over a city, we have four (which is not
                * enough), then we will be severely discouraged to build the
                * fifth one.  Where is logic in this??!?! --GB */
-              b0 -= kill_desire(b, a_squared, acity->ai.f, d, g);
+              b0 -= kill_desire(b, a_squared, acity->ai.bcost, d, g);
             }
           }
           b0 -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);

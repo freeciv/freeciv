@@ -60,9 +60,8 @@ TODO:
   a city exists that connects the two oceans for that player.
 
 - Document/cleanup AI code. Rename variables to more saying names than these:
-  int a, c, d, e, i, a0, b0, f, g, fprime;
-  int j, k, l, m, q;
-  (taken from ai/advmilitary.c:process_attacker_want())
+  int a=0, b, c, d, e, m, n, v, f, b0, ab, g;
+  (taken from ai/aiunit.c:find_something_to_kill())
   I would especially like to have the use of the amortize() function in
   server/settlers.c documented.
   I will apply patches even if they just rename a single variable.
