@@ -485,6 +485,8 @@ static int ai_calc_pollution(struct city *pcity, int i, int j, int best)
 {
   int x, y, m;
   x = pcity->x + i - 2; y = pcity->y + j - 2;
+  if (!normalize_map_pos(&x, &y))
+    return -1;
   if (!(map_get_special(x, y) & S_POLLUTION)) return(-1);
   map_clear_special(x, y, S_POLLUTION);
   m = city_tile_value(pcity, i, j, 0, 0);
@@ -501,6 +503,8 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 {
   int x, y, m;
   x = pcity->x + i - 2; y = pcity->y + j - 2;
+  if (!normalize_map_pos(&x, &y))
+    return -1;
   if (!(map_get_special(x, y) & S_FALLOUT)) return(-1);
   map_clear_special(x, y, S_FALLOUT);
   m = city_tile_value(pcity, i, j, 0, 0);
@@ -534,10 +538,17 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 			    int i, int j)
 {
   int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
-  struct tile *ptile = map_get_tile(x, y);
-  enum tile_terrain_type t = ptile->terrain;
-  struct tile_type *type = get_tile_type(t);
-  int s = ptile->special;
+  enum tile_terrain_type t;
+  struct tile_type *type;
+  int s;
+
+  struct tile *ptile;
+  if (!normalize_map_pos(&x, &y))
+    return -1;
+  ptile = map_get_tile(x, y);
+  t = ptile->terrain;
+  type = get_tile_type(t);
+  s = ptile->special;
 
   if (ptile->terrain != type->irrigation_result &&
       type->irrigation_result != T_LAST) { /* EXPERIMENTAL 980905 -- Syela */
@@ -577,7 +588,11 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 static int ai_calc_mine(struct city *pcity, int i, int j)
 {
   int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
-  struct tile *ptile = map_get_tile(x, y);
+  struct tile *ptile;
+  if (!normalize_map_pos(&x, &y))
+    return -1;
+  ptile = map_get_tile(x, y);
+
 #if 0
   enum tile_terrain_type t = ptile->terrain;
   struct tile_type *type = get_tile_type(t);
@@ -594,7 +609,8 @@ static int ai_calc_mine(struct city *pcity, int i, int j)
     return(m);
   } else 
 #endif
-    /* Note that this code means we will never try to mine a city into the ocean */
+
+  /* Note that this code means we will never try to mine a city into the ocean */
   if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
       !(ptile->special&S_IRRIGATION) && !(ptile->special&S_MINE)) {
     map_set_special(x, y, S_MINE);
@@ -610,12 +626,19 @@ static int ai_calc_mine(struct city *pcity, int i, int j)
 static int ai_calc_transform(struct city *pcity, int i, int j)
 {
   int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
-  struct tile *ptile = map_get_tile(x, y);
+  enum tile_terrain_type t;
+  struct tile_type *type;
+  int s;
+  enum tile_terrain_type r;
+  struct tile *ptile;
+  if (!normalize_map_pos(&x, &y))
+    return -1;
+  ptile = map_get_tile(x, y);
 
-  enum tile_terrain_type t = ptile->terrain;
-  struct tile_type *type = get_tile_type(t);
-  int s = ptile->special;
-  enum tile_terrain_type r = type->transform_result;
+  t = ptile->terrain;
+  type = get_tile_type(t);
+  s = ptile->special;
+  r = type->transform_result;
   
   if ((t == T_ARCTIC || t == T_DESERT || t == T_JUNGLE || t == T_SWAMP  || 
        t == T_TUNDRA || t == T_MOUNTAINS) && r != T_LAST) {
@@ -640,7 +663,8 @@ static int ai_calc_transform(struct city *pcity, int i, int j)
 }
 
 /**************************************************************************
-...
+Calculate the attractiveness
+"spc" will be S_ROAD or S_RAILROAD for sane calls.
 **************************************************************************/
 static int road_bonus(int x, int y, int spc)
 {
@@ -649,15 +673,23 @@ static int road_bonus(int x, int y, int spc)
   int ii[12] = { -1, 0, 1, -1, 1, -1, 0, 1, 0, -2, 2, 0 };
   int jj[12] = { -1, -1, -1, 0, 0, 1, 1, 1, -2, 0, 0, 2 };
   struct tile *ptile;
+  if (!normalize_map_pos(&x, &y))
+    return 0;
+
   for (k = 0; k < 12; k++) {
-    ptile = map_get_tile(x + ii[k], y + jj[k]);
-    rd[k] = ptile->special&spc;
-    te[k] = (ptile->terrain == T_MOUNTAINS || ptile->terrain == T_OCEAN);
-    if (!rd[k]) {
-      unit_list_iterate(ptile->units, punit)
-        if (punit->activity == ACTIVITY_ROAD || punit->activity == ACTIVITY_RAILROAD)
-          rd[k] = spc;
-      unit_list_iterate_end;
+    int x1 = x + ii[k], y1 = y + jj[k];
+    if (!normalize_map_pos(&x1, &y1)) {
+      rd[k] = 0;
+    } else {
+      ptile = map_get_tile(x1, y1);
+      rd[k] = ptile->special&spc;
+      te[k] = (ptile->terrain == T_MOUNTAINS || ptile->terrain == T_OCEAN);
+      if (!rd[k]) {
+	unit_list_iterate(ptile->units, punit)
+	  if (punit->activity == ACTIVITY_ROAD || punit->activity == ACTIVITY_RAILROAD)
+	    rd[k] = spc;
+	unit_list_iterate_end;
+      }
     }
   }
 
@@ -686,6 +718,8 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
   int x, y, m;
   struct tile *ptile;
   x = pcity->x + i - 2; y = pcity->y + j - 2;
+  if (!normalize_map_pos(&x, &y))
+    return -1;
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
       (((ptile->terrain != T_RIVER) && !(ptile->special&S_RIVER)) ||
@@ -709,6 +743,8 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
   enum tile_special_type spe_sav;
   
   x = pcity->x + i - 2; y = pcity->y + j - 2;
+  if (!normalize_map_pos(&x, &y))
+    return -1;
   ptile = map_get_tile(x, y);
   if (ptile->terrain != T_OCEAN &&
       player_knows_techs_with_flag(pplayer, TF_RAILROAD) &&
