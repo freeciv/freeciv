@@ -402,35 +402,44 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
 *****************************************************************/
 static void create_option_dialog(void)
 {
-  GtkWidget *button, *box, *label;
+  GtkWidget *button, *label, *table;
   GtkAccelGroup *accel=gtk_accel_group_new();
   client_option *o;
+  int i;
 
   option_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(option_dialog_shell),"delete_event",
       GTK_SIGNAL_FUNC(deleted_callback),NULL );
   gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
   gtk_accel_group_attach(accel, GTK_OBJECT(option_dialog_shell));
+  gtk_container_set_border_width(
+  		GTK_CONTAINER(GTK_DIALOG(option_dialog_shell)->vbox), 5);
 
-  gtk_window_set_title( GTK_WINDOW( option_dialog_shell ), _("Set local options") );
+  gtk_window_set_title(GTK_WINDOW(option_dialog_shell), _("Set local options"));
 
-  for (o=options; o->name; ++o) {
+  for (o=options, i=0; o->name; ++o, i++)
+    ;
+
+  table=gtk_table_new(i, 2, FALSE);
+  gtk_container_add(GTK_CONTAINER(GTK_DIALOG(option_dialog_shell)->vbox),
+  	table);
+
+  for (o=options, i=0; o->name; ++o, i++) {
     switch (o->type) {
     case COT_BOOL:
-      o->p_gui_data = (void *)gtk_check_button_new_with_label ( _(o->description) );
-      gtk_box_pack_start (GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
-			  GTK_WIDGET(o->p_gui_data), TRUE, TRUE, 0);
-      break;
-    case COT_INT:
-      box = gtk_hbox_new(FALSE, 0);
-      gtk_box_pack_start (GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
-			  GTK_WIDGET(box), TRUE, TRUE, 0);
       label = gtk_label_new(_(o->description));
       gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
-      gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(label), TRUE, TRUE, 5);
+      gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
+      o->p_gui_data = (void *)gtk_check_button_new();
+      gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
+      break;
+    case COT_INT:
+      label = gtk_label_new(_(o->description));
+      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+      gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
       o->p_gui_data = gtk_entry_new_with_max_length(5);
       gtk_widget_set_usize(o->p_gui_data, 45, 0);
-      gtk_box_pack_end (GTK_BOX(box), GTK_WIDGET(o->p_gui_data), TRUE, TRUE, 5);
+      gtk_table_attach_defaults(GTK_TABLE(table), o->p_gui_data, 1, 2, i, i+1);
       break;
     }
   }
