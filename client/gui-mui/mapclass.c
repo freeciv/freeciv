@@ -3398,7 +3398,7 @@ STATIC ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct
   return (ULONG) context_menu;
 }
 
-STATIC ULONG PresentUnit_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_ContextMenuChoice * msg)
+STATIC ULONG PresentUnit_ContextMenuChoice(/*struct IClass * cl,*/ Object * o, struct MUIP_ContextMenuChoice * msg)
 {
   ULONG udata = muiUserData(msg->item);
   ULONG command = UNPACK_COMMAND(udata);
@@ -3423,7 +3423,7 @@ DISPATCHERPROTO(PresentUnit_Dispatcher)
   case MUIM_ContextMenuBuild:
     return PresentUnit_ContextMenuBuild(cl, obj, (struct MUIP_ContextMenuBuild *) msg);
   case MUIM_ContextMenuChoice:
-    return PresentUnit_ContextMenuChoice(cl, obj, (struct MUIP_ContextMenuChoice *) msg);
+    return PresentUnit_ContextMenuChoice(/*cl,*/ obj, (struct MUIP_ContextMenuChoice *) msg);
   }
   return (DoSuperMethodA(cl, obj, msg));
 }
@@ -3502,7 +3502,7 @@ STATIC ULONG SupportedUnit_ContextMenuBuild(struct IClass * cl, Object * o, stru
   return (ULONG) context_menu;
 }
 
-STATIC ULONG SupportedUnit_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_ContextMenuChoice * msg)
+STATIC ULONG SupportedUnit_ContextMenuChoice(/*struct IClass * cl,*/ Object * o, struct MUIP_ContextMenuChoice * msg)
 {
   ULONG udata = muiUserData(msg->item);
   ULONG command = UNPACK_COMMAND(udata);
@@ -3527,7 +3527,7 @@ DISPATCHERPROTO(SupportedUnit_Dispatcher)
   case MUIM_ContextMenuBuild:
     return SupportedUnit_ContextMenuBuild(cl, obj, (struct MUIP_ContextMenuBuild *) msg);
   case MUIM_ContextMenuChoice:
-    return SupportedUnit_ContextMenuChoice(cl, obj, (struct MUIP_ContextMenuChoice *) msg);
+    return SupportedUnit_ContextMenuChoice(/*cl,*/ obj, (struct MUIP_ContextMenuChoice *) msg);
   }
   return (DoSuperMethodA(cl, obj, msg));
 }

@@ -209,6 +209,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 		End,
             Child, BalanceObject, End,
 	    Child, VGroup,
+	        MUIA_HorizWeight, 0, 
 		Child, HVSpace,
 		Child, HGroup,
 		    TextFrame,
