@@ -336,6 +336,7 @@ void send_tile_info(struct conn_list *dest, int x, int y)
 
   info.x = x;
   info.y = y;
+  info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
 
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;
@@ -350,6 +351,15 @@ void send_tile_info(struct conn_list *dest, int x, int y)
       if (pplayer) {
 	update_tile_knowledge(pplayer,x,y);
       }
+      send_packet_tile_info(pconn, &info);
+    } else if (pplayer && map_get_known(x, y, pplayer)
+	       && !map_get_seen(x, y, pplayer)) {
+      /* Just update the owner */
+      struct player_tile *plrtile = map_get_player_tile(x, y, pplayer);
+      info.known = TILE_KNOWN_FOGGED;
+      info.type = plrtile->terrain;
+      info.special = plrtile->special;
+      info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
     }
   }
@@ -375,6 +385,7 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
 
   info.x = x;
   info.y = y;
+  info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
 
   if (!pplayer) {	/* observer sees all */
     info.known=TILE_KNOWN;
@@ -1420,6 +1431,8 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
 
       send_all_known_tiles(NULL);
     }
+    
+    map_update_borders_landmass_change(x, y);
 
     gamelog(GAMELOG_MAP, _("(%d,%d) land created from ocean"), x, y);
     return OLC_OCEAN_TO_LAND;
@@ -1434,8 +1447,226 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
       send_all_known_tiles(NULL);
     }
 
+    map_update_borders_landmass_change(x, y);
+
     gamelog(GAMELOG_MAP, _("(%d,%d) ocean created from land"), x, y);
     return OLC_LAND_TO_OCEAN;
   }
   return OLC_NONE;
+}
+
+/*************************************************************************
+  Return pointer to the oldest adjacent city to this tile.  If
+  there is a city on the exact tile, that is returned instead.
+*************************************************************************/
+static struct city *map_get_adjc_city(int x, int y)
+{
+  struct city *closest = NULL;   /* Closest city */
+  struct tile *ptile;
+
+  ptile = map_get_tile(x, y);
+  if (ptile->city) {
+    return ptile->city;
+  }
+
+  adjc_iterate(x, y, xp, yp) {
+    ptile = map_get_tile(xp, yp);
+    if (ptile->city && 
+         (!closest || ptile->city->turn_founded < closest->turn_founded)) {
+      closest = ptile->city;
+    }
+  } adjc_iterate_end;
+
+  return closest;
+}
+
+/*************************************************************************
+  Returns TRUE if the given ocean tile is surrounded by at least 5 land
+  tiles of the same continent (N.B. will probably need modifications to
+  deal with topologies in which tiles do not have 8 neighbours). If this
+  is the case, the continent number of the land tiles is returned in *contp.
+  If multiple continents border the tile, FALSE is always returned.
+  This enables small seas (usually long inlets or inland lakes) to be
+  claimed by nations, rather than remaining as international waters. This
+  should in the long run perhaps be replaced with more general detection
+  of inland seas.
+*************************************************************************/
+static bool is_claimed_ocean(int x, int y, int *contp)
+{
+  int cont = -1, numland = 0;
+
+  adjc_iterate(x, y, xp, yp) {
+    if (!is_ocean(map_get_terrain(xp, yp))) {
+      int thiscont = map_get_continent(xp, yp);
+      if (cont == -1) {
+	cont = thiscont;
+      }
+      if (cont == thiscont) {
+	numland++;
+      } else {
+	return FALSE;
+      }
+    }
+  } adjc_iterate_end;
+
+  *contp = cont;
+  return (numland >= 5);
+}
+
+/*************************************************************************
+  Return pointer to the closest city to this tile, which must be
+  on the same continent if the city is not immediately adjacent.
+  If two or more cities are equally distant, then return the
+  oldest (i.e. the one with the lowest id). This also correctly
+  works for water bases in SMAC mode, and allows coastal cities
+  to claim one square of ocean. Inland lakes and long inlets act in
+  the same way as the surrounding continent's land tiles. If no cities
+  are within game.borders distance, returns NULL.
+
+  NOTE: The behaviour of this function will eventually depend
+  upon some planned ruleset options.
+*************************************************************************/
+static struct city *map_get_closest_city(int x, int y)
+{
+  struct city *closest;  /* Closest city */
+
+  closest = map_get_adjc_city(x, y);
+  if (!closest) {
+    int distsq;		/* Squared distance to city */
+    /* integer arithmetic equivalent of (borders+0.5)**2 */
+    int cldistsq = game.borders * (game.borders + 1);
+    int cont = map_get_continent(x, y);
+
+    if (!is_ocean(map_get_terrain(x, y)) || is_claimed_ocean(x, y, &cont)) {
+      cities_iterate(pcity) {
+	if (map_get_continent(pcity->x, pcity->y) == cont) {
+          distsq = sq_map_distance(pcity->x, pcity->y, x, y);
+          if (distsq < cldistsq ||
+               (distsq == cldistsq &&
+                (!closest || closest->turn_founded > pcity->turn_founded))) {
+            closest = pcity;
+            cldistsq = distsq;
+          } 
+        }
+      } cities_iterate_end;
+    }
+  }
+
+  return closest;
+}
+
+/*************************************************************************
+  Update tile worker states for all cities that have the given map tile
+  within their radius. Does not sync with client.
+*************************************************************************/
+static void tile_update_owner(int x, int y)
+{
+  cities_iterate(pcity) {
+    int cityx, cityy;
+
+    if (map_to_city_map(&cityx, &cityy, pcity, x, y)) {
+      update_city_tile_status_map(pcity, x, y);
+    }
+  } cities_iterate_end;
+}
+
+/*************************************************************************
+  Recalculate the borders around a given position.
+*************************************************************************/
+static void map_update_borders_recalculate_position(int x, int y)
+{
+  if (game.borders > 0) {
+    iterate_outward(x, y, game.borders, xp, yp) {
+      struct city *pccity = map_get_closest_city(xp, yp);
+      struct player *new_owner = pccity ? get_player(pccity->owner) : NULL;
+
+      if (new_owner != map_get_owner(xp, yp)) {
+	map_set_owner(xp, yp, new_owner);
+	send_tile_info(NULL, xp, yp);
+	tile_update_owner(xp, yp);
+      }
+    } iterate_outward_end;
+  }
+}
+
+/*************************************************************************
+  Modify national territories as resulting from a city being destroyed.
+  x,y coords for (already deleted) city's location.
+  Tile worker states are updated as necessary, but not sync'd with client.
+*************************************************************************/
+void map_update_borders_city_destroyed(int x, int y)
+{
+  map_update_borders_recalculate_position(x, y);
+}
+
+/*************************************************************************
+  Modify national territories resulting from a change of landmass.
+  Tile worker states are updated as necessary, but not sync'd with client.
+*************************************************************************/
+void map_update_borders_landmass_change(int x, int y)
+{
+  map_update_borders_recalculate_position(x, y);
+}
+
+/*************************************************************************
+  Modify national territories resulting from new city or change of city
+  ownership.
+  Tile worker states are updated as necessary, but not sync'd with client.
+*************************************************************************/
+void map_update_borders_city_change(struct city *pcity)
+{
+  map_update_borders_recalculate_position(pcity->x, pcity->y);
+}
+
+/*************************************************************************
+  Delete the territorial claims to all tiles.
+*************************************************************************/
+static void map_clear_borders(void)
+{
+  whole_map_iterate(x, y) {
+    map_set_owner(x, y, NULL);
+  } whole_map_iterate_end;
+}
+
+/*************************************************************************
+  Minimal code that calculates all national territories from scratch.
+*************************************************************************/
+static void map_calculate_territory(void)
+{
+  /* Clear any old territorial claims. */
+  map_clear_borders();
+
+  if (game.borders > 0) {
+    /* Loop over all cities and claim territory. */
+    cities_iterate(pcity) {
+      /* Loop over all map tiles within this city's sphere of influence. */
+      iterate_outward(pcity->x, pcity->y, game.borders, x, y) {
+	struct city *pccity = map_get_closest_city(x, y);
+
+	if (pccity) {
+	  map_set_owner(x, y, get_player(pccity->owner));
+	}
+      } iterate_outward_end;
+    } cities_iterate_end;
+  }
+}
+
+/*************************************************************************
+  Calculate all national territories from scratch.  This can be slow, but
+  is only performed occasionally, i.e. after loading a saved game. Doesn't
+  send any tile information to the clients. Tile worker states are updated
+  as necessary, but not sync'd with client.
+*************************************************************************/
+void map_calculate_borders(void)
+{
+  if (game.borders > 0) {
+    map_calculate_territory();
+
+    /* Fix tile worker states. */
+    cities_iterate(pcity) {
+      map_city_radius_iterate(pcity->x, pcity->y, map_x, map_y) {
+        update_city_tile_status_map(pcity, map_x, map_y);
+      } map_city_radius_iterate_end;
+    } cities_iterate_end;
+  }
 }

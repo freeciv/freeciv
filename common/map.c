@@ -213,6 +213,23 @@ static void tile_init(struct tile *ptile)
   unit_list_init(&ptile->units);
   ptile->worked   = NULL; /* pointer to city working tile */
   ptile->assigned = 0; /* bitvector */
+  ptile->owner    = NULL; /* Tile not claimed by any nation. */
+}
+
+/**************************************************************************
+  Return the player who owns this tile (or NULL if none).
+**************************************************************************/
+struct player *map_get_owner(int x, int y)
+{
+  return MAP_TILE(x, y)->owner;
+}
+
+/**************************************************************************
+  Set the owner of a tile (may be NULL).
+**************************************************************************/
+void map_set_owner(int x, int y, struct player *owner)
+{
+  MAP_TILE(x, y)->owner = owner;
 }
 
 /***************************************************************

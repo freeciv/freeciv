@@ -461,6 +461,61 @@ void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
 }
 
 /**************************************************************************
+   Draw the borders of the given map tile at the given canvas position
+   in non-isometric view.
+**************************************************************************/
+static void tile_draw_borders(struct canvas_store *pcanvas_store,
+			      int map_x, int map_y,
+			      int canvas_x, int canvas_y)
+{
+  struct player *this_owner = map_get_owner(map_x, map_y), *adjc_owner;
+  int x1, y1;
+
+  if (!draw_borders || game.borders == 0) {
+    return;
+  }
+
+  /* left side */
+  if (MAPSTEP(x1, y1, map_x, map_y, DIR8_WEST)
+      && this_owner != (adjc_owner = map_get_owner(x1, y1))
+      && tile_get_known(x1, y1)
+      && this_owner) {
+    gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+		 canvas_x + 1, canvas_y + 1,
+		 0, NORMAL_TILE_HEIGHT - 1);
+  }
+
+  /* top side */
+  if (MAPSTEP(x1, y1, map_x, map_y, DIR8_NORTH)
+      && this_owner != (adjc_owner = map_get_owner(x1, y1))
+      && tile_get_known(x1, y1)
+      && this_owner) {
+    gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+		 canvas_x + 1, canvas_y + 1, NORMAL_TILE_WIDTH - 1, 0);
+  }
+
+  /* right side */
+  if (MAPSTEP(x1, y1, map_x, map_y, DIR8_EAST)
+      && this_owner != (adjc_owner = map_get_owner(x1, y1))
+      && tile_get_known(x1, y1)
+      && this_owner) {
+    gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+		 canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y + 1,
+		 0, NORMAL_TILE_HEIGHT - 1);
+  }
+
+  /* bottom side */
+  if (MAPSTEP(x1, y1, map_x, map_y, DIR8_SOUTH)
+      && this_owner != (adjc_owner = map_get_owner(x1, y1))
+      && tile_get_known(x1, y1)
+      && this_owner) {
+    gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+		 canvas_x + 1, canvas_y + NORMAL_TILE_HEIGHT - 1,
+		 NORMAL_TILE_WIDTH - 1, 0);
+  }
+}
+
+/**************************************************************************
   Draw the given map tile at the given canvas position in non-isometric
   view.
 **************************************************************************/
@@ -494,13 +549,18 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
       /* left side... */
       gui_put_line(pcanvas_store,
 		   get_grid_color(map_x, map_y, map_x - 1, map_y),
+		   LINE_NORMAL,
 		   canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
 
       /* top side... */
       gui_put_line(pcanvas_store,
 		   get_grid_color(map_x, map_y, map_x, map_y - 1),
+		   LINE_NORMAL,
 		   canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
     }
+
+    /* Draw national borders. */
+    tile_draw_borders(pcanvas_store, map_x, map_y, canvas_x, canvas_y);
 
     if (draw_coastline && !draw_terrain) {
       enum tile_terrain_type t1 = map_get_terrain(map_x, map_y), t2;
@@ -510,7 +570,7 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
       if (MAPSTEP(x1, y1, map_x, map_y, DIR8_WEST)) {
 	t2 = map_get_terrain(x1, y1);
 	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  gui_put_line(pcanvas_store, COLOR_STD_OCEAN,
+	  gui_put_line(pcanvas_store, COLOR_STD_OCEAN, LINE_NORMAL,
 		       canvas_x, canvas_y, 0, NORMAL_TILE_HEIGHT);
 	}
       }
@@ -519,7 +579,7 @@ void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
       if (MAPSTEP(x1, y1, map_x, map_y, DIR8_NORTH)) {
 	t2 = map_get_terrain(x1, y1);
 	if (is_ocean(t1) ^ is_ocean(t2)) {
-	  gui_put_line(pcanvas_store, COLOR_STD_OCEAN,
+	  gui_put_line(pcanvas_store, COLOR_STD_OCEAN, LINE_NORMAL,
 		       canvas_x, canvas_y, NORMAL_TILE_WIDTH, 0);
 	}
       }
@@ -569,6 +629,63 @@ static void put_tile(int map_x, int map_y)
 	    map_x, map_y, canvas_x, canvas_y);
     put_one_tile(mapview_canvas.store, map_x, map_y,
 		 canvas_x, canvas_y, FALSE);
+  }
+}
+
+/**************************************************************************
+   Draw the borders of the given map tile at the given canvas position
+   in isometric view.
+**************************************************************************/
+void tile_draw_borders_iso(struct canvas_store *pcanvas_store,
+			   int map_x, int map_y,
+			   int canvas_x, int canvas_y,
+			   enum draw_type draw)
+{
+  struct player *this_owner = map_get_owner(map_x, map_y), *adjc_owner;
+  int x1, y1;
+
+  if (!draw_borders || game.borders == 0) {
+    return;
+  }
+
+  /* left side */
+  if ((draw & D_M_L) && MAPSTEP(x1, y1, map_x, map_y, DIR8_WEST)
+      && this_owner != (adjc_owner = map_get_owner(x1, y1))
+      && tile_get_known(x1, y1)) {
+    if (adjc_owner) {
+      gui_put_line(pcanvas_store, player_color(adjc_owner), LINE_BORDER,
+		   canvas_x,
+		   canvas_y + NORMAL_TILE_HEIGHT / 2 - 1,
+		   NORMAL_TILE_WIDTH / 2,
+                   -NORMAL_TILE_HEIGHT / 2);
+    }
+    if (this_owner) {
+      gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+		   canvas_x,
+		   canvas_y + NORMAL_TILE_HEIGHT / 2 + 1,
+		   NORMAL_TILE_WIDTH / 2,
+                   -NORMAL_TILE_HEIGHT / 2);
+    }
+  }
+
+  /* top side */
+  if ((draw & D_M_R) && MAPSTEP(x1, y1, map_x, map_y, DIR8_NORTH)
+      && this_owner != (adjc_owner = map_get_owner(x1, y1))
+      && tile_get_known(x1, y1)) {
+    if (adjc_owner) {
+      gui_put_line(pcanvas_store, player_color(adjc_owner), LINE_BORDER,
+		   canvas_x + NORMAL_TILE_WIDTH / 2,
+		   canvas_y - 1,
+		   NORMAL_TILE_WIDTH / 2,
+		   NORMAL_TILE_HEIGHT / 2);
+    }
+    if (this_owner) {
+      gui_put_line(pcanvas_store, player_color(this_owner), LINE_BORDER,
+		   canvas_x + NORMAL_TILE_WIDTH / 2,
+		   canvas_y + 1,
+		   NORMAL_TILE_WIDTH / 2,
+		   NORMAL_TILE_HEIGHT / 2);
+    }
   }
 }
 

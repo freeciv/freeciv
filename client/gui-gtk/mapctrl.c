@@ -105,8 +105,23 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 				     "GtkLabel::label", 
                                      _("Minor Tribe Village"), NULL);
     }
+
+    pcity = map_get_city(xtile, ytile);
+    if (game.borders > 0 && !pcity) {
+      struct player *owner = map_get_owner(xtile, ytile);
+      if (owner) {
+	my_snprintf(s, sizeof(s), _("Claimed by %s"),
+		    get_nation_name(owner->nation));
+	gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
+				       "GtkLabel::label", s, NULL);
+      } else {
+	gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
+				       "GtkLabel::label",
+				       _("Unclaimed territory"), NULL);
+      }
+    }
     
-    if((pcity = map_get_city(xtile, ytile))) {
+    if (pcity) {
       my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name,
 		  get_nation_name(city_owner(pcity)->nation));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,

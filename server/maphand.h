@@ -90,6 +90,11 @@ void enable_fog_of_war(void);
 void disable_fog_of_war(void);
 bool is_coast_seen(int x, int y, struct player *pplayer);
 
+void map_update_borders_city_destroyed(int x, int y);
+void map_update_borders_city_change(struct city *pcity);
+void map_update_borders_landmass_change(int x, int y);
+void map_calculate_borders(void);
+
 enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
                                               enum tile_terrain_type oldter);
 #endif  /* FC__MAPHAND_H */

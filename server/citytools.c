@@ -860,6 +860,9 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   pcity->owner = ptaker->player_no;
   city_list_insert(&ptaker->cities, pcity);
 
+  /* Update the national borders. */
+  map_update_borders_city_change(pcity);
+
   transfer_city_units(ptaker, pgiver, &old_city_units,
 		      pcity, NULL,
 		      kill_outside, transfer_unit_verbose);
@@ -993,6 +996,9 @@ void create_city(struct player *pplayer, const int x, const int y,
 
   city_list_insert(&pplayer->cities, pcity);
   add_city_to_minimap(x, y);
+
+  /* Update the national borders. */
+  map_update_borders_city_change(pcity);
 
   /* it is possible to build a city on a tile that is already worked
    * this will displace the worker on the newly-built city's tile -- Syela */
@@ -1152,6 +1158,7 @@ void remove_city(struct city *pcity)
 /* DO NOT remove city from minimap here. -- Syela */
   
   game_remove_city(pcity);
+  map_update_borders_city_destroyed(x, y);
 
   players_iterate(other_player) {
     if (map_get_known_and_seen(x, y, other_player)) {
@@ -1888,6 +1895,10 @@ bool city_can_work_tile(struct city *pcity, int city_x, int city_y)
 
   if (ptile->worked && ptile->worked != pcity)
     return FALSE;
+
+  if (ptile->owner && ptile->owner->player_no != pcity->owner) {
+    return FALSE;
+  }
 
   return TRUE;
 }

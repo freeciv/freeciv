@@ -148,6 +148,7 @@ bool draw_cities = TRUE;
 bool draw_units = TRUE;
 bool draw_focus_unit = FALSE;
 bool draw_fog_of_war = TRUE;
+bool draw_borders = TRUE;
 
 #define VIEW_OPTION(name) { #name, &name }
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }
@@ -169,6 +170,7 @@ view_option view_options[] = {
   VIEW_OPTION(draw_units),
   VIEW_OPTION(draw_focus_unit),
   VIEW_OPTION(draw_fog_of_war),
+  VIEW_OPTION(draw_borders),
   VIEW_OPTION_TERMINATOR
 };
 

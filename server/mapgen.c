@@ -1753,6 +1753,7 @@ static void initworld(struct gen234_state *pstate)
     for (x = 0 ; x < map.xsize ; x++) {
       map_set_terrain(x, y, T_OCEAN);
       map_set_continent(x, y, 0);
+      map_set_owner(x, y, NULL);
     }
   for (x = 0 ; x < map.xsize; x++) {
     map_set_terrain(x, 0, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);

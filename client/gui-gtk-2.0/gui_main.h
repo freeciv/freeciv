@@ -37,6 +37,7 @@ extern GdkGC *          fill_bg_gc;
 extern GdkGC *          fill_tile_gc;
 extern GdkGC *          thin_line_gc;
 extern GdkGC *          thick_line_gc;
+extern GdkGC *          border_line_gc;
 extern GdkPixmap *      gray50;
 extern GdkPixmap *      gray25;
 extern GdkPixmap *      black50;

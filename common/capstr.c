@@ -79,7 +79,7 @@ const char * const our_capability = our_capability_internal;
                    "+impr_req +waste +fastfocus +continent +small_dipl " \
                    "+no_nation_selected +diplomacy +no_extra_tiles " \
                    "+diplomacy2 +citizens_style +root_tech auth " \
-                   "+nat_ulimit retake +goto_pack"
+                   "+nat_ulimit retake +goto_pack borders"
 
 /* "+1.14.0" is protocol for 1.14.0 release.
  *
@@ -140,6 +140,8 @@ const char * const our_capability = our_capability_internal;
  *
  * "goto_pack" changes the goto route packet to send (255,255) instead of
  * map.xsize/map.ysize to mark the end of the goto chunk.
+ *
+ * "borders" is support for national borders.
  */
 
 void init_our_capability(void)

@@ -99,6 +99,7 @@ GdkGC *fill_bg_gc;
 GdkGC *fill_tile_gc;
 GdkGC *thin_line_gc;
 GdkGC *thick_line_gc;
+GdkGC *border_line_gc;
 GdkPixmap *gray50, *gray25, *black50;
 GdkPixmap *mask_bitmap;
 
@@ -1114,12 +1115,17 @@ void ui_main(int argc, char **argv)
   /* for isometric view. always create. the tileset can change at run time. */
   thin_line_gc = gdk_gc_new(root_window);
   thick_line_gc = gdk_gc_new(root_window);
+  border_line_gc = gdk_gc_new(root_window);
   gdk_gc_set_line_attributes(thin_line_gc, 1,
 			     GDK_LINE_SOLID,
 			     GDK_CAP_NOT_LAST,
 			     GDK_JOIN_MITER);
   gdk_gc_set_line_attributes(thick_line_gc, 2,
 			     GDK_LINE_SOLID,
+			     GDK_CAP_NOT_LAST,
+			     GDK_JOIN_MITER);
+  gdk_gc_set_line_attributes(border_line_gc, 2,
+			     GDK_LINE_ON_OFF_DASH,
 			     GDK_CAP_NOT_LAST,
 			     GDK_JOIN_MITER);
 

@@ -92,6 +92,7 @@ extern bool draw_cities;
 extern bool draw_units;
 extern bool draw_focus_unit;
 extern bool draw_fog_of_war;
+extern bool draw_borders;
 
 typedef struct {
   const char *name;

@@ -998,6 +998,19 @@ void request_toggle_map_grid(void)
 }
 
 /**************************************************************************
+ Toggle display of national borders on the map
+**************************************************************************/
+void request_toggle_map_borders(void) 
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  draw_borders ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
  Toggle display of city names
 **************************************************************************/
 void request_toggle_city_names(void)
@@ -1794,6 +1807,14 @@ void key_unit_transform(void)
 void key_map_grid_toggle(void)
 {
   request_toggle_map_grid();
+}
+
+/**************************************************************************
+  Toggle map borders on the mapview on/off based on a keypress.
+**************************************************************************/
+void key_map_borders_toggle(void)
+{
+  request_toggle_map_borders();
 }
 
 /**************************************************************************

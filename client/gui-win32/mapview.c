@@ -1315,7 +1315,8 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
 void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
-		  int start_x, int start_y, int dx, int dy)
+		  enum line_type ltype, int start_x, int start_y,
+		  int dx, int dy)
 {
   HDC hdc = CreateCompatibleDC(pcanvas_store->hdc);
   HPEN old = SelectObject(hdc, pen_std[color]);

@@ -27,6 +27,10 @@ enum color_std {
   COLOR_STD_LAST
 };
 
+enum line_type {
+  LINE_NORMAL, LINE_BORDER
+};
+
 enum Display_color_type {
   BW_DISPLAY, GRAYSCALE_DISPLAY, COLOR_DISPLAY
 };

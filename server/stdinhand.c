@@ -553,6 +553,13 @@ static struct settings_s settings[] = {
 	  GAME_MIN_WATCHTOWER_EXTRA_VISION, GAME_MAX_WATCHTOWER_EXTRA_VISION, 
 	  GAME_DEFAULT_WATCHTOWER_EXTRA_VISION)
 
+  GEN_INT("borders", game.borders, SSET_RULES, SSET_TO_CLIENT,
+	  N_("National border's radius"),
+	  N_("If this is set to greater than 0, nations will have territory "
+	     "delineated by borders placed on the loci between cities, with "
+	     "the maximum distance from any city specified."), NULL,
+	  GAME_MIN_BORDERS, GAME_MAX_BORDERS, GAME_DEFAULT_BORDERS)
+
   GEN_INT("citynames", game.allowed_city_names, SSET_RULES, SSET_TO_CLIENT,
 	  N_("Allowed city names"),
 	  N_("If set to 0, there are no restrictions: players can have "

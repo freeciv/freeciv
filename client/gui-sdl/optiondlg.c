@@ -1207,6 +1207,17 @@ static int draw_city_productions_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
+static int borders_callback(struct GUI *pWidget)
+{
+  redraw_icon(pWidget);
+  flush_rect(pWidget->size);
+  draw_borders ^= 1;
+  return -1;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
 static int draw_terrain_callback(struct GUI *pWidget)
 {
   redraw_icon(pWidget);
@@ -1468,6 +1479,32 @@ static int map_setting_callback(struct GUI *pWidget)
   pTmpGui->size.x = pWindow->size.x + 55;
 
   add_to_gui_list(ID_OPTIONS_MAP_CITY_NAMES_LABEL, pTmpGui);
+
+  pTmpGui->size.y = pTmpGui->next->size.y +
+      ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
+
+  /* 'draw borders' */
+  /* check box */
+  pTmpGui = create_checkbox(pWindow->dst, draw_borders,
+			    WF_DRAW_THEME_TRANSPARENT);
+
+  pTmpGui->action = borders_callback;
+  set_wstate(pTmpGui, FC_WS_NORMAL);
+
+  pTmpGui->size.x = pWindow->size.x + 15;
+
+  add_to_gui_list(ID_OPTIONS_MAP_BORDERS_CHECKBOX, pTmpGui);
+  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
+
+  /* label */
+  pStr = create_str16_from_char(_("National Borders"), 10);
+  pStr->style |= TTF_STYLE_BOLD;
+  pStr->forecol = text_color;
+  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+  
+  pTmpGui->size.x = pWindow->size.x + 55;
+
+  add_to_gui_list(ID_OPTIONS_MAP_BORDERS_LABEL, pTmpGui);
 
   pTmpGui->size.y = pTmpGui->next->size.y +
       ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
@@ -2059,7 +2096,7 @@ void popup_optiondlg(void)
   /* ------------------------------------------------------ */
   
   w = MAX(w, 360);
-  h = 300;
+  h = 330;
   
   start_x = (Main.screen->w - w) / 2;
   start_y = (Main.screen->h - h) / 2;

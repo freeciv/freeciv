@@ -273,7 +273,7 @@ struct packet_city_request
   tile info
 *********************************************************/
 struct packet_tile_info {
-  int x, y, type, special, known;
+  int x, y, type, special, known, owner;
   unsigned short continent;
 };
 
@@ -607,6 +607,7 @@ struct packet_ruleset_control {
   int nation_count;
   int playable_nation_count;
   int style_count;
+  int borders;
   char team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
 };
 

@@ -504,7 +504,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     }
   }
 
-  if (draw_map_grid && can_client_change_view()) {
+  if ((draw_map_grid || draw_borders) && can_client_change_view()) {
     /* We have to make sure we update any workers on the map grid, then
      * redraw the city descriptions on top of them. */
     update_map_canvas(pcity->x - CITY_MAP_SIZE / 2,
@@ -1714,6 +1714,19 @@ void handle_tile_info(struct packet_tile_info *packet)
     tile_changed = TRUE;
     ptile->special = packet->special;
   }
+  if (packet->owner == MAP_TILE_OWNER_NULL) {
+    if (ptile->owner) {
+      ptile->owner = NULL;
+      tile_changed = TRUE;
+    }
+  } else {
+    struct player *newowner = get_player(packet->owner);
+
+    if (ptile->owner != newowner) {
+      ptile->owner = newowner;
+      tile_changed = TRUE;
+    }
+  }
   ptile->known = packet->known;
 
   reset_move_costs(packet->x, packet->y);
@@ -1843,6 +1856,8 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.num_unit_types = packet->num_unit_types;
   game.num_impr_types = packet->num_impr_types;
   game.num_tech_types = packet->num_tech_types;
+
+  game.borders = packet->borders;
 
   governments_alloc(packet->government_count);
 

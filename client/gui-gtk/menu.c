@@ -82,6 +82,7 @@ enum MenuID {
   MENU_KINGDOM_REVOLUTION,
 
   MENU_VIEW_SHOW_MAP_GRID,
+  MENU_VIEW_SHOW_NATIONAL_BORDERS,
   MENU_VIEW_SHOW_CITY_NAMES,
   MENU_VIEW_SHOW_CITY_GROWTH_TURNS,
   MENU_VIEW_SHOW_CITY_PRODUCTIONS,
@@ -230,6 +231,11 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
   case MENU_VIEW_SHOW_MAP_GRID:
     if (draw_map_grid ^ GTK_CHECK_MENU_ITEM(widget)->active)
       key_map_grid_toggle();
+    break;
+  case MENU_VIEW_SHOW_NATIONAL_BORDERS:
+    if (draw_borders ^ GTK_CHECK_MENU_ITEM(widget)->active) {
+      key_map_borders_toggle();
+    }
     break;
   case MENU_VIEW_SHOW_CITY_NAMES:
     if (draw_city_names ^ GTK_CHECK_MENU_ITEM(widget)->active) {
@@ -618,6 +624,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Tearoff>"	},
   { "/" N_("View") "/" N_("Map _Grid"),			"<control>g",
 	view_menu_callback,	MENU_VIEW_SHOW_MAP_GRID,		"<CheckItem>"	},
+  { "/" N_("View") "/" N_("National _Borders"),		"<control>b",
+	view_menu_callback,	MENU_VIEW_SHOW_NATIONAL_BORDERS,	"<CheckItem>"	},
   { "/" N_("View") "/" N_("City _Names"),		"<control>n",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_NAMES,		"<CheckItem>"	},
   { "/" N_("View") "/" N_("City G_rowth"),		"<control>r",
@@ -1056,6 +1064,8 @@ void update_menus(void)
 			(game.player_ptr->spaceship.state!=SSHIP_NONE));
 
     menus_set_active("<main>/_View/Map _Grid", draw_map_grid);
+    menus_set_sensitive("<main>/_View/National _Borders", game.borders > 0);
+    menus_set_active("<main>/_View/National _Borders", draw_borders);
     menus_set_active("<main>/_View/City _Names", draw_city_names);
     menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);
     menus_set_active("<main>/_View/City G_rowth", draw_city_growth);

@@ -1804,6 +1804,7 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.num_unit_types = game.num_unit_types;
   packet.num_impr_types = game.num_impr_types;
   packet.num_tech_types = game.num_tech_types;
+  packet.borders = game.borders;
 
   packet.nation_count = game.nation_count;
   packet.playable_nation_count = game.playable_nation_count;

@@ -153,6 +153,10 @@ void put_unit_full(struct unit *punit, struct canvas_store *pcanvas_store,
 
 void put_one_tile(struct canvas_store *pcanvas_store, int map_x, int map_y,
 		  int canvas_x, int canvas_y, bool citymode);
+void tile_draw_borders_iso(struct canvas_store *pcanvas_store,
+			   int map_x, int map_y,
+			   int canvas_x, int canvas_y,
+			   enum draw_type draw);
 
 void update_map_canvas(int x, int y, int width, int height,
 		       bool write_to_screen);

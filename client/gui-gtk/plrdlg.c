@@ -35,6 +35,7 @@
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "tilespec.h"
 
 #include "chatline.h"
 #include "colors.h"
@@ -74,7 +75,7 @@ static void players_list_callback(GtkWidget *w, gint row, gint column);
 static void players_list_ucallback(GtkWidget *w, gint row, gint column);
 static void players_sship_callback(GtkWidget *w, gpointer data);
 
-#define NUM_COLUMNS 13		/* number of columns in total */
+#define NUM_COLUMNS 14		/* number of columns in total */
 #define DEF_SORT_COLUMN 2 /* default sort column (1 = nation) */
 
 /****************************************************************
@@ -135,7 +136,8 @@ static void sort_players_callback(GtkButton *button, gpointer *data)
 void create_players_dialog(void)
 {
   static const char *titles_[NUM_COLUMNS] =
-      { N_("Name"), N_("Flag"), N_("Nation"), N_("Team"), N_("AI"),
+      { N_("Name"), N_("Flag"), N_("Nation"),
+	N_("Border"), N_("Team"), N_("AI"),
 	N_("Embassy"), N_("Dipl.State"), N_("Vision"), N_("Reputation"),
 	N_("State"), N_("Host"), N_("Idle"), N_("Ping")
   };
@@ -263,9 +265,11 @@ static void build_row(const char **row, int i, int update)
 {
   static char namebuf[MAX_LEN_NAME], flagbuf[1], aibuf[2], dsbuf[32],
       repbuf[32], statebuf[32], idlebuf[32];
+  static const char *colbuf = "";
   const struct player_diplstate *pds;
 
-  /* we assume that neither name, team nor the nation of a player changes */
+  /* we assume that the player's name, flag,
+   * nation and color never change. */
   if (update == 0) {
     /* the playername */
     my_snprintf(namebuf, sizeof(namebuf), "%-16s", game.players[i].name);
@@ -278,11 +282,14 @@ static void build_row(const char **row, int i, int update)
     /* the nation */
     row[2] = (char *) get_nation_name(game.players[i].nation);
 
+    /* the nation color, empty since it's a block of color (no text). */
+    row[3] = colbuf;
+
     /* the team */
     if (game.players[i].team != TEAM_NONE) {
-      row[3] = (char *) team_get_by_id(game.players[i].team)->name;
+      row[4] = (char *) team_get_by_id(game.players[i].team)->name;
     } else {
-      row[3] = (char *) "";
+      row[4] = (char *) "";
     }
   }
 
@@ -333,15 +340,15 @@ static void build_row(const char **row, int i, int update)
 	      reputation_text(game.players[i].reputation));
 
   /* assemble the whole lot */
-  row[4] = aibuf;
-  row[5] = get_embassy_status(game.player_ptr, &game.players[i]);
-  row[6] = dsbuf;
-  row[7] = get_vision_status(game.player_ptr, &game.players[i]);
-  row[8] = repbuf;
-  row[9] = statebuf;
-  row[10] = (char *) player_addr_hack(&game.players[i]);	/* Fixme */
-  row[11] = idlebuf;
-  row[12] = get_ping_time_text(&game.players[i]);
+  row[5] = aibuf;
+  row[6] = get_embassy_status(game.player_ptr, &game.players[i]);
+  row[7] = dsbuf;
+  row[8] = get_vision_status(game.player_ptr, &game.players[i]);
+  row[9] = repbuf;
+  row[10] = statebuf;
+  row[11] = (char *) player_addr_hack(&game.players[i]);	/* Fixme */
+  row[12] = idlebuf;
+  row[13] = get_ping_time_text(&game.players[i]);
 }
 
 #define MIN_DIMENSION 5
@@ -401,12 +408,15 @@ void update_players_dialog(void)
 {
   if (players_dialog_shell && !is_plrdlg_frozen()) {
     GdkColor *state_col;
+    GtkStyle *style;
     const char *row_texts[NUM_COLUMNS];
     int i, j, row, sort_needed = 0;
 
     gtk_clist_freeze(GTK_CLIST(players_list));
 
-    for (i = 0; i < game.nplayers; i++) {
+    players_iterate(pplayer) {
+      int i = pplayer->player_no;
+
       /* skip barbarians */
       if (is_barbarian(&game.players[i])) {
 	continue;
@@ -438,7 +448,7 @@ void update_players_dialog(void)
 	 * The nation already had a row in the player report. In that
 	 * case we just update the row. 
 	 */
-	for (j = 4; j < NUM_COLUMNS; j++) {
+	for (j = 5; j < NUM_COLUMNS; j++) {
 	  gtk_clist_set_text(GTK_CLIST(players_list), row, j,
 			     row_texts[j]);
 	}
@@ -456,6 +466,13 @@ void update_players_dialog(void)
 	state_col = colors_standard[COLOR_STD_BLACK];
       }
       gtk_clist_set_foreground(GTK_CLIST(players_list), row, state_col);
+      /* Make the background of column 3 match the nation's border colour. */
+      style = gtk_style_new();
+      style->fg[GTK_STATE_NORMAL]
+	      = *(colors_standard[player_color(pplayer)]);
+      style->base[GTK_STATE_NORMAL]
+	      = *(colors_standard[player_color(pplayer)]);
+      gtk_clist_set_cell_style(GTK_CLIST(players_list), row, 3, style);
     }
 
     if (sort_needed) {
@@ -469,7 +486,7 @@ void update_players_dialog(void)
 
     gtk_clist_thaw(GTK_CLIST(players_list));
     gtk_widget_show_all(players_list);
-  }
+  } players_iterate_end;
 }
 
 /**************************************************************************

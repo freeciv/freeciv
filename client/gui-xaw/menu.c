@@ -128,6 +128,8 @@ static struct MenuEntry kingdom_menu_entries[]={
 
 static struct MenuEntry view_menu_entries[]={
     { { N_("Map Grid"), 0             }, "ctl-g", MENU_VIEW_SHOW_MAP_GRID, 0 },
+    { { N_("National Borders"), 0     }, "ctl-b",
+      MENU_VIEW_SHOW_NATIONAL_BORDERS, 0 },
     { { N_("City Names"), 0           }, "ctl-n", MENU_VIEW_SHOW_CITY_NAMES, 0 },
     { { N_("City Growth"), 0          }, "ctl-r",
       MENU_VIEW_SHOW_CITY_GROWTH, 0 },
@@ -512,6 +514,9 @@ static void view_menu_callback(Widget w, XtPointer client_data,
   switch(pane_num) {
   case MENU_VIEW_SHOW_MAP_GRID:
     key_map_grid_toggle();
+    break;
+  case MENU_VIEW_SHOW_NATIONAL_BORDERS:
+    key_map_borders_toggle();
     break;
   case MENU_VIEW_SHOW_CITY_NAMES:
     key_city_names_toggle();

@@ -1166,6 +1166,9 @@ struct packet_tile_info *receive_packet_tile_info(struct connection *pc)
   if (has_capability("continent", pc->capability)) {
     dio_get_uint16(&din, (int *)&packet->continent);
   }
+  if (has_capability("borders", pc->capability)) {
+    dio_get_uint16(&din, &packet->owner);
+  }
   RECEIVE_PACKET_END(packet);
 }
 
@@ -1195,6 +1198,9 @@ int send_packet_tile_info(struct connection *pc,
   dio_put_uint8(&dout, pinfo->known);
   if (has_capability("continent", pc->capability)) {
     dio_put_uint16(&dout, pinfo->continent);
+  }
+  if (has_capability("borders", pc->capability)) {
+    dio_put_uint16(&dout, pinfo->owner);
   }
 
   SEND_PACKET_END;
@@ -1927,6 +1933,10 @@ int send_packet_ruleset_control(struct connection *pc,
   dio_put_uint8(&dout, packet->playable_nation_count);
   dio_put_uint8(&dout, packet->style_count);
 
+  if (has_capability("borders", pc->capability)) {
+    dio_put_uint8(&dout, packet->borders);
+  }
+  
   dio_put_tech_list(&dout, packet->rtech.partisan_req);
 
   if (has_capability("team", pc->capability)) {
@@ -1973,6 +1983,12 @@ receive_packet_ruleset_control(struct connection *pc)
   dio_get_uint8(&din, &packet->playable_nation_count);
   dio_get_uint8(&din, &packet->style_count);
 
+  if (has_capability("borders", pc->capability)) {
+    dio_get_uint8(&din, &packet->borders);
+  } else {
+    packet->borders = 0;
+  }
+  
   dio_get_tech_list(&din, packet->rtech.partisan_req);
 
   for (i = 0; i < MAX_NUM_TEAMS; i++) {

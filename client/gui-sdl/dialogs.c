@@ -652,20 +652,30 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   
   if(tile_get_known(x, y) >= TILE_KNOWN_FOGGED) {
   
-    my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s\n"),
+    my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s"),
 		sdl_map_get_tile_info_text(pTile),
 		map_get_tile_fpt_text(x, y));
     
     if (tile_has_special(pTile, S_HUT))
     { 
-      sz_strlcat(cBuf, _("Minor Tribe Village"));
+      sz_strlcat(cBuf, _("\nMinor Tribe Village"));
     }
     else
     {
       if (get_tile_infrastructure_set(pTile))
       {
-        sz_strlcat(cBuf, _("Infrastructure: "));
+        sz_strlcat(cBuf, _("\nInfrastructure: "));
         sz_strlcat(cBuf, map_get_infrastructure_text(pTile->special));
+      }
+    }
+    if (game.borders > 0) {
+      if (pTile->owner) {
+	char ownbuf[255];
+	my_snprintf(ownbuf, sizeof(ownbuf), _("\nClaimed by %s"),
+		    get_nation_name(pTile->owner->nation));
+	sz_strlcat(cBuf, ownbuf);
+      } else {
+	sz_strlcat(cBuf, _("\nUnclaimed territory"));
       }
     }
   }

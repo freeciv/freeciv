@@ -145,6 +145,8 @@ static void check_cities(void)
 
 	if (city_map_to_map(&map_x, &map_y, pcity, x, y)) {
 	  struct tile *ptile = map_get_tile(map_x, map_y);
+	  struct player *owner = map_get_owner(map_x, map_y);
+
 	  switch (get_worker_city(pcity, x, y)) {
 	  case C_TILE_EMPTY:
 	    if (map_get_tile(map_x, map_y)->worked) {
@@ -156,6 +158,12 @@ static void check_cities(void)
 	    if (is_enemy_unit_tile(ptile, pplayer)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "empty but occupied by an enemy unit!",
+		      pcity->name, x, y);
+	    }
+	    if (game.borders > 0
+		&& owner && owner->player_no != pcity->owner) {
+	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+		      "empty but in enemy territory!",
 		      pcity->name, x, y);
 	    }
 	    break;
@@ -170,11 +178,18 @@ static void check_cities(void)
 		      "worked but occupied by an enemy unit!",
 		      pcity->name, x, y);
 	    }
+	    if (game.borders > 0
+                && owner && owner->player_no != pcity->owner) {
+	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+		      "worked but in enemy territory!",
+		      pcity->name, x, y);
+	    }
 	    break;
 	  case C_TILE_UNAVAILABLE:
 	    if (!map_get_tile(map_x, map_y)->worked
 		&& !is_enemy_unit_tile(ptile, pplayer)
-		&& map_get_known(map_x, map_y, pplayer)) {
+		&& map_get_known(map_x, map_y, pplayer)
+		&& (!owner || owner->player_no == pcity->owner)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "unavailable but seems to be available!",
 		      pcity->name, x, y);

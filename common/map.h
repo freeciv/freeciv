@@ -59,6 +59,7 @@ struct tile {
   struct city *worked;      /* city working tile, or NULL if none */
   unsigned short continent;
   signed char move_cost[8]; /* don't know if this helps! */
+  struct player *owner;     /* Player owning this tile, or NULL. */
 };
 
 
@@ -251,6 +252,8 @@ void reset_move_costs(int x, int y);
      (dest_y) = (src_y) + DIR_DY[(dir)],		\
      normalize_map_pos(&(dest_x), &(dest_y)))
 
+struct player *map_get_owner(int x, int y);
+void map_set_owner(int x, int y, struct player *pplayer);
 struct city *map_get_city(int x, int y);
 void map_set_city(int x, int y, struct city *pcity);
 enum tile_terrain_type map_get_terrain(int x, int y);
@@ -603,6 +606,9 @@ extern const int CAR_DIR_DY[4];
 #define cartesian_adjacent_iterate_end                                        \
   }                                                                           \
 }
+
+/* Used for network transmission; do not change. */
+#define MAP_TILE_OWNER_NULL	 MAX_UINT16
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0

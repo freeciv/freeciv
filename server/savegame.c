@@ -1911,6 +1911,9 @@ void game_load(struct section_file *file)
     game.rapturedelay  = secfile_lookup_int_default(file,
       GAME_DEFAULT_RAPTUREDELAY, "game.rapturedelay");
 
+    /* National borders setting. */
+    game.borders = secfile_lookup_int_default(file, 0, "game.borders");
+
     if (has_capability("watchtower", savefile_options)) {
       game.watchtower_extra_vision =
 	  secfile_lookup_int(file, "game.watchtower_extra_vision");
@@ -2182,6 +2185,9 @@ void game_load(struct section_file *file)
     initialize_globals();
     apply_unit_ordering();
 
+    /* Rebuild national borders. */
+    map_calculate_borders();
+
     /* Make sure everything is consistent. */
     players_iterate(pplayer) {
       unit_list_iterate(pplayer->units, punit) {
@@ -2301,6 +2307,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.onsetbarbarian, "game.onsetbarbs");
   secfile_insert_int(file, game.occupychance, "game.occupychance");
   secfile_insert_str(file, game.demography, "game.demography");
+  secfile_insert_int(file, game.borders, "game.borders");
   secfile_insert_int(file, game.watchtower_vision, "game.watchtower_vision");
   secfile_insert_int(file, game.watchtower_extra_vision, "game.watchtower_extra_vision");
   secfile_insert_int(file, game.allowed_city_names, "game.allowed_city_names");

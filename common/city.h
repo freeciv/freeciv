@@ -316,6 +316,17 @@ extern struct citystyle *city_styles;
     TYPED_LIST_ITERATE(struct city, citylist, pcity)
 #define city_list_iterate_end  LIST_ITERATE_END
 
+#define cities_iterate(pcity)                                               \
+{                                                                           \
+  players_iterate(CI_player) {                                              \
+    city_list_iterate(CI_player->cities, pcity) {
+
+#define cities_iterate_end                                                  \
+    } city_list_iterate_end;                                                \
+  } players_iterate_end;                                                    \
+}
+
+
 /* properties */
 
 struct player *city_owner(struct city *pcity);

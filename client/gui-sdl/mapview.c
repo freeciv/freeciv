@@ -181,7 +181,8 @@ void gui_put_rectangle(struct canvas_store *pCanvas_store,
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
 void gui_put_line(struct canvas_store *pCanvas_store, enum color_std color,
-		  int start_x, int start_y, int dx, int dy)
+		  enum line_type ltype, int start_x, int start_y,
+		  int dx, int dy)
 {
   putline(pCanvas_store->map, start_x, start_y, start_x + dx, start_y + dy,
 				get_game_color(color, pCanvas_store->map));
@@ -1612,7 +1613,8 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   static enum tile_terrain_type terrain;
   static int count, i, solid_bg;
   static bool fog, full_ocean;
-  
+  struct canvas_store canv;
+
   count =
       fill_tile_sprite_array_iso(pTile_sprs, pCoasts, pDither, map_col,
 				 map_row, citymode, &solid_bg);
@@ -1648,6 +1650,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     des.y = map_y;
     pBufSurface = pDest;
   }
+  canv.map = pBufSurface;
 
   dst = des;
   
@@ -1813,6 +1816,9 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     SDL_BlitSurface(pMapGrid[color2][1], NULL, pBufSurface, &des);
     des = dst;
   }
+
+  /* Draw national borders */
+  tile_draw_borders_iso(&canv, map_col, map_row, map_x, map_y, D_FULL);
 
   /* this option is pure nonsens for me and will be removed soon */
   if (draw_coastline && !draw_terrain) {
@@ -2432,7 +2438,8 @@ SDL_Surface * get_terrain_surface(int x , int y)
      gr = draw_map_grid,
      pl = draw_pollution ,
      fa = draw_fortress_airbase,
-     mi = draw_mines;
+     mi = draw_mines,
+     bo = draw_borders;
   
   draw_fog_of_war = FALSE;
   draw_cities = FALSE;
@@ -2444,6 +2451,7 @@ SDL_Surface * get_terrain_surface(int x , int y)
   draw_pollution = FALSE;
   draw_fortress_airbase = FALSE;
   draw_mines = FALSE;
+  draw_borders = FALSE;
   
   SDL_Client_Flags &= ~CF_DRAW_MAP_DITHER;
   
@@ -2463,6 +2471,7 @@ SDL_Surface * get_terrain_surface(int x , int y)
   draw_pollution = pl;
   draw_fortress_airbase = fa;
   draw_mines = mi;
+  draw_borders = bo;
   
   return pSurf;
 }

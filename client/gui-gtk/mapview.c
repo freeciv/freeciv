@@ -1031,13 +1031,17 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
 }
 
 /**************************************************************************
-  Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
+  Draw a colored line onto the mapview or citydialog canvas.
 **************************************************************************/
 void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
-		  int start_x, int start_y, int dx, int dy)
+		  enum line_type ltype, int start_x, int start_y,
+		  int dx, int dy)
 {
-  gdk_gc_set_foreground(civ_gc, colors_standard[color]);
-  gdk_draw_line(pcanvas_store->pixmap, civ_gc,
+  GdkGC *gc;
+
+  gc = (ltype == LINE_BORDER ? border_line_gc : civ_gc);
+  gdk_gc_set_foreground(gc, colors_standard[color]);
+  gdk_draw_line(pcanvas_store->pixmap, gc,
 		start_x, start_y, start_x + dx, start_y + dy);
 }
 
@@ -1576,6 +1580,9 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 		    canvas_x + NORMAL_TILE_WIDTH / 2, canvas_y);
     }
   }
+
+  /* National borders */
+  tile_draw_borders_iso(&canvas_store, x, y, canvas_x, canvas_y, draw);
 
   if (draw_coastline && !draw_terrain) {
     enum tile_terrain_type t1 = map_get_terrain(x, y), t2;

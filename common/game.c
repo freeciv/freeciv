@@ -241,6 +241,7 @@ void game_init(void)
   game.spacerace   = GAME_DEFAULT_SPACERACE;
   game.fogofwar    = GAME_DEFAULT_FOGOFWAR;
   game.fogofwar_old= game.fogofwar;
+  game.borders     = GAME_DEFAULT_BORDERS;
   game.auto_ai_toggle = GAME_DEFAULT_AUTO_AI_TOGGLE;
   game.notradesize    = GAME_DEFAULT_NOTRADESIZE;
   game.fulltradesize  = GAME_DEFAULT_FULLTRADESIZE;

@@ -1522,6 +1522,13 @@ bool map_event_handler(SDL_keysym Key)
       }
       return FALSE;
 
+    case SDLK_b:
+      if(LCTRL || RCTRL) {
+        rebuild_focus_anim_frames();
+        request_toggle_map_borders();
+      }
+      return FALSE;
+
     case SDLK_n:
       if ((LCTRL || RCTRL) && can_client_change_view()) {
         draw_city_names ^= 1;

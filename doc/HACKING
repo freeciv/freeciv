@@ -521,6 +521,26 @@ can ask me on <thue@diku.dk>.
 -Thue
 
 =========================================================================
+National borders
+=========================================================================
+For the display of national borders (similar to those used in Sid Meier's
+Alpha Centauri) each map tile also has an "owner" field, to identify
+which nation lays claim to it. If game.borders is non-zero, each city
+claims a circle of tiles game.borders in radius (in the case of neighbouring
+enemy cities, tiles are divided equally, with the older city winning any
+ties). Cities claim all immediately adjacent tiles, plus any other tiles
+within the border radius on the same continent. Land cities also claim ocean
+tiles if they are surrounded by 5 land tiles on the same continent (this is
+a crude detection of inland seas or lakes, which should be improved upon).
+
+Tile ownership is decided only by the server, and sent to the clients, which
+draw border lines between tiles of differing ownership. Owner information is
+sent for all tiles that are known by a client, whether or not they are fogged.
+A patch to convert this to "semi-fogged" behaviour, whereby clients receive
+limited information about non-neighbouring and unseen enemies, is available
+at http://freecivac.sf.net/.
+
+=========================================================================
 Client GUI- Athena 
 =========================================================================
 One client GUI is written using athena-widgets. A few comments on this 

@@ -159,6 +159,9 @@ XtAppContext app_context;
 /* this GC will be the default one all thru freeciv */
 GC civ_gc; 
 
+/* This is for drawing border lines */
+GC border_line_gc; 
+
 /* and this one is used for filling with the bg color */
 GC fill_bg_gc;
 GC fill_tile_gc;
@@ -369,6 +372,15 @@ void ui_main(int argc, char *argv[])
     prod_font_gc= XCreateGC(display, root_window,
 			    GCForeground|GCBackground|GCFont|GCGraphicsExposures,
 			    &values);
+
+    values.line_width = 2;
+    values.line_style = LineOnOffDash;
+    values.cap_style = CapNotLast;
+    values.join_style = JoinMiter;
+    values.fill_style = FillSolid;
+    border_line_gc = XCreateGC(display, root_window,
+			       GCGraphicsExposures|GCLineWidth|GCLineStyle
+			       |GCCapStyle|GCJoinStyle|GCFillStyle, &values);
 
     values.foreground = 0;
     values.background = 0;

@@ -51,7 +51,8 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
 		       enum color_std color,
 		       int canvas_x, int canvas_y, int width, int height);
 void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
-		  int start_x, int start_y, int dx, int dy);
+		  enum line_type ltype, int start_x, int start_y,
+		  int dx, int dy);
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height);
 void dirty_rect(int canvas_x, int canvas_y,

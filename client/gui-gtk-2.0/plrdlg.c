@@ -39,6 +39,7 @@
 #include "gui_stuff.h"
 #include "inteldlg.h"
 #include "spaceshipdlg.h"
+#include "tilespec.h"
 #include "colors.h"
 #include "graphics.h"
 #include "options.h"
@@ -62,7 +63,7 @@ static void players_vision_callback(GtkMenuItem *item, gpointer data);
 static void players_intel_callback(GtkMenuItem *item, gpointer data);
 static void players_sship_callback(GtkMenuItem *item, gpointer data);
 
-#define NUM_COLUMNS 13                /* number of columns in total */
+#define NUM_COLUMNS 14                /* number of columns in total */
 #define DEF_SORT_COLUMN 2             /* default sort column (2 = nation) */
 #define COLOR_COLUMN (NUM_COLUMNS)    /* color column */
 #define PLRNO_COLUMN (NUM_COLUMNS+1)  /* plrno column */
@@ -159,6 +160,7 @@ void create_players_dialog(void)
     N_("Name"),
     N_("Flag"),
     N_("Nation"),
+    N_("Border"),
     N_("Team"),
     N_("AI"),
     N_("Embassy"),
@@ -176,6 +178,7 @@ void create_players_dialog(void)
     G_TYPE_STRING,
     G_TYPE_NONE,
     G_TYPE_STRING,
+    G_TYPE_NONE,
     G_TYPE_STRING,
     G_TYPE_BOOLEAN,
     G_TYPE_STRING,
@@ -196,6 +199,7 @@ void create_players_dialog(void)
   GtkWidget *menubar, *menu, *item;
 
   model_types[1] = GDK_TYPE_PIXBUF;
+  model_types[3] = GDK_TYPE_COLOR;
   model_types[COLOR_COLUMN] = GDK_TYPE_COLOR;
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
@@ -241,6 +245,11 @@ void create_players_dialog(void)
 
       col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
         "active", i, NULL);
+    } else if (model_types[i] == GDK_TYPE_COLOR) {
+      renderer = gtk_cell_renderer_text_new();
+
+      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+             "background-gdk", i, NULL);
     } else {
       renderer = gtk_cell_renderer_text_new();
       g_object_set(renderer, "weight", "bold", NULL);
@@ -407,7 +416,8 @@ static void build_row(GtkTreeIter *it, int i)
   gtk_list_store_set(store, it,
     0, (gchar *)plr->name,   	      	      /* the playername */
     2, (gchar *)get_nation_name(plr->nation), /* the nation */
-    3, (gchar *)team,
+    3, colors_standard[player_color(plr)],    /* the color */
+    4, (gchar *)team,
     PLRNO_COLUMN, (gint)i,    	      	      /* the playerid */
     -1);
 
@@ -449,18 +459,18 @@ static void build_row(GtkTreeIter *it, int i)
   /* assemble the whole lot */
   g_value_init(&value, G_TYPE_STRING);
   g_value_set_static_string(&value, state);
-  gtk_list_store_set_value(store, it, 9, &value);
+  gtk_list_store_set_value(store, it, 10, &value);
   g_value_unset(&value);
 
   gtk_list_store_set(store, it,
-     4, (gboolean)plr->ai.control,
-     5, (gchar *)get_embassy_status(game.player_ptr, plr),
-     6, (gchar *)dsbuf,
-     7, (gchar *)get_vision_status(game.player_ptr, plr),
-     8, (gchar *)reputation_text(plr->reputation),
-    10, (gchar *)player_addr_hack(plr),   	      	    /* Fixme */
-    11, (gint)idle,
-    12, (gchar *)get_ping_time_text(plr),
+     5, (gboolean)plr->ai.control,
+     6, (gchar *)get_embassy_status(game.player_ptr, plr),
+     7, (gchar *)dsbuf,
+     8, (gchar *)get_vision_status(game.player_ptr, plr),
+     9, (gchar *)reputation_text(plr->reputation),
+    11, (gchar *)player_addr_hack(plr),   	      	    /* Fixme */
+    12, (gint)idle,
+    13, (gchar *)get_ping_time_text(plr),
     -1);
 
    /* set flag. */

@@ -151,6 +151,15 @@ static void xaw_key_map_grid_toggle(Widget w, XEvent *event, String *argv, Cardi
   key_map_grid_toggle();
 }
 
+/*************************************************************************
+  Called when the key to toggle borders is pressed.
+**************************************************************************/
+static void xaw_key_map_borders_toggle(Widget w, XEvent *event,
+				       String *argv, Cardinal *argc)
+{
+  key_map_borders_toggle();
+}
+
 static void xaw_key_move_north(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   key_unit_move(DIR8_NORTH);
@@ -615,6 +624,7 @@ static XtActionsRec Actions[] = {
   { "key-end-turn", xaw_key_end_turn },
   { "key-focus-to-next-unit", xaw_key_focus_to_next_unit },
   { "key-map-grid-toggle", xaw_key_map_grid_toggle },
+  { "key-map-borders-toggle", xaw_key_map_borders_toggle },
   { "key-move-north", xaw_key_move_north },
   { "key-move-north-east", xaw_key_move_north_east },
   { "key-move-east", xaw_key_move_east },

@@ -25,6 +25,7 @@ extern Display     *display;
 extern int          display_depth;
 extern int          screen_number;
 extern GC           civ_gc; 
+extern GC           border_line_gc; 
 extern GC           fill_bg_gc;
 extern GC           fill_tile_gc;
 extern GC           font_gc;
