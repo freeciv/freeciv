@@ -238,9 +238,11 @@ void set_city_names_font_sizes(int my_city_names_font_size,
 /**************************************************************************
 ...
 **************************************************************************/
-static void log_callback_utf8(int level, const char *message)
+static void log_callback_utf8(int level, const char *message, bool file_too)
 {
-  fc_fprintf(stderr, "%d: %s\n", level, message);
+  if (! file_too || level <= LOG_FATAL) {
+    fc_fprintf(stderr, "%d: %s\n", level, message);
+  }
 }
 
 /**************************************************************************
