@@ -50,9 +50,10 @@ struct isledata {
   int goodies;
   int starters;
 };
-#define MAP_NCONT 255
-static struct isledata islands[MAP_NCONT];
+static struct isledata *islands;
 
+/* this is used for generator>1 */
+#define MAP_NCONT 255
 
 /**************************************************************************
  Just a wrapper function off the height_map, returns the height at x,y
@@ -486,79 +487,152 @@ static void remove_tiny_islands(void)
 }
 
 /**************************************************************************
- a basic floodfill used to give every square a continent number, so we later
- on can ask which continent a given square belongs to.
+ Number this tile and recursive adjacent tiles with specified
+ continent number, by flood-fill algorithm.
+ Returns 1 if tile successfully assigned this number.
 **************************************************************************/
-static void flood_fill(int x, int y, int nr)
+static int assign_continent_flood(int x, int y, int nr)
 {
-  if (x==-1) x=map.xsize-1;
-  if (x==map.xsize) x=0;
-  if (y==-1) return;
-  if (y==map.ysize) return;
-  if (map_get_continent(x, y)) 
-    return;
+  x = map_adjust_x(x);
+  
+  if (y<0 || y>=map.ysize)             return 0;
+  if (map_get_continent(x, y))         return 0;
+  if (map_get_terrain(x, y)==T_OCEAN)  return 0;
 
-  if (map_get_terrain(x, y)==T_OCEAN){ 
-    if(is_sea_usable(x,y))
-      islands[nr].goodies+= is_good_tile(x, y);
-    return;
-  }
-  islands[nr].goodies+=is_good_tile(x, y);
   map_set_continent(x, y, nr);
-  flood_fill(x-1,y,nr);
-  flood_fill(x-1,y+1,nr);
-  flood_fill(x-1,y-1,nr);
-  flood_fill(x,y-1,nr);
-  flood_fill(x,y+1,nr);
-  flood_fill(x+1,y-1,nr);
-  flood_fill(x+1,y,nr);
-  flood_fill(x+1,y+1,nr);
+  
+  assign_continent_flood(x-1, y-1, nr);
+  assign_continent_flood(x-1, y,   nr);
+  assign_continent_flood(x-1, y+1, nr);
+  
+  assign_continent_flood(x,   y-1, nr);
+  assign_continent_flood(x,   y+1, nr);
+  
+  assign_continent_flood(x+1, y-1, nr);
+  assign_continent_flood(x+1, y,   nr);
+  assign_continent_flood(x+1, y+1, nr);
+
+  return 1;
 }
 
 /**************************************************************************
- find start points for continents and call flood_fill for all of them 
+ Assign continent numbers to all tiles.
+ Numbers 1 and 2 are reserved for polar continents if
+ map.generator != 0; otherwise are not special.
+ Also sets map.num_continents (note 0 is ocean, and continents
+ have numbers 1 to map.num_continents _inclusive_).
+ Note this is not used by generators>1 at map creation
+ time, as these assign their own continent numbers.
 **************************************************************************/
-void flood_it(int loaded)
+void assign_continent_numbers(void)
+{
+  int x, y;
+  int isle = 1;
+
+  for (y=0; y<map.ysize; y++)
+    for (x=0; x<map.xsize; x++)
+      map_set_continent(x, y, 0);
+
+  if (map.generator != 0) {
+    assign_continent_flood(0, 0, 1);
+    assign_continent_flood(0, map.ysize-1, 2);
+    isle = 3;
+  }
+      
+  for (y=0; y<map.ysize; y++) {
+    for (x=0; x<map.xsize; x++) { 
+      if (!map_get_continent(x, y) && map_get_terrain(x, y)!=T_OCEAN) {
+	assign_continent_flood(x, y, isle++);
+      }
+    }
+  }
+  map.num_continents = isle-1;
+  freelog(LOG_VERBOSE, "Map has %d continents", map.num_continents);
+}
+
+/**************************************************************************
+ Allocate islands array and fill in values.
+ Note this is only use for map.generator<=1, since others
+ setups islands and starters explicitly.
+**************************************************************************/
+static void setup_isledata(void)
 {
   int x,y;
   int good, mingood, maxgood;
-  int isles=3;
   int riches;
   int starters;
-  int oldisles, goodisles;
+  int isles, oldisles, goodisles;
   int guard1=0;
+  int firstcont;
+  int i;
 
-  if (!loaded && map.generator > 1) return;
-  /* 2,3 and 4 have fixed number of starters */
-  /* means: goodies is not initialized for 2,3,4.
-     doesn't matter now, since unused */
-  /* But we still need to initialise the continents on reload,
-     and for scenarios (generator==0) for new game. --dwp */
+  assert(map.num_continents>0);
+  
+  /* allocate + 1 so can use continent number as index */
+  islands = fc_malloc((map.num_continents+1)*sizeof(struct isledata));
 
-  for (y=0;y<map.ysize;y++)
-    for (x=0;x<map.xsize;x++)
-      map_set_continent(x, y, 0);
-  flood_fill(0,0,1);                   /* want to know where the rim is */
-  flood_fill(0,map.ysize-1,2);         /* ... */
-  for (y=0;y<map.ysize;y++)
-    for (x=0;x<map.xsize;x++) 
-      if (!map_get_continent(x, y) && map_get_terrain(x, y)!=T_OCEAN ) {
-	if(isles>=MAP_NCONT) isles= MAP_NCONT-1; 
-	islands[isles].goodies=0;
-	flood_fill(x,y,isles);
-	islands[isles].starters=0;
-	islands[isles].x=x;
-	islands[isles].y=y;
-	isles++; 
+  /* initialize: */
+  for(i=0; i<=map.num_continents; i++) {
+    islands[i].x = islands[i].y = -1;             /* flag */
+    islands[i].goodies = islands[i].starters = 0;
+  }
+
+  /* get x and y positions: (top left) */
+  for (y=0; y<map.ysize; y++) {
+    for (x=0; x<map.xsize; x++) {
+      int cont = map_get_continent(x, y);
+      if (islands[cont].x == -1) {
+	islands[cont].x = x;
+	islands[cont].y = y;
       }
+    }
+  }
+
+  /* Add up the goodies: for useable ocean, add value to continent
+     for _every_ adjacent land tile.  This is IMO not very good,
+     because it adds potentially many times, and usable sea of
+     distance 2 from land is ignored, but this re-produces the
+     results of the previous method which used flood_fill().  --dwp
+     This is also the correct place to add S_HUT bonus.
+  */
+  for (y=0; y<map.ysize; y++) {
+    for (x=0; x<map.xsize; x++) {
+      int cont = map_get_continent(x, y);
+      if (cont) {
+	islands[cont].goodies += is_good_tile(x, y);
+	if (map_get_special(x,y) & S_HUT) {
+	  islands[cont].goodies += 0; /* 3; */   /* regression testing */
+	}
+      } else {
+	assert(map_get_terrain(x, y)==T_OCEAN);
+	/* no need to check is_sea_usable(x,y), because will
+	   only use for adjacent land (cont1>0) below */
+	{
+	  int goodval = is_good_tile(x, y);
+	  int x1, y1;
+	  for (x1=-1; x1<=1; x1++) {
+	    for (y1=-1; y1<=1; y1++) {
+	      int cont1 = map_get_continent(x+x1, y+y1);
+	      if (cont1>0) {  
+		islands[cont1].goodies += goodval;
+	      }
+	    }
+	  }
+	}
+      }
+    }
+  }
+  
+  /* the arctic and the antarctic are continents 1 and 2 for generator>0*/
+  if (map.generator>0) {
+    firstcont = 3;
+  } else {
+    firstcont = 1;
+  }
+  isles = map.num_continents+1;
  
-  if (loaded)                 /* only make the continents if loaded game*/
-    return;
-
-  /* the arctic and the antarctic are continents 1 and 2 */
-
   riches=0;
-  for (x=3;x<isles;x++) {
+  for (x=firstcont; x<isles; x++) {
       riches+=islands[x].goodies;
   }
 
@@ -574,7 +648,7 @@ void flood_it(int loaded)
 
 
     /* goody goody */
-    for (x=3;x<isles;x++) {	  
+    for (x=firstcont;x<isles;x++) {	  
       islands[x].starters=0;
       if ( islands[x].goodies > (riches+oldisles-1)/oldisles ) 
 	{ 
@@ -592,7 +666,7 @@ void flood_it(int loaded)
 
     if(goodisles>game.nplayers){
       /* bloody goodies */   
-      for (x=3;x<isles;x++) {
+      for (x=firstcont;x<isles;x++) {
 	if (( islands[x].goodies*4 > 3*(riches+oldisles-1)/oldisles )
 	    &&!(islands[x].goodies > (riches+oldisles-1)/oldisles)
 	    )
@@ -606,7 +680,7 @@ void flood_it(int loaded)
   
  
       /* starters are loosers */
-      for (x=3;x<isles;x++) {
+      for (x=firstcont;x<isles;x++) {
 	if (( islands[x].goodies*4 > 3*(riches+oldisles-1)/oldisles )
 	    &&!(islands[x].goodies > (riches+oldisles-1)/oldisles)) {
 	  freelog(LOG_VERBOSE, "islands[x].goodies=%i",islands[x].goodies);
@@ -620,7 +694,7 @@ void flood_it(int loaded)
     }
 
     /* starters are winners */
-    for (x=3;x<isles;x++) {
+    for (x=firstcont;x<isles;x++) {
       if (islands[x].goodies > (riches+oldisles-1)/oldisles) {
 	assert(!islands[x].starters);
 	freelog(LOG_VERBOSE, "islands[x].goodies=%i", islands[x].goodies);
@@ -650,6 +724,7 @@ void flood_it(int loaded)
   freelog(LOG_NORMAL, _("The map has %i starting positions on %i isles."),
 	  starters, goodisles);
 }
+
 /**************************************************************************
   where do the different races start on the map? well this function tries
   to spread them out on the different islands.
@@ -661,6 +736,9 @@ void create_start_positions(void)
   int dist=40;
   int x, y, j=0;
 
+  if (islands==NULL)		/* already setup for generator>1 */
+    setup_isledata();
+  
   if(dist>= map.xsize/2)
     dist= map.xsize/2;
   if(dist>= map.ysize/2)
@@ -669,7 +747,7 @@ void create_start_positions(void)
   {
     int sum,k;
     sum=0;
-    for(k=0;k<99;k++){
+    for(k=0;k<=map.num_continents;k++){
       sum+= islands[k].starters;
       if(islands[k].starters!=0) {
 	freelog(LOG_VERBOSE, "starters on isle %i", k);
@@ -698,12 +776,12 @@ void create_start_positions(void)
     }
   }
   map.num_start_positions = game.nplayers;
+  free(islands);
+  islands = NULL;
 }
 
 /**************************************************************************
-  we have 2 ways of generation a map, 
-  1) generates normal maps like in civ
-  2) generates 7 equally sized and with equally number of specials islands
+  See stdinhand.c for information on map generation methods.
 **************************************************************************/
 void map_fractal_generate(void)
 {
@@ -960,8 +1038,9 @@ static void make_huts(int number)
       if (!is_hut_close(x,y)) {
 	number--;
 	map_get_tile(x,y)->special|=S_HUT;
-	if(map_get_continent(x,y)>=2)
-	  islands[(int)map_get_continent(x,y)].goodies+= 3;
+	/* Don't add to islands[].goodies because islands[] not
+	   setup at this point, except for generator>1, but they
+	   have pre-set starters anyway. */
       }
     }
   }
@@ -1293,6 +1372,7 @@ static void makeisland(int islemass, int starters)
     }
 
     isleindex++;
+    map.num_continents++;
   }
 }
 
@@ -1302,7 +1382,10 @@ static void makeisland(int islemass, int starters)
 static void initworld(void)
 {
   int x, y;
+  
   height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
+  islands = fc_malloc((MAP_NCONT+1)*sizeof(struct isledata));
+  
   for (y = 0 ; y < map.ysize ; y++) 
     for (x = 0 ; x < map.xsize ; x++) {
       map_set_terrain(x, y, T_OCEAN);
@@ -1322,6 +1405,7 @@ static void initworld(void)
       map_set_continent(x, map.ysize-2, 2);
     }
   }
+  map.num_continents = 2;
   makeisland(0, 0);
   islands[2].starters = 0;
   islands[1].starters = 0;

@@ -13,6 +13,7 @@
 #ifndef FC__MAPGEN_H
 #define FC__MAPGEN_H
 
+void assign_continent_numbers(void);
 void map_fractal_generate(void);
 void flood_it(int loaded);
 void create_start_positions(void);

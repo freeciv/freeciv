@@ -95,6 +95,7 @@ void map_init(void)
   map.forestsize=MAP_DEFAULT_FORESTS;
   map.generator=MAP_DEFAULT_GENERATOR;
   map.tiles=0;
+  map.num_continents = 0;
   map.num_start_positions=0;
   map.fixed_start_positions=0;
   map.have_specials = 0;

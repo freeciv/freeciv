@@ -28,6 +28,7 @@
 #include "registry.h"
 
 #include "cityhand.h"
+#include "mapgen.h"		/* assign_continent_numbers */
 #include "plrhand.h"           /* notify_player */
 #include "unitfunc.h"
 
@@ -471,6 +472,8 @@ void map_tiles_load(struct section_file *file)
       map_get_tile(x, y)->terrain=pch-terrain_chars;
     }
   }
+
+  assign_continent_numbers();
 }
 
 /***************************************************************

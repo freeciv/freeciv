@@ -398,8 +398,10 @@ main_start_players:
      anyway, to make the specials and huts */
   if(map_is_empty() || (map.generator == 0 && game.is_new_game))
     map_fractal_generate();
-  else 
-    flood_it(1);
+
+  if (map.num_continents==0)
+    assign_continent_numbers();
+
   gamelog_map();
   /* start the game */
 
@@ -416,10 +418,7 @@ main_start_players:
 
     /* we don't want random start positions in a scenario which already
        provides them.  -- Gudy */
-    if(map.num_start_positions>0) {
-      flood_it(1);
-    } else {
-      flood_it(0);
+    if(map.num_start_positions==0) {
       create_start_positions();
     }
   }
