@@ -607,7 +607,9 @@ PACKET_UNIT_INFO=49; is-info,sc,lsend
   CITY homecity;
 
   UINT8 veteran;
-  BOOL ai, paradropped, connecting, transported, done_moving;
+  BOOL ai, paradropped;
+  BOOL connecting; remove-cap(connecting)
+  BOOL transported, done_moving;
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */

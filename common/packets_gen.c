@@ -10969,7 +10969,7 @@ static int cmp_packet_unit_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_unit_info_100_fields, 33);
+BV_DEFINE(packet_unit_info_100_fields, 32);
 
 static struct packet_unit_info *receive_packet_unit_info_100(struct connection *pc, enum packet_type type)
 {
@@ -10990,6 +10990,622 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
 
   if (!*hash) {
     *hash = hash_new(hash_packet_unit_info_100, cmp_packet_unit_info_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    int id = real_packet->id;
+
+    memset(real_packet, 0, sizeof(*real_packet));
+
+    real_packet->id = id;
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->owner = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->x = readin;
+    }
+  }
+  if (BV_ISSET(fields, 2)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->y = readin;
+    }
+  }
+  if (BV_ISSET(fields, 3)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->homecity = readin;
+    }
+  }
+  if (BV_ISSET(fields, 4)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->veteran = readin;
+    }
+  }
+  real_packet->ai = BV_ISSET(fields, 5);
+  real_packet->paradropped = BV_ISSET(fields, 6);
+  real_packet->transported = BV_ISSET(fields, 7);
+  real_packet->done_moving = BV_ISSET(fields, 8);
+  if (BV_ISSET(fields, 9)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->type = readin;
+    }
+  }
+  if (BV_ISSET(fields, 10)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->transported_by = readin;
+    }
+  }
+  if (BV_ISSET(fields, 11)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->movesleft = readin;
+    }
+  }
+  if (BV_ISSET(fields, 12)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp = readin;
+    }
+  }
+  if (BV_ISSET(fields, 13)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->fuel = readin;
+    }
+  }
+  if (BV_ISSET(fields, 14)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 15)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->unhappiness = readin;
+    }
+  }
+  if (BV_ISSET(fields, 16)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep = readin;
+    }
+  }
+  if (BV_ISSET(fields, 17)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep_food = readin;
+    }
+  }
+  if (BV_ISSET(fields, 18)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->upkeep_gold = readin;
+    }
+  }
+  if (BV_ISSET(fields, 19)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->occupy = readin;
+    }
+  }
+  if (BV_ISSET(fields, 20)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->goto_dest_x = readin;
+    }
+  }
+  if (BV_ISSET(fields, 21)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->goto_dest_y = readin;
+    }
+  }
+  if (BV_ISSET(fields, 22)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->activity = readin;
+    }
+  }
+  if (BV_ISSET(fields, 23)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->activity_target = readin;
+    }
+  }
+  real_packet->has_orders = BV_ISSET(fields, 24);
+  if (BV_ISSET(fields, 25)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->orders_length = readin;
+    }
+  }
+  if (BV_ISSET(fields, 26)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->orders_index = readin;
+    }
+  }
+  real_packet->orders_repeat = BV_ISSET(fields, 27);
+  real_packet->orders_vigilant = BV_ISSET(fields, 28);
+  if (BV_ISSET(fields, 29)) {
+    
+    {
+      int i;
+    
+      if(real_packet->orders_length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->orders_length = MAX_LEN_ROUTE;
+      }
+      for (i = 0; i < real_packet->orders_length; i++) {
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders[i] = readin;
+    }
+      }
+    }
+  }
+  if (BV_ISSET(fields, 30)) {
+    
+    {
+      int i;
+    
+      if(real_packet->orders_length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->orders_length = MAX_LEN_ROUTE;
+      }
+      for (i = 0; i < real_packet->orders_length; i++) {
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders_dirs[i] = readin;
+    }
+      }
+    }
+  }
+  if (BV_ISSET(fields, 31)) {
+    
+    {
+      int i;
+    
+      if(real_packet->orders_length > MAX_LEN_ROUTE) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->orders_length = MAX_LEN_ROUTE;
+      }
+      for (i = 0; i < real_packet->orders_length; i++) {
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->orders_activities[i] = readin;
+    }
+      }
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_unit_info_100(struct connection *pc, const struct packet_unit_info *packet)
+{
+  const struct packet_unit_info *real_packet = packet;
+  packet_unit_info_100_fields fields;
+  struct packet_unit_info *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = FALSE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_INFO];
+  int different = 0;
+  SEND_PACKET_START(PACKET_UNIT_INFO);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_unit_info_100, cmp_packet_unit_info_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->owner != real_packet->owner);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (old->x != real_packet->x);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  differ = (old->y != real_packet->y);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (old->homecity != real_packet->homecity);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = (old->veteran != real_packet->veteran);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
+  differ = (old->ai != real_packet->ai);
+  if(differ) {different++;}
+  if(packet->ai) {BV_SET(fields, 5);}
+
+  differ = (old->paradropped != real_packet->paradropped);
+  if(differ) {different++;}
+  if(packet->paradropped) {BV_SET(fields, 6);}
+
+  differ = (old->transported != real_packet->transported);
+  if(differ) {different++;}
+  if(packet->transported) {BV_SET(fields, 7);}
+
+  differ = (old->done_moving != real_packet->done_moving);
+  if(differ) {different++;}
+  if(packet->done_moving) {BV_SET(fields, 8);}
+
+  differ = (old->type != real_packet->type);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 9);}
+
+  differ = (old->transported_by != real_packet->transported_by);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 10);}
+
+  differ = (old->movesleft != real_packet->movesleft);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 11);}
+
+  differ = (old->hp != real_packet->hp);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 12);}
+
+  differ = (old->fuel != real_packet->fuel);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 13);}
+
+  differ = (old->activity_count != real_packet->activity_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 14);}
+
+  differ = (old->unhappiness != real_packet->unhappiness);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 15);}
+
+  differ = (old->upkeep != real_packet->upkeep);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 16);}
+
+  differ = (old->upkeep_food != real_packet->upkeep_food);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 17);}
+
+  differ = (old->upkeep_gold != real_packet->upkeep_gold);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 18);}
+
+  differ = (old->occupy != real_packet->occupy);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 19);}
+
+  differ = (old->goto_dest_x != real_packet->goto_dest_x);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 20);}
+
+  differ = (old->goto_dest_y != real_packet->goto_dest_y);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 21);}
+
+  differ = (old->activity != real_packet->activity);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 22);}
+
+  differ = (old->activity_target != real_packet->activity_target);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 23);}
+
+  differ = (old->has_orders != real_packet->has_orders);
+  if(differ) {different++;}
+  if(packet->has_orders) {BV_SET(fields, 24);}
+
+  differ = (old->orders_length != real_packet->orders_length);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 25);}
+
+  differ = (old->orders_index != real_packet->orders_index);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 26);}
+
+  differ = (old->orders_repeat != real_packet->orders_repeat);
+  if(differ) {different++;}
+  if(packet->orders_repeat) {BV_SET(fields, 27);}
+
+  differ = (old->orders_vigilant != real_packet->orders_vigilant);
+  if(differ) {different++;}
+  if(packet->orders_vigilant) {BV_SET(fields, 28);}
+
+
+    {
+      differ = (old->orders_length != real_packet->orders_length);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->orders_length; i++) {
+          if (old->orders[i] != real_packet->orders[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 29);}
+
+
+    {
+      differ = (old->orders_length != real_packet->orders_length);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->orders_length; i++) {
+          if (old->orders_dirs[i] != real_packet->orders_dirs[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 30);}
+
+
+    {
+      differ = (old->orders_length != real_packet->orders_length);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->orders_length; i++) {
+          if (old->orders_activities[i] != real_packet->orders_activities[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 31);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+  dio_put_uint16(&dout, real_packet->id);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->owner);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_uint8(&dout, real_packet->x);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_uint8(&dout, real_packet->y);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_uint16(&dout, real_packet->homecity);
+  }
+  if (BV_ISSET(fields, 4)) {
+    dio_put_uint8(&dout, real_packet->veteran);
+  }
+  /* field 5 is folded into the header */
+  /* field 6 is folded into the header */
+  /* field 7 is folded into the header */
+  /* field 8 is folded into the header */
+  if (BV_ISSET(fields, 9)) {
+    dio_put_uint8(&dout, real_packet->type);
+  }
+  if (BV_ISSET(fields, 10)) {
+    dio_put_uint16(&dout, real_packet->transported_by);
+  }
+  if (BV_ISSET(fields, 11)) {
+    dio_put_uint8(&dout, real_packet->movesleft);
+  }
+  if (BV_ISSET(fields, 12)) {
+    dio_put_uint8(&dout, real_packet->hp);
+  }
+  if (BV_ISSET(fields, 13)) {
+    dio_put_uint8(&dout, real_packet->fuel);
+  }
+  if (BV_ISSET(fields, 14)) {
+    dio_put_uint8(&dout, real_packet->activity_count);
+  }
+  if (BV_ISSET(fields, 15)) {
+    dio_put_uint8(&dout, real_packet->unhappiness);
+  }
+  if (BV_ISSET(fields, 16)) {
+    dio_put_uint8(&dout, real_packet->upkeep);
+  }
+  if (BV_ISSET(fields, 17)) {
+    dio_put_uint8(&dout, real_packet->upkeep_food);
+  }
+  if (BV_ISSET(fields, 18)) {
+    dio_put_uint8(&dout, real_packet->upkeep_gold);
+  }
+  if (BV_ISSET(fields, 19)) {
+    dio_put_uint8(&dout, real_packet->occupy);
+  }
+  if (BV_ISSET(fields, 20)) {
+    dio_put_uint8(&dout, real_packet->goto_dest_x);
+  }
+  if (BV_ISSET(fields, 21)) {
+    dio_put_uint8(&dout, real_packet->goto_dest_y);
+  }
+  if (BV_ISSET(fields, 22)) {
+    dio_put_uint8(&dout, real_packet->activity);
+  }
+  if (BV_ISSET(fields, 23)) {
+    dio_put_uint16(&dout, real_packet->activity_target);
+  }
+  /* field 24 is folded into the header */
+  if (BV_ISSET(fields, 25)) {
+    dio_put_uint16(&dout, real_packet->orders_length);
+  }
+  if (BV_ISSET(fields, 26)) {
+    dio_put_uint16(&dout, real_packet->orders_index);
+  }
+  /* field 27 is folded into the header */
+  /* field 28 is folded into the header */
+  if (BV_ISSET(fields, 29)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->orders_length; i++) {
+        dio_put_uint8(&dout, real_packet->orders[i]);
+      }
+    } 
+  }
+  if (BV_ISSET(fields, 30)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->orders_length; i++) {
+        dio_put_uint8(&dout, real_packet->orders_dirs[i]);
+      }
+    } 
+  }
+  if (BV_ISSET(fields, 31)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->orders_length; i++) {
+        dio_put_uint8(&dout, real_packet->orders_activities[i]);
+      }
+    } 
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static unsigned int hash_packet_unit_info_101(const void *vkey, unsigned int num_buckets)
+{
+  const struct packet_unit_info *key = (const struct packet_unit_info *) vkey;
+
+  return ((key->id) % num_buckets);
+}
+
+static int cmp_packet_unit_info_101(const void *vkey1, const void *vkey2)
+{
+  const struct packet_unit_info *key1 = (const struct packet_unit_info *) vkey1;
+  const struct packet_unit_info *key2 = (const struct packet_unit_info *) vkey2;
+  int diff;
+
+  diff = key1->id - key2->id;
+  if (diff != 0) {
+    return diff;
+  }
+
+  return 0;
+}
+
+BV_DEFINE(packet_unit_info_101_fields, 33);
+
+static struct packet_unit_info *receive_packet_unit_info_101(struct connection *pc, enum packet_type type)
+{
+  packet_unit_info_101_fields fields;
+  struct packet_unit_info *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_unit_info *clone;
+  RECEIVE_PACKET_START(packet_unit_info, real_packet);
+
+  DIO_BV_GET(&din, fields);
+  {
+    int readin;
+  
+    dio_get_uint16(&din, &readin);
+    real_packet->id = readin;
+  }
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_unit_info_101, cmp_packet_unit_info_101);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -11255,10 +11871,10 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_unit_info_100(struct connection *pc, const struct packet_unit_info *packet)
+static int send_packet_unit_info_101(struct connection *pc, const struct packet_unit_info *packet)
 {
   const struct packet_unit_info *real_packet = packet;
-  packet_unit_info_100_fields fields;
+  packet_unit_info_101_fields fields;
   struct packet_unit_info *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = FALSE;
   struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_INFO];
@@ -11266,7 +11882,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
   SEND_PACKET_START(PACKET_UNIT_INFO);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_unit_info_100, cmp_packet_unit_info_100);
+    *hash = hash_new(hash_packet_unit_info_101, cmp_packet_unit_info_101);
   }
   BV_CLR_ALL(fields);
 
@@ -11579,8 +12195,10 @@ static void ensure_valid_variant_packet_unit_info(struct connection *pc)
   }
 
   if(FALSE) {
-  } else if(TRUE) {
+  } else if((has_capability("connecting", pc->capability) && has_capability("connecting", our_capability))) {
     variant = 100;
+  } else if(!(has_capability("connecting", pc->capability) && has_capability("connecting", our_capability))) {
+    variant = 101;
   } else {
     die("unknown variant");
   }
@@ -11603,6 +12221,7 @@ struct packet_unit_info *receive_packet_unit_info(struct connection *pc, enum pa
 
   switch(pc->phs.variant[PACKET_UNIT_INFO]) {
     case 100: return receive_packet_unit_info_100(pc, type);
+    case 101: return receive_packet_unit_info_101(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
@@ -11623,6 +12242,7 @@ int send_packet_unit_info(struct connection *pc, const struct packet_unit_info *
 
   switch(pc->phs.variant[PACKET_UNIT_INFO]) {
     case 100: return send_packet_unit_info_100(pc, packet);
+    case 101: return send_packet_unit_info_101(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }

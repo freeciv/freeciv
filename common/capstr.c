@@ -75,6 +75,9 @@ const char * const our_capability = our_capability_internal;
 
 /* +2.0 is the capability string for the 2.0.x release(s).
  *
+ * "connecting" means the unused "connecting" field of the unit_info packet
+ * is present.
+ *
  *   - No new manditory capabilities can be added to the release branch; doing
  *     so would break network capability of supposedly "compatible" releases.
  *
@@ -82,7 +85,7 @@ const char * const our_capability = our_capability_internal;
  *     as long as possible.  We want to maintain network compatibility with
  *     the stable branch for as long as possible.
  */
-#define CAPABILITY "+2.0"
+#define CAPABILITY "+2.0 connecting"
 
 void init_our_capability(void)
 {
