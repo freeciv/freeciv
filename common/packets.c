@@ -746,7 +746,7 @@ int send_packet_game_info(struct connection *pc,
   for(i=0; i<A_LAST; i++)
     cptr=put_int8(cptr, pinfo->global_advances[i]);
   for(i=0; i<B_LAST; i++)
-    cptr=put_int8(cptr, pinfo->global_wonders[i]);
+    cptr=put_int16(cptr, pinfo->global_wonders[i]);
   cptr=put_int8(cptr, pinfo->techpenalty);
   cptr=put_int8(cptr, pinfo->foodbox);
   cptr=put_int8(cptr, pinfo->civstyle);
@@ -793,7 +793,7 @@ struct packet_game_info *recieve_packet_game_info(struct connection *pc)
   for(i=0; i<A_LAST; i++)
     cptr=get_int8(cptr, &pinfo->global_advances[i]);
   for(i=0; i<B_LAST; i++)
-    cptr=get_int8(cptr, &pinfo->global_wonders[i]);
+    cptr=get_int16(cptr, &pinfo->global_wonders[i]);
   cptr=get_int8(cptr, &pinfo->techpenalty);
   cptr=get_int8(cptr, &pinfo->foodbox);
   cptr=get_int8(cptr, &pinfo->civstyle);
