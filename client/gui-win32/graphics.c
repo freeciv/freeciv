@@ -49,8 +49,9 @@ static SPRITE *sprcache;
 static HBITMAP bitmapcache;
 SPRITE *intro_gfx_sprite=NULL;
 SPRITE *radar_gfx_sprite=NULL;
-static SPRITE fog_sprite;
 static HDC hdcbig,hdcsmall;
+static HBITMAP stipple;
+static HBITMAP fogmask;
 
 /**************************************************************************
 
@@ -272,35 +273,21 @@ void init_fog_bmp(void)
   int x,y;
   HBITMAP old;
   HDC hdc;
-  HBITMAP fog;
   if (!is_isometric)
     return;
   hdc=CreateCompatibleDC(NULL);
-  fog=CreateCompatibleBitmap(hdc,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
-  old=SelectObject(hdc,fog);
+  stipple = CreateCompatibleBitmap(hdc,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
+  fogmask = CreateCompatibleBitmap(hdc,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT);
+  old = SelectObject(hdc, stipple);
   BitBlt(hdc,0,0,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,NULL,0,0,BLACKNESS);
-  SelectObject(hdc,old);
-  fog_sprite.width=NORMAL_TILE_WIDTH;
-  fog_sprite.height=NORMAL_TILE_HEIGHT;
-  HBITMAP2BITMAP(fog,&fog_sprite.bmp);
-  DeleteObject(fog);
-  fog_sprite.has_mask=1;
-  fog=BITMAP2HBITMAP(&sprites.black_tile->mask);
-  old=SelectObject(hdc,fog);
   for(x=0;x<NORMAL_TILE_WIDTH;x++)
     for(y=0;y<NORMAL_TILE_HEIGHT;y++)
       {
-        if (!GetPixel(hdc,x,y))
-          {
-            if ((x+y)&1)
-              SetPixel(hdc,x,y,RGB(255,255,255));
-          }
+	if ((x+y)&1)
+	  SetPixel(hdc, x, y, RGB(255,255,255));
       }
-  SelectObject(hdc,old);
-  HBITMAP2BITMAP(fog,&fog_sprite.mask);
-  DeleteObject(fog);
-  DeleteObject(hdc);
-  
+  SelectObject(hdc, old);
+  DeleteDC(hdc);  
 }
 
 /***************************************************************************
@@ -512,10 +499,54 @@ void draw_sprite_part(struct Sprite *sprite,HDC hdc,
 
 **************************************************************************/
 void draw_fog_part(HDC hdc,int x, int y,int w, int h,
-		   int xsrc, int ysrc)
+		   int xsrc, int ysrc, struct Sprite *sprite_mask)
 {
-  if (is_isometric)
-    draw_sprite_part(&fog_sprite,hdc,x,y,w,h,xsrc,ysrc);
+  HDC hdccomp;
+  HDC hdcmask;
+  HDC hdcmask2;
+
+  HBITMAP tempbit;
+  HBITMAP tempmask;
+  HBITMAP tempmask2;
+
+  HBITMAP maskbit;
+  HBITMAP dummy;
+
+  if (!is_isometric)
+    return;
+
+  if (xsrc < 0) {
+    x -= xsrc;
+    w += xsrc;
+    xsrc = 0;
+  }
+  if (ysrc < 0) {
+    y -= ysrc;
+    h += ysrc;
+    ysrc = 0;
+  }
+
+  hdccomp  = CreateCompatibleDC(NULL);
+  hdcmask  = CreateCompatibleDC(NULL);
+  hdcmask2 = CreateCompatibleDC(NULL);
+  
+  sprite2hbitmap(sprite_mask,&dummy,&maskbit);
+
+  tempmask  = SelectObject(hdcmask,  maskbit); 
+  tempmask2 = SelectObject(hdcmask2, fogmask); 
+  tempbit   = SelectObject(hdccomp,  stipple);
+
+  BitBlt(hdcmask2,0,0,w,h,hdcmask,xsrc,ysrc,SRCCOPY);
+  BitBlt(hdcmask2,0,0,w,h,hdccomp,xsrc,ysrc,SRCPAINT);
+  BitBlt(hdc,x,y,w,h,hdcmask2,0,0,SRCAND);
+
+  SelectObject(hdcmask,  tempmask);
+  SelectObject(hdccomp,  tempbit);
+  SelectObject(hdcmask2, tempmask2);
+
+  DeleteDC(hdccomp);
+  DeleteDC(hdcmask);
+  DeleteDC(hdcmask2);
 }
 
 #if 0

@@ -734,7 +734,7 @@ static void pixmap_put_overlay_tile_draw(HDC hdc,
     draw_fog_part(hdc,canvas_x+offset_x,canvas_y+offset_y,
 		  MIN(width, MAX(0,ssprite->width-offset_x)),
 		  MIN(height, MAX(0,ssprite->height-offset_y)),
-		  offset_x,offset_y); 
+		  offset_x,offset_y,ssprite); 
     
   }
   
