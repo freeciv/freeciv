@@ -28,8 +28,8 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
 int ai_evaluate_government(struct player *pplayer, struct government *g);
 int ai_evaluate_tile_for_attack(struct unit *punit,
                                 int dest_x, int dest_y);
-bool find_something_to_bomb(struct unit *punit, int x, int y);
-int find_nearest_airbase(int x, int y, struct unit *punit,
-                         int *xref, int *yref);
+int find_something_to_bomb(struct unit *punit, int x, int y);
+bool find_nearest_airbase(int x, int y, struct unit *punit,
+			  int *xref, int *yref);
 
 #endif /* FC__AIAIR_H */

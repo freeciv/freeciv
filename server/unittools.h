@@ -29,7 +29,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender);
 
 /* move check related */
 bool is_airunit_refuel_point(int x, int y, struct player *pplayer,
-				   Unit_Type_id type, int unit_is_on_tile);
+			     Unit_Type_id type, bool unit_is_on_tile);
 
 /* turn update related */
 void player_restore_units(struct player *pplayer);
