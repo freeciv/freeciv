@@ -1161,7 +1161,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
     city_incite_cost(pcity);
     
-    city_list_insert(&plr->cities, pcity);
+    city_list_insert_back(&plr->cities, pcity);
   }
 
   unit_list_init(&plr->units);
@@ -1213,7 +1213,13 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     punit->ai.charge = 0;
     punit->hp=secfile_lookup_int(file, "player%d.u%d.hp", plrno, i);
     punit->bribe_cost=unit_bribe_cost(punit);
-    unit_list_insert(&plr->units, punit);
+    
+    punit->ord_map=secfile_lookup_int_default(file, 0, "player%d.u%d.ord_map",
+					      plrno, i);
+    punit->ord_city=secfile_lookup_int_default(file, 0, "player%d.u%d.ord_city",
+					       plrno, i);
+      
+    unit_list_insert_back(&plr->units, punit);
 
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
   }
@@ -1295,6 +1301,8 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
     secfile_insert_int(file, punit->goto_dest_x, "player%d.u%d.goto_x", plrno, i);
     secfile_insert_int(file, punit->goto_dest_y, "player%d.u%d.goto_y", plrno, i);
     secfile_insert_int(file, punit->ai.control, "player%d.u%d.ai", plrno, i);
+    secfile_insert_int(file, punit->ord_map, "player%d.u%d.ord_map", plrno, i);
+    secfile_insert_int(file, punit->ord_city, "player%d.u%d.ord_city", plrno, i);
   }
 
   genlist_iterator_init(&myiter, &plr->cities.list, 0);

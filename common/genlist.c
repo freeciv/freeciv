@@ -191,8 +191,54 @@ find_genlist_position(struct genlist *pgenlist, int pos)
 }
 
 
+/************************************************************************
+ Sort the elements of a genlist.
+ 
+ The comparison function should be a function useable by qsort; note
+ that the const void * arguments to compar should really be "pointers to
+ void*", where the void* being pointed to are the genlist dataptrs.
+ That is, there are two levels of indirection.
+ To do the sort we first construct an array of pointers corresponding
+ the the genlist dataptrs, then sort those and put them back into
+ the genlist.  This function will be called many times, so we use
+ a static pointed to realloc-ed memory.  Calling this function with
+ compar==NULL will free the memory and do nothing else.
+************************************************************************/
+void genlist_sort(struct genlist *pgenlist,
+		  int (*compar)(const void *, const void *))
+{
+  static void **sortbuf = 0;
+  static int n_alloc = 0;
+  
+  struct genlist_iterator myiter;
+  int i, n;
 
+  if(compar==NULL) {
+    free(sortbuf);
+    sortbuf = 0;
+    n_alloc = 0;
+    return;
+  }
 
-
-
+  n = genlist_size(pgenlist);
+  if(n <= 1) {
+    return;
+  }
+  if(n > n_alloc) {
+    n_alloc = n+10;
+    sortbuf = realloc(sortbuf, n_alloc*sizeof(void*));
+  }
+  
+  genlist_iterator_init(&myiter, pgenlist, 0);
+  for(i=0; i<n; i++, ITERATOR_NEXT(myiter)) {
+    sortbuf[i] = ITERATOR_PTR(myiter);
+  }
+  
+  qsort(sortbuf, n, sizeof(void*), compar);
+  
+  genlist_iterator_init(&myiter, pgenlist, 0);
+  for(i=0; i<n; i++, ITERATOR_NEXT(myiter)) {
+     ITERATOR_PTR(myiter) = sortbuf[i];
+  }
+}
 

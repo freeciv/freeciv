@@ -42,6 +42,8 @@ struct genlist_link *
 find_genlist_position(struct genlist *pgenlist, int pos);
 void genlist_unlink(struct genlist *pgenlist, void *punlink);
 
+void genlist_sort(struct genlist *pgenlist,
+		  int (*compar)(const void *, const void *));
 
 void genlist_iterator_init(struct genlist_iterator *iter,
 				struct genlist *pgenlist, int pos);

@@ -745,3 +745,50 @@ void unit_list_unlink(struct unit_list *This, struct unit *punit)
 {
   genlist_unlink(&This->list, punit);
 }
+
+/**************************************************************************
+ Comparison function for genlist_sort, sorting by ord_map:
+ The indirection is a bit gory:
+ Read from the right:
+   1. cast arg "a" to "ptr to void*"   (we're sorting a list of "void*"'s)
+   2. dereference to get the "void*"
+   3. cast that "void*" to a "struct unit*"
+**************************************************************************/
+static int compar_unit_ord_map(const void *a, const void *b)
+{
+  const struct unit *ua, *ub;
+  ua = (const struct unit*) *(const void**)a;
+  ub = (const struct unit*) *(const void**)b;
+  return ua->ord_map - ub->ord_map;
+}
+
+/**************************************************************************
+ Comparison function for genlist_sort, sorting by ord_city: see above.
+**************************************************************************/
+static int compar_unit_ord_city(const void *a, const void *b)
+{
+  const struct unit *ua, *ub;
+  ua = (const struct unit*) *(const void**)a;
+  ub = (const struct unit*) *(const void**)b;
+  return ua->ord_city - ub->ord_city;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void unit_list_sort_ord_map(struct unit_list *This)
+{
+  if(unit_list_size(This) > 1) {
+    genlist_sort(&This->list, compar_unit_ord_map);
+  }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void unit_list_sort_ord_city(struct unit_list *This)
+{
+  if(unit_list_size(This) > 1) {
+    genlist_sort(&This->list, compar_unit_ord_city);
+  }
+}

@@ -943,9 +943,11 @@ void city_list_unlink(struct city_list *This, struct city *pcity)
   genlist_unlink(&This->list, pcity);
 }
 
-
-
-
-
-
+/**************************************************************************
+...
+**************************************************************************/
+void city_list_insert_back(struct city_list *This, struct city *pcity)
+{
+  genlist_insert(&This->list, pcity, -1);
+}
 

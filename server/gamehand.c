@@ -153,6 +153,55 @@ void send_game_info(struct player *dest)
 }
 
 /***************************************************************
+ Assign values to ord_city and ord_map for each unit, so the
+ values can be saved.
+***************************************************************/
+void calc_unit_ordering(void)
+{
+  int i, j, x, y;
+  
+  for(i=0; i<game.nplayers; i++) {
+    city_list_iterate(get_player(i)->cities, pcity) {
+      j = 0;
+      unit_list_iterate(pcity->units_supported, punit) 
+	punit->ord_city = j++;
+      unit_list_iterate_end;
+    }
+    city_list_iterate_end;
+  }
+
+  for(y=0; y<map.ysize; y++) {
+    for(x=0; x<map.xsize; x++) {
+      j = 0;
+      unit_list_iterate(map_get_tile(x,y)->units, punit) 
+	punit->ord_map = j++;
+      unit_list_iterate_end;
+    }
+  }
+}
+/***************************************************************
+ For each city and tile, sort unit lists according to
+ ord_city and ord_map values.
+***************************************************************/
+void apply_unit_ordering(void)
+{
+  int i, x, y;
+  
+  for(i=0; i<game.nplayers; i++) {
+    city_list_iterate(get_player(i)->cities, pcity) {
+      unit_list_sort_ord_city(&pcity->units_supported);
+    }
+    city_list_iterate_end;
+  }
+
+  for(y=0; y<map.ysize; y++) {
+    for(x=0; x<map.xsize; x++) { 
+      unit_list_sort_ord_map(&map_get_tile(x,y)->units);
+    }
+  }
+}
+
+/***************************************************************
 ...
 ***************************************************************/
 int game_load(struct section_file *file)
@@ -260,6 +309,7 @@ int game_load(struct section_file *file)
     player_load(&game.players[i], i, file); 
   }
   initialize_globals();
+  apply_unit_ordering();
 
   for(i=0; i<game.nplayers; i++) {
     /*    player_load(&game.players[i], i, file); */
@@ -273,7 +323,6 @@ int game_load(struct section_file *file)
 
   return 1;
 }
-
 
 
 /***************************************************************
@@ -336,6 +385,8 @@ void game_save(struct section_file *file)
     return;
   }
 
+  calc_unit_ordering();
+  
   for(i=0; i<game.nplayers; i++)
     player_save(&game.players[i], i, file);
 

@@ -219,6 +219,7 @@ struct city *city_list_find_name(struct city_list *This, char *name);
 void city_list_insert(struct city_list *This, struct city *pcity);
 int city_list_size(struct city_list *This);
 void city_list_unlink(struct city_list *This, struct city *pcity);
+void city_list_insert_back(struct city_list *This, struct city *pcity);
 
 #endif
 

@@ -123,6 +123,9 @@ struct unit {
   int goto_dest_x, goto_dest_y;
   int activity_count;
   enum unit_focus_status focus_status;
+  int ord_map, ord_city;
+  /* ord_map and ord_city are the order index of this unit in tile.units
+     and city.units_supported; they are only used for save/reload */
 };
 
 #define F_CARAVAN      (1<<0)
@@ -185,6 +188,8 @@ int unit_list_size(struct unit_list *This);
 void unit_list_unlink(struct unit_list *This, struct unit *punit);
 char *unit_name(enum unit_type_id id);
 
+void unit_list_sort_ord_map(struct unit_list *This);
+void unit_list_sort_ord_city(struct unit_list *This);
 
 int diplomat_can_do_action(struct unit *pdiplomat,
 			   enum diplomat_actions action, 
