@@ -1219,6 +1219,9 @@ void map_fractal_generate(void)
 
   /* restore previous random state: */
   set_myrand_state(rstate);
+
+  if (map.num_continents>0)
+    update_island_impr_effect(-1, map.num_continents);
 }
 
 /**************************************************************************
