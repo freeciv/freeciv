@@ -958,40 +958,6 @@ void put_terrain(struct tile *ptile,
 }
 
 /****************************************************************************
-  Draw food, shield, and trade output values on the tile.
-
-  The proper way to do this is probably something like what Civ II does
-  (one sprite drawn N times on top of itself), but we just use separate
-  sprites (limiting the number of combinations).
-****************************************************************************/
-void put_city_tile_output(struct city *pcity, int city_x, int city_y,
-			  struct canvas *pcanvas,
-			  int canvas_x, int canvas_y)
-{
-  int food = city_get_output_tile(city_x, city_y, pcity, O_FOOD);
-  int shields = city_get_output_tile(city_x, city_y, pcity, O_SHIELD);
-  int trade = city_get_output_tile(city_x, city_y, pcity, O_TRADE);
-
-  food = CLIP(0, food, NUM_TILES_DIGITS - 1);
-  shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
-  trade = CLIP(0, trade, NUM_TILES_DIGITS - 1);
-
-  /* In iso-view the output sprite is a bit smaller than the tile, so we
-   * have to use an offset. */
-  if (tileset_is_isometric()) {
-    canvas_x += NORMAL_TILE_WIDTH / 3;
-    canvas_y -= NORMAL_TILE_HEIGHT / 3;
-  }
-
-  canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
-			 sprites.city.tile_foodnum[food]);
-  canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
-			 sprites.city.tile_shieldnum[shields]);
-  canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
-			 sprites.city.tile_tradenum[trade]);
-}
-
-/****************************************************************************
   Draw food, gold, and shield upkeep values on the unit.
 
   The proper way to do this is probably something like what Civ II does
@@ -1241,8 +1207,6 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 	  canvas_put_sprite_full(mapview.store,
 				 canvas_x2, canvas_y2,
 				 sprites.city.worked_tile_overlay.p[index]);
-	  put_city_tile_output(pcity, city_x, city_y,
-			       mapview.store, canvas_x2, canvas_y2);
 	  break;
 	case C_TILE_UNAVAILABLE:
 	  break;
@@ -1614,7 +1578,7 @@ void move_unit_map_canvas(struct unit *punit,
         closest one (only if punit != NULL).
     g.  If nobody can work it, return NULL.
 **************************************************************************/
-struct city *find_city_or_settler_near_tile(struct tile *ptile,
+struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 					    struct unit **punit)
 {
   struct city *pcity = ptile->worked, *closest_city;
@@ -1698,7 +1662,7 @@ struct city *find_city_or_settler_near_tile(struct tile *ptile,
 /**************************************************************************
   Find the nearest/best city that owns the tile.
 **************************************************************************/
-struct city *find_city_near_tile(struct tile *ptile)
+struct city *find_city_near_tile(const struct tile *ptile)
 {
   return find_city_or_settler_near_tile(ptile, NULL);
 }

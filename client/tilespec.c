@@ -2733,6 +2733,52 @@ static int fill_irrigation_sprite_array(struct tileset *t,
   return sprs - saved_sprs;
 }
 
+/**************************************************************************
+  Fill in the city tile output sprites for the tile.
+**************************************************************************/
+static int fill_city_tile_output_sprite_array(struct tileset *t,
+					      struct drawn_sprite *sprs,
+					      const struct tile *ptile,
+					      const struct city *citymode)
+{
+  const struct city *pcity;
+  struct drawn_sprite *saved_sprs = sprs;
+  int city_x, city_y;
+
+  if (!ptile || tile_get_known(ptile) == TILE_UNKNOWN) {
+    return 0;
+  }
+
+  if (citymode) {
+    pcity = citymode;
+  } else {
+    pcity = find_city_near_tile(ptile);
+    if (!pcity || !pcity->client.colored) {
+      return 0;
+    }
+  }
+
+  if (map_to_city_map(&city_x, &city_y, pcity, ptile)
+      && get_worker_city(pcity, city_x, city_y) == C_TILE_WORKER) {
+    int food = city_get_output_tile(city_x, city_y, pcity, O_FOOD);
+    int shields = city_get_output_tile(city_x, city_y, pcity, O_SHIELD);
+    int trade = city_get_output_tile(city_x, city_y, pcity, O_TRADE);
+    const int ox = t->is_isometric ? NORMAL_TILE_WIDTH / 3 : 0;
+    const int oy = t->is_isometric ? -NORMAL_TILE_HEIGHT / 3 : 0;
+
+    food = CLIP(0, food, NUM_TILES_DIGITS - 1);
+    shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
+    trade = CLIP(0, trade, NUM_TILES_DIGITS - 1);
+
+    ADD_SPRITE(sprites.city.tile_foodnum[food], DRAW_NORMAL, TRUE, ox, oy);
+    ADD_SPRITE(sprites.city.tile_shieldnum[shields], DRAW_NORMAL,
+	       TRUE, ox, oy);
+    ADD_SPRITE(sprites.city.tile_tradenum[trade], DRAW_NORMAL, TRUE, ox, oy);
+  }
+
+  return sprs - saved_sprs;
+}
+
 /****************************************************************************
   Fill in the sprite array for blended terrain.
 ****************************************************************************/
@@ -3441,6 +3487,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_OVERLAYS:
+    sprs += fill_city_tile_output_sprite_array(t, sprs, ptile, citymode);
     if (ptile && map_deco[ptile->index].crosshair > 0) {
       ADD_SPRITE_SIMPLE(sprites.user.attention);
     }

@@ -254,9 +254,6 @@ void put_city(struct city *pcity,
 void put_terrain(struct tile *ptile,
 		 struct canvas *pcanvas, int canvas_x, int canvas_y);
 
-void put_city_tile_output(struct city *pcity, int city_x, int city_y,
-			  struct canvas *pcanvas,
-			  int canvas_x, int canvas_y);
 void put_unit_city_overlays(struct unit *punit,
 			    struct canvas *pcanvas,
 			    int canvas_x, int canvas_y);
@@ -289,9 +286,9 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 void move_unit_map_canvas(struct unit *punit,
 			  struct tile *ptile, int dx, int dy);
 
-struct city *find_city_or_settler_near_tile(struct tile *ptile,
+struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 					    struct unit **punit);
-struct city *find_city_near_tile(struct tile *ptile);
+struct city *find_city_near_tile(const struct tile *ptile);
 
 void get_city_mapview_production(struct city *pcity,
                                  char *buf, size_t buf_len);

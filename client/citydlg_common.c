@@ -186,25 +186,6 @@ void city_dialog_redraw_map(struct city *pcity,
 		      punit, pcity_draw, canvas_x, canvas_y, pcity);
     } citydlg_iterate_end;
   } mapview_layer_iterate_end;
-
-  /* We have to put the output afterwards or it will be covered
-   * in iso-view.
-   *
-   * This sometimes will draw one of the lines on top of a city or
-   * unit pixmap (in iso-view). This should maybe be moved to
-   * put_one_tile to fix this, but maybe it wouldn't be a good idea because
-   * the lines would get obscured. */
-  citydlg_iterate(pcity, ptile, pedge, pcorner, canvas_x, canvas_y) {
-    int city_x, city_y;
-
-    if (ptile && map_to_city_map(&city_x, &city_y, pcity, ptile)
-	&& tile_get_known(ptile) != TILE_UNKNOWN) {
-      if (pcity->city_map[city_x][city_y] == C_TILE_WORKER) {
-	put_city_tile_output(pcity, city_x, city_y,
-			     pcanvas, canvas_x, canvas_y);
-      }
-    }
-  } citydlg_iterate_end;
 }
 
 /**************************************************************************
