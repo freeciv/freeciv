@@ -1422,10 +1422,12 @@ static void add_specials(int prob)
 }
 
 /**************************************************************************
-  globals for generator 2 & 3
+  common variables for generator 2, 3 and 4
 **************************************************************************/
-static int isleindex, n, e, s, w;
-static long int totalmass; /* better a global than a duplicate formula */
+struct gen234_state {
+  int isleindex, n, e, s, w;
+  long int totalmass;
+};
 
 static int is_cold(int x, int y){
   return ( y * 5 < map.ysize || y * 5 > map.ysize * 4 );
@@ -1435,32 +1437,35 @@ static int is_cold(int x, int y){
   fill an island with up four types of terrains, rivers have extra code
 **************************************************************************/
 static void fill_island(int coast, long int *bucket,
-			int warm0_weight, int warm1_weight, 
-			int cold0_weight, int cold1_weight, 
-		enum tile_terrain_type warm0, enum tile_terrain_type warm1,
-		enum tile_terrain_type cold0, enum tile_terrain_type cold1)
+			int warm0_weight, int warm1_weight,
+			int cold0_weight, int cold1_weight,
+			enum tile_terrain_type warm0,
+			enum tile_terrain_type warm1,
+			enum tile_terrain_type cold0,
+			enum tile_terrain_type cold1,
+			const struct gen234_state *const pstate)
 {
   int x, y, i, k, capac;
   long int failsafe;
 
   if (*bucket <= 0 ) return;
-  capac = totalmass;
+  capac = pstate->totalmass;
   i = *bucket / capac;
   i++;
   *bucket -= i * capac;
 
   k= i;
-  failsafe= i*(s-n)*(e-w);
+  failsafe = i * (pstate->s - pstate->n) * (pstate->e - pstate->w);
   if(failsafe<0){ failsafe= -failsafe; }
 
   if(warm0_weight+warm1_weight+cold0_weight+cold1_weight<=0)
     i= 0;
 
   while (i && failsafe--) {
-    y = myrand(s - n) + n;
-    x = myrand(e - w) + w;
-    if (map_get_continent(x,y) == isleindex &&
-		map_get_terrain(x,y) == T_GRASSLAND) {
+    x = myrand(pstate->e - pstate->w) + pstate->w;
+    y = myrand(pstate->s - pstate->n) + pstate->n;
+    if (map_get_continent(x, y) == pstate->isleindex &&
+	map_get_terrain(x, y) == T_GRASSLAND) {
 
       /* the first condition helps make terrain more contiguous,
 	 the second lets it avoid the coast: */
@@ -1494,26 +1499,27 @@ static void fill_island(int coast, long int *bucket,
 /**************************************************************************
   fill an island with rivers, when river style is R_AS_SPECIAL
 **************************************************************************/
-static void fill_island_rivers(int coast, long int *bucket)
+static void fill_island_rivers(int coast, long int *bucket,
+			       const struct gen234_state *const pstate)
 {
   int x, y, i, k, capac;
   long int failsafe;
 
   if (*bucket <= 0 ) return;
-  capac = totalmass;
+  capac = pstate->totalmass;
   i = *bucket / capac;
   i++;
   *bucket -= i * capac;
 
   k= i;
-  failsafe= i*(s-n)*(e-w);
+  failsafe = i * (pstate->s - pstate->n) * (pstate->e - pstate->w);
   if(failsafe<0){ failsafe= -failsafe; }
 
   while (i && failsafe--) {
-    y = myrand(s - n) + n;
-    x = myrand(e - w) + w;
-    if (map_get_continent(x,y) == isleindex &&
-		map_get_terrain(x,y) == T_GRASSLAND) {
+    x = myrand(pstate->e - pstate->w) + pstate->w;
+    y = myrand(pstate->s - pstate->n) + pstate->n;
+    if (map_get_continent(x, y) == pstate->isleindex &&
+	map_get_terrain(x, y) == T_GRASSLAND) {
 
       /* the first condition helps make terrain more contiguous,
 	 the second lets it avoid the coast: */
@@ -1540,36 +1546,40 @@ static long int checkmass;
 /**************************************************************************
   finds a place and drop the island created when called with islemass != 0
 **************************************************************************/
-static int place_island(void)
+static int place_island(struct gen234_state *pstate)
 {
   int x, y, xo, yo, i=0;
   rand_map_pos(&xo, &yo);
 
   /* this helps a lot for maps with high landmass */
-  for (y = n, x = w ; y < s && x < e ; y++, x++) {
-    int map_x = x + xo - w;
-    int map_y = y + yo - n;
+  for (y = pstate->n, x = pstate->w; y < pstate->s && x < pstate->e;
+       y++, x++) {
+    int map_x = x + xo - pstate->w;
+    int map_y = y + yo - pstate->n;
+
     if (!normalize_map_pos(&map_x, &map_y))
       return 0;
     if (hmap(x, y) && is_coastline(map_x, map_y))
       return 0;
   }
 		       
-  for (y = n ; y < s ; y++)
-    for (x = w ; x < e ; x++) {
-      int map_x = x + xo - w;
-      int map_y = y + yo - n;
+  for (y = pstate->n; y < pstate->s; y++) {
+    for (x = pstate->w; x < pstate->e; x++) {
+      int map_x = x + xo - pstate->w;
+      int map_y = y + yo - pstate->n;
+
       if (!normalize_map_pos(&map_x, &map_y))
 	return 0;
       if (hmap(x, y) && is_coastline(map_x, map_y))
 	return 0;
     }
+  }
 
-  for (y = n ; y < s ; y++) 
-    for (x = w ; x < e ; x++) {
+  for (y = pstate->n; y < pstate->s; y++) {
+    for (x = pstate->w; x < pstate->e; x++) {
       if (hmap(x, y)) {
-	int map_x = x + xo - w;
-	int map_y = y + yo - n;
+	int map_x = x + xo - pstate->w;
+	int map_y = y + yo - pstate->n;
 	int is_real;
 
 	is_real = normalize_map_pos(&map_x, &map_y);
@@ -1582,21 +1592,22 @@ static int place_island(void)
 	}
 
         map_set_terrain(map_x, map_y, T_GRASSLAND);
-        map_set_continent(map_x, map_y, isleindex);
+	map_set_continent(map_x, map_y, pstate->isleindex);
         i++;
       }
     }
-  s += yo - n;
-  e += xo - w;
-  n = yo;
-  w = xo;
+  }
+  pstate->s += yo - pstate->n;
+  pstate->e += xo - pstate->w;
+  pstate->n = yo;
+  pstate->w = xo;
   return i;
 }
 
 /**************************************************************************
   finds a place and drop the island created when called with islemass != 0
 **************************************************************************/
-static int create_island(int islemass)
+static int create_island(int islemass, struct gen234_state *pstate)
 {
   int x, y, i;
   long int tries=islemass*(2+islemass/20)+99;
@@ -1605,31 +1616,35 @@ static int create_island(int islemass)
   y = map.ysize / 2;
   x = map.xsize / 2;
   hmap(x, y) = 1;
-  n = y - 1; w = x - 1;
-  s = y + 2; e = x + 2;
+  pstate->n = y - 1;
+  pstate->w = x - 1;
+  pstate->s = y + 2;
+  pstate->e = x + 2;
   i = islemass - 1;
   while (i && tries-->0) {
-    y = myrand(s - n) + n;
-    x = myrand(e - w) + w;
+    x = myrand(pstate->e - pstate->w) + pstate->w;
+    y = myrand(pstate->s - pstate->n) + pstate->n;
     if ((!hmap(x, y)) && (
 		hmap(x+1, y) || hmap(x-1, y) ||
 		hmap(x, y+1) || hmap(x, y-1) )) {
       hmap(x, y) = 1;
       i--;
-      if (y >= s - 1 && s < map.ysize - 2) s++;
-      if (x >= e - 1 && e < map.xsize - 2) e++;
-      if (y <= n && n > 2) n--;
-      if (x <= w && w > 2) w--;
+      if (y >= pstate->s - 1 && pstate->s < map.ysize - 2) pstate->s++;
+      if (x >= pstate->e - 1 && pstate->e < map.xsize - 2) pstate->e++;
+      if (y <= pstate->n && pstate->n > 2)                 pstate->n--;
+      if (x <= pstate->w && pstate->w > 2)                 pstate->w--;
     }
     if (i < islemass / 10) {
-      for (y = n ; y < s ; y++)
-        for (x = w ; x < e ; x++)
+      for (y = pstate->n; y < pstate->s; y++) {
+	for (x = pstate->w; x < pstate->e; x++) {
           if ((!hmap(x, y)) && i && (
 		hmap(x+1, y) && hmap(x-1, y) &&
 		hmap(x, y+1) && hmap(x, y-1) )) {
             hmap(x, y) = 1;
             i--; 
           }
+	}
+      }
     }
   }
   if(tries<=0) {
@@ -1638,7 +1653,9 @@ static int create_island(int islemass)
   }
   
   tries = map_num_tiles() / 4;	/* on a 40x60 map, there are 2400 places */
-  while (!(i = place_island()) && --tries);
+  while (!(i = place_island(pstate)) && --tries) {
+    /* nothing */
+  }
   return i;
 }
 
@@ -1650,7 +1667,8 @@ static long int totalweight;
   make an island, fill every tile type except plains
   note: you have to create big islands first.
 **************************************************************************/
-static void make_island(int islemass, int starters)
+static void make_island(int islemass, int starters,
+			struct gen234_state *pstate)
 {
   static long int tilefactor, balance, lastplaced;/* int may be only 2 byte ! */
   static long int riverbuck, mountbuck, desertbuck, forestbuck, swampbuck;
@@ -1658,33 +1676,32 @@ static void make_island(int islemass, int starters)
   int i;
 
   if (!islemass) {
-					/* setup initial static parameters */
     balance = 0;
-    isleindex = 3; /* 0= none, 1= arctic, 2= antarctic */
+    pstate->isleindex = 3;	/* 0= none, 1= arctic, 2= antarctic */
 
-    checkmass= totalmass;
+    checkmass = pstate->totalmass;
 
     /* caveat: this should really be sent to all players */
-    if(totalmass>3000)
+    if (pstate->totalmass > 3000)
       freelog(LOG_NORMAL, _("High landmass - this may take a few seconds."));
 
     i = (map.riverlength / 10) + map.mountains
 		+ map.deserts + map.forestsize + map.swampsize;
     i = i <= 90 ? 100 : i * 11 / 10;
-    tilefactor = totalmass / i;
-    riverbuck = -(long int)myrand(totalmass);
-    mountbuck = -(long int)myrand(totalmass);
-    desertbuck = -(long int)myrand(totalmass);
-    forestbuck = -(long int)myrand(totalmass);
-    swampbuck = -(long int)myrand(totalmass);
-    lastplaced = totalmass;
+    tilefactor = pstate->totalmass / i;
+    riverbuck = -(long int) myrand(pstate->totalmass);
+    mountbuck = -(long int) myrand(pstate->totalmass);
+    desertbuck = -(long int) myrand(pstate->totalmass);
+    forestbuck = -(long int) myrand(pstate->totalmass);
+    swampbuck = -(long int) myrand(pstate->totalmass);
+    lastplaced = pstate->totalmass;
   } else {
 
    /* makes the islands here */
     islemass = islemass - balance;
 
     /* don't create continents without a number */
-    if(isleindex>=MAP_NCONT)
+    if (pstate->isleindex >= MAP_NCONT)
       return;
 
     if(islemass>lastplaced+1+lastplaced/50)/*don't create big isles we can't place*/
@@ -1699,11 +1716,13 @@ static void make_island(int islemass, int starters)
 
     i = islemass;
     if (i <= 0) return;
-    islands[isleindex].starters = starters;
+    islands[pstate->isleindex].starters = starters;
 
-    freelog(LOG_VERBOSE, "island %i",isleindex);
+    freelog(LOG_VERBOSE, "island %i", pstate->isleindex);
 
-    while (!create_island(i--) && i*10>islemass );
+    while (!create_island(i--, pstate) && i * 10 > islemass) {
+      /* nothing */
+    }
     i++;
     lastplaced= i;
     if(i*10>islemass){
@@ -1719,31 +1738,36 @@ static void make_island(int islemass, int starters)
     if (terrain_control.river_style==R_AS_TERRAIN) {
       riverbuck += map.riverlength / 10 * i;
       fill_island(1, &riverbuck,
-		 1,1,1,1,
-		 T_RIVER, T_RIVER, T_RIVER, T_RIVER);
+		  1,1,1,1,
+		  T_RIVER, T_RIVER, T_RIVER, T_RIVER, 
+		  pstate);
     }
     if (terrain_control.river_style==R_AS_SPECIAL) {
       riverbuck += map.riverlength / 10 * i;
-      fill_island_rivers(1, &riverbuck);
+      fill_island_rivers(1, &riverbuck, pstate);
     }
     mountbuck += map.mountains * i;
     fill_island(20, &mountbuck,
 		3,1, 3,1,
-		T_HILLS, T_MOUNTAINS, T_HILLS, T_MOUNTAINS);
+		T_HILLS, T_MOUNTAINS, T_HILLS, T_MOUNTAINS,
+		pstate);
     desertbuck += map.deserts * i;
     fill_island(40, &desertbuck,
 		map.deserts, map.deserts, map.deserts, map.deserts,
-		T_DESERT, T_DESERT, T_DESERT, T_TUNDRA);
+		T_DESERT, T_DESERT, T_DESERT, T_TUNDRA,
+		pstate);
     forestbuck += map.forestsize * i;
     fill_island(60, &forestbuck,
 		map.forestsize, map.swampsize, map.forestsize, map.swampsize,
-		T_FOREST, T_JUNGLE, T_FOREST, T_TUNDRA);
+		T_FOREST, T_JUNGLE, T_FOREST, T_TUNDRA,
+		pstate);
     swampbuck += map.swampsize * i;
     fill_island(80, &swampbuck,
 		map.swampsize, map.swampsize, map.swampsize, map.swampsize,
-		T_SWAMP, T_SWAMP, T_SWAMP, T_SWAMP);
+		T_SWAMP, T_SWAMP, T_SWAMP, T_SWAMP,
+		pstate);
 
-    isleindex++;
+    pstate->isleindex++;
     map.num_continents++;
   }
 }
@@ -1751,7 +1775,7 @@ static void make_island(int islemass, int starters)
 /**************************************************************************
   fill ocean and make polar
 **************************************************************************/
-static void initworld(void)
+static void initworld(struct gen234_state *pstate)
 {
   int x, y;
   
@@ -1778,7 +1802,7 @@ static void initworld(void)
     }
   }
   map.num_continents = 2;
-  make_island(0, 0);
+  make_island(0, 0, pstate);
   islands[2].starters = 0;
   islands[1].starters = 0;
   islands[0].starters = 0;
@@ -1789,6 +1813,8 @@ static void initworld(void)
 **************************************************************************/
 static void mapgenerator2(void)
 {
+  struct gen234_state state;
+  struct gen234_state *pstate = &state;
   int i;
   int spares= 1; 
   /* constant that makes up that an island actually needs additional space */
@@ -1799,7 +1825,9 @@ static void mapgenerator2(void)
   }
 
   adjust_terrain_param();
-  totalmass = ( (map.ysize-6-spares) * map.landpercent * (map.xsize-spares) ) / 100;
+  pstate->totalmass =
+      ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
+      100;
 
   /*!PS: The weights NEED to sum up to totalweight (dammit) */
   /* copying the flow of the make_island loops is the safest way */
@@ -1811,14 +1839,17 @@ static void mapgenerator2(void)
   for (i = game.nplayers ; i ; i--)
     totalweight+= 10;
 
-  initworld();
+  initworld(pstate);
 
-  for (i = game.nplayers ; i ; i--)
-    make_island(70*totalmass/totalweight, 1);
-  for (i = game.nplayers ; i ; i--)
-    make_island(20*totalmass/totalweight, 0);
-  for (i = game.nplayers ; i ; i--)
-    make_island(10*totalmass/totalweight, 0);
+  for (i = game.nplayers; i; i--) {
+    make_island(70 * pstate->totalmass / totalweight, 1, pstate);
+  }
+  for (i = game.nplayers; i; i--) {
+    make_island(20 * pstate->totalmass / totalweight, 0, pstate);
+  }
+  for (i = game.nplayers; i; i--) {
+    make_island(10 * pstate->totalmass / totalweight, 0, pstate);
+  }
   make_plains();  
   free(height_map);
 
@@ -1838,6 +1869,8 @@ static void mapgenerator3(void)
   long int islandmass,landmass, size;
   long int maxmassdiv6=20;
   int bigislands;
+  struct gen234_state state;
+  struct gen234_state *pstate = &state;
 
   if ( map.landpercent > 80) {
     map.generator = 2;
@@ -1845,8 +1878,9 @@ static void mapgenerator3(void)
   }
 
   adjust_terrain_param();
-  totalmass = ( (map.ysize-6-spares) * map.landpercent * (map.xsize-spares) ) / 100;
-
+  pstate->totalmass =
+      ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
+      100;
 
   bigislands= game.nplayers;
 
@@ -1871,10 +1905,11 @@ static void mapgenerator3(void)
   if(islandmass>maxmassdiv6*6)
     islandmass= maxmassdiv6*6;/* !PS: let's try this */
 
-  initworld();
+  initworld(pstate);
 
-  while( isleindex-2<=bigislands && checkmass>islandmass && ++j<500 ) {
-    make_island(islandmass,1);
+  while (pstate->isleindex - 2 <= bigislands && checkmass > islandmass
+	 && ++j < 500) {
+    make_island(islandmass, 1, pstate);
   }
 
   if(j==500){
@@ -1887,14 +1922,16 @@ static void mapgenerator3(void)
     islandmass= 2;
 
 
-  while( isleindex<=MAP_NCONT-20 && checkmass>islandmass && ++j< 1500 ) {
+  while (pstate->isleindex <= MAP_NCONT - 20 && checkmass > islandmass
+	 && ++j < 1500) {
       if(j<1000)
 	size = myrand((islandmass+1)/2+1)+islandmass/2;
       else
 	size = myrand((islandmass+1)/2+1);
       if(size<2) size=2;
 
-      make_island(size, (isleindex-2<=game.nplayers)?1:0 );
+      make_island(size, (pstate->isleindex - 2 <= game.nplayers) ? 1 : 0,
+		  pstate);
   }
 
   make_plains();  
@@ -1916,6 +1953,9 @@ static void mapgenerator4(void)
   int bigweight=70;
   int spares= 1;
   int i;
+  struct gen234_state state;
+  struct gen234_state *pstate = &state;
+
 
   /* no islands with mass >> sqr(min(xsize,ysize)) */
 
@@ -1935,7 +1975,9 @@ static void mapgenerator4(void)
   spares= (map.landpercent-5)/30;
 
   adjust_terrain_param();
-  totalmass = ( (map.ysize-6-spares) * map.landpercent * (map.xsize-spares) ) / 100;
+  pstate->totalmass =
+      ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
+      100;
 
   /*!PS: The weights NEED to sum up to totalweight (dammit) */
   totalweight= 0;
@@ -1950,19 +1992,23 @@ static void mapgenerator4(void)
   for (i = game.nplayers ; i ; i--)
     totalweight+= 10;
 
-  initworld();
+  initworld(pstate);
 
   i = game.nplayers / 2;
-  if (game.nplayers % 2)
-    make_island(bigweight*3, 3);
-  else
+  if (game.nplayers % 2) {
+    make_island(bigweight * 3, 3, pstate);
+  } else {
     i++;
-  while (--i)
-    make_island(bigweight*2*totalmass/totalweight, 2);
-  for (i = game.nplayers ; i ; i--)
-    make_island(20*totalmass/totalweight, 0);
-  for (i = game.nplayers ; i ; i--)
-    make_island(10*totalmass/totalweight, 0);
+  }
+  while (--i) {
+    make_island(bigweight * 2 * pstate->totalmass / totalweight, 2,
+		pstate);}
+  for (i = game.nplayers; i; i--) {
+    make_island(20 * pstate->totalmass / totalweight, 0, pstate);
+  }
+  for (i = game.nplayers; i; i--) {
+    make_island(10 * pstate->totalmass / totalweight, 0, pstate);
+  }
   make_plains();  
   free(height_map);
 
