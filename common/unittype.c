@@ -530,11 +530,17 @@ with future tech.  returns 0 if unit is obsolete.
 **************************************************************************/
 bool can_player_eventually_build_unit(struct player *p, Unit_Type_id id)
 {
-  if (!unit_type_exists(id))
+  if (!unit_type_exists(id)) {
     return FALSE;
-  while(unit_type_exists((id = unit_types[id].obsoleted_by)))
-    if (can_player_build_unit_direct(p, id))
+  }
+  if (unit_type_flag(id, F_NOBUILD)) {
+    return FALSE;
+  }
+  while (unit_type_exists((id = unit_types[id].obsoleted_by))) {
+    if (can_player_build_unit_direct(p, id)) {
 	return FALSE;
+    }
+  }
   return TRUE;
 }
 
