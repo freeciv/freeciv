@@ -2,12 +2,15 @@
 
 name=_("Chinese")
 plural=_("?plural:Chinese")
-leader="Mao", "Cixi", "Wu Zetian", "Li Shimin", "Liu Bang", "Qin Shihuang"
-leader_sex="Male", "Female", "Female", "Male", "Male", "Male"
+leader="Mao", "Cixi", "Wu Zetian", "Li Shimin", "Liu Bang", "Qin Shihuang",
+       "Liu Bei", "Cao Cao", "Sun Quan"
+leader_sex="Male", "Female", "Female", "Male", "Male", "Male",
+           "Male", "Male", "Male"
 flag="f.china"
 flag_alt = "-"
 city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Emperor"),      _("Dowager")
                  "Communism",       _("Chairman"),     _("Chairperson")
                }
 
@@ -39,5 +42,3 @@ cities =
   "Dezhou", "Zhanjiang", "Jiaxing", "Fuoshan", "Chengde",
   "Tianshui", "Jiuquan", "Xiangtan", "Baoji", "Dengfeng",
   "Baiyin", "Changshu", "Gaoyou", "Heihe", "Dunhuang"
-
-
