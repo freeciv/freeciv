@@ -146,7 +146,7 @@ static void ai_gothere_bodyguard(struct unit *punit, int dest_x, int dest_y)
 {
   struct player *pplayer = unit_owner(punit);
   struct ai_data *ai = ai_data_get(pplayer);
-  int danger = 0;
+  unsigned int danger = 0;
   struct city *dcity;
   struct tile *ptile;
   
@@ -722,7 +722,8 @@ static bool is_building_other_wonder(struct city *pcity)
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 { /* I prefer the ai_choice as a return value; gcc prefers it as an arg -- Syela */
   Impr_Type_id id = B_LAST;
-  int danger = 0, downtown = 0, cities = 0;
+  unsigned int danger = 0;
+  int downtown = 0, cities = 0;
   int want=0;
   struct player *plr;
         

@@ -41,7 +41,7 @@
 
 #include "advmilitary.h"
 
-static int assess_danger(struct city *pcity);
+static unsigned int assess_danger(struct city *pcity);
 
 /********************************************************************** 
 This function should assign a value to choice and want, where want is a value
@@ -244,13 +244,13 @@ static int assess_defense_igwall(struct city *pcity)
 /************************************************************************** 
   Compute actual danger depending on move rate of enemy and its distance.
 **************************************************************************/
-static int dangerfunct(int danger, int move_rate, int distance)
+static unsigned int dangerfunct(int danger, int move_rate, int distance)
 {
   /* XXX: I don't have a clue about these, it probably has something in common
    * with the way how attack force is computed when attacker already spent some
    * move points..? --pasky */
-  int num = move_rate * 4;
-  int denom = move_rate * 4;
+  unsigned int num = move_rate * 4;
+  unsigned int denom = move_rate * 4;
 
   if (move_rate == 0) {
     return danger;
@@ -286,9 +286,9 @@ static int dangerfunct(int danger, int move_rate, int distance)
 /************************************************************************** 
 How dangerous a unit is for a city?
 **************************************************************************/
-static int assess_danger_unit(struct city *pcity, struct unit *punit)
+static unsigned int assess_danger_unit(struct city *pcity, struct unit *punit)
 {
-  int danger;
+  unsigned int danger;
   bool sailing;
 
   if (unit_flag(punit, F_NO_LAND_ATTACK)) return 0;
@@ -373,7 +373,7 @@ void assess_danger_player(struct player *pplayer)
   Syela's convoluted if ... else logic, and it seems to work. -- Per
 ***********************************************************************/
 static void ai_reevaluate_building(struct city *pcity, int *value, 
-                                   int urgency, int danger, 
+                                   unsigned int urgency, unsigned int danger, 
                                    int defense)
 {
   if (*value == 0 || danger <= 0) {
@@ -410,13 +410,13 @@ static void ai_reevaluate_building(struct city *pcity, int *value,
   afraid of a boat laden with enemies if it stands on the coast (i.e.
   is directly reachable by this boat).
 ***********************************************************************/
-static int assess_danger(struct city *pcity)
+static unsigned int assess_danger(struct city *pcity)
 {
   int i;
-  int danger[5];
+  unsigned int danger[5];
   struct player *pplayer = city_owner(pcity);
   bool pikemen = FALSE;
-  int urgency = 0;
+  unsigned int urgency = 0;
   int igwall_threat = 0;
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
 
@@ -442,7 +442,7 @@ static int assess_danger(struct city *pcity)
     unit_list_iterate(aplayer->units, punit) {
       int paramove = 0;
       int move_rate = unit_move_rate(punit);
-      int vulnerability = assess_danger_unit(pcity, punit);
+      unsigned int vulnerability = assess_danger_unit(pcity, punit);
       int dist = assess_distance(pcity, punit, move_rate);
       bool igwall = unit_really_ignores_citywalls(punit);
 
@@ -611,7 +611,7 @@ int ai_unit_attack_desirability(Unit_Type_id i)
   build yet.
 **************************************************************************/
 static void process_defender_want(struct player *pplayer, struct city *pcity,
-                                  int danger, struct ai_choice *choice)
+                                  unsigned int danger, struct ai_choice *choice)
 {
   bool walls = city_got_citywalls(pcity);
   bool shore = is_ocean_near_tile(pcity->x, pcity->y);
@@ -1179,7 +1179,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
   Unit_Type_id unit_type;
-  int our_def, danger, urgency;
+  unsigned int our_def, danger, urgency;
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
   struct unit *virtualunit;
 
