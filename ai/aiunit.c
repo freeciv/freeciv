@@ -2300,18 +2300,14 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
     assert(FALSE);
   }
 
+  /* If we are still alive, either sentry or fortify. */
   if ((punit = find_unit_by_id(id))) {
-    if (punit->activity != ACTIVITY_IDLE &&
-        punit->activity != ACTIVITY_GOTO)
-      handle_unit_activity_request(punit, ACTIVITY_IDLE); 
-
-    if (punit->moves_left > 0) {
-      if (unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
-          punit->ai.ferryboat))
-        handle_unit_activity_request(punit, ACTIVITY_SENTRY);
-      else 
-        handle_unit_activity_request(punit, ACTIVITY_FORTIFYING);
-    } /* better than doing nothing */
+    if (unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
+        punit->ai.ferryboat)) {
+      handle_unit_activity_request(punit, ACTIVITY_SENTRY);
+    } else if (punit->activity == ACTIVITY_IDLE) {
+      handle_unit_activity_request(punit, ACTIVITY_FORTIFYING);
+    }
   }
 }
 
