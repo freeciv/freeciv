@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
-"POT-Creation-Date: 2003-01-30 16:23+0100\n"
-"PO-Revision-Date: 2003-01-31 09:45+0200\n"
+"POT-Creation-Date: 2003-01-31 10:47+0100\n"
+"PO-Revision-Date: 2003-01-31 10:49+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgstr "Luchthaven"
 msgid "Fallout"
 msgstr "Radioactief"
 
-#: common/packets.c:3146
+#: common/packets.c:3169
 msgid ""
 "The server you tried to connect is too old (1.12.0 or earlier). Please "
 "choose another server next time. Good bye."
@@ -460,12 +460,12 @@ msgstr ""
 "Freeciv %s wordt vrijgegeven in\n"
 "%s, op %s"
 
-#: ai/aicity.c:232 server/citytools.c:1824
+#: ai/aicity.c:232 server/citytools.c:1835
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
 
-#: ai/aicity.c:241 server/citytools.c:1866
+#: ai/aicity.c:241 server/citytools.c:1877
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
@@ -599,7 +599,7 @@ msgstr ""
 "      Arbeiders verzamelen zich spontaan om de stad op te waarderen met "
 "spoorwegen."
 
-#: server/citytools.c:955 server/citytools.c:1127
+#: server/citytools.c:955 server/citytools.c:1137
 #, c-format
 msgid "%s lose %s (%i,%i)"
 msgstr "%s verliest %s (%i,%i)"
@@ -609,22 +609,22 @@ msgstr "%s verliest %s (%i,%i)"
 msgid "%s (%i, %i) founded by the %s"
 msgstr "%s (%i, %i) gesticht door de %s"
 
-#: server/citytools.c:1106
+#: server/citytools.c:1116
 #, c-format
 msgid "Game: You have founded %s"
 msgstr "Spel: U heeft %s gesticht."
 
-#: server/citytools.c:1153
+#: server/citytools.c:1163
 #, c-format
 msgid "Game: Changed homecity of %s in %s."
 msgstr "Spel: Hoofdstad verplaatst van %s naar %s."
 
-#: server/citytools.c:1184
+#: server/citytools.c:1194
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
 msgstr "Spel: %s uit verlaten stad %s gehaald om vastzitten te voorkomen."
 
-#: server/citytools.c:1195
+#: server/citytools.c:1205
 #, c-format
 msgid ""
 "Game: When %s was disbanded your %s could not get out, and it was therefore "
@@ -633,66 +633,66 @@ msgstr ""
 "Spel: Toen %s werd verlaten konden uw %s niet wegkomen en zijn daardoor vast "
 "komen te zitten."
 
-#: server/citytools.c:1298
+#: server/citytools.c:1308
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Spel: U vernietigt %s volledig."
 
-#: server/citytools.c:1300
+#: server/citytools.c:1310
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Spel: %s is vernietigd door %s."
 
-#: server/citytools.c:1302
+#: server/citytools.c:1312
 #, c-format
 msgid "%s (%s) (%i,%i) destroyed by %s"
 msgstr "%s (%s) (%i,%i) vernietigd door %s"
 
-#: server/citytools.c:1320
+#: server/citytools.c:1330
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Spel: U verovert %s, uw plunderingen leveren %d goud op!"
 
-#: server/citytools.c:1324
+#: server/citytools.c:1334
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Spel: %s veroverde %s en plunderde %d goud uit de stad."
 
-#: server/citytools.c:1327
+#: server/citytools.c:1337
 #, c-format
 msgid "%s (%s) (%i,%i) conquered by %s"
 msgstr "%s (%s) (%i,%i) veroverd door %s"
 
-#: server/citytools.c:1332
+#: server/citytools.c:1342
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
 msgstr "Spel: U hebt %s bevrijdt!! plunderingen leveren %d goud op."
 
-#: server/citytools.c:1337
+#: server/citytools.c:1347
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Spel: %s bevrijdde %s en plunderde %d goud uit de stad."
 
-#: server/citytools.c:1340
+#: server/citytools.c:1350
 #, c-format
 msgid "%s (%s) (%i,%i) liberated by %s"
 msgstr "%s (%s) (%i,%i) bevrijdt door %s"
 
-#: server/citytools.c:1845
+#: server/citytools.c:1856
 msgid " from the worklist"
 msgstr " van de werklijst"
 
-#: server/citytools.c:1855
+#: server/citytools.c:1866
 #, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Spel: %s is %s%s aan het bouwen."
 
-#: server/citytools.c:1859
+#: server/citytools.c:1870
 #, c-format
 msgid "Game: %s is building %s."
 msgstr "Spel: %s is %s aan het bouwen."
 
-#: server/citytools.c:2112
+#: server/citytools.c:2119
 #, c-format
 msgid "Game: You sell %s in %s (now landlocked) for %d gold."
 msgstr "Spel: U verkoopt %s in %s (nu ingesloten door land) voor %d goud."
@@ -759,12 +759,12 @@ msgstr "%s verliezen %s (hongersnood)"
 msgid "Game: Famine causes population loss in %s."
 msgstr "Spel: Hongersnood veroorzaakt sterfte in %s."
 
-#: server/cityturn.c:684 server/cityturn.c:724
+#: server/cityturn.c:687 server/cityturn.c:727
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
 msgstr "Spel: %s kan %s van de werklijst niet bouwen.  Verwijderen..."
 
-#: server/cityturn.c:703 server/cityturn.c:744
+#: server/cityturn.c:706 server/cityturn.c:747
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
@@ -773,12 +773,12 @@ msgstr ""
 "Spel: %s kan %s van de werklijst niet bouwen; techniek nog niet "
 "beschikbaar.  Uitstellen..."
 
-#: server/cityturn.c:711 server/cityturn.c:768 server/cityturn.c:871
+#: server/cityturn.c:714 server/cityturn.c:771 server/cityturn.c:876
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spel: Productie van %s is opgewaardeerd naar %s in %s."
 
-#: server/cityturn.c:750
+#: server/cityturn.c:753
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
@@ -787,126 +787,126 @@ msgstr ""
 "Spel: %s kan %s van de werklijst niet bouwen; heb eerst %s nodig.  "
 "Uitstellen..."
 
-#: server/cityturn.c:759
+#: server/cityturn.c:762
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
 "Spel: %s kan %s van de werklijst niet bouwen; Reden onbekend!. Uitstellen..."
 
-#: server/cityturn.c:793
+#: server/cityturn.c:796
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Spel: %s's werklijst is nu leeg."
 
-#: server/cityturn.c:890
+#: server/cityturn.c:895
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spel: %s kan %s niet onderhouden, eenheid opgeheven."
 
-#: server/cityturn.c:920
+#: server/cityturn.c:927
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spel: %s is %s aan het bouwen, die niet meer beschikbaar is."
 
-#: server/cityturn.c:957
+#: server/cityturn.c:964
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spel: De %s zijn klaar met het bouwen van %s in %s."
 
-#: server/cityturn.c:961 server/cityturn.c:967
+#: server/cityturn.c:968 server/cityturn.c:974
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%s hebben %s in %s gebouwd"
 
-#: server/cityturn.c:973
+#: server/cityturn.c:980
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spel: %s is klaar met het bouwen van %s."
 
-#: server/cityturn.c:980
+#: server/cityturn.c:987
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr "Spel: %s versnelt onderzoek, u krijgt 2 onmiddelijke vooruitgangen."
 
-#: server/cityturn.c:996
+#: server/cityturn.c:1003
 #, c-format
 msgid "Game: The %s have acquired %s and %s from %s."
 msgstr "Spel: De %s hebben %s en %s verkregen van de %s."
 
-#: server/cityturn.c:1003
+#: server/cityturn.c:1010
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spel: De %s zijn begonnen met het bouwen van een ruimteschip!"
 
-#: server/cityturn.c:1046
+#: server/cityturn.c:1053
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spel: %s kan %s nog niet bouwen."
 
-#: server/cityturn.c:1073
+#: server/cityturn.c:1080
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spel: %s is klaar met het bouwen van %s."
 
-#: server/cityturn.c:1077
+#: server/cityturn.c:1084
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%s heeft %s in %s (%i,%i) gebouwd"
 
-#: server/cityturn.c:1116
+#: server/cityturn.c:1123
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr "Spel: Onderhoud van %s in %s niet meer op te brengen, gebouw verkocht!"
 
-#: server/cityturn.c:1152
+#: server/cityturn.c:1159
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spel: Verontreiniging bij %s."
 
-#: server/cityturn.c:1284
+#: server/cityturn.c:1291
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spel: Festival ter ere van %s in %s."
 
-#: server/cityturn.c:1292
+#: server/cityturn.c:1299
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spel: Festival ter ere van %s afgezegd in %s."
 
-#: server/cityturn.c:1324
+#: server/cityturn.c:1331
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spel: Burgelijke onlusten in %s."
 
-#: server/cityturn.c:1327
+#: server/cityturn.c:1334
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spel: BURGELIJKE ONLUSTEN GAAN DOOR in %s."
 
-#: server/cityturn.c:1333
+#: server/cityturn.c:1340
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spel: Orde hersteld in %s."
 
-#: server/cityturn.c:1341
+#: server/cityturn.c:1348
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Spel: De bevolking heeft uw %s omvergeworpen, uw land is in verwarring."
 
-#: server/cityturn.c:1365
+#: server/cityturn.c:1372
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Spel: %s kan nog geen %s bouwen en we kunnen onze enige stad niet ontbinden."
 
-#: server/cityturn.c:1382
+#: server/cityturn.c:1389
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spel: %s is ontbonden in %s."
 
-#: server/cityturn.c:1384
+#: server/cityturn.c:1391
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "%s (%i, %i) ontbonden in %s door de %s"
@@ -2182,7 +2182,7 @@ msgstr "ondersteunde opties: %s"
 msgid "Ruleset datafile claims required option(s) which we don't support:"
 msgstr "Spelregelbestand bevat vereiste optie(s) die wij niet ondersteunen:"
 
-#: server/ruleset.c:2739
+#: server/ruleset.c:2760
 msgid "Loading rulesets"
 msgstr "Laad spelregels"
 
@@ -6993,6 +6993,10 @@ msgstr "UIT"
 msgid "Game: Revolution finished"
 msgstr "Spel: Revolutie beëindigd"
 
+#: client/packhand.c:2187
+msgid "Other"
+msgstr "Anders"
+
 #: client/plrdlg_common.c:80
 #, c-format
 msgid "%6d.%02d ms"
@@ -8922,32 +8926,34 @@ msgstr "Verwijderd"
 
 #: client/gui-gtk-2.0/helpdlg.c:289 client/gui-gtk-2.0/helpdlg.c:672
 #: client/gui-gtk-2.0/helpdlg.c:681 client/gui-gtk-2.0/helpdlg.c:706
-#: client/gui-gtk-2.0/helpdlg.c:716 client/gui-gtk-2.0/helpdlg.c:755
-#: client/gui-gtk-2.0/helpdlg.c:785 client/gui-gtk/helpdlg.c:375
-#: client/gui-gtk/helpdlg.c:655 client/gui-gtk/helpdlg.c:664
-#: client/gui-gtk/helpdlg.c:693 client/gui-gtk/helpdlg.c:703
-#: client/gui-gtk/helpdlg.c:745 client/gui-gtk/helpdlg.c:777
+#: client/gui-gtk-2.0/helpdlg.c:713 client/gui-gtk-2.0/helpdlg.c:720
+#: client/gui-gtk-2.0/helpdlg.c:759 client/gui-gtk-2.0/helpdlg.c:789
+#: client/gui-gtk/helpdlg.c:375 client/gui-gtk/helpdlg.c:655
+#: client/gui-gtk/helpdlg.c:664 client/gui-gtk/helpdlg.c:693
+#: client/gui-gtk/helpdlg.c:700 client/gui-gtk/helpdlg.c:708
+#: client/gui-gtk/helpdlg.c:750 client/gui-gtk/helpdlg.c:782
 #: client/gui-mui/helpdlg.c:158 client/gui-mui/helpdlg.c:225
 #: client/gui-win32/helpdlg.c:164 client/gui-win32/helpdlg.c:481
 #: client/gui-win32/helpdlg.c:490 client/gui-win32/helpdlg.c:512
-#: client/gui-win32/helpdlg.c:522 client/gui-win32/helpdlg.c:715
-#: client/gui-win32/helpdlg.c:739 client/gui-xaw/helpdlg.c:779
-#: client/gui-xaw/helpdlg.c:790 client/gui-xaw/helpdlg.c:815
-#: client/gui-xaw/helpdlg.c:828 client/gui-xaw/helpdlg.c:864
-#: client/gui-xaw/helpdlg.c:888
+#: client/gui-win32/helpdlg.c:519 client/gui-win32/helpdlg.c:527
+#: client/gui-win32/helpdlg.c:720 client/gui-win32/helpdlg.c:744
+#: client/gui-xaw/helpdlg.c:779 client/gui-xaw/helpdlg.c:790
+#: client/gui-xaw/helpdlg.c:815 client/gui-xaw/helpdlg.c:824
+#: client/gui-xaw/helpdlg.c:832 client/gui-xaw/helpdlg.c:868
+#: client/gui-xaw/helpdlg.c:892
 msgid "(Never)"
 msgstr "(Nooit)"
 
-#: client/gui-gtk-2.0/helpdlg.c:289 client/gui-gtk-2.0/helpdlg.c:717
-#: client/gui-gtk-2.0/helpdlg.c:761 client/gui-gtk-2.0/helpdlg.c:787
-#: client/gui-gtk/helpdlg.c:375 client/gui-gtk/helpdlg.c:704
-#: client/gui-gtk/helpdlg.c:751 client/gui-gtk/helpdlg.c:779
+#: client/gui-gtk-2.0/helpdlg.c:289 client/gui-gtk-2.0/helpdlg.c:721
+#: client/gui-gtk-2.0/helpdlg.c:765 client/gui-gtk-2.0/helpdlg.c:791
+#: client/gui-gtk/helpdlg.c:375 client/gui-gtk/helpdlg.c:709
+#: client/gui-gtk/helpdlg.c:756 client/gui-gtk/helpdlg.c:784
 #: client/gui-mui/helpdlg.c:158 client/gui-mui/helpdlg.c:227
 #: client/gui-mui/helpdlg.c:683 client/gui-mui/repodlgs.c:199
-#: client/gui-win32/helpdlg.c:164 client/gui-win32/helpdlg.c:523
-#: client/gui-win32/helpdlg.c:721 client/gui-win32/helpdlg.c:741
-#: client/gui-xaw/helpdlg.c:829 client/gui-xaw/helpdlg.c:871
-#: client/gui-xaw/helpdlg.c:890
+#: client/gui-win32/helpdlg.c:164 client/gui-win32/helpdlg.c:528
+#: client/gui-win32/helpdlg.c:726 client/gui-win32/helpdlg.c:746
+#: client/gui-xaw/helpdlg.c:833 client/gui-xaw/helpdlg.c:875
+#: client/gui-xaw/helpdlg.c:894
 msgid "None"
 msgstr "Geen"
 
@@ -8964,62 +8970,62 @@ msgstr "Klap Alles Open"
 msgid "Collapse All"
 msgstr "Klap Alles Dicht"
 
-#: client/gui-gtk-2.0/helpdlg.c:870 client/gui-gtk-2.0/helpdlg.c:893
-#: client/gui-gtk-2.0/helpdlg.c:905 client/gui-gtk-2.0/helpdlg.c:914
-#: client/gui-gtk-2.0/helpdlg.c:930
+#: client/gui-gtk-2.0/helpdlg.c:874 client/gui-gtk-2.0/helpdlg.c:897
+#: client/gui-gtk-2.0/helpdlg.c:909 client/gui-gtk-2.0/helpdlg.c:918
+#: client/gui-gtk-2.0/helpdlg.c:934
 msgid "Allows"
 msgstr "Staat toe "
 
-#: client/gui-gtk-2.0/helpdlg.c:880
+#: client/gui-gtk-2.0/helpdlg.c:884
 msgid "Obsoletes"
 msgstr "Veroudert "
 
-#: client/gui-gtk-2.0/helpdlg.c:918 client/gui-gtk-2.0/helpdlg.c:934
+#: client/gui-gtk-2.0/helpdlg.c:922 client/gui-gtk-2.0/helpdlg.c:938
 msgid "with"
 msgstr "met"
 
-#: client/gui-gtk-2.0/helpdlg.c:922 client/gui-gtk-2.0/helpdlg.c:938
+#: client/gui-gtk-2.0/helpdlg.c:926 client/gui-gtk-2.0/helpdlg.c:942
 msgid "?techhelp:"
 msgstr "?techhulp:"
 
-#: client/gui-gtk-2.0/helpdlg.c:972 client/gui-gtk-2.0/helpdlg.c:987
-#: client/gui-gtk/helpdlg.c:932 client/gui-gtk/helpdlg.c:947
-#: client/gui-win32/helpdlg.c:556 client/gui-win32/helpdlg.c:571
-#: client/gui-xaw/helpdlg.c:984 client/gui-xaw/helpdlg.c:999
+#: client/gui-gtk-2.0/helpdlg.c:976 client/gui-gtk-2.0/helpdlg.c:991
+#: client/gui-gtk/helpdlg.c:937 client/gui-gtk/helpdlg.c:952
+#: client/gui-win32/helpdlg.c:561 client/gui-win32/helpdlg.c:576
+#: client/gui-xaw/helpdlg.c:988 client/gui-xaw/helpdlg.c:1003
 #, c-format
 msgid "%s F/R/T:"
 msgstr "%s V/B/H:"
 
-#: client/gui-gtk-2.0/helpdlg.c:1002 client/gui-gtk/helpdlg.c:962
-#: client/gui-win32/helpdlg.c:586 client/gui-xaw/helpdlg.c:1014
+#: client/gui-gtk-2.0/helpdlg.c:1006 client/gui-gtk/helpdlg.c:967
+#: client/gui-win32/helpdlg.c:591 client/gui-xaw/helpdlg.c:1018
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d Handel / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1008 client/gui-gtk/helpdlg.c:968
-#: client/gui-win32/helpdlg.c:592 client/gui-xaw/helpdlg.c:1020
+#: client/gui-gtk-2.0/helpdlg.c:1012 client/gui-gtk/helpdlg.c:973
+#: client/gui-win32/helpdlg.c:597 client/gui-xaw/helpdlg.c:1024
 #, c-format
 msgid "no extra / %d"
 msgstr "geen extra's / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1013 client/gui-gtk-2.0/helpdlg.c:1017
-#: client/gui-gtk-2.0/helpdlg.c:1035 client/gui-gtk/helpdlg.c:973
-#: client/gui-gtk/helpdlg.c:977 client/gui-gtk/helpdlg.c:995
-#: client/gui-win32/helpdlg.c:597 client/gui-win32/helpdlg.c:601
-#: client/gui-win32/helpdlg.c:619 client/gui-xaw/helpdlg.c:1025
-#: client/gui-xaw/helpdlg.c:1029 client/gui-xaw/helpdlg.c:1047
-#: client/gui-xaw/helpdlg.c:1071
+#: client/gui-gtk-2.0/helpdlg.c:1017 client/gui-gtk-2.0/helpdlg.c:1021
+#: client/gui-gtk-2.0/helpdlg.c:1039 client/gui-gtk/helpdlg.c:978
+#: client/gui-gtk/helpdlg.c:982 client/gui-gtk/helpdlg.c:1000
+#: client/gui-win32/helpdlg.c:602 client/gui-win32/helpdlg.c:606
+#: client/gui-win32/helpdlg.c:624 client/gui-xaw/helpdlg.c:1029
+#: client/gui-xaw/helpdlg.c:1033 client/gui-xaw/helpdlg.c:1051
+#: client/gui-xaw/helpdlg.c:1075
 msgid "n/a"
 msgstr "n/b"
 
-#: client/gui-gtk-2.0/helpdlg.c:1022 client/gui-gtk/helpdlg.c:982
-#: client/gui-win32/helpdlg.c:606 client/gui-xaw/helpdlg.c:1034
+#: client/gui-gtk-2.0/helpdlg.c:1026 client/gui-gtk/helpdlg.c:987
+#: client/gui-win32/helpdlg.c:611 client/gui-xaw/helpdlg.c:1038
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d Voeding / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1040 client/gui-gtk/helpdlg.c:1000
-#: client/gui-win32/helpdlg.c:624 client/gui-xaw/helpdlg.c:1052
+#: client/gui-gtk-2.0/helpdlg.c:1044 client/gui-gtk/helpdlg.c:1005
+#: client/gui-win32/helpdlg.c:629 client/gui-xaw/helpdlg.c:1056
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d Hulp. / %d"
@@ -10331,33 +10337,33 @@ msgstr "Herstel Boom"
 msgid "Expand Unknown"
 msgstr "Expansie Onbekend"
 
-#: client/gui-gtk/helpdlg.c:828 client/gui-gtk/helpdlg.c:853
-#: client/gui-gtk/helpdlg.c:866 client/gui-gtk/helpdlg.c:876
-#: client/gui-gtk/helpdlg.c:891 client/gui-mui/helpdlg.c:745
+#: client/gui-gtk/helpdlg.c:833 client/gui-gtk/helpdlg.c:858
+#: client/gui-gtk/helpdlg.c:871 client/gui-gtk/helpdlg.c:881
+#: client/gui-gtk/helpdlg.c:896 client/gui-mui/helpdlg.c:745
 #: client/gui-mui/helpdlg.c:762 client/gui-mui/helpdlg.c:780
-#: client/gui-mui/helpdlg.c:809 client/gui-win32/helpdlg.c:773
-#: client/gui-win32/helpdlg.c:794 client/gui-win32/helpdlg.c:805
-#: client/gui-win32/helpdlg.c:811 client/gui-win32/helpdlg.c:824
+#: client/gui-mui/helpdlg.c:809 client/gui-win32/helpdlg.c:778
+#: client/gui-win32/helpdlg.c:799 client/gui-win32/helpdlg.c:810
+#: client/gui-win32/helpdlg.c:816 client/gui-win32/helpdlg.c:829
 msgid "Allows "
 msgstr "Staat toe "
 
-#: client/gui-gtk/helpdlg.c:833 client/gui-gtk/helpdlg.c:844
-#: client/gui-gtk/helpdlg.c:857 client/gui-gtk/helpdlg.c:870
+#: client/gui-gtk/helpdlg.c:838 client/gui-gtk/helpdlg.c:849
+#: client/gui-gtk/helpdlg.c:862 client/gui-gtk/helpdlg.c:875
 msgid "?techhelp:."
 msgstr "?techhulp:."
 
-#: client/gui-gtk/helpdlg.c:839 client/gui-win32/helpdlg.c:782
+#: client/gui-gtk/helpdlg.c:844 client/gui-win32/helpdlg.c:787
 msgid "Obsoletes "
 msgstr "Veroudert "
 
-#: client/gui-gtk/helpdlg.c:880 client/gui-gtk/helpdlg.c:895
+#: client/gui-gtk/helpdlg.c:885 client/gui-gtk/helpdlg.c:900
 #: client/gui-mui/helpdlg.c:791 client/gui-mui/helpdlg.c:811
-#: client/gui-win32/helpdlg.c:814 client/gui-win32/helpdlg.c:827
+#: client/gui-win32/helpdlg.c:819 client/gui-win32/helpdlg.c:832
 msgid " (with "
 msgstr " (met "
 
-#: client/gui-gtk/helpdlg.c:884 client/gui-gtk/helpdlg.c:899
-#: client/gui-win32/helpdlg.c:817 client/gui-win32/helpdlg.c:830
+#: client/gui-gtk/helpdlg.c:889 client/gui-gtk/helpdlg.c:904
+#: client/gui-win32/helpdlg.c:822 client/gui-win32/helpdlg.c:835
 msgid "?techhelp:)."
 msgstr "?techhulp:)."
 
@@ -11781,18 +11787,18 @@ msgstr "Op dit moment worden alleen nog kleurenschermen ondersteund..."
 msgid "Failed loading font: %s"
 msgstr "Kon font %s niet laden"
 
-#: client/gui-xaw/helpdlg.c:914 client/gui-xaw/helpdlg.c:923
-#: client/gui-xaw/helpdlg.c:930
+#: client/gui-xaw/helpdlg.c:918 client/gui-xaw/helpdlg.c:927
+#: client/gui-xaw/helpdlg.c:934
 #, c-format
 msgid "Allows %s.\n"
 msgstr "Staat %s toe.\n"
 
-#: client/gui-xaw/helpdlg.c:917
+#: client/gui-xaw/helpdlg.c:921
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr "Veroudert %s.\n"
 
-#: client/gui-xaw/helpdlg.c:933 client/gui-xaw/helpdlg.c:937
+#: client/gui-xaw/helpdlg.c:937 client/gui-xaw/helpdlg.c:941
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr "Staat %s toe (met %s).\n"
@@ -17227,9 +17233,9 @@ msgid ""
 "advanced radar that can determine the location of enemy units over a wide "
 "area."
 msgstr ""
-"De AWACS (Airborne Warning and Control System) is een vliegtuig "
-"met een geavanceerde radar die de lokatie van vijandelijke eenheden vanaf "
-"grote afstand kan vaststellen."
+"De AWACS (Airborne Warning and Control System) is een vliegtuig met een "
+"geavanceerde radar die de lokatie van vijandelijke eenheden vanaf grote "
+"afstand kan vaststellen."
 
 #: data/default/units.ruleset:1134 data/civ2/units.ruleset:1038
 #: data/civ1/units.ruleset:998 data/history/units.ruleset:1105
@@ -17626,8 +17632,8 @@ msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783 AD."
 msgstr ""
-"Voorheen bekend als de Verenigde Staten van Amerika. Onafhankelijk van "
-"Groot-Brittanië na de revolutie van 1776-1783 AD."
+"Voorheen bekend als de Verenigde Staten van Amerika. Onafhankelijk van Groot-"
+"Brittanië na de revolutie van 1776-1783 AD."
 
 #: data/nation/american.ruleset:64 data/nation/scottish.ruleset:17
 msgid "Speaker"
@@ -17721,9 +17727,9 @@ msgid ""
 "Spanish under Cortez in 1524."
 msgstr ""
 "De Azteken, een groep barbaren van de Sonoran woestijn, grepen de macht van "
-"de Tolteken-gebaseerde beschavingen van Centraal Mexico gedurende de 15e eeuw "
-"AD, waarbij ze de praktijk van mensenoffers in ere herstelden. Ze werden "
-"veroverd door de Spanjaarden onder Cortez in 1524 AD."
+"de Tolteken-gebaseerde beschavingen van Centraal Mexico gedurende de 15e "
+"eeuw AD, waarbij ze de praktijk van mensenoffers in ere herstelden. Ze "
+"werden veroverd door de Spanjaarden onder Cortez in 1524 AD."
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -17739,9 +17745,9 @@ msgid ""
 "BC under a succession of peoples including Amorites, Kassites, Assyrians, "
 "and Chaldeans."
 msgstr ""
-"Babylonië was de balangrijkste stad van Mesopotamië van de 18e tot de 7e eeuw "
-"VC onder een opeenvolgende reeks volken waaronder de Amorieten, Kassieten, "
-"Assyriers en Chaldeeën."
+"Babylonië was de balangrijkste stad van Mesopotamië van de 18e tot de 7e "
+"eeuw VC onder een opeenvolgende reeks volken waaronder de Amorieten, "
+"Kassieten, Assyriers en Chaldeeën."
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -17849,8 +17855,8 @@ msgid ""
 "destroyed by Rome in 146BC."
 msgstr ""
 "De Carthagen, afstammelingen van Phoenischische handelaren, bestierden een "
-"zee-imperium in de Middelandse Zee van de 5e tot de 2e eeuw VC. Carthago werd "
-"vernietigd (en later weer herbouwd) door de Romeinen in 146 VC."
+"zee-imperium in de Middelandse Zee van de 5e tot de 2e eeuw VC. Carthago "
+"werd vernietigd (en later weer herbouwd) door de Romeinen in 146 VC."
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -17953,8 +17959,8 @@ msgid ""
 "Cornwall is a region in the extreme southwest of England, traditionally the "
 "home of the legendary King Arthur."
 msgstr ""
-"Cornwall is een gebied in het extreme zuidwesten van Engeland, thuisland "
-"van de legendarische koning Arthur."
+"Cornwall is een gebied in het extreme zuidwesten van Engeland, thuisland van "
+"de legendarische koning Arthur."
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -17977,9 +17983,8 @@ msgid ""
 "Today's Czech Republic was until 1993 part of Czechoslovakia, which had been "
 "until 1918 part of the Austro-Hungarian Empire."
 msgstr ""
-"De huidige Tsjechische Republiek was tot 1993 onderdeel van "
-"Tsjecho-Slowakije, die tot 1918 deel was van het Oostenrijks-Hongaarse "
-"Keizerrijk."
+"De huidige Tsjechische Republiek was tot 1993 onderdeel van Tsjecho-"
+"Slowakije, die tot 1918 deel was van het Oostenrijks-Hongaarse Keizerrijk."
 
 #: data/nation/czech.ruleset:23
 msgid "Thane"
@@ -18002,9 +18007,9 @@ msgid ""
 "The founding of the Danish kingdom is generally assigned to the reign of "
 "Harald Blåtand, who unified what is now Denmark between 958 and 988."
 msgstr ""
-"De vestiging van het Deense koninkrijk wordt in het algemeen toegekend aan de "
-"regering van Harald Blåtand, die verenigde wat nu Denemarken is tussen 958 en "
-"988 AD."
+"De vestiging van het Deense koninkrijk wordt in het algemeen toegekend aan "
+"de regering van Harald Blåtand, die verenigde wat nu Denemarken is tussen "
+"958 en 988 AD."
 
 #. TRANS: The second letter in "Dunedain" and "Dunedan" should be
 #. TRANS: U+00FA LATIN SMALL LETTER U WITH ACUTE if available in
@@ -18047,9 +18052,10 @@ msgid ""
 "times it has been unusually urbanized, supporting a large population on silt "
 "deposited by the annual floodings of the Nile."
 msgstr ""
-"Egypte was het op één na oudste van de werelds beschavingen. Sinds mensenheugenis "
-"is het ongewoon verstedelijkt, waarbij een grote bevolkingsgroep ondersteund "
-"werd op slikgrond in de overstromingsgebieden van de Nijl." 
+"Egypte was het op één na oudste van de werelds beschavingen. Sinds "
+"mensenheugenis is het ongewoon verstedelijkt, waarbij een grote "
+"bevolkingsgroep ondersteund werd op slikgrond in de overstromingsgebieden "
+"van de Nijl."
 
 #: data/nation/egyptian.ruleset:18
 msgid "Pharaoh"
@@ -18074,8 +18080,8 @@ msgid ""
 "successful invasion of the country."
 msgstr ""
 "Engeland werd verenigd onder Alfred de Grote van Wessex eind 9e eeuw AD, "
-"alleen om veroverd te worden door Willem de Veroveraar een eeuw later, in wat "
-"was de laatste succesvolle invasie van het land."
+"alleen om veroverd te worden door Willem de Veroveraar een eeuw later, in "
+"wat was de laatste succesvolle invasie van het land."
 
 #: data/nation/english.ruleset:19
 msgid "Lord Protector"
@@ -18115,8 +18121,8 @@ msgid ""
 "in 1898. They attained home rule in 1935 and independence in 1946."
 msgstr ""
 "Na eeuwen van Spaans bestuur werden de Phillipijnen afgestaan aan de "
-"Amerikanen in 1898 AD. Ze verkregen zelfbestuur in 1935 AD en onafhankelijkheid "
-"in 1946 AD."
+"Amerikanen in 1898 AD. Ze verkregen zelfbestuur in 1935 AD en "
+"onafhankelijkheid in 1946 AD."
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -18199,8 +18205,8 @@ msgid ""
 "world in the mid-1500s."
 msgstr ""
 "De Incaas waren een Amerind volk uit de Noord-Andes die een imperium "
-"veroverden die strekte langs de westkust van Zuid-Amerika tot wat nu is "
-"Zuid-Chili tot vlakbij de evenaar. Ze hadden de slechte timing om dit slechts "
+"veroverden die strekte langs de westkust van Zuid-Amerika tot wat nu is Zuid-"
+"Chili tot vlakbij de evenaar. Ze hadden de slechte timing om dit slechts "
 "enige tientallen jaren te doen voordat de Spaanse conquistadores arriveerden "
 "in hun gedeelte van de wereld in midden 16e eeuw AD."
 
@@ -18243,8 +18249,8 @@ msgid ""
 "series of wars launched against it in 1948, 1967 and 1973."
 msgstr ""
 "De natie Israel werd gesticht in 1948 AD als een verspreide verzameling "
-"cantons in Brits Pallestina en is geleidelijk gegroeid door het winnen van een "
-"reeks oorlogen die men tegen haar voerde in 1948, 1967 en 1973 AD."
+"cantons in Brits Pallestina en is geleidelijk gegroeid door het winnen van "
+"een reeks oorlogen die men tegen haar voerde in 1948, 1967 en 1973 AD."
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
@@ -18263,8 +18269,8 @@ msgid ""
 msgstr ""
 "De Italiaanse staat werd verenigd in 1870 na tientallen jaren van campagnes "
 "door nationalisten. Het was een monarchie onder het huis van Savoy tot 1922 "
-"AD, daarna een fascistische staat tot 1945 waarna de democratie werd hersteld "
-"door de overwinnaars van WO-II."
+"AD, daarna een fascistische staat tot 1945 waarna de democratie werd "
+"hersteld door de overwinnaars van WO-II."
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
@@ -18441,8 +18447,9 @@ msgid ""
 "Portugal founded the first of the great mercantile empires in the 1400s on "
 "the shipbuilding advances funded by Prince Henry the Navigator."
 msgstr ""
-"Portugal vestigde de eerste van de grote handelsrijken in de 15e eeuw AD op de "
-"scheepsbouwtechnologieën die door Prins Hendrik De Navigator betaald werden."
+"Portugal vestigde de eerste van de grote handelsrijken in de 15e eeuw AD op "
+"de scheepsbouwtechnologieën die door Prins Hendrik De Navigator betaald "
+"werden."
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -18518,9 +18525,9 @@ msgid ""
 "Ottomans after the collapse of the Byzantine Empire.  During most of the "
 "20th century it was part of the Yugoslav Federation."
 msgstr ""
-"Servië is deel van het gebied van de Zuidelijke Slaven dat werd veroverd door "
-"de Ottomanen na de ineenstorting van het Byzantijnse Rijk. Gedurende het "
-"grootste gedeelte van de 20e eeuw AD was het lid van de Joegoslavische "
+"Servië is deel van het gebied van de Zuidelijke Slaven dat werd veroverd "
+"door de Ottomanen na de ineenstorting van het Byzantijnse Rijk. Gedurende "
+"het grootste gedeelte van de 20e eeuw AD was het lid van de Joegoslavische "
 "Federatie."
 
 #: data/nation/silesian.ruleset:3
@@ -18560,8 +18567,8 @@ msgid ""
 "Singapore is a mercantile city-state located at the southernmost tip of the "
 "Malaysian Peninsula"
 msgstr ""
-"Singapore is een handels-stadstaat gesitueerd aan het zuidelijkste puntje van het "
-"Maleisische schiereiland."
+"Singapore is een handels-stadstaat gesitueerd aan het zuidelijkste puntje "
+"van het Maleisische schiereiland."
 
 #: data/nation/singaporean.ruleset:29
 msgid "Ah"
@@ -18623,8 +18630,8 @@ msgid ""
 "sailed."
 msgstr ""
 "De moderne Spaanse natie werd gesticht toen de heersers van het koninkrijk "
-"van Castillië en Aragon het Iberische schiereiland heroverden van de Moren."
-" De Reconquista was voltooid in 1492 AD, hetzelfde jaar dat Columbus "
+"van Castillië en Aragon het Iberische schiereiland heroverden van de Moren. "
+"De Reconquista was voltooid in 1492 AD, hetzelfde jaar dat Columbus "
 "uitzeilde."
 
 #: data/nation/spanish.ruleset:18
@@ -18661,8 +18668,8 @@ msgid ""
 "independence throught the colonial era of the 18th and 19th centuries."
 msgstr ""
 "Het Thaise koninkrijk was het enige land in Zuidoost Azië die zijn "
-"onafhankelijkheid behield gedurende de koloniale periode in de 18e en 19e eeuw "
-"AD."
+"onafhankelijkheid behield gedurende de koloniale periode in de 18e en 19e "
+"eeuw AD."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -18681,8 +18688,8 @@ msgid ""
 msgstr ""
 "Modern Turkije is de opvolger van het Ottomaanse Rijk, die ineenstortte en "
 "ontmanteld werd door de overwinnaars van WO-I nadat zij de Centrale Machten "
-"ondersteund hadden. Het land werd vervolgens hervormd en geseculariseerd door "
-"Kemal Mustapha, de held van de verdediging van Gallipoli."
+"ondersteund hadden. Het land werd vervolgens hervormd en geseculariseerd "
+"door Kemal Mustapha, de held van de verdediging van Gallipoli."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
