@@ -22124,7 +22124,7 @@ void lsend_packet_ruleset_tech(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_government_100 cmp_const
 
-BV_DEFINE(packet_ruleset_government_100_fields, 32);
+BV_DEFINE(packet_ruleset_government_100_fields, 28);
 
 static struct packet_ruleset_government *receive_packet_ruleset_government_100(struct connection *pc, enum packet_type type)
 {
@@ -22229,11 +22229,18 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
     }
   }
   if (BV_ISSET(fields, 10)) {
+    
     {
+      int i;
+    
+      for (i = 0; i < O_MAX; i++) {
+        {
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->unit_shield_cost_factor = readin;
+      real_packet->unit_upkeep_factor[i] = readin;
+    }
+      }
     }
   }
   if (BV_ISSET(fields, 11)) {
@@ -22241,50 +22248,25 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->unit_food_cost_factor = readin;
-    }
-  }
-  if (BV_ISSET(fields, 12)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->unit_gold_cost_factor = readin;
-    }
-  }
-  if (BV_ISSET(fields, 13)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
       real_packet->free_happy = readin;
     }
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 12)) {
+    
     {
+      int i;
+    
+      for (i = 0; i < O_MAX; i++) {
+        {
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->free_shield = readin;
+      real_packet->free_upkeep[i] = readin;
+    }
+      }
     }
   }
-  if (BV_ISSET(fields, 15)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->free_food = readin;
-    }
-  }
-  if (BV_ISSET(fields, 16)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->free_gold = readin;
-    }
-  }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 13)) {
     
     {
       int i;
@@ -22299,7 +22281,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       }
     }
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 14)) {
     
     {
       int i;
@@ -22314,7 +22296,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       }
     }
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 15)) {
     
     {
       int i;
@@ -22329,7 +22311,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       }
     }
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 16)) {
     
     {
       int i;
@@ -22344,7 +22326,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       }
     }
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 17)) {
     
     {
       int i;
@@ -22359,7 +22341,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       }
     }
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 18)) {
     
     {
       int i;
@@ -22374,7 +22356,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       }
     }
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 19)) {
     
     {
       int i;
@@ -22389,7 +22371,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       }
     }
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 20)) {
     
     {
       int i;
@@ -22404,7 +22386,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       }
     }
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 21)) {
     
     {
       int i;
@@ -22419,7 +22401,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       }
     }
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 22)) {
     {
       int readin;
     
@@ -22427,7 +22409,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       real_packet->flags = readin;
     }
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 23)) {
     {
       int readin;
     
@@ -22435,16 +22417,16 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       real_packet->num_ruler_titles = readin;
     }
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 24)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 25)) {
     dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
   }
-  if (BV_ISSET(fields, 30)) {
+  if (BV_ISSET(fields, 26)) {
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
-  if (BV_ISSET(fields, 31)) {
+  if (BV_ISSET(fields, 27)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
 
@@ -22521,33 +22503,41 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 9);}
 
-  differ = (old->unit_shield_cost_factor != real_packet->unit_shield_cost_factor);
+
+    {
+      differ = (O_MAX != O_MAX);
+      if(!differ) {
+        int i;
+        for (i = 0; i < O_MAX; i++) {
+          if (old->unit_upkeep_factor[i] != real_packet->unit_upkeep_factor[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 10);}
 
-  differ = (old->unit_food_cost_factor != real_packet->unit_food_cost_factor);
+  differ = (old->free_happy != real_packet->free_happy);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 11);}
 
-  differ = (old->unit_gold_cost_factor != real_packet->unit_gold_cost_factor);
+
+    {
+      differ = (O_MAX != O_MAX);
+      if(!differ) {
+        int i;
+        for (i = 0; i < O_MAX; i++) {
+          if (old->free_upkeep[i] != real_packet->free_upkeep[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 12);}
-
-  differ = (old->free_happy != real_packet->free_happy);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
-
-  differ = (old->free_shield != real_packet->free_shield);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
-
-  differ = (old->free_food != real_packet->free_food);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
-
-  differ = (old->free_gold != real_packet->free_gold);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
 
 
     {
@@ -22563,7 +22553,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
+  if(differ) {BV_SET(fields, 13);}
 
 
     {
@@ -22579,7 +22569,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
+  if(differ) {BV_SET(fields, 14);}
 
 
     {
@@ -22595,7 +22585,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
+  if(differ) {BV_SET(fields, 15);}
 
 
     {
@@ -22611,7 +22601,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 16);}
 
 
     {
@@ -22627,7 +22617,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 17);}
 
 
     {
@@ -22643,7 +22633,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(differ) {BV_SET(fields, 18);}
 
 
     {
@@ -22659,7 +22649,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 19);}
 
 
     {
@@ -22675,7 +22665,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 24);}
+  if(differ) {BV_SET(fields, 20);}
 
 
     {
@@ -22691,31 +22681,31 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
+  if(differ) {BV_SET(fields, 21);}
 
   differ = (old->flags != real_packet->flags);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
+  if(differ) {BV_SET(fields, 22);}
 
   differ = (old->num_ruler_titles != real_packet->num_ruler_titles);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 27);}
+  if(differ) {BV_SET(fields, 23);}
 
   differ = (strcmp(old->name, real_packet->name) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 28);}
+  if(differ) {BV_SET(fields, 24);}
 
   differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 29);}
+  if(differ) {BV_SET(fields, 25);}
 
   differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 30);}
+  if(differ) {BV_SET(fields, 26);}
 
   differ = (strcmp(old->helptext, real_packet->helptext) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 31);}
+  if(differ) {BV_SET(fields, 27);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -22754,27 +22744,29 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
     dio_put_uint8(&dout, real_packet->unit_happy_cost_factor);
   }
   if (BV_ISSET(fields, 10)) {
-    dio_put_uint8(&dout, real_packet->unit_shield_cost_factor);
+  
+    {
+      int i;
+
+      for (i = 0; i < O_MAX; i++) {
+        dio_put_uint8(&dout, real_packet->unit_upkeep_factor[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 11)) {
-    dio_put_uint8(&dout, real_packet->unit_food_cost_factor);
-  }
-  if (BV_ISSET(fields, 12)) {
-    dio_put_uint8(&dout, real_packet->unit_gold_cost_factor);
-  }
-  if (BV_ISSET(fields, 13)) {
     dio_put_uint8(&dout, real_packet->free_happy);
   }
-  if (BV_ISSET(fields, 14)) {
-    dio_put_uint8(&dout, real_packet->free_shield);
+  if (BV_ISSET(fields, 12)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < O_MAX; i++) {
+        dio_put_uint8(&dout, real_packet->free_upkeep[i]);
+      }
+    } 
   }
-  if (BV_ISSET(fields, 15)) {
-    dio_put_uint8(&dout, real_packet->free_food);
-  }
-  if (BV_ISSET(fields, 16)) {
-    dio_put_uint8(&dout, real_packet->free_gold);
-  }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 13)) {
   
     {
       int i;
@@ -22784,7 +22776,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     } 
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 14)) {
   
     {
       int i;
@@ -22794,7 +22786,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     } 
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 15)) {
   
     {
       int i;
@@ -22804,7 +22796,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     } 
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 16)) {
   
     {
       int i;
@@ -22814,7 +22806,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     } 
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 17)) {
   
     {
       int i;
@@ -22824,7 +22816,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     } 
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 18)) {
   
     {
       int i;
@@ -22834,7 +22826,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     } 
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 19)) {
   
     {
       int i;
@@ -22844,7 +22836,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     } 
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 20)) {
   
     {
       int i;
@@ -22854,7 +22846,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     } 
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 21)) {
   
     {
       int i;
@@ -22864,22 +22856,22 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       }
     } 
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 22)) {
     dio_put_uint16(&dout, real_packet->flags);
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 23)) {
     dio_put_uint8(&dout, real_packet->num_ruler_titles);
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 24)) {
     dio_put_string(&dout, real_packet->name);
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 25)) {
     dio_put_string(&dout, real_packet->graphic_str);
   }
-  if (BV_ISSET(fields, 30)) {
+  if (BV_ISSET(fields, 26)) {
     dio_put_string(&dout, real_packet->graphic_alt);
   }
-  if (BV_ISSET(fields, 31)) {
+  if (BV_ISSET(fields, 27)) {
     dio_put_string(&dout, real_packet->helptext);
   }
 

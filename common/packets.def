@@ -1029,14 +1029,10 @@ PACKET_RULESET_GOVERNMENT=100;sc,lsend
   UINT8 rapture_size;
       
   UINT8 unit_happy_cost_factor;
-  UINT8 unit_shield_cost_factor;
-  UINT8 unit_food_cost_factor;
-  UINT8 unit_gold_cost_factor;
+  UINT8 unit_upkeep_factor[O_MAX];
       
   UINT8 free_happy;
-  UINT8 free_shield;
-  UINT8 free_food;
-  UINT8 free_gold;
+  UINT8 free_upkeep[O_MAX];
 
   UINT8 output_before_penalty[O_MAX];
   UINT8 celeb_output_before_penalty[O_MAX];

@@ -124,7 +124,7 @@ int utype_shield_cost(struct unit_type *ut, struct government *g)
       BV_ISSET(ut->flags, F_FANATIC)) {
     return 0;
   }
-  return ut->upkeep[O_SHIELD] * g->unit_shield_cost_factor;
+  return ut->upkeep[O_SHIELD] * g->unit_upkeep_factor[O_SHIELD];
 }
 
 /**************************************************************************
@@ -132,7 +132,7 @@ int utype_shield_cost(struct unit_type *ut, struct government *g)
 **************************************************************************/
 int utype_food_cost(struct unit_type *ut, struct government *g)
 {
-  return ut->upkeep[O_FOOD] * g->unit_food_cost_factor;
+  return ut->upkeep[O_FOOD] * g->unit_upkeep_factor[O_FOOD];
 }
 
 /**************************************************************************
@@ -148,7 +148,7 @@ int utype_happy_cost(struct unit_type *ut, struct government *g)
 **************************************************************************/
 int utype_gold_cost(struct unit_type *ut, struct government *g)
 {
-  return ut->upkeep[O_GOLD] * g->unit_gold_cost_factor;
+  return ut->upkeep[O_GOLD] * g->unit_upkeep_factor[O_GOLD];
 }
 
 /**************************************************************************

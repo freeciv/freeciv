@@ -429,12 +429,19 @@ static int lookup_government(struct section_file *file, const char *entry,
   Lookup entry in the file and return the corresponding city cost:
   value if int, or G_CITY_SIZE_FREE is entry is "City_Size".
   Dies if gets some other string.  filename is for error message.
+
+  Returns 0 if no value is given in the ruleset.
 **************************************************************************/
 static int lookup_city_cost(struct section_file *file, const char *prefix,
 			    const char *entry, const char *filename)
 {
   char *sval;
   int ival = 0;
+
+  if (!section_file_lookup(file, "%s.%s", prefix, entry)) {
+    /* Default to 0. */
+    return 0;
+  }
   
   sval = secfile_lookup_str_int(file, &ival, "%s.%s", prefix, entry);
   if (sval) {
@@ -1812,23 +1819,21 @@ static void load_ruleset_governments(struct section_file *file)
     
     g->free_happy
       = lookup_city_cost(file, sec[i], "unit_free_unhappy", filename);
-    g->free_shield
-      = lookup_city_cost(file, sec[i], "unit_free_shield", filename);
-    g->free_food
-      = lookup_city_cost(file, sec[i], "unit_free_food", filename);
-    g->free_gold
-      = lookup_city_cost(file, sec[i], "unit_free_gold", filename);
 
     g->unit_happy_cost_factor
       = secfile_lookup_int(file, "%s.unit_unhappy_factor", sec[i]);
-    g->unit_shield_cost_factor
-      = secfile_lookup_int(file, "%s.unit_shield_factor", sec[i]);
-    g->unit_food_cost_factor
-      = secfile_lookup_int(file, "%s.unit_food_factor", sec[i]);
-    g->unit_gold_cost_factor
-      = secfile_lookup_int(file, "%s.unit_gold_factor", sec[i]);
 
     output_type_iterate(o) {
+      char buf[128];
+
+      my_snprintf(buf, sizeof(buf), "unit_free_%s",
+		  get_output_identifier(o));
+      g->free_upkeep[o] = lookup_city_cost(file, sec[i], buf, filename);
+
+      g->unit_upkeep_factor[o]
+	= secfile_lookup_int_default(file, 0, "%s.unit_%s_factor", sec[i],
+				     get_output_identifier(o));
+
       if (waste_name[o]) {
 	g->waste[o].level = secfile_lookup_int(file, "%s.%s_level",
 					       sec[i], waste_name[o]);
@@ -3006,23 +3011,17 @@ static void send_ruleset_governments(struct conn_list *dest)
     gov.rapture_size     = g->rapture_size;
     
     gov.unit_happy_cost_factor  = g->unit_happy_cost_factor;
-    gov.unit_shield_cost_factor = g->unit_shield_cost_factor;
-    gov.unit_food_cost_factor   = g->unit_food_cost_factor;
-    gov.unit_gold_cost_factor   = g->unit_gold_cost_factor;
-    
     gov.free_happy  = g->free_happy;
-    gov.free_shield = g->free_shield;
-    gov.free_food   = g->free_food;
-    gov.free_gold   = g->free_gold;
 
     output_type_iterate(o) {
+      gov.free_upkeep[o] = g->free_upkeep[o];
+      gov.unit_upkeep_factor[o] = g->unit_upkeep_factor[o];
+
       gov.output_before_penalty[o] = g->output_before_penalty[o];
       gov.celeb_output_before_penalty[o] = g->celeb_output_before_penalty[o];
       gov.output_inc_tile[o] = g->output_inc_tile[o];
       gov.celeb_output_inc_tile[o] = g->celeb_output_inc_tile[o];
-    } output_type_iterate_end;
 
-    output_type_iterate(o) {
       gov.waste_level[o] = g->waste[o].level;
       gov.fixed_waste_distance[o] = g->waste[o].fixed_distance;
       gov.waste_distance_factor[o] = g->waste[o].distance_factor;

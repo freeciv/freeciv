@@ -786,13 +786,9 @@ struct packet_ruleset_government {
   int empire_size_inc;
   int rapture_size;
   int unit_happy_cost_factor;
-  int unit_shield_cost_factor;
-  int unit_food_cost_factor;
-  int unit_gold_cost_factor;
+  int unit_upkeep_factor[O_MAX];
   int free_happy;
-  int free_shield;
-  int free_food;
-  int free_gold;
+  int free_upkeep[O_MAX];
   int output_before_penalty[O_MAX];
   int celeb_output_before_penalty[O_MAX];
   int output_inc_tile[O_MAX];

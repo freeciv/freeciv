@@ -2405,16 +2405,12 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->rapture_size      = p->rapture_size;
   
   gov->unit_happy_cost_factor  = p->unit_happy_cost_factor;
-  gov->unit_shield_cost_factor = p->unit_shield_cost_factor;
-  gov->unit_food_cost_factor   = p->unit_food_cost_factor;
-  gov->unit_gold_cost_factor   = p->unit_gold_cost_factor;
-  
   gov->free_happy          = p->free_happy;
-  gov->free_shield         = p->free_shield;
-  gov->free_food           = p->free_food;
-  gov->free_gold           = p->free_gold;
 
   output_type_iterate(o) {
+    gov->free_upkeep[o] = p->free_upkeep[o];
+    gov->unit_upkeep_factor[o] = p->unit_upkeep_factor[o];
+
     gov->output_before_penalty[o] = p->output_before_penalty[o];
     gov->celeb_output_before_penalty[o] = p->celeb_output_before_penalty[o];
     gov->output_inc_tile[o] = p->output_inc_tile[o];

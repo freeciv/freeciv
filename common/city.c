@@ -1214,10 +1214,10 @@ int city_name_compare(const void *p1, const void *p2)
 **************************************************************************/
 int citygov_free_shield(const struct city *pcity, struct government *gov)
 {
-  if (gov->free_shield == G_CITY_SIZE_FREE) {
+  if (gov->free_upkeep[O_SHIELD] == G_CITY_SIZE_FREE) {
     return pcity->size;
   } else {
-    return gov->free_shield;
+    return gov->free_upkeep[O_SHIELD];
   }
 }
 
@@ -1238,10 +1238,10 @@ int citygov_free_happy(const struct city *pcity, struct government *gov)
 **************************************************************************/
 int citygov_free_food(const struct city *pcity, struct government *gov)
 {
-  if (gov->free_food == G_CITY_SIZE_FREE) {
+  if (gov->free_upkeep[O_FOOD] == G_CITY_SIZE_FREE) {
     return pcity->size;
   } else {
-    return gov->free_food;
+    return gov->free_upkeep[O_FOOD];
   }
 }
 
@@ -1251,10 +1251,10 @@ int citygov_free_food(const struct city *pcity, struct government *gov)
 static int citygov_free_gold(const struct city *pcity, 
                              struct government *gov)
 {
-  if (gov->free_gold == G_CITY_SIZE_FREE) {
+  if (gov->free_upkeep[O_GOLD] == G_CITY_SIZE_FREE) {
     return pcity->size;
   } else {
-    return gov->free_gold;
+    return gov->free_upkeep[O_GOLD];
   }
 }
 
