@@ -301,7 +301,13 @@ void x_main(int argc, char *argv[])
   else {
     struct passwd *password;
     password=getpwuid(getuid());
-    strcpy(name, password->pw_name);
+    if (password)
+      strcpy(name, password->pw_name);
+    else {
+      log(LOG_NORMAL, "Your getpwuid call failed.  Please report this.");
+      strcpy(name, "operator 00000");
+      sprintf(name+9, "%05i",getuid());
+    }
   }
 
   if(appResources.server)
