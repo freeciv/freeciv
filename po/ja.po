@@ -13,16 +13,16 @@
 # ¼ê¤ÊÂ¾¤Î¿Í¤Ë¤âÌò¤ËÎ©¤Ä¤À¤í¤¦¤È¹Í¤¨¤Æ¸ø³«¤·¤Æ¤¤¤Ş¤¹¡£
 #
 # ¤ï¤¶¤ï¤¶¤³¤Î po ¥Õ¥¡¥¤¥ë¤ò¸«¤Æ²¼¤µ¤Ã¤Æ¤¤¤ë¤¢¤Ê¤¿¡£»ä¤Î¥À¥µ¥¤Ìõ¤òÄ¾¤·¤¿
-# ¤ê¡¢Ì¤Ìõ¤Î¤È¤³¤í¤òÌõ¤·¤ÆÁ÷¤Ã¤Æ²¼¤µ¤¤¡£¤¢¤È¡¢·ÑÂ³Åª¤Ë¥á¥ó¥Æ¥Ê¥ó¥¹¤·¤Æ¤¯
-# ¤ì¤ëÊı¤Ê¤é´î¤ó¤Ç Primary Contacter ¤ò¾ù¤ê¤Ş¤¹¡£
+# ¤ê¡¢Ì¤Ìõ¤Î¤È¤³¤í¤òÌõ¤·¤ÆÁ÷¤Ã¤Æ²¼¤µ¤¤¡£·ÑÂ³Åª¤Ë¥á¥ó¥Æ¥Ê¥ó¥¹¤·¤Æ¤¯¤ì¤ëÊı
+# ¤Ê¤é´î¤ó¤Ç Primary Contacter ¤ò¾ù¤ê¤Ş¤¹¡£
 #
 # ¥á¡¼¥ë¤ò¤ªÂÔ¤Á¤·¤Æ¤¤¤Ş¤¹¡£
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.10.5-devel\n"
-"POT-Creation-Date: 2000-06-28 10:31-0400\n"
-"PO-Revision-Date: 2000-06-27 09:03+09:00\n"
+"Project-Id-Version: Freeciv 1.10.7-devel\n"
+"POT-Creation-Date: 2000-06-29 19:59+0900\n"
+"PO-Revision-Date: 2000-06-29 20:11+09:00\n"
 "Last-Translator: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <amanatto@mail2.dddd.ne.jp>\n"
 "MIME-Version: 1.0\n"
@@ -114,7 +114,7 @@ msgstr "Í×ºÉ"
 
 #: common/map.c:622 common/unit.c:772
 msgid "Airbase"
-msgstr "¹Ò¶õ´ğÃÏ"
+msgstr "Èô¹Ô¾ì"
 
 #: common/mem.c:38
 #, c-format
@@ -122,9 +122,8 @@ msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "%s ¤¬ %lu ¥Ğ¥¤¥È¤òÆÀ¤è¤¦¤È¤·¤Æ¥á¥â¥êÉÔÂ­¤Ë¤Ê¤ê¤Ş¤·¤¿¡£  %d ¹ÔÌÜ %s ¥Õ¥¡¥¤¥ë¤Ç¤¹¡£"
 
 #: common/player.c:423
-#, fuzzy
 msgid "Spotless"
-msgstr "²ÁÃÍ¤Î¤Ê¤¤"
+msgstr ""
 
 #: common/player.c:425
 msgid "Excellent"
@@ -139,14 +138,12 @@ msgid "Questionable"
 msgstr ""
 
 #: common/player.c:431
-#, fuzzy
 msgid "Dishonorable"
-msgstr "º®Íğ"
+msgstr ""
 
 #: common/player.c:433
-#, fuzzy
 msgid "Poor"
-msgstr "¥İ¡¼¥È"
+msgstr ""
 
 #: common/player.c:435
 msgid "Despicable"
@@ -161,9 +158,8 @@ msgid "Neutral"
 msgstr ""
 
 #: common/player.c:448
-#, fuzzy
 msgid "War"
-msgstr "¾­·³"
+msgstr ""
 
 #: client/gui-gtk/diplodlg.c:424 client/gui-xaw/diplodlg.c:485 common/player.c:449
 msgid "Cease-fire"
@@ -767,24 +763,20 @@ msgid "Game: The game is over..."
 msgstr ""
 
 #: server/civserver.c:628
-#, fuzzy
 msgid "Pregame"
-msgstr "Ê¿ÏÂ"
+msgstr "¥²¡¼¥àÁ°"
 
 #: server/civserver.c:631
-#, fuzzy
 msgid "Running"
-msgstr "ÀĞÌıÀºÀ½"
+msgstr "¼Â¹ÔÃæ"
 
 #: server/civserver.c:634
-#, fuzzy
 msgid "Game over"
-msgstr "¥²¡¼¥à(G)"
+msgstr "¥²¡¼¥à½ªÎ»"
 
 #: server/civserver.c:637
-#, fuzzy
 msgid "Waiting"
-msgstr "É®µ­"
+msgstr "ÂÔµ¡Ãæ"
 
 #: server/civserver.c:773
 msgid "Game: Global warming has occurred!"
@@ -1640,36 +1632,30 @@ msgid "boats move +1"
 msgstr ""
 
 #: server/rulesout.c:56
-#, fuzzy
 msgid "bridges"
-msgstr "Ì¿Îá(O)"
+msgstr ""
 
 #: server/rulesout.c:57
-#, fuzzy
 msgid "railroads"
 msgstr "Å´Æ»"
 
 #: server/rulesout.c:58
-#, fuzzy
 msgid "fortresses"
 msgstr "Í×ºÉ"
 
 #: server/rulesout.c:59
-#, fuzzy
 msgid "pop. pollution"
-msgstr "¸ø³²"
+msgstr ""
 
 #: server/rulesout.c:60
 msgid "trade reduced"
 msgstr ""
 
 #: server/rulesout.c:61
-#, fuzzy
 msgid "airbases"
-msgstr "¹Ò¶õ´ğÃÏ"
+msgstr "Èô¹Ô¾ì"
 
 #: server/rulesout.c:62
-#, fuzzy
 msgid "farmland"
 msgstr "ÇÀÃÏ"
 
@@ -2487,9 +2473,8 @@ msgstr "¥Õ¥¡¥¤¥ë¤Ø¥µ¡¼¥Ğ¥³¥Ş¥ó¥É¤È¤·¤Æ¸½ºß¤ÎÀßÄê¤òÊİÂ¸¤¹¤ë¡£"
 
 #. translate <> only
 #: server/stdinhand.c:951
-#, fuzzy
 msgid "rulesout <rules-type> <file-name>"
-msgstr "write <¥Õ¥¡¥¤¥ëÌ¾>"
+msgstr "rulesout <¥ë¡¼¥ë·Á¼°> <¥Õ¥¡¥¤¥ëÌ¾>"
 
 #: server/stdinhand.c:952
 msgid "Write selected rules information to file."
@@ -3686,9 +3671,9 @@ msgid "build"
 msgstr ""
 
 #: server/unithand.c:386
-#, c-format
+#, c-format, fuzzy
 msgid "Game: %s added to aid %s in growing."
-msgstr "Game: %1$s¤¬¤Ë%1$s¤¬²Ã¤ï¤ê¤Ş¤·¤¿¡£"
+msgstr "Game: %1$s¤¬¤Ë%2$s¤¬²Ã¤ï¤ê¤Ş¤·¤¿¡£"
 
 #: server/unithand.c:391
 #, c-format
@@ -4094,14 +4079,14 @@ msgid "?hours:%dh"
 msgstr ""
 
 #: client/climisc.c:348 client/climisc.c:353
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give %s"
-msgstr "%s¤Î%s"
+msgstr ""
 
 #: client/climisc.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give %d gold"
-msgstr "¶â%2$d¤Ç%1$s¤òÇä¤ê¤Ş¤¹¤«?"
+msgstr ""
 
 #: client/climisc.c:363
 #, c-format
@@ -4109,9 +4094,9 @@ msgid "The %s give their worldmap"
 msgstr ""
 
 #: client/climisc.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give their seamap"
-msgstr "%s¤Î%s"
+msgstr ""
 
 #: client/climisc.c:371
 msgid "The parties agree on a cease-fire"
@@ -6859,9 +6844,8 @@ msgid "Connect to Freeciv Server"
 msgstr ""
 
 #: data/Freeciv:116
-#, fuzzy
 msgid "Metaserver List"
-msgstr "¥á¥¿¥µ¡¼¥Ğ"
+msgstr "¥á¥¿¥µ¡¼¥Ğ°ìÍ÷"
 
 #: data/Freeciv:119
 msgid "Server Name                         Port  Version     Status  Players  Comment"
@@ -7335,7 +7319,7 @@ msgstr ""
 "  b: ÅÔ»Ô¤òºî¤ë  (³«ÂóÉôÂâ)\n"
 "  b: ÉÔ»×µÄ·úÃÛ¤ò½õ¤±¤ë (¥­¥ã¥é¥Ğ¥óÉôÂâ)\n"
 "  D: ÉôÂâ²ò»¶\n"
-"  e: ¹Ò¶õ´ğÃÏ¤ò·úÃÛ¤¹¤ë (¹Ò¶õ´ğÃÏÉôÂâ)\n"
+"  e: ¶õ¹Á¤ò·úÃÛ¤¹¤ë (¶õ¹ÁÉôÂâ)\n"
 "  f: Í×ºÉ²½ÉôÂâ  (ÀïÆ®ÉôÂâ)\n"
 "  f: ÅÚÃÏ¤ËÍ×ºÉ¤òÃÛ¤¯  (³«ÂóÉôÂâ)\n"
 "  g: ÉôÂâ°ÜÆ°  (º¸¥¯¥ê¥Ã¥¯¤Ç°ÜÆ°Àè¤òÁª¤Ö)\n"
@@ -7759,7 +7743,7 @@ msgstr "¥¾¡¼¥ó¥³¥ó¥È¥í¡¼¥ë"
 #: data/helpdata.txt:968
 #, fuzzy
 msgid "Zones of Control, abbreviated as ZOC, is a game concept which prevents you moving freely in zones controlled (or partially controlled) by enemy forces."
-msgstr "¥¾¡¼¥ó¥³¥ó¥È¥í¡¼¥ë(Zones of Control Î¬¤·¤Æ ZOC)¤È¤Ï¡¢»ÙÇÛ¤µ¤ì¤¿(controlled)ÎÎ°è(zones)(¤â¤·¤¯¤ÏÉôÊ¬Åª¤Ë»ÙÇÛ¤µ¤ì¤¿)¤Ç¤Î°ÜÆ°¤òÀ©¸Â¤¹¤ë¥²¡¼¥à¤Î³µÇ°¤Ç¤¹¡£"
+msgstr "¥¾¡¼¥ó¥³¥ó¥È¥í¡¼¥ë(Zones of Control Î¬¤·¤Æ ZOC)¤È¤Ï¡¢»ÙÇÛ¤µ¤ì¤¿ÎÎ°è(¤â¤·¤¯¤ÏÉôÊ¬Åª¤Ë»ÙÇÛ¤µ¤ì¤¿)¤Ç¤Î°ÜÆ°¤òÀ©¸Â¤¹¤ë¥²¡¼¥à¤Î³µÇ°¤Ç¤¹¡£"
 
 #: data/helpdata.txt:972
 msgid "The general rule is that a land unit which is adjacent to an enemy occupied square cannot move directly to another square which is also adjacent to an enemy occupied square.  Here an enemy occupied square means a land square with an enemy unit on it.  Adjacency means any of the eight squares surrounding a unit."
@@ -8038,7 +8022,7 @@ msgstr "ÂçÀ»Æ²"
 
 #: data/civ2/buildings.ruleset:207 data/default/buildings.ruleset:380
 msgid "A Cathedral makes 3 unhappy citizens content in a city, making it easier to maintain order in that city.  The discovery of Theology increases the affect of a Cathedral, making an additional unhappy citizen content.  The discovery of Communism lessens the affect of a Cathedral, reducing by one the number of unhappy citizens made content."
-msgstr ""
+msgstr "ÂçÀ»Æ²¤ÏÅÔ»Ô¤ÎÉÔ¹¬¤Ê¿Í¡¹3¤ò¼ıÍÆ¤·¡¢ÅÔ»Ô¤Î¾õÂÖ¤ò°İ»ı¤·°×¤¯¤·¤Ş¤¹¡£¿À³Ø¤ÎÈ¯¸«¤Ë¤è¤êÂçÀ»Æ²¤Î¸ú²Ì¤¬Áı¤·¡¢ÉÔ¹¬»ÔÌ±1¤ò¤µ¤é¤Ë¼ıÍÆ¤·¤Ş¤¹¡£¶¦»º¼çµÁ¤ÎÈ¯¸«¤Ë¤è¤êÂçÀ»Æ²¤Î¸ú²Ì¤Ï¿ê¤¨¡¢ÉÔ¹¬»ÔÌ±1¤¬ÄÉ¤¤½Ğ¤µ¤ì¤Ş¤¹¡£"
 
 #: data/civ1/buildings.ruleset:235 data/civ2/buildings.ruleset:217 data/default/buildings.ruleset:390
 msgid "City Walls"
@@ -8505,7 +8489,7 @@ msgstr "¥ß¥±¥é¥ó¥¸¥§¥í¤Î¶µ²ñ"
 
 #: data/civ2/buildings.ruleset:1525 data/default/buildings.ruleset:1722
 msgid "Counts as having a Cathedral in each of your cities.  (This makes 3 unhappy citizens content in each city.  The discovery of Theology increases the affect of a Cathedral, making an additional unhappy citizen content.  The discovery of Communism lessens the affect of a Cathedral, reducing by one the number of unhappy citizens made content."
-msgstr ""
+msgstr "³ÆÅÔ»Ô¤ËÂçÀ»Æ²¤ò»ı¤Ã¤Æ¤¤¤ë¤â¤Î¤È¤ß¤Ê¤·¤Ş¤¹¡£(¤³¤ì¤Ï³ÆÅÔ»Ô¤ÎÉÔ¹¬¤Ê¿Í¡¹3¤ò¼ıÍÆ¤·¤Ş¤¹¡£¿À³Ø¤ÎÈ¯¸«¤Ë¤è¤êÂçÀ»Æ²¤Î¸ú²Ì¤¬Áı¤·¡¢ÉÔ¹¬»ÔÌ±1¤ò¤µ¤é¤Ë¼ıÍÆ¤·¤Ş¤¹¡£¶¦»º¼çµÁ¤ÎÈ¯¸«¤Ë¤è¤êÂçÀ»Æ²¤Î¸ú²Ì¤Ï¿ê¤¨¡¢ÉÔ¹¬»ÔÌ±1¤¬ÄÉ¤¤½Ğ¤µ¤ì¤Ş¤¹¡£)"
 
 #: data/civ1/buildings.ruleset:1553 data/civ2/buildings.ruleset:1535 data/default/buildings.ruleset:1732
 msgid "Oracle"
@@ -9751,9 +9735,7 @@ msgid ""
 "TIP 1:  Nuking the ocean will not generate pollution, and is a most effective (but expensive!!) way of getting rid of enemy ships.\n"
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy country en masse, but the enemy cities are too strong. Before using a Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city and have them ready to fix the pollution on the same turn it occurs!  This minimises the chance of global warming.  Eco-friendly nukes!"
-msgstr ""
-"¤¢¤Ê¤¿¤¬É¬Í×¤Ê²Ê³Ø¤ò»ı¤Ã¤Æ¤¤¤Æ¡¢²¿¤ì¤«¤Î¥×¥ì¥¤¥ä¡¼¤Ë¤è¤Ã¤Æ¥Ş¥ó¥Ï¥Ã¥¿¥ó·×²è¤ÎÉÔ»×µÄ¤¬·ú¤Æ¤é¤ì¤Æ¤¤¤¿¤é¡¢³ËÊ¼´ï¤òÀ½Â¤¤Ç¤­¤Ş¤¹¡£\n"
-"\n"
+msgstr "¤¢¤Ê¤¿¤¬É¬Í×¤Ê²Ê³Ø¤ò»ı¤Ã¤Æ¤¤¤Æ¡¢²¿¤ì¤«¤Î¥×¥ì¥¤¥ä¡¼¤Ë¤è¤Ã¤Æ¥Ş¥ó¥Ï¥Ã¥¿¥ó·×²è¤ÎÉÔ»×µÄ¤¬·ú¤Æ¤é¤ì¤Æ¤¤¤¿¤é¡¢³ËÊ¼´ï¤òÀ½Â¤¤Ç¤­¤Ş¤¹¡£\n\n"
 
 #: data/civ1/units.ruleset:1185 data/civ2/units.ruleset:1229 data/default/units.ruleset:1229
 msgid "Diplomat"
@@ -10049,12 +10031,12 @@ msgid "?plural:Danes"
 msgstr "¥Ç¥ó¥Ş¡¼¥¯Ì±Â²"
 
 #: data/nation/dunedain.ruleset:3
-msgid "Dúnedain"
+msgid "Dúîedain"
 msgstr ""
 
 #: data/nation/dunedain.ruleset:4
 #, fuzzy
-msgid "?plural:Dúnedan"
+msgid "?plural:Dúîedan"
 msgstr "¥É¥¤¥ÄÌ±Â²"
 
 #: data/nation/dutch.ruleset:3
@@ -10489,15 +10471,3 @@ msgstr "¥º¡¼¥ë¡¼¿Í"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "¥º¡¼¥ë¡¼Â²"
-
-#~ msgid "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy citizens content in each city."
-#~ msgstr "³ÆÅÔ»Ô¤ËÂçÀ»Æ²¤ò»ı¤Ã¤Æ¤¤¤ë¤â¤Î¤È¤ß¤Ê¤·¤Ş¤¹¡£¤³¤ì¤Ï³ÆÅÔ»Ô¤ÎÉÔ¹¬¤Ê¿Í¡¹3¤ò¼ıÍÆ¤·¤Ş¤¹¡£"
-
-#~ msgid ""
-#~ "This unit is invisible unless it is next to an enemy unit or city. It cannot make shore bombardments against enemy land units or cities.\n"
-#~ "\n"
-#~ "Submarines have a very high strategic value, but have a weak defence."
-#~ msgstr ""
-#~ "¤³¤ÎÉôÂâ¤Ï¡¢Å¨ÉôÂâ¤äÅ¨ÅÔ»Ô¤ËÎÙÀÜ¤·¤Ê¤¤¸Â¤êÌÜ¤Ë¸«¤¨¤Ş¤»¤ó¡£¤³¤ÎÉôÂâ¤Ç¤Ï¡¢Å¨¤ÎÃÏ¾åÉôÂâ¤äÅÔ»Ô¤òÇú·â¤Ç¤­¤Ş¤»¤ó¡£\n"
-#~ "\n"
-#~ "Àø¿å´Ï¤ÏÀïÎ¬¾å¤È¤Æ¤â½ÅÍ×¤Ç¤¹¤¬¡¢ËÉ¸æ¤Ë´Ø¤·¤Æ¤Ï¼å¤¤¤Ç¤¹¡£"
