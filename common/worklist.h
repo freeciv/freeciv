@@ -13,7 +13,6 @@
 #ifndef FC__WORKLIST_H
 #define FC__WORKLIST_H
 
-#include "genlist.h"
 #include "shared.h"		/* MAX_LEN_NAME */
 
 #define MAX_LEN_WORKLIST 16

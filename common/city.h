@@ -13,11 +13,9 @@
 #ifndef FC__CITY_H
 #define FC__CITY_H
 
-#include "genlist.h"
 #include "improvement.h"
 #include "unit.h"		/* struct unit_list */
 #include "worklist.h"
-
 
 struct player;
 struct government;

@@ -1045,15 +1045,14 @@ bool city_rapture_grow(struct city *pcity)
 **************************************************************************/
 struct city *city_list_find_id(struct city_list *This, int id)
 {
-  if(id != 0) {
-    struct genlist_iterator myiter;
-
-    genlist_iterator_init(&myiter, &This->list, 0);
-    
-    for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(((struct city *)ITERATOR_PTR(myiter))->id==id)
-	return ITERATOR_PTR(myiter);
+  if (id != 0) {
+    city_list_iterate(*This, pcity) {
+      if (pcity->id == id) {
+	return pcity;
+      }
+    } city_list_iterate_end;
   }
+
   return NULL;
 }
 
@@ -1062,13 +1061,11 @@ struct city *city_list_find_id(struct city_list *This, int id)
 **************************************************************************/
 struct city *city_list_find_name(struct city_list *This, const char *name)
 {
-  struct genlist_iterator myiter;
-
-  genlist_iterator_init(&myiter, &This->list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(mystrcasecmp(name, ((struct city *)ITERATOR_PTR(myiter))->name) == 0)
-      return ITERATOR_PTR(myiter);
+  city_list_iterate(*This, pcity) {
+    if (mystrcasecmp(name, pcity->name) == 0) {
+      return pcity;
+    }
+  } city_list_iterate_end;
 
   return NULL;
 }

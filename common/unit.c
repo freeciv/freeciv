@@ -947,13 +947,11 @@ const char *unit_activity_text(struct unit *punit)
 **************************************************************************/
 struct unit *unit_list_find(struct unit_list *This, int id)
 {
-  struct genlist_iterator myiter;
-
-  genlist_iterator_init(&myiter, &This->list, 0);
-
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(((struct unit *)ITERATOR_PTR(myiter))->id==id)
-      return ITERATOR_PTR(myiter);
+  unit_list_iterate(*This, punit) {
+    if (punit->id == id) {
+      return punit;
+    }
+  } unit_list_iterate_end;
 
   return NULL;
 }

@@ -22,7 +22,6 @@
 
 #include "fcintl.h"
 #include "game.h"
-#include "genlist.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -54,8 +53,22 @@ struct spaceship_dialog {
   HWND info_label;
 };
 
-static struct genlist dialog_list;
-static int dialog_list_has_been_initialised;
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct spaceship_dialog
+#define SPECLIST_STATIC1
+#include "speclist.h"
+
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct spaceship_dialog
+#define SPECLIST_STATIC1
+#include "speclist_c.h"
+
+#define dialog_list_iterate(dialoglist, pdialog) \
+    TYPED_LIST_ITERATE(struct spaceship_dialog, dialoglist, pdialog)
+#define dialog_list_iterate_end  LIST_ITERATE_END
+
+static struct dialog_list dialog_list;
+static bool dialog_list_has_been_initialised = FALSE;
 
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
 struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer);
@@ -69,20 +82,18 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog);
 *****************************************************************/
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
 {
-  struct genlist_iterator myiter;
-
-  if(!dialog_list_has_been_initialised) {
-    genlist_init(&dialog_list);
-    dialog_list_has_been_initialised=1;
+  if (!dialog_list_has_been_initialised) {
+    dialog_list_init(&dialog_list);
+    dialog_list_has_been_initialised = TRUE;
   }
-  
-  genlist_iterator_init(&myiter, &dialog_list, 0);
-    
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(((struct spaceship_dialog *)ITERATOR_PTR(myiter))->pplayer==pplayer)
-      return ITERATOR_PTR(myiter);
 
-  return 0;
+  dialog_list_iterate(dialog_list, pdialog) {
+    if (pdialog->pplayer == pplayer) {
+      return pdialog;
+    }
+  } dialog_list_iterate_end;
+
+  return NULL;
 }
 
 /****************************************************************
@@ -168,7 +179,7 @@ static LONG CALLBACK spaceship_proc(HWND dlg,UINT message,
     DestroyWindow(dlg);
     break;
   case WM_DESTROY:
-    genlist_unlink(&dialog_list, pdialog);
+    dialog_list_unlink(&dialog_list, pdialog);
     free(pdialog);
     break;
   case WM_COMMAND:
@@ -237,7 +248,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   fcwin_box_add_box(vbox,hbox,TRUE,TRUE,5);
   fcwin_set_box(pdialog->mainwin,vbox);
   
-  genlist_insert(&dialog_list, pdialog, 0);
+  dialog_list_insert(&dialog_list, pdialog);
   refresh_spaceship_dialog(pdialog->pplayer);
 
   return pdialog;

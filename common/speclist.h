@@ -46,6 +46,15 @@
        TYPED_LIST_ITERATE(foo_t, foolist, pfoo)
    #define foo_list_iterate_end  LIST_ITERATE_END
 
+   If you define SPECLIST_STATIC only the functions foo_list_init,
+   foo_list_size, foo_list_get, foo_list_insert and foo_list_unlink
+   are provided. But these functions will be provided as static
+   functions.
+
+   If you define SPECLIST_STATIC1 only the functions foo_list_init,
+   foo_list_insert and foo_list_unlink are provided. But these
+   functions will be provided as static functions.
+
    Also, in a single .c file, you should include speclist_c.h,
    with the same SPECLIST_TAG and SPECLIST_TYPE defined, to
    provide the function implementations.
@@ -61,8 +70,15 @@
 #ifndef SPECLIST_TAG
 #error Must define a SPECLIST_TAG to use this header
 #endif
+
 #ifndef SPECLIST_TYPE
 #define SPECLIST_TYPE struct SPECLIST_TAG
+#endif
+
+#if defined (SPECLIST_STATIC) || defined (SPECLIST_STATIC1)
+#define SPECLIST_FUNC static
+#else
+#define SPECLIST_FUNC
 #endif
 
 #define SPECLIST_PASTE_(x,y) x ## y
@@ -76,14 +92,20 @@ SPECLIST_LIST {
   struct genlist list;
 };
 
-void SPECLIST_FOO(_list_init) (SPECLIST_LIST *tthis);
-int  SPECLIST_FOO(_list_size) (SPECLIST_LIST *tthis);
-SPECLIST_TYPE *SPECLIST_FOO(_list_get) (SPECLIST_LIST *tthis, int index);
-void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo);
-void SPECLIST_FOO(_list_insert_back) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo);
-void SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo);
-void SPECLIST_FOO(_list_unlink_all) (SPECLIST_LIST *tthis);
-void SPECLIST_FOO(_list_sort) (SPECLIST_LIST *tthis, int (*compar)(const void *, const void *));
+SPECLIST_FUNC void SPECLIST_FOO(_list_init) (SPECLIST_LIST *tthis);
+SPECLIST_FUNC void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo);
+SPECLIST_FUNC void SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo);
+
+#if !defined (SPECLIST_STATIC1)
+SPECLIST_FUNC int  SPECLIST_FOO(_list_size) (SPECLIST_LIST *tthis);
+SPECLIST_FUNC SPECLIST_TYPE *SPECLIST_FOO(_list_get) (SPECLIST_LIST *tthis, int index);
+#endif
+
+#if !defined (SPECLIST_STATIC) && !defined (SPECLIST_STATIC1)
+SPECLIST_FUNC void SPECLIST_FOO(_list_insert_back) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo);
+SPECLIST_FUNC void SPECLIST_FOO(_list_unlink_all) (SPECLIST_LIST *tthis);
+SPECLIST_FUNC void SPECLIST_FOO(_list_sort) (SPECLIST_LIST *tthis, int (*compar)(const void *, const void *));
+#endif
 
 #undef SPECLIST_TAG
 #undef SPECLIST_TYPE
@@ -91,3 +113,6 @@ void SPECLIST_FOO(_list_sort) (SPECLIST_LIST *tthis, int (*compar)(const void *,
 #undef SPECLIST_PASTE
 #undef SPECLIST_LIST
 #undef SPECLIST_FOO
+#undef SPECLIST_FUNC
+#undef SPECLIST_STATIC
+#undef SPECLIST_STATIC1

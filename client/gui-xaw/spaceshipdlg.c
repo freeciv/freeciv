@@ -34,7 +34,6 @@
 
 #include "fcintl.h"
 #include "game.h"
-#include "genlist.h"
 #include "map.h"
 #include "mem.h"
 #include "packets.h"
@@ -70,8 +69,22 @@ struct spaceship_dialog {
   Widget close_command;
 };
 
-static struct genlist dialog_list;
-static int dialog_list_has_been_initialised;
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct spaceship_dialog
+#define SPECLIST_STATIC1
+#include "speclist.h"
+
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct spaceship_dialog
+#define SPECLIST_STATIC1
+#include "speclist_c.h"
+
+#define dialog_list_iterate(dialoglist, pdialog) \
+    TYPED_LIST_ITERATE(struct spaceship_dialog, dialoglist, pdialog)
+#define dialog_list_iterate_end  LIST_ITERATE_END
+
+static struct dialog_list dialog_list;
+static bool dialog_list_has_been_initialised = FALSE;
 
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer);
 struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer);
@@ -88,20 +101,18 @@ void spaceship_launch_callback(Widget w, XtPointer client_data, XtPointer call_d
 *****************************************************************/
 struct spaceship_dialog *get_spaceship_dialog(struct player *pplayer)
 {
-  struct genlist_iterator myiter;
-
-  if(!dialog_list_has_been_initialised) {
-    genlist_init(&dialog_list);
-    dialog_list_has_been_initialised=1;
+  if (!dialog_list_has_been_initialised) {
+    dialog_list_init(&dialog_list);
+    dialog_list_has_been_initialised = TRUE;
   }
-  
-  genlist_iterator_init(&myiter, &dialog_list, 0);
-    
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(((struct spaceship_dialog *)ITERATOR_PTR(myiter))->pplayer==pplayer)
-      return ITERATOR_PTR(myiter);
 
-  return 0;
+  dialog_list_iterate(dialog_list, pdialog) {
+    if (pdialog->pplayer == pplayer) {
+      return pdialog;
+    }
+  } dialog_list_iterate_end;
+
+  return NULL;
 }
 
 /****************************************************************
@@ -230,7 +241,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   XtAddCallback(pdialog->close_command, XtNcallback, spaceship_close_callback,
 		(XtPointer)pdialog);
 
-  genlist_insert(&dialog_list, pdialog, 0);
+  dialog_list_insert(&dialog_list, pdialog);
 
   XtRealizeWidget(pdialog->shell);
 
@@ -338,7 +349,7 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 void close_spaceship_dialog(struct spaceship_dialog *pdialog)
 {
   XtDestroyWidget(pdialog->shell);
-  genlist_unlink(&dialog_list, pdialog);
+  dialog_list_unlink(&dialog_list, pdialog);
 
   free(pdialog);
 }
@@ -356,14 +367,12 @@ void spaceshipdlg_key_close(Widget w)
 *****************************************************************/
 void spaceshipdlg_msg_close(Widget w)
 {
-  struct genlist_iterator myiter;
-
-  genlist_iterator_init(&myiter, &dialog_list, 0);
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if(((struct spaceship_dialog *)ITERATOR_PTR(myiter))->shell==w) {
-      close_spaceship_dialog((struct spaceship_dialog *)ITERATOR_PTR(myiter));
+  dialog_list_iterate(dialog_list, pdialog) {
+    if (pdialog->shell == w) {
+      close_spaceship_dialog(pdialog);
       return;
     }
+  } dialog_list_iterate_end;
 }
 
 

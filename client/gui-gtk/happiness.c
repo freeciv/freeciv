@@ -35,8 +35,6 @@
 
 #define NUM_HAPPINESS_MODIFIERS 5
 
-static struct genlist happiness_list;
-static int happiness_list_has_been_initialised;
 enum { CITIES, LUXURIES, BUILDINGS, UNITS, WONDERS };
 
 struct happiness_dialog {
@@ -47,6 +45,23 @@ struct happiness_dialog {
   GtkWidget *hlabels[NUM_HAPPINESS_MODIFIERS];
   GtkWidget *close;
 };
+
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct happiness_dialog
+#define SPECLIST_STATIC1
+#include "speclist.h"
+
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct happiness_dialog
+#define SPECLIST_STATIC1
+#include "speclist_c.h"
+
+#define dialog_list_iterate(dialoglist, pdialog) \
+    TYPED_LIST_ITERATE(struct happiness_dialog, dialoglist, pdialog)
+#define dialog_list_iterate_end  LIST_ITERATE_END
+
+static struct dialog_list dialog_list;
+static bool dialog_list_has_been_initialised = FALSE;
 
 static GdkPixmap *create_happiness_pixmap(struct city *pcity, int index);
 static struct happiness_dialog *get_happiness_dialog(struct city *pcity);
@@ -68,18 +83,16 @@ static void happiness_dialog_update_wonders(struct happiness_dialog
 *****************************************************************/
 static struct happiness_dialog *get_happiness_dialog(struct city *pcity)
 {
-  struct genlist_iterator myiter;
-
-  if (!happiness_list_has_been_initialised) {
-    genlist_init(&happiness_list);
-    happiness_list_has_been_initialised = 1;
+  if (!dialog_list_has_been_initialised) {
+    dialog_list_init(&dialog_list);
+    dialog_list_has_been_initialised = TRUE;
   }
 
-  genlist_iterator_init(&myiter, &happiness_list, 0);
-
-  for (; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
-    if (((struct happiness_dialog *) ITERATOR_PTR(myiter))->pcity == pcity)
-      return ITERATOR_PTR(myiter);
+  dialog_list_iterate(dialog_list, pdialog) {
+    if (pdialog->pcity == pcity) {
+      return pdialog;
+    }
+  } dialog_list_iterate_end;
 
   return NULL;
 }
@@ -127,12 +140,12 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 
   gtk_widget_show_all(pdialog->shell);
 
-  if (!happiness_list_has_been_initialised) {
-    genlist_init(&happiness_list);
-    happiness_list_has_been_initialised = 1;
+  if (!dialog_list_has_been_initialised) {
+    dialog_list_init(&dialog_list);
+    dialog_list_has_been_initialised = TRUE;
   }
 
-  genlist_insert(&happiness_list, pdialog, 0);
+  dialog_list_insert(&dialog_list, pdialog);
 
   refresh_happiness_dialog(pcity);
 
@@ -214,7 +227,7 @@ void close_happiness_dialog(struct city *pcity)
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
 
   gtk_widget_hide(pdialog->shell);
-  genlist_unlink(&happiness_list, pdialog);
+  dialog_list_unlink(&dialog_list, pdialog);
 
   gtk_widget_destroy(pdialog->shell);
   free(pdialog);

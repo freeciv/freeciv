@@ -22,7 +22,6 @@
 
 #include "fcintl.h"
 #include "game.h"
-#include "genlist.h"
 #include "government.h"
 #include "map.h"
 #include "mem.h"
@@ -79,8 +78,22 @@ struct Diplomacy_dialog {
   GtkWidget *dip_erase_clause_command;
 };
 
-static struct genlist diplomacy_dialogs;
-static int diplomacy_dialogs_list_has_been_initialised;
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct Diplomacy_dialog
+#define SPECLIST_STATIC
+#include "speclist.h"
+
+#define SPECLIST_TAG dialog
+#define SPECLIST_TYPE struct Diplomacy_dialog
+#define SPECLIST_STATIC
+#include "speclist_c.h"
+
+#define dialog_list_iterate(dialoglist, pdialog) \
+    TYPED_LIST_ITERATE(struct Diplomacy_dialog, dialoglist, pdialog)
+#define dialog_list_iterate_end  LIST_ITERATE_END
+
+static struct dialog_list dialog_list;
+static bool dialog_list_list_has_been_initialised = FALSE;
 
 static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
 						 struct player *plr1);
@@ -278,7 +291,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   if (!titles) titles = intl_slist(1, titles_);
   
   pdialog=fc_malloc(sizeof(struct Diplomacy_dialog));
-  genlist_insert(&diplomacy_dialogs, pdialog, 0);
+  dialog_list_insert(&dialog_list, pdialog);
   
   init_treaty(&pdialog->treaty, plr0, plr1);
   
@@ -822,7 +835,7 @@ void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
   gtk_widget_destroy(pdialog->dip_dialog_shell);
   
-  genlist_unlink(&diplomacy_dialogs, pdialog);
+  dialog_list_unlink(&dialog_list, pdialog);
   free(pdialog);
 }
 
@@ -832,22 +845,18 @@ void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 static struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0, 
 						      struct player *plr1)
 {
-  struct genlist_iterator myiter;
+  if(!dialog_list_list_has_been_initialised) {
+    dialog_list_init(&dialog_list);
+    dialog_list_list_has_been_initialised = TUR;
+  }
 
-  if(!diplomacy_dialogs_list_has_been_initialised) {
-    genlist_init(&diplomacy_dialogs);
-    diplomacy_dialogs_list_has_been_initialised=1;
-  }
-  
-  genlist_iterator_init(&myiter, &diplomacy_dialogs, 0);
-    
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct Diplomacy_dialog *pdialog=
-      (struct Diplomacy_dialog *)ITERATOR_PTR(myiter);
-    if((pdialog->treaty.plr0==plr0 && pdialog->treaty.plr1==plr1) ||
-       (pdialog->treaty.plr0==plr1 && pdialog->treaty.plr1==plr0))
+  dialog_list_iterate(dialog_list, pdialog) {
+    if ((pdialog->treaty.plr0 == plr0 && pdialog->treaty.plr1 == plr1) ||
+	(pdialog->treaty.plr0 == plr1 && pdialog->treaty.plr1 == plr0)) {
       return pdialog;
-  }
+    }
+  } dialog_list_iterate_end;
+
   return NULL;
 }
 
@@ -856,17 +865,12 @@ static struct Diplomacy_dialog *find_diplomacy_dialog(struct player *plr0,
 *****************************************************************/
 static struct Diplomacy_dialog *find_diplomacy_by_input(GtkWidget *w)
 {
-  struct genlist_iterator myiter;
-  
-  genlist_iterator_init(&myiter, &diplomacy_dialogs, 0);
-    
-  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-    struct Diplomacy_dialog *pdialog=
-      (struct Diplomacy_dialog *)ITERATOR_PTR(myiter);
-    if((pdialog->dip_gold_entry0==w) || (pdialog->dip_gold_entry1==w)) {
+  dialog_list_iterate(dialog_list, pdialog) {
+    if ((pdialog->dip_gold_input0 == w) || (pdialog->dip_gold_input1 == w)) {
       return pdialog;
     }
-  }
+  } dialog_list_iterate_end;
+
   return NULL;
 }
 
@@ -909,13 +913,11 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
 *****************************************************************/
 void close_all_diplomacy_dialogs(void)
 {
-  struct Diplomacy_dialog *pdialog;
-  
-  if (!diplomacy_dialogs_list_has_been_initialised) {
+  if (!dialog_list_list_has_been_initialised) {
     return;
   }
-  while (genlist_size(&diplomacy_dialogs)) {
-    pdialog = genlist_get(&diplomacy_dialogs, 0);
-    close_diplomacy_dialog(pdialog);
+
+  while (dialog_list_size(&dialog_list) > 0) {
+    close_diplomacy_dialog(dialog_list_get(&dialog_list, 0));
   }
 }

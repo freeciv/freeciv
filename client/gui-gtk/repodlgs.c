@@ -657,8 +657,6 @@ void economy_close_callback(GtkWidget *w, gpointer data)
 void economy_selloff_callback(GtkWidget *w, gpointer data)
 {
   int i,count=0,gold=0;
-  struct genlist_iterator myiter;
-  struct city *pcity;
   struct packet_city_request packet;
   char str[64];
   GList              *selection;
@@ -669,9 +667,7 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
 
   i=economy_improvement_type[row];
 
-  genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
-  for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
-    pcity=(struct city *)ITERATOR_PTR(myiter);
+  city_list_iterate(game.player_ptr->cities, pcity) {
     if(!pcity->did_sell && city_got_building(pcity, i) && 
        (data ||
 	improvement_obsolete(game.player_ptr,i) ||
@@ -681,7 +677,8 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
         packet.build_id=i;
         send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
     }
-  }
+  } city_list_iterate_end;
+
   if(count)  {
     my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"),
 		count, get_improvement_name(i), gold);

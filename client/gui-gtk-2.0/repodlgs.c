@@ -680,8 +680,6 @@ static void economy_destroy_callback(GtkWidget *w, gpointer data)
 static void economy_command_callback(GtkWidget *w, gint response_id)
 {
   int i, count = 0, gold = 0;
-  struct genlist_iterator myiter;
-  struct city *pcity;
   struct packet_city_request packet;
   gint row;
   GtkWidget *shell;
@@ -696,10 +694,7 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
   row = gtk_tree_selection_get_row(economy_selection);
   i = economy_improvement_type[row];
 
-  genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
-  for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
-    pcity=(struct city *)ITERATOR_PTR(myiter);
-
+  city_list_iterate(game.player_ptr->cities, pcity) {
     if(!pcity->did_sell && city_got_building(pcity, i) && 
        (response_id == 2 ||
 	improvement_obsolete(game.player_ptr,i) ||
@@ -709,7 +704,7 @@ static void economy_command_callback(GtkWidget *w, gint response_id)
         packet.build_id=i;
         send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
     }
-  }
+  } city_list_iterate_end;
 
   if (count > 0) {
     shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
