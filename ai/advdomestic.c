@@ -172,7 +172,7 @@ printf("Id: %d, P: %d\n", id, p);*/
  
 void ai_eval_buildings(struct city *pcity)
 {
-  int i, gov, tech, val, a, t, food, j, k, hunger, bar, grana;
+  int i, gov, val, a, t, food, j, k, hunger, bar, grana;
   int tax, prod, sci, values[B_LAST];
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   struct player *pplayer = city_owner(pcity);
@@ -206,7 +206,6 @@ void ai_eval_buildings(struct city *pcity)
   else hunger = 1;
 
   gov = get_government(pcity->owner);
-  tech = (pplayer->research.researching != A_NONE);
 
   for (i=0;i<B_LAST;i++) {
     values[i]=0;
