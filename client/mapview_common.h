@@ -199,7 +199,7 @@ enum update_type {
 	if (GRI_x_itr < GRI_x1 - 1) {					    \
 	  draw |= D_R;							    \
 	}								    \
-	if (GRI_y_itr > GRI_y0) {					    \
+	if (GRI_y_itr > GRI_y0 && GRI_y_itr < GRI_y1 - 1) {		    \
 	  draw |= D_M;							    \
 	}								    \
 	if (GRI_y_itr > GRI_y0 + 1) {					    \
