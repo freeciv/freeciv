@@ -237,7 +237,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
      * we don't care, though. */
     if (ai->diplomacy.acceptable_reputation > aplayer->reputation
         && ai->diplomacy.strategy != WIN_SPACE) {
-      notify(aplayer, _("*%s (AI)* Begone scroundel, we all know that"
+      notify(aplayer, _("*%s (AI)* Begone scoundrel, we all know that"
              " you cannot be trusted!"), pplayer->name);
       worth = -BIG_NUMBER;
       break;
