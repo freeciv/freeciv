@@ -519,6 +519,8 @@ referencing entities. This results in a lot of mess and unnecessary duplicate
 functions. Often when programming, one wonders if some function needs
 the id or a pointer when referring to an entity. -PU]
 
+The paragraph above isn't true anymore for player, units and cities. -RF
+
 ===========================================================================
 
 Player-related entities in Freeciv - by rp@win.tue.nl 
