@@ -3059,6 +3059,28 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
   int capacity = get_transporter_capacity(ptrans);
   struct tile *ptile = map_get_tile(x, y);
 
+  /*** FIXME: We kludge AI compatability problems with the new code away here ***/
+  if (is_sailing_unit(ptrans)
+      && is_ground_units_transport(ptrans)
+      && unit_owner(ptrans)->ai.control) {
+    unit_list_iterate(ptile->units, pcargo) {
+      if (pcargo->owner == playerid) {
+	pcargo->transported_by = -1;
+      }
+    } unit_list_iterate_end;
+
+    unit_list_iterate(ptile->units, pcargo) {
+      if ((ptile->terrain == T_OCEAN || pcargo->activity == ACTIVITY_SENTRY)
+	  && capacity > 0
+	  && is_ground_unit(pcargo)
+	  && pcargo->owner == playerid) {
+	pcargo->transported_by = ptrans->id;
+	capacity--;
+      }
+    } unit_list_iterate_end;
+    return;
+  }
+
   /*** Ground units transports first ***/
   if (is_ground_units_transport(ptrans)) {
     int available = ground_unit_transporter_capacity(x, y, playerid);

@@ -1004,7 +1004,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
     int src_y = punit->y;
     int move_cost = map_move_cost(punit, dest_x, dest_y);
     /* The ai should assign the relevant units itself, but for now leave this */
-    int take_from_land = punit->activity == ACTIVITY_IDLE || pplayer->ai.control;
+    int take_from_land = punit->activity == ACTIVITY_IDLE;
     int survived;
 
     survived = move_unit(punit, dest_x, dest_y, 1, take_from_land, move_cost);
