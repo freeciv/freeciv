@@ -98,7 +98,7 @@ enum pf_node_status {
  * (aka internal buffer); index is map_pos_to_index(x, y);
  */
 struct pf_map {
-  short x, y;			/* The current position */
+  int x, y;			/* The current position */
   index_t index;		/* Current offset into lattice */
   struct pf_parameter *params;  /* Initial parameters */
   struct pqueue *queue;         /* Queue of nodes we have reached but not 
