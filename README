@@ -14,7 +14,7 @@ on your machine.  It's really not very hard.
 
 Please notice: Freeciv *must* be linked with the _real_ Athena widget 
                library(libXaw), and not one of the substitutions like 
-	       libXaw3d etc.  If Freeciv is linked with a substitute, the
+               libXaw3d etc.  If Freeciv is linked with a substitute, the
                client will crash.
 
 Starting a new game:
@@ -28,21 +28,22 @@ Server:
 
   get a list of the available commands with 'h':
   >h
-  Available commands
+  Available commands: (P=player, M=message, F=file)
   -------------------------------------
-  c P       - cut connection to player
-  h         - this help
-  l         - list players
-  q         - quit game and shutdown server
-  remove P  - fully remove player from game
-  score     - show current score
-  show      - list server options
-  help      - help on server options
-  set       - set options
-  s         - start game
-  meta S    - set the metastring to S
-  ai <name> - set player <NAME> to be an ai player
-  create P  - create an AI player, with name P. Startup only
+  c P      - cut connection to player
+  h        - this help
+  l        - list players
+  q        - quit game and shutdown server
+  remove P - fully remove player from game
+  score    - show current score
+  save F   - save game as file F
+  show     - list server options
+  help     - help on server options
+  meta T   - Set meta-server infoline to T
+  ai P     - toggles AI on player
+  create P - creates an AI player
+  set      - set options
+  s        - start game
 
   Now use the 'set' command to set the various variables for the game. 
   You can get a list of the variables with the 'show' command.
@@ -67,14 +68,22 @@ Client:
 
   % civclient -server io
 
+  If the Freeciv server is running on the same machine as the Freeciv
+  client, then there's no need to specify the server, as the default in
+  the dialog box when the client starts will be "localhost", which means
+  your computer.
+
 Computer Player:
-   For each computer player that you wish to have, you have two choices.
-   The simplist is to type "create (playername)" on the server. Please note,
-   you will still need at least one player connected to start a game. The
-   second choice is to start one or more additional clients, and to to type
-   "ai (playername)" once the game has started. If you use the second method 
-   to create an AI player, once the game has started, you can close the
-   extra client screens.
+  To start an ai player, you must use the <create> command from the server.  
+  For example
+  > create HumanKiller
+  This will start up an ai player called HumanKiller.  Once the game starts and
+  all of the human players have chosen their tribes, the ai players will be
+  assigned to tribes.  You can force the ai to play a specific tribe by giving
+  it the normal name for that nation's leader.  For example
+  > create Ceasar
+  Will start an ai player as the Romans.  Unless you take precautions, this
+  player can be usurped.
 
 Server:
   When everybody has joined (use the (l)ist command to see who's in), the
@@ -84,7 +93,10 @@ Server:
 
 And the game is on!
 
-
+Note:  If you don't want to send information to the metaserver when you start
+the game you can give the server the --nometa flag, or just -n for short.
+Also, for those people who have used older versions which had ai (eg, 1.5.4),
+you nolonger have to open a client to get ai to work.
 
 Playing the game:
 =================

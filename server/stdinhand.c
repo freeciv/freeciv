@@ -499,7 +499,7 @@ void quit_game(void)
 **************************************************************************/
 void show_help(void)
 {
-  puts("Available commands");
+  puts("Available commands: (P=player, M=message, F=file)");
   puts("-------------------------------------");
   puts("c P      - cut connection to player");
   puts("h        - this help");
