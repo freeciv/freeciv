@@ -116,6 +116,10 @@ static struct player *create_barbarian_player(bool land)
   barbarians->nation = game.nation_count - 1;
   pick_ai_player_name(game.nation_count - 1, barbarians->name);
 
+  game.nplayers++;
+  game.nbarbarians++;
+  game.max_players = game.nplayers;
+
   sz_strlcpy(barbarians->username, "Barbarians");
   barbarians->is_connected = FALSE;
   barbarians->government = game.government_when_anarchy; 
@@ -137,13 +141,11 @@ static struct player *create_barbarian_player(bool land)
 
   /* Ensure that we are at war with everyone else */
   players_iterate(pplayer) {
-    pplayer->diplstates[barbarians->player_no].type = DS_WAR;
-    barbarians->diplstates[pplayer->player_no].type = DS_WAR;
+    if (pplayer != barbarians) {
+      pplayer->diplstates[barbarians->player_no].type = DS_WAR;
+      barbarians->diplstates[pplayer->player_no].type = DS_WAR;
+    }
   } players_iterate_end;
-
-  game.nplayers++;
-  game.nbarbarians++;
-  game.max_players = game.nplayers;
 
   freelog(LOG_VERBOSE, "Created barbarian %s, player %d",
           barbarians->name, barbarians->player_no);
