@@ -3,7 +3,7 @@
 name=_("Chilean")
 plural=_("?plural:Chileans")
 leader="Pedro de Valdivia", "Bernardo O'Higgins", "José Miguel Carrera",
-       "Blanco Encalada", "Diego Portales", "Manuel Montt",
+       "Manuel Blanco Encalada", "Diego Portales", "Manuel Montt",
        "Arturo Alessandri", "Augusto Pinochet"
 leader_sex="Male", "Male", "Male",
            "Male", "Male", "Male",
@@ -32,12 +32,15 @@ government="Democracy"
 cities =
   "Santiago", "La Serena", "Concepción", "Valparaíso", "Rancagua",
   "Talca", "Punta Arenas", "Copiapó", "Puerto Montt", "Antofagasta",
-  "Iquique", "Coyhaique", "Temuco", "Calama", "Puerto Varas",
-  "Llanquihue", "Castro", "Osorno", "Valdivia", "Talcahuano",
-  "Coquimbo", "La Calera", "Ancud", "Arica", "San Antonio", "Chillán",
-  "Viña del mar", "Constitución", "Chañaral", "Cauquenes",
-  "Puerto Natales", "Lota", "Ovalle", "Huasco", "Mejillones",
-  "Victoria", "San Felipe", "Frutillar", "Illapel", "Angol",
-  "San Fernando", "Toltén", "Curicó", "Pisagua", "Tocopilla",
-  "Vallenar", "Caldera", "Lebu", "La Ligua", "Villarrica",
-  "Pucón", "Mulchén", "Taltal", "Putre", "Cachiyuyo"
+  "Iquique", "Coyhaique", "Temuco", "Viña del mar", "Coquimbo",
+  "San Antonio", "La Calera", "Chillán", "Talcahuano", "Osorno",
+  "Valdivia", "Puerto Varas", "Llanquihue", "Ancud", "Castro", "Calama",
+  "Arica", "Constitución", "Chañaral", "Cauquenes", "Puente alto",
+  "Talagante", "Melipilla", "Peumo", "Puerto Natales", "Lota", "Ovalle",
+  "Huasco", "Mejillones", "Victoria", "San Felipe", "Frutillar",
+  "Illapel", "Angol", "San Fernando", "Toltén", "Curicó", "Pisagua",
+  "Tocopilla", "Vallenar", "Caldera", "Lebu", "La Ligua", "Villarrica",
+  "Pucón", "Mulchén", "Taltal", "Putre", "Vicuña", "Combarbalá",
+  "Los Andes", "Quillota", "Molina", "Chanco", "Parral", "Bulnes",
+  "Yungay", "Coronel", "Yumbel", "Traiguén", "Pitrufquén", "Calbuco",
+  "Maullín", "Pelequén", "Cachiyuyo"
