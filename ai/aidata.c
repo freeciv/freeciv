@@ -409,11 +409,23 @@ void ai_data_turn_done(struct player *pplayer)
 {
   struct ai_data *ai = &aidata[pplayer->player_no];
 
-  free(ai->explore.ocean);     ai->explore.ocean = NULL;
-  free(ai->explore.continent); ai->explore.continent = NULL;
-  free(ai->threats.continent); ai->threats.continent = NULL;
-  free(ai->stats.workers);     ai->stats.workers = NULL;
-  free(ai->stats.cities);      ai->stats.cities = NULL;
+  free(ai->explore.ocean);
+  ai->explore.ocean = NULL;
+
+  free(ai->explore.continent);
+  ai->explore.continent = NULL;
+
+  free(ai->threats.continent);
+  ai->threats.continent = NULL;
+
+  free(ai->threats.ocean);
+  ai->threats.ocean = NULL;
+
+  free(ai->stats.workers);
+  ai->stats.workers = NULL;
+
+  free(ai->stats.cities);
+  ai->stats.cities = NULL;
 }
 
 /**************************************************************************
