@@ -1193,6 +1193,8 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 	    get_nation_name_plural(pplayer->nation));
     remove_city_from_minimap(pcity->x, pcity->y);
     remove_city(pcity);
+    if (do_civil_war)
+      civil_war(cplayer);
     return;
   }
 

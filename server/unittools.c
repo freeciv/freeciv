@@ -733,8 +733,9 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
 
 void resolve_unit_stack(int x, int y, int verbose)
 {
-  struct unit *punit = unit_list_get(&map_get_tile(x, y)->units, 0), *cunit;
+  struct unit *punit, *cunit;
 
+  punit = unit_list_get(&map_get_tile(x, y)->units, 0);
   if (!punit)
     return;
   cunit = is_enemy_unit_on_tile(x, y, punit->owner);
@@ -767,6 +768,8 @@ void resolve_unit_stack(int x, int y, int verbose)
     }
     
     punit = unit_list_get(&map_get_tile(x, y)->units, 0);
+    if (!punit)
+      break;
     cunit = is_enemy_unit_on_tile(x, y, punit->owner);
   }
 

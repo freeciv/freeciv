@@ -605,6 +605,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 			 struct city *pcity, struct city *vcity, 
 			 int kill_outside, int verbose, int resolve_stack)
 {
+  int ux, uy;
   int x = vcity->x;
   int y = vcity->y;
 
@@ -628,7 +629,6 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
    * cities or maybe destroyed */
   unit_list_iterate(vcity->units_supported, vunit) {
     struct city* new_home_city = map_get_city(vunit->x, vunit->y);
-    x = vunit->x; y = vunit->y;
     if(new_home_city) {
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
@@ -675,12 +675,15 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 		       vunit->veteran, pcity->id, vunit->moves_left,
 		       vunit->hp);
     }
+
+    ux = vunit->x;
+    uy = vunit->y;
     wipe_unit_spec_safe(0, vunit, NULL, 0);
-    
-    if (resolve_stack) {
-    /* Now make sure that if we just deleted a transporter the carried units are
-       not left floating in the water */
-      resolve_unit_stack(x,y,1);
+
+    if (resolve_stack && !new_home_city) {
+      /* Now make sure that if we just deleted a transporter the
+	 carried units are not left floating in the water */
+      resolve_unit_stack(ux, uy, 1);
     }
   }
   unit_list_iterate_end;
@@ -952,9 +955,12 @@ void civil_war(struct player *pplayer)
 	 a unit from another city, and both cities join the rebellion. We
 	 resolved stack conflicts for each city we would teleport the first
 	 of the units we met since the other would have another owner */
-	if(!(pnewcity = transfer_city(cplayer, pplayer, pcity, -1, 0, 1))){
+	if(!(pnewcity = transfer_city(cplayer, pplayer, pcity, -1, 0, 0))){
 	   freelog(LOG_VERBOSE,
 		   "Transfer city returned no city - aborting civil war.");
+	   unit_list_iterate(pplayer->units, punit) 
+	     resolve_unit_stack(punit->x, punit->y, 0);
+	   unit_list_iterate_end;
 	   return;
 	}
 	
