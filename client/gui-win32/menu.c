@@ -117,7 +117,6 @@ enum MenuID {
   IDM_ORDERS_SENTRY,
   IDM_ORDERS_PILLAGE,
   IDM_ORDERS_HOMECITY,
-  IDM_ORDERS_UNLOAD_TRANSPORTER,
   IDM_ORDERS_LOAD,
   IDM_ORDERS_UNLOAD,
   IDM_ORDERS_WAKEUP_OTHERS,
@@ -319,7 +318,7 @@ static struct my_menu main_menu[] = {
   {N_("Tax Rates")		"\tShift+T",	IDM_GOVERNMENT_TAX_RATE},
   { "", IDM_SEPARATOR},
   {N_("_Find City")		"\tCtl+F",	IDM_GOVERNMENT_FIND_CITY},
-  {N_("Work_lists")		"\tShift+L",	IDM_GOVERNMENT_WORKLISTS},
+  {N_("Work_lists")		"\tCtl+W",	IDM_GOVERNMENT_WORKLISTS},
   { "", IDM_SEPARATOR},
   {N_("_Change Government"),			IDM_SUBMENU},
   {N_("_Revolution"),				IDM_GOVERNMENT_REVOLUTION},
@@ -367,9 +366,8 @@ static struct my_menu main_menu[] = {
   {N_("Pillage")		"\tShift+P",	IDM_ORDERS_PILLAGE},
   {"", IDM_SEPARATOR},
   {N_("Make _Homecity")		"\tH",		IDM_ORDERS_HOMECITY},
-  {N_("_Load")			"\tShift+L",	IDM_ORDERS_LOAD},
-  {N_("_Unload Transporter")	"\tU",		IDM_ORDERS_UNLOAD_TRANSPORTER},
-  {N_("_Unload")		"\tShift+U",	IDM_ORDERS_UNLOAD},
+  {N_("_Load")			"\tL",		IDM_ORDERS_LOAD},
+  {N_("_Unload")		"\tU",		IDM_ORDERS_UNLOAD},
   {N_("Wake up o_thers")	"\tShift+W",	IDM_ORDERS_WAKEUP_OTHERS},
   {"", IDM_SEPARATOR},
   {N_("Auto Settler")		"\tA",		IDM_ORDERS_AUTO_SETTLER},
@@ -381,7 +379,7 @@ static struct my_menu main_menu[] = {
   {NULL, 0},
   {N_("Patrol")			"\tQ",		IDM_ORDERS_PATROL},
   {N_("_Go to")			"\tG",		IDM_ORDERS_GOTO},
-  {N_("Go/Airlift to City")	"\tL",		IDM_ORDERS_GOTO_CITY},
+  {N_("Go/Airlift to City")	"\tShift+L",	IDM_ORDERS_GOTO_CITY},
   {N_("Return to nearest city") "\tShift+G",	IDM_ORDERS_RETURN},
   {"", IDM_SEPARATOR},
   {N_("Disband Unit")		"\tShift+D",	IDM_ORDERS_DISBAND},
@@ -746,14 +744,19 @@ void handle_menu(int code)
     case IDM_ORDERS_HOMECITY:
       key_unit_homecity();
       break;
-    case IDM_ORDERS_UNLOAD_TRANSPORTER:
-      key_unit_unload_all();
-      break;
     case IDM_ORDERS_LOAD:
       request_unit_load(get_unit_in_focus(), NULL);
       break;
     case IDM_ORDERS_UNLOAD:
-      request_unit_unload(get_unit_in_focus());
+      if (get_unit_in_focus()) {
+	struct unit *punit = get_unit_in_focus();
+	if (can_unit_unload(punit, find_unit_by_id(punit->transported_by))
+	 && can_unit_exist_at_tile(punit, punit->tile)) {
+	  request_unit_unload(punit);
+	} else if (get_transporter_capacity(punit) > 0) {
+	  key_unit_unload_all();
+	}
+      }
       break;
     case IDM_ORDERS_WAKEUP_OTHERS:
       key_unit_wakeup_others();
@@ -922,9 +925,42 @@ void handle_menu(int code)
 /**************************************************************************
   Rename an item in the menu by id.
 **************************************************************************/
-static void my_rename_menu(HMENU hmenu,int id,char *newstr)
+static void my_rename_menu(HMENU hmenu, int id, char *name)
 {
-  ModifyMenu(hmenu,id,MF_BYCOMMAND|MF_STRING,id,newstr);
+  char menustr[256];
+  char *tr;
+  char translated[256];
+  char *accel;
+  char *menustr_p;
+  sz_strlcpy(menustr, name);
+  if ((accel = strchr(menustr, '\t'))) {
+    accel[0]=0;
+    accel++;
+  }
+  tr=_(menustr);
+  sz_strlcpy(translated, tr);
+  if (accel) {
+    sz_strlcat(translated, "\t");
+    sz_strlcat(translated, accel);
+  }
+  menustr_p = menustr;
+  tr = translated;
+  while(*tr) {
+    if (*tr == '_') {
+      *menustr_p = '&';
+    } else {  
+      if (*tr == '&') {
+	*menustr_p = '&';
+	menustr_p++;
+      }
+      *menustr_p = *tr;
+    }
+    tr++;
+    menustr_p++;
+  }
+  *menustr_p = '\0';
+
+  ModifyMenu(hmenu, id, MF_BYCOMMAND | MF_STRING, id, menustr);
 }
 
 /**************************************************************************
@@ -1059,6 +1095,8 @@ update_menus(void)
       my_enable_menu(menu, IDM_ORDERS_PATROL, TRUE);
       my_enable_menu(menu, IDM_ORDERS_GOTO, TRUE);
       my_enable_menu(menu, IDM_ORDERS_GOTO_CITY, TRUE);
+      my_enable_menu(menu, IDM_ORDERS_WAIT, TRUE);
+      my_enable_menu(menu, IDM_ORDERS_DONE, TRUE);
 
       /* Enable the button for adding to a city in all cases, so we
 	 get an eventual error message from the server if we try. */
@@ -1093,14 +1131,13 @@ update_menus(void)
 		     !unit_flag(punit, F_UNDISBANDABLE));
       my_enable_menu(menu, IDM_ORDERS_HOMECITY,
 		     can_unit_change_homecity(punit));
-      my_enable_menu(menu, IDM_ORDERS_UNLOAD_TRANSPORTER,
-		     get_transporter_capacity(punit)>0);
       my_enable_menu(menu, IDM_ORDERS_LOAD,
 	can_unit_load(punit, find_transporter_for_unit(punit,
 						       punit->tile)));
       my_enable_menu(menu, IDM_ORDERS_UNLOAD,
-	can_unit_unload(punit, find_unit_by_id(punit->transported_by))
-	&& can_unit_exist_at_tile(punit, punit->tile));
+	(can_unit_unload(punit, find_unit_by_id(punit->transported_by))
+	 && can_unit_exist_at_tile(punit, punit->tile)) 
+	|| get_transporter_capacity(punit) > 0);
       my_enable_menu(menu, IDM_ORDERS_WAKEUP_OTHERS,
 		     is_unit_activity_on_tile(ACTIVITY_SENTRY,
 					      punit->tile));
