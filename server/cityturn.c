@@ -1461,16 +1461,15 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 		       pcity->name, 
 		       unit_types[pcity->currently_building].name);
 
-      /* If there's something in the worklist, change the build target. 
-	 If there's nothing there, worklist_change_build_target won't
-	 do anything. */
-      worklist_change_build_target(pplayer, pcity);
-
-
       gamelog(GAMELOG_UNIT, "%s build %s in %s (%i,%i)",
 	      get_nation_name_plural(pplayer->nation), 
 	      unit_types[pcity->currently_building].name,
 	      pcity->name, pcity->x, pcity->y);
+
+      /* If there's something in the worklist, change the build target. 
+	 If there's nothing there, worklist_change_build_target won't
+	 do anything. */
+      worklist_change_build_target(pplayer, pcity);
     }
   }
 
