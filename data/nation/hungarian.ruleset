@@ -2,8 +2,9 @@
 
 name=_("Hungarian")
 plural=_("?plural:Hungarians")
-leader="Arpad", "Stephen", "Bela", "Mary", "Louis"
-leader_sex="Male", "Male", "Male", "Female", "Male"
+leader="Árpád", "Szent István", "Károly Róbert",
+       "Hunyadi Mátyás", "Mária Terézia", "Batthyány"
+leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
 flag="f.hungary"
 flag_alt = "-"
 city_style = "European"
@@ -13,15 +14,25 @@ expand=0
 civilized=2
 advisors=100,100,100,100,100,100,100
 init_techs=""
-tech_goals = "The Republic", "Iron Working", "Theology", "Gunpowder",
-             "Railroad"
+
+tech_goals = "The Republic", "Iron Working", "Chivalry", "Theology",
+             "Gunpowder", "Railroad", "Industrialization"
 wonder="J.S. Bach's Cathedral"
 government="Republic"
 
 cities =
- "Budapest", "Szeged", "Debrecen", "Pécs", "Székesfehervár",
- "Györ", "Kolosvár", "Temesvar", "Mohacs", "Szombathely",
- "Veszprém", "Miskolc", "Nyiregyhaza", "Sopron", "Kaposvár",
- "Kecskemét", "Eger", "Szolnok", "Békécsaba", "Szekszárd",
- "Esztergom", "Nagykanizsa", "Varazdin", "Zalaegerszeg",
- "Dunaujváros", "Paks", "Szentes", "Bonyhád", "Siklós", "Tokaj"
+ "Budapest", "Debrecen", "Székesfehérvár", "Kolozsvár", "Szeged",
+ "Kassa", "Pécs", "Pozsony", "Miskolc", "Nagyvárad", "Gyõr",
+ "Esztergom", "Temesvár", "Komárom", "Nyíregyháza", "Marosvásárhely",
+ "Sopron", "Szabadka", "Kecskemét", "Veszprém", "Besztercebánya",
+ "Békéscsaba", "Munkács", "Eger", "Eperjes", "Gyulafehérvár", "Kaposvár",
+ "Szolnok", "Paks", "Zalaegerszeg", "Arad", "Szombathely",
+ "Mohács", "Hatvan", "Selmecbánya", "Keszthely", "Ungvár", "Szekszárd",
+ "Sárospatak", "Tatabánya", "Baja", "Szigetvár", "Csíkszereda",
+ "Nagykanizsa", "Hódmezõvásárhely", "Siklós", "Érsekújvár", "Pápa",
+ "Gyöngyös",  "Dunaújváros", "Szatmárnémeti", "Szentes",
+ "Mosonmagyaróvár",  "Léva", "Szarvas", "Csáktornya",
+ "Mátészalka", "Tata", "Nagykõrös", "Nagyszeben",
+ "Salgótarján", "Újvidék", "Siófok", "Losonc", "Gyula",
+ "Sátoraljaújhely", "Déva", "Tapolca", "Tiszaújváros", "Dombóvár",
+ "Püspökladány", "Balatonfüred", "Vác"
