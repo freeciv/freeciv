@@ -2247,7 +2247,7 @@ static void hut_get_city(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   
-  if (city_can_be_built_here(punit->x, punit->y)) {
+  if (city_can_be_built_here(punit->x, punit->y, punit)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_HUT_CITY,
 		     _("Game: You found a friendly city."));
     create_city(pplayer, punit->x, punit->y,

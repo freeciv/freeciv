@@ -817,11 +817,17 @@ int base_city_get_food_tile(int x, int y, struct city *pcity,
 }
 
 /**************************************************************************
-...
+  Returns TRUE if the given unit can build a city at the given map
+  coordinates.
 **************************************************************************/
-bool city_can_be_built_here(int x, int y)
+bool city_can_be_built_here(int x, int y, struct unit *punit)
 {
-  if (is_ocean(map_get_terrain(x, y))) {
+  enum unit_move_type move_type = unit_type(punit)->move_type;
+
+  /* We allow land units to build land cities and sea units to build
+   * ocean cities. */
+  if ((move_type == LAND_MOVING && is_ocean(map_get_terrain(x, y)))
+      || (move_type == SEA_MOVING && !is_ocean(map_get_terrain(x, y)))) {
     return FALSE;
   }
 

@@ -455,8 +455,9 @@ enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
       return AB_NOT_BUILD_UNIT;
     if (punit->moves_left == 0)
       return AB_NO_MOVES_BUILD;
-    if (!city_can_be_built_here(punit->x, punit->y))
+    if (!city_can_be_built_here(punit->x, punit->y, punit)) {
       return AB_NOT_BUILD_LOC;
+    }
     return AB_BUILD_OK;
   }
   

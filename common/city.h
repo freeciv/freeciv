@@ -393,7 +393,7 @@ void get_worker_on_map_position(int map_x, int map_y,
 				struct city **result_pcity);
 bool is_worker_here(struct city *pcity, int city_x, int city_y);
 
-bool city_can_be_built_here(int x, int y);
+bool city_can_be_built_here(int x, int y, struct unit *punit);
 
 /* trade functions */
 bool can_cities_trade(struct city *pc1, struct city *pc2);

@@ -137,7 +137,8 @@ static void check_cities(void)
       } unit_list_iterate_end;
 
       assert(is_normal_map_pos(pcity->x, pcity->y));
-      assert(!is_ocean(map_get_terrain(pcity->x, pcity->y)));
+
+      /* Note that cities may be found on land or water. */
 
       city_map_iterate(x, y) {
 	int map_x,map_y;
@@ -238,9 +239,7 @@ static void check_units(void) {
       pcity = map_get_city(x, y);
       if (pcity) {
 	assert(pplayers_allied(city_owner(pcity), pplayer));
-      }
-
-      if (is_ocean(map_get_terrain(x, y))) {
+      } else if (is_ocean(map_get_terrain(x, y))) {
 	assert(ground_unit_transporter_capacity(x, y, pplayer) >= 0);
       }
 

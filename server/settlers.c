@@ -932,11 +932,10 @@ static int evaluate_city_building(struct unit *punit,
     int b, mv_cost, newv, moves = 0;
 
     if (!is_already_assigned(punit, pplayer, x, y)
-	&& !is_ocean(map_get_terrain(x, y))
+	&& city_can_be_built_here(x, y, punit)
 	&& !BV_CHECK_MASK(territory[x][y], my_enemies)
 	/* pretty good, hope it's enough! -- Syela */
 	&& (near < 8 || map_get_continent(x, y) != ucont)
-	&& city_can_be_built_here(x,y)
 	&& !city_exists_within_city_radius(x, y, FALSE)) {
 
       /* potential target, calculate mv_cost: */
