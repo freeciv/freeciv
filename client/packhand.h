@@ -72,4 +72,8 @@ void notify_about_outgoing_packet(struct connection *pc,
 				  int packet_type, int size,
 				  int request_id);
 void set_reports_thaw_request(int request_id);
+
+void target_government_init(void);
+void set_government_choice(int government);
+
 #endif /* FC__PACKHAND_H */

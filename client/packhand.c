@@ -1213,6 +1213,62 @@ static void read_player_info_techs(struct player *pplayer,
 }
 
 /**************************************************************************
+  government_selected will be set if the player has chosen a 'target'
+  government.  If so, then government_choice holds that government value.
+**************************************************************************/
+static bool government_selected = FALSE;
+static int government_choice;
+
+/**************************************************************************
+  Reset the target government (for instance when you disconnect from a
+  server).
+**************************************************************************/
+void target_government_init(void)
+{
+  /* We have to reset this, otherwise if we joined a new game where we
+   * were already in anarchy, odd behavior would result. */
+  government_selected = FALSE;
+}
+
+/**************************************************************************
+  Sets the target government.  This will automatically start a revolution
+  if the target government differs from the current one.
+**************************************************************************/
+void set_government_choice(int government)
+{
+  if (!government_selected
+      && government != game.player_ptr->government
+      && can_client_issue_orders()) {
+    struct packet_player_request packet;
+
+    send_packet_player_request(&aconnection, &packet,
+			       PACKET_PLAYER_REVOLUTION);
+    government_selected = TRUE;
+  }
+  government_choice = government;
+}
+
+/**************************************************************************
+  Choose the government after a revolution completes, either by taking the
+  government that the player has already specified or by popping up a
+  dialog to ask.
+**************************************************************************/
+static void choose_government(void)
+{
+  if (government_selected) {
+    struct packet_player_request packet;
+
+    packet.government = government_choice;
+    send_packet_player_request(&aconnection, &packet,
+			       PACKET_PLAYER_GOVERNMENT);
+
+    government_selected = FALSE;
+  } else {
+    popup_government_dialog();
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void handle_player_info(struct packet_player_info *pinfo)
@@ -1296,7 +1352,8 @@ void handle_player_info(struct packet_player_info *pinfo)
       (!game.player_ptr->ai.control || ai_popup_windows) &&
       can_client_change_view()) {
     create_event(-1, -1, E_REVOLT_DONE, _("Game: Revolution finished"));
-    popup_government_dialog();
+
+    choose_government();
   }
   
   update_players_dialog();
