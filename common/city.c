@@ -1088,7 +1088,7 @@ int get_shields_tile(int x, int y, struct city *pcity)
   if (s>2 && gov <=G_DESPOTISM) 
     s--;
   if (spec_t & S_POLLUTION)
-    s-=(s*terrain_control.pollution_trade_penalty)/100; /* The shields here is icky */
+    s-=(s*terrain_control.pollution_shield_penalty)/100; /* The shields here is icky */
   return s;
 }
 
