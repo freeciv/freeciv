@@ -52,6 +52,7 @@ client/climisc.c
 client/clinet.c
 client/control.c
 client/helpdata.c
+client/mapctrl_common.c
 client/messagewin_common.c
 client/options.c
 client/packhand.c
@@ -151,6 +152,7 @@ client/gui-sdl/messagewin.c
 client/gui-sdl/optiondlg.c
 client/gui-sdl/plrdlg.c
 client/gui-sdl/repodlgs.c
+client-gui-sdl/spaceshipdlg.c
 client/gui-sdl/wldlg.c
 client/gui-win32/chatline.c
 client/gui-win32/citydlg.c
