@@ -48,11 +48,11 @@ static void handle_alloc_failure(size_t size, const char *called_as,
 static void sanity_check_size(size_t size, const char *called_as,
 			      int line, const char *file)
 {
-  /* We're not allowed to allocate more than 20 Mb - the program will exit
+  /* We're not allowed to allocate more than 30 Mb - the program will exit
    * if someone tries.  This is a sanity measure since some parts of the code
    * could try to allocate unboundedly large amounts of memory if given the
    * wrong input. */
-  const size_t max_alloc_size = 20 * (1 << 20);
+  const size_t max_alloc_size = 30 * (1 << 20);
 
   if (size == 0) {
     freelog(LOG_VERBOSE, "Warning: %s with size %lu at line %d of %s",
