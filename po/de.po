@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.13\n"
-"POT-Creation-Date: 2002-07-10 21:08+0200\n"
+"POT-Creation-Date: 2002-07-11 21:13+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -720,17 +720,17 @@ msgstr "Spiel: %s baut %s%s."
 msgid "Game: %s is building %s."
 msgstr "Spiel: %s baut %s."
 
-#: server/cityturn.c:119
+#: server/cityturn.c:120
 #, c-format
 msgid "Game: %s is selling %s (obsolete) for %d."
 msgstr "Spiel: %s verkauft %s (veraltet) für %d Goldstücke."
 
-#: server/cityturn.c:333
+#: server/cityturn.c:334
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
 msgstr "Spiel: Hinweis: %s in %s in der nächsten Runde fertig."
 
-#: server/cityturn.c:365
+#: server/cityturn.c:366
 #, c-format
 msgid ""
 "Game: Suggest throttling growth in %s to use %s (being built) more "
@@ -739,56 +739,56 @@ msgstr ""
 "%s empfiehlt, das Wachstum zu drosseln, um %s (im Bau) besser nutzen zu "
 "können."
 
-#: server/cityturn.c:379
+#: server/cityturn.c:380
 #, c-format
 msgid "Game: %s may soon grow to size %i."
 msgstr "Spiel: %s wächst vermutlich bald zu Größe %i."
 
-#: server/cityturn.c:386
+#: server/cityturn.c:387
 #, c-format
 msgid "Game: Warning: Famine feared in %s."
 msgstr "Spiel: VORSICHT, in %s ist eine Hungersnot zu befürchten!"
 
-#: server/cityturn.c:417
+#: server/cityturn.c:418
 msgid "Game: WARNING, we're LOW on FUNDS sire."
 msgstr "Spiel: VORSICHT, die STAATSKASSE ist fast LEER!"
 
-#: server/cityturn.c:481 server/cityturn.c:500
+#: server/cityturn.c:482 server/cityturn.c:501
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Spiel: %s muß %s fertig bauen, um weiter wachsen zu können."
 
-#: server/cityturn.c:486 server/cityturn.c:505
+#: server/cityturn.c:487 server/cityturn.c:506
 #, c-format
 msgid "Game: %s needs %s to grow any further."
 msgstr "Spiel: %s braucht %s, um weiter wachsen zu können."
 
-#: server/cityturn.c:557
+#: server/cityturn.c:558
 #, c-format
 msgid "Game: %s grows to size %d."
 msgstr "Spiel: %s wächst zu Größe %d."
 
-#: server/cityturn.c:586
+#: server/cityturn.c:587
 #, c-format
 msgid "Game: Famine feared in %s, %s lost!"
 msgstr "Spiel: In %s wird eine Hungersnot befürchtet, %s verloren!"
 
-#: server/cityturn.c:588
+#: server/cityturn.c:589
 #, c-format
 msgid "%s lose %s (famine)"
 msgstr "%s verlieren %s (Hungersnot)"
 
-#: server/cityturn.c:599
+#: server/cityturn.c:600
 #, c-format
 msgid "Game: Famine causes population loss in %s."
 msgstr "Spiel: In %s sind Teile der Bevölkerung verhungert."
 
-#: server/cityturn.c:680 server/cityturn.c:720
+#: server/cityturn.c:681 server/cityturn.c:721
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
 msgstr "Spiel: %s kann %s aus der Arbeitsliste nicht bauen. Auftrag gelöscht."
 
-#: server/cityturn.c:699 server/cityturn.c:740
+#: server/cityturn.c:700 server/cityturn.c:741
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
@@ -797,12 +797,12 @@ msgstr ""
 "Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da notwendige Kenntnisse "
 "fehlen. Auftrag zurück gestellt."
 
-#: server/cityturn.c:707 server/cityturn.c:764 server/cityturn.c:867
+#: server/cityturn.c:708 server/cityturn.c:765 server/cityturn.c:868
 #, c-format
 msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spiel: Anstatt %s wird %s produziert (in %s)."
 
-#: server/cityturn.c:746
+#: server/cityturn.c:747
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; need to have %s first.  "
@@ -811,7 +811,7 @@ msgstr ""
 "Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da Kenntnisse über %s "
 "fehlen. Auftrag zurück gestellt."
 
-#: server/cityturn.c:755
+#: server/cityturn.c:756
 #, c-format
 msgid ""
 "Game: %s can't build %s from the worklist; Reason unknown!  Postponing..."
@@ -819,119 +819,124 @@ msgstr ""
 "Spiel: Aus unbekannten Gründen kann %s %s aus der Arbeitsliste nicht bauen. "
 "Auftrag zurück gestellt."
 
-#: server/cityturn.c:789
+#: server/cityturn.c:790
 #, c-format
 msgid "Game: %s's worklist is now empty."
 msgstr "Spiel: %ss Arbeitsliste ist jetzt leer."
 
-#: server/cityturn.c:886
+#: server/cityturn.c:887
 #, c-format
 msgid "Game: %s can't upkeep %s, unit disbanded."
 msgstr "Spiel: %s kann %s nicht mehr versorgen, Einheit aufgelöst."
 
-#: server/cityturn.c:916
+#: server/cityturn.c:917
 #, c-format
 msgid "Game: %s is building %s, which is no longer available."
 msgstr "Spiel: %s baut %s, obwohl das nicht mehr erhältlich ist."
 
-#: server/cityturn.c:953
+#: server/cityturn.c:954
 #, c-format
 msgid "Game: The %s have finished building %s in %s."
 msgstr "Spiel: Die %s haben %s in %s fertiggestellt."
 
-#: server/cityturn.c:957 server/cityturn.c:963
+#: server/cityturn.c:958 server/cityturn.c:964
 #, c-format
 msgid "%s build %s in %s"
 msgstr "%s bauen %s in %s"
 
-#: server/cityturn.c:969
+#: server/cityturn.c:970
 #, c-format
 msgid "Game: %s has finished building %s."
 msgstr "Spiel: %s hat %s fertiggestellt."
 
-#: server/cityturn.c:974
+#: server/cityturn.c:977
 #, c-format
 msgid "Game: %s boosts research, you gain 2 immediate advances."
 msgstr ""
 "Spiel: %s beschleunigt die Forschung;\n"
 "       2 Fortschritte werden sofort erzielt."
 
-#: server/cityturn.c:984
+#: server/cityturn.c:992
+#, c-format
+msgid "Game: The %s have acquired %s and %s from %s."
+msgstr "Spiel: Die %s haben %s und %s von den %s übernommen."
+
+#: server/cityturn.c:999
 #, c-format
 msgid "Game: The %s have started building a spaceship!"
 msgstr "Spiel: Die %s haben mit dem Bau eines Raumschiffs begonnen!"
 
-#: server/cityturn.c:1027
+#: server/cityturn.c:1042
 #, c-format
 msgid "Game: %s can't build %s yet."
 msgstr "Spiel: %s kann zur Zeit %s nicht bauen."
 
-#: server/cityturn.c:1054
+#: server/cityturn.c:1069
 #, c-format
 msgid "Game: %s is finished building %s."
 msgstr "Spiel: %s hat %s fertiggestellt."
 
-#: server/cityturn.c:1058
+#: server/cityturn.c:1073
 #, c-format
 msgid "%s build %s in %s (%i,%i)"
 msgstr "%s bauen %s in %s (%i,%i)"
 
-#: server/cityturn.c:1097
+#: server/cityturn.c:1112
 #, c-format
 msgid "Game: Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Spiel: %s in %s verkauft, da die laufenden Kosten nicht erbracht werden "
 "konnten!"
 
-#: server/cityturn.c:1133
+#: server/cityturn.c:1148
 #, c-format
 msgid "Game: Pollution near %s."
 msgstr "Spiel: Umweltverschmutzung bei %s."
 
-#: server/cityturn.c:1258
+#: server/cityturn.c:1273
 #, c-format
 msgid "Game: We Love The %s Day celebrated in %s."
 msgstr "Spiel: %ss Ehrentag wird in %s gefeiert."
 
-#: server/cityturn.c:1266
+#: server/cityturn.c:1281
 #, c-format
 msgid "Game: We Love The %s Day canceled in %s."
 msgstr "Spiel: %ss Ehrentag wurde in %s abgeschafft."
 
-#: server/cityturn.c:1298
+#: server/cityturn.c:1313
 #, c-format
 msgid "Game: Civil disorder in %s."
 msgstr "Spiel: Aufruhr in %s."
 
-#: server/cityturn.c:1301
+#: server/cityturn.c:1316
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
 msgstr "Spiel: IMMER NOCH AUFRUHR in %s."
 
-#: server/cityturn.c:1307
+#: server/cityturn.c:1322
 #, c-format
 msgid "Game: Order restored in %s."
 msgstr "Spiel: In %s wurde die Ordnung wieder hergestellt."
 
-#: server/cityturn.c:1316
+#: server/cityturn.c:1331
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 "Spiel: Das Volk hat die %s gestürzt. Das Land befindet sich im Aufruhr."
 
-#: server/cityturn.c:1340
+#: server/cityturn.c:1355
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "Spiel: %s kann zur Zeit keine %s bauen und wir können nicht unsere einzige "
 "Stadt aufgeben."
 
-#: server/cityturn.c:1357
+#: server/cityturn.c:1372
 #, c-format
 msgid "Game: %s is disbanded into %s."
 msgstr "Spiel: %s wurde aufgegeben, um %s zu bekommen."
 
-#: server/cityturn.c:1359
+#: server/cityturn.c:1374
 #, c-format
 msgid "%s (%i, %i) disbanded into %s by the %s"
 msgstr "%s (%i, %i) in %s verwandelt von den %s"
@@ -1320,7 +1325,7 @@ msgstr "Spiel: %s hat %s von %s gestohlen."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Spiel: %ss %s hat %s von %s gestohlen."
 
-#: server/diplomats.c:665 server/plrhand.c:621
+#: server/diplomats.c:665 server/plrhand.c:632
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spiel: Die %s haben %s von den %s gestohlen."
@@ -1725,58 +1730,58 @@ msgstr ""
 "angeschlossen:\n"
 "       Ein direkter Fortschritt ist die Folge."
 
-#: server/plrhand.c:387
+#: server/plrhand.c:398
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Spiel: Die %s haben %s erforscht."
 
-#: server/plrhand.c:391
+#: server/plrhand.c:402
 #, c-format
 msgid "%s discover %s"
 msgstr "Die %s haben %s erforscht."
 
-#: server/plrhand.c:396
+#: server/plrhand.c:407
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Spiel: Die %s haben Zukunftstechnologie %d erforscht."
 
-#: server/plrhand.c:400
+#: server/plrhand.c:411
 #, c-format
 msgid "%s discover Future Tech %d"
 msgstr "Die %s haben Zukunftstechnologie %d erforscht."
 
-#: server/plrhand.c:518
+#: server/plrhand.c:529
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spiel: Entwicklungsziel ist %s."
 
-#: server/plrhand.c:606
+#: server/plrhand.c:617
 #, c-format
 msgid "%s steal %s from %s"
 msgstr "Die %s stehlen %s von den %s"
 
-#: server/plrhand.c:612
+#: server/plrhand.c:623
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Spiel: %s von den %s gestohlen."
 
-#: server/plrhand.c:616
+#: server/plrhand.c:627
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Spiel: Die %s haben %s gestohlen!"
 
-#: server/plrhand.c:641
+#: server/plrhand.c:652
 msgid "Game: Cannot change rates before game start."
 msgstr "Spiel: Die Quoten können nicht vor Spielbeginn geändert werden."
 
 #: client/gui-gtk-2.0/gamedlgs.c:245 client/gui-gtk/gamedlgs.c:243
-#: client/gui-win32/ratesdlg.c:313 server/plrhand.c:654
+#: client/gui-win32/ratesdlg.c:313 server/plrhand.c:665
 msgid "Tax"
 msgstr "Steuern"
 
 #: client/agents/cma_core.c:1964 client/gui-gtk-2.0/gamedlgs.c:265
 #: client/gui-gtk/gamedlgs.c:263 client/gui-mui/citydlg.c:1691
-#: client/gui-win32/ratesdlg.c:319 server/plrhand.c:656
+#: client/gui-win32/ratesdlg.c:319 server/plrhand.c:667
 msgid "Luxury"
 msgstr "Luxus"
 
@@ -1786,57 +1791,57 @@ msgstr "Luxus"
 #: client/gui-mui/repodlgs.c:280 client/gui-win32/ratesdlg.c:325
 #: client/gui-win32/repodlgs.c:97 client/gui-xaw/menu.c:200
 #: client/gui-xaw/repodlgs.c:244 client/gui-xaw/repodlgs.c:489
-#: data/Freeciv:1362 server/plrhand.c:658
+#: data/Freeciv:1362 server/plrhand.c:669
 msgid "Science"
 msgstr "Forschung"
 
-#: server/plrhand.c:659
+#: server/plrhand.c:670
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spiel: %s Quote übersteigt die Höchstgrenze für %s."
 
-#: server/plrhand.c:665 server/plrhand.c:791
+#: server/plrhand.c:676 server/plrhand.c:802
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
 msgstr "NEUE RATEN: %s %i %i %i"
 
-#: server/plrhand.c:710
+#: server/plrhand.c:721
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spiel: %s regiert die %s jetzt als %s."
 
-#: server/plrhand.c:714
+#: server/plrhand.c:725
 #, c-format
 msgid "%s form a %s"
 msgstr "Regierungsform der %s ist %s"
 
-#: server/plrhand.c:747
+#: server/plrhand.c:758
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spiel: Die %s haben ihre Regierung gestürzt!"
 
-#: server/plrhand.c:749
+#: server/plrhand.c:760
 #, c-format
 msgid "The %s revolt!"
 msgstr "Die %s revoltieren!"
 
-#: server/plrhand.c:774
+#: server/plrhand.c:785
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Steuerquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:780
+#: server/plrhand.c:791
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Spiel: Die Forschungsquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:786
+#: server/plrhand.c:797
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Luxusquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:841
+#: server/plrhand.c:852
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -1844,12 +1849,12 @@ msgstr ""
 "Aufgrund der ständigen Provokationen durch die %s stimmt der Senat der "
 "Vorlage zu."
 
-#: server/plrhand.c:851
+#: server/plrhand.c:862
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spiel: Ihre Reputation ist jetzt %s."
 
-#: server/plrhand.c:855
+#: server/plrhand.c:866
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1857,12 +1862,12 @@ msgstr ""
 "Spiel: Der Senat beschließt seine Selbstauflösung,\n"
 "       um Ihre Maßnahmen nicht länger unterstützen zu müssen."
 
-#: server/plrhand.c:916
+#: server/plrhand.c:927
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
-#: server/plrhand.c:922
+#: server/plrhand.c:933
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -1871,26 +1876,26 @@ msgstr ""
 "Spiel: Die %s haben das Abkommen gekündigt! Zwischen den %s und den %s "
 "herrscht nun %s."
 
-#: server/plrhand.c:1331
+#: server/plrhand.c:1342
 #, c-format
 msgid "Removing player %s."
 msgstr "Spieler %s wird entfernt."
 
-#: server/plrhand.c:1332
+#: server/plrhand.c:1343
 msgid "Game: You've been removed from the game!"
 msgstr "Spiel: Sie wurden aus dem Spiel entfernt."
 
-#: server/plrhand.c:1342
+#: server/plrhand.c:1353
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spiel: %s wurde aus dem Spiel entfernt."
 
-#: server/plrhand.c:1373 server/plrhand.c:1377
+#: server/plrhand.c:1384 server/plrhand.c:1388
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spiel: Die %s entdeckt. Ihr Herrscher ist %s."
 
-#: server/plrhand.c:1738
+#: server/plrhand.c:1749
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1899,12 +1904,12 @@ msgstr ""
 "Spiel: Die Nation wird vom Bürgerkrieg gespalten. %s ist der Anführer der "
 "revoltierenden Provinzen."
 
-#: server/plrhand.c:1758
+#: server/plrhand.c:1769
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spiel: %s erklärt ihre Loyalität zu %s."
 
-#: server/plrhand.c:1781
+#: server/plrhand.c:1792
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
