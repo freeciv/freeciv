@@ -1081,12 +1081,13 @@ the string is used for a lookup via gtk_item_factory_get_widget()
 void update_menus(void)
 {
 
-  menus_set_sensitive("<main>/_Game/Save Game _As...", client_has_hack &&
-		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/_Save Game", client_has_hack &&
-		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  menus_set_sensitive("<main>/_Game/_End Game", client_has_hack &&
-		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+  menus_set_sensitive("<main>/_Game/Save Game _As...",
+		      can_client_access_hack()
+		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+  menus_set_sensitive("<main>/_Game/_Save Game", can_client_access_hack()
+		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
+  menus_set_sensitive("<main>/_Game/_End Game", can_client_access_hack()
+		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
   menus_set_sensitive("<main>/_Game/Server O_ptions", 
 		      aconnection.established);
   menus_set_sensitive("<main>/_Game/_Initial Server Options", 

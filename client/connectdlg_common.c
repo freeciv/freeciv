@@ -63,7 +63,7 @@ static pid_t server_pid = - 1;
 char player_name[MAX_LEN_NAME];
 char *current_filename = NULL;
 
-bool client_has_hack = FALSE;
+static bool client_has_hack = FALSE;
 
 int internal_server_port;
 
@@ -111,6 +111,14 @@ bool is_server_running()
   return (server_pid > 0);
 #endif
 } 
+
+/************************************************************************** 
+  Returns TRUE if the client has hack access.
+**************************************************************************/
+bool can_client_access_hack(void)
+{
+  return client_has_hack;
+}
 
 /************************************************************************** 
 Kills the server if the client has started it (FIXME: atexit handler?)

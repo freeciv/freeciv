@@ -21,7 +21,9 @@ Freeciv - Copyright (C) 2003 - The Freeciv Project
 
 bool client_start_server(void);
 void client_kill_server(void);
+
 bool is_server_running(void);
+bool can_client_access_hack(void);
 
 void send_client_wants_hack(char *filename);
 void send_start_saved_game(void);
@@ -42,7 +44,5 @@ enum skill_levels {
 };
 
 extern const char *skill_level_names[NUM_SKILL_LEVELS];
-
-extern bool client_has_hack;
 
 #endif  /* FC__CONNECTDLG_COMMON_H */ 
