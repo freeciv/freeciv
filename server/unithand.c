@@ -899,7 +899,7 @@ void handle_unit_help_build_wonder(struct player *pplayer,
       }
 
       notify_player_ex(pplayer, pcity_dest->x, pcity_dest->y, E_NOEVENT,
-		  "Game: Your %s help building the %s in %s. (%d remaining)", 
+		  "Game: Your %s helps build the %s in %s. (%d remaining)", 
 		       unit_name(punit->type),
 		       get_improvement_type(pcity_dest->currently_building)->name,
 		       pcity_dest->name, 
