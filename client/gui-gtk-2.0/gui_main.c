@@ -168,21 +168,24 @@ gchar *ntoh_str(const gchar *netstr)
 /**************************************************************************
 ...
 **************************************************************************/
-static unsigned char *put_conv(unsigned char *dst, const char *src)
+static unsigned char *put_conv(const char *src, size_t *length)
 {
   gsize len;
-  gchar *out = g_convert(src, -1, network_charset, "UTF-8", NULL, &len, NULL);
+  gchar *out =
+    g_convert(src, -1, network_charset, "UTF-8", NULL, &len, NULL);
 
   if (out) {
+    unsigned char *dst = fc_malloc(len);
+
     memcpy(dst, out, len);
     g_free(out);
     dst[len] = '\0';
 
-    return dst + len + 1;
+    *length = len;
+    return dst;
   } else {
-    dst[0] = '\0';
-
-    return dst + 1;
+    *length = 0;
+    return NULL;
   }
 }
 

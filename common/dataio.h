@@ -32,8 +32,7 @@ struct data_out {
 };
 
 /* network string conversion */
-typedef unsigned char *(*DIO_PUT_CONV_FUN) (unsigned char *dst,
-					    const char *src);
+typedef unsigned char *(*DIO_PUT_CONV_FUN) (const char *src, size_t *length);
 void dio_set_put_conv_callback(DIO_PUT_CONV_FUN fun);
 
 typedef bool(*DIO_GET_CONV_FUN) (char *dst, size_t ndst,
