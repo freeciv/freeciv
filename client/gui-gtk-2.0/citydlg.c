@@ -3281,15 +3281,15 @@ static void rename_callback(GtkWidget * w, gpointer data)
 
   pdialog = (struct city_dialog *) data;
 
-  pdialog->rename_shell = input_dialog_create(pdialog->shell,
+  pdialog->rename_shell = input_dialog_create(GTK_WINDOW(pdialog->shell),
 					      /*"shellrenamecity" */
 					      _("Rename City"),
 					      _
 					      ("What should we rename the city to?"),
 					      pdialog->pcity->name,
-					      (void *) rename_callback_yes,
+					      G_CALLBACK(rename_callback_yes),
 					      (gpointer) pdialog,
-					      (void *) rename_callback_no,
+					      G_CALLBACK(rename_callback_no),
 					      (gpointer) pdialog);
 
   gtk_signal_connect(GTK_OBJECT(pdialog->rename_shell), "delete_event",

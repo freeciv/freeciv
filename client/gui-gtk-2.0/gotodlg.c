@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -82,15 +83,13 @@ void popup_goto_dialog(void)
 
   get_center_tile_mapcanvas(&original_x, &original_y);
   
-  gtk_widget_set_sensitive(top_vbox, FALSE);
-  
-  goto_dialog_shell=gtk_dialog_new();
-  gtk_signal_connect(GTK_OBJECT(goto_dialog_shell), "delete_event",
-	GTK_SIGNAL_FUNC(deleted_callback), NULL);
-//  gtk_accel_group_attach(accel, GTK_OBJECT(goto_dialog_shell));
+  goto_dialog_shell=gtk_dialog_new_with_buttons(_("Goto/Airlift Unit"),
+    GTK_WINDOW(toplevel),
+    GTK_DIALOG_MODAL,
+    NULL);
+  g_signal_connect(goto_dialog_shell, "destroy",
+		   G_CALLBACK(gtk_widget_destroyed), &goto_dialog_shell);
   gtk_window_set_position (GTK_WINDOW(goto_dialog_shell), GTK_WIN_POS_MOUSE);
-
-  gtk_window_set_title(GTK_WINDOW(goto_dialog_shell), _("Goto/Airlift Unit"));
 
   goto_label=gtk_frame_new(_("Select destination"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(goto_dialog_shell)->vbox),

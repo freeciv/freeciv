@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -60,10 +61,10 @@ static GtkWidget *create_messageopt_dialog(void)
   shell = gtk_dialog_new_with_buttons(_("Message Options"),
   	GTK_WINDOW(toplevel),
 	0,
-	GTK_STOCK_OK,
-	GTK_RESPONSE_ACCEPT,
 	GTK_STOCK_CANCEL,
 	GTK_RESPONSE_REJECT,
+	GTK_STOCK_OK,
+	GTK_RESPONSE_ACCEPT,
 	NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);

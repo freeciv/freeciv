@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -245,11 +246,13 @@ static void name_new_city_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
-  input_dialog_create(toplevel, /*"shellnewcityname" */
+  input_dialog_create(GTK_WINDOW(toplevel), /*"shellnewcityname" */
 		     _("Build New City"),
 		     _("What should we call our new city?"), suggestname,
-		     name_new_city_callback, GINT_TO_POINTER(punit->id),
-		     name_new_city_callback, GINT_TO_POINTER(0));
+		     G_CALLBACK(name_new_city_callback),
+                     GINT_TO_POINTER(punit->id),
+		     G_CALLBACK(name_new_city_callback),
+                     GINT_TO_POINTER(0));
 }
 
 /**************************************************************************

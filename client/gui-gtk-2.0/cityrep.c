@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -54,7 +55,6 @@
 /******************************************************************/
 static void create_city_report_dialog(bool make_modal);
 static void city_model_init(void);
-static void city_destroy_callback(GtkWidget *w, gpointer data);
 static void city_center_callback(GtkWidget *w, gpointer data);
 static void city_popup_callback(GtkWidget *w, gpointer data);
 static void city_buy_callback(GtkWidget *w, gpointer data);
@@ -615,7 +615,7 @@ static void create_city_report_dialog(bool make_modal)
   g_signal_connect(city_dialog_shell, "response",
 		   G_CALLBACK(gtk_widget_destroy), NULL);
   g_signal_connect(city_dialog_shell, "destroy",
-		   G_CALLBACK(city_destroy_callback), NULL);
+		   G_CALLBACK(gtk_widget_destroyed), &city_dialog_shell);
 
   /* menubar */
   menubar = create_city_report_menubar();
@@ -887,14 +887,6 @@ static void buy_iterate(GtkTreeModel *model, GtkTreePath *path,
 static void city_buy_callback(GtkWidget *w, gpointer data)
 {
   gtk_tree_selection_selected_foreach(city_selection, buy_iterate, NULL);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void city_destroy_callback(GtkWidget *w, gpointer data)
-{
-  city_dialog_shell = NULL;
 }
 
 /****************************************************************

@@ -21,7 +21,6 @@
 #include "fcintl.h"
 #include "events.h"
 #include "game.h"
-#include "log.h"
 #include "mem.h"
 #include "support.h"
 
@@ -465,13 +464,13 @@ static void cma_add_preset_callback(GtkWidget *w, gpointer data)
     default_name = _("new preset");
   }
 
-  pdialog->name_shell = input_dialog_create(pdialog->shell,
+  pdialog->name_shell = input_dialog_create(NULL,
 				    _("Name new preset"),
 				    _("What should we name the preset?"),
 				    default_name,
-				    (void *) cma_preset_add_callback_yes,
+				    G_CALLBACK(cma_preset_add_callback_yes),
 				    (gpointer) pdialog,
-				    (void *) cma_preset_add_callback_no,
+				    G_CALLBACK(cma_preset_add_callback_no),
 				    (gpointer) pdialog);
 
   gtk_signal_connect(GTK_OBJECT(pdialog->name_shell), "delete_event",

@@ -10,6 +10,7 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -27,7 +28,6 @@
 #include "mem.h"
 #include "packets.h"
 #include "player.h"
-#include "log.h"
 #include "chatline.h"
 #include "citydlg.h"
 #include "clinet.h"
@@ -46,7 +46,6 @@ static GtkWidget *meswin_popcity_command;
 static GtkTreeSelection *meswin_selection;
 
 static void create_meswin_dialog(void);
-static void meswin_destroy_callback(GtkWidget *w, gpointer data);
 static void meswin_command_callback(GtkWidget *w, gint response_id);
 
 static void meswin_selection_callback(GtkTreeSelection *selection,
@@ -203,7 +202,7 @@ static void create_meswin_dialog(void)
   g_signal_connect(meswin_dialog_shell, "response",
 		   G_CALLBACK(meswin_command_callback), NULL);
   g_signal_connect(meswin_dialog_shell, "destroy",
-		   G_CALLBACK(meswin_destroy_callback), NULL);
+		   G_CALLBACK(gtk_widget_destroyed), &meswin_dialog_shell);
 
   gtk_widget_show_all(GTK_DIALOG(meswin_dialog_shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(meswin_dialog_shell)->action_area);
@@ -270,14 +269,6 @@ static void meswin_row_activated_callback(GtkTreeView * view,
 
   gtk_widget_set_sensitive(meswin_goto_command, message->location_ok);
   gtk_widget_set_sensitive(meswin_popcity_command, message->city_ok);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void meswin_destroy_callback(GtkWidget *w, gpointer data)
-{
-  meswin_dialog_shell = NULL;
 }
 
 /**************************************************************************
