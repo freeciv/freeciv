@@ -282,8 +282,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
       if (trade[i][j] != 0) trade[i][j] += ctrade;
       else if (road[i][j] != 0) road[i][j] += ctrade;
     }
-  }
-  city_map_checked_iterate_end;
+  } city_map_checked_iterate_end;
 
   if (pcity) { /* quick-n-dirty immigration routine -- Syela */
     n = pcity->size;
@@ -725,23 +724,6 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
     return(m);
   } else return(-1);
   /* bonuses for adjacent railroad tiles */
-}
-
-/**************************************************************************
-  simply puts the settler unit into goto
-**************************************************************************/
-static void auto_settler_do_goto(struct player *pplayer, struct unit *punit,
-				 int x, int y)
-{
-  CHECK_MAP_POS(x, y);
-  punit->goto_dest_x = x;
-  punit->goto_dest_y = y;
-  set_unit_activity(punit, ACTIVITY_GOTO);
-  send_unit_info(NULL, punit);
-  if (!ai_unit_gothere(punit)) {
-    UNIT_LOG(LOG_DEBUG, punit, "did settler goto to %s",
-             get_activity_text(punit->activity));
-  }
 }
 
 /**************************************************************************
@@ -1204,23 +1186,24 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
       freelog(LOG_DEBUG, "%d@(%d, %d): Looking for BOAT.",
 	      punit->id, punit->x, punit->y);
       if (!same_pos(x, y, punit->x, punit->y)) {
-	auto_settler_do_goto(pplayer, punit, x, y);
+	(void) ai_unit_goto(punit, x, y);
 	if (!player_find_unit_by_id(pplayer, save_id)) return FALSE; /* died */
       }
       ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
 				 punit->ai.ferryboat);
+
       punit->goto_dest_x = gx;
       punit->goto_dest_y = gy;
+
       if (ferryboat && (ferryboat->ai.passenger == 0
 			|| ferryboat->ai.passenger == punit->id)) {
 	freelog(LOG_DEBUG,
 		"We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d,%d).",
 		punit->id, ferryboat->id, punit->x, punit->y, gx, gy);
-	set_unit_activity(punit, ACTIVITY_SENTRY);
-	/* kinda cheating -- Syela */
+	handle_unit_activity_request(punit, ACTIVITY_SENTRY);
 	ferryboat->ai.passenger = punit->id;
-	auto_settler_do_goto(pplayer, ferryboat, gx, gy);
-	set_unit_activity(punit, ACTIVITY_IDLE);
+	(void) ai_unit_goto(ferryboat, gx, gy);
+	handle_unit_activity_request(punit, ACTIVITY_IDLE);
       } /* need to zero pass & ferryboat at some point. */
     }
     if (goto_is_sane(punit, gx, gy, TRUE)
@@ -1228,7 +1211,7 @@ static bool ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboa
 	&& (!ferryboat
 	    || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
 		&& could_unit_move_to_tile(punit, gx, gy) != 0))) {
-      auto_settler_do_goto(pplayer, punit, gx, gy);
+      (void) ai_unit_goto(punit, gx, gy);
       if (!player_find_unit_by_id(pplayer, save_id)) return FALSE; /* died */
       punit->ai.ferryboat = 0;
     }
@@ -1372,12 +1355,15 @@ static void auto_settlers_player(struct player *pplayer)
 	    || unit_flag(punit, F_CITIES))) {
       freelog(LOG_DEBUG, "%s's settler at (%d, %d) is ai controlled.",
 	      pplayer->name, punit->x, punit->y); 
-      if(punit->activity == ACTIVITY_SENTRY)
-	set_unit_activity(punit, ACTIVITY_IDLE);
-      if (punit->activity == ACTIVITY_GOTO && punit->moves_left > 0)
-        set_unit_activity(punit, ACTIVITY_IDLE);
-      if (punit->activity == ACTIVITY_IDLE)
+      if (punit->activity == ACTIVITY_SENTRY) {
+	handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      }
+      if (punit->activity == ACTIVITY_GOTO && punit->moves_left > 0) {
+        handle_unit_activity_request(punit, ACTIVITY_IDLE);
+      }
+      if (punit->activity == ACTIVITY_IDLE) {
 	auto_settler_findwork(pplayer, punit);
+      }
       freelog(LOG_DEBUG, "Has been processed.");
     }
   }
