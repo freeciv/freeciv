@@ -506,10 +506,10 @@ Keyboard:\n\
   9: move north-east                 F11: open Demographics\n\
                                      F12: open Spaceship\n\
 \n\
-    home: center on capital\n\
-  arrows: scroll map           Control-g: grid lines on/off\n\
-   space: unit stay put        Control-n: city names on/off\n\
-  return: turn done            Control-p: city production on/off\n\
+    Shift-home: center on capital\n\
+  Shift-arrows: scroll map         Control-g: grid lines on/off\n\
+         space: unit stay put      Control-n: city names on/off\n\
+  Shift-return: turn done          Control-p: city production on/off\n\
 ")
 
 [help_chatline]
