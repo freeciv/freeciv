@@ -509,19 +509,42 @@ bool can_unit_change_homecity(struct unit *punit)
 }
 
 /**************************************************************************
-  Returns the speed of a settler.  This depends on the veteran level and
-  the adjusted move_rate of the settler (which depends on HP).
+  Returns the speed of a unit doing an activity.  This depends on the
+  veteran level and the base move_rate of the unit (regardless of HP or
+  effects).  Usually this is just used for settlers but the value is also
+  used for military units doing fortify/pillage activities.
+
+  The speed is multiplied by ACTIVITY_COUNT.
 **************************************************************************/
-int get_settler_speed(struct unit *punit)
+int get_activity_rate(struct unit *punit)
 {
   int fact = get_unit_type(punit->type)->veteran[punit->veteran].power_fact;
 
-  /* The speed of the settler depends on its adjusted move_rate, not on
-   * the number of moves actually remaining. */
-  int move_rate = unit_move_rate(punit); /* Never less than SINGLE_MOVE */
+  /* The speed of the settler depends on its base move_rate, not on
+   * the number of moves actually remaining or the adjusted move rate.
+   * This means sea formers won't have their activity rate increased by
+   * Magellan's, and it means injured units work just as fast as
+   * uninjured ones.  Note the value is never less than SINGLE_MOVE. */
+  int move_rate = unit_type(punit)->move_rate;
 
-  /* All settler actions are multiplied by 10. */
-  return 10 * fact * move_rate / SINGLE_MOVE;
+  /* All settler actions are multiplied by ACTIVITY_COUNT. */
+  return ACTIVITY_FACTOR * fact * move_rate / SINGLE_MOVE;
+}
+
+/**************************************************************************
+  Returns the amount of work a unit does (will do) on an activity this
+  turn.  Units that have no MP do no work.
+
+  The speed is multiplied by ACTIVITY_COUNT.
+**************************************************************************/
+int get_activity_rate_this_turn(struct unit *punit)
+{
+  /* This logic is also coded in client/goto.c. */
+  if (punit->moves_left > 0) {
+    return get_activity_rate(punit);
+  } else {
+    return 0;
+  }
 }
 
 /**************************************************************************
@@ -533,9 +556,9 @@ int get_turns_for_activity_at(struct unit *punit,
 			      enum unit_activity activity,
 			      const struct tile *ptile)
 {
-  /* This is just an approximation since the speed depends on the unit's
-   * HP, which may change. */
-  int speed = get_settler_speed(punit);
+  /* FIXME: This is just an approximation since we don't account for
+   * get_activity_rate_this_turn. */
+  int speed = get_activity_rate(punit);
   int time = map_activity_time(activity, ptile);
 
   if (time >= 0 && speed >= 0) {

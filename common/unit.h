@@ -138,7 +138,12 @@ struct unit {
   struct unit_ai ai;
   enum unit_activity activity;
   struct tile *goto_tile; /* May be NULL. */
+
+  /* The amount of work that has been done on the current activity.  This
+   * is counted in turns but is multiplied by ACTIVITY_COUNT (which allows
+   * fractional values in some cases). */
   int activity_count;
+
   enum tile_special_type activity_target;
   enum unit_focus_status focus_status;
   int ord_map, ord_city;
@@ -244,7 +249,8 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
 				enum unit_activity new_activity,
 				enum tile_special_type new_target);
-int get_settler_speed(struct unit *punit);
+int get_activity_rate(struct unit *punit);
+int get_activity_rate_this_turn(struct unit *punit);
 int get_turns_for_activity_at(struct unit *punit,
 			      enum unit_activity activity,
 			      const struct tile *ptile);

@@ -708,4 +708,9 @@ static inline bool is_border_tile(const struct tile *ptile, int dist)
 	  || ptile->nat_y >= map.ysize - ydist);
 }
 
+/* An arbitrary somewhat integer value.  Activity times are multiplied by
+ * this amount, and divided by them later before being used.  This may
+ * help to avoid rounding errors; however it should probably be removed. */
+#define ACTIVITY_FACTOR 10
+
 #endif  /* FC__MAP_H */

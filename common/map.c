@@ -865,7 +865,7 @@ bool is_water_adjacent_to_tile(const struct tile *ptile)
 ***************************************************************/
 int map_build_road_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].road_time * 10;
+  return tile_types[ptile->terrain].road_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -873,7 +873,7 @@ int map_build_road_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_irrigation_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].irrigation_time * 10;
+  return tile_types[ptile->terrain].irrigation_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -881,7 +881,7 @@ int map_build_irrigation_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_mine_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].mining_time * 10;
+  return tile_types[ptile->terrain].mining_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -889,7 +889,7 @@ int map_build_mine_time(const struct tile *ptile)
 ***************************************************************/
 int map_transform_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].transform_time * 10;
+  return tile_types[ptile->terrain].transform_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -897,7 +897,7 @@ int map_transform_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_rail_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].rail_time * 10;
+  return tile_types[ptile->terrain].rail_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -905,7 +905,7 @@ int map_build_rail_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_airbase_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].airbase_time * 10;
+  return tile_types[ptile->terrain].airbase_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -913,7 +913,7 @@ int map_build_airbase_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_fortress_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].fortress_time * 10;
+  return tile_types[ptile->terrain].fortress_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -921,7 +921,7 @@ int map_build_fortress_time(const struct tile *ptile)
 ***************************************************************/
 int map_clean_pollution_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].clean_pollution_time * 10;
+  return tile_types[ptile->terrain].clean_pollution_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -929,7 +929,7 @@ int map_clean_pollution_time(const struct tile *ptile)
 ***************************************************************/
 int map_clean_fallout_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].clean_fallout_time * 10;
+  return tile_types[ptile->terrain].clean_fallout_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -1601,7 +1601,7 @@ struct tile *rand_map_pos_filtered(void *data,
 {
   struct tile *ptile;
   int tries = 0;
-  const int max_tries = map.xsize * map.ysize / 10;
+  const int max_tries = map.xsize * map.ysize / ACTIVITY_FACTOR;
 
   /* First do a few quick checks to find a spot.  The limit on number of
    * tries could use some tweaking. */

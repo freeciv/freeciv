@@ -458,7 +458,8 @@ static bool is_non_allied_city_adjacent(struct player *pplayer,
   (2) (the tie-breaker) time to build the path (travel plus activity time).
   In rail-connect the priorities are reversed.
 
-  param->data should contain the result of get_settler_speed(punit) / 10.
+  param->data should contain the result of
+  get_activity_rate(punit) / ACTIVITY_FACTOR.
 ****************************************************************************/
 static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 			    const struct tile *dest_tile,
@@ -558,7 +559,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   PF jumbo callback for the cost of a connect by irrigation. 
   Here we are only interested in how long it will take to irrigate the path.
 
-  param->data should contain the result of get_settler_speed(punit) / 10.
+  param->data should contain the result of get_activity_rate(punit) / 10.
 ****************************************************************************/
 static int get_connect_irrig(const struct tile *src_tile,
 			     enum direction8 dir,
@@ -648,8 +649,7 @@ static void fill_client_goto_parameter(struct unit *punit,
     }
     parameter->is_pos_dangerous = NULL;
 
-    /* 10 is a factor used in activity times for some reason */
-    speed = get_settler_speed(punit) / 10;
+    speed = get_activity_rate(punit) / ACTIVITY_FACTOR;
     parameter->data = &speed;
 
     /* Take into account the activity time at the origin */
