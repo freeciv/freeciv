@@ -4045,6 +4045,7 @@ msgid "Load game from file."
 msgstr "Laddar spel från fil."
 
 #: server/stdinhand.c:1235
+#, fuzzy
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
