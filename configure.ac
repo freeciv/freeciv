@@ -17,7 +17,7 @@ dnl different patch versions are compatible
 MAJOR_VERSION=1
 MINOR_VERSION=14
 PATCH_VERSION=2
-VERSION_LABEL="-beta1"
+VERSION_LABEL="-beta2"
 IS_DEVEL_VERSION=0
 IS_BETA_VERSION=1
 
