@@ -753,7 +753,7 @@ PACKET_UNIT_DIPLOMAT_ACTION=70;cs,dsend
   UNIT diplomat_id;
   DIPLOMAT_ACTION action_type;
   UNIT target_id;   # city_id or unit_id target_id;
-  UINT16 value;
+  SINT16 value;
 end
 
 PACKET_UNIT_DIPLOMAT_POPUP_DIALOG=71;sc,dsend,lsend
