@@ -738,7 +738,13 @@ struct city *transfer_city(struct player *ptaker,
   for (i=0; i<4; i++)
     old_trade_routes[i] = pcity->trade[i];
   for (i = 0; i < 4; i++) {
-    remove_trade_route(find_city_by_id(pcity->trade[i]), pcity);
+    struct city *pother_city = find_city_by_id(pcity->trade[i]);
+
+    assert(pcity->trade[i] == 0 || pother_city != NULL);
+
+    if (pother_city) {
+      remove_trade_route(pother_city, pcity);
+    }
   }
   reestablish_city_trade_routes(pcity, old_trade_routes);
 
@@ -1005,8 +1011,15 @@ void remove_city(struct city *pcity)
     goto MOVE_SEA_UNITS;
   } unit_list_iterate_end;
 
-  for (o = 0; o < 4; o++)
-    remove_trade_route(find_city_by_id(pcity->trade[o]), pcity);
+  for (o = 0; o < 4; o++) {
+    struct city *pother_city = find_city_by_id(pcity->trade[o]);
+
+    assert(pcity->trade[o] == 0 || pother_city != NULL);
+
+    if (pother_city) {
+      remove_trade_route(pother_city, pcity);
+    }
+  }
 
   /* idex_unregister_city() is called in game_remove_city() below */
 
@@ -1485,15 +1498,13 @@ void remove_trade_route(struct city *pc1, struct city *pc2)
 {
   int i;
 
-  if (pc1) {
-    for (i = 0; i < 4; i++)
-      if (pc1->trade[i] == pc2->id)
-	pc1->trade[i] = 0;
-  }
-  if (pc2) {
-    for (i = 0; i < 4; i++)
-      if (pc2->trade[i] == pc1->id)
-	pc2->trade[i] = 0;
+  assert(pc1 && pc2);
+
+  for (i = 0; i < 4; i++) {
+    if (pc1->trade[i] == pc2->id)
+      pc1->trade[i] = 0;
+    if (pc2->trade[i] == pc1->id)
+      pc2->trade[i] = 0;
   }
 }
 
