@@ -81,6 +81,7 @@ enum MenuID {
   MENU_ORDER_MINE,
   MENU_ORDER_TRANSFORM,
   MENU_ORDER_FORTRESS,
+  MENU_ORDER_AIRBASE,
   MENU_ORDER_POLLUTION,
   MENU_ORDER_FORTIFY,
   MENU_ORDER_SENTRY,
@@ -230,6 +231,7 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Transform Terrain"),
         N_("Transform to %s"), 0      },     "o", MENU_ORDER_TRANSFORM, 0 },
     { { N_("Build Fortress"), 0       },     "f", MENU_ORDER_FORTRESS, 0 },
+    { { N_("Build Airbase"), 0        },     "e", MENU_ORDER_AIRBASE, 0 },
     { { N_("Clean Pollution"),
 	N_("Paradrop"), 0             },     "p", MENU_ORDER_POLLUTION, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
@@ -377,6 +379,8 @@ void update_menus(void)
 			   can_unit_do_activity(punit, ACTIVITY_TRANSFORM));
       menu_entry_sensitive(orders_menu, MENU_ORDER_FORTRESS, 
 			   can_unit_do_activity(punit, ACTIVITY_FORTRESS));
+      menu_entry_sensitive(orders_menu, MENU_ORDER_AIRBASE,
+			   can_unit_do_activity(punit, ACTIVITY_AIRBASE));
       menu_entry_sensitive(orders_menu, MENU_ORDER_POLLUTION, 
 			   can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
 			   can_unit_paradropped(punit));
@@ -589,6 +593,9 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
    case MENU_ORDER_FORTRESS:
     if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), ACTIVITY_FORTRESS);
+    break;
+   case MENU_ORDER_AIRBASE:
+    key_unit_airbase(); 
     break;
    case MENU_ORDER_POLLUTION:
     key_unit_clean_pollution();

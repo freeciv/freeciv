@@ -31,7 +31,7 @@ enum special_river_move {
 enum tile_special_type {
   S_NO_SPECIAL=0, S_SPECIAL_1=1, S_ROAD=2, S_IRRIGATION=4, S_RAILROAD=8,
   S_MINE=16, S_POLLUTION=32, S_HUT=64, S_FORTRESS=128, S_SPECIAL_2=256,
-  S_RIVER=512, S_FARMLAND=1024
+  S_RIVER=512, S_FARMLAND=1024, S_AIRBASE=2048
 };
 
 enum tile_terrain_type {

@@ -822,6 +822,12 @@ void helptext_tech(char *buf, int i, const char *user_text)
     free(units_str);
   }
 
+  if(tech_flag(i,TF_AIRBASE)) {
+    char *units_str = get_units_with_flag_string(F_AIRBASE);
+    sprintf(buf+strlen(buf), _("Allows %s to build airbases.\n"),units_str);
+    free(units_str);
+  }
+
   if(tech_flag(i,TF_RAILROAD)) {
     char *units_str = get_units_with_flag_string(F_SETTLERS);
     sprintf(buf+strlen(buf), _("Allows %s to upgrade roads to railroads.\n"),units_str);

@@ -274,6 +274,7 @@ XtActionsRec Actions[] = {
   { "key-unit-explore", xaw_key_unit_explore },
   { "key-unit-disband", xaw_key_unit_disband },
   { "key-unit-fortify", xaw_key_unit_fortify },
+  { "key-unit-airbase", xaw_key_unit_airbase },
   { "key-unit-goto", xaw_key_unit_goto },
   { "key-unit-sentry", xaw_key_unit_sentry },
   { "key-unit-wait", xaw_key_unit_wait },

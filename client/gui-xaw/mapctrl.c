@@ -455,6 +455,10 @@ void xaw_key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   key_unit_fortify();
 }
+void xaw_key_unit_airbase(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  key_unit_airbase();
+}
 void xaw_key_unit_goto(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   key_unit_goto();

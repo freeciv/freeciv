@@ -27,7 +27,7 @@ struct advance advances[A_LAST];
 
 static char *flag_names[] = {
   "Bonus_Tech","Boat_Fast","Bridge","Railroad","Fortress",
-  "Population_Pollution_Inc","Trade_Revenue_Reduce"
+  "Population_Pollution_Inc","Trade_Revenue_Reduce","Airbase"
 };
 
 

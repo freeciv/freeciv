@@ -454,6 +454,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(unit.auto_explore, "unit.auto_explore");
   SET_SPRITE(unit.fortify,	"unit.fortify");     
   SET_SPRITE(unit.fortress,     "unit.fortress");
+  SET_SPRITE(unit.airbase,      "unit.airbase");
   SET_SPRITE(unit.go_to,	"unit.goto");     
   SET_SPRITE(unit.irrigate,     "unit.irrigate");
   SET_SPRITE(unit.mine,	        "unit.mine");
@@ -504,6 +505,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.city_walls, "tx.city_walls");
   SET_SPRITE(tx.village,    "tx.village");
   SET_SPRITE(tx.fortress,   "tx.fortress");
+  SET_SPRITE(tx.airbase,    "tx.airbase");
 
   for(i=0; i<NUM_DIRECTION_NSEW; i++) {
     sprintf(buffer, "tx.s_river_%s", nsew_str(i));
@@ -768,6 +770,9 @@ int fill_unit_sprite_array(struct Sprite **sprs, struct unit *punit)
       break;
     case ACTIVITY_FORTRESS:
       s = sprites.unit.fortress;
+      break;
+    case ACTIVITY_AIRBASE:
+      s = sprites.unit.airbase;
       break;
     case ACTIVITY_SENTRY:
       s = sprites.unit.sentry;
@@ -1039,6 +1044,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
 
   if(tspecial & S_HUT) *sprs++ = sprites.tx.village;
   if(tspecial & S_FORTRESS) *sprs++ = sprites.tx.fortress;
+  if(tspecial & S_AIRBASE) *sprs++ = sprites.tx.airbase;
   if(tspecial & S_POLLUTION) *sprs++ = sprites.tx.pollution;
 
   if(!citymode) {

@@ -44,7 +44,8 @@ static char *flag_names[] = {
   "Caravan", "Missile", "IgZOC", "NonMil", "IgTer", "Carrier",
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", "AEGIS",
   "Fighter", "Marines", "Submarine", "Settlers", "Diplomat",
-  "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers"
+  "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",
+  "Airbase"
 };
 static char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
@@ -798,14 +799,15 @@ int can_unit_do_auto(struct unit *punit)
 
 /**************************************************************************
 Return whether the unit can be paradropped.
-That is if the unit is in a friendly city, have enough
-movepoints left and have not paradropped before in this
-turn.
+That is if the unit is in a friendly city or on an Airbase
+special, have enough movepoints left and have not paradropped
+before in this turn.
 **************************************************************************/
 int can_unit_paradropped(struct unit *punit)
 {
   struct city *pcity;
   struct unit_type *utype;
+  struct tile *ptile;
 
   if (!unit_flag(punit->type, F_PARATROOPERS))
     return 0;
@@ -818,9 +820,11 @@ int can_unit_paradropped(struct unit *punit)
   if(punit->moves_left < utype->paratroopers_mr_req)
     return 0;
 
-  pcity = map_get_city(punit->x, punit->y);
+  ptile=map_get_tile(punit->x, punit->y);
+  if(ptile->special&S_AIRBASE)
+    return 1;
 
-  if(!pcity)
+  if(!(pcity = map_get_city(punit->x, punit->y)))
     return 0;
 
   return 1;
@@ -909,6 +913,11 @@ int can_unit_do_activity_targeted(struct unit *punit,
     return unit_flag(punit->type, F_SETTLERS) && punit->moves_left &&
            player_knows_techs_with_flag(pplayer, TF_FORTRESS) &&
 	   !(ptile->special&S_FORTRESS) && ptile->terrain!=T_OCEAN;
+
+  case ACTIVITY_AIRBASE:
+    return unit_flag(punit->type, F_AIRBASE) && punit->moves_left &&
+           player_knows_techs_with_flag(pplayer, TF_AIRBASE) &&
+           !(ptile->special&S_AIRBASE) && ptile->terrain!=T_OCEAN;
 
   case ACTIVITY_SENTRY:
     return 1;
@@ -1066,6 +1075,8 @@ char *unit_activity_text(struct unit *punit)
     return "Transform";
    case ACTIVITY_FORTIFY:
     return "Fortify";
+   case ACTIVITY_AIRBASE:
+    return "Airbase";
    case ACTIVITY_FORTRESS:
     return "Fortress";
    case ACTIVITY_SENTRY:

@@ -87,6 +87,7 @@ struct named_sprites {
       *auto_explore,
       *fortify,
       *fortress,
+      *airbase,
       *go_to,			/* goto is a C keyword :-) */
       *irrigate,
       *mine,
@@ -127,6 +128,7 @@ struct named_sprites {
       *city_walls,
       *village,
       *fortress,
+      *airbase,
       *spec_river[NUM_DIRECTION_NSEW],
       *coast_cape[NUM_DIRECTION_NSEW],	      /* first unused */
       *darkness[NUM_DIRECTION_NSEW],         /* first unused */

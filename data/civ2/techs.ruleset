@@ -42,6 +42,7 @@ options="1.8.2a +no_a_none"
 ; "Trade_Revenue_Reduce" = When known by the player establishing a trade
 ;                          route reduces the initial revenue by cumulative
 ;                          factors of 2/3
+; "Airbase" = "Airbase" unit types can build Airbases
 
 [advance_advanced_flight]
 name     = _("Advanced Flight")
@@ -431,7 +432,7 @@ flags    = ""
 name     = _("Radio")
 req1     = "Flight"
 req2     = "Electricity"
-flags    = ""
+flags    = "Airbase"
 
 [advance_railroad]
 name     = _("Railroad")

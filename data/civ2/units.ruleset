@@ -80,11 +80,12 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil"
+flags         = "Settlers", "NonMil", "Airbase"
 roles         = ""
 helptext      = _("\
 Setters are one of the key units in the game.  They can be used to\
- found new cities, irrigate land, build roads, railroads, fortresses\
+ found new cities, irrigate land, build roads, railroads,\
+ fortresses, airbases\
  and mines, and clean up pollution.  Upkeep for Settlers is in food\
  as well as production, and a Setter can die if its supporting city\
  runs out of food.\
@@ -118,7 +119,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "NonMil", "Transform"
+flags         = "Settlers", "NonMil", "Transform", "Airbase"
 roles         = ""
 helptext      = _("\
 Engineers are similar to Settlers, but they work twice as fast and\

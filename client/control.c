@@ -812,6 +812,20 @@ void key_unit_fortify(void)
 /**************************************************************************
 ...
 **************************************************************************/
+void key_unit_airbase(void)
+{
+  struct unit *punit=get_unit_in_focus();
+     
+  if(punit) {
+    if(unit_flag(punit->type, F_AIRBASE))
+      request_new_unit_activity(punit_focus, ACTIVITY_AIRBASE);
+  }
+ 
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 void key_unit_goto(void)
 {
   request_unit_goto();

@@ -32,6 +32,7 @@ void popupinfo_popdown_callback(Widget w, XtPointer client_data, XtPointer call_
 
 void xaw_key_end_turn(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void xaw_key_map_grid(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void xaw_key_unit_airbase(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void xaw_key_unit_auto(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void xaw_key_unit_build_city(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void xaw_key_unit_clean_pollution(Widget w, XEvent *event, String *argv, Cardinal *argc);

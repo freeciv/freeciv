@@ -71,7 +71,8 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
     " +terrainrulesets1 +governmentrulesets2 +num_units +tilespec" \
     " +ruleset_control +ask_pillage +gen_tech2 +nationsruleset2" \
-    " +long_names +paratroopers2 +helptext2 dconn_in_sel_nat"
+    " +long_names +paratroopers2 +helptext2 dconn_in_sel_nat" \
+    " +airbase"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
@@ -118,6 +119,8 @@ const char * const our_capability = our_capability_internal;
 
    "dconn_in_sel_nat" means that the server can handle the last client
    disconnecting from the Select Nation dialog.
+
+   "airbase" means the airbase map special
 */
 
 void init_our_capability(void)

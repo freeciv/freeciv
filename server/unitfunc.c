@@ -710,9 +710,9 @@ static int upgrade_would_strand(struct unit *punit, int upgrade_type)
 Restore unit move points and hitpoints.
 Do Leonardo's Workshop upgrade if applicable.
 Now be careful not to strand units at sea with the Workshop. --dwp
-Adjust air units for fuel: air units lose fuel unless in a city
-or on a Carrier (or, for Missles, on a Submarine).  Air units
-which run out of fuel get wiped.
+Adjust air units for fuel: air units lose fuel unless in a city,
+on a Carrier or on a airbase special (or, for Missles, on a Submarine).
+Air units which run out of fuel get wiped.
 Carriers and Submarines can now only supply fuel to a limited
 number of units each, equal to their transport_capacity. --dwp
 (Hitpoint adjustments include Helicopters out of cities, but
@@ -779,7 +779,8 @@ void player_restore_units(struct player *pplayer)
     }
     else if(is_air_unit(punit)) {
       punit->fuel--;
-      if(map_get_city(punit->x, punit->y))
+      if(map_get_city(punit->x, punit->y) ||
+         map_get_special(punit->x, punit->y)&S_AIRBASE)
 	punit->fuel=get_unit_type(punit->type)->fuel;
       else {
 	done = 0;
@@ -1280,6 +1281,19 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
       map_set_special(punit->x, punit->y, S_FORTRESS);
       unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
         if (punit2->activity == ACTIVITY_FORTRESS) {
+          set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(0, punit2, 0);
+	}
+      unit_list_iterate_end;
+      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    }
+  }
+
+  if(punit->activity==ACTIVITY_AIRBASE) {
+    if (total_activity (punit->x, punit->y, ACTIVITY_AIRBASE) >= 3) {
+      map_set_special(punit->x, punit->y, S_AIRBASE);
+      unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
+        if (punit2->activity == ACTIVITY_AIRBASE) {
           set_unit_activity(punit2, ACTIVITY_IDLE);
 	  send_unit_info(0, punit2, 0);
 	}

@@ -380,6 +380,7 @@ tiles = { "row", "column", "tag"
  12, 13, "tx.city_walls"
  12, 14, "tx.village"
  12, 15, "tx.fortress"
+  9, 18, "tx.airbase"
 
 ; City-related icons:
 
@@ -389,7 +390,8 @@ tiles = { "row", "column", "tag"
 ; Unit activity letters:  (note unit icons have just "u.")
 
   9, 18, "unit.auto_attack",
-         "unit.auto_settler"
+         "unit.auto_settler",
+         "unit.airbase"
   9, 19, "unit.stack"
  10, 19, "unit.auto_explore"
  11, 12, "unit.transform"

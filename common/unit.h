@@ -54,7 +54,7 @@ enum unit_activity {
   ACTIVITY_IDLE, ACTIVITY_POLLUTION, ACTIVITY_ROAD, ACTIVITY_MINE, 
   ACTIVITY_IRRIGATE, ACTIVITY_FORTIFY, ACTIVITY_FORTRESS, ACTIVITY_SENTRY,
   ACTIVITY_RAILROAD, ACTIVITY_PILLAGE, ACTIVITY_GOTO, ACTIVITY_EXPLORE,
-  ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN
+  ACTIVITY_TRANSFORM, ACTIVITY_UNKNOWN, ACTIVITY_AIRBASE
 };
 
 enum unit_move_type {
@@ -139,6 +139,7 @@ enum unit_flag_id {
   F_SPY,              /* Enhanced spy abilities */
   F_TRANSFORM,        /* Can transform terrain types (Engineers) */
   F_PARATROOPERS,
+  F_AIRBASE,          /* Can build Airbases */
   F_LAST
 };
 

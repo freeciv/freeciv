@@ -516,7 +516,7 @@ int get_tile_infrastructure_set(struct tile * ptile)
 {
   return
     ptile->special &
-    (S_ROAD | S_RAILROAD | S_IRRIGATION | S_FARMLAND | S_MINE | S_FORTRESS);
+    (S_ROAD | S_RAILROAD | S_IRRIGATION | S_FARMLAND | S_MINE | S_FORTRESS | S_AIRBASE);
 }
 
 /***************************************************************
@@ -542,6 +542,8 @@ char *map_get_infrastructure_text(int spe)
     strcat(s, "Mine/");
   if(spe&S_FORTRESS)
     strcat(s, "Fortress/");
+  if(spe&S_AIRBASE)
+    strcat(s, "Airbase/");
 
   if(*s)
     *(s+strlen(s)-1)='\0';
@@ -577,6 +579,8 @@ int get_preferred_pillage(int pset)
     return S_MINE;
   if(pset&S_FORTRESS)
     return S_FORTRESS;
+  if(pset&S_AIRBASE)
+    return S_AIRBASE;
   if(pset&S_RAILROAD)
     return S_RAILROAD;
   if(pset&S_ROAD)

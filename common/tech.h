@@ -49,6 +49,7 @@ enum tech_flag_id {
   TF_POPULATION_POLLUTION_INC,  /* Increase the pollution factor created by popultaion by one */
   TF_TRADE_REVENUE_REDUCE, /* When known by the player establishing a trade route 
                               reduces the initial revenue by cumulative factors of 2/3 */
+  TF_AIRBASE,   /* "Airbase" unit types can build Airbases */
   TF_LAST
 };
 

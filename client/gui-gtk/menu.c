@@ -86,6 +86,7 @@ enum MenuID {
   MENU_ORDER_IRRIGATE,
   MENU_ORDER_TRANSFORM,
   MENU_ORDER_FORTRESS,
+  MENU_ORDER_AIRBASE,
   MENU_ORDER_CITY,
   MENU_ORDER_ROAD,
   MENU_ORDER_POLLUTION,
@@ -237,6 +238,9 @@ static void orders_menu_callback(gpointer callback_data,
    case MENU_ORDER_FORTRESS:
     if(get_unit_in_focus())
       request_new_unit_activity(get_unit_in_focus(), ACTIVITY_FORTRESS);
+    break;
+   case MENU_ORDER_AIRBASE:
+    key_unit_airbase(); 
     break;
    case MENU_ORDER_MINE:
     if(get_unit_in_focus())
@@ -514,6 +518,8 @@ static GtkItemFactoryEntry menu_items[]	=
     MENU_ORDER_TRANSFORM							      },
   { "/" N_("Orders") "/" N_("Build Fortress"), "<shift>f",	orders_menu_callback,
     MENU_ORDER_FORTRESS							      },
+  { "/" N_("Orders") "/" N_("Build Airbase"), "e",		orders_menu_callback,
+    MENU_ORDER_AIRBASE								      },
   { "/" N_("Orders") "/" N_("Clean Pollution"), "p",		orders_menu_callback,
     MENU_ORDER_POLLUTION						      },
   { "/" N_("Orders") "/sep1",		NULL,		NULL,
@@ -829,6 +835,8 @@ void update_menus(void)
 			    can_unit_add_to_city(punit)));
       menus_set_sensitive("<main>/Orders/Build Fortress",
 			   can_unit_do_activity(punit, ACTIVITY_FORTRESS));
+      menus_set_sensitive("<main>/Orders/Build Airbase",
+			   can_unit_do_activity(punit, ACTIVITY_AIRBASE));
       menus_set_sensitive("<main>/Orders/Build Road",
 			   can_unit_do_activity(punit, ACTIVITY_ROAD) ||
 			   can_unit_do_activity(punit, ACTIVITY_RAILROAD));

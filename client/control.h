@@ -52,6 +52,7 @@ void update_unit_focus(void);
 
 void key_end_turn(void);
 void key_map_grid(void);
+void key_unit_airbase(void);
 void key_unit_auto(void);
 void key_unit_build_city(void);
 void key_unit_clean_pollution(void);

@@ -2058,6 +2058,7 @@ Now.. Go give'em hell!",
    <Key>r:            key-unit-road()       \\n\
    <Key>m:            key-unit-mine()       \\n\
    <Key>f:            key-unit-fortify()    \\n\
+   <Key>e:            key-unit-airbase()    \\n\
    <Key>g:            key-unit-goto()       \\n\
    Shift<Key>d:       key-unit-disband()    \\n\
    Shift<Key>p:       key-unit-pillage()    \\n\
