@@ -111,7 +111,7 @@ static void final_realloc_tile_sprites(void)
 ***********************************************************************/
 static char *tilespec_fullname(const char *tileset_name)
 {
-  char *tileset_default = "default";
+  char *tileset_default = "default";    /* Do not i18n! --dwp */
   char *fname, *dname;
   int level;
 

@@ -26,8 +26,9 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "log.h"
+#include "fcintl.h"
 #include "game.h"
+#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "shared.h"
@@ -160,21 +161,21 @@ static gint timer_callback(gpointer data);
 **************************************************************************/
 static void print_usage(const char *argv0)
 {
-  fprintf(stderr, "Usage: %s [option ...]\nValid options are:\n", argv0);
-  fprintf(stderr, "  -h, --help\t\tPrint a summary of the options.\n");
-  fprintf(stderr, "  -l, --log=FILE\tUse FILE as logfile.\n");
-  fprintf(stderr, "  -N, --Name=NAME\tUse NAME.\n");
-  fprintf(stderr, "  -p, --port=PORT\tConnect to PORT.\n");
-  fprintf(stderr, "  -s, --server=SERVER\tConnect to the server SERVER.\n");
-  fprintf(stderr, "  -m, --metaserver=METASERVER\tSet metaserver address to METASERVER.\n");
+  fprintf(stderr, _("Usage: %s [option ...]\nValid options are:\n"), argv0);
+  fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options.\n"));
+  fprintf(stderr, _("  -l, --log=FILE\tUse FILE as logfile.\n"));
+  fprintf(stderr, _("  -N, --Name=NAME\tUse NAME.\n"));
+  fprintf(stderr, _("  -p, --port=PORT\tConnect to PORT.\n"));
+  fprintf(stderr, _("  -s, --server=SERVER\tConnect to the server SERVER.\n"));
+  fprintf(stderr, _("  -m, --metaserver=METASERVER\tSet metaserver address to METASERVER.\n"));
 #ifdef DEBUG
-  fprintf(stderr, "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2,3,"
-	                                          "or 3:file1,min,max:...)\n");
+  fprintf(stderr, _("  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2,3,"
+	                                          "or 3:file1,min,max:...)\n"));
 #else
-  fprintf(stderr, "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n");
+  fprintf(stderr, _("  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n"));
 #endif
-  fprintf(stderr, "  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n");
-  fprintf(stderr, "  -v, --version\t\tPrint the version number.\n");
+  fprintf(stderr, _("  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n"));
+  fprintf(stderr, _("  -v, --version\t\tPrint the version number.\n"));
 }
 
 /**************************************************************************
@@ -457,7 +458,7 @@ static void setup_widgets(void)
           }
       }
 
-  turn_done_button = gtk_button_new_with_label( "Turn Done" );
+  turn_done_button = gtk_button_new_with_label( _("Turn Done") );
   gtk_widget_set_style(turn_done_button, gtk_style_copy(turn_done_button->style));
   gtk_table_attach_defaults(GTK_TABLE(table), turn_done_button, 0, 5, 1, 2);
   }
@@ -564,9 +565,9 @@ static void setup_widgets(void)
       gtk_widget_realize (text_scrollbar);
 
       append_output_window(
-      "Freeciv is free software and you are welcome to distribute copies of"
+      _("Freeciv is free software and you are welcome to distribute copies of"
       " it\nunder certain conditions; See the \"Copying\" item on the Help"
-      " menu.\nNow.. Go give'em hell!" );
+      " menu.\nNow.. Go give'em hell!") );
 
       /* the chat line */
       inputline = gtk_entry_new();
@@ -617,7 +618,7 @@ void ui_main(int argc, char **argv)
   gtk_signal_connect( GTK_OBJECT(toplevel),"delete_event",
       GTK_SIGNAL_FUNC(gtk_main_quit),NULL );
 
-  gtk_window_set_title (GTK_WINDOW (toplevel), "FreeCiv");
+  gtk_window_set_title (GTK_WINDOW (toplevel), _("FreeCiv"));
 
   icon_bitmap = gdk_bitmap_create_from_data( root_window,
         				     freeciv_bits,
@@ -758,7 +759,7 @@ static gint show_info_popup(GtkWidget *w, GdkEventButton *ev)
     GtkWidget *p;
     char buf[512];
     
-    sprintf(buf, "%s People\nYear: %s\nGold: %d\nNet Income: %d\nTax:%d Lux:%d Sci:%d\nResearching %s: %d/%d",
+    sprintf(buf, _("%s People\nYear: %s\nGold: %d\nNet Income: %d\nTax:%d Lux:%d Sci:%d\nResearching %s: %d/%d"),
 	    int_to_text(civ_population(game.player_ptr)),
 	    textyear(game.year),
 	    game.player_ptr->economic.gold,

@@ -24,6 +24,7 @@
 
 #include <gdk_imlib.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"		/* government_graphic() */
 #include "map.h"
@@ -248,7 +249,7 @@ void update_info_label( void )
 
   gtk_frame_set_label( GTK_FRAME( main_frame_civ_name ), get_nation_name(game.player_ptr->nation) );
 
-  sprintf( buffer, "Population: %s\nYear: %s\nGold %d\nTax: %d Lux: %d Sci: %d",
+  sprintf( buffer, _("Population: %s\nYear: %s\nGold %d\nTax: %d Lux: %d Sci: %d"),
   	  int_to_text( civ_population( game.player_ptr ) ),
   	  textyear( game.year ),
   	  game.player_ptr->economic.gold,
@@ -293,12 +294,12 @@ void update_unit_info_label(struct unit *punit)
 
     sprintf(buffer, "%s %s", 
             get_unit_type(punit->type)->name,
-            (punit->veteran) ? "(veteran)" : "" );
+            (punit->veteran) ? _("(veteran)") : "" );
     gtk_frame_set_label( GTK_FRAME(unit_info_frame), buffer);
 
     sprintf(buffer, "%s\n%s\n%s", 
             (goto_state==punit->id) ? 
-            "Select destination" : unit_activity_text(punit), 
+            _("Select destination") : unit_activity_text(punit), 
             map_get_tile_info_text(punit->x, punit->y),
             pcity ? pcity->name : "");
     gtk_set_label( unit_info_label, buffer);

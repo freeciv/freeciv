@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,6 +22,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "packets.h"
@@ -82,9 +87,9 @@ void popup_goto_dialog(void)
   gtk_accel_group_attach(accel, GTK_OBJECT(goto_dialog_shell));
   gtk_window_set_position (GTK_WINDOW(goto_dialog_shell), GTK_WIN_POS_MOUSE);
 
-  gtk_window_set_title(GTK_WINDOW(goto_dialog_shell), "Goto/Airlift Unit");
+  gtk_window_set_title(GTK_WINDOW(goto_dialog_shell), _("Goto/Airlift Unit"));
 
-  goto_label=gtk_frame_new("Select destination");
+  goto_label=gtk_frame_new(_("Select destination"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(goto_dialog_shell)->vbox),
 	goto_label, TRUE, TRUE, 0);
 
@@ -100,7 +105,7 @@ void popup_goto_dialog(void)
   gtk_widget_set_usize(scrolled, 250, 300);
   gtk_container_add(GTK_CONTAINER(goto_label), scrolled);
 
-  goto_center_command=gtk_accelbutton_new("_Goto", accel);
+  goto_center_command=gtk_accelbutton_new(_("_Goto"), accel);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(goto_dialog_shell)->action_area),
 	goto_center_command, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(goto_center_command, GTK_CAN_DEFAULT);
@@ -111,12 +116,12 @@ void popup_goto_dialog(void)
 	goto_airlift_command, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(goto_airlift_command, GTK_CAN_DEFAULT);
 
-  goto_all_toggle=gtk_toggle_button_new_with_label("All Cities");
+  goto_all_toggle=gtk_toggle_button_new_with_label(_("All Cities"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(goto_dialog_shell)->action_area),
 	goto_all_toggle, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(goto_all_toggle, GTK_CAN_DEFAULT);
 
-  goto_cancel_command=gtk_accelbutton_new("_Cancel", accel);
+  goto_cancel_command=gtk_accelbutton_new(_("_Cancel"), accel);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(goto_dialog_shell)->action_area),
 	goto_cancel_command, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(goto_cancel_command, GTK_CAN_DEFAULT);

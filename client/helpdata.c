@@ -16,11 +16,16 @@
  of gui considerations.
 *****************************************************************/
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "log.h"
@@ -480,11 +485,11 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
     strncpy(vtopic, name, sizeof(vtopic)-1);
     vitem.text = vtext;
     if(htype==HELP_ANY || htype==HELP_TEXT) {
-      sprintf(vtext, "Sorry, no help topic for %s.\n", vitem.topic);
+      sprintf(vtext, _("Sorry, no help topic for %s.\n"), vitem.topic);
       vitem.type = HELP_TEXT;
     } else {
-      sprintf(vtext, "Sorry, no help topic for %s.\n"
-	      "This page was auto-generated.\n\n",
+      sprintf(vtext, _("Sorry, no help topic for %s.\n"
+	      "This page was auto-generated.\n\n"),
 	      vitem.topic);
       vitem.type = htype;
     }
@@ -553,13 +558,13 @@ static void helptext_cathedral_techs(char *buf)
   buf[0] = '\0';
   t=game.rtech.cathedral_minus;
   if(tech_exists(t)) {
-    sprintf(buf, "The discovery of %s will reduce this by 1.\n",
+    sprintf(buf, _("The discovery of %s will reduce this by 1.\n"),
 	    advances[t].name);
     buf += strlen(buf);
   }
   t=game.rtech.cathedral_plus;
   if(tech_exists(t)) {
-    sprintf(buf, "The discovery of %s will increase this by 1.\n",
+    sprintf(buf, _("The discovery of %s will increase this by 1.\n"),
 	   advances[t].name);
     buf += strlen(buf);
   }
@@ -574,18 +579,18 @@ void helptext_improvement(char *buf, int which, const char *user_text)
   assert(buf&&user_text);
   buf[0] = '\0';
   if(which==B_AQUEDUCT) {
-    sprintf(buf+strlen(buf), "Allows a city to grow larger than size %d.",
+    sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d."),
 	    game.aqueduct_size);
     if(improvement_exists(B_SEWER)) {
       char *s = improvement_types[B_SEWER].name;
-      sprintf(buf+strlen(buf), "  (A%s %s is also\n"
-	      "required for a city to grow larger than size %d.)",
+      sprintf(buf+strlen(buf), _("  (A%s %s is also\n"
+	      "required for a city to grow larger than size %d.)"),
 	      n_if_vowel(*s), s, game.sewer_size);
     }
     strcat(buf,"\n");
   }
   if(which==B_SEWER) {
-    sprintf(buf+strlen(buf), "Allows a city to grow larger than size %d.\n",
+    sprintf(buf+strlen(buf), _("Allows a city to grow larger than size %d.\n"),
 	   game.sewer_size);
   }
   strcat(buf, user_text);
@@ -597,7 +602,7 @@ void helptext_improvement(char *buf, int which, const char *user_text)
     if(tech_exists(t)) {
       int n = strlen(buf);
       if(n && buf[n-1] == '\n') buf[n-1] = ' ';
-      sprintf(buf+n, "The discovery of %s will increase this by 1.\n",
+      sprintf(buf+n, _("The discovery of %s will increase this by 1.\n"),
 	     advances[t].name);
     }
   }
@@ -605,8 +610,8 @@ void helptext_improvement(char *buf, int which, const char *user_text)
      && tech_exists(improvement_types[B_BARRACKS].obsolete_by)
      && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
     sprintf(buf+strlen(buf),
-	   "\nNote that discovering %s or %s will obsolete\n"
-	   "any existing %s.\n",
+	   _("\nNote that discovering %s or %s will obsolete\n"
+	   "any existing %s.\n"),
 	   advances[improvement_types[B_BARRACKS].obsolete_by].name,
 	   advances[improvement_types[B_BARRACKS2].obsolete_by].name,
 	   improvement_types[B_BARRACKS].name);
@@ -614,7 +619,7 @@ void helptext_improvement(char *buf, int which, const char *user_text)
   if(which==B_BARRACKS2
      && tech_exists(improvement_types[B_BARRACKS2].obsolete_by)) {
     sprintf(buf+strlen(buf),
-	   "\nThe discovery of %s will make %s obsolete.\n",
+	   _("\nThe discovery of %s will make %s obsolete.\n"),
 	   advances[improvement_types[B_BARRACKS2].obsolete_by].name,
 	   improvement_types[B_BARRACKS2].name);
   }
@@ -635,7 +640,7 @@ void helptext_wonder(char *buf, int which,
     t = get_unit_type(u)->tech_requirement;
     assert(t<A_LAST);
     sprintf(buf+strlen(buf),
-	   "Allows all players with knowledge of %s to build %s units.\n",
+	   _("Allows all players with knowledge of %s to build %s units.\n"),
 	   advances[t].name, get_unit_type(u)->name);
   }
   strcat(buf, user_text);
@@ -662,85 +667,97 @@ void helptext_unit(char *buf, int i, const char *user_text)
   buf[0] = '\0';
   if (utype->transport_capacity>0) {
     if (unit_flag(i, F_SUBMARINE)) {
-      sprintf(buf+strlen(buf), "* Can carry and refuel %d missile units.\n",
+      sprintf(buf+strlen(buf), _("* Can carry and refuel %d missile units.\n"),
 	      utype->transport_capacity);
     } else if (unit_flag(i, F_CARRIER)) {
-      sprintf(buf+strlen(buf), "* Can carry and refuel %d air units.\n",
+      sprintf(buf+strlen(buf), _("* Can carry and refuel %d air units.\n"),
 	      utype->transport_capacity);
     } else {
-      sprintf(buf+strlen(buf), "* Can carry %d ground units across water.\n",
+      sprintf(buf+strlen(buf), _("* Can carry %d ground units across water.\n"),
 	      utype->transport_capacity);
     }
   }
   if (unit_flag(i, F_CARAVAN)) {
-    sprintf(buf+strlen(buf), "* Can establish trade routes and help build wonders.\n");
+    sprintf(buf+strlen(buf),
+	    _("* Can establish trade routes and help build wonders.\n"));
   }
   if (unit_flag(i, F_SETTLERS)) {
-    sprintf(buf+strlen(buf), "* Can perform settler actions.\n");
+    sprintf(buf+strlen(buf), _("* Can perform settler actions.\n"));
   }
   if (unit_flag(i, F_DIPLOMAT)) {
     if (unit_flag(i, F_SPY)) 
-      sprintf(buf+strlen(buf), "* Can perform diplomatic actions, plus special spy abilities.\n");
+      sprintf(buf+strlen(buf), _("* Can perform diplomatic actions,"
+				 " plus special spy abilities.\n"));
     else 
-      sprintf(buf+strlen(buf), "* Can perform diplomatic actions.\n");
+      sprintf(buf+strlen(buf), _("* Can perform diplomatic actions.\n"));
   }
   if (unit_flag(i, F_FIGHTER)) {
-    sprintf(buf+strlen(buf), "* Can attack enemy air units.\n");
+    sprintf(buf+strlen(buf), _("* Can attack enemy air units.\n"));
   }
   if (unit_flag(i, F_MARINES)) {
-    sprintf(buf+strlen(buf), "* Can attack from aboard sea units: against enemy cities and\n  onto land squares.");
+    sprintf(buf+strlen(buf), _("* Can attack from aboard sea units: against"
+			       " enemy cities and\n  onto land squares."));
   }
   if (unit_flag(i, F_PARATROOPERS)) {
-    sprintf(buf+strlen(buf), "* Can be paradropped from a city with airport (Range: %d).", utype->paratroopers_range);
+    sprintf(buf+strlen(buf), _("* Can be paradropped from a city with airport"
+			       " (Range: %d)."), utype->paratroopers_range);
   }
   if (unit_flag(i, F_PIKEMEN)) {
-    sprintf(buf+strlen(buf), "* Gets double defense against units specified as 'mounted'.\n");
+    sprintf(buf+strlen(buf), _("* Gets double defense against units"
+			       " specified as 'mounted'.\n"));
   }
   if (unit_flag(i, F_HORSE)) {
-    sprintf(buf+strlen(buf), "* Counts as 'mounted' against certain defenders.\n");
+    sprintf(buf+strlen(buf),
+	    _("* Counts as 'mounted' against certain defenders.\n"));
   }
   if (unit_flag(i, F_MISSILE)) {
-    sprintf(buf+strlen(buf), "* A missile unit: gets used up in making an attack.\n");
+    sprintf(buf+strlen(buf),
+	    _("* A missile unit: gets used up in making an attack.\n"));
   } else if(unit_flag(i, F_ONEATTACK)) {
-    sprintf(buf+strlen(buf), "* Making an attack ends this unit's turn.\n");
+    sprintf(buf+strlen(buf), _("* Making an attack ends this unit's turn.\n"));
   }
   if (unit_flag(i, F_NUCLEAR)) {
-    sprintf(buf+strlen(buf), "* This unit's attack causes a nuclear explosion!\n");
+    sprintf(buf+strlen(buf),
+	    _("* This unit's attack causes a nuclear explosion!\n"));
   }
   if (unit_flag(i, F_IGWALL)) {
-    sprintf(buf+strlen(buf), "* Ignores the effects of city walls.\n");
+    sprintf(buf+strlen(buf), _("* Ignores the effects of city walls.\n"));
   }
   if (unit_flag(i, F_AEGIS)) {
-    sprintf(buf+strlen(buf), "* Gets quintuple defence against missiles and aircraft.\n");
+    sprintf(buf+strlen(buf),
+	    _("* Gets quintuple defence against missiles and aircraft.\n"));
   }
   if (unit_flag(i, F_IGTER)) {
-    sprintf(buf+strlen(buf), "* Ignores terrain effects (treats all squares as roads).\n");
+    sprintf(buf+strlen(buf),
+	    _("* Ignores terrain effects (treats all squares as roads).\n"));
   }
   if (unit_flag(i, F_IGZOC)) {
-    sprintf(buf+strlen(buf), "* Ignores zones of control.\n");
+    sprintf(buf+strlen(buf), _("* Ignores zones of control.\n"));
   }
   if (unit_flag(i, F_NONMIL)) {
-    sprintf(buf+strlen(buf), "* A non-military unit (no shield upkeep).\n");
+    sprintf(buf+strlen(buf), _("* A non-military unit (no shield upkeep).\n"));
   }
   if (unit_flag(i, F_TRIREME)) {
-    sprintf(buf+strlen(buf), "* Must end turn in a city or next to land, or has a 50%% risk of\n  being lost at sea.");
+    sprintf(buf+strlen(buf),
+	    _("* Must end turn in a city or next to land,"
+	      " or has a 50%% risk of\n  being lost at sea."));
   }
   if (utype->fuel>0) {
-    sprintf(buf+strlen(buf), "* Must end ");
+    sprintf(buf+strlen(buf), _("* Must end "));
     if (utype->fuel==2) {
-      sprintf(buf+strlen(buf), "second ");
+      sprintf(buf+strlen(buf), _("second "));
     } else if (utype->fuel==3) {
-      sprintf(buf+strlen(buf), "third ");
+      sprintf(buf+strlen(buf), _("third "));
     } else if (utype->fuel>=4) {
-      sprintf(buf+strlen(buf), "%dth ", utype->fuel);
+      sprintf(buf+strlen(buf), _("%dth "), utype->fuel);
     }
-    sprintf(buf+strlen(buf), "turn in a city, or on a Carrier");
+    sprintf(buf+strlen(buf), _("turn in a city, or on a Carrier"));
     if (unit_flag(i, F_MISSILE) &&
 	num_role_units(F_SUBMARINE)>0 &&
 	get_unit_type(get_role_unit(F_SUBMARINE,0))->transport_capacity) {
-      sprintf(buf+strlen(buf), " or Submarine");
+      sprintf(buf+strlen(buf), _(" or Submarine"));
     }
-    sprintf(buf+strlen(buf), ",\n  or will run out of fuel and be lost.\n");
+    sprintf(buf+strlen(buf), _(",\n  or will run out of fuel and be lost.\n"));
   }
   if (strlen(buf)) {
     sprintf(buf+strlen(buf), "\n");
@@ -757,37 +774,37 @@ void helptext_tech(char *buf, int i, const char *user_text)
   strcpy(buf, user_text);
   if(tech_flag(i,TF_BONUS_TECH)) {
     sprintf(buf+strlen(buf),
-	    "The first player to research %s gets an immediate advance.\n",
+	    _("The first player to research %s gets an immediate advance.\n"),
 	    advances[i].name);
   }
   if(tech_flag(i,TF_BOAT_FAST))
-    sprintf(buf+strlen(buf), "Gives sea units one extra move.\n");
+    sprintf(buf+strlen(buf), _("Gives sea units one extra move.\n"));
   if(tech_flag(i,TF_POPULATION_POLLUTION_INC))
-    sprintf(buf+strlen(buf), "Increases the pollution generated by the population.\n");
+    sprintf(buf+strlen(buf), _("Increases the pollution generated by the population.\n"));
   if(game.rtech.cathedral_plus == i) 
-    sprintf(buf+strlen(buf), "Improves the effect of Cathedrals.\n");
+    sprintf(buf+strlen(buf), _("Improves the effect of Cathedrals.\n"));
   if(game.rtech.cathedral_minus == i) 
-    sprintf(buf+strlen(buf), "Reduces the effect of Cathedrals.\n");
+    sprintf(buf+strlen(buf), _("Reduces the effect of Cathedrals.\n"));
   if(game.rtech.colosseum_plus == i) 
-    sprintf(buf+strlen(buf), "Improves the effect of Colosseums.\n");
+    sprintf(buf+strlen(buf), _("Improves the effect of Colosseums.\n"));
   if(game.rtech.temple_plus == i) 
-    sprintf(buf+strlen(buf), "Improves the effect of Temples.\n");
+    sprintf(buf+strlen(buf), _("Improves the effect of Temples.\n"));
 
   if(tech_flag(i,TF_BRIDGE)) {
     char *units_str = get_units_with_flag_string(F_SETTLERS);
-    sprintf(buf+strlen(buf), "Allows %s to build roads on river squares.\n",units_str);
+    sprintf(buf+strlen(buf), _("Allows %s to build roads on river squares.\n"),units_str);
     free(units_str);
   }
 
   if(tech_flag(i,TF_FORTRESS)) {
     char *units_str = get_units_with_flag_string(F_SETTLERS);
-    sprintf(buf+strlen(buf), "Allows %s to build fortresses.\n",units_str);
+    sprintf(buf+strlen(buf), _("Allows %s to build fortresses.\n"),units_str);
     free(units_str);
   }
 
   if(tech_flag(i,TF_RAILROAD)) {
     char *units_str = get_units_with_flag_string(F_SETTLERS);
-    sprintf(buf+strlen(buf), "Allows %s to upgrade roads to railroads.\n",units_str);
+    sprintf(buf+strlen(buf), _("Allows %s to upgrade roads to railroads.\n"),units_str);
     free(units_str);
   }
 }

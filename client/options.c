@@ -20,6 +20,7 @@
 #include <ctype.h>
 
 #include "events.h"
+#include "fcintl.h"
 #include "log.h"
 #include "version.h"
 
@@ -58,40 +59,40 @@ unsigned int messages_where[E_LAST];
 int sorted_events[E_LAST];
 
 char *message_text[E_LAST]={
-  "Low Funds                ", 		/* E_LOW_ON_FUNDS */
-  "Pollution                ",
-  "Global Warming           ",
-  "Civil Disorder           ",
-  "City Celebrating         ",
-  "City Normal              ",
-  "City Growth              ",
-  "City Needs Aqueduct      ",
-  "Famine in City           ",
-  "City Captured/Destroyed  ",
-  "Building Unavailable Item",
-  "Wonder Started           ",
-  "Wonder Finished          ",
-  "Improvement Built        ",
-  "New Improvement Selected ",
-  "Forced Improvement Sale  ",
-  "Production Upgraded      ",
-  "Unit Built               ",
-  "Unit Defender Destroyed  ",
-  "Unit Defender Survived   ",
-  "Collapse to Anarchy      ",
-  "Diplomat Actions - Enemy ",
-  "Tech from Great Library  ",
-  "Player Destroyed         ",		/* E_DESTROYED */
-  "Improvement Bought       ",		/* E_IMP_BUY */
-  "Improvement Sold         ",		/* E_IMP_SOLD */
-  "Unit Bought              ",		/* E_UNIT_BUY */
-  "Wonder Stopped           ",		/* E_WONDER_STOPPED */
-  "City Needs Aq Being Built",	        /* E_CITY_AQ_BUILDING */
-  "Diplomat Actions - Own   ",          /* E_MY_DIPLOMAT */
-  "Unit Attack Failed       ",          /* E_UNIT_LOST_ATT */
-  "Unit Attack Succeeded    ",          /* E_UNIT_WIN_ATT */
-  "Suggest Growth Throttling",          /* E_CITY_GRAN_THROTTLE */
-  "Spaceship Events         ",          /* E_SPACESHIP */
+  N_("Low Funds                "), 		/* E_LOW_ON_FUNDS */
+  N_("Pollution                "),
+  N_("Global Warming           "),
+  N_("Civil Disorder           "),
+  N_("City Celebrating         "),
+  N_("City Normal              "),
+  N_("City Growth              "),
+  N_("City Needs Aqueduct      "),
+  N_("Famine in City           "),
+  N_("City Captured/Destroyed  "),
+  N_("Building Unavailable Item"),
+  N_("Wonder Started           "),
+  N_("Wonder Finished          "),
+  N_("Improvement Built        "),
+  N_("New Improvement Selected "),
+  N_("Forced Improvement Sale  "),
+  N_("Production Upgraded      "),
+  N_("Unit Built               "),
+  N_("Unit Defender Destroyed  "),
+  N_("Unit Defender Survived   "),
+  N_("Collapse to Anarchy      "),
+  N_("Diplomat Actions - Enemy "),
+  N_("Tech from Great Library  "),
+  N_("Player Destroyed         "),		/* E_DESTROYED */
+  N_("Improvement Bought       "),		/* E_IMP_BUY */
+  N_("Improvement Sold         "),		/* E_IMP_SOLD */
+  N_("Unit Bought              "),		/* E_UNIT_BUY */
+  N_("Wonder Stopped           "),		/* E_WONDER_STOPPED */
+  N_("City Needs Aq Being Built"),	        /* E_CITY_AQ_BUILDING */
+  N_("Diplomat Actions - Own   "),          /* E_MY_DIPLOMAT */
+  N_("Unit Attack Failed       "),          /* E_UNIT_LOST_ATT */
+  N_("Unit Attack Succeeded    "),          /* E_UNIT_WIN_ATT */
+  N_("Suggest Growth Throttling"),          /* E_CITY_GRAN_THROTTLE */
+  N_("Spaceship Events         "),          /* E_SPACESHIP */
 };
 
 /**************************************************************************
@@ -151,7 +152,7 @@ static FILE *open_option_file(char *mode)
   if (!name) {
     name = getenv("HOME");
     if (!name) {
-      append_output_window("Cannot find your home directory");
+      append_output_window(_("Cannot find your home directory"));
       return NULL;
     }
     strncpy(name_buffer, name, 230);
@@ -166,10 +167,10 @@ static FILE *open_option_file(char *mode)
 
   if(mode[0]=='w') {
     if (f) {
-      sprintf(output_buffer, "Settings file is ");
+      sprintf(output_buffer, _("Settings file is "));
       strncat(output_buffer, name, 255-strlen(output_buffer));
     } else {
-      sprintf(output_buffer, "Cannot write to file ");
+      sprintf(output_buffer, _("Cannot write to file "));
       strncat(output_buffer, name, 255-strlen(output_buffer));
     }
     output_buffer[255] = '\0';
@@ -216,7 +217,7 @@ void load_options(void)
     /* parse value */
     s = strstr(buffer, "=");
     if (s == NULL || sscanf(s+1, "%d", &val) != 1) {
-      append_output_window("Parse error while loading option file: input is:");
+      append_output_window(_("Parse error while loading option file: input is:"));
       append_output_window(orig_buffer);
       continue;
     }
@@ -246,7 +247,7 @@ void load_options(void)
       }
     }
     
-    append_output_window("Unknown variable found in option file: input is:");
+    append_output_window(_("Unknown variable found in option file: input is:"));
     append_output_window(orig_buffer);
 
   next_line:
@@ -267,7 +268,7 @@ void save_options(void)
 
   option_file = open_option_file("w");
   if (option_file==NULL) {
-    append_output_window("Cannot save settings.");
+    append_output_window(_("Cannot save settings."));
     return;
   }
 
@@ -290,5 +291,5 @@ void save_options(void)
 
   fclose(option_file);
   
-  append_output_window("Saved settings.");
+  append_output_window(_("Saved settings."));
 }

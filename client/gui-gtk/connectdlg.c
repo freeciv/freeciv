@@ -19,6 +19,7 @@
 
 #include <gtk/gtk.h>
 
+#include "fcintl.h"
 #include "version.h"
 
 #include "chatline.h"
@@ -117,8 +118,10 @@ static gint connect_deleted_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
 void gui_server_connect(void)
 {
   GtkWidget *label, *table, *book, *scrolled, *list, *vbox, *update, *label2;
-  char *titles[6]= {"Server Name", "Port", "Version", "Status", "Players",
-		    "Comment"};
+  char *titles[6]= {N_("Server Name"), N_("Port"), N_("Version"),
+		    N_("Status"), N_("Players"), N_("Comment")};
+  /* FIXME: how to i18n use of titles above?  --dwp
+     (can't just use _() instead of N_()) */
   char buf [256];
   int i;
 
@@ -128,13 +131,13 @@ void gui_server_connect(void)
   gtk_signal_connect(GTK_OBJECT(dialog),"delete_event",
 	GTK_SIGNAL_FUNC(connect_deleted_callback), NULL);
   
-  gtk_window_set_title(GTK_WINDOW(dialog), " Connect to FreeCiv Server");
+  gtk_window_set_title(GTK_WINDOW(dialog), _(" Connect to FreeCiv Server"));
 
   book = gtk_notebook_new ();
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), book, TRUE, TRUE, 0);
 
 
-  label=gtk_label_new("Freeciv Server Selection");
+  label=gtk_label_new(_("Freeciv Server Selection"));
 
   vbox=gtk_vbox_new(FALSE, 2);
   gtk_notebook_append_page (GTK_NOTEBOOK (book), vbox, label);
@@ -145,7 +148,7 @@ void gui_server_connect(void)
   gtk_container_border_width (GTK_CONTAINER (table), 5);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, TRUE, 0);
 
-  label=gtk_label_new("Name:");
+  label=gtk_label_new(_("Name:"));
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1, 0, 0, 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
@@ -153,7 +156,7 @@ void gui_server_connect(void)
   gtk_entry_set_text(GTK_ENTRY(iname), name);
   gtk_table_attach_defaults (GTK_TABLE (table), iname, 1, 2, 0, 1);
 
-  label=gtk_label_new("Host:");
+  label=gtk_label_new(_("Host:"));
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2, 0, 0, 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
@@ -161,7 +164,7 @@ void gui_server_connect(void)
   gtk_entry_set_text(GTK_ENTRY(ihost), server_host);
   gtk_table_attach_defaults (GTK_TABLE (table), ihost, 1, 2, 1, 2);
 
-  label=gtk_label_new("Port:");
+  label=gtk_label_new(_("Port:"));
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3, 0, 0, 0, 0);
   gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
@@ -175,9 +178,9 @@ void gui_server_connect(void)
   {
     GtkStyle *style;
 
-    label2=gtk_label_new ("THIS IS A BETA RELEASE\n"
+    label2=gtk_label_new (_("THIS IS A BETA RELEASE\n"
 			  "Freeciv 1.8 will be released third\n"
-			  "week of March at http://www.freeciv.org");
+			  "week of March at http://www.freeciv.org"));
 
     style=gtk_style_copy (label2->style);
     style->fg[GTK_STATE_NORMAL]=*colors_standard[COLOR_STD_RED];
@@ -186,7 +189,7 @@ void gui_server_connect(void)
   }
 
 
-  label=gtk_label_new("Metaserver");
+  label=gtk_label_new(_("Metaserver"));
 
   vbox=gtk_vbox_new(FALSE, 2);
   gtk_notebook_append_page (GTK_NOTEBOOK (book), vbox, label);
@@ -203,7 +206,7 @@ void gui_server_connect(void)
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
 
-  update=gtk_button_new_with_label("Update");
+  update=gtk_button_new_with_label(_("Update"));
   gtk_box_pack_start(GTK_BOX(vbox), update, FALSE, FALSE, 2);
 
   gtk_signal_connect(GTK_OBJECT(list), "select_row",
@@ -211,13 +214,13 @@ void gui_server_connect(void)
   gtk_signal_connect(GTK_OBJECT(update), "clicked",
 			GTK_SIGNAL_FUNC(meta_update_callback), (gpointer)list);
 
-  connw=gtk_button_new_with_label("Connect");
+  connw=gtk_button_new_with_label(_("Connect"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), connw,
 	TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(connw, GTK_CAN_DEFAULT);
   gtk_widget_grab_default(connw);
 
-  quitw=gtk_button_new_with_label("Quit");
+  quitw=gtk_button_new_with_label(_("Quit"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area), quitw,
 	TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(quitw, GTK_CAN_DEFAULT);

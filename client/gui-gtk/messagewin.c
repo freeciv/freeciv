@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,6 +22,7 @@
 #include <gtk/gtk.h>
 
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "mem.h"
@@ -119,14 +124,14 @@ static void meswin_not_visited_item (gint n)
 *****************************************************************/
 void create_meswin_dialog(void)
 {
-  gchar     *titles	[1] = { "Messages" };
+  gchar     *titles	[1] = { N_("Messages") };  /* FIXME i18n */
   GtkWidget *scrolled;
 
   meswin_dialog_shell = gtk_dialog_new();
   gtk_signal_connect( GTK_OBJECT(meswin_dialog_shell),"delete_event",
         GTK_SIGNAL_FUNC(meswin_close_callback),NULL );
 
-  gtk_window_set_title( GTK_WINDOW(meswin_dialog_shell), "Messages" );
+  gtk_window_set_title( GTK_WINDOW(meswin_dialog_shell), _("Messages") );
 
   meswin_list = gtk_clist_new_with_titles(1, titles);
   gtk_clist_column_titles_passive(GTK_CLIST(meswin_list));
@@ -137,17 +142,17 @@ void create_meswin_dialog(void)
   gtk_widget_set_usize(scrolled, 500, 250);
   gtk_box_pack_start( GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->vbox), scrolled, TRUE, TRUE, 0 );
 					 
-  meswin_close_command = gtk_button_new_with_label("Close");
+  meswin_close_command = gtk_button_new_with_label(_("Close"));
   gtk_box_pack_start( GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area), meswin_close_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( meswin_close_command, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( meswin_close_command );
 
-  meswin_goto_command = gtk_button_new_with_label("Goto location");
+  meswin_goto_command = gtk_button_new_with_label(_("Goto location"));
   gtk_widget_set_sensitive( meswin_goto_command, FALSE );
   gtk_box_pack_start( GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area), meswin_goto_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( meswin_goto_command, GTK_CAN_DEFAULT );
 
-  meswin_popcity_command = gtk_button_new_with_label("Popup City");
+  meswin_popcity_command = gtk_button_new_with_label(_("Popup City"));
   gtk_widget_set_sensitive( meswin_popcity_command, FALSE );
   gtk_box_pack_start( GTK_BOX(GTK_DIALOG(meswin_dialog_shell)->action_area), meswin_popcity_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( meswin_popcity_command, GTK_CAN_DEFAULT );
@@ -257,7 +262,7 @@ void add_notify_window(struct packet_generic_message *packet)
 
   meswin_allocate();
   s = fc_malloc(strlen(packet->message) + 50);
-  if (!strncmp(packet->message, "Game: ", 6)) 
+  if (!strncmp(packet->message, _("Game: "), 6)) 
    strcpy(s, packet->message + 6);
   else
     strcpy(s, packet->message);

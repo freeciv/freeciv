@@ -74,7 +74,7 @@ int did_advance_tech_this_turn;
 ...
 **************************************************************************/
 char usage[] = 
-"Usage: %s [-hlNpsv][--help] [--log] [--name] [--port]\n\t [--server] [--debug] [--version] [--tiles]\n";
+N_("Usage: %s [-hlNpsv][--help] [--log] [--name] [--port]\n\t [--server] [--debug] [--version] [--tiles]\n");
 
 /**************************************************************************
 ...
@@ -87,22 +87,22 @@ int main(int argc, char *argv[])
   
   if(argc>1 && strstr(argv[1],"-help")) {
     fprintf(stderr, _("This is the Freeciv client\n"));
-    fprintf(stderr, usage, argv[0]);
-    fprintf(stderr, "  -help\t\tPrint a summary of the options\n");
-    fprintf(stderr, "  -log F\tUse F as logfile\n");
-    fprintf(stderr, "  -name N\tUse N as name\n");
-    fprintf(stderr, "  -port N\tconnect to port N\n");
-    fprintf(stderr, "  -server S\tConnect to the server at S\n");
-    fprintf(stderr, "  -metaserver A\tConnect to the metaserver at A\n");
+    fprintf(stderr, _(usage), argv[0]);
+    fprintf(stderr, _("  -help\t\tPrint a summary of the options\n"));
+    fprintf(stderr, _("  -log F\tUse F as logfile\n"));
+    fprintf(stderr, _("  -name N\tUse N as name\n"));
+    fprintf(stderr, _("  -port N\tconnect to port N\n"));
+    fprintf(stderr, _("  -server S\tConnect to the server at S\n"));
+    fprintf(stderr, _("  -metaserver A\tConnect to the metaserver at A\n"));
 #ifdef DEBUG
-    fprintf(stderr, "  -debug N\tSet debug log level (0,1,2,3,"
-	                          "or 3:file1,min,max:...)\n");
+    fprintf(stderr, _("  -debug N\tSet debug log level (0,1,2,3,"
+	                          "or 3:file1,min,max:...)\n"));
 #else
-    fprintf(stderr, "  -debug N\tSet debug log level (0,1,2)\n");
+    fprintf(stderr, _("  -debug N\tSet debug log level (0,1,2)\n"));
 #endif
-    fprintf(stderr, "  -version\tPrint the version number\n");
-    fprintf(stderr, "  -tiles D\tLook in data subdirectory D for the tiles\n");
-    fprintf(stderr, "Report bugs to <%s>.\n", BUG_EMAIL_ADDRESS);
+    fprintf(stderr, _("  -version\tPrint the version number\n"));
+    fprintf(stderr, _("  -tiles D\tLook in data subdirectory D for the tiles\n"));
+    fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
     exit(0);
   }
   

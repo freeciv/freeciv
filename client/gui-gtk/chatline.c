@@ -10,10 +10,15 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "fcintl.h"
 #include "mem.h"
 #include "packets.h"
 
@@ -64,12 +69,12 @@ void log_output_window(void)
   char *theoutput;
   FILE *fp;
   
-  append_output_window("Exporting output window to civgame.log ...");
+  append_output_window(_("Exporting output window to civgame.log ..."));
   theoutput = gtk_editable_get_chars(GTK_EDITABLE(main_message_area), 0, -1);
   fp = fopen("civgame.log", "w"); /* should allow choice of name? */
   fprintf(fp, "%s", theoutput);
   fclose(fp);
-  append_output_window("Export complete.");
+  append_output_window(_("Export complete."));
 }
 
 /**************************************************************************
@@ -80,6 +85,6 @@ void clear_output_window(void)
   gtk_text_freeze(GTK_TEXT(main_message_area));
   gtk_editable_delete_text(GTK_EDITABLE(main_message_area), 0, -1);
   gtk_text_insert(GTK_TEXT(main_message_area), NULL, NULL, NULL,
-	"Cleared output window.\n", -1);
+	_("Cleared output window.\n"), -1);
   gtk_text_thaw(GTK_TEXT(main_message_area));
 }

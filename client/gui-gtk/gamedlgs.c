@@ -23,6 +23,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
@@ -236,12 +237,12 @@ static void create_rates_dialog(void)
   gtk_window_set_position (GTK_WINDOW(rates_dialog_shell), GTK_WIN_POS_MOUSE);
   gtk_accel_group_attach(accel, GTK_OBJECT(rates_dialog_shell));
 
-  gtk_window_set_title( GTK_WINDOW( rates_dialog_shell ), "Select tax, luxury and science rates" );
+  gtk_window_set_title( GTK_WINDOW( rates_dialog_shell ), _("Select tax, luxury and science rates") );
 
   rates_gov_label = gtk_label_new("");
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->vbox ), rates_gov_label, TRUE, TRUE, 5 );
 
-  frame = gtk_frame_new( "Tax" );
+  frame = gtk_frame_new( _("Tax") );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->vbox ), frame, TRUE, TRUE, 5 );
 
   hbox = gtk_hbox_new( FALSE, 10 );
@@ -258,10 +259,10 @@ static void create_rates_dialog(void)
   gtk_box_pack_start( GTK_BOX( hbox ), rates_tax_label, TRUE, TRUE, 0 );
   gtk_widget_set_usize( GTK_WIDGET( rates_tax_label ), 40,0 );
 
-  rates_tax_toggle = gtk_check_button_new_with_label( "Lock" );
+  rates_tax_toggle = gtk_check_button_new_with_label( _("Lock") );
   gtk_box_pack_start( GTK_BOX( hbox ), rates_tax_toggle, TRUE, TRUE, 0 );
 
-  frame = gtk_frame_new( "Luxury" );
+  frame = gtk_frame_new( _("Luxury") );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->vbox ), frame, TRUE, TRUE, 5 );
 
   hbox = gtk_hbox_new( FALSE, 10 );
@@ -278,10 +279,10 @@ static void create_rates_dialog(void)
   gtk_box_pack_start( GTK_BOX( hbox ), rates_lux_label, TRUE, TRUE, 0 );
   gtk_widget_set_usize( GTK_WIDGET( rates_lux_label ), 40,0 );
 
-  rates_lux_toggle = gtk_check_button_new_with_label( "Lock" );
+  rates_lux_toggle = gtk_check_button_new_with_label( _("Lock") );
   gtk_box_pack_start( GTK_BOX( hbox ), rates_lux_toggle, TRUE, TRUE, 0 );
 
-  frame = gtk_frame_new( "Science" );
+  frame = gtk_frame_new( _("Science") );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->vbox ), frame, TRUE, TRUE, 5 );
 
   hbox = gtk_hbox_new( FALSE, 10 );
@@ -298,12 +299,12 @@ static void create_rates_dialog(void)
   gtk_box_pack_start( GTK_BOX( hbox ), rates_sci_label, TRUE, TRUE, 0 );
   gtk_widget_set_usize( GTK_WIDGET( rates_sci_label ), 40,0 );
 
-  rates_sci_toggle = gtk_check_button_new_with_label( "Lock" );
+  rates_sci_toggle = gtk_check_button_new_with_label( _("Lock") );
   gtk_box_pack_start( GTK_BOX( hbox ), rates_sci_toggle, TRUE, TRUE, 0 );
 
 
 
-  button = gtk_button_new_with_label( "Ok" );
+  button = gtk_button_new_with_label( _("Ok") );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->action_area ), button, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( button, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( button );
@@ -312,7 +313,7 @@ static void create_rates_dialog(void)
   gtk_widget_add_accelerator(button, "clicked",
     accel, GDK_Escape, 0, GTK_ACCEL_VISIBLE);
 
-  button = gtk_button_new_with_label( "Cancel" );
+  button = gtk_button_new_with_label( _("Cancel") );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( rates_dialog_shell )->action_area ), button, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( button, GTK_CAN_DEFAULT );
   gtk_signal_connect(GTK_OBJECT(button),"clicked",
@@ -356,7 +357,7 @@ void popup_rates_dialog( void )
     gtk_widget_set_sensitive(toplevel, FALSE );
     create_rates_dialog();
 
-    sprintf(buf, "%s max rate: %d%%",
+    sprintf(buf, _("%s max rate: %d%%"),
 	get_government_name(game.player_ptr->government),
 	get_government_max_rate(game.player_ptr->government));
     gtk_set_label(rates_gov_label, buf);
@@ -401,7 +402,7 @@ static void create_option_dialog(void)
   gtk_window_set_position (GTK_WINDOW(option_dialog_shell), GTK_WIN_POS_MOUSE);
   gtk_accel_group_attach(accel, GTK_OBJECT(option_dialog_shell));
 
-  gtk_window_set_title( GTK_WINDOW( option_dialog_shell ), "Set local options" );
+  gtk_window_set_title( GTK_WINDOW( option_dialog_shell ), _("Set local options") );
 
 
   for (o=options; o->name; ++o) {
@@ -409,7 +410,7 @@ static void create_option_dialog(void)
     gtk_box_pack_start (GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox), GTK_WIDGET(o->p_gui_data), TRUE, TRUE, 0);
   }
 
-  button = gtk_button_new_with_label( "Close" );
+  button = gtk_button_new_with_label( _("Close") );
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG( option_dialog_shell )->action_area ), button, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( button, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( button );

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,6 +23,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "map.h"
@@ -408,10 +413,10 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   pdialog->progress_label=gtk_label_new("");
   gtk_table_attach_defaults(GTK_TABLE(table), pdialog->progress_label,0,1,1,2);
 
-  pdialog->buy_command=gtk_accelbutton_new("_Buy", accel);
+  pdialog->buy_command=gtk_accelbutton_new(_("_Buy"), accel);
   gtk_table_attach_defaults(GTK_TABLE(table), pdialog->buy_command,1,2,1,2);
 
-  pdialog->change_command=gtk_accelbutton_new("_Change", accel);
+  pdialog->change_command=gtk_accelbutton_new(_("_Change"), accel);
   gtk_table_attach_defaults(GTK_TABLE(table), pdialog->change_command,2,3,1,2);
   
   pdialog->improvement_list=gtk_clist_new(1);
@@ -424,12 +429,12 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 	GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_box_pack_start(GTK_BOX(box),scrolled, TRUE, TRUE, 0);
 
-  pdialog->sell_command=gtk_accelbutton_new("_Sell", accel);
+  pdialog->sell_command=gtk_accelbutton_new(_("_Sell"), accel);
   gtk_box_pack_start(GTK_BOX(box), pdialog->sell_command, FALSE, FALSE, 0);
 
 
   /* "supported units" frame */
-  pdialog->support_unit_label=gtk_frame_new("Supported units");
+  pdialog->support_unit_label=gtk_frame_new(_("Supported units"));
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->support_unit_label,
 	FALSE, FALSE, 0);
   gtk_widget_realize(pdialog->support_unit_label);
@@ -460,7 +465,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
 
   /* "present units" frame */
-  pdialog->present_unit_label=gtk_frame_new("Units present");
+  pdialog->present_unit_label=gtk_frame_new(_("Units present"));
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->present_unit_label,
 	FALSE, FALSE, 0);
   gtk_widget_realize(pdialog->present_unit_label);
@@ -490,32 +495,32 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   }
 
   /* "action area" buttons */
-  pdialog->close_command=gtk_accelbutton_new("C_lose", accel);
+  pdialog->close_command=gtk_accelbutton_new(_("C_lose"), accel);
   GTK_WIDGET_SET_FLAGS(pdialog->close_command, GTK_CAN_DEFAULT);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
 	pdialog->close_command, TRUE, TRUE, 0);
 
-  pdialog->rename_command=gtk_accelbutton_new("_Rename", accel);
+  pdialog->rename_command=gtk_accelbutton_new(_("_Rename"), accel);
   GTK_WIDGET_SET_FLAGS(pdialog->rename_command, GTK_CAN_DEFAULT);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
         pdialog->rename_command, TRUE, TRUE, 0);
 
-  pdialog->trade_command=gtk_accelbutton_new("_Trade", accel);
+  pdialog->trade_command=gtk_accelbutton_new(_("_Trade"), accel);
   GTK_WIDGET_SET_FLAGS(pdialog->trade_command, GTK_CAN_DEFAULT);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
         pdialog->trade_command, TRUE, TRUE, 0);
 
-  pdialog->activate_command=gtk_accelbutton_new("_Activate Units", accel);
+  pdialog->activate_command=gtk_accelbutton_new(_("_Activate Units"), accel);
   GTK_WIDGET_SET_FLAGS(pdialog->activate_command, GTK_CAN_DEFAULT);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
         pdialog->activate_command, TRUE, TRUE, 0);
 
-  pdialog->show_units_command=gtk_accelbutton_new("_Unit List", accel);
+  pdialog->show_units_command=gtk_accelbutton_new(_("_Unit List"), accel);
   GTK_WIDGET_SET_FLAGS(pdialog->show_units_command, GTK_CAN_DEFAULT);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
         pdialog->show_units_command, TRUE, TRUE, 0);
 
-  pdialog->cityopt_command=gtk_accelbutton_new("Con_figure", accel);
+  pdialog->cityopt_command=gtk_accelbutton_new(_("Con_figure"), accel);
   GTK_WIDGET_SET_FLAGS(pdialog->cityopt_command, GTK_CAN_DEFAULT);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
         pdialog->cityopt_command, TRUE, TRUE, 0);
@@ -769,19 +774,19 @@ gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
       return FALSE;
 
     wd=popup_message_dialog(pdialog->shell, 
-			   /*"presentunitsdialog"*/"Unit Commands", 
+			   /*"presentunitsdialog"*/_("Unit Commands"), 
 			   unit_description(punit),
-			   "Activate unit",
+			   _("Activate unit"),
 			     present_units_activate_callback, punit->id,
-			   "Activate unit, close dialog",
+			   _("Activate unit, close dialog"),
 			     present_units_activate_close_callback, punit->id,
-			   "Disband unit",
+			   _("Disband unit"),
 			     present_units_disband_callback, punit->id,
-			   "Make new homecity",
+			   _("Make new homecity"),
 			     present_units_homecity_callback, punit->id,
-			   "Upgrade unit",
+			   _("Upgrade unit"),
 			     upgrade_callback, punit->id,
-			   "Cancel",
+			   _("Cancel"),
 			     present_units_cancel_callback, 0, 
 			   NULL);
     if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
@@ -819,8 +824,8 @@ void rename_callback(GtkWidget *w, gpointer data)
   pdialog=(struct city_dialog *)data;
 
   input_dialog_create(pdialog->shell, 
-		      /*"shellrenamecity"*/"Rename City", 
-		      "What should we rename the city to?",
+		      /*"shellrenamecity"*/_("Rename City"), 
+		      _("What should we rename the city to?"),
 		      pdialog->pcity->name,
 		      (void*)rename_city_callback, (gpointer)pdialog,
 		      (void*)rename_city_callback, (gpointer)0);
@@ -846,7 +851,7 @@ void trade_callback(GtkWidget *w, gpointer data)
 
   pdialog=(struct city_dialog *)data;
 
-  sprintf(buf, "These trade routes have been established with %s:\n",
+  sprintf(buf, _("These trade routes have been established with %s:\n"),
 	  pdialog->pcity->name);
   bptr += strlen(bptr);
   
@@ -861,21 +866,21 @@ void trade_callback(GtkWidget *w, gpointer data)
 	bptr += strlen(bptr);
       }
       else {
-	sprintf(bptr, "%32s: %2d Gold/Year\n","Unknown",
+	sprintf(bptr, "%32s: %2d Gold/Year\n",_("Unknown"),
 		      pdialog->pcity->trade_value[i]);
 	bptr += strlen(bptr);
       }
 
     }
   if(!x)
-    sprintf(bptr, "No trade routes exist.\n");
+    sprintf(bptr, _("No trade routes exist.\n"));
   else
-    sprintf(bptr, "\nTotal trade %d Gold/Year\n",total);
+    sprintf(bptr, _("\nTotal trade %d Gold/Year\n"),total);
 
   popup_message_dialog(pdialog->shell, 
-		       /*"citytradedialog"*/ "Trade Routes", 
+		       /*"citytradedialog"*/ _("Trade Routes"), 
 		       buf, 
-		       "Done", trade_message_dialog_callback, 0,
+		       _("Done"), trade_message_dialog_callback, 0,
 		       0);
 }
 
@@ -890,7 +895,7 @@ void city_dialog_update_pollution(struct city_dialog *pdialog)
   GtkStyle *s;
   int col;
 
-  sprintf(buf, "Pollution:   %3d", pcity->pollution);
+  sprintf(buf, _("Pollution:   %3d"), pcity->pollution);
 
   gtk_set_label(pdialog->pollution_label, buf);
 
@@ -915,7 +920,7 @@ void city_dialog_update_storage(struct city_dialog *pdialog)
   char buf[512];
   struct city *pcity=pdialog->pcity;
   
-  sprintf(buf, "Granary: %3d/%-3d", pcity->food_stock,
+  sprintf(buf, _("Granary: %3d/%-3d"), pcity->food_stock,
 	  game.foodbox*pcity->size);
 
   gtk_set_label(pdialog->storage_label, buf);
@@ -961,7 +966,7 @@ void city_dialog_update_production(struct city_dialog *pdialog)
   char buf[512];
   struct city *pcity=pdialog->pcity;
   
-  sprintf(buf, "Food:    %2d (%+2d)\nProd:    %2d (%+2d)\nTrade:   %2d (%+2d)",
+  sprintf(buf, _("Food:    %2d (%+2d)\nProd:    %2d (%+2d)\nTrade:   %2d (%+2d)"),
 	  pcity->food_prod, pcity->food_surplus,
 	  pcity->shield_prod, pcity->shield_surplus,
 	  pcity->trade_prod+pcity->corruption, pcity->trade_prod);
@@ -976,7 +981,7 @@ void city_dialog_update_output(struct city_dialog *pdialog)
   char buf[512];
   struct city *pcity=pdialog->pcity;
   
-  sprintf(buf, "Gold:    %2d (%+2d)\nLuxury:  %2d\nScience: %2d",
+  sprintf(buf, _("Gold:    %2d (%+2d)\nLuxury:  %2d\nScience: %2d"),
 	  pcity->tax_total, city_gold_surplus(pcity),
 	  pcity->luxury_total,
 	  pcity->science_total);
@@ -1129,15 +1134,15 @@ static gint support_units_callback(GtkWidget *w, GdkEventButton *ev,
       return FALSE;
 
     popup_message_dialog(pdialog->shell,
-    	   /*"supportunitsdialog"*/ "Unit Commands", 
+    	   /*"supportunitsdialog"*/ _("Unit Commands"), 
     	   unit_description(punit),
-    	   "Activate unit",
+    	   _("Activate unit"),
     	     present_units_activate_callback, punit->id,
-    	   "Activate unit, close dialog",
+    	   _("Activate unit, close dialog"),
     	     supported_units_activate_close_callback, punit->id, /* act+c */
-    	   "Disband unit",
+    	   _("Disband unit"),
     	     present_units_disband_callback, punit->id,
-    	   "Cancel",
+    	   _("Cancel"),
     	     present_units_cancel_callback, 0, 0);
     }
   return TRUE;
@@ -1259,7 +1264,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   char buf[512];
   char *now;
   
-  sprintf(buf, "%s - %s citizens",
+  sprintf(buf, _("%s - %s citizens"),
 	  pdialog->pcity->name, int_to_text(city_population(pdialog->pcity)));
 
   now=GTK_FRAME(pdialog->cityname_label)->label;
@@ -1445,19 +1450,19 @@ void buy_callback(GtkWidget *w, gpointer data)
   value=city_buy_cost(pdialog->pcity);
 
   if(game.player_ptr->economic.gold>=value) {
-    sprintf(buf, "Buy %s for %d gold?\nTreasury contains %d gold.", 
+    sprintf(buf, _("Buy %s for %d gold?\nTreasury contains %d gold."), 
 	    name, value, game.player_ptr->economic.gold);
 
-    popup_message_dialog(pdialog->shell, /*"buydialog"*/ "Buy It!", buf,
-			 "Yes", buy_callback_yes, pdialog,
-			 "No", buy_callback_no, 0, 0);
+    popup_message_dialog(pdialog->shell, /*"buydialog"*/ _("Buy It!"), buf,
+			 _("Yes"), buy_callback_yes, pdialog,
+			 _("No"), buy_callback_no, 0, 0);
   }
   else {
-    sprintf(buf, "%s costs %d gold.\nTreasury contains %d gold.", 
+    sprintf(buf, _("%s costs %d gold.\nTreasury contains %d gold."), 
 	    name, value, game.player_ptr->economic.gold);
 
-    popup_message_dialog(pdialog->shell, /*"buynodialog"*/ "Buy It!", buf,
-			 "Darn", buy_callback_no, 0, 0);
+    popup_message_dialog(pdialog->shell, /*"buynodialog"*/ _("Buy It!"), buf,
+			 _("Darn"), buy_callback_no, 0, 0);
   }
 }
 
@@ -1503,33 +1508,33 @@ void upgrade_callback(GtkWidget *w, gpointer data)
 
     if (ut2==-1) {
       /* this shouldn't generally happen, but it is conceivable */
-      sprintf(buf, "Sorry: cannot upgrade %s.", unit_types[ut1].name);
-      popup_message_dialog(toplevel, /*"upgradenodialog"*/"Upgrade Unit!", buf,
-			   "Darn", unitupgrade_callback_no, 0,
+      sprintf(buf, _("Sorry: cannot upgrade %s."), unit_types[ut1].name);
+      popup_message_dialog(toplevel, /*"upgradenodialog"*/_("Upgrade Unit!"), buf,
+			   _("Darn"), unitupgrade_callback_no, 0,
 			   NULL);
     } else {
       value=unit_upgrade_price(game.player_ptr, ut1, ut2);
 
       if(game.player_ptr->economic.gold>=value) {
-	sprintf(buf, "Upgrade %s to %s for %d gold?\n"
-	       "Treasury contains %d gold.",
+	sprintf(buf, _("Upgrade %s to %s for %d gold?\n"
+	       "Treasury contains %d gold."),
 	       unit_types[ut1].name, unit_types[ut2].name,
 	       value, game.player_ptr->economic.gold);
 	popup_message_dialog(toplevel, 
-			     /*"upgradedialog"*/"Upgrade Obsolete Units", buf,
-			     "Yes",
+			     /*"upgradedialog"*/_("Upgrade Obsolete Units"), buf,
+			     _("Yes"),
 			       unitupgrade_callback_yes, (gpointer)(punit->id),
-			     "No",
+			     _("No"),
 			       unitupgrade_callback_no, 0,
 			     NULL);
       } else {
-	sprintf(buf, "Upgrading %s to %s costs %d gold.\n"
-	       "Treasury contains %d gold.",
+	sprintf(buf, _("Upgrading %s to %s costs %d gold.\n"
+	       "Treasury contains %d gold."),
 	       unit_types[ut1].name, unit_types[ut2].name,
 	       value, game.player_ptr->economic.gold);
 	popup_message_dialog(toplevel,
-			     /*"upgradenodialog"*/"Upgrade Unit!", buf,
-			     "Darn", unitupgrade_callback_no, 0,
+			     /*"upgradenodialog"*/_("Upgrade Unit!"), buf,
+			     _("Darn"), unitupgrade_callback_no, 0,
 			     NULL);
       }
     }
@@ -1628,7 +1633,7 @@ void change_callback(GtkWidget *w, gpointer data)
   GtkWidget *cshell, *button, *scrolled;
   struct city_dialog *pdialog;
   int i, n;
-  gchar *title[1] = { "Select new production" };
+  gchar *title[1] = { N_("Select new production") };   /* FIXME i18n */
   GtkAccelGroup *accel=gtk_accel_group_new();
   
   pdialog=(struct city_dialog *)data;
@@ -1639,9 +1644,9 @@ void change_callback(GtkWidget *w, gpointer data)
 
   gtk_window_set_position (GTK_WINDOW(cshell), GTK_WIN_POS_MOUSE);
   gtk_accel_group_attach(accel, GTK_OBJECT(cshell));
-  gtk_window_set_title(GTK_WINDOW(cshell), "Change Production");
+  gtk_window_set_title(GTK_WINDOW(cshell), _("Change Production"));
 
-  pdialog->change_list=gtk_clist_new_with_titles(1,title);
+  pdialog->change_list=gtk_clist_new_with_titles(1, title);
   gtk_clist_column_titles_passive(GTK_CLIST(pdialog->change_list));
   scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), pdialog->change_list);
@@ -1652,7 +1657,7 @@ void change_callback(GtkWidget *w, gpointer data)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->vbox), scrolled,
 	TRUE, TRUE, 0);
   
-  button=gtk_accelbutton_new("_Change", accel);
+  button=gtk_accelbutton_new(_("_Change"), accel);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->action_area), button,
 	TRUE, TRUE, 0);
   gtk_signal_connect(GTK_OBJECT(button), "clicked",
@@ -1661,7 +1666,7 @@ void change_callback(GtkWidget *w, gpointer data)
   gtk_widget_add_accelerator(button, "clicked", accel,
 			     GDK_Return, 0, 0);
 
-  button=gtk_accelbutton_new("Ca_ncel", accel);
+  button=gtk_accelbutton_new(_("Ca_ncel"), accel);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->action_area), button,
 	TRUE, TRUE, 0);
   gtk_signal_connect(GTK_OBJECT(button), "clicked",
@@ -1670,7 +1675,7 @@ void change_callback(GtkWidget *w, gpointer data)
   gtk_widget_add_accelerator(button, "clicked", accel,
 			     GDK_Escape, 0, 0);
 
-  button=gtk_accelbutton_new("_Help", accel);
+  button=gtk_accelbutton_new(_("_Help"), accel);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(cshell)->action_area),
 	button, TRUE, TRUE, 0);
   gtk_signal_connect(GTK_OBJECT(button), "clicked",
@@ -1767,13 +1772,13 @@ void sell_callback(GtkWidget *w, gpointer data)
 	    return;
 	  
 	  pdialog->sell_id=i;
-	  sprintf(buf, "Sell %s for %d gold?", 
+	  sprintf(buf, _("Sell %s for %d gold?"), 
 		  get_imp_name_ex(pdialog->pcity, i),
 		  improvement_value(i));
 
-	  popup_message_dialog(pdialog->shell, /*"selldialog"*/ "Sell It!", buf,
-			       "Yes", sell_callback_yes, pdialog,
-			       "No", sell_callback_no, pdialog, 0);
+	  popup_message_dialog(pdialog->shell, /*"selldialog"*/ _("Sell It!"), buf,
+			       _("Yes"), sell_callback_yes, pdialog,
+			       _("No"), sell_callback_no, pdialog, 0);
 	  return;
 	}
 	n++;
@@ -1822,7 +1827,7 @@ void cityopt_ok_command_callback(GtkWidget *w, gpointer data);
 void cityopt_cancel_command_callback(GtkWidget *w, gpointer data);
 void cityopt_newcit_triggle_callback(GtkWidget *w, gpointer data);
 
-char *newcitizen_labels[] = { "Workers", "Scientists", "Taxmen" };
+char *newcitizen_labels[] = { N_("Workers"), N_("Scientists"), N_("Taxmen") };
 
 static GtkWidget *cityopt_shell = 0;
 static GtkWidget *cityopt_triggle;
@@ -1857,7 +1862,7 @@ void cityopt_callback(GtkWidget *w, gpointer data)
     newcitizen_index = 0;
   }
   gtk_label_set_text (GTK_LABEL (GTK_BIN (cityopt_triggle)->child),
-	newcitizen_labels[newcitizen_index]);
+	_(newcitizen_labels[newcitizen_index]));
   
   cityopt_city_id = pcity->id;
 
@@ -1875,7 +1880,7 @@ GtkWidget *create_cityopt_dialog(char *city_name)
   GtkAccelGroup *accel=gtk_accel_group_new();
 
   shell = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (shell), "City Options");
+  gtk_window_set_title (GTK_WINDOW (shell), _("City Options"));
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   gtk_accel_group_attach(accel, GTK_OBJECT(shell));
 
@@ -1884,7 +1889,7 @@ GtkWidget *create_cityopt_dialog(char *city_name)
 	label, FALSE, FALSE, 0);
 
 
-  cityopt_triggle = gtk_check_button_new_with_label ("Scientists");
+  cityopt_triggle = gtk_check_button_new_with_label (_("Scientists"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_triggle, FALSE, FALSE, 0);
 
@@ -1896,33 +1901,33 @@ GtkWidget *create_cityopt_dialog(char *city_name)
   */
 
   cityopt_toggles[4] = gtk_check_button_new_with_label
-					("Disband if build settler at size 1");
+					(_("Disband if build settler at size 1"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[4], FALSE, FALSE, 0);
 
   cityopt_toggles[0] = gtk_check_button_new_with_label
-					("Auto-attack vs land units");
+					(_("Auto-attack vs land units"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[0], FALSE, FALSE, 0);
 
   cityopt_toggles[1] = gtk_check_button_new_with_label
-					("Auto-attack vs sea units");
+					(_("Auto-attack vs sea units"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[1], FALSE, FALSE, 0);
 
   cityopt_toggles[3] = gtk_check_button_new_with_label
-					("Auto-attack vs air units");
+					(_("Auto-attack vs air units"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[3], FALSE, FALSE, 0);
 
   cityopt_toggles[2] = gtk_check_button_new_with_label
-					("Auto-attack vs helicopters");
+					(_("Auto-attack vs helicopters"));
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->vbox),
 	cityopt_toggles[2], FALSE, FALSE, 0);
 
-  ok = gtk_button_new_with_label ("Ok");
+  ok = gtk_button_new_with_label (_("Ok"));
   gtk_widget_add_accelerator(ok, "clicked", accel, GDK_Return, 0, 0);
-  cancel = gtk_button_new_with_label ("Cancel");
+  cancel = gtk_button_new_with_label (_("Cancel"));
   gtk_widget_add_accelerator(cancel, "clicked", accel, GDK_Escape, 0, 0);
 
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG(shell)->action_area),
@@ -1993,7 +1998,7 @@ void cityopt_newcit_triggle_callback(GtkWidget *w, gpointer data)
     newcitizen_index = 0;
   }
   gtk_label_set_text (GTK_LABEL (GTK_BIN (cityopt_triggle)->child),
-	newcitizen_labels[newcitizen_index]);
+	_(newcitizen_labels[newcitizen_index]));
 }
 
 /**************************************************************************

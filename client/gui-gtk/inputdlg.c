@@ -10,9 +10,15 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 
 #include <gtk/gtk.h>  
+
+#include "fcintl.h"
 
 #include "gui_stuff.h"
 
@@ -92,13 +98,13 @@ GtkWidget *input_dialog_create(GtkWidget *parent, char *dialogname,
   gtk_signal_connect(GTK_OBJECT(input), "activate",
 	GTK_SIGNAL_FUNC(ok_callback), ok_cli_data);
 
-  ok=gtk_button_new_with_label("Ok");
+  ok=gtk_button_new_with_label(_("Ok"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->action_area),
 	ok, TRUE, TRUE, 0);
   gtk_signal_connect(GTK_OBJECT(ok), "clicked",
 	GTK_SIGNAL_FUNC(ok_callback), ok_cli_data);
 
-  cancel=gtk_button_new_with_label("Cancel");
+  cancel=gtk_button_new_with_label(_("Cancel"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->action_area),
 	cancel, TRUE, TRUE, 0);
   gtk_signal_connect(GTK_OBJECT(cancel), "clicked",

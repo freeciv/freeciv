@@ -10,10 +10,14 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include <stdio.h>
 
 #include "capability.h"
+#include "fcintl.h"
 #include "log.h"
 
 #include "chatline_g.h"
@@ -220,7 +224,7 @@ void request_unit_unload(struct unit *punit)
   struct packet_unit_request req;
 
   if(!get_transporter_capacity(punit)) {
-    append_output_window("Game: You can only unload transporter units.");
+    append_output_window(_("Game: You can only unload transporter units."));
     return;
   }
 
@@ -303,23 +307,23 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy)
 	popup_caravan_dialog(punit, phomecity, pcity);
 	return;
       } else {
-	append_output_window("Game: You cannot establish a trade route here.");
+	append_output_window(_("Game: You cannot establish a trade route here."));
 	for (i=0;i<4;i++) {
 	  if (phomecity->trade[i]==pcity->id) {
-	    sprintf(buf, "      A traderoute already exists between %s and %s!",
+	    sprintf(buf, _("      A traderoute already exists between %s and %s!"),
 		    phomecity->name, pcity->name);
 	    append_output_window(buf);
 	    return;
 	  }
 	}
 	if (city_num_trade_routes(phomecity)==4) {
-	  sprintf(buf, "      The city of %s already has 4 trade routes!",
+	  sprintf(buf, _("      The city of %s already has 4 trade routes!"),
 		  phomecity->name);
 	  append_output_window(buf);
 	  return;
 	} 
 	if (city_num_trade_routes(pcity)==4) {
-	  sprintf(buf, "      The city of %s already has 4 trade routes!",
+	  sprintf(buf, _("      The city of %s already has 4 trade routes!"),
 		  pcity->name);
 	  append_output_window(buf);
 	  return;
@@ -334,7 +338,7 @@ void request_move_unit_direction(struct unit *punit, int dx, int dy)
     if (diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
       popup_diplomat_dialog(punit, dest_x, dest_y);
     } else {
-      append_output_window("Game: You don't have enough movement left");
+      append_output_window(_("Game: You don't have enough movement left"));
     }
     return;
   }
@@ -449,8 +453,8 @@ void request_unit_auto(struct unit *punit)
     req.name[0]='\0';
     send_packet_unit_request(&aconnection, &req, PACKET_UNIT_AUTO);
   } else {
-    append_output_window("Game: Only settlers, and military units"
-			 " in cities, can be put in auto-mode.");
+    append_output_window(_("Game: Only settlers, and military units"
+			 " in cities, can be put in auto-mode."));
   }
 }
 
@@ -484,7 +488,7 @@ void request_unit_nuke(struct unit *punit)
   if(!has_capability("nuke", aconnection.capability))
     return;
   if(!unit_flag(punit->type, F_NUCLEAR)) {
-    append_output_window("Game: Only nuclear units can do this.");
+    append_output_window(_("Game: Only nuclear units can do this."));
     return;
   }
   if(!(punit->moves_left))
@@ -641,7 +645,7 @@ void do_map_click(int xtile, int ytile)
       }
 
       if(nuke_state && 3*real_map_distance(punit->x,punit->y,xtile,ytile) > punit->moves_left) {
-        append_output_window("Game: Too far for this unit.");
+        append_output_window(_("Game: Too far for this unit."));
         goto_state=0;
         nuke_state=0;
         update_unit_info_label(punit);

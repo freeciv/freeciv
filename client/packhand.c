@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,6 +22,7 @@
 #include "capability.h"
 #include "capstr.h"
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -70,14 +75,14 @@ void handle_join_game_reply(struct packet_join_game_reply *packet)
   if (packet->you_can_join) {
     freelog(LOG_VERBOSE, "join game accept:%s", packet->message);
   } else {
-    sprintf(msg, "You were rejected from the game: %s", packet->message);
+    sprintf(msg, _("You were rejected from the game: %s"), packet->message);
     append_output_window(msg);
   }
   if (strcmp(s_capability, our_capability)==0)
     return;
-  sprintf(msg, "Client capability string: %s", our_capability);
+  sprintf(msg, _("Client capability string: %s"), our_capability);
   append_output_window(msg);
-  sprintf(msg, "Server capability string: %s", s_capability);
+  sprintf(msg, _("Server capability string: %s"), s_capability);
   append_output_window(msg);
 }
 
@@ -550,7 +555,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
 	   get_nation_name(get_player(punit->owner)->nation),
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
-	   punit->homecity, (pcity ? pcity->name : "(unknown)"));
+	   punit->homecity, (pcity ? pcity->name : _("(unknown)")));
     
     /* this is ugly - prevent unit from being drawn if it's moved into
      * screen by a transporter - only works for ground_units.. yak */
@@ -698,7 +703,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   if(pplayer->ai.control!=pinfo->ai)  {
     pplayer->ai.control=pinfo->ai;
     if(pplayer==game.player_ptr)  {
-      sprintf(msg,"AI Mode is now %s.",game.player_ptr->ai.control?"ON":"OFF");
+      sprintf(msg,_("AI Mode is now %s."),game.player_ptr->ai.control?_("ON"):_("OFF"));
       append_output_window(msg);
     }
   }

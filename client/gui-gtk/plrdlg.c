@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -17,6 +21,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "packets.h"
 #include "player.h"
@@ -68,7 +73,8 @@ void popup_players_dialog(void)
 *****************************************************************/
 void create_players_dialog(void)
 {
-  gchar *titles	[ 6] = { "Name", "Race", "Embassy", "State", "Host", "Idle" };
+  gchar *titles	[6] = { N_("Name"), N_("Race"), N_("Embassy"), N_("State"),
+			N_("Host"), N_("Idle") };    /* FIXME i18n */
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
 
@@ -77,7 +83,7 @@ void create_players_dialog(void)
         GTK_SIGNAL_FUNC(players_button_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(players_dialog_shell));
 
-  gtk_window_set_title(GTK_WINDOW(players_dialog_shell), "Players");
+  gtk_window_set_title(GTK_WINDOW(players_dialog_shell), _("Players"));
 
   players_list=gtk_clist_new_with_titles(6, titles);
   gtk_clist_column_titles_passive(GTK_CLIST(players_list));
@@ -88,25 +94,25 @@ void create_players_dialog(void)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->vbox),
 	players_list, TRUE, TRUE, 0);
 
-  players_close_command=gtk_accelbutton_new("C_lose", accel);
+  players_close_command=gtk_accelbutton_new(_("C_lose"), accel);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
 	players_close_command, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(players_close_command, GTK_CAN_DEFAULT);
   gtk_widget_grab_default(players_close_command);
 
-  players_int_command=gtk_accelbutton_new("_Intelligence", accel);
+  players_int_command=gtk_accelbutton_new(_("_Intelligence"), accel);
   gtk_widget_set_sensitive(players_int_command, FALSE);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
 	players_int_command, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(players_int_command, GTK_CAN_DEFAULT);
 
-  players_meet_command=gtk_accelbutton_new("_Meet", accel);
+  players_meet_command=gtk_accelbutton_new(_("_Meet"), accel);
   gtk_widget_set_sensitive(players_meet_command, FALSE);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
 	players_meet_command, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(players_meet_command, GTK_CAN_DEFAULT);
 
-  players_sship_command=gtk_accelbutton_new("_Spaceship", accel);
+  players_sship_command=gtk_accelbutton_new(_("_Spaceship"), accel);
   gtk_widget_set_sensitive(players_sship_command, FALSE);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(players_dialog_shell)->action_area),
 	players_sship_command, TRUE, TRUE, 0);
@@ -155,22 +161,22 @@ void update_players_dialog(void)
       char idlebuf[32], statebuf[32], namebuf[32];
       
       if(game.players[i].nturns_idle>3)
-	sprintf(idlebuf, "(idle %d turns)", game.players[i].nturns_idle-1);
+	sprintf(idlebuf, _("(idle %d turns)"), game.players[i].nturns_idle-1);
       else
 	idlebuf[0]='\0';
       
       if(game.players[i].is_alive) {
 	if(game.players[i].is_connected) {
 	  if(game.players[i].turn_done)
-	    strcpy(statebuf, "done");
+	    strcpy(statebuf, _("done"));
 	  else
-	    strcpy(statebuf, "moving");
+	    strcpy(statebuf, _("moving"));
 	}
 	else
 	  statebuf[0]='\0';
       }
       else
-	strcpy(statebuf, "R.I.P");
+	strcpy(statebuf, _("R.I.P"));
 
       if(game.players[i].ai.control)
 	sprintf(namebuf,"*%-15s", game.players[i].name);
@@ -254,7 +260,7 @@ void players_meet_callback(GtkWidget *w, gpointer data)
         		       &pa);
   }
   else {
-    append_output_window("Game: You need an embassy to establish a diplomatic meeting.");
+    append_output_window(_("Game: You need an embassy to establish a diplomatic meeting."));
   }
 }
 

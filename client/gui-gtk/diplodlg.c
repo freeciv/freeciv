@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -17,6 +21,7 @@
 #include <gtk/gtk.h>
 
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "government.h"
@@ -246,7 +251,8 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						 struct player *plr1)
 {
   char buf[512];
-  gchar *titles[1] = { "The following clauses have been agreed upon:" };
+  gchar *titles[1] = { N_("The following clauses have been agreed upon:") };
+				/* FIXME i18n */
   struct Diplomacy_dialog *pdialog;
   GtkWidget *button,*label,*item,*table,*scrolled;
 
@@ -256,7 +262,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   init_treaty(&pdialog->treaty, plr0, plr1);
   
   pdialog->dip_dialog_shell = gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(pdialog->dip_dialog_shell),"Diplomacy meeting");
+  gtk_window_set_title(GTK_WINDOW(pdialog->dip_dialog_shell),_("Diplomacy meeting"));
   gtk_container_border_width(GTK_CONTAINER(pdialog->dip_dialog_shell),5);
 
   pdialog->dip_hbox = gtk_hbox_new(FALSE,0);
@@ -264,14 +270,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 	pdialog->dip_hbox);
 
 
-  sprintf(buf, "The %s offerings", get_nation_name(plr0->nation));
+  sprintf(buf, _("The %s offerings"), get_nation_name(plr0->nation));
   pdialog->dip_frame0=gtk_frame_new(buf);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_hbox),pdialog->dip_frame0, TRUE, FALSE, 2);
 
   pdialog->dip_vboxm = gtk_vbox_new(FALSE,0);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_hbox),pdialog->dip_vboxm, TRUE, FALSE, 2);
 
-  sprintf(buf, "The %s offerings", get_nation_name(plr1->nation));
+  sprintf(buf, _("The %s offerings"), get_nation_name(plr1->nation));
   pdialog->dip_frame1=gtk_frame_new(buf);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_hbox),pdialog->dip_frame1, TRUE, FALSE, 2);
 
@@ -284,36 +290,36 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
 
   pdialog->dip_map_menu0=gtk_menu_new();
-  item=gtk_menu_item_new_with_label("World-map");
+  item=gtk_menu_item_new_with_label(_("World-map"));
   gtk_menu_append(GTK_MENU(pdialog->dip_map_menu0),item);
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_map_callback),(gpointer)pdialog);
 
-  item=gtk_menu_item_new_with_label("Sea-map");
+  item=gtk_menu_item_new_with_label(_("Sea-map"));
   gtk_menu_append(GTK_MENU(pdialog->dip_map_menu0),item);
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_seamap_callback),(gpointer)pdialog);
   gtk_widget_show_all(pdialog->dip_map_menu0);
 
-  button=gtk_button_new_with_label("Maps");
+  button=gtk_button_new_with_label(_("Maps"));
   gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox0),button, FALSE,FALSE,2);
   gtk_signal_connect_object(GTK_OBJECT(button), "event",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_mbutton_callback),
 	GTK_OBJECT(pdialog->dip_map_menu0));
   
   pdialog->dip_map_menu1=gtk_menu_new();
-  item=gtk_menu_item_new_with_label("World-map");
+  item=gtk_menu_item_new_with_label(_("World-map"));
   gtk_menu_append(GTK_MENU(pdialog->dip_map_menu1),item);
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_map_callback),(gpointer)pdialog);
 
-  item=gtk_menu_item_new_with_label("Sea-map");
+  item=gtk_menu_item_new_with_label(_("Sea-map"));
   gtk_menu_append(GTK_MENU(pdialog->dip_map_menu1),item);
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_seamap_callback),(gpointer)pdialog);
   gtk_widget_show_all(pdialog->dip_map_menu1);
 
-  button=gtk_button_new_with_label("Maps");
+  button=gtk_button_new_with_label(_("Maps"));
   gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox1),button, FALSE,FALSE,2);
   gtk_signal_connect_object(GTK_OBJECT(button), "event",
 	GTK_SIGNAL_FUNC(diplomacy_dialog_mbutton_callback),
@@ -321,7 +327,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
 
   pdialog->dip_tech_menu0=gtk_menu_new();
-  button=gtk_button_new_with_label("Advances");
+  button=gtk_button_new_with_label(_("Advances"));
 
   if(!fill_diplomacy_tech_menu(pdialog->dip_tech_menu0, plr0, plr1))
     gtk_widget_set_sensitive(button, FALSE);
@@ -333,7 +339,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 	GTK_OBJECT(pdialog->dip_tech_menu0));
 
   pdialog->dip_tech_menu1=gtk_menu_new();
-  button=gtk_button_new_with_label("Advances");
+  button=gtk_button_new_with_label(_("Advances"));
 
   if(!fill_diplomacy_tech_menu(pdialog->dip_tech_menu1, plr1, plr0))
     gtk_widget_set_sensitive(button, FALSE);
@@ -347,7 +353,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   /* Start of trade city code - Kris Bubendorfer */
 
   pdialog->dip_city_menu0=gtk_menu_new();
-  button=gtk_button_new_with_label("Cities");
+  button=gtk_button_new_with_label(_("Cities"));
 
   gtk_widget_set_sensitive(button,
 	fill_diplomacy_city_menu(pdialog->dip_city_menu0, plr0, plr1));
@@ -359,7 +365,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 	GTK_OBJECT(pdialog->dip_city_menu0));
 
   pdialog->dip_city_menu1=gtk_menu_new();
-  button=gtk_button_new_with_label("Cities");
+  button=gtk_button_new_with_label(_("Cities"));
 
   gtk_widget_set_sensitive(button,
 	fill_diplomacy_city_menu(pdialog->dip_city_menu1, plr1, plr0));
@@ -376,14 +382,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   pdialog->dip_gold_entry1=gtk_entry_new();
   
-  sprintf(buf, "Gold(max %d)", plr0->economic.gold);
+  sprintf(buf, _("Gold(max %d)"), plr0->economic.gold);
   pdialog->dip_gold_frame0=gtk_frame_new(buf);
   gtk_container_add(GTK_CONTAINER(pdialog->dip_gold_frame0),
 	pdialog->dip_gold_entry0);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_vbox0),
 	pdialog->dip_gold_frame0, FALSE,FALSE,2);
 
-  sprintf(buf, "Gold(max %d)", plr1->economic.gold);
+  sprintf(buf, _("Gold(max %d)"), plr1->economic.gold);
   pdialog->dip_gold_frame1=gtk_frame_new(buf);
   gtk_container_add(GTK_CONTAINER(pdialog->dip_gold_frame1),
 	pdialog->dip_gold_entry1);
@@ -391,7 +397,9 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 	pdialog->dip_gold_frame1, FALSE,FALSE,2);
 
   
-  sprintf(buf, "This Eternal Treaty\nmarks the results of the diplomatic work between\nThe %s %s %s\nand\nThe %s %s %s",
+  sprintf(buf, _("This Eternal Treaty\n"
+		 "marks the results of the diplomatic work between\n"
+		 "The %s %s %s\nand\nThe %s %s %s"),
 	  get_nation_name(plr0->nation),
 	  get_ruler_title(plr0->government, plr0->is_male, plr0->nation),
 	  plr0->name,
@@ -419,7 +427,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   table=gtk_table_new(1,4,FALSE);
   gtk_box_pack_start(GTK_BOX(pdialog->dip_vboxm), table, TRUE, FALSE, 2);
 
-  sprintf(buf, "%s view:", get_nation_name(plr0->nation));
+  sprintf(buf, _("%s view:"), get_nation_name(plr0->nation));
   label=gtk_label_new(buf);
   gtk_table_attach_defaults(GTK_TABLE(table),label,0,1,0,1);
 
@@ -427,7 +435,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_table_attach_defaults(GTK_TABLE(table),pdialog->dip_acceptthumb0,1,2,0,1);
   gtk_widget_show(pdialog->dip_acceptthumb0);
 
-  sprintf(buf, "%s view:", get_nation_name(plr1->nation));
+  sprintf(buf, _("%s view:"), get_nation_name(plr1->nation));
   label=gtk_label_new(buf);
   gtk_table_attach_defaults(GTK_TABLE(table),label,2,3,0,1);
 
@@ -435,16 +443,16 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_table_attach_defaults(GTK_TABLE(table),pdialog->dip_acceptthumb1,3,4,0,1);
   gtk_widget_show(pdialog->dip_acceptthumb1);
   
-  pdialog->dip_erase_clause_command=gtk_button_new_with_label("Erase clause");
+  pdialog->dip_erase_clause_command=gtk_button_new_with_label(_("Erase clause"));
   gtk_box_pack_start(GTK_BOX(pdialog->dip_vboxm),
 	pdialog->dip_erase_clause_command, TRUE, FALSE, 2 );
 
-  pdialog->dip_accept_command=gtk_button_new_with_label("Accept treaty");
+  pdialog->dip_accept_command=gtk_button_new_with_label(_("Accept treaty"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->dip_dialog_shell)->action_area),
 	pdialog->dip_accept_command, TRUE, TRUE, 2 );
 
 
-  pdialog->dip_close_command=gtk_button_new_with_label("Cancel meeting");
+  pdialog->dip_close_command=gtk_button_new_with_label(_("Cancel meeting"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->dip_dialog_shell)->action_area),
 	pdialog->dip_close_command, TRUE, TRUE, 2 );
 
@@ -495,26 +503,26 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
     
     switch(pclause->type) {
      case CLAUSE_ADVANCE:
-      sprintf(buf, "The %s give %s",
+      sprintf(buf, _("The %s give %s"),
 	      get_nation_name_plural(pclause->from->nation),
 	      advances[pclause->value].name);
       break;
     case CLAUSE_CITY:
-      sprintf(buf, "The %s give %s",
+      sprintf(buf, _("The %s give %s"),
 	      get_nation_name_plural(pclause->from->nation),
 	      find_city_by_id(pclause->value)->name);
       break;
      case CLAUSE_GOLD:
-      sprintf(buf, "The %s give %d gold",
+      sprintf(buf, _("The %s give %d gold"),
 	      get_nation_name_plural(pclause->from->nation),
 	      pclause->value);
       break;
      case CLAUSE_MAP: 
-      sprintf(buf, "The %s give their worldmap",
+      sprintf(buf, _("The %s give their worldmap"),
 	      get_nation_name_plural(pclause->from->nation));
       break;
      case CLAUSE_SEAMAP: 
-      sprintf(buf, "The %s give their seamap",
+      sprintf(buf, _("The %s give their seamap"),
 	      get_nation_name_plural(pclause->from->nation));
       break;
     }
@@ -792,6 +800,6 @@ void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
       gtk_entry_set_text(GTK_ENTRY(w),"");
     }
     else
-      append_output_window("Game: Invalid amount of gold specified");
+      append_output_window(_("Game: Invalid amount of gold specified"));
   }
 }

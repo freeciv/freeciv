@@ -59,6 +59,7 @@
 #endif
 
 #include "capstr.h"
+#include "fcintl.h"
 #include "game.h"
 #include "log.h"
 #include "mem.h"
@@ -96,14 +97,14 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
   
   if(isdigit((size_t)*hostname)) {
     if((address = inet_addr(hostname)) == -1) {
-      strcpy(errbuf, "Invalid hostname");
+      strcpy(errbuf, _("Invalid hostname"));
       return -1;
     }
     src.sin_addr.s_addr = address;
     src.sin_family = AF_INET;
   }
   else if ((ph = gethostbyname(hostname)) == NULL) {
-    strcpy(errbuf, "Failed looking up host");
+    strcpy(errbuf, _("Failed looking up host"));
     return -1;
   }
   else {
@@ -155,7 +156,7 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
 **************************************************************************/
 void disconnect_from_server(void)
 {
-  append_output_window("Disconnecting from server.");
+  append_output_window(_("Disconnecting from server."));
   close(aconnection.sock);
   remove_net_input();
   set_client_state(CLIENT_PRE_GAME_STATE);
@@ -176,7 +177,7 @@ void input_from_server(int fid)
     }
   }
   else {
-    append_output_window("Lost connection to server!");
+    append_output_window(_("Lost connection to server!"));
     freelog(LOG_NORMAL, "lost connection to server");
     close(fid);
     remove_net_input();

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,6 +21,7 @@
 #include <gtk/gtk.h>
 
 #include "capability.h"
+#include "fcintl.h"
 #include "game.h"
 #include "map.h"
 #include "player.h"
@@ -76,8 +81,8 @@ static void name_new_city_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
-  input_dialog_create(toplevel, /*"shellnewcityname"*/"Build New City",
-			"What should we call our new city?",
+  input_dialog_create(toplevel, /*"shellnewcityname"*/_("Build New City"),
+			_("What should we call our new city?"),
 			suggestname,
 			name_new_city_callback, (gpointer)punit->id,
 			name_new_city_callback, (gpointer)0);
@@ -113,14 +118,14 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     p=gtk_window_new(GTK_WINDOW_POPUP);
     b=gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(p), b);
-    sprintf(s, "Terrain: %s", map_get_tile_info_text(xtile, ytile));
+    sprintf(s, _("Terrain: %s"), map_get_tile_info_text(xtile, ytile));
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				   "GtkLabel::label", s,
 				   NULL);
 
     if(ptile->special&S_HUT) {
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
-				     "GtkLabel::label", "Minor Tribe Village",
+				     "GtkLabel::label", _("Minor Tribe Village"),
 				     NULL);
     }
     
@@ -133,7 +138,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
     }
 
     if(get_tile_infrastructure_set(ptile)) {
-      strcpy(s, "Infrastructure: ");
+      strcpy(s, _("Infrastructure: "));
       strcat(s, map_get_infrastructure_text(ptile->special));
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
@@ -150,7 +155,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
 	if(pcity)
 	  sprintf(cn, "/%s", pcity->name);
       }
-      sprintf(s, "Unit: %s(%s%s)", ptype->name, 
+      sprintf(s, _("Unit: %s(%s%s)"), ptype->name, 
 	      get_nation_name(game.players[punit->owner].nation), cn);
       gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", b,
 				     "GtkLabel::label", s,
@@ -159,7 +164,7 @@ static void popit(GdkEventButton *event, int xtile, int ytile)
       if(punit->owner==game.player_idx)  {
 	char uc[64] = "";
 	if(unit_list_size(&ptile->units)>=2)
-	  sprintf(uc, "  (%d more)", unit_list_size(&ptile->units) - 1);
+	  sprintf(uc, _("  (%d more)"), unit_list_size(&ptile->units) - 1);
         sprintf(s, "A:%d D:%d FP:%d HP:%d/%d%s%s", ptype->attack_strength, 
 	        ptype->defense_strength, ptype->firepower, punit->hp, 
 	        ptype->hp, punit->veteran?" V":"", uc);

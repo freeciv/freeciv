@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <strings.h>
 #include <stdlib.h>
@@ -19,6 +23,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
@@ -174,9 +179,9 @@ void create_science_dialog(int make_modal)
         GTK_SIGNAL_FUNC(science_close_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(science_dialog_shell));
 
-  gtk_window_set_title (GTK_WINDOW(science_dialog_shell), "Science Report");
+  gtk_window_set_title (GTK_WINDOW(science_dialog_shell), _("Science Report"));
 
-  report_title=get_report_title("Science Advisor");
+  report_title=get_report_title(_("Science Advisor"));
 
   science_label = gtk_label_new(report_title);
   free(report_title);
@@ -184,7 +189,7 @@ void create_science_dialog(int make_modal)
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
         science_label, FALSE, FALSE, 0 );
 
-  frame = gtk_frame_new("Researching");
+  frame = gtk_frame_new(_("Researching"));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
         frame, FALSE, FALSE, 0 );
 
@@ -201,10 +206,10 @@ void create_science_dialog(int make_modal)
   gtk_box_pack_start( GTK_BOX( hbox ), science_current_label,TRUE, FALSE, 0 );
   gtk_widget_set_usize(science_current_label, 0,25);
 
-  science_help_toggle = gtk_check_button_new_with_label ("Help");
+  science_help_toggle = gtk_check_button_new_with_label (_("Help"));
   gtk_box_pack_start( GTK_BOX( hbox ), science_help_toggle, TRUE, FALSE, 0 );
 
-  frame = gtk_frame_new( "Goal");
+  frame = gtk_frame_new( _("Goal"));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
         frame, FALSE, FALSE, 0 );
 
@@ -228,7 +233,7 @@ void create_science_dialog(int make_modal)
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->vbox ),
 		science_list, TRUE, TRUE, 0 );
 
-  close_command = gtk_button_new_with_label("Close");
+  close_command = gtk_button_new_with_label(_("Close"));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(science_dialog_shell)->action_area ),
         close_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( close_command, GTK_CAN_DEFAULT );
@@ -298,7 +303,7 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
     science_dialog_update();
   }
   else {  
-    sprintf(text, "(%d steps)",
+    sprintf(text, _("(%d steps)"),
 	    tech_goal_turns(game.player_ptr, to));
     gtk_set_label(science_goal_label,text);
 
@@ -351,7 +356,7 @@ void science_dialog_update(void)
     GtkWidget *item;
     
   if(delay_report_update) return;
-  report_title=get_report_title("Science Advisor");
+  report_title=get_report_title(_("Science Advisor"));
   gtk_set_label(science_label, report_title);
   free(report_title);
 
@@ -410,7 +415,7 @@ void science_dialog_update(void)
   }
   else
   {
-    sprintf(text, "Researching Future Tech. %d",
+    sprintf(text, _("Researching Future Tech. %d"),
 	((game.player_ptr->future_tech)+1));
 
     item = gtk_menu_item_new_with_label(text);
@@ -424,7 +429,7 @@ void science_dialog_update(void)
   gtk_widget_destroy(goalmenu);
   goalmenu = gtk_menu_new();
 
-  sprintf(text, "(%d steps)",
+  sprintf(text, _("(%d steps)"),
           tech_goal_turns(game.player_ptr, game.player_ptr->ai.tech_goal));
   gtk_set_label(science_goal_label,text);
 
@@ -492,7 +497,8 @@ void create_trade_report_dialog(int make_modal)
 {
   GtkWidget *close_command, *scrolled;
   char *report_title;
-  gchar *titles [4] =	{ "Building Name", "Count", "Cost", "U Total" };
+  gchar *titles [4] = { N_("Building Name"), N_("Count"), N_("Cost"),
+			N_("U Total") };   /* FIXME i18n */
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
   
@@ -501,9 +507,9 @@ void create_trade_report_dialog(int make_modal)
         GTK_SIGNAL_FUNC(trade_close_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(trade_dialog_shell));
 
-  gtk_window_set_title(GTK_WINDOW(trade_dialog_shell),"Trade Report");
+  gtk_window_set_title(GTK_WINDOW(trade_dialog_shell),_("Trade Report"));
 
-  report_title=get_report_title("Trade Advisor");
+  report_title=get_report_title(_("Trade Advisor"));
   trade_label = gtk_label_new(report_title);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->vbox ),
         trade_label, FALSE, FALSE, 0 );
@@ -523,23 +529,23 @@ void create_trade_report_dialog(int make_modal)
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->vbox ),
         scrolled, TRUE, TRUE, 0 );
 
-  trade_label2 = gtk_label_new("Total Cost:");
+  trade_label2 = gtk_label_new(_("Total Cost:"));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->vbox ),
         trade_label2, FALSE, FALSE, 0 );
 
-  close_command = gtk_button_new_with_label("Close");
+  close_command = gtk_button_new_with_label(_("Close"));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->action_area ),
         close_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( close_command, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( close_command );
 
-  sellobsolete_command = gtk_button_new_with_label("Sell Obsolete");
+  sellobsolete_command = gtk_button_new_with_label(_("Sell Obsolete"));
   gtk_widget_set_sensitive(sellobsolete_command, FALSE);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->action_area ),
         sellobsolete_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( sellobsolete_command, GTK_CAN_DEFAULT );
 
-  sellall_command  = gtk_button_new_with_label("Sell All");
+  sellall_command  = gtk_button_new_with_label(_("Sell All"));
   gtk_widget_set_sensitive(sellall_command, FALSE);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(trade_dialog_shell)->action_area ),
         sellall_command, TRUE, TRUE, 0 );
@@ -636,12 +642,12 @@ void trade_selloff_callback(GtkWidget *w, gpointer data)
     };
   };
   if(count)  {
-    sprintf(str,"Sold %d %s for %d gold",count,get_improvement_name(i),gold);
+    sprintf(str,_("Sold %d %s for %d gold"),count,get_improvement_name(i),gold);
   } else {
-    sprintf(str,"No %s could be sold",get_improvement_name(i));
+    sprintf(str,_("No %s could be sold"),get_improvement_name(i));
   };
     gtk_clist_unselect_row(GTK_CLIST(trade_list),row,0);
-  popup_notify_dialog("Sell-Off:","Results",str);
+  popup_notify_dialog(_("Sell-Off:"),_("Results"),str);
   }
   return;
 }
@@ -663,7 +669,7 @@ void trade_report_dialog_update(void)
     char trade_total[48];
     struct city *pcity;
     
-    report_title=get_report_title("Trade Advisor");
+    report_title=get_report_title(_("Trade Advisor"));
     gtk_set_label(trade_label, report_title);
     free(report_title);
 
@@ -706,7 +712,7 @@ void trade_report_dialog_update(void)
 	 tax+=pcity->shield_surplus;
       } city_list_iterate_end;
     }
-    sprintf(trade_total, "Income:%6d    Total Costs: %6d", tax, total); 
+    sprintf(trade_total, _("Income:%6d    Total Costs: %6d"), tax, total); 
     gtk_set_label(trade_label2, trade_total); 
 
     gtk_widget_show_all(trade_list);
@@ -750,7 +756,8 @@ void create_activeunits_report_dialog(int make_modal)
   GtkWidget *close_command, *refresh_command;
   char *report_title;
   gchar *titles [AU_COL] =
-	{ "Unit Type", "U", "In-Prog", "Active", "Shield", "Food" };
+	{ N_("Unit Type"), N_("U"), N_("In-Prog"), N_("Active"),
+	  N_("Shield"), N_("Food") };     /* FIXME i18n */
   int cols;
   int    i;
   GtkAccelGroup *accel=gtk_accel_group_new();
@@ -760,9 +767,9 @@ void create_activeunits_report_dialog(int make_modal)
         GTK_SIGNAL_FUNC(activeunits_close_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(activeunits_dialog_shell));
 
-  gtk_window_set_title(GTK_WINDOW(activeunits_dialog_shell),"Military Report");
+  gtk_window_set_title(GTK_WINDOW(activeunits_dialog_shell),_("Military Report"));
 
-  report_title=get_report_title("Military Report");
+  report_title=get_report_title(_("Military Report"));
   activeunits_label = gtk_label_new(report_title);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
         activeunits_label, FALSE, FALSE, 0 );
@@ -782,23 +789,23 @@ void create_activeunits_report_dialog(int make_modal)
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
         activeunits_list, TRUE, TRUE, 0 );
 
-  activeunits_label2 = gtk_label_new("Totals: ...");
+  activeunits_label2 = gtk_label_new(_("Totals: ..."));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->vbox ),
         activeunits_label2, FALSE, FALSE, 0 );
 
-  close_command = gtk_button_new_with_label("Close");
+  close_command = gtk_button_new_with_label(_("Close"));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->action_area ),
         close_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( close_command, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( close_command );
 
-  upgrade_command = gtk_button_new_with_label("Upgrade");
+  upgrade_command = gtk_button_new_with_label(_("Upgrade"));
   gtk_widget_set_sensitive(upgrade_command, FALSE);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->action_area ),
         upgrade_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( upgrade_command, GTK_CAN_DEFAULT );
 
-  refresh_command = gtk_button_new_with_label("Refresh");
+  refresh_command = gtk_button_new_with_label(_("Refresh"));
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(activeunits_dialog_shell)->action_area ),
         refresh_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( refresh_command, GTK_CAN_DEFAULT );
@@ -881,15 +888,15 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
   ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
 
   sprintf(buf,
-	  "Upgrade as many %s to %s as possible for %d gold each?\n"
-	    "Treasury contains %d gold.",
+	  _("Upgrade as many %s to %s as possible for %d gold each?\n"
+	    "Treasury contains %d gold."),
 	  unit_types[ut1].name, unit_types[ut2].name,
 	  unit_upgrade_price(game.player_ptr, ut1, ut2),
 	  game.player_ptr->economic.gold);
 
-  popup_message_dialog(toplevel, /*"upgradedialog"*/"Upgrade Obsolete Units", buf,
-        	       "Yes", upgrade_callback_yes, (gpointer)(activeunits_type[row]),
-        	       "No", upgrade_callback_no, 0, 0);
+  popup_message_dialog(toplevel, /*"upgradedialog"*/_("Upgrade Obsolete Units"), buf,
+        	       _("Yes"), upgrade_callback_yes, (gpointer)(activeunits_type[row]),
+        	       _("No"), upgrade_callback_no, 0, 0);
 }
 
 /****************************************************************
@@ -934,7 +941,7 @@ void activeunits_report_dialog_update(void)
     gchar *row[AU_COL];
     char   buf[AU_COL][64];
 
-    report_title=get_report_title("Military Report");
+    report_title=get_report_title(_("Military Report"));
     gtk_set_label(activeunits_label, report_title);
     free(report_title);
 
@@ -985,7 +992,7 @@ void activeunits_report_dialog_update(void)
 
     /* horrible kluge, but I can't get gtk_label_set_justify() to work --jjm */
     sprintf(activeunits_total,
-	    "Totals:                     %s%9d%s%9d%s%9d%s%9d",
+	    _("Totals:                     %s%9d%s%9d%s%9d%s%9d"),
 	    "        ", unittotals.building_count,
 	    " ", unittotals.active_count,
 	    " ", unittotals.upkeep_shield,

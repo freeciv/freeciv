@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -17,6 +21,7 @@
 
 #include <gtk/gtk.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
@@ -74,11 +79,11 @@ void intel_create_dialog(struct player *p)
         GTK_SIGNAL_FUNC(intel_close_command_callback), NULL);
 
   gtk_window_set_title(GTK_WINDOW(intel_dialog_shell),
-	"Foreign Intelligence Report");
+	_("Foreign Intelligence Report"));
 
   gtk_container_border_width(GTK_CONTAINER(intel_dialog_shell), 5);
 
-  sprintf(buf, "Intelligence Information for the %s Empire", 
+  sprintf(buf, _("Intelligence Information for the %s Empire"), 
 	  get_nation_name(p->nation));
 
   label=gtk_frame_new(buf);
@@ -91,31 +96,31 @@ void intel_create_dialog(struct player *p)
   hbox=gtk_hbox_new(FALSE,0);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, FALSE, 2);
 
-  sprintf(buf, "Ruler: %s %s", 
+  sprintf(buf, _("Ruler: %s %s"), 
 	  get_ruler_title(p->government, p->is_male, p->nation), p->name);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
   
-  sprintf(buf, "Government: %s", get_government_name(p->government));
+  sprintf(buf, _("Government: %s"), get_government_name(p->government));
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
   hbox=gtk_hbox_new(FALSE,5);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, FALSE, 2);
 
-  sprintf(buf, "Gold: %d", p->economic.gold);
+  sprintf(buf, _("Gold: %d"), p->economic.gold);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
-  sprintf(buf, "Tax: %d%%", p->economic.tax);
+  sprintf(buf, _("Tax: %d%%"), p->economic.tax);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
-  sprintf(buf, "Science: %d%%", p->economic.science);
+  sprintf(buf, _("Science: %d%%"), p->economic.science);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
-  sprintf(buf, "Luxury: %d%%", p->economic.luxury);
+  sprintf(buf, _("Luxury: %d%%"), p->economic.luxury);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 5);
 
@@ -123,19 +128,19 @@ void intel_create_dialog(struct player *p)
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, FALSE, 2);
 
   if (p->research.researching!=A_NONE)
-    sprintf(buf, "Researching: %s(%d/%d)", 
+    sprintf(buf, _("Researching: %s(%d/%d)"), 
            advances[p->research.researching].name,
            p->research.researched, 
            research_time(p));
   else
-    sprintf(buf, "Researching Future Tech. %d: %d/%d",
+    sprintf(buf, _("Researching Future Tech. %d: %d/%d"),
            ((p->future_tech)+1), p->research.researched,research_time(p));
 
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 2);
 
   pcity = find_palace(p);
-  sprintf(buf, "Capital: %s", (pcity==NULL)?"(Unknown)":pcity->name);
+  sprintf(buf, _("Capital: %s"), (pcity==NULL)?_("(Unknown)"):pcity->name);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 2);
 
@@ -169,7 +174,7 @@ void intel_create_dialog(struct player *p)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(intel_dialog_shell)->vbox),
 	scrolled, TRUE, FALSE, 2);
 
-  close=gtk_button_new_with_label("Close");
+  close=gtk_button_new_with_label(_("Close"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(intel_dialog_shell)->action_area),
 	close, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(close,GTK_CAN_DEFAULT);

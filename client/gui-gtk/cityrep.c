@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,6 +24,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "city.h"
+#include "fcintl.h"
 #include "game.h"
 #include "packets.h"
 #include "shared.h"
@@ -83,8 +88,8 @@ static char *cr_entry_hstate_concise(struct city *pcity)
 static char *cr_entry_hstate_verbose(struct city *pcity)
 {
   static char buf[16];
-  sprintf(buf, "%s", (city_celebrating(pcity) ? "Rapture" :
-		     (city_unhappy(pcity) ? "Disorder" : "Peace")));
+  sprintf(buf, "%s", (city_celebrating(pcity) ? _("Rapture") :
+		     (city_unhappy(pcity) ? _("Disorder") : _("Peace"))));
   return buf;
 }
 
@@ -211,32 +216,32 @@ struct city_report_spec {
 */
 
 static struct city_report_spec city_report_specs[] = {
-  { 1,-15, 0, "",  "Name",	      "City Name",
+  { 1,-15, 0, "",  N_("Name"),	      N_("City Name"),
 				      FUNC_TAG(cityname) },
-  { 0, -2, 1, "",  "Sz",	      "Size",
+  { 0, -2, 1, "",  N_("Sz"),	      N_("Size"),
 				      FUNC_TAG(size) },
-  { 1, -8, 1, "",  "State",	      "Rapture/Peace/Disorder",
+  { 1, -8, 1, "",  N_("State"),	      N_("Rapture/Peace/Disorder"),
 				      FUNC_TAG(hstate_verbose) },
-  { 0, -1, 1, "",  "",  	      "Concise *=Rapture, X=Disorder",
+  { 0, -1, 1, "",  "",  	      N_("Concise *=Rapture, X=Disorder"),
 				      FUNC_TAG(hstate_concise) },
-  { 1, -8, 1, "Workers", "H/C/U",     "Workers: Happy, Content, Unhappy",
+  { 1, -8, 1, N_("Workers"), N_("H/C/U"),     N_("Workers: Happy, Content, Unhappy"),
 				      FUNC_TAG(workers) },
-  { 0, -7, 1, "Special", "E/S/T",     "Entertainers, Scientists, Taxmen",
+  { 0, -7, 1, N_("Special"), N_("E/S/T"),     N_("Entertainers, Scientists, Taxmen"),
 				      FUNC_TAG(specialists) },
-  { 1,-10, 1, "Surplus", "F/P/T",     "Surplus: Food, Production, Trade",
+  { 1,-10, 1, N_("Surplus"), N_("F/P/T"),     N_("Surplus: Food, Production, Trade"),
 				      FUNC_TAG(resources) },
-  { 1,-10, 1, "Economy", "G/L/S",     "Economy: Gold, Luxuries, Science",
+  { 1,-10, 1, N_("Economy"), N_("G/L/S"),     N_("Economy: Gold, Luxuries, Science"),
 				      FUNC_TAG(output) },
-  { 0, -1, 1, "n", "T", 	      "Number of Trade Routes",
+  { 0, -1, 1, "n", "T", 	      N_("Number of Trade Routes"),
 				      FUNC_TAG(num_trade) },
-  { 1, -7, 1, "Food", "Stock",        "Food Stock",
+  { 1, -7, 1, N_("Food"), N_("Stock"),        N_("Food Stock"),
 				      FUNC_TAG(food) },
-  { 0, -3, 1, "", "Pol",	      "Pollution",
+  { 0, -3, 1, "", N_("Pol"),	      N_("Pollution"),
 				      FUNC_TAG(pollution) },
-  { 0, -3, 1, "", "Cor",              "Corruption",
+  { 0, -3, 1, "", N_("Cor"),              N_("Corruption"),
                                       FUNC_TAG(corruption) },
-  { 1,  0, 1, "Currently Building",   "(Stock,Target,Buy Cost)",
-				      "Currently Building",
+  { 1,  0, 1, N_("Currently Building"),   N_("(Stock,Target,Buy Cost)"),
+				      N_("Currently Building"),
 				      FUNC_TAG(building) }
 };
 
@@ -344,7 +349,7 @@ static void get_city_table_header(char *text[])
 
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     sprintf(text[i], "%*s\n%*s",
-            spec->width, spec->title1, spec->width, spec->title2);
+            spec->width, _(spec->title1), spec->width, _(spec->title2));
   }
 }
 
@@ -407,9 +412,9 @@ void create_city_report_dialog(int make_modal)
         GTK_SIGNAL_FUNC(city_close_callback),NULL );
   gtk_accel_group_attach(accel, GTK_OBJECT(city_dialog_shell));
 
-  gtk_window_set_title(GTK_WINDOW(city_dialog_shell),"City Report");
+  gtk_window_set_title(GTK_WINDOW(city_dialog_shell),_("City Report"));
 
-  report_title=get_report_title("City Advisor");
+  report_title=get_report_title(_("City Advisor"));
   city_label = gtk_label_new(report_title);
   free(report_title);
 
@@ -437,28 +442,28 @@ void create_city_report_dialog(int make_modal)
   for (i=0;i<NUM_CREPORT_COLS;i++)
     gtk_clist_set_column_auto_resize (GTK_CLIST (city_list), i, TRUE);
 
-  close_command		= gtk_accelbutton_new("C_lose", accel);
+  close_command		= gtk_accelbutton_new(_("C_lose"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         close_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( close_command, GTK_CAN_DEFAULT );
   gtk_widget_grab_default( close_command );
 
-  city_center_command	= gtk_accelbutton_new("Cen_ter", accel);
+  city_center_command	= gtk_accelbutton_new(_("Cen_ter"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         city_center_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_center_command, GTK_CAN_DEFAULT );
 
-  city_popup_command	= gtk_accelbutton_new("_Popup", accel);
+  city_popup_command	= gtk_accelbutton_new(_("_Popup"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         city_popup_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_popup_command, GTK_CAN_DEFAULT );
 
-  city_buy_command	= gtk_accelbutton_new("_Buy", accel);
+  city_buy_command	= gtk_accelbutton_new(_("_Buy"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         city_buy_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_buy_command, GTK_CAN_DEFAULT );
 
-  city_change_command	= gtk_accelbutton_new("_Change", accel);
+  city_change_command	= gtk_accelbutton_new(_("_Change"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         city_change_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_change_command, GTK_CAN_DEFAULT );
@@ -468,17 +473,17 @@ void create_city_report_dialog(int make_modal)
   gtk_signal_connect( GTK_OBJECT( city_change_command ), "event",
 	GTK_SIGNAL_FUNC( city_change_mbutton_callback ), NULL );
 
-  city_change_all_command = gtk_accelbutton_new("Change _All", accel);
+  city_change_all_command = gtk_accelbutton_new(_("Change _All"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         city_change_all_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_change_all_command, GTK_CAN_DEFAULT );
 
-  city_refresh_command	= gtk_accelbutton_new("_Refresh", accel);
+  city_refresh_command	= gtk_accelbutton_new(_("_Refresh"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         city_refresh_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_refresh_command, GTK_CAN_DEFAULT );
   
-  city_config_command	= gtk_accelbutton_new("Con_figure", accel);
+  city_config_command	= gtk_accelbutton_new(_("Con_figure"), accel);
   gtk_box_pack_start( GTK_BOX( GTK_DIALOG(city_dialog_shell)->action_area ),
         city_config_command, TRUE, TRUE, 0 );
   GTK_WIDGET_SET_FLAGS( city_config_command, GTK_CAN_DEFAULT );
@@ -674,7 +679,7 @@ void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 
     if (cmd != NULL) {
 	if ( !( selection = GTK_CLIST( city_change_all_from_list )->selection ) ) {
-	    sprintf(buf,"Game: Select a unit or improvement to change production from.");
+	    sprintf(buf,_("Game: Select a unit or improvement to change production from."));
 	    append_output_window(buf);
 	    return;
 	}
@@ -684,7 +689,7 @@ void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 					       row);
 	}
 	if ( !( selection = GTK_CLIST( city_change_all_to_list )->selection ) ) {
-	    sprintf(buf,"Game: Select a unit or improvement to change production to.");
+	    sprintf(buf,_("Game: Select a unit or improvement to change production to."));
 	    append_output_window(buf);
 	    return;
 	}
@@ -694,11 +699,11 @@ void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 					       row);
 	}
 	if (from==to) {
-	    sprintf(buf,"Game: That's the same thing!");
+	    sprintf(buf,_("Game: That's the same thing!"));
 	    append_output_window(buf);
 	    return;
 	}
-	sprintf(buf,"Game: Changing production of every %s into %s.",
+	sprintf(buf,_("Game: Changing production of every %s into %s."),
 		(from >= B_LAST) ?
   		  get_unit_type(from-B_LAST)->name : get_improvement_name(from),
 		(to >= B_LAST) ?
@@ -721,8 +726,8 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
     GList              *selection;
     gint                row;
     struct city *pcity;
-    gchar *title[2][1] = {{"From:"},
-			  {"To:"}};
+    gchar *title[2][1] = {{N_("From:")},
+			  {N_("To:")}};	      /* FIXME i18n */
     gchar *buf[1];
     int i,j;
     int *is_building;
@@ -740,7 +745,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 			    NULL);
   
 	gtk_window_set_title(GTK_WINDOW(city_change_all_dialog_shell),
-			     "Change Production Everywhere");
+			     _("Change Production Everywhere"));
 
 	box = gtk_hbox_new(FALSE, 10);
 
@@ -856,7 +861,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 
 	gtk_widget_show(box);
 
-	button = gtk_button_new_with_label("Change");
+	button = gtk_button_new_with_label(_("Change"));
 	gtk_box_pack_start( GTK_BOX (GTK_DIALOG (city_change_all_dialog_shell)->action_area),
 			    button, TRUE, FALSE, 0);
 	gtk_signal_connect( GTK_OBJECT(button),"clicked",
@@ -864,7 +869,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 			    "change" );
 	gtk_widget_show(button);
   
-	button = gtk_button_new_with_label("Cancel");
+	button = gtk_button_new_with_label(_("Cancel"));
 	gtk_box_pack_start( GTK_BOX (GTK_DIALOG (city_change_all_dialog_shell)->action_area),
 			    button, TRUE, FALSE, 0);
 	gtk_signal_connect( GTK_OBJECT(button),"clicked",
@@ -910,7 +915,7 @@ void city_buy_callback(GtkWidget *w, gpointer data)
 	}
       else
 	{
-	  sprintf(buf, "Game: %s costs %d gold and you only have %d gold.",
+	  sprintf(buf, _("Game: %s costs %d gold and you only have %d gold."),
 		  name,value,game.player_ptr->economic.gold);
 	  append_output_window(buf);
 	}
@@ -993,7 +998,7 @@ void city_report_dialog_update(void)
   if(delay_report_update) return;
   if(!city_dialog_shell) return;
 
-    report_title=get_report_title("City Advisor");
+    report_title=get_report_title(_("City Advisor"));
     gtk_set_label(city_label, report_title);
     free(report_title);
 
@@ -1102,21 +1107,21 @@ void create_city_report_config_dialog(void)
   int i;
   
   config_shell = gtk_dialog_new();
-  gtk_window_set_title (GTK_WINDOW(config_shell), "Configure City Report");
+  gtk_window_set_title (GTK_WINDOW(config_shell), _("Configure City Report"));
   gtk_window_set_position (GTK_WINDOW(config_shell), GTK_WIN_POS_MOUSE);
 
-  config_label = gtk_label_new("Set columns shown");
+  config_label = gtk_label_new(_("Set columns shown"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(config_shell)->vbox), config_label,
 			FALSE, FALSE, 0);
 
   for(i=1, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
-    config_toggle[i]=gtk_check_button_new_with_label(spec->explanation);
+    config_toggle[i]=gtk_check_button_new_with_label(_(spec->explanation));
 
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(config_shell)->vbox), config_toggle[i],
 			FALSE, FALSE, 0);
   }
 
-  config_ok_command = gtk_button_new_with_label("Close");
+  config_ok_command = gtk_button_new_with_label(_("Close"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(config_shell)->action_area),
 			config_ok_command, TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(config_ok_command, GTK_CAN_DEFAULT );

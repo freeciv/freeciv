@@ -29,6 +29,7 @@
 #include <X11/Xaw/Toggle.h>     
 
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "packets.h"
 #include "player.h"
@@ -128,7 +129,7 @@ Widget create_messageopt_dialog(void)
     label = XtVaCreateManagedWidget("label",
 				    labelWidgetClass,
 				    is_col1?col1:col2,
-				    XtNlabel, message_text[sorted_events[i]],
+				    XtNlabel, _(message_text[sorted_events[i]]),
 				    XtNfromVert, top_line?
 				    is_col1?colhead1:colhead2:last_label,
 				    NULL);

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -19,6 +23,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "events.h"
+#include "fcintl.h"
 #include "game.h"
 #include "packets.h"
 #include "player.h"
@@ -80,12 +85,12 @@ GtkWidget *create_messageopt_dialog(void)
   GtkAccelGroup *accel=gtk_accel_group_new();
   
   shell=gtk_dialog_new();
-  gtk_window_set_title(GTK_WINDOW(shell), "Message Options");
+  gtk_window_set_title(GTK_WINDOW(shell), _("Message Options"));
   gtk_container_set_border_width(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), 5);
   gtk_accel_group_attach(accel, GTK_OBJECT(shell));
 
-  explanation=gtk_label_new("Where to Display Messages\nOut = Output window,"
-		      " Mes = Messages window, Pop = Popup individual window");
+  explanation=gtk_label_new(_("Where to Display Messages\nOut = Output window,"
+		      " Mes = Messages window, Pop = Popup individual window"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), explanation,
 		FALSE, FALSE, 0);
 
@@ -104,24 +109,24 @@ GtkWidget *create_messageopt_dialog(void)
   col2=gtk_table_new(E_LAST/2+2, NUM_MW+1, FALSE);
   gtk_container_add(GTK_CONTAINER(colhead2), col2);
 
-  label = gtk_label_new("Out:");
+  label = gtk_label_new(_("Out:"));
   gtk_table_attach_defaults(GTK_TABLE(col1), label, 1, 2, 0, 1);
-  label = gtk_label_new("Mes:");
+  label = gtk_label_new(_("Mes:"));
   gtk_table_attach_defaults(GTK_TABLE(col1), label, 2, 3, 0, 1);
-  label = gtk_label_new("Pop:");
+  label = gtk_label_new(_("Pop:"));
   gtk_table_attach_defaults(GTK_TABLE(col1), label, 3, 4, 0, 1);
-  label = gtk_label_new("Out:");
+  label = gtk_label_new(_("Out:"));
   gtk_table_attach_defaults(GTK_TABLE(col2), label, 1, 2, 0, 1);
-  label = gtk_label_new("Mes:");
+  label = gtk_label_new(_("Mes:"));
   gtk_table_attach_defaults(GTK_TABLE(col2), label, 2, 3, 0, 1);
-  label = gtk_label_new("Pop:");
+  label = gtk_label_new(_("Pop:"));
   gtk_table_attach_defaults(GTK_TABLE(col2), label, 3, 4, 0, 1);
 
   for(i=0; i<E_LAST; i++)  {
     int line = (i%E_LAST);
     int is_col1 = i<(E_LAST/2);
 
-    label = gtk_label_new(message_text[sorted_events[i]]);
+    label = gtk_label_new(_(message_text[sorted_events[i]]));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
     gtk_table_attach_defaults(GTK_TABLE(is_col1?col1:col2), label,
                0, 1, line+1, line+2);
@@ -133,7 +138,7 @@ GtkWidget *create_messageopt_dialog(void)
     }
   }
 
-  ok=gtk_button_new_with_label("Ok");
+  ok=gtk_button_new_with_label(_("Ok"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->action_area), ok,
 	TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(ok, GTK_CAN_DEFAULT);
@@ -141,7 +146,7 @@ GtkWidget *create_messageopt_dialog(void)
   gtk_widget_add_accelerator(ok, "clicked", accel, GDK_Escape, 0,
 	GTK_ACCEL_VISIBLE);
 
-  cancel=gtk_button_new_with_label("Cancel");
+  cancel=gtk_button_new_with_label(_("Cancel"));
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->action_area), cancel,
 	TRUE, TRUE, 0);
   GTK_WIDGET_SET_FLAGS(cancel, GTK_CAN_DEFAULT);

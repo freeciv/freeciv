@@ -10,12 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 
 #include <gtk/gtk.h>
 
+#include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
 #include "map.h"
@@ -201,22 +206,22 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   style->font=gdk_font_load (FIXED_12_BFONT);
   gdk_font_ref (style->font);
 
-  pdialog->info_label=gtk_label_new ("Population:       1234\n"
+  pdialog->info_label=gtk_label_new (_("Population:       1234\n"
 				     "Support:           100 %\n"
 				     "Energy:            100 %\n"
 				     "Mass:            12345 tons\n"
 				     "Travel time:      1234 years\n"
 				     "Success prob.:     100 %\n"
-				     "Year of arrival:  1234 AD");
+				     "Year of arrival:  1234 AD"));
   gtk_label_set_justify (GTK_LABEL (pdialog->info_label), GTK_JUSTIFY_LEFT);
   gtk_misc_set_alignment(GTK_MISC(pdialog->info_label), 0.0, 0.0);
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->info_label, FALSE, FALSE, 0);
   gtk_widget_set_style (pdialog->info_label, style);
 
   
-  pdialog->close_command=gtk_button_new_with_label ("Close");
+  pdialog->close_command=gtk_button_new_with_label (_("Close"));
 
-  pdialog->launch_command=gtk_button_new_with_label ("Launch");
+  pdialog->launch_command=gtk_button_new_with_label (_("Launch"));
 
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(pdialog->shell)->action_area),
         pdialog->close_command, TRUE, TRUE, 0);
@@ -263,13 +268,13 @@ void spaceship_dialog_update_info(struct spaceship_dialog *pdialog)
 				    + (int) pship->travel_time)));
   }
   sprintf(buf,
-	  "Population:      %5d\n"
+	  _("Population:      %5d\n"
 	  "Support:         %5d %%\n"
 	  "Energy:          %5d %%\n"
 	  "Mass:            %5d tons\n"
 	  "Travel time:     %5.1f years\n"
 	  "Success prob.:   %5d %%\n"
-	  "Year of arrival: %8s",
+	  "Year of arrival: %8s"),
 	  pship->population,
 	  (int) (pship->support_rate * 100.0),
 	  (int) (pship->energy_rate * 100.0),
