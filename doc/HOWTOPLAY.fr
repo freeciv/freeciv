@@ -3,8 +3,8 @@ Freeciv playing HOWTO
   Écrit initialement par Michael Hohensee (aka Zarchon)
 
 
-Si vous cherchez à installer Freeciv, lisez le fichier INSTALL.fr
-Si vous cherchez à lancer Freeciv, lisez le fichier README.fr
+Si vous cherchez comment installer Freeciv, lisez le fichier INSTALL.fr
+Si vous cherchez comment lancer Freeciv, lisez le fichier README.fr
 
 Si vous n'avez jamais joué aux jeux Civilization, il sera plus facile de
 commencer par lire le "Freeciv Manual", disponible séparément aux
@@ -23,10 +23,10 @@ d'autres humains, ou contre l'IA.
 
 Q : Pourrais-je avoir une stratégie de base ?
 
-	Tout d'abord, ce n'est pas une stratégie *parfaite*. Ce n'en est
-même pas une bonne. Mais elle vous permettra de commencer à jouer à
-Freeciv. Une partie de l'engouement pour Freeciv découle du
-développement de nouvelles stratégies.
+	Tout d'abord, ce n'est pas une stratégie *parfaite*. On ne peut
+pas dire qu'elle soit vraiment bonne non plus. Mais elle vous permettra
+de commencer à jouer à Freeciv. Une partie de l'engouement pour Freeciv
+découle du développement de nouvelles stratégies.
 
 	La partie est divisée en plusieurs étapes :
 
@@ -50,19 +50,20 @@ territoire occupé/occupable par la ville est visible sur cet écran.  En
 gardant ceci à l'esprit, essayez de construire vos villes suffisamment
 proches les unes des autres. Plus elles sont éloignées, plus elles sont
 difficiles à défendre et à gérer à ce stage (truc : essayez de
-construire sur des chevaux ou près de poissons).
+construire sur des "chevaux" ou près de "poissons").
 
 	 Maintenant que vous avez une ville ou deux, vous devez régler
 le taux de science aussi haut que votre type de gouvernement le
 permet. Ne vous inquiétez pas des impôts étant donné que vous n'allez
-pas construire de bâtiments consommateurs d'or, mais des colons. Plus
-vous aurez de colons, plus vous pourrez avoir de villes. Plus vous aurez
-de villes, plus vous gagnerez de technologies. Plus vous gagnerez de
-technologies, plus la victoire sera rapide. Après avoir construit autant
-de villes que votre coin de monde peut contenir, faites construire des
-routes et des irrigations à vos colons.
+pas construire de bâtiments nécessitant des frais de fonctionnement,
+mais des colons. Plus vous aurez de colons, plus vous pourrez avoir de
+villes. Plus vous aurez de villes, plus vous gagnerez de
+technologies. Plus vous gagnerez de technologies, plus la victoire sera
+rapide. Après avoir construit autant de villes que votre coin de monde
+peut contenir, faites construire des routes et des irrigations à vos
+colons.
 
-[ note : si la production de nourriture dans une ville tombe à +1 à
+[ Note : si la production de nourriture dans une ville tombe à +1 à
 cause du soutien d'un nombre important de colons et que vous ne pouvez
 pas réorganiser les habitants pour accroître la production de
 nourriture, construisez des temples. Si vous ne croisez pas d'autres
@@ -108,14 +109,14 @@ vous êtes descendu à environ 30 % de luxe, mettez le plus possible de
 taxes pour la recherche tout en maintenant des revenus positifs. Lorsque
 vous avez les chemins de fer, transformez toutes vos routes en chemins
 de fer, ou au moins les carrés utilisés pour la production ou qui font
-partie d'un réseau de transport (truc : transformez chaque carré utilisé
-par une ville en route/rail afin d'accroître la production de cette
-ville. Ne vous occupez pas du carré central, c'est automatique).
+partie d'un réseau de transport (astuce : transformez chaque carré
+utilisé par une ville en route/rail afin d'accroître la production de
+cette ville. Ne vous occupez pas du carré central, c'est automatique).
 
 	Il est temps, à présent, de développer l'industrialisation et
 les technologies militaires. Vous devriez également commencer à
 construire des villes sur d'autres îles et à faire sérieusement de
-l'exploration, si ce n'est déjà fait. Vous avez besoin de découvirir où
+l'exploration, si ce n'est déjà fait. Vous avez besoin de découvrir où
 vos ennemis se situent. Faites des recherches propices aux bateaux et
 essayez de construire l'expédition de Magellan. Lorsque vous vous sentez
 prêt, passez à :
@@ -153,7 +154,7 @@ Recommencez autant que nécessaire ! ;-)
 
 [ note pour les pacifistes : Freeciv permet aussi à un joueur de gagner
 en construisant et en lançant un vaisseau spatial qui arrive avant tout
-le monde sur l'Alpha du Centaure ]
+le monde sur Alpha du Centaure ]
 
 
 Autres questions :
@@ -205,10 +206,10 @@ jouez à Freeciv quelques fois sans ce paramètre, vous entendrez
 certainement parler (ou vous en aurez l'expérience) des horreurs d'une
 petite île. Le syndrôme des petites îles (SPI [ NdT : TIS en Anglais,
 pour "Tiny Island Syndrom" ]) a la réputation de rendre les gens
-fous. Pour corriger ceci, nos chers et tendres développeurs ont crée
+fous. Pour corriger ceci, nos chers et tendres développeurs ont créé
 l'option "generator". Lorsqu'elle est à 1, on obtient la carte normale,
 avec des îles de tailles différentes (qui peuvent être injustes). Mais
-lorsqu'elle est à 2, 3 ou 4, elle génére des îles de tailles égales
+lorsqu'elle est à 2, 3 ou 4, elle génère des îles de tailles égales
 (parfois avec des îles plus petites). Ainsi, personne ne peut plus se
 plaindre de perdre "à cause de cette s***té d'île".
 
@@ -219,15 +220,15 @@ Q : Est-il raisonnable de rendre la partie plus facile en augmentant la
 	Si vous êtes inexpérimenté, et que vous jouez avec des gens
 inexpérimentés, personne ne trouvera sans doute d'inconvénient à
 augmenter la quantité d'or de départ. Ce n'est cependant pas une bonne
-façon d'apprendre comment jouer. Commencer la partie avec beaucoup d'or
-rend la partie plus facile, mais il vous est plus difficile d'apprendre
+façon d'apprendre à jouer. Commencer la partie avec beaucoup d'or rend
+la partie plus facile, mais il vous est plus difficile d'apprendre
 comment se débrouiller avec le montant d'or par défaut. Les joueurs les
-plus expérimentés ne modifient pas ce réglage. Or, si ils savent comment
+plus expérimentés ne modifient pas ce réglage. Or, s'ils savent comment
 se débrouiller avec et que vous ne savez pas, vous allez connaître le
-même sort qu'Atlantis.
+même sort que l'Atlantide.
 
-Note : on peut appliquer le même raisonnement aux options "techlevel" et
-"researchspeed".
+Note : on peut appliquer le même raisonnement aux options "techlevel"
+(niveau de technologie) et "researchspeed" (vitesse de recherche).
 
 
 Q : Un petit mot sur les autres paramètres ?
@@ -251,7 +252,7 @@ une carte plus montagneuse, un paramètre "deserts" plus haut implique
 plus de déserts, etc.
 
 
-Q : Comment avoir la technologie _________ ?
+Q : Comment avoir la technologie XXX ?
 
 Consultez l'aide en ligne. Elle vous indique quelles technologies sont
 nécessaires pour pouvoir faire des recherches sur une nouvelle
@@ -279,4 +280,4 @@ Q : Quelles sont les unités militaires les plus utiles ?
 
 N"oubliez pas : la meilleure défense, c'est une attaque puissante.
 
-<Les additions à ce document sont les bienvenues>
+<Les ajouts à ce document sont les bienvenus>
