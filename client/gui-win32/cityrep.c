@@ -164,6 +164,8 @@ LONG APIENTRY ConfigCityRepProc(HWND hWnd,
 	      spec->show=IsDlgButtonChecked(hWnd,ID_CITYREP_CONFIG_BASE+i);  
 	    }
 	  DestroyWindow(hWnd);
+	  DestroyWindow(hCityRep);
+	  popup_city_report_dialog(FALSE);
 	}
       break;
     default:
@@ -672,11 +674,11 @@ static LONG CALLBACK cityrep_changeall_proc(HWND hWnd,
       break;
     case WM_CLOSE:
       DestroyWindow(hWnd);
-      hChangeAll=NULL;
       break;
     case WM_SIZE:
     case WM_GETMINMAXINFO:
-    case WM_DESTROY:
+    case WM_DESTROY:    
+      hChangeAll=NULL;
       break;
     case WM_COMMAND:
       switch (LOWORD(wParam))
@@ -955,6 +957,11 @@ static LONG APIENTRY city_report_proc(HWND hWnd,
       }
       break;
     case WM_DESTROY:
+      if (menu_shown) {
+	DestroyMenu(menu_shown);
+	menu_shown=NULL;
+      }
+      hCityRep=NULL;
       break; 
     case WM_GETMINMAXINFO:
       break;
@@ -975,7 +982,6 @@ static LONG APIENTRY city_report_proc(HWND hWnd,
 	  
 	case ID_CITYREP_CLOSE:
 	  DestroyWindow(hCityRep);
-	  hCityRep=0;
 	  break;
 	case ID_CITYREP_LIST:
 	  selcount=ListBox_GetSelCount(GetDlgItem(hWnd,ID_CITYREP_LIST));
@@ -1053,14 +1059,7 @@ static LONG APIENTRY city_report_proc(HWND hWnd,
 	}
       break;
     case WM_CLOSE:
-      if (menu_shown)
-	{
-	  DestroyMenu(menu_shown);
-	  menu_shown=NULL;
-	}
-      DestroyWindow(hCityRep);
-      hCityRep=NULL;
-      
+      DestroyWindow(hCityRep);      
       break;
     default:
       return DefWindowProc(hWnd,uMsg,wParam,lParam);
