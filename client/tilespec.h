@@ -138,7 +138,9 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
 enum color_std player_color(const struct player *pplayer);
 enum color_std overview_tile_color(struct tile *ptile);
 
-void set_focus_unit_hidden_state(bool hide);
+double get_focus_unit_toggle_timeout(void);
+void reset_focus_unit_state(void);
+void toggle_focus_unit_state(void);
 struct unit *get_drawable_unit(struct tile *ptile, bool citymode);
 
 
@@ -151,6 +153,7 @@ struct unit *get_drawable_unit(struct tile *ptile, bool citymode);
 #define NUM_TILES_CITIZEN CITIZEN_LAST
 #define NUM_TILES_HP_BAR 11
 #define NUM_TILES_DIGITS 10
+#define NUM_TILES_SELECT 4
 #define MAX_NUM_CITIZEN_SPRITES 6
 
 /* This could be moved to common/map.h if there's more use for it. */
@@ -248,6 +251,7 @@ struct named_sprites {
     struct Sprite
       *hp_bar[NUM_TILES_HP_BAR],
       *vet_lev[MAX_VET_LEVELS],
+      *select[NUM_TILES_SELECT],
       *auto_attack,
       *auto_settler,
       *auto_explore,

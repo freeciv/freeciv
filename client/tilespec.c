@@ -195,11 +195,7 @@ static struct hash_table *terrain_hash;
  */
 
 
-/*
-  If focus_unit_hidden is true, then no units at
-  the location of the foc unit are ever drawn.
-*/
-static bool focus_unit_hidden = FALSE;
+int focus_unit_state = 0;
 
 static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
 					    bool required, const char *what,
@@ -1415,6 +1411,14 @@ static void tilespec_lookup_sprite_tags(void)
      * usually have no special graphic. */
     my_snprintf(buffer, sizeof(buffer), "unit.vet_%d", i);
     sprites.unit.vet_lev[i] = load_sprite(buffer);
+  }
+
+  sprites.unit.select[0] = NULL;
+  if (load_sprite("unit.select0")) {
+    for (i = 0; i < NUM_TILES_SELECT; i++) {
+      my_snprintf(buffer, sizeof(buffer), "unit.select%d", i);
+      SET_SPRITE(unit.select[i], buffer);
+    }
   }
 
   SET_SPRITE(city.disorder, "city.disorder");
@@ -2932,6 +2936,12 @@ int fill_sprite_array(struct drawn_sprite *sprs, enum mapview_layer layer,
       bool stacked = ptile && (unit_list_size(ptile->units) > 1);
       bool backdrop = !pcity;
 
+      if (ptile && punit == get_unit_in_focus() && sprites.unit.select[0]) {
+	/* Special case for drawing the selection rectangle.  The blinking
+	 * unit is handled separately, inside get_drawable_unit(). */
+	ADD_SPRITE_SIMPLE(sprites.unit.select[focus_unit_state]);
+      }
+
       sprs += fill_unit_sprite_array(sprs, punit, stacked, backdrop);
     }
     break;
@@ -3146,12 +3156,41 @@ enum color_std overview_tile_color(struct tile *ptile)
   return color;
 }
 
-/**********************************************************************
-  Set focus_unit_hidden (q.v.) variable to given value.
-***********************************************************************/
-void set_focus_unit_hidden_state(bool hide)
+/****************************************************************************
+  Return the amount of time between calls to toggle_focus_unit_state.
+  The main loop needs to call toggle_focus_unit_state about this often
+  to do the active-unit animation.
+****************************************************************************/
+double get_focus_unit_toggle_timeout(void)
 {
-  focus_unit_hidden = hide;
+  if (sprites.unit.select[0]) {
+    return 0.1;
+  } else {
+    return 0.5;
+  }
+}
+
+/****************************************************************************
+  Reset the focus unit state.  This should be called when changing
+  focus units.
+****************************************************************************/
+void reset_focus_unit_state(void)
+{
+  focus_unit_state = 0;
+}
+
+/****************************************************************************
+  Toggle/increment the focus unit state.  This should be called once
+  every get_focus_unit_toggle_timeout() seconds.
+****************************************************************************/
+void toggle_focus_unit_state(void)
+{
+  focus_unit_state++;
+  if (sprites.unit.select[0]) {
+    focus_unit_state %= NUM_TILES_SELECT;
+  } else {
+    focus_unit_state %= 2;
+  }
 }
 
 /**********************************************************************
@@ -3169,7 +3208,7 @@ struct unit *get_drawable_unit(struct tile *ptile, bool citymode)
     return NULL;
 
   if (punit != pfocus
-      || !focus_unit_hidden
+      || sprites.unit.select[0] || focus_unit_state == 0
       || !same_pos(punit->tile, pfocus->tile))
     return punit;
   else

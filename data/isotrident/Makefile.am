@@ -12,6 +12,8 @@ pkgdata_DATA =          \
 	morecities.spec	\
 	nuke.spec	\
 	nuke.png	\
+	select.png	\
+	select.spec	\
 	terrain1.spec	\
 	terrain1.png	\
 	terrain2.spec	\

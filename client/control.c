@@ -400,25 +400,21 @@ struct unit *find_visible_unit(struct tile *ptile)
 **************************************************************************/
 double blink_active_unit(void)
 {
-  static bool is_shown;
   static struct unit *pblinking_unit;
   static struct timer *blink_timer = NULL;
-  const double blink_time = 0.5;
 
+  const double blink_time = get_focus_unit_toggle_timeout();
   struct unit *punit = punit_focus;
   bool need_update = FALSE;
 
   if (punit) {
     if (punit != pblinking_unit) {
-      
-      /* When the focus unit changes, we reset the is_shown flag. */
       pblinking_unit = punit;
-      is_shown = TRUE;
+      reset_focus_unit_state();
       need_update = TRUE;
     } else {
       if (read_timer_seconds(blink_timer) > blink_time) {
-	/* Reverse the shown status. */
-	is_shown = !is_shown;
+	toggle_focus_unit_state();
 	need_update = TRUE;
       }
     }
@@ -426,7 +422,6 @@ double blink_active_unit(void)
       /* If we lag, we don't try to catch up.  Instead we just start a
        * new blink_time on every update. */
       blink_timer = renew_timer_start(blink_timer, TIMER_USER, TIMER_ACTIVE);
-      set_focus_unit_hidden_state(!is_shown);
       refresh_unit_mapcanvas(punit, punit->tile, TRUE);
     }
 

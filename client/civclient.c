@@ -706,7 +706,9 @@ double real_timer_callback(void)
 			       seconds - floor(seconds) + 0.001);
   }
 
-  return MAX(time_until_next_call, 0.0);
+  /* Make sure we wait at least 50 ms, otherwise we may not give any other
+   * code time to run. */
+  return MAX(time_until_next_call, 0.05);
 }
 
 /**************************************************************************

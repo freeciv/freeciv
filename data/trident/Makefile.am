@@ -13,6 +13,8 @@ pkgdata_DATA =          \
 	fog.spec	\
 	roads.png	\
 	roads.spec	\
+	select.png	\
+	select.spec	\
 	tiles.png	\
 	tiles.spec	\
 	units.png	\
