@@ -1275,7 +1275,6 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
      * that 'contains' 1 (or more) pop -- sjolie
      */
     if(pcity->shield_stock>=unit_value(pcity->currently_building)) {
-      pcity->turn_last_built = game.year;
       if (unit_flag(pcity->currently_building, F_CITIES)) {
 	if (pcity->size==1) {
 
@@ -1294,6 +1293,9 @@ static int city_build_stuff(struct player *pplayer, struct city *pcity)
 	pcity->size--;
 	city_auto_remove_worker(pcity);
       }
+      
+      pcity->turn_last_built = game.year;
+      /* don't update turn_last_built if we returned above for size==1 */
 
       create_unit(pplayer, pcity->x, pcity->y, pcity->currently_building,
 		  do_make_unit_veteran(pcity, pcity->currently_building), 
