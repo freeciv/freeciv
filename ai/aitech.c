@@ -133,8 +133,10 @@ void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur,
 void find_prerequisites(struct player *pplayer, int i, int *prereq)
 {
   /* add tech_want[i] / j to all subtechs */
-  int t1 = advances[i].req[0];
-  int t2 = advances[i].req[1];
+  int t1,t2;
+  t1 = advances[i].req[0];
+  t2 = advances[i].req[1];
+  if(t1>=A_LAST || t2>=A_LAST) return;
   if (get_invention(pplayer, t1) != TECH_KNOWN) prereq[t1]++;
   if (get_invention(pplayer, t1) == TECH_UNKNOWN)
         find_prerequisites(pplayer, t1, prereq);
