@@ -527,8 +527,13 @@ Note that you must normalize x1 and y1 yourself.
 */
 
 enum direction8 {
-  /* FIXME: DIR8 is used to avoid conflict with
-   * enum Directions in client/tilespec.h */
+  /* The DIR8/direction8 naming system is used to avoid conflict with
+   * DIR4/direction4 in client/tilespec.h
+   *
+   * Changing the order of the directions will break network compatability.
+   *
+   * Some code assumes that the first 4 directions are the reverses of the
+   * last 4 (in no particular order.  See client/goto.c. */
   DIR8_NORTHWEST = 0,
   DIR8_NORTH = 1,
   DIR8_NORTHEAST = 2,
