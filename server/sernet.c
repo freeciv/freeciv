@@ -130,13 +130,17 @@ static bool no_input = FALSE;
 /*****************************************************************************
   This happens if you type an EOF character with nothing on the current line.
 *****************************************************************************/
-#ifndef SOCKET_ZERO_ISNT_STDIN
 static void handle_stdin_close(void)
 {
+  /* Note this function may be called even if SOCKET_ZERO_ISNT_STDIN, so
+   * the preprocessor check has to come inside the function body.  But
+   * perhaps we want to do this even when SOCKET_ZERO_ISNT_STDIN? */
+#ifndef SOCKET_ZERO_ISNT_STDIN
   freelog(LOG_NORMAL, _("Server cannot read standard input. Ignoring input."));
   no_input = TRUE;
-}
 #endif
+}
+
 #ifdef HAVE_LIBREADLINE
 /****************************************************************************/
 
