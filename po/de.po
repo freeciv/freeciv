@@ -4675,10 +4675,9 @@ msgstr "Unbekannter Befehl. '%shelp' gibt nähere Informationen."
 msgid "You are not allowed to use this command."
 msgstr "Keine Berechtigung zur Erteilung dieses Befehls."
 
-# ?
 #: server/stdinhand.c:3088
 msgid "(server prompt)"
-msgstr ""
+msgstr "Serverbefehl"
 
 #: server/stdinhand.c:3168
 msgid "The game must be running before you can see the score."
@@ -17821,41 +17820,3 @@ msgstr "zuluanisch"
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
 msgstr "?plural:Zulus"
-
-#~ msgid "Game: %s is now AI-controlled."
-#~ msgstr "Spiel: %s ist jetzt ein KI-Spieler."
-
-#~ msgid "Game: %s is now human."
-#~ msgstr "Spiel: %s ist jetzt ein Mensch."
-
-#~ msgid "Game: All players now have access level '%s'."
-#~ msgstr "Spiel: Alle Spieler haben jetzt Zugangsberechtigung '%s'."
-
-#~ msgid "'First come' command access level also raised to '%s'."
-#~ msgstr "Die 'first come'-Zugangsberechtigung ist jetzt ebenfalls '%s'."
-
-#~ msgid "Game: New connections will have access level '%s'."
-#~ msgstr "Spiel: Neue Spieler erhalten Zugangsberechtigung '%s'."
-
-#~ msgid "'First come' command access level set to '%s'."
-#~ msgstr "Die 'first come'-Zugangsberechtigung ist jetzt '%s'."
-
-#~ msgid "Game: 'First come' command access level set to '%s'."
-#~ msgstr "Spiel: Die 'first come'-Zugangsberechtigung ist jetzt '%s'."
-
-#~ msgid "Default command access level also lowered to '%s'."
-#~ msgstr "Die Standard-Zugangsberechtigung ist jetzt ebenfalls '%s'."
-
-#~ msgid "Your command access level has been increased to '%s'."
-#~ msgstr "Ihre Zugangsberechtigung ist jetzt '%s'."
-
-#~ msgid "Game: Connection '%s' has grabbed 'first come' access level, '%s'."
-#~ msgstr ""
-#~ "Spiel: Die Verbindung '%s' hat die 'first come' Zugangsberechtigung ('%"
-#~ "s') erhalten."
-
-#~ msgid "%s is now %s."
-#~ msgstr "%s ist jetzt %s."
-
-#~ msgid "Game: AI players now have skill level '%s'."
-#~ msgstr "Spiel: KI-Spieler haben jetzt die Spielstärke '%s'."
