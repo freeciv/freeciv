@@ -24,16 +24,17 @@
 #  -p  Check trailing punctuation.
 #  -c  Check capitalization of first non-whitespace character 
 #      (only if [a-zA-Z]).
+#  -e  Check on empty (c.q. new) msgstr
 #
 # Reads stdin (or filename args, via <>), writes any problems to stdout.
 #
 # Version: 0.40     (2000-02-04)
 
 use strict;
-use vars qw($opt_c $opt_n $opt_p $opt_w $opt_W $opt_x);
+use vars qw($opt_c $opt_n $opt_p $opt_w $opt_W $opt_x $opt_e);
 use Getopt::Std;
 
-getopts('cnpwWx');
+getopts('cnpwWxe');
 
 # Globals, for current po entry:
 #
@@ -42,6 +43,7 @@ getopts('cnpwWx');
 
 my @amsgid;			# lines exactly as in input
 my @amsgstr;
+my $entryline;                  # lineno where entry starts
 my $msgid;			# lines joined by ""
 my $msgstr;
 my $is_fuzzy;
@@ -60,6 +62,7 @@ sub new_entry {
     @amsgstr = ();
     $msgid = undef;
     $msgstr = undef;
+    $entryline = 0;
     $is_fuzzy = 0;
     $is_cformat = 0;
     $did_print = 0;
@@ -78,7 +81,7 @@ sub print_one {
 #
 sub print_problem {
     unless ($did_print) {
-	print "ENTRY:", ($ARGV eq "-" ? "" : " ($ARGV)"), "\n";
+	print "ENTRY:", ($ARGV eq "-" ? "" : " ($ARGV, line $entryline)"), "\n";
 	print_one("msgid", @amsgid);
 	print_one("msgstr", @amsgstr);
 	$did_print = 1;
@@ -299,13 +302,14 @@ sub check_entry {
     $msgid = join("", @amsgid);
     $msgstr = join("", @amsgstr);
 
-    if (length($msgstr)==0) {
-	return;
-    }
     unless ($opt_x) {
 	if (length($msgid)==0) {
 	    print_problem "Zero length msgid\n";
 	}
+    }
+    if (length($msgstr)==0) {
+        unless ($opt_e) { return; }
+        print_problem "Untranslated msgid\n";
     }
     check_cformat;
     check_whitespace_joins;
@@ -339,6 +343,7 @@ while(<>) {
         next LINE;
     }
     if ( m(^msgid \"(.*)\"$) ) {
+        $entryline = $.;
         @amsgid = ($1);
         $state = S_DOING_MSGID;
         next LINE;
