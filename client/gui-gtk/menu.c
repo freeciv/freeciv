@@ -773,15 +773,19 @@ static GtkItemFactoryEntry menu_items[]	=
   gettext-translates each "/" delimited component of menu path,
   puts them back together, and returns as a static string.
   Any component which is of form "<foo>" is _not_ translated.
+
+  Path should include underscores like in the menu itself.
 *****************************************************************/
-static const char *translate_menu_path(const char *path)
+static const char *translate_menu_path(const char *path, int remove_uline)
 {
 #ifndef ENABLE_NLS
-  return path;
+  static char res[100];
+  strcpy(res, path);
 #else
   static struct astring in, out, tmp;   /* these are never free'd */
   char *tok, *s, *trn, *t;
   int len;
+  char *res;
 
   /* copy to in so can modify with strtok: */
   astr_minsize(&in, strlen(path)+1);
@@ -809,8 +813,20 @@ static const char *translate_menu_path(const char *path)
     freelog(LOG_DEBUG, "t \"%s\", len %d, out \"%s\"", t, len, out.str);
     s = NULL;
   }
-  return out.str;
+  res = out.str;
 #endif
+
+  if (remove_uline) {
+    char *from, *to;
+    from = to = res;
+    do {
+      if (*from != '_') {
+	*(to++) = *from;
+      }
+    } while (*(from++));
+  }
+
+  return res;
 }
 
 /****************************************************************
@@ -827,7 +843,7 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
   item_factory=gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>", accel);
    
   for(i=0; i<nmenu_items; i++) {
-    menu_items[i].path = mystrdup(translate_menu_path(menu_items[i].path));
+    menu_items[i].path = mystrdup(translate_menu_path(menu_items[i].path, 0));
   }
   
   gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
@@ -838,8 +854,8 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
     *menubar=gtk_item_factory_get_widget(item_factory, "<main>");
 
   /* kluge to get around gtk's interpretation of "/" in menu item names */
-  menus_rename("<main>/Orders/Go|Airlift to City", _("Go/Air_lift to City"));
-  menus_rename("<main>/Orders/Diplomat|Spy Actions", _("_Diplomat/Spy Actions"));
+  menus_rename("<main>/_Orders/Go|Airlift to City", _("Go/Air_lift to City"));
+  menus_rename("<main>/_Orders/Diplomat|Spy Actions", _("_Diplomat/Spy Actions"));
 }
 
 /****************************************************************
@@ -849,7 +865,7 @@ static void menus_set_sensitive(const char *path, int sensitive)
 {
   GtkWidget *item;
 
-  path = translate_menu_path(path);
+  path = translate_menu_path(path, 1);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
     freelog(LOG_ERROR,
@@ -869,7 +885,7 @@ static void menus_set_active(const char *path, int active)
 {
   GtkWidget *item;
 
-  path = translate_menu_path(path);
+  path = translate_menu_path(path, 1);
 
   if (!(item = gtk_item_factory_get_widget(item_factory, path))) {
     freelog(LOG_ERROR,
@@ -890,7 +906,7 @@ static void menus_set_shown(const char *path, int shown)
 {
   GtkWidget *item;
   
-  path = translate_menu_path(path);
+  path = translate_menu_path(path, 1);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
     freelog(LOG_ERROR, "Can't show non-existent menu %s.", path);
@@ -914,7 +930,7 @@ static void menus_rename(const char *path, char *s)
 {
   GtkWidget *item;
   
-  path = translate_menu_path(path);
+  path = translate_menu_path(path, 1);
   
   if(!(item=gtk_item_factory_get_widget(item_factory, path))) {
     freelog(LOG_ERROR, "Can't rename non-existent menu %s.", path);
@@ -930,62 +946,64 @@ static void menus_rename(const char *path, char *s)
 
 
 /****************************************************************
-...
+Note: the menu strings should contain underscores as in the
+menu_items struct. The underscores will be removed elsewhere if
+the string is used for a lookup via gtk_item_factory_get_widget()
 *****************************************************************/
 void update_menus(void)
 {
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    menus_set_sensitive("<main>/Reports", FALSE);
-    menus_set_sensitive("<main>/Kingdom", FALSE);
-    menus_set_sensitive("<main>/View", FALSE);
-    menus_set_sensitive("<main>/Orders", FALSE);
+    menus_set_sensitive("<main>/_Reports", FALSE);
+    menus_set_sensitive("<main>/_Kingdom", FALSE);
+    menus_set_sensitive("<main>/_View", FALSE);
+    menus_set_sensitive("<main>/_Orders", FALSE);
 
-    menus_set_sensitive("<main>/Game/Local Options", FALSE);
-    menus_set_sensitive("<main>/Game/Message Options", FALSE);
-    menus_set_sensitive("<main>/Game/Save Settings", FALSE);
-    menus_set_sensitive("<main>/Game/Server Opt initial", TRUE);
-    menus_set_sensitive("<main>/Game/Server Opt ongoing", TRUE);
-    menus_set_sensitive("<main>/Game/Export Log", TRUE);
-    menus_set_sensitive("<main>/Game/Clear Log", TRUE);
-    menus_set_sensitive("<main>/Game/Disconnect", TRUE);
+    menus_set_sensitive("<main>/_Game/_Local Options", FALSE);
+    menus_set_sensitive("<main>/_Game/Messa_ge Options", FALSE);
+    menus_set_sensitive("<main>/_Game/_Save Settings", FALSE);
+    menus_set_sensitive("<main>/_Game/Server Opt _initial", TRUE);
+    menus_set_sensitive("<main>/_Game/Server Opt _ongoing", TRUE);
+    menus_set_sensitive("<main>/_Game/_Export Log", TRUE);
+    menus_set_sensitive("<main>/_Game/_Clear Log", TRUE);
+    menus_set_sensitive("<main>/_Game/_Disconnect", TRUE);
 
   }
   else {
     struct unit *punit;
-    menus_set_sensitive("<main>/Reports", TRUE);
-    menus_set_sensitive("<main>/Kingdom", TRUE);
-    menus_set_sensitive("<main>/View", TRUE);
-    menus_set_sensitive("<main>/Orders", TRUE);
+    menus_set_sensitive("<main>/_Reports", TRUE);
+    menus_set_sensitive("<main>/_Kingdom", TRUE);
+    menus_set_sensitive("<main>/_View", TRUE);
+    menus_set_sensitive("<main>/_Orders", TRUE);
   
-    menus_set_sensitive("<main>/Game/Local Options", TRUE);
-    menus_set_sensitive("<main>/Game/Message Options", TRUE);
-    menus_set_sensitive("<main>/Game/Save Settings", TRUE);
-    menus_set_sensitive("<main>/Game/Server Opt initial", TRUE);
-    menus_set_sensitive("<main>/Game/Server Opt ongoing", TRUE);
-    menus_set_sensitive("<main>/Game/Export Log", TRUE);
-    menus_set_sensitive("<main>/Game/Clear Log", TRUE);
-    menus_set_sensitive("<main>/Game/Disconnect", TRUE);
+    menus_set_sensitive("<main>/_Game/_Local Options", TRUE);
+    menus_set_sensitive("<main>/_Game/Messa_ge Options", TRUE);
+    menus_set_sensitive("<main>/_Game/_Save Settings", TRUE);
+    menus_set_sensitive("<main>/_Game/Server Opt _initial", TRUE);
+    menus_set_sensitive("<main>/_Game/Server Opt _ongoing", TRUE);
+    menus_set_sensitive("<main>/_Game/_Export Log", TRUE);
+    menus_set_sensitive("<main>/_Game/_Clear Log", TRUE);
+    menus_set_sensitive("<main>/_Game/_Disconnect", TRUE);
 
-    menus_set_sensitive("<main>/Reports/Spaceship",
+    menus_set_sensitive("<main>/_Reports/S_paceship",
 			(game.player_ptr->spaceship.state!=SSHIP_NONE));
 
-    menus_set_active("<main>/View/Map Grid", draw_map_grid);
-    menus_set_active("<main>/View/City Names", draw_city_names);
-    menus_set_active("<main>/View/City Productions", draw_city_productions);
-    menus_set_active("<main>/View/Terrain", draw_terrain);
-    menus_set_active("<main>/View/Coastline", draw_coastline);
-    menus_set_sensitive("<main>/View/Coastline", !draw_terrain);
-    menus_set_active("<main>/View/Improvements/Roads & Rails", draw_roads_rails);
-    menus_set_active("<main>/View/Improvements/Irrigation", draw_irrigation);
-    menus_set_active("<main>/View/Improvements/Mines", draw_mines);
-    menus_set_active("<main>/View/Improvements/Fortress & Airbase", draw_fortress_airbase);
-    menus_set_active("<main>/View/Specials", draw_specials);
-    menus_set_active("<main>/View/Pollution & Fallout", draw_pollution);
-    menus_set_active("<main>/View/Cities", draw_cities);
-    menus_set_active("<main>/View/Units", draw_units);
-    menus_set_active("<main>/View/Focus Unit", draw_focus_unit);
-    menus_set_sensitive("<main>/View/Focus Unit", !draw_units);
-    menus_set_active("<main>/View/Fog of War", draw_fog_of_war);
+    menus_set_active("<main>/_View/Map _Grid", draw_map_grid);
+    menus_set_active("<main>/_View/City _Names", draw_city_names);
+    menus_set_active("<main>/_View/City _Productions", draw_city_productions);
+    menus_set_active("<main>/_View/Terrain", draw_terrain);
+    menus_set_active("<main>/_View/Coastline", draw_coastline);
+    menus_set_sensitive("<main>/_View/Coastline", !draw_terrain);
+    menus_set_active("<main>/_View/Improvements/Roads & Rails", draw_roads_rails);
+    menus_set_active("<main>/_View/Improvements/Irrigation", draw_irrigation);
+    menus_set_active("<main>/_View/Improvements/Mines", draw_mines);
+    menus_set_active("<main>/_View/Improvements/Fortress & Airbase", draw_fortress_airbase);
+    menus_set_active("<main>/_View/Specials", draw_specials);
+    menus_set_active("<main>/_View/Pollution & Fallout", draw_pollution);
+    menus_set_active("<main>/_View/Cities", draw_cities);
+    menus_set_active("<main>/_View/Units", draw_units);
+    menus_set_active("<main>/_View/Focus Unit", draw_focus_unit);
+    menus_set_sensitive("<main>/_View/Focus Unit", !draw_units);
+    menus_set_active("<main>/_View/Fog of War", draw_fog_of_war);
 
     if((punit=get_unit_in_focus())) {
       char *irrfmt = _("Change to %s (_I)");
@@ -1002,70 +1020,70 @@ void update_menus(void)
       
       /* Enable the button for adding to a city in all cases, so we
 	 get an eventual error message from the server if we try. */
-      menus_set_sensitive("<main>/Orders/Build City",
+      menus_set_sensitive("<main>/_Orders/_Build City",
 			  (can_unit_build_city(punit) ||
                            (unit_flag(punit->type, F_CITIES)
 			    && map_get_city(punit->x, punit->y)) ||
                            unit_can_help_build_wonder_here(punit)));
-      menus_set_sensitive("<main>/Orders/Build Road",
+      menus_set_sensitive("<main>/_Orders/Build _Road",
                           (can_unit_do_activity(punit, ACTIVITY_ROAD) ||
                            can_unit_do_activity(punit, ACTIVITY_RAILROAD) ||
                            unit_can_est_traderoute_here(punit)));
-      menus_set_sensitive("<main>/Orders/Build Irrigation",
+      menus_set_sensitive("<main>/_Orders/Build _Irrigation",
                           can_unit_do_activity(punit, ACTIVITY_IRRIGATE));
-      menus_set_sensitive("<main>/Orders/Build Mine",
+      menus_set_sensitive("<main>/_Orders/Build _Mine",
                           can_unit_do_activity(punit, ACTIVITY_MINE));
-      menus_set_sensitive("<main>/Orders/Transform Terrain",
+      menus_set_sensitive("<main>/_Orders/Transf_orm Terrain",
 			  can_unit_do_activity(punit, ACTIVITY_TRANSFORM));
-      menus_set_sensitive("<main>/Orders/Build Fortress",
+      menus_set_sensitive("<main>/_Orders/Build _Fortress",
                           (can_unit_do_activity(punit, ACTIVITY_FORTRESS) ||
                            can_unit_do_activity(punit, ACTIVITY_FORTIFYING)));
-      menus_set_sensitive("<main>/Orders/Build Airbase",
+      menus_set_sensitive("<main>/_Orders/Build Airbas_e",
 			  can_unit_do_activity(punit, ACTIVITY_AIRBASE));
-      menus_set_sensitive("<main>/Orders/Clean Pollution",
+      menus_set_sensitive("<main>/_Orders/Clean _Pollution",
                           (can_unit_do_activity(punit, ACTIVITY_POLLUTION) ||
                            can_unit_paradrop(punit)));
-      menus_set_sensitive("<main>/Orders/Clean Nuclear Fallout",
+      menus_set_sensitive("<main>/_Orders/Clean _Nuclear Fallout",
 			  can_unit_do_activity(punit, ACTIVITY_FALLOUT));
-      menus_set_sensitive("<main>/Orders/Sentry",
+      menus_set_sensitive("<main>/_Orders/_Sentry",
 			  can_unit_do_activity(punit, ACTIVITY_SENTRY));
-      menus_set_sensitive("<main>/Orders/Pillage",
+      menus_set_sensitive("<main>/_Orders/Pillage",
 			  can_unit_do_activity(punit, ACTIVITY_PILLAGE));
-      menus_set_sensitive("<main>/Orders/Make Homecity",
+      menus_set_sensitive("<main>/_Orders/Make _Homecity",
 			  can_unit_change_homecity(punit));
-      menus_set_sensitive("<main>/Orders/Unload",
+      menus_set_sensitive("<main>/_Orders/_Unload",
 			  get_transporter_capacity(punit)>0);
-      menus_set_sensitive("<main>/Orders/Wake up others", 
+      menus_set_sensitive("<main>/_Orders/Wake up o_thers", 
 			  is_unit_activity_on_tile(ACTIVITY_SENTRY,
                                                    punit->x, punit->y));
-      menus_set_sensitive("<main>/Orders/Auto Settler",
+      menus_set_sensitive("<main>/_Orders/_Auto Settler",
                           can_unit_do_auto(punit));
-      menus_set_sensitive("<main>/Orders/Auto Explore",
+      menus_set_sensitive("<main>/_Orders/Auto E_xplore",
                           can_unit_do_activity(punit, ACTIVITY_EXPLORE));
-      menus_set_sensitive("<main>/Orders/Connect",
+      menus_set_sensitive("<main>/_Orders/_Connect",
                           can_unit_do_connect(punit, ACTIVITY_IDLE));
-      menus_set_sensitive("<main>/Orders/Patrol (Q)",
+      menus_set_sensitive("<main>/_Orders/Patrol (_Q)",
                           can_unit_do_activity(punit, ACTIVITY_PATROL)
                           && has_capability("activity_patrol", aconnection.capability));
-      menus_set_sensitive("<main>/Orders/Diplomat|Spy Actions",
+      menus_set_sensitive("<main>/_Orders/Diplomat|Spy Actions",
                           (is_diplomat_unit(punit)
                            && diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION,
 						     punit->x, punit->y)));
-      menus_set_sensitive("<main>/Orders/Explode Nuclear",
+      menus_set_sensitive("<main>/_Orders/Explode Nuclear",
 			  unit_flag(punit->type, F_NUCLEAR));
       if (unit_flag(punit->type, F_CARAVAN))
-	menus_rename("<main>/Orders/Build City", _("Help _Build Wonder"));
+	menus_rename("<main>/_Orders/_Build City", _("Help _Build Wonder"));
       else if (unit_flag(punit->type, F_CITIES)) {
 	if (map_get_city(punit->x, punit->y))
-	  menus_rename("<main>/Orders/Build City", _("Add to City (_B)"));
+	  menus_rename("<main>/_Orders/_Build City", _("Add to City (_B)"));
 	else
-	  menus_rename("<main>/Orders/Build City", _("_Build City"));
+	  menus_rename("<main>/_Orders/_Build City", _("_Build City"));
       }
       else 
-	menus_rename("<main>/Orders/Build City", _("_Build City"));
+	menus_rename("<main>/_Orders/_Build City", _("_Build City"));
  
       if (unit_flag(punit->type, F_CARAVAN))
-	menus_rename("<main>/Orders/Build Road", _("Make Trade _Route"));
+	menus_rename("<main>/_Orders/Build _Road", _("Make Trade _Route"));
       else if (unit_flag(punit->type, F_SETTLERS)) {
 	if (map_get_tile(punit->x,punit->y)->special&S_ROAD) {
 	  roadtext = _("Build _Railroad");
@@ -1075,10 +1093,10 @@ void update_menus(void)
 	  roadtext = _("Build _Road");
 	  road_activity=ACTIVITY_ROAD;  
 	}
-	menus_rename("<main>/Orders/Build Road", roadtext);
+	menus_rename("<main>/_Orders/Build _Road", roadtext);
       }
       else
-	menus_rename("<main>/Orders/Build Road", _("Build _Road"));
+	menus_rename("<main>/_Orders/Build _Road", _("Build _Road"));
 
       ttype = map_get_tile(punit->x, punit->y)->terrain;
       tinfo = get_tile_type(ttype);
@@ -1103,28 +1121,28 @@ void update_menus(void)
 		   (get_tile_type(tinfo->transform_result))->terrain_name);
 	}
 
-      menus_rename("<main>/Orders/Build Irrigation", irrtext);
-      menus_rename("<main>/Orders/Build Mine", mintext);
-      menus_rename("<main>/Orders/Transform Terrain", transtext);
+      menus_rename("<main>/_Orders/Build _Irrigation", irrtext);
+      menus_rename("<main>/_Orders/Build _Mine", mintext);
+      menus_rename("<main>/_Orders/Transf_orm Terrain", transtext);
 
       if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING))
-	menus_rename("<main>/Orders/Build Fortress", _("_Fortify"));
+	menus_rename("<main>/_Orders/Build _Fortress", _("_Fortify"));
       else
-	menus_rename("<main>/Orders/Build Fortress", _("Build _Fortress"));
+	menus_rename("<main>/_Orders/Build _Fortress", _("Build _Fortress"));
 
       if (unit_flag(punit->type, F_PARATROOPERS))
-	menus_rename("<main>/Orders/Clean Pollution", _("_Paradrop"));
+	menus_rename("<main>/_Orders/Clean _Pollution", _("_Paradrop"));
       else
-	menus_rename("<main>/Orders/Clean Pollution", _("Clean _Pollution"));
+	menus_rename("<main>/_Orders/Clean _Pollution", _("Clean _Pollution"));
 
       if (!unit_flag(punit->type, F_SETTLERS))
-	menus_rename("<main>/Orders/Auto Settler", _("_Auto Attack"));
+	menus_rename("<main>/_Orders/_Auto Settler", _("_Auto Attack"));
       else
-	menus_rename("<main>/Orders/Auto Settler", _("_Auto Settler"));
+	menus_rename("<main>/_Orders/_Auto Settler", _("_Auto Settler"));
 
-      menus_set_sensitive("<main>/Orders", TRUE);
+      menus_set_sensitive("<main>/_Orders", TRUE);
     }
     else
-      menus_set_sensitive("<main>/Orders", FALSE);
+      menus_set_sensitive("<main>/_Orders", FALSE);
   }
 }
