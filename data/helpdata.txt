@@ -911,8 +911,7 @@ Next, the defender's strength is modified.\
 of the terrain it occupies.\
 "), _("\
  - Next, the defender's strength is doubled if it is a Pikeman unit \
-defending against a mounted unit.  Mounted units normally include \
-Horsemen, Chariots, Elephants, Crusaders and Cavalry, 
+defending against a mounted unit.\
 "), _("\
  - If the defender is an AEGIS Cruiser defending against airborne \
 units (including missiles and Helicopters), the defense is \
