@@ -86,6 +86,7 @@ struct city_dialog {
 
   Widget shell;
   Widget main_form;
+  Widget left_form;
   Widget cityname_label;
   Widget *citizen_labels;
   Widget production_label;
@@ -174,6 +175,113 @@ static void popdown_cityopt_dialog(void);
 
 
 extern Atom wm_delete_window;
+
+
+/****************************************************************
+...
+*****************************************************************/
+static void get_contents_of_pollution(struct city_dialog *pdialog,
+				      char *retbuf)
+{
+  struct city *pcity;
+  int pollution=0;
+
+  if (pdialog) {
+    pcity=pdialog->pcity;
+    pollution=pcity->pollution;
+  }
+
+  sprintf(retbuf,
+	  _("Pollution:    %3d"),
+	  pollution);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void get_contents_of_storage(struct city_dialog *pdialog,
+				    char *retbuf)
+{
+  struct city *pcity;
+  char granary='?';
+  int foodstock=0;
+  int foodbox=0;
+
+  if (pdialog) {
+    pcity=pdialog->pcity;
+    granary=(city_got_effect(pcity, B_GRANARY) ? '*' : ' ');
+    foodstock=pcity->food_stock;
+    foodbox=game.foodbox*(pcity->size+1);
+  }
+
+  sprintf(retbuf,
+	  _("Granary: %c%3d/%-3d"),
+	  granary,
+	  foodstock,
+	  foodbox);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void get_contents_of_production(struct city_dialog *pdialog,
+				       char *retbuf)
+{
+  struct city *pcity;
+  int foodprod=0;
+  int foodsurplus=0;
+  int shieldprod=0;
+  int shieldsurplus=0;
+  int tradeprod=0;
+  int tradesurplus=0;
+
+  if (pdialog) {
+    pcity=pdialog->pcity;
+    foodprod=pcity->food_prod;
+    foodsurplus=pcity->food_surplus;
+    shieldprod=pcity->shield_prod;
+    shieldsurplus=pcity->shield_surplus;
+    tradeprod=pcity->trade_prod+pcity->corruption;
+    tradesurplus=pcity->trade_prod;
+  }
+
+  sprintf(retbuf,
+	  _("Food:  %3d (%+-4d)\n"
+	    "Prod:  %3d (%+-4d)\n"
+	    "Trade: %3d (%+-4d)"),
+	  foodprod, foodsurplus,
+	  shieldprod, shieldsurplus,
+	  tradeprod, tradesurplus);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void get_contents_of_output(struct city_dialog *pdialog,
+				   char *retbuf)
+{
+  struct city *pcity;
+  int goldtotal=0;
+  int goldsurplus=0;
+  int luxtotal=0;
+  int scitotal=0;
+
+  if (pdialog) {
+    pcity=pdialog->pcity;
+    goldtotal=pcity->tax_total;
+    goldsurplus=city_gold_surplus(pcity);
+    luxtotal=pcity->luxury_total;
+    scitotal=pcity->science_total;
+  }
+
+  sprintf(retbuf,
+	  _("Gold:  %3d (%+-4d)\n"
+	    "Lux:   %3d\n"
+	    "Sci:   %3d"),
+	  goldtotal, goldsurplus,
+	  luxtotal,
+	  scitotal);
+}
 
 /****************************************************************
 ...
@@ -338,6 +446,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 
   int i, itemWidth;
   struct city_dialog *pdialog;
+  char lblbuf[512];
   Widget first_citizen, first_support, first_present;
   XtWidgetGeometry geom;
   Dimension widthTotal;
@@ -405,44 +514,58 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
 			    NULL);
 
 
+  pdialog->left_form=
+    XtVaCreateManagedWidget("cityleftform", 
+			    formWidgetClass, 
+			    pdialog->sub_form, 
+			    NULL);
+
+  get_contents_of_production(NULL, lblbuf);
   pdialog->production_label=
     XtVaCreateManagedWidget("cityprodlabel", 
 			    labelWidgetClass,
-			    pdialog->sub_form,
+			    pdialog->left_form,
+			    XtNlabel, lblbuf,
 			    NULL);
 
+  get_contents_of_output(NULL, lblbuf);
   pdialog->output_label=
     XtVaCreateManagedWidget("cityoutputlabel", 
 			    labelWidgetClass,
-			    pdialog->sub_form,
+			    pdialog->left_form,
+			    XtNlabel, lblbuf,
 			    XtNfromVert, 
 			    (XtArgVal)pdialog->production_label,
 			    NULL);
 
+  get_contents_of_storage(NULL, lblbuf);
   pdialog->storage_label=
     XtVaCreateManagedWidget("citystoragelabel", 
 			    labelWidgetClass,
-			    pdialog->sub_form,
+			    pdialog->left_form,
+			    XtNlabel, lblbuf,
 			    XtNfromVert, 
 			    (XtArgVal)pdialog->output_label,
 			    NULL);
 
+  get_contents_of_pollution(NULL, lblbuf);
   pdialog->pollution_label=
     XtVaCreateManagedWidget("citypollutionlabel", 
 			    labelWidgetClass,
-			    pdialog->sub_form,
+			    pdialog->left_form,
+			    XtNlabel, lblbuf,
 			    XtNfromVert, 
 			    (XtArgVal)pdialog->storage_label,
 			    NULL);
-  
-  
+
+
   pdialog->map_canvas=
     XtVaCreateManagedWidget("citymapcanvas", 
 			    xfwfcanvasWidgetClass,
 			    pdialog->sub_form,
 			    "exposeProc", (XtArgVal)city_map_canvas_expose,
 			    "exposeProcData", (XtArgVal)pdialog,
-			    XtNfromHoriz, (XtArgVal)pdialog->production_label,
+			    XtNfromHoriz, (XtArgVal)pdialog->left_form,
 			    XtNwidth, NORMAL_TILE_WIDTH*5,
 			    XtNheight, NORMAL_TILE_HEIGHT*5,
 			    NULL);
@@ -1219,16 +1342,10 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 void city_dialog_update_pollution(struct city_dialog *pdialog)
 {
   char buf[512];
-  struct city *pcity=pdialog->pcity;
 
-  sprintf(buf,
-	  _("Pollution:    %3d"),
-	   pcity->pollution);
-
+  get_contents_of_pollution(pdialog, buf);
   xaw_set_label(pdialog->pollution_label, buf);
 }
-
-
 
 /****************************************************************
 ...
@@ -1236,14 +1353,8 @@ void city_dialog_update_pollution(struct city_dialog *pdialog)
 void city_dialog_update_storage(struct city_dialog *pdialog)
 {
   char buf[512];
-  struct city *pcity=pdialog->pcity;
-  
-  sprintf(buf,
-	  _("Granary: %c%3d/%-3d"),
-	  (city_got_effect(pcity, B_GRANARY) ? '*' : ' '),
-	  pcity->food_stock,
-	  game.foodbox*(pcity->size+1));
 
+  get_contents_of_storage(pdialog, buf);
   xaw_set_label(pdialog->storage_label, buf);
 }
 
@@ -1279,42 +1390,25 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   xaw_set_label(pdialog->progress_label, buf);
 }
 
-
-
 /****************************************************************
 ...
 *****************************************************************/
 void city_dialog_update_production(struct city_dialog *pdialog)
 {
   char buf[512];
-  struct city *pcity=pdialog->pcity;
-  
-  sprintf(buf,
-	  _("Food:  %3d (%+-4d)\n"
-	  "Prod:  %3d (%+-4d)\n"
-	  "Trade: %3d (%+-4d)"),
-	  pcity->food_prod, pcity->food_surplus,
-	  pcity->shield_prod, pcity->shield_surplus,
-	  pcity->trade_prod+pcity->corruption, pcity->trade_prod);
 
+  get_contents_of_production(pdialog, buf);
   xaw_set_label(pdialog->production_label, buf);
 }
+
 /****************************************************************
 ...
 *****************************************************************/
 void city_dialog_update_output(struct city_dialog *pdialog)
 {
   char buf[512];
-  struct city *pcity=pdialog->pcity;
-  
-  sprintf(buf,
-	  _("Gold:  %3d (%+-4d)\n"
-	  "Lux:   %3d\n"
-	  "Sci:   %3d"),
-	  pcity->tax_total, city_gold_surplus(pcity),
-	  pcity->luxury_total,
-	  pcity->science_total);
 
+  get_contents_of_output(pdialog, buf);
   xaw_set_label(pdialog->output_label, buf);
 }
 

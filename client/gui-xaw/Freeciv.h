@@ -2136,9 +2136,9 @@ Now.. Go give'em hell!\")",
 "Freeciv*citysubform.horizDistance:                0",
 "Freeciv*citysubform.background:                   White",
 "Freeciv*cityleftform.borderWidth:                 0",
+"Freeciv*cityleftform.horizDistance:               0",
 "Freeciv*cityleftform.background:                  White",
-"Freeciv*cityrightform.borderWidth:                0",
-"Freeciv*cityrightform.background:                 White",
+"Freeciv*cityprodlabel.vertDistance:               0",
 "Freeciv*cityimprovview.allowVert:		True",
 "Freeciv*citysellcommand.label:			_(\" Sell \")",
 "Freeciv*cityclosecommand.label:			_(\"Close\")",
@@ -2150,18 +2150,6 @@ Now.. Go give'em hell!\")",
 "Freeciv*cityactivatecommand.label:		_(\"Activate Units\")",
 "Freeciv*cityshowunitscommand.label:		_(\"Unit List\")",
 "Freeciv*cityoptionscommand.label:		_(\"City Options\")",
-"Freeciv*cityprodlabel.label: \
-Food:  888 (-888)\\n\
-Prod:  888 (+888)\\n\
-Trade: 888 (-888)",
-"Freeciv*cityoutputlabel.label: \
-Gold:  888 (+888)\\n\
-Lux:   888\\n\
-Sci:   888",
-"Freeciv*citystoragelabel.label: \
-Granary: *888/888",
-"Freeciv*citypollutionlabel.label: \
-Pollution:    888",
 "Freeciv*citybuildinglabel.label: \
 XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 "Freeciv*cityprogresslabel.label: \
@@ -2202,6 +2190,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 "Freeciv*presentunitprevcommand.label:		<",
 "Freeciv*presentunitprevcommand.foreground:	white",
 "Freeciv*presentunitprevcommand.background:	blue",
+"Freeciv*citymapcanvas.horizDistance:	0",
 "Freeciv*citymapcanvas.translations: \
   <BtnDown>:	select-citymap()",
 "Freeciv*racespopup.title:		_(\"What Nation Will You Be?\")",
