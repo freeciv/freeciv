@@ -28,10 +28,8 @@
 #include <locale.h>
 #endif
 
-/*#include <stdio.h>*/
 #include <stdlib.h>
 #include <string.h>
-/*#include <time.h>*/
 #include <errno.h>
 
 #ifdef HAVE_UNISTD_H
@@ -220,8 +218,8 @@ static void gui_main_loop(void)
 
     /*
      *      I use this metod becouse I can't debug when 
-     *      use timers to call "socket_timmer" function.
-     *      In real game I return to timer metod !
+     *      use thread to call input_from_server(net_socket) function.
+     *      In real game I return to thread !
      */
     t2 = SDL_GetTicks();
     if ((t2 - t1) > SOCKET_TIMER_INTERVAL) {
@@ -659,6 +657,8 @@ void ui_main(int argc, char *argv[])
   __Info_User_Event.user.data1 = NULL;
   __Info_User_Event.user.data2 = NULL;
   pInfo_User_Event = &__Info_User_Event;
+  
+  smooth_move_unit_steps = 8;
   
   parse_options(argc, argv);
 

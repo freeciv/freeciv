@@ -74,19 +74,6 @@ Uint16 *unistrcat(Uint16 *pToUniString,
 /**************************************************************************
   ...
 **************************************************************************/
-Uint16 *unistrclon(const Uint16 *pFromUniString)
-{
-  /* size_t size = (unistrlen(pFromUniString) + 1) * sizeof(Uint16); */
-  size_t size = (unistrlen(pFromUniString) + 1) << 1;
-  Uint16 *pToUniString = MALLOC(size);
-  *pToUniString = *pFromUniString;
-  /* return memcpy(pToUniString, pFromUniString, size); */
-  return pToUniString;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
 Uint16 *unistrdup(const Uint16 *pUniString)
 {
   size_t size = (unistrlen(pUniString) + 1) << 1;

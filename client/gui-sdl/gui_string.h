@@ -53,12 +53,11 @@ int write_text16(SDL_Surface * pDest, Sint16 x, Sint16 y,
 SDL_Surface *create_text_surf_from_str16(SDL_String16 * pString);
 SDL_Rect str16size(SDL_String16 * pString16);
 void change_ptsize16(SDL_String16 * pString, Uint16 new_ptsize);
-SDL_String16 *clone_string16(SDL_String16 * pString16);
 
 void unload_font(Uint16 ptsize);
 
 
-#define str16len( pString16 ) str16size( pString16 ).w
+#define str16len(pString16) str16size(pString16).w
 
 /*
  *	here we use ordinary free( ... ) becouse check is made 

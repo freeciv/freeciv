@@ -26,21 +26,7 @@ size_t unistrlen(const Uint16 *pUniString);
 Uint16 *unistrcpy(Uint16 *pToUniString, const Uint16 *pFromUniString);
 Uint16 *unistrcat(Uint16 *pToUniString,
 		  const Uint16 *pFromUniString);
-Uint16 *unistrclon(const Uint16 *pFromUniString);
 Uint16 *unistrdup(const Uint16 *pUniString);
 Uint16 **create_new_line_unistrings(const Uint16 *pUnistring);
 
-/*
- *	Unistring version of strdupa macro
- *	MUST NOT BE CALL IN FUNCTION PARAMETRS
- */
-#define unistrdupa( pUniString )					\
-(__extension__								\
-	({								\
-		__const Uint16 *__uniold = (pUniString);		\
-		size_t __unilen = (unistrlen( __uniold ) + 1) << 1;	\
-		Uint16 *__uninew = ALLOCA( __unilen );			\
-		( Uint16 *) memcpy( __uninew , __uniold, __unilen);	\
-	}))
-
-#endif
+#endif /* __UNISTRING_H */
