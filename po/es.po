@@ -411,7 +411,7 @@ msgid "Go/Airlift to City"
 msgstr "Ir/Aerotransportar a ciudad"
 
 #: data/Freeciv:58
-msgid "Connect to FreeCiv Server"
+msgid "Connect to Freeciv Server"
 msgstr "Conexión al Servidor Freeciv"
 
 #: data/Freeciv:60

@@ -31,7 +31,7 @@
 "Freeciv*Pixcomm.foreground: Black",
 "Freeciv*Pixcomm.background: White",
 "Freeciv*Pixcomm.shadowWidth: 0",
-"Freeciv*.connectdialog.title: _(\"Connect to FreeCiv Server\")",
+"Freeciv*.connectdialog.title: _(\"Connect to Freeciv Server\")",
 "Freeciv*connectdialog.*.cheadline.label: _(\"Freeciv Server Selection\")",
 "Freeciv*connectdialog.*.cheadline.width: 300",
 "Freeciv*connectdialog.*.cnamel.label: _(\"Name\")",

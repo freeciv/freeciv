@@ -26,7 +26,7 @@ freeciv (1.8.0-1) unstable; urgency=low
     a virtual package Provided by the 2 client packages (3 for the CVS
     snapshots). The xaw client is moved to the freeciv-xaw package.
   * Fixed the xaw-wrappers incompatibility (xaw-wrappers changed its
-    interface since the last FreeCiv release, and this made freeciv-xaw
+    interface since the last Freeciv release, and this made freeciv-xaw
     incompatible)
 
  -- Lalo Martins <lalo@webcom.com>  Thu, 10 Jun 1999 12:32:04 -0300
@@ -82,7 +82,7 @@ freeciv (1.7.2-1) frozen unstable; urgency=low
 
   * Changed /usr/bin/update-xaw-wrappers in postinst to
     /usr/sbin/update-xaw-wrappers (fixes #24108). Going to frozen because
-    this bug keeps FreeCiv from working with xaw-wrappers at all
+    this bug keeps Freeciv from working with xaw-wrappers at all
   * New upstream release
 
  -- Lalo Martins <lalo@webcom.com>  Sat, 26 Dec 1998 11:56:10 -0600

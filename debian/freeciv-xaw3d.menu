@@ -1,1 +1,1 @@
-?package(freeciv-xaw3d):needs="x11" section="Games/Strategy" icon="none" title="FreeCiv client (3d Athena version)" command="/usr/games/civclient-xaw3d"
+?package(freeciv-xaw3d):needs="x11" section="Games/Strategy" icon="none" title="Freeciv client (3d Athena version)" command="/usr/games/civclient-xaw3d"

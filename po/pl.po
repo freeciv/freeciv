@@ -1655,12 +1655,12 @@ msgid "Close"
 msgstr "Zamknij"
 
 #: client/gui-gtk/connectdlg.c:158
-msgid " Connect to FreeCiv Server"
-msgstr " Po³±cz siê z serwerem FreeCiv"
+msgid " Connect to Freeciv Server"
+msgstr " Po³±cz siê z serwerem Freeciv"
 
 #: client/gui-gtk/connectdlg.c:164
 msgid "Freeciv Server Selection"
-msgstr "Wybór serwera FreeCiv"
+msgstr "Wybór serwera Freeciv"
 
 #: client/gui-gtk/connectdlg.c:175
 msgid "Name:"

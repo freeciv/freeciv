@@ -7,8 +7,8 @@ such system, Debian GNU/Linux (running on many hardware platforms), but
 others may exist on the future. You can find more information about Debian
 at http://www.debian.org/
 
-There are versions of FreeCiv in Debian GNU/Linux since version 2.0 (which
-shipped with FreeCiv 1.5.4). Version 2.1, about to be released, will ship
+There are versions of Freeciv in Debian GNU/Linux since version 2.0 (which
+shipped with Freeciv 1.5.4). Version 2.1, about to be released, will ship
 with version 1.7.2, and regular CVS snapshots can be found in the
 Experimental directory (in .../debian/project/experimental in any ftp mirror
 - look in the webpage for the mirror list).

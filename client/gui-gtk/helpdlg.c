@@ -285,7 +285,7 @@ static void create_help_dialog(void)
   gtk_signal_connect( GTK_OBJECT( help_dialog_shell ), "destroy",
   	  GTK_SIGNAL_FUNC( gtk_widget_destroyed ), &help_dialog_shell );
 
-  gtk_window_set_title( GTK_WINDOW( help_dialog_shell ), _("FreeCiv Help Browser") );
+  gtk_window_set_title( GTK_WINDOW( help_dialog_shell ), _("Freeciv Help Browser") );
   gtk_container_border_width( GTK_CONTAINER( help_dialog_shell ), 5 );
 
   hbox = gtk_hbox_new( FALSE, 5 );

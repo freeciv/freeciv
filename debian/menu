@@ -1,1 +1,1 @@
-?package(freeciv):needs="text" section="Games/Strategy" icon="none" title="FreeCiv server" command="/usr/games/civserver"
+?package(freeciv):needs="text" section="Games/Strategy" icon="none" title="Freeciv server" command="/usr/games/civserver"

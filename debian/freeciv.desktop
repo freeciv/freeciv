@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=FreeCiv
-Name[es]=FreeCiv
-Name[fr]=FreeCiv
-Name[no]=FreeCiv
-Name[pt]=FreeCiv
+Name=Freeciv
+Name[es]=Freeciv
+Name[fr]=Freeciv
+Name[no]=Freeciv
+Name[pt]=Freeciv
 Comment=Civilization(TM)-like game
 Comment[pt]=Jogo similar ao Civilization
 Exec=civclient-gtk

@@ -131,7 +131,7 @@ void gui_server_connect(void)
   gtk_signal_connect(GTK_OBJECT(dialog),"delete_event",
 	GTK_SIGNAL_FUNC(connect_deleted_callback), NULL);
   
-  gtk_window_set_title(GTK_WINDOW(dialog), _(" Connect to FreeCiv Server"));
+  gtk_window_set_title(GTK_WINDOW(dialog), _(" Connect to Freeciv Server"));
 
   book = gtk_notebook_new ();
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), book, TRUE, TRUE, 0);

@@ -618,7 +618,7 @@ void ui_main(int argc, char **argv)
   gtk_signal_connect( GTK_OBJECT(toplevel),"delete_event",
       GTK_SIGNAL_FUNC(gtk_main_quit),NULL );
 
-  gtk_window_set_title (GTK_WINDOW (toplevel), _("FreeCiv"));
+  gtk_window_set_title (GTK_WINDOW (toplevel), _("Freeciv"));
 
   icon_bitmap = gdk_bitmap_create_from_data( root_window,
         				     freeciv_bits,

@@ -55,7 +55,7 @@ Freeciv*Pixcomm.shadowWidth: 0
 !
 ! The Connect dialog
 !
-Freeciv*.connectdialog.title: _("Connect to FreeCiv Server")
+Freeciv*.connectdialog.title: _("Connect to Freeciv Server")
 
 Freeciv*connectdialog.*.cheadline.label: _("Freeciv Server Selection")
 Freeciv*connectdialog.*.cheadline.width: 300
