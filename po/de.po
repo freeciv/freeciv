@@ -28,6 +28,9 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
+# Revision 1.49  2000/06/18 09:20:09  egbert
+# Additions and improvements by Christian Knoke <ChrisK@enter.de>
+#
 # Revision 1.48  2000/06/17 18:07:11  egbert
 # Patches until 06/17/00 included.
 #
@@ -124,7 +127,7 @@ msgstr "Ackerland"
 
 #: common/map.c:618 common/unit.c:761
 msgid "Mine"
-msgstr "Mine"
+msgstr "Bergwerk"
 
 #: common/map.c:620 common/unit.c:765
 msgid "Fortress"
@@ -360,7 +363,7 @@ msgstr "Spiel: %s verkauft %s (unnötig) zum Preis von %d."
 #: server/barbarian.c:435
 #, c-format
 msgid "Native unrest near %s led by %s."
-msgstr "Eingeborenenaufstand in der Nähe von %s; Anführer ist %s."
+msgstr "Barbarenaufstand bei %s; Anführer ist %s."
 
 #: server/barbarian.c:438
 #, c-format
@@ -522,7 +525,8 @@ msgstr "Spiel: In %s wird eine Hungersnot befürchtet, %s verloren!"
 #: server/cityturn.c:1001 server/cityturn.c:1041
 #, c-format
 msgid "Game: %s can't build %s from the worklist.  Purging..."
-msgstr "Spiel: %s kann %s aus der Arbeitsliste nicht bauen."
+msgstr "Spiel: %s kann %s aus der Arbeitsliste nicht bauen. Auftrag "
+"gelöscht."
 
 #: server/cityturn.c:1020 server/cityturn.c:1060
 #, c-format
@@ -531,7 +535,7 @@ msgid ""
 "Postponing..."
 msgstr ""
 "Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da notwendige Kenntnisse "
-"fehlen."
+"fehlen. Auftrag zurück gestellt."
 
 #: server/cityturn.c:1028 server/cityturn.c:1068 server/cityturn.c:1171
 #, c-format
@@ -1055,11 +1059,11 @@ msgstr "Spiel: %s beherrscht die %s."
 
 #: server/console.c:162
 msgid "Ok. RFC-style set."
-msgstr "OK. RFC Stil."
+msgstr "OK. RFC-Stil."
 
 #: server/console.c:164
 msgid "Ok. Standard style set."
-msgstr "OK. Standard Stil."
+msgstr "OK. Standard-Stil."
 
 #: server/console.c:183
 msgid "For introductory help, type 'help'."
@@ -1160,7 +1164,7 @@ msgstr "Spiel: Es gibt keinen Spieler namens %s."
 
 #: server/mapgen.c:721
 msgid "Map generator: not enough start positions, fixing."
-msgstr "Kartengenerator: Nicht genug Startfelder; Korrektur läuft."
+msgstr "Kartengenerator: Nicht genug Startfelder; korrigiert."
 
 #: server/mapgen.c:724
 #, c-format
@@ -1190,8 +1194,8 @@ msgid ""
 "railroad is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"Spiel: Die Entdeckung der Eisenbahn hat die Arbeiter neu motiviert. Spontan "
-"haben sie alle Städte damit ausgestattet."
+"Spiel: Als die Entwicklung der Eisenbahn bekannt gegeben wird, fassen\n"
+"       die Arbeiter neuen Mut. Spontan statten sie alle Städte damit aus."
 
 #: server/maphand.c:347
 msgid ""
@@ -1382,7 +1386,7 @@ msgstr "Wirtschaft"
 
 #: server/plrhand.c:822
 msgid "Military Service"
-msgstr "Wehrpflicht"
+msgstr "Wehrdienst"
 
 #: server/plrhand.c:849 server/plrhand.c:873
 msgid "Demographics Report:"
@@ -1464,8 +1468,9 @@ msgid ""
 "Game: Great philosophers from all the world join your civilization; you get "
 "an immediate advance."
 msgstr ""
-"Spiel: Die größten Philosophen aus aller Welt haben sich Deiner Nation "
-"angeschlossen: Fortschritt ist die direkte Folge."
+"Spiel: Die größten Philosophen aus aller Welt haben sich der Nation "
+"angeschlossen:\n"
+"       Ein direkter Fortschritt ist die Folge."
 
 #: server/plrhand.c:1482
 #, c-format
@@ -1539,24 +1544,26 @@ msgstr ""
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Luxusquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-# ?
 #: server/plrhand.c:1840
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
+"Aufgrund der ständigen Provokationen durch die %s stimmt der Senat der "
+"Vorlage zu."
 
 #: server/plrhand.c:1850
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spiel: Ihre Reputation ist jetzt %s."
 
-# ?
 #: server/plrhand.c:1854
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
+"Spiel: Der Senat beschließt seine Selbstauflösung,\n"
+"       um Ihre Maßnahmen nicht länger unterstützen zu müssen."
 
 #: server/plrhand.c:1907
 #, c-format
@@ -1818,8 +1825,8 @@ msgid ""
 "Special resources improve the basic terrain type they are on.  The server "
 "variable's scale is parts per thousand."
 msgstr ""
-"Besondere Resourcenfelder verbessern die Grundfelder auf den sie sind.\n"
-"Der eingegebene Wert N wird in der Form (N von 1.000) verwendet."
+"Besondere Resourcenfelder verbessern das Gelände, auf dem sie liegen.\n"
+"Der Wert gibt die Anzahl der Ressourcen pro 1000 Felder an."
 
 #: server/stdinhand.c:229
 msgid "Amount of huts (minor tribe villages)"
@@ -1974,8 +1981,9 @@ msgid ""
 "research points, you lose this percentage of those research points.  This "
 "does not apply if you have just gained tech this turn."
 msgstr ""
-"Bei Änderung des Forschungsprojekts geht dieser Prozentsatz an Punkten "
-"verloren (falls vorhanden)."
+"Bei Änderung des Forschungsprojekts geht dieser Prozentsatz an "
+"(vorhandenen) Punkten verloren. (Ausgenommen sind Runden, in denen "
+"ein Forschungsprojekt erfolgreich abgeschlossen wurde.)"
 
 #: server/stdinhand.c:383
 msgid "Penalty when getting tech from treaty"
@@ -2026,7 +2034,7 @@ msgstr "Benötigte Nahrung für Städtewachstum"
 
 #: server/stdinhand.c:416
 msgid "Percentage food lost when need aqueduct"
-msgstr "Nahrungsverluste (%) bei fehlendem Äquadukt"
+msgstr "Nahrungsverluste (%) bei fehlendem Aquädukt"
 
 #: server/stdinhand.c:417
 msgid ""
@@ -2034,13 +2042,13 @@ msgid ""
 "System), it loses this percentage of its foodbox (or half that amount if it "
 "has a Granary)."
 msgstr ""
-"Wenn eine Stadt wachsen würde, aber mangels eines fehlenden Äquadukts (oder "
+"Wenn eine Stadt wachsen würde, aber mangels eines fehlenden Aquädukts (oder "
 "Abwassersystems) nicht kann, geht dieser Prozentsatz (oder die Häfte davon, "
 "falls ein Vorratsspeicher vorhanden ist) verloren."
 
 #: server/stdinhand.c:424
 msgid "City size before people become unhappy"
-msgstr "Anzahl der glücklichen Bürger"
+msgstr "Anzahl der zufriedenen Bürger"
 
 #: server/stdinhand.c:425
 msgid ""
@@ -2062,7 +2070,7 @@ msgid ""
 "numbers of cities."
 msgstr ""
 "Wenn die Anzahl der Städte diesen Wert übersteigt, wird die 'Anzahl der "
-"glücklichen Bürger' um 1 reduziert. Dieser Wert bezieht sich auf Demokratie; "
+"zufriedenen Bürger' um 1 reduziert. Dieser Wert bezieht sich auf Demokratie; "
 "bei anderen Staatsformen tritt dieser Effekt früher ein."
 
 #: server/stdinhand.c:442
@@ -2200,9 +2208,11 @@ msgid ""
 "capable as Diplomats, veteran units 50% more capable than non-veteran ones."
 msgstr ""
 "Ein Diplomat (oder Spion), der gegen eine von Diplomaten (oder Spionen) "
-"verteidigte Stadt agiert, hat die Chance 1:N, diese Verteidigung zu "
-"überwinden. Mit der gleichen Chance kehrt ein Spion nach einer erfolgreichen "
-"Mission zurück. (Diplomaten kehren nie zurück.)"
+"verteidigte Stadt agiert, hat die Chance 1:N gegenüber jedem einzelnen "
+"Verrteidiger, diesen zu überwinden. Mit der gleichen Chance kehrt ein "
+"Spion von einer erfolgreichen Mission zurück. (Diplomaten kehren nie "
+"zurück.) Verteidigende Spione sind doppelt so fähig wie Diplomaten; "
+"erfahrene Einheiten sind anderen um 50 % überlegen."
 
 #: server/stdinhand.c:534
 msgid "Whether to allow space race"
@@ -2228,15 +2238,15 @@ msgstr ""
 
 #: server/stdinhand.c:556
 msgid "Whether AI-status toggles with connection"
-msgstr "Automatischer AI-Status"
+msgstr "Automatischer KI-Status"
 
 #: server/stdinhand.c:557
 msgid ""
 "If this is set to 1, AI status is turned off when a player connects, and on "
 "when a player disconnects."
 msgstr ""
-"1 bedeutet, daß bei einem Verbindungsabbruch automatisch der AI-Status "
-"aktiviert und bei Wiederherstellung der Verbindung der AI-Status automatisch "
+"1 bedeutet, daß bei einem Verbindungsabbruch automatisch der KI-Status "
+"aktiviert und bei Wiederherstellung der Verbindung der KI-Status automatisch "
 "deaktiviert wird."
 
 #: server/stdinhand.c:563
@@ -2311,6 +2321,7 @@ msgstr ""
 "    L = Bildung\n"
 "Die folgendenden Buchstaben erlauben die Ausgabe zusätzlicher Spalten:\n"
 "    q = Menge anzeigen               r = Rangfolge anzeigen\n"
+"    b = Beste Nation anzeigen\n"
 "(Groß- und Kleinschreibung muß beachtet werden; die Reihenfolge ist egal.)"
 
 #: server/stdinhand.c:609
@@ -2371,7 +2382,7 @@ msgid ""
 msgstr ""
 "Mit diesem Befehl wird ein Spiel begonnen. Bei neuen Spielen sollte er "
 "benutzt werden, nachdem alle menschlichen Spieler bereit sind, alle "
-"(benbötigten) AI-Spieler erzeugt wurden und alle gewünschten "
+"(benötigten) KI-Spieler erzeugt wurden und alle gewünschten "
 "Servereinstellungen gemacht wurden. Nach Eingabe von 'start' dürfen sich "
 "alle menschlichen Spieler ihre Nation aussuchen; danach beginnt das Spiel. "
 "'start' wird auch benötigt um ein geladenes Spiel fortzusetzen. Nach "
@@ -2687,7 +2698,7 @@ msgid ""
 "units etc.  Use with care!"
 msgstr ""
 "Dieser Befehl entfernt den angegeben Spieler VOLLSTÄNDIG, d.h. "
-"einschließlich aller Städte und EInheiten. Vorsicht!"
+"einschließlich aller Städte und Einheiten. Vorsicht!"
 
 #. translate <> only
 #: server/stdinhand.c:928
@@ -2748,11 +2759,11 @@ msgstr ""
 
 #: server/stdinhand.c:956
 msgid "Change server output style to 'RFC-style'."
-msgstr "Serverausgabe: 'RFC-style'"
+msgstr "Serverausgabe ändern: 'RFC-Stil'"
 
 #: server/stdinhand.c:960
 msgid "Change server output style to normal style."
-msgstr "Serverausgabe: normal"
+msgstr "Serverausgabe ändern: Standard-Stil"
 
 #: server/stdinhand.c:964
 msgid "Abort the server and generate a 'core' file."
@@ -2772,11 +2783,11 @@ msgstr "(unbekannt)"
 
 #: server/stdinhand.c:1164
 msgid "Name is empty, so cannot be a player."
-msgstr "Ein Spieler muß einen Namen haben."
+msgstr "Spielername fehlt."
 
 #: server/stdinhand.c:1168
 msgid "Name is too long, so cannot be a player."
-msgstr "Name zu lang für einen Spieler."
+msgstr "Spielername zu lang."
 
 #: server/stdinhand.c:1172
 #, c-format
@@ -2886,7 +2897,7 @@ msgstr "Keine neuen Spieler mehr möglich."
 
 #: server/stdinhand.c:1440
 msgid "Can't use an empty name."
-msgstr "Ein leerer Name kann nicht verwendet werden."
+msgstr "Name fehlt."
 
 #: server/stdinhand.c:1447
 #, c-format
@@ -3304,7 +3315,7 @@ msgstr "cut S\t\t- Verbindung zu Spieler S beenden"
 
 #: server/stdinhand.c:2640
 msgid "easy            - all AI players will be easy"
-msgstr "easy\t\t- Alle KI Spieler sind einfache Gegner"
+msgstr "easy\t\t- Alle KI-Spieler sind einfache Gegner"
 
 #: server/stdinhand.c:2642
 msgid "easy P          - AI player will be easy"
@@ -4319,7 +4330,7 @@ msgstr "Nahrung"
 
 #: client/cityrepdata.c:216
 msgid "Stock"
-msgstr "max. Vorrat"
+msgstr "Vorrat"
 
 #: client/cityrepdata.c:216
 msgid "Food Stock"
@@ -4604,7 +4615,7 @@ msgstr "* Ignoriert das Gelände (behandelt alle Felder wie Straßen).\n"
 
 #: client/helpdata.c:719
 msgid "* Attacks with full strength even if less than one movement left.\n"
-msgstr "* Greift immer mit voller Stärke an.\n"
+msgstr "* Greift auch mit weniger als 1 Bewegungspunkt mit voller Stärke an.\n"
 
 #: client/helpdata.c:722
 msgid "* Ignores zones of control.\n"
@@ -4713,31 +4724,27 @@ msgstr "%s mit diesem Wissen können Straßen zu Eisenbahnlinien machen.\n"
 #: client/helpdata.c:828
 #, c-format
 msgid "Allows %s to upgrade irrigation to farmland.\n"
-msgstr "Ermöglicht %s, die Verbesserung in Farmland vorzunehmen.\n"
+msgstr "Ermöglicht %s, bewässertes Land in Farmland zu verwandeln.\n"
 
-# ?
 #: client/helpdata.c:882
 #, c-format
 msgid "%s%d shield"
-msgstr ""
+msgstr "%s%d Schild(e)"
 
-# ?
 #: client/helpdata.c:886
 #, c-format
 msgid "%s%d food"
-msgstr ""
+msgstr "%s%d Nahrung"
 
-# ?
 #: client/helpdata.c:890
 #, c-format
 msgid "%s%d unhappy"
-msgstr ""
+msgstr "%s%d Unzufriedene(r)"
 
-# ?
 #: client/helpdata.c:894
 #, c-format
 msgid "%s%d gold"
-msgstr ""
+msgstr "%s%d Goldstücke"
 
 # ?
 #. s=shields
@@ -4952,11 +4959,10 @@ msgstr "Angriff fehlgeschlagen   "
 msgid "Unit Attack Succeeded    "
 msgstr "Angriff erfolgreich      "
 
-# ?
 #. E_UNIT_WIN_ATT
 #: client/options.c:107
 msgid "Suggest Growth Throttling"
-msgstr ""
+msgstr "Schlage vor, das Wachstum zu verlangsamen"
 
 # ?
 #. E_CITY_GRAN_THROTTLE
@@ -5723,21 +5729,20 @@ msgstr "Verräter verlangen zu viel!"
 
 #: client/gui-gtk/dialogs.c:685 data/Freeciv:2273
 msgid "Select Advance to Steal"
-msgstr "Wähle die zu stehlenden Forschungsergebnisse"
+msgstr "Wähle das zu stehlende Forschungsergebnis"
 
 #: client/gui-gtk/dialogs.c:692 data/Freeciv:2245 data/Freeciv:2258
 msgid "Steal Technology"
-msgstr "Forschungsergebnisse stehlen"
+msgstr "Forschungsergebnis stehlen"
 
 #: client/gui-gtk/dialogs.c:715 data/Freeciv:2289
 msgid "Steal"
 msgstr "Stehlen"
 
-# ?
 #: client/gui-gtk/dialogs.c:751 client/gui-gtk/dialogs.c:845
 #: client/gui-xaw/dialogs.c:773 client/gui-xaw/dialogs.c:859
 msgid "At Spy's Discretion"
-msgstr ""
+msgstr "Nach Wahl des Spions"
 
 #: client/gui-gtk/dialogs.c:758 client/gui-xaw/dialogs.c:759
 msgid "NONE"
@@ -6145,7 +6150,7 @@ msgstr "Voraussetzung:"
 
 #: client/gui-gtk/helpdlg.c:91 client/gui-gtk/helpdlg.c:99 data/Freeciv:687
 msgid "Obsolete by:"
-msgstr "Nutzlos durch:"
+msgstr "Veraltet durch:"
 
 #: client/gui-gtk/helpdlg.c:95 data/Freeciv:750
 msgid "Attack:"
@@ -6201,7 +6206,7 @@ msgstr "Bewäss. Erg./Zeit:"
 
 #: client/gui-gtk/helpdlg.c:107
 msgid "Mine Rslt/Time:"
-msgstr "Mine Erg./Zeit:"
+msgstr "Bergerk Erg./Zeit:"
 
 #: client/gui-gtk/helpdlg.c:107
 msgid "Trans. Rslt/Time:"
@@ -7339,10 +7344,10 @@ msgid ""
 "Gold: %d\n"
 "Tax:%d Lux:%d Sci:%d"
 msgstr ""
-"Bevölkerung: %s\n"
-"Jahr:        %s\n"
-"Gold:     %d\n"
-"St:%d Lux:%d Forsch:%d"
+"Bev.: %s\n"
+"Jahr: %s\n"
+"Gold: %d\n"
+"St:%d L:%d F:%d"
 
 #: client/gui-xaw/menu.c:124
 msgid "Tax Rates"
@@ -7387,10 +7392,9 @@ msgstr ""
 msgid "Select Unit(s)"
 msgstr "Einheit(en) wählen"
 
-# ?
 #: data/Freeciv:627 data/Freeciv:706
 msgid "Variant:"
-msgstr ""
+msgstr "Möglichkeit:"
 
 #: data/Freeciv:814
 msgid "Firepower:"
@@ -7414,7 +7418,7 @@ msgstr "Bewäss. Ergebnis/Zeit:"
 
 #: data/Freeciv:1008
 msgid "Mine Result/Time:"
-msgstr "Mine Ergebnis/Zeit:"
+msgstr "Bergwerk Ergebnis/Zeit:"
 
 #: data/Freeciv:1028
 msgid "Trans. Result/Time:"
@@ -7531,7 +7535,7 @@ msgstr "Im Bau Name       Zählt Kostet Total"
 
 #: data/Freeciv:1861
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr "Typus            Verbessern Im Gange   Active   Schild     Nahrung"
+msgstr "Einheit       Modernisierung im Gange  aktiv    Schild  Nahrung"
 
 #: data/Freeciv:1941
 msgid "Rename worklist"
@@ -7827,10 +7831,13 @@ msgid ""
 "the metaserver, the player names can be found there."
 msgstr ""
 "Nach Spielbeginn kann man sich nur unter dem Namen von einem der Anführer "
-"anmelden. Voraussetzung ist, daß unter diesem Namen kein anderer Spieler "
+"anmelden, vorausgesetzt, daß unter diesem Namen kein anderer Spieler "
 "angemeldet ist. Es ist auch zulässig, sich unter dem Namen eines KI-Spielers "
 "anzumelden - allerdings übernehmen Sie dadurch noch nicht seine Steuerung; "
-"diese muß durch einen gesonderten Serverbefehl übergeben werden."
+"diese muß durch einen gesonderten Serverbefehl übergeben werden. Dies "
+"gilt auch für den Fall, daß eine unterbrochene Verbindung neu aufgenommen "
+"werden soll. Wird ein Metaserver benutzt, kann man dort, die Namen der "
+"Anführer ersehen."
 
 #: data/helpdata.txt:429
 msgid ""
@@ -7970,7 +7977,8 @@ msgid ""
 "'foo'; player names can be abbreviated."
 msgstr ""
 " - Nachrichten, die mit einem Spielernamen (oder einer Abkürzung davon), "
-"gefolgt von einem Doppelpunkt, beginnen."
+"gefolgt von einem Doppelpunkt, beginnen sind private Mitteilungen an "
+"diesen Spieler."
 
 #: data/helpdata.txt:495
 msgid ""
@@ -9269,7 +9277,7 @@ msgid ""
 "is designated by the term \"Rapture\" on the City Report.  The effects of "
 "celebration vary depending on your government type:"
 msgstr ""
-"Sollten allerdings in einer Stadt mit mindestens 3(0.000) Einwohnern "
+"Sollten allerdings in einer Stadt ab der Größe 3 "
 "mindestens genauso viele glückliche wie zufriedene und keine unzufriedenen "
 "Bürger sein, feiert die Stadt. Die Ergebnisse der Feier sind abhängig von "
 "der Regierungsform:"
@@ -9299,8 +9307,8 @@ msgid ""
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
 msgstr ""
-" - Unter 'Republik' oder 'Demokratie' wächst die Bevölkerung jedes Jahr um "
-"1(0.000) bis keine überschüssige Nahrung mehr vorhanden ist oder die Anzahl "
+" - Unter 'Republik' oder 'Demokratie' wächst eine Stadt jährlich um "
+"1 bis keine überschüssige Nahrung mehr vorhanden ist oder die Anzahl "
 "der glücklichen Bürger zum Feiern nicht mehr ausreicht."
 
 #: data/helpdata.txt:1209
@@ -9313,10 +9321,10 @@ msgid ""
 "cityfactor), the limit on content citizens is reduced to 3."
 msgstr ""
 "Normalweise sind Bürger zufrieden. Allerdings sorgt wachsende Bevölkerung "
-"für Unzufriedenheit. Standardmäßig sind ab 4(0.000) Bürgern alle neu "
-"hinzukommenden unzufrieden. Gibt es viele Städte, sinkt - abhängig von der "
+"für Unzufriedenheit. Standardmäßig sind bei Städten ab Größe 4 alle neu "
+"hinzukommenden Bürger unzufrieden. Gibt es viele Städte, sinkt - abhängig von der "
 "Servereinstellung und der Regeierungsform - die Anzahl der Zufriedenen auf "
-"3(0.000)."
+"3. Diese Vorgaben lassen sich über die Servereinstellungen ändern."
 
 #: data/helpdata.txt:1219
 msgid ""
@@ -9453,7 +9461,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:59 data/civ2/buildings.ruleset:59
 #: data/default/buildings.ruleset:232
 msgid "Aqueduct"
-msgstr "Äquadukt"
+msgstr "Aquädukt"
 
 #: data/civ2/buildings.ruleset:76 data/default/buildings.ruleset:249
 msgid ""
@@ -9904,7 +9912,7 @@ msgid ""
 "for a city to grow larger than size 8."
 msgstr ""
 "Erlaubt einer Stadt über die Größe 12 hinaus zu wachsen. Vorher benötigt "
-"eine Stadt bereits ein Äquadukt, um größer als 8 werden zu können."
+"eine Stadt bereits ein Aquädukt, um größer als 8 werden zu können."
 
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:808
 #: data/default/buildings.ruleset:997
@@ -10428,7 +10436,8 @@ msgstr "die Vereinten Nationen"
 
 #: data/civ2/buildings.ruleset:1694 data/default/buildings.ruleset:1891
 msgid "Units regain two extra hitpoints per turn."
-msgstr "Alle eigenen Einheiten erhalten 2 Trefferpunkte pro Runde zurück."
+msgstr ""
+"Alle eigenen Einheiten erhalten 2 zusätzliche Trefferpunkte pro Runde zurück."
 
 #: data/civ1/buildings.ruleset:1726 data/civ2/buildings.ruleset:1707
 #: data/default/buildings.ruleset:1904
@@ -11436,7 +11445,7 @@ msgstr "Kernfusion"
 #: data/civ1/techs.ruleset:241 data/civ2/techs.ruleset:241
 #: data/default/techs.ruleset:241
 msgid "Genetic Engineering"
-msgstr "Genetik"
+msgstr "Gentechnik"
 
 #: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
 #: data/default/techs.ruleset:247
@@ -11913,7 +11922,7 @@ msgstr "Torf"
 
 #: data/civ2/terrain.ruleset:511 data/default/terrain.ruleset:511
 msgid "Spice"
-msgstr "Gewürz"
+msgstr "Gewürze"
 
 #: data/civ1/terrain.ruleset:526 data/civ2/terrain.ruleset:527
 #: data/classic/terrain.ruleset:526 data/default/terrain.ruleset:527
@@ -12705,7 +12714,7 @@ msgstr "Vorsitzender"
 
 #: data/nation/brazilian.ruleset:16 data/nation/chinese.ruleset:11
 msgid "Chairperson"
-msgstr "Vorsitzender"
+msgstr "Vorsitzende"
 
 #: data/nation/brazilian.ruleset:17
 msgid "Director-President"
