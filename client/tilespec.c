@@ -42,11 +42,13 @@
 #include "support.h"
 #include "unit.h"
 
+#include "dialogs_g.h"
+#include "graphics_g.h"
+#include "mapview_g.h"		/* for update_map_canvas_visible */
+
 #include "civclient.h"		/* for get_client_state() */
 #include "climap.h"		/* for tile_get_known() */
 #include "control.h"		/* for fill_xxx */
-#include "graphics_g.h"
-#include "mapview_g.h"		/* for update_map_canvas_visible */
 #include "options.h"		/* for fill_xxx */
 
 #include "tilespec.h"
@@ -491,6 +493,7 @@ void tilespec_reread(const char *tileset_name)
        we don't want/need to redraw. */
     return;
   }
+  popdown_all_game_dialogs();
   generate_citydlg_dimensions();
   tileset_changed();
   can_slide = FALSE;
