@@ -2752,6 +2752,7 @@ void update_simple_ai_types(void)
     if (unit_type_exists(id) && !unit_type_flag(id, F_NONMIL)
 	&& !unit_type_flag(id, F_MISSILE)
 	&& !unit_type_flag(id, F_NO_LAND_ATTACK)
+        && get_unit_type(id)->move_type != AIR_MOVING
 	&& get_unit_type(id)->transport_capacity < 8) {
       simple_ai_types[i] = id;
       i++;

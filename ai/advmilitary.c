@@ -493,14 +493,16 @@ int ai_unit_defence_desirability(Unit_Type_id i)
   int attack = get_unit_type(i)->attack_strength;
   int defense = get_unit_type(i)->defense_strength;
 
-  if (unit_types[i].move_type != LAND_MOVING
+  /* Sea and helicopters often have their firepower set to 1 when
+   * defending. We can't have such units as defenders. */
+  if (unit_types[i].move_type != SEA_MOVING
       && unit_types[i].move_type != HELI_MOVING) {
     /* Sea units get 1 firepower in Pearl Harbour,
      * and helicopters very bad against air units */
     desire *= get_unit_type(i)->firepower;
   }
   desire *= defense;
-  desire += get_unit_type(i)->move_rate;
+  desire += get_unit_type(i)->move_rate / SINGLE_MOVE;
   desire += attack;
   if (unit_type_flag(i, F_PIKEMEN)) {
     desire += desire / 2;
