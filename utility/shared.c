@@ -67,9 +67,10 @@
                           "~/.freeciv"
 #endif
 
+/* Both of these are stored in the local encoding.  The grouping_sep must
+ * be converted to the internal encoding when it's used. */
 static char *grouping = NULL;
 static char *grouping_sep = NULL;
-static size_t grouping_sep_len = 0;
 
 /***************************************************************
   Take a string containing multiple lines and create a copy where
@@ -293,6 +294,14 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
   char *grp = grouping;
   char *ptr;
   unsigned int cnt = 0;
+  char sep[64];
+  size_t seplen;
+
+  /* We have to convert the encoding here (rather than when the locale
+   * is initialized) because it can't be done before the charsets are
+   * initialized. */
+  local_to_internal_string_buffer(grouping_sep, sep, sizeof(sep));
+  seplen = strlen(sep);
 
 #if 0 /* Not needed while the values are unsigned. */
   assert(mantissa >= 0);
@@ -311,9 +320,9 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
   while (mantissa != 0 && exponent >= 0) {
     int dig;
 
-    if (ptr <= buf + grouping_sep_len) {
+    if (ptr <= buf + seplen) {
       /* Avoid a buffer overflow. */
-      assert(ptr > buf + grouping_sep_len);
+      assert(ptr > buf + seplen);
       return ptr;
     }
 
@@ -336,9 +345,9 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
 	   least 421-bit ints to break the 127 digit barrier, but why not. */
 	break;
       }
-      ptr -= grouping_sep_len;
+      ptr -= seplen;
       assert(ptr >= buf);
-      memcpy(ptr, grouping_sep, grouping_sep_len);
+      memcpy(ptr, sep, seplen);
       if (*(grp + 1) != 0) {
 	/* Zero means to repeat the present group-size indefinitely. */
         grp++;
@@ -1196,7 +1205,6 @@ void init_nls(void)
    */
   grouping = mystrdup("\3");
   grouping_sep = mystrdup(",");
-  grouping_sep_len = strlen(grouping_sep);
 
 #ifdef ENABLE_NLS
 #ifdef WIN32_NATIVE
@@ -1255,7 +1263,6 @@ void init_nls(void)
   (void) bindtextdomain(PACKAGE, LOCALEDIR);
   (void) textdomain(PACKAGE);
 
-#ifndef WIN32_NATIVE  /* Some windows locales are buggy */
   /* Don't touch the defaults when LC_NUMERIC == "C".
      This is intended to cater to the common case where:
        1) The user is from North America. ;-)
@@ -1285,9 +1292,7 @@ void init_nls(void)
     }
     free(grouping_sep);
     grouping_sep = mystrdup(lc->thousands_sep);
-    grouping_sep_len = strlen(grouping_sep);
   }
-#endif
 #endif
 }
 
