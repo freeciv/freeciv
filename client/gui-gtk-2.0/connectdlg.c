@@ -274,7 +274,7 @@ void gui_server_connect(void)
 				 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
 
-  update=gtk_button_new_with_label(_("Update"));
+  update=gtk_button_new_from_stock(GTK_STOCK_REFRESH);
   gtk_box_pack_start(GTK_BOX(vbox), update, FALSE, FALSE, 2);
 
   g_signal_connect(list, "button_press_event",
