@@ -185,336 +185,6 @@ void srv_init(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void srv_main(void)
-{
-  int i;
-  int save_counter = 0;
-  struct timer *eot_timer;	/* time server processing at end-of-turn */
-
-  /* make sure it's initialized */
-  if (!has_been_srv_init) {
-    srv_init();
-  }
-
-  my_init_network();
-
-  con_log_init(srvarg.log_filename, srvarg.loglevel);
-  gamelog_init(srvarg.gamelog_filename);
-  gamelog_set_level(GAMELOG_FULL);
-  gamelog(GAMELOG_NORMAL,"Starting new log");
-  
-#ifdef GENERATING_MAC	/* mac beta notice */
-  con_puts(C_COMMENT, "");
-  con_puts(C_COMMENT, "This is an alpha/beta version of MacFreeciv.");
-  con_puts(C_COMMENT, "Visit http://www.geocities.com/SiliconValley/Orchard/8738/MFC/index.html");
-  con_puts(C_COMMENT, "for new versions of this project and information about it.");
-  con_puts(C_COMMENT, "");
-#endif
-#if IS_BETA_VERSION
-  con_puts(C_COMMENT, "");
-  con_puts(C_COMMENT, beta_message());
-  con_puts(C_COMMENT, "");
-#endif
-  
-  con_flush();
-
-  init_our_capability();
-  game_init();
-
-  /* load a script file */
-
-  if (srvarg.script_filename)
-    read_init_script(srvarg.script_filename);
-
-  /* load a saved game */
-  
-  if(srvarg.load_filename) {
-    struct timer *loadtimer, *uloadtimer;
-    struct section_file file;
-    
-    freelog(LOG_NORMAL, _("Loading saved game: %s"), srvarg.load_filename);
-    loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
-    uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
-    if(!section_file_load_nodup(&file, srvarg.load_filename)) { 
-      freelog(LOG_FATAL, _("Couldn't load savefile: %s"), srvarg.load_filename);
-      exit(1);
-    }
-    game_load(&file);
-    section_file_check_unused(&file, srvarg.load_filename);
-    section_file_free(&file);
-
-    if (!game.is_new_game) {
-      /* Is this right/necessary/the_right_place_for_this/etc? --dwp */
-      while(is_id_allocated(global_id_counter++));
-    }
-    freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
-	    read_timer_seconds_free(loadtimer),
-	    read_timer_seconds_free(uloadtimer));
-  }
-
-  /* init network */  
-  init_connections(); 
-  server_open_socket();
-  if(!(srvarg.metaserver_no_send)) {
-    freelog(LOG_NORMAL, _("Sending info to metaserver [%s]"),
-	    meta_addr_port());
-    server_open_udp(); /* open socket for meta server */ 
-  }
-
-  send_server_info_to_metaserver(1,0);
-  
-  /* accept new players, wait for serverop to start..*/
-  freelog(LOG_NORMAL, _("Now accepting new client connections."));
-  server_state=PRE_GAME_STATE;
-
-  while(server_state==PRE_GAME_STATE)
-    sniff_packets();
-
-  send_server_info_to_metaserver(1,0);
-
-  if(game.is_new_game) {
-    load_rulesets();
-    /* otherwise rulesets were loaded when savegame was loaded */
-  }
-
-  nations_avail = fc_calloc(game.playable_nation_count, sizeof(int));
-  nations_used = fc_calloc(game.playable_nation_count, sizeof(int));
-
-main_start_players:
-
-  send_rulesets(&game.est_connections);
-
-  num_nations_avail = game.playable_nation_count;
-  for(i=0; i<game.playable_nation_count; i++) {
-      nations_avail[i]=i;
-      nations_used[i]=i;
-  }
-
-  if (game.auto_ai_toggle) {
-    for (i=0;i<game.nplayers;i++) {
-      struct player *pplayer = get_player(i);
-      if (!pplayer->is_connected && !pplayer->ai.control) {
-	toggle_ai_player_direct(NULL, pplayer);
-      }
-    }
-  }
-
-  /* Allow players to select a nation (case new game).
-   * AI players may not yet have a nation; these will be selected
-   * in generate_ai_players() later
-   */
-  server_state = RUN_GAME_STATE;
-  for(i=0; i<game.nplayers; i++) {
-    if (game.players[i].nation == MAX_NUM_NATIONS && !game.players[i].ai.control) {
-      send_select_nation(&game.players[i]);
-      server_state = SELECT_RACES_STATE;
-    }
-  }
-
-  while(server_state==SELECT_RACES_STATE) {
-    sniff_packets();
-    for(i=0; i<game.nplayers; i++) {
-      if (game.players[i].nation == MAX_NUM_NATIONS && !game.players[i].ai.control) {
-	break;
-      }
-    }
-    if(i==game.nplayers) {
-      if(i>0) {
-	server_state=RUN_GAME_STATE;
-      } else {
-	con_write(C_COMMENT,
-		  _("Last player has disconnected: will need to restart."));
-	server_state=PRE_GAME_STATE;
-	while(server_state==PRE_GAME_STATE) {
-	  sniff_packets();
-	}
-	goto main_start_players;
-      }
-    }
-  }
-
-  /* When to start this timer the first time round is a bit arbitrary:
-     here start straight after stop sniffing for select_races and
-     before all following server initialization etc.
-  */
-  eot_timer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
-
-  if(!game.randseed) {
-    /* We strip the high bit for now because neither game file nor
-       server options can handle unsigned ints yet. - Cedric */
-    game.randseed = time(NULL) & (MAX_UINT32 >> 1);
-  }
- 
-  if(!myrand_is_init())
-    mysrand(game.randseed);
-
-#ifdef TEST_RANDOM		/* not defined anywhere, set it if you want it */
-  test_random1(200);
-  test_random1(2000);
-  test_random1(20000);
-  test_random1(200000);
-#endif
-    
-  if(game.is_new_game)
-    generate_ai_players();
-   
-  /* if we have a tile map, and map.generator==0, call map_fractal_generate
-     anyway, to make the specials and huts */
-  if(map_is_empty() || (map.generator == 0 && game.is_new_game))
-    map_fractal_generate();
-
-  if (map.num_continents==0)
-    assign_continent_numbers();
-
-  gamelog_map();
-  /* start the game */
-
-  server_state=RUN_GAME_STATE;
-  send_server_info_to_metaserver(1,0);
-
-  if(game.is_new_game) {
-    /* Before the player map is allocated (and initiailized)! */
-    game.fogofwar_old = game.fogofwar;
-
-    for(i=0; i<game.nplayers; i++) {
-      struct player *pplayer = &game.players[i];
-      player_map_allocate(pplayer);
-      init_tech(pplayer, game.tech);
-      player_limit_to_government_rates(pplayer);
-      pplayer->economic.gold=game.gold;
-    }
-    game.max_players=game.nplayers;
-
-    /* we don't want random start positions in a scenario which already
-       provides them.  -- Gudy */
-    if(map.num_start_positions==0) {
-      create_start_positions();
-    }
-  }
-
-  initialize_move_costs(); /* this may be the wrong place to do this */
-  generate_minimap(); /* for city_desire; saves a lot of calculations */
-
-  if (!game.is_new_game) {
-    for (i=0;i<game.nplayers;i++) {
-      struct player *pplayer = get_player(i);
-      civ_score(pplayer);	/* if we don't, the AI gets really confused */
-      if (pplayer->ai.control) {
-	set_ai_level_direct(pplayer, pplayer->ai.skill_level);
-	assess_danger_player(pplayer); /* a slowdown, but a necessary one */
-      }
-    }
-  }
-  
-  send_all_info(&game.game_connections);
-  
-  if(game.is_new_game)
-    init_new_game();
-
-  game.is_new_game = 0;
-
-  send_game_state(&game.est_connections, CLIENT_GAME_RUNNING_STATE);
-
-  while(server_state==RUN_GAME_STATE) {
-    /* absolute beginning of a turn */
-    freelog(LOG_DEBUG, "Begin turn");
-    begin_turn();
-
-#if (IS_DEVEL_VERSION || IS_BETA_VERSION)
-    sanity_check();
-#endif
-
-    force_end_of_sniff=0;
-
-    freelog(LOG_DEBUG, "Shuffleplayers");
-    shuffle_players();
-    freelog(LOG_DEBUG, "Aistartturn");
-    ai_start_turn();
-
-    /* Before sniff (human player activites), report time to now: */
-    freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
-	    read_timer_seconds(eot_timer));
-
-    /* Do auto-saves just before starting sniff_packets(), so that
-     * autosave happens effectively "at the same time" as manual
-     * saves, from the point of view of restarting and AI players.
-     * Post-increment so we don't count the first loop.
-     */
-    if(save_counter >= game.save_nturns && game.save_nturns>0) {
-      save_counter=0;
-      save_game_auto();
-    }
-    save_counter++;
-    
-    freelog(LOG_DEBUG, "sniffingpackets");
-    while(sniff_packets()==1);
-
-    /* After sniff, re-zero the timer: (read-out above on next loop) */
-    clear_timer_start(eot_timer);
-    
-    conn_list_do_buffer(&game.game_connections);
-
-#if (IS_DEVEL_VERSION || IS_BETA_VERSION)
-    sanity_check();
-#endif
-
-    before_end_year();
-    /* This empties the client Messages window; put this before
-       everything else below, since otherwise any messages from
-       the following parts get wiped out before the user gets a
-       chance to see them.  --dwp
-    */
-    freelog(LOG_DEBUG, "Season of native unrests");
-    summon_barbarians(); /* wild guess really, no idea where to put it, but
-                            I want to give them chance to move their units */
-    freelog(LOG_DEBUG, "Autosettlers");
-    auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
-    /* moved after sniff_packets for even more efficiency.
-       What a guy I am. -- Syela */
-    /* and now, we must manage our remaining units BEFORE the cities that are
-       empty get to refresh and defend themselves.  How totally stupid. */
-    ai_start_turn(); /* Misleading name for manage_units -- Syela */
-    freelog(LOG_DEBUG, "Auto-Attack phase");
-    auto_attack();
-    freelog(LOG_DEBUG, "Endturn");
-    end_turn();
-    freelog(LOG_DEBUG, "Gamenextyear");
-    game_advance_year();
-    check_spaceship_arrivals();
-    freelog(LOG_DEBUG, "Sendplayerinfo");
-    send_player_info(0, 0);
-    freelog(LOG_DEBUG, "Sendgameinfo");
-    send_game_info(0);
-    freelog(LOG_DEBUG, "Sendyeartoclients");
-    send_year_to_clients(game.year);
-    freelog(LOG_DEBUG, "Sendinfotometaserver");
-    send_server_info_to_metaserver(0,0);
-
-    conn_list_do_unbuffer(&game.game_connections);
-
-    if (is_game_over()) 
-      server_state=GAME_OVER_STATE;
-  }
-
-  report_scores(1);
-  show_map_to_all();
-  notify_player(0, _("Game: The game is over..."));
-
-  while(server_state==GAME_OVER_STATE) {
-    force_end_of_sniff=0;
-    sniff_packets();
-  }
-
-  server_close_udp();
-
-  my_shutdown_network();
-
-  return;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static int is_game_over(void)
 {
   int barbs = 0;
@@ -1958,4 +1628,336 @@ static void announce_ai_player (struct player *pplayer) {
   	     _("Game: %s rules the %s."), pplayer->name,
                     get_nation_name_plural(pplayer->nation));
 
+}
+
+/**************************************************************************
+Play the game! Returns when server_state == GAME_OVER_STATE.
+**************************************************************************/
+static void main_loop(void)
+{
+  struct timer *eot_timer;	/* time server processing at end-of-turn */
+  int save_counter = 0;
+
+  eot_timer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
+
+  while(server_state==RUN_GAME_STATE) {
+    /* absolute beginning of a turn */
+    freelog(LOG_DEBUG, "Begin turn");
+    begin_turn();
+
+#if (IS_DEVEL_VERSION || IS_BETA_VERSION)
+    sanity_check();
+#endif
+
+    force_end_of_sniff=0;
+
+    freelog(LOG_DEBUG, "Shuffleplayers");
+    shuffle_players();
+    freelog(LOG_DEBUG, "Aistartturn");
+    ai_start_turn();
+
+    /* Before sniff (human player activites), report time to now: */
+    freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
+	    read_timer_seconds(eot_timer));
+
+    /* Do auto-saves just before starting sniff_packets(), so that
+     * autosave happens effectively "at the same time" as manual
+     * saves, from the point of view of restarting and AI players.
+     * Post-increment so we don't count the first loop.
+     */
+    if(save_counter >= game.save_nturns && game.save_nturns>0) {
+      save_counter=0;
+      save_game_auto();
+    }
+    save_counter++;
+    
+    freelog(LOG_DEBUG, "sniffingpackets");
+    while(sniff_packets()==1);
+
+    /* After sniff, re-zero the timer: (read-out above on next loop) */
+    clear_timer_start(eot_timer);
+    
+    conn_list_do_buffer(&game.game_connections);
+
+#if (IS_DEVEL_VERSION || IS_BETA_VERSION)
+    sanity_check();
+#endif
+
+    before_end_year();
+    /* This empties the client Messages window; put this before
+       everything else below, since otherwise any messages from
+       the following parts get wiped out before the user gets a
+       chance to see them.  --dwp
+    */
+    freelog(LOG_DEBUG, "Season of native unrests");
+    summon_barbarians(); /* wild guess really, no idea where to put it, but
+                            I want to give them chance to move their units */
+    freelog(LOG_DEBUG, "Autosettlers");
+    auto_settlers(); /* moved this after ai_start_turn for efficiency -- Syela */
+    /* moved after sniff_packets for even more efficiency.
+       What a guy I am. -- Syela */
+    /* and now, we must manage our remaining units BEFORE the cities that are
+       empty get to refresh and defend themselves.  How totally stupid. */
+    ai_start_turn(); /* Misleading name for manage_units -- Syela */
+    freelog(LOG_DEBUG, "Auto-Attack phase");
+    auto_attack();
+    freelog(LOG_DEBUG, "Endturn");
+    end_turn();
+    freelog(LOG_DEBUG, "Gamenextyear");
+    game_advance_year();
+    check_spaceship_arrivals();
+    freelog(LOG_DEBUG, "Sendplayerinfo");
+    send_player_info(0, 0);
+    freelog(LOG_DEBUG, "Sendgameinfo");
+    send_game_info(0);
+    freelog(LOG_DEBUG, "Sendyeartoclients");
+    send_year_to_clients(game.year);
+    freelog(LOG_DEBUG, "Sendinfotometaserver");
+    send_server_info_to_metaserver(0,0);
+
+    conn_list_do_unbuffer(&game.game_connections);
+
+    if (is_game_over()) 
+      server_state=GAME_OVER_STATE;
+  }
+}
+
+/**************************************************************************
+Server initialization.
+**************************************************************************/
+void srv_main(void)
+{
+  int i;
+
+  /* make sure it's initialized */
+  if (!has_been_srv_init) {
+    srv_init();
+  }
+
+  my_init_network();
+
+  con_log_init(srvarg.log_filename, srvarg.loglevel);
+  gamelog_init(srvarg.gamelog_filename);
+  gamelog_set_level(GAMELOG_FULL);
+  gamelog(GAMELOG_NORMAL,"Starting new log");
+  
+#ifdef GENERATING_MAC	/* mac beta notice */
+  con_puts(C_COMMENT, "");
+  con_puts(C_COMMENT, "This is an alpha/beta version of MacFreeciv.");
+  con_puts(C_COMMENT, "Visit http://www.geocities.com/SiliconValley/Orchard/8738/MFC/index.html");
+  con_puts(C_COMMENT, "for new versions of this project and information about it.");
+  con_puts(C_COMMENT, "");
+#endif
+#if IS_BETA_VERSION
+  con_puts(C_COMMENT, "");
+  con_puts(C_COMMENT, beta_message());
+  con_puts(C_COMMENT, "");
+#endif
+  
+  con_flush();
+
+  init_our_capability();
+  game_init();
+
+  /* load a script file */
+
+  if (srvarg.script_filename)
+    read_init_script(srvarg.script_filename);
+
+  /* load a saved game */
+  
+  if(srvarg.load_filename) {
+    struct timer *loadtimer, *uloadtimer;
+    struct section_file file;
+    
+    freelog(LOG_NORMAL, _("Loading saved game: %s"), srvarg.load_filename);
+    loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
+    uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
+    if(!section_file_load_nodup(&file, srvarg.load_filename)) { 
+      freelog(LOG_FATAL, _("Couldn't load savefile: %s"), srvarg.load_filename);
+      exit(1);
+    }
+    game_load(&file);
+    section_file_check_unused(&file, srvarg.load_filename);
+    section_file_free(&file);
+
+    freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
+	    read_timer_seconds_free(loadtimer),
+	    read_timer_seconds_free(uloadtimer));
+  }
+
+  /* init network */  
+  init_connections(); 
+  server_open_socket();
+  if(!(srvarg.metaserver_no_send)) {
+    freelog(LOG_NORMAL, _("Sending info to metaserver [%s]"),
+	    meta_addr_port());
+    server_open_udp(); /* open socket for meta server */ 
+  }
+
+  send_server_info_to_metaserver(1,0);
+  
+  /* accept new players, wait for serverop to start..*/
+  freelog(LOG_NORMAL, _("Now accepting new client connections."));
+  server_state=PRE_GAME_STATE;
+
+  while(server_state==PRE_GAME_STATE)
+    sniff_packets(); /* Accepting commands. */
+
+  send_server_info_to_metaserver(1,0);
+
+  if(game.is_new_game) {
+    load_rulesets();
+    /* otherwise rulesets were loaded when savegame was loaded */
+  }
+
+  nations_avail = fc_calloc(game.playable_nation_count, sizeof(int));
+  nations_used = fc_calloc(game.playable_nation_count, sizeof(int));
+
+main_start_players:
+
+  send_rulesets(&game.est_connections);
+
+  num_nations_avail = game.playable_nation_count;
+  for(i=0; i<game.playable_nation_count; i++) {
+    nations_avail[i]=i;
+    nations_used[i]=i;
+  }
+
+  if (game.auto_ai_toggle) {
+    for (i=0;i<game.nplayers;i++) {
+      struct player *pplayer = get_player(i);
+      if (!pplayer->is_connected && !pplayer->ai.control) {
+	toggle_ai_player_direct(NULL, pplayer);
+      }
+    }
+  }
+
+  /* Allow players to select a nation (case new game).
+   * AI players may not yet have a nation; these will be selected
+   * in generate_ai_players() later
+   */
+  server_state = RUN_GAME_STATE;
+  for(i=0; i<game.nplayers; i++) {
+    if (game.players[i].nation == MAX_NUM_NATIONS && !game.players[i].ai.control) {
+      send_select_nation(&game.players[i]);
+      server_state = SELECT_RACES_STATE;
+    }
+  }
+
+  while(server_state==SELECT_RACES_STATE) {
+    sniff_packets();
+    for(i=0; i<game.nplayers; i++) {
+      if (game.players[i].nation == MAX_NUM_NATIONS && !game.players[i].ai.control) {
+	break;
+      }
+    }
+    if(i==game.nplayers) {
+      if(i>0) {
+	server_state=RUN_GAME_STATE;
+      } else {
+	con_write(C_COMMENT,
+		  _("Last player has disconnected: will need to restart."));
+	server_state=PRE_GAME_STATE;
+	while(server_state==PRE_GAME_STATE) {
+	  sniff_packets();
+	}
+	goto main_start_players;
+      }
+    }
+  }
+
+  if(!game.randseed) {
+    /* We strip the high bit for now because neither game file nor
+       server options can handle unsigned ints yet. - Cedric */
+    game.randseed = time(NULL) & (MAX_UINT32 >> 1);
+  }
+ 
+  if(!myrand_is_init())
+    mysrand(game.randseed);
+
+#ifdef TEST_RANDOM		/* not defined anywhere, set it if you want it */
+  test_random1(200);
+  test_random1(2000);
+  test_random1(20000);
+  test_random1(200000);
+#endif
+    
+  if(game.is_new_game)
+    generate_ai_players();
+   
+  /* if we have a tile map, and map.generator==0, call map_fractal_generate
+     anyway, to make the specials and huts */
+  if(map_is_empty() || (map.generator == 0 && game.is_new_game))
+    map_fractal_generate();
+
+  if (map.num_continents==0)
+    assign_continent_numbers();
+
+  gamelog_map();
+  /* start the game */
+
+  server_state=RUN_GAME_STATE;
+  send_server_info_to_metaserver(1,0);
+
+  if(game.is_new_game) {
+    /* Before the player map is allocated (and initiailized)! */
+    game.fogofwar_old = game.fogofwar;
+
+    for(i=0; i<game.nplayers; i++) {
+      struct player *pplayer = &game.players[i];
+      player_map_allocate(pplayer);
+      init_tech(pplayer, game.tech);
+      player_limit_to_government_rates(pplayer);
+      pplayer->economic.gold=game.gold;
+    }
+    game.max_players=game.nplayers;
+
+    /* we don't want random start positions in a scenario which already
+       provides them.  -- Gudy */
+    if(map.num_start_positions==0) {
+      create_start_positions();
+    }
+  }
+
+  initialize_move_costs(); /* this may be the wrong place to do this */
+  generate_minimap(); /* for city_desire; saves a lot of calculations */
+
+  if (!game.is_new_game) {
+    for (i=0;i<game.nplayers;i++) {
+      struct player *pplayer = get_player(i);
+      civ_score(pplayer);	/* if we don't, the AI gets really confused */
+      if (pplayer->ai.control) {
+	set_ai_level_direct(pplayer, pplayer->ai.skill_level);
+	assess_danger_player(pplayer); /* a slowdown, but a necessary one */
+      }
+    }
+  }
+  
+  send_all_info(&game.game_connections);
+  
+  if(game.is_new_game)
+    init_new_game();
+
+  game.is_new_game = 0;
+
+  send_game_state(&game.est_connections, CLIENT_GAME_RUNNING_STATE);
+
+  /*** Where the action is. ***/
+  main_loop();
+
+  report_scores(1);
+  show_map_to_all();
+  notify_player(0, _("Game: The game is over..."));
+
+  while(server_state==GAME_OVER_STATE) {
+    force_end_of_sniff=0;
+    sniff_packets();
+  }
+
+  server_close_udp();
+
+  my_shutdown_network();
+
+  return;
 }
