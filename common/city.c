@@ -65,7 +65,8 @@ bool is_valid_city_coords(const int city_x, const int city_y)
    *
    * So CITY_MAP_RADIUS==2 corresponds to the "traditional" city map.
    *
-   * FIXME: this won't work for hexagonal tiles.
+   * This diagram is for rectangular topologies only.  But this is taken
+   * care of inside map_vector_to_sq_distance so it works for all topologies.
    */
   return (CITY_MAP_RADIUS * CITY_MAP_RADIUS + 1 >= dist);
 }
