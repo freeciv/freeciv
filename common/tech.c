@@ -144,7 +144,7 @@ void update_research(struct player *plr)
   int i;
   
   for (i=0;i<A_LAST;i++) {
-    if (get_invention(plr, i) == TECH_REACHABLE || get_invetion(plr, i) == TECH_MARKED)
+    if (get_invention(plr, i) == TECH_REACHABLE || get_invention(plr, i) == TECH_MARKED)
       plr->research.inventions[i]=TECH_UNKNOWN;
     if(get_invention(plr, i) == TECH_UNKNOWN
        && get_invention(plr, advances[i].req[0])==TECH_KNOWN   
@@ -181,7 +181,7 @@ int tech_goal_turns(struct player *plr, int goal)
   for (i = 0; i < A_LAST; i++) 
     if (get_invention(plr, goal) != TECH_KNOWN) 
       set_invention(plr, goal, TECH_UNKNOWN);
-  res = tech_goals_turns_rec(plr, goal);
+  res = tech_goal_turns_rec(plr, goal);
   update_research(plr);
 }
 
