@@ -847,14 +847,10 @@ static void compute_tile_production(const struct city *pcity, int x, int y,
 {
   bool is_celebrating = base_city_celebrating(pcity);
 
-  out->production[O_FOOD]
-    = base_city_get_food_tile(x, y, pcity, is_celebrating);
-  out->production[O_SHIELD]
-    = base_city_get_shields_tile(x, y, pcity, is_celebrating);
-  out->production[O_TRADE]
-    = base_city_get_trade_tile(x, y, pcity, is_celebrating);
-  out->production[O_GOLD] = out->production[O_SCIENCE]
-    = out->production[O_LUXURY] = 0;
+  output_type_iterate(o) {
+    out->production[o] = base_city_get_output_tile(x, y, pcity,
+						   is_celebrating, o);
+  } output_type_iterate_end;
 }
 
 /****************************************************************************
@@ -1536,7 +1532,7 @@ static void init_min_production(struct cm_state *state)
   }
   state->min_production[O_FOOD] = usage[O_FOOD]
     + state->parameter.minimal_surplus[O_FOOD]
-    - base_city_get_food_tile(x, y, pcity, is_celebrating);
+    - base_city_get_output_tile(x, y, pcity, is_celebrating, O_FOOD);
 
   /* surplus = (factories-waste) * production - shield_usage, so:
    *   production = (surplus + shield_usage)/(factories-waste)
@@ -1561,7 +1557,7 @@ static void init_min_production(struct cm_state *state)
       = ((usage[O_SHIELD] + state->parameter.minimal_surplus[O_SHIELD])
 	 / sbonus);
     state->min_production[O_SHIELD]
-      -= base_city_get_shields_tile(x, y, pcity, is_celebrating);
+      -= base_city_get_output_tile(x, y, pcity, is_celebrating, O_SHIELD);
   } else {
     /* Dunno what the usage is, so it's pointless to set the
      * min_production */

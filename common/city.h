@@ -404,8 +404,6 @@ bool city_can_grow_to(const struct city *pcity, int pop_size);
 
 const char *get_impr_name_ex(const struct city *pcity, Impr_Type_id id);
 
-int get_output_tile(const struct tile *ptile, Output_type_id otype);
-
 /* city map functions */
 
 bool is_valid_city_coords(const int city_x, const int city_y);
@@ -422,18 +420,14 @@ struct tile *city_map_to_map(const struct city *const pcity,
 int compare_iter_index(const void *a, const void *b);
 void generate_city_map_indices(void);
 
-/* shield on spot */
+/* output on spot */
+int get_output_tile(const struct tile *ptile, Output_type_id otype);
 int city_get_shields_tile(int city_x, int city_y, const struct city *pcity);
-int base_city_get_shields_tile(int city_x, int city_y,
-			       const struct city *pcity, bool is_celebrating);
-/* trade  on spot */
 int city_get_trade_tile(int city_x, int city_y, const struct city *pcity);
-int base_city_get_trade_tile(int city_x, int city_y,
-			     const struct city *pcity, bool is_celebrating);
-/* food   on spot */
 int city_get_food_tile(int city_x, int city_y, const struct city *pcity);
-int base_city_get_food_tile(int city_x, int city_y,
-			    const struct city *pcity, bool is_celebrating);
+int base_city_get_output_tile(int city_x, int city_y,
+			      const struct city *pcity, bool is_celebrating,
+			      Output_type_id otype);
 
 void set_worker_city(struct city *pcity, int city_x, int city_y,
 		     enum city_tile_type type); 

@@ -823,8 +823,8 @@ int get_output_tile(const struct tile *ptile, Output_type_id otype)
 **************************************************************************/
 int city_get_shields_tile(int city_x, int city_y, const struct city *pcity)
 {
-  return base_city_get_shields_tile(city_x, city_y, pcity,
-				    city_celebrating(pcity));
+  return base_city_get_output_tile(city_x, city_y, pcity,
+				   city_celebrating(pcity), O_SHIELD);
 }
 
 /**************************************************************************
@@ -833,9 +833,9 @@ int city_get_shields_tile(int city_x, int city_y, const struct city *pcity)
 
   This can be used to calculate the benefits celebration would give.
 **************************************************************************/
-int base_city_get_shields_tile(int city_x, int city_y,
-			       const struct city *pcity,
-			       bool is_celebrating)
+int base_city_get_output_tile(int city_x, int city_y,
+			      const struct city *pcity, bool is_celebrating,
+			      Output_type_id otype)
 {
   struct tile *ptile;
 
@@ -845,7 +845,7 @@ int base_city_get_shields_tile(int city_x, int city_y,
   }
 
   return base_get_output_tile(ptile, pcity,
-			      city_x, city_y, is_celebrating, O_SHIELD);
+			      city_x, city_y, is_celebrating, otype);
 }
 /**************************************************************************
   Calculate the trade the given tile is capable of producing for the
@@ -853,28 +853,8 @@ int base_city_get_shields_tile(int city_x, int city_y,
 **************************************************************************/
 int city_get_trade_tile(int city_x, int city_y, const struct city *pcity)
 {
-  return base_city_get_trade_tile(city_x, city_y,
-				  pcity, city_celebrating(pcity));
-}
-
-/**************************************************************************
-  Calculate the trade the given tile would be capable of producing for
-  the city if the city's celebration status were as given.
-
-  This can be used to calculate the benefits celebration would give.
-**************************************************************************/
-int base_city_get_trade_tile(int city_x, int city_y,
-			     const struct city *pcity, bool is_celebrating)
-{
-  struct tile *ptile;
-
-  if (!(ptile = city_map_to_map(pcity, city_x, city_y))) {
-    assert(0);
-    return 0;
-  }
-
-  return base_get_output_tile(ptile, pcity, city_x, city_y, is_celebrating,
-			      O_TRADE);
+  return base_city_get_output_tile(city_x, city_y,
+				   pcity, city_celebrating(pcity), O_TRADE);
 }
 
 /**************************************************************************
@@ -883,28 +863,8 @@ int base_city_get_trade_tile(int city_x, int city_y,
 **************************************************************************/
 int city_get_food_tile(int city_x, int city_y, const struct city *pcity)
 {
-  return base_city_get_food_tile(city_x, city_y, pcity,
-				 city_celebrating(pcity));
-}
-
-/**************************************************************************
-  Calculate the food the given tile would be capable of producing for
-  the city if the city's celebration status were as given.
-
-  This can be used to calculate the benefits celebration would give.
-**************************************************************************/
-int base_city_get_food_tile(int city_x, int city_y, const struct city *pcity,
-			    bool is_celebrating)
-{
-  struct tile *ptile;
-
-  if (!(ptile = city_map_to_map(pcity, city_x, city_y))) {
-    assert(0);
-    return 0;
-  }
-
-  return base_get_output_tile(ptile, pcity, city_x, city_y, is_celebrating,
-			      O_FOOD);
+  return base_city_get_output_tile(city_x, city_y, pcity,
+				   city_celebrating(pcity), O_FOOD);
 }
 
 /**************************************************************************
@@ -1704,11 +1664,10 @@ static inline void get_worked_tile_output(const struct city *pcity,
   
   city_map_iterate(x, y) {
     if (get_worker_city(pcity, x, y) == C_TILE_WORKER) {
-      output[O_FOOD] += base_city_get_food_tile(x, y, pcity, is_celebrating);
-      output[O_SHIELD] += base_city_get_shields_tile(x, y, pcity,
-						     is_celebrating);
-      output[O_TRADE] += base_city_get_trade_tile(x, y, pcity,
-						  is_celebrating);
+      output_type_iterate(o) {
+	output[o] += base_city_get_output_tile(x, y, pcity,
+					       is_celebrating, o);
+      } output_type_iterate_end;
     }
   } city_map_iterate_end;
 }

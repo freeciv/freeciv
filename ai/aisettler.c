@@ -150,13 +150,16 @@ void cityresult_fill(struct player *pplayer,
       /* We cannot read city center from cache */
 
       /* Food */
-      result->citymap[i][j].food = base_city_get_food_tile(i, j, pcity, FALSE);
+      result->citymap[i][j].food
+	= base_city_get_output_tile(i, j, pcity, FALSE, O_FOOD);
 
       /* Shields */
-      result->citymap[i][j].shield =base_city_get_shields_tile(i, j, pcity, FALSE);
+      result->citymap[i][j].shield
+	= base_city_get_output_tile(i, j, pcity, FALSE, O_SHIELD);
 
       /* Trade */
-      result->citymap[i][j].trade = base_city_get_trade_tile(i, j, pcity, FALSE);
+      result->citymap[i][j].trade
+	= base_city_get_output_tile(i, j, pcity, FALSE, O_TRADE);
 
       sum = result->citymap[i][j].food * ai->food_priority
             + result->citymap[i][j].trade * ai->science_priority
