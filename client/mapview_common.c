@@ -67,8 +67,14 @@ void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
   int canvas_x, canvas_y;
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    canvas_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
-    update_map_canvas(canvas_x, canvas_y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+
+    /* We draw an extra NORMAL_TILE_XXX / 2 on each side because with
+     * corner and edge sprites this much extra may need to be drawn.  This
+     * is only applicable when the underlying tile changes however.  There
+     * should probably be a refresh_unit_mapcanvas/refresh_city_mapcanvas
+     * functions that handle updates for those items more elegantly. */
+    update_map_canvas(canvas_x - W / 2, canvas_y - H / 2, 2 * W, 2 * H);
 
     if (write_to_screen) {
       flush_dirty();
