@@ -42,6 +42,7 @@
 #include "support.h"
 #include "unit.h"
 
+#include "civclient.h" /* for get_client_state() */
 #include "climisc.h" /* for tile_get_known() */
 #include "control.h" /* for fill_xxx */
 #include "graphics_g.h"
@@ -268,6 +269,7 @@ void tilespec_reread(const char *tileset_name)
 {
   int id;
   int center_x, center_y;
+  enum client_states state = get_client_state();
 
   freelog(LOG_NORMAL, "Loading tileset %s.", tileset_name);
 
@@ -279,11 +281,10 @@ void tilespec_reread(const char *tileset_name)
 
   /* Step 1:  Cleanup.
    *
-   * We free any old data in preparation for re-reading it. This is
-   * pretty certainly incomplete, although the memory leak doesn't seem
-   * to be debilitating.
+   * We free all old data in preparation for re-reading it.
    */
-  hash_free(sprite_hash);
+  tilespec_free_tiles();
+  tilespec_free_city_tiles(game.styles_count);
   tilespec_free_toplevel();
 
   /* Step 2:  Read.
@@ -308,6 +309,10 @@ void tilespec_reread(const char *tileset_name)
    * doesn't mess up too badly if we change tilesets while not connected
    * to a server.
    */
+  if (state < CLIENT_SELECT_RACE_STATE) {
+    /* The ruleset data is not sent until this point. */
+    return;
+  }
   for (id = T_FIRST; id < T_COUNT; id++) {
     tilespec_setup_tile_type(id);
   }
@@ -332,6 +337,11 @@ void tilespec_reread(const char *tileset_name)
    *
    * Do any necessary redraws.
    */
+  if (state < CLIENT_GAME_RUNNING_STATE) {
+    /* Unless the client state is playing a game or in gameover,
+       we don't want/need to redraw. */
+    return;
+  }
   tileset_changed();
   center_tile_mapcanvas(center_x, center_y);
 }
