@@ -109,7 +109,7 @@ struct terrain_drawing_data {
   enum cell_type cell_type;
 
   struct Sprite *base;
-  struct Sprite *blend[NUM_DIRECTION_NSEW];
+  struct Sprite *match[NUM_DIRECTION_NSEW];
   struct Sprite *cells[8][4]; /* 4 = up down left right */
   struct Sprite *special[2];
   struct Sprite *mine;

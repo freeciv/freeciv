@@ -1198,7 +1198,7 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
       for (i = 0; i < NUM_DIRECTION_NSEW; i++) {
 	my_snprintf(buffer1, sizeof(buffer1),
 		    "t.%s_%s", draw->name, nsew_str(i));
-	draw->blend[i] = lookup_sprite_tag_alt(buffer1, "", TRUE,
+	draw->match[i] = lookup_sprite_tag_alt(buffer1, "", TRUE,
 					       "tile_type",
 					       tt->terrain_name);
       }
@@ -1219,7 +1219,7 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
     }
 
     if (!draw->base) {
-      draw->base = draw->blend[0];
+      draw->base = draw->match[0];
     }
   }
 
@@ -1923,7 +1923,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
       tileno = INDEX_NSEW(MATCH(DIR8_NORTH), MATCH(DIR8_SOUTH),
 			  MATCH(DIR8_EAST), MATCH(DIR8_WEST));
 
-      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->blend[tileno]);
+      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->match[tileno]);
       if (!sprites.terrain[ttype]->is_layered) {
 	*dither_count = 1;
       }
