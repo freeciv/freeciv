@@ -480,19 +480,14 @@ void map_startpos_load(struct section_file *file)
     i++;
   }
 
-  if (i < MAX_NUM_PLAYERS) {
-    freelog(LOG_NORMAL, _("Too few starts %d (need at least %d)."
-			  " Filling out with 0,0 start positions."),
-	    i, MAX_NUM_PLAYERS);
+  if (i < game.max_players) {
+    freelog(LOG_VERBOSE, _("Number of starts are lower than max_players,"
+ 			   " lowering max_players."),
+ 	    i, game.max_players);
+    game.max_players = i;
   }
 
-  while (i < MAX_NUM_PLAYERS) {
-    map.start_positions[i].x = 0;
-    map.start_positions[i].y = 0;
-    i++;
-  }
-
-  map.num_start_positions = i; /* I really hope i is MAX_NUM_PLAYERS :) */
+  map.num_start_positions = i;
 }
 
 /***************************************************************

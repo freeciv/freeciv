@@ -68,18 +68,16 @@ void init_new_game(void)
       map.start_positions[i].x=x;
       map.start_positions[i].y=y;
     }
-  }
+    for(i=0; i<game.nplayers; i++) {
+      start_pos[i] = i;
+    } 
+  } else {
   /* In a scenario, choose starting positions by nation.
      If there are too few starts for number of nations, assign
      to nations with specific starts first, then assign rest
      to random from remainder.  (Would be better to label start
      positions by nation etc, but this will do for now. --dwp)
   */
-  if(!map.fixed_start_positions) {
-    for(i=0; i<game.nplayers; i++) {
-      start_pos[i] = i;
-    } 
-  } else {
     const int npos = map.num_start_positions;
     int *pos_used = fc_calloc(npos, sizeof(int));
     int nrem = npos;		/* remaining unused starts */

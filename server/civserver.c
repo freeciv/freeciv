@@ -1706,6 +1706,13 @@ static void generate_ai_players(void)
              game.playable_nation_count);
   }
 
+  if (game.max_players < game.aifill) {
+    game.aifill = game.max_players;
+    freelog( LOG_NORMAL,
+	     _("Maxplayers smaller than aifill; aifill reduced to %d."),
+             game.max_players);
+  }
+
   for(;game.nplayers < game.aifill;) {
      nation = mark_nation_as_used(nations_avail[myrand(num_nations_avail)]);
      pick_ai_player_name(nation,player_name);
