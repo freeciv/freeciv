@@ -1170,10 +1170,10 @@ static void meta_command(struct player *caller, char *arg)
       (0 == strcmp (arg, "?"))) {
     if (server_is_open) {
       cmd_reply(CMD_META, caller, C_OK,
-		_("Metaserver connection is open."), arg);
+		_("Metaserver connection is open."));
     } else {
       cmd_reply(CMD_META, caller, C_OK,
-		_("Metaserver connection is closed."), arg);
+		_("Metaserver connection is closed."));
     }
   } else if ((0 == mystrcasecmp(arg, "u")) ||
 	     (0 == mystrcasecmp(arg, "up"))) {
@@ -1210,7 +1210,7 @@ static void metainfo_command(struct player *caller, char *arg)
     notify_player(0, _("Metaserver infostring set to '%s'."),
 		  metaserver_info_line);
     cmd_reply(CMD_META, caller, C_OK,
-	      _("Metaserver info string set."), arg);
+	      _("Metaserver info string set."));
   }
 }
 
