@@ -1338,9 +1338,9 @@ void mapgenerator3()
 
   initworld();
 
-    while( isleindex-2<=bigislands && checkmass>islandmass && ++j<500 ) {
-      makeisland(islandmass,1);
-    }
+  while( isleindex-2<=bigislands && checkmass>islandmass && ++j<500 ) {
+    makeisland(islandmass,1);
+  }
 
   if(j==500){
     freelog(LOG_NORMAL, "generator 3 didn't place all big islands.");
@@ -1352,7 +1352,7 @@ void mapgenerator3()
     islandmass= 2;
 
 
-    while( isleindex<=MAP_NCONT-20 && checkmass>islandmass && ++j< 1500 ) {
+  while( isleindex<=MAP_NCONT-20 && checkmass>islandmass && ++j< 1500 ) {
       if(j<1000)
 	size = myrand((islandmass+1)/2+1)+islandmass/2;
       else
@@ -1360,8 +1360,11 @@ void mapgenerator3()
       if(size<2) size=2;
 
       makeisland(size, (isleindex-2<=game.nplayers)?1:0 );
-    }
+  }
 
+  make_plains();  
+  free(height_map);
+    
   if(j==1500)
     freelog(LOG_NORMAL, "generator 3 left %li landmass unplaced.",checkmass);
   else if(checkmass>map.xsize+map.ysize+totalweight)
