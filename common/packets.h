@@ -852,111 +852,113 @@ struct packet_goto_route
 
 /* These two are non-static for meta.c; others are now static --dwp */
 unsigned char *put_uint16(unsigned char *buffer, int val);
-unsigned char *put_string(unsigned char *buffer, char *mystring);
+unsigned char *put_string(unsigned char *buffer, const char *mystring);
 
 int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
-			       struct packet_diplomacy_info *packet);
+			       const struct packet_diplomacy_info *packet);
 struct packet_diplomacy_info *
 receive_packet_diplomacy_info(struct connection *pc);
 
 int send_packet_diplomat_action(struct connection *pc, 
-				struct packet_diplomat_action *packet);
+				const struct packet_diplomat_action *packet);
 struct packet_diplomat_action *
 receive_packet_diplomat_action(struct connection *pc);
 
 int send_packet_nuke_tile(struct connection *pc, 
-			  struct packet_nuke_tile *packet);
+			  const struct packet_nuke_tile *packet);
 struct packet_nuke_tile *
 receive_packet_nuke_tile(struct connection *pc);
 
 
 int send_packet_unit_combat(struct connection *pc, 
-			    struct packet_unit_combat *packet);
+			    const struct packet_unit_combat *packet);
 struct packet_unit_combat *
 receive_packet_unit_combat(struct connection *pc);
 
 
 int send_packet_unit_connect(struct connection *pc, 
-			    struct packet_unit_connect *packet);
+			     const struct packet_unit_connect *packet);
 struct packet_unit_connect *
 receive_packet_unit_connect(struct connection *pc);
 
 
 int send_packet_tile_info(struct connection *pc, 
-			 struct packet_tile_info *pinfo);
+			  const struct packet_tile_info *pinfo);
 struct packet_tile_info *receive_packet_tile_info(struct connection *pc);
 
 int send_packet_map_info(struct connection *pc, 
-			  struct packet_map_info *pinfo);
+			 const struct packet_map_info *pinfo);
 struct packet_map_info *receive_packet_map_info(struct connection *pc);
 
 int send_packet_game_info(struct connection *pc, 
-			  struct packet_game_info *pinfo);
+			  const struct packet_game_info *pinfo);
 struct packet_game_info *receive_packet_game_info(struct connection *pc);
 
 
 struct packet_player_info *receive_packet_player_info(struct connection *pc);
 int send_packet_player_info(struct connection *pc, 
-			    struct packet_player_info *pinfo);
+			    const struct packet_player_info *pinfo);
 
 struct packet_conn_info *receive_packet_conn_info(struct connection *pc);
 int send_packet_conn_info(struct connection *pc,
-			  struct packet_conn_info *pinfo);
+			  const struct packet_conn_info *pinfo);
 
 int send_packet_new_year(struct connection *pc, 
-			 struct packet_new_year *request);
+			 const struct packet_new_year *request);
 struct packet_new_year *receive_packet_new_year(struct connection *pc);
 
 int send_packet_move_unit(struct connection *pc, 
-			  struct packet_move_unit *request);
+			  const struct packet_move_unit *request);
 struct packet_move_unit *receive_packet_move_unit(struct connection *pc);
 
 
 int send_packet_unit_info(struct connection *pc,
-			  struct packet_unit_info *req);
+			  const struct packet_unit_info *req);
 struct packet_unit_info *receive_packet_unit_info(struct connection *pc);
 
 int send_packet_req_join_game(struct connection *pc, 
-			      struct packet_req_join_game *request);
+			      const struct packet_req_join_game *request);
 struct packet_req_join_game *receive_packet_req_join_game(struct 
 							  connection *pc);
 
 int send_packet_join_game_reply(struct connection *pc, 
-			       struct packet_join_game_reply *reply);
+			        const struct packet_join_game_reply *reply);
 struct packet_join_game_reply *receive_packet_join_game_reply(struct 
 							      connection *pc);
 
 int send_packet_alloc_nation(struct connection *pc, 
-			   struct packet_alloc_nation *packet);
+			     const struct packet_alloc_nation *packet);
 struct packet_alloc_nation *receive_packet_alloc_nation(struct connection *pc);
 
 
 int send_packet_generic_message(struct connection *pc, int type,
-				struct packet_generic_message *message);
+				const struct packet_generic_message *message);
 struct packet_generic_message *receive_packet_generic_message(struct 
 							      connection *pc);
 
 int send_packet_generic_integer(struct connection *pc, int type,
-				struct packet_generic_integer *packet);
+				const struct packet_generic_integer *packet);
 struct packet_generic_integer *receive_packet_generic_integer(struct 
 							      connection *pc);
 
 
-int send_packet_city_info(struct connection *pc,struct packet_city_info *req);
+int send_packet_city_info(struct connection *pc,
+                          const struct packet_city_info *req);
 struct packet_city_info *receive_packet_city_info(struct connection *pc);
 
-int send_packet_short_city(struct connection *pc,struct packet_short_city *req);
+int send_packet_short_city(struct connection *pc,
+                           const struct packet_short_city *req);
 struct packet_short_city *receive_packet_short_city(struct connection *pc);
 
 int send_packet_city_request(struct connection *pc, 
-			     struct packet_city_request *packet,
+			     const struct packet_city_request *packet,
 			     enum packet_type req_type);
 struct packet_city_request *
 receive_packet_city_request(struct connection *pc);
 
 
 int send_packet_player_request(struct connection *pc, 
-			       struct packet_player_request *packet,
+			       const struct packet_player_request *packet,
 			       enum packet_type req_type);
 struct packet_player_request *
 receive_packet_player_request(struct connection *pc);
@@ -964,7 +966,7 @@ receive_packet_player_request(struct connection *pc);
 struct packet_unit_request *
 receive_packet_unit_request(struct connection *pc);
 int send_packet_unit_request(struct connection *pc, 
-			     struct packet_unit_request *packet,
+			     const struct packet_unit_request *packet,
 			     enum packet_type req_type);
 
 int send_packet_before_new_year(struct connection *pc);
@@ -975,87 +977,88 @@ int send_packet_unittype_info(struct connection *pc, int type, int action);
 struct packet_unittype_info *receive_packet_unittype_info(struct connection *pc);
 
 int send_packet_ruleset_control(struct connection *pc, 
-				struct packet_ruleset_control *pinfo);
+				const struct packet_ruleset_control *pinfo);
 struct packet_ruleset_control *
 receive_packet_ruleset_control(struct connection *pc);
 
 int send_packet_ruleset_unit(struct connection *pc,
-			     struct packet_ruleset_unit *packet);
+			     const struct packet_ruleset_unit *packet);
 struct packet_ruleset_unit *
 receive_packet_ruleset_unit(struct connection *pc);
 
 int send_packet_ruleset_tech(struct connection *pc,
-			     struct packet_ruleset_tech *packet);
+			     const struct packet_ruleset_tech *packet);
 struct packet_ruleset_tech *
 receive_packet_ruleset_tech(struct connection *pc);
 
 int send_packet_ruleset_building(struct connection *pc,
-			     struct packet_ruleset_building *packet);
+			     const struct packet_ruleset_building *packet);
 struct packet_ruleset_building *
 receive_packet_ruleset_building(struct connection *pc);
 
 int send_packet_ruleset_terrain(struct connection *pc,
-			     struct packet_ruleset_terrain *packet);
+			     const struct packet_ruleset_terrain *packet);
 struct packet_ruleset_terrain *
 receive_packet_ruleset_terrain(struct connection *pc);
 int send_packet_ruleset_terrain_control(struct connection *pc,
-					struct terrain_misc *packet);
+					const struct terrain_misc *packet);
 struct terrain_misc *
 receive_packet_ruleset_terrain_control(struct connection *pc);
 
 int send_packet_ruleset_government(struct connection *pc,
-				struct packet_ruleset_government *packet);
+			       const struct packet_ruleset_government *packet);
 struct packet_ruleset_government *
 receive_packet_ruleset_government(struct connection *pc);
 int send_packet_ruleset_government_ruler_title(struct connection *pc,
-				struct packet_ruleset_government_ruler_title *packet);
+		   const struct packet_ruleset_government_ruler_title *packet);
 struct packet_ruleset_government_ruler_title *
 receive_packet_ruleset_government_ruler_title(struct connection *pc);
 
 int send_packet_ruleset_nation(struct connection *pc,
-			       struct packet_ruleset_nation *packet);
+			       const struct packet_ruleset_nation *packet);
 struct packet_ruleset_nation *
 receive_packet_ruleset_nation(struct connection *pc);
 
 int send_packet_ruleset_city(struct connection *pc,
-			     struct packet_ruleset_city *packet);
+			     const struct packet_ruleset_city *packet);
 struct packet_ruleset_city *
 receive_packet_ruleset_city(struct connection *pc);
 
 int send_packet_ruleset_game(struct connection *pc,
-                             struct packet_ruleset_game *packet);
+                             const struct packet_ruleset_game *packet);
 struct packet_ruleset_game *
 receive_packet_ruleset_game(struct connection *pc);
 
 int send_packet_generic_values(struct connection *pc, int type,
-			       struct packet_generic_values *req);
+			       const struct packet_generic_values *req);
 struct packet_generic_values *
 receive_packet_generic_values(struct connection *pc);
 
 int send_packet_spaceship_info(struct connection *pc,
-			       struct packet_spaceship_info *packet);
+			       const struct packet_spaceship_info *packet);
 struct packet_spaceship_info *
 receive_packet_spaceship_info(struct connection *pc);
 
 int send_packet_spaceship_action(struct connection *pc,
-				 struct packet_spaceship_action *packet);
+				 const struct packet_spaceship_action *packet);
 struct packet_spaceship_action *
 receive_packet_spaceship_action(struct connection *pc);
 
 int send_packet_city_name_suggestion(struct connection *pc,
-				     struct packet_city_name_suggestion *packet);
+				const struct packet_city_name_suggestion *packet);
 struct packet_city_name_suggestion *
 receive_packet_city_name_suggestion(struct connection *pc);
 
 int send_packet_sabotage_list(struct connection *pc,
-			      struct packet_sabotage_list *packet);
+			      const struct packet_sabotage_list *packet);
 struct packet_sabotage_list *
 receive_packet_sabotage_list(struct connection *pc);
 
 void *get_packet_from_connection(struct connection *pc, int *ptype, int *presult);
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer);
 
-int send_packet_goto_route(struct connection *pc, struct packet_goto_route *packet,
+int send_packet_goto_route(struct connection *pc,
+                           const struct packet_goto_route *packet,
 			   enum goto_route_type type);
 struct packet_goto_route *receive_packet_goto_route(struct connection *pc);
 

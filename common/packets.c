@@ -87,7 +87,7 @@ static unsigned char *put_uint16_vec8(unsigned char *buffer, int *val, int stop)
 
 static unsigned char *put_bit_string(unsigned char *buffer, char *str);
 static unsigned char *put_city_map(unsigned char *buffer, char *str);
-static unsigned char *put_tech_list(unsigned char *buffer, int *techs);
+static unsigned char *put_tech_list(unsigned char *buffer, const int *techs);
 
 /* iget = iterator versions */
 static void iget_uint8(struct pack_iter *piter, int *val);
@@ -942,7 +942,7 @@ static void iget_sint16_vec8(struct pack_iter *piter, int **val, int stop)
 /**************************************************************************
 ...
 **************************************************************************/
-unsigned char *put_string(unsigned char *buffer, char *mystring)
+unsigned char *put_string(unsigned char *buffer, const char *mystring)
 {
   int len = strlen(mystring) + 1;
   memcpy(buffer, mystring, len);
@@ -1143,7 +1143,7 @@ static void iget_bit_string(struct pack_iter *piter, char *str, int navail)
   Put list of techs, MAX_NUM_TECH_LIST entries or A_LAST terminated.
   Only puts up to and including terminating entry (or MAX).
 **************************************************************************/
-static unsigned char *put_tech_list(unsigned char *buffer, int *techs)
+static unsigned char *put_tech_list(unsigned char *buffer, const int *techs)
 {
   int i;
    
@@ -1176,17 +1176,25 @@ static void iget_tech_list(struct pack_iter *piter, int *techs)
 }
 
 /**************************************************************************
-...
+ "real_wl" is a hack to avoid changing lots of individual
+ pieces of code which actually only use a part of this packet
+ and ignore the worklist stuff.  IMO the separate uses should
+ use separate packets, to avoid this problem (and would also
+ reduce amount sent).  --dwp
 **************************************************************************/
 /* when removing "worklist_true_ids" capability,
    may want to remove the 'struct connection *pc' argument (?) */
-static unsigned char *put_worklist(unsigned char *buffer, struct worklist *pwl,
-				   struct connection *pc)
+static unsigned char *put_worklist(unsigned char *buffer,
+                                   const struct worklist *pwl,
+				   struct connection *pc, int real_wl)
 {
   int i;
 
   buffer = put_uint8(buffer, pwl->is_valid);
-  buffer = put_string(buffer, pwl->name);
+  if (real_wl)
+    buffer = put_string(buffer, pwl->name);
+  else
+    buffer = put_string(buffer, '\0');
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
 /* when removing "worklist_true_ids" capability,
    leave only the code from the *else* clause (send untranslated values) */
@@ -1246,7 +1254,7 @@ if (pc && !has_capability("worklist_true_ids", pc->capability)) {
 ...
 **************************************************************************/
 int send_packet_diplomacy_info(struct connection *pc, enum packet_type pt,
-			       struct packet_diplomacy_info *packet)
+			       const struct packet_diplomacy_info *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, pt);
@@ -1289,7 +1297,7 @@ receive_packet_diplomacy_info(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_diplomat_action(struct connection *pc, 
-				struct packet_diplomat_action *packet)
+				const struct packet_diplomat_action *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_DIPLOMAT_ACTION);
@@ -1329,7 +1337,7 @@ receive_packet_diplomat_action(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_nuke_tile(struct connection *pc, 
-			  struct packet_nuke_tile *packet)
+			  const struct packet_nuke_tile *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_NUKE_TILE);
@@ -1367,7 +1375,7 @@ receive_packet_nuke_tile(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_unit_combat(struct connection *pc, 
-			    struct packet_unit_combat *packet)
+			    const struct packet_unit_combat *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_UNIT_COMBAT);
@@ -1411,7 +1419,7 @@ receive_packet_unit_combat(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_unit_request(struct connection *pc, 
-			     struct packet_unit_request *packet,
+			     const struct packet_unit_request *packet,
 			     enum packet_type req_type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
@@ -1454,7 +1462,7 @@ receive_packet_unit_request(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_unit_connect(struct connection *pc, 
-			     struct packet_unit_connect *packet)
+			     const struct packet_unit_connect *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_UNIT_CONNECT);
@@ -1494,20 +1502,10 @@ receive_packet_unit_connect(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_player_request(struct connection *pc, 
-			       struct packet_player_request *packet,
+			       const struct packet_player_request *packet,
 			       enum packet_type req_type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
-
-  /* The following is a hack to avoid changing lots of individual
-     pieces of code which actually only use a part of this packet
-     and ignore the worklist stuff.  IMO the separate uses should
-     use separate packets, to avoid this problem (and would also
-     reduce amount sent).  --dwp
-  */
-  if (req_type != PACKET_PLAYER_WORKLIST) {
-    packet->worklist.name[0] = '\0';
-  }
 
   cptr=put_uint8(buffer+2, req_type);
   cptr=put_uint8(cptr, packet->tax);
@@ -1517,7 +1515,8 @@ int send_packet_player_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->tech);
 /* when removing "worklist_true_ids" capability,
    may want to remove the 'pc' argument (?) */
-  cptr=put_worklist(cptr, &packet->worklist, pc);
+  cptr=put_worklist(cptr, &packet->worklist, pc,
+                    req_type == PACKET_PLAYER_WORKLIST);
   cptr=put_uint8(cptr, packet->wl_idx);
   put_uint16(buffer, cptr-buffer);
 
@@ -1557,7 +1556,7 @@ receive_packet_player_request(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_city_request(struct connection *pc, 
-			     struct packet_city_request *packet,
+			     const struct packet_city_request *packet,
 			     enum packet_type req_type)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
@@ -1571,7 +1570,7 @@ int send_packet_city_request(struct connection *pc,
   cptr=put_uint8(cptr, packet->specialist_to);
 /* when removing "worklist_true_ids" capability,
    may want to remove the 'pc' argument (?) */
-  cptr=put_worklist(cptr, &packet->worklist, pc);
+  cptr=put_worklist(cptr, &packet->worklist, pc, 1);
   cptr=put_string(cptr, packet->name);
   put_uint16(buffer, cptr-buffer);
 
@@ -1612,7 +1611,8 @@ receive_packet_city_request(struct connection *pc)
 /*************************************************************************
 ...
 **************************************************************************/
-int send_packet_player_info(struct connection *pc, struct packet_player_info *pinfo)
+int send_packet_player_info(struct connection *pc,
+                            const struct packet_player_info *pinfo)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int i;
@@ -1671,7 +1671,7 @@ int send_packet_player_info(struct connection *pc, struct packet_player_info *pi
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
 /* when removing "worklist_true_ids" capability,
    may want to remove the 'pc' argument (?) */
-    cptr = put_worklist(cptr, &pinfo->worklists[i], pc);
+    cptr = put_worklist(cptr, &pinfo->worklists[i], pc, 1);
   }
 
   if (pc && has_capability("shared_vision", pc->capability)) {
@@ -1771,7 +1771,7 @@ receive_packet_player_info(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_conn_info(struct connection *pc,
-			  struct packet_conn_info *pinfo)
+			  const struct packet_conn_info *pinfo)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int data;
@@ -1841,7 +1841,7 @@ receive_packet_conn_info(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_game_info(struct connection *pc, 
-			  struct packet_game_info *pinfo)
+			  const struct packet_game_info *pinfo)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int i;
@@ -1970,7 +1970,7 @@ if (pc && !has_capability("indef_impr_types", pc->capability)) {
 ...
 **************************************************************************/
 int send_packet_map_info(struct connection *pc, 
-			 struct packet_map_info *pinfo)
+			 const struct packet_map_info *pinfo)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
@@ -2047,7 +2047,7 @@ receive_packet_unittype_info(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_tile_info(struct connection *pc, 
-			  struct packet_tile_info *pinfo)
+			  const struct packet_tile_info *pinfo)
 
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
@@ -2075,8 +2075,8 @@ cptr=put_uint16(cptr, pinfo->special);
 /**************************************************************************
 ...
 **************************************************************************/
-int send_packet_new_year(struct connection *pc, struct 
-			 packet_new_year *request)
+int send_packet_new_year(struct connection *pc, 
+			 const struct packet_new_year *request)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_NEW_YEAR);
@@ -2131,7 +2131,7 @@ int send_packet_before_new_year(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_unit_info(struct connection *pc, 
-			    struct packet_unit_info *req)
+			  const struct packet_unit_info *req)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   unsigned char pack;
@@ -2194,7 +2194,8 @@ if (pc && has_capability("diplomat_investigate_fix", pc->capability)) {
 /*************************************************************************
 ...
 **************************************************************************/
-int send_packet_city_info(struct connection *pc, struct packet_city_info *req)
+int send_packet_city_info(struct connection *pc,
+                          const struct packet_city_info *req)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int data;
@@ -2238,7 +2239,7 @@ if (pc && has_capability("production_change_fix", pc->capability)) {
 
 /* when removing "worklist_true_ids" capability,
    may want to remove the 'pc' argument (?) */
-  cptr=put_worklist(cptr, &req->worklist, pc);
+  cptr=put_worklist(cptr, &req->worklist, pc, 1);
 
   data=req->is_building_unit?1:0;
   data|=req->did_buy?2:0;
@@ -2365,7 +2366,8 @@ if (pc && has_capability("production_change_fix", pc->capability)) {
 /*************************************************************************
 ...
 **************************************************************************/
-int send_packet_short_city(struct connection *pc, struct packet_short_city *req)
+int send_packet_short_city(struct connection *pc,
+                           const struct packet_short_city *req)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   int i;
@@ -2577,8 +2579,8 @@ receive_packet_new_year(struct connection *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-int send_packet_move_unit(struct connection *pc, struct 
-			  packet_move_unit *request)
+int send_packet_move_unit(struct connection *pc,
+			  const struct packet_move_unit *request)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 
@@ -2616,8 +2618,8 @@ struct packet_move_unit *receive_packet_move_unit(struct connection *pc)
 /**************************************************************************
 ...
 **************************************************************************/
-int send_packet_req_join_game(struct connection *pc, struct 
-			      packet_req_join_game *request)
+int send_packet_req_join_game(struct connection *pc, 
+			      const struct packet_req_join_game *request)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_REQUEST_JOIN_GAME);
@@ -2637,8 +2639,8 @@ int send_packet_req_join_game(struct connection *pc, struct
   ...
   Fills in conn.id automatically, no need to set in packet_join_game_reply.
 **************************************************************************/
-int send_packet_join_game_reply(struct connection *pc, struct 
-			        packet_join_game_reply *reply)
+int send_packet_join_game_reply(struct connection *pc,
+			        const struct packet_join_game_reply *reply)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_JOIN_GAME_REPLY);
@@ -2666,7 +2668,7 @@ if (pc && has_capability("conn_info", pc->capability)) {
 ...
 **************************************************************************/
 int send_packet_generic_message(struct connection *pc, int type,
-				struct packet_generic_message *packet)
+				const struct packet_generic_message *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, type);
@@ -2706,7 +2708,7 @@ if (packet->event == E_WONDER_OBSOLETE && pc
 ...
 **************************************************************************/
 int send_packet_generic_integer(struct connection *pc, int type,
-				struct packet_generic_integer *packet)
+				const struct packet_generic_integer *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, type);
@@ -2834,7 +2836,7 @@ receive_packet_generic_integer(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_alloc_nation(struct connection *pc, 
-			     struct packet_alloc_nation *packet)
+			     const struct packet_alloc_nation *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_ALLOC_NATION);
@@ -2873,7 +2875,7 @@ receive_packet_alloc_nation(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_generic_values(struct connection *pc, int type,
-			       struct packet_generic_values *req)
+			       const struct packet_generic_values *req)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   
@@ -2920,7 +2922,7 @@ receive_packet_generic_values(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_ruleset_control(struct connection *pc, 
-				struct packet_ruleset_control *packet)
+				const struct packet_ruleset_control *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   
@@ -3006,7 +3008,7 @@ packet->num_impr_types = B_LAST_ENUM;
 ...
 **************************************************************************/
 int send_packet_ruleset_unit(struct connection *pc,
-			     struct packet_ruleset_unit *packet)
+			     const struct packet_ruleset_unit *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_RULESET_UNIT);
@@ -3112,7 +3114,7 @@ receive_packet_ruleset_unit(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_ruleset_tech(struct connection *pc,
-			     struct packet_ruleset_tech *packet)
+			     const struct packet_ruleset_tech *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_RULESET_TECH);
@@ -3168,7 +3170,7 @@ receive_packet_ruleset_tech(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_ruleset_building(struct connection *pc,
-			     struct packet_ruleset_building *packet)
+			        const struct packet_ruleset_building *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   struct impr_effect *eff;
@@ -3286,7 +3288,7 @@ packet->effect[inx].survives =
 ...
 **************************************************************************/
 int send_packet_ruleset_terrain(struct connection *pc,
-				struct packet_ruleset_terrain *packet)
+				const struct packet_ruleset_terrain *packet)
 {
   int i;
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
@@ -3399,7 +3401,7 @@ receive_packet_ruleset_terrain(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_ruleset_terrain_control(struct connection *pc,
-					struct terrain_misc *packet)
+					const struct terrain_misc *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_RULESET_TERRAIN_CONTROL);
@@ -3496,7 +3498,7 @@ if (pc && has_capability("nuclear_fallout", pc->capability)) {
 ...
 **************************************************************************/
 int send_packet_ruleset_government(struct connection *pc,
-			     struct packet_ruleset_government *packet)
+			     const struct packet_ruleset_government *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_RULESET_GOVERNMENT);
@@ -3563,8 +3565,9 @@ int send_packet_ruleset_government(struct connection *pc,
   put_uint16(buffer, cptr-buffer);
   return send_connection_data(pc, buffer, cptr-buffer);
 }
+
 int send_packet_ruleset_government_ruler_title(struct connection *pc,
-			     struct packet_ruleset_government_ruler_title *packet)
+		    const struct packet_ruleset_government_ruler_title *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_RULESET_GOVERNMENT_RULER_TITLE);
@@ -3685,7 +3688,7 @@ receive_packet_ruleset_government_ruler_title(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_ruleset_nation(struct connection *pc,
-			       struct packet_ruleset_nation *packet)
+			       const struct packet_ruleset_nation *packet)
 {
   int i;
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
@@ -3744,7 +3747,7 @@ receive_packet_ruleset_nation(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_ruleset_city(struct connection *pc,
-                             struct packet_ruleset_city *packet)
+                             const struct packet_ruleset_city *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_RULESET_CITY);
@@ -3791,7 +3794,7 @@ receive_packet_ruleset_city(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_ruleset_game(struct connection *pc,
-                             struct packet_ruleset_game *packet)
+                             const struct packet_ruleset_game *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
 /* when removing "game_ruleset" capability,
@@ -3862,7 +3865,7 @@ if (pc && has_capability("gen_granary_size", pc->capability)) {
 ...
 **************************************************************************/
 int send_packet_spaceship_info(struct connection *pc,
-			       struct packet_spaceship_info *packet)
+			       const struct packet_spaceship_info *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_SPACESHIP_INFO);
@@ -3941,7 +3944,7 @@ receive_packet_spaceship_info(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_spaceship_action(struct connection *pc,
-				 struct packet_spaceship_action *packet)
+				 const struct packet_spaceship_action *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_SPACESHIP_ACTION);
@@ -3977,7 +3980,7 @@ receive_packet_spaceship_action(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_city_name_suggestion(struct connection *pc,
-				     struct packet_city_name_suggestion *packet)
+			      const struct packet_city_name_suggestion *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_uint8(buffer+2, PACKET_CITY_NAME_SUGGESTION);
@@ -4013,7 +4016,7 @@ receive_packet_city_name_suggestion(struct connection *pc)
 ...
 **************************************************************************/
 int send_packet_sabotage_list(struct connection *pc,
-			      struct packet_sabotage_list *packet)
+			      const struct packet_sabotage_list *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr = put_uint8(buffer+2, PACKET_SABOTAGE_LIST);
@@ -4056,7 +4059,7 @@ enum packet_goto_route_type {
 Chop the route up and send the pieces one by one.
 **************************************************************************/
 int send_packet_goto_route(struct connection *pc,
-			   struct packet_goto_route *packet,
+			   const struct packet_goto_route *packet,
 			   enum goto_route_type type)
 {
   int i;
