@@ -193,7 +193,7 @@ static bool is_game_over(void)
 {
   int barbs = 0, alive = 0;
   bool all_allied;
-  struct player *victor;
+  struct player *victor = NULL;
 
   /* quit if we are past the year limit */
   if (game.year > game.end_year) {
@@ -235,12 +235,17 @@ static bool is_game_over(void)
   } team_iterate_end;
 
   /* quit if only one player is left alive */
-  if (alive <= 1) {
+  if (alive == 1) {
     notify_conn(&game.est_connections, 
         "Game ended in victory for %s", victor->name);
     gamelog(GAMELOG_NORMAL, _("Game ended in victory for %s"), 
         victor->name);
     gamelog(GAMELOG_TEAM, "SINGLEWINNER %s", victor->name);
+    return TRUE;
+  } else if (alive == 0) {
+    notify_conn(&game.est_connections, "Game ended in a draw");
+    gamelog(GAMELOG_NORMAL, _("Game ended in a draw"));
+    gamelog(GAMELOG_TEAM, "NOWINNER");
     return TRUE;
   }
 
