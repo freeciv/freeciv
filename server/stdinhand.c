@@ -838,7 +838,6 @@ static struct settings_s settings[] = {
 	  N_("Year the game ends"), "", NULL, 
 	  GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR)
 
-#ifndef NDEBUG
   GEN_INT( "timeout", game.timeout, SSET_META, SSET_INTERNAL, SSET_TO_CLIENT,
 	   N_("Maximum seconds per turn"),
 	   N_("If all players have not hit \"Turn Done\" before this "
@@ -847,15 +846,6 @@ static struct settings_s settings[] = {
 	      "of -1 sets the autogame test mode. Use this with the command "
               "\"timeoutincrease\" to have a dynamic timer."), NULL, 
 	   GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
-#else
-  GEN_INT( "timeout", game.timeout, SSET_META, SSET_INTERNAL, SSET_TO_CLIENT,
-	   N_("Maximum seconds per turn"),
-	   N_("If all players have not hit \"Turn Done\" before this "
-	      "time is up, then the turn ends automatically. Zero "
-	      "means there is no timeout. Use this with the command "
-              "\"timeoutincrease\" to have a dynamic timer."), NULL, 
-	   GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
-#endif
 
   GEN_INT("tcptimeout", game.tcptimeout, SSET_META, SSET_NETWORK,
           SSET_TO_CLIENT,
