@@ -350,12 +350,9 @@ void set_client_state(enum client_states newstate)
     else if(client_state==CLIENT_PRE_GAME_STATE) {
       popdown_all_city_dialogs();
       game_remove_all_players();
-      set_unit_focus_no_center(0); /* thanks, David -- Syela */
+      set_unit_focus_no_center(0);
       clear_notify_window();
-/*      XtUnmapWidget(toplevel);
-      XtMapWidget(toplevel);*/
     }
-    
     update_menus();
   }
   if(client_state==CLIENT_PRE_GAME_STATE)
