@@ -846,14 +846,20 @@ void handle_alloc_race(int player_no, struct packet_alloc_race *packet)
   int i;
   struct packet_generic_integer retpacket;
 
+  for(i=0; i<game.nplayers; i++)
+    if(game.players[i].race==packet->race_no) {
+       send_select_race(&game.players[player_no]); /* it failed - race taken */
+       return;
+    } else if (!strcmp(game.players[i].name,packet->name)) { /* name taken */
+       notify_player(&game.players[player_no],
+		     "Another player named '%s' has already joined the game.  "
+		     "Please choose another name.", packet->name);
+       send_select_race(&game.players[player_no]);
+       return;
+    }
+
   log(LOG_NORMAL, "%s is the %s ruler %s", game.players[player_no].name, 
       get_race_name(packet->race_no), packet->name);
-
-  for(i=0; i<game.nplayers; i++)
-    if(game.players[i].race==packet->race_no) { /* also check name one day */
-      send_select_race(&game.players[player_no]); /* it failed */
-      return;
-    }
 
   /* inform player his choice was ok */
   retpacket.value=-1;
