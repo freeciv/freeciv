@@ -706,16 +706,16 @@ popup_unit_select_dialog(struct tile *ptile)
 	max_width=rc.right-rc.left;
       if ((rc.bottom-rc.top)>max_height)
 	max_height=rc.bottom-rc.top;
-      unit_select_bitmaps[i]=CreateCompatibleBitmap(hdc,NORMAL_TILE_WIDTH,
-						    NORMAL_TILE_HEIGHT);
+      unit_select_bitmaps[i]=CreateCompatibleBitmap(hdc,UNIT_TILE_WIDTH,
+						    UNIT_TILE_HEIGHT);
     }
   ReleaseDC(unit_select_main,hdc);
   old=SelectObject(unitsel_dc,unit_select_bitmaps[0]);
-  max_width+=NORMAL_TILE_WIDTH;
+  max_width+=UNIT_TILE_WIDTH;
   max_width+=4;
-  if (max_height<NORMAL_TILE_WIDTH)
+  if (max_height<UNIT_TILE_WIDTH)
     {
-      max_height=NORMAL_TILE_HEIGHT;
+      max_height=UNIT_TILE_HEIGHT;
     }
   max_height+=4;
   for (i=0;i<n;i++)
@@ -730,16 +730,16 @@ popup_unit_select_dialog(struct tile *ptile)
 		  unit_activity_text(punit));
       unit_select_labels[i]=CreateWindow("STATIC",buffer,
 					 WS_CHILD | WS_VISIBLE | SS_LEFT,
-					 (i/r)*max_width+NORMAL_TILE_WIDTH,
+					 (i/r)*max_width+UNIT_TILE_WIDTH,
 					 (i%r)*max_height,
-					 max_width-NORMAL_TILE_WIDTH,
+					 max_width-UNIT_TILE_WIDTH,
 					 max_height,
 					 unit_select_main,
 					 NULL,
 					 freecivhinst,
 					 NULL);
       SelectObject(unitsel_dc,unit_select_bitmaps[i]);
-      BitBlt(unitsel_dc,0,0,NORMAL_TILE_WIDTH,NORMAL_TILE_HEIGHT,NULL,
+      BitBlt(unitsel_dc,0,0,UNIT_TILE_WIDTH,UNIT_TILE_HEIGHT,NULL,
 	     0,0,WHITENESS);
       put_unit_pixmap(punit,unitsel_dc,0,0);
       SelectObject(unitsel_dc,old);
@@ -747,8 +747,8 @@ popup_unit_select_dialog(struct tile *ptile)
 				      WS_CHILD | WS_VISIBLE | BS_BITMAP,
 				      (i/r)*max_width,
 				      (i%r)*max_height,
-				      NORMAL_TILE_WIDTH,
-				      NORMAL_TILE_HEIGHT,
+				      UNIT_TILE_WIDTH,
+				      UNIT_TILE_HEIGHT,
 				      unit_select_main,
 				      (HMENU)(UNITSELECT_UNITS_BASE+i),
 				      freecivhinst,
