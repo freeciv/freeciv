@@ -238,7 +238,6 @@ static void parse_options(int argc, char **argv)
     }
     else if ((option = get_option("--tiles",argv,&i,argc)) != NULL)
       tile_set_dir=option;
-    else freelog(LOG_VERBOSE,"Unrecognized option %s\n",argv[i]);
     i += 1;
   }
 
