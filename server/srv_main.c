@@ -408,9 +408,9 @@ static void update_diplomatics(void)
   	  break;
   	}
         }
-      player1->reputation = MIN(player1->reputation + GAME_REPUTATION_INCR,
-				GAME_MAX_REPUTATION);
     } players_iterate_end;
+    player1->reputation = MIN(player1->reputation + GAME_REPUTATION_INCR,
+			      GAME_MAX_REPUTATION);
   } players_iterate_end;
 }
 
