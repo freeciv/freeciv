@@ -676,11 +676,11 @@ void update_menus()
     menus_set_sensitive("<main>/Game/Save Settings", FALSE);
     menus_set_sensitive("<main>/Game/Players", FALSE);
     menus_set_sensitive("<main>/Game/Messages", FALSE);
-    menus_set_sensitive("<main>/Game/Server Options 1", FALSE);
-    menus_set_sensitive("<main>/Game/Server Options 2", FALSE);
-    menus_set_sensitive("<main>/Game/Export Log", FALSE);
-    menus_set_sensitive("<main>/Game/Clear Log", FALSE);
-    menus_set_sensitive("<main>/Game/Disconnect", FALSE);
+    menus_set_sensitive("<main>/Game/Server opt initial", TRUE);
+    menus_set_sensitive("<main>/Game/Server opt ongoing", TRUE);
+    menus_set_sensitive("<main>/Game/Export Log", TRUE);
+    menus_set_sensitive("<main>/Game/Clear Log", TRUE);
+    menus_set_sensitive("<main>/Game/Disconnect", TRUE);
 
   }
   else {
@@ -695,8 +695,8 @@ void update_menus()
     menus_set_sensitive("<main>/Game/Save Settings", TRUE);
     menus_set_sensitive("<main>/Game/Players", TRUE);
     menus_set_sensitive("<main>/Game/Messages", TRUE);
-    menus_set_sensitive("<main>/Game/Server Options 1", TRUE);
-    menus_set_sensitive("<main>/Game/Server Options 2", TRUE);
+    menus_set_sensitive("<main>/Game/Server opt initial", TRUE);
+    menus_set_sensitive("<main>/Game/Server opt ongoing", TRUE);
     menus_set_sensitive("<main>/Game/Export Log", TRUE);
     menus_set_sensitive("<main>/Game/Clear Log", TRUE);
     menus_set_sensitive("<main>/Game/Disconnect", TRUE);

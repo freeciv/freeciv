@@ -223,10 +223,10 @@ void update_menus()
     menu_entry_sensitive(game_menu, MENU_GAME_REVOLUTION, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_PLAYERS, 0);
     menu_entry_sensitive(game_menu, MENU_GAME_MESSAGES, 0);
-    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS1, 0);
-    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS2, 0);
-    menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 0);
-    menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 0);
+    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS1, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_SERVER_OPTIONS2, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_OUTPUT_LOG, 1);
+    menu_entry_sensitive(game_menu, MENU_GAME_CLEAR_OUTPUT, 1);
     menu_entry_sensitive(game_menu, MENU_GAME_FIND_CITY, 0);
   
   }
