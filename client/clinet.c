@@ -156,7 +156,7 @@ int get_server_address(const char *hostname, int port, char *errbuf,
 
   if (!net_lookup_service(hostname, port, (struct sockaddr *)&server_addr,
       sizeof(server_addr))) {
-    (void) mystrlcpy(errbuf, _("Failed looking up host"), errbufsize);
+    (void) mystrlcpy(errbuf, _("Failed looking up host."), errbufsize);
     return -1;
   }
 
@@ -178,6 +178,12 @@ int try_to_connect(char *username, char *errbuf, int errbufsize)
 {
   struct packet_login_request req;
 
+  /* connection in progress? wait. */
+  if (aconnection.used) {
+    (void) mystrlcpy(errbuf, _("Connection in progress."), errbufsize);
+    return -1;
+  }
+  
   if ((aconnection.sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     (void) mystrlcpy(errbuf, mystrerror(errno), errbufsize);
     return -1;
@@ -195,16 +201,7 @@ int try_to_connect(char *username, char *errbuf, int errbufsize)
 #endif
   }
 
-  if (aconnection.buffer) {
-    /* didn't close cleanly previously? */
-    freelog(LOG_ERROR, "Unexpected buffers in try_to_connect()");
-    /* get newly initialized ones instead */
-    free_socket_packet_buffer(aconnection.buffer);
-    aconnection.buffer = NULL;
-    free_socket_packet_buffer(aconnection.send_buffer);
-    aconnection.send_buffer = NULL;
-  }
-
+  assert(aconnection.buffer == NULL);
   aconnection.buffer = new_socket_packet_buffer();
   aconnection.send_buffer = new_socket_packet_buffer();
   aconnection.last_write = 0;
