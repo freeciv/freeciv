@@ -1129,7 +1129,7 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
 			    const char *headline, const char *lines,
 			    int event)
 {
-  size_t len;
+  int len;
   struct packet_generic_message genmsg;
 
   len = my_snprintf(genmsg.message, sizeof(genmsg.message),

@@ -3201,7 +3201,7 @@ struct packet_attribute_chunk *receive_packet_attribute_chunk(struct
   assert(packet->chunk_length <= packet->total_length);
   assert(packet->offset >= 0 && packet->offset < packet->total_length);
 
-  assert(dio_input_remaining(&din) != -1);
+  assert(packet->chunk_length != -1);
   assert(dio_input_remaining(&din) == packet->chunk_length);
 
   dio_get_memory(&din, packet->data, packet->chunk_length);
