@@ -167,7 +167,7 @@ static int explorer_desirable(int x, int y, struct player *pplayer,
   int range = unit_type(punit)->vision_range;
   int desirable = 0;
   int unknown = 0;
-  int continent;
+  Continent_id continent;
 
   /* Localize the unit */
   

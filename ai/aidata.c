@@ -86,7 +86,7 @@ void ai_data_turn_init(struct player *pplayer)
      * enough to warrant city walls. Concentrate instead on 
      * coastal fortresses and hunting down enemy transports. */
     city_list_iterate(aplayer->cities, acity) {
-      int continent = map_get_continent(acity->x, acity->y);
+      Continent_id continent = map_get_continent(acity->x, acity->y);
       ai->threats.continent[continent] = TRUE;
     } city_list_iterate_end;
 
@@ -153,7 +153,7 @@ void ai_data_turn_init(struct player *pplayer)
   ai->explore.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
   whole_map_iterate(x, y) {
     struct tile *ptile = map_get_tile(x, y);
-    int continent = (int)map_get_continent(x, y);
+    Continent_id continent = map_get_continent(x, y);
 
     if (is_ocean(ptile->terrain)) {
       if (ai->explore.sea_done && ai_handicap(pplayer, H_TARGETS) 

@@ -1203,48 +1203,61 @@ static void remove_tiny_islands(void)
 }
 
 /**************************************************************************
- Number this tile and recursive adjacent tiles with specified
- continent number, by flood-fill algorithm.
+  Number this tile and recursive adjacent tiles with specified
+  continent number, by flood-fill algorithm.
+  is_land tells us whether we are assigning continent numbers or ocean 
+  numbers.
 **************************************************************************/
-static void assign_continent_flood(int x, int y, int nr)
+static void assign_continent_flood(int x, int y, bool is_land, int nr)
 {
   if (map_get_continent(x, y) != 0) {
     return;
   }
 
-  if (is_ocean(map_get_terrain(x, y))) {
+  if ((is_land && is_ocean(map_get_terrain(x, y)))
+      || (!is_land && !is_ocean(map_get_terrain(x, y)))) {
     return;
   }
 
   map_set_continent(x, y, nr);
 
   adjc_iterate(x, y, x1, y1) {
-    assign_continent_flood(x1, y1, nr);
+    assign_continent_flood(x1, y1, is_land, nr);
   } adjc_iterate_end;
 }
 
 /**************************************************************************
- Assign continent numbers to all tiles.
- Also sets map.num_continents (note 0 is ocean, and continents
- have numbers 1 to map.num_continents _inclusive_).
- Note this is not used by generators 2,3 or 4 at map creation
- time, as these assign their own continent numbers.
+  Assign continent and ocean numbers to all tiles, set map.num_continents 
+  and map.num_oceans.
+  Continents have numbers 1 to map.num_continents _inclusive_.
+  Oceans have (negative) numbers -1 to -map.num_oceans _inclusive_.
 **************************************************************************/
 void assign_continent_numbers(void)
 {
+  /* Initialize */
   map.num_continents = 0;
+  map.num_oceans = 0;
   whole_map_iterate(x, y) {
     map_set_continent(x, y, 0);
   } whole_map_iterate_end;
 
+  /* Assign new numbers */
   whole_map_iterate(x, y) {
-    if (map_get_continent(x, y) == 0 
-        && !is_ocean(map_get_terrain(x, y))) {
-      assign_continent_flood(x, y, ++map.num_continents);
+    if (map_get_continent(x, y) != 0) {
+      /* Already assigned */
+      continue;
     }
+    if (!is_ocean(map_get_terrain(x, y))) {
+      map.num_continents++;
+      assign_continent_flood(x, y, TRUE, map.num_continents);
+    } else {
+      map.num_oceans++;
+      assign_continent_flood(x, y, FALSE, -map.num_oceans);
+    }      
   } whole_map_iterate_end;
 
-  freelog(LOG_VERBOSE, "Map has %d continents", map.num_continents);
+  freelog(LOG_VERBOSE, "Map has %d continents and %d oceans", 
+	  map.num_continents, map.num_oceans);
 }
 
 /****************************************************************************
@@ -1307,7 +1320,7 @@ static void setup_isledata(void)
     /* number of different continents seen from (x,y) */
     int seen_conts = 0;
     /* list of seen continents */
-    int conts[CITY_TILES]; 
+    Continent_id conts[CITY_TILES]; 
     int j;
     
     /* add tile's value to each continent that is within city 
@@ -1315,7 +1328,7 @@ static void setup_isledata(void)
     map_city_radius_iterate(x, y, x1, y1) {
       /* (x1,y1) is possible location of a future city which will
        * be able to get benefit of the tile (x,y) */
-      if (map_get_continent(x1, y1) < 1 
+      if (is_ocean(map_get_terrain(x1, y1)) 
 	  || map_temperature(x1, y1) <= 2 * ICE_BASE_LEVEL) { 
 	/* Not land, or too cold. */
         continue;
@@ -1417,6 +1430,10 @@ static bool is_valid_start_pos(int x, int y, void *dataptr)
   int i;
   enum tile_terrain_type t = map_get_terrain(x, y);
 
+  if (is_ocean(map_get_terrain(x, y))) {
+    return FALSE;
+  }
+
   if (islands[(int)map_get_continent(x, y)].starters == 0) {
     return FALSE;
   }
@@ -1465,7 +1482,7 @@ void create_start_positions(void)
   data.dist = MIN(40, MIN(map.xsize / 2, map.ysize / 2));
 
   sum = 0;
-  for (k = 0; k <= map.num_continents; k++) {
+  for (k = 1; k <= map.num_continents; k++) {
     sum += islands[k].starters;
     if (islands[k].starters != 0) {
       freelog(LOG_VERBOSE, "starters on isle %i", k);
@@ -2326,7 +2343,9 @@ static void initworld(struct gen234_state *pstate)
   } whole_map_iterate_end;
   if (!map.alltemperate) {
     make_polar();
-    assign_continent_numbers(); /* set poles numbers */
+    /* Set poles numbers.  After the map is generated continents will 
+     * be renumbered. */
+    assign_continent_numbers(); 
   }
   make_island(0, 0, pstate, 0);
   islands[2].starters = 0;

@@ -24,6 +24,7 @@ libcivcommon_a_SOURCES = \
 		effects.c	\
 		effects.h	\
 		events.h	\
+		fc_types.h	\
 		game.c		\
 		game.h		\
 		generate_packets.py \

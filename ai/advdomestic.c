@@ -56,7 +56,7 @@
 static int ai_eval_threat_land(struct player *pplayer, struct city *pcity)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  int continent;
+  Continent_id continent;
   bool vulnerable;
 
   /* make easy AI dumb */
@@ -95,7 +95,7 @@ static int ai_eval_threat_sea(struct player *pplayer, struct city *pcity)
 static int ai_eval_threat_air(struct player *pplayer, struct city *pcity)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  int continent;
+  Continent_id continent;
   bool vulnerable;
 
   /* make easy AI dumber */
@@ -123,7 +123,7 @@ static int ai_eval_threat_air(struct player *pplayer, struct city *pcity)
 static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  int continent;
+  Continent_id continent;
   int vulnerable = 1;
 
   /* make easy AI really dumb, like it was before */
@@ -154,7 +154,7 @@ static int ai_eval_threat_nuclear(struct player *pplayer, struct city *pcity)
 static int ai_eval_threat_missile(struct player *pplayer, struct city *pcity)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  int continent = map_get_continent(pcity->x, pcity->y);
+  Continent_id continent = map_get_continent(pcity->x, pcity->y);
   bool vulnerable = is_water_adjacent_to_tile(pcity->x, pcity->y)
                     || ai->threats.continent[continent]
                     || city_got_building(pcity, B_PALACE);
@@ -915,7 +915,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   struct player *pplayer = city_owner(pcity);
   /* Continent where the city is --- we won't be aiding any wonder 
    * construction on another continent */
-  int continent = map_get_continent(pcity->x, pcity->y);
+  Continent_id continent = map_get_continent(pcity->x, pcity->y);
   /* Total count of caravans available or already being built 
    * on this continent */
   int caravans = 0;

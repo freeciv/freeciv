@@ -42,7 +42,6 @@
 #include "diplhand.h"
 #include "gamelog.h"
 #include "gotohand.h"
-#include "mapgen.h"		/* assign_continent_numbers */
 #include "maphand.h"
 #include "plrhand.h"
 #include "sernet.h"

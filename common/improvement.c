@@ -276,7 +276,7 @@ static void fill_ranges_improv_lists(Impr_Status *equiv_list[IR_LAST],
                                      struct city *pcity,
                                      struct player *pplayer)
 { 
-  int cont = 0;
+  Continent_id cont = 0;
   enum impr_range i;
 
   for (i = IR_NONE; i < IR_LAST; i++) {
@@ -286,6 +286,7 @@ static void fill_ranges_improv_lists(Impr_Status *equiv_list[IR_LAST],
   if (pcity) {
     equiv_list[IR_CITY] = pcity->improvements;
     cont = map_get_continent(pcity->x, pcity->y);
+    assert(cont > 0);
   }
 
   if (pplayer) {
@@ -491,7 +492,7 @@ void allot_island_improvs(void)
 
     /* Fill the lists with existent improvements with Island equiv_range */
     city_list_iterate(pplayer->cities, pcity) {
-      int cont = map_get_continent(pcity->x, pcity->y);
+      Continent_id cont = map_get_continent(pcity->x, pcity->y);
       Impr_Status *improvs = 
                            &pplayer->island_improv[cont * game.num_impr_types];
 
@@ -561,7 +562,7 @@ void improvements_update_obsolete(void)
   counts.
 **************************************************************************/
 void improvements_update_redundant(struct player *pplayer, struct city *pcity,
-                                   int cont, enum impr_range range)
+                                   Continent_id cont, enum impr_range range)
 {
 #define CHECK_CITY_IMPR(_pcity)                                              \
 {                                                                            \

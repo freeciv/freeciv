@@ -313,7 +313,8 @@ int build_cost_balanced(Unit_Type_id type)
   Return first city that contains a wonder being built on the given
   continent.
 **************************************************************************/
-static struct city *wonder_on_continent(struct player *pplayer, int cont)
+static struct city *wonder_on_continent(struct player *pplayer, 
+					Continent_id cont)
 {
   city_list_iterate(pplayer->cities, pcity) 
     if (!(pcity->is_building_unit) 
@@ -1290,7 +1291,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   /* Our total attack value with reinforcements */
   int attack;
   int move_time, move_rate;
-  int con = map_get_continent(punit->x, punit->y);
+  Continent_id con = map_get_continent(punit->x, punit->y);
   struct unit *pdef;
   int maxd, needferry;
   /* Do we have access to sea? */
@@ -2233,7 +2234,7 @@ not possible it runs away. When on coast, it may disappear with 33% chance.
 **************************************************************************/
 static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader)
 {
-  int con = map_get_continent(leader->x, leader->y);
+  Continent_id con = map_get_continent(leader->x, leader->y);
   int safest = 0, safest_x = leader->x, safest_y = leader->y;
   struct unit *closest_unit = NULL;
   int dist, mindist = 10000;

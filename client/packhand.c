@@ -2012,8 +2012,11 @@ void handle_tile_info(struct packet_tile_info *packet)
   }
 
   /* update continents */
-  if (ptile->continent != packet->continent && ptile->continent != 0) {
-    /* we're renumbering continents, somebody did a transform. */
+  if (ptile->continent != packet->continent && ptile->continent != 0
+      && packet->continent > 0) {
+    /* We're renumbering continents, somebody did a transform.
+     * But we don't care about renumbering oceans since 
+     * num_oceans is not kept at the client. */
     map.num_continents = 0;
   }
 

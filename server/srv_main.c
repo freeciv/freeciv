@@ -1688,9 +1688,7 @@ main_start_players:
     map_fractal_generate();
   }
 
-  if (map.num_continents == 0) {
-    assign_continent_numbers();
-  }
+  assign_continent_numbers();
 
   gamelog_map();
   /* start the game */

@@ -100,7 +100,7 @@ struct packet_tile_info {
   int known;
   enum tile_special_type special;
   int owner;
-  int continent;
+  Continent_id continent;
   char spec_sprite[MAX_LEN_NAME];
 };
 

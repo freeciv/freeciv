@@ -1298,106 +1298,11 @@ static void ocean_to_land_fix_rivers(int x, int y)
 }
 
 /**************************************************************************
-  Recursively renumber the client continent at (x,y) with continent
-  number 'new'.  Ie, renumber (x,y) tile and recursive adjacent
-  land tiles with the same previous continent ('old').
-**************************************************************************/
-static void renumber_continent(int x, int y, int newnum)
-{
-  unsigned short old;
-
-  if(!normalize_map_pos(&x, &y)) {
-    return;
-  }
-  
-  old = map_get_continent(x, y);
-  
-  map_set_continent(x, y, newnum);
-  adjc_iterate(x, y, i, j) {
-    if (!is_ocean(map_get_terrain(i, j))
-        && map_get_continent(i, j) == old) {
-      freelog(LOG_DEBUG,
-              " renumbering continent %d to %d at (%d %d)", old, newnum, i, j);
-      renumber_continent(i, j, newnum);
-    }
-  } adjc_iterate_end;
-}
-
-/**************************************************************************
-  We just transformed (x,y). If we changed it from ocean to land, check to
-  see if we merged a continent. (assign a continent number if we didn't)
-  If we changed it from land to ocean, check to see if we split a continent 
-  in pieces.
-
-  There are two special cases: we raised atlantis and have ourselves a shiny
-  new island. so we set it to map.num_continents + 1 (this btw is impossible
-  under the current transform rules, but it's an easy enough case that we 
-  check for it here anyway), or we sunk a little atoll. In that case, we'll 
-  return FALSE, even though we lost a continent. 
-  It shouldn't make a difference.
-
-  As a bonus, we set the transformed tile's new continent number here.
-**************************************************************************/
-static bool check_for_continent_change(int x, int y)
-{
-  unsigned short con = 0, unused = map.num_continents + 1;
-
-  if (is_ocean(map_get_terrain(x, y))) {
-    map_set_continent(x, y, 0);
-    /* check for land surrounding this tile. */
-    adjc_iterate(x, y, i, j) {
-      if (!is_ocean(map_get_terrain(i, j))) {
-        /* we found a land tile, check for another */
-        adjc_iterate(x, y, l, m) {
-          if (!(l == i && j == m) && !is_ocean(map_get_terrain(l, m))) {
-            /* we found a second adjacent land tile. renumber it */
-            con = map_get_continent(l, m);
-            renumber_continent(l, m, unused);
-
-            /* did the original tile get renumbered? if it did, then we
-             * didn't split the continent. if it's different, then 
-             * we are the proud owner of separate continents */
-            if (map_get_continent(i, j) == unused) {
-              renumber_continent(l, m, con);
-            } else {
-              return TRUE;
-            }
-          }
-        } adjc_iterate_end; 
-      }
-    } adjc_iterate_end;
-  } else {
-    /* check for land surrounding this tile. */
-    adjc_iterate(x, y, i, j) {
-      if (!is_ocean(map_get_terrain(i, j))) {
-        if (con == 0) {
-          con = map_get_continent(i, j);
-        } else if (map_get_continent(i, j) != con) {
-          return TRUE;
-        }
-      }
-    } adjc_iterate_end;
-
-    if (con == 0) {
-      /* we raised atlantis */
-      map_set_continent(x, y, ++map.num_continents);
-
-      allot_island_improvs();
-    } else {
-      /* set the tile to something adjacent to it */
-      map_set_continent(x, y, con);
-    }
-  }
-
-  return FALSE;
-}
-
-/**************************************************************************
   Checks for terrain change between ocean and land.  Handles side-effects.
   (Should be called after any potential ocean/land terrain changes.)
   Also, returns an enum ocean_land_change, describing the change, if any.
 
-  if we did a land change, we do everything in our power to avoid reassigning
+  if we did a land change, we try to avoid reassigning
   continent numbers.
 **************************************************************************/
 enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
@@ -1410,13 +1315,9 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
     ocean_to_land_fix_rivers(x, y);
     city_landlocked_sell_coastal_improvements(x, y);
 
-    if (check_for_continent_change(x, y)) {
-      assign_continent_numbers();
-
-      allot_island_improvs();
-
-      send_all_known_tiles(NULL);
-    }
+    assign_continent_numbers();
+    allot_island_improvs();
+    send_all_known_tiles(NULL);
     
     map_update_borders_landmass_change(x, y);
 
@@ -1425,13 +1326,9 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
   } else if (!is_ocean(oldter) && is_ocean(newter)) {
     /* land to ocean ... */
 
-    if (check_for_continent_change(x, y)) {
-      assign_continent_numbers();
-
-      allot_island_improvs();
-
-      send_all_known_tiles(NULL);
-    }
+    assign_continent_numbers();
+    allot_island_improvs();
+    send_all_known_tiles(NULL);
 
     map_update_borders_landmass_change(x, y);
 
@@ -1477,14 +1374,15 @@ static struct city *map_get_adjc_city(int x, int y)
   should in the long run perhaps be replaced with more general detection
   of inland seas.
 *************************************************************************/
-static bool is_claimed_ocean(int x, int y, int *contp)
+static bool is_claimed_ocean(int x, int y, Continent_id *contp)
 {
-  int cont = -1, numland = 0;
+  Continent_id cont = 0, numland = 0;
 
   adjc_iterate(x, y, xp, yp) {
     if (!is_ocean(map_get_terrain(xp, yp))) {
-      int thiscont = map_get_continent(xp, yp);
-      if (cont == -1) {
+      Continent_id thiscont = map_get_continent(xp, yp);
+
+      if (cont == 0) {
 	cont = thiscont;
       }
       if (cont == thiscont) {
@@ -1521,7 +1419,7 @@ static struct city *map_get_closest_city(int x, int y)
     int distsq;		/* Squared distance to city */
     /* integer arithmetic equivalent of (borders+0.5)**2 */
     int cldistsq = game.borders * (game.borders + 1);
-    int cont = map_get_continent(x, y);
+    Continent_id cont = map_get_continent(x, y);
 
     if (!is_ocean(map_get_terrain(x, y)) || is_claimed_ocean(x, y, &cont)) {
       cities_iterate(pcity) {

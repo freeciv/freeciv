@@ -15,6 +15,8 @@
 
 /* City Improvements, including Wonders.  (Alternatively "Buildings".) */
 
+#include "fc_types.h"
+
 #include "shared.h"		/* MAX_LEN_NAME */
 #include "tech.h"		/* Tech_Type_id */
 #include "terrain.h"		/* enum tile_terrain_type etc */
@@ -163,7 +165,7 @@ void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status);
 void allot_island_improvs(void);
 void improvements_update_obsolete(void);
 void improvements_update_redundant(struct player *pplayer, struct city *pcity,
-                                   int cont, enum impr_range range);
+                                   Continent_id cont, enum impr_range range);
 
 /* Iterates over all improvements. Creates a new variable names m_i
  * with type Impr_Type_id which holds the id of the current improvement. */

@@ -209,6 +209,7 @@ void map_init(void)
   map.alltemperate          = MAP_DEFAULT_ALLTEMPERATE;
   map.tiles                 = NULL;
   map.num_continents        = 0;
+  map.num_oceans            = 0;
   map.num_start_positions   = 0;
   map.have_specials         = FALSE;
   map.have_rivers_overlay   = FALSE;
@@ -1248,7 +1249,7 @@ struct tile *map_get_tile(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-unsigned short map_get_continent(int x, int y)
+Continent_id map_get_continent(int x, int y)
 {
   return MAP_TILE(x, y)->continent;
 }
@@ -1256,7 +1257,7 @@ unsigned short map_get_continent(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
-void map_set_continent(int x, int y, int val)
+void map_set_continent(int x, int y, Continent_id val)
 {
   MAP_TILE(x, y)->continent = val;
 }

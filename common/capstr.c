@@ -78,7 +78,7 @@ const char * const our_capability = our_capability_internal;
                    "+change_production +tilespec1 +no_earth +trans " \
                    "+want_hack invasions bombard +killstack2 spec +spec2 " \
                    "+city_map startunits +turn_last_built +happyborders " \
-                   "+connid +love2"
+                   "+connid +love2 +ocean_num"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
  *
@@ -137,6 +137,9 @@ const char * const our_capability = our_capability_internal;
  * 
  * "love" means that we show the AI love for you in the client
  * "love2" includes a bugfix
+ *
+ * "ocean_num" means that the oceans are numbered by negative numbers
+ * which are stored in ptile->continent and sent to client.
  */
 
 void init_our_capability(void)

@@ -188,7 +188,7 @@ type NATION		= uint16(Nation_Type_id)
 type GOVERNMENT		= UINT8
 type CONNECTION		= UINT8
 type TEAM		= UINT8
-type CONTINENT          = UINT16
+type CONTINENT          = sint16(Continent_id)
 type IMPROVEMENT	= uint8(Impr_Type_id)
 
 # other typedefs

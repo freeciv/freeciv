@@ -3076,7 +3076,7 @@ static struct packet_tile_info *receive_packet_tile_info_100(struct connection *
     dio_get_uint8(&din, (int *) &real_packet->owner);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_uint16(&din, (int *) &real_packet->continent);
+    dio_get_sint16(&din, (int *) &real_packet->continent);
   }
   if (BV_ISSET(fields, 5)) {
     dio_get_string(&din, real_packet->spec_sprite, sizeof(real_packet->spec_sprite));
@@ -3160,7 +3160,7 @@ static int send_packet_tile_info_100(struct connection *pc, const struct packet_
     dio_put_uint8(&dout, real_packet->owner);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_put_uint16(&dout, real_packet->continent);
+    dio_put_sint16(&dout, real_packet->continent);
   }
   if (BV_ISSET(fields, 5)) {
     dio_put_string(&dout, real_packet->spec_sprite);

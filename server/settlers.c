@@ -917,7 +917,7 @@ static int evaluate_improvements(struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   bool in_use;			/* true if the target square is being used
 				   by one of our cities */
-  int ucont           = map_get_continent(punit->x, punit->y);
+  Continent_id ucont     = map_get_continent(punit->x, punit->y);
   int mv_rate         = unit_type(punit)->move_rate;
   int mv_turns;			/* estimated turns to move to target square */
   int oldv;			/* current value of consideration tile */

@@ -16,6 +16,8 @@
 #include <assert.h>
 #include <math.h>
 
+#include "fc_types.h"
+
 #include "game.h"
 #include "player.h"
 #include "terrain.h"
@@ -44,7 +46,7 @@ struct tile {
 			   Player_no is index */
   int assigned; /* these can save a lot of CPU usage -- Syela */
   struct city *worked;      /* city working tile, or NULL if none */
-  unsigned short continent;
+  Continent_id continent;
   signed char move_cost[8]; /* don't know if this helps! */
   struct player *owner;     /* Player owning this tile, or NULL. */
   struct {
@@ -169,6 +171,7 @@ struct civ_map {
   bool have_huts;
   bool have_rivers_overlay;	/* only applies if !have_specials */
   int num_continents;
+  int num_oceans;               /* not updated at the client */
   struct tile *tiles;
 
   /* Only used by server. */
@@ -212,8 +215,8 @@ bool base_get_direction_for_step(int start_x, int start_y, int end_x,
 				int end_y, int *dir);
 int get_direction_for_step(int start_x, int start_y, int end_x, int end_y);
 
-void map_set_continent(int x, int y, int val);
-unsigned short map_get_continent(int x, int y);
+void map_set_continent(int x, int y, Continent_id val);
+Continent_id map_get_continent(int x, int y);
 
 void initialize_move_costs(void);
 void reset_move_costs(int x, int y);

@@ -577,7 +577,7 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
 { 
   struct city *pc=NULL;
   int best_dist = -1;
-  int con = map_get_continent(x, y);
+  Continent_id con = map_get_continent(x, y);
 
   players_iterate(pplay) {
     /* If "enemy" is set, only consider cities whose owner we're at

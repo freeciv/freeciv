@@ -184,7 +184,8 @@ static void ai_manage_buildings(struct player *pplayer)
 static void establish_city_distances(struct player *pplayer, 
 				     struct city *pcity)
 {
-  int distance, wonder_continent;
+  int distance;
+  Continent_id wonder_continent;
   Unit_Type_id freight = best_role_unit(pcity, F_HELP_WONDER);
   int moverate = (freight == U_LAST) ? SINGLE_MOVE
                                      : get_unit_type(freight)->move_rate;
