@@ -778,7 +778,7 @@ void economy_report_dialog_update(void)
 {
   if(delay_report_update) return;
   if(economy_dialog_shell) {
-    int j, k, count, tax, cost, total;
+    int k, count, tax, cost, total;
     Dimension width; 
     static char *economy_list_names_ptrs[B_LAST+1];
     static char economy_list_names[B_LAST][200];
@@ -793,28 +793,31 @@ void economy_report_dialog_update(void)
     tax=0;
     k = 0;
     pcity = city_list_get(&game.player_ptr->cities,0);
-    if(pcity)  {
-      for (j=0;j<game.num_impr_types;j++)
-      if(!is_wonder(j)) {
-	count = 0; 
-	city_list_iterate(game.player_ptr->cities,pcity)
-	  if (city_got_building(pcity, j)) count++;
-	city_list_iterate_end;
-	if (!count) continue;
-	cost = count * improvement_upkeep(pcity, j);
-	my_snprintf(economy_list_names[k], sizeof(economy_list_names[k]),
-		    "%-20s%5d%5d%6d", get_improvement_name(j),
-		    count, improvement_upkeep(pcity, j), cost);
-	total+=cost;
-	economy_list_names_ptrs[k]=economy_list_names[k];
-	economy_improvement_type[k]=j;
-	k++;
-      }
+    if(pcity) {
+      impr_type_iterate(j) {
+        if(!is_wonder(j)) {
+	  count = 0; 
+	  city_list_iterate(game.player_ptr->cities,pcity) {
+	    if (city_got_building(pcity, j)) count++;
+	  } city_list_iterate_end;
+	  if (!count) continue;
+	  cost = count * improvement_upkeep(pcity, j);
+	  my_snprintf(economy_list_names[k], sizeof(economy_list_names[k]),
+	              "%-20s%5d%5d%6d", get_improvement_name(j),
+                      count, improvement_upkeep(pcity, j), cost);
+          total += cost;
+          economy_list_names_ptrs[k] = economy_list_names[k];
+          economy_improvement_type[k] = j;
+          k++;
+        }
+      } impr_type_iterate_end;
+
       city_list_iterate(game.player_ptr->cities,pcity) {
-	tax+=pcity->tax_total;
-	if (!pcity->is_building_unit && 
-	    pcity->currently_building==B_CAPITAL)
-	  tax+=pcity->shield_surplus;
+        tax += pcity->tax_total;
+        if (!pcity->is_building_unit && 
+           pcity->currently_building == B_CAPITAL) {
+           tax += pcity->shield_surplus;
+        }
       } city_list_iterate_end;
     }
     

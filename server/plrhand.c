@@ -216,7 +216,6 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
   int saved_bulbs;
-  int wonder;
   struct city *pcity;
 
   plr->got_tech = TRUE;
@@ -229,16 +228,16 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	    advances[tech_found].name);
     
     /* Alert the owners of any wonders that have been made obsolete */
-    for (wonder = 0; wonder < game.num_impr_types; wonder++) {
-      if (game.global_wonders[wonder] != 0 && is_wonder(wonder) &&
-	  improvement_types[wonder].obsolete_by == tech_found &&
-	  (pcity = find_city_by_id(game.global_wonders[wonder]))) {
+    impr_type_iterate(id) {
+      if (game.global_wonders[id] != 0 && is_wonder(id) &&
+	  improvement_types[id].obsolete_by == tech_found &&
+	  (pcity = find_city_by_id(game.global_wonders[id]))) {
 	notify_player_ex(city_owner(pcity), -1, -1, E_WONDER_OBSOLETE,
-	      _("Game: Discovery of %s OBSOLETES %s in %s!"), 
-	      advances[tech_found].name, get_improvement_name(wonder),
-	      pcity->name);
+	                 _("Game: Discovery of %s OBSOLETES %s in %s!"), 
+	                 advances[tech_found].name, get_improvement_name(id),
+	                 pcity->name);
       }
-    }
+    } impr_type_iterate_end;
   }
 
   for (i=0; i<game.government_count; i++) {

@@ -720,7 +720,7 @@ void economy_report_dialog_update(void)
 {
   if(delay_report_update) return;
   if(economy_dialog_shell) {
-    int j, k, count, tax, cost, total;
+    int k, count, tax, cost, total;
     char   buf0 [64];
     char   buf1 [64];
     char   buf2 [64];
@@ -742,32 +742,35 @@ void economy_report_dialog_update(void)
 
     pcity = city_list_get(&game.player_ptr->cities,0);
     if(pcity)  {
-      for (j=0;j<game.num_impr_types;j++)
-      if(!is_wonder(j)) {
-       count = 0; 
-       city_list_iterate(game.player_ptr->cities,pcity)
-	 if (city_got_building(pcity, j)) count++;
-       city_list_iterate_end;
-       if (!count) continue;
-	cost = count * improvement_upkeep(pcity, j);
-	my_snprintf( buf0, sizeof(buf0), "%-20s", get_improvement_name(j) );
-	my_snprintf( buf1, sizeof(buf1), "%5d", count );
-	my_snprintf( buf2, sizeof(buf2), "%5d", improvement_upkeep(pcity, j) );
-	my_snprintf( buf3, sizeof(buf3), "%6d", cost );
+      impr_type_iterate(j) {
+        if(!is_wonder(j)) {
+          count = 0; 
+          city_list_iterate(game.player_ptr->cities, pcity)
+            if (city_got_building(pcity, j)) count++;
+          city_list_iterate_end;
+          if (!count) continue;
+	  cost = count * improvement_upkeep(pcity, j);
+	  my_snprintf(buf0, sizeof(buf0), "%-20s", get_improvement_name(j));
+	  my_snprintf(buf1, sizeof(buf1), "%5d", count);
+	  my_snprintf(buf2, sizeof(buf2), "%5d", improvement_upkeep(pcity, j));
+	  my_snprintf(buf3, sizeof(buf3), "%6d", cost);
 
-	gtk_clist_append( GTK_CLIST( economy_list ), row );
+	  gtk_clist_append(GTK_CLIST(economy_list), row);
 
-	total+=cost;
-	economy_improvement_type[k]=j;
-	k++;
-      }
-      city_list_iterate(game.player_ptr->cities,pcity) {
-       tax+=pcity->tax_total;
-       if (!pcity->is_building_unit && 
-	   pcity->currently_building==B_CAPITAL)
-	 tax+=pcity->shield_surplus;
-      } city_list_iterate_end;
-    }
+	  total += cost;
+	  economy_improvement_type[k] = j;
+	  k++;
+        }
+        city_list_iterate(game.player_ptr->cities,pcity) {
+          tax += pcity->tax_total;
+          if (!pcity->is_building_unit && 
+	      pcity->currently_building == B_CAPITAL) {
+	    tax += pcity->shield_surplus;
+          }
+        } city_list_iterate_end;
+      } impr_type_iterate_end;
+    } 
+
     my_snprintf(economy_total, sizeof(economy_total),
 		_("Income:%6d    Total Costs: %6d"), tax, total); 
     gtk_set_label(economy_label2, economy_total); 

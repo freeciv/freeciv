@@ -774,7 +774,7 @@ static int create_improvements_list(struct player *pplayer,
 				    struct city *pcity, int make_modal)
 {  
   GtkWidget *close_command, *scrolled;
-  int i, j;
+  int j;
   gchar *row[1];
   static gchar *title_[1] = { N_("Select Improvement to Sabotage") };
   static gchar **title;
@@ -828,13 +828,13 @@ static int create_improvements_list(struct player *pplayer,
   gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
   improvement_type[j++] = -1;
 
-  for(i=0; i<game.num_impr_types; i++) {
+  impr_type_iterate(i) {
     if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i)) {
       row[0] = get_impr_name_ex(pcity, i);
       gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
       improvement_type[j++] = i;
     }  
-  }
+  } impr_type_iterate_end;
 
   if(j > 1) {
     row[0] = _("At Spy's Discretion");

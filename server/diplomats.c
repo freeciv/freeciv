@@ -202,13 +202,15 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
 			   struct city *pcity)
 {
   struct packet_sabotage_list packet;
-  int i;
   char *p;
 
   /* Send city improvements info to player. */
   p = packet.improvements;
-  for(i=0; i<game.num_impr_types; i++)
+
+  impr_type_iterate(i) {
     *p++=city_got_building(pcity,i)?'1':'0';
+  } impr_type_iterate_end;
+
   *p='\0';
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
@@ -847,7 +849,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 		       struct city *pcity, int improvement)
 {
   struct player *cplayer;
-  int index, count, which, target;
+  int count, which, target;
   char *prod;
   struct city *capital;
 
@@ -891,12 +893,12 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   /* Examine the city for improvements to sabotage. */
   count = 0;
-  for (index = 0; index < game.num_impr_types; index++) {
+  impr_type_iterate(index) {
     if (city_got_building (pcity, index) &&
 	(!is_wonder (index)) && (index != B_PALACE)) {
       count++;
     }
-  }
+  } impr_type_iterate_end;
 
   freelog (LOG_DEBUG, "sabotage: count of improvements: %d", count);
 
@@ -928,7 +930,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     } else {
       target = -1;
       which = myrand (count);
-      for (index = 0; index < game.num_impr_types; index++) {
+
+      impr_type_iterate(index) {
 	if (city_got_building (pcity, index) &&
 	    (!is_wonder (index)) && (index != B_PALACE)) {
 	  if (which > 0) {
@@ -938,7 +941,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 	    break;
 	  }
 	}
-      }
+      } impr_type_iterate_end;
+
       freelog (LOG_DEBUG, "sabotage: random: targeted improvement: %d (%s)",
 	       target, get_improvement_name (target));
     }

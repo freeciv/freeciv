@@ -114,7 +114,7 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
   }
     
   /* Improvements and Wonders */
-  for(j=0; j<game.num_impr_types; j++) {
+  impr_type_iterate(j) {
     struct impr_type *it = &improvement_types[j];
     if (it->tech_req == itech) {
       if (it->is_wonder ) {
@@ -125,7 +125,7 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
       sz_strlcat(buf, it->name);
       secfile_insert_str(file, buf, "%s.effect%d", prefix, ieffect++);
     }
-  }
+  } impr_type_iterate_end;
   
   /* Obsoleted units: */
   for(j=0; j<game.num_unit_types; j++ ) {
@@ -142,7 +142,7 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
   }
     
   /* Obsoleted buildings: */
-  for(j=0; j<game.num_impr_types; j++) {
+  impr_type_iterate(j) {
     struct impr_type *it = &improvement_types[j];
     if (improvement_exists(j) && it->obsolete_by == itech) {
       if (it->is_wonder ) {
@@ -153,7 +153,7 @@ static void add_one_tech(struct section_file *file, Tech_Type_id itech)
       sz_strlcat(buf, it->name);
       secfile_insert_str(file, buf, "%s.effect%d", prefix, ieffect++);
     }
-  }
+  } impr_type_iterate_end;
   
   /* Flags: */
   for (j = 0; j < ARRAY_SIZE(tech_flag_desc); j++) {

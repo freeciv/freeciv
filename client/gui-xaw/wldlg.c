@@ -1308,7 +1308,7 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
     advanced_tech = False;
  
   /*     + First, improvements and Wonders. */
-  for(i=0; i<game.num_impr_types; i++) {
+  impr_type_iterate(i) {
     /* Can the player (eventually) build this improvement? */
     can_build = can_player_build_improvement(pplr,i);
     can_eventually_build = could_player_eventually_build_improvement(pplr,i);
@@ -1327,7 +1327,7 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
       pdialog->worklist_avail_names_ptrs[n]=pdialog->worklist_avail_names[n];
       pdialog->worklist_avail_ids[n++]=i;
     }
-  }
+  } impr_type_iterate_end;
   pdialog->worklist_avail_num_improvements=n;
 
   /*     + Second, units. */

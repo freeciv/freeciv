@@ -509,12 +509,12 @@ int civ_score(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) 
     if (is_military_unit(punit)) pplayer->score.units++;
   unit_list_iterate_end;
-  
-  for (i=0;i<game.num_impr_types;i++) {
+
+  impr_type_iterate(i) {
     if (is_wonder(i) && (pcity=find_city_by_id(game.global_wonders[i])) && 
 	player_owns_city(pplayer, pcity))
       pplayer->score.wonders++;
-  }
+  } impr_type_iterate_end;
 
   /* How much should a spaceship be worth??
      This gives 100 points per 10,000 citizens.  --dwp
@@ -766,14 +766,12 @@ void game_init(void)
 ***************************************************************/
 void initialize_globals(void)
 {
-  int i;
-
   players_iterate(plr) {
     city_list_iterate(plr->cities, pcity) {
-      for (i=0;i<game.num_impr_types;i++) {
+      impr_type_iterate(i) {
 	if (city_got_building(pcity, i) && is_wonder(i))
 	  game.global_wonders[i] = pcity->id;
-      }
+      } impr_type_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 }
@@ -944,11 +942,13 @@ void translate_data_names(void)
     sz_strlcpy(tthis->name_orig, tthis->name);
     name_strlcpy(tthis->name, Q_(tthis->name_orig));
   }
-  for (i=0; i<game.num_impr_types; i++) {
+
+  impr_type_iterate(i) {
     struct impr_type *tthis = &improvement_types[i];
     sz_strlcpy(tthis->name_orig, tthis->name);
     name_strlcpy(tthis->name, Q_(tthis->name_orig));
-  }
+  } impr_type_iterate_end;
+
   for (i=T_FIRST; i<T_COUNT; i++) {
     struct tile_type *tthis = &tile_types[i];
     sz_strlcpy(tthis->terrain_name_orig, tthis->terrain_name);
@@ -1030,26 +1030,24 @@ void update_island_impr_effect(int oldmax, int maxcont)
 ***************************************************************/
 void update_all_effects(void)
 {
-  int i;
-
   freelog(LOG_DEBUG,"update_all_effects");
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities,pcity) {
-      for (i=0;i<game.num_impr_types;i++) {
+      impr_type_iterate(i) {
         if (pcity->improvements[i]==I_NONE) continue;
         if (improvement_obsolete(pplayer,i)) {
           freelog(LOG_DEBUG,"%s in %s is obsolete",
                   improvement_types[i].name,pcity->name);
           mark_improvement(pcity,i,I_OBSOLETE);
         }
-      }
+      } impr_type_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities,pcity) {
-      for (i=0;i<game.num_impr_types;i++) {
+      impr_type_iterate(i) {
         if (pcity->improvements[i]==I_NONE ||
             pcity->improvements[i]==I_OBSOLETE) continue;
 	if (improvement_redundant(pplayer, pcity, i, FALSE)) {
@@ -1061,7 +1059,7 @@ void update_all_effects(void)
           freelog(LOG_DEBUG,"%s in %s is active!",
                   improvement_types[i].name,pcity->name);
         }
-      }
+      } impr_type_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
 }

@@ -1136,13 +1136,15 @@ void change_callback(struct city_dialog *pdialog)
       for(i=0; i<4; i++)
 	row[i]=buf[i];
 	
-      for(i=0, n=0; i<game.num_impr_types; i++)
+      n = 0;
+      impr_type_iterate(i) {
 	if(can_build_improvement(pdialog->pcity, i)) {
 	  get_city_dialog_production_row(row, sizeof(buf[0]), i,
 	                                 FALSE, pdialog->pcity);
 	  fcwin_listview_add_row(lv,n,4,row);
 	  pdialog->change_list_ids[n++]=i;
 	}
+      } impr_type_iterate_end;
 	
       pdialog->change_list_num_improvements=n;
       

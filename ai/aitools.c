@@ -121,7 +121,6 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 { /* I prefer the ai_choice as a return value; gcc prefers it as an arg -- Syela */
-  Impr_Type_id i;
   Impr_Type_id id = B_LAST;
   int danger = 0, downtown = 0, cities = 0;
   int want=0;
@@ -135,8 +134,8 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
     downtown += acity->ai.downtown;
     cities++;
   city_list_iterate_end;
- 
-  for(i=0; i<game.num_impr_types; i++) {
+
+  impr_type_iterate(i) {
     if (!is_wonder(i) ||
        (!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
        pcity->shield_stock >= improvement_value(i) / 2) ||
@@ -156,7 +155,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 	}
       } /* id is the building we like the best */
     }
-  }
+  } impr_type_iterate_end;
 
   if (want != 0) {
     freelog(LOG_DEBUG, "AI_Chosen: %s with desire = %d for %s",

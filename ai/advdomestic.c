@@ -272,7 +272,6 @@ void ai_eval_buildings(struct city *pcity)
 {
   struct government *g = get_gov_pcity(pcity);
   int i, val, t, food, j, k, hunger, bar, grana;
-  Impr_Type_id id, id2;
   int tax, prod, sci, values[B_LAST];
   int est_food = pcity->food_surplus + 2 * pcity->ppl_scientist + 2 * pcity->ppl_taxman; 
   struct player *pplayer = city_owner(pcity);
@@ -496,14 +495,17 @@ TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela
 /* ignored: AIRPORT, PALACE, and POLICE. -- Syela*/
 /* military advisor will deal with CITY and PORT */
 
-  for (id = 0; id < game.num_impr_types; id++) {
+  impr_type_iterate(id) {
     if (is_wonder(id) && could_build_improvement(pcity, id)
 	&& !wonder_obsolete(id)&& is_wonder_useful(id)) {
-      if (id == B_ASMITHS)
-        for (id2 = 0; id2 < game.num_impr_types; id2++)
+      if (id == B_ASMITHS) {
+	impr_type_iterate(id2) {
           if (city_got_building(pcity, id2) &&
               improvement_upkeep(pcity, id2) == 1)
             values[id] += t;
+	} impr_type_iterate_end;
+      }
+
       if (id == B_COLLOSSUS)
         values[id] = (pcity->size + 1) * t; /* probably underestimates the value */
       if (id == B_COPERNICUS)
@@ -610,9 +612,9 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
 
       /* ignoring APOLLO, LIGHTHOUSE, MAGELLAN, MANHATTEN, STATUE, UNITED */
     }
-  }
+  } impr_type_iterate_end;
 
-  for (id=0;id<game.num_impr_types;id++) {
+  impr_type_iterate(id) {
     if (values[id] != 0) {
       freelog(LOG_DEBUG, "%s wants %s with desire %d.",
 	      pcity->name, get_improvement_name(id), values[id]);
@@ -626,9 +628,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
     j = improvement_value(id);
 /* handle H_PROD here? -- Syela */
     pcity->ai.building_want[id] = values[id] / j;
-  }
-
-  return;
+  } impr_type_iterate_end;
 }
 
 /********************************************************************** 

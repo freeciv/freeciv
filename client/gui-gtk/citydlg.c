@@ -1938,20 +1938,20 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 static void city_dialog_update_improvement_list(struct city_dialog
 						*pdialog)
 {
-  int changed, i, total, item, cids_used;
+  int changed, total, item, cids_used;
   cid cids[U_LAST + B_LAST];
   struct item items[U_LAST + B_LAST];
   char buf[100];
 
   /* Test if the list improvements of pcity has changed */
   changed = 0;
-  for (i = 0; i < game.num_impr_types; i++) {
+  impr_type_iterate(i) {
     if (pdialog->pcity->improvements[i] !=
 	pdialog->last_improvlist_seen[i]) {
       changed = 1;
       break;
     }
-  }
+  } impr_type_iterate_end;
 
   if (!changed) {
     gtk_widget_set_sensitive(pdialog->overview.sell_command, FALSE);
@@ -1959,9 +1959,9 @@ static void city_dialog_update_improvement_list(struct city_dialog
   }
 
   /* Update pdialog->last_improvlist_seen */
-  for (i = 0; i < game.num_impr_types; i++) {
+  impr_type_iterate(i) {
     pdialog->last_improvlist_seen[i] = pdialog->pcity->improvements[i];
-  }
+  } impr_type_iterate_end;
 
   cids_used = collect_cids5(cids, pdialog->pcity);
   name_and_sort_items(cids, cids_used, items, FALSE, pdialog->pcity);

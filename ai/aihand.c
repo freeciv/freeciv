@@ -146,7 +146,6 @@ static void ai_manage_taxes(struct player *pplayer)
 {
   struct government *g = get_gov_pplayer(pplayer);
   int gnow = pplayer->economic.gold;
-  Impr_Type_id id;
   int trade = 0, m, n, i, expense = 0, tot;
   int waste[40]; /* waste with N elvises */
   int elvises[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -170,8 +169,10 @@ static void ai_manage_taxes(struct player *pplayer)
     city_refresh(pcity);
     trade += pcity->trade_prod * city_tax_bonus(pcity) / 100;
     freelog(LOG_DEBUG, "%s has %d trade.", pcity->name, pcity->trade_prod);
-    for (id = 0; id < game.num_impr_types; id++)
+    impr_type_iterate(id) {
       if (city_got_building(pcity, id)) expense += improvement_upkeep(pcity,id);
+    } impr_type_iterate_end;
+
   city_list_iterate_end;
 
   pplayer->ai.est_upkeep = expense;

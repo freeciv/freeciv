@@ -1884,9 +1884,9 @@ void city_dialog_update_title(struct city_dialog *pdialog)
 *****************************************************************/
 void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
-  int i, n, flag;
+  int n = 0, flag = 0;
 
-  for(i=0, n=0, flag=0; i<game.num_impr_types; ++i)
+  impr_type_iterate(i) {
     if(pdialog->pcity->improvements[i]) {
       if(!pdialog->improvlist_names_ptrs[n] ||
 	 strcmp(pdialog->improvlist_names_ptrs[n], get_impr_name_ex(pdialog->pcity, i)) != 0)
@@ -1896,6 +1896,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
       pdialog->improvlist_names_ptrs[n]=pdialog->improvlist_names[n];
       n++;
     }
+  } impr_type_iterate_end;
   
   if(pdialog->improvlist_names_ptrs[n]!=0) {
     pdialog->improvlist_names_ptrs[n]=0;
@@ -2314,7 +2315,8 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   
   XtSetSensitive(pdialog->shell, FALSE);
 
-  for(i=0, n=0; i<game.num_impr_types; i++)
+  n = 0;
+  impr_type_iterate(i) {
     if(can_build_improvement(pdialog->pcity, i)) {
       if (i==B_CAPITAL) {
 	my_snprintf(pdialog->change_list_names[n],
@@ -2332,6 +2334,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }
+  } impr_type_iterate_end;
   
   pdialog->change_list_num_improvements=n;
 
@@ -2485,8 +2488,8 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
   ret=XawListShowCurrent(pdialog->improvement_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    int i, n;
-    for(i=0, n=0; i<game.num_impr_types; i++)
+    int n = 0;
+    impr_type_iterate(i) {
       if(pdialog->pcity->improvements[i]) {
 	if(n==ret->list_index) {
 	  char buf[512];
@@ -2508,6 +2511,7 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	}
 	n++;
       }
+    } impr_type_iterate_end;
   }
 }
 

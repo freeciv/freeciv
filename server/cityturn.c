@@ -110,10 +110,9 @@ void global_city_refresh(struct player *pplayer)
 void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
 {
   struct player *pplayer = city_owner(pcity);
-  int i;
   bool sold = FALSE;
 
-  for (i=0;i<game.num_impr_types;i++) {
+  impr_type_iterate(i) {
     if (city_got_building(pcity, i) 
 	&& !is_wonder(i) 
 	&& improvement_obsolete(pplayer, i)) {
@@ -124,7 +123,7 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
 		       improvement_value(i));
       sold = TRUE;
     }
-  }
+  } impr_type_iterate_end;
 
   if (sold) update_all_effects();
 
@@ -616,7 +615,6 @@ static void city_populate(struct city *pcity)
 static void advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice choice;
-  int i;
   int id=-1;
   int want=0;
 
@@ -635,12 +633,14 @@ static void advisor_choose_build(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  for (i=0;i<game.num_impr_types;i++)
+  impr_type_iterate(i) {
     if(can_build_improvement(pcity, i) && i != B_PALACE) { /* build something random, undecided */
       pcity->currently_building=i;
       pcity->is_building_unit = FALSE;
       return;
     }
+  } impr_type_iterate_end;
+
 }
 
 /**************************************************************************
@@ -1089,8 +1089,7 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
-  int i;
-  for (i=0; i<game.num_impr_types; i++) {
+  impr_type_iterate(i) {
     if (city_got_building(pcity, i)) {
       if (!is_wonder(i)
 	  && pplayer->government != game.government_when_anarchy) {
@@ -1105,7 +1104,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 	  pplayer->economic.gold -= improvement_upkeep(pcity, i);
       }
     }
-  }
+  } impr_type_iterate_end;
 }
 
 /**************************************************************************

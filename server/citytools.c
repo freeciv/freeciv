@@ -337,8 +337,8 @@ void eval_buildings(struct city *pcity,int *values)
   struct player *plr = city_owner(pcity);
   struct government *g = get_gov_pcity(pcity);
   tech = (plr->research.researching != A_NONE);
-    
-  for (i=0;i<game.num_impr_types;i++) {
+
+  impr_type_iterate(i) {
     if (is_wonder(i) && can_build_improvement(pcity, i) && !built_elsewhere(pcity, i)) {
       if (wonder_obsolete(i))
 	values[i]=1;
@@ -346,7 +346,7 @@ void eval_buildings(struct city *pcity,int *values)
 	values[i]=99;
     } else
     values[i]=0;
-  }
+  } impr_type_iterate_end;
   
   if (government_has_hint(g, G_FAVORS_GROWTH) || pcity->size < 5) {
     if (can_build_improvement(pcity, B_GRANARY)) 
@@ -671,7 +671,7 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
 **************************************************************************/
 static void raze_city(struct city *pcity)
 {
-  int i, razechance = game.razechance;
+  int razechance = game.razechance;
 
   /* We don't use city_remove_improvement here as the global effects
      stuff has already been handled by transfer_city */
@@ -681,12 +681,13 @@ static void raze_city(struct city *pcity)
   if (is_land_barbarian(city_owner(pcity)))
     razechance += 30;
 
-  for (i=0;i<game.num_impr_types;i++) {
+  impr_type_iterate(i) {
     if (city_got_building(pcity, i) && !is_wonder(i) 
 	&& (myrand(100) < razechance)) {
       pcity->improvements[i]=I_NONE;
     }
-  }
+  } impr_type_iterate_end;
+
   nullify_prechange_production(pcity);
   pcity->shield_stock = 0;
 }
@@ -779,12 +780,12 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* Remove all global improvement effects that this city confers (but
      then restore the local improvement list - we need this to restore the
      global effects for the new city owner) */
-  for (i=0;i<game.num_impr_types;i++) {
+  impr_type_iterate(i) {
     if (pcity->improvements[i]!=I_NONE) {
       city_remove_improvement(pcity,i);
       pcity->improvements[i]=I_ACTIVE;
     }
-  }
+  } impr_type_iterate_end;
 
   give_citymap_from_player_to_player(pcity, pgiver, ptaker);
   map_unfog_pseudo_city_area(ptaker, pcity->x, pcity->y);
@@ -862,11 +863,11 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     raze_city(pcity);
 
   /* Restore any global improvement effects that this city confers */
-  for (i=0;i<game.num_impr_types;i++) {
+  impr_type_iterate(i) {
     if (pcity->improvements[i]!=I_NONE) {
       city_add_improvement(pcity,i);
     }
-  }
+  } impr_type_iterate_end;
   update_all_effects();
 
   /* If the city was building something we haven't invented we
@@ -1060,7 +1061,6 @@ void remove_city(struct city *pcity)
   int o, x, y;
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = map_get_tile(pcity->x, pcity->y);
-  int i;
   bool effect_update, had_palace = pcity->improvements[B_PALACE] != I_NONE;
   char *city_name = strdup(pcity->name);
 
@@ -1071,12 +1071,14 @@ void remove_city(struct city *pcity)
   /* Explicitly remove all improvements, to properly remove any global effects
      and to handle the preservation of "destroyed" effects. */
   effect_update=FALSE;
-  for (i=0;i<game.num_impr_types;i++) {
+
+  impr_type_iterate(i) {
     if (pcity->improvements[i]!=I_NONE) {
       effect_update=TRUE;
       city_remove_improvement(pcity,i);
     }
-  }
+  } impr_type_iterate_end;
+
   if (effect_update)
     update_all_effects();
 
@@ -1595,8 +1597,11 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   *p='\0';
 
   p=packet->improvements;
-  for(i=0; i<game.num_impr_types; i++)
-    *p++=(city_got_building(pcity,i)) ? '1' : '0';
+
+  impr_type_iterate(i) {
+    *p++ = (city_got_building(pcity, i)) ? '1' : '0';
+  } impr_type_iterate_end;
+
   *p='\0';
 }
 

@@ -1390,17 +1390,18 @@ void popup_bribe_dialog(struct unit *punit)
 static void create_improvements_list(struct player *pplayer,
                                     struct city *pcity, HWND lb)
 {
-  int i,j;
+  int j;
   j=0;
   ListBox_AddString(lb,_("City Production"));
   improvement_type[j++] = -1;
   
-  for(i=0; i<game.num_impr_types; i++) {
+  impr_type_iterate(i) {
     if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i)) {
       ListBox_AddString(lb,get_impr_name_ex(pcity,i));
       improvement_type[j++] = i;
     }  
-  }
+  } impr_type_iterate_end;
+
   if(j > 1) {
     ListBox_AddString(lb,_("At Spy's Discretion"));
     improvement_type[j++] = B_LAST;

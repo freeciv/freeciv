@@ -414,8 +414,8 @@ void worklist_populate_targets(struct Worklist_Data *data)
   entry.type = 4;
   entry.id = 0;
   DoMethod(data->available_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
-  for(i=0; i<game.num_impr_types; i++)
-  {
+
+  impr_type_iterate(i) {
     /* Can the player (eventually) build this improvement? */
     can_build = can_player_build_improvement(pplr,i);
     can_eventually_build = could_player_eventually_build_improvement(pplr,i);
@@ -434,7 +434,7 @@ void worklist_populate_targets(struct Worklist_Data *data)
       entry.id = i;
       DoMethod(data->available_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
     }
-  }
+  } impr_type_iterate_end;
 
   /*     + Second, units. */
   entry.type = 3;

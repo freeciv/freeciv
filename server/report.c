@@ -204,13 +204,13 @@ static void historian_generic(enum historian_type which_news)
 **************************************************************************/
 static int nr_wonders(struct city *pcity)
 {
-  int i, result = 0;
+  int result = 0;
 
-  for (i = 0; i < game.num_impr_types; i++) {
+  impr_type_iterate(i) {
     if (is_wonder(i) && city_got_building(pcity, i)) {
       result++;
     }
-  }
+  } impr_type_iterate_end;
 
   return result;
 }
@@ -282,12 +282,11 @@ void report_top_five_cities(struct conn_list *dest)
 **************************************************************************/
 void report_wonders_of_the_world(struct conn_list *dest)
 {
-  Impr_Type_id i;
   char buffer[4096];
 
   buffer[0] = '\0';
 
-  for (i=0;i<game.num_impr_types;i++) {
+  impr_type_iterate(i) {
     if (is_wonder(i)) {
       struct city *pcity = find_city_wonder(i);
 
@@ -300,9 +299,9 @@ void report_wonders_of_the_world(struct conn_list *dest)
 		     get_improvement_type(i)->name);
       }
     }
-  }
+  } impr_type_iterate_end;
 
-  for (i=0;i<game.num_impr_types;i++) {
+  impr_type_iterate(i) {
     if (is_wonder(i)) {
       players_iterate(pplayer) {
 	city_list_iterate(pplayer->cities, pcity) {
@@ -315,7 +314,8 @@ void report_wonders_of_the_world(struct conn_list *dest)
 	} city_list_iterate_end;
       } players_iterate_end;
     }
-  }
+  } impr_type_iterate_end;
+
   page_conn(dest, _("Traveler's Report:"),
 	    _("Wonders of the World"), buffer);
 }

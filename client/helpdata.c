@@ -291,7 +291,7 @@ void boot_help_texts(void)
 	      genlist_insert(&category_nodes, pitem, -1);
 	  }
 	} else if(current_type==HELP_IMPROVEMENT) {
-	  for(i=0; i<game.num_impr_types; i++) {
+	  impr_type_iterate(i) {
 	    if(improvement_exists(i) && !is_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s", improvement_types[i].name);
@@ -299,9 +299,9 @@ void boot_help_texts(void)
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
 	    }
-	  }
+	  } impr_type_iterate_end;
 	} else if(current_type==HELP_WONDER) {
-	  for(i=0; i<game.num_impr_types; i++) {
+	  impr_type_iterate(i) {
 	    if(improvement_exists(i) && is_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s", improvement_types[i].name);
@@ -309,7 +309,7 @@ void boot_help_texts(void)
 	      pitem->text = mystrdup("");
 	      genlist_insert(&category_nodes, pitem, -1);
 	    }
-	  }
+	  } impr_type_iterate_end;
 	} else {
 	  freelog(LOG_FATAL, "Bad current_type %d", current_type);
 	  exit(EXIT_FAILURE);

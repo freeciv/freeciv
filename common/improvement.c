@@ -255,12 +255,11 @@ Returns B_LAST if none match.
 **************************************************************************/
 Impr_Type_id find_improvement_by_name(char *s)
 {
-  int i;
-
-  for( i=0; i<game.num_impr_types; i++ ) {
+  impr_type_iterate(i) {
     if (strcmp(improvement_types[i].name, s)==0)
       return i;
-  }
+  } impr_type_iterate_end;
+
   return B_LAST;
 }
 
@@ -382,8 +381,9 @@ bool is_wonder_useful(Impr_Type_id id)
 **************************************************************************/
 void improvement_status_init(Impr_Status *improvements)
 {
-  int i;
-  for (i=0;i<game.num_impr_types;i++) improvements[i]=I_NONE;
+  impr_type_iterate(i) {
+    improvements[i] = I_NONE;
+  } impr_type_iterate_end;
 }
 
 /**************************************************************************

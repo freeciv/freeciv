@@ -444,17 +444,15 @@ static void create_improvements_list(struct city *pcity)
 
   if(wnd)
   {
-    int i;
     int any_improvements=FALSE;
     DoMethod(listview, MUIM_NList_InsertSingle, 100-1,MUIV_NList_Insert_Bottom);
-    for(i=0; i<game.num_impr_types; i++)
-    {
+    impr_type_iterate(i) {
       if(i != B_PALACE && pcity->improvements[i] && !is_wonder(i))
       {
         DoMethod(listview, MUIM_NList_InsertSingle, i+100,MUIV_NList_Insert_Bottom);
         any_improvements = TRUE;
       }
-    }
+    } impr_type_iterate_end;
 
     if (any_improvements)
     {

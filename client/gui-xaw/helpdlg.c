@@ -907,14 +907,15 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     create_tech_tree(help_tech_tree, 0, i, 3);
     helptext_tech(buf, i, pitem->text);
 
-    for(j=0; j<game.num_impr_types; ++j) {
+    impr_type_iterate(j) {
       if(i==improvement_types[j].tech_req) 
 	sprintf(buf+strlen(buf), _("Allows %s.\n"),
 		improvement_types[j].name);
       if(i==improvement_types[j].obsolete_by)
 	sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
 		improvement_types[j].name);
-    }
+    } impr_type_iterate_end;
+
     for(j=0; j<game.num_unit_types; ++j) {
       if(i==get_unit_type(j)->tech_requirement) 
 	sprintf(buf+strlen(buf), _("Allows %s.\n"), 

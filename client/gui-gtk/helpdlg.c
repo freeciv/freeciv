@@ -818,7 +818,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_label_set_justify(GTK_LABEL(w), GTK_JUSTIFY_LEFT);
     gtk_container_add(GTK_CONTAINER(help_vbox), w);
 
-    for(j=0; j<game.num_impr_types; ++j) {
+    impr_type_iterate(j) {
       if(i==improvement_types[j].tech_req) {
         hbox = gtk_hbox_new(FALSE, 0);
         gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
@@ -841,7 +841,8 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
         w = gtk_label_new(".");
         gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       }
-    }
+    } impr_type_iterate_end;
+
     for(j=0; j<game.num_unit_types; ++j) {
       if(i!=get_unit_type(j)->tech_requirement) continue;
       hbox = gtk_hbox_new(FALSE, 0);

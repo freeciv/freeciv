@@ -444,11 +444,11 @@ void handle_city_info(struct packet_city_info *packet)
       i++;
     }
   }
-    
-  for(i=0; i<game.num_impr_types; i++) {
+  
+  impr_type_iterate(i) {
     update_improvement_from_packet(pcity, i, packet->improvements[i] == '1',
                                    &need_effect_update);
-  }
+  } impr_type_iterate_end;
 
   popup = (city_is_new && get_client_state()==CLIENT_GAME_RUNNING_STATE && 
            pcity->owner==game.player_idx) || packet->diplomat_investigate;
@@ -1809,8 +1809,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 
 #ifdef DEBUG
   if(p->id == game.num_impr_types-1) {
-    int id;
-    for (id = 0; id < game.num_impr_types; id++) {
+    impr_type_iterate(id) {
       int inx;
       b = &improvement_types[id];
       freelog(LOG_DEBUG, "Impr: %s...",
@@ -1927,7 +1926,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       }
       freelog(LOG_DEBUG, "  variant     %2d", b->variant);	/* FIXME: remove when gen-impr obsoletes */
       freelog(LOG_DEBUG, "  helptext    %s", b->helptext);
-    }
+    } impr_type_iterate_end;
   }
 #endif
 }
@@ -2271,9 +2270,9 @@ void handle_sabotage_list(struct packet_sabotage_list *packet)
   struct city *pcity = find_city_by_id(packet->city_id);
 
   if (punit && pcity) {
-    int i;
-    for(i=0; i<game.num_impr_types; i++)
+    impr_type_iterate(i) {
       pcity->improvements[i] = (packet->improvements[i]=='1') ? I_ACTIVE : I_NONE;
+    } impr_type_iterate_end;
 
     popup_sabotage_dialog(pcity);
   }

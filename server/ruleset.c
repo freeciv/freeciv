@@ -879,7 +879,7 @@ static void load_ruleset_units(struct section_file *file)
 static void load_building_names(struct section_file *file)
 {
   char **sec;
-  int nval, i;
+  int nval;
   const char *filename = secfile_filename(file);
 
   (void) section_file_lookup(file, "datafile.description");	/* unused */
@@ -904,11 +904,12 @@ static void load_building_names(struct section_file *file)
   /* REMOVE TO HERE when gen-impr implemented. */
   game.num_impr_types = nval;
 
-  for (i = 0; i < game.num_impr_types; i++) {
+  impr_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
     name_strlcpy(improvement_types[i].name, name);
     improvement_types[i].name_orig[0] = 0;
-  }
+  } impr_type_iterate_end;
+
   free(sec);
 }
 
@@ -1189,7 +1190,7 @@ static void load_ruleset_buildings(struct section_file *file)
   }
 
   /* Some more consistency checking: */
-  for (i = 0; i < game.num_impr_types; i++) {
+  impr_type_iterate(i) {
     b = &improvement_types[i];
     if (improvement_exists(i)) {
       if (!tech_exists(b->tech_req)) {
@@ -1214,7 +1215,7 @@ static void load_ruleset_buildings(struct section_file *file)
 	}
       }
     }
-  }
+  } impr_type_iterate_end;
 
   /* FIXME: remove all of the following when gen-impr implemented... */
 
@@ -2354,11 +2355,11 @@ static void send_ruleset_techs(struct conn_list *dest)
 **************************************************************************/
 static void send_ruleset_buildings(struct conn_list *dest)
 {
-  struct packet_ruleset_building packet;
-  struct impr_type *b;
+  impr_type_iterate(i) {
+    struct impr_type *b = &improvement_types[i];
+    struct packet_ruleset_building packet;
 
-  for(b=improvement_types; b<improvement_types+game.num_impr_types; b++) {
-    packet.id = b-improvement_types;
+    packet.id = i;
     sz_strlcpy(packet.name, b->name_orig);
     packet.tech_req = b->tech_req;
     packet.bldg_req = b->bldg_req;
@@ -2377,7 +2378,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
     packet.helptext = b->helptext;		/* pointer assignment */
 
     lsend_packet_ruleset_building(dest, &packet);
-  }
+  } impr_type_iterate_end;
 }
 
 /**************************************************************************

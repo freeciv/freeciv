@@ -735,8 +735,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
       if (help_tech_group)
       {
-	for (j = 0; j < game.num_impr_types; ++j)
-	{
+	impr_type_iterate(j) {
 	  Object *o, *button;
 	  if (i != improvement_types[j].tech_req)
 	    continue;
@@ -751,7 +750,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
 	  if (o)
 	    DoMethod(help_tech_group, OM_ADDMEMBER, o);
-	}
+	} impr_type_iterate_end;
 
 	for (j = 0; j < game.num_unit_types; ++j)
 	{

@@ -106,7 +106,6 @@ bool ai_city_build_peaceful_unit(struct city *pcity)
 static void ai_manage_buildings(struct player *pplayer)
 { /* we have just managed all our cities but not chosen build for them yet */
   struct government *g = get_gov_pplayer(pplayer);
-  Impr_Type_id i;
   Tech_Type_id j;
   int values[B_LAST], leon = 0;
   bool palace = FALSE;
@@ -118,8 +117,10 @@ static void ai_manage_buildings(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity)
     ai_eval_buildings(pcity);
     if (!palace) corr += pcity->corruption * 8;
-    for (i = 0; i < game.num_impr_types; i++) 
+    impr_type_iterate(i) {
       if (pcity->ai.building_want[i] > 0) values[i] += pcity->ai.building_want[i];
+    } impr_type_iterate_end;
+
     if (pcity->ai.building_want[B_LEONARDO] > leon)
       leon = pcity->ai.building_want[B_LEONARDO];
   city_list_iterate_end;
@@ -140,7 +141,7 @@ static void ai_manage_buildings(struct player *pplayer)
    * regression testing --dwp */
   if (g->index != game.default_government
       && g->index != game.government_when_anarchy) {
-    for (i = 0; i < game.num_impr_types; i++) {
+    impr_type_iterate(i) {
       j = improvement_types[i].tech_req;
       if (get_invention(pplayer, j) != TECH_KNOWN)
         pplayer->ai.tech_want[j] += values[i];
@@ -151,7 +152,7 @@ static void ai_manage_buildings(struct player *pplayer)
       /* this probably isn't right -- Syela */
       /* since it assumes that the next tech is as valuable as the
 	 current -- JJCogliati */
-    }
+    } impr_type_iterate_end;
   } /* tired of researching pottery when we need to learn Republic!! -- Syela */
 
 
@@ -175,11 +176,12 @@ static void ai_manage_buildings(struct player *pplayer)
   city_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity) /* wonder-kluge */
-    for (i = 0; i < game.num_impr_types; i++) {
+    impr_type_iterate(i) {
       if (!pcity->is_building_unit && is_wonder(i) &&
           is_wonder(pcity->currently_building))
+	/* this should encourage completion of wonders, I hope! -- Syela */
         pcity->ai.building_want[i] += pcity->shield_stock / 2;
-    } /* this should encourage completion of wonders, I hope! -- Syela */
+    } impr_type_iterate_end;
   city_list_iterate_end;
 }
 
@@ -317,14 +319,13 @@ static int ai_city_defender_value(struct city *pcity, Unit_Type_id a_type,
 **************************************************************************/
 static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
-  Impr_Type_id id;
-  for (id = 0; id < game.num_impr_types; id++) {
+  impr_type_iterate(id) {
     if (can_sell_building(pcity, id) && id != B_CITY) {
 /* selling walls to buy defenders is counterproductive -- Syela */
       really_handle_city_sell(pplayer, pcity, id);
       break;
     }
-  }
+  } impr_type_iterate_end;
 }
 
 /************************************************************************** 
@@ -745,10 +746,9 @@ static bool building_unwanted(struct player *plr, Impr_Type_id i)
 
 static void ai_sell_obsolete_buildings(struct city *pcity)
 {
-  Impr_Type_id i;
-
   struct player *pplayer = city_owner(pcity);
-  for (i=0;i<game.num_impr_types;i++) {
+
+  impr_type_iterate(i) {
     if(city_got_building(pcity, i) 
        && !is_wonder(i) 
        && i != B_CITY /* selling city walls is really, really dumb -- Syela */
@@ -760,7 +760,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 		       improvement_value(i)/2);
       return; /* max 1 building each turn */
     }
-  }
+  } impr_type_iterate_end;
 }
 
 /**************************************************************************

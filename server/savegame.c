@@ -890,11 +890,11 @@ static void player_load(struct player *plr, int plrno,
     /* Initialise city's vector of improvement effects. */
     ceff_vector_init(&pcity->effects);
 
-    for(x=0; x<game.num_impr_types; x++) {
+    impr_type_iterate(x) {
       if (*p != '\0' && *p++=='1') {
         city_add_improvement(pcity,x);
       }
-    }
+    } impr_type_iterate_end;
 
     init_worklist(&pcity->worklist);
     if (has_capability("worklists2", savefile_options)) {
@@ -1495,9 +1495,10 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, pcity->currently_building, 
 		       "player%d.c%d.currently_building", plrno, i);
 
-    for(j=0; j<game.num_impr_types; j++)
-      buf[j]=(pcity->improvements[j] != I_NONE) ? '1' : '0';
-    buf[j]='\0';
+    impr_type_iterate(id) {
+      buf[id] = (pcity->improvements[id] != I_NONE) ? '1' : '0';
+    } impr_type_iterate_end;
+    buf[game.num_impr_types] = '\0';
     secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
 
     worklist_save(file, "player%d.c%d", plrno, i, &pcity->worklist);
@@ -1990,11 +1991,15 @@ void game_load(struct section_file *file)
   if (!game.is_new_game && game.load_options.load_players) {
     /* destroyed wonders: */
     string = secfile_lookup_str_default(file, "", "game.destroyed_wonders");
-    for (i = 0; i < game.num_impr_types && string[i] != '\0'; i++) {
+    impr_type_iterate(i) {
+      if (string[i] == '\0') {
+	goto out;
+      }
       if (string[i] == '1') {
 	game.global_wonders[i] = -1; /* destroyed! */
       }
-    }
+    } impr_type_iterate_end;
+  out:
 
     for(i=0; i<game.nplayers; i++) {
       player_load(&game.players[i], i, file); 
@@ -2232,15 +2237,15 @@ void game_save(struct section_file *file)
   secfile_insert_bool(file, game.save_options.save_players, "game.save_players");
   if (game.save_options.save_players) {
     /* destroyed wonders: */
-    for(i=0; i<game.num_impr_types; i++) {
+    impr_type_iterate(i) {
       if (is_wonder(i) && game.global_wonders[i]!=0
 	  && !find_city_by_id(game.global_wonders[i])) {
 	temp[i] = '1';
       } else {
 	temp[i] = '0';
       }
-    }
-    temp[i] = '\0';
+    } impr_type_iterate_end;
+    temp[game.num_impr_types] = '\0';
     secfile_insert_str(file, temp, "game.destroyed_wonders");
 
     calc_unit_ordering();

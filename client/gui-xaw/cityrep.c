@@ -325,12 +325,12 @@ void city_list_callback(Widget w, XtPointer client_data,
 				        city_change_command,
 				        NULL);
 
-    for (i = 0; i < game.num_impr_types; i++) {
+    impr_type_iterate(i) {
       if (can_build_improvement(pcity, i)) {
 	cids[cids_used] = cid_encode(FALSE, i);
 	cids_used++;
       }
-    }
+    } impr_type_iterate_end;
 
     for (i = 0; i < game.num_unit_types; i++) {
       if (can_build_unit(pcity, i)) {

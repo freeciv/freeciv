@@ -115,7 +115,6 @@ void client_remove_unit(int unit_id)
 void client_remove_city(struct city *pcity)
 {
   bool effect_update;
-  int i;
   int x=pcity->x;
   int y=pcity->y;
 
@@ -125,12 +124,14 @@ void client_remove_city(struct city *pcity)
   /* Explicitly remove all improvements, to properly remove any global effects
      and to handle the preservation of "destroyed" effects. */
   effect_update=FALSE;
-  for (i=0; i<game.num_impr_types; i++) {
+
+  impr_type_iterate(i) {
     if (pcity->improvements[i]!=I_NONE) {
       effect_update=TRUE;
       city_remove_improvement(pcity, i);
     }
-  }
+  } impr_type_iterate_end;
+
   if (effect_update)
     update_all_effects();
 
@@ -870,7 +871,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
 {
   int id, cids_used = 0;
 
-  for (id = 0; id < game.num_impr_types; id++) {
+  impr_type_iterate(id) {
     bool can_build = can_player_build_improvement(game.player_ptr, id);
     bool can_eventually_build =
 	could_player_eventually_build_improvement(game.player_ptr, id);
@@ -887,7 +888,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
       dest_cids[cids_used] = cid_encode(FALSE, id);
       cids_used++;
     }
-  }
+  } impr_type_iterate_end;
 
   for (id = 0; id < game.num_unit_types; id++) {
     bool can_build = can_player_build_unit(game.player_ptr, id);
@@ -915,16 +916,16 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
  */
 int collect_cids5(cid * dest_cids, struct city *pcity)
 {
-  int id, cids_used = 0;
+  int cids_used = 0;
 
   assert(pcity != NULL);
 
-  for (id = 0; id < game.num_impr_types; id++) {
+  impr_type_iterate(id) {
     if (pcity->improvements[id] != 0) {
       dest_cids[cids_used] = cid_encode(FALSE, id);
       cids_used++;
     }
-  }
+  } impr_type_iterate_end;
 
   return cids_used;
 }
@@ -1041,7 +1042,7 @@ void renumber_island_impr_effect(int old, int newnumber)
     }
 
     /* Now move all city improvements across. */
-    for (i=0; i<game.num_impr_types; i++)
+    impr_type_iterate(i) {
       if (oldimpr[i]!=I_NONE) {
 	newimpr[i]=oldimpr[i];
 	oldimpr[i]=I_NONE;
@@ -1051,6 +1052,7 @@ void renumber_island_impr_effect(int old, int newnumber)
 	  changed=TRUE;  
 	}
       }
+    } impr_type_iterate_end;
   } players_iterate_end;
 
   /* If anything was changed, then we need to update the effects. */

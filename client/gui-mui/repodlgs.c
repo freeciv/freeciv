@@ -639,10 +639,7 @@ void economy_report_dialog_update(void)
 
   if ((pcity = city_list_get(&game.player_ptr->cities, 0)))
   {
-    int j;
-
-    for (j = 0; j < game.num_impr_types; j++)
-    {
+    impr_type_iterate(j) {
       if (!is_wonder(j))
       {
 	int cost, count = 0;
@@ -663,7 +660,7 @@ void economy_report_dialog_update(void)
 
 	total += cost;
       }
-    }
+    } impr_type_iterate_end;
 
 
     city_list_iterate(game.player_ptr->cities, pcity)

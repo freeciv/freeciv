@@ -297,4 +297,18 @@ struct geff_vector *get_eff_player(struct player *plr);
 struct geff_vector *get_eff_island(int cont, struct player *plr);
 struct ceff_vector *get_eff_city(struct city *pcity);
 
+/*
+ * Iterates over all improvements. Creates a new variable names m_i
+ * with type Impr_Type_id which holds the id of the current
+ * improvement.
+ */
+#define impr_type_iterate(m_i)                                                \
+{                                                                             \
+  Impr_Type_id m_i;                                                           \
+  for (m_i = 0; m_i < game.num_impr_types; m_i++) {
+
+#define impr_type_iterate_end                                                 \
+  }                                                                           \
+}
+
 #endif  /* FC__IMPROVEMENT_H */
