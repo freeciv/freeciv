@@ -2,7 +2,7 @@
 # This translation is covered by the GNU General Public License Version 2.
 # Copyright (C) 1999-2002
 #
-# Current translator: Andreas Røsdal <andrearo@stud.ntnu.no>, update to 1.13
+# Current translator: Andreas Røsdal <andrearo@stud.ntnu.no>
 # Past translator: Stig E Sandø <stig@ii.uib.no>, 1999-2001.
 #
 # Feedback and patches provided by:
@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.13\n"
 "POT-Creation-Date: 2002-06-23 11:10+0000\n"
-"PO-Revision-Date: 2002-06-23 22:21+0000\n"
+"PO-Revision-Date: 2002-06-25 09:37+0000\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2609,6 +2609,7 @@ msgstr "Karthøyde i kvadrat"
 msgid "Method used to generate map"
 msgstr "Metode brukt for å generere kart"
 
+# Er det et norsk ord for scenario???
 #: server/stdinhand.c:224
 msgid ""
 "1 = standard, with random continents;\n"
@@ -6590,7 +6591,7 @@ msgstr "Byforvaltning: Du mistet kontrollen over %s. Fjernes fra byen."
 #, c-format
 msgid "CMA: The agent can't fulfill the requirements for %s. Passing back control."
 msgstr ""
-"bYFORVALTNING: Agenten kan ikke oppfylle kravene for %s. Gir kontrollen "
+"Byforvaltning: Agenten kan ikke oppfylle kravene for %s. Gir kontrollen "
 "tilbake."
 
 #: client/agents/cma_core.c:1761
@@ -8956,7 +8957,7 @@ msgstr "_Finn by"
 #: client/gui-gtk-2.0/menu.c:587 client/gui-gtk/menu.c:586
 #: client/gui-win32/menu.c:293
 msgid "Work_lists"
-msgstr "Arbeids_Liste"
+msgstr "Arbeids_liste"
 
 #: client/gui-gtk-2.0/menu.c:591 client/gui-gtk/menu.c:590
 #: client/gui-win32/menu.c:295
@@ -11072,7 +11073,7 @@ msgstr "Nytt Spill"
 
 #: client/gui-win32/connectdlg.c:1206
 msgid "Load Game"
-msgstr "Hent spill"
+msgstr "Hent lagret spill"
 
 #: client/gui-win32/connectdlg.c:1207
 msgid "Load Scenario"
@@ -11080,7 +11081,7 @@ msgstr "Hent Scenario"
 
 #: client/gui-win32/connectdlg.c:1209
 msgid "Join Game"
-msgstr "Bli med på et spill"
+msgstr "Koble til en server"
 
 #: client/gui-win32/connectdlg.c:1210
 msgid "Quit Game"
@@ -11108,7 +11109,7 @@ msgstr "Skattenivå"
 
 #: client/gui-win32/menu.c:323
 msgid "Transf_orm to Hills"
-msgstr "Endre til åser"
+msgstr "En_dre til åser"
 
 #: client/gui-win32/menu.c:895 client/gui-xaw/menu.c:161
 #, c-format
@@ -11119,9 +11120,10 @@ msgstr "Endre til %s"
 msgid "Goto location"
 msgstr "Gå til"
 
+# Endret til etterretning, var før Intelligens
 #: client/gui-win32/plrdlg.c:386 data/Freeciv:3129
 msgid "Intelligence"
-msgstr "Intelligens"
+msgstr "Etterretning"
 
 #: client/gui-win32/plrdlg.c:387 data/Freeciv:3137
 msgid "Meet"
@@ -11783,7 +11785,7 @@ msgid ""
 "hostname and port number (5555 by default). If the server is started with "
 "the -m flag, it will report to the metaserver,"
 msgstr ""
-"Innen et spill er satt i gang kan hvem som helt koble til serveren ved å "
+"Innen et spill er satt i gang kan hvem som helst koble til serveren ved å "
 "angi sitt hostname og port (5555 standard). Hvis serveren startes med -m "
 "flagget, vil den rapportere seg til metaserveren."
 
@@ -11910,44 +11912,43 @@ msgstr ""
 "  f: befest enhet (krigsenheter)\n"
 "  g: (g)å til (venstreklikk deretter på målet)\n"
 "  h: endre (h)jemby (til byen på nåværende plass)\n"
-"  h: ändra (h)emstad (till staden på nuvarande plats)\n"
-"  i: bygg bevattn(i)ng/åkerland (bosättarenheter, kan omvandla landskapet)\n"
-"  l: gå/f(l)yg till stad\n"
-"  L: öppna arbets(L)istedialogen\n"
-"  m: bygg gruva (bosättarenheter, kan omvandla landskapet)\n"
-"  n: rensa radioaktivt (n)edfall\n"
-"  N: utlös kär(N)vapen\n"
-"  o: (o)mvandla landskap\n"
-"  p: rensa förorening (bosättarenheter)\n"
-"  p: ho(p)pa fallskärm (fallskärmsenheter)\n"
-"  P: (P)lundra landskapsförändring\n"
-"  q: vaktrunda (vänsterklicka sedan på målet)\n"
-"  r: bygg väg/jä(r)nväg (bosättarenheter)\n"
-"  r: in(r)ätta handelsväg (karavanenheter)\n"
-"  R: driv fram en (R)evolution\n"
-"  s: (s)ätt enhet på vakt\n"
-"  t: visa ru(t)or som stad använder (muspekaren ovanför eller nära stad)\n"
-"  T: öppna ska(T)te-/överflöds-/forskningssatsdialogen\n"
-"  u: lasta (u)r båt\n"
-"  w: vänta till senare denna omgång\n"
-"  W: väck andra enheter på denna ruta\n"
-"  x: utforska självständigt\n"
+"  i: bygg irrigasjon/dyrket land (nybyggere kan endre landskapet)\n"
+"  l: gå/f(l)y til en by\n"
+"  L: åpne arbeidslisten\n"
+"  m: bygge gruve (nybyggere kan endre landskapet)\n"
+"  n: rense radioaktivt avfall\n"
+"  N: utløse atomvåpen\n"
+"  o: endre landskapet\n"
+"  p: rense forurensning (nybyggere)\n"
+"  p: hoppe i fallskjerm (fallskjermhoppere)\n"
+"  P: plyndre landskapsforbedring\n"
+"  q: gå vaktrunde (venstreklikk deretter på målet)\n"
+"  r: bygg vei/jernbane (nybyggere)\n"
+"  r: opprette handelsrute (karavanenheter)\n"
+"  R: ha en (R)evolusjon\n"
+"  s: (s)ette enhet på vakt\n"
+"  t: vise ruter som byen bruker (muspeker over eller nær byen)\n"
+"  T: åpne ska(T)te-/luksus-/forsknings-dialogen\n"
+"  U: laste (u)t av båt\n"
+"  w: vente til senere i samme runde\n"
+"  W: vekk andre enheter på denne ruten\n"
+"  x: utforske selvstendig\n"
 "\n"
-"  1: flytta sydväst                   F1: öppna stadsredogörelse\n"
-"  2: flytta syd                       F2: öppna enhetsredogörelse\n"
-"  3: flytta sydost                    F3: öppna spelardialog\n"
-"  4: flytta väst                      F5: öppna ekonomiredogörelse\n"
-"  5: fokusera på nästa enhet          F6: öppna forskningsredogörelse\n"
-"  6: flytta ost                       F7: öppna världsunder\n"
-"  7: flytta nordväst                  F8: öppna de 5 bästa städerna\n"
-"  8: flytta nord                     F10: öppna meddelandedialog\n"
-"  9: flytta nordost                  F11: öppna demografi\n"
-"                                     F12: öppna rymdskepp\n"
+"  1: flytte sørvest                   F1: åpne By rapporten\n"
+"  2: flytte sør                       F2: åpne Enhet rapporten\n"
+"  3: flytte sørøst                    F3: åpne Spillere dialogen\n"
+"  4: flytte vest                      F5: åpne økonomi rapporten\n"
+"  5: fokusere på neste enhet          F6: åpne forsknings rapporten\n"
+"  6: flytte øst                       F7: åpne Verdens Underverker\n"
+"  7: flytte nordvest                  F8: åpne de 5 beste byene\n"
+"  8: flytte nord                     F10: åpne Meldinger dialogen\n"
+"  9: flytte nordøst                  F11: åpne demografi\n"
+"                                     F12: åpne Romkappløp\n"
 "\n"
-"       pilar: flytta enhet              Control-g: rutnät på/av\n"
-"   blanksteg: låt enhet stå kvar        Control-n: stadsnamn på/av\n"
-"         tab: fokusera på nästa enhet   Control-p: stadstillverkning på/av\n"
-"return/Enter: avsluta omgång"
+"       piler: flytte enhet              Control-g: rutenett av/på\n"
+"   mellomrom: la enheten bli stående        Control-n: bynavn av/på\n"
+"         tab: fokusere på neste enhet   Control-p: by produksjon av/på\n"
+"return/Enter: avslutte runde"
 
 #: data/helpdata.txt:496
 msgid ""
@@ -12084,6 +12085,14 @@ msgid ""
 "site you find against getting your first city established as early as "
 "possible."
 msgstr ""
+" 0. Velge plassen til den første byen.\n"
+"\n"
+"     Start spillet med å gå LITT omkring for å finne et bra sted å bygge den "
+"første byen. Ikke bli fristet til å utforske hyttene enda - de kan inneholde "
+"barbarer. Bygg byen i nærheten av ressurser og kanskje i nærheten av sjøen. "
+"Husk at den første byen du bygger blir hovedstaden! Poenget er å "
+"balansere kvaliteten av stedet du finner mot å få etablert den føste "
+"byen så tidlig som mulig."
 
 #: data/helpdata.txt:560
 msgid ""
@@ -12096,6 +12105,14 @@ msgid ""
 "If you started the game with an explorer unit, use that to explore, "
 "obviously!"
 msgstr ""
+" 1. Utforske landområdet.\n"
+"\n"
+"     Etter at hovedstaden er grunnlagt vil den bygge en krigerenhet. "
+"Disse enhetene kan brukes til å flytte rundt for å utforske landområdet "
+"rundt byen. Husk at det er risikabelt å forlate byen uten forsvar, "
+"så du burde kanskje beholde den første krigeren i byen, og bruke "
+"den neste til å utforske med. Dersom du startet spillet "
+"med en utforsker enhet kan du selvfølgelig bruke den til å utforske med!"
 
 #: data/helpdata.txt:569
 msgid ""
@@ -12107,6 +12124,14 @@ msgid ""
 "defense.  The units most often used for defense are (in order of strength):  "
 "Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
+" 2. Forsvare byene.\n"
+"\n"
+"    Nå er det på tide å forsvare byene dine, ved alltid å "
+"ha en krigerenhet til å forsvare byen. Etterhvert som sivilisasjonen "
+"utvikler enheter med bedre forsvarsstyrke, så kan du erstatte de "
+"gamel enhetene med nye for å forsikre at byene har "
+"best mulig forsvar. Enhetene som oftest blir brukt "
+"til forsvar (sortert etter styrke): kriger, Falanks, Spydbærere, Musketerer og Riflemenn."
 
 #: data/helpdata.txt:579
 #, no-c-format
@@ -12117,6 +12142,11 @@ msgid ""
 "When a new city is built, the city starts to build the best available "
 "defensive unit from the above list."
 msgstr ""
+"      Husk at med enkelte styresett så kan millitære enheter "
+"inni eller utenfor byer redusere eller øke lykkeligheten i byen. "
+"Dessuten, når en enhet er inne i en by, får den 50% forsvars bonus, som "
+"om den var befestet. Når en ny by blir bygget, begynner byen å alltid "
+"å bygge den beste tilgjengelige forsvarsenheten fra listen over."
 
 #: data/helpdata.txt:586
 msgid ""
@@ -12130,6 +12160,15 @@ msgid ""
 "that a large population increases both the amount of productivity and your "
 "civilization's research rate."
 msgstr ""
+"  3. Bestemme hvilke enheter som første skal bygges.\n"
+"\n"
+"      Etter du har bygget et par krigerenheter, så kan du bygge nybyggere. "
+"Den andre nybyggeren kan brukes til å bygge veier eller irrigere "
+"det dyrkede landet i nærheten av byen, og den tredje kan brukes til å "
+"bygge en ny by. Eller du kan bruke den andre nybyggeren til "
+"å bygge ne ny by, og den tredje nybyggeren til jordbruksforbedringer. "
+"Husk at en stor befolkning øker produktiviteten og sivilisasjonens "
+"forskningsfart."
 
 #: data/helpdata.txt:597
 msgid ""
@@ -12140,6 +12179,12 @@ msgid ""
 "Settlers to improve the farmland. The land can be improved with roads, "
 "irrigation, mines, and others."
 msgstr ""
+" 4. Bygge jordbruksforbedringer.\n"
+"\n"
+"     Hver by har et område rundt seg som kan brukes til å dyrke "
+"mat, produsere varer og generere handel. Dette kan økes "
+"ved å bruke en nybygger til å forbedre landskapet. "
+"Landet kan forbedres med veier, irrigasjon, gruver og annet."
 
 #: data/helpdata.txt:605
 msgid ""
@@ -12152,6 +12197,14 @@ msgid ""
 "your opponents will find it harder to locate your city if you don't build it "
 "by the sea."
 msgstr ""
+" 5. Å Avgjøre hvor man skal bygge byer.\n"
+"\n"
+"     Den beste plasseringen for en by er det din egen smak som styrer. "
+"En by plassert nær sjøen er enklere å oppdage av motstandere, "
+"men kan også fungere som havn for sjøgående enheter. "
+"(De trenger vanligvis kystforsvar senere i spillet.) Den beste strategien "
+"er å bygge et par av begge, men husk at dine motstandere vil har vanskeligere "
+"for å finne byene dine dersom du ikke bygger de i nærheten av havet."
 
 #: data/helpdata.txt:614
 msgid ""
@@ -12164,6 +12217,14 @@ msgid ""
 "the start of the game, care should be taken to ensure that the citizens are "
 "employed so that they maximise growth, trade and production."
 msgstr ""
+" 6. Å ta hånd om byene.\n"
+"\n"
+"     Hver by har en rekke borgere. Antallet borgere "
+"avhenger av byens innbyggertall. Når du klikker på en by, "
+"så kan du se hvordan den dyrkede maken rundt byen blir brukt. "
+"Du kan sette borgerne til å drive jordbruk, eller de kan være foskere, underholdere "
+"eller skattefuter. Spessielt i starten av spillet er det viktig at innbyggerne "
+"jobber slik at de øker veksten, handelen og produksjonen."
 
 #: data/helpdata.txt:624
 msgid ""
@@ -12171,6 +12232,9 @@ msgid ""
 "farmland by clicking on the occupied farmland square.  This citizen can then "
 "be transferred to the other duties mentioned previously."
 msgstr ""
+"   Hvis det blir produsert for mye mat kan en borger bli tatt av "
+"landskapet ved å klikke på den okkuperte ruten. Denne borgeren "
+"kan deretter bli overført til en av de andre oppgavene som nevnt tidligere."
 
 #: data/helpdata.txt:629
 msgid ""
@@ -12178,6 +12242,9 @@ msgid ""
 "central tile of the farmland, the citizens will be rearranged to maximise "
 "food production."
 msgstr ""
+"    Dersom du flytter alle dine borgere inn til byen og høyreklikker på "
+"den sentrum av jordbuks landet, så vil borgerne bli flyttet rundt "
+"for å maksimere matproduksjonen."
 
 #: data/helpdata.txt:635
 msgid ""
@@ -12186,6 +12253,10 @@ msgid ""
 "so is labelled with a lightning bolt.  Take care not to let this happen to "
 "any of your cities, as unhappy cities produce nothing, and will soon revolt."
 msgstr ""
+"     NB! Det burde være minst så mange lykkelige borgere som ulykkelige "
+"borgere. En by hvor det ikke er slik blir merket med en lynstråle. "
+"Vær forsiktig og la ikke det skje i noen av dine byer, for ulykkelige "
+"innbyggere produserer ingen ting og vil raskt gjøre opprør."
 
 #: data/helpdata.txt:641
 msgid ""
@@ -12198,6 +12269,15 @@ msgid ""
 "it is truly a good idea to make a peace treaty and share the advances you "
 "have made. Diplomatic units are very useful here, and WILL pay off later."
 msgstr ""
+" 7. Utforske verden.\n"
+"\n"
+"     Etter at du har forsvart dine byer med tropper, bygg "
+"triremer i byene i nærheten av sjøen. Bruk triremer for å kartlegge verden "
+"i søken etter motstandere og nytt land. Dersom du er på ei øy, burde du "
+"bruke mindre tid på millitæret og mer tid på ekspansjon. "
+"Eller hvis du er plassert i nærheten av en motstander, "
+"er det en god ide å inngå en fredsavtale og dele de fremskrittene dere har gjørdt. "
+"Diplomat enheter er nyttige her, og VIL lønne seg senere."
 
 #: data/helpdata.txt:651
 msgid ""
@@ -12211,6 +12291,15 @@ msgid ""
 "\n"
 "  - Some wonders can be made obsolete by the development of certain advances."
 msgstr ""
+" 8. Ting å huske på.\n"
+"\n"
+"  - Hva som er det neste fremskrittet du trenger.\n"
+"\n"
+"  - Hva din skatt, luksus og forskningsrate er satt til nå.\n"
+"\n"
+"  - Avtaker blir ofte brutt, så ikke glem forsvar....\n"
+"\n"
+"  - Noen underverk blir foreldet ved oppdagelsen av enkelte fremskritt."
 
 #: data/helpdata.txt:662
 msgid ""
@@ -12224,6 +12313,15 @@ msgid ""
 "You'll find more tips for playing, and details of how to contact other "
 "players."
 msgstr ""
+"9. Lag din egen strategi for spillet.\n"
+"\n"
+"     Disse enkle konseptene lar deg spille spillet ganske bra, "
+"spessielt i begynnelsen av spillet. Men for å bli bedre må du studere "
+"de ulike enhetene og fremskrittene, og ØVELSE GJØR MESTER! "
+"Freeciv har mange muligheter, så hvis du ikke har prøvd et lignende spill "
+"før, så bør du sjekke Freevic WWW siden på http://www.freeciv.org/\n"
+"Der finner du flere tips for å spille, og dessuten detaljer for "
+"hvordan du kontakter andre spillere."
 
 #: data/helpdata.txt:673
 msgid ""
@@ -12233,6 +12331,12 @@ msgid ""
 "additional diplomacy that you can take part in with other humans - and no, "
 "we are not talking about using spies and diplomats to incite and steal."
 msgstr ""
+" 10. Samarbeid med andre spillere (Diplomati).\n"
+"\n"
+"     Mennesker og AI er ulike på mange måter, men "
+"den viktigste forskjellen er diplomatiet som du kan "
+"ha med andre mennesker - og det er ikke bare snakk om å "
+"burke spioner og diplomater til å infiltrere og stjele."
 
 #: data/helpdata.txt:680
 msgid ""
@@ -12242,6 +12346,11 @@ msgid ""
 "you actually have an embassy (denoted by an X) and the other player is "
 "connected then a diplomacy menu will pop up."
 msgstr ""
+"      Dersom du har opprettet en ambassade hos en annen menneskelig "
+"spillet så kan du arrangere en diplomatisk møte. Dette gjøres "
+"ved å gå til 'Spill' menyen, og velge spillere og klikke på den spilleren som du ønsker "
+"å møte. Dersom du virkelig har en ambassade (meket med en X) og "
+"den andre spilleren er tilkoblet så vil en diplomati meny vises."
 
 #: data/helpdata.txt:687
 msgid ""
@@ -13066,6 +13175,10 @@ msgid ""
 "allegiance to a new (AI) leader, who will loot half of your treasury and "
 "retain all of your scientific advances."
 msgstr ""
+"Borgerkrig er ødeleggende for ethvert rike, og utløses ved tap av "
+"din hovedstad (palass). Opp til halvparten av dine byer vil gjøre "
+"opprør og inngå allianse med en ny (AI) leder, som vil "
+"røve halvparten av pengene dine og ta alle de vitenskapelige fremskrittene."
 
 #: data/helpdata.txt:1241
 msgid ""
@@ -13333,6 +13446,8 @@ msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
 msgstr ""
+"Øker forsvarsstyrken til enheter i byen med 2 når de forsvarer "
+"mot bombardement fra fiendtlige skip."
 
 #: data/civ1/buildings.ruleset:309 data/civ2/buildings.ruleset:290
 #: data/default/buildings.ruleset:481
@@ -13344,6 +13459,8 @@ msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)"
 msgstr ""
+"Underholder innbyggerne i byen, gjør 3 ulykkelige borgere fornøyd. "
+"(Fire etter oppdagelsen av elektrisitet.)"
 
 #: data/civ1/buildings.ruleset:333 data/civ2/buildings.ruleset:316
 #: data/default/buildings.ruleset:509
@@ -13357,6 +13474,9 @@ msgid ""
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
 msgstr ""
+"Reduserer korrupsjonen i en by med 50%. Under et demokrati vil "
+"et rettshus gjør en ulykkelig borger fornøyd. Dessuten halveres den effektive "
+"avstanden til hovedstaden, med hensikt i å kalkulere opprørskostnader."
 
 #: data/civ1/buildings.ruleset:362 data/civ2/buildings.ruleset:345
 #: data/default/buildings.ruleset:538
@@ -13382,6 +13502,9 @@ msgid ""
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
 msgstr ""
+"Med kornlager blir mengden lagret mat satt til halvparten av maks når "
+"en by vokser eller minker. Dette hjelper en by å vokse raskere og "
+"enkere motstå sult."
 
 #: data/civ1/buildings.ruleset:416 data/civ2/buildings.ruleset:399
 #: data/default/buildings.ruleset:592
@@ -13489,6 +13612,8 @@ msgid ""
 "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs "
 "to be coastal to build this improvement."
 msgstr ""
+"Legger til 1 ekstra skjold ressurs på alle sjøruter i byen. "
+"Byen må være en kystby for å bygge denne forbedringen."
 
 #: data/civ1/buildings.ruleset:641 data/civ2/buildings.ruleset:628
 #: data/default/buildings.ruleset:828
@@ -13520,6 +13645,9 @@ msgid ""
 "Democracy and 1 under Republic.  This improvement has no effect under other "
 "governments."
 msgstr ""
+"Reduserer ulykkeligheten som skapes av millitære enheter utenfor "
+"byen med 2 under demokrati og 1 under republikk. Denne forbedringen "
+"har ingen effekt under andre styresett."
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:689
 #: data/default/buildings.ruleset:892
@@ -13603,6 +13731,8 @@ msgid ""
 "have no effect on the city.  Also, doubles defence against non-nuclear "
 "missiles."
 msgstr ""
+"Beskytter en by mot angrep fra atomenheter. "
+"Atomangrep har ingen effekt i byen. Og den dobler forsvaret mot ikke-atombaserte missiler."
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:856
 #: data/default/buildings.ruleset:1063
@@ -13720,6 +13850,9 @@ msgid ""
 "used around the city.  Farmland squares are those which have been irrigated "
 "a second time."
 msgstr ""
+"Øker matressursene med 50% på hver rute med dyrket mark som blir brukt "
+"rundt byen. Dyrket mark er de rutene som har blitt "
+"irrigert en ekstra gang."
 
 #: data/civ1/buildings.ruleset:1107 data/civ2/buildings.ruleset:1098
 #: data/default/buildings.ruleset:1310
@@ -13749,6 +13882,8 @@ msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
 msgstr ""
+"Sammen med bibliotek, vil et universitet øke forskningsproduksjonen "
+"i en by med 100%."
 
 #: data/civ1/buildings.ruleset:1160 data/civ2/buildings.ruleset:1151
 #: data/default/buildings.ruleset:1363
@@ -13772,7 +13907,7 @@ msgstr "Adam Smiths Handelsselskap"
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
-msgstr ""
+msgstr "Byforbedringer som normalt vil ha utgifter på 1 vil bli gratis i alle byer."
 
 #: data/civ1/buildings.ruleset:1210 data/civ2/buildings.ruleset:1203
 #: data/default/buildings.ruleset:1415
@@ -13785,6 +13920,8 @@ msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
 msgstr ""
+"Hver rute rundt byen som underverket er bygget som allerede "
+"genererer noe handel produserer en ekstra handelsressurs."
 
 #: data/civ1/buildings.ruleset:1235 data/civ2/buildings.ruleset:1228
 #: data/default/buildings.ruleset:1440
@@ -13795,7 +13932,7 @@ msgstr "Copernicus observatorium"
 #: data/default/buildings.ruleset:1460
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
-msgstr ""
+msgstr "Øker forskningsproduksjonen med 50% i byen den er bygget."
 
 #: data/civ1/buildings.ruleset:1260 data/civ2/buildings.ruleset:1253
 #: data/default/buildings.ruleset:1465
@@ -13808,6 +13945,8 @@ msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
 msgstr ""
+"Denne imponerende teknologiske prestasjonen gjør en ulykkelig "
+"borger fornøyd i alle byer."
 
 #: data/civ1/buildings.ruleset:1285 data/civ2/buildings.ruleset:1278
 #: data/default/buildings.ruleset:1492
