@@ -1065,7 +1065,7 @@ static struct unit *ai_military_rampage(struct unit *punit, int threshold)
     ai_unit_attack(punit, x, y);
     punit = find_unit_by_id(id);
   }
-  if (count == 0) {
+  if (count <= 0) {
     UNIT_LOG(LOG_ERROR, punit, "infinite loop averted");
   }
   return punit;
