@@ -1140,7 +1140,6 @@ PACKET_RULESET_BUILDING=104;sc,lsend
   IMPR_RANGE equiv_range;
   UINT16 build_cost;
   UINT8 upkeep, sabotage;
-  UINT8 variant;		/* FIXME: remove when gen-impr obsoletes */
   STRING soundtag[MAX_LEN_NAME];
   STRING soundtag_alt[MAX_LEN_NAME];
   STRING helptext[MAX_LEN_PACKET];

@@ -181,7 +181,6 @@ effect		=
       "Sea_Veteran"
       "Air_Veteran"
     }
-variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "b_barracks_i"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -305,7 +304,6 @@ effect		=
       "Sea_Defend", 200, "Defenders"
       "Unit_No_Lose_Pop"
     }
-variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "b_city_walls"
 sound_alt	= "b_generic"
 helptext	= _("\
@@ -1233,7 +1231,6 @@ effect		=
       "Prod_Bonus", "Continent", 50, "Generators"
       "Pollu_Prod_Pct", "Continent", -50, "Janitors"
     }
-variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "w_hoover_dam"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1295,7 +1292,6 @@ effect		=
     { "name", "range", "value"
       "Force_Content", "Continent", 2
     }
-variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "w_js_bachs_cathedral"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1353,7 +1349,6 @@ effect		=
     { "name", "range", "value"
       "Sea_Move", "Player", 1
     }
-variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "w_magellans_expedition"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1405,7 +1400,6 @@ effect		=
     { "name", "value", "req_type", "req"
       "Make_Content", 4, "Building", "Cathedral"
     }
-variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "w_michelangelos_chapel"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1459,7 +1453,6 @@ effect		=
       "Any_Government", "Player"
       "No_Anarchy", "Player"
     }
-variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "w_pyramids"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1542,7 +1535,6 @@ effect		=
       "Any_Government", "Player"
       "No_Anarchy", "Player"
     }
-variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "w_united_nations"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1576,7 +1568,6 @@ effect		=
     { "name", "range", "value"
       "Make_Content_Mil_Per", "Player", 1
     }
-variant		= 1		; FIXME: remove when gen-impr obsoletes
 sound		= "w_womens_suffrage"
 sound_alt	= "w_generic"
 helptext	= _("\
@@ -1620,8 +1611,6 @@ aqueduct_size=10;
 default="Capitalization"
 
 ; FIXME: remove all of the following when gen-impr implemented...
-
-sewer_size=99;
 
 ; Techs which modify building effects:
 

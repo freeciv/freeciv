@@ -243,14 +243,6 @@ Impr_Type_id find_improvement_by_name_orig(const char *s)
 }
 
 /**************************************************************************
-FIXME: remove when gen-impr obsoletes
-**************************************************************************/
-int improvement_variant(Impr_Type_id id)
-{
-  return improvement_types[id].variant;
-}
-
-/**************************************************************************
  Returns 1 if the improvement is obsolete, now also works for wonders
 **************************************************************************/
 bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id) 

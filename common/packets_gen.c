@@ -23922,7 +23922,7 @@ void lsend_packet_ruleset_city(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_building_100 cmp_const
 
-BV_DEFINE(packet_ruleset_building_100_fields, 25);
+BV_DEFINE(packet_ruleset_building_100_fields, 24);
 
 static struct packet_ruleset_building *receive_packet_ruleset_building_100(struct connection *pc, enum packet_type type)
 {
@@ -24029,23 +24029,15 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
     }
   }
   if (BV_ISSET(fields, 13)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->variant = readin;
-    }
-  }
-  if (BV_ISSET(fields, 14)) {
     dio_get_string(&din, real_packet->soundtag, sizeof(real_packet->soundtag));
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
     dio_get_string(&din, real_packet->soundtag_alt, sizeof(real_packet->soundtag_alt));
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 15)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 16)) {
     {
       int readin;
     
@@ -24053,7 +24045,7 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
       real_packet->terr_gate_count = readin;
     }
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 17)) {
     
     {
       int i;
@@ -24072,7 +24064,7 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
       }
     }
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 18)) {
     {
       int readin;
     
@@ -24080,7 +24072,7 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
       real_packet->spec_gate_count = readin;
     }
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 19)) {
     
     {
       int i;
@@ -24099,7 +24091,7 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
       }
     }
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 20)) {
     {
       int readin;
     
@@ -24107,7 +24099,7 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
       real_packet->equiv_dupl_count = readin;
     }
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 21)) {
     
     {
       int i;
@@ -24126,7 +24118,7 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
       }
     }
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 22)) {
     {
       int readin;
     
@@ -24134,7 +24126,7 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
       real_packet->equiv_repl_count = readin;
     }
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 23)) {
     
     {
       int i;
@@ -24239,25 +24231,21 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 12);}
 
-  differ = (old->variant != real_packet->variant);
+  differ = (strcmp(old->soundtag, real_packet->soundtag) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 13);}
 
-  differ = (strcmp(old->soundtag, real_packet->soundtag) != 0);
+  differ = (strcmp(old->soundtag_alt, real_packet->soundtag_alt) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 14);}
 
-  differ = (strcmp(old->soundtag_alt, real_packet->soundtag_alt) != 0);
+  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 15);}
 
-  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
-
   differ = (old->terr_gate_count != real_packet->terr_gate_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
+  if(differ) {BV_SET(fields, 16);}
 
 
     {
@@ -24273,11 +24261,11 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
+  if(differ) {BV_SET(fields, 17);}
 
   differ = (old->spec_gate_count != real_packet->spec_gate_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
+  if(differ) {BV_SET(fields, 18);}
 
 
     {
@@ -24293,11 +24281,11 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 19);}
 
   differ = (old->equiv_dupl_count != real_packet->equiv_dupl_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 20);}
 
 
     {
@@ -24313,11 +24301,11 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(differ) {BV_SET(fields, 21);}
 
   differ = (old->equiv_repl_count != real_packet->equiv_repl_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 22);}
 
 
     {
@@ -24333,7 +24321,7 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 24);}
+  if(differ) {BV_SET(fields, 23);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -24379,21 +24367,18 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
     dio_put_uint8(&dout, real_packet->sabotage);
   }
   if (BV_ISSET(fields, 13)) {
-    dio_put_uint8(&dout, real_packet->variant);
-  }
-  if (BV_ISSET(fields, 14)) {
     dio_put_string(&dout, real_packet->soundtag);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
     dio_put_string(&dout, real_packet->soundtag_alt);
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_string(&dout, real_packet->helptext);
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 16)) {
     dio_put_uint8(&dout, real_packet->terr_gate_count);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 17)) {
   
     {
       int i;
@@ -24403,10 +24388,10 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
       }
     } 
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint8(&dout, real_packet->spec_gate_count);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 19)) {
   
     {
       int i;
@@ -24416,10 +24401,10 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
       }
     } 
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 20)) {
     dio_put_uint8(&dout, real_packet->equiv_dupl_count);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 21)) {
   
     {
       int i;
@@ -24429,10 +24414,10 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
       }
     } 
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 22)) {
     dio_put_uint8(&dout, real_packet->equiv_repl_count);
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 23)) {
   
     {
       int i;

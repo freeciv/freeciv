@@ -893,7 +893,6 @@ struct packet_ruleset_building {
   int build_cost;
   int upkeep;
   int sabotage;
-  int variant;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];
   char helptext[MAX_LEN_PACKET];

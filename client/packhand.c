@@ -2266,7 +2266,6 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;
-  b->variant = p->variant;	/* FIXME: remove when gen-impr obsoletes */
   b->helptext = mystrdup(p->helptext);
   sz_strlcpy(b->soundtag, p->soundtag);
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);

@@ -2091,8 +2091,6 @@ default="Capitalization"
 
 ; FIXME: remove all of the following when gen-impr implemented...
 
-sewer_size=12
-
 ; Techs which modify building effects:
 
 cathedral_plus="Theology"

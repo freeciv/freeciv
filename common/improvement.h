@@ -75,7 +75,6 @@ struct impr_type {
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;
   int sabotage;		/* Base chance of diplomat sabotage succeeding. */
-  int variant;			/* FIXME: remove when gen-impr obsoletes */
   struct Sprite *sprite;		/* icon of the improvement */
   char *helptext;
   char soundtag[MAX_LEN_NAME];
@@ -101,9 +100,6 @@ int impr_sell_gold(Impr_Type_id id);
 bool is_wonder(Impr_Type_id id);
 const char *get_improvement_name(Impr_Type_id id);
 const char *get_improvement_name_orig(Impr_Type_id id);
-
-/* FIXME: remove improvement_variant() when gen-impr obsoletes */
-int improvement_variant(Impr_Type_id id);  
 
 bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id);
 bool improvement_redundant(struct player *pplayer, const struct city *pcity,

@@ -1409,9 +1409,6 @@ static void load_ruleset_buildings(struct section_file *file)
       }
     }
 
-    /* FIXME: remove when gen-impr obsoletes */
-    b->variant = secfile_lookup_int_default(file, 0, "%s.variant", sec[i]);
-    
     sz_strlcpy(b->graphic_str,
 	       secfile_lookup_str_default(file, "-", "%s.graphic", sec[i]));
     sz_strlcpy(b->graphic_alt,
@@ -2890,7 +2887,6 @@ static void send_ruleset_buildings(struct conn_list *dest)
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
     packet.sabotage = b->sabotage;
-    packet.variant = b->variant;	/* FIXME: remove when gen-impr obsoletes */
     sz_strlcpy(packet.soundtag, b->soundtag);
     sz_strlcpy(packet.soundtag_alt, b->soundtag_alt);
 
