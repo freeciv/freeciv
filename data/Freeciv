@@ -28,8 +28,23 @@ Freeciv*Form.background: LightBlue
 Freeciv*List.foreground: Black
 Freeciv*List.background: Cyan
 
-Freeciv*Text.foreground: Black
-Freeciv*Text.background: White
+Freeciv*Text*foreground: Black
+Freeciv*Text*background: White
+
+Freeciv*SmeBSB.foreground: Black
+Freeciv*SmeBSB.background: White
+
+Freeciv*Scrollbar.foreground: Black
+Freeciv*Scrollbar.background: White
+
+Freeciv*Toggle.foreground: Black
+Freeciv*Toggle.background: White
+
+Freeciv*Canvas.foreground: White
+Freeciv*Canvas.background: Black
+
+Freeciv*Pixcomm.foreground: Black
+Freeciv*Pixcomm.background: White
 
 ! The pixcomm widget doesn't look good with 3d borders
 Freeciv*Pixcomm.shadowWidth: 0
