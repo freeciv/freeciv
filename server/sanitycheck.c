@@ -202,7 +202,14 @@ static void check_units(void) {
 	assert(pcity);
 	assert(city_owner(pcity) == pplayer);
       }
-      assert(can_unit_continue_current_activity(punit));
+
+      if (!can_unit_continue_current_activity(punit)) {
+	freelog(LOG_ERROR, "%s at %d,%d (%s) has activity %s, "
+		"which it can't continue!",
+		unit_types[punit->type].name,
+		x, y, map_get_tile_info_text(x, y),
+		get_activity_text(punit->activity));
+      }
 
       pcity = map_get_city(x, y);
       if (pcity) {
