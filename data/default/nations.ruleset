@@ -1091,7 +1091,7 @@ plural=_("?plural:Sioux")
 leader="Sitting Bull", "Crazy Horse", "Little Crow", "Red Cloud"
 leader_sex="Male", "Male", "Male", "Male"
 flag="f.sioux"
-flag_alt = "-"
+flag_alt = "f.cheyenne"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"

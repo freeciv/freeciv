@@ -64,7 +64,7 @@ tiles = { "row", "column", "tag"
   2,  3, "f.syria"
   2,  4, "f.macedonia"
   2,  5, "f.ukraine"
-  2,  6, "f.sioux"        ; actually Cheyenne...
+  2,  6, "f.cheyenne"
   2,  7, "f.norway"
   2,  8, "f.portugal"
   2,  9, "f.czech"
