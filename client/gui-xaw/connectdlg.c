@@ -308,7 +308,7 @@ static int get_meta_list(char **list, char *errbuf, int n_errbuf)
   AUTOCONNECT_INTERVAL milliseconds.  If anything else goes wrong, log
   a fatal error.
 **************************************************************************/
-static void try_to_autoconnect()
+static void try_to_autoconnect(XtPointer data, XtIntervalId * id)
 {
   char errbuf[512];
   static int count = 0;
@@ -369,6 +369,6 @@ void server_autoconnect()
     exit(EXIT_FAILURE);
   }
 
-  try_to_autoconnect();
+  try_to_autoconnect(NULL, NULL);
   XtSetSensitive(toplevel, True);
 }
