@@ -150,7 +150,7 @@ msgstr ""
 
 #: common/shared.c:620
 msgid "Use a non-privileged account instead.\n"
-msgstr "utilisez un compte non privilégier, à la place.\n"
+msgstr "Utilisez plutôt un compte non privilégié.\n"
 
 #: common/shared.c:635
 msgid "exact match"
@@ -178,7 +178,7 @@ msgstr ""
 
 #: common/shared.c:700
 msgid "'Cause civilization should be free!"
-msgstr ""
+msgstr "Car la civilisation devrait être libre !"
 
 #: common/support.c:112
 #, c-format
@@ -187,7 +187,7 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #: common/unit.c:671
 msgid " and "
-msgstr "et"
+msgstr " et "
 
 #: client/gui-gtk/plrdlg.c:81 common/unit.c:849
 msgid "Idle"
@@ -237,73 +237,65 @@ msgid "Moves"
 msgstr "Mouvements"
 
 #: common/version.c:26
-#, fuzzy
 msgid "January"
-msgstr "Grenier"
+msgstr "janvier"
 
 #: common/version.c:27
-#, fuzzy
 msgid "February"
-msgstr "Bibliothèque"
+msgstr "février"
 
 #: common/version.c:28
-#, fuzzy
 msgid "March"
-msgstr "Monarchie"
+msgstr "mars"
 
 #: common/version.c:29
 msgid "April"
-msgstr ""
+msgstr "avril"
 
 #: common/version.c:30
-#, fuzzy
 msgid "May"
-msgstr "Maçonnerie"
+msgstr "mai"
 
 # AR
 #: common/version.c:31
-#, fuzzy
 msgid "June"
-msgstr "Jungle"
+msgstr "juin"
 
 # AR
 #: common/version.c:32
-#, fuzzy
 msgid "July"
-msgstr "Jungle"
+msgstr "juillet"
 
 #: common/version.c:33
 msgid "August"
-msgstr ""
+msgstr "août"
 
 #: common/version.c:34
-#, fuzzy
 msgid "September"
-msgstr "Prêcheur"
+msgstr "septembre"
 
 #: common/version.c:35
-#, fuzzy
 msgid "October"
-msgstr "Bombardier"
+msgstr "octobre"
 
 #: common/version.c:36
-#, fuzzy
 msgid "November"
-msgstr "Bombardier"
+msgstr "novembre"
 
 #: common/version.c:37
 msgid "December"
-msgstr ""
+msgstr "décembre"
 
 #: common/version.c:49
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
 "Freeciv %s will be released in\n"
 "%s, at %s"
 msgstr ""
 "CECI EST UNE VERSION BETA\n"
-"Freeciv 1.9 sortira en début octobresur http://www.freeciv.org"
+"Freeciv %s sortira en\n"
+"%s sur %s"
 
 #: server/barbarian.c:423
 #, c-format
@@ -641,14 +633,12 @@ msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port N\t\tse connecter au port N\n"
 
 #: server/civserver.c:247
-#, fuzzy
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
-msgstr "  -g, --gamelog F\tUtiliser F comme fichier journal de jeu\n"
+msgstr "  -g, --gamelog FICHIER\tSauver les logs dans FICHIER\n"
 
 #: client/civclient.c:106 server/civserver.c:248
-#, fuzzy
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
-msgstr "  -l, --log=FILE\tUtiliser FILE comme fichier journal.\n"
+msgstr "  -l, --log FICHIER\tSauver les messages dans FICHIER\n"
 
 #: server/civserver.c:249
 #, fuzzy
@@ -674,9 +664,8 @@ msgstr ""
 "3:fichier1,min,max:...)\n"
 
 #: client/civclient.c:119 server/civserver.c:256
-#, fuzzy
 msgid "  -d, --debug NUM\tSet debug log level (0,1,2)\n"
-msgstr "  -d, --debug N\t\tDéfinir le niveau de débogage (0,1,2)\n"
+msgstr "  -d, --debug N\t\tChoisir le niveau de débogage (0, 1 ou 2)\n"
 
 #: client/civclient.c:121 server/civserver.c:258
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -3502,7 +3491,7 @@ msgstr ""
 #: server/unithand.c:666 server/unithand.c:674 server/unithand.c:680
 #, c-format
 msgid "Game: You found %d credits."
-msgstr ""
+msgstr "Jeu: Vous venez de trouver %d crédits."
 
 #: server/unithand.c:688
 msgid "Game: You found ancient scrolls of wisdom."
@@ -3804,35 +3793,29 @@ msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Stock,Objectif,Coût de l'achat"
 
 #: client/civclient.c:107
-#, fuzzy
 msgid "  -n, --name NAME\tUse NAME as name\n"
-msgstr "  -name N\tUtiliser N comme nom\n"
+msgstr "  -n, --name NOM\tChoisir NOM comme nom\n"
 
 #: client/civclient.c:108
-#, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
-msgstr "  -p, --port N\t\tse connecter au port N\n"
+msgstr "  -p, --port PORT\tSe connecter au port PORT\n"
 
 #: client/civclient.c:109
-#, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
-msgstr "  -server S\tSe connecter au serveur S\n"
+msgstr "  -s, --server MACHINE\tSe connecter au serveur MACHINE\n"
 
 #: client/civclient.c:110
-#, fuzzy
 msgid "  -t, --tiles DIR\tLook in data subdirectory DIR for tiles\n"
 msgstr ""
-"  -tiles D\tChercher les dessins des cases dans le sous-répertoire de "
-"données D\n"
+"  -t, --tiles REP\tChercher les graphiques dans le sous-répertoire REP\n"
 
 #: client/civclient.c:112
 msgid "  -s, --sound FILE\tRead sound information from FILE\n"
 msgstr ""
 
 #: client/civclient.c:114
-#, fuzzy
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
-msgstr "  -metaserver A\tse connecter au metaserveur A\n"
+msgstr "  -m, --meta MACHINE\tSe connecter au metaserveur MACHINE\n"
 
 #: client/civclient.c:143
 #, fuzzy, c-format
@@ -4424,7 +4407,7 @@ msgstr ""
 #: client/options.c:105
 #, fuzzy
 msgid "Worklist Events          "
-msgstr "Vaisseau spatial                      "
+msgstr ""
 
 #: client/options.c:167
 msgid "Cannot find your home directory"
@@ -4522,21 +4505,20 @@ msgstr "Effacement de la fenêtre de sortie.\n"
 
 #: client/gui-gtk/citydlg.c:425 client/gui-gtk/cityrep.c:478
 msgid "_Buy"
-msgstr "Acheter"
+msgstr "_Acheter"
 
 #: client/gui-gtk/citydlg.c:428 client/gui-gtk/citydlg.c:1734
 #: client/gui-gtk/cityrep.c:483
 msgid "_Change"
-msgstr "Changer"
+msgstr "_Changer"
 
 #: client/gui-gtk/citydlg.c:442
 msgid "_Sell"
-msgstr "Vendre"
+msgstr "_Vendre"
 
 #: client/gui-gtk/citydlg.c:445
-#, fuzzy
 msgid "_Worklist"
-msgstr "Travailleurs"
+msgstr "_Liste d'attente"
 
 #. "supported units" frame
 #: client/gui-gtk/citydlg.c:457
@@ -4552,11 +4534,11 @@ msgstr "Unités présentes"
 #: client/gui-gtk/citydlg.c:518 client/gui-gtk/cityrep.c:462
 #: client/gui-gtk/plrdlg.c:104
 msgid "C_lose"
-msgstr "Fermer"
+msgstr "_Fermer"
 
 #: client/gui-gtk/citydlg.c:523
 msgid "_Rename"
-msgstr "Renommer"
+msgstr "_Renommer"
 
 #: client/gui-gtk/citydlg.c:528
 msgid "_Trade"
@@ -4568,11 +4550,11 @@ msgstr "Activer les unités"
 
 #: client/gui-gtk/citydlg.c:538
 msgid "_Unit List"
-msgstr "Liste des unités"
+msgstr "Liste des _unités"
 
 #: client/gui-gtk/citydlg.c:543 client/gui-gtk/cityrep.c:509
 msgid "Con_figure"
-msgstr "Con_figurer"
+msgstr "C_onfigurer"
 
 #. "presentunitsdialog"
 #: client/gui-gtk/citydlg.c:800 client/gui-gtk/citydlg.c:1184
@@ -4669,30 +4651,30 @@ msgstr "Pollution:   %3d"
 #: client/gui-gtk/citydlg.c:949
 #, c-format
 msgid "Granary: %3d/%-3d"
-msgstr "Grenier:   %3d/%-3d"
+msgstr "Grenier: %3d/%-3d"
 
 #: client/gui-gtk/citydlg.c:971 client/gui-gtk/citydlg.c:988
 #, c-format
 msgid "%3d/%3d %3d turn"
-msgstr ""
+msgstr "%3d/%3d %3d tour"
 
 #: client/gui-gtk/citydlg.c:971 client/gui-gtk/citydlg.c:988
 #, c-format
 msgid "%3d/%3d %3d turns"
-msgstr ""
+msgstr "%3d/%3d %3d tours"
 
 #: client/gui-gtk/citydlg.c:981
 #, c-format
 msgid "%3d/XXX XXX turns"
-msgstr ""
+msgstr "%3d/XXX XXX tours"
 
 #: client/gui-gtk/citydlg.c:1000
 msgid "(list empty)"
-msgstr ""
+msgstr "(pas de liste d'attente)"
 
 #: client/gui-gtk/citydlg.c:1001
 msgid "(in progress)"
-msgstr ""
+msgstr "(liste présente)"
 
 #: client/gui-gtk/citydlg.c:1014
 #, c-format
@@ -5077,7 +5059,7 @@ msgstr " Se connecter à un serveur Freeciv"
 
 #: client/gui-gtk/connectdlg.c:144 data/Freeciv:60
 msgid "Freeciv Server Selection"
-msgstr "Sélection du serveur Freeciv"
+msgstr "Sélection du serveur de Freeciv"
 
 #: client/gui-gtk/connectdlg.c:155
 msgid "Name:"
@@ -5529,6 +5511,9 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
+"Freeciv est un logiciel libre et vous pouvez en distribuer des copies\n"
+"sous certaines conditions; voir l'entrée « Copier » dans le menu d'aide.\n"
+"Et maintenant... Montrez leur ce dont vous êtes capable !"
 
 #: client/gui-gtk/gui_main.c:564
 msgid "Freeciv"
@@ -5632,7 +5617,7 @@ msgstr ""
 #: client/gui-gtk/helpdlg.c:115 client/gui-gtk/menu.c:652
 #: client/gui-xaw/helpdlg.c:129 client/gui-xaw/menu.c:213 data/helpdata.txt:37
 msgid "About"
-msgstr "A propos"
+msgstr "À propos"
 
 #: client/gui-gtk/helpdlg.c:186 client/gui-xaw/helpdlg.c:275
 msgid "Removed"
@@ -5767,7 +5752,7 @@ msgstr "Construire une nouvelle ville"
 
 #: client/gui-gtk/mapctrl.c:86 client/gui-xaw/mapctrl.c:105
 msgid "What should we call our new city?"
-msgstr "Comment doit s'appeler la nouvelle ville?"
+msgstr "Quel nom donner à cette nouvelle ville ?"
 
 #: client/gui-gtk/mapctrl.c:123 client/gui-xaw/mapctrl.c:130
 #, c-format
@@ -5805,6 +5790,10 @@ msgid ""
 "Gold %d\n"
 "Tax: %d Lux: %d Sci: %d"
 msgstr ""
+"Population: %s\n"
+"Année: %s\n"
+"Or %d\n"
+"Tax: %d Lux: %d Sci: %d"
 
 #: client/gui-gtk/mapview.c:339 client/gui-xaw/mapview.c:320
 msgid "(veteran)"
@@ -5812,7 +5801,7 @@ msgstr ""
 
 #: client/gui-gtk/menu.c:459
 msgid "_Game"
-msgstr "Jeu"
+msgstr "_Jeu"
 
 #: client/gui-gtk/menu.c:461 client/gui-gtk/menu.c:463
 #: client/gui-gtk/menu.c:465 client/gui-gtk/menu.c:467
@@ -5828,12 +5817,12 @@ msgstr "Jeu"
 
 #: client/gui-gtk/menu.c:465 client/gui-xaw/menu.c:105
 msgid "Local Options"
-msgstr "Options locales"
+msgstr "Options du client"
 
 #: client/gui-gtk/menu.c:467 client/gui-gtk/messagedlg.c:88
 #: client/gui-xaw/menu.c:106 data/Freeciv:1223
 msgid "Message Options"
-msgstr "Options des messages"
+msgstr "Configuration des messages"
 
 #: client/gui-gtk/menu.c:469 client/gui-xaw/menu.c:107
 msgid "Save Settings"
@@ -5851,23 +5840,23 @@ msgstr "Options initiales du serveur"
 
 #: client/gui-gtk/menu.c:481 client/gui-xaw/menu.c:113
 msgid "Server Opt ongoing"
-msgstr "Options en cours sur le serveur"
+msgstr "Options actuelles du serveur"
 
 #: client/gui-gtk/menu.c:485 client/gui-xaw/menu.c:115
 msgid "Export Log"
-msgstr ""
+msgstr "Sauver les logs"
 
 #: client/gui-gtk/menu.c:487 client/gui-xaw/menu.c:116
 msgid "Clear Log"
-msgstr ""
+msgstr "Effacer les logs"
 
 #: client/gui-gtk/menu.c:491 client/gui-xaw/menu.c:118 data/Freeciv:3022
 msgid "Disconnect"
-msgstr "Déconnecter"
+msgstr "Se déconnecter"
 
 #: client/gui-gtk/menu.c:496
 msgid "_Kingdom"
-msgstr "Royaume"
+msgstr "Roy_aume"
 
 #: client/gui-gtk/menu.c:498 client/gui-gtk/menu.c:500
 #: client/gui-gtk/menu.c:502 client/gui-gtk/menu.c:504
@@ -5881,14 +5870,12 @@ msgid "_Tax Rates"
 msgstr "Impôts"
 
 #: client/gui-gtk/menu.c:504
-#, fuzzy
 msgid "_Find City"
 msgstr "Trouver une ville"
 
 #: client/gui-gtk/menu.c:506
-#, fuzzy
 msgid "Work_lists"
-msgstr "Sans valeur"
+msgstr "Listes d'attente"
 
 #: client/gui-gtk/menu.c:510 client/gui-xaw/menu.c:129
 msgid "Revolution"
@@ -5905,7 +5892,7 @@ msgstr "Voir"
 
 #: client/gui-gtk/menu.c:517 client/gui-xaw/menu.c:134
 msgid "Map Grid"
-msgstr ""
+msgstr "Quadrillage"
 
 #: client/gui-gtk/menu.c:519 client/gui-xaw/menu.c:135
 msgid "Center View"
@@ -5952,7 +5939,7 @@ msgstr "Irriguer"
 #: client/gui-gtk/menu.c:532 client/gui-gtk/menu.c:846
 #: client/gui-xaw/menu.c:147
 msgid "Build Mine"
-msgstr "Construire une mine"
+msgstr "Creuser une mine"
 
 #: client/gui-gtk/menu.c:534 client/gui-gtk/menu.c:847
 #: client/gui-xaw/menu.c:149
@@ -5974,27 +5961,27 @@ msgstr "Dépolluer"
 
 #: client/gui-gtk/menu.c:552 client/gui-xaw/menu.c:160
 msgid "Make Homecity"
-msgstr ""
+msgstr "Changer la ville d'accueil"
 
 #: client/gui-gtk/menu.c:554 client/gui-xaw/menu.c:161
 msgid "Unload"
-msgstr "Décharger"
+msgstr "Débarquer"
 
 #: client/gui-gtk/menu.c:556 client/gui-xaw/menu.c:162
 msgid "Wake up others"
-msgstr ""
+msgstr "Activer les autres unités"
 
 #: client/gui-gtk/menu.c:560 client/gui-xaw/menu.c:164
 msgid "Auto Settler"
-msgstr "Auto-coloniser"
+msgstr "Colon automatique"
 
 #: client/gui-gtk/menu.c:562 client/gui-xaw/menu.c:165
 msgid "Auto Attack"
-msgstr ""
+msgstr "Attaque automatiqeme"
 
 #: client/gui-gtk/menu.c:564 client/gui-xaw/menu.c:166
 msgid "Auto Explore"
-msgstr ""
+msgstr "Exploration automatique"
 
 #: client/gui-gtk/menu.c:568 client/gui-xaw/menu.c:168
 msgid "Go to"
@@ -6002,7 +5989,7 @@ msgstr "Aller à"
 
 #: client/gui-gtk/menu.c:570
 msgid "Go|Airlift to City"
-msgstr ""
+msgstr "Aller dans une ville"
 
 #: client/gui-gtk/menu.c:574 client/gui-xaw/menu.c:171
 msgid "Disband Unit"
@@ -6018,11 +6005,11 @@ msgstr "Créer une route commerciale"
 
 #: client/gui-gtk/menu.c:580 client/gui-xaw/menu.c:174
 msgid "Explode Nuclear"
-msgstr ""
+msgstr "Faire exploser la tête nucléaire"
 
 #: client/gui-gtk/menu.c:584 client/gui-xaw/menu.c:176
 msgid "Wait"
-msgstr ""
+msgstr "Attendre"
 
 #: client/gui-gtk/menu.c:589
 msgid "_Reports"
@@ -6083,67 +6070,67 @@ msgstr "Aide"
 
 #: client/gui-gtk/menu.c:616 client/gui-xaw/menu.c:195
 msgid "Help Languages"
-msgstr ""
+msgstr "Changer de langue"
 
 #: client/gui-gtk/menu.c:618 client/gui-xaw/menu.c:196
 msgid "Help Connecting"
-msgstr ""
+msgstr "Se connecter"
 
 #: client/gui-gtk/menu.c:620 client/gui-xaw/menu.c:197
 msgid "Help Controls"
-msgstr ""
+msgstr "Utiliser l'interface"
 
 #: client/gui-gtk/menu.c:622 client/gui-xaw/menu.c:198
 msgid "Help Chatline"
-msgstr ""
+msgstr "Utiliser la ligne de discussion"
 
 #: client/gui-gtk/menu.c:624 client/gui-xaw/menu.c:199
 msgid "Help Playing"
-msgstr ""
+msgstr "Conseils de jeu"
 
 #: client/gui-gtk/menu.c:628 client/gui-xaw/menu.c:201
 msgid "Help Improvements"
-msgstr ""
+msgstr "Bâtiments"
 
 #: client/gui-gtk/menu.c:630 client/gui-xaw/menu.c:202
 msgid "Help Units"
-msgstr ""
+msgstr "Unités de combat"
 
 #: client/gui-gtk/menu.c:632 client/gui-xaw/menu.c:203
 msgid "Help Combat"
-msgstr ""
+msgstr "Règles de combat"
 
 #: client/gui-gtk/menu.c:634 client/gui-xaw/menu.c:204
 msgid "Help ZOC"
-msgstr ""
+msgstr "Zones de contrôle"
 
 #: client/gui-gtk/menu.c:636 client/gui-xaw/menu.c:205
 msgid "Help Technology"
-msgstr ""
+msgstr "Technologies"
 
 #: client/gui-gtk/menu.c:638 client/gui-xaw/menu.c:206
 msgid "Help Terrain"
-msgstr ""
+msgstr "Terrains"
 
 #: client/gui-gtk/menu.c:640 client/gui-xaw/menu.c:207
 msgid "Help Wonders"
-msgstr ""
+msgstr "Merveilles"
 
 #: client/gui-gtk/menu.c:642 client/gui-xaw/menu.c:208
 msgid "Help Government"
-msgstr ""
+msgstr "Types de gouvernement"
 
 #: client/gui-gtk/menu.c:644 client/gui-xaw/menu.c:209
 msgid "Help Happiness"
-msgstr ""
+msgstr "Bonheur de la population"
 
 #: client/gui-gtk/menu.c:646 client/gui-xaw/menu.c:210
 msgid "Help Space Race"
-msgstr ""
+msgstr "Course aux étoiles"
 
 #: client/gui-gtk/menu.c:650 client/gui-xaw/menu.c:212 data/helpdata.txt:77
 msgid "Copying"
-msgstr ""
+msgstr "Copier"
 
 #: client/gui-gtk/menu.c:838 client/gui-xaw/menu.c:146
 #: client/gui-xaw/menu.c:148
@@ -6409,16 +6396,16 @@ msgstr ""
 
 #: client/gui-gtk/wldlg.c:157 data/Freeciv:1893
 msgid "Available worklists"
-msgstr ""
+msgstr "Listes d'attente disponibles"
 
 #: client/gui-gtk/wldlg.c:173
 msgid "Edit worklists"
-msgstr ""
+msgstr "Modifier les listes d'attente"
 
 #. + Edit
 #: client/gui-gtk/wldlg.c:212 data/Freeciv:1912
 msgid "Edit"
-msgstr ""
+msgstr "Modifier"
 
 #. + Rename
 #: client/gui-gtk/wldlg.c:220 data/Freeciv:1918 data/Freeciv:2915
@@ -6428,50 +6415,45 @@ msgstr "Renommer"
 #. + Insert
 #: client/gui-gtk/wldlg.c:228 client/gui-gtk/wldlg.c:375 data/Freeciv:1927
 #: data/Freeciv:2063
-#, fuzzy
 msgid "Insert"
-msgstr "Désert"
+msgstr "Rajouter"
 
 #. + Delete
 #: client/gui-gtk/wldlg.c:236 client/gui-gtk/wldlg.c:382 data/Freeciv:1933
 #: data/Freeciv:2069
-#, fuzzy
 msgid "Delete"
-msgstr "Corrects"
+msgstr "Supprimer"
 
 #. Stuff for the current worklist.
 #: client/gui-gtk/wldlg.c:295 data/Freeciv:2028
 msgid "Current worklist"
-msgstr ""
+msgstr "Liste d'attente"
 
 #. Stuff for the available targets.
 #: client/gui-gtk/wldlg.c:299 data/Freeciv:2035
 msgid "Available targets"
-msgstr ""
+msgstr "Productions disponibles"
 
 #: client/gui-gtk/wldlg.c:317
-#, fuzzy
 msgid "Production worklist"
-msgstr "Production"
+msgstr "Liste d'attente pour la production"
 
 #: client/gui-gtk/wldlg.c:368 data/Freeciv:2057
-#, fuzzy
 msgid "Prepend"
-msgstr "Président"
+msgstr "Rajouter en tête de liste"
 
 #: client/gui-gtk/wldlg.c:389 data/Freeciv:2075
 msgid "Up"
-msgstr ""
+msgstr "Monter d'un cran"
 
 #: client/gui-gtk/wldlg.c:396 data/Freeciv:2081
-#, fuzzy
 msgid "Down"
-msgstr "Terminé"
+msgstr "Descendre d'un cran"
 
 #. - A checkbox to filter advanced tech targets.
 #: client/gui-gtk/wldlg.c:450
 msgid "Show future targets"
-msgstr ""
+msgstr "Montrer les productions futures"
 
 #: client/gui-gtk/wldlg.c:541
 #, fuzzy
@@ -6479,13 +6461,12 @@ msgid "Rename Worklist"
 msgstr "Renommer la ville"
 
 #: client/gui-gtk/wldlg.c:542 client/gui-xaw/wldlg.c:596
-#, fuzzy
 msgid "What should the new name be?"
-msgstr "Quel nom doit porter cette ville ?"
+msgstr "Quel nom donner à cette liste ?"
 
 #: client/gui-gtk/wldlg.c:597 client/gui-xaw/wldlg.c:652
 msgid "empty worklist"
-msgstr ""
+msgstr "liste vide"
 
 #: client/gui-xaw/chatline.c:130
 msgid "Cleared output window."
@@ -6815,9 +6796,8 @@ msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
 msgstr ""
 
 #: data/Freeciv:1923
-#, fuzzy
 msgid "Rename worklist"
-msgstr "Renommer la ville"
+msgstr "Renommer la liste d'attente"
 
 #: data/Freeciv:2026
 #, fuzzy
@@ -6831,7 +6811,7 @@ msgstr " Ok "
 
 #: data/Freeciv:2111
 msgid "Show future targets:"
-msgstr ""
+msgstr "Montrer les productions futures"
 
 #: data/Freeciv:2184
 msgid "Choose Your Diplomat's Strategy"
@@ -10277,7 +10257,6 @@ msgid "Egyptian"
 msgstr "Egyptien"
 
 #: data/default/nations.ruleset:168
-#, fuzzy
 msgid "?plural:Egyptians"
 msgstr "Egyptiens"
 
@@ -11807,7 +11786,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1100 data/civ2/units.ruleset:1139
 #: data/default/units.ruleset:1139
 msgid "Transport"
-msgstr "Gros transporteur"
+msgstr "Transporteur"
 
 #: data/civ1/units.ruleset:1123 data/civ2/units.ruleset:1162
 #: data/default/units.ruleset:1162
