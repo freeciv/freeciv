@@ -841,10 +841,13 @@ void ui_init(void)
   log_set_callback(log_callback_utf8);
 
   /* set networking string conversion callbacks */
-  if ((net_charset = getenv("FREECIV_NETWORK_CHARSET"))) {
-    network_charset = net_charset;
+  if ((net_charset = getenv("FREECIV_NETWORK_ENCODING"))) {
+    network_charset = mystrdup(net_charset);
   } else {
-    network_charset = "ISO-8859-1";	/* default charset. */
+    const gchar *charset;
+
+    g_get_charset(&charset);
+    network_charset = mystrdup(charset);
   }
 
   set_put_conv_callback(put_conv);
