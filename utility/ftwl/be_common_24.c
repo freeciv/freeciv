@@ -748,9 +748,6 @@ void be_draw_line(struct osda *target, enum be_draw_type draw_type,
     draw_hline(target->image, tmp, start2.y, MIN(start2.x, end2.x),
 	       MAX(start2.x, end2.x), line_width, dashed);
   } else {
-    assert(ct_point_in_rect(start, &bounds));
-    assert(ct_point_in_rect(end, &bounds));
-
     draw_line(target->image, tmp, start->x, start->y, end->x, end->y,
 	      line_width, dashed);
   }

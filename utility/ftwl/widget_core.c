@@ -205,7 +205,6 @@ void sw_widget_set_position(struct sw_widget *widget, int x, int y)
 	   ct_rect_to_string(&widget->outer_bounds));
     printf("is outside of parent %p (%s)\n", widget->parent,
 	   ct_rect_to_string(&widget->parent->data.window.children_bounds));
-    assert(0);
   }
   parent_needs_paint(widget);
 }
@@ -237,8 +236,6 @@ void sw_widget_vcenter(struct sw_widget *widget)
 void align(const struct ct_rect *bb, struct ct_rect *item,
 	   enum ws_alignment alignment)
 {
-  assert(item->width <= bb->width && item->height <= bb->height);
-
   switch (alignment) {
   case A_W:
   case A_NW:
