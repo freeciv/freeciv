@@ -107,15 +107,11 @@ int log_parse_level_str(char *level_str)
   
   dup = mystrdup(c+2);
   tok = strtok(dup, ":");
-
-  /* In FRETURN below, "if (TRUE)" is a hack to avoid spurious
-     warning from Solaris cc --dwp
-  */
-#define FRETURN(x) do { free(dup); if(TRUE) return (x); } while(FALSE)
   
   if (!tok) {
     fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
-    FRETURN(-1);
+    level = -1;
+    goto out;
   }
   i = 0;
   do {
@@ -136,7 +132,8 @@ int log_parse_level_str(char *level_str)
     if(strlen(tok)==0) {
       fprintf(stderr, _("Empty filename in log level argument \"%s\".\n"),
 	      level_str);
-      FRETURN(-1);
+      level = -1;
+      goto out;
     }
     logd_files[i].name = mystrdup(tok);
     i++;
@@ -145,11 +142,13 @@ int log_parse_level_str(char *level_str)
 
   if (i!=logd_num_files) {
     fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
-    FRETURN(-1);
+    level = -1;
+    goto out;
   }
-  FRETURN(level);
 
-#undef FRETURN
+ out:
+  free(dup);
+  return level;
 }
 
 /**************************************************************************
