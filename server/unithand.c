@@ -1134,6 +1134,12 @@ bool handle_unit_move_request(struct unit *punit, int x, int y,
     } else {
       assert(is_enemy_city_tile(pdesttile, pplayer) != NULL);
 
+      if (unit_flag(punit, F_NUCLEAR)) {
+        move_unit(punit, pcity->x, pcity->y, 0);
+        handle_unit_attack_request(punit, punit); /* Boom! */
+        return TRUE;
+      }
+
       /* If there is an enemy city it is empty.
        * If not it would have been caught in the attack case. 
        * FIXME: Move this check into test_unit_move_tile */
