@@ -863,32 +863,11 @@ static void city_refresh_callback(GtkWidget *w, gpointer data)
 static void buy_iterate(GtkTreeModel *model, GtkTreePath *path,
 			GtkTreeIter *it, gpointer data)
 {
-  struct city *pcity;
-  int value;
-  const char *name;
-  char buf[512];
   gpointer res;
 
   gtk_tree_model_get(model, it, 0, &res, -1);
-  pcity = res;
 
-  value = city_buy_cost(pcity);	 
-  if (pcity->is_building_unit)
-    name = get_unit_type(pcity->currently_building)->name;
-  else
-    name = get_impr_name_ex(pcity, pcity->currently_building);
-
-  if (game.player_ptr->economic.gold >= value) {
-      struct packet_city_request packet;
-
-      packet.city_id = pcity->id;
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
-  } else {
-    my_snprintf(buf, sizeof(buf),
-        	_("Game: %s costs %d gold and you only have %d gold."),
-        	name,value, game.player_ptr->economic.gold);
-    append_output_window(buf);
-  }
+  cityrep_buy(res);
 }
 
 /****************************************************************

@@ -122,4 +122,6 @@ char *get_nearest_city_text(struct city *pcity, int sq_dist,
 
 const char *unit_description(struct unit *punit);
 
+void cityrep_buy(struct city *pcity);
+
 #endif  /* FC__CLIMISC_H */

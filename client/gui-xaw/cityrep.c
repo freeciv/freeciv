@@ -403,37 +403,14 @@ void city_change_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void city_buy_callback(Widget w, XtPointer client_data, 
-			 XtPointer call_data)
+void city_buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
-  XawListReturnStruct *ret=XawListShowCurrent(city_list);
+  XawListReturnStruct *ret = XawListShowCurrent(city_list);
 
-  if(ret->list_index!=XAW_LIST_NONE) {
-    struct city *pcity;
-    if((pcity=cities_in_list[ret->list_index])) {
-      int value;
-      const char *name;
-      char buf[512];
-
-      value=city_buy_cost(pcity);    
-      if(pcity->is_building_unit)
-	name=get_unit_type(pcity->currently_building)->name;
-      else
-	name=get_impr_name_ex(pcity, pcity->currently_building);
-
-      if (game.player_ptr->economic.gold >= value)
-	{
-	  struct packet_city_request packet;
-	  packet.city_id=pcity->id;
-	  send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
-	}
-      else
-	{
-	  my_snprintf(buf, sizeof(buf),
-		      _("Game: %s costs %d gold and you only have %d gold."),
-		      name,value,game.player_ptr->economic.gold);
-	  append_output_window(buf);
-	}
+  if (ret->list_index != XAW_LIST_NONE) {
+    struct city *pcity = cities_in_list[ret->list_index];
+    if (pcity) {
+      cityrep_buy(pcity);
     }
   }
 }

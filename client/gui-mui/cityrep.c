@@ -161,33 +161,11 @@ static void cityrep_buy(void)
 {
   struct city *pcity;
 
-  DoMethod(cityrep_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &pcity);
+  DoMethod(cityrep_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active,
+	   &pcity);
 
-  if (pcity)
-  {
-    int value;
-    char *name;
-    char buf[512];
-
-    value=city_buy_cost(pcity);    
-    if(pcity->is_building_unit)
-      name=get_unit_type(pcity->currently_building)->name;
-    else
-      name=get_impr_name_ex(pcity, pcity->currently_building);
-
-    if(game.player_ptr->economic.gold >= value)
-    {
-      struct packet_city_request packet;
-      packet.city_id=pcity->id;
-      send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
-    }
-    else
-    {
-      my_snprintf(buf, sizeof(buf),
-        _("Game: %s costs %d gold and you only have %d gold."),
-        name,value,game.player_ptr->economic.gold);
-      append_output_window(buf);
-    }
+  if (pcity) {
+    cityrep_buy(pcity);
   }
 }
 

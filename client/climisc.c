@@ -1117,3 +1117,44 @@ const char *unit_description(struct unit *punit)
 
   return buffer;
 }
+
+/**************************************************************************
+  Called when the "Buy" button is pressed in the city report for every
+  selected city. Checks for coinage and sufficient founds or send the
+  PACKET_CITY_BUY if everything is ok.
+**************************************************************************/
+void cityrep_buy(struct city *pcity)
+{
+  int value = city_buy_cost(pcity);
+
+  if (!pcity->is_building_unit && pcity->currently_building == B_CAPITAL) {
+    char buf[512];
+
+    my_snprintf(buf, sizeof(buf),
+		_("Game: You don't buy %s in %s!"),
+		improvement_types[B_CAPITAL].name, pcity->name);
+    append_output_window(buf);
+    return;
+  }
+
+  if (game.player_ptr->economic.gold >= value) {
+    struct packet_city_request packet;
+
+    packet.city_id = pcity->id;
+    send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
+  } else {
+    char buf[512];
+    const char *name;
+
+    if (pcity->is_building_unit) {
+      name = get_unit_type(pcity->currently_building)->name;
+    } else {
+      name = get_impr_name_ex(pcity, pcity->currently_building);
+    }
+
+    my_snprintf(buf, sizeof(buf),
+		_("Game: %s costs %d gold and you only have %d gold."),
+		name, value, game.player_ptr->economic.gold);
+    append_output_window(buf);
+  }
+}

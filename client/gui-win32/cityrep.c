@@ -350,42 +350,20 @@ static void cityrep_popup(HWND hWnd)
 static void cityrep_buy(HWND hWnd)
 {
   int cityids[256];
-  int selcount;
   int i;
-  struct city *pcity;
-   selcount=ListBox_GetSelCount(GetDlgItem(hWnd,ID_CITYREP_LIST));
-  if (selcount==LB_ERR) return;
-  selcount=MIN(256,selcount);
-  selcount=ListBox_GetSelItems(GetDlgItem(hWnd,ID_CITYREP_LIST),
-			       selcount,&cityids[0]);
-  for(i=0;i<selcount;i++)
-    {
-      int value;
-      const char *name;
-      char buf[512];            
-      pcity=(struct city *)ListBox_GetItemData(GetDlgItem(hWnd,
-							  ID_CITYREP_LIST),
-					       cityids[i]);
-      value=city_buy_cost(pcity);
-      if(pcity->is_building_unit)
-        name=get_unit_type(pcity->currently_building)->name;
-      else
-        name=get_impr_name_ex(pcity, pcity->currently_building);
- 
-      if (game.player_ptr->economic.gold >= value)
-        {
-          struct packet_city_request packet;
-          packet.city_id=pcity->id;
-          send_packet_city_request(&aconnection, &packet, PACKET_CITY_BUY);
-        }
-      else
-        {
-          my_snprintf(buf, sizeof(buf),
-                      _("Game: %s costs %d gold and you only have %d gold."),
-                      name,value,game.player_ptr->economic.gold);
-          append_output_window(buf);
-        }             
-    }
+  int selcount = ListBox_GetSelCount(GetDlgItem(hWnd, ID_CITYREP_LIST));
+
+  if (selcount == LB_ERR) {
+    return;
+  }
+  selcount = MIN(256, selcount);
+  selcount = ListBox_GetSelItems(GetDlgItem(hWnd, ID_CITYREP_LIST),
+				 selcount, &cityids[0]);
+  for (i = 0; i < selcount; i++) {
+    cityrep_buy((struct city *) ListBox_GetItemData(GetDlgItem(hWnd,
+							       ID_CITYREP_LIST),
+						    cityids[i]));
+  }
 }
   
 #if 0
