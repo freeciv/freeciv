@@ -951,7 +951,7 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
   row = GPOINTER_TO_INT(selection->data);
 
   ut1 = activeunits_type[row];
-  CHECCK_UNIT_TYPE(ut1);
+  CHECK_UNIT_TYPE(ut1);
   /* puts(unit_types[ut1].name); */
 
   ut2 = can_upgrade_unittype(game.player_ptr, activeunits_type[row]);
