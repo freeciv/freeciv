@@ -42,6 +42,7 @@ pkgdata_DATA =				\
 		germany.png		\
 		greece.png		\
 		greenland.png		\
+		hobbits.png		\
 		hungary.png		\
 		iceland.png		\
 		india.png		\
