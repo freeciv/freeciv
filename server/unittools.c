@@ -3160,6 +3160,16 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 }
 
 /****************************************************************************
+  Cancel orders for the unit.
+****************************************************************************/
+static void cancel_orders(struct unit *punit, char *dbg_msg)
+{
+  free_unit_orders(punit);
+  send_unit_info(NULL, punit);
+  freelog(LOG_DEBUG, "%s", dbg_msg);
+}
+
+/****************************************************************************
   Executes a unit's orders stored in punit->orders.  The unit is put on idle
   if an action fails or if "patrol" is set and an enemy unit is encountered.
 
@@ -3206,8 +3216,7 @@ bool execute_orders(struct unit *punit)
 
     if (punit->orders.vigilant && maybe_cancel_patrol_due_to_enemy(punit)) {
       /* "Patrol" orders are stopped if an enemy is near. */
-      freelog(LOG_DEBUG, "  stopping because of nearby enemy");               
-      free_unit_orders(punit);
+      cancel_orders(punit, "  stopping because of nearby enemy");
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
 		       _("Game: Orders for %s aborted as there "
 			 "are units nearby."),
@@ -3235,20 +3244,20 @@ bool execute_orders(struct unit *punit)
 
     /* Advance the orders one step forward.  This is needed because any
      * updates sent to the client as a result of the action should include
-     * the new index value. */
+     * the new index value.  Note that we have to send_unit_info somewhere
+     * after this point so that the client is properly updated. */
     punit->orders.index++;
 
     switch (order.order) {
     case ORDER_FINISH_TURN:
       punit->done_moving = TRUE;
       freelog(LOG_DEBUG, "  waiting this turn");
-      send_unit_info(unit_owner(punit), punit);
+      send_unit_info(NULL, punit);
       break;
     case ORDER_MOVE:
       /* Move unit */
       if (!MAPSTEP(dest_x, dest_y, punit->x, punit->y, order.dir)) {
-	freelog(LOG_DEBUG, "  move order sent us to invalid location");
-	free_unit_orders(punit);
+	cancel_orders(punit, "  move order sent us to invalid location");
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
 			 _("Game: Orders for %s aborted since they "
 			   "give an invalid location."),
@@ -3258,8 +3267,7 @@ bool execute_orders(struct unit *punit)
 
       if (!last_order
 	  && maybe_cancel_goto_due_to_enemy(punit, dest_x, dest_y)) {
-	freelog(LOG_DEBUG, "  orders canceled because of enemy");
-	free_unit_orders(punit);
+	cancel_orders(punit, "  orders canceled because of enemy");
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
 			 _("Game: Orders for %s aborted as there "
 			   "are units in the way."),
@@ -3279,13 +3287,13 @@ bool execute_orders(struct unit *punit)
       if (res && !same_pos(dest_x, dest_y, punit->x, punit->y)) {
 	/* Movement succeeded but unit didn't move. */
 	freelog(LOG_DEBUG, "  orders resulted in combat.");
+	send_unit_info(NULL, punit);
 	return TRUE;
       }
 
       if (!res && punit->moves_left > 0) {
 	/* Movement failed (ZOC, etc.) */
-	freelog(LOG_DEBUG, "  attempt to move failed.");
-	free_unit_orders(punit);
+	cancel_orders(punit, "  attempt to move failed.");
 	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
 			 _("Game: Orders for %s aborted because of "
 			   "failed move."),
@@ -3295,8 +3303,7 @@ bool execute_orders(struct unit *punit)
 
       break;
     case ORDER_LAST:
-      freelog(LOG_DEBUG, "  client sent invalid order!");
-      free_unit_orders(punit);
+      cancel_orders(punit, "  client sent invalid order!");
       notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
 		       _("Game: Your %s has invalid orders."),
 		       unit_name(punit->type));
