@@ -104,6 +104,10 @@ enum direction4 {
   DIR4_NORTH = 0, DIR4_SOUTH, DIR4_EAST, DIR4_WEST
 };
 
+enum match_style {
+  MATCH_NONE, MATCH_BOOLEAN
+};
+
 enum cell_type {
   CELL_SINGLE, CELL_RECT
 };
@@ -118,7 +122,10 @@ struct terrain_drawing_data {
   struct {
     bool is_tall;
     int offset_x, offset_y;
+
+    enum match_style match_style;
     int match_type;
+
     enum cell_type cell_type;
 
     struct Sprite *base;

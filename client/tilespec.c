@@ -795,6 +795,8 @@ bool tilespec_read_toplevel(const char *tileset_name)
     terr->num_layers = CLIP(1, terr->num_layers, MAX_NUM_LAYERS);
 
     for (l = 0; l < terr->num_layers; l++) {
+      char *match_style;
+
       terr->layer[l].is_tall
 	= secfile_lookup_bool_default(file, FALSE, "%s.layer%d_is_tall",
 				      terrains[i], l);
@@ -804,9 +806,21 @@ bool tilespec_read_toplevel(const char *tileset_name)
       terr->layer[l].offset_y
 	= secfile_lookup_int_default(file, 0, "%s.layer%d_offset_y",
 				     terrains[i], l);
-      terr->layer[l].match_type
-	= secfile_lookup_int_default(file, 0, "%s.layer%d_match_type",
-				     terrains[i], l);
+      match_style = secfile_lookup_str_default(file, "none",
+					       "%s.layer%d_match_style",
+					       terrains[i], l);
+      if (mystrcasecmp(match_style, "bool") == 0) {
+	terr->layer[l].match_style = MATCH_BOOLEAN;
+      } else {
+	terr->layer[l].match_style = MATCH_NONE;
+      }
+
+      if (terr->layer[l].match_style == MATCH_BOOLEAN) {
+	terr->layer[l].match_type
+	  = secfile_lookup_int_default(file, 0, "%s.layer%d_match_type",
+				       terrains[i], l);
+      }
+
       cell_type
 	= secfile_lookup_str_default(file, "single", "%s.layer%d_cell_type",
 				     terrains[i], l);
@@ -1335,7 +1349,7 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
 
   /* Set up each layer of the drawing. */
   for (l = 0; l < draw->num_layers; l++) {
-    if (draw->layer[l].match_type == 0) {
+    if (draw->layer[l].match_style == MATCH_NONE) {
       /* Load single sprite for this terrain. */
       my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
       draw->layer[l].base = lookup_sprite_tag_alt(buffer1, "", TRUE,
@@ -2023,7 +2037,7 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
   }
 
   for (l = 0; l < draw->num_layers; l++) {
-    if (draw->layer[l].match_type == 0) {
+    if (draw->layer[l].match_style == MATCH_NONE) {
       ADD_SPRITE_SIMPLE(draw->layer[l].base);
     } else {
       int match_type = draw->layer[l].match_type;
