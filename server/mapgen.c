@@ -954,7 +954,7 @@ static void mapgenerator1(void)
   
   for (y=0;y<map.ysize;y++) {
     for (x=0;x<map.xsize;x++) {
-      height_map[y*map.xsize+x]=myrand(40)+((500-abs(map.ysize/2)-y)/10);
+      height_map[y*map.xsize+x]=myrand(40)+((500-abs(map.ysize/2-y))/10);
     }
   }
   for (i=0;i<1500;i++) {
