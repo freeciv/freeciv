@@ -696,12 +696,12 @@ int can_unit_attack_unit_at_tile(struct unit *punit, struct unit *pdefender,
     return 0;
   }
   
+  if (!players_at_war(punit->owner, pdefender->owner))
+    return 0;
+
   /* Shore bombardement */
   if (fromtile==T_OCEAN && is_sailing_unit(punit) && totile!=T_OCEAN)
     return (get_attack_power(punit)>0);
-
-  if (!players_at_war(punit->owner, pdefender->owner))
-    return 0;
 
   return 1;
 }

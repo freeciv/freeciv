@@ -871,7 +871,7 @@ int handle_unit_move_request(struct player *pplayer, struct unit *punit,
   }
 
   /*** Try to attack if there is an enemy unit on the target tile ***/
-  if (pdefender) {
+  if (pdefender && players_at_war(punit->owner, pdefender->owner)) {
     if (!can_unit_attack_tile(punit, dest_x , dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
   		       _("Game: You can't attack there."));
