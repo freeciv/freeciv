@@ -155,7 +155,6 @@ fi
 dnl BeOS-specific settings
 if test x`$UNAME -s` = xBeOS ; then
   AC_DEFINE(SOCKET_ZERO_ISNT_STDIN)
-  AC_OUTPUT_COMMANDS([echo "#undef HAVE_SYS_UIO_H" >> config.h])
   CFLAGS="$CFLAGS -Wno-multichar -gdwarf-2"
   LDFLAGS="$LDFLAGS -x none -gdwarf-2"
   ARFLAGS=${ARFLAGS:-cru}
@@ -415,6 +414,19 @@ AC_OUTPUT_COMMANDS(
        mv -f po/Makefile po/Makefile.tmp
        sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_/g' po/Makefile.tmp > po/Makefile
        rm po/Makefile.tmp
+     fi
+   fi])
+
+
+dnl The BeOS sys/uio.h is broken.  This kluges it out of existence.
+dnl (This still causes lots of spurious changes to config.h on BeOS.)
+AC_OUTPUT_COMMANDS(
+  [if test x`uname -s` = xBeOS ; then
+     if grep '#define HAVE_SYS_UIO_H 1' config.h >/dev/null 2>&1 ; then
+       echo kluging config.h 
+       mv -f config.h config.h.tmp
+       sed -e 's/#define HAVE_SYS_UIO_H 1/#undef HAVE_SYS_UIO_H/g' config.h.tmp > config.h
+       rm config.h.tmp
      fi
    fi])
 
