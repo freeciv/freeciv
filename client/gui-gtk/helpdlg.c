@@ -930,7 +930,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
       if (*(tile_types[i].special_1_name))
 	{
-	  sprintf (buf, "%s F/R/T:",
+	  sprintf (buf, _("%s F/R/T:"),
 		   tile_types[i].special_1_name);
 	  gtk_set_label (help_tlabel[1][0], buf);
 	  sprintf (buf, "%d/%d/%d",
@@ -945,7 +945,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
       if (*(tile_types[i].special_2_name))
 	{
-	  sprintf (buf, "%s F/R/T:",
+	  sprintf (buf, _("%s F/R/T:"),
 		   tile_types[i].special_2_name);
 	  gtk_set_label (help_tlabel[1][3], buf);
 	  sprintf (buf, "%d/%d/%d",
