@@ -1955,5 +1955,4 @@ void server_game_free()
   game_free();
   ruleset_cache_free();
   BV_CLR_ALL(srvarg.draw);
-  clean_players_research();
 }

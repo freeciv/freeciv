@@ -329,6 +329,7 @@ static void game_remove_all_players(void)
 ***************************************************************/
 void game_free(void)
 {
+  clean_players_research();
   game_remove_all_players();
   map_free();
   idex_free();
