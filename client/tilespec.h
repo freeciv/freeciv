@@ -85,6 +85,7 @@ struct named_sprites {
     *citizen[NUM_TILES_CITIZEN],   /* internal code... */
     *treaty_thumb[2],     /* 0=disagree, 1=agree */
     *right_arrow,
+
     *black_tile,      /* only used for isometric view */
     *dither_tile,     /* only used for isometric view */
     *coast_color;     /* only used for isometric view */
@@ -164,6 +165,7 @@ struct named_sprites {
       *pollution,
       *village,
       *fortress,
+      *fortress_back,
       *airbase,
       *fallout,
       *fog,

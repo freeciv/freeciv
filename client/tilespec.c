@@ -605,6 +605,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.pollution,  "tx.pollution");
   SET_SPRITE(tx.village,    "tx.village");
   SET_SPRITE(tx.fortress,   "tx.fortress");
+  SET_SPRITE_ALT(tx.fortress_back, "tx.fortress_back", "tx.fortress");
   SET_SPRITE(tx.airbase,    "tx.airbase");
   SET_SPRITE(tx.fog,        "tx.fog");
 
@@ -1210,6 +1211,10 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
       && (ttype == T_HILLS || ttype == T_MOUNTAINS)) {
     /* Oil mines come later. */
     *sprs++ = sprites.tx.mine;
+  }
+
+  if (contains_special(tspecial, S_FORTRESS) && draw_fortress_airbase) {
+    *sprs++ = sprites.tx.fortress_back;
   }
 
   if (draw_specials) {
