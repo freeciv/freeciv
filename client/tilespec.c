@@ -258,7 +258,7 @@ void tilespec_read_toplevel(const char *tileset_name)
     assert(tileset_name != NULL);
     section_file_free(file);
     free(fname);
-    tilespec_read_toplevel(NULL);
+    tilespec_read_toplevel("");
     return;
   }
   if (!is_isometric && !overhead_view_supported()) {
