@@ -197,9 +197,11 @@ static void make_forest(int x, int y, int height, int diff)
 static void make_forests(void)
 {
   int x,y;
-  int forestsize=25;
-  forestsize = (map_num_tiles() * map.forestsize) / 1000;
-   do {
+  int forestsize = (map_num_tiles() * map.forestsize) / 1000;
+
+  forests = 0;
+
+  do {
     rand_map_pos(&x, &y);
     if (map_get_terrain(x, y)==T_GRASSLAND) {
       make_forest(x,y, hmap(x, y), 25);
