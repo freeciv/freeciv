@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
   
   printf(FREECIV_NAME_VERSION " server\n> ");
 #if MINOR_VERSION < 7
-  printf("Freeciv 1.7 will be release on July 26 from http://www.freeciv.org\n");
+  printf("Freeciv 1.7 will be released on August 5 from http://www.freeciv.org\n");
 #endif
   fflush(stdout);
 
