@@ -246,9 +246,17 @@ static struct effect_list *get_effects(enum effect_type effect_type)
 **************************************************************************/
 struct effect_list *get_req_source_effects(struct req_source *psource)
 {
-  switch (psource->type) {
+  int type, value;
+
+  req_source_get_values(psource, &type, &value);
+
+  switch (type) {
   case REQ_BUILDING:
-    return ruleset_cache.reqs.buildings[psource->value.building];
+    if (value >= 0 && value < game.num_impr_types) {
+      return ruleset_cache.reqs.buildings[value];
+    } else {
+      return NULL;
+    }
   default:
     return NULL;
   }
@@ -798,17 +806,19 @@ int get_current_construction_bonus(const struct city *pcity,
     };
     struct effect_list *plist = get_req_source_effects(&source);
 
-    effect_list_iterate(plist, peffect) {
-      if (peffect->type != effect_type) {
-	continue;
-      }
-      if (is_effect_useful(TARGET_BUILDING, city_owner(pcity),
-			   pcity, id, NULL, id, peffect)) {
-	power += peffect->value;
-      }
-    } effect_list_iterate_end;
+    if (plist) {
+      effect_list_iterate(plist, peffect) {
+	if (peffect->type != effect_type) {
+	  continue;
+	}
+	if (is_effect_useful(TARGET_BUILDING, city_owner(pcity),
+			     pcity, id, NULL, id, peffect)) {
+	  power += peffect->value;
+	}
+      } effect_list_iterate_end;
 
-    return power;
+      return power;
+    }
   }
   return 0;
 }
