@@ -64,12 +64,13 @@ extern String fallback_resources[];
 extern char name[];
 extern char server_host[];
 extern int  server_port;
+extern char *tile_set_dir;
 
 /**************************************************************************
 ...
 **************************************************************************/
 char usage[] = 
-"Usage: %s [-bhlpsv] [--bgcol] [--cmap] [--help] [--log] [--name]\n\t[--port] [--server] [--debug] [--version]\n";
+"Usage: %s [-bhlpsv] [--bgcol] [--cmap] [--help] [--log] [--name]\n\t[--port] [--server] [--debug] [--version] [--tiles]\n";
 
 /**************************************************************************
 ...
@@ -93,6 +94,8 @@ XtResource resources[] = {
       XtOffset(AppResources *,showHelp), XtRImmediate, (XtPointer)False},
     { "showVersion", "ShowVersion", XtRBoolean, sizeof(Boolean),
       XtOffset(AppResources *,showVersion), XtRImmediate, (XtPointer)False},
+    { "tileset", "TileSet", XtRString, sizeof(String),
+      XtOffset(AppResources *,tileset), XtRImmediate, (XtPointer)False},
 };
 
 /**************************************************************************
@@ -105,6 +108,7 @@ static XrmOptionDescRec options[] = {
  { "-port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
  { "-server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
  { "-debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
+ { "-tiles",   ".tileset",     XrmoptionSepArg, (XPointer)"True" },
  { "-version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" },
  { "--help",    ".showHelp",    XrmoptionNoArg,  (XPointer)"True" },
  { "--log",     ".log",         XrmoptionSepArg, (XPointer)"True" },
@@ -112,6 +116,7 @@ static XrmOptionDescRec options[] = {
  { "--port",    ".port",        XrmoptionSepArg, (XPointer)"True" },
  { "--debug",   ".logLevel",    XrmoptionSepArg, (XPointer)"True" },
  { "--server",  ".server",      XrmoptionSepArg, (XPointer)"True" },
+ { "--tiles",   ".tileset",     XrmoptionSepArg, (XPointer)"True" },
  { "--version", ".showVersion", XrmoptionNoArg,  (XPointer)"True" }
 };
 
@@ -304,6 +309,7 @@ void x_main(int argc, char *argv[])
     fprintf(stderr, "  -server S\t\tConnect to the server at S\n");
     fprintf(stderr, "  -debug N\t\tSet debug log level (0,1,2)\n");
     fprintf(stderr, "  -version\t\tPrint the version number\n");
+    fprintf(stderr, "  -tiles D\t\tLook in directory D for the tiles\n");
     exit(0);
   }
   
@@ -337,6 +343,9 @@ void x_main(int argc, char *argv[])
     server_port=appResources.port;
   else
     server_port=DEFAULT_SOCK_PORT;
+
+  if(appResources.tileset)
+    tile_set_dir=appResources.tileset; 
   
   boot_help_texts();		/* after log_init */
 
