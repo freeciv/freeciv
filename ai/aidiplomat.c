@@ -432,6 +432,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
   int gold_avail = pplayer->economic.gold - pplayer->ai.est_upkeep;
   int cost, destx, desty;
   bool threat = FALSE;
+  int sanity = punit->id;
 
   /* Check ALL possible targets */
   whole_map_iterate(x, y) {
@@ -519,7 +520,12 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
       packet.target_id = pvictim->id;
       packet.action_type = DIPLOMAT_BRIBE;
       handle_diplomat_action(pplayer, &packet);
-      return (punit->moves_left > 0);
+      /* autoattack might kill us as we move in */
+      if (find_unit_by_id(sanity) && punit->moves_left > 0) {
+        return TRUE;
+      } else {
+        return FALSE;
+      }
     } else {
       /* usually because we ended move early due to another unit */
       UNIT_LOG(LOG_DIPLOMAT, punit, "could not bribe target "

@@ -2213,6 +2213,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   }
   if ((punit = find_unit_by_id(id)) && punit->moves_left > 0) {
     struct city *pcity = map_get_city(punit->x, punit->y);
+
     if (pcity && pcity->id == punit->homecity) {
       /* We're needlessly idle in our homecity */
       UNIT_LOG(LOG_DEBUG, punit, "fstk could not find work for me!");

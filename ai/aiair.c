@@ -342,7 +342,9 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
      * TODO: separate attacking into a function, check for the best 
      * tile to attack from */
     set_unit_activity(punit, ACTIVITY_GOTO);
-    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+    if (!ai_unit_goto(punit, GOTO_MOVE_ANY, FALSE)) {
+      return; /* died */
+    }
     /* goto would be aborted: "Aborting GOTO for AI attack procedures"
      * now actually need to attack */
 
