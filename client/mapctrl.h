@@ -77,6 +77,7 @@ void key_unit_clean_pollution(Widget w, XEvent *event, String *argv, Cardinal *a
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo);
 void key_city_workers(Widget w, XEvent *event, String *argv, Cardinal *argc);
 void adjust_workers(Widget w, XEvent *event, String *argv, Cardinal *argc);
+void key_map_grid(Widget w, XEvent *event, String *argv, Cardinal *argc);
 
 void city_new_name_return(Widget w, XEvent *event, String *params,
 			  Cardinal *num_params);

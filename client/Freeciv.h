@@ -1732,6 +1732,7 @@ Now.. Go give'em hell!",
 "Freeciv*inputlinetext.top:                       chainBottom",
 "Freeciv*inputlinetext.bottom:                    chainBottom",
 "Freeciv*mapcanvas.translations:\
+   Ctrl<Key>g:        key-map-grid()        \\n\
    Shift<BtnDown>:    adjust-workers()      \\n\
    <BtnDown>:         select-mapcanvas()    \\n\
    <Key>Tab:          focus-to-next-unit()  \\n\
@@ -1807,9 +1808,13 @@ Now.. Go give'em hell!",
 "Freeciv*citizenlabels.borderWidth:                0",
 "Freeciv*citizenlabels.shadowWidth:		  0",
 "Freeciv*citizenlabels.background:		  White",
-"Freeciv*citysubform.borderWidth:    	           0",
+"Freeciv*citysubform.borderWidth:    	          0",
 "Freeciv*citysubform.horizDistance:                0",
-"Freeciv*citysubform.background: white",
+"Freeciv*citysubform.background:                   White",
+"Freeciv*cityleftform.borderWidth:                 0",
+"Freeciv*cityleftform.background:                  White",
+"Freeciv*cityrightform.borderWidth:                0",
+"Freeciv*cityrightform.background:                 White",
 "Freeciv*cityimprovview.allowVert: True",
 "Freeciv*citysellcommand.label: Sell",
 "Freeciv*cityclosecommand.label: Close",
@@ -1828,7 +1833,7 @@ Luxury:   2\\n\
 Science: 25",
 "Freeciv*citystoragelabel.label: Granary:    15/54",
 "Freeciv*citypollutionlabel.label: Pollution:    111",
-"Freeciv*citybuildinglabel.label: Copernicus' Observatory",
+"Freeciv*citybuildinglabel.label: Copernicus' Observatory\\ \\ ",
 "Freeciv*cityprogresslabel.label: 199/200",
 "Freeciv*citybuycommand.label: Buy",
 "Freeciv*citychangecommand.label: Change",

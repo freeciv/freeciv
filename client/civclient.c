@@ -56,6 +56,7 @@ int auto_center_on_unit=1;
 int wakeup_focus=1;
 int draw_diagonal_roads=1;
 int center_when_popup_city=1;
+int draw_map_grid=0;
 
 int seconds_to_turndone;
 

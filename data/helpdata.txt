@@ -348,10 +348,10 @@ Mouse:
 
 Keyboard:
 =========
-  a: (A)uto-settler                     arrow keys: Move unit
-  A: (A)uto-attack (military units)          space: Unit stay put
-  c: (C)enter view on unit                  return: Turn done
-  b: (B)uild City
+  a: (A)uto-settler                    arrow keys: Move unit
+  A: (A)uto-attack (military units)         space: Unit stay put
+  c: (C)enter view on unit                 return: Turn done
+  b: (B)uild City                       Control-G: Grid lines on/off
   B: Help (B)uild Wonder
   D: (D)isband unit
   f: (F)ortify unit

@@ -65,6 +65,7 @@ extern int use_solid_color_behind_units;
 extern int flags_are_transparent;
 extern int ai_manual_turn_done;
 extern int draw_diagonal_roads;
+extern int draw_map_grid;
 
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;
@@ -768,6 +769,22 @@ void update_map_canvas(int tile_x, int tile_y, int width, int height,
     for(x=tile_x; x<tile_x+width; x++)
       pixmap_put_tile(map_canvas_store, x, y, 
 		      (map_view_x0+x)%map.xsize, map_view_y0+y, 0);
+
+  if(draw_map_grid) { /* draw some grid lines... */
+    int x1,y1,x2,y2;
+
+    XSetForeground(display, civ_gc, 0xffffff);
+    XSetFunction(display, civ_gc, GXxor);
+
+    y1 = tile_y*NORMAL_TILE_HEIGHT; y2 = (tile_y+height)*NORMAL_TILE_HEIGHT;
+    x1 = tile_x*NORMAL_TILE_WIDTH; x2 = (tile_x+width)*NORMAL_TILE_WIDTH;
+    for(x=x1; x<=x2; x+=NORMAL_TILE_WIDTH)
+      XDrawLine(display, map_canvas_store, civ_gc, x, y1, x, y2);
+    for(y=y1; y<=y2; y+=NORMAL_TILE_HEIGHT)
+      XDrawLine(display, map_canvas_store, civ_gc, x1, y, x2, y);
+
+    XSetFunction(display, civ_gc, GXcopy);
+  }
 
   if(write_to_screen) {
     XCopyArea(display, map_canvas_store, XtWindow(map_canvas), 

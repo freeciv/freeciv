@@ -241,7 +241,8 @@ XtActionsRec Actions[] = {
   { "key-city-workers", key_city_workers },
   { "adjust-workers", adjust_workers },
   { "close-spaceshipdialog", close_spaceship_dialog_action },
-  { "spaceship-dialog-returnkey", spaceship_dialog_returnkey }
+  { "spaceship-dialog-returnkey", spaceship_dialog_returnkey },
+  { "key-map-grid", key_map_grid }
 };
 
 int myerr(Display *p, XErrorEvent *e)

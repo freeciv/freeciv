@@ -72,6 +72,7 @@ extern Widget toplevel, main_form, map_canvas;
 extern Widget turn_done_button;
 extern int smooth_move_units;
 extern int auto_center_on_unit;
+extern int draw_map_grid;
 
 /**************************************************************************
 ...
@@ -417,6 +418,17 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
 
   if(get_unit_in_focus()==punit) update_menus();
+}
+
+/**************************************************************************
+  Toggle display of grid lines on the map
+**************************************************************************/
+void key_map_grid(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) return;
+
+  draw_map_grid^=1;
+  update_map_canvas(0,0, map_canvas_store_twidth,map_canvas_store_theight, 1);
 }
 
 /**************************************************************************
