@@ -1272,7 +1272,7 @@ static void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
     if (vet) {
       notify_player_ex(pplayer, x, y, E_MY_DIPLOMAT_ESCAPE,
 		       _("Game: Your %s has successfully completed"
-			 " her mission and returned unharmed to %s "
+			 " her mission and returned unharmed to %s"
 			 " and has become more experienced."),
 		       unit_name(pdiplomat->type), spyhome->name);
     } else {
