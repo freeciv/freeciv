@@ -41,9 +41,7 @@
 static struct ai_data aidata[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
 /**************************************************************************
-  Make and cache lots of calculations needed for other functions, notably:
-  ai_eval_defense_land, ai_eval_defense_nuclear, ai_eval_defense_sea and 
-  ai_eval_defense_air.
+  Make and cache lots of calculations needed for other functions.
 
   Note: We use map.num_continents here rather than pplayer->num_continents
   because we are omniscient and don't care about such trivialities as who
@@ -63,7 +61,7 @@ void ai_data_turn_init(struct player *pplayer)
   bool can_build_antinuke = can_player_build_improvement(pplayer, B_SDI);
   bool can_build_antimissile = can_player_build_improvement(pplayer, B_SDI);
 
-  /* Threats */
+  /*** Threats ***/
 
   ai->num_continents = map.num_continents;
   ai->threats.continent = fc_calloc(ai->num_continents + 1, sizeof(bool));
@@ -142,7 +140,7 @@ void ai_data_turn_init(struct player *pplayer)
   /* Increase from fear to terror if opponent actually has nukes */
   if (danger_of_nukes) ai->threats.nuclear++; /* sum of both fears */
 
-  /* Exploration */
+  /*** Exploration ***/
 
   ai->explore.land_done = TRUE;
   ai->explore.sea_done = TRUE;
@@ -180,7 +178,7 @@ void ai_data_turn_init(struct player *pplayer)
     }
   } whole_map_iterate_end;
 
-  /* Statistics */
+  /*** Statistics ***/
 
   ai->stats.workers = fc_calloc(ai->num_continents + 1, sizeof(int));
   ai->stats.cities = fc_calloc(ai->num_continents + 1, sizeof(int));
@@ -207,7 +205,7 @@ void ai_data_turn_init(struct player *pplayer)
     }
   } unit_list_iterate_end;
 
-  /* Diplomacy */
+  /*** Diplomacy ***/
 
   /* Question: What can we accept as the reputation of a player before
    * we start taking action to prevent us from being suckered?
@@ -246,12 +244,13 @@ void ai_data_turn_init(struct player *pplayer)
     } players_iterate_end;
   }
 
-  /* 
-   * Priorities. NEVER set these to zero! Weight values are usually
-   * multiplied by these values, so be careful with them. They are
-   * used in city calculations, and food and shields should be slightly
-   * bigger because we only look at surpluses there. WAGs.
-   */
+  /*** Priorities ***/
+
+  /* NEVER set these to zero! Weight values are usually multiplied by 
+   * these values, so be careful with them. They are used in city 
+   * and government calculations, and food and shields should be 
+   * slightly bigger because we only look at surpluses there. They
+   * are all WAGs. */
   ai->food_priority = FOOD_WEIGHTING;
   ai->shield_priority = SHIELD_WEIGHTING;
   ai->luxury_priority = 1;
@@ -262,7 +261,6 @@ void ai_data_turn_init(struct player *pplayer)
   ai->angry_priority = TRADE_WEIGHTING * 3; /* grave danger */
   ai->pollution_priority = POLLUTION_WEIGHTING;
 
-  /* Goals */
   ai_best_government(pplayer);
 }
 
