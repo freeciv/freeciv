@@ -19,6 +19,10 @@ The info string should look like this:
 #ifndef _META_H
 #define _META_H
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <shared.h>
 
 #define	METASERVER_PORT	12245

@@ -13,6 +13,10 @@
 #ifndef __SHARED_H
 #define __SHARED_H
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 /* client/server should always have the same major and minor versions */
 /* different patch versions are compatible */
 #define MAJOR_VERSION  1
