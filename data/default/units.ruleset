@@ -108,7 +108,7 @@ options="1.9"
 ; "GameLoss"	= losing one of these units means you lose the game, but it
 ;		  is produced without homecity and upkeep
 ; "Unbribable"	= this unit cannot be bribed
-; "Undisbandable" = this unit cannot be disbanded, won't drown, and will not
+; "Undisbandable" = this unit cannot be disbanded, will not drown, and will not
 ;		  disband due to lack of shields to upkeep it in homecity;
 ;		  if not given enough food to upkeep it, homecity will shrink 
 ;		  every turn it cannot do so, however
