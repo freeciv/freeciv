@@ -40,8 +40,9 @@ void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface *pDest,
 void rebuild_focus_anim_frames(void);
 
 void flush_rect(SDL_Rect rect);
-void unqueue_flush(void);
 void sdl_dirty_rect(SDL_Rect rect);
+void unqueue_flush(void);
+void queue_flush(void);
 void flush_all(void);
 
 #define sdl_contains_special(store, special)	\

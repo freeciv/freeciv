@@ -2718,7 +2718,7 @@ static int diplomat_incite_yes_callback(struct GUI *pWidget)
   
   popdown_incite_dialog();
 
-  request(diplomat_action(DIPLOMAT_INCITE, diplomat_id, target_id, 0);
+  request_diplomat_action(DIPLOMAT_INCITE, diplomat_id, target_id, 0);
   return -1;
 }
 

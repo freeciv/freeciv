@@ -187,58 +187,65 @@ void gui_put_line(struct canvas_store *pCanvas_store, enum color_std color,
 				get_game_color(color, pCanvas_store->map));
 }
 
+static bool is_flush_queued = FALSE;
+
 /**************************************************************************
   Flush the given part of the buffer(s) to the screen.
 **************************************************************************/
 void flush_mapcanvas(int canvas_x , int canvas_y ,
 		     int pixel_width , int pixel_height)
 {
-  SDL_Rect src, dst = {canvas_x, canvas_y, pixel_width, pixel_height};
+  if(is_flush_queued) {
+    dirty_rect(canvas_x, canvas_y, pixel_width, pixel_height);
+  } else {
+    SDL_Rect src, dst = {canvas_x, canvas_y, pixel_width, pixel_height};
 
-  if (correct_rect_region(&dst)) {
-    int i = 0;
-    src = dst;
-    SDL_BlitSurface(Main.map, &src, Main.screen, &dst);
-    dst = src;
-    if(draw_city_names||draw_city_productions) {
-      SDL_BlitSurface(Main.text, &src, Main.screen, &dst);
+    if (correct_rect_region(&dst)) {
+      int i = 0;
+      src = dst;
+      SDL_BlitSurface(Main.map, &src, Main.screen, &dst);
       dst = src;
+      if(draw_city_names||draw_city_productions) {
+        SDL_BlitSurface(Main.text, &src, Main.screen, &dst);
+        dst = src;
+      }
+      SDL_BlitSurface(Main.gui, &src, Main.screen, &dst);
+      while(Main.guis && Main.guis[i] && i < Main.guis_count) {
+        dst = src;
+        SDL_BlitSurface(Main.guis[i++], &src, Main.screen, &dst);
+      }
+      /* flush main buffer to framebuffer */
+      SDL_UpdateRect(Main.screen, dst.x, dst.y, dst.w, dst.h);  
     }
-    SDL_BlitSurface(Main.gui, &src, Main.screen, &dst);
-    while(Main.guis && Main.guis[i] && i < Main.guis_count) {
-      dst = src;
-      SDL_BlitSurface(Main.guis[i++], &src, Main.screen, &dst);
-    }
-    i = 0;
-    /* flush main buffer to framebuffer */
-    SDL_UpdateRect(Main.screen, dst.x, dst.y, dst.w, dst.h);  
   }
 }
 
 void flush_rect(SDL_Rect rect)
 {
-  static SDL_Rect dst;
-  if (correct_rect_region(&rect)) {
-    static int i = 0;
-    dst = rect;
-    SDL_BlitSurface(Main.map, &rect, Main.screen, &dst);
-    dst = rect;
-    if(draw_city_names||draw_city_productions) {
-      SDL_BlitSurface(Main.text, &rect, Main.screen, &dst);
+  if(is_flush_queued) {
+    sdl_dirty_rect(rect);
+  } else {
+    static SDL_Rect dst;
+    if (correct_rect_region(&rect)) {
+      static int i = 0;
       dst = rect;
-    }
-    SDL_BlitSurface(Main.gui, &rect, Main.screen, &dst);
-    while(Main.guis && Main.guis[i] && i < Main.guis_count) {
+      SDL_BlitSurface(Main.map, &rect, Main.screen, &dst);
       dst = rect;
-      SDL_BlitSurface(Main.guis[i++], &rect, Main.screen, &dst);
+      if(draw_city_names||draw_city_productions) {
+        SDL_BlitSurface(Main.text, &rect, Main.screen, &dst);
+        dst = rect;
+      }
+      SDL_BlitSurface(Main.gui, &rect, Main.screen, &dst);
+      while(Main.guis && Main.guis[i] && i < Main.guis_count) {
+        dst = rect;
+        SDL_BlitSurface(Main.guis[i++], &rect, Main.screen, &dst);
+      }
+      i = 0;
+      /* flush main buffer to framebuffer */
+      SDL_UpdateRect(Main.screen, rect.x, rect.y, rect.w, rect.h);
     }
-    i = 0;
-    /* flush main buffer to framebuffer */
-    SDL_UpdateRect(Main.screen, rect.x, rect.y, rect.w, rect.h);
   }
 }
-
-static bool is_flush_queued = FALSE;
 
 /**************************************************************************
   A callback invoked as a result of a FLUSH event, this function simply
@@ -259,7 +266,7 @@ void unqueue_flush(void)
   to be handled later by SDL.  The flush may end up being done
   by freeciv before then, in which case it will be a wasted call.
 **************************************************************************/
-static void queue_flush(void)
+void queue_flush(void)
 {
   if (!is_flush_queued) {
     if (SDL_PushEvent(pFlush_User_Event) == 0) {
@@ -279,8 +286,8 @@ static void queue_flush(void)
 /**************************************************************************
   Save Flush area used by "end" flush.
 **************************************************************************/
-void dirty_rect(int canvas_x , int canvas_y ,
-		     int pixel_width , int pixel_height)
+void dirty_rect(int canvas_x, int canvas_y,
+		     int pixel_width, int pixel_height)
 {
   SDL_Rect Rect = {canvas_x, canvas_y, pixel_width, pixel_height};
   if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
@@ -339,7 +346,7 @@ void flush_dirty(void)
     }
     j = 0;
     /* flush main buffer to framebuffer */    
-    SDL_Flip(Main.screen);/* == SDL_UpdateRect(Main.screen, 0, 0 , 0, 0); */
+    SDL_UpdateRect(Main.screen, 0, 0, 0, 0);
   } else {
     static int i;
     static SDL_Rect dst;
@@ -362,6 +369,7 @@ void flush_dirty(void)
     SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
   }
   Main.rects_count = 0;
+
 }
 
 /* ======================================================== */

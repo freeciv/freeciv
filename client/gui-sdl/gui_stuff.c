@@ -2295,7 +2295,7 @@ void setup_vertical_vidgets_position(int step,
     pBuf->size.x = real_start_x;
     pBuf->size.y = start_y;
     
-    real_start_x += pBuf->size.w;
+
     
     if(w) {
       pBuf->size.w = w;
@@ -2308,6 +2308,8 @@ void setup_vertical_vidgets_position(int step,
     if(!((count + 1) % step)) {
       real_start_x = start_x;
       start_y += pBuf->size.h;
+    } else {
+      real_start_x += pBuf->size.w;
     }
     
     if(pBuf == pBegin) {
@@ -3314,8 +3316,25 @@ int redraw_edit(struct GUI *pEdit_Widget)
   int iRet = 0;
   SDL_Rect rDest = {pEdit_Widget->size.x, pEdit_Widget->size.y, 0, 0};
   SDL_Surface *pEdit = NULL;
-  SDL_Surface *pText = create_text_surf_from_str16(pEdit_Widget->string16);
-
+  SDL_Surface *pText;
+  
+  if (pEdit_Widget->string16->text &&
+    	get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
+    Uint16 *backup = pEdit_Widget->string16->text;
+    size_t len = unistrlen(backup) + 1;
+    char *cBuf = MALLOC(len);
+    
+    memset(cBuf, '*', len - 1);
+    cBuf[len - 1] = '\0';
+    pEdit_Widget->string16->text = convert_to_utf16(cBuf);
+    pText = create_text_surf_from_str16(pEdit_Widget->string16);
+    FREE(pEdit_Widget->string16->text);
+    FREE(cBuf);
+    pEdit_Widget->string16->text = backup;
+  } else {
+    pText = create_text_surf_from_str16(pEdit_Widget->string16);
+  }
+  
   if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
 
     pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
@@ -3450,7 +3469,7 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
   struct EDIT *pEdt = (struct EDIT *)pData;
   struct UniChar *pInputChain_TMP;
   bool Redraw = FALSE;
-    
+      
   /* find which key is pressed */
   switch (Key.sym) {
     case SDLK_ESCAPE:
@@ -3604,14 +3623,22 @@ INPUT:/* add new element of chain (and move cursor right) */
 	  pEdt->pInputChain->prev->chr[0] = Key.unicode;
         }
 	  
-	pEdt->pInputChain->prev->chr[1] = 0;
+	pEdt->pInputChain->prev->chr[1] = '\0';
 	
 	if (pEdt->pInputChain->prev->chr) {
-	  pEdt->pInputChain->prev->pTsurf =
-	    TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
+	  if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
+	    Uint16 passwd_chr[2] = {'*', '\0'};
+	    
+	    pEdt->pInputChain->prev->pTsurf =
+	      TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
+					  passwd_chr,
+					  pEdt->pWidget->string16->forecol);
+	  } else {
+	    pEdt->pInputChain->prev->pTsurf =
+	      TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
 					  pEdt->pInputChain->prev->chr,
 					  pEdt->pWidget->string16->forecol);
-
+	  }
 	  pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
 	}
 

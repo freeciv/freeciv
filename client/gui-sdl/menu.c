@@ -53,6 +53,8 @@
 
 #include "menu.h"
 
+extern struct GUI *pOptions_Button;
+  
 static struct GUI *pBeginOrderWidgetList;
 static struct GUI *pEndOrderWidgetList;
   
@@ -258,14 +260,14 @@ static void set_new_order_widget_start_pos(void)
 
   w = (pInfoWind->size.x - 10) - xx;
   
-  if (w < pTmpWidget->size.w + 10) {
+  if (w < (pTmpWidget->size.w + 10) * 2) {
     if(pMiniMap->size.h == pInfoWind->size.h) {
       xx = 0;
       w = Main.gui->w;
       yy = pInfoWind->size.h;
     } else {
       w = Main.gui->w - xx - 20;
-      if (w < pTmpWidget->size.w + 10) {
+      if (w < (pTmpWidget->size.w + 10) * 2) {
 	xx = 0;
 	w = Main.gui->w;
 	yy = pMiniMap->size.h;
@@ -766,18 +768,13 @@ void update_menus(void)
   static Uint16 counter = 0;
   struct unit *pUnit = NULL;
   static char cBuf[128];
-
-  if (!aconnection.established) {
-    hide(ID_CLIENT_OPTIONS);
-  }
-
+  
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE ||
       (SDL_Client_Flags & CF_OPTION_OPEN)) {
 
     SDL_Client_Flags |= CF_GANE_JUST_STARTED;
-
-    /*hide( ID_CLIENT_OPTIONS ); */
-    
+	
+    set_wflag(pOptions_Button, WF_HIDDEN);
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
       hide(ID_TOGGLE_UNITS_WINDOW_BUTTON);
       hide(ID_TOGGLE_MAP_WINDOW_BUTTON);
@@ -804,8 +801,10 @@ void update_menus(void)
 
       SDL_Client_Flags &= ~CF_GANE_JUST_STARTED;
 
-      show(ID_CLIENT_OPTIONS);
-
+      clear_wflag(pOptions_Button, WF_HIDDEN);
+      real_redraw_icon(pOptions_Button);
+      sdl_dirty_rect(pOptions_Button->size);
+      
       show(ID_TOGGLE_UNITS_WINDOW_BUTTON);
       show(ID_REVOLUTION);
       show(ID_RESEARCH);

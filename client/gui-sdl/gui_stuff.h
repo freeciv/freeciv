@@ -42,16 +42,17 @@ enum WFlags {
   WF_FREE_GFX	 			= (1<<11),	/* 2048 */
   WF_FREE_THEME			= (1<<12),	/* 4096 */
   WF_FREE_STRING			= (1<<13),	/* 8192 */
-  WF_DRAW_THEME_TRANSPARENT	 	= (1<<14),	/* 16384 */
+  WF_FREE_DATA			 	= (1<<14),	/* 16384 */
   WF_ICON_ABOVE_TEXT			= (1<<15),	/* 32768 */
   WF_ICON_UNDER_TEXT			= (1<<16),	/* 65536 */
   WF_ICON_CENTER			= (1<<17),	/* 131072 */
   WF_ICON_CENTER_RIGHT			= (1<<18),	/* 262144 */
-  WF_WIDGET_HAS_INFO_LABEL		= (1<<19),	/* 524288 */
+  WF_DRAW_THEME_TRANSPARENT		= (1<<19),	/* 524288 */
   WF_DRAW_FRAME_AROUND_WIDGET	 	= (1<<20),	/* 1048576 */
   WF_DRAW_TEXT_LABEL_WITH_SPACE		= (1<<21),	/* 2097152 */
-  WF_FREE_DATA				= (1<<22),	/* 4194304 */
-  WF_SELLECT_WITHOUT_BAR		= (1<<23)	/* 8388608 */
+  WF_WIDGET_HAS_INFO_LABEL		= (1<<22),	/* 4194304 */
+  WF_SELLECT_WITHOUT_BAR		= (1<<23),	/* 8388608 */
+  WF_PASSWD_EDIT			= (1<<24)	
 };
 
 /* Widget states */

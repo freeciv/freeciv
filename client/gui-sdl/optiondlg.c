@@ -67,7 +67,7 @@ static struct OPT_DLG {
   struct ADVANCED_DLG *pADlg;
 } *pOption_Dlg = NULL;
 
-static struct GUI *pOptions_Button = NULL;
+struct GUI *pOptions_Button = NULL;
 static struct GUI *pEdited_WorkList_Name = NULL;
 extern SDL_Surface * get_buffer_layer(bool transparent);
 
@@ -1890,7 +1890,7 @@ static int disconnect_callback(struct GUI *pWidget)
 				pOption_Dlg->pEndOptionsWidgetList);
     SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN |
 			  CF_TOGGLED_FULLSCREEN);
-    /* hide buton */
+    /* undraw buton */
     area = pOptions_Button->size;
     SDL_BlitSurface(pOptions_Button->gfx, NULL, pOptions_Button->dst, &area);
     sdl_dirty_rect(pOptions_Button->size);
@@ -1905,7 +1905,8 @@ static int disconnect_callback(struct GUI *pWidget)
       
     flush_dirty();
   }
-
+  
+  set_wstate(pOptions_Button, FC_WS_NORMAL);
   disconnect_from_server();
   return -1;
 }
@@ -1983,10 +1984,13 @@ void init_options_button(void)
   pOptions_Button = create_themeicon(pTheme->Options_Icon, Main.gui,
 				       (WF_WIDGET_HAS_INFO_LABEL |
 					WF_DRAW_THEME_TRANSPARENT));
-
+  pOptions_Button->size.x = 5;
+  pOptions_Button->size.y = 5;
   pOptions_Button->action = optiondlg_callback;
   pOptions_Button->string16 = create_str16_from_char(_("Options"), 12);
   pOptions_Button->key = SDLK_TAB;
+  set_wstate(pOptions_Button, FC_WS_NORMAL);
+  set_wflag(pOptions_Button, WF_HIDDEN);
   add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
 }
 
