@@ -382,7 +382,7 @@ tiles = { "row", "column", "tag"
  12, 13, "tx.city_walls"
  12, 14, "tx.village"
  12, 15, "tx.fortress"
-  9, 18, "tx.airbase"
+ 13, 16, "tx.airbase"
 
 ; City-related icons:
 
@@ -392,8 +392,7 @@ tiles = { "row", "column", "tag"
 ; Unit activity letters:  (note unit icons have just "u.")
 
   9, 18, "unit.auto_attack",
-         "unit.auto_settler",
-         "unit.airbase"
+         "unit.auto_settler"
   9, 19, "unit.stack"
  10, 19, "unit.auto_explore"
  11, 12, "unit.transform"
@@ -405,6 +404,7 @@ tiles = { "row", "column", "tag"
  11, 18, "unit.irrigate"
  11, 19, "unit.fortify",
          "unit.fortress"
+ 12, 16, "unit.airbase"
  12, 17, "unit.pillage"
 
 ; Unit hit-point bars: approx percent of hp remaining
