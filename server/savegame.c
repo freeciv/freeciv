@@ -962,6 +962,10 @@ static void player_load(struct player *plr, int plrno,
 			plrno, i, &pcity->worklist);
     }
 
+    /* FIXME: remove this when the urgency is properly recalculated. */
+    pcity->ai.urgency = secfile_lookup_int_default(file, 0, 
+				"player%d.c%d.ai.urgency", plrno, i);
+
     map_set_city(pcity->x, pcity->y, pcity);
 
     city_list_insert_back(&plr->cities, pcity);
@@ -1595,6 +1599,10 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
 
     worklist_save(file, "player%d.c%d", plrno, i, &pcity->worklist);
+
+    /* FIXME: remove this when the urgency is properly recalculated. */
+    secfile_insert_int(file, pcity->ai.urgency,
+		       "player%d.c%d.ai.urgency", plrno, i);
   }
   city_list_iterate_end;
 
