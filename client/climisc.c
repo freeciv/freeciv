@@ -72,7 +72,7 @@ void client_remove_player(int plrno)
     client_remove_unit(punit->id);
   unit_list_iterate_end;
   city_list_iterate(pplayer->cities, pcity) 
-    client_remove_city(pcity->id);
+    client_remove_city(pcity);
   city_list_iterate_end;
   game_renumber_players(plrno);
 }
@@ -131,23 +131,19 @@ void client_remove_unit(int unit_id)
 /**************************************************************************
 ...
 **************************************************************************/
-void client_remove_city(int city_id)
+void client_remove_city(struct city *pcity)
 {
-  struct city *pcity;
-  
-  if (DEBUG) freelog(LOG_DEBUG, "client_remove_city %d", city_id);
-  
-  if((pcity=find_city_by_id(city_id))) {
-    int x=pcity->x;
-    int y=pcity->y;
-    popdown_city_dialog(pcity);
-    if (DEBUG) {
-      freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
-	   get_race_name(city_owner(pcity)->race), pcity->x, pcity->y);
-    }
-    game_remove_city(pcity);
-    refresh_tile_mapcanvas(x, y, 1);
+  int x=pcity->x;
+  int y=pcity->y;
+
+  if (DEBUG) {
+    freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
+	    get_race_name(city_owner(pcity)->race), x, y);
   }
+  popdown_city_dialog(pcity);
+  game_remove_city(pcity);
+  city_report_dialog_update();
+  refresh_tile_mapcanvas(x, y, 1);
 }
 
 #define NCONT 256		/* should really be (UCHAR_MAX+1)? */
