@@ -78,10 +78,14 @@ enum new_game_dlg_ids {
   ID_CANCEL=IDCANCEL
 };
 
-static struct t_server_button server_buttons[]={{NULL,"Start Game","start"},
-						{NULL,"Save Game","save"},
-						{NULL,"End Game","quit"},
-						{NULL,"Get Score","score"}};
+static struct t_server_button server_buttons[]={{NULL,N_("Start Game"),
+						 "start"},
+						{NULL,N_("Save Game"),
+						 "save"},
+						{NULL,N_("End Game"),
+						 "quit"},
+						{NULL,N_("Get Score"),
+						 "score"}};
 static HANDLE server_process=INVALID_HANDLE_VALUE;
 static HANDLE stdin_pipe[2];
 static HANDLE stdout_pipe[2];
@@ -159,7 +163,7 @@ static void add_server_control_buttons()
   fcwin_box_add_static(vbox,buf,0,SS_LEFT,TRUE,TRUE,0);
   for (i=0;i<ARRAY_SIZE(server_buttons);i++) {
     server_buttons[i].button=
-      fcwin_box_add_button(vbox,server_buttons[i].button_string,
+      fcwin_box_add_button(vbox,_(server_buttons[i].button_string),
 			   ID_SERVERBUTTON,0,FALSE,FALSE,0);
   }
   fcwin_box_add_box(output_box,vbox,FALSE,FALSE,0);
@@ -545,6 +549,7 @@ static void check_server_output(HANDLE pipe)
     return;
   if (rlen<=0)
     return;
+  rlen=MIN(sizeof(buf)-1,rlen);
   if (ReadFile(pipe,buf,rlen,&rlen,NULL)) {
     buf[rlen]=0;
     append_server_output(buf);
