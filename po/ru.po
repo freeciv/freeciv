@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreeCiv-1.14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-14 14:23-0400\n"
+"POT-Creation-Date: 2004-10-14 16:05-0400\n"
 "PO-Revision-Date: 2004-10-09 18:47+0300\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -10895,6 +10895,10 @@ msgstr "_Подключённые игроки:"
 msgid "Turn Done"
 msgstr "Ход сделан"
 
+#: client/gui-gtk-2.0/gui_main.c:903
+msgid "_Chat"
+msgstr "_Разговор"
+
 #: client/gui-gtk-2.0/gui_main.c:919 client/gui-gtk/gui_main.c:779
 #: client/gui-mui/gui_main.c:1031 client/gui-win32/gui_main.c:452
 #: data/Freeciv:2808
@@ -10907,6 +10911,11 @@ msgstr ""
 "копии\n"
 "при определённых условиях; смотрите пункт \"Копирование\" в меню Справка\n"
 "А теперь... Отправьте их всех в ад!"
+
+#: client/gui-gtk-2.0/gui_main.c:935 client/gui-gtk/menu.c:782
+#: client/gui-win32/menu.c:405
+msgid "_Messages"
+msgstr "_Сообщения"
 
 #: client/gui-gtk-2.0/gui_main.c:1179 client/gui-mui/citydlg.c:1557
 msgid "Name:"
@@ -12987,10 +12996,6 @@ msgstr "Распустить отряд"
 #: client/gui-gtk/menu.c:751
 msgid "Diplomat|Spy Actions"
 msgstr "Действия дипломата|шпиона"
-
-#: client/gui-gtk/menu.c:782 client/gui-win32/menu.c:405
-msgid "_Messages"
-msgstr "Сообщения"
 
 #: client/gui-gtk/menu.c:924
 msgid "Go/Air_lift to City"
