@@ -3158,7 +3158,7 @@ static void take_command(struct connection *caller, char *str)
     attach_connection_to_player(pconn, pplayer);
 
     cmd_reply(CMD_TAKE, caller, C_COMMENT,
-              _("%s disconnecting from %s"), pconn->username, old_plr->name);
+              _("%s detaching from %s"), pconn->username, old_plr->name);
 
     /* only remove the player if the game is new and in pregame, nobody 
      * is connected to it anymore and it wasn't AI-controlled. */
