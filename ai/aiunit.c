@@ -32,10 +32,6 @@
 #include <aicity.h>
 #include <maphand.h>
 
-void ai_manage_unit(struct player *pplayer, struct unit *punit); 
-void ai_manage_settler(struct player *pplayer, struct unit *punit);
-void ai_manage_caravan(struct player *pplayer, struct unit *punit);
-const char *get_a_name(void);
 
 /**************************************************************************
  do all the gritty nitty chess like analysis here... (argh)

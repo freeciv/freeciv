@@ -27,9 +27,6 @@
 #include <aitools.h>
 #include <aiunit.h>
 
-void ai_calculate_city_value(int isle);
-int ai_military_findtarget(struct player *pplayer,struct unit *punit);
-
 
 struct ai_map_struct ai_map;
 void map_set_city_value(int x, int y, int val)
