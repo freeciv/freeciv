@@ -415,29 +415,39 @@ extern struct terrain_misc terrain_control;
 /* This iterates outwards from the starting point. Every tile within max_dist
  * will show up exactly once, in an outward (based on real map distance)
  * order.  The returned values are always real and are normalized.  The
- * starting position must be normal. */
-#define iterate_outward(start_x, start_y, max_dist, x_itr, y_itr)	    \
+ * starting position must be normal.
+ *
+ * See also iterate_outward() */
+#define iterate_outward_dxy(start_x, start_y, max_dist, x_itr, y_itr,	    \
+			    dx_itr, dy_itr)				    \
 {									    \
   int _start_x = (start_x), _start_y = (start_y), _max_dist = (max_dist);   \
   bool _is_border = IS_BORDER_MAP_POS(_start_x, _start_y, _max_dist);	    \
-  int x_itr, y_itr, _dx_itr, _dy_itr, _index;				    \
+  int x_itr, y_itr, dx_itr, dy_itr, _index;				    \
 									    \
   CHECK_MAP_POS(_start_x, _start_y);					    \
   for (_index = 0; _index < map.num_iterate_outwards_indices; _index++) {   \
     if (map.iterate_outwards_indices[_index].dist > _max_dist) {	    \
       break;								    \
     }									    \
-    _dx_itr = map.iterate_outwards_indices[_index].dx;			    \
-    _dy_itr = map.iterate_outwards_indices[_index].dy;			    \
-    x_itr = _dx_itr + _start_x;						    \
-    y_itr = _dy_itr + _start_y;						    \
+    dx_itr = map.iterate_outwards_indices[_index].dx;			    \
+    dy_itr = map.iterate_outwards_indices[_index].dy;			    \
+    x_itr = dx_itr + _start_x;						    \
+    y_itr = dy_itr + _start_y;						    \
     if (_is_border && !normalize_map_pos(&x_itr, &y_itr)) {		    \
       continue;								    \
     }
 
-#define iterate_outward_end						    \
+#define iterate_outward_dxy_end						    \
   }                                                                         \
 }
+
+/* See iterate_outward_dxy() */
+#define iterate_outward(start_x, start_y, max_dist, x_itr, y_itr)	    \
+  iterate_outward_dxy(start_x, start_y, max_dist, x_itr, y_itr,		    \
+		      _dx_itr, _dy_itr)
+
+#define iterate_outward_end iterate_outward_dxy_end
 
 /* 
  * Iterate through all tiles in a square with given center and radius.
@@ -447,23 +457,12 @@ extern struct terrain_misc terrain_control;
  * position. Note that when the square is larger than the map the
  * distance vector may not be the minimum distance vector.
  */
-#define square_dxy_iterate(center_x, center_y, radius, x_itr, y_itr,          \
-                           dx_itr, dy_itr)                                    \
-{                                                                             \
-  int dx_itr, dy_itr;                                                         \
-  bool _is_border = IS_BORDER_MAP_POS((center_x), (center_y), (radius));      \
-  CHECK_MAP_POS((center_x), (center_y));                                      \
-  for (dy_itr = -(radius); dy_itr <= (radius); dy_itr++) {                    \
-    for (dx_itr = -(radius); dx_itr <= (radius); dx_itr++) {                  \
-      int x_itr = dx_itr + (center_x), y_itr = dy_itr + (center_y);           \
-      if (_is_border && !normalize_map_pos(&x_itr, &y_itr)) {                 \
-        continue;                                                             \
-      }
+#define square_dxy_iterate(center_x, center_y, radius, x_itr, y_itr,        \
+                           dx_itr, dy_itr)                                  \
+  iterate_outward_dxy(center_x, center_y, radius, x_itr, y_itr,		    \
+		      dx_itr, dy_itr)
 
-#define square_dxy_iterate_end                                                \
-    }                                                                         \
-  }                                                                           \
-}
+#define square_dxy_iterate_end iterate_outward_dxy_end
 
 /*
  * Iterate through all tiles in a square with given center and radius.
