@@ -100,6 +100,7 @@ effect		=
 	"Tax_Bonus", "City", 50, "Marketplace"
 	"Luxury_Bonus", "City", 50, "Marketplace"
     }
+; /* xgettext:no-c-format */
 helptext	= _("\
 Together with the Marketplace improvement, a Bank increases the\
  luxury and tax production within a city by 100%.\
@@ -963,6 +964,7 @@ effect		=
 	"Tax_Bonus", "City", 50, "Bank"
 	"Luxury_Bonus", "City", 50, "Bank"
     }
+; /* xgettext:no-c-format */
 helptext	= _("\
 Together with a Marketplace and a Bank, a Stock Exchange boosts\
  tax and luxury production in a city by 150%.\
