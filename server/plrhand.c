@@ -1073,8 +1073,7 @@ repeat_break_treaty:
   }
 
   /* We want to go all the way to war, whatever the cost! 
-   * This is only used when declaring war against an alliance 
-   * and by the AI. */
+   * This is only used by the AI. */
   if (clause == CLAUSE_LAST && new_type != DS_WAR) {
     repeat = TRUE;
     old_type = new_type;
@@ -1152,27 +1151,17 @@ repeat_break_treaty:
     if (other->is_alive && other != pplayer && other != pplayer2
         && (pplayer->team == TEAM_NONE || pplayer->team != pplayer2->team)
         && new_type == DS_WAR && pplayers_allied(pplayer2, other)
-        && !pplayers_at_war(pplayer, other)) {
-      /* A declaration of war by A against B also means A declares
-       * war against all of B's allies.  If B has any allies in
-       * A's team, then they break off their alliance. */
-      if (other->team != TEAM_NONE && other->team == pplayer->team) {
-        notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
-                         _("Game: Your team mate %s declared war on %s. "
-                           "You are obligated to cancel alliance with %s."),
-                         pplayer->name,
-                         get_nation_name_plural(pplayer2->nation),
-                         pplayer2->name);
-        handle_diplomacy_cancel_pact(other, pplayer2->player_no,
-                                     CLAUSE_ALLIANCE);
-      } else {
-        notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
-                         _("Game: %s has attacked one of your allies! "
-                           "The alliance brings you into the war as well."),
-                         pplayer->name);
-        pplayer->diplstates[other->player_no].has_reason_to_cancel = 3;
-        handle_diplomacy_cancel_pact(pplayer, other->player_no, CLAUSE_LAST);
-      }
+        && pplayers_allied(pplayer, other)) {
+      /* If an ally declares war on another ally, break off your alliance
+       * to the aggressor. This prevents in-alliance wars, which are not
+       * permitted. */
+      notify_player_ex(other, -1, -1, E_TREATY_BROKEN,
+                       _("Game: %s has attacked your ally %s! "
+                         "You cancel your alliance to the aggressor."),
+                       pplayer->name, pplayer2->name);
+      other->diplstates[pplayer->player_no].has_reason_to_cancel = 1;
+      handle_diplomacy_cancel_pact(other, pplayer->player_no,
+                                   CLAUSE_ALLIANCE);
     }
   } players_iterate_end;
 }
