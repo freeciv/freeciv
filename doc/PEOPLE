@@ -806,7 +806,10 @@ contributions to the Freeciv project.
 
   Localization (l10n) since 1.13.0 release:
 
+     Christian Knoke <chrisk@enter.de> (NEWS.de, de.po)
+     Daniel Herding <DHerding@gmx.de> (de.po)
      Egbert Hinzen <egbert@hinzen-koeln.de> (de.po)
+     Jens Georg <mail@jensgeorg.de> (INSTALL.de, de.po)
      Miguel Lobo <miguell@miguell.cjb.net> (es.po)
      Ahti Akel <akel@stallion.ee> (et.po)
      Jarkko Siekkinen <jarkko.siekkinen@evl.fi> (fi.po)
