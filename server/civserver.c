@@ -1769,7 +1769,14 @@ void lost_connection_to_client(struct connection *pconn)
   const char *desc = conn_description(pconn);
 
   freelog(LOG_NORMAL, _("Lost connection: %s."), desc);
-  notify_player(0, _("Game: Lost connection: %s."), desc);
+  
+  /* _Must_ avoid sending to pconn, in case pconn connection is
+   * really lost (as opposed to server shutting it down) which would
+   * trigger an error on send and recurse back to here.
+   * Safe to unlink even if not in list:
+   */
+  conn_list_unlink(&game.est_connections, pconn);
+  notify_conn(&game.est_connections, _("Game: Lost connection: %s."), desc);
   
   if (pplayer == NULL) {
     /* This happens eg if the player has not yet joined properly. */
@@ -1782,7 +1789,6 @@ void lost_connection_to_client(struct connection *pconn)
    * safe to do these even if not in lists:
    */
   conn_list_unlink(&game.all_connections, pconn);
-  conn_list_unlink(&game.est_connections, pconn);
   conn_list_unlink(&game.game_connections, pconn);
   pconn->established = 0;
   
