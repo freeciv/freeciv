@@ -1526,7 +1526,7 @@ effect		=
 	"Make_Content", "Player", -1, "Communism"
     }
 helptext	= _("\
-Counts as having a Cathedral in each of your cities.  (This makes 3\
+Counts as having a Cathedral in each of your cities.  This makes 3\
  unhappy citizens content in each city.  The discovery of Theology\
  increases the effect of a Cathedral, making an additional unhappy\
  citizen content.  The discovery of Communism lessens the effect of\
