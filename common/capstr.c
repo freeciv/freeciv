@@ -72,7 +72,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.11 diplomat_investigate_fix production_change_fix" \
 " game_ruleset nuclear_fallout land_channel_requirement event_wonder_obsolete" \
-" event00_fix conn_info gen_impr_oversights"
+" event00_fix conn_info gen_impr_oversights diplo_move_city"
 
 /* "+1.11" is protocol for 1.11.0 stable release.
 
@@ -107,6 +107,9 @@ const char * const our_capability = our_capability_internal;
 
    "gen_impr_oversights" extends the protocol to include information
    which addresses a few oversights in the original design.
+
+   "diplo_move_city" means server knows DIPLOMAT_MOVE activity for
+   diplomats to move into (allied) cities.
 */
 
 void init_our_capability(void)

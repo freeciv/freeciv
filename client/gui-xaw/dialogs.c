@@ -1035,6 +1035,31 @@ void popup_incite_dialog(struct city *pcity)
 
 
 /****************************************************************
+  Callback from diplomat/spy dialog for "keep moving".
+  (This should only occur when entering allied city.)
+*****************************************************************/
+static void diplomat_keep_moving_callback(Widget w, XtPointer client_data, 
+					  XtPointer call_data)
+{
+  struct unit *punit;
+  struct city *pcity;
+  
+  destroy_message_dialog(w);
+  diplomat_dialog_open=0;
+
+  if( (punit=find_unit_by_id(diplomat_id))
+      && (pcity=find_city_by_id(diplomat_target_id))
+      && !same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+    struct packet_diplomat_action req;
+    req.action_type = DIPLOMAT_MOVE;
+    req.diplomat_id = diplomat_id;
+    req.target_id = diplomat_target_id;
+    send_packet_diplomat_action(&aconnection, &req);
+  }
+  process_diplomat_arrival(NULL, 0);
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
@@ -1073,6 +1098,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 			       diplomat_sabotage_callback, 0, 1,
 			       diplomat_steal_callback, 0, 1,
 			       diplomat_incite_callback, 0, 1,
+			       diplomat_keep_moving_callback, 0, 1,
 			       diplomat_cancel_callback, 0, 0,
 			       NULL);
       
@@ -1086,6 +1112,9 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
+	 || !has_capability("diplo_move_city", aconnection.capability))
+	XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
     }else{
       shl=popup_message_dialog(toplevel, "spydialog", buf,
 			       diplomat_embassy_callback, 0,  1,
@@ -1094,6 +1123,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 			       spy_request_sabotage_list, 0, 1,
 			       spy_steal_popup, 0, 1,
 			       diplomat_incite_callback, 0, 1,
+			       diplomat_keep_moving_callback, 0, 1,
 			       diplomat_cancel_callback, 0, 0,
 			       NULL);
       
@@ -1109,6 +1139,9 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
 	XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
+      if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_x, dest_y)
+	 || !has_capability("diplo_move_city", aconnection.capability))
+	XtSetSensitive(XtNameToWidget(shl, "*button6"), FALSE);
     }
 
     diplomat_dialog_open=1;

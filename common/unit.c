@@ -102,6 +102,8 @@ int is_diplomat_action_available(struct unit *pdiplomat,
        real_map_distance(pdiplomat->x, pdiplomat->y, pcity->x, pcity->y) <= 1) {
       if(action==DIPLOMAT_SABOTAGE)
         return players_at_war(playerid, pcity->owner);
+      if(action==DIPLOMAT_MOVE)
+        return players_allied(playerid, pcity->owner);
       if(action==DIPLOMAT_EMBASSY &&
 	 !is_barbarian(&game.players[pcity->owner]) &&
 	 !player_has_embassy(&game.players[pdiplomat->owner], 

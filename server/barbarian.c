@@ -254,7 +254,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
         do { 
           do rand_neighbour(x, y, &xu, &yu); 
           while( !is_free_land(xu, yu, me) );
-        } while( !handle_unit_move_request(punit2, xu, yu, TRUE) );
+        } while( !handle_unit_move_request(punit2, xu, yu, TRUE, FALSE) );
         freelog(LOG_DEBUG, "Moved barbarian unit from %d %d to %d, %d", x,y,xu,yu);
       }
     }
@@ -280,7 +280,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
 	      break;
 	    }
           }
-          handle_unit_move_request(punit2, xu, yu, TRUE);
+          handle_unit_move_request(punit2, xu, yu, TRUE, FALSE);
         }
       unit_list_iterate_end;
     }

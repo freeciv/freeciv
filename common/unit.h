@@ -37,6 +37,7 @@ enum diplomat_actions {
   DIPLOMAT_STEAL, DIPLOMAT_INCITE, SPY_POISON, 
   DIPLOMAT_INVESTIGATE, SPY_SABOTAGE_UNIT,
   SPY_GET_SABOTAGE_LIST,
+  DIPLOMAT_MOVE,	/* move onto city square - only for allied cities */
   DIPLOMAT_ANY_ACTION   /* leave this one last */
 };
 

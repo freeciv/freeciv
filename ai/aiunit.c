@@ -332,7 +332,7 @@ int ai_manage_explorer(struct unit *punit)
     } square_iterate_end;
 
     if (most_unknown > 0) { /* a tile have unexplored territory adjacent */
-      int res = handle_unit_move_request(punit, best_x, best_y, FALSE);
+      int res = handle_unit_move_request(punit, best_x, best_y, FALSE, FALSE);
       if (!res) /* This shouldn't happen */
 	break;
       if (!player_find_unit_by_id(pplayer, id))
@@ -774,7 +774,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 	    "Stationary escort @(%d,%d) received %d best @(%d,%d)",
 	    punit->x, punit->y, i, x, y);
     if (i >= 40 * SHIELD_WEIGHTING)
-      handle_unit_move_request(punit, x, y, FALSE);
+      handle_unit_move_request(punit, x, y, FALSE, FALSE);
 /* otherwise don't bother, but free cities are free cities and must be snarfed. -- Syela */
   }
   if (aunit && unit_list_find(&map_get_tile(x, y)->units, id) && aunit->ai.bodyguard)
@@ -964,7 +964,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 			"Bodyguard at (%d, %d) is adjacent to (%d, %d)",
 			i, j, punit->x, punit->y);
                 if (aunit->moves_left) return(0);
-                else return handle_unit_move_request(punit, i, j, FALSE);
+                else return handle_unit_move_request(punit, i, j, FALSE, FALSE);
               }
             unit_list_iterate_end;
           } /* end j */
@@ -1184,7 +1184,7 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
       /* aggro defense goes here -- Syela */
       ai_military_findvictim(pplayer, punit, &dest_x, &dest_y);
       punit->ai.ai_role=AIUNIT_NONE;
-      handle_unit_move_request(punit, dest_x, dest_y, FALSE);
+      handle_unit_move_request(punit, dest_x, dest_y, FALSE, FALSE);
                                        /* might bash someone */
     } else {
       freelog(LOG_DEBUG, "GOHOME(%d,%d)",
@@ -1574,7 +1574,7 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
 	freelog(LOG_DEBUG, "%s's %s at (%d, %d) bashing (%d, %d)",
 		      pplayer->name, unit_types[punit->type].name,
 		      punit->x, punit->y, dest_x, dest_y); 
-        handle_unit_move_request(punit, dest_x, dest_y, FALSE);
+        handle_unit_move_request(punit, dest_x, dest_y, FALSE, FALSE);
         punit = find_unit_by_id(id);
         if (punit) flag = punit->moves_left; else flag = 0;
       }

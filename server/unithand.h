@@ -38,7 +38,7 @@ void handle_unit_build_city(struct player *pplayer,
 void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo);
 int handle_unit_enter_hut(struct unit *punit);
 int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
-			     int igzoc);
+			     int igzoc, int move_diplomat_city);
 void handle_unit_help_build_wonder(struct player *pplayer, 
 				   struct packet_unit_request *req);
 int handle_unit_establish_trade(struct player *pplayer, 

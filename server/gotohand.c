@@ -1109,7 +1109,7 @@ void do_unit_goto(struct unit *punit, enum goto_move_restriction restriction)
 
       if (!punit->moves_left)
 	return;
-      if (!handle_unit_move_request(punit, x, y, FALSE)) {
+      if (!handle_unit_move_request(punit, x, y, FALSE, FALSE)) {
 	freelog(LOG_DEBUG, "Couldn't handle it.");
 	if (punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;

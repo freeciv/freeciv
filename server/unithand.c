@@ -274,6 +274,12 @@ void handle_diplomat_action(struct player *pplayer,
 	diplomat_incite(pplayer, pdiplomat, pcity);
       }
       break;
+    case DIPLOMAT_MOVE:
+      if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_MOVE,
+					 pcity->x, pcity->y)) {
+	handle_unit_move_request(pdiplomat, pcity->x, pcity->y, FALSE, TRUE);
+      }
+      break;
     case DIPLOMAT_STEAL:
       if(pcity && diplomat_can_do_action(pdiplomat, DIPLOMAT_STEAL,
 					 pcity->x, pcity->y)) {
@@ -466,7 +472,7 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
   if(punit) {
     if (!same_pos(punit->x, punit->y, pinfo->x, pinfo->y)) {
       punit->ai.control=0;
-      handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE);
+      handle_unit_move_request(punit, pinfo->x, pinfo->y, FALSE, FALSE);
     }
     else if(punit->activity!=pinfo->activity ||
 	    punit->activity_target!=pinfo->activity_target ||
@@ -492,7 +498,7 @@ void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove)
 
   punit=player_find_unit_by_id(pplayer, pmove->unid);
   if(punit)  {
-    handle_unit_move_request(punit, pmove->x, pmove->y, FALSE);
+    handle_unit_move_request(punit, pmove->x, pmove->y, FALSE, FALSE);
   }
 }
 
@@ -677,7 +683,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     int old_moves = punit->moves_left;
     int full_moves = unit_move_rate (punit);
     punit->moves_left = full_moves;
-    if (handle_unit_move_request(punit, def_x, def_y, FALSE)) {
+    if (handle_unit_move_request(punit, def_x, def_y, FALSE, FALSE)) {
       punit->moves_left = old_moves - (full_moves - punit->moves_left);
       if (punit->moves_left < 0) {
 	punit->moves_left = 0;
@@ -871,8 +877,17 @@ int handle_unit_enter_hut(struct unit *punit)
 /**************************************************************************
   Will try to move to/attack the tile dest_x,dest_y.  Returns true if this
   could be done, false if it couldn't for some reason.
+  
+  'igzoc' means ignore ZOC rules - not necessary for igzoc units etc, but
+  done in some special cases (moving barbarians out of initial hut).
+  Should normally be FALSE.
+
+  'move_diplomat_city' is another special case which should normally be
+  FALSE.  If TRUE, try to move diplomat (or spy) into city (should be
+  allied) instead of telling client to popup diplomat/spy dialog.
 **************************************************************************/
-int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y, int igzoc)
+int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
+			     int igzoc, int move_diplomat_city)
 {
   struct player *pplayer = unit_owner(punit);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
@@ -904,10 +919,20 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y, int igz
     return handle_unit_establish_trade(pplayer, &req);
   }
 
-  /* Pop up a diplomat action dialog in the client. If the ai has used a goto to 
-     send a diplomat to a target do not pop up a dialog in the client */
+  /* Pop up a diplomat action dialog in the client.  If the AI has used
+     a goto to send a diplomat to a target do not pop up a dialog in
+     the client.  For allied cities, keep moving if move_diplomat_city
+     tells us to, or if the unit is on goto and the city is not the
+     final destination.
+  */
   if (is_diplomat_unit(punit)
-      && is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION, dest_x, dest_y)) {
+      && is_diplomat_action_available(punit, DIPLOMAT_ANY_ACTION,
+				      dest_x, dest_y)
+      && !(pcity && players_allied(punit->owner, pcity->owner)
+	   && (move_diplomat_city
+	       || (punit->activity==ACTIVITY_GOTO
+		   && !same_pos(punit->goto_dest_x, punit->goto_dest_y,
+				pcity->x, pcity->y))))) {
     struct packet_diplomat_action packet;
     if (punit->activity == ACTIVITY_GOTO && pplayer->ai.control)
       return 0;
@@ -920,7 +945,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y, int igz
     send_unit_info(pplayer, punit);
 
     /* if is_diplomat_action_available() then there must be a city or a unit */
-    if ((pcity = map_get_city(dest_x,dest_y))) {
+    if (pcity) {
       packet.target_id = pcity->id;
     } else if (pdefender) {
       packet.target_id = pdefender->id;
@@ -1084,7 +1109,7 @@ int handle_unit_move_request(struct unit *punit, int dest_x, int dest_y, int igz
 	   ACTIVITY_FORTIFIED and the unit has no chance of moving anyway */
 	handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
 	success = handle_unit_move_request(bodyguard,
-					   dest_x, dest_y, igzoc);
+					   dest_x, dest_y, igzoc, FALSE);
 	freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
 		unit_types[bodyguard->type].name, src_x, src_y,
 		dest_x, dest_y, success);

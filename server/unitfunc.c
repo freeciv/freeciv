@@ -495,7 +495,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Now, try to move the briber onto the victim's square. */
   diplomat_id = pdiplomat->id;
-  if (!handle_unit_move_request(pdiplomat, victim_x, victim_y, FALSE)) {
+  if (!handle_unit_move_request(pdiplomat, victim_x, victim_y, FALSE, FALSE)) {
     pdiplomat->moves_left = 0;
   }
   if (player_find_unit_by_id(pplayer, diplomat_id)) {
@@ -1309,6 +1309,7 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
  		       _("Game: %s have caused an incident while inciting a "
  			 "revolt in %s."), offender->name, victim_city->name);
       break;
+    case DIPLOMAT_MOVE:
     case DIPLOMAT_EMBASSY:
     case DIPLOMAT_INVESTIGATE:
     case SPY_GET_SABOTAGE_LIST:
