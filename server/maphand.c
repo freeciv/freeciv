@@ -600,6 +600,31 @@ void reveal_hidden_units(struct player *pplayer, struct tile *ptile)
   } adjc_iterate_end;
 }
 
+/*************************************************************************
+  Checks for hidden units around (x,y).  Such units can be invisible even
+  on a KNOWN_AND_SEEN tile, so fogging might not hide them.
+
+  Note, this must be called after the unit/vision source at ptile has
+  been removed, unlike remove_unit_sight_points.
+************************************************************************/
+void conceal_hidden_units(struct player *pplayer, struct tile *ptile)
+{
+  /* Remove vision of submarines.  This is extremely ugly and inefficient. */
+  adjc_iterate(ptile, tile1) {
+    unit_list_iterate(tile1->units, phidden_unit) {
+      if (phidden_unit->transported_by == -1
+	  && is_hiding_unit(phidden_unit)) {
+	players_iterate(pplayer2) {
+	  if ((pplayer2 == pplayer || really_gives_vision(pplayer, pplayer2))
+	      && !can_player_see_unit(pplayer2, phidden_unit)) {
+	    unit_goes_out_of_sight(pplayer2, phidden_unit);
+	  }
+	} players_iterate_end;
+      }
+    } unit_list_iterate_end;
+  } adjc_iterate_end;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
