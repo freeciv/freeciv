@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-12 15:38-0400\n"
+"POT-Creation-Date: 2004-10-14 16:16-0400\n"
 "PO-Revision-Date: 2004-10-09 18:47+0300\n"
 "Last-Translator: Dmitriy Genzel <dg@cs.brown.edu>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -2941,37 +2941,37 @@ msgstr "Тайм-аут хода меньше нуля, устанавливаем в 0."
 msgid "Couldn't open gamelogfile \"%s\" for appending."
 msgstr "Невозможно открыть файл с журналом игры \"%s\" для дополнения."
 
-#: server/handchat.c:64
+#: server/handchat.c:66
 #, c-format
 msgid "Game: %s is an ambiguous player name-prefix."
 msgstr "Игра: %s - неоднозначное начало имени игрока."
 
-#: server/handchat.c:68
+#: server/handchat.c:70
 #, c-format
 msgid "Game: %s is an ambiguous connection name-prefix."
 msgstr "Игра: %s - неоднозначное начало имени подключения."
 
-#: server/handchat.c:72
+#: server/handchat.c:74
 #, c-format
 msgid "Game: %s is an anonymous name. Use connection name"
 msgstr "Игра: %s - анонимное имя. Используйте имя подключения."
 
-#: server/handchat.c:184
+#: server/handchat.c:186
 #, c-format
 msgid "%s to allies: %s"
 msgstr "%s - союзникам: %s"
 
-#: server/handchat.c:278
+#: server/handchat.c:280
 #, c-format
 msgid "Game: %s is not connected."
 msgstr "Игра: %s не подключен."
 
-#: server/handchat.c:290
+#: server/handchat.c:292
 #, c-format
 msgid "Game: There is no connection by the name %s."
 msgstr "Игра: нет подключения с именем %s."
 
-#: server/handchat.c:293
+#: server/handchat.c:295
 #, c-format
 msgid "Game: There is no player nor connection by the name %s."
 msgstr "Игра: нет игрока или подключения с именем %s."
@@ -7036,16 +7036,16 @@ msgstr "Игра: Ваш %s получил неверный приказ."
 msgid "High landmass - this may take a few seconds."
 msgstr "Высокий процент земли - это может занять несколько секунд."
 
-#: server/generator/mapgen.c:1717 server/generator/mapgen.c:1787
+#: server/generator/mapgen.c:1718 server/generator/mapgen.c:1788
 #, c-format
 msgid "Falling back to generator %d."
 msgstr "Возвращаемся к использованию генератора %d."
 
-#: server/generator/mapgen.c:1807
+#: server/generator/mapgen.c:1808
 msgid "Generator 3 didn't place all big islands."
 msgstr "Генератор 3 не создал всех больших островов."
 
-#: server/generator/mapgen.c:1837
+#: server/generator/mapgen.c:1838
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Генератор 3 оставил %li процентов земли неиспользованными."
@@ -10895,6 +10895,10 @@ msgstr "_Подключённые игроки:"
 msgid "Turn Done"
 msgstr "Ход сделан"
 
+#: client/gui-gtk-2.0/gui_main.c:903
+msgid "_Chat"
+msgstr "_Разговор"
+
 #: client/gui-gtk-2.0/gui_main.c:919 client/gui-gtk/gui_main.c:779
 #: client/gui-mui/gui_main.c:1031 client/gui-win32/gui_main.c:452
 #: data/Freeciv:2808
@@ -10907,6 +10911,11 @@ msgstr ""
 "копии\n"
 "при определённых условиях; смотрите пункт \"Копирование\" в меню Справка\n"
 "А теперь... Отправьте их всех в ад!"
+
+#: client/gui-gtk-2.0/gui_main.c:935 client/gui-gtk/menu.c:782
+#: client/gui-win32/menu.c:405
+msgid "_Messages"
+msgstr "_Сообщения"
 
 #: client/gui-gtk-2.0/gui_main.c:1179 client/gui-mui/citydlg.c:1557
 msgid "Name:"
@@ -12987,10 +12996,6 @@ msgstr "Распустить отряд"
 #: client/gui-gtk/menu.c:751
 msgid "Diplomat|Spy Actions"
 msgstr "Действия дипломата|шпиона"
-
-#: client/gui-gtk/menu.c:782 client/gui-win32/menu.c:405
-msgid "_Messages"
-msgstr "Сообщения"
 
 #: client/gui-gtk/menu.c:924
 msgid "Go/Air_lift to City"
