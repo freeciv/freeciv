@@ -437,19 +437,14 @@ static char *number_to_ordinal_string(int num)
 
   assert(num > 0);
 
-  switch (num) {
-  case 1:
+  if ((num % 10) == 1 && num != 11) {
     my_snprintf(buf, sizeof(buf), fmt, num, _("st"));
-    break;
-  case 2:
+  } else if ((num % 10) == 2 && num != 12) {
     my_snprintf(buf, sizeof(buf), fmt, num, _("nd"));
-    break;
-  case 3:
+  } else if ((num % 10) == 3 && num != 13) {
     my_snprintf(buf, sizeof(buf), fmt, num, _("rd"));
-    break;
-  default:
+  } else {
     my_snprintf(buf, sizeof(buf), fmt, num, _("th"));
-    break;
   }
 
   return buf;
