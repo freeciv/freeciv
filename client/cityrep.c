@@ -127,8 +127,12 @@ static char *cr_entry_resources(struct city *pcity)
 static char *cr_entry_output(struct city *pcity)
 {
   static char buf[32];
-  sprintf(buf, "%+d/%d/%d",
-	  city_gold_surplus(pcity),
+  int goldie;
+
+  goldie = city_gold_surplus(pcity);
+  sprintf(buf, "%s%d/%d/%d",
+	  (goldie < 0) ? "-" : (goldie > 0) ? "+" : "",
+	  (goldie < 0) ? (-goldie) : goldie,
 	  pcity->luxury_total,
 	  pcity->science_total);
   return buf;
