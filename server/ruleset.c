@@ -1090,18 +1090,6 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     exit(EXIT_FAILURE);
   }
 
-  /* pre-calculate game.rtech.nav (tech for non-trireme ferryboat) */
-  game.rtech.nav = A_LAST;
-  for(i=0; i<num_role_units(L_FERRYBOAT); i++) {
-    j = get_role_unit(L_FERRYBOAT,i);
-    if (!unit_type_flag(j, F_TRIREME)) {
-      j = get_unit_type(j)->tech_requirement;
-      freelog(LOG_DEBUG, "nav tech is %s", advances[j].name);
-      game.rtech.nav = j;
-      break;
-    }
-  }
-
   /* pre-calculate game.rtech.u_partisan
      (tech for first partisan unit, or A_LAST */
   if (num_role_units(L_PARTISAN)==0) {

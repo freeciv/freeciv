@@ -173,8 +173,6 @@ struct civ_game {
   Impr_Type_id land_defend_building;
 
   struct {
-    int nav;			/* AI convenience: tech_req for first
-				   non-trireme ferryboat */
     int u_partisan;		/* convenience: tech_req for first
 				   Partisan unit */
     /* Following tech list is A_LAST terminated if shorter than
