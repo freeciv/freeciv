@@ -1039,8 +1039,10 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   /* else leave savefile_options empty */
   
   /* Note -- as of v1.6.4 you should use savefile_options (instead of
-     game.version) to determine which variables you can expect to   
-     find in a savegame file */
+     game.version) to determine which variables you can expect to 
+     find in a savegame file.  Or alternatively you can use
+     secfile_lookup_int_default() or secfile_lookup_str_default().
+  */
 
   strcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
   plr->race=secfile_lookup_int(file, "player%d.race", plrno);

@@ -34,7 +34,7 @@ extern RANDOM_TYPE RandomState[];
 extern int iRandJ, iRandK, iRandX; 
 extern int rand_init;
 
-#define SAVEFILE_OPTIONS "1.7, scorelog, startoptions, unirandom"
+#define SAVEFILE_OPTIONS "1.7, startoptions, unirandom"
 
 /**************************************************************************
 ...
@@ -264,12 +264,13 @@ int game_load(struct section_file *file)
 
   /* Note -- as of v1.6.4 you should use savefile_options (instead of
      game.version) to determine which variables you can expect to 
-     find in a savegame file */
+     find in a savegame file.  Or alternatively you can use
+     secfile_lookup_int_default() or secfile_lookup_str_default().
+  */
 
   game.aifill = secfile_lookup_int_default(file, 0, "game.aifill");
 
-  if (has_capability("scorelog", savefile_options))
-    game.scorelog = secfile_lookup_int(file, "game.scorelog");
+  game.scorelog = secfile_lookup_int_default(file, 0, "game.scorelog");
   
   game.diplchance = secfile_lookup_int_default(file, game.diplchance,
 					       "game.diplchance");
