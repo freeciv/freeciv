@@ -313,6 +313,7 @@ GtkWidget* popup_worklist(struct worklist *pwl, struct city *pcity,
   pdialog->cancel_callback = cancel_cb;
   pdialog->toggle_show_advanced = NULL;
 
+  gtk_widget_set_sensitive(parent, FALSE);
   wshell = gtk_dialog_new();
   gtk_signal_connect(GTK_OBJECT(wshell), "delete_event",
 		     GTK_SIGNAL_FUNC(worklist_dialog_delete_callback),

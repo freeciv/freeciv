@@ -339,6 +339,7 @@ Widget popup_worklist(struct worklist *pwl, struct city *pcity,
   pdialog->ok_callback = ok_cb;
   pdialog->cancel_callback = cancel_cb;
 
+  XtSetSensitive(parent, False);
   I_T(cshell=XtCreatePopupShell("worklistdialog", transientShellWidgetClass,
 				parent, NULL, 0));
   
