@@ -24,6 +24,7 @@
 #include "shared.h"
 #include "unit.h"
 
+#include "unithand.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "maphand.h"
@@ -35,10 +36,169 @@
 
 #include "aitools.h"
 
-/* dist_nearest_enemy_* are no longer ever used.  This is
-   dist_nearest_enemy_city, respaced so I can read it and therefore
-   debug it into something useful. -- Syela
-*/
+#define LOG_BODYGUARD LOG_DEBUG
+
+/**************************************************************************
+  Move a bodyguard along with another unit. We assume that unit has already
+  been moved to (x, y) which is a valid, safe coordinate, and that our
+  bodyguard has not. This is an ai_unit_* auxiliary function, do not use 
+  elsewhere.
+
+  FIXME: packetify requests too
+**************************************************************************/
+static void ai_unit_bodyguard_move(int unitid, int x, int y)
+{
+  struct unit *bodyguard = find_unit_by_id(unitid);
+  struct unit *punit;
+  struct player *pplayer;
+
+  assert(bodyguard);
+  pplayer = unit_owner(bodyguard);
+  assert(pplayer);
+  punit = find_unit_by_id(bodyguard->ai.charge);
+  assert(punit);
+
+  if (!is_tiles_adjacent(x, y, bodyguard->x, bodyguard->y)) {
+    freelog(LOG_BODYGUARD, "%s: %s (%d,%d) is too far from its charge (%d,%d)!",
+            pplayer->name, unit_type(bodyguard)->name, bodyguard->x, 
+            bodyguard->y, x, y);
+    return;
+  }
+
+  if (bodyguard->moves_left <= 0) {
+    /* should generally should not happen */
+    freelog(LOG_BODYGUARD, "%s: %s left its %s bodyguard behind at (%d,%d)!",
+            pplayer->name, unit_type(punit)->name, 
+            unit_type(bodyguard)->name, x, y);
+    return;
+  }
+
+  freelog(LOG_BODYGUARD, "%s: Dragging %s's bodyguard %s to (%d,%d)",
+          pplayer->name, unit_type(punit)->name, unit_type(bodyguard)->name, 
+          x, y);
+
+  handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
+  (void) ai_unit_move(bodyguard, x, y);
+  handle_unit_activity_request(bodyguard, ACTIVITY_FORTIFYING);
+}
+
+/**************************************************************************
+  Check if we have a bodyguard with sanity checking and error recovery.
+  Repair incompletely referenced bodyguards. When the rest of the bodyguard
+  mess is cleaned up, this repairing should be replaced with an assert.
+**************************************************************************/
+static bool has_bodyguard(struct unit *punit)
+{
+  struct unit *guard;
+  if (punit->ai.bodyguard > 0) {
+    if ((guard = find_unit_by_id(punit->ai.bodyguard))) {
+      if (guard->ai.charge != punit->id) {
+        freelog(LOG_BODYGUARD, "%s: %s didn't know it had %s for bodyguard "
+                "at (%d,%d)!", unit_owner(punit)->name, unit_type(punit)->name,
+                unit_type(guard)->name, punit->x, punit->y);
+      }
+      guard->ai.charge = punit->id; /* ensure sanity */
+      return TRUE;
+    } else {
+      punit->ai.bodyguard = 0;
+      freelog(LOG_BODYGUARD, "%s: %s's bodyguard has disappeared at (%d,%d)!",
+              unit_owner(punit)->name, unit_type(punit)->name, punit->x, punit->y);
+    }
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+  Move and attack with an ai unit. We do not wait for server reply.
+**************************************************************************/
+void ai_unit_attack(struct unit *punit, int x, int y)
+{
+  struct packet_move_unit pmove;
+  int sanity = punit->id;
+
+  assert(punit);
+  assert(unit_owner(punit)->ai.control);
+  assert(is_normal_map_pos(x, y));
+  assert(is_tiles_adjacent(punit->x, punit->y, x, y));
+
+  pmove.x = x;
+  pmove.y = y;
+  pmove.unid = punit->id;
+  handle_move_unit(unit_owner(punit), &pmove);
+
+  if (find_unit_by_id(sanity) && same_pos(x, y, punit->x, punit->y)) {
+    if (has_bodyguard(punit)) {
+      ai_unit_bodyguard_move(punit->ai.bodyguard, x, y);
+    }
+  }
+}
+
+/**************************************************************************
+  Move an ai unit. Do not attack. Do not leave bodyguard.
+
+  This function returns only when we have a reply from the server and
+  we can tell the calling function what happened to the move request.
+  (Right now it is not a big problem, since we call the server directly.)
+**************************************************************************/
+bool ai_unit_move(struct unit *punit, int x, int y)
+{
+  struct packet_move_unit pmove;
+  struct unit *bodyguard;
+  int sanity = punit->id;
+  struct player *pplayer = unit_owner(punit);
+  struct tile *ptile = map_get_tile(x,y);
+
+  assert(punit);
+  assert(unit_owner(punit)->ai.control);
+  assert(is_normal_map_pos(x, y));
+  assert(is_tiles_adjacent(punit->x, punit->y, x, y));
+
+  /* if enemy, stop and let ai attack function take this case */
+  if (is_enemy_unit_tile(ptile, pplayer)
+      || is_enemy_city_tile(ptile, pplayer)) {
+    return FALSE;
+  }
+
+  /* barbarians shouldn't enter huts */
+  if (is_barbarian(pplayer) && tile_has_special(ptile, S_HUT)) {
+    return FALSE;
+  }
+
+  /* don't leave bodyguard behind */
+  if (has_bodyguard(punit) 
+      && (bodyguard = find_unit_by_id(punit->ai.bodyguard))
+      && same_pos(punit->x, punit->y, bodyguard->x, bodyguard->y)
+      && bodyguard->moves_left == 0) {
+    freelog(LOG_BODYGUARD, "%s's %s does not want to leave its %s bodyguard.",
+            pplayer->name, unit_type(punit)->name, unit_type(bodyguard)->name);
+    return FALSE;
+  }
+
+  /* Try not to end move next to an enemy */
+  if (punit->moves_left <= map_move_cost(punit, x, y)
+      && unit_type(punit)->move_rate > map_move_cost(punit, x, y)
+      && enemies_at(punit, x, y)
+      && !enemies_at(punit, punit->x, punit->y)) {
+    freelog(LOG_DEBUG, "%s's %s ending move early to stay out of trouble.",
+            pplayer->name, unit_type(punit)->name);
+    return FALSE;
+  }
+
+  /* go */
+  pmove.x = x;
+  pmove.y = y;
+  pmove.unid = punit->id;
+  handle_move_unit(unit_owner(punit), &pmove);
+
+  /* handle the results */
+  if (find_unit_by_id(sanity) && same_pos(x, y, punit->x, punit->y)) {
+    if (has_bodyguard(punit)) {
+      ai_unit_bodyguard_move(punit->ai.bodyguard, x, y);
+    }
+    return TRUE;
+  }
+  return FALSE;
+}
 
 /**************************************************************************
 This looks for the nearest city:

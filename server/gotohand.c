@@ -27,6 +27,8 @@
 #include "unithand.h"
 #include "unittools.h"
 
+#include "aitools.h"
+
 #include "gotohand.h"
 
 struct move_cost_map warmap;
@@ -1259,10 +1261,9 @@ enum goto_result do_unit_goto(struct unit *punit,
 			      bool trigger_special_ability)
 {
   struct player *pplayer = unit_owner(punit);
-  int x, y, dir;
   int unit_id, dest_x, dest_y, waypoint_x, waypoint_y;
-  struct unit *penemy = NULL;
   enum goto_result status;
+  int x, y;
 
   if (punit->pgr) {
     /* we have a precalculated goto route */
@@ -1313,6 +1314,8 @@ enum goto_result do_unit_goto(struct unit *punit,
   if (find_the_shortest_path(punit, waypoint_x, waypoint_y, restriction)) {
     do { /* move the unit along the path chosen by find_the_shortest_path() while we can */
       bool last_tile, is_real;
+      struct unit *penemy = NULL;
+      int dir;
 
       if (punit->moves_left == 0) {
 	return GR_OUT_OF_MOVEPOINTS;
@@ -1332,25 +1335,26 @@ enum goto_result do_unit_goto(struct unit *punit,
 
       penemy = is_enemy_unit_tile(map_get_tile(x, y), unit_owner(punit));
       assert(punit->moves_left > 0);
+
       last_tile = same_pos(x, y, punit->goto_dest_x, punit->goto_dest_y);
 
-      if (!handle_unit_move_request(punit, x, y, FALSE,
-				    !(last_tile && trigger_special_ability))) {
-	freelog(LOG_DEBUG, "Couldn't handle it.");
+      /* Call handle_unit_ for humans; in the long run we want humans out */
+      if ((!pplayer->ai.control 
+           && !handle_unit_move_request(punit, x, y, FALSE,
+				      !(last_tile && trigger_special_ability)))
+          || (pplayer->ai.control && !ai_unit_move(punit, x, y))) {
 	if (punit->moves_left > 0) {
 	  punit->activity=ACTIVITY_IDLE;
 	  send_unit_info(NULL, punit);
 	  return GR_FAILED;
 	}
-      } else {
-	freelog(LOG_DEBUG, "Handled.");
       }
       if (!player_find_unit_by_id(pplayer, unit_id)) {
 	return GR_DIED;		/* unit died during goto! */
       }
 
       /* Don't attack more than once per goto */
-      if (penemy && !pplayer->ai.control) { /* Should I cancel for ai's too? */
+      if (penemy && !pplayer->ai.control) {
  	punit->activity = ACTIVITY_IDLE;
  	send_unit_info(NULL, punit);
  	return GR_FOUGHT;

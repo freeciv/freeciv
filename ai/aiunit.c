@@ -416,7 +416,7 @@ bool ai_manage_explorer(struct unit *punit)
       
       /* Some tile have unexplored territory adjacent, let's move there. */
       
-      if (!handle_unit_move_request(punit, best_x, best_y, FALSE, FALSE)) {
+      if (!ai_unit_move(punit, best_x, best_y)) {
         /* This shouldn't happen, but occassionally it can. */
         break;
       }
@@ -940,10 +940,6 @@ If value <= 0 is returned, (dest_x, dest_y) is set to actual punit's position.
 static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
                                   int *dest_x, int *dest_y)
 {
-  /* Set the tile with our target as the best (with value new_best). */
-#define SET_BEST(new_best) \
-  do { best = (new_best); *dest_x = x1; *dest_y = y1; } while (FALSE)
-
   int bellig = unit_belligerence_primitive(punit);
   int x = punit->x, y = punit->y;
   int best = 0;
@@ -965,6 +961,10 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
   }
 
   adjc_iterate(x, y, x1, y1) {
+    /* Macro to set the tile with our target as the best (with value new_best) */
+#define SET_BEST(new_best) \
+    do { best = (new_best); *dest_x = x1; *dest_y = y1; } while (FALSE)
+
     struct unit *pdef = get_defender(punit, x1, y1);
     
     if (pdef) {
@@ -1066,11 +1066,10 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
         continue;
       }
     }
+#undef SET_BEST
   } adjc_iterate_end;
 
   return best;
-  
-#undef SET_BEST
 }
 
 /*************************************************************************
@@ -1108,7 +1107,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 	    "Stationary escort @(%d,%d) received %d best @(%d,%d)",
 	    punit->x, punit->y, i, x, y);
     if (i >= 40 * SHIELD_WEIGHTING)
-      handle_unit_move_request(punit, x, y, FALSE, FALSE);
+      ai_unit_attack(punit, x, y);
 /* otherwise don't bother, but free cities are free cities and must be snarfed. -- Syela */
   }
   if (aunit && unit_list_find(&map_get_tile(x, y)->units, id) && aunit->ai.bodyguard != 0)
@@ -1311,7 +1310,7 @@ handled properly.  There should be a way to do it with dir_ok but I'm tired now.
 		      "Bodyguard at (%d, %d) is adjacent to (%d, %d)",
 		      i, j, punit->x, punit->y);
 	      if (aunit->moves_left > 0) return(0);
-	      else return handle_unit_move_request(punit, i, j, FALSE, FALSE) ? 1 : 0;
+	      else return ai_unit_move(punit, i, j) ? 1 : 0;
 	    }
 	  } unit_list_iterate_end;
         } adjc_iterate_end;
@@ -1521,11 +1520,12 @@ static void ai_military_gohome(struct player *pplayer,struct unit *punit)
 		 punit->id,punit->x,punit->y,pcity->x,pcity->y); 
     if ((punit->x == pcity->x)&&(punit->y == pcity->y)) {
       freelog(LOG_DEBUG, "INHOUSE. GOTO AI_NONE(%d)", punit->id);
-      /* aggro defense goes here -- Syela */
-      ai_military_findvictim(pplayer, punit, &dest_x, &dest_y);
       punit->ai.ai_role=AIUNIT_NONE;
-      handle_unit_move_request(punit, dest_x, dest_y, FALSE, FALSE);
-                                       /* might bash someone */
+      /* aggro defense goes here -- Syela */
+      if (ai_military_findvictim(pplayer, punit, &dest_x, &dest_y) > 1) {
+        assert(dest_x != punit->x || dest_y != punit->y);
+        ai_unit_attack(punit, dest_x, dest_y); /* might bash someone */
+      }
     } else {
       freelog(LOG_DEBUG, "GOHOME(%d,%d)",
 		   punit->goto_dest_x, punit->goto_dest_y);
@@ -1948,7 +1948,7 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
 	freelog(LOG_DEBUG, "%s's %s at (%d, %d) bashing (%d, %d)",
 		      pplayer->name, unit_type(punit)->name,
 		      punit->x, punit->y, dest_x, dest_y); 
-        handle_unit_move_request(punit, dest_x, dest_y, FALSE, FALSE);
+        ai_unit_attack(punit, dest_x, dest_y);
         punit = find_unit_by_id(id);
         if (punit) flag = punit->moves_left > 0; else flag = FALSE;
       }

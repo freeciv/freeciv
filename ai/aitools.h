@@ -20,6 +20,9 @@ struct city;
 struct government;
 struct player;
 
+void ai_unit_attack(struct unit *punit, int x, int y);
+bool ai_unit_move(struct unit *punit, int x, int y);
+
 struct city *dist_nearest_city(struct player *pplayer, int x, int y,
                                bool everywhere, bool enemy);
 

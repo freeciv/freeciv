@@ -109,9 +109,13 @@ void handle_unit_airlift(struct player *pplayer,
 }
 
 /**************************************************************************
-Handler for PACKET_UNIT_CONNECT request
-The unit is send on way and will build something (roads only for now)
-along the way
+Handler for PACKET_UNIT_CONNECT request. The unit is send on way and will 
+build something (roads only for now) along the way, using server-side
+path-finding. 
+
+FIXME: This should be rewritten to use client-side path finding along so 
+that we can show in the client where the road-to-be-built will be and 
+enable the use of waypoints to alter this route. - Per
 **************************************************************************/
 void handle_unit_connect(struct player *pplayer, 
 		          struct packet_unit_connect *req)
@@ -863,14 +867,8 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 {
   struct player *pplayer = unit_owner(punit);
   struct tile *pdesttile = map_get_tile(dest_x, dest_y);
-  struct tile *psrctile = map_get_tile(punit->x, punit->y);
   struct unit *pdefender = get_defender(punit, dest_x, dest_y);
   struct city *pcity = pdesttile->city;
-
-  /* barbarians shouldn't enter huts */
-  if (is_barbarian(pplayer) && tile_has_special(pdesttile, S_HUT)) {
-    return FALSE;
-  }
 
   if (!is_normal_map_pos(dest_x, dest_y)) {
     return FALSE;
@@ -964,13 +962,6 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       return FALSE;
     }
 
-    /* DO NOT Auto-attack.  Findvictim routine will decide if we should. */
-    if (pplayer->ai.control && punit->activity == ACTIVITY_GOTO) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
- 		       _("Game: Aborting GOTO for AI attack procedures."));
-      return FALSE;
-    }
- 
     if (punit->activity == ACTIVITY_GOTO &&
  	(dest_x != punit->goto_dest_x || dest_y != punit->goto_dest_y)) {
       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
@@ -979,31 +970,6 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
       return FALSE;
     }
  
-    /* This is for debugging only, and seems to be obsolete as the error message
-       never appears */
-    if (pplayer->ai.control && punit->ai.passenger != 0) {
-      struct unit *passenger;
-      passenger = unit_list_find(&psrctile->units, punit->ai.passenger);
-      if (passenger) {
- 	/* removed what seemed like a very bad abort() -- JMC/jjm */
- 	if (get_transporter_capacity(punit) == 0) {
- 	  freelog(LOG_NORMAL, "%s#%d@(%d,%d) thinks %s#%d is a passenger?",
- 		  unit_name(punit->type), punit->id, punit->x, punit->y,
- 		  unit_name(passenger->type), passenger->id);
- 	}
-      }
-    }
-
-    /* This should be part of can_unit_attack_tile(), but I think the AI
-       depends on can_unit_attack_tile() not stopping it in the goto, so
-       leave it here for now. */
-    if (unit_type(punit)->attack_strength == 0) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		       _("Game: A %s cannot attack other units."),
-		       unit_name(punit->type));
-      return FALSE;
-    }
-
     handle_unit_attack_request(punit, pdefender);
     return TRUE;
   } /* End attack case */
@@ -1016,32 +982,6 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
 		     _("Game: No war declared against %s, cannot attack."),
 		     unit_owner(pdefender)->name);
     how_to_declare_war(pplayer);
-    return FALSE;
-  }
-
-
-  {
-    struct unit *bodyguard;
-    if (pplayer->ai.control &&
- 	punit->ai.bodyguard > 0 &&
- 	(bodyguard = unit_list_find(&psrctile->units, punit->ai.bodyguard)) &&
- 	bodyguard->moves_left == 0) {
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
- 		       _("Game: %s doesn't want to leave its bodyguard."),
- 		       unit_type(punit)->name);
-      return FALSE;
-    }
-  }
- 
-  /* Mao had this problem with chariots ending turns next to enemy cities. -- Syela */
-  if (pplayer->ai.control &&
-      punit->moves_left <= map_move_cost(punit, dest_x, dest_y) &&
-      unit_type(punit)->move_rate > map_move_cost(punit, dest_x, dest_y) &&
-      enemies_at(punit, dest_x, dest_y) &&
-      !enemies_at(punit, punit->x, punit->y)) {
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-  		     _("Game: %s ending move early to stay out of trouble."),
-  		     unit_type(punit)->name);
     return FALSE;
   }
 
@@ -1065,36 +1005,14 @@ bool handle_unit_move_request(struct unit *punit, int dest_x, int dest_y,
   }
 
   /******* ok now move the unit *******/
-  if(can_unit_move_to_tile_with_notify(punit, dest_x, dest_y, igzoc) &&
-     try_move_unit(punit, dest_x, dest_y)) {
-    int src_x = punit->x;
-    int src_y = punit->y;
+  if (can_unit_move_to_tile_with_notify(punit, dest_x, dest_y, igzoc)
+      && try_move_unit(punit, dest_x, dest_y)) {
     int move_cost = map_move_cost(punit, dest_x, dest_y);
     /* The ai should assign the relevant units itself, but for now leave this */
     bool take_from_land = punit->activity == ACTIVITY_IDLE;
-    bool survived;
 
-    survived = move_unit(punit, dest_x, dest_y, TRUE, take_from_land, move_cost);
-    if (!survived)
-      return TRUE;
+    move_unit(punit, dest_x, dest_y, TRUE, take_from_land, move_cost);
 
-    /* bodyguard code */
-    if(pplayer->ai.control && punit->ai.bodyguard > 0) {
-      struct unit *bodyguard = unit_list_find(&psrctile->units, punit->ai.bodyguard);
-      if (bodyguard) {
-	bool success;
-
-	/* FIXME: it is stupid to set to ACTIVITY_IDLE if the unit is
-	   ACTIVITY_FORTIFIED and the unit has no chance of moving anyway */
-	handle_unit_activity_request(bodyguard, ACTIVITY_IDLE);
-	success = handle_unit_move_request(bodyguard,
-					   dest_x, dest_y, igzoc, FALSE);
-	freelog(LOG_DEBUG, "Dragging %s from (%d,%d)->(%d,%d) (Success=%d)",
-		unit_type(bodyguard)->name, src_x, src_y,
-		dest_x, dest_y, success);
-	handle_unit_activity_request(bodyguard, ACTIVITY_FORTIFYING);
-      }
-    }
     return TRUE;
   } else {
     return FALSE;
