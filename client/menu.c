@@ -538,7 +538,7 @@ void menu_entry_sensitive(struct Menu *pmenu, enum MenuID id, Bool s)
   
   for(i=0; pmenu->entries[i].text; ++i)
     if(pmenu->entries[i].id==id) {
-      XtVaSetValues(pmenu->entries[i].w, XtNsensitive, s, NULL);
+      XtVaSetValues(pmenu->entries[i].w, XtNsensitive, (s ? 1 : 0), NULL);
       return;
     }
 }
