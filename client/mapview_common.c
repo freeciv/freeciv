@@ -66,11 +66,18 @@ enum update_type {
   UPDATE_CITY_DESCRIPTIONS = 1,
   UPDATE_MAP_CANVAS_VISIBLE = 2
 };
+
+/* A tile update has a tile associated with it as well as an area type.
+ * See unqueue_mapview_updates for a thorough explanation. */
+enum tile_update_type {
+  TILE_UPDATE_TILE,
+  TILE_UPDATE_UNIT,
+  TILE_UPDATE_CITYMAP,
+  TILE_UPDATE_COUNT
+};
 static void queue_mapview_update(enum update_type update);
-static void queue_mapview_tile_update(struct tile *ptile);
-static void queue_mapview_unit_update(struct unit *punit, struct tile *ptile);
-static void queue_mapview_city_update(struct city *pcity, struct tile *ptile,
-				      bool full_refresh);
+static void queue_mapview_tile_update(struct tile *ptile,
+				      enum tile_update_type type);
 static void unqueue_mapview_updates(bool write_to_screen);
 
 /**************************************************************************
@@ -78,7 +85,7 @@ static void unqueue_mapview_updates(bool write_to_screen);
 **************************************************************************/
 void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
 {
-  queue_mapview_tile_update(ptile);
+  queue_mapview_tile_update(ptile, TILE_UPDATE_TILE);
   if (write_to_screen) {
     unqueue_mapview_updates(TRUE);
   }
@@ -90,7 +97,11 @@ void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen)
 void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 			    bool write_to_screen)
 {
-  queue_mapview_unit_update(punit, ptile);
+  if (unit_type_flag(punit->type, F_CITIES)) {
+    queue_mapview_tile_update(ptile, TILE_UPDATE_CITYMAP);
+  } else {
+    queue_mapview_tile_update(ptile, TILE_UPDATE_UNIT);
+  }
   if (write_to_screen) {
     unqueue_mapview_updates(TRUE);
   }
@@ -105,8 +116,11 @@ void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
 			    bool full_refresh, bool write_to_screen)
 {
-  queue_mapview_city_update(pcity, ptile,
-			    full_refresh && (draw_map_grid || draw_borders));
+  if (full_refresh && (draw_map_grid || draw_borders)) {
+    queue_mapview_tile_update(ptile, TILE_UPDATE_CITYMAP);
+  } else {
+    queue_mapview_tile_update(ptile, TILE_UPDATE_UNIT);
+  }
   if (write_to_screen) {
     unqueue_mapview_updates(TRUE);
   }
@@ -2163,9 +2177,7 @@ static bool callback_queued = FALSE;
  * whole citymap area.  A unit update covers just the "full" unit tile
  * area.  A tile update covers the base tile plus half a tile in each
  * direction. */
-struct tile_list *city_updates = NULL;
-struct tile_list *unit_updates = NULL;
-struct tile_list *tile_updates = NULL;
+struct tile_list *tile_updates[TILE_UPDATE_COUNT];
 
 /****************************************************************************
   This callback is called during an idle moment to unqueue any pending
@@ -2213,58 +2225,19 @@ void queue_mapview_update(enum update_type update)
 }
 
 /**************************************************************************
-  Appends a tile to the list.  The list is allocated if NULL.  The (new)
-  list is returned.
-**************************************************************************/
-static struct tile_list *append_tile_to_list(struct tile *ptile,
-					     struct tile_list *plist)
-{
-  if (!plist) {
-    plist = tile_list_new();
-  }
-  tile_list_append(plist, ptile);
-  return plist;
-}
-
-/**************************************************************************
   Queue this tile to be refreshed.  The refresh will be done some time
   soon thereafter, and grouped with other needed refreshes.
 
   Note this should only be called for tiles.  For cities or units use
   queue_mapview_xxx_update instead.
 **************************************************************************/
-void queue_mapview_tile_update(struct tile *ptile)
+void queue_mapview_tile_update(struct tile *ptile,
+			       enum tile_update_type type)
 {
-  tile_updates = append_tile_to_list(ptile, tile_updates);
-  queue_add_callback();
-}
-
-/**************************************************************************
-  Queue this unit to be refreshed.  The refresh will be done some time
-  soon thereafter, and grouped with other needed refreshes.
-**************************************************************************/
-void queue_mapview_unit_update(struct unit *punit, struct tile *ptile)
-{
-  if (unit_type_flag(punit->type, F_CITIES)) {
-    city_updates = append_tile_to_list(ptile, city_updates);
-  } else {
-    unit_updates = append_tile_to_list(ptile, unit_updates);
+  if (!tile_updates[type]) {
+    tile_updates[type] = tile_list_new();
   }
-  queue_add_callback();
-}
-
-/**************************************************************************
-  Queue this city to be refreshed.  The refresh will be done some time
-  soon thereafter, and grouped with other needed refreshes.
-**************************************************************************/
-void queue_mapview_city_update(struct city *pcity, struct tile *ptile,
-			       bool full_refresh)
-{
-  if (full_refresh) {
-    city_updates = append_tile_to_list(ptile, city_updates);
-  } else {
-    unit_updates = append_tile_to_list(ptile, unit_updates);
-  }
+  tile_list_append(tile_updates[type], ptile);
   queue_add_callback();
 }
 
@@ -2273,6 +2246,35 @@ void queue_mapview_city_update(struct city *pcity, struct tile *ptile,
 **************************************************************************/
 void unqueue_mapview_updates(bool write_to_screen)
 {
+  /* Calculate the area covered by each update type.  The area array gives
+   * the offset from the tile origin as well as the width and height of the
+   * area to be updated.  This is initialized each time when entering the
+   * function from the existing tileset variables.
+   *
+   * A TILE update covers the base tile (W x H) plus a half-tile in each
+   * direction (for edge/corner graphics), making its area 2W x 2H.
+   *
+   * A UNIT update covers a UW x UH area.  This is centered horizontally
+   * over the tile but extends up above the tile (e.g., units in iso-view).
+   *
+   * A CITYMAP update covers the whole citymap of a tile.  This includes
+   * the citymap area itself plus an extra half-tile in each direction (for
+   * edge/corner graphics).
+   */
+  const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+  const int UW = UNIT_TILE_WIDTH, UH = UNIT_TILE_HEIGHT;
+  const int city_width = get_citydlg_canvas_width() + W;
+  const int city_height = get_citydlg_canvas_height() + H;
+  const struct {
+    int dx, dy, w, h;
+  } area[TILE_UPDATE_COUNT] = {
+    {-W / 2, -H / 2, 2 * W, 2 * H},
+    {(W - UW) / 2, H - UH, UW, UH},
+    {-(city_width - W) / 2, -(city_height - H) / 2, city_width, city_height}
+  };
+
+  int i;
+
   freelog(LOG_DEBUG, "unqueue_mapview_update: needed_updates=%d",
 	  needed_updates);
 
@@ -2285,73 +2287,34 @@ void unqueue_mapview_updates(bool write_to_screen)
     } else {
       int min_x = mapview.width, min_y = mapview.height;
       int max_x = 0, max_y = 0;
+      int i;
 
-      if (tile_updates) {
-	tile_list_iterate(tile_updates, ptile) {
-	  int x0, y0, x1, y1;
+      for (i = 0; i < TILE_UPDATE_COUNT; i++) {
+	if (tile_updates[i]) {
+	  tile_list_iterate(tile_updates[i], ptile) {
+	    int x0, y0, x1, y1;
 
-	  if (tile_to_canvas_pos(&x0, &y0, ptile)) {
-	    x0 -= NORMAL_TILE_WIDTH / 2;
-	    y0 -= NORMAL_TILE_HEIGHT / 2;
-	    x1 = x0 + 2 * NORMAL_TILE_WIDTH;
-	    y1 = y0 + 2 * NORMAL_TILE_HEIGHT;
-	    min_x = MIN(min_x, x0);
-	    min_y = MIN(min_y, y0);
-	    max_x = MAX(max_x, x1);
-	    max_y = MAX(max_y, y1);
-	  }
+	    (void) tile_to_canvas_pos(&x0, &y0, ptile);
 
-	  /* FIXME: These overview updates should be batched as well.  Right
-	   * now they account for as much as 90% of the runtime of the
-	   * unqueue. */
-	  overview_update_tile(ptile);
-	} unit_list_iterate_end;
-      }
+	    x0 += area[i].dx;
+	    y0 += area[i].dy;
+	    x1 = x0 + area[i].w;
+	    y1 = y0 + area[i].h;
 
-      if (unit_updates) {
-	tile_list_iterate(unit_updates, ptile) {
-	  int x0, y0, x1, y1;
+	    if (x1 > 0 && x0 < mapview.width
+		&& y1 > 0 && y0 < mapview.height) {
+	      min_x = MIN(min_x, x0);
+	      min_y = MIN(min_y, y0);
+	      max_x = MAX(max_x, x1);
+	      max_y = MAX(max_y, y1);
+	    }
 
-	  if (tile_to_canvas_pos(&x0, &y0, ptile)) {
-	    y0 += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
-	    x1 = x0 + UNIT_TILE_WIDTH;
-	    y1 = y0 + UNIT_TILE_HEIGHT;
-	    min_x = MIN(min_x, x0);
-	    min_y = MIN(min_y, y0);
-	    max_x = MAX(max_x, x1);
-	    max_y = MAX(max_y, y1);
-	  }
-
-	  /* FIXME: These overview updates should be batched as well.  Right
-	   * now they account for as much as 90% of the runtime of the
-	   * unqueue. */
-	  overview_update_tile(ptile);
-	} tile_list_iterate_end;
-      }
-
-      if (city_updates) {
-	int width = get_citydlg_canvas_width() + NORMAL_TILE_WIDTH;
-	int height = get_citydlg_canvas_height() + NORMAL_TILE_HEIGHT;
-
-	tile_list_iterate(city_updates, ptile) {
-	  int x0, y0, x1, y1;
-
-	  if (tile_to_canvas_pos(&x0, &y0, ptile)) {
-	    x0 -= (width - NORMAL_TILE_WIDTH) / 2;
-	    y0 -= (height - NORMAL_TILE_HEIGHT) / 2;
-	    x1 = x0 + width;
-	    y1 = y0 + height;
-	    min_x = MIN(min_x, x0);
-	    min_y = MIN(min_y, y0);
-	    max_x = MAX(max_x, x1);
-	    max_y = MAX(max_y, y1);
-	  }
-
-	  /* FIXME: These overview updates should be batched as well.  Right
-	   * now they account for as much as 90% of the runtime of the
-	   * unqueue. */
-	  overview_update_tile(ptile);
-	} tile_list_iterate_end;
+	    /* FIXME: These overview updates should be batched as well.
+	     * Right now they account for as much as 90% of the runtime of
+	     * the unqueue. */
+	    overview_update_tile(ptile);
+	  } tile_list_iterate_end;
+	}
       }
 
       if (min_x < max_x && min_y < max_y) {
@@ -2359,14 +2322,10 @@ void unqueue_mapview_updates(bool write_to_screen)
       }
     }
   }
-  if (tile_updates) {
-    tile_list_unlink_all(tile_updates);
-  }
-  if (unit_updates) {
-    tile_list_unlink_all(unit_updates);
-  }
-  if (city_updates) {
-    tile_list_unlink_all(city_updates);
+  for (i = 0; i < TILE_UPDATE_COUNT; i++) {
+    if (tile_updates[i]) {
+      tile_list_unlink_all(tile_updates[i]);
+    }
   }
   needed_updates = UPDATE_NONE;
 
