@@ -2245,7 +2245,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 					     "player%d.reputation", plrno);
   for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
     plr->diplstates[i].type = 
-      secfile_lookup_int_default(file, DS_NO_CONTACT,
+      secfile_lookup_int_default(file, DS_NEUTRAL,
 				 "player%d.diplstate%d.type", plrno, i);
     plr->diplstates[i].turns_left = 
       secfile_lookup_int_default(file, 0,
