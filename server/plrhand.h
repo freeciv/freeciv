@@ -27,8 +27,9 @@ enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
 void server_player_init(struct player *pplayer, bool initmap);
 void server_remove_player(struct player *pplayer);
 void begin_player_turn(struct player *pplayer);
-void update_player_activities(struct player *pplayer);
-
+void update_player_aliveness(struct player *pplayer);
+void update_revolution(struct player *pplayer);
+void great_library(struct player *pplayer);
 void handle_player_revolution(struct player *pplayer);
 void handle_player_rates(struct player *pplayer, 
 			 struct packet_player_request *preq);

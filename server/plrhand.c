@@ -47,8 +47,6 @@
 
 #include "plrhand.h"
 
-static void update_player_aliveness(struct player *pplayer);
-
 static void package_player_common(struct player *plr,
                                   struct packet_player_info *packet);
 
@@ -116,7 +114,7 @@ void send_player_turn_notifications(struct conn_list *dest)
 /**************************************************************************
 ...
 **************************************************************************/
-static void great_library(struct player *pplayer)
+void great_library(struct player *pplayer)
 {
   int i;
   if (wonder_obsolete(B_GREAT)) 
@@ -150,7 +148,7 @@ static void great_library(struct player *pplayer)
 Count down if the player are in a revolution, notify him when revolution
 has ended.
 **************************************************************************/
-static void update_revolution(struct player *pplayer)
+void update_revolution(struct player *pplayer)
 {
   if(pplayer->revolution > 0) 
     pplayer->revolution--;
@@ -165,27 +163,9 @@ void begin_player_turn(struct player *pplayer)
 }
 
 /**************************************************************************
-Main update loop, for each player at end of turn.
-**************************************************************************/
-void update_player_activities(struct player *pplayer) 
-{
-  if (pplayer->ai.control) {
-    ai_do_last_activities(pplayer); /* why was this AFTER aliveness? */
-  }
-  great_library(pplayer);
-  update_revolution(pplayer);
-  player_restore_units(pplayer); /*note: restoring move point moved
-				   to update_unit_activities*/
-  update_city_activities(pplayer);
-  pplayer->research.changed_from=-1;
-  update_unit_activities(pplayer);
-  update_player_aliveness(pplayer);
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
-static void update_player_aliveness(struct player *pplayer)
+void update_player_aliveness(struct player *pplayer)
 {
   assert(pplayer != NULL);
   if(pplayer->is_alive) {

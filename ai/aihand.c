@@ -374,16 +374,10 @@ void ai_do_last_activities(struct player *pplayer)
   ai_manage_taxes(pplayer); 
   freelog(LOG_DEBUG, "Managing %s's government.", pplayer->name);
   ai_manage_government(pplayer);
-#ifdef UNUSED
-  ai_manage_diplomacy(pplayer);
-#endif
   ai_manage_tech(pplayer); 
   freelog(LOG_DEBUG, "Managing %s's spaceship.", pplayer->name);
   ai_manage_spaceship(pplayer);
   freelog(LOG_DEBUG, "Managing %s's taxes.", pplayer->name);
-#ifdef UNUSED
-  ai_after_work(pplayer);
-#endif
   freelog(LOG_DEBUG, "Done with %s.", pplayer->name);
 }
 

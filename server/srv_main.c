@@ -417,24 +417,40 @@ static void end_turn(void)
   int i;
 
   nocity_send = TRUE;
+
+  /* AI end of turn activities */
+  players_iterate(pplayer) {
+    if (pplayer->ai.control) {
+      ai_do_last_activities(pplayer);
+    }
+  } players_iterate_end;
+
+  /* Refresh cities */
   for(i=0; i<game.nplayers; i++) {
     struct player *pplayer = shuffled_player(i);
-    freelog(LOG_DEBUG, "updating player activities for #%d (%s)",
-		  i, pplayer->name);
-    update_player_activities(pplayer);
-         /* ai unit activity has been moved UP -- Syela */
-
+    great_library(pplayer);
+    update_revolution(pplayer);
+    player_restore_units(pplayer);
+    update_city_activities(pplayer);
+    pplayer->research.changed_from=-1;
     flush_packets();
-	 /* update_player_activities calls update_unit_activities which
-	    causes *major* network traffic */
+  }
+
+  /* Unit end of turn activities */
+  for(i=0; i<game.nplayers; i++) {
+    struct player *pplayer = shuffled_player(i);
+    update_unit_activities(pplayer); /* major network traffic */
+    update_player_aliveness(pplayer);
+    flush_packets();
     pplayer->turn_done = FALSE;
   }
+
   nocity_send = FALSE;
   players_iterate(pplayer) {
     send_player_cities(pplayer);
     ai_eval_threat_done(pplayer);
   } players_iterate_end;
-  flush_packets();			/* to curb major city spam */
+  flush_packets();  /* to curb major city spam */
 
   update_environmental_upset(S_POLLUTION, &game.heating,
 			     &game.globalwarming, &game.warminglevel,
