@@ -20,9 +20,9 @@
 # メールをお待ちしています。(澤田)
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.14.1-devel\n"
+"Project-Id-Version: Freeciv 1.14.3-devel\n"
 "POT-Creation-Date: 2002-12-21 10:07+0100\n"
-"PO-Revision-Date: 2002-12-23 14:00-0800\n"
+"PO-Revision-Date: 2002-12-23 14:05-0800\n"
 "Last-Translator: SAWADA Katsuya <ama@petmail.net>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
 "MIME-Version: 1.0\n"
@@ -17188,11 +17188,11 @@ msgstr "独裁者"
 # 直訳すれば「王」ですが、雰囲気がでないのでそのまま(clefs)
 #: data/nation/catalan.ruleset:15
 msgid "Rei"
-msgstr ""
+msgstr "Rei"
 
 #: data/nation/catalan.ruleset:15
 msgid "Reina"
-msgstr ""
+msgstr "Reina"
 
 #: data/nation/catalan.ruleset:17
 msgid "Arquebisbe"
