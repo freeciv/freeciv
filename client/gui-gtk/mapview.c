@@ -876,6 +876,8 @@ void center_tile_mapcanvas(int x, int y)
   update_map_canvas_visible();
   update_map_canvas_scrollbars();
   refresh_overview_viewrect();
+  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
+    create_line_at_mouse_pos();
 }
 
 /**************************************************************************
