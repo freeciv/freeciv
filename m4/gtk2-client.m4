@@ -6,7 +6,7 @@
 AC_DEFUN(FC_GTK2_CLIENT,
 [
   if test "$client" = "gtk-2.0" || test "$client" = yes ; then
-    AM_PATH_GTK_2_0(2.0.0,
+    AM_PATH_GTK_2_0(2.2.1,
       [
         client="gtk-2.0"
         CLIENT_CFLAGS="$GTK_CFLAGS -DGTK_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DG_DISABLE_DEPRECATED"
