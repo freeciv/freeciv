@@ -2,14 +2,14 @@
 # Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # Artur Biesiadowski <abies@pg.gda.pl>, 1999.
 # GNOME PL Team <gnomepl@pandora.info.bielsko.pl>, 1999
-#
+# Tomasz Wêgrzanowski <maniek@beer.com> 2000
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "POT-Creation-Date: 2000-02-21 16:09-0500\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
-"Last-Translator: Artur Biesiadowski <abies@pg.gda.pl>\n"
+"Last-Translator: Tomasz Wêgrzanowski <maniek@beer.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
@@ -57,34 +57,32 @@ msgstr ""
 #: common/log.c:245 common/log.c:263
 #, c-format
 msgid "last message repeated %d times"
-msgstr ""
+msgstr "wiadomo¶æ powtórzona %d razy"
 
 #: common/log.c:247 common/log.c:266
 #, c-format
 msgid " (total %d repeats)"
-msgstr ""
+msgstr " (³±cznie %d powtórzeñ)"
 
 #: common/log.c:260
 msgid "last message repeated once"
-msgstr ""
+msgstr "wiadomo¶æ powtórzona 1 raz"
 
 # client/gui-gtk/cityrep.c:1
 #: common/map.c:54
-#, fuzzy
 msgid "Polluted "
-msgstr "Zanieczyszczenie"
+msgstr "Zanieczyszczony "
 
 #: common/map.c:57 data/civ1/terrain.ruleset:453
 #: data/classic/terrain.ruleset:453
 msgid "River"
-msgstr ""
+msgstr "Rzeka"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: common/map.c:546 common/unit.c:851
-#, fuzzy
 msgid "Road"
-msgstr "Radio"
+msgstr "Droga"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -96,34 +94,29 @@ msgstr "Kolej"
 # client/gui-gtk/menu.c:1 client/gui-gtk/menu.c:1
 # client/gui-xaw/menu.c:1
 #: common/map.c:550 common/unit.c:853
-#, fuzzy
 msgid "Irrigation"
-msgstr "Stwórz nawodnienie"
+msgstr "Nawodnienie"
 
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1
 #: common/map.c:552
-#, fuzzy
 msgid "Farmland"
-msgstr "Zbuduj farmê"
+msgstr "Farma"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: common/map.c:554 common/unit.c:852
-#, fuzzy
 msgid "Mine"
-msgstr "Komandosi"
+msgstr "Kopalnia"
 
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1
 #: common/map.c:556 common/unit.c:855
-#, fuzzy
 msgid "Fortress"
-msgstr "Zbuduj fortecê"
+msgstr "Fort"
 
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1
 #: common/map.c:558 common/unit.c:862
-#, fuzzy
 msgid "Airbase"
-msgstr "Zbuduj bazê lotnicz±"
+msgstr "L±dowisko"
 
 #: common/mem.c:38
 #, c-format
@@ -137,15 +130,13 @@ msgstr ""
 
 # client/helpdata.c:1
 #: common/shared.c:228
-#, fuzzy, c-format
 msgid "%d BC"
-msgstr "%d. "
+msgstr "%d p.n.e."
 
 # client/helpdata.c:1
 #: common/shared.c:230
-#, fuzzy, c-format
 msgid "%d AD"
-msgstr "%d. "
+msgstr "%d n.e."
 
 #: client/tilespec.c:174 common/shared.c:579
 #, c-format
@@ -180,15 +171,15 @@ msgstr ""
 
 #: common/shared.c:637
 msgid "ambiguous"
-msgstr ""
+msgstr "dwuznaczne"
 
 #: common/shared.c:638
 msgid "empty"
-msgstr ""
+msgstr "puste"
 
 #: common/shared.c:639
 msgid "too long"
-msgstr ""
+msgstr "za d³ugie"
 
 #: common/shared.c:640
 msgid "non-match"
@@ -205,9 +196,8 @@ msgstr ""
 
 # data/Freeciv:1
 #: common/unit.c:671
-#, fuzzy
 msgid " and "
-msgstr " Zmieñ "
+msgstr " oraz "
 
 # client/gui-gtk/plrdlg.c:1
 #: client/gui-gtk/plrdlg.c:81 common/unit.c:849
@@ -242,16 +232,14 @@ msgstr "Id¼ do"
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: common/unit.c:860
-#, fuzzy
 msgid "Explore"
-msgstr "Badacz"
+msgstr "Zbadaj"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: common/unit.c:861
-#, fuzzy
 msgid "Transform"
-msgstr "Transport"
+msgstr "Zmieñ"
 
 # client/gui-gtk/citydlg.c:1 client/gui-xaw/citydlg.c:1
 #: client/gui-gtk/citydlg.c:894 client/gui-xaw/citydlg.c:1414
@@ -261,81 +249,73 @@ msgstr "Nieznane"
 
 # client/gui-gtk/mapview.c:1
 #: common/unit.c:1093
-#, fuzzy
 msgid " (veteran)"
-msgstr "(weteran)"
+msgstr " (weteran)"
 
 # client/gui-gtk/helpdlg.c:1
 #: common/unit.c:1110
-#, fuzzy
 msgid "Moves"
-msgstr "Ruch:"
+msgstr "Ruch"
 
 #: common/version.c:26
 msgid "January"
-msgstr ""
+msgstr "Styczeñ"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: common/version.c:27
-#, fuzzy
 msgid "February"
-msgstr "Oczytanie XXX?"
+msgstr "Luty"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: common/version.c:28
-#, fuzzy
 msgid "March"
-msgstr "Monarchia"
+msgstr "Marzec"
 
 #: common/version.c:29
 msgid "April"
-msgstr ""
+msgstr "Kwiecieñ"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: common/version.c:30
-#, fuzzy
 msgid "May"
-msgstr "Murarstwo"
+msgstr "Maj"
 
 #: common/version.c:31
 msgid "June"
-msgstr ""
+msgstr "Czerwiec"
 
 #: common/version.c:32
 msgid "July"
-msgstr ""
+msgstr "Lipiec"
 
 #: common/version.c:33
 msgid "August"
-msgstr ""
+msgstr "Sierpieñ"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: common/version.c:34
-#, fuzzy
 msgid "September"
-msgstr "Bombowiec 'Stealth'"
+msgstr "Wrzesieñ"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: common/version.c:35
-#, fuzzy
 msgid "October"
-msgstr "Bombowiec"
+msgstr "Pa¼dziernik"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: common/version.c:36
-#, fuzzy
 msgid "November"
-msgstr "Bombowiec"
+msgstr "Listopad"
 
 #: common/version.c:37
 msgid "December"
-msgstr ""
+msgstr "Grudzieñ"
 
 # client/gui-gtk/connectdlg.c:1 data/Freeciv:1
 #: common/version.c:49
@@ -377,7 +357,7 @@ msgstr ""
 #: server/cityhand.c:376
 #, c-format
 msgid "Game: You sell %s in %s for %d credits."
-msgstr ""
+msgstr "Gra: Sprzeda³e¶ %s w %s za %d kredytów."
 
 # client/control.c:1
 #: server/cityhand.c:404
@@ -483,22 +463,22 @@ msgstr ""
 
 #: server/cityturn.c:734
 msgid "Game: WARNING, we're LOW on FUNDS sire."
-msgstr ""
+msgstr "Gra: ALARM, KASA siê KOÑCZY, sir."
 
 #: server/cityturn.c:783 server/cityturn.c:802
 #, c-format
 msgid "Game: %s needs %s (being built) to grow any further."
-msgstr ""
+msgstr "Gra: w %s potrzeba %s (w³a¶nie budowane) celem dalszego wzrostu."
 
 #: server/cityturn.c:788
 #, c-format
 msgid "Game: %s needs %s to grow any further."
-msgstr ""
+msgstr "Gra: w %s potrzeba %s celem dalszego wzrostu."
 
 #: server/cityturn.c:861
 #, c-format
 msgid "Game: %s grows to size %d."
-msgstr ""
+msgstr "Gra: %s wzros³o do wielko¶ci %d."
 
 #: server/cityturn.c:871
 #, c-format
@@ -566,12 +546,12 @@ msgstr ""
 #: server/cityturn.c:1288
 #, c-format
 msgid "Game: %s can't build %s yet."
-msgstr ""
+msgstr "Gra: %s nie mo¿e jeszcze zbudowaæ %s."
 
 #: server/cityturn.c:1304
 #, c-format
 msgid "Game: %s is finished building %s."
-msgstr ""
+msgstr "Gra: %s skoñczy³o budowaæ %s."
 
 #: server/cityturn.c:1347
 #, c-format
@@ -580,9 +560,9 @@ msgstr ""
 
 # client/gui-gtk/citydlg.c:1
 #: server/cityturn.c:1409
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Pollution near %s."
-msgstr "Zanieczyszczenie: %3d"
+msgstr "Gra: Zanieczyszczenie ko³o %s."
 
 #: server/cityturn.c:1499
 #, c-format
@@ -603,17 +583,17 @@ msgstr ""
 #: server/cityturn.c:1561
 #, c-format
 msgid "Game: Civil disorder in %s."
-msgstr ""
+msgstr "Gra: Rozruchy w %s."
 
 #: server/cityturn.c:1564
 #, c-format
 msgid "Game: CIVIL DISORDER CONTINUES in %s."
-msgstr ""
+msgstr "Gra: ROZRUCHY WCI¡¯ TRWAJ¡ w %s."
 
 #: server/cityturn.c:1570
 #, c-format
 msgid "Game: Order restored in %s."
-msgstr ""
+msgstr "Gra: Porz±dek przywrócony w %s."
 
 #: server/cityturn.c:1579
 #, c-format
@@ -638,7 +618,7 @@ msgstr ""
 #: server/civserver.c:225
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr ""
+msgstr "B³±d: nieznana opcja '%s'\n"
 
 # server/civserver.c:1
 #: server/civserver.c:237
@@ -649,7 +629,7 @@ msgstr "To jest serwer dla %s"
 #: server/civserver.c:238
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr ""
+msgstr "Wiele o freeciv mo¿esz siê dowiedzieæ na %s"
 
 # client/gui-gtk/gui_main.c:1
 #: client/civclient.c:104 server/civserver.c:242
@@ -863,9 +843,8 @@ msgstr ""
 
 # client/gui-gtk/plrdlg.c:1
 #: server/civserver.c:1317 server/civserver.c:1333
-#, fuzzy
 msgid " (R.I.P.)"
-msgstr "R.I.P."
+msgstr " (R.I.P.)"
 
 # client/gui-gtk/mapctrl.c:1
 #: server/civserver.c:1318
@@ -969,21 +948,21 @@ msgstr ""
 
 # client/clinet.c:1
 #: server/civserver.c:1526
-#, fuzzy, c-format
+#, c-format
 msgid "Lost connection to %s."
-msgstr "Utracono po³±czenie z serwerem!"
+msgstr "Utracono po³±czenie z %s."
 
 # client/clinet.c:1
 #: server/civserver.c:1528
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Lost connection to %s."
-msgstr "Utracono po³±czenie z serwerem!"
+msgstr "Gra: Utracono po³±czenie z %s."
 
 # client/clinet.c:1
 #: server/civserver.c:1537
 #, fuzzy
 msgid "Lost connection to <unknown>."
-msgstr "Utracono po³±czenie z serwerem!"
+msgstr "Utracono po³±czenie z <nieznany>."
 
 #: server/civserver.c:1574
 #, c-format
@@ -1004,9 +983,9 @@ msgstr ""
 # client/gui-gtk/plrdlg.c:1 client/gui-xaw/menu.c:1 data/Freeciv:1
 # data/Freeciv:1
 #: server/civserver.c:1676
-#, fuzzy, c-format
+#, c-format
 msgid "Player %d"
-msgstr "Gracze"
+msgstr "Gracz %d"
 
 #. no more unused nation
 #: server/civserver.c:1691
@@ -1021,15 +1000,15 @@ msgstr ""
 #: server/civserver.c:1714
 #, c-format
 msgid "Game: %s rules the %s."
-msgstr ""
+msgstr "Gra: %s rz±dzi %s."
 
 #: server/console.c:162
 msgid "Ok. RFC-style set."
-msgstr ""
+msgstr "Ok. Ustawiony styl RFC."
 
 #: server/console.c:164
 msgid "Ok. Standard style set."
-msgstr ""
+msgstr "Ok. Ustawiony styl standardowy."
 
 #: server/console.c:183
 msgid "For introductory help, type 'help'."
@@ -1060,7 +1039,7 @@ msgstr "Badanie Technologii Przysz³o¶ci %d"
 #: server/diplhand.c:165
 #, fuzzy, c-format
 msgid "Game: You get %d gold."
-msgstr "%s daje %d z³ota"
+msgstr "Gra: Dosta³e¶ %d z³ota"
 
 #: server/diplhand.c:171
 #, c-format
@@ -1273,30 +1252,29 @@ msgstr ""
 #: client/gui-gtk/menu.c:606 client/gui-xaw/menu.c:187 data/helpdata.txt:716
 #: server/plrhand.c:205
 msgid "Wonders of the World"
-msgstr "Cudy ¦wiata"
+msgstr "Cuda ¦wiata"
 
 # client/gui-gtk/plrdlg.c:1 data/Freeciv:1
 #: server/plrhand.c:493
-#, fuzzy
 msgid "st"
-msgstr "Komputer"
+msgstr "wszy"
 
 #: server/plrhand.c:496
 msgid "nd"
-msgstr ""
+msgstr "gi"
 
 #: server/plrhand.c:499
 msgid "rd"
-msgstr ""
+msgstr "ci"
 
 #: server/plrhand.c:504 server/plrhand.c:509
 msgid "th"
-msgstr ""
+msgstr "ty"
 
 #: server/plrhand.c:601 server/plrhand.c:616 server/plrhand.c:625
 #: server/plrhand.c:641
 msgid " sq. mi."
-msgstr ""
+msgstr " mil kw."
 
 #: server/plrhand.c:698 server/plrhand.c:713
 msgid " M tons"
@@ -1308,36 +1286,32 @@ msgstr ""
 
 #: server/plrhand.c:746 server/plrhand.c:762
 msgid " months"
-msgstr ""
+msgstr " miesiêcy"
 
 # data/Freeciv:1
 #: server/plrhand.c:771 server/plrhand.c:786
-#, fuzzy
 msgid " tons"
-msgstr "Opcje"
+msgstr " tony"
 
 # client/gui-gtk/cityrep.c:1
 #: server/plrhand.c:806
-#, fuzzy
 msgid "Population"
-msgstr "Zanieczyszczenie"
+msgstr "Populacja"
 
 #: server/plrhand.c:807
 msgid "Land Area"
-msgstr ""
+msgstr "Obszar"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: server/plrhand.c:808
-#, fuzzy
 msgid "Settled Area"
-msgstr "Osadnicy"
+msgstr "Obszar Zamieszkany"
 
 # client/gui-gtk/repodlgs.c:1
 #: server/plrhand.c:809
-#, fuzzy
 msgid "Research Speed"
-msgstr "Badania"
+msgstr "Prêdko¶æ Badañ"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -1349,9 +1323,8 @@ msgstr "Oczytanie XXX?"
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: server/plrhand.c:811
-#, fuzzy
 msgid "Production"
-msgstr "Masowa Produkcja"
+msgstr "Produkcja"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -1364,9 +1337,8 @@ msgstr "Ekonomia"
 # client/gui-gtk/repodlgs.c:1 client/gui-gtk/repodlgs.c:1
 # client/gui-xaw/menu.c:1 client/gui-xaw/repodlgs.c:1 data/Freeciv:1
 #: server/plrhand.c:813
-#, fuzzy
 msgid "Military Service"
-msgstr "Raport wojskowy"
+msgstr "S³u¿ba Wojskowa"
 
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1
 #: server/plrhand.c:840 server/plrhand.c:864
@@ -1402,33 +1374,33 @@ msgstr ""
 
 # client/options.c:1
 #: server/plrhand.c:1298
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s acquired from The Great Library!"
-msgstr "Wynalazek z Wielkiej Biblioteki  "
+msgstr "Gra: %s otrzymany z Wielkiej Biblioteki!"
 
 # client/options.c:1
 #: server/plrhand.c:1303
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have aquired %s from the Great Library"
-msgstr "Wynalazek z Wielkiej Biblioteki  "
+msgstr "Gra: %s otrzyma³ %s z Wielkiej Biblioteki"
 
 # client/gui-gtk/mapctrl.c:1
 #: server/plrhand.c:1337
-#, fuzzy, c-format
+#, c-format
 msgid "Year: %s"
-msgstr "Teren: %s"
+msgstr "Rok: %s"
 
 # client/gui-gtk/cityrep.c:1
 #: server/plrhand.c:1361
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s are no more!"
-msgstr "Gra: Nie ma ró¿nicy!"
+msgstr "Gra: Nie ma ju¿ %s!"
 
 # server/civserver.c:1
 #: server/plrhand.c:1389
-#, fuzzy, c-format
+#, c-format
 msgid "%s are first to learn %s"
-msgstr "To jest serwer dla %s"
+msgstr "%s jako pierwsi poznali %s"
 
 #: server/plrhand.c:1414
 #, c-format
@@ -6085,7 +6057,7 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
-"Freeciv to darmowe oprogramowanie i mo¿esz rozdawaæ jego kopie pod\n"
+"Freeciv to wolnodostêpne oprogramowanie i mo¿esz rozdawaæ jego kopie pod\n"
 "okre¶lonymi warunkami; Zobacz \"Kopiowanie\" w menu Pomoc.\n"
 "A teraz im dokop!!!"
 
@@ -6169,9 +6141,8 @@ msgstr "Utrzymanie:"
 
 # client/gui-gtk/connectdlg.c:1
 #: client/gui-gtk/helpdlg.c:87 data/Freeciv:831
-#, fuzzy
 msgid "Vision:"
-msgstr "Wersja"
+msgstr "Widoczno¶æ"
 
 # client/gui-gtk/helpdlg.c:1
 #: client/gui-gtk/helpdlg.c:93
@@ -6399,9 +6370,8 @@ msgstr "Podrzêdna osada plemienna"
 
 # client/gui-gtk/cityrep.c:1
 #: client/gui-gtk/mapctrl.c:147 client/gui-xaw/mapctrl.c:142
-#, fuzzy
 msgid "with City Walls"
-msgstr "Nazwa miasta"
+msgstr "z Murami Miejskimi"
 
 # client/gui-gtk/mapctrl.c:1
 #: client/gui-gtk/mapctrl.c:154 client/gui-xaw/mapctrl.c:147
@@ -6539,9 +6509,8 @@ msgstr "_Podatki"
 
 # client/gui-xaw/menu.c:1 data/Freeciv:1
 #: client/gui-gtk/menu.c:507
-#, fuzzy
 msgid "_Find City"
-msgstr "Znajd¼ miasto"
+msgstr "_Znajd¼ miasto"
 
 # client/gui-gtk/citydlg.c:1 client/gui-gtk/cityrep.c:1
 #: client/gui-gtk/menu.c:509
@@ -6778,7 +6747,7 @@ msgstr "Raport naukowy"
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1
 #: client/gui-gtk/menu.c:608 client/gui-xaw/menu.c:188
 msgid "Top Five Cities"
-msgstr "Piêæ najlepszych miast"
+msgstr "Piêæ najwspanialszych miast"
 
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1
 #: client/gui-gtk/menu.c:610 client/gui-xaw/menu.c:189
@@ -7574,9 +7543,8 @@ msgstr "Wybierz jednostkê/i"
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/Freeciv:609 data/Freeciv:688
-#, fuzzy
 msgid "Variant:"
-msgstr "Partyzanci"
+msgstr "Wariant:"
 
 # client/gui-gtk/helpdlg.c:1
 #: data/Freeciv:796
@@ -7746,9 +7714,8 @@ msgstr "Masowa Produkcja"
 
 # data/Freeciv:1
 #: data/Freeciv:2093
-#, fuzzy
 msgid "  Ok  "
-msgstr " Ok "
+msgstr "  Ok  "
 
 #: data/Freeciv:2111
 msgid "Show future targets:"
@@ -7779,7 +7746,7 @@ msgstr "Handel"
 # data/Freeciv:1
 #: data/Freeciv:2919
 msgid "Activate Units"
-msgstr "Aktywuj jednostki"
+msgstr "Uaktywnij oddzia³y"
 
 # data/Freeciv:1
 #: data/Freeciv:2921
@@ -7789,7 +7756,7 @@ msgstr "Lista jednostek"
 # data/Freeciv:1
 #: data/Freeciv:2925
 msgid " Buy "
-msgstr "Kup"
+msgstr " Kup "
 
 # client/gui-gtk/citydlg.c:1 client/gui-gtk/cityrep.c:1
 #: data/Freeciv:2929
@@ -7805,12 +7772,12 @@ msgstr "Utrzymywane jednostki:"
 # data/Freeciv:1
 #: data/Freeciv:2952
 msgid "Units present:"
-msgstr "Obecne jednostki:"
+msgstr "Obecne oddzia³y:"
 
 # data/Freeciv:1
 #: data/Freeciv:2981
 msgid "What Nation Will You Be?"
-msgstr "Wybór narodu"
+msgstr "Naród"
 
 # data/Freeciv:1
 #: data/Freeciv:2983
@@ -7820,12 +7787,12 @@ msgstr "Wybór narodu i imienia:"
 # data/Freeciv:1
 #: data/Freeciv:2996
 msgid "Pick Name"
-msgstr "Wybierz nazwê"
+msgstr "Wybierz Imiê"
 
 # data/Freeciv:1
 #: data/Freeciv:2998
 msgid "Select your sex:"
-msgstr "Wybór p³ci:"
+msgstr "P³eæ:"
 
 # data/Freeciv:1
 #: data/Freeciv:3002
@@ -7834,9 +7801,8 @@ msgstr "Mê¿czyzna"
 
 # data/Freeciv:1
 #: data/Freeciv:3009
-#, fuzzy
 msgid "Select city style:"
-msgstr "Wybierz miasto:"
+msgstr "Styl miast:"
 
 # data/Freeciv:1
 #: data/Freeciv:3020
@@ -7898,7 +7864,7 @@ msgstr ""
 
 #: data/helpdata.txt:379
 msgid "Languages"
-msgstr ""
+msgstr "Jêzyki"
 
 #: data/helpdata.txt:380
 msgid ""
@@ -8320,9 +8286,8 @@ msgstr ""
 
 # data/Freeciv:1
 #: data/helpdata.txt:727
-#, fuzzy
 msgid "Units"
-msgstr "Lista jednostek"
+msgstr "Oddzia³y"
 
 #: data/helpdata.txt:728
 msgid ""
@@ -8546,7 +8511,7 @@ msgstr ""
 
 #: data/helpdata.txt:886
 msgid " Combat example 1"
-msgstr ""
+msgstr " Przyk³±d starcia 1"
 
 #: data/helpdata.txt:887
 msgid ""
@@ -8600,7 +8565,7 @@ msgstr ""
 
 #: data/helpdata.txt:923
 msgid " Combat example 2"
-msgstr ""
+msgstr " Przyk³ad starcia 2"
 
 #: data/helpdata.txt:924
 msgid ""
@@ -8653,9 +8618,8 @@ msgstr ""
 
 # client/helpdata.c:1
 #: data/helpdata.txt:963
-#, fuzzy
 msgid "Zones of Control"
-msgstr "* Ignoruje strefy kontroli\n"
+msgstr "Strefy kontroli"
 
 #: data/helpdata.txt:964
 msgid ""
@@ -8902,7 +8866,7 @@ msgstr ""
 
 #: data/helpdata.txt:1139
 msgid " Civil War"
-msgstr ""
+msgstr " Wojna Domowa"
 
 #: data/helpdata.txt:1140
 msgid ""
@@ -9088,9 +9052,8 @@ msgstr ""
 # data/default/units.ruleset:1
 #: data/civ1/buildings.ruleset:45 data/civ2/buildings.ruleset:43
 #: data/default/buildings.ruleset:43
-#, fuzzy
 msgid "Airport"
-msgstr "Czo³g"
+msgstr "Lotnisko"
 
 #: data/civ2/buildings.ruleset:50 data/default/buildings.ruleset:50
 msgid ""
@@ -9106,7 +9069,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:54 data/civ2/buildings.ruleset:62
 #: data/default/buildings.ruleset:62
 msgid "Aqueduct"
-msgstr ""
+msgstr "Akwedukt"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -9127,7 +9090,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:77 data/civ2/buildings.ruleset:85
 #: data/default/buildings.ruleset:85
 msgid "Barracks"
-msgstr ""
+msgstr "Koszary"
 
 #: data/civ2/buildings.ruleset:92 data/civ2/buildings.ruleset:110
 #: data/civ2/buildings.ruleset:128 data/default/buildings.ruleset:92
@@ -9142,19 +9105,18 @@ msgstr ""
 #: data/civ1/buildings.ruleset:95 data/civ2/buildings.ruleset:103
 #: data/default/buildings.ruleset:103
 msgid "Barracks II"
-msgstr ""
+msgstr "Koszary II"
 
 #: data/civ1/buildings.ruleset:113 data/civ2/buildings.ruleset:121
 #: data/default/buildings.ruleset:121
 msgid "Barracks III"
-msgstr ""
+msgstr "Koszary III"
 
 # data/civ2/units.ruleset:1 data/default/units.ruleset:1
 #: data/civ1/buildings.ruleset:130 data/civ2/buildings.ruleset:138
 #: data/default/buildings.ruleset:138
-#, fuzzy
 msgid "Cathedral"
-msgstr "Karawela"
+msgstr "Katedra"
 
 #: data/civ1/buildings.ruleset:137 data/civ2/buildings.ruleset:145
 #: data/default/buildings.ruleset:145
@@ -9166,9 +9128,8 @@ msgstr ""
 # client/gui-gtk/cityrep.c:1
 #: data/civ1/buildings.ruleset:144 data/civ2/buildings.ruleset:152
 #: data/default/buildings.ruleset:152
-#, fuzzy
 msgid "City Walls"
-msgstr "Nazwa miasta"
+msgstr "Mury Obronne"
 
 #: data/civ2/buildings.ruleset:159 data/default/buildings.ruleset:159
 msgid ""
@@ -9207,7 +9168,7 @@ msgstr ""
 #: data/default/buildings.ruleset:182
 #, fuzzy
 msgid "Colosseum"
-msgstr "Zamknij"
+msgstr "Koloseum"
 
 #: data/civ1/buildings.ruleset:177 data/civ2/buildings.ruleset:189
 #: data/default/buildings.ruleset:189
@@ -9217,7 +9178,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:183 data/civ2/buildings.ruleset:195
 #: data/default/buildings.ruleset:195
 msgid "Courthouse"
-msgstr ""
+msgstr "S±d"
 
 #: data/civ1/buildings.ruleset:190 data/civ2/buildings.ruleset:202
 #: data/default/buildings.ruleset:202
@@ -9230,7 +9191,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:198 data/civ2/buildings.ruleset:210
 #: data/default/buildings.ruleset:210
 msgid "Factory"
-msgstr ""
+msgstr "Fabryka"
 
 #: data/civ1/buildings.ruleset:205 data/civ2/buildings.ruleset:217
 #: data/default/buildings.ruleset:217
@@ -9242,7 +9203,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:211 data/civ2/buildings.ruleset:223
 #: data/default/buildings.ruleset:223
 msgid "Granary"
-msgstr ""
+msgstr "Spichlerz"
 
 #: data/civ1/buildings.ruleset:218 data/civ2/buildings.ruleset:230
 #: data/default/buildings.ruleset:230
@@ -9255,7 +9216,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:228 data/civ2/buildings.ruleset:240
 #: data/default/buildings.ruleset:240
 msgid "Harbour"
-msgstr ""
+msgstr "Przystañ"
 
 #: data/civ2/buildings.ruleset:247 data/default/buildings.ruleset:247
 msgid ""
@@ -9266,7 +9227,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:237 data/civ2/buildings.ruleset:253
 #: data/default/buildings.ruleset:253
 msgid "Hydro Plant"
-msgstr ""
+msgstr "Elektrownia wodna"
 
 #: data/civ1/buildings.ruleset:244 data/civ2/buildings.ruleset:260
 #: data/default/buildings.ruleset:260
@@ -9288,7 +9249,7 @@ msgstr ""
 #: data/default/buildings.ruleset:276
 #, fuzzy
 msgid "Library"
-msgstr "Oczytanie XXX?"
+msgstr "Biblioteka"
 
 #: data/civ1/buildings.ruleset:267 data/civ2/buildings.ruleset:283
 #: data/default/buildings.ruleset:283
@@ -9310,7 +9271,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:284 data/civ2/buildings.ruleset:300
 #: data/default/buildings.ruleset:300
 msgid "Mass Transit"
-msgstr ""
+msgstr "Metro"
 
 #: data/civ1/buildings.ruleset:291 data/civ2/buildings.ruleset:307
 #: data/default/buildings.ruleset:307
@@ -9338,7 +9299,7 @@ msgstr ""
 #: data/default/buildings.ruleset:327
 #, fuzzy
 msgid "Nuclear Plant"
-msgstr "Bomba Atomowa"
+msgstr "Elektrownia atomowa"
 
 #: data/civ1/buildings.ruleset:318 data/civ2/buildings.ruleset:334
 #: data/default/buildings.ruleset:334
@@ -9366,9 +9327,8 @@ msgstr ""
 # client/gui-gtk/cityrep.c:1
 #: data/civ1/buildings.ruleset:344 data/civ2/buildings.ruleset:364
 #: data/default/buildings.ruleset:364
-#, fuzzy
 msgid "Palace"
-msgstr "Pokój"
+msgstr "Pa³ac"
 
 #: data/civ1/buildings.ruleset:351 data/civ2/buildings.ruleset:371
 #: data/default/buildings.ruleset:371
@@ -9388,7 +9348,7 @@ msgstr ""
 #: data/default/buildings.ruleset:384
 #, fuzzy
 msgid "Police Station"
-msgstr "Zanieczyszczenie"
+msgstr "Komisariat"
 
 #: data/civ2/buildings.ruleset:391 data/default/buildings.ruleset:391
 msgid ""
@@ -9411,7 +9371,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:382 data/civ2/buildings.ruleset:414
 #: data/default/buildings.ruleset:414
 msgid "Power Plant"
-msgstr ""
+msgstr "Elektrownia cieplna"
 
 #: data/civ1/buildings.ruleset:389 data/civ2/buildings.ruleset:421
 #: data/default/buildings.ruleset:421
@@ -9485,12 +9445,12 @@ msgstr ""
 #: data/civ1/buildings.ruleset:453 data/civ2/buildings.ruleset:489
 #: data/default/buildings.ruleset:489
 msgid "Sewer System"
-msgstr ""
+msgstr "Kanalizacja"
 
 #: data/civ1/buildings.ruleset:463 data/civ2/buildings.ruleset:499
 #: data/default/buildings.ruleset:499
 msgid "Solar Plant"
-msgstr ""
+msgstr "Elektrownia S³oneczna"
 
 #: data/civ1/buildings.ruleset:473 data/civ2/buildings.ruleset:509
 #: data/default/buildings.ruleset:509
@@ -9552,7 +9512,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:533 data/civ2/buildings.ruleset:569
 #: data/default/buildings.ruleset:569
 msgid "Stock Exchange"
-msgstr ""
+msgstr "Gie³da"
 
 #: data/civ2/buildings.ruleset:576 data/default/buildings.ruleset:576
 #, c-format
@@ -9564,7 +9524,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:542 data/civ2/buildings.ruleset:582
 #: data/default/buildings.ruleset:582
 msgid "Super Highways"
-msgstr ""
+msgstr "Autostrady"
 
 #: data/civ2/buildings.ruleset:589 data/default/buildings.ruleset:589
 #, c-format
@@ -9576,9 +9536,8 @@ msgstr ""
 # data/default/units.ruleset:1
 #: data/civ1/buildings.ruleset:551 data/civ2/buildings.ruleset:595
 #: data/default/buildings.ruleset:595
-#, fuzzy
 msgid "Supermarket"
-msgstr "£ód¼ podwodna"
+msgstr "Supermarket"
 
 #: data/civ2/buildings.ruleset:602 data/default/buildings.ruleset:602
 #, c-format
@@ -9591,9 +9550,8 @@ msgstr ""
 # client/gui-gtk/dialogs.c:1 data/Freeciv:1
 #: data/civ1/buildings.ruleset:560 data/civ2/buildings.ruleset:609
 #: data/default/buildings.ruleset:609
-#, fuzzy
 msgid "Temple"
-msgstr "Kobieta"
+msgstr "Ko¶ció³"
 
 #: data/civ1/buildings.ruleset:567 data/civ2/buildings.ruleset:616
 #: data/default/buildings.ruleset:616
@@ -9656,9 +9614,8 @@ msgstr ""
 # data/Freeciv:1 data/Freeciv:1 data/Freeciv:1
 #: data/civ1/buildings.ruleset:610 data/civ2/buildings.ruleset:663
 #: data/default/buildings.ruleset:663
-#, fuzzy
 msgid "Colossus"
-msgstr "Zamknij"
+msgstr "Kolos"
 
 #: data/civ1/buildings.ruleset:617 data/civ2/buildings.ruleset:670
 #: data/default/buildings.ruleset:670
@@ -9670,7 +9627,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:623 data/civ2/buildings.ruleset:676
 #: data/default/buildings.ruleset:676
 msgid "Copernicus' Observatory"
-msgstr ""
+msgstr "Obserwatorium Kopernika"
 
 #: data/civ1/buildings.ruleset:630 data/civ2/buildings.ruleset:683
 #: data/default/buildings.ruleset:683
@@ -9681,7 +9638,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:635 data/civ2/buildings.ruleset:688
 #: data/default/buildings.ruleset:688
 msgid "Cure For Cancer"
-msgstr ""
+msgstr "Lek Na Raka"
 
 #: data/civ1/buildings.ruleset:642 data/civ2/buildings.ruleset:695
 #: data/default/buildings.ruleset:695
@@ -9706,14 +9663,14 @@ msgstr ""
 #: data/civ1/buildings.ruleset:662 data/civ2/buildings.ruleset:715
 #: data/default/buildings.ruleset:715
 msgid "Eiffel Tower"
-msgstr ""
+msgstr "Wie¿a Eiffla"
 
 # client/options.c:1
 #: data/civ1/buildings.ruleset:672 data/civ2/buildings.ruleset:725
 #: data/default/buildings.ruleset:725
 #, fuzzy
 msgid "Great Library"
-msgstr "Wynalazek z Wielkiej Biblioteki  "
+msgstr "Wielka Biblioteka"
 
 #: data/civ1/buildings.ruleset:679 data/civ2/buildings.ruleset:732
 #: data/default/buildings.ruleset:732
@@ -9726,14 +9683,13 @@ msgstr ""
 # client/gui-gtk/dialogs.c:1 data/Freeciv:1
 #: data/civ1/buildings.ruleset:685 data/civ2/buildings.ruleset:738
 #: data/default/buildings.ruleset:738
-#, fuzzy
 msgid "Great Wall"
-msgstr "Zaznacz wszystkie"
+msgstr "Wielki Mur"
 
 #: data/civ1/buildings.ruleset:692 data/civ2/buildings.ruleset:745
 #: data/default/buildings.ruleset:745
 msgid "Works as a City Wall in all cities."
-msgstr ""
+msgstr "Dzia³a jak Mury Obronne w ka¿dym mie¶cie."
 
 #: data/civ1/buildings.ruleset:697 data/civ2/buildings.ruleset:750
 #: data/default/buildings.ruleset:750
@@ -9788,7 +9744,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:763 data/civ2/buildings.ruleset:811
 #: data/default/buildings.ruleset:811
 msgid "King Richard's Crusade"
-msgstr ""
+msgstr "Wyprawy Krzy¿owe"
 
 #: data/civ2/buildings.ruleset:818 data/default/buildings.ruleset:818
 msgid ""
@@ -9824,7 +9780,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:795 data/civ2/buildings.ruleset:851
 #: data/default/buildings.ruleset:851
 msgid "Magellan's Expedition"
-msgstr ""
+msgstr "Wyprawa Magellana"
 
 # client/helpdata.c:1
 #: data/civ2/buildings.ruleset:858 data/default/buildings.ruleset:858
@@ -9840,7 +9796,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:818 data/civ2/buildings.ruleset:874
 #: data/default/buildings.ruleset:874
 msgid "Marco Polo's Embassy"
-msgstr ""
+msgstr "Ambasada Marka Pola"
 
 #: data/civ2/buildings.ruleset:881 data/default/buildings.ruleset:881
 msgid "The player who owns it gets an embassy with all players."
@@ -9860,25 +9816,23 @@ msgstr ""
 # client/gui-gtk/dialogs.c:1
 #: data/civ1/buildings.ruleset:843 data/civ2/buildings.ruleset:901
 #: data/default/buildings.ruleset:901
-#, fuzzy
 msgid "Oracle"
-msgstr "Mê¿czyzna"
+msgstr "Wyrocznia"
 
 # client/helpdata.c:1
 #: data/civ1/buildings.ruleset:850 data/civ2/buildings.ruleset:908
 #: data/default/buildings.ruleset:908
-#, fuzzy
 msgid "Doubles the effect of Temples, in all cities."
-msgstr "Wzmacnia efekt ¶wi±tyñ.\n"
+msgstr "Podwaja efekt ¶wi±tyñ."
 
 #: data/civ1/buildings.ruleset:855 data/civ2/buildings.ruleset:913
 #: data/default/buildings.ruleset:913
 msgid "Pyramids"
-msgstr ""
+msgstr "Piramidy"
 
 #: data/civ2/buildings.ruleset:920 data/default/buildings.ruleset:920
 msgid "Counts as having a Granary in every city."
-msgstr ""
+msgstr "Liczone jako Spichlerze w ka¿dym mie¶cie."
 
 #: data/civ1/buildings.ruleset:870 data/civ2/buildings.ruleset:929
 #: data/default/buildings.ruleset:929
@@ -9894,7 +9848,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:882 data/civ2/buildings.ruleset:942
 #: data/default/buildings.ruleset:942
 msgid "Shakespeare's Theatre"
-msgstr ""
+msgstr "Teatr Szekspira"
 
 #: data/civ1/buildings.ruleset:889 data/civ2/buildings.ruleset:949
 #: data/default/buildings.ruleset:949
@@ -9904,7 +9858,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:894 data/civ2/buildings.ruleset:954
 #: data/default/buildings.ruleset:954
 msgid "Statue of Liberty"
-msgstr ""
+msgstr "Statua Wolno¶ci"
 
 #: data/civ1/buildings.ruleset:862 data/civ1/buildings.ruleset:919
 #: data/civ2/buildings.ruleset:961 data/default/buildings.ruleset:961
@@ -9929,9 +9883,8 @@ msgstr ""
 # data/default/techs.ruleset:1
 #: data/civ1/buildings.ruleset:912 data/civ2/buildings.ruleset:983
 #: data/default/buildings.ruleset:983
-#, fuzzy
 msgid "United Nations"
-msgstr "Higiena"
+msgstr "ONZ"
 
 #: data/civ2/buildings.ruleset:990 data/default/buildings.ruleset:990
 msgid "Units regain two extra hitpoints per turn."
@@ -9940,7 +9893,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:933 data/civ2/buildings.ruleset:1005
 #: data/default/buildings.ruleset:1005
 msgid "Women's Suffrage"
-msgstr ""
+msgstr "Równouprawnienie"
 
 #: data/civ2/buildings.ruleset:1012 data/default/buildings.ruleset:1012
 msgid ""
@@ -10009,9 +9962,8 @@ msgstr "Daje dodatkowy ruch jednostkom morskim.\n"
 
 # client/helpdata.c:1
 #: data/civ1/buildings.ruleset:834
-#, fuzzy
 msgid "Double effects of Cathedrals."
-msgstr "Os³abia efekt katedr.\n"
+msgstr "Podwaja efekty katedr."
 
 #: data/civ1/buildings.ruleset:877
 #, c-format
@@ -10027,44 +9979,42 @@ msgstr ""
 
 #: data/default/cities.ruleset:26
 msgid "European"
-msgstr ""
+msgstr "Europejskie"
 
 #: data/default/cities.ruleset:33
 msgid "Classical"
-msgstr ""
+msgstr "Klasyczne"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/default/cities.ruleset:40
-#, fuzzy
 msgid "Industrial"
-msgstr "Uprzemys³owienie"
+msgstr "Industrialne"
 
 #: data/default/cities.ruleset:47
 msgid "Modern"
-msgstr ""
+msgstr "Modernistyczne"
 
 #: data/default/cities.ruleset:54
 msgid "PostModern"
-msgstr ""
+msgstr "Postmodernistyczne"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/civ1/governments.ruleset:103 data/civ2/governments.ruleset:101
 #: data/default/governments.ruleset:102
-#, fuzzy
 msgid "Anarchy"
-msgstr "Monarchia"
+msgstr "Anarchia"
 
 #: data/civ1/governments.ruleset:144 data/civ2/governments.ruleset:142
 #: data/default/governments.ruleset:143
 msgid "Mr."
-msgstr ""
+msgstr "Pan"
 
 #: data/civ1/governments.ruleset:145 data/civ2/governments.ruleset:143
 #: data/default/governments.ruleset:144
 msgid "Ms."
-msgstr ""
+msgstr "Pani"
 
 #: data/civ1/governments.ruleset:147 data/civ2/governments.ruleset:145
 #: data/default/governments.ruleset:146
@@ -10100,17 +10050,17 @@ msgstr ""
 #: data/default/governments.ruleset:173
 #, fuzzy
 msgid "Despotism"
-msgstr "Raporty"
+msgstr "Despotyzm"
 
 #: data/civ1/governments.ruleset:214 data/civ2/governments.ruleset:212
 #: data/default/governments.ruleset:213
 msgid "Emperor"
-msgstr ""
+msgstr "Cesarz"
 
 #: data/civ1/governments.ruleset:215 data/civ2/governments.ruleset:213
 #: data/default/governments.ruleset:214
 msgid "Empress"
-msgstr ""
+msgstr "Cesarzowa"
 
 #: data/civ1/governments.ruleset:217 data/civ2/governments.ruleset:215
 #: data/default/governments.ruleset:216
@@ -10149,14 +10099,13 @@ msgstr "Monarchia"
 # client/gui-gtk/menu.c:1 client/gui-gtk/menu.c:1 data/Freeciv:1
 #: data/civ1/governments.ruleset:283 data/civ2/governments.ruleset:281
 #: data/default/governments.ruleset:282 data/default/nations.ruleset:1514
-#, fuzzy
 msgid "King"
-msgstr "Królestwo"
+msgstr "Król"
 
 #: data/civ1/governments.ruleset:284 data/civ2/governments.ruleset:282
 #: data/default/governments.ruleset:283 data/default/nations.ruleset:1514
 msgid "Queen"
-msgstr ""
+msgstr "Królowa"
 
 #: data/civ1/governments.ruleset:286 data/civ2/governments.ruleset:284
 #: data/default/governments.ruleset:285
@@ -10196,7 +10145,7 @@ msgstr "Komunizm"
 #: data/default/governments.ruleset:350 data/default/governments.ruleset:351
 #, fuzzy
 msgid "Comrade"
-msgstr "Handel"
+msgstr "Towarzysz"
 
 #: data/civ1/governments.ruleset:354 data/civ2/governments.ruleset:352
 #: data/default/governments.ruleset:353
@@ -10240,9 +10189,8 @@ msgstr "Republika"
 #: data/civ1/governments.ruleset:426 data/civ1/governments.ruleset:427
 #: data/civ2/governments.ruleset:475 data/civ2/governments.ruleset:476
 #: data/default/governments.ruleset:425 data/default/governments.ruleset:426
-#, fuzzy
 msgid "Consul"
-msgstr "Koszt"
+msgstr "Konsul"
 
 #: data/civ1/governments.ruleset:429 data/civ2/governments.ruleset:478
 #: data/default/governments.ruleset:428
@@ -10287,7 +10235,7 @@ msgstr "Demokracja"
 #: data/default/governments.ruleset:504 data/default/governments.ruleset:505
 #: data/default/nations.ruleset:1046
 msgid "President"
-msgstr ""
+msgstr "Prezydent"
 
 #: data/civ1/governments.ruleset:507 data/civ2/governments.ruleset:557
 #: data/default/governments.ruleset:507
@@ -10332,11 +10280,11 @@ msgstr "Fundamentalizm"
 
 #: data/civ2/governments.ruleset:424
 msgid "High Priest"
-msgstr ""
+msgstr "Najwy¿szy Kap³an"
 
 #: data/civ2/governments.ruleset:425
 msgid "High Priestess"
-msgstr ""
+msgstr "Najwy¿sza Kap³anka"
 
 #: data/civ2/governments.ruleset:428
 msgid "(Sorry, no helptext available.)"
@@ -10344,39 +10292,39 @@ msgstr ""
 
 #: data/default/nations.ruleset:52
 msgid "Roman"
-msgstr ""
+msgstr "Rzymski"
 
 #: data/default/nations.ruleset:53
 msgid "?plural:Romans"
-msgstr ""
+msgstr "Rzymianie"
 
 #: data/default/nations.ruleset:61
 msgid "Dictator"
-msgstr ""
+msgstr "Dyktator"
 
 #: data/default/nations.ruleset:62
 msgid "Imperator"
-msgstr ""
+msgstr "Cesarz"
 
 #: data/default/nations.ruleset:62
 msgid "Imperatrix"
-msgstr ""
+msgstr "Cesarzowa"
 
 #: data/default/nations.ruleset:96
 msgid "Babylonian"
-msgstr ""
+msgstr "Babiloñski"
 
 #: data/default/nations.ruleset:97
 msgid "?plural:Babylonians"
-msgstr ""
+msgstr "Babiloñczycy"
 
 #: data/default/nations.ruleset:125
 msgid "German"
-msgstr ""
+msgstr "Niemiecki"
 
 #: data/default/nations.ruleset:126
 msgid "?plural:Germans"
-msgstr ""
+msgstr "Niemcy"
 
 # client/gui-gtk/citydlg.c:1 client/gui-gtk/citydlg.c:1
 # client/gui-gtk/citydlg.c:1 client/gui-gtk/cityrep.c:1
@@ -10391,39 +10339,38 @@ msgstr ""
 #: data/default/nations.ruleset:133
 #, fuzzy
 msgid "Chancellor"
-msgstr "Anuluj"
+msgstr "Kanclerz"
 
 #: data/default/nations.ruleset:134 data/default/nations.ruleset:385
 msgid "Archbishop"
-msgstr ""
+msgstr "Arcybiskup"
 
 #: data/default/nations.ruleset:167
 msgid "Egyptian"
-msgstr ""
+msgstr "Egipski"
 
 # data/Freeciv:1
 #: data/default/nations.ruleset:168
 #, fuzzy
 msgid "?plural:Egyptians"
-msgstr "Opcje"
+msgstr "Egipcjanie"
 
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1
 #: data/default/nations.ruleset:176
-#, fuzzy
 msgid "Pharaoh"
-msgstr "Zrzut"
+msgstr "Faraon"
 
 #: data/default/nations.ruleset:177
 msgid "Great Pharaoh"
-msgstr ""
+msgstr "Wielki Faraon"
 
 #: data/default/nations.ruleset:201
 msgid "American"
-msgstr ""
+msgstr "Jankeski"
 
 #: data/default/nations.ruleset:202
 msgid "?plural:Americans"
-msgstr ""
+msgstr "Jankesi"
 
 #: data/default/nations.ruleset:210 data/default/nations.ruleset:1294
 msgid "Speaker"
@@ -10437,11 +10384,11 @@ msgstr "Usuniête"
 
 #: data/default/nations.ruleset:241
 msgid "Greek"
-msgstr ""
+msgstr "Grecki"
 
 #: data/default/nations.ruleset:242
 msgid "?plural:Greeks"
-msgstr ""
+msgstr "Grecy"
 
 #: data/default/nations.ruleset:249 data/default/nations.ruleset:493
 #: data/default/nations.ruleset:602 data/default/nations.ruleset:863
@@ -10451,221 +10398,206 @@ msgstr ""
 #: data/default/nations.ruleset:1236 data/default/nations.ruleset:1295
 #: data/default/nations.ruleset:1328 data/default/nations.ruleset:1386
 msgid "Prime Minister"
-msgstr ""
+msgstr "Premier"
 
 #: data/default/nations.ruleset:280
 msgid "Indian"
-msgstr ""
+msgstr "Hinduski"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/default/nations.ruleset:281
-#, fuzzy
 msgid "?plural:Indians"
-msgstr "Uprzemys³owienie"
+msgstr "Hindusi"
 
 #: data/default/nations.ruleset:289
 msgid "Maharaja"
-msgstr ""
+msgstr "Maharad¿a"
 
 #: data/default/nations.ruleset:313
 msgid "Russian"
-msgstr ""
+msgstr "Ruski"
 
 #: data/default/nations.ruleset:314
 msgid "?plural:Russians"
-msgstr ""
+msgstr "Rosjanie"
 
 #: data/default/nations.ruleset:322
 msgid "Czar"
-msgstr ""
+msgstr "Car"
 
 #: data/default/nations.ruleset:322
 msgid "Czarina"
-msgstr ""
+msgstr "Caryca"
 
 #: data/default/nations.ruleset:323
 msgid "Patriarch"
-msgstr ""
+msgstr "Patryjarcha"
 
 #: data/default/nations.ruleset:323
 msgid "Matriarch"
-msgstr ""
+msgstr "Matriarchini"
 
 #: data/default/nations.ruleset:348
 msgid "Zulu"
-msgstr ""
+msgstr "Zuluski"
 
 #: data/default/nations.ruleset:349
 msgid "?plural:Zulus"
-msgstr ""
+msgstr "Zulusi"
 
 # client/gui-gtk/gui_main.c:1
 #: data/default/nations.ruleset:376
-#, fuzzy
 msgid "French"
-msgstr "Freeciv"
+msgstr "Francuski"
 
 # client/gui-gtk/gui_main.c:1
 #: data/default/nations.ruleset:377
-#, fuzzy
 msgid "?plural:French"
-msgstr "Freeciv"
+msgstr "Francuzi"
 
 #: data/default/nations.ruleset:384
 msgid "Premier"
-msgstr ""
+msgstr "Premier"
 
 #: data/default/nations.ruleset:411
 msgid "Aztec"
-msgstr ""
+msgstr "Aztecki"
 
 #: data/default/nations.ruleset:412
 msgid "?plural:Aztecs"
-msgstr ""
+msgstr "Aztecy"
 
 # client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1 data/Freeciv:1
 #: data/default/nations.ruleset:440
-#, fuzzy
 msgid "Chinese"
-msgstr "Zmieñ"
+msgstr "Chiñski"
 
 # client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1 data/Freeciv:1
 #: data/default/nations.ruleset:441
-#, fuzzy
 msgid "?plural:Chinese"
-msgstr "Zmieñ"
+msgstr "Chiñczycy"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:448
-#, fuzzy
 msgid "Chairman"
-msgstr "Karawana"
+msgstr "Przewodnicz±cy"
 
 #: data/default/nations.ruleset:448
 msgid "Chairperson"
-msgstr ""
+msgstr "Przewodnicz±ca"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:483
-#, fuzzy
 msgid "English"
-msgstr "In¿ynierowie"
+msgstr "Angielski"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:484
-#, fuzzy
 msgid "?plural:English"
-msgstr "In¿ynierowie"
+msgstr "Anglicy"
 
 #: data/default/nations.ruleset:494
 msgid "Lord Protector"
-msgstr ""
+msgstr "Lord Protektor"
 
 #: data/default/nations.ruleset:494
 msgid "Lady Protector"
-msgstr ""
+msgstr "Lady Protektor"
 
 #: data/default/nations.ruleset:526
 msgid "Mongol"
-msgstr ""
+msgstr "Mongolski"
 
 #: data/default/nations.ruleset:527
 msgid "?plural:Mongols"
-msgstr ""
+msgstr "Mongo³owie"
 
 # client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1 data/Freeciv:1
 #: data/default/nations.ruleset:534
 #, fuzzy
 msgid "Khan"
-msgstr "Zmieñ"
+msgstr "Chan"
 
 #: data/default/nations.ruleset:535
 msgid "Great Khan"
-msgstr ""
+msgstr "Wielki Chan"
 
 #: data/default/nations.ruleset:559
 msgid "Turk"
-msgstr ""
+msgstr "Turecki"
 
 #: data/default/nations.ruleset:560
 msgid "?plural:Turks"
-msgstr ""
+msgstr "Turcy"
 
 #: data/default/nations.ruleset:570
 msgid "Sultan"
-msgstr ""
+msgstr "Su³tan"
 
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1 data/Freeciv:1
 #: data/default/nations.ruleset:594
-#, fuzzy
 msgid "Spanish"
-msgstr "Statek kosmiczny"
+msgstr "Hiszpañski"
 
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1 data/Freeciv:1
 #: data/default/nations.ruleset:595
-#, fuzzy
 msgid "?plural:Spanish"
-msgstr "Statek kosmiczny"
+msgstr "Hiszpanie"
 
 # client/gui-gtk/connectdlg.c:1
 #: data/default/nations.ruleset:625
-#, fuzzy
 msgid "Persian"
-msgstr "Wersja"
+msgstr "Perski"
 
 # client/gui-gtk/connectdlg.c:1
 #: data/default/nations.ruleset:626
-#, fuzzy
 msgid "?plural:Persians"
-msgstr "Wersja"
+msgstr "Persowie"
 
 #: data/default/nations.ruleset:634
 msgid "Shah"
-msgstr ""
+msgstr "Szach"
 
 #: data/default/nations.ruleset:660
 msgid "Arab"
-msgstr ""
+msgstr "Arabski"
 
 #: data/default/nations.ruleset:661
 msgid "?plural:Arabs"
-msgstr ""
+msgstr "Arabowie"
 
 #: data/default/nations.ruleset:669
 msgid "Caliph"
-msgstr ""
+msgstr "Kalif"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:694
-#, fuzzy
 msgid "Carthaginian"
-msgstr "Karawana"
+msgstr "Kartagiñski"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:695
-#, fuzzy
 msgid "?plural:Carthaginians"
-msgstr "Karawana"
+msgstr "Kartagiñczycy"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:725
-#, fuzzy
 msgid "Inca"
-msgstr "Parowiec"
+msgstr "Inkaski"
 
 #: data/default/nations.ruleset:726
 msgid "?plural:Incas"
-msgstr ""
+msgstr "Inkowie"
 
 # data/civ2/units.ruleset:1 data/default/units.ruleset:1
 #: data/default/nations.ruleset:734
@@ -10676,269 +10608,254 @@ msgstr "Wojownicy"
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/default/nations.ruleset:758
-#, fuzzy
 msgid "Viking"
-msgstr "Bankowo¶æ"
+msgstr "Wikingowy"
 
 #: data/default/nations.ruleset:759
 msgid "?plural:Vikings"
-msgstr ""
+msgstr "Wikingowie"
 
 # client/gui-gtk/cityrep.c:1
 #: data/default/nations.ruleset:793
 #, fuzzy
 msgid "Polish"
-msgstr "Zan"
+msgstr "Polski"
 
 # client/gui-gtk/cityrep.c:1
 #: data/default/nations.ruleset:794
 #, fuzzy
 msgid "?plural:Polish"
-msgstr "Zan"
+msgstr "Polacy"
 
 #: data/default/nations.ruleset:801
 msgid "Prymas"
-msgstr ""
+msgstr "Prymas"
 
 #: data/default/nations.ruleset:827
 msgid "Hungarian"
-msgstr ""
+msgstr "Wêgierski"
 
 #: data/default/nations.ruleset:828
 msgid "?plural:Hungarians"
-msgstr ""
+msgstr "Wêgrzy"
 
 # client/gui-gtk/citydlg.c:1 client/gui-gtk/citydlg.c:1
 # client/gui-gtk/citydlg.c:1 client/gui-gtk/dialogs.c:1
 # client/gui-gtk/dialogs.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1
 #: data/default/nations.ruleset:855
-#, fuzzy
 msgid "Danish"
-msgstr "Holipcia"
+msgstr "Duñski"
 
 #: data/default/nations.ruleset:856
 msgid "?plural:Danes"
-msgstr ""
+msgstr "Duñczycy"
 
 #: data/default/nations.ruleset:889
 msgid "Dutch"
-msgstr ""
+msgstr "Holenderski"
 
 #: data/default/nations.ruleset:890
 msgid "?plural:Dutch"
-msgstr ""
+msgstr "Holendrzy"
 
 #: data/default/nations.ruleset:933
 msgid "Swedish"
-msgstr ""
+msgstr "Szwedzki"
 
 #: data/default/nations.ruleset:934
 msgid "?plural:Swedes"
-msgstr ""
+msgstr "Szwedzi"
 
 #: data/default/nations.ruleset:966
 msgid "Japanese"
-msgstr ""
+msgstr "Japoñski"
 
 #: data/default/nations.ruleset:967
 msgid "?plural:Japanese"
-msgstr ""
+msgstr "Japoñczycy"
 
 #: data/default/nations.ruleset:975
 msgid "Shogun"
-msgstr ""
+msgstr "Szogun"
 
 #: data/default/nations.ruleset:999
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugalski"
 
 #: data/default/nations.ruleset:1000
 msgid "?plural:Portuguese"
-msgstr ""
+msgstr "Portugalczycy"
 
 #: data/default/nations.ruleset:1037
 msgid "Finnish"
-msgstr ""
+msgstr "Fiñski"
 
 #: data/default/nations.ruleset:1038
 msgid "?plural:Finns"
-msgstr ""
+msgstr "Finowie"
 
 #: data/default/nations.ruleset:1087
 msgid "Sioux"
-msgstr ""
+msgstr "Siuksowy"
 
 #: data/default/nations.ruleset:1088
 msgid "?plural:Sioux"
-msgstr ""
+msgstr "Siuksowie"
 
 #: data/default/nations.ruleset:1096
 msgid "Chief"
-msgstr ""
+msgstr "Wódz"
 
 #: data/default/nations.ruleset:1097
 msgid "Great Chief"
-msgstr ""
+msgstr "Wielki Wódz"
 
 #: data/default/nations.ruleset:1119
 msgid "Czech"
-msgstr ""
+msgstr "Czeski"
 
 #: data/default/nations.ruleset:1120
 msgid "?plural:Czechs"
-msgstr ""
+msgstr "Czesi"
 
 # client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1 data/Freeciv:1
 #: data/default/nations.ruleset:1137
-#, fuzzy
 msgid "Thane"
-msgstr "Zmieñ"
+msgstr "Than"
 
 #: data/default/nations.ruleset:1137
 msgid "Prophetess"
-msgstr ""
+msgstr "Prorokini"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/default/nations.ruleset:1179
-#, fuzzy
 msgid "Australian"
-msgstr "Uprzemys³owienie"
+msgstr "Australijski"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/default/nations.ruleset:1180
-#, fuzzy
 msgid "?plural:Australians"
-msgstr "Uprzemys³owienie"
+msgstr "Australijczycy"
 
 # client/gui-gtk/dialogs.c:1 data/Freeciv:1
 #: data/default/nations.ruleset:1220
 #, fuzzy
 msgid "Welsh"
-msgstr "Kradzie¿"
+msgstr "Walijski"
 
 #: data/default/nations.ruleset:1221
 msgid "?plural:Welsh"
-msgstr ""
+msgstr "Walijczycy"
 
 # client/gui-gtk/gamedlgs.c:1
 #: data/default/nations.ruleset:1235
 #, fuzzy
 msgid "Prince"
-msgstr "Nauka"
+msgstr "Ksi±¿e"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:1235
-#, fuzzy
 msgid "Princess"
-msgstr "Komandosi"
+msgstr "Ksiê¿na"
 
 # client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1 data/Freeciv:1
 #: data/default/nations.ruleset:1258
-#, fuzzy
 msgid "Korean"
-msgstr "Zmieñ"
+msgstr "Koreañski"
 
 #: data/default/nations.ruleset:1259
 msgid "?plural:Koreans"
-msgstr ""
+msgstr "Koreañczycy"
 
 #: data/default/nations.ruleset:1285
 msgid "Scottish"
-msgstr ""
+msgstr "Szkocki"
 
 #: data/default/nations.ruleset:1286
 msgid "?plural:Scottish"
-msgstr ""
+msgstr "Szkoci"
 
 #: data/default/nations.ruleset:1319
 msgid "Israeli"
-msgstr ""
+msgstr "¯ydowski"
 
 #: data/default/nations.ruleset:1320
 msgid "?plural:Israelis"
-msgstr ""
+msgstr "¯ydzi"
 
 #: data/default/nations.ruleset:1353
 msgid "Argentine"
-msgstr ""
+msgstr "Argentyñski"
 
 #: data/default/nations.ruleset:1354
 msgid "?plural:Argentines"
-msgstr ""
+msgstr "Argentyñczycy"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:1378
-#, fuzzy
 msgid "Canadian"
-msgstr "Karawana"
+msgstr "Kanadyjski"
 
 #: data/default/nations.ruleset:1379
 msgid "?plural:Canadians"
-msgstr ""
+msgstr "Kanadyjczycy"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:1413
-#, fuzzy
 msgid "Ukrainian"
-msgstr "Karawana"
+msgstr "Ukraiñski"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:1414
-#, fuzzy
 msgid "?plural:Ukrainians"
-msgstr "Karawana"
+msgstr "Ukraiñcy"
 
 #: data/default/nations.ruleset:1421
 msgid "Hetman"
-msgstr ""
+msgstr "Hetman"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:1444
-#, fuzzy
 msgid "Lithuanian"
-msgstr "Karawana"
+msgstr "Litewski"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/default/nations.ruleset:1445
-#, fuzzy
 msgid "?plural:Lithuanians"
-msgstr "Karawana"
+msgstr "Litwini"
 
 # Nie jestem tutaj pewien, trzeba by to sprawdziæ w grze
 # client/gui-gtk/dialogs.c:1 data/Freeciv:1
 #: data/default/nations.ruleset:1452
-#, fuzzy
 msgid "Great Duke"
-msgstr "Zaznacz wszystkie"
+msgstr "Wielki Ksi±¿e"
 
 #: data/default/nations.ruleset:1452
 msgid "Great Duchess"
-msgstr ""
+msgstr "Wielka Ksiê¿na"
 
 # client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1 data/Freeciv:1
 #: data/default/nations.ruleset:1477
-#, fuzzy
 msgid "Kenyan"
-msgstr "Zmieñ"
+msgstr "Kenijski"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/default/nations.ruleset:1478
-#, fuzzy
 msgid "?plural:Kenyans"
-msgstr "Uprzemys³owienie"
+msgstr "Kenijczycy"
 
 #: data/default/nations.ruleset:1505
 msgid "Dúnedain"
@@ -10953,30 +10870,26 @@ msgstr "Uprzemys³owienie"
 
 # data/Freeciv:1
 #: data/default/nations.ruleset:1537
-#, fuzzy
 msgid "Vietnamese"
-msgstr "Zmieñ nazwê"
+msgstr "Wietnamski"
 
 # client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1 data/Freeciv:1
 #: data/default/nations.ruleset:1538
-#, fuzzy
 msgid "?plural:Vietnamese"
-msgstr "Zmieñ"
+msgstr "Wietnamczycy"
 
 # client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1 data/Freeciv:1
 #: data/default/nations.ruleset:1561
-#, fuzzy
 msgid "Thai"
-msgstr "Zmieñ"
+msgstr "Tajski"
 
 # client/gui-gtk/cityrep.c:1 data/Freeciv:1 data/Freeciv:1
 # data/Freeciv:1 data/Freeciv:1
 #: data/default/nations.ruleset:1562
-#, fuzzy
 msgid "?plural:Thai"
-msgstr "Zmieñ"
+msgstr "Tajlandczycy"
 
 #: data/default/nations.ruleset:1589
 msgid "Olympic"
@@ -11027,21 +10940,21 @@ msgstr "Astronomia"
 #: data/civ1/techs.ruleset:73 data/civ2/techs.ruleset:73
 #: data/default/techs.ruleset:73
 msgid "Atomic Theory"
-msgstr "Teoria Atomowa"
+msgstr "Teoria Atomu"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/civ1/techs.ruleset:79 data/civ2/techs.ruleset:79
 #: data/default/techs.ruleset:79
 msgid "Automobile"
-msgstr "Motoryzacja"
+msgstr "Samochód"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/civ1/techs.ruleset:85 data/civ2/techs.ruleset:85
 #: data/default/techs.ruleset:85
 msgid "Banking"
-msgstr "Bankowo¶æ"
+msgstr "Bank"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -11055,7 +10968,7 @@ msgstr "Budowa mostów"
 #: data/civ1/techs.ruleset:97 data/civ2/techs.ruleset:97
 #: data/default/techs.ruleset:97
 msgid "Bronze Working"
-msgstr "Obróbka Bronzu"
+msgstr "Obróbka Br±zu"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -11097,7 +11010,7 @@ msgstr "Wojsko Kombinowane XXX?"
 #: data/civ1/techs.ruleset:133 data/civ2/techs.ruleset:133
 #: data/default/techs.ruleset:133
 msgid "Combustion"
-msgstr "Zap³on"
+msgstr "Silnik"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -11125,7 +11038,7 @@ msgstr "Konstrukcja"
 #: data/civ1/techs.ruleset:163 data/civ2/techs.ruleset:163
 #: data/default/techs.ruleset:163
 msgid "Currency"
-msgstr "Waluta"
+msgstr "Pieni±dz"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -11181,7 +11094,7 @@ msgstr "Feudalism"
 #: data/civ1/techs.ruleset:223 data/civ2/techs.ruleset:223
 #: data/default/techs.ruleset:223
 msgid "Flight"
-msgstr "Lotnictwo"
+msgstr "Lot"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -11202,7 +11115,7 @@ msgstr "In¿ynieria Genetyczna"
 #: data/civ1/techs.ruleset:247 data/civ2/techs.ruleset:247
 #: data/default/techs.ruleset:247
 msgid "Guerilla Warfare"
-msgstr "Wojna Partyzancka"
+msgstr "Partyzantka"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -11258,14 +11171,14 @@ msgstr "Laser"
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:295
 #: data/default/techs.ruleset:295
 msgid "Leadership"
-msgstr "Rz±dzenie"
+msgstr "Dowodzenie"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
 #: data/civ1/techs.ruleset:307 data/civ2/techs.ruleset:307
 #: data/default/techs.ruleset:307
 msgid "Machine Tools"
-msgstr "Narzêdzia Maszynowe XXX?"
+msgstr "Mechanizacja"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -11563,7 +11476,7 @@ msgstr ""
 
 #: data/civ2/terrain.ruleset:135 data/default/terrain.ruleset:135
 msgid "Glacier"
-msgstr ""
+msgstr "Lodowiec"
 
 #: data/civ2/terrain.ruleset:143 data/default/terrain.ruleset:143
 msgid "Ivory"
@@ -11573,7 +11486,7 @@ msgstr ""
 #: data/civ2/terrain.ruleset:186 data/classic/terrain.ruleset:500
 #: data/default/terrain.ruleset:149 data/default/terrain.ruleset:186
 msgid "Oil"
-msgstr ""
+msgstr "Ropa"
 
 #: data/civ2/terrain.ruleset:165 data/default/terrain.ruleset:165
 msgid ""
@@ -11587,7 +11500,7 @@ msgstr ""
 #: data/classic/terrain.ruleset:164 data/default/terrain.ruleset:172
 #, fuzzy
 msgid "Desert"
-msgstr "Niszczyciel"
+msgstr "Pustynia"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -11595,7 +11508,7 @@ msgstr "Niszczyciel"
 #: data/classic/terrain.ruleset:172 data/default/terrain.ruleset:180
 #, fuzzy
 msgid "Oasis"
-msgstr "Tworzywa Sztuczne"
+msgstr "Oaza"
 
 #: data/civ1/terrain.ruleset:194 data/civ2/terrain.ruleset:202
 #: data/classic/terrain.ruleset:194 data/default/terrain.ruleset:202
@@ -11607,9 +11520,8 @@ msgstr ""
 # client/gui-gtk/citydlg.c:1 client/gui-gtk/cityrep.c:1
 #: data/civ1/terrain.ruleset:200 data/civ2/terrain.ruleset:208
 #: data/classic/terrain.ruleset:200 data/default/terrain.ruleset:208
-#, fuzzy
 msgid "Forest"
-msgstr "Robotnicy"
+msgstr "Las"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
@@ -11643,9 +11555,8 @@ msgstr ""
 #: data/civ2/terrain.ruleset:252 data/civ2/terrain.ruleset:258
 #: data/classic/terrain.ruleset:244 data/classic/terrain.ruleset:461
 #: data/default/terrain.ruleset:252 data/default/terrain.ruleset:258
-#, fuzzy
 msgid "Resources"
-msgstr "Raporty"
+msgstr "Zasoby"
 
 #: data/civ1/terrain.ruleset:266 data/civ2/terrain.ruleset:274
 #: data/classic/terrain.ruleset:266 data/default/terrain.ruleset:274
@@ -11655,18 +11566,17 @@ msgstr ""
 #: data/civ1/terrain.ruleset:271 data/civ2/terrain.ruleset:279
 #: data/classic/terrain.ruleset:271 data/default/terrain.ruleset:279
 msgid "Hills"
-msgstr ""
+msgstr "Wzgórza"
 
 # client/gui-gtk/repodlgs.c:1 data/Freeciv:1
 #: data/civ1/terrain.ruleset:279 data/civ2/terrain.ruleset:287
 #: data/classic/terrain.ruleset:279 data/default/terrain.ruleset:287
-#, fuzzy
 msgid "Coal"
-msgstr "Cel"
+msgstr "Wêgiel"
 
 #: data/civ2/terrain.ruleset:293 data/default/terrain.ruleset:293
 msgid "Wine"
-msgstr ""
+msgstr "Wino"
 
 #: data/civ1/terrain.ruleset:301 data/civ2/terrain.ruleset:309
 #: data/classic/terrain.ruleset:301 data/default/terrain.ruleset:309
@@ -11688,9 +11598,8 @@ msgstr ""
 # client/gui-gtk/connectdlg.c:1 client/gui-gtk/menu.c:1
 # client/gui-xaw/menu.c:1 data/Freeciv:1 data/Freeciv:1
 #: data/civ2/terrain.ruleset:329 data/default/terrain.ruleset:329
-#, fuzzy
 msgid "Fruit"
-msgstr "Zakoñcz"
+msgstr "Owoce"
 
 #: data/civ1/terrain.ruleset:337 data/civ2/terrain.ruleset:345
 #: data/classic/terrain.ruleset:337 data/default/terrain.ruleset:345
@@ -11701,23 +11610,20 @@ msgstr ""
 # data/default/techs.ruleset:1
 #: data/civ1/terrain.ruleset:343 data/civ2/terrain.ruleset:351
 #: data/classic/terrain.ruleset:343 data/default/terrain.ruleset:351
-#, fuzzy
 msgid "Mountains"
-msgstr "Monoteizm"
+msgstr "Góry"
 
 # client/gui-gtk/repodlgs.c:1 data/Freeciv:1
 #: data/civ1/terrain.ruleset:351 data/civ2/terrain.ruleset:359
 #: data/classic/terrain.ruleset:351 data/default/terrain.ruleset:359
-#, fuzzy
 msgid "Gold"
-msgstr "Cel"
+msgstr "Z³oto"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
 #: data/civ2/terrain.ruleset:365 data/default/terrain.ruleset:365
-#, fuzzy
 msgid "Iron"
-msgstr "Parowiec"
+msgstr "¯elazo"
 
 #: data/civ1/terrain.ruleset:373 data/civ2/terrain.ruleset:381
 #: data/classic/terrain.ruleset:373 data/default/terrain.ruleset:381
@@ -11729,7 +11635,7 @@ msgstr ""
 #: data/civ1/terrain.ruleset:379 data/civ2/terrain.ruleset:387
 #: data/classic/terrain.ruleset:379 data/default/terrain.ruleset:387
 msgid "Ocean"
-msgstr ""
+msgstr "Ocean"
 
 # data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
 # data/default/techs.ruleset:1
@@ -11737,13 +11643,13 @@ msgstr ""
 #: data/classic/terrain.ruleset:387 data/default/terrain.ruleset:395
 #, fuzzy
 msgid "Fish"
-msgstr "Lotnictwo"
+msgstr "Ryby"
 
 # client/gui-gtk/dialogs.c:1
 #: data/civ2/terrain.ruleset:401 data/default/terrain.ruleset:401
 #, fuzzy
 msgid "Whales"
-msgstr "Mê¿czyzna"
+msgstr "Wieloryby"
 
 #: data/civ1/terrain.ruleset:409 data/civ2/terrain.ruleset:417
 #: data/classic/terrain.ruleset:409 data/default/terrain.ruleset:417
@@ -11758,19 +11664,17 @@ msgstr ""
 # data/default/techs.ruleset:1
 #: data/civ1/terrain.ruleset:417 data/civ2/terrain.ruleset:425
 #: data/classic/terrain.ruleset:417 data/default/terrain.ruleset:425
-#, fuzzy
 msgid "Plains"
-msgstr "Tworzywa Sztuczne"
+msgstr "Stepy"
 
 #: data/civ2/terrain.ruleset:433 data/default/terrain.ruleset:433
 msgid "Buffalo"
-msgstr ""
+msgstr "Bawo³y"
 
 # client/gui-gtk/menu.c:1 client/gui-xaw/menu.c:1
 #: data/civ2/terrain.ruleset:439 data/default/terrain.ruleset:439
-#, fuzzy
 msgid "Wheat"
-msgstr "Czekaj"
+msgstr "Pszenica"
 
 #: data/civ1/terrain.ruleset:447 data/civ2/terrain.ruleset:455
 #: data/classic/terrain.ruleset:447 data/default/terrain.ruleset:455
@@ -11782,21 +11686,18 @@ msgstr ""
 # client/gui-gtk/diplodlg.c:1 client/gui-gtk/diplodlg.c:1
 #: data/civ1/terrain.ruleset:492 data/civ2/terrain.ruleset:493
 #: data/classic/terrain.ruleset:492 data/default/terrain.ruleset:493
-#, fuzzy
 msgid "Swamp"
-msgstr "Mapa morska"
+msgstr "Bagna"
 
 # client/gui-gtk/cityrep.c:1
 #: data/civ2/terrain.ruleset:501 data/default/terrain.ruleset:501
-#, fuzzy
 msgid "Peat"
-msgstr "Pokój"
+msgstr "Torf"
 
 # client/gui-gtk/cityrep.c:1
 #: data/civ2/terrain.ruleset:507 data/default/terrain.ruleset:507
-#, fuzzy
 msgid "Spice"
-msgstr "Wielko¶æ"
+msgstr "Przyprawy"
 
 #: data/civ1/terrain.ruleset:522 data/civ2/terrain.ruleset:523
 #: data/classic/terrain.ruleset:522 data/default/terrain.ruleset:523
@@ -11808,7 +11709,7 @@ msgstr ""
 #: data/civ1/terrain.ruleset:528 data/civ2/terrain.ruleset:529
 #: data/classic/terrain.ruleset:528 data/default/terrain.ruleset:529
 msgid "Tundra"
-msgstr ""
+msgstr "Tundra"
 
 #: data/civ1/terrain.ruleset:208 data/civ1/terrain.ruleset:536
 #: data/civ2/terrain.ruleset:537 data/classic/terrain.ruleset:208
@@ -11818,7 +11719,7 @@ msgstr ""
 
 #: data/civ2/terrain.ruleset:543 data/default/terrain.ruleset:543
 msgid "Furs"
-msgstr ""
+msgstr "Skóry"
 
 #: data/civ1/terrain.ruleset:558 data/civ2/terrain.ruleset:559
 #: data/classic/terrain.ruleset:558 data/default/terrain.ruleset:559
@@ -11828,15 +11729,13 @@ msgstr ""
 
 # client/gui-gtk/repodlgs.c:1
 #: data/civ1/terrain.ruleset:127 data/classic/terrain.ruleset:127
-#, fuzzy
 msgid "Arctic"
-msgstr "Aktywne"
+msgstr ""
 
 # client/gui-gtk/dialogs.c:1 data/Freeciv:1
 #: data/civ1/terrain.ruleset:135 data/classic/terrain.ruleset:135
-#, fuzzy
 msgid "Seals"
-msgstr "Kradzie¿"
+msgstr "Foki"
 
 #: data/civ1/terrain.ruleset:157 data/classic/terrain.ruleset:157
 msgid ""
@@ -11846,9 +11745,8 @@ msgstr ""
 
 # data/civ2/units.ruleset:1 data/default/units.ruleset:1
 #: data/civ1/terrain.ruleset:425 data/classic/terrain.ruleset:425
-#, fuzzy
 msgid "Horses"
-msgstr "Konnica"
+msgstr "Konie"
 
 #: data/civ1/terrain.ruleset:483 data/classic/terrain.ruleset:483
 msgid ""
@@ -12076,7 +11974,7 @@ msgstr "S³onie"
 #: data/civ1/units.ruleset:512 data/civ2/units.ruleset:533
 #: data/default/units.ruleset:533
 msgid "Crusaders"
-msgstr "Krucjatowcy"
+msgstr "Krzy¿owcy"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
@@ -12191,7 +12089,7 @@ msgstr "Ulepszony bombowiec, o zwiêkszonej sile ataku oraz zasiêgu."
 #: data/civ1/units.ruleset:835 data/civ2/units.ruleset:870
 #: data/default/units.ruleset:870
 msgid "Trireme"
-msgstr "Tryrema"
+msgstr "Trirema"
 
 # data/civ2/units.ruleset:1 data/default/units.ruleset:1
 #: data/civ2/units.ruleset:893 data/default/units.ruleset:893
@@ -12300,7 +12198,7 @@ msgstr ""
 #: data/civ1/units.ruleset:1100 data/civ2/units.ruleset:1139
 #: data/default/units.ruleset:1139
 msgid "Transport"
-msgstr "Transport"
+msgstr "Transportowiec"
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
@@ -12439,12 +12337,12 @@ msgstr ""
 #: data/civ1/units.ruleset:1283 data/civ2/units.ruleset:1345
 #: data/default/units.ruleset:1345
 msgid "Freight"
-msgstr "Fracht"
+msgstr ""
 
 # data/civ2/units.ruleset:1 data/default/units.ruleset:1
 #: data/civ2/units.ruleset:1366 data/default/units.ruleset:1366
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr "Przewo¼nicy zastêpuj± karawanê i poruszaj± siê dwukrotnie szybciej."
+msgstr "Ciê¿arówka zastêpuje karawanê i porusza siê dwukrotnie szybciej."
 
 # data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
 # data/default/units.ruleset:1
@@ -12550,162 +12448,3 @@ msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
 msgstr ""
-
-# client/civclient.c:1
-#, fuzzy
-#~ msgid "  -l, --log F\t\tUse F as logfile\n"
-#~ msgstr "  -log F\tU¿yj F jako pliku dziennika\n"
-
-# client/civclient.c:1
-#, fuzzy
-#~ msgid "  -p, --port N\t\tconnect to port N\n"
-#~ msgstr "  -port N\tPo³±cz siê z portem N\n"
-
-# client/gui-gtk/connectdlg.c:1 data/Freeciv:1
-#, fuzzy
-#~ msgid "Freeciv 1.9 will be released early October, at %s"
-#~ msgstr ""
-#~ "TO JEST WYDANIE BETA\n"
-#~ "Freeciv 1.9 zostanie wydane na pocz±tku\n"
-#~ "pa¼dziernika pod adresem http://www.freeciv.org"
-
-# data/Freeciv:1
-#, fuzzy
-#~ msgid "Option: %s"
-#~ msgstr "Opcje"
-
-# data/civ1/techs.ruleset:1 data/civ2/techs.ruleset:1
-# data/default/techs.ruleset:1
-#, fuzzy
-#~ msgid "Description: %s."
-#~ msgstr "Pobór"
-
-# client/civclient.c:1
-#, fuzzy
-#~ msgid "nometa          - Close connection to the metaserver"
-#~ msgstr "  -metaserver A\tPo³±cz siê z metaserwerem A\n"
-
-# client/civclient.c:1
-#~ msgid ""
-#~ "Usage: %s [-hlNpsv][--help] [--log] [--name] [--port]\n"
-#~ "\t [--server] [--debug] [--version] [--tiles]\n"
-#~ msgstr ""
-#~ "U¿ycie: %s [-hlNpsv][--help] [--log] [--name] [--port]\n"
-#~ "\t [--server] [--debug] [--version] [--tiles]\n"
-
-# client/civclient.c:1
-#~ msgid "This is the Freeciv client\n"
-#~ msgstr "To jest klient Freeciv\n"
-
-# client/civclient.c:1
-#~ msgid "  -help\t\tPrint a summary of the options\n"
-#~ msgstr "  -help\t\tWypisz listê opcji\n"
-
-# client/civclient.c:1
-#~ msgid "  -log F\tUse F as logfile\n"
-#~ msgstr "  -log F\tU¿yj F jako pliku dziennika\n"
-
-# client/civclient.c:1
-#~ msgid "  -port N\tconnect to port N\n"
-#~ msgstr "  -port N\tPo³±cz siê z portem N\n"
-
-# client/civclient.c:1
-#~ msgid "  -debug N\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
-#~ msgstr ""
-#~ "  -debug N\tUstaw poziom ¶ledzenia (0,1,2,3,lub 3:plik1,min,maks:...)\n"
-
-# client/civclient.c:1
-#~ msgid "  -debug N\tSet debug log level (0,1,2)\n"
-#~ msgstr "  -debug N\tUstaw poziom ¶ledzenia (0,1,2)\n"
-
-# client/civclient.c:1
-#~ msgid "  -version\tPrint the version number\n"
-#~ msgstr "  -version\tWypisz numer wersji\n"
-
-# client/options.c:1
-#~ msgid "Parse error while loading option file: input is:"
-#~ msgstr "B³±d sk³adniowy podczas wczytywania pliku opcji: wej¶cie:"
-
-# client/options.c:1
-#~ msgid "Unknown variable found in option file: input is:"
-#~ msgstr "Odnaleziono nieznan± zmienn± w pliku opcji: wej¶cie:"
-
-# client/gui-gtk/gui_main.c:1
-#~ msgid "  -h, --help\t\tPrint a summary of the options.\n"
-#~ msgstr "  -h, --help\t\tWypisz listê opcji.\n"
-
-# client/gui-gtk/gui_main.c:1
-#~ msgid "  -N, --Name=NAME\tUse NAME.\n"
-#~ msgstr "  -N, --Name=IMIÊ\tU¿yj IMIÊ jako imienia.\n"
-
-# client/gui-gtk/gui_main.c:1
-#~ msgid "  -s, --server=SERVER\tConnect to the server SERVER.\n"
-#~ msgstr "  -s, --server=SERWER\tPo³±cz siê z serwerem SERWER.\n"
-
-# client/gui-gtk/gui_main.c:1
-#~ msgid ""
-#~ "  -m, --metaserver=METASERVER\tSet metaserver address to METASERVER.\n"
-#~ msgstr ""
-#~ "  -m, --metaserver=METASERWER\tPo³±cz siê z metaserwerem METASERWER.\n"
-
-# client/gui-gtk/gui_main.c:1
-#~ msgid ""
-#~ "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2,3,or 3:file1,min,max:...)\n"
-#~ msgstr ""
-#~ "  -d, --debug=POZIOM\tUstaw poziom ¶ledzenia (0,1,2,3,lub "
-#~ "3:plik1,min,maks:...)\n"
-
-# client/gui-gtk/gui_main.c:1
-#~ msgid "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n"
-#~ msgstr "  -d, ---debug=POZIOM\tUstaw poziom ¶ledzenia (0,1,2)\n"
-
-# client/gui-gtk/gui_main.c:1
-#~ msgid "  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n"
-#~ msgstr ""
-#~ "  -t, --tiles=KATALOG\tSzukaj plików graficznych w katalogu KATALOG.\n"
-
-# client/gui-gtk/gui_main.c:1
-#~ msgid "  -v, --version\t\tPrint the version number.\n"
-#~ msgstr "  -v, --version\t\tWypisz numer wersji.\n"
-
-# client/gui-gtk/menu.c:1
-#~ msgid "Find _City"
-#~ msgstr "_Znajd¼ miasto"
-
-# data/Freeciv:1
-#~ msgid "Flags are transparent      "
-#~ msgstr "Prze¼roczyste flagi        "
-
-# data/Freeciv:1
-#~ msgid " Change "
-#~ msgstr " Zmieñ "
-
-# client/gui-gtk/cityrep.c:1
-#, fuzzy
-#~ msgid "Zulus"
-#~ msgstr "Nadwy¿ka"
-
-# data/civ1/units.ruleset:1 data/civ2/units.ruleset:1
-# data/default/units.ruleset:1
-#, fuzzy
-#~ msgid "Incas"
-#~ msgstr "Parowiec"
-
-# client/gui-gtk/citydlg.c:1 client/gui-gtk/menu.c:1
-# client/gui-xaw/menu.c:1
-#, fuzzy
-#~ msgid "Danes"
-#~ msgstr "Gotowe"
-
-# client/helpdata.c:1
-#~ msgid "Allows a city to grow larger than size %d.\n"
-#~ msgstr "Pozwala miastu osi±gn±æ wielko¶æ przekraczaj±c± %d.\n"
-
-# client/gui-gtk/dialogs.c:1
-#~ msgid "Bug in spy sabotage code\n"
-#~ msgstr "B³±d w kodzie sabotowania przez szpiega\n"
-
-#  Autor musi to poprawiæ!!!
-# client/gui-gtk/helpdlg.c:1
-#~ msgid "* Vision range of %d square%s.\n"
-#~ msgstr "* Zasiêg widzenia o wielko¶ci %d pól.\n"
