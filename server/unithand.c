@@ -664,9 +664,9 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
    * so that the original unit stats (HP) will be sent.
    */
   package_short_unit(punit, &unit_att_short_packet, FALSE,
-		     UNIT_INFO_IDENTITY, 0, FALSE);
+		     UNIT_INFO_IDENTITY, 0);
   package_short_unit(pdefender, &unit_def_short_packet, FALSE,
-		     UNIT_INFO_IDENTITY, 0, FALSE);
+		     UNIT_INFO_IDENTITY, 0);
   players_iterate(other_player) {
     if (map_is_known_and_seen(punit->x, punit->y, other_player) ||
 	map_is_known_and_seen(def_x, def_y, other_player)) {

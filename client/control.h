@@ -34,7 +34,7 @@ extern enum cursor_hover_state hover_state;
 extern bool draw_goto_line;
 extern bool non_ai_unit_focus;
 
-void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried);
+void do_move_unit(struct unit *punit, struct unit *target_unit);
 void do_unit_goto(int x, int y);
 void do_unit_nuke(struct unit *punit);
 void do_unit_paradrop_to(struct unit *punit, int x, int y);

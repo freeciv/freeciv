@@ -1892,8 +1892,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   Package a unit_info packet.  This packet contains basically all
   information about a unit.
 **************************************************************************/
-void package_unit(struct unit *punit, struct packet_unit_info *packet,
-		  bool carried)
+void package_unit(struct unit *punit, struct packet_unit_info *packet)
 {
   packet->id = punit->id;
   packet->owner = punit->owner;
@@ -1925,7 +1924,13 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->paradropped = punit->paradropped;
   packet->connecting = punit->connecting;
   packet->done_moving = punit->done_moving;
-  packet->carried = carried;
+  if (punit->transported_by == -1) {
+    packet->transported = FALSE;
+    packet->transported_by = 0;
+  } else {
+    packet->transported = TRUE;
+    packet->transported_by = punit->transported_by;
+  }
   packet->occupy = get_transporter_occupancy(punit);
   packet->has_orders = punit->has_orders;
   if (punit->has_orders) {
@@ -1951,8 +1956,9 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   information about the unit, and is sent to players who shouldn't know
   everything (like the unit's owner's enemies).
 **************************************************************************/
-void package_short_unit(struct unit *punit, struct packet_unit_short_info *packet,
-			bool carried, enum unit_info_use packet_use,
+void package_short_unit(struct unit *punit,
+			struct packet_unit_short_info *packet,
+			enum unit_info_use packet_use,
 			int info_city_id, bool new_serial_num)
 {
   static unsigned int serial_num = 0;
@@ -1983,7 +1989,18 @@ void package_short_unit(struct unit *punit, struct packet_unit_short_info *packe
     packet->activity = punit->activity;
   }
 
-  packet->carried  = carried;
+  /* Transported_by information is sent to the client even for units that
+   * aren't fully known.  Note that for non-allied players, any transported
+   * unit can't be seen at all.  For allied players we have to know if
+   * transporters have room in them so that we can load units properly. */
+  if (punit->transported_by == -1) {
+    packet->transported = FALSE;
+    packet->transported_by = 0;
+  } else {
+    packet->transported = TRUE;
+    packet->transported_by = punit->transported_by;
+  }
+
   packet->goes_out_of_sight = FALSE;
 }
 
@@ -2016,15 +2033,13 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 {
   struct packet_unit_info info;
   struct packet_unit_short_info sinfo;
-  bool carried = punit->transported_by != -1;
   
   if (!dest) {
     dest = &game.game_connections;
   }
 
-  package_unit(punit, &info, carried);
-  package_short_unit(punit, &sinfo, carried,
-		     UNIT_INFO_IDENTITY, FALSE, FALSE);
+  package_unit(punit, &info);
+  package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, FALSE, FALSE);
             
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;

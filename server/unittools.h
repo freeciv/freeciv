@@ -64,10 +64,9 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo);
 void kill_unit(struct unit *pkiller, struct unit *punit);
 
 /* sending to client */
-void package_unit(struct unit *punit, struct packet_unit_info *packet,
-		  bool carried);
+void package_unit(struct unit *punit, struct packet_unit_info *packet);
 void package_short_unit(struct unit *punit,
-			struct packet_unit_short_info *packet, bool carried,
+			struct packet_unit_short_info *packet,
 			enum unit_info_use packet_use, int info_city_id,
 			bool new_serial_num);
 void send_unit_info(struct player *dest, struct unit *punit);

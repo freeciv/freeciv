@@ -344,14 +344,14 @@ struct unit *find_visible_unit(struct tile *ptile)
      (always return first in stack). */
   unit_list_iterate(ptile->units, punit)
     if (unit_owner(punit) == game.player_ptr) {
-      if (!punit->transported_by) {
+      if (punit->transported_by == -1) {
         if (get_transporter_capacity(punit) > 0) {
 	  return punit;
         } else if (!panyowned) {
 	  panyowned = punit;
         }
       }
-    } else if (!ptptother && !punit->transported_by) {
+    } else if (!ptptother && punit->transported_by == -1) {
       if (get_transporter_capacity(punit) > 0) {
 	ptptother = punit;
       } else if (!panyother) {
@@ -1191,7 +1191,7 @@ void request_unit_move_done(void)
   Called to have the client move a unit from one location to another,
   updating the graphics if necessary.
 **************************************************************************/
-void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried)
+void do_move_unit(struct unit *punit, struct unit *target_unit)
 {
   int x, y;
   bool was_teleported;
@@ -1201,14 +1201,16 @@ void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried)
   x = punit->x;
   y = punit->y;
 
-  if (!was_teleported && punit->activity != ACTIVITY_SENTRY && !carried) {
+  if (!was_teleported
+      && punit->activity != ACTIVITY_SENTRY
+      && punit->transported_by == -1) {
     audio_play_sound(unit_type(punit)->sound_move,
 		     unit_type(punit)->sound_move_alt);
   }
 
   unit_list_unlink(&map_get_tile(x, y)->units, punit);
 
-  if (!carried) {
+  if (punit->transported_by == -1) {
     refresh_tile_mapcanvas(x, y, FALSE);
   }
   
@@ -1222,7 +1224,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried)
     center_tile_mapcanvas(target_unit->x, target_unit->y);
   }
 
-  if (!carried && !was_teleported) {
+  if (punit->transported_by == -1 && !was_teleported) {
     int dx, dy;
 
     map_distance_vector(&dx, &dy, punit->x, punit->y,
@@ -1252,7 +1254,8 @@ void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried)
     }
   } square_iterate_end;
   
-  if (!carried && tile_get_known(punit->x, punit->y) == TILE_KNOWN) {
+  if (punit->transported_by == -1
+      && tile_get_known(punit->x, punit->y) == TILE_KNOWN) {
     refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
   }
 

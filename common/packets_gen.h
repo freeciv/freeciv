@@ -389,9 +389,10 @@ struct packet_unit_info {
   bool ai;
   bool paradropped;
   bool connecting;
-  bool carried;
+  bool transported;
   bool done_moving;
   Unit_Type_id type;
+  int transported_by;
   int movesleft;
   int hp;
   int fuel;
@@ -424,9 +425,10 @@ struct packet_unit_short_info {
   bool veteran_old;
   bool occupied;
   bool goes_out_of_sight;
+  bool transported;
   int hp;
   int activity;
-  int carried;
+  int transported_by;
   int packet_use;
   int info_city_id;
   int serial_num;

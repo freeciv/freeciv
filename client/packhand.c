@@ -73,7 +73,7 @@
 
 static void handle_city_packet_common(struct city *pcity, bool is_new,
                                       bool popup, bool investigate);
-static bool handle_unit_packet_common(struct unit *packet_unit, bool carried);
+static bool handle_unit_packet_common(struct unit *packet_unit);
 static int *reports_thaw_requests = NULL;
 static int reports_thaw_requests_size = 0;
 
@@ -111,10 +111,10 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   punit->connecting = packet->connecting;
   punit->done_moving = packet->done_moving;
   punit->occupy = packet->occupy;
-  if (packet->carried) {
-    punit->transported_by = 1;
+  if (packet->transported) {
+    punit->transported_by = packet->transported_by;
   } else {
-    punit->transported_by = 0;
+    punit->transported_by = -1;
   }
   punit->has_orders = packet->has_orders;
   punit->orders.length = packet->orders_length;
@@ -152,8 +152,12 @@ static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
   punit->hp = packet->hp;
   punit->activity = packet->activity;
   punit->occupy = (packet->occupied ? 1 : 0);
-  punit->transported_by = 0;
-  
+  if (packet->transported) {
+    punit->transported_by = packet->transported_by;
+  } else {
+    punit->transported_by = -1;
+  }
+
   return punit;
 }
 
@@ -899,7 +903,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   }
 
   punit = unpackage_unit(packet);
-  if (handle_unit_packet_common(punit, packet->carried)) {
+  if (handle_unit_packet_common(punit)) {
     free(punit);
   }
 }
@@ -925,7 +929,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   is because the server can never deny a request for idle, and should not
   be concerned about which unit the client is focusing on.
 **************************************************************************/
-static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
+static bool handle_unit_packet_common(struct unit *packet_unit)
 {
   struct city *pcity;
   struct unit *punit;
@@ -1074,7 +1078,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
       moved = TRUE;
 
       /* Show where the unit is going. */
-      do_move_unit(punit, packet_unit, carried);
+      do_move_unit(punit, packet_unit);
 
       if(pcity)  {
 	if (can_player_see_units_in_city(game.player_ptr, pcity)) {
@@ -1179,7 +1183,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
 	   punit->homecity, (pcity ? pcity->name : _("(unknown)")));
 
-    repaint_unit = !carried;
+    repaint_unit = (punit->transported_by == -1);
     agents_unit_new(punit);
 
     if ((pcity = map_get_city(punit->x, punit->y))) {
@@ -1274,7 +1278,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
   }
 
   punit = unpackage_short_unit(packet);
-  if (handle_unit_packet_common(punit, packet->carried)) {
+  if (handle_unit_packet_common(punit)) {
     free(punit);
   }
 }
