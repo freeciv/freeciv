@@ -31,9 +31,9 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y);
 int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int omni);
 
 struct move_cost_map {
-  unsigned char cost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-  unsigned char seacost[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
-  unsigned char vector[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+  unsigned char *cost[MAP_MAX_WIDTH];
+  unsigned char *seacost[MAP_MAX_WIDTH];
+  unsigned char *vector[MAP_MAX_WIDTH];
   struct city *warcity; /* so we know what we're dealing with here */
   struct unit *warunit; /* so we know what we're dealing with here */
   int orig_x, orig_y;

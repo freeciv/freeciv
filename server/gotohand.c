@@ -18,6 +18,7 @@
 #include "game.h"
 #include "log.h"
 #include "map.h"
+#include "mem.h"
 
 #include "settlers.h"
 #include "unitfunc.h"
@@ -68,14 +69,26 @@ static void get_from_warstack(unsigned int i, int *x, int *y)
 
 static void init_warmap(int orig_x, int orig_y, enum unit_move_type which)
 {
-  int x, y;
-  for (x = 0; x < map.xsize; x++) 
-    for (y = 0; y < map.ysize; y++) 
-      if (which == LAND_MOVING) warmap.cost[x][y] = 255; /* one if by land */
-      else warmap.seacost[x][y] = 255;
-      /* why a seacost and a landcost nb */
-  if (which == LAND_MOVING) warmap.cost[orig_x][orig_y] = 0;
-  else warmap.seacost[orig_x][orig_y] = 0;
+  int x;
+
+  if (!warmap.cost[0]) {
+    for (x = 0; x < map.xsize; x++) {
+      warmap.cost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
+      warmap.seacost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
+      warmap.vector[x]=fc_malloc(map.ysize*sizeof(unsigned char));
+    }
+  }
+
+  if (which == LAND_MOVING) {
+    for (x = 0; x < map.xsize; x++)
+      memset(warmap.cost[x],255,map.ysize*sizeof(unsigned char));
+    /* one if by land */
+    warmap.cost[orig_x][orig_y] = 0;
+  } else {
+    for (x = 0; x < map.xsize; x++)
+      memset(warmap.seacost[x],255,map.ysize*sizeof(unsigned char));
+    warmap.seacost[orig_x][orig_y] = 0;
+  }
 }  
 
 void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_move_type which)
@@ -372,13 +385,12 @@ static int goto_tile_cost(struct player *pplayer, struct unit *punit,
 
 static void init_gotomap(int orig_x, int orig_y)
 {
-  int x, y;
+  int x;
+
   for (x = 0; x < map.xsize; x++) {
-    for (y = 0; y < map.ysize; y++) {
-      warmap.seacost[x][y] = 255;
-      warmap.cost[x][y] = 255;
-      warmap.vector[x][y] = 0;
-    }
+    memset(warmap.cost[x],255,map.ysize*sizeof(unsigned char));
+    memset(warmap.seacost[x],255,map.ysize*sizeof(unsigned char));
+    memset(warmap.vector[x],0,map.ysize*sizeof(unsigned char));
   }
   warmap.cost[orig_x][orig_y] = 0;
   warmap.seacost[orig_x][orig_y] = 0;
