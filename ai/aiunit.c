@@ -33,6 +33,7 @@
 #include <maphand.h>
 #include <sys/time.h>
 #include <advmilitary.h>
+#include <gotohand.h>
 #include <citytools.h>
 
 void do_unit_goto(struct player *pplayer, struct unit *punit);
@@ -419,8 +420,8 @@ int reinforcements_value(struct unit *punit, struct unit *pdef)
 int ai_military_findvictim(struct player *pplayer,struct unit *punit)
 { /* work of Syela - mostly to fix the ZOC/goto strangeness */
   int xx[3], yy[3], x, y;
-  int ii[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
-  int jj[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int ii[8] = { 0, 1, 2, 0, 2, 0, 1, 2 };
+  int jj[8] = { 0, 0, 0, 1, 1, 2, 2, 2 };
   int i, j, k, weakest, v;
   int dest;
   struct unit *pdef;
