@@ -28,47 +28,11 @@ enum tile_behavior no_fights_or_unknown(int x, int y,
                                         enum known_type known,
                                         struct pf_parameter *param);
 
-/*
- * Below iterator is mostly for use by AI, iterates through all positions
- * on the map, reachable by punit, in order of their distance from punit.
- * Returns info about these positions via the second field.
- */
-#define simple_unit_path_iterator(punit, position) {                          \
-  struct pf_map *UPI_map;                                                     \
-  struct pf_parameter UPI_parameter;                                          \
-                                                                              \
-  pft_fill_default_parameter(&UPI_parameter);                                 \
-  pft_fill_unit_parameter(&UPI_parameter, punit);                             \
-  UPI_map = pf_create_map(&UPI_parameter);                                    \
-  while (pf_next(UPI_map)) {                                                  \
-    struct pf_position position;                                              \
-                                                                              \
-    pf_next_get_position(UPI_map, &position);
+#define pf_iterator(map, position) {                       \
+  struct pf_position position;                             \
+  while (pf_next(map)) {                                   \
+    pf_next_get_position(map, &position);
 
-#define simple_unit_path_iterator_end                                         \
-  }                                                                           \
-  pf_destroy_map(UPI_map);                                                    \
-}
-
-/* 
- * Below iterator is to be used when a land unit needs to consider going one
- * step into the sea (to consider boarding, say) or a sea unit needs to
- * consider going one step into the land (land bombardment)
- */
-#define simple_unit_overlap_path_iterator(punit, position) {                  \
-  struct pf_map *UPI_map;                                                     \
-  struct pf_parameter UPI_parameter;                                          \
-                                                                              \
-  pft_fill_unit_overlap_param(&UPI_parameter, punit);                         \
-  UPI_map = pf_create_map(&UPI_parameter);                                    \
-  while (pf_next(UPI_map)) {                                                  \
-    struct pf_position position;                                              \
-                                                                              \
-    pf_next_get_position(UPI_map, &position);
-
-#define simple_unit_overlap_path_iterator_end                                 \
-  }                                                                           \
-  pf_destroy_map(UPI_map);                                                    \
-}
+#define pf_iterator_end }}
 
 #endif				/* FC__PF_TOOLS_H */

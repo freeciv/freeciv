@@ -40,7 +40,6 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplomats.h"
-#include "gotohand.h"
 #include "maphand.h"
 #include "settlers.h"
 #include "unithand.h"
@@ -60,7 +59,8 @@
 #define LOG_DIPLOMAT_BUILD LOG_DEBUG
 
 static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
-                                  struct city **ctarget, int *move_dist);
+                                  struct city **ctarget, int *move_dist,
+                                  struct pf_map *map);
 
 /******************************************************************************
   Number of improvements that can be sabotaged in pcity.
@@ -153,6 +153,8 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
 
   /* Do we have a good reason for building diplomats? */
   {
+    struct pf_map *map;
+    struct pf_parameter parameter;
     struct unit_type *ut = get_unit_type(u);
     struct city *acity;
     int want, loss, p_success, p_failure, time_to_dest;
@@ -160,7 +162,11 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     int incite_cost;
     struct unit *punit = create_unit_virtual(pplayer, pcity, u, FALSE);
 
-    find_city_to_diplomat(pplayer, punit, &acity, &time_to_dest);
+    pft_fill_default_parameter(&parameter);
+    pft_fill_unit_parameter(&parameter, punit);
+    map = pf_create_map(&parameter);
+
+    find_city_to_diplomat(pplayer, punit, &acity, &time_to_dest, map);
 
     if (acity == NULL || BV_ISSET(ai->stats.diplomat_reservations, acity->id)) {
       /* Found no target or city already considered */
@@ -314,7 +320,8 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   if none available on this continent.  punit can be virtual.
 **************************************************************************/
 static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
-                                  struct city **ctarget, int *move_dist)
+                                  struct city **ctarget, int *move_dist,
+                                  struct pf_map *map)
 {
   bool has_embassy;
   int incite_cost = 0; /* incite cost */
@@ -324,10 +331,12 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
   *ctarget = NULL;
   *move_dist = -1;
 
-  simple_unit_path_iterator(punit, pos) {
-    struct city *acity = map_get_city(pos.x, pos.y);
+  pf_iterator(map, pos) {
+    struct city *acity;
     struct player *aplayer;
     bool can_incite;
+
+    acity = map_get_city(pos.x, pos.y);
 
     if (!acity) {
       continue;
@@ -362,7 +371,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
       *move_dist = pos.total_MC;
       break;
     }
-  } simple_unit_path_iterator_end;
+  } pf_iterator_end;
 }
 
 /**************************************************************************
@@ -370,7 +379,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 **************************************************************************/
 static struct city *ai_diplomat_defend(struct player *pplayer,
                                        struct unit *punit,
-                                       Unit_Type_id utype)
+                                       Unit_Type_id utype, struct pf_map *map)
 {
   int best_dist = 30; /* any city closer than this is better than none */
   int best_urgency = 0;
@@ -384,11 +393,12 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
     return pcity;
   }
 
-  simple_unit_path_iterator(punit, pos) {
-    struct city *acity = map_get_city(pos.x, pos.y);
+  pf_iterator(map, pos) {
+    struct city *acity;
     struct player *aplayer;
     int dipls, urgency;
 
+    acity = map_get_city(pos.x, pos.y);
     if (!acity) {
       continue;
     }
@@ -421,7 +431,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
       /* squelch divide-by-zero */
       best_dist = MAX(pos.total_MC, 1);
     }
-  } simple_unit_path_iterator_end;
+  } pf_iterator_end;
 
   return ctarget;
 }
@@ -432,13 +442,13 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
   Will try to bribe a ship on the coast as well as land stuff.
 **************************************************************************/
 static bool ai_diplomat_bribe_nearby(struct player *pplayer, 
-                                     struct unit *punit)
+                                     struct unit *punit, struct pf_map *map)
 {
   struct packet_diplomat_action packet;
   int gold_avail = pplayer->economic.gold - pplayer->ai.est_upkeep;
   struct ai_data *ai = ai_data_get(pplayer);
 
-  simple_unit_overlap_path_iterator(punit, pos) {
+  pf_iterator(map, pos) {
     struct tile *ptile = map_get_tile(pos.x, pos.y);
     bool threat = FALSE;
     int newval, bestval = 0, cost;
@@ -496,10 +506,11 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
     /* Found someone! */
     {
       int x, y;
+      struct pf_path *path;
 
       MAPSTEP(x, y, pos.x, pos.y, DIR_REVERSE(pos.dir_to_here));
-
-      if (!ai_unit_goto(punit, x, y) || punit->moves_left <= 0) {
+      path = pf_get_path(map, pos.x, pos.y);
+      if (!ai_unit_execute_path(punit, path) || punit->moves_left <= 0) {
         return FALSE;
       }
     }
@@ -521,7 +532,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
                " %d moves left", pos.x, pos.y, punit->moves_left);
       return FALSE;
     }
-  } simple_unit_overlap_path_iterator_end;
+  } pf_iterator_end;
 
   return (punit->moves_left > 0);
 }
@@ -539,38 +550,47 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
 void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity, *ctarget = NULL;
+  struct pf_parameter parameter;
+  struct pf_map *map;
+  struct pf_position pos;
 
   CHECK_UNIT(punit);
+
+  /* Generate map */
+  pft_fill_default_parameter(&parameter);
+  pft_fill_unit_parameter(&parameter, punit);
+  parameter.get_zoc = NULL; /* kludge */
+  map = pf_create_map(&parameter);
 
   pcity = map_get_city(punit->x, punit->y);
 
   /* Look for someone to bribe */
-  if (!ai_diplomat_bribe_nearby(pplayer, punit)) {
+  if (!ai_diplomat_bribe_nearby(pplayer, punit, map)) {
     /* Died or ran out of moves */
+    pf_destroy_map(map);
     return;
   }
 
   /* If we are the only diplomat in a threatened city, then stay to defend */
   pcity = map_get_city(punit->x, punit->y); /* we may have moved */
   if (pcity && count_diplomats_on_tile(punit->x, punit->y) == 1
-      && pcity->ai.diplomat_threat) {
+      && (pcity->ai.diplomat_threat || pcity->ai.urgency > 0)) {
     UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
              pcity->name, pcity->ai.urgency);
     ai_unit_new_role(punit, AIUNIT_NONE, -1, -1); /* abort mission */
+    pf_destroy_map(map);
     return;
-  }
-
-  /* If we have a role, we have a valid goto. Check if we have a valid city. */
-  if (punit->ai.ai_role == AIUNIT_ATTACK
-      || punit->ai.ai_role == AIUNIT_DEFEND_HOME) {
-    ctarget = map_get_city(goto_dest_x(punit), goto_dest_y(punit));
   }
 
   /* Check if existing target still makes sense */
   if (punit->ai.ai_role == AIUNIT_ATTACK
       || punit->ai.ai_role == AIUNIT_DEFEND_HOME) {
     bool failure = FALSE;
-    if (ctarget) {
+
+    ctarget = map_get_city(goto_dest_x(punit), goto_dest_y(punit));
+    assert(is_goto_dest_set(punit));
+    if (pf_get_position(map, goto_dest_x(punit), goto_dest_y(punit), &pos)
+        && ctarget) {
       if (same_pos(ctarget->x, ctarget->y, punit->x, punit->y)) {
         failure = TRUE;
       } else if (pplayers_allied(pplayer, city_owner(ctarget))
@@ -588,8 +608,21 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       failure = TRUE;
     }
     if (failure) {
+      UNIT_LOG(LOG_DIPLOMAT, punit, "mission aborted");
       ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
     }
+  }
+
+  /* We may need a new map now. Both because we cannot get paths from an 
+   * old map, and we need paths to move, and because fctd below requires
+   * a new map for its iterator. */
+  if (parameter.start_x != punit->x || parameter.start_y != punit->y
+      || punit->ai.ai_role == AIUNIT_NONE) {
+    pf_destroy_map(map);
+    pft_fill_default_parameter(&parameter);
+    pft_fill_unit_parameter(&parameter, punit);
+    parameter.get_zoc = NULL; /* kludge */
+    map = pf_create_map(&parameter);
   }
 
   /* If we are not busy, acquire a target. */
@@ -597,18 +630,18 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     enum ai_unit_task task;
     int move_dist; /* dummy */
 
-    find_city_to_diplomat(pplayer, punit, &ctarget, &move_dist);
+    find_city_to_diplomat(pplayer, punit, &ctarget, &move_dist, map);
 
     if (ctarget) {
       task = AIUNIT_ATTACK;
       punit->ai.bodyguard = -1; /* want one */
       UNIT_LOG(LOG_DIPLOMAT, punit, "going on attack");
     } else if ((ctarget = ai_diplomat_defend(pplayer, punit,
-                                             punit->type)) != NULL) {
+                                             punit->type, map)) != NULL) {
       task = AIUNIT_DEFEND_HOME;
       UNIT_LOG(LOG_DIPLOMAT, punit, "going defensive");
     } else if ((ctarget = find_closest_owned_city(pplayer, punit->x, punit->y, 
-                                                  TRUE, NULL)) != NULL) {
+                                                  TRUE, NULL), map) != NULL) {
       /* This should only happen if the entire continent was suddenly
        * conquered. So we head for closest coastal city and wait for someone
        * to code ferrying for diplomats, or hostile attacks from the sea. */
@@ -616,6 +649,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DIPLOMAT, punit, "going idle");
     } else {
       UNIT_LOG(LOG_DIPLOMAT, punit, "could not find a job");
+      pf_destroy_map(map);
       return;
     }
 
@@ -627,27 +661,22 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
 
   /* GOTO unless we want to stay */
   if (!same_pos(punit->x, punit->y, ctarget->x, ctarget->y)) {
-    if (!ai_unit_gothere(punit)) {
-      return;
-    } 
-  }
+    struct pf_path *path;
 
-  /* Have we run out of moves? */
-  if (punit->moves_left <= 0) {
-    return;
-  }
-
-  /* Check if we can do something with our destination now. */
-  if (punit->ai.ai_role == AIUNIT_ATTACK) {
-    int dist  = real_map_distance(punit->x, punit->y,
-				  goto_dest_x(punit), goto_dest_y(punit));
-    UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s (%s goto)",
-             dist, ctarget ? ctarget->name : "(none)", 
-             punit->activity == ACTIVITY_GOTO ? "has" : "no");
-    if (dist == 1) {
-      /* Do our stuff */
-      ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
-      ai_diplomat_city(punit, ctarget);
+    path = pf_get_path(map, goto_dest_x(punit), goto_dest_y(punit));
+    if (ai_unit_execute_path(punit, path) && punit->moves_left > 0) {
+      /* Check if we can do something with our destination now. */
+      if (punit->ai.ai_role == AIUNIT_ATTACK) {
+        int dist  = real_map_distance(punit->x, punit->y,
+                                  goto_dest_x(punit), goto_dest_y(punit));
+        UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s",
+                 dist, ctarget ? ctarget->name : "(none)");
+        if (dist == 1) {
+          /* Do our stuff */
+          ai_unit_new_role(punit, AIUNIT_NONE, -1, -1);
+          ai_diplomat_city(punit, ctarget);
+        }
+      }
     }
   }
 }
