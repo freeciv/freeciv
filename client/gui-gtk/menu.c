@@ -84,6 +84,18 @@ enum MenuID {
   MENU_VIEW_SHOW_MAP_GRID,
   MENU_VIEW_SHOW_CITY_NAMES,
   MENU_VIEW_SHOW_CITY_PRODUCTIONS,
+  MENU_VIEW_SHOW_TERRAIN,
+  MENU_VIEW_SHOW_COASTLINE,
+  MENU_VIEW_SHOW_ROADS_RAILS,
+  MENU_VIEW_SHOW_IRRIGATION,
+  MENU_VIEW_SHOW_MINES,
+  MENU_VIEW_SHOW_FORTRESS_AIRBASE,
+  MENU_VIEW_SHOW_SPECIALS,
+  MENU_VIEW_SHOW_POLLUTION,
+  MENU_VIEW_SHOW_CITIES,
+  MENU_VIEW_SHOW_UNITS,
+  MENU_VIEW_SHOW_FOCUS_UNIT,
+  MENU_VIEW_SHOW_FOG_OF_WAR,
   MENU_VIEW_CENTER_VIEW,
 
   MENU_ORDER_AUTO_SETTLER,
@@ -212,6 +224,7 @@ static void kingdom_menu_callback(gpointer callback_data,
 }
 
 
+static void menus_set_sensitive(const char *, int);
 /****************************************************************
 ...
 *****************************************************************/
@@ -230,6 +243,58 @@ static void view_menu_callback(gpointer callback_data, guint callback_action,
   case MENU_VIEW_SHOW_CITY_PRODUCTIONS:
     if (draw_city_productions ^ GTK_CHECK_MENU_ITEM(widget)->active)
       key_city_productions_toggle();
+    break;
+  case MENU_VIEW_SHOW_TERRAIN:
+    if (draw_terrain ^ GTK_CHECK_MENU_ITEM(widget)->active) {
+      key_terrain_toggle();
+      menus_set_sensitive("<main>/View/Coastline", !draw_terrain);
+    }
+    break;
+  case MENU_VIEW_SHOW_COASTLINE:
+    if (draw_coastline ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_coastline_toggle();
+    break;
+  case MENU_VIEW_SHOW_ROADS_RAILS:
+    if (draw_roads_rails ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_roads_rails_toggle();
+    break;
+  case MENU_VIEW_SHOW_IRRIGATION:
+    if (draw_irrigation ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_irrigation_toggle();
+    break;
+  case MENU_VIEW_SHOW_MINES:
+    if (draw_mines ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_mines_toggle();
+    break;
+  case MENU_VIEW_SHOW_FORTRESS_AIRBASE:
+    if (draw_fortress_airbase ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_fortress_airbase_toggle();
+    break;
+  case MENU_VIEW_SHOW_SPECIALS:
+    if (draw_specials ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_specials_toggle();
+    break;
+  case MENU_VIEW_SHOW_POLLUTION:
+    if (draw_pollution ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_pollution_toggle();
+    break;
+  case MENU_VIEW_SHOW_CITIES:
+    if (draw_cities ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_cities_toggle();
+    break;
+  case MENU_VIEW_SHOW_UNITS:
+    if (draw_units ^ GTK_CHECK_MENU_ITEM(widget)->active) {
+      key_units_toggle();
+      menus_set_sensitive("<main>/View/Focus Unit", !draw_units);
+    }
+    break;
+  case MENU_VIEW_SHOW_FOCUS_UNIT:
+    if (draw_focus_unit ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_focus_unit_toggle();
+    break;
+  case MENU_VIEW_SHOW_FOG_OF_WAR:
+    if (draw_fog_of_war ^ GTK_CHECK_MENU_ITEM(widget)->active)
+      key_fog_of_war_toggle();
     break;
   case MENU_VIEW_CENTER_VIEW:
     center_on_unit();
@@ -554,6 +619,36 @@ static GtkItemFactoryEntry menu_items[]	=
   { "/" N_("View") "/" N_("City _Productions"),		"<control>p",
 	view_menu_callback,	MENU_VIEW_SHOW_CITY_PRODUCTIONS,	"<CheckItem>"	},
   { "/" N_("View") "/sep1",				NULL,
+	NULL,			0,					"<Separator>"	},
+  { "/" N_("View") "/" N_("Terrain"),                   NULL,
+        view_menu_callback,     MENU_VIEW_SHOW_TERRAIN,	                "<CheckItem>"   },
+  { "/" N_("View") "/" N_("Coastline"),	                NULL,
+        view_menu_callback,     MENU_VIEW_SHOW_COASTLINE,       	"<CheckItem>"   },
+  { "/" N_("View") "/" N_("Improvements"),		NULL,
+	NULL,			0,					"<Branch>"	},
+  { "/" N_("View") "/" N_("Improvements") "/tearoff1",	NULL,
+	NULL,			0,					"<Tearoff>"	},
+  { "/" N_("View") "/" N_("Improvements") "/" "Roads & Rails", NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_ROADS_RAILS,		"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Improvements") "/" "Irrigation", NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_IRRIGATION,		"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Improvements") "/" "Mines",	NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_MINES,			"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Improvements") "/" "Fortress & Airbase", NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_FORTRESS_AIRBASE,	"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Specials"),			NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_SPECIALS,		"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Pollution & Fallout"),	NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_POLLUTION,		"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Cities"),			NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_CITIES,			"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Units"),			NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_UNITS,			"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Focus Unit"),		NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_FOCUS_UNIT,		"<CheckItem>"	},
+  { "/" N_("View") "/" N_("Fog of War"),		NULL,
+	view_menu_callback,	MENU_VIEW_SHOW_FOG_OF_WAR,		"<CheckItem>"	},
+  { "/" N_("View") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("View") "/" N_("_Center View"),		"c",
 	view_menu_callback,	MENU_VIEW_CENTER_VIEW					},
@@ -906,6 +1001,20 @@ void update_menus(void)
     menus_set_active("<main>/View/Map Grid", draw_map_grid);
     menus_set_active("<main>/View/City Names", draw_city_names);
     menus_set_active("<main>/View/City Productions", draw_city_productions);
+    menus_set_active("<main>/View/Terrain", draw_terrain);
+    menus_set_active("<main>/View/Coastline", draw_coastline);
+    menus_set_sensitive("<main>/View/Coastline", !draw_terrain);
+    menus_set_active("<main>/View/Improvements/Roads & Rails", draw_roads_rails);
+    menus_set_active("<main>/View/Improvements/Irrigation", draw_irrigation);
+    menus_set_active("<main>/View/Improvements/Mines", draw_mines);
+    menus_set_active("<main>/View/Improvements/Fortress & Airbase", draw_fortress_airbase);
+    menus_set_active("<main>/View/Specials", draw_specials);
+    menus_set_active("<main>/View/Pollution & Fallout", draw_pollution);
+    menus_set_active("<main>/View/Cities", draw_cities);
+    menus_set_active("<main>/View/Units", draw_units);
+    menus_set_active("<main>/View/Focus Unit", draw_focus_unit);
+    menus_set_sensitive("<main>/View/Focus Unit", !draw_units);
+    menus_set_active("<main>/View/Fog of War", draw_fog_of_war);
 
     if((punit=get_unit_in_focus())) {
       char *irrfmt = _("Change to %s (_I)");

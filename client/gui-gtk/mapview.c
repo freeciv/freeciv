@@ -153,45 +153,33 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y,
 		     int canvas_x, int canvas_y, int citymode)
 {
   struct Sprite *tile_sprs[80];
-  int count = fill_tile_sprite_array(tile_sprs, x, y, citymode);
+  int fill_bg;
+  struct player *pplayer;
 
-  if (count) {
-    int i;
+  if (normalize_map_pos(&x, &y) && tile_is_known(x, y)) {
+    int count = fill_tile_sprite_array(tile_sprs, x, y, citymode, &fill_bg, &pplayer);
+    int i = 0;
 
-    if(tile_sprs[0]) {
+    if (fill_bg) {
+      if (pplayer) {
+	gdk_gc_set_foreground(fill_bg_gc,
+			      colors_standard[player_color(pplayer)]);
+      } else {
+	gdk_gc_set_foreground(fill_bg_gc,
+			      colors_standard[COLOR_STD_BACKGROUND]);	
+      }
+      gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
+			 canvas_x, canvas_y,
+			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    } else {
       /* first tile without mask */
       gdk_draw_pixmap(pm, civ_gc, tile_sprs[0]->pixmap,
                       0, 0, canvas_x, canvas_y,
                       tile_sprs[0]->width, tile_sprs[0]->height);
-    } else {
-      /* normally when solid_color_behind_units */
-      struct player *pplayer=NULL;
-
-      if(count>1 && !tile_sprs[1]) {
-        /* it's the unit */
-        struct tile *ptile = map_get_tile(x, y);
-        struct unit *punit = find_visible_unit(ptile);
-        if (punit) {
-          pplayer = &game.players[punit->owner];
-	}
-      } else {
-        /* it's the city */
-	struct city *pcity = map_get_city(x, y);
-        if (pcity) {
-          pplayer = &game.players[pcity->owner];
-	}
-      }
-
-      if (pplayer) {
-        gdk_gc_set_foreground(fill_bg_gc,
-			      colors_standard[player_color(pplayer)]);
-        gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
-			   canvas_x, canvas_y,
-			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      }
+      i++;
     }
 
-    for (i=1;i<count;i++) {
+    for (;i<count; i++) {
       if (tile_sprs[i]) {
         pixmap_put_overlay_tile(pm, canvas_x, canvas_y, tile_sprs[i]);
       }
@@ -221,9 +209,30 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y,
       }
       gdk_draw_line(pm, civ_gc,
 		    canvas_x, canvas_y,
-		    canvas_x + NORMAL_TILE_HEIGHT, canvas_y);
+		    canvas_x + NORMAL_TILE_WIDTH, canvas_y);
     }
-
+    if (draw_coastline && !draw_terrain) {
+      enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
+      int x1 = x-1, y1 = y;
+      gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_OCEAN]);
+      if (normalize_map_pos(&x1, &y1)) {
+	t2 = map_get_terrain(x1, y1);
+	/* left side */
+	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+	  gdk_draw_line(pm, civ_gc,
+			canvas_x, canvas_y,
+			canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+      }
+      /* top side */
+      x1 = x; y1 = y-1;
+      if (normalize_map_pos(&x1, &y1)) {
+	t2 = map_get_terrain(x1, y1);
+	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+	  gdk_draw_line(pm, civ_gc,
+			canvas_x, canvas_y,
+			canvas_x + NORMAL_TILE_WIDTH, canvas_y);
+      }
+    }
   } else {
     /* tile is unknown */
     pixmap_put_black_tile(pm, canvas_x, canvas_y);
@@ -1143,13 +1152,16 @@ void pixmap_put_black_tile(GdkDrawable *pm,
 FIXME: Find a better way to put flags and such on top.
 **************************************************************************/
 static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
-				int canvas_x, int canvas_y)
+			    int canvas_x, int canvas_y)
 {
+  int solid_bg;
+
   if (is_isometric) {
     struct Sprite *sprites[40];
-    int count = fill_unit_sprite_array(sprites, punit);
+    int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
     int i;
 
+    assert(!solid_bg);
     for (i=0; i<count; i++) {
       if (sprites[i]) {
 	pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
@@ -1157,29 +1169,29 @@ static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
     }
   } else { /* is_isometric */
     struct Sprite *sprites[40];
-    int count = fill_unit_sprite_array(sprites, punit);
+    int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
 
     if (count) {
-      int i;
+      int i = 0;
 
-      if (sprites[0]) {
+      if (solid_bg) {
+	gdk_gc_set_foreground(fill_bg_gc,
+			      colors_standard[player_color(unit_owner(punit))]);
+	gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
+			   canvas_x, canvas_y,
+			   UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      } else {
 	if (flags_are_transparent) {
 	  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
 	} else {
 	  gdk_draw_pixmap(pm, civ_gc, sprites[0]->pixmap,
-			  0, 0,
-			  canvas_x, canvas_y,
+			  0, 0, canvas_x, canvas_y,
 			  sprites[0]->width, sprites[0]->height);
 	}
-      } else {
-	gdk_gc_set_foreground(fill_bg_gc,
-			      colors_standard[player_color(get_player(punit->owner))]);
-	gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
-			   canvas_x, canvas_y,
-			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+	i++;
       }
 
-      for (i=1; i<count; i++) {
+      for (; i<count; i++) {
 	if (sprites[i])
 	  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
       }
@@ -1196,7 +1208,8 @@ static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
 				 int width, int height_unit)
 {
   struct Sprite *sprites[40];
-  int count = fill_unit_sprite_array(sprites, punit);
+  int dummy;
+  int count = fill_unit_sprite_array(sprites, punit, &dummy);
   int i;
 
   for (i=0; i<count; i++) {
@@ -1586,14 +1599,14 @@ void put_city_tile_output(GdkDrawable *pm, int canvas_x, int canvas_y,
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 {
   struct Sprite *sprites[40];
-  int count = fill_unit_sprite_array(sprites, punit);
+  int solid_bg;
+  int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
 
   if (count) {
     int i;
 
-    if (!sprites[0]) {
-      gtk_pixcomm_fill(p,
-		       colors_standard[player_color(get_player(punit->owner))],
+    if (solid_bg) {
+      gtk_pixcomm_fill(p, colors_standard[player_color(get_player(punit->owner))],
 		       FALSE);
     }
 
@@ -2210,79 +2223,110 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   struct Sprite *coasts[4];
   struct Sprite *dither[4];
   struct city *pcity;
-  struct unit *punit;
+  struct unit *punit, *pfocus;
   enum tile_special_type special;
-  int count, i;
-  int fog = tile_is_known(x, y) == TILE_KNOWN_FOGGED;
+  int count, i = 0;
+  int fog;
+  int solid_bg;
 
   if (!width || !(height || height_unit))
     return;
 
-  pcity = map_get_city(x, y);
-  punit = get_drawable_unit(x, y, citymode);
-  special = map_get_special(x, y);
   count = fill_tile_sprite_array_iso(tile_sprs, coasts, dither,
-				     x, y, citymode);
+				     x, y, citymode, &solid_bg);
 
-  if (!count) { /* tile is unknown */
+  if (count == -1) { /* tile is unknown */
     pixmap_put_black_tile_iso(pm, canvas_x, canvas_y,
 			      offset_x, offset_y, width, height);
     return;
   }
 
-  /*** base terrain. We draw the ocean via the coasts below. ***/
-  if (tile_sprs[0] && map_get_terrain(x, y) != T_OCEAN)
-    pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, tile_sprs[0],
-				 offset_x, offset_y, width, height, fog);
+  assert(normalize_map_pos(&x, &y));
+  fog = tile_is_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
+  pcity = map_get_city(x, y);
+  punit = get_drawable_unit(x, y, citymode);
+  pfocus = get_unit_in_focus();
+  special = map_get_special(x, y);
 
-  if (map_get_terrain(x, y) == T_OCEAN) { /* coasts */
-    int dx, dy;
-    /* top */
-    dx = offset_x-NORMAL_TILE_WIDTH/4;
-    pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/4,
-				 canvas_y, coasts[0],
-				 MAX(0, dx),
-				 offset_y,
-				 MAX(0, width-MAX(0, -dx)),
-				 height,
-				 fog);
-    /* bottom */
-    dx = offset_x-NORMAL_TILE_WIDTH/4;
-    dy = offset_y-NORMAL_TILE_HEIGHT/2;
-    pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/4,
-				 canvas_y + NORMAL_TILE_HEIGHT/2, coasts[1],
-				 MAX(0, dx),
-				 MAX(0, dy),
-				 MAX(0, width-MAX(0, -dx)),
-				 MAX(0, height-MAX(0, -dy)),
-				 fog);
-    /* left */
-    dy = offset_y-NORMAL_TILE_HEIGHT/4;
-    pixmap_put_overlay_tile_draw(pm, canvas_x,
-				 canvas_y + NORMAL_TILE_HEIGHT/4, coasts[2],
-				 offset_x,
-				 MAX(0, dy),
-				 width,
-				 MAX(0, height-MAX(0, -dy)),
-				 fog);
-    /* right */
-    dx = offset_x-NORMAL_TILE_WIDTH/2;
-    dy = offset_y-NORMAL_TILE_HEIGHT/4;
-    pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/2,
-				 canvas_y + NORMAL_TILE_HEIGHT/4, coasts[3],
-				 MAX(0, dx),
-				 MAX(0, dy),
-				 MAX(0, width-MAX(0, -dx)),
-				 MAX(0, height-MAX(0, -dy)),
-				 fog);
+  if (solid_bg) {
+    gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
+    gdk_gc_set_clip_mask(fill_bg_gc, sprites.black_tile->mask);
+    gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BACKGROUND]);
+
+    gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
+		       canvas_x+offset_x, canvas_y+offset_y,
+		       MIN(width, MAX(0, sprites.black_tile->width-offset_x)),
+		       MIN(height, MAX(0, sprites.black_tile->height-offset_y)));
+    gdk_gc_set_clip_mask(fill_bg_gc, NULL);
+    if (fog) {
+      gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
+      gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
+      gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+      gdk_gc_set_stipple(fill_tile_gc, black50);
+
+      gdk_draw_rectangle(pm, fill_tile_gc, TRUE,
+			 canvas_x+offset_x, canvas_y+offset_y,
+			 MIN(width, MAX(0, sprites.black_tile->width-offset_x)),
+			 MIN(height, MAX(0, sprites.black_tile->height-offset_y)));
+      gdk_gc_set_clip_mask(fill_tile_gc, NULL);
+    }
   }
 
-  /*** Dither base terrain ***/
-  dither_tile(pm, dither, canvas_x, canvas_y,
-	      offset_x, offset_y, width, height, fog);
+  if (draw_terrain) {
+    if (map_get_terrain(x, y) == T_OCEAN) { /* coasts */
+      int dx, dy;
+      /* top */
+      dx = offset_x-NORMAL_TILE_WIDTH/4;
+      pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/4,
+				   canvas_y, coasts[0],
+				   MAX(0, dx),
+				   offset_y,
+				   MAX(0, width-MAX(0, -dx)),
+				   height,
+				   fog);
+      /* bottom */
+      dx = offset_x-NORMAL_TILE_WIDTH/4;
+      dy = offset_y-NORMAL_TILE_HEIGHT/2;
+      pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/4,
+				   canvas_y + NORMAL_TILE_HEIGHT/2, coasts[1],
+				   MAX(0, dx),
+				   MAX(0, dy),
+				   MAX(0, width-MAX(0, -dx)),
+				   MAX(0, height-MAX(0, -dy)),
+				   fog);
+      /* left */
+      dy = offset_y-NORMAL_TILE_HEIGHT/4;
+      pixmap_put_overlay_tile_draw(pm, canvas_x,
+				   canvas_y + NORMAL_TILE_HEIGHT/4, coasts[2],
+				   offset_x,
+				   MAX(0, dy),
+				   width,
+				   MAX(0, height-MAX(0, -dy)),
+				   fog);
+      /* right */
+      dx = offset_x-NORMAL_TILE_WIDTH/2;
+      dy = offset_y-NORMAL_TILE_HEIGHT/4;
+      pixmap_put_overlay_tile_draw(pm, canvas_x + NORMAL_TILE_WIDTH/2,
+				   canvas_y + NORMAL_TILE_HEIGHT/4, coasts[3],
+				   MAX(0, dx),
+				   MAX(0, dy),
+				   MAX(0, width-MAX(0, -dx)),
+				   MAX(0, height-MAX(0, -dy)),
+				   fog);
+    } else {
+      pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, tile_sprs[0],
+				   offset_x, offset_y, width, height, fog);
+      i++;
+    }
+
+    /*** Dither base terrain ***/
+    if (draw_terrain)
+      dither_tile(pm, dither, canvas_x, canvas_y,
+		  offset_x, offset_y, width, height, fog);
+  }
 
   /*** Rest of terrain and specials ***/
-  for (i=1; i<count; i++) {
+  for (; i<count; i++) {
     if (tile_sprs[i])
       pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, tile_sprs[i],
 				   offset_x, offset_y, width, height, fog);
@@ -2297,34 +2341,56 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
     gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_BLACK]);
     if (draw & D_M_R)
       gdk_draw_line(pm, thin_line_gc,
-		    canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y,
-		    canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1);
+		    canvas_x+NORMAL_TILE_WIDTH/2, canvas_y,
+		    canvas_x+NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
     if (draw & D_M_L)
       gdk_draw_line(pm, thin_line_gc,
-		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2-1,
-		    canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y);
+		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2,
+		    canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
+  }
+
+  if (draw_coastline && !draw_terrain) {
+    enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
+    int x1, y1;
+    gdk_gc_set_foreground(thin_line_gc, colors_standard[COLOR_STD_OCEAN]);
+    x1 = x; y1 = y-1;
+    if (normalize_map_pos(&x1, &y1)) {
+      t2 = map_get_terrain(x1, y1);
+      if (draw & D_M_R && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)))
+	gdk_draw_line(pm, thin_line_gc,
+		      canvas_x+NORMAL_TILE_WIDTH/2, canvas_y,
+		      canvas_x+NORMAL_TILE_WIDTH, canvas_y+NORMAL_TILE_HEIGHT/2);
+    }
+    x1 = x-1; y1 = y;
+    if (normalize_map_pos(&x1, &y1)) {
+      t2 = map_get_terrain(x1, y1);
+      if (draw & D_M_L && ((t1 == T_OCEAN) ^ (t2 == T_OCEAN)))
+	gdk_draw_line(pm, thin_line_gc,
+		      canvas_x, canvas_y + NORMAL_TILE_HEIGHT/2,
+		      canvas_x+NORMAL_TILE_WIDTH/2, canvas_y);
+    }
   }
 
   /*** City and various terrain improvements ***/
-  if (pcity) {
+  if (pcity && draw_cities) {
     put_city_pixmap_draw(pcity, pm,
 			 canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
 			 offset_x, offset_y_unit,
 			 width, height_unit, fog);
   }
-  if (special & S_AIRBASE)
+  if (special & S_AIRBASE && draw_fortress_airbase)
     pixmap_put_overlay_tile_draw(pm,
 				 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
 				 sprites.tx.airbase,
 				 offset_x, offset_y_unit,
 				 width, height_unit, fog);
-  if (special & S_FALLOUT)
+  if (special & S_FALLOUT && draw_pollution)
     pixmap_put_overlay_tile_draw(pm,
 				 canvas_x, canvas_y,
 				 sprites.tx.fallout,
 				 offset_x, offset_y,
 				 width, height, fog);
-  if (special & S_POLLUTION)
+  if (special & S_POLLUTION && draw_pollution)
     pixmap_put_overlay_tile_draw(pm,
 				 canvas_x, canvas_y,
 				 sprites.tx.pollution,
@@ -2333,7 +2399,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 
   /*** city size ***/
   /* Not fogged as it would be unreadable */
-  if (pcity) {
+  if (pcity && draw_cities) {
     if (pcity->size>=10)
       pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
 				   sprites.city.size_tens[pcity->size/10],
@@ -2347,7 +2413,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   }
 
   /*** Unit ***/
-  if (punit) {
+  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
     put_unit_pixmap_draw(punit, pm,
 			 canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
 			 offset_x, offset_y_unit,
@@ -2360,7 +2426,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 				   width, height_unit, fog);
   }
 
-  if (special & S_FORTRESS)
+  if (special & S_FORTRESS && draw_fortress_airbase)
     pixmap_put_overlay_tile_draw(pm,
 				 canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
 				 sprites.tx.fortress,

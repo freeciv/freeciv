@@ -50,6 +50,18 @@ extern client_option options[];
 extern int draw_map_grid;
 extern int draw_city_names;
 extern int draw_city_productions;
+extern int draw_terrain;
+extern int draw_coastline;
+extern int draw_roads_rails;
+extern int draw_irrigation;
+extern int draw_mines;
+extern int draw_fortress_airbase;
+extern int draw_specials;
+extern int draw_pollution;
+extern int draw_cities;
+extern int draw_units;
+extern int draw_focus_unit;
+extern int draw_fog_of_war;
 
 typedef struct {
 	char *name;

@@ -900,31 +900,32 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm,
 		     int canvas_x, int canvas_y)
 {
   struct Sprite *sprites[40];
-  int count = fill_unit_sprite_array(sprites, punit);
+  int solid_bg;
+  int count = fill_unit_sprite_array(sprites, punit, &solid_bg);
 
   if (count) {
-    int i;
+    int i = 0;
 
-    if (sprites[0]) {
-      if (flags_are_transparent) {
-        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
-      } else {
-        XCopyArea(display, sprites[0]->pixmap, pm, civ_gc, 0, 0,
-                  sprites[0]->width, sprites[0]->height, 
-                  canvas_x, canvas_y);
-      }
-    } else {
+    if (solid_bg) {
       XSetForeground(display, fill_bg_gc,
-		     colors_standard[player_color(get_player(punit->owner))]);
+		     colors_standard[player_color(unit_owner(punit))]);
       XFillRectangle(display, pm, fill_bg_gc, 
 		     canvas_x, canvas_y,
-                     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    } else {
+      if (flags_are_transparent) {
+	pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[0]);
+      } else {
+	XCopyArea(display, sprites[0]->pixmap, pm, civ_gc, 0, 0,
+		  sprites[0]->width, sprites[0]->height, 
+		  canvas_x, canvas_y);
+      }
+      i++;
     }
 
-    for (i=1;i<count;i++) {
-      if (sprites[i]) {
-        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
-      }
+    for (; i<count; i++) {
+      if (sprites[i])
+	pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
     }
   }
 }
@@ -1025,46 +1026,36 @@ void pixmap_frame_tile_red(Pixmap pm, int canvas_x, int canvas_y)
 void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y, 
 		     int citymode)
 {
-  struct Sprite *sprites[80];
-  int count = fill_tile_sprite_array(sprites, x, y, citymode);
+  struct Sprite *tile_sprs[80];
+  int fill_bg;
+  struct player *pplayer;
 
-  if(count) {
-    int i;
+  if (normalize_map_pos(&x, &y) && tile_is_known(x, y)) {
+    int count = fill_tile_sprite_array(tile_sprs, x, y, citymode, &fill_bg, &pplayer);
+    int i = 0;
 
-    if (sprites[0]) {
-      /* first tile without mask */
-      XCopyArea(display, sprites[0]->pixmap, pm, 
-		civ_gc, 0, 0,
-		sprites[0]->width, sprites[0]->height, canvas_x, canvas_y);
-    } else {
-      /* normally when solid_color_behind_units */
-      struct city *pcity = map_get_city(x, y);
-      struct player *pplayer = NULL;
-
-      if (count>1 && !sprites[1]) {
-        /* it's the unit */
-        struct tile *ptile = map_get_tile(x, y);
-        struct unit *punit = find_visible_unit(ptile);
-	if (punit) {
-          pplayer = &game.players[punit->owner];
-	}
-      } else {
-        /* it's the city */
-        if (pcity)
-          pplayer = &game.players[pcity->owner];
-      }
-
+    if (fill_bg) {
       if (pplayer) {
         XSetForeground(display, fill_bg_gc,
 		       colors_standard[player_color(pplayer)]);
-        XFillRectangle(display, pm, fill_bg_gc, 
-                       canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      } else {
+        XSetForeground(display, fill_bg_gc,
+		       colors_standard[COLOR_STD_BACKGROUND]);
       }
+      XFillRectangle(display, pm, fill_bg_gc, 
+		     canvas_x, canvas_y, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+    } else {
+      /* first tile without mask */
+      XCopyArea(display, tile_sprs[0]->pixmap, pm, 
+		civ_gc, 0, 0,
+		tile_sprs[0]->width, tile_sprs[0]->height, canvas_x, canvas_y);
+      i++;
     }
 
-    for (i=1;i<count;i++) {
-      if (sprites[i])
-        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
+    for (;i<count; i++) {
+      if (tile_sprs[i]) {
+        pixmap_put_overlay_tile(pm, canvas_x, canvas_y, tile_sprs[i]);
+      }
     }
 
     if (draw_map_grid && !citymode) {
@@ -1082,9 +1073,9 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y,
 		canvas_x, canvas_y,
 		canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
       /* top side... */
-      if ((map_get_tile(x, y-1))->known &&
-	  (here_in_radius ||
-	   player_in_city_radius(game.player_ptr, x, y-1))) {
+      if((map_get_tile(x, y-1))->known &&
+	 (here_in_radius ||
+	  player_in_city_radius(game.player_ptr, x, y-1))) {
 	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
       } else {
 	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_BLACK]);
@@ -1093,8 +1084,30 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y,
 		canvas_x, canvas_y,
 		canvas_x + NORMAL_TILE_WIDTH, canvas_y);
     }
+    if (draw_coastline && !draw_terrain) {
+      enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
+      int x1 = x-1, y1 = y;
+      XSetForeground(display, civ_gc, colors_standard[COLOR_STD_OCEAN]);
+      if (normalize_map_pos(&x1, &y1)) {
+	t2 = map_get_terrain(x1, y1);
+	/* left side */
+	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+	  XDrawLine(display, pm, civ_gc,
+		    canvas_x, canvas_y,
+		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+      }
+      /* top side */
+      x1 = x; y1 = y-1;
+      if (normalize_map_pos(&x1, &y1)) {
+	t2 = map_get_terrain(x1, y1);
+	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+	  XDrawLine(display, pm, civ_gc,
+		    canvas_x, canvas_y,
+		    canvas_x + NORMAL_TILE_WIDTH, canvas_y);
+      }
+    }
   } else {
-    /* tile is unknow */
+    /* tile is unknown */
     pixmap_put_black_tile(pm, canvas_x, canvas_y);
   }
 

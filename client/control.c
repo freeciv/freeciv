@@ -869,6 +869,150 @@ void request_toggle_city_productions(void)
 }
 
 /**************************************************************************
+ Toggle display of terrain
+**************************************************************************/
+void request_toggle_terrain(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_terrain ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of coastline
+**************************************************************************/
+void request_toggle_coastline(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_coastline ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of roads and rails
+**************************************************************************/
+void request_toggle_roads_rails(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_roads_rails ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of irrigation
+**************************************************************************/
+void request_toggle_irrigation(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_irrigation ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of mines
+**************************************************************************/
+void request_toggle_mines(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_mines ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of fortress and airbase
+**************************************************************************/
+void request_toggle_fortress_airbase(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_fortress_airbase ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of specials
+**************************************************************************/
+void request_toggle_specials(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_specials ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of pollution
+**************************************************************************/
+void request_toggle_pollution(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_pollution ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of cities
+**************************************************************************/
+void request_toggle_cities(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_cities ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of units
+**************************************************************************/
+void request_toggle_units(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_units ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of focus unit
+**************************************************************************/
+void request_toggle_focus_unit(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_focus_unit ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+ Toggle display of fog of war
+**************************************************************************/
+void request_toggle_fog_of_war(void)
+{
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE)
+    return;
+
+  draw_fog_of_war ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
@@ -1208,6 +1352,102 @@ void key_city_names_toggle(void)
 void key_city_productions_toggle(void)
 {
   request_toggle_city_productions();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_terrain_toggle(void)
+{
+  request_toggle_terrain();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_coastline_toggle(void)
+{
+  request_toggle_coastline();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_roads_rails_toggle(void)
+{
+  request_toggle_roads_rails();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_irrigation_toggle(void)
+{
+  request_toggle_irrigation();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_mines_toggle(void)
+{
+  request_toggle_mines();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_fortress_airbase_toggle(void)
+{
+  request_toggle_fortress_airbase();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_specials_toggle(void)
+{
+  request_toggle_specials();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_pollution_toggle(void)
+{
+  request_toggle_pollution();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_cities_toggle(void)
+{
+  request_toggle_cities();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_units_toggle(void)
+{
+  request_toggle_units();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_focus_unit_toggle(void)
+{
+  request_toggle_focus_unit();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void key_fog_of_war_toggle(void)
+{
+  request_toggle_fog_of_war();
 }
 
 /**************************************************************************

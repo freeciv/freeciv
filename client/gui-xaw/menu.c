@@ -134,6 +134,19 @@ static struct MenuEntry view_menu_entries[]={
     { { N_("City Names"), 0           }, "ctl-n", MENU_VIEW_SHOW_CITY_NAMES, 0 },
     { { N_("City Productions"), 0     }, "ctl-p", MENU_VIEW_SHOW_CITY_PRODUCTIONS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
+    { { N_("Terrain"), 0              },      "", MENU_VIEW_SHOW_TERRAIN, 0 },
+    { { N_("Coastline"), 0            },      "", MENU_VIEW_SHOW_COASTLINE, 0 },
+    { { N_("Roads and Rails"), 0      },      "", MENU_VIEW_SHOW_ROADS_RAILS, 0 },
+    { { N_("Irrigation"), 0           },      "", MENU_VIEW_SHOW_IRRIGATION, 0 },
+    { { N_("Mines"), 0                },      "", MENU_VIEW_SHOW_MINES, 0 },
+    { { N_("Fortress and Airbase"), 0 },      "", MENU_VIEW_SHOW_FORTRESS_AIRBASE, 0 },
+    { { N_("Specials"), 0             },      "", MENU_VIEW_SHOW_SPECIALS, 0 },
+    { { N_("Pollution & Fallout"), 0  },      "", MENU_VIEW_SHOW_POLLUTION, 0 },
+    { { N_("Cities"), 0               },      "", MENU_VIEW_SHOW_CITIES, 0 },
+    { { N_("Units"), 0                },      "", MENU_VIEW_SHOW_UNITS, 0 },
+    { { N_("Focus Unit"), 0           },      "", MENU_VIEW_SHOW_FOCUS_UNIT, 0 },
+    { { N_("Fog of War"), 0           },      "", MENU_VIEW_SHOW_FOG_OF_WAR, 0 },
+    { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Center View"), 0          },     "c", MENU_VIEW_CENTER_VIEW, 0 },
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
 };
@@ -266,6 +279,19 @@ void update_menus(void)
     XtSetSensitive(menus[MENU_ORDER]->button, (punit != NULL));
     XtSetSensitive(menus[MENU_VIEW]->button, True);
     XtSetSensitive(menus[MENU_KINGDOM]->button, True);
+
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_TERRAIN, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_COASTLINE, !draw_terrain);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_ROADS_RAILS, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_IRRIGATION, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_MINES, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FORTRESS_AIRBASE, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_SPECIALS, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_POLLUTION, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_CITIES, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_UNITS, 1);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FOCUS_UNIT, !draw_units);
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FOG_OF_WAR, 1);
 
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OPTIONS, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_MSG_OPTIONS, 1);
@@ -493,6 +519,44 @@ static void view_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_VIEW_SHOW_CITY_PRODUCTIONS:
     key_city_productions_toggle();
+    break;
+  case MENU_VIEW_SHOW_TERRAIN:
+    key_terrain_toggle();
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_COASTLINE, !draw_terrain);
+    break;
+  case MENU_VIEW_SHOW_COASTLINE:
+    key_coastline_toggle();
+    break;
+  case MENU_VIEW_SHOW_ROADS_RAILS:
+    key_roads_rails_toggle();
+    break;
+  case MENU_VIEW_SHOW_IRRIGATION:
+    key_irrigation_toggle();
+    break;
+  case MENU_VIEW_SHOW_MINES:
+    key_mines_toggle();
+    break;
+  case MENU_VIEW_SHOW_FORTRESS_AIRBASE:
+    key_fortress_airbase_toggle();
+    break;
+  case MENU_VIEW_SHOW_SPECIALS:
+    key_specials_toggle();
+    break;
+  case MENU_VIEW_SHOW_POLLUTION:
+    key_pollution_toggle();
+    break;
+  case MENU_VIEW_SHOW_CITIES:
+    key_cities_toggle();
+    break;
+  case MENU_VIEW_SHOW_UNITS:
+    key_units_toggle();
+    menu_entry_sensitive(MENU_VIEW, MENU_VIEW_SHOW_FOCUS_UNIT, !draw_units);
+    break;
+  case MENU_VIEW_SHOW_FOCUS_UNIT:
+    key_focus_unit_toggle();
+    break;
+  case MENU_VIEW_SHOW_FOG_OF_WAR:
+    key_fog_of_war_toggle();
     break;
   case MENU_VIEW_CENTER_VIEW:
     request_center_focus_unit();

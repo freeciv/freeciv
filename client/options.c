@@ -75,6 +75,18 @@ client_option options[] = {
 int draw_map_grid=0;
 int draw_city_names=1;
 int draw_city_productions=0;
+int draw_terrain=1;
+int draw_coastline=0;
+int draw_roads_rails=1;
+int draw_irrigation=1;
+int draw_mines=1;
+int draw_fortress_airbase=1;
+int draw_specials=1;
+int draw_pollution=1;
+int draw_cities=1;
+int draw_units=1;
+int draw_focus_unit=0;
+int draw_fog_of_war=1;
 
 #define VIEW_OPTION(name) { #name, &name }
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }
@@ -83,6 +95,18 @@ view_option view_options[] = {
   VIEW_OPTION(draw_map_grid),
   VIEW_OPTION(draw_city_names),
   VIEW_OPTION(draw_city_productions),
+  VIEW_OPTION(draw_terrain),
+  VIEW_OPTION(draw_coastline),
+  VIEW_OPTION(draw_roads_rails),
+  VIEW_OPTION(draw_irrigation),
+  VIEW_OPTION(draw_mines),
+  VIEW_OPTION(draw_fortress_airbase),
+  VIEW_OPTION(draw_specials),
+  VIEW_OPTION(draw_pollution),
+  VIEW_OPTION(draw_cities),
+  VIEW_OPTION(draw_units),
+  VIEW_OPTION(draw_focus_unit),
+  VIEW_OPTION(draw_fog_of_war),
   VIEW_OPTION_TERMINATOR
 };
 
