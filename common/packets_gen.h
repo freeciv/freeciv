@@ -1103,6 +1103,7 @@ int send_packet_server_join_reply(struct connection *pc, const struct packet_ser
 
 struct packet_authentication_req *receive_packet_authentication_req(struct connection *pc, enum packet_type type);
 int send_packet_authentication_req(struct connection *pc, const struct packet_authentication_req *packet);
+int dsend_packet_authentication_req(struct connection *pc, enum authentication_type type, const char *message);
 
 struct packet_authentication_reply *receive_packet_authentication_reply(struct connection *pc, enum packet_type type);
 int send_packet_authentication_reply(struct connection *pc, const struct packet_authentication_reply *packet);

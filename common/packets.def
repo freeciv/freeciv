@@ -250,7 +250,7 @@ PACKET_SERVER_JOIN_REPLY=5; sc,no-delta
   CONNECTION conn_id;
 end
 
-PACKET_AUTHENTICATION_REQ=6;sc,handle-per-conn
+PACKET_AUTHENTICATION_REQ=6;sc,handle-per-conn,dsend
   AUTH_TYPE type;
   STRING message[MAX_LEN_MSG]; /* explain to the client if there's a problem */
 end

@@ -1253,6 +1253,16 @@ int send_packet_authentication_req(struct connection *pc, const struct packet_au
   }
 }
 
+int dsend_packet_authentication_req(struct connection *pc, enum authentication_type type, const char *message)
+{
+  struct packet_authentication_req packet, *real_packet = &packet;
+
+  real_packet->type = type;
+  sz_strlcpy(real_packet->message, message);
+  
+  return send_packet_authentication_req(pc, real_packet);
+}
+
 static unsigned int hash_packet_authentication_reply_100(const void *vkey, unsigned int num_buckets)
 {
   return 0;
