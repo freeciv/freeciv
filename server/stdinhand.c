@@ -2654,8 +2654,15 @@ static void show_players(struct player *caller)
   else
   {
     for(i=0; i<game.nplayers; i++) {
-      if (is_barbarian(&game.players[i])) continue;
-      if (game.players[i].ai.control) {
+      if (is_barbarian(&game.players[i])) {
+	if (caller==NULL || access_level(caller) >= ALLOW_CTRL) {
+	  cmd_reply(CMD_LIST, caller, C_COMMENT,
+		_("%s (Barbarian, %s)"),
+		game.players[i].name,
+		name_of_skill_level(game.players[i].ai.skill_level));
+	}
+      }
+      else if (game.players[i].ai.control) {
 	if (game.players[i].conn) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
 		_("%s (AI, %s) is being observed from %s"),
