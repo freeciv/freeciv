@@ -2319,7 +2319,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   if (p->class[0] != '\0') {
     pl->class = mystrdup(p->class);
   } else {
-    pl->class = mystrdup(_("Other"));
+    pl->class = mystrdup("Other");
   }
 
   if (p->legend[0] != '\0') {
