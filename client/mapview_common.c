@@ -32,13 +32,12 @@
 #include "mapview_common.h"
 
 struct canvas mapview_canvas;
-
-/* Overview oordinates of the upper left corner of the map overview. */
-int map_overview_x0, map_overview_y0;
+struct overview overview;
 
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
 				   int canvas_x, int canvas_y);
 static void center_tile_overviewcanvas(int map_x, int map_y);
+static void get_mapview_corners(int x[4], int y[4]);
 
 /**************************************************************************
  Refreshes a single tile on the map canvas.
@@ -336,7 +335,6 @@ static void set_mapview_origin(int map_x0, int map_y0)
     center_tile_overviewcanvas(map_center_x, map_center_y);
     update_map_canvas_visible();
     update_map_canvas_scrollbars();
-    refresh_overview_viewrect();
     if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
       create_line_at_mouse_pos();
     }
@@ -1514,6 +1512,45 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 }
 
 /**************************************************************************
+  Copies the overview image from the backing store to the window and
+  draws the viewrect on top of it.
+**************************************************************************/
+static void redraw_overview(void)
+{
+  struct canvas_store *dest = overview.window;
+
+  {
+    struct canvas_store *src = overview.store;
+    int x = overview.map_x0 * OVERVIEW_TILE_WIDTH;
+    int y = overview.map_y0 * OVERVIEW_TILE_HEIGHT;
+    int ix = overview.width - x;
+    int iy = overview.height - y;
+
+    gui_copy_canvas(dest, src, 0, 0, ix, iy, x, y);
+    gui_copy_canvas(dest, src, 0, y, ix, 0, x, iy);
+    gui_copy_canvas(dest, src, x, 0, 0, iy, ix, y);
+    gui_copy_canvas(dest, src, x, y, 0, 0, ix, iy);
+  }
+
+  {
+    int i;
+    int x[4], y[4];
+
+    get_mapview_corners(x, y);
+
+    for (i = 0; i < 4; i++) {
+      int src_x = x[i];
+      int src_y = y[i];
+      int dest_x = x[(i + 1) % 4];
+      int dest_y = y[(i + 1) % 4];
+
+      gui_put_line(dest, COLOR_STD_WHITE, LINE_NORMAL, src_x, src_y,
+		   dest_x - src_x, dest_y - src_y);
+    }
+  }
+}
+
+/**************************************************************************
   Center the overview around the mapview.
 **************************************************************************/
 static void center_tile_overviewcanvas(int map_x, int map_y)
@@ -1522,18 +1559,19 @@ static void center_tile_overviewcanvas(int map_x, int map_y)
   map_to_native_pos(&map_x, &map_y, map_x, map_y);
 
   /* NOTE: this embeds the map wrapping in the overview code.  This is
-   * basically necessary for the overview to be efficiently updated.  See
-   * refresh_overview_viewrect(). */
+   * basically necessary for the overview to be efficiently
+   * updated. */
   if (topo_has_flag(TF_WRAPX)) {
-    map_overview_x0 = FC_WRAP(map_x - map.xsize / 2, map.xsize);
+    overview.map_x0 = FC_WRAP(map_x - map.xsize / 2, map.xsize);
   } else {
-    map_overview_x0 = 0;
+    overview.map_x0 = 0;
   }
   if (topo_has_flag(TF_WRAPY)) {
-    map_overview_y0 = FC_WRAP(map_y - map.ysize / 2, map.ysize);
+    overview.map_y0 = FC_WRAP(map_y - map.ysize / 2, map.ysize);
   } else {
-    map_overview_y0 = 0;
+    overview.map_y0 = 0;
   }
+  redraw_overview();
 }
 
 /**************************************************************************
@@ -1549,8 +1587,8 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
    *
    * NOTE: this embeds the map wrapping in the overview code. */
   map_to_native_pos(&gui_x, &gui_y, map_x, map_y);
-  gui_x -= map_overview_x0;
-  gui_y -= map_overview_y0;
+  gui_x -= overview.map_x0;
+  gui_y -= overview.map_y0;
   if (topo_has_flag(TF_WRAPX)) {
     gui_x = FC_WRAP(gui_x, map.xsize);
   }
@@ -1567,8 +1605,8 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
 void overview_to_map_pos(int *map_x, int *map_y,
 			 int overview_x, int overview_y)
 {
-  int nat_x = overview_x / OVERVIEW_TILE_WIDTH + map_overview_x0;
-  int nat_y = overview_y / OVERVIEW_TILE_HEIGHT + map_overview_y0;
+  int nat_x = overview_x / OVERVIEW_TILE_WIDTH + overview.map_x0;
+  int nat_y = overview_y / OVERVIEW_TILE_HEIGHT + overview.map_y0;
 
   native_to_map_pos(map_x, map_y, nat_x, nat_y);
   if (!normalize_map_pos(map_x, map_y)) {
@@ -1581,7 +1619,7 @@ void overview_to_map_pos(int *map_x, int *map_y,
   Find the corners of the mapview, in overview coordinates.  Used to draw
   the "mapview window" rectangle onto the overview.
 **************************************************************************/
-void get_mapview_corners(int x[4], int y[4])
+static void get_mapview_corners(int x[4], int y[4])
 {
   map_to_overview_pos(&x[0], &y[0],
 		      mapview_canvas.map_x0, mapview_canvas.map_y0);
@@ -1639,32 +1677,49 @@ void get_mapview_corners(int x[4], int y[4])
 }
 
 /**************************************************************************
-  Find the "base" (unwrapped) overview coordinates for a given map
-  position.  This may be used by the GUI code to draw to the minimap's
-  backing store.
+  Redraw the entire backing store for the overview minimap.
 **************************************************************************/
-void map_to_base_overview_pos(int *base_overview_x, int *base_overview_y,
-			      int map_x, int map_y)
+void refresh_overview_canvas(void)
 {
-  /* Base overview positions are just like native positions, but scaled to
-   * the overview tile dimensions. */
-  map_to_native_pos(base_overview_x, base_overview_y, map_x, map_y);
-  *base_overview_x *= OVERVIEW_TILE_WIDTH;
-  *base_overview_y *= OVERVIEW_TILE_HEIGHT;
+  whole_map_iterate(x, y) {
+    overview_update_tile(x, y);
+  } whole_map_iterate_end;
+  redraw_overview();
 }
 
 /**************************************************************************
-  Redraw the entire backing store for the overview minimap.
+  Redraw the given map position in the overview canvas.
 **************************************************************************/
-void base_refresh_overview_canvas(struct canvas_store *pbacking_store)
+void overview_update_tile(int map_x, int map_y)
 {
-  whole_map_iterate(x, y) {
-    int gui_x, gui_y;
+  int base_x, base_y;
 
-    map_to_base_overview_pos(&gui_x, &gui_y, x, y);
+  /* Base overview positions are just like native positions, but scaled to
+   * the overview tile dimensions. */
+  map_to_native_pos(&base_x, &base_y, map_x, map_y);
+  base_x *= OVERVIEW_TILE_WIDTH;
+  base_y *= OVERVIEW_TILE_HEIGHT;
 
-    gui_put_rectangle(pbacking_store, overview_tile_color(x, y),
-		      gui_x, gui_y,
-		      OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
-  } whole_map_iterate_end;
+  gui_put_rectangle(overview.store,
+		    overview_tile_color(map_x, map_y), base_x, base_y,
+		    OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
+}
+
+/**************************************************************************
+  Called if the map size is know or changes.
+**************************************************************************/
+void set_overview_dimensions(int width, int height)
+{
+  overview.width = OVERVIEW_TILE_WIDTH * width;
+  overview.height = OVERVIEW_TILE_HEIGHT * height;
+
+  if (overview.store) {
+    canvas_store_free(overview.store);
+  }
+  overview.store = canvas_store_create(overview.width, overview.height);
+  gui_put_rectangle(overview.store, COLOR_STD_BLACK, 0, 0, overview.width,
+		    overview.height);
+
+  /* Call gui specific function. */
+  map_size_changed();
 }

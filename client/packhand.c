@@ -328,7 +328,6 @@ void handle_game_state(int value)
 
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
     refresh_overview_canvas();
-    refresh_overview_viewrect();
     player_set_unit_focus_status(game.player_ptr);
 
     update_info_label();	/* get initial population right */
@@ -344,7 +343,6 @@ void handle_game_state(int value)
 
   if (get_client_state() == CLIENT_GAME_OVER_STATE) {
     refresh_overview_canvas();
-    refresh_overview_viewrect();
 
     update_info_label();
     update_unit_focus();

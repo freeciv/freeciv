@@ -75,10 +75,6 @@ GdkPixmap *map_canvas_store;            /* this pixmap acts as a backing store
                                          * for the map_canvas widget */
 
 GtkWidget *overview_canvas;             /* GtkDrawingArea */
-GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store 
-                                         * for the overview_canvas widget */
-int overview_canvas_store_width = 2 * 80;
-int overview_canvas_store_height = 2 * 50;
 
 GdkPixmap *single_tile_pixmap;          /* this pixmap is used when 
                                          * moving units etc */
@@ -956,20 +952,15 @@ void ui_main(int argc, char **argv)
   mapview_canvas.tile_height = 1;
   mapview_canvas.width = mapview_canvas.tile_width * NORMAL_TILE_WIDTH;
   mapview_canvas.height = mapview_canvas.tile_height * NORMAL_TILE_HEIGHT;
-  map_canvas_store = gdk_pixmap_new(root_window,
-				    mapview_canvas.width,
-				    mapview_canvas.height, -1);
-  mapview_canvas.store = fc_malloc(sizeof(*mapview_canvas.store));
-  mapview_canvas.store->pixmap = map_canvas_store;
-  mapview_canvas.store->pixcomm = NULL;
 
-  overview_canvas_store = gdk_pixmap_new(root_window,
-                                         overview_canvas_store_width,
-                                         overview_canvas_store_height, -1);
+  mapview_canvas.store =
+      canvas_store_create(mapview_canvas.width, mapview_canvas.height);
+  map_canvas_store = mapview_canvas.store->pixmap;
 
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
-  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE, 0, 0,
-                     overview_canvas_store_width, overview_canvas_store_height);
+  overview.store = NULL;
+  overview.window = fc_malloc(sizeof(*overview.window));
+  overview.window->pixmap = overview_canvas->window;
+  overview.window->pixcomm = NULL;
 
   single_tile_pixmap = gdk_pixmap_new(root_window, 
 				      UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT, -1);

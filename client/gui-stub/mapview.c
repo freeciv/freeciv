@@ -117,18 +117,12 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 }
 
 /**************************************************************************
-  Set the dimensions for the map overview, in map units (tiles).
-  Typically each tile will be a 2x2 rectangle, although this may vary.
+  Called when the map size changes. This may be used to change the
+  size of the GUI element holding the overview canvas. The
+  overview.width and overview.height are updated if this function is
+  called.
 **************************************************************************/
-void set_overview_dimensions(int map_width, int map_height)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
-  Update the tile for the given map position on the overview.
-**************************************************************************/
-void overview_update_tile(int map_x, int map_y)
+void map_size_changed(void)
 {
   /* PORTME */
 }
@@ -138,6 +132,24 @@ void overview_update_tile(int map_x, int map_y)
   canvas position of the city itself.
 **************************************************************************/
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Create a canvas of the given size.
+**************************************************************************/
+struct canvas_store *canvas_store_create(int width, int height)
+{
+  /* PORTME */
+  return NULL;
+}
+
+/**************************************************************************
+  Free any resources associated with this canvas and the canvas struct
+  itself.
+**************************************************************************/
+void canvas_store_free(struct canvas_store *store)
 {
   /* PORTME */
 }
@@ -191,6 +203,16 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
 void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Copies an area from the source canvas to the destination canvas.
+**************************************************************************/
+void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
+		     int src_x, int src_y, int dest_x, int dest_y, int width,
+		     int height)
 {
   /* PORTME */
 }
@@ -302,23 +324,6 @@ decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   Draw a nuke mushroom cloud at the given tile.
 **************************************************************************/
 void put_nuke_mushroom_pixmaps(int map_x, int map_y)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
-  Refresh (update) the entire map overview.
-**************************************************************************/
-void refresh_overview_canvas(void)
-{
-  /* PORTME */
-}
-
-/**************************************************************************
-  Refresh (update) the viewrect on the overview. This is the rectangle
-  showing the area covered by the mapview.
-**************************************************************************/
-void refresh_overview_viewrect(void)
 {
   /* PORTME */
 }

@@ -424,34 +424,6 @@ set_overview_dimensions(int x, int y)
 }
 
 /**************************************************************************
-
-**************************************************************************/
-void
-overview_update_tile(int x, int y)
-{
-  HDC hdc;
-  RECT rc;
-  int overview_x, overview_y, base_x, base_y;
-
-  map_to_overview_pos(&overview_x, &overview_y, x, y);
-  map_to_base_overview_pos(&base_x, &base_y, x, y);
- 
-  rc.left = base_x;
-  rc.right = rc.left + OVERVIEW_TILE_WIDTH;
-  rc.top = base_y;
-  rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
-  FillRect(overviewstoredc,&rc,brush_std[overview_tile_color(x, y)]);
-
-  hdc=GetDC(root_window);
-  rc.left = overview_x + overview_win_x;
-  rc.top = overview_y + overview_win_y;
-  rc.right = rc.left + OVERVIEW_TILE_WIDTH;
-  rc.bottom = rc.top + OVERVIEW_TILE_HEIGHT;
-  FillRect(hdc,&rc,brush_std[overview_tile_color(x,y)]);
-  ReleaseDC(root_window,hdc);
-}
-
-/**************************************************************************
   Flush the given part of the canvas buffer (if there is one) to the
   screen.
 **************************************************************************/
@@ -845,17 +817,6 @@ put_nuke_mushroom_pixmaps(int x, int y)
     Sleep(1000); 
     update_map_canvas(x-1, y-1, 3, 3, TRUE);
   }
-}
-
-/**************************************************************************
-
-**************************************************************************/
-void
-refresh_overview_canvas(void)
-{
-  struct canvas_store store = {overviewstoredc};
-
-  base_refresh_overview_canvas(&store);
 }
 
 /**************************************************************************

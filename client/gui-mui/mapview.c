@@ -378,23 +378,6 @@ void set_map_xy_start(int new_map_view_x0, int new_map_view_y0)
 /**************************************************************************
 ...
 **************************************************************************/
-void refresh_overview_canvas(void)
-{
-  DoMethod(main_overview_area, MUIM_Overview_Refresh);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void overview_update_tile(int x, int y)
-{
-  DoMethod(main_overview_area, MUIM_Overview_RefreshSingle, x, y);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void refresh_overview_viewrect(void)
 {
   DoMethod(main_overview_area, MUIM_Overview_Refresh);

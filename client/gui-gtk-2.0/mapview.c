@@ -462,7 +462,7 @@ gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
     return TRUE;
   }
   
-  refresh_overview_viewrect();
+  refresh_overview();
   return TRUE;
 }
 
@@ -473,37 +473,6 @@ static void set_overview_tile_foreground_color(int x, int y)
 {
   gdk_gc_set_foreground(fill_bg_gc,
 			colors_standard[overview_tile_color(x, y)]);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void refresh_overview_canvas(void)
-{
-  struct canvas_store store = {overview_canvas_store};
-
-  base_refresh_overview_canvas(&store);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void overview_update_tile(int x, int y)
-{
-  int overview_x, overview_y, base_x, base_y;
-
-  map_to_overview_pos(&overview_x, &overview_y, x, y);
-  map_to_base_overview_pos(&base_x, &base_y, x, y);
-
-  set_overview_tile_foreground_color(x, y);
-  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
-		     base_x, base_y,
-		     OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
-  
-  gdk_draw_rectangle(overview_canvas->window, fill_bg_gc, TRUE,
-		     overview_x, overview_y,
-		     OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
 }
 
 /**************************************************************************

@@ -29,7 +29,19 @@ struct canvas {
   struct canvas_store *store;
 };
 
+/* Holds all information about the overview aka minimap. */
+struct overview {
+  /* The following fields are controlled by mapview_common.c. */
+  int map_x0, map_y0;
+  int width, height;		/* Size in pixels. */
+  struct canvas_store *store;
+
+  /* The following fields are controlled by gui-.../mapview.c. */
+  struct canvas_store *window;
+};
+
 extern struct canvas mapview_canvas;
+extern struct overview overview;
 
 /*
 The bottom row of the map was sometimes hidden.
@@ -189,13 +201,9 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
 			 int map_x, int map_y);
 void overview_to_map_pos(int *map_x, int *map_y,
 			 int overview_x, int overview_y);
-void map_to_base_overview_pos(int *base_overview_x, int *base_overview_y,
-			      int map_x, int map_y);
 
-void base_refresh_overview_canvas(struct canvas_store *pbacking_store);
-
-void get_mapview_corners(int overview_x_array[4], int overview_y_array[4]);
-
-extern int map_overview_x0, map_overview_y0;
+void refresh_overview_canvas(void);
+void overview_update_tile(int x, int y);
+void set_overview_dimensions(int width, int height);
 
 #endif /* FC__MAPVIEW_COMMON_H */

@@ -28,8 +28,9 @@ void update_turn_done_button(bool do_restore);
 void update_city_descriptions(void);
 void set_indicator_icons(int bulb, int sol, int flake, int gov);
 
-void set_overview_dimensions(int x, int y);
-void overview_update_tile(int x, int y);
+void map_size_changed(void);
+struct canvas_store *canvas_store_create(int width, int height);
+void canvas_store_free(struct canvas_store *store);
 
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
 void prepare_show_city_descriptions(void);
@@ -53,6 +54,10 @@ void gui_put_rectangle(struct canvas_store *pcanvas_store,
 void gui_put_line(struct canvas_store *pcanvas_store, enum color_std color,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy);
+void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
+		     int src_x, int src_y, int dest_x, int dest_y, int width,
+		     int height);
+
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height);
 void dirty_rect(int canvas_x, int canvas_y,
@@ -72,9 +77,6 @@ void draw_unit_animation_frame(struct unit *punit,
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
 			     struct unit *punit1, int hp1);
 void put_nuke_mushroom_pixmaps(int x, int y);
-
-void refresh_overview_canvas(void);
-void refresh_overview_viewrect(void);
 
 void draw_segment(int src_x, int src_y, int dir);
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h);

@@ -125,14 +125,12 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 /**************************************************************************
 ...
 **************************************************************************/
-void set_overview_dimensions(int x, int y)
+void map_size_changed(void)
 {
   Dimension h, w;
 
-  XtVaSetValues(overview_canvas,
-		XtNwidth, OVERVIEW_TILE_WIDTH * x,
-		XtNheight, OVERVIEW_TILE_HEIGHT * y,
-		NULL);
+  XtVaSetValues(overview_canvas, XtNwidth, overview.width, XtNheight,
+		overview.height, NULL);
 
   XtVaGetValues(left_column_form, XtNheight, &h, NULL);
   XtVaSetValues(map_form, XtNheight, h, NULL);
@@ -140,19 +138,28 @@ void set_overview_dimensions(int x, int y)
   XtVaGetValues(below_menu_form, XtNwidth, &w, NULL);
   XtVaSetValues(menu_form, XtNwidth, w, NULL);
   XtVaSetValues(bottom_form, XtNwidth, w, NULL);
-
-  overview_canvas_store_width = OVERVIEW_TILE_WIDTH * x;
-  overview_canvas_store_height = OVERVIEW_TILE_HEIGHT * y;
-
-  if(overview_canvas_store)
-    XFreePixmap(display, overview_canvas_store);
-  
-  overview_canvas_store=XCreatePixmap(display, XtWindow(overview_canvas), 
-				      overview_canvas_store_width,
-				      overview_canvas_store_height,
-				      display_depth);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+struct canvas_store *canvas_store_create(int width, int height)
+{
+  struct canvas_store *result = fc_malloc(sizeof(*result));
+
+  result->pixmap =
+      XCreatePixmap(display, root_window, width, height, display_depth);
+  return result;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void canvas_store_free(struct canvas_store *store)
+{
+  XFreePixmap(display, store->pixmap);
+  free(store);
+}
 
 /**************************************************************************
 ...
@@ -383,86 +390,19 @@ void overview_canvas_expose(Widget w, XEvent *event, Region exposed,
 
   XtVaGetValues(w, XtNheight, &height, XtNwidth, &width, NULL);
   
-  refresh_overview_viewrect();
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-static void set_overview_tile_foreground_color(int x, int y)
-{
-  XSetForeground(display, fill_bg_gc,
-		 colors_standard[overview_tile_color(x, y)]);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void refresh_overview_canvas(void)
-{
-  struct canvas_store store = {overview_canvas_store};
-
-  base_refresh_overview_canvas(&store);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void overview_update_tile(int x, int y)
-{
-  int overview_x, overview_y, base_x, base_y;
-
-  map_to_overview_pos(&overview_x, &overview_y, x, y);
-  map_to_base_overview_pos(&base_x, &base_y, x, y);
-
-  set_overview_tile_foreground_color(x, y);
-  XFillRectangle(display, overview_canvas_store, fill_bg_gc,
-		 base_x, base_y,
-		 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
-  XFillRectangle(display, XtWindow(overview_canvas), fill_bg_gc, 
-		 overview_x, overview_y,
-		 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
+  refresh_overview_canvas();
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void refresh_overview_viewrect(void)
+void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
+		     int src_x, int src_y, int dest_x, int dest_y, int width,
+		     int height)
 {
-  int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
-  int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
-  int y0 = OVERVIEW_TILE_HEIGHT * map_overview_y0;
-  int y1 = OVERVIEW_TILE_HEIGHT * (map.ysize - map_overview_y0);
-  int gui_x[4], gui_y[4], i;
-
-  /* (map_overview_x0, map_overview_y0) splits the map into four
-   * rectangles.  Draw each of these rectangles to the screen, in turn. */
-  XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
-	    civ_gc, x0, y0, x1, y1, 0, 0);
-  XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
-	    civ_gc, 0, y0, x0, y1, x1, 0);
-  XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
-	    civ_gc, x0, 0, x1, y0, 0, y1);
-  XCopyArea(display, overview_canvas_store, XtWindow(overview_canvas),
-	    civ_gc, 0, 0, x0, y0, x1, y1);
-
-  /* Now draw the mapview window rectangle onto the overview. */
-  XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
-  get_mapview_corners(gui_x, gui_y);
-  for (i = 0; i < 4; i++) {
-    int src_x = gui_x[i];
-    int src_y = gui_y[i];
-    int dest_x = gui_x[(i + 1) % 4];
-    int dest_y = gui_y[(i + 1) % 4];
-
-    XDrawLine(display, XtWindow(overview_canvas), civ_gc,
-	      src_x, src_y, dest_x, dest_y);
-  }
+  XCopyArea(display, src->pixmap, dest->pixmap, civ_gc, src_x, src_y, width,
+	    height, dest_x, dest_y);
 }
-
 
 /**************************************************************************
 ...
@@ -527,7 +467,6 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
       update_map_canvas_visible();
 
       update_map_canvas_scrollbars();
-      refresh_overview_viewrect();
     } else {
       XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
 		civ_gc,
@@ -546,9 +485,6 @@ void map_canvas_resize(void)
 {
   Dimension width, height;
 
-  if (map_canvas_store)
-    XFreePixmap(display, map_canvas_store);
-
   XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
 
   mapview_canvas.tile_width = ((width - 1) / NORMAL_TILE_WIDTH) + 1;
@@ -560,15 +496,12 @@ void map_canvas_resize(void)
   mapview_canvas.width = mapview_canvas.tile_width * NORMAL_TILE_WIDTH;
   mapview_canvas.height = mapview_canvas.tile_height * NORMAL_TILE_HEIGHT;
 
-  map_canvas_store=XCreatePixmap(display, XtWindow(map_canvas),
-			mapview_canvas.tile_width * NORMAL_TILE_WIDTH,
-			mapview_canvas.tile_height * NORMAL_TILE_HEIGHT,
-			display_depth);
-
-  if (!mapview_canvas.store) {
-    mapview_canvas.store = fc_malloc(sizeof(*mapview_canvas.store));
+  if (mapview_canvas.store) {
+    canvas_store_free(mapview_canvas.store);
   }
-  mapview_canvas.store->pixmap = map_canvas_store;
+  mapview_canvas.store =
+      canvas_store_create(mapview_canvas.width, mapview_canvas.height);
+  map_canvas_store = mapview_canvas.store->pixmap;
 }
 
 /**************************************************************************

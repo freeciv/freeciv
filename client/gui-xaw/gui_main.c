@@ -201,10 +201,6 @@ Window root_window;
 /* this pixmap acts as a backing store for the map_canvas widget */
 Pixmap map_canvas_store = 0;
 
-/* this pixmap acts as a backing store for the overview_canvas widget */
-Pixmap overview_canvas_store;
-int overview_canvas_store_width, overview_canvas_store_height;
-
 /* this pixmap is used when moving units etc */
 Pixmap single_tile_pixmap;
 
@@ -452,12 +448,9 @@ void ui_main(int argc, char *argv[])
 
   map_canvas_resize();
 
-  overview_canvas_store=0;
-  set_overview_dimensions(80, 50);
-
-  XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
-  XFillRectangle(display, overview_canvas_store, fill_bg_gc, 0, 0, 
-		 overview_canvas_store_width, overview_canvas_store_height);
+  overview.store = NULL;
+  overview.window = fc_malloc(sizeof(*overview.window));
+  overview.window->pixmap = XtWindow(overview_canvas);
 
   single_tile_pixmap=XCreatePixmap(display, XtWindow(overview_canvas), 
 				   UNIT_TILE_WIDTH,

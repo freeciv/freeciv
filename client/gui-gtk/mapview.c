@@ -380,26 +380,32 @@ void draw_unit_animation_frame(struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
-void set_overview_dimensions(int x, int y)
+void map_size_changed(void)
 {
-  overview_canvas_store_width = OVERVIEW_TILE_WIDTH * x;
-  overview_canvas_store_height = OVERVIEW_TILE_HEIGHT * y;
-
-  if (overview_canvas_store)
-    gdk_pixmap_unref(overview_canvas_store);
-  
-  overview_canvas_store	= gdk_pixmap_new(root_window,
-			  overview_canvas_store_width,
-			  overview_canvas_store_height, -1);
-
-  gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
-  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
-		     0, 0,
-		     overview_canvas_store_width, overview_canvas_store_height);
-
-  gtk_widget_set_usize(overview_canvas,
-		       OVERVIEW_TILE_WIDTH * x, OVERVIEW_TILE_HEIGHT * y);
+  gtk_widget_set_usize(overview_canvas, overview.width, overview.height);
   update_map_canvas_scrollbars_size();
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+struct canvas_store *canvas_store_create(int width, int height)
+{
+  struct canvas_store *result = fc_malloc(sizeof(*result));
+
+  result->pixmap = gdk_pixmap_new(root_window, width, height, -1);
+  result->pixcomm = NULL;
+  return result;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void canvas_store_free(struct canvas_store *store)
+{
+  gdk_pixmap_unref(store->pixmap);
+  assert(store->pixcomm == NULL);
+  free(store);
 }
 
 /**************************************************************************
@@ -415,83 +421,19 @@ gint overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
     return TRUE;
   }
   
-  refresh_overview_viewrect();
+  refresh_overview_canvas();
   return TRUE;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-static void set_overview_tile_foreground_color(int x, int y)
+void gui_copy_canvas(struct canvas_store *dest, struct canvas_store *src,
+		     int src_x, int src_y, int dest_x, int dest_y, int width,
+		     int height)
 {
-  gdk_gc_set_foreground(fill_bg_gc,
-			colors_standard[overview_tile_color(x, y)]);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void refresh_overview_canvas(void)
-{
-  struct canvas_store store = {overview_canvas_store};
-
-  base_refresh_overview_canvas(&store);
-}
-
-
-/**************************************************************************
-...
-**************************************************************************/
-void overview_update_tile(int x, int y)
-{
-  int overview_x, overview_y, base_x, base_y;
-
-  map_to_overview_pos(&overview_x, &overview_y, x, y);
-  map_to_base_overview_pos(&base_x, &base_y, x, y);
-  
-  set_overview_tile_foreground_color(x, y);
-  gdk_draw_rectangle(overview_canvas_store, fill_bg_gc, TRUE,
-		     base_x, base_y,
-		     OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);  
-  gdk_draw_rectangle(overview_canvas->window, fill_bg_gc, TRUE,
-		     overview_x, overview_y,
-		     OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void refresh_overview_viewrect(void)
-{
-  int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
-  int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
-  int y0 = OVERVIEW_TILE_HEIGHT * map_overview_y0;
-  int y1 = OVERVIEW_TILE_HEIGHT * (map.ysize - map_overview_y0);
-  int gui_x[4], gui_y[4], i;
-
-  /* (map_overview_x0, map_overview_y0) splits the map into four
-   * rectangles.  Draw each of these rectangles to the screen, in turn. */
-  gdk_draw_pixmap(overview_canvas->window, civ_gc, overview_canvas_store,
-		  x0, y0, 0, 0, x1, y1);
-  gdk_draw_pixmap(overview_canvas->window, civ_gc, overview_canvas_store,
-		  0, y0, x1, 0, x0, y1);
-  gdk_draw_pixmap(overview_canvas->window, civ_gc, overview_canvas_store,
-		  x0, 0, 0, y1, x1, y0);
-  gdk_draw_pixmap(overview_canvas->window, civ_gc, overview_canvas_store,
-		  0, 0, x1, y1, x0, y0);
-
-  /* Now draw the mapview window rectangle onto the overview. */
-  gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
-  get_mapview_corners(gui_x, gui_y);
-  for (i = 0; i < 4; i++) {
-    int src_x = gui_x[i];
-    int src_y = gui_y[i];
-    int dest_x = gui_x[(i + 1) % 4];
-    int dest_y = gui_y[(i + 1) % 4];
-
-    gdk_draw_line(overview_canvas->window, civ_gc,
-		  src_x, src_y, dest_x, dest_y);
-  }
+  gdk_draw_pixmap(dest->pixmap, fill_bg_gc, src->pixmap,
+		  src_x, src_y, dest_x, dest_y, width, height);
 }
 
 /**************************************************************************
@@ -574,8 +516,6 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 	update_map_canvas_visible();
 
 	update_map_canvas_scrollbars();
-
-    	refresh_overview_viewrect();
       }
       else {
 	gdk_draw_pixmap( map_canvas->window, civ_gc, map_canvas_store,
