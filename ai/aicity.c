@@ -305,6 +305,8 @@ unit_types[punit->type].name, unit_types[id].name); */
         pplayer->research.researching == A_NONE) { /* nothing else to do */
       buycost = city_buy_cost(pcity);
       if (!pcity->shield_stock) ;
+      else if (!bestchoice.type && is_wonder(bestchoice.choice) &&
+               buycost >= 200) ; /* wait for more vans */
       else if (bestchoice.type && unit_flag(bestchoice.choice, F_SETTLERS) &&
           !city_affected_by_wonder(pcity, B_PYRAMIDS) &&
           !city_got_building(pcity, B_GRANARY) && (pcity->size < 2 ||
@@ -320,7 +322,7 @@ game.players[pcity->ai.grave_danger->owner].name,
 unit_types[pcity->ai.grave_danger->type].name);
          try_to_sell_stuff(pplayer, pcity); /* and don't buy stuff */
          pcity->currently_building = ai_choose_defender_limited(pcity,
-                  pcity->shield_stock + pcity->shield_surplus);
+                  pcity->shield_stock + pcity->shield_surplus, 0);
       }
       else if (pplayer->economic.gold >= buycost && (!frugal || bestchoice.want > 200)) {
         really_handle_city_buy(pplayer, pcity); /* adequately tested now */
@@ -335,7 +337,7 @@ get_improvement_name(bestchoice.choice)),  pplayer->economic.gold, buycost); */
               really_handle_city_buy(pplayer, pcity);
 /* don't need to waste gold here, but may as well spend our production */
             else pcity->currently_building = ai_choose_defender_limited(pcity,
-                  pcity->shield_stock + pcity->shield_surplus);
+                  pcity->shield_stock + pcity->shield_surplus, 0);
           } else if (buycost > pplayer->ai.maxbuycost) pplayer->ai.maxbuycost = buycost;
 /* possibly upgrade units here */
         } /* end panic subroutine */
@@ -568,7 +570,7 @@ int has_a_normal_defender(struct city *pcity)
   return 0;
 }
 
-int ai_choose_defender_limited(struct city *pcity, int n)
+int ai_choose_defender_limited(struct city *pcity, int n, enum unit_move_type which)
 {
   int i, j, m;
   int best= 0;
@@ -579,7 +581,8 @@ int ai_choose_defender_limited(struct city *pcity, int n)
   for (i = U_WARRIORS; i <= U_BATTLESHIP; i++) {
     m = unit_types[i].move_type;
     if (can_build_unit(pcity, i) && get_unit_type(i)->build_cost <= n &&
-        (m == LAND_MOVING || m == SEA_MOVING)) {
+        (m == LAND_MOVING || m == SEA_MOVING) &&
+        (m == which || !which)) {
       j = unit_desirability(i, 1);
       j *= j;
       if (unit_flag(i, F_FIELDUNIT) && !isdef) j = 0; /* Experimenting. -- Syela */
@@ -594,9 +597,14 @@ int ai_choose_defender_limited(struct city *pcity, int n)
   return bestid;
 }
 
+int ai_choose_defender_by_type(struct city *pcity, enum unit_move_type which)
+{
+  return (ai_choose_defender_limited(pcity, 65535, which));
+}
+
 int ai_choose_defender(struct city *pcity)
 {
-  return (ai_choose_defender_limited(pcity, 65535));
+  return (ai_choose_defender_limited(pcity, 65535, 0));
 }
 
 /************************************************************************** 
@@ -836,6 +844,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
 { /* I don't care how slow this is; it will very rarely be used. -- Syela */
 /* this would be a lot easier if I made ->worked a city id. */
   struct city_list minilist;
+  struct packet_unit_request pack;
   int i, j;
    
 printf("Emergency in %s! (%d unhap, %d hap, %d food, %d prod)\n", pcity->name,
@@ -860,6 +869,15 @@ pcity->ppl_unhappy[4], pcity->ppl_happy[4], pcity->food_surplus, pcity->shield_s
   if (ai_fix_unhappy(pcity))
     ai_scientists_taxmen(pcity);
 /*printf("Rearranging workers in %s\n", pcity->name);*/
+
+  unit_list_iterate(pcity->units_supported, punit)
+    if (city_unhappy(pcity) && punit->unhappiness) {
+printf("%s's %s is unhappy and causing unrest, disbanding it.\n", pcity->name, unit_types[punit->type].name);
+       pack.unit_id = punit->id;
+       handle_unit_disband(pplayer, &pack);
+       city_refresh(pcity);
+     }
+  unit_list_iterate_end;       
 
   city_list_iterate(minilist, acity)
     city_refresh(acity); /* otherwise food total and stuff was wrong. -- Syela */
