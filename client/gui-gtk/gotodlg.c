@@ -92,6 +92,7 @@ void popup_goto_dialog(void)
   goto_list=gtk_clist_new(1);
   gtk_clist_set_column_width(GTK_CLIST(goto_list), 0,
 			     GTK_CLIST(goto_list)->clist_window_width);
+  gtk_clist_set_auto_sort (GTK_CLIST (goto_list), TRUE);
   scrolled=gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), goto_list);
 
@@ -193,8 +194,6 @@ void update_goto_dialog(GtkWidget *goto_list)
     }
     city_list_iterate_end;
   }
-  gtk_clist_sort(GTK_CLIST(goto_list));
-
   gtk_clist_thaw(GTK_CLIST(goto_list));
   gtk_widget_show_all(goto_list);
 }

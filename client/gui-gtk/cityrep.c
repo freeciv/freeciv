@@ -385,6 +385,7 @@ void create_city_report_dialog(int make_modal)
 
   city_list = gtk_clist_new_with_titles(NUM_CREPORT_COLS,titles);
   gtk_clist_column_titles_passive(GTK_CLIST(city_list));
+  gtk_clist_set_auto_sort (GTK_CLIST (city_list), TRUE);
   scrolled = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled), city_list);
   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
@@ -739,11 +740,10 @@ void city_report_dialog_update(void)
     city_list_iterate(game.player_ptr->cities, pcity) {
       get_city_text(pcity,row);
       i=gtk_clist_append(GTK_CLIST(city_list), row);
-      gtk_clist_set_row_data (GTK_CLIST(city_list), i, (gpointer)pcity);
+      gtk_clist_set_row_data (GTK_CLIST(city_list), i, pcity);
     } city_list_iterate_end;
-    gtk_clist_sort(GTK_CLIST(city_list));
-    gtk_widget_show_all(city_list);
     gtk_clist_thaw(GTK_CLIST(city_list));
+    gtk_widget_show_all(city_list);
 
     gtk_widget_set_sensitive(city_change_command, FALSE);
     gtk_widget_set_sensitive(city_center_command, FALSE);
@@ -776,19 +776,14 @@ void city_report_dialog_update_city(struct city *pcity)
 
     gtk_clist_get_text(GTK_CLIST(city_list),i,0,&text);
 
-    if(strncmp(pcity->name,text,strlen(pcity->name)))
-    {
-      city_report_dialog_update();
-      return;
-    }
     get_city_text(pcity,row);
 
     gtk_clist_freeze(GTK_CLIST(city_list));
     gtk_clist_remove(GTK_CLIST(city_list),i);
-    i=gtk_clist_insert(GTK_CLIST(city_list),i,row);
+    i=gtk_clist_append(GTK_CLIST(city_list),row);
     gtk_clist_set_row_data (GTK_CLIST(city_list), i, pcity);
-    gtk_widget_show_all(city_list);
     gtk_clist_thaw(GTK_CLIST(city_list));
+    gtk_widget_show_all(city_list);
   }
   else
     city_report_dialog_update();
