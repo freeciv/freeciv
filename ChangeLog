@@ -1,3 +1,138 @@
+Sat Sep 04 18:04:31 2004  Per I. Mathisen <per@leftist.net>:
+
+	* ai/aiunit.c:
+
+	S1_14: In look_for_charge(), fix problems with bitshift and
+	signed ints. In stay_and_defend(), fix mistake where we looked at
+	our own defense value being non-zero when checking if there were
+	someone else that could defend a city so that we could leave.
+
+Sat Aug 28 21:07:59 2004  Per I. Mathisen <per@leftist.net>:
+
+	* NEWS:
+
+	Update NEWS file for S1_14 release 1.14.2
+
+Sat Aug 28 20:48:14 2004  Per I. Mathisen <per@leftist.net>:
+
+	* common/version.h, configure.ac, configure.in, data/Freeciv:
+
+	Bump version numbers to 1.14.2-beta1
+
+Sat Aug 28 20:45:57 2004  Per I. Mathisen <per@leftist.net>:
+
+	* autogen.sh:
+
+	Backport carefully crafted sed magic from CVS head to S1_14 for
+	autogen.sh; previous magic did not always work.
+
+Mon Aug 23 12:58:15 2004  Per I. Mathisen <per@leftist.net>:
+
+	* server/savegame.c:
+
+	Add charset info to savegames in case we need this info in the
+	future. Patch by Jason in PR#9752.
+
+Fri Aug 20 20:00:25 2004  Per I. Mathisen <per@leftist.net>:
+
+	* common/packets.c:
+
+	Fix compile warning in S1_14. Patch by Jason in PR#9750.
+
+Fri Aug 20 19:36:08 2004  Per I. Mathisen <per@leftist.net>:
+
+	* server/savegame.c:
+
+	Backport airport and worklist fixes from CVS head for S1_14.
+
+Fri Aug 20 19:21:46 2004  Per I. Mathisen <per@leftist.net>:
+
+	* data/default/units.ruleset:
+
+	Backport submarine upgrade from CVS head to S1_14.
+
+Thu Aug 19 17:00:41 2004  Per I. Mathisen <per@leftist.net>:
+
+	* data/default/buildings.ruleset:
+
+	Backport reduction of building and some wonder costs from CVS
+	head.
+
+Thu Aug 19 16:49:43 2004  Per I. Mathisen <per@leftist.net>:
+
+	* server/srv_main.c:
+
+	Backport reputation fix from CVS head to S1_14.
+
+Thu Aug 19 16:46:57 2004  Per I. Mathisen <per@leftist.net>:
+
+	* server/barbarian.c:
+
+	Harden the barbarian code against core dumps.
+
+Mon Jul 26 03:44:19 2004  Jason Short <jshort@andrew.cmu.edu>:
+
+	* server/mapgen.c:
+
+	Fix a bug that caused river generation to prefer certain
+	directions for the rivers to run in.
+
+	See PR#9492.
+
+Wed Jul 14 18:53:13 2004  Jason Short <jshort@andrew.cmu.edu>:
+
+	* server/ruleset.c:
+
+	Fix a bug causing the "Paratroopers" unit flag to be ignored if
+	it was not the last flag in the list.
+
+	Reported by Geeslaka Geezonga <geeslaka@mad.scientist.com> in
+	PR#9182. Original patch by James Canete, rewritten for 1.14 by
+	me.
+
+Fri Mar 26 19:44:08 2004  Vasco Alexandre Da Silva Costa <vasc@rnl.ist.utl.pt>:
+
+	* client/gui-gtk-2.0/gui_main.c:
+
+	Remove old debug log call.
+
+Fri Mar 26 02:51:45 2004  Jason Short <jshort@andrew.cmu.edu>:
+
+	* configure.ac, configure.in:
+
+	Check for 'ar' at configure time.
+
+	This is a backport of PR#7506.
+
+Fri Mar 26 02:15:01 2004  Jason Short <jshort@andrew.cmu.edu>:
+
+	* configure.ac:
+
+	Fix a bug when compiling Freeciv with recent versions of
+	autoconf.
+
+	This is a backport of PR#7347.
+
+Sat Jan 10 00:53:58 2004  Erik Sigra <sigra@home.se>:
+
+	* po/sv.po:
+
+	update
+
+Tue Jan 06 07:14:46 2004  Jason Short <jshort@andrew.cmu.edu>:
+
+	* utility/shared.c:
+
+	Prevent a compiler warning under Tru64.
+
+	Reported by Davide Pagnin as PR#6569.
+
+Wed Dec 31 21:48:18 2003  Erik Sigra <sigra@home.se>:
+
+	* po/sv.po:
+
+	update
+
 Mon Dec 01 23:14:03 2003  Berthe, French translator <ggracian@free.fr>:
 
 	* po/fr.po:
