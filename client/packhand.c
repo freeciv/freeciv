@@ -2572,7 +2572,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   if (p->category[0] != '\0') {
     pl->category = mystrdup(p->category);
   } else {
-    pl->category = mystrdup("Other");
+    pl->category = mystrdup(N_("Other"));
   }
 
   if (p->legend[0] != '\0') {
