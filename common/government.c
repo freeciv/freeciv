@@ -219,7 +219,9 @@ char *get_ruler_title(int gov, int male, int nation)
 ***************************************************************/
 int get_government_max_rate(int type)
 {
-  return governments[type].max_rate;
+  if(type >= 0 && type < game.government_count)
+    return governments[type].max_rate;
+  return 50;
 }
 
 /***************************************************************
@@ -237,7 +239,9 @@ int get_government_civil_war_prob(int type)
 ***************************************************************/
 char *get_government_name(int type)
 {
-  return governments[type].name;
+  if(type >= 0 && type < game.government_count)
+    return governments[type].name;
+  return "";
 }
 
 /***************************************************************
@@ -248,8 +252,12 @@ char *get_government_name(int type)
 ***************************************************************/
 int can_change_to_government(struct player *pplayer, int government)
 {
-  int req = governments[government].required_tech;
-  
+  int req;
+
+  assert(game.government_count > 0 &&
+	 government >= 0 && government < game.government_count);
+
+  req = governments[government].required_tech;
   if (!tech_exists(req))
     return 0;
   else 
