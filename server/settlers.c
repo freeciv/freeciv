@@ -1171,9 +1171,8 @@ static int evaluate_improvements(struct unit *punit,
 		pcity->ai.derad[i][j]);
 #endif
       } /* end if we are a legal destination */
-    } city_map_iterate_outwards_end;
-  }
-  city_map_checked_iterate_end;
+    } city_map_checked_iterate_end;
+  } city_list_iterate_end;
 
   best_newv = (best_newv - food_upkeep * FOOD_WEIGHTING) * 100 / (40 + food_cost);
   if (best_newv < 0)
