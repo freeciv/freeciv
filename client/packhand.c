@@ -379,7 +379,8 @@ void handle_city_info(struct packet_city_info *packet)
   int i;
   bool city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
   struct city *pcity;
-  bool popup, update_descriptions = FALSE;
+  bool popup, update_descriptions = FALSE, name_changed = FALSE;
+  struct unit *pfocus_unit = get_unit_in_focus();
 
   pcity=find_city_by_id(packet->id);
 
@@ -400,8 +401,10 @@ void handle_city_info(struct packet_city_info *packet)
   else {
     city_is_new = FALSE;
 
+    name_changed = (strcmp(pcity->name, packet->name) != 0);
+
     /* Check if city desciptions should be updated */
-    if (draw_city_names && strcmp(pcity->name, packet->name) != 0) {
+    if (draw_city_names && name_changed) {
       update_descriptions = TRUE;
     } else if (draw_city_productions &&
 	       (pcity->is_building_unit != packet->is_building_unit ||
@@ -534,6 +537,11 @@ void handle_city_info(struct packet_city_info *packet)
   /* Update the description if necessary. */
   if (update_descriptions) {
     update_city_description(pcity);
+  }
+
+  /* Update focus unit info label if necessary. */
+  if (name_changed && pfocus_unit && pfocus_unit->homecity == pcity->id) {
+    update_unit_info_label(pfocus_unit);
   }
 
   /* Update the panel text (including civ population). */
