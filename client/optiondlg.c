@@ -305,9 +305,11 @@ FILE *open_option_file(char *mode)
 
   if(mode[0]=='w') {
     if (f) {
-      snprintf(output_buffer, 255, "Settings file is %s", name);
+      sprintf(output_buffer, "Settings file is ");
+      strncat(output_buffer, name, 255-strlen(output_buffer));
     } else {
-      snprintf(output_buffer, 255, "Cannot write to file %s", name);
+      sprintf(output_buffer, "Cannot write to file ");
+      strncat(output_buffer, name, 255-strlen(output_buffer));
     }
     output_buffer[255] = '\0';
     append_output_window(output_buffer);
