@@ -279,8 +279,10 @@ gint butt_down_mapcanvas(GtkWidget *widget, GdkEventButton *event)
   xtile=map_adjust_x(map_view_x0+event->x/NORMAL_TILE_WIDTH);
   ytile=map_adjust_y(map_view_y0+event->y/NORMAL_TILE_HEIGHT);
 
-	if(event->button==1) 
+  if(event->button==1) {
     do_map_click(xtile, ytile);
+    gtk_widget_grab_focus(turn_done_button);
+  }
   else if((event->button==2)||(event->state&GDK_CONTROL_MASK))
     popit(event, xtile, ytile);
   else
