@@ -90,8 +90,8 @@ const char *cmdlevel_name(enum cmdlevel_id lvl);
 enum cmdlevel_id cmdlevel_named(const char *token);
 
 
-typedef void CLOSE_FUN (struct connection *pc);
-void close_socket_set_callback(CLOSE_FUN *fun);
+typedef void (*CLOSE_FUN) (struct connection *pc);
+void close_socket_set_callback(CLOSE_FUN fun);
 
 int read_socket_data(int sock, struct socket_packet_buffer *buffer);
 int send_connection_data(struct connection *pc, unsigned char *data, int len);

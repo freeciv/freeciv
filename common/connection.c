@@ -87,12 +87,12 @@ enum cmdlevel_id cmdlevel_named(const char *token)
   appropriate (different) actions: server lost a client, client lost
   connection to server.
 **************************************************************************/
-static CLOSE_FUN *close_callback;
+static CLOSE_FUN close_callback;
 
 /**************************************************************************
   Register the close_callback:
 **************************************************************************/
-void close_socket_set_callback(CLOSE_FUN *fun)
+void close_socket_set_callback(CLOSE_FUN fun)
 {
   close_callback = fun;
 }
