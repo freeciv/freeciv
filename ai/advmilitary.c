@@ -353,19 +353,19 @@ content to let it remain that way for now. -- Syela 980805 */
 /* afraid *100 would create integer overflow, but *10 surely won't */
 
   if (danger < 0 || danger > 1<<24) /* I hope never to see this! */
-    freelog(LOG_NORMAL, "Dangerous danger (%d) in %s.  Beware of overflow.",
+    freelog(LOG_ERROR, "Dangerous danger (%d) in %s.  Beware of overflow.",
 	    danger, pcity->name);
   if (danger2 < 0 || danger2 > 1<<24) /* I hope never to see this! */
-    freelog(LOG_NORMAL, "Dangerous danger2 (%d) in %s.  Beware of overflow.",
+    freelog(LOG_ERROR, "Dangerous danger2 (%d) in %s.  Beware of overflow.",
 	    danger2, pcity->name);
   if (danger3 < 0 || danger3 > 1<<24) /* I hope never to see this! */
-    freelog(LOG_NORMAL, "Dangerous danger3 (%d) in %s.  Beware of overflow.",
+    freelog(LOG_ERROR, "Dangerous danger3 (%d) in %s.  Beware of overflow.",
 	    danger3, pcity->name);
   if (danger4 < 0 || danger4 > 1<<24) /* I hope never to see this! */
-    freelog(LOG_NORMAL, "Dangerous danger4 (%d) in %s.  Beware of overflow.",
+    freelog(LOG_ERROR, "Dangerous danger4 (%d) in %s.  Beware of overflow.",
 	    danger4, pcity->name);
   if (danger5 < 0 || danger5 > 1<<24) /* I hope never to see this! */
-    freelog(LOG_NORMAL, "Dangerous danger5 (%d) in %s.  Beware of overflow.",
+    freelog(LOG_ERROR, "Dangerous danger5 (%d) in %s.  Beware of overflow.",
 	    danger5, pcity->name);
   if (pcity->ai.grave_danger)
     urgency += 10; /* really, REALLY urgent to defend */
