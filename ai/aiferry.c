@@ -153,6 +153,8 @@ static void aiferry_request_boat(struct unit *punit)
 **************************************************************************/
 static void aiferry_psngr_meet_boat(struct unit *punit, struct unit *pferry)
 {
+  assert(punit->owner == pferry->owner);
+
   /* First delete the unit from the list of passengers and 
    * release its previous ferry */
   aiferry_clear_boat(punit);
@@ -764,8 +766,9 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     
       /* Try to select passanger-in-charge from among our passengers */
       unit_list_iterate(ptile->units, aunit) {
-        if (aunit->ai.ferryboat != punit->id 
-            && aunit->ai.ferryboat != FERRY_WANTED) {
+        if (unit_owner(aunit) != pplayer 
+            || (aunit->ai.ferryboat != punit->id 
+                && aunit->ai.ferryboat != FERRY_WANTED)) {
           continue;
         }
       
