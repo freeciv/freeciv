@@ -460,7 +460,8 @@ static void city_increase_size(struct city *pcity)
   bool rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
 
   if (!city_can_grow_to(pcity, pcity->size + 1)) { /* need improvement */
-    if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ) > 0) {
+    if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ) > 0
+        || get_current_construction_bonus(pcity, EFT_SIZE_UNLIMIT) > 0) {
       notify_player_ex(powner, pcity->tile, E_CITY_AQ_BUILDING,
 		       _("Game: %s needs %s (being built) "
 			 "to grow any further."), pcity->name,
