@@ -215,10 +215,10 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
     int n;
 
 #ifdef WIN32_NATIVE
-    /* tmpfile() in mingw attempts to make a temp file in the root directory of
-     * the current drive, which we may not have write access to. */
+    /* tmpfile() in mingw attempts to make a temp file in the root directory
+     * of the current drive, which we may not have write access to. */
     {
-      char filename[512];
+      char filename[MAX_PATH];
 
       GetTempPath(sizeof(filename), filename);
       sz_strlcat(filename, "fctmp");
