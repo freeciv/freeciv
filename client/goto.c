@@ -387,6 +387,9 @@ static void fill_client_goto_parameter(struct unit *punit,
   parameter->start_x = punit->x;
   parameter->start_y = punit->y;
 
+  /* Omniscience is always FALSE in the client */
+  parameter->omniscience = FALSE;
+
   /* May be overwritten by the caller. */
   parameter->moves_left_initially = punit->moves_left;
 }
