@@ -252,8 +252,10 @@ dnl note this has to match the path installed by po/Makefile
 FC_EXPAND_DIR(LOCALEDIR, '${prefix}/share/locale')
 AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
 
+EXTRA_GCC_DEBUG_CFLAGS=""
+
 if test -n "$GCC"; then
-   EXTRA_GCC_DEBUG_CFLAGS = "$CFLAGS"
+   EXTRA_GCC_DEBUG_CFLAGS="$CFLAGS"
    CFLAGS="-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations"
 fi
 
