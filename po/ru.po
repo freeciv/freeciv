@@ -623,7 +623,7 @@ msgstr "не совпадает"
 #: utility/support.c:147
 #, c-format
 msgid "error %ld (failed FormatMessage)"
-msgstr ""
+msgstr "ошибка %ld (ошибка FormatMessage)"
 
 #: utility/support.c:157
 #, c-format
@@ -848,6 +848,7 @@ msgstr "Игра: Авто-атака: %s %s атакуют %s %s!"
 msgid ""
 "Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
 msgstr ""
+"Варвары получили лидера %s. Опасные времена впереди."
 
 #: server/barbarian.c:427
 #, c-format
@@ -5793,11 +5794,11 @@ msgstr "Использование: observe [имя-игрока]"
 
 #: server/stdinhand.c:2541
 msgid "Game: A global observer cannot be created: too many regular players."
-msgstr ""
+msgstr "Игра: Глобальный наблюдатель не может быть создан: слишком много обычных игроков."
 
 #: server/stdinhand.c:2566
 msgid "Game: A global observer has been created"
-msgstr ""
+msgstr "Игра: Глобальный наблюдатель был создан"
 
 #: server/stdinhand.c:2582
 #, c-format
@@ -5954,7 +5955,7 @@ msgstr "Ваше новое голосование отменяет предыдущее голосование."
 #: server/stdinhand.c:3211
 #, c-format
 msgid "New vote, no. %d, by %s: %s."
-msgstr ""
+msgstr "Новый голос, номер %d, от %s: %s."
 
 #: server/stdinhand.c:3231
 msgid "You are not allowed to use this command."
@@ -5971,7 +5972,7 @@ msgstr "Игра должна начаться, прежде чем Вы сможете посмотреть счет."
 #: server/stdinhand.c:3385
 #, c-format
 msgid "But %s is dead!"
-msgstr ""
+msgstr "Но %s уже мёртв!"
 
 #: server/stdinhand.c:3404
 msgid ""
@@ -6409,7 +6410,7 @@ msgstr "Игра: Ваша %s потерялась в опасной местности."
 #: server/unittools.c:354
 #, c-format
 msgid "%s unit lost on unsafe terrain"
-msgstr ""
+msgstr "%s соединение потеряно на опасной территории"
 
 #: server/unittools.c:381
 #, c-format
@@ -6693,7 +6694,7 @@ msgstr "Игра: Приказ для  %s отменён, невозможно выполнить приказ."
 #: server/unittools.c:2995
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
-msgstr ""
+msgstr "Игра: Приказ для %s отменён, поскольку было указано неверное направление."
 
 #: server/unittools.c:3005
 #, c-format
@@ -6704,7 +6705,7 @@ msgstr ""
 #: server/unittools.c:3031
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
-msgstr ""
+msgstr "Игра: Приказ для %s отменён потому что соединение не может двигаться."
 
 #: server/unittools.c:3041
 #, c-format
@@ -7594,20 +7595,20 @@ msgstr "* Не может быть построен в городах.\n"
 
 #: client/helpdata.c:608
 msgid "* Never has a home city.\n"
-msgstr ""
+msgstr "* Не может иметь домашнего города.\n"
 
 #: client/helpdata.c:612
 msgid "* Losing this unit will lose you the game!\n"
-msgstr ""
+msgstr "* Потеряв данное соединение Вы проиграете в игре!\n"
 
 #: client/helpdata.c:616
 msgid "* Each player may only have one of this type of unit.\n"
-msgstr ""
+msgstr "* Каждый игрок может иметь только одно соединение данного типа.\n"
 
 #: client/helpdata.c:619
 #, c-format
 msgid "* Requires %d population to build.\n"
-msgstr ""
+msgstr "* Необходимо %d жителей для постройки.\n"
 
 #: client/helpdata.c:625
 #, c-format
@@ -7658,7 +7659,7 @@ msgstr "* Может строить новые города.\n"
 #: client/helpdata.c:658
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
-msgstr ""
+msgstr "* Может добавить %d жителей к городам, размер которых не более %d.\n"
 
 #: client/helpdata.c:666
 msgid "* Can build roads and railroads.\n"
@@ -7791,7 +7792,7 @@ msgstr "* Атака этого соединения вызывает ядерный взрыв!\n"
 
 #: client/helpdata.c:778
 msgid "* Gets double firepower when attacking cities.\n"
-msgstr ""
+msgstr "* Получает двойную огневую мощь при атаке городов.\n"
 
 #: client/helpdata.c:781
 msgid "* Ignores the effects of city walls.\n"
@@ -8407,7 +8408,7 @@ msgstr "Соединение: Выжило в защите"
 
 #: client/options.c:262
 msgid "Unit: Became More Veteran"
-msgstr ""
+msgstr "Соединение: Стало ветераном"
 
 #: client/options.c:263
 msgid "Unit: Production Upgraded"
@@ -8419,7 +8420,7 @@ msgstr "Соединение: Передислоцировано"
 
 #: client/options.c:265
 msgid "Unit: Orders / goto events"
-msgstr ""
+msgstr "Соединение: Приказы / Идти к"
 
 #: client/options.c:266
 msgid "Wonder: Finished"
@@ -8592,7 +8593,7 @@ msgstr "?Player_dlg:Хост"
 
 #: client/plrdlg_common.c:227
 msgid "?Player_dlg:Idle"
-msgstr ""
+msgstr "?Player_dlg:Состояние"
 
 #: client/plrdlg_common.c:228 client/gui-gtk/plrdlg.c:143
 msgid "Ping"
@@ -8898,7 +8899,7 @@ msgstr "Время путешествия: %5.1f лет"
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:601
 msgid "Travel time:        N/A     "
-msgstr "Время путешествия: ---"
+msgstr "Время путешествия:   Нет данных   "
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:605
@@ -8910,7 +8911,7 @@ msgstr ""
 #: client/text.c:609
 #, c-format
 msgid "Year of arrival: %8s"
-msgstr ""
+msgstr "Год прибытия: %8s"
 
 #: client/text.c:627
 msgid "?timeout:off"
@@ -9145,19 +9146,19 @@ msgstr ""
 
 #: client/agents/cma_fec.c:415
 msgid "?cma:Max food"
-msgstr "?cma:Максимум еда"
+msgstr "?cma:Максимум еды"
 
 #: client/agents/cma_fec.c:416
 msgid "?cma:Max production"
-msgstr "?cma:Максимум пpoизвoдcтвo"
+msgstr "?cma:Максимум пpoизвoдcтва"
 
 #: client/agents/cma_fec.c:417
 msgid "?cma:Max gold"
-msgstr "?cma:Максимум золото"
+msgstr "?cma:Максимум золота"
 
 #: client/agents/cma_fec.c:418
 msgid "?cma:Max science"
-msgstr "?cma:Максимум наука"
+msgstr "?cma:Максимум науки"
 
 #: client/agents/cma_fec.c:419
 msgid "?cma:Very happy"
@@ -16166,7 +16167,6 @@ msgstr ""
 "  будут также подсвечены в окне Списка Городов."
 
 #: data/helpdata.txt:456
-#, fuzzy
 msgid ""
 "Keyboard:\n"
 "=========\n"
@@ -16240,6 +16240,7 @@ msgstr ""
 "  f: построить крепость (колонисты/инженеры)\n"
 "  F: открыть диалог Поиск Города\n"
 "  g: соединение - идти к... (потом выбрать цель левой кнопкой мыши)\n"
+"  g: добавить маршрут для команды идти к... (когда выбрано идти к...)\n"
 "  h: изменить домашний город (на город в котором находимся)\n"
 "  i: построить орошение/ферму (колонисты/инженеры; может изменить рельеф)\n"
 "  l: идти/перебросить по воздуху к городу\n"
@@ -16252,6 +16253,7 @@ msgstr ""
 "  p: сбросить десант (десантные соединения)\n"
 "  P: уничтожить улучшения рельефа\n"
 "  q: патрулировать (потом выбрать цель левой кнопкой мыши)\n"
+"  q: добавить маршрут для патрулирования (когда выбрано патрулирование)\n"
 "  r: построить дорогу/железную дорогу (колонисты/инженеры)\n"
 "  r: установить торговый путь  (караванные соединения)\n"
 "  R: начать революцию\n"
@@ -16277,7 +16279,7 @@ msgstr ""
 "  home: центрировать на столице\n"
 "  стрелки: прокручивать карту       Control-g: вкл/выкл сетку\n"
 "  пробел: соединение стоит на месте Control-n: вкл/выкл названия городов\n"
-"  return: завершить ход             Control-p: вкл/выкл городское "
+"  enter: завершить ход              Control-p: вкл/выкл городское "
 "производство\n"
 
 #: data/helpdata.txt:516
@@ -22574,7 +22576,7 @@ msgstr "?plural:Хоббиты"
 
 #: data/nation/hobbits.ruleset:14
 msgid "Mayor of the Shire"
-msgstr "Городской Голова Шира"
+msgstr "Гopoдcкoй гoлoвa Шиpa"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
