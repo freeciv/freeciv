@@ -1613,6 +1613,7 @@ static int fill_road_rail_sprite_array(struct Sprite **sprs,
 {
   struct Sprite **saved_sprs = sprs;
   bool road, road_near[8], rail, rail_near[8];
+  bool draw_road[8], draw_single_road, draw_rail[8], draw_single_rail;
   enum direction8 dir;
 
   if (!draw_roads_rails) {
@@ -1620,15 +1621,38 @@ static int fill_road_rail_sprite_array(struct Sprite **sprs,
     return 0;
   }
 
-  /* Fill some data arrays. */
+  /* Fill some data arrays. rail_near and road_near store whether road/rail
+   * is present in the given direction.  draw_rail and draw_road store
+   * whether road/rail is to be drawn in that direction.  draw_single_road
+   * and draw_single_rail store whether we need an isolated road/rail to be
+   * drawn. */
   road = contains_special(tspecial, S_ROAD);
   rail = contains_special(tspecial, S_RAILROAD);
+  draw_single_road = road && (!pcity || !draw_cities) && !rail;
+  draw_single_rail = rail && (!pcity || !draw_cities);
   for (dir = 0; dir < 8; dir++) {
+    /* Check if there is adjacent road/rail. */
     road_near[dir] = contains_special(tspecial_near[dir], S_ROAD);
     rail_near[dir] = contains_special(tspecial_near[dir], S_RAILROAD);
+
+    if (draw_diagonal_roads || DIR_IS_CARDINAL(map_to_gui_dir(dir))) {
+      /* Draw rail/road if there is a connection from this tile to the
+       * adjacent tile.  But don't draw road if there is also a rail
+       * connection. */
+      draw_rail[dir] = rail && rail_near[dir];
+      draw_road[dir] = road && road_near[dir] && !draw_rail[dir];
+    } else {
+      /* Don't draw diagonal roads/rails if draw_diagonal_roads isn't set. */
+      draw_road[dir] = FALSE;
+      draw_rail[dir] = FALSE;
+    }
+
+    /* Don't draw an isolated road/rail if there's any connection. */
+    draw_single_rail &= !draw_rail[dir];
+    draw_single_road &= !draw_rail[dir] && !draw_road[dir];
   }
 
-  /* Draw road corners underneath rails. */
+  /* Draw road corners underneath rails (styles 0 and 1). */
   sprs += fill_road_corner_sprites(sprs, road, road_near, rail, rail_near);
 
   if (roadstyle == 0) {
@@ -1636,40 +1660,21 @@ static int fill_road_rail_sprite_array(struct Sprite **sprs,
      * This means we only need a few sprites, but a lot of drawing is
      * necessary and it generally doesn't look very good. */
 
-    /* TODO: check draw_diagonal_roads */
-
-    /* Draw roads underneath rails. */
+    /* First raw roads under rails. */
     if (road) {
-      bool found = FALSE;
-
       for (dir = 0; dir < 8; dir++) {
-	if (road_near[dir]) {
-	  found = TRUE;
-	  /* Only draw a road if there's no rail there. */
-	  if (!(rail && rail_near[dir])) {
-	    *sprs++ = sprites.road.dir[dir];
-	  }
+	if (draw_road[dir]) {
+	  *sprs++ = sprites.road.dir[dir];
 	}
-      }
-
-      if (!found && !pcity && !rail) {
-	*sprs++ = sprites.road.isolated;
       }
     }
 
-    /* Draw rails over roads. */
+    /* Then draw rails over roads. */
     if (rail) {
-      bool found = FALSE;
-
       for (dir = 0; dir < 8; dir++) {
-	if (rail_near[dir]) {
+	if (draw_rail[dir]) {
 	  *sprs++ = sprites.rail.dir[dir];
-	  found = TRUE;
 	}
-      }
-
-      if (!found && !pcity) {
-	*sprs++ = sprites.rail.isolated;
       }
     }
   } else {
@@ -1677,118 +1682,57 @@ static int fill_road_rail_sprite_array(struct Sprite **sprs,
      * one sprite for diagonal road connections, and the same for rail.
      * This means we need about 4x more sprites than in style 0, but up to
      * 4x less drawing is needed.  The drawing quality may also be
-     *  improved. */
+     * improved. */
 
-    /* 'card' => cardinal; 'semi' => diagonal.
-     * 'count => number of connections.
-     * 'tileno' => index of sprite to use. */
-    int rail_card_count, rail_semi_count, road_card_count, road_semi_count;
-    int rail_card_tileno = 0, rail_semi_tileno = 0;
-    int road_card_tileno = 0, road_semi_tileno = 0;
+    /* First draw roads under rails. */
+    if (road) {
+      int road_cardinal_tileno = INDEX_NSEW(draw_road[DIR8_NORTH],
+					    draw_road[DIR8_SOUTH],
+					    draw_road[DIR8_EAST],
+					    draw_road[DIR8_WEST]);
+      int road_diagonal_tileno = INDEX_NSEW(draw_road[DIR8_NORTHEAST],
+					    draw_road[DIR8_SOUTHWEST],
+					    draw_road[DIR8_SOUTHEAST],
+					    draw_road[DIR8_NORTHWEST]);
 
-    if (road || rail) {
-      bool n, s, e, w;
-
-      /* Find cardinal rail connections. */
-      n = rail_near[DIR8_NORTH];
-      s = rail_near[DIR8_SOUTH];
-      e = rail_near[DIR8_EAST];
-      w = rail_near[DIR8_WEST];
-      rail_card_count = !!n + !!s + !!e + !!w;
-      rail_card_tileno = INDEX_NSEW(n, s, e, w);
-
-      /* Find cardinal road connections. */
-      n = road_near[DIR8_NORTH];
-      s = road_near[DIR8_SOUTH];
-      e = road_near[DIR8_EAST];
-      w = road_near[DIR8_WEST];
-      road_card_count = !!n + !!s + !!e + !!w;
-      road_card_tileno = INDEX_NSEW(n, s, e, w);
-
-      /* Find diagonal rail connections. */
-      n = rail_near[DIR8_NORTHEAST];
-      s = rail_near[DIR8_SOUTHWEST];
-      e = rail_near[DIR8_SOUTHEAST];
-      w = rail_near[DIR8_NORTHWEST];
-      rail_semi_count = !!n + !!s + !!e + !!w;
-      rail_semi_tileno = INDEX_NSEW(n, s, e, w);
-
-      /* Find diagonal road connections. */
-      n = road_near[DIR8_NORTHEAST];
-      s = road_near[DIR8_SOUTHWEST];
-      e = road_near[DIR8_SOUTHEAST];
-      w = road_near[DIR8_NORTHWEST];
-      road_semi_count = !!n + !!s + !!e + !!w;
-      road_semi_tileno = INDEX_NSEW(n, s, e, w);
-
-      if (rail) {
-	/* Don't draw a road if a rail is present. */
-	road_card_tileno &= ~rail_card_tileno;
-	road_semi_tileno &= ~rail_semi_tileno;
-      } else if (road) {
-	/* Don't draw a rail if there isn't one present. */
-	rail_card_tileno = 0;
-	rail_semi_tileno = 0;
+      /* Draw the cardinal roads first. */
+      if (road_cardinal_tileno != 0) {
+	*sprs++ = sprites.road.cardinal[road_cardinal_tileno];
       }
-
-      /* First draw roads under rails.  We draw the sprite with fewer
-       * connections first - it is not clear why. */
-      if (road_semi_count > road_card_count) {
-	if (road_card_tileno != 0) {
-	  *sprs++ = sprites.road.cardinal[road_card_tileno];
-	}
-	if (road_semi_tileno != 0 && draw_diagonal_roads) {
-	  *sprs++ = sprites.road.diagonal[road_semi_tileno];
-	}
-      } else {
-	if (road_semi_tileno != 0 && draw_diagonal_roads) {
-	  *sprs++ = sprites.road.diagonal[road_semi_tileno];
-	}
-	if (road_card_tileno != 0) {
-	  *sprs++ = sprites.road.cardinal[road_card_tileno];
-	}
-      }
-
-      /* Then draw rails over roads. We draw the sprite with fewer
-       * connections first - it is not clear why. */
-      if (rail_semi_count > rail_card_count) {
-	if (rail_card_tileno != 0) {
-	  *sprs++ = sprites.rail.cardinal[rail_card_tileno];
-	}
-	if (rail_semi_tileno != 0 && draw_diagonal_roads) {
-	  *sprs++ = sprites.rail.diagonal[rail_semi_tileno];
-	}
-      } else {
-	if (rail_semi_tileno != 0 && draw_diagonal_roads) {
-	  *sprs++ = sprites.rail.diagonal[rail_semi_tileno];
-	}
-	if (rail_card_tileno != 0) {
-	  *sprs++ = sprites.rail.cardinal[rail_card_tileno];
-	}
+      if (road_diagonal_tileno != 0) {
+	*sprs++ = sprites.road.diagonal[road_diagonal_tileno];
       }
     }
 
-    /* Draw isolated rail/road separately. */
+    /* Then draw rails over roads. */
     if (rail) {
-      int adjacent = rail_card_tileno;
-      if (draw_diagonal_roads) {
-	adjacent |= rail_semi_tileno;
+      int rail_cardinal_tileno = INDEX_NSEW(draw_rail[DIR8_NORTH],
+					    draw_rail[DIR8_SOUTH],
+					    draw_rail[DIR8_EAST],
+					    draw_rail[DIR8_WEST]);
+      int rail_diagonal_tileno = INDEX_NSEW(draw_rail[DIR8_NORTHEAST],
+					    draw_rail[DIR8_SOUTHWEST],
+					    draw_rail[DIR8_SOUTHEAST],
+					    draw_rail[DIR8_NORTHWEST]);
+
+      /* Draw the cardinal rails first. */
+      if (rail_cardinal_tileno != 0) {
+	*sprs++ = sprites.rail.cardinal[rail_cardinal_tileno];
       }
-      if (adjacent == 0) {
-	*sprs++ = sprites.rail.isolated;
-      }
-    } else if (road) {
-      int adjacent = rail_card_tileno | road_card_tileno;
-      if (draw_diagonal_roads) {
-	adjacent |= (rail_semi_tileno | road_semi_tileno);
-      }
-      if (adjacent == 0) {
-	*sprs++ = sprites.road.isolated;
+      if (rail_diagonal_tileno != 0) {
+	*sprs++ = sprites.rail.diagonal[rail_diagonal_tileno];
       }
     }
   }
 
-  /* Draw rail corners over roads. */
+  /* Draw isolated rail/road separately (styles 0 and 1). */
+  if (draw_single_rail) {
+    *sprs++ = sprites.rail.isolated;
+  } else if (draw_single_road) {
+    *sprs++ = sprites.road.isolated;
+  }
+
+  /* Draw rail corners over roads (styles 0 and 1). */
   sprs += fill_rail_corner_sprites(sprs, rail, rail_near);
 
   return sprs - saved_sprs;
