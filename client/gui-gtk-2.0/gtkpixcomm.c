@@ -224,7 +224,7 @@ gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *event)
       switch (rop->type) {
       case OP_FILL:
         gdk_gc_set_foreground(civ_gc, rop->color);
-        gdk_draw_rectangle(widget->window, civ_gc, TRUE, 0, 0, -1, -1);
+        gdk_draw_rectangle(widget->window, civ_gc, TRUE, x, y, p->w, p->h);
         break;
 
       case OP_COPY:
