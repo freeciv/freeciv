@@ -2066,6 +2066,9 @@ static bool vote_command(struct connection *caller, char *str,
   if (caller == NULL || caller->player == NULL) {
     cmd_reply(CMD_VOTE, caller, C_FAIL, _("This command is client only."));
     return FALSE;
+  } else if (caller->player->is_observer) {
+    cmd_reply(CMD_VOTE, caller, C_FAIL, _("Observers cannot vote."));
+    return FALSE;
   } else if (!str || strlen(str) == 0) {
     int j = 0;
 
