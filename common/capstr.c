@@ -74,9 +74,13 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.14.delta"
+#define CAPABILITY "+1.14.delta +last_turns_shield_surplus"
 
 /* "+1.14.delta" is the new delta protocol for 1.14.0-dev.
+ *
+ * "last_turns_shield_surplus" means the surplus from the previous turn is
+ * tracked by the server and sent to the client.  This information is used
+ * in determining penalties when switching production.
  */
 
 void init_our_capability(void)

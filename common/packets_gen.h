@@ -197,6 +197,7 @@ struct packet_city_info {
   int before_change_shields;
   int disbanded_shields;
   int caravan_shields;
+  int last_turns_shield_surplus;
   struct worklist worklist;
   char improvements[B_LAST+1];
   char city_map[CITY_MAP_SIZE*CITY_MAP_SIZE+1];

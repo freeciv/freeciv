@@ -341,9 +341,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 **************************************************************************/
 void begin_cities_turn(struct player *pplayer)
 {
-  city_list_iterate(pplayer->cities, pcity) {
-    define_orig_production_values(pcity);
-  } city_list_iterate_end;
+  /* Nothing (deprecated)... */
 }
 
 /**************************************************************************
@@ -895,6 +893,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
   /* Now we confirm changes made last turn. */
   pcity->shield_stock += pcity->shield_surplus;
   pcity->before_change_shields = pcity->shield_stock;
+  pcity->last_turns_shield_surplus = pcity->shield_surplus;
 
   return TRUE;
 }
@@ -1110,7 +1109,9 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
   if (!city_distribute_surplus_shields(pplayer, pcity)) {
     return FALSE;
   }
+
   nullify_caravan_and_disband_plus(pcity);
+  define_orig_production_values(pcity);
 
   if (!pcity->is_building_unit) {
     return city_build_building(pplayer, pcity);
@@ -1262,8 +1263,15 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static void define_orig_production_values(struct city *pcity)
 {
-  /* remember what this city is building at start of turn,
-     so user can switch production back without penalty */
+  /* Remember what this city is building last turn, so that on the next turn
+   * the player can switch production to something else and then change it
+   * back without penalty.  This has to be updated _before_ production for
+   * this turn is calculated, so that the penalty will apply if the player
+   * changes production away from what has just been completed.  This makes
+   * sense if you consider what this value means: all the shields in the
+   * city have been dedicated toward the project that was chosen last turn,
+   * so the player shouldn't be penalized if the governor has to pick
+   * something different.  See city_change_production_penalty(). */
   pcity->changed_from_id = pcity->currently_building;
   pcity->changed_from_is_unit = pcity->is_building_unit;
 

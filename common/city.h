@@ -270,6 +270,7 @@ struct city {
   int disbanded_shields;      /* If you disband unit in a city. Count them */
   int caravan_shields;        /* If caravan has helped city to build wonder. */
   int before_change_shields;  /* If changed this turn, shields before penalty */
+  int last_turns_shield_surplus; /* The surplus we had last turn. */
   int anarchy;		      /* anarchy rounds count */ 
   int rapture;                /* rapture rounds count */ 
   bool was_happy;

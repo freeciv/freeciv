@@ -881,6 +881,10 @@ static void player_load(struct player *plr, int plrno,
     pcity->caravan_shields=
       secfile_lookup_int_default(file, 0,
 				 "player%d.c%d.caravan_shields", plrno, i);
+    pcity->last_turns_shield_surplus =
+      secfile_lookup_int_default(file, 0,
+				 "player%d.c%d.last_turns_shield_surplus",
+				 plrno, i);
 
     pcity->synced = FALSE; /* must re-sync with clients */
 
@@ -1595,6 +1599,8 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.c%d.disbanded_shields", plrno, i);
     secfile_insert_int(file, pcity->caravan_shields,
 		       "player%d.c%d.caravan_shields", plrno, i);
+    secfile_insert_int(file, pcity->last_turns_shield_surplus,
+		       "player%d.c%d.last_turns_shield_surplus", plrno, i);
 
     secfile_insert_int(file, pcity->anarchy, "player%d.c%d.anarchy", plrno,i);
     secfile_insert_int(file, pcity->rapture, "player%d.c%d.rapture", plrno,i);

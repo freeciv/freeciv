@@ -403,6 +403,7 @@ PACKET_CITY_INFO=21; is-info,sc
   UINT16 before_change_shields;
   UINT16 disbanded_shields;
   UINT16 caravan_shields;
+  UINT16 last_turns_shield_surplus;
   
   WORKLIST worklist;
 

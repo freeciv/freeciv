@@ -4472,7 +4472,7 @@ static int cmp_packet_city_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_city_info_100_fields, 46);
+BV_DEFINE(packet_city_info_100_fields, 47);
 
 static struct packet_city_info *receive_packet_city_info_100(struct connection *pc, enum packet_type type)
 {
@@ -4648,23 +4648,26 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
     dio_get_uint16(&din, (int *) &real_packet->caravan_shields);
   }
   if (BV_ISSET(fields, 36)) {
-    dio_get_worklist(&din, &real_packet->worklist);
+    dio_get_uint16(&din, (int *) &real_packet->last_turns_shield_surplus);
   }
   if (BV_ISSET(fields, 37)) {
-    dio_get_bit_string(&din, real_packet->improvements, sizeof(real_packet->improvements));
+    dio_get_worklist(&din, &real_packet->worklist);
   }
   if (BV_ISSET(fields, 38)) {
+    dio_get_bit_string(&din, real_packet->improvements, sizeof(real_packet->improvements));
+  }
+  if (BV_ISSET(fields, 39)) {
     dio_get_city_map(&din, real_packet->city_map, sizeof(real_packet->city_map));
   }
-  real_packet->did_buy = BV_ISSET(fields, 39);
-  real_packet->did_sell = BV_ISSET(fields, 40);
-  real_packet->was_happy = BV_ISSET(fields, 41);
-  real_packet->airlift = BV_ISSET(fields, 42);
-  real_packet->diplomat_investigate = BV_ISSET(fields, 43);
-  if (BV_ISSET(fields, 44)) {
+  real_packet->did_buy = BV_ISSET(fields, 40);
+  real_packet->did_sell = BV_ISSET(fields, 41);
+  real_packet->was_happy = BV_ISSET(fields, 42);
+  real_packet->airlift = BV_ISSET(fields, 43);
+  real_packet->diplomat_investigate = BV_ISSET(fields, 44);
+  if (BV_ISSET(fields, 45)) {
     dio_get_uint8(&din, (int *) &real_packet->city_options);
   }
-  if (BV_ISSET(fields, 45)) {
+  if (BV_ISSET(fields, 46)) {
     dio_get_uint16(&din, (int *) &real_packet->turn_founded);
   }
 
@@ -4917,13 +4920,17 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 35);}
 
-  differ = !are_worklists_equal(&old->worklist, &real_packet->worklist);
+  differ = (old->last_turns_shield_surplus != real_packet->last_turns_shield_surplus);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 36);}
 
-  differ = (strcmp(old->improvements, real_packet->improvements) != 0);
+  differ = !are_worklists_equal(&old->worklist, &real_packet->worklist);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 37);}
+
+  differ = (strcmp(old->improvements, real_packet->improvements) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 38);}
 
 
     {
@@ -4939,35 +4946,35 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 38);}
+  if(differ) {BV_SET(fields, 39);}
 
   differ = (old->did_buy != real_packet->did_buy);
   if(differ) {different++;}
-  if(packet->did_buy) {BV_SET(fields, 39);}
+  if(packet->did_buy) {BV_SET(fields, 40);}
 
   differ = (old->did_sell != real_packet->did_sell);
   if(differ) {different++;}
-  if(packet->did_sell) {BV_SET(fields, 40);}
+  if(packet->did_sell) {BV_SET(fields, 41);}
 
   differ = (old->was_happy != real_packet->was_happy);
   if(differ) {different++;}
-  if(packet->was_happy) {BV_SET(fields, 41);}
+  if(packet->was_happy) {BV_SET(fields, 42);}
 
   differ = (old->airlift != real_packet->airlift);
   if(differ) {different++;}
-  if(packet->airlift) {BV_SET(fields, 42);}
+  if(packet->airlift) {BV_SET(fields, 43);}
 
   differ = (old->diplomat_investigate != real_packet->diplomat_investigate);
   if(differ) {different++;}
-  if(packet->diplomat_investigate) {BV_SET(fields, 43);}
+  if(packet->diplomat_investigate) {BV_SET(fields, 44);}
 
   differ = (old->city_options != real_packet->city_options);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 44);}
+  if(differ) {BV_SET(fields, 45);}
 
   differ = (old->turn_founded != real_packet->turn_founded);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 45);}
+  if(differ) {BV_SET(fields, 46);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -5123,23 +5130,26 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
     dio_put_uint16(&dout, real_packet->caravan_shields);
   }
   if (BV_ISSET(fields, 36)) {
-    dio_put_worklist(&dout, &real_packet->worklist);
+    dio_put_uint16(&dout, real_packet->last_turns_shield_surplus);
   }
   if (BV_ISSET(fields, 37)) {
-    dio_put_bit_string(&dout, real_packet->improvements);
+    dio_put_worklist(&dout, &real_packet->worklist);
   }
   if (BV_ISSET(fields, 38)) {
+    dio_put_bit_string(&dout, real_packet->improvements);
+  }
+  if (BV_ISSET(fields, 39)) {
     dio_put_city_map(&dout, real_packet->city_map);
   }
-  /* field 39 is folded into the header */
   /* field 40 is folded into the header */
   /* field 41 is folded into the header */
   /* field 42 is folded into the header */
   /* field 43 is folded into the header */
-  if (BV_ISSET(fields, 44)) {
+  /* field 44 is folded into the header */
+  if (BV_ISSET(fields, 45)) {
     dio_put_uint8(&dout, real_packet->city_options);
   }
-  if (BV_ISSET(fields, 45)) {
+  if (BV_ISSET(fields, 46)) {
     dio_put_uint16(&dout, real_packet->turn_founded);
   }
 

@@ -470,6 +470,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->before_change_shields=packet->before_change_shields;
   pcity->disbanded_shields=packet->disbanded_shields;
   pcity->caravan_shields=packet->caravan_shields;
+  pcity->last_turns_shield_surplus = packet->last_turns_shield_surplus;
 
   i=0;
   for(y=0; y<CITY_MAP_SIZE; y++) {

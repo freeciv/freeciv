@@ -1639,6 +1639,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->before_change_shields=pcity->before_change_shields;
   packet->disbanded_shields=pcity->disbanded_shields;
   packet->caravan_shields=pcity->caravan_shields;
+  packet->last_turns_shield_surplus = pcity->last_turns_shield_surplus;
 
   copy_worklist(&packet->worklist, &pcity->worklist);
   packet->diplomat_investigate=dipl_invest;

@@ -1309,7 +1309,7 @@ int city_change_production_penalty(struct city *pcity,
   int shield_stock_after_adjustment;
   enum production_class_type orig_class;
   enum production_class_type new_class;
-  bool put_penalty;
+  int unpenalized_shields = 0, penalized_shields = 0;
 
   if (pcity->changed_from_is_unit)
     orig_class=TYPE_UNIT;
@@ -1325,23 +1325,36 @@ int city_change_production_penalty(struct city *pcity,
   else
     new_class=TYPE_NORMAL_IMPROVEMENT;
 
-  put_penalty = (orig_class != new_class &&
-                 game_next_year(pcity->turn_last_built) < game.year);
-
-  if (put_penalty)
-    shield_stock_after_adjustment = pcity->before_change_shields/2;
-  else
-    shield_stock_after_adjustment = pcity->before_change_shields;
+  /* Changing production is penalized under certain circumstances. */
+  if (orig_class == new_class) {
+    /* There's never a penalty for building something of the same class. */
+    unpenalized_shields = pcity->before_change_shields;
+  } else if (game_next_year(pcity->turn_last_built) >= game.year) {
+    /* Surplus shields from the previous production won't be penalized if
+     * you change production on the very next turn.  But you can only use
+     * up to the city's surplus amount of shields in this way. */
+    unpenalized_shields = MIN(pcity->last_turns_shield_surplus,
+			      pcity->before_change_shields);
+    penalized_shields = pcity->before_change_shields - unpenalized_shields;
+  } else {
+    /* Penalize 50% of the production. */
+    penalized_shields = pcity->before_change_shields;
+  }
 
   /* Do not put penalty on these. It shouldn't matter whether you disband unit
      before or after changing production...*/
-  shield_stock_after_adjustment += pcity->disbanded_shields;
+  unpenalized_shields += pcity->disbanded_shields;
 
-  if (new_class == TYPE_WONDER) /* No penalty! */
-    shield_stock_after_adjustment += pcity->caravan_shields;
-  else /* Same as you had disbanded caravans. 50 percent penalty is logical! */
-    shield_stock_after_adjustment += pcity->caravan_shields/2;
+  /* Caravan shields are penalized (just as if you disbanded the caravan)
+   * if you're not building a wonder. */
+  if (new_class == TYPE_WONDER) {
+    unpenalized_shields += pcity->caravan_shields;
+  } else {
+    penalized_shields += pcity->caravan_shields;
+  }
 
+  shield_stock_after_adjustment =
+    unpenalized_shields + penalized_shields / 2;
   if (apply_it) {
     pcity->shield_stock = shield_stock_after_adjustment;
   }
@@ -2523,6 +2536,7 @@ struct city *create_city_virtual(struct player *pplayer, const int x,
   pcity->before_change_shields = 0;
   pcity->disbanded_shields = 0;
   pcity->caravan_shields = 0;
+  pcity->last_turns_shield_surplus = 0;
   pcity->anarchy = 0;
   pcity->rapture = 0;
   pcity->city_options = CITYOPT_DEFAULT;
