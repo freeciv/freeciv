@@ -1678,7 +1678,8 @@ static void city_dialog_update_information(GtkWidget **info_label,
   my_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
 	      pcity->food_prod, pcity->food_surplus);
   my_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
-	      pcity->shield_prod + pcity->shield_waste, pcity->shield_prod);
+	      pcity->shield_prod + pcity->shield_waste,
+	      pcity->shield_surplus);
   my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
 	      pcity->trade_prod + pcity->corruption, pcity->trade_prod);
   my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
