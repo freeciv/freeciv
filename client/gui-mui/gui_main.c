@@ -218,6 +218,7 @@ static Object *menu_find_item(ULONG udata);
 *****************************************************************/
 #define MAKE_TITLE(name,userdata) {NM_TITLE,name,NULL,0,0,(APTR)userdata}
 #define MAKE_ITEM(name,userdata,shortcut,flags) {NM_ITEM,name,shortcut,flags,0,(APTR)userdata}
+#define MAKE_SUBITEM(name,userdata,shortcut,flags) {NM_SUB,name,shortcut,flags,0,(APTR)userdata}
 #define MAKE_SIMPLEITEM(name,userdata) {NM_ITEM,name,NULL, 0,0, (APTR)userdata}
 #define MAKE_SEPERATOR {NM_ITEM, NM_BARLABEL, NULL, 0, 0, (APTR)0}
 #define MAKE_END {NM_END,NULL,0,0,0,(APTR)0}
@@ -252,6 +253,20 @@ static struct NewMenu MenuData[] =
   MAKE_ITEM(N_("Map Grid"), MENU_VIEW_SHOW_MAP_GRID, "CTRL G", NM_COMMANDSTRING|MENUTOGGLE|CHECKIT),
   MAKE_ITEM(N_("City Names"), MENU_VIEW_SHOW_CITY_NAMES,NULL,MENUTOGGLE|CHECKIT),
   MAKE_ITEM(N_("City Productions"), MENU_VIEW_SHOW_CITY_PRODUCTIONS,NULL,MENUTOGGLE|CHECKIT),
+  MAKE_SEPERATOR,
+  MAKE_ITEM(N_("Terrain"), MENU_VIEW_SHOW_TERRAIN, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_ITEM(N_("Coastline"), MENU_VIEW_SHOW_COASTLINE, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_ITEM(N_("Improvements"),NULL,NULL,NULL),
+  MAKE_SUBITEM(N_("Road & Rails"), MENU_VIEW_SHOW_ROADS_RAILS, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_SUBITEM(N_("Irrigation"), MENU_VIEW_SHOW_IRRIGATION, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_SUBITEM(N_("Mines"), MENU_VIEW_SHOW_MINES, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_SUBITEM(N_("Fortress & Airbase"), MENU_VIEW_SHOW_FORTRESS_AIRBASE, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_SUBITEM(N_("Specials"), MENU_VIEW_SHOW_SPECIALS, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_SUBITEM(N_("Pollution & Fallout"), MENU_VIEW_SHOW_POLLUTION, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_SUBITEM(N_("Cities"), MENU_VIEW_SHOW_CITIES, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_SUBITEM(N_("Units"), MENU_VIEW_SHOW_UNITS, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_SUBITEM(N_("Focus Unit"), MENU_VIEW_SHOW_FOCUS_UNIT, NULL, MENUTOGGLE|CHECKIT),
+  MAKE_SUBITEM(N_("Fog of War"), MENU_VIEW_SHOW_FOG_OF_WAR, NULL, MENUTOGGLE|CHECKIT),
   MAKE_SEPERATOR,
   MAKE_ITEM(N_("Center View"), MENU_VIEW_CENTER_VIEW, "c", NM_COMMANDSTRING),
 
@@ -518,45 +533,69 @@ static void control_callback(ULONG * value)
 	request_toggle_city_names();
       }
       break;
-    case MENU_VIEW_SHOW_CITY_PRODUCTIONS:
-      if(draw_city_productions != xget(menu_find_item(MENU_VIEW_SHOW_CITY_PRODUCTIONS),
-				       MUIA_Menuitem_Checked))
-      {
-	request_toggle_city_productions();
-      }
-      break;
-    case MENU_VIEW_CENTER_VIEW:
-      request_center_focus_unit() /*center_on_unit() */ ;
-      break;
+    case  MENU_VIEW_SHOW_CITY_PRODUCTIONS:
+          if(draw_city_productions != xget(menu_find_item(MENU_VIEW_SHOW_CITY_PRODUCTIONS), MUIA_Menuitem_Checked))
+	    request_toggle_city_productions();
+	  break;
+    case  MENU_VIEW_SHOW_TERRAIN:
+	  if (draw_terrain != xget(menu_find_item(MENU_VIEW_SHOW_TERRAIN),MUIA_Menuitem_Checked))
+	    request_toggle_terrain();
+	  break;
+    case  MENU_VIEW_SHOW_COASTLINE:
+	  if (draw_coastline != xget(menu_find_item(MENU_VIEW_SHOW_COASTLINE),MUIA_Menuitem_Checked))
+	    request_toggle_coastline();
+	  break;
+    case  MENU_VIEW_SHOW_ROADS_RAILS:
+	  if (draw_roads_rails != xget(menu_find_item(MENU_VIEW_SHOW_ROADS_RAILS),MUIA_Menuitem_Checked))
+            request_toggle_roads_rails();
+	  break;
+    case  MENU_VIEW_SHOW_IRRIGATION:
+	  if (draw_irrigation != xget(menu_find_item(MENU_VIEW_SHOW_IRRIGATION),MUIA_Menuitem_Checked))
+            request_toggle_irrigation();
+	  break;
+    case  MENU_VIEW_SHOW_MINES:
+	  if (draw_mines != xget(menu_find_item(MENU_VIEW_SHOW_MINES),MUIA_Menuitem_Checked))
+            request_toggle_mines();
+	  break;
+    case  MENU_VIEW_SHOW_FORTRESS_AIRBASE:
+	  if (draw_fortress_airbase != xget(menu_find_item(MENU_VIEW_SHOW_FORTRESS_AIRBASE),MUIA_Menuitem_Checked))
+            request_toggle_fortress_airbase();
+	  break;
+    case  MENU_VIEW_SHOW_SPECIALS:
+	  if (draw_specials != xget(menu_find_item(MENU_VIEW_SHOW_SPECIALS),MUIA_Menuitem_Checked))
+            request_toggle_specials();
+	  break;
+    case  MENU_VIEW_SHOW_POLLUTION:
+	  if (draw_pollution != xget(menu_find_item(MENU_VIEW_SHOW_POLLUTION),MUIA_Menuitem_Checked))
+            request_toggle_pollution();
+	  break;
+    case  MENU_VIEW_SHOW_CITIES:
+	  if (draw_cities != xget(menu_find_item(MENU_VIEW_SHOW_CITIES),MUIA_Menuitem_Checked))
+            request_toggle_cities();
+	  break;
+    case  MENU_VIEW_SHOW_UNITS:
+	  if (draw_specials != xget(menu_find_item(MENU_VIEW_SHOW_UNITS),MUIA_Menuitem_Checked))
+            request_toggle_units();
+	  break;
+    case  MENU_VIEW_SHOW_FOCUS_UNIT:
+	  if (draw_focus_unit != xget(menu_find_item(MENU_VIEW_SHOW_FOCUS_UNIT),MUIA_Menuitem_Checked))
+            request_toggle_focus_unit();
+	  break;
+    case  MENU_VIEW_SHOW_FOG_OF_WAR:
+	  if (draw_fog_of_war != xget(menu_find_item(MENU_VIEW_SHOW_FOG_OF_WAR),MUIA_Menuitem_Checked))
+            request_toggle_focus_unit();
+	  break;
 
-    case MENU_ORDER_AUTO_SETTLER:
-      key_unit_auto_settle();
-      break;
-    case MENU_ORDER_AUTO_ATTACK:
-      key_unit_auto_attack();
-      break;
-    case MENU_ORDER_MINE:
-      key_unit_mine();
-      break;
-    case MENU_ORDER_IRRIGATE:
-      key_unit_irrigate();
-      break;
-    case MENU_ORDER_TRANSFORM:
-      key_unit_transform();
-      break;
-    case MENU_ORDER_FORTRESS:
-      key_unit_fortress();
-      break;
-    case MENU_ORDER_AIRBASE:
-      key_unit_airbase();
-      break;
-
-    case MENU_ORDER_BUILD_CITY:
-      key_unit_build_city();
-      break;
-    case MENU_ORDER_ROAD:
-      key_unit_road();
-      break;
+    case MENU_VIEW_CENTER_VIEW: request_center_focus_unit(); break;
+    case MENU_ORDER_AUTO_SETTLER: key_unit_auto_settle(); break;
+    case MENU_ORDER_AUTO_ATTACK: key_unit_auto_attack();break;
+    case MENU_ORDER_MINE: key_unit_mine(); break;
+    case MENU_ORDER_IRRIGATE: key_unit_irrigate(); break;
+    case MENU_ORDER_TRANSFORM: key_unit_transform(); break;
+    case MENU_ORDER_FORTRESS: key_unit_fortress(); break;
+    case MENU_ORDER_AIRBASE: key_unit_airbase(); break;
+    case MENU_ORDER_BUILD_CITY: key_unit_build_city(); break;
+    case MENU_ORDER_ROAD: key_unit_road(); break;
     case MENU_ORDER_CONNECT:
       if(get_unit_in_focus())
         request_unit_connect();
@@ -1381,6 +1420,18 @@ void ui_main(int argc, char *argv[])
       DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_MAP_GRID,MUIA_Menuitem_Checked,draw_map_grid);
       DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_CITY_NAMES,MUIA_Menuitem_Checked,draw_city_names);
       DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_CITY_PRODUCTIONS,MUIA_Menuitem_Checked,draw_city_productions);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_TERRAIN,MUIA_Menuitem_Checked,draw_terrain);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_COASTLINE,MUIA_Menuitem_Checked,draw_coastline);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_ROADS_RAILS,MUIA_Menuitem_Checked,draw_roads_rails);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_IRRIGATION,MUIA_Menuitem_Checked,draw_irrigation);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_MINES,MUIA_Menuitem_Checked,draw_mines);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_FORTRESS_AIRBASE,MUIA_Menuitem_Checked,draw_fortress_airbase);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_SPECIALS,MUIA_Menuitem_Checked,draw_specials);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_POLLUTION,MUIA_Menuitem_Checked,draw_pollution);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_CITIES,MUIA_Menuitem_Checked,draw_cities);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_UNITS,MUIA_Menuitem_Checked,draw_specials);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_FOCUS_UNIT,MUIA_Menuitem_Checked,draw_focus_unit);
+      DoMethod(main_menu,MUIM_SetUData,MENU_VIEW_SHOW_FOG_OF_WAR,MUIA_Menuitem_Checked,draw_fog_of_war);
 
       /* TODO: Move this into init_gui() */
       main_bulb_sprite = MakeBorderSprite(sprites.bulb[0]);

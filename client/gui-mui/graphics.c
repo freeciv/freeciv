@@ -591,20 +591,13 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
 
     if (fill_bg) {
       if (pplayer) {
-//	gdk_gc_set_foreground(fill_bg_gc,
-//			      colors_standard[player_color(pplayer)]);
+      	SetAPen(rp,2); /* should be a player color */
       } else {
-//	gdk_gc_set_foreground(fill_bg_gc,
-//			      colors_standard[COLOR_STD_BACKGROUND]);	
+        SetAPen(rp,1); /* COLOR_STD_BACKGROUND */
       }
-//      gdk_draw_rectangle(pm, fill_bg_gc, TRUE,
-//			 canvas_x, canvas_y,
-//			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
+      RectFill(rp,canvas_x,canvas_y,canvas_x + NORMAL_TILE_WIDTH - 1, canvas_y + NORMAL_TILE_HEIGHT - 1);
     } else {
       /* first tile without mask */
-//      gdk_draw_pixmap(pm, civ_gc, tile_sprs[0]->pixmap,
-//                      0, 0, canvas_x, canvas_y,
-//                      tile_sprs[0]->width, tile_sprs[0]->height);
       put_sprite(rp, tile_sprs[0], canvas_x, canvas_y);
       i++;
     }
@@ -622,45 +615,47 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
       if ((map_get_tile(x-1, y))->known &&
 	  (here_in_radius ||
 	   player_in_city_radius(game.player_ptr, x-1, y))) {
-//	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
+	SetAPen(rp,2); /* white */
       } else {
-//	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+        SetAPen(rp,1); /* black */
       }
-//      gdk_draw_line(pm, civ_gc,
-//		    canvas_x, canvas_y,
-//		    canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+      Move(rp,canvas_x,canvas_y);
+      Draw(rp,canvas_x,canvas_y + NORMAL_TILE_HEIGHT);
+
       /* top side... */
       if((map_get_tile(x, y-1))->known &&
 	 (here_in_radius ||
 	  player_in_city_radius(game.player_ptr, x, y-1))) {
-//	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_WHITE]);
+	SetAPen(rp,2); /* white */
       } else {
-//	gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+	SetAPen(rp,1); /* black */
       }
-//      gdk_draw_line(pm, civ_gc,
-//		    canvas_x, canvas_y,
-//		    canvas_x + NORMAL_TILE_WIDTH, canvas_y);
+      Move(rp,canvas_x,canvas_y);
+      Draw(rp,canvas_x + NORMAL_TILE_WIDTH,canvas_y);
     }
+
     if (draw_coastline && !draw_terrain) {
       enum tile_terrain_type t1 = map_get_terrain(x, y), t2;
       int x1 = x-1, y1 = y;
-//      gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_OCEAN]);
+      SetAPen(rp,3); /* blue!! */
       if (normalize_map_pos(&x1, &y1)) {
 	t2 = map_get_terrain(x1, y1);
 	/* left side */
-//	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
-//	  gdk_draw_line(pm, civ_gc,
-//			canvas_x, canvas_y,
-//			canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+	{
+	  Move(rp, canvas_x, canvas_y);
+	  Draw(rp, canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+	}
       }
       /* top side */
       x1 = x; y1 = y-1;
       if (normalize_map_pos(&x1, &y1)) {
 	t2 = map_get_terrain(x1, y1);
-//	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
-//	  gdk_draw_line(pm, civ_gc,
-//			canvas_x, canvas_y,
-//			canvas_x + NORMAL_TILE_WIDTH, canvas_y);
+	if ((t1 == T_OCEAN) ^ (t2 == T_OCEAN))
+	{
+	  Move(rp, canvas_x, canvas_y);
+	  Draw(rp, canvas_x + NORMAL_TILE_WIDTH, canvas_y);
+	}
       }
     }
   } else {
@@ -690,101 +685,6 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
 	put_line(map_canvas_store, line_x, line_y, 2);
       }
     }
-  }*/
-
-
-//  struct Sprite *sprites[80];
-//  int count = fill_tile_sprite_array(sprites, abs_x0, abs_y0, citymode);
-
-/*  int x1 = destx + x * NORMAL_TILE_WIDTH;
-  int y1 = desty + y * NORMAL_TILE_HEIGHT;
-  int x2 = x1 + NORMAL_TILE_WIDTH - 1;
-  int y2 = y1 + NORMAL_TILE_HEIGHT - 1;
-
-  if (count)
-  {
-    int i;
-
-    if (sprites[0])
-    {
-      /* first tile without mask */
-      put_sprite(rp, sprites[0], x1, y1);
-    }
-    else
-    {
-      /* normally when solid_color_behind_units */
-      struct city *pcity;
-      struct player *pplayer = NULL;
-
-      if (count > 1 && !sprites[1])
-      {
-	/* it's the unit */
-	struct tile *ptile;
-	struct unit *punit;
-	ptile = map_get_tile(abs_x0, abs_y0);
-	if ((punit = find_visible_unit(ptile)))
-	  pplayer = &game.players[punit->owner];
-
-      }
-      else
-      {
-	/* it's the city */
-	if ((pcity = map_get_city(abs_x0, abs_y0)))
-	  pplayer = &game.players[pcity->owner];
-      }
-
-      if (pplayer)
-      {
-	SetAPen(rp, 1);
-	RectFill(rp, x1, y1, x2, y2);
-      }
-    }
-
-    for (i = 1; i < count; i++)
-    {
-      /* to be on the safe side (should not happen) */
-      if (sprites[i])
-	put_sprite_overlay(rp, sprites[i], x1, y1);
-    }
-
-
-    if (draw_map_grid && !citymode)
-    {
-      int here_in_radius = player_in_city_radius(game.player_ptr, abs_x0, abs_y0);
-
-      /* left side... */
-
-      if ((map_get_tile(abs_x0 - 1, abs_y0))->known && (here_in_radius || player_in_city_radius(game.player_ptr, abs_x0 - 1, abs_y0)))
-      {
-	SetAPen(rp, 2);		/* white */
-      }
-      else
-      {
-	SetAPen(rp, 1);		/* white */
-      }
-
-      Move(rp, x1, y1);
-      Draw(rp, x1, y2 + 1);
-
-      /* top side... */
-      if ((map_get_tile(abs_x0, abs_y0 - 1))->known && (here_in_radius || player_in_city_radius(game.player_ptr, abs_x0, abs_y0 - 1)))
-      {
-	SetAPen(rp, 2);		/* white */
-      }
-      else
-      {
-	SetAPen(rp, 1);		/* black */
-      }
-
-      Move(rp, x1, y1);
-      Draw(rp, x2 + 1, y1);
-    }
-  }
-  else
-  {
-    /* tile is unknow */
-    SetAPen(rp, 1);
-    RectFill(rp, x1, y1, x2, y2);
   }*/
 }
 
