@@ -391,17 +391,19 @@ void handle_unit_info(struct packet_unit_info *packet)
 	free(punit);
         return;
       }
-      if(pcity)
-        if(pcity->id == punit->homecity)
+      if(pcity)  {
+        if(pcity->id==punit->homecity)
 	  repaint_city=1;
 	else
 	  refresh_city_dialog(pcity);
+      }
       
-      if((pcity=map_get_city(punit->x, punit->y)))
+      if((pcity=map_get_city(punit->x, punit->y)))  {
         if(pcity->id == punit->homecity)
 	  repaint_city=1;
 	else
 	  refresh_city_dialog(pcity);
+      }
       
       repaint_unit=0;
     }
