@@ -25,7 +25,7 @@
 #define MAJOR_VERSION		1
 #endif
 #ifndef MINOR_VERSION
-#define MINOR_VERSION		13
+#define MINOR_VERSION		14
 #endif
 #ifndef PATCH_VERSION
 #define PATCH_VERSION		1
