@@ -1796,6 +1796,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   }
   packet->activity_target = punit->activity_target;
   packet->paradropped = punit->paradropped;
+  packet->connecting = FALSE;
   packet->done_moving = punit->done_moving;
   if (punit->transported_by == -1) {
     packet->transported = FALSE;
