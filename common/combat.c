@@ -103,7 +103,7 @@ double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp)
 }
 
 /**************************************************************************
-...
+A unit's effective firepower depend on the situation.
 **************************************************************************/
 void get_modified_firepower(struct unit *attacker, struct unit *defender,
 			    int *att_fp, int *def_fp)
@@ -125,7 +125,8 @@ void get_modified_firepower(struct unit *attacker, struct unit *defender,
 }
 
 /**************************************************************************
-...
+Returns a double in the range [0;1] indicating the attackers chance of
+winning. The calculation takes all factors into account.
 **************************************************************************/
 double unit_win_chance(struct unit *attacker, struct unit *defender)
 {
@@ -398,7 +399,18 @@ int get_total_defense_power(struct unit *attacker, struct unit *defender)
 
 
 /**************************************************************************
-...
+Finds the best defender on the square, given an attacker.
+
+This is simply done by calling win_chance with all the possible defenders
+in turn.
+This functions could be improved to take the value of the unit into
+account. It currently uses build cost as a modifier in case the chances of
+2 units are identical, but this is crude as build cost does not neccesarily
+have anything to do with the value of a unit.
+It would be nice if the function was a bit more fuzzy about prioritizing,
+making it able to fx choose a 1a/9d unit over a 10a/10d unit. It should
+also be able to spare units without full hp's to some extend, as these
+could be more valuable later.
 **************************************************************************/
 struct unit *get_defender(struct unit *attacker, int x, int y)
 {
@@ -434,7 +446,10 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
 }
 
 /**************************************************************************
- get unit at (x, y) that wants to kill defender
+get unit at (x, y) that wants to kill defender.
+
+Works like get_defender; see comment there.
+This function is mostly used by the AI.
 **************************************************************************/
 struct unit *get_attacker(struct unit *defender, int x, int y)
 {
