@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.39-1.14-9\n"
-"POT-Creation-Date: 2003-12-02 12:27-0500\n"
-"PO-Revision-Date: 2003-08-12 19:49+0200\n"
+"Project-Id-Version: 0.39-1.14-10\n"
+"POT-Creation-Date: 2003-12-30 13:54+0100\n"
+"PO-Revision-Date: 2003-12-31 11:08+0100\n"
 "Last-Translator: Erik Sigra <sigra@home.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
 "MIME-Version: 1.0\n"
@@ -196,7 +196,7 @@ msgstr "Dåligt"
 
 #: common/player.c:514
 msgid "Despicable"
-msgstr "Förakningsvärt"
+msgstr "Föraktningsvärt"
 
 #: common/player.c:516
 msgid "Atrocious"
@@ -279,7 +279,7 @@ msgstr "Filen \"%s\" krävs ... avbryter!"
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
-"%s: Dödligt fel: du försöker köra mig som användare med fullständiga "
+"%s: Allvarligt fel: du försöker köra mig som användare med fullständiga "
 "rättigheter!\n"
 
 #: common/shared.c:1129
@@ -379,7 +379,7 @@ msgstr "Befäst"
 #: client/gui-mui/mapclass.c:1815 client/gui-mui/mapclass.c:3100
 #: client/gui-xaw/menu.c:169
 msgid "Sentry"
-msgstr "Vaktpost"
+msgstr "Vakta"
 
 #: common/unit.c:550 client/gui-gtk-2.0/menu.c:663 client/gui-gtk/menu.c:664
 #: client/gui-mui/gui_main.c:248 client/gui-mui/mapclass.c:1817
@@ -401,7 +401,7 @@ msgstr "Förändra"
 
 #: common/unit.c:556 client/gui-mui/gui_main.c:258 client/gui-xaw/menu.c:180
 msgid "Patrol"
-msgstr "Vaktrunda"
+msgstr "Gå vaktrunda"
 
 #: common/unit.c:557 client/gui-gtk-2.0/citydlg.c:1803
 #: client/gui-gtk/citydlg.c:2297 client/gui-mui/citydlg.c:2161
@@ -1010,7 +1010,7 @@ msgstr "  -h , --help\t\tSkriv en sammanfattning av valmöjligheterna\n"
 
 #: server/civserver.c:139
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
-msgstr "  -i, --info INFO\tYtterligare information för metaservern\n"
+msgstr "  -i, --info INFO\tYtterligare upplysningar för metaservern\n"
 
 #: server/civserver.c:140 client/civclient.c:138
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
@@ -1018,7 +1018,7 @@ msgstr "  -l, --log FIL\tAnvänd FIL som loggningsfil\n"
 
 #: server/civserver.c:141
 msgid "  -m, --meta\t\tnotify metaserver and send server's info\n"
-msgstr "  -m, --meta\t\tmeddela metaservern och skicka serverinformation\n"
+msgstr "  -m, --meta\t\tmeddela metaservern och skicka serverupplysningar\n"
 
 #: server/civserver.c:142
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
@@ -1089,8 +1089,8 @@ msgstr ""
 #, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
 msgid_plural "Game: A treaty containing %d clauses was agreed upon."
-msgstr[0] "Spel: Ett avtal innehållande %d sats har blivit överenskommet."
-msgstr[1] "Spel: Ett avtal innehållande %d satser har blivit överenskommet."
+msgstr[0] "Spel: Ett avtal innehållande %d klausul har blivit överenskommet."
+msgstr[1] "Spel: Ett avtal innehållande %d klausuler har blivit överenskommet."
 
 #: server/diplhand.c:219
 #, c-format
@@ -1499,7 +1499,7 @@ msgstr "År: %s"
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr ""
 "Omgångstidsgränsen har överskridit sitt största värde. Låser den vid sitt "
-"stärstä värde."
+"största värde."
 
 #: server/gamehand.c:294
 msgid "The turn timeout is smaller than zero, fixing at zero."
@@ -1579,7 +1579,8 @@ msgstr "Spel: Atomvinter har inträffat!"
 #: server/maphand.c:165
 msgid ""
 "Game: Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr "Spel: Sumpmarker ha uttorkat och stora ytor gräsland ha blivit tundra."
+msgstr ""
+"Spel: Sumpmarker ha uttorkats och stora ytor gräsland ha blivit tundra."
 
 #: server/maphand.c:186
 msgid ""
@@ -1887,7 +1888,7 @@ msgstr "Spel: Vi ha fått förbindelse med %s regerade av %s."
 #: server/plrhand.c:1733
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
-msgstr ""
+msgstr "Kunde inte försätta %s i inbördeskrig - för många spelare."
 
 #: server/plrhand.c:1755
 #, c-format
@@ -2151,7 +2152,7 @@ msgstr "Demografi:"
 
 #: server/report.c:583
 msgid "Sorry, the Demographics report is unavailable."
-msgstr "Ledsen, demografiredogörelsen är otillgänglig."
+msgstr "Demografiredogörelsen är otillgänglig."
 
 #: server/report.c:587
 #, c-format
@@ -2225,7 +2226,7 @@ msgstr "Laddar regeluppsättningar"
 #: server/savegame.c:74
 #, c-format
 msgid "Trying to write invalid map data: '%c' %d"
-msgstr "Försöker skriva ogiltig kartinformation: \"%c\" %d"
+msgstr "Försöker skriva ogiltiga kartupplysningar: \"%c\" %d"
 
 #: server/savegame.c:126
 msgid ""
@@ -2233,7 +2234,7 @@ msgid ""
 "games, or it may indicate an invalid saved game file.  Proceed at your own "
 "risk."
 msgstr ""
-"Den sparade filen innehåller ofullständig kartinformation. Detta kan "
+"Den sparade filen innehåller ofullständiga kartupplysningar. Detta kan "
 "inträffa med gamla sparade spel. Det kan även tyda på ogiltiga spelfiler. "
 "Fortsätt på egen risk."
 
@@ -2372,7 +2373,7 @@ msgstr "Det %s rymdskeppet har anlänt vid Alfa Kentauri."
 
 #: server/srv_main.c:201 server/srv_main.c:202
 msgid "Game ended in a draw as end year exceeded"
-msgstr "Spelet slutate oavgjort efter slutåret"
+msgstr "Spelet slutade oavgjort efter slutåret."
 
 #: server/srv_main.c:230 server/srv_main.c:231
 #, c-format
@@ -2440,9 +2441,8 @@ msgid "Please choose a non-blank name."
 msgstr "Var god välj ett ickeblankt namn."
 
 #: server/srv_main.c:1012
-#, fuzzy
 msgid "Please choose a legal name."
-msgstr "Var god välj ett ickeblankt namn."
+msgstr "Var god välj ett tillåtet namn."
 
 #: server/srv_main.c:1036
 #, c-format
@@ -2461,7 +2461,7 @@ msgstr "Inga folkstammar kvar: Tar bort spelare %s."
 
 #: server/srv_main.c:1076
 msgid "Game: Sorry, there are no nations left."
-msgstr "Spel: Ledsen, det finns inga folkstammar kvar."
+msgstr "Spel: Det finns inga folkstammar kvar."
 
 #: server/srv_main.c:1126
 #, c-format
@@ -2487,7 +2487,7 @@ msgstr "Välkommen till servern %s på port %d."
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr ""
-"Omgångsblockerande spel: väntar på att %s skall göra färdigt sin omgång..."
+"Omgångshindrande spel: väntar på att %s skall göra färdigt sin omgång..."
 
 #: server/srv_main.c:1209
 #, c-format
@@ -2550,7 +2550,7 @@ msgstr ""
 
 #: server/srv_main.c:1357
 msgid "Sorry, no observation of barbarians in this game."
-msgstr "Ledsen, ingent iakttagande av barbarer i detta spel."
+msgstr "Ingent iakttagande av barbarer i detta spel."
 
 #: server/srv_main.c:1360
 #, c-format
@@ -2559,7 +2559,7 @@ msgstr "%s avvisades: ingent iakttagande av barbarer."
 
 #: server/srv_main.c:1366
 msgid "Sorry, no observation of dead players in this game."
-msgstr "Ledsen, inget iakttagande av döda spelare i detta spel."
+msgstr "Inget iakttagande av döda spelare i detta spel."
 
 #: server/srv_main.c:1369
 #, c-format
@@ -2568,7 +2568,7 @@ msgstr "%s avvisades: inget iakttagande av döda spelare."
 
 #: server/srv_main.c:1375
 msgid "Sorry, no observation of AI players in this game."
-msgstr "Ledsen, inget iakktagande av datorstyrda spelare i detta spel."
+msgstr "Inget iakktagande av datorstyrda spelare i detta spel."
 
 #: server/srv_main.c:1378
 #, c-format
@@ -2577,8 +2577,7 @@ msgstr "%s avvisades: inget iakktagande av datorstyrda spelare."
 
 #: server/srv_main.c:1384
 msgid "Sorry, no reconnections to human-mode players in this game."
-msgstr ""
-"Ledsen, inga återanslutningar till människostyrda spelare i detta spel."
+msgstr "Inga återanslutningar till människostyrda spelare i detta spel."
 
 #: server/srv_main.c:1387
 #, c-format
@@ -2587,7 +2586,7 @@ msgstr "%s avvisades: ingen återanslutning till mänskliga spelare."
 
 #: server/srv_main.c:1405
 msgid "Sorry, someone else already has that name."
-msgstr "Ledsen, någon annan har redan detta namn."
+msgstr "Någon annan har redan detta namn."
 
 #: server/srv_main.c:1407
 #, c-format
@@ -2597,7 +2596,7 @@ msgstr "%s avvisades: namnet %s används redan."
 #: server/srv_main.c:1412
 #, c-format
 msgid "Sorry, %s is already connected."
-msgstr "Ledsen, %s är redan ansluten."
+msgstr "%s är redan ansluten."
 
 #: server/srv_main.c:1415
 #, c-format
@@ -2606,7 +2605,7 @@ msgstr "%s avvisades: %s är redan ansluten."
 
 #: server/srv_main.c:1448
 msgid "Sorry, the game is already running."
-msgstr "Ledsen, spelet pågår redan."
+msgstr "Spelet pågår redan."
 
 #: server/srv_main.c:1449
 #, c-format
@@ -2615,7 +2614,7 @@ msgstr "%s avvisades: spelet pågår och %s är ett okänt namn."
 
 #: server/srv_main.c:1455
 msgid "Sorry, the game is full."
-msgstr "Ledsen, spelet är fullt."
+msgstr "Spelet är fullt."
 
 #: server/srv_main.c:1456
 #, c-format
@@ -2625,7 +2624,7 @@ msgstr "%s avvisades: Högsta möjliga antal spelare uppnåddes."
 #
 #: server/srv_main.c:1462
 msgid "Sorry, no new players allowed in this game."
-msgstr "Ledsen, inga nya spelare tillåtna i detta spel."
+msgstr "Inga nya spelare tillåtna i detta spel."
 
 #: server/srv_main.c:1463
 #, c-format
@@ -2688,7 +2687,7 @@ msgstr "Påbörjar ny logg"
 #: server/srv_main.c:1910
 #, c-format
 msgid "Sending info to metaserver [%s]"
-msgstr "Skickar information till metaservern [%s]"
+msgstr "Skickar upplysningar till metaservern [%s]"
 
 #: server/srv_main.c:1926
 msgid "Now accepting new client connections."
@@ -3462,7 +3461,7 @@ msgstr ""
 
 #: server/stdinhand.c:738
 msgid "Turn-blocking game play mode"
-msgstr "Omgångsblockerande spelsätt"
+msgstr "Omgångshindrande spelsätt"
 
 #: server/stdinhand.c:739
 msgid ""
@@ -3505,7 +3504,7 @@ msgid ""
 "(The order of these characters is not significant, but their case is.)"
 msgstr ""
 "Detta skall vara en sträng av tecken, varav varje anger visningen av en rad "
-"med information i demografiredogörelsen.\n"
+"med upplysningar i demografiredogörelsen.\n"
 "    N = visa befolkning               P = visa tillverkning\n"
 "    A = visa Landyta                  E = visa ekonomi\n"
 "    S = visa bosatt yta               M = visa krigstjänst\n"
@@ -3635,7 +3634,7 @@ msgstr ""
 "\"options\" ger det en lista över alla kommandon respektive valmöjligheter. "
 "Annars tolkas argumentet som ett kommandonamn eller valmöjlighetsnamn, och "
 "hjälp ges för detta kommando eller denna valmöjlighet. För valmöjligheter "
-"innehåller hjälpen information om det nuvarande värdet och standardvärdet. "
+"innehåller hjälpen upplysningar om det nuvarande värdet och standardvärdet. "
 "Förkortningar för argument kan användas i entydiga fall."
 
 #: server/stdinhand.c:1023
@@ -3819,7 +3818,7 @@ msgstr "metainfo <metarad>"
 
 #: server/stdinhand.c:1106
 msgid "Set metaserver info line."
-msgstr "Sätt metaserverinformationsraden."
+msgstr "Sätt metaserverupplysningsraden."
 
 #: server/stdinhand.c:1112
 msgid "Control metaserver connection."
@@ -4010,7 +4009,7 @@ msgstr ""
 "Kommandoåtkomstläget styr vilka serverkommandon som äro åtkomliga för "
 "spelarna genom klientens tjattrad. De tillgängliga lägena är:\n"
 "    none  -  inga kommandon\n"
-"    info  -  endast informationsgivande kommandon\n"
+"    info  -  endast upplysningsgivande kommandon\n"
 "    ctrl  -  kommandon som påverkar spelet och användarna\n"
 "    hack  -  *alla* kommandon - farligt!\n"
 "Utan argument visar detta kommando de nuvarande kommandoåtkomstlägena.\n"
@@ -4244,7 +4243,7 @@ msgstr "Meddelar ej metaservern."
 #: server/stdinhand.c:1584
 #, c-format
 msgid "Metaserver infostring set to '%s'."
-msgstr "Metaserverinformationssträng satt till \"%s\"."
+msgstr "Metaserverupplysningssträng satt till \"%s\"."
 
 #: server/stdinhand.c:1599
 #, c-format
@@ -4307,7 +4306,7 @@ msgstr "Tog bort spelare %s från spelet."
 #: server/stdinhand.c:1830
 #, c-format
 msgid "Sorry, the '%s' command is not implemented yet."
-msgstr "Ledsen, kommandot \"%s\" är inte inbyggt än."
+msgstr "Kommandot \"%s\" är inte inbyggt än."
 
 #: server/stdinhand.c:1848
 #, c-format
@@ -4518,7 +4517,7 @@ msgstr "Standardskicklighet satt till \"%s\"."
 #: server/stdinhand.c:2555
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
-msgstr "Ledsen, du har inte åtkomst att visa valmöjligheten \"%s\"."
+msgstr "Du har inte åtkomst att visa valmöjligheten \"%s\"."
 
 #: server/stdinhand.c:2560
 #, c-format
@@ -4690,7 +4689,7 @@ msgstr "Regeluppsättningskatalog satt till \"%s\""
 
 #: server/stdinhand.c:3080
 msgid "Sorry, you are not allowed to use server commands."
-msgstr "Ledsen, du har inte tillåtelse att använda serverkommandon."
+msgstr "Du har inte tillåtelse att använda serverkommandon."
 
 #: server/stdinhand.c:3115
 #, c-format
@@ -4726,7 +4725,7 @@ msgstr "Du är inte förknippad med en spelare och spelet börjar. Hejdå."
 
 #: server/stdinhand.c:3311
 msgid "Cannot start the game: it is already running."
-msgstr "Kan inte sätta i gång spelet: det är pågår redan."
+msgstr "Kan inte sätta i gång spelet: det pågår redan."
 
 #: server/stdinhand.c:3320
 msgid "Cannot end the game: no game running."
@@ -4769,8 +4768,8 @@ msgstr ""
 "I många fall kunna kommandon och kommandoargument förkortas.\n"
 "Valmöjligheter äro inställningar som styr servern medan den är i gång.\n"
 "\n"
-"För att ta reda på hur man får mer information om kommandon och \n"
-"valmöjligheter, använd \"help help\"\n"
+"För att ta reda på hur man får ytterligare upplysningar om kommandon\n"
+"och valmöjligheter, använd \"help help\"\n"
 "\n"
 "För den otålige visas här kommandona för att komma i gång:\n"
 "  show   -  se nuvarande valmöjligheter\n"
@@ -5085,7 +5084,7 @@ msgstr "Spel: Vår %s hjälper till att bygga %s i %s (%d återstår)."
 #: server/unithand.c:1104
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route here!"
-msgstr "Spel: Ledsen, vår %s kan inte inrätta en handelsled hit!"
+msgstr "Spel: Vår %s kan inte inrätta en handelsled hit!"
 
 #: server/unithand.c:1110
 #, c-format
@@ -5376,7 +5375,7 @@ msgstr "Spel: Vi funno en vänlig stad."
 #: server/unittools.c:2455
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
-"Spel: Vänliga nomader äro imponerade av oss och ställer sig till förfogande."
+"Spel: Vänliga nomader äro imponerade av oss och ställa sig till förfogande."
 
 #: server/unittools.c:2479
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
@@ -5391,7 +5390,7 @@ msgstr ""
 
 #: client/attribute.c:277
 msgid "Old attributes detected and removed."
-msgstr ""
+msgstr "Gamla attribut funna och borttagna."
 
 #: client/audio.c:132
 #, c-format
@@ -5437,12 +5436,12 @@ msgstr "SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/index.html"
 
 #: client/audio.c:231
 msgid "No sound spec-file given!"
-msgstr "Ingen ljudinformationsfil angiven!"
+msgstr "Ingen ljudupplysningsfil angiven!"
 
 #: client/audio.c:237
 #, c-format
 msgid "Cannot find sound spec-file \"%s\"."
-msgstr "Kan inte finna ljudinformationsfilen \"%s\"."
+msgstr "Kan inte finna ljudupplysningsfilen \"%s\"."
 
 #: client/audio.c:238
 msgid "To get sound you need to download a sound set!"
@@ -5460,15 +5459,15 @@ msgstr "Fortsätter utan ljud."
 #: client/audio.c:246
 #, c-format
 msgid "Could not load sound spec-file: %s"
-msgstr "Kunde inte öppna ljudinformationsfil: %s"
+msgstr "Kunde inte öppna ljudupplysningsfil: %s"
 
 #: client/audio.c:252
 msgid "sound spec-file appears incompatible:"
-msgstr "ljudinformationsfilen verkar inte passa:"
+msgstr "ljudupplysningsfilen verkar inte passa:"
 
 #: client/audio.c:259
 msgid "sound spec-file claims required option(s) which we don't support:"
-msgstr "ljudinformationsfilen fordrar valmöjlighet(er) som inte stöds:"
+msgstr "ljudupplysningsfilen fordrar valmöjlighet(er) som inte stöds:"
 
 #: client/audio.c:290
 msgid "No real audio subsystem managed to initialize!"
@@ -5954,7 +5953,7 @@ msgid ""
 "Game: Only settler units and military units in cities can be put in auto-"
 "mode."
 msgstr ""
-"Spel: Endast bosättarenheter, och krigsenheter i städer, kunna försättas i "
+"Spel: Endast bosättarenheter och krigsenheter i städer kunna försättas i "
 "självständigt läge."
 
 #: client/control.c:823
@@ -5975,7 +5974,7 @@ msgstr "Spel: Hittade ingen väg till målet!"
 
 #: client/control.c:1322
 msgid "Game: Sorry, airunit patrol not yet implemented."
-msgstr "Spel: Ledsen, vaktrunda för flygenheter är ännu ej inbyggt."
+msgstr "Spel: Vaktrunda för flygenheter är ännu ej inbyggt."
 
 #: client/helpdata.c:109
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -5983,7 +5982,7 @@ msgstr "Landskap    Väg    Bevattning     Gruva          Omvandling\n"
 
 #: client/helpdata.c:136
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
-msgstr "(Järnvägar och fästningar kräver 3 omgångar, oavsett landskaps.)"
+msgstr "(Järnvägar och fästningar kräver 3 omgångar, oavsett landskap.)"
 
 #: client/helpdata.c:279
 msgid "  Rivers"
@@ -5992,7 +5991,7 @@ msgstr "  Floder"
 #: client/helpdata.c:434
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
-msgstr "Ledsen, inget hjälpavsnitt för %s.\n"
+msgstr "Inget hjälpavsnitt för %s.\n"
 
 #: client/helpdata.c:438
 #, c-format
@@ -6001,7 +6000,7 @@ msgid ""
 "This page was auto-generated.\n"
 "\n"
 msgstr ""
-"Ledsen, inget hjälpavsnitt för %s.\n"
+"Inget hjälpavsnitt för %s.\n"
 "Denna sida har skapats automatiskt.\n"
 "\n"
 
@@ -6069,7 +6068,7 @@ msgstr[1] "* Kan frakta %d landenheter över vatten.\n"
 
 #: client/helpdata.c:611
 msgid "* Can establish trade routes.\n"
-msgstr "* Kan inrättad handelsvägar.\n"
+msgstr "* Kan inrätta handelsvägar.\n"
 
 #: client/helpdata.c:614
 msgid "* Can help build wonders.\n"
@@ -6212,7 +6211,7 @@ msgstr "Detta tal kan ändra sig beroende på vad andra spelare forskar fram.\n"
 #: client/helpdata.c:808
 #, c-format
 msgid "Allows changing government to %s.\n"
-msgstr "Tillåter byte av regering till %s.\n"
+msgstr "Tillåter byte av regeringform till %s.\n"
 
 #: client/helpdata.c:814
 #, c-format
@@ -6289,9 +6288,8 @@ msgid "%s%d gold"
 msgstr "%s%d guld"
 
 #: client/messagewin_common.c:109
-#, fuzzy
 msgid "Game: "
-msgstr "Spel: %s"
+msgstr "Spel: "
 
 #: client/options.c:83
 msgid "Default player's username"
@@ -6824,7 +6822,7 @@ msgstr "filen %s fordrar valmöjlighet(er) som inte stöds:"
 #: client/tilespec.c:223
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
-msgstr "Kunde inte finna understött grafikfilstilläg för %s"
+msgstr "Kunde inte finna understött grafikfilstillägg för %s"
 
 #: client/tilespec.c:243 client/tilespec.c:342
 #, c-format
@@ -7006,9 +7004,8 @@ msgid "Pollution:"
 msgstr "Förorening:"
 
 #: client/gui-gtk-2.0/citydlg.c:526
-#, fuzzy
 msgid "_Overview"
-msgstr "Översikt"
+msgstr "_Översikt"
 
 #: client/gui-gtk-2.0/citydlg.c:554 client/gui-gtk-2.0/wldlg.c:822
 #: client/gui-gtk/citydlg.c:2954 client/gui-gtk/wldlg.c:310
@@ -7016,7 +7013,7 @@ msgstr "Översikt"
 #: client/gui-mui/worklistclass.c:237 client/gui-win32/citydlg.c:1225
 #: client/gui-win32/wldlg.c:673 client/gui-win32/wldlg.c:679
 msgid "Info"
-msgstr "Information"
+msgstr "Upplysningar"
 
 #: client/gui-gtk-2.0/citydlg.c:560 client/gui-gtk/citydlg.c:631
 #: client/gui-win32/citydlg.c:886
@@ -7043,9 +7040,8 @@ msgid "_Improvements:"
 msgstr "Stadsförbättr_ingar:"
 
 #: client/gui-gtk-2.0/citydlg.c:741
-#, fuzzy
 msgid "Pro_duction"
-msgstr "tillverkning"
+msgstr "Tillver_kning"
 
 #: client/gui-gtk-2.0/citydlg.c:770 client/gui-gtk-2.0/cityrep.c:679
 #: client/gui-gtk/citydlg.c:818 client/gui-gtk/cityrep.c:614
@@ -7058,18 +7054,16 @@ msgid "_Happiness"
 msgstr "_Lycklighet"
 
 #: client/gui-gtk-2.0/citydlg.c:843
-#, fuzzy
 msgid "C_MA"
-msgstr "Stadsförvaltning"
+msgstr "Stadsförvalt_ning"
 
 #: client/gui-gtk-2.0/citydlg.c:863 client/gui-gtk/citydlg.c:1210
 msgid "_Trade Routes"
 msgstr "Handels_vägar"
 
 #: client/gui-gtk-2.0/citydlg.c:889
-#, fuzzy
 msgid "_Settings"
-msgstr "Inställningar"
+msgstr "In_ställningar"
 
 #: client/gui-gtk-2.0/citydlg.c:892 client/gui-gtk/citydlg.c:1245
 msgid "Entertainers"
@@ -7203,7 +7197,7 @@ msgstr " - lyckliga"
 #: client/gui-gtk-2.0/citydlg.c:1330 client/gui-gtk/citydlg.c:1715
 #: client/gui-mui/citydlg.c:1908
 msgid "blocked"
-msgstr "blockerad"
+msgstr "hindrad"
 
 #: client/gui-gtk-2.0/citydlg.c:1684
 #, c-format
@@ -7285,7 +7279,7 @@ msgstr "_Ersätt enhet"
 #: client/gui-xaw/citydlg.c:2111
 #, c-format
 msgid "Sorry: cannot upgrade %s."
-msgstr "Ledsen: kan inte ersätta %s."
+msgstr "Kan inte ersätta %s."
 
 #: client/gui-gtk-2.0/citydlg.c:2233 client/gui-gtk-2.0/citydlg.c:2272
 #: client/gui-gtk/citydlg.c:2697 client/gui-gtk/citydlg.c:2720
@@ -7293,7 +7287,7 @@ msgstr "Ledsen: kan inte ersätta %s."
 #: client/gui-win32/citydlg.c:1622 client/gui-win32/citydlg.c:1646
 #: data/Freeciv:2419
 msgid "Upgrade Unit!"
-msgstr "Ersätt Enhet!"
+msgstr "Ersätt enhet!"
 
 #: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk/citydlg.c:2704
 #: client/gui-mui/dialogs.c:1874 client/gui-win32/citydlg.c:1629
@@ -8171,7 +8165,7 @@ msgstr "_Guld:"
 
 #: client/gui-gtk-2.0/diplodlg.c:533 client/gui-gtk-2.0/diplodlg.c:589
 msgid "_Add Clause..."
-msgstr ""
+msgstr "Lägg till kl_ausul..."
 
 #: client/gui-gtk-2.0/diplodlg.c:841 client/gui-gtk/diplodlg.c:992
 #: client/gui-mui/diplodlg.c:372 client/gui-win32/diplodlg.c:262
@@ -8477,7 +8471,7 @@ msgstr "Rörlighet/Försvar:"
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk/helpdlg.c:101
 #: client/gui-win32/helpdlg.c:93
 msgid "Food/Res/Trade:"
-msgstr "Mat/Tillgångar/Handel:"
+msgstr "Mat/Tillg/Handel:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk/helpdlg.c:102
 #: client/gui-win32/helpdlg.c:94
@@ -8622,7 +8616,7 @@ msgstr "+%d Mat / %d"
 #: client/gui-win32/helpdlg.c:623 client/gui-xaw/helpdlg.c:1051
 #, c-format
 msgid "+%d Res. / %d"
-msgstr "+%d Tillgångar / %d"
+msgstr "+%d Tillg. / %d"
 
 #: client/gui-gtk-2.0/inteldlg.c:76 client/gui-gtk/inteldlg.c:80
 #: client/gui-mui/inteldlg.c:111 client/gui-win32/inteldlg.c:85
@@ -8635,7 +8629,7 @@ msgstr "Underrättelser om utlandet"
 #: client/gui-xaw/inteldlg.c:93
 #, c-format
 msgid "Intelligence Information for the %s Empire"
-msgstr "Underrättelseinformation från %s-imperiet"
+msgstr "Underrättelseupplysningar från %s-imperiet"
 
 #: client/gui-gtk-2.0/inteldlg.c:108 client/gui-gtk/inteldlg.c:98
 #: client/gui-mui/inteldlg.c:139 client/gui-win32/inteldlg.c:99
@@ -8715,7 +8709,7 @@ msgstr "Landskap: %s"
 #: client/gui-win32/mapctrl.c:140 client/gui-xaw/mapctrl.c:123
 #, c-format
 msgid "Food/Prod/Trade: %s"
-msgstr "Mat/Tillgångar/Handel: %s"
+msgstr "Mat/Tillv/Handel: %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:108 client/gui-gtk/mapctrl.c:102
 #: client/gui-mui/mapclass.c:106 client/gui-win32/mapctrl.c:145
@@ -8732,7 +8726,7 @@ msgstr "Stad: %s(%s)"
 #: client/gui-gtk-2.0/mapctrl.c:121 client/gui-gtk/mapctrl.c:113
 #: client/gui-mui/mapclass.c:120 client/gui-xaw/mapctrl.c:135
 msgid "with City Walls"
-msgstr "med stadsmur"
+msgstr "med stadsmurar"
 
 #: client/gui-gtk-2.0/mapctrl.c:127 client/gui-gtk/mapctrl.c:118
 #: client/gui-mui/mapclass.c:128 client/gui-win32/mapctrl.c:159
@@ -9115,7 +9109,7 @@ msgstr "Rensa radioaktivt _nedfall"
 #: client/gui-gtk-2.0/menu.c:661 client/gui-gtk/menu.c:662
 #: client/gui-win32/menu.c:331
 msgid "_Sentry"
-msgstr "Vaktpo_st"
+msgstr "Vakta (_S)"
 
 #: client/gui-gtk-2.0/menu.c:667 client/gui-gtk/menu.c:668
 #: client/gui-win32/menu.c:334
@@ -9144,7 +9138,7 @@ msgstr "Utforska självständigt (_X)"
 
 #: client/gui-gtk-2.0/menu.c:681 client/gui-gtk/menu.c:682
 msgid "Patrol (_Q)"
-msgstr "Vaktrunda (_Q)"
+msgstr "Gå vaktrunda (_Q)"
 
 #: client/gui-gtk-2.0/menu.c:683 client/gui-gtk/menu.c:684
 #: client/gui-win32/menu.c:342
@@ -9729,9 +9723,8 @@ msgid "_Add Global Worklist"
 msgstr "Lägg till till allmän arbetslista"
 
 #: client/gui-gtk-2.0/wldlg.c:988
-#, fuzzy
 msgid "Chan_ge Production"
-msgstr "Ändra tillverkning"
+msgstr "Ändra tillverknin_g"
 
 #: client/gui-gtk/citydlg.c:597
 msgid "City improvements"
@@ -9748,7 +9741,7 @@ msgstr "_Stadsöversikt"
 
 #: client/gui-gtk/citydlg.c:625 client/gui-win32/citydlg.c:867
 msgid "City info"
-msgstr "Stadsinformation"
+msgstr "Stadsupplysningar"
 
 #: client/gui-gtk/citydlg.c:713 client/gui-gtk/citydlg.c:769
 #: client/gui-gtk/citydlg.c:992 client/gui-gtk/citydlg.c:1051
@@ -10149,7 +10142,7 @@ msgstr "mer"
 
 #: client/gui-gtk/diplodlg.c:349 data/Freeciv:268
 msgid "The following clauses have been agreed upon:"
-msgstr "Följande satser ha överenskommits:"
+msgstr "Överenskommelsen omfattar följande klausuler:"
 
 #: client/gui-gtk/diplodlg.c:371 client/gui-gtk/diplodlg.c:379
 #: client/gui-mui/diplodlg.c:637 client/gui-mui/diplodlg.c:638
@@ -10222,7 +10215,7 @@ msgstr "%s anblick:"
 #: client/gui-gtk/diplodlg.c:595 client/gui-mui/diplodlg.c:506
 #: data/Freeciv:324
 msgid "Erase clause"
-msgstr "Radera sats"
+msgstr "Tag bort klausul"
 
 #: client/gui-gtk/diplodlg.c:599 client/gui-win32/diplodlg.c:669
 #: data/Freeciv:459
@@ -12180,9 +12173,9 @@ msgid ""
 "Freeciv distribution.  For more information in general, visit the Freeciv "
 "website, at:"
 msgstr ""
-"För mer information om att anmäla programfel, se filen doc/BUGS.sv i "
-"Freecivdistributionen. För mer information i allmänhet, besök Freecivs plats "
-"på världsväven:"
+"För ytterligare upplysningar om att anmäla programfel, se filen doc/BUGS.sv "
+"i Freecivdistributionen. För ytterligare upplysningar i allmänhet, besök "
+"Freecivs plats på världsväven:"
 
 #: data/helpdata.txt:80
 msgid "Freeciv is covered by the GPL, which is included here: "
@@ -12213,13 +12206,22 @@ msgstr ""
 "som till exempel skrivfel, stavfel, oklarheter eller felöversättningar "
 "anmäler man till:\n"
 "\n"
-"  <freeciv@home.se>\n"
+"  <sigra@home.se> eller <freeciv@home.se>\n"
 "\n"
 "Översättaren,\n"
 "Erik Sigra\n"
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.39-1.14-10; 2003-12-31\n"
+"  Rättelser, varav vissa från Henning Norén\n"
+"  <henning punkt noren punkt 402 vid student punkt lu punkt se>\n"
+"  (bland annat ändring av översättningen av \"clause\" i samband\n"
+"  med  diplomatiska avtal från \"sats\" till \"klausul\", ändring av\n"
+"  översättningen av \"sentry\" från \"vaktpost\" till \"vakta\" i\n"
+"  samband med befallningar till enheter, samt ändring av\n"
+"  översättningen av \"fatal\" \"från \"dödlig\" till \"allvarlig\" i\n"
+"  samband med programfel), och uppdateringar.\n"
 "Version 0.39-1.14-9; 2003-08-12\n"
 "  Uppdatering.\n"
 "Version 0.39-1.14-8; 2003-07-24\n"
@@ -12249,8 +12251,8 @@ msgstr ""
 "Version 0.34; 2002-09-12\n"
 "  Rättning.\n"
 "Version 0.33; 2002-09-01\n"
-"  En annan utvecklare förhindrade ett allvarligt fel som gjorde\n"
-"  att Freeciv inte gick att bygga.\n"
+"  En annan utvecklare förhindrade ett allvarligt fel som gjorde att\n"
+"  Freeciv inte gick att bygga.\n"
 "Version 0.32; 2002-09-01\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.31; 2002-07-31\n"
@@ -12275,9 +12277,11 @@ msgstr ""
 "  Uppdateringar.\n"
 "Version 0.21; 2001-11-20\n"
 "  Uppdateringar.\n"
-"  Rättelse från Mattias Andersson <tamasis@softhome.net>.\n"
+"  Rättelse från Mattias Andersson\n"
+"  <tamasis vid softhome punkt net>.\n"
 "Version 0.20; 2001-11-09\n"
-"  Rättelse från Mattias Andersson <tamasis@softhome.net>.\n"
+"  Rättelse från Mattias Andersson\n"
+"  <tamasis vid softhome punkt net>.\n"
 "Version 0.19; 2001-10-30\n"
 "  Uppdateringar.\n"
 "Version 0.18; 2001-10-28\n"
@@ -12287,22 +12291,24 @@ msgstr ""
 "Version 0.16; 2001-10-13\n"
 "  Uppdateringar.\n"
 "Version 0.15; 2001-10-10\n"
-"  Rättelser från Mattias Andersson <tamasis@softhome.net>.\n"
+"  Rättelser från Mattias Andersson\n"
+"  <tamasis vid softhome punkt net>.\n"
 "Version 0.14; 2001-09-23\n"
 "  Uppdateringar.\n"
 "Version 0.13; 2001-07-27\n"
-"  Rättelser, varav vissa från Dennis Björklund <db@zigo.dhs.org>\n"
-"  (bland annat ändring av översättningen av \"seed\" i samband med\n"
-"  slumptal från \"säd\" till \"frö\"), och uppdateringar.\n"
+"  Rättelser, varav vissa från Dennis Björklund\n"
+"  <db vidzigo punkt dhs punkt org> (bland annat ändring av\n"
+"  översättningen av \"seed\" i samband med slumptal från \"säd\"\n"
+"  till \"frö\"), och uppdateringar.\n"
 "Version 0.12; 2001-07-04\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.11; 2001-01-24\n"
 "  Rättelser och uppdateringar.\n"
 "Version 0.10; 2000-12-05\n"
 "  Rättelser (skrivfel) och uppdateringar (införde skillnad mellan\n"
-"  \"fred\" mellan stater och \"frid\" i städer, vilket krävde\n"
-"  ingrepp i programmets källkod). Bytte ut resterande felaktiga\n"
-"  enkla citattecken mot dubbla citattecken.\n"
+"  \"fred\" mellan stater och \"frid\" i städer, vilket krävde ingrepp\n"
+"  i programmets källkod). Bytte ut resterande felaktiga enkla\n"
+"  citattecken mot dubbla citattecken.\n"
 "Version 0.9; 2000-10-07\n"
 "  Rättelser och uppdateringar (delad anblick, förbättrade menyer).\n"
 "Version 0.8; 2000-09-03\n"
@@ -12314,7 +12320,7 @@ msgstr ""
 "Version 0.5; 2000-08-18\n"
 "  Rättleser (skrivfel) och uppdateringar. Bytt ut många enkla\n"
 "  citattecken mot dubbla citattecken enligt förslag från Mattias\n"
-"  Andersson <tamasis@softhome.net>.\n"
+"  Andersson <tamasis vid softhome punkt net>.\n"
 "Version 0.4; 2000-07-29\n"
 "  Rättleser och uppdateringar.\n"
 "Version 0.3; 2000-07-28\n"
@@ -12327,12 +12333,15 @@ msgstr ""
 "\n"
 "Andra personer som bidragit:\n"
 "============================\n"
-"Mattias Andersson <tamasis@softhome.net>\n"
+"Henning Norén\n"
+"<henning punkt noren punkt 402 vid student punkt lu punkt se>\n"
+"  Rättelser och förslag 2003-12.\n"
+"Mattias Andersson <tamasis vid softhome punkt net>\n"
 "  har vid flera tillfällen under perioden 2000-07-27 till\n"
 "  30 bidragit med rättelser och hänvisningar.\n"
 "  Rättelser 2001-10-08.\n"
 "  Rättelse 2001-11-09.\n"
-"Dennis Björklund <db@zigo.dhs.org>\n"
+"Dennis Björklund <db vid zigo punkt dhs punkt org>\n"
 "  Rättelser 2001-07-27.\n"
 "\n"
 "Anpassning av översättningen (endast för vana användare):\n"
@@ -12420,7 +12429,7 @@ msgstr ""
 "  Vänsterklick: (på stad) :  Öppna stadsfönster\n"
 "                (på enhet):  Gör enhet verksam\n"
 "  Mittklick eller\n"
-"  Control-högerklick      :  Visa rutinformation\n"
+"  Control-högerklick      :  Visa rutupplysningar\n"
 "  Högerklick              :  Centrera rutan i anblicken\n"
 "  Skift-klick             :  Anpassa stads arbetare från huvudkartan"
 
@@ -12506,7 +12515,7 @@ msgstr ""
 "  p: rensa förorening (bosättarenheter)\n"
 "  p: ho(p)pa fallskärm (fallskärmsenheter)\n"
 "  P: (P)lundra landskapsförändring\n"
-"  q: vaktrunda (vänsterklicka sedan på målet)\n"
+"  q: gå vaktrunda (vänsterklicka sedan på målet)\n"
 "  r: bygg väg/jä(r)nväg (bosättarenheter)\n"
 "  r: in(r)ätta handelsväg (karavanenheter)\n"
 "  R: driv fram en (R)evolution\n"
@@ -12803,7 +12812,7 @@ msgid ""
 msgstr ""
 " 6. Sköt om städer.\n"
 "\n"
-"    Varje stad ha medborgare. Antalet beror på befolkningsmängden. När man "
+"    Varje stad har medborgare. Antalet beror på befolkningsmängden. När man "
 "klickar på en stad kan man se hur landet kring staden används. Man kan "
 "tilldela medborgare till lantbruket, eller de kunna vara vetenskapsmän, "
 "underhållare eller skattmasar. Särskilt vid spelets början skall man se till "
@@ -12828,7 +12837,7 @@ msgid ""
 "food production."
 msgstr ""
 "    Om man flyttar alla sina arbetare in i staden och högerklickar på "
-"mittrutan omårdnas arbetarna för att ge högsta möjliga matproduktion."
+"mittrutan omårdnas arbetarna för att ge högsta möjliga mattillverkning."
 
 #: data/helpdata.txt:637
 msgid ""
@@ -12837,7 +12846,7 @@ msgid ""
 "so is labelled with a lightning bolt.  Take care not to let this happen to "
 "any of your cities, as unhappy cities produce nothing, and will soon revolt."
 msgstr ""
-"    Den gyllene regeln för stadsskötsel är at det skall finnas åtminstone "
+"    Den gyllene regeln för stadsskötsel är att det skall finnas åtminstone "
 "lika många lyckliga medborgare som otillfredställda medborgare. En stad där "
 "detta inte är fallet markeras med en blixt. Man skall se till att detta inte "
 "händer i någon av sina städer, eftersom otillfredställda städer inte "
@@ -13078,7 +13087,7 @@ msgstr ""
 "kan man få problem att hantera överlappande städer för hand. Det är bäst att "
 "styra alla städer på städer i en grupp med inbördes överlapp (till exempen "
 "en ö) antingen för hand eller med stadsförvaltning. Läs fler råd, "
-"bakgrundsinformation och exempel i filen \"doc/README.cma.sv\".\n"
+"bakgrundupplysningar och exempel i filen \"doc/README.cma.sv\".\n"
 
 #: data/helpdata.txt:770
 msgid ""
@@ -13252,7 +13261,7 @@ msgid ""
 "attack."
 msgstr ""
 "Beroende på servervalmöjligheter, kan en godtycklig uppsättning enhetsslag "
-"minska städer utan stadsmurs invånarantal med 1 vid ett lyckat angrepp."
+"minska städer utan stadsmurars invånarantal med 1 vid ett lyckat angrepp."
 
 #: data/helpdata.txt:886
 msgid ""
@@ -13347,7 +13356,7 @@ msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
 msgstr ""
-" - Om försvararen är i en stad med stadsmur och angriparen är en landenhet "
+" - Om försvararen är i en stad med stadsmurar och angriparen är en landenhet "
 "(gäller inte haubitsar) trefaldigas styrkan."
 
 #: data/helpdata.txt:930
@@ -13436,7 +13445,7 @@ msgid ""
 "without City Walls, the city is reduced in size by 1."
 msgstr ""
 "Om angriparen är en landenhet och vinner, och försvararens enhet är i en "
-"stad utan stadsmur, minskas invånarantalet med 1."
+"stad utan stadsmurar, minskas invånarantalet med 1."
 
 #: data/helpdata.txt:975
 msgid ""
@@ -13457,8 +13466,8 @@ msgid ""
 "with City Walls built on a Forest tile."
 msgstr ""
 "Antag att en erfaren kanon (A:8, F:1, TP:20, E:1) med 2/3 drag kvar angriper "
-"en oerfaren musketerare (A:3, F:3, TP:20, E:1) inuti en stad (med stadsmur) "
-"på en skogsruta."
+"en oerfaren musketerare (A:3, F:3, TP:20, E:1) inuti en stad (med "
+"stadsmurar) på en skogsruta."
 
 #: data/helpdata.txt:987
 msgid ""
@@ -13476,7 +13485,7 @@ msgid ""
 "20.25."
 msgstr ""
 "Försvararens grundstyrka är 3. På grund av skogsrutan, blir styrkan 4.5. "
-"Försvararen befinner sig bakom en stadsmur, så styrkan trefaldigas till "
+"Försvararen befinner sig bakom en stadsmurar, så styrkan trefaldigas till "
 "13.5. Försvararen är en landenhet i en stad, så styrkan ökas till 20.25."
 
 #: data/helpdata.txt:995
@@ -13530,7 +13539,7 @@ msgid ""
 msgstr ""
 "Antag att ett slagskepp (A:12, F:12, TP:40, E:2) med 3 drag kvar angriper "
 "erfarna bergstrupper (A:5, F:5, TP:20, E:1) inuti en stad på gräsland med "
-"stadsmur och kustförsvar."
+"stadsmurar och kustförsvar."
 
 #: data/helpdata.txt:1029
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
@@ -14013,8 +14022,8 @@ msgstr ""
 "Om antalet otillfredställda medborgare i en stad överstiger antalet lyckliga "
 "medborgare, blir det upplopp i staden. Då tillverkas ingenting och det är "
 "lättare för fienders budbärare och spejare att anstifta uppror i staden. "
-"Utdragna upplopp under folkstyre kunna leda till revolution, regeringen "
-"störtas."
+"Utdragna upplopp under folkstyre kunna leda till revolution, det vill säga "
+"regeringen störtas."
 
 #: data/helpdata.txt:1288
 msgid ""
@@ -14721,7 +14730,7 @@ msgstr ""
 "Rymdmoduler är de dyraste delarna av rymdskepp. Det finns 3 olika slags "
 "rymdmoduler:\n"
 "\n"
-"- Bostadsmodul: tillhandahåller bostadsutrymme åt 10,000 människor.\n"
+"- Bostadsmodul: tillhandahåller bostadsutrymme åt 10 000 människor.\n"
 "- Livsunderstödsmodul: tillhandahåller mat och vatten till befolkningen i en "
 "bostadsmodul.\n"
 "- Solpanelsmodul: tillhandahåller energin som behövs för 2 andra moduler av "
@@ -14949,7 +14958,7 @@ msgstr "Stora Muren"
 #: data/default/buildings.ruleset:1592 data/civ2/buildings.ruleset:1379
 #: data/civ1/buildings.ruleset:1386 data/history/buildings.ruleset:1401
 msgid "Works as a City Wall in all cities."
-msgstr "Fungerar som stadsmurar åt alla städer. "
+msgstr "Fungerar som stadsmurar åt alla städer."
 
 #: data/default/buildings.ruleset:1600 data/civ2/buildings.ruleset:1386
 #: data/civ1/buildings.ruleset:1393 data/history/buildings.ruleset:1409
@@ -15478,9 +15487,10 @@ msgstr ""
 "krigsenheter lika stort som stadens storlek, utan att betala underhåll. "
 "(Varje överskjutande enhet kostar 1 sköld varje omgång.)\n"
 "\n"
-"Man kan införa undantagstillstånd när man inte har någon regering: varje "
-"krigsenhet i en stad håller 1 otillfredställd medborgare nöjd. (Eller "
-"otillfredställda medborgare beter sig som nöjda, och orsaka ej upplopp.)"
+"Man kan införa undantagstillstånd när man inte har någon regering. Varje "
+"krigsenhet i en stad håller 1 otillfredställd medborgare nöjd. (Det vill "
+"säga den otillfredställda medborgaren uppför sig som nöjd och orsakar ej "
+"upplopp.)"
 
 #: data/default/governments.ruleset:173 data/civ2/governments.ruleset:172
 #: data/civ1/governments.ruleset:174 data/history/governments.ruleset:173
@@ -15541,9 +15551,9 @@ msgstr ""
 "som stadens storlek, utan att betala underhåll. (Varje överskjutande enhet "
 "kostar 1 sköld varje omgång.)\n"
 "\n"
-"Man kan införa undantagstillstånd under envälde: varje krigsenhet i en stad "
-"håller 1 otillfredställd medborgare nöjd. (Eller otillfredställda medborgare "
-"beter sig som nöjda, och orsaka ej upplopp.)"
+"Man kan införa undantagstillstånd under envälde. Varje krigsenhet i en stad "
+"håller 1 otillfredställd medborgare nöjd. (Det vill säga den "
+"otillfredställda medborgaren uppför sig som nöjd och orsakar ej upplopp.)"
 
 #: data/default/governments.ruleset:244 data/civ2/governments.ruleset:243
 #: data/civ1/governments.ruleset:243 data/history/governments.ruleset:244
@@ -15608,7 +15618,7 @@ msgstr ""
 "Under monarki kan varje stad understödja upp till 3 krigsenheter utan att "
 "betala underhåll. (Varje överskjutande enhet kostar 1 sköld.)\n"
 "\n"
-"Man kan införa begränsat undantagstillstånd under monarki: varje krigsenhet "
+"Man kan införa begränsat undantagstillstånd under monarki. Varje krigsenhet "
 "i en stad, upp till 3, håller 1 otillfredställd medborgare nöjd."
 
 #: data/default/governments.ruleset:314 data/civ2/governments.ruleset:313
@@ -15626,7 +15636,6 @@ msgid "Comrade"
 msgstr "Kamrat"
 
 #: data/default/governments.ruleset:357
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -15657,30 +15666,31 @@ msgid ""
 "content."
 msgstr ""
 "En kommunistisk regering grundar sig på idealet att alla människor är "
-"jämlikar. Allt ägs av stadten, i stället för av enskilda medborgare. "
-"Kommunism ger en avvägning mellan krigiskt och ekonomiskt regeringsslag.\n"
+"jämlikar. Allt ägs av staten i stället för av enskilda medborgare. Kommunism "
+"ger en avvägning mellan krigisk och ekonomisk regeringsform.\n"
 "\n"
 "Under kommunism ändras inte mutningen beroende på avståndet till "
 "huvudstaden; alla städer (även huvudstaden) har lite mutning. Dessutom "
 "betraktas kommunistiska städer, som är > 10 rutor bort från huvudstaden, som "
-"endast 10 rutor bort, vid beräkning av kostnaden för att anstifta upplopp "
-"(se \"enheter\", \"budbärare\").\n"
+"endast 10 rutor bort, vid beräkning av kostnaden för att anstifta uppror (se "
+"\"enheter\", \"budbärare\").\n"
 "\n"
-"Varje bosättare kostar 2 mat varje omgång under kommunism.\n"
+"Varje bosättare kostar 1 mat varje omgång under kommunism.\n"
 "\n"
 "Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
 "som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
-"forskning är 70%.\n"
+"forskning är 80%.\n"
 "\n"
 "Budbärare och spejare som skapas under kommunism är alltid erfarna.\n"
 "\n"
 "Under kommunism kan varje stad understödja upp till 3 krigsenheter utan att "
 "betala underhåll. (Varje överskjutande enhet kostar 1 sköld.)\n"
 "\n"
-"Man kan införa begränsat undantagstillstånd under monarki: varje krigsenhet "
-"i en stad, upp till 3, håller 2 otillfredställda medborgare nöjda."
+"Man kan införa begränsat men verkningsfullt undantagstillstånd under "
+"kommunism. Varje krigsenhet i en stad, upp till 3, håller 2 otillfredställda "
+"medborgare nöjda."
 
 #: data/default/governments.ruleset:391 data/civ2/governments.ruleset:470
 #: data/civ1/governments.ruleset:385 data/history/governments.ruleset:391
@@ -15872,14 +15882,14 @@ msgid ""
 "content."
 msgstr ""
 "En kommunistisk regering grundar sig på idealet att alla människor är "
-"jämlikar. Allt ägs av stadten, i stället för av enskilda medborgare. "
-"Kommunism ger en avvägning mellan krigiskt och ekonomiskt regeringsslag.\n"
+"jämlikar. Allt ägs av staten i stället för av enskilda medborgare. Kommunism "
+"ger en avvägning mellan krigisk och ekonomisk regeringsform.\n"
 "\n"
 "Under kommunism ändras inte mutningen beroende på avståndet till "
 "huvudstaden; alla städer (även huvudstaden) har lite mutning. Dessutom "
 "betraktas kommunistiska städer, som är > 10 rutor bort från huvudstaden, som "
-"endast 10 rutor bort, vid beräkning av kostnaden för att anstifta upplopp "
-"(se \"enheter\", \"budbärare\").\n"
+"endast 10 rutor bort, vid beräkning av kostnaden för att anstifta uppror (se "
+"\"enheter\", \"budbärare\").\n"
 "\n"
 "Varje bosättare kostar 2 mat varje omgång under kommunism.\n"
 "\n"
@@ -15887,15 +15897,15 @@ msgstr ""
 "som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
 "\n"
 "Den högsta tillåtna satsen som kan sättas för skatt, överflöd eller "
-"forskning är 70%.\n"
+"forskning är 80%.\n"
 "\n"
 "Budbärare och spejare som skapas under kommunism är alltid erfarna.\n"
 "\n"
 "Under kommunism kan varje stad understödja upp till 3 krigsenheter utan att "
 "betala underhåll. (Varje överskjutande enhet kostar 1 sköld.)\n"
 "\n"
-"Man kan införa begränsat undantagstillstånd under monarki: varje krigsenhet "
-"i en stad, upp till 3, håller 2 otillfredställda medborgare nöjda."
+"Man kan införa begränsat undantagstillstånd under kommunism. Varje "
+"krigsenhet i en stad, upp till 3, håller 2 otillfredställda medborgare nöjda."
 
 #: data/civ2/governments.ruleset:390 data/default/techs.ruleset:236
 #: data/civ2/techs.ruleset:229 data/civ1/techs.ruleset:229
@@ -16005,12 +16015,11 @@ msgstr ""
 "som stadens storlek, utan att betala underhåll. (Varje överskjutande enhet "
 "kostar 1 sköld varje omgång.)\n"
 "\n"
-"Man kan införa undantagstillstånd under envälde: varje krigsenhet i en stad "
-"håller 1 otillfredställd medborgare nöjd. (Eller otillfredställda medborgare "
-"beter sig som nöjda, och orsaka ej upplopp.)"
+"Man kan införa undantagstillstånd under envälde. Varje krigsenhet i en stad "
+"håller 1 otillfredställd medborgare nöjd. (Det vill säga den "
+"otillfredställda medborgaren uppför sig som nöjd och orsakar ej upplopp.)"
 
 #: data/civ1/governments.ruleset:286
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -16044,11 +16053,10 @@ msgstr ""
 "Under monarki kan varje stad understödja upp till 3 krigsenheter utan att "
 "betala underhåll. (Varje överskjutande enhet kostar 1 sköld.)\n"
 "\n"
-"Man kan införa begränsat undantagstillstånd under monarki: varje krigsenhet "
-"i en stad, upp till 3, håller 1 otillfredställd medborgare nöjd."
+"Man kan införa begränsat undantagstillstånd under monarki. Varje krigsenhet "
+"i en stad håller 1 otillfredställd medborgare nöjd."
 
 #: data/civ1/governments.ruleset:353
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -16077,16 +16085,16 @@ msgid ""
 "act content, and will not cause disorder.)"
 msgstr ""
 "En kommunistisk regering grundar sig på idealet att alla människor är "
-"jämlikar. Allt ägs av stadten, i stället för av enskilda medborgare. "
-"Kommunism ger en avvägning mellan krigiskt och ekonomiskt regeringsslag.\n"
+"jämlikar. Allt ägs av staten i stället för av enskilda medborgare. Kommunism "
+"ger en avvägning mellan krigisk och ekonomisk regeringsform.\n"
 "\n"
 "Under kommunism ändras inte mutningen beroende på avståndet till "
 "huvudstaden; alla städer (även huvudstaden) har lite mutning. Dessutom "
 "betraktas kommunistiska städer, som är > 10 rutor bort från huvudstaden, som "
-"endast 10 rutor bort, vid beräkning av kostnaden för att anstifta upplopp "
-"(se \"enheter\", \"budbärare\").\n"
+"endast 10 rutor bort, vid beräkning av kostnaden för att anstifta uppror (se "
+"\"enheter\", \"budbärare\").\n"
 "\n"
-"Varje bosättare kostar 2 mat varje omgång under kommunism.\n"
+"Varje bosättare kostar 1 mat varje omgång under kommunism.\n"
 "\n"
 "Om en stad under kommunism firar, får den en bonus på 1 handel i varje ruta "
 "som redan ger minst 1 handel. Se \"lycklighet\" för enskildheter.\n"
@@ -16096,8 +16104,9 @@ msgstr ""
 "Under kommunism kan varje stad understödja upp till 3 krigsenheter utan att "
 "betala underhåll. (Varje överskjutande enhet kostar 1 sköld.)\n"
 "\n"
-"Man kan införa begränsat undantagstillstånd under monarki: varje krigsenhet "
-"i en stad, upp till 3, håller 2 otillfredställda medborgare nöjda."
+"Man kan införa undantagstillstånd under kommunism. Varje krigsenhet i en "
+"stad håller 1 otillfredställd medborgare nöjd. (Det vill säga den "
+"otillfredställda medborgaren uppför sig som nöjd och orsakar ej upplopp.)"
 
 #: data/civ1/governments.ruleset:428
 msgid ""
@@ -16757,7 +16766,7 @@ msgstr ""
 #: data/default/terrain.ruleset:332 data/civ2/terrain.ruleset:332
 #: data/civ1/terrain.ruleset:324 data/history/terrain.ruleset:332
 msgid "Jungle"
-msgstr "Jungel"
+msgstr "Djungel"
 
 #: data/default/terrain.ruleset:340 data/civ2/terrain.ruleset:340
 #: data/civ1/terrain.ruleset:332 data/history/terrain.ruleset:340
@@ -16772,7 +16781,7 @@ msgstr "Frukt"
 #: data/default/terrain.ruleset:362 data/civ2/terrain.ruleset:362
 #: data/civ1/terrain.ruleset:354 data/history/terrain.ruleset:362
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
-msgstr "Jungel är kraftigt övervuxen, vilket gör jordbruk något besvärligt."
+msgstr "Djungel är kraftigt övervuxen, vilket gör jordbruk något besvärligt."
 
 #: data/default/terrain.ruleset:368 data/civ2/terrain.ruleset:368
 #: data/civ1/terrain.ruleset:360 data/history/terrain.ruleset:368
@@ -16947,8 +16956,8 @@ msgid ""
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
 msgstr ""
-"Bosättaren är en av nyckelenheterna i spelet. Bosättare kunna användas för "
-"att grunda nya städer, bygga bevattningsanläggningar vägar, järnvägar, "
+"Bosättaren är en av nyckelenheterna i spelet. Den kan användas för att "
+"grunda nya städer, bygga bevattningsanläggningar vägar, järnvägar, "
 "fästningar, flygbaser och gruvor och rensa föroreningar och radioaktivt "
 "nedfall. Underhåll för bosättare kostar både mat och sköldar, och en "
 "bosättare kan dö om dess underhållsbetalande stad får slut på mat.\n"
@@ -17418,7 +17427,7 @@ msgstr ""
 "skickligare på att spana än sin föregångare, budbäraren.\n"
 "\n"
 "De fredligaste förmågorna hos spejare är att undersöka städer, vilket ger "
-"utförlig information, och att inrätta beskickningar. Men om ens spejare ha "
+"utförliga upplysningar, och att inrätta beskickningar. Men om ens spejare ha "
 "fått ett rykte om sig att göra saker i smyg, blir den avrättad om den "
 "försöker inrätta en beskickning.\n"
 "\n"
@@ -17515,8 +17524,8 @@ msgid ""
 "though; excess effort can be wasted, and a group of Settlers is highly "
 "vulnerable to enemy attacks."
 msgstr ""
-"Bosättaren är en av nyckelenheterna i spelet. Bosättare kunna användas för "
-"att grunda nya städer, bygga bevattningsanläggningar och vägar, järnvägar, "
+"Bosättaren är en av nyckelenheterna i spelet. Den kan användas för att "
+"grunda nya städer, bygga bevattningsanläggningar och vägar, järnvägar, "
 "fästningar, flygbaser och gruvor och rensa föroreningar och radioaktivt "
 "nedfall. Underhåll för bosättare kostar både mat och sköldar, och en "
 "bosättare kan dö om dess underhållsbetalande stad får slut på mat.\n"
