@@ -53,28 +53,30 @@ bool concise_city_production = FALSE;
 bool auto_turn_done = FALSE;
 bool meta_accelerators = TRUE;
 
-#define GEN_OPTION(name, desc, type) { #name, desc, type, &name, NULL }
-#define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, NULL, NULL }
+#define GEN_INT_OPTION(name, desc) { #name, desc, COT_BOOL, &name, NULL, NULL }
+#define GEN_BOOL_OPTION(name, desc) { #name, desc, COT_INT, NULL, &name, NULL }
+#define GEN_OPTION_TERMINATOR { NULL, NULL, COT_BOOL, NULL, NULL, NULL }
 
 client_option options[] = {
-  GEN_OPTION(solid_color_behind_units,	N_("Solid unit background color"), COT_BOOL),
-  GEN_OPTION(sound_bell_at_new_turn,	N_("Sound bell at new turn"), COT_BOOL),
-  GEN_OPTION(smooth_move_units,		N_("Smooth unit moves"), COT_BOOL),
-  GEN_OPTION(smooth_move_unit_steps,	N_("Smooth unit move steps"), COT_INT),
-  GEN_OPTION(do_combat_animation,	N_("Show combat animation"), COT_BOOL),
-  GEN_OPTION(ai_popup_windows,		N_("Popup dialogs in AI Mode"), COT_BOOL),
-  GEN_OPTION(ai_manual_turn_done,	N_("Manual Turn Done in AI Mode"), COT_BOOL),
-  GEN_OPTION(auto_center_on_unit,	N_("Auto Center on Units"), COT_BOOL),
-  GEN_OPTION(auto_center_on_combat,	N_("Auto Center on Combat"), COT_BOOL),
-  GEN_OPTION(wakeup_focus,		N_("Focus on Awakened Units"), COT_BOOL),
-  GEN_OPTION(draw_diagonal_roads,	N_("Draw Diagonal Roads/Rails"), COT_BOOL),
-  GEN_OPTION(center_when_popup_city,	N_("Center map when Popup city"), COT_BOOL),
-  GEN_OPTION(concise_city_production,	N_("Concise City Production"), COT_BOOL),
-  GEN_OPTION(auto_turn_done, 		N_("End Turn when done moving"), COT_BOOL),
-  GEN_OPTION(meta_accelerators, 	N_("Use Alt/Meta for accelerators (GTK only)"), COT_BOOL),
+  GEN_BOOL_OPTION(solid_color_behind_units, N_("Solid unit background color")),
+  GEN_BOOL_OPTION(sound_bell_at_new_turn,   N_("Sound bell at new turn")),
+  GEN_BOOL_OPTION(smooth_move_units,        N_("Smooth unit moves")),
+  GEN_INT_OPTION(smooth_move_unit_steps,    N_("Smooth unit move steps")),
+  GEN_BOOL_OPTION(do_combat_animation,      N_("Show combat animation")),
+  GEN_BOOL_OPTION(ai_popup_windows,         N_("Popup dialogs in AI Mode")),
+  GEN_BOOL_OPTION(ai_manual_turn_done,      N_("Manual Turn Done in AI Mode")),
+  GEN_BOOL_OPTION(auto_center_on_unit,      N_("Auto Center on Units")),
+  GEN_BOOL_OPTION(auto_center_on_combat,    N_("Auto Center on Combat")),
+  GEN_BOOL_OPTION(wakeup_focus,             N_("Focus on Awakened Units")),
+  GEN_BOOL_OPTION(draw_diagonal_roads,      N_("Draw Diagonal Roads/Rails")),
+  GEN_BOOL_OPTION(center_when_popup_city,   N_("Center map when Popup city")),
+  GEN_BOOL_OPTION(concise_city_production,  N_("Concise City Production")),
+  GEN_BOOL_OPTION(auto_turn_done,           N_("End Turn when done moving")),
+  GEN_BOOL_OPTION(meta_accelerators,        N_("Use Alt/Meta for accelerators (GTK only)")),
   GEN_OPTION_TERMINATOR
 };
-#undef GEN_OPTION
+#undef GEN_INT_OPTION
+#undef GEN_BOOL_OPTION
 #undef GEN_OPTION_TERMINATOR
 
 /** View Options: **/
@@ -350,12 +352,23 @@ void load_options(void)
     return;  
 
   for (o=options; o->name; o++) {
-    *(o->p_value) =
-      secfile_lookup_int_default(&sf, *(o->p_value), "%s.%s", prefix, o->name);
+    switch (o->type) {
+    case COT_BOOL:
+      *(o->p_bool_value) =
+	  secfile_lookup_bool_default(&sf, *(o->p_bool_value), "%s.%s",
+				      prefix, o->name);
+      break;
+    case COT_INT:
+      *(o->p_int_value) =
+	  secfile_lookup_int_default(&sf, *(o->p_int_value), "%s.%s",
+				      prefix, o->name);
+      break;
+    }
   }
   for (v=view_options; v->name; v++) {
     *(v->p_value) =
-      secfile_lookup_int_default(&sf, *(v->p_value), "%s.%s", prefix, v->name);
+	secfile_lookup_bool_default(&sf, *(v->p_value), "%s.%s", prefix,
+				    v->name);
   }
   for (i=0; i<E_LAST; i++) {
     messages_where[i] =
@@ -406,11 +419,18 @@ void save_options(void)
   secfile_insert_str(&sf, VERSION_STRING, "client.version");
 
   for (o = options; o->name; o++) {
-    secfile_insert_int(&sf, *(o->p_value), "client.%s", o->name);
+    switch (o->type) {
+    case COT_BOOL:
+      secfile_insert_bool(&sf, *(o->p_bool_value), "client.%s", o->name);
+      break;
+    case COT_INT:
+      secfile_insert_int(&sf, *(o->p_int_value), "client.%s", o->name);
+      break;
+    }
   }
 
   for (v = view_options; v->name; v++) {
-    secfile_insert_int(&sf, *(v->p_value), "client.%s", v->name);
+    secfile_insert_bool(&sf, *(v->p_value), "client.%s", v->name);
   }
 
   for (i = 0; i < E_LAST; i++) {

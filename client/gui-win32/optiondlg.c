@@ -47,11 +47,11 @@ static LONG CALLBACK option_proc(HWND dlg,UINT message,
       for (o=options; o->name; ++o) {
 	switch (o->type) {
 	case COT_BOOL:
-	  *(o->p_value)=(Button_GetCheck((HWND)(o->p_gui_data))==BST_CHECKED);
+	  *(o->p_bool_value)=(Button_GetCheck((HWND)(o->p_gui_data))==BST_CHECKED);
 	  break;
 	case COT_INT:
 	  GetWindowText((HWND)(o->p_gui_data),dp,sizeof(dp));
-	  sscanf(dp, "%d", o->p_value);
+	  sscanf(dp, "%d", o->p_int_value);
 	  break;
 	}
       }
@@ -124,10 +124,10 @@ void popup_option_dialog(void)
     switch (o->type) {
     case COT_BOOL:
       Button_SetCheck((HWND)(o->p_gui_data),
-		      (*(o->p_value))?BST_CHECKED:BST_UNCHECKED);
+		      (*(o->p_bool_value))?BST_CHECKED:BST_UNCHECKED);
       break;
     case COT_INT:
-      my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_value));
+      my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_int_value));
       SetWindowText((HWND)(o->p_gui_data), valstr);
       break;
     }

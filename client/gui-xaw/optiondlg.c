@@ -70,11 +70,11 @@ void popup_option_dialog(void)
   for (o=options; o->name; ++o) {
     switch (o->type) {
     case COT_BOOL:
-      XtVaSetValues((Widget) o->p_gui_data, XtNstate, *(o->p_value),
-		    XtNlabel, *(o->p_value) ? _("Yes") : _("No"), NULL);
+      XtVaSetValues((Widget) o->p_gui_data, XtNstate, *(o->p_bool_value),
+		    XtNlabel, *(o->p_bool_value) ? _("Yes") : _("No"), NULL);
       break;
     case COT_INT:
-      my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_value));
+      my_snprintf(valstr, sizeof(valstr), "%d", *(o->p_int_value));
       XtVaSetValues((Widget) o->p_gui_data, XtNstring, valstr, NULL);
       break;
     }
@@ -201,11 +201,11 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
     switch (o->type) {
     case COT_BOOL:
       XtVaGetValues((Widget) o->p_gui_data, XtNstate, &b, NULL);
-      *(o->p_value) = b;
+      *(o->p_bool_value) = b;
       break;
     case COT_INT:
       XtVaGetValues(o->p_gui_data, XtNstring, &dp, NULL);
-      sscanf(dp, "%d", o->p_value);
+      sscanf(dp, "%d", o->p_int_value);
       break;
     }
   }

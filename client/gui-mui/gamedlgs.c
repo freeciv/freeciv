@@ -295,8 +295,8 @@ static void option_ok(void)
     Object *obj = (Object *) o->p_gui_data;
     if (obj)
     {
-      if (o->type == COT_BOOL) *(o->p_value) = xget(obj, MUIA_Selected);
-      else if (o->type == COT_INT) *(o->p_value) = xget(obj, MUIA_String_Integer);
+      if (o->type == COT_BOOL) *(o->p_bool_value) = xget(obj, MUIA_Selected);
+      else if (o->type == COT_INT) *(o->p_int_value) = xget(obj, MUIA_String_Integer);
     }
   }
 
@@ -369,8 +369,8 @@ static void create_option_dialog(void)
       Object *obj = (Object *) o->p_gui_data;
       if (obj)
       {
-      	if (o->type == COT_BOOL) setcheckmark(obj, *(o->p_value));
-	else if (o->type == COT_INT) set(obj,MUIA_String_Integer,*(o->p_value));
+      	if (o->type == COT_BOOL) setcheckmark(obj, *(o->p_bool_value));
+	else if (o->type == COT_INT) set(obj,MUIA_String_Integer,*(o->p_int_value));
       }
     }
 

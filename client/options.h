@@ -38,14 +38,16 @@ enum client_option_type {
   COT_BOOL,
   COT_INT
 };
-typedef struct {
-	char *name;
-	char *description;
-	enum client_option_type type;
-	int  *p_value;
 
-	/* volatile */
-	void *p_gui_data;
+typedef struct {
+  char *name;
+  char *description;
+  enum client_option_type type;
+  int *p_int_value;
+  bool *p_bool_value;
+
+  /* volatile */
+  void *p_gui_data;
 } client_option;
 extern client_option options[];
 
@@ -69,7 +71,7 @@ extern bool draw_fog_of_war;
 
 typedef struct {
 	char *name;
-	int  *p_value;
+	bool *p_value;
 } view_option;
 extern view_option view_options[];
 
