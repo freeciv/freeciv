@@ -2512,15 +2512,18 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
   CHECK_UNIT(punit);
 
-  if (!unit_list_find(&map_get_tile(punit->x, punit->y)->units, punit->ai.passenger))
+  if (!unit_list_find(&map_get_tile(punit->x, punit->y)->units, punit->ai.passenger)) {
     punit->ai.passenger = 0;
+  }
 
   unit_list_iterate(map_get_tile(punit->x, punit->y)->units, aunit)
     if (punit->owner != aunit->owner) {
-      return;
+      continue;
     }
     if (aunit->ai.ferryboat == punit->id) {
-      if (punit->ai.passenger == 0) punit->ai.passenger = aunit->id; /* oops */
+      if (punit->ai.passenger == 0) {
+        punit->ai.passenger = aunit->id; /* oops */
+      }
       if (is_military_unit(aunit) && punit->ai.bodyguard == BODYGUARD_NONE) {
         /* Acquire some protection as we deliver an invasion army */
         UNIT_LOG(LOG_DEBUG, punit, "shout out for a bodyguard");
