@@ -5144,10 +5144,9 @@ msgstr "Spiel: Barbarenhorde freigesetzt."
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Spiel: Barbaren haben %s vernichtet."
 
-# ?
 #: server/unittools.c:2397
 msgid "Game: You found a friendly city."
-msgstr ""
+msgstr "Spiel: Eine unabhängige Stadt schließt sich an."
 
 #: server/unittools.c:2402
 msgid "Game: Friendly nomads are impressed by you, and join you."
@@ -5165,10 +5164,9 @@ msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr "Spiel: %s-Patrouille abgebrochen, da fremde Einheit entdeckt."
 
-# ?
 #: client/citydlg_common.c:108
 msgid "?filler:XXX/XXX XXX turns"
-msgstr ""
+msgstr "XXX/XXX XXX Runden"
 
 #: client/citydlg_common.c:123
 #, c-format
@@ -6200,10 +6198,9 @@ msgstr "Kenntnisse der Dorfbewohner"
 msgid "Mercenaries Found in Hut"
 msgstr "Dorf stellt Söldner"
 
-# ?
 #: client/options.c:195
 msgid "Unit Spared by Barbarians"
-msgstr ""
+msgstr "Einheit von Barbaren verschont"
 
 #: client/options.c:196
 msgid "Barbarians in a Hut Roused"
@@ -6225,10 +6222,9 @@ msgstr "Dorf zieht um"
 msgid "Game Started"
 msgstr "Spiel begonnen"
 
-# ?
 #: client/options.c:201
 msgid "Year Advance"
-msgstr ""
+msgstr "Jahreswechsel"
 
 #: client/gui-mui/gui_main.c:307 client/options.c:202
 msgid "Report"
@@ -6428,7 +6424,7 @@ msgstr "Nichts"
 
 #: client/agents/cma_fec.c:242 client/gui-gtk/cityrep.c:446
 msgid "custom"
-msgstr "anpassen"
+msgstr "individuell"
 
 #: client/agents/cma_fec.c:278 client/agents/cma_fec.c:322
 #: client/gui-gtk/citydlg.c:1727 client/gui-mui/citydlg.c:130
