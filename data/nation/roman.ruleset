@@ -27,7 +27,7 @@ cities =
   "Tarentum", "Brundisium", "Ravenna", "Pisa", "Genova", "Mediolanum",
   "Aquileia", "Florentia", "Bononia", "Verona", "Ostia", "Agrigentum",
   "Syracusae", "Neapolis", "Pompeii", "Salernum", "Tarraco",
-  "Carthago", "Numantia", "Carthago Nova", "Baiae",
+  "Carthago", "Barcino", "Bracara", "Carthago Nova", "Baiae",
   "Noviomagus", "Vindobona", "Atuatuca", "Caesarea", "Ierusalem",
   "Trapezus", "Durocortorum", "Lutetia", "Burdigala", "Portus Namnetum",
   "Utica", "Lugdunum", "Londinium", "Aquae Sulis", "Camulodunum", "Dubris",
@@ -40,5 +40,3 @@ cities =
   "Sabrata", "Attalea", "Sinope", "Hippo Regius", "Gesoriacum",
   "Velia", "Segesta", "Gaza", "Aleria", "Colonia Agrippina",
   "Agentoracum", "Moguntiacum", "Arretium", "Thapsus", "Altinum", "Tarsus"
-
-
