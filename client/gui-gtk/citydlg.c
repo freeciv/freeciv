@@ -1753,6 +1753,7 @@ Isometric.
 static void city_dialog_update_map_iso(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
+  int city_x, city_y;
 
   gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
 
@@ -1760,19 +1761,22 @@ static void city_dialog_update_map_iso(struct city_dialog *pdialog)
   gdk_draw_rectangle(pdialog->map_canvas_store, fill_bg_gc, TRUE,
 		     0, 0, canvas_width, canvas_height);
 
-  /* This macro happens to iterate correct to draw the top tiles first,
-     so getting the overlap right.
-     Furthermore, we don't have to redraw fog on the part of a fogged tile
-     that overlaps another fogged tile, as on the main map, as no tiles in
-     the city radius can be fogged. */
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    if (tile_is_known(map_x, map_y)) {
-      int canvas_x, canvas_y;
-      city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
-      put_one_tile_full(pdialog->map_canvas_store, map_x, map_y,
-			canvas_x, canvas_y, 1);
+  /* We have to draw the tiles in a particular order, so its best
+     to avoid using any iterator macro. */
+  for (city_x = 0; city_x<CITY_MAP_SIZE; city_x++)
+    for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++) {
+      int map_x, map_y;
+      if (is_valid_city_coords(city_x, city_y)
+	  && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
+	if (tile_is_known(map_x, map_y)) {
+	  int canvas_x, canvas_y;
+	  city_get_canvas_xy(city_x, city_y, &canvas_x, &canvas_y);
+	  put_one_tile_full(pdialog->map_canvas_store, map_x, map_y,
+			    canvas_x, canvas_y, 1);
+	}
+      }
     }
-  } city_map_checked_iterate_end;
+
   /* We have to put the output afterwards or it will be covered. */
   city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
     if (tile_is_known(map_x, map_y)) {
