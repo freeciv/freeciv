@@ -974,6 +974,8 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.techpenalty=pinfo->techpenalty;
   game.foodbox=pinfo->foodbox;
   game.civstyle=pinfo->civstyle;
+  game.unhappysize = pinfo->unhappysize;
+  game.cityfactor = pinfo->cityfactor;
 /* when removing "game_ruleset" capability,
 remove this *entire* piece of code (to REMOVE TO HERE, below) */
 if (!has_capability("game_ruleset", aconnection.capability)) {

@@ -212,6 +212,8 @@ void send_game_info(struct conn_list *dest)
   ginfo.foodbox = game.foodbox;
   ginfo.civstyle=game.civstyle;
   ginfo.spacerace = game.spacerace;
+  ginfo.unhappysize = game.unhappysize;
+  ginfo.cityfactor = game.cityfactor;
   for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
     ginfo.global_advances[i]=game.global_advances[i];
   for(i=0; i<B_LAST/*game.num_impr_types*/; i++)
