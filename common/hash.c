@@ -610,6 +610,8 @@ const void *hash_key_by_number(const struct hash_table *h,
   }
   /* never reached */
   assert(0);
+  exit(1);
+  return NULL;
 }
 
 /**************************************************************************
