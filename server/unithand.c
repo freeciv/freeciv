@@ -1119,6 +1119,7 @@ int handle_unit_establish_trade(struct player *pplayer,
 		   pcity_dest->name, revenue);
   wipe_unit(0, punit);
   pplayer->economic.gold+=revenue;
+  update_tech(pplayer, revenue);
   send_player_info(pplayer, pplayer);
   city_refresh(pcity_homecity);
   city_refresh(pcity_dest);
