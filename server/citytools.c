@@ -1010,11 +1010,21 @@ void create_city(struct player *pplayer, const int x, const int y,
   pcity->tile_trade = 0;
   pcity->original = pplayer->player_no;
   pcity->is_building_unit = TRUE;
+  {
+    int u = best_role_unit(pcity, L_FIRSTBUILD);
+
+    if (u < U_LAST && u >= 0) {
+      pcity->is_building_unit = TRUE;
+      pcity->currently_building = u;
+    } else {
+      pcity->is_building_unit = FALSE;
+      pcity->currently_building = B_CAPITAL;
+    }
+  }
   pcity->turn_founded = game.turn;
   pcity->did_buy = TRUE;
   pcity->did_sell = FALSE;
   pcity->airlift = FALSE;
-  pcity->currently_building=best_role_unit(pcity, L_FIRSTBUILD);
 
   /* Set up the worklist */
   init_worklist(&pcity->worklist);
@@ -1810,8 +1820,9 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   /* If the city is already building this thing, don't do anything */
   if (pcity->is_building_unit == is_unit &&
-      pcity->currently_building == target)
+      pcity->currently_building == target) {
     return;
+  }
 
   /* Is the city no longer building a wonder? */
   if(!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
@@ -1869,10 +1880,6 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 		     pcity->name);
   }
 }
-
-
-
-
 
 /**************************************************************************
 ...
