@@ -344,3 +344,11 @@ void lsend_packet_sabotage_list(struct conn_list *dest,
   conn_list_iterate_end;
 }
 
+void lsend_packet_goto_route(struct conn_list *dest, struct packet_goto_route *packet,
+			   enum goto_route_type type)
+{
+  conn_list_iterate(*dest, pconn)
+    send_packet_goto_route(pconn, packet, type);
+  conn_list_iterate_end;
+}
+

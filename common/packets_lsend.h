@@ -97,3 +97,5 @@ void lsend_packet_city_name_suggestion(struct conn_list *dest,
 				     struct packet_city_name_suggestion *packet);
 void lsend_packet_sabotage_list(struct conn_list *dest,
 			      struct packet_sabotage_list *packet);
+void lsend_packet_goto_route(struct conn_list *dest, struct packet_goto_route *packet,
+			   enum goto_route_type type);
