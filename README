@@ -2,154 +2,251 @@
                            Freeciv 1.7 documentation
                            =========================
 		       
-This archive contains Freeciv version 1.7, a free Civilization clone for X,
-primarily under Unix.  It has support for many players over a network, and the
-AI is getting harder to beat every release.
+Welcome to Freeciv!
 
+This archive contains Freeciv version 1.7, a free Civilization clone
+for X, primarily under Unix.  It has support for multiplayer games
+locally or over a network, and an AI which gives most people a run for
+their money.
+
+Freeciv aims to be mostly rule-compatible with Civilization II[tm],
+published by Sid Meier and Microprose[tm].  A few rules are different
+where we think it makes more sense, and we have lots and lots of
+adjustable parameters to make customizing games possible.
+
+Freeciv has been implemented completely independently of Civilization;
+you do not need to own Civilization to play Freeciv.
+
+Although the graphics are not as polished as those in Civilisation II,
+the rules are very complete, and our multiplayer and networking code is
+excellent.  At the moment however, we're lacking alliances and the
+Space Race, although both are being developed now.
+
+Web site:
+=========
+
+Freeciv's web site is here:
+
+  http://www.freeciv.org.
+
+We invite you to visit.  You can get the latest Freeciv news, releases
+and patches, find out about the Freeciv mailing lists, and see the
+Freeciv metaserver, which records games being played around the world.
+
+License:
+========
+
+Freeciv is released under the GNU Public Licence.  In short, you may
+copy this program (including source) freely, but see the COPYING file
+for full details.
 
 Compiling and installing:
 =========================
-Please read the file INSTALL for instructions on how to get Freeciv compiled 
-on your machine.  It's really not very hard.
 
-Please note: 
-
-Freeciv *must* be linked with the _real_ Athena widget library
-(libXaw), and not one of the substitutions such as libXaw3d or Nextaw.
-If Freeciv is linked with a substitute, the client will crash.
-
-This is important because Freeciv currently relies on an Xaw call that
-is not present in the (nicer looking) replacement widget sets. If you
-wish to use Xaw3d or Nextaw while still being able to play Freeciv, it
-is suggested that you use the Xaw-wrappers program.
-
+Please read the INSTALL file carefully for instructions on how to get
+Freeciv compiled and installed on your machine.
 
 Starting a new game:
 ===================
+
+Freeciv is actually two programs, a server and a client.  When a game
+is in progress, there will be one server program running, and as many
+client programs as there are human players.  The server does not need
+X, but the clients do.
+
+    NOTE:
+
+    The following examples assume that Freeciv has been installed on
+    your system, and that the directory containing the "civclient" and
+    "civserver" programs is in your PATH.  If Freeciv is not
+    installed, then you may want to use the "civ" and "ser" programs,
+    which can be found in the top Freeciv directory.  They are used
+    in exactly the same fashion as "civclient" and "civserver".
+
+Running Freeciv involves starting the server, then the client(s)
+and AI(s), then telling the server to start the game.  Here are the
+steps:
+
 Server:
 
-  start the server:
+  To start the server:
+
   % civserver
 
-  Help on command-line options can be obtained with the --help option.
+  Or for a list of command-line options:
 
-  get a list of the available commands with 'h':
-  >h
-  Available commands: (P=player, M=message, F=file)
-  -------------------------------------
-  c P      - cut connection to player
-  h        - this help
-  l        - list players
-  q        - quit game and shutdown server
-  remove P - fully remove player from game
-  score    - show current score
-  save F   - save game as file F
-  show     - list server options
-  help     - help on server options
-  meta T   - Set meta-server infoline to T
-  ai P     - toggles AI on player
-  create P - creates an AI player
-  set      - set options
-  s        - start game
+  % civserver --help
 
-  Now use the 'set' command to set the various variables for the game. 
-  You can get a list of the variables with the 'show' command.
-  
-  You can get option-specific help with: help <option>
+  Once the server is started, a prompt will appear:
+
+  Get a list of the available commands with 'h'.
+  > h
+
+  Available commands: (P=player, M=message, F=file, T=topic)
+  ---------------------------------------------------------------------------
+  h         - this help
+  explain   - help on server options
+  explain T - help on a particular server option
+  l         - list players
+  q         - quit game and shutdown server
+  c P       - cut connection to player
+  remove P  - fully remove player from game
+  score     - show current score
+  save F    - save game as file F
+  show      - list server options
+  meta M    - Set meta-server infoline to T
+  ai P      - toggles AI on player
+  create P  - creates an AI player
+  easy P    - AI player will be easy
+  easy      - All AI players will be easy
+  normal P  - AI player will be normal
+  normal    - All AI players will be normal
+  hard P    - AI player will be hard
+  hard      - All AI players will be hard
+  set       - set options
+  s         - start game
+  > 
+
+  If you like, you can use the 'set' command to set any of the various
+  server options for the game.  You can get a list of the options
+  with the 'show' command, and explanations with the 'explain' command.
 
   For example:
 
-  > help xsize
-  Affects: Width of map in squares
-  Minimum 40, Maximum 100, Default 80
+  > explain xsize
+  xsize: Width of map in squares
+  xsize is currently set to 80.
+  Minimum 40, Default 80, Maximum 200
 
   > set xsize 100
   > set ysize 80
 
-  This will make the map slightly bigger than the default (80x50).
+  This will make the map twice as large as the default of 80x50.
 
 Client:
-  Now all the players that want to participate in the game should join. 
-  Suppose the server is running on the machine 'io'. Then players would 
-  join with a command like:
 
-  % civclient -server io
+  Now all the human players should join, by running the Freeciv
+  client:
 
-  If the Freeciv server is running on the same machine as the Freeciv
-  client, then there's no need to specify the server, as the default in
-  the dialog box when the client starts will be "localhost", which means
-  your computer.
+  % civclient
 
-Computer Player:
-  To start an ai player, you must use the <create> command from the server.  
-  For example
+  This assumes the server is running on the same machine.  If not, you
+  can either specify it on the command use with the '-server' option,
+  or enter it into the first dialog box once the client starts.
+
+  For example, suppose the server is running on a different machine
+  called 'neptune'.  Then players would join with a command like:
+
+  % civclient -server neptune
+
+  If you're the only human player, then only one client needs to be
+  started.  In standard Unix fashion you can start the client
+  "in the background" by appending an ampersand:
+
+  % civclient &
+
+Computer Players:
+
+  There are two ways to create AI players.  The first is to
+  set the number of players (human and AI) with the 'aifill'
+  server command.  For example:
+
+  > aifill 7
+
+  After using the "s" server command to start the game, any players
+  which aren't controlled by humans will be AI players.  For the
+  above, if two human players had joined, 5 AI players would be
+  created.
+
+  The second way is to explicitly create an AI with the 'create'
+  server command.  For example:
+
   > create HumanKiller
-  This will start up an ai player called HumanKiller.  Once the game starts and
-  all of the human players have chosen their tribes, the ai players will be
-  assigned to tribes.  You can force the ai to play a specific tribe by giving
-  it the normal name for that nation's leader.  For example
-  > create Ceasar
-  Will start an ai player as the Romans.  Unless you take precautions, this
-  player can be usurped.
+
+  This will create an AI-controlled player called HumanKiller.
+
+  AI players are assigned to tribes after all human players have
+  chosen their tribes, but you can choose a particular tribe for an AI
+  player by using the normal name for that nation's leader.  For
+  example, to play against AI-controlled Romans, use this server
+  command:
+
+  > create Caesar
+
+  Note, this is just a preference:  If no other human player chooses
+  to play the Romans, then this AI will.
 
 Server:
-  When everybody has joined (use the (l)ist command to see who's in), the
-  server-op starts the game with the (s)start command:
+
+  When everybody has joined (use the (l)ist command to see who's in), 
+  start the game with the (s)start command:
+
   > s
-  starting game.
+
 
 And the game is on!
 
-Note:  If you don't want to send information to the metaserver when you start
-the game you can give the server the --nometa flag, or just -n for short.
-Also, for those people who have used older versions which had ai (eg, 1.5.4),
-you no longer have to open a client to get ai to work.
-
+Note:  The server sends a list of the players to the worldwide meta-
+server.  If you would rather not reveal this, start the server with
+the '--nometa' command-line option, or just '-n' for short.
 
 Playing the game:
 =================
-The server-op can save the game at any time using the 'save' command,
+
+The game may be saved the game at any time using the 'save' server command,
 like so:
 
 > save mygame
 
-As for the the clients, everything is pretty much as you would expect from
-a multiplayer civilization game. That is, the players move at the same time.
-There's a turn timeout value, which is by default set to 0 seconds (no
-timeout). The server-op can alter this value at any time with the 'set'
-command.
+The Freeciv client works pretty much as you would expect from a
+multiplayer civilization game. That is, the players move at the same
+time.  There's a turn timeout value, which is by default set to 0
+seconds (no timeout).  The server-op can alter this value at any time
+with the 'set' command.
 
-Have a look at the online help system. All three mouse-buttons are used,
-and documented in the help.
+Have a look at the online help system. All three mouse-buttons are
+used, and documented in the help.
 
-Players can push the 'Return' key to announce the end of their turn, or just
-push the 'Turn done' button.
+Players can push the 'Return' key to announce the end of their turn,
+or just push the 'Turn done' button.
 
-Use the 'Players' dialog to see who has announced their end of turn, and who
-you're waiting for.  (Hey feller, are you asleep or what?? ;).
+Use the 'Players' dialog to see who has announced their end of turn,
+and who you're waiting for.  (Hey feller, are you asleep or what?? ;).
 
-Use the input line at the bottom of the window for broadcasting messages to
-other players. The server is smart enough to perform "name completion", so
-if  you type "pet:", it will pick find a player name that matches the part
-of the name you typed.
+Use the input line at the bottom of the window for broadcasting
+messages to other players.
 
 You can send a message to an individual player (say, 'peter') like so:
 
   peter: move that armor away *NOW*!
 
+The server is smart enough to perform "name completion", so if you had
+typed "pet:", it will pick find a player name that matches the part of
+the name you typed.
+
+If you're just starting, and would like to get an idea of a strategy,
+have a look in the Freeciv playing HOWTO, contained in the HOWTOPLAY
+file.
+
+Alternatively, check out "Greggurabi's Twelve Steps to World
+Domination", which you can find here:
+
+  ftp://ftp.freeciv.org/pub/freeciv/contrib/gregurabi.txt
 
 Ending the game:
 ================
-There are two ways in which a game can end:
+
+There are three ways in which a game can end:
 
 1) Only one race is left.
 2) The final year is reached.
+3) A player builds and launches a spaceship, which reaches Alpha
+   Centauri first.  (Not available yet, but coming soon)
 
-A score-table will be shown in both cases. 
-Hint: The server-op can set the final year at run-time by changing the 
-end-year variable. This is nice when the winner is obvious, but you don't
-want to play through the boring 'cleanup phase'.
-
+A score-table will be shown in all cases.  Hint: The server-op can set
+the final year while the game is still going by changing the
+'end-year' option.  This is nice when the winner is obvious, but you
+don't want to play through the boring 'cleanup phase'.
 
 Restoring games:
 ================
@@ -158,72 +255,130 @@ You can restore a saved game by using the '-f' server option, eg:
 
   % civserver -f oursave2001.sav
 
-Now the players can join the game:
+Now the players can rejoin the game:
 
-  % civclient -n Alexander -s io
+  % civclient -n Alexander
   
 Notice how the player-name is specified with the -n option. It's vital
-that the player uses the same name if they're to be allowed in.
+that the player uses the same name as they had when the game started,
+if they're to be allowed in.
 
-The server-op can now start the game with 's' as usual. Notice that
-additional players can join the game even if it has been started.
-
+The game may then be restarted with 's' as usual.
 
 Server autostart:
 =================
-When the maximum number of players have connected, the server auto-starts.
-The maximum number of players can be set with the 'maxplayers' variable.
 
+When the maximum number of players have connected, the server auto-starts.
+The maximum number of players can be set with the 'maxplayers' option.
 
 Log messages:
 =============
-Both the client and server print some messages as "log messages".
-There are three categories of log messages: fatal, normal, and 
-debug.  By default, fatal and normal messages are printed to 
-standard output where the client or server was started.  You can 
-direct log messages to a file instead of standard output with 
-the command line option "--log filename", or "-l filename".  
-You can change the level of log messages displayed with 
-"--debug level" or "-d level" (server) or "-de level" (client), 
-where "level" is 0, 1, or 2:
-  0 = fatal messages only,
-  1 = fatal and normal messages (default),
-  2 = fatal, normal, and debug messages.
+
+Both the client and server print messages known as "log messages".
+There are three categories of log messages: "fatal", "normal", and 
+"debug".  
+
+By default, fatal and normal messages are printed to standard output
+where the client or server was started.  You can direct log messages
+to a file instead of the screen with the "--log filename", or "-l
+filename" command line options.
+
+You can change the level of log messages displayed with "--debug
+level" or "-d level" (for the server) or "-de level" (for the client),
+where "level" is 0, 1, or 2.  0 means show fatal messages only, 1
+means show fatal and normal messages (the default), and 2 means show
+all fatal, normal, and debug messages.
 
 Example: 
 	 % civserver -l my.log -d 2
-sends server log messages to file "my.log", including debug messages.
+
+This sends all server log messages to file "my.log", including debug
+messages.
 
 Example: 
 	 % civclient --debug 0
-suppresses all client log messages except fatal messages.
 
+This suppresses all non-fatal client log messages.
 
 Bugs:
 =====
-Should you find any bugs then please send us an email specifying what's
-wrong. It might be helpful for us if you specify which OS/version/compiler
-you're using.  (Try typing 'uname -a').
 
-Bugs should be sent to the freeciv-dev mailing list.  The instructions for
-doing this can be found at the page below.
+Found a bug?  We really want to hear from you so we can fix it.
+Here's what to do:
 
-Homepage:
-=========
-We maintain a homepage for the game at:
+ - Check the Freeciv website, to ensure you're playing the latest
+   version.  (We may have already fixed the problem).
 
-  http://www.freeciv.org
+   In particular, you might like to try a developer's napshot,
+   from our CVS repository.  You can FTP them from:
 
-You should check out the page, as it contains much more information than
-this file and the online help. This is also where we'll inform people about 
-new releases/bugs/fixes/competitions, etc.
+     http://www.freeciv.org/latest.html
 
+ - Check the Freeciv FAQ on the Freeciv website to see if we've
+   published a way to work around your bug.
+
+ - Send us an email!
+
+   - Address the email to "freeciv-dev", the Freeciv developer's
+   mailing list, as described below.
+
+   - Describe the problem, including any messages that were displayed.
+
+   - Tell us the name and version of:
+
+       - The Operating System you're using.  You may find the
+         "uname -a" command useful.
+
+       - The version number of Freeciv.
+
+       - If you know them, the version numbers of the X libraries, and
+         the Xpm library.
+
+       - If you're compiling from source code, the name
+         and version number of the compiler.
+
+       - If you're installing from a binary package, the name of
+         the package, the distribution it's for, and where you
+         got it from.
+
+   - If Freeciv "dumps core", then we may ask you to use a debugger to
+   give us a "stack trace".  You'll need the "core" file for this, so
+   please hold onto it for a while.
+
+Mailing lists:
+==============
+
+We maintain three mailing lists.  One is for users of Freeciv,
+one is for developers of Freeciv, and the last is to notify developers
+of changes to the Freeciv source code.
+
+The lists are called "freeciv", "freeciv-dev", and "freeciv-cvs".
+They are all public lists.
+
+To send an email to the lists, address it to:
+
+    <freeciv@freeciv.org>        (For Freeciv users)
+
+or
+
+    <freeciv-dev@freeciv.org>    (For bug reports, and for Freeciv developers)
+
+To subscribe, send mail to <majordomo@freeciv.org>, with the single word
+"subscribe", followed by the name of the list.
+
+Example: To subscribe to the "freeciv" mailing list, send the line
+"subscribe freeciv" to <majordomo@freeciv.org>
 
 New Releases:
 =============
-New releases will first be made available at:
-  ftp://www.freeciv.org/pub/freeciv
 
-Have fun and now go give 'em hell!
+We make a major new release of Freeciv available about every three
+months.  Check the Freeciv website from time to time to see if there's
+a newer version!!
 
+And finally:
+============
 
+Have fun and give 'em hell!
+
+                                   -- The Freeciv team.
