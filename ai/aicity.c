@@ -215,11 +215,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
   cities[EFR_PLAYER] = city_list_size(&pplayer->cities);
   cities[EFR_WORLD] = cities[EFR_PLAYER]; /* kludge. */
 
-  cities[EFR_CONTINENT] = 0;
-  city_list_iterate(pplayer->cities, acity) {
-    if (map_get_tile(acity->x, acity->y)->continent == ptile->continent)
-      cities[EFR_CONTINENT]++;
-  } city_list_iterate_end;
+  cities[EFR_CONTINENT] = ai->stats.cities[ptile->continent];
 
   cities[EFR_CITY] = 1;
   cities[EFR_LOCAL] = 0;
@@ -263,7 +259,9 @@ static void adjust_building_want_by_effects(struct city *pcity,
 
           /* WAG evaluated effects */
 	  case EFT_INCITE_DIST_PCT:
-            v += real_map_distance(pcity->x, pcity->y, palace->x, palace->y);
+            if (palace) {
+              v += real_map_distance(pcity->x, pcity->y, palace->x, palace->y);
+            }
             break;
 	  case EFT_MAKE_HAPPY:
             /* TODO */
