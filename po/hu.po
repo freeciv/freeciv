@@ -6619,7 +6619,7 @@ msgstr "Egység fel_oszlatása"
 #: client/gui-win32/citydlg.c:1687 client/gui-win32/dialogs.c:1616
 #: client/gui-win32/dialogs.c:1638 client/gui-win32/dialogs.c:1668
 msgid "_Cancel"
-msgstr "_Mégse"
+msgstr "_Mégsem"
 
 #: client/gui-gtk/citydlg.c:2515 client/gui-win32/citydlg.c:1677
 msgid "_Sentry unit"
@@ -6986,7 +6986,7 @@ msgstr "Átállítás"
 #: data/Freeciv:2111 data/Freeciv:2228 data/Freeciv:2263 data/Freeciv:2372
 #: data/Freeciv:2440 data/Freeciv:2450
 msgid "Cancel"
-msgstr "Mégse"
+msgstr "Mégsem"
 
 #: client/gui-gtk/cityrep.c:1132 client/gui-mui/cityrep.c:187
 #: client/gui-win32/cityrep.c:380 client/gui-xaw/cityrep.c:420
@@ -7210,7 +7210,7 @@ msgstr ""
 msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d second(s) "
 "for %d times"
-msgstr "Automatikus csatlakozás a(z) \"%s\" szerverhez a(z) %d porton \"%s\" néven %d.%d másodpercenként"
+msgstr "Automatikus kapcsolódás a(z) \"%s\" szerverhez a(z) %d porton \"%s\" néven %d.%d másodpercenként (%d kísérlet)"
 
 #: client/gui-gtk/dialogs.c:314
 msgid "Message:"
@@ -7219,7 +7219,7 @@ msgstr "Üzenet:"
 #: client/gui-gtk/dialogs.c:331 client/gui-win32/dialogs.c:180
 #: data/Freeciv:507
 msgid "Goto and Close"
-msgstr "Menj és Bezár"
+msgstr "Menj és Bezárás"
 
 #: client/gui-gtk/dialogs.c:403 client/gui-mui/dialogs.c:225
 #: client/gui-win32/dialogs.c:1360 client/gui-xaw/dialogs.c:434
@@ -7227,12 +7227,14 @@ msgstr "Menj és Bezár"
 msgid ""
 "Bribe unit for %d gold?\n"
 "Treasury contains %d gold."
-msgstr "Lefizessük az egységet %d aranyért?A kincstárban %d arany van."
+msgstr ""
+"Lefizessük az egységet %d aranyért?\n"
+"A kincstárban %d arany van."
 
 #: client/gui-gtk/dialogs.c:405 client/gui-mui/dialogs.c:228
 #: client/gui-win32/dialogs.c:1362 data/Freeciv:2354 data/Freeciv:2367
 msgid "Bribe Enemy Unit"
-msgstr "Ellenséges Egységet Lefizet"
+msgstr "Ellenséges egység lefizetése"
 
 #: client/gui-gtk/dialogs.c:410 client/gui-mui/dialogs.c:234
 #: client/gui-win32/dialogs.c:1368 client/gui-xaw/dialogs.c:443
@@ -7241,7 +7243,7 @@ msgid ""
 "Bribing the unit costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"Ellenséges egység lefizetésének ára %d arany\n"
+"Az egység lefizetésének ára %d arany.\n"
 "A kincstárban %d arany van."
 
 #: client/gui-gtk/dialogs.c:413 client/gui-gtk/dialogs.c:994
@@ -7249,23 +7251,23 @@ msgstr ""
 #: client/gui-win32/dialogs.c:1372 client/gui-win32/dialogs.c:1569
 #: data/Freeciv:2389
 msgid "Traitors Demand Too Much!"
-msgstr "Az árulók, túl sokat kérnek!"
+msgstr "Az árulók túl sokat kérnek!"
 
 #: client/gui-gtk/dialogs.c:681 client/gui-mui/dialogs.c:333
 #: client/gui-win32/dialogs.c:1272 data/Freeciv:2285
 msgid "Select Advance to Steal"
-msgstr "Válasszd ki az ellopandó tudományt"
+msgstr "Melyik tudományt lopjuk el?"
 
 #: client/gui-gtk/dialogs.c:688 client/gui-mui/dialogs.c:329
 #: client/gui-win32/dialogs.c:1264 data/Freeciv:2220 data/Freeciv:2253
 #: data/Freeciv:2270
 msgid "Steal Technology"
-msgstr "Tudományt Lop"
+msgstr "Tudomány ellopása"
 
 #: client/gui-gtk/dialogs.c:711 client/gui-win32/dialogs.c:1276
 #: data/Freeciv:2301
 msgid "Steal"
-msgstr "Lop"
+msgstr "Ellopás"
 
 #: client/gui-gtk/dialogs.c:747 client/gui-gtk/dialogs.c:841
 #: client/gui-mui/dialogs.c:309 client/gui-mui/dialogs.c:410
@@ -7282,12 +7284,12 @@ msgstr "SEMMI"
 #: client/gui-gtk/dialogs.c:780 client/gui-mui/dialogs.c:430
 #: client/gui-win32/dialogs.c:1484 data/Freeciv:2327
 msgid "Select Improvement to Sabotage"
-msgstr "Válaszd ki a szabotálandó épületet"
+msgstr "Melyik épületet szabotáljuk?"
 
 #: client/gui-gtk/dialogs.c:787 client/gui-mui/dialogs.c:426
 #: client/gui-win32/dialogs.c:1476 data/Freeciv:2312
 msgid "Sabotage Improvements"
-msgstr "Épületek Szabotálása"
+msgstr "Épület szabotálása"
 
 #: client/gui-gtk/dialogs.c:809 client/gui-win32/dialogs.c:1488
 #: data/Freeciv:2343
@@ -7297,18 +7299,18 @@ msgstr "Szabotázs"
 #: client/gui-gtk/dialogs.c:828 client/gui-mui/dialogs.c:409
 #: client/gui-win32/dialogs.c:1385 client/gui-xaw/dialogs.c:850
 msgid "City Production"
-msgstr "A Város Termelése"
+msgstr "A város termelése"
 
 #: client/gui-gtk/dialogs.c:977 client/gui-mui/dialogs.c:505
 #: client/gui-win32/dialogs.c:1552 client/gui-xaw/dialogs.c:1019
-#, fuzzy, c-format
+#, c-format
 msgid "You can't incite a revolt in %s."
-msgstr "Játék: Elfogtál egy %1$s diplomatát, miközben lázadást próbált kirobbantani %3$s városában!"
+msgstr "Nem lázíthatod fel %s városát."
 
 #: client/gui-gtk/dialogs.c:979 client/gui-mui/dialogs.c:507
 #: client/gui-win32/dialogs.c:1554
 msgid "City can't be incited!"
-msgstr ""
+msgstr "A város nem lázítható fel!"
 
 #: client/gui-gtk/dialogs.c:983 client/gui-mui/dialogs.c:510
 #: client/gui-win32/dialogs.c:1558 client/gui-xaw/dialogs.c:1025
@@ -7317,13 +7319,13 @@ msgid ""
 "Incite a revolt for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
-"Szítsunk lázadást %d aranyért?\n"
+"Fellázítsuk a várost %d aranyért?\n"
 "A kincstárban %d arany van."
 
 #: client/gui-gtk/dialogs.c:986 client/gui-mui/dialogs.c:514
 #: client/gui-win32/dialogs.c:1561 data/Freeciv:2378
 msgid "Incite a Revolt!"
-msgstr "Lázadás!"
+msgstr "Fellázítás!"
 
 #: client/gui-gtk/dialogs.c:991 client/gui-mui/dialogs.c:521
 #: client/gui-win32/dialogs.c:1566 client/gui-xaw/dialogs.c:1035
@@ -7332,7 +7334,7 @@ msgid ""
 "Inciting a revolt costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"A lázadás szítása %d aranyba kerül.\n"
+"A város fellázítása %d aranyba kerül.\n"
 "A kincstárban %d arany van."
 
 #: client/gui-gtk/dialogs.c:1054 client/gui-win32/dialogs.c:1605
@@ -7350,11 +7352,11 @@ msgstr " Válaszd ki a Diplomatád Stratégiáját"
 #: client/gui-gtk/dialogs.c:1060 client/gui-gtk/dialogs.c:1084
 #: client/gui-win32/dialogs.c:1611 client/gui-win32/dialogs.c:1632
 msgid "Establish _Embassy"
-msgstr "_Követség Létesítése"
+msgstr "Nagy_követséget alapít"
 
 #: client/gui-gtk/dialogs.c:1061 client/gui-win32/dialogs.c:1612
 msgid "_Investigate City"
-msgstr "Város _Megtekintése"
+msgstr "Város _megvizsgálása"
 
 #: client/gui-gtk/dialogs.c:1062 client/gui-win32/dialogs.c:1613
 msgid "_Sabotage City"
@@ -7363,12 +7365,12 @@ msgstr "_Szabotázsakció"
 #: client/gui-gtk/dialogs.c:1063 client/gui-gtk/dialogs.c:1088
 #: client/gui-win32/dialogs.c:1614 client/gui-win32/dialogs.c:1636
 msgid "Steal _Technology"
-msgstr "_Tudományt Lop"
+msgstr "_Tudományt lop"
 
 #: client/gui-gtk/dialogs.c:1064 client/gui-gtk/dialogs.c:1089
 #: client/gui-win32/dialogs.c:1615 client/gui-win32/dialogs.c:1637
 msgid "Incite a _Revolt"
-msgstr "_Lázadást Szít"
+msgstr "_Lázadást szít"
 
 #: client/gui-gtk/dialogs.c:1065 client/gui-gtk/dialogs.c:1090
 #: client/gui-gtk/dialogs.c:1224 client/gui-mui/dialogs.c:834
@@ -7384,42 +7386,42 @@ msgstr "Válaszd ki a Kémed Stratégiáját"
 
 #: client/gui-gtk/dialogs.c:1085 client/gui-win32/dialogs.c:1633
 msgid "_Investigate City (free)"
-msgstr "Város _Megtekintése (díjtalan)"
+msgstr "Város _megvizsgálása (díjtalan)"
 
 #: client/gui-gtk/dialogs.c:1086 client/gui-win32/dialogs.c:1634
 msgid "_Poison City"
-msgstr "Város Megmé_rgezése"
+msgstr "Város megmé_rgezése"
 
 #: client/gui-gtk/dialogs.c:1087 client/gui-win32/dialogs.c:1635
 msgid "Industrial _Sabotage"
-msgstr "Ipari _Szabotázs"
+msgstr "Ipari _szabotázs"
 
 #: client/gui-gtk/dialogs.c:1117 client/gui-mui/dialogs.c:948
 #: client/gui-win32/dialogs.c:1662 data/Freeciv:2365
 msgid "Subvert Enemy Unit"
-msgstr "Ellenséges Egység Átállítása"
+msgstr "Ellenséges egység átállítása"
 
 #: client/gui-gtk/dialogs.c:1119 client/gui-mui/dialogs.c:847
 #: client/gui-mui/dialogs.c:950 client/gui-win32/dialogs.c:1664
 #: client/gui-xaw/dialogs.c:1159
 msgid "Sir, the diplomat is waiting for your command"
-msgstr "Uram, a diplomata a parancsára vár!"
+msgstr "Uram, a diplomata a parancsára vár"
 
 #: client/gui-gtk/dialogs.c:1120 client/gui-mui/dialogs.c:914
 #: client/gui-mui/dialogs.c:951 client/gui-win32/dialogs.c:1665
 #: client/gui-xaw/dialogs.c:1160
 msgid "Sir, the spy is waiting for your command"
-msgstr "Uram, a kém a parancsára vár!"
+msgstr "Uram, a kém a parancsára vár"
 
 #: client/gui-gtk/dialogs.c:1121 client/gui-mui/dialogs.c:928
 #: client/gui-win32/dialogs.c:1666
 msgid "_Bribe Enemy Unit"
-msgstr "Ellenséges Egység _Lefizetése"
+msgstr "Ellenséges egység _lefizetése"
 
 #: client/gui-gtk/dialogs.c:1122 client/gui-mui/dialogs.c:936
 #: client/gui-win32/dialogs.c:1667
 msgid "_Sabotage Enemy Unit"
-msgstr "Ellenséges Egység _Szabotálása"
+msgstr "Ellenséges egység _szabotálása"
 
 #: client/gui-gtk/dialogs.c:1213 client/gui-mui/dialogs.c:1036
 #: client/gui-win32/dialogs.c:996 client/gui-xaw/dialogs.c:1260
@@ -7428,31 +7430,31 @@ msgid ""
 "Your caravan from %s reaches the city of %s.\n"
 "What now?"
 msgstr ""
-"A karavánod %s-bõl %s városába ért.\n"
+"A(z) %si karavánod %s városába ért.\n"
 "Most mit tegyen?"
 
 #: client/gui-gtk/dialogs.c:1220 client/gui-mui/dialogs.c:1075
 #: client/gui-win32/dialogs.c:1003 data/Freeciv:2194
 msgid "Your Caravan Has Arrived"
-msgstr "A Karavánod Megérkezett"
+msgstr "A karavánod megérkezett"
 
 #: client/gui-gtk/dialogs.c:1222 client/gui-win32/dialogs.c:1005
 msgid "Establish _Traderoute"
-msgstr "Keresk. Kapcsolat _Létesítése"
+msgstr "Keresk. kapcsolat _létesítése"
 
 #: client/gui-gtk/dialogs.c:1223 client/gui-win32/dialogs.c:1006
 msgid "Help build _Wonder"
-msgstr "Segít Világcsodát építeni"
+msgstr "Segít világcsodát építeni"
 
 #: client/gui-gtk/dialogs.c:1287 client/gui-mui/dialogs.c:1139
 #: client/gui-win32/dialogs.c:907
 msgid "Choose Your New Government"
-msgstr "Válaszd Ki Az Új Államformád"
+msgstr "Mi legyen az új államformád?"
 
 #: client/gui-gtk/dialogs.c:1298 client/gui-mui/dialogs.c:1140
 #: client/gui-win32/dialogs.c:908 data/Freeciv:2429
 msgid "Select government type:"
-msgstr "Államforma típusok:"
+msgstr "Lehetséges államformák:"
 
 #: client/gui-gtk/dialogs.c:1353 client/gui-mui/dialogs.c:1161
 #: client/gui-win32/dialogs.c:856 data/Freeciv:2397
@@ -7472,12 +7474,12 @@ msgstr "Mit fosztogassunk"
 #: client/gui-gtk/dialogs.c:1417 client/gui-mui/dialogs.c:1233
 #: client/gui-win32/dialogs.c:1742 data/Freeciv:2437
 msgid "Select what to pillage:"
-msgstr "Válaszd ki, mit fosztogassunk:"
+msgstr "Válaszd ki, hogy mit fosztogassunk:"
 
 #: client/gui-gtk/dialogs.c:1526 client/gui-mui/dialogs.c:1323
 #: client/gui-win32/dialogs.c:1947 data/Freeciv:2447
 msgid "Choose unit activity:"
-msgstr ""
+msgstr "Válassz tevékenységet:"
 
 #: client/gui-gtk/dialogs.c:1741
 msgid "Unit selection"
@@ -7486,7 +7488,7 @@ msgstr "Egységválasztás"
 #: client/gui-gtk/dialogs.c:1802 client/gui-win32/dialogs.c:665
 #: data/Freeciv:534
 msgid "Ready all"
-msgstr "Mindenkit aktivál"
+msgstr "Mindenki készenlétbe"
 
 #: client/gui-gtk/dialogs.c:1944
 msgid " What Nation Will You Be?"
@@ -7552,7 +7554,7 @@ msgstr "Az alábbi megállapodások köttetek meg:"
 #: client/gui-gtk/diplodlg.c:286 client/gui-mui/diplodlg.c:471
 #: data/Freeciv:227
 msgid "Diplomacy meeting"
-msgstr "Diplomáciai Találkozó"
+msgstr "Diplomáciai találkozó"
 
 #: client/gui-gtk/diplodlg.c:295 client/gui-gtk/diplodlg.c:303
 #: client/gui-mui/diplodlg.c:638 client/gui-mui/diplodlg.c:639
@@ -7569,7 +7571,7 @@ msgstr "Világtérkép"
 #: client/gui-gtk/diplodlg.c:321 client/gui-gtk/diplodlg.c:339
 #: client/gui-xaw/diplodlg.c:375 client/gui-xaw/diplodlg.c:393
 msgid "Sea-map"
-msgstr "Hajózási Térkép"
+msgstr "Hajózási térkép"
 
 #: client/gui-gtk/diplodlg.c:327 client/gui-gtk/diplodlg.c:345
 #: client/gui-mui/diplodlg.c:478 client/gui-mui/diplodlg.c:513
@@ -7611,8 +7613,8 @@ msgid ""
 "and\n"
 "The %s %s %s"
 msgstr ""
-"Ez az Örök Szerzõdés\n"
-"jelzi a tárgyalások eredményeit\n"
+"Ez az örök idõkre szóló szerzõdés\n"
+"rögzíti a tárgyalások eredményeit\n"
 "%3$s %1$s %2$s\n"
 "és\n"
 "%6$s %4$s %5$s között."
@@ -7954,23 +7956,23 @@ msgstr "Semmi"
 #: client/gui-gtk/helpdlg.c:443 client/gui-win32/helpdlg.c:395
 #: data/Freeciv:549
 msgid "Freeciv Help Browser"
-msgstr "Freeciv Súgó Nézõ"
+msgstr "Freeciv súgó nézõ"
 
 #: client/gui-gtk/helpdlg.c:584
 msgid "Expand All"
-msgstr "Fa Kibontása"
+msgstr "Fa kibontása"
 
 #: client/gui-gtk/helpdlg.c:585
 msgid "Collapse All"
-msgstr "Fa Összecsukása"
+msgstr "Fa összecsukása"
 
 #: client/gui-gtk/helpdlg.c:586
 msgid "Reset Tree"
-msgstr "Fa Visszaállítása"
+msgstr "Fa visszaállítása"
 
 #: client/gui-gtk/helpdlg.c:587
 msgid "Expand Unknown"
-msgstr "Ismeretlenek Kibontása"
+msgstr "Ismeretlenek kibontása"
 
 #: client/gui-gtk/helpdlg.c:827 client/gui-gtk/helpdlg.c:852
 #: client/gui-gtk/helpdlg.c:865 client/gui-gtk/helpdlg.c:875
@@ -8040,13 +8042,13 @@ msgstr ""
 #: client/gui-gtk/inteldlg.c:81 client/gui-mui/inteldlg.c:112
 #: client/gui-win32/inteldlg.c:86 data/Freeciv:156
 msgid "Foreign Intelligence Report"
-msgstr "Külföldi Hírszerzés Infók"
+msgstr "Hírszerzési jelentés"
 
 #: client/gui-gtk/inteldlg.c:86 client/gui-mui/inteldlg.c:139
 #: client/gui-win32/inteldlg.c:93 client/gui-xaw/inteldlg.c:94
 #, c-format
 msgid "Intelligence Information for the %s Empire"
-msgstr "Hírszerzési Információk a %s Birodalomról"
+msgstr "Hírszerzési információk a(z) %s Birodalomról"
 
 #: client/gui-gtk/inteldlg.c:99 client/gui-mui/inteldlg.c:140
 #: client/gui-win32/inteldlg.c:98 client/gui-xaw/inteldlg.c:103
@@ -8092,7 +8094,7 @@ msgstr "Luxus: %d%%"
 #: client/gui-win32/inteldlg.c:125 client/gui-xaw/inteldlg.c:147
 #, c-format
 msgid "Researching: %s(%d/%d)"
-msgstr "Kutatás: %s(%d/%d)"
+msgstr "Kutatás alatt: %s(%d/%d)"
 
 #: client/gui-gtk/inteldlg.c:139 client/gui-mui/inteldlg.c:150
 #: client/gui-win32/inteldlg.c:131 client/gui-xaw/inteldlg.c:158
@@ -8108,7 +8110,7 @@ msgstr "(Ismeretlen)"
 #: client/gui-gtk/mapctrl.c:83
 #, c-format
 msgid "Location: (%d, %d)"
-msgstr ""
+msgstr "Hely: (%d, %d)"
 
 #: client/gui-gtk/mapctrl.c:89 client/gui-mui/mapclass.c:100
 #: client/gui-win32/mapctrl.c:135 client/gui-xaw/mapctrl.c:119
@@ -8125,7 +8127,7 @@ msgstr "Élelem/Term/Keresk: %s"
 #: client/gui-gtk/mapctrl.c:104 client/gui-mui/mapclass.c:106
 #: client/gui-win32/mapctrl.c:143 client/gui-xaw/mapctrl.c:128
 msgid "Minor Tribe Village"
-msgstr "Apró Törzsi Falu"
+msgstr "Apró törzsi falu"
 
 #: client/gui-gtk/mapctrl.c:109 client/gui-mui/mapclass.c:112
 #: client/gui-win32/mapctrl.c:148
@@ -8684,7 +8686,7 @@ msgstr "Farmot épít"
 
 #: client/gui-gtk/menu.c:1113
 msgid "_Fortify"
-msgstr "Megerõsít (_F)"
+msgstr "Megerõsítés (_F)"
 
 #: client/gui-gtk/menu.c:1118
 msgid "_Paradrop"
@@ -9076,7 +9078,7 @@ msgstr "Körök"
 #: client/gui-mui/citydlg.c:1049 client/gui-mui/dialogs.c:1867
 #: client/gui-mui/dialogs.c:1891
 msgid "_Darn"
-msgstr "_Mégse"
+msgstr "_Állj"
 
 #: client/gui-mui/citydlg.c:1304
 msgid "Freeciv - Cityproduction"
@@ -9085,7 +9087,7 @@ msgstr "Freeciv - Várostermelés"
 #: client/gui-mui/citydlg.c:1317 client/gui-mui/citydlg.c:1524
 #: client/gui-mui/cityrep.c:393
 msgid "Chan_ge"
-msgstr "_Cserél"
+msgstr "_Átállítás"
 
 #: client/gui-mui/citydlg.c:1394
 msgid "Shields"
