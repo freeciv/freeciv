@@ -887,6 +887,24 @@ void handle_unit_info(struct packet_unit_info *packet)
 
 /**************************************************************************
   Called to do basic handling for a unit_info or short_unit_info packet.
+
+  Both owned and foreign units are handled; you may need to check unit
+  owner, or if unit equals focus unit, depending on what you are doing.
+
+  Note: Normally the server informs client about a new "activity" here.
+  For owned units, the new activity can be a result of:
+  - The player issued a command (a request) with the client.
+  - The server side AI did something.
+  - An enemy encounter caused a sentry to idle. (See "Wakeup Focus").
+
+  Depending on what caused the change, different actions may be taken.
+  Therefore, this function is a bit of a jungle, and it is advisable
+  to read thoroughly before changing.
+
+  Exception: When the client puts a unit in focus, it's status is set to
+  idle immediately, before informing the server about the new status. This
+  is because the server can never deny a request for idle, and should not
+  be concerned about which unit the client is focusing on.
 **************************************************************************/
 static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
 {
@@ -903,7 +921,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
 				 packet_unit->id);
 
   if (punit) {
-    int dest_x, dest_y;
     ret = TRUE;
     punit->activity_count = packet_unit->activity_count;
     punit->transported_by = packet_unit->transported_by;
@@ -917,9 +934,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
         check_focus = TRUE;
       }
     }
+
     if (punit->activity != packet_unit->activity
         || punit->activity_target != packet_unit->activity_target) {
-      /* change activity or act's target */
+      /*** Change in activity or activity's target. ***/
 
       /* May change focus if focus unit gets a new activity.
        * But if new activity is Idle, it means user specifically selected
@@ -964,7 +982,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
       if (punit == get_unit_in_focus()) {
          update_menus();
       }
-    }
+    } /*** End of Change in activity or activity's target. ***/
     
     if (punit->homecity != packet_unit->homecity) {
       /* change homecity */
@@ -1010,7 +1028,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
     }
 
     if (!same_pos(punit->x, punit->y, packet_unit->x, packet_unit->y)) { 
-      /* change position */
+      /*** Change position ***/
       struct city *pcity = map_get_city(punit->x, punit->y);
 
       old_x = punit->x;
@@ -1019,8 +1037,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
 
       /* Show where the unit is going. */
       do_move_unit(punit, packet_unit, carried);
-
-      update_unit_focus();
 
       if(pcity)  {
 	/* Unit moved out of a city - update the occupied status.  The
@@ -1058,7 +1074,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
       }
       
       repaint_unit = FALSE;
-    }
+    }  /*** End of Change position. ***/
+
     if (punit->unhappiness != packet_unit->unhappiness) {
       punit->unhappiness = packet_unit->unhappiness;
       repaint_city = TRUE;
@@ -1097,12 +1114,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
       punit->done_moving = packet_unit->done_moving;
       check_focus = TRUE;
     }
-  
-    dest_x = packet_unit->x;
-    dest_y = packet_unit->y;
+
+    /* This won't change punit; it enqueues the call for later handling. */
     agents_unit_changed(punit);
   } else {
-    /* create new unit */ 
+    /*** Create new unit ***/
     punit = packet_unit;
     idex_register_unit(punit);
 
@@ -1125,9 +1141,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
       /* The unit is in a city - obviously it's occupied. */
       pcity->client.occupied = TRUE;
     }
-  }
+  } /*** End of Create new unit ***/
 
-  if (punit && punit == get_unit_in_focus()) {
+  assert(punit != NULL);
+
+  if (punit == get_unit_in_focus()) {
     update_unit_info_label(punit);
   } else if (get_unit_in_focus()
 	     && (same_pos(get_unit_in_focus()->x, get_unit_in_focus()->y,
@@ -1138,13 +1156,15 @@ static bool handle_unit_packet_common(struct unit *packet_unit, bool carried)
     update_unit_info_label(get_unit_in_focus());
   }
 
-  if(repaint_unit)
+  if (repaint_unit) {
     refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
+  }
 
   if ((check_focus || get_unit_in_focus() == NULL) &&
-      !game.player_ptr->ai.control)
+      !game.player_ptr->ai.control) {
     update_unit_focus();
-  
+  }
+
   return ret;
 }
 
