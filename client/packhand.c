@@ -295,7 +295,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   struct city *pcity;
   struct unit *punit;
   int repaint_unit;
-  int repaint_city;
+  int repaint_city;		/* regards unit's homecity */
   
   repaint_unit=0;
   repaint_city=0;
@@ -342,9 +342,14 @@ void handle_unit_info(struct packet_unit_info *packet)
       repaint_unit=1;
     }
     if (punit->type!=packet->type) {
+      struct city *pcity = map_get_city(punit->x, punit->y);
+      
       punit->type=packet->type;
       repaint_unit=1;
       repaint_city=1;
+      if (pcity && (pcity->id != punit->homecity)) {
+	refresh_city_dialog(pcity);
+      }
     }
 
     if(punit->x!=packet->x || punit->y!=packet->y) { /* change position */

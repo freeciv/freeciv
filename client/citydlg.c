@@ -121,6 +121,11 @@ void close_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void rename_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void trade_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void activate_callback(Widget w, XtPointer client_data, XtPointer call_data);
+void unitupgrade_callback_yes(Widget w, XtPointer client_data,
+			      XtPointer call_data);
+void unitupgrade_callback_no(Widget w, XtPointer client_data,
+			     XtPointer call_data);
+void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 void elvis_callback(Widget w, XtPointer client_data, XtPointer call_data);
 void scientist_callback(Widget w, XtPointer client_data, XtPointer call_data);
@@ -725,19 +730,6 @@ void present_units_homecity_callback(Widget w, XtPointer client_data,
   destroy_message_dialog(w);
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void present_units_upgrade_callback(Widget w, XtPointer client_data,
-				    XtPointer call_data)
-{
-  struct unit *punit;
-
-  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)))
-    request_unit_upgrade(punit);
-
-  destroy_message_dialog(w);
-}
 
 /****************************************************************
 ...
@@ -758,31 +750,24 @@ void present_units_callback(Widget w, XtPointer client_data,
   struct unit *punit;
   struct city *pcity;
   struct city_dialog *pdialog;
+  Widget wd;
   
   if((punit=unit_list_find(&game.player_ptr->units, (int)client_data)) &&
      (pcity=game_find_city_by_coor(punit->x, punit->y)) &&
      (pdialog=get_city_dialog(pcity))) {
-    if(can_upgrade_unittype(game.player_ptr, punit->type)==-1)  {
-      popup_message_dialog(pdialog->shell, 
-			   "presentunitsdialog", 
-			   unit_description(punit),
-			   present_units_activate_callback, punit->id,
-			   present_units_activate_close_callback, punit->id,
-			   present_units_disband_callback, punit->id,
-			   present_units_homecity_callback, punit->id,
-			   present_units_cancel_callback, 0, 
-			   NULL);
-    } else {
-      popup_message_dialog(pdialog->shell, 
-			   "presentunitsdialog", 
-			   unit_description(punit),
-			   present_units_activate_callback, punit->id,
-			   present_units_activate_close_callback, punit->id,
-			   present_units_disband_callback, punit->id,
-			   present_units_homecity_callback, punit->id,
-			   present_units_cancel_callback, 0, 
-			   present_units_upgrade_callback, punit->id,
-			   0);
+
+    wd=popup_message_dialog(pdialog->shell, 
+			    "presentunitsdialog", 
+			    unit_description(punit),
+			    present_units_activate_callback, punit->id,
+			    present_units_activate_close_callback, punit->id,
+			    present_units_disband_callback, punit->id,
+			    present_units_homecity_callback, punit->id,
+			    upgrade_callback, punit->id,
+			    present_units_cancel_callback, 0, 
+			    NULL);
+    if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
+      XtSetSensitive(XtNameToWidget(wd, "*button4"), FALSE);
     }
   }
 }
@@ -1395,6 +1380,78 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
 			 buy_callback_no, 0, 0);
   }
   
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
+void unitupgrade_callback_yes(Widget w, XtPointer client_data, XtPointer call_data)
+{
+  struct unit *punit;
+
+  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data))) {
+    request_unit_upgrade(punit);
+  }
+  destroy_message_dialog(w);
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
+void unitupgrade_callback_no(Widget w, XtPointer client_data, XtPointer call_data)
+{
+  destroy_message_dialog(w);
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
+void upgrade_callback(Widget w, XtPointer client_data, XtPointer call_data)
+{
+  struct unit *punit;
+  char buf[512];
+  int ut1,ut2;
+  int value;
+
+  if((punit=unit_list_find(&game.player_ptr->units, (int)client_data))) {
+    ut1 = punit->type;
+    /* printf("upgrade_callback for %s\n", unit_types[ut1].name); */
+
+    ut2 = can_upgrade_unittype(game.player_ptr,ut1);
+
+    if ( ut2 == -1 ) {
+      /* this shouldn't generally happen, but it is conceivable */
+      sprintf(buf, "Sorry: cannot upgrade %s.", unit_types[ut1].name);
+      popup_message_dialog(toplevel, "upgradenodialog", buf,
+                           unitupgrade_callback_no, 0,
+                           NULL);
+    } else {
+      value=unit_upgrade_price(game.player_ptr, ut1, ut2);
+
+      if(game.player_ptr->economic.gold>=value) {
+        sprintf(buf, "Upgrade %s to %s for %d gold?\n"
+		"Treasury contains %d gold.",
+		unit_types[ut1].name, unit_types[ut2].name,
+		value, game.player_ptr->economic.gold);
+        popup_message_dialog(toplevel, "upgradedialog", buf,
+                             unitupgrade_callback_yes, (XtPointer)(punit->id),
+                             unitupgrade_callback_no, 0,
+                             NULL);
+      } else {
+        sprintf(buf, "Upgrading %s to %s costs %d gold.\n"
+		"Treasury contains %d gold.",
+		unit_types[ut1].name, unit_types[ut2].name,
+		value, game.player_ptr->economic.gold);
+        popup_message_dialog(toplevel, "upgradenodialog", buf,
+                             unitupgrade_callback_no, 0,
+                             NULL);
+      }
+    }
+    destroy_message_dialog(w);
+  }
 }
 
 
