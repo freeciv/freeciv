@@ -12,6 +12,9 @@
 ***********************************************************************/
 #ifndef __TECH_H
 #define __TECH_H
+
+#include "shared.h"
+
 struct player;
 
 enum tech_type_id {  
@@ -41,7 +44,7 @@ enum tech_type_id {
 #define TECH_MARKED 3
 
 struct advance {
-  char *name;
+  char name[MAX_LENGTH_NAME];
   int req[2];
 };
 
