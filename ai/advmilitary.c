@@ -618,10 +618,14 @@ static void process_attacker_want(struct player *pplayer,
               unit_types[i].move_type == HELI_MOVING) && acity &&
               acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
       else {
-        b0 = (b * a - (f + (acity ? acity->ai.f : 0)) * d) * g * SHIELD_WEIGHTING / (a + g * d);
-        if (acity && b * acity->ai.a * acity->ai.a > acity->ai.f * d)
-          b0 -= (b * acity->ai.a * acity->ai.a - acity->ai.f * d) *
-                           g * SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + g * d);
+        int a_squared = acity->ai.a * acity->ai.a;
+
+        /* See aiunit.c:find_something_to_kill() for comments. */
+        
+        b0 = kill_desire(b, a, (f + (acity ? acity->ai.f : 0)), d, g);
+        if (acity && b * a_squared > acity->ai.f * d) {
+          b0 -= kill_desire(b, a_squared, acity->ai.f, d, g);
+        }
       }
       if (b0 > 0) {
         b0 -= l * SHIELD_WEIGHTING;
@@ -822,10 +826,14 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
               unit_types[v].move_type == HELI_MOVING) && acity &&
               acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
     else {
-      b0 = (b * a - (f + (acity ? acity->ai.f : 0)) * d) * g * SHIELD_WEIGHTING / (a + g * d);
-      if (acity && b * acity->ai.a * acity->ai.a > acity->ai.f * d)
-        b0 -= (b * acity->ai.a * acity->ai.a - acity->ai.f * d) *
-               g * SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + g * d);
+      int a_squared = acity->ai.a * acity->ai.a;
+
+      /* See aiunit.c:find_something_to_kill() for comments. */
+      
+      b0 = kill_desire(b, a, (f + (acity ? acity->ai.f : 0)), d, g);
+      if (acity && b * a_squared > acity->ai.f * d) {
+        b0 -= kill_desire(b, a_squared, acity->ai.f, d, g);
+      }
     }
     b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
     e = military_amortize(b0, MAX(1, c), fprime + needferry);

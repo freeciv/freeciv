@@ -653,6 +653,41 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 }
 
 /**************************************************************************
+Compute how much we want to kill certain victim we've chosen, counted in
+SHIELDs.
+
+FIXME?: The equation is not accurate as the other values can vary for other
+victims on same tile (we take values from best defender) - however I believe
+it's accurate just enough now and lost speed isn't worth that. --pasky
+
+Benefit is something like 'attractiveness' of the victim, how nice it would be
+to destroy it. Larger value, worse loss for enemy.
+
+Attack is the total possible attack power we can throw on the victim. Note that
+it usually comes squared.
+
+Loss is the possible loss when we would lose the unit we are attacking with (in
+SHIELDs).
+
+Vuln is vulnerability of our unit when attacking the enemy. Note that it
+usually comes squared as well.
+
+Victim count is number of victims stacked in the target tile. Note that we
+shouldn't treat cities as a stack (despite the code using this function) - the
+scaling is probably different. (extremely dodgy usage of it -- GB)
+**************************************************************************/
+int kill_desire(int benefit, int attack, int loss, int vuln, int victim_count)
+{
+  int desire;
+
+  /*         attractiveness     danger */ 
+  desire = ((benefit * attack - loss * vuln) * victim_count * SHIELD_WEIGHTING
+            / (attack + vuln * victim_count));
+
+  return desire;
+}
+
+/**************************************************************************
 Military "want" estimates are amortized in this complicated way.
 COMMENTME: Why not use simple amortize? -- GB
 **************************************************************************/
@@ -842,20 +877,10 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
                 unit_owner(pdef)->name, unit_type(pdef)->name);
         
       } else {
+        /* See description of kill_desire() about this variables. */
         int vuln = unit_vulnerability(punit, pdef);
-        
-        /* The total possible attack power we can throw on the victim. Note
-         * that we will even square this. */
         int attack = reinforcements_value(punit, pdef->x, pdef->y) + bellig;
-        
-        /* Something like 'attractiveness' of the victim, how nice it would be
-         * to destroy it. Larger value, worse loss for enemy. */
         int benefit = unit_type(pdef)->build_cost;
-        
-        /* We're only dealing with adjacent victims here. */
-        int move_cost = 0;
-        
-        /* The possible loss when we would lose the unit we want to attack. */
         int loss = unit_type(punit)->build_cost;
         
         attack *= attack;
@@ -873,17 +898,12 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
         /* If we have non-zero belligerence... */
         if (attack > 0 && is_my_turn(punit, pdef)) {
           int desire;
+
+          /* FIXME? Why we don't use stack_size as victim_count? --pasky */
+
+          desire = kill_desire(benefit, attack, loss, vuln, 1);
           
-          /* TODO: This equation is simplified version of much worse ones in
-           * that long fat routines, but it's still a common pattern, so we
-           * will can this equation to one separate readable function. We'll
-           * also be able to remove move_cost and loss variables. */
-         
-          /*         attractiveness     danger */ 
-          desire = ((benefit * attack - loss * vuln) * SHIELD_WEIGHTING
-                    / (attack + vuln) - move_cost * SHIELD_WEIGHTING);
-          
-          /* No need to amortize! We're doing it in one-turn horizon (?). */
+          /* No need to amortize! We're doing it in one-turn horizon. */
           
           if (desire > best && ai_fuzzy(pplayer, 1)) {
             freelog(LOG_DEBUG, "Better than %d is %d (%s)",
@@ -1555,10 +1575,19 @@ and conquer it in one turn.  This variable enables total carnage. -- Syela */
           else if ((is_ground_unit(punit) || is_heli_unit(punit)) &&
                    acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
           else {
-            b0 = (b * a - (f + acity->ai.f) * d) * g * SHIELD_WEIGHTING / (a + g * d);
-            if (b * acity->ai.a * acity->ai.a > acity->ai.f * d)
-               b0 -= (b * acity->ai.a * acity->ai.a - acity->ai.f * d) *
-                      g * SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + g * d);
+            int a_squared = acity->ai.a * acity->ai.a;
+            
+            b0 = kill_desire(b, a, (f + acity->ai.f), d, g);
+            if (b * a_squared > acity->ai.f * d) {
+              /* If there're enough units to do the job, we don't need this
+               * one. */
+              /* FIXME: The problem with ai.f is that bigger it is, less is our
+               * desire to go help other units.  Now suppose we need five
+               * cavalries to take over a city, we have four (which is not
+               * enough), then we will be severely discouraged to build the
+               * fifth one.  Where is logic in this??!?! --GB */
+              b0 -= kill_desire(b, a_squared, acity->ai.f, d, g);
+            }
           }
           b0 -= c * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING : SHIELD_WEIGHTING);
           /* FIXME: build_cost of ferry */
