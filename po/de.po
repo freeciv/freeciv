@@ -31,7 +31,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.12.0\n"
-"POT-Creation-Date: 2001-04-25 09:55+0200\n"
+"POT-Creation-Date: 2001-05-04 11:16+0200\n"
 "Last-Translator: Egbert Hinzen <garfy@ehinzen.de>\n"
 "Language-Team: German <garfy@ehinzen.de>\n"
 
@@ -1399,7 +1399,7 @@ msgstr ""
 "unsere Wissenschaftler.\n"
 "       Spontan haben sie alle Städte damit ausgestattet."
 
-#: server/maphand.c:1206
+#: server/maphand.c:1215
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s läßt uns nicht mehr in die Karte sehen!"
@@ -2090,35 +2090,7 @@ msgstr "Spiel: Ohne Leitung aus der Hauptstadt ist das %s Raumschiff verloren!"
 msgid "Game: The %s spaceship has arrived at Alpha Centauri."
 msgstr "Spiel: Das %s Raumschiff hat Alpha Centauri erreicht."
 
-#: server/srv_main.c:235
-#, c-format
-msgid "Loading saved game: %s"
-msgstr "Lade Spiel '%s'"
-
-#: server/srv_main.c:239
-#, c-format
-msgid "Couldn't load savefile: %s"
-msgstr "Kann Datei '%s' nicht laden"
-
-#: server/srv_main.c:259
-#, c-format
-msgid "Sending info to metaserver [%s]"
-msgstr "Sende Informationen an den Metaserver [%s]"
-
-#: server/srv_main.c:267
-msgid "Now accepting new client connections."
-msgstr "Warte auf Spieler..."
-
-#: server/srv_main.c:326
-msgid "Last player has disconnected: will need to restart."
-msgstr ""
-"Der letzte Spieler hat die Verbindung unterbrochen: Neustart erforderlich."
-
-#: server/srv_main.c:501
-msgid "Game: The game is over..."
-msgstr "Spiel: Das Spiel ist beendet..."
-
-#: server/srv_main.c:651
+#: server/srv_main.c:321
 #, c-format
 msgid ""
 "Game: Concerned citizens point out that the cease-fire with %s will run out "
@@ -2127,134 +2099,134 @@ msgstr ""
 "Spiel: Besorgte Bürger weisen darauf hin, daß der Waffenstillstand mit %s "
 "bald endet."
 
-#: server/srv_main.c:657
+#: server/srv_main.c:327
 #, c-format
 msgid ""
 "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr "Der Waffenstillstand mit %s ist beendet. Die %s sind jetzt neutral."
 
-#: server/srv_main.c:811
+#: server/srv_main.c:481
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Konnte das Spiel nicht in der Datei '%s' speichern"
 
-#: server/srv_main.c:813
+#: server/srv_main.c:483
 #, c-format
 msgid "Game saved as %s"
 msgstr "Spiel gespeichert als '%s'"
 
-#: server/srv_main.c:843
+#: server/srv_main.c:513
 msgid "The game is already running."
 msgstr "Das Spiel hat bereits angefangen."
 
-#: server/srv_main.c:847
+#: server/srv_main.c:517
 msgid "Starting game."
 msgstr "Spiel begonnen."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:958
+#: server/srv_main.c:628
 #, c-format
 msgid "got a packet of type %d outside RUN_GAME_STATE"
 msgstr "got a packet of type %d outside RUN_GAME_STATE"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:969
+#: server/srv_main.c:639
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Got a packet of type %d from a dead or observer player"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: server/srv_main.c:1215
+#: server/srv_main.c:885
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
 msgstr "Trying to alloc nation outside of SELECT_RACES_STATE!"
 
-#: server/srv_main.c:1223
+#: server/srv_main.c:893
 msgid "Please choose a non-blank name."
 msgstr "Es muß ein Name gewählt werden."
 
-#: server/srv_main.c:1245
+#: server/srv_main.c:915
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Ein anderer Spieler nimmt bereits unter dem Namen '%s' am Spiel teil. Bitte "
 "wählen Sie einen anderen Namen."
 
-#: server/srv_main.c:1251
+#: server/srv_main.c:921
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s ist der %se Herrscher %s."
 
-#: server/srv_main.c:1278
+#: server/srv_main.c:948
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Keine Nationen mehr vorhanden: Spieler %s entfernt."
 
-#: server/srv_main.c:1281
+#: server/srv_main.c:951
 msgid "Game: Sorry, there are no nations left."
 msgstr ""
 "Mitspielen ist leider nicht möglich, da alle Nationen bereits vergeben sind."
 
-#: server/srv_main.c:1336
+#: server/srv_main.c:1006
 #, c-format
 msgid "%s has joined as player %s."
 msgstr "%s nimmt als %s am Spiel teil."
 
-#: server/srv_main.c:1341
+#: server/srv_main.c:1011
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
 msgstr "Spiel: %s von %s nimmt als %s am Spiel teil."
 
-#: server/srv_main.c:1364
+#: server/srv_main.c:1034
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
 msgstr "Willkommen auf dem %s Server (%s Port: %d)."
 
-#: server/srv_main.c:1367
+#: server/srv_main.c:1037
 #, c-format
 msgid "Welcome to the %s Server at port %d."
 msgstr "Willkommen auf dem %s Server (Port %d)."
 
-#: server/srv_main.c:1379
+#: server/srv_main.c:1049
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Runden-Sperre aktiv: %s hat die Runde noch nicht beendet..."
 
-#: server/srv_main.c:1422
+#: server/srv_main.c:1092
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s ist als KI-Spieler dazu gekommen."
 
-#: server/srv_main.c:1424
+#: server/srv_main.c:1094
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Spiel: Der KI-Spieler %s ist dazu gekommen."
 
-#: server/srv_main.c:1511
+#: server/srv_main.c:1181
 #, c-format
 msgid "Invalid name '%s'"
 msgstr "Unzulässiger Name '%s'"
 
-#: server/srv_main.c:1513
+#: server/srv_main.c:1183
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr "Verbindungsaufbau mit %s wegen unzulässigem Namen abgewiesen."
 
-#: server/srv_main.c:1520
+#: server/srv_main.c:1190
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "%s von %s erbittet Verbindung."
 
-#: server/srv_main.c:1524
+#: server/srv_main.c:1194
 #, c-format
 msgid "Connection request from %s from %s (connection named %s)"
 msgstr "%s von %s erbittet Verbindung (unter dem Namen %s)."
 
-#: server/srv_main.c:1528
+#: server/srv_main.c:1198
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s hat Client %d.%d.%d%s."
 
-#: server/srv_main.c:1538
+#: server/srv_main.c:1208
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2264,12 +2236,12 @@ msgstr ""
 "Der Client hat nicht die vom Server benötigten Fähigkeiten.\n"
 "Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
 
-#: server/srv_main.c:1545 server/srv_main.c:1561
+#: server/srv_main.c:1215 server/srv_main.c:1231
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "%s abgewiesen: inkompatible Version."
 
-#: server/srv_main.c:1554
+#: server/srv_main.c:1224
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2279,145 +2251,173 @@ msgstr ""
 "Der Server hat nicht die vom Client benötigten Fähigkeiten.\n"
 "Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
 
-#: server/srv_main.c:1571
+#: server/srv_main.c:1241
 msgid "Sorry, no observation of barbarians in this game."
 msgstr "Die Beobachtung von Barbaren ist in diesem Spiel nicht möglich."
 
-#: server/srv_main.c:1574
+#: server/srv_main.c:1244
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
 msgstr ""
 "%s abgewiesen: Die Beobachtung von Barbaren ist in diesem Spiel unzulässig."
 
-#: server/srv_main.c:1581
+#: server/srv_main.c:1251
 msgid "Sorry, no observation of dead players in this game."
 msgstr "Die Beobachtung gestorbener Spieler ist in diesem Spiel nicht möglich."
 
-#: server/srv_main.c:1584
+#: server/srv_main.c:1254
 #, c-format
 msgid "%s was rejected: No observation of dead players."
 msgstr ""
 "%s abgewiesen: Die Beobachtung gestorbener Spieler ist in diesem Spiel "
 "unzulässig."
 
-#: server/srv_main.c:1591
+#: server/srv_main.c:1261
 msgid "Sorry, no observation of AI players in this game."
 msgstr "Die Beobachtung von KI-Spielern ist in diesem Spiel nicht möglich."
 
-#: server/srv_main.c:1594
+#: server/srv_main.c:1264
 #, c-format
 msgid "%s was rejected: No observation of AI players."
 msgstr ""
 "%s abgewiesen: Die Beobachtung von KI-Spielern ist in diesem Spiel "
 "unzulässig."
 
-#: server/srv_main.c:1601
+#: server/srv_main.c:1271
 msgid "Sorry, no reconnections to human-mode players in this game."
 msgstr ""
 "Die Wiederherstellung abgebrochener Verbindungen ist in diesem Spiel nicht "
 "möglich."
 
-#: server/srv_main.c:1604
+#: server/srv_main.c:1274
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
 msgstr "%s abgewiesen: Keine Wiederherstellung abgebrochener Verbindungen."
 
-#: server/srv_main.c:1623
+#: server/srv_main.c:1293
 msgid "Sorry, someone else already has that name."
 msgstr "Dieser Name ist bereits vergeben."
 
-#: server/srv_main.c:1625
+#: server/srv_main.c:1295
 #, c-format
 msgid "%s was rejected: Name %s already used."
 msgstr "%s abgewiesen: der Name %s wird bereits benutzt."
 
-#: server/srv_main.c:1632
+#: server/srv_main.c:1302
 #, c-format
 msgid "Sorry, %s is already connected."
 msgstr "Verbindung zu %s besteht schon."
 
-#: server/srv_main.c:1635
+#: server/srv_main.c:1305
 #, c-format
 msgid "%s was rejected: %s already connected."
 msgstr "%s abgewiesen: Verbindung zu %s besteht schon."
 
-#: server/srv_main.c:1666
+#: server/srv_main.c:1336
 msgid "Sorry, the game is already running."
 msgstr "Das Spiel hat bereits angefangen."
 
-#: server/srv_main.c:1667
+#: server/srv_main.c:1337
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s abgewiesen: Das Spiel läuft und der Name %s ist nicht bekannt."
 
-#: server/srv_main.c:1675
+#: server/srv_main.c:1345
 msgid "Sorry, the game is full."
 msgstr ""
 "Mitspielen ist leider nicht mehr möglich: Die max. Spielerzahl ist bereits "
 "erreicht."
 
-#: server/srv_main.c:1676
+#: server/srv_main.c:1346
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s abgewiesen: Höchstzahl der Spieler erreicht."
 
-#: server/srv_main.c:1684
+#: server/srv_main.c:1354
 msgid "Sorry, no new players allowed in this game."
 msgstr "Neue Spieler sind in diesem Spiel nicht erlaubt."
 
-#: server/srv_main.c:1685
+#: server/srv_main.c:1355
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s abgewiesen: Keine Verbindungen zu neuen Spielern zulässig."
 
-#: server/srv_main.c:1707
+#: server/srv_main.c:1377
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Verbindung verloren: %s."
 
-#: server/srv_main.c:1715
+#: server/srv_main.c:1385
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Spiel: Verbindung zu %s verloren."
 
-#: server/srv_main.c:1799
+#: server/srv_main.c:1469
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Keine Staaten mehr verfügbar. KI-Spieler %s nicht generiert."
 
-#: server/srv_main.c:1840
+#: server/srv_main.c:1510
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Anzahl der Staaten kleiner als AIFILL; AIFILL auf %d reduziert."
 
-#: server/srv_main.c:1847
+#: server/srv_main.c:1517
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Max. Anzahl der Spieler kleiner als AIFILL; AIFILL auf %d reduziert."
 
-#: server/srv_main.c:1861
+#: server/srv_main.c:1531
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Fehler bei der Generierung eines neuen KI-Spielers: %s\n"
 
-#: server/srv_main.c:1920
+#: server/srv_main.c:1590
 #, c-format
 msgid "Player %d"
 msgstr "Spieler %d"
 
-#: server/srv_main.c:1935
+#: server/srv_main.c:1605
 msgid "Argh! ran out of nations!"
 msgstr "Keine Staaten mehr verfügbar!"
 
-#: server/srv_main.c:1952
+#: server/srv_main.c:1622
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI kontrolliert die %s unter %s."
 
-#: server/srv_main.c:1958
+#: server/srv_main.c:1628
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spiel: %s beherrscht die %s."
+
+#: server/srv_main.c:1773
+#, c-format
+msgid "Loading saved game: %s"
+msgstr "Lade Spiel '%s'"
+
+#: server/srv_main.c:1777
+#, c-format
+msgid "Couldn't load savefile: %s"
+msgstr "Kann Datei '%s' nicht laden"
+
+#: server/srv_main.c:1793
+#, c-format
+msgid "Sending info to metaserver [%s]"
+msgstr "Sende Informationen an den Metaserver [%s]"
+
+#: server/srv_main.c:1801
+msgid "Now accepting new client connections."
+msgstr "Warte auf Spieler..."
+
+#: server/srv_main.c:1860
+msgid "Last player has disconnected: will need to restart."
+msgstr ""
+"Der letzte Spieler hat die Verbindung unterbrochen: Neustart erforderlich."
+
+#: server/srv_main.c:1951
+msgid "Game: The game is over..."
+msgstr "Spiel: Das Spiel ist beendet..."
 
 #: server/stdinhand.c:152
 msgid "Map width in squares"
@@ -9520,10 +9520,11 @@ msgstr "Karteneinsicht verbieten"
 msgid "Goto location"
 msgstr "Gehe nach"
 
+# EH: Das ist keine Übersetzung, dafür aber inhaltlich richtig!
 #: data/helpdata.txt:38
 msgid ""
 "Freeciv is a turn-based strategy game, in which each player becomes the "
-"leader of a civilization, fighting to obtain the ultimate goal: The "
+"leader of a civilization, fighting to obtain the ultimate goal: the "
 "extinction of all other civilizations."
 msgstr ""
 "Freeciv ist ein rundenbasiertes Multi-Player-Strategiespiel, in dem jeder "
@@ -9786,12 +9787,12 @@ msgid ""
 " 1. Mapping the countryside.\n"
 " 2. Defending the cities.\n"
 " 3. Deciding which units to build first.\n"
-" 4. Build agriculture improvements.\n"
+" 4. Building agriculture improvements.\n"
 " 5. Deciding where to build cities.\n"
 " 6. Taking care of the cities.\n"
 " 7. Exploring the world.\n"
 " 8. Things to keep in mind.\n"
-" 9. Make your own strategy for the game.\n"
+" 9. Making your own strategy for the game.\n"
 "10. Interacting with other players (Diplomacy).\n"
 msgstr ""
 " 0. Einen günstigen Ort für die erste Stadt auswählen\n"
@@ -9799,7 +9800,7 @@ msgstr ""
 " 2. Städte verteidigen\n"
 " 3. Erste Einheiten bauen\n"
 " 4. Gelände verbessern\n"
-" 5. Städte am Meer bauen?\n"
+" 5. Städte bauen\n"
 " 6. Sich um die Städte kümmern\n"
 " 7. Welt erkunden\n"
 " 8. Was man im Auge behalten sollte\n"
@@ -9814,9 +9815,9 @@ msgid ""
 "the first city.  Don't feel tempted to investigate any yellow-roofed "
 "villages yet - they might contain barbarian tribes.  Build the city close to "
 "resources and perhaps close to the sea.  Keep in mind that the city you "
-"build first will be your capital!  The idea is to balance the time spent "
-"looking for a good site, against getting your first city established as "
-"early as possible."
+"build first will be your capital!  The idea is to balance the quality of the "
+"site you find against getting your first city established as early as "
+"possible."
 msgstr ""
 " 0. Einen günstigen Ort für die erste Stadt auswählen\n"
 "\n"
@@ -9855,9 +9856,9 @@ msgid ""
 " 2. Defending the cities.\n"
 "\n"
 "    At this point, defend your cities by always leaving a warrior unit in "
-"them.  As your civilization develops units with a greater defence strength, "
+"them.  As your civilization develops units with a greater defense strength, "
 "replace the obsolete units with new ones to ensure your cities have maximum "
-"defence.  The units most often used for defence are (in order of strength):  "
+"defense.  The units most often used for defense are (in order of strength):  "
 "Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
 " 2. Städte verteidigen\n"
@@ -9871,7 +9872,7 @@ msgstr ""
 #, c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
-"or outside cities can create or reduce unhappiness. Also remember that when "
+"or outside cities can reduce or create unhappiness. Also remember that when "
 "a unit is inside a city, it gets a 50% defensive bonus, as if fortified.  "
 "When a new city is built, the city starts to build the best available "
 "defensive unit from the above list."
@@ -9905,7 +9906,7 @@ msgstr ""
 
 #: data/helpdata.txt:575
 msgid ""
-" 4. Build agriculture improvements.\n"
+" 4. Building agriculture improvements.\n"
 "\n"
 "    Each city has an area of farmland around it that can be used for growing "
 "food, producing goods, and generating trade.  This can be increased by using "
@@ -9925,12 +9926,12 @@ msgid ""
 "\n"
 "    The best location for a city is a matter of taste.  A city which is "
 "placed near the sea is easier to spot by opponents, but can also serve as a "
-"port for sea-going units.  (They also usually need a coastal defence later "
+"port for sea-going units.  (They also usually need a coastal defense later "
 "on.)  The best strategy is to build a few of both, but keep in mind that "
 "your opponents will find it harder to locate your city if you don't build it "
 "by the sea."
 msgstr ""
-" 5. Städte am Meer bauen?\n"
+" 5. Städte bauen\n"
 "\n"
 "Es ist Ansichtssache, ob eine Stadt am Meer liegen sollte. Zwar kann sie "
 "dort von Gegnern leichter entdeckt werden, andererseits kann sie als Hafen "
@@ -10017,7 +10018,7 @@ msgid ""
 "\n"
 "  - What your tax, luxury and research rates are currently set to.\n"
 "\n"
-"  - Treaties are often broken, so don't neglect defence...\n"
+"  - Treaties are often broken, so don't neglect defense...\n"
 "\n"
 "  - Some wonders can be made obsolete by the development of certain advances."
 msgstr ""
@@ -10028,14 +10029,14 @@ msgstr ""
 "\n"
 "  - die aktuellen Quoten für Steuern, Luxus und Forschung\n"
 "\n"
-"  - Veträge werden oft gebrochen: auf die Verteidigung achten!\n"
+"  - Verträge werden oft gebrochen: auf die Verteidigung achten!\n"
 "\n"
 "  - Bestimmte Errungenschaften werden durch neue\n"
 "    Erkenntnisse wertlos"
 
 #: data/helpdata.txt:640
 msgid ""
-" 9. Make your own strategy for the game.\n"
+" 9. Making your own strategy for the game.\n"
 "\n"
 "    These basic concepts will allow you to play the game pretty well, "
 "especially in the beginning of the game.  But to improve, you need to study "
@@ -10123,7 +10124,7 @@ msgstr ""
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
-"note, any units in the field and supported by that city are also transfered "
+"note: any units in the field and supported by that city are also transfered "
 "(but not those sitting in other cities).  So make sure the other player "
 "isn't getting a better deal than you expect."
 msgstr ""
@@ -10135,7 +10136,7 @@ msgstr ""
 #: data/helpdata.txt:696
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
-"science production, etc.  Each improvement requires you to pay an upkeep "
+"science production, etc.  Most improvements require you to pay an upkeep "
 "every turn.  If you can't afford the upkeep for a building, then it'll be "
 "automatically sold."
 msgstr ""
@@ -10891,11 +10892,11 @@ msgstr ""
 
 #: data/helpdata.txt:1124
 msgid ""
-"Your civilization starts out under Despotism.  As your technology improves, "
-"you can select other forms of government (listed below). In order to change "
-"your form of government, you must start a revolution.  This will cause your "
-"civilization to undergo a period of Anarchy (lasting 1-5 turns); at the end "
-"of this time, you will be able to choose your new government."
+"Your civilization starts out under a Despotism.  As your technology "
+"improves, you can select other forms of government (listed below). In order "
+"to change your form of government, you must start a revolution.  This will "
+"cause your civilization to undergo a period of Anarchy (lasting 1-5 turns); "
+"at the end of this time, you will be able to choose your new government."
 msgstr ""
 "Die Zivilisation beginnt mit einer 'Diktatur'. Mit wachsendem Wissen können "
 "auch andere Regierungsformen (unten aufgeführt) gewählt werden. Die "
