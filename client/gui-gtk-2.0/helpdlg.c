@@ -588,6 +588,7 @@ static void create_help_dialog(void)
   gtk_box_pack_start(GTK_BOX(help_box), help_vbox, FALSE, FALSE, 0);
 					     
   text = gtk_text_view_new();
+  gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(text), FALSE);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_container_set_border_width(GTK_CONTAINER(text), 5);
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
@@ -871,6 +872,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     my_chomp(buf, len);
 
     w = gtk_text_view_new();
+    gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(w), FALSE);
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(w), GTK_WRAP_WORD);
     gtk_widget_set_name(w, "help text");
     gtk_container_set_border_width(GTK_CONTAINER(w), 5);
