@@ -2162,10 +2162,10 @@ int city_corruption(struct city *pcity, int trade)
   } else {
     capital = find_palace(city_owner(pcity));
     if (!capital)
-      dist = g->max_distance_cap;
+      dist = g->corruption_max_distance_cap;
     else {
       int tmp = real_map_distance(capital->x, capital->y, pcity->x, pcity->y);
-      dist = MIN(g->max_distance_cap, tmp);
+      dist = MIN(g->corruption_max_distance_cap, tmp);
     }
   }
   dist =

@@ -2477,7 +2477,7 @@ int send_packet_ruleset_government(struct connection *pc,
   dio_put_uint8(&dout, packet->fixed_corruption_distance);
   dio_put_uint8(&dout, packet->corruption_distance_factor);
   dio_put_uint8(&dout, packet->extra_corruption_distance);
-  dio_put_uint8(&dout, packet->max_distance_cap);
+  dio_put_uint8(&dout, packet->corruption_max_distance_cap);
   
   dio_put_uint8(&dout, packet->waste_level);
   dio_put_uint8(&dout, packet->waste_modifier);
@@ -2570,7 +2570,7 @@ receive_packet_ruleset_government(struct connection *pc)
   dio_get_uint8(&din, &packet->fixed_corruption_distance);
   dio_get_uint8(&din, &packet->corruption_distance_factor);
   dio_get_uint8(&din, &packet->extra_corruption_distance);
-  dio_get_uint8(&din, &packet->max_distance_cap);
+  dio_get_uint8(&din, &packet->corruption_max_distance_cap);
   
   dio_get_uint8(&din, &packet->waste_level);
   dio_get_uint8(&din, &packet->waste_modifier);
