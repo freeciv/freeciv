@@ -982,12 +982,12 @@ static void show_city_descriptions(void)
 
 	  if (pcity->is_building_unit) {
 	    punit_type = get_unit_type(pcity->currently_building);
-	    my_snprintf(buffer, sizeof(buffer), "(%s %d)",
+	    my_snprintf(buffer, sizeof(buffer), "%s %d",
 			punit_type->name, turns);
 	  } else {
 	    pimprovement_type =
 		get_improvement_type(pcity->currently_building);
-	    my_snprintf(buffer, sizeof(buffer), "(%s %d)",
+	    my_snprintf(buffer, sizeof(buffer), "%s %d",
 			pimprovement_type->name, turns);
 	  }
 	  if (draw_city_names)
