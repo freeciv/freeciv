@@ -335,8 +335,8 @@ void ui_main(int argc, char *argv[])
   
   icon_pixmap = XCreateBitmapFromData(display,
 				      RootWindowOfScreen(XtScreen(toplevel)),
-				      freeciv_bits,
-				      freeciv_width, freeciv_height );
+				      (char *) freeciv_bits,
+				      freeciv_width, freeciv_height);
   XtVaSetValues(toplevel, XtNiconPixmap, icon_pixmap, NULL);
 
   init_color_system();
@@ -384,10 +384,10 @@ void ui_main(int argc, char *argv[])
   }
 
   {
-    unsigned char d1[]={0x03,0x0c,0x03,0x0c};
-    unsigned char d2[]={0x08,0x02,0x08,0x02};
-    gray50=XCreateBitmapFromData(display,root_window,d1,4,4);
-    gray25=XCreateBitmapFromData(display,root_window,d2,4,4);
+    char d1[]={0x03,0x0c,0x03,0x0c};
+    char d2[]={0x08,0x02,0x08,0x02};
+    gray50 = XCreateBitmapFromData(display, root_window, d1, 4, 4);
+    gray25 = XCreateBitmapFromData(display, root_window, d2, 4, 4);
   }
   
   /* 135 below is rough value (could be more intelligent) --dwp */

@@ -199,10 +199,13 @@ void load_cursors(void)
   XQueryColor(display, cmap, &black);
 
   /* goto */
-  pixmap = XCreateBitmapFromData(display, root_window, goto_cursor_bits,
-				 goto_cursor_width, goto_cursor_height);
-  mask   = XCreateBitmapFromData(display, root_window, goto_cursor_mask_bits,
-				 goto_cursor_mask_width, goto_cursor_mask_height);
+  pixmap =
+      XCreateBitmapFromData(display, root_window, (char *) goto_cursor_bits,
+			    goto_cursor_width, goto_cursor_height);
+  mask =
+      XCreateBitmapFromData(display, root_window,
+			    (char *) goto_cursor_mask_bits,
+			    goto_cursor_mask_width, goto_cursor_mask_height);
   goto_cursor = XCreatePixmapCursor(display, pixmap, mask,
 				    &white, &black,
 				    goto_cursor_x_hot, goto_cursor_y_hot);
@@ -210,10 +213,13 @@ void load_cursors(void)
   XFreePixmap(display, mask);
 
   /* drop */
-  pixmap = XCreateBitmapFromData(display, root_window, drop_cursor_bits,
-				 drop_cursor_width, drop_cursor_height);
-  mask   = XCreateBitmapFromData(display, root_window, drop_cursor_mask_bits,
-				 drop_cursor_mask_width, drop_cursor_mask_height);
+  pixmap =
+      XCreateBitmapFromData(display, root_window, (char *) drop_cursor_bits,
+			    drop_cursor_width, drop_cursor_height);
+  mask =
+      XCreateBitmapFromData(display, root_window,
+			    (char *) drop_cursor_mask_bits,
+			    drop_cursor_mask_width, drop_cursor_mask_height);
   drop_cursor = XCreatePixmapCursor(display, pixmap, mask,
 				    &white, &black,
 				    drop_cursor_x_hot, drop_cursor_y_hot);
@@ -221,10 +227,13 @@ void load_cursors(void)
   XFreePixmap(display, mask);
 
   /* nuke */
-  pixmap = XCreateBitmapFromData(display, root_window, nuke_cursor_bits,
-				 nuke_cursor_width, nuke_cursor_height);
-  mask   = XCreateBitmapFromData(display, root_window, nuke_cursor_mask_bits,
-				 nuke_cursor_mask_width, nuke_cursor_mask_height);
+  pixmap =
+      XCreateBitmapFromData(display, root_window, (char *) nuke_cursor_bits,
+			    nuke_cursor_width, nuke_cursor_height);
+  mask =
+      XCreateBitmapFromData(display, root_window,
+			    (char *) nuke_cursor_mask_bits,
+			    nuke_cursor_mask_width, nuke_cursor_mask_height);
   nuke_cursor = XCreatePixmapCursor(display, pixmap, mask,
 				    &white, &black,
 				    nuke_cursor_x_hot, nuke_cursor_y_hot);
@@ -232,10 +241,15 @@ void load_cursors(void)
   XFreePixmap(display, mask);
 
   /* patrol */
-  pixmap = XCreateBitmapFromData(display, root_window, patrol_cursor_bits,
-				 patrol_cursor_width, patrol_cursor_height);
-  mask   = XCreateBitmapFromData(display, root_window, patrol_cursor_mask_bits,
-				 patrol_cursor_mask_width, patrol_cursor_mask_height);
+  pixmap =
+      XCreateBitmapFromData(display, root_window,
+			    (char *) patrol_cursor_bits, patrol_cursor_width,
+			    patrol_cursor_height);
+  mask =
+      XCreateBitmapFromData(display, root_window,
+			    (char *) patrol_cursor_mask_bits,
+			    patrol_cursor_mask_width,
+			    patrol_cursor_mask_height);
   patrol_cursor = XCreatePixmapCursor(display, pixmap, mask,
 				      &white, &black,
 				      patrol_cursor_x_hot, patrol_cursor_y_hot);

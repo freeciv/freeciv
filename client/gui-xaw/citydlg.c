@@ -497,12 +497,13 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
   pdialog->present_unit_base=0;
   pdialog->worklist_shell = NULL;
 
-  if(!icon_pixmap)
-    icon_pixmap=
-      XCreateBitmapFromData(display,
-			    RootWindowOfScreen(XtScreen(toplevel)),
-			    cityicon_bits,
-			    cityicon_width, cityicon_height);
+  if (!icon_pixmap) {
+    icon_pixmap =
+	XCreateBitmapFromData(display,
+			      RootWindowOfScreen(XtScreen(toplevel)),
+			      (char *) cityicon_bits,
+			      cityicon_width, cityicon_height);
+  }
 
 
   pdialog->shell=
