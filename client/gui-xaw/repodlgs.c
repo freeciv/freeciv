@@ -202,7 +202,6 @@ void create_science_dialog(int make_modal)
   Widget science_form;
   Widget  close_command;
   static char *tech_list_names_ptrs[A_LAST+1];
-  static char tech_list_names[A_LAST+1][200];
   int j, flag, num_list;
   size_t i;
   Dimension width;
@@ -232,11 +231,11 @@ void create_science_dialog(int make_modal)
   
   for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
     if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
-      sz_strlcpy(tech_list_names[j], advances[i].name);
-      tech_list_names_ptrs[j]=tech_list_names[j];
+      tech_list_names_ptrs[j]=advances[i].name;
       j++;
     }
   tech_list_names_ptrs[j]=0;
+  qsort(tech_list_names_ptrs, j, sizeof(char *), string_ptr_compare);
   num_list = j;
   /* printf("science list num: %d\n", num_list); */
   
@@ -486,7 +485,6 @@ void science_dialog_update(void)
   if(science_dialog_shell) {
     char text[512];
     static char *tech_list_names_ptrs[A_LAST+1];
-    static char tech_list_names[A_LAST+1][200];
     int j, flag;
     size_t i;
     char title_text[512], rate_text[128];
@@ -525,11 +523,11 @@ void science_dialog_update(void)
 
     for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
       if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
-	sz_strlcpy(tech_list_names[j], advances[i].name);
-	tech_list_names_ptrs[j]=tech_list_names[j];
+	tech_list_names_ptrs[j]=advances[i].name;
 	j++;
       }
     tech_list_names_ptrs[j]=0;
+    qsort(tech_list_names_ptrs, j, sizeof(char *), string_ptr_compare);
 
     XawListChange(science_list, tech_list_names_ptrs, 0/*j*/, 0, 1);
 
