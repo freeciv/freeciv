@@ -209,11 +209,8 @@ buildings.ruleset:
 
   Unused entries:
 
-    - bldg_req
     - terr_gate
     - spec_gate
-    - equiv_range
-    - equiv_repl
     - sabotage
     - effect
 
