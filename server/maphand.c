@@ -51,6 +51,7 @@ void global_warming(int effect)
 	case T_GRASSLAND:
 	  effect--;
 	  map_set_terrain(x, y, T_SWAMP);
+	  map_clear_special(x, y, S_IRRIGATION);
           reset_move_costs(x, y);
           relight_square_if_known(0, x, y);
 	  break;
