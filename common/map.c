@@ -68,14 +68,14 @@ static const char *tile_special_type_names[] =
 
 #define MAP_TILE(x,y)	(map.tiles + map_pos_to_index(x, y))
 
-/***************************************************************
-...
-***************************************************************/
-int get_tile_infrastructure_set(struct tile * ptile)
+/****************************************************************************
+  Return a bitfield of the specials on the tile that are infrastructure.
+****************************************************************************/
+enum tile_special_type get_tile_infrastructure_set(struct tile *ptile)
 {
-  return
-    ptile->special &
-    (S_ROAD | S_RAILROAD | S_IRRIGATION | S_FARMLAND | S_MINE | S_FORTRESS | S_AIRBASE);
+  return (ptile->special
+	  & (S_ROAD | S_RAILROAD | S_IRRIGATION | S_FARMLAND | S_MINE
+	     | S_FORTRESS | S_AIRBASE));
 }
 
 /***************************************************************
@@ -543,7 +543,7 @@ int get_tile_trade_base(struct tile * ptile)
   eg: "Mine"
   eg: "Road/Farmland"
 ***************************************************************/
-const char *map_get_infrastructure_text(int spe)
+const char *map_get_infrastructure_text(enum tile_special_type spe)
 {
   static char s[64];
   char *p;
@@ -578,17 +578,19 @@ const char *map_get_infrastructure_text(int spe)
   return s;
 }
 
-/***************************************************************
-...
-***************************************************************/
-int map_get_infrastructure_prerequisite(int spe)
+/****************************************************************************
+  Return the prerequesites needed before building the given infrastructure.
+****************************************************************************/
+enum tile_special_type map_get_infrastructure_prerequisite(enum tile_special_type spe)
 {
-  int prereq = S_NO_SPECIAL;
+  enum tile_special_type prereq = S_NO_SPECIAL;
 
-  if (contains_special(spe, S_RAILROAD))
+  if (contains_special(spe, S_RAILROAD)) {
     prereq |= S_ROAD;
-  if (contains_special(spe, S_FARMLAND))
+  }
+  if (contains_special(spe, S_FARMLAND)) {
     prereq |= S_IRRIGATION;
+  }
 
   return prereq;
 }
@@ -596,7 +598,7 @@ int map_get_infrastructure_prerequisite(int spe)
 /***************************************************************
 ...
 ***************************************************************/
-enum tile_special_type get_preferred_pillage(int pset)
+enum tile_special_type get_preferred_pillage(enum tile_special_type pset)
 {
   if (contains_special(pset, S_FARMLAND))
     return S_FARMLAND;

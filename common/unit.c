@@ -777,25 +777,28 @@ bool can_unit_do_activity_targeted(struct unit *punit,
 
   case ACTIVITY_PILLAGE:
     {
-      int pspresent;
-      int psworking;
-      pspresent = get_tile_infrastructure_set(ptile);
+      enum tile_special_type pspresent = get_tile_infrastructure_set(ptile);
+      enum tile_special_type psworking;
+
       if (pspresent != S_NO_SPECIAL && is_ground_unit(punit)) {
 	psworking = get_unit_tile_pillage_set(punit->x, punit->y);
 	if (ptile->city && (contains_special(target, S_ROAD) ||
-			    contains_special(target, S_RAILROAD)))
-	    return FALSE;
-	if (target == S_NO_SPECIAL) {
-	  if (ptile->city)
-	    return ((pspresent & (~(psworking | S_ROAD |S_RAILROAD))) != 0);
-	  else
-	    return ((pspresent & (~psworking)) != 0);
-	}
-	else if ((!game.rgame.pillage_select) &&
-		 (target != get_preferred_pillage(pspresent)))
+			    contains_special(target, S_RAILROAD))) {
 	  return FALSE;
-	else
-	  return ((pspresent & (~psworking) & target) != 0);
+	}
+	if (target == S_NO_SPECIAL) {
+	  if (ptile->city) {
+	    return ((pspresent & (~(psworking | S_ROAD | S_RAILROAD)))
+		    != S_NO_SPECIAL);
+	  } else {
+	    return ((pspresent & (~psworking)) != S_NO_SPECIAL);
+	  }
+	} else if ((!game.rgame.pillage_select) &&
+		   (target != get_preferred_pillage(pspresent))) {
+	  return FALSE;
+	} else {
+	  return ((pspresent & (~psworking) & target) != S_NO_SPECIAL);
+	}
       } else {
 	return FALSE;
       }
@@ -864,7 +867,7 @@ bool is_unit_activity_on_tile(enum unit_activity activity, int x, int y)
 /**************************************************************************
 ...
 **************************************************************************/
-int get_unit_tile_pillage_set(int x, int y)
+enum tile_special_type get_unit_tile_pillage_set(int x, int y)
 {
   enum tile_special_type tgt_ret = S_NO_SPECIAL;
 

@@ -1347,8 +1347,8 @@ void handle_unit_auto(struct player *pplayer, int unit_id)
 ...
 **************************************************************************/
 static void handle_unit_activity_dependencies(struct unit *punit,
-					      enum unit_activity old_activity,
-					      int old_target)
+				enum unit_activity old_activity,
+				enum tile_special_type old_target)
 {
   switch (punit->activity) {
   case ACTIVITY_IDLE:
