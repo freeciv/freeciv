@@ -292,7 +292,7 @@ static void impr_or_unit_iterate(GtkTreeModel *model, GtkTreePath *path,
   gtk_tree_model_get(model, it, 1, &id, -1);
 
   city_change_production(find_city_by_id(id),
-			 packet->is_build_id_unit_id, packet->build_id);
+			 packet.is_build_id_unit_id, packet.build_id);
 }
 
 /****************************************************************
