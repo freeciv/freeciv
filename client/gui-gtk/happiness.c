@@ -24,6 +24,7 @@
 #include "mem.h"
 #include "support.h"
 
+#include "text.h"
 #include "tilespec.h"
 
 #include "graphics.h"
@@ -275,64 +276,8 @@ static void happiness_dialog_update_luxury(struct happiness_dialog
 static void happiness_dialog_update_buildings(struct happiness_dialog
 					      *pdialog)
 {
-  int faces = 0;
-  char buf[512], *bptr = buf;
-  int nleft = sizeof(buf);
-  struct city *pcity = pdialog->pcity;
-  struct government *g = get_gov_pcity(pcity);
-
-  my_snprintf(bptr, nleft, _("Buildings: "));
-  bptr = end_of_strn(bptr, &nleft);
-
-  if (city_got_building(pcity, B_TEMPLE)) {
-    faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_TEMPLE));
-    bptr = end_of_strn(bptr, &nleft);
-    my_snprintf(bptr, nleft, _(". "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-  if (city_got_building(pcity, B_COURTHOUSE) && g->corruption_level == 0) {
-    faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_COURTHOUSE));
-    bptr = end_of_strn(bptr, &nleft);
-    my_snprintf(bptr, nleft, _(". "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-  if (city_got_building(pcity, B_COLOSSEUM)) {
-    faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_COLOSSEUM));
-    bptr = end_of_strn(bptr, &nleft);
-    my_snprintf(bptr, nleft, _(". "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-  /* hack for eliminating gtk_set_line_wrap() -mck */
-  if (faces > 2) {
-    /* sizeof("Buildings: ") */
-    my_snprintf(bptr, nleft, _("\n              "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-  if (city_got_effect(pcity, B_CATHEDRAL)) {
-    faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_CATHEDRAL));
-    bptr = end_of_strn(bptr, &nleft);
-    if (!city_got_building(pcity, B_CATHEDRAL)) {
-      my_snprintf(bptr, nleft, _("("));
-      bptr = end_of_strn(bptr, &nleft);
-      my_snprintf(bptr, nleft, get_improvement_name(B_MICHELANGELO));
-      bptr = end_of_strn(bptr, &nleft);
-      my_snprintf(bptr, nleft, _(")"));
-      bptr = end_of_strn(bptr, &nleft);
-    }
-    my_snprintf(bptr, nleft, _(". "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-
-  if (faces == 0) {
-    my_snprintf(bptr, nleft, _("None. "));
-    bptr = end_of_strn(bptr, &nleft);
-  }
-
-  gtk_set_label(pdialog->hlabels[BUILDINGS], buf);
+  gtk_set_label(pdialog->hlabels[BUILDINGS],
+		get_happiness_buildings(pdialog->pcity));
 }
 
 /**************************************************************************

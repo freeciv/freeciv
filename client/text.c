@@ -704,3 +704,44 @@ const char *get_report_title(const char *report_name)
 	   textyear(game.year));
   RETURN;
 }
+
+/****************************************************************************
+  Get the text describing buildings that affect happiness.
+****************************************************************************/
+const char *get_happiness_buildings(const struct city *pcity)
+{
+  int faces = 0;
+  struct government *g = get_gov_pcity(pcity);
+  INIT;
+
+  add_line(_("Buildings: "));
+  if (city_got_building(pcity, B_TEMPLE)) {
+    faces++;
+    add(_("%s. "), get_improvement_name(B_TEMPLE));
+  }
+  if (city_got_building(pcity, B_COURTHOUSE) && g->corruption_level == 0) {
+    faces++;
+    add(_("%s. "), get_improvement_name(B_COURTHOUSE));
+  }
+  if (city_got_building(pcity, B_COLOSSEUM)) {
+    faces++;
+    add(_("%s. "), get_improvement_name(B_COLOSSEUM));
+  }
+  if (faces > 2) {
+    /* Hack to get wrapping right. */
+    add(_("\n              "));
+  }
+  if (city_got_effect(pcity, B_CATHEDRAL)) {
+    faces++;
+    add("%s", get_improvement_name(B_CATHEDRAL));
+    if (!city_got_building(pcity, B_CATHEDRAL)) {
+      add(_("(%s)"), get_improvement_name(B_MICHELANGELO));
+    }
+    add(_(". "));
+  }
+  if (faces == 0) {
+    add(_("None. "));
+  }
+
+  RETURN;
+}
