@@ -80,16 +80,33 @@ struct connection aconnection;
 extern char metaserver[];
 
 /**************************************************************************
+  Close socket and cleanup.  This one doesn't print a message, so should
+  do so before-hand if necessary.
+**************************************************************************/
+static void close_socket_nomessage(struct connection *pc)
+{
+  pc->used = 0;
+  close(pc->sock);
+
+  /* make sure not to use these accidently: */
+  free(pc->buffer);
+  free(pc->send_buffer);
+  pc->buffer = NULL;
+  pc->send_buffer = NULL;
+  
+  remove_net_input();
+  popdown_races_dialog(); 
+  set_client_state(CLIENT_PRE_GAME_STATE);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void close_socket_callback(struct connection *pc)
 {
   append_output_window(_("Lost connection to server!"));
   freelog(LOG_NORMAL, "lost connection to server");
-  close(pc->sock);
-  remove_net_input();
-  popdown_races_dialog(); 
-  set_client_state(CLIENT_PRE_GAME_STATE);
+  close_socket_nomessage(pc);
 }
 
 /**************************************************************************
@@ -103,6 +120,16 @@ int connect_to_server(char *name, char *hostname, int port,
   struct hostent *ph;
   long address;
   struct packet_req_join_game req;
+
+  if (aconnection.buffer) {
+    /* didn't close cleanly previously? */
+    freelog(LOG_NORMAL, "Unexpected buffers in connect_to_server()");
+    /* get newly initialized ones instead */
+    free(aconnection.buffer);
+    free(aconnection.send_buffer);
+  }
+  aconnection.buffer = new_socket_packet_buffer();
+  aconnection.send_buffer = new_socket_packet_buffer();
 
   if(port==0)
     port=DEFAULT_SOCK_PORT;
@@ -145,7 +172,7 @@ int connect_to_server(char *name, char *hostname, int port,
     return -1;
   }
 
-  aconnection.buffer.ndata=0;
+  aconnection.used = 1;
 
   /* gui-dependent details now in gui_main.c: */
   add_net_input(aconnection.sock);
@@ -173,9 +200,7 @@ int connect_to_server(char *name, char *hostname, int port,
 void disconnect_from_server(void)
 {
   append_output_window(_("Disconnecting from server."));
-  close(aconnection.sock);
-  remove_net_input();
-  set_client_state(CLIENT_PRE_GAME_STATE);
+  close_socket_nomessage(&aconnection);
 }  
 
 /**************************************************************************
@@ -184,7 +209,7 @@ void disconnect_from_server(void)
 **************************************************************************/
 void input_from_server(int fid)
 {
-  if(read_socket_data(fid, &aconnection.buffer)>=0) {
+  if(read_socket_data(fid, aconnection.buffer)>=0) {
     int type;
     char *packet;
 

@@ -33,6 +33,7 @@
 #endif
 
 #include "log.h"
+#include "mem.h"
 #include "netintf.h"
 
 #include "connection.h"
@@ -190,8 +191,8 @@ static int write_socket_data(struct connection *pc,
 static void flush_connection_send_buffer(struct connection *pc)
 {
   if(pc) {
-    if(pc->send_buffer.ndata) {
-      write_socket_data(pc, &pc->send_buffer);
+    if(pc->send_buffer->ndata) {
+      write_socket_data(pc, pc->send_buffer);
     }
   }
 }
@@ -203,9 +204,9 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 			       int len)
 {
   if (pc) {
-    if(10*MAX_LEN_PACKET-pc->send_buffer.ndata >= len) { /* room for more? */
-      memcpy(pc->send_buffer.data+pc->send_buffer.ndata, data, len);
-      pc->send_buffer.ndata+=len;
+    if(10*MAX_LEN_PACKET-pc->send_buffer->ndata >= len) { /* room for more? */
+      memcpy(pc->send_buffer->data + pc->send_buffer->ndata, data, len);
+      pc->send_buffer->ndata += len;
       return 1;
     }
     return 0;
@@ -219,7 +220,7 @@ static int add_connection_data(struct connection *pc, unsigned char *data,
 int send_connection_data(struct connection *pc, unsigned char *data, int len)
 {
   if(pc) {
-    if(pc->send_buffer.do_buffer_sends) {
+    if(pc->send_buffer->do_buffer_sends) {
       if (!add_connection_data(pc, data, len)) {
 	flush_connection_send_buffer(pc);
 	if (!add_connection_data(pc, data, len)) {
@@ -244,7 +245,7 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len)
 void connection_do_buffer(struct connection *pc)
 {
   if(pc)
-    pc->send_buffer.do_buffer_sends++;
+    pc->send_buffer->do_buffer_sends++;
 }
 
 /**************************************************************************
@@ -255,9 +256,22 @@ void connection_do_buffer(struct connection *pc)
 void connection_do_unbuffer(struct connection *pc)
 {
   if(pc) {
-    pc->send_buffer.do_buffer_sends--;
-    if(pc->send_buffer.do_buffer_sends==0)
+    pc->send_buffer->do_buffer_sends--;
+    if(pc->send_buffer->do_buffer_sends == 0)
       flush_connection_send_buffer(pc);
   }
 }
 
+
+/**************************************************************************
+  Return malloced struct, appropriately initialized.
+**************************************************************************/
+struct socket_packet_buffer *new_socket_packet_buffer(void)
+{
+  struct socket_packet_buffer *buf;
+
+  buf = fc_malloc(sizeof(*buf));
+  buf->ndata = 0;
+  buf->do_buffer_sends = 0;
+  return buf;
+}

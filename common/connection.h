@@ -67,8 +67,8 @@ struct connection {
   int byte_swap;		/* connection uses non-network byte order */
   struct player *player;	/* NULL for connections not yet associated
 				   with a specific player */
-  struct socket_packet_buffer buffer;
-  struct socket_packet_buffer send_buffer;
+  struct socket_packet_buffer *buffer;
+  struct socket_packet_buffer *send_buffer;
   char addr[MAX_LEN_ADDR];
   char capability[MAX_LEN_CAPSTR];
   /* "capability" gives the capability string of the executable (be it
@@ -94,4 +94,6 @@ int send_connection_data(struct connection *pc, unsigned char *data, int len);
 void connection_do_buffer(struct connection *pc);
 void connection_do_unbuffer(struct connection *pc);
 
+struct socket_packet_buffer *new_socket_packet_buffer(void);
+  
 #endif  /* FC__CONNECTION_H */

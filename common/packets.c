@@ -156,11 +156,14 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
 {
   int len, type;
 
-  if(pc->buffer.ndata<3)
+  if (pc->used==0)
+    return NULL;		/* connection was closed, stop reading */
+  
+  if(pc->buffer->ndata<3)
     return NULL;           /* length and type not read */
 
-  get_uint16(pc->buffer.data, &len);
-  get_uint8(pc->buffer.data+2, &type);
+  get_uint16(pc->buffer->data, &len);
+  get_uint8(pc->buffer->data+2, &type);
 
   if(pc->first_packet) {
     /* the first packet better be short: */
@@ -179,12 +182,12 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
     len = swab_uint16(len);
   }
 
-  if(len > pc->buffer.ndata)
+  if(len > pc->buffer->ndata)
     return NULL;           /* not all data has been read */
 
   /* so the packet gets processed (removed etc) properly: */
   if(pc->byte_swap) {
-    put_uint16(pc->buffer.data, len);
+    put_uint16(pc->buffer->data, len);
   }
 
   freelog(LOG_DEBUG, "packet type %d len %d", type, len);
@@ -346,7 +349,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype)
 
   default:
     freelog(LOG_NORMAL, "unknown packet type received");
-    remove_packet_from_buffer(&pc->buffer);
+    remove_packet_from_buffer(pc->buffer);
     return NULL;
   };
 }
@@ -372,10 +375,10 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
 static void pack_iter_init(struct pack_iter *piter, struct connection *pc)
 {
   assert(piter!=NULL && pc!=NULL);
-  assert(pc->buffer.ndata >= 3);
+  assert(pc->buffer->ndata >= 3);
   
   piter->swap_bytes = pc->byte_swap;
-  piter->ptr = piter->base = pc->buffer.data;
+  piter->ptr = piter->base = pc->buffer->data;
   piter->ptr = get_uint16(piter->ptr, &piter->len);
   piter->ptr = get_uint8(piter->ptr, &piter->type);
   piter->short_packet = (piter->len < 3);
@@ -1224,7 +1227,7 @@ receive_packet_diplomacy_info(struct connection *pc)
   iget_uint32(&iter, &preq->value);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return preq;
 }
 
@@ -1265,7 +1268,7 @@ receive_packet_diplomat_action(struct connection *pc)
   iget_uint16(&iter, &preq->value);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return preq;
 }
 
@@ -1302,7 +1305,7 @@ receive_packet_nuke_tile(struct connection *pc)
   iget_uint8(&iter, &preq->y);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return preq;
 }
 
@@ -1346,7 +1349,7 @@ receive_packet_unit_combat(struct connection *pc)
   iget_uint8(&iter, &preq->make_winner_veteran);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return preq;
 }
 
@@ -1390,7 +1393,7 @@ receive_packet_unit_request(struct connection *pc)
   iget_string(&iter, preq->name, sizeof(preq->name));
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return preq;
 }
 
@@ -1430,7 +1433,7 @@ receive_packet_unit_connect(struct connection *pc)
   iget_uint16(&iter, &preq->dest_y);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return preq;
 }
 
@@ -1488,7 +1491,7 @@ receive_packet_player_request(struct connection *pc)
   iget_uint8(&iter, &preq->wl_idx);
   
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return preq;
 }
 
@@ -1540,7 +1543,7 @@ receive_packet_city_request(struct connection *pc)
   iget_string(&iter, preq->name, sizeof(preq->name));
   
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return preq;
 }
 
@@ -1661,7 +1664,7 @@ receive_packet_player_info(struct connection *pc)
     iget_worklist(&iter, &pinfo->worklists[i]);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return pinfo;
 }
 
@@ -1775,7 +1778,7 @@ if (pc && has_capability("nuclear_fallout", pc->capability)) {
   iget_uint32(&iter, &pinfo->seconds_to_turndone);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return pinfo;
 }
 
@@ -1812,7 +1815,7 @@ struct packet_map_info *receive_packet_map_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->is_earth);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return pinfo;
 }
 
@@ -1835,7 +1838,7 @@ receive_packet_tile_info(struct connection *pc)
   iget_uint8(&iter, &packet->known);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -1852,7 +1855,7 @@ receive_packet_unittype_info(struct connection *pc)
   iget_uint8(&iter, &packet->action);
   
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -1923,7 +1926,7 @@ receive_packet_before_new_year(struct connection *pc)
 
   pack_iter_init(&iter, pc);
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2161,7 +2164,7 @@ if (pc && has_capability("production_change_fix", pc->capability)) {
   for(;data<4;data++) packet->trade_value[data]=packet->trade[data]=0;
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2227,7 +2230,7 @@ if (pc && has_capability("diplomat_investigate_fix", pc->capability)) {
   }
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2246,7 +2249,7 @@ receive_packet_new_year(struct connection *pc)
   iget_uint32(&iter, &packet->year);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2286,7 +2289,7 @@ struct packet_move_unit *receive_packet_move_unit(struct connection *pc)
   iget_uint16(&iter, &packet->unid);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2394,7 +2397,7 @@ receive_packet_req_join_game(struct connection *pc)
   }
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2415,7 +2418,7 @@ receive_packet_join_game_reply(struct connection *pc)
   iget_string(&iter, packet->capability, sizeof(packet->capability));
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2437,7 +2440,7 @@ receive_packet_generic_message(struct connection *pc)
   iget_string(&iter, packet->message, sizeof(packet->message));
   
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2456,7 +2459,7 @@ receive_packet_generic_integer(struct connection *pc)
   iget_uint32(&iter, &packet->value);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2495,7 +2498,7 @@ receive_packet_alloc_nation(struct connection *pc)
   iget_uint8(&iter, &packet->city_style);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2542,7 +2545,7 @@ receive_packet_generic_values(struct connection *pc)
   }
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2620,7 +2623,7 @@ receive_packet_ruleset_control(struct connection *pc)
   iget_tech_list(&iter, packet->rtech.partisan_req);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2725,7 +2728,7 @@ receive_packet_ruleset_unit(struct connection *pc)
   }
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2782,7 +2785,7 @@ receive_packet_ruleset_tech(struct connection *pc)
   }
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -2890,7 +2893,7 @@ receive_packet_ruleset_building(struct connection *pc)
   }
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3003,7 +3006,7 @@ receive_packet_ruleset_terrain(struct connection *pc)
   }
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3100,7 +3103,7 @@ if (pc && has_capability("nuclear_fallout", pc->capability)) {
   }
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3269,7 +3272,7 @@ receive_packet_ruleset_government(struct connection *pc)
   freelog(LOG_DEBUG, "recv gov %s", packet->name);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 struct packet_ruleset_government_ruler_title *
@@ -3289,7 +3292,7 @@ receive_packet_ruleset_government_ruler_title(struct connection *pc)
   iget_string(&iter, packet->female_title, sizeof(packet->female_title));
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3348,7 +3351,7 @@ receive_packet_ruleset_nation(struct connection *pc)
   iget_uint8(&iter, &packet->city_style);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3395,7 +3398,7 @@ receive_packet_ruleset_city(struct connection *pc)
   iget_string(&iter, packet->graphic_alt, MAX_LEN_NAME);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3455,7 +3458,7 @@ if (pc && has_capability("nuclear_fallout", pc->capability)) {
 }
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3534,7 +3537,7 @@ receive_packet_spaceship_info(struct connection *pc)
   iget_bit_string(&iter, (char*)packet->structure, sizeof(packet->structure));
   
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3570,7 +3573,7 @@ receive_packet_spaceship_action(struct connection *pc)
   iget_uint8(&iter, &packet->num);
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3606,7 +3609,7 @@ receive_packet_city_name_suggestion(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 
@@ -3645,7 +3648,7 @@ receive_packet_sabotage_list(struct connection *pc)
 		  sizeof(packet->improvements));
 
   pack_iter_end(&iter, pc);
-  remove_packet_from_buffer(&pc->buffer);
+  remove_packet_from_buffer(pc->buffer);
   return packet;
 }
 

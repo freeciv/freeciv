@@ -134,6 +134,10 @@ void close_connection(struct connection *pconn)
   pconn->used=0;
   pconn->player = NULL;
   pconn->access_level=ALLOW_NONE;
+  free(pconn->buffer);
+  free(pconn->send_buffer);
+  pconn->buffer = NULL;
+  pconn->send_buffer = NULL;
 }
 
 /*****************************************************************************
@@ -341,7 +345,7 @@ int sniff_packets(void)
       for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
 	if(connections[i].used && FD_ISSET(connections[i].sock, &readfs)) {
 	  if(read_socket_data(connections[i].sock, 
-			      &connections[i].buffer)>=0) {
+			      connections[i].buffer)>=0) {
 	    char *packet;
 	    int type;
 	    while((packet=get_packet_from_connection(&connections[i], &type)))
@@ -388,21 +392,21 @@ int server_accept_connection(int sockfd)
 		     AF_INET);
 
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
-    if(!connections[i].used) {
-      connections[i].used=1;
-      connections[i].sock=new_sock;
-      connections[i].player=NULL;
-      connections[i].buffer.ndata=0;
-      connections[i].first_packet=1;
-      connections[i].byte_swap=0;
-      connections[i].access_level=(i?default_access_level:first_access_level);
+    struct connection *pconn = &connections[i];
+    if (!pconn->used) {
+      pconn->used = 1;
+      pconn->sock = new_sock;
+      pconn->player = NULL;
+      pconn->buffer = new_socket_packet_buffer();
+      pconn->send_buffer = new_socket_packet_buffer();
+      pconn->first_packet = 1;
+      pconn->byte_swap = 0;
+      pconn->access_level = (i?default_access_level:first_access_level);
 
-      if (from)
-	sz_strlcpy(connections[i].addr, from->h_name);
-      else
-	sz_strlcpy(connections[i].addr, inet_ntoa(fromend.sin_addr));
+      sz_strlcpy(pconn->addr,
+		 (from ? from->h_name : inet_ntoa(fromend.sin_addr)));
 
-      freelog(LOG_VERBOSE, "connection from %s", connections[i].addr);
+      freelog(LOG_VERBOSE, "connection from %s", pconn->addr);
       return 0;
     }
   }
@@ -467,7 +471,6 @@ void init_connections(void)
   int i;
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) { 
     connections[i].used=0;
-    connections[i].buffer.ndata=0;
   }
 #ifdef __VMS
   {

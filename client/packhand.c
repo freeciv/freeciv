@@ -860,6 +860,8 @@ void handle_player_info(struct packet_player_info *pinfo)
     pplayer->conn = fc_malloc(sizeof(struct connection));
     pplayer->conn->sock = 0;
     pplayer->conn->used = 0;
+    pplayer->conn->buffer = NULL;
+    pplayer->conn->send_buffer = NULL;
     pplayer->conn->player = NULL;
   }
 
