@@ -88,6 +88,7 @@ struct settings_s {
   /* The following apply if the setting is string valued; note these
      default to 0 (NULL) if not explicitly mentioned in initialization
      array.  The setting is integer valued if svalue is NULL.
+     (Yes, we could use a union here.  But we don't.)
   */
   char *svalue;	
   char *default_svalue;
@@ -349,7 +350,7 @@ struct settings_s settings[] = {
     GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE, GAME_DEFAULT_UNHAPPYSIZE,
     "City size before people become unhappy",
     "  Before other adjustments, the first unhappysize citizens in a city are\n"
-    "  happy, and subsequent citizens are unhappy. See also cityfactor.\n" },
+    "  happy, and subsequent citizens are unhappy. See also cityfactor." },
 
   { "cityfactor", &game.cityfactor,
     SSET_RULES, SSET_TO_CLIENT,
@@ -392,8 +393,9 @@ struct settings_s settings[] = {
   { "spacerace", &game.spacerace,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_SPACERACE, GAME_MAX_SPACERACE, GAME_DEFAULT_SPACERACE,
-    "Whether to allow space race (experimental)",
-    "  The space race code is still being developed." },
+    "Whether to allow space race",
+    "  If this option is 1, players can build spaceships.  The current AI does not\n"
+    "  build spaceships, so this is probably only useful for multiplayer games." },
 
   { "civilwarsize", &game.civilwarsize,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
