@@ -904,7 +904,7 @@ static int fill_city_sprite_array(struct Sprite **sprs, struct city *pcity,
   if(city_unhappy(pcity))
     *sprs++ = sprites.city.disorder;
 
-  if(ptile->known==TILE_KNOWN_FOGGED && draw_fog_of_war)
+  if(tile_is_known(pcity->x, pcity->y) == TILE_KNOWN_FOGGED && draw_fog_of_war)
     *sprs++ = sprites.tx.fog;
 
   /* Put the size sprites last, so that they are not obscured
@@ -1109,18 +1109,16 @@ int fill_tile_sprite_array_iso(struct Sprite **sprs, struct Sprite **coasts,
   int ttype, ttype_near[8];
   int tspecial, tspecial_near[8];
   int tileno, dir, i;
-  struct tile *ptile;
   struct city *pcity;
   struct Sprite **save_sprs = sprs;
 
   *solid_bg = 0;
 
   assert(is_normal_map_pos(x, y));
-  ptile = map_get_tile(x, y);
-  if (!ptile->known)
+  if (!tile_is_known(x, y))
     return -1;
 
-  pcity = ptile->city;
+  pcity = map_get_city(x, y);
   ttype = map_get_terrain(x, y);
   tspecial = map_get_special(x, y);
 
@@ -1346,7 +1344,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   assert(is_normal_map_pos(abs_x0, abs_y0));
   ptile=map_get_tile(abs_x0, abs_y0);
 
-  if (ptile->known == TILE_UNKNOWN) {
+  if (tile_is_known(abs_x0,abs_y0) == TILE_UNKNOWN) {
     return 0;
   }
 
@@ -1563,7 +1561,8 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
   if(tspecial & S_AIRBASE && draw_fortress_airbase) *sprs++ = sprites.tx.airbase;
   if(tspecial & S_POLLUTION && draw_pollution) *sprs++ = sprites.tx.pollution;
   if(tspecial & S_FALLOUT && draw_pollution) *sprs++ = sprites.tx.fallout;
-  if(ptile->known==TILE_KNOWN_FOGGED && draw_fog_of_war) *sprs++ = sprites.tx.fog;
+  if(tile_is_known(abs_x0,abs_y0) == TILE_KNOWN_FOGGED && draw_fog_of_war) 
+    *sprs++ = sprites.tx.fog;
 
   if(!citymode) {
     /* 
@@ -1764,7 +1763,7 @@ enum color_std overview_tile_color(int x, int y)
   struct unit *punit;
   struct city *pcity;
 
-  if(!ptile->known) {
+  if(!tile_is_known(x, y)) {
     color=COLOR_STD_BLACK;
   } else if((pcity=map_get_city(x, y))) {
     if(pcity->owner==game.player_idx)
