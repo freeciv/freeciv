@@ -50,7 +50,7 @@ struct proto_settings settings[] = {
     &map.ysize, 0,
     MAP_MIN_HEIGHT, MAP_MAX_HEIGHT, MAP_DEFAULT_HEIGHT},
 
-  { "seed", "This single number defines the random sequence that generate the map\nSame seed will always produce same map.", 
+  { "seed", "This single number defines the random sequence that generate the map\nSame seed will always produce same map, except 0, which gives a random map.", 
     &map.seed, 0,
     MAP_MIN_SEED,MAP_MAX_SEED, MAP_DEFAULT_SEED},
   
