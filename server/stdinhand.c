@@ -312,6 +312,12 @@ static struct settings_s settings[] = {
 	      "be separate"), NULL, 
 	   MAP_DEFAULT_SEPARATE_POLES)
 
+  GEN_BOOL("alltemperate", map.alltemperate, SSET_MAP_GEN, SSET_GEOLOGY,
+           SSET_TO_CLIENT,
+	   N_("All the map is temperate (no poles or equatorial regions)"),
+	   N_("0 = normal Earth-like planet; 1 = all-temperate planet "),
+	   NULL, MAP_DEFAULT_ALLTEMPERATE)
+
   GEN_INT("landmass", map.landpercent, SSET_MAP_GEN, SSET_GEOLOGY,
           SSET_TO_CLIENT,
 	  N_("Amount of land vs ocean"), "", NULL,

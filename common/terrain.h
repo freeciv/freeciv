@@ -64,7 +64,8 @@ enum tile_special_type {
 enum tile_terrain_type {
   T_ARCTIC, T_DESERT, T_FOREST, T_GRASSLAND, T_HILLS, T_JUNGLE, 
   T_MOUNTAINS, T_OCEAN, T_PLAINS, T_UNUSED, T_SWAMP, T_TUNDRA, T_UNKNOWN,
-  T_LAST
+  T_LAST, /* last terrain type */
+  T_ANY   /* A special flag that matches "any" terrain type. */
 };
 #define T_FIRST (T_ARCTIC)
 #define T_COUNT (T_UNKNOWN)

@@ -77,7 +77,6 @@ static int *river_map;
 static int *height_map;
 static int maxval=0;
 static int forests=0;
-static bool has_poles;
 
 struct isledata {
   int goodies;
@@ -87,6 +86,201 @@ static struct isledata *islands;
 
 /* this is used for generator>1 */
 #define MAP_NCONT 255
+
+/* this is the maximal temperature at equators returned by map_temperature */
+#define MAX_TEMP 1000
+
+/* An estimate of the linear (1-dimensional) size of the map. */
+#define SQSIZE MAX(1, sqrt(map.xsize * map.ysize / 1000))
+
+/* used to create the poles and for separating them.  In a
+ * mercator projection map we don't want the poles to be too big. */
+#define ICE_BASE_LEVEL						\
+  ((!topo_has_flag(TF_WRAPX) || !topo_has_flag(TF_WRAPY))	\
+   /* 5% for little maps; 2% for big ones */			\
+   ? MAX_TEMP * (3 + 2 * SQSIZE) / (100 * SQSIZE)		\
+   : 5 * MAX_TEMP / 100  /* 5% for all maps */)
+
+/****************************************************************************
+  Returns the temperature of this map position.  This is a value in the
+  range of 0 to MAX_TEMP (inclusive).
+****************************************************************************/
+static int map_temperature(int map_x, int map_y)
+{
+  double x, y;
+  
+  if (map.alltemperate) {
+    /* An all-temperate map has "average" temperature everywhere.
+     *
+     * TODO: perhaps there should be a random temperature variation. */
+    return MAX_TEMP / 2;
+  }
+
+  do_in_natural_pos(ntl_x, ntl_y, map_x, map_y) {
+    if (!topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
+      /* A FLAT (unwrapped) map 
+       *
+       * We assume this is a partial planetary map.  A polar zone is placed
+       * at the top and the equator is at the bottom.  The user can specify
+       * all-temperate to avoid this. */
+      return MAX_TEMP * ntl_y / (NATURAL_HEIGHT - 1);
+    }
+
+    /* Otherwise a wrapping map is assumed to be a global planetary map. */
+
+    /* we fold the map to get the base symetries
+     *
+     * ...... 
+     * :c__c:
+     * :____:
+     * :____:
+     * :c__c:
+     * ......
+     *
+     * C are the corners.  In all cases the 4 corners have equal temperature.
+     * So we fold the map over in both directions and determine
+     * x and y vars in the range [0.0, 1.0].
+     *
+     * ...>x 
+     * :C_
+     * :__
+     * V
+     * y
+     *
+     * And now this is what we have - just one-quarter of the map.
+     */
+    x = ((ntl_x > (NATURAL_WIDTH / 2 - 1)
+	 ? NATURAL_WIDTH - 1.0 - (double)ntl_x
+	 : (double)ntl_x)
+	 / (NATURAL_WIDTH / 2 - 1));
+    y = ((ntl_y > (NATURAL_HEIGHT / 2 - 1)
+	  ? NATURAL_HEIGHT - 1.0 - (double)ntl_y
+	  : (double)ntl_y)
+	 / (NATURAL_HEIGHT / 2 - 1));
+  } do_in_natural_pos_end;
+
+  if (topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
+    /* In an Earth-like topology the polar zones are at north and south.
+     * This is equivalent to a Mercator projection. */
+    return MAX_TEMP * y;
+  }
+  
+  if (!topo_has_flag(TF_WRAPX) && topo_has_flag(TF_WRAPY)) {
+    /* In a Uranus-like topology the polar zones are at east and west.
+     * This isn't really the way Uranus is; it's the way Earth would look
+     * if you tilted your head sideways.  It's still a Mercator
+     * projection. */
+    return MAX_TEMP * x;
+  }
+
+  /* Otherwise we have a torus topology.  We set it up as an approximation
+   * of a sphere with two circular polar zones and a square equatorial
+   * zone.  In this case north and south are not constant directions on the
+   * map because we have to use a more complicated (custom) projection.
+   *
+   * Generators 2 and 5 work best if the center of the map is free.  So
+   * we want to set up the map with the poles (N,S) along the sides and the
+   * equator (/,\) in between.
+   *
+   * ........
+   * :\ NN /:
+   * : \  / :
+   * :S \/ S:
+   * :S /\ S:
+   * : /  \ :
+   * :/ NN \:
+   * ''''''''
+   */
+
+  /* Remember that we've already folded the map into fourths:
+   *
+   * ....
+   * :\ N
+   * : \ 
+   * :S \
+   *
+   * Now flip it along the X direction to get this:
+   *
+   * ....
+   * :N /
+   * : / 
+   * :/ S
+   */
+  x = 1.0 - x;
+
+  /* Since the north and south poles are equivalent, we can fold along the
+   * diagonal.  This leaves us with 1/8 of the map
+   *
+   * .....
+   * :P /
+   * : / 
+   * :/
+   *
+   * where P is the polar regions and / is the equator. */
+  if (x + y > 1.0) {
+    x = 1.0 - x;
+    y = 1.0 - y;
+  }
+
+  /* This projection makes poles with a shape of a quarter-circle along
+   * "P" and the equator as a straight line along "/".
+   *
+   * This is explained more fully at
+   * http://rt.freeciv.org/Ticket/Display.html?id=8624. */
+  return MAX_TEMP * (1.5 * (x * x * y + x * y * y) 
+		     - 0.5 * (x * x * x + y * y * y) 
+		     + 1.5 * (x * x + y * y));
+}
+
+struct DataFilter {
+  int T_min, T_max;
+  enum tile_terrain_type terrain;
+};
+
+/****************************************************************************
+  A filter function to be passed to rand_map_pos_filtered().  See
+  rand_map_pos_temperature for more explanation.
+****************************************************************************/
+static bool temperature_filter(int map_x, int map_y, void *data)
+{
+  struct DataFilter *filter = data;
+  const int T = map_temperature(map_x, map_y);
+
+  return (T >= filter->T_min && T <= filter->T_max 
+	  && (T_ANY == filter->terrain
+	      || map_get_terrain(map_x, map_y) == filter->terrain));
+}
+
+/****************************************************************************
+  Return random map coordinates which have temperature within the selected
+  range and which match the terrain choice (which may be T_ANY).  Returns
+  FALSE if there is no such position.
+****************************************************************************/
+static bool rand_map_pos_temperature(int *map_x, int *map_y,
+				     int T_min, int T_max,
+				     enum tile_terrain_type terrain)
+{
+  struct DataFilter filter;
+
+  /* We could short-circuit the logic here (for instance, for non-temperate
+   * requests on a temperate map).  However this is unnecessary and isn't
+   * extensible.  So instead we just go straight to the rand_map_pos_filtered
+   * call. */
+
+  filter.T_min = T_min;
+  filter.T_max = T_max;
+  filter.terrain = terrain;
+  return rand_map_pos_filtered(map_x, map_y, &filter, temperature_filter);
+}
+
+/****************************************************************************
+  Return TRUE if the map in a city radius is SINGULAR.  This is used to
+  avoid putting (non-polar) land near the edge of the map.
+****************************************************************************/
+static bool near_singularity(int map_x, int map_y)
+{
+  return is_singular_map_pos(map_x, map_y, CITY_MAP_RADIUS);
+}
 
 /**************************************************************************
   make_mountains() will convert all squares that are higher than thill to
@@ -98,95 +292,145 @@ static void make_mountains(int thill)
 {
   int mount;
   int j;
-  for (j=0;j<10;j++) {
-    mount=0;
+
+  for (j = 0; j < 10; j++) {
+    mount = 0;
     whole_map_iterate(x, y) {
-      if (hmap(x, y)>thill) 
+      if (hmap(x, y) > thill) {
 	mount++;
+      }
     } whole_map_iterate_end;
-    if (mount < (map_num_tiles() * map.mountains) / 1000)
-      thill*=95;
-    else 
-      thill*=105;
-    thill/=100;
+    if (mount < (map_num_tiles() * map.mountains) / 1000) {
+      thill *= 95;
+    } else {
+      thill *= 105;
+    }
+    thill /= 100;
   }
   
   whole_map_iterate(x, y) {
     if (hmap(x, y) > thill && !is_ocean(map_get_terrain(x,y))) { 
-      if (myrand(100)>75) 
+      /* Randomly place hills and mountains on "high" tiles.  But don't
+       * put hills near the poles (they're too green). */
+      if (myrand(100) > 75 
+	  || map_temperature(x, y) <= MAX_TEMP / 10) {
 	map_set_terrain(x, y, T_MOUNTAINS);
-      else if (myrand(100)>25) 
+      } else if (myrand(100) > 25) {
 	map_set_terrain(x, y, T_HILLS);
+      }
+    }
+  } whole_map_iterate_end;
+}
+
+/****************************************************************************
+  Add arctic and tundra squares in the arctic zone (that is, the coolest
+  10% of the map).  We also texture the pole (adding arctic, tundra, and
+  mountains).  This is used in generators 2-4.
+****************************************************************************/
+static void make_polar(void)
+{
+  struct tile *ptile;
+  int T;
+
+  whole_map_iterate(map_x, map_y) {
+    T = map_temperature(map_x, map_y);	/* temperature parameter */
+    ptile = map_get_tile(map_x, map_y);
+    if (T < ICE_BASE_LEVEL) { /* get the coldest part of the map */
+      if (ptile->terrain != T_MOUNTAINS) {
+	ptile->terrain = T_ARCTIC;
+      }
+    } else if ((T <= 1.5 * ICE_BASE_LEVEL) 
+	       && (ptile->terrain == T_OCEAN) ) {  
+      ptile->terrain = T_ARCTIC;
+    } else if (T <= 2 * ICE_BASE_LEVEL) {
+      if (ptile->terrain == T_OCEAN) {
+	if (myrand(10) > 5) {
+	  ptile->terrain = T_ARCTIC;
+	} else if (myrand(10) > 6) {
+	  ptile->terrain = T_TUNDRA;
+	}
+      } else if (myrand(10) > 0 && ptile->terrain != T_MOUNTAINS) {
+	ptile->terrain = T_TUNDRA;
+      }
+    }
+  } whole_map_iterate_end;
+}
+
+/****************************************************************************
+  Place untextured land at the poles.  This is used by generators 1 and 5.
+  The land is textured by make_tundra, make_arctic, and make_mountains.
+****************************************************************************/
+static void make_polar_land(void)
+{
+  struct tile *ptile;
+  int T;
+
+  whole_map_iterate(map_x, map_y) {
+    T = map_temperature(map_x, map_y);	/* temperature parameter */
+    ptile = map_get_tile(map_x, map_y);
+    if (T < 1.5 * ICE_BASE_LEVEL) {
+      ptile->terrain = T_GRASSLAND;
+    } else if ((T <= 2 * ICE_BASE_LEVEL) && myrand(10) > 4 ) { 
+      ptile->terrain = T_GRASSLAND;
+    }
+  } whole_map_iterate_end;
+}
+
+/****************************************************************************
+  Create tundra in cold zones.  Used by generators 1 and 5.  This must be
+  called after make_arctic since it will fill all remaining untextured
+  areas (we don't want any grassland left on the poles).
+****************************************************************************/
+static void make_tundra(void)
+{
+  whole_map_iterate(x, y) {
+    int T = map_temperature(x, y);
+
+    if (map_get_terrain(x, y) == T_GRASSLAND 
+	&& (2 * ICE_BASE_LEVEL > T || myrand(MAX_TEMP/5) > T)) {
+      map_set_terrain(x, y, T_TUNDRA);
+    }
+  } whole_map_iterate_end;
+}
+
+/****************************************************************************
+  Create arctic in cold zones.  Used by generators 1 and 5.
+****************************************************************************/
+static void make_arctic(void)
+{
+  whole_map_iterate(x, y) {
+    int T = map_temperature(x, y);
+
+    if (map_get_terrain(x, y) == T_GRASSLAND 
+	&& myrand(15 * MAX_TEMP / 100) > T -  ICE_BASE_LEVEL 
+	&& T <= 3 * ICE_BASE_LEVEL) {
+      map_set_terrain(x, y, T_ARCTIC);
     }
   } whole_map_iterate_end;
 }
 
 /**************************************************************************
- add arctic and tundra squares in the arctic zone. 
- (that is the top 10%, and low 10% of the map)
+  Recursively generate deserts.
+
+  Deserts tend to clump up so we recursively place deserts nearby as well.
+  "Diff" is the recursion stopper and is reduced when the recursive call
+  is made.  It is reduced more if the desert wants to grow in north or
+  south (so we end up with "wide" deserts).
+
+  base_T is the temperature of the original desert.
 **************************************************************************/
-static void make_polar(void)
+static void make_desert(int x, int y, int height, int diff, int base_T)
 {
-  int xn, yn;
+  const int DeltaT = MAX_TEMP / (3 * SQSIZE);
 
-  for (yn = 0; yn < map.ysize / 10; yn++) {
-    for (xn = 0; xn < map.xsize; xn++) {
-      if ((hnat(xn, yn) + (map.ysize / 10 - yn * 25) > myrand(maxval)
-	   && nat_get_terrain(xn, yn) == T_GRASSLAND) || yn == 0) { 
-	if (yn < 2) {
-	  nat_set_terrain(xn, yn, T_ARCTIC);
-	} else {
-	  nat_set_terrain(xn, yn, T_TUNDRA);
-	}
-      } 
-    }
-  }
-  for (yn = map.ysize * 9 / 10; yn < map.ysize; yn++) {
-    for (xn = 0; xn < map.xsize; xn++) {
-      if (((hnat(xn, yn) + (map.ysize / 10 - (map.ysize - yn - 1) * 25)
-	    > myrand(maxval))
-	   && nat_get_terrain(xn, yn) == T_GRASSLAND)
-	  || yn == map.ysize - 1) {
-	if (yn > map.ysize - 3) {
-	  nat_set_terrain(xn, yn, T_ARCTIC);
-	} else {
-	  nat_set_terrain(xn, yn, T_TUNDRA);
-	}
-      }
-    }
-  }
-
-  /* only arctic and tundra allowed at the poles (first and last two lines,
-     as defined in make_passable() ), to be consistent with generator>1. 
-     turn every land tile on the second lines that is not arctic into tundra,
-     since the first lines has already been set to all arctic above. */
-  for (xn = 0; xn < map.xsize; xn++) {
-    if (nat_get_terrain(xn, 1) != T_ARCTIC
-	&& !is_ocean(nat_get_terrain(xn, 1))) {
-      nat_set_terrain(xn, 1, T_TUNDRA);
-    }
-    if (nat_get_terrain(xn, map.ysize - 2) != T_ARCTIC
-	&& !is_ocean(nat_get_terrain(xn, map.ysize - 2))) {
-      nat_set_terrain(xn, map.ysize - 2, T_TUNDRA);
-    }
-  }
-}
-
-/**************************************************************************
-  recursively generate deserts, i use the heights of the map, to make the
-  desert unregulary shaped, diff is the recursion stopper, and will be reduced
-  more if desert wants to grow in the y direction, so we end up with 
-  "wide" deserts. 
-**************************************************************************/
-static void make_desert(int x, int y, int height, int diff) 
-{
-  if (abs(hmap(x, y)-height)<diff && map_get_terrain(x, y)==T_GRASSLAND) {
+  if (abs(hmap(x, y) - height) < diff 
+      && map_get_terrain(x, y) == T_GRASSLAND) {
     map_set_terrain(x, y, T_DESERT);
     cartesian_adjacent_iterate(x, y, x1, y1) {
-      if (x != x1)
-	make_desert(x1, y1, height, diff-1);
-      else /* y != y1 */
-	make_desert(x1, y1, height, diff-3);
+      make_desert(x1, y1, height,
+		  diff - 1 - abs(map_temperature(x1, y1) - base_T) / DeltaT,
+		  base_T);
+     
     } cartesian_adjacent_iterate_end;
   }
 }
@@ -199,16 +443,13 @@ static void make_desert(int x, int y, int height, int diff)
 **************************************************************************/
 static void make_forest(int map_x, int map_y, int height, int diff)
 {
-  int nat_x, nat_y;
+  int nat_x, nat_y, T;
 
   map_to_native_pos(&nat_x, &nat_y, map_x, map_y);
-  if (has_poles && (nat_y == 0 || nat_y == map.ysize - 1)) {
-    return;
-  }
-
+  T = map_temperature(map_x, map_y);
   if (map_get_terrain(map_x, map_y) == T_GRASSLAND) {
-    if (has_poles && nat_y > map.ysize * 42 / 100
-	&& nat_y < map.ysize * 58 / 100 && myrand(100) > 50) {
+    if (T > 8 * MAX_TEMP / 10 
+	&& myrand(1000) > 500 - 300 * (T * 1000 / MAX_TEMP - 800)) {
       map_set_terrain(map_x, map_y, T_JUNGLE);
     } else {
       map_set_terrain(map_x, map_y, T_FOREST);
@@ -236,19 +477,29 @@ static void make_forests(void)
   forests = 0;
 
   do {
-    rand_map_pos(&x, &y);
-    if (map_get_terrain(x, y) == T_GRASSLAND) {
+    /* Place one forest clump anywhere. */
+    if (rand_map_pos_temperature(&x, &y,
+				 MAX_TEMP / 10, MAX_TEMP,
+				 T_GRASSLAND)) {
+      make_forest(x, y, hmap(x, y), 25);
+    } else { 
+      /* If rand_map_pos_temperature returns FALSE we may as well stop
+       * looking. */
+      break;
+    }
+
+    /* Now add another tropical forest clump (70-100% temperature). */
+    if (rand_map_pos_temperature(&x, &y,
+				 7 *MAX_TEMP / 10, MAX_TEMP,
+				 T_GRASSLAND)) {
       make_forest(x, y, hmap(x, y), 25);
     }
-    if (has_poles && myrand(100) > 75) {
-      int yn = myrand(map.ysize * 2 / 10) + map.ysize * 4 / 10;
-      int xn = myrand(map.xsize);
 
-      if (nat_get_terrain(xn, yn) == T_GRASSLAND) {
-	do_in_map_pos(x, y, xn, yn) {
-	  make_forest(x, y, hmap(x, y), 25);
-	} do_in_map_pos_end;
-      }
+    /* And add a cold forest clump (10%-30% temperature). */
+    if (rand_map_pos_temperature(&x, &y,
+				 1 * MAX_TEMP / 10, 3 * MAX_TEMP / 10,
+				 T_GRASSLAND)) {
+      make_forest(x, y, hmap(x, y), 25);
     }
   } while (forests < forestsize);
 }
@@ -261,19 +512,24 @@ static void make_forests(void)
 **************************************************************************/
 static void make_swamps(void)
 {
-  int x,y,swamps;
-  int forever=0;
-  for (swamps=0;swamps<map.swampsize;) {
+  int x, y, swamps;
+  int forever = 0;
+
+  for (swamps = 0; swamps < map.swampsize; ) {
     forever++;
-    if (forever>1000) return;
+    if (forever > 1000) {
+      return;
+    }
     rand_map_pos(&x, &y);
-    if (map_get_terrain(x, y)==T_GRASSLAND && hmap(x, y)<(maxval*60)/100) {
+    if (map_get_terrain(x, y) == T_GRASSLAND
+	&& hmap(x, y) < (maxval * 60) / 100) {
       map_set_terrain(x, y, T_SWAMP);
       cartesian_adjacent_iterate(x, y, x1, y1) {
- 	if (myrand(10) > 5 && !is_ocean(map_get_terrain(x1, y1))) { 
- 	  map_set_terrain(x1, y1, T_SWAMP);
+ 	if (myrand(10) > 5 && !is_ocean(map_get_terrain(x1, y1)) 
+	    && map_get_terrain(x1, y1) != T_SWAMP ) { 
+	  map_set_terrain(x1, y1, T_SWAMP);
+	  swamps++;
 	}
- 	/* maybe this should increment i too? */
       } cartesian_adjacent_iterate_end;
       swamps++;
     }
@@ -285,33 +541,25 @@ static void make_swamps(void)
 **************************************************************************/
 static void make_deserts(void)
 {
-  int x,y,i,j;
-  i=map.deserts;
-  j=0;
+  int x, y, i = map.deserts, j = 0;
+
+  /* "i" is the number of desert clumps made; "j" is the number of tries. */
+  /* TODO: j is no longer needed */
   while (i > 0 && j < 100 * map.deserts) {
     j++;
 
-    if (has_poles) {
-      /* Choose a random coordinate between 20 and 30 degrees north/south
-       * (deserts tend to be between 15 and 35; make_desert will expand
-       * them). */
-      int xn = myrand(map.xsize);
-      int yn = myrand(map.ysize * 10 / 180) + map.ysize * 60 / 180;
-
-      if (myrand(2) != 0) {
-	yn = map.ysize - 1 - yn;
-      }
-      native_to_map_pos(&x, &y, xn, yn);
-    } else {
-      /* If there are no poles we can pick any location to be a desert. */
-      rand_map_pos(&x, &y);
-    }
-
-    /* If it's a grassland square call make_desert here.  We loop repeatedly
-     * since we may not always find grassland. */
-    if (map_get_terrain(x, y)==T_GRASSLAND) {
-      make_desert(x,y, hmap(x, y), 50);
+    /* Choose a random coordinate between 20 and 30 degrees north/south
+     * (deserts tend to be between 15 and 35; make_desert will expand
+     * them). */
+    if (rand_map_pos_temperature(&x, &y,
+				 65 * MAX_TEMP / 100, 80 * MAX_TEMP / 100,
+				 T_GRASSLAND)){
+      make_desert(x, y, hmap(x, y), 50, map_temperature(x, y));
       i--;
+    } else {
+      /* If rand_map_pos_temperature returns FALSE we may as well stop
+       * looking. */
+      break;
     }
   }
 }
@@ -561,8 +809,12 @@ static bool make_river(int x, int y)
 	    x, y);
 
     /* Test if the river is done. */
-    if (adjacent_river_tiles4(x, y) != 0||
-	adjacent_ocean_tiles4(x, y) != 0) {
+    /* We arbitrarily make rivers end at the poles. */
+    if (adjacent_river_tiles4(x, y) != 0
+	|| adjacent_ocean_tiles4(x, y) != 0
+        || (map_get_terrain(x, y) == T_ARCTIC 
+	    && map_temperature(x, y) < 8 * MAX_TEMP / 100)) { 
+
       freelog(LOG_DEBUG,
 	      "The river ended at (%d, %d).\n", x, y);
       return TRUE;
@@ -678,7 +930,7 @@ static void make_rivers(void)
      * 1000 rather than the current 100 */
     10 *
     /* The size of the map (poles don't count). */
-    (map_num_tiles() - 2 * map.xsize) *
+    map_num_tiles() * (map.alltemperate ? 1.0 : 0.90) *
     /* Rivers need to be on land only. */
     map.landpercent /
     /* Adjustment value. Tested by me. Gives no rivers with 'set
@@ -798,41 +1050,6 @@ static void make_plains(void)
       map_set_terrain(x, y, T_PLAINS);
   } whole_map_iterate_end;
 }
-
-/**************************************************************************
-  we want the map to be sailable east-west at least at north and south pole 
-  and make it a bit jagged at the edge as well.
-  So this procedure converts the second line and the second last line to
-  ocean, and 50% of the 3rd and 3rd last line to ocean. 
-**************************************************************************/
-static void make_passable(void)
-{
-  int x;
-  
-  for (x=0;x<map.xsize;x++) {
-    nat_set_terrain(x, 2, T_OCEAN);
-
-    /* Iso-maps need two lines of ocean. */
-    if (myrand(2) != 0 || topo_has_flag(TF_ISO)) {
-      nat_set_terrain(x, 1, T_OCEAN);
-    }
-
-    if (myrand(2) != 0) {
-      nat_set_terrain(x, 3, T_OCEAN);
-    }
-
-    nat_set_terrain(x, map.ysize - 3, T_OCEAN);
-
-    if (myrand(2) != 0 || topo_has_flag(TF_ISO)) {
-      nat_set_terrain(x, map.ysize - 2, T_OCEAN);
-    }
-    if (myrand(2) != 0) {
-      nat_set_terrain(x, map.ysize - 4, T_OCEAN);
-    }
-  } 
-  
-}
-
 /****************************************************************************
   Return TRUE if the terrain at the given map position is "clean".  This
   means that all the terrain for 2 squares around it is either grassland or
@@ -872,6 +1089,47 @@ static void make_fair(void)
   } whole_map_iterate_end;
 }
 
+/****************************************************************************
+  Lower the land near the polar region to avoid too much land there.
+
+  See also renomalize_hmap_poles
+****************************************************************************/
+static void normalize_hmap_poles(void)
+{
+  whole_map_iterate(x, y) {
+    if (near_singularity(x, y)) {
+      hmap(x, y) = 0;
+    } else if (map_temperature(x, y) < 2 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= map_temperature(x, y) / (2.5 * ICE_BASE_LEVEL);
+    } else if (map.separatepoles 
+	       && map_temperature(x, y) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= 0.1;
+    } else if (map_temperature(x, y) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= map_temperature(x, y) / (2.5 * ICE_BASE_LEVEL);
+    }
+  } whole_map_iterate_end;
+}
+
+/****************************************************************************
+  Invert the effects of normalize_hmap_poles so that we have accurate heights
+  for texturing the poles.
+****************************************************************************/
+static void renormalize_hmap_poles(void)
+{
+  whole_map_iterate(x, y) {
+    if (hmap(x, y) == 0 || map_temperature(x, y) == 0) {
+      /* Nothing. */
+    } else if (map_temperature(x, y) < 2 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) / map_temperature(x, y);
+    } else if (map.separatepoles 
+	       && map_temperature(x, y) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= 10;
+    } else if (map_temperature(x, y) <= 2.5 * ICE_BASE_LEVEL) {
+      hmap(x, y) *= (2.5 * ICE_BASE_LEVEL) /  map_temperature(x, y);
+    }
+  } whole_map_iterate_end;
+}
+
 /**************************************************************************
   make land simply does it all based on a generated heightmap
   1) with map.landpercent it generates a ocean/grassland map 
@@ -884,8 +1142,9 @@ static void make_land(void)
   int total = (map_num_tiles() * map.landpercent) / 100;
   int forever=0;
 
-  adjust_map(); 
-  tres = (maxval * map.landpercent ) / 100;
+  adjust_map();
+  normalize_hmap_poles();
+  tres = (maxval * map.landpercent) / 100;
 
   do {
     forever++;
@@ -905,17 +1164,16 @@ static void make_land(void)
       tres*=9;
     tres/=10;
   } while (abs(total-count)> maxval/40);
-  if (map.separatepoles && has_poles) {
-    make_passable();
-  }
+
+  renormalize_hmap_poles();
+  make_polar_land(); /* make extra land at poles*/
   make_mountains(maxval*8/10);
+  make_arctic();
+  make_tundra();
   make_forests();
   make_swamps();
   make_deserts();
   make_plains();
-  if (has_poles) {
-    make_polar();
-  }
   make_fair();
   make_rivers();
 }
@@ -979,8 +1237,6 @@ static void assign_continent_flood(int x, int y, int nr)
 
 /**************************************************************************
  Assign continent numbers to all tiles.
- Numbers 1 and 2 are reserved for polar continents if
- map.generator != 0; otherwise are not special.
  Also sets map.num_continents (note 0 is ocean, and continents
  have numbers 1 to map.num_continents _inclusive_).
  Note this is not used by generators 2,3 or 4 at map creation
@@ -988,30 +1244,17 @@ static void assign_continent_flood(int x, int y, int nr)
 **************************************************************************/
 void assign_continent_numbers(void)
 {
-  int isle = 1;
-
+  map.num_continents = 0;
   whole_map_iterate(x, y) {
     map_set_continent(x, y, 0);
   } whole_map_iterate_end;
 
-  if (map.generator != 0 && has_poles) {
-    do_in_map_pos(x, y, 0, 0) {
-      assign_continent_flood(x, y, 1);
-    } do_in_map_pos_end;
-
-    do_in_map_pos(x, y, 0, map.ysize - 1) {
-      assign_continent_flood(x, y, 2);
-    } do_in_map_pos_end;
-    isle = 3;
-  }
-      
   whole_map_iterate(x, y) {
     if (map_get_continent(x, y) == 0 
         && !is_ocean(map_get_terrain(x, y))) {
-      assign_continent_flood(x, y, isle++);
+      assign_continent_flood(x, y, ++map.num_continents);
     }
   } whole_map_iterate_end;
-  map.num_continents = isle-1;
 
   freelog(LOG_VERBOSE, "Map has %d continents", map.num_continents);
 }
@@ -1064,20 +1307,13 @@ static int get_tile_value(int x, int y)
 static void setup_isledata(void)
 {
   int starters = 0;
-  int min, firstcont, i;
+  int min,  i;
   
   assert(map.num_continents > 0);
   
   /* allocate + 1 so can use continent number as index */
   islands = fc_calloc((map.num_continents + 1), sizeof(struct isledata));
-  
-  /* the arctic and the antarctic are continents 1 and 2 for generator > 0 */
-  if (map.generator > 0 && map.separatepoles && has_poles) {
-    firstcont = 3;
-  } else {
-    firstcont = 1;
-  }
-  
+
   /* add up all the resources of the map */
   whole_map_iterate(x, y) {
     /* number of different continents seen from (x,y) */
@@ -1091,8 +1327,9 @@ static void setup_isledata(void)
     map_city_radius_iterate(x, y, x1, y1) {
       /* (x1,y1) is possible location of a future city which will
        * be able to get benefit of the tile (x,y) */
-      if (map_get_continent(x1, y1) < firstcont) { 
-        /* (x1, y1) belongs to a non-startable continent */
+      if (map_get_continent(x1, y1) < 1 
+	  || map_temperature(x1, y1) <= 2 * ICE_BASE_LEVEL) { 
+	/* Not land, or too cold. */
         continue;
       }
       for (j = 0; j < seen_conts; j++) {
@@ -1122,7 +1359,7 @@ static void setup_isledata(void)
   /* set minimum number of resources per starting position to be value of
    * the best continent */
   min = 0;
-  for (i = firstcont; i < map.num_continents + 1; i++) {
+  for (i = 1; i <= map.num_continents; i++) {
     if (min < islands[i].goodies) {
       min = islands[i].goodies;
     }
@@ -1134,7 +1371,7 @@ static void setup_isledata(void)
     int nextmin = 0;
     
     starters = 0;
-    for (i = firstcont; i <= map.num_continents; i++) {
+    for (i = 1; i <= map.num_continents; i++) {
       int value = islands[i].goodies;
       
       starters += value / min;
@@ -1163,7 +1400,7 @@ static void setup_isledata(void)
             "Please report this bug at " WEBSITE_URL);
     abort();
   } else {
-    for (i = firstcont; i <= map.num_continents; i++) {
+    for (i = 1; i <= map.num_continents; i++) {
       islands[i].starters = islands[i].goodies / min;
     }
   }
@@ -1298,13 +1535,6 @@ void map_fractal_generate(void)
 
   mysrand(map.seed);
 
-  /* FIXME: currently the lack of poles is hard-coded for maps that wrap
-   * north-south.  In the future this could be a server option.  It also
-   * needs to control the temperature gradient between "poles" and
-   * "equator"; e.g., if there are no poles desert and tundra should be
-   * equally likely at either end. */
-  has_poles = !topo_has_flag(TF_WRAPY);
-
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.generator != 0) {
@@ -1397,7 +1627,14 @@ static void mapgenerator1(void)
     int x, y;
 
     rand_map_pos(&x, &y);
-    hmap(x, y) += myrand(5000);
+
+    if (near_singularity(x, y)
+	|| map_temperature(x, y) <= ICE_BASE_LEVEL / 2) { 
+      /* Avoid land near singularities or at the poles. */
+      hmap(x, y) -= myrand(5000);
+    } else { 
+      hmap(x, y) += myrand(5000);
+    }
     if ((i % 100) == 0) {
       smooth_map(); 
     }
@@ -1487,21 +1724,21 @@ static bool near_safe_tiles(int x_ct, int y_ct)
 **************************************************************************/
 static void make_huts(int number)
 {
-  int x,y,l;
-  int count=0;
+  int x, y, count = 0;
+
   while (number * map_num_tiles() >= 2000 && count++ < map_num_tiles() * 2) {
-    rand_map_pos(&x, &y);
-    l=myrand(6);
-    if (!is_ocean(map_get_terrain(x, y)) && 
-	( map_get_terrain(x, y)!=T_ARCTIC || l<3 )
-	) {
-      if (!is_hut_close(x,y)) {
-	number--;
-	map_set_special(x, y, S_HUT);
-	/* Don't add to islands[].goodies because islands[] not
-	   setup at this point, except for generator>1, but they
-	   have pre-set starters anyway. */
-      }
+
+    /* Add a hut.  But not on a polar area, on an ocean, or too close to
+     * another hut. */
+    if (rand_map_pos_temperature(&x, &y,
+				 2 * ICE_BASE_LEVEL, MAX_TEMP, T_ANY)
+	&& !is_ocean(map_get_terrain(x, y))
+	&& !is_hut_close(x, y)) {
+      number--;
+      map_set_special(x, y, S_HUT);
+      /* Don't add to islands[].goodies because islands[] not
+	 setup at this point, except for generator>1, but they
+	 have pre-set starters anyway. */
     }
   }
 }
@@ -1523,35 +1760,36 @@ static bool is_special_close(int map_x, int map_y)
 }
 
 /****************************************************************************
-  Add specials to the map with given probability.
+  Add specials to the map with given probability (out of 1000).
 ****************************************************************************/
 static void add_specials(int prob)
 {
-  int xn, yn;
-  int ymin = has_poles ? 1 : 0, ymax = has_poles ? map.ysize - 1 : map.ysize;
   enum tile_terrain_type ttype;
 
-  for (yn = ymin; yn < ymax; yn++) {
-    for (xn = 0; xn < map.xsize; xn++) {
-      do_in_map_pos(x, y, xn, yn) {
-	ttype = map_get_terrain(x, y);
-	if ((is_ocean(ttype) && near_safe_tiles(x,y)) 
-	    || !is_ocean(ttype)) {
-	  if (myrand(1000) < prob) {
-	    if (!is_special_close(x, y)) {
-	      if (tile_types[ttype].special_1_name[0] != '\0'
-		  && (tile_types[ttype].special_2_name[0] == '\0'
-		      || (myrand(100) < 50))) {
-		map_set_special(x, y, S_SPECIAL_1);
-	      } else if (tile_types[ttype].special_2_name[0] != '\0') {
-		map_set_special(x, y, S_SPECIAL_2);
-	      }
-	    }
-	  }
-	}
-      } do_in_map_pos_end;
+  whole_map_iterate(x, y)  {
+    ttype = map_get_terrain(x, y);
+    if (!is_ocean(ttype)
+	&& !is_special_close(x, y) 
+	&& myrand(1000) < prob) {
+      if (tile_types[ttype].special_1_name[0] != '\0'
+	  && (tile_types[ttype].special_2_name[0] == '\0'
+	      || (myrand(100) < 50))) {
+	map_set_special(x, y, S_SPECIAL_1);
+      } else if (tile_types[ttype].special_2_name[0] != '\0') {
+	map_set_special(x, y, S_SPECIAL_2);
+      }
+    } else if (is_ocean(ttype) && near_safe_tiles(x,y) 
+	       && myrand(1000) < prob && !is_special_close(x, y)) {
+      if (tile_types[ttype].special_1_name[0] != '\0'
+	  && (tile_types[ttype].special_2_name[0] == '\0'
+	      || (myrand(100) < 50))) {
+        map_set_special(x, y, S_SPECIAL_1);
+      } else if (tile_types[ttype].special_2_name[0] != '\0') {
+	map_set_special(x, y, S_SPECIAL_2);
+      }
     }
-  }
+  } whole_map_iterate_end;
+  
   map.have_specials = TRUE;
 }
 
@@ -1564,15 +1802,8 @@ struct gen234_state {
 };
 
 static bool map_pos_is_cold(int x, int y)
-{
-  int xn, yn;
-
-  if (!has_poles) {
-    return FALSE;
-  }
-
-  map_to_native_pos(&xn, &yn, x, y);
-  return (yn * 5 < map.ysize || (map.ysize - 1 - yn) * 5 > map.ysize);
+{  
+  return map_temperature(x, y) <= 2 * MAX_TEMP/ 10;
 }
 
 /**************************************************************************
@@ -1832,7 +2063,8 @@ static bool create_island(int islemass, struct gen234_state *pstate)
   while (i > 0 && tries-->0) {
     get_random_map_position_from_state(&x, &y, pstate);
     map_to_native_pos(&xn, &yn, x, y);
-    if (hmap(x, y) == 0 && count_card_adjc_elevated_tiles(x, y) > 0) {
+    if ((!near_singularity(x, y) || myrand(50) < 25 ) 
+	&& hmap(x, y) == 0 && count_card_adjc_elevated_tiles(x, y) > 0) {
       hmap(x, y) = 1;
       i--;
       if (yn >= pstate->s - 1 && pstate->s < map.ysize - 2) {
@@ -2002,8 +2234,6 @@ static bool make_island(int islemass, int starters,
 **************************************************************************/
 static void initworld(struct gen234_state *pstate)
 {
-  int xn;
-  
   height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
   islands = fc_malloc((MAP_NCONT+1)*sizeof(struct isledata));
 
@@ -2013,32 +2243,9 @@ static void initworld(struct gen234_state *pstate)
     map_clear_all_specials(x, y);
     map_set_owner(x, y, NULL);
   } whole_map_iterate_end;
-  if (has_poles) {
-    for (xn = 0; xn < map.xsize; xn++) {
-      do_in_map_pos(x, y, xn, 0) {
-	map_set_terrain(x, y, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
-	map_set_continent(x, y, 1);
-      } do_in_map_pos_end;
-      if (myrand(9) == 0) {
-	do_in_map_pos(x, y, xn, 1) {
-	  map_set_terrain(x, y, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
-	  map_set_continent(x, y, 1);
-	} do_in_map_pos_end;
-      }
-      do_in_map_pos(x, y, xn, map.ysize - 1) {
-	map_set_terrain(x, y, myrand(9) > 0 ? T_ARCTIC : T_TUNDRA);
-	map_set_continent(x, y, 2);
-      } do_in_map_pos_end;
-      if (myrand(9) == 0) {
-	do_in_map_pos(x, y, xn, map.ysize - 2) {
-	  map_set_terrain(x, y, myrand(9) > 0 ? T_TUNDRA : T_ARCTIC);
-	  map_set_continent(x, y, 2);
-	} do_in_map_pos_end;
-      }
-    }
-    map.num_continents = 2;
-  } else {
-    map.num_continents = 0;
+  if (!map.alltemperate) {
+    make_polar();
+    assign_continent_numbers(); /* set poles numbers */
   }
   make_island(0, 0, pstate, 0);
   islands[2].starters = 0;
@@ -2318,29 +2525,30 @@ static void gen5rec(int step, int x0, int y0, int x1, int y1)
 
   /* set midpoints of sides to avg of side's vertices plus a random factor */
   /* unset points are zero, don't reset if set */
-  if (hnat((x0 + x1) / 2, y0) == 0) {
-    hnat((x0 + x1) / 2, y0)
-      = (val[0][0] + val[1][0]) / 2 + myrand(step) - step / 2;
-  }
-  if (hnat((x0 + x1) /2, y1wrap) == 0) {
-    hnat((x0 + x1) / 2, y1wrap)
-      = (val[0][1] + val[1][1]) / 2 + myrand(step) - step / 2;
-  }
-  if (hnat(x0, (y0 + y1) / 2) == 0) {
-    hnat(x0, (y0 + y1) / 2)
-      = (val[0][0] + val[0][1]) / 2 + myrand(step) - step / 2;
-  }
-  if (hnat(x1wrap, (y0 + y1) / 2) == 0) {
-    hnat(x1wrap, (y0 + y1) / 2)
-      = (val[1][0] + val[1][1]) / 2 + myrand(step) - step / 2;
-  }
+#define set_midpoints(X, Y, V)						\
+  do_in_map_pos(map_x, map_y, (X), (Y)) {                               \
+    if (!near_singularity(map_x, map_y)					\
+	&& map_temperature(map_x, map_y) >  ICE_BASE_LEVEL/2		\
+	&& hnat((X), (Y)) == 0) {					\
+      hnat((X), (Y)) = (V);						\
+    }									\
+  } do_in_map_pos_end;
+
+  set_midpoints((x0 + x1) / 2, y0,
+		(val[0][0] + val[1][0]) / 2 + myrand(step) - step / 2);
+  set_midpoints((x0 + x1) / 2,  y1wrap,
+		(val[0][1] + val[1][1]) / 2 + myrand(step) - step / 2);
+  set_midpoints(x0, (y0 + y1)/2,
+		(val[0][0] + val[0][1]) / 2 + myrand(step) - step / 2);  
+  set_midpoints(x1wrap,  (y0 + y1) / 2,
+		(val[1][0] + val[1][1]) / 2 + myrand(step) - step / 2);  
 
   /* set middle to average of midpoints plus a random factor, if not set */
-  if (hnat((x0 + x1) / 2, (y0 + y1) / 2) == 0) {
-    hnat((x0 + x1) / 2, (y0 + y1) / 2)
-      = (val[0][0] + val[0][1] + val[1][0] + val[1][1]) / 4
-        + myrand(step) - step / 2;
-  }
+  set_midpoints((x0 + x1) / 2, (y0 + y1) / 2,
+		((val[0][0] + val[0][1] + val[1][0] + val[1][1]) / 4
+		 + myrand(step) - step / 2));
+
+#undef set_midpoints
 
   /* now call recursively on the four subrectangles */
   gen5rec(2 * step / 3, x0, y0, (x1 + x0) / 2, (y1 + y0) / 2);
@@ -2393,36 +2601,20 @@ static void mapgenerator5(void)
   /* set initial points */
   for (xn = 0; xn < xdiv2; xn++) {
     for (yn = 0; yn < ydiv2; yn++) {
-      hnat(xn * xmax / xdiv, yn * ymax / ydiv)
-	=  myrand(2 * step) - (2 * step) / 2;
-    }
-  }
+      do_in_map_pos(x, y, (xn * xmax / xdiv), (yn * ymax / ydiv)) {
+	/* set initial points */
+	hmap(x, y) = myrand(2 * step) - (2 * step) / 2;
 
-  /* if we aren't wrapping stay away from edges to some extent, try
-     even harder to avoid the edges naturally if separatepoles is true */
-  if (xnowrap) {
-    for (yn = 0; yn < ydiv2; yn++) {
-      hnat(0, yn * ymax / ydiv) -= avoidedge;
-      hnat(xmax, yn * ymax / ydiv) -= avoidedge;
-      if (map.separatepoles && has_poles) {
-	hnat(2, yn * ymax / ydiv)
-	  = hnat(0, yn * ymax / ydiv) - myrand(3*avoidedge);
-	hnat(xmax - 2, yn * ymax / ydiv) 
-	  = hnat(xmax, yn * ymax / ydiv) - myrand(3 * avoidedge);
-      }
-    }
-  }
+	if (near_singularity(x, y)) {
+	  /* avoid edges (topological singularities) */
+	  hmap(x, y) -= avoidedge;
+	}
 
-  if (ynowrap) {
-    for (xn = 0; xn < xdiv2; xn++) {
-      hnat(xn * xmax / xdiv, 0) -= avoidedge;
-      hnat(xn * xmax / xdiv, ymax) -= avoidedge;
-      if (map.separatepoles && has_poles) {
-	hnat(xn * xmax / xdiv, 2)
-	  = hnat(xn * xmax / xdiv, 0) - myrand(3 * avoidedge);
-	hnat(xn * xmax / xdiv, ymax - 2) 
-	  = hnat(xn * xmax / xdiv, ymax) - myrand(3 * avoidedge);
-      }
+	if (map_temperature(x, y) <= ICE_BASE_LEVEL / 2 ) {
+	  /* separate poles and avoid too much land at poles */
+	  hmap(x, y) -= myrand(avoidedge);
+	}
+      } do_in_map_pos_end;
     }
   }
 

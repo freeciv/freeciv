@@ -131,6 +131,7 @@ struct civ_map {
   int generator;
   bool tinyisles;
   bool separatepoles;
+  bool alltemperate;
   int num_start_positions;
   bool have_specials;
   bool have_huts;
@@ -312,6 +313,7 @@ bool contains_special(enum tile_special_type all,
 		      enum tile_special_type to_test_for);
 
 
+bool is_singular_map_pos(int map_x, int map_y, int dist);
 bool normalize_map_pos(int *x, int *y);
 void nearest_real_pos(int *x, int *y);
 void map_distance_vector(int *dx, int *dy, int x0, int y0, int x1, int y1);
@@ -696,6 +698,10 @@ extern const int CAR_DIR_DY[4];
 #define MAP_DEFAULT_SEPARATE_POLES   TRUE
 #define MAP_MIN_SEPARATE_POLES       FALSE
 #define MAP_MAX_SEPARATE_POLES       TRUE
+
+#define MAP_DEFAULT_ALLTEMPERATE   FALSE
+#define MAP_MIN_ALLTEMPERATE       FALSE
+#define MAP_MAX_ALLTEMPERATE       TRUE
 
 
 /*

@@ -192,6 +192,7 @@ void map_init(void)
   map.generator             = MAP_DEFAULT_GENERATOR;
   map.tinyisles             = MAP_DEFAULT_TINYISLES;
   map.separatepoles         = MAP_DEFAULT_SEPARATE_POLES;
+  map.alltemperate          = MAP_DEFAULT_ALLTEMPERATE;
   map.tiles                 = NULL;
   map.num_continents        = 0;
   map.num_start_positions   = 0;
@@ -1547,4 +1548,26 @@ bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
 
   map_distance_vector(&diff_x, &diff_y, start_x, start_y, end_x, end_y);
   return (diff_x == 0) || (diff_y == 0);
+}
+
+/****************************************************************************
+  A "SINGULAR" position is any map position that has an abnormal number of
+  tiles in the radius of dist.
+
+  (map_x, map_y) must be normalized.
+
+  dist is the "real" map distance.
+****************************************************************************/
+bool is_singular_map_pos(int map_x, int map_y, int dist)
+{
+  CHECK_MAP_POS(map_x, map_y);
+  do_in_natural_pos(ntl_x, ntl_y, map_x, map_y) {
+    /* Iso-natural coordinates are doubled in scale. */
+    dist *= topo_has_flag(TF_ISO) ? 2 : 1;
+
+    return ((!topo_has_flag(TF_WRAPX) 
+	     && (ntl_x < dist || ntl_x >= NATURAL_WIDTH - dist))
+	    || (!topo_has_flag(TF_WRAPY)
+		&& (ntl_y < dist || ntl_y >= NATURAL_HEIGHT - dist)));
+  } do_in_natural_pos_end;
 }
