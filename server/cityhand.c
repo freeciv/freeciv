@@ -674,15 +674,15 @@ void remove_city(struct city *pcity)
   gamelog(GAMELOG_LOSEC,"%s lose %s (%i,%i)",
           get_race_name_plural(game.players[pcity->owner].race),
           pcity->name,pcity->x,pcity->y);
+  while(unit_list_size(&pcity->units_supported)) {
+    wipe_unit(0, unit_list_get(&pcity->units_supported,0));
+  }
   for (o=0; o<4; o++)
     remove_trade_route(pcity->trade[o], pcity->id); 
   packet.value=pcity->id;
   for(o=0; o<game.nplayers; o++)           /* dests */
     send_packet_generic_integer(game.players[o].conn,
 				PACKET_REMOVE_CITY,&packet);
-  while(unit_list_size(&pcity->units_supported)) {
-    wipe_unit(0, unit_list_get(&pcity->units_supported,0));
-  }
   remove_city_from_cache(pcity->id);
   dealloc_id(pcity->id);
   x = pcity->x; y = pcity->y;
