@@ -29,7 +29,6 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"		/* government_graphic() */
-#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "player.h"
