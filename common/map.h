@@ -81,7 +81,6 @@ miscellaneous terrain information
 tile_type for each terrain type
 expand with government bonuses??
 *****************************************************************/
-BV_DEFINE(bv_terrain_flags, TER_MAX);
 struct tile_type {
   char terrain_name[MAX_LEN_NAME];     /* "" if unused */
   char terrain_name_orig[MAX_LEN_NAME];	/* untranslated copy */
@@ -296,15 +295,8 @@ bool is_water_adjacent_to_tile(int x, int y);
 bool is_tiles_adjacent(int x0, int y0, int x1, int y1);
 bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y);
 int map_move_cost(struct unit *punit, int x, int y);
-struct tile_type *get_tile_type(enum tile_terrain_type type);
-void tile_types_free(void);
-enum tile_terrain_type get_terrain_by_name(const char * name);
-const char *get_terrain_name(enum tile_terrain_type type);
 enum tile_special_type get_special_by_name(const char * name);
 const char *get_special_name(enum tile_special_type type);
-bool is_terrain_near_tile(int x, int y, enum tile_terrain_type t);
-int count_terrain_near_tile(int x, int y, enum tile_terrain_type t);
-enum terrain_flag_id terrain_flag_from_str(const char *s);
 bool is_special_near_tile(int x, int y, enum tile_special_type spe);
 int count_special_near_tile(int x, int y, enum tile_special_type spe);
 bool is_coastline(int x,int y);
@@ -345,7 +337,6 @@ bool can_reclaim_ocean(int x, int y);
 extern struct civ_map map;
 
 extern struct terrain_misc terrain_control;
-extern struct tile_type tile_types[T_LAST];
 
 /* This iterates outwards from the starting point (Duh?).
    Every tile within max_dist will show up exactly once. (even takes

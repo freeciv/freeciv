@@ -298,23 +298,6 @@ static int adjacent_river_tiles4(int x, int y)
 }
 
 /*********************************************************************
- Returns the number of adjacent tiles of a tile with the terrain
- terrain. This can be 0 to 4.                              -Erik Sigra
-*********************************************************************/
-static int adjacent_terrain_tiles4(int x, int y,
-				   enum tile_terrain_type terrain)
-{
-  int num_adjacent  = 0;
-
-  cartesian_adjacent_iterate(x, y, x1, y1) {
-    if (map_get_terrain(x1, y1) == terrain)
-      num_adjacent++;
-  } cartesian_adjacent_iterate_end;
-
-  return num_adjacent;
-}
-
-/*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
 static int river_test_blocked(int x, int y)

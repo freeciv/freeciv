@@ -84,6 +84,7 @@ libcivcommon_a_SOURCES = \
 		support.h	\
 		tech.c		\
 		tech.h		\
+		terrain.c	\
 		terrain.h	\
 		timing.c	\
 		timing.h	\

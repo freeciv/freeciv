@@ -83,15 +83,28 @@ enum known_type {
  TILE_UNKNOWN, TILE_KNOWN_FOGGED, TILE_KNOWN
 };
 
-/* These gets used very commonly, but we might change the definition of
- * ocean at a later date, and then we'll need to change only these
- * defines. */
+BV_DEFINE(bv_terrain_flags, TER_MAX);
+
+extern struct tile_type tile_types[T_LAST];
+
+/* General accessor functions. */
+struct tile_type *get_tile_type(enum tile_terrain_type type);
+enum tile_terrain_type get_terrain_by_name(const char * name);
+const char *get_terrain_name(enum tile_terrain_type type);
+enum terrain_flag_id terrain_flag_from_str(const char *s);
+#define terrain_has_flag(terr, flag) BV_ISSET(tile_types[(terr)].flags, flag)
+void tile_types_free(void);
+
+/* Functions to operate on a general terrain type. */
+bool is_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t);
+int count_terrain_near_tile(int map_x, int map_y, enum tile_terrain_type t);
+int adjacent_terrain_tiles4(int map_x, int map_y, enum tile_terrain_type t);
+
+/* Terrain-specific functions. */
 #define is_ocean(x) ((x) == T_OCEAN)
 #define is_ocean_near_tile(x, y) is_terrain_near_tile(x, y, T_OCEAN)
 #define adjacent_ocean_tiles4(x, y) adjacent_terrain_tiles4(x, y, T_OCEAN)
 #define count_ocean_near_tile(x,y) count_terrain_near_tile(x,y, T_OCEAN)
-
-#define terrain_has_flag(terr, flag) BV_ISSET(tile_types[(terr)].flags, flag)
 
 /* This iterator iterates over all terrain types. */
 #define terrain_type_iterate(id)                                            \

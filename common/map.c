@@ -37,7 +37,6 @@ struct civ_map map;
 
 /* these are initialized from the terrain ruleset */
 struct terrain_misc terrain_control;
-struct tile_type tile_types[T_LAST];
 
 /* used to compute neighboring tiles */
 const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
@@ -282,37 +281,6 @@ void map_free(void)
 /***************************************************************
 ...
 ***************************************************************/
-struct tile_type *get_tile_type(enum tile_terrain_type type)
-{
-  return &tile_types[type];
-}
-
-/***************************************************************
-...
-***************************************************************/
-enum tile_terrain_type get_terrain_by_name(const char * name)
-{
-  enum tile_terrain_type tt;
-  for (tt = T_FIRST; tt < T_COUNT; tt++) {
-    if (0 == strcmp (tile_types[tt].terrain_name, name)) {
-      break;
-    }
-  }
-  return tt;
-}
-
-/***************************************************************
-...
-***************************************************************/
-const char *get_terrain_name(enum tile_terrain_type type)
-{
-  assert(type < T_COUNT);
-  return tile_types[type].terrain_name;
-}
-
-/***************************************************************
-...
-***************************************************************/
 enum tile_special_type get_special_by_name(const char * name)
 {
   int i;
@@ -383,57 +351,6 @@ int map_distance(int x0, int y0, int x1, int y1)
   map_distance_vector(&dx, &dy, x0, y0, x1, y1);
 
   return abs(dx) + abs(dy);
-}
-
-/***************************************************************
-...
-***************************************************************/
-bool is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
-{
-  adjc_iterate(x, y, x1, y1) {
-    if (map_get_terrain(x1, y1) == t)
-      return TRUE;
-  } adjc_iterate_end;
-
-  return FALSE;
-}
-
-/***************************************************************
-  counts tiles close to x,y having terrain t
-***************************************************************/
-int count_terrain_near_tile(int x, int y, enum tile_terrain_type t)
-{
-  int count = 0;
-
-  adjc_iterate(x, y, x1, y1) {
-    if (map_get_terrain(x1, y1) == t)
-      count++;
-  } adjc_iterate_end;
-
-  return count;
-}
-
-/****************************************************************************
-  Return the terrain flag matching the given string, or TER_LAST if there's
-  no match.
-****************************************************************************/
-enum terrain_flag_id terrain_flag_from_str(const char *s)
-{
-  enum terrain_flag_id flag;
-  const char *flag_names[] = {
-    /* Must match terrain flags in terrain.h. */
-    "NoBarbs"
-  };
-
-  assert(ARRAY_SIZE(flag_names) == TER_COUNT);
-
-  for (flag = TER_FIRST; flag < TER_LAST; flag++) {
-    if (mystrcasecmp(flag_names[flag], s) == 0) {
-      return flag;
-    }
-  }
-
-  return TER_LAST;
 }
 
 /***************************************************************
@@ -1671,27 +1588,4 @@ bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
 
   map_distance_vector(&diff_x, &diff_y, start_x, start_y, end_x, end_y);
   return (diff_x == 0) || (diff_y == 0);
-}
-
-/**************************************************************************
-  Free memory which is associated with this terrain type.
-**************************************************************************/
-static void tile_type_free(enum tile_terrain_type type)
-{
-  struct tile_type *p = get_tile_type(type);
-
-  free(p->helptext);
-  p->helptext = NULL;
-}
-
-/**************************************************************************
-  Free memory which is associated with terrain types.
-**************************************************************************/
-void tile_types_free(void)
-{
-  enum tile_terrain_type i;
-
-  for (i = T_FIRST; i < T_COUNT; i++) {
-    tile_type_free(i);
-  }
 }
