@@ -2299,7 +2299,7 @@ static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *lead
     for (dx = -1; dx <= 1; dx++) {
       for (dy = -1; dy <= 1; dy++) {
 	x = map_adjust_x(leader->x + dx);
-	y = map_adjust_x(leader->y + dy);
+	y = map_adjust_y(leader->y + dy);
 
 	if (warmap.cost[x][y] > safest
 	    && can_unit_move_to_tile(leader, x, y, FALSE)) {
