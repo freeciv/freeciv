@@ -57,6 +57,7 @@ extern int overview_canvas_store_width, overview_canvas_store_height;
 struct unit *punit_focus;
 
 /* set high, if the player has selected goto */
+/* actually, set to id of unit goto-ing (id is non-zero) */
 int goto_state;
 
 void request_move_unit_direction(struct unit *punit, int dx, int dy);
@@ -937,15 +938,20 @@ void set_unit_focus_no_center(struct unit *punit)
 
 
 /**************************************************************************
-...
+If there is no unit currently in focus, or if the current unit in
+focus should not be in focus, then get a new focus unit.
+We let GOTO-ing units stay in focus, so that if they have moves left
+at the end of the goto, then they are still in focus.
 **************************************************************************/
 void update_unit_focus(void)
 {
-  if(!punit_focus ||
-     punit_focus->activity!=ACTIVITY_IDLE || 
-     punit_focus->moves_left==0 ||
-     punit_focus->ai.control)
+  if(punit_focus==NULL
+     || (punit_focus->activity!=ACTIVITY_IDLE
+	 && punit_focus->activity!=ACTIVITY_GOTO)
+     || punit_focus->moves_left==0 
+     || punit_focus->ai.control) {
     advance_unit_focus();
+  }
 }
 
 
