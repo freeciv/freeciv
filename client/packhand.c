@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <assert.h>
 
 #include "capability.h"
@@ -340,8 +341,28 @@ void handle_city_info(struct packet_city_info *packet)
   handle_city_packet_common(pcity, city_is_new, popup);
 
   /* update the descriptions if necessary */
-  if (update_descriptions) {
-    update_city_descriptions();
+  if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
+    /* update it only every second (because of ChangeAll), this is not
+       a perfect solution at all! */
+    static int timer_initialized;
+    static time_t timer;
+    int really_update = 1;
+    time_t new_timer = time(NULL);
+
+    if (timer_initialized) {
+      double diff;
+      timer = time(NULL);
+      diff = difftime(new_timer,timer);
+      if (diff < 1.0) {
+	really_update = 0;
+      }
+    }
+
+    if (really_update) {
+      update_city_descriptions();
+      timer = new_timer;
+      timer_initialized = 1;
+    }
   }
 }
 
@@ -521,7 +542,7 @@ void handle_short_city(struct packet_short_city *packet)
   handle_city_packet_common(pcity, city_is_new, 0);
 
   /* update the descriptions if necessary */
-  if (update_descriptions) {
+  if (update_descriptions && tile_visible_mapcanvas(pcity->x,pcity->y)) {
     update_city_descriptions();
   }
 }
