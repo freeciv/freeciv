@@ -345,7 +345,68 @@ file data/Freeciv into your app-defaults directory. (Usually this is
 /usr/lib/X11/app-defaults).
 
 
-5. Reinier's Solaris Installation Notes:
+5. Native Language Support:
+===========================
+
+Freeciv uses the "gettext" system for Native Language Support.
+
+If you experience problems with gettext in either configuring or compiling
+Freeciv, there are a few work-arounds you can try:
+
+1. If you don't need Native Language Support, disable it using the
+   "--disable-nls" ./configure option:
+
+      % ./configure --disable-nls
+      % make
+
+2. If you want Native Language Support, try the version of gettext that
+   is included with Freeciv by specifying the "--with-included-gettext"
+   ./configure option:
+
+      % ./configure --with-included-gettext
+      % make
+
+3. Finally, you can try to install the latest version of GNU gettext.
+   It may be obtained from here:
+
+      ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
+
+6. Readline Support:
+====================
+
+Freeciv has optional support for the readline library.
+
+Readline support is what makes the server command line behave sensibly,
+making it possible to
+ - Use the backspace key.
+ - Use the cursor to move back and forth on the line you have written.
+ - Use TAB completion of commands and command arguments. Ie, when you
+   push tab the server will finish the word for you if there is only one
+   possible choice.
+ - Use the up and down cursor to scroll through the history of previously
+   entered commands.
+ - etc.
+
+The configure script will check if you have the readline library correctly
+installed. If so it will automatically set up the makefiles so that readline
+is compiled into the server. If not then it will just silently configure
+without readline support.
+You need readline version >= 4.2.
+You can force configure to include readline or die trying by giving
+configure the --with-readline option:
+
+ % ./configure --with-readline
+
+Some linux distributions (and possibly other operating systems) have
+readline version 4 incorrectly installed, so that readline is not
+set up to declare it's dynamic dependencies. In that case configure
+will try to guess which extra libs it should link against and add them.
+The configure script will give a warning if it had to add extra libs
+to make readline work. This should be harmless, and is just meant as
+a reminder to the folks who distribute readline. :)
+
+
+7. Reinier's Solaris Installation Notes:
 ========================================
 
 Solaris (2.5 and up) has its own version of X in /usr/openwin, its own
@@ -389,7 +450,7 @@ certain combinations of GNU and Sun tools.  The exact recipes depend on your
 local installation.
 
 
-6. Reinier's libXpm Solaris Installation Notes:
+8. Reinier's libXpm Solaris Installation Notes:
 ===============================================
 
 When I was root on my Solaris system, I *still* didn't want to install
@@ -434,64 +495,19 @@ The Procedure:
    commands.
 
 
-7. Native Language Support:
-===========================
+9. Mac OS X notes:
+==================
+Apples version of gcc uses precompiled headers that does not support
+vararg macros. So instead of the usual
+  % ./configure <...>
+depending on which shell you work in, instead use:
 
-Freeciv uses the "gettext" system for Native Language Support.
+ bourne shell:
+   % CC="gcc -no-cpp-precomp" ./configure <...>
+ c shell:
+   % env CC="gcc -no-cpp-precomp" ./configure <...>
 
-If you experience problems with gettext in either configuring or compiling
-Freeciv, there are a few work-arounds you can try:
-
-1. If you don't need Native Language Support, disable it using the
-   "--disable-nls" ./configure option:
-
-      % ./configure --disable-nls
-      % make
-
-2. If you want Native Language Support, try the version of gettext that
-   is included with Freeciv by specifying the "--with-included-gettext"
-   ./configure option:
-
-      % ./configure --with-included-gettext
-      % make
-
-3. Finally, you can try to install the latest version of GNU gettext.
-   It may be obtained from here:
-
-      ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
-
-8. Readline Support:
-====================
-
-Freeciv has optional support for the readline library.
-
-Readline support is what makes the server command line behave sensibly,
-making it possible to
- - Use the backspace key.
- - Use the cursor to move back and forth on the line you have written.
- - Use TAB completion of commands and command arguments. Ie, when you
-   push tab the server will finish the word for you if there is only one
-   possible choice.
- - Use the up and down cursor to scroll through the history of previously
-   entered commands.
- - etc.
-
-The configure script will check if you have the readline library correctly
-installed. If so it will automatically set up the makefiles so that readline
-is compiled into the server. If not then it will just silently configure
-without readline support.
-You need readline version >= 4.2.
-You can force configure to include readline or die trying by giving
-configure the --with-readline option:
-
- % ./configure --with-readline
-
-Some linux distributions (and possibly other operating systems) have
-readline version 4 incorrectly installed, so that readline is not
-set up to declare it's dynamic dependencies. In that case configure
-will try to guess which extra libs it should link against and add them.
-The configure script will give a warning if it had to add extra libs
-to make readline work. This should be harmless, and is just meant as
-a reminder to the folks who distribute readline. :)
+Where <...> is whatever additional arguments you want to give to
+configure.
 
 ** END **
