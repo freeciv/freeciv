@@ -521,6 +521,7 @@ int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
 {
   int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
   struct tile *ptile = map_get_tile(x, y);
+#if 0
   enum tile_terrain_type t = ptile->terrain;
   struct tile_type *type = get_tile_type(t);
   int s = ptile->special;
@@ -533,7 +534,9 @@ int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
     ptile->terrain = t;
     ptile->special = s;
     return(m);
-  } else if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
+  } else 
+#endif
+  if ((ptile->terrain == T_HILLS || ptile->terrain == T_MOUNTAINS) &&
       !(ptile->special&S_IRRIGATION) && !(ptile->special&S_MINE)) {
     map_set_special(x, y, S_MINE);
     m = city_tile_value(pcity, i, j, 0, 0);
