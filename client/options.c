@@ -188,7 +188,7 @@ static struct {
   const char *enum_name;
   char *tag_name;
   const char *descr_orig;
-  char *descr;
+  const char *descr;
   enum event_type event;
 } events[] = {
   GEN_EV(N_("City: Building Unavailable Item"),       E_CITY_CANTBUILD),
