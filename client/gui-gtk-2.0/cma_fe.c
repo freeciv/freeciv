@@ -282,11 +282,6 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   g_signal_connect(pdialog->add_preset_command, "clicked",
 		   G_CALLBACK(cma_add_preset_callback), pdialog);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_HELP);
-  g_signal_connect(button, "clicked",
-		   G_CALLBACK(help_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(hbox), button);
-
   pdialog->del_preset_command = gtk_button_new_from_stock(GTK_STOCK_DELETE);
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->del_preset_command);
   g_signal_connect(pdialog->del_preset_command, "clicked",
@@ -310,7 +305,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   /* Minimal Surplus and Factor */
 
-  table = gtk_table_new(NUM_STATS + 2, 3, FALSE);
+  table = gtk_table_new(NUM_STATS + 2, 3, TRUE);
   gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 2);
 
   label = gtk_label_new(_("Minimal Surplus"));
@@ -385,8 +380,13 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   /* buttons */
 
   hbox = gtk_hbutton_box_new();
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_SPREAD);
+  gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+
+  button = gtk_button_new_from_stock(GTK_STOCK_HELP);
+  g_signal_connect(button, "clicked",
+		   G_CALLBACK(help_callback), NULL);
+  gtk_container_add(GTK_CONTAINER(hbox), button);
 
   pdialog->active_command = gtk_toggle_button_new();
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->active_command);
@@ -464,6 +464,7 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
     gtk_label_set_text_with_mnemonic(GTK_LABEL(pdialog->active_label),
 	_("CMA Disabl_ed"));
   }
+  gtk_widget_set_sensitive(pdialog->result_label, controlled);
 }
 
 /**************************************************************************
