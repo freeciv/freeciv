@@ -1082,6 +1082,10 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 					  "player%d.u%d.goto_y", plrno,i);
     punit->ai.control=secfile_lookup_int(file, "player%d.u%d.ai", plrno,i);
     punit->ai.ai_role = AIUNIT_NONE;
+    punit->ai.ferryboat = 0;
+    punit->ai.passenger = 0;
+    punit->ai.bodyguard = 0;
+    punit->ai.charge = 0;
     punit->hp=secfile_lookup_int(file, "player%d.u%d.hp", plrno, i);
     punit->bribe_cost=unit_bribe_cost(punit);
     unit_list_insert(&plr->units, punit);
