@@ -31,8 +31,6 @@ void city_check_workers(struct player *pplayer, struct city *pcity);
 /**** This part isn't meant to be used ****/
 
 void city_auto_remove_worker(struct city *pcity); 
-void set_worker_city(struct city *pcity, int x, int y, 
-		     enum city_tile_type type); 
 void update_city_activities(struct player *pplayer);
 void city_incite_cost(struct city *pcity);
 void remove_obsolete_buildings(struct player *plr);

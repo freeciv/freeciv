@@ -1228,18 +1228,3 @@ become obsolete.  This is a quick hack to prevent this.  980805 -- Syela */
   return got_tech;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void set_worker_city(struct city *pcity, int x, int y, 
-		     enum city_tile_type type) 
-{
-  if (pcity->city_map[x][y] == C_TILE_WORKER)
-   map_get_tile(pcity->x+x-2, pcity->y+y-2)->worked = -1;
-  pcity->city_map[x][y]=type;
-/* this function is called far less than is_worked here */
-/* and these two ifs are a lot less CPU load then the iterates! */
-  if (type == C_TILE_WORKER)
-    map_get_tile(pcity->x+x-2, pcity->y+y-2)->worked = pcity->owner;
-}
-
