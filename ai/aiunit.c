@@ -554,7 +554,7 @@ bool ai_manage_explorer(struct unit *punit)
     struct city *pcity = find_city_by_id(punit->homecity);
     /* No homecity? Find one! */
     if (!pcity) {
-      pcity = dist_nearest_city(pplayer, punit->x, punit->y, FALSE, FALSE);
+      pcity = find_closest_owned_city(pplayer, punit->x, punit->y, FALSE, NULL);
       if (pcity) {
         struct packet_unit_request packet;
         CITY_LOG(LOG_DEBUG, pcity, "we became home to an exploring %s",
