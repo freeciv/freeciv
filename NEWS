@@ -35,7 +35,7 @@ WHAT'S CHANGED SINCE 1.6.3:
  - Lots, and Lots, and Lots of donated patches. Thanks guys, keep 'em 
    coming!
 
-KNOWN BUGS:
+REPORTING A BUG:
 
 Freeciv 1.7 is the first stable release since 1.6.3, and is considered
 bug-free enough for everyday use.
@@ -44,6 +44,14 @@ However if you do find one, please report it (or other problems) to
 the freeciv-dev mailing list.  For instructions on how to do this, see:
 
   http://www.freeciv.org
+
+KNOWN BUGS:
+
+ - Solaris: The configure script needs autoconf-2.12.  autoconf-2.9 is
+   known not to work.
+ - Solaris: There seems to be an order problem with libXext.  If you have
+   problems with this library, try adding 
+   --x-libraries="-L/usr/openwin/lib -lXext" to the configure command line.
 
 THINGS TO DO:
 
