@@ -2053,7 +2053,7 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 							    x, y));
     bool outside_city =
 	((pplayer && pplayers_allied(unit_owner(punit), pplayer))
-	 || (!map_get_city(punit->x, punit->y) && !map_get_city(x, y)));
+	 || (!map_get_city(punit->x, punit->y) || !map_get_city(x, y)));
 
     if (!pplayer && !pconn->observer) {
       continue;
