@@ -637,7 +637,7 @@ struct packet_ruleset_building {
   Impr_Type_id bldg_req;
   enum tile_terrain_type *terr_gate;
   enum tile_special_type *spec_gate;
-  Eff_Range_id equiv_range;
+  enum effect_range equiv_range;
   Impr_Type_id *equiv_dupl;
   Impr_Type_id *equiv_repl;
   Tech_Type_id obsolete_by;

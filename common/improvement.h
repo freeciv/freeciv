@@ -74,7 +74,7 @@ enum improvement_type_id {
  * Used in equiv_range and effect.range fields.
  * (These must correspond to effect_range_names[] in improvement.c.)
  */
-enum effect_range_id {
+enum effect_range {
   EFR_NONE,
   EFR_BUILDING,
   EFR_CITY,
@@ -84,13 +84,11 @@ enum effect_range_id {
   EFR_LAST	/* keep this last */
 };
 
-typedef enum effect_range_id Eff_Range_id;
-
 /* Type of effects.
  * Used in effect.type field.
  * (These must correspond to effect_type_names[] in improvement.c.)
  */
-enum effect_type_id {
+enum effect_type {
   EFT_ADV_PARASITE,
   EFT_AIRLIFT,
   EFT_ANY_GOVERNMENT,
@@ -165,19 +163,17 @@ enum effect_type_id {
   EFT_LAST	/* keep this last */
 };
 
-typedef enum effect_type_id Eff_Type_id;
-
 /* An effect conferred by an improvement.
  */
 struct impr_effect {
-  Eff_Type_id type;
-  Eff_Range_id range;
+  enum effect_type type;
+  enum effect_range range;
   int amount;
   int survives;				/* 1 = effect survives wonder destruction */
   Impr_Type_id cond_bldg;		/* B_LAST = unconditional */
   int cond_gov;				/* game.government_count = unconditional */
   Tech_Type_id cond_adv;		/* A_NONE = unconditional; A_LAST = never */
-  Eff_Type_id cond_eff;			/* EFT_LAST = unconditional */
+  enum effect_type cond_eff;		/* EFT_LAST = unconditional */
   Unit_Class_id aff_unit;		/* UCL_LAST = all */
   enum tile_terrain_type aff_terr;	/* T_UNKNOWN = all; T_LAST = none */
   enum tile_special_type aff_spec;	/* S_* bit mask of specials affected */
@@ -227,7 +223,7 @@ struct impr_type {
   Impr_Type_id bldg_req;		/* B_LAST = none required */
   enum tile_terrain_type *terr_gate;	/* list; T_LAST terminated */
   enum tile_special_type *spec_gate;	/* list; S_NO_SPECIAL terminated */
-  Eff_Range_id equiv_range;
+  enum effect_range equiv_range;
   Impr_Type_id *equiv_dupl;		/* list; B_LAST terminated */
   Impr_Type_id *equiv_repl;		/* list; B_LAST terminated */
   Tech_Type_id obsolete_by;		/* A_NONE = never obsolete */
@@ -257,10 +253,10 @@ extern struct impr_type improvement_types[B_LAST];
 
 /* improvement effect functions */
 
-Eff_Range_id effect_range_from_str(const char *str);
-const char *effect_range_name(Eff_Range_id id);
-Eff_Type_id effect_type_from_str(const char *str);
-const char *effect_type_name(Eff_Type_id id);
+enum effect_range effect_range_from_str(const char *str);
+const char *effect_range_name(enum effect_range id);
+enum effect_type effect_type_from_str(const char *str);
+const char *effect_type_name(enum effect_type id);
 
 void get_effect_vectors(struct ceff_vector *ceffs[],
 			struct geff_vector *geffs[],
