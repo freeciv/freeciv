@@ -123,3 +123,22 @@ tilespec file, but the individual tiles should be consistent with
 those sizes and/or the usage of those graphics.)
   
 ----------------------------------------------------------------------
+
+Information on certain tags:
+
+  citizen.*
+
+    This provides citizen graphics.  The types of citizen are happy,
+    content, unhappy, angry, entertainer, scientist, and
+    tax_collector. The name of the citizen forms the postfix for the
+    tag name; for instance "citizen.entertainer" should be the Elvis
+    sprite.  More than one sprite can be provide for the citizen type
+    by appending a number; for instance "citizen.happy_0" and
+    "citizen.happy_1" will provide two citizen sprites.  There is a
+    hard-coded limit (currently 6) on the number of different sprites
+    a citizen may have.
+
+    Currently the citizen sprites may not have any transparency, as
+    this is ignored in much of the drawing.  This is considered a bug.
+  
+----------------------------------------------------------------------
