@@ -34,6 +34,7 @@
 #include <game.h>
 #include <mapctrl.h>
 #include <xstuff.h>
+#include <graphics.h>
 #include <civclient.h>
 
 extern Widget toplevel, main_form, map_canvas;
@@ -819,7 +820,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 	    unit_activity_text(punit));
 
     unit_select_pixmaps[i]=XCreatePixmap(display, XtWindow(map_canvas), 
-					 30, 30, display_depth);
+					 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT, display_depth);
     
     put_unit_pixmap(punit, unit_select_pixmaps[i], 0, 0);
 
@@ -832,7 +833,12 @@ void popup_unit_select_dialog(struct tile *ptile)
 						      XtNsensitive,
 						      punit->moves_left>0 &&
 						      can_unit_do_activity(punit, ACTIVITY_IDLE),
+						      XtNwidth, NORMAL_TILE_WIDTH+4,
+						      XtNheight, NORMAL_TILE_HEIGHT+4,
 						      NULL);
+      XtAddCallback(unit_select_commands[0],
+		    XtNdestroyCallback,free_bitmap_destroy_callback,
+		    NULL);
 
       unit_select_labels[0]=XtVaCreateManagedWidget("unitselectlabels0", 
 						    labelWidgetClass, 
@@ -851,7 +857,12 @@ void popup_unit_select_dialog(struct tile *ptile)
 						      XtNfromVert, unit_select_commands[i-1],
 						      XtNsensitive,
 						      can_unit_do_activity(punit, ACTIVITY_IDLE),
+						      XtNwidth, NORMAL_TILE_WIDTH+4,
+						      XtNheight, NORMAL_TILE_HEIGHT+4,
 						      NULL);
+      XtAddCallback(unit_select_commands[i],
+		    XtNdestroyCallback,free_bitmap_destroy_callback,
+		    NULL);
 
       unit_select_labels[i]=XtVaCreateManagedWidget("unitselectlabels1", 
 						    labelWidgetClass, 
@@ -873,14 +884,12 @@ void popup_unit_select_dialog(struct tile *ptile)
 						    commandWidgetClass,
 						    unit_select_form,
 						    XtNfromVert, unit_select_commands[i-1],
-						    XtNvertDistance, 30,
 						    NULL);
 
   unit_select_all_command=XtVaCreateManagedWidget("unitselectallcommand", 
 						  commandWidgetClass,
 						  unit_select_form,
 						  XtNfromVert, unit_select_commands[i-1],
-						  XtNvertDistance, 30,
 						  NULL);
 
   XtAddCallback(unit_select_close_command, XtNcallback, unit_select_callback, NULL);
@@ -1153,6 +1162,14 @@ void races_buttons_callback(Widget w, XtPointer client_data,
   send_packet_alloc_race(&aconnection, &packet);
 }
 
+/**************************************************************************
+  Frees a bitmap associated with a Widget when it is destroyed
+**************************************************************************/
+void free_bitmap_destroy_callback(Widget w, XtPointer client_data, 
+				  XtPointer call_data)
+{
+  Pixmap pm;
 
-
-
+  XtVaGetValues(w,XtNbitmap,&pm,NULL);
+  if(pm) XFreePixmap(XtDisplay(w),pm);
+}

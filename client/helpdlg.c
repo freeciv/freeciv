@@ -33,6 +33,7 @@
 #include <tech.h>
 #include <game.h>
 #include <helpdlg.h>
+#include <dialogs.h>
 #include <graphics.h>
 
 extern int UNIT_TILES;
@@ -69,8 +70,6 @@ void create_help_page(enum help_page_type type);
 
 void update_help_dialog(Widget help_list);
 
-void help_unit_tile_destroy_callback(Widget w, XtPointer client_data, 
-				     XtPointer call_data);
 void help_close_command_callback(Widget w, XtPointer client_data, 
 				 XtPointer call_data);
 void help_list_callback(Widget w, XtPointer client_data, 
@@ -483,7 +482,7 @@ void create_help_page(enum help_page_type type)
 					   XtNheight, NORMAL_TILE_HEIGHT,
 					   NULL);  
     XtAddCallback(help_unit_tile,
-                  XtNdestroyCallback,help_unit_tile_destroy_callback,
+                  XtNdestroyCallback,free_bitmap_destroy_callback,
 		  NULL);
     help_unit_fp=XtVaCreateManagedWidget("helpunitfp", 
 					  labelWidgetClass, 
@@ -763,18 +762,6 @@ void help_close_command_callback(Widget w, XtPointer client_data,
 {
   XtDestroyWidget(help_dialog_shell);
   help_dialog_shell=0;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void help_unit_tile_destroy_callback(Widget w, XtPointer client_data, 
-				     XtPointer call_data)
-{
-  Pixmap pm;
-
-  XtVaGetValues(w,XtNbitmap,&pm,NULL);
-  if(pm) XFreePixmap(XtDisplay(w),pm);
 }
 
 /**************************************************************************
