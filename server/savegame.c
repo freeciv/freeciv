@@ -176,7 +176,7 @@
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent worklists2 map_editor known32fix turn " \
 "attributes watchtower rulesetdir client_worklists orders " \
-"startunits turn_last_built"
+"startunits turn_last_built improvement_order"
 
 static const char hex_chars[] = "0123456789abcdef";
 static const char terrain_chars[] = "adfghjm prstu";
@@ -732,6 +732,41 @@ static const char* old_impr_type_name(int id)
   return old_impr_types[id];
 }
 
+/****************************************************************************
+  Initialize the old-style improvement bitvector so that all improvements
+  are marked as not present.
+****************************************************************************/
+static void init_old_improvement_bitvector(char* bitvector)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(old_impr_types); i++) {
+    bitvector[i] = '0';
+  }
+  bitvector[ARRAY_SIZE(old_impr_types)] = '\0';
+}
+
+/****************************************************************************
+  Insert improvement into old-style bitvector
+
+  Improvement lists in cities and destroyed_wonders are saved as a
+  bitvector in a string array.  New bitvectors do not depend on ruleset
+  order. However, we want to create savegames which can be read by 
+  1.14.x and earlier servers.  This function adds an improvement into the
+  bitvector string according to the 1.14.1 improvement ordering.
+****************************************************************************/
+static void add_improvement_into_old_bitvector(char* bitvector,
+                                               Impr_Type_id id)
+{
+  int old_id;
+
+  old_id = old_impr_type_id(id);
+  if (old_id < 0 || old_id >= ARRAY_SIZE(old_impr_types)) {
+    return;
+  }
+  bitvector[old_id] = '1';
+}
+
 /***************************************************************
 Load the worklist elements specified by path, given the arguments
 plrno and wlinx, into the worklist pointed to by pwl.
@@ -1056,11 +1091,14 @@ static void load_player_units(struct player *plr, int plrno,
   }
 }
 
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  Load all information about player "plrno" into the structure pointed to
+  by "plr".
+****************************************************************************/
 static void player_load(struct player *plr, int plrno,
-			struct section_file *file)
+			struct section_file *file,
+			char** improvement_order,
+			int improvement_order_size)
 {
   int i, j, x, y, ncities, c_s;
   const char *p;
@@ -1340,7 +1378,7 @@ static void player_load(struct player *plr, int plrno,
     int nat_y = secfile_lookup_int(file, "player%d.c%d.y", plrno, i);
     int map_x, map_y;
     const char* name;
-    int id;
+    int id, k;
 
     native_to_map_pos(&map_x, &map_y, nat_x, nat_y);
     pcity = create_city_virtual(plr, map_x, map_y,
@@ -1524,18 +1562,36 @@ static void player_load(struct player *plr, int plrno,
       }
     }
 
-    p=secfile_lookup_str(file, "player%d.c%d.improvements", plrno, i);
-
     /* Initialise list of improvements with City- and Building-wide
        equiv_ranges */
     improvement_status_init(pcity->improvements,
 			    ARRAY_SIZE(pcity->improvements));
 
-    impr_type_iterate(x) {
-      if (*p != '\0' && *p++=='1') {
-        city_add_improvement(pcity,x);
+    p = secfile_lookup_str_default(file, NULL,
+				   "player%d.c%d.improvements_new",
+                                   plrno, i);
+    if (!p) {
+      /* old savegames */
+      p = secfile_lookup_str(file, "player%d.c%d.improvements", plrno, i);
+      for (k = 0; p[k]; k++) {
+        if (p[k] == '1') {
+	  name = old_impr_type_name(k);
+	  id = find_improvement_by_name_orig(name);
+	  if (id != -1) {
+	    city_add_improvement(pcity, id);
+	  }
+	}
       }
-    } impr_type_iterate_end;
+    } else {
+      for (k = 0; k < improvement_order_size && p[k]; k++) {
+        if (p[k] == '1') {
+	  id = find_improvement_by_name_orig(improvement_order[k]);
+	  if (id != -1) {
+	    city_add_improvement(pcity, id);
+	  }
+	}
+      }
+    }
 
     init_worklist(&pcity->worklist);
     if (has_capability("worklists2", savefile_options)) {
@@ -2118,11 +2174,25 @@ static void player_save(struct player *plr, int plrno,
                          "player%d.c%d.currently_building_name", plrno, i);
     }
 
+    /* 1.14 servers depend on improvement order in ruleset. Here we
+     * are trying to simulate 1.14.1 default order
+     */
+    init_old_improvement_bitvector(buf);
+    impr_type_iterate(id) {
+      if (pcity->improvements[id] != I_NONE) {
+        add_improvement_into_old_bitvector(buf, id);
+      }
+    } impr_type_iterate_end;
+    secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
+
+    /* Save improvement list as bitvector. Note that improvement order
+     * is saved in savefile.improvement_order.
+     */
     impr_type_iterate(id) {
       buf[id] = (pcity->improvements[id] != I_NONE) ? '1' : '0';
     } impr_type_iterate_end;
     buf[game.num_impr_types] = '\0';
-    secfile_insert_str(file, buf, "player%d.c%d.improvements", plrno, i);
+    secfile_insert_str(file, buf, "player%d.c%d.improvements_new", plrno, i);    
 
     worklist_save(file, "player%d.c%d", plrno, i, &pcity->worklist);
 
@@ -2335,16 +2405,23 @@ static void check_city(struct city *pcity)
 ***************************************************************/
 void game_load(struct section_file *file)
 {
-  int i;
+  int i, k, id;
   enum server_states tmp_server_state;
   char *savefile_options;
   const char *string;
+  char** improvement_order = NULL;
+  int improvement_order_size = 0;
+  const char* name;
 
   game.version = secfile_lookup_int_default(file, 0, "game.version");
   tmp_server_state = (enum server_states)
     secfile_lookup_int_default(file, RUN_GAME_STATE, "game.server_state");
 
   savefile_options = secfile_lookup_str(file, "savefile.options");
+  if (has_capability("improvement_order", savefile_options)) {
+    improvement_order = secfile_lookup_str_vec(file, &improvement_order_size,
+                                               "savefile.improvement_order");
+  }
 
   /* we require at least version 1.9.0 */
   if (10900 > game.version) {
@@ -2669,7 +2746,8 @@ void game_load(struct section_file *file)
   }
 
 
-  game.is_new_game = !secfile_lookup_bool_default(file, TRUE, "game.save_players");
+  game.is_new_game = !secfile_lookup_bool_default(file, TRUE,
+						  "game.save_players");
 
   if (!game.is_new_game) { /* If new game, this is done in srv_main.c */
     /* Initialise lists of improvements with World and Island equiv_ranges */
@@ -2681,23 +2759,39 @@ void game_load(struct section_file *file)
 
   if (!game.is_new_game) {
     /* destroyed wonders: */
-    string = secfile_lookup_str_default(file, "", "game.destroyed_wonders");
-    impr_type_iterate(i) {
-      if (string[i] == '\0') {
-	goto out;
+    string = secfile_lookup_str_default(file, NULL,
+                                        "game.destroyed_wonders_new");
+    if (!string) {
+      /* old savegames */
+      string = secfile_lookup_str_default(file, "",
+                                          "game.destroyed_wonders");
+      for (k = 0; string[k]; k++) {
+        if (string[k] == '1') {
+	  name = old_impr_type_name(k);
+	  id = find_improvement_by_name_orig(name);
+	  if (id != -1) {
+	    game.global_wonders[id] = -1;
+	  }
+	}
       }
-      if (string[i] == '1') {
-	game.global_wonders[i] = -1; /* destroyed! */
+    } else {
+      for (k = 0; k < improvement_order_size && string[k]; k++) {
+        if (string[k] == '1') {
+	  id = find_improvement_by_name_orig(improvement_order[k]);
+	  if (id != -1) {
+            game.global_wonders[id] = -1;
+	  }
+	}
       }
-    } impr_type_iterate_end;
-  out:
+    }
 
     /* This is done after continents are assigned, but before effects 
      * are added. */
     allot_island_improvs();
 
-    for(i=0; i<game.nplayers; i++) {
-      player_load(&game.players[i], i, file); 
+    for (i = 0; i < game.nplayers; i++) {
+      player_load(&game.players[i], i, file, improvement_order,
+                  improvement_order_size); 
     }
 
     cities_iterate(pcity) {
@@ -2835,7 +2929,19 @@ void game_save(struct section_file *file)
     }
   }
   secfile_insert_str(file, options, "savefile.options");
-
+  /* Save improvement order in savegame, so we are not dependent on
+   * ruleset order.
+   * If the game isn't started improvements aren't loaded
+   * so we can not save the order.
+   */
+  if (game.num_impr_types > 0) {
+    const char* buf[game.num_impr_types];
+    impr_type_iterate(id) {
+      buf[id] = get_improvement_name_orig(id);
+    } impr_type_iterate_end;
+    secfile_insert_str_vec(file, buf, game.num_impr_types,
+                           "savefile.improvement_order");
+  }
   secfile_insert_int(file, game.gold, "game.gold");
   secfile_insert_int(file, game.tech, "game.tech");
   secfile_insert_int(file, game.skill_level, "game.skill_level");
@@ -2933,13 +3039,15 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, rstate.k, "random.index_K");
     secfile_insert_int(file, rstate.x, "random.index_X");
 
-    for(i=0;i<8;i++) {
+    for (i = 0; i < 8; i++) {
       char name[20], vec[100];
+
       my_snprintf(name, sizeof(name), "random.table%d", i);
       my_snprintf(vec, sizeof(vec),
-		  "%8x %8x %8x %8x %8x %8x %8x", rstate.v[7*i],
-		  rstate.v[7*i+1], rstate.v[7*i+2], rstate.v[7*i+3],
-		  rstate.v[7*i+4], rstate.v[7*i+5], rstate.v[7*i+6]);
+		  "%8x %8x %8x %8x %8x %8x %8x", rstate.v[7 * i],
+		  rstate.v[7 * i + 1], rstate.v[7 * i + 2],
+		  rstate.v[7 * i + 3], rstate.v[7 * i + 4],
+		  rstate.v[7 * i + 5], rstate.v[7 * i + 6]);
       secfile_insert_str(file, vec, name);
     }
   } else {
@@ -2948,26 +3056,42 @@ void game_save(struct section_file *file)
 
   secfile_insert_str(file, game.rulesetdir, "game.rulesetdir");
 
-  if (!map_is_empty())
+  if (!map_is_empty()) {
     map_save(file);
+  }
   
-  if ((server_state==PRE_GAME_STATE) && game.is_new_game) {
+  if ((server_state == PRE_GAME_STATE) && game.is_new_game) {
     return; /* want to save scenarios as well */
   }
 
-  secfile_insert_bool(file, game.save_options.save_players, "game.save_players");
+  secfile_insert_bool(file, game.save_options.save_players,
+		      "game.save_players");
   if (game.save_options.save_players) {
-    /* destroyed wonders: */
-    impr_type_iterate(i) {
-      if (is_wonder(i) && game.global_wonders[i]!=0
-	  && !find_city_by_id(game.global_wonders[i])) {
-	temp[i] = '1';
+    /* 1.14 servers depend on improvement order in ruleset. Here we
+     * are trying to simulate 1.14.1 default order
+     */
+    init_old_improvement_bitvector(temp);
+    impr_type_iterate(id) {
+      if (is_wonder(id) && game.global_wonders[id] != 0
+	  && !find_city_by_id(game.global_wonders[id])) {
+        add_improvement_into_old_bitvector(temp, id);
+      } 
+    } impr_type_iterate_end;
+    secfile_insert_str(file, temp, "game.destroyed_wonders");
+    
+    /* Save destroyed wonders as bitvector. Note that improvement order
+     * is saved in savefile.improvement_order
+     */
+    impr_type_iterate(id) {
+      if (is_wonder(id) && game.global_wonders[id] != 0
+	  && !find_city_by_id(game.global_wonders[id])) {
+	temp[id] = '1';
       } else {
-	temp[i] = '0';
+        temp[id] = '0';
       }
     } impr_type_iterate_end;
     temp[game.num_impr_types] = '\0';
-    secfile_insert_str(file, temp, "game.destroyed_wonders");
+    secfile_insert_str(file, temp, "game.destroyed_wonders_new");
 
     calc_unit_ordering();
 
