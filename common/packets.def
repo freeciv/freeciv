@@ -1057,17 +1057,11 @@ PACKET_RULESET_GOVERNMENT=100;sc,lsend
   UINT8 celeb_shield_bonus;
   UINT8 celeb_food_bonus;
 
-  UINT16 corruption_level;
-  UINT8 fixed_corruption_distance;
-  UINT8 corruption_distance_factor;
-  UINT8 extra_corruption_distance;
-  UINT8 corruption_max_distance_cap;
-
-  UINT16 waste_level;
-  UINT8 fixed_waste_distance;
-  UINT8 waste_distance_factor;
-  UINT8 extra_waste_distance;
-  UINT8 waste_max_distance_cap;
+  UINT16 waste_level[O_MAX];
+  UINT8 fixed_waste_distance[O_MAX];
+  UINT8 waste_distance_factor[O_MAX];
+  UINT8 extra_waste_distance[O_MAX];
+  UINT8 waste_max_distance_cap[O_MAX];
       
   UINT16 flags;
       

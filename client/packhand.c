@@ -2439,17 +2439,13 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->celeb_output_inc_tile[O_SHIELD] = p->celeb_shield_bonus;
   gov->celeb_output_inc_tile[O_FOOD] = p->celeb_food_bonus;
 
-  gov->corruption_level    = p->corruption_level;
-  gov->fixed_corruption_distance = p->fixed_corruption_distance;
-  gov->corruption_distance_factor = p->corruption_distance_factor;
-  gov->extra_corruption_distance = p->extra_corruption_distance;
-  gov->corruption_max_distance_cap = p->corruption_max_distance_cap;
-  
-  gov->waste_level           = p->waste_level;
-  gov->fixed_waste_distance  = p->fixed_waste_distance;
-  gov->waste_distance_factor = p->waste_distance_factor;
-  gov->extra_waste_distance  = p->extra_waste_distance;
-  gov->waste_max_distance_cap = p->waste_max_distance_cap;
+  output_type_iterate(o) {
+    gov->waste[o].level = p->waste_level[o];
+    gov->waste[o].fixed_distance = p->fixed_waste_distance[o];
+    gov->waste[o].distance_factor = p->waste_distance_factor[o];
+    gov->waste[o].extra_distance = p->extra_waste_distance[o];
+    gov->waste[o].max_distance_cap = p->waste_max_distance_cap[o];
+  } output_type_iterate_end;
   
   gov->flags               = p->flags;
   gov->num_ruler_titles    = p->num_ruler_titles;

@@ -1237,8 +1237,8 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
     dist = 32;
   }
   dist -= (dist * get_city_bonus(pcity, EFT_INCITE_DIST_PCT)) / 100;
-  if (g->fixed_corruption_distance != 0) {
-    dist = MIN(g->fixed_corruption_distance, dist);
+  if (g->waste[O_TRADE].fixed_distance != 0) {
+    dist = MIN(g->waste[O_TRADE].fixed_distance, dist);
   }
 
   size = MAX(1, pcity->size

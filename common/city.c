@@ -2243,6 +2243,7 @@ int city_corruption(const struct city *pcity, int trade)
   int dist;
   unsigned int val;
   int trade_penalty;
+  struct gov_waste *corruption = &g->waste[O_TRADE];
 
   assert(game.notradesize < game.fulltradesize);
   if (pcity->size <= game.notradesize) {
@@ -2254,26 +2255,25 @@ int city_corruption(const struct city *pcity, int trade)
 	(game.fulltradesize - game.notradesize);
   }
 
-  if (g->corruption_level == 0) {
+  if (corruption->level == 0) {
     return trade_penalty;
   }
-  if (g->fixed_corruption_distance != 0) {
-    dist = g->fixed_corruption_distance;
+  if (corruption->fixed_distance != 0) {
+    dist = corruption->fixed_distance;
   } else {
     capital = find_palace(city_owner(pcity));
     if (!capital)
-      dist = g->corruption_max_distance_cap;
+      dist = corruption->max_distance_cap;
     else {
       int tmp = real_map_distance(capital->tile, pcity->tile);
-      dist = MIN(g->corruption_max_distance_cap, tmp);
+      dist = MIN(corruption->max_distance_cap, tmp);
     }
   }
-  dist =
-      dist * g->corruption_distance_factor + g->extra_corruption_distance;
+  dist = dist * corruption->distance_factor + corruption->extra_distance;
 
   /* Now calculate the final corruption.  Ordered to reduce integer
    * roundoff errors. */
-  val = trade * MAX(dist, 1) * g->corruption_level;
+  val = trade * MAX(dist, 1) * corruption->level;
   val -= (val * get_city_bonus(pcity, EFT_CORRUPT_PCT)) / 100;
   val /= 100 * 100; /* Level is a % multiplied by 100 */
   val = CLIP(trade_penalty, val, trade);
@@ -2290,24 +2290,25 @@ int city_waste(const struct city *pcity, int shields)
   int dist;
   int shield_penalty = 0;
   unsigned int val;
+  struct gov_waste *waste = &g->waste[O_SHIELD];
 
-  if (g->waste_level == 0) {
+  if (waste->level == 0) {
     return shield_penalty;
   }
-  if (g->fixed_waste_distance != 0) {
-    dist = g->fixed_waste_distance;
+  if (waste->fixed_distance != 0) {
+    dist = waste->fixed_distance;
   } else {
     capital = find_palace(city_owner(pcity));
     if (!capital) {
-      dist = g->waste_max_distance_cap;
+      dist = waste->max_distance_cap;
     } else {
       int tmp = real_map_distance(capital->tile, pcity->tile);
-      dist = MIN(g->waste_max_distance_cap, tmp);
+      dist = MIN(waste->max_distance_cap, tmp);
     }
   }
-  dist = dist * g->waste_distance_factor + g->extra_waste_distance;
+  dist = dist * waste->distance_factor + waste->extra_distance;
   /* Ordered to reduce integer roundoff errors */
-  val = shields * MAX(dist, 1) * g->waste_level;
+  val = shields * MAX(dist, 1) * waste->level;
   val /= 100 * 100; /* Level is a % multiplied by 100 */
 
   val -= (val * get_city_bonus(pcity, EFT_WASTE_PCT)) / 100;

@@ -1789,6 +1789,8 @@ static void load_ruleset_governments(struct section_file *file)
   /* easy ones: */
   government_iterate(g) {
     int i = g->index;
+    const char *waste_name[] = {NULL, "waste", "corruption",
+				NULL, NULL, NULL};
     
     g->required_tech
       = lookup_tech(file, sec[i], "tech_req", FALSE, filename, g->name);
@@ -1825,28 +1827,26 @@ static void load_ruleset_governments(struct section_file *file)
     g->unit_gold_cost_factor
       = secfile_lookup_int(file, "%s.unit_gold_factor", sec[i]);
 
-    g->corruption_level
-      = secfile_lookup_int(file, "%s.corruption_level", sec[i]);
-    g->fixed_corruption_distance
-      = secfile_lookup_int(file, "%s.corruption_fixed_distance", sec[i]);
-    g->corruption_distance_factor
-      = secfile_lookup_int(file, "%s.corruption_distance_factor", sec[i]);
-    g->extra_corruption_distance
-      = secfile_lookup_int(file, "%s.corruption_extra_distance", sec[i]);
-    g->corruption_max_distance_cap
-      = secfile_lookup_int_default(file, 36, 
-        "%s.corruption_max_distance_cap", sec[i]); 
-
-    g->waste_level
-      = secfile_lookup_int(file, "%s.waste_level", sec[i]);
-    g->fixed_waste_distance
-      = secfile_lookup_int(file, "%s.waste_fixed_distance", sec[i]);
-    g->waste_distance_factor
-      = secfile_lookup_int(file, "%s.waste_distance_factor", sec[i]);
-    g->extra_waste_distance
-      = secfile_lookup_int(file, "%s.waste_extra_distance", sec[i]);
-    g->waste_max_distance_cap
-      = secfile_lookup_int_default(file, 36, "%s.waste_max_distance_cap", sec[i]); 
+    output_type_iterate(o) {
+      if (waste_name[o]) {
+	g->waste[o].level = secfile_lookup_int(file, "%s.%s_level",
+					       sec[i], waste_name[o]);
+	g->waste[o].fixed_distance
+	  = secfile_lookup_int(file, "%s.%s_fixed_distance",
+			       sec[i], waste_name[o]);
+	g->waste[o].distance_factor
+	  = secfile_lookup_int(file, "%s.%s_distance_factor",
+			       sec[i], waste_name[o]);
+	g->waste[o].extra_distance
+	  = secfile_lookup_int(file, "%s.%s_extra_distance",
+			       sec[i], waste_name[o]);
+	g->waste[o].max_distance_cap
+	  = secfile_lookup_int_default(file, 36, "%s.%s_max_distance_cap",
+				       sec[i], waste_name[o]); 
+      } else {
+	memset(&g->waste[o], 0, sizeof(g->waste[o]));
+      }
+    } output_type_iterate_end;
 
     output_type_iterate(o) {
       g->output_inc_tile[o]
@@ -3036,17 +3036,13 @@ static void send_ruleset_governments(struct conn_list *dest)
     gov.celeb_shield_bonus = g->celeb_output_inc_tile[O_SHIELD];
     gov.celeb_food_bonus = g->celeb_output_inc_tile[O_FOOD];
 
-    gov.corruption_level = g->corruption_level;
-    gov.fixed_corruption_distance = g->fixed_corruption_distance;
-    gov.corruption_distance_factor = g->corruption_distance_factor;
-    gov.extra_corruption_distance = g->extra_corruption_distance;
-    gov.corruption_max_distance_cap = g->corruption_max_distance_cap;
-    
-    gov.waste_level = g->waste_level;
-    gov.fixed_waste_distance = g->fixed_waste_distance;
-    gov.waste_distance_factor = g->waste_distance_factor;
-    gov.extra_waste_distance = g->extra_waste_distance;
-    gov.waste_max_distance_cap = g->waste_max_distance_cap;
+    output_type_iterate(o) {
+      gov.waste_level[o] = g->waste[o].level;
+      gov.fixed_waste_distance[o] = g->waste[o].fixed_distance;
+      gov.waste_distance_factor[o] = g->waste[o].distance_factor;
+      gov.extra_waste_distance[o] = g->waste[o].extra_distance;
+      gov.waste_max_distance_cap[o] = g->waste[o].max_distance_cap;
+    } output_type_iterate_end;
         
     gov.flags = g->flags;
     gov.num_ruler_titles = g->num_ruler_titles;

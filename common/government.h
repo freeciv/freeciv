@@ -117,22 +117,16 @@ struct government
   int output_inc_tile[O_MAX];
   int celeb_output_inc_tile[O_MAX];
 
-  /* corruption modifiers -- SKi */
-  int   corruption_level;
-  int   corruption_modifier;
-  int   fixed_corruption_distance;
-  int   corruption_distance_factor;
-  int   extra_corruption_distance;
-  int   corruption_max_distance_cap;
-  
-  /* waste modifiers, see governments.ruleset for more detail */
-  int   waste_level;
-  int   waste_modifier;
-  int   fixed_waste_distance;
-  int   waste_distance_factor;
-  int   extra_waste_distance;
-  int   waste_max_distance_cap;
-    
+  /* waste/corruption modifiers - see governments.ruleset for more detail */
+  struct gov_waste {
+    int level;
+    int modifier;
+    int fixed_distance;
+    int distance_factor;
+    int extra_distance;
+    int max_distance_cap;
+  } waste[O_MAX];
+
   /* other flags: bits in enum government_flag_id order,
      use government_has_flag() to access */
   int   flags;
