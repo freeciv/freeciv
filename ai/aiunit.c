@@ -2228,9 +2228,6 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
 	pdiplomat->goto_dest_y=ctarget->y;
 	set_unit_activity(pdiplomat, ACTIVITY_GOTO);
 	do_unit_goto(pdiplomat, GOTO_MOVE_ANY, 0);
-	if (pdiplomat->moves_left) {
-	  ai_manage_diplomat(pplayer, pdiplomat);
-	}
       }
     }
   }
