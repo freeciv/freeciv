@@ -661,6 +661,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       create_unit_full(pplayer, x, y, vunit->type, vunit->veteran,
 		       pcity->id, vunit->moves_left, vunit->hp);
       wipe_unit_safe(vunit, &myiter);
+      unit_list_unlink(units, vunit);
     }
   } unit_list_iterate_end;
 
