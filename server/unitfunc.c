@@ -3367,7 +3367,6 @@ Does: 1) updates  the units homecity and the city it enters/leaves (the
 	 unit enters/leaves a fortress.
       2) handles any huts at the units destination.
       3) awakes any sentried units on neightborin tiles
-Returns: if the unit survived (it can die in the hut)
 
 FIXME: Sometimes it is not neccesary to send cities because the goverment
        doesn't care if a unit is away or not.
