@@ -1256,7 +1256,7 @@ void mapgenerator2()
   initworld();
 
   for (i = game.nplayers ; i ; i--)
-    makeisland(70*totalmass/totalweight, 2);
+    makeisland(70*totalmass/totalweight, 1);
   for (i = game.nplayers ; i ; i--)
     makeisland(20*totalmass/totalweight, 0);
   for (i = game.nplayers ; i ; i--)
