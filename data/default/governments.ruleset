@@ -457,7 +457,7 @@ Under the Republic, military units require 1 production shield each\
  inside a city or inside a fortress within 3 squares of a friendly\
  city\
 \n\n\
-- air units (including missiles and helicopters) and sea units\
+- air units (including missiles and helicopters, but not fighters)\
  with an attack strength greater than 0, regardless of their\
  location\
 \n\n\
@@ -534,8 +534,9 @@ Under Democracy, military units require 1 production shield each for\
  inside a city, or inside a fortress within 3 squares of a\
  friendly city, generate 2 unhappy citizens.\
 \n\n\
-- Air/sea units with an attack strength greater than 0 which are\
- inside a city or nearby fortress generate only 1 unhappy citizen.\
+- Air units with an attack strength greater than 0 which are\
+ inside a city generate only 1 unhappy citizen.  Fighters generate\
+ no unhappiness.\
 \n\n\
 If a city remains in disorder more than 2 turns under Democratic\
  rule, the citizens will spontaneously revolt and plunge your\

@@ -408,7 +408,7 @@ under a Republic or Democracy.
 A unit is *not* aggressive if one or more of following is true:
 - zero attack strength
 - inside a city
-- inside a fortress within 3 squares of a friendly city (new)
+- ground unit inside a fortress within 3 squares of a friendly city
 **************************************************************************/
 int unit_being_aggressive(struct unit *punit)
 {
@@ -416,7 +416,8 @@ int unit_being_aggressive(struct unit *punit)
     return 0;
   if (map_get_city(punit->x,punit->y))
     return 0;
-  if (map_get_special(punit->x,punit->y)&S_FORTRESS) {
+  if (is_ground_unit(punit) &&
+      map_get_special(punit->x,punit->y)&S_FORTRESS) {
     city_list_iterate(get_player(punit->owner)->cities, pcity) {
       if (real_map_distance(punit->x, punit->y, pcity->x, pcity->y)<=3)
 	return 0;
