@@ -35,7 +35,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
-"POT-Creation-Date: 2002-12-09 00:49+0100\n"
+"POT-Creation-Date: 2002-12-10 13:59+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Egbert Hinzen <egbert@hinzen-koeln.de>\n"
 "Language-Team: <freeciv.de@freelists.org>\n"
@@ -2403,21 +2403,21 @@ msgstr "Spiel: Das %s Raumschiff hat Alpha Centauri erreicht."
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "Das %s Raumschiff hat Alpha Centauri erreicht."
 
-#: server/srv_main.c:203
+#: server/srv_main.c:202 server/srv_main.c:203
 msgid "Game ended in a draw as end year exceeded"
 msgstr "Spiel endete im letzten Jahr unentschieden"
 
-#: server/srv_main.c:232
+#: server/srv_main.c:231 server/srv_main.c:232
 #, c-format
 msgid "Team victory to %s"
 msgstr "Teamsieg für %s"
 
-#: server/srv_main.c:242
+#: server/srv_main.c:241 server/srv_main.c:242
 #, c-format
 msgid "Game ended in victory for %s"
 msgstr "Spiel endete mit einem Sieg von %s"
 
-#: server/srv_main.c:248
+#: server/srv_main.c:247 server/srv_main.c:248
 msgid "Game ended in a draw"
 msgstr "Spiel endete unentschieden"
 
@@ -2457,6 +2457,12 @@ msgstr "Das Spiel hat bereits angefangen."
 #: server/srv_main.c:602
 msgid "Starting game."
 msgstr "Spiel begonnen."
+
+# EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
+#: server/srv_main.c:640
+#, c-format
+msgid "Game: request for unknown report (type %d)"
+msgstr "Game: request for unknown report (type %d)"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/srv_main.c:739
