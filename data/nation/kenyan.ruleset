@@ -2,6 +2,7 @@
 
 name = _("Kenyan")
 plural = _("?plural:Kenyans")
+class=_("Modern")
 leader = "Kenyatta"
 leader_sex = "Male"
 flag = "f.kenya"
