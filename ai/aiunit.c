@@ -357,6 +357,7 @@ void ai_military_attack(struct player *pplayer,struct unit *punit)
 {
 int dist_city=0;
 int dist_unit;
+int dest_x,dest_y;
 struct city *pcity;
 struct unit *penemyunit;
 if (punit->activity!=ACTIVITY_GOTO)
@@ -364,22 +365,21 @@ if (punit->activity!=ACTIVITY_GOTO)
    if (pcity=dist_nearest_enemy_city(pplayer,punit->x,punit->y))
       {
       dist_city=map_distance(punit->x,punit->y, pcity->x, pcity->y);
-      punit->goto_dest_x=pcity->x;
-      punit->goto_dest_y=pcity->y;
-      punit->activity=ACTIVITY_GOTO;
+      dest_x=pcity->x;
+      dest_y=pcity->y;
       }
    if (penemyunit=dist_nearest_enemy_unit(pplayer,punit->x,punit->y))
       {
       dist_unit=map_distance(punit->x,punit->y,penemyunit->x,penemyunit->y);
-      punit->goto_dest_x=penemyunit->x;
-      punit->goto_dest_y=penemyunit->y;
-      punit->activity=ACTIVITY_GOTO;
+      dest_x=penemyunit->x;
+      dest_y=penemyunit->y;
       }
    
    if (dist_city||dist_unit)
       {
       if (dist_unit > dist_city) dist_unit=dist_city;
       do_unit_goto(pplayer,punit);
+      handle_unit_move_request(pplayer, punit, dest_x,dest_y);
       printf("On da move %d squares \n",dist_unit);
       }
    else      
