@@ -6,8 +6,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/server -I$(top_srcdir)/utility -I$(top_srcdir)/com
 ## Above, note -I../intl instead of -I$(top_srcdir/intl) is deliberate.
 
 civmanual_SOURCES = \
-		civmanual.c	\
-		civmanual.h
+		civmanual.c
 
 # This is a bit of a hack.  The program links in with the server lib
 # but also uses some files from the client.
