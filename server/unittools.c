@@ -1406,58 +1406,49 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
 
   case OLC_LAND_TO_OCEAN:
     unit_list_iterate(ptile->units, punit2) {
-      int x, y;
       if (is_ground_unit(punit2)) {
 	/* look for nearby land */
-	for (x = punit2->x-1; x <= punit2->x+1; x++)
-	  for (y = punit2->y-1; y <= punit2->y+1; y++) {
-	    struct tile *ptile2;
-	    x = map_adjust_x(x);
-	    y = map_adjust_y(y);
-	    ptile2 = map_get_tile(x, y);
-	    if (ptile2->terrain != T_OCEAN
-		&& !is_non_allied_unit_tile(ptile2, punit2->owner)) {
-	      if (get_transporter_capacity(punit2))
-		sentry_transported_idle_units(punit2);
-	      freelog(LOG_VERBOSE,
-		      "Moved %s's %s due to changing land to sea at (%d, %d).",
-		      unit_owner(punit2)->name, unit_name(punit2->type),
-		      punit2->x, punit2->y);
-	      notify_player(unit_owner(punit2),
-			    _("Game: Moved your %s due to changing"
-			      " land to sea at (%d, %d)."),
-			    unit_name(punit2->type), punit2->x, punit2->y);
-	      move_unit(punit2, x, y, 1, 0, 0);
-	      if (punit2->activity == ACTIVITY_SENTRY)
-		handle_unit_activity_request(punit2, ACTIVITY_IDLE);
-	      goto START;
-	    }
+	adjc_iterate(punit->x, punit->y, x, y) {
+	  struct tile *ptile2 = map_get_tile(x, y);
+	  if (ptile2->terrain != T_OCEAN
+	      && !is_non_allied_unit_tile(ptile2, punit2->owner)) {
+	    if (get_transporter_capacity(punit2))
+	      sentry_transported_idle_units(punit2);
+	    freelog(LOG_VERBOSE,
+		    "Moved %s's %s due to changing land to sea at (%d, %d).",
+		    unit_owner(punit2)->name, unit_name(punit2->type),
+		    punit2->x, punit2->y);
+	    notify_player(unit_owner(punit2),
+			  _("Game: Moved your %s due to changing"
+			    " land to sea at (%d, %d)."),
+			  unit_name(punit2->type), punit2->x, punit2->y);
+	    move_unit(punit2, x, y, 1, 0, 0);
+	    if (punit2->activity == ACTIVITY_SENTRY)
+	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
+	    goto START;
 	  }
+	} adjc_iterate_end;
 	/* look for nearby transport */
-	for (x = punit2->x-1; x <= punit2->x+1; x++)
-	  for (y = punit2->y-1; y <= punit2->y+1; y++) {
-	    struct tile *ptile2;
-	    x = map_adjust_x(x);
-	    y = map_adjust_y(y);
-	    ptile2 = map_get_tile(x, y);
-	    if (ptile2->terrain == T_OCEAN
-		&& ground_unit_transporter_capacity(x, y, punit2->owner) > 0) {
-	      if (get_transporter_capacity(punit2))
-		sentry_transported_idle_units(punit2);
-	      freelog(LOG_VERBOSE,
-		      "Embarked %s's %s due to changing land to sea at (%d, %d).",
-		      unit_owner(punit2)->name, unit_name(punit2->type),
-		      punit2->x, punit2->y);
-	      notify_player(unit_owner(punit2),
-			    _("Game: Embarked your %s due to changing"
-			      " land to sea at (%d, %d)."),
-			    unit_name(punit2->type), punit2->x, punit2->y);
-	      move_unit(punit2, x, y, 1, 0, 0);
-	      if (punit2->activity == ACTIVITY_SENTRY)
-		handle_unit_activity_request(punit2, ACTIVITY_IDLE);
-	      goto START;
-	    }
+	adjc_iterate(punit->x, punit->y, x, y) {
+	  struct tile *ptile2 = map_get_tile(x, y);
+	  if (ptile2->terrain == T_OCEAN
+	      && ground_unit_transporter_capacity(x, y, punit2->owner) > 0) {
+	    if (get_transporter_capacity(punit2))
+	      sentry_transported_idle_units(punit2);
+	    freelog(LOG_VERBOSE,
+		    "Embarked %s's %s due to changing land to sea at (%d, %d).",
+		    unit_owner(punit2)->name, unit_name(punit2->type),
+		    punit2->x, punit2->y);
+	    notify_player(unit_owner(punit2),
+			  _("Game: Embarked your %s due to changing"
+			    " land to sea at (%d, %d)."),
+			  unit_name(punit2->type), punit2->x, punit2->y);
+	    move_unit(punit2, x, y, 1, 0, 0);
+	    if (punit2->activity == ACTIVITY_SENTRY)
+	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
+	    goto START;
 	  }
+	} adjc_iterate_end;
 	/* if we get here we could not move punit2 */
 	freelog(LOG_VERBOSE,
 		"Disbanded %s's %s due to changing land to sea at (%d, %d).",
@@ -1476,58 +1467,49 @@ static void update_unit_activity(struct player *pplayer, struct unit *punit,
     break;
   case OLC_OCEAN_TO_LAND:
     unit_list_iterate(ptile->units, punit2) {
-      int x, y;
       if (is_sailing_unit(punit2)) {
 	/* look for nearby water */
-	for (x = punit2->x-1; x <= punit2->x+1; x++)
-	  for (y = punit2->y-1; y <= punit2->y+1; y++) {
-	    struct tile *ptile2;
-	    x = map_adjust_x(x);
-	    y = map_adjust_y(y);
-	    ptile2 = map_get_tile(x, y);
-	    if (ptile2->terrain == T_OCEAN
-		&& !is_non_allied_unit_tile(ptile2, punit2->owner)) {
-	      if (get_transporter_capacity(punit2))
-		sentry_transported_idle_units(punit2);
-	      freelog(LOG_VERBOSE,
-		      "Moved %s's %s due to changing sea to land at (%d, %d).",
-		      unit_owner(punit2)->name, unit_name(punit2->type),
-		      punit2->x, punit2->y);
-	      notify_player(unit_owner(punit2),
-			    _("Game: Moved your %s due to changing"
-			      " sea to land at (%d, %d)."),
-			    unit_name(punit2->type), punit2->x, punit2->y);
-	      move_unit(punit2, x, y, 1, 1, 0);
-	      if (punit2->activity == ACTIVITY_SENTRY)
-		handle_unit_activity_request(punit2, ACTIVITY_IDLE);
-	      goto START;
-	    }
+	adjc_iterate(punit->x, punit->y, x, y) {
+	  struct tile *ptile2 = map_get_tile(x, y);
+	  if (ptile2->terrain == T_OCEAN
+	      && !is_non_allied_unit_tile(ptile2, punit2->owner)) {
+	    if (get_transporter_capacity(punit2))
+	      sentry_transported_idle_units(punit2);
+	    freelog(LOG_VERBOSE,
+		    "Moved %s's %s due to changing sea to land at (%d, %d).",
+		    unit_owner(punit2)->name, unit_name(punit2->type),
+		    punit2->x, punit2->y);
+	    notify_player(unit_owner(punit2),
+			  _("Game: Moved your %s due to changing"
+			    " sea to land at (%d, %d)."),
+			  unit_name(punit2->type), punit2->x, punit2->y);
+	    move_unit(punit2, x, y, 1, 1, 0);
+	    if (punit2->activity == ACTIVITY_SENTRY)
+	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
+	    goto START;
 	  }
+	} adjc_iterate_end;
 	/* look for nearby port */
-	for (x = punit2->x-1; x <= punit2->x+1; x++)
-	  for (y = punit2->y-1; y <= punit2->y+1; y++) {
-	    struct tile *ptile2;
-	    x = map_adjust_x(x);
-	    y = map_adjust_y(y);
-	    ptile2 = map_get_tile(x, y);
-	    if (is_allied_city_tile(ptile2, punit2->owner)
-		&& !is_non_allied_unit_tile(ptile2, punit2->owner)) {
-	      if (get_transporter_capacity(punit2))
-		sentry_transported_idle_units(punit2);
-	      freelog(LOG_VERBOSE,
-		      "Docked %s's %s due to changing sea to land at (%d, %d).",
-		      unit_owner(punit2)->name, unit_name(punit2->type),
-		      punit2->x, punit2->y);
-	      notify_player(unit_owner(punit2),
-			    _("Game: Docked your %s due to changing"
-			      " sea to land at (%d, %d)."),
-			    unit_name(punit2->type), punit2->x, punit2->y);
-	      move_unit(punit2, x, y, 1, 1, 0);
-	      if (punit2->activity == ACTIVITY_SENTRY)
-		handle_unit_activity_request(punit2, ACTIVITY_IDLE);
-	      goto START;
-	    }
+	adjc_iterate(punit->x, punit->y, x, y) {
+	  struct tile *ptile2 = map_get_tile(x, y);
+	  if (is_allied_city_tile(ptile2, punit2->owner)
+	      && !is_non_allied_unit_tile(ptile2, punit2->owner)) {
+	    if (get_transporter_capacity(punit2))
+	      sentry_transported_idle_units(punit2);
+	    freelog(LOG_VERBOSE,
+		    "Docked %s's %s due to changing sea to land at (%d, %d).",
+		    unit_owner(punit2)->name, unit_name(punit2->type),
+		    punit2->x, punit2->y);
+	    notify_player(unit_owner(punit2),
+			  _("Game: Docked your %s due to changing"
+			    " sea to land at (%d, %d)."),
+			  unit_name(punit2->type), punit2->x, punit2->y);
+	    move_unit(punit2, x, y, 1, 1, 0);
+	    if (punit2->activity == ACTIVITY_SENTRY)
+	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
+	    goto START;
 	  }
+	} adjc_iterate_end;
 	/* if we get here we could not move punit2 */
 	freelog(LOG_VERBOSE,
 		"Disbanded %s's %s due to changing sea to land at (%d, %d).",
