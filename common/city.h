@@ -344,6 +344,7 @@ bool city_rapture_grow(struct city *pcity);
 
 /* city related improvement and unit functions */
 
+bool city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id); 
 int improvement_upkeep(struct city *pcity, Impr_Type_id i); 
 bool could_build_improvement(struct city *pcity, Impr_Type_id id);
 bool can_build_improvement(struct city *pcity, Impr_Type_id id);

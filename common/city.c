@@ -318,7 +318,7 @@ struct player *city_owner(struct city *pcity)
  terr_gate (terrain) or spec_gate (specials), or if the building has no
  terrain/special requirements.
 **************************************************************************/
-static bool city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
+bool city_has_terr_spec_gate(struct city *pcity, Impr_Type_id id)
 {
   struct impr_type *impr;
   enum tile_terrain_type *terr_gate;
