@@ -106,18 +106,27 @@ void init_new_game(void)
    * desired players. */
 
   /* First set up some data fields. */
+  freelog(LOG_VERBOSE, "Placing players at start positions.");
   for (i = 0; i < map.num_start_positions; i++) {
+    Nation_Type_id n = map.start_positions[i].nation;
+
     pos_used[i] = FALSE;
+    freelog(LOG_VERBOSE, "%3d : (%2d,%2d) : %d : %s",
+	    i, map.start_positions[i].x, map.start_positions[i].y,
+	    n, (n >= 0 ? get_nation_name(n) : ""));
   }
   players_iterate(pplayer) {
     start_pos[pplayer->player_no] = NO_START_POS;
   } players_iterate_end;
 
   /* Second, assign a nation to a start position for that nation. */
+  freelog(LOG_VERBOSE, "Assigning matching nations.");
   players_iterate(pplayer) {
     for (i = 0; i < map.num_start_positions; i++) {
       assert(pplayer->nation != NO_NATION_SELECTED);
       if (pplayer->nation == map.start_positions[i].nation) {
+	freelog(LOG_VERBOSE, "Start_pos %d matches player %d (%s).",
+		i, pplayer->player_no, get_nation_name(pplayer->nation));
 	start_pos[pplayer->player_no] = i;
 	pos_used[i] = TRUE;
 	num_used++;
@@ -126,6 +135,7 @@ void init_new_game(void)
   } players_iterate_end;
 
   /* Third, assign players randomly to the remaining start positions. */
+  freelog(LOG_VERBOSE, "Assigning random nations.");
   players_iterate(pplayer) {
     if (start_pos[pplayer->player_no] == NO_START_POS) {
       int which = myrand(map.num_start_positions - num_used);
@@ -133,6 +143,9 @@ void init_new_game(void)
       for (i = 0; i < map.num_start_positions; i++) {
 	if (!pos_used[i]) {
 	  if (which == 0) {
+	    freelog(LOG_VERBOSE,
+		    "Randomly assigning player %d (%s) to pos %d.",
+		    pplayer->player_no, get_nation_name(pplayer->nation), i);
 	    start_pos[pplayer->player_no] = i;
 	    pos_used[i] = TRUE;
 	    num_used++;

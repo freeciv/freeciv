@@ -292,20 +292,29 @@ player.  This could be changed/improved in future.
 ***************************************************************/
 static void map_startpos_load(struct section_file *file)
 {
-  int i=0, pos;
+  int i;
 
   map.fixed_start_positions = secfile_lookup_bool_default(file, FALSE, "map.fixed_start_positions");
 
+  for (i = 0; secfile_lookup_int_default(file, -1, "map.r%dsx", i) != -1;
+       i++) {
+    /* Nothing. */
+  }
+
+  map.num_start_positions = i;
+  if (map.num_start_positions == 0) {
+    /* This scenario has no preset start positions. */
+    return;
+  }
+
   map.start_positions = fc_realloc(map.start_positions,
-				   game.max_players
+				   map.num_start_positions
 				   * sizeof(*map.start_positions));
-  while (i < game.max_players
-	 && (pos = secfile_lookup_int_default(file, -1,
-					      "map.r%dsx", i)) != -1) {
+  for (i = 0; i < map.num_start_positions; i++) {
     char *nation = secfile_lookup_str_default(file, NULL, "map.r%dsnation",
 					      i);
 
-    map.start_positions[i].x = pos;
+    map.start_positions[i].x = secfile_lookup_int(file, "map.r%dsx", i);
     map.start_positions[i].y = secfile_lookup_int(file, "map.r%dsy", i);
 
     if (nation) {
@@ -318,19 +327,15 @@ static void map_startpos_load(struct section_file *file)
        * randomly. */
       map.start_positions[i].nation = NO_NATION_SELECTED;
     }
-
-    i++;
   }
 
-  if (i < game.max_players) {
+  if (map.num_start_positions < game.max_players) {
     freelog(LOG_VERBOSE,
 	    _("Number of starts (%d) are lower than max_players (%d),"
 	      " lowering max_players."),
- 	    i, game.max_players);
-    game.max_players = i;
+ 	    map.num_start_positions, game.max_players);
+    game.max_players = map.num_start_positions;
   }
-
-  map.num_start_positions = i;
 }
 
 /***************************************************************
