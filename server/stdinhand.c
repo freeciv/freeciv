@@ -94,9 +94,12 @@ static bool detach_command(struct connection *caller, char *name, bool check);
 static bool start_command(struct connection *caller, char *name, bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
 
+enum vote_type {
+  VOTE_NONE, VOTE_YES, VOTE_NO
+};
 struct voting {
   char command[MAX_LEN_CONSOLE_LINE]; /* [0] == \0 if none in action */
-  char votes_cast[MAX_NUM_PLAYERS]; /* 0-not voted, 1-blank, 2-yes, 3-no */
+  enum vote_type votes_cast[MAX_NUM_PLAYERS]; /* see enum above */
   int vote_no; /* place in the queue */
   bool full_turn; /* has a full turn begun for this vote yet? */
   int yes, no;
@@ -206,12 +209,15 @@ static void check_vote(struct voting *vote)
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
     if (game.players[i].is_alive && game.players[i].is_connected) {
       num_voters++;
+    } else {
+      /* Disqualify already given vote (eg if disconnected after voting) */
+      vote->votes_cast[i] = VOTE_NONE;
     }
   }
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
-    num_cast = (vote->votes_cast[i] > 0) ? num_cast + 1 : num_cast;
-    vote->yes = (vote->votes_cast[i] == 2) ? vote->yes + 1 : vote->yes;
-    vote->no = (vote->votes_cast[i] == 3) ? vote->no + 1 : vote->no;
+    num_cast = (vote->votes_cast[i] > VOTE_NONE) ? num_cast + 1 : num_cast;
+    vote->yes = (vote->votes_cast[i] == VOTE_YES) ? vote->yes + 1 : vote->yes;
+    vote->no = (vote->votes_cast[i] == VOTE_NO) ? vote->no + 1 : vote->no;
   }
 
   /* Check if we should resolve the vote */
@@ -2151,11 +2157,11 @@ static bool vote_command(struct connection *caller, char *str,
     if (strcmp(arg[0], "yes") == 0) {
       cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted for \"%s\""), 
                 vote->command);
-      vote->votes_cast[caller->player->player_no] = 2;
+      vote->votes_cast[caller->player->player_no] = VOTE_YES;
     } else if (strcmp(arg[0], "no") == 0) {
       cmd_reply(CMD_VOTE, caller, C_COMMENT, _("You voted against \"%s\""), 
                 vote->command);
-      vote->votes_cast[caller->player->player_no] = 3;
+      vote->votes_cast[caller->player->player_no] = VOTE_NO;
     }
     check_vote(vote);
   } else {
@@ -3325,8 +3331,8 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
       sz_strlcpy(votes[idx].command, full_command);
       votes[idx].vote_no = last_vote;
       votes[idx].full_turn = FALSE; /* just to be sure */
-      memset(votes[idx].votes_cast, 0, sizeof(votes[idx].votes_cast));
-      votes[idx].votes_cast[idx] = 2; /* vote yes to your own suggestion */
+      memset(votes[idx].votes_cast, VOTE_NONE, sizeof(votes[idx].votes_cast));
+      votes[idx].votes_cast[idx] = VOTE_YES; /* vote on your own suggestion */
       check_vote(&votes[idx]); /* update vote numbers, maybe auto-accept */
       return TRUE;
     } else {
