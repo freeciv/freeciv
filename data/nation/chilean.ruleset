@@ -31,6 +31,7 @@ tech_goals="Iron Working", "Trade", "Navigation", "The Republic",
            "Railroad", "Steel", "Industrialization"
 wonder="Hoover Dam"
 government="Democracy"
+civilwar_nations = "argentine"
 
 cities =
   "Santiago", "La Serena", "Concepción", "Valparaíso (hills)",

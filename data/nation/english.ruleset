@@ -29,6 +29,7 @@ tech_goals = "Monarchy",  "Chivalry", "Trade", "Theology", "Monotheism",
              "Navigation", "Democracy", "Railroad"
 wonder="King Richard's Crusade"
 government="Democracy"
+civilwar_nations = "american", "australian", "canadian"
 
 cities =
   "London", "Birmingham", "Liverpool", "Manchester", "Leeds", "York",

@@ -32,6 +32,7 @@ tech_goals="The Republic", "The Wheel", "Iron Working", "Construction",
            "Railroad", "Automobile"
 wonder="Sun Tzu's War Academy"
 government="Monarchy"
+civilwar_nations = "slovenian"
 
 cities =
   "Beograd", "Novi Sad", "Nis", "Subotica", "Zrenjanin", "Pancevo",

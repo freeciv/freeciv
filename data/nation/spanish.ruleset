@@ -30,6 +30,7 @@ tech_goals = "Monarchy", "Philosophy", "Navigation", "Iron Working",
              "Railroad"
 wonder="Magellan's Expedition"
 government="Democracy"
+civilwar_nations = "chilean", "argentine"
 
 cities =
   "Madrid", "Barcelona", "Bilbao", "Valencia", "Sevilla", "Zaragoza",

@@ -24,6 +24,7 @@ init_techs=""
 tech_goals="The Republic", "Trade", "Feudalism", "Railroad", "Steel"
 wonder="Great Wall" ; Yes, we had own great wall ( iso-8859-2 ("Wa³y ¦l±skie") )
 government="Democracy"
+civilwar_nations = "polish"
 
 ; if you want your favourite city to be in more prominent place, go ahead
 ; only leave first 3 cities where they are

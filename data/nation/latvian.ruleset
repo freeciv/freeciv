@@ -19,6 +19,7 @@ init_techs=""
 tech_goals = "Monarchy","Chivalry","Gunpowder","Industrialization"
 wonder="Cure For Cancer"
 government = "Democracy"
+civilwar_nations = "polish", "swedish"
 
 cities =
   "Riga", "Liepaja", "Jurmala", "Jelgava", "Daugavpils", "Ogre", "Limbazi",

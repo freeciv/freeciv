@@ -35,6 +35,7 @@ tech_goals="The Republic", "Trade", "Engineering", "Democracy",
            "Railroad", "Explosives", "Automobile"
 wonder="Hoover Dam"
 government="Republic"
+civilwar_nations = "slovenian"
 
 cities =
   "Zagreb", "Split", "Osijek", "Rijeka", "Varazdin", "Rovinj",

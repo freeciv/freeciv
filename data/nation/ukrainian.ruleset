@@ -23,6 +23,7 @@ init_techs=""
 tech_goals = "Chivalry","The Republic","Gunpowder","Leadership","Explosives"
 wonder="Sun Tzu's War Academy"
 government="Communism"
+civilwar_nations = "polish"
 
 cities =
   "Kyiv", "Lviv", "Zhytomyr", "Lutsk", "Pereyeslav", "Zaporizhzhia",

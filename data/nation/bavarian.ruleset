@@ -21,6 +21,7 @@ tech_goals = "Monarchy", "Feudalism", "Gunpowder", "Railroad",
              "Explosives"
 wonder= "Leonardo's Workshop"
 government = "Monarchy"
+civilwar_nations = "german"
 
 cities =
   "München", "Regensburg", "Ingolstadt", "Landshut", "Rosenheim",

@@ -22,6 +22,7 @@ init_techs=""
 tech_goals = "Monarchy", "Philosophy", "The Republic", "Iron Working"
 wonder="Sun Tzu's War Academy"
 government="Republic"
+civilwar_nations = "american"
 
 ;big problem I use names of more known battles between Indians and USA
 

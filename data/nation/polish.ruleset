@@ -30,6 +30,7 @@ tech_goals = "The Republic", "Trade", "Engineering", "Monotheism",
              "Gunpowder", "Railroad"
 wonder="Copernicus' Observatory"
 government="Democracy"
+civilwar_nations = "lithuanian", "silesian"
 
 cities =
  "Gniezno", "Kraków", "Warszawa (river)", "Wroclaw", "Poznan", 

@@ -23,6 +23,7 @@ tech_goals = "The Republic", "Engineering", "Invention", "Railroad",
              "Explosives"
 wonder= "Marco Polo's Embassy"
 government = "Democracy"
+civilwar_nations = "vietnamese"
 
 cities =
   "Bangkok", "Thon Buri", "Nakhon Rachasima", "Chiang Mai", "Khon Kaen",

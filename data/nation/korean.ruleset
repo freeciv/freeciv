@@ -19,6 +19,7 @@ tech_goals="Monarchy","Iron Working","Philosophy","Invention","Gunpowder",
            "Railroad","Steel"
 wonder="Sun Tzu's War Academy"
 government="Democracy"
+civilwar_nations = "japanese"
 
 cities =
   "Seoul", "Pyongyang", "Pusan", "Taegu", "Inchon", "Taejon",

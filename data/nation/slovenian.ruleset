@@ -26,6 +26,7 @@ tech_goals="The Republic", "Trade", "Engineering", "Democracy",
            "Railroad", "Explosives", "Automobile"
 wonder="Hoover Dam"
 government="Democracy"
+civilwar_nations = "serbian"
 
 cities =
   "Ljubljana", "Maribor", "Nova Gorica", "Celje", "Kranj", "Jesenice",

@@ -25,6 +25,7 @@ init_techs=""
 tech_goals = "Map Making", "The Republic", "Trade", "Gunpowder"
 wonder="Magellan's Expedition"
 government="Democracy"
+civilwar_nations = "viking"
 
 ; /* <-- avoid gettext warnings
 ;

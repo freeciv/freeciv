@@ -30,6 +30,7 @@ tech_goals = "Iron Working", "Literacy", "Engineering", "Map Making",
              "Tactics"
 wonder="Women's Suffrage"
 government="Republic"
+civilwar_nations = "viking"
 
 ; /* <-- avoid gettext warnings
 ;

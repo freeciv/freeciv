@@ -27,6 +27,7 @@ tech_goals = "Monarchy", "Trade", "Philosophy", "Bridge Building",
              "Railroad", "Communism"
 wonder="Great Wall"
 government="Communism"
+civilwar_nations = "vietnamese", "japanese", "korean"
 
 cities =
   "Beijing", "Shanghai", "Guangzhou", "Nanjing", "Tianjin",

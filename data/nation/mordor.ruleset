@@ -24,6 +24,7 @@ init_techs=""
 tech_goals = "Monarchy", "Bronze Working", "Iron Working", "Construction"
 wonder="Sun Tzu's War Academy"
 government="Monarchy"
+civilwar_nations = "dunedain"
 
 cities =
   "Barad-Dûr", "Durthang", "Orodruin", "Morannon", "Dol Guldur",

@@ -22,6 +22,7 @@ tech_goals="Monarchy", "Philosophy","Chivalry","Trade","Bridge Building",
            "Navigation"
 wonder="Lighthouse"
 government="Monarchy"
+civilwar_nations = "roman"
 
 ;Ancient cities from Africa and south Spain,
 ;some are later roman colonies and not carthaginian towns

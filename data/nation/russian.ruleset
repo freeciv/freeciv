@@ -26,6 +26,7 @@ tech_goals = "Monarchy", "Philosophy", "Chivalry", "Trade",
              "Bridge Building", "Railroad", "Communism"
 wonder="Women's Suffrage"
 government="Communism"
+civilwar_nations = "ukrainian", "polish"
 
 cities =
   "Moskva", "St. Petersburg", "Tver", "Novgorod",

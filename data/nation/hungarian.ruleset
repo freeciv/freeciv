@@ -20,6 +20,7 @@ tech_goals = "The Republic", "Iron Working", "Chivalry", "Theology",
              "Gunpowder", "Railroad", "Industrialization"
 wonder="J.S. Bach's Cathedral"
 government="Republic"
+civilwar_nations = "lithuanian", "croatian", "slovenian"
 
 cities =
  "Budapest", "Debrecen", "Székesfehérvár", "Kolozsvár", "Szeged",

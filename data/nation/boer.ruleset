@@ -24,6 +24,7 @@ tech_goals = "The Republic", "Trade", "Engineering", "Gunpowder",
 	     "Railroad", "Explosives"
 wonder= "Magellan's Expedition"
 government= "Communism"
+civilwar_nations = "zulu"
 
 cities =
   "Kaapstad", "Stellenbosch", "Swellendam", "Graaff-Reinet",

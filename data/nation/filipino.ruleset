@@ -20,6 +20,7 @@ init_techs=""
 tech_goals = "The Republic", "Gunpowder", "Democracy"
 wonder="Hoover Dam"
 government="Communism"
+civilwar_nations = "japanese"
 
 cities =
   "Manila", "Cebu", "Makati", "Quezon", "Pasig", "Angeles", "Davao",

@@ -34,6 +34,7 @@ tech_goals = "Iron Working", "Literacy", "Astronomy", "Bridge Building",
              "Explosives"
 wonder = "Shakespeare's Theatre"
 government = "Republic"
+civilwar_nations = "croatian"
 
 cities =
         "Praha", "Brno", "Ostrava", "Plzen", "Hradec Kralove",

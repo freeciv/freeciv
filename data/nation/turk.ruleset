@@ -29,6 +29,7 @@ tech_goals = "Monarchy", "Philosophy", "Mathematics", "Chivalry",
              "Theology", "Railroad"
 wonder="Sun Tzu's War Academy"
 government="Republic"
+civilwar_nations = "slovenian", "czech"
 
 cities =
  "Ankara", "Istanbul", "Izmir", "Adana", "Antalya",

@@ -28,6 +28,7 @@ init_techs=""
 tech_goals = "Monarchy", "Iron Working", "Feudalism", "Construction"
 wonder="Magellan's Expedition"
 government="Monarchy"
+civilwar_nations = "mordor"
 
 cities =
   "Armenelos", "Romenna", "Meneltarma (mountains)", "Andúnië",

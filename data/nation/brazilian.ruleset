@@ -31,6 +31,7 @@ tech_goals = "Ceremonial Burial", "Code of Laws", "Bridge Building",
              "Labor Union"
 wonder="Marco Polo's Embassy"
 government="Republic"
+civilwar_nations = "chilean"
 
 cities =
     "São Paulo", "Rio de Janeiro (river)", "Salvador", "Fortaleza",

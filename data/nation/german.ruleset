@@ -36,6 +36,7 @@ tech_goals = "The Republic", "Iron Working", "Gunpowder", "Explosives",
              "Flight"
 wonder     = "J.S. Bach's Cathedral"
 government = "Republic"
+civilwar_nations = "french", "italian"
 
 cities =
   "Berlin (grassland, !mountains)", 

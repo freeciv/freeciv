@@ -24,6 +24,7 @@ tech_goals="Monarchy", "The Republic", "Iron Working", "Trade", "Navigation",
            "Railroad", "Steel", "Industrialization", "Democracy"
 wonder="J.S. Bach's Cathedral"
 government="Democracy"
+civilwar_nations = "chilean"
 
 cities =
   "Buenos Aires", "Mar del Plata (ocean)", "Rosario", "La Plata",

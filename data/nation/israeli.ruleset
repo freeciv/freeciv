@@ -26,6 +26,7 @@ tech_goals="Monarchy","Iron Working","Trade","Monotheism","Navigation",
            "Railroad","Steel","Industrialization"
 wonder="J.S. Bach's Cathedral"
 government="Democracy"
+civilwar_nations = "arab"
 
 cities =
   "Jerusalem", "Zephath", "Jericho", "Beersheba", "Gat", "Tiberias",

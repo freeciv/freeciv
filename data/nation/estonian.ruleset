@@ -22,6 +22,7 @@ init_techs=""
 tech_goals = "Monarchy","Chivalry","The Republic","Democracy","Conscription"
 wonder="United Nations"
 government = "Democracy"
+civilwar_nations = "danish", "dutch"
 
 cities =
   "Tallinn", "Tartu", "Narva", "Kohtla-Järve", "Pärnu",

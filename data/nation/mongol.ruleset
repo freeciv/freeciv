@@ -27,6 +27,7 @@ tech_goals = "Monarchy",  "Chivalry", "Trade", "Bridge Building",
              "Railroad"
 wonder="Sun Tzu's War Academy"
 government="Monarchy"
+civilwar_nations = "chinese", "russian"
 
 cities =
   "Almaligh", "Khotan", "Turfan", "Samarkand", "Bokhara", "Tashkent",

@@ -29,6 +29,7 @@ tech_goals = "Monarchy", "Philosophy", "Navigation", "Iron Working",
              "Railroad"
 wonder="Pyramids"
 government="Monarchy"
+civilwar_nations = "israeli"
 
 cities =
   "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe", "Bubastis",

@@ -22,6 +22,7 @@ tech_goals = "The Republic", "Philosophy", "Trade", "Engineering",
              "Iron Working", "Railroad"
 wonder="Lighthouse"
 government="Republic"
+civilwar_nations = "egyptian", "persian"
 
 cities =
   "Athenae", "Sparta", "Thebae", "Corinthus", "Byzantium",

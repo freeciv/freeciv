@@ -21,6 +21,7 @@ tech_goals = "The Republic", "Trade", "Engineering", "Democracy",
              "Railroad", "Explosives", "Automobile"
 wonder="Cure For Cancer"
 government="Democracy"
+civilwar_nations = "american"
 
 cities =
   "Ottawa", "Toronto", "Vancouver", "Montreal", "Quebec", "Winnipeg",

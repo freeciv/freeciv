@@ -30,6 +30,7 @@ tech_goals = "Monarchy", "Navigation", "Chivalry", "Trade",
   "Monotheism", "Economics", "Leadership", "The Republic", "Railroad"
 wonder="A.Smith's Trading Co."
 government="Republic"
+civilwar_nations = "spanish", "portuguese"
 
 ; This city list does not actually correspond to medieval Catalonia,
 ; but rather to the "Països Catalans" of modern ethnolinguistic

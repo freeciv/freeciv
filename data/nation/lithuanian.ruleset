@@ -23,6 +23,7 @@ init_techs=""
 tech_goals = "Monarchy","Chivalry","The Republic","Railroad","Explosives"
 wonder="Copernicus' Observatory"
 government = "Republic"
+civilwar_nations = "polish", "danish"
 
 cities =
   "Vilnius", "Kaunas", "Klaipeda", "Siauliai",

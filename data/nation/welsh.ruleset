@@ -32,6 +32,7 @@ tech_goals="Monarchy","Iron Working","Trade","Navigation","Railroad","Steel",
            "Industrialization"
 wonder="Hoover Dam"
 government="Democracy"
+civilwar_nations = "scottish"
 
 cities =
   "Cardiff", "Swansea", "Newport", "Barry", "Port Talbot", "Carmarthen",

@@ -23,6 +23,7 @@ tech_goals = "Monarchy", "Chivalry", "Iron Working", "Trade",
              "Navigation", "Railroad", "Communism"
 wonder="Hoover Dam"
 government="Communism"
+civilwar_nations = "inca"
 
 cities =
   "Michoacan", "Axaca", "Tuxpan", "Metztitlan", "Otumba",

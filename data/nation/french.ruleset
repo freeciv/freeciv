@@ -24,6 +24,7 @@ tech_goals = "Monarchy", "Chivalry", "Philosophy", "The Republic",
              "Monotheism", "Engineering", "Navigation", "Railroad"
 wonder="Magellan's Expedition"
 government="Republic"
+civilwar_nations = "canadian"
 
 cities =
   "Paris", "Lyon", "Marseille", "Lille", "Bordeaux",

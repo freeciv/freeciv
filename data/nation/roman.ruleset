@@ -26,6 +26,7 @@ tech_goals = "The Republic", "The Wheel", "Iron Working", "Construction",
              "Railroad"
 wonder="Leonardo's Workshop"
 government="Republic"
+civilwar_nations = "italian", "spanish", "french"
 
 cities =
   "Roma", "Capua", "Veii", "Beneventum", "Corfinium", "Ancona",

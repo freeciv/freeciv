@@ -17,6 +17,7 @@ init_techs=""
 tech_goals = "The Republic", "Engineering", "Gunpowder", "Explosives"
 wonder = "Marco Polo's Embassy"
 government = "Democracy"
+civilwar_nations = "cornish", "welsh"
 
 cities =
   "Dublin", "Belfast", "Cork", "Galway", "Lifford", "Drogheda", "Killarney",

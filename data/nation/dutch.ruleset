@@ -22,6 +22,7 @@ tech_goals = "Map Making", "The Republic", "Trade", "Navigation",
   "Economics", "Democracy"
 wonder="Magellan's Expedition"
 government="Democracy"
+civilwar_nations = "english"
 
 ;names from the Golden Age, from Holland circling outward
 ;later important towns added at the end

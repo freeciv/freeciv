@@ -29,6 +29,7 @@ tech_goals="Monarchy","Iron Working","Trade","Navigation","Railroad","Steel",
            "Industrialization"
 wonder="Hoover Dam"
 government="Democracy"
+civilwar_nations = "welsh"
 
 cities =
   "Edinburgh", "Glasgow", "Aberdeen", "Perth", "Dundee", "Inverness",

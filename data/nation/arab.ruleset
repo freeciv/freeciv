@@ -24,6 +24,7 @@ tech_goals="Monarchy", "Philosophy", "Chivalry", "Trade", "Bridge Building",
            "Railroad"
 wonder="Oracle"
 government="Monarchy"
+civilwar_nations = "turk", "persian"
 
 ; Arab Peninsula and Near East.  City names are mostly from the Ummayyad 
 ; and Abbasid periods.  These are Arab spellings rather than Anglicized ones;

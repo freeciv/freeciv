@@ -27,6 +27,7 @@ tech_goals = "Monarchy", "Iron Working", "Navigation", "Trade",
 	     "The Republic", "Railroad"
 wonder="Magellan's Expedition"
 government="Republic"
+civilwar_nations = "brazilian"
 
 cities =
  "Lisboa", "Guimarães", "Guarda", "Vila Real", "Viseu", "Braga",

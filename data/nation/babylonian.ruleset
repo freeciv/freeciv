@@ -22,6 +22,7 @@ tech_goals = "Monarchy","Philosophy","Mathematics","Chivalry",
              "Theology","Monotheism"
 wonder="Hanging Gardens"
 government="Monarchy"
+civilwar_nations = "israeli", "persian", "arab"
 
 cities =
   "Babylon", "Lagash", "Nippur", "Ur", "Kish",

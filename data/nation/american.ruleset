@@ -74,6 +74,7 @@ tech_goals = "The Republic", "Trade", "Engineering", "Democracy",
              "Railroad", "Explosives", "Automobile"
 wonder="Statue of Liberty"
 government="Democracy"
+civilwar_nations = "filipino"
 
 cities =
   "Washington", "New York", "Boston", "Philadelphia", "Los Angeles",

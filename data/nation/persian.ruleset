@@ -24,6 +24,7 @@ tech_goals = "Polytheism", "Philosophy", "Trade", "Engineering",
              "Iron Working", "Railroad"
 wonder="Hanging Gardens"
 government="Monarchy"
+civilwar_nations = "babylonian", "arab"
 
 ;first are ancient cities in latin version
 

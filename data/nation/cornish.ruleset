@@ -20,6 +20,7 @@ init_techs=""
 tech_goals = "Monarchy", "Iron Working", "Feudalism", "Invention"
 wonder = "King Richard's Crusade"
 government = "Republic"
+civilwar_nations = "english", "irish"
 
 cities =
   "Truro", "Newquay", "Falmouth", "Penzance", "Bodmin",

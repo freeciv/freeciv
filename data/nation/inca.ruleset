@@ -27,6 +27,7 @@ init_techs=""
 tech_goals="Monarchy","Chivalry","Philosophy","Monotheism", "Invention"
 wonder="Great Wall"
 government="Monarchy"
+civilwar_nations = "aztec"
 
 cities =
   "Cuzco", "Machu Picchu","Tiahuanaco", "Nazca", "Paracas",
