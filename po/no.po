@@ -1,6 +1,6 @@
 # Norwegian Translation
-# Copyright (C) 1999
-# Stig E Sandø <stig@ii.uib.no>, 1999.
+# Copyright (C) 1999,2000
+# Stig E Sandø <stig@ii.uib.no>, 1999,2000.
 # This translation is covered by the GNU General Public License Version 2.
 #
 # Feedback and patches provided by:
@@ -25,12 +25,10 @@ msgid "?wonder:w"
 msgstr "?underverk:u"
 
 #: common/city.c:185
-#, fuzzy
 msgid "?built:B"
 msgstr "?bygd:B"
 
 #: common/city.c:186
-#, fuzzy
 msgid "?obsolete:O"
 msgstr "?foreldet:f"
 
@@ -154,7 +152,6 @@ msgid "only match"
 msgstr "eneste treff"
 
 #: common/shared.c:637
-#, fuzzy
 msgid "ambiguous"
 msgstr "uklar"
 
@@ -229,79 +226,73 @@ msgid "Moves"
 msgstr "Flytt"
 
 #: common/version.c:26
-#, fuzzy
 msgid "January"
-msgstr "Kornlager"
+msgstr "januar"
 
 #: common/version.c:27
-#, fuzzy
 msgid "February"
-msgstr "Bibliotek"
+msgstr "februar"
 
 #: common/version.c:28
-#, fuzzy
 msgid "March"
-msgstr "Monarki"
+msgstr "mars"
 
 #: common/version.c:29
 msgid "April"
-msgstr ""
+msgstr "april"
 
 #: common/version.c:30
-#, fuzzy
 msgid "May"
-msgstr "Murkunst"
+msgstr "mai"
 
 #: common/version.c:31
-#, fuzzy
 msgid "June"
-msgstr "Jungel"
+msgstr "juni"
 
 #: common/version.c:32
-#, fuzzy
 msgid "July"
-msgstr "Jungel"
+msgstr "juli"
 
 #: common/version.c:33
 msgid "August"
-msgstr ""
+msgstr "august"
 
 #: common/version.c:34
-#, fuzzy
 msgid "September"
-msgstr "Speaker"
+msgstr "september"
 
 #: common/version.c:35
-#, fuzzy
 msgid "October"
-msgstr "Bombefly"
+msgstr "oktober"
 
 #: common/version.c:36
-#, fuzzy
 msgid "November"
-msgstr "Bombefly"
+msgstr "november"
 
 #: common/version.c:37
 msgid "December"
-msgstr ""
+msgstr "desember"
 
 #: common/version.c:49
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
 "Freeciv %s will be released in\n"
 "%s, at %s"
-msgstr "-"
+msgstr ""
+"DETTE ER EN BETA VERSJON\n"
+"Freeciv %s vil snart bli utgitt i\n"
+"%s, på %s"
 
 #: server/barbarian.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "Native unrest near %s led by %s."
-msgstr "Spill: Din %s ble bestukket av %s."
+msgstr "Uroligheter nær %s, ledet av %s."
 
 #: server/barbarian.c:426
 #, c-format
 msgid "Sea raiders seen near %s!"
-msgstr ""
+msgstr "Pirater sett nær %s!"
 
 #: server/cityhand.c:116
 #, c-format
@@ -350,15 +341,15 @@ msgstr "Spill: %s har stoppet byggingen av %s i %s."
 
 #: server/cityhand.c:550
 msgid " from the worklist"
-msgstr ""
+msgstr " fra arbeidslisten"
 
 #: server/cityhand.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is building %s%s."
 msgstr "Spill: %s bygger nå %s."
 
 #: server/cityhand.c:564
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is building %s."
 msgstr "Spill: %s bygger nå %s."
 
@@ -458,7 +449,7 @@ msgstr "Spill: Hungersnød fryktet i %s, %s tapt!"
 msgid ""
 "Game: %s can't build %s from the worklist; tech not yet available.  "
 "Postponing..."
-msgstr ""
+msgstr "Spill: %s kan ikke bygge %s fra arbeidslisten; har ikke tilstrekkelig teknologi.  Utsetter..."
 
 #: server/cityturn.c:996 server/cityturn.c:1018 server/cityturn.c:1119
 #, c-format
@@ -466,9 +457,9 @@ msgid "Game: Production of %s is upgraded to %s in %s."
 msgstr "Spill: Produksjon av %s er oppgradert til %s i %s."
 
 #: server/cityturn.c:1043
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s's worklist is now empty."
-msgstr "Spill: %s er nå menneske."
+msgstr "Spill: %s sin arbeidsliste er nå tom."
 
 #: server/cityturn.c:1139
 #, c-format
@@ -608,56 +599,45 @@ msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tSkriv ut sammendrag av opsjonene\n"
 
 #: server/civserver.c:244
-#, fuzzy
 msgid "  -r, --read FILE\tRead startup script FILE\n"
-msgstr "  -r, --read\t\tLes oppstartsmanus\n"
+msgstr "  -r, --read FILE\tLes oppstartsmanus i FILE\n"
 
 #: server/civserver.c:245
-#, fuzzy
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
-msgstr "  -f, --file F\t\tLast inn lagret spill F\n"
+msgstr "  -f, --file FILE\tLast inn lagret spill FILE\n"
 
 #: server/civserver.c:246
-#, fuzzy
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
-msgstr "  -p, --port=PORT\tKople til PORT.\n"
+msgstr "  -p, --port PORT\tKople til PORT.\n"
 
 #: server/civserver.c:247
-#, fuzzy
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
-msgstr "  -g, --gamelog F\tBruk F som loggfil for spillet\n"
+msgstr "  -g, --gamelog FILE\tBruk FILE som loggfil for spillet\n"
 
 #: client/civclient.c:106 server/civserver.c:248
-#, fuzzy
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
-msgstr "  -l, --log=FILE\tBruk FILE som loggfil.\n"
+msgstr "  -l, --log FILE\tBruk FILE som loggfil.\n"
 
 #: server/civserver.c:249
-#, fuzzy
 msgid "  -m, --meta\t\tSend info to metaserver\n"
-msgstr "  -m, --meta\t\tSend info til Metaserveren\n"
+msgstr "  -m, --meta\t\tSend info til metaserveren\n"
 
 #: server/civserver.c:250
-#, fuzzy
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
-msgstr "  -M, --Metaserver\tSett adressen for Metaserveren.\n"
+msgstr "  -M, --Metaserver ADDR Sett adressen for Metaserveren.\n"
 
 #: server/civserver.c:251
-#, fuzzy
 msgid "  -s, --server HOST\tList this server as host HOST\n"
 msgstr "  -s, --server H\tList denne tjeneren som host H\n"
 
 #: client/civclient.c:116 server/civserver.c:253
-#, fuzzy
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
-msgstr ""
-"  -d, --debug N\t\tSett debuggings loggnivå (0,1,2,3,or 3:fil1,min,max:...)\n"
+msgstr "  -d, --debug NUM\t\tSett debuggings loggnivå (0,1,2,3,or 3:fil1,min,max:...)\n"
 
 #: client/civclient.c:119 server/civserver.c:256
-#, fuzzy
 msgid "  -d, --debug NUM\tSet debug log level (0,1,2)\n"
-msgstr "  -d, --debug N\t\tSett debug loggnivå (0,1,2)\n"
+msgstr "  -d, --debug NUM\t\tSett debug loggnivå (0,1,2)\n"
 
 #: client/civclient.c:121 server/civserver.c:258
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -681,9 +661,9 @@ msgid "Couldn't load savefile: %s"
 msgstr "Klarte ikke laste inn lagret spill i: %s"
 
 #: server/civserver.c:317
-#, fuzzy, c-format
+#, c-format
 msgid "Sending info to metaserver [%s]"
-msgstr "Sender info til metaserver[%s %d]"
+msgstr "Sender info til metaserver [%s]"
 
 #. accept new players, wait for serverop to start..
 #: server/civserver.c:325
@@ -983,9 +963,9 @@ msgid "Game: You are taught the knowledge of %s."
 msgstr "Spill: Du får kunnskap om %s."
 
 #: server/diplhand.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have aquired %s from the %s"
-msgstr "Spill: %s har forsket fram %s."
+msgstr "Spill: %s har fått %s fra %s."
 
 #: server/diplhand.c:165
 #, c-format
@@ -1089,9 +1069,9 @@ msgid "Too few starts %d (need at least %d)."
 msgstr "For få starter %d (trenger minst %d)."
 
 #: server/meta.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver: bad address: [%s]."
-msgstr "Metaserver: addressefeil"
+msgstr "Metaserver: addressefeil: [%s]."
 
 #: server/meta.c:197 server/meta.c:217 server/meta.c:238
 msgid "Not reporting to the metaserver in this game."
@@ -1293,9 +1273,9 @@ msgid "Game: %s acquired from The Great Library!"
 msgstr "Spill: %s hentet fra Verdensbiblioteket!"
 
 #: server/plrhand.c:1303
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have aquired %s from the Great Library"
-msgstr "Spill: %s hentet fra Verdensbiblioteket!"
+msgstr "Spill: %s har hentet %s fra Verdensbiblioteket!"
 
 #: server/plrhand.c:1337
 #, c-format
@@ -1309,9 +1289,9 @@ msgstr "Spill: %s finnes ikke lengre!"
 
 # veldig usikker her..
 #: server/plrhand.c:1389
-#, fuzzy, c-format
+#, c-format
 msgid "%s are first to learn %s"
-msgstr "%s er %s spiller ved navn %s."
+msgstr "%s er de første som lærer %s"
 
 #: server/plrhand.c:1414
 #, c-format
@@ -1347,9 +1327,9 @@ msgid "Game: The %s have researched %s."
 msgstr "Spill: %s har forsket fram %s."
 
 #: server/plrhand.c:1464
-#, fuzzy, c-format
+#, c-format
 msgid "%s discover %s"
-msgstr "%s er nå %s"
+msgstr "%s oppdager %s"
 
 #: server/plrhand.c:1470
 #, c-format
@@ -1357,9 +1337,9 @@ msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Spill: %s har forsket fram Framtidsteknologi %d."
 
 #: server/plrhand.c:1474
-#, fuzzy, c-format
+#, c-format
 msgid "%s discover Future Tech %d"
-msgstr "Spill: %s har oppdaget Framtidsteknologi %d i byen."
+msgstr "%s har oppdaget Framtidsteknologi %d."
 
 #: server/plrhand.c:1576
 #, c-format
@@ -1562,7 +1542,6 @@ msgid "Method used to generate map"
 msgstr "Metode brukt for å generere kart"
 
 #: server/stdinhand.c:152
-#, fuzzy
 msgid ""
 "1 = standard, with random continents;\n"
 "2 = equally sized large islands with one player each, and twice that many\n"
@@ -1596,10 +1575,9 @@ msgid "Amount of hills/mountains"
 msgstr "Mengde åser/fjell"
 
 #: server/stdinhand.c:172
-#, fuzzy
 msgid ""
 "Small values give flat maps, higher values give more hills and mountains."
-msgstr "  Små verdier gir flate kart, høye verdier gir flere åser og fjell."
+msgstr "Små verdier gir flate kart, høye verdier gir flere åser og fjell."
 
 #: server/stdinhand.c:178
 msgid "Amount of river squares"
@@ -1626,7 +1604,6 @@ msgid "Map generation random seed"
 msgstr "'Seed' for tilfeldig generering av kart"
 
 #: server/stdinhand.c:204
-#, fuzzy
 msgid ""
 "The same seed will always produce the same map; for zero (the default) a "
 "seed will be chosen based on the time, to give a random map."
@@ -1640,22 +1617,18 @@ msgid "General random seed"
 msgstr "Vanlig 'seed' for tilfeldighetsfunksjon"
 
 #: server/stdinhand.c:217
-#, fuzzy
 msgid "For zero (the default) a seed will be chosen based on the time."
-msgstr "  For 0 (standardverdi) vil 'seed' bli valgt basert på klokkeslett."
+msgstr "For 0 (standardverdi) vil 'seed' bli valgt basert på klokkeslett."
 
 #: server/stdinhand.c:222
 msgid "Amount of \"special\" resource squares"
 msgstr "Mengde felt med \"spesielle\" ressurser"
 
 #: server/stdinhand.c:223
-#, fuzzy
 msgid ""
 "Special resources improve the basic terrain type they are on.  The server "
 "variable's scale is parts per thousand."
-msgstr ""
-"  Spesielle ressurser forbedrer terrenget de er på.\n"
-"  Serverens variabelskala er deler pr. tusen."
+msgstr "Spesielle ressurser forbedrer terrenget de er på. Serverens variabelskala er deler pr. tusen."
 
 #: server/stdinhand.c:229
 msgid "Amount of huts (minor tribe villages)"
@@ -1666,26 +1639,24 @@ msgid "Minimum number of players"
 msgstr "Minimum antall spillere"
 
 #: server/stdinhand.c:240
-#, fuzzy
 msgid ""
 "There must be at least this many players (connected players or AI's) before "
 "the game can start."
 msgstr ""
-"  Der må være minimum så mange spillere (tilkoplede spillere eller AIer)\n"
-"  før spillet kan starte."
+"Der må være minimum så mange spillere (tilkoplede spillere eller AIer)\n"
+"før spillet kan starte."
 
 #: server/stdinhand.c:246
 msgid "Maximum number of players"
 msgstr "Maksimalt antall spillere"
 
 #: server/stdinhand.c:247
-#, fuzzy
 msgid ""
 "For new games, the game will start automatically if/when this number of "
 "players are connected or (for AI's) created."
 msgstr ""
-"  For nye spill så vil spillet starte automagisk hvis/når dette antallet\n"
-"  spillere er tilkoplet eller AIer laget."
+"For nye spill så vil spillet starte automagisk hvis/når dette antallet\n"
+"spillere er tilkoplet eller AIer laget."
 
 #: server/stdinhand.c:253
 msgid "Number of players to fill to with AI's"
@@ -1719,115 +1690,107 @@ msgid "Data subdir containing techs.ruleset"
 msgstr "Data underkatalog som inneholder techs.ruleset"
 
 #: server/stdinhand.c:286
-#, fuzzy
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"techs.ruleset\".  The advances (technologies) present in the game "
 "will be initialized from this file.  See also README.rulesets."
 msgstr ""
-"  Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-"  fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-"  spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
+"Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
+"fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
+"spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
 
 #: server/stdinhand.c:297
 msgid "Data subdir containing governments.ruleset"
 msgstr "Data underkatalog som inneholder governments.ruleset"
 
 #: server/stdinhand.c:298
-#, fuzzy
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"governments.ruleset\".  The government types available in the game "
 "will be initialized from this file.  See also README.rulesets."
 msgstr ""
-"  Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-"  fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-"  spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
+"Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
+"fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
+"spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
 
 #: server/stdinhand.c:309
 msgid "Data subdir containing units.ruleset"
 msgstr "Data underkatalog som inneholder units.ruleset"
 
 #: server/stdinhand.c:310
-#, fuzzy
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"units.ruleset\".  The unit types present in the game will be "
 "initialized from this file.  See also README.rulesets."
 msgstr ""
-"  Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-"  fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-"  spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
+"Denne skal spesifisere en underkatalog i datakatalogen som inneholder en \n"
+"fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i \n"
+"spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
 
 #: server/stdinhand.c:321
 msgid "Data subdir containing buildings.ruleset"
 msgstr "Data underkatalog som inneholder buildings ruleset"
 
 #: server/stdinhand.c:322
-#, fuzzy
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"buildings.ruleset\".  The building types (City Improvements and "
 "Wonders) in the game will be initialized from this file.  See also "
 "README.rulesets."
 msgstr ""
-"  Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-"  fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-"  spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
+"Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
+"fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
+"spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
 
 #: server/stdinhand.c:333
 msgid "Data subdir containing terrain.ruleset"
 msgstr "Data underkatalog som inneholder terrian ruleset"
 
 #: server/stdinhand.c:334
-#, fuzzy
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"terrain.ruleset\".  The terrain types present in the game will be "
 "initialized from this file.  See also README.rulesets."
 msgstr ""
-"  Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-"  fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-"  spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
+"Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
+"fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
+"spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
 
 #: server/stdinhand.c:345
 msgid "Data subdir containing nations.ruleset"
 msgstr "Data underkatalog som inneholder nations.ruleset"
 
 #: server/stdinhand.c:346
-#, fuzzy
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"nations.ruleset\".  The nations present in the game will be "
 "initialized from this file.  See also README.rulesets."
 msgstr ""
-"  Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-"  fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-"  spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
+"Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
+"fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
+"spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
 
 #: server/stdinhand.c:357
 msgid "Data subdir containing cities.ruleset"
 msgstr "Data underkatalog som inneholder cities.ruleset"
 
 #: server/stdinhand.c:358
-#, fuzzy
 msgid ""
 "This should specify a subdirectory of the data directory, containing a file "
 "called \"cities.ruleset\".  The file is used to initialize city data (such "
 "as city style).  See also README.rulesets."
 msgstr ""
-"  Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
-"  fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
-"  spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
+"Denne skal spesifisere en underkatalog i datakatalogen som inneholder en\n"
+"fil kalt \"techs.ruleset\".  Fremskrittene (teknologiene) tilstede i\n"
+"spillet vil bli initialisert fra denne filen.  Se også i README.rulesets."
 
 #: server/stdinhand.c:368
 msgid "Points required to gain a new advance"
 msgstr "Poeng som trengs for nytt fremskritt"
 
 #: server/stdinhand.c:369
-#, fuzzy
 msgid "This affects how quickly players can research new technology."
-msgstr "  Dette påvirker hvor fort spillere kan forske fram ny teknologi."
+msgstr "Dette påvirker hvor fort spillere kan forske fram ny teknologi."
 
 #: server/stdinhand.c:374
 msgid "Percentage penalty when changing tech"
@@ -1965,7 +1928,6 @@ msgid ""
 msgstr ""
 
 #: server/stdinhand.c:487
-#, fuzzy
 msgid "Chance in diplomat/spy contests"
 msgstr "Sjanse (1 av N) for diplomat/spion kjemper"
 
@@ -2018,13 +1980,12 @@ msgid "Turn-blocking game play mode"
 msgstr "Rundeblokkerende spillmodus"
 
 #: server/stdinhand.c:533
-#, fuzzy
 msgid ""
 "If this is set to 1 the game turn is not advanced until all players have "
 "finished their turn, including disconnected players."
 msgstr ""
-"  Hvis denne er satt til 1 spillet så går ikke spillet videre til alle\n"
-"  spillerne har avsluttet deres runde, inkludert avkoplede spillere."
+"Hvis denne er satt til 1 spillet så går ikke spillet videre til alle\n"
+"spillerne har avsluttet deres runde, inkludert avkoplede spillere."
 
 #: server/stdinhand.c:539
 msgid "What is in the Demographics report"
@@ -2052,44 +2013,39 @@ msgid "Turns per auto-save"
 msgstr "Runder pr auto-lagring"
 
 #: server/stdinhand.c:560
-#, fuzzy
 msgid ""
 "The game will be automatically saved per this number of turns.\n"
 "Zero means never auto-save."
 msgstr ""
-"  Spillet vil automagisk lagres med så mange runders mellomrom.\n"
-"  0 betyr at en ikke ønsker auto-lagring."
+"Spillet vil automagisk lagres med så mange runders mellomrom.\n"
+"0 betyr at en ikke ønsker auto-lagring."
 
 #: server/stdinhand.c:566
 msgid "Whether to log player statistics"
 msgstr "Hvorvidt spillerstatistikk skal logges"
 
 #: server/stdinhand.c:567
-#, fuzzy
 msgid ""
 "If this is set to 1, player statistics are appended to the file "
 "\"civscore.log\" every turn.  These statistics can be used to create power "
 "graphs after the game."
 msgstr ""
-"  Hvis denne er satt til 1 så blir spillerstatistikk tilføyd filen\n"
-"  \"civscore.log\" hver runde. Disse statistikkene kan benyttes til å\n"
-"  lage \"power graphs\" efter spillet er over."
+"Hvis denne er satt til 1 så blir spillerstatistikk tilføyd filen\n"
+"\"civscore.log\" hver runde. Disse statistikkene kan benyttes til å\n"
+"lage \"power graphs\" efter spillet er over."
 
 #: server/stdinhand.c:574
 msgid "Detail level for logging game events"
 msgstr "Detaljnivå for logging av spill-hendelser"
 
 #: server/stdinhand.c:575
-#, fuzzy
 msgid ""
 "Only applies if the game log feature is enabled (with the -g command line "
 "option).  Levels: 0=no logging, 20=standard logging, 30=detailed logging, "
 "40=debuging logging."
 msgstr ""
-"  Gjelder kun hvis spillets logg-funksjon er slått på (-g kommandolinje "
-"opsjon).\n"
-"  Nivå: 0=ingen logging, 20=standard logging, 30=detaljert logging og "
-"40=debug logging."
+"Gjelder kun hvis spillets logg-funksjon er slått på (-g kommandolinje opsjon).\n"
+"Nivå: 0=ingen logging, 20=standard logging, 30=detaljert logging og 40=debug logging."
 
 #: server/stdinhand.c:714
 msgid "Start the game, or restart after loading a savegame."
@@ -2131,9 +2087,8 @@ msgid ""
 msgstr ""
 
 #: server/stdinhand.c:745
-#, fuzzy
 msgid "Show a list of players."
-msgstr "Spillerliste:"
+msgstr "Vis en liste over spillerne."
 
 #: server/stdinhand.c:749
 msgid "Quit the game and shutdown the server."
@@ -2145,9 +2100,8 @@ msgid "cut <player-name>"
 msgstr "cut <spillernavn>"
 
 #: server/stdinhand.c:754
-#, fuzzy
 msgid "Cut connection to player."
-msgstr "Avbryter tilkopling til %s."
+msgstr "Avbryter tilkopling til spiller."
 
 #. translate <> only
 #: server/stdinhand.c:758
@@ -2202,19 +2156,16 @@ msgid "set <option-name> <value>"
 msgstr "set <opsjonsnavn> <verdi>"
 
 #: server/stdinhand.c:784
-#, fuzzy
 msgid "Set server options."
-msgstr "Metaserver kopling lukket."
+msgstr "Sett server opsjoner."
 
 #: server/stdinhand.c:788
-#, fuzzy
 msgid "This command is not currently implemented."
-msgstr "Beklager, kommandoen '%s' er ikke implementert ennå."
+msgstr "Beklager, den kommandoen er ikke implementert ennå."
 
 #: server/stdinhand.c:794
-#, fuzzy
 msgid "Control metaserver connection."
-msgstr "Lukk metaserver kopling til '%s'."
+msgstr "Kontroller metaserver tilkobling."
 
 #: server/stdinhand.c:795
 msgid ""
@@ -2229,15 +2180,13 @@ msgid "metainfo <meta-line>"
 msgstr "metainfo <metalinje>"
 
 #: server/stdinhand.c:802
-#, fuzzy
 msgid "Set metaserver info line."
-msgstr "Metaserver infostreng satt."
+msgstr "Sett metaserver infolinje."
 
 #. translate <> only
 #: server/stdinhand.c:806
-#, fuzzy
 msgid "metaserver <address>"
-msgstr "Metaserver: addressefeil"
+msgstr "metaserver <addresse>"
 
 #: server/stdinhand.c:807
 msgid "Set address for metaserver to report to."
@@ -2258,15 +2207,13 @@ msgid "create <player-name>"
 msgstr "create <spillernavn>"
 
 #: server/stdinhand.c:817
-#, fuzzy
 msgid "Create an AI player with a given name."
-msgstr "Opprettet ny AI spiller: %s."
+msgstr "Opprett en AI spiller med gitt navn."
 
 #: server/stdinhand.c:818
-#, fuzzy
 msgid ""
 "The 'create' command is only available before the game has been started."
-msgstr "Denne innstillingen kan ikke endres etter at spillet har startet."
+msgstr ""
 
 #. translate <> only
 #: server/stdinhand.c:823
@@ -2454,12 +2401,10 @@ msgid "(unknown)"
 msgstr "(ukjent)"
 
 #: server/stdinhand.c:1114
-#, fuzzy
 msgid "Name is empty, so cannot be a player."
-msgstr "Navnet er for langt, så det kan ikke være en spiller."
+msgstr "Navnet er tomt, så det kan ikke være en spiller."
 
 #: server/stdinhand.c:1118
-#, fuzzy
 msgid "Name is too long, so cannot be a player."
 msgstr "Navnet er for langt, så det kan ikke være en spiller."
 
@@ -2474,42 +2419,38 @@ msgid "No player by the name of '%s'."
 msgstr "Ingen spiller med navn '%s'."
 
 #: server/stdinhand.c:1145
-#, fuzzy, c-format
+#, c-format
 msgid "Open metaserver connection to [%s]."
-msgstr "Lukk metaserver kopling til '%s'."
+msgstr "Åpne metaserver kobling til [%s]."
 
 #: server/stdinhand.c:1148
 msgid "Metaserver connection opened."
 msgstr "Metaserver kopling åpnet."
 
 #: server/stdinhand.c:1159
-#, fuzzy, c-format
+#, c-format
 msgid "Close metaserver connection to [%s]."
-msgstr "Lukk metaserver kopling til '%s'."
+msgstr "Lukk metaserver kopling til [%s]."
 
 #: server/stdinhand.c:1162
 msgid "Metaserver connection closed."
 msgstr "Metaserver kopling lukket."
 
 #: server/stdinhand.c:1175
-#, fuzzy
 msgid "Metaserver connection is open."
-msgstr "Metaserver kopling åpnet."
+msgstr "Metaserver kopling er åpen."
 
 #: server/stdinhand.c:1178
-#, fuzzy
 msgid "Metaserver connection is closed."
-msgstr "Metaserver kopling lukket."
+msgstr "Metaserver kobling er lukket."
 
 #: server/stdinhand.c:1186
-#, fuzzy
 msgid "Metaserver connection is already open."
-msgstr "Metaserver kopling åpnet."
+msgstr "Metaserver kopling er allerede åpen."
 
 #: server/stdinhand.c:1194
-#, fuzzy
 msgid "Metaserver connection is already closed."
-msgstr "Metaserver kopling lukket."
+msgstr "Metaserver kobling er allerede lukket."
 
 #: server/stdinhand.c:1198
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
@@ -2529,14 +2470,13 @@ msgid "Metaserver info string set."
 msgstr "Metaserver infostreng satt."
 
 #: server/stdinhand.c:1229
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver is now [%s]."
-msgstr "Metaserver er nå '%s'."
+msgstr "Metaserver er nå [%s]."
 
 #: server/stdinhand.c:1232
-#, fuzzy
 msgid "Metaserver address set."
-msgstr "Metaserver: addressefeil"
+msgstr "Metaserver: addresse satt"
 
 #: server/stdinhand.c:1304
 msgid "The game cannot be saved before it is started."
@@ -2598,9 +2538,9 @@ msgid "Created new AI player: %s."
 msgstr "Opprettet ny AI spiller: %s."
 
 #: server/stdinhand.c:1434
-#, fuzzy, c-format
+#, c-format
 msgid "Removed player %s from the game."
-msgstr "Ingen spillere har det navnet."
+msgstr "Fjernet spiller %s fra spillet."
 
 #: server/stdinhand.c:1443
 #, c-format
@@ -2608,14 +2548,14 @@ msgid "Sorry, the '%s' command is not implemented yet."
 msgstr "Beklager, kommandoen '%s' er ikke implementert ennå."
 
 #: server/stdinhand.c:1473
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read script file '%s'."
-msgstr "Klarte ikke å åpne manusfilen '%s'."
+msgstr "Klarte ikke å lese manusfilen '%s'."
 
 #: server/stdinhand.c:1542
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write script file '%s'."
-msgstr "Klarte ikke å åpne manusfilen '%s'."
+msgstr "Klarte ikke å skrive til manusfilen '%s'."
 
 #: server/stdinhand.c:1569
 #, c-format
@@ -2681,14 +2621,12 @@ msgid "Cannot change command access for unconnected player '%s'."
 msgstr "Kan ikke endre kommando aksess for utilkoplet spiller '%s'."
 
 #: server/stdinhand.c:1749 server/stdinhand.c:1752
-#, fuzzy
 msgid "Option:"
-msgstr "Opsjon"
+msgstr "Opsjon:"
 
 #: server/stdinhand.c:1762 server/stdinhand.c:2415
-#, fuzzy
 msgid "Description:"
-msgstr "beskrivelse"
+msgstr "Beskrivelse:"
 
 #: server/stdinhand.c:1767
 #, c-format
@@ -2762,9 +2700,9 @@ msgid "Crashing and burning."
 msgstr "Krasher og brenner lystig."
 
 #: server/stdinhand.c:1980
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, you do not have access to view option '%s'."
-msgstr "Spill: Du har nå tilgangsnivå '%s'."
+msgstr "Beklager, du har ikke tilgang til å se opsjon '%s'."
 
 #: server/stdinhand.c:1985
 #, c-format
@@ -2856,9 +2794,9 @@ msgid "Cutting connection to %s."
 msgstr "Avbryter tilkopling til %s."
 
 #: server/stdinhand.c:2325
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, %s is not connected."
-msgstr "%s er ikke tilkoplet."
+msgstr "Beklager, %s er ikke tilkoblet."
 
 #: server/stdinhand.c:2344
 msgid "Goodbye."
@@ -2886,9 +2824,8 @@ msgid ""
 msgstr ""
 
 #: server/stdinhand.c:2391 server/stdinhand.c:2394
-#, fuzzy
 msgid "Command:"
-msgstr "Enhet kommandoer"
+msgstr "Kommando:"
 
 #. line up the synopsis lines:
 #: server/stdinhand.c:2398
@@ -2910,14 +2847,13 @@ msgid "Help argument '%s' is ambiguous."
 msgstr "Hjelpeargument '%s' er ikke entydig."
 
 #: server/stdinhand.c:2501
-#, fuzzy, c-format
+#, c-format
 msgid "No match for help argument '%s'."
-msgstr "Feil formet loggnivå argument \"%s\".\n"
+msgstr ""
 
 #: server/stdinhand.c:2533
-#, fuzzy
 msgid "Available commands (abbreviations are allowed):"
-msgstr "Forkortelser er tillatt."
+msgstr "Tilgjengelige kommandoer (forkortelser er tillatt):"
 
 #: server/stdinhand.c:2536
 msgid "ai P            - toggles AI on player"
@@ -2988,9 +2924,8 @@ msgid "metainfo M      - set metaserver infoline to M"
 msgstr ""
 
 #: server/stdinhand.c:2570
-#, fuzzy
 msgid "metaserver A    - game reported to metaserver at address A"
-msgstr "  -metaserver A\tKople til metaserveren A\n"
+msgstr ""
 
 #: server/stdinhand.c:2572
 msgid "normal          - all AI players will be normal"
@@ -3078,9 +3013,9 @@ msgid "%s is not connected"
 msgstr "%s er ikke tilkoplet."
 
 #: server/unitfunc.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not poison the water supply in %s."
-msgstr "Spill: Din %s forgiftet vanntilførselen til %s."
+msgstr "Spill: Din %s klarte ikke å forgifte vanntilførselen til %s."
 
 #: server/unitfunc.c:119
 #, c-format
@@ -3107,9 +3042,9 @@ msgid "You executed a %s the %s had sent to establish an embassy in %s"
 msgstr "Du henrettet en %s som %s sendte for å etablere ambassade i %s"
 
 #: server/unitfunc.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was executed in %s by primitive %s."
-msgstr "Spill: Din %s ble bestukket av %s."
+msgstr "Spill: Din %s ble henrettet i %s av primitive %s."
 
 #: server/unitfunc.c:238
 #, c-format
@@ -3122,14 +3057,14 @@ msgid "Game: The %s have established an embassy in %s."
 msgstr "Spill: %s har etablert en ambassade i %s."
 
 #: server/unitfunc.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not sabotage %s's %s."
-msgstr "Spill: Din %s ble sabotert av %s!"
+msgstr "Spill: Din %s klarte ikke å sabotere %ss %s."
 
 #: server/unitfunc.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s succeeded in sabotaging %s's %s."
-msgstr "Spill: Din %s lyktes i å bestikke %ss %s."
+msgstr "Spill: Din %s lyktes i å sabotere %ss %s."
 
 #: server/unitfunc.c:318
 #, c-format
@@ -3141,9 +3076,9 @@ msgid "Game: You can't bribe a unit from this nation."
 msgstr "Spill: Du kan ikke bestikke en enhet fra denne nasjonen."
 
 #: server/unitfunc.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have enough money to bribe %s's %s."
-msgstr "Spill: Du har ikke nok gull til å vende %s til din side."
+msgstr "Spill: Du har ikke nok gull til å bestikke %ss %s."
 
 #: server/unitfunc.c:391
 #, c-format
@@ -3171,9 +3106,9 @@ msgid "Game: No new technology found in %s."
 msgstr "Spill: Ingen ny teknologi funnet i %s."
 
 #: server/unitfunc.c:556
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
-msgstr "Spill: Din %s ble fanget i forsøket på å stjele teknologi fra %s."
+msgstr "Spill: Din %s kunne ikke finne %s teknologien den skulle stjele i %s."
 
 #: server/unitfunc.c:577
 #, c-format
@@ -3184,7 +3119,7 @@ msgstr "Spill: Din %s stjal Framtidsteknologi %d fra %s."
 #: server/unitfunc.c:581
 #, c-format
 msgid "Game: A%s %s %s stole Future Tech. %d from %s."
-msgstr "Spill: En %2$s %3$s stjal Framtidsteknologi %$4d fra %$5s."
+msgstr "Spill: En %2$s %3$s stjal Framtidsteknologi %4$d fra %5$s."
 
 #: server/unitfunc.c:601
 #, c-format
@@ -3197,7 +3132,7 @@ msgid "Game: %s's %s stole %s from %s."
 msgstr "Spill: %ss %s stjal %s fra %s."
 
 #: server/unitfunc.c:609
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have stolen %s from the %s"
 msgstr "Spill: Din %s stjal %s fra %s."
 
@@ -3206,26 +3141,24 @@ msgid "Game: You can't subvert a city from this nation."
 msgstr "Spill: Du kan ikke vende byer fra denne nasjonen til din side."
 
 #: server/unitfunc.c:674
-#, fuzzy
 msgid "Game: You can't subvert the capital of a nation."
-msgstr "Spill: Du kan ikke vende byer fra denne nasjonen til din side."
+msgstr "Spill: Du kan ikke vende en hovedstad fra en nasjon til din side."
 
 #: server/unitfunc.c:693
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't have enough money to subvert %s."
 msgstr "Spill: Du har ikke nok gull til å vende %s til din side."
 
 #: server/unitfunc.c:709
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
-msgstr "Spill: Din %s ble fanget i forsøket på industriell sabotasje!"
+msgstr "Spill: Din %s ble fanget i forsøket på å lage opprør!"
 
 # problem
 #: server/unitfunc.c:713
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You caught a%s %s %s attempting to incite a revolt in %s!"
-msgstr ""
-"Spill: Du avslørte og fanget en %2$s %3$s som forsøkte på sabotasje i %4$s!"
+msgstr "Spill: Du avslørte og fanget en %2$s %3$s som forsøkte å lage opprør i %4$s!"
 
 #: server/unitfunc.c:737
 #, c-format
@@ -3260,9 +3193,9 @@ msgstr ""
 "Spill: Du avslørte og fanget en %2$s %3$s som forsøkte på sabotasje i %4$s!"
 
 #: server/unitfunc.c:880
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
-msgstr "Spill: Din %s ble avslørt og fanget i et forsøk på sabotasje!"
+msgstr "Spill: Din %s kunne ikke finne noe å sabotere i %s."
 
 #: server/unitfunc.c:921
 #, c-format
@@ -3270,9 +3203,9 @@ msgid "Game: You cannot sabotage a wonder or a %s!"
 msgstr "Spill: Du kan ikke sabotere et underverk eller en %s!"
 
 #: server/unitfunc.c:931
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
-msgstr "Spill: Din %s ødela %s i %s."
+msgstr "Spill: Din %s kunne ikke finne %s som skulle saboteres i %s."
 
 #: server/unitfunc.c:955
 #, c-format
@@ -3402,9 +3335,9 @@ msgid "Game: %s discovered Future Tech. %d in the city."
 msgstr "Spill: %s har oppdaget Framtidsteknologi %d i byen."
 
 #: server/unitfunc.c:2149
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s discovered Future Tech %d from the %s (conq)"
-msgstr "Spill: %s har oppdaget Framtidsteknologi %d i byen."
+msgstr "Spill: %s har skaffet Framtidsteknologi %d fra %s (erobr)"
 
 #: server/unitfunc.c:2173
 #, c-format
@@ -3417,7 +3350,7 @@ msgid "Game: %s discovered %s in the city."
 msgstr "Spill: %s oppdaget %s i byen."
 
 #: server/unitfunc.c:2177
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spill: Din %s stjal %s fra %s."
 
@@ -3567,9 +3500,9 @@ msgid "Game: Your attacking %s failed against %s's %s%s!"
 msgstr "Spill: Din %s mislykkes i sitt angrep mot %ss %s%s!"
 
 #: server/unithand.c:596
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your attacking %s succeeded against %s's %s%s!"
-msgstr "Spill: Din %s mislykkes i sitt angrep mot %ss %s%s!"
+msgstr "Spill: Din %s lykkedes i sitt angrep mot %ss %s%s!"
 
 #: server/unithand.c:657
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
@@ -3590,9 +3523,9 @@ msgid "Game: You gain knowledge about %s."
 msgstr "Spill: Du får kunnskap om %s."
 
 #: server/unithand.c:709
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have aquired %s from ancient scrolls of wisdom"
-msgstr "Spill: Du fant eldgamle skriftruller med kunnskap."
+msgstr "Spill: %s har tilegnet seg %s fra eldgamle skriftruller med kunnskap"
 
 #: server/unithand.c:718
 #, c-format
@@ -3610,12 +3543,10 @@ msgid "Game: An abandoned village is here."
 msgstr "Spill: En forlatt landsby er her."
 
 #: server/unithand.c:741
-#, fuzzy
 msgid "Game: You have unleashed a horde of barbarians!"
-msgstr "Spill: Du har etablert en ambassade i %s."
+msgstr "Spill: Du har fremprovosert en fiendtlig barbarhorde!"
 
 #: server/unithand.c:744
-#, fuzzy
 msgid "Game: Your unit has been killed by barbarians."
 msgstr "Spill: Din enhet har blitt slaktet av en gjeng med pinglete barbarer."
 
@@ -3677,11 +3608,11 @@ msgid "      The city of %s already has 4 trade routes!"
 msgstr "      Byen %s har allerede 4 handelsruter!"
 
 #: server/unithand.c:1116
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Game: Your %s from %s has arrived in %s, and revenues amount to %d in gold "
 "and research."
-msgstr "Game: Din %s fra %s har ankommet %s, og overskuddet utgjør %d i gull."
+msgstr "Game: Din %s fra %s har ankommet %s, og overskuddet utgjør %d i gull og forskning."
 
 #: server/unithand.c:1165
 #, c-format
@@ -3769,7 +3700,7 @@ msgstr "Fred"
 
 #: client/cityrepdata.c:147
 msgid "(worklist)"
-msgstr ""
+msgstr "(arbeidsliste)"
 
 #: client/cityrepdata.c:194 client/gui-gtk/plrdlg.c:80 data/Freeciv:63
 msgid "Name"
@@ -3881,43 +3812,37 @@ msgid "Currently Building"
 msgstr "Bygger for øyeblikket"
 
 #: client/cityrepdata.c:222
-#, fuzzy
 msgid "(Stock,Target,Turns,Buy)"
-msgstr "(Oppsamlet, Mål, Kjøpekostnad)"
+msgstr "(Oppsamlet,Mål,Runder,Kjøpekostnad)"
 
 #: client/civclient.c:107
-#, fuzzy
 msgid "  -n, --name NAME\tUse NAME as name\n"
-msgstr "  -name N\t Bruk N som navn\n"
+msgstr ""
 
 #: client/civclient.c:108
-#, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
-msgstr "  -p, --port=PORT\tKople til PORT.\n"
+msgstr "  -p, --port PORT\tKople til PORT.\n"
 
 #: client/civclient.c:109
-#, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
-msgstr "  -server S\tKople til serveren S\n"
+msgstr ""
 
 #: client/civclient.c:110
-#, fuzzy
 msgid "  -t, --tiles DIR\tLook in data subdirectory DIR for tiles\n"
-msgstr "  -tiles D\tSe i data underkatalogen D for feltgrafikk\n"
+msgstr "  -t, --tiles DIR\tSe i data underkatalogen DIR for feltgrafikk\n"
 
 #: client/civclient.c:112
 msgid "  -s, --sound FILE\tRead sound information from FILE\n"
 msgstr ""
 
 #: client/civclient.c:114
-#, fuzzy
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
-msgstr "  -metaserver A\tKople til metaserveren A\n"
+msgstr ""
 
 #: client/civclient.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr "fil opsjoner: %s"
+msgstr "Ukjent opsjon: \"%s\"\n"
 
 #: client/civclient.c:335
 msgid "Received unknown packet from server!"
@@ -4240,9 +4165,9 @@ msgid "Allows %s to upgrade roads to railroads.\n"
 msgstr "Tillater %s å oppgradere veier til jernbane.\n"
 
 #: client/helpdata.c:811
-#, fuzzy, c-format
+#, c-format
 msgid "Allows %s to upgrade irrigation to farmland.\n"
-msgstr "Tillater %s å oppgradere veier til jernbane.\n"
+msgstr "Tillater %s å oppgradere irrigert land til jordbruksland.\n"
 
 #: client/helpdata.c:865
 #, c-format
@@ -4302,7 +4227,7 @@ msgstr "Pene enhetsflytt       "
 
 #: client/options.c:55
 msgid "Show combat animation      "
-msgstr ""
+msgstr "Vis kampanimasjon          "
 
 #: client/options.c:56
 msgid "Popup dialogs in AI Mode   "
@@ -4329,9 +4254,8 @@ msgid "Center map when Popup city "
 msgstr "Sentrer kart ved visning av by "
 
 #: client/options.c:62
-#, fuzzy
 msgid "Concise City Production    "
-msgstr "Byproduksjon"
+msgstr "Byproduksjon               "
 
 #: client/options.c:70
 msgid "Low Funds                "
@@ -4483,27 +4407,26 @@ msgstr "Romskip hendelser        "
 #. E_SPACESHIP
 #: client/options.c:104
 msgid "Barbarian Uprising       "
-msgstr ""
+msgstr "Barbar opprør            "
 
 #. E_UPRISING
 #: client/options.c:105
-#, fuzzy
 msgid "Worklist Events          "
-msgstr "Romskip hendelser        "
+msgstr "Arbeidsliste hendelser   "
 
 #: client/options.c:167
 msgid "Cannot find your home directory"
 msgstr "Klarer ikke finne din hjemmekatalog"
 
 #: client/options.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "Settings file is %s"
-msgstr "Oppsettsfilen er "
+msgstr "Oppsettsfilen er %s"
 
 #: client/options.c:198
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write to file %s"
-msgstr "Klarer ikke skrive til fil "
+msgstr "Klarer ikke skrive til fil %s"
 
 #: client/options.c:257
 msgid "Cannot save settings."
@@ -4597,9 +4520,8 @@ msgid "_Sell"
 msgstr "_Selg"
 
 #: client/gui-gtk/citydlg.c:445
-#, fuzzy
 msgid "_Worklist"
-msgstr "Arbeidere"
+msgstr "_Arbeidsliste"
 
 #. "supported units" frame
 #: client/gui-gtk/citydlg.c:457
@@ -4737,25 +4659,25 @@ msgstr "Kornlager: %3d/%-3d"
 #: client/gui-gtk/citydlg.c:970 client/gui-gtk/citydlg.c:987
 #, c-format
 msgid "%3d/%3d %3d turn"
-msgstr ""
+msgstr "%3d/%3d %3d runde"
 
 #: client/gui-gtk/citydlg.c:970 client/gui-gtk/citydlg.c:987
-#, fuzzy, c-format
+#, c-format
 msgid "%3d/%3d %3d turns"
-msgstr "(stille %d runder)"
+msgstr "%3d/%3d %3d runder"
 
 #: client/gui-gtk/citydlg.c:980
 #, c-format
 msgid "%3d/XXX XXX turns"
-msgstr ""
+msgstr "%3d/XXX XXX runder"
 
 #: client/gui-gtk/citydlg.c:999
 msgid "(list empty)"
-msgstr ""
+msgstr "(liste tom)"
 
 #: client/gui-gtk/citydlg.c:1000
 msgid "(in progress)"
-msgstr ""
+msgstr "(i gang)"
 
 #: client/gui-gtk/citydlg.c:1013
 #, c-format
@@ -4890,14 +4812,14 @@ msgid "_Help"
 msgstr "_Hjelp"
 
 #: client/gui-gtk/citydlg.c:1750 client/gui-gtk/citydlg.c:1767
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d) %3d turn"
-msgstr "(stille %d runder)"
+msgstr "%s (%d) %3d runde"
 
 #: client/gui-gtk/citydlg.c:1750 client/gui-gtk/citydlg.c:1767
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d) %3d turns"
-msgstr "(stille %d runder)"
+msgstr "%s (%d) %3d runder"
 
 #: client/gui-gtk/citydlg.c:1926 client/gui-xaw/citydlg.c:2440
 #, c-format
@@ -5214,7 +5136,7 @@ msgstr "Stjel"
 #: client/gui-gtk/dialogs.c:726 client/gui-gtk/dialogs.c:822
 #: client/gui-xaw/dialogs.c:753 client/gui-xaw/dialogs.c:841
 msgid "At Spy's Discretion"
-msgstr ""
+msgstr "La spionen velge"
 
 #: client/gui-gtk/dialogs.c:734 client/gui-xaw/dialogs.c:738
 msgid "NONE"
@@ -5952,14 +5874,12 @@ msgid "_Tax Rates"
 msgstr "_Skattenivå"
 
 #: client/gui-gtk/menu.c:504
-#, fuzzy
 msgid "_Find City"
-msgstr "Finn by"
+msgstr "_Finn by"
 
 #: client/gui-gtk/menu.c:506
-#, fuzzy
 msgid "Work_lists"
-msgstr "verdiløse"
+msgstr "Arbeids_Liste"
 
 #: client/gui-gtk/menu.c:510 client/gui-xaw/menu.c:129
 msgid "Revolution"
@@ -6153,9 +6073,8 @@ msgid "Help"
 msgstr "Hjelp"
 
 #: client/gui-gtk/menu.c:616 client/gui-xaw/menu.c:195
-#, fuzzy
 msgid "Help Languages"
-msgstr "Lykke"
+msgstr "Hjelp Språk"
 
 #: client/gui-gtk/menu.c:618 client/gui-xaw/menu.c:196
 msgid "Help Connecting"
@@ -6400,7 +6319,7 @@ msgstr "Ingen %s kunne selges"
 
 #: client/gui-gtk/repodlgs.c:657 client/gui-xaw/repodlgs.c:755
 msgid "Sell-Off:"
-msgstr ""
+msgstr "Salg:"
 
 #: client/gui-gtk/repodlgs.c:657 client/gui-xaw/repodlgs.c:755
 msgid "Results"
@@ -6492,18 +6411,17 @@ msgid ""
 msgstr ""
 
 #: client/gui-gtk/wldlg.c:157 data/Freeciv:1893
-#, fuzzy
 msgid "Available worklists"
-msgstr "Tilgjengelig for bygging"
+msgstr "Tilgjengelige arbeidslister"
 
 #: client/gui-gtk/wldlg.c:173
 msgid "Edit worklists"
-msgstr ""
+msgstr "Endre arbeidslister"
 
 #. + Edit
 #: client/gui-gtk/wldlg.c:212 data/Freeciv:1912
 msgid "Edit"
-msgstr ""
+msgstr "Endre"
 
 #. + Rename
 #: client/gui-gtk/wldlg.c:220 data/Freeciv:1918 data/Freeciv:2915
@@ -6513,66 +6431,57 @@ msgstr "Endre navn"
 #. + Insert
 #: client/gui-gtk/wldlg.c:228 client/gui-gtk/wldlg.c:375 data/Freeciv:1927
 #: data/Freeciv:2063
-#, fuzzy
 msgid "Insert"
-msgstr "Ørken"
+msgstr "Sett inn"
 
 #. + Delete
 #: client/gui-gtk/wldlg.c:236 client/gui-gtk/wldlg.c:382 data/Freeciv:1933
 #: data/Freeciv:2069
-#, fuzzy
 msgid "Delete"
-msgstr "gode"
+msgstr "Slett"
 
 #. Stuff for the current worklist.
 #: client/gui-gtk/wldlg.c:295 data/Freeciv:2028
 msgid "Current worklist"
-msgstr ""
+msgstr "Nåværende arbeidsliste"
 
 #. Stuff for the available targets.
 #: client/gui-gtk/wldlg.c:299 data/Freeciv:2035
 msgid "Available targets"
-msgstr ""
+msgstr "Tilgjengelige mål"
 
 #: client/gui-gtk/wldlg.c:317
-#, fuzzy
 msgid "Production worklist"
-msgstr "Produksjon"
+msgstr "Produksjons arbeidsliste"
 
 #: client/gui-gtk/wldlg.c:368 data/Freeciv:2057
-#, fuzzy
 msgid "Prepend"
-msgstr "President"
+msgstr "Tilføy først"
 
 #: client/gui-gtk/wldlg.c:389 data/Freeciv:2075
-#, fuzzy
 msgid "Up"
-msgstr "E"
+msgstr "Opp"
 
 #: client/gui-gtk/wldlg.c:396 data/Freeciv:2081
-#, fuzzy
 msgid "Down"
-msgstr "Fullført"
+msgstr "Ned"
 
 #. - A checkbox to filter advanced tech targets.
 #: client/gui-gtk/wldlg.c:450
-#, fuzzy
 msgid "Show future targets"
-msgstr "Vis poengsummene slik det ligger an nå."
+msgstr "Vis framtidige mål"
 
 #: client/gui-gtk/wldlg.c:541
-#, fuzzy
 msgid "Rename Worklist"
-msgstr "Omdøp by"
+msgstr "Omdøp arbeidsliste"
 
 #: client/gui-gtk/wldlg.c:542 client/gui-xaw/wldlg.c:596
-#, fuzzy
 msgid "What should the new name be?"
-msgstr "Hva skal vi omdøpe byen til?"
+msgstr "Hva skal det nye navnet være?"
 
 #: client/gui-gtk/wldlg.c:597 client/gui-xaw/wldlg.c:652
 msgid "empty worklist"
-msgstr ""
+msgstr "tom arbeidsliste"
 
 #: client/gui-xaw/chatline.c:130
 msgid "Cleared output window."
@@ -6613,38 +6522,37 @@ msgstr ""
 #: client/gui-xaw/citydlg.c:316
 #, c-format
 msgid " %3d/XXX XXX turns "
-msgstr ""
+msgstr " %3d/XXX XXX runder "
 
 #: client/gui-xaw/citydlg.c:321
 #, c-format
 msgid " %3d/%3d %3d turn "
-msgstr ""
+msgstr " %3d/%3d %3d runde "
 
 #: client/gui-xaw/citydlg.c:322
 #, c-format
 msgid " %3d/%3d %3d turns "
-msgstr ""
+msgstr " %3d/%3d %3d runder "
 
 #: client/gui-xaw/citydlg.c:336
-#, fuzzy
 msgid "(is empty)"
-msgstr "tom"
+msgstr "(er tom)"
 
 #: client/gui-xaw/citydlg.c:338
 msgid "(in prog.)"
-msgstr ""
+msgstr "(i gang)"
 
 #: client/gui-xaw/citydlg.c:2270 client/gui-xaw/citydlg.c:2287
 #: client/gui-xaw/cityrep.c:342 client/gui-xaw/cityrep.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d) %d turn"
-msgstr "(stille %d runder)"
+msgstr "%s (%d) %d runde"
 
 #: client/gui-xaw/citydlg.c:2270 client/gui-xaw/citydlg.c:2287
 #: client/gui-xaw/cityrep.c:342 client/gui-xaw/cityrep.c:357
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d) %d turns"
-msgstr "(stille %d runder)"
+msgstr "%s (%d) %d runder"
 
 #: client/gui-xaw/colors.c:84
 msgid "Private colormap ran out of entries -  exiting."
@@ -6749,9 +6657,8 @@ msgid "Find City"
 msgstr "Finn by"
 
 #: client/gui-xaw/menu.c:127 data/Freeciv:1891
-#, fuzzy
 msgid "Worklists"
-msgstr "verdiløse"
+msgstr "Arbeidslister"
 
 #: client/gui-xaw/menu.c:169
 msgid "Go/Airlift to City"
@@ -6914,24 +6821,20 @@ msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
 msgstr "Enhet-type        Oppgrader  Framdr.   Aktiv    Skjold     Mat"
 
 #: data/Freeciv:1923
-#, fuzzy
 msgid "Rename worklist"
-msgstr "Omdøp by"
+msgstr "Omdøp arbeidsliste"
 
 #: data/Freeciv:2026
-#, fuzzy
 msgid "Production Worklist"
-msgstr "Produksjon"
+msgstr "Arbeidsliste for produksjon"
 
 #: data/Freeciv:2093
-#, fuzzy
 msgid "  Ok  "
-msgstr " OK "
+msgstr " Ok "
 
 #: data/Freeciv:2111
-#, fuzzy
 msgid "Show future targets:"
-msgstr "Vis poengsummene slik det ligger an nå."
+msgstr "Vis framtidige mål:"
 
 #: data/Freeciv:2184
 msgid "Choose Your Diplomat's Strategy"
@@ -6963,9 +6866,8 @@ msgid " Buy "
 msgstr " Kjøp "
 
 #: data/Freeciv:2929
-#, fuzzy
 msgid "Worklist"
-msgstr "Arbeidere"
+msgstr "Arbeidsliste"
 
 #: data/Freeciv:2931
 msgid "Supported units:"
@@ -7576,7 +7478,7 @@ msgstr ""
 
 #: data/helpdata.txt:805
 msgid "First, the attacker's strength is modified."
-msgstr ""
+msgstr "Først blir angriperens styrke endret."
 
 #: data/helpdata.txt:807
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
@@ -7592,7 +7494,7 @@ msgstr ""
 
 #: data/helpdata.txt:815
 msgid "Next, the defender's strength is modified."
-msgstr ""
+msgstr "Så blir forsvarerens styrke endret."
 
 #: data/helpdata.txt:817
 msgid ""
@@ -8973,7 +8875,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:928
 #: data/default/buildings.ruleset:928
 msgid "SETI Program"
-msgstr "SETI Programmet"
+msgstr "SETI programmet"
 
 #: data/civ2/buildings.ruleset:935 data/default/buildings.ruleset:935
 msgid ""
@@ -9118,9 +9020,8 @@ msgid "Modern"
 msgstr "Moderne"
 
 #: data/default/cities.ruleset:54
-#, fuzzy
 msgid "PostModern"
-msgstr "Moderne"
+msgstr "Postmoderne"
 
 #: data/civ1/governments.ruleset:103 data/civ2/governments.ruleset:101
 #: data/default/governments.ruleset:102
@@ -9774,89 +9675,76 @@ msgid "?plural:Australians"
 msgstr "?plural:australierne"
 
 #: data/default/nations.ruleset:1204
-#, fuzzy
 msgid "Welsh"
-msgstr "Seler"
+msgstr "walisisk"
 
 #: data/default/nations.ruleset:1205
-#, fuzzy
 msgid "?plural:Welsh"
-msgstr "?plural:polakkene"
+msgstr "?plural:waliserne"
 
 #: data/default/nations.ruleset:1219
-#, fuzzy
 msgid "Prince"
-msgstr "Forskning"
+msgstr "Prins"
 
 #: data/default/nations.ruleset:1219
-#, fuzzy
 msgid "Princess"
-msgstr "Marinejegere"
+msgstr "Prinsesse"
 
 #: data/default/nations.ruleset:1242
-#, fuzzy
 msgid "Korean"
-msgstr "Khan"
+msgstr "koreansk"
 
 #: data/default/nations.ruleset:1243
-#, fuzzy
 msgid "?plural:Koreans"
-msgstr "?plural:romerne"
+msgstr "?plural:koreanerne"
 
 #: data/default/nations.ruleset:1269
 msgid "Scottish"
-msgstr ""
+msgstr "skotsk"
 
 #: data/default/nations.ruleset:1270
-#, fuzzy
 msgid "?plural:Scottish"
-msgstr "?plural:polakkene"
+msgstr "?plural:skottene"
 
 #: data/default/nations.ruleset:1303
 msgid "Israeli"
-msgstr ""
+msgstr "israelsk"
 
 #: data/default/nations.ruleset:1304
-#, fuzzy
 msgid "?plural:Israelis"
-msgstr "?plural:australierne"
+msgstr "?plural:israelerne"
 
 #: data/default/nations.ruleset:1337
 msgid "Argentine"
-msgstr ""
+msgstr "argentinsk"
 
 #: data/default/nations.ruleset:1338
-#, fuzzy
 msgid "?plural:Argentines"
-msgstr "?plural:grekerne"
+msgstr "?plural:argentinerne"
 
 #: data/default/nations.ruleset:1362
-#, fuzzy
 msgid "Canadian"
-msgstr "indisk"
+msgstr "kanadisk"
 
 #: data/default/nations.ruleset:1363
-#, fuzzy
 msgid "?plural:Canadians"
-msgstr "?plural:inderne"
+msgstr "?plural:kanadierne"
 
 #: data/default/nations.ruleset:1397
 msgid "Olympic"
-msgstr ""
+msgstr "olympisk"
 
 #: data/default/nations.ruleset:1398
-#, fuzzy
 msgid "?plural:Olympians"
-msgstr "?plural:egypterne"
+msgstr "?plural:olympierne"
 
 #: data/default/nations.ruleset:1423
 msgid "Krevi"
-msgstr ""
+msgstr "krevisk"
 
 #: data/default/nations.ruleset:1424
-#, fuzzy
 msgid "?plural:Krevis"
-msgstr "?plural:grekerne"
+msgstr "?plural:krevisk"
 
 #: data/civ1/techs.ruleset:49 data/civ2/techs.ruleset:49
 #: data/default/techs.ruleset:49
@@ -10954,7 +10842,7 @@ msgstr "Utforskere er nyttig til å kratlegge ukjent territorie."
 #: data/civ1/units.ruleset:1329 data/civ2/units.ruleset:1397
 #: data/default/units.ruleset:1397
 msgid "Barbarian Leader"
-msgstr ""
+msgstr "Barbarleder"
 
 #: data/civ2/units.ruleset:1418 data/default/units.ruleset:1418
 msgid ""
