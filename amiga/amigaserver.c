@@ -208,13 +208,16 @@ int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exeptfds, struct
   int sel;
   BOOL usestdin=FALSE;
 
-  if(FD_ISSET(0,readfds))
+  if (readfds)
   {
-    FD_CLR(0, readfds);
-    usestdin=TRUE;
-    mask |= stdinmask;
+    if(FD_ISSET(0,readfds))
+    {
+      FD_CLR(0, readfds);
+      usestdin=TRUE;
+      mask |= stdinmask;
 
-    send_stdin_write_packet();
+      send_stdin_write_packet();
+    }
   }
 
   sel = WaitSelect(nfds, readfds, writefds, exeptfds, timeout, &mask);
