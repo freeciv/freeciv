@@ -207,7 +207,6 @@ gint butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev)
 **************************************************************************/
 gint butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev)
 {
-  int xtile, ytile;
   struct tile *ptile = NULL;
   struct city *pcity = NULL;
 
