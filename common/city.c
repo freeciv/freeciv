@@ -572,9 +572,6 @@ int get_trade_tile(int x, int y)
   else
     t = get_tile_type(tile_t)->trade;
 
-  if (t<game.rgame.min_city_center_trade && x==2 && y==2)
-    t = game.rgame.min_city_center_trade;
-
   if ((spec_t & S_RIVER) && (tile_t != T_OCEAN)) {
     t += terrain_control.river_trade_incr;
   }
