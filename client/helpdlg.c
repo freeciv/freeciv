@@ -297,6 +297,16 @@ void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
       break;
   }
   
+  if(advances[tech].req[0]==A_LAST && advances[tech].req[1]==A_LAST)  {
+    strcpy(label,"Removed");
+    bg=TREE_NODE_UNKNOWN_TECH_BG;
+    l=XtVaCreateManagedWidget("treenode", commandWidgetClass, 
+			      tree,
+			      XtNlabel, label,
+			      XtNbackground, bg, NULL);
+    return;
+  }
+  
   sprintf(label,"%s:%d",advances[tech].name,
                         tech_goal_turns(game.player_ptr,tech));
   
