@@ -18,6 +18,8 @@
 #include <game.h>
 #include <unitfunc.h>
 #include <unithand.h>
+#include <unittools.h>
+
 struct Goto_map_entry {
   int cost;
   unsigned short from_x, from_y;
@@ -62,6 +64,49 @@ struct Goto_heap_entry *goto_heap_top(void);
 int find_the_shortest_path(struct player *pplayer, struct unit *punit, 
 			   int dest_x, int dest_y);
 
+int could_unit_move_to_tile(struct unit *punit, int x, int y)
+{ /* this is can_unit_move_to_tile with the notifys removed -- Syela */
+  struct tile *ptile,*ptile2;
+  struct unit_list *punit_list;
+  struct unit *punit2;
+  int zoc;
+
+  if(punit->activity!=ACTIVITY_IDLE && punit->activity!=ACTIVITY_GOTO)
+    return 0;
+  
+  if(x<0 || x>=map.xsize || y<0 || y>=map.ysize)
+    return 0;
+  
+  if(!is_tiles_adjacent(punit->x, punit->y, x, y))
+    return 0;
+
+  if(is_enemy_unit_tile(x,y,punit->owner))
+    return 0;
+
+  ptile=map_get_tile(x, y);
+  ptile2=map_get_tile(punit->x, punit->y);
+  if(is_ground_unit(punit)) {
+    /* Check condition 4 */
+    if(ptile->terrain==T_OCEAN &&
+       !is_transporter_with_free_space(&game.players[punit->owner], x, y))
+	return 0;
+
+    /* Moving from ocean */
+    if(ptile2->terrain==T_OCEAN) {
+      /* Can't attack a city from ocean unless marines */
+      if(!unit_flag(punit->type, F_MARINES) && is_enemy_city_tile(x,y,punit->owner)) {
+	return 0;
+      }
+    }
+  } else if(is_sailing_unit(punit)) {
+    if(ptile->terrain!=T_OCEAN && ptile->terrain!=T_UNKNOWN)
+      if(!is_friendly_city_tile(x,y,punit->owner))
+	return 0;
+  } 
+  zoc = zoc_ok_move(punit, x, y);
+  return zoc;
+}
+
 /**************************************************************************
 return -1 if move is not legal
         x if move is legal and costs x 
@@ -81,6 +126,15 @@ int goto_tile_cost(struct player *pplayer, struct unit *punit,
   } else if(is_sailing_unit(punit)) {
     if(ptile->terrain!=T_OCEAN && !ptile->city_id)  return -1;
   }
+
+/* If this is our starting square, zoc should be valid, and we should check it! */
+  if (same_pos(punit->x, punit->y, x0, y0)) {
+    if (get_defender(pplayer, punit, x1, y1)) {
+      if (!can_unit_attack_tile(punit, x1, y1)) return -1;
+    } else {
+      if (!could_unit_move_to_tile(punit, x1, y1)) return -1;
+    }
+  } /* added by Syela to make his AI units a little less stupid */
   
   if(map_get_known(x1, y1, pplayer)) {
     c = tile_move_cost(punit,x0,y0,x1,y1);
