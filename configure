@@ -6632,6 +6632,8 @@ fi
 
 
 
+
+
 trap '' 1 2 15
 cat > confcache <<\EOF
 # This file is a shell script that caches the results of configure
@@ -7146,6 +7148,7 @@ cat >> $CONFIG_STATUS <<EOF
 
 
 
+
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 test -z "$CONFIG_HEADERS" || echo timestamp > stamp-h
@@ -7160,6 +7163,17 @@ if test -f po/Makefile ; then
        echo extending po/Makefile
        mv -f po/Makefile po/Makefile.tmp
        sed -e 's/--keyword=N_/--keyword=N_ --keyword=Q_/g' po/Makefile.tmp > po/Makefile
+       rm po/Makefile.tmp
+     fi
+   fi
+if test -f po/Makefile ; then
+     if grep 'grep -v "is unknown; will try C"' po/Makefile >/dev/null 2>&1 ; then
+       # has already been extended
+       :
+     else
+       echo silencing po/Makefile
+       mv -f po/Makefile po/Makefile.tmp
+       sed -e 's/--files-from=$(srcdir)\/POTFILES.in/--files-from=$(srcdir)\/POTFILES.in 2>\&1 | grep -v "is unknown; will try C"/' po/Makefile.tmp > po/Makefile
        rm po/Makefile.tmp
      fi
    fi
