@@ -13,6 +13,8 @@
 #ifndef FC__CONNECTHAND_H
 #define FC__CONNECTHAND_H
 
+#include "shared.h"		/* bool type */
+
 struct connection;
 struct conn_list;
 struct packet_login_request;

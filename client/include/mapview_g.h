@@ -18,6 +18,7 @@
 
 struct unit;
 struct city;
+struct Sprite;
 
 void update_info_label(void);
 void update_unit_info_label(struct unit *punit);

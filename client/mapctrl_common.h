@@ -14,6 +14,7 @@
 #ifndef FC__MAPCTRL_COMMON_H
 #define FC__MAPCTRL_COMMON_H
 
+#include "map.h"		/* enum direction8 */
 #include "shared.h"		/* bool type */
 
 bool get_turn_done_button_state(void);
