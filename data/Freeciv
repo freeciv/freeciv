@@ -151,33 +151,36 @@ Freeciv*metadialog.*.closecommand.fromHoriz:	  update
 !
 Freeciv*intelpopup.title:                    _("Foreign Intelligence Report")
 
+Freeciv*inteltitlelabel.background:          lightblue
+Freeciv*inteltitlelabel.borderColor:         lightblue
+
 Freeciv*intelnamelabel.fromVert:             inteltitlelabel
-Freeciv*intelnamelabel.background:           lightgrey
+Freeciv*intelnamelabel.background:           grey
 
 Freeciv*intelgovlabel.fromVert:              inteltitlelabel
 Freeciv*intelgovlabel.fromHoriz:             intelnamelabel
-Freeciv*intelgovlabel.background:            lightgrey
+Freeciv*intelgovlabel.background:            grey
 
 Freeciv*intelgoldlabel.fromVert:             intelnamelabel
-Freeciv*intelgoldlabel.background:           lightgrey
+Freeciv*intelgoldlabel.background:           grey
 
 Freeciv*inteltaxlabel.fromVert:              intelnamelabel
 Freeciv*inteltaxlabel.fromHoriz:             intelgoldlabel
-Freeciv*inteltaxlabel.background:            lightgrey
+Freeciv*inteltaxlabel.background:            grey
 
 Freeciv*intelscilabel.fromVert:              intelnamelabel
 Freeciv*intelscilabel.fromHoriz:             inteltaxlabel
-Freeciv*intelscilabel.background:            lightgrey
+Freeciv*intelscilabel.background:            grey
 
 Freeciv*intelluxlabel.fromVert:              intelnamelabel
 Freeciv*intelluxlabel.fromHoriz:             intelscilabel
-Freeciv*intelluxlabel.background:            lightgrey
+Freeciv*intelluxlabel.background:            grey
 
 Freeciv*intelreslabel.fromVert:              intelgoldlabel
-Freeciv*intelreslabel.background:            lightgrey
+Freeciv*intelreslabel.background:            grey
 
 Freeciv*intelcapitallabel.fromVert:          intelreslabel
-Freeciv*intelcapitallabel.background:        lightgrey
+Freeciv*intelcapitallabel.background:        grey
 
 Freeciv*inteltechlist.fromVert:            intelcapitallabel
 Freeciv*inteltechlist.forceColumns:        true
@@ -264,7 +267,7 @@ Freeciv*dipheadlinem.bottom:             chainTop
 Freeciv*dipclauselabel.label: _("The following clauses have been agreed upon:")
 Freeciv*dipclauselabel.fromVert:         dipheadlinem
 Freeciv*dipclauselabel.borderWidth:      0
-Freeciv*dipclauselabel.background:       lightgrey
+Freeciv*dipclauselabel.background:       lightblue
 Freeciv*dipclauselabel.foreground:       black
 Freeciv*dipclauselabel.top:              chainTop
 Freeciv*dipclauselabel.bottom:           chainTop
@@ -277,7 +280,7 @@ Freeciv*dipview.top:                     chainTop
 Freeciv*dipview.bottom:                  chainBottom
 Freeciv*dipview.right:                   chainRight
 
-Freeciv*dipclauselist.background:        lightgrey
+Freeciv*dipclauselist.background:        cyan
 Freeciv*dipclauselist.foreground:        black
 Freeciv*dipclauselist.defaultColumns:    1
 Freeciv*dipclauselist.forceColumns:      true
@@ -285,7 +288,7 @@ Freeciv*dipclauselist.forceColumns:      true
 ! Freeciv*dipacceptlabel0.label:            Babylonian view:
 Freeciv*dipacceptlabel0.fromVert:         dipview
 Freeciv*dipacceptlabel0.borderWidth:      0
-Freeciv*dipacceptlabel0.background:       lightgrey
+Freeciv*dipacceptlabel0.background:       lightblue
 Freeciv*dipacceptlabel0.foreground:       black
 Freeciv*dipacceptlabel0.top:              chainBottom
 Freeciv*dipacceptlabel0.bottom:           chainBottom
@@ -303,7 +306,7 @@ Freeciv*dipacceptthumb0.bottom:           chainBottom
 Freeciv*dipacceptlabel1.fromHoriz:        dipacceptthumb0
 Freeciv*dipacceptlabel1.fromVert:         dipview
 Freeciv*dipacceptlabel1.borderWidth:      0
-Freeciv*dipacceptlabel1.background:       lightgrey
+Freeciv*dipacceptlabel1.background:       lightblue
 Freeciv*dipacceptlabel1.foreground:       black
 Freeciv*dipacceptlabel1.top:              chainBottom
 Freeciv*dipacceptlabel1.bottom:           chainBottom
@@ -401,7 +404,7 @@ Freeciv*dipgoldinput1.*.editType:        edit
 
 ! Freeciv*dipgoldlabel0.label:             Gold(max 100)
 Freeciv*dipgoldlabel0.borderWidth:       0
-Freeciv*dipgoldlabel0.background:        lightgrey
+Freeciv*dipgoldlabel0.background:        lightblue
 Freeciv*dipgoldlabel0.foreground:        black
 Freeciv*dipgoldlabel0.fromHoriz:         dipgoldinput0
 Freeciv*dipgoldlabel0.fromVert:          dipcitymenubutton0
@@ -412,7 +415,7 @@ Freeciv*dipgoldlabel0.right:             chainLeft
 
 ! Freeciv*dipgoldlabel1.label:             Gold(max 9999)
 Freeciv*dipgoldlabel1.borderWidth:       0
-Freeciv*dipgoldlabel1.background:        lightgrey
+Freeciv*dipgoldlabel1.background:        lightblue
 Freeciv*dipgoldlabel1.foreground:        black
 Freeciv*dipgoldlabel1.fromHoriz:         dipgoldinput1
 Freeciv*dipgoldlabel1.fromVert:          dipcitymenubutton1
