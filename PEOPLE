@@ -61,8 +61,8 @@ contributions to the Freeciv project.
      Reinier Post <reinpost@win.tue.nl> (info, bugfixes)
      Mike Jing <miky40@hotmail.com> (patch, bugfix)
      Lalo Martins <lalo@hackandroll.org> (Debian)
-     Kero van Gelder <kero@ipc3792237.dial.wxs.nl> (patch)
-     Marko Lindqvist <caz@assari.cc.tut.fi>
+     Kero van Gelder <kero@dds.nl> (patch)
+     Marko Lindqvist <caz@assari.cc.tut.fi> (patches)
 
   Coders up to 1.10.0 release:
      (Version numbers refer to the first non-beta release
@@ -243,7 +243,7 @@ contributions to the Freeciv project.
 
      Tomasz Wegrzanowski <maniek@beer.com> (nations)
      Robert Brady <rwb197@ecs.soton.ac.uk> (nations)
-     Martin <martin.mcmahon@ukonline.co.uk> (nations)
+     Martin McMahon <martin.mcmahon@ukonline.co.uk> (nations)
      Joaquin Cuenca Abela <cuenca@ie2.u-psud.fr> (nations)
      Lalo Martins <lalo@hackandroll.org> (nations)
      Richard Garrel <rgarrel@bhnet.com.br> (nations)
