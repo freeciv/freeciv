@@ -19,4 +19,13 @@ void flood_it(int loaded);
 void create_start_positions(void);
 void adjust_terrain_param();
 
+void make_huts(int number);
+void add_specials(int prob);
+void mapgenerator1(void);
+void mapgenerator2(void);
+void mapgenerator3(void);
+void mapgenerator4(void);
+void smooth_map();
+void adjust_map(int minval);
+void init_workmap(void);
 #endif  /* FC__MAPGEN_H */

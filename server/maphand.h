@@ -14,6 +14,7 @@
 #define __MAPHAND_H
 
 #include <map.h>
+#include <mapgen.h>
 struct player;
 struct section_file;
 

@@ -418,12 +418,7 @@ void map_tiles_load(struct section_file *file)
   map.xsize=secfile_lookup_int(file, "map.width");
   map.ysize=secfile_lookup_int(file, "map.height");
 
-  map.tiles=fc_malloc(map.xsize*map.ysize*sizeof(struct tile));
-
-  for(y=0; y<map.ysize; y++)
-    for(x=0; x<map.xsize; x++)
-      tile_init(map_get_tile(x, y));
-
+  init_workmap();
 
   /* get the terrain type */
   for(y=0; y<map.ysize; y++) {

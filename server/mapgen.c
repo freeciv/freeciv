@@ -23,18 +23,9 @@
 #include <game.h>
 #include <shared.h>
 #include <mem.h>
+#include <mapgen.h>
 
 #define hmap(x,y) &height_map[(y)*map.xsize+map_adjust_x(x)]
-
-void make_huts(int number);
-void add_specials(int prob);
-void mapgenerator1(void);
-void mapgenerator2(void);
-void mapgenerator3(void);
-void mapgenerator4(void);
-void smooth_map();
-void adjust_map(int minval);
-void init_workmap(void);
 
 int *height_map;
 int maxval=0;
