@@ -172,7 +172,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit, enum unit_mo
       if (which == LAND_MOVING) {
 /*        if (tile0->move_cost[k] == -3 || tile0->move_cost[k] > 16) c = maxcost;*/
         if (map_get_terrain(x1, y1) == T_OCEAN) {
-          if (punit && is_transporter_with_free_space(pplayer, x1, y1)) c = 3;
+          if (punit && ground_unit_transporter_capacity(x1, y1, pplayer->player_no) > 0) c = 3;
           else c = maxcost;
         } else if (tile0->terrain == T_OCEAN) c = 3;
         else if (igter) c = 3; /* NOT c = 1 */
@@ -400,7 +400,7 @@ int could_unit_move_to_tile(struct unit *punit, int x0, int y0, int x, int y)
   if(is_ground_unit(punit)) {
     /* Check condition 4 */
     if(ptile->terrain==T_OCEAN &&
-       !is_transporter_with_free_space(&game.players[punit->owner], x, y))
+       ground_unit_transporter_capacity(x, y, punit->owner) <= 0)
 	return 0;
 
     /* Moving from ocean */
@@ -933,7 +933,7 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
   if (is_ground_unit(punit) && 
           (omni || map_get_known_and_seen(x, y, pplayer->player_no))) {
     if (map_get_terrain(x, y) == T_OCEAN) {
-      if (is_transporter_with_free_space(pplayer, x, y)) {
+      if (ground_unit_transporter_capacity(x, y, pplayer->player_no) > 0) {
         for (k = 0; k < 8; k++) {
           if (map_get_continent(punit->x, punit->y) ==
               map_get_continent(x + ii[k], y + jj[k]))

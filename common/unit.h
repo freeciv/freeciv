@@ -293,7 +293,6 @@ int kills_citizen_after_attack(struct unit *punit);
 struct unit_type *get_unit_type(Unit_Type_id id);
 char *unit_activity_text(struct unit *punit);
 char *unit_description(struct unit *punit);
-int is_transporter_with_free_space(struct player *pplayer, int x, int y);
 int ground_unit_transporter_capacity(int x, int y, int playerid);
 int get_transporter_capacity(struct unit *punit);
 int is_ground_units_transport(struct unit *punit);

@@ -2672,11 +2672,14 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
 }
 
 /**************************************************************************
-Sets the units transported_by fields to the id of ptrans if they should
-be transported by it.
+Assigns units on ptrans' tile to ptrans to ptrans if they should be. This
+is done by setting their transported_by fields to the id of ptrans.
 Checks a zillion things, some from situations that should never happen.
 First drop all previously assigned units that do not fit on the transport.
 If on land maybe pick up some extra units (decided by take_from_land variable)
+
+This function is getting a bit larger and ugly. Perhaps it would be nicer
+if it was recursive!?
 
 FIXME: If in the open (not city), and leaving with only those units that are
        allready assigned to us would strand some units try to reassign the
@@ -2684,11 +2687,6 @@ FIXME: If in the open (not city), and leaving with only those units that are
 
        Groundunit ground unit transports moving to and from ships never take
        units with them. This is ok, but not always practical.
-
-       There is currently a problem with groundunit transporter airplanes
-       leaving their cargo behind when moved as part of a carrier, but
-       since that problem is in the previous transport code and other
-       places in the code too I will leave it here for now.
 **************************************************************************/
 void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 {
@@ -2775,11 +2773,13 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
       if (ptrans->id == pcargo->transported_by) {
 	if (pcargo->owner == playerid
 	    && pcargo->id != ptrans->id
-	    && is_air_unit(pcargo)
+	    && (!is_sailing_unit(pcargo))
 	    && (unit_flag(pcargo->type, F_MISSILE) || !missiles_only)
 	    && !(is_ground_unit(ptrans) && ptile->terrain == T_OCEAN)
 	    && (capacity > 0)) {
-	  capacity--;
+	  if (is_air_unit(pcargo))
+	    capacity--;
+	  /* Ground units are handled below */
 	} else
 	  pcargo->transported_by = -1;
       }
@@ -2841,6 +2841,59 @@ void assign_units_to_transporter(struct unit *ptrans, int take_from_land)
 	      && pcargo->owner == playerid) {
 	    capacity--;
 	    pcargo->transported_by = ptrans->id;
+	  }
+	} unit_list_iterate_end;
+      }
+    }
+
+    /** If any of the transported air units have land units on board take them with us **/
+    {
+      int totcap = 0;
+      int available = ground_unit_transporter_capacity(x, y, playerid);
+      struct unit_list trans2s;
+      unit_list_init(&trans2s);
+
+      unit_list_iterate(ptile->units, pcargo) {
+	if (pcargo->transported_by == ptrans->id
+	    && is_ground_units_transport(pcargo)
+	    && is_air_unit(pcargo)) {
+	  totcap += get_transporter_capacity(pcargo);
+	  unit_list_insert(&trans2s, pcargo);
+	}
+      } unit_list_iterate_end;
+
+      unit_list_iterate(ptile->units, pcargo2) {
+	int has_trans = 0;
+	unit_list_iterate(trans2s, ptrans2) {
+	  if (pcargo2->transported_by == ptrans2->id)
+	    has_trans = 1;
+	} unit_list_iterate_end;
+	if (pcargo2->transported_by == ptrans->id)
+	  has_trans = 1;
+
+	if (has_trans
+	    && is_ground_unit(pcargo2)) {
+	  if (totcap > 0
+	      && (ptile->terrain == T_OCEAN || pcargo2->activity == ACTIVITY_SENTRY)
+	      && pcargo2->owner == playerid
+	      && pcargo2 != ptrans) {
+	    pcargo2->transported_by = ptrans->id;
+	    totcap--;
+	  } else
+	    pcargo2->transported_by = -1;
+	}
+      } unit_list_iterate_end;
+
+      /* Uh oh. Not enough space on the square we leave if we don't
+	 take extra units with us */
+      if (totcap > available && ptile->terrain == T_OCEAN) {
+	unit_list_iterate(ptile->units, pcargo2) {
+	  if (is_ground_unit(pcargo2)
+	      && totcap > 0
+	      && pcargo2->owner == playerid
+	      && pcargo2->transported_by != ptrans->id) {
+	    pcargo2->transported_by = ptrans->id;
+	    totcap--;
 	  }
 	} unit_list_iterate_end;
       }

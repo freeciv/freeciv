@@ -77,7 +77,7 @@ int can_unit_move_to_tile(struct unit *punit, int x, int y, int igzoc)
   if(is_ground_unit(punit)) {
     /* Check condition 4 */
     if(ptile->terrain==T_OCEAN &&
-       !is_transporter_with_free_space(&game.players[punit->owner], x, y))
+       ground_unit_transporter_capacity(x, y, punit->owner) <= 0)
 	return 0;
     /* Moving from ocean */
     if(ptile2->terrain==T_OCEAN) {

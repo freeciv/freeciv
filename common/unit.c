@@ -259,29 +259,6 @@ int unit_can_defend_here(struct unit *punit)
 }
 
 /**************************************************************************
-Check for any free space on pplayer's transporters at (x,y).
-(Return number of units which may be added to transporters to fill them.)
-**************************************************************************/
-int is_transporter_with_free_space(struct player *pplayer, int x, int y)
-{
-  struct tile *ptile = map_get_tile(x, y);
-  int availability = 0;
-
-  unit_list_iterate(map_get_tile(x, y)->units, punit) {
-    if (punit->owner == pplayer->player_no) {
-      if (is_ground_units_transport(punit)
-	  && !(is_ground_unit(punit) && ptile->terrain == T_OCEAN))
-	availability += get_transporter_capacity(punit);
-      else if (is_ground_unit(punit))
-	availability--;
-    }
-  }
-  unit_list_iterate_end;
-
-  return (availability > 0 ? availability : 0);
-}
-
-/**************************************************************************
 Returns the number of free spaces for ground units. Can be 0 or negative.
 **************************************************************************/
 int ground_unit_transporter_capacity(int x, int y, int playerid)

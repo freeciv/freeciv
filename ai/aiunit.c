@@ -763,7 +763,7 @@ static int ai_military_gothere(struct player *pplayer, struct unit *punit,
           punit->goto_dest_x = dest_x;
           punit->goto_dest_y = dest_y;
           set_unit_activity(punit, ACTIVITY_SENTRY); /* anything but GOTO!! */
-          if (!is_transporter_with_free_space(pplayer, punit->x, punit->y)) {
+          if (ground_unit_transporter_capacity(punit->x, punit->y, pplayer->player_no) <= 0) {
 	    freelog(LOG_DEBUG, "All aboard!");
 	    /* perhaps this should only require two passengers */
             unit_list_iterate(ptile->units, mypass)
@@ -1555,7 +1555,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   unit_list_iterate(pplayer->units, aunit)
 /*    if (aunit->ai.ferryboat == punit->id && warmap.seacost[aunit->x][aunit->y] < best) {*/
     if (aunit->ai.ferryboat && warmap.seacost[aunit->x][aunit->y] < best &&
-          !is_transporter_with_free_space(pplayer, aunit->x, aunit->y) &&
+          ground_unit_transporter_capacity(aunit->x, aunit->y, pplayer->player_no) <= 0 &&
 	  ai_fuzzy(pplayer,1)) {
       freelog(LOG_DEBUG, "Found a friend %d@(%d, %d)",
 		    aunit->id, aunit->x, aunit->y);
