@@ -384,6 +384,9 @@ void handle_unit_info(struct packet_unit_info *packet)
       else {
 	unit_list_unlink(&game.players[packet->owner].units, punit);
 	unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
+	if(punit->homecity && (pcity=game_find_city_by_id(punit->homecity))) {
+	  unit_list_unlink(&pcity->units_supported, punit);
+	}
 	refresh_tile_mapcanvas(punit->x, punit->y, 1);
 	free(punit);
         return;
