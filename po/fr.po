@@ -7,7 +7,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.14.1-devel\n"
+"Project-Id-Version: Freeciv 1.14.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-09-07 01:08+0200\n"
 "PO-Revision-Date: 1999-09-13 10:22+0200\n"
