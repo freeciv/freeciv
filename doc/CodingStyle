@@ -6,32 +6,36 @@ If you want to hack Freeciv, and want your patches to be accepted, it
 helps to follow some simple style rules. Yes, some of these are a bit 
 nit-picky, but wars are fought over the silliest things...
 
-- Use K&R indentation style with indentation 2 (if in doubt, use
-  "indent -kr -i2").  However, do not re-indent areas of code you are
-  not modifying or creating.
+- Freeciv is programmed in plain C (except the BEOS client). This
+  means that C++ features like:
+    - C++-style comments (i.e., // comments) and
+    - declaration variables in the middle of the function body
+  are forbidden.
 
-- Set lines to 80 columns. Lines should not wrap, ever.
+- Use K&R indentation style with indentation 2 (if in doubt, use
+  "indent -kr -i2 -l77").  However, do not re-indent areas of code you
+  are not modifying or creating. Here are the most important properties:
+    - lines are at most 77 chars long
+    - spaces are inserted before and after operators ("int i, j, k;"
+      instead of "int a,b,c;" and "if (foo <= bar) c = a + b;" instead
+      of "if(foo<=bar) c=a+b;")
+    - function braces begin and end in the first column.
+        int foo()
+        {
+          return 0;
+        }
+      instead of
+        int foo() {
+          return 0;
+        }
+    - the tab width is 8
+    - the indentation is 2 columns per level
 
 - An empty line should be placed between two separate blocks of code.
-
-- Spaces should go before and after operators, and after commas:
-
-int a,b,c;   /* bad */
-int i, j, k; /* good */
-
-if(foo<=bar) {   /* all bad */
-  c=a+b;
-}
-
-if(foo <= bar) { /* good */
-  c = a + b;
-}
 
 ================================
  Comments
 ================================
-
-- Don't use C++-style comments (i.e., // comments).
 
 - Every function should have a comment header. It should be above the 
   function's implementation, not the prototype:
@@ -120,19 +124,6 @@ int foo(struct city *pcity)
  Bracing
 ================================
 
-- Function braces should begin and end in the first column:
-
-int foo()
-{
-  return 0;
-}
-
- and not:
-
-int foo() {
-  return 0;
-}
-
 - Extra braces on iterates. Note that the *_iterate_end; should be placed 
   on the same line as the end brace:
 
@@ -143,19 +134,24 @@ int foo() {
 - In switch statements, braces should only be placed where needed, i.e. to
   protect local variables.
 
-- In general, [unnecessary] braces should be applied after conditionals:
+- Braces shall be used after conditionals:
 
-  if(x == 3) {
+  if (x == 3) {
     return;
   }
 
  and 
 
-  if(x == 3) {
+  if (x == 3) {
     return 1;
   } else {
     return 0;
   }
+
+ not
+
+  if (x == 3)
+    return 1;  /* BAD! */
 
 ================================
  Other stuff
@@ -180,11 +176,14 @@ int foo() {
   in the source.
 
 - Always prototype global functions in the appropriate header file.
-  Local functions should always be declared as static.
+  Local functions should always be declared as static. To catch and
+  some other problems please use the following warning options "-Wall
+  -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations 
+  -Wstrict-prototypes -Wnested-externs" if you use gcc.
 
-- If you send patches, use "diff -u" (or "diff -r -u").  For further
-  information, see <http://www.freeciv.org/contribute.html>.  Also,
-  name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
+- If you send patches, use "diff -u" (or "diff -r -u", or "cvs diff -u").
+  For further information, see <http://www.freeciv.org/contribute.html>.
+  Also, name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
   but "freeciv.diff" is not).
 
 - When doing a "diff" for a patch, be sure to exclude unnecessary files
