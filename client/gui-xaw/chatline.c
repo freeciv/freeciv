@@ -42,15 +42,13 @@
 **************************************************************************/
 void chatline_key_send(Widget w)
 {
-  struct packet_generic_message apacket;
   String theinput;
   String empty="";
 
   XtVaGetValues(w, XtNstring, &theinput, NULL);
   
   if(*theinput) {
-    mystrlcpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME+1);
-    send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+    send_chat(theinput);
   }
 
   XtVaSetValues(w, XtNstring, empty, NULL);

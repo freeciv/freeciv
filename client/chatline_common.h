@@ -15,6 +15,8 @@
 
 #include "shared.h"		/* bool type */
 
+void send_chat(const char *message);
+
 void append_output_window(const char *astring);
 
 void output_window_freeze(void);

@@ -40,14 +40,12 @@ int		history_pos;
 **************************************************************************/
 void inputline_return(GtkWidget *w, gpointer data)
 {
-  struct packet_generic_message apacket;
   char *theinput;
 
   theinput = gtk_entry_get_text(GTK_ENTRY(w));
   
   if (*theinput) {
-    mystrlcpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME+1);
-    send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+    send_chat(theinput);
 
     if (genlist_size(&history_list) >= MAX_CHATLINE_HISTORY) {
       void *data;

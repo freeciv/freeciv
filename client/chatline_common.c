@@ -19,10 +19,27 @@
 #include <string.h>
 
 #include "astring.h"
+#include "packets.h"
+#include "support.h"
 
 #include "chatline_g.h"
 
 #include "chatline_common.h"
+#include "clinet.h"
+
+/**************************************************************************
+  Send the message as a chat to the server.
+**************************************************************************/
+void send_chat(const char *message)
+{
+  struct packet_generic_message apacket;
+
+  mystrlcpy(apacket.message, message, MAX_LEN_MSG - MAX_LEN_USERNAME + 1);
+  apacket.x = apacket.y = -1;
+  apacket.event = 0; /* ? */
+
+  send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+}
 
 static int frozen_level = 0;
 static struct astring remaining = ASTRING_INIT;

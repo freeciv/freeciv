@@ -891,9 +891,7 @@ static LONG CALLBACK playername_proc(HWND win,UINT message,
 	server_autoconnect();
 	add_server_control_buttons();
 	if (Button_GetCheck(GetDlgItem(win,IDYES))==BST_CHECKED) {
-	  struct packet_generic_message apacket;
-	  mystrlcpy(apacket.message,"/start", MAX_LEN_MSG-MAX_LEN_USERNAME+1);
-	  send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+	  send_chat("/start");
 	}
 	DestroyWindow(win);
       }
@@ -1052,35 +1050,30 @@ static void handle_hscroll(HWND hWnd,HWND hWndCtl,UINT code,int pos)
 **************************************************************************/
 static void set_new_game_params(HWND win)
 {
-  int aifill;
-  struct packet_generic_message apacket;
+  int aifill, char aifill_str[MAX_LEN_MSG - MAX_LEN_USERNAME + 1];
+
   if (!is_server_running())
     start_server_for_new_game();
   GetWindowText(GetDlgItem(win,ID_NAME),user_name,512);
   server_autoconnect();
   add_server_control_buttons();
   if (IsDlgButtonChecked(win,ID_EASY)) {
-    mystrlcpy(apacket.message, "/easy", MAX_LEN_MSG-MAX_LEN_USERNAME+1);
+    send_chat("/easy");
   } else if (IsDlgButtonChecked(win,ID_MEDIUM)) {
-    mystrlcpy(apacket.message, "/normal", MAX_LEN_MSG-MAX_LEN_USERNAME+1);
+    send_chat("/normal");
   } else {
-    mystrlcpy(apacket.message, "/hard", MAX_LEN_MSG-MAX_LEN_USERNAME+1);   
+    send_chat("/hard");
   }
-  send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
 #if 0 
-  mystrlcpy(apacket.message, "/set autotoggle 1",
-	    MAX_LEN_MSG-MAX_LEN_USERNAME+1);
-  send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+  send_chat("/set autotoggle 1");
 #endif
   aifill=ScrollBar_GetPos(GetDlgItem(win,ID_AIFILL));
-  my_snprintf(apacket.message, MAX_LEN_MSG-MAX_LEN_USERNAME+1,
-	      "/set aifill %d", aifill);
-  send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+
+  my_snprintf(aifill_str, sizeof(aifill_str), "/set aifill %d", aifill);
+  send_chat(aifill);
    
   if (Button_GetCheck(GetDlgItem(win,ID_STARTGAME))==BST_CHECKED) {
-    struct packet_generic_message apacket;
-    mystrlcpy(apacket.message,"/start", MAX_LEN_MSG-MAX_LEN_USERNAME+1);
-    send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+    send_chat("/start");
   }
 }
 

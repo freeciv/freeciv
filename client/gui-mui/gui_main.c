@@ -323,7 +323,6 @@ void sound_bell(void)
 *****************************************************************/
 static void inputline_return(void)	/* from chatline.c */
 {
-  struct packet_generic_message apacket;
   char *theinput;
   int contents;
 
@@ -332,8 +331,7 @@ static void inputline_return(void)	/* from chatline.c */
 
   if (*theinput)
   {
-    mystrlcpy(apacket.message, theinput, MAX_LEN_MSG-MAX_LEN_USERNAME+1);
-    send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+    send_chat(theinput);
     contents = TRUE;
   }
   else

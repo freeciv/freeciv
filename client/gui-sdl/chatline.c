@@ -59,7 +59,6 @@
 **************************************************************************/
 static int inputline_return_callback(struct GUI *pWidget)
 {
-  struct packet_generic_message apacket;
   char *theinput = NULL;
 
   if (!pWidget->string16->text) {
@@ -69,9 +68,7 @@ static int inputline_return_callback(struct GUI *pWidget)
   theinput = convert_to_chars(pWidget->string16->text);
 
   if (*theinput) {
-    mystrlcpy(apacket.message, theinput,
-	      MAX_LEN_MSG - MAX_LEN_USERNAME + 1);
-    send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
+    send_chat(theinput);
 
     real_append_output_window(theinput);
     FREE(theinput);

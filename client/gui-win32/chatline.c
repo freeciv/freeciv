@@ -62,11 +62,10 @@ void handle_chatline(void)
 {
   static char msg_buf[MAX_LEN_MSG-MAX_LEN_USERNAME+1];
   char msg_buf2[MAX_LEN_MSG-MAX_LEN_USERNAME+1];
-  struct packet_generic_message apacket;
+
   GetWindowText(hchatline,msg_buf2,sizeof(msg_buf2));
   if (strchr(msg_buf2,'\n')) {
-    sz_strlcpy(apacket.message, msg_buf);
-    send_packet_generic_message(&aconnection, PACKET_CHAT_MSG,&apacket);
+    send_chat(msg_buf);
     SetWindowText(hchatline,"");
   } else {
     sz_strlcpy(msg_buf, msg_buf2);
