@@ -689,36 +689,38 @@ int handle_unit_enter_hut(struct unit *punit)
     {
       int res=pplayer->research.researched;
       int wasres=pplayer->research.researching;
+      int new_tech;
 
       choose_random_tech(pplayer);
+      new_tech=pplayer->research.researching;
+      pplayer->research.researched=res;
+      pplayer->research.researching=wasres;
  
-      pplayer->research.researchpoints++;
-      if (pplayer->research.researching!=A_NONE) {
-       notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-                        _("Game: You gain knowledge about %s."), 
-                        advances[pplayer->research.researching].name);
-       if (tech_flag(pplayer->research.researching,TF_RAILROAD)) {
-	 upgrade_city_rails(pplayer, 1);
-       }
-       set_invention(pplayer, pplayer->research.researching, TECH_KNOWN);
+      if (new_tech!=A_NONE) {
+	notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+			 _("Game: You gain knowledge about %s."), 
+			 advances[new_tech].name);
+
+	gamelog(GAMELOG_TECH,"%s discover %s (Hut)",
+		get_nation_name_plural(pplayer->nation),advances[new_tech].name
+		);
+
+	notify_embassies(pplayer, (struct player *)0,
+		  _("Game: The %s have aquired %s from ancient scrolls of wisdom"),
+		  get_nation_name_plural(pplayer->nation),
+		  advances[new_tech].name);
+
+	found_new_tech(pplayer,new_tech,0,1);
       }
       else {
        pplayer->future_tech++;
        notify_player(pplayer,
                      _("Game: You gain knowledge about Future Tech. %d."),
                      pplayer->future_tech);
+       pplayer->research.researchpoints++; /* don't call found_new_tech() */
       }
-      remove_obsolete_buildings(pplayer);
       
-      if (get_invention(pplayer,wasres)==TECH_KNOWN) {
-	if (!choose_goal_tech(pplayer))
-	  choose_random_tech(pplayer);
-	pplayer->research.researched=res;
-      }  else {
-	pplayer->research.researched=res;
-	pplayer->research.researching=wasres;
-      }
-     do_free_cost(pplayer);
+      do_free_cost(pplayer);
     }
     break;
   case 8:

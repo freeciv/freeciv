@@ -35,11 +35,14 @@ void page_player(struct player *pplayer, char *caption, char *headline,
 		 char *lines);
 void page_player_generic(struct player *pplayer, char *caption, char *headline,
 			 char *lines, int event);
-void notify_player(const struct player *pplayer, const char *format, ...)
-                   fc__attribute((format (printf, 2, 3)));
 void notify_player_ex(const struct player *pplayer, int x, int y,
 		      int event, const char *format, ...)
                       fc__attribute((format (printf, 5, 6)));
+void notify_player(const struct player *pplayer, const char *format, ...)
+                   fc__attribute((format (printf, 2, 3)));
+void notify_embassies(struct player *pplayer, struct player *exclude,
+		      const char *format, ...)
+		      fc__attribute((format (printf, 3, 4)));
 void handle_player_government(struct player *pplayer,
 			     struct packet_player_request *preq);
 void handle_player_research(struct player *pplayer,
@@ -49,6 +52,9 @@ void handle_player_tech_goal(struct player *pplayer,
 void handle_player_worklist(struct player *pplayer,
                             struct packet_player_request *preq);
 void researchprogress(int plr);
+void found_new_tech(struct player *plr, int tech_found, char was_discovery, 
+		    char saving_bulbs);
+void tech_researched(struct player* plr);
 int update_tech(struct player *plr, int bulbs);
 void init_tech(struct player *plr, int tech);
 void choose_random_tech(struct player *plr);

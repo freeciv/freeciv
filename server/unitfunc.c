@@ -440,7 +440,6 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 {
   struct player *cplayer;
   int index, count, which, target = -1;
-  int tech;
 
   /* Fetch target civilization's player.  Sanity checks. */
   if (!pcity)
@@ -572,6 +571,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
     /* Do it. */
     (pplayer->future_tech)++;
+    (pplayer->research.researchpoints)++;
     /* Report it. */
     notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 		      _("Game: Your %s stole Future Tech. %d from %s."),
@@ -594,20 +594,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     /* Steal a technology. */
 
     /* Do it. */
-    set_invention (pplayer, target, TECH_KNOWN);
-    if (tech_flag (target, TF_RAILROAD)) {
-      upgrade_city_rails (pplayer, 0);
-    }
-    update_research (pplayer);
     do_conquer_cost (pplayer);
-    pplayer->research.researchpoints++;
-    if (pplayer->research.researching == target) {
-      tech = pplayer->research.researched;
-      if (!choose_goal_tech (pplayer)) {
-	choose_random_tech (pplayer);
-      }
-      pplayer->research.researched = tech;
-    }
+    found_new_tech (pplayer, target, 0, 1);
     /* Report it. */
     notify_player_ex (pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
 		      _("Game: Your %s stole %s from %s."),
@@ -617,6 +605,11 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 		      _("Game: %s's %s stole %s from %s."), 
 		      pplayer->name, unit_name (pdiplomat->type),
 		      advances[target].name, pcity->name);
+    notify_embassies (pplayer, cplayer,
+		      _("Game: The %s have stolen %s from the %s"),
+		      get_nation_name_plural (pplayer->nation),
+		      advances[target].name,
+		      get_nation_name_plural (cplayer->nation));
     gamelog (GAMELOG_TECH, "%s steals %s from the %s",
 	     get_nation_name_plural (pplayer->nation),
 	     advances[target].name,
@@ -2130,11 +2123,10 @@ void raze_city(struct city *pcity)
 /**************************************************************************
   if target has more techs than pplayer, pplayer will get a random of these
   the clients will both be notified.
-  TODO: Players with embassies in these countries should be notified aswell
+  I have notified only those with embassies in pplayer's country - adm4
 **************************************************************************/
 void get_a_tech(struct player *pplayer, struct player *target)
 {
-  int tec;
   int i;
   int j=0;
   for (i=0;i<game.num_tech_types;i++) {
@@ -2145,11 +2137,18 @@ void get_a_tech(struct player *pplayer, struct player *target)
   }
   if (!j)  {
     if (target->future_tech > pplayer->future_tech) {
+      pplayer->future_tech++;
+      pplayer->research.researchpoints++;
+
       notify_player(pplayer, _("Game: You acquire Future Tech %d from %s."),
-		    ++(pplayer->future_tech), target->name);
+		    pplayer->future_tech, target->name);
       notify_player(target,
 		    _("Game: %s discovered Future Tech. %d in the city."), 
 		    pplayer->name, pplayer->future_tech);
+      notify_embassies(pplayer, target,
+		       _("Game: The %s discovered Future Tech %d from the %s (conq)"),
+		       get_nation_name_plural(pplayer->nation),
+		       pplayer->future_tech, get_nation_name_plural(target->nation));
     }
     return;
   }
@@ -2168,23 +2167,17 @@ void get_a_tech(struct player *pplayer, struct player *target)
           advances[i].name,
           get_nation_name_plural(target->nation));
 
-  set_invention(pplayer, i, TECH_KNOWN);
-  update_research(pplayer);
   do_conquer_cost(pplayer);
-  pplayer->research.researchpoints++;
+  found_new_tech(pplayer,i,0,1);
+
   notify_player(pplayer, _("Game: You acquired %s from %s."),
 		advances[i].name, target->name); 
   notify_player(target, _("Game: %s discovered %s in the city."), pplayer->name, 
 		advances[i].name); 
-  if (tech_flag(i,TF_RAILROAD)) {
-    upgrade_city_rails(pplayer, 0);
-  }
-  if (pplayer->research.researching==i) {
-    tec=pplayer->research.researched;
-    if (!choose_goal_tech(pplayer))
-      choose_random_tech(pplayer);
-    pplayer->research.researched=tec;
-  }
+  notify_embassies(pplayer, target, _("Game: The %s have stolen %s from the %s."),
+		   get_nation_name_plural(pplayer->nation),
+		   advances[i].name,
+		   get_nation_name_plural(target->nation));
 }
 
 /**************************************************************************

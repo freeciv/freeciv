@@ -145,17 +145,21 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	 case CLAUSE_ADVANCE:
 	  notify_player(pdest, _("Game: You are taught the knowledge of %s."),
 			advances[pclause->value].name);
-	  if (tech_flag(pclause->value,TF_RAILROAD)) {
-	    upgrade_city_rails(pdest, 0);
-	  }
+
+	  notify_embassies(pdest,pgiver,
+			   _("Game: The %s have aquired %s from the %s"),
+			   get_nation_name_plural(pdest->nation),
+			   advances[pclause->value].name,
+			   get_nation_name_plural(pgiver->nation));
+								 
 	  gamelog(GAMELOG_TECH, "%s acquire %s (Treaty) from %s",
                   get_nation_name_plural(pdest->nation),
                   advances[pclause->value].name,
                   get_nation_name_plural(pgiver->nation));
-	  set_invention(pdest, pclause->value, TECH_KNOWN);
-	  update_research(pdest);
+
 	  do_dipl_cost(pdest);
-	  pdest->research.researchpoints++;
+
+	  found_new_tech(pdest, pclause->value, 0, 1);
 	  break;
 	 case CLAUSE_GOLD:
 	  notify_player(pdest, _("Game: You get %d gold."), pclause->value);

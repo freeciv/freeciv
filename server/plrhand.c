@@ -1299,31 +1299,15 @@ static void great_library(struct player *pplayer)
 			   advances[i].name);
 	  gamelog(GAMELOG_TECH,"%s discover %s (Library)",
 		  get_nation_name_plural(pplayer->nation),advances[i].name);
+	  notify_embassies(pplayer,(struct player*)0,
+			   _("Game: The %s have aquired %s from the Great Library"),
+			   get_nation_name_plural(pplayer->nation),
+			   advances[i].name);
 
-	  if (tech_flag(i,TF_RAILROAD)) {
-	    upgrade_city_rails(pplayer, 0);
-	  }
-	  set_invention(pplayer, i, TECH_KNOWN);
-	  update_research(pplayer);	
 	  do_free_cost(pplayer);
-	  remove_obsolete_buildings(pplayer);
-	  pplayer->research.researchpoints++;
+	  found_new_tech(pplayer,i,0,0);
 	  break;
 	}
-      }
-    }
-    if (get_invention(pplayer, pplayer->research.researching)==TECH_KNOWN) {
-      if (choose_goal_tech(pplayer)) {
-	notify_player(pplayer,
-		      _("Game: Our scientist now focus on %s, goal is %s."),
-		      advances[pplayer->research.researching].name,
-		      advances[pplayer->ai.tech_goal].name );
-	
-      } else {
-	choose_random_tech(pplayer);
-	notify_player(pplayer,
-		      _("Game: Our scientist has choosen to research %s."),
-		      advances[pplayer->research.researching].name);
       }
     }
   }
@@ -1386,89 +1370,132 @@ static void update_player_aliveness(struct player *pplayer)
 }
 
 /**************************************************************************
-Called from each city to update the research.
+Player has a new technology (from somewhere)
+was_discovery is passed on to upgrade_city_rails
+Logging & notification is not done here as it depends on how the tech came.
 **************************************************************************/
 
-int update_tech(struct player *plr, int bulbs)
+void found_new_tech(struct player *plr, int tech_found, char was_discovery,
+		    char saving_bulbs)
 {
-  int old, i;
   int philohack=0;
-  char* origtech;
-  plr->research.researched+=bulbs;
-  if (plr->research.researched < research_time(plr)) 
-    return 0;
+  int was_first=0;
+  int saved_bulbs;
+
   plr->got_tech=1;
   plr->research.researchpoints++;
-  old=plr->research.researching;
-  if (old==game.rtech.get_bonus_tech &&
-      !game.global_advances[game.rtech.get_bonus_tech]) 
+  was_first = !game.global_advances[tech_found];
+  if (was_first)
+    gamelog(GAMELOG_TECH,_("%s are first to learn %s"),
+	    get_nation_name_plural(plr->nation),
+	    advances[tech_found].name
+	    );
+    
+  if (tech_found==game.rtech.get_bonus_tech && was_first)
     philohack=1;
-  if (!game.global_advances[plr->research.researching]) 
-    origtech = "(first)";
-  else 
-    origtech = "";
-  gamelog(GAMELOG_TECH,"%s discover %s %s",get_nation_name_plural(plr->nation),
-	  advances[plr->research.researching].name, origtech
-	  );
- 
-  set_invention(plr, plr->research.researching, TECH_KNOWN);
+
+  set_invention(plr, tech_found, TECH_KNOWN);
   update_research(plr);
   remove_obsolete_buildings(plr);
-  
-  /* start select_tech dialog */ 
-
-  if (choose_goal_tech(plr)) {
-    notify_player(plr, 
-		  _("Game: Learned %s.  "
-		    "Our scientists focus on %s, goal is %s."),
-		  advances[old].name, 
-		  advances[plr->research.researching].name,
-		  advances[plr->ai.tech_goal].name);
-  } else {
-    choose_random_tech(plr);
-    if (plr->research.researching!=A_NONE && old != A_NONE)
-      notify_player(plr,
-		    _("Game: Learned %s.  Scientists choose to research %s."),
-		    advances[old].name,
-		    advances[plr->research.researching].name);
-    else if (old != A_NONE)
-      notify_player(plr,
-		    _("Game: Learned %s.  Scientists choose to research "
-		      "Future Tech. 1."),
-		    advances[old].name);
-    else {
-      plr->future_tech++;
-      notify_player(plr,
-                   _("Game: Learned Future Tech. %d.  "
-		     "Researching Future Tech. %d."),
-		    plr->future_tech,(plr->future_tech)+1);
-    }
-
+  if (tech_flag(tech_found,TF_RAILROAD)) {
+    upgrade_city_rails(plr, was_discovery);
   }
-  for (i = 0; i<game.nplayers;i++) {
-    if (player_has_embassy(&game.players[i], plr))  {
-      if (old != A_NONE)
-        notify_player(&game.players[i], _("Game: The %s have researched %s."), 
-                      get_nation_name_plural(plr->nation),
-                      advances[old].name);
-      else
-        notify_player(&game.players[i],
-                      _("Game: The %s have researched Future Tech. %d."), 
-                      get_nation_name_plural(plr->nation),
-                      plr->future_tech);
+
+  if (tech_found==plr->ai.tech_goal)
+    plr->ai.tech_goal=A_NONE;
+
+  if (tech_found==plr->research.researching) {
+    /* need to pick new tech to research */
+
+    saved_bulbs=plr->research.researched;
+
+    if (choose_goal_tech(plr)) {
+      notify_player(plr, 
+		    _("Game: Learned %s.  "
+		      "Our scientists focus on %s, goal is %s."),
+		    advances[tech_found].name, 
+		    advances[plr->research.researching].name,
+		    advances[plr->ai.tech_goal].name);
+    } else {
+      choose_random_tech(plr);
+      if (plr->research.researching!=A_NONE && tech_found != A_NONE)
+	notify_player(plr,
+		     _("Game: Learned %s.  Scientists choose to research %s."),
+		     advances[tech_found].name,
+		     advances[plr->research.researching].name);
+      else if (tech_found != A_NONE)
+	notify_player(plr,
+		      _("Game: Learned %s.  Scientists choose to research "
+			"Future Tech. 1."),
+		      advances[tech_found].name);
+      else {
+	plr->future_tech++;
+	notify_player(plr,
+		      _("Game: Learned Future Tech. %d.  "
+			"Researching Future Tech. %d."),
+		      plr->future_tech,(plr->future_tech)+1);
+      }
     }
+    if(saving_bulbs)
+      plr->research.researched=saved_bulbs;
   }
 
   if (philohack) {
     notify_player(plr, _("Game: Great philosophers from all the world join "
 			 "your civilization; you get an immediate advance."));
-    update_tech(plr, 1000000);
+    tech_researched(plr);
+  }
+}
+
+/**************************************************************************
+Player has researched a new technology
+**************************************************************************/
+
+void tech_researched(struct player* plr)
+{
+  /* plr will be notified when new tech is chosen */
+
+  if (plr->research.researching != A_NONE) {
+    notify_embassies(plr, (struct player*)0,
+		     _("Game: The %s have researched %s."), 
+		     get_nation_name_plural(plr->nation),
+		     advances[plr->research.researching].name);
+
+    gamelog(GAMELOG_TECH,_("%s discover %s"),
+	    get_nation_name_plural(plr->nation),
+	    advances[plr->research.researching].name
+	    );
+  } else {
+    notify_embassies(plr, (struct player*)0,
+		     _("Game: The %s have researched Future Tech. %d."), 
+		     get_nation_name_plural(plr->nation),
+		     plr->future_tech);
+  
+    gamelog(GAMELOG_TECH,_("%s discover Future Tech %d"),
+	    get_nation_name_plural(plr->nation),
+	    plr->future_tech
+	    );
   }
 
-  if (tech_flag(old,TF_RAILROAD)) {
-    upgrade_city_rails(plr, 1);
+  /* do all the updates needed after finding new tech */
+  found_new_tech(plr, plr->research.researching, 1, 0);
+}
+
+/**************************************************************************
+Called from each city to update the research.
+**************************************************************************/
+
+int update_tech(struct player *plr, int bulbs)
+{
+  plr->research.researched+=bulbs;
+  if (plr->research.researched < research_time(plr)) {
+    return 0;
+  } else {
+    
+    tech_researched( plr );
+    
+    return 1;
   }
-  return 1;
 }
 
 int choose_goal_tech(struct player *plr)
@@ -1533,10 +1560,6 @@ void choose_random_tech(struct player *plr)
 
 void choose_tech(struct player *plr, int tech)
 {
-  if (get_invention(plr, tech) == TECH_UNKNOWN) {
-    return;
-  }
-
   if (plr->research.researching==tech)
     return;
   update_research(plr);
@@ -1777,7 +1800,6 @@ void notify_player_ex(const struct player *pplayer, int x, int y,
 /**************************************************************************
 ...
 **************************************************************************/
-
 void notify_player(const struct player *pplayer, const char *format, ...) 
 {
   int i;
@@ -1791,6 +1813,26 @@ void notify_player(const struct player *pplayer, const char *format, ...)
   genmsg.event = -1;
   for(i=0; i<game.nplayers; i++)
     if(!pplayer || pplayer==&game.players[i])
+      send_packet_generic_message(game.players[i].conn, PACKET_CHAT_MSG, &genmsg);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void notify_embassies(struct player *pplayer, struct player *exclude,
+		      const char *format, ...) 
+{
+  int i;
+  struct packet_generic_message genmsg;
+  va_list args;
+  va_start(args, format);
+  my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, args);
+  va_end(args);
+  genmsg.x = -1;
+  genmsg.y = -1;
+  genmsg.event = -1;
+  for(i=0; i<game.nplayers; i++)
+    if(player_has_embassy(&game.players[i],pplayer)&&exclude!=&game.players[i])
       send_packet_generic_message(game.players[i].conn, PACKET_CHAT_MSG, &genmsg);
 }
 
