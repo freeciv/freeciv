@@ -442,9 +442,9 @@ void ai_data_init(struct player *pplayer)
   ai->diplomacy.timer = 0;
   ai->diplomacy.countdown = 0;
   ai->diplomacy.love_coeff = 4; /* 4% */
-  ai->diplomacy.love_incr = 40;
-  ai->diplomacy.req_love_for_peace = 80;
-  ai->diplomacy.req_love_for_alliance = 160;
+  ai->diplomacy.love_incr = MAX_AI_LOVE * 4 / 100;
+  ai->diplomacy.req_love_for_peace = MAX_AI_LOVE * 8 / 100;
+  ai->diplomacy.req_love_for_alliance = MAX_AI_LOVE * 16 / 100;
   ai->diplomacy.req_love_for_ceasefire = 0;
   ai->diplomacy.alliance_leader = pplayer;
 

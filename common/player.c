@@ -566,28 +566,28 @@ bool ai_fuzzy(struct player *pplayer, bool normal_decision)
 **************************************************************************/
 const char *love_text(const int love)
 {
-  if (love <= -950) {
+  if (love <= - MAX_AI_LOVE * 90 / 100) {
     return Q_("?attitude:Genocidal");
-  } else if (love >= -949 && love <= -701) {
+  } else if (love <= - MAX_AI_LOVE * 70 / 100) {
     return Q_("?attitude:Belligerent");
-  } else if (love >= -700 && love <= -501) {
+  } else if (love <= - MAX_AI_LOVE * 50 / 100) {
     return Q_("?attitude:Hostile");
-  } else if (love >= -500 && love <= -251) {
+  } else if (love <= - MAX_AI_LOVE * 25 / 100) {
     return Q_("?attitude:Uncooperative");
-  } else if (love >= -250 && love <= -101) {
+  } else if (love <= - MAX_AI_LOVE * 10 / 100) {
     return Q_("?attitude:Uneasy");
-  } else if (love >= -100 && love <= 100) {
+  } else if (love <= MAX_AI_LOVE * 10 / 100) {
     return Q_("?attitude:Neutral");
-  } else if (love >= 101 && love <= 250) {
+  } else if (love <= MAX_AI_LOVE * 25 / 100) {
     return Q_("?attitude:Respectful");
-  } else if (love >= 251 && love <= 500) {
+  } else if (love <= MAX_AI_LOVE * 50 / 100) {
     return Q_("?attitude:Helpful");
-  } else if (love >= 501 && love <= 700) {
+  } else if (love <= MAX_AI_LOVE * 70 / 100) {
     return Q_("?attitude:Enthusiastic");
-  } else if (love >= 701 && love <= 949) {
+  } else if (love <= MAX_AI_LOVE * 90 / 100) {
     return Q_("?attitude:Admiring");
   } else {
-    assert(love >= 950);
+    assert(love > MAX_AI_LOVE * 90 / 100);
     return Q_("?attitude:Worshipful");
   }
 }
