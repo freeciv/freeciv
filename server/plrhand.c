@@ -288,8 +288,8 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   was_first = (game.global_advances[tech_found] == 0);
 
   if (was_first) {
-    gamelog(GAMELOG_TECH, plr, NULL, tech_found);
-    
+    /* We used to have a gamelog() for first-researched, but not anymore. */
+
     /* Alert the owners of any wonders that have been made obsolete */
     impr_type_iterate(id) {
       if (game.global_wonders[id] != 0 && is_wonder(id) &&
