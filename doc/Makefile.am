@@ -36,9 +36,12 @@ EXTRA_DIST =			\
 	ja/HOWTOPLAY.ja		\
 	ja/NEWS.ja		\
 	ja/README.ja		\
+	ja/README.cma.ja	\
+	ja/README_Japanese.ja	\
 	nl/BUGS.nl		\
 	nl/HOWTOPLAY.nl		\
 	nl/LEESMIJ		\
+	nl/NEWS.nl		\
 	nl/README.cma.nl	\
 	nl/README.nl		\
 	nl/README.rulesets.nl	\
