@@ -627,7 +627,7 @@ static void control_callback(ULONG * value)
       popup_science_dialog(0);
       break;
     case MENU_REPORT_TRADE:
-      popup_trade_report_dialog(0);
+      popup_economy_report_dialog(0);
       break;
     case MENU_REPORT_MILITARY:
       popup_activeunits_report_dialog(0);
