@@ -227,7 +227,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   if(pMeta_Severs) {
     return -1;
   }
-  
+    
   /* clear dlg area */			  
   SDL_FillRect(pDest, (SDL_Rect *)pWidget->data, 0x0);
   flush_rect(*((SDL_Rect *)pWidget->data));
@@ -248,7 +248,6 @@ static int meta_severs_callback(struct GUI *pWidget)
     append_output_window(errbuf);
     return -1;
   }
-
   
   pMeta_Severs = MALLOC(sizeof(struct ADVANCED_DLG));
     
@@ -283,7 +282,13 @@ static int meta_severs_callback(struct GUI *pWidget)
     		_("Players"), pServer->players, pServer->metastring);
 
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, 10,
-		WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT);
+	WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT);
+    
+    pBuf->string16->render = 3;
+    pBuf->string16->backcol.r = 0;
+    pBuf->string16->backcol.g = 0;
+    pBuf->string16->backcol.b = 0;
+    pBuf->string16->backcol.unused = 0;
     
     pBuf->action = sellect_meta_severs_callback;
     set_wstate(pBuf, WS_NORMAL);
@@ -304,7 +309,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   pMeta_Severs->pBeginActiveWidgetList = pBuf;
   pMeta_Severs->pEndActiveWidgetList = pWindow->prev->prev->prev;
   pMeta_Severs->pActiveWidgetList = pWindow->prev->prev->prev;
-  
+    
   if (count > 10) {
     meta_h = 10 * h;
        
@@ -388,6 +393,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   pBuf->size.y = pWindow->size.y + 10;
   pBuf->size.w = w;
   pBuf->size.h = h;
+  pBuf = convert_iconlabel_to_themeiconlabel2(pBuf);
   
   pBuf = pBuf->prev;
   while( pBuf )
@@ -397,10 +403,12 @@ static int meta_severs_callback(struct GUI *pWidget)
     pBuf->size.h = h;
     pBuf->size.x = pBuf->next->size.x;
     pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
-        
-    if ( pBuf == pMeta_Severs->pBeginActiveWidgetList ) break;
+    pBuf = convert_iconlabel_to_themeiconlabel2(pBuf);
+    
+    if (pBuf == pMeta_Severs->pBeginActiveWidgetList) {
+      break;
+    }
     pBuf = pBuf->prev;  
-   
   }
   
   if ( count > 10 )

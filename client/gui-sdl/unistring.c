@@ -82,26 +82,23 @@ Uint16 *unistrdup(const Uint16 *pUniString)
 }
 
 /**************************************************************************
-  ...
+  Don't free return array, only arrays members
 **************************************************************************/
-Uint16 **create_new_line_unistrings(const Uint16 *pUnistring)
+Uint16 ** create_new_line_unistrings(const Uint16 *pUnistring)
 {
-  Uint16 *pTmp = NULL;
-  Uint16 **pBuf = NULL;
-  Uint32 len = 0, count = 0;
-  int i;
-
+  static Uint16 *pBuf[32];
+  Uint16 *pFromUnistring = (Uint16 *)pUnistring;
+  size_t len = 0, count = 0;
+  
   while (*pUnistring != 0) {
     if (*pUnistring == 10) {	/* find new line char */
-      pBuf = REALLOC(pBuf, ++count * sizeof(Uint16 *));
+      count++;
       if (len) {
-	i = 0;
-	pBuf[count - 1] = MALLOC(len * sizeof(Uint16) + 2);
-	for (pTmp = (Uint16 *) (pUnistring - len); pTmp < pUnistring;
-	     pTmp++)
-	  pBuf[count - 1][i++] = *pTmp;
+	pBuf[count - 1] = CALLOC(len + 1, sizeof(Uint16));
+	memcpy(pBuf[count - 1], pFromUnistring, len<<1);
+	pFromUnistring = (Uint16 *)pUnistring + 1;
       } else {
-	pBuf[count - 1] = MALLOC(sizeof(Uint16) + 2);
+	pBuf[count - 1] = CALLOC(2, sizeof(Uint16));
 	pBuf[count - 1][0] = 32;
       }
       len = 0;
@@ -112,17 +109,10 @@ Uint16 **create_new_line_unistrings(const Uint16 *pUnistring)
     pUnistring++;
 
     if ((*pUnistring == 0) && len) {
-      pBuf = REALLOC(pBuf, ++count * sizeof(Uint16 *));
-      i = 0;
-      pBuf[count - 1] = MALLOC(len * sizeof(Uint16) + 2);
-      for (pTmp = (Uint16 *) (pUnistring - len); pTmp < pUnistring; pTmp++)
-	pBuf[count - 1][i++] = *pTmp;
+      pBuf[count] = CALLOC(len + 1, sizeof(Uint16));
+      memcpy(pBuf[count], pFromUnistring, len<<1);
     }
-
   }
-
-  pBuf = REALLOC(pBuf, ++count * sizeof(Uint16 *));
-  pBuf[count - 1] = NULL;
-
+  
   return pBuf;
 }

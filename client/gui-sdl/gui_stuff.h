@@ -80,7 +80,8 @@ enum WTypes {			/* allow 64 widgets type */
 				   ( can't be transp. ) */
   WT_CHECKBOX = 48,		/* checkbox. */
   WT_TCHECKBOX = 52,		/* text label with checkbox. */
-  WT_ICON2 = 56			/* flat Button from 1 - state icon */
+  WT_ICON2 = 56,		/* flat Button from 1 - state icon */
+  WT_T2_LABEL = 60
 };
 
 struct ScrollBar {
@@ -298,8 +299,11 @@ void draw_menubuttons(struct GUI *pFirstButtonOnList);
 struct GUI *create_themelabel(SDL_Surface *pBackground, SDL_Surface *pDest,
 			      SDL_String16 *pText, Uint16 w, Uint16 h,
 			      Uint32 flags);
+struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
+  		SDL_String16 *pText, Uint16 w, Uint16 h, Uint32 flags);
 struct GUI *create_iconlabel(SDL_Surface *pIcon, SDL_Surface *pDest, 
   	SDL_String16 *pText, Uint32 flags);
+struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel);
 int draw_label(struct GUI *pLabel, Sint16 start_x, Sint16 start_y);
 
 int redraw_label(struct GUI *pLabel);

@@ -78,6 +78,7 @@
 #include "mapview.h"
 
 extern char *pDataPath;
+extern SDL_Event *pFlush_User_Event;
 
 /* These values are stored in the mapview_canvas struct now. */
 #define map_view_x0 mapview_canvas.map_x0
@@ -236,6 +237,31 @@ void flush_rect(SDL_Rect rect)
   }
 }
 
+static bool is_flush_queued = FALSE;
+
+/**************************************************************************
+  A callback invoked as a result of gtk_idle_add, this function simply
+  flushes the mapview canvas.
+**************************************************************************/
+void unqueue_flush(void)
+{
+  flush_dirty();
+  is_flush_queued = FALSE;
+}
+
+/**************************************************************************
+  Called when a region is marked dirty, this function queues a flush event
+  to be handled later by GTK.  The flush may end up being done
+  by freeciv before then, in which case it will be a wasted call.
+**************************************************************************/
+static void queue_flush(void)
+{
+  if (!is_flush_queued) {
+    SDL_PushEvent(pFlush_User_Event);
+    is_flush_queued = TRUE;
+  }
+}
+
 /**************************************************************************
   Save Flush area used by "end" flush.
 **************************************************************************/
@@ -245,6 +271,7 @@ void dirty_rect(int canvas_x , int canvas_y ,
   SDL_Rect Rect = {canvas_x, canvas_y, pixel_width, pixel_height};
   if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
     Main.rects[Main.rects_count++] = Rect;
+    queue_flush();
   }
 }
 
@@ -255,6 +282,7 @@ void sdl_dirty_rect(SDL_Rect Rect)
 {
   if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(&Rect)) {
     Main.rects[Main.rects_count++] = Rect;
+    
   }
 }
 
@@ -264,6 +292,7 @@ void sdl_dirty_rect(SDL_Rect Rect)
 void dirty_all(void)
 {
   Main.rects_count = RECT_LIMIT;
+  queue_flush();
 }
 
 /**************************************************************************
@@ -1315,7 +1344,7 @@ void refresh_overview_viewrect(void)
 static void put_city_pixmap_draw(struct city *pCity, SDL_Surface * pDest,
 				 Sint16 map_x, Sint16 map_y)
 {
-  struct Sprite *pSprites[80];
+  static struct Sprite *pSprites[20];
   SDL_Rect src , des = {map_x, map_y, 0, 0};
   int i;
   int count =
@@ -1336,6 +1365,9 @@ static void put_city_pixmap_draw(struct city *pCity, SDL_Surface * pDest,
   src = des;
   for (i = 1; i < count; i++) {
     if (pSprites[i]) {
+      if(GET_SURF(pSprites[i])->w - NORMAL_TILE_WIDTH > 0) {
+	des.x -= ((GET_SURF(pSprites[i])->w - NORMAL_TILE_WIDTH) >> 1);
+      }
       SDL_BlitSurface(GET_SURF(pSprites[i]), NULL, pDest, &des);
       des = src;	    
     }
@@ -1417,19 +1449,19 @@ static bool is_full_ocean(enum tile_terrain_type t, int x, int y)
 static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 			  Uint16 map_col, Uint16 map_row, int citymode)
 {
-  struct Sprite *pTile_sprs[80];
-  struct Sprite *pCoasts[4] = {NULL, NULL, NULL, NULL};
-  struct Sprite *pDither[4] = {NULL, NULL, NULL, NULL};
-  SDL_Surface *pDitherBufs[4];
-  SDL_Surface *pBufSurface = NULL;
+  static struct Sprite *pTile_sprs[80];
+  static struct Sprite *pCoasts[4] = {NULL, NULL, NULL, NULL};
+  static struct Sprite *pDither[4] = {NULL, NULL, NULL, NULL};
+  static SDL_Surface *pDitherBufs[4];
+  static SDL_Surface *pBufSurface = NULL;
   SDL_Rect dst , des = {map_x, map_y, 0, 0};
-  struct tile *pTile = map_get_tile(map_col, map_row);
-  struct city *pCity = pTile->city;
-  struct unit *pUnit = NULL, *pFocus = NULL;
-  enum tile_special_type special = pTile->special;
-  int count, i = 0;
-  int fog;
-  int full_ocean;
+  static struct tile *pTile = NULL;
+  static struct city *pCity = NULL;
+  static struct unit *pUnit = NULL, *pFocus = NULL;
+  static enum tile_special_type special;
+  static int count, i;
+  static bool fog;
+  static bool full_ocean;
   int solid_bg;
   
   count =
@@ -1447,8 +1479,12 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
   /* Replace with check for is_normal_tile later */
   assert(is_real_tile(map_col, map_row));
 #endif
-    
-  fog = pTile->known == TILE_KNOWN_FOGGED && draw_fog_of_war;
+  
+  i = 0;
+  pTile = map_get_tile(map_col, map_row);
+  pCity = pTile->city;  
+  special = pTile->special;
+  fog = (pTile->known == TILE_KNOWN_FOGGED && draw_fog_of_war);
   pUnit = get_drawable_unit(map_col, map_row, citymode);
   pFocus = get_unit_in_focus();
   full_ocean = is_full_ocean(pTile->terrain, map_col, map_row);
@@ -1547,7 +1583,7 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
     if (pTile_sprs[i]) {
       if (GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH > 0
 	  || GET_SURF(pTile_sprs[i])->h - NORMAL_TILE_HEIGHT > 0) {
-	des.x -= (GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH);
+	des.x -= ((GET_SURF(pTile_sprs[i])->w - NORMAL_TILE_WIDTH) >> 1);
 	des.y -= (GET_SURF(pTile_sprs[i])->h - NORMAL_TILE_HEIGHT);
 	SDL_BlitSurface(GET_SURF(pTile_sprs[i]), NULL, pBufSurface, &des);
       } else {
@@ -1720,7 +1756,7 @@ void real_blink_active_unit(void)
         /* blit unit graphic */
         SDL_BlitSurface(pBlinkSurfaceB, NULL, Main.map, &area);
      
-      flush_mapcanvas(area.x, area.y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+        flush_mapcanvas(area.x, area.y, UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
           
       } else {
         /* refresh clear area */

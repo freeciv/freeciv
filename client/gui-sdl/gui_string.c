@@ -241,7 +241,8 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
 static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 {
   SDL_Rect des = { 0, 0, 0, 0 };
-  SDL_Surface *pText = NULL, *pNew = NULL, **pTmp = NULL;
+  
+  SDL_Surface *pText = NULL, **pTmp = NULL;
   Uint16 i, w = 0, count = 0;
   Uint32 color;
   Uint16 *pBuf = pString->text;
@@ -268,27 +269,32 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
   }
 
   /* create and fill surface */
-  pText = create_surf(w, count * pTmp[0]->h, SDL_SWSURFACE);
+  
   color = pTmp[0]->format->colorkey;
   
   switch (pString->render) {
   case 1:
+    pText = create_surf(w, count * pTmp[0]->h, SDL_SWSURFACE);
     SDL_FillRect(pText, NULL, color);
     SDL_SetColorKey(pText, SDL_SRCCOLORKEY, color);
     break;
   case 2:
     {
-      pNew = pText;
-      pText = SDL_ConvertSurface(pNew, pTmp[0]->format, pTmp[0]->flags);
-      FREESURFACE(pNew);
+      
+      
+      pText = create_surf_with_format(pTmp[0]->format,
+				     w, count * pTmp[0]->h, pTmp[0]->flags);
+      
       SDL_FillRect(pText, NULL, color);
     }
     break;
   case 3:
     {
-      pNew = pText;
-      pText = SDL_ConvertSurface(pNew, pTmp[0]->format, pTmp[0]->flags);
-      FREESURFACE(pNew);
+      
+      
+      
+      pText = create_surf_with_format(pTmp[0]->format,
+				     w, count * pTmp[0]->h, pTmp[0]->flags);
       SDL_FillRect(pText, NULL,
       	SDL_MapRGBA(pText->format,
 	      pString->backcol.r,pString->backcol.g,
@@ -296,6 +302,7 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
     }
     break;  
   default:
+    pText = create_surf(w, count * pTmp[0]->h, SDL_SWSURFACE);
     SDL_FillRect(pText, NULL, color);
     break;
   }
@@ -324,7 +331,7 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
     SDL_FreeSurface(pTmp[i]);
   }
 
-  FREE(UniTexts);
+  
   FREE(pTmp);
 
   return pText;

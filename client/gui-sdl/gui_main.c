@@ -86,19 +86,7 @@
 
 /*#include "freeciv.ico"*/
 
-#define TIMERS
-#define THREADS
-
-#ifndef THREADS
-#define TICK_CALL
-#define SOCKET_TIMER_INTERVAL	100
-#endif
-
-#ifdef THREADS
-#include <SDL/SDL_thread.h>
-#endif
-
-#define UNITS_TIMER_INTERVAL 150	/* milliseconds */
+#define UNITS_TIMER_INTERVAL 125	/* milliseconds */
 
 const char *client_string = "gui-sdl";
 
@@ -107,47 +95,28 @@ enum USER_EVENT_ID {
   NET = 1,
   ANIM = 2,
   TRY_AUTO_CONNECT = 3,
-  SHOW_WIDGET_INFO_LABBEL = 4
+  SHOW_WIDGET_INFO_LABBEL = 4,
+  FLUSH = 5
 };
 
 Uint32 SDL_Client_Flags = 0;
-
-#ifdef TIMERS
-static SDL_TimerID game_timer_id;
-static SDL_TimerID autoconnect_timer_id;
-#endif
-
-#ifdef THREADS
-static SDL_Thread *pThread = NULL;
-static SDL_sem *pNetLock = NULL;
-#endif
-
-static SDL_Event *pNet_User_Event = NULL;
-static SDL_Event *pAnim_User_Event = NULL;
-static SDL_Event *pInfo_User_Event = NULL;
-
-
 Uint32 widget_info_cunter = 0;
 
 char *pDataPath = NULL;
 extern bool draw_goto_patrol_lines;
+SDL_Event *pFlush_User_Event = NULL;
 
 /* ================================ Private ============================ */
+static int net_socket = -1;
+static bool autoconnect = FALSE;
+static SDL_Event *pNet_User_Event = NULL;
+static SDL_Event *pAnim_User_Event = NULL;
+static SDL_Event *pInfo_User_Event = NULL;
+
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 
 static void gui_main_loop(void);
-
-static int net_socket = -1;
-
-#ifndef THREADS
-static Uint32 socket_timer(Uint32 interval, void *socket);
-#endif
-
-#ifdef TIMERS
-static Uint32 game_timer_callback(Uint32 interval, void *param);
-#endif
-
 static int optiondlg_callback(struct GUI *p);
 
 /* =========================================================== */
@@ -202,284 +171,231 @@ static void gui_main_loop(void)
   Uint16 ID = 0;
   int RSHIFT = 0;
   struct GUI *pWidget = NULL;
-
-#ifdef TICK_CALL
-  Uint32 t1 = 0, t2;
-#endif
-
+  struct timeval tv;
+  fd_set civfdset;
+  int result;
+  Uint32 t1 , t2;
   int schot_nr = 0;
   char schot[32];
   
-#ifdef THREADS
-  pNetLock = SDL_CreateSemaphore(0);
-#endif
   
+  t1 = SDL_GetTicks();
   while (!ID) {
-#ifdef TICK_CALL
     /* ========================================= */
-
-    /*
-     *      I use this metod becouse I can't debug when 
-     *      use thread to call input_from_server(net_socket) function.
-     *      In real game I return to thread !
-     */
+    /* net check with 10ms delay event loop */
+    if (net_socket >= 0) {
+      FD_ZERO(&civfdset);
+      FD_SET(net_socket, &civfdset);
+      tv.tv_sec = 0;
+      tv.tv_usec = 10000;/* 10ms*/
+    
+      result = select(net_socket + 1, &civfdset, NULL, NULL, &tv);
+      if(result < 0) {
+        if (errno != EINTR) {
+	  break;
+        } else {
+	  continue;
+        }
+      } else {
+        if (result > 0 && FD_ISSET(net_socket, &civfdset)) {
+	  SDL_PushEvent(pNet_User_Event);
+	}
+      }
+    } /* if */
+    /* ========================================= */
+    
     t2 = SDL_GetTicks();
-    if ((t2 - t1) > SOCKET_TIMER_INTERVAL) {
-      socket_timer(0, NULL);	/* tmp */
+    if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
+      if(widget_info_cunter || autoconnect) {
+        if(widget_info_cunter > 10) {
+          SDL_PushEvent(pInfo_User_Event);
+          widget_info_cunter = 0;
+        } else {
+          widget_info_cunter++;
+          SDL_PushEvent(pAnim_User_Event);
+        }
+      } else {
+        SDL_PushEvent(pAnim_User_Event);
+      }
       t1 = SDL_GetTicks();
     }
-#endif
+  
     /* ========================================= */
-
-    SDL_WaitEvent(&Main.event);
-    switch (Main.event.type) {
-    case SDL_QUIT:
-      return;
     
-    case SDL_KEYUP:
-      /* find if Right Shift is released */
-      if (Main.event.key.keysym.sym == SDLK_RSHIFT) {
-	RSHIFT &= 0;
-      }
-      break;
-    case SDL_KEYDOWN:
+    while(SDL_PollEvent(&Main.event) == 1) {
+      switch (Main.event.type) {
+      case SDL_QUIT:
+        return;
+    
+      case SDL_KEYUP:
+        /* find if Right Shift is released */
+        if (Main.event.key.keysym.sym == SDLK_RSHIFT) {
+	  RSHIFT &= 0;
+        }
+        break;
+      case SDL_KEYDOWN:
 
-      pWidget = MainWidgetListKeyScaner(Main.event.key.keysym);
+        pWidget = MainWidgetListKeyScaner(Main.event.key.keysym);
 
-      if (pWidget) {
+        if (pWidget) {
 
-	ID = widget_pressed_action(pWidget);
-	unsellect_widget_action();
-      } else if ((RSHIFT) && (Main.event.key.keysym.sym == SDLK_RETURN)) {
-	/* input */
-	popup_input_line();
+	  ID = widget_pressed_action(pWidget);
+	  unsellect_widget_action();
+        } else if ((RSHIFT) && (Main.event.key.keysym.sym == SDLK_RETURN)) {
+	  /* input */
+	  popup_input_line();
 	
-      } else {
-	if (!(SDL_Client_Flags & CF_OPTION_OPEN) &&
+        } else {
+	  if (!(SDL_Client_Flags & CF_OPTION_OPEN) &&
 	    (map_event_handler(Main.event.key.keysym))) {
-	  switch (Main.event.key.keysym.sym) {
+	    switch (Main.event.key.keysym.sym) {
 
-	  case SDLK_RETURN:
-	  case SDLK_KP_ENTER:
-	    key_end_turn();
+	    case SDLK_RETURN:
+	    case SDLK_KP_ENTER:
+	      key_end_turn();
 	    break;
 
-	  case SDLK_RSHIFT:
-	    /* Right Shift is Pressed */
-	    RSHIFT = 1;
+	    case SDLK_RSHIFT:
+	      /* Right Shift is Pressed */
+	      RSHIFT = 1;
 	    break;
-	  case SDLK_UP:
-	  case SDLK_KP8:
-	    key_unit_move(DIR8_NORTH);
-	    break;
-
-	  case SDLK_PAGEUP:
-	  case SDLK_KP9:
-	    key_unit_move(DIR8_NORTHEAST);
+	    
+	    case SDLK_UP:
+	    case SDLK_KP8:
+	      key_unit_move(DIR8_NORTH);
 	    break;
 
-	  case SDLK_RIGHT:
-	  case SDLK_KP6:
-	    key_unit_move(DIR8_EAST);
+	    case SDLK_PAGEUP:
+	    case SDLK_KP9:
+	      key_unit_move(DIR8_NORTHEAST);
 	    break;
 
-	  case SDLK_PAGEDOWN:
-	  case SDLK_KP3:
-	    key_unit_move(DIR8_SOUTHEAST);
+	    case SDLK_RIGHT:
+	    case SDLK_KP6:
+	      key_unit_move(DIR8_EAST);
 	    break;
 
-	  case SDLK_DOWN:
-	  case SDLK_KP2:
-	    key_unit_move(DIR8_SOUTH);
+	    case SDLK_PAGEDOWN:
+	    case SDLK_KP3:
+	      key_unit_move(DIR8_SOUTHEAST);
 	    break;
 
-	  case SDLK_END:
-	  case SDLK_KP1:
-	    key_unit_move(DIR8_SOUTHWEST);
+	    case SDLK_DOWN:
+	    case SDLK_KP2:
+	      key_unit_move(DIR8_SOUTH);
 	    break;
 
-	  case SDLK_LEFT:
-	  case SDLK_KP4:
-	    key_unit_move(DIR8_WEST);
+	    case SDLK_END:
+	    case SDLK_KP1:
+	      key_unit_move(DIR8_SOUTHWEST);
 	    break;
 
-	  case SDLK_HOME:
-	  case SDLK_KP7:
-	    key_unit_move(DIR8_NORTHWEST);
+	    case SDLK_LEFT:
+	    case SDLK_KP4:
+	      key_unit_move(DIR8_WEST);
 	    break;
 
-	  case SDLK_KP5:
-	    advance_unit_focus();
+	    case SDLK_HOME:
+	    case SDLK_KP7:
+	      key_unit_move(DIR8_NORTHWEST);
 	    break;
 
-	  case SDLK_ESCAPE:
-	    key_cancel_action();
-	    draw_goto_patrol_lines = FALSE;
+	    case SDLK_KP5:
+	      advance_unit_focus();
 	    break;
 
-	  case SDLK_c:
-	    request_center_focus_unit();
+	    case SDLK_ESCAPE:
+	      key_cancel_action();
+	      draw_goto_patrol_lines = FALSE;
 	    break;
 
-	  case SDLK_PRINT:
-	    freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
-	    my_snprintf(schot, sizeof(schot), "schot0%d.bmp",
+	    case SDLK_c:
+	      request_center_focus_unit();
+	    break;
+
+	    case SDLK_PRINT:
+	      freelog(LOG_NORMAL, "Make screenshot nr. %d", schot_nr);
+	      my_snprintf(schot, sizeof(schot), "schot0%d.bmp",
 			schot_nr++);
-	    SDL_SaveBMP(Main.screen, schot);
+	      SDL_SaveBMP(Main.screen, schot);
 	    break;
 
-	  default:
+	    default:
 	    break;
 	  }
 	}
       }
       break;
 
-    case SDL_MOUSEBUTTONDOWN:
+      case SDL_MOUSEBUTTONDOWN:
 
-      pWidget = MainWidgetListScaner(&Main.event.motion);
+        pWidget = MainWidgetListScaner(&Main.event.motion);
 
-      if (pWidget) {
-	ID = widget_pressed_action(pWidget);
-      } else {
-	button_down_on_map(&Main.event.button);
-      }
+        if (pWidget) {
+	  ID = widget_pressed_action(pWidget);
+        } else {
+	  button_down_on_map(&Main.event.button);
+        }
       break;
 
-    case SDL_USEREVENT:
-      switch(Main.event.user.code) {
-	case NET:
-          input_from_server(net_socket);
-#ifdef THREADS    
-          SDL_SemPost(pNetLock);
-#endif
-	break;
-	case ANIM:
-	  if(is_isometric) {
-	    real_blink_active_unit();
-	  } else {
-	    blink_active_unit();
-	  }
-	break;
-	case SHOW_WIDGET_INFO_LABBEL:
-	  draw_widget_info_label();
-	break;
-	case TRY_AUTO_CONNECT:
-	  if (try_to_autoconnect()) {
-#ifdef TIMERS
-	    SDL_RemoveTimer(autoconnect_timer_id);
-#endif
-	    pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
-	    widget_info_cunter = 0;
-	    break;
-	  }
-	  widget_info_cunter = 1;
-	break;
-	default:
-	break;
-      }    
-    break;
+      case SDL_USEREVENT:
+        switch(Main.event.user.code) {
+	  case NET:
+            input_from_server(net_socket);
+	  break;
+	  case ANIM:
+	    if(is_isometric) {
+	      real_blink_active_unit();
+	    } else {
+	      blink_active_unit();
+	    }
+	  break;
+	  case SHOW_WIDGET_INFO_LABBEL:
+	    draw_widget_info_label();
+	  break;
+	  case TRY_AUTO_CONNECT:
+	    if (try_to_autoconnect()) {
+	      pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABBEL;
+	      autoconnect = FALSE;
+	    }
+	  break;
+          case FLUSH:
+	    unqueue_flush();
+	  break;
+	  default:
+	  break;
+        }    
+      break;
       
-    case SDL_MOUSEMOTION:
+      case SDL_MOUSEMOTION:
 
-      if(draw_goto_patrol_lines) {
-	update_line(Main.event.motion.x, Main.event.motion.y);
-      }
+        if(draw_goto_patrol_lines) {
+	  update_line(Main.event.motion.x, Main.event.motion.y);
+        }
       
-      pWidget = MainWidgetListScaner(&Main.event.motion);
-      if (pWidget) {
-	widget_sellected_action(pWidget);
-      } else {
-	unsellect_widget_action();
-      }
-      ID = 0;
+        pWidget = MainWidgetListScaner(&Main.event.motion);
+        if (pWidget) {
+	  widget_sellected_action(pWidget);
+        } else {
+	  unsellect_widget_action();
+        }
+        ID = 0;
 
       break;
+      }
     }
   }
   
-#ifdef THREADS
-  SDL_DestroySemaphore(pNetLock);
-  pNetLock = NULL;
-#endif  
   /*del_main_list();*/
 }
 
-#ifndef THREADS
-/**************************************************************************
-  ...
-**************************************************************************/
-static Uint32 socket_timer(Uint32 interval, void *socket)
-{
-  struct timeval tv;
-  fd_set civfdset;
-
-  while (net_socket >= 0) {
-    FD_ZERO(&civfdset);
-    FD_SET(net_socket, &civfdset);
-    tv.tv_sec = 0;
-    tv.tv_usec = 0;
-
-    if (select(FD_SETSIZE, &civfdset, NULL, NULL, &tv)) {
-      if (FD_ISSET(net_socket, &civfdset)) {
-	input_from_server(net_socket);
-      }
-    } else {
-      break;
-    }
-  }
-
-  return interval;
-}
-#endif
-
-#ifdef THREADS
-/**************************************************************************
-  ...
-**************************************************************************/
-static int socket_thread(void *socket)
-{
-  struct timeval tv;
-  fd_set civfdset;
-  int result;
-  
-  while (net_socket >= 0) {
-    
-    FD_ZERO(&civfdset);
-    FD_SET(net_socket, &civfdset);
-    tv.tv_sec = 1;
-    tv.tv_usec = 0;
-    
-    result = select(net_socket + 1, &civfdset, NULL, NULL, &tv);
-    if(result < 0) {
-      if (errno != EINTR) {
-	break;
-      } else {
-	continue;
-      }
-    } else {
-      if (result > 0 && FD_ISSET(net_socket, &civfdset)) {
-	
-	SDL_PushEvent(pNet_User_Event);
-	
-	SDL_SemWait(pNetLock);
-
-      }
-    }
-  } /* while */
-  
-  return 0;
-}
-#endif
-
-#ifdef TIMERS
+#if 0
 /**************************************************************************
  this is called every TIMER_INTERVAL milliseconds whilst we are in 
  gui_main_loop() (which is all of the time) TIMER_INTERVAL needs to be .5s
 **************************************************************************/
 static Uint32 game_timer_callback(Uint32 interval, void *param)
 {
-#if 0  
   static int flip;
 
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
@@ -515,31 +431,7 @@ static Uint32 game_timer_callback(Uint32 interval, void *param)
 
     flip = !flip;
   }
-#else
-  
-  if(widget_info_cunter) {
-    if(widget_info_cunter > 10) {
-      SDL_PushEvent(pInfo_User_Event);
-      widget_info_cunter = 0;
-    } else {
-      widget_info_cunter++;
-      SDL_PushEvent(pAnim_User_Event);
-    }
-  } else {
-    SDL_PushEvent(pAnim_User_Event);
-  }
-
-#endif
     
-  return interval;
-}
-
-static Uint32 try_autoconnect_timer_callback(Uint32 interval, void *param)
-{
-  if(widget_info_cunter) {
-    SDL_PushEvent(pInfo_User_Event);
-    widget_info_cunter = 0;
-  }
   return interval;
 }
 
@@ -559,14 +451,9 @@ static int optiondlg_callback(struct GUI *pButton)
   return -1;
 }
 
-
 void add_autoconnect_to_timer(void)
 {
-#ifdef TIMERS
-  autoconnect_timer_id = SDL_AddTimer(AUTOCONNECT_INTERVAL,
-				try_autoconnect_timer_callback , NULL );
-#endif
-  widget_info_cunter = 1;
+  autoconnect = TRUE;
   pInfo_User_Event->user.code = TRY_AUTO_CONNECT;
 }
 
@@ -584,13 +471,11 @@ void ui_init(void)
 
   iSDL_Flags |= SDL_INIT_NOPARACHUTE;
   
-#ifdef TIMERS
-  iSDL_Flags |= SDL_INIT_TIMER;
-#endif
-
+/*
 #ifdef THREADS  
   iSDL_Flags |= SDL_INIT_EVENTTHREAD;
 #endif
+*/
   
   init_sdl(iSDL_Flags);
   
@@ -606,7 +491,7 @@ void ui_init(void)
 #endif
   
   set_video_mode(640, 480, iScreenFlags);
-
+  
   SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
 
   /* create label beackground */
@@ -620,11 +505,10 @@ void ui_init(void)
   load_intro_gfx();
 
   draw_intro_gfx();
-
-  pInit_String = create_themelabel(pBgd, Main.gui,
-	create_str16_from_char(_("Initializing Client"), 20), 350, 50,
-				   WF_FREE_THEME);
-
+  
+  pInit_String = create_iconlabel(pBgd, Main.gui,
+	create_str16_from_char(_("Initializing Client"), 20),
+				   WF_ICON_CENTER|WF_FREE_THEME);
   draw_label(pInit_String,
 	     (Main.screen->w - pInit_String->size.w) / 2,
 	     (Main.screen->h - pInit_String->size.h) / 2);
@@ -649,6 +533,7 @@ void ui_main(int argc, char *argv[])
   SDL_Event __Net_User_Event;
   SDL_Event __Anim_User_Event;
   SDL_Event __Info_User_Event;
+  SDL_Event __Flush_User_Event;
   
   __Net_User_Event.type = SDL_USEREVENT;
   __Net_User_Event.user.code = NET;
@@ -667,6 +552,12 @@ void ui_main(int argc, char *argv[])
   __Info_User_Event.user.data1 = NULL;
   __Info_User_Event.user.data2 = NULL;
   pInfo_User_Event = &__Info_User_Event;
+
+  __Flush_User_Event.type = SDL_USEREVENT;
+  __Flush_User_Event.user.code = FLUSH;
+  __Flush_User_Event.user.data1 = NULL;
+  __Flush_User_Event.user.data2 = NULL;
+  pFlush_User_Event = &__Flush_User_Event;
   
   smooth_move_unit_steps = 8;
   update_city_text_in_refresh_tile = FALSE;
@@ -727,18 +618,9 @@ void ui_main(int argc, char *argv[])
   
   flush_all();
 
-#ifdef TIMERS
-  game_timer_id = SDL_AddTimer(UNITS_TIMER_INTERVAL,
-					  game_timer_callback , NULL);
-#endif
-
   set_client_state(CLIENT_PRE_GAME_STATE);
 
   gui_main_loop();
-  
-#ifdef TIMERS
-  SDL_RemoveTimer(game_timer_id);
-#endif
 
   free_auxiliary_tech_icons();
   tilespec_unload_theme();
@@ -769,17 +651,10 @@ void enable_turn_done_button(void)
 **************************************************************************/
 void add_net_input(int sock)
 {
-  freelog(LOG_NORMAL, "Connection UP (%d)", sock);
-  
+  freelog(LOG_DEBUG, "Connection UP (%d)", sock);
   net_socket = sock;
+  autoconnect = FALSE;
   pAnim_User_Event->user.code = ANIM;
-  
-#ifdef THREADS
-  
-  pThread = SDL_CreateThread(socket_thread, NULL);
-  
-#endif
-
 }
 
 /**************************************************************************
@@ -790,10 +665,6 @@ void remove_net_input(void)
   net_socket = (-1);
   freelog(LOG_DEBUG, "Connection DOWN... ");
   pAnim_User_Event->user.code = EVENT_ERROR;
-#ifdef THREADS  
-    SDL_WaitThread(pThread, NULL);
-#endif
-  
 }
 
 /**************************************************************************

@@ -758,8 +758,7 @@ void update_menus(void)
   }
 
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE ||
-      (SDL_Client_Flags & CF_OPTION_OPEN) ||
-      (SDL_Client_Flags & CF_CITY_DIALOG_IS_OPEN)) {
+      (SDL_Client_Flags & CF_OPTION_OPEN)) {
 
     SDL_Client_Flags |= CF_GANE_JUST_STARTED;
 
