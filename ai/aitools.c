@@ -95,7 +95,6 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 
 /*************************************************************************
   This is a function to execute paths returned by the path-finding engine.
-  It is analogous to goto_route_execute, only much simpler.
 
   Brings our bodyguard along.
   Returns FALSE only if died.
@@ -108,6 +107,11 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
   for (i = 1; i < path->length; i++) {
     int x = path->positions[i].x, y = path->positions[i].y;
     int id = punit->id;
+
+    if (same_pos(punit->x, punit->y, x, y)) {
+      UNIT_LOG(LOG_DEBUG, punit, "execute_path: waiting this turn");
+      return TRUE;
+    }
 
     /* We use ai_unit_move() for everything but the last step
      * of the way so that we abort if unexpected opposition
