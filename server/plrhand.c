@@ -968,6 +968,12 @@ repeat_break_treaty:
     pplayer2->diplstates[pplayer->player_no].turns_left =
     16;
 
+  /* If the old state was alliance, the players' units can share tiles
+     illegally, and we need to call resolve_unit_stacks() */
+  if (old_type == DS_ALLIANCE) {
+    resolve_unit_stacks(pplayer, pplayer2, TRUE);
+  }
+
   /* We want to go all the way to war, whatever the cost! 
    * This is only used when declaring war against an alliance 
    * and by the AI. */
@@ -979,12 +985,6 @@ repeat_break_treaty:
 
   send_player_info(pplayer, NULL);
   send_player_info(pplayer2, NULL);
-
-  /* If the old state was alliance, the players' units can share tiles
-     illegally, and we need to call resolve_unit_stacks() */
-  if (old_type == DS_ALLIANCE) {
-    resolve_unit_stacks(pplayer, pplayer2, TRUE);
-  }
 
   /* 
    * Refresh all cities which have a unit of the other side within
