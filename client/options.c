@@ -160,6 +160,7 @@ const char *message_text[E_LAST]={
   N_("Famine Feared in City"),       /* E_CITY_FAMINE_FEARED */
   N_("Wonder Will Be Finished Next Turn"),   /* E_CITY_WONDER_WILL_BE_BUILT */
   N_("Learned New Government"),	     /* E_NEW_GOVERNMENT */
+  N_("City Nuked"),                  /* E_CITY_NUKED */
 };
 
 /**************************************************************************

@@ -2182,34 +2182,57 @@ static void sentry_transported_idle_units(struct unit *ptrans)
  if it isn't a city square or an ocean square then with 50% chance 
  add some fallout, then notify the client about the changes.
 **************************************************************************/
-static void do_nuke_tile(int x, int y)
+static void do_nuke_tile(struct player *pplayer, int x, int y)
 {
-  struct unit_list *punit_list;
-  struct city *pcity;
-  punit_list=&map_get_tile(x, y)->units;
-  
-  while(unit_list_size(punit_list)) {
-    struct unit *punit=unit_list_get(punit_list, 0);
-    wipe_unit(punit);
+  struct city *pcity = map_get_city(x, y);
+
+  unit_list_iterate(map_get_tile(x, y)->units, punit) {
+    notify_player_ex(unit_owner(punit),
+		     x, y, E_UNIT_LOST,
+		     _("Game: Your %s was nuked by %s."),
+		     unit_name(punit->type),
+		     pplayer == unit_owner(punit) ? _("yourself") : pplayer->name);
+    if (unit_owner(punit) != pplayer) {
+      notify_player_ex(pplayer,
+		       x, y, E_UNIT_WIN,
+		       _("Game: %s's %s was nuked."),
+		       unit_owner(punit)->name,
+		       unit_name(punit->type));
+    }
+    wipe_unit_spec_safe(punit, NULL, 0);
+  } unit_list_iterate_end;
+
+  if (pcity) {
+    notify_player_ex(city_owner(pcity),
+		     x, y, E_CITY_NUKED,
+		     _("Game: %s was nuked by %s."),
+		     pcity->name,
+		     pplayer == city_owner(pcity) ? _("yourself") : pplayer->name);
+
+    if (city_owner(pcity) != pplayer) {
+      notify_player_ex(pplayer,
+		       x, y, E_CITY_NUKED,
+		       _("Game: You nuked %s."),
+		       pcity->name);
+    }
+
+    if (pcity->size > 1) { /* size zero cities are ridiculous -- Syela */
+      pcity->size /= 2;
+      auto_arrange_workers(pcity);
+      send_city_info(NULL, pcity);
+    }
   }
 
-  if((pcity=map_get_city(x,y))) {
-    if (pcity->size > 1) { /* size zero cities are ridiculous -- Syela */
-      pcity->size/=2;
-      auto_arrange_workers(pcity);
-      send_city_info(0, pcity);
-    }
-  } else if ((map_get_terrain(x, y) != T_OCEAN &&
-	      map_get_terrain(x, y) < T_UNKNOWN) && myrand(2)) {
+  if (map_get_terrain(x, y) != T_OCEAN && myrand(2)) {
     if (game.rgame.nuke_contamination == CONTAMINATION_POLLUTION) {
       if (!(map_get_special(x, y) & S_POLLUTION)) {
 	map_set_special(x, y, S_POLLUTION);
-	send_tile_info(0, x, y);
+	send_tile_info(NULL, x, y);
       }
     } else {
       if (!(map_get_special(x, y) & S_FALLOUT)) {
 	map_set_special(x, y, S_FALLOUT);
-	send_tile_info(0, x, y);
+	send_tile_info(NULL, x, y);
       }
     }
   }
@@ -2217,12 +2240,16 @@ static void do_nuke_tile(int x, int y)
 
 /**************************************************************************
   nuke all the squares in a 3x3 square around the center of the explosion
+  pplayer is the player that caused the explosion.
 **************************************************************************/
-void do_nuclear_explosion(int x, int y)
+void do_nuclear_explosion(struct player *pplayer, int x, int y)
 {
   square_iterate(x, y, 1, x1, y1) {
-    do_nuke_tile(x1, y1);
+    do_nuke_tile(pplayer, x1, y1);
   } square_iterate_end;
+
+  notify_player_ex(pplayer, x, y,
+		   E_NOEVENT, _("Game: You detonated a nuke."));
 }
 
 /**************************************************************************

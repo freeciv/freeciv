@@ -611,8 +611,9 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     } 
 
     lsend_packet_nuke_tile(&game.game_connections, &packet);
-    
-    do_nuclear_explosion(def_x, def_y);
+
+    wipe_unit(punit);
+    do_nuclear_explosion(pplayer, def_x, def_y);
     return;
   }
   
