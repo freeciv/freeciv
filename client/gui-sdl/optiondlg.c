@@ -768,31 +768,10 @@ static int sound_bell_at_new_turn_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int smooth_move_units_callback(struct GUI *pWidget)
-{
-  redraw_icon(pWidget);
-  flush_rect(pWidget->size);
-  if (smooth_move_units) {
-    smooth_move_units = FALSE;
-    set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
-    redraw_edit(pWidget->prev->prev);
-    flush_rect(pWidget->prev->prev->size);
-  } else {
-    smooth_move_units = TRUE;
-    set_wstate(pWidget->prev->prev, FC_WS_NORMAL);
-    redraw_edit(pWidget->prev->prev);
-    flush_rect(pWidget->prev->prev->size);
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int smooth_move_unit_steps_callback(struct GUI *pWidget)
+static int smooth_move_unit_msec_callback(struct GUI *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
-  sscanf(tmp, "%d", &smooth_move_unit_steps);
+  sscanf(tmp, "%d", &smooth_move_unit_msec);
   FREE(tmp);
   return -1;
 }
@@ -939,44 +918,14 @@ static int local_setting_callback(struct GUI *pWidget)
   pTmpGui->size.y = pTmpGui->next->size.y +
       ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
 
-  /* 'smooth unit moves' */
-  /* check box */
-  pTmpGui = create_checkbox(pWindow->dst,
-  		smooth_move_units, WF_DRAW_THEME_TRANSPARENT);
-
-  pTmpGui->action = smooth_move_units_callback;
-  set_wstate(pTmpGui, FC_WS_NORMAL);
-
-  pTmpGui->size.x = pWindow->size.x + 15;
-
-  add_to_gui_list(ID_OPTIONS_LOCAL_MOVE_CHECKBOX, pTmpGui);
-  pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + 4;
-
-  /* label */
-  pStr = create_str16_from_char(_("Smooth unit moves"), 10);
-  pStr->style |= TTF_STYLE_BOLD;
-  pStr->fgcol = text_color;
-  pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-  
-  pTmpGui->size.x = pWindow->size.x + 55;
-
-  add_to_gui_list(ID_OPTIONS_LOCAL_MOVE_LABEL, pTmpGui);
-
-  pTmpGui->size.y = pTmpGui->next->size.y +
-      ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-
-  /* 'smooth unit move steps' */
+  /* 'smooth unit move msec' */
 
   /* edit */
-  my_snprintf(cBuf, sizeof(cBuf), "%d", smooth_move_unit_steps);
+  my_snprintf(cBuf, sizeof(cBuf), "%d", smooth_move_unit_msec);
   pTmpGui = create_edit_from_chars(NULL, pWindow->dst, cBuf, 11, 25,
 					  WF_DRAW_THEME_TRANSPARENT);
 
-  pTmpGui->action = smooth_move_unit_steps_callback;
-
-  if (smooth_move_units) {
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  }
+  pTmpGui->action = smooth_move_unit_msec_callback;
 
   pTmpGui->size.x = pWindow->size.x + 12;
 

@@ -52,6 +52,7 @@
 #include "spaceship.h"
 #include "tilespec.h"
 #include "climisc.h"
+#include "text.h"
 
 #include "spaceshipdlg.h"
 

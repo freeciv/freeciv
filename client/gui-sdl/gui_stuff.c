@@ -4508,7 +4508,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
 	
 	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint8));
 	my_memset8(pPixel, (color & 0xFF), w - x);
-	((Uint8 *)pPixelArray) += (w - x);
+	(Uint8 *)pPixelArray += (w - x);
       }
       
       /*left */
@@ -5243,7 +5243,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	
         for (; y > y0; y--) {
 	  *pPixel = *(Uint32 *)pPixelArray;
-	  ((Uint32 *)pPixelArray)++;
+	  pPixelArray = ADD_TO_POINTER(pPixelArray, sizeof(Uint32));
 	  pPixel -= pitch;
         }
         

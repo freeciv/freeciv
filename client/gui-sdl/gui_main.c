@@ -830,7 +830,6 @@ void ui_main(int argc, char *argv[])
   __pMap_Scroll_User_Event.user.data2 = NULL;
   pMap_Scroll_User_Event = &__pMap_Scroll_User_Event;
   
-  smooth_move_unit_steps = 8;
   update_city_text_in_refresh_tile = FALSE;
   draw_city_names = FALSE;
   draw_city_productions = FALSE;

@@ -53,7 +53,7 @@
 #define CF_DRAW_PLAYERS_ALLIANCE_STATUS	(1<<22)
 #define CF_DRAW_PLAYERS_NEUTRAL_STATUS	(1<<23)
 
-extern struct canvas Main;
+extern struct main Main;
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
 extern bool LSHIFT;

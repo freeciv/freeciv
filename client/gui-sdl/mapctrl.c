@@ -442,7 +442,7 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
       pMap->size.w = MINI_MAP_W;
       set_new_mini_map_window_pos();
     
-      refresh_overview_viewrect();
+      refresh_overview(); /* Is a full refresh needed? */
       sdl_dirty_rect(pMap->size);
     } else {
       SDL_BlitSurface(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL);
@@ -469,8 +469,7 @@ static int togle_minimap_mode(struct GUI *pWidget)
     set_wstate(pWidget, FC_WS_SELLECTED);
   }
   toggle_overview_mode();
-  refresh_overview_canvas();
-  refresh_overview_viewrect();
+  refresh_overview();
   flush_dirty();
   return -1;
 }
@@ -528,9 +527,8 @@ static int resize_minimap(void)
     Remake_MiniMap(w, h);
   }
   center_minimap_on_minimap_window();
-  refresh_overview_canvas();
+  refresh_overview();
   update_menus();
-  refresh_overview_viewrect();
   
   return 0;
 }
@@ -542,7 +540,6 @@ static int up_width_callback(struct GUI *pWidget)
   if (((OVERVIEW_TILE_WIDTH + 1) * map.xsize + BLOCK_W + DOUBLE_FRAME_WH) <=
 					pUnits_Info_Window->size.x) {
     char cBuf[4];
-    OVERVIEW_TILE_WIDTH++;
     my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
     copy_chars_to_string16(pWidget->next->string16, cBuf);
     redraw_label(pWidget->next);
@@ -561,7 +558,6 @@ static int down_width_callback(struct GUI *pWidget)
   if (OVERVIEW_TILE_WIDTH > 1) {
     char cBuf[4];
     
-    OVERVIEW_TILE_WIDTH--;
     my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
     copy_chars_to_string16(pWidget->prev->string16, cBuf);
     redraw_label(pWidget->prev);
@@ -1994,7 +1990,7 @@ bool map_event_handler(SDL_keysym Key)
       if ((LCTRL || RCTRL) && can_client_change_view()) {
         draw_city_names ^= 1;
         if(draw_city_names||draw_city_productions) {
-          show_city_descriptions();
+          update_city_descriptions();
         }
         dirty_all();
       }
@@ -2004,7 +2000,7 @@ bool map_event_handler(SDL_keysym Key)
       if ((LCTRL || RCTRL) && can_client_change_view()) {
         draw_city_productions ^= 1;
         if(draw_city_names||draw_city_productions) {
-          show_city_descriptions();
+          update_city_descriptions();
         }
         dirty_all();
       }

@@ -342,8 +342,7 @@ static void change_production(int target, bool is_unit)
       }
     } else {
       pEditor->stock =
-	  city_change_production_penalty(pEditor->pCity,
-					      target, is_unit, FALSE);
+	  city_change_production_penalty(pEditor->pCity, target, is_unit);
     }	  	  
   }
       
@@ -930,7 +929,7 @@ static const char * get_production_name(struct city *pCity,
         
   if(is_unit) {
     struct unit_type *pType = get_unit_type(id);
-    *cost = unig_build_value(id);
+    *cost = unit_build_shield_cost(id);
     return pType->name;
   } else {
     *cost = impr_build_shield_cost(id);
