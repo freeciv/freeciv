@@ -55,6 +55,14 @@ struct tile {
   char *spec_sprite;
 };
 
+/* get 'struct tile_list' and related functions: */
+#define SPECLIST_TAG tile
+#define SPECLIST_TYPE struct tile
+#include "speclist.h"
+
+#define tile_list_iterate(tile_list, ptile) \
+    TYPED_LIST_ITERATE(struct tile, tile_list, ptile)
+#define tile_list_iterate_end  LIST_ITERATE_END
 
 /****************************************************************
 miscellaneous terrain information

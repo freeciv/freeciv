@@ -1981,14 +1981,14 @@ void handle_tile_info(struct packet_tile_info *packet)
   if (can_client_change_view()) {
     /* the tile itself */
     if (tile_changed || old_known!=ptile->known)
-      refresh_tile_mapcanvas(ptile, FALSE);
+      queue_mapview_tile_update(ptile);
 
     /* if the terrain or the specials of the tile
        have changed it affects the adjacent tiles */
     if (tile_changed) {
       adjc_iterate(ptile, tile1) {
 	if (tile_get_known(tile1) >= TILE_KNOWN_FOGGED)
-	  refresh_tile_mapcanvas(tile1, FALSE);
+	  queue_mapview_tile_update(tile1);
       }
       adjc_iterate_end;
       return;
@@ -1999,7 +1999,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     if (old_known == TILE_UNKNOWN && packet->known >= TILE_KNOWN_FOGGED) {     
       cardinal_adjc_iterate(ptile, tile1) {
 	if (tile_get_known(tile1) >= TILE_KNOWN_FOGGED)
-	  refresh_tile_mapcanvas(tile1, FALSE);
+	  queue_mapview_tile_update(tile1);
       } cardinal_adjc_iterate_end;
     }
   }

@@ -517,6 +517,8 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     gui_distance_vector(&diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
+    unqueue_mapview_updates();
+
     do {
       mytime = MIN(read_timer_seconds(anim_timer), timing_sec);
 
@@ -1268,7 +1270,7 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile)
   dirty_rect(canvas_x, canvas_y, width, height);
 
   /* Make sure everything is flushed and synced before proceeding. */
-  flush_dirty();
+  unqueue_mapview_updates();
   gui_flush();
 
   myusleep(1000000);
@@ -1803,6 +1805,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   set_units_in_combat(punit0, punit1);
 
+  unqueue_mapview_updates();
   while (punit0->hp > hp0 || punit1->hp > hp1) {
     const int diff0 = punit0->hp - hp0, diff1 = punit1->hp - hp1;
 
@@ -1891,6 +1894,7 @@ void move_unit_map_canvas(struct unit *punit,
     return;
   }
 
+  unqueue_mapview_updates();
   if (tile_visible_mapcanvas(src_tile)
       || tile_visible_mapcanvas(dest_tile)) {
     int start_x, start_y;
@@ -2077,6 +2081,9 @@ void get_city_mapview_production(struct city *pcity,
 }
 
 static enum update_type needed_updates = UPDATE_NONE;
+struct tile_list *city_updates = NULL;
+struct tile_list *unit_updates = NULL;
+struct tile_list *tile_updates = NULL;
 
 /**************************************************************************
   This function, along with unqueue_mapview_update(), helps in updating
@@ -2101,6 +2108,45 @@ void queue_mapview_update(enum update_type update)
 }
 
 /**************************************************************************
+  Queue this tile to be refreshed.  The refresh will be done some time
+  soon thereafter, and grouped with other needed refreshes.
+
+  Note this should only be called for tiles.  For cities or units use
+  queue_mapview_xxx_update instead.
+**************************************************************************/
+void queue_mapview_tile_update(struct tile *ptile)
+{
+  if (!tile_updates) {
+    tile_updates = tile_list_new();
+  }
+  tile_list_prepend(tile_updates, ptile);
+}
+
+/**************************************************************************
+  Queue this unit to be refreshed.  The refresh will be done some time
+  soon thereafter, and grouped with other needed refreshes.
+**************************************************************************/
+void queue_mapview_unit_update(struct unit *punit)
+{
+  if (!unit_updates) {
+    unit_updates = tile_list_new();
+  }
+  tile_list_prepend(unit_updates, punit->tile);
+}
+
+/**************************************************************************
+  Queue this city to be refreshed.  The refresh will be done some time
+  soon thereafter, and grouped with other needed refreshes.
+**************************************************************************/
+void queue_mapview_city_update(struct city *pcity)
+{
+  if (!city_updates) {
+    city_updates = tile_list_new();
+  }
+  tile_list_prepend(city_updates, pcity->tile);
+}
+
+/**************************************************************************
   See comment for queue_mapview_update().
 **************************************************************************/
 void unqueue_mapview_updates(void)
@@ -2108,10 +2154,89 @@ void unqueue_mapview_updates(void)
   freelog(LOG_DEBUG, "unqueue_mapview_update: needed_updates=%d",
 	  needed_updates);
 
-  if (needed_updates & UPDATE_MAP_CANVAS_VISIBLE) {
-    update_map_canvas_visible();
-  } else if (needed_updates & UPDATE_CITY_DESCRIPTIONS) {
-    update_city_descriptions();
+  if (map_exists()) {
+    if ((needed_updates & UPDATE_MAP_CANVAS_VISIBLE)
+	|| (needed_updates & UPDATE_CITY_DESCRIPTIONS)) {
+      update_map_canvas_visible();
+    } else {
+      int min_x = mapview_canvas.width, min_y = mapview_canvas.height;
+      int max_x = 0, max_y = 0;
+
+      if (tile_updates) {
+	tile_list_iterate(tile_updates, ptile) {
+	  int x0, y0, x1, y1;
+
+	  if (tile_to_canvas_pos(&x0, &y0, ptile)) {
+	    x0 -= NORMAL_TILE_WIDTH / 2;
+	    y0 -= NORMAL_TILE_HEIGHT / 2;
+	    x1 = x0 + 2 * NORMAL_TILE_WIDTH;
+	    y1 = y0 + 2 * NORMAL_TILE_HEIGHT;
+	    min_x = MIN(min_x, x0);
+	    min_y = MIN(min_y, y0);
+	    max_x = MAX(max_x, x1);
+	    max_y = MAX(max_y, y1);
+	  }
+
+	  /* FIXME: These overview updates should be batched as well.  Right
+	   * now they account for as much as 90% of the runtime of the
+	   * unqueue. */
+	  overview_update_tile(ptile);
+	} unit_list_iterate_end;
+      }
+
+      if (unit_updates) {
+	tile_list_iterate(unit_updates, ptile) {
+	  int x0, y0, x1, y1;
+
+	  if (tile_to_canvas_pos(&x0, &y0, ptile)) {
+	    y0 += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
+	    x1 = x0 + UNIT_TILE_WIDTH;
+	    y1 = y0 + UNIT_TILE_HEIGHT;
+	    min_x = MIN(min_x, x0);
+	    min_y = MIN(min_y, y0);
+	    max_x = MAX(max_x, x1);
+	    max_y = MAX(max_y, y1);
+	  }
+
+	  /* FIXME: These overview updates should be batched as well.  Right
+	   * now they account for as much as 90% of the runtime of the
+	   * unqueue. */
+	  overview_update_tile(ptile);
+	} tile_list_iterate_end;
+      }
+
+      if (city_updates) {
+	tile_list_iterate(city_updates, ptile) {
+	  int x0, y0, x1, y1;
+
+	  if (tile_to_canvas_pos(&x0, &y0, ptile)) {
+	    y0 += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
+	    x1 = x0 + UNIT_TILE_WIDTH;
+	    y1 = y0 + UNIT_TILE_HEIGHT;
+	    min_x = MIN(min_x, x0);
+	    min_y = MIN(min_y, y0);
+	    max_x = MAX(max_x, x1);
+	    max_y = MAX(max_y, y1);
+	  }
+
+	  /* FIXME: These overview updates should be batched as well.  Right
+	   * now they account for as much as 90% of the runtime of the
+	   * unqueue. */
+	  overview_update_tile(ptile);
+	} tile_list_iterate_end;
+      }
+
+      update_map_canvas(min_x, min_y, max_x - min_x, max_y - min_y);
+    }
+  }
+  if (tile_updates) {
+    tile_list_unlink_all(tile_updates);
+  }
+  if (unit_updates) {
+    tile_list_unlink_all(unit_updates);
+  }
+  if (city_updates) {
+    tile_list_unlink_all(city_updates);
   }
   needed_updates = UPDATE_NONE;
 
