@@ -3295,6 +3295,10 @@ void game_load(struct section_file *file)
 				     "game.dispersion");
       }
 
+      map.topology_id = secfile_lookup_int_default(file, MAP_ORIGINAL_TOPO,
+					           "map.topology_id");
+      map.size = secfile_lookup_int_default(file, MAP_DEFAULT_SIZE,
+                                            "map.size");
       map.riches = secfile_lookup_int(file, "map.riches");
       map.huts = secfile_lookup_int(file, "map.huts");
       map.generator = secfile_lookup_int(file, "map.generator");
@@ -3681,6 +3685,7 @@ void game_save(struct section_file *file)
      * when PRE_GAME_STATE, but I'm standardizing on width,height --dwp
      */
     secfile_insert_int(file, map.topology_id, "map.topology_id");
+    secfile_insert_int(file, map.size, "map.size");
     secfile_insert_int(file, map.xsize, "map.width");
     secfile_insert_int(file, map.ysize, "map.height");
     secfile_insert_str(file, game.start_units, "game.start_units");
