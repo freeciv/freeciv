@@ -1502,7 +1502,8 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 {
   struct unit_list *units;
-  int n, i;
+  struct unit_node_vector *nodes;
+  int n, m, i;
   char buf[30];
 
   if (pdialog->pcity->owner != game.player_idx) {
@@ -1511,48 +1512,54 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     units = &(pdialog->pcity->units_supported);
   }
 
-  n = unit_list_size(units);
+  nodes = &pdialog->overview.supported_units;
 
-  i = 0;
-  unit_node_vector_iterate(&pdialog->overview.supported_units, elt) {
-    if (i++ >= n) {
-      gtk_widget_destroy(elt->cmd);
-    }
-  } unit_node_vector_iterate_end;
+  n = unit_list_size(units);
+  m = unit_node_vector_size(nodes);
 
   gtk_table_resize(GTK_TABLE(pdialog->overview.supported_unit_table),
 		   1, MAX(n, 1));
 
-  for (; i<n; i++) {
-    int unit_height = (is_isometric) ?
-	UNIT_TILE_HEIGHT : UNIT_TILE_HEIGHT + UNIT_TILE_HEIGHT / 2;
-    GtkWidget *cmd, *pix;
-    struct unit_node node;
+  if (m > n) {
+    i = 0;
+    unit_node_vector_iterate(nodes, elt) {
+      if (i++ >= n) {
+	gtk_widget_destroy(elt->cmd);
+      }
+    } unit_node_vector_iterate_end;
 
-    cmd = gtk_button_new();
-    node.cmd = cmd;
+    unit_node_vector_reserve(nodes, n);
+  } else {
+    for (i = m; i < n; i++) {
+      GtkWidget *cmd, *pix;
+      struct unit_node node;
 
-    gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
-    gtk_widget_add_events(cmd,
-      GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-    
-    pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, unit_height);
-    node.pix = pix;
+      cmd = gtk_button_new();
+      node.cmd = cmd;
 
-    gtk_container_add(GTK_CONTAINER(cmd), pix);
+      gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
+      gtk_widget_add_events(cmd,
+	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-    gtk_table_attach_defaults(GTK_TABLE(pdialog->overview.supported_unit_table),
-			      cmd, i, i+1, 0, 1);
-    unit_node_vector_append(&pdialog->overview.supported_units, &node);
+      pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      node.pix = pix;
+
+      gtk_container_add(GTK_CONTAINER(cmd), pix);
+
+      gtk_table_attach_defaults(
+	  GTK_TABLE(pdialog->overview.supported_unit_table),
+	  cmd, i, i+1, 0, 1);
+      unit_node_vector_append(nodes, &node);
+    }
   }
 
   gtk_tooltips_disable(pdialog->tips);
 
-  i=0;
+  i = 0;
   unit_list_iterate(*units, punit) {
     struct unit_node *pnode;
     
-    pnode = unit_node_vector_get(&pdialog->overview.supported_units, i);
+    pnode = unit_node_vector_get(nodes, i);
     if (pnode) {
       GtkWidget *cmd, *pix;
 
@@ -1608,7 +1615,8 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 static void city_dialog_update_present_units(struct city_dialog *pdialog)
 {
   struct unit_list *units;
-  int n, i;
+  struct unit_node_vector *nodes;
+  int n, m, i;
   char buf[30];
 
   if (pdialog->pcity->owner != game.player_idx) {
@@ -1617,46 +1625,54 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
     units = &(map_get_tile(pdialog->pcity->x, pdialog->pcity->y)->units);
   }
 
-  n = unit_list_size(units);
+  nodes = &pdialog->overview.present_units;
 
-  i = 0;
-  unit_node_vector_iterate(&pdialog->overview.present_units, elt) {
-    if (i++ >= n) {
-      gtk_widget_destroy(elt->cmd);
-    }
-  } unit_node_vector_iterate_end;
+  n = unit_list_size(units);
+  m = unit_node_vector_size(nodes);
 
   gtk_table_resize(GTK_TABLE(pdialog->overview.present_unit_table),
 		   1, MAX(n, 1));
 
-  for (; i<n; i++) {
-    GtkWidget *cmd, *pix;
-    struct unit_node node;
+  if (m > n) {
+    i = 0;
+    unit_node_vector_iterate(nodes, elt) {
+      if (i++ >= n) {
+	gtk_widget_destroy(elt->cmd);
+      }
+    } unit_node_vector_iterate_end;
 
-    cmd = gtk_button_new();
-    node.cmd = cmd;
+    unit_node_vector_reserve(nodes, n);
+  } else {
+    for (i = m; i < n; i++) {
+      GtkWidget *cmd, *pix;
+      struct unit_node node;
 
-    gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
-    gtk_widget_add_events(cmd,
-      GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
-    
-    pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
-    node.pix = pix;
+      cmd = gtk_button_new();
+      node.cmd = cmd;
 
-    gtk_container_add(GTK_CONTAINER(cmd), pix);
+      gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
+      gtk_widget_add_events(cmd,
+	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-    gtk_table_attach_defaults(GTK_TABLE(pdialog->overview.present_unit_table),
-			      cmd, i, i+1, 0, 1);
-    unit_node_vector_append(&pdialog->overview.present_units, &node);
+      pix = gtk_pixcomm_new(UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+      node.pix = pix;
+
+      gtk_container_add(GTK_CONTAINER(cmd), pix);
+
+      gtk_table_attach_defaults(
+	  GTK_TABLE(pdialog->overview.present_unit_table),
+	  cmd, i, i+1, 0, 1);
+      unit_node_vector_append(nodes, &node);
+    }
   }
 
   gtk_tooltips_disable(pdialog->tips);
 
-  i=0;
+  i = 0;
   unit_list_iterate(*units, punit) {
     struct unit_node *pnode;
     
-    pnode = unit_node_vector_get(&pdialog->overview.present_units, i);
+    pnode = unit_node_vector_get(nodes, i);
     if (pnode) {
       GtkWidget *cmd, *pix;
 
