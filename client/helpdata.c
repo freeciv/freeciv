@@ -1097,12 +1097,45 @@ void helptext_terrain(char *buf, int i, const char *user_text)
     freelog(LOG_ERROR, "Unknown terrain %d.", i);
     return;
   }
-
   pt = &tile_types[i];
-  if (pt->helptext[0] != '\0') {
-    sprintf(buf, "%s\n\n", _(pt->helptext));
+
+  if (terrain_has_flag(i, TER_NO_POLLUTION)) {
+    sprintf(buf + strlen(buf),
+	    _("* Pollution cannot be generated on this terrain."));
+    strcat(buf, "\n");
   }
-  strcat(buf, user_text);
+  if (terrain_has_flag(i, TER_NO_CITIES)) {
+    sprintf(buf + strlen(buf),
+	    _("* You cannot build cities on this terrain."));
+    strcat(buf, "\n");
+  }
+  if (terrain_has_flag(i, TER_UNSAFE_COAST)
+      && !is_ocean(i)) {
+    sprintf(buf + strlen(buf),
+	    _("* The coastline of this terrain is unsafe."));
+    strcat(buf, "\n");
+  }
+  if (terrain_has_flag(i, TER_UNSAFE)) {
+    sprintf(buf + strlen(buf),
+	    _("* This terrain is unsafe for units to travel on."));
+    strcat(buf, "\n");
+  }
+  if (terrain_has_flag(i, TER_OCEANIC)) {
+    sprintf(buf + strlen(buf),
+	    _("* Only naval units can travel on oceanic terrains."));
+    strcat(buf, "\n");
+  }
+
+  if (pt->helptext[0] != '\0') {
+    if (buf[0] != '\0') {
+      strcat(buf, "\n");
+    }
+    sprintf(buf + strlen(buf), "%s", _(pt->helptext));
+  }
+  if (user_text && user_text[0] != '\0') {
+    strcat(buf, "\n\n");
+    strcat(buf, user_text);
+  }
   wordwrap_string(buf, 68);
 }
 
