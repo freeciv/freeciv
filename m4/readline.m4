@@ -57,3 +57,109 @@ int main(void) {
 LIBS="$templibs"
 ])
 
+AC_DEFUN([FC_HAS_READLINE],
+[
+    dnl Readline library and header files.
+    if test "$WITH_READLINE" = "yes" || test "$WITH_READLINE" = "maybe"; then
+       HAVE_TERMCAP="";
+       dnl Readline header
+       AC_CHECK_HEADER(readline/readline.h,
+                       have_readline_header=1,
+                       have_readline_header=0)
+       if test "$have_readline_header" = "0"; then
+           if test "$WITH_READLINE" = "yes"; then
+               AC_MSG_ERROR(Did not find readline header file. 
+You may need to install a readline \"development\" package.)
+           else
+               AC_MSG_WARN(Did not find readline header file. 
+Configuring server without readline support.)
+           fi
+       else
+           dnl Readline lib
+           AC_CHECK_LIB(readline, completion_matches, 
+                         have_readline_lib=1, have_readline_lib=0)
+           dnl Readline lib >= 4.2
+           AC_CHECK_LIB(readline, rl_completion_matches, 
+                         have_new_readline_lib=1, have_new_readline_lib=0)
+           if test "$have_readline_lib" != "1" && test "$have_new_readline_lib" != "1"; then
+               dnl Many readline installations are broken in that they
+               dnl don't set the dependency on the curses lib up correctly.
+               dnl We give them a hand by trying to guess what might be needed.
+               dnl
+               dnl Some older Unices may need both -lcurses and -ltermlib,
+               dnl but we don't support that just yet....
+
+               AC_CHECK_LIB(termlib, tgetent, HAVE_TERMCAP="-ltermlib")
+               AC_CHECK_LIB(termcap, tgetent, HAVE_TERMCAP="-ltermcap")
+               AC_CHECK_LIB(curses, tgetent, HAVE_TERMCAP="-lcurses")
+               AC_CHECK_LIB(ncurses, tgetent, HAVE_TERMCAP="-lncurses")
+
+               if test x"$HAVE_TERMCAP" != "x"; then
+                   dnl We can't check for completion_matches() again,
+                   dnl cause the result is cached. And autoconf doesn't
+                   dnl seem to have a way to uncache it.
+                   AC_CHECK_LIB(readline, filename_completion_function,
+                         have_readline_lib=1, have_readline_lib=0,
+                        "$HAVE_TERMCAP")
+                   if test "$have_readline_lib" = "1"; then
+                       AC_MSG_WARN(I had to manually add $HAVE_TERMCAP dependency to 
+make readline library pass the test.)
+                   fi
+                   dnl We can't check for rl_completion_matches() again,
+                   dnl cause the result is cached. And autoconf doesn't
+                   dnl seem to have a way to uncache it.
+                   AC_CHECK_LIB(readline, rl_filename_completion_function,
+                         have_new_readline_lib=1, have_new_readline_lib=0,
+                        "$HAVE_TERMCAP")
+                   if test "$have_new_readline_lib" = "1"; then
+                       AC_MSG_WARN(I had to manually add $HAVE_TERMCAP dependency to 
+make readline library pass the test.)
+                   fi
+               fi
+           fi
+
+           if test "$have_new_readline_lib" = "1"; then
+               FC_CHECK_READLINE_RUNTIME($HAVE_TERMCAP,
+                         have_new_readline_lib=1, have_new_readline_lib=0)
+               if test "$have_new_readline_lib" = "1"; then
+                   SERVER_LIBS="-lreadline $SERVER_LIBS $HAVE_TERMCAP"
+                   AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE, 1, [Readline support])
+                   AC_DEFINE_UNQUOTED(HAVE_NEWLIBREADLINE, 1, [Modern readline])
+               else
+                   if test "$WITH_READLINE" = "yes"; then
+                       AC_MSG_ERROR(Specified --with-readline but the 
+runtime test of readline failed.)
+                   else
+                       AC_MSG_WARN(Runtime test of readline failed. 
+Configuring server without readline support.)
+                   fi
+               fi
+           else
+               if test "$have_readline_lib" = "1"; then
+                   FC_CHECK_READLINE_RUNTIME($HAVE_TERMCAP,
+                       have_readline_lib=1, have_readline_lib=0)
+                   if test "$have_readline_lib" = "1"; then
+                       SERVER_LIBS="-lreadline $SERVER_LIBS $HAVE_TERMCAP"
+                       AC_DEFINE_UNQUOTED(HAVE_LIBREADLINE, 1, [Readline support])
+                   else
+                       if test "$WITH_READLINE" = "yes"; then
+                           AC_MSG_ERROR(Specified --with-readline but the 
+runtime test of readline failed.)
+                       else
+                           AC_MSG_WARN(Runtime test of readline failed. 
+Configuring server without readline support.)
+                       fi
+                   fi
+               else
+                   if test "$WITH_READLINE" = "yes"; then
+                       AC_MSG_ERROR(Specified --with-readline but the 
+test to link against the library failed.)
+                   else
+                       AC_MSG_WARN(Test to link against readline library failed. 
+Configuring server without readline support.)
+                   fi
+               fi
+           fi
+       fi
+    fi
+])

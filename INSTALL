@@ -420,7 +420,6 @@ The configure script will check if you have the readline library correctly
 installed. If so it will automatically set up the makefiles so that readline
 is compiled into the server. If not then it will just silently configure
 without readline support.
-You need readline version >= 4.2.
 You can force configure to include readline or die trying by giving
 configure the --with-readline option:
 
@@ -433,14 +432,6 @@ will try to guess which extra libs it should link against and add them.
 The configure script will give a warning if it had to add extra libs
 to make readline work. This should be harmless, and is just meant as
 a reminder to the folks who distribute readline. :)
-
-It is possible to make freeciv work with versions of readline earlier
-than 4.2 (but not with 4.2). To do this replace
-"rl_filename_completion_function" with "filename_completion_function" and
-"rl_completion_matches" with "completion_matches" in configure.in and
-server/stdinhand.c, and remove the const modifier from the first arg of
-server/stdinhand.c:freeciv_completion(). Then run autoconf and rebuild.
-
 
 7. Reinier's Solaris Installation Notes:
 ========================================
@@ -566,7 +557,7 @@ To compile freeciv on a debian system you need the following packages:
  Common requirements:
    gcc
    libc6-dev
-   libreadline4-dev >= 4.2 (optional, see readline section)
+   libreadline4-dev
    zlib1g-dev
    xlib6g-dev
 

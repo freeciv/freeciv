@@ -38,7 +38,11 @@ enum cmdlevel_id access_level_for_next_connection(void);
 void notify_if_first_access_level_is_available(void);
 
 #ifdef HAVE_LIBREADLINE
+#ifdef HAVE_NEWLIBREADLINE
 char **freeciv_completion(const char *text, int start, int end);
+#else
+char **freeciv_completion(char *text, int start, int end);
+#endif
 #endif
 
 #endif /* FC__STDINHAND_H */

@@ -23,6 +23,10 @@
 
 #ifdef HAVE_LIBREADLINE
 #include <readline/readline.h>
+#ifdef HAVE_NEWLIBREADLINE
+#define completion_matches(x,y) rl_completion_matches(x,y)
+#define filename_completion_function rl_filename_completion_function
+#endif
 #endif
 
 #include "astring.h"
@@ -3880,31 +3884,35 @@ the word to complete.  We can use the entire contents of rl_line_buffer
 in case we want to do some simple parsing.  Return the array of matches,
 or NULL if there aren't any.
 **************************************************************************/
+#ifdef HAVE_NEWLIBREADLINE
 char **freeciv_completion(const char *text, int start, int end)
+#else
+char **freeciv_completion(char *text, int start, int end)
+#endif
 {
   char **matches = (char **)NULL;
 
   if (is_help(start)) {
-    matches = rl_completion_matches(text, help_generator);
+    matches = completion_matches(text, help_generator);
   } else if (is_command(start)) {
-    matches = rl_completion_matches(text, command_generator);
+    matches = completion_matches(text, command_generator);
   } else if (is_rulesout(start)) {
-    matches = rl_completion_matches(text, rulesout_generator);
+    matches = completion_matches(text, rulesout_generator);
   } else if (is_list(start)) {
-    matches = rl_completion_matches(text, list_generator);
+    matches = completion_matches(text, list_generator);
   } else if (is_cmdlevel_arg2(start)) {
-    matches = rl_completion_matches(text, cmdlevel_arg2_generator);
+    matches = completion_matches(text, cmdlevel_arg2_generator);
   } else if (is_cmdlevel_arg1(start)) {
-    matches = rl_completion_matches(text, cmdlevel_arg1_generator);
+    matches = completion_matches(text, cmdlevel_arg1_generator);
   } else if (is_connection(start)) {
-    matches = rl_completion_matches(text, connection_generator);
+    matches = completion_matches(text, connection_generator);
   } else if (is_player(start)) {
-    matches = rl_completion_matches(text, player_generator);
+    matches = completion_matches(text, player_generator);
   } else if (is_server_option(start)) {
-    matches = rl_completion_matches(text, option_generator);
+    matches = completion_matches(text, option_generator);
   } else if (is_filename(start)) {
     /* This function we get from readline */
-    matches = rl_completion_matches(text, rl_filename_completion_function);
+    matches = completion_matches(text, filename_completion_function);
   } else /* We have no idea what to do */
     matches = NULL;
 
