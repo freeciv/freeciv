@@ -37,17 +37,19 @@
  * The citymap is a large int double array that corresponds to
  * the freeciv main map. For each tile, it stores three different 
  * and exclusive values in a single int: A positive int tells you
- * how many cities that can use it, a crowdedness indicator. A 
+ * how many cities can use this tile (a crowdedness inidicator). A 
  * value of zero indicates that the tile is presently unused and 
  * available. A negative value means that this tile is occupied 
- * and reserved by some city or unit.
+ * and reserved by some city or unit: in this case the value gives
+ * the negative of the ID of the city or unit that has reserved the
+ * tile.
  *
  * Code that uses the citymap should modify its behaviour based on
  * positive values encountered, and never attempt to steal a tile
  * which has a negative value.
  */
 
-int citymap[MAP_MAX_WIDTH * MAP_MAX_HEIGHT];
+static int *citymap;
 
 #define LOG_CITYMAP LOG_DEBUG
 
@@ -57,14 +59,19 @@ int citymap[MAP_MAX_WIDTH * MAP_MAX_HEIGHT];
 **************************************************************************/
 void citymap_turn_init(struct player *pplayer)
 {
-  memset(citymap, 0, sizeof(citymap));
+  /* The citymap is reinitialized at the start of ever turn.  This includes
+   * a call to realloc, which only really matters if this is the first turn
+   * of the game (but it's easier than a separate function to do this). */
+  citymap = fc_realloc(citymap, MAX_MAP_INDEX * sizeof(*citymap));
+  memset(citymap, 0, MAX_MAP_INDEX * sizeof(*citymap));
+
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       map_city_radius_iterate(pcity->tile, ptile) {
         if (ptile->worked) {
           citymap[ptile->index] = -(ptile->worked->id);
         } else {
-          citymap[ptile->index] = citymap[ptile->index]++;
+	  citymap[ptile->index]++;
         }
       } map_city_radius_iterate_end;
     } city_list_iterate_end;
@@ -134,4 +141,26 @@ void citymap_reserve_tile(struct tile *ptile, int id)
 #endif
 
   citymap[ptile->index] = -id;
+}
+
+/**************************************************************************
+  Returns a positive value if within a city radius, which is 1 x number of
+  cities you are within the radius of, or zero or less if not. A negative
+  value means this tile is reserved by a city and should not be taken.
+**************************************************************************/
+int citymap_read(struct tile *ptile)
+{
+  return citymap[ptile->index];
+}
+
+/**************************************************************************
+  A tile is reserved if it contains a city or unit id, or a worker is
+  assigned to it.
+**************************************************************************/
+bool citymap_is_reserved(struct tile *ptile)
+{
+  if (ptile->worked || ptile->city) {
+    return TRUE;
+  }
+  return (citymap[ptile->index] < 0);
 }

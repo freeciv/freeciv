@@ -1275,7 +1275,7 @@ void auto_settlers_player(struct player *pplayer)
 
   t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
 
-  if (pplayer->ai.control && ai_handicap(pplayer, H_EXPERIMENTAL)) {
+  if (pplayer->ai.control) {
     /* Set up our city map. */
     citymap_turn_init(pplayer);
   }
