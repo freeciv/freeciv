@@ -65,6 +65,7 @@ MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
+SERVER_LIBS = @SERVER_LIBS@
 VERSION = @VERSION@
 
 bin_PROGRAMS = civserver
@@ -110,7 +111,7 @@ civserver_SOURCES = \
 		unittools.h
 
 civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a
-civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a
+civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a  $(SERVER_LIBS)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../config.h
 CONFIG_CLEAN_FILES = 

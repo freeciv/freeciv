@@ -49,17 +49,11 @@
 /* Define if you have the select function.  */
 #undef HAVE_SELECT
 
-/* Define if you have the socket function.  */
-#undef HAVE_SOCKET
-
 /* Define if you have the strerror function.  */
 #undef HAVE_STRERROR
 
 /* Define if you have the strstr function.  */
 #undef HAVE_STRSTR
-
-/* Define if you have the <X11/xpm.h> header file.  */
-#undef HAVE_X11_XPM_H
 
 /* Define if you have the <sys/ioctl.h> header file.  */
 #undef HAVE_SYS_IOCTL_H
@@ -72,11 +66,5 @@
 
 /* Define if you have the nls library (-lnls).  */
 #undef HAVE_LIBNLS
-
-/* Define if you have the nsl library (-lnsl).  */
-#undef HAVE_LIBNSL
-
-/* Define if you have the socket library (-lsocket).  */
-#undef HAVE_LIBSOCKET
 
 #endif /* FC_CONFIG_H */

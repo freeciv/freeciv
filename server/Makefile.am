@@ -44,5 +44,5 @@ civserver_SOURCES = \
 
 
 civserver_DEPENDENCIES = ../common/libcivcommon.a ../ai/libcivai.a
-civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a
+civserver_LDADD        = ../common/libcivcommon.a ../ai/libcivai.a  $(SERVER_LIBS)
 
