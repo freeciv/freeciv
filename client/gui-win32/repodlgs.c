@@ -269,7 +269,8 @@ popup_science_dialog(bool make_modal)
       fcwin_box_add_groupbox(vbox,_("Researching"),hbox,0,FALSE,FALSE,5);
      
       fcwin_box_add_combo(hbox,10,ID_SCIENCE_RESEARCH,
-			  CBS_DROPDOWNLIST | WS_VSCROLL,FALSE,FALSE,5);
+			  CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL,
+			  FALSE,FALSE,5);
       fcwin_box_add_static(hbox,"",ID_SCIENCE_PROG,SS_CENTER,TRUE,TRUE,25);
       fcwin_box_add_checkbox(hbox,_("Help"),ID_SCIENCE_HELP,0,
 			     FALSE,FALSE,10);
@@ -277,7 +278,7 @@ popup_science_dialog(bool make_modal)
       hbox=fcwin_hbox_new(science_dlg,FALSE);
       fcwin_box_add_groupbox(vbox,_("Goal"),hbox,0,FALSE,FALSE,5);
       fcwin_box_add_combo(hbox,10,ID_SCIENCE_GOAL,
-			  CBS_DROPDOWNLIST | WS_VSCROLL,
+			  CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL,
 			  TRUE,TRUE,15);
       fcwin_box_add_static(hbox,"",ID_SCIENCE_STEPS,SS_CENTER,TRUE,TRUE,15);
  
