@@ -350,8 +350,8 @@ Log messages:
 =============
 
 Both the client and server print messages known as "log messages".
-There are three categories of log messages: "fatal", "normal", and 
-"debug".  
+There are four categories of log messages: "fatal", "normal", "verbose",
+and "debug".  
 
 By default, fatal and normal messages are printed to standard output
 where the client or server was started.  You can direct log messages
@@ -364,16 +364,38 @@ where "level" is 0, 1, or 2.  0 means show fatal messages only, 1
 means show fatal and normal messages (the default), and 2 means show
 all fatal, normal, and debug messages.
 
+If you compiled with DEBUG defined (an easy way to do this is to 
+configure with --enable-debug), then you can get debug level messages 
+by setting the level to 3.  Also, it is possible to control debug 
+level messages (but not other messages) on a per-file and per-line 
+basis.  To do this use "--debug 3:str1:str2" (as many strings as you 
+like, separated by colons) and any filenames which match those strings 
+as a substring will have debug log messages turned on, and all other 
+debug messages will be suppressed.  To control lines, use:
+"--debug 3:str1,min,max" and for files which match str1 only debug
+messages within the specified minimum and maximum lines will be 
+printed.  Only one set of (min,max) can be applied to each file.
+
 Example: 
 	 % civserver -l my.log -d 2
 
-This sends all server log messages to file "my.log", including debug
-messages.
+This sends all server log messages to file "my.log", including verbose
+level messages.
 
 Example: 
 	 % civclient --debug 0
 
 This suppresses all non-fatal client log messages.
+
+Example: 
+	 % civserver -d 3:log:civserver,120,500:autoattack
+
+This turns on all fatal, normal and verbose messages for the server, 
+and debug level messages for some specified modules.  Note that "log"
+will match "gamelog.c" as well as "log.c".  For "civserver.c", only
+debug messages between lines 120 and 500 will be printed.  This 
+example only works if the server was compiled with DEBUG.
+
 
 Bugs:
 =====

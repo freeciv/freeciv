@@ -296,7 +296,10 @@ void parse_options(int *argc, char **argv[])
 	}
         (*argv)[i] = NULL;
 
-	loglevel=atoi(opt_debug);
+	loglevel=log_parse_level_str(opt_debug);
+	if (loglevel==-1) {
+	  exit(1);
+	}
       }
       else if (!strcmp ("--tiles",  (*argv)[i]) ||
               !strncmp ("--tiles=", (*argv)[i], 8) ||

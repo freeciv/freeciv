@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
   char *script_filename=NULL;
   int i;
   int save_counter=0;
-  int log_level=LOG_NORMAL;
+  int loglevel=LOG_NORMAL;
 
   if (!getuid() || !geteuid()) {
     fprintf(stderr, "%s: Fatal error: you're trying to run me as superuser!\n",
@@ -211,9 +211,14 @@ int main(int argc, char *argv[])
       }
     }
     else if(!strcmp("-d", argv[i]) || !strcmp("--debug", argv[i])) { 
-      if(++i<argc) 
-	log_level=atoi(argv[i]);
-      else {
+      if(++i<argc) {
+	loglevel = log_parse_level_str(argv[i]);
+	if (loglevel == -1) {
+	  loglevel = LOG_NORMAL;
+	  h=1;
+	  break;
+	}
+      } else {
 	fprintf(stderr, "Error: no debug log level specified.\n");
 	h=1;
 	break;
@@ -239,21 +244,26 @@ int main(int argc, char *argv[])
   con_write(C_COMMENT, "You can learn a lot about Freeciv at %s", SITE);
 
   if(h) {
-    fprintf(stderr, "  -f, --file F\t\t\tLoad saved game F\n");
-    fprintf(stderr, "  -g, --gamelog F\t\tUse F as game logfile\n");
-    fprintf(stderr, "  -h, --help\t\t\tPrint a summary of the options\n");
-    fprintf(stderr, "  -l, --log F\t\t\tUse F as logfile\n");
-    fprintf(stderr, "  -m, --meta\t\t\tSend info to Metaserver\n");
-    fprintf(stderr, "  -p, --port N\t\t\tconnect to port N\n");
-    fprintf(stderr, "  -r, --read\t\t\tRead startup script\n");
-    fprintf(stderr, "  -s, --server H\t\tList this server as host H\n");
-    fprintf(stderr, "  -d, --debug N\t\t\tSet debug log level (0,1,2)\n");
-    fprintf(stderr, "  -v, --version\t\t\tPrint the version number\n");
+    fprintf(stderr, "  -f, --file F\t\tLoad saved game F\n");
+    fprintf(stderr, "  -g, --gamelog F\tUse F as game logfile\n");
+    fprintf(stderr, "  -h, --help\t\tPrint a summary of the options\n");
+    fprintf(stderr, "  -l, --log F\t\tUse F as logfile\n");
+    fprintf(stderr, "  -m, --meta\t\tSend info to Metaserver\n");
+    fprintf(stderr, "  -p, --port N\t\tconnect to port N\n");
+    fprintf(stderr, "  -r, --read\t\tRead startup script\n");
+    fprintf(stderr, "  -s, --server H\tList this server as host H\n");
+#ifdef DEBUG
+    fprintf(stderr, "  -d, --debug N\t\tSet debug log level (0,1,2,3,"
+	                                "or 3:file1,min,max:...)\n");
+#else
+    fprintf(stderr, "  -d, --debug N\t\tSet debug log level (0,1,2)\n");
+#endif
+    fprintf(stderr, "  -v, --version\t\tPrint the version number\n");
     fprintf(stderr, "Report bugs to <%s>.\n",MAILING_LIST);
     exit(0);
   }
 
-  con_log_init(log_filename, log_level);
+  con_log_init(log_filename, loglevel);
   gamelog_init(gamelog_filename);
   gamelog_set_level(GAMELOG_FULL);
   gamelog(GAMELOG_NORMAL,"Starting new log");

@@ -24,7 +24,6 @@
 #include <shared.h>
 #include <helpdlg.h>
 #include <dialogs.h>
-#include <log.h>
 #include <repodlgs.h>
 #include <cityrep.h>
 #include <civclient.h>

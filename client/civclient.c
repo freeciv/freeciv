@@ -83,14 +83,19 @@ int main(int argc, char *argv[])
   if(argc>1 && strstr(argv[1],"-help")) {
     fprintf(stderr, "This is the Freeciv client\n");
     fprintf(stderr, usage, argv[0]);
-    fprintf(stderr, "  -help\t\t\tPrint a summary of the options\n");
-    fprintf(stderr, "  -log F\t\tUse F as logfile\n");
-    fprintf(stderr, "  -name N\t\tUse N as name\n");
-    fprintf(stderr, "  -port N\t\tconnect to port N\n");
-    fprintf(stderr, "  -server S\t\tConnect to the server at S\n");
-    fprintf(stderr, "  -debug N\t\tSet debug log level (0,1,2)\n");
-    fprintf(stderr, "  -version\t\tPrint the version number\n");
-    fprintf(stderr, "  -tiles D\t\tLook in data subdirectory D for the tiles\n");
+    fprintf(stderr, "  -help\t\tPrint a summary of the options\n");
+    fprintf(stderr, "  -log F\tUse F as logfile\n");
+    fprintf(stderr, "  -name N\tUse N as name\n");
+    fprintf(stderr, "  -port N\tconnect to port N\n");
+    fprintf(stderr, "  -server S\tConnect to the server at S\n");
+#ifdef DEBUG
+    fprintf(stderr, "  -debug N\tSet debug log level (0,1,2,3,"
+	                          "or 3:file1,min,max:...)\n");
+#else
+    fprintf(stderr, "  -debug N\tSet debug log level (0,1,2)\n");
+#endif
+    fprintf(stderr, "  -version\tPrint the version number\n");
+    fprintf(stderr, "  -tiles D\tLook in data subdirectory D for the tiles\n");
     fprintf(stderr, "Report bugs to <%s>.\n",MAILING_LIST);
     exit(0);
   }

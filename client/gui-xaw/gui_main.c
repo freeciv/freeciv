@@ -85,8 +85,8 @@ XtResource resources[] = {
       XtOffset(AppResources *,port), XtRImmediate, (XtPointer)False},
     { "server", "Server", XtRString, sizeof(String),
       XtOffset(AppResources *,server), XtRImmediate, (XtPointer)False},
-    { "logLevel", "LogLevel", XtRInt, sizeof(int),
-      XtOffset(AppResources *,loglevel), XtRImmediate, (XtPointer)False},
+    { "logLevel", "LogLevel", XtRString, sizeof(String),
+      XtOffset(AppResources *,loglevel_str), XtRImmediate, (XtPointer)False},
     { "version", "Version", XtRString, sizeof(String),
       XtOffset(AppResources *,version), XtRImmediate, (XtPointer)False},
 /*
@@ -264,7 +264,7 @@ int myerr(Display *p, XErrorEvent *e)
 **************************************************************************/
 void ui_main(int argc, char *argv[])
 {
-  int i;
+  int i, loglevel;
   Pixmap icon_pixmap; 
   XtTranslations TextFieldTranslations;
   Dimension w,h;
@@ -284,8 +284,12 @@ void ui_main(int argc, char *argv[])
 
   XtGetApplicationResources(toplevel, &appResources, resources,
                             XtNumber(resources), NULL, 0);
-  
-  log_init(appResources.logfile, appResources.loglevel, NULL);
+
+  loglevel = log_parse_level_str(appResources.loglevel_str);
+  if (loglevel==-1) {
+    exit(1);
+  }
+  log_init(appResources.logfile, loglevel, NULL);
 
 /*  XSynchronize(display, 1); 
   XSetErrorHandler(myerr);*/
