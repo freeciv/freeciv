@@ -1328,7 +1328,7 @@ TIP: A handful of these can successfully keep the waters around
 # Cruiser
 ---
 # Crusaders
-This unit has not been implemented.
+%% This unit has not been implemented.
 ---
 # Destroyer
 TIP: A very fast unit, which is very useful for hunting down enemy
@@ -1358,7 +1358,7 @@ TIP: A very fast unit, which is very useful for hunting down enemy
 # Dragoons
 ---
 # Elephants
-We've chosen not to implement these fierce animals.
+%% We've chosen not to implement these fierce animals.
 ---
 # Engineers
 Engineers are similar to Settlers, but they work twice as fast and
@@ -1379,7 +1379,7 @@ TIP 2: If you manage to build Leonardo's Workshop, research
 Explorers are very useful for mapping unknown territory.
 ---
 # Fanatics
-This unit isn't in the game.
+%% This unit isn't in the game.
 %% They are even fiercer animals than the Elephant!! :-)
 ---
 # Fighter
@@ -1451,7 +1451,7 @@ TIP 2: You may be involved in a situation where you've invaded an
        chance of global warming.  Eco-friendly nukes!
 ---
 # Paratroopers
-Not implemented.  (Considered too powerful?)
+%% Not implemented.  (Considered too powerful?)
 ---
 # Partisan
 %% Treats all terrain as if it had roads and ignores any zone of
