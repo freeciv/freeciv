@@ -923,7 +923,7 @@ void city_change_all_callback(GtkWidget *w, gpointer data)
 		j = gtk_clist_append(GTK_CLIST(city_change_all_from_list), buf);
 		gtk_clist_set_row_data(GTK_CLIST(city_change_all_from_list),
 				       j, (gpointer)(i+B_LAST));
-		if (is_building[i] == 2) {
+		if (is_building[B_LAST+i] == 2) {
 		    gtk_clist_select_row(GTK_CLIST(city_change_all_from_list),
 					  j, 0);
 		}
