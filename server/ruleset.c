@@ -2601,6 +2601,9 @@ static void load_ruleset_game()
   game.rgame.tech_cost_double_year = 
       secfile_lookup_int_default(&file, 1, "civstyle.tech_cost_double_year");
 
+  game.rgame.autoupgrade_veteran_loss
+    = secfile_lookup_int(&file, "civstyle.autoupgrade_veteran_loss");
+
   game.rgame.tech_leakage =
       secfile_lookup_int(&file, "civstyle.tech_leakage");
   if (game.rgame.tech_leakage < 0 || game.rgame.tech_leakage > 3) {
@@ -3047,7 +3050,7 @@ static void send_ruleset_game(struct conn_list *dest)
 	 ARRAY_SIZE(game.rgame.global_init_techs));
   memcpy(misc_p.global_init_techs, game.rgame.global_init_techs,
 	 sizeof(misc_p.global_init_techs));
-
+  misc_p.autoupgrade_veteran_loss = game.rgame.autoupgrade_veteran_loss;
   misc_p.killstack = game.rgame.killstack;
   lsend_packet_ruleset_game(dest, &misc_p);
 }

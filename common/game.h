@@ -217,6 +217,8 @@ struct civ_game {
     int global_init_techs[MAX_NUM_TECH_LIST];
     int global_init_buildings[MAX_NUM_BUILDING_LIST];
 
+    int autoupgrade_veteran_loss;
+
     bool killstack;
   } rgame;
   

@@ -249,9 +249,15 @@ static void do_upgrade_effects(struct player *pplayer)
 		  get_unit_type(upgrade_type)->name,
 		  get_location_str_in(pplayer, punit->tile));
 
-    /* For historical reasons we negate the unit's veteran status.  Note that
-     * the upgraded unit may have the NoVeteran flag set. */
-    punit->veteran = 0;
+    /* For historical reasons some veteran status may be lost while
+     * upgrading.  Note that the upgraded unit may have the NoVeteran
+     * flag set. */
+    if (unit_type_flag(upgrade_type, F_NO_VETERAN)) {
+      punit->veteran = 0;
+    } else {
+      punit->veteran = MAX(punit->veteran
+			   - game.rgame.autoupgrade_veteran_loss, 0);
+    }
     assert(test_unit_upgrade(punit, TRUE) == UR_OK);
     upgrade_unit(punit, upgrade_type, TRUE);
     unit_list_unlink(candidates, punit);

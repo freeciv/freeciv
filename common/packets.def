@@ -1001,6 +1001,7 @@ PACKET_RULESET_GAME=97;sc,lsend
   UINT8 tech_leakage;
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
 
+  UINT8 autoupgrade_veteran_loss;
   BOOL killstack;
 
   UINT8 trireme_loss_chance[MAX_VET_LEVELS];
