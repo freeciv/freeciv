@@ -114,9 +114,10 @@ Server:
   For example:
 
   > explain xsize
-  xsize: Width of map in squares
-  xsize is currently set to 80.
-  Minimum 40, Default 80, Maximum 200
+  Option: xsize
+  Description: Map width in squares.
+  Status: changeable
+  Value: 80, Minimum: 40, Default: 80, Maximum: 200
 
   > set xsize 100
   > set ysize 80
@@ -186,9 +187,10 @@ Server:
 
 And the game is on!
 
-Note:  The server sends a list of the players to the worldwide meta-
-server.  If you would rather not reveal this, start the server with
-the '--nometa' command-line option, or just '-n' for short.
+Note:  If you want the server to send information to the worldwide
+meta-server, start the server with the '--meta' option, or just 
+'-m' for short.  This will allow other players to find you, and
+possibly join your game.
 
 Playing the game:
 =================
@@ -228,10 +230,12 @@ If you're just starting, and would like to get an idea of a strategy,
 have a look in the Freeciv playing HOWTO, contained in the HOWTOPLAY
 file.
 
-Alternatively, check out "Gregurabi's Twelve Steps to World
-Domination", which you can find here:
+For lots more information about the client, the server, and the
+concepts and rules of the game, see the Freeciv manual, available
+at the web pages at:
 
-  ftp://ftp.freeciv.org/pub/freeciv/contrib/gregurabi.txt
+   http://www.freeciv.org/manual/main.html
+
 
 Ending the game:
 ================
@@ -332,7 +336,9 @@ Here's what to do:
        - The version number of Freeciv.
 
        - If you know them, the version numbers of the X libraries, and
-         the Xpm library.
+         the Xpm library, and the Xaw library (and particularly 
+         whether it is standard Xaw, or a variant such as Xaw3d,
+         Xaw95, or Nextaw).
 
        - If you're compiling from source code, the name
          and version number of the compiler.

@@ -2,8 +2,9 @@
 Note: this document is not entirely up-to-date.
 
 The AI hasn't changed much recently, since John has stopped working 
-on it.  The main change is that a new "easy" skill level has been 
-implemented, and made the default.  --dwp
+on it.  The main change from the information below is that an "easy" 
+skill level has been implemented, and made the default.  Also, the
+AI now uses diplomats and spies, for defense only. --dwp
 
 Old README.AI from John Stonebraker, from the 1.7.1 release:
 -------------------------------------------------------------------------

@@ -139,10 +139,9 @@ Additional questions:
 
 Q. What other strategies are there?
 
-Well, you could read "Gregurabi's Twelve Steps to World Domination",
-available at ftp://ftp.freeciv.org/pub/freeciv/contrib/gregurabi.txt
-It's a detailed guide to winning against the AI.  Plus, the Freeciv
-online help describes another strategy.
+There are a number of tutorials and strategy guides available at the 
+freeciv web pages, at http://www.freeciv.org/tutorials/tutorials.html
+Plus, the Freeciv online help describes another strategy.
 
 Q. In multiplayer games, what timeout should I set?
 
@@ -178,10 +177,11 @@ Q. What is that "generator" option?
 few times without this setting, you are sure to hear of (or
 experience) the horrors of a tiny island.  Tiny Island Syndrome (TIS)
 is known to make people go insane.  To fix this, our loving and kind
-coders installed the generator option.  When set to 1, it does
-absolutely nothing.  But when set to 2, and when the map is 80x50, it
-generates seven islands of equal size.  This way, nobody can whine
-about losing "on account of that d**ned island."
+coders installed the generator option.  When set to 1, it gives the 
+normal map, with islands of different (and possibly unfair) sizes.
+But when set to 2, 3, or 4, it generates islands of equal size 
+(sometimes with some smaller islands thrown in).  This way, nobody 
+can whine about losing "on account of that d**ned island."
 
 
 Q. Should I make the game easier by increasing the starting gold?
