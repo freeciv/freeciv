@@ -317,7 +317,10 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    break;
 	  case EFT_ENABLE_SPACE:
 	    if (game.spacerace) {
-	      v += 50;
+	      v += 5;
+	      if (ai->diplomacy.production_leader == pplayer) {
+		v += 100;
+	      }
 	    }
 	    break;
 	  case EFT_GIVE_IMM_TECH:
@@ -360,7 +363,11 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  case EFT_SS_STRUCTURAL:
 	  case EFT_SS_COMPONENT:
 	  case EFT_SS_MODULE:
-	    if (game.spacerace && ai->diplomacy.strategy == WIN_SPACE) {
+	    if (game.spacerace
+	        /* If someone has started building spaceship already or
+		 * we have chance to win a spacerace */
+	        && (ai->diplomacy.spacerace_leader
+		    || ai->diplomacy.production_leader == pplayer)) {
 	      v += 95;
 	    }
 	    break;

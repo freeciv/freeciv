@@ -346,6 +346,14 @@ void ai_data_turn_init(struct player *pplayer)
     ai->diplomacy.alliance_leader = ally_strongest;
   }
   ai->diplomacy.spacerace_leader = player_leading_spacerace();
+  
+  ai->diplomacy.production_leader = NULL;
+  players_iterate(aplayer) {
+    if (ai->diplomacy.production_leader == NULL
+        || ai->diplomacy.production_leader->score.mfg < aplayer->score.mfg) {
+      ai->diplomacy.production_leader = aplayer;
+    }
+  } players_iterate_end;
 
   /*** Priorities ***/
 

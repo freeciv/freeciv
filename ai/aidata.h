@@ -75,6 +75,7 @@ struct ai_data {
     int req_love_for_ceasefire;
     struct player *alliance_leader; /* Who is leading our alliance */
     struct player *spacerace_leader; /* who is leading the space pack */
+    struct player *production_leader;
   } diplomacy;
 
   /* Long-term threats, not to be confused with short-term danger */
