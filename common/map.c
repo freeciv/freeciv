@@ -1594,7 +1594,10 @@ bool rand_map_pos_filtered(int *x, int *y, void *data,
   /* First do a few quick checks to find a spot.  The limit on number of
    * tries could use some tweaking. */
   do {
-    index_to_map_pos(x, y, myrand(map.xsize * map.ysize));
+    int index = myrand(map.xsize * map.ysize);
+
+    /* Currently index_to_map_pos evaluates its arguments more than once */
+    index_to_map_pos(x, y, index);
   } while (filter && !filter(*x, *y, data) && ++tries < max_tries);
 
   /* If that fails, count all available spots and pick one.
