@@ -301,12 +301,12 @@ static void fill_ranges_improv_lists(Impr_Status *implist[EFR_LAST],
   int i,cont=-1;
   for (i=0;i<EFR_LAST;i++) implist[i]=NULL;
 
-  if (pcity != NULL) {
+  if (pcity) {
     implist[EFR_CITY]=pcity->improvements;
     cont = map_get_continent(pcity->x,pcity->y);
   }
 
-  if (pplayer != NULL) {
+  if (pplayer) {
     implist[EFR_PLAYER]=pplayer->improvements;
     if (cont >= 0) {
       assert(pplayer->island_improv != NULL);
@@ -334,10 +334,9 @@ int improvement_redundant(struct player *pplayer,struct city *pcity,
   /* For every improvement named in equiv_dupl or equiv_repl, check for
      its presence in any of the lists (we check only for its presence, and
      assume that it has the "equiv" effect even if it itself is redundant) */
-  for (ept = improvement_types[id].equiv_repl; ept != NULL && *ept != B_LAST;
-       ept++) {
+  for (ept=improvement_types[id].equiv_repl;ept && *ept!=B_LAST;ept++) {
     for (i=0;i<EFR_LAST;i++) {
-      if (equiv_list[i] != NULL) {
+      if (equiv_list[i]) {
       	 Impr_Status stat = equiv_list[i][*ept];
       	 if (stat != I_NONE && stat != I_OBSOLETE) return TRUE;
       }
@@ -347,10 +346,9 @@ int improvement_redundant(struct player *pplayer,struct city *pcity,
   /* equiv_dupl makes buildings redundant, but that shouldn't stop you
      from building them if you really want to */
   if (!want_to_build) {
-    for (ept = improvement_types[id].equiv_dupl;
-	 ept != NULL && *ept != B_LAST; ept++) {
+    for (ept=improvement_types[id].equiv_dupl;ept && *ept!=B_LAST;ept++) {
       for (i=0;i<EFR_LAST;i++) {
-	if (equiv_list[i] != NULL) {
+	if (equiv_list[i]) {
 	  Impr_Status stat = equiv_list[i][*ept];
 	  if (stat != I_NONE && stat != I_OBSOLETE) return TRUE;
 	}
@@ -403,7 +401,7 @@ int could_player_eventually_build_improvement(struct player *p,
 
   impr = get_improvement_type(id);
 
-  if (impr->effect != NULL) {
+  if (impr->effect) {
     struct impr_effect *peffect = impr->effect;
     Eff_Type_id type;
 
@@ -479,7 +477,7 @@ void mark_improvement(struct city *pcity,Impr_Type_id id,Impr_Status status)
   fill_ranges_improv_lists(equiv_list,pcity,pplayer);
   improvements = equiv_list[equiv_range];
 
-  if (improvements != NULL) {
+  if (improvements) {
     /* And set the same status */
     improvements[id] = status;
   }
@@ -544,12 +542,12 @@ void get_effect_vectors(struct ceff_vector *ceffs[],
   int effects[EFR_LAST];
   struct player *plr;
 
-  assert(pcity != NULL && impr >= 0 && impr < game.num_impr_types);
+  assert(pcity && impr>=0 && impr<game.num_impr_types);
 
   for (i=0; i<EFR_LAST; i++)
     effects[i]=FALSE;
 
-  if ((ie = improvement_types[impr].effect) != NULL) {
+  if ((ie=improvement_types[impr].effect)) {
     for (; ie->type<EFT_LAST; ie++) {
       effects[ie->range]=TRUE;
     }

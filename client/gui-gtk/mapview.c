@@ -136,7 +136,7 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y,
     int i = 0;
 
     if (fill_bg) {
-      if (pplayer != NULL) {
+      if (pplayer) {
 	gdk_gc_set_foreground(fill_bg_gc,
 			      colors_standard[player_color(pplayer)]);
       } else {
@@ -155,7 +155,7 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y,
     }
 
     for (;i<count; i++) {
-      if (tile_sprs[i] != NULL) {
+      if (tile_sprs[i]) {
         pixmap_put_overlay_tile(pm, canvas_x, canvas_y, tile_sprs[i]);
       }
     }
@@ -421,7 +421,7 @@ void update_info_label( void )
 **************************************************************************/
 void update_unit_info_label(struct unit *punit)
 {
-  if(punit != NULL) {
+  if(punit) {
     char buffer[512];
     struct city *pcity =
 	player_find_city_by_id(game.player_ptr, punit->homecity);
@@ -440,7 +440,7 @@ void update_unit_info_label(struct unit *punit)
 		map_get_tile_info_text(punit->x, punit->y),
 		infrastructure ?
 		map_get_infrastructure_text(infrastructure) : "",
-		infrastructure ? "\n" : "", pcity != NULL ? pcity->name : "");
+		infrastructure ? "\n" : "", pcity ? pcity->name : "");
     gtk_set_label( unit_info_label, buffer);
 
     if (hover_unit != punit->id)
@@ -738,7 +738,7 @@ void set_overview_dimensions(int x, int y)
   overview_canvas_store_width=2*x;
   overview_canvas_store_height=2*y;
 
-  if (overview_canvas_store != NULL)
+  if (overview_canvas_store)
     gdk_pixmap_unref(overview_canvas_store);
   
   overview_canvas_store	= gdk_pixmap_new(root_window,
@@ -760,7 +760,7 @@ void set_overview_dimensions(int x, int y)
 gint overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
 {
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    if(radar_gfx_sprite != NULL)
+    if(radar_gfx_sprite)
       gdk_draw_pixmap(overview_canvas->window, civ_gc,
 		      radar_gfx_sprite->pixmap, ev->area.x, ev->area.y,
 		      ev->area.x, ev->area.y, ev->area.width, ev->area.height);
@@ -939,19 +939,19 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
   }
 
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-    if (intro_gfx_sprite == NULL) {
+    if (!intro_gfx_sprite) {
       load_intro_gfx();
     }
-    if (scaled_intro_sprite == NULL || height != scaled_intro_sprite->height
+    if (!scaled_intro_sprite || height != scaled_intro_sprite->height
 	|| width != scaled_intro_sprite->width) {
-      if (scaled_intro_sprite != NULL) {
+      if (scaled_intro_sprite) {
 	free_sprite(scaled_intro_sprite);
       }
 	
       scaled_intro_sprite = sprite_scale(intro_gfx_sprite, width, height);
     }
     
-    if (scaled_intro_sprite != NULL) {
+    if (scaled_intro_sprite) {
       gdk_draw_pixmap(map_canvas->window, civ_gc,
 		      scaled_intro_sprite->pixmap, ev->area.x,
 		      ev->area.y, ev->area.x, ev->area.y,
@@ -960,7 +960,7 @@ gint map_canvas_expose(GtkWidget *w, GdkEventExpose *ev)
   }
   else
   {
-    if (scaled_intro_sprite != NULL) {
+    if (scaled_intro_sprite) {
       free_sprite(scaled_intro_sprite);
       scaled_intro_sprite = NULL;
     }
@@ -1017,7 +1017,7 @@ static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
 
     assert(!solid_bg);
     for (i=0; i<count; i++) {
-      if (sprites[i] != NULL) {
+      if (sprites[i]) {
 	pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
       }
     }
@@ -1046,7 +1046,7 @@ static void put_unit_pixmap(struct unit *punit, GdkPixmap *pm,
       }
 
       for (; i<count; i++) {
-	if (sprites[i] != NULL)
+	if (sprites[i])
 	  pixmap_put_overlay_tile(pm, canvas_x, canvas_y, sprites[i]);
       }
     }
@@ -1067,7 +1067,7 @@ static void put_unit_pixmap_draw(struct unit *punit, GdkPixmap *pm,
   int i;
 
   for (i=0; i<count; i++) {
-    if (sprites[i] != NULL) {
+    if (sprites[i]) {
       pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, sprites[i],
 				   offset_x, offset_y_unit,
 				   width, height_unit, 0);
@@ -1331,7 +1331,7 @@ static void show_desc_at_tile(int x, int y)
 {
   static char buffer[512];
   struct city *pcity;
-  if ((pcity = map_get_city(x, y)) != NULL) {
+  if ((pcity = map_get_city(x, y))) {
     int canvas_x, canvas_y;
     int w;
 
@@ -1463,7 +1463,7 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
     }
 
     for (i=0;i<count;i++) {
-      if (sprites[i] != NULL)
+      if (sprites[i])
         put_overlay_tile_gpixmap(p, 0, 0, sprites[i]);
     }
   }
@@ -1574,7 +1574,7 @@ void pixmap_frame_tile_red(GdkDrawable *pm,
 static void put_overlay_tile_gpixmap(GtkPixcomm *p, int canvas_x, int canvas_y,
 				     struct Sprite *ssprite)
 {
-  if (ssprite == NULL)
+  if (!ssprite)
     return;
 
   gtk_pixcomm_copyto (p, ssprite, canvas_x, canvas_y,
@@ -1588,7 +1588,7 @@ static void pixmap_put_overlay_tile(GdkDrawable *pixmap,
 				    int canvas_x, int canvas_y,
 				    struct Sprite *ssprite)
 {
-  if (ssprite == NULL)
+  if (!ssprite)
     return;
       
   gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
@@ -1611,7 +1611,7 @@ static void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 					 int width, int height,
 					 int fog)
 {
-  if (ssprite == NULL || !width || !height)
+  if (!ssprite || !width || !height)
     return;
 
   gdk_gc_set_clip_origin(civ_gc, canvas_x, canvas_y);
@@ -1765,7 +1765,7 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
   last_map_view_x0=map_view_x0;
   last_map_view_y0=map_view_y0;
 
-  if(hscrollbar != NULL)
+  if(hscrollbar)
     map_view_x0=percent;
   else {
     map_view_y0=percent;
@@ -1954,7 +1954,7 @@ static void put_city_pixmap_draw(struct city *pcity, GdkPixmap *pm,
   int i;
 
   for (i=0; i<count; i++) {
-    if (sprites[i] != NULL) {
+    if (sprites[i]) {
       pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, sprites[i],
 				   offset_x, offset_y_unit,
 				   width, height_unit,
@@ -2003,7 +2003,7 @@ static void dither_tile(GdkDrawable *pixmap, struct Sprite **dither,
   assert(height == NORMAL_TILE_HEIGHT || height == NORMAL_TILE_HEIGHT/2);
 
   /* north */
-  if (dither[0] != NULL
+  if (dither[0]
       && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
       && (offset_y == 0)) {
     gdk_draw_pixmap(pixmap, civ_gc, dither[0]->pixmap,
@@ -2013,7 +2013,7 @@ static void dither_tile(GdkDrawable *pixmap, struct Sprite **dither,
   }
 
   /* south */
-  if (dither[1] != NULL && offset_x == 0
+  if (dither[1] && offset_x == 0
       && (offset_y == NORMAL_TILE_HEIGHT/2 || height == NORMAL_TILE_HEIGHT)) {
     gdk_draw_pixmap(pixmap, civ_gc, dither[1]->pixmap,
 		    0, NORMAL_TILE_HEIGHT/2,
@@ -2023,7 +2023,7 @@ static void dither_tile(GdkDrawable *pixmap, struct Sprite **dither,
   }
 
   /* east */
-  if (dither[2] != NULL
+  if (dither[2]
       && (offset_x != 0 || width == NORMAL_TILE_WIDTH)
       && (offset_y != 0 || height == NORMAL_TILE_HEIGHT)) {
     gdk_draw_pixmap(pixmap, civ_gc, dither[2]->pixmap,
@@ -2034,7 +2034,7 @@ static void dither_tile(GdkDrawable *pixmap, struct Sprite **dither,
   }
 
   /* west */
-  if (dither[3] != NULL && offset_x == 0 && offset_y == 0) {
+  if (dither[3] && offset_x == 0 && offset_y == 0) {
     gdk_draw_pixmap(pixmap, civ_gc, dither[3]->pixmap,
 		    0, 0,
 		    canvas_x,
@@ -2179,7 +2179,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 
   /*** Rest of terrain and specials ***/
   for (; i<count; i++) {
-    if (tile_sprs[i] != NULL)
+    if (tile_sprs[i])
       pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y, tile_sprs[i],
 				   offset_x, offset_y, width, height, fog);
     else
@@ -2233,7 +2233,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   }
 
   /*** City and various terrain improvements ***/
-  if (pcity != NULL && draw_cities) {
+  if (pcity && draw_cities) {
     put_city_pixmap_draw(pcity, pm,
 			 canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
 			 offset_x, offset_y_unit,
@@ -2260,7 +2260,7 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
 
   /*** city size ***/
   /* Not fogged as it would be unreadable */
-  if (pcity != NULL && draw_cities) {
+  if (pcity && draw_cities) {
     if (pcity->size>=10)
       pixmap_put_overlay_tile_draw(pm, canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
 				   sprites.city.size_tens[pcity->size/10],
@@ -2274,12 +2274,12 @@ static void pixmap_put_tile_iso(GdkDrawable *pm, int x, int y,
   }
 
   /*** Unit ***/
-  if (punit != NULL && (draw_units || (punit == pfocus && draw_focus_unit))) {
+  if (punit && (draw_units || (punit == pfocus && draw_focus_unit))) {
     put_unit_pixmap_draw(punit, pm,
 			 canvas_x, canvas_y - NORMAL_TILE_HEIGHT/2,
 			 offset_x, offset_y_unit,
 			 width, height_unit);
-    if (pcity == NULL && unit_list_size(&map_get_tile(x, y)->units) > 1)
+    if (!pcity && unit_list_size(&map_get_tile(x, y)->units) > 1)
       pixmap_put_overlay_tile_draw(pm,
 				   canvas_x, canvas_y-NORMAL_TILE_HEIGHT/2,
 				   sprites.unit.stack,

@@ -54,11 +54,11 @@ static struct hash_table *idex_unit_hash = NULL;
 ***************************************************************************/
 void idex_init(void)
 {
-  if (idex_city_hash != NULL) {
+  if (idex_city_hash) {
     hash_free(idex_city_hash);
     idex_city_hash = NULL;
   }
-  if (idex_unit_hash != NULL) {
+  if (idex_unit_hash) {
     hash_free(idex_unit_hash);
     idex_unit_hash = NULL;
   }
@@ -73,7 +73,7 @@ void idex_init(void)
 void idex_register_city(struct city *pcity)
 {
   struct city *old = hash_replace(idex_city_hash, &pcity->id, pcity);
-  if (old != NULL) {
+  if (old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: city collision: new %d %p %s, old %d %p %s",
 	    pcity->id, (void*)pcity, pcity->name,
@@ -89,7 +89,7 @@ void idex_register_city(struct city *pcity)
 void idex_register_unit(struct unit *punit)
 {
   struct unit *old = hash_replace(idex_unit_hash, &punit->id, punit);
-  if (old != NULL) {
+  if (old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: unit collision: new %d %p %s, old %d %p %s",
 	    punit->id, (void*)punit, unit_name(punit->type),
@@ -105,7 +105,7 @@ void idex_register_unit(struct unit *punit)
 void idex_unregister_city(struct city *pcity)
 {
   struct city *old = hash_delete_entry(idex_city_hash, &pcity->id);
-  if (old == NULL) {
+  if (!old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: city unreg missing: %d %p %s",
 	    pcity->id, (void*)pcity, pcity->name);
@@ -127,7 +127,7 @@ void idex_unregister_city(struct city *pcity)
 void idex_unregister_unit(struct unit *punit)
 {
   struct unit *old = hash_delete_entry(idex_unit_hash, &punit->id);
-  if (old == NULL) {
+  if (!old) {
     /* error */
     freelog(LOG_IDEX_ERR, "IDEX: unit unreg missing: %d %p %s",
 	    punit->id, (void*)punit, unit_name(punit->type));

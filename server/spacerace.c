@@ -114,10 +114,10 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
 {
   int i, j;
 
-  if (dest==NULL) dest = &game.game_connections;
+  if (!dest) dest = &game.game_connections;
   
   for(i=0; i<game.nplayers; i++) {      /* srcs  */
-    if(src == NULL || &game.players[i]==src) {
+    if(!src || &game.players[i]==src) {
       struct packet_spaceship_info info;
       struct player_spaceship *ship = &game.players[i].spaceship;
 	  
@@ -157,7 +157,7 @@ void handle_spaceship_launch(struct player *pplayer)
   struct player_spaceship *ship = &pplayer->spaceship;
   int arrival;
 
-  if (find_palace(pplayer) == NULL) {
+  if (!find_palace(pplayer)) {
     notify_player(pplayer,
                   _("Game: You need to have a capital in order to launch "
 		    "your spaceship."));
@@ -362,13 +362,13 @@ void check_spaceship_arrivals(void)
     if (ship->state == SSHIP_LAUNCHED) {
       arrival = ship->launch_year + ship->travel_time;
       if (game.year >= (int)arrival
-	  && (best_pplayer==NULL || arrival < best_arrival)) {
+	  && (!best_pplayer || arrival < best_arrival)) {
 	best_arrival = arrival;
 	best_pplayer = pplayer;
       }
     }
   }
-  if (best_pplayer != NULL) {
+  if (best_pplayer) {
     best_pplayer->spaceship.state = SSHIP_ARRIVED;
     server_state = GAME_OVER_STATE;
     notify_player_ex(NULL, -1, -1, E_SPACESHIP,

@@ -144,7 +144,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   pdialog->accel = gtk_accel_group_new();
   pdialog->shell = gtk_vbox_new(FALSE, 0);
 
-  if (preset_title == NULL) {
+  if (!preset_title) {
     preset_title = intl_slist(1, preset_title_);
   }
 
@@ -399,7 +399,7 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
     };
     static char **info_message = NULL;
 
-    if (info_message == NULL) {
+    if (!info_message) {
       info_message = intl_slist(4, info_message_);
     }
 
@@ -423,13 +423,13 @@ static void cma_select_preset_callback(GtkWidget *w, gint row, gint col,
   int preset_index;
   const struct cma_parameter *pparam;
 
-  if (selection == NULL) {
+  if (!selection) {
     return;
   }
 
   preset_index = (int) selection->data;
 
-  if (ev != NULL && ev->type == GDK_2BUTTON_PRESS) {
+  if (ev && ev->type == GDK_2BUTTON_PRESS) {
     /* Double-click to remove preset from list */
     cma_preset_remove(pdialog, preset_index);
     return;
@@ -466,7 +466,7 @@ static void cma_add_preset_callback(GtkWidget *w, gpointer data)
   GList *selection = GTK_CLIST(pdialog->preset_list)->selection;
   char *default_name;
 
-  if (selection != NULL) {
+  if (selection) {
     default_name = cmafec_preset_get_descr((int) selection->data);
   } else {
     default_name = _("new preset");
@@ -504,7 +504,7 @@ static void cma_preset_add_callback_no(GtkWidget *w, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
 
-  if (pdialog != NULL) {
+  if (pdialog) {
     pdialog->name_shell = NULL;
   }
 
@@ -518,7 +518,7 @@ static void cma_preset_add_callback_yes(GtkWidget *w, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
 
-  if (pdialog != NULL) {
+  if (pdialog) {
     struct cma_parameter param;
 
     cmafec_get_fe_parameter(pdialog->pcity, &param);
@@ -542,7 +542,7 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   GList *selection = GTK_CLIST(pdialog->preset_list)->selection;
 
-  if (selection == NULL) {
+  if (!selection) {
     return FALSE;
   }
 
@@ -568,7 +568,7 @@ static void cma_del_preset_callback(GtkWidget *w, gpointer data)
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   GList *selection = GTK_CLIST(pdialog->preset_list)->selection;
 
-  if (selection == NULL) {
+  if (!selection) {
     return;
   }
 

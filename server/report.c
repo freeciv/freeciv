@@ -184,7 +184,7 @@ void report_top_five_cities(struct conn_list *dest)
     struct city *pcity = find_city_by_id(size[i].idx);
     int wonders;
 
-    if (pcity == NULL) {
+    if (!pcity) {
 	/* 
 	 * pcity may be NULL if there are less then NUM_BEST_CITIES in
 	 * the whole game.
@@ -218,7 +218,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
   for (i=0;i<game.num_impr_types;i++) {
     if (is_wonder(i)) {
       if (game.global_wonders[i]) {
-	if ((pcity=find_city_by_id(game.global_wonders[i])) != NULL) {
+	if ((pcity=find_city_by_id(game.global_wonders[i]))) {
 	  cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
 		       get_impr_name_ex(pcity, i), pcity->name,
 		       get_nation_name(city_owner(pcity)->nation));
@@ -377,7 +377,7 @@ static struct player *best_research(void)
 
   players_iterate(other) {
     if (other->is_alive && !is_barbarian(other)
-	&& (pplayer == NULL
+	&& (!pplayer
 	    || rank_calc_research(other) > rank_calc_research(pplayer))) {
       pplayer = other;
     }
@@ -930,7 +930,7 @@ void report_demographics(struct connection *pconn)
   selcols = DEM_NONE;
   buffer[0] = '\0';
   for (inx = 0; inx < ARRAY_SIZE(keytable); inx++) {
-    if (strchr(game.demography, keytable[inx].key) != NULL) {
+    if (strchr(game.demography, keytable[inx].key)) {
       if (keytable[inx].flag == DEM_ROW) {
 	anyrows = TRUE;
       } else {
@@ -939,7 +939,7 @@ void report_demographics(struct connection *pconn)
     }
   }
 
-  if (pplayer == NULL || !pplayer->is_alive || !anyrows
+  if (!pplayer || !pplayer->is_alive || !anyrows
       || (selcols == DEM_NONE)) {
     page_conn(&pconn->self, _("Demographics Report:"),
 	      _("Sorry, the Demographics report is unavailable."),
@@ -953,7 +953,7 @@ void report_demographics(struct connection *pconn)
 
   for (inx = 0; inx < ARRAY_SIZE(keytable); inx++)
     {
-      if ((strchr (game.demography, keytable[inx].key)) != NULL &&
+      if ((strchr (game.demography, keytable[inx].key)) &&
 	  (keytable[inx].flag == DEM_ROW))
 	{
 	  outptr = end_of_strn (outptr, &nleft);
@@ -1033,7 +1033,7 @@ static void log_civ_score(void)
       return;
     }
 
-  if (fp == NULL)
+  if (!fp)
     {
       if (game.year == GAME_START_YEAR)
 	{
@@ -1042,7 +1042,7 @@ static void log_civ_score(void)
       else
 	{
 	  fp = fopen (logname, "r");
-	  if (fp == NULL)
+	  if (!fp)
 	    {
 	      oper = SL_CREATE;
 	    }
@@ -1050,7 +1050,7 @@ static void log_civ_score(void)
 	    {
 	      for (ln = 1; ; ln++)
 		{
-		  if (fgets(line, sizeof(line), fp) == NULL)
+		  if (!(fgets (line, sizeof (line), fp)))
 		    {
 		      if (ferror (fp)) {
 			freelog(LOG_ERROR, "Can't read scorelog file header!");
@@ -1061,7 +1061,7 @@ static void log_civ_score(void)
 		    }
 
 		  ptr = strchr (line, '\n');
-		  if (ptr == NULL)
+		  if (!ptr)
 		    {
 		      freelog(LOG_ERROR,
 			      "Scorelog file line %d is too long!", ln);
@@ -1082,7 +1082,7 @@ static void log_civ_score(void)
 			}
 		      else
 			{
-			  if (tags[foms] == NULL)
+			  if (!(tags[foms]))
 			    {
 			      freelog (LOG_ERROR,
 				       "Too many entries in scorelog header!");
@@ -1134,7 +1134,7 @@ static void log_civ_score(void)
 		      goto log_civ_score_disable;
 		    }
 
-		  if (fgets(line, sizeof(line), fp) == NULL)
+		  if (!(fgets (line, sizeof (line), fp)))
 		    {
 		      if (ferror (fp)) {
 			freelog(LOG_ERROR, "Can't read scorelog file!");
@@ -1144,7 +1144,7 @@ static void log_civ_score(void)
 		      goto log_civ_score_disable;
 		    }
 		  ptr = strchr (line, '\n');
-		  if (ptr == NULL)
+		  if (!ptr)
 		    {
 		      freelog (LOG_ERROR,
 			       "Scorelog file line is too long!");
@@ -1152,7 +1152,7 @@ static void log_civ_score(void)
 		    }
 		  *ptr = '\0';
 
-		  if (fgets(line, sizeof(line), fp) == NULL)
+		  if (!(fgets (line, sizeof (line), fp)))
 		    {
 		      if (ferror (fp))
 			{
@@ -1167,7 +1167,7 @@ static void log_civ_score(void)
 		      goto log_civ_score_disable;
 		    }
 		  ptr = strchr (line, '\n');
-		  if (ptr == NULL)
+		  if (!ptr)
 		    {
 		      freelog (LOG_ERROR,
 			       "Scorelog file line is too long!");
@@ -1204,13 +1204,13 @@ static void log_civ_score(void)
 	{
 	case SL_CREATE:
 	  fp = fopen (logname, "w");
-	  if (fp == NULL)
+	  if (!fp)
 	    {
 	      freelog (LOG_ERROR, "Can't open scorelog file for creation!");
 	      goto log_civ_score_disable;
 	    }
 	  fprintf (fp, magic, VERSION_STRING);
-	  for (i = 0; tags[i] != NULL; i++)
+	  for (i = 0; tags[i]; i++)
 	    {
 	      fprintf (fp, "%d %s\n", i, tags[i]);
 	    }
@@ -1227,7 +1227,7 @@ static void log_civ_score(void)
 	  break;
 	case SL_APPEND:
 	  fp = fopen (logname, "a");
-	  if (fp == NULL)
+	  if (!fp)
 	    {
 	      freelog (LOG_ERROR, "Can't open scorelog file for appending!");
 	      goto log_civ_score_disable;
@@ -1239,7 +1239,7 @@ static void log_civ_score(void)
 	}
     }
 
-  for (i = 0; tags[i] != NULL; i++)
+  for (i = 0; tags[i]; i++)
     {
       for (n = 0; n < game.nplayers; n++)
 	{
@@ -1361,7 +1361,7 @@ static void log_civ_score(void)
 
 log_civ_score_disable:
 
-  if (fp != NULL)
+  if (fp)
     {
       fclose (fp);
       fp = NULL;

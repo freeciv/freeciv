@@ -575,12 +575,12 @@ static void process_attacker_want(struct player *pplayer,
           player_knows_improvement_tech(pplayer, B_PORT)) ? 15 : 10) *
              unit_types[i].firepower * unit_types[i].hp;
       a /= 30; /* scaling factor to prevent integer overflows */
-      if (acity != NULL) a += acity->ai.a;
+      if (acity) a += acity->ai.a;
       a *= a;
       /* b is unchanged */
 
       m = unit_types[i].move_rate;
-      q = (acity != NULL ? 1 : unit_types[n].move_rate * (unit_type_flag(n, F_IGTER) ? 3 : 1));
+      q = (acity ? 1 : unit_types[n].move_rate * (unit_type_flag(n, F_IGTER) ? 3 : 1));
       if (unit_type_flag(i, F_IGTER)) m *= SINGLE_MOVE; /* not quite right */
       if (unit_types[i].move_type == LAND_MOVING) {
         if (boatspeed) { /* has to be a city, so don't bother with q */
@@ -602,7 +602,7 @@ static void process_attacker_want(struct player *pplayer,
       m *= m;
       d = m;
 
-      if (unit_types[i].move_type == LAND_MOVING && acity != NULL &&
+      if (unit_types[i].move_type == LAND_MOVING && acity &&
           c > (player_knows_improvement_tech(city_owner(acity),
 					     B_CITY) ? 2 : 4) &&
           !unit_type_flag(i, F_IGWALL) && !city_got_citywalls(acity)) d *= 9; 
@@ -612,16 +612,16 @@ static void process_attacker_want(struct player *pplayer,
            (unit_types[i].attack_strength +
             unit_types[i].defense_strength);
 
-      if (acity != NULL) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
+      if (acity) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
       else g = 1;
       if (unit_types[i].move_type != LAND_MOVING && !d) b0 = 0;
 /* not bothering to s/!d/!pdef here for the time being -- Syela */
       else if ((unit_types[i].move_type == LAND_MOVING ||
-              unit_types[i].move_type == HELI_MOVING) && acity != NULL &&
+              unit_types[i].move_type == HELI_MOVING) && acity &&
               acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
       else {
-        b0 = (b * a - (f + (acity != NULL ? acity->ai.f : 0)) * d) * g * SHIELD_WEIGHTING / (a + g * d);
-        if (acity != NULL && b * acity->ai.a * acity->ai.a > acity->ai.f * d)
+        b0 = (b * a - (f + (acity ? acity->ai.f : 0)) * d) * g * SHIELD_WEIGHTING / (a + g * d);
+        if (acity && b * acity->ai.a * acity->ai.a > acity->ai.f * d)
           b0 -= (b * acity->ai.a * acity->ai.a - acity->ai.f * d) *
                            g * SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + g * d);
       }
@@ -637,7 +637,7 @@ static void process_attacker_want(struct player *pplayer,
 	    freelog(LOG_DEBUG,
 		    "%s wants %s, %s to punish %s@(%d, %d) with desire %d.", 
 		    pcity->name, advances[j].name, unit_name(i),
-		    (acity != NULL ? acity->name : "punit"), x, y, e);
+		    (acity ? acity->name : "punit"), x, y, e);
 	  } else {
 	    freelog(LOG_DEBUG,
 		    "%s wants %s, %s for something with desire %d.", 
@@ -674,7 +674,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
   ferryboat = player_find_unit_by_id(pplayer, boatid);
   /* FIXME: hardcoded boat speed */
- if (ferryboat != NULL) boatspeed = (unit_flag(ferryboat, F_TRIREME)
+ if (ferryboat) boatspeed = (unit_flag(ferryboat, F_TRIREME)
 			     ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
   else boatspeed = (get_invention(pplayer, game.rtech.nav) != TECH_KNOWN
 		    ? 2*SINGLE_MOVE : 4*SINGLE_MOVE);
@@ -682,12 +682,12 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   fstk = find_something_to_kill(pplayer, myunit, &x, &y);
 
   acity = map_get_city(x, y);
-  if (acity == NULL) {
+  if (!acity) {
     aunit = get_defender(myunit, x, y);
   } else {
     aunit = NULL;
   }
-  if (acity != NULL && acity->owner == pplayer->player_no) {
+  if (acity && acity->owner == pplayer->player_no) {
     acity = NULL;
   }
 
@@ -696,17 +696,17 @@ to the same utility function, but I don't want to break anything right
 before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
 
 /* logically we should adjust this for race attack tendencies */
-  if (acity != NULL || aunit != NULL) {
+  if ((acity || aunit)) {
     v = myunit->type;
     vet = myunit->veteran;
 
     a = unit_types[v].attack_strength * (vet ? 15 : 10) *
              unit_types[v].firepower * myunit->hp;
     a /= 30; /* scaling factor to prevent integer overflows */
-    if (acity != NULL) a += acity->ai.a;
+    if (acity) a += acity->ai.a;
     a *= a;
 
-    if (acity != NULL) {
+    if (acity) {
       pdef = get_defender(myunit, x, y);
 
       m = unit_types[v].move_rate;
@@ -742,7 +742,7 @@ before the 1.7.0 release so I'm letting this stay ugly. -- Syela */
         b = 40;
         vet = 0;
       }
-      if (pdef != NULL) {
+      if (pdef) {
 /*        n = pdef->type;    Now, really, I could not possibly have written this.
 Yet, somehow, this line existed, and remained here for months, bugging the AI
 tech progression beyond all description.  Only when adding the override code
@@ -813,18 +813,18 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
            (unit_types[v].attack_strength +
             unit_types[v].defense_strength);
 
-    if (acity != NULL) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
+    if (acity) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
     else g = 1;
     if (unit_types[v].move_type != LAND_MOVING &&
-        unit_types[v].move_type != HELI_MOVING && pdef == NULL) b0 = 0;
+        unit_types[v].move_type != HELI_MOVING && !pdef) b0 = 0;
 /* !d instead of !pdef was horrible bug that led to yoyo-ing AI warships -- Syela */
     else if (c > THRESHOLD) b0 = 0;
     else if ((unit_types[v].move_type == LAND_MOVING ||
-              unit_types[v].move_type == HELI_MOVING) && acity != NULL &&
+              unit_types[v].move_type == HELI_MOVING) && acity &&
               acity->ai.invasion == 2) b0 = f * SHIELD_WEIGHTING;
     else {
-      b0 = (b * a - (f + (acity != NULL ? acity->ai.f : 0)) * d) * g * SHIELD_WEIGHTING / (a + g * d);
-      if (acity != NULL && b * acity->ai.a * acity->ai.a > acity->ai.f * d)
+      b0 = (b * a - (f + (acity ? acity->ai.f : 0)) * d) * g * SHIELD_WEIGHTING / (a + g * d);
+      if (acity && b * acity->ai.a * acity->ai.a > acity->ai.f * d)
         b0 -= (b * acity->ai.a * acity->ai.a - acity->ai.f * d) *
                g * SHIELD_WEIGHTING / (acity->ai.a * acity->ai.a + g * d);
     }
@@ -1054,7 +1054,7 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
   unit_list_iterate_end;
 /* if myunit is non-null, it is an attacker forced to defend */
 /* and we will use its attack values, otherwise we will use virtualunit */
-  if (myunit != NULL) kill_something_with(pplayer, pcity, myunit, choice);
+  if (myunit) kill_something_with(pplayer, pcity, myunit, choice);
   else {
     freelog(LOG_DEBUG, "Killing with virtual unit in %s", pcity->name);
     v = ai_choose_attacker_sailing(pcity);

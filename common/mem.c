@@ -60,7 +60,7 @@ void *fc_real_malloc(size_t size,
     return NULL;
   }
   ptr = malloc(size);
-  if(ptr==NULL) {
+  if(!ptr) {
     handle_alloc_failure(size, called_as, line, file);
   }
   return ptr;
@@ -75,7 +75,7 @@ void *fc_real_realloc(void *ptr, size_t size,
 {
   void *new_ptr;
   
-  if(ptr==NULL) {
+  if(!ptr) {
     return fc_real_malloc(size, called_as, line, file);
   }
   if(size==0) {
@@ -85,7 +85,7 @@ void *fc_real_realloc(void *ptr, size_t size,
     return NULL;
   }
   new_ptr = realloc(ptr, size);
-  if(new_ptr==NULL) {
+  if(!new_ptr) {
     handle_alloc_failure(size, called_as, line, file);
   }
   return new_ptr;

@@ -81,10 +81,10 @@ void do_conquer_cost(struct player *pplayer)
 **************************************************************************/
 void send_player_turn_notifications(struct conn_list *dest)
 {
-  if (dest != NULL) {
+  if (dest) {
     conn_list_iterate(*dest, pconn) {
       struct player *pplayer = pconn->player;
-      if (pplayer != NULL) {
+      if (pplayer) {
 	city_list_iterate(pplayer->cities, pcity) {
 	  send_city_turn_notifications(&pconn->self, pcity);
 	}
@@ -115,7 +115,7 @@ static void great_library(struct player *pplayer)
   int i;
   if (wonder_obsolete(B_GREAT)) 
     return;
-  if (find_city_wonder(B_GREAT) != NULL) {
+  if (find_city_wonder(B_GREAT)) {
     if (pplayer->player_no==find_city_wonder(B_GREAT)->owner) {
       for (i=0;i<game.num_tech_types;i++) {
 	if (get_invention(pplayer, i)!=TECH_KNOWN 
@@ -235,7 +235,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
     for (wonder = 0; wonder < game.num_impr_types; wonder++) {
       if (game.global_wonders[wonder] && is_wonder(wonder) &&
 	  improvement_types[wonder].obsolete_by == tech_found &&
-	  (pcity = find_city_by_id(game.global_wonders[wonder])) != NULL) {
+	  (pcity = find_city_by_id(game.global_wonders[wonder]))) {
 	notify_player_ex(city_owner(pcity), -1, -1, E_WONDER_OBSOLETE,
 	      _("Game: Discovery of %s OBSOLETES %s in %s!"), 
 	      advances[tech_found].name, get_improvement_name(wonder),
@@ -319,7 +319,7 @@ void found_new_tech(struct player *plr, int tech_found, char was_discovery,
   }
 
   if (bonus_tech_hack) {
-    if (advances[tech_found].bonus_message != NULL) {
+    if (advances[tech_found].bonus_message) {
       notify_player(plr, _("Game: %s"),
 		    _(advances[tech_found].bonus_message));
     } else {
@@ -878,7 +878,7 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player)
       i += 2;
     } unit_list_iterate_end;
 
-    if (resolve_list != NULL) {
+    if (resolve_list) {
       for (i = 0; i < tot_units * 2; i += 2)
 	resolve_unit_stack(resolve_list[i], resolve_list[i+1], TRUE);
       free(resolve_list);
@@ -923,8 +923,8 @@ static void vnotify_conn_ex(struct conn_list *dest, int x, int y, int event,
 
   conn_list_iterate(*dest, pconn) {
     if (is_real_tile(x, y) && server_state >= RUN_GAME_STATE
-	&& ((pconn->player==NULL && pconn->observer)
-	    || (pconn->player!=NULL && map_get_known(x, y, pconn->player)))) {
+	&& ((!pconn->player && pconn->observer)
+	    || (pconn->player && map_get_known(x, y, pconn->player)))) {
       genmsg.x = x;
       genmsg.y = y;
     } else {
@@ -972,7 +972,7 @@ void notify_player_ex(const struct player *pplayer, int x, int y,
   struct conn_list *dest;
   va_list args;
 
-  if (pplayer != NULL) {
+  if (pplayer) {
     dest = (struct conn_list*)&pplayer->connections;
   } else {
     dest = &game.est_connections;
@@ -991,7 +991,7 @@ void notify_player(const struct player *pplayer, const char *format, ...)
   struct conn_list *dest;
   va_list args;
 
-  if (pplayer != NULL) {
+  if (pplayer) {
     dest = (struct conn_list*)&pplayer->connections;
   } else {
     dest = &game.est_connections;
@@ -1037,16 +1037,16 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 void send_player_info_c(struct player *src, struct conn_list *dest)
 {
   players_iterate(pplayer) {
-    if(src == NULL || pplayer==src) {
+    if(!src || pplayer==src) {
       struct packet_player_info info;
 
       package_player_common(pplayer, &info);
 
       conn_list_iterate(*dest, pconn) {
-	if (pconn->player == NULL && pconn->observer) {
+	if (!pconn->player && pconn->observer) {
 	  /* Observer for all players. */
 	  package_player_info(pplayer, &info, NULL, INFO_FULL);
-	} else if (pconn->player == NULL) {
+	} else if (!pconn->player) {
 	  /* Client not yet attached to player. */
 	  package_player_info(pplayer, &info, NULL, INFO_MINIMUM);
 	} else {
@@ -1070,7 +1070,7 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
 **************************************************************************/
 void send_player_info(struct player *src, struct player *dest)
 {
-  send_player_info_c(src, (dest != NULL ? &dest->connections : &game.est_connections));
+  send_player_info_c(src, (dest ? &dest->connections : &game.est_connections));
 }
 
 /**************************************************************************
@@ -1165,11 +1165,11 @@ static void package_player_info(struct player *plr,
     packet->future_tech     = 0;
     packet->revolution      = 0;
 
-    if (receiver == NULL || !player_has_embassy(plr, receiver))
+    if (!receiver || !player_has_embassy(plr, receiver))
       packet->embassy  = 0;
     else
       packet->embassy  = 1 << receiver->player_no;
-    if (receiver == NULL || !(plr->gives_shared_vision & (1<<receiver->player_no)))
+    if (!receiver || !(plr->gives_shared_vision & (1<<receiver->player_no)))
       packet->gives_shared_vision = 0;
     else
       packet->gives_shared_vision = 1 << receiver->player_no;
@@ -1180,7 +1180,7 @@ static void package_player_info(struct player *plr,
       packet->diplstates[i].has_reason_to_cancel = 0;
     }
     /* We always know the players relation to us */
-    if (receiver != NULL) {
+    if (receiver) {
       int p_no = receiver->player_no;
       packet->diplstates[p_no].type       = plr->diplstates[p_no].type;
       packet->diplstates[p_no].turns_left = plr->diplstates[p_no].turns_left;
@@ -1208,9 +1208,9 @@ enum plr_info_level player_info_level(struct player *plr,
 {
   if (plr == receiver)
     return INFO_FULL;
-  if (receiver != NULL && player_has_embassy(receiver, plr))
+  if (receiver && player_has_embassy(receiver, plr))
     return INFO_EMBASSY;
-  if (receiver != NULL && find_treaty(plr, receiver) != NULL)
+  if (receiver && find_treaty(plr, receiver))
     return INFO_MEETING;
   return INFO_MINIMUM;
 }
@@ -1224,7 +1224,7 @@ static void package_conn_info(struct connection *pconn,
   packet->id           = pconn->id;
   packet->used         = pconn->used;
   packet->established  = pconn->established;
-  packet->player_num   = pconn->player != NULL ? pconn->player->player_no : -1;
+  packet->player_num   = pconn->player ? pconn->player->player_no : -1;
   packet->observer     = pconn->observer;
   packet->access_level = pconn->access_level;
 
@@ -1277,7 +1277,7 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest)
 **************************************************************************/
 struct conn_list *player_reply_dest(struct player *pplayer)
 {
-  return (pplayer->current_conn != NULL ?
+  return (pplayer->current_conn ?
 	  &pplayer->current_conn->self :
 	  &pplayer->connections);
 }
@@ -1372,7 +1372,7 @@ void maybe_make_first_contact(int x, int y, struct player *pplayer)
   square_iterate(x, y, 1, x_itr, y_itr) {
     struct tile *ptile = map_get_tile(x_itr, y_itr);
     struct city *pcity = ptile->city;
-    if (pcity != NULL)
+    if (pcity)
       make_contact(pplayer, city_owner(pcity), x, y);
     unit_list_iterate(ptile->units, punit) {
       make_contact(pplayer, unit_owner(punit), x, y);
@@ -1414,7 +1414,7 @@ void neutralize_ai_player(struct player *pplayer)
 void associate_player_connection(struct player *pplayer,
 				 struct connection *pconn)
 {
-  assert(pplayer != NULL && pconn != NULL);
+  assert(pplayer && pconn);
   
   pconn->player = pplayer;
   conn_list_insert_back(&pplayer->connections, pconn);
@@ -1432,7 +1432,7 @@ void associate_player_connection(struct player *pplayer,
 void unassociate_player_connection(struct player *pplayer,
 				   struct connection *pconn)
 {
-  assert(pplayer != NULL && pconn != NULL);
+  assert(pplayer && pconn);
 
   pconn->player = NULL;
   conn_list_unlink(&pplayer->connections, pconn);

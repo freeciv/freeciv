@@ -240,7 +240,7 @@ section_file_insert_internal(struct section_file *my_section_file,
 **************************************************************************/
 const char *secfile_filename(const struct section_file *file)
 {
-  if (file->filename != NULL) {
+  if (file->filename) {
     return file->filename;
   } else {
     return "(anonymous)";
@@ -304,7 +304,7 @@ void section_file_check_unused(struct section_file *file, const char *filename)
   section_list_iterate(*file->sections, psection) {
     entry_list_iterate(psection->entries, pentry) {
       if (!pentry->used) {
-	if (any==0 && filename!=NULL) {
+	if (any == 0 && filename) {
 	  freelog(LOG_NORMAL, "Unused entries in file %s:", filename);
 	  any = 1;
 	}
@@ -369,7 +369,7 @@ static int section_file_load_dup(struct section_file *sf,
   struct astring *columns = NULL;	/* -> columns_tab.ptr */
 
   inf = inf_open(filename, datafilename);
-  if (inf == NULL) {
+  if (!inf) {
     return FALSE;
   }
   section_file_init(sf);
@@ -380,14 +380,14 @@ static int section_file_load_dup(struct section_file *sf,
   freelog(LOG_VERBOSE, "Reading file \"%s\"", filename);
 
   while(!inf_at_eof(inf)) {
-    if (inf_token(inf, INF_TOK_EOL) != NULL)
+    if (inf_token(inf, INF_TOK_EOL))
       continue;
     if (inf_at_eof(inf)) {
       /* may only realise at eof after trying to read eol above */
       break;
     }
     tok = inf_token(inf, INF_TOK_SECTION_NAME);
-    if (tok != NULL) {
+    if (tok) {
       if (table_state) {
 	inf_die(inf, "new section during table");
       }
@@ -406,7 +406,7 @@ static int section_file_load_dup(struct section_file *sf,
 	}
       }
       section_list_iterate_end;
-      if (psection==NULL) {
+      if (!psection) {
 	psection = sbuf_malloc(sb, sizeof(struct section));
 	psection->name = sbuf_strdup(sb, tok);
 	entry_list_init(&psection->entries);
@@ -415,10 +415,10 @@ static int section_file_load_dup(struct section_file *sf,
       inf_token_required(inf, INF_TOK_EOL);
       continue;
     }
-    if (psection == NULL) {
+    if (!psection) {
       inf_die(inf, "data before first section");
     }
-    if (inf_token(inf, INF_TOK_TABLE_END) != NULL) {
+    if (inf_token(inf, INF_TOK_TABLE_END)) {
       if (!table_state) {
 	inf_die(inf, "misplaced \"}\"");
       }
@@ -446,7 +446,7 @@ static int section_file_load_dup(struct section_file *sf,
 	pentry = new_entry(sb, entry_name.str, tok);
 	entry_list_insert_back(&psection->entries, pentry);
 	sf->num_entries++;
-      } while(inf_token(inf, INF_TOK_COMMA) != NULL);
+      } while(inf_token(inf, INF_TOK_COMMA));
       
       inf_token_required(inf, INF_TOK_EOL);
       table_lineno++;
@@ -460,7 +460,7 @@ static int section_file_load_dup(struct section_file *sf,
 
     inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
     
-    if (inf_token(inf, INF_TOK_TABLE_START) != NULL) {
+    if (inf_token(inf, INF_TOK_TABLE_START)) {
       i = -1;
       do {
 	i++;
@@ -481,7 +481,7 @@ static int section_file_load_dup(struct section_file *sf,
 	astr_minsize(&columns[i], strlen(tok));
 	strcpy(columns[i].str, tok+1);
 	
-      } while(inf_token(inf, INF_TOK_COMMA) != NULL);
+      } while(inf_token(inf, INF_TOK_COMMA));
       
       inf_token_required(inf, INF_TOK_EOL);
       table_state = TRUE;
@@ -504,7 +504,7 @@ static int section_file_load_dup(struct section_file *sf,
       }
       entry_list_insert_back(&psection->entries, pentry);
       sf->num_entries++;
-    } while(inf_token(inf, INF_TOK_COMMA) != NULL);
+    } while(inf_token(inf, INF_TOK_COMMA));
     inf_token_required(inf, INF_TOK_EOL);
   }
   
@@ -572,7 +572,7 @@ int section_file_save(struct section_file *my_section_file, const char *filename
   struct genlist_iterator ent_iter, save_iter, col_iter;
   struct entry *pentry, *col_pentry;
 
-  if (fs == NULL)
+  if (!fs)
     return FALSE;
 
   section_list_iterate(*my_section_file->sections, psection) {
@@ -582,7 +582,7 @@ int section_file_save(struct section_file *my_section_file, const char *filename
      * tricky things with the iterators...
      */
     for(genlist_iterator_init(&ent_iter, &psection->entries.list, 0);
-	(pentry = ITERATOR_PTR(ent_iter)) != NULL;
+	(pentry = ITERATOR_PTR(ent_iter));
 	ITERATOR_NEXT(ent_iter)) {
 
       /* Tables: break out of this loop if this is a non-table
@@ -625,7 +625,7 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 	/* write the column names, and calculate ncol: */
 	ncol = 0;
 	col_iter = save_iter;
-	for( ; (col_pentry = ITERATOR_PTR(col_iter)) != NULL; ITERATOR_NEXT(col_iter)) {
+	for( ; (col_pentry = ITERATOR_PTR(col_iter)); ITERATOR_NEXT(col_iter)) {
 	  if(strncmp(col_pentry->name, first, offset) != 0)
 	    break;
 	  fz_fprintf(fs, "%c\"%s\"", (ncol==0?' ':','), col_pentry->name+offset);
@@ -649,7 +649,7 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 		      base, irow, col_pentry->name+offset);
 
 	  /* break out of tabular if doesn't match: */
-	  if (pentry == NULL || (strcmp(pentry->name, expect) != 0)) {
+	  if((!pentry) || (strcmp(pentry->name, expect) != 0)) {
 	    if(icol != 0) {
 	      freelog(LOG_ERROR, "unexpected exit from tabular at %s (%s)",
 		      pentry->name, filename);
@@ -661,7 +661,7 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 
 	  if(icol>0)
 	    fz_fprintf(fs, ",");
-	  if(pentry->svalue != NULL) 
+	  if(pentry->svalue) 
 	    fz_fprintf(fs, "\"%s\"", moutstr(pentry->svalue));
 	  else
 	    fz_fprintf(fs, "%d", pentry->ivalue);
@@ -677,15 +677,15 @@ int section_file_save(struct section_file *my_section_file, const char *filename
 	    col_iter = save_iter;
 	  }
 	}
-	if(pentry == NULL) break;
+	if(!pentry) break;
       }
-      if(pentry == NULL) break;
+      if(!pentry) break;
 
-      if(pentry->svalue != NULL)
+      if(pentry->svalue)
 	fz_fprintf(fs, "%s=\"%s\"", pentry->name, moutstr(pentry->svalue));
       else
 	fz_fprintf(fs, "%s=%d", pentry->name, pentry->ivalue);
-      if (pentry->comment != NULL) {
+      if (pentry->comment) {
 	fz_fprintf(fs, "  # %s\n", pentry->comment);
       } else {
 	fz_fprintf(fs, "\n");
@@ -723,14 +723,13 @@ char *secfile_lookup_str(struct section_file *my_section_file, char *path, ...)
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  pentry = section_file_lookup_internal(my_section_file, buf);
-  if (pentry == NULL) {
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
 	    secfile_filename(my_section_file), buf);
     exit(EXIT_FAILURE);
   }
 
-  if (pentry->svalue == NULL) {
+  if(!pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain a string",
 	    secfile_filename(my_section_file), buf);
     exit(EXIT_FAILURE);
@@ -756,13 +755,13 @@ char *secfile_lookup_str_int(struct section_file *my_section_file,
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  if ((pentry = section_file_lookup_internal(my_section_file, buf)) == NULL) {
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
 	    secfile_filename(my_section_file), buf);
     exit(EXIT_FAILURE);
   }
 
-  if(pentry->svalue != NULL) {
+  if(pentry->svalue) {
     return pentry->svalue;
   } else {
     *ival = pentry->ivalue;
@@ -866,13 +865,13 @@ int secfile_lookup_int(struct section_file *my_section_file,
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  if ((pentry = section_file_lookup_internal(my_section_file, buf)) == NULL) {
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     freelog(LOG_FATAL, "sectionfile %s doesn't contain a '%s' entry",
 	    secfile_filename(my_section_file), buf);
     exit(EXIT_FAILURE);
   }
 
-  if(pentry->svalue != NULL) {
+  if(pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile %s entry '%s' doesn't contain an integer",
 	    secfile_filename(my_section_file), buf);
     exit(EXIT_FAILURE);
@@ -897,10 +896,10 @@ int secfile_lookup_int_default(struct section_file *my_section_file,
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  if((pentry=section_file_lookup_internal(my_section_file, buf)) == NULL) {
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     return def;
   }
-  if(pentry->svalue != NULL) {
+  if(pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile %s contains a '%s', but string not integer",
 	    secfile_filename(my_section_file), buf);
     exit(EXIT_FAILURE);
@@ -923,11 +922,11 @@ char *secfile_lookup_str_default(struct section_file *my_section_file,
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  if((pentry=section_file_lookup_internal(my_section_file, buf)) == NULL) {
+  if(!(pentry=section_file_lookup_internal(my_section_file, buf))) {
     return def;
   }
 
-  if(pentry->svalue == NULL) {
+  if(!pentry->svalue) {
     freelog(LOG_FATAL, "sectionfile %s contains a '%s', but integer not string",
 	    secfile_filename(my_section_file), buf);
     exit(EXIT_FAILURE);
@@ -981,7 +980,7 @@ section_file_lookup_internal(struct section_file *my_section_file,
   
   if (secfilehash_hashash(my_section_file)) {
     result = hash_lookup_data(my_section_file->hashd->htbl, fullpath);
-    if (result != NULL) {
+    if (result) {
       result->used++;
     }
     return result;
@@ -989,7 +988,7 @@ section_file_lookup_internal(struct section_file *my_section_file,
 
   /* i dont like strtok */
   pdelim = strchr(fullpath, '.');
-  if (pdelim == NULL) {
+  if (!pdelim) {
     return NULL;
   }
 
@@ -1030,7 +1029,7 @@ section_file_insert_internal(struct section_file *my_section_file,
   struct entry *pentry;
   struct sbuffer *sb = my_section_file->sb;
 
-  if((pdelim=strchr(fullpath, '.')) == NULL) { /* d dont like strtok */
+  if(!(pdelim=strchr(fullpath, '.'))) { /* d dont like strtok */
     freelog(LOG_FATAL,
 	    "Insertion fullpath \"%s\" missing '.' for sectionfile %s",
 	    fullpath, secfile_filename(my_section_file));
@@ -1082,7 +1081,7 @@ section_file_insert_internal(struct section_file *my_section_file,
 **************************************************************************/
 int secfilehash_hashash(struct section_file *file)
 {
-  return (file->hashd!=NULL && hash_num_buckets(file->hashd->htbl)!=0);
+  return (file->hashd && hash_num_buckets(file->hashd->htbl) != 0);
 }
 
 /**************************************************************************
@@ -1113,7 +1112,7 @@ static void secfilehash_insert(struct section_file *file,
 
   key = sbuf_strdup(file->sb, key);
   hentry = hash_replace(file->hashd->htbl, key, data);
-  if (hentry != NULL) {
+  if (hentry) {
     if (file->hashd->allow_duplicates) {
       hentry->used = 1;
       file->hashd->num_duplicates++;
@@ -1270,7 +1269,7 @@ static char *minstrdup(struct sbuffer *sb, const char *str)
 {
   char *dest = sbuf_malloc(sb, strlen(str)+1);
   char *d2=dest;
-  if(dest != NULL) {
+  if(dest) {
     while (*str) {
       if (*str=='\\') {
 	str++;
@@ -1312,7 +1311,7 @@ static char *moutstr(char *str)
   int len;			/* required length, including terminator */
   char *c, *dest;
 
-  if (str==NULL) {
+  if (!str) {
     freelog(LOG_DEBUG, "moutstr alloc was %d", nalloc);
     free(buf);
     buf = NULL;

@@ -132,7 +132,7 @@ void gui_server_connect(void)
   char buf [256];
   int i;
 
-  if (titles == NULL) titles = intl_slist(6, titles_);
+  if (!titles) titles = intl_slist(6, titles_);
 
   gtk_widget_set_sensitive(turn_done_button, FALSE);
   gtk_widget_set_sensitive(top_vbox, FALSE);
@@ -266,7 +266,7 @@ static int get_meta_list(GtkWidget *list, char *errbuf, int n_errbuf)
   char *row[6];
   char  buf[6][64];
   struct server_list *server_list = create_server_list(errbuf, n_errbuf);
-  if(server_list == NULL) return -1;
+  if(!server_list) return -1;
 
   gtk_clist_freeze(GTK_CLIST(list));
   gtk_clist_clear(GTK_CLIST(list));

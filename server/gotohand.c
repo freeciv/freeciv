@@ -125,7 +125,7 @@ static void init_queue(void)
 static struct mappos_array *get_empty_array(void)
 {
   struct mappos_array *parray;
-  if (mappos_arrays[array_count] == NULL)
+  if (!mappos_arrays[array_count])
     mappos_arrays[array_count] = fc_malloc(sizeof(struct mappos_array));
   parray = mappos_arrays[array_count++];
   parray->first_pos = 0;
@@ -144,7 +144,7 @@ static void add_to_mapqueue(int cost, int x, int y)
   assert(cost < MAXCOST && cost >= 0);
 
   our_array = cost_lookup[cost].last_array;
-  if (our_array == NULL) {
+  if (!our_array) {
     our_array = get_empty_array();
     cost_lookup[cost].first_array = our_array;
     cost_lookup[cost].last_array = our_array;
@@ -172,12 +172,12 @@ static int get_from_mapqueue(int *x, int *y)
     if (lowest_cost > highest_cost)
       return FALSE;
     our_array = cost_lookup[lowest_cost].first_array;
-    if (our_array == NULL) {
+    if (!our_array) {
       lowest_cost++;
       continue;
     }
     if (our_array->last_pos < our_array->first_pos) {
-      if (our_array->next_array != NULL) {
+      if (our_array->next_array) {
 	cost_lookup[lowest_cost].first_array = our_array->next_array;
 	continue; /* note NOT "lowest_cost++;" */
       } else {
@@ -201,7 +201,7 @@ static void init_warmap(int orig_x, int orig_y, enum unit_move_type move_type)
 {
   int x;
 
-  if (warmap.cost[0] == NULL) {
+  if (!warmap.cost[0]) {
     for (x = 0; x < map.xsize; x++) {
       warmap.cost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
       warmap.seacost[x]=fc_malloc(map.ysize*sizeof(unsigned char));
@@ -289,7 +289,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   struct tile *ptile;
   struct player *pplayer;
 
-  if (pcity != NULL) {
+  if (pcity) {
     orig_x = pcity->x;
     orig_y = pcity->y;
     pplayer = city_owner(pcity);
@@ -302,13 +302,13 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
   init_warmap(orig_x, orig_y, move_type);
   add_to_mapqueue(0, orig_x, orig_y);
 
-  if (punit != NULL && unit_flag(punit, F_IGTER))
+  if (punit && unit_flag(punit, F_IGTER))
     igter = TRUE;
   else
     igter = FALSE;
 
   /* FIXME: Should this apply only to F_CITIES units? -- jjm */
-  if (punit != NULL
+  if (punit
       && unit_flag(punit, F_SETTLERS)
       && unit_type(punit)->move_rate==3)
     maxcost /= 2;
@@ -323,7 +323,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	  continue; /* No need for all the calculations */
 
         if (map_get_terrain(x1, y1) == T_OCEAN) {
-          if (punit != NULL && ground_unit_transporter_capacity(x1, y1, pplayer) > 0)
+          if (punit && ground_unit_transporter_capacity(x1, y1, pplayer) > 0)
 	    move_cost = SINGLE_MOVE;
           else
 	    continue;
@@ -333,7 +333,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
         } else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
 	  move_cost = (ptile->move_cost[dir] ? SINGLE_MOVE : 0);
-        else if (punit != NULL)
+        else if (punit)
 	  move_cost = MIN(ptile->move_cost[dir], unit_type(punit)->move_rate);
 	/* else c = ptile->move_cost[k]; 
 	   This led to a bad bug where a unit in a swamp was considered too far away */
@@ -386,15 +386,15 @@ for now.
 void generate_warmap(struct city *pcity, struct unit *punit)
 {
   freelog(LOG_DEBUG, "Generating warmap, pcity = %s, punit = %s",
-	  (pcity != NULL ? pcity->name : "NULL"),
-	  (punit != NULL ? unit_type(punit)->name : "NULL"));
+	  (pcity ? pcity->name : "NULL"),
+	  (punit ? unit_type(punit)->name : "NULL"));
 
-  if (punit != NULL) {
+  if (punit) {
     /* 
      * Checking for an existing warmap. If the previous warmap was for
      * a city and our unit is in that city, use city's warmap.
      */
-    if (pcity != NULL && pcity == warmap.warcity) {
+    if (pcity && pcity == warmap.warcity) {
       return;
     }
 
@@ -414,7 +414,7 @@ void generate_warmap(struct city *pcity, struct unit *punit)
   warmap.warcity = pcity;
   warmap.warunit = punit;
 
-  if (punit != NULL) {
+  if (punit) {
     if (is_sailing_unit(punit)) {
       really_generate_warmap(pcity, punit, SEA_MOVING);
     } else {
@@ -493,8 +493,8 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
   /* If we just started the GOTO the enemy unit blocking ZOC on the tile
      we come from is still alive. */
   if (src_x == punit->x && src_y == punit->y
-      && is_non_allied_unit_tile(map_get_tile(dest_x, dest_y),
-				  unit_owner(punit)) == NULL)
+      && !is_non_allied_unit_tile(map_get_tile(dest_x, dest_y),
+				  unit_owner(punit)))
     return FALSE;
 
   {
@@ -504,7 +504,7 @@ static int goto_zoc_ok(struct unit *punit, int src_x, int src_y,
       /* if we didn't come from there */
       if ((1 << dir & came_from) == 0 && (map_get_terrain(x, y) != T_OCEAN)
 	  /* and there is an enemy there */
-	  && is_enemy_unit_tile(map_get_tile(x, y), owner) != NULL) {
+	  && is_enemy_unit_tile(map_get_tile(x, y), owner)) {
 	/* then it counts in the zoc claculation */
 	return FALSE;
       }
@@ -606,7 +606,7 @@ static int find_the_shortest_path(struct unit *punit,
   init_warmap(punit->x, punit->y, move_type);
   add_to_mapqueue(0, orig_x, orig_y);
 
-  if (punit != NULL && unit_flag(punit, F_IGTER))
+  if (punit && unit_flag(punit, F_IGTER))
     igter = TRUE;
   else
     igter = FALSE;
@@ -617,12 +617,12 @@ static int find_the_shortest_path(struct unit *punit,
      I will leave it for now */
   if (move_type == SEA_MOVING) {
     pcargo = other_passengers(punit);
-    if (pcargo != NULL)
+    if (pcargo)
       if (map_get_terrain(dest_x, dest_y) == T_OCEAN ||
-	  is_non_allied_unit_tile(map_get_tile(dest_x, dest_y),
-				   unit_owner(pcargo)) == NULL
+	  !is_non_allied_unit_tile(map_get_tile(dest_x, dest_y),
+				   unit_owner(pcargo))
 	  || is_allied_city_tile(map_get_tile(dest_x, dest_y),
-				 unit_owner(pcargo)) != NULL
+				 unit_owner(pcargo))
 	  || unit_flag(pcargo, F_MARINES)
 	  || is_my_zoc(unit_owner(pcargo), dest_x, dest_y))
 	pcargo = NULL;
@@ -666,14 +666,14 @@ static int find_the_shortest_path(struct unit *punit,
 	if (!pplayer->ai.control && !map_get_known(x1, y1, pplayer)) {
 	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
 	  move_cost = (restriction == GOTO_MOVE_STRAIGHTEST) ? SINGLE_MOVE : 5*SINGLE_MOVE;
-	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit)) != NULL) {
+	} else if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  }
 
 	  if (x1 != dest_x || y1 != dest_y) { /* Allow players to target anything */
 	    if (pplayer->ai.control) {
-	      if ((is_enemy_unit_tile(pdesttile, unit_owner(punit)) == NULL
+	      if ((!is_enemy_unit_tile(pdesttile, unit_owner(punit))
 		   || !is_military_unit(punit))
 		  && !is_diplomat_unit(punit)) {
 		continue; /* unit is non_allied and non_enemy, ie non_attack */
@@ -686,12 +686,12 @@ static int find_the_shortest_path(struct unit *punit,
 	  } else {
 	    move_cost = SINGLE_MOVE;
 	  }
-	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit)) != NULL) {
+	} else if (is_non_allied_city_tile(pdesttile, unit_owner(punit))) {
 	  if (psrctile->terrain == T_OCEAN && !unit_flag(punit, F_MARINES)) {
 	    continue; /* Attempting to attack from a ship */
 	  }
 
-	  if ((is_non_attack_city_tile(pdesttile, unit_owner(punit)) != NULL
+	  if ((is_non_attack_city_tile(pdesttile, unit_owner(punit))
 	       || !is_military_unit(punit))) {
 	    if (!is_diplomat_unit(punit)
 		&& (x1 != dest_x || y1 != dest_y)) /* Allow players to target anything */
@@ -726,7 +726,7 @@ static int find_the_shortest_path(struct unit *punit,
 	}
 
 	/* See previous comment on pcargo */
-	if (x1 == dest_x && y1 == dest_y && pcargo != NULL
+	if (x1 == dest_x && y1 == dest_y && pcargo
 	    && move_cost < 20 * SINGLE_MOVE
 	    && !is_my_zoc(unit_owner(pcargo), x, y)) {
 	  move_cost = 20 * SINGLE_MOVE;
@@ -738,8 +738,8 @@ static int find_the_shortest_path(struct unit *punit,
 	/* We don't allow attacks during GOTOs here; you can almost
 	   always find a way around enemy units on sea */
 	if (x1 != dest_x || y1 != dest_y) {
-	  if (is_non_allied_unit_tile(pdesttile, unit_owner(punit)) != NULL
-	      || is_non_allied_city_tile(pdesttile, unit_owner(punit)) != NULL)
+	  if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))
+	      || is_non_allied_city_tile(pdesttile, unit_owner(punit)))
 	    continue;
 	}
 
@@ -773,14 +773,14 @@ static int find_the_shortest_path(struct unit *punit,
 	   is unknown. Also, don't attack except at the destination. */
 
 	/* This should probably use airspace_looks_safe instead. */
-	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit)) != NULL) {
+	if (is_non_allied_unit_tile(pdesttile, unit_owner(punit))) {
 	  if (x1 != dest_x || y1 != dest_y) {
 	    continue;
 	  }
 	} else {
 	  struct city *pcity =
 	      is_non_allied_city_tile(pdesttile, unit_owner(punit));
-	  if (pcity != NULL
+	  if (pcity
 	      && (pplayers_non_attack(unit_owner(punit), city_owner(pcity))
 		  || !is_heli_unit(punit)))
 	    continue;
@@ -987,7 +987,7 @@ static int find_a_direction(struct unit *punit,
      * itself and its ally benefit from it.
      */
     defence_multiplier = 2;
-    if (pcity != NULL) {
+    if (pcity) {
       if (city_got_citywalls(pcity)) {
 	defence_multiplier += 2;
       }
@@ -1020,7 +1020,7 @@ static int find_a_direction(struct unit *punit,
 	      UNIT_RATING(aunit, x, y, defence_multiplier);
 	  num_of_allied_units++;
 
-	  if (best_ally == NULL || rating_of_current_ally > rating_of_best_ally) {
+	  if (!best_ally || rating_of_current_ally > rating_of_best_ally) {
 	    best_ally = aunit;
 	    rating_of_best_ally = rating_of_current_ally;
 	  }
@@ -1028,7 +1028,7 @@ static int find_a_direction(struct unit *punit,
       } unit_list_iterate_end;
     }
 
-    if (best_ally != NULL) {
+    if (best_ally) {
       best_friendly_defence =
 	  MAX(UNIT_DEFENSE(punit, x, y, defence_multiplier),
 	      UNIT_DEFENSE(best_ally, x, y, defence_multiplier));
@@ -1047,7 +1047,7 @@ static int find_a_direction(struct unit *punit,
       
       assert((best_ally != NULL) == (num_of_allied_units > 0));
 
-      if (best_ally != NULL) {
+      if (best_ally) {
 	rating_of_ally = UNIT_RATING(best_ally, x, y, defence_multiplier);
       } else {
 	rating_of_ally = 0;	/* equivalent of having 0 HPs */
@@ -1055,7 +1055,7 @@ static int find_a_direction(struct unit *punit,
 
       if (num_of_allied_units == 0) {
 	fitness[dir] = rating_of_unit;
-      } else if (pcity != NULL || ptile->special & S_FORTRESS) {
+      } else if (pcity || ptile->special & S_FORTRESS) {
 	fitness[dir] = MAX(rating_of_unit, rating_of_ally);
       } else if (rating_of_unit <= rating_of_ally) {
 	fitness[dir] = rating_of_ally * (num_of_allied_units /
@@ -1109,7 +1109,7 @@ static int find_a_direction(struct unit *punit,
 	      continue;
 	    }
 	    
-	    if (passenger != NULL && !is_ground_unit(aunit)) {
+	    if (passenger && !is_ground_unit(aunit)) {
 	      /* really don't want that direction */
 	      fitness[dir] = DONT_SELECT_ME_FITNESS;
 	    } else {
@@ -1235,7 +1235,7 @@ int goto_is_sane(struct unit *punit, int x, int y, int omni)
     return possible > 0;
   } else if (is_sailing_unit(punit) &&
 	     (omni || map_get_known_and_seen(x, y, pplayer)) &&
-	     map_get_terrain(x, y) != T_OCEAN && map_get_city(x, y) == NULL &&
+	     map_get_terrain(x, y) != T_OCEAN && !map_get_city(x, y) &&
 	     !is_terrain_near_tile(x, y, T_OCEAN)) {
     return FALSE;
   }
@@ -1264,7 +1264,7 @@ enum goto_result do_unit_goto(struct unit *punit,
   struct unit *penemy = NULL;
   enum goto_result status;
 
-  if (punit->pgr != NULL) {
+  if (punit->pgr) {
     /* we have a precalculated goto route */
     return goto_route_execute(punit);
   }
@@ -1345,12 +1345,12 @@ enum goto_result do_unit_goto(struct unit *punit,
       } else {
 	freelog(LOG_DEBUG, "Handled.");
       }
-      if (player_find_unit_by_id(pplayer, unit_id) == NULL) {
+      if (!player_find_unit_by_id(pplayer, unit_id)) {
 	return GR_DIED;		/* unit died during goto! */
       }
 
       /* Don't attack more than once per goto */
-      if (penemy != NULL && !pplayer->ai.control) { /* Should I cancel for ai's too? */
+      if (penemy && !pplayer->ai.control) { /* Should I cancel for ai's too? */
  	punit->activity = ACTIVITY_IDLE;
  	send_unit_info(NULL, punit);
  	return GR_FOUGHT;
@@ -1448,8 +1448,8 @@ static void make_list_of_refuel_points(struct player *pplayer)
 
   whole_map_iterate(x, y) {
     ptile = map_get_tile(x, y);
-    if ((pcity = is_allied_city_tile(ptile, pplayer)) != NULL
-	&& is_non_allied_unit_tile(ptile, pplayer) == NULL) {
+    if ((pcity = is_allied_city_tile(ptile, pplayer))
+	&& !is_non_allied_unit_tile(ptile, pplayer)) {
       prefuel = fc_malloc(sizeof(struct refuel));
       init_refuel(prefuel, x, y, FUEL_CITY, MAP_MAX_HEIGHT + MAP_MAX_WIDTH,
 		  0);
@@ -1457,7 +1457,7 @@ static void make_list_of_refuel_points(struct player *pplayer)
       continue;
     }
     if ((ptile = map_get_tile(x, y))->special & S_AIRBASE) {
-      if (is_non_allied_unit_tile(ptile, pplayer) != NULL)
+      if (is_non_allied_unit_tile(ptile, pplayer))
 	continue;
       prefuel = fc_malloc(sizeof(struct refuel));
       init_refuel(prefuel, x, y,
@@ -1535,7 +1535,7 @@ static int find_air_first_destination(
   int new_nodes, no_new_nodes;
   int i, j, k;
 
-  if (been_there == NULL) {
+  if (!been_there) {
     /* These are big enough for anything! */
     been_there = fc_malloc((map.xsize*map.ysize+2)*sizeof(struct refuel *));
     turn_index = fc_malloc((map.xsize*map.ysize)*sizeof(unsigned int));
@@ -1663,7 +1663,7 @@ static int airspace_looks_safe(int x, int y, struct player *pplayer)
 
   /* This is bad: there could be a city there that the player doesn't
       know about.  How can we check that? */
-  if (is_non_allied_city_tile(ptile, pplayer) != NULL) {
+  if (is_non_allied_city_tile(ptile, pplayer)) {
     return FALSE;
   }
 
@@ -1675,7 +1675,7 @@ static int airspace_looks_safe(int x, int y, struct player *pplayer)
 
   /* The tile is unfogged so we can check for enemy units on the
      tile. */
-  return is_non_allied_unit_tile(ptile, pplayer) == NULL;
+  return !is_non_allied_unit_tile(ptile, pplayer);
 }
 
 /**************************************************************************

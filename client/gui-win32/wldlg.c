@@ -121,7 +121,7 @@ static void global_list_update(struct worklist_report *preport)
   n = 0;
   lst=GetDlgItem(preport->win,ID_LIST);
   ListBox_ResetContent(lst);
-  while (preport->worklist_names_ptrs[n] != NULL) {
+  while (preport->worklist_names_ptrs[n]) {
     ListBox_AddString(lst,preport->worklist_names_ptrs[n]);
     n++;
   }
@@ -889,7 +889,7 @@ static void targets_list_update(struct worklist_editor *peditor)
 
   /* Is the worklist limited to just the current targets, or */
   /* to any available and future targets?                    */
-  advanced_tech = (peditor->toggle_show_advanced != NULL &&
+  advanced_tech = (peditor->toggle_show_advanced &&
                    (Button_GetCheck(peditor->toggle_show_advanced) ==
                    BST_CHECKED));
 

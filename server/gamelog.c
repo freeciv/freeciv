@@ -53,13 +53,13 @@ void gamelog(int level, char *message, ...)
   char buf[512];
   FILE *fs;
 
-  if (gamelog_filename==NULL)
+  if (!gamelog_filename)
     return;
   if (level > gamelog_level)
     return;
 
   fs=fopen(gamelog_filename, "a");
-  if(fs == NULL) {
+  if(!fs) {
     freelog(LOG_FATAL, _("Couldn't open gamelogfile \"%s\" for appending."), 
 	    gamelog_filename);
     exit(EXIT_FAILURE);

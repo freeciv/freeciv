@@ -106,7 +106,7 @@ void meta_addr_split(void)
   char *metaserver_port_separator;
   int specified_port;
 
-  if ((metaserver_port_separator = strchr(srvarg.metaserver_addr,':')) != NULL) {
+  if ((metaserver_port_separator = strchr(srvarg.metaserver_addr,':'))) {
     metaserver_port_separator[0] = '\0';
     if ((specified_port=atoi(&metaserver_port_separator[1]))) {
       srvarg.metaserver_port = (unsigned short int)specified_port;
@@ -277,7 +277,7 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
   int num_nonbarbarians;
   int i;
 
-  if (reset_timer && time_since_last_send != NULL)
+  if (reset_timer && time_since_last_send)
   {
     free_timer(time_since_last_send);
     time_since_last_send = NULL;
@@ -285,12 +285,12 @@ int send_server_info_to_metaserver(int do_send,int reset_timer)
      /* use when we close the connection to a metaserver */
   }
 
-  if (!do_send && (time_since_last_send != NULL)
+  if (!do_send && time_since_last_send
       && ((int) read_timer_seconds(time_since_last_send)
 	  < METASERVER_UPDATE_INTERVAL)) {
     return 0;
   }
-  if (time_since_last_send == NULL) {
+  if (!time_since_last_send) {
     time_since_last_send = new_timer(TIMER_USER, TIMER_ACTIVE);
   }
 

@@ -236,7 +236,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
       /* pclaim->when = 0; */
       pclaim->whom = no_owner;
       /* pclaim->know = 0; */
-    } else if (ptile->city != NULL) {
+    } else if (ptile->city) {
       owner = ptile->city->owner;
       pclaim->when = turn + 1;
       pclaim->whom = owner;
@@ -246,7 +246,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
       (pcmap->player_landarea[owner])++;
       (pcmap->player_owndarea[owner])++;
       pclaim->know = ptile->known;
-    } else if (ptile->worked != NULL) {
+    } else if (ptile->worked) {
       owner = ptile->worked->owner;
       pclaim->when = turn + 1;
       pclaim->whom = owner;
@@ -365,20 +365,20 @@ Frees and NULLs an allocated claim map.
 **************************************************************************/
 static void free_landarea_map(struct claim_map *pcmap)
 {
-  if (pcmap != NULL) {
-    if (pcmap->claims != NULL) {
+  if (pcmap) {
+    if (pcmap->claims) {
       free (pcmap->claims);
       pcmap->claims = NULL;
     }
-    if (pcmap->player_landarea != NULL) {
+    if (pcmap->player_landarea) {
       free (pcmap->player_landarea);
       pcmap->player_landarea = NULL;
     }
-    if (pcmap->player_owndarea != NULL) {
+    if (pcmap->player_owndarea) {
       free (pcmap->player_owndarea);
       pcmap->player_owndarea = NULL;
     }
-    if (pcmap->edges != NULL) {
+    if (pcmap->edges) {
       free (pcmap->edges);
       pcmap->edges = NULL;
     }
@@ -391,18 +391,18 @@ Returns the given player's land and settled areas from a claim map.
 static void get_player_landarea(struct claim_map *pcmap, struct player *pplayer,
 				 int *return_landarea, int *return_settledarea)
 {
-  if (pcmap != NULL && pplayer != NULL) {
+  if (pcmap && pplayer) {
 #if LAND_AREA_DEBUG >= 1
     printf ("%-14s", pplayer->name);
 #endif
-    if (return_landarea != NULL && pcmap->player_landarea != NULL) {
+    if (return_landarea && pcmap->player_landarea) {
       *return_landarea =
 	USER_AREA_MULT * pcmap->player_landarea[pplayer->player_no];
 #if LAND_AREA_DEBUG >= 1
       printf (" l=%d", *return_landarea / USER_AREA_MULT);
 #endif
     }
-    if (return_settledarea != NULL && pcmap->player_owndarea != NULL) {
+    if (return_settledarea && pcmap->player_owndarea) {
       *return_settledarea =
 	USER_AREA_MULT * pcmap->player_owndarea[pplayer->player_no];
 #if LAND_AREA_DEBUG >= 1
@@ -512,8 +512,8 @@ int civ_score(struct player *pplayer)
   unit_list_iterate_end;
   
   for (i=0;i<game.num_impr_types;i++) {
-    if (is_wonder(i) && (pcity = find_city_by_id(game.global_wonders[i])) != NULL
-	&& player_owns_city(pplayer, pcity))
+    if (is_wonder(i) && (pcity=find_city_by_id(game.global_wonders[i])) && 
+	player_owns_city(pplayer, pcity))
       pplayer->score.wonders++;
   }
 
@@ -551,14 +551,11 @@ int civ_population(struct player *pplayer)
 struct city *game_find_city_by_name(char *name)
 {
   int i;
+  struct city *pcity;
 
-  for(i=0; i<game.nplayers; i++){
-    struct city *pcity = city_list_find_name(&game.players[i].cities, name);
-
-    if (pcity != NULL) {
+  for(i=0; i<game.nplayers; i++)
+    if((pcity=city_list_find_name(&game.players[i].cities, name)))
       return pcity;
-    }
-  }
 
   return NULL;
 }
@@ -598,10 +595,10 @@ void game_remove_unit(struct unit *punit)
 	  unit_name(punit->type), punit->x, punit->y, punit->homecity);
 
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
-  if (pcity != NULL)
+  if (pcity)
     unit_list_unlink(&pcity->units_supported, punit);
 
-  if (pcity != NULL) {
+  if (pcity) {
     freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
 	    get_nation_name(city_owner(pcity)->nation), pcity->x,
 	    pcity->y);
@@ -863,7 +860,7 @@ void game_remove_all_players(void)
 ***************************************************************/
 void game_remove_player(struct player *pplayer)
 {
-  if (pplayer->attribute_block.data != NULL) {
+  if (pplayer->attribute_block.data) {
     free(pplayer->attribute_block.data);
     pplayer->attribute_block.data = NULL;
   }
@@ -1015,7 +1012,7 @@ void update_island_impr_effect(int oldmax, int maxcont)
     }
 
     /* Next, do the island-wide effects. */
-    if (plr->island_effects != NULL) {
+    if (plr->island_effects) {
       for (i=maxcont+1; i<=oldmax; i++) {
         geff_vector_free(&plr->island_effects[i]);
       }

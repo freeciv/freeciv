@@ -259,7 +259,7 @@ char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
   static char buffer[256];
   char *state = NULL;
 
-  if (pcity != NULL) {
+  if (pcity) {
     switch (pcity->improvements[id]) {
     case I_REDUNDANT:	state = Q_("?redundant:*");	break;
     case I_OBSOLETE:	state = Q_("?obsolete:O");	break;
@@ -273,7 +273,7 @@ char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
     }
   }
   
-  if (state != NULL) {
+  if (state) {
     my_snprintf(buffer, sizeof(buffer), "%s(%s)",
 		get_improvement_name(id), state); 
     return buffer;
@@ -814,7 +814,7 @@ int city_can_be_built_here(int x, int y)
 
   /* game.rgame.min_dist_bw_cities minimum is 1, which means adjacent is okay */
   square_iterate(x, y, game.rgame.min_dist_bw_cities-1, x1, y1) {
-    if (map_get_city(x1, y1) != NULL) {
+    if (map_get_city(x1, y1)) {
       return FALSE;
     }
   } square_iterate_end;
@@ -829,7 +829,7 @@ int can_establish_trade_route(struct city *pc1, struct city *pc2)
 {
   int i;
   int r=1;
-  if (pc1 == NULL || pc2 == NULL || pc1 == pc2
+  if (!pc1 || !pc2 || pc1 == pc2
       || (pc1->owner == pc2->owner
 	  && map_distance(pc1->x, pc1->y, pc2->x, pc2->y) <= 8))
     return FALSE;
@@ -852,7 +852,7 @@ int trade_between_cities(struct city *pc1, struct city *pc2)
 {
   int bonus=0;
 
-  if (pc1 != NULL && pc2 != NULL) {
+  if (pc1 && pc2) {
     bonus=(pc1->tile_trade+pc2->tile_trade+4)/8;
 
     /* Double if on different continents. */
@@ -941,7 +941,7 @@ int city_affected_by_wonder(struct city *pcity, Impr_Type_id id)
     return (game.global_wonders[id] != 0);
   
   tmp = player_find_city_by_id(city_owner(pcity), game.global_wonders[id]);
-  if (tmp == NULL)
+  if (!tmp)
     return FALSE;
   switch (id) {
   case B_ASMITHS:
@@ -1037,7 +1037,7 @@ struct city *city_list_find_id(struct city_list *This, int id)
 
     genlist_iterator_init(&myiter, &This->list, 0);
     
-    for (; ITERATOR_PTR(myiter) != NULL; ITERATOR_NEXT(myiter))
+    for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
     if(((struct city *)ITERATOR_PTR(myiter))->id==id)
 	return ITERATOR_PTR(myiter);
   }
@@ -1053,7 +1053,7 @@ struct city *city_list_find_name(struct city_list *This, char *name)
 
   genlist_iterator_init(&myiter, &This->list, 0);
 
-  for (; ITERATOR_PTR(myiter) != NULL; ITERATOR_NEXT(myiter))
+  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter))
     if(!mystrcasecmp(name, ((struct city *)ITERATOR_PTR(myiter))->name))
       return ITERATOR_PTR(myiter);
 
@@ -1258,7 +1258,7 @@ struct city *is_enemy_city_tile(struct tile *ptile, struct player *pplayer)
 {
   struct city *pcity = ptile->city;
 
-  if (pcity != NULL && pplayers_at_war(pplayer, city_owner(pcity)))
+  if (pcity && pplayers_at_war(pplayer, city_owner(pcity)))
     return pcity;
   else
     return NULL;
@@ -1272,7 +1272,7 @@ struct city *is_allied_city_tile(struct tile *ptile,
 {
   struct city *pcity = ptile->city;
 
-  if (pcity != NULL && pplayers_allied(pplayer, city_owner(pcity)))
+  if (pcity && pplayers_allied(pplayer, city_owner(pcity)))
     return pcity;
   else
     return NULL;
@@ -1286,7 +1286,7 @@ struct city *is_non_attack_city_tile(struct tile *ptile,
 {
   struct city *pcity = ptile->city;
 
-  if (pcity != NULL && pplayers_non_attack(pplayer, city_owner(pcity)))
+  if (pcity && pplayers_non_attack(pplayer, city_owner(pcity)))
     return pcity;
   else
     return NULL;
@@ -1300,7 +1300,7 @@ struct city *is_non_allied_city_tile(struct tile *ptile,
 {
   struct city *pcity = ptile->city;
 
-  if (pcity != NULL && !pplayers_allied(pplayer, city_owner(pcity)))
+  if (pcity && !pplayers_allied(pplayer, city_owner(pcity)))
     return pcity;
   else
     return NULL;
@@ -1321,7 +1321,7 @@ int is_friendly_city_near(struct player *owner, int x, int y)
 {
   square_iterate (x, y, 3, x1, y1) {
     struct city * pcity = map_get_city (x1, y1);
-    if (pcity != NULL && pplayers_allied(owner, city_owner(pcity)))
+    if (pcity && pplayers_allied(owner, city_owner(pcity)))
       return TRUE;
   } square_iterate_end;
 
@@ -1336,7 +1336,7 @@ int city_exists_within_city_radius(int x, int y, int may_be_on_center)
 {
   map_city_radius_iterate(x, y, x1, y1) {
     if (may_be_on_center || x != x1 || y != y1) {
-      if (map_get_city(x1, y1) != NULL) {
+      if (map_get_city(x1, y1)) {
 	return TRUE;
       }
     }
@@ -1384,7 +1384,7 @@ void id_to_info_row(char *buf[], int column_size, int id, int is_unit,
     }
     my_snprintf(buf[2], column_size, "%d", ptype->build_cost);
 
-    if (pcity != NULL) {
+    if (pcity) {
       my_snprintf(buf[3], column_size, "%d",
 		  city_turns_to_build(pcity, id, TRUE, FALSE));
     } else {
@@ -1402,7 +1402,7 @@ void id_to_info_row(char *buf[], int column_size, int id, int is_unit,
       my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
 
       /* from city.c get_impr_name_ex() */
-      if (pcity != NULL && wonder_replacement(pcity, id)) {
+      if (pcity && wonder_replacement(pcity, id)) {
 	my_snprintf(buf[1], column_size, "*");
       } else {
 	char *state = "";
@@ -1419,7 +1419,7 @@ void id_to_info_row(char *buf[], int column_size, int id, int is_unit,
 
       my_snprintf(buf[2], column_size, "%d",
 		  get_improvement_type(id)->build_cost);
-      if (pcity != NULL) {
+      if (pcity) {
 	my_snprintf(buf[3], column_size, "%d",
 		    city_turns_to_build(pcity, id, FALSE, FALSE));
       } else {
@@ -2079,7 +2079,7 @@ int city_corruption(struct city *pcity, int trade)
     dist = g->fixed_corruption_distance;
   } else {
     capital = find_palace(city_owner(pcity));
-    if (capital == NULL)
+    if (!capital)
       dist = 36;
     else {
       int tmp = map_distance(capital->x, capital->y, pcity->x, pcity->y);
@@ -2169,7 +2169,7 @@ void city_add_improvement(struct city *pcity, Impr_Type_id impr)
   mark_improvement(pcity,impr,I_ACTIVE);
 
   /* Add affects at all ranges. */
-  for (i = 0; ceffs[i] != NULL; i++) {
+  for (i=0; ceffs[i]; i++) {
     struct eff_city *eff;
     
     eff		= append_ceff(ceffs[i]);
@@ -2177,7 +2177,7 @@ void city_add_improvement(struct city *pcity, Impr_Type_id impr)
     eff->active	= 0;
   }
 
-  for (i = 0; geffs[i] != NULL; i++) {
+  for (i=0; geffs[i]; i++) {
     struct eff_global *eff;
     
     eff		    = append_geff(geffs[i]);
@@ -2218,7 +2218,7 @@ void city_remove_improvement(struct city *pcity,Impr_Type_id impr)
   get_effect_vectors(ceffs, geffs, impr, pcity);
 
   /* Now remove the effects. */
-  for (j = 0; ceffs[j] != NULL; j++) {
+  for (j=0; ceffs[j]; j++) {
     for (i=0; i<ceff_vector_size(ceffs[j]); i++) {
       struct eff_city *eff=ceff_vector_get(ceffs[j], i);
 
@@ -2229,7 +2229,7 @@ void city_remove_improvement(struct city *pcity,Impr_Type_id impr)
     }
   }
 
-  for (j = 0; geffs[j] != NULL; j++) {
+  for (j=0; geffs[j]; j++) {
     for (i=0; i<geff_vector_size(geffs[j]); i++) {
       struct eff_global *eff=geff_vector_get(geffs[j], i);
 
@@ -2254,7 +2254,7 @@ void get_worker_on_map_position(int map_x, int map_y, enum city_tile_type
   assert(is_real_tile(map_x, map_y));
 
   *result_pcity = map_get_tile(map_x, map_y)->worked;
-  if (*result_pcity != NULL) {
+  if (*result_pcity) {
     *result_city_tile_type = C_TILE_WORKER;
   } else {
     *result_city_tile_type = C_TILE_EMPTY;

@@ -105,7 +105,7 @@ static void check_map(void)
       } adjc_iterate_end;
     }
 
-    if (pcity != NULL) {
+    if (pcity) {
       assert(pcity->x == x && pcity->y == y);
     }
 
@@ -140,13 +140,13 @@ static void check_cities(void)
 	  struct tile *ptile = map_get_tile(map_x, map_y);
 	  switch (get_worker_city(pcity, x, y)) {
 	  case C_TILE_EMPTY:
-	    if (map_get_tile(map_x, map_y)->worked != NULL) {
+	    if (map_get_tile(map_x, map_y)->worked) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "empty but worked by %s!",
 		      pcity->name, x, y,
 		      map_get_tile(map_x, map_y)->worked->name);
 	    }
-	    if (is_enemy_unit_tile(ptile, pplayer) != NULL) {
+	    if (is_enemy_unit_tile(ptile, pplayer)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "empty but occupied by an enemy unit!",
 		      pcity->name, x, y);
@@ -158,15 +158,15 @@ static void check_cities(void)
 		      "worked but main map disagrees!",
 		      pcity->name, x, y);
 	    }
-	    if (is_enemy_unit_tile(ptile, pplayer) != NULL) {
+	    if (is_enemy_unit_tile(ptile, pplayer)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "worked but occupied by an enemy unit!",
 		      pcity->name, x, y);
 	    }
 	    break;
 	  case C_TILE_UNAVAILABLE:
-	    if (map_get_tile(map_x, map_y)->worked == NULL
-		&& is_enemy_unit_tile(ptile, pplayer) == NULL
+	    if (!map_get_tile(map_x, map_y)->worked
+		&& !is_enemy_unit_tile(ptile, pplayer)
 		&& map_get_known(map_x, map_y, pplayer)) {
 	      freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		      "unavailable but seems to be available!",
@@ -183,7 +183,7 @@ static void check_cities(void)
 
   whole_map_iterate(x, y) {
     struct tile *ptile = map_get_tile(x, y);
-    if (ptile->worked != NULL) {
+    if (ptile->worked) {
       struct city *pcity = ptile->worked;
       int city_x, city_y, is_valid;
 
@@ -229,7 +229,7 @@ static void check_units(void) {
       }
 
       pcity = map_get_city(x, y);
-      if (pcity != NULL) {
+      if (pcity) {
 	assert(pplayers_allied(city_owner(pcity), pplayer));
       }
 

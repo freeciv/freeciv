@@ -274,7 +274,7 @@ char *get_sane_name(char *name)
   char *cp;
 
   /* must not be NULL or empty */
-  if (name == NULL || !(*name)) {
+  if (!name || !(*name)) {
     return NULL; 
   }
 
@@ -426,7 +426,7 @@ int wordwrap_string(char *s, int len)
   /* At top of this loop, s points to the rest of string,
    * either at start or after inserted newline: */
  top:
-  if (s != NULL && *s && slen > len) {
+  if (s && *s && slen > len) {
     char *c;
 
     num_lines++;
@@ -552,7 +552,7 @@ char *user_home_dir(void)
   
   if (!init) {
     char *env = getenv("HOME");
-    if (env != NULL) {
+    if (env) {
       home_dir = mystrdup(env);	        /* never free()d */
       freelog(LOG_VERBOSE, "HOME is %s", home_dir);
     } else {
@@ -584,12 +584,12 @@ char *user_username(void)
 {
   static char *username = NULL;	  /* allocated once, never free()d */
 
-  if (username != NULL)
+  if (username)
     return username;
 
   {
     char *env = getenv("USER");
-    if (env != NULL) {
+    if (env) {
       username = mystrdup(env);
       freelog(LOG_VERBOSE, "USER username is %s", username);
       return username;
@@ -598,7 +598,7 @@ char *user_username(void)
 #ifdef HAVE_GETPWUID
   {
     struct passwd *pwent = getpwuid(getuid());
-    if (pwent != NULL) {
+    if (pwent) {
       username = mystrdup(pwent->pw_name);
       freelog(LOG_VERBOSE, "getpwuid username is %s", username);
       return username;
@@ -642,12 +642,12 @@ char *datafilename(const char *filename)
   static struct astring realfile = ASTRING_INIT;
   int i;
 
-  if (path == NULL) {
+  if (!path) {
     char *tok;
     char *path2;
 
     path = getenv("FREECIV_PATH");
-    if (path == NULL) {
+    if (!path) {
       path = DEFAULT_DATA_PATH;
     }
     assert(path != NULL);
@@ -672,7 +672,7 @@ char *datafilename(const char *filename)
 	  i = 0;   /* skip this one */
 	} else {
 	  char *home = user_home_dir();
-	  if (home == NULL) {
+	  if (!home) {
 	    freelog(LOG_VERBOSE,
 		    "No HOME, skipping data path component %s", tok);
 	    i = 0;
@@ -698,12 +698,12 @@ char *datafilename(const char *filename)
       }
 
       tok = strtok(NULL, PATH_SEPARATOR);
-    } while(tok != NULL);
+    } while(tok);
 
     free(path2);
   }
 
-  if (filename == NULL) {
+  if (!filename) {
     int len = 1;		/* in case num_dirs==0 */
     int seplen = strlen(PATH_SEPARATOR);
     for(i=0; i<num_dirs; i++) {
@@ -727,7 +727,7 @@ char *datafilename(const char *filename)
     astr_minsize(&realfile, len);
     my_snprintf(realfile.str, len, "%s/%s", dirs[i], filename);
     fp = fopen(realfile.str, "r");
-    if (fp != NULL) {
+    if (fp) {
       fclose(fp);
       return realfile.str;
     }
@@ -753,7 +753,7 @@ char *datafilename_required(const char *filename)
   assert(filename!=NULL);
   dname = datafilename(filename);
 
-  if (dname != NULL) {
+  if (dname) {
     return dname;
   } else {
     freelog(LOG_FATAL,
@@ -821,7 +821,7 @@ void dont_run_as_root(const char *argv0, const char *fallback)
   if (getuid()==0 || geteuid()==0) {
     fprintf(stderr,
 	    _("%s: Fatal error: you're trying to run me as superuser!\n"),
-	    (argv0 != NULL ? argv0 : fallback != NULL ? fallback : "freeciv"));
+	    (argv0 ? argv0 : fallback ? fallback : "freeciv"));
     fprintf(stderr, _("Use a non-privileged account instead.\n"));
     exit(EXIT_FAILURE);
   }

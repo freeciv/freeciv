@@ -41,7 +41,7 @@ char *skip_intl_qualifier_prefix(const char *str)
 
   if (*str != '?') {
     return (char*)str;
-  } else if ((ptr = strchr(str, ':')) != NULL) {
+  } else if ((ptr = strchr(str, ':'))) {
     return (ptr + 1);
   } else {
     return (char*)str;		/* may be something wrong */

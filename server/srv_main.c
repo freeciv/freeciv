@@ -240,7 +240,7 @@ static void do_apollo_program(void)
   struct player *pplayer;
   struct city *pcity;
   if ((cityid=game.global_wonders[B_APOLLO]) && 
-      (pcity=find_city_by_id(cityid)) != NULL) {
+      (pcity=find_city_by_id(cityid))) {
     pplayer=city_owner(pcity);
     if (game.civstyle == 1) {
       for(i=0; i<game.nplayers; i++) {
@@ -264,7 +264,7 @@ static void marco_polo_make_contact(void)
   int cityid  = game.global_wonders[B_MARCO];
   int o;
   struct city *pcity;
-  if (cityid && (pcity = find_city_by_id(cityid)) != NULL)
+  if (cityid && (pcity = find_city_by_id(cityid)))
     for (o = 0; o < game.nplayers; o++)
       make_contact(city_owner(pcity), get_player(o), pcity->x, pcity->y);
 }
@@ -460,7 +460,7 @@ void save_game(char *orig_filename)
   struct section_file file;
   struct timer *timer_cpu, *timer_user;
 
-  if (orig_filename != NULL && orig_filename[0] != '\0'){
+  if (orig_filename && orig_filename[0] != '\0'){
     sz_strlcpy(filename, orig_filename);
   } else { /* If orig_filename is NULL or empty, use "civgame<year>m.sav" */
     my_snprintf(filename, sizeof(filename),
@@ -604,7 +604,7 @@ int handle_packet_input(struct connection *pconn, char *packet, int type)
   struct player *pplayer;
 
   /* a NULL packet can be returned from receive_packet_goto_route() */
-  if (packet == NULL)
+  if (!packet)
     return TRUE;
 
   if (type == PACKET_REQUEST_JOIN_GAME) {
@@ -623,7 +623,7 @@ int handle_packet_input(struct connection *pconn, char *packet, int type)
   
   pplayer = pconn->player;
 
-  if(pplayer == NULL) {
+  if(!pplayer) {
     /* don't support these yet */
     freelog(LOG_ERROR, "Received packet from non-player connection %s",
  	    conn_description(pconn));
@@ -1056,7 +1056,7 @@ static void introduce_game_to_connection(struct connection *pconn)
   struct player *cplayer;
   int i;
 
-  if (pconn == NULL) {
+  if (!pconn) {
     return;
   }
   dest = &pconn->self;
@@ -1116,7 +1116,7 @@ void accept_new_player(char *name, struct connection *pconn)
   sz_strlcpy(pplayer->name, name);
   sz_strlcpy(pplayer->username, name);
 
-  if (pconn != NULL) {
+  if (pconn) {
     associate_player_connection(pplayer, pconn);
     join_game_accept(pconn, FALSE);
   } else {
@@ -1158,7 +1158,7 @@ static int try_conn_name(struct connection *pconn, const char *name)
   sz_strlcpy(save_name, pconn->name);
   pconn->name[0] = '\0';
   
-  if (find_conn_by_name(name) == NULL) {
+  if (!find_conn_by_name(name)) {
     sz_strlcpy(pconn->name, name);
     return TRUE;
   } else {
@@ -1264,10 +1264,10 @@ static int handle_request_join_game(struct connection *pconn,
     return FALSE;
   }
 
-  if ((pplayer = find_player_by_name(req->name)) != NULL ||
-      (pplayer = find_player_by_user(req->name)) != NULL) {
+  if( (pplayer=find_player_by_name(req->name)) || 
+      (pplayer=find_player_by_user(req->name))     ) {
     if(is_barbarian(pplayer)) {
-      if((allow = strchr(game.allow_connect, 'b')) == NULL) {
+      if(!(allow = strchr(game.allow_connect, 'b'))) {
 	reject_new_player(_("Sorry, no observation of barbarians "
 			    "in this game."), pconn);
 	freelog(LOG_NORMAL,
@@ -1276,7 +1276,7 @@ static int handle_request_join_game(struct connection *pconn,
 	return FALSE;
       }
     } else if(!pplayer->is_alive) {
-      if((allow = strchr(game.allow_connect, 'd')) == NULL) {
+      if(!(allow = strchr(game.allow_connect, 'd'))) {
 	reject_new_player(_("Sorry, no observation of dead players "
 			    "in this game."), pconn);
 	freelog(LOG_NORMAL,
@@ -1285,7 +1285,7 @@ static int handle_request_join_game(struct connection *pconn,
 	return FALSE;
       }
     } else if(pplayer->ai.control) {
-      if((allow = strchr(game.allow_connect, (game.is_new_game ? 'A' : 'a'))) == NULL) {
+      if(!(allow = strchr(game.allow_connect, (game.is_new_game ? 'A' : 'a')))) {
 	reject_new_player(_("Sorry, no observation of AI players "
 			    "in this game."), pconn);
 	freelog(LOG_NORMAL,
@@ -1294,7 +1294,7 @@ static int handle_request_join_game(struct connection *pconn,
 	return FALSE;
       }
     } else {
-      if((allow = strchr(game.allow_connect, (game.is_new_game ? 'H' : 'h'))) == NULL) {
+      if(!(allow = strchr(game.allow_connect, (game.is_new_game ? 'H' : 'h')))) {
 	reject_new_player(_("Sorry, no reconnections to human-mode players "
 			    "in this game."), pconn);
 	freelog(LOG_NORMAL,
@@ -1370,7 +1370,7 @@ static int handle_request_join_game(struct connection *pconn,
     return FALSE;
   }
 
-  if((allow = strchr(game.allow_connect, 'N')) == NULL) {
+  if(!(allow = strchr(game.allow_connect, 'N'))) {
     reject_new_player(_("Sorry, no new players allowed in this game."), pconn);
     freelog(LOG_NORMAL, _("%s was rejected: No connections as new player."),
 	    pconn->name);
@@ -1405,7 +1405,7 @@ void lost_connection_to_client(struct connection *pconn)
   delayed_disconnect++;
   notify_conn(&game.est_connections, _("Game: Lost connection: %s."), desc);
 
-  if (pplayer == NULL) {
+  if (!pplayer) {
     /* This happens eg if the player has not yet joined properly. */
     delayed_disconnect--;
     return;
@@ -1427,7 +1427,7 @@ void lost_connection_to_client(struct connection *pconn)
   /* Cancel diplomacy meetings */
   if (!pplayer->is_connected) { /* may be still true if multiple connections */
     players_iterate(other_player) {
-      if (find_treaty(pplayer, other_player) != NULL) {
+      if (find_treaty(pplayer, other_player)) {
 	struct packet_diplomacy_info packet;
 	packet.plrno0 = pplayer->player_no;
 	packet.plrno1 = other_player->player_no;
@@ -1575,7 +1575,7 @@ static void generate_ai_players(void)
  Used in pick_ai_player_name() below; buf has size at least MAX_LEN_NAME;
 *************************************************************************/
 static int good_name(char *ptry, char *buf) {
-  if (find_player_by_name(ptry) == NULL) {
+  if (!find_player_by_name(ptry)) {
      mystrlcpy(buf, ptry, MAX_LEN_NAME);
      return TRUE;
   }
@@ -1785,7 +1785,7 @@ void srv_main(void)
 
   /* load a saved game */
   
-  if(srvarg.load_filename != NULL) {
+  if(srvarg.load_filename) {
     struct timer *loadtimer, *uloadtimer;
     struct section_file file;
     
@@ -1821,7 +1821,7 @@ void srv_main(void)
   server_state=PRE_GAME_STATE;
 
   /* load a script file */
-  if (srvarg.script_filename != NULL)
+  if (srvarg.script_filename)
     read_init_script(NULL,srvarg.script_filename);
 
   freelog(LOG_NORMAL, _("Now accepting new client connections."));

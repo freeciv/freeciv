@@ -209,7 +209,7 @@ void attribute_flush(void)
   if (hash_num_entries(attribute_hash) == 0)
     return;
 
-  if (pplayer->attribute_block.data != NULL)
+  if (pplayer->attribute_block.data)
     free(pplayer->attribute_block.data);
 
   serialize_hash(attribute_hash, &(pplayer->attribute_block.data),
@@ -293,7 +293,7 @@ int attribute_get(int key, int id, int x, int y, int max_data_length,
 
   pvalue = hash_lookup_data(attribute_hash, &key);
 
-  if (pvalue == NULL) {
+  if (!pvalue) {
     freelog(ATTRIBUTE_LOG_LEVEL, "  not found");
     return 0;
   }

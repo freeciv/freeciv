@@ -64,7 +64,7 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
     city_list_iterate(pplay->cities, pcity)
       if (real_map_distance(x, y, pcity->x, pcity->y) < dist &&
          (everywhere || !con || con == map_get_continent(pcity->x, pcity->y)) &&
-         (pplayer == NULL || map_get_known(pcity->x, pcity->y, pplayer))) {
+         (!pplayer || map_get_known(pcity->x, pcity->y, pplayer))) {
         dist = real_map_distance(x, y, pcity->x, pcity->y);
         pc = pcity;
       }

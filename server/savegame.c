@@ -121,7 +121,7 @@
   for (y = 0; y < map.ysize; y++) {                           \
     char *line = secfile_lookup_line;                         \
     int x;                                                    \
-    if (line == NULL || strlen(line) != map.xsize) {          \
+    if (!line || strlen(line) != map.xsize) {                 \
       freelog(LOG_ERROR, "The save file contains incomplete " \
               "map data.  This can happen with old saved "    \
               "games, or it may indicate an invalid saved "   \
@@ -180,7 +180,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
   
   pch = strchr(hex_chars, ch);
 
-  if (pch == NULL || ch == '\0') {
+  if (!pch || ch == '\0') {
     freelog(LOG_FATAL, "Unknown hex value: '%c' %d", ch, ch);
     exit(EXIT_FAILURE);
   }
@@ -195,7 +195,7 @@ static int char2terrain(char ch)
 {
   char *pch = strchr(terrain_chars, ch);
 
-  if (pch == NULL || ch == '\0') {
+  if (!pch || ch == '\0') {
     freelog(LOG_FATAL, "Unknown terrain type: '%c' %d", ch, ch);
     exit(EXIT_FAILURE);
   }
@@ -857,7 +857,7 @@ static void player_load(struct player *plr, int plrno,
 	  is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
 	  assert(is_real);
 
-	  if (map_get_tile(map_x, map_y)->worked != NULL) {
+	  if (map_get_tile(map_x, map_y)->worked) {
 	    /* oops, inconsistent savegame; minimal fix: */
 	    freelog(LOG_VERBOSE, "Inconsistent worked for %s (%d,%d), "
 		    "converting to elvis", pcity->name, x, y);
@@ -928,7 +928,7 @@ static void player_load(struct player *plr, int plrno,
     punit->homecity=secfile_lookup_int(file, "player%d.u%d.homecity",
 				       plrno, i);
 
-    if((pcity=find_city_by_id(punit->homecity)) != NULL)
+    if((pcity=find_city_by_id(punit->homecity)))
       unit_list_insert(&pcity->units_supported, punit);
     else
       punit->homecity=0;
@@ -1060,7 +1060,7 @@ static void player_load(struct player *plr, int plrno,
 
     raw_length1 =
 	secfile_lookup_int(file, "player%d.attribute_block_length", plrno);
-    if (plr->attribute_block.data != NULL) {
+    if (plr->attribute_block.data) {
       free(plr->attribute_block.data);
       plr->attribute_block.data = NULL;
     }
@@ -1079,7 +1079,7 @@ static void player_load(struct player *plr, int plrno,
       char *current = secfile_lookup_str(file,
 					 "player%d.attribute_block_data.part%d",
 					 plrno, part_nr);
-      if (current == NULL)
+      if (!current)
 	break;
       freelog(LOG_DEBUG, "quoted_length=%lu quoted=%lu current=%lu",
 	      (unsigned long) quoted_length,
@@ -1185,7 +1185,7 @@ static void player_map_load(struct player *plr, int plrno,
       if (map_get_known_and_seen(x, y, get_player(plrno))) {
 	update_tile_knowledge(plr, x, y);
 	reality_check_city(plr, x, y);
-	if (map_get_city(x, y) != NULL) {
+	if (map_get_city(x, y)) {
 	  update_dumb_city(plr, map_get_city(x, y));
 	}
       }
@@ -1200,7 +1200,7 @@ static void player_map_load(struct player *plr, int plrno,
 	struct city *pcity = map_get_city(x, y);
 	update_player_tile_last_seen(plr, x, y);
 	update_tile_knowledge(plr, x, y);
-	if (pcity != NULL)
+	if (pcity)
 	  update_dumb_city(plr, pcity);
       }
     } whole_map_iterate_end;
@@ -1376,11 +1376,11 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, punit->paradropped, "player%d.u%d.paradropped", plrno, i);
     secfile_insert_int(file, punit->transported_by,
 		       "player%d.u%d.transported_by", plrno, i);
-    if (punit->pgr != NULL && punit->pgr->first_index != punit->pgr->last_index) {
+    if (punit->pgr && punit->pgr->first_index != punit->pgr->last_index) {
       struct goto_route *pgr = punit->pgr;
       int index = pgr->first_index;
       int len = 0;
-      while (pgr != NULL && index != pgr->last_index) {
+      while (pgr && index != pgr->last_index) {
 	len++;
 	index = (index + 1) % pgr->length;
       }
@@ -1544,7 +1544,7 @@ static void player_save(struct player *plr, int plrno,
       i = 0;
       
       whole_map_iterate(x, y) {
-	if ((pdcity = map_get_player_tile(x, y, plr)->city) != NULL) {
+	if ((pdcity = map_get_player_tile(x, y, plr)->city)) {
 	  secfile_insert_int(file, pdcity->id, "player%d.dc%d.id", plrno,
 			     i);
 	  secfile_insert_int(file, x, "player%d.dc%d.x", plrno, i);
@@ -1565,7 +1565,7 @@ static void player_save(struct player *plr, int plrno,
   }
 
 #define PART_SIZE (2*1024)
-  if (plr->attribute_block.data != NULL) {
+  if (plr->attribute_block.data) {
     char *quoted = quote_block(plr->attribute_block.data,
 			       plr->attribute_block.length);
     char part[PART_SIZE + 1];
@@ -1677,7 +1677,7 @@ static void check_city(struct city *pcity)
 
 	map_city_radius_iterate(map_x, map_y, x2, y2) {
 	  struct city *pcity2 = map_get_city(x2, y2);
-	  if (pcity2 != NULL)
+	  if (pcity2)
 	    check_city(pcity2);
 	} map_city_radius_iterate_end;
       }
@@ -2030,7 +2030,7 @@ void game_load(struct section_file *file)
       int plrno = pplayer->player_no;
       vision = secfile_lookup_str_default(file, NULL, "player%d.gives_shared_vision",
 					  plrno);
-      if (vision != NULL)
+      if (vision)
 	for (i=0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
 	  if (vision[i] == '1')
 	    give_shared_vision(pplayer, get_player(i));
@@ -2226,7 +2226,7 @@ void game_save(struct section_file *file)
     /* destroyed wonders: */
     for(i=0; i<game.num_impr_types; i++) {
       if (is_wonder(i) && game.global_wonders[i]!=0
-	  && find_city_by_id(game.global_wonders[i]) == NULL) {
+	  && !find_city_by_id(game.global_wonders[i])) {
 	temp[i] = '1';
       } else {
 	temp[i] = '0';

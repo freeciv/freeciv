@@ -378,7 +378,7 @@ static void option_ok_command_callback(GtkWidget *widget, gpointer data)
   client_option *o;
   char *dp;
 
-  for (o=options; o->name != NULL; ++o) {
+  for (o=options; o->name; ++o) {
     switch (o->type) {
     case COT_BOOL:
       *(o->p_value) = GTK_TOGGLE_BUTTON(o->p_gui_data)->active;
@@ -415,14 +415,14 @@ static void create_option_dialog(void)
 
   gtk_window_set_title(GTK_WINDOW(option_dialog_shell), _("Set local options"));
 
-  for (o=options, i=0; o->name != NULL; ++o, i++)
+  for (o=options, i=0; o->name; ++o, i++)
     ;
 
   table=gtk_table_new(i, 2, FALSE);
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(option_dialog_shell)->vbox),
   	table);
 
-  for (o=options, i=0; o->name != NULL; ++o, i++) {
+  for (o=options, i=0; o->name; ++o, i++) {
     switch (o->type) {
     case COT_BOOL:
       label = gtk_label_new(_(o->description));
@@ -466,7 +466,7 @@ void popup_option_dialog(void)
 
   create_option_dialog();
 
-  for (o=options; o->name != NULL; ++o) {
+  for (o=options; o->name; ++o) {
     switch (o->type) {
     case COT_BOOL:
       gtk_toggle_button_set_state(GTK_TOGGLE_BUTTON(o->p_gui_data), *(o->p_value));

@@ -68,14 +68,14 @@ int main(int argc, char *argv[])
   /* yes we do have reasons ;)                                   */
   inx = 1;
   while (inx < argc) {
-    if ((option = get_option("--file", argv, &inx, argc)) != NULL)
+    if ((option = get_option("--file", argv, &inx, argc)))
       srvarg.load_filename = option;
     else if (is_option("--help", argv[inx])) {
       showhelp = TRUE;
       break;
-    } else if ((option = get_option("--log", argv, &inx, argc)) != NULL)
+    } else if ((option = get_option("--log", argv, &inx, argc)))
       srvarg.log_filename = option;
-    else if ((option = get_option("--gamelog", argv, &inx, argc)) != NULL)
+    else if ((option = get_option("--gamelog", argv, &inx, argc)))
       srvarg.gamelog_filename = option;
     else if (is_option("--nometa", argv[inx])) {
       fprintf(stderr, _("Warning: the %s option is obsolete.  "
@@ -83,19 +83,19 @@ int main(int argc, char *argv[])
       showhelp = TRUE;
     } else if (is_option("--meta", argv[inx]))
       srvarg.metaserver_no_send = FALSE;
-    else if ((option = get_option("--Metaserver", argv, &inx, argc)) != NULL) {
+    else if ((option = get_option("--Metaserver", argv, &inx, argc))) {
       sz_strlcpy(srvarg.metaserver_addr, argv[inx]);
       meta_addr_split();
       srvarg.metaserver_no_send = FALSE;	/* --Metaserver implies --meta */
-    } else if ((option = get_option("--port", argv, &inx, argc)) != NULL)
+    } else if ((option = get_option("--port", argv, &inx, argc)))
       srvarg.port = atoi(option);
-    else if ((option = get_option("--read", argv, &inx, argc)) != NULL)
+    else if ((option = get_option("--read", argv, &inx, argc)))
       srvarg.script_filename = option;
-    else if ((option = get_option("--quitidle", argv, &inx, argc)) != NULL)
+    else if ((option = get_option("--quitidle", argv, &inx, argc)))
       srvarg.quitidle = atoi(option);
-    else if ((option = get_option("--server", argv, &inx, argc)) != NULL)
+    else if ((option = get_option("--server", argv, &inx, argc)))
       sz_strlcpy(srvarg.metaserver_servername, option);
-    else if ((option = get_option("--debug", argv, &inx, argc)) != NULL) {
+    else if ((option = get_option("--debug", argv, &inx, argc))) {
       srvarg.loglevel = log_parse_level_str(option);
       if (srvarg.loglevel == -1) {
 	srvarg.loglevel = LOG_NORMAL;

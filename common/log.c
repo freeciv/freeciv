@@ -63,7 +63,7 @@ int log_parse_level_str(char *level_str)
 
   /* re-entrant: */
   logd_num_files = 0;
-  if (logd_files != NULL) {
+  if (logd_files) {
     free(logd_files);
     logd_files = NULL;
   }
@@ -71,7 +71,7 @@ int log_parse_level_str(char *level_str)
   
   c = level_str;
   n = 0;
-  while((c = strchr(c, ':')) != NULL) {
+  while((c = strchr(c, ':'))) {
     c++;
     n++;
   }
@@ -112,7 +112,7 @@ int log_parse_level_str(char *level_str)
   */
 #define FRETURN(x) do { free(dup); if(TRUE) return (x); } while(FALSE)
   
-  if (tok==NULL) {
+  if (!tok) {
     fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
     FRETURN(-1);
   }
@@ -120,13 +120,13 @@ int log_parse_level_str(char *level_str)
   do {
     logd_files[i].min = logd_files[i].max = 0;
     c = strchr(tok, ',');
-    if (c != NULL) {
+    if (c) {
       char *pc;
       c[0] = '\0';
       c++;
       pc = c;
       c = strchr(c, ',');
-      if (c != NULL && *pc && *(c+1)) {
+      if (c && *pc && *(c+1)) {
 	c[0] = '\0';
 	logd_files[i].min = atoi(pc);
 	logd_files[i].max = atoi(c+1);
@@ -140,7 +140,7 @@ int log_parse_level_str(char *level_str)
     logd_files[i].name = mystrdup(tok);
     i++;
     tok = strtok(NULL, ":");
-  } while(tok != NULL);
+  } while(tok);
 
   if (i!=logd_num_files) {
     fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
@@ -190,7 +190,7 @@ struct logdebug_afile_info logdebug_update(const char *file)
   }
   ret.tthis = 0;
   for (i = 0; i < logd_num_files; i++) {
-    if((strstr(file, logd_files[i].name) != NULL)) {
+    if((strstr(file, logd_files[i].name))) {
       ret.tthis = 1;
       ret.min = logd_files[i].min;
       ret.max = logd_files[i].max;
@@ -206,10 +206,10 @@ Let the callback do its own level formating and add a '\n' if it wants.
 **************************************************************************/
 static void log_write(FILE *fs, int level, char *message)
 {
-  if (log_callback != NULL) {
+  if (log_callback) {
     log_callback(level, message);
   }
-  if (log_filename != NULL || log_callback == NULL) {
+  if (log_filename || (!log_callback)) {
     fprintf(fs, "%d: %s\n", level, message);
   }
 }
@@ -235,9 +235,8 @@ void vreal_freelog(int level, const char *message, va_list ap)
   if(level<=log_level) {
     FILE *fs;
 
-    if (log_filename != NULL) {
-      fs = fopen(log_filename, "a");
-      if (fs == NULL) {
+    if(log_filename) {
+      if(!(fs=fopen(log_filename, "a"))) {
 	fprintf(stderr, _("Couldn't open logfile: %s for appending.\n"), 
 		log_filename);
 	exit(EXIT_FAILURE);
@@ -285,7 +284,7 @@ void vreal_freelog(int level, const char *message, va_list ap)
     }
     whichbuf= !whichbuf;
     fflush(fs);
-    if(log_filename != NULL)
+    if(log_filename)
       fclose(fs);
   }
 }

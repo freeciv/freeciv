@@ -232,12 +232,12 @@ static char *option_file_name(void)
 
   name = getenv("FREECIV_OPT");
 
-  if (name != NULL) {
+  if (name) {
     sz_strlcpy(name_buffer, name);
   } else {
 #ifndef OPTION_FILE_NAME
     name = user_home_dir();
-    if (name == NULL) {
+    if (!name) {
       append_output_window(_("Cannot find your home directory"));
       return NULL;
     }
@@ -264,18 +264,18 @@ void load_options(void)
   view_option *v;
 
   name = option_file_name();
-  if (name==NULL) {
+  if (!name) {
     /* fail silently */
     return;
   }
   if (!section_file_load(&sf, name))
     return;  
 
-  for (o=options; o->name != NULL; o++) {
+  for (o=options; o->name; o++) {
     *(o->p_value) =
       secfile_lookup_int_default(&sf, *(o->p_value), "%s.%s", prefix, o->name);
   }
-  for (v=view_options; v->name != NULL; v++) {
+  for (v=view_options; v->name; v++) {
     *(v->p_value) =
       secfile_lookup_int_default(&sf, *(v->p_value), "%s.%s", prefix, v->name);
   }
@@ -319,7 +319,7 @@ void save_options(void)
   view_option *v;
   int i;
 
-  if(name == NULL) {
+  if(!name) {
     append_output_window(_("Save failed, cannot find a filename."));
     return;
   }
@@ -327,11 +327,11 @@ void save_options(void)
   section_file_init(&sf);
   secfile_insert_str(&sf, VERSION_STRING, "client.version");
 
-  for (o = options; o->name != NULL; o++) {
+  for (o = options; o->name; o++) {
     secfile_insert_int(&sf, *(o->p_value), "client.%s", o->name);
   }
 
-  for (v = view_options; v->name != NULL; v++) {
+  for (v = view_options; v->name; v++) {
     secfile_insert_int(&sf, *(v->p_value), "client.%s", v->name);
   }
 

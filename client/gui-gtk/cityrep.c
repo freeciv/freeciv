@@ -135,8 +135,8 @@ static void get_city_table_header(char *text[], int n)
 
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     my_snprintf(text[i], n, "%*s\n%*s",
-	    NEG_VAL(spec->width), spec->title1 != NULL ? _(spec->title1) : "",
-	    NEG_VAL(spec->width), spec->title2 != NULL ? _(spec->title2) : "");
+	    NEG_VAL(spec->width), spec->title1 ? _(spec->title1) : "",
+	    NEG_VAL(spec->width), spec->title2 ? _(spec->title2) : "");
   }
 }
 
@@ -151,7 +151,7 @@ static void get_city_table_header(char *text[], int n)
 ****************************************************************/
 void popup_city_report_dialog(int make_modal)
 {
-  if(city_dialog_shell == NULL) {
+  if(!city_dialog_shell) {
       city_dialog_shell_is_modal=make_modal;
     
       if(make_modal)
@@ -173,12 +173,12 @@ city_from_glist(GList* list)
 {
   struct city* retval;
 
-  g_assert(list != NULL);
+  g_assert (list);
   
   retval = gtk_clist_get_row_data(GTK_CLIST(city_list),
 				  GPOINTER_TO_INT(list->data));
 
-  g_assert(retval != NULL);
+  g_assert (retval);
 
   return retval;
 }
@@ -207,8 +207,8 @@ static void append_impr_or_unit_to_menu_sub(GtkWidget * menu,
   if (change_prod) {
     GList *selection = GTK_CLIST(city_list)->selection;
 
-    g_assert(selection != NULL);
-    for (; selection != NULL; selection = g_list_next(selection)) {
+    g_assert(selection);
+    for (; selection; selection = g_list_next(selection)) {
       selected_cities[num_selected_cities] = city_from_glist(selection);
       num_selected_cities++;
       assert(num_selected_cities < ARRAY_SIZE(selected_cities));
@@ -266,9 +266,9 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
       int id = cid_id(cid);
       GList* selection = GTK_CLIST(city_list)->selection;
 
-      g_assert(selection != NULL);
+      g_assert(selection);
   
-      for(; selection != NULL; selection = g_list_next(selection))
+      for(; selection; selection = g_list_next(selection))
 	{
 	  struct packet_city_request packet;
 
@@ -369,14 +369,14 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
     GList *selection = GTK_CLIST(city_list)->selection;
     GList *copy = NULL;
 
-    g_assert(selection != NULL);
+    g_assert(selection);
 
     /* must copy the list as refresh_city_dialog() corrupts the selection */
-    for (; selection != NULL; selection = g_list_next(selection)) {
+    for (; selection; selection = g_list_next(selection)) {
       copy = g_list_append(copy, city_from_glist(selection));
     }
 
-    for (; copy != NULL; copy = g_list_next(copy)) {
+    for (; copy; copy = g_list_next(copy)) {
       struct city *pcity = copy->data;
 
       if (index == CMA_NONE) {
@@ -494,10 +494,10 @@ city_change_callback(GtkWidget *w, GdkEvent *event, gpointer data)
 
   /* This migth happen, whenever a selection is still in progress, while 
      "Changed" is pressed (e.g. when holding the shift key) */
-  if(GTK_CLIST(city_list)->selection == NULL)
+  if(!GTK_CLIST(city_list)->selection)
     return FALSE;
 
-  if (menu != NULL)
+  if (menu)
     gtk_widget_destroy(menu);
   
   menu=gtk_menu_new();
@@ -652,7 +652,7 @@ static void create_city_report_dialog(int make_modal)
 *****************************************************************/
 static void city_list_callback(GtkWidget *w, gint row, gint column)
 {
-  if (GTK_CLIST(city_list)->selection != NULL)
+  if (GTK_CLIST(city_list)->selection)
   {
     gtk_widget_set_sensitive(city_change_command, TRUE);
     gtk_widget_set_sensitive(city_center_command, TRUE);
@@ -738,7 +738,7 @@ city_select_same_island_callback(GtkWidget *w, gpointer data)
   GList *selection = GTK_CLIST(city_list)->selection;
   GList *copy = NULL;
 
-  for(; selection != NULL; selection = g_list_next(selection))
+  for(; selection; selection = g_list_next(selection))
     copy = g_list_append (copy, city_from_glist(selection));
 
   for(i = 0; i < GTK_CLIST(city_list)->rows; i++)
@@ -746,7 +746,7 @@ city_select_same_island_callback(GtkWidget *w, gpointer data)
       struct city* pcity = gtk_clist_get_row_data(GTK_CLIST(city_list),i);
       GList *current = copy;
       
-      for(; current != NULL; current = g_list_next(current))
+      for(; current; current = g_list_next(current))
 	{
 	  struct city* selectedcity = current->data;
           if (map_get_continent(pcity->x, pcity->y)
@@ -777,7 +777,7 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
   if ( event->type != GDK_BUTTON_PRESS )
     return FALSE;
 
-  if (menu != NULL)
+  if (menu)
     gtk_widget_destroy(menu);
 
   menu=gtk_menu_new();
@@ -814,7 +814,7 @@ city_select_callback(GtkWidget *w, GdkEvent *event, gpointer data)
   gtk_signal_connect(GTK_OBJECT(item),"activate",
 		     GTK_SIGNAL_FUNC(city_select_same_island_callback),
 		     NULL);
-  if(GTK_CLIST(city_list)->selection == NULL)
+  if(!GTK_CLIST(city_list)->selection)
     gtk_widget_set_sensitive(item,FALSE);
 
   /* Add a separator */
@@ -869,13 +869,13 @@ static void city_refresh_callback(GtkWidget *w, gpointer data)
   GList *selection = GTK_CLIST(city_list)->selection;
   struct packet_generic_integer packet;
 
-  if (selection == NULL)
+  if ( !selection )
   {
     packet.value = 0;
     send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, &packet);
     }
   else
-    for(; selection != NULL; selection = g_list_next(selection))
+    for(; selection; selection = g_list_next(selection))
       {
 	packet.value = city_from_glist(selection)->id;
 	send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, 
@@ -890,14 +890,14 @@ static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 {
   char *cmd = (char *)data;
 
-  if (cmd != NULL) {
+  if (cmd) {
     GList *selection_from, *selection_to;
     gint row;
     int from, to;
 
     /* What are we changing to? */
     selection_to = GTK_CLIST(city_change_all_to_list)->selection;
-    if (selection_to == NULL) {
+    if (!selection_to) {
       append_output_window(_("Game: Select a unit or improvement"
 			     " to change production to."));
       return;
@@ -909,7 +909,7 @@ static void city_change_all_dialog_callback(GtkWidget *w, gpointer data)
 
     /* Iterate over the items we change from */
     selection_from = GTK_CLIST(city_change_all_from_list)->selection;
-    for (; selection_from != NULL; selection_from = g_list_next(selection_from)) {
+    for (; selection_from; selection_from = g_list_next(selection_from)) {
       row = (gint)selection_from->data;
       from = (int)gtk_clist_get_row_data(GTK_CLIST(city_change_all_from_list),
 					 row);
@@ -945,12 +945,12 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
   GtkWidget *box;
   GtkWidget *scrollpane;
 
-  if (title[0] == NULL) {
+  if (!title[0]) {
     title[0] = intl_slist(1, title_[0]);
     title[1] = intl_slist(1, title_[1]);
   }
 
-  if (city_change_all_dialog_shell == NULL) {
+  if (!city_change_all_dialog_shell) {
     city_change_all_dialog_shell = gtk_dialog_new();
     gtk_set_relative_position(city_dialog_shell,
 			      city_change_all_dialog_shell, 10, 10);
@@ -982,9 +982,9 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
     /* if a city was selected when "change all" was clicked on,
        hilight that item so user doesn't have to click it */
     selected_cid = -1;
-    if ((selection = GTK_CLIST(city_list)->selection) != NULL) {
+    if ((selection = GTK_CLIST(city_list)->selection)) {
       row = (gint) selection->data;
-      if ((pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), row)) != NULL) {
+      if ((pcity = gtk_clist_get_row_data(GTK_CLIST(city_list), row))) {
 	selected_cid = cid_encode_from_city(pcity);
       }
     }
@@ -1090,9 +1090,9 @@ static void city_buy_callback(GtkWidget *w, gpointer data)
 {
   GList *current = GTK_CLIST(city_list)->selection;
 
-  g_assert(current != NULL);
+  g_assert(current);
 
-  for(; current != NULL; current = g_list_next(current))
+  for(; current; current = g_list_next(current))
   {
       struct city *pcity = city_from_glist (current);
       int value;
@@ -1143,7 +1143,7 @@ static void city_center_callback(GtkWidget *w, gpointer data)
   GList *current = GTK_CLIST(city_list)->selection;
   struct city        *pcity;
 
-  if (current == NULL)
+  if (!current)
       return;
 
   pcity = city_from_glist (current);
@@ -1159,7 +1159,7 @@ static void city_popup_callback(GtkWidget *w, gpointer data)
   GList *copy = NULL;
   struct city        *pcity;
 
-  if (current == NULL)
+  if (!current)
     return;
 
   pcity = city_from_glist (current);
@@ -1168,10 +1168,10 @@ static void city_popup_callback(GtkWidget *w, gpointer data)
   }
 
   /* We have to copy the list as the popup_city_dialog destroys the data */
-  for(; current != NULL; current = g_list_next(current))
+  for(; current; current = g_list_next(current))
     copy = g_list_append (copy, city_from_glist(current));
   
-  for(; copy != NULL; copy = g_list_next(copy))
+  for(; copy; copy = g_list_next(copy))
     popup_city_dialog(copy->data, 0);
 
   g_list_free(copy);
@@ -1184,7 +1184,7 @@ static void city_report_list_callback(GtkWidget *w, gint row, gint col,
 				      GdkEvent *ev, gpointer data)
 {
   /* Pops up a city when it's double-clicked */
-  if(ev != NULL && ev->type==GDK_2BUTTON_PRESS)
+  if(ev && ev->type==GDK_2BUTTON_PRESS)
     city_popup_callback(w, data);
 }
 
@@ -1203,14 +1203,14 @@ void city_report_dialog_update(void)
 {
   GList *selection = NULL;
   GList *copy = NULL;
-  if(city_dialog_shell != NULL) {
+  if(city_dialog_shell) {
     char *row	[NUM_CREPORT_COLS];
     char  buf	[NUM_CREPORT_COLS][64];
     int   i;
     struct city_report_spec *spec;
 
   if(delay_report_update) return;
-  if(city_dialog_shell == NULL) return;
+  if(!city_dialog_shell) return;
 
     for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)
     {
@@ -1219,7 +1219,7 @@ void city_report_dialog_update(void)
     }
 
     for(selection = GTK_CLIST(city_list)->selection; 
-	selection != NULL; selection = g_list_next(selection))
+	selection; selection = g_list_next(selection))
       copy = g_list_append (copy, city_from_glist(selection));
 
     gtk_clist_freeze(GTK_CLIST(city_list));
@@ -1229,7 +1229,7 @@ void city_report_dialog_update(void)
       get_city_text(pcity, row, sizeof(buf[0]));
       i=gtk_clist_append(GTK_CLIST(city_list), row);
       gtk_clist_set_row_data (GTK_CLIST(city_list), i, pcity);
-      if(g_list_find(copy,pcity) != NULL)
+      if(g_list_find(copy,pcity))
 	gtk_clist_select_row(GTK_CLIST(city_list), i, -1);
     } city_list_iterate_end;
     gtk_clist_thaw(GTK_CLIST(city_list));
@@ -1253,7 +1253,7 @@ void city_report_dialog_update_city(struct city *pcity)
   struct city_report_spec *spec;
 
   if(delay_report_update) return;
-  if(city_dialog_shell == NULL) return;
+  if(!city_dialog_shell) return;
 
   for (i=0, spec=city_report_specs;i<NUM_CREPORT_COLS;i++, spec++)
   {
@@ -1317,7 +1317,7 @@ static void popup_city_report_config_dialog(void)
 {
   int i;
 
-  if(config_shell != NULL)
+  if(config_shell)
     return;
   
   create_city_report_config_dialog();

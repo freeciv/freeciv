@@ -133,7 +133,7 @@ static void set_title_topic(char *topic)
 *****************************************************************/
 void popdown_help_dialog(void)
 {
-  if(help_dialog_shell != NULL) {
+  if(help_dialog_shell) {
     gtk_widget_destroy(help_dialog_shell);
     help_dialog_shell = NULL;
   }
@@ -148,7 +148,7 @@ void popup_help_dialog_typed(char *item, enum help_page_type htype)
   Position x, y;
   Dimension width, height;
 */
-  if(help_dialog_shell == NULL) {
+  if(!help_dialog_shell) {
     create_help_dialog();
 /*
     XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
@@ -177,7 +177,7 @@ void popup_help_dialog_string(char *item)
 Called when destroying a node in the help_tree
 *****************************************************************/
 static void destroy_help_tndata(gpointer data) {
-  if (data != NULL)
+  if (data)
     free(data);
 }
 
@@ -188,7 +188,7 @@ duplicate subtrees are generated.
 static int help_tndata_compare(gpointer d1, gpointer d2) {
   help_tndata *a = (help_tndata *)d1;
   help_tndata *b = (help_tndata *)d2;
-  if (a == NULL)
+  if (!a)
     return (b != NULL);
   if (a->tech == b->tech)
     return FALSE;
@@ -240,7 +240,7 @@ static void create_tech_tree(GtkCTree *ctree, int tech, int levels,
   d->tech = tech;
   d->turns_to_tech = num_unknown_techs_for_goal(game.player_ptr, tech);
   l = gtk_ctree_find_by_row_data_custom(ctree, NULL, d, (GCompareFunc)help_tndata_compare);
-  if (l != NULL) {
+  if (l) {
     /* l is the original in the tree. */
     original = FALSE;
   } else {
@@ -295,7 +295,7 @@ static int help_tech_tree_mouse_callback(GtkWidget *w, GdkEventButton *ev)
   int row;
   int col;
   /* check we have an event for the ctree */
-  if ((ev == NULL) || (ev->window != clist->clist_window))
+  if (!ev || (ev->window != clist->clist_window))
     return FALSE;
   /* check there is a row where the user clicked */
   if (gtk_clist_get_selection_info(clist, ev->x, ev->y, &row, &col) == FALSE)
@@ -421,7 +421,7 @@ static void selected_topic(GtkCList *clist, gint row, gint column,
   }
   help_items_iterate_end;
 
-  if (p == NULL)
+  if (!p)
       return;
 
   help_update_dialog(p);
@@ -486,7 +486,7 @@ static void create_help_dialog(void)
 
   for (i=0; i<6; i++) {
     help_ilabel[i] =
-	gtk_label_new(help_ilabel_name[i] != NULL ? _(help_ilabel_name[i]) : "");
+	gtk_label_new(help_ilabel_name[i] ? _(help_ilabel_name[i]) : "");
     gtk_widget_set_name(help_ilabel[i], "help label");
 
     if (i==5) {
@@ -503,7 +503,7 @@ static void create_help_dialog(void)
 
   for (i=0; i<6; i++) {
     help_wlabel[i] =
-	gtk_label_new(help_wlabel_name[i] != NULL ? _(help_wlabel_name[i]) : "");
+	gtk_label_new(help_wlabel_name[i] ? _(help_wlabel_name[i]) : "");
     gtk_widget_set_name(help_wlabel[i], "help label");
 
     if (i==3 || i==5) {
@@ -523,7 +523,7 @@ static void create_help_dialog(void)
     for (j=0; j<5; j++)
     {
       help_ulabel[j][i] =
-	  gtk_label_new(help_ulabel_name[j][i] != NULL ? _(help_ulabel_name[j][i]) : "");
+	  gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
       gtk_widget_set_name(help_ulabel[j][i], "help label");
 
       if (j==4 && (i==1 || i==4))
@@ -548,7 +548,7 @@ static void create_help_dialog(void)
   for (i=0; i<5; i++) {
     for (j=0; j<4; j++) {
       help_tlabel[j][i] =
-	  gtk_label_new(help_tlabel_name[j][i] != NULL ? _(help_tlabel_name[j][i]) : "");
+	  gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
       gtk_widget_set_name(help_tlabel[j][i], "help label");
 
       gtk_table_attach_defaults(GTK_TABLE(help_ttable),
@@ -814,7 +814,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_widget_show_all(help_tree_buttons_hbox);
 
     helptext_tech(buf, i, pitem->text);
-    if (advances[i].helptext != NULL) {
+    if (advances[i].helptext) {
       if (strlen(buf)) strcat(buf, "\n");
       sprintf(buf+strlen(buf), "%s\n", _(advances[i].helptext));
     }
@@ -1043,7 +1043,7 @@ static void help_update_government(const struct help_item *pitem,
 {
   char *buf = &long_buffer[0];
 
-  if (gov==NULL) {
+  if (!gov) {
     strcat(buf, pitem->text);
   } else {
     helptext_government(buf, gov-governments, pitem->text);

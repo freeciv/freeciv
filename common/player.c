@@ -52,7 +52,7 @@ int player_has_embassy(struct player *pplayer, struct player *pplayer2)
 
 int player_owns_city(struct player *pplayer, struct city *pcity)
 {
-  if (pcity == NULL || pplayer == NULL)
+  if (!pcity || !pplayer)
     return FALSE;			/* better safe than sorry */
   return (pcity->owner==pplayer->player_no);
 }
@@ -133,7 +133,7 @@ void player_init_island_imprs(struct player *plr, int numcont)
   player_free_island_imprs(plr, numcont);
   if (game.num_impr_types>0) {
     /* Initialise lists of improvements with island-wide equiv_range. */
-    if (plr->island_improv != NULL)
+    if (plr->island_improv)
       free(plr->island_improv);
     plr->island_improv=fc_calloc((numcont+1)*game.num_impr_types,
 				 sizeof(Impr_Status));
@@ -157,9 +157,9 @@ void player_free_island_imprs(struct player *plr, int numcont)
 {
   int i;
 
-  if (plr->island_improv != NULL)
+  if (plr->island_improv)
     free(plr->island_improv);
-  if (plr->island_effects != NULL) {
+  if (plr->island_effects) {
     for (i=0; i<=numcont; i++) {
       geff_vector_free(&plr->island_effects[i]);
     }
@@ -248,7 +248,7 @@ int player_can_see_unit(struct player *pplayer, struct unit *punit)
       } unit_list_iterate_end;
 
       pcity = map_get_city(x, y);
-      if (pcity != NULL && pcity->owner == pplayer->player_no)
+      if (pcity && pcity->owner == pplayer->player_no)
 	return 1;
     } square_iterate_end;
     return 0;
@@ -266,7 +266,7 @@ struct city *player_find_city_by_id(struct player *pplayer, int city_id)
 {
   struct city *pcity = idex_lookup_city(city_id);
   
-  if(pcity != NULL && (pcity->owner==pplayer->player_no)) {
+  if(pcity && (pcity->owner==pplayer->player_no)) {
     return pcity;
   } else {
     return NULL;
@@ -282,7 +282,7 @@ struct unit *player_find_unit_by_id(struct player *pplayer, int unit_id)
 {
   struct unit *punit = idex_lookup_unit(unit_id);
   
-  if(punit != NULL && (punit->owner==pplayer->player_no)) {
+  if(punit && (punit->owner==pplayer->player_no)) {
     return punit;
   } else {
     return NULL;
@@ -297,7 +297,7 @@ int player_in_city_radius(struct player *pplayer, int x, int y)
   struct city *pcity;
   map_city_radius_iterate(x, y, x1, y1) {
     pcity = map_get_city(x1, y1);
-    if (pcity != NULL && (pcity->owner == pplayer->player_no))
+    if (pcity && (pcity->owner == pplayer->player_no))
       return 1;
   } map_city_radius_iterate_end;
   return 0;
@@ -313,7 +313,7 @@ int player_owns_active_wonder(struct player *pplayer,
   return (improvement_exists(id)
 	  && is_wonder(id)
 	  && (!wonder_obsolete(id))
-	  && player_find_city_by_id(pplayer, game.global_wonders[id]) != NULL);
+	  && player_find_city_by_id(pplayer, game.global_wonders[id]));
 }
 
 /**************************************************************************

@@ -148,7 +148,7 @@ int get_server_address(char *hostname, int port, char *errbuf,
     port = DEFAULT_SOCK_PORT;
 
   /* use name to find TCP/IP address of server */
-  if (hostname == NULL)
+  if (!hostname)
     hostname = "localhost";
 
   if (!fc_lookup_host(hostname, &server_addr)) {
@@ -188,7 +188,7 @@ int try_to_connect(char *user_name, char *errbuf, int errbufsize)
     return errno;
   }
 
-  if (aconnection.buffer != NULL) {
+  if (aconnection.buffer) {
     /* didn't close cleanly previously? */
     freelog(LOG_ERROR, "Unexpected buffers in try_to_connect()");
     /* get newly initialized ones instead */
@@ -248,7 +248,7 @@ static int read_from_connection(struct connection *pc, int block)
   for (;;) {
     fd_set readfs, writefs, exceptfs;
     int socket_fd = pc->sock;
-    int have_data_for_server = (pc->used && pc->send_buffer != NULL
+    int have_data_for_server = (pc->used && pc->send_buffer
 				&& pc->send_buffer->ndata);
     int n;
     struct timeval tv;
@@ -447,7 +447,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   struct sockaddr_in addr;
   int s;
   FILE *f;
-  char *proxy_url = getenv("http_proxy");
+  char *proxy_url;
   char urlbuf[512];
   char *urlpath;
   char *server;
@@ -458,7 +458,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   struct utsname un;
 #endif 
 
-  if (proxy_url != NULL) {
+  if ((proxy_url = getenv("http_proxy"))) {
     if (strncmp(proxy_url,"http://",strlen("http://"))) {
       mystrlcpy(errbuf,
 		_("Invalid $http_proxy value, must start with 'http://'"),
@@ -478,7 +478,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 
   {
     char *s;
-    if ((s = strchr(server,':')) != NULL) {
+    if ((s = strchr(server,':'))) {
       port = atoi(&s[1]);
       if (!port) {
         port = 80;
@@ -488,7 +488,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
       while (isdigit(s[0])) {++s;}
     } else {
       port = 80;
-      if ((s = strchr(server,'/')) == NULL) {
+      if (!(s = strchr(server,'/'))) {
         s = &server[strlen(server)];
       }
     }  /* s now points past the host[:port] part */
@@ -544,9 +544,9 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 
   my_snprintf(str,sizeof(str),
               "GET %s%s%s HTTP/1.0\r\nUser-Agent: Freeciv/%s %s %s\r\n\r\n",
-              proxy_url != NULL ? "" : "/",
+              proxy_url ? "" : "/",
               urlpath,
-              proxy_url != NULL ? metaserver : "",
+              proxy_url ? metaserver : "",
               VERSION_STRING,
               client_string,
               machine_string);
@@ -572,23 +572,23 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   }
 #endif
 
-#define NEXT_FIELD p=strstr(p,"<TD>"); if(p==NULL) continue; p+=4;
-#define END_FIELD  p=strstr(p,"</TD>"); if(p==NULL) continue; *p++='\0';
+#define NEXT_FIELD p=strstr(p,"<TD>"); if(!p) continue; p+=4;
+#define END_FIELD  p=strstr(p,"</TD>"); if(!p) continue; *p++='\0';
 #define GET_FIELD(x) NEXT_FIELD (x)=p; END_FIELD
 
   server_list = fc_malloc(sizeof(struct server_list));
   server_list_init(server_list);
 
-  while(fgets(str, 512, f) != NULL) {
-    if((0 == strncmp(str, "<TR BGCOLOR",11)) && strchr(str, '\n') != NULL) {
+  while(fgets(str, 512, f)) {
+    if((0 == strncmp(str, "<TR BGCOLOR",11)) && strchr(str, '\n')) {
       char *name,*port,*version,*status,*players,*metastring;
       char *p;
       struct server *pserver = (struct server*)fc_malloc(sizeof(struct server));
 
-      p=strstr(str,"<a"); if(p==NULL) continue;
-      p=strchr(p,'>');    if(p==NULL) continue;
+      p=strstr(str,"<a"); if(!p) continue;
+      p=strchr(p,'>');    if(!p) continue;
       name=++p;
-      p=strstr(p,"</a>"); if(p==NULL) continue;
+      p=strstr(p,"</a>"); if(!p) continue;
       *p++='\0';
 
       GET_FIELD(port);

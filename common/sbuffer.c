@@ -74,7 +74,7 @@ static void sbuf_expand(struct sbuffer *sb)
 {
   char *prev_buffer;
 
-  assert(sb != NULL && (sb->size > 0));
+  assert(sb && (sb->size>0));
   
   prev_buffer = sb->buffer;
   sb->buffer = fc_malloc(sb->size);
@@ -91,7 +91,7 @@ static void sbuf_align(struct sbuffer *sb)
 {
   int align_offset;
   
-  assert(sb != NULL && (sb->offset>0));
+  assert(sb && (sb->offset>0));
   
   align_offset = sb->offset % SBUF_ALIGN_SIZE;
   if (align_offset) {
@@ -133,7 +133,7 @@ void *sbuf_malloc(struct sbuffer *sb, int size)
 {
   char *ret;
   
-  assert(sb != NULL && sb->buffer != NULL && (sb->size>0) && (sb->offset>0));
+  assert(sb && sb->buffer && (sb->size>0) && (sb->offset>0));
   assert(size > 0 && size <= (sb->size-SBUF_ALIGN_SIZE));
 
   sbuf_align(sb);
@@ -158,7 +158,7 @@ char *sbuf_strdup(struct sbuffer *sb, const char *str)
   int size = strlen(str)+1;
   char *ret;
   
-  assert(sb != NULL && sb->buffer != NULL && (sb->size>0) && (sb->offset>0));
+  assert(sb && sb->buffer && (sb->size>0) && (sb->offset>0));
   assert(size <= (sb->size-sizeof(char*)));
 
   /* check for space: */
@@ -180,13 +180,13 @@ void sbuf_free(struct sbuffer *sb)
 {
   char *next;
 
-  assert(sb != NULL && sb->buffer != NULL);
+  assert(sb && sb->buffer);
   
   do {
     next = *(char **)sb->buffer;
     free(sb->buffer);
     sb->buffer = next;
-  } while(sb->buffer != NULL);
+  } while(sb->buffer);
 
   free(sb);
 }

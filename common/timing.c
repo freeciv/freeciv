@@ -179,7 +179,7 @@ struct timer *new_timer_start(enum timer_timetype type, enum timer_use use)
 struct timer *renew_timer(struct timer *t, enum timer_timetype type,
 			  enum timer_use use)
 {
-  if (t == NULL) {
+  if (!t) {
     t = fc_malloc(sizeof(struct timer));
   }
   t->type = type;
@@ -216,7 +216,7 @@ void free_timer(struct timer *t)
 ***********************************************************************/
 int timer_in_use(struct timer *t)
 {
-  return (t != NULL && t->use != TIMER_IGNORE);
+  return (t && t->use != TIMER_IGNORE);
 }
 
 /********************************************************************** 

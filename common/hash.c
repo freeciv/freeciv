@@ -434,7 +434,7 @@ static struct hash_bucket *internal_lookup(const struct hash_table *h,
     bucket = &h->buckets[i];
     switch (bucket->used) {
     case BUCKET_UNUSED:
-      return deleted != NULL ? deleted : bucket;
+      return deleted ? deleted : bucket;
     case BUCKET_USED:
       if (bucket->hash_val==hash_val
 	  && h->fcmp(bucket->key, key)==0) { /* match */
@@ -442,7 +442,7 @@ static struct hash_bucket *internal_lookup(const struct hash_table *h,
       }
       break;
     case BUCKET_DELETED:
-      if (deleted == NULL) {
+      if (!deleted) {
 	deleted = bucket;
       }
       break;
@@ -457,7 +457,7 @@ static struct hash_bucket *internal_lookup(const struct hash_table *h,
     }
   } while (i!=hash_val);	/* catch loop all the way round  */
 
-  if (deleted != NULL) {
+  if (deleted) {
     return deleted;
   }
   freelog(LOG_FATAL, "Full hash table -- and somehow did not resize!!");

@@ -186,7 +186,7 @@ void handle_remove_city(struct packet_generic_integer *packet)
   struct city *pcity = find_city_by_id(packet->value);
   int x, y;
 
-  if (pcity==NULL)
+  if (!pcity)
     return;
 
   agents_city_remove(pcity);
@@ -198,7 +198,7 @@ void handle_remove_city(struct packet_generic_integer *packet)
   /* update menus if the focus unit is on the tile. */
   {
     struct unit *punit = get_unit_in_focus();
-    if (punit != NULL && same_pos(punit->x, punit->y, x, y)) {
+    if (punit && same_pos(punit->x, punit->y, x, y)) {
       update_menus();
     }
   }
@@ -230,7 +230,7 @@ void handle_unit_combat(struct packet_unit_combat *packet)
   struct unit *punit0 = find_unit_by_id(packet->attacker_unit_id);
   struct unit *punit1 = find_unit_by_id(packet->defender_unit_id);
 
-  if (punit0 != NULL && punit1 != NULL) {
+  if (punit0 && punit1) {
     if (tile_visible_mapcanvas(punit0->x, punit0->y) &&
 	tile_visible_mapcanvas(punit1->x, punit1->y)) {
       show_combat = TRUE;
@@ -272,13 +272,13 @@ static void update_improvement_from_packet(struct city *pcity,
   if (have_impr && pcity->improvements[impr] == I_NONE) {
     city_add_improvement(pcity, impr);
 
-    if (impr_changed != NULL) {
+    if (impr_changed) {
       *impr_changed = TRUE;
     }
   } else if (!have_impr && pcity->improvements[impr] != I_NONE) {
     city_remove_improvement(pcity, impr);
 
-    if (impr_changed != NULL) {
+    if (impr_changed) {
       *impr_changed = TRUE;
     }
   }
@@ -338,13 +338,13 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity=find_city_by_id(packet->id);
 
-  if (pcity != NULL && (pcity->owner != packet->owner)) {
+  if (pcity && (pcity->owner != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = 1;
   }
 
-  if(pcity == NULL) {
+  if(!pcity) {
     city_is_new=1;
     pcity=fc_malloc(sizeof(struct city));
     pcity->id=packet->id;
@@ -546,7 +546,7 @@ static void handle_city_packet_common(struct city *pcity, int is_new,
   /* update menus if the focus unit is on the tile. */
   {
     struct unit *punit = get_unit_in_focus();
-    if (punit != NULL && same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
+    if (punit && same_pos(punit->x, punit->y, pcity->x, pcity->y)) {
       update_menus();
     }
   }
@@ -571,13 +571,13 @@ void handle_short_city(struct packet_short_city *packet)
 
   pcity=find_city_by_id(packet->id);
 
-  if (pcity != NULL && (pcity->owner != packet->owner)) {
+  if (pcity && (pcity->owner != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = 1;
   }
 
-  if(pcity == NULL) {
+  if(!pcity) {
     city_is_new=1;
     pcity=fc_malloc(sizeof(struct city));
     pcity->id=packet->id;
@@ -795,10 +795,10 @@ void handle_page_msg(struct packet_generic_message *packet)
 
   caption = packet->message;
   headline = strchr (caption, '\n');
-  if (headline != NULL) {
+  if (headline) {
     *(headline++) = '\0';
     lines = strchr (headline, '\n');
-    if (lines != NULL) {
+    if (lines) {
       *(lines++) = '\0';
     } else {
       lines = "";
@@ -841,7 +841,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     static int last_serial_num = 0;
     /* fetch city -- abort if not found */
     pcity = find_city_by_id(packet->info_city_id);
-    if (pcity == NULL) {
+    if (!pcity) {
       return;
     }
     /* new serial number -- clear everything */
@@ -878,7 +878,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   attach_test_attribute(packet->id);
 #endif
 
-  if(punit != NULL) {
+  if(punit) {
     int dest_x,dest_y;
     punit->activity_count = packet->activity_count;
     if((punit->activity!=packet->activity)         /* change activity */
@@ -908,13 +908,13 @@ void handle_unit_info(struct packet_unit_info *packet)
     
     if(punit->homecity!=packet->homecity) { /* change homecity */
       struct city *pcity;
-      if((pcity=find_city_by_id(punit->homecity)) != NULL) {
+      if((pcity=find_city_by_id(punit->homecity))) {
 	unit_list_unlink(&pcity->units_supported, punit);
 	refresh_city_dialog(pcity);
       }
       
       punit->homecity=packet->homecity;
-      if((pcity=find_city_by_id(punit->homecity)) != NULL) {
+      if((pcity=find_city_by_id(punit->homecity))) {
 	unit_list_insert(&pcity->units_supported, punit);
 	repaint_city=1;
       }
@@ -930,7 +930,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       punit->type=packet->type;
       repaint_unit=1;
       repaint_city=1;
-      if (pcity != NULL && (pcity->id != punit->homecity)) {
+      if (pcity && (pcity->id != punit->homecity)) {
 	refresh_city_dialog(pcity);
       }
     }
@@ -953,14 +953,14 @@ void handle_unit_info(struct packet_unit_info *packet)
 	refresh_tile_mapcanvas(packet->x, packet->y, 1);
         return;
       }
-      if(pcity != NULL)  {
+      if(pcity)  {
         if(pcity->id==punit->homecity)
 	  repaint_city=1;
 	else
 	  refresh_city_dialog(pcity);
       }
       
-      if((pcity=map_get_city(punit->x, punit->y)) != NULL)  {
+      if((pcity=map_get_city(punit->x, punit->y)))  {
         if(pcity->id == punit->homecity)
 	  repaint_city=1;
 	else
@@ -997,7 +997,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       repaint_city=1;
     }
     if (repaint_city) {
-      if((pcity=find_city_by_id(punit->homecity)) != NULL) {
+      if((pcity=find_city_by_id(punit->homecity))) {
 	refresh_city_dialog(pcity);
       }
     }
@@ -1029,13 +1029,13 @@ void handle_unit_info(struct packet_unit_info *packet)
     unit_list_insert(&get_player(packet->owner)->units, punit);
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
 
-    if((pcity=find_city_by_id(punit->homecity)) != NULL)
+    if((pcity=find_city_by_id(punit->homecity)))
       unit_list_insert(&pcity->units_supported, punit);
 
     freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
 	   get_nation_name(unit_owner(punit)->nation),
 	   unit_name(punit->type), punit->x, punit->y, punit->id,
-	   punit->homecity, (pcity != NULL ? pcity->name : _("(unknown)")));
+	   punit->homecity, (pcity ? pcity->name : _("(unknown)")));
 
     if (packet->carried)
       repaint_unit=0;
@@ -1044,9 +1044,9 @@ void handle_unit_info(struct packet_unit_info *packet)
     agents_unit_new(punit);
   }
 
-  if(punit != NULL && punit==get_unit_in_focus())
+  if(punit && punit==get_unit_in_focus())
     update_unit_info_label(punit);
-  else if(get_unit_in_focus() != NULL && get_unit_in_focus()->x==punit->x &&
+  else if(get_unit_in_focus() && get_unit_in_focus()->x==punit->x &&
 	  get_unit_in_focus()->y==punit->y) {
     update_unit_info_label(get_unit_in_focus());
   }
@@ -1118,7 +1118,7 @@ void handle_game_info(struct packet_game_info *pinfo)
    and has equiv_range==World - otherwise we deal with it in its home
    city anyway */
     if (is_wonder(i) && improvement_types[i].equiv_range==EFR_WORLD &&
-        find_city_by_id(game.global_wonders[i]) == NULL) {
+        !find_city_by_id(game.global_wonders[i])) {
       if (game.global_wonders[i] <= 0 && game.improvements[i] != I_NONE) {
         game.improvements[i] = I_NONE;
         need_effect_update = TRUE;
@@ -1169,7 +1169,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   sz_strlcpy(pplayer->name, pinfo->name);
 
-  if (pplayer->island_improv == NULL) {   /* initialise new player */
+  if (!pplayer->island_improv) {   /* initialise new player */
     client_init_player(pplayer);
   }
 
@@ -1220,7 +1220,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       /* If we just learned bridge building and focus is on a settler
 	 on a river the road menu item will remain disabled unless we
 	 do this. (applys in other cases as well.) */
-      if (get_unit_in_focus() != NULL)
+      if (get_unit_in_focus())
 	update_menus();
     } 
   }
@@ -1282,7 +1282,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
   
   if (pinfo->used==0) {
     /* Forget the connection */
-    if (pconn == NULL) {
+    if (!pconn) {
       freelog(LOG_VERBOSE, "Server removed unknown connection %d", pinfo->id);
       return;
     }
@@ -1294,13 +1294,13 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       ((pinfo->player_num >= 0 && pinfo->player_num < game.nplayers)
        ? get_player(pinfo->player_num) : NULL);
     
-    if (pconn == NULL) {
+    if (!pconn) {
       freelog(LOG_VERBOSE, "Server reports new connection %d %s",
 	      pinfo->id, pinfo->name);
       pconn = fc_calloc(1, sizeof(struct connection));
       pconn->buffer = NULL;
       pconn->send_buffer = NULL;
-      if (pplayer != NULL) {
+      if (pplayer) {
 	conn_list_insert_back(&pplayer->connections, pconn);
       }
       conn_list_insert_back(&game.all_connections, pconn);
@@ -1310,10 +1310,10 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       freelog(LOG_DEBUG, "Server reports updated connection %d %s",
 	      pinfo->id, pinfo->name);
       if (pplayer != pconn->player) {
-	if (pconn->player != NULL) {
+	if (pconn->player) {
 	  conn_list_unlink(&pconn->player->connections, pconn);
 	}
-	if (pplayer != NULL) {
+	if (pplayer) {
 	  conn_list_insert_back(&pplayer->connections, pconn);
 	}
       }
@@ -1603,7 +1603,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   /* update menus if the focus unit is on the tile. */
   if (tile_changed) {
     struct unit *punit = get_unit_in_focus();
-    if (punit != NULL && same_pos(punit->x, punit->y, packet->x, packet->y)) {
+    if (punit && same_pos(punit->x, punit->y, packet->x, packet->y)) {
       update_menus();
     }
   }
@@ -2194,14 +2194,14 @@ void handle_incite_cost(struct packet_generic_values *packet)
   struct city *pcity=find_city_by_id(packet->id);
   struct unit *punit=find_unit_by_id(packet->id);
 
-  if(pcity != NULL) {
+  if(pcity) {
     pcity->incite_revolt_cost = packet->value1;
     if(!game.player_ptr->ai.control || ai_popup_windows)
       popup_incite_dialog(pcity);
     return;
   }
 
-  if(punit != NULL) {
+  if(punit) {
     punit->bribe_cost = packet->value1;
     if(!game.player_ptr->ai.control || ai_popup_windows)
       popup_bribe_dialog(punit);
@@ -2215,7 +2215,7 @@ void handle_city_options(struct packet_generic_values *preq)
 {
   struct city *pcity = find_city_by_id(preq->value1);
   
-  if (pcity == NULL || pcity->owner != game.player_idx) return;
+  if (!pcity || pcity->owner != game.player_idx) return;
   pcity->city_options = preq->value2;
 }
 
@@ -2227,7 +2227,7 @@ void handle_city_name_suggestion(struct packet_city_name_suggestion *packet)
   struct unit *punit;
   
   punit = player_find_unit_by_id(game.player_ptr, packet->id);
-  if (punit != NULL) {
+  if (punit) {
     popup_newcity_dialog(punit, packet->name);
     return;
   }
@@ -2241,7 +2241,7 @@ void handle_diplomat_action(struct packet_diplomat_action *packet)
 {
   struct unit *pdiplomat=player_find_unit_by_id(game.player_ptr, packet->diplomat_id);
 
-  if (pdiplomat == NULL) {
+  if (!pdiplomat) {
     freelog(LOG_ERROR, "Received bad diplomat id %d in handle_diplomat_action()",
 	    packet->diplomat_id);
     return;
@@ -2266,7 +2266,7 @@ void handle_sabotage_list(struct packet_sabotage_list *packet)
   struct unit *punit = player_find_unit_by_id(game.player_ptr, packet->diplomat_id);
   struct city *pcity = find_city_by_id(packet->city_id);
 
-  if (punit != NULL && pcity != NULL) {
+  if (punit && pcity) {
     int i;
     for(i=0; i<game.num_impr_types; i++)
       pcity->improvements[i] = (packet->improvements[i]=='1') ? I_ACTIVE : I_NONE;

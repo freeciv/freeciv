@@ -276,7 +276,7 @@ void flush_packets(void)
 		  conn_description(pconn));
 	  close_socket_callback(pconn);
         } else {
-	  if(pconn->send_buffer != NULL && pconn->send_buffer->ndata) {
+	  if(pconn->send_buffer && pconn->send_buffer->ndata) {
 	    if(FD_ISSET(pconn->sock, &writefs)) {
 	      flush_connection_send_buffer_all(pconn);
 	    } else {
@@ -599,7 +599,7 @@ int sniff_packets(void)
 
       for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
         struct connection *pconn = &connections[i];
-        if(pconn->used && pconn->send_buffer != NULL && pconn->send_buffer->ndata) {
+        if(pconn->used && pconn->send_buffer && pconn->send_buffer->ndata) {
 	  if(FD_ISSET(pconn->sock, &writefs)) {
 	    flush_connection_send_buffer_all(pconn);
 	  } else {
@@ -639,10 +639,10 @@ static const char *makeup_connection_name(int *id)
   for(;;) {
     if (i==(unsigned short)-1) i++;              /* don't use 0 */
     my_snprintf(name, sizeof(name), "c%u", (unsigned int)++i);
-    if (find_player_by_name(name) == NULL
-	&& find_player_by_user(name) == NULL
-	&& find_conn_by_id(i) == NULL
-	&& find_conn_by_name(name) == NULL) {
+    if (!find_player_by_name(name)
+	&& !find_player_by_user(name)
+	&& !find_conn_by_id(i)
+	&& !find_conn_by_name(name)) {
       *id = i;
       return name;
     }
@@ -706,7 +706,7 @@ static int server_accept_connection(int sockfd)
 
       sz_strlcpy(pconn->name, makeup_connection_name(&pconn->id));
       sz_strlcpy(pconn->addr,
-		 (from != NULL ? from->h_name : inet_ntoa(fromend.sin_addr)));
+		 (from ? from->h_name : inet_ntoa(fromend.sin_addr)));
 
       conn_list_insert_back(&game.all_connections, pconn);
   

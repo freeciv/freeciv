@@ -331,10 +331,10 @@ int my_vsnprintf(char *str, size_t n, const char *format, va_list ap)
     static char *buf;
     size_t len;
 
-    if (buf == NULL) {
+    if (!buf) {
       buf = malloc(VSNP_BUF_SIZE);
 
-      if (buf == NULL) {
+      if (!buf) {
 	fprintf(stderr, "Could not allocate %i bytes for vsnprintf() "
 		"replacement.", VSNP_BUF_SIZE);
 	exit(EXIT_FAILURE);

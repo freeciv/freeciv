@@ -810,7 +810,7 @@ static void help_update_government(const struct help_item *pitem,
 {
   char *buf = &long_buffer[0];
  
-  if (gov==NULL) {
+  if (!gov) {
     strcat(buf, pitem->text);
   } else {
     helptext_government(buf, gov-governments, pitem->text);

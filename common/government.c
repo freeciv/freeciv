@@ -177,7 +177,7 @@ char *get_ruler_title(int gov, int male, int nation)
 
   for(i=0; i<g->num_ruler_titles; i++) {
     struct ruler_title *title = &g->ruler_titles[i];
-    if (title->nation == DEFAULT_TITLE && best_match == NULL) {
+    if (title->nation == DEFAULT_TITLE && !best_match) {
       best_match = title;
     } else if (title->nation == nation) {
       best_match = title;
@@ -185,7 +185,7 @@ char *get_ruler_title(int gov, int male, int nation)
     }
   }
 
-  if (best_match != NULL) {
+  if (best_match) {
     return male ? best_match->male_title : best_match->female_title;
   } else {
     freelog(LOG_ERROR,

@@ -116,7 +116,7 @@ void get_modified_firepower(struct unit *attacker, struct unit *defender,
   *def_fp = unit_type(defender)->firepower;
 
   /* pearl harbour */
-  if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y) != NULL)
+  if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
     *def_fp = 1;
 
   /* In land bombardment both units have their firepower reduced to 1 */
@@ -174,7 +174,7 @@ int unit_behind_walls(struct unit *punit)
 {
   struct city *pcity;
   
-  if((pcity=map_get_city(punit->x, punit->y)) != NULL)
+  if((pcity=map_get_city(punit->x, punit->y)))
     return city_got_citywalls(pcity);
   
   return FALSE;
@@ -194,7 +194,7 @@ int unit_on_fortress(struct unit *punit)
 int unit_behind_coastal(struct unit *punit)
 {
   struct city *pcity;
-  if((pcity=map_get_city(punit->x, punit->y)) != NULL)
+  if((pcity=map_get_city(punit->x, punit->y)))
     return city_got_building(pcity, B_COASTAL);
   return FALSE;
 }
@@ -205,7 +205,7 @@ int unit_behind_coastal(struct unit *punit)
 int unit_behind_sam(struct unit *punit)
 {
   struct city *pcity;
-  if((pcity=map_get_city(punit->x, punit->y)) != NULL)
+  if((pcity=map_get_city(punit->x, punit->y)))
     return city_got_building(pcity, B_SAM);
   return FALSE;
 }
@@ -216,7 +216,7 @@ int unit_behind_sam(struct unit *punit)
 int unit_behind_sdi(struct unit *punit)
 {
   struct city *pcity;
-  if((pcity=map_get_city(punit->x, punit->y)) != NULL)
+  if((pcity=map_get_city(punit->x, punit->y)))
     return city_got_building(pcity, B_SDI);
   return FALSE;
 }
@@ -228,7 +228,7 @@ struct city *sdi_defense_close(struct player *owner, int x, int y)
 {
   square_iterate(x, y, 2, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
-    if (pcity != NULL && (city_owner(pcity) != owner)
+    if (pcity && (city_owner(pcity) != owner)
 	&& city_got_building(pcity, B_SDI)) return pcity;
   } square_iterate_end;
 
@@ -261,7 +261,7 @@ int get_defense_power(struct unit *punit)
   int terra;
   int db;
 
-  if (punit == NULL || punit->type<0 || punit->type>=U_LAST
+  if (!punit || punit->type<0 || punit->type>=U_LAST
       || punit->type>=game.num_unit_types)
     abort();
   power=unit_type(punit)->defense_strength*10;
@@ -311,9 +311,9 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
     db += (db * terrain_control.river_defense_bonus) / 100;
   defensepower *= db;
 
-  if (map_get_special(x, y)&S_FORTRESS && pcity == NULL)
+  if (map_get_special(x, y)&S_FORTRESS && !pcity)
     defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
-  if (pcity != NULL && unit_types[d_type].move_type == LAND_MOVING)
+  if (pcity && unit_types[d_type].move_type == LAND_MOVING)
     defensepower*=1.5;
 
   return defensepower;
@@ -343,24 +343,24 @@ to enemy ships thinking the mech inf would defend them adequately. -- Syela */
     defensepower*=2;
   if (unit_type_flag(d_type, F_AEGIS) &&
        (m_type == AIR_MOVING || m_type == HELI_MOVING)) defensepower*=5;
-  if (m_type == AIR_MOVING && pcity != NULL) {
+  if (m_type == AIR_MOVING && pcity) {
     if (city_got_building(pcity, B_SAM))
       defensepower*=2;
     if (city_got_building(pcity, B_SDI) && unit_type_flag(a_type, F_MISSILE))
       defensepower*=2;
-  } else if (m_type == SEA_MOVING && pcity != NULL) {
+  } else if (m_type == SEA_MOVING && pcity) {
     if (city_got_building(pcity, B_COASTAL))
       defensepower*=2;
   }
   if (!unit_type_flag(a_type, F_IGWALL)
       && (m_type == LAND_MOVING || m_type == HELI_MOVING
 	  || (improvement_variant(B_CITY)==1 && m_type == SEA_MOVING))
-      && pcity != NULL && city_got_citywalls(pcity)) {
+      && pcity && city_got_citywalls(pcity)) {
     defensepower*=3;
   }
-  if (map_get_special(x, y)&S_FORTRESS && pcity == NULL)
+  if (map_get_special(x, y)&S_FORTRESS && !pcity)
     defensepower+=(defensepower*terrain_control.fortress_defense_bonus)/100;
-  if (pcity != NULL && unit_types[d_type].move_type == LAND_MOVING)
+  if (pcity && unit_types[d_type].move_type == LAND_MOVING)
     defensepower*=1.5;
 
   return defensepower;
@@ -392,10 +392,10 @@ int get_total_defense_power(struct unit *attacker, struct unit *defender)
       && unit_behind_walls(defender)) 
     defensepower*=3;
   if (unit_on_fortress(defender) && 
-      map_get_city(defender->x, defender->y) == NULL) 
+      !map_get_city(defender->x, defender->y)) 
     defensepower*=2;
   if ((defender->activity == ACTIVITY_FORTIFIED || 
-       map_get_city(defender->x, defender->y) != NULL) && 
+       map_get_city(defender->x, defender->y)) && 
       is_ground_unit(defender))
     defensepower*=1.5;
 
@@ -474,7 +474,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
     }
   } unit_list_iterate_end;
 
-  if (count && bestdef == NULL) {
+  if (count && !bestdef) {
     struct unit *debug_unit = unit_list_get(&map_get_tile(x, y)->units, 0);
     freelog(LOG_ERROR, "Get_def bugged at (%d,%d). The most likely course"
 	    " is a unit on an ocean square without a transport. The owner"

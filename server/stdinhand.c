@@ -152,7 +152,7 @@ static int valid_ruleset(char *whichset, char *subdir, char **reject_message)
 
   *reject_message = buffer;
 
-  if (valid_ruleset_filename(subdir,whichset) == NULL) {
+  if (!valid_ruleset_filename(subdir,whichset)) {
     my_snprintf(buffer, sizeof(buffer),
 	_("Invalid ruleset subdirectory, keeping old value."));
     return 0;
@@ -196,8 +196,8 @@ static int valid_max_players(int v, char **r_m)
   return 1;
 }
   
-#define SETTING_IS_INT(s) ((s)->value!=NULL)
-#define SETTING_IS_STRING(s) ((s)->value==NULL)
+#define SETTING_IS_INT(s)     ((s)->value)
+#define SETTING_IS_STRING(s)  (!((s)->value))
 
 static struct settings_s settings[] = {
 
@@ -1319,7 +1319,7 @@ static enum command_id command_named(const char *token, int accept_ambiguity)
 **************************************************************************/
 static int may_use(struct connection *caller, enum command_id cmd)
 {
-  if (caller == NULL) {
+  if (!caller) {
     return 1;  /* on the console, everything is allowed */
   }
   return (caller->access_level >= commands[cmd].level);
@@ -1331,7 +1331,7 @@ static int may_use(struct connection *caller, enum command_id cmd)
 **************************************************************************/
 static int may_use_nothing(struct connection *caller)
 {
-  if (caller == NULL) {
+  if (!caller) {
     return 0;  /* on the console, everything is allowed */
   }
   return (caller->access_level == ALLOW_NONE);
@@ -1344,7 +1344,7 @@ static int may_use_nothing(struct connection *caller)
 **************************************************************************/
 static int may_set_option(struct connection *caller, int option_idx)
 {
-  if (caller == NULL) {
+  if (!caller) {
     return 1;  /* on the console, everything is allowed */
   } else {
     int level = caller->access_level;
@@ -1371,7 +1371,7 @@ static int may_set_option_now(struct connection *caller, int option_idx)
 **************************************************************************/
 static int may_view_option(struct connection *caller, int option_idx)
 {
-  if (caller == NULL) {
+  if (!caller) {
     return 1;  /* on the console, everything is allowed */
   } else {
     return sset_is_to_client(option_idx)
@@ -1395,7 +1395,7 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
                   cmd == CMD_UNRECOGNIZED ? _("(unknown)") :
 			"(?!?)";  /* this case is a bug! */
 
-  if (caller != NULL) {
+  if (caller) {
     notify_conn(&caller->self, "/%s: %s%s", cmdname, prefix, line);
     /* cc: to the console - testing has proved it's too verbose - rp
     con_write(console_id, "%s/%s: %s%s", caller->name, cmdname, prefix, line);
@@ -1418,7 +1418,7 @@ static void vcmd_reply_prefix(enum command_id cmd, struct connection *caller,
   my_vsnprintf(buf, sizeof(buf), format, ap);
 
   c0 = buf;
-  while ((c1=strstr(c0, "\n")) != NULL) {
+  while ((c1=strstr(c0, "\n"))) {
     *c1 = '\0';
     cmd_reply_line(cmd, caller, console_id, (c0==buf?"":prefix), c0);
     c0 = c1+1;
@@ -1754,7 +1754,7 @@ static void toggle_ai_player(struct connection *caller, char *arg)
 
   pplayer = find_player_by_name_prefix(arg, &match_result);
 
-  if (pplayer == NULL) {
+  if (!pplayer) {
     cmd_reply_no_such_player(CMD_AITOGGLE, caller, arg, match_result);
     return;
   }
@@ -1796,7 +1796,7 @@ static void create_ai_player(struct connection *caller, char *arg)
     return;
   }
 
-  if ((pplayer=find_player_by_name(arg)) != NULL)
+  if ((pplayer=find_player_by_name(arg)))
   {
     cmd_reply(CMD_CREATE, caller, C_BOUNCE,
 	      _("A player already exists by that name."));
@@ -1805,7 +1805,7 @@ static void create_ai_player(struct connection *caller, char *arg)
 
   accept_new_player(arg, NULL);
   pplayer = find_player_by_name(arg);
-  if (pplayer == NULL)
+  if (!pplayer)
   {
     cmd_reply(CMD_CREATE, caller, C_FAIL,
 	      _("Error creating new AI player: %s."), arg);
@@ -1830,7 +1830,7 @@ static void remove_player(struct connection *caller, char *arg)
 
   pplayer=find_player_by_name_prefix(arg, &match_result);
   
-  if(pplayer == NULL) {
+  if(!pplayer) {
     cmd_reply_no_such_player(CMD_REMOVE, caller, arg, match_result);
     return;
   }
@@ -1844,7 +1844,7 @@ static void remove_player(struct connection *caller, char *arg)
 
   sz_strlcpy(name, pplayer->name);
   server_remove_player(pplayer);
-  if (caller==NULL || caller->used) {     /* may have removed self */
+  if (!caller || caller->used) {     /* may have removed self */
     cmd_reply(CMD_REMOVE, caller, C_OK,
 	      _("Removed player %s from the game."), name);
   }
@@ -1878,10 +1878,10 @@ void read_init_script(struct connection *caller, char *script_filename)
   freelog(LOG_NORMAL, _("Loading script file: %s"), script_filename);
   script_file = fopen(script_filename,"r");
 
-  if (script_file != NULL) {
+  if (script_file) {
 
     /* the size is set as to not overflow buffer in handle_stdin_input */
-    while(fgets(buffer,MAX_LEN_CONSOLE_LINE-1,script_file) != NULL)
+    while(fgets(buffer,MAX_LEN_CONSOLE_LINE-1,script_file))
       handle_stdin_input((struct connection *)NULL, buffer);
     fclose(script_file);
 
@@ -1912,7 +1912,7 @@ static void write_init_script(char *script_filename)
 
   script_file = fopen(script_filename,"w");
 
-  if (script_file != NULL) {
+  if (script_file) {
 
     int i;
 
@@ -1948,7 +1948,7 @@ static void write_init_script(char *script_filename)
 
     /* then, the 'set' option settings */
 
-    for (i = 0; settings[i].name != NULL; i++) {
+    for (i=0;settings[i].name;i++) {
       struct settings_s *op = &settings[i];
 
       if (SETTING_IS_INT(op)) {
@@ -1995,7 +1995,7 @@ static void rulesout_command(struct connection *caller, char *arg)
   if (game.num_tech_types==0) {
     cmd_reply(CMD_RULESOUT, caller, C_FAIL,
 	      _("Cannot output rules: ruleset data not loaded "
-		"(e.g., use '%sstart')."), (caller != NULL?"/":""));
+		"(e.g., use '%sstart')."), (caller?"/":""));
     return;
   }
 
@@ -2019,7 +2019,7 @@ static void rulesout_command(struct connection *caller, char *arg)
   if (result > M_PRE_ONLY) {
     cmd_reply(CMD_RULESOUT, caller, C_FAIL,
 	      _("Bad rulesout type: '%s' (%s).  Try '%shelp rulesout'."),
-	      rules, _(m_pre_description(result)), (caller != NULL?"/":""));
+	      rules, _(m_pre_description(result)), (caller?"/":""));
     return;
   }
 
@@ -2043,7 +2043,7 @@ static void rulesout_command(struct connection *caller, char *arg)
  usage:
   cmd_reply(CMD_RULESOUT, caller, C_FAIL,
 	    _("Usage: rulesout <ruletype> <filename>.  Try '%shelp rulesout'."),
-	      (caller != NULL?"/":""));
+	      (caller?"/":""));
 }
 
 /**************************************************************************
@@ -2055,7 +2055,7 @@ static int set_cmdlevel(struct connection *caller,
 {
   assert(ptarget != NULL);    /* only ever call me for specific connection */
 
-  if (caller != NULL && ptarget->access_level > caller->access_level) {
+  if (caller && ptarget->access_level > caller->access_level) {
     /* Can this happen?  Caller must already have ALLOW_HACK
        to even use the cmdlevel command.  Hmm, someone with
        ALLOW_HACK can take away ALLOW_HACK from others... --dwp
@@ -2171,7 +2171,7 @@ static void cmdlevel_command(struct connection *caller, char *str)
 	      _("Error: command access level must be one of"
 		" 'none', 'info', 'ctrl', or 'hack'."));
     return;
-  } else if (caller != NULL && level > caller->access_level) {
+  } else if (caller && level > caller->access_level) {
     cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
 	      _("Cannot increase command access level to '%s';"
 		" you only have '%s' yourself."),
@@ -2249,7 +2249,7 @@ static void cmdlevel_command(struct connection *caller, char *str)
 		cmdlevel_name(level));
     }
   }
-  else if ((ptarget=find_conn_by_name_prefix(arg_name,&match_result)) != NULL) {
+  else if ((ptarget=find_conn_by_name_prefix(arg_name,&match_result))) {
     if (set_cmdlevel(caller, ptarget, level)) {
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
 		_("Command access level set to '%s' for connection %s."),
@@ -2273,7 +2273,7 @@ static void cmdlevel_command(struct connection *caller, char *str)
  **************************************************************************/
 static void firstlevel_command(struct connection *caller)
 {
-  if (caller == NULL) {
+  if (!caller) {
     cmd_reply(CMD_FIRSTLEVEL, caller, C_FAIL,
 	_("The 'firstlevel' command makes no sense from the server command line."));
   } else if (caller->access_level >= first_access_level) {
@@ -2326,7 +2326,7 @@ static void show_help_option(struct connection *caller,
 {
   struct settings_s *op = &settings[id];
 
-  if (op->short_help != NULL) {
+  if (op->short_help) {
     cmd_reply(help_cmd, caller, C_COMMENT,
 	      "%s %s  -  %s", _("Option:"), op->name, _(op->short_help));
   } else {
@@ -2334,7 +2334,7 @@ static void show_help_option(struct connection *caller,
 	      "%s %s", _("Option:"), op->name);
   }
 
-  if(op->extra_help != NULL && strcmp(op->extra_help,"")!=0) {
+  if(op->extra_help && strcmp(op->extra_help,"")!=0) {
     static struct astring abuf = ASTRING_INIT;
     const char *help = _(op->extra_help);
 
@@ -2376,14 +2376,14 @@ static void show_help_option_list(struct connection *caller,
   cmd_reply(help_cmd, caller, C_COMMENT,
 	    _("Explanations are available for the following server options:"));
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
-  if(caller == NULL && con_get_style()) {
-    for (i=0; settings[i].name != NULL; i++) {
+  if(!caller && con_get_style()) {
+    for (i=0; settings[i].name; i++) {
       cmd_reply(help_cmd, caller, C_COMMENT, "%s", settings[i].name);
     }
   } else {
     char buf[MAX_LEN_CONSOLE_LINE];
     buf[0] = '\0';
-    for (i=0, j=0; settings[i].name != NULL; i++) {
+    for (i=0, j=0; settings[i].name; i++) {
       if (may_view_option(caller, i)) {
 	cat_snprintf(buf, sizeof(buf), "%-19s", settings[i].name);
 	if ((++j % 4) == 0) {
@@ -2454,7 +2454,7 @@ void report_server_options(struct conn_list *dest, int which)
     _("Server Options (initial)") :
     _("Server Options (ongoing)");
 
-  for (i=0;settings[i].name != NULL;i++) {
+  for (i=0;settings[i].name;i++) {
     struct settings_s *op = &settings[i];
     if (!sset_is_to_client(i)) continue;
     if (which==1 && op->sclass > SSET_GAME_INIT) continue;
@@ -2511,7 +2511,7 @@ static void set_ai_level(struct connection *caller, char *name, int level)
 
   pplayer=find_player_by_name_prefix(name, &match_result);
 
-  if (pplayer != NULL) {
+  if (pplayer) {
     if (pplayer->ai.control) {
       set_ai_level_directer(pplayer, level);
       cmd_reply(cmd, caller, C_OK,
@@ -2602,7 +2602,7 @@ static void show_command(struct connection *caller, char *str)
 
   buf[0] = '\0';
 
-  for (i=0;settings[i].name != NULL;i++) {
+  for (i=0;settings[i].name;i++) {
     if (may_view_option(caller, i)
 	&& (cmd==-1 || cmd==i
 	    || (cmd==-2 && mystrncasecmp(settings[i].name, command, clen)==0))) {
@@ -2721,7 +2721,7 @@ static void set_command(struct connection *caller, char *str)
 		_("Value must be an integer."));
     } else if (val >= op->min_value && val <= op->max_value) {
       char *reject_message = NULL;
-      if (settings[cmd].func_change == NULL || settings[cmd].func_change(val, &reject_message)) {
+      if (!settings[cmd].func_change || settings[cmd].func_change(val, &reject_message)) {
 	*(op->value) = val;
 	cmd_reply(CMD_SET, caller, C_OK, _("Option: %s has been set to %d."), 
 		  settings[cmd].name, val);
@@ -2749,7 +2749,7 @@ static void set_command(struct connection *caller, char *str)
   } else {
     if (strlen(arg)<op->sz_svalue) {
       char *reject_message = NULL;
-      if (settings[cmd].func_change_s == NULL
+      if (!settings[cmd].func_change_s
 	  || settings[cmd].func_change_s(arg, &reject_message)) {
 	strcpy(op->svalue, arg);
 	cmd_reply(CMD_SET, caller, C_OK,
@@ -2807,7 +2807,7 @@ void handle_stdin_input(struct connection *caller, char *str)
   enum command_id cmd;
 
   /* notify to the server console */
-  if (caller != NULL) {
+  if (caller) {
     con_write(C_COMMENT, "%s: '%s'", caller->name, str);
   }
 
@@ -2847,10 +2847,10 @@ void handle_stdin_input(struct connection *caller, char *str)
     cmd_reply(cmd, caller, C_SYNTAX,
 	_("Warning: '%s' interpreted as '%s', but it is ambiguous."
 	  "  Try '%shelp'."),
-	command, commands[cmd].name, caller != NULL?"/":"");
+	command, commands[cmd].name, caller?"/":"");
   } else if (cmd == CMD_UNRECOGNIZED) {
     cmd_reply(cmd, caller, C_SYNTAX,
-	_("Unknown command.  Try '%shelp'."), caller != NULL?"/":"");
+	_("Unknown command.  Try '%shelp'."), caller?"/":"");
     return;
   }
   if (!may_use(caller, cmd)) {
@@ -3033,7 +3033,7 @@ static void cut_client_connection(struct connection *caller, char *name)
 
   ptarget=find_conn_by_name_prefix(name, &match_result);
 
-  if (ptarget == NULL) {
+  if (!ptarget) {
     cmd_reply_no_such_conn(CMD_CUT, caller, name, match_result);
     return;
   }
@@ -3095,14 +3095,14 @@ static void show_help_command(struct connection *caller,
 {
   const struct command *cmd = &commands[id];
   
-  if (cmd->short_help != NULL) {
+  if (cmd->short_help) {
     cmd_reply(help_cmd, caller, C_COMMENT,
 	      "%s %s  -  %s", _("Command:"), cmd->name, _(cmd->short_help));
   } else {
     cmd_reply(help_cmd, caller, C_COMMENT,
 	      "%s %s", _("Command:"), cmd->name);
   }
-  if (cmd->synopsis != NULL) {
+  if (cmd->synopsis) {
     /* line up the synopsis lines: */
     const char *syn = _("Synopsis: ");
     int synlen = strlen(syn);
@@ -3114,7 +3114,7 @@ static void show_help_command(struct connection *caller,
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
 	    _("Level: %s"), cmdlevel_name(cmd->level));
-  if (cmd->extra_help != NULL) {
+  if (cmd->extra_help) {
     static struct astring abuf = ASTRING_INIT;
     const char *help = _(cmd->extra_help);
       
@@ -3140,7 +3140,7 @@ static void show_help_command_list(struct connection *caller,
   cmd_reply(help_cmd, caller, C_COMMENT,
 	    _("The following server commands are available:"));
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
-  if(caller == NULL && con_get_style()) {
+  if(!caller && con_get_style()) {
     for (i=0; i<CMD_NUM; i++) {
       cmd_reply(help_cmd, caller, C_COMMENT, "%s", commands[i].name);
     }
@@ -3277,7 +3277,7 @@ static void show_list(struct connection *caller, char *arg)
   if (match_result > M_PRE_EMPTY) {
     cmd_reply(CMD_LIST, caller, C_SYNTAX,
 	      _("Bad list argument: '%s'.  Try '%shelp list'."),
-	      arg, (caller != NULL?"/":""));
+	      arg, (caller?"/":""));
     return;
   }
 
@@ -3319,7 +3319,7 @@ void show_players(struct connection *caller)
       struct player *pplayer = &game.players[i];
 
       /* Low access level callers don't get to see barbarians in list: */
-      if (is_barbarian(pplayer) && (caller!=NULL)
+      if (is_barbarian(pplayer) && caller
 	  && (caller->access_level < ALLOW_CTRL)) {
 	continue;
       }

@@ -138,24 +138,24 @@ int main(int argc, char *argv[])
    } else if (is_option("--version",argv[i])) {
     fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
     exit(EXIT_SUCCESS);
-   } else if ((option = get_option("--log",argv,&i,argc)) != NULL)
+   } else if ((option = get_option("--log",argv,&i,argc)))
       logfile = mystrdup(option); /* never free()d */
-   else if ((option = get_option("--name",argv,&i,argc)) != NULL)
+   else if ((option = get_option("--name",argv,&i,argc)))
      sz_strlcpy(player_name, option);
-   else if ((option = get_option("--meta",argv,&i,argc)) != NULL)
+   else if ((option = get_option("--meta",argv,&i,argc)))
       sz_strlcpy(metaserver, option);
-   else if ((option = get_option("--port",argv,&i,argc)) != NULL)
+   else if ((option = get_option("--port",argv,&i,argc)))
      server_port=atoi(option);
-   else if ((option = get_option("--server",argv,&i,argc)) != NULL)
+   else if ((option = get_option("--server",argv,&i,argc)))
       sz_strlcpy(server_host, option);
    else if (is_option("--autoconnect",argv[i]))
       auto_connect = 1;
-   else if ((option = get_option("--debug",argv,&i,argc)) != NULL) {
+   else if ((option = get_option("--debug",argv,&i,argc))) {
       loglevel=log_parse_level_str(option);
       if (loglevel==-1) {
         exit(EXIT_FAILURE);
       }
-   } else if ((option = get_option("--tiles",argv,&i,argc)) != NULL) {
+   } else if ((option = get_option("--tiles",argv,&i,argc))) {
       tile_set_name=option;
    } else { 
       fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
@@ -570,7 +570,7 @@ enum client_states get_client_state(void)
 **************************************************************************/
 void client_remove_cli_conn(struct connection *pconn)
 {
-  if (pconn->player != NULL) {
+  if (pconn->player) {
     conn_list_unlink(&pconn->player->connections, pconn);
   }
   conn_list_unlink(&game.all_connections, pconn);

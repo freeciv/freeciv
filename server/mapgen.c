@@ -1123,7 +1123,7 @@ void create_start_positions(void)
   int x, y, j=0, k, sum;
   int counter = 0;
 
-  if (islands==NULL)		/* already setup for generator>1 */
+  if (!islands)		/* already setup for generator>1 */
     setup_isledata();
 
   if(dist>= map.xsize/2)

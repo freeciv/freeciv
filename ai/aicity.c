@@ -112,7 +112,7 @@ static void ai_manage_buildings(struct player *pplayer)
   memset(values, 0, sizeof(values));
   memset(pplayer->ai.tech_want, 0, sizeof(pplayer->ai.tech_want));
 
-  if (find_palace(pplayer) != NULL || g->corruption_level == 0) palace = 1;
+  if (find_palace(pplayer) || g->corruption_level == 0) palace = 1;
   city_list_iterate(pplayer->cities, pcity)
     ai_eval_buildings(pcity);
     if (!palace) corr += pcity->corruption * 8;
@@ -503,7 +503,7 @@ static void ai_new_spend_gold(struct player *pplayer)
     unit_list_iterate(pplayer->units, punit)
       if (punit->type != trireme) continue;
       pcity = map_get_city(punit->x, punit->y);
-      if (pcity == NULL) continue;
+      if (!pcity) continue;
       cost = unit_upgrade_price(pplayer, punit->type, id);
       if (cost < pplayer->economic.gold && ai_fuzzy(pplayer,1)) {
 	/* let's just upgrade */
@@ -1018,7 +1018,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
     struct city *acity=map_get_tile(x,y)->worked;
     int city_map_x, city_map_y, is_valid;
 
-    if(acity!=NULL && acity!=pcity && acity->owner==pcity->owner)  {
+    if(acity && acity!=pcity && acity->owner==pcity->owner)  {
       if(acity->x==x && acity->y==y) /* can't stop working city center */
 	continue;  
       freelog(LOG_DEBUG, "Availing square in %s", acity->name);
@@ -1026,7 +1026,7 @@ void emergency_reallocate_workers(struct player *pplayer, struct city *pcity)
       assert(is_valid);
       server_remove_worker_city(acity, city_map_x, city_map_y);
       acity->ppl_elvis++;
-      if (city_list_find_id(&minilist, acity->id) == NULL)
+      if (!city_list_find_id(&minilist, acity->id))
 	city_list_insert(&minilist, acity);
     }
   } map_city_radius_iterate_end;

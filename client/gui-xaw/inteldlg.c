@@ -156,7 +156,7 @@ void intel_create_dialog(struct player *p)
 
   pcity = find_palace(p);
   my_snprintf(buf, sizeof(buf), _("Capital: %s"),
-	      (pcity==NULL)?_("(Unknown)"):pcity->name);
+	      (!pcity)?_("(Unknown)"):pcity->name);
   XtVaCreateManagedWidget("intelcapitallabel", 
 			  labelWidgetClass, 
 			  form, 

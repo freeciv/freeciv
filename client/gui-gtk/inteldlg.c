@@ -49,7 +49,7 @@ static void intel_close_command_callback(GtkWidget *w, gpointer data);
 *****************************************************************/
 void popup_intel_dialog(struct player *p)
 {
-  if(intel_dialog_shell == NULL) {
+  if(!intel_dialog_shell) {
     intel_create_dialog(p);
     gtk_set_relative_position(toplevel, intel_dialog_shell, 25, 25);
     gtk_widget_show(intel_dialog_shell);
@@ -137,7 +137,7 @@ void intel_create_dialog(struct player *p)
 
   pcity = find_palace(p);
   my_snprintf(buf, sizeof(buf), _("Capital: %s"),
-	      (pcity==NULL)?_("(Unknown)"):pcity->name);
+	      (!pcity)?_("(Unknown)"):pcity->name);
   label=gtk_label_new(buf);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, FALSE, 2);
 

@@ -273,7 +273,7 @@ void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data)
 {
   int i;
 
-  for(i=0;server_list[i]!=NULL;i++)  {
+  for (i = 0; server_list[i]; i++) {
     free(server_list[i]);
     server_list[i]=NULL;
   }

@@ -129,7 +129,7 @@ static void intel_create_dialog(struct player *p)
   
   pcity = find_palace(p);
   my_snprintf(buf, sizeof(buf), _("Capital: %s"),
-              (pcity==NULL)?_("(Unknown)"):pcity->name);
+              (!pcity)?_("(Unknown)"):pcity->name);
   fcwin_box_add_static(hbox,buf,0,SS_CENTER,TRUE,TRUE,10);
   
   fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);

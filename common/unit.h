@@ -161,7 +161,7 @@ struct unit {
     } unit_list_iterate_end; \
     for (_i=0; _i<_size; _i++) { \
       struct unit *punit = find_unit_by_id(_ids[_i]); \
-      if (punit != NULL) { \
+      if (punit) { \
 
 #define unit_list_iterate_safe_end \
       } \

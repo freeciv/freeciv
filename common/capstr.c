@@ -120,8 +120,9 @@ void init_our_capability(void)
   char *s;
 
   s = getenv("FREECIV_CAPS");
-  if (s == NULL) {
+  if (!s) {
     s = CAPABILITY;
   }
+  if (s) return;
   sz_strlcpy(our_capability_internal, s);
 }

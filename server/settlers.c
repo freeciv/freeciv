@@ -62,7 +62,7 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
   sz_strlcpy(req.name, city_name_suggestion(pplayer, x, y));
   handle_unit_build_city(pplayer, &req);        
   pcity=map_get_city(x, y); /* so we need to cache x and y for a very short time */
-  if (pcity == NULL)
+  if (!pcity)
     return FALSE;
 
   /* initialize infrastructure cache for both this city and other cities
@@ -70,7 +70,7 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
      a city into the ocean. */
   map_city_radius_iterate(pcity->x, pcity->y, x_itr, y_itr) {
     struct city *pcity2 = map_get_city(x_itr, y_itr);
-    if (pcity2 != NULL && city_owner(pcity2) == pplayer)
+    if (pcity2 && city_owner(pcity2) == pplayer)
       initialize_infrastructure_cache(pcity2);
   } map_city_radius_iterate_end;
   return TRUE;
@@ -186,9 +186,9 @@ static int city_desirability(struct player *pplayer, int x, int y)
   ptile = map_get_tile(x, y);
   if (ptile->terrain == T_OCEAN) return 0;
   pcity = map_get_city(x, y);
-  if (pcity != NULL && pcity->size >= game.add_to_size_limit) return 0;
-  if (pcity == NULL && minimap[x][y] < 0) return 0;
-  if (pcity == NULL && minimap[x][y] > 0) return minimap[x][y];
+  if (pcity && pcity->size >= game.add_to_size_limit) return 0;
+  if (!pcity && minimap[x][y] < 0) return 0;
+  if (!pcity && minimap[x][y] > 0) return minimap[x][y];
 
   har = is_terrain_near_tile(x, y, T_OCEAN);
 
@@ -215,8 +215,8 @@ static int city_desirability(struct player *pplayer, int x, int y)
   memset(road, 0, sizeof(road));
 
   city_map_checked_iterate(x, y, i, j, map_x, map_y) {
-    if ((pcity == NULL && minimap[map_x][map_y] >= 0)
-	|| (pcity != NULL && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
+    if ((!pcity && minimap[map_x][map_y] >= 0)
+	|| (pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
       ptile = map_get_tile(map_x, map_y);
       con2 = ptile->continent;
       ptype = get_tile_type(ptile->terrain);
@@ -261,7 +261,7 @@ that's the easiest, and I doubt pathological behavior will result. -- Syela */
   }
   city_map_checked_iterate_end;
 
-  if (pcity != NULL) { /* quick-n-dirty immigration routine -- Syela */
+  if (pcity) { /* quick-n-dirty immigration routine -- Syela */
     n = pcity->size;
     best = 0; ii = 0; jj = 0; /* blame -Wall -Werror for these */
     city_map_iterate(i, j) {
@@ -519,7 +519,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 
   if (ptile->terrain != type->irrigation_result &&
       type->irrigation_result != T_LAST) { /* EXPERIMENTAL 980905 -- Syela */
-    if (ptile->city != NULL && type->irrigation_result == T_OCEAN)
+    if (ptile->city && type->irrigation_result == T_OCEAN)
       return -1;
     ptile->terrain = type->irrigation_result;
     map_clear_special(x, y, S_MINE);
@@ -529,7 +529,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
     return(m);
   } else if((ptile->terrain==type->irrigation_result &&
      !(ptile->special&S_IRRIGATION) &&
-     !(ptile->special&S_MINE) && ptile->city == NULL &&
+     !(ptile->special&S_MINE) && !(ptile->city) &&
      (is_wet_or_is_wet_cardinal_around(pplayer, x, y)))) {
     map_set_special(x, y, S_IRRIGATION);
     m = city_tile_value(pcity, i, j, 0, 0);
@@ -538,7 +538,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
   } else if((ptile->terrain==type->irrigation_result &&
      (ptile->special&S_IRRIGATION) && !(ptile->special&S_FARMLAND) &&
      player_knows_techs_with_flag(pplayer, TF_FARMLAND) &&
-     !(ptile->special&S_MINE) && ptile->city == NULL &&
+     !(ptile->special&S_MINE) && !(ptile->city) &&
      (is_wet_or_is_wet_cardinal_around(pplayer, x, y)))) {
     map_set_special(x, y, S_FARMLAND);
     m = city_tile_value(pcity, i, j, 0, 0);
@@ -614,7 +614,7 @@ static int ai_calc_transform(struct city *pcity, int i, int j)
 
   if ((t == T_ARCTIC || t == T_DESERT || t == T_JUNGLE || t == T_SWAMP  || 
        t == T_TUNDRA || t == T_MOUNTAINS) && r != T_LAST) {
-    if (r == T_OCEAN && ptile->city != NULL)
+    if (r == T_OCEAN && ptile->city)
       return -1;
 
     ptile->terrain = r;
@@ -956,7 +956,7 @@ static int evaluate_city_building(struct unit *punit,
   else
     boatid = 0;
   *ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units), boatid);
-  if ((*ferryboat) != NULL)
+  if (*ferryboat)
     really_generate_warmap(mycity, *ferryboat, SEA_MOVING);
 
   generate_warmap(mycity, punit);
@@ -979,7 +979,7 @@ static int evaluate_city_building(struct unit *punit,
 	&& !city_exists_within_city_radius(x, y, 0)) {
 
       /* potential target, calculate mv_cost: */
-      if ((*ferryboat) != NULL) {
+      if (*ferryboat) {
 	/* already aboard ship, can use real warmap */
 	if (!is_terrain_near_tile(x, y, T_OCEAN)) {
 	  mv_cost = 9999;
@@ -1026,7 +1026,7 @@ static int evaluate_city_building(struct unit *punit,
       /* newv is now the value over mort turns */
       newv = (newv * 100) / MORT / ((w_virtual ? 80 : 40) + food_cost);
 
-      if (best_newv && map_get_city(x, y) != NULL) newv = 0;
+      if (best_newv && map_get_city(x, y)) newv = 0;
 	  
       /* I added a line to discourage settling in existing cities, but it was
 	 inadequate.  It may be true that in the short-term building infrastructure
@@ -1219,7 +1219,7 @@ static int ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat
 
   if (!same_pos(gx, gy, punit->x, punit->y)) {
     if (!goto_is_sane(punit, gx, gy, TRUE)
-	|| (ferryboat != NULL
+	|| (ferryboat
 	    && goto_is_sane(ferryboat, gx, gy, TRUE)
 	    && (!is_tiles_adjacent(punit->x, punit->y, gx, gy)
 		|| !could_unit_move_to_tile(punit, punit->x, punit->y,
@@ -1230,13 +1230,13 @@ static int ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat
 	      punit->id, punit->x, punit->y);
       if (!same_pos(x, y, punit->x, punit->y)) {
 	auto_settler_do_goto(pplayer, punit, x, y);
-	if (player_find_unit_by_id(pplayer, save_id) == NULL) return FALSE; /* died */
+	if (!player_find_unit_by_id(pplayer, save_id)) return FALSE; /* died */
       }
       ferryboat = unit_list_find(&(map_get_tile(punit->x, punit->y)->units),
 				 punit->ai.ferryboat);
       punit->goto_dest_x = gx;
       punit->goto_dest_y = gy;
-      if (ferryboat != NULL && (!ferryboat->ai.passenger
+      if (ferryboat && (!ferryboat->ai.passenger
 			|| ferryboat->ai.passenger == punit->id)) {
 	freelog(LOG_DEBUG,
 		"We have FOUND BOAT, %d ABOARD %d@(%d,%d)->(%d,%d).",
@@ -1250,12 +1250,12 @@ static int ai_gothere(struct unit *punit, int gx, int gy, struct unit *ferryboat
     }
     if (goto_is_sane(punit, gx, gy, TRUE)
 	&& punit->moves_left
-	&& (ferryboat == NULL
+	&& (!ferryboat
 	    || (is_tiles_adjacent(punit->x, punit->y, gx, gy)
 		&& could_unit_move_to_tile(punit, punit->x, punit->y,
 					   gx, gy)))) {
       auto_settler_do_goto(pplayer, punit, gx, gy);
-      if (player_find_unit_by_id(pplayer, save_id) == NULL) return FALSE; /* died */
+      if (!player_find_unit_by_id(pplayer, save_id)) return FALSE; /* died */
       punit->ai.ferryboat = 0;
     }
   }

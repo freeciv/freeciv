@@ -81,11 +81,11 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
   
   CHECK_MAP_POS(x,y);
 
-#define SEARCH_AND_RETURN_CITY_NAME(list)          \
-    for(nptr=list; (*nptr) != NULL; nptr++) {      \
-      if(game_find_city_by_name(*nptr) == NULL) {  \
-        return *nptr;                              \
-      }                                            \
+#define SEARCH_AND_RETURN_CITY_NAME(list)   \
+    for(nptr=list; *nptr; nptr++) {         \
+      if(!game_find_city_by_name(*nptr)) {  \
+        return *nptr;                       \
+      }                                     \
     }
 
   /* 
@@ -125,7 +125,7 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
       if (j >= num_misc_city_names) {
 	j = 0;
       }
-      if (game_find_city_by_name(misc_city_names[j]) == NULL)
+      if (!game_find_city_by_name(misc_city_names[j])) 
 	return misc_city_names[j];
       j++;
     }
@@ -133,7 +133,7 @@ char *city_name_suggestion(struct player *pplayer, int x, int y)
 
   for (i = 1; i <= num_tiles; i++ ) {
     my_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
-    if (game_find_city_by_name(tempname) == NULL) 
+    if (!game_find_city_by_name(tempname)) 
       return tempname;
   }
   
@@ -534,7 +534,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
     }
   } else {
     struct city *in_city = map_get_city(punit->x, punit->y);
-    if (in_city != NULL) {
+    if (in_city) {
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	      unit_name(punit->type), in_city->name,
 	      from_player->name, to_player->name);
@@ -603,7 +603,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
      cities or maybe destroyed */
   unit_list_iterate(*units, vunit) {
     struct city *new_home_city = map_get_city(vunit->x, vunit->y);
-    if (new_home_city != NULL && new_home_city != exclude_city) {
+    if (new_home_city && new_home_city != exclude_city) {
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
       transfer_unit(vunit, new_home_city, verbose);
@@ -640,7 +640,7 @@ struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
   city_list_iterate(pplayer->cities, pcity)
     if ((real_map_distance(x, y, pcity->x, pcity->y) < dist || dist == -1) && 
 	(!sea_required || is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) &&
-	(pexclcity == NULL || (pexclcity != pcity))) {
+	(!pexclcity || (pexclcity != pcity))) {
       dist = real_map_distance(x, y, pcity->x, pcity->y);
       rcity = pcity;
     }      
@@ -804,7 +804,7 @@ struct city *transfer_city(struct player *ptaker,
   unit_list_unlink_all(&old_city_units);
   reset_move_costs(pcity->x, pcity->y);
 
-  if (resolve_stack && (no_units > 0) && resolve_list != NULL) {
+  if (resolve_stack && (no_units > 0) && resolve_list) {
     for (i = 0; i < no_units+1 ; i++)
       resolve_unit_stack(resolve_list[i].x, resolve_list[i].y,
 			 transfer_unit_verbose);
@@ -819,7 +819,7 @@ struct city *transfer_city(struct player *ptaker,
 
     assert(pcity->trade[i] == 0 || pother_city != NULL);
 
-    if (pother_city != NULL) {
+    if (pother_city) {
       remove_trade_route(pother_city, pcity);
     }
   }
@@ -831,7 +831,7 @@ struct city *transfer_city(struct player *ptaker,
    */
   for (i = 0; i < 4; i++) {
     struct city *pother_city = find_city_by_id(pcity->trade[i]);
-    if (pother_city != NULL) {
+    if (pother_city) {
       update_dumb_city(ptaker, pother_city);
     }
   }
@@ -1069,7 +1069,7 @@ void remove_city(struct city *pcity)
   unit_list_iterate(pcity->units_supported, punit) {
     struct city *new_home_city = map_get_city(punit->x, punit->y);
     x = punit->x; y = punit->y;
-    if (new_home_city != NULL && new_home_city != pcity) {
+    if (new_home_city && new_home_city != pcity) {
       /* unit is in another city: make that the new homecity,
 	 unless that city is actually the same city (happens if disbanding) */
       freelog(LOG_VERBOSE, "Changed homecity of %s in %s",
@@ -1091,7 +1091,7 @@ void remove_city(struct city *pcity)
  MOVE_SEA_UNITS:
   unit_list_iterate(ptile->units, punit) {
     int moved;
-    if (punit == NULL
+    if (!punit
 	|| !same_pos(punit->x, punit->y, x, y)
 	|| !is_sailing_unit(punit)) {
       continue;
@@ -1131,7 +1131,7 @@ void remove_city(struct city *pcity)
 
     assert(pcity->trade[o] == 0 || pother_city != NULL);
 
-    if (pother_city != NULL) {
+    if (pother_city) {
       remove_trade_route(pother_city, pcity);
     }
   }
@@ -1159,7 +1159,7 @@ void remove_city(struct city *pcity)
     map_city_radius_iterate(x1, y1, x2, y2) {
       /* We see what cities are inside reach of the tile. */
       struct city *pcity = map_get_city(x2, y2);
-      if (pcity != NULL) {
+      if (pcity) {
 	update_city_tile_status_map(pcity, x1, y1);
       }
     } map_city_radius_iterate_end;
@@ -1287,7 +1287,7 @@ static int player_has_traderoute_with_city(struct player *pplayer,
 
   for (i = 0; i < 4; i++) {
     struct city *other = find_city_by_id(pcity->trade[i]);
-    if (other != NULL && city_owner(other) == pplayer) {
+    if (other && city_owner(other) == pplayer) {
       return TRUE;
     }
   }
@@ -1372,7 +1372,7 @@ static void broadcast_city_info(struct city *pcity)
    * should these only get dumb_city type info?
    */
   conn_list_iterate(game.game_connections, pconn) {
-    if (pconn->player==NULL && pconn->observer) {
+    if (!pconn->player && pconn->observer) {
       package_city(pcity, &packet, FALSE);
       send_packet_city_info(pconn, &packet);
     }
@@ -1389,11 +1389,11 @@ void send_all_known_cities(struct conn_list *dest)
   conn_list_do_buffer(dest);
   conn_list_iterate(*dest, pconn) {
     struct player *pplayer = pconn->player;
-    if (pplayer==NULL && !pconn->observer) {
+    if (!pplayer && !pconn->observer) {
       continue;
     }
     whole_map_iterate(x, y) {
-      if (pplayer == NULL || map_get_player_tile(x, y, pplayer)->city != NULL) {
+      if (!pplayer || map_get_player_tile(x, y, pplayer)->city) {
 	send_city_info_at_tile(pplayer, &pconn->self, NULL, x, y);
       }
     } whole_map_iterate_end;
@@ -1431,9 +1431,9 @@ void send_city_info(struct player *dest, struct city *pcity)
   if (dest == city_owner(pcity) && nocity_send)
     return;
 
-  if (dest == NULL || dest == city_owner(pcity))
+  if (!dest || dest == city_owner(pcity))
     pcity->synced = TRUE;
-  if (dest==NULL) {
+  if (!dest) {
     broadcast_city_info(pcity);
   } else {
     send_city_info_at_tile(dest, &dest->connections, pcity, pcity->x, pcity->y);
@@ -1468,9 +1468,9 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   struct packet_short_city sc_pack;
   struct dumb_city *pdcity;
 
-  if (pcity==NULL)
+  if (!pcity)
     pcity = map_get_city(x,y);
-  if (pcity != NULL)
+  if (pcity)
     powner = city_owner(pcity);
 
   if (powner == pviewer) {
@@ -1487,20 +1487,20 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   }
   else {
     /* send info to non-owner */
-    if (pviewer==NULL) {	/* observer */
-      if (pcity != NULL) {
+    if (!pviewer) {	/* observer */
+      if (pcity) {
 	package_city(pcity, &packet, FALSE);   /* should be dumb_city info? */
 	lsend_packet_city_info(dest, &packet);
       }
     } else if (map_get_known_and_seen(x, y, pviewer)) {
-      if (pcity != NULL) { /* it's there and we see it; update and send */
+      if (pcity) { /* it's there and we see it; update and send */
 	update_dumb_city(pviewer, pcity);
 	package_dumb_city(pviewer, x, y, &sc_pack);
 	lsend_packet_short_city(dest, &sc_pack);
       }
     } else { /* not seen; send old info */
       pdcity = map_get_player_tile(x, y, pviewer)->city;
-      if (pdcity != NULL) {
+      if (pdcity) {
 	package_dumb_city(pviewer, x, y, &sc_pack);
 	lsend_packet_short_city(dest, &sc_pack);
       }
@@ -1595,7 +1595,7 @@ void update_dumb_city(struct player *pplayer, struct city *pcity)
   struct player_tile *plrtile = map_get_player_tile(pcity->x, pcity->y,
 						    pplayer);
   struct dumb_city *pdcity;
-  if (plrtile->city == NULL) {
+  if (!plrtile->city) {
     plrtile->city = fc_malloc(sizeof(struct dumb_city));
     plrtile->city->id = pcity->id;
   }
@@ -1620,9 +1620,9 @@ void reality_check_city(struct player *pplayer,int x, int y)
   struct city *pcity;
   struct dumb_city *pdcity = map_get_player_tile(x, y, pplayer)->city;
 
-  if (pdcity != NULL) {
+  if (pdcity) {
     pcity = map_get_tile(x,y)->city;
-    if (pcity == NULL || (pcity != NULL && pcity->id != pdcity->id)) {
+    if (!pcity || (pcity && pcity->id != pdcity->id)) {
       packet.value=pdcity->id;
       lsend_packet_generic_integer(&pplayer->connections, PACKET_REMOVE_CITY,
 				   &packet);
@@ -1639,7 +1639,7 @@ void remove_trade_route(struct city *pc1, struct city *pc2)
 {
   int i;
 
-  assert(pc1 != NULL && pc2 != NULL);
+  assert(pc1 && pc2);
 
   for (i = 0; i < 4; i++) {
     if (pc1->trade[i] == pc2->id)
@@ -1815,14 +1815,14 @@ int city_can_work_tile(struct city *pcity, int city_x, int city_y)
     return FALSE;
   ptile = map_get_tile(map_x, map_y);
 
-  if (is_enemy_unit_tile(ptile, city_owner(pcity)) != NULL
+  if (is_enemy_unit_tile(ptile, city_owner(pcity))
       && !is_city_center(city_x, city_y))
     return FALSE;
 
   if (!map_get_known(map_x, map_y, city_owner(pcity)))
     return FALSE;
 
-  if (ptile->worked != NULL && ptile->worked != pcity)
+  if (ptile->worked && ptile->worked != pcity)
     return FALSE;
 
   return TRUE;
@@ -1860,7 +1860,7 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 
     map_city_radius_iterate(map_x, map_y, x1, y1) {
       struct city *pcity2 = map_get_city(x1, y1);
-      if (pcity2 != NULL && pcity2 != pcity) {
+      if (pcity2 && pcity2 != pcity) {
 	int city_x2, city_y2, is_valid;
 
 	is_valid = map_to_city_map(&city_x2, &city_y2, pcity2, map_x,

@@ -209,7 +209,7 @@ struct inputfile *inf_open(const char *filename,
   assert(filename != NULL);
   assert(strlen(filename)>0);
   fp = fz_fopen(filename, "r", FZ_NOT_USED, FZ_NOT_USED);
-  if (fp == NULL) {
+  if (!fp) {
     return NULL;
   }
   inf = fc_malloc(sizeof(struct inputfile));
@@ -268,7 +268,7 @@ void inf_close(struct inputfile *inf)
   assert_sanity(inf);
 
   freelog(LOG_DEBUG, "inputfile: closing \"%s\"", inf->filename);
-  if (inf->included_from != NULL) {
+  if (inf->included_from) {
     inf_close(inf->included_from);
   }
   inf_close_partial(inf);
@@ -360,7 +360,7 @@ static int check_include(struct inputfile *inf)
   inf->cur_line_pos = inf->cur_line.n-1;
 
   full_name = inf->datafn(bare_name);
-  if (full_name == NULL) {
+  if (!full_name) {
     freelog(LOG_FATAL, "Could not find included file \"%s\"", bare_name);
     inf_die(inf, NULL);
   }
@@ -374,7 +374,7 @@ static int check_include(struct inputfile *inf)
 	freelog(LOG_FATAL, "Recursion trap on '*include' for \"%s\"", full_name);
 	inf_die(inf, NULL);
       }
-    } while((inc=inc->included_from) != NULL);
+    } while((inc=inc->included_from));
   }
   
   new_inf = inf_open(full_name, inf->datafn);
@@ -425,7 +425,7 @@ static int read_a_line(struct inputfile *inf)
   for(;;) {
     ret = fz_fgets(line->str + pos, line->n_alloc - pos, inf->fp);
     
-    if (ret == NULL) {
+    if (!ret) {
       /* fgets failed */
       inf->at_eof = TRUE;
       if (pos != 0) {
@@ -440,7 +440,7 @@ static int read_a_line(struct inputfile *inf)
 	   boundaries */
 	inf_die(inf, "Multi-line string went to end-of-file");
       }
-      if (inf->included_from != NULL) {
+      if (inf->included_from) {
 	/* Pop the include, and get next line from file above instead. */
 	struct inputfile *inc = inf->included_from;
 	inf_close_partial(inf);
@@ -502,24 +502,24 @@ static void inf_log(struct inputfile *inf, int loglevel,
 {
   assert_sanity(inf);
 
-  if (message != NULL) {
+  if (message) {
     freelog(loglevel, "%s", message);
   }
   freelog(loglevel, "  file \"%s\", line %d, pos %d%s",
 	  inf->filename, inf->line_num, inf->cur_line_pos,
 	  (inf->at_eof ? ", EOF" : ""));
-  if (inf->cur_line.str != NULL && inf->cur_line.n) {
+  if (inf->cur_line.str && inf->cur_line.n) {
     freelog(loglevel, "  looking at: '%s'",
 	    inf->cur_line.str+inf->cur_line_pos);
   }
-  if (inf->copy_line.str != NULL && inf->copy_line.n) {
+  if (inf->copy_line.str && inf->copy_line.n) {
     freelog(loglevel, "  original line: '%s'", inf->copy_line.str);
   }
   if (inf->in_string) {
     freelog(loglevel, "  processing string starting at line %d",
 	    inf->string_start_line);
   }
-  while ((inf=inf->included_from) != NULL) {    /* local pointer assignment */
+  while ((inf=inf->included_from)) {    /* local pointer assignment */
     freelog(loglevel, "  included from file \"%s\", line %d",
 	    inf->filename, inf->line_num);
   }
@@ -550,10 +550,10 @@ static const char *get_token(struct inputfile *inf,
   assert_sanity(inf);
   assert(type>=INF_TOK_FIRST && type<INF_TOK_LAST);
 
-  name = tok_tab[type].name != NULL ? tok_tab[type].name : "(unnamed)";
+  name = tok_tab[type].name ? tok_tab[type].name : "(unnamed)";
   func = tok_tab[type].func;
   
-  if (func == NULL) {
+  if (!func) {
     freelog(LOG_NORMAL, "token type %d (%s) not supported yet", type, name);
     c = NULL;
   } else {
@@ -565,7 +565,7 @@ static const char *get_token(struct inputfile *inf,
       c = func(inf);
     }
   }
-  if (c != NULL) {
+  if (c) {
     if (INF_DEBUG_FOUND) {
       freelog(LOG_DEBUG, "inputfile: found %s '%s'", name, inf->token.str);
     }
@@ -601,7 +601,7 @@ int inf_discard_tokens(struct inputfile *inf, enum inf_token_type type)
 {
   int count = 0;
   
-  while(inf_token(inf, type) != NULL)
+  while(inf_token(inf, type))
     count++;
   return count;
 }

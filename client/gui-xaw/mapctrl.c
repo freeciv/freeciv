@@ -378,7 +378,7 @@ void mapctrl_key_city_workers(XEvent *event)
   assert(is_real);
 
   pcity = find_city_near_tile(x,y);
-  if(pcity==NULL) return;
+  if(!pcity) return;
 
   /* Shade tiles on usage */
   city_workers_color = (city_workers_color%3)+1;

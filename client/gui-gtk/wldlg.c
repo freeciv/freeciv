@@ -143,12 +143,12 @@ void popup_worklists_report(struct player *pplr)
   static char **clist_title = NULL;
 
   /* Report window already open */
-  if (report_dialog != NULL && report_dialog->shell != NULL)
+  if (report_dialog && report_dialog->shell)
     return;
 
   accel = gtk_accel_group_new();
 
-  assert(report_dialog == NULL);
+  assert(!report_dialog);
   assert(pplr != NULL);
 
   report_dialog = fc_malloc(sizeof(struct worklist_report));
@@ -169,7 +169,7 @@ void popup_worklists_report(struct player *pplr)
 
   /* - First, create the column selection widget.  Label the
      columns. */
-  if (clist_title == NULL) {
+  if (!clist_title) {
     clist_title = intl_slist(1, title);
   }
   report_dialog->list = gtk_clist_new_with_titles(1, clist_title);
@@ -319,9 +319,9 @@ struct worklist_editor *create_worklist_editor(struct worklist *pwl,
     N_("Turns")
   };
 
-  if (wl_clist_titles == NULL)
+  if (!wl_clist_titles)
     wl_clist_titles = intl_slist(3, wl_titles);
-  if (avail_clist_titles == NULL)
+  if (!avail_clist_titles)
     avail_clist_titles = intl_slist(4, avail_titles);
 
   peditor = fc_malloc(sizeof(struct worklist_editor));
@@ -524,7 +524,7 @@ struct worklist_editor *create_worklist_editor(struct worklist *pwl,
 *****************************************************************/
 void update_worklist_report_dialog(void)
 {
-  if (report_dialog != NULL) {
+  if (report_dialog) {
     global_list_update(report_dialog);
   }
 }
@@ -572,7 +572,7 @@ static void global_edit_callback(GtkWidget * w, gpointer data)
   struct worklist_report *preport = (struct worklist_report *) data;
   GList *selection = GTK_CLIST(preport->list)->selection;
 
-  if (selection == NULL)
+  if (!selection)
     return;
 
   preport->wl_idx = GPOINTER_TO_INT(selection->data);
@@ -590,7 +590,7 @@ static void global_rename_callback(GtkWidget * w, gpointer data)
   struct worklist_report *preport = (struct worklist_report *) data;
   GList *selection = GTK_CLIST(preport->list)->selection;
 
-  if (selection == NULL)
+  if (!selection)
     return;
 
   preport->wl_idx = GPOINTER_TO_INT(selection->data);
@@ -613,7 +613,7 @@ static void global_rename_sub_callback(GtkWidget * w, gpointer data)
   struct worklist_report *preport = (struct worklist_report *) data;
   struct packet_player_request packet;
 
-  if (preport != NULL) {
+  if (preport) {
     packet.wl_idx = preport->wl_idx;
     copy_worklist(&packet.worklist,
 		  &preport->pplr->worklists[preport->wl_idx]);
@@ -670,7 +670,7 @@ static void global_delete_callback(GtkWidget * w, gpointer data)
   preport = (struct worklist_report *) data;
   selection = GTK_CLIST(preport->list)->selection;
 
-  if (selection == NULL)
+  if (!selection)
     return;
 
   /* Look for the last free worklist */
@@ -753,7 +753,7 @@ static void global_list_update(struct worklist_report *preport)
   gtk_clist_freeze(GTK_CLIST(preport->list));
   gtk_clist_clear(GTK_CLIST(preport->list));
 
-  while (preport->worklist_names_ptrs[n] != NULL) {
+  while (preport->worklist_names_ptrs[n]) {
     gtk_clist_append(GTK_CLIST(preport->list),
 		     &preport->worklist_names_ptrs[n]);
     n++;
@@ -832,13 +832,13 @@ static gboolean keyboard_handler(GtkWidget * widget, GdkEventKey * event,
   switch (event->keyval) {
   case GDK_Home:
     gtk_widget_grab_focus(peditor->worklist);
-    if (GTK_CLIST(peditor->worklist)->selection == NULL) {
+    if (!GTK_CLIST(peditor->worklist)->selection) {
       gtk_clist_select_row(GTK_CLIST(peditor->worklist), 0, 0);
     }
     break;
   case GDK_End:
     gtk_widget_grab_focus(peditor->avail);
-    if (GTK_CLIST(peditor->avail)->selection == NULL) {
+    if (!GTK_CLIST(peditor->avail)->selection) {
       gtk_clist_select_row(GTK_CLIST(peditor->avail), 0, 0);
     }
     break;
@@ -860,7 +860,7 @@ static gboolean worklist_key_pressed_callback(GtkWidget * w,
   GList *selection = GTK_CLIST(peditor->worklist)->selection;
   int row;
 
-  if (selection == NULL)
+  if (!selection)
     return FALSE;
 
   row = GPOINTER_TO_INT(selection->data);
@@ -901,7 +901,7 @@ static gboolean targets_key_pressed_callback(GtkWidget * w,
   GList *selection = GTK_CLIST(peditor->avail)->selection;
   int row;
 
-  if (selection == NULL)
+  if (!selection)
     return FALSE;
 
   row = GPOINTER_TO_INT(selection->data);
@@ -936,7 +936,7 @@ static void worklist_select_callback(GtkWidget * w, gint row, gint column,
   int row_selected;
   struct worklist_editor *peditor = (struct worklist_editor *) data;
 
-  if (ev != NULL && ev->type == GDK_2BUTTON_PRESS) {
+  if (ev && ev->type == GDK_2BUTTON_PRESS) {
     /* Double-click to remove item from worklist */
     worklist_remove_item(peditor);
     return;
@@ -955,7 +955,7 @@ static void worklist_select_callback(GtkWidget * w, gint row, gint column,
 static void targets_select_callback(GtkWidget * w, gint row, gint column,
 				    GdkEvent * ev, gpointer data)
 {
-  if (ev != NULL && ev->type == GDK_2BUTTON_PRESS) {
+  if (ev && ev->type == GDK_2BUTTON_PRESS) {
     struct worklist_editor *peditor = (struct worklist_editor *) data;
     /* Double-click to insert item in worklist */
     worklist_insert_item(peditor);
@@ -1018,13 +1018,13 @@ static void worklist_insert_item(struct worklist_editor *peditor)
   int where, index, len;
   wid wid;
 
-  if (listSelection == NULL)
+  if (!listSelection)
     where = MAX_LEN_WORKLIST;
   else
     where = GPOINTER_TO_INT(listSelection->data);
 
   /* Is there anything selected to insert? */
-  if (availSelection == NULL) {
+  if (!availSelection) {
     return;
   }
 
@@ -1075,7 +1075,7 @@ static void worklist_really_insert_item(struct worklist_editor *peditor,
      really can (eventually) build the target.  We've made sure that
      the list of available targets is okay for this city, but a global
      worklist may try to insert an odd-ball unit or target. */
-  if (peditor->pcity != NULL &&
+  if (peditor->pcity &&
       ((is_unit && !can_eventually_build_unit(peditor->pcity, target)) ||
        (!is_unit
 	&& !can_eventually_build_improvement(peditor->pcity, target)))) {
@@ -1123,7 +1123,7 @@ static void worklist_remove_item(struct worklist_editor *peditor)
   int row_selected;
   int i, j, row;
 
-  if (selection == NULL)
+  if (!selection)
     return;
 
   row = GPOINTER_TO_INT(selection->data);
@@ -1181,7 +1181,7 @@ static void worklist_swap_up_callback(GtkWidget * w, gpointer data)
   GList *selection = GTK_CLIST(peditor->worklist)->selection;
   int idx;
 
-  if (selection == NULL)
+  if (!selection)
     return;
 
   idx = GPOINTER_TO_INT(selection->data);
@@ -1205,7 +1205,7 @@ static void worklist_swap_down_callback(GtkWidget * w, gpointer data)
   GList *selection = GTK_CLIST(peditor->worklist)->selection;
   int idx;
 
-  if (selection == NULL)
+  if (!selection)
     return;
 
   idx = GPOINTER_TO_INT(selection->data);
@@ -1247,7 +1247,7 @@ static void worklist_ok_callback(GtkWidget * w, gpointer data)
   copy_editor_to_worklist(peditor, &wl);
 
   /* Invoke the dialog's parent-specified callback */
-  if (peditor->ok_callback != NULL)
+  if (peditor->ok_callback)
     (*peditor->ok_callback) (&wl, peditor->user_data);
 
   peditor->changed = 0;
@@ -1268,7 +1268,7 @@ static void worklist_no_callback(GtkWidget * w, gpointer data)
   peditor = (struct worklist_editor *) data;
 
   /* Invoke the dialog's parent-specified callback */
-  if (peditor->cancel_callback != NULL)
+  if (peditor->cancel_callback)
     (*peditor->cancel_callback) (peditor->user_data);
 
   peditor->changed = 0;
@@ -1338,7 +1338,7 @@ static void targets_list_update(struct worklist_editor *peditor)
 
   /* Is the worklist limited to just the current targets, or */
   /* to any available and future targets?                    */
-  advanced_tech = (peditor->toggle_show_advanced != NULL &&
+  advanced_tech = (peditor->toggle_show_advanced &&
 		   GTK_TOGGLE_BUTTON(peditor->
 				     toggle_show_advanced)->active ==
 		   WORKLIST_ADVANCED_TARGETS);
@@ -1411,7 +1411,7 @@ static void targets_help_callback(GtkWidget * w, gpointer data)
 
   selection = GTK_CLIST(peditor->avail)->selection;
 
-  if (selection != NULL) {
+  if (selection) {
     wid wid =
 	peditor->worklist_avail_wids[GPOINTER_TO_INT(selection->data)];
 

@@ -132,14 +132,14 @@ static char *tilespec_fullname(const char *tileset_name)
     tileset_default = "trident";    /* Do not i18n! --dwp */
   }
 
-  if (tileset_name == NULL) {
+  if (!tileset_name) {
     tileset_name = tileset_default;
   }
   fname = fc_malloc(strlen(tileset_name)+16);
   sprintf(fname, "%s.tilespec", tileset_name);
   
   dname = datafilename(fname);
-  if (dname != NULL) {
+  if (dname) {
     free(fname);
     return mystrdup(dname);
   }
@@ -193,14 +193,14 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
 
   gfx_fileexts = gfx_fileextensions();
 
-  while((gfx_current_fileext = *gfx_fileexts++) != NULL)
+  while((gfx_current_fileext = *gfx_fileexts++))
   {
     full_name = fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
     sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
 
     real_full_name = datafilename(full_name);
     free(full_name);
-    if(real_full_name != NULL) return mystrdup(real_full_name);
+    if(real_full_name) return mystrdup(real_full_name);
   }
 
   freelog(LOG_FATAL, _("Couldn't find a supported gfx file extension for %s"),
@@ -332,16 +332,16 @@ static void tilespec_load_one(const char *spec_filename)
   gfx_fileexts = gfx_fileextensions();
   gfx_filename = secfile_lookup_str(file, "file.gfx");
 
-  while (big_sprite == NULL && (gfx_current_fileext = *gfx_fileexts++) != NULL)
+  while((!big_sprite) && (gfx_current_fileext = *gfx_fileexts++))
   {
     char *full_name,*real_full_name;
     full_name = fc_malloc(strlen(gfx_filename)+strlen(gfx_current_fileext)+2);
     sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
 
-    if((real_full_name = datafilename(full_name)) != NULL)
+    if((real_full_name = datafilename(full_name)))
     {
       freelog(LOG_DEBUG, "trying to load gfx file %s", real_full_name);
-      if((big_sprite = load_gfxfile(real_full_name)) == NULL)
+      if(!(big_sprite = load_gfxfile(real_full_name)))
       {
         freelog(LOG_VERBOSE, "loading the gfx file %s failed", real_full_name);
       }
@@ -349,7 +349,7 @@ static void tilespec_load_one(const char *spec_filename)
     free(full_name);
   }
 
-  if(big_sprite == NULL) {
+  if(!big_sprite) {
     freelog(LOG_FATAL, _("Couldn't load gfx file for the spec file %s"),
 	    spec_filename);
     exit(EXIT_FAILURE);
@@ -688,17 +688,17 @@ static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
   int loglevel = required ? LOG_NORMAL : LOG_DEBUG;
   
   /* (should get sprite_hash before connection) */
-  if (sprite_hash == NULL) {
+  if (!sprite_hash) {
     freelog(LOG_FATAL, "attempt to lookup for %s %s before sprite_hash setup",
 	    what, name);
     exit(EXIT_FAILURE);
   }
 
   sp = hash_lookup_data(sprite_hash, tag);
-  if (sp != NULL) return sp;
+  if (sp) return sp;
 
   sp = hash_lookup_data(sprite_hash, alt);
-  if (sp != NULL) {
+  if (sp) {
     freelog(loglevel, "Using alternate graphic %s (instead of %s) for %s %s",
 	    alt, tag, what, name);
     return sp;
@@ -1342,7 +1342,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     /* non-transparent flags -> just draw city or unit */
 
     punit = get_drawable_unit(abs_x0, abs_y0, citymode);
-    if (punit != NULL && (draw_units || (draw_focus_unit && pfocus == punit))) {
+    if (punit && (draw_units || (draw_focus_unit && pfocus == punit))) {
       sprs += fill_unit_sprite_array(sprs, punit, solid_bg);
       *pplayer = unit_owner(punit);
       if (unit_list_size(&ptile->units) > 1)  
@@ -1350,7 +1350,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
       return sprs - save_sprs;
     }
 
-    if (pcity != NULL && draw_cities) {
+    if (pcity && draw_cities) {
       sprs+=fill_city_sprite_array(sprs, pcity, solid_bg);
       *pplayer = city_owner(pcity);
       return sprs - save_sprs;
@@ -1580,16 +1580,16 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0,
     int dummy;
     /* transparent flags -> draw city or unit last */
 
-    if (pcity != NULL && draw_cities) {
+    if (pcity && draw_cities) {
       sprs+=fill_city_sprite_array(sprs, pcity, &dummy);
     }
 
     punit = find_visible_unit(ptile);
-    if (punit != NULL) {
+    if (punit) {
       if (!citymode || punit->owner != game.player_idx) {
 	if ((!focus_unit_hidden || pfocus != punit) &&
 	    (draw_units || (draw_focus_unit && !focus_unit_hidden && punit == pfocus))) {
-	  no_backdrop = BOOL_VAL(pcity != NULL);
+	  no_backdrop = (pcity != NULL);
 	  sprs += fill_unit_sprite_array(sprs, punit, &dummy);
 	  no_backdrop=FALSE;
 	  if (unit_list_size(&ptile->units)>1)  
@@ -1623,7 +1623,7 @@ static void tilespec_setup_style_tile(int style, char *graphics)
       my_snprintf(buffer, sizeof(buffer_wall), "%s_%d_wall", graphics, j);
       sp_wall = hash_lookup_data(sprite_hash, buffer);
     }
-    if (sp != NULL) {
+    if (sp) {
       sprites.city.tile[style][city_styles[style].tiles_num] = sp;
       if (is_isometric) {
 	assert(sp_wall != NULL);
@@ -1642,7 +1642,7 @@ static void tilespec_setup_style_tile(int style, char *graphics)
     /* the wall tile */
     my_snprintf(buffer, sizeof(buffer), "%s_wall", graphics);
     sp = hash_lookup_data(sprite_hash, buffer);
-    if (sp != NULL) {
+    if (sp) {
       sprites.city.tile[style][city_styles[style].tiles_num] = sp;
     } else {
       freelog(LOG_NORMAL, "Warning: no wall tile for graphic %s", graphics);
@@ -1652,7 +1652,7 @@ static void tilespec_setup_style_tile(int style, char *graphics)
   /* occupied tile */
   my_snprintf(buffer, sizeof(buffer), "%s_occupied", graphics);
   sp = hash_lookup_data(sprite_hash, buffer);
-  if (sp != NULL) {
+  if (sp) {
     sprites.city.tile[style][city_styles[style].tiles_num+1] = sp;
   } else {
     freelog(LOG_NORMAL, "Warning: no occupied tile for graphic %s", graphics);
@@ -1756,12 +1756,12 @@ enum color_std overview_tile_color(int x, int y)
 
   if(!tile_get_known(x, y)) {
     color=COLOR_STD_BLACK;
-  } else if((pcity=map_get_city(x, y)) != NULL) {
+  } else if((pcity=map_get_city(x, y))) {
     if(pcity->owner==game.player_idx)
       color=COLOR_STD_WHITE;
     else
       color=COLOR_STD_CYAN;
-  } else if ((punit=find_visible_unit(ptile)) != NULL) {
+  } else if ((punit=find_visible_unit(ptile))) {
     if(punit->owner==game.player_idx)
       color=COLOR_STD_YELLOW;
     else
@@ -1791,7 +1791,7 @@ struct unit *get_drawable_unit(int x, int y, int citymode)
   struct unit *punit = find_visible_unit(map_get_tile(x, y));
   struct unit *pfocus = get_unit_in_focus();
 
-  if (punit == NULL)
+  if (!punit)
     return NULL;
 
   if (citymode && punit->owner == game.player_idx)

@@ -43,11 +43,11 @@ static void form_chat_name(struct connection *pconn, char *buffer, int len)
 {
   struct player *pplayer = pconn->player;
 
-  if (pplayer==NULL) {
+  if (!pplayer) {
     my_snprintf(buffer, len, "(%s)", pconn->name);
   } else if (conn_list_size(&pplayer->connections)==1) {
     mystrlcpy(buffer, pplayer->name, len);
-  } else if (strstr(pconn->name, pplayer->name) != NULL) {
+  } else if (strstr(pconn->name, pplayer->name)) {
     /* Fixme: strstr above should be case-independent */
     my_snprintf(buffer, len, "(%s)", pconn->name);
   } else {
@@ -206,7 +206,7 @@ void handle_chat_msg(struct connection *pconn,
   
   cp=strchr(packet->message, ':');
 
-  if (cp != NULL && (cp != &packet->message[0])) {
+  if (cp && (cp != &packet->message[0])) {
     enum m_pre_result match_result_player, match_result_conn;
     struct player *pdest = NULL;
     struct connection *conn_dest = NULL;
@@ -222,7 +222,7 @@ void handle_chat_msg(struct connection *pconn,
 	complain_ambiguous(pconn, name, 1);
 	return;
       }
-      if (conn_dest != NULL && match_result_conn < M_PRE_AMBIGUOUS) {
+      if (conn_dest && match_result_conn < M_PRE_AMBIGUOUS) {
 	chat_msg_to_conn(pconn, conn_dest, cp+2);
 	return;
       }
@@ -233,7 +233,7 @@ void handle_chat_msg(struct connection *pconn,
 	complain_ambiguous(pconn, name, 0);
 	return;
       }
-      if (pdest != NULL && match_result_player < M_PRE_AMBIGUOUS) {
+      if (pdest && match_result_player < M_PRE_AMBIGUOUS) {
 	int nconn = conn_list_size(&pdest->connections);
 	if (nconn==1) {
 	  chat_msg_to_conn(pconn, conn_list_get(&pdest->connections, 0), cp+1);
@@ -249,11 +249,11 @@ void handle_chat_msg(struct connection *pconn,
 	complain_ambiguous(pconn, name, 1);
 	return;
       }
-      if (conn_dest != NULL && match_result_conn < M_PRE_AMBIGUOUS) {
+      if (conn_dest && match_result_conn < M_PRE_AMBIGUOUS) {
 	chat_msg_to_conn(pconn, conn_dest, cp+1);
 	return;
       }
-      if (pdest != NULL && match_result_player < M_PRE_AMBIGUOUS) {
+      if (pdest && match_result_player < M_PRE_AMBIGUOUS) {
 	/* Would have done something above if connected */
 	my_snprintf(genmsg.message, sizeof(genmsg.message),
 		    _("Game: %s is not connected."), pdest->name);
@@ -265,7 +265,7 @@ void handle_chat_msg(struct connection *pconn,
      * to be a global message
      */
     cpblank=strchr(packet->message, ' ');
-    if (cpblank == NULL || (cp < cpblank)) {
+    if (!cpblank || (cp < cpblank)) {
       if (double_colon) {
 	my_snprintf(genmsg.message, sizeof(genmsg.message),
 		    _("Game: There is no connection by the name %s."), name);

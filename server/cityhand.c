@@ -50,7 +50,7 @@ void handle_city_name_suggest_req(struct connection *pconn,
   struct unit *punit =
       player_find_unit_by_id(pconn->player, packet->value);
 
-  if (pconn->player == NULL) {
+  if (!pconn->player) {
     freelog(LOG_ERROR, "City-name suggestion request from non-player %s",
 	    conn_description(pconn));
     return;
@@ -73,7 +73,7 @@ void handle_city_change_specialist(struct player *pplayer,
 {
   struct city *pcity;
   pcity=find_city_by_id(preq->city_id);
-  if (pcity == NULL)
+  if(!pcity) 
     return;
   if(!player_owns_city(pplayer, pcity))  
     return;
@@ -121,7 +121,7 @@ void handle_city_make_specialist(struct player *pplayer,
   struct city *pcity;
 
   pcity=find_city_by_id(preq->city_id);
-  if (pcity == NULL) 
+  if(!pcity) 
     return;
   if (!player_owns_city(pplayer, pcity))  return;
   if (is_city_center(preq->worker_x, preq->worker_y)) {
@@ -155,7 +155,7 @@ void handle_city_make_worker(struct player *pplayer,
   }
   
   pcity = player_find_city_by_id(pplayer, preq->city_id);
-  if (pcity == NULL)
+  if (!pcity)
     return;
 
   if (is_city_center(preq->worker_x, preq->worker_y)) {
@@ -216,7 +216,7 @@ void handle_city_sell(struct player *pplayer, struct packet_city_request *preq)
 {
   struct city *pcity;
   pcity=find_city_by_id(preq->city_id);
-  if (pcity == NULL || !player_owns_city(pplayer, pcity) 
+  if (!pcity || !player_owns_city(pplayer, pcity) 
       || preq->build_id>=game.num_impr_types) 
     return;
   really_handle_city_sell(pplayer, pcity, preq->build_id);
@@ -229,7 +229,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 {
   char *name;
   int cost, total;
-  if (pcity == NULL || !player_owns_city(pplayer, pcity)) return;
+  if (!pcity || !player_owns_city(pplayer, pcity)) return;
  
   if (pcity->did_buy > 0) {
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
@@ -304,7 +304,7 @@ void handle_city_worklist(struct player *pplayer, struct packet_city_request *pr
   struct city *pcity;
   pcity=find_city_by_id(preq->city_id);
 
-  if (pcity == NULL) 
+  if (!pcity) 
     return;
   if (!player_owns_city(pplayer, pcity))  
     return;
@@ -321,7 +321,7 @@ void handle_city_buy(struct player *pplayer, struct packet_city_request *preq)
 {
   struct city *pcity = find_city_by_id(preq->city_id);
 
-  if (pcity == NULL) 
+  if (!pcity) 
     return;
   if (!player_owns_city(pplayer, pcity))  
     return;
@@ -337,7 +337,7 @@ void handle_city_refresh(struct player *pplayer, struct packet_generic_integer *
   if (preq->value) {
     struct city *pcity = find_city_by_id(preq->value);
 
-    if (pcity == NULL) 
+    if (!pcity) 
       return;
     if (!player_owns_city(pplayer, pcity))  
       return;
@@ -357,7 +357,7 @@ void handle_city_change(struct player *pplayer,
 {
   struct city *pcity;
   pcity=find_city_by_id(preq->city_id);
-  if (pcity == NULL) {
+  if (!pcity) {
     freelog(LOG_ERROR, "Pcity null in handle_city_change"
 	                " (%s, id = %d)!", pplayer->name, preq->city_id);
     return;
@@ -391,12 +391,12 @@ void handle_city_rename(struct player *pplayer,
   struct city *pcity;
   
   pcity = find_city_by_id(preq->city_id);
-  if (pcity == NULL)
+  if (!pcity)
     return;
   if (!player_owns_city(pplayer, pcity))
     return;
 
-  if((cp=get_sane_name(preq->name)) != NULL) {
+  if((cp=get_sane_name(preq->name))) {
     /* more sanity tests! any existing city with that name? */
     sz_strlcpy(pcity->name, cp);
     city_refresh(pcity);
@@ -413,7 +413,7 @@ void handle_city_options(struct player *pplayer,
 				struct packet_generic_values *preq)
 {
   struct city *pcity = find_city_by_id(preq->value1);
-  if (pcity == NULL || pcity->owner != pplayer->player_no) return;
+  if (!pcity || pcity->owner != pplayer->player_no) return;
   pcity->city_options = preq->value2;
   /* We don't need to send the full city info, since no other properties
    * depend on the attack options. --dwp
