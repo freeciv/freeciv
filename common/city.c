@@ -1517,15 +1517,12 @@ calculate the incomes according to the taxrates and # of specialists.
 **************************************************************************/
 static void set_tax_income(struct city *pcity)
 {
-  int sci = 0, tax = 0, lux = 0, rate;
+  int sci, tax, lux, rate = pcity->trade_prod;
+  int sci_rest, tax_rest, lux_rest;
   int sci_rate = city_owner(pcity)->economic.science;
   int lux_rate = city_owner(pcity)->economic.luxury;
   int tax_rate = 100 - sci_rate - lux_rate;
-
-  pcity->science_total = 0;
-  pcity->luxury_total = 0;
-  pcity->tax_total = 0;
-  rate = pcity->trade_prod;
+  
   if (government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
     if (sci_rate > 50) {
       sci_rate = 50;
@@ -1533,30 +1530,102 @@ static void set_tax_income(struct city *pcity)
     }
   }
 
+  /* ANARCHY */
+  if (get_gov_pcity(pcity)->index == game.government_when_anarchy) {
+    sci_rate = 0;
+    lux_rate = 100;
+    tax_rate = 100 - sci_rate - lux_rate;
+  }
+
+  freelog(LOG_DEBUG, "trade_prod=%d, rates=(sci=%d%%, tax=%d%%, lux=%d%%)",
+	  pcity->trade_prod, sci_rate, tax_rate, lux_rate);
+
+  /* 
+   * Distribution of the trade among science, tax and luxury via a
+   * modified Hare/Niemeyer algorithm (also known as "Hamilton's
+   * Method"):
+   *
+   * 1) distributes the whole-numbered part of the three targets
+   * 2) sort the remaining fractions (called *_rest)
+   * 3) divide the remaining trade among the targets starting with the
+   * biggest fraction. If two targets have the same fraction the
+   * target with the smaller whole-numbered value is choosen.
+   */
+
+  sci = (rate * sci_rate) / 100;
+  tax = (rate * tax_rate) / 100;
+  lux = (rate * lux_rate) / 100;
+  
+  /* these are the fractions multiplied by 100 */
+  sci_rest = rate * sci_rate - sci * 100;
+  tax_rest = rate * tax_rate - tax * 100;
+  lux_rest = rate * lux_rate - lux * 100;
+
+  rate -= (sci + tax + lux);  
+
+  freelog(LOG_DEBUG,
+	  "  int parts (%d, %d, %d), rest (%d, %d, %d), remaing trade %d",
+	  sci, tax, lux, sci_rest, tax_rest, lux_rest, rate);
+  
   while (rate > 0) {
-    if (get_gov_pcity(pcity)->index != game.government_when_anarchy) {
-      tax += tax_rate;
-      sci += sci_rate;
-      lux += lux_rate;
-    } else {			/* ANARCHY */
-      lux += 100;
-    }
-    if (tax >= 100 && rate > 0) {
-      tax -= 100;
-      pcity->tax_total++;
+    if (sci_rest > lux_rest && sci_rest > tax_rest) {
+      sci++;
+      sci_rest = 0;
       rate--;
     }
-    if (sci >= 100 && rate > 0) {
-      sci -= 100;
-      pcity->science_total++;
+    if (tax_rest > sci_rest && tax_rest > lux_rest && rate > 0) {
+      tax++;
+      tax_rest = 0;
       rate--;
     }
-    if (lux >= 100 && rate > 0) {
-      lux -= 100;
-      pcity->luxury_total++;
+    if (lux_rest > tax_rest && lux_rest > sci_rest && rate > 0) {
+      lux++;
+      lux_rest = 0;
       rate--;
+    }
+    if (sci_rest == tax_rest && sci_rest > lux_rest && rate > 0) {
+      if (sci < tax) {
+	sci++;
+	sci_rest = 0;
+	rate--;
+      } else {
+	tax++;
+	tax_rest = 0;
+	rate--;
+      }
+    }
+    if (sci_rest == lux_rest && sci_rest > tax_rest && rate > 0) {
+      if (sci < lux) {
+	sci++;
+	sci_rest = 0;
+	rate--;
+      } else {
+	lux++;
+	lux_rest = 0;
+	rate--;
+      }
+    }
+    if (tax_rest == lux_rest && tax_rest > sci_rest && rate > 0) {
+      if (tax < lux) {
+	tax++;
+	tax_rest = 0;
+	rate--;
+      } else {
+	lux++;
+	lux_rest = 0;
+	rate--;
+      }
     }
   }
+
+  assert(sci + tax + lux == pcity->trade_prod);
+
+  freelog(LOG_DEBUG, "  result (%d, %d, %d)", sci, tax, lux);
+
+  pcity->science_total = sci;
+  pcity->tax_total = tax;
+  pcity->luxury_total = lux;
+
   pcity->luxury_total += (pcity->ppl_elvis * 2);
   pcity->science_total += (pcity->ppl_scientist * 3);
   pcity->tax_total +=
