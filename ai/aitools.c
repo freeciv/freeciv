@@ -34,13 +34,14 @@ struct city *dist_nearest_enemy_city(struct player *pplayer, int x, int y)
   struct city *pc=NULL;
   int i;
   int dist=40;
+  int con = map_get_continent(x, y);
   for(i=0; i<game.nplayers; i++) {
     pplay=&game.players[i];
     if (pplay!=pplayer) {
       city_list_iterate(pplay->cities, pcity) {
         if (real_map_distance(x, y, pcity->x, pcity->y)<dist 
-         && map_get_continent(x, y)==map_get_continent(pcity->x, pcity->y)
-         && (pplayer==NULL || map_get_known(x,y,pplayer))) 
+         && (!con || con == map_get_continent(pcity->x, pcity->y))
+         && (pplayer==NULL || map_get_known(pcity->x, pcity->y, pplayer))) 
            { 
            dist=real_map_distance(x, y, pcity->x, pcity->y);
            pc=pcity;
