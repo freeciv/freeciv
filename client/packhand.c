@@ -380,9 +380,13 @@ void handle_city_info(struct packet_city_info *packet)
     for(x=0; x<CITY_MAP_SIZE; x++) {
       if (city_is_new) {
 	/* Need to pre-initialize before set_worker_city()  -- dwp */
-	pcity->city_map[x][y] = C_TILE_EMPTY;
+	pcity->city_map[x][y] =
+	    is_valid_city_coords(x, y) ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
       }
-      set_worker_city(pcity,x,y,packet->city_map[i++]-'0');
+      if (is_valid_city_coords(x, y)) {
+	set_worker_city(pcity, x, y, packet->city_map[i] - '0');
+      }
+      i++;
     }
   }
     

@@ -1438,32 +1438,28 @@ static void city_dialog_update_map_ovh(struct city_dialog *pdialog)
   struct city *pcity=pdialog->pcity;
   for(y=0; y<CITY_MAP_SIZE; y++)
     for(x=0; x<CITY_MAP_SIZE; x++) {
-      if (is_valid_city_coords(x, y)) {
-	int map_x, map_y, is_real;
+      int map_x, map_y;
 
-	is_real = city_map_to_map(&map_x, &map_y, pcity, x, y);
-	assert(is_real);
-
-	if (tile_is_known(map_x, map_y)) {
-	  pixmap_put_tile(pdialog->map_canvas_store, map_x, map_y,
-			  x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT,
-			  1);
-	  if (pcity->city_map[x][y] == C_TILE_WORKER)
-	    put_city_tile_output(pdialog->map_canvas_store,
-				 x * NORMAL_TILE_WIDTH,
-				 y * NORMAL_TILE_HEIGHT,
-				 city_get_food_tile(x, y, pcity),
-				 city_get_shields_tile(x, y, pcity),
-				 city_get_trade_tile(x, y, pcity));
-	  else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
-	    pixmap_frame_tile_red(pdialog->map_canvas_store,
-				  x * NORMAL_TILE_WIDTH,
-				  y * NORMAL_TILE_HEIGHT);
-	} else {
-	  pixmap_put_black_tile(pdialog->map_canvas_store,
+      if (is_valid_city_coords(x, y)
+	  && city_map_to_map(&map_x, &map_y, pcity, x, y)
+	  && tile_is_known(map_x, map_y)) {
+	pixmap_put_tile(pdialog->map_canvas_store, map_x, map_y,
+			x * NORMAL_TILE_WIDTH, y * NORMAL_TILE_HEIGHT, 1);
+	if (pcity->city_map[x][y] == C_TILE_WORKER)
+	  put_city_tile_output(pdialog->map_canvas_store,
+			       x * NORMAL_TILE_WIDTH,
+			       y * NORMAL_TILE_HEIGHT,
+			       city_get_food_tile(x, y, pcity),
+			       city_get_shields_tile(x, y, pcity),
+			       city_get_trade_tile(x, y, pcity));
+	else if (pcity->city_map[x][y] == C_TILE_UNAVAILABLE)
+	  pixmap_frame_tile_red(pdialog->map_canvas_store,
 				x * NORMAL_TILE_WIDTH,
 				y * NORMAL_TILE_HEIGHT);
-	}
+      } else {
+	pixmap_put_black_tile(pdialog->map_canvas_store,
+			      x * NORMAL_TILE_WIDTH,
+			      y * NORMAL_TILE_HEIGHT);
       }
     }
 }

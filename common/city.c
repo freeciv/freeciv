@@ -153,19 +153,21 @@ int city_map_to_map(int *map_x, int *map_y,
   Set the worker on the citymap.  Also sets the worked field in the map.
 **************************************************************************/
 void set_worker_city(struct city *pcity, int city_x, int city_y,
-		     enum city_tile_type type) 
+		     enum city_tile_type type)
 {
   int map_x, map_y;
 
   if (city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)) {
     struct tile *ptile = map_get_tile(map_x, map_y);
-    if (pcity->city_map[city_x][city_y] == C_TILE_WORKER)
-      if (ptile->worked == pcity)
-	ptile->worked = NULL;
+
+    if (pcity->city_map[city_x][city_y] == C_TILE_WORKER
+	&& ptile->worked == pcity)
+      ptile->worked = NULL;
     pcity->city_map[city_x][city_y] = type;
     if (type == C_TILE_WORKER)
       ptile->worked = pcity;
-  } else{
+  } else {
+    assert(type == C_TILE_UNAVAILABLE);
     pcity->city_map[city_x][city_y] = type;
   }
 }

@@ -995,7 +995,8 @@ static void player_load(struct player *plr, int plrno,
     p=secfile_lookup_str(file, "player%d.c%d.workers", plrno, i);
     for(y=0; y<CITY_MAP_SIZE; y++) {
       for(x=0; x<CITY_MAP_SIZE; x++) {
-	pcity->city_map[x][y] = C_TILE_EMPTY;
+	pcity->city_map[x][y] =
+	    is_valid_city_coords(x, y) ? C_TILE_EMPTY : C_TILE_UNAVAILABLE;
         if (*p=='0') {
 	  set_worker_city(pcity, x, y, C_TILE_EMPTY);
 	} else if (*p=='1') {
@@ -1014,7 +1015,11 @@ static void player_load(struct player *plr, int plrno,
 	    set_worker_city(pcity, x, y, C_TILE_WORKER);
 	  }
 	} else {
-	  set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+	  assert(*p == '2');
+	  if (is_valid_city_coords(x, y)) {
+	    set_worker_city(pcity, x, y, C_TILE_UNAVAILABLE);
+	  }
+	  assert(pcity->city_map[x][y] == C_TILE_UNAVAILABLE);
 	}
         p++;
       }
