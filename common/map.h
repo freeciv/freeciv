@@ -176,6 +176,8 @@ char *map_get_tile_info_text(int x, int y);
 char *map_get_tile_fpt_text(int x, int y);
 struct tile *map_get_tile(int x, int y);
 
+int xdist(int x0, int x1);
+int ydist(int y0, int y1);
 int map_distance(int x0, int y0, int x1, int y1);
 int real_map_distance(int x0, int y0, int x1, int y1);
 int sq_map_distance(int x0, int y0, int x1, int y1);

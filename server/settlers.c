@@ -50,9 +50,6 @@ static int is_already_assigned(struct unit *myunit, struct player *pplayer,
 			       int x, int y);
 
 
-static int make_dy(int y1, int y2);
-static int make_dx(int x1, int x2);
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -408,32 +405,6 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
   return;
 }
 
-/*************************************************************************
-  returns dy according to the wrap rules
-  fixme: non-static in some other module?
-**************************************************************************/
-static int make_dy(int y1, int y2)
-{
-  int dy = y2-y1;
-  if (dy<0) dy = -dy;
-  return dy;
-}
-
-/*************************************************************************
-  returns dx according to the wrap rules
-  fixme: non-static in some other module?
-**************************************************************************/
-static int make_dx(int x1, int x2)
-{
-  int tmp;
-  x1=map_adjust_x(x1);
-  x2=map_adjust_x(x2);
-  if(x1>x2)
-    tmp=x1, x1=x2, x2=tmp;
-
-  return MIN(x2-x1, map.xsize-x2+x1);
-}
-
 /**************************************************************************
  return 1 if there is already a unit on this square or one destined for it 
  (via goto)
@@ -782,8 +753,8 @@ int is_ok_city_spot(int x, int y)
   for (i = 0; i < game.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity) {
       if (map_distance(x, y, pcity->x, pcity->y)<=8) {
-        dx=make_dx(pcity->x, x);
-        dy=make_dy(pcity->y, y);
+        dx = xdist(pcity->x, x);
+        dy = ydist(pcity->y, y);
 	/* these are heuristics... */
         if (dx<=5 && dy<5)
           return 0;

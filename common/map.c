@@ -294,13 +294,26 @@ const char *get_special_name(enum tile_special_type type)
 /***************************************************************
 ...
 ***************************************************************/
+int xdist(int x0, int x1)
+{
+  int dist = (x0 > x1) ? x0 - x1 : x1 - x0;
+  return MIN(dist, map.xsize-dist);
+}
+
+/***************************************************************
+...
+***************************************************************/
+int ydist(int y0, int y1)
+{
+  return (y0 > y1) ? y0 - y1 : y1 - y0;
+}
+
+/***************************************************************
+...
+***************************************************************/
 int real_map_distance(int x0, int y0, int x1, int y1)
 {
-  int tmp;
-  if(y0>y1)
-    tmp=y0, y0=y1, y1=tmp;
-  tmp=map_adjust_x(x0-x1);
-  return MAX(y1 - y0, MIN(tmp, map.xsize-tmp));
+  return MAX(xdist(x0, x1), ydist(y0, y1));
 }
 
 /***************************************************************
@@ -308,10 +321,9 @@ int real_map_distance(int x0, int y0, int x1, int y1)
 ***************************************************************/
 int sq_map_distance(int x0, int y0, int x1, int y1)
 {
-  int tmp;
-  tmp=map_adjust_x(x0-x1);
-  tmp= MIN(tmp, map.xsize-tmp);
-  return (((y1 - y0) * (y1 - y0)) + tmp * tmp);
+  int xd = xdist(x0, x1);
+  int yd = ydist(y0, y1);
+  return (xd*xd + yd*yd);
 }
 
 /***************************************************************
@@ -319,12 +331,7 @@ int sq_map_distance(int x0, int y0, int x1, int y1)
 ***************************************************************/
 int map_distance(int x0, int y0, int x1, int y1)
 {
-  int tmp;
-
-  if(y0>y1)
-    tmp=y0, y0=y1, y1=tmp;
-  tmp = map_adjust_x(x0-x1);
-  return MIN(tmp, map.xsize-tmp)+y1-y0;
+  return xdist(x0, x1) + ydist(y0, y1);
 }
 
 /***************************************************************
