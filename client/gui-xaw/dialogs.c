@@ -163,7 +163,7 @@ int unit_to_use_to_pillage;
 int caravan_city_id;
 int caravan_unit_id;
 
-int diplomat_dialog_open = 0;
+bool diplomat_dialog_open = FALSE;
 int diplomat_id;
 int diplomat_target_id;
 
@@ -475,7 +475,7 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
 				       XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
@@ -499,7 +499,7 @@ static void diplomat_embassy_callback(Widget w, XtPointer client_data,
 				      XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
@@ -522,7 +522,7 @@ static void diplomat_investigate_callback(Widget w, XtPointer client_data,
 					  XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
@@ -562,7 +562,7 @@ static void spy_poison_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
@@ -585,7 +585,7 @@ static void diplomat_steal_callback(Widget w, XtPointer client_data,
 				    XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
@@ -914,7 +914,7 @@ has happened to the city during latency.  Therefore we must initialize
 pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   if(!spy_tech_shell){
     Position x, y;
@@ -941,7 +941,7 @@ static void spy_request_sabotage_list(Widget w, XtPointer client_data,
 				      XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
@@ -1019,7 +1019,7 @@ static void diplomat_incite_callback(Widget w, XtPointer client_data,
   struct packet_generic_integer packet;
 
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   if(find_unit_by_id(diplomat_id) && 
      (pcity=find_city_by_id(diplomat_target_id))) { 
@@ -1073,7 +1073,7 @@ static void diplomat_keep_moving_callback(Widget w, XtPointer client_data,
   struct city *pcity;
   
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   if( (punit=find_unit_by_id(diplomat_id))
       && (pcity=find_city_by_id(diplomat_target_id))
@@ -1093,7 +1093,7 @@ static void diplomat_keep_moving_callback(Widget w, XtPointer client_data,
 static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog_open = FALSE;
 
   process_diplomat_arrival(NULL, 0);
 }
@@ -1170,7 +1170,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 	XtSetSensitive(XtNameToWidget(shl, "*button6"), FALSE);
     }
 
-    diplomat_dialog_open=1;
+    diplomat_dialog_open = TRUE;
   }else{ 
     if((ptunit=unit_list_get(&map_get_tile(dest_x, dest_y)->units, 0))){
       /* Spy/Diplomat acting against a unit */
@@ -1199,7 +1199,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 /****************************************************************
 ...
 *****************************************************************/
-int diplomat_dialog_is_open(void)
+bool diplomat_dialog_is_open(void)
 {
   return diplomat_dialog_open;
 }
@@ -1300,7 +1300,7 @@ void popup_caravan_dialog(struct unit *punit,
 /****************************************************************
 ...
 *****************************************************************/
-int caravan_dialog_is_open(void)
+bool caravan_dialog_is_open(void)
 {
   return BOOL_VAL(caravan_dialog);
 }
