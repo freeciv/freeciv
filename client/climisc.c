@@ -278,9 +278,6 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
   case CLAUSE_ALLIANCE:
     my_snprintf(buf, bufsiz, _("The parties create an alliance"));
     break;
-  case CLAUSE_TEAM:
-    my_snprintf(buf, bufsiz, _("The parties resume the research pool"));
-    break;
   case CLAUSE_VISION:
     my_snprintf(buf, bufsiz, _("The %s gives shared vision"),
 		get_nation_name_plural(pclause->from->nation));

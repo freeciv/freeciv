@@ -1107,9 +1107,8 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     return;
   }
 
-  /* Can't break alliance with a team member, but can reduce a team
-   * research to an alliance for stand-alone research. */
-  if (players_on_same_team(pplayer, pplayer2) && old_type != DS_TEAM) {
+  /* Can't break up a team, period. */
+  if (players_on_same_team(pplayer, pplayer2)) {
     return;
   }
 
@@ -1145,9 +1144,6 @@ repeat_break_treaty:
   case DS_ALLIANCE:
     new_type = DS_PEACE;
     reppenalty += GAME_MAX_REPUTATION/4;
-    break;
-  case DS_TEAM:
-    new_type = DS_ALLIANCE;
     break;
   default:
     freelog(LOG_ERROR, "non-pact diplstate in handle_player_cancel_pact");
