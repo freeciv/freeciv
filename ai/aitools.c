@@ -491,7 +491,7 @@ bool ai_unit_attack(struct unit *punit, int x, int y)
   assert(is_tiles_adjacent(punit->x, punit->y, x, y));
 
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  handle_unit_move(unit_owner(punit), punit->id,x,y);
+  (void) handle_unit_move_request(punit, x, y, FALSE, FALSE);
   alive = (find_unit_by_id(sanity) != NULL);
 
   if (alive && same_pos(x, y, punit->x, punit->y)
@@ -556,7 +556,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
 
   /* go */
   handle_unit_activity_request(punit, ACTIVITY_IDLE);
-  handle_unit_move(unit_owner(punit), punit->id, x, y);
+  (void) handle_unit_move_request(punit, x, y, FALSE, TRUE);
 
   /* handle the results */
   if (find_unit_by_id(sanity) && same_pos(x, y, punit->x, punit->y)) {
