@@ -22,6 +22,7 @@
 #include "support.h"
 #include "timing.h"
 
+#include "mapctrl_g.h"
 #include "mapview_g.h"
 
 #include "climap.h"
@@ -342,43 +343,37 @@ void get_center_tile_mapcanvas(int *map_x, int *map_y)
 }
 
 /**************************************************************************
-  Centers the mapview around (map_x, map_y).  (map_view_x0,
-  map_view_y0) is the upper-left coordinates of the mapview; these
-  should be (but aren't) stored globally - each GUI has separate
-  storate structs for them.
+  Centers the mapview around (map_x, map_y).
 **************************************************************************/
-void base_center_tile_mapcanvas(int map_x, int map_y,
-				int *map_view_topleft_map_x,
-				int *map_view_topleft_map_y,
-				int map_view_map_width,
-				int map_view_map_height)
+void center_tile_mapcanvas(int map_x, int map_y)
 {
+  /* Find top-left corner. */
   if (is_isometric) {
-    map_x -= map_view_map_width / 2;
-    map_y += map_view_map_width / 2;
-    map_x -= map_view_map_height / 2;
-    map_y -= map_view_map_height / 2;
-
-    *map_view_topleft_map_x = map_adjust_x(map_x);
-    *map_view_topleft_map_y = map_adjust_y(map_y);
-
-    *map_view_topleft_map_y =
-	(*map_view_topleft_map_y >
-	 map.ysize + EXTRA_BOTTOM_ROW - map_view_map_height) ? map.ysize +
-	EXTRA_BOTTOM_ROW - map_view_map_height : *map_view_topleft_map_y;
+    map_x -= mapview_canvas.tile_width / 2;
+    map_y += mapview_canvas.tile_width / 2;
+    map_x -= mapview_canvas.tile_height / 2;
+    map_y -= mapview_canvas.tile_height / 2;
   } else {
-    int new_map_view_x0, new_map_view_y0;
+    map_x -= mapview_canvas.tile_width / 2;
+    map_y -= mapview_canvas.tile_height / 2;
+  }
 
-    new_map_view_x0 = map_adjust_x(map_x - map_view_map_width / 2);
-    new_map_view_y0 = map_adjust_y(map_y - map_view_map_height / 2);
-    if (new_map_view_y0 >
-	map.ysize + EXTRA_BOTTOM_ROW - map_view_map_height) {
-      new_map_view_y0 =
-	  map_adjust_y(map.ysize + EXTRA_BOTTOM_ROW - map_view_map_height);
-    }
+  /* Wrap. */
+  map_x = map_adjust_x(map_x);
 
-    *map_view_topleft_map_x = new_map_view_x0;
-    *map_view_topleft_map_y = new_map_view_y0;
+  /* Clip. */
+  map_y = map_adjust_y(map_y);
+  map_y = MIN(map_y,
+	      map.ysize + EXTRA_BOTTOM_ROW - mapview_canvas.tile_height);
+
+  /* Now that we've determined the new origin, update everything. */
+  mapview_canvas.map_x0 = map_x;
+  mapview_canvas.map_y0 = map_y;
+  update_map_canvas_visible();
+  update_map_canvas_scrollbars();
+  refresh_overview_viewrect();
+  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
+    create_line_at_mouse_pos();
   }
 }
 

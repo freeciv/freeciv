@@ -502,22 +502,6 @@ overview_update_tile(int x, int y)
 }
 
 /**************************************************************************
-Centers the mapview around (x, y).
-
-This function is almost identical between all GUI's.
-**************************************************************************/
-void center_tile_mapcanvas(int x, int y)
-{
-  base_center_tile_mapcanvas(x, y, &map_view_x, &map_view_y,
-			     map_view_width, map_view_height);
-
-  update_map_canvas_visible();
-  update_map_canvas_scrollbars();
-
-  refresh_overview_viewrect_real(NULL);
-}
-
-/**************************************************************************
   Flush the given part of the canvas buffer (if there is one) to the
   screen.
 **************************************************************************/

@@ -391,26 +391,6 @@ void set_map_xy_start(int new_map_view_x0, int new_map_view_y0)
 }
 
 /**************************************************************************
-Centers the mapview around (x, y).
-
-This function is almost identical between all GUI's.
-**************************************************************************/
-void center_tile_mapcanvas(int x, int y)
-{
-  int map_view_x0;
-  int map_view_y0;
-
-  base_center_tile_mapcanvas(x, y, &map_view_x0, &map_view_y0,
-			     get_map_x_visible(), get_map_y_visible());
-	set_map_xy_start(map_view_x0, map_view_y0);
-
-  update_map_canvas_visible();
-  refresh_overview_viewrect();
-  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
-    create_line_at_mouse_pos();
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void refresh_overview_canvas(void)

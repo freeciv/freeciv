@@ -34,8 +34,6 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov);
 void set_overview_dimensions(int x, int y);
 void overview_update_tile(int x, int y);
 
-void center_tile_mapcanvas(int x, int y);
-
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
 void prepare_show_city_descriptions(void);
 

@@ -141,11 +141,7 @@ bool get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y);
 void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y);
 
 void get_center_tile_mapcanvas(int *map_x, int *map_y);
-void base_center_tile_mapcanvas(int map_x, int map_y,
-				int *map_view_topleft_map_x,
-				int *map_view_topleft_map_y,
-				int map_view_map_width,
-				int map_view_map_height);
+void center_tile_mapcanvas(int map_x, int map_y);
 
 bool tile_visible_mapcanvas(int map_x, int map_y);
 bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y);

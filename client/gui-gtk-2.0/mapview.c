@@ -400,24 +400,6 @@ void draw_unit_animation_frame(struct unit *punit,
 }
 
 /**************************************************************************
-Centers the mapview around (x, y).
-
-This function is almost identical between all GUI's.
-**************************************************************************/
-void center_tile_mapcanvas(int x, int y)
-{
-  base_center_tile_mapcanvas(x, y, &map_view_x0, &map_view_y0,
-			     map_canvas_store_twidth,
-			     map_canvas_store_theight);
-
-  update_map_canvas_visible();
-  update_map_canvas_scrollbars();
-  refresh_overview_viewrect();
-  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
-    create_line_at_mouse_pos();
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 void set_overview_dimensions(int x, int y)

@@ -344,30 +344,6 @@ int correction_map_pos(int *pCol, int *pRow)
   return iRet;
 }
 
-
-/**************************************************************************
-  Centers the mapview around (col, row).
-  col,row are tile cordinate !
-
-  This function callculate:	map_view_x0 , map_view_y0,
-				map_view_col0, map_view_row0.
-
-  then redraw all.
-**************************************************************************/
-void center_tile_mapcanvas(int col, int row)
-{
-  base_center_tile_mapcanvas(col, row, &map_view_x0, &map_view_y0,
-			     mapview_canvas.tile_width,
-			     mapview_canvas.tile_height);
-  
-  update_map_canvas_visible();
-  refresh_overview_viewrect();
-
-  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
-    create_line_at_mouse_pos();
-  }
-}
-
 /* ===================================================================== */
 
 /**************************************************************************

@@ -156,25 +156,6 @@ void overview_update_tile(int map_x, int map_y)
 }
 
 /**************************************************************************
-  Center the mapview around (map_x, map_y).
-
-  This function is almost identical between all GUIs.
-**************************************************************************/
-void center_tile_mapcanvas(int map_x, int map_y)
-{
-  base_center_tile_mapcanvas(map_x, map_y, &map_view_x0, &map_view_y0,
-			     mapview_tile_width, mapview_tile_height);
-
-  update_map_canvas_visible();
-  update_map_canvas_scrollbars();
-  refresh_overview_viewrect();
-
-  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
-    create_line_at_mouse_pos();
-  }
-}
-
-/**************************************************************************
   Draw a description for the given city.  (canvas_x, canvas_y) is the
   canvas position of the city itself.
 **************************************************************************/
