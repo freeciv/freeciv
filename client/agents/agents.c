@@ -352,7 +352,7 @@ void agents_init(void)
   /* Add init calls of agents here */
   cma_init();
   cmafec_init();
-  simple_historian_init(); 
+  /*simple_historian_init();*/
 }
 
 /***********************************************************************
