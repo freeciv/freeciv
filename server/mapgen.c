@@ -988,19 +988,20 @@ static void fillisland(int coast, long int *bucket,
 	     || is_terrain_near_tile(x,y,cold0) 
 	     || is_terrain_near_tile(x,y,cold1) 
 	     )
-	  &&( !is_terrain_near_tile(x, y, T_OCEAN) || myrand(100) < coast )
-	  )
-        if (cold1 != T_RIVER)
+	  &&( !is_terrain_near_tile(x, y, T_OCEAN) || myrand(100) < coast )) {
+        if (cold1 != T_RIVER) {
           if ( is_cold(x,y) )
             map_set_terrain(x, y, (myrand(cold0_weight+cold1_weight)<cold0_weight) 
 			    ? cold0 : cold1);
           else
             map_set_terrain(x, y, (myrand(warm0_weight+warm1_weight)<warm0_weight) 
 			    ? warm0 : warm1);
-        else
+        } else {
           if (is_water_adjacent_to_tile(x, y) &&
             count_terrain_near_tile(x, y, T_RIVER) < 3)
               map_set_terrain(x, y, T_RIVER);
+	    }
+      }
       if (map_get_terrain(x,y) != T_GRASSLAND) i--;
     }
   }
