@@ -1,7 +1,95 @@
+Mon Jun  8 18:49:46 GMT 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* server/unithand.c: Removed a pernicious line added by Olav
+ 	Andree Brevik <olavb@ifi.uio.no>.  A city should act as if it's
+ 	square is irrigated, but the square should not actually _be_
+ 	irrigated, otherwise Bad Things Happen, like then the city can be
+ 	used as a source for more irrigation.  He'll provide a more
+ 	complete patch in the fulness of time.
+
+Mon Jun  8 18:19:47 GMT 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* common/unit.c, server/unitfunc.c: A fix so pillage also un-mines
+ 	mines.  Bug reported and patch supplied by Olav Andree Brevik
+ 	<olavb@ifi.uio.no>
+
+Mon Jun  8 15:41:00 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aiunit.c: Making explorers smarter again.
+
+Mon Jun  8 14:51:59 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/unittools.c: Making rate_unit a little less crude.
+
+Mon Jun  8 12:28:57 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* server/unithand.c: Calling pnewcity instead of pcity after pcity
+ 	has been freed in handle_unit_enter_city; very important, should
+ 	have been found earlier.
+
+Mon Jun  8 12:01:54 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aiunit.c: Real fix to explorer problem; had carelessly pasted
+ 	in bad code block.
+
+Mon Jun  8 11:21:39 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aitech.c: Kluging so AI won't switch away from a tech it's
+ 	about to get.
+	
+Mon Jun  8 11:20:32 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aiunit.c: Fixing brain-damage in ai_manage_explorer +
+ 	important rescale of danger.
+
+Mon Jun  8 11:19:04 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/advmilitary.c: Not increasing want for B_CITY because of
+ 	IGWALL/flying units.
+
+Mon Jun  8 11:18:09 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/advdomestic.c: Tempering AI's desire for Hoover Dam.
+
+Mon Jun  8 07:13:19 GMT 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* configure, configure.in: Changed configure.in so it checked for
+ 	X11/xpm.h instead of xpm.h, since that's how the file is included.
+  	Also removed cruft that was from when xpm.h was included wrong.
+
+Mon Jun  8 07:09:36 GMT 1998  Trent Piepho <xyzzy@u.washington.edu>
+
+	* common/unit.c, common/unit.h: Changed unit stats to match civ2.
+  	Biggest change was knight's HP reduce to 10 from 20.
+
 Mon Jun  8 00:07:53 PDT 1998  Trent Piepho <xyzzy@u.washington.edu>
         
-        Changed unit stats to match civ2.  Biggest change was knights
-	HP reduce to 10 from 20.
+        Changed unit stats to match civ2.  Biggest change was knights HP
+ 	reduce to 10 from 20.
+
+Sun Jun  7 16:32:33 GMT 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* common/shared.h: Oops, forgot to increment the version number
+ 	for 1.6.2.  Reported by Nuno <slug@student.dee.uc.pt>.
+
+Sun Jun  7 15:45:58 GMT 1998  Mitch Davis <mjd@alphalink.com.au>
+
+	* common/Makefile.am, common/Makefile.in, common/mapgen.c,
+ 	server/mapgen.c: Oops, we had two copies of mapgen.c, one in
+ 	common/ and one in server/.  Since it's only used by the server, I
+ 	deleted the one in common/.  This bug reported by
+ 	schaefer@malaga.math.uni-augsburg.de (Peter Schaefer)
+
+Sat Jun  6 19:19:53 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* common/map.h: On some machines, "char" is unsigned, whereas we
+ 	were expecting it to be signed.  Explicitly defined "worked" as
+ 	signed to avoid this happening again.
+
+Sat Jun  6 17:52:05 GMT 1998  John Stonebraker <ppaqebb@surfshop.net>
+
+	* ai/aiunit.c, ai/advmilitary.c: Rescaling danger by a factor of
+ 	900:1 to stop overflows in assess_danger.
 
 Sat Jun  6 13:52:34 EST 1998  Mitch Davis  <mjd@alphalink.com.au>
 

@@ -8,9 +8,23 @@ to John Stonebraker, the AI is ever-increasingly capable.
 Those who are interested in seeing the detailed changes should check
 the ChangeLog file.
 
+WHAT'S CHANGED SINCE 1.6.2:
+
+ - Fixed a bug with city squares being irrigated.
+ - Mines may now be pillaged.
+ - AI Explorers are smarter.
+ - Fixed a segfault if an enemy city is destroyed.
+ - Cleanup of the way we include xpm.h.
+ - Made unit properties much closer to Civ II.  In particular, the HP of
+   knights has been reduced from 20 to 10.
+ - 1.6.2 incorrectly reported itself as 1.6.1.
+ - Removed a redundant copy of mapgen.c from common/.
+ - Fixed a nasty bug with unsigned chars on some machines.
+ - Other assorted AI fixes.
+
 KNOWN BUGS:
 
-While we're not saying Freeciv 1.6.2 is bug-free, we believe it's stable
+While we're not saying Freeciv 1.6.3 is bug-free, we believe it's stable
 enough to be considered safe for everyday use.
 
 However if you do find one, please report it (or other problems) to
@@ -22,3 +36,5 @@ THINGS TO DO:
 
  - goto should be looked at, as units with moves left after a goto should
    be active but aren't.
+
+ - There may be some problem with cities being irrigated.
