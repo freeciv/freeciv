@@ -1223,7 +1223,7 @@ bool goto_is_sane(struct unit *punit, int x, int y, bool omni)
 
   case SEA_MOVING:
     if (map_get_terrain(x, y) == T_OCEAN 
-        && is_terrain_near_tile(x, y, T_OCEAN)) {
+        || is_terrain_near_tile(x, y, T_OCEAN)) {
       /* The target is sea or is accessible from sea 
        * (allow for bombardment and visiting ports) */
       return TRUE;
