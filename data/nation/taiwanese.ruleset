@@ -16,8 +16,9 @@ tech_goals = "Feudalism", "The Republic", "Democracy", "Explosives",
 wonder= "Marco Polo's Embassy"
 government = "Democracy"
 
+; These names used to be spelled differently (Taipeh instead of Taipei).
+; The new names are better but may not be canonical.
 cities =
-  "Taipeh", "Kaohsiung", "Taichung", "Tainan", "Panchiao", "Shungho",
-  "Shanchung", "Keelung", "Hsinchu", "Hsinchuang", "Fengshan", "Chungli",
-  "Chiayli"
-
+  "Taipei", "Kaohsiung", "Taichung", "Tainan", "Panchiao", "Chungho",
+  "Sanchung", "Keelung", "Hsinchu", "Hsinchuang", "Fengshan", "Chungli",
+  "Chiayi"
