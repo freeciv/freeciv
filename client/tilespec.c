@@ -339,7 +339,7 @@ void tilespec_reread(const char *tileset_name)
   impr_type_iterate(imp_id) {
     tilespec_setup_impr_type(imp_id);
   } impr_type_iterate_end;
-  for (id = 0; id < game.num_tech_types; id++) {
+  for (id = A_FIRST; id < game.num_tech_types; id++) {
     if (tech_exists(id)) {
       tilespec_setup_tech_type(id);
     }
@@ -990,7 +990,7 @@ void tilespec_setup_tech_type(int id)
 {
   advances[id].sprite = lookup_sprite_tag_alt(advances[id].graphic_str,
 					      advances[id].graphic_alt,
-					      tech_exists(id), "tech_type",
+					      FALSE, "tech_type",
 					      advances[id].name);
 
   /* should maybe do something if NULL, eg generic default? */
