@@ -101,7 +101,6 @@
 #include "srv_main.h"
 
 
-static void begin_turn(void);
 static void before_end_year(void);
 static void end_turn(void);
 static void ai_start_turn(void);
@@ -443,12 +442,12 @@ Handle the beginning of each turn.
 Note: This does not give "time" to any player;
       it is solely for updating turn-dependent data.
 **************************************************************************/
-static void begin_turn(void)
+static void begin_turn(bool is_new_turn)
 {
   freelog(LOG_DEBUG, "Begin turn");
 
   /* See if the value of fog of war has changed */
-  if (game.fogofwar != game.fogofwar_old) {
+  if (is_new_turn && game.fogofwar != game.fogofwar_old) {
     if (game.fogofwar) {
       enable_fog_of_war();
       game.fogofwar_old = TRUE;
@@ -458,6 +457,7 @@ static void begin_turn(void)
     }
   }
 
+  /* FIXME: player shuffling shouldn't be repeated unless is_new_turn. */
   freelog(LOG_DEBUG, "Shuffleplayers");
   shuffle_players();
 
@@ -468,7 +468,7 @@ static void begin_turn(void)
   Begin a phase of movement.  This handles all beginning-of-phase actions
   for one or more players.
 **************************************************************************/
-static void begin_phase(void)
+static void begin_phase(bool is_new_phase)
 {
   freelog(LOG_DEBUG, "Begin phase");
 
@@ -488,15 +488,18 @@ static void begin_phase(void)
   flush_packets();  /* to curb major city spam */
   conn_list_do_unbuffer(&game.game_connections);
 
-  /* Try to avoid hiding events under a diplomacy dialog */
-  players_iterate(pplayer) {
-    if (pplayer->ai.control && !is_barbarian(pplayer)) {
-      ai_diplomacy_actions(pplayer);
-    }
-  } players_iterate_end;
+  if (is_new_phase) {
+    /* Try to avoid hiding events under a diplomacy dialog */
+    players_iterate(pplayer) {
+      if (pplayer->ai.control && !is_barbarian(pplayer)) {
+	ai_diplomacy_actions(pplayer);
+      }
+    } players_iterate_end;
 
-  freelog(LOG_DEBUG, "Aistartturn");
-  ai_start_turn();
+    freelog(LOG_DEBUG, "Aistartturn");
+    ai_start_turn();
+  }
+
   send_start_turn_to_clients();
 
   sanity_check();
@@ -1346,6 +1349,10 @@ static void main_loop(void)
 {
   struct timer *eot_timer;	/* time server processing at end-of-turn */
   int save_counter = 0;
+  bool is_new_turn = game.is_new_game;
+
+  /* We may as well reset is_new_game now. */
+  game.is_new_game = FALSE;
 
   eot_timer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
 
@@ -1358,9 +1365,14 @@ static void main_loop(void)
   lsend_packet_freeze_hint(&game.game_connections);
 
   while(server_state==RUN_GAME_STATE) {
-    /* absolute beginning of a turn */
-    begin_turn();
-    begin_phase();
+    /* The beginning of a turn.
+     *
+     * We have to initialize data as well as do some actions.  However when
+     * loading a game we don't want to do these actions (like AI unit
+     * movement and AI diplomacy). */
+    begin_turn(is_new_turn);
+    begin_phase(is_new_turn);
+    is_new_turn = TRUE;
 
     force_end_of_sniff = FALSE;
 
@@ -1724,8 +1736,6 @@ main_start_players:
   if(game.is_new_game) {
     init_new_game();
   }
-
-  game.is_new_game = FALSE;
 
   send_game_state(&game.game_connections, CLIENT_GAME_RUNNING_STATE);
 
