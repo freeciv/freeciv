@@ -1166,3 +1166,35 @@ void destroy_me_callback(Widget w, XtPointer client_data,
 {
   XtDestroyWidget(w);
 }
+
+/**************************************************************************
+  Adjust tax rates from main window
+**************************************************************************/
+void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data)
+{
+  int i,tax_end,lux_end,sci_end;
+  int delta=10;
+
+  struct packet_player_request packet;
+  i= (int)client_data;
+  
+  lux_end= game.player_ptr->economic.luxury;
+  sci_end= lux_end + game.player_ptr->economic.science;
+  tax_end= 100;
+
+  packet.luxury= game.player_ptr->economic.luxury;
+  packet.science= game.player_ptr->economic.science;
+  packet.tax= game.player_ptr->economic.tax;
+
+  i*= 10;
+  if(i<lux_end){
+    packet.luxury-= delta; packet.science+= delta;
+  }else if(i<sci_end){
+    packet.science-= delta; packet.tax+= delta;
+   }else{
+    packet.tax-= delta; packet.luxury+= delta;
+  }
+  send_packet_player_request(&aconnection, &packet, PACKET_PLAYER_RATES);
+
+}
+

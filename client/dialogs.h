@@ -44,4 +44,5 @@ void free_bitmap_destroy_callback(Widget w, XtPointer client_data,
 void destroy_me_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
 
+void taxrates_callback(Widget w, XtPointer client_data, XtPointer call_data);
 #endif

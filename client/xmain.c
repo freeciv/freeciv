@@ -450,6 +450,8 @@ void x_main(int argc, char *argv[])
 **************************************************************************/
 void setup_widgets(void)
 {
+  int i;
+  char econlabelstr[12]="econlabel0";
 
   main_form = XtVaCreateManagedWidget("mainform", formWidgetClass, 
 				      toplevel, 
@@ -507,12 +509,31 @@ void setup_widgets(void)
 				       (XtArgVal)overview_canvas,
 				       NULL);   
 
-  econ_label[0] = XtVaCreateManagedWidget("econlabel0", 
-				       labelWidgetClass,
+
+  
+  for(i=0;i<5;i++){
+   econlabelstr[9]='0'+i;
+  econ_label[i] = XtVaCreateManagedWidget(econlabelstr, 
+				       commandWidgetClass,
 				       left_column_form,
+					  /*XtNbitmap, get_citizen_pixmap(1),*/
 				       NULL);  
-  econ_label[1] = XtVaCreateManagedWidget("econlabel1", 
-				       labelWidgetClass,
+  }
+  for(i=5;i<10;i++){
+   econlabelstr[9]='0'+i;
+  econ_label[i] = XtVaCreateManagedWidget(econlabelstr, 
+				       commandWidgetClass,
+				       left_column_form,
+					  /*XtNbitmap, get_citizen_pixmap(2),*/
+				       NULL);  
+  }
+  for(i=0;i<10;i++)
+        XtAddCallback(econ_label[i], XtNcallback, taxrates_callback,
+		    (XtPointer)i);  
+
+
+  /*  econ_label[1] = XtVaCreateManagedWidget("econlabel1", 
+				       commandWidgetClass,
 				       left_column_form,
 				       NULL);  
   econ_label[2] = XtVaCreateManagedWidget("econlabel2", 
@@ -548,7 +569,7 @@ void setup_widgets(void)
 				       left_column_form,
 				       NULL);  
 
-
+  */
   turn_done_button = XtVaCreateManagedWidget("turndonebutton", 
 					     commandWidgetClass,
 					     left_column_form,

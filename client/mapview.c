@@ -314,15 +314,15 @@ void update_info_label(void)
 
 
   d=0;
-  for(;d<game.player_ptr->economic.tax/10;d++)
-    xaw_set_bitmap(econ_label[d], get_tile_sprite(SUN_TILES)->pixmap); /* no money tile */
-
-  for(;d<(game.player_ptr->economic.tax+game.player_ptr->economic.luxury)/10;d++)
-    xaw_set_bitmap(econ_label[d], get_tile_sprite(PEOPLE_TILES+5+(d&1))->pixmap); /* no lux tile */
-
-  for(;d<10;d++)
-    xaw_set_bitmap(econ_label[d], get_tile_sprite(BULB_TILES+game.player_ptr->economic.science/15)->pixmap);
-
+  for(;d<(game.player_ptr->economic.luxury)/10;d++)
+    xaw_set_bitmap(econ_label[d], get_citizen_pixmap(0) ); /* elvis tile */
+ 
+  for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
+    xaw_set_bitmap(econ_label[d], get_citizen_pixmap(1) ); /* scientist tile */
+ 
+   for(;d<10;d++)
+    xaw_set_bitmap(econ_label[d], get_citizen_pixmap(2) ); /* taxman tile */
+ 
   update_timeout_label();
 }
 
