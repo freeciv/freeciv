@@ -52,7 +52,6 @@
 #include "plrhand.h"
 #include "report.h"
 #include "ruleset.h"
-#include "rulesout.h"
 #include "savegame.h"
 #include "sernet.h"
 #include "srv_main.h"
@@ -972,7 +971,6 @@ enum command_id {
   CMD_LOAD,
   CMD_READ_SCRIPT,
   CMD_WRITE_SCRIPT,
-  CMD_RULESOUT,
 
   /* undocumented */
   CMD_RFCSTYLE,
@@ -1245,16 +1243,6 @@ static const struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("write <file-name>"),
    N_("Write current settings as server commands to file."), NULL
-  },
-  {"rulesout",	ALLOW_HACK,
-   /* TRANS: translate text between <> only */
-   N_("rulesout <rules-type> <file-name>"),
-   N_("Write selected rules information to file."),
-   N_("Write a file with information from currently loaded ruleset data.  "
-      "Requires that the ruleset data has been loaded (e.g., after 'start').  "
-      "Currently the only option for <rules-type> is 'techs', which writes "
-      "information about all the advances (technologies).  This can be used "
-      "by the 'techtree' utility program to produce a graph of the advances.")
   },
   {"rfcstyle",	ALLOW_HACK,
    "rfcstyle",
@@ -1967,77 +1955,6 @@ static void write_init_script(char *script_filename)
 static void write_command(struct connection *caller, char *arg)
 {
   write_init_script(arg);
-}
-
-enum rulesout_type { RULESOUT_TECHS, RULESOUT_NUM };
-static const char * const rulesout_names[] = { "techs" };
-static const char *rulesout_accessor(int i) {
-  return rulesout_names[i];
-}
-
-/**************************************************************************
-  Output rules information.  arg must be form "rules_type filename"
-  Only rules currently available is "techs".
-  Modifies string pointed to by arg.
-**************************************************************************/
-static void rulesout_command(struct connection *caller, char *arg)
-{
-  char *rules, *filename, *s;	/* all point into arg string */
-  enum m_pre_result result;
-  int ind;
-  
-  if (game.num_tech_types==0) {
-    cmd_reply(CMD_RULESOUT, caller, C_FAIL,
-	      _("Cannot output rules: ruleset data not loaded "
-		"(e.g., use '%sstart')."), (caller?"/":""));
-    return;
-  }
-
-  /* Find space-delimited rules type and filename: */
-  s = skip_leading_spaces(arg);
-  if (*s == '\0') goto usage;
-  rules = s;
-
-  while (*s != '\0' && !my_isspace(*s)) s++;
-  if (*s == '\0') goto usage;
-  *s = '\0';			/* terminate rules */
-  
-  s = skip_leading_spaces(s+1);
-  if (*s == '\0') goto usage;
-  filename = s;
-  remove_trailing_spaces(filename);
-
-  result = match_prefix(rulesout_accessor, RULESOUT_NUM, 0,
-			mystrncasecmp, rules, &ind);
-
-  if (result > M_PRE_ONLY) {
-    cmd_reply(CMD_RULESOUT, caller, C_FAIL,
-	      _("Bad rulesout type: '%s' (%s).  Try '%shelp rulesout'."),
-	      rules, _(m_pre_description(result)), (caller?"/":""));
-    return;
-  }
-
-  switch(ind) {
-  case RULESOUT_TECHS:
-    if (rulesout_techs(filename)) {
-      cmd_reply(CMD_RULESOUT, caller, C_OK,
-		_("Saved techs rules data to '%s'."), filename);
-    } else {
-      cmd_reply(CMD_RULESOUT, caller, C_FAIL,
-		_("Failed saving techs rules data to '%s'."), filename);
-    }
-    return;
-  default:
-    cmd_reply(CMD_RULESOUT, caller, C_FAIL,
-	      "Internal error: ind %d in rulesout_command", ind);
-    freelog(LOG_ERROR, "Internal error: ind %d in rulesout_command", ind);
-    return;
-  }
-  
- usage:
-  cmd_reply(CMD_RULESOUT, caller, C_FAIL,
-	    _("Usage: rulesout <ruletype> <filename>.  Try '%shelp rulesout'."),
-	      (caller?"/":""));
 }
 
 /**************************************************************************
@@ -3242,9 +3159,6 @@ void handle_stdin_input(struct connection *caller, char *str)
   case CMD_WRITE_SCRIPT:
     write_command(caller,arg);
     break;
-  case CMD_RULESOUT:
-    rulesout_command(caller, arg);
-    break;
   case CMD_RFCSTYLE:	/* undocumented */
     con_set_style(TRUE);
     break;
@@ -3832,14 +3746,6 @@ static char *connection_generator(const char *text, int state)
 }
 
 /**************************************************************************
-The valid arguments to "rulesout".
-**************************************************************************/
-static char *rulesout_generator(const char *text, int state)
-{
-  return generic_generator(text, state, RULESOUT_NUM, rulesout_accessor);
-}
-
-/**************************************************************************
 The valid arguments for the first argument to "cmdlevel".
 Extra accessor function since cmdlevel_name() takes enum argument, not int.
 **************************************************************************/
@@ -4042,21 +3948,12 @@ static bool is_server_option(int start)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-static bool is_rulesout(int start)
-{
-  return contains_str_before_start(start, commands[CMD_RULESOUT].name, FALSE);
-}
-
-/**************************************************************************
 Commands that may be followed by a filename
 **************************************************************************/
 static const int filename_cmd[] = {
   CMD_SAVE,
   CMD_READ_SCRIPT,
   CMD_WRITE_SCRIPT,
-  CMD_RULESOUT,
   -1
 };
 
@@ -4068,13 +3965,9 @@ static bool is_filename(int start)
   int i = 0;
 
   while (filename_cmd[i] != -1) {
-    if (filename_cmd[i] == CMD_RULESOUT) {
-      if (contains_str_before_start(start, commands[CMD_RULESOUT].name, TRUE)
-	  && num_tokens(start) == 2)
-	return TRUE;
-    } else {
-      if (contains_str_before_start(start, commands[filename_cmd[i]].name, FALSE))
-	return TRUE;
+    if (contains_str_before_start
+	(start, commands[filename_cmd[i]].name, FALSE)) {
+      return TRUE;
     }
     i++;
   }
@@ -4117,8 +4010,6 @@ char **freeciv_completion(char *text, int start, int end)
     matches = completion_matches(text, help_generator);
   } else if (is_command(start)) {
     matches = completion_matches(text, command_generator);
-  } else if (is_rulesout(start)) {
-    matches = completion_matches(text, rulesout_generator);
   } else if (is_list(start)) {
     matches = completion_matches(text, list_generator);
   } else if (is_cmdlevel_arg2(start)) {

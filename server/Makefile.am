@@ -47,8 +47,6 @@ libcivserver_a_SOURCES = \
 		report.h	\
 		ruleset.c	\
 		ruleset.h	\
-		rulesout.c	\
-		rulesout.h	\
 		sanitycheck.c	\
 		sanitycheck.h	\
 		savegame.c	\
