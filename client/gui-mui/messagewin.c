@@ -68,7 +68,7 @@ void popup_meswin_dialog(void)
     create_meswin_dialog();
   if (mes_wnd)
   {
-    update_meswin_dialog();
+    real_update_meswin_dialog();
     set(mes_wnd, MUIA_Window_Open, TRUE);
   }
 }
@@ -296,7 +296,7 @@ void real_add_notify_window(struct packet_generic_message *packet)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_meswin_dialog(void)
+void real_update_meswin_dialog(void)
 {
   if (xget(mes_listview, MUIA_NList_Entries))
   {

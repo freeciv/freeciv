@@ -208,7 +208,7 @@ static void create_meswin_dialog(void)
   fcwin_box_add_button(hbox,_("Popup City"),ID_MESSAGEWIN_POPUP,0,
 		       TRUE,TRUE,5);
   fcwin_box_add_box(meswin_box,hbox,FALSE,FALSE,5);
-  update_meswin_dialog();
+  real_update_meswin_dialog();
   fcwin_set_box(meswin_dlg,meswin_box);
   ShowWindow(meswin_dlg,SW_SHOWNORMAL);
 }

@@ -208,7 +208,7 @@ static void create_meswin_dialog(void)
   gtk_widget_show_all(GTK_DIALOG(meswin_dialog_shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(meswin_dialog_shell)->action_area);
 
-  update_meswin_dialog();
+  real_update_meswin_dialog();
 }
 
 /**************************************************************************

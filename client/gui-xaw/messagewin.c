@@ -160,7 +160,7 @@ static void create_meswin_dialog(void)
   XtAddCallback(meswin_popcity_command, XtNcallback, meswin_popcity_callback, 
 		NULL);
   
-  update_meswin_dialog();
+  real_update_meswin_dialog();
 
   XtRealizeWidget(meswin_dialog_shell);
   
