@@ -1429,6 +1429,23 @@ static void tile_draw_borders(struct canvas *pcanvas,
 }
 
 /****************************************************************************
+  Return TRUE if the tile is within the city radius of one of the player's
+  cities, and can be worked by the player.
+****************************************************************************/
+static bool player_workable_and_in_city_radius(const struct player *pplayer,
+					       const struct tile *ptile)
+{
+  struct player *powner = map_get_owner(ptile);
+
+  /* Borders are considered but not units.  This function is intended to be
+   * used by the drawing code not the backend. */
+  if (powner && powner != pplayer) {
+    return FALSE;
+  }
+  return player_in_city_radius(pplayer, ptile);
+}
+
+/****************************************************************************
    Draw the map grid around the given map tile at the given canvas position.
 ****************************************************************************/
 static void tile_draw_map_grid(struct canvas *pcanvas,
@@ -1441,6 +1458,8 @@ static void tile_draw_map_grid(struct canvas *pcanvas,
     for (dir = 0; dir < 8; dir++) {
       int start_x, start_y, end_x, end_y;
 
+      /* Draw the grid.  Every edge gets one line; we just have to
+       * check what color. */
       if (get_tile_boundaries(dir, 0, 1,
 			      &start_x, &start_y, &end_x, &end_y)) {
 	canvas_put_line(pcanvas,
@@ -1451,6 +1470,12 @@ static void tile_draw_map_grid(struct canvas *pcanvas,
       }
     }
   } else if (draw_city_outlines) {
+    /* Draw only the outlines of cities and setter citymap areas.
+     * Here we have to check if each edge presents the boundary of
+     * a citymap and non-citymap area.  City areas are edged in white,
+     * settler citymap areas in red and underneath.  We also consider
+     * any tile in enemy territory not to be part of the citys'
+     * citymaps (though they are counted for settler citymaps). */
     for (dir = 0; dir < 8; dir++) {
       int start_x, start_y, end_x, end_y, dummy_x, dummy_y;
       struct tile *tile2 = mapstep(ptile, dir);
@@ -1460,8 +1485,8 @@ static void tile_draw_map_grid(struct canvas *pcanvas,
       if (tile2
 	  && get_tile_boundaries(dir, 0, 1,
 				 &start_x, &start_y, &end_x, &end_y)) {
-	if (XOR(player_in_city_radius(game.player_ptr, ptile),
-		player_in_city_radius(game.player_ptr, tile2))) {
+	if (XOR(player_workable_and_in_city_radius(game.player_ptr, ptile),
+		player_workable_and_in_city_radius(game.player_ptr, tile2))) {
 	  color = COLOR_STD_WHITE;
 	} else if ((pfocus = get_unit_in_focus())
 		   && unit_flag(pfocus, F_CITIES)
