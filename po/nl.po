@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.11.4\n"
-"POT-Creation-Date: 2001-04-25 09:54+0200\n"
-"PO-Revision-Date: 2001-04-11 15:00 MEST\n"
+"POT-Creation-Date: 2001-05-04 10:43+0200\n"
+"PO-Revision-Date: 2001-05-04 11:00 CEST\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1281,7 +1281,7 @@ msgstr ""
 "Spel: De mensen zijn blij te horen dat uw wetenschappers eindelijk iets van spoorwegen afweten.\n"
 "      Arbeiders verzamelen zich spontaan en voorzien alle steden van spoorwegen."
 
-#: server/maphand.c:1206
+#: server/maphand.c:1215
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s geven ons niet langer gedeelde waarneming!"
@@ -1912,159 +1912,132 @@ msgstr "Spel: Zonder begeleiding vanuit de hoofdstad is het %s ruimteschip verlo
 msgid "Game: The %s spaceship has arrived at Alpha Centauri."
 msgstr "Spel: Het %s ruimteschip is aangekomen op Alfa Centauri."
 
-#: server/srv_main.c:235
-#, c-format
-msgid "Loading saved game: %s"
-msgstr "Laad opgeslagen spel: %s"
-
-#: server/srv_main.c:239
-#, c-format
-msgid "Couldn't load savefile: %s"
-msgstr "Kon opgeslagen spel niet laden: %s"
-
-#: server/srv_main.c:259
-#, c-format
-msgid "Sending info to metaserver [%s]"
-msgstr "Zend info naar metaserver [%s]"
-
-#: server/srv_main.c:267
-msgid "Now accepting new client connections."
-msgstr "Accepteer nu nieuwe client-verbindingen."
-
-#: server/srv_main.c:326
-msgid "Last player has disconnected: will need to restart."
-msgstr "Laatste speler heeft opgehangen: zal moeten herstarten."
-
-#: server/srv_main.c:501
-msgid "Game: The game is over..."
-msgstr "Spel: Het spel is voorbij..."
-
-#: server/srv_main.c:651
+#: server/srv_main.c:321
 #, c-format
 msgid "Game: Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr "Spel: Bezorgde burgers wijzen u erop dat de wapenstilstand met %s binnenkort zal aflopen."
 
-#: server/srv_main.c:657
+#: server/srv_main.c:327
 #, c-format
 msgid "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
 msgstr "Spel: De wapenstilstand met %s is afgelopen. U bent nu neutraal tegenover de %s."
 
-#: server/srv_main.c:811
+#: server/srv_main.c:481
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Kon spel niet als %s bewaren"
 
-#: server/srv_main.c:813
+#: server/srv_main.c:483
 #, c-format
 msgid "Game saved as %s"
 msgstr "Spel bewaard als %s"
 
-#: server/srv_main.c:843
+#: server/srv_main.c:513
 msgid "The game is already running."
 msgstr "Het spel is al begonnen."
 
-#: server/srv_main.c:847
+#: server/srv_main.c:517
 msgid "Starting game."
 msgstr "Spel begint."
 
-#: server/srv_main.c:958
+#: server/srv_main.c:628
 #, c-format
 msgid "got a packet of type %d outside RUN_GAME_STATE"
 msgstr "Ontving een pakket van type %d buiten RUN_GAME_STATE"
 
-#: server/srv_main.c:969
+#: server/srv_main.c:639
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Ontving een pakket van type %d van een dode speler of observator"
 
-#: server/srv_main.c:1215
+#: server/srv_main.c:885
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
 msgstr "Probeerde een natie te alloceren buiten SELECT_RACES_STATE!"
 
-#: server/srv_main.c:1223
+#: server/srv_main.c:893
 msgid "Please choose a non-blank name."
 msgstr "Kies alstublieft een niet-lege naam."
 
-#: server/srv_main.c:1245
+#: server/srv_main.c:915
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Er is al een speler met de naam '%s'. Kies alstublieft een andere naam."
 
-#: server/srv_main.c:1251
+#: server/srv_main.c:921
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s is de %s heerser %s."
 
-#: server/srv_main.c:1278
+#: server/srv_main.c:948
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Geen naties meer over: Verwijder speler %s."
 
-#: server/srv_main.c:1281
+#: server/srv_main.c:951
 msgid "Game: Sorry, there are no nations left."
 msgstr "Spel: Sorry, er zijn geen naties meer over."
 
-#: server/srv_main.c:1336
+#: server/srv_main.c:1006
 #, c-format
 msgid "%s has joined as player %s."
 msgstr "%s doet mee als speler %s."
 
-#: server/srv_main.c:1341
+#: server/srv_main.c:1011
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
 msgstr "Spel: Verbinding %s van %s doet mee als speler %s."
 
-#: server/srv_main.c:1364
+#: server/srv_main.c:1034
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
 msgstr "Welkom bij de %s Server, draaiend op %s, poort %d."
 
-#: server/srv_main.c:1367
+#: server/srv_main.c:1037
 #, c-format
 msgid "Welcome to the %s Server at port %d."
 msgstr "Welkom bij de %s Server op poort %d."
 
-#: server/srv_main.c:1379
+#: server/srv_main.c:1049
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Wissel-beurt spel: wacht tot %s zijn zet heeft gedaan..."
 
-#: server/srv_main.c:1422
+#: server/srv_main.c:1092
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s is toegevoegd als een KI-gestuurde speler."
 
-#: server/srv_main.c:1424
+#: server/srv_main.c:1094
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Spel: %s is toegevoegd als een KI-gestuurde speler."
 
-#: server/srv_main.c:1511
+#: server/srv_main.c:1181
 #, c-format
 msgid "Invalid name '%s'"
 msgstr "Ongeldige naam '%s'"
 
-#: server/srv_main.c:1513
+#: server/srv_main.c:1183
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr "Weigerde verbinding vanaf %s met ongeldige naam."
 
-#: server/srv_main.c:1520
+#: server/srv_main.c:1190
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "Verzoek tot verbinding van %s van %s"
 
-#: server/srv_main.c:1524
+#: server/srv_main.c:1194
 #, c-format
 msgid "Connection request from %s from %s (connection named %s)"
 msgstr "Verzoek tot verbinding van %s van %s (verbinding heet %s)"
 
-#: server/srv_main.c:1528
+#: server/srv_main.c:1198
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s heeft client versie %d.%d.%d%s"
 
-#: server/srv_main.c:1538
+#: server/srv_main.c:1208
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2073,12 +2046,12 @@ msgstr ""
 "De client mist een mogelijkheid die deze server nodig heeft.\n"
 "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
 
-#: server/srv_main.c:1545 server/srv_main.c:1561
+#: server/srv_main.c:1215 server/srv_main.c:1231
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "%s is geweigerd: Afwijkende mogelijkheden."
 
-#: server/srv_main.c:1554
+#: server/srv_main.c:1224
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2087,136 +2060,163 @@ msgstr ""
 "De server mist een mogelijkheid die de client nodig heeft.\n"
 "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
 
-#: server/srv_main.c:1571
+#: server/srv_main.c:1241
 msgid "Sorry, no observation of barbarians in this game."
 msgstr "Sorry, geen waarnemers van barbaren in dit spel."
 
-#: server/srv_main.c:1574
+#: server/srv_main.c:1244
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
 msgstr "%s is gewijgerd: Geen waarnemers van barbaren."
 
-#: server/srv_main.c:1581
+#: server/srv_main.c:1251
 msgid "Sorry, no observation of dead players in this game."
 msgstr "Sorry, geen waarnemers van dode spelers in dit spel."
 
-#: server/srv_main.c:1584
+#: server/srv_main.c:1254
 #, c-format
 msgid "%s was rejected: No observation of dead players."
 msgstr "%s is gewijgerd: Geen waarnemers van dode spelers."
 
-#: server/srv_main.c:1591
+#: server/srv_main.c:1261
 msgid "Sorry, no observation of AI players in this game."
 msgstr "Sorry, geen waarnemers van KI-spelers in dit spel."
 
-#: server/srv_main.c:1594
+#: server/srv_main.c:1264
 #, c-format
 msgid "%s was rejected: No observation of AI players."
 msgstr "%s is gewijgerd: Geen waarnemers van KI-spelers."
 
-#: server/srv_main.c:1601
+#: server/srv_main.c:1271
 msgid "Sorry, no reconnections to human-mode players in this game."
 msgstr "Sorry, geen verbindingsherstel met menselijke-modus spelers in dit spel."
 
-#: server/srv_main.c:1604
+#: server/srv_main.c:1274
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
 msgstr "%s is gewijgerd: Geen verbindingsherstel met menselijke spelers."
 
-#: server/srv_main.c:1623
+#: server/srv_main.c:1293
 msgid "Sorry, someone else already has that name."
 msgstr "Sorry, iemand anders gebruikt die naam al."
 
-#: server/srv_main.c:1625
+#: server/srv_main.c:1295
 #, c-format
 msgid "%s was rejected: Name %s already used."
 msgstr "%s is geweigerd, Naam %s is al in gebruik."
 
-#: server/srv_main.c:1632
+#: server/srv_main.c:1302
 #, c-format
 msgid "Sorry, %s is already connected."
 msgstr "Sorry, %s is al verbonden."
 
-#: server/srv_main.c:1635
+#: server/srv_main.c:1305
 #, c-format
 msgid "%s was rejected: %s already connected."
 msgstr "%s is geweigerd, %s heeft al verbinding."
 
-#: server/srv_main.c:1666
+#: server/srv_main.c:1336
 msgid "Sorry, the game is already running."
 msgstr "Sorry, het spel is al begonnen."
 
-#: server/srv_main.c:1667
+#: server/srv_main.c:1337
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s is geweigerd: Spel begonnen en onbekende naam %s."
 
-#: server/srv_main.c:1675
+#: server/srv_main.c:1345
 msgid "Sorry, the game is full."
 msgstr "Sorry, het spel is vol."
 
-#: server/srv_main.c:1676
+#: server/srv_main.c:1346
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s is gewijgerd: Maximum aantal spelers bereikt."
 
-#: server/srv_main.c:1684
+#: server/srv_main.c:1354
 msgid "Sorry, no new players allowed in this game."
 msgstr "Sorry, geen nieuwe spelers toegestaan in dit spel."
 
-#: server/srv_main.c:1685
+#: server/srv_main.c:1355
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s is gewijgerd: Geen verbindingen als nieuwe speler."
 
-#: server/srv_main.c:1707
+#: server/srv_main.c:1377
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Verbinding verbroken: %s."
 
-#: server/srv_main.c:1715
+#: server/srv_main.c:1385
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Spel: Verbinding verbroken: %s."
 
-#: server/srv_main.c:1799
+#: server/srv_main.c:1469
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Geen naties meer.  KI-gestuurde speler %s niet gemaakt."
 
-#: server/srv_main.c:1840
+#: server/srv_main.c:1510
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1847
+#: server/srv_main.c:1517
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Maxplayer kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1861
+#: server/srv_main.c:1531
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Fout bij maken nieuwe KI-speler: %s\n"
 
-#: server/srv_main.c:1920
+#: server/srv_main.c:1590
 #, c-format
 msgid "Player %d"
 msgstr "Speler %d"
 
-#: server/srv_main.c:1935
+#: server/srv_main.c:1605
 msgid "Argh! ran out of nations!"
 msgstr "Nee hè, geen naties meer!"
 
-#: server/srv_main.c:1952
+#: server/srv_main.c:1622
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI bestuurt de %s geregeerd door %s."
 
-#: server/srv_main.c:1958
+#: server/srv_main.c:1628
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spel: %s regeert de %s."
+
+#: server/srv_main.c:1773
+#, c-format
+msgid "Loading saved game: %s"
+msgstr "Laad opgeslagen spel: %s"
+
+#: server/srv_main.c:1777
+#, c-format
+msgid "Couldn't load savefile: %s"
+msgstr "Kon opgeslagen spel niet laden: %s"
+
+#: server/srv_main.c:1793
+#, c-format
+msgid "Sending info to metaserver [%s]"
+msgstr "Zend info naar metaserver [%s]"
+
+#: server/srv_main.c:1801
+msgid "Now accepting new client connections."
+msgstr "Accepteer nu nieuwe client-verbindingen."
+
+#: server/srv_main.c:1860
+msgid "Last player has disconnected: will need to restart."
+msgstr "Laatste speler heeft opgehangen: zal moeten herstarten."
+
+#: server/srv_main.c:1951
+msgid "Game: The game is over..."
+msgstr "Spel: Het spel is voorbij..."
 
 #: server/stdinhand.c:152
 msgid "Map width in squares"
@@ -8521,8 +8521,8 @@ msgid "Goto location"
 msgstr "Ga naar lokatie"
 
 #: data/helpdata.txt:38
-msgid "Freeciv is a turn-based strategy game, in which each player becomes the leader of a civilization, fighting to obtain the ultimate goal: The extinction of all other civilizations."
-msgstr "Freeciv is een zet-gebaseerd  strategisch spel, waarin elke speler de leider wordt van een beschaving, vechtend voor het ultieme doel: De uitroeïng van alle andere beschavingen."
+msgid "Freeciv is a turn-based strategy game, in which each player becomes the leader of a civilization, fighting to obtain the ultimate goal: the extinction of all other civilizations."
+msgstr "Freeciv is een zet-gebaseerd strategisch spel, waarin elke speler de leider wordt van een beschaving, vechtend voor het ultieme doel: De uitroeïng van alle andere beschavingen."
 
 #: data/helpdata.txt:42
 msgid ""
@@ -8766,12 +8766,12 @@ msgid ""
 " 1. Mapping the countryside.\n"
 " 2. Defending the cities.\n"
 " 3. Deciding which units to build first.\n"
-" 4. Build agriculture improvements.\n"
+" 4. Building agriculture improvements.\n"
 " 5. Deciding where to build cities.\n"
 " 6. Taking care of the cities.\n"
 " 7. Exploring the world.\n"
 " 8. Things to keep in mind.\n"
-" 9. Make your own strategy for the game.\n"
+" 9. Making your own strategy for the game.\n"
 "10. Interacting with other players (Diplomacy).\n"
 msgstr ""
 " 0. Het kiezen van de eerste stadslokatie.\n"
@@ -8790,7 +8790,7 @@ msgstr ""
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
-"    Start the game by wandering around BRIEFLY to find a good place to build the first city.  Don't feel tempted to investigate any yellow-roofed villages yet - they might contain barbarian tribes.  Build the city close to resources and perhaps close to the sea.  Keep in mind that the city you build first will be your capital!  The idea is to balance the time spent looking for a good site, against getting your first city established as early as possible."
+"    Start the game by wandering around BRIEFLY to find a good place to build the first city.  Don't feel tempted to investigate any yellow-roofed villages yet - they might contain barbarian tribes.  Build the city close to resources and perhaps close to the sea.  Keep in mind that the city you build first will be your capital!  The idea is to balance the quality of the site you find against getting your first city established as early as possible."
 msgstr ""
 " 0. Het kiezen van de eerste stadslokatie.\n"
 "\n"
@@ -8810,7 +8810,7 @@ msgstr ""
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
-"    At this point, defend your cities by always leaving a warrior unit in them.  As your civilization develops units with a greater defence strength, replace the obsolete units with new ones to ensure your cities have maximum defence.  The units most often used for defence are (in order of strength):  Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
+"    At this point, defend your cities by always leaving a warrior unit in them.  As your civilization develops units with a greater defense strength, replace the obsolete units with new ones to ensure your cities have maximum defense.  The units most often used for defense are (in order of strength):  Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
 " 2. Het verdedigen van de steden.\n"
 "\n"
@@ -8818,7 +8818,7 @@ msgstr ""
 
 #: data/helpdata.txt:557
 #, c-format
-msgid "    Keep in mind that with some types of government, military units inside or outside cities can create or reduce unhappiness. Also remember that when a unit is inside a city, it gets a 50% defensive bonus, as if fortified.  When a new city is built, the city starts to build the best available defensive unit from the above list."
+msgid "    Keep in mind that with some types of government, military units inside or outside cities can reduce or create unhappiness. Also remember that when a unit is inside a city, it gets a 50% defensive bonus, as if fortified.  When a new city is built, the city starts to build the best available defensive unit from the above list."
 msgstr "    Houd in de gaten dat bij sommige regeringsvormen militaire eenheden in of buiten een stad ontevredenheid kunnen vergroten of verminderen. Onthoud ook dat eenheden in een stad net als bij fortificeren een verdedigingsbonus krijgen van 50%. Wanneer een nieuwe stad wordt gebouwd, begint deze automatisch met het bouwen van de best beschikbare verdedigings-eenheid uit bovenstaande lijst."
 
 #: data/helpdata.txt:564
@@ -8833,7 +8833,7 @@ msgstr ""
 
 #: data/helpdata.txt:575
 msgid ""
-" 4. Build agriculture improvements.\n"
+" 4. Building agriculture improvements.\n"
 "\n"
 "    Each city has an area of farmland around it that can be used for growing food, producing goods, and generating trade.  This can be increased by using Settlers to improve the farmland. The land can be improved with roads, irrigation, mines, and others."
 msgstr ""
@@ -8845,11 +8845,11 @@ msgstr ""
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
-"    The best location for a city is a matter of taste.  A city which is placed near the sea is easier to spot by opponents, but can also serve as a port for sea-going units.  (They also usually need a coastal defence later on.)  The best strategy is to build a few of both, but keep in mind that your opponents will find it harder to locate your city if you don't build it by the sea."
+"    The best location for a city is a matter of taste.  A city which is placed near the sea is easier to spot by opponents, but can also serve as a port for sea-going units.  (They also usually need a coastal defense later on.)  The best strategy is to build a few of both, but keep in mind that your opponents will find it harder to locate your city if you don't build it by the sea."
 msgstr ""
 " 5. Beslissen waar steden te bouwen.\n"
 "\n"
-"   De beste lokatie voor een stad is een kwestie van smaak. Eem stad die dicht bij de zee licht is gemakkelijker waar te nemen voor tegenstanders, maar kan ook dienstdoen als een haven voor zeegaande eenheden. (Ze hebben later meestal ook een Kustverdediging nodig). De beste strategie is een paar van beide te bouwen, maar houd in gedachten dat steden die niet aan zee liggen voor een tegenstander lastiger te vinden zijn."
+"    De beste lokatie voor een stad is een kwestie van smaak. Een stad die dicht bij de zee ligt is gemakkelijker waar te nemen voor tegenstanders, maar kan ook dienstdoen als een haven voor zeegaande eenheden. (Ze hebben later meestal ook een Kustverdediging nodig). De beste strategie is een paar van beide te bouwen, maar houd in gedachten dat steden die niet aan zee liggen voor een tegenstander lastiger te vinden zijn."
 
 #: data/helpdata.txt:592
 msgid ""
@@ -8891,7 +8891,7 @@ msgid ""
 "\n"
 "  - What your tax, luxury and research rates are currently set to.\n"
 "\n"
-"  - Treaties are often broken, so don't neglect defence...\n"
+"  - Treaties are often broken, so don't neglect defense...\n"
 "\n"
 "  - Some wonders can be made obsolete by the development of certain advances."
 msgstr ""
@@ -8907,14 +8907,15 @@ msgstr ""
 
 #: data/helpdata.txt:640
 msgid ""
-" 9. Make your own strategy for the game.\n"
+" 9. Making your own strategy for the game.\n"
 "\n"
 "    These basic concepts will allow you to play the game pretty well, especially in the beginning of the game.  But to improve, you need to study the various units and advances, and PRACTICE, PRACTICE, PRACTICE!  Freeciv has many twists, so if you haven't played a similar game before, try consulting the Freeciv WWW pages at http://www.freeciv.org/\n"
 "You'll find more tips for playing, and details of how to contact other players."
 msgstr ""
 " 9. Maak uw eigen strategie voor het spel.\n"
 "\n"
-"    Deze basisregels zullen u in staat stellen het spel heel aardig te spelen, in het bijzonder in het beginstadium van het spel. Maar om beter te worden moet u de diverse eenheden en vooruitgangen bestuderen en OEFENEN, OEFENEN, OEFENEN! Freeciv heeft vele wendingen, dus als u niet eerder een dergelijk spel gespeeld hebt, probeer dan eerst de Freeciv WWW pagina's op http://www.freeciv.org te raadplegen. U zult daar meer speltips vinden en details over hoe contact te maken met andere spelers."
+"    Deze basisregels zullen u in staat stellen het spel heel aardig te spelen, in het bijzonder in het beginstadium van het spel. Maar om beter te worden moet u de diverse eenheden en vooruitgangen bestuderen en OEFENEN, OEFENEN, OEFENEN! Freeciv heeft vele wendingen, dus als u niet eerder een dergelijk spel gespeeld hebt, probeer dan eerst de Freeciv WWW pagina's op http://www.freeciv.org te raadplegen.\n"
+"U zult daar meer speltips vinden en details over hoe contact te maken met andere spelers."
 
 #: data/helpdata.txt:651
 msgid ""
@@ -8971,12 +8972,12 @@ msgstr ""
 "   - Als u een stad niet kunt zien, dan kunt u daar ook niet om vragen."
 
 #: data/helpdata.txt:685
-msgid "     Of course, the owner of that city can still give it to you, in which case the area around the city is shown on your map.  One important thing to note, any units in the field and supported by that city are also transfered (but not those sitting in other cities).  So make sure the other player isn't getting a better deal than you expect."
-msgstr "     Uiteraard kan de eigenaar van die stad deze nog steeds aan u geven, in welk geval het gebied rond de stad getoond wordt op uw kaart. Een belangrijk punt om op te merken; alle eenheden in het veld en die ondersteund worden door die stad worden ook verhandeld (maar niet die eenheden die zich in een andere stad bevinden). Let er dus op dat de andere speler niet meer krijgt dan u zelf verwachtte."
+msgid "     Of course, the owner of that city can still give it to you, in which case the area around the city is shown on your map.  One important thing to note: any units in the field and supported by that city are also transfered (but not those sitting in other cities).  So make sure the other player isn't getting a better deal than you expect."
+msgstr "     Uiteraard kan de eigenaar van die stad deze nog steeds aan u geven, in welk geval het gebied rond de stad getoond wordt op uw kaart. Een belangrijk punt om op te merken: alle eenheden in het veld en die ondersteund worden door die stad worden ook verhandeld (maar niet die eenheden die zich in een andere stad bevinden). Let er dus op dat de andere speler niet meer krijgt dan u zelf verwachtte."
 
 #: data/helpdata.txt:696
-msgid "City improvements are built in each of your cities to improve trade revenue, science production, etc.  Each improvement requires you to pay an upkeep every turn.  If you can't afford the upkeep for a building, then it'll be automatically sold."
-msgstr "Stadsverbeteringen worden in elk van uw steden gebouwd om handelsopbrengsten, onderzoek e.d. te vergroten. Elke verbetering noodzaakt u om elke beurt onderhoud te betalen. Als u zich verbeteringen niet langer kunt veroorloven dan zullen deze automatisch verkocht worden."
+msgid "City improvements are built in each of your cities to improve trade revenue, science production, etc.  Most improvements require you to pay an upkeep every turn.  If you can't afford the upkeep for a building, then it'll be automatically sold."
+msgstr "Stadsverbeteringen worden in elk van uw steden gebouwd om handelsopbrengsten, onderzoek e.d. te vergroten. Elke verbetering noodzaakt u om elke beurt onderhoud te betalen. Als u zich het onderhoud voor deze verbeteringen niet langer kunt veroorloven dan zullen deze automatisch verkocht worden."
 
 #: data/helpdata.txt:713
 msgid "Research into technology is a necessity for improving the ability of your civilization to develop new military units and city improvements."
@@ -9317,7 +9318,7 @@ msgid "Your government type influences your cities' productivity and commerce, y
 msgstr "Uw regeringsvorm beïnvloedt uw stedelijke produktiviteit en handel, het geluk van uw inwoners en vele andere spelfactoren."
 
 #: data/helpdata.txt:1124
-msgid "Your civilization starts out under Despotism.  As your technology improves, you can select other forms of government (listed below). In order to change your form of government, you must start a revolution.  This will cause your civilization to undergo a period of Anarchy (lasting 1-5 turns); at the end of this time, you will be able to choose your new government."
+msgid "Your civilization starts out under a Despotism.  As your technology improves, you can select other forms of government (listed below). In order to change your form of government, you must start a revolution.  This will cause your civilization to undergo a period of Anarchy (lasting 1-5 turns); at the end of this time, you will be able to choose your new government."
 msgstr "Uw beschaving begint als een Dictatuur. Naarmate uw technologie verbetert kunt u andere regeringsvormen kiezen (hieronder genoemd). Om uw regeringsvorm te veranderen moet u een revolutie beginnen. Dit zal uw beschaving enige tijd in Anarchie onderdompelen (gedurende 1-5 zetten); aan het einde van deze periode zult u in staat zijn een andere regeringsvorm te kiezen."
 
 #: data/helpdata.txt:1131
