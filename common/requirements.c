@@ -268,7 +268,7 @@ struct requirement req_from_str(const char *type,
   if (invalid) {
     freelog(LOG_ERROR, "Invalid requirement %s | %s | %s | %s",
 	    type, range, survives ? "survives" : "", value);
-    exit(EXIT_FAILURE);
+    req.source.type = REQ_LAST;
   }
 
   return req;
