@@ -215,6 +215,9 @@ void intel_create_dialog(struct player *p)
     GtkTreeIter it;
     GValue v = { 0, };
 
+    if (other == p) {
+      continue;
+    }
     state = pplayer_get_diplstate(p, other);
     gtk_tree_store_append(tree, &it, &diplstates[state->type]);
     g_value_init(&v, G_TYPE_STRING);
