@@ -792,3 +792,18 @@ void unit_list_sort_ord_city(struct unit_list *This)
     genlist_sort(&This->list, compar_unit_ord_city);
   }
 }
+
+/**************************************************************************
+Returns 1 if the unit_type "exists" in this game, 0 otherwise.
+A unit_type doesn't exist if one of:
+- id is out of range
+- the unit_type has been flagged as removed by setting its
+  tech_requirement to A_LAST.
+**************************************************************************/
+int unit_type_exists(enum unit_type_id id)
+{
+  if (id<0 || id>=U_LAST)
+    return 0;
+  else 
+    return unit_types[id].tech_requirement!=A_LAST;
+}

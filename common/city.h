@@ -178,6 +178,7 @@ int improvement_obsolete(struct player *pplayer, enum improvement_type_id id);
 struct improvement_type *get_improvement_type(enum improvement_type_id id);
 int wonder_obsolete(enum improvement_type_id id);
 int is_wonder(enum improvement_type_id id);
+int improvement_exists(enum improvement_type_id id);
 
 /* city related improvement and unit functions */
 
@@ -224,7 +225,3 @@ void city_list_unlink(struct city_list *This, struct city *pcity);
 void city_list_insert_back(struct city_list *This, struct city *pcity);
 
 #endif
-
-
-
-

@@ -115,8 +115,8 @@ struct advance advances[]= {
 **************************************************************************/
 int get_invention(struct player *plr, int tech)
 {
-  if(tech<0 || tech>=A_LAST)
-    return 0;
+  if(!tech_exists(tech))
+    return TECH_UNKNOWN;
   return plr->research.inventions[tech];
 }
 
@@ -144,6 +144,10 @@ void update_research(struct player *plr)
   int i;
   
   for (i=0;i<A_LAST;i++) {
+    if(!tech_exists(i)) {
+      plr->research.inventions[i]=TECH_UNKNOWN;
+      continue;
+    }
     if (get_invention(plr, i) == TECH_REACHABLE ||
 	get_invention(plr, i) == TECH_MARKED)
       plr->research.inventions[i]=TECH_UNKNOWN;
@@ -160,7 +164,7 @@ void update_research(struct player *plr)
 **************************************************************************/
 int tech_goal_turns_rec(struct player *plr, int goal)
 {
-  if (goal <= A_NONE || goal >= A_LAST || 
+  if (goal == A_NONE || !tech_exists(goal) ||
       get_invention(plr, goal) == TECH_KNOWN || 
       get_invention(plr, goal) == TECH_MARKED) 
     return 0; 
@@ -188,7 +192,7 @@ int tech_goal_turns(struct player *plr, int goal)
 int get_next_tech_rec(struct player *plr, int goal)
 {
   int sub_goal;
-  if (get_invention(plr, goal) == TECH_KNOWN)
+  if (!tech_exists(goal) || get_invention(plr, goal) == TECH_KNOWN)
     return 0;
   if (get_invention(plr, goal) == TECH_REACHABLE)
     return goal;
@@ -208,10 +212,25 @@ int get_next_tech_rec(struct player *plr, int goal)
 
 int get_next_tech(struct player *plr, int goal)
 {
-  if (goal <= A_NONE || goal >= A_LAST || 
+  if (goal == A_NONE || !tech_exists(goal) ||
       get_invention(plr, goal) == TECH_KNOWN) 
     return A_NONE; 
   return (get_next_tech_rec(plr, goal));
 }
 
 
+/**************************************************************************
+Returns 1 if the tech "exists" in this game, 0 otherwise.
+A tech doesn't exist if one of:
+- id is out of range
+- the tech has been flagged as removed by setting its req values
+  to A_LAST (this function returns 0 if either req is A_LAST, rather
+  than both, to be on the safe side)
+**************************************************************************/
+int tech_exists(enum tech_type_id id)
+{
+  if (id<0 || id>=A_LAST)
+    return 0;
+  else 
+    return advances[id].req[0]!=A_LAST && advances[id].req[1]!=A_LAST;
+}

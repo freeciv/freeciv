@@ -232,4 +232,6 @@ int unit_flag(enum unit_type_id id, int flag);
 int can_upgrade_unittype(struct player *pplayer, enum unit_type_id id);
 int unit_upgrade_price(struct player *pplayer, enum unit_type_id from, enum unit_type_id to);
 
+int unit_type_exists(enum unit_type_id id);
+
 #endif

@@ -388,6 +388,22 @@ int is_wonder(enum improvement_type_id id)
 }
 
 /**************************************************************************
+Returns 1 if the improvement_type "exists" in this game, 0 otherwise.
+An improvement_type doesn't exist if one of:
+- id is out of range
+- the improvement_type has been flagged as removed by setting its
+  tech_requirement to A_LAST.
+Arguably this should be called improvement_type_exists, but that's too long.
+**************************************************************************/
+int improvement_exists(enum improvement_type_id id)
+{
+  if (id<0 || id>=B_LAST)
+    return 0;
+  else
+    return (improvement_types[id].tech_requirement!=A_LAST);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 
@@ -463,7 +479,7 @@ struct player *city_owner(struct city *pcity)
 int could_build_improvement(struct city *pcity, enum improvement_type_id id)
 { /* modularized so the AI can choose the tech it wants -- Syela */
   struct player *p=city_owner(pcity);
-  if (id<0 || id>B_LAST)
+  if (!improvement_exists(id))
     return 0;
   if (city_got_building(pcity, id))
     return 0;
@@ -495,6 +511,8 @@ int could_build_improvement(struct city *pcity, enum improvement_type_id id)
 int can_build_improvement(struct city *pcity, enum improvement_type_id id)
 {
   struct player *p=city_owner(pcity);
+  if (!improvement_exists(id))
+    return 0;
   if (get_invention(p,improvement_types[id].tech_requirement)!=TECH_KNOWN)
     return 0;
   return(could_build_improvement(pcity, id));
@@ -506,7 +524,8 @@ int can_build_improvement(struct city *pcity, enum improvement_type_id id)
 int can_build_unit_direct(struct city *pcity, enum unit_type_id id)
 {  
   struct player *p=city_owner(pcity);
-  if (id<0 || id>=U_LAST) return 0;
+  if (!unit_type_exists(id))
+    return 0;
   if (id==U_NUCLEAR && !game.global_wonders[B_MANHATTEN])
     return 0;
   if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
@@ -519,7 +538,8 @@ int can_build_unit_direct(struct city *pcity, enum unit_type_id id)
 int can_build_unit(struct city *pcity, enum unit_type_id id)
 {  
   struct player *p=city_owner(pcity);
-  if (id<0 || id>=U_LAST) return 0;
+  if (!unit_type_exists(id))
+    return 0;
   if (id==U_NUCLEAR && !game.global_wonders[B_MANHATTEN])
     return 0;
   if (get_invention(p,unit_types[id].tech_requirement)!=TECH_KNOWN)
@@ -553,7 +573,7 @@ int city_population(struct city *pcity)
 
 int city_got_building(struct city *pcity,  enum improvement_type_id id) 
 {
-  if (id<0 || id>B_LAST)
+  if (!improvement_exists(id))
     return 0;
   else 
     return (pcity->improvements[id]);
@@ -564,7 +584,10 @@ int city_got_building(struct city *pcity,  enum improvement_type_id id)
 **************************************************************************/
 int improvement_upkeep(struct city *pcity, int i) 
 {
-  if (is_wonder(i)) return 0;
+  if (!improvement_exists(i))
+    return 0;
+  if (is_wonder(i))
+    return 0;
   if (improvement_types[i].shield_upkeep == 1 &&
       city_affected_by_wonder(pcity, B_ASMITHS)) 
     return 0;
@@ -576,7 +599,10 @@ int improvement_upkeep(struct city *pcity, int i)
 **************************************************************************/
 static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths) 
 {
-  if (is_wonder(i)) return 0;
+  if (!improvement_exists(i))
+    return 0;
+  if (is_wonder(i))
+    return 0;
   if (asmiths && improvement_types[i].shield_upkeep == 1) 
     return 0;
   return (improvement_types[i].shield_upkeep);
@@ -799,7 +825,9 @@ int city_got_citywalls(struct city *pcity)
 int city_affected_by_wonder(struct city *pcity, enum improvement_type_id id) /*FIX*/
 {
   struct city *tmp;
-  if (id<0 || id>=B_LAST || !is_wonder(id) || wonder_obsolete(id))
+  if (!improvement_exists(id))
+    return 0;
+  if (!is_wonder(id) || wonder_obsolete(id))
     return 0;
   tmp=find_city_by_id(game.global_wonders[id]);
   if (!tmp)
