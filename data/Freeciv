@@ -5,7 +5,7 @@
 ! none widgets resources
 ! gotAppDefFile MUST be the first entry!
 Freeciv*gotAppDefFile:                       True
-Freeciv*version:                             1.9.6
+Freeciv*version:                             1.9.7-devel
 !Freeciv*logLevel:                            1
 !Freeciv*port:                                5555
 !Freeciv*server:                              localhost
