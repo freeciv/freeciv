@@ -2902,16 +2902,10 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
 
   conn_list_do_unbuffer(&pplayer->connections);
 
-  if (is_ocean(map_get_terrain(src_x, src_y))
-      && ground_unit_transporter_capacity(src_x, src_y, pplayer) < 0) {
-    die("%s's %s (id %d) left a unit stranded in the ocean without a "
-        "transport at position (%d, %d). Capacity on old tile is %d "
-        " and %d on new tile, which is at position (%d, %d). ransport_units "
-        "is %s", pplayer->name, unit_name(punit->type), punit->id, src_x, src_y,
-        ground_unit_transporter_capacity(src_x, src_y, pplayer),
-        ground_unit_transporter_capacity(dest_x, dest_y, pplayer),
-        dest_x, dest_y, transport_units ? "true" : "false");
-  }
+  /* Note, an individual call to move_unit may leave things in an unstable
+   * state (e.g., negative transporter capacity) if more than one unit is
+   * being moved at a time (e.g., bounce unit) and they are not done in the
+   * right order.  This is probably not a bug. */
 
   if (map_has_special(dest_x, dest_y, S_HUT)) {
     return unit_enter_hut(punit);
