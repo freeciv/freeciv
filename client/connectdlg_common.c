@@ -500,3 +500,43 @@ void send_save_game(char *filename)
 
   send_chat(message);
 }
+
+/**************************************************************************
+  Handle the list of rulesets sent by the server.
+**************************************************************************/
+void handle_ruleset_choices(struct packet_ruleset_choices *packet)
+{
+  char *rulesets[packet->ruleset_count];
+  int i;
+  size_t suf_len = strlen(RULESET_SUFFIX);
+
+  for (i = 0; i < packet->ruleset_count; i++) {
+    size_t len = strlen(packet->rulesets[i]);
+
+    rulesets[i] = mystrdup(packet->rulesets[i]);
+
+    if (len > suf_len
+	&& strcmp(rulesets[i] + len - suf_len, RULESET_SUFFIX) == 0) {
+      rulesets[i][len - suf_len] = '\0';
+    }
+  }
+  gui_set_rulesets(packet->ruleset_count, rulesets);
+
+  for (i = 0; i < packet->ruleset_count; i++) {
+    free(rulesets[i]);
+  }
+}
+
+/**************************************************************************
+  Called by the GUI code when the user sets the ruleset.  The ruleset
+  passed in here should match one of the strings given to gui_set_rulesets.
+**************************************************************************/
+void set_ruleset(const char *ruleset)
+{
+  char buf[4096];
+
+  my_snprintf(buf, sizeof(buf), "/read %s%s",
+	      ruleset, RULESET_SUFFIX);
+  freelog(LOG_DEBUG, "Executing '%s'", buf);
+  send_chat(buf);
+}

@@ -31,6 +31,8 @@ void send_save_game(char *filename);
 
 void disconnected_from_local_server(void);
 
+void set_ruleset(const char *ruleset);
+
 extern char player_name[MAX_LEN_NAME];
 extern char *current_filename;
 

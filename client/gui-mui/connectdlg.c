@@ -322,3 +322,12 @@ void server_autoconnect()
   try_to_autoconnect();
 }
 
+/****************************************************************************
+  Set the list of available rulesets.  The default ruleset should be
+  "default", and if the user changes this then set_ruleset() should be
+  called.
+****************************************************************************/
+void gui_set_rulesets(char rulesets[][64], int ruleset_count)
+{
+  /* PORTME */
+}

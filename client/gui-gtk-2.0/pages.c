@@ -66,6 +66,7 @@ static GtkWidget *statusbar, *statusbar_frame;
 static GQueue *statusbar_queue;
 static guint statusbar_timer = 0;
 
+static GtkWidget *ruleset_combo;
 
 /**************************************************************************
   spawn a server, if there isn't one, using the default settings.
@@ -886,6 +887,24 @@ static void ai_skill_callback(GtkWidget *w, gpointer data)
   send_chat(buf);
 }
 
+/* HACK: sometimes when creating the ruleset combo the value is set without
+ * the user's control.  In this case we don't want to do a /read. */
+static bool no_ruleset_callback = FALSE;
+
+/**************************************************************************
+  Ruleset setting callback
+**************************************************************************/
+static void ruleset_callback(GtkWidget *w, gpointer data)
+{
+  const char *name;
+
+  name = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(ruleset_combo)->entry));
+
+  if (name && name[0] != '\0' && !no_ruleset_callback) {
+    set_ruleset(name);
+  }
+}
+
 /**************************************************************************
   AI fill setting callback.
 **************************************************************************/
@@ -942,7 +961,7 @@ GtkWidget *create_start_page(void)
   vbox = gtk_vbox_new(FALSE, 2);
   gtk_container_add(GTK_CONTAINER(align), vbox);
 
-  table = gtk_table_new(2, 2, FALSE);
+  table = gtk_table_new(2, 3, FALSE);
   start_options_table = table;
   gtk_table_set_row_spacings(GTK_TABLE(table), 2);
   gtk_table_set_col_spacings(GTK_TABLE(table), 12);
@@ -989,6 +1008,22 @@ GtkWidget *create_start_page(void)
                        "yalign", 0.5,
                        NULL);
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
+
+  ruleset_combo = gtk_combo_new();
+  gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(ruleset_combo)->entry), "default");
+  g_signal_connect(GTK_COMBO(ruleset_combo)->entry, "changed",
+		   G_CALLBACK(ruleset_callback), GUINT_TO_POINTER(i));
+
+  gtk_table_attach_defaults(GTK_TABLE(table), ruleset_combo, 1, 2, 2, 3);
+
+  label = g_object_new(GTK_TYPE_LABEL,
+		       "use-underline", TRUE,
+		       "mnemonic-widget", GTK_COMBO(ruleset_combo)->entry,
+                       "label", _("_Ruleset:"),
+                       "xalign", 0.0,
+                       "yalign", 0.5,
+                       NULL);
+  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 2, 3);
 
   align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
   button = gtk_stockbutton_new(GTK_STOCK_PREFERENCES,
@@ -1891,5 +1926,30 @@ void popup_save_dialog(void)
   update_save_dialog();
  
   gtk_window_present(GTK_WINDOW(save_dialog_shell));
+}
+
+/****************************************************************************
+  Set the list of available rulesets.  The default ruleset should be
+  "default", and if the user changes this then set_ruleset() should be
+  called.
+****************************************************************************/
+void gui_set_rulesets(int num_rulesets, char **rulesets)
+{
+  int i;
+  GList *opts = NULL;
+
+  for (i = 0; i < num_rulesets; i++){
+    opts = g_list_append(opts, rulesets[i]);
+  }
+
+  no_ruleset_callback = TRUE;
+  gtk_combo_set_popdown_strings(GTK_COMBO(ruleset_combo), opts);
+
+  /* HACK: server should tell us the current ruleset. */
+  gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(ruleset_combo)->entry),
+		     "default");
+  no_ruleset_callback = FALSE;
+
+  g_list_free(opts);
 }
 

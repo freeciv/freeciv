@@ -449,6 +449,38 @@ const char *new_challenge_filename(struct connection *pc)
 
 
 /************************************************************************** 
+  Call this on a connection with HACK access to send it a set of ruleset
+  choices.  Probably this should be called immediately when granting
+  HACK access to a connection.
+**************************************************************************/
+static void send_ruleset_choices(struct connection *pc)
+{
+  struct packet_ruleset_choices packet;
+  static const char **rulesets = NULL;
+  int i;
+
+  if (pc->access_level != ALLOW_HACK) {
+    freelog(LOG_ERROR, "Trying to send ruleset choices to "
+	    "unprivilidged client.");
+    return;
+  }
+
+  if (!rulesets) {
+    /* This is only read once per server invocation.  Add a new ruleset
+     * and you have to restart the server. */
+    rulesets = datafilelist(RULESET_SUFFIX);
+  }
+
+  for (i = 0; i < MAX_NUM_RULESETS && rulesets[i]; i++) {
+    sz_strlcpy(packet.rulesets[i], rulesets[i]);
+  }
+  packet.ruleset_count = i;
+
+  send_packet_ruleset_choices(pc, &packet);
+}
+
+
+/************************************************************************** 
 opens a file specified by the packet and compares the packet values with
 the file values. Sends an answer to the client once it's done.
 **************************************************************************/
@@ -475,4 +507,6 @@ void handle_single_want_hack_req(struct connection *pc,
   }
 
   dsend_packet_single_want_hack_reply(pc, you_have_hack);
+
+  send_ruleset_choices(pc);
 }

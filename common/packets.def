@@ -83,6 +83,8 @@ Syntax:
 
      handle-via-packet: force the packet type of the handle
      function. Otherwise the fields are passed to the handle function.
+     This is invoked automatically for packets with more than 5 fields
+     or packets whose names are of the form foo_ruleset.
 
      handle-per-conn: normally the first parameter of the handle
      function is the player. handle-per-conn changes this to the
@@ -224,7 +226,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 114.
+The last used packet number is 115.
 ****************************************************/
 
 
@@ -1226,6 +1228,11 @@ end
 
 PACKET_SINGLE_WANT_HACK_REPLY=109;sc,dsend
  BOOL you_have_hack;
+end
+
+PACKET_RULESET_CHOICES=115;sc
+  UINT8 ruleset_count;
+  STRING rulesets[MAX_NUM_RULESETS:ruleset_count][MAX_RULESET_NAME_LENGTH];
 end
 
 PACKET_GAME_LOAD=111;sc,handle-via-packet,lsend

@@ -308,6 +308,10 @@ bool client_handle_packet(enum packet_type type, void *packet)
       ((struct packet_single_want_hack_reply *)packet)->you_have_hack);
     return TRUE;
 
+  case PACKET_RULESET_CHOICES:
+    handle_ruleset_choices(packet);
+    return TRUE;
+
   case PACKET_GAME_LOAD:
     handle_game_load(packet);
     return TRUE;

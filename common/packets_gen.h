@@ -946,6 +946,11 @@ struct packet_single_want_hack_reply {
   bool you_have_hack;
 };
 
+struct packet_ruleset_choices {
+  int ruleset_count;
+  char rulesets[MAX_NUM_RULESETS][MAX_RULESET_NAME_LENGTH];
+};
+
 struct packet_game_load {
   bool load_successful;
   int nplayers;
@@ -1106,6 +1111,7 @@ enum packet_type {
   PACKET_OPTIONS_SETTABLE_CONTROL,
   PACKET_OPTIONS_SETTABLE,
   PACKET_SELECT_RACES,
+  PACKET_RULESET_CHOICES,
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
 
@@ -1559,6 +1565,9 @@ int send_packet_single_want_hack_req(struct connection *pc, const struct packet_
 struct packet_single_want_hack_reply *receive_packet_single_want_hack_reply(struct connection *pc, enum packet_type type);
 int send_packet_single_want_hack_reply(struct connection *pc, const struct packet_single_want_hack_reply *packet);
 int dsend_packet_single_want_hack_reply(struct connection *pc, bool you_have_hack);
+
+struct packet_ruleset_choices *receive_packet_ruleset_choices(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_choices(struct connection *pc, const struct packet_ruleset_choices *packet);
 
 struct packet_game_load *receive_packet_game_load(struct connection *pc, enum packet_type type);
 int send_packet_game_load(struct connection *pc, const struct packet_game_load *packet);

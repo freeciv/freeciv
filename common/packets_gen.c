@@ -371,6 +371,9 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_SINGLE_WANT_HACK_REPLY:
     return receive_packet_single_want_hack_reply(pc, type);
 
+  case PACKET_RULESET_CHOICES:
+    return receive_packet_ruleset_choices(pc, type);
+
   case PACKET_GAME_LOAD:
     return receive_packet_game_load(pc, type);
 
@@ -724,6 +727,9 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_SINGLE_WANT_HACK_REPLY:
     return "PACKET_SINGLE_WANT_HACK_REPLY";
+
+  case PACKET_RULESET_CHOICES:
+    return "PACKET_RULESET_CHOICES";
 
   case PACKET_GAME_LOAD:
     return "PACKET_GAME_LOAD";
@@ -26252,6 +26258,199 @@ int dsend_packet_single_want_hack_reply(struct connection *pc, bool you_have_hac
   real_packet->you_have_hack = you_have_hack;
   
   return send_packet_single_want_hack_reply(pc, real_packet);
+}
+
+#define hash_packet_ruleset_choices_100 hash_const
+
+#define cmp_packet_ruleset_choices_100 cmp_const
+
+BV_DEFINE(packet_ruleset_choices_100_fields, 2);
+
+static struct packet_ruleset_choices *receive_packet_ruleset_choices_100(struct connection *pc, enum packet_type type)
+{
+  packet_ruleset_choices_100_fields fields;
+  struct packet_ruleset_choices *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_ruleset_choices *clone;
+  RECEIVE_PACKET_START(packet_ruleset_choices, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_choices_100, cmp_packet_ruleset_choices_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->ruleset_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    
+    {
+      int i;
+    
+      if(real_packet->ruleset_count > MAX_NUM_RULESETS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->ruleset_count = MAX_NUM_RULESETS;
+      }
+      for (i = 0; i < real_packet->ruleset_count; i++) {
+        dio_get_string(&din, real_packet->rulesets[i], sizeof(real_packet->rulesets[i]));
+      }
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_ruleset_choices_100(struct connection *pc, const struct packet_ruleset_choices *packet)
+{
+  const struct packet_ruleset_choices *real_packet = packet;
+  packet_ruleset_choices_100_fields fields;
+  struct packet_ruleset_choices *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_CHOICES];
+  int different = 0;
+  SEND_PACKET_START(PACKET_RULESET_CHOICES);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_choices_100, cmp_packet_ruleset_choices_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->ruleset_count != real_packet->ruleset_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+
+    {
+      differ = (old->ruleset_count != real_packet->ruleset_count);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->ruleset_count; i++) {
+          if (strcmp(old->rulesets[i], real_packet->rulesets[i]) != 0) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->ruleset_count);
+  }
+  if (BV_ISSET(fields, 1)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->ruleset_count; i++) {
+        dio_put_string(&dout, real_packet->rulesets[i]);
+      }
+    } 
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_ruleset_choices(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_RULESET_CHOICES] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_RULESET_CHOICES] = variant;
+}
+
+struct packet_ruleset_choices *receive_packet_ruleset_choices(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_ruleset_choices at the server.");
+  }
+  ensure_valid_variant_packet_ruleset_choices(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_CHOICES]) {
+    case 100: return receive_packet_ruleset_choices_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_ruleset_choices(struct connection *pc, const struct packet_ruleset_choices *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_ruleset_choices from the client.");
+  }
+  ensure_valid_variant_packet_ruleset_choices(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_CHOICES]) {
+    case 100: return send_packet_ruleset_choices_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
 }
 
 #define hash_packet_game_load_100 hash_const

@@ -954,12 +954,20 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
 bool read_init_script(struct connection *caller, char *script_filename)
 {
   FILE *script_file;
-  char real_filename[1024];
+  char tilde_filename[4096];
+  char *real_filename;
 
-  freelog(LOG_NORMAL, _("Loading script file: %s"), script_filename);
-  
-  interpret_tilde(real_filename, sizeof(real_filename), script_filename);
- 
+  interpret_tilde(tilde_filename, sizeof(tilde_filename), script_filename);
+
+  real_filename = datafilename(tilde_filename);
+  if (!real_filename) {
+    real_filename = tilde_filename;
+  }
+
+  /* This used to print out the script_filename, but it seems more useful
+   * to show the real_filename. */
+  freelog(LOG_NORMAL, _("Loading script file: %s"), real_filename);
+
   if (is_reg_file_for_access(real_filename, FALSE)
       && (script_file = fopen(real_filename, "r"))) {
     char buffer[MAX_LEN_CONSOLE_LINE];

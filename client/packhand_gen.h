@@ -94,6 +94,8 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *packet);
 struct packet_ruleset_control;
 void handle_ruleset_control(struct packet_ruleset_control *packet);
 void handle_single_want_hack_reply(bool you_have_hack);
+struct packet_ruleset_choices;
+void handle_ruleset_choices(struct packet_ruleset_choices *packet);
 struct packet_game_load;
 void handle_game_load(struct packet_game_load *packet);
 struct packet_options_settable_control;
