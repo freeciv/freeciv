@@ -105,6 +105,10 @@ GdkPixmap *mask_bitmap;
 GtkWidget *main_frame_civ_name;
 GtkWidget *main_label_info;
 
+GtkWidget *avbox, *ahbox, *vbox, *conn_box;
+GtkListStore *conn_model;       
+GtkWidget* scroll_panel;
+
 GtkWidget *econ_label[10];
 GtkWidget *bulb_label;
 GtkWidget *sun_label;
@@ -159,7 +163,8 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
 static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
 					    gpointer data);
 static gint timer_callback(gpointer data);
-
+static gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev,
+				gpointer data);
 static char *network_charset = NULL;
 
 
@@ -644,12 +649,12 @@ void reset_unit_table(void)
 **************************************************************************/
 static void setup_widgets(void)
 {
-  GtkWidget *box, *ebox, *hbox, *vbox;
-  GtkWidget *avbox, *ahbox, *align;
-  GtkWidget *frame, *table, *table2, *paned, *menubar, *sw, *text;
+  GtkWidget *box, *ebox, *hbox, *sbox, *align, *label;
+  GtkWidget *frame, *table, *table2, *paned, *menubar, *sw, *text, *view;
   GtkStyle *style;
   int i;
   struct Sprite *sprite;
+  GtkCellRenderer *rend;
 
   main_tips = gtk_tooltips_new();
 
@@ -679,7 +684,7 @@ static void setup_widgets(void)
   avbox = detached_widget_fill(ahbox);
 
   align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-  gtk_box_pack_start(GTK_BOX(avbox), align, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(avbox), align, FALSE, FALSE, 0);
 
   overview_canvas = gtk_drawing_area_new();
 
@@ -695,13 +700,48 @@ static void setup_widgets(void)
   g_signal_connect(overview_canvas, "button_press_event",
         	   G_CALLBACK(butt_down_overviewcanvas), NULL);
 
-  /* The Rest */
+  /* prepare list of connected users in the pregame state. */
+  conn_model = gtk_list_store_new(1, G_TYPE_STRING); 
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+  
+  /* add column with username to connected users list. */
+  rend = gtk_cell_renderer_text_new();
+  g_object_set(rend, "weight", "bold", NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+					      -1, NULL, rend, "text", 0, NULL);
+  
+  /* display the list of connected users. */
+  conn_box = gtk_vbox_new(FALSE, 2);
+  gtk_box_pack_start(GTK_BOX(avbox), conn_box, TRUE, TRUE, 6);
+
+  label = g_object_new(GTK_TYPE_LABEL,
+		       "use-underline", TRUE,
+		       "mnemonic-widget", view,
+		       "label", _("_Connected Users:"),
+		       "xalign", 0.0,
+		       "yalign", 0.5,
+		       NULL);
+  gtk_box_pack_start(GTK_BOX(conn_box), label, FALSE, FALSE, 0);
+
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_box_pack_start(GTK_BOX(conn_box), sw, TRUE, TRUE, 0);
+
+  g_signal_connect(view, "button-press-event",
+		   G_CALLBACK(show_conn_popup), NULL);
+
+  /* The rest */
 
   ahbox = detached_widget_new();
   gtk_container_add(GTK_CONTAINER(vbox), ahbox);
   avbox = detached_widget_fill(ahbox);
 
-  /* Info on player's civilization */
+  /* Info on player's civilization, when game is running. */
   frame = gtk_frame_new(NULL);
   gtk_box_pack_start(GTK_BOX(avbox), frame, FALSE, FALSE, 0);
 
@@ -891,9 +931,9 @@ static void setup_widgets(void)
 
   /* *** The message window -- this is a detachable widget *** */
 
-  ahbox = detached_widget_new();
-  gtk_paned_pack2(GTK_PANED(paned), ahbox, TRUE, TRUE);
-  avbox = detached_widget_fill(ahbox);
+  sbox = detached_widget_new();
+  gtk_paned_pack2(GTK_PANED(paned), sbox, TRUE, TRUE);
+  avbox = detached_widget_fill(sbox);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
@@ -942,6 +982,7 @@ static void setup_widgets(void)
     gtk_widget_hide(map_horizontal_scrollbar);
     gtk_widget_hide(map_vertical_scrollbar);
   }
+  gtk_widget_hide(ahbox);  /* Hide info on player's civ in pregame */
 }
 
 /**************************************************************************
@@ -1124,6 +1165,87 @@ void ui_main(int argc, char **argv)
 
   free_color_system();
   tilespec_free_tiles();
+}
+
+/**************************************************************************
+ Update the connected users list at pregame state.
+**************************************************************************/
+void update_conn_list_dialog(void)
+{
+  GtkTreeIter it;
+  
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    gtk_list_store_clear(conn_model);
+    conn_list_iterate(game.est_connections, pconn) {
+      gtk_list_store_append(conn_model, &it);
+      gtk_list_store_set(conn_model, &it, 0, pconn->username, -1);
+    } conn_list_iterate_end;
+
+    gtk_widget_hide(ahbox);
+    gtk_widget_show(conn_box);
+  } else {
+    gtk_widget_hide(conn_box);
+    gtk_widget_show(ahbox);
+  }
+}
+
+/**************************************************************************
+ Show details about a user in the Connected Users dialog in a popup.
+**************************************************************************/
+static gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev,
+				gpointer data)
+{
+  GtkTreePath *path;
+  GtkTreeIter it;
+  GtkWidget *popup, *table, *label;
+  gchar *name;
+  struct connection *pconn;
+
+  /* Get the current selection in the Connected Users list */
+  if (!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(view),
+				     ev->x, ev->y, &path, NULL, NULL, NULL)) {
+    return FALSE;
+  }
+
+  gtk_tree_model_get_iter(GTK_TREE_MODEL(conn_model), &it, path);
+  gtk_tree_path_free(path);
+
+  gtk_tree_model_get(GTK_TREE_MODEL(conn_model), &it, 0, &name, -1);
+  pconn = find_conn_by_user(name);
+
+  /* Show popup. */
+  popup = gtk_window_new(GTK_WINDOW_POPUP);
+  gtk_widget_set_app_paintable(popup, TRUE);
+  gtk_container_set_border_width(GTK_CONTAINER(popup), 4);
+  gtk_window_set_position(GTK_WINDOW(popup), GTK_WIN_POS_MOUSE);
+
+  table = gtk_table_new(2, 2, FALSE);
+  gtk_table_set_col_spacings(GTK_TABLE(table), 6);
+  gtk_container_add(GTK_CONTAINER(popup), table);
+
+  label = gtk_label_new(_("Name:"));
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+  label = gtk_label_new(pconn->username);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
+
+  label = gtk_label_new(_("Host:"));
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
+  label = gtk_label_new(pconn->addr);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 1, 2);
+
+  gtk_widget_show_all(table);
+  gtk_widget_show(popup);
+
+  gdk_pointer_grab(popup->window, TRUE, GDK_BUTTON_RELEASE_MASK,
+		   NULL, NULL, ev->time);
+  gtk_grab_add(popup);
+  g_signal_connect_after(popup, "button_release_event",
+			 G_CALLBACK(show_info_button_release), NULL);
+  return FALSE;
 }
 
 /**************************************************************************

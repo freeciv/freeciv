@@ -99,7 +99,6 @@ bool waiting_for_end_turn = FALSE;
  */
 bool turn_done_sent = FALSE;
 
-static void client_remove_all_cli_conn(void);
 
 /**************************************************************************
 ...
@@ -710,6 +709,7 @@ void set_client_state(enum client_states newstate)
     }
   }
   update_turn_done_button_state();
+  update_conn_list_dialog();
 }
 
 
@@ -739,7 +739,7 @@ void client_remove_cli_conn(struct connection *pconn)
   Remove (and free) all connections from all connection lists in client.
   Assumes game.all_connections is properly maintained with all connections.
 **************************************************************************/
-static void client_remove_all_cli_conn(void)
+void client_remove_all_cli_conn(void)
 {
   while (conn_list_size(&game.all_connections) > 0) {
     struct connection *pconn = conn_list_get(&game.all_connections, 0);

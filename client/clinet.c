@@ -103,6 +103,7 @@ static void close_socket_nomessage(struct connection *pc)
   
   set_client_state(CLIENT_PRE_GAME_STATE);
   agents_disconnect();
+  client_remove_all_cli_conn();
 }
 
 /**************************************************************************

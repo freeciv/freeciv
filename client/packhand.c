@@ -1447,6 +1447,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     sz_strlcpy(pconn->capability, pinfo->capability);
   }
   update_players_dialog();
+  update_conn_list_dialog();
 }
 
 /*************************************************************************

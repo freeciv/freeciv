@@ -600,6 +600,14 @@ void ui_main(int argc, char *argv[])
 }
 
 /**************************************************************************
+ Update the connected users list at pregame state.
+**************************************************************************/
+void update_conn_list_dialog(void)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
   Make a bell noise (beep).  This provides low-level sound alerts even
   if there is no real sound support.
 **************************************************************************/

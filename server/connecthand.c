@@ -64,9 +64,10 @@ static void establish_new_connection(struct connection *pconn)
 
   /* "establish" the connection */
   pconn->established = TRUE;
-  conn_list_insert_back(&game.est_connections, pconn);
   send_conn_info(dest, &game.est_connections);
-  
+  conn_list_insert_back(&game.est_connections, pconn);
+  send_conn_info(&game.est_connections, dest);
+
   /* introduce the server to the connection */
   if (my_gethostname(hostname, sizeof(hostname)) == 0) {
     notify_conn(dest, _("Welcome to the %s Server running at %s port %d."),
