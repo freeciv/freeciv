@@ -767,6 +767,7 @@ static void city_increase_size(struct city *pcity)
 {
   int have_square, x, y;
   int has_granary = city_got_effect(pcity, B_GRANARY);
+  int new_food;
   
   if (!city_got_building(pcity, B_AQUEDUCT)
       && pcity->size>=game.aqueduct_size) {/* need aqueduct */
@@ -781,8 +782,9 @@ static void city_increase_size(struct city *pcity)
 		       pcity->name, improvement_types[B_AQUEDUCT].name);
     }
     /* Granary can only hold so much */
-    pcity->food_stock = ((pcity->size+1) * game.foodbox *
-			 (100 - game.aqueductloss/(1+has_granary))) / 100;
+    new_food = ((pcity->size+1) * game.foodbox *
+		(100 - game.aqueductloss/(1+has_granary))) / 100;
+    pcity->food_stock = MIN(pcity->food_stock, new_food);
     return;
   }
 
@@ -799,16 +801,18 @@ static void city_increase_size(struct city *pcity)
 		       pcity->name, improvement_types[B_SEWER].name);
     }
     /* Granary can only hold so much */
-    pcity->food_stock = ((pcity->size+1) * game.foodbox *
-			 (100 - game.aqueductloss/(1+has_granary))) / 100; 
+    new_food = ((pcity->size+1) * game.foodbox *
+		(100 - game.aqueductloss/(1+has_granary))) / 100;
+    pcity->food_stock = MIN(pcity->food_stock, new_food);
     return;
   }
 
   pcity->size++;
   if (has_granary)
-    pcity->food_stock = ((pcity->size+1) * game.foodbox) / 2;
+    new_food = ((pcity->size+1) * game.foodbox) / 2;
   else
-    pcity->food_stock = 0;
+    new_food = 0;
+  pcity->food_stock = MIN(pcity->food_stock, new_food);
 
   /* If there is enough food, and the city is big enough,
    * make new citizens into scientists or taxmen -- Massimo */
@@ -1301,10 +1305,10 @@ static int update_city_activity(struct player *pplayer, struct city *pcity)
   city_check_workers(pplayer, pcity);
   city_refresh(pcity);
 
-  /* fill citys food box if it is in rapture -- SKi */
+  /* increase city size if it is in rapture -- jjm */
   if (city_celebrating(pcity) && government_has_flag(g, G_RAPTURE_CITY_GROWTH) &&
       pcity->size >= g->rapture_size && pcity->food_surplus > 0) {
-    pcity->food_stock=(pcity->size+1)*game.foodbox+1; 
+    city_increase_size(pcity);
   }
 
   if (!city_got_effect(pcity,B_GRANARY) && !pcity->is_building_unit &&
