@@ -50,5 +50,6 @@ char *minstrdup(char *);
 int mystrcasecmp(char *str0, char *str1);
 int myrand(int size);
 void mysrand(unsigned int seed);
+int string_ptr_compare(const void *first, qconst void *second);
 
 #endif

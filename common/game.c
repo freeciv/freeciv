@@ -18,6 +18,7 @@
 #include <player.h>
 #include <map.h>
 #include <city.h>
+#include <shared.h>
 
 struct civ_game game;
 
@@ -464,4 +465,16 @@ void game_renumber_players(int plrno)
     game.players[i].embassy=WIPEBIT(game.players[i].embassy, plrno);
   }
   
+}
+
+/**************************************************************************
+city_name_compare() - Does a string compare on the names of two cities
+                      when passed the cities' IDs.  Called by qsort()
+**************************************************************************/
+
+int city_name_compare(const void *first,const void *second)
+{
+
+    return mystrcasecmp((find_city_by_id(*(int *)first))->name,
+                  (find_city_by_id(*(int *)second))->name);
 }

@@ -16,6 +16,7 @@
 #include <ctype.h>
 
 #include <shared.h>
+
 /**************************************************************************
 ... 
 **************************************************************************/
@@ -235,18 +236,6 @@ char *minstrdup(char *str)
 /***************************************************************
 ...
 ***************************************************************/
-int mystrcasecmp(char *str0, char *str1)
-{
-  for(; tolower(*str0)==tolower(*str1); str0++, str1++)
-    if(*str0=='\0')
-      return 0;
-
-  return tolower(*str0)-tolower(*str1);
-}
-
-/***************************************************************
-...
-***************************************************************/
 char *get_dot_separated_int(unsigned val)
 {
   static char str[16];
@@ -285,4 +274,27 @@ void mysrand(unsigned int seed)
 #else
   srand48(seed);
 #endif
+}
+
+/***************************************************************
+...
+***************************************************************/
+int mystrcasecmp(char *str0, char *str1)
+{
+  for(; tolower(*str0)==tolower(*str1); str0++, str1++)
+    if(*str0=='\0')
+      return 0;
+
+  return tolower(*str0)-tolower(*str1);
+}
+
+/**************************************************************************
+string_ptr_compare() - fiddles with pointers to do a simple string compare
+                       when passed pointers to two strings -- called from
+                       qsort().
+**************************************************************************/
+
+int string_ptr_compare(const void *first, const void *second)
+{
+   return mystrcasecmp(*((char **)first), *((char **)second));
 }

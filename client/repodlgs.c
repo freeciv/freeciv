@@ -895,6 +895,12 @@ void city_report_dialog_update(void)
       cities_in_list[0]=0;
     }
     city_list_names_ptrs[i]=0;
+    /* Lists are independently sorted, but stay in sync as long as
+       the city info strings (in city_list_names) start with the
+        city name.
+    */
+    qsort(city_list_names_ptrs,i,sizeof(char *),string_ptr_compare);
+    qsort(cities_in_list,i,sizeof(int),city_name_compare);
 
     XawListChange(city_list, city_list_names_ptrs, 0, 0, 1);
 

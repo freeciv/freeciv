@@ -96,6 +96,8 @@ int civ_score(struct player *pplayer);
 void initialize_globals();
 void set_civ_style(int style);
 
+int city_name_compare(const void *first, const void *second);
+
 extern struct civ_game game;
 
 #endif
