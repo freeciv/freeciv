@@ -33,6 +33,7 @@
 #include <maphand.h>
 #include <sys/time.h>
 #include <advmilitary.h>
+#include <citytools.h>
 
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 int unit_defensiveness(struct unit *punit);
@@ -797,14 +798,14 @@ void generate_minimap(struct player *pplayer)
   for (a = 0; a < game.nplayers; a++) {
     city_list_iterate(game.players[a].cities, pcity)
       city_map_iterate(i, j) {
-        minimap[map_adjust_x(pcity->x+i-2)][map_adjust_y(pcity->y+j-2)]++;
+        minimap[map_adjust_x(pcity->x+i-2)][map_adjust_y(pcity->y+j-2)] = 1;
       }
     city_list_iterate_end;
   }
   unit_list_iterate(pplayer->units, punit)
     if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
       city_map_iterate(i, j) {
-        minimap[map_adjust_x(punit->goto_dest_x+i-2)][map_adjust_y(punit->goto_dest_y+j-2)]++;
+        minimap[map_adjust_x(punit->goto_dest_x+i-2)][map_adjust_y(punit->goto_dest_y+j-2)] = 1;
       }
     }
   unit_list_iterate_end;
@@ -825,6 +826,7 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
   int con, con2;
   int har, t, ff, sh;
   struct tile_type *ptype;
+  struct city *pcity;
   
   har = is_terrain_near_tile(x, y, T_OCEAN);
 
@@ -834,10 +836,14 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
 
   ptile = map_get_tile(x, y);
   if (ptile->terrain == T_OCEAN) return(0);
+  pcity = map_get_city(x, y);
+  if (pcity && pcity->size > 7) return(0);
+  if (!pcity && minimap[x][y]) return(0);
+
   con = ptile->continent;
 
-  city_list_iterate(pplayer->cities, pcity)
-    if (city_got_building(pcity, B_PYRAMIDS)) g++;
+  city_list_iterate(pplayer->cities, acity)
+    if (city_got_building(acity, B_PYRAMIDS)) g++;
   city_list_iterate_end;
 
   memset(taken, 0, sizeof(taken));
@@ -849,11 +855,8 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
   memset(road, 0, sizeof(road));
 
   city_map_iterate(i, j) {
-    if (minimap[map_adjust_x(x+i-2)][map_adjust_y(y+j-2)]) {
-      food[i][j] = 0;
-      shield[i][j] = 0;
-      trade[i][j] = 0;
-    } else {
+    if ((!minimap[map_adjust_x(x+i-2)][map_adjust_y(y+j-2)] && !pcity) ||
+       (pcity && get_worker_city(pcity, i, j) == C_TILE_EMPTY)) {
       ptile = map_get_tile(x+i-2, y+j-2);
       con2 = ptile->continent;
       ptype = get_tile_type(ptile->terrain);
@@ -878,14 +881,32 @@ int city_desirability(int x, int y, int dist, struct player *pplayer)
       }
       if (trade[i][j]) trade[i][j] += t;
       else if (road[i][j]) road[i][j] += t;
-    } /* end else */
+    }
+  }
+
+  if (pcity) { /* quick-n-dirty immigration routine -- Syela */
+    n = pcity->size;
+    best = 0;
+    city_map_iterate(i, j) {
+      cur = (food[i][j] + 0 * irrig[i][j]) * 4 / n +
+            (shield[i][j] + mine[i][j]) +
+            (trade[i][j] + road[i][j]);
+      if (cur > best && (i != 2 || j != 2)) { best = cur; ii = i; jj = j; }
+    }
+    if (!best) return(0);
+    val = (shield[ii][jj] + mine[ii][jj]) +
+          (food[ii][jj] + irrig[ii][jj]) + /* seems to be needed */
+          (trade[ii][jj] + road[ii][jj]);
+/*printf("Desire to immigrate to %s = %d -> %d\n", pcity->name, val,
+(val * 100) / MORT / 70);*/
+    return(val);
   }
 
   f = food[2][2] + irrig[2][2];
   if (!f) return(0); /* no starving cities, thank you! -- Syela */
   val = food[2][2] + irrig[2][2] + /* this feels wrong but works better */
-        (shield[2][2] + mine[2][2]) +
-        (trade[2][2] + road[2][2]);
+          (shield[2][2] + mine[2][2]) +
+          (trade[2][2] + road[2][2]);
   taken[2][2]++;
   /* val is mort times the real value */
   /* treating harbor as free to approximate advantage of building boats. -- Syela */
