@@ -1609,7 +1609,8 @@ handle user pressing key for 'Connect' command
 **************************************************************************/
 void key_unit_connect(void)
 {
-  request_unit_connect();
+  if(get_unit_in_focus())
+    request_unit_connect();
 }
 
 /**************************************************************************
@@ -1641,7 +1642,8 @@ void key_unit_disband(void)
 **************************************************************************/
 void key_unit_done(void)
 {
-  request_unit_move_done();
+  if(get_unit_in_focus())
+    request_unit_move_done();
 }
 
 /**************************************************************************
@@ -1679,7 +1681,8 @@ void key_unit_fortress(void)
 **************************************************************************/
 void key_unit_goto(void)
 {
-  request_unit_goto();
+  if(get_unit_in_focus())
+    request_unit_goto();
 }
 
 /**************************************************************************
@@ -1735,7 +1738,8 @@ void key_unit_paradrop(void)
 **************************************************************************/
 void key_unit_patrol(void)
 {
-  request_unit_patrol();
+  if(get_unit_in_focus())
+    request_unit_patrol();
 }
 
 /**************************************************************************

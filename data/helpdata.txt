@@ -440,49 +440,55 @@ Keyboard:\n\
 =========\n\
   a: (a)uto-settler  (settler units)\n\
   a: (a)uto-attack  (military units)\n\
-  c: (c)enter view on unit\n\
-  C: unit (C)onnect (then left-click mouse to select destination)\n\
   b: (b)uild city  (settler units)\n\
   b: help (b)uild wonder  (caravan units)\n\
+  c: (c)enter view on unit\n\
+  C: unit (c)onnect  (then left-click mouse to select destination)\n\
+  d: (d)iplomat/spy actions  (diplomat/spy units)\n\
   D: (D)isband unit\n\
-  e: build airbas(e) (airbase units)\n\
+  e: build airbas(e)\n\
   f: (f)ortify unit  (military units)\n\
-  f: build (f)ortress on tile  (settler units)\n\
+  f: build (f)ortress  (settler units)\n\
+  F: open (F)ind City dialog\n\
   g: unit (g)oto  (then left-click mouse to select destination)\n\
   h: change (h)omecity  (to city at current location)\n\
   i: build (i)rrigation/farmland  (may convert terrain)\n\
   l: go/air(l)ift to city\n\
+  L: open Work(L)ists dialog\n\
   m: build (m)ine  (may convert terrain)\n\
+  n: clean (n)uclear fallout\n\
   N: explode (N)uclear\n\
   o: transf(o)rm terrain\n\
-  p: clean (p)ollution\n\
+  p: clean (p)ollution (settler units)\n\
+  p: (p)aradrop  (paratroopers)\n\
   P: (P)illage terrain alteration\n\
+  q: unit patrol  (then left-click mouse to select destination)\n\
   r: build (r)oad/railroad  (settler units)\n\
   r: establish trade (r)oute  (caravan units)\n\
   R: incite a (R)evolution\n\
-  q: unit patrol  (then left-click mouse to select destination)\n\
   s: (s)entry unit\n\
+  t: show (t)iles city is using  (mouse over or near city)\n\
+  T: open (T)ax/Lux/Sci Rates dialog\n\
   u: (u)nload boat\n\
   w: (w)ait until later in turn\n\
   W: (W)ake up other units on tile\n\
-  t: show (t)iles city is using  (mouse over or near city)\n\
-  T: open (t)ax/lux/sci rates dialog\n\
   x: auto-e(x)plore\n\
 \n\
   1: move south-west                  F1: open City Report\n\
   2: move south                       F2: open Military Report\n\
   3: move south-east                  F3: open Players dialog\n\
-  4: move west                        F4: open Messages dialog\n\
-  5: focus on next unit               F5: open Trade Report\n\
-  6: move east                        F6: open Science Report\n\
-  7: move north-west                  F7: open World Wonders\n\
-  8: move north                       F8: open Top Five Cities\n\
+  4: move west                        F5: open Trade Report\n\
+  5: focus on next unit               F6: open Science Report\n\
+  6: move east                        F7: open World Wonders\n\
+  7: move north-west                  F8: open Top Five Cities\n\
+  8: move north                      F10: open Messages dialog\n\
   9: move north-east                 F11: open Demographics\n\
                                      F12: open Spaceship\n\
 \n\
-  arrows: move unit            control-f: open (f)ind city dialog\n\
-   space: unit stay put        control-g: grid lines on/off\n\
-     tab: focus on next unit      return: turn done\
+  arrows: move unit            control-g: grid lines on/off\n\
+   space: unit stay put        control-n: city names on/off\n\
+     tab: focus on next unit   control-p: city production on/off\n\
+  return: turn done\
 ")
 
 [help_chatline]

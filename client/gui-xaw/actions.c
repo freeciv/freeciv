@@ -343,9 +343,6 @@ static void xaw_key_unit_build_city_or_wonder(Widget w, XEvent *event, String *a
     if (unit_flag(punit->type, F_SETTLERS)) {
       if(is_menu_item_active(MENU_ORDER, MENU_ORDER_BUILD_CITY))
 	key_unit_build_city();
-    } else if (unit_flag(punit->type, F_DIPLOMAT)) {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_DIPLOMAT_DLG))
-	key_unit_diplomat_actions();
     } else {
       if(is_menu_item_active(MENU_ORDER, MENU_ORDER_BUILD_WONDER))
 	key_unit_build_wonder();
@@ -363,6 +360,12 @@ static void xaw_key_unit_connect(Widget w, XEvent *event, String *argv, Cardinal
 {
   if(is_menu_item_active(MENU_ORDER, MENU_ORDER_CONNECT))
     key_unit_connect();
+}
+
+static void xaw_key_unit_diplomat_spy_action(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  if(is_menu_item_active(MENU_ORDER, MENU_ORDER_DIPLOMAT_DLG))
+    key_unit_diplomat_actions();
 }
 
 static void xaw_key_unit_disband(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -640,6 +643,7 @@ static XtActionsRec Actions[] = {
   { "key-unit-build-city-or-wonder", xaw_key_unit_build_city_or_wonder },
   { "key-unit-build-wonder", xaw_key_unit_build_wonder },
   { "key-unit-connect", xaw_key_unit_connect },
+  { "key-unit-diplomat-spy-action", xaw_key_unit_diplomat_spy_action },
   { "key-unit-disband", xaw_key_unit_disband },
   { "key-unit-done", xaw_key_unit_done },
   { "key-unit-fallout", xaw_key_unit_fallout },

@@ -2763,12 +2763,12 @@ Freeciv*mapcanvas.translations:\
    <MouseMoved>:      mouse-moved()                    \n\
    Shift<BtnDown>:    btn-adjust-workers()             \n\
    <BtnDown>:         btn-select-mapcanvas()           \n\
-   Ctrl<Key>f:        key-open-find-city()             \n\
    Ctrl<Key>g:        key-map-grid-toggle()            \n\
    Ctrl<Key>n:        key-city-names-toggle()          \n\
    Ctrl<Key>p:        key-city-productions-toggle()    \n\
    Shift<Key>c:       key-unit-connect()               \n\
    Shift<Key>d:       key-unit-disband()               \n\
+   Shift<Key>f:       key-open-find-city()             \n\
    Shift<Key>l:       key-open-worklists()             \n\
    Shift<Key>n:       key-unit-nuke()                  \n\
    Shift<Key>p:       key-unit-pillage()               \n\
@@ -2778,6 +2778,7 @@ Freeciv*mapcanvas.translations:\
    <Key>a:            key-unit-auto-attack-or-settle() \n\
    <Key>b:            key-unit-build-city-or-wonder()  \n\
    <Key>c:            key-center-on-unit()             \n\
+   <Key>d:            key-unit-diplomat-spy-action()   \n\
    <Key>e:            key-unit-airbase()               \n\
    <Key>f:            key-unit-fortify-or-fortress()   \n\
    <Key>g:            key-unit-goto()                  \n\
@@ -2839,12 +2840,12 @@ Freeciv*mapcanvas.translations:\
 
 Freeciv*overviewcanvas.translations:\
    <BtnDown>:         btn-select-overviewcanvas()      \n\
-   Ctrl<Key>f:        key-open-find-city()             \n\
    Ctrl<Key>g:        key-map-grid-toggle()            \n\
    Ctrl<Key>n:        key-city-names-toggle()          \n\
    Ctrl<Key>p:        key-city-productions-toggle()    \n\
    Shift<Key>c:       key-unit-connect()               \n\
    Shift<Key>d:       key-unit-disband()               \n\
+   Shift<Key>f:       key-open-find-city()             \n\
    Shift<Key>l:       key-open-worklists()             \n\
    Shift<Key>n:       key-unit-nuke()                  \n\
    Shift<Key>p:       key-unit-pillage()               \n\
@@ -2854,6 +2855,7 @@ Freeciv*overviewcanvas.translations:\
    <Key>a:            key-unit-auto-attack-or-settle() \n\
    <Key>b:            key-unit-build-city-or-wonder()  \n\
    <Key>c:            key-center-on-unit()             \n\
+   <Key>d:            key-unit-diplomat-spy-action()   \n\
    <Key>e:            key-unit-airbase()               \n\
    <Key>f:            key-unit-fortify-or-fortress()   \n\
    <Key>g:            key-unit-goto()                  \n\

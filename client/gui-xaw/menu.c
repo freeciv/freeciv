@@ -122,7 +122,7 @@ static struct MenuEntry game_menu_entries[]={
 static struct MenuEntry kingdom_menu_entries[]={
     { { N_("Tax Rates"), 0            },     "T", MENU_KINGDOM_RATES, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
-    { { N_("Find City"), 0            }, "ctl-f", MENU_KINGDOM_FIND_CITY, 0 },
+    { { N_("Find City"), 0            },     "F", MENU_KINGDOM_FIND_CITY, 0 },
     { { N_("Worklists"), 0            },     "L", MENU_KINGDOM_WORKLISTS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Revolution"), 0           },     "R", MENU_KINGDOM_REVOLUTION, 0 },
@@ -188,7 +188,7 @@ static struct MenuEntry order_menu_entries[]={
     { { N_("Disband Unit"), 0         },     "D", MENU_ORDER_DISBAND, 0 },
     { { N_("Help Build Wonder"), 0    },     "b", MENU_ORDER_BUILD_WONDER, 0 },
     { { N_("Make Trade Route"), 0     },     "r", MENU_ORDER_TRADEROUTE, 0 },
-    { { N_("Diplomat/Spy Actions"), 0 },     "b", MENU_ORDER_DIPLOMAT_DLG, 0},
+    { { N_("Diplomat/Spy Actions"), 0 },     "d", MENU_ORDER_DIPLOMAT_DLG, 0},
     { { N_("Explode Nuclear"), 0      },     "N", MENU_ORDER_NUKE, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Wait"), 0                 },     "w", MENU_ORDER_WAIT, 0 },
