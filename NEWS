@@ -6,7 +6,7 @@ This is release 1.14.1-beta1.
 
 Thanks again to all our developers, who continue to work so hard.
 
-The 1.14 release includes lots of changes, outlined below.  Those who
+This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
 
@@ -17,6 +17,7 @@ WHAT'S CHANGED SINCE 1.14.0
  - Teams are supported.
  - Civserver now works on UTF-8 locales.
  - Lots of bug fixes.
+
 WHAT'S CHANGED SINCE 1.13.0
  - Unique city names, you no longer can name your cities the same,
    and you can enforce unique city names globally (optional).
