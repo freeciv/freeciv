@@ -6,12 +6,15 @@
 #ifdef MIAMI_SDK
 void usleep(unsigned long usec);
 #else /* AmiTCP */
+#include <netdb.h>
 char *inet_ntoa(struct in_addr addr);
 #endif
 int ioctl(int fd, unsigned int request, char *argp);
 #include <proto/socket.h>
 #include <proto/usergroup.h>
+#ifndef __VBCC__
 #include <fcntl.h>
+#endif
 
 #ifdef __SASC /* this is necessary, else SAS-C does not use the supplied */
 #undef read   /* functions in server and client, but it's own stuff in */

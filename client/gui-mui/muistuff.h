@@ -5,6 +5,10 @@
 #include <libraries/mui.h>
 #endif
 
+#ifndef LIBRARIES_IFFPARSE_H
+#include <libraries/iffparse.h> /* MAKE_ID macro */
+#endif
+
 #include "SDI_compiler.h"
 #define HOOKPROTO(name, ret, obj, param) static ASM(ret) SAVEDS name(REG(a0, struct Hook *hook), REG(a2, obj), REG(a1, param))
 #define HOOKPROTONH(name, ret, obj, param) static ASM(ret) SAVEDS name(REG(a2, obj), REG(a1, param))
@@ -52,12 +56,12 @@ void init_civstandard_hook(void);
 #define HorizLineTextObject(text)  RectangleObject,MUIA_VertWeight,0,MUIA_Rectangle_HBar, TRUE,MUIA_Rectangle_BarTitle,text,End
 
 /* a list of MUI window ID's used in this client:
+'CITO'  citydlg.c       create_city_dialog() - city options
 'CITY'  citydlg.c       create_city_dialog() - city view
 'CONN'  connectdlg.c    gui_server_connect()
 'CTYR'  cityrep.c       create_city_report_dialog()
 'GOTO'  gotodlg.c       popup_goto_dialog()
 'HELP'  helpdlg.c       popup_help_dialog_typed()
-'ID'    citydlg.c       create_city_dialog() - city options
 'INPD'  inputdlg.c      input_dialog_create()
 'MAIN'  gui_main.c      init_gui()
 'MESS'  messagewin.c    create_meswin_dialog()

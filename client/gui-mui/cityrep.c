@@ -112,7 +112,7 @@ HOOKPROTONH(cityrep_compare, int, struct city *pcity2, struct city *pcity1)
 /**************************************************************************
  Callback if a new entry inside the listview is selected
 **************************************************************************/
-static int cityrep_active(void)
+static void cityrep_active(void)
 {
   struct city *pcity;
 
@@ -158,14 +158,12 @@ static int cityrep_active(void)
     set(cityrep_popup_button, MUIA_Disabled, TRUE);
     set(cityrep_buy_button, MUIA_Disabled, TRUE);
   }
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Buy Button
 **************************************************************************/
-
-static int cityrep_buy(void)
+static void cityrep_buy(void)
 {
   struct city *pcity;
 
@@ -199,13 +197,12 @@ static int cityrep_buy(void)
       append_output_window(buf);
     }
   }
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Center Button
 **************************************************************************/
-static int cityrep_center(void)
+static void cityrep_center(void)
 {
   struct city *pcity;
 
@@ -215,13 +212,12 @@ static int cityrep_center(void)
   {
     center_tile_mapcanvas(pcity->x, pcity->y);
   }
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Popup Button
 **************************************************************************/
-static int cityrep_popup(void)
+static void cityrep_popup(void)
 {
   struct city *pcity;
 
@@ -234,13 +230,12 @@ static int cityrep_popup(void)
     }
     popup_city_dialog(pcity, 0);
   }
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Change Button
 **************************************************************************/
-static int cityrep_change(void)
+static void cityrep_change(void)
 {
   struct city *pcity;
 
@@ -248,14 +243,12 @@ static int cityrep_change(void)
 
   if(pcity)
     popup_city_production_dialog(pcity);
-
-  return NULL;
 }
 
 /****************************************************************
  Callback for the Refresh Button
 *****************************************************************/
-static int cityrep_refresh(void)
+static void cityrep_refresh(void)
 {
   struct city *pcity;
   struct packet_generic_integer packet;
@@ -267,8 +260,6 @@ static int cityrep_refresh(void)
     send_packet_generic_integer(&aconnection, PACKET_CITY_REFRESH, 
 				&packet);
   }
-
-  return NULL;
 }
 
 /****************************************************************
@@ -306,7 +297,7 @@ static void cityrep_configure(void)
     Object *ok_button, *cancel_button;
 
     config_wnd = WindowObject,
-      MUIA_Window_ID, 'OPTC',
+      MUIA_Window_ID, MAKE_ID('O','P','T','C'),
       MUIA_Window_Title, "Configure City Report",
       WindowContents, VGroup,
         Child, TextObject,
@@ -365,7 +356,7 @@ static void cityrep_configure(void)
 /****************************************************************
  Create and initialize the city report window
 *****************************************************************/
-void create_city_report_dialog(int make_modal)
+static void create_city_report_dialog(void)
 {
   Object *cityrep_close_button;
   Object *cityrep_refresh_button;
@@ -389,7 +380,7 @@ void create_city_report_dialog(int make_modal)
 
   cityrep_wnd = WindowObject,
     MUIA_Window_Title, "City Report",
-    MUIA_Window_ID, 'CTYR',
+    MUIA_Window_ID, MAKE_ID('C','T','Y','R'),
     WindowContents, VGroup,
 	Child, cityrep_title_text = TextObject,
 	    MUIA_Text_PreParse, "\33c",
@@ -510,7 +501,7 @@ void city_report_dialog_update_city(struct city *pcity)
 void popup_city_report_dialog(int make_modal)
 {
   if (!cityrep_wnd)
-    create_city_report_dialog(make_modal);
+    create_city_report_dialog();
   if (cityrep_wnd)
   {
     city_report_dialog_update();

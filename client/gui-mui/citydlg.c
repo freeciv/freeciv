@@ -461,12 +461,13 @@ static void city_list_sort(struct MinList *list)
 /**************************************************************************
  Display function for the listview in the production window
 **************************************************************************/
-HOOKPROTO(city_prod_display, int, char **array, ULONG which)
+HOOKPROTO(city_prod_display, int, char **array, APTR msg)
 {
   static char name[256];
   static char info[32];
   static char cost[32];
   static char rounds[32];
+  ULONG which = (ULONG) msg;
 
   struct city *pcity = (struct city *) hook->h_Data;
 
@@ -567,15 +568,17 @@ HOOKPROTO(city_prod_display, int, char **array, ULONG which)
 /**************************************************************************
  Display function for the listview in the city window
 **************************************************************************/
-HOOKPROTO(city_imprv_display, int, char **array, ULONG which)
+HOOKPROTO(city_imprv_display, int, char **array, APTR msg)
 {
   static char name[256];
   static char cost[32];
+  ULONG which = (ULONG) msg;
+
   if (which)
   {
     struct city_dialog *pdialog = (struct city_dialog *) hook->h_Data;
     which--;
-    sprintf(name, "%s", get_impr_name_ex(pdialog->pcity, which), get_improvement_type(which)->build_cost);
+    sprintf(name, "%s", get_impr_name_ex(pdialog->pcity, which));
     sprintf(cost, "%d", improvement_upkeep(pdialog->pcity, which));
     *array++ = name;
     *array = cost;
@@ -601,37 +604,34 @@ static int city_close_real(struct city_dialog **ppdialog)
 /**************************************************************************
  Callback for the Close Button (or CloseGadget)
 **************************************************************************/
-static int city_close(struct city_dialog **ppdialog)
+static void city_close(struct city_dialog **ppdialog)
 {
   set((*ppdialog)->wnd, MUIA_Window_Open, FALSE);
   DoMethod(app, MUIM_Application_PushMethod, app, 4, MUIM_CallHook, &civstandard_hook, city_close_real, *ppdialog);
-  return NULL;
 }
 
 /**************************************************************************
  Callback if a message window should be closed
 **************************************************************************/
-static int city_msg_no(struct popup_message_data *data)
+static void city_msg_no(struct popup_message_data *data)
 {
   destroy_message_dialog(data->wnd);
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Yes in the Buy confirmation window
 **************************************************************************/
-static city_buy_yes(struct popup_message_data *data)
+static void city_buy_yes(struct popup_message_data *data)
 {
   struct city *pcity = (struct city *) data->data;
   request_city_buy(pcity);
   destroy_message_dialog(data->wnd);
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Yes in the Sell confirmation window
 **************************************************************************/
-static int city_sell_yes(struct popup_message_data *data)
+static void city_sell_yes(struct popup_message_data *data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data->data;
 
@@ -643,13 +643,12 @@ static int city_sell_yes(struct popup_message_data *data)
     pdialog->sell_id = -1;
 
   destroy_message_dialog(data->wnd);
-  return 0;
 }
 
 /**************************************************************************
  Callback to accept the options in the configure window
 **************************************************************************/
-static int city_opt_ok(struct city_dialog **ppdialog)
+static void city_opt_ok(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
   struct city *pcity = pdialog->pcity;
@@ -680,13 +679,12 @@ static int city_opt_ok(struct city_dialog **ppdialog)
 			       &packet);
   }
   set(pdialog->cityopt_wnd, MUIA_Window_Open, FALSE);
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Trade button
 **************************************************************************/
-static int city_trade(struct city_dialog **ppdialog)
+static void city_trade(struct city_dialog **ppdialog)
 {
   int i;
   int x = 0, total = 0;
@@ -727,8 +725,6 @@ static int city_trade(struct city_dialog **ppdialog)
   popup_message_dialog(pdialog->wnd, "Trade Routes", buf,
 		       "_Done", message_close, 0,
 		       0);
-
-  return 0;
 }
 
 /****************************************************************
@@ -767,21 +763,19 @@ static void city_rename(struct city_dialog **ppdialog)
 /**************************************************************************
  Callback for the List button
 **************************************************************************/
-static int city_unitlist(struct city_dialog **ppdialog)
+static void city_unitlist(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
   struct tile *ptile = map_get_tile(pdialog->pcity->x, pdialog->pcity->y);
 
   if (unit_list_size(&ptile->units))
     popup_unit_select_dialog(ptile);
-
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Activate All button
 **************************************************************************/
-static int city_activate_units(struct city_dialog **ppdialog)
+static void city_activate_units(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
   int x=pdialog->pcity->x,y=pdialog->pcity->y;
@@ -798,25 +792,22 @@ static int city_activate_units(struct city_dialog **ppdialog)
     if (pmyunit)
       set_unit_focus(pmyunit);
   }
-  return 0;
 }
 
 /**************************************************************************
  Callback for the Configure button
 **************************************************************************/
-static int city_configure(struct city_dialog **ppdialog)
+static void city_configure(struct city_dialog **ppdialog)
 {
   open_cityopt_dialog(*ppdialog);
-  return 0;
 }
 
 /**************************************************************************
  Callback for the Change button
 **************************************************************************/
-static int city_change(struct city_dialog **ppdialog)
+static void city_change(struct city_dialog **ppdialog)
 {
   popup_city_production_dialog((*ppdialog)->pcity);
-  return NULL;
 }
 
 /****************************************************************
@@ -884,7 +875,7 @@ static void city_worklist(struct city_dialog **ppdialog)
  Callback for the browse buttons (switch the city which is display to
  the next or previous. Alphabetically)
 **************************************************************************/
-static int city_browse(struct city_browse_msg *msg)
+static void city_browse(struct city_browse_msg *msg)
 {
   struct player *pplayer = get_player(msg->pdialog->pcity->owner);
   struct city *pcity_new;
@@ -940,14 +931,12 @@ static int city_browse(struct city_browse_msg *msg)
       refresh_this_city_dialog(msg->pdialog);
     }
   }
-
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Buy button
 **************************************************************************/
-static int city_buy(struct city_dialog **ppdialog)
+static void city_buy(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
   int value;
@@ -984,14 +973,12 @@ static int city_buy(struct city_dialog **ppdialog)
 			 "_Darn", city_msg_no, pdialog,
 			 NULL);
   }
-
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Sell button
 **************************************************************************/
-static int city_sell(struct city_dialog **ppdialog)
+static void city_sell(struct city_dialog **ppdialog)
 {
   struct city_dialog *pdialog = *ppdialog;
   LONG sel = xget(pdialog->imprv_listview, MUIA_NList_Active);
@@ -1001,12 +988,11 @@ static int city_sell(struct city_dialog **ppdialog)
     char buf[512];
     DoMethod(pdialog->imprv_listview, MUIM_NList_GetEntry, sel, &i);
 
-    if (!i)
-      return 0;
-    i--;
+    if (!i--)
+      return;
 
     if (is_wonder(i))
-      return 0;
+      return;
 
     my_snprintf(buf, sizeof(buf), "Sell %s for %d gold?", get_impr_name_ex(pdialog->pcity, i),
 	    improvement_value(i));
@@ -1017,26 +1003,24 @@ static int city_sell(struct city_dialog **ppdialog)
 			 "_No", city_msg_no, pdialog,
 			 NULL);
   }
-  return 0;
 }
 
 /**************************************************************************
  Callback if the user clicked on a map
 **************************************************************************/
-static int city_click(struct city_map_msg *msg)
+static void city_click(struct city_map_msg *msg)
 {
   struct city *pcity = msg->pdialog->pcity;
   int xtile = msg->click->x;
   int ytile = msg->click->y;
 
   request_city_toggle_worker(pcity, xtile, ytile);
-  return 0;
 }
 
 /**************************************************************************
  Callback if the user clicked on a citizen
 **************************************************************************/
-static int city_citizen(struct city_citizen_msg *msg)
+static void city_citizen(struct city_citizen_msg *msg)
 {
   struct city_dialog *pdialog = msg->pdialog;
   struct city *pcity = pdialog->pcity;
@@ -1055,17 +1039,14 @@ static int city_citizen(struct city_citizen_msg *msg)
     request_city_change_specialist(pcity, SP_TAXMAN, SP_ELVIS);
     break;
   }
-
-  return 0;
 }
 
 /**************************************************************************
  Callback if the user clicked on a present unit
 **************************************************************************/
-static int city_present(struct city_unit_msg *data)
+static void city_present(struct city_unit_msg *data)
 {
   activate_unit(data->punit);
-  return NULL;
 }
 
 /****************************************************************
@@ -1092,7 +1073,7 @@ static void city_prod_destroy(struct city_prod **ppcprod)
 /**************************************************************************
  Callback for the Change button in the production window
 **************************************************************************/
-static int city_prod_change(struct city_prod **ppcprod)
+static void city_prod_change(struct city_prod **ppcprod)
 {
   struct city_prod *pcprod = *ppcprod;
   LONG sel = xget(pcprod->available_listview, MUIA_NList_Active);
@@ -1105,7 +1086,7 @@ static int city_prod_change(struct city_prod **ppcprod)
     if (which >= 10000)
     {
       if (which == 20000 || which == 20001)
-	return NULL;
+	return;
       which -= 10000;
       is_unit = 1;
     }
@@ -1115,13 +1096,12 @@ static int city_prod_change(struct city_prod **ppcprod)
     request_city_change_production(pcprod->pcity, which, is_unit);
     city_prod_destroy(ppcprod);
   }
-  return NULL;
 }
 
 /**************************************************************************
  Callback for the Help button in the production window
 **************************************************************************/
-static int city_prod_help(struct city_prod **ppcprod)
+static void city_prod_help(struct city_prod **ppcprod)
 {
   struct city_prod *pcprod = *ppcprod;
   LONG sel = xget(pcprod->available_listview, MUIA_NList_Active);
@@ -1148,7 +1128,6 @@ static int city_prod_help(struct city_prod **ppcprod)
       }
     }
   }
-  return NULL;
 }
 
 /**************************************************************************
@@ -1170,7 +1149,7 @@ void popup_city_production_dialog(struct city *pcity)
 
   pcprod->wnd = WindowObject,
     MUIA_Window_Title, "Freeciv - Cityproduction",
-    MUIA_Window_ID, 'PROD',
+    MUIA_Window_ID, MAKE_ID('P','R','O','D'),
     WindowContents, VGroup,
 	Child, pcprod->available_listview = NListviewObject,
 	    MUIA_CycleChain, 1,
@@ -1282,7 +1261,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   pdialog->wnd = WindowObject,
     MUIA_Window_Title, "Freeciv - Cityview",
-    MUIA_Window_ID, 'CITY',
+    MUIA_Window_ID, MAKE_ID('C','I','T','Y'),
     WindowContents, VGroup,
  	Child, HGroup,
 	    Child, HVSpace,
@@ -1408,7 +1387,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   pdialog->cityopt_wnd = WindowObject,
     MUIA_Window_Title, "Freeciv - Cityoptions",
-    MUIA_Window_ID, 'ID',
+    MUIA_Window_ID, MAKE_ID('C','I','T','O'),
     WindowContents, VGroup,
 	Child, HGroup,
 	    Child, HSpace(0),

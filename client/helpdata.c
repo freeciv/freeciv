@@ -113,9 +113,7 @@ static void insert_generated_table(const char* name, char* outbuf)
 	  if (*(tile_types[i].terrain_name))
 	    {
 	      outbuf = strchr (outbuf, '\0');
-	      sprintf
-		(
-		 outbuf,
+	      sprintf(outbuf,
 		 "%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
 		 tile_types[i].terrain_name,
 		 tile_types[i].road_time,

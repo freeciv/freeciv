@@ -4,7 +4,7 @@
 /* Includeheader
 
 	Name:		SDI_compiler.h
-	Versionstring:	$VER: SDI_compiler.h 1.4 (30.03.2000)
+	Versionstring:	$VER: SDI_compiler.h 1.5 (29.07.2000)
 	Author:		SDI
 	Distribution:	PD
 	Description:	defines to hide compiler stuff
@@ -13,7 +13,33 @@
  1.2   17.11.99 : added VBCC
  1.3   29.02.00 : fixed VBCC REG define
  1.4   30.03.00 : fixed SAVEDS for VBCC
+ 1.5   29.07.00 : added #undef statements (needed e.g. for AmiTCP together with vbcc)
 */
+
+#ifdef ASM
+#undef ASM
+#endif
+#ifdef REG
+#undef REG
+#endif
+#ifdef LREG
+#undef LREG
+#endif
+#ifdef CONST
+#undef CONST
+#endif
+#ifdef SAVEDS
+#undef SAVEDS
+#endif
+#ifdef INLINE
+#undef INLINE
+#endif
+#ifdef REGARGS
+#undef REGARGS
+#endif
+#ifdef STDARGS
+#undef STDARGS
+#endif
 
 /* first "exceptions" */
 
