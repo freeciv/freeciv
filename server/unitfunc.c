@@ -424,6 +424,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 {
   struct player *cplayer;
   struct city *pnewcity;
+  int revolt_cost;
 
   if (!pcity)
     return;
@@ -436,34 +437,28 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		       "Game: You can't subvert a city from a democratic nation.");
       return;
   }
-  if (pplayer->economic.gold<pcity->incite_revolt_cost) { 
+  
+  if(pcity->incite_revolt_cost == -1) {
+    freelog(LOG_NORMAL, "Incite cost -1 in diplomat_incite by %s for %s",
+	    pplayer->name, pcity->name);
+    city_incite_cost(pcity);
+  }
+  revolt_cost = pcity->incite_revolt_cost;
+  if(pplayer->player_no == pcity->original) revolt_cost/=2;
+  
+  if (pplayer->economic.gold < revolt_cost) { 
     notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
 		     "Game: You don't have enough credits to subvert %s.", pcity->name);
     
     return;
   }
 
-#if 0  /* Isn't this obsoleted by the check immediately following?? --dwp
-	* Plus the "spy" parts should be dynamically spy/diplomat.
-	*/ 
-  if (diplomat_on_tile(pcity->x, pcity->y)) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_MY_DIPLOMAT,
-		     "Game: Your spy has been eliminated by a defending spy in %s.", pcity->name);
-    notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-		     "Game: A%s %s spy has been eliminated in %s.", 
-		     n_if_vowel(get_race_name(cplayer->race)[0]), 
-		     get_race_name(cplayer->race), pcity->name);
-    wipe_unit(0, pdiplomat);
-    return;
-  }
-#endif
-
   /* Check if the Diplomat/Spy succeeds against defending Diplomats or Spies */
 
   if (!diplomat_infiltrate_city(pplayer, cplayer, pdiplomat, pcity))
     return;  /* failed against defending diplomats/spies */
 
-  pplayer->economic.gold-=pcity->incite_revolt_cost;
+  pplayer->economic.gold -= revolt_cost;
   if (pcity->size >1) {
     pcity->size--;
     city_auto_remove_worker(pcity);

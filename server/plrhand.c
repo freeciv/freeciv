@@ -1323,7 +1323,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
     map_set_city(pcity->x, pcity->y, pcity);
 
-    city_incite_cost(pcity);
+    pcity->incite_revolt_cost = -1; /* flag value */
     
     city_list_insert_back(&plr->cities, pcity);
   }

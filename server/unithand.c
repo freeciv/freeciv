@@ -152,9 +152,9 @@ void handle_incite_inq(struct player *pplayer,
 
   if(pcity)  {
     city_incite_cost(pcity);
-    if(pplayer->player_no == pcity->original) pcity->incite_revolt_cost/=2;
     req.id=packet->value;
     req.value1=pcity->incite_revolt_cost;
+    if(pplayer->player_no == pcity->original) req.value1/=2;
     send_packet_generic_values(pplayer->conn, PACKET_INCITE_COST, &req);
     return;
   }
