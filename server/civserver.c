@@ -15,6 +15,7 @@
 #include <ctype.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <string.h>
 
 #ifdef __EMX__
 #include <netdb.h>
