@@ -689,6 +689,7 @@ void tilespec_read_toplevel(const char *tileset_name)
 
   for (i = 0; i < num_terrains; i++) {
     struct terrain_drawing_data *terr = fc_malloc(sizeof(*terr));
+    char *cell_type;
 
     memset(terr, 0, sizeof(*terr));
     terr->name = mystrdup(terrains[i] + strlen("terrain_"));
@@ -698,6 +699,17 @@ void tilespec_read_toplevel(const char *tileset_name)
 					   terrains[i]);
     terr->match_type = secfile_lookup_int(file, "%s.match_type",
 					  terrains[i]);
+    cell_type = secfile_lookup_str_default(file, "single", "%s.cell_type",
+					   terrains[i]);
+    if (strcasecmp(cell_type, "single") == 0) {
+      terr->cell_type = CELL_SINGLE;
+    } else if (strcasecmp(cell_type, "rect") == 0) {
+      terr->cell_type = CELL_RECT;
+    } else {
+      freelog(LOG_ERROR, "Unknown cell type %s for %s.",
+	      cell_type, terrains[i]);
+      terr->cell_type = CELL_SINGLE;
+    }
     terr->mine_tag = secfile_lookup_str_default(file, NULL, "%s.mine_sprite",
 						terrains[i]);
     if (terr->mine_tag) {
@@ -1030,15 +1042,7 @@ static void tilespec_lookup_sprite_tags(void)
     SET_SPRITE_ALT(tx.farmland[i], buffer, "tx.farmland");
   }
   
-  if (is_isometric) {
-    for (i=0; i<4; i++) {
-      for (j=0; j<8; j++) {
-	char *dir2 = "udlr";
-	my_snprintf(buffer, sizeof(buffer), "tx.coast_cape_%c%d", dir2[i], j);
-	SET_SPRITE(tx.coast_cape_iso[j][i], buffer);
-      }
-    }
-  } else {
+  if (!is_isometric) {
     for(i=1; i<NUM_DIRECTION_NSEW; i++) {
       my_snprintf(buffer, sizeof(buffer), "tx.darkness_%s", nsew_str(i));
       SET_SPRITE(tx.darkness[i], buffer);
@@ -1178,30 +1182,44 @@ void tilespec_setup_tile_type(enum tile_terrain_type terrain)
 
   /* Currently ocean terrains have special handling.  Although a match type
    * may be specified it is ignored.  This is a hack. */
-  if (is_isometric && is_ocean(terrain)) {
+  if (draw->match_type == 0 || draw->is_layered) {
+    /* Load single sprite for this terrain. */
     my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
     draw->base = lookup_sprite_tag_alt(buffer1, "", TRUE, "tile_type",
 				       tt->terrain_name);
-  } else {
-    if (draw->match_type == 0 || draw->is_layered) {
-      /* Load single sprite for this terrain. */
-      my_snprintf(buffer1, sizeof(buffer1), "t.%s1", draw->name);
-      draw->base = lookup_sprite_tag_alt(buffer1, "", TRUE, "tile_type",
-					 tt->terrain_name);
-    }
+  }
 
-    if (draw->match_type != 0) {
+  if (draw->match_type != 0) {
+    int j;
+
+    switch (draw->cell_type) {
+    case CELL_SINGLE:
       /* Load 16 cardinally-matched sprites. */
       for (i = 0; i < NUM_DIRECTION_NSEW; i++) {
 	my_snprintf(buffer1, sizeof(buffer1),
 		    "t.%s_%s", draw->name, nsew_str(i));
 	draw->blend[i] = lookup_sprite_tag_alt(buffer1, "", TRUE,
-					       "tile_type", tt->terrain_name);
+					       "tile_type",
+					       tt->terrain_name);
       }
+      break;
+    case CELL_RECT:
+      for (i = 0; i < 4; i++) {
+	for (j = 0; j < 8; j++) {
+	  char *dir2 = "udlr";
 
-      if (!draw->base) {
-	draw->base = draw->blend[0];
+	  my_snprintf(buffer1, sizeof(buffer1), "t.%s_cell_%c%d",
+		      draw->name, dir2[i], j);
+	  draw->cells[j][i] = lookup_sprite_tag_alt(buffer1, "", TRUE,
+						    "tile_type",
+						    tt->terrain_name);
+	}
       }
+      break;
+    }
+
+    if (!draw->base) {
+      draw->base = draw->blend[0];
     }
   }
 
@@ -1888,61 +1906,72 @@ static int fill_terrain_sprite_array(struct drawn_sprite *sprs,
     return 1;
   }
 
-  if (is_isometric && is_ocean(ttype)) {
-    /* painted via coasts. */
-    const enum direction8 dirs[4] = {
-      DIR8_NORTHWEST, /* up */
-      DIR8_SOUTHEAST, /* down */
-      DIR8_SOUTHWEST, /* left */
-      DIR8_NORTHEAST /* right */
-    };
-    const int offsets[4][2] = {
-      {NORMAL_TILE_WIDTH / 4, 0},
-      {NORMAL_TILE_WIDTH / 4, NORMAL_TILE_HEIGHT / 2},
-      {0, NORMAL_TILE_HEIGHT / 4},
-      {NORMAL_TILE_WIDTH / 2, NORMAL_TILE_HEIGHT / 4},
-    };
-    int i;
-
-    *dither_count = 4;
-
-    /* put coasts */
-    for (i = 0; i < 4; i++) {
-      int array_index = ((!is_ocean(ttype_near[dir_ccw(dirs[i])]) ? 1 : 0)
-			 + (!is_ocean(ttype_near[dirs[i]]) ? 2 : 0)
-			 + (!is_ocean(ttype_near[dir_cw(dirs[i])])
-			    ? 4 : 0));
-
-      ADD_SPRITE(sprites.tx.coast_cape_iso[array_index][i],
-		 offsets[i][0], offsets[i][1]);
-    }
-  } else {
+  if (sprites.terrain[ttype]->match_type == 0
+      || sprites.terrain[ttype]->is_layered) {
+    ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->base);
     *dither_count = 1;
+  }
 
-    if (sprites.terrain[ttype]->match_type == 0
-	|| sprites.terrain[ttype]->is_layered) {
-      ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->base);
-    }
+  if (sprites.terrain[ttype]->match_type != 0) {
+    int match_type = sprites.terrain[ttype]->match_type;
 
-    if (sprites.terrain[ttype]->match_type != 0) {
-      int match_type = sprites.terrain[ttype]->match_type;
-#define MATCH(dir) (sprites.terrain[ttype_near[(dir)]]->match_type)
-      int tileno = INDEX_NSEW(MATCH(DIR8_NORTH) == match_type,
-			      MATCH(DIR8_SOUTH) == match_type,
-			      MATCH(DIR8_EAST) == match_type,
-			      MATCH(DIR8_WEST) == match_type);
-#undef MATCH
+#define MATCH(dir) ((sprites.terrain[ttype_near[(dir)]]->match_type) \
+		    == match_type)
+    if (sprites.terrain[ttype]->cell_type == CELL_SINGLE) {
+      int tileno;
+
+      tileno = INDEX_NSEW(MATCH(DIR8_NORTH), MATCH(DIR8_SOUTH),
+			  MATCH(DIR8_EAST), MATCH(DIR8_WEST));
 
       ADD_SPRITE_SIMPLE(sprites.terrain[ttype]->blend[tileno]);
-    }
+      if (!sprites.terrain[ttype]->is_layered) {
+	*dither_count = 1;
+      }
+    } else if (sprites.terrain[ttype]->cell_type == CELL_RECT) {
+      /* Divide the tile up into four rectangular cells.  Now each of these
+       * cells covers one corner, and each is adjacent to 3 different
+       * tiles.  For each cell we pixk a sprite based upon the adjacent
+       * terrains at each of those tiles.  Thus we have 8 different sprites
+       * for each of the 4 cells (32 sprites total). */
+      const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
+      const enum direction8 dirs[4] = {
+	DIR8_NORTHWEST, DIR8_SOUTHEAST, DIR8_SOUTHWEST, DIR8_NORTHEAST
+      };
+      const int iso_offsets[4][2] = {
+	{W / 4, 0},
+	{W / 4, H / 2},
+	{0, H / 4},
+	{W / 2, H / 4},
+      };
+      const int noniso_offsets[4][2] = {
+	{0, 0}, {W / 2, H / 2}, {0, H / 2}, {W / 2, 0}
+      };
+      int i;
 
-    /* Short-cut past dithering if all adjacent tiles are the same. */
-    if (ttype_near[DIR8_NORTH] == ttype
-	&& ttype_near[DIR8_SOUTH] == ttype
-	&& ttype_near[DIR8_EAST] == ttype
-	&& ttype_near[DIR8_WEST] == ttype) {
-      *dither_count = 0;
+      /* put coasts */
+      for (i = 0; i < 4; i++) {
+	int array_index = ((!MATCH(dir_ccw(dirs[i])) ? 1 : 0)
+			   + (!MATCH(dirs[i]) ? 2 : 0)
+			   + (!MATCH(dir_cw(dirs[i])) ? 4 : 0));
+	int x = (is_isometric ? iso_offsets[i][0] : noniso_offsets[i][0]);
+	int y = (is_isometric ? iso_offsets[i][1] : noniso_offsets[i][1]);
+
+	ADD_SPRITE(sprites.terrain[ttype]->cells[array_index][i], x, y);
+      }
+
+      /* Short-cut past dithering if all adjacent tiles are the same. */
+      if (!sprites.terrain[ttype]->is_layered) {
+	if (ttype_near[DIR8_NORTH] == ttype
+	    && ttype_near[DIR8_SOUTH] == ttype
+	    && ttype_near[DIR8_EAST] == ttype
+	    && ttype_near[DIR8_WEST] == ttype) {
+	  *dither_count = 0;
+	} else {
+	  *dither_count = 4;
+	}
+      }
     }
+#undef MATCH
   }
 
   /* Extra "capes" added on in non-iso view. */

@@ -133,6 +133,15 @@ file under the graphc and graphic_alt flags.)
                           sprite will be chosen that matches all cardinally
                           adjacent tiles whose terrain has the same
                           match_type.
+  cell_type             : With traditional tilesets each tile is drawn using
+                          one sprite.  Which sprite to use may be specified
+                          using a match_type, and there may be multiple layers
+                          (each having one sprite).  This method corresponds
+                          to cell_type "single".  A more sophisticated drawing
+                          method breaks the tile up into 4 rectangles.  Each
+                          rectangular cell is adjacent to 3 different tiles.
+                          Each adjacency is matched, giving 8 different sprites
+                          for each of the 4 cells.
  
   Sprites
   -------
@@ -149,7 +158,15 @@ file under the graphc and graphic_alt flags.)
                           (e.g., "t.hills_n0s0e1w0".  Each direcional value
                           <V> is either 0 or 1.  Note that the directions are
                           in map coordinates, so n (north) in iso-view is
-                          northeast on the mapview.
+                          northeast on the mapview.  (Note this only applies
+                          for cell_type "single".)
+  cell sprites          : For matched terrains that have cell_type "rect",
+                          32 different sprites are needed.  Each sprite is
+                          a rectangle corresponding to one cell, and there are
+                          8 different sprites per cell.  Each sprite has
+                          a name like "t.ocean_cell_u5" where "ocean" is the
+                          terrain, "u" means up (north on the map) and
+                          5 indicates which of the adjacent tiles are matched.
 
 Examples:
 

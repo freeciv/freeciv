@@ -104,7 +104,8 @@ mine_sprite = "tx.mine"
 [terrain_ocean]
 is_blended = 0
 is_layered = 0
-match_type = 5
+match_type = 6
+cell_type = "rect"
 
 [terrain_plains]
 is_blended = 1

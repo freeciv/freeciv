@@ -95,6 +95,10 @@ enum direction4 {
   DIR4_NORTH = 0, DIR4_SOUTH, DIR4_EAST, DIR4_WEST
 };
 
+enum cell_type {
+  CELL_SINGLE, CELL_RECT
+};
+
 struct terrain_drawing_data {
   char *name;
   char *mine_tag;
@@ -102,9 +106,11 @@ struct terrain_drawing_data {
   bool is_blended;
   bool is_layered;
   int match_type;
+  enum cell_type cell_type;
 
   struct Sprite *base;
   struct Sprite *blend[NUM_DIRECTION_NSEW];
+  struct Sprite *cells[8][4]; /* 4 = up down left right */
   struct Sprite *special[2];
   struct Sprite *mine;
 };
@@ -211,7 +217,6 @@ struct named_sprites {
       *spec_river[NUM_DIRECTION_NSEW],
       *darkness[NUM_DIRECTION_NSEW],         /* first unused */
       *river_outlet[4],		/* indexed by enum direction4 */
-      *coast_cape_iso[8][4], /* 4 = up down left right */
       /* for non-isometric */
       *coast_cape[NUM_DIRECTION_NSEW];	      /* first unused */
   } tx;				/* terrain extra */
