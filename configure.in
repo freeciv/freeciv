@@ -763,7 +763,6 @@ AC_OUTPUT(Makefile
 	  data/engels/Makefile 
 	  data/hires/Makefile 
 	  data/default/Makefile 
-	  data/classic/Makefile 
 	  data/civ1/Makefile 
 	  data/civ2/Makefile 
 	  data/scenario/Makefile 
