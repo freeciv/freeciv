@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -115,4 +116,98 @@ char **intl_slist(int n, char **s)
     ret[i] = _(s[i]);
   }
   return ret;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void itree_begin(GtkTreeStore *store, ITree *it)
+{
+  it->model = GTK_TREE_MODEL(store);
+  it->end = !gtk_tree_model_get_iter_first(it->model, &it->it);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+gboolean itree_end(ITree *it)
+{
+  return it->end;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void itree_next(ITree *it)
+{
+  it->end = !gtk_tree_model_iter_next(it->model, &it->it);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void itree_set(ITree *it, ...)
+{
+  va_list ap;
+  
+  va_start(ap, it);
+  gtk_tree_store_set_valist(GTK_TREE_STORE(it->model), &it->it, ap);
+  va_end(ap);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void itree_get(ITree *it, ...)
+{
+  va_list ap;
+  
+  va_start(ap, it);
+  gtk_tree_model_get_valist(it->model, &it->it, ap);
+  va_end(ap);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void tstore_append(GtkTreeStore *store, ITree *it, ITree *parent)
+{
+  it->model = GTK_TREE_MODEL(store);
+  if (parent)
+    gtk_tree_store_append(GTK_TREE_STORE(it->model), &it->it, &parent->it);
+  else
+    gtk_tree_store_append(GTK_TREE_STORE(it->model), &it->it, NULL);
+  it->end = FALSE;
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void tstore_remove(ITree *it)
+{
+  gtk_tree_store_remove(GTK_TREE_STORE(it->model), &it->it);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+gboolean itree_is_selected(GtkTreeSelection *selection, ITree *it)
+{
+  return gtk_tree_selection_iter_is_selected(selection, &it->it);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void itree_select(GtkTreeSelection *selection, ITree *it)
+{
+  gtk_tree_selection_select_iter(selection, &it->it);
+}
+
+/****************************************************************
+...
+*****************************************************************/
+void itree_unselect(GtkTreeSelection *selection, ITree *it)
+{
+  gtk_tree_selection_unselect_iter(selection, &it->it);
 }

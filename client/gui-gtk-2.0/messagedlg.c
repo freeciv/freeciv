@@ -20,6 +20,7 @@
 #include "fcintl.h"
 
 #include "gui_main.h"
+#include "gui_stuff.h"
 #include "options.h"
 
 #include "messagedlg.h"
@@ -167,7 +168,7 @@ static void messageopt_destroy_callback(GtkWidget *w, gpointer data)
 static void messageopt_command_callback(GtkWidget *w, gint response_id)
 {
   if (response_id == GTK_RESPONSE_ACCEPT) {
-    GtkTreeIter it;
+    ITree it;
     gint n, j, i;
     gboolean toggle;
 
@@ -176,17 +177,14 @@ static void messageopt_command_callback(GtkWidget *w, gint response_id)
     }
 
     for (n=0; n<NUM_LISTS; n++) {
-      gtk_tree_model_get_iter_first(GTK_TREE_MODEL(model[n]), &it);
-
-      do {
+      for (itree_begin(model[n], &it); !itree_end(&it); itree_next(&it)) {
         for (j=0; j<NUM_MW; j++) {
-	  gtk_tree_model_get(GTK_TREE_MODEL(model[n]), &it,
-		j, &toggle, 4, &i, -1);
+          itree_get(&it, j, &toggle, 4, &i, -1);
 
 	  if (toggle)
 	    messages_where[i] |= (1<<j);
 	}
-      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(model[n]), &it));
+      }
     }
   }
   gtk_widget_destroy(shell);

@@ -116,6 +116,8 @@ static GtkWidget *select_cma_item;
 
 static int city_dialog_shell_is_modal;
 
+bool select_menu_cached;
+
 /****************************************************************
  Return text line for the column headers for the city report
 *****************************************************************/
@@ -152,6 +154,8 @@ void popup_city_report_dialog(bool make_modal)
       gtk_set_relative_position(toplevel, city_dialog_shell, 10, 10);
 
       gtk_widget_show(city_dialog_shell);
+
+      select_menu_cached = FALSE;
    }
 }
 
@@ -169,7 +173,8 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
 					     bool append_wonders,
 					     bool change_prod,
 					     TestCityFunc test_func,
-					     GCallback callback)
+					     GCallback callback,
+					     int size)
 {
   GtkWidget *menu;
   cid cids[U_LAST + B_LAST];
@@ -177,39 +182,41 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   int i, item, cids_used, num_selected = 0;
   char *row[4];
   char buf[4][64];
-  struct pcity_vector selected;
 
   gtk_menu_item_remove_submenu(parent_item);
   menu = gtk_menu_new();
   gtk_widget_set_name(menu, "prodmenu");
   gtk_menu_item_set_submenu(parent_item, menu);
 
-  pcity_vector_init(&selected);
-  pcity_vector_reserve(&selected,
-	gtk_tree_model_iter_n_children(GTK_TREE_MODEL(city_model), NULL)+1);
-
   if (change_prod) {
-    GtkTreeIter it;
+    struct pcity_vector selected;
+    ITree it;
 
-    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
+    pcity_vector_init(&selected);
+    pcity_vector_reserve(&selected, size);
+
+    for (itree_begin(city_model, &it); !itree_end(&it); itree_next(&it)) {
       struct city *pcity, **pdest;
+    
+      if (!itree_is_selected(city_selection, &it))
+    	continue;
 
-      do {
-        gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
-	  POINTER_COLUMN, &pcity, -1);
+      itree_get(&it, POINTER_COLUMN, &pcity, -1);
 
-	pdest = pcity_vector_get(&selected, num_selected);
-	*pdest = pcity;
-        num_selected++;
-
-      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
+      pdest = pcity_vector_get(&selected, num_selected);
+      *pdest = pcity;
+      num_selected++;
     }
+
+    cids_used = collect_cids1(cids, pcity_vector_get(&selected, 0),
+        		      num_selected, append_units,
+        		      append_wonders, change_prod, test_func);
+    pcity_vector_free(&selected);
+  } else {
+    cids_used = collect_cids1(cids, NULL, 0, append_units,
+			      append_wonders, change_prod, test_func);
   }
 
-  cids_used = collect_cids1(cids, pcity_vector_get(&selected, 0),
-			    num_selected, append_units,
-			    append_wonders, change_prod, test_func);
-  pcity_vector_free(&selected);
   name_and_sort_items(cids, cids_used, items, change_prod, NULL);
 
   for (i = 0; i < 4; i++) {
@@ -270,20 +277,17 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 
   /* If this is not the change production button */
   if (!change_prod) {
-    GtkTreeIter it;
+    ITree it;
 
     gtk_tree_selection_unselect_all(city_selection);
-    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
+    for (itree_begin(city_model, &it); !itree_end(&it); itree_next(&it)) {
       struct city *pcity;
+      
+      itree_get(&it, POINTER_COLUMN, &pcity, -1);
 
-      do {
-        gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
-	  POINTER_COLUMN, &pcity, -1);
-
-        if (test_func(pcity, cid)) {
-	  gtk_tree_selection_select_iter(city_selection, &it);
-	}
-      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
+      if (test_func(pcity, cid)) {
+	itree_select(city_selection, &it);
+      }
     }
   } else {
     bool is_unit = cid_is_unit(cid);
@@ -331,35 +335,32 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
 
   /* If this is not the change button but the select cities button. */
   if (!change_cma) {
-    GtkTreeIter it;
+    ITree it;
 
     gtk_tree_selection_unselect_all(city_selection);
-    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
+    for (itree_begin(city_model, &it); !itree_end(&it); itree_next(&it)) {
       struct city *pcity;
       int controlled;
       bool select;
 
-      do {
-        gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
-	  POINTER_COLUMN, &pcity, -1);
-	controlled = cma_is_city_under_agent(pcity, &parameter);
-	select = FALSE;
+      itree_get(&it, POINTER_COLUMN, &pcity, -1);
+      controlled = cma_is_city_under_agent(pcity, &parameter);
+      select = FALSE;
 
-	if (idx == CMA_CUSTOM && controlled
-	    && cmafec_preset_get_index_of_parameter(&parameter) == -1) {
-	  select = TRUE;
-	} else if (idx == CMA_NONE && !controlled) {
-	  select = TRUE;
-	} else if (idx >= 0 && controlled &&
-		   cma_are_parameter_equal(&parameter,
-					   cmafec_preset_get_parameter(idx))) {
-	  select = TRUE;
-	}
+      if (idx == CMA_CUSTOM && controlled
+          && cmafec_preset_get_index_of_parameter(&parameter) == -1) {
+        select = TRUE;
+      } else if (idx == CMA_NONE && !controlled) {
+        select = TRUE;
+      } else if (idx >= 0 && controlled &&
+        	 cma_are_parameter_equal(&parameter,
+        				 cmafec_preset_get_parameter(idx))) {
+        select = TRUE;
+      }
 
-	if (select) {
-	  gtk_tree_selection_select_iter(city_selection, &it);
-	}
-      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
+      if (select) {
+	itree_select(city_selection, &it);
+      }
     }
   } else {
     gtk_tree_selection_selected_foreach(city_selection,
@@ -686,16 +687,14 @@ static void city_unselect_all_callback(GtkMenuItem *item, gpointer data)
 *****************************************************************/
 static void city_invert_selection_callback(GtkMenuItem *item, gpointer data)
 {
-  GtkTreeIter it;
+  ITree it;
 
-  if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
-    do {
-      if (gtk_tree_selection_iter_is_selected(city_selection, &it)) {
-	gtk_tree_selection_unselect_iter(city_selection, &it);
-      } else {
-	gtk_tree_selection_select_iter(city_selection, &it);
-      }
-    } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
+  for (itree_begin(city_model, &it); !itree_end(&it); itree_next(&it)) {
+    if (itree_is_selected(city_selection, &it)) {
+      itree_unselect(city_selection, &it);
+    } else {
+      itree_select(city_selection, &it);
+    }
   }
 }
 
@@ -704,21 +703,18 @@ static void city_invert_selection_callback(GtkMenuItem *item, gpointer data)
 *****************************************************************/
 static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
 {
-  GtkTreeIter it;
+  ITree it;
 
   gtk_tree_selection_unselect_all(city_selection);
 
-  if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
+  for (itree_begin(city_model, &it); !itree_end(&it); itree_next(&it)) {
     struct city *pcity;
 
-    do {
-      gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
-        POINTER_COLUMN, &pcity, -1);
+    itree_get(&it, POINTER_COLUMN, &pcity, -1);
 
-      if (is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) {
-	gtk_tree_selection_select_iter(city_selection, &it);
-      }
-    } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
+    if (is_terrain_near_tile(pcity->x, pcity->y, T_OCEAN)) {
+      itree_select(city_selection, &it);
+    }
   }
 }
 
@@ -728,24 +724,21 @@ static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
 static void same_island_iterate(GtkTreeModel *model, GtkTreePath *path,
 				GtkTreeIter *iter, gpointer data)
 {
-  GtkTreeIter it;
+  ITree it;
   struct city *selectedcity;
 
   gtk_tree_model_get(GTK_TREE_MODEL(city_model), iter,
 		     POINTER_COLUMN, &selectedcity, -1);
 
-  if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
+  for (itree_begin(city_model, &it); !itree_end(&it); itree_next(&it)) {
     struct city *pcity;
 
-    do {
-      gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
-        POINTER_COLUMN, &pcity, -1);
+    itree_get(&it, POINTER_COLUMN, &pcity, -1);
 
-      if (map_get_continent(pcity->x, pcity->y)
-              == map_get_continent(selectedcity->x, selectedcity->y)) {
-	gtk_tree_selection_select_iter(city_selection, &it);
-      }
-    } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
+    if (map_get_continent(pcity->x, pcity->y)
+    	    == map_get_continent(selectedcity->x, selectedcity->y)) {
+      itree_select(city_selection, &it);
+    }
   }
 }
 
@@ -1096,7 +1089,7 @@ static void city_report_list_callback(GtkWidget *w, gint row, gint col,
 /****************************************************************
 ...
 *****************************************************************/
-static void update_row(GtkTreeIter *row, struct city *pcity)
+static void update_row(ITree *row, struct city *pcity)
 {
   struct city_report_spec *spec;
   char buf [64];
@@ -1105,10 +1098,9 @@ static void update_row(GtkTreeIter *row, struct city *pcity)
   for (i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     my_snprintf(buf, sizeof(buf), "%*s",
   		NEG_VAL(spec->width), (spec->func)(pcity));
-    gtk_tree_store_set(city_model, row, i, buf, -1);
+    itree_set(row, i, buf, -1);
   }
-  gtk_tree_store_set(city_model, row,
-    POINTER_COLUMN, pcity, ID_COLUMN, pcity->id, -1);
+  itree_set(row, POINTER_COLUMN, pcity, ID_COLUMN, pcity->id, -1);
 }
 
 /****************************************************************
@@ -1119,9 +1111,9 @@ static void city_model_init(void)
   if (city_dialog_shell && !delay_report_update) {
 
     city_list_iterate(game.player_ptr->cities, pcity) {
-      GtkTreeIter it;
+      ITree it;
 
-      gtk_tree_store_append(city_model, &it, NULL);
+      tstore_append(city_model, &it, NULL);
       update_row(&it, pcity);
     } city_list_iterate_end;
   }
@@ -1133,26 +1125,21 @@ static void city_model_init(void)
 void city_report_dialog_update(void)
 {
   if (city_dialog_shell && !delay_report_update) {
-    GtkTreeIter it, it_next;
+    ITree it, it_next;
 
     /* remove cities which were taken from us */
-    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
+    for (itree_begin(city_model, &it); !itree_end(&it); it=it_next) {
       struct city *pcity;
       gint id;
-      gboolean more;
 
-      do {
-        it_next = it;
-	more = gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it_next);
+      it_next = it;
+      itree_next(&it_next);
 
-	gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it,
-	  POINTER_COLUMN, &pcity, ID_COLUMN, &id, -1);
+      itree_get(&it, POINTER_COLUMN, &pcity, ID_COLUMN, &id, -1);
 
-	if (find_city_by_id(id)!=pcity || city_owner(pcity)!=game.player_ptr) {
-	  gtk_tree_store_remove(city_model, &it);
-	}
-	it = it_next;
-      } while (more);
+      if (find_city_by_id(id)!=pcity || city_owner(pcity)!=game.player_ptr) {
+        tstore_remove(&it);
+      }
     }
 
     /* update */
@@ -1161,6 +1148,8 @@ void city_report_dialog_update(void)
     } city_list_iterate_end;
 
     city_selection_changed_callback(city_selection);
+
+    select_menu_cached = FALSE;
   }
 }
 
@@ -1170,31 +1159,30 @@ void city_report_dialog_update(void)
 void city_report_dialog_update_city(struct city *pcity)
 {
   if (city_dialog_shell && !delay_report_update) {
-    GtkTreeIter it;
+    ITree it;
     bool found;
 
     /* search for pcity in the current store */
     found = FALSE;
-    if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(city_model), &it)) {
+    for (itree_begin(city_model, &it); !itree_end(&it); itree_next(&it)) {
       struct city *pfound;
 
-      do {
-	gtk_tree_model_get(GTK_TREE_MODEL(city_model), &it, POINTER_COLUMN,
-	  &pfound, -1);
+      itree_get(&it, POINTER_COLUMN, &pfound, -1);
 
-	if (pfound == pcity) {
-	  found = TRUE;
-	  break;
-	}
-      } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(city_model), &it));
+      if (pfound == pcity) {
+	found = TRUE;
+	break;
+      }
     }
 
     /* if pcity is not in the store, create an entry for it */
     if (!found) {
-      gtk_tree_store_append(city_model, &it, NULL);
+      tstore_append(city_model, &it, NULL);
     }
 
     update_row(&it, pcity);
+
+    select_menu_cached = FALSE;
   }
 }
 
@@ -1204,7 +1192,7 @@ void city_report_dialog_update_city(struct city *pcity)
 static void selected_iterate(GtkTreeModel *model, GtkTreePath *path,
 			     GtkTreeIter *it, gpointer data)
 {
-  *(gboolean *)data = FALSE;
+  ++(*(int *)data);
 }
 
 /****************************************************************
@@ -1233,18 +1221,23 @@ static void create_change_menu(GtkWidget *item)
 *****************************************************************/
 static void popup_change_menu(GtkMenuShell *menu, gpointer data)
 {
+  int n;
+
+  n = 0;
+  gtk_tree_selection_selected_foreach(city_selection, selected_iterate, &n);
+
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_improvements_item),
 				  FALSE, FALSE, TRUE,
 				  city_can_build_impr_or_unit,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_units_item),
 				  TRUE, FALSE, TRUE,
 				  city_can_build_impr_or_unit,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), n);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(change_wonders_item),
 				  FALSE, TRUE, TRUE,
 				  city_can_build_impr_or_unit,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), n);
   append_cma_to_menu_item(GTK_MENU_ITEM(change_cma_item), TRUE);
 }
 
@@ -1332,42 +1325,47 @@ static void create_select_menu(GtkWidget *item)
 *****************************************************************/
 static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 {
-  gboolean empty;
+  int n;
 
-  empty = TRUE;
-  gtk_tree_selection_selected_foreach(city_selection, selected_iterate, &empty);
-  gtk_widget_set_sensitive(select_island_item, !empty);
+  if (select_menu_cached)
+    return;
+
+  n = 0;
+  gtk_tree_selection_selected_foreach(city_selection, selected_iterate, &n);
+  gtk_widget_set_sensitive(select_island_item, (n > 0));
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_supported_item),
 				  TRUE, FALSE, FALSE,
 				  city_unit_supported,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_present_item),
 				  TRUE, FALSE, FALSE,
 				  city_unit_present,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_built_improvements_item),
 				  FALSE, FALSE, FALSE,
 				  city_got_building,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_built_wonders_item),
 				  FALSE, TRUE, FALSE,
 				  city_got_building,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
 
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_improvements_item),
 				  FALSE, FALSE, FALSE,
 				  city_can_build_impr_or_unit,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_units_item),
 				  TRUE, FALSE, FALSE,
 				  city_can_build_impr_or_unit,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
   append_impr_or_unit_to_menu_item(GTK_MENU_ITEM(select_wonders_item),
 				  FALSE, TRUE, FALSE,
 				  city_can_build_impr_or_unit,
-				  G_CALLBACK(select_impr_or_unit_callback));
+				  G_CALLBACK(select_impr_or_unit_callback), -1);
   append_cma_to_menu_item(GTK_MENU_ITEM(select_cma_item), FALSE);
+
+  select_menu_cached = TRUE;
 }
 
 /****************************************************************
@@ -1375,12 +1373,12 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 *****************************************************************/
 static void city_selection_changed_callback(GtkTreeSelection *selection)
 {
-  gboolean empty;
+  int n;
 
-  empty = TRUE;
-  gtk_tree_selection_selected_foreach(selection, selected_iterate, &empty);
+  n = 0;
+  gtk_tree_selection_selected_foreach(selection, selected_iterate, &n);
 
-  if (empty) {
+  if (n == 0) {
     gtk_widget_set_sensitive(city_change_command, FALSE);
     gtk_widget_set_sensitive(city_center_command, FALSE);
     gtk_widget_set_sensitive(city_popup_command, FALSE);
