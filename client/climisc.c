@@ -208,7 +208,7 @@ const char *get_embassy_status(struct player *me, struct player *them)
              || them->diplstates[me->player_no].contact_turns_left > 0) {
     return Q_("?embassy:Contact");
   } else {
-    return "";
+    return Q_("?embassy:No Contact");
   }
 }
 
