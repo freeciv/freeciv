@@ -723,7 +723,7 @@ static int create_advances_list(struct player *pplayer,
 
     if(j > 0) {
       row[0] = _("At Spy's Discretion");
-      gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
+      gtk_clist_append(GTK_CLIST(spy_advances_list), row);
       advance_type[j++] = game.num_tech_types;
     }
   }
