@@ -1127,11 +1127,10 @@ void trade_report_dialog_update(void)
   if(trade_dialog_shell) {
     int j, k, count, cost, total;
     Dimension width; 
-    static char *trade_list_names_ptrs[B_LAST+1];
-    static char trade_list_names[B_LAST][200];
-    struct genlist_iterator myiter;
+    static char *trade_list_names_ptrs[B_APOLLO+1];
+    static char trade_list_names[B_APOLLO][200];
     char *report_title;
-    char trade_total[100];
+    char trade_total[48];
     struct city *pcity;
     
     report_title=get_report_title("Trade Advisor");
@@ -1139,23 +1138,21 @@ void trade_report_dialog_update(void)
     free(report_title);
     total = 0;
     k = 0;
-    for (j=0;j<B_APOLLO;j++) {
-      count = 0;
-      pcity = NULL;
-      genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
-      for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
-	pcity=(struct city *)ITERATOR_PTR(myiter);
-	if (city_got_building(pcity, j)) count++;
-      }
-      if (pcity) {
-	if (count) {
-	  cost = count * improvement_upkeep(pcity, j);
-	  sprintf(trade_list_names[k], "%-20s%5d%5d%6d", get_improvement_name(j), count, improvement_upkeep(pcity, j), cost);
-	  total+=cost;
-	  trade_list_names_ptrs[k]=trade_list_names[k];
-	  trade_improvement_type[k]=j;
-	  k++;
-	}
+    pcity = city_list_get(&game.player_ptr->cities,0);
+    if(pcity)  {
+      for (j=0;j<B_APOLLO;j++) {
+	count = 0;
+	city_list_iterate(game.player_ptr->cities,pcity)
+	  if (city_got_building(pcity, j)) count++;
+	city_list_iterate_end;
+	if (!count) continue;
+	cost = count * improvement_upkeep(pcity, j);
+	sprintf(trade_list_names[k], "%-20s%5d%5d%6d", get_improvement_name(j),
+		count, improvement_upkeep(pcity, j), cost);
+	total+=cost;
+	trade_list_names_ptrs[k]=trade_list_names[k];
+	trade_improvement_type[k]=j;
+	k++;
       }
     }
     
@@ -1164,10 +1161,11 @@ void trade_report_dialog_update(void)
       trade_list_names_ptrs[0]=trade_list_names[0];
       k=1;
     }
+    trade_list_names_ptrs[k]=NULL;
 
-    sprintf(trade_total, "Income:%6d    Total Costs: %6d", total+turn_gold_difference, total); 
-     xaw_set_label(trade_label2, trade_total); 
-    trade_list_names_ptrs[k]=0;
+    sprintf(trade_total, "Income:%6d    Total Costs: %6d", 
+            total+turn_gold_difference, total); 
+    xaw_set_label(trade_label2, trade_total); 
     
     XawListChange(trade_list, trade_list_names_ptrs, 0, 0, 1);
 
