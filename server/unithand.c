@@ -1545,7 +1545,7 @@ void handle_unit_orders(struct player *pplayer,
   freelog(LOG_DEBUG, "Orders for unit %d: length:%d",
 	  packet->unit_id, packet->length);
   for (i = 0; i < packet->length; i++) {
-    freelog(LOG_NORMAL, "  %d,%s", packet->orders[i],
+    freelog(LOG_DEBUG, "  %d,%s", packet->orders[i],
 	    dir_get_name(packet->dir[i]));
   }
 #endif
