@@ -15,9 +15,7 @@ else
   if test "x$enable_debug" = "xno"; then
     CPPFLAGS="$CPPFLAGS -DNDEBUG"
   else
-    if test "x$enable_debug" = "xsome"; then
-      CPPFLAGS="$CPPFLAGS -g"
-    fi
+    test "$cflags_set" = set || CFLAGS="$CFLAGS -g"
   fi
 fi
 ])
