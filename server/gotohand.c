@@ -497,6 +497,10 @@ static bool goto_zoc_ok(struct unit *punit, int src_x, int src_y,
   }
 }
 
+/* DANGER_MOVE is the cost of movement assigned to "dangerous" tiles.  It
+ * is arbitrarily larger than SINGLE_MOVE to make it a penalty. */
+#define DANGER_MOVE (2 * SINGLE_MOVE + 1)
+
 /**************************************************************************
 This function mark paths on the warmaps vector showing the shortest path to
 the destination.
@@ -690,7 +694,11 @@ static bool find_the_shortest_path(struct unit *punit,
 	      /* Allow players to target anything */
 	      continue;
 	    } else {
-	      move_cost = SINGLE_MOVE;
+	      /* Assign the basic move cost.  There's a penalty for
+	       * dangerous tiles. */
+	      move_cost
+		= ((unit_loss_pct(unit_owner(punit), x1, y1, punit) > 0)
+		   ? DANGER_MOVE : SINGLE_MOVE);
 	    }
 	  }
 	} else if (!goto_zoc_ok(punit, x, y, x1, y1, LOCAL_VECTOR(x, y))) {
@@ -711,10 +719,9 @@ static bool find_the_shortest_path(struct unit *punit,
 	if (psrctile->move_cost[dir] != MOVE_COST_FOR_VALID_SEA_STEP
 	    && !same_pos(x1, y1, dest_x, dest_y)) {
 	  continue;
-	}
-	else if (unit_flag(punit, F_TRIREME) &&
-		 trireme_loss_pct(unit_owner(punit), x1, y1, punit) > 0) {
-	  move_cost = 2*SINGLE_MOVE+1;
+	} else if (unit_loss_pct(unit_owner(punit), x1, y1, punit) > 0) {
+	  /* Impose a penalty for travel over dangerous tiles. */
+	  move_cost = DANGER_MOVE;
 	} else {
 	  move_cost = SINGLE_MOVE;
 	}
@@ -1153,7 +1160,7 @@ static int find_a_direction(struct unit *punit,
   } adjc_dir_iterate_end;
 
   if (best_fitness == DONT_SELECT_ME_FITNESS && afraid_of_sinking
-      && !is_coastline(punit->x, punit->y)) {
+      && !is_safe_ocean(punit->x, punit->y)) {
     /* 
      * We've got a trireme in the middle of the sea. With
      * best_fitness==DONT_SELECT_ME_FITNESS, it'll end its turn right

@@ -389,9 +389,24 @@ enum tile_behavior no_fights_or_unknown(int x, int y,
 static bool trireme_is_pos_dangerous(int x, int y, enum known_type known,
 				     struct pf_parameter *param)
 {
-  return is_ocean(map_get_terrain(x, y)) && !is_coastline(x, y);
+  /* We test TER_UNSAFE even though under the current ruleset there is no
+   * way for a trireme to be on a TER_UNSAFE tile. */
+  /* Unsafe or unsafe-ocean tiles without cities are dangerous. */
+  return ((terrain_has_flag(map_get_terrain(x, y), TER_UNSAFE) 
+	  || (is_ocean(map_get_terrain(x, y)) && !is_safe_ocean(x, y)))
+	  && map_get_city(x, y) == NULL);
 }
 
+/**********************************************************************
+  Position-dangerous callback for all units other than triremes.
+***********************************************************************/
+static bool is_pos_dangerous(int x, int y, enum known_type known,
+			     struct pf_parameter *param)
+{
+  /* Unsafe tiles without cities are dangerous. */
+  return (terrain_has_flag(map_get_terrain(x, y), TER_UNSAFE)
+	  && map_get_city(x, y) == NULL);
+}
 
 /* =====================  Tools for filling parameters =============== */
 
@@ -436,8 +451,9 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
       && base_trireme_loss_pct(unit_owner(punit), punit) > 0) {
     parameter->turn_mode = TM_WORST_TIME;
     parameter->is_pos_dangerous = trireme_is_pos_dangerous;
-  } else {
-    parameter->is_pos_dangerous = NULL;
+  } else if (base_unsafe_terrain_loss_pct(unit_owner(punit), punit) > 0) {
+    parameter->turn_mode = TM_WORST_TIME;
+    parameter->is_pos_dangerous = is_pos_dangerous;
   }
 }
 
@@ -467,8 +483,8 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
   if (unit_flag(punit, F_TRIREME)
       && base_trireme_loss_pct(unit_owner(punit), punit) > 0) {
     parameter->is_pos_dangerous = trireme_is_pos_dangerous;
-  } else {
-    parameter->is_pos_dangerous = NULL;
+  } else if (base_unsafe_terrain_loss_pct(unit_owner(punit), punit) > 0) {
+    parameter->is_pos_dangerous = is_pos_dangerous;
   }
 }
 

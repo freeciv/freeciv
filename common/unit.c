@@ -1567,22 +1567,37 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
 }
 
 /**************************************************************************
-  Like base_trireme_loss_pct but take the position into account.
+  Calculate the chance of losing (as a percentage) if it were to spend a
+  turn at the given location.
+
+  Note this function isn't really useful for AI planning, since it needs
+  to know more.  The AI code uses base_trireme_loss_pct and
+  base_unsafe_terrain_loss_pct directly.
 **************************************************************************/
-int trireme_loss_pct(struct player *pplayer, int x, int y,
-		     struct unit *punit)
+int unit_loss_pct(struct player *pplayer, int x, int y,
+		  struct unit *punit)
 {
-  /*
-   * If we are in a city or next to land, we have no chance of losing
-   * the ship.  To make this really useful for ai planning purposes,
-   * we'd need to confirm that we can exist/move at the (x, y)
-   * location we are given.
-   */
-  if (!is_ocean(map_get_terrain(x, y)) || is_coastline(x, y)) {
-    return 0;
-  } else {
-    return base_trireme_loss_pct(pplayer, punit);
+  int loss_pct = 0;
+
+  /* Units are never lost if they're inside cities. */
+  if (map_get_city(x, y)) {
+    return 0; 
   }
+
+  /* Trireme units may be lost if they stray from coastline. */
+  if (unit_flag(punit, F_TRIREME)) {
+    if (!is_safe_ocean(x, y)) {
+      loss_pct = base_trireme_loss_pct(pplayer, punit);
+    }
+  }
+
+  /* All units may be lost on unsafe terrain.  (Actually air units are
+   * exempt; see base_unsafe_terrain_loss_pct.) */
+  if (terrain_has_flag(map_get_terrain(x, y), TER_UNSAFE)) {
+    return loss_pct + base_unsafe_terrain_loss_pct(pplayer, punit);
+  }
+
+  return loss_pct;
 }
 
 /**************************************************************************
@@ -1600,6 +1615,14 @@ int base_trireme_loss_pct(struct player *pplayer, struct unit *punit)
   } else {
     return game.trireme_loss_chance[punit->veteran];
   }
+}
+
+/**************************************************************************
+  All units except air units have a flat 15% chance of being lost.
+**************************************************************************/
+int base_unsafe_terrain_loss_pct(struct player *pplayer, struct unit *punit)
+{
+  return is_air_unit(punit) ? 0 : 15;
 }
 
 /**************************************************************************

@@ -1462,6 +1462,21 @@ static bool is_hut_close(int map_x, int map_y)
   return FALSE;
 }
 
+/****************************************************************************
+  Return TRUE if a safe tile is in a radius of 1.  This function is used to
+  test where to place specials on the sea.
+****************************************************************************/
+static bool near_safe_tiles(int x_ct, int y_ct)
+{
+  square_iterate(x_ct, y_ct, 1, map_x, map_y) {
+    if (!terrain_has_flag(map_get_terrain(map_x, map_y), TER_UNSAFE_COAST)) {
+      return TRUE;
+    }	
+  } square_iterate_end;
+
+  return FALSE;
+}
+
 /**************************************************************************
   this function spreads out huts on the map, a position can be used for a
   hut if there isn't another hut close and if it's not on the ocean.
@@ -1516,7 +1531,8 @@ static void add_specials(int prob)
     for (xn = 0; xn < map.xsize; xn++) {
       do_in_map_pos(x, y, xn, yn) {
 	ttype = map_get_terrain(x, y);
-	if ((is_ocean(ttype) && is_coastline(x, y)) || !is_ocean(ttype)) {
+	if ((is_ocean(ttype) && near_safe_tiles(x,y)) 
+	    || !is_ocean(ttype)) {
 	  if (myrand(1000) < prob) {
 	    if (!is_special_close(x, y)) {
 	      if (tile_types[ttype].special_1_name[0] != '\0'
@@ -1679,7 +1695,21 @@ static void fill_island_rivers(int coast, long int *bucket,
   }
 }
 
-/*************************************************************************/
+/****************************************************************************
+  Return TRUE if the ocean position is near land.  This is used in the
+  creation of islands, so it differs logically from near_safe_tiles().
+****************************************************************************/
+static bool is_near_land(center_x, center_y)
+{
+  /* Note this function may sometimes be called on land tiles. */
+  adjc_iterate(center_x, center_y, x_itr, y_itr) {
+    if (!is_ocean(map_get_terrain(x_itr, y_itr))) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
+}
 
 static long int checkmass;
 
@@ -1709,7 +1739,7 @@ static bool place_island(struct gen234_state *pstate)
     if (!normalize_map_pos(&map_x, &map_y)) {
       return FALSE;
     }
-    if (hnat(xn, yn) != 0 && is_coastline(map_x, map_y)) {
+    if (hnat(xn, yn) != 0 && is_near_land(map_x, map_y)) {
       return FALSE;
     }
   }
@@ -1724,7 +1754,7 @@ static bool place_island(struct gen234_state *pstate)
       if (!normalize_map_pos(&map_x, &map_y)) {
 	return FALSE;
       }
-      if (hnat(xn, yn) != 0 && is_coastline(map_x, map_y)) {
+      if (hnat(xn, yn) != 0 && is_near_land(map_x, map_y)) {
 	return FALSE;
       }
     }

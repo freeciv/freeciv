@@ -275,17 +275,21 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
 }
 
 /***************************************************************************
-Do Leonardo's Workshop upgrade if applicable.
-Restore unit hitpoints. (movepoint-restoration moved to update_unit_activities)
-Adjust air units for fuel: air units lose fuel unless in a city,
-on a Carrier or on a airbase special (or, for Missles, on a Submarine).
-Air units which run out of fuel get wiped.
-Carriers and Submarines can now only supply fuel to a limited
-number of units each, equal to their transport_capacity. --dwp
-(Hitpoint adjustments include Helicopters out of cities, but
-that is handled within unit_restore_hitpoints().)
-Triremes will be wiped with a variable chance if they're not close to
-land, and player doesn't have Lighthouse.
+  1. Do Leonardo's Workshop upgrade if applicable.
+
+  2. Restore/decrease unit hitpoints.
+
+  3. Kill dead units.
+
+  4. Randomly kill units on unsafe terrain or unsafe-ocean.
+
+  5. Rescue airplanes by returning them to base automatically.
+
+  6. Decrease fuel of planes in the air.
+
+  7. Refuel planes that are in bases.
+
+  8. Kill planes that are out of fuel.
 ****************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
@@ -313,9 +317,14 @@ void player_restore_units(struct player *pplayer)
       continue; /* Continue iterating... */
     }
 
-    /* 4) Check that triremes are near coastline, otherwise... */
+    /* 4) Check for units on unsafe terrains. */
     if (unit_flag(punit, F_TRIREME)) {
-      int loss_chance = trireme_loss_pct(pplayer, punit->x, punit->y, punit);
+      /* Triremes away from coast have a chance of death. */
+      /* Note if a trireme died on a TER_UNSAFE terrain, this would
+       * erronously give the high seas message.  This is impossible under
+       * the current rulesets. */
+      int loss_chance = unit_loss_pct(pplayer, punit->x, punit->y, punit);
+
       if (myrand(100) < loss_chance) {
         notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST, 
                          _("Game: Your %s has been lost on the high seas."),
@@ -333,6 +342,18 @@ void player_restore_units(struct player *pplayer)
                            unit_name(punit->type));
         }
       }
+    } else if ((!is_air_unit(punit))
+	       && (myrand(100) < unit_loss_pct(pplayer,
+					       punit->x, punit->y, punit))) {
+      /* All units may have a chance of dying if they are on TER_UNSAFE
+       * terrain. */
+      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
+		       _("Game: Your %s has been lost on unsafe terrain."),
+		       unit_name(punit->type));
+      gamelog(GAMELOG_UNITTRI, _("%s unit lost on unsafe terrain"),
+	      get_nation_name_plural(pplayer->nation));
+      wipe_unit(punit);
+      continue;			/* Continue iterating... */
     }
 
     /* 5) Rescue planes if needed */

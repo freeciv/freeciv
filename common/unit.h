@@ -312,9 +312,11 @@ struct unit *is_non_allied_unit_tile(struct tile *ptile,
 struct unit *is_non_attack_unit_tile(struct tile *ptile,
 				     struct player *pplayer);
 
-int trireme_loss_pct(struct player *pplayer, int x, int y,
-		     struct unit *punit);
+int unit_loss_pct(struct player *pplayer, int x, int y,
+		  struct unit *punit);
 int base_trireme_loss_pct(struct player *pplayer, struct unit *punit);
+int base_unsafe_terrain_loss_pct(struct player *pplayer,
+				 struct unit *punit);
 
 bool is_my_zoc(struct player *unit_owner, int x0, int y0);
 bool unit_being_aggressive(struct unit *punit);

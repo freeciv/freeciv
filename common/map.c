@@ -400,14 +400,14 @@ bool is_at_coast(int x, int y)
   return FALSE;
 }
 
-/***************************************************************
-...
-***************************************************************/
-bool is_coastline(int x, int y)
+/****************************************************************************
+  Return TRUE if this ocean terrain is adjacent to a safe coastline.
+****************************************************************************/
+bool is_safe_ocean(int x, int y)
 {
   adjc_iterate(x, y, x1, y1) {
     enum tile_terrain_type ter = map_get_terrain(x1, y1);
-    if (!is_ocean(ter) && ter != T_UNKNOWN) {
+    if (!terrain_has_flag(ter, TER_UNSAFE_COAST) && ter != T_UNKNOWN) {
       return TRUE;
     }
   } adjc_iterate_end;

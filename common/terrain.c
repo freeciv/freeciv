@@ -67,6 +67,8 @@ enum terrain_flag_id terrain_flag_from_str(const char *s)
     "NoPollution",
     "Starter",
     "CanHaveRiver",
+    "UnsafeCoast",
+    "Unsafe",
     "Oceanic"
   };
 
