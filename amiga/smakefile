@@ -13,7 +13,7 @@ AIOBJS = ai/advattitude.o ai/advdomestic.o ai/advforeign.o \
          ai/advtrade.o ai/aicity.o ai/aihand.o ai/aitech.o ai/aitools.o ai/aiunit.o
 AIDIRS = DEF=HAVE_CONFIG_H IDIR=`cd` IDIR=${FREECIV_DIR}common IDIR=${FREECIV_DIR}server
 
-SERVEROBJS = server/autoattack.o server/cityhand.o server/citytools.o server/cityturn.o \
+SERVEROBJS = server/autoattack.o server/barbarian.o server/cityhand.o server/citytools.o server/cityturn.o \
              server/civserver.o server/console.o server/diplhand.o server/gamehand.o server/gamelog.o server/gotohand.o \
              server/handchat.o server/mapgen.o server/maphand.o server/meta.o server/plrhand.o server/ruleset.o server/sernet.o \
              server/settlers.o server/spacerace.o server/stdinhand.o server/unitfunc.o server/unithand.o server/unittools.o
@@ -177,6 +177,9 @@ server/amigaserver.o: amigaserver.c
 
 server/autoattack.o: ${FREECIV_DIR}server/autoattack.c
   sc ${FREECIV_DIR}server/autoattack.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
+
+server/barbarian.o: ${FREECIV_DIR}server/barbarian.c
+  sc ${FREECIV_DIR}server/barbarian.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}
 
 server/cityhand.o: ${FREECIV_DIR}server/cityhand.c
   sc ${FREECIV_DIR}server/cityhand.c ${SERVERDIRS} OBJNAME=$@ ${CCFLAGS}

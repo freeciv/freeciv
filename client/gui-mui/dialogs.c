@@ -1462,7 +1462,7 @@ void popup_races_dialog(void)
 
     styles_basic_nums = 0;
 
-    for(i=0;i<game.nation_count && i<64;i++) nation_entries[i] = get_nation_name(i);
+    for(i=0;i<game.playable_nation_count && i<64;i++) nation_entries[i] = get_nation_name(i);
     for(i=0;i<game.styles_count && i<64;i++)
     {
       if(city_styles[i].techreq == A_NONE)
@@ -1545,7 +1545,7 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 
   mybits=bits1;
 
-  for(i=0; i<game.nation_count && i<32; i++) {
+  for(i=0; i<game.playable_nation_count && i<32; i++) {
     if(mybits&1)
       gtk_widget_set_sensitive( races_toggles[i], FALSE );
     else
@@ -1555,7 +1555,7 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 
   mybits=bits2;
 
-  for(i=32; i<game.nation_count; i++) {
+  for(i=32; i<game.playable_nation_count; i++) {
     if(mybits&1)
       gtk_widget_set_sensitive( races_toggles[i], FALSE );
     else
