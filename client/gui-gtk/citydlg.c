@@ -419,7 +419,10 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   table=gtk_table_new(3, 1, FALSE);
   gtk_container_add(GTK_CONTAINER(pdialog->building_label), table);
 
-  pdialog->progress_label=gtk_label_new("");
+  pdialog->progress_label=gtk_progress_bar_new();
+  gtk_progress_bar_set_bar_style(GTK_PROGRESS_BAR (pdialog->progress_label),
+				 GTK_PROGRESS_CONTINUOUS);
+  gtk_progress_set_show_text(GTK_PROGRESS (pdialog->progress_label), TRUE);
   gtk_table_attach_defaults(GTK_TABLE(table), pdialog->progress_label,0,1,1,2);
 
   pdialog->buy_command=gtk_accelbutton_new(_("_Buy"), accel);
@@ -960,6 +963,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   char buf[32], buf2[64];
   int turns;
   struct city *pcity=pdialog->pcity;
+  gfloat pct;
   
   gtk_widget_set_sensitive(pdialog->buy_command, !pcity->did_buy);
   gtk_widget_set_sensitive(pdialog->sell_command, !pcity->did_sell);
@@ -973,6 +977,9 @@ void city_dialog_update_building(struct city_dialog *pdialog)
  		get_unit_type(pcity->currently_building)->build_cost,
  		turns);
     sz_strlcpy(buf2, get_unit_type(pcity->currently_building)->name);
+    pct = CLAMP((gfloat)pcity->shield_stock /
+		(get_unit_type(pcity->currently_building)->build_cost+0.1),
+		0.0, 1.0);
   } else {
     if(pcity->currently_building==B_CAPITAL)  {
       /* Capitalization is special, you can't buy it or finish making it */
@@ -981,6 +988,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 		    _("%3d/XXX XXX turns"),
 		  pcity->shield_stock);
       gtk_widget_set_sensitive(pdialog->buy_command, FALSE);
+      pct = 1.0;
     } else {
       turns = city_turns_to_build (pcity, pcity->currently_building, FALSE);
       my_snprintf(buf, sizeof(buf),
@@ -989,12 +997,17 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 		  pcity->shield_stock, 
 		  get_improvement_type(pcity->currently_building)->build_cost,
 		  turns);
+      pct = CLAMP((gfloat)pcity->shield_stock /
+	          (get_improvement_type(pcity->currently_building)->build_cost
+		   + 0.1), 0.0, 1.0);
     }
     sz_strlcpy(buf2, get_imp_name_ex(pcity, pcity->currently_building));
   }    
-    
+
   gtk_frame_set_label(GTK_FRAME(pdialog->building_label), buf2);
-  gtk_set_label(pdialog->progress_label, buf);
+  gtk_progress_set_percentage(GTK_PROGRESS (pdialog->progress_label), pct);
+  gtk_progress_set_format_string(GTK_PROGRESS (pdialog->progress_label), buf);
+
   gtk_set_label(pdialog->worklist_label,
 		worklist_is_empty(pcity->worklist) ?
 		_("(list empty)") :
