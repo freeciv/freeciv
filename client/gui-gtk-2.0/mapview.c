@@ -518,7 +518,7 @@ void refresh_overview_viewrect(void)
   int x0 = OVERVIEW_TILE_WIDTH * map_overview_x0;
   int x1 = OVERVIEW_TILE_WIDTH * (map.xsize - map_overview_x0);
   int dy = OVERVIEW_TILE_HEIGHT * map.ysize;
-  int gui_x[4], gui_y[4];
+  int gui_x[4], gui_y[4], i;
 
   /* Copy the part of the overview to the right of map_overview_x0. */
   gdk_draw_drawable(overview_canvas->window, civ_gc, overview_canvas_store,
