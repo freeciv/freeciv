@@ -752,3 +752,16 @@ int player_in_territory(const struct player *pplayer,
 
   return in_territory;
 }
+
+/****************************************************************************
+  Returns whether this is a valid username.  This is used by the server to
+  validate usernames and should be used by the client to avoid invalid
+  ones.
+****************************************************************************/
+bool is_valid_username(const char *name)
+{
+  return (strlen(name) > 0
+	  && !my_isdigit(name[0])
+	  && is_ascii_name(name)
+	  && mystrcasecmp(name, ANON_USER_NAME) != 0);
+}
