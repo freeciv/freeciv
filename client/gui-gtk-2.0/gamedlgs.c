@@ -473,7 +473,7 @@ static void create_option_dialog(void)
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
     gtk_container_add(GTK_CONTAINER(ebox), label);
 
-    gtk_tooltips_set_tip(tips, ebox, o->helptext, NULL);
+    gtk_tooltips_set_tip(tips, ebox, _(o->helptext), NULL);
 
     switch (o->type) {
     case COT_BOOL:
