@@ -1094,6 +1094,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 					     enum unit_activity activity)
 {
   Terrain_type_id old_terrain = ptile->terrain;
+  enum tile_special_type old_special = ptile->special;
   struct tile_type *ptype = get_tile_type(ptile->terrain);
   const char *text;
 
@@ -1102,19 +1103,21 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   case ACTIVITY_IRRIGATE:
     assert(ptype->irrigation_result != ptile->terrain
 	   && ptype->irrigation_result != T_NONE);
-    ptile->terrain = ptype->irrigation_result;
+    map_irrigate_tile(ptile);
     break;
+
   case ACTIVITY_MINE:
     assert(ptype->mining_result != ptile->terrain
 	   && ptype->mining_result != T_NONE);
-    ptile->terrain = ptype->mining_result;
+    map_mine_tile(ptile);
     break;
 
   case ACTIVITY_TRANSFORM:
     assert(ptype->transform_result != ptile->terrain
 	   && ptype->transform_result != T_NONE);
-    ptile->terrain = ptype->transform_result;
+    map_transform_tile(ptile);
     break;
+
   default:
     assert(0);
     return "-";
@@ -1122,7 +1125,10 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 
   text = map_get_tile_info_text(ptile);
 
+  /* Restore the original state of the tile. */
   ptile->terrain = old_terrain;
+  ptile->special = old_special;
+  reset_move_costs(ptile);
 
   return text;
 }
