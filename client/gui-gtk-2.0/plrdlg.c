@@ -586,6 +586,7 @@ void update_players_dialog(void)
 	} else {
 	  gtk_list_store_remove(store, &it);
 	}
+	it = it_next;
       } while (more);
     }
 
