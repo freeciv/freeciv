@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <assert.h>
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
@@ -36,8 +37,10 @@
 #include <clinet.h>
 #include <shared.h>
 #include <mapview.h>
+#include <map.h>
 #include <xstuff.h>
 #include <chatline.h>
+#include <capability.h>
 
 extern Widget toplevel;
 
@@ -58,6 +61,8 @@ struct Diplomacy_dialog {
   Widget dip_map_menubutton1;
   Widget dip_tech_menubutton0;
   Widget dip_tech_menubutton1;
+  Widget dip_city_menubutton0;
+  Widget dip_city_menubutton1;
   Widget dip_gold_label0;
   Widget dip_gold_label1;
   Widget dip_gold_input0;
@@ -102,6 +107,8 @@ void diplomacy_dialog_erase_clause_callback(Widget w, XtPointer client_data,
 void diplomacy_dialog_accept_callback(Widget w, XtPointer client_data, 
 				      XtPointer call_data);
 void diplomacy_dialog_tech_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data);
+void diplomacy_dialog_city_callback(Widget w, XtPointer client_data, 
 				    XtPointer call_data);
 void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
@@ -226,6 +233,39 @@ int fill_diplomacy_tech_menu(Widget popupmenu,
 }
 
 /****************************************************************
+
+Creates a sorted list of plr0's cities, excluding the capital and
+any cities not visible to plr1.  This means that you can only trade 
+cities visible to requesting player.  
+
+                            - Kris Bubendorfer
+*****************************************************************/
+void fill_diplomacy_city_menu(Widget popupmenu, 
+			      struct player *plr0, struct player *plr1)
+{
+  int i = 0, j = 0, n = city_list_size(&plr0->cities);
+  struct city **city_list_ptrs = (struct city **)malloc(sizeof(struct city*)*n);
+
+  city_list_iterate(plr0->cities, pcity) {
+    if(!city_got_effect(pcity, B_PALACE)){
+      city_list_ptrs[i] = pcity;
+      i++;
+    }
+  } city_list_iterate_end;
+
+  qsort(city_list_ptrs, i, sizeof(struct city*), city_name_compare);
+  
+  for(j=0; j<i; j++) {
+    Widget entry=
+      XtVaCreateManagedWidget(city_list_ptrs[j]->name, smeBSBObjectClass, 
+			      popupmenu, NULL);
+    XtAddCallback(entry, XtNcallback, diplomacy_dialog_city_callback, 
+		  (XtPointer)(plr0->player_no*100000+plr1->player_no*10000+city_list_ptrs[j]->id)); 
+  }
+}
+
+
+/****************************************************************
 ...
 *****************************************************************/
 struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
@@ -234,6 +274,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   char buf[512], *pheadlinem;
   struct Diplomacy_dialog *pdialog;
   Dimension width, height, maxwidth;
+  int tradecities = FALSE;
   Widget popupmenu;
   Widget entry;
   XtTranslations textfieldtranslations;
@@ -338,6 +379,43 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 				 NULL);
   if(!fill_diplomacy_tech_menu(popupmenu, plr1, plr0))
     XtSetSensitive(pdialog->dip_tech_menubutton1, FALSE);
+
+  /* Start of trade city code - Kris Bubendorfer */
+
+  
+  if(has_capability("tradecities", aconnection.capability) 
+     && has_capability("tradecities", plr0->conn->capability) 
+     && has_capability("tradecities", plr1->conn->capability))
+    tradecities = TRUE;
+
+     
+  pdialog->dip_city_menubutton0=XtVaCreateManagedWidget("dipcitymenubutton0", 
+							menuButtonWidgetClass,
+							pdialog->dip_form0,
+							NULL);
+  popupmenu=XtVaCreatePopupShell("menu", 
+				 simpleMenuWidgetClass, 
+				 pdialog->dip_city_menubutton0, 
+				 NULL);
+  
+  
+  fill_diplomacy_city_menu(popupmenu, plr0, plr1);
+  XtSetSensitive(pdialog->dip_city_menubutton0, tradecities);
+  
+  
+  pdialog->dip_city_menubutton1=XtVaCreateManagedWidget("dipcitymenubutton1", 
+							menuButtonWidgetClass,
+							pdialog->dip_form1,
+							NULL);
+  popupmenu=XtVaCreatePopupShell("menu", 
+				 simpleMenuWidgetClass, 
+				 pdialog->dip_city_menubutton1, 
+				 NULL);
+  
+  fill_diplomacy_city_menu(popupmenu, plr1, plr0);
+  XtSetSensitive(pdialog->dip_city_menubutton1, tradecities);  
+  
+  /* End of trade city code */
   
   pdialog->dip_gold_input0=XtVaCreateManagedWidget("dipgoldinput0", 
 						   asciiTextWidgetClass,
@@ -458,11 +536,13 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   XtVaGetValues(pdialog->dip_map_menubutton0, XtNwidth, &maxwidth, NULL);
   XtVaGetValues(pdialog->dip_tech_menubutton0, XtNwidth, &width, NULL);
+  XtVaGetValues(pdialog->dip_city_menubutton0, XtNwidth, &width, NULL);
   maxwidth=MAX(width, maxwidth);
   XtVaGetValues(pdialog->dip_gold_input0, XtNwidth, &width, NULL);
   maxwidth=MAX(width, maxwidth);
   XtVaSetValues(pdialog->dip_map_menubutton0, XtNwidth, maxwidth, NULL);
   XtVaSetValues(pdialog->dip_tech_menubutton0, XtNwidth, maxwidth, NULL);
+  XtVaSetValues(pdialog->dip_city_menubutton0, XtNwidth, maxwidth, NULL);
   XtVaSetValues(pdialog->dip_gold_input0,  XtNwidth, maxwidth, NULL);
   
   XtVaGetValues(pdialog->dip_formm, XtNheight, &height, NULL);
@@ -497,6 +577,11 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
       sprintf(pdialog->clauselist_strings[i], "The %s give %s",
 	      get_race_name_plural(pclause->from->race),
 	      advances[pclause->value].name);
+      break;
+    case CLAUSE_CITY:
+      sprintf(pdialog->clauselist_strings[i], "The %s give %s",
+	      get_race_name_plural(pclause->from->race),
+	      find_city_by_id(pclause->value)->name);
       break;
      case CLAUSE_GOLD:
       sprintf(pdialog->clauselist_strings[i], "The %s give %d gold",
@@ -542,6 +627,31 @@ void diplomacy_dialog_tech_callback(Widget w, XtPointer client_data,
   pa.clause_type=CLAUSE_ADVANCE;
   pa.plrno_from=pa.plrno0;
   pa.value=choice%100;
+    
+  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
+			     &pa);
+}
+
+/****************************************************************
+Callback for trading cities
+                              - Kris Bubendorfer
+*****************************************************************/
+void diplomacy_dialog_city_callback(Widget w, XtPointer client_data, 
+				    XtPointer call_data)
+{
+  int choice;
+  struct packet_diplomacy_info pa;
+  
+  choice=(int)client_data;
+
+  pa.plrno0=choice/100000;
+  choice -= pa.plrno0 * 100000;
+  pa.plrno1=(choice/10000);
+  choice -= pa.plrno1 * 10000;
+ 
+  pa.clause_type=CLAUSE_CITY;
+  pa.plrno_from=pa.plrno0;
+  pa.value=choice;
     
   send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
 			     &pa);

@@ -387,6 +387,7 @@ general, the steps are:
  7. Exploring the world.
  8. Things to keep in mind.
  9. Make your own strategy for the game.
+10. Interacting with other players (Diplomacy).
 
 
  0. Choosing the first city site.
@@ -511,6 +512,49 @@ general, the steps are:
     pages at http://www.freeciv.org
     You'll find more tips for playing, and details of how to contact
     other players.
+
+ 10. Interacting with other players (Diplomacy).
+
+    Humans and AI differ in many ways, but the most significant is
+    the additional diplomacy that you can take part in with other
+    humans - and no, we are not talking about using spies and
+    diplomats to incite and steal.
+
+    If you have established an embassy with another human player,
+    then you can arrange a diplomatic meeting. This is done by
+    going to the `Game' menu, selecting players and clicking on
+    the player with whom you wish to meet.  If you actually have
+    an embassy (denoted by an X) and the other player is connected
+    then a diplomacy menu will pop up.
+
+    In this menu you can choose to:
+
+       - Trade Maps (Sea or entire map),
+
+       - Trade advances,
+
+       - Trade Cities,
+
+       - and Give Gold.
+
+     There is no need to trade like for like, by trading say,
+     an advance or city for gold - you can can consider this
+     buying and selling.
+
+     A couple of notes:
+
+       - You can't give away your capital.
+
+       - If you can't see a city on your map, then you can't
+         request it.
+
+     Of course, the owner of that city can still give it to
+     you, in which case the area around the city is shown
+     on your map.  One important thing to note, any units
+     in the field and supported by that city are also transfered
+     (but not those sitting in other cities).  So make sure the
+     other player isn't getting a better deal than you expect.
+
 
 ---
 #City Improvements

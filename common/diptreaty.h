@@ -1,7 +1,7 @@
 #ifndef __DIPTREATY__H
 #define __DIPTREATY__H
 
-enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP, CLAUSE_SEAMAP };
+enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP, CLAUSE_SEAMAP, CLAUSE_CITY};
 
 struct Clause {
   enum clause_type type;

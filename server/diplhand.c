@@ -23,6 +23,12 @@
 #include <maphand.h>
 #include <map.h>
 #include <gamelog.h>
+#include <citytools.h>
+#include <unittools.h>
+#include <log.h>
+#include <cityhand.h>
+#include <cityturn.h>
+#include <settlers.h>
 
 struct genlist treaties;
 int did_init_treaties;
@@ -162,6 +168,41 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  notify_player(pdest, "Game: You receive %s's seamap",
 			pgiver->name);
 	  break;
+	case CLAUSE_CITY:{
+	  struct city *pcity = find_city_by_id(pclause->value);
+	  struct city *pnewcity = NULL;
+
+	  if (!pcity) {
+	    flog(LOG_NORMAL, "Treaty city id %d not found - skipping clause.");
+	    break;
+	  }
+	  
+	  notify_player(pdest, "Game: You recieve city of %s from %s",
+			pcity->name, pgiver->name);
+	  
+	  notify_player(pgiver, "Game: You give city of %s to %s",
+			pcity->name, pdest->name);
+	  
+	  if(!(pnewcity = transfer_city(pdest, pgiver, pcity))){
+	    flog(LOG_NORMAL, "Transfer city returned no city - skipping clause.");
+	    break;
+	  }
+	  map_set_city(pnewcity->x, pnewcity->y, pnewcity);   
+	  transfer_city_units(pdest, pgiver, pnewcity, pcity, 0);
+	  remove_city(pcity); /* don't forget this! */
+	  map_set_city(pnewcity->x, pnewcity->y, pnewcity);
+	  
+	  city_check_workers(pdest ,pnewcity);
+	  city_refresh(pnewcity);
+	  initialize_infrastructure_cache(pnewcity);
+	  send_city_info(0, pnewcity, 0);
+	  
+	  unit_list_iterate(pdest->units, punit) 
+	    resolve_unit_stack(punit->x, punit->y);
+	  unit_list_iterate_end;
+
+	  break;
+	}
 	}
 	
       }
@@ -212,6 +253,21 @@ void handle_diplomacy_create_clause(struct player *pplayer,
   plr0=&game.players[packet->plrno0];
   plr1=&game.players[packet->plrno1];
   pgiver=&game.players[packet->plrno_from];
+
+  /* 
+   * If we are trading cities, then it is possible that the
+   * dest is unaware of it's existence.  We have 2 choices,
+   * forbid it, or lighten that area.  If we assume that
+   * the giver knows what they are doing, then 2. is the
+   * most powerful option - I'll choose that for now.
+   *                           - Kris Bubendorfer
+   */
+
+  if(packet->clause_type == CLAUSE_CITY){
+    struct city *pcity = find_city_by_id(packet->value);
+    if(pcity && !map_get_known(pcity->x, pcity->y, plr1))
+      lighten_area(plr1, pcity->x, pcity->y);
+  }
   
   if((ptreaty=find_treaty(plr0, plr1))) {
     if(add_clause(ptreaty, pgiver, packet->clause_type, packet->value)) {

@@ -592,9 +592,10 @@ int wants_to_be_bigger(struct city *pcity)
  *  Units in a bought city are transferred to the new owner, units 
  * supported by the city, but held in other cities are updated to
  * reflect those cities as their new homecity.  Units supported 
- * by the bought city, that are not in a city square are deleted.
- * This is consistent with Civ2, but units just outside the bought
- * city are deleted rather than transferred as in Civ2.
+ * by the bought city, that are not in a city square may be deleted.
+ * This depends on the value of kill_outside.  Just in case the
+ * supported units are in an unexplored part of the map, the 
+ * area around them is lightened.
  *
  * - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
  */
@@ -647,6 +648,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       create_unit_full(pplayer, vunit->x, vunit->y, vunit->type, 
 		       vunit->veteran, pcity->id, vunit->moves_left,
 		       vunit->hp);
+      lighten_area(pplayer, vunit->x,vunit->y);
     }
     wipe_unit_spec_safe(0, vunit, NULL, 0);
   } unit_list_iterate_end;
