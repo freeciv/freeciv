@@ -29,6 +29,9 @@
 #ifndef PATCH_VERSION
 #define PATCH_VERSION  1
 #endif
+#ifndef VERSION_LABEL
+#define VERSION_LABEL  "-devel"
+#endif
 #ifndef IS_BETA_VERSION
 #define IS_BETA_VERSION 0
 #endif
@@ -37,7 +40,7 @@
 #define VER_STRINGIFY(x) VER_STRINGIFY1(x)
 #define VERSION_STRING VER_STRINGIFY(MAJOR_VERSION) "." \
                        VER_STRINGIFY(MINOR_VERSION) "." \
-                       VER_STRINGIFY(PATCH_VERSION)
+                       VER_STRINGIFY(PATCH_VERSION) VERSION_LABEL
 #endif
 
 /* below, FREECIV_NAME_VERSION uses pre-processor string concatenation --dwp */

@@ -325,6 +325,7 @@ struct packet_req_join_game {
   int patch_version;
   char capability[MAX_LEN_CAPSTR];
   char name[MAX_LEN_NAME];
+  char version_label[MAX_LEN_NAME];
 };
 
 

@@ -92,7 +92,8 @@ void load_intro_gfx(void)
 
   y+=(main_font_struct->ascent + main_font_struct->descent);
 
-  sprintf(s, "%d.%d.%d", MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION);
+  sprintf(s, "%d.%d.%d%s", MAJOR_VERSION, MINOR_VERSION,
+	  PATCH_VERSION, VERSION_LABEL);
   w=XTextWidth(main_font_struct, s, strlen(s));
   XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
   XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 

@@ -1370,18 +1370,22 @@ static void handle_request_join_game(struct connection *pconn,
   struct player *pplayer;
   char msg[MAX_LEN_MSG];
   
-  freelog(LOG_NORMAL, "Connection request from %s with client version %d.%d.%d",
-       req->name, req->major_version, req->minor_version, req->patch_version);
-  freelog(LOG_VERBOSE, "Client caps: %s Server Caps: %s", req->capability,
-       our_capability);
+  freelog(LOG_NORMAL,
+	  "Connection request from %s with client version %d.%d.%d%s",
+	  req->name, req->major_version, req->minor_version,
+	  req->patch_version, req->version_label);
+  freelog(LOG_VERBOSE, "Client caps: %s", req->capability);
+  freelog(LOG_VERBOSE, "Server Caps: %s", our_capability);
   strcpy(pconn->capability, req->capability);
   
   /* Make sure the server has every capability the client needs */
   if (!has_capabilities(our_capability, req->capability)) {
     sprintf(msg, "The client is missing a capability that this server needs.\n"
-	    "Server version: %d.%d.%d Client version: %d.%d.%d.  Upgrading may help!",
-	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
-	    req->major_version, req->minor_version, req->patch_version);
+	    "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
+	    "  Upgrading may help!",
+	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
+	    req->major_version, req->minor_version,
+	    req->patch_version, req->version_label);
     reject_new_player(msg, pconn);
     freelog(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
     close_connection(pconn);
@@ -1391,9 +1395,11 @@ static void handle_request_join_game(struct connection *pconn,
   /* Make sure the client has every capability the server needs */
   if (!has_capabilities(req->capability, our_capability)) {
     sprintf(msg, "The server is missing a capability that the client needs.\n"
-	    "Server version: %d.%d.%d Client version: %d.%d.%d.  Upgrading may help!",
-	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION,
-	    req->major_version, req->minor_version, req->patch_version);
+	    "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
+	    "  Upgrading may help!",
+	    MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL,
+	    req->major_version, req->minor_version,
+	    req->patch_version, req->version_label);
     reject_new_player(msg, pconn);
     freelog(LOG_NORMAL, "%s was rejected: mismatched capabilities", req->name);
     close_connection(pconn);

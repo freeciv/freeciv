@@ -1677,6 +1677,7 @@ int send_packet_req_join_game(struct connection *pc, struct
   cptr=put_uint32(cptr, request->patch_version);
   cptr=put_string(cptr, request->capability);
   cptr=put_string(cptr, request->name);
+  cptr=put_string(cptr, request->version_label);
   put_uint16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1758,6 +1759,11 @@ receive_packet_req_join_game(struct connection *pc)
     iget_string(&iter, packet->name, sizeof(packet->name));
   } else {
     strcpy(packet->name, packet->short_name);
+  }
+  if (pack_iter_remaining(&iter)) {
+    iget_string(&iter, packet->version_label, sizeof(packet->version_label));
+  } else {
+    strcpy(packet->version_label, "");
   }
 
   pack_iter_end(&iter, pc);

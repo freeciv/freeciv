@@ -5,7 +5,7 @@
 "Freeciv*server:                              localhost",
 "Freeciv*metaserver:             http://www.daimi.aau.dk/~lancelot/freeciv.html ",
 "Freeciv*port:                                5555",
-"Freeciv*version:                             1.8.1",
+"Freeciv*version:                             1.8.1-devel",
 "Freeciv*logLevel:                            1",
 "Freeciv*Command.foreground: White",
 "Freeciv*Command.background: Blue",
