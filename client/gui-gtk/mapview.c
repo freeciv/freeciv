@@ -805,7 +805,7 @@ void put_city_worker(struct canvas *pcanvas,
   gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
   gdk_gc_set_foreground(fill_tile_gc, colors_standard[color]);
 
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
     gdk_gc_set_clip_mask(fill_tile_gc, sprites.black_tile->mask);
   }
@@ -814,7 +814,7 @@ void put_city_worker(struct canvas *pcanvas,
 		     canvas_x, canvas_y,
 		     NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
 
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     gdk_gc_set_clip_mask(fill_tile_gc, NULL);
   }
 }

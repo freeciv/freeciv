@@ -181,7 +181,7 @@ enum color_std get_grid_color(const struct tile *tile1, enum direction8 dir)
 ****************************************************************************/
 void map_to_gui_vector(int *gui_dx, int *gui_dy, int map_dx, int map_dy)
 {
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     /*
      * Convert the map coordinates to isometric GUI
      * coordinates.  We'll make tile map(0,0) be the origin, and
@@ -224,7 +224,7 @@ static void map_to_gui_pos(int *gui_x, int *gui_y, int map_x, int map_y)
 static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
 {
   const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-  const int HH = hex_height, HW = hex_width;
+  const int HH = tileset_hex_height(), HW = tileset_hex_width();
 
   if (HH > 0 || HW > 0) {
     /* To handle hexagonal cases we have to revert to a less elegant method
@@ -232,7 +232,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
     int x, y, dx, dy;
     int xmult, ymult, mod, compar;
 
-    assert(is_isometric);
+    assert(tileset_is_isometric());
 
     x = DIVIDE(gui_x, W);
     y = DIVIDE(gui_y, H);
@@ -257,7 +257,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
 
     *map_x = (x + y) + mod * (xmult + ymult) / 2;
     *map_y = (y - x) + mod * (ymult - xmult) / 2;
-  } else if (is_isometric) {
+  } else if (tileset_is_isometric()) {
     /* The basic operation here is a simple pi/4 rotation; however, we
      * have to first scale because the tiles have different width and
      * height.  Mathematically, this looks like
@@ -291,7 +291,7 @@ static void gui_to_map_pos(int *map_x, int *map_y, int gui_x, int gui_y)
     gui_x -= W / 2;
     *map_x = DIVIDE(gui_x * H + gui_y * W, W * H);
     *map_y = DIVIDE(gui_y * W - gui_x * H, W * H);
-  } else {			/* is_isometric */
+  } else {			/* tileset_is_isometric() */
     /* We use DIVIDE so that we will get the correct result even
      * for negative coordinates. */
     *map_x = DIVIDE(gui_x, W);
@@ -659,7 +659,7 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
   *xsize = mapview.width;
   *ysize = mapview.height;
 
-  if (MAP_IS_ISOMETRIC == is_isometric) {
+  if (MAP_IS_ISOMETRIC == tileset_is_isometric()) {
     /* If the map and view line up, it's easy. */
     NATIVE_TO_MAP_POS(xmin, ymin, 0, 0);
     map_to_gui_pos(xmin, ymin, *xmin, *ymin);
@@ -739,7 +739,7 @@ void get_mapview_scroll_step(int *xstep, int *ystep)
   *xstep = NORMAL_TILE_WIDTH;
   *ystep = NORMAL_TILE_HEIGHT;
 
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     *xstep /= 2;
     *ystep /= 2;
   }
@@ -821,11 +821,11 @@ bool tile_visible_and_not_on_border_mapcanvas(struct tile *ptile)
 {
   int canvas_x, canvas_y;
   int xmin, ymin, xmax, ymax, xsize, ysize, scroll_x, scroll_y;
-  const int border_x = (is_isometric ? NORMAL_TILE_WIDTH / 2
+  const int border_x = (tileset_is_isometric() ? NORMAL_TILE_WIDTH / 2
 			: 2 * NORMAL_TILE_WIDTH);
-  const int border_y = (is_isometric ? NORMAL_TILE_HEIGHT / 2
+  const int border_y = (tileset_is_isometric() ? NORMAL_TILE_HEIGHT / 2
 			: 2 * NORMAL_TILE_HEIGHT);
-  bool same = (is_isometric == MAP_IS_ISOMETRIC);
+  bool same = (tileset_is_isometric() == MAP_IS_ISOMETRIC);
 
   get_mapview_scroll_window(&xmin, &ymin, &xmax, &ymax, &xsize, &ysize);
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
@@ -950,7 +950,7 @@ static void put_drawn_sprites(struct canvas *pcanvas,
       break;
     case DRAWN_BG:
       /*** Background color. ***/
-      if (is_isometric) {
+      if (tileset_is_isometric()) {
 	canvas_fill_sprite_area(pcanvas, sprites.black_tile, COLOR_STD_BLACK,
 			    canvas_x, canvas_y);
 	if (fog) {
@@ -1055,7 +1055,7 @@ void put_city_tile_output(struct city *pcity, int city_x, int city_y,
 
   /* In iso-view the output sprite is a bit smaller than the tile, so we
    * have to use an offset. */
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     canvas_x += NORMAL_TILE_WIDTH / 3;
     canvas_y -= NORMAL_TILE_HEIGHT / 3;
   }
@@ -1173,7 +1173,7 @@ static bool get_tile_boundaries(enum direction8 dir,
 				int *end_x, int *end_y)
 {
   const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
-  const int HW = hex_width, HH = hex_height;
+  const int HW = tileset_hex_width(), HH = tileset_hex_height();
   const int overlap = (width > 1) ? 1 : 0;
 
   assert(inset >= 0);
@@ -1213,7 +1213,7 @@ static bool get_tile_boundaries(enum direction8 dir,
    * adjustment and the overlap adjustment are both 1.
    */
 
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     switch (dir) {
     case DIR8_NORTH:
       /* Top right. */
@@ -1378,7 +1378,7 @@ static void tile_draw_borders(struct canvas *pcanvas,
     return;
   }
 
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     /* Isometric must be done differently or the borders will get overwritten
      * by other terrain graphics.  (This is because the tileset sprites'
      * edges don't line up exactly with the mathematical calculation of the
@@ -1540,7 +1540,7 @@ static void tile_draw_selection(struct canvas *pcanvas,
 				const struct tile *ptile,
 				int canvas_x, int canvas_y, bool citymode)
 {
-  const int inset = (is_isometric ? 0 : 1);
+  const int inset = (tileset_is_isometric() ? 0 : 1);
   enum direction8 dir;
 
   if (citymode) {
@@ -1560,7 +1560,7 @@ static void tile_draw_selection(struct canvas *pcanvas,
     if (get_tile_boundaries(dir, inset, 1,
 			    &start_x, &start_y, &end_x, &end_y)) {
       if (map_deco[ptile->index].hilite == HILITE_CITY
-	  || (is_isometric
+	  || (tileset_is_isometric()
 	      && (adjc_tile = mapstep(ptile, dir))
 	      && map_deco[adjc_tile->index].hilite == HILITE_CITY)) {
 	canvas_put_line(pcanvas, COLOR_STD_YELLOW, LINE_NORMAL,
@@ -1658,7 +1658,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 
   mapview_layer_iterate(layer) {
     gui_rect_iterate(gui_x0, gui_y0, width,
-		     height + (is_isometric ? (NORMAL_TILE_HEIGHT / 2) : 0),
+		     height + (tileset_is_isometric()
+			       ? (NORMAL_TILE_HEIGHT / 2) : 0),
 		     ptile, pedge, pcorner, gui_x, gui_y) {
       const int cx = gui_x - mapview.gui_x0, cy = gui_y - mapview.gui_y0;
 
@@ -2032,7 +2033,7 @@ void move_unit_map_canvas(struct unit *punit,
     map_to_gui_vector(&canvas_dx, &canvas_dy, dx, dy);
 
     tile_to_canvas_pos(&start_x, &start_y, src_tile);
-    if (is_isometric) {
+    if (tileset_is_isometric()) {
       start_y -= NORMAL_TILE_HEIGHT / 2;
     }
 
@@ -2578,7 +2579,7 @@ static void get_mapview_corners(int x[4], int y[4])
   /* Note: these calculations operate on overview coordinates as if they
    * are natural.  Corners may be off by one tile, however. */
 
-  if (is_isometric && !MAP_IS_ISOMETRIC) {
+  if (tileset_is_isometric() && !MAP_IS_ISOMETRIC) {
     /* We start with the west corner. */
 
     /* North */
@@ -2592,7 +2593,7 @@ static void get_mapview_corners(int x[4], int y[4])
     /* South */
     x[3] = x[0] + OVERVIEW_TILE_WIDTH * mapview.tile_height;
     y[3] = y[0] + OVERVIEW_TILE_HEIGHT * mapview.tile_height;
-  } else if (!is_isometric && MAP_IS_ISOMETRIC) {
+  } else if (!tileset_is_isometric() && MAP_IS_ISOMETRIC) {
     /* We start with the west corner.  Note the X scale is smaller. */
 
     /* North */
@@ -2609,7 +2610,8 @@ static void get_mapview_corners(int x[4], int y[4])
   } else {
     /* We start with the northwest corner. */
     int screen_width = mapview.tile_width;
-    int screen_height = mapview.tile_height * (is_isometric ? 2 : 1);
+    int screen_height = mapview.tile_height * (tileset_is_isometric()
+					       ? 2 : 1);
 
     /* Northeast */
     x[1] = x[0] + OVERVIEW_TILE_WIDTH * screen_width - 1;
@@ -2717,7 +2719,8 @@ static bool can_do_cached_drawing(void)
      * be visible twice so there's no problem. */
     return TRUE;
   }
-  if (XOR(topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX), is_isometric)) {
+  if (XOR(topo_has_flag(TF_ISO) || topo_has_flag(TF_HEX),
+	  tileset_is_isometric())) {
     /* Non-matching.  In this case the mapview does not line up with the
      * map's axis of wrapping.  This will give very bad results for the
      * player!
@@ -2732,8 +2735,8 @@ static bool can_do_cached_drawing(void)
 	    && h <= (NATURAL_WIDTH + NATURAL_HEIGHT) * H / 4);
   } else {
     /* Matching. */
-    const int isofactor = (is_isometric ? 2 : 1);
-    const int isodiff = (is_isometric ? 6 : 2);
+    const int isofactor = (tileset_is_isometric() ? 2 : 1);
+    const int isodiff = (tileset_is_isometric() ? 6 : 2);
 
     /* Now we can use the full width and height, with the exception of a small
      * area on each side. */

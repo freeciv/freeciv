@@ -77,8 +77,8 @@ int SMALL_TILE_HEIGHT;
 
 int OVERVIEW_TILE_SIZE = 2;
 
-bool is_isometric;
-int hex_width, hex_height;
+static bool is_isometric;
+static int hex_width, hex_height;
 
 static int city_names_font_size, city_productions_font_size;
 
@@ -200,6 +200,33 @@ int focus_unit_state = 0;
 static struct Sprite* lookup_sprite_tag_alt(const char *tag, const char *alt,
 					    bool required, const char *what,
 					    const char *name);
+
+
+/****************************************************************************
+  Return whether the current tileset is isometric.
+****************************************************************************/
+bool tileset_is_isometric(void)
+{
+  return is_isometric;
+}
+
+/****************************************************************************
+  Return the hex_width of the current tileset.  For hex tilesets this value
+  will be > 0 and is_isometric will be set.
+****************************************************************************/
+int tileset_hex_width(void)
+{
+  return hex_width;
+}
+
+/****************************************************************************
+  Return the hex_height of the current tileset.  For isohex tilesets this
+  value will be > 0 and is_isometric will be set.
+****************************************************************************/
+int tileset_hex_height(void)
+{
+  return hex_height;
+}
 
 /**************************************************************************
   Initialize.

@@ -1615,7 +1615,7 @@ This converts a city coordinate position to citymap canvas coordinates
 **************************************************************************/
 static bool sdl_city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
 {
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     /*
      * The top-left corner is in the center of tile (-2, 2).  However,
      * we're looking for the top-left corner of the tile, so we
@@ -1647,7 +1647,7 @@ static bool sdl_canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int c
 {
   int orig_canvas_x = canvas_x, orig_canvas_y = canvas_y;
 
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     const int W = SCALLED_TILE_WIDTH, H = SCALLED_TILE_HEIGHT;
 
     /* Shift the tile right so the top corner of tile (-2,2) is at

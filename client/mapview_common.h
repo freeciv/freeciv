@@ -100,7 +100,7 @@ extern bool can_slide;
     _height = -_height;							    \
   }									    \
   if (_width > 0 && _height > 0) {					    \
-    const int _ratio = (is_isometric ? 2 : 1), _r = _ratio * 2;		    \
+    const int _ratio = (tileset_is_isometric() ? 2 : 1), _r = _ratio * 2;   \
     const int _Wr = NORMAL_TILE_WIDTH;					    \
     const int _Hr = NORMAL_TILE_HEIGHT;					    \
     /* Don't divide by _r yet, to avoid integer rounding errors. */	    \
@@ -127,7 +127,7 @@ extern bool can_slide;
       GRI_y_itr = GRI_y0 + (GRI_itr / (GRI_x1 - GRI_x0));		    \
       GRI_sum = GRI_x_itr + GRI_y_itr;					    \
       GRI_diff = GRI_y_itr - GRI_x_itr;					    \
-      if (is_isometric) {						    \
+      if (tileset_is_isometric()) {					    \
 	if ((GRI_x_itr + GRI_y_itr) % 2 != 0) {				    \
 	  continue;							    \
 	}								    \

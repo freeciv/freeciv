@@ -349,7 +349,7 @@ int render_sprites(APTR drawhandle)
     node = (struct SpriteNode *) node->node.mln_Succ;
   }
 
-  if (is_isometric)
+  if (tileset_is_isometric())
   {
     /* In isometric view we needs to build a fog mask, we could use BltPattern()
        to avoid this but the mask position can not be specified fine enough */

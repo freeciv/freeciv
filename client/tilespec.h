@@ -396,10 +396,12 @@ extern int OVERVIEW_TILE_SIZE;
 #define OVERVIEW_TILE_WIDTH ((MAP_IS_ISOMETRIC ? 2 : 1) * OVERVIEW_TILE_SIZE)
 #define OVERVIEW_TILE_HEIGHT OVERVIEW_TILE_SIZE
 
-extern bool is_isometric;
-extern int hex_width, hex_height;
-
 extern int num_tiles_explode_unit;
+
+/* Tileset accessor functions. */
+bool tileset_is_isometric(void);
+int tileset_hex_width(void);
+int tileset_hex_height(void);
 
 struct Sprite *load_sprite(const char *tag_name);
 void unload_sprite(const char *tag_name);

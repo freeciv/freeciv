@@ -582,14 +582,14 @@ static void Map_Priv_ExplodeUnit(Object *o, struct Map_Data *data)
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
     if (w > 0 && h > 0) {
-      if (is_isometric) {
+      if (tileset_is_isometric()) {
       /* We first draw the explosion onto the unit and draw draw the
 	 complete thing onto the map canvas window. This avoids flickering. */
 	MyBltBitMapRastPort(data->map_bitmap, canvas_x, canvas_y,
 			    data->unit_layer->rp, 0, 0, w, h, 0xc0);
 	put_sprite_overlay(data->unit_layer->rp, sprites.explode.unit[i], NORMAL_TILE_WIDTH/4,0);
 	MyBltBitMapRastPort(data->unit_bitmap,0,0,_rp(o),_mleft(o) + canvas_x, _mtop(o) + canvas_y, w, h, 0xc0);
-      } else { /* is_isometric */
+      } else { /* tileset_is_isometric() */
 	MyBltBitMapRastPort(data->map_bitmap, canvas_x, canvas_y,
 			    data->unit_layer->rp, 0, 0, w, h, 0xc0);
 	put_sprite_overlay(data->unit_layer->rp, sprites.explode.unit[i], 0, 0);
@@ -1039,7 +1039,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 
-	if (is_isometric)
+	if (tileset_is_isometric())
 	{
 	  /* Do I get points for style? */
 /*	  char boom[] = "Really Loud BOOM!!!";
@@ -1159,7 +1159,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	assert(is_drawn_line(src_x, src_y, dir));
 
-	if (is_isometric) {
+	if (tileset_is_isometric()) {
 	  really_draw_segment(data->map_layer->rp, 0, 0, src_x, src_y, dir,
 			      FALSE);
 	  really_draw_segment(_rp(o), _mleft(o), _mtop(o), src_x, src_y,
@@ -1223,13 +1223,13 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	write_to_screen = 1;
 
 	/* see update_map_canvas_visible() in mapview.c */
-	if (is_isometric)
+	if (tileset_is_isometric())
 	{
 	  y -= width;
 	  width = height = width + height;
 	}
 
-	if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 3) && !is_isometric)
+	if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 3) && !tileset_is_isometric())
 	{
 	  /* Map has been scrolled (non isometric only atm), drawing can be optimized */
 	  int dx = data->horiz_first - data->old_horiz_first;
@@ -1302,7 +1302,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	}
       }
 
-      if (is_isometric)
+      if (tileset_is_isometric())
       {
 	int i;
 	int x_itr, y_itr;
@@ -2097,7 +2097,7 @@ static ULONG CityMap_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMi
 {
   DoSuperMethodA(cl, o, (Msg) msg);
 
-  if (is_isometric)
+  if (tileset_is_isometric())
   {
     msg->MinMaxInfo->MinWidth += get_normal_tile_width() * 4;
     msg->MinMaxInfo->DefWidth += get_normal_tile_width() * 4;
@@ -2127,7 +2127,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
   {
     struct city *pcity = data->pcity;
 
-    if (is_isometric)
+    if (tileset_is_isometric())
     {
       /* First make it all black. */
       SetAPen(rp,data->black_color);

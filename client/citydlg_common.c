@@ -32,7 +32,7 @@
 #include "control.h"
 #include "mapview_common.h"
 #include "options.h"		/* for concise_city_production */
-#include "tilespec.h"		/* for is_isometric */
+#include "tilespec.h"		/* for tileset_is_isometric() */
 
 static int citydlg_width, citydlg_height;
 
@@ -111,7 +111,7 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
   canvas_x -= (width - NORMAL_TILE_WIDTH) / 2;
   canvas_y -= (height - NORMAL_TILE_HEIGHT) / 2;
 
-  if (is_isometric) {
+  if (tileset_is_isometric()) {
     const int W = NORMAL_TILE_WIDTH, H = NORMAL_TILE_HEIGHT;
 
     /* Shift the tile left so the top corner of the origin tile is at

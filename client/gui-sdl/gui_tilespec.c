@@ -502,7 +502,7 @@ void tilespec_setup_theme(void)
     
   /* Map Dithering */
   
-    if (is_isometric)
+    if (tileset_is_isometric())
     {
       pBuf = sprites.dither_tile;
       pDitherMask = GET_SURF(pBuf);
@@ -819,7 +819,7 @@ void unload_unused_graphics(void)
   unload_sprite("upkeep.unhappy");
   unload_sprite("upkeep.unhappy2");
   unload_sprite("upkeep.shield");
-  if (is_isometric && sprite_exists("explode.iso_nuke"))
+  if (tileset_is_isometric() && sprite_exists("explode.iso_nuke"))
   {
     unload_sprite("explode.iso_nuke");
   }
