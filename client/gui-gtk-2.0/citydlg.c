@@ -64,13 +64,7 @@ struct city_dialog;
 /* get 'struct dialog_list' and related function */
 #define SPECLIST_TAG dialog
 #define SPECLIST_TYPE struct city_dialog
-#define SPECLIST_STATIC
 #include "speclist.h"
-
-#define SPECLIST_TAG dialog
-#define SPECLIST_TYPE struct city_dialog
-#define SPECLIST_STATIC
-#include "speclist_c.h"
 
 #define dialog_list_iterate(dialoglist, pdialog) \
     TYPED_LIST_ITERATE(struct city_dialog, dialoglist, pdialog)

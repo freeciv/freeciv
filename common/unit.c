@@ -30,11 +30,6 @@
 
 #include "unit.h"
 
-/* get 'struct unit_list' functions: */
-#define SPECLIST_TAG unit
-#define SPECLIST_TYPE struct unit
-#include "speclist_c.h"
-
 /***************************************************************
 This function calculates the move rate of the unit taking into 
 account the penalty for reduced hitpoints (affects sea and land 

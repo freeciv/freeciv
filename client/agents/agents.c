@@ -59,10 +59,6 @@ struct call {
 #define SPECLIST_TYPE struct call
 #include "speclist.h"
 
-#define SPECLIST_TAG call
-#define SPECLIST_TYPE struct call
-#include "speclist_c.h"
-
 #define call_list_iterate(calllist, pcall) \
     TYPED_LIST_ITERATE(struct call, calllist, pcall)
 #define call_list_iterate_end  LIST_ITERATE_END

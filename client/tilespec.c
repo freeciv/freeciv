@@ -110,10 +110,6 @@ struct specfile;
 #define SPECLIST_TYPE struct specfile
 #include "speclist.h"
 
-#define SPECLIST_TAG specfile
-#define SPECLIST_TYPE struct specfile
-#include "speclist_c.h"
-
 #define specfile_list_iterate(list, pitem) \
     TYPED_LIST_ITERATE(struct specfile, list, pitem)
 #define specfile_list_iterate_end  LIST_ITERATE_END
@@ -122,10 +118,6 @@ struct small_sprite;
 #define SPECLIST_TAG small_sprite
 #define SPECLIST_TYPE struct small_sprite
 #include "speclist.h"
-
-#define SPECLIST_TAG small_sprite
-#define SPECLIST_TYPE struct small_sprite
-#include "speclist_c.h"
 
 #define small_sprite_list_iterate(list, pitem) \
     TYPED_LIST_ITERATE(struct small_sprite, list, pitem)

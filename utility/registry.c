@@ -186,8 +186,6 @@ struct entry {
 /* create a 'struct entry_list' and related functions: */
 #define SPECLIST_TAG entry
 #include "speclist.h"
-#define SPECLIST_TAG entry
-#include "speclist_c.h"
 
 #define entry_list_iterate(entlist, pentry) \
        TYPED_LIST_ITERATE(struct entry, entlist, pentry)
@@ -202,8 +200,6 @@ struct section {
 /* create a 'struct section_list' and related functions: */
 #define SPECLIST_TAG section
 #include "speclist.h"
-#define SPECLIST_TAG section
-#include "speclist_c.h"
 
 #define section_list_iterate(seclist, psection) \
        TYPED_LIST_ITERATE(struct section, seclist, psection)

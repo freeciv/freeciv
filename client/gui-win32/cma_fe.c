@@ -40,14 +40,7 @@
 
 #define SPECLIST_TAG dialog
 #define SPECLIST_TYPE struct cma_dialog
-#define SPECLIST_STATIC1
 #include "speclist.h"
-
-#define SPECLIST_TAG dialog
-#define SPECLIST_TYPE struct cma_dialog
-#define SPECLIST_STATIC1
-#include "speclist_c.h"
-
 
 struct cma_dialog {
   struct city *pcity;

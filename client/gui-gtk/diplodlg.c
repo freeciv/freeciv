@@ -81,13 +81,7 @@ struct Diplomacy_dialog {
 
 #define SPECLIST_TAG dialog
 #define SPECLIST_TYPE struct Diplomacy_dialog
-#define SPECLIST_STATIC
 #include "speclist.h"
-
-#define SPECLIST_TAG dialog
-#define SPECLIST_TYPE struct Diplomacy_dialog
-#define SPECLIST_STATIC
-#include "speclist_c.h"
 
 #define dialog_list_iterate(dialoglist, pdialog) \
     TYPED_LIST_ITERATE(struct Diplomacy_dialog, dialoglist, pdialog)

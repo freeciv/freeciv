@@ -68,10 +68,6 @@
 #define SPECLIST_TYPE struct city_dialog
 #include "speclist.h"
 
-#define SPECLIST_TAG dialog
-#define SPECLIST_TYPE struct city_dialog
-#include "speclist_c.h"
-
 #define dialog_list_iterate(dialoglist, pdialog) \
     TYPED_LIST_ITERATE(struct city_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END

@@ -47,10 +47,6 @@ struct cma_preset {
 #define SPECLIST_TYPE struct cma_preset
 #include "speclist.h"
 
-#define SPECLIST_TAG preset
-#define SPECLIST_TYPE struct cma_preset
-#include "speclist_c.h"
-
 #define preset_list_iterate(presetlist, ppreset) \
     TYPED_LIST_ITERATE(struct cma_preset, presetlist, ppreset)
 #define preset_list_iterate_end  LIST_ITERATE_END

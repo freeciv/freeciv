@@ -29,11 +29,6 @@
 
 #include "city.h"
 
-/* get 'struct city_list' functions: */
-#define SPECLIST_TAG city
-#define SPECLIST_TYPE struct city
-#include "speclist_c.h"
-
 /* start helper functions for generic_city_refresh */
 static int content_citizens(struct player *pplayer);
 static void set_tax_income(struct city *pcity);

@@ -50,9 +50,6 @@ static const char * const help_type_names[] = {
 #define SPECLIST_TAG help
 #define SPECLIST_TYPE struct help_item
 #include "speclist.h"
-#define SPECLIST_TAG help
-#define SPECLIST_TYPE struct help_item
-#include "speclist_c.h"
 
 #define help_list_iterate(helplist, phelp) \
     TYPED_LIST_ITERATE(struct help_item, helplist, phelp)

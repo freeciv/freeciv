@@ -480,10 +480,6 @@ static char *win_uname()
 #endif
 
 
-#define SPECLIST_TAG server
-#define SPECLIST_TYPE struct server
-#include "speclist_c.h"
-
 /**************************************************************************
  Create the list of servers from the metaserver
  The result must be free'd with delete_server_list() when no

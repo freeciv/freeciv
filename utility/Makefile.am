@@ -38,7 +38,6 @@ libcivutility_a_SOURCES = \
 		shared.c	\
 		shared.h	\
 		speclist.h	\
-		speclist_c.h	\
 		specvec.h	\
 		specvec_c.h	\
 		support.c	\

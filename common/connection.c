@@ -43,11 +43,6 @@
 
 #include "connection.h"
 
-/* get 'struct conn_list' functions: */
-#define SPECLIST_TAG conn
-#define SPECLIST_TYPE struct connection
-#include "speclist_c.h"
-
 /* String used for connection.addr and related cases to indicate
  * blank/unknown/not-applicable address:
  */

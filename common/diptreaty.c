@@ -25,10 +25,6 @@
 
 #include "diptreaty.h"
 
-#define SPECLIST_TAG clause
-#define SPECLIST_TYPE struct Clause
-#include "speclist_c.h"
-
 /**************************************************************************
   Returns TRUE iff pplayer could do diplomancy in the game at all.
 **************************************************************************/

@@ -60,13 +60,7 @@ struct spaceship_dialog {
 
 #define SPECLIST_TAG dialog
 #define SPECLIST_TYPE struct spaceship_dialog
-#define SPECLIST_STATIC1
 #include "speclist.h"
-
-#define SPECLIST_TAG dialog
-#define SPECLIST_TYPE struct spaceship_dialog
-#define SPECLIST_STATIC1
-#include "speclist_c.h"
 
 #define dialog_list_iterate(dialoglist, pdialog) \
     TYPED_LIST_ITERATE(struct spaceship_dialog, dialoglist, pdialog)

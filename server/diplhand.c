@@ -45,10 +45,6 @@
 #define SPECLIST_TYPE struct Treaty
 #include "speclist.h"
 
-#define SPECLIST_TAG treaty
-#define SPECLIST_TYPE struct Treaty
-#include "speclist_c.h"
-
 #define treaty_list_iterate(list, p) \
     TYPED_LIST_ITERATE(struct Treaty, list, p)
 #define treaty_list_iterate_end  LIST_ITERATE_END

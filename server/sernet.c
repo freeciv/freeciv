@@ -113,10 +113,6 @@ static int socklan;
 #define SPECLIST_TYPE struct timer
 #include "speclist.h"
 
-#define SPECLIST_TAG timer
-#define SPECLIST_TYPE struct timer
-#include "speclist_c.h"
-
 #define PROCESSING_TIME_STATISTICS 0
 
 static int server_accept_connection(int sockfd);
