@@ -119,6 +119,28 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
   return is_valid_city_coords(*city_x, *city_y);
 }
 
+/* Iterate over all known tiles in the city.  This iteration follows the
+ * painter's algorithm and can be used for drawing. */
+#define citydlg_known_iterate(pcity, city_x, city_y,			    \
+			      map_x, map_y, canvas_x, canvas_y)		    \
+{                                                                           \
+  int _itr;								    \
+                                                                            \
+  /* We must go in order to preserve the painter's algorithm. */	    \
+  for (_itr = 0; _itr < CITY_MAP_SIZE * CITY_MAP_SIZE; _itr++) {            \
+    int city_x = _itr / CITY_MAP_SIZE, city_y = _itr % CITY_MAP_SIZE;	    \
+    int map_x, map_y, canvas_x, canvas_y;				    \
+                                                                            \
+    if (is_valid_city_coords(city_x, city_y)				    \
+	&& city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)	    \
+	&& tile_get_known(map_x, map_y)					    \
+	&& city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {	    \
+
+#define citydlg_known_iterate_end                                           \
+    }                                                                       \
+  }                                                                         \
+}
+
 /****************************************************************************
   Draw the full city map onto the canvas store.  Works for both isometric
   and orthogonal views.
@@ -126,63 +148,46 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 void city_dialog_redraw_map(struct city *pcity,
 			    struct canvas *pcanvas)
 {
-  int city_x, city_y;
-
   /* First make it all black. */
   canvas_put_rectangle(pcanvas, COLOR_STD_BLACK, 0, 0,
 		       get_citydlg_canvas_width(),
 		       get_citydlg_canvas_height());
 
-  /* We have to draw the tiles in a particular order, so its best
-     to avoid using any iterator macro. */
-  for (city_x = 0; city_x < CITY_MAP_SIZE; city_x++) {
-    for (city_y = 0; city_y < CITY_MAP_SIZE; city_y++) {
-      int map_x, map_y, canvas_x, canvas_y;
-
-      if (is_valid_city_coords(city_x, city_y)
-	  && city_map_to_map(&map_x, &map_y, pcity, city_x, city_y)
-	  && tile_get_known(map_x, map_y) != TILE_UNKNOWN
-	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
-	if (is_isometric) {
-	  put_one_tile_iso(pcanvas, map_x, map_y,
-			   canvas_x, canvas_y,
-			   0, 0, 0,
-			   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
-			   UNIT_TILE_HEIGHT,
-			   D_FULL, TRUE);
-	} else {
-	  put_one_tile(pcanvas, map_x, map_y,
-		       canvas_x, canvas_y, TRUE);
-	}
-      }
+  citydlg_known_iterate(pcity, city_x, city_y,
+			map_x, map_y, canvas_x, canvas_y) {
+    if (is_isometric) {
+      put_one_tile_iso(pcanvas, map_x, map_y,
+		       canvas_x, canvas_y,
+		       0, 0, 0,
+		       NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT,
+		       UNIT_TILE_HEIGHT,
+		       D_FULL, TRUE);
+    } else {
+      put_one_tile(pcanvas, map_x, map_y,
+		   canvas_x, canvas_y, TRUE);
     }
-  }
+  } citydlg_known_iterate_end;
 
   /* We have to put the output afterwards or it will be covered
    * in iso-view. */
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    int canvas_x, canvas_y;
-
-    if (tile_get_known(map_x, map_y) != TILE_UNKNOWN
-	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
-	&& pcity->city_map[x][y] == C_TILE_WORKER) {
-      put_city_tile_output(pcity, x, y, pcanvas, canvas_x, canvas_y);
+  citydlg_known_iterate(pcity, city_x, city_y,
+			map_x, map_y, canvas_x, canvas_y) {
+    if (pcity->city_map[city_x][city_y] == C_TILE_WORKER) {
+      put_city_tile_output(pcity, city_x, city_y,
+			   pcanvas, canvas_x, canvas_y);
     }
-  } city_map_checked_iterate_end;
+  } citydlg_known_iterate_end;
 
   /* This sometimes will draw one of the lines on top of a city or
    * unit pixmap (in iso-view). This should maybe be moved to
    * put_one_tile to fix this, but maybe it wouldn't be a good idea because
    * the lines would get obscured. */
-  city_map_checked_iterate(pcity->x, pcity->y, x, y, map_x, map_y) {
-    int canvas_x, canvas_y;
-
-    if (tile_get_known(map_x, map_y) != TILE_UNKNOWN
-	&& city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
-	&& pcity->city_map[x][y] == C_TILE_UNAVAILABLE) {
+  citydlg_known_iterate(pcity, city_x, city_y,
+			map_x, map_y, canvas_x, canvas_y) {
+    if (pcity->city_map[city_x][city_y] == C_TILE_UNAVAILABLE) {
       put_red_frame_tile(pcanvas, canvas_x, canvas_y);
     }
-  } city_map_checked_iterate_end;
+  } citydlg_known_iterate_end;
 }
 
 /**************************************************************************
