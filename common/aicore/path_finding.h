@@ -299,6 +299,7 @@ struct pf_parameter {
 
   struct player *owner;
 
+  bv_flags unit_flags;          /* Like F_MARINE and F_TRIREME */
   bool omniscience;		/* Do we care if the tile is visible? */
 
   enum turn_mode turn_mode;	/* See definitions. */

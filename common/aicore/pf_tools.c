@@ -77,7 +77,15 @@ static int normal_move_unit(int x, int y, enum direction8 dir,
       move_cost = PF_IMPOSSIBLE_MC;
     }
   } else if (ptile->terrain == T_OCEAN) {
-    move_cost = get_tile_type(terrain1)->movement_cost * SINGLE_MOVE;
+    struct tile *ptile1 = map_get_tile(x1, y1);
+
+    if (!BV_ISSET(param->unit_flags, F_MARINES)
+        && (is_non_allied_unit_tile(ptile1, param->owner) 
+            || is_non_allied_city_tile(ptile1, param->owner))) {
+      move_cost = PF_IMPOSSIBLE_MC;
+    } else {
+      move_cost = get_tile_type(terrain1)->movement_cost * SINGLE_MOVE;
+    }
   } else {
     move_cost = ptile->move_cost[dir];
   }
@@ -91,7 +99,7 @@ static int normal_move_unit(int x, int y, enum direction8 dir,
   recommended to use dont_cross_ocean TB callback with this 
   one, so we don't venture too far into the ocean ;)
 
-  Alternatively,we can change the flow to
+  Alternatively, we can change the flow to
   if (ptile->terrain == T_OCEAN) {
     move_cost = PF_IMPOSSIBLE_MC;
   } else if (terrain1 == T_OCEAN) {
@@ -99,7 +107,7 @@ static int normal_move_unit(int x, int y, enum direction8 dir,
   } else {
     move_cost = ptile->move_cost[dir];
   }
-  which will achieve thesame without call-back.
+  which will achieve the same without call-back.
 ************************************************************/
 static int land_overlap_move(int x, int y, enum direction8 dir,
 			     int x1, int y1, struct pf_parameter *param)
@@ -267,6 +275,8 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
   parameter->moves_left_initially = punit->moves_left;
   parameter->move_rate = unit_move_rate(punit);
   parameter->owner = unit_owner(punit);
+  parameter->unit_flags = unit_type(punit)->flags;
+  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
 
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
@@ -315,6 +325,8 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
   parameter->moves_left_initially = punit->moves_left;
   parameter->move_rate = unit_move_rate(punit);
   parameter->owner = unit_owner(punit);
+  parameter->unit_flags = unit_type(punit)->flags;
+  parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);
 
   switch (unit_type(punit)->move_type) {
   case LAND_MOVING:
@@ -345,6 +357,8 @@ void pft_fill_default_parameter(struct pf_parameter *parameter)
   parameter->turn_mode = TM_CAPPED;
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
+  BV_CLR_ALL(parameter->unit_flags);
+  parameter->omniscience = TRUE;
 }
 
 /**********************************************************************
