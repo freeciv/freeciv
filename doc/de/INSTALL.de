@@ -3,7 +3,7 @@ Die Installation von Freeciv
 ============================
 
 Diese Datei beschreibt die Compilierung und Installation von Freeciv.
-Stand: 05.06.02
+Stand: 25.09.02
 
 0. Voraussetzungen:
 ===================
@@ -62,7 +62,7 @@ sollte man es einfach ausprobieren.
 Ein CVS-Abzug hat zusätzliche Vorraussetzungen; Release-Versionen beinhalten
 die generierten Dateien bereits.
 
- - Die Programme aus dem Packet GNU gettext mit der Versionsnummer >= 0.10.38
+ - Die Programme aus dem Packet GNU gettext mit der Versionsnummer >= 0.10.36
 
    Speziell das Programm xgettext wird benötigt, um die *.gmo-Dateien für
    die Übersetzungen zu erzeugen, die im CVS-Baum nicht enthalten sind.
@@ -423,7 +423,7 @@ ausprobieren:
 3. Schließlich können sie noch versuchen, die neueste Version von GNU
    gettext zu installieren. Sie können diese Version hier downloaden:
 
-     ftp://ftp.gnu.org/gnu/gettext/gettext-0.10.38.tar.gz
+     ftp://ftp.gnu.org/gnu/gettext/gettext-0.11.4.tar.gz
 
 6. Unterstützung von Readline
 =============================
@@ -626,7 +626,25 @@ Benötigt werden:
 	- libz und libpng (unter ftp://ftp.freeciv.org/pub/freeciv/requirements)
 
 Diese funktionieren mit den Standard-Makefiles des gcc, allerdings müssen CC
-und RANLIB entsprechend gesetzt werden.
+und RANLIB entsprechend gesetzt werden. Werden libpng/libz benutzt, die bei
+cygwin dabei sind, ist Ärger so gut wie garantiert.
+
+Kompilieren von zlib mit
+
+a) cygwin
+	% make CC="gcc -mno-cygwin"
+	
+b) mingw32 cross compiler
+	% make CC=iX86-mingw32-gcc RANLIB=iX86-mingw32-ranlib
+
+Kompilieren von libpng mit
+
+a) cygwin
+	% make -f scripts/makefile.gcc CC="gcc -mno-cygwin"
+b) mingw32 cross compiler
+	% make -f scripts/makefile.gcc CC=iX86-mingw32-gcc \
+	  RANLIB=iX86-mingw32-ranlib
+
 
 Autoconf und co:
 
@@ -635,7 +653,9 @@ Beim Übersetzen von CVS-Abzügen muss in den folgenden Zeilen ./configure durch
 
 Wird autoconf2.52 verwendet, werden Probleme bei den Pfaden auftreten,
 insbesondere bei dem Verzeichnis der locales (Lokalisierungsdateien); daher
-ist autoconf2.13 die bevorzugte Version.
+ist autoconf2.13 die bevorzugte Version (Um die Verwendung von autoconf 2.13
+zu erzwingen kann der Schalter --disable-autoconf2.52 des Scripts autogen.sh
+benutzt werden)
 
 Die Konfiguration der Sourcen:
 ------------------------------
@@ -655,7 +675,7 @@ Cross-Compiler konfiguriert wurde.
 
    % export CC=iX86-mingw32-gcc
    % export AR=iX86-mingw32-ar
-   % export RANLIB=i386-mingw32-ranlib
+   % export RANLIB=iX86-mingw32-ranlib
    % ./configure --host=iX86-mingw32 --build=$(./config.guess) \
    >  --with-included-gettext --enable-client=win32 --prefix=.
 
