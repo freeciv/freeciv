@@ -562,16 +562,21 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
   int activity_total[ACTIVITY_LAST];
   int activity_units[ACTIVITY_LAST];
   int num_activities = 0;
-  int remains, i, mr;
+  int remains, turns, i, mr, au;
   struct tile *ptile = map_get_tile(x, y);
 
   memset(activity_total, 0, sizeof(activity_total));
   memset(activity_units, 0, sizeof(activity_units));
 
   unit_list_iterate(ptile->units, punit) {
-    activity_total[punit->activity] += punit->activity_count;
     mr = get_unit_type(punit->type)->move_rate;
-    activity_units[punit->activity] += mr ? mr / SINGLE_MOVE : 1;
+    au = mr ? mr / SINGLE_MOVE : 1;
+    activity_total[punit->activity] += punit->activity_count;
+    if (punit->moves_left) {
+      /* current turn */
+      activity_total[punit->activity] += au;
+    }
+    activity_units[punit->activity] += au;
   }
   unit_list_iterate_end;
 
@@ -580,9 +585,13 @@ int concat_tile_activity_text(char *buf, int buf_size, int x, int y)
       if (num_activities)
 	mystrlcat(buf, "/", buf_size);
       remains = map_activity_time(i, x, y) - activity_total[i];
-      cat_snprintf(buf, buf_size, "%s(%d)", get_activity_text(i),
-		   remains / activity_units[i] +
-		   (remains % activity_units[i] ? 1 : 0));
+      if (remains > 0) {
+	turns = 1 + (remains + activity_units[i] - 1) / activity_units[i];
+      } else {
+	/* activity will be finished this turn */
+	turns = 1;
+      }
+      cat_snprintf(buf, buf_size, "%s(%d)", get_activity_text(i), turns);
       num_activities++;
     }
   }
