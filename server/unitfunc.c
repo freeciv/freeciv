@@ -1048,7 +1048,7 @@ void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id ty
   punit->goto_dest_x=0;
   punit->goto_dest_y=0;
   
-  pcity=game_find_city_by_id(homecity_id);
+  pcity=find_city_by_id(homecity_id);
   punit->veteran=make_veteran;
   punit->homecity=homecity_id;
 

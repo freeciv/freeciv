@@ -357,13 +357,13 @@ void handle_unit_info(struct packet_unit_info *packet)
     
     if(punit->homecity!=packet->homecity) { /* change homecity */
       struct city *pcity;
-      if((pcity=game_find_city_by_id(punit->homecity))) {
+      if((pcity=find_city_by_id(punit->homecity))) {
 	unit_list_unlink(&pcity->units_supported, punit);
 	refresh_city_dialog(pcity);
       }
       
       punit->homecity=packet->homecity;
-      if((pcity=game_find_city_by_id(punit->homecity))) {
+      if((pcity=find_city_by_id(punit->homecity))) {
 	unit_list_insert(&pcity->units_supported, punit);
 	repaint_city=1;
       }
@@ -399,7 +399,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       else {
 	unit_list_unlink(&game.players[packet->owner].units, punit);
 	unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
-	if(punit->homecity && (pcity=game_find_city_by_id(punit->homecity))) {
+	if(punit->homecity && (pcity=find_city_by_id(punit->homecity))) {
 	  unit_list_unlink(&pcity->units_supported, punit);
 	}
 	refresh_tile_mapcanvas(punit->x, punit->y, 1);
@@ -431,7 +431,7 @@ void handle_unit_info(struct packet_unit_info *packet)
       repaint_city=1;
     }
     if (repaint_city) {
-      if((pcity=game_find_city_by_id(punit->homecity))) {
+      if((pcity=find_city_by_id(punit->homecity))) {
 	refresh_city_dialog(pcity);
       }
     }
@@ -472,7 +472,7 @@ void handle_unit_info(struct packet_unit_info *packet)
     unit_list_insert(&game.players[packet->owner].units, punit);
     unit_list_insert(&map_get_tile(punit->x, punit->y)->units, punit);
     
-    if((pcity=game_find_city_by_id(punit->homecity)))
+    if((pcity=find_city_by_id(punit->homecity)))
       unit_list_insert(&pcity->units_supported, punit);
 
     if (DEBUG) {

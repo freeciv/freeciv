@@ -137,7 +137,7 @@ void client_remove_city(int city_id)
   
   if (DEBUG) flog(LOG_DEBUG, "client_remove_city %d", city_id);
   
-  if((pcity=game_find_city_by_id(city_id))) {
+  if((pcity=find_city_by_id(city_id))) {
     int x=pcity->x;
     int y=pcity->y;
     popdown_city_dialog(pcity);
@@ -148,11 +148,6 @@ void client_remove_city(int city_id)
     game_remove_city(pcity);
     refresh_tile_mapcanvas(x, y, 1);
   }
-}
-
-struct city *find_city_by_id(int id)
-{ /* no idea where this belongs either */
-  return(game_find_city_by_id(id));
 }
 
 #define NCONT 256		/* should really be (UCHAR_MAX+1)? */

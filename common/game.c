@@ -120,7 +120,7 @@ int civ_score(struct player *pplayer)
   unit_list_iterate_end;
   
   for (i=0;i<B_LAST;i++) {
-    if (is_wonder(i) && (pcity=game_find_city_by_id(game.global_wonders[i])) && 
+    if (is_wonder(i) && (pcity=find_city_by_id(game.global_wonders[i])) && 
 	player_owns_city(pplayer, pcity))
       pplayer->score.wonders++;
   }
@@ -143,21 +143,6 @@ int civ_population(struct player *pplayer)
 /**************************************************************************
 ...
 **************************************************************************/
-struct city *game_find_city_by_id(int city_id)
-{
-  int i;
-  struct city *pcity;
-
-  for(i=0; i<game.nplayers; i++)
-    if((pcity=city_list_find_id(&game.players[i].cities, city_id)))
-      return pcity;
-
-  return 0;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 struct city *game_find_city_by_name(char *name)
 {
   int i;
@@ -169,7 +154,6 @@ struct city *game_find_city_by_name(char *name)
 
   return 0;
 }
-
 
 
 /**************************************************************************

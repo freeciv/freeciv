@@ -219,9 +219,6 @@ int trade_between_cities(struct city *pc1, struct city *pc2);
 int city_num_trade_routes(struct city *pcity);
 
 /* list functions */
-struct city *find_city_by_id(int id);
-/* this funct is no longer in this module, but leaving it proto'd
-here saves more headaches than you can imagine -- Syela */
 void city_list_init(struct city_list *This);
 struct city *city_list_get(struct city_list *This, int index);
 struct city *city_list_find_id(struct city_list *This, int id);
@@ -234,5 +231,11 @@ void city_list_unlink(struct city_list *This, struct city *pcity);
 void city_list_insert_back(struct city_list *This, struct city *pcity);
 
 int city_name_compare(const void *p1, const void *p2);
+
+/* citycache */
+struct city *find_city_by_id(int id);
+void initialize_city_cache(void);
+void add_city_to_cache(struct city *pcity);
+void remove_city_from_cache(int id);
 
 #endif

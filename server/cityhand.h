@@ -16,11 +16,6 @@
 #include "packets.h"
 #include "city.h"
 
-/* citycache */
-void initialize_city_cache(void);
-void add_city_to_cache(struct city *pcity);
-void remove_city_from_cache(int id);
-
 void create_city(struct player *pplayer, int x, int y, char *name);
 void remove_city(struct city *pcity);
 void send_city_info(struct player *dest, struct city *pcity, int dosend);

@@ -35,55 +35,6 @@
 #include <gamelog.h>
 #include <log.h>
 
-static struct city **citycache = NULL;
-static int citycachesize = 0;
-
-void initialize_city_cache(void)
-{
-  int i;
-
-  if(citycache) free(citycache);
-  citycachesize=128;
-  citycache=malloc(sizeof(*citycache) * citycachesize);
-  for(i=0;i<citycachesize;i++) citycache[i]=NULL;
-}
-
-void reallocate_cache(void)
-{
-  int i;
-
-  flog(LOG_DEBUG,"Increasing max city id index from %d to %d",
-       citycachesize,citycachesize*2);
-  citycachesize*=2;
-  citycache=realloc(citycache,sizeof(*citycache)*citycachesize);
-  for(i=citycachesize/2;i<citycachesize;i++)  citycache[i]=NULL;
-}
-
-void add_city_to_cache(struct city *pcity)
-{
-  if(pcity->id < citycachesize)  {
-    citycache[pcity->id]=pcity;
-  } else {
-    reallocate_cache();
-    add_city_to_cache(pcity);
-  }
-}
-
-void remove_city_from_cache(int id)
-{
-  citycache[id]=NULL;
-}
-
-struct city *find_city_by_id(int id)
-{
-  /* This is sometimes called with id=unit.ai.charge, which is either
-   * a unit id or a city id; if its a unit id then that id won't be used
-   * for a city (?), so that is ok, except that it is possible that it
-   * might exceed citycachesize. --dwp
-   */
-  if(id<0 || id>=citycachesize) return 0;
-  return citycache[id];
-}
 
 /**************************************************************************
 Establish a trade route, notice that there has to be space for them, 
