@@ -339,7 +339,7 @@ static void worklist_last_impr_or_unit_iterate(GtkTreeModel *model,
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  (void) city_queue_insert(pcity, cid_is_unit(cid), cid_id(cid), -1);
+  (void) city_queue_insert(pcity, -1, cid_is_unit(cid), cid_id(cid));
   /* perhaps should warn the user if not successful? */
 }
 
