@@ -329,6 +329,8 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
   
   if(!was_carried)
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
+
+  if(get_unit_in_focus()==punit) update_menus();
 }
 
 /**************************************************************************
