@@ -30,8 +30,6 @@
 
 #include "advmilitary.h"
 
-extern struct move_cost_map warmap;
-
 /********************************************************************** 
  This function should assign a value to choice and want, where 
  want is a value between 1 and 100.

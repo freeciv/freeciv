@@ -47,8 +47,6 @@
 
 #include "aiunit.h"
 
-extern struct move_cost_map warmap;
-
 static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat);
 static void ai_manage_military(struct player *pplayer,struct unit *punit);
 static void ai_manage_caravan(struct player *pplayer, struct unit *punit);
