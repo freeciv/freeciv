@@ -62,12 +62,12 @@ Is player a sea or land barbarian
 
 bool is_land_barbarian(struct player *pplayer)
 {
-  return (pplayer->ai.is_barbarian == LAND_BARBARIAN);
+  return (pplayer->ai.barbarian_type == LAND_BARBARIAN);
 }
 
 bool is_sea_barbarian(struct player *pplayer)
 {
-  return (pplayer->ai.is_barbarian == SEA_BARBARIAN);
+  return (pplayer->ai.barbarian_type == SEA_BARBARIAN);
 }
 
 /**************************************************************************
@@ -128,9 +128,9 @@ static struct player *create_barbarian_player(bool land)
 
   barbarians->ai.control = TRUE;
   if( land )
-    barbarians->ai.is_barbarian = LAND_BARBARIAN;
+    barbarians->ai.barbarian_type = LAND_BARBARIAN;
   else
-    barbarians->ai.is_barbarian = SEA_BARBARIAN;
+    barbarians->ai.barbarian_type = SEA_BARBARIAN;
   set_ai_level_directer(barbarians, game.skill_level);
   init_tech(barbarians, game.tech);
 

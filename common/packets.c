@@ -1796,7 +1796,7 @@ int send_packet_player_info(struct connection *pc,
   cptr=put_uint8(cptr, pinfo->revolution);
   cptr=put_uint8(cptr, pinfo->tech_goal);
   cptr=put_uint8(cptr, pinfo->ai?1:0);
-  cptr=put_uint8(cptr, pinfo->is_barbarian);
+  cptr=put_uint8(cptr, pinfo->barbarian_type);
  
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
     cptr = put_worklist(pc, cptr, &pinfo->worklists[i], TRUE);
@@ -1858,7 +1858,7 @@ receive_packet_player_info(struct connection *pc)
   iget_uint8(&iter, &pinfo->revolution);
   iget_uint8(&iter, &pinfo->tech_goal);
   iget_uint8(&iter, &pinfo->ai);
-  iget_uint8(&iter, &pinfo->is_barbarian);
+  iget_uint8(&iter, &pinfo->barbarian_type);
  
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
     iget_worklist(pc, &iter, &pinfo->worklists[i]);

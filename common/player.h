@@ -28,6 +28,15 @@ struct tile;
 #define PLAYER_DEFAULT_SCIENCE_RATE 100
 #define PLAYER_DEFAULT_LUXURY_RATE 0
 
+/*
+ * pplayer->ai.barbarian_type uses this enum. Note that the values
+ * have to stay since they are used in savegames.
+ */
+enum barbarian_type {
+  NOT_A_BARBARIAN = 0,
+  LAND_BARBARIAN = 1,
+  SEA_BARBARIAN = 2
+};
 
 enum handicap_type {
   H_NONE=0, /* no handicaps */
@@ -111,7 +120,7 @@ struct player_ai {
   int fuzzy;			/* chance in 1000 to mis-decide */
   int expand;			/* percentage factor to value new cities */
   int warmth; /* threat of global warming */
-  int is_barbarian;
+  enum barbarian_type barbarian_type;
 };
 
 /* Diplomatic states (how one player views another).

@@ -573,7 +573,7 @@ static void player_load(struct player *plr, int plrno,
 
   server_player_init(plr, TRUE);
 
-  plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
+  plr->ai.barbarian_type = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
                                                     plrno);
   if (is_barbarian(plr)) game.nbarbarians++;
 
@@ -581,7 +581,7 @@ static void player_load(struct player *plr, int plrno,
   sz_strlcpy(plr->username,
 	     secfile_lookup_str_default(file, "", "player%d.username", plrno));
   plr->nation=secfile_lookup_int(file, "player%d.race", plrno);
-  if (plr->ai.is_barbarian) {
+  if (is_barbarian(plr)) {
     plr->nation=game.nation_count-1;
   }
   plr->government=secfile_lookup_int(file, "player%d.government", plrno);
@@ -1261,7 +1261,7 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, plr->ai.tech_goal, "player%d.ai.tech_goal", plrno);
   secfile_insert_int(file, plr->ai.skill_level,
 		     "player%d.ai.skill_level", plrno);
-  secfile_insert_int(file, plr->ai.is_barbarian, "player%d.ai.is_barbarian", plrno);
+  secfile_insert_int(file, plr->ai.barbarian_type, "player%d.ai.is_barbarian", plrno);
   secfile_insert_int(file, plr->economic.gold, "player%d.gold", plrno);
   secfile_insert_int(file, plr->economic.tax, "player%d.tax", plrno);
   secfile_insert_int(file, plr->economic.science, "player%d.science", plrno);

@@ -90,7 +90,7 @@ void player_init(struct player *plr)
   plr->ai.skill_level = 0;
   plr->ai.fuzzy = 0;
   plr->ai.expand = 100;
-  plr->ai.is_barbarian = FALSE;
+  plr->ai.barbarian_type = NOT_A_BARBARIAN;
   plr->future_tech=0;
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
@@ -580,5 +580,5 @@ bool pplayers_non_attack(const struct player *pplayer,
 **************************************************************************/
 bool is_barbarian(const struct player *pplayer)
 {
-  return (pplayer->ai.is_barbarian > 0);
+  return pplayer->ai.barbarian_type != NOT_A_BARBARIAN;
 }

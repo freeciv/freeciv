@@ -1230,7 +1230,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   
   pplayer->is_connected=pinfo->is_connected;
 
-  pplayer->ai.is_barbarian=pinfo->is_barbarian;
+  pplayer->ai.barbarian_type = pinfo->barbarian_type;
   pplayer->revolution=pinfo->revolution;
   if(pplayer->ai.control!=pinfo->ai)  {
     pplayer->ai.control=pinfo->ai;

@@ -477,7 +477,7 @@ struct packet_player_info {
   bool is_connected;
   int revolution;
   bool ai;
-  bool is_barbarian;
+  int barbarian_type;
   struct worklist worklists[MAX_NUM_WORKLISTS];
   unsigned int gives_shared_vision;
 };

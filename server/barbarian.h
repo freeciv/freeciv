@@ -25,9 +25,6 @@ struct player;
 #define UPRISE_CIV_MORE  30
 #define UPRISE_CIV_MOST  50
 
-#define LAND_BARBARIAN    1
-#define SEA_BARBARIAN     2
-
 #define BARBARIAN_LIFE    5
 
 #define MAP_FACTOR     2000  /* adjust this to get a good uprising frequency */

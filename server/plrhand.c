@@ -1088,7 +1088,7 @@ static void package_player_common(struct player *plr,
   packet->is_alive=plr->is_alive;
   packet->is_connected=plr->is_connected;
   packet->ai=plr->ai.control;
-  packet->is_barbarian=plr->ai.is_barbarian;
+  packet->barbarian_type = plr->ai.barbarian_type;
   packet->reputation=plr->reputation;
 
   packet->turn_done=plr->turn_done;

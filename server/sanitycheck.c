@@ -78,8 +78,9 @@ static void check_misc(void)
 {
   int nbarbs = 0;
   players_iterate(pplayer) {
-    if (pplayer->ai.is_barbarian)
+    if (is_barbarian(pplayer)) {
       nbarbs++;
+    }
   } players_iterate_end;
   assert(nbarbs == game.nbarbarians);
 
