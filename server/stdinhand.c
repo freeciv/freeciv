@@ -3591,8 +3591,10 @@ void show_players(struct connection *caller)
       my_snprintf(buf, sizeof(buf), "%s (%s)", pplayer->name, buf2);
       
       n = conn_list_size(&pplayer->connections);
-      cat_snprintf(buf, sizeof(buf), 
-                   PL_(" %d connection:", "%d connections:", n), n);
+      if (n > 0) {
+        cat_snprintf(buf, sizeof(buf), 
+                     PL_(" %d connection:", " %d connections:", n), n);
+      }
       cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
       
       conn_list_iterate(pplayer->connections, pconn) {
