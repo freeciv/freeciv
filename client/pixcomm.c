@@ -37,6 +37,10 @@ in this Software without prior written authorization from the X Consortium.
  * Pixcomm.c - Source code for PixCommand widget.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 
 #include <X11/IntrinsicP.h>
@@ -112,6 +116,11 @@ PixcommClassRec pixcommClassRec = {
   {
     XtInheritChangeSensitive		/* change_sensitive	  */ 
   },  /* SimpleClass fields initialization */
+#if defined(HAVE_LIBXAW3D)
+  {
+    XtInheritXaw3dShadowDraw,           /* shadowdraw           */
+  },  /* ThreeD Class fields initialization */
+#endif
   {
     0,                                     /* field not used    */
   },  /* LabelClass fields initialization */

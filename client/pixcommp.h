@@ -46,7 +46,15 @@ in this Software without prior written authorization from the X Consortium.
 #ifndef _PixcommP_h
 #define _PixcommP_h
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#if defined(HAVE_LIBXAW3D)
+#include <X11/Xaw3d/CommandP.h>
+#else
 #include <X11/Xaw/CommandP.h>
+#endif
 
 #include "pixcomm.h"
 
@@ -67,6 +75,9 @@ typedef struct _PixcommClass
 typedef struct _PixcommandClassRec {
   CoreClassPart	            core_class;
   SimpleClassPart	    simple_class;
+#if defined(HAVE_LIBXAW3D)
+  ThreeDClassPart	    threeD_class;
+#endif
   LabelClassPart	    label_class;
   CommandClassPart	    command_class;
   PixcommClassPart          pixcomm_class;
@@ -90,6 +101,9 @@ typedef struct {
 typedef struct _PixcommRec {
     CorePart         core;
     SimplePart	     simple;
+#if defined(HAVE_LIBXAW3D)
+    ThreeDPart	     threeD;
+#endif
     LabelPart	     label;
     CommandPart	     command;
     PixcommPart      pixcomm;

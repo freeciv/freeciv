@@ -22,6 +22,7 @@
 #undef HAVE_LIBSM
 #undef HAVE_LIBX11
 #undef HAVE_LIBXAW
+#undef HAVE_LIBXAW3D
 #undef HAVE_LIBXEXT
 #undef HAVE_LIBXMU
 #undef HAVE_LIBXPM
