@@ -769,6 +769,8 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
   The "virtual boats" code is not used. It is probably too unreliable, 
   since the AI switches its production back and forth continously.
 
+  FIXME: if there is a (free) boat in a city filled with units, 
+  ground_unit_transporter_capacity will return negative.
   TODO: Kill me.  There is a reliable version of this, find_ferry.
 **************************************************************************/
 Unit_Type_id find_boat(struct player *pplayer, int *x, int *y, int cap)

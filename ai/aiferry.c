@@ -266,6 +266,20 @@ static int sea_move(int x, int y, enum known_type known,
 }
 
 /****************************************************************************
+  Runs a few checks to determine if "boat" is a free boat that can carry
+  "cap" units of the same type as "punit" (the last one isn't implemented).
+****************************************************************************/
+static bool is_boat_free(struct unit *boat, struct unit *punit, int cap)
+{
+  return (is_ground_units_transport(boat)
+	  && boat->owner == punit->owner
+	  && (boat->ai.passenger == FERRY_AVAILABLE
+	      || boat->ai.passenger == punit->id)
+	  && (get_transporter_capacity(boat) 
+	      - get_transporter_occupancy(boat) >= cap));
+}
+
+/****************************************************************************
   Proper and real PF function for finding a boat.  If you don't require
   the path to the ferry, pass path=NULL.
 
@@ -312,10 +326,7 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
       struct tile *ptile = map_get_tile(x, y);
       
       unit_list_iterate(ptile->units, aunit) {
-        if (is_ground_units_transport(aunit)
-            && aunit->owner == punit->owner
-            && (aunit->ai.passenger == FERRY_AVAILABLE
-                || aunit->ai.passenger == punit->id)) {
+        if (is_boat_free(aunit, punit, cap)) {
           /* Turns for the unit to get to rendezvous pnt */
           int u_turns = pos.turn;
           /* Turns for the boat to get to the rendezvous pnt */
@@ -354,12 +365,9 @@ static int aiferry_find_boat_nearby(struct unit *punit, int cap)
 
   square_iterate(punit->x, punit->y, 1, x, y) {
     unit_list_iterate(map_get_tile(x, y)->units, aunit) {
-      if (is_ground_units_transport(aunit)
-	  && aunit->owner == punit->owner
-          && (aunit->ai.passenger == FERRY_AVAILABLE
-              || aunit->ai.passenger == punit->id)) {
-	  return aunit->id;
-       }
+      if (is_boat_free(aunit, punit, cap)) {
+        return aunit->id;
+      }
     } unit_list_iterate_end;
   } square_iterate_end;
 
