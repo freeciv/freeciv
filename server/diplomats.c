@@ -552,6 +552,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     notify_player_ex(cplayer, pcity->x, pcity->y, E_ENEMY_DIPLOMAT_FAILED,
 		     _("Game: %s's %s failed to steal technology from %s."),
 		     pplayer->name, unit_name(pdiplomat->type), pcity->name);
+    /* this may cause a diplomatic incident */
+    maybe_cause_incident(DIPLOMAT_STEAL, pplayer, NULL, pcity);
     wipe_unit (pdiplomat);
     return;
   }
