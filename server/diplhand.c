@@ -85,23 +85,22 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
     else
       ptreaty->accept1=!ptreaty->accept1;
       
-    send_packet_diplomacy_info(plr0->conn, 
+    lsend_packet_diplomacy_info(&plr0->connections, 
 			       PACKET_DIPLOMACY_ACCEPT_TREATY, 
 			       packet);
-    send_packet_diplomacy_info(plr1->conn, 
+    lsend_packet_diplomacy_info(&plr1->connections, 
 			       PACKET_DIPLOMACY_ACCEPT_TREATY, 
 			       packet);
     
     if(ptreaty->accept0 && ptreaty->accept1) {
       struct genlist_iterator myiter;
       
-      send_packet_diplomacy_info(plr0->conn,
+      lsend_packet_diplomacy_info(&plr0->connections,
 				 PACKET_DIPLOMACY_CANCEL_MEETING, 
 				 packet);
-      send_packet_diplomacy_info(plr1->conn, 
+      lsend_packet_diplomacy_info(&plr1->connections, 
 				 PACKET_DIPLOMACY_CANCEL_MEETING, 
 				 packet);
-      
       
       notify_player(plr0,
 		    _("Game: A treaty containing %d clauses was agreed upon."),
@@ -255,9 +254,9 @@ void handle_diplomacy_remove_clause(struct player *pplayer,
   
   if((ptreaty=find_treaty(plr0, plr1))) {
     if(remove_clause(ptreaty, pgiver, packet->clause_type, packet->value)) {
-      send_packet_diplomacy_info(plr0->conn, 
+      lsend_packet_diplomacy_info(&plr0->connections, 
 				 PACKET_DIPLOMACY_REMOVE_CLAUSE, packet);
-      send_packet_diplomacy_info(plr1->conn, 
+      lsend_packet_diplomacy_info(&plr1->connections, 
 				 PACKET_DIPLOMACY_REMOVE_CLAUSE, packet);
     }
   }
@@ -294,10 +293,10 @@ void handle_diplomacy_create_clause(struct player *pplayer,
 
   if((ptreaty=find_treaty(plr0, plr1))) {
     if(add_clause(ptreaty, pgiver, packet->clause_type, packet->value)) {
-      send_packet_diplomacy_info(plr0->conn, 
+      lsend_packet_diplomacy_info(&plr0->connections, 
 				 PACKET_DIPLOMACY_CREATE_CLAUSE, 
 				 packet);
-      send_packet_diplomacy_info(plr1->conn, 
+      lsend_packet_diplomacy_info(&plr1->connections, 
 				 PACKET_DIPLOMACY_CREATE_CLAUSE, 
 				 packet);
     }
@@ -320,7 +319,7 @@ void handle_diplomacy_cancel_meeting(struct player *pplayer,
   theother=(pplayer==plr0) ? plr1 : plr0;
   
   if((ptreaty=find_treaty(pplayer, theother))) {
-    send_packet_diplomacy_info(theother->conn, 
+    lsend_packet_diplomacy_info(&theother->connections, 
 			       PACKET_DIPLOMACY_CANCEL_MEETING, 
 			       packet);
     notify_player(theother, _("Game: %s canceled the meeting!"), 
@@ -346,7 +345,6 @@ void handle_diplomacy_init(struct player *pplayer,
     if(player_has_embassy(plr0, plr1) && plr0->is_connected && 
        plr0->is_alive && plr1->is_connected && plr1->is_alive) {
     
-    
     struct Treaty *ptreaty;
     
     ptreaty=fc_malloc(sizeof(struct Treaty));
@@ -355,11 +353,13 @@ void handle_diplomacy_init(struct player *pplayer,
     
     pa.plrno0=plr0->player_no;
     pa.plrno1=plr1->player_no;
-    send_packet_diplomacy_info(plr0->conn, PACKET_DIPLOMACY_INIT_MEETING, &pa);
+    lsend_packet_diplomacy_info(&plr0->connections,
+				PACKET_DIPLOMACY_INIT_MEETING, &pa);
 
     pa.plrno0=plr1->player_no;
     pa.plrno1=plr0->player_no;
-    send_packet_diplomacy_info(plr1->conn, PACKET_DIPLOMACY_INIT_MEETING, &pa);
+    lsend_packet_diplomacy_info(&plr1->connections,
+				PACKET_DIPLOMACY_INIT_MEETING, &pa);
     }
     
   }
