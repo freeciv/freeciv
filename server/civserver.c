@@ -1069,6 +1069,9 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
     return;
   }
   
+  /* Make sure to set this back to NULL before leaving this function: */
+  pplayer->current_conn = pconn;
+  
   switch(type) {
     
   case PACKET_TURN_DONE:
@@ -1243,6 +1246,7 @@ void handle_packet_input(struct connection *pconn, char *packet, int type)
   }
 
   free(packet);
+  pplayer->current_conn = NULL;
 }
 
 /**************************************************************************

@@ -153,6 +153,7 @@ struct player {
   struct player_ai ai;
   int is_connected;		       /* observers don't count */
   struct connection *conn;
+  struct connection *current_conn;     /* non-null while handling packet */
   struct conn_list connections;	       /* will replace conn */
   char addr[MAX_LEN_ADDR];
   struct worklist worklists[MAX_NUM_WORKLISTS];
