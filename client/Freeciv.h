@@ -496,8 +496,6 @@
 "*helpdialog.*.helpunitmovedata.foreground: black",
 "*helpdialog.*.helpunitmovedata.background: lightblue",
 "*helpdialog.*.helpunitmovedata.borderWidth: 0",
-"*helpdialog.*.helpunittile.width: 30",
-"*helpdialog.*.helpunittile.height: 30",
 "*helpdialog.*.helpunittile.internalWidth: 0",
 "*helpdialog.*.helpunittile.internalHeight: 0",
 "*helpdialog.*.helpunittile.fromVert: helptext",
