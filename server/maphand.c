@@ -408,9 +408,7 @@ void send_all_known_tiles(struct conn_list *dest)
         continue;
       }
 
-      if (!pplayer) {
-	send_tile_info_always(pplayer, &pconn->self, x, y);
-      } else if (map_is_known(x, y, pplayer)) {
+      if (!pplayer || map_is_known(x, y, pplayer)) {
 	send_tile_info_always(pplayer, &pconn->self, x, y);
       }
     } conn_list_iterate_end;
@@ -475,8 +473,9 @@ void send_tile_info(struct conn_list *dest, int x, int y)
   Send the tile information, as viewed by pplayer, to all specified
   connections.   The tile info is sent even if pplayer doesn't see or
   know the tile (setting appropriate info.known), as required for
-  client drawing requirements in some cases (see doc/HACKING).
-  Also updates pplayer knowledge if known and seen, else used old.
+  client drawing requirements in some cases (see doc/HACKING).  This function
+  does NOT update player knowledge; call update_player_tile_knowledge to
+  do that.
   pplayer==NULL means send "real" data, for observers
 **************************************************************************/
 static void send_tile_info_always(struct player *pplayer, struct conn_list *dest,
@@ -506,8 +505,6 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
   } else if (map_is_known(x, y, pplayer)) {
     if (map_get_seen(x, y, pplayer) != 0) {
       /* Known and seen. */
-      /* Visible; update info. */
-      update_player_tile_knowledge(pplayer,x,y);
       info.known = TILE_KNOWN;
     } else {
       /* Known but not seen. */
@@ -608,6 +605,7 @@ static void really_unfog_area(struct player *pplayer, int x, int y)
    * It has to be sent first because the client needs correct
    * continent number before it can handle following packets
    */
+  update_player_tile_knowledge(pplayer, x, y);
   send_tile_info_always(pplayer, &pplayer->connections, x, y);
 
   /* discover units */
@@ -1139,7 +1137,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
   if (!map_is_known_and_seen(x, y, pdest)) {
     /* I can just hear people scream as they try to comprehend this if :).
      * Let me try in words:
-     * 1) if the tile is seen by pdest the info is sent to pfrom
+     * 1) if the tile is seen by pfrom the info is sent to pdest
      *  OR
      * 2) if the tile is known by pfrom AND (he has more recent info
      *     OR it is not known by pdest)
@@ -1451,33 +1449,33 @@ enum ocean_land_change check_terrain_ocean_land_change(int x, int y,
                                                 Terrain_type_id oldter)
 {
   Terrain_type_id newter = map_get_terrain(x, y);
+  enum ocean_land_change change_type = OLC_NONE;
 
   if (is_ocean(oldter) && !is_ocean(newter)) {
     /* ocean to land ... */
     ocean_to_land_fix_rivers(x, y);
     city_landlocked_sell_coastal_improvements(x, y);
 
-    assign_continent_numbers();
-    allot_island_improvs();
-    send_all_known_tiles(NULL);
-    
-    map_update_borders_landmass_change(x, y);
-
     gamelog(GAMELOG_MAP, _("(%d,%d) land created from ocean"), x, y);
-    return OLC_OCEAN_TO_LAND;
+    change_type = OLC_OCEAN_TO_LAND;
   } else if (!is_ocean(oldter) && is_ocean(newter)) {
     /* land to ocean ... */
 
+    gamelog(GAMELOG_MAP, _("(%d,%d) ocean created from land"), x, y);
+    change_type = OLC_LAND_TO_OCEAN;
+  }
+
+  if (change_type != OLC_NONE) {
     assign_continent_numbers();
     allot_island_improvs();
+
+    /* New continent numbers for all tiles to all players */
     send_all_known_tiles(NULL);
-
+    
     map_update_borders_landmass_change(x, y);
-
-    gamelog(GAMELOG_MAP, _("(%d,%d) ocean created from land"), x, y);
-    return OLC_LAND_TO_OCEAN;
   }
-  return OLC_NONE;
+
+  return change_type;
 }
 
 /*************************************************************************
