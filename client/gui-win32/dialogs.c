@@ -99,9 +99,6 @@ struct message_dialog {
   struct fcwin_box *vbox;
   struct message_dialog_button *firstbutton; 
 };
-static int is_showing_unit_connect_dialog;
-static int unit_to_use_to_connect;
-static int connect_unit_x,connect_unit_y;
 
 static HWND races_dlg;
 static HWND races_class;
@@ -1850,84 +1847,3 @@ static LONG APIENTRY msgdialog_proc (
   return (0);  
   
 }
-
-#define ACTIVITY_OFFSET 1000
-static LONG CALLBACK connectDialogProc(HWND hWnd,
-				       UINT message, 
-				       WPARAM wParam,
-				       LPARAM lParam)
-{
-  switch(message) {
-  case WM_COMMAND:
-    if (LOWORD(wParam)>ACTIVITY_OFFSET) {
-      int activity;
-      struct unit* punit;
-      activity=LOWORD(wParam)-ACTIVITY_OFFSET;
-      punit = find_unit_by_id(unit_to_use_to_connect);
-      
-      if (punit) {
-	if (activity != ACTIVITY_IDLE) {
-	  struct packet_unit_connect req;
-	  req.activity_type = activity;
-	  req.unit_id = punit->id;
-	  req.dest_x = connect_unit_x;
-	  req.dest_y = connect_unit_y;
-	  send_packet_unit_connect(&aconnection, &req);
-	}
-	else {
-	  update_unit_info_label(punit);
-	}
-      }
-      DestroyWindow(hWnd);
-      is_showing_unit_connect_dialog=0;
-    } else if (LOWORD(wParam)==IDCANCEL) {
-      DestroyWindow(hWnd);
-      is_showing_unit_connect_dialog=0;
-    }
-    break;
-  case WM_CLOSE:
-    DestroyWindow(hWnd);
-    is_showing_unit_connect_dialog=0;
-    break;
-  case WM_SIZE:
-  case WM_GETMINMAXINFO:
-  case WM_DESTROY:
-    break;
-  default:
-    return DefWindowProc(hWnd,message,wParam,lParam);
-  }
-  return TRUE;
-}
-
-void
-popup_unit_connect_dialog(struct unit *punit, int dest_x, int dest_y)
-{
-  struct fcwin_box *vbox;
-  int activity;
-  HWND hdlg;
-  if(is_showing_unit_connect_dialog) return;
-  is_showing_unit_connect_dialog=1;
-  unit_to_use_to_connect=punit->id;
-  connect_unit_x=dest_x;
-  connect_unit_y=dest_y;
-
-  hdlg=fcwin_create_layouted_window(connectDialogProc,_("Connect"),
-				    WS_OVERLAPPEDWINDOW,
-				    CW_USEDEFAULT,CW_USEDEFAULT,
-				    root_window,NULL,
-				    REAL_CHILD,
-				    NULL);
-  vbox=fcwin_vbox_new(hdlg,FALSE);
-  fcwin_box_add_static(vbox,_("Choose unit activity:"),
-		       0,SS_LEFT,FALSE,FALSE,10);
-  for (activity = ACTIVITY_IDLE + 1; activity < ACTIVITY_LAST; activity++) {
-    if (! can_unit_do_connect (punit, activity)) continue;
-    fcwin_box_add_button(vbox,get_activity_text(activity),
-			 ACTIVITY_OFFSET+activity,0,FALSE,FALSE,10);
-   
-  }
-  fcwin_box_add_button(vbox,_("Cancel"),IDCANCEL,0,FALSE,FALSE,20);
-  fcwin_set_box(hdlg,vbox);
-  ShowWindow(hdlg,SW_SHOWNORMAL);
-}
-
