@@ -75,10 +75,10 @@ bool create_lock(void)
 {
 #ifdef HAS_FILE_LOCKING
   int i, fd;
-#ifdef HAVE_FLOCK
-  struct flock fl = { F_WRLCK, SEEK_SET, 0, 0, 0 };
+#ifndef HAVE_FLOCK
+  /* For use with fcntl */
+  struct flock fl = { F_WRLCK, SEEK_SET, 0, 0, 0, .l_pid = getpid()};
 
-  fl.l_pid = getpid();
 #endif
 
   /* open the file */
@@ -113,10 +113,10 @@ void remove_lock(void)
 {
 #ifdef HAS_FILE_LOCKING
   int fd = fileno(fp);
-#ifdef HAVE_FLOCK
-  struct flock fl = { F_UNLCK, SEEK_SET, 0, 0, 0 };
+#ifndef HAVE_FLOCK
+  /* For use with fcntl */
+  struct flock fl = { F_UNLCK, SEEK_SET, 0, 0, 0, .l_pid = getpid()};
 
-  fl.l_pid = getpid();
 #endif
 
   if (UNLOCK_CMD == -1) {
