@@ -49,6 +49,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "packhand.h"
+#include "pages.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
 #include "repodlgs.h"
@@ -58,6 +59,7 @@
 #include "menu.h"
 
 static GtkItemFactory *item_factory = NULL;
+static GtkWidget *main_menubar = NULL;
 GtkAccelGroup *toplevel_accel = NULL;
 static enum unit_activity road_activity;
 
@@ -208,7 +210,7 @@ static void game_menu_callback(gpointer callback_data,
     send_report_request(REPORT_SERVER_OPTIONS2);
     break;
   case MENU_GAME_SAVE_GAME:
-    create_file_selection(_("Select Location to Save"), TRUE);
+    popup_save_dialog();
     break;
   case MENU_GAME_SAVE_QUICK:
     send_save_game(NULL);
@@ -657,7 +659,7 @@ static GtkItemFactoryEntry menu_items[]	=
 	game_menu_callback,	MENU_GAME_QUIT,				"<StockItem>",
 	GTK_STOCK_QUIT									},
   /* Government menu ... */
-  { "/" N_("_Government"),					NULL,
+  { "/" N_("Gover_nment"),					NULL,
 	NULL,			0,					"<Branch>"	},
   { "/" N_("Government") "/tearoff1",			NULL,
 	NULL,			0,					"<Tearoff>"	},
@@ -989,14 +991,19 @@ void setup_menus(GtkWidget *window, GtkWidget **menubar)
   toplevel_accel = gtk_accel_group_new();
   item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>",
       toplevel_accel);
-  gtk_item_factory_set_translate_func(item_factory, translate_func, NULL, NULL);
+  gtk_item_factory_set_translate_func(item_factory, translate_func,
+      NULL, NULL);
 
   gtk_accel_group_lock(toplevel_accel);
   gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
   gtk_window_add_accel_group(GTK_WINDOW(window), toplevel_accel);
 
+  main_menubar = gtk_item_factory_get_widget(item_factory, "<main>");
+  g_signal_connect(main_menubar, "destroy",
+      G_CALLBACK(gtk_widget_destroyed), &main_menubar);
+
   if (menubar) {
-    *menubar = gtk_item_factory_get_widget(item_factory, "<main>");
+    *menubar = main_menubar;
   }
 }
 
@@ -1140,6 +1147,9 @@ the string is used for a lookup via gtk_item_factory_get_widget()
 *****************************************************************/
 void update_menus(void)
 {
+  if (!main_menubar) {
+    return;
+  }
 
   menus_set_sensitive("<main>/_Game/Save Game _As...",
 		      can_client_access_hack()

@@ -44,11 +44,18 @@ style "help_text"
 
 style "chatline"
 {
-  font_name = "Monospace 9"
+  font_name = "LucidaTypewrite,Monospace 8"
   base[NORMAL] = "white"
   text[NORMAL] = "black"
   base[INSENSITIVE] = "white"
   text[INSENSITIVE] = "black"
+}
+
+style "beta_label"
+{
+  font_name = "Sans Italic 10"
+  fg[NORMAL] = "red"
+  fg[PRELIGHT] = "red"
 }
 
 style "comment_label"
@@ -75,6 +82,7 @@ widget	"Freeciv*.help label"		style	"help_label"
 widget	"Freeciv*.help link"		style	"help_link"
 widget	"Freeciv*.help text"		style	"help_text"
 widget	"Freeciv*.chatline"		style	"chatline"
+widget	"Freeciv*.beta label"		style	"beta_label"
 widget	"Freeciv*.comment label"	style	"comment_label"
 widget	"Freeciv*.city names"		style	"city_names_font"
 widget	"Freeciv*.city productions"	style	"city_productions_font"

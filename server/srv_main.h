@@ -37,6 +37,7 @@ struct server_arguments {
   char *gamelog_filename;
   char load_filename[512]; /* FIXME: may not be long enough? use MAX_PATH? */
   char *script_filename;
+  char *saves_pathname;
   /* quit if there no players after a given time interval */
   int quitidle;
   /* exit the server on game ending */

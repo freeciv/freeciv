@@ -214,6 +214,8 @@ bool client_start_server(void)
     argv[argc++] = "-q";
     argv[argc++] = "1";
     argv[argc++] = "-e";
+    argv[argc++] = "--saves";
+    argv[argc++] = "~/.freeciv/saves";
     if (logfile) {
       argv[argc++] = "--debug";
       argv[argc++] = "3";

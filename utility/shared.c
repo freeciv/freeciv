@@ -1033,6 +1033,128 @@ char *datafilename(const char *filename)
   return NULL;
 }
 
+/**************************************************************************
+  Compare modification times.
+**************************************************************************/
+static int compare_file_mtime_ptrs(const void *a, const void *b)
+{
+  struct datafile * const *ppa = a;
+  struct datafile * const *ppb = b;
+
+  return ((*ppa)->mtime < (*ppb)->mtime);
+}
+
+/**************************************************************************
+  Compare names.
+**************************************************************************/
+static int compare_file_name_ptrs(const void *a, const void *b)
+{
+  struct datafile * const *ppa = a;
+  struct datafile * const *ppb = b;
+
+  return compare_strings((*ppa)->name, (*ppb)->name);
+}
+
+/**************************************************************************
+  Search for filenames with the "infix" substring in the "subpath"
+  subdirectory of the data path.
+  "nodups" removes duplicate names.
+  The returned list will be sorted by name first and modification time
+  second. Returned "name"s will be truncated starting at the "infix"
+  substring. The returned list must be freed.
+**************************************************************************/
+struct datafile_list datafilelist_infix(const char *subpath,
+    const char *infix, bool nodups)
+{
+  const char **dirs = get_data_dirs(NULL);
+  int num_matches = 0;
+  int dir_num;
+  struct datafile_list res;
+
+  datafile_list_init(&res);
+
+  /* First assemble a full list of names. */
+  for (dir_num = 0; dirs[dir_num]; dir_num++) {
+    char path[PATH_MAX];
+    DIR *dir;
+    struct dirent *entry;
+
+    if (subpath) {
+      my_snprintf(path, sizeof(path), "%s/%s", dirs[dir_num], subpath);
+    } else {
+      sz_strlcpy(path, dirs[dir_num]);
+    }
+
+    /* Open the directory for reading. */
+    dir = opendir(path);
+    if (!dir) {
+      continue;
+    }
+
+    /* Scan all entries in the directory. */
+    while ((entry = readdir(dir))) {
+      struct datafile *file;
+      char *ptr;
+      /* Strdup the entry so we can safely write to it. */
+      char *filename = mystrdup(entry->d_name);
+
+      /* Make sure the file name matches. */
+      if ((ptr = strstr(filename, infix))) {
+	struct stat buf;
+	char *fullname;
+	size_t len = strlen(path) + strlen(filename) + 2;
+
+	fullname = fc_malloc(len);
+	my_snprintf(fullname, len, "%s/%s", path, filename);
+
+	if (stat(fullname, &buf) == 0) {
+	  file = fc_malloc(sizeof(*file));
+
+	  /* Clip the suffix. */
+	  *ptr = '\0';
+
+	  file->name = mystrdup(filename);
+	  file->fullname = mystrdup(fullname);
+	  file->mtime = buf.st_mtime;
+
+	  datafile_list_insert_back(&res, file);
+	  num_matches++;
+	}
+
+	free(fullname);
+      }
+
+      free(filename);
+    }
+
+    closedir(dir);
+  }
+
+  /* Sort the list by name. */
+  datafile_list_sort(&res, compare_file_name_ptrs);
+
+  if (nodups) {
+    char *name = "";
+
+    datafile_list_iterate(res, pfile) {
+      if (compare_strings(name, pfile->name) != 0) {
+	name = pfile->name;
+      } else {
+	free(pfile->name);
+	free(pfile->fullname);
+	datafile_list_unlink(&res, pfile);
+      }
+    } datafile_list_iterate_end;
+  }
+
+  /* Sort the list by last modification time. */
+  datafile_list_sort(&res, compare_file_mtime_ptrs);
+
+  return res;
+}
+
+
+
 /***************************************************************************
   As datafilename(), above, except die with an appropriate log
   message if we can't find the file in the datapath.
@@ -1331,3 +1453,55 @@ void interpret_tilde(char* buf, size_t buf_size, const char* filename)
     strncpy(buf, filename, buf_size);
   }
 }
+
+/**************************************************************************
+  If the directory "pathname" does not exist, recursively create all
+  directories until it does.
+**************************************************************************/
+bool make_dir(const char *pathname)
+{
+  char *dir;
+  char file[PATH_MAX];
+  char path[PATH_MAX];
+
+  interpret_tilde(file, sizeof(file), pathname);
+  path[0] = '\0';
+
+#ifndef WIN32_NATIVE
+  /* Ensure we are starting from the root in absolute pathnames. */
+  if (file[0] == '/') {
+    sz_strlcat(path, "/");
+  }
+#endif
+
+  for (dir = strtok(file, "/"); dir; dir = strtok(NULL, "/")) {
+    sz_strlcat(path, dir);
+
+#ifdef WIN32_NATIVE
+    mkdir(path);
+#else
+    mkdir(path, 0755);
+#endif
+
+    sz_strlcat(path, "/");
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns TRUE if the filename's path is absolute.
+**************************************************************************/
+bool path_is_absolute(const char *filename)
+{
+  if (!filename) {
+    return FALSE;
+  }
+
+  if (filename[0] == '/') {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+

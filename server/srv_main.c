@@ -186,6 +186,7 @@ void srv_init(void)
   srvarg.gamelog_filename = NULL;
   srvarg.load_filename[0] = '\0';
   srvarg.script_filename = NULL;
+  srvarg.saves_pathname = "";
 
   srvarg.quitidle = 0;
   BV_CLR_ALL(srvarg.draw);
@@ -696,14 +697,25 @@ become non-zero, so no need to check HAVE_LIBZ explicitly here as well.
 void save_game(char *orig_filename)
 {
   char filename[600];
+  char *dot;
   struct section_file file;
   struct timer *timer_cpu, *timer_user;
 
-  if (orig_filename && orig_filename[0] != '\0'){
+  if (!orig_filename) {
+    filename[0] = '\0';
+  } else {
     sz_strlcpy(filename, orig_filename);
-  } else { /* If orig_filename is NULL or empty, use "civgame<year>m.sav" */
+  }
+
+  /* Strip extension. */
+  if ((dot = strchr(filename, '.'))) {
+    *dot = '\0';
+  }
+
+  /* If orig_filename is NULL or empty, use "civgame<year>m". */
+  if (filename[0] == '\0'){
     my_snprintf(filename, sizeof(filename),
-		"%s%+05dm.sav", game.save_name, game.year);
+	"%s%+05dm", game.save_name, game.year);
   }
   
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
@@ -712,12 +724,26 @@ void save_game(char *orig_filename)
   section_file_init(&file);
   game_save(&file);
 
+  /* Append ".sav" to filename. */
+  sz_strlcat(filename, ".sav");
+
   if (game.save_compress_level > 0) {
-    /* Append ".gz" to filename if not there: */
-    size_t len = strlen(filename);
-    if (len < 3 || strcmp(filename+len-3, ".gz") != 0) {
-      sz_strlcat(filename, ".gz");
+    /* Append ".gz" to filename. */
+    sz_strlcat(filename, ".gz");
+  }
+
+  if (!path_is_absolute(filename)) {
+    char tmpname[600];
+
+    /* Ensure the saves directory exists. */
+    make_dir(srvarg.saves_pathname);
+
+    sz_strlcpy(tmpname, srvarg.saves_pathname);
+    if (tmpname[0] != '\0') {
+      sz_strlcat(tmpname, "/");
     }
+    sz_strlcat(tmpname, filename);
+    sz_strlcpy(filename, tmpname);
   }
 
   if(!section_file_save(&file, filename, game.save_compress_level))

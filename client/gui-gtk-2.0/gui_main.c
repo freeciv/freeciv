@@ -63,6 +63,7 @@
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "options.h"
+#include "pages.h"
 #include "spaceshipdlg.h"
 #include "resources.h"
 #include "tilespec.h"
@@ -85,6 +86,7 @@ int overview_canvas_store_height = 2 * 50;
 bool fullscreen_mode = FALSE;
 
 GtkWidget *toplevel;
+GtkWidget *toplevel_tabs;
 GtkWidget *top_vbox;
 GdkWindow *root_window;
 
@@ -137,6 +139,7 @@ client_option gui_options[] = {
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
+static GtkWidget *main_menubar;
 static GtkWidget *unit_pixmap_table;
 static GtkWidget *unit_pixmap;
 static GtkWidget *unit_pixmap_button;
@@ -147,6 +150,7 @@ static GtkWidget *more_arrow_pixmap;
 static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in 
                                             * information display: (or 0) */
 GtkTextView *main_message_area;
+GtkTextBuffer *message_buffer;
 static GtkWidget *inputline;
 
 static enum Display_color_type display_color_type;  /* practically unused */
@@ -173,8 +177,7 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
 static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
 					    gpointer data);
 static gint timer_callback(gpointer data);
-static gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev,
-				gpointer data);
+gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev, gpointer data);
 
 /**************************************************************************
 ...
@@ -214,13 +217,17 @@ static void parse_options(int argc, char **argv)
 /**************************************************************************
  handles main window keyboard events.
 **************************************************************************/
+static void set_menu_accelerators(bool enable)
+{
+  gtk_widget_set_sensitive(main_menubar, enable);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static gboolean inputline_focus(GtkWidget *w, GdkEventFocus *ev, gpointer data)
 {
-  if (GPOINTER_TO_INT(data) != 0) {
-    gtk_window_remove_accel_group(GTK_WINDOW(toplevel), toplevel_accel);
-  } else {
-    gtk_window_add_accel_group(GTK_WINDOW(toplevel), toplevel_accel);
-  }
+  set_menu_accelerators(GPOINTER_TO_INT(data) == 0);
   return FALSE;
 }
 
@@ -252,38 +259,46 @@ static gboolean toplevel_focus(GtkWidget *w, GtkDirectionType arg)
 /**************************************************************************
 ...
 **************************************************************************/
+gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
+{
+  void *data = NULL;
+  gint keypress = FALSE;
+
+  if (ev->keyval == GDK_Up) {
+    keypress = TRUE;
+
+    if (history_pos < genlist_size(&history_list) - 1)
+      history_pos++;
+
+    data = genlist_get(&history_list, history_pos);
+  }
+
+  if (ev->keyval == GDK_Down) {
+    keypress = TRUE;
+
+    if (history_pos >= 0)
+      history_pos--;
+
+    if (history_pos >= 0) {
+      data = genlist_get(&history_list, history_pos);
+    } else {
+      data = "";
+    }
+  }
+
+  if (data)
+    gtk_entry_set_text(GTK_ENTRY(w), data);
+  return keypress;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 {
   /* inputline history code */
-  if (GTK_WIDGET_HAS_FOCUS(inputline) || !GTK_WIDGET_IS_SENSITIVE(top_vbox)) {
-    void *data = NULL;
-    gint keypress = FALSE;
-
-    if (ev->keyval == GDK_Up) {
-      keypress = TRUE;
-
-      if (history_pos < genlist_size(&history_list) - 1)
-        history_pos++;
-
-      data = genlist_get(&history_list, history_pos);
-    }
-
-    if (ev->keyval == GDK_Down) {
-      keypress = TRUE;
-
-      if (history_pos >= 0)
-        history_pos--;
-
-      if (history_pos >= 0) {
-        data = genlist_get(&history_list, history_pos);
-      } else {
-        data = "";
-      }
-    }
-
-    if (data)
-      gtk_entry_set_text(GTK_ENTRY(inputline), data);
-    return keypress;
+  if (!GTK_WIDGET_MAPPED(top_vbox) || GTK_WIDGET_HAS_FOCUS(inputline)) {
+    return FALSE;
   }
 
   if (ev->keyval == GDK_Page_Up) {
@@ -582,35 +597,69 @@ void reset_unit_table(void)
 }
 
 /**************************************************************************
+  Enable/Disable the game page menu bar.
+**************************************************************************/
+void enable_menus(bool enable)
+{
+  if (enable) {
+    setup_menus(toplevel, &main_menubar);
+    gtk_box_pack_start(GTK_BOX(top_vbox), main_menubar, FALSE, FALSE, 0);
+    update_menus();
+    gtk_widget_show_all(main_menubar);
+  } else {
+    gtk_widget_destroy(main_menubar);
+  }
+}
+
+/**************************************************************************
  do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
 {
   GtkWidget *box, *ebox, *hbox, *sbox, *align, *label;
-  GtkWidget *frame, *table, *table2, *paned, *menubar, *sw, *text, *view;
+  GtkWidget *frame, *table, *table2, *paned, *sw, *text;
   GtkStyle *style;
   int i;
   struct Sprite *sprite;
-  GtkCellRenderer *rend;
 
   GtkWidget *notebook, *messages;
+
+  message_buffer = gtk_text_buffer_new(NULL);
+
+
+  notebook = gtk_notebook_new();
+  toplevel_tabs = notebook;
+  gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
+  gtk_container_add(GTK_CONTAINER(toplevel), notebook);
+
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+      create_main_page(), NULL);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+      create_start_page(), NULL);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+      create_scenario_page(), NULL);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+      create_load_page(), NULL);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+      create_network_page(), NULL);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+      create_nation_page(), NULL);
+
 
   main_tips = gtk_tooltips_new();
 
   /* the window is divided into two panes. "top" and "message window" */ 
   paned = gtk_vpaned_new();
-  gtk_container_add(GTK_CONTAINER(toplevel), paned);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+      paned, NULL);
 
   /* *** everything in the top *** */
 
   top_vbox = gtk_vbox_new(FALSE, 5);
   gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
-  
-  setup_menus(toplevel, &menubar);
-  gtk_box_pack_start(GTK_BOX(top_vbox), menubar, FALSE, FALSE, 0);
 
   hbox = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
+  gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
 
   /* this holds the overview canvas, production info, etc. */
   vbox = gtk_vbox_new(FALSE, 3);
@@ -642,41 +691,6 @@ static void setup_widgets(void)
 
   g_signal_connect(overview_canvas, "button_press_event",
         	   G_CALLBACK(butt_down_overviewcanvas), NULL);
-
-  /* prepare list of connected users in the pregame state. */
-  conn_model = gtk_list_store_new(1, G_TYPE_STRING); 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
-  
-  /* add column with username to connected users list. */
-  rend = gtk_cell_renderer_text_new();
-  g_object_set(rend, "weight", "bold", NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-					      -1, NULL, rend, "text", 0, NULL);
-  
-  /* display the list of connected users. */
-  conn_box = gtk_vbox_new(FALSE, 2);
-  gtk_box_pack_start(GTK_BOX(avbox), conn_box, TRUE, TRUE, 6);
-
-  label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", view,
-		       "label", _("_Connected Users:"),
-		       "xalign", 0.0,
-		       "yalign", 0.5,
-		       NULL);
-  gtk_box_pack_start(GTK_BOX(conn_box), label, FALSE, FALSE, 0);
-
-  sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_box_pack_start(GTK_BOX(conn_box), sw, TRUE, TRUE, 0);
-
-  g_signal_connect(view, "button-press-event",
-		   G_CALLBACK(show_conn_popup), NULL);
 
   /* The rest */
 
@@ -903,7 +917,7 @@ static void setup_widgets(void)
   label = gtk_label_new_with_mnemonic(_("_Chat"));
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
 
-  text = gtk_text_view_new();
+  text = gtk_text_view_new_with_buffer(message_buffer);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_container_add(GTK_CONTAINER(sw), text);
 
@@ -932,20 +946,24 @@ static void setup_widgets(void)
   g_signal_connect(inputline, "focus_out_event",
 		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(0));
 
+  g_signal_connect(inputline, "key_press_event",
+                   G_CALLBACK(inputline_handler), NULL);
+
   label = gtk_label_new_with_mnemonic(_("_Messages"));
+
   messages = create_meswin_area();
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), messages, label);
 
   /* Other things to take care of */
 
-  gtk_widget_show_all(paned);
+  gtk_widget_show_all(toplevel_tabs);
   gtk_widget_hide(more_arrow_pixmap);
 
   if (!map_scrollbars) {
     gtk_widget_hide(map_horizontal_scrollbar);
     gtk_widget_hide(map_vertical_scrollbar);
   }
-  gtk_widget_hide(ahbox);  /* Hide info on player's civ in pregame */
+
 }
 
 /**************************************************************************
@@ -1133,20 +1151,13 @@ void update_conn_list_dialog(void)
       gtk_list_store_append(conn_model, &it);
       gtk_list_store_set(conn_model, &it, 0, pconn->username, -1);
     } conn_list_iterate_end;
-
-    gtk_widget_hide(ahbox);
-    gtk_widget_show(conn_box);
-  } else {
-    gtk_widget_hide(conn_box);
-    gtk_widget_show(ahbox);
   }
 }
 
 /**************************************************************************
  Show details about a user in the Connected Users dialog in a popup.
 **************************************************************************/
-static gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev,
-				gpointer data)
+gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev, gpointer data)
 {
   GtkTreePath *path;
   GtkTreeIter it;

@@ -84,6 +84,7 @@
 #include "messagewin_g.h"
 #include "options.h"
 #include "packhand.h"
+#include "pages_g.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 
@@ -104,6 +105,7 @@ static void close_socket_nomessage(struct connection *pc)
   remove_net_input();
   popdown_races_dialog(); 
   close_connection_dialog();
+  set_client_page(PAGE_MAIN);
 
   reports_force_thaw();
   

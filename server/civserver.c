@@ -112,6 +112,8 @@ int main(int argc, char *argv[])
       srvarg.auth_allow_guests = TRUE;
     } else if (is_option("--Newusers", argv[inx])) {
       srvarg.auth_allow_newusers = TRUE;
+    } else if ((option = get_option("--saves", argv, &inx, argc))) {
+      srvarg.saves_pathname = option;
     } else if (is_option("--version", argv[inx]))
       showvers = TRUE;
     else {
@@ -154,6 +156,7 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"));
     fprintf(stderr, _("  -e, --exit-on-end\t"
 		      "When a game ends, exit instead of restarting\n"));
+    fprintf(stderr, _("  -s, --saves DIR\tSave games to directory DIR\n"));
     fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
     fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);

@@ -58,6 +58,7 @@
 #include "messagewin_g.h"
 #include "options.h"
 #include "packhand.h"
+#include "pages_g.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 #include "tilespec.h"
@@ -460,6 +461,7 @@ void set_client_state(enum client_states newstate)
       can_slide = FALSE;
       update_unit_focus();
       can_slide = TRUE;
+      set_client_page(PAGE_GAME);
     }
     else if (client_state == CLIENT_PRE_GAME_STATE) {
       popdown_all_city_dialogs();
@@ -471,11 +473,13 @@ void set_client_state(enum client_states newstate)
 	client_game_free();
       }
       client_game_init();
+      set_client_page(PAGE_MAIN);
     }
     update_menus();
   }
   if (!aconnection.established && client_state == CLIENT_PRE_GAME_STATE) {
     gui_server_connect();
+    set_client_page(PAGE_MAIN);
     if (auto_connect) {
       if (connect_error) {
 	freelog(LOG_NORMAL,
