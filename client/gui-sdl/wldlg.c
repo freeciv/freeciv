@@ -390,10 +390,9 @@ static void add_target_to_production(struct GUI *pTarget)
   change_production(target, is_unit);
   
   /* change Production Text Label in Worklist Widget list */
-  FREE(pEditor->pWork->pEndActiveWidgetList->string16->text);
-  pEditor->pWork->pEndActiveWidgetList->string16->text =
-	convert_to_utf16(get_production_name(pEditor->pCity,
-    						target, is_unit, &dummy));
+  copy_chars_to_string16(pEditor->pWork->pEndActiveWidgetList->string16,
+  	get_production_name(pEditor->pCity, target, is_unit, &dummy));
+  
   /* code Target ID */
   if(is_unit) {
     pEditor->pWork->pEndActiveWidgetList->ID = MAX_ID - target;
@@ -477,10 +476,9 @@ static void remove_item_from_worklist(struct GUI *pItem)
 	  /* change to capitalization */
 	  int dummy;   
 	  change_production(B_CAPITAL, FALSE);
-	  FREE(pItem->string16->text);
-          pItem->string16->text =
-		convert_to_utf16(get_production_name(pEditor->pCity,
-    						B_CAPITAL, FALSE, &dummy));
+	  copy_chars_to_string16(pItem->string16,
+	     get_production_name(pEditor->pCity, B_CAPITAL, FALSE, &dummy));
+	  
           pItem->ID = MAX_ID - 1000 - B_CAPITAL;
         }
       } else {
@@ -962,22 +960,28 @@ static void refresh_production_label(int stock)
   const char *name = get_production_name(pEditor->pCity,
     				pEditor->currently_building,
     				pEditor->is_building_unit, &cost);
-    
-  if(stock < cost) {
-    turns = city_turns_to_build(pEditor->pCity,
-    	pEditor->currently_building, pEditor->is_building_unit, TRUE);
-    if(turns == 999)
-    {
-      my_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
-    } else {
-      my_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
-		    name, turns, PL_("turn", "turns", turns));
-    }
+
+  if (!pEditor->is_building_unit
+     && pEditor->currently_building == B_CAPITAL)
+  {
+     my_snprintf(cBuf, sizeof(cBuf),
+      	_("%s\n%d gold per turn"), name, MAX(0, pEditor->pCity->shield_surplus));
   } else {
-    my_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
+    if(stock < cost) {
+      turns = city_turns_to_build(pEditor->pCity,
+    	pEditor->currently_building, pEditor->is_building_unit, TRUE);
+      if(turns == 999)
+      {
+        my_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
+      } else {
+        my_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
+		    name, turns, PL_("turn", "turns", turns));
+      }
+    } else {
+      my_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
+    }
   }
-  FREE(pEditor->pProduction_Name->string16->text);
-  pEditor->pProduction_Name->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pEditor->pProduction_Name->string16, cBuf);
   
   blit_entire_src(pEditor->pProduction_Name->gfx,
 		  	pEditor->pProduction_Name->dst,
@@ -1004,9 +1008,7 @@ static void refresh_production_label(int stock)
 		  get_progress_icon(stock, cost, &cost);
     
   my_snprintf(cBuf, sizeof(cBuf), "%d%%" , cost);
-  FREE(pEditor->pProduction_Progres->string16->text);
-  pEditor->pProduction_Progres->string16->text = convert_to_utf16(cBuf);
-  
+  copy_chars_to_string16(pEditor->pProduction_Progres->string16, cBuf);
   redraw_label(pEditor->pProduction_Progres);
   sdl_dirty_rect(pEditor->pProduction_Progres->size);
 }
@@ -1018,11 +1020,10 @@ static void refresh_worklist_count_label(void)
   char cBuf[64];
   SDL_Rect area;
   
-  FREE(pEditor->pWorkList_Counter->string16->text);
   my_snprintf(cBuf, sizeof(cBuf), _("( %d elements )"),
   				worklist_length(pEditor->pCopy_WorkList));
-  pEditor->pWorkList_Counter->string16->text = convert_to_utf16(cBuf);
-    
+  copy_chars_to_string16(pEditor->pWorkList_Counter->string16, cBuf);
+
   blit_entire_src(pEditor->pWorkList_Counter->gfx,
 		  	pEditor->pWorkList_Counter->dst,
   			pEditor->pWorkList_Counter->size.x,
@@ -1143,18 +1144,25 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     const char *name = get_production_name(pCity,
     				pCity->currently_building,
     				pCity->is_building_unit, &count);
-    if(pCity->shield_stock < count) {
-      turns = city_turns_to_build(pCity,
-    	pCity->currently_building, pCity->is_building_unit, TRUE);
-      if(turns == 999)
-      {
-        my_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
-      } else {
-        my_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
-		    name, turns, PL_("turn", "turns", turns));
-      }
+    
+    if (!pCity->is_building_unit && pCity->currently_building == B_CAPITAL)
+    {
+      my_snprintf(cBuf, sizeof(cBuf),
+      	_("%s\n%d gold per turn"), name, MAX(0, pCity->shield_surplus));
     } else {
-      my_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
+      if(pCity->shield_stock < count) {
+        turns = city_turns_to_build(pCity,
+    	  pCity->currently_building, pCity->is_building_unit, TRUE);
+        if(turns == 999)
+        {
+          my_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
+        } else {
+          my_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
+		    name, turns, PL_("turn", "turns", turns));
+        }
+      } else {
+        my_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
+      }
     }
     pStr = create_str16_from_char(cBuf, 10);
     pStr->style |= SF_CENTER;
@@ -1309,7 +1317,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
         add_to_gui_list(MAX_ID - i, pBuf);
       
         pBuf->action = global_worklist_callback;
-        pBuf->string16->forecol = color;
+        pBuf->string16->fgcol = color;
 	
         count++;
     
@@ -1350,10 +1358,10 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   /* ----------------------------- */
   count = 0;
   /* Targets units and imprv. to build */
-  pStr = create_string16(NULL, 10);
+  pStr = create_string16(NULL, 0, 10);
   pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
   pStr->render = 3;
-  pStr->backcol = color;
+  pStr->bgcol = color;
     
   impr_type_iterate(imp) {
     can_build = can_player_build_improvement(game.player_ptr, imp);
@@ -1375,38 +1383,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       pIcon = crop_rect_from_surface(pMain, NULL);
       
       my_snprintf(cBuf, sizeof(cBuf), "%s", pImpr->name);
-  
-      FREE(pStr->text);
-      pStr->text = convert_to_utf16(cBuf);
+      copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
-  
-      pText_Name = create_text_surf_from_str16(pStr);
-  
-      if(pText_Name->w > pIcon->w - 2) {
-      /* cut string length to icon size by adding new line "\n" */
-        char *ptr = NULL;
-        do {
-          ptr = strchr(cBuf, 32);/* " " == 32 */
-	  if(ptr) {
-	    *ptr = 10;/* "\n" */
-	    FREESURFACE(pText_Name); 
-            FREE(pStr->text);
-            pStr->text = convert_to_utf16(cBuf);
-            pText_Name = create_text_surf_from_str16(pStr);
-	  } else {
-	    if(pStr->ptsize > 8) {
-	      change_ptsize16(pStr, pStr->ptsize - 1);
-	    } else {
-              assert(ptr != NULL);
-	    }
-	  }
-        } while (pText_Name->w > pIcon->w - 2);
-      }
-  
-      if(pStr->ptsize != 10) {
-	change_ptsize16(pStr, 10);
-      }
-      
+      pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w);
       SDL_SetAlpha(pText_Name, 0x0, 0x0);
   
       if (is_wonder(imp)) {
@@ -1465,8 +1444,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
         }
       }
   
-      FREE(pStr->text);
-      pStr->text = convert_to_utf16(cBuf);
+      copy_chars_to_string16(pStr, cBuf);
       pStr->style &= ~TTF_STYLE_BOLD;
   
       pText = create_text_surf_from_str16(pStr);
@@ -1530,26 +1508,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       
       my_snprintf(cBuf, sizeof(cBuf), "%s", pUnit->name);
   
-      FREE(pStr->text);
-      pStr->text = convert_to_utf16(cBuf);
+      copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
-  
-      pText_Name = create_text_surf_from_str16(pStr);
-  
-      if(pText_Name->w > pIcon->w - 2) {
-        /* cut string length to icon size by adding new line "\n"
-           in place of spaces */
-        char *ptr = NULL;
-        do {
-          FREESURFACE(pText_Name);
-          ptr = strchr(cBuf, 32);/* " " == 32 */
-          assert(ptr != NULL);
-          *ptr = 10;/* "\n" */
-          convertcopy_to_utf16(pStr->text, cBuf);
-          pText_Name = create_text_surf_from_str16(pStr);
-        } while (pText_Name->w > pIcon->w - 4);
-      }
-  
+      pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w);
       SDL_SetAlpha(pText_Name, 0x0, 0x0);
   
       if(pCity) {
@@ -1576,8 +1537,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 		    pUnit->build_cost);
       }
 
-      FREE(pStr->text);
-      pStr->text = convert_to_utf16(cBuf);
+      copy_chars_to_string16(pStr, cBuf);
       pStr->style &= ~TTF_STYLE_BOLD;
   
       pText = create_text_surf_from_str16(pStr);
@@ -1792,4 +1752,3 @@ void popdown_worklist_editor(void)
   }
 
 }
-  

@@ -88,7 +88,7 @@ static int msg_callback(struct GUI *pWidget)
 
   struct message *pMsg = (struct message *)pWidget->data.ptr;
     
-  pWidget->string16->forecol.r += 128;
+  pWidget->string16->fgcol.r += 128;
   unsellect_widget_action();
   
   if (pMsg->city_ok
@@ -174,7 +174,7 @@ void real_update_meswin_dialog(void)
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
       pBuf->string16->style &= ~SF_CENTER;
-      pBuf->string16->backcol = color;
+      pBuf->string16->bgcol = color;
       pBuf->string16->render = 3;
       
       pBuf->size.w = w;
@@ -182,7 +182,7 @@ void real_update_meswin_dialog(void)
       pBuf->action = msg_callback;
       if(pMsg->x != -1) {
         set_wstate(pBuf, FC_WS_NORMAL);
-	pBuf->string16->forecol = active_color;
+	pBuf->string16->fgcol = active_color;
       }
       
       pBuf->ID = ID_LABEL;
@@ -265,8 +265,8 @@ void popup_meswin_dialog(void)
   pStr->style = TTF_STYLE_BOLD;
   pStr->render = 3;
   SDL_GetRGBA(get_first_pixel(pWindow->theme), pWindow->theme->format,
-    &pStr->backcol.r, &pStr->backcol.g,
-	    &pStr->backcol.b, &pStr->backcol.unused);
+    &pStr->bgcol.r, &pStr->bgcol.g,
+	    &pStr->bgcol.b, &pStr->bgcol.unused);
     
   pSurf = create_text_surf_from_str16(pStr);
   area.x += 10;
@@ -297,7 +297,7 @@ void popup_meswin_dialog(void)
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
       pBuf->string16->style &= ~SF_CENTER;
-      pBuf->string16->backcol = color;
+      pBuf->string16->bgcol = color;
       pBuf->string16->render = 3;
       pBuf->size.x = start_x;
       pBuf->size.w = w;
@@ -305,7 +305,7 @@ void popup_meswin_dialog(void)
       pBuf->action = msg_callback;
       if(pMsg->x != -1) {
         set_wstate(pBuf, FC_WS_NORMAL);
-	pBuf->string16->forecol = active_color;
+	pBuf->string16->fgcol = active_color;
       }
       
       if(i>N_MSG_VIEW-1) {

@@ -936,48 +936,6 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 }
 
 /**************************************************************************
-  Return list of avilabe modes in Unicode.
-**************************************************************************/
-Uint16 **get_list_modes(Uint32 flags)
-{
-  int i = 0;
-  char __buf[10] = "";
-  Uint16 **pUniStringArray = NULL;
-  SDL_Rect **pModes = SDL_ListModes(NULL, SDL_FULLSCREEN | flags);
-
-  /* Check is there are any modes available */
-  if (pModes == (SDL_Rect **) 0) {
-    freelog(LOG_FATAL, _("No modes available!"));
-    exit(-1);
-  }
-
-  /* Check if or resolution is restricted */
-  if (pModes == (SDL_Rect **) - 1) {
-    freelog(LOG_DEBUG, _("All resolutions available."));
-  } else {
-    /* determinate pModes array size */
-    while (pModes[i]) {
-      i++;
-    }
-
-    /* allocate memmory */
-    pUniStringArray = CALLOC(i + 1, sizeof(Uint16 *));
-
-    /* fill array */
-    for (i = 0; pModes[i]; i++) {
-      sprintf(__buf, "%dx%d", pModes[i]->w, pModes[i]->h);
-      pUniStringArray[i] = convert_to_utf16(__buf);
-      freelog(LOG_DEBUG, _("Add %s"), __buf);
-      /* clear buffor */
-      memset(__buf, 0, sizeof(__buf));
-    }
-
-  }
-
-  return pUniStringArray;
-}
-
-/**************************************************************************
                            Fill Rect with RGBA color
 **************************************************************************/
 #define MASK565	0xf7de

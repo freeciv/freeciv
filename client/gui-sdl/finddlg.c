@@ -180,10 +180,10 @@ void popup_find_dialog(void)
       }
       
       pBuf->string16->style &= ~SF_CENTER;
-      pBuf->string16->forecol =
+      pBuf->string16->fgcol =
 	    *(get_game_colorRGB(player_color(get_player(pCity->owner))));
       pBuf->string16->render = 3;
-      pBuf->string16->backcol.unused = 128;
+      pBuf->string16->bgcol.unused = 128;
     
       pBuf->data.city = pCity;
   

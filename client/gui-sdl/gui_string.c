@@ -104,37 +104,64 @@ SDL_Rect str16size(SDL_String16 * pString16)
   Font will be loaded or aliased with existing font of that size.
   pInTextString must be allocated in memory (MALLOC/CALLOC)
 **************************************************************************/
-SDL_String16 *create_string16(Uint16 * pInTextString, Uint16 ptsize)
+SDL_String16 * create_string16(Uint16 *pInTextString,
+					size_t n_alloc, Uint16 ptsize)
 {
   SDL_String16 *str = MALLOC(sizeof(SDL_String16));
 
   if (!ptsize) {
-    ptsize = DEFAULT_PTSIZE;
+    str->ptsize = DEFAULT_PTSIZE;
+  } else {
+    str->ptsize = ptsize;
   }
-
-  str->ptsize = ptsize;
-
-  if ((str->font = load_font(ptsize)) == NULL) {
+  
+  if ((str->font = load_font(str->ptsize)) == NULL) {
     freelog(LOG_ERROR, _("Error in create_string16: Aborting ..."));
     FREE(str);
     return str;
   }
 
   str->style = TTF_STYLE_NORMAL;
-  str->backcol.r = 0xff;
-  str->backcol.g = 0xff;
-  str->backcol.b = 0xff;
-  str->backcol.unused = 0xff;
-  str->forecol.r = 0x00;
-  str->forecol.g = 0x00;
-  str->forecol.b = 0x00;
-  str->forecol.unused = 0xff;
+  str->bgcol.r = 0xff;
+  str->bgcol.g = 0xff;
+  str->bgcol.b = 0xff;
+  str->bgcol.unused = 0xff;
+  str->fgcol.r = 0x00;
+  str->fgcol.g = 0x00;
+  str->fgcol.b = 0x00;
+  str->fgcol.unused = 0xff;
   str->render = 2;		/* oh... alpha :) */
 
   /* pInTextString must be allocated in memory (MALLOC/CALLOC) */
   str->text = pInTextString;
-
+  str->n_alloc = n_alloc;
+  
   return str;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+SDL_String16 * copy_chars_to_string16(SDL_String16 *pString,
+						const char *pCharString)
+{
+  size_t n;
+  
+  assert(pString != NULL);
+  assert(pCharString != NULL);
+  
+  n = (strlen(pCharString) + 1) * 2;
+  
+  if (n > pString->n_alloc) {
+    /* allocated more if this is only a small increase on before: */
+    int n1 = (3 * pString->n_alloc) / 2;
+    pString->n_alloc = (n > n1) ? n : n1;
+    pString->text = REALLOC(pString->text, pString->n_alloc);
+  }
+  
+  convertcopy_to_utf16(pString->text, pString->n_alloc, pCharString);
+  
+  return pString;
 }
 
 /**************************************************************************
@@ -180,8 +207,8 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
   switch (pString->render) {
   case 0:
     pText = TTF_RenderUNICODE_Shaded(pString->font,
-				     pString->text, pString->forecol,
-				     pString->backcol);
+				     pString->text, pString->fgcol,
+				     pString->bgcol);
 #if 0
     if ((pText = SDL_DisplayFormat(pTmp)) == NULL) {
       freelog(LOG_ERROR, _("Error in SDL_create_str16_surf: "
@@ -196,7 +223,7 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
   case 1:
   {
     SDL_Surface *pTmp = TTF_RenderUNICODE_Solid(pString->font,
-				    pString->text, pString->forecol);
+				    pString->text, pString->fgcol);
 
     if ((pText = SDL_DisplayFormat(pTmp)) == NULL) {
       freelog(LOG_ERROR,
@@ -211,12 +238,12 @@ static SDL_Surface *create_str16_surf(SDL_String16 * pString)
   break;
   case 2:
     pText = TTF_RenderUNICODE_Blended(pString->font,
-				      pString->text, pString->forecol);
+				      pString->text, pString->fgcol);
     break;
   
   case 3:
     pText = TTF_RenderUNICODE_Blended_Shaded(pString->font,
-			pString->text, pString->forecol, pString->backcol);
+			pString->text, pString->fgcol, pString->bgcol);
     break;
   }
 
@@ -286,8 +313,8 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
 				     w, count * pTmp[0]->h, pTmp[0]->flags);
       SDL_FillRect(pText, NULL,
       	SDL_MapRGBA(pText->format,
-	      pString->backcol.r,pString->backcol.g,
-      		pString->backcol.b,pString->backcol.unused));
+	      pString->bgcol.r,pString->bgcol.g,
+      		pString->bgcol.b,pString->bgcol.unused));
     break;  
   default:
     pText = create_surf(w, count * pTmp[0]->h, SDL_SWSURFACE);
@@ -338,16 +365,62 @@ SDL_Surface * create_text_surf_from_str16(SDL_String16 *pString)
 
   /* find '\n' */
   while (*pStr16 != 0) {
-    if (*pStr16 == 10)
-      goto NEWLINE;
+    if (*pStr16 == 10) {
+      return create_str16_multi_surf(pString);
+    }
     pStr16++;
   }
 
   return create_str16_surf(pString);
-
-NEWLINE:
-  return create_str16_multi_surf(pString);
 }
+
+/**************************************************************************
+  ...
+**************************************************************************/
+SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
+{
+  assert(pString != NULL);
+
+  SDL_Surface *pText = create_text_surf_from_str16(pString);
+  
+  if(pText && pText->w > w - 4) {
+    /* cut string length to w length by replacing space " " with new line "\n" */
+    int ptsize = pString->ptsize;
+    Uint16 pNew_Line[2], pSpace[2];
+    Uint16 *ptr = pString->text;
+    
+    convertcopy_to_utf16(pNew_Line, sizeof(pNew_Line), "\n");
+    convertcopy_to_utf16(pSpace, sizeof(pSpace), " ");
+   
+    do {
+      if (*ptr) {
+	if(*ptr == *pSpace) {
+          *ptr = *pNew_Line;/* "\n" */
+	  FREESURFACE(pText);
+          pText = create_text_surf_from_str16(pString);
+	}
+	ptr++;
+      } else {
+	FREESURFACE(pText);
+        if (pString->ptsize > 8) {
+	  change_ptsize16(pString, pString->ptsize - 1);
+	  pText = create_text_surf_from_str16(pString);
+	} else {
+	  /* die */
+          assert(pText != NULL);
+	}
+      }
+    } while (pText->w > w - 4);    
+  
+    if(pString->ptsize != ptsize) {
+      change_ptsize16(pString, ptsize);
+    }    
+  }
+    
+  return pText;
+}
+
+
 
 /**************************************************************************
   ...
@@ -486,8 +559,14 @@ void free_font_system(void)
     if (Font_TAB->next) {
       Font_TAB_TMP = Font_TAB;
       Font_TAB = Font_TAB->next;
+      if(Font_TAB_TMP->font) {
+	TTF_CloseFont(Font_TAB_TMP->font);
+      }
       FREE(Font_TAB_TMP);
     } else {
+      if(Font_TAB->font) {
+	TTF_CloseFont(Font_TAB->font);
+      }
       FREE(Font_TAB);
     }
   }

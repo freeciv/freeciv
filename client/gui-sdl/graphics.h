@@ -218,7 +218,6 @@ void putframe(SDL_Surface *pDest, Sint16 x0, Sint16 y0, Sint16 x1,
 void init_sdl(int f);
 void quit_sdl(void);
 int set_video_mode(int iWidth, int iHeight, int iFlags);
-Uint16 **get_list_modes(Uint32 flags);
 
 /* Rect */
 bool correct_rect_region(SDL_Rect *pRect);

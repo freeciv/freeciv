@@ -498,16 +498,16 @@ do {								\
   set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
 
 /* BUTTON */
-#define create_icon_button_from_unichar(pIcon, pDest, pUniChar, iPtsize, flags) \
-	create_icon_button(pIcon, pDest, create_string16(pUniChar, iPtsize), flags)
+#define create_icon_button_from_unichar(pIcon, pDest, pUniChar, pUniCharSize, iPtsize, flags) \
+	create_icon_button(pIcon, pDest, create_string16(pUniChar, pUniCharSize, iPtsize), flags)
 
 #define create_icon_button_from_chars(pIcon, pDest, pCharString, iPtsize, flags) \
 	create_icon_button(pIcon, pDest,                                        \
 			   create_str16_from_char(pCharString, iPtsize),  \
 			   flags)
 
-#define create_themeicon_button_from_unichar(pIcon_theme, pDest, pUniChar, iPtsize, flags) \
-	create_themeicon_button(pIcon, pDest, create_string16(pUniChar, iPtsize), \
+#define create_themeicon_button_from_unichar(pIcon_theme, pDest, pUniChar, pUniCharSize, iPtsize, flags) \
+	create_themeicon_button(pIcon, pDest, create_string16(pUniChar, pUniCharSize, iPtsize), \
 				flags)
 
 #define create_themeicon_button_from_chars(pIcon_theme, pDest, pCharString, iPtsize, flags) \
@@ -528,8 +528,8 @@ do {								\
 		    create_str16_from_char(pCharString, iPtsize), \
 		    length, flags)
 
-#define create_edit_from_unichars(pBackground, pDest, pUniChar, iPtsize, length, flags) \
-	create_edit(pBackground, pDest, create_string16(pUniChar, iPtsize), length, flags )
+#define create_edit_from_unichars(pBackground, pDest, pUniChar, pUniCharSize, iPtsize, length, flags) \
+	create_edit(pBackground, pDest, create_string16(pUniChar, pUniCharSize, iPtsize), length, flags )
 
 #define edit(pEdit) edit_field(pEdit)
 

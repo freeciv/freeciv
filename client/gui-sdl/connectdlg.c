@@ -136,7 +136,7 @@ static int meta_severs_callback(struct GUI *pWidget)
   pStr = create_str16_from_char(cBuf, 16);
   pStr->style = TTF_STYLE_BOLD;
   pStr->render = 3;
-  pStr->backcol = col;
+  pStr->bgcol = col;
   pLogo = create_text_surf_from_str16(pStr);
   SDL_SetAlpha(pLogo, 0x0, 0x0);
     
@@ -204,10 +204,10 @@ static int meta_severs_callback(struct GUI *pWidget)
 	WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT);
     
     pBuf->string16->render = 3;
-    pBuf->string16->backcol.r = 0;
-    pBuf->string16->backcol.g = 0;
-    pBuf->string16->backcol.b = 0;
-    pBuf->string16->backcol.unused = 0;
+    pBuf->string16->bgcol.r = 0;
+    pBuf->string16->bgcol.g = 0;
+    pBuf->string16->bgcol.b = 0;
+    pBuf->string16->bgcol.unused = 0;
     
     pBuf->action = sellect_meta_severs_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -400,11 +400,11 @@ static int popup_join_game_callback(struct GUI *pWidget)
   /* -------------------------- */
 
   pPlayer_name = create_str16_from_char(_("Player Name :"), 10);
-  pPlayer_name->forecol = color;
+  pPlayer_name->fgcol = color;
   pServer_name = create_str16_from_char(_("Freeciv Serwer :"), 10);
-  pServer_name->forecol = color;
+  pServer_name->fgcol = color;
   pPort_nr = create_str16_from_char(_("Port :"), 10);
-  pPort_nr->forecol = color;
+  pPort_nr->fgcol = color;
   
   /* ====================== INIT =============================== */
   pBuf = create_edit_from_chars(NULL, pDest, user_name, 14, 210,
@@ -591,13 +591,13 @@ static void popup_user_passwd_dialog(char *pMessage)
   /* -------------------------- */
 
   pStr = create_str16_from_char(pMessage, 12);
-  pStr->forecol = color_white;
+  pStr->fgcol = color_white;
     
   pText = create_text_surf_from_str16(pStr);
   
   /* ====================== INIT =============================== */
   change_ptsize16(pStr, 16);
-  pStr->forecol = color_black;
+  pStr->fgcol = color_black;
   FREE(pStr->text);
   
   pBuf = create_edit(NULL, pDest, pStr, 210,
@@ -756,14 +756,16 @@ static void popup_new_user_passwd_dialog(char *pMessage)
   /* -------------------------- */
 
   pStr = create_str16_from_char(pMessage, 12);
-  pStr->forecol = color_white;
+  pStr->fgcol = color_white;
     
   pText = create_text_surf_from_str16(pStr);
   
   /* ====================== INIT =============================== */
   change_ptsize16(pStr, 16);
-  pStr->forecol = color_black;
+  pStr->fgcol = color_black;
+  
   FREE(pStr->text);
+  pStr->n_alloc = 0;
   
   pBuf = create_edit(NULL, pDest, pStr, 210,
 		(WF_PASSWD_EDIT|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
@@ -774,7 +776,7 @@ static void popup_new_user_passwd_dialog(char *pMessage)
   pStartMenu->pEndWidgetList = pBuf;
   /* ------------------------------ */
   
-  pBuf = create_edit(NULL, pDest, create_string16(NULL, 16) , 210,
+  pBuf = create_edit(NULL, pDest, create_string16(NULL, 0, 16) , 210,
 		(WF_PASSWD_EDIT|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
   pBuf->action = convert_secound_passwd_callback;
   add_to_gui_list(ID_EDIT, pBuf);
@@ -964,9 +966,9 @@ void gui_server_connect(void)
 	(WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
   
   /*pBuf->action = popup_start_new_game_callback;*/
-  pFirst->string16->forecol.r = 128;
-  pFirst->string16->forecol.g = 128;
-  pFirst->string16->forecol.b = 128;
+  pFirst->string16->fgcol.r = 128;
+  pFirst->string16->fgcol.g = 128;
+  pFirst->string16->fgcol.b = 128;
   
   w = MAX(w, pFirst->size.w);
   h = MAX(h, pFirst->size.h);
@@ -977,12 +979,12 @@ void gui_server_connect(void)
   pBuf = create_iconlabel_from_chars(NULL, Main.gui, _("Load Game"), 14,
 		(WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT));
   /*pBuf->action = popup_load_game_callback;*/
-  pBuf->string16->forecol.r = 128;
-  pBuf->string16->forecol.g = 128;
-  pBuf->string16->forecol.b = 128;
+  pBuf->string16->fgcol.r = 128;
+  pBuf->string16->fgcol.g = 128;
+  pBuf->string16->fgcol.b = 128;
   
-  w = MAX(w , pBuf->size.w);
-  h = MAX(h , pBuf->size.h);
+  w = MAX(w, pBuf->size.w);
+  h = MAX(h, pBuf->size.h);
   count++;
   add_to_gui_list(ID_LOAD_GAME, pBuf);
   

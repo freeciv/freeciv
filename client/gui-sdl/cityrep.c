@@ -156,22 +156,19 @@ static void real_info_city_report_dialog_update(void)
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= SF_CENTER;
   pText1 = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   my_snprintf(cBuf, sizeof(cBuf), _("time\nto grow"));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pText2 = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   my_snprintf(cBuf, sizeof(cBuf), _("City Name"));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pText3 = create_text_surf_from_str16(pStr);
   name_w = pText3->w + 6;
-  FREE(pStr->text);
-    
+      
   my_snprintf(cBuf, sizeof(cBuf), _("Production"));
-  pStr->text = convert_to_utf16(cBuf);
-  pStr->forecol = color;
+  copy_chars_to_string16(pStr, cBuf);
+  pStr->fgcol = color;
   pText4 = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
   
@@ -260,13 +257,13 @@ static void real_info_city_report_dialog_update(void)
     pBuf->string16->style &= ~SF_CENTER;
 
     if (city_unhappy(pCity)) {
-      pBuf->string16->forecol = *get_game_colorRGB(COLOR_STD_CITY_TRADE);
+      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_STD_CITY_TRADE);
     } else {
       if (city_celebrating(pCity)) {
-	pBuf->string16->forecol = *get_game_colorRGB(COLOR_STD_CITY_CELEB);
+	pBuf->string16->fgcol = *get_game_colorRGB(COLOR_STD_CITY_CELEB);
       } else {
         if (city_happy(pCity)) {
-	  pBuf->string16->forecol = *get_game_colorRGB(COLOR_STD_CITY_HAPPY);
+	  pBuf->string16->fgcol = *get_game_colorRGB(COLOR_STD_CITY_HAPPY);
         }
       }
     }
@@ -308,7 +305,7 @@ static void real_info_city_report_dialog_update(void)
     /* ----------- */
     my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->food_prod - pCity->food_surplus);
     pStr = create_str16_from_char(cBuf, 10);
-    pStr->forecol = *get_game_colorRGB(COLOR_STD_GROUND);
+    pStr->fgcol = *get_game_colorRGB(COLOR_STD_GROUND);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
     if(count > 9 * COL) {
@@ -321,7 +318,7 @@ static void real_info_city_report_dialog_update(void)
     /* ----------- */
     my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->food_surplus);
     pStr = create_str16_from_char(cBuf, 10);
-    pStr->forecol = *get_game_colorRGB(COLOR_STD_CITY_FOOD_SURPLUS);
+    pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_FOOD_SURPLUS);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
     if(count > 9 * COL) {
@@ -348,7 +345,7 @@ static void real_info_city_report_dialog_update(void)
     pStr = create_str16_from_char(cBuf, 10);
     
     if(togrow < 0) {
-      pStr->forecol.r = 255;
+      pStr->fgcol.r = 255;
     }
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
@@ -362,7 +359,7 @@ static void real_info_city_report_dialog_update(void)
     /* ----------- */
     my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->trade_prod);
     pStr = create_str16_from_char(cBuf, 10);
-    pStr->forecol = *get_game_colorRGB(COLOR_STD_CITY_TRADE);
+    pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_TRADE);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
     if(count > 9 * COL) {
@@ -387,7 +384,7 @@ static void real_info_city_report_dialog_update(void)
     /* ----------- */
     my_snprintf(cBuf, sizeof(cBuf), "%d", city_gold_surplus(pCity));
     pStr = create_str16_from_char(cBuf, 10);
-    pStr->forecol = *get_game_colorRGB(COLOR_STD_CITY_GOLD);
+    pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_GOLD);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
     if(count > 9 * COL) {
@@ -400,7 +397,7 @@ static void real_info_city_report_dialog_update(void)
     /* ----------- */
     my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->science_total);
     pStr = create_str16_from_char(cBuf, 10);
-    pStr->forecol = *get_game_colorRGB(COLOR_STD_CITY_SCIENCE);
+    pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_SCIENCE);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
     if(count > 9 * COL) {
@@ -413,7 +410,7 @@ static void real_info_city_report_dialog_update(void)
     /* ----------- */
     my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->luxury_total);
     pStr = create_str16_from_char(cBuf, 10);
-    pStr->forecol = *get_game_colorRGB(COLOR_STD_CITY_LUX);
+    pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_LUX);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
     if(count > 9 * COL) {
@@ -427,7 +424,7 @@ static void real_info_city_report_dialog_update(void)
     my_snprintf(cBuf, sizeof(cBuf), "%d",
   			pCity->shield_prod + pCity->shield_waste);
     pStr = create_str16_from_char(cBuf, 10);
-    pStr->forecol = *get_game_colorRGB(COLOR_STD_CITY_PROD);
+    pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_PROD);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
     if(count > 9 * COL) {
@@ -453,7 +450,7 @@ static void real_info_city_report_dialog_update(void)
     my_snprintf(cBuf, sizeof(cBuf), "%d",
 	  pCity->shield_prod + pCity->shield_waste - pCity->shield_surplus);
     pStr = create_str16_from_char(cBuf, 10);
-    pStr->forecol = *get_game_colorRGB(COLOR_STD_CITY_SUPPORT);
+    pStr->fgcol = *get_game_colorRGB(COLOR_STD_CITY_SUPPORT);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 					WF_DRAW_THEME_TRANSPARENT);
     if(count > 9 * COL) {
@@ -532,7 +529,7 @@ static void real_info_city_report_dialog_update(void)
     pBuf->data.city = pCity;
     
     pStr = create_str16_from_char(cBuf, 10);
-    pStr->forecol = color;
+    pStr->fgcol = color;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT));
     if(count > 9 * COL) {
@@ -899,13 +896,13 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
     
   /* city name status */
   if (city_unhappy(pCity)) {
-    pWidget->string16->forecol = *get_game_colorRGB(COLOR_STD_CITY_TRADE);
+    pWidget->string16->fgcol = *get_game_colorRGB(COLOR_STD_CITY_TRADE);
   } else {
     if (city_celebrating(pCity)) {
-      pWidget->string16->forecol = *get_game_colorRGB(COLOR_STD_CITY_CELEB);
+      pWidget->string16->fgcol = *get_game_colorRGB(COLOR_STD_CITY_CELEB);
     } else {
       if (city_happy(pCity)) {
-	pWidget->string16->forecol = *get_game_colorRGB(COLOR_STD_CITY_HAPPY);
+	pWidget->string16->fgcol = *get_game_colorRGB(COLOR_STD_CITY_HAPPY);
       }
     }
   }
@@ -913,8 +910,7 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
   /* city size */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->size);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
       
   /* cma check box */
   pWidget = pWidget->prev;
@@ -925,14 +921,12 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
   /* food consumptions */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->food_prod - pCity->food_surplus);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
-  
+  copy_chars_to_string16(pWidget->string16, cBuf);
+    
   /* food surplus */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->food_surplus);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* time to grow */
   pWidget = pWidget->prev;
@@ -948,71 +942,60 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
       my_snprintf(cBuf, sizeof(cBuf), "%d", togrow);
     break;
   }
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
-  
-    
+  copy_chars_to_string16(pWidget->string16, cBuf);
+      
   if(togrow < 0) {
-    pWidget->string16->forecol.r = 255;
+    pWidget->string16->fgcol.r = 255;
   } else {
-    pWidget->string16->forecol.r = 0;
+    pWidget->string16->fgcol.r = 0;
   }
     
   /* trade production */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->trade_prod);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
     
   /* corruptions */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->corruption);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
             
   /* gold surplus */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", city_gold_surplus(pCity));
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
     
   /* science income */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->science_total);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
     
   /* lugury income */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->luxury_total);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* total production */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d",
   			pCity->shield_prod + pCity->shield_waste);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* waste */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->shield_waste);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* units support */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d",
 	  pCity->shield_prod + pCity->shield_waste - pCity->shield_surplus);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* production income */
   pWidget = pWidget->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->shield_surplus);
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* change production */
   if(pCity->is_building_unit) {
@@ -1044,8 +1027,7 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
     
   
   pWidget = pWidget->prev;
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
   FREESURFACE(pWidget->theme);
   pWidget->theme = pLogo;
   
@@ -1061,8 +1043,7 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
       			togrow, PL_("turn", "turns", togrow));
   }
   
-  FREE(pWidget->string16->text);
-  pWidget->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pWidget->string16, cBuf);
   
   return pWidget->prev;
 }

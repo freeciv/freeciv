@@ -42,7 +42,6 @@
 #include "cma_fec.h"
 #include "cma_fe.h"
 
-
 struct hmove {
   struct GUI *pScrollBar;
   int min, max, base;
@@ -113,8 +112,8 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
     		pMotion->base + (pMotion->pScrollBar->size.x - pMotion->min);
     
     my_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pMotion->pScrollBar->data.ptr);
-    convertcopy_to_utf16(pMotion->pScrollBar->next->string16->text, cBuf);
-  
+    copy_chars_to_string16(pMotion->pScrollBar->next->string16, cBuf);
+    
     /* redraw label */
     redraw_label(pMotion->pScrollBar->next);
     sdl_dirty_rect(pMotion->pScrollBar->next->size);
@@ -266,12 +265,12 @@ static int save_cma_callback(struct GUI *pWidget)
   /* label */
   pStr = create_str16_from_char(_("What should we name the preset?"), 10);
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->forecol.r = 255;
-  pStr->forecol.g = 255;
+  pStr->fgcol.r = 255;
+  pStr->fgcol.g = 255;
   
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
-  ww = MAX(ww , pText->w);
+  ww = MAX(ww, pText->w);
   hh += pText->h + 5;
   /* ============================================================= */
   
@@ -280,7 +279,7 @@ static int save_cma_callback(struct GUI *pWidget)
   			(WF_DRAW_THEME_TRANSPARENT|WF_FREE_STRING));
   set_wstate(pBuf, FC_WS_NORMAL);
   hh += pBuf->size.h;
-  ww = MAX(ww , pBuf->size.w);
+  ww = MAX(ww, pBuf->size.w);
   
   add_to_gui_list(ID_EDIT, pBuf);
   /* ============================================================= */
@@ -452,7 +451,7 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
     	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     pBuf->string16->style &= ~SF_CENTER;
-    pBuf->string16->backcol.unused = 128;
+    pBuf->string16->bgcol.unused = 128;
     pBuf->string16->render = 3;
     pBuf->action = LD_cma_callback;
     
@@ -470,7 +469,7 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
     
     if (i > 10)
     {
-      set_wflag(pBuf , WF_HIDDEN);
+      set_wflag(pBuf, WF_HIDDEN);
     }
   }
   pCma->pAdv->pBeginWidgetList = pBuf;
@@ -593,8 +592,8 @@ static void set_cma_hscrollbars(void)
     /* min label */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
-    convertcopy_to_utf16(pBuf->string16->text, cBuf);
-    
+    copy_chars_to_string16(pBuf->string16, cBuf);
+        
     /* min scrollbar */
     pBuf = pBuf->prev;
     pBuf->size.x = pBuf->next->size.x
@@ -603,7 +602,7 @@ static void set_cma_hscrollbars(void)
     /* factor label */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
-    convertcopy_to_utf16(pBuf->string16->text, cBuf);
+    copy_chars_to_string16(pBuf->string16, cBuf);
     
     /* factor scrollbar*/
     pBuf = pBuf->prev;
@@ -615,7 +614,7 @@ static void set_cma_hscrollbars(void)
   /* happy factor label */
   pBuf = pBuf->prev;
   my_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
-  convertcopy_to_utf16(pBuf->string16->text, cBuf);
+  copy_chars_to_string16(pBuf->string16, cBuf);
   
   /* happy factor scrollbar */
   pBuf = pBuf->prev;
@@ -843,23 +842,20 @@ void popup_city_cma_dialog(struct city *pCity)
   
   add_to_gui_list(ID_BUTTON, pBuf);
 
-  pStr = create_string16(NULL, 12);
+  pStr = create_string16(NULL, 0, 12);
   text_w = 0;
   
-  pStr->text = convert_to_utf16(_("Minimal Surplus"));
+  copy_chars_to_string16(pStr, _("Minimal Surplus"));
   pMinimal = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
-  pStr->text = convert_to_utf16(_("Factor"));
+    
+  copy_chars_to_string16(pStr, _("Factor"));
   pFactor = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   /* ---------- */
   for (i = 0; i < NUM_STATS; i++) {
     
-    pStr->text = convert_to_utf16(cm_get_stat_name(i));
+    copy_chars_to_string16(pStr, cm_get_stat_name(i));
     pText[i] = create_text_surf_from_str16(pStr);
-    FREE(pStr->text);
     text_w = MAX(text_w, pText[i]->w);
     
     /* minimal label */
@@ -900,7 +896,7 @@ void popup_city_cma_dialog(struct city *pCity)
     add_to_gui_list(ID_SCROLLBAR, pBuf);
   }
   
-  pStr->text = convert_to_utf16(_("Celebrate"));
+  copy_chars_to_string16(pStr, _("Celebrate"));
   pText[NUM_STATS] = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
   

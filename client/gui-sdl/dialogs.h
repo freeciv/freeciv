@@ -32,5 +32,6 @@ void popup_advanced_terrain_dialog(int x , int y);
 const char *sdl_map_get_tile_info_text(struct tile *pTile);
 void put_window_near_map_tile(struct GUI *pWindow,
   		int window_width, int window_height, int x, int y);
-
+void popup_unit_upgrade_dlg(struct unit *pUnit, bool city);
+  
 #endif	/* FC__DIALOGS_H */

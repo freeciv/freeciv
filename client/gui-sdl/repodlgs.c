@@ -222,8 +222,8 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
   /* create text label */
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->forecol.r = 255;
-  pStr->forecol.g = 255;
+  pStr->fgcol.r = 255;
+  pStr->fgcol.g = 255;
   /*pStr->forecol.b = 255; */
   
   pText = create_text_surf_from_str16(pStr);
@@ -354,25 +354,21 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= SF_CENTER;
   pText1 = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   my_snprintf(cBuf, sizeof(cBuf), _("under\nconstruction"));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pText2 = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   my_snprintf(cBuf, sizeof(cBuf), _("soonest\ncompletion"));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pText5 = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   my_snprintf(cBuf, sizeof(cBuf), _("Total"));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pText3 = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   my_snprintf(cBuf, sizeof(cBuf), _("Units"));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pText4 = create_text_surf_from_str16(pStr);
   name_w = pText4->w;
   FREESTRING16(pStr);
@@ -471,11 +467,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
       if(upgrade) {
-	pBuf->string16->forecol = sellect;
+	pBuf->string16->fgcol = sellect;
 	pBuf->action = popup_upgrade_unit_callback;
 	set_wstate(pBuf, FC_WS_NORMAL);
       } else {
-        pBuf->string16->forecol = color;
+        pBuf->string16->fgcol = color;
       }
       pBuf->string16->style &= ~SF_CENTER;
       if(count > 63) {
@@ -847,25 +843,22 @@ void activeunits_report_dialog_update(void)
 UPD:	  upgrade = (can_upgrade_unittype(game.player_ptr, i) != -1);
 	  pBuf = pBuf->prev;
 	  if(upgrade) {
-	    pBuf->string16->forecol = sellect;
+	    pBuf->string16->fgcol = sellect;
 	    pBuf->action = popup_upgrade_unit_callback;
 	    set_wstate(pBuf, FC_WS_NORMAL);
           }
 	
 	  my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].active_count);
 	  pBuf = pBuf->prev;
-	  FREE(pBuf->string16->text);
-	  pBuf->string16->text = convert_to_utf16(cBuf);
-	
+	  copy_chars_to_string16(pBuf->string16, cBuf);
+	  	
           my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].upkeep_shield);
 	  pBuf = pBuf->prev;
-	  FREE(pBuf->string16->text);
-	  pBuf->string16->text = convert_to_utf16(cBuf);
+	  copy_chars_to_string16(pBuf->string16, cBuf);
 	
           my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].upkeep_food);
 	  pBuf = pBuf->prev;
-	  FREE(pBuf->string16->text);
-	  pBuf->string16->text = convert_to_utf16(cBuf);
+	  copy_chars_to_string16(pBuf->string16, cBuf);
 	
 	  if(units[i].building_count > 0) {
 	    my_snprintf(cBuf, sizeof(cBuf), "%d", units[i].building_count);
@@ -873,8 +866,7 @@ UPD:	  upgrade = (can_upgrade_unittype(game.player_ptr, i) != -1);
 	    my_snprintf(cBuf, sizeof(cBuf), "--");
           }
 	  pBuf = pBuf->prev;
-	  FREE(pBuf->string16->text);
-	  pBuf->string16->text = convert_to_utf16(cBuf);
+	  copy_chars_to_string16(pBuf->string16, cBuf);
 	
           if(units[i].building_count > 0) {
 	    my_snprintf(cBuf, sizeof(cBuf), "%d %s", units[i].soonest_completions,
@@ -883,8 +875,7 @@ UPD:	  upgrade = (can_upgrade_unittype(game.player_ptr, i) != -1);
 	    my_snprintf(cBuf, sizeof(cBuf), "--");
           }
 	  pBuf = pBuf->prev;
-	  FREE(pBuf->string16->text);
-	  pBuf->string16->text = convert_to_utf16(cBuf);
+	  copy_chars_to_string16(pBuf->string16, cBuf);
 	
 	  pWidget = pBuf->prev;
           } else {
@@ -925,26 +916,22 @@ UPD:	  upgrade = (can_upgrade_unittype(game.player_ptr, i) != -1);
       /* total active */
       pBuf = pUnitsDlg->pEndWidgetList->prev->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.active_count);
-    FREE(pBuf->string16->text);
-    pBuf->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pBuf->string16, cBuf);
   
     /* total shields cost */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep_shield);
-    FREE(pBuf->string16->text);
-    pBuf->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pBuf->string16, cBuf);
   
     /* total food cost widget */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep_food);
-    FREE(pBuf->string16->text);
-    pBuf->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pBuf->string16, cBuf);
   
     /* total building count */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.building_count);
-    FREE(pBuf->string16->text);
-    pBuf->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pBuf->string16, cBuf);
 
     /* -------------------------------------- */
     redraw_group(pUnitsDlg->pBeginWidgetList, pUnitsDlg->pEndWidgetList, 0);
@@ -1131,10 +1118,10 @@ static Uint16 report_scroll_mouse_motion_handler(
       *pMotion->dst_rate -= inc;
 	  	  
       my_snprintf(cBuf, sizeof(cBuf), "%d%%", *pMotion->src_rate);
-      convertcopy_to_utf16(pMotion->pLabel_Src->string16->text, cBuf);
+      copy_chars_to_string16(pMotion->pLabel_Src->string16, cBuf);
       my_snprintf(cBuf, sizeof(cBuf), "%d%%", *pMotion->dst_rate);
-      convertcopy_to_utf16(pMotion->pLabel_Dst->string16->text, cBuf);
-		      
+      copy_chars_to_string16(pMotion->pLabel_Dst->string16, cBuf);
+      		      
       /* redraw label */
       redraw_label(pMotion->pLabel_Src);
       sdl_dirty_rect(pMotion->pLabel_Src->size);
@@ -1471,9 +1458,9 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
   /* create text label */
   pStr = create_str16_from_char(cBuf, 10);
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->forecol.r = 255;
-  pStr->forecol.g = 255;
-  /*pStr->forecol.b = 255; */
+  pStr->fgcol.r = 255;
+  pStr->fgcol.g = 255;
+  /*pStr->fgcol.b = 255; */
   
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
@@ -1575,34 +1562,30 @@ void economy_report_dialog_update(void)
     /* tresure */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", game.player_ptr->economic.gold);
-    FREE(pBuf->string16->text);
-    pBuf->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
   
     /* Icome */
     pBuf = pBuf->prev->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", tax);
-    FREE(pBuf->string16->text);
-    pBuf->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
   
     /* Cost */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", total);
-    FREE(pBuf->string16->text);
-    pBuf->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
   
     /* Netto */
     pBuf = pBuf->prev;
     my_snprintf(cBuf, sizeof(cBuf), "%d", tax - total);
-    FREE(pBuf->string16->text);
-    pBuf->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
     if(tax - total < 0) {
-      pBuf->string16->forecol.r = 255;
+      pBuf->string16->fgcol.r = 255;
     } else {
-      pBuf->string16->forecol.r = 0;
+      pBuf->string16->fgcol.r = 0;
     }
   
   
@@ -1732,7 +1715,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= TTF_STYLE_BOLD;
   
   if(tax - total < 0) {
-    pStr->forecol.r = 255;
+    pStr->fgcol.r = 255;
   }
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
@@ -1877,10 +1860,10 @@ void popup_economy_report_dialog(bool make_modal)
     pMain = pSurf;
     pSurf = NULL;
     
-    pStr = create_string16(NULL, 10);
+    pStr = create_string16(NULL, 0, 10);
     pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
     pStr->render = 3;
-    pStr->backcol = color;
+    pStr->bgcol = color;
   
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
@@ -1888,44 +1871,15 @@ void popup_economy_report_dialog(bool make_modal)
       pSurf = crop_rect_from_surface(pMain, NULL);
       
       my_snprintf(cBuf, sizeof(cBuf), "%s", get_improvement_name(p->type));
-  
-      FREE(pStr->text);
-      pStr->text = convert_to_utf16(cBuf);
-      pStr->style |= TTF_STYLE_BOLD;
-  
-      pText_Name = create_text_surf_from_str16(pStr);
-  
-      if(pText_Name->w > pSurf->w - 2) {
-      /* cut string length to icon size by adding new line "\n" */
-        char *ptr = NULL;
-        do {
-          ptr = strchr(cBuf, 32);/* " " == 32 */
-	  if(ptr) {
-	    *ptr = 10;/* "\n" */
-	    FREESURFACE(pText_Name); 
-	    convertcopy_to_utf16(pStr->text, cBuf);
-            pText_Name = create_text_surf_from_str16(pStr);
-	  } else {
-	    if(pStr->ptsize > 8) {
-	      change_ptsize16(pStr, pStr->ptsize - 1);
-	    } else {
-              assert(ptr != NULL);
-	    }
-	  }
-        } while (pText_Name->w > pSurf->w - 2);
-      }
-  
-      if(pStr->ptsize != 10) {
-	change_ptsize16(pStr, 10);
-      }
       
+      copy_chars_to_string16(pStr, cBuf);
+      pStr->style |= TTF_STYLE_BOLD;
+      pText_Name = create_text_surf_smaller_that_w(pStr, pSurf->w);
       SDL_SetAlpha(pText_Name, 0x0, 0x0);
             
       my_snprintf(cBuf, sizeof(cBuf), "%s %d\n%s %d",
 			_("Builded"), p->count, _("U Total"),p->total_cost);
-      
-      FREE(pStr->text);
-      pStr->text = convert_to_utf16(cBuf);
+      copy_chars_to_string16(pStr, cBuf);
       pStr->style &= ~TTF_STYLE_BOLD;
   
       pText = create_text_surf_from_str16(pStr);
@@ -1955,8 +1909,11 @@ void popup_economy_report_dialog(bool make_modal)
 	  dst.x += pIcons->pBIG_Coin->w + 1;
         }
       } else {
-        FREE(pStr->text);
-        pStr->text = convert_to_utf16(_("Wonder"));
+	if(p->type == B_PALACE) {
+	  copy_chars_to_string16(pStr, _("Nation"));
+	} else {
+	  copy_chars_to_string16(pStr, _("Wonder"));
+	}
         /*pStr->style &= ~TTF_STYLE_BOLD;*/
   
         pZoom = create_text_surf_from_str16(pStr);
@@ -2037,8 +1994,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= TTF_STYLE_BOLD;
   
   pText = create_text_surf_from_str16(pStr);
-  FREE(pStr->text); 
-  
+    
   pBuf = pWindow->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pText->w;
   pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1 + 5;
@@ -2047,10 +2003,9 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* tax rate label */
   my_snprintf(cBuf, sizeof(cBuf), _("Tax Rate: "));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pText_Name = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pText_Name->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
@@ -2059,10 +2014,9 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* total icome */
   my_snprintf(cBuf, sizeof(cBuf),_("Total Income: "));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pSurf = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pSurf->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
@@ -2071,10 +2025,9 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* total cost */
   my_snprintf(cBuf, sizeof(cBuf), _("Total Costs: "));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pZoom = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pZoom->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
@@ -2083,10 +2036,9 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* net icome */
   my_snprintf(cBuf, sizeof(cBuf), _("Net Income: "));
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pMain = create_text_surf_from_str16(pStr);
-  FREE(pStr->text);
-  
+    
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + FRAME_WH + 10 + pMain->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
@@ -2132,7 +2084,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* gov and taxrate */
   my_snprintf(cBuf, sizeof(cBuf), _("%s max rate : %d%%"),
 	      				pGov->name, pGov->max_rate);
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pMain = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
   dst.y = WINDOW_TILE_HIGH + 1 + 5;
@@ -2259,8 +2211,7 @@ void setup_auxiliary_tech_icons(void)
 	  (50 - pSurf->w) / 2 , (50 - pSurf->h) / 2);
   
   FREESURFACE(pSurf);
-  FREE(pStr->text);
-  pStr->text = convert_to_utf16(_("FT"));
+  copy_chars_to_string16(pStr, _("FT"));
   pSurf = create_text_surf_from_str16(pStr);
   blit_entire_src(pSurf, pFuture_Tech_Icon,
 	  (50 - pSurf->w) / 2 , (50 - pSurf->h) / 2);
@@ -2279,7 +2230,6 @@ void free_auxiliary_tech_icons(void)
 
 SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
 {
-  char cBuf[128];
   struct impr_type *pImpr = NULL;
   struct unit_type *pUnit = NULL;
   SDL_Surface *pSurf, *pText;
@@ -2287,7 +2237,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
   SDL_Rect src, dst;
   int w, h;
   
-  pSurf = create_surf(100 , 200 , SDL_SWSURFACE);
+  pSurf = create_surf(100, 200, SDL_SWSURFACE);
   pText = SDL_DisplayFormatAlpha(pSurf);
   FREESURFACE(pSurf);
   pSurf = pText;
@@ -2302,28 +2252,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, int tech_id)
   }
 
   putframe(pSurf, 0,0, pSurf->w - 1, pSurf->h - 1, 0xFF000000);
-  
-  if (!pStr->text) {
-    pStr->text = convert_to_utf16(advances[tech_id].name);
-  }
-
-  pText = create_text_surf_from_str16(pStr);
-  
-  if(pText->w > pSurf->w - 2) {
-    /* cut string length to icon size by adding new line "\n" */
-    char *ptr = NULL;
-    my_snprintf(cBuf, sizeof(cBuf), advances[tech_id].name);
-    do {
-      FREESURFACE(pText);
-      ptr = strchr(cBuf, 32);/* " " == 32 */
-      assert(ptr != NULL);
-      *ptr = 10;/* "\n" */
-      convertcopy_to_utf16(pStr->text, cBuf);
-      pText = create_text_surf_from_str16(pStr);
-    } while (pText->w > pSurf->w - 4);
-  }
-  
-  FREE(pStr->text);
+  pText = create_text_surf_smaller_that_w(pStr, pSurf->w);
 
   /* draw name tech text */
   dst.x = (100 - pText->w) / 2;
@@ -2509,12 +2438,10 @@ void science_dialog_update(void)
 
     pStr = create_str16_from_char(cBuf, 12);
     pStr->style |= SF_CENTER;
-    pStr->forecol = color;
+    pStr->fgcol = color;
   
     pSurf = create_text_surf_from_str16(pStr);
-  
-    FREE(pStr->text);
-
+      
     dest.x = pWindow->size.x + (pWindow->size.w - pSurf->w) / 2;
     dest.y = pWindow->size.y + WINDOW_TILE_HIGH + 2;
     SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
@@ -2535,11 +2462,10 @@ void science_dialog_update(void)
 			    game.player_ptr->research.researching),
 	      game.player_ptr->research.bulbs_researched, cost);
 
-    pStr->text = convert_to_utf16(cBuf);
-
+    copy_chars_to_string16(pStr, cBuf);
+    
     pSurf = create_text_surf_from_str16(pStr);
-    FREE(pStr->text);
-
+    
     dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
     SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
 
@@ -2625,11 +2551,10 @@ void science_dialog_update(void)
 			    game.player_ptr->ai.tech_goal), steps,
 	      PL_("step", "steps", steps));
 
-      pStr->text = convert_to_utf16(cBuf);
+      copy_chars_to_string16(pStr, cBuf);
 
       pSurf = create_text_surf_from_str16(pStr);
-      FREE(pStr->text);
-
+      
       dest.x = pWindow->prev->size.x + pWindow->prev->size.w + 10;
       SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
 
@@ -2770,7 +2695,7 @@ static int change_research(struct GUI *pWidget)
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
 
   /* ------------------------- */
-  pStr = create_string16(NULL, 10);
+  pStr = create_string16(NULL, 0, 10);
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   if (!is_future_tech(game.player_ptr->research.researching)) {
@@ -2780,6 +2705,7 @@ static int change_research(struct GUI *pWidget)
 	continue;
       }
       
+      copy_chars_to_string16(pStr, advances[i].name);
       pSurf = create_sellect_tech_icon(pStr, i);
       pBuf = create_icon2(pSurf, pWindow->dst,
       		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
@@ -2979,7 +2905,7 @@ static int change_research_goal(struct GUI *pWidget)
 
       pStr = create_str16_from_char(advances[i].name, 10);
       pStr->style |= TTF_STYLE_BOLD;
-      pStr->forecol = *(get_game_colorRGB(COLOR_STD_WHITE));
+      pStr->fgcol = *(get_game_colorRGB(COLOR_STD_WHITE));
 	  
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 
 	  	(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));

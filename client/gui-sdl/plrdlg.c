@@ -227,7 +227,7 @@ void update_players_dialog(void)
         idle = 0;
       }
       
-      my_snprintf(cBuf , sizeof(cBuf), _("Name : %s\nNation : %s\nTeam : %s\n"
+      my_snprintf(cBuf, sizeof(cBuf), _("Name : %s\nNation : %s\nTeam : %s\n"
       					"Reputation : %s\nEmbassy :%s\n"
     					"State : %s\nIdle : %d %s"),
                    pPlayer->name, get_nation_name(pPlayer->nation),
@@ -235,9 +235,8 @@ void update_players_dialog(void)
                    get_embassy_status(game.player_ptr, pPlayer),
 		   state, idle, PL_("turn", "turns", idle));
       
-      FREE(pPlayer0->string16->text); 
-      pPlayer0->string16->text = convert_to_utf16(cBuf);
-    
+      copy_chars_to_string16(pPlayer0->string16, cBuf);
+          
       /* now add some eye candy ... */
       if(pPlayer1 != pPlayers_Dlg->pBeginWidgetList) {
 	x0 = pPlayer0->size.x + pPlayer0->size.w / 2;
@@ -404,7 +403,7 @@ void popup_players_dialog(void)
       continue;
     }
                 
-    pStr = create_string16(NULL , 10);
+    pStr = create_string16(NULL, 0, 10);
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
     pLogo = GET_SURF(get_nation_by_idx(pPlayer->nation)->flag_sprite);
@@ -420,7 +419,7 @@ void popup_players_dialog(void)
     if(!pPlayer->is_alive) {
       pStr = create_str16_from_char("R.I.P" , 10);
       pStr->style |= TTF_STYLE_BOLD;
-      pStr->forecol = *(get_game_colorRGB(COLOR_STD_DISABLED));
+      pStr->fgcol = *(get_game_colorRGB(COLOR_STD_DISABLED));
       pLogo = create_text_surf_from_str16(pStr);
       FREESTRING16(pStr);
 	
@@ -438,7 +437,7 @@ void popup_players_dialog(void)
   
     pBuf->action = player_callback;
     
-    add_to_gui_list(ID_LABEL , pBuf);
+    add_to_gui_list(ID_LABEL, pBuf);
     
   }
   
@@ -463,26 +462,26 @@ void popup_players_dialog(void)
   pBuf->size.y = pWindow->size.y;
     
   n = WINDOW_TILE_HIGH + 4;
-  pStr = create_string16(NULL , 10);
+  pStr = create_string16(NULL, 0, 10);
   pStr->style |= TTF_STYLE_BOLD;
   pStr->render = 3;
-  pStr->backcol.unused = 128;
+  pStr->bgcol.unused = 128;
   for(i = 0; i<DS_LAST; i++) {
       switch (i) {
 	case DS_NEUTRAL:
-	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_BLACK));
+	  pStr->fgcol = *(get_game_colorRGB(COLOR_STD_BLACK));
 	break;
         case DS_WAR:
-	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_RED));
+	  pStr->fgcol = *(get_game_colorRGB(COLOR_STD_RED));
 	break;
 	case DS_CEASEFIRE:
-	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_YELLOW));
+	  pStr->fgcol = *(get_game_colorRGB(COLOR_STD_YELLOW));
 	break;
         case DS_PEACE:
-	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_GROUND));
+	  pStr->fgcol = *(get_game_colorRGB(COLOR_STD_GROUND));
         break;
 	case DS_ALLIANCE:
-	  pStr->forecol = *(get_game_colorRGB(COLOR_STD_CITY_GOLD));
+	  pStr->fgcol = *(get_game_colorRGB(COLOR_STD_CITY_GOLD));
 	break;
         default:
 	   /* no contact */
@@ -490,9 +489,8 @@ void popup_players_dialog(void)
         break;
       }
       
-      pStr->text = convert_to_utf16(diplstate_text(i));      
+      copy_chars_to_string16(pStr, diplstate_text(i));
       pLogo = create_text_surf_from_str16(pStr);
-      FREE(pStr->text);
       SDL_SetAlpha(pLogo, 0x0, 0x0);
   
       pBuf = pBuf->prev;
@@ -658,15 +656,15 @@ void popup_players_nations_dialog(void)
       }
      
       if(pDS->type == DS_CEASEFIRE) {
-	my_snprintf(cBuf , sizeof(cBuf), "%s(%s) - %d %s",
+	my_snprintf(cBuf, sizeof(cBuf), "%s(%s) - %d %s",
                 get_nation_name(pPlayer->nation), state,
 		pDS->turns_left, PL_("turn", "turns", pDS->turns_left));
       } else {
-	my_snprintf(cBuf , sizeof(cBuf), "%s(%s)",
+	my_snprintf(cBuf, sizeof(cBuf), "%s(%s)",
                            get_nation_name(pPlayer->nation), state);
       }
       
-      pStr = create_str16_from_char(cBuf , 10);
+      pStr = create_str16_from_char(cBuf, 10);
       pStr->style |= TTF_STYLE_BOLD;
    
       pLogo = GET_SURF(get_nation_by_idx(pPlayer->nation)->flag_sprite);
@@ -682,25 +680,25 @@ void popup_players_nations_dialog(void)
         case DS_WAR:
 	  if(can_meet_with_player(pPlayer) || can_intel_with_player(pPlayer)) {
             set_wstate(pBuf, FC_WS_NORMAL);
-	    pBuf->string16->forecol = *(get_game_colorRGB(COLOR_STD_RED));
+	    pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_RED));
           } else {
-	    pBuf->string16->forecol = *(get_game_colorRGB(COLOR_STD_RED_DISABLED));
+	    pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_RED_DISABLED));
 	  }
         break;
 	case DS_CEASEFIRE:
-	  pBuf->string16->forecol = *(get_game_colorRGB(COLOR_STD_YELLOW));
+	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_YELLOW));
 	  set_wstate(pBuf, FC_WS_NORMAL);
         break;
         case DS_PEACE:
-	  pBuf->string16->forecol = *(get_game_colorRGB(COLOR_STD_GROUND));
+	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_GROUND));
 	  set_wstate(pBuf, FC_WS_NORMAL);
         break;
 	case DS_ALLIANCE:
-	  pBuf->string16->forecol = *(get_game_colorRGB(COLOR_STD_CITY_GOLD));
+	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_CITY_GOLD));
 	  set_wstate(pBuf, FC_WS_NORMAL);
         break;
 	case DS_NO_CONTACT:
-	  pBuf->string16->forecol = *(get_game_colorRGB(COLOR_STD_DISABLED));
+	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_DISABLED));
 	break;
         default:
 	  set_wstate(pBuf, FC_WS_NORMAL);
@@ -708,21 +706,21 @@ void popup_players_nations_dialog(void)
       }
       
       pBuf->string16->render = 3;
-      pBuf->string16->backcol.unused = 128;
+      pBuf->string16->bgcol.unused = 128;
     
       pBuf->data.player = pPlayer;
   
       pBuf->action = player_nation_callback;
             
   
-      add_to_gui_list(ID_LABEL , pBuf);
+      add_to_gui_list(ID_LABEL, pBuf);
     
-      w = MAX(w , pBuf->size.w);
+      w = MAX(w, pBuf->size.w);
       h += pBuf->size.h;
     
       if (n > 19)
       {
-        set_wflag(pBuf , WF_HIDDEN);
+        set_wflag(pBuf, WF_HIDDEN);
       }
       
       n++;  

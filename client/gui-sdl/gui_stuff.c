@@ -3620,6 +3620,7 @@ INPUT:/* add new element of chain (and move cursor right) */
 	  pEdt->pInputChain->prev->chr[0] = Key.unicode;
         } else {
 	  convertcopy_to_utf16(pEdt->pInputChain->prev->chr,
+			sizeof(pEdt->pInputChain->prev->chr),
 					    (char *)&Key.unicode);
         }
 	  
@@ -3632,12 +3633,12 @@ INPUT:/* add new element of chain (and move cursor right) */
 	    pEdt->pInputChain->prev->pTsurf =
 	      TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
 					  passwd_chr,
-					  pEdt->pWidget->string16->forecol);
+					  pEdt->pWidget->string16->fgcol);
 	  } else {
 	    pEdt->pInputChain->prev->pTsurf =
 	      TTF_RenderUNICODE_Blended(pEdt->pWidget->string16->font,
 					  pEdt->pInputChain->prev->chr,
-					  pEdt->pWidget->string16->forecol);
+					  pEdt->pWidget->string16->fgcol);
 	  }
 	  pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
 	}
@@ -3725,7 +3726,7 @@ bool edit_field(struct GUI *pEdit_Widget)
   pEdt.pEndTextChain->pTsurf =
       TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
 			      pEdt.pEndTextChain->chr,
-			      pEdit_Widget->string16->forecol);
+			      pEdit_Widget->string16->fgcol);
   
   /* create surface for each font in chain and find chain length */
   if (pEdt.pBeginTextChain) {
@@ -3736,7 +3737,7 @@ bool edit_field(struct GUI *pEdit_Widget)
       pInputChain_TMP->pTsurf =
 	  TTF_RenderUNICODE_Blended(pEdit_Widget->string16->font,
 				    pInputChain_TMP->chr,
-				    pEdit_Widget->string16->forecol);
+				    pEdit_Widget->string16->fgcol);
 
       pEdt.Truelength += pInputChain_TMP->pTsurf->w;
 
@@ -3775,6 +3776,7 @@ bool edit_field(struct GUI *pEdit_Widget)
     FREE(pEdit_Widget->string16->text);
     pEdit_Widget->string16->text =
   	  chain2text(pEdt.pBeginTextChain, pEdt.ChainLen);
+    pEdit_Widget->string16->n_alloc = (pEdt.ChainLen + 1) * sizeof(Uint16);
   }
 
   del_chain(pEdt.pBeginTextChain);
@@ -5529,8 +5531,8 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
     pTheme = pBuf;
   }
   
-  colorkey = SDL_MapRGBA(pTheme->format, pText->backcol.r,
-  		pText->backcol.g, pText->backcol.b, pText->backcol.unused);
+  colorkey = SDL_MapRGBA(pTheme->format, pText->bgcol.r,
+  		pText->bgcol.g, pText->bgcol.b, pText->bgcol.unused);
   SDL_FillRect(pTheme, NULL, colorkey);
     
 #if 0  
@@ -5552,14 +5554,14 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   area.y = pLabel->size.h;
     
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
-    if(!pText->backcol.unused) {
+    if(!pText->bgcol.unused) {
       SDL_SetColorKey(pTheme, SDL_SRCCOLORKEY|SDL_RLEACCEL, colorkey);
     }
     SDL_FillRect(pTheme, &area, SDL_MapRGBA(pTheme->format, 0, 0, 255, 96));
-    store = pText->backcol;
+    store = pText->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
-	      &pText->backcol.r, &pText->backcol.g,
-      		&pText->backcol.b, &pText->backcol.unused);
+	      &pText->bgcol.r, &pText->bgcol.g,
+      		&pText->bgcol.b, &pText->bgcol.unused);
   } else {
     SDL_FillRectAlpha(pTheme, &area, &color);
   }
@@ -5568,7 +5570,7 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   redraw_iconlabel(pLabel);
   
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
-    pText->backcol = store;
+    pText->bgcol = store;
   }
   
   pLabel->size.x = 0;
@@ -5596,10 +5598,10 @@ struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel)
     pTheme = pBuf;
   }
   
-  colorkey = SDL_MapRGBA(pTheme->format, pIconLabel->string16->backcol.r,
-  		pIconLabel->string16->backcol.g,
-		pIconLabel->string16->backcol.b,
-		pIconLabel->string16->backcol.unused);
+  colorkey = SDL_MapRGBA(pTheme->format, pIconLabel->string16->bgcol.r,
+  		pIconLabel->string16->bgcol.g,
+		pIconLabel->string16->bgcol.b,
+		pIconLabel->string16->bgcol.unused);
   SDL_FillRect(pTheme, NULL, colorkey);
     
 #if 0
@@ -5623,15 +5625,15 @@ struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel)
   area.y = pIconLabel->size.h;
     
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
-    if(!pIconLabel->string16->backcol.unused) {
+    if(!pIconLabel->string16->bgcol.unused) {
       SDL_SetColorKey(pTheme, SDL_SRCCOLORKEY|SDL_RLEACCEL, colorkey);
     }
     SDL_FillRect(pTheme, &area, SDL_MapRGBA(pTheme->format, 0, 0, 255, 96));
-    store = pIconLabel->string16->backcol;
+    store = pIconLabel->string16->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
-	      &pIconLabel->string16->backcol.r, &pIconLabel->string16->backcol.g,
-      		&pIconLabel->string16->backcol.b,
-			&pIconLabel->string16->backcol.unused);
+	      &pIconLabel->string16->bgcol.r, &pIconLabel->string16->bgcol.g,
+      		&pIconLabel->string16->bgcol.b,
+			&pIconLabel->string16->bgcol.unused);
   } else {
     SDL_FillRectAlpha(pTheme, &area, &color);
   }
@@ -5640,7 +5642,7 @@ struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel)
   redraw_iconlabel(pIconLabel);
   
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
-    pIconLabel->string16->backcol = store;
+    pIconLabel->string16->bgcol = store;
   }
   
   pIconLabel->size = start;
@@ -5899,8 +5901,8 @@ int redraw_label(struct GUI *pLabel)
     
     if(get_wflags(pLabel) & WF_SELLECT_WITHOUT_BAR) {
       if (pLabel->string16) {
-        backup_color = pLabel->string16->forecol;
-        pLabel->string16->forecol = bar_color;
+        backup_color = pLabel->string16->fgcol;
+        pLabel->string16->fgcol = bar_color;
 	if(pLabel->string16->style & TTF_STYLE_BOLD) {
 	  pLabel->string16->style |= TTF_STYLE_UNDERLINE;
 	} else {
@@ -5911,10 +5913,10 @@ int redraw_label(struct GUI *pLabel)
       SDL_FillRectAlpha(pLabel->dst, &area, &bar_color);
             
       if (pLabel->string16 && (pLabel->string16->render == 3)) {
-        backup_color = pLabel->string16->backcol;
+        backup_color = pLabel->string16->bgcol;
         SDL_GetRGBA(getpixel(pLabel->dst, area.x , area.y), pLabel->dst->format,
-	      &pLabel->string16->backcol.r, &pLabel->string16->backcol.g,
-      		&pLabel->string16->backcol.b, &pLabel->string16->backcol.unused);
+	      &pLabel->string16->bgcol.r, &pLabel->string16->bgcol.g,
+      		&pLabel->string16->bgcol.b, &pLabel->string16->bgcol.unused);
       }
     }
   }
@@ -5929,10 +5931,10 @@ int redraw_label(struct GUI *pLabel)
       } else {
 	pLabel->string16->style &= ~TTF_STYLE_BOLD;
       }
-      pLabel->string16->forecol = backup_color;
+      pLabel->string16->fgcol = backup_color;
     } else {
       if(pLabel->string16->render == 3) {
-	pLabel->string16->backcol = backup_color;
+	pLabel->string16->bgcol = backup_color;
       }
     } 
   }

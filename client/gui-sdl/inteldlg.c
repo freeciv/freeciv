@@ -123,18 +123,18 @@ void popup_intel_dialog(struct player *pPlayer)
   pStr = create_str16_from_char(cBuf, 14);
   pStr->style |= TTF_STYLE_BOLD;
   pStr->render = 3;
-  pStr->backcol.unused = 128;
+  pStr->bgcol.unused = 128;
   
   pText1 = create_text_surf_from_str16(pStr);
   SDL_SetAlpha(pText1, 0x0, 0x0);
-  pStr->style &= ~TTF_STYLE_BOLD;
   w = MAX(w, pText1->w + 20);
   h += pText1->h + 20;
-  FREE(pStr->text);
-  change_ptsize16(pStr, 10);
+    
   /* ---------- */
   
   pCapital = find_palace(pPlayer);
+  change_ptsize16(pStr, 10);
+  pStr->style &= ~TTF_STYLE_BOLD;
   my_snprintf(cBuf, sizeof(cBuf),
     _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
       " Science: %d%% Luxury: %d%%\nResearching: %s(%d/%d)"),
@@ -145,13 +145,12 @@ void popup_intel_dialog(struct player *pPlayer)
     get_tech_name(pPlayer, pPlayer->research.researching),
     pPlayer->research.bulbs_researched, total_bulbs_required(pPlayer));
   
-  pStr->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pStr, cBuf);
   pInfo = create_text_surf_from_str16(pStr);
   SDL_SetAlpha(pInfo, 0x0, 0x0);
   w = MAX(w, pLogo->w + 10 + pInfo->w + 20);
   h += MAX(pLogo->h + 20, pInfo->h + 20);
-  FREE(pStr->text);
-  
+    
   /* ---------- */
   col = w / (GET_SURF(advances[A_FIRST].sprite)->w + 4);
   col = MAX(4, col);
@@ -198,7 +197,7 @@ void popup_intel_dialog(struct player *pPlayer)
     w = MAX(w, col * pBuf->size.w + count + DOUBLE_FRAME_WH);
     
     my_snprintf(cBuf, sizeof(cBuf), _("They techs that we don't have :"));
-    pStr->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pStr, cBuf);
     pStr->style |= TTF_STYLE_BOLD;
     pText2 = create_text_surf_from_str16(pStr);
     SDL_SetAlpha(pText2, 0x0, 0x0);    

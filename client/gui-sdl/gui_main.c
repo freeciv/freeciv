@@ -213,12 +213,10 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 	  case SDLK_F10:
             if(is_meswin_open()) {
               popdown_meswin_dialog();
-              /*FREE(pWidget->string16->text);
-                pWidget->string16->text = convert_to_utf16(_("Show Log (F10)")); */
+	      /* copy_chars_to_string16(pWidget->string16, _("Show Log (F10)")); */
             } else {
               popup_meswin_dialog();
-              /*FREE(pWidget->string16->text);
-              pWidget->string16->text = convert_to_utf16(_("Hide Log (F10)"));*/
+	      /* copy_chars_to_string16(pWidget->string16, _("Hide Log (F10)")); */
             }
 	    flush_dirty();
           return ID_ERROR;
@@ -600,10 +598,9 @@ void ui_init(void)
 
   flush_all();
   
-  FREE(pInit_String->string16->text);
-  pInit_String->string16->text =
-      convert_to_utf16(_("Waiting for the beginning of the game"));
-
+  copy_chars_to_string16(pInit_String->string16,
+  			_("Waiting for the beginning of the game"));
+  
   init_gui_list(ID_WAITING_LABEL, pInit_String);
   
 }

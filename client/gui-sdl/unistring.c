@@ -92,25 +92,25 @@ Uint16 ** create_new_line_unistrings(const Uint16 *pUnistring)
   
   while (*pUnistring != 0) {
     if (*pUnistring == 10) {	/* find new line char */
-      count++;
       if (len) {
-	pBuf[count - 1] = CALLOC(len + 1, sizeof(Uint16));
-	memcpy(pBuf[count - 1], pFromUnistring, len<<1);
-	pFromUnistring = (Uint16 *)pUnistring + 1;
+	pBuf[count] = CALLOC(len + 1, sizeof(Uint16));
+	memcpy(pBuf[count], pFromUnistring, len * sizeof(Uint16));
       } else {
-	pBuf[count - 1] = CALLOC(2, sizeof(Uint16));
-	pBuf[count - 1][0] = 32;
+	pBuf[count] = CALLOC(2, sizeof(Uint16));
+	pBuf[count][0] = 32;
       }
+      pFromUnistring = (Uint16 *)pUnistring + 1;
       len = 0;
+      count++;
     } else {
       len++;
     }
 
     pUnistring++;
-
+        
     if ((*pUnistring == 0) && len) {
       pBuf[count] = CALLOC(len + 1, sizeof(Uint16));
-      memcpy(pBuf[count], pFromUnistring, len<<1);
+      memcpy(pBuf[count], pFromUnistring, len * sizeof(Uint16));
     }
   }
   

@@ -197,10 +197,8 @@ static int toggle_unit_info_window_callback(struct GUI *pIcon_Widget)
     SDL_BlitSurface(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
 
     sdl_dirty_rect(pBuf->size);
-
-    FREE(pIcon_Widget->string16->text);
-    pIcon_Widget->string16->text = convert_to_utf16(_("Show Unit Info Window"));
-    
+    copy_chars_to_string16(pIcon_Widget->string16, _("Show Unit Info Window"));
+        
     SDL_Client_Flags &= ~CF_UNIT_INFO_SHOW;
 
     set_new_units_window_pos();
@@ -246,10 +244,8 @@ static int toggle_unit_info_window_callback(struct GUI *pIcon_Widget)
     
   } else {
     /* SHOW */
-
-    FREE(pIcon_Widget->string16->text);
-    pIcon_Widget->string16->text = convert_to_utf16(_("Hide Unit Info Window"));
-    
+    copy_chars_to_string16(pIcon_Widget->string16, _("Hide Unit Info Window"));
+        
     SDL_BlitSurface(pTheme->R_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
 
     SDL_Client_Flags |= CF_UNIT_INFO_SHOW;
@@ -293,10 +289,8 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
     SDL_Rect src, map_area = pMap->size;
 
     sdl_dirty_rect(pMap->size);
-    
-    FREE(pMap_Button->string16->text);
-    pMap_Button->string16->text = convert_to_utf16(_("Show MiniMap"));
-    
+    copy_chars_to_string16(pMap_Button->string16, _("Show MiniMap"));
+        
     /* make new map icon */
     SDL_BlitSurface(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL);
 
@@ -358,9 +352,8 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
   
   } else {
     /* show MiniMap */
-    FREE(pMap_Button->string16->text);
-    pMap_Button->string16->text = convert_to_utf16(_("Hide MiniMap"));
-    
+    copy_chars_to_string16(pMap_Button->string16, _("Hide MiniMap"));
+        
     SDL_BlitSurface(pTheme->L_ARROW_Icon, NULL, pMap_Button->theme, NULL);
     SDL_Client_Flags |= CF_MINI_MAP_SHOW;
     pMap->size.w = MINI_MAP_W;
@@ -426,12 +419,10 @@ static int togle_msg_window(struct GUI *pWidget)
   
   if(is_meswin_open()) {
     popdown_meswin_dialog();
-    FREE(pWidget->string16->text);
-    pWidget->string16->text = convert_to_utf16(_("Show Log (F10)"));
+    copy_chars_to_string16(pWidget->string16, _("Show Log (F10)"));
   } else {
     popup_meswin_dialog();
-    FREE(pWidget->string16->text);
-    pWidget->string16->text = convert_to_utf16(_("Hide Log (F10)"));
+    copy_chars_to_string16(pWidget->string16, _("Hide Log (F10)"));
   }
 
   pSellected_Widget = pWidget;
@@ -488,10 +479,8 @@ static int up_width_callback(struct GUI *pWidget)
 					pUnits_Info_Window->size.x) {
     char cBuf[4];
     OVERVIEW_TILE_WIDTH++;
-    
-    FREE(pWidget->next->string16->text);
     my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
-    pWidget->next->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pWidget->next->string16, cBuf);
     redraw_label(pWidget->next);
     sdl_dirty_rect(pWidget->next->size);
     
@@ -507,11 +496,10 @@ static int down_width_callback(struct GUI *pWidget)
   sdl_dirty_rect(pWidget->size);
   if(OVERVIEW_TILE_WIDTH > 1) {
     char cBuf[4];
-    OVERVIEW_TILE_WIDTH--;
     
-    FREE(pWidget->prev->string16->text);
+    OVERVIEW_TILE_WIDTH--;
     my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
-    pWidget->prev->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pWidget->prev->string16, cBuf);
     redraw_label(pWidget->prev);
     sdl_dirty_rect(pWidget->prev->size);
     
@@ -528,10 +516,10 @@ static int up_height_callback(struct GUI *pWidget)
   if(Main.gui->h -
     ((OVERVIEW_TILE_HEIGHT +1) * map.ysize + DOUBLE_FRAME_WH) >= 40) {
     char cBuf[4];
+      
     OVERVIEW_TILE_HEIGHT++;
-    FREE(pWidget->next->string16->text);
     my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
-    pWidget->next->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pWidget->next->string16, cBuf);
     redraw_label(pWidget->next);
     sdl_dirty_rect(pWidget->next->size);
     resize_minimap();
@@ -546,11 +534,10 @@ static int down_height_callback(struct GUI *pWidget)
   sdl_dirty_rect(pWidget->size);
   if(OVERVIEW_TILE_HEIGHT > 1) {
     char cBuf[4];
-    OVERVIEW_TILE_HEIGHT--;
     
-    FREE(pWidget->prev->string16->text);
+    OVERVIEW_TILE_HEIGHT--;
     my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
-    pWidget->prev->string16->text = convert_to_utf16(cBuf);
+    copy_chars_to_string16(pWidget->prev->string16, cBuf);
     redraw_label(pWidget->prev);
     sdl_dirty_rect(pWidget->prev->size);
     
@@ -577,9 +564,8 @@ static void popup_minimap_scall_dialog(void)
   pStr = create_str16_from_char(_("Single Tile Width"), 12);
   pText1 = create_text_surf_from_str16(pStr);
   w = MAX(w, pText1->w + 30);
-  FREE(pStr->text);
-  
-  pStr->text = convert_to_utf16(_("Single Tile Height"));
+    
+  copy_chars_to_string16(pStr, _("Single Tile Height"));
   pText2 = create_text_surf_from_str16(pStr);
   w = MAX(w, pText2->w + 30);
   FREESTRING16(pStr);
@@ -1036,7 +1022,7 @@ void Init_MapView(void)
   SDL_Surface *pIcon_theme = NULL;
 		    
   /* =================== Units Window ======================= */
-  struct GUI *pBuf = create_window(Main.gui, create_string16(NULL, 12), UNITS_W,
+  struct GUI *pBuf = create_window(Main.gui, create_string16(NULL, 0, 12), UNITS_W,
 				   UNITS_H, WF_DRAW_THEME_TRANSPARENT);
 
   pBuf->size.x = Main.screen->w - UNITS_W;
@@ -1062,10 +1048,10 @@ void Init_MapView(void)
   pBuf->string16->style |= (SF_CENTER);
   pBuf->string16->render = 3;
   
-  pBuf->string16->backcol.r = 255;
-  pBuf->string16->backcol.g = 255;
-  pBuf->string16->backcol.b = 255;
-  pBuf->string16->backcol.unused = 128;
+  pBuf->string16->bgcol.r = 255;
+  pBuf->string16->bgcol.g = 255;
+  pBuf->string16->bgcol.b = 255;
+  pBuf->string16->bgcol.unused = 128;
   pBuf->action = unit_info_window_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_UNITS_WINDOW, pBuf);
@@ -1671,8 +1657,8 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   /* create text label */
   pStr = create_str16_from_char(_("What should we call our new city?"), 10);
   pStr->style |= TTF_STYLE_BOLD;
-  pStr->forecol.r = 255;
-  pStr->forecol.g = 255;
+  pStr->fgcol.r = 255;
+  pStr->fgcol.g = 255;
   /* pStr->forecol.b = 255; */
   pLabel = create_iconlabel(NULL, Main.gui, pStr, WF_DRAW_TEXT_LABEL_WITH_SPACE);
   

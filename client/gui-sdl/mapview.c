@@ -45,10 +45,6 @@
 #include "rand.h"
 #include "support.h"
 
-#ifdef DRAW_TIMING
-#include "timing.h"
-#endif
-
 #include "civclient.h"
 #include "climisc.h"
 #include "colors.h"
@@ -454,9 +450,8 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
     
     my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"),
     				get_gov_pplayer(game.player_ptr)->name);
-    FREE(pBuf->string16->text);
-    pBuf->string16->text = convert_to_utf16(cBuf);
-    
+    copy_chars_to_string16(pBuf->string16, cBuf);
+        
     redraw_widget(pBuf);
     sdl_dirty_rect(pBuf->size);
     SDL_Client_Flags &= ~CF_REVOLUTION;
@@ -464,8 +459,9 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 
   pBuf = get_tax_rates_widget();
   if(!pBuf->theme) {
+    /* create economy icon */
     int i;
-    SDL_Surface *pIcon = create_surf(16 , 19, SDL_SWSURFACE);
+    SDL_Surface *pIcon = create_surf(16, 19, SDL_SWSURFACE);
     Uint32 color = SDL_MapRGB(pIcon->format, 255, 255, 0);
     SDL_Rect dst;
     for(i = 0; i < 16; i+=3) {
@@ -491,8 +487,7 @@ void set_indicator_icons(int bulb, int sol, int flake, int gov)
 	      	game.player_ptr->research.bulbs_researched,
   		total_bulbs_required(game.player_ptr));
 
-  FREE(pBuf->string16->text);
-  pBuf->string16->text = convert_to_utf16(cBuf);
+  copy_chars_to_string16(pBuf->string16, cBuf);
   
   set_new_icon2_theme(pBuf, GET_SURF(sprites.bulb[bulb]), FALSE);
   redraw_widget(pBuf);
@@ -512,13 +507,13 @@ void update_info_label(void)
   Uint32 color = 0x0;/* black */
   SDL_Color col = {0, 0, 0, 80};
   char buffer[512];
-  SDL_String16 *pText = create_string16(NULL, 10);
+  SDL_String16 *pText = create_string16(NULL, 0, 10);
 
   /* set text settings */
   pText->style |= TTF_STYLE_BOLD;
-  pText->forecol.r = 255;
-  pText->forecol.g = 255;
-  pText->forecol.b = 255;
+  pText->fgcol.r = 255;
+  pText->fgcol.g = 255;
+  pText->fgcol.b = 255;
 
 
   my_snprintf(buffer, sizeof(buffer),
@@ -533,10 +528,10 @@ void update_info_label(void)
 	      game.player_ptr->economic.science);
   
   pText->render = 3;
-  pText->backcol = col;
+  pText->bgcol = col;
   
   /* convert to unistr and create text surface */
-  pText->text = convert_to_utf16(buffer);
+  copy_chars_to_string16(pText, buffer);
   pTmp = create_text_surf_from_str16(pText);
 
   area.x = (Main.gui->w - pTmp->w) / 2 - 5;
@@ -549,22 +544,22 @@ void update_info_label(void)
   color = SDL_MapRGB(Main.gui->format, col.r, col.g, col.b);
   
   /* Horizontal lines */
-  putline(Main.gui , area.x + 1, area.y,
+  putline(Main.gui, area.x + 1, area.y,
 		  area.x + area.w - 2, area.y , color);
-  putline(Main.gui , area.x + 1, area.y + area.h - 1,
+  putline(Main.gui, area.x + 1, area.y + area.h - 1,
 		  area.x + area.w - 2, area.y + area.h - 1, color);
 
   /* vertical lines */
-  putline(Main.gui , area.x + area.w - 1, area.y + 1 ,
-  	area.x + area.w - 1, area.y + area.h - 2 , color);
-  putline(Main.gui , area.x, area.y + 1, area.x,
+  putline(Main.gui, area.x + area.w - 1, area.y + 1 ,
+  	area.x + area.w - 1, area.y + area.h - 2, color);
+  putline(Main.gui, area.x, area.y + 1, area.x,
 	  area.y + area.h - 2, color);
 
   /* turn off alpha calculate */
   SDL_SetAlpha(pTmp, 0x0, 0x0);
 
   /* blit text to screen */  
-  blit_entire_src(pTmp, Main.gui , area.x + 5, area.y + 2);
+  blit_entire_src(pTmp, Main.gui, area.x + 5, area.y + 2);
   
   sdl_dirty_rect(area);
   
@@ -610,9 +605,8 @@ void redraw_unit_info_label(struct unit *pUnit)
       change_ptsize16(pInfo_Window->string16, 12);
 
       /* get and draw unit name (with veteran status) */
-      FREE(pInfo_Window->string16->text);
-      pInfo_Window->string16->text = convert_to_utf16(unit_type(pUnit)->name);
-      
+      copy_chars_to_string16(pInfo_Window->string16, unit_type(pUnit)->name);
+            
       pInfo_Window->string16->style |= TTF_STYLE_BOLD;
       pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
       pInfo_Window->string16->style &= ~TTF_STYLE_BOLD;
@@ -627,12 +621,11 @@ void redraw_unit_info_label(struct unit *pUnit)
       if(pUnit->veteran) {
 	area.y += pBuf_Surf->h - 3;
         FREESURFACE(pBuf_Surf);
-        FREE(pInfo_Window->string16->text);
-        pInfo_Window->string16->text = convert_to_utf16(_("veteran"));
+	copy_chars_to_string16(pInfo_Window->string16, _("veteran"));
         change_ptsize16(pInfo_Window->string16, 10);
-	pInfo_Window->string16->forecol.b = 255;
+	pInfo_Window->string16->fgcol.b = 255;
         pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
-        pInfo_Window->string16->forecol.b = 0;
+        pInfo_Window->string16->fgcol.b = 0;
         area.x = pInfo_Window->size.x + len
 	  + (pInfo_Window->size.w - pBuf_Surf->w - len) / 2;
         
@@ -665,9 +658,8 @@ void redraw_unit_info_label(struct unit *pUnit)
 		  map_get_infrastructure_text(infrastructure) : "",
 		  infrastructure ? "\n" : "", pCity ? pCity->name : _("NONE"));
 
-      FREE(pInfo_Window->string16->text);
-      pInfo_Window->string16->text = convert_to_utf16(buffer);
-
+      copy_chars_to_string16(pInfo_Window->string16, buffer);
+      
       pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
 
       area.y = sy + (pInfo_Window->dst->h - sy - FRAME_WH - pBuf_Surf->h)/2;
@@ -680,8 +672,7 @@ void redraw_unit_info_label(struct unit *pUnit)
       FREESURFACE(pBuf_Surf);
     } else { /* pUnit */
       change_ptsize16(pInfo_Window->string16, 14);
-      FREE(pInfo_Window->string16->text);
-      pInfo_Window->string16->text = convert_to_utf16(_("End of Turn\n(Press Enter)"));
+      copy_chars_to_string16(pInfo_Window->string16, _("End of Turn\n(Press Enter)"));
       pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
       SDL_SetAlpha(pBuf_Surf, 0x0, 0x0);
       area.x = pInfo_Window->size.x + len + (pInfo_Window->size.w - len - pBuf_Surf->w)/2;
@@ -860,19 +851,18 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   
   color_size.unused = 128;
   
-  pText = create_string16(NULL, 10);
+  pText = create_string16(NULL, 0, 10);
   pText->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pText->forecol.r = 255;
-  pText->forecol.g = 255;
-  pText->forecol.b = 255;
+  pText->fgcol.r = 255;
+  pText->fgcol.g = 255;
+  pText->fgcol.b = 255;
 
   if (SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE)
   {
     pText->render = 3;
-    pText->backcol = color_bg;
+    pText->bgcol = color_bg;
   }
-  
-  
+   
   canvas_y += NORMAL_TILE_HEIGHT;
 
   if (draw_city_names) {
@@ -897,16 +887,16 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
     }
 
     if (togrow < 0) {
-      pText->forecol.g = 0;
-      pText->forecol.b = 0;
+      pText->fgcol.g = 0;
+      pText->fgcol.b = 0;
     }
-
-    pText->text = convert_to_utf16(buffer);
+    
+    copy_chars_to_string16(pText, buffer);
     pCity_Name = create_text_surf_from_str16(pText);
 
     if (togrow < 0) {
-      pText->forecol.g = 255;
-      pText->forecol.b = 255;
+      pText->fgcol.g = 255;
+      pText->fgcol.b = 255;
     }
   }
 
@@ -917,25 +907,24 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
 
     /* set text color */
     if (pCity->is_building_unit) {
-      pText->forecol.r = 255;
-      pText->forecol.g = 255;
-      pText->forecol.b = 0;
+      pText->fgcol.r = 255;
+      pText->fgcol.g = 255;
+      pText->fgcol.b = 0;
     } else {
       if (get_improvement_type(pCity->currently_building)->is_wonder) {
-	pText->forecol.r = 0xe2;
-	pText->forecol.g = 0xc2;
-	pText->forecol.b = 0x1f;
+	pText->fgcol.r = 0xe2;
+	pText->fgcol.g = 0xc2;
+	pText->fgcol.b = 0x1f;
       } else {
-	pText->forecol.r = 255;
-	pText->forecol.g = 255;
-	pText->forecol.b = 255;
+	pText->fgcol.r = 255;
+	pText->fgcol.g = 255;
+	pText->fgcol.b = 255;
       }
     }
 
     get_city_mapview_production(pCity, buffer, sizeof(buffer));
 
-    FREE(pText->text);
-    pText->text = convert_to_utf16(buffer);
+    copy_chars_to_string16(pText, buffer);
     pCity_Prod = create_text_surf_from_str16(pText);
     
   }
@@ -948,8 +937,7 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
       my_snprintf(buffer, sizeof(buffer), "%s", 
 	    get_nation_name(get_player(pCity->owner)->nation));
 	    
-      FREE(pText->text);
-      pText->text = convert_to_utf16(buffer);
+      copy_chars_to_string16(pText, buffer);
       pCity_Prod = create_text_surf_from_str16(pText);    
     }
   }
@@ -961,10 +949,10 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
     /* city size */
     if (pCity_Name || pCity_Prod) {
       my_snprintf(buffer , sizeof(buffer), "%d", pCity->size);
-      pText->text = convert_to_utf16(buffer);
+      copy_chars_to_string16(pText, buffer);
       pText->style |= TTF_STYLE_BOLD;
       change_ptsize16(pText, 10);
-      pText->backcol = color_size;
+      pText->bgcol = color_size;
       pCity_Size = create_text_surf_from_str16(pText);
 	    
       clear_area.y = canvas_y;    

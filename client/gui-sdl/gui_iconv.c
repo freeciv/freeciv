@@ -85,18 +85,19 @@ static const char *get_local_encoding(void)
   Convert string from local encoding (8 bit char) to
   display encoding (16 bit unicode) and resut put in pToUniString.
   if pToUniString == NULL then resulting string will be allocate automaticaly.
-  DANGER !: pToString size MUST BE >= strlen(pFromString) + 1
+  'ulength' give real sizeof 'pToUniString' array.
 
   Function return (Uint16 *) pointer to (new) pToUniString.
 **************************************************************************/
-Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, const char *pFromString)
+Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, size_t ulength,
+			      const char *pFromString)
 {
   /* Start Parametrs */
   const char *pTocode = get_display_encoding();
   const char *pFromcode = get_local_encoding();
   const char *pStart = pFromString;
-  size_t length = strlen(pFromString);
-  const char *pEnd = pFromString + length;
+  size_t length = strlen(pFromString) + 1;
+
   char *pResult = (char *) pToUniString;
   /* ===== */
 
@@ -106,12 +107,11 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, const char *pFromString)
       return pToUniString;
     }
   }
-
-  /* From 8 bit code to UTF-16 (16 bit code) */
-  length = (length + 1) * 2;
   
   if (!pResult) {
-    pResult = MALLOC(length);
+    /* From 8 bit code to UTF-16 (16 bit code) */
+    ulength = length * 2;
+    pResult = MALLOC(ulength);
   }
 
   iconv(cd, NULL, NULL, NULL, NULL);	/* return to the initial state */
@@ -119,12 +119,12 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, const char *pFromString)
   /* Do the conversion for real. */
   {
     const char *pInptr = pStart;
-    size_t Insize = pEnd - pStart + 1;
+    size_t Insize = length;
 
     char *pOutptr = pResult;
-    size_t Outsize = length;
+    size_t Outsize = ulength;
 
-    while (Insize > 0) {
+    while (Insize > 0 && Outsize > 0) {
       size_t Res =
 	  iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
       if (Res == (size_t) (-1)) {
@@ -154,10 +154,7 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, const char *pFromString)
 	return pToUniString;
       }
     }
-
-    if (Outsize != 0) {
-      abort();
-    }
+    
   }
 
   iconv_close(cd);
@@ -167,20 +164,21 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, const char *pFromString)
 
 /**************************************************************************
   Convert string from display encoding (16 bit unicode) to
-  local encoding (8 bit char) and resut put in pToString.
-  if pToString == NULL then resulting string will be allocate automaticaly.
-  DANGER !: pToString size MUST BE >= unistrlen(pFromUniString) + 1
+  local encoding (8 bit char) and resut put in 'pToString'.
+  if 'pToString' == NULL then resulting string will be allocate automaticaly.
+  'length' give real sizeof 'pToString' array.
 
   Function return (char *) pointer to (new) pToString.
 **************************************************************************/
-char *convertcopy_to_chars(char *pToString, const Uint16 * pFromUniString)
+char *convertcopy_to_chars(char *pToString, size_t length,
+			    const Uint16 * pFromUniString)
 {
   /* Start Parametrs */
   const char *pFromcode = get_display_encoding();
   const char *pTocode = get_local_encoding();
   const char *pStart = (char *) pFromUniString;
-  size_t length = unistrlen(pFromUniString);
-  const char *pEnd = (char *) pFromUniString + (length * 2) + 2;
+  size_t ulength = (unistrlen(pFromUniString) + 1) * 2;
+
   /* ===== */
 
   char *pResult;
@@ -192,9 +190,6 @@ char *convertcopy_to_chars(char *pToString, const Uint16 * pFromUniString)
     return pToString;
   }
 
-  /* From 16 bit code to 8 bit code */
-  length++;
-
   cd = iconv_open(pTocode, pFromcode);
   if (cd == (iconv_t) (-1)) {
     if (errno != EINVAL) {
@@ -205,6 +200,8 @@ char *convertcopy_to_chars(char *pToString, const Uint16 * pFromUniString)
   if(pToString) {
     pResult = pToString;
   } else {
+    /* From 16 bit code to 8 bit code */
+    length = ulength / 2;
     pResult = MALLOC(length);
   }
   
@@ -213,12 +210,12 @@ char *convertcopy_to_chars(char *pToString, const Uint16 * pFromUniString)
   /* Do the conversion for real. */
   {
     const char *pInptr = pStart;
-    size_t Insize = pEnd - pStart;
+    size_t Insize = ulength;
 
     char *pOutptr = pResult;
     size_t Outsize = length;
 
-    while (Insize > 0) {
+    while (Insize > 0 && Outsize > 0) {
       size_t Res =
 	  iconv(cd, (ICONV_CONST char **) &pInptr, &Insize, &pOutptr, &Outsize);
       if (Res == (size_t) (-1)) {
@@ -249,9 +246,6 @@ char *convertcopy_to_chars(char *pToString, const Uint16 * pFromUniString)
       }
     }
 
-    if (Outsize != 0) {
-      abort();
-    }
   }
 
   iconv_close(cd);

@@ -86,7 +86,7 @@ void popup_input_line(void)
   int h = 30;
   struct GUI *pInput_Edit;
     
-  pInput_Edit = create_edit_from_unichars(NULL, NULL, NULL, 18, w, 0);
+  pInput_Edit = create_edit_from_unichars(NULL, NULL, NULL, 0, 18, w, 0);
   lock_buffer(pInput_Edit->dst);/* always on top */
   
   pInput_Edit->size.x = (Main.screen->w - w) / 2;
