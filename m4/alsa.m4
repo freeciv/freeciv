@@ -1,7 +1,7 @@
 dnl AM_ALSA_SUPPORT([ACTION-IF-SUPPORTS [, ACTION-IF-NOT-SUPPORTS]])
 dnl Partially stolen from alsaplayer
 dnl
-AC_DEFUN(AM_ALSA_SUPPORT,
+AC_DEFUN([AM_ALSA_SUPPORT],
 [dnl
   AC_MSG_CHECKING(for ALSA version)
   AC_EGREP_CPP([AP_maGiC_VALUE],
