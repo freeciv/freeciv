@@ -39,6 +39,8 @@ void tilespec_reread(const char *tileset_name);
 void tilespec_reread_callback(struct client_option *option);
 
 void tilespec_setup_unit_type(int id);
+void tilespec_setup_impr_type(int id);
+void tilespec_setup_tech_type(int id);
 void tilespec_setup_tile_type(int id);
 void tilespec_setup_government(int id);
 void tilespec_setup_nation_flag(int id);

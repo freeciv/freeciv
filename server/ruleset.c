@@ -535,6 +535,12 @@ static void load_ruleset_techs(struct section_file *file)
     }
     free(slist);
 
+    sz_strlcpy(a->graphic_str,
+	       secfile_lookup_str_default(file, "-", "%s.graphic", sec[i]));
+    sz_strlcpy(a->graphic_alt,
+	       secfile_lookup_str_default(file, "-",
+					  "%s.graphic_alt", sec[i]));
+    
     a->helptext = lookup_helptext(file, sec[i]);    
     a->bonus_message = lookup_string(file, sec[i], "bonus_message");
     a->preset_cost =
@@ -1189,6 +1195,12 @@ static void load_ruleset_buildings(struct section_file *file)
 
     /* FIXME: remove when gen-impr obsoletes */
     b->variant = secfile_lookup_int_default(file, 0, "%s.variant", sec[i]);
+    
+    sz_strlcpy(b->graphic_str,
+	       secfile_lookup_str_default(file, "-", "%s.graphic", sec[i]));
+    sz_strlcpy(b->graphic_alt,
+	    secfile_lookup_str_default(file, "-", "%s.graphic_alt", sec[i]));
+
     sz_strlcpy(b->soundtag,
 	       secfile_lookup_str_default(file, "-", "%s.sound", sec[i]));
     sz_strlcpy(b->soundtag_alt,
@@ -2426,6 +2438,8 @@ static void send_ruleset_techs(struct conn_list *dest)
   for(a=advances; a<advances+game.num_tech_types; a++) {
     packet.id = a-advances;
     sz_strlcpy(packet.name, a->name_orig);
+    sz_strlcpy(packet.graphic_str, a->graphic_str);
+    sz_strlcpy(packet.graphic_alt, a->graphic_alt);	  
     packet.req[0] = a->req[0];
     packet.req[1] = a->req[1];
     packet.flags = a->flags;
@@ -2449,6 +2463,8 @@ static void send_ruleset_buildings(struct conn_list *dest)
 
     packet.id = i;
     sz_strlcpy(packet.name, b->name_orig);
+    sz_strlcpy(packet.graphic_str, b->graphic_str);
+    sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     packet.tech_req = b->tech_req;
     packet.bldg_req = b->bldg_req;
     packet.terr_gate = b->terr_gate;		/* pointer assignment */

@@ -2038,6 +2038,11 @@ int send_packet_ruleset_tech(struct connection *pc,
   dio_put_uint32(&dout, packet->preset_cost);
   dio_put_uint32(&dout, packet->num_reqs);
   dio_put_string(&dout, packet->name);
+	
+  if (has_capability("tech_impr_gfx", pc->capability)) {
+    dio_put_string(&dout, packet->graphic_str);
+    dio_put_string(&dout, packet->graphic_alt);  
+  }	
   
   /* This must be last, so client can determine length: */
   if(packet->helptext) {
@@ -2063,7 +2068,18 @@ receive_packet_ruleset_tech(struct connection *pc)
   dio_get_uint32(&din, &packet->preset_cost);
   dio_get_uint32(&din, &packet->num_reqs);
   dio_get_string(&din, packet->name, sizeof(packet->name));
-
+	
+  if (has_capability("tech_impr_gfx", pc->capability)) {
+    dio_get_string(&din, packet->graphic_str,
+                   sizeof(packet->graphic_str));
+    dio_get_string(&din, packet->graphic_alt,
+                   sizeof(packet->graphic_alt));
+  } else {
+    /* Give a valid string (that will not refer to any sprite). */
+    packet->graphic_str[0] = '\0';
+    packet->graphic_alt[0] = '\0';
+  }	
+  
   len = dio_input_remaining(&din);
   if (len > 0) {
     packet->helptext = fc_malloc(len);
@@ -2118,6 +2134,11 @@ int send_packet_ruleset_building(struct connection *pc,
   }
   dio_put_uint8(&dout, packet->variant);	/* FIXME: remove when gen-impr obsoletes */
   dio_put_string(&dout, packet->name);
+  
+  if (has_capability("tech_impr_gfx", pc->capability)) {
+    dio_put_string(&dout, packet->graphic_str);
+    dio_put_string(&dout, packet->graphic_alt);
+  }
 
   dio_put_string(&dout, packet->soundtag);
   dio_put_string(&dout, packet->soundtag_alt);
@@ -2170,7 +2191,18 @@ receive_packet_ruleset_building(struct connection *pc)
   packet->effect[count].type = EFT_LAST;
   dio_get_uint8(&din, &packet->variant);	/* FIXME: remove when gen-impr obsoletes */
   dio_get_string(&din, packet->name, sizeof(packet->name));
-
+  
+  if (has_capability("tech_impr_gfx", pc->capability)) {
+    dio_get_string(&din, packet->graphic_str,
+                   sizeof(packet->graphic_str));
+    dio_get_string(&din, packet->graphic_alt,
+                   sizeof(packet->graphic_alt));
+  } else {
+    /* Give a valid string (that will not refer to any sprite). */
+    packet->graphic_str[0] = '\0';
+    packet->graphic_alt[0] = '\0';
+  }
+  
   dio_get_string(&din, packet->soundtag, sizeof(packet->soundtag));
   dio_get_string(&din, packet->soundtag_alt, sizeof(packet->soundtag_alt));
 

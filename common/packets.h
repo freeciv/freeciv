@@ -638,6 +638,8 @@ struct packet_ruleset_tech {
   int id, req[2];		/* indices for advances[] */
   int flags;
   char name[MAX_LEN_NAME];
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
   char *helptext;		/* same as for packet_ruleset_unit, above */
   int preset_cost;
   int num_reqs;
@@ -646,6 +648,8 @@ struct packet_ruleset_tech {
 struct packet_ruleset_building {
   int id;			/* index for improvement_types[] */
   char name[MAX_LEN_NAME];
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
   Tech_Type_id tech_req;
   Impr_Type_id bldg_req;
   enum tile_terrain_type *terr_gate;

@@ -66,10 +66,14 @@ enum tech_state {
 struct advance {
   char name[MAX_LEN_NAME];
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
+  char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
+  char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
   int req[2];
   unsigned int flags;
   char *helptext;
 
+  struct Sprite *sprite;		/* icon of tech. */
+	  
   /* 
    * Message displayed to the first player to get a bonus tech 
    */

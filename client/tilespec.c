@@ -331,6 +331,14 @@ void tilespec_reread(const char *tileset_name)
   for (id = 0; id < game.nation_count; id++) {
     tilespec_setup_nation_flag(id);
   }
+  impr_type_iterate(imp_id) {
+    tilespec_setup_impr_type(imp_id);
+  } impr_type_iterate_end;
+  for (id = 0; id < game.num_tech_types; id++) {
+    if (tech_exists(id)) {
+      tilespec_setup_tech_type(id);
+    }
+  }
 
   /* tilespec_load_tiles reverts the city tile pointers to 0.  This
      is a workaround. */
@@ -938,6 +946,36 @@ void tilespec_setup_unit_type(int id)
   ut->sprite = lookup_sprite_tag_alt(ut->graphic_str, ut->graphic_alt,
 				     unit_type_exists(id), "unit_type",
 				     ut->name);
+
+  /* should maybe do something if NULL, eg generic default? */
+}
+
+/**********************************************************************
+  Set improvement_type sprite value; should only happen after
+  tilespec_load_tiles().
+***********************************************************************/
+void tilespec_setup_impr_type(int id)
+{
+  struct impr_type *pimpr = get_improvement_type(id);
+
+  pimpr->sprite = lookup_sprite_tag_alt(pimpr->graphic_str,
+					pimpr->graphic_alt,
+					improvement_exists(id), "impr_type",
+					pimpr->name);
+
+  /* should maybe do something if NULL, eg generic default? */
+}
+
+/**********************************************************************
+  Set tech_type sprite value; should only happen after
+  tilespec_load_tiles().
+***********************************************************************/
+void tilespec_setup_tech_type(int id)
+{
+  advances[id].sprite = lookup_sprite_tag_alt(advances[id].graphic_str,
+					      advances[id].graphic_alt,
+					      tech_exists(id), "tech_type",
+					      advances[id].name);
 
   /* should maybe do something if NULL, eg generic default? */
 }

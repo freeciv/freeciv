@@ -205,6 +205,8 @@ struct eff_global {
 struct impr_type {
   char name[MAX_LEN_NAME];
   char name_orig[MAX_LEN_NAME];		/* untranslated */
+  char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
+  char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   Tech_Type_id tech_req;		/* A_LAST = never; A_NONE = always */
   Impr_Type_id bldg_req;		/* B_LAST = none required */
   enum tile_terrain_type *terr_gate;	/* list; T_LAST terminated */
@@ -219,6 +221,7 @@ struct impr_type {
   int sabotage;
   struct impr_effect *effect;		/* list; .type==EFT_LAST terminated */
   int variant;			/* FIXME: remove when gen-impr obsoletes */
+  struct Sprite *sprite;		/* icon of the improvement */
   char *helptext;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];

@@ -1798,6 +1798,8 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a = &advances[p->id];
 
   sz_strlcpy(a->name, p->name);
+  sz_strlcpy(a->graphic_str, p->graphic_str);
+  sz_strlcpy(a->graphic_alt, p->graphic_alt);
   a->req[0] = p->req[0];
   a->req[1] = p->req[1];
   a->flags = p->flags;
@@ -1805,6 +1807,8 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a->num_reqs = p->num_reqs;
   
   a->helptext = p->helptext;	/* pointer assignment */
+  
+  tilespec_setup_tech_type(p->id);
 }
 
 /**************************************************************************
@@ -1823,6 +1827,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b = &improvement_types[p->id];
 
   sz_strlcpy(b->name, p->name);
+  sz_strlcpy(b->graphic_str, p->graphic_str);
+  sz_strlcpy(b->graphic_alt, p->graphic_alt);
   b->tech_req = p->tech_req;
   b->bldg_req = p->bldg_req;
   b->terr_gate = p->terr_gate;		/* pointer assignment */
@@ -1963,6 +1969,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
     } impr_type_iterate_end;
   }
 #endif
+  
+  tilespec_setup_impr_type(p->id);
 }
 
 /**************************************************************************

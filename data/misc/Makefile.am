@@ -4,6 +4,8 @@
 pkgdatadir = $(datadir)/@PACKAGE@/misc
 
 pkgdata_DATA =          \
+	buildings.png	\
+	buildings.spec	\
 	chiefs.png	\
 	chiefs.spec	\
 	intro.png	\
@@ -14,6 +16,8 @@ pkgdata_DATA =          \
 	small.spec	\
 	space.png	\
 	space.spec	\
+	techs.png	\
+	techs.spec	\
 	treaty.png	\
 	treaty.spec
 
