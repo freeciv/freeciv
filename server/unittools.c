@@ -291,7 +291,11 @@ int rate_unit(struct unit *punit, struct unit *against)
   if(!punit) return 0;
   val = get_total_defense_power(against,punit);
 
-  return val*100+punit->hp;
+/*  return val*100+punit->hp;       This is unnecessarily crude. -- Syela */
+  val *= punit->hp;
+  val *= val;
+  val /= get_unit_type(punit->type)->build_cost;
+  return val; /* designed to minimize expected losses */
 }
 
 /**************************************************************************
