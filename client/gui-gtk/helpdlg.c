@@ -62,9 +62,6 @@ GtkWidget *		help_text;
 GtkWidget *		help_text_scrolled;
 GtkWidget *		help_vbox;
 GtkWidget *		unit_tile;
-GtkWidget *             terrain_tile;
-GtkWidget *             terrain_special_1_tile;
-GtkWidget *             terrain_special_2_tile;
 GtkWidget *		help_box;
 GtkWidget *		help_itable;
 GtkWidget *		help_wtable;
@@ -340,7 +337,7 @@ Called by "Reset Tree" and "Expand Unknown" button callbacks
 static void help_tech_tree_node_expand(GtkCTree *ctree, GtkCTreeNode *node,
 				       gpointer data)
 {
-   help_tndata *d = (help_tndata *)gtk_ctree_node_get_row_data(ctree, node);
+  help_tndata *d = (help_tndata *)gtk_ctree_node_get_row_data(ctree, node);
   if (d->turns_to_tech > 1)
     gtk_ctree_expand(ctree, node);
 }
@@ -371,7 +368,6 @@ static void help_tech_tree_expand_unknown_callback(GtkWidget *w, gpointer data)
   gtk_ctree_pre_recursive(ctree, gtk_ctree_node_nth(ctree, 0), 
 			  help_tech_tree_node_expand, NULL);
 }
-
 
 /**************************************************************************
 ...
@@ -487,9 +483,6 @@ static void create_help_dialog(void)
   unit_tile = gtk_pixmap_new( create_overlay_unit( -1 ), NULL );
   gtk_box_pack_start( GTK_BOX( help_box ), unit_tile, FALSE, FALSE, 0 );
 
-  terrain_tile = gtk_pixmap_new(create_overlay_unit(-1), NULL);
-  gtk_box_pack_start(GTK_BOX(help_box), terrain_tile, FALSE, FALSE, 0);
-
   help_itable = gtk_table_new(6, 1, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_itable, FALSE, FALSE, 0);
 
@@ -548,35 +541,19 @@ static void create_help_dialog(void)
     }
 
 
-  help_ttable = gtk_table_new(5, 5, FALSE);
+  help_ttable = gtk_table_new(5, 4, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_ttable, FALSE, FALSE, 0);
 
   for (i=0; i<5; i++) {
-    help_tlabel[0][i] = gtk_label_new(_(help_tlabel_name[0][i]));
-    gtk_widget_set_name(help_tlabel[0][i], "help label");
-
-    gtk_table_attach_defaults(GTK_TABLE(help_ttable),
-			      help_tlabel[0][i], i, i+1, 0, 1);
-  }
-
-  terrain_special_1_tile = gtk_pixmap_new(create_overlay_unit(-1), NULL);
-  terrain_special_2_tile = gtk_pixmap_new(create_overlay_unit(-1), NULL);
-
-  gtk_table_attach_defaults(GTK_TABLE(help_ttable),
-			    terrain_special_1_tile, 0, 2, 1, 2);
-  gtk_table_attach_defaults(GTK_TABLE(help_ttable),
-			    terrain_special_2_tile, 3, 5, 1, 2);
-
-  for (i=0; i<5; i++) {
-    for (j=2; j<5; j++)
-    {
-      help_tlabel[j-1][i] = gtk_label_new(_(help_tlabel_name[j-1][i]));
-      gtk_widget_set_name(help_tlabel[j-1][i], "help label");
+    for (j=0; j<4; j++) {
+      help_tlabel[j][i] = gtk_label_new(_(help_tlabel_name[j][i]));
+      gtk_widget_set_name(help_tlabel[j][i], "help label");
 
       gtk_table_attach_defaults(GTK_TABLE(help_ttable),
-					  help_tlabel[j-1][i], i, i+1, j, j+1);
+					  help_tlabel[j][i], i, i+1, j, j+1);
     }
   }
+
 
   help_vbox=gtk_vbox_new(FALSE, 1);
   gtk_box_pack_start( GTK_BOX(help_box), help_vbox, FALSE, FALSE, 0 );
@@ -935,17 +912,11 @@ static void help_update_terrain(const struct help_item *pitem,
 				char *title, int i)
 {
   char *buf = &long_buffer[0];
-  int swidth, sheight;
 
   create_help_page(HELP_TERRAIN);
-  
+
   if (i < T_COUNT)
     {
-      gtk_pixmap_set(GTK_PIXMAP(terrain_tile),
-		     tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->pixmap,
-		     NULL);
-      gtk_widget_show(terrain_tile);
-
       sprintf (buf, "%d/%d.%d",
 	       tile_types[i].movement_cost,
 	       (int)(tile_types[i].defense_bonus/10), tile_types[i].defense_bonus%10);
@@ -959,21 +930,6 @@ static void help_update_terrain(const struct help_item *pitem,
 
       if (*(tile_types[i].special_1_name))
 	{
-	  /* draw the tile */
-	  swidth = tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->width;
-	  sheight = tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->height;
-
-	  gdk_draw_pixmap(GTK_PIXMAP(terrain_special_1_tile)->pixmap, civ_gc,
-			  tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->pixmap,
-			  0, 0, 0, 0, swidth, sheight);
-	  gdk_gc_set_clip_origin(civ_gc, 0, 0);
-	  gdk_gc_set_clip_mask(civ_gc, tile_types[i].special[0].sprite->mask);
-
-	  gdk_draw_pixmap(GTK_PIXMAP(terrain_special_1_tile)->pixmap, civ_gc,
-			  tile_types[i].special[0].sprite->pixmap,
-			  0, 0, 0, 0, swidth, sheight);
-	  gdk_gc_set_clip_mask(civ_gc, NULL);
-
 	  sprintf (buf, "%s F/R/T:",
 		   tile_types[i].special_1_name);
 	  gtk_set_label (help_tlabel[1][0], buf);
@@ -989,21 +945,6 @@ static void help_update_terrain(const struct help_item *pitem,
 
       if (*(tile_types[i].special_2_name))
 	{
-	  /* draw the tile */
-	  swidth = tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->width;
-	  sheight = tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->height;
-
-	  gdk_draw_pixmap(GTK_PIXMAP(terrain_special_2_tile)->pixmap, civ_gc,
-			  tile_types[i].sprite[INDEX_NSEW(1,1,1,1)]->pixmap,
-			  0, 0, 0, 0, swidth, sheight);
-	  gdk_gc_set_clip_origin(civ_gc, 0, 0);
-	  gdk_gc_set_clip_mask(civ_gc, tile_types[i].special[1].sprite->mask);
-
-	  gdk_draw_pixmap(GTK_PIXMAP(terrain_special_2_tile)->pixmap, civ_gc,
-			  tile_types[i].special[1].sprite->pixmap,
-			  0, 0, 0, 0, swidth, sheight);
-	  gdk_gc_set_clip_mask(civ_gc, NULL);
-
 	  sprintf (buf, "%s F/R/T:",
 		   tile_types[i].special_2_name);
 	  gtk_set_label (help_tlabel[1][3], buf);
