@@ -1544,7 +1544,7 @@ static void init_min_production(struct cm_state *state)
    *   production >= (surplus + usage)/factories
    * Solving with surplus >= min_surplus, we get:
    *   production >= (min_surplus + usage)/factories
-   * 'factories' is the pcity->shield_bonus/100.  Increase it a bit to avoid
+   * 'factories' is the pcity->bonus[O_SHIELD]/100.  Increase it a bit to avoid
    * rounding errors.
    *
    * pcity->shield_prod = (factories-waste) * production.
@@ -1555,7 +1555,7 @@ static void init_min_production(struct cm_state *state)
 
     usage[O_SHIELD] = pcity->shield_prod - pcity->surplus[O_SHIELD];
 
-    sbonus = ((double)pcity->shield_bonus) / 100.0;
+    sbonus = ((double)pcity->bonus[O_SHIELD]) / 100.0;
     sbonus += .1;
     state->min_production[O_SHIELD]
       = ((usage[O_SHIELD] + state->parameter.minimal_surplus[O_SHIELD])
@@ -1604,10 +1604,10 @@ static double estimate_fitness(const struct cm_state *state,
     += pplayer->economic.tax * estimates[O_TRADE] / 100.0;
 
   /* now add in the bonuses (none for food or trade) (in percentage) */
-  estimates[O_SHIELD] *= pcity->shield_bonus / 100.0;
-  estimates[O_LUXURY] *= pcity->luxury_bonus / 100.0;
-  estimates[O_GOLD] *= pcity->tax_bonus / 100.0;
-  estimates[O_SCIENCE] *= pcity->science_bonus / 100.0;
+  estimates[O_SHIELD] *= pcity->bonus[O_SHIELD] / 100.0;
+  estimates[O_LUXURY] *= pcity->bonus[O_LUXURY] / 100.0;
+  estimates[O_GOLD] *= pcity->bonus[O_GOLD] / 100.0;
+  estimates[O_SCIENCE] *= pcity->bonus[O_SCIENCE] / 100.0;
 
   /* finally, sum it all up, weighted by the parameter, but give additional
    * weight to luxuries to take account of disorder/happy constraints */

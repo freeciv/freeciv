@@ -243,7 +243,7 @@ struct city {
   int corruption, tile_trade;
 
   /* Cached values for CPU savings. */
-  int shield_bonus, luxury_bonus, tax_bonus, science_bonus;
+  int bonus[O_MAX];
 
   /* the totals */
   int luxury_total, tax_total, science_total;

@@ -1730,15 +1730,16 @@ static inline void set_tax_income(struct city *pcity)
 static void add_buildings_effect(struct city *pcity)
 {
   /* this is the place to set them */
-  pcity->tax_bonus = get_city_tax_bonus(pcity);
-  pcity->luxury_bonus = get_city_luxury_bonus(pcity);
-  pcity->science_bonus = get_city_science_bonus(pcity);
-  pcity->shield_bonus = get_city_shield_bonus(pcity);
+  pcity->bonus[O_GOLD] = get_city_tax_bonus(pcity);
+  pcity->bonus[O_LUXURY] = get_city_luxury_bonus(pcity);
+  pcity->bonus[O_SCIENCE] = get_city_science_bonus(pcity);
+  pcity->bonus[O_SHIELD] = get_city_shield_bonus(pcity);
 
-  pcity->shield_prod = (pcity->shield_prod * pcity->shield_bonus) / 100;
-  pcity->luxury_total = (pcity->luxury_total * pcity->luxury_bonus) / 100;
-  pcity->tax_total = (pcity->tax_total * pcity->tax_bonus) / 100;
-  pcity->science_total = (pcity->science_total * pcity->science_bonus) / 100;
+  pcity->shield_prod = (pcity->shield_prod * pcity->bonus[O_SHIELD]) / 100;
+  pcity->luxury_total = (pcity->luxury_total * pcity->bonus[O_LUXURY]) / 100;
+  pcity->tax_total = (pcity->tax_total * pcity->bonus[O_GOLD]) / 100;
+  pcity->science_total = (pcity->science_total
+			  * pcity->bonus[O_SCIENCE]) / 100;
   pcity->surplus[O_SHIELD] = pcity->shield_prod;
 }
 
@@ -2521,10 +2522,9 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
 
   pcity->corruption = 0;
   pcity->shield_waste = 0;
-  pcity->shield_bonus = 100;
-  pcity->luxury_bonus = 100;
-  pcity->tax_bonus = 100;
-  pcity->science_bonus = 100;
+  output_type_iterate(o) {
+    pcity->bonus[o] = 100;
+  } output_type_iterate_end;
 
   pcity->client.occupied = FALSE;
   pcity->client.happy = pcity->client.unhappy = FALSE;

@@ -499,7 +499,7 @@ int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
 **************************************************************************/
 int city_shield_bonus(struct city *pcity)
 {
-  return pcity->shield_bonus;
+  return pcity->bonus[O_SHIELD];
 }
 
 /**************************************************************************
@@ -508,7 +508,7 @@ int city_shield_bonus(struct city *pcity)
 **************************************************************************/
 int city_luxury_bonus(struct city *pcity)
 {
-  return pcity->luxury_bonus;
+  return pcity->bonus[O_LUXURY];
 }
 
 /**************************************************************************
@@ -517,7 +517,7 @@ int city_luxury_bonus(struct city *pcity)
 **************************************************************************/
 int city_tax_bonus(struct city *pcity)
 {
-  return pcity->tax_bonus;
+  return pcity->bonus[O_GOLD];
 }
 
 /**************************************************************************
@@ -526,7 +526,7 @@ int city_tax_bonus(struct city *pcity)
 **************************************************************************/
 int city_science_bonus(struct city *pcity)
 {
-  return pcity->science_bonus;
+  return pcity->bonus[O_SCIENCE];
 }
 
 /*********************************************************************
