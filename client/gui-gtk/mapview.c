@@ -36,7 +36,7 @@
 #include "civclient.h"
 #include "climap.h"
 #include "climisc.h"
-#include "control.h"		/* set_unit_focus_no_center and get_unit_in_focus */
+#include "control.h"		/* get_unit_in_focus() */
 #include "goto.h"
 #include "options.h"
 #include "tilespec.h"

@@ -45,7 +45,7 @@
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
 /* unit_focus points to the current unit in focus */
-static struct unit *punit_focus;
+static struct unit *punit_focus = NULL;
 
 /* The previously focused unit.  Focus can generally be recalled on this
  * unit with keypad 5.  FIXME: this is not reset when the client
@@ -138,26 +138,6 @@ void set_unit_focus(struct unit *punit)
 
   update_unit_info_label(punit);
   update_menus();
-}
-
-/**************************************************************************
-note: punit can be NULL
-Here we don't bother making sure the old focus unit is
-refreshed, as this is only used in special cases where
-thats not necessary.  (I think...) --dwp
-**************************************************************************/
-void set_unit_focus_no_center(struct unit *punit)
-{
-  if (punit != punit_focus) {
-    store_focus();
-  }
-
-  punit_focus=punit;
-
-  if(punit) {
-    refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
-    punit->focus_status=FOCUS_AVAIL;
-  }
 }
 
 /**************************************************************************
@@ -377,7 +357,7 @@ void blink_active_unit(void)
   static struct unit *pblinking_unit;
   struct unit *punit;
 
-  if((punit=get_unit_in_focus())) {
+  if ((punit = punit_focus)) {
     if (punit != pblinking_unit) {
       /* When the focus unit changes, we reset the is_shown flag. */
       pblinking_unit = punit;
@@ -594,7 +574,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
 **************************************************************************/
 void request_unit_goto(void)
 {
-  struct unit *punit = get_unit_in_focus();
+  struct unit *punit = punit_focus;
 
   if (!punit)
     return;
@@ -621,11 +601,9 @@ prompt player for entering destination point for unit connect
 **************************************************************************/
 void request_unit_connect(void)
 {
-  struct unit *punit=get_unit_in_focus();
-     
-  if (punit && can_unit_do_connect (punit, ACTIVITY_IDLE)) {
-    set_hover_state(punit, HOVER_CONNECT);
-    update_unit_info_label(punit);
+  if (punit_focus && can_unit_do_connect (punit_focus, ACTIVITY_IDLE)) {
+    set_hover_state(punit_focus, HOVER_CONNECT);
+    update_unit_info_label(punit_focus);
   }
 }
 
@@ -928,7 +906,7 @@ void request_unit_paradrop(struct unit *punit)
 **************************************************************************/
 void request_unit_patrol(void)
 {
-  struct unit *punit = get_unit_in_focus();
+  struct unit *punit = punit_focus;
 
   if (!punit)
     return;
@@ -1219,10 +1197,9 @@ void request_toggle_fog_of_war(void)
 **************************************************************************/
 void request_center_focus_unit(void)
 {
-  struct unit *punit;
-  
-  if((punit=get_unit_in_focus()))
-    center_tile_mapcanvas(punit->x, punit->y);
+  if (punit_focus) {
+    center_tile_mapcanvas(punit_focus->x, punit_focus->y);
+  }
 }
 
 /**************************************************************************
@@ -1231,7 +1208,7 @@ void request_center_focus_unit(void)
 void request_unit_wait(struct unit *punit)
 {
   punit->focus_status=FOCUS_WAIT;
-  if(punit==get_unit_in_focus()) {
+  if (punit == punit_focus) {
     advance_unit_focus();
     /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
   }
@@ -1242,8 +1219,8 @@ void request_unit_wait(struct unit *punit)
 **************************************************************************/
 void request_unit_move_done(void)
 {
-  if(get_unit_in_focus()) {
-    get_unit_in_focus()->focus_status=FOCUS_DONE;
+  if (punit_focus) {
+    punit_focus->focus_status = FOCUS_DONE;
     advance_unit_focus();
     /* set_unit_focus(punit_focus); */  /* done in advance_unit_focus */
   }
@@ -1317,7 +1294,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit, bool carried)
     refresh_tile_mapcanvas(punit->x, punit->y, FALSE);
   }
 
-  if(get_unit_in_focus()==punit) update_menus();
+  if (punit_focus == punit) update_menus();
 }
 
 /**************************************************************************
@@ -1532,9 +1509,9 @@ void key_recall_previous_focus_unit(void)
 **************************************************************************/
 void key_unit_move(enum direction8 gui_dir)
 {
-  if (get_unit_in_focus()) {
+  if (punit_focus) {
     enum direction8 map_dir = gui_to_map_dir(gui_dir);
-    request_move_unit_direction(get_unit_in_focus(), map_dir);
+    request_move_unit_direction(punit_focus, map_dir);
   }
 }
 
@@ -1543,8 +1520,9 @@ void key_unit_move(enum direction8 gui_dir)
 **************************************************************************/
 void key_unit_build_city(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_build_city(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1552,8 +1530,9 @@ void key_unit_build_city(void)
 **************************************************************************/
 void key_unit_build_wonder(void)
 {
-  if (get_unit_in_focus() && unit_flag(punit_focus, F_HELP_WONDER))
+  if (punit_focus && unit_flag(punit_focus, F_HELP_WONDER)) {
     request_unit_caravan_action(punit_focus, PACKET_UNIT_HELP_BUILD_WONDER);
+  }
 }
 
 /**************************************************************************
@@ -1561,8 +1540,9 @@ handle user pressing key for 'Connect' command
 **************************************************************************/
 void key_unit_connect(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_connect();
+  }
 }
 
 /**************************************************************************
@@ -1571,7 +1551,7 @@ void key_unit_connect(void)
 void key_unit_diplomat_actions(void)
 {
   struct city *pcity;		/* need pcity->id */
-  if(get_unit_in_focus()
+  if (punit_focus
      && is_diplomat_unit(punit_focus)
      && (pcity = map_get_city(punit_focus->x, punit_focus->y))
      && !diplomat_dialog_is_open()    /* confusing otherwise? */
@@ -1585,8 +1565,9 @@ void key_unit_diplomat_actions(void)
 **************************************************************************/
 void key_unit_done(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_move_done();
+  }
 }
 
 /**************************************************************************
@@ -1594,8 +1575,9 @@ void key_unit_done(void)
 **************************************************************************/
 void key_unit_goto(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_goto();
+  }
 }
 
 /**************************************************************************
@@ -1603,8 +1585,9 @@ Explode nuclear at a tile without enemy units
 **************************************************************************/
 void key_unit_nuke(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_nuke(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1612,9 +1595,9 @@ void key_unit_nuke(void)
 **************************************************************************/
 void key_unit_paradrop(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_paradrop(punit_focus))
-      request_unit_paradrop(punit_focus);
+  if (punit_focus && can_unit_paradrop(punit_focus)) {
+    request_unit_paradrop(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1622,8 +1605,9 @@ void key_unit_paradrop(void)
 **************************************************************************/
 void key_unit_patrol(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_patrol();
+  }
 }
 
 /**************************************************************************
@@ -1631,8 +1615,9 @@ void key_unit_patrol(void)
 **************************************************************************/
 void key_unit_traderoute(void)
 {
-  if (get_unit_in_focus() && unit_flag(punit_focus, F_TRADE_ROUTE))
+  if (punit_focus && unit_flag(punit_focus, F_TRADE_ROUTE)) {
     request_unit_caravan_action(punit_focus, PACKET_UNIT_ESTABLISH_TRADE);
+  }
 }
 
 /**************************************************************************
@@ -1640,8 +1625,9 @@ void key_unit_traderoute(void)
 **************************************************************************/
 void key_unit_unload(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_unload(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1649,8 +1635,9 @@ void key_unit_unload(void)
 **************************************************************************/
 void key_unit_wait(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_wait(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1658,8 +1645,9 @@ void key_unit_wait(void)
 ***************************************************************************/
 void key_unit_wakeup_others(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_wakeup(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1667,9 +1655,10 @@ void key_unit_wakeup_others(void)
 **************************************************************************/
 void key_unit_airbase(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_AIRBASE))
-      request_new_unit_activity(punit_focus, ACTIVITY_AIRBASE);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_AIRBASE)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_AIRBASE);
+  }
 }
 
 /**************************************************************************
@@ -1677,10 +1666,10 @@ void key_unit_airbase(void)
 **************************************************************************/
 void key_unit_auto_attack(void)
 {
-  if(get_unit_in_focus())
-    if(!unit_flag(punit_focus, F_SETTLERS) &&
-       can_unit_do_auto(punit_focus))
-      request_unit_auto(punit_focus);
+  if (punit_focus && !unit_flag(punit_focus, F_SETTLERS) &&
+      can_unit_do_auto(punit_focus)) {
+    request_unit_auto(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1688,9 +1677,10 @@ void key_unit_auto_attack(void)
 **************************************************************************/
 void key_unit_auto_explore(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_EXPLORE))
-      request_new_unit_activity(punit_focus, ACTIVITY_EXPLORE);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_EXPLORE)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_EXPLORE);
+  }
 }
 
 /**************************************************************************
@@ -1698,10 +1688,10 @@ void key_unit_auto_explore(void)
 **************************************************************************/
 void key_unit_auto_settle(void)
 {
-  if(get_unit_in_focus())
-    if(unit_flag(punit_focus, F_SETTLERS) &&
-       can_unit_do_auto(punit_focus))
-      request_unit_auto(punit_focus);
+  if (punit_focus && unit_flag(punit_focus, F_SETTLERS) &&
+      can_unit_do_auto(punit_focus)) {
+    request_unit_auto(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1709,8 +1699,9 @@ void key_unit_auto_settle(void)
 **************************************************************************/
 void key_unit_disband(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_disband(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1718,9 +1709,10 @@ void key_unit_disband(void)
 **************************************************************************/
 void key_unit_fallout(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_FALLOUT))
-      request_new_unit_activity(punit_focus, ACTIVITY_FALLOUT);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_FALLOUT)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_FALLOUT);
+  }
 }
 
 /**************************************************************************
@@ -1728,9 +1720,10 @@ void key_unit_fallout(void)
 **************************************************************************/
 void key_unit_fortify(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTIFYING))
-      request_new_unit_activity(punit_focus, ACTIVITY_FORTIFYING);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_FORTIFYING)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_FORTIFYING);
+  }
 }
 
 /**************************************************************************
@@ -1738,9 +1731,10 @@ void key_unit_fortify(void)
 **************************************************************************/
 void key_unit_fortress(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_FORTRESS))
-      request_new_unit_activity(punit_focus, ACTIVITY_FORTRESS);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_FORTRESS)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_FORTRESS);
+  }
 }
 
 /**************************************************************************
@@ -1748,8 +1742,9 @@ void key_unit_fortress(void)
 **************************************************************************/
 void key_unit_homecity(void)
 {
-  if(get_unit_in_focus())
+  if (punit_focus) {
     request_unit_change_homecity(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1757,9 +1752,10 @@ void key_unit_homecity(void)
 **************************************************************************/
 void key_unit_irrigate(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_IRRIGATE))
-      request_new_unit_activity(punit_focus, ACTIVITY_IRRIGATE);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_IRRIGATE)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_IRRIGATE);
+  }
 }
 
 /**************************************************************************
@@ -1767,9 +1763,10 @@ void key_unit_irrigate(void)
 **************************************************************************/
 void key_unit_mine(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_MINE))
-      request_new_unit_activity(punit_focus, ACTIVITY_MINE);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_MINE)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_MINE);
+  }
 }
 
 /**************************************************************************
@@ -1777,9 +1774,10 @@ void key_unit_mine(void)
 **************************************************************************/
 void key_unit_pillage(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_PILLAGE))
-      request_unit_pillage(punit_focus);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_PILLAGE)) {
+    request_unit_pillage(punit_focus);
+  }
 }
 
 /**************************************************************************
@@ -1787,9 +1785,10 @@ void key_unit_pillage(void)
 **************************************************************************/
 void key_unit_pollution(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_POLLUTION))
-      request_new_unit_activity(punit_focus, ACTIVITY_POLLUTION);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_POLLUTION)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_POLLUTION);
+  }
 }
 
 /**************************************************************************
@@ -1797,7 +1796,7 @@ void key_unit_pollution(void)
 **************************************************************************/
 void key_unit_road(void)
 {
-  if(get_unit_in_focus()) {
+  if (punit_focus) {
     if(can_unit_do_activity(punit_focus, ACTIVITY_ROAD))
       request_new_unit_activity(punit_focus, ACTIVITY_ROAD);
     else if(can_unit_do_activity(punit_focus, ACTIVITY_RAILROAD))
@@ -1810,9 +1809,10 @@ void key_unit_road(void)
 **************************************************************************/
 void key_unit_sentry(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_SENTRY))
-      request_new_unit_activity(punit_focus, ACTIVITY_SENTRY);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_SENTRY)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_SENTRY);
+  }
 }
 
 /**************************************************************************
@@ -1820,9 +1820,10 @@ void key_unit_sentry(void)
 **************************************************************************/
 void key_unit_transform(void)
 {
-  if(get_unit_in_focus())
-    if(can_unit_do_activity(punit_focus, ACTIVITY_TRANSFORM))
-      request_new_unit_activity(punit_focus, ACTIVITY_TRANSFORM);
+  if (punit_focus &&
+      can_unit_do_activity(punit_focus, ACTIVITY_TRANSFORM)) {
+    request_new_unit_activity(punit_focus, ACTIVITY_TRANSFORM);
+  }
 }
 
 /**************************************************************************

@@ -81,7 +81,7 @@ void client_remove_unit(struct unit *punit)
 	  unit_name(punit->type), punit->x, punit->y, hc);
 
   if (punit == ufocus) {
-    set_unit_focus_no_center(NULL);
+    set_unit_focus(NULL);
     game_remove_unit(punit);
     punit = ufocus = NULL;
     advance_unit_focus();

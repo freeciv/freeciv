@@ -38,7 +38,7 @@
 #include "climap.h"
 #include "climisc.h"
 #include "colors.h"
-#include "control.h" /* set_unit_focus_no_center and get_unit_in_focus */
+#include "control.h" /* get_unit_in_focus() */
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"

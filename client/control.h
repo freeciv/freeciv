@@ -89,7 +89,6 @@ void auto_center_on_focus_unit(void);
 void advance_unit_focus(void);
 struct unit *get_unit_in_focus(void);
 void set_unit_focus(struct unit *punit);
-void set_unit_focus_no_center(struct unit *punit);
 void set_unit_focus_and_select(struct unit *punit);
 void update_unit_focus(void);
 struct unit *find_visible_unit(struct tile *ptile);
