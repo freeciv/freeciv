@@ -2,8 +2,8 @@
 
 
 pkgdata_DATA = Freeciv	\
-	default.tilespec \
 	engels.tilespec	\
+	trident.tilespec \
 	helpdata.txt	\
 	civ1.serv	\
 	civ2.serv
