@@ -897,6 +897,15 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     u->gold_cost   = secfile_lookup_int(file, "%s.uk_gold", sec[i]);
 
     u->helptext = lookup_helptext(file, sec[i]);
+
+    u->paratroopers_range = secfile_lookup_int_default(file,
+        0, "%s.paratroopers_range", sec[i]);
+    u->paratroopers_mr_req = SINGLE_MOVE * secfile_lookup_int_default(file,
+        0, "%s.paratroopers_mr_req", sec[i]);
+    u->paratroopers_mr_sub = SINGLE_MOVE * secfile_lookup_int_default(file,
+        0, "%s.paratroopers_mr_sub", sec[i]);
+    u->bombard_rate = secfile_lookup_int_default(file,
+	0, "%s.bombard_rate", sec[i]);
   } unit_type_iterate_end;
   
   /* flags */
@@ -918,22 +927,6 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       }
       BV_SET(u->flags, ival);
       assert(unit_type_flag(i, ival));
-
-      if(ival == F_PARATROOPERS) {
-        u->paratroopers_range = secfile_lookup_int(file,
-            "%s.paratroopers_range", sec[i]);
-        u->paratroopers_mr_req = SINGLE_MOVE * secfile_lookup_int(file,
-            "%s.paratroopers_mr_req", sec[i]);
-        u->paratroopers_mr_sub = SINGLE_MOVE * secfile_lookup_int(file,
-            "%s.paratroopers_mr_sub", sec[i]);
-      } else {
-        u->paratroopers_range = 0;
-        u->paratroopers_mr_req = 0;
-        u->paratroopers_mr_sub = 0;
-      }
-
-      u->bombard_rate = secfile_lookup_int_default(file, 0,
-	  "%s.bombard_rate", sec[i]);
     }
     free(slist);
   } unit_type_iterate_end;
