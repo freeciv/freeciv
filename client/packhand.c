@@ -820,6 +820,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   struct unit *punit;
   bool repaint_unit;
   bool repaint_city;		/* regards unit's homecity */
+  bool check_focus = FALSE; /* conservative focus change */
   bool moved = FALSE;
   int old_x = -1, old_y = -1;	/* make compiler happy; guarded by moved */
 
@@ -871,13 +872,25 @@ void handle_unit_info(struct packet_unit_info *packet)
     if (punit->ai.control!=packet->ai) {
       punit->ai.control = packet->ai;
       repaint_unit = TRUE;
+      /* AI is set:     may change focus */
+      /* AI is cleared: keep focus */
+      if (packet->ai && punit == get_unit_in_focus()) {
+        check_focus = TRUE;
+      }
     }
     if((punit->activity!=packet->activity)         /* change activity */
        || (punit->activity_target!=packet->activity_target)) { /*   or act's target */
+
+      /* May change focus if focus unit gets a new activity.
+         But if new activity is Idle, it means user specifically selected the unit */
+      if(punit == get_unit_in_focus() && packet->activity != ACTIVITY_IDLE)
+        check_focus = TRUE;
+
       repaint_unit = TRUE;
       if(wakeup_focus && (punit->owner==game.player_idx)
                       && (punit->activity==ACTIVITY_SENTRY)) {
         set_unit_focus(punit);
+        check_focus = FALSE;    /* and keep it */
         /* RP: focus on (each) activated unit (e.g. when unloading a ship) */
       }
 
@@ -930,6 +943,11 @@ void handle_unit_info(struct packet_unit_info *packet)
         /* Update the orders menu -- the unit might have new abilities */
         update_menus();
       }
+    }
+
+    /* May change focus if an attempted move or attack exhausted unit */
+    if (punit->moves_left != packet->movesleft && punit == get_unit_in_focus()) {
+        check_focus = TRUE;
     }
 
     if (!same_pos(punit->x, punit->y, packet->x, packet->y)) { 
@@ -1058,11 +1076,8 @@ void handle_unit_info(struct packet_unit_info *packet)
   if(repaint_unit)
     refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
 
-  if(packet->select_it && (punit->owner==game.player_idx)) {
-    set_unit_focus_and_select(punit);
-  } else {
+  if (check_focus || get_unit_in_focus() == NULL)
     update_unit_focus(); 
-  }
 }
 
 /**************************************************************************

@@ -323,7 +323,6 @@ void *get_packet_from_connection(struct connection *pc,
   case PACKET_CITY_REFRESH:
   case PACKET_INCITE_INQ:
   case PACKET_CITY_NAME_SUGGEST_REQ:
-  case PACKET_ADVANCE_FOCUS:
   case PACKET_PLAYER_CANCEL_PACT:
   case PACKET_PLAYER_REMOVE_VISION:
     return receive_packet_generic_integer(pc);
@@ -1246,8 +1245,7 @@ int send_packet_unit_info(struct connection *pc,
 
   dio_put_uint16(&dout, req->id);
   dio_put_uint8(&dout, req->owner);
-  pack = (COND_SET_BIT(req->select_it, 2) |
-	  COND_SET_BIT(req->carried, 3) |
+  pack = (COND_SET_BIT(req->carried, 3) |
 	  COND_SET_BIT(req->veteran, 4) |
 	  COND_SET_BIT(req->ai, 5) |
 	  COND_SET_BIT(req->paradropped, 6) |
@@ -1526,7 +1524,6 @@ struct packet_unit_info *receive_packet_unit_info(struct connection *pc)
   dio_get_uint8(&din, &packet->owner);
   dio_get_uint8(&din, &pack);
 
-  packet->select_it = TEST_BIT(pack, 2);
   packet->carried = TEST_BIT(pack, 3);
   packet->veteran = TEST_BIT(pack, 4);
   packet->ai = TEST_BIT(pack, 5);

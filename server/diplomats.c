@@ -154,13 +154,13 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
      As this is a special case we bypass send_unit_info. */
   first_packet = TRUE;
   unit_list_iterate(pcity->units_supported, punit) {
-    package_unit(punit, &unit_packet, FALSE, FALSE,
+    package_unit(punit, &unit_packet, FALSE,
 		 UNIT_INFO_CITY_SUPPORTED, pcity->id, first_packet);
     lsend_packet_unit_info(&pplayer->connections, &unit_packet);
     first_packet = FALSE;
   } unit_list_iterate_end;
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit) {
-    package_unit(punit, &unit_packet, FALSE, FALSE,
+    package_unit(punit, &unit_packet, FALSE,
 		 UNIT_INFO_CITY_PRESENT, pcity->id, first_packet);
     lsend_packet_unit_info(&pplayer->connections, &unit_packet);
     first_packet = FALSE;

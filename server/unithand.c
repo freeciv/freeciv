@@ -62,8 +62,7 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 						  enum unit_activity
 						  new_activity,
 						  enum tile_special_type
-						  new_target,
-						  bool select_unit);
+						  new_target);
 
 /**************************************************************************
 ...
@@ -618,15 +617,11 @@ void handle_unit_info(struct player *pplayer, struct packet_unit_info *pinfo)
     }
   } else if (punit->activity != pinfo->activity ||
 	     punit->activity_target != pinfo->activity_target ||
-	     pinfo->select_it || punit->ai.control) {
-    /* Treat change in ai.control as change in activity, so
-     * idle autosettlers behave correctly when selected --dwp
-     */
+	     punit->ai.control) {
     punit->ai.control = FALSE;
     handle_unit_activity_request_targeted(punit,
 					  pinfo->activity,
-					  pinfo->activity_target,
-					  pinfo->select_it);
+					  pinfo->activity_target);
 
     /* Exploring is handled here explicitly, since the player expects to
      * see an immediate response from setting a unit to auto-explore.
@@ -766,9 +761,9 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   combat.defender_hp=pdefender->hp;
   combat.make_winner_veteran=pwinner->veteran?1:0;
 
-  package_unit(punit, &unit_att_packet, FALSE, FALSE, UNIT_INFO_IDENTITY, 0,
+  package_unit(punit, &unit_att_packet, FALSE, UNIT_INFO_IDENTITY, 0,
 	       FALSE);
-  package_unit(pdefender, &unit_def_packet, FALSE, FALSE, UNIT_INFO_IDENTITY,
+  package_unit(pdefender, &unit_def_packet, FALSE, UNIT_INFO_IDENTITY,
 	       0, FALSE);
   
   players_iterate(other_player) {
@@ -1308,8 +1303,7 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
 						  enum unit_activity
 						  new_activity,
 						  enum tile_special_type
-						  new_target,
-						  bool select_unit)
+						  new_target)
 {
   if (can_unit_do_activity_targeted(punit, new_activity, new_target)) {
     enum unit_activity old_activity = punit->activity;
@@ -1322,8 +1316,8 @@ static void handle_unit_activity_request_targeted(struct unit *punit,
       punit->pgr = NULL;
     }
 
-    send_unit_info_to_onlookers(NULL, punit, punit->x, punit->y, FALSE,
-				select_unit);
+    send_unit_info_to_onlookers(NULL, punit, punit->x, punit->y, FALSE);
+
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }

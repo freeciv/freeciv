@@ -427,10 +427,6 @@ void handle_packet_input(void *packet, int type)
     handle_diplomat_action((struct packet_diplomat_action *)packet);
     break;
 
-  case PACKET_ADVANCE_FOCUS:
-    handle_advance_focus((struct packet_generic_integer *)packet);
-    break;
-    
   case PACKET_CONN_INFO:
     handle_conn_info((struct packet_conn_info *)packet);
     break;
@@ -543,7 +539,6 @@ void send_unit_info(struct unit *punit)
   info.movesleft=punit->moves_left;
   info.activity=punit->activity;
   info.activity_target=punit->activity_target;
-  info.select_it = FALSE;
   info.packet_use = UNIT_INFO_IDENTITY;
 
   send_packet_unit_info(&aconnection, &info);

@@ -1127,7 +1127,7 @@ static void city_citizen(struct city_citizen_msg *msg)
 **************************************************************************/
 static void city_present(struct city_unit_msg *data)
 {
-  request_unit_selected(data->punit);
+  set_unit_focus_and_select(data->punit);
 }
 
 /****************************************************************

@@ -244,7 +244,7 @@ void update_info_label(void)
 void activate_below_unit (int *id)
 {
   struct unit *punit = find_unit_by_id(*id);
-  if (punit) request_unit_selected(punit);
+  if (punit) set_unit_focus_and_select(punit);
 }
 
 /**************************************************************************

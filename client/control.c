@@ -84,16 +84,6 @@ void set_hover_state(struct unit *punit, enum cursor_hover_state state)
 }
 
 /**************************************************************************
-...
-**************************************************************************/
-void handle_advance_focus(struct packet_generic_integer *packet)
-{
-  struct unit *punit = find_unit_by_id(packet->value);
-  if (punit && punit_focus == punit)
-    advance_unit_focus();
-}
-
-/**************************************************************************
 Center on the focus unit, if off-screen and auto_center_on_unit is true.
 **************************************************************************/
 void auto_center_on_focus_unit(void)
@@ -120,6 +110,12 @@ void set_unit_focus(struct unit *punit)
 
     punit->focus_status=FOCUS_AVAIL;
     refresh_tile_mapcanvas(punit->x, punit->y, TRUE);
+
+    if (punit->activity != ACTIVITY_IDLE || punit->ai.control)  {
+      punit->activity = ACTIVITY_IDLE;
+      punit->ai.control = FALSE;
+      request_new_unit_activity(punit, ACTIVITY_IDLE);
+    }
   }
   
   /* avoid the old focus unit disappearing: */
@@ -728,29 +724,6 @@ void request_new_unit_activity_targeted(struct unit *punit, enum unit_activity a
 /**************************************************************************
 ...
 **************************************************************************/
-void request_unit_selected(struct unit *punit)
-{
-  struct packet_unit_info info;
-
-  info.id=punit->id;
-  info.owner=punit->owner;
-  info.x=punit->x;
-  info.y=punit->y;
-  info.homecity=punit->homecity;
-  info.veteran=punit->veteran;
-  info.type=punit->type;
-  info.movesleft=punit->moves_left;
-  info.activity=ACTIVITY_IDLE;
-  info.activity_target = S_NO_SPECIAL;
-  info.select_it = TRUE;
-  info.packet_use = UNIT_INFO_IDENTITY;
-
-  send_packet_unit_info(&aconnection, &info);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void request_unit_disband(struct unit *punit)
 {
   struct packet_unit_request req;
@@ -1289,7 +1262,7 @@ void do_map_click(int xtile, int ytile)
     struct unit *punit=unit_list_get(&ptile->units, 0);
     if(game.player_idx==punit->owner) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-	request_unit_selected(punit);
+	set_unit_focus_and_select(punit);
       }
     }
   } else if(unit_list_size(&ptile->units) >= 2) {

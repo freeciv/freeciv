@@ -36,7 +36,6 @@ void player_restore_units(struct player *pplayer);
 void update_unit_activities(struct player *pplayer);
 
 /* various */
-void advance_unit_focus(struct unit *punit);
 char *get_location_str_in(struct player *pplayer, int x, int y);
 char *get_location_str_at(struct player *pplayer, int x, int y);
 enum goto_move_restriction get_activity_move_restriction(enum unit_activity activity);
@@ -66,11 +65,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit);
 
 /* sending to client */
 void package_unit(struct unit *punit, struct packet_unit_info *packet,
-		  bool carried, bool select_it, enum unit_info_use packet_use,
+		  bool carried, enum unit_info_use packet_use,
 		  int info_city_id, bool new_serial_num);
 void send_unit_info(struct player *dest, struct unit *punit);
 void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit, 
-				 int x, int y, bool carried, bool select_it);
+				 int x, int y, bool carried);
 void send_all_known_units(struct conn_list *dest);
 
 

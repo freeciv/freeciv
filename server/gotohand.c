@@ -1294,7 +1294,6 @@ enum goto_result do_unit_goto(struct unit *punit,
     if (find_air_first_destination(punit, &waypoint_x, &waypoint_y)) {
       /* this is a special case for air units who do not always want to move. */
       if (same_pos(waypoint_x, waypoint_y, punit->x, punit->y)) {
-	advance_unit_focus(punit);
 	return GR_OUT_OF_MOVEPOINTS; /* out of fuel */
       }
     } else {
@@ -1401,7 +1400,6 @@ enum goto_result do_unit_goto(struct unit *punit,
     }
     status = GR_ARRIVED;
   } else {
-    advance_unit_focus(punit);
     /* we have a plane refueling at a waypoint */
     status = GR_OUT_OF_MOVEPOINTS;
   }

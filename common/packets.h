@@ -112,7 +112,6 @@ enum packet_type {
   PACKET_RULESET_CITY,
   PACKET_UNIT_CONNECT,
   PACKET_SABOTAGE_LIST,
-  PACKET_ADVANCE_FOCUS,
   PACKET_RULESET_GAME,
   PACKET_CONN_INFO,
   PACKET_SHORT_CITY,
@@ -316,7 +315,6 @@ struct packet_unit_info {
   bool connecting;
   /* in packet only, not in unit struct */
   bool carried;
-  bool select_it;
   int packet_use;	/* see enum unit_info_use */
   int info_city_id;	/* for UNIT_INFO_CITY_SUPPORTED
 			   and UNIT_INFO_CITY_PRESENT uses */

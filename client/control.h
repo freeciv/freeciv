@@ -37,7 +37,6 @@ void do_unit_patrol_to(struct unit *punit, int x, int y);
 void do_map_click(int xtile, int ytile);
 
 void set_hover_state(struct unit *punit, enum cursor_hover_state state);
-void handle_advance_focus(struct packet_generic_integer *packet);
 void request_center_focus_unit(void);
 void request_move_unit_direction(struct unit *punit, int dir);
 void request_new_unit_activity(struct unit *punit, enum unit_activity act);
@@ -57,7 +56,6 @@ void request_unit_nuke(struct unit *punit);
 void request_unit_paradrop(struct unit *punit);
 void request_unit_patrol(void);
 void request_unit_pillage(struct unit *punit);
-void request_unit_selected(struct unit *punit);
 void request_unit_sentry(struct unit *punit);
 void request_unit_unload(struct unit *punit);
 void request_unit_airlift(struct unit *punit, struct city *pcity);

@@ -1093,19 +1093,6 @@ static void update_unit_activity(struct unit *punit)
   }
 }
 
-
-/**************************************************************************
-...
-**************************************************************************/
-void advance_unit_focus(struct unit *punit)
-{
-  conn_list_iterate(unit_owner(punit)->connections, pconn) {
-    struct packet_generic_integer packet;
-    packet.value = punit->id;
-    send_packet_generic_integer(pconn, PACKET_ADVANCE_FOCUS, &packet);
-  } conn_list_iterate_end;
-}
-
 /**************************************************************************
   Returns a pointer to a (static) string which gives an informational
   message about location (x,y), in terms of cities known by pplayer.
@@ -1900,7 +1887,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 ...
 **************************************************************************/
 void package_unit(struct unit *punit, struct packet_unit_info *packet,
-		  bool carried, bool select_it, enum unit_info_use packet_use,
+		  bool carried, enum unit_info_use packet_use,
 		  int info_city_id, bool new_serial_num)
 {
   static unsigned int serial_num = 0;
@@ -1935,7 +1922,6 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   packet->paradropped = punit->paradropped;
   packet->connecting = punit->connecting;
   packet->carried = carried;
-  packet->select_it = select_it;
   packet->packet_use = packet_use;
   packet->info_city_id = info_city_id;
   packet->serial_num = serial_num;
@@ -1949,13 +1935,13 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet,
   dest = NULL means all connections (game.game_connections)
 **************************************************************************/
 void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
-				 int x, int y, bool carried, bool select_it)
+				 int x, int y, bool carried)
 {
   struct packet_unit_info info;
 
   if (!dest) dest = &game.game_connections;
   
-  package_unit(punit, &info, carried, select_it,
+  package_unit(punit, &info, carried,
 	       UNIT_INFO_IDENTITY, FALSE, FALSE);
 
   conn_list_iterate(*dest, pconn) {
@@ -1987,7 +1973,7 @@ void send_unit_info(struct player *dest, struct unit *punit)
 {
   struct conn_list *conn_dest = (dest ? &dest->connections
 				 : &game.game_connections);
-  send_unit_info_to_onlookers(conn_dest, punit, punit->x, punit->y, FALSE, FALSE);
+  send_unit_info_to_onlookers(conn_dest, punit, punit->x, punit->y, FALSE);
 }
 
 /**************************************************************************
@@ -2010,7 +1996,7 @@ void send_all_known_units(struct conn_list *dest)
 	if (!pplayer
 	    || map_get_known_and_seen(punit->x, punit->y, pplayer)) {
 	  send_unit_info_to_onlookers(&pconn->self, punit,
-				      punit->x, punit->y, FALSE, FALSE);
+				      punit->x, punit->y, FALSE);
 	}
       }
       unit_list_iterate_end;
@@ -2957,7 +2943,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
       pcargo->y = dest_y;
       unit_list_insert(&pdesttile->units, pcargo);
       check_unit_activity(pcargo);
-      send_unit_info_to_onlookers(NULL, pcargo, src_x, src_y, TRUE, FALSE);
+      send_unit_info_to_onlookers(NULL, pcargo, src_x, src_y, TRUE);
       fog_area(unit_owner(pcargo), src_x, src_y, unit_type(pcargo)->vision_range);
       handle_unit_move_consequences(pcargo, src_x, src_y, dest_x, dest_y);
     } unit_list_iterate_end;
@@ -2998,7 +2984,7 @@ bool move_unit(struct unit *punit, int dest_x, int dest_y,
       ) {
     set_unit_activity(punit, ACTIVITY_SENTRY);
   }
-  send_unit_info_to_onlookers(NULL, punit, src_x, src_y, FALSE, FALSE);
+  send_unit_info_to_onlookers(NULL, punit, src_x, src_y, FALSE);
 
   /* The hidden units might not have been previously revealed 
    * because when we did the unfogging, the unit was still 

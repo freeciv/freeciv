@@ -1430,7 +1430,7 @@ static void unitsel_unit(struct unit **ppunit)
   struct unit *punit = *ppunit;
 
   if(punit && punit->owner == game.player_idx) {
-    request_unit_selected(punit);
+    set_unit_focus_and_select(punit);
   }
   set(unitsel_wnd, MUIA_Window_Open, FALSE);
 }

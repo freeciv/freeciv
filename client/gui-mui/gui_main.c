@@ -711,7 +711,7 @@ void do_unit_function(struct unit *punit, ULONG value)
   else
   {
     if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-      request_unit_selected(punit);
+      set_unit_focus_and_select(punit);
     }
   }
 }
