@@ -13,7 +13,10 @@
 #ifndef FC__ADVATTITUDE_H
 #define FC__ADVATTITUDE_H
 
+struct player;
+struct ai_choice;
+
 void attitude_advisor_choose_tech(struct player *pplayer, 
 				  struct ai_choice *choice);
 
-#endif
+#endif  /* FC__ADVATTITUDE_H */

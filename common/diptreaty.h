@@ -13,6 +13,8 @@
 #ifndef FC__DIPTREATY_H
 #define FC__DIPTREATY_H
 
+#include "genlist.h"
+
 enum clause_type { CLAUSE_ADVANCE, CLAUSE_GOLD, CLAUSE_MAP,
 		   CLAUSE_SEAMAP, CLAUSE_CITY};
 

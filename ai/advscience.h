@@ -13,7 +13,10 @@
 #ifndef FC__ADVSCIENCE_H
 #define FC__ADVSCIENCE_H
 
+struct player;
+struct ai_choice;
+
 void science_advisor_choose_tech(struct player *pplayer,
 				 struct ai_choice *choice);
 
-#endif
+#endif  /* FC__ADVSCIENCE_H */

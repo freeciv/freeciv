@@ -13,6 +13,7 @@
 #ifndef FC__GAMEHAND_H
 #define FC__GAMEHAND_H
 
+struct player;
 struct section_file;
 
 void init_new_game(void);

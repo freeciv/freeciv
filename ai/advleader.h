@@ -13,10 +13,13 @@
 #ifndef FC__ADVLEADER_H
 #define FC__ADVLEADER_H
 
+struct player;
+struct ai_choice;
+
 void leader_adjust_tech_choice(struct player *pplayer, 
 			       struct ai_choice *choice, int advisor);
 
 void leader_adjust_build_choice(struct player *pplayer, 
 				struct ai_choice *choice, int advisor);
 
-#endif
+#endif  /* FC__ADVLEADER_H */

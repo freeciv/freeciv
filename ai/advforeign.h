@@ -13,8 +13,10 @@
 #ifndef FC__ADVFOREIGN_H
 #define FC__ADVFOREIGN_H
 
+struct player;
+struct ai_choice;
+
 void foreign_advisor_choose_tech(struct player *pplayer, 
 				 struct ai_choice *choice);
 
-
-#endif
+#endif  /* FC__ADVFOREIGN_H */

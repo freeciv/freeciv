@@ -13,8 +13,12 @@
 #ifndef FC__ADVDOMESTIC_H
 #define FC__ADVDOMESTIC_H
 
+struct player;
+struct city;
+struct ai_choice;
+
 void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice);
 void ai_eval_buildings(struct city *pcity);
 
-#endif
+#endif  /* FC__ADVDOMESTIC_H */

@@ -17,4 +17,4 @@
 int has_capability(const char *cap, const char *capstr);
 int has_capabilities(const char *us, const char *them);
 
-#endif
+#endif  /* FC__CAPABILITY_H */

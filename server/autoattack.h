@@ -15,4 +15,4 @@
 
 void auto_attack(void);
 
-#endif
+#endif  /* FC__AUTOATTACK_H */

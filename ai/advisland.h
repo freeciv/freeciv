@@ -13,7 +13,10 @@
 #ifndef FC__ADVISLAND_H
 #define FC__ADVISLAND_H
 
+struct player;
+struct ai_choice;
+
 void island_adjust_build_choice(struct player *pplayer, 
 				struct ai_choice *choice, int advisor);
 
-#endif
+#endif  /* FC__ADVISLAND_H */

@@ -13,7 +13,10 @@
 #ifndef FC__ADVTRADE_H
 #define FC__ADVTRADE_H
 
+struct player;
+struct ai_choice;
+
 void trade_advisor_choose_tech(struct player *pplayer, 
 			       struct ai_choice *choice);
 
-#endif
+#endif  /* FC__ADVTRADE_H */
