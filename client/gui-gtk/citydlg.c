@@ -54,8 +54,11 @@
 
 #include "cityicon.ico"
 
-#define NUM_UNITS_SHOWN  12
 #define NUM_CITIZENS_SHOWN 25
+
+int CITY_DIALOG_HEIGHT;
+int CITY_DIALOG_WIDTH;
+int NUM_UNITS_SHOWN;
 
 
 struct city_dialog {
@@ -81,12 +84,12 @@ struct city_dialog {
   GtkWidget *worklist_label;
   GtkWidget *improvement_viewport, *improvement_list;
   GtkWidget *support_unit_label;
-  GtkWidget *support_unit_boxes		[NUM_UNITS_SHOWN];
-  GtkWidget *support_unit_pixmaps	[NUM_UNITS_SHOWN];
+  GtkWidget **support_unit_boxes;
+  GtkWidget **support_unit_pixmaps;
   GtkWidget *support_unit_button	[2];
   GtkWidget *present_unit_label;
-  GtkWidget *present_unit_boxes		[NUM_UNITS_SHOWN];
-  GtkWidget *present_unit_pixmaps	[NUM_UNITS_SHOWN];
+  GtkWidget **present_unit_boxes;
+  GtkWidget **present_unit_pixmaps;
   GtkWidget *present_unit_button	[2];
   GtkWidget *close_command;
   GtkWidget *rename_command; 
@@ -104,9 +107,9 @@ struct city_dialog {
   
   int first_elvis, first_scientist, first_taxman;
   int cwidth;
-  int support_unit_ids[NUM_UNITS_SHOWN];
+  int *support_unit_ids;
   int support_unit_pos;
-  int present_unit_ids[NUM_UNITS_SHOWN];
+  int *present_unit_ids;
   int present_unit_pos;
   char improvlist_names[B_LAST+1][64];
   char *improvlist_names_ptrs[B_LAST+1];
@@ -215,6 +218,12 @@ static void initialize_city_dialogs(void)
     canvas_width = 5 * NORMAL_TILE_WIDTH;
     canvas_height = 5 * NORMAL_TILE_HEIGHT;
   }
+  CITY_DIALOG_WIDTH = canvas_width + 440;
+  CITY_DIALOG_HEIGHT = 2*SMALL_TILE_HEIGHT + canvas_height
+	+ 3*NORMAL_TILE_HEIGHT + 160;
+
+  NUM_UNITS_SHOWN = CITY_DIALOG_WIDTH/NORMAL_TILE_WIDTH-1;
+
   city_dialogs_have_been_initialised=1;
 }
 
@@ -418,6 +427,15 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
   pdialog->pcity=pcity;
   pdialog->change_shell=0;
 
+  pdialog->support_unit_boxes=fc_calloc(NUM_UNITS_SHOWN, sizeof(GtkWidget *));
+  pdialog->support_unit_pixmaps=fc_calloc(NUM_UNITS_SHOWN, sizeof(GtkWidget *));
+  pdialog->present_unit_boxes=fc_calloc(NUM_UNITS_SHOWN, sizeof(GtkWidget *));
+  pdialog->present_unit_pixmaps=fc_calloc(NUM_UNITS_SHOWN, sizeof(GtkWidget *));
+
+  pdialog->support_unit_ids=fc_calloc(NUM_UNITS_SHOWN, sizeof(int));
+  pdialog->present_unit_ids=fc_calloc(NUM_UNITS_SHOWN, sizeof(int));
+
+
   pdialog->shell=gtk_dialog_new();
   gtk_signal_connect(GTK_OBJECT(pdialog->shell),"delete_event",
 	GTK_SIGNAL_FUNC(city_dialog_delete_callback),(gpointer)pdialog);
@@ -426,6 +444,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
   gtk_widget_set_name(pdialog->shell, "Freeciv");
 
   gtk_window_set_title(GTK_WINDOW(pdialog->shell), pcity->name);
+  gtk_widget_set_usize(pdialog->shell, CITY_DIALOG_WIDTH, CITY_DIALOG_HEIGHT);
 
   gtk_widget_realize(pdialog->shell);
 
@@ -2427,6 +2446,15 @@ static void close_city_dialog(struct city_dialog *pdialog)
   unit_list_unlink_all(&(pdialog->pcity->info_units_present));
 
   gtk_widget_destroy(pdialog->shell);
+
+  free(pdialog->support_unit_boxes);
+  free(pdialog->support_unit_pixmaps);
+  free(pdialog->present_unit_boxes);
+  free(pdialog->present_unit_pixmaps);
+
+  free(pdialog->support_unit_ids);
+  free(pdialog->present_unit_ids);
+
   free(pdialog);
 }
 
