@@ -17,10 +17,10 @@ EXTRA_DIST =			\
 	TODO			\
 	de/BUGS.de		\
 	de/HOWTOPLAY.de		\
+	de/INHALT		\
 	de/INSTALL.de		\
 	de/INSTALL.debian.de	\
 	de/NEWS.de		\
-	de/README.1st.de	\
 	de/README.cma.de	\
 	de/README.de		\
 	de/README.rulesets.de	\
@@ -29,6 +29,7 @@ EXTRA_DIST =			\
 	fr/README.fr		\
 	it/HOWTOPLAY.it		\
 	it/INSTALL.it		\
+	it/README.cma.it	\
 	it/README.it		\
 	ja/BUGS.ja		\
 	ja/HOWTOPLAY.ja		\
