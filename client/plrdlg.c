@@ -136,7 +136,7 @@ void update_players_dialog(void)
     static char namelist_text[MAX_PLAYERS][256];
     
     for(i=0; i<game.nplayers; i++) {
-      char idlebuf[32], statebuf[32];
+      char idlebuf[32], statebuf[32], namebuf[32];
       
       if(game.players[i].nturns_idle>3)
 	sprintf(idlebuf, "(idle %d turns)", game.players[i].nturns_idle-1);
@@ -156,8 +156,12 @@ void update_players_dialog(void)
       else
 	strcpy(statebuf, "R.I.P");
        
+      if(game.players[i].ai.control)
+	sprintf(namebuf,"*%-15s",game.players[i].name);
+      else
+        sprintf(namebuf,"%-16s",game.players[i].name);
       sprintf(namelist_text[i], "%-16s %-12s    %c     %-6s   %-15s%s", 
-	      game.players[i].name,
+	      namebuf,
 	      races[game.players[i].race].name, 
 	      player_has_embassy(game.player_ptr, &game.players[i]) ? 'X':' ',
 	      statebuf,

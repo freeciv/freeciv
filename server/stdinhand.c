@@ -229,7 +229,7 @@ void toggle_ai_player(char *arg)
     notify_player(0, "Option: %s is human.", pplayer->name);
     printf("%s is now under human control.\n",pplayer->name);
   }
-  if(pplayer->conn) send_player_info(pplayer,0);
+  send_player_info(pplayer,0);
 }
 
 /**************************************************************************
