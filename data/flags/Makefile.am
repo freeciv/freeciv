@@ -105,6 +105,7 @@ flag_files =				\
 		united_nations.png	\
 		unknown.png		\
 		usa.png			\
+		venezuela.png		\
 		vietnam.png		\
 		wales.png
 
@@ -210,6 +211,7 @@ shield_files =					\
 		united_nations-shield.png	\
 		unknown-shield.png		\
 		usa-shield.png			\
+		venezuela-shield.png		\
 		vietnam-shield.png		\
 		wales-shield.png
 
@@ -315,6 +317,7 @@ svg_files = 				\
 		united_nations.svg	\
 		unknown.svg		\
 		usa.svg			\
+		venezuela.svg		\
 		vietnam.svg		\
 		wales.svg
 

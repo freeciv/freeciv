@@ -1,0 +1,49 @@
+[nation_venezuelan]
+
+name=_("Venezuela")
+plural=_("?plural:Venezolanos")
+leader="Ambrosio Alfinger", "El Libertador Simón Bolivar",
+       "Cristobal Mendoza", "Jose Antonio Páez", "Gral. Juan Vicente Gómez",
+       "Carlos Andrés Pérez", "Rafael Caldera", "Hugo R. Chávez",
+       "Rómulo Betancourt", "Gral. Marcos Pérez Jiménez"
+leader_sex="Male", "Male", "Male", "Male", "Male",
+           "Male", "Male", "Male", "Male", "Male"
+flag="f.venezuela"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",     "male_title",        "female_title"
+                 "Despotism",      _("Governador"), _("Governadora")
+                 "Fundamentalism", _("Terrateniente"), _("Terrateniente")
+                 "Monarchy",       _("Dictador"), _("Dictadora")
+		 "The Republic",   _("Presidente"), _("Presidenta")
+                 "Democracy",      _("Presidente"), _("Presidenta")
+		 "Communism",      _("Presidente"), _("Presidenta")
+               }
+init_techs=""
+init_buildings=""
+tech_goals = "Code of Laws", "Iron Working", "The Wheel", "Monarchy",
+             "Literacy", "The Republic", "Gunpowder", "Leadership",
+	     "Conscription", "Tactics", "Amphibious Warfare", "Magnetism",
+             "Mobile Warfare", "Combined Arms", "Rocketry"
+wonder="A.Smith's Trading Co."
+government=""
+cities =
+  "Caracas", "Zulia (ocean)", "Falcón", "Lara", "Yaracuy", "Trujillo",
+  "Barinas", "Apure", "Cojedes", "Táchira", "Mérida (hills)", "Vargas",
+  "Carabobo", "Guarico", "Aragua", "Miranda", "Anzoátegui", "Sucre",
+  "Monagas", "Nueva Esparta", "Delta amacuro", "Bolívar (river)",
+  "Amazonas (forest)",
+  "Maracay", "Valencia", "Barquisimeto", "Maracaibo", "Barcelona",
+  "Ciudad Bolivar",
+  "Cumana", "Puerto Ordaz", "Coro", "Puerto de La Vela", "Nirgua",
+  "Tinaquillo",
+  "San Carlos", "El Tigre", "Puerto La Cruz", "Margarita (ocean)",
+  "Turmero", "Cagua",
+  "Puerto Cabello", "Cabimas", "Punto Fijo", "Carora", "San felipe",
+  "Valera",
+  "La Puerta", "Distrito Federal", "La Asuncion", "San Fernando",
+  "El tocuyo", "Puerto Ayacucho (river)",
+  "San Cristóbal", "Ciudad Guayana", "La Guaira", "Nueva Cádiz",
+  "Guatire", "Las Mercedes",
+  "Santa Maria de Ipire", "Libertador", "Santa Helena de Guairen"
+  

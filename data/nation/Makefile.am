@@ -87,6 +87,7 @@ pkgdata_DATA = \
 		thai.ruleset \
 		turk.ruleset \
 		ukrainian.ruleset \
+		venezuelan.ruleset	\
 		vietnamese.ruleset \
 		viking.ruleset \
 		welsh.ruleset \
