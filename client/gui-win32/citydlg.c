@@ -606,7 +606,7 @@ void city_dialog_update_map(HDC hdc,struct city_dialog *pdialog)
 
 void city_dialog_update_citizens(HDC hdc,struct city_dialog *pdialog)
 {
-  int i, n;
+  int i;
   struct city *pcity=pdialog->pcity;
   RECT rc;
   HBITMAP oldbit;
@@ -1642,7 +1642,7 @@ void city_dlg_click_supported(struct city_dialog *pdialog, int n)
            _("_Disband unit"),
              present_units_disband_callback, punit->id,
            _("_Cancel"),
-             present_units_cancel_callback, 0, 0,NULL);
+	     present_units_cancel_callback, 0, 0,NULL);
   }
 }
 
@@ -1751,6 +1751,8 @@ void city_dlg_click_citizens(struct city_dialog *pdialog,int n)
       packet.specialist_to=SP_ELVIS;   
       send_packet_city_request(&aconnection, &packet,
 			       PACKET_CITY_CHANGE_SPECIALIST);   
+      break;
+    default:
       break;
     }
 }
