@@ -27,26 +27,6 @@
 #include "mapctrl.h"
 #include "mapview.h"
 
-/* Mapview dimensions. */
-int map_view_x0, map_view_y0;
-int canvas_width, canvas_height;
-int mapview_tile_width, mapview_tile_height;
-
-/**************************************************************************
-  This function can be used by mapview_common code to determine the
-  location and dimensions of the mapview canvas.
-**************************************************************************/
-void get_mapview_dimensions(int *map_view_topleft_map_x,
-			    int *map_view_topleft_map_y,
-			    int *map_view_pixel_width,
-			    int *map_view_pixel_height)
-{
-  /* PORTME */
-  *map_view_topleft_map_x = map_view_x0;
-  *map_view_topleft_map_y = map_view_y0;
-  *map_view_pixel_width = canvas_width;
-  *map_view_pixel_height = canvas_height;
-}
 
 /**************************************************************************
   Typically an info box is provided to tell the player about the state

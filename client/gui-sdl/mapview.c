@@ -111,22 +111,6 @@ static void draw_map_cell(SDL_Surface * pDest, Sint16 map_x, Sint16 map_y,
 /* ================================================================ */
 
 
-
-/**************************************************************************
-  This function can be used by mapview_common code to determine the
-  location and dimensions of the mapview canvas.
-**************************************************************************/
-void get_mapview_dimensions(int *map_view_topleft_map_x,
-			    int *map_view_topleft_map_y,
-			    int *map_view_pixel_width,
-			    int *map_view_pixel_height)
-{
-  *map_view_topleft_map_x = map_view_x0;
-  *map_view_topleft_map_y = map_view_y0;
-  *map_view_pixel_width = Main.screen->w;
-  *map_view_pixel_height = Main.screen->h;
-}
-
 /**************************************************************************
   Draw some or all of a tile onto the mapview canvas.
 **************************************************************************/

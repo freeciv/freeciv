@@ -62,25 +62,6 @@ Pixmap scaled_intro_pixmap;
 int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
 
-/***********************************************************************
-  This function can be used by mapview_common code to determine the
-  location and dimensions of the mapview canvas.
-***********************************************************************/
-void get_mapview_dimensions(int *map_view_topleft_map_x,
-			    int *map_view_topleft_map_y,
-			    int *map_view_pixel_width,
-			    int *map_view_pixel_height)
-{
-  Dimension width, height;
-
-  *map_view_topleft_map_x = map_view_x0;
-  *map_view_topleft_map_y = map_view_y0;
-  XtVaGetValues(map_canvas, XtNwidth, &width, XtNheight, &height, NULL);
-
-  *map_view_pixel_width = (Dimension)width;
-  *map_view_pixel_height = (Dimension)height;
-}
-
 /**************************************************************************
  This function is called to decrease a unit's HP smoothly in battle
  when combat_animation is turned on.

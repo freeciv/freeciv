@@ -306,13 +306,9 @@ static void canvas_pos_to_map_pos(int canvas_x, int canvas_y,
 **************************************************************************/
 bool get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
 {
-  int map_view_x0, map_view_y0, map_win_width, map_win_height;
-
-  get_mapview_dimensions(&map_view_x0, &map_view_y0,
-			 &map_win_width, &map_win_height);
   return map_pos_to_canvas_pos(map_x, map_y, canvas_x, canvas_y,
-			       map_view_x0, map_view_y0,
-			       map_win_width, map_win_height);
+			       mapview_canvas.map_x0, mapview_canvas.map_y0,
+			       mapview_canvas.width, mapview_canvas.height);
 }
 
 /**************************************************************************
@@ -320,12 +316,8 @@ bool get_canvas_xy(int map_x, int map_y, int *canvas_x, int *canvas_y)
 **************************************************************************/
 void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 {
-  int map_view_x0, map_view_y0, map_win_width, map_win_height;
-
-  get_mapview_dimensions(&map_view_x0, &map_view_y0,
-			 &map_win_width, &map_win_height);
   canvas_pos_to_map_pos(canvas_x, canvas_y, map_x, map_y,
-			map_view_x0, map_view_y0);
+			mapview_canvas.map_x0, mapview_canvas.map_y0);
 }
 
 /**************************************************************************
@@ -333,13 +325,9 @@ void get_map_xy(int canvas_x, int canvas_y, int *map_x, int *map_y)
 **************************************************************************/
 void get_center_tile_mapcanvas(int *map_x, int *map_y)
 {
-  int map_view_x0, map_view_y0, map_win_width, map_win_height;
-
-  get_mapview_dimensions(&map_view_x0, &map_view_y0,
-			 &map_win_width, &map_win_height);
-
   /* This sets the pointers map_x and map_y */
-  get_map_xy(map_win_width / 2, map_win_height / 2, map_x, map_y);
+  get_map_xy(mapview_canvas.width / 2, mapview_canvas.height / 2,
+	     map_x, map_y);
 }
 
 /**************************************************************************
@@ -401,14 +389,6 @@ bool tile_visible_mapcanvas(int map_x, int map_y)
 **************************************************************************/
 bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
 {
-  int map_view_x0, map_view_y0, map_win_width, map_win_height;
-  int map_tile_width, map_tile_height;
-
-  get_mapview_dimensions(&map_view_x0, &map_view_y0,
-			 &map_win_width, &map_win_height);
-  map_tile_width = (map_win_width - 1) / NORMAL_TILE_WIDTH + 1;
-  map_tile_height = (map_win_height - 1) / NORMAL_TILE_HEIGHT + 1;
-
   if (is_isometric) {
     int canvas_x, canvas_y;
 
@@ -416,23 +396,23 @@ bool tile_visible_and_not_on_border_mapcanvas(int map_x, int map_y)
      * screen, and the 1.5-tiles on the right and bottom. */
     return (get_canvas_xy(map_x, map_y, &canvas_x, &canvas_y)
 	    && canvas_x > NORMAL_TILE_WIDTH / 2
-	    && canvas_x < map_win_width - 3 * NORMAL_TILE_WIDTH / 2
+	    && canvas_x < mapview_canvas.width - 3 * NORMAL_TILE_WIDTH / 2
 	    && canvas_y >= NORMAL_TILE_HEIGHT
-	    && canvas_y < map_win_height - 3 * NORMAL_TILE_HEIGHT / 2);
+	    && canvas_y < mapview_canvas.height - 3 * NORMAL_TILE_HEIGHT / 2);
   } else {
+    int x0 = mapview_canvas.map_x0, y0 = mapview_canvas.map_y0;
+    int twidth = mapview_canvas.tile_width;
+    int theight = mapview_canvas.tile_height;
+
     /* The border consists of the two tiles on the edge of the
      * mapview.  But we take into account the border of the map. */
-    return ((map_y >= map_view_y0 + 2 || (map_y >= map_view_y0
-					  && map_view_y0 == 0))
-	    && (map_y < map_view_y0 + map_tile_height - 2
-		|| (map_y < map_view_y0 + map_tile_height
-		    && (map_view_y0 + map_tile_height
-			- EXTRA_BOTTOM_ROW == map.ysize)))
-	    && ((map_x >= map_view_x0 + 2
-		 && map_x < map_view_x0 + map_tile_width - 2)
-		|| (map_x + map.xsize >= map_view_x0 + 2
-		    && (map_x + map.xsize
-			< map_view_x0 + map_tile_width - 2))));
+    return ((map_y > y0 + 2 || (map_y >= y0 && y0 == 0))
+	    && (map_y < y0 + theight - 2
+		|| (map_y < y0 + theight
+		    && (y0 + theight - EXTRA_BOTTOM_ROW == map.ysize)))
+	    && ((map_x >= x0 + 2 && map_x < x0 + twidth - 2)
+		|| (map_x + map.xsize >= x0 + 2
+		    && (map_x + map.xsize < x0 + twidth - 2))));
   }
 }
 
@@ -763,30 +743,24 @@ void update_map_canvas(int x, int y, int width, int height,
 **************************************************************************/
 void update_map_canvas_visible(void)
 {
-  int map_view_x0, map_view_y0, map_win_width, map_win_height;
-  int map_tile_width, map_tile_height;
-
-  get_mapview_dimensions(&map_view_x0, &map_view_y0,
-			 &map_win_width, &map_win_height);
-  map_tile_width = (map_win_width - 1) / NORMAL_TILE_WIDTH + 1;
-  map_tile_height = (map_win_height - 1) / NORMAL_TILE_HEIGHT + 1;
-
   if (is_isometric) {
     /* just find a big rectangle that includes the whole visible area. The
        invisible tiles will not be drawn. */
     int width, height;
 
-    width = height = map_tile_width + map_tile_height;
-    update_map_canvas(map_view_x0, map_view_y0 - map_tile_width, width,
-		      height, FALSE);
+    width = height = mapview_canvas.tile_width + mapview_canvas.tile_height;
+    update_map_canvas(mapview_canvas.map_x0,
+		      mapview_canvas.map_y0 - mapview_canvas.tile_width,
+		      width, height, FALSE);
   } else {
-    update_map_canvas(map_view_x0, map_view_y0, map_tile_width,
-		      map_tile_height, FALSE);
+    update_map_canvas(mapview_canvas.map_x0, mapview_canvas.map_y0,
+		      mapview_canvas.tile_width, mapview_canvas.tile_height,
+		      FALSE);
   }
 
   show_city_descriptions();
 
-  flush_mapcanvas(0, 0, map_win_width, map_win_height);
+  flush_mapcanvas(0, 0, mapview_canvas.width, mapview_canvas.height);
 }
 
 /**************************************************************************
@@ -794,8 +768,6 @@ void update_map_canvas_visible(void)
 **************************************************************************/
 void show_city_descriptions(void)
 {
-  int map_view_x0, map_view_y0, map_win_width, map_win_height;
-  int map_tile_width, map_tile_height;
   int canvas_x, canvas_y;
 
   if (!draw_city_names && !draw_city_productions) {
@@ -804,19 +776,14 @@ void show_city_descriptions(void)
 
   prepare_show_city_descriptions();
 
-  get_mapview_dimensions(&map_view_x0, &map_view_y0, &map_win_width,
-			 &map_win_height);
-  map_tile_width = (map_win_width - 1) / NORMAL_TILE_WIDTH + 1;
-  map_tile_height = (map_win_height - 1) / NORMAL_TILE_HEIGHT + 1;
-
   if (is_isometric) {
     int w, h;
 
-    for (h = -1; h < map_tile_height * 2; h++) {
-      int x_base = map_view_x0 + h / 2 + (h != -1 ? h % 2 : 0);
-      int y_base = map_view_y0 + h / 2 + (h == -1 ? -1 : 0);
+    for (h = -1; h < mapview_canvas.tile_height * 2; h++) {
+      int x_base = mapview_canvas.map_x0 + h / 2 + (h != -1 ? h % 2 : 0);
+      int y_base = mapview_canvas.map_y0 + h / 2 + (h == -1 ? -1 : 0);
 
-      for (w = 0; w <= map_tile_width; w++) {
+      for (w = 0; w <= mapview_canvas.tile_width; w++) {
 	int x = x_base + w;
 	int y = y_base - w;
 	struct city *pcity;
@@ -831,10 +798,10 @@ void show_city_descriptions(void)
   } else {			/* is_isometric */
     int x1, y1;
 
-    for (x1 = 0; x1 < map_tile_width; x1++) {
-      for (y1 = 0; y1 < map_tile_height; y1++) {
-	int x = map_view_x0 + x1;
-	int y = map_view_y0 + y1;
+    for (x1 = 0; x1 < mapview_canvas.tile_width; x1++) {
+      for (y1 = 0; y1 < mapview_canvas.tile_height; y1++) {
+	int x = mapview_canvas.map_x0 + x1;
+	int y = mapview_canvas.map_y0 + y1;
 	struct city *pcity;
 
 	if (normalize_map_pos(&x, &y)

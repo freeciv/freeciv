@@ -19,11 +19,6 @@
 struct unit;
 struct city;
 
-void get_mapview_dimensions(int *map_view_topleft_map_x,
-			    int *map_view_topleft_map_y,
-			    int *map_view_pixel_width,
-			    int *map_view_pixel_height);
-
 void update_info_label(void);
 void update_unit_info_label(struct unit *punit);
 void update_timeout_label(void);
