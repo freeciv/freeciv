@@ -18,6 +18,7 @@
 #include <assert.h>
 
 #include "city.h"
+#include "distribute.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
@@ -99,6 +100,22 @@ static void ai_manage_taxes(struct player *pplayer)
   bool celebrate = TRUE;
   int can_celebrate = 0, total_cities = 0;
   struct government *g = get_gov_pplayer(pplayer);
+  int trade = 0; /* total amount of trade generated */
+  int expenses = 0; /* total amount of gold upkeep */
+
+  if (!game.rgame.changable_tax) {
+    return; /* This ruleset does not support changing tax rates. */
+  }
+
+  if (get_gov_pplayer(pplayer)->index == game.government_when_anarchy) {
+    return; /* This government does not support changing tax rates. */
+  }
+
+  /* Find total trade surplus and gold expenses */
+  city_list_iterate(pplayer->cities, pcity) {
+    trade += pcity->surplus[O_TRADE];
+    expenses += pcity->usage[O_GOLD];
+  } city_list_iterate_end;
 
   /* Find minimum tax rate which gives us a positive balance. We assume
    * that we want science most and luxuries least here, and reverse or 
@@ -114,8 +131,18 @@ static void ai_manage_taxes(struct player *pplayer)
   while(pplayer->economic.tax < maxrate
         && (pplayer->economic.science > 0
             || pplayer->economic.luxury > 0)) {
+    int rates[3], result[3];
+    const int SCIENCE = 0, TAX = 1, LUXURY = 2;
 
-    if (player_get_expected_income(pplayer) < 0) {
+    /* Assume our entire civilization is one big city, and 
+     * distribute total income accordingly. This is a 
+     * simplification that speeds up the code significantly. */
+    rates[SCIENCE] = pplayer->economic.science;
+    rates[LUXURY] = pplayer->economic.luxury;
+    rates[TAX] = 100 - rates[SCIENCE] - rates[LUXURY];
+    distribute(trade, 3, rates, result);
+
+    if (expenses - result[TAX] > 0) {
       pplayer->economic.tax += 10;
       if (pplayer->economic.luxury > 0) {
         pplayer->economic.luxury -= 10;
@@ -223,10 +250,10 @@ static void ai_manage_taxes(struct player *pplayer)
 
   assert(pplayer->economic.tax + pplayer->economic.luxury 
          + pplayer->economic.science == 100);
-  freelog(LOGLEVEL_TAX, "%s rates: Sci %d Lux%d Tax %d NetIncome %d "
-          "celeb=(%d/%d)", pplayer->name, pplayer->economic.science,
-          pplayer->economic.luxury, pplayer->economic.tax,
-          player_get_expected_income(pplayer), can_celebrate, total_cities);
+  freelog(LOGLEVEL_TAX, "%s rates: Sci=%d Lux=%d Tax=%d trade=%d expenses=%d"
+          " celeb=(%d/%d)", pplayer->name, pplayer->economic.science,
+          pplayer->economic.luxury, pplayer->economic.tax, trade, expenses,
+          can_celebrate, total_cities);
   send_player_info(pplayer, pplayer);
 }
 
