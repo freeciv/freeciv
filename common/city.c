@@ -1931,3 +1931,27 @@ void city_remove_improvement(struct city *pcity,Impr_Type_id impr)
   }
 }
 
+/**************************************************************************
+Return the status (C_TILE_EMPTY, C_TILE_WORKER or C_TILE_UNAVAILABLE)
+of a given map position. If the status is C_TILE_WORKER the city which
+uses this tile is also returned. If status isn't C_TILE_WORKER the
+city pointer is set to NULL.
+**************************************************************************/
+void get_worker_on_map_position(int map_x, int map_y, enum city_tile_type
+				*result_city_tile_type,
+				struct city **result_pcity)
+{
+  struct tile *ptile = map_get_tile(map_x, map_y);
+  if (ptile->worked) {
+    *result_pcity = ptile->worked;
+    *result_city_tile_type = C_TILE_WORKER;
+    return;
+  }
+
+  *result_pcity = NULL;
+  if (is_real_tile(map_x, map_y)) {
+    *result_city_tile_type = C_TILE_EMPTY;
+  } else {
+    *result_city_tile_type = C_TILE_UNAVAILABLE;
+  }
+}

@@ -35,7 +35,6 @@
 #include "timing.h"
 #include "unit.h"
 
-
 #include "civclient.h"
 #include "climisc.h"
 #include "colors.h"
@@ -1061,27 +1060,16 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int canvas_x, int canvas_y,
     }
 
     if (draw_map_grid && !citymode) {
-      int here_in_radius =
-	player_in_city_radius(game.player_ptr, x, y);
       /* left side... */
-      if ((map_get_tile(x-1, y))->known &&
-	  (here_in_radius ||
-	   player_in_city_radius(game.player_ptr, x-1, y))) {
-	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
-      } else {
-	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_BLACK]);
-      }
+      XSetForeground(display, civ_gc, colors_standard[get_grid_color
+						      (x, y, x - 1, y)]);
       XDrawLine(display, pm, civ_gc,
 		canvas_x, canvas_y,
 		canvas_x, canvas_y + NORMAL_TILE_HEIGHT);
+
       /* top side... */
-      if((map_get_tile(x, y-1))->known &&
-	 (here_in_radius ||
-	  player_in_city_radius(game.player_ptr, x, y-1))) {
-	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_WHITE]);
-      } else {
-	XSetForeground(display, civ_gc, colors_standard[COLOR_STD_BLACK]);
-      }
+      XSetForeground(display, civ_gc, colors_standard[get_grid_color
+						      (x, y, x, y - 1)]);
       XDrawLine(display, pm, civ_gc,
 		canvas_x, canvas_y,
 		canvas_x + NORMAL_TILE_WIDTH, canvas_y);

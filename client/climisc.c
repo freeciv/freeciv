@@ -477,3 +477,33 @@ int client_cooling_sprite(void)
   }
   return index;
 }
+
+/**************************************************************************
+Returns the color the grid should have between tile (x1,y1) and
+(x2,y2).
+**************************************************************************/
+enum color_std get_grid_color(int x1, int y1, int x2, int y2)
+{
+  enum city_tile_type city_tile_type1, city_tile_type2;
+  struct city *dummy_pcity;
+
+  assert(is_tiles_adjacent(x1, y1, x2, y2));
+
+  if (!map_get_tile(x2, y2)->known) {
+    return COLOR_STD_BLACK;
+  }
+
+  if (!player_in_city_radius(game.player_ptr, x1, y1) &&
+      !player_in_city_radius(game.player_ptr, x2, y2)) {
+    return COLOR_STD_BLACK;
+  }
+
+  get_worker_on_map_position(x1, y1, &city_tile_type1, &dummy_pcity);
+  get_worker_on_map_position(x2, y2, &city_tile_type2, &dummy_pcity);
+
+  if (city_tile_type1 == C_TILE_WORKER || city_tile_type2 == C_TILE_WORKER) {
+    return COLOR_STD_RED;
+  } else {
+    return COLOR_STD_WHITE;
+  }
+}
