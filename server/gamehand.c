@@ -264,13 +264,21 @@ int game_load(struct section_file *file)
 
   if (game.version >= 10100) {
     game.cityfactor = secfile_lookup_int(file, "game.cityfactor");
-    game.civilwarsize = secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE, "game.civilwarsize");
+    game.civilwarsize =
+      secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
+				 "game.civilwarsize");
     game.diplcost   = secfile_lookup_int(file, "game.diplcost");
     game.freecost   = secfile_lookup_int(file, "game.freecost");
     game.conquercost   = secfile_lookup_int(file, "game.conquercost");
     game.foodbox     = secfile_lookup_int(file, "game.foodbox");
     game.techpenalty = secfile_lookup_int(file, "game.techpenalty");
     game.razechance  = secfile_lookup_int(file, "game.razechance");
+
+    /* suppress warnings about unused entries in old savegames: */
+    section_file_lookup(file, "game.rail_food");
+    section_file_lookup(file, "game.rail_prod");
+    section_file_lookup(file, "game.rail_trade");
+    section_file_lookup(file, "game.farmfood");
   }
   if (game.version >= 10300) {
     game.civstyle = secfile_lookup_int(file, "game.civstyle");
