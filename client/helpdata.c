@@ -1108,7 +1108,7 @@ void helptext_terrain(char *buf, int i, const char *user_text)
   }
   if (terrain_has_flag(i, TER_OCEANIC)) {
     sprintf(buf + strlen(buf),
-	    _("* Only naval units can travel on oceanic terrains."));
+	    _("* Land units cannot travel on oceanic terrains."));
     strcat(buf, "\n");
   }
 
