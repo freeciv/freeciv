@@ -144,6 +144,12 @@ void wakeup_sentried_units(int x, int y)
 void request_unit_build_city(struct unit *punit)
 {
   struct city *pcity;
+
+  if (punit->moves_left == 0)	{
+      append_output_window("Game: Sir, this unit has no move left to build a city.");
+      return;
+	}
+
   if((pcity=map_get_city(punit->x, punit->y))) {
     if (pcity->size>8) {
       append_output_window("Game: Sir, the city is already big.");
