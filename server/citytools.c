@@ -591,7 +591,7 @@ int wants_to_be_bigger(struct city *pcity)
  * happens to all the units.  --dwp
  *
  * If statement added to see if the owner of pcity is the same as vcity. If so,
- * then the city is disbanded and not bougth, and we only need to evaluate the
+ * then the city is disbanded and not bought, and we only need to evaluate the
  * units supported by the city, and not those actually present.
  * - Thue <thue.kristensen@get2net.dk>
  *
@@ -606,7 +606,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   int x = vcity->x;
   int y = vcity->y;
 
-  if (city_owner(pcity)!=city_owner(vcity)){ /* true=>bougth, false =>disbanded */
+  if (city_owner(pcity)!=city_owner(vcity)) { /* true=>bought, false =>disbanded */
     /* Transfer units in the city to the new owner */
     unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
@@ -626,9 +626,10 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
    * cities or maybe destroyed */
   unit_list_iterate(vcity->units_supported, vunit) {
     struct city* new_home_city = map_get_city(vunit->x, vunit->y);
-    if(new_home_city)  {
-      /* unit is in another city: make that the new homecity */
-      
+    if(new_home_city) {
+      /* unit is in another city: make that the new homecity,
+	 unless that city is actually the same city (happens if disbanding) */
+
       if (pvictim == city_owner(new_home_city)) {
 	freelog(LOG_VERBOSE, "Changed homecity of %s's %s in %s",
 	     pvictim->name, unit_name(vunit->type), new_home_city->name);
@@ -646,10 +647,15 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 			pvictim->name, pplayer->name);
 	}
       }
-      create_unit_full(city_owner(new_home_city), vunit->x, vunit->y,
-		       vunit->type, vunit->veteran, new_home_city->id,
-		       vunit->moves_left, vunit->hp);
-
+      if(new_home_city != vcity) {
+	create_unit_full(city_owner(new_home_city), vunit->x, vunit->y,
+			 vunit->type, vunit->veteran, new_home_city->id,
+			 vunit->moves_left, vunit->hp);
+      } else {
+	create_unit_full(pplayer, vunit->x, vunit->y,
+			 vunit->type, vunit->veteran, pcity->id,
+			 vunit->moves_left, vunit->hp);
+      }
     }else if((kill_outside < 0) ||
 	     ((kill_outside > 0) &&
 	      (real_map_distance(vunit->x, vunit->y, x, y) <= kill_outside))) {
@@ -1008,11 +1014,11 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 
   if (!pcity)
     return NULL;
-  
-  if(pcity->owner != cplayer->player_no)
-    return NULL;
 
   if (cplayer==pplayer || cplayer==NULL) 
+    return NULL;
+  
+  if(pcity->owner != cplayer->player_no)
     return NULL;
 
   pnewcity=fc_malloc(sizeof(struct city));
