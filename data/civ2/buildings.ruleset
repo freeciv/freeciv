@@ -1845,8 +1845,10 @@ build_cost	= 300
 upkeep		= 0
 sabotage	= 0
 effect		=
-    { "name", "value", "req_type", "req"
-      "Make_Content", 2, "Building", "Temple"
+    { "name", "range", "value", "req_type", "req"
+; BUG: this will give the wrong results if the player has oracle but not
+; Mysticism
+      "Make_Content", "Player", 2, "Building", "Temple"
     }
 sound		= "w_oracle"
 sound_alt	= "w_generic"
