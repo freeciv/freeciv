@@ -382,6 +382,62 @@ void input_from_server_till_request_got_processed(int fd,
   }
 }
 
+#ifdef WIN32_NATIVE
+/*****************************************************************
+   Returns an uname like string for windows
+*****************************************************************/
+static char *win_uname()
+{
+  static char uname_buf[256];
+  char cpuname[16];
+  char osname[64];
+  SYSTEM_INFO sysinfo;
+  OSVERSIONINFO osvi;
+  osvi.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
+  GetVersionEx(&osvi);
+  if (osvi.dwPlatformId==VER_PLATFORM_WIN32_NT) {
+    if ((osvi.dwMajorVersion==5)&&(osvi.dwMinorVersion==0)) {
+      sz_strlcpy(osname,"Win2000");
+    } else {
+      sz_strlcpy(osname,"WinNT");
+    }
+  } else {
+    sz_strlcpy(osname,osvi.szCSDVersion);
+  }
+  GetSystemInfo(&sysinfo); 
+  switch (sysinfo.wProcessorArchitecture)
+    {
+    case PROCESSOR_ARCHITECTURE_INTEL:
+      {
+	unsigned int ptype;
+	if (sysinfo.wProcessorLevel < 3) /* Shouldn't happen. */
+	  ptype = 3;
+	else if (sysinfo.wProcessorLevel > 9) /* P4 */
+	  ptype = 6;
+	else
+	  ptype = sysinfo.wProcessorLevel;
+	
+	my_snprintf (cpuname,sizeof(cpuname), "i%d86", ptype);
+	break;
+      }
+    case PROCESSOR_ARCHITECTURE_ALPHA:
+      sz_strlcpy (cpuname, "alpha");
+      break;
+    case PROCESSOR_ARCHITECTURE_MIPS:
+      sz_strlcpy (cpuname, "mips");
+      break;
+    default:
+      sz_strlcpy (cpuname, "unknown");
+      break;
+    }
+  my_snprintf(uname_buf,sizeof(uname_buf),
+	      "%s %ld.%ld [%s]",osname,osvi.dwMajorVersion,osvi.dwMinorVersion,
+	      cpuname);
+  return uname_buf;
+}
+#endif
+
+
 #define SPECLIST_TAG server
 #define SPECLIST_TYPE struct server
 #include "speclist_c.h"
@@ -484,8 +540,12 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
 #else /* ! HAVE_UNAME */
   /* Fill in here if you are making a binary without sys/utsname.h and know
      the OS name, release number, and machine architechture */
+#ifdef WIN32_NATIVE
+  sz_strlcpy(machine_string,win_uname());
+#else
   my_snprintf(machine_string,sizeof(machine_string),
               "unknown unknown [unknown]");
+#endif
 #endif /* HAVE_UNAME */
 
   my_snprintf(str,sizeof(str),
