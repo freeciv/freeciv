@@ -341,7 +341,7 @@ struct Sprite *load_gfxfile(const char *filename)
   png_bytep buf, pb;
   png_uint_32 stride;
   unsigned long *pcolorarray;
-  bool *ptransarray = NULL;
+  bool *ptransarray;
   struct Sprite *mysprite;
   XImage *xi;
   int has_mask;
@@ -414,6 +414,8 @@ struct Sprite *load_gfxfile(const char *filename)
     for (i = 0; i < ntrans; i++) {
       ptransarray[trans[i]] = TRUE;
     }
+  } else {
+    ptransarray = NULL;
   }
 
   png_read_update_info(pngp, infop);
