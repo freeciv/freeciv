@@ -811,8 +811,6 @@ static GtkItemFactoryEntry menu_items[]	=
 	reports_menu_callback,	MENU_REPORT_WOW						},
   { "/" N_("Reports") "/" N_("_Top Five Cities"),	"F8",
 	reports_menu_callback,	MENU_REPORT_TOP_CITIES					},
-  { "/" N_("Reports") "/" N_("_Messages"),		"F9",
-	reports_menu_callback,	MENU_REPORT_MESSAGES					},
   { "/" N_("Reports") "/" N_("_Demographics"),		"F11",
 	reports_menu_callback,	MENU_REPORT_DEMOGRAPHIC					},
   { "/" N_("Reports") "/" N_("S_paceship"),		"F12",

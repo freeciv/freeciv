@@ -112,9 +112,11 @@ void update_info_label( void )
 {
   int  d;
   int  sol, flake;
+  GtkWidget *label;
 
-  gtk_frame_set_label(GTK_FRAME(main_frame_civ_name),
-		      get_nation_name(game.player_ptr->nation));
+  label = gtk_frame_get_label_widget(GTK_FRAME(main_frame_civ_name));
+  gtk_label_set_text(GTK_LABEL(label),
+		     get_nation_name(game.player_ptr->nation));
 
   gtk_label_set_text(GTK_LABEL(main_label_info), get_info_label_text());
 
@@ -176,8 +178,12 @@ void update_info_label( void )
 **************************************************************************/
 void update_unit_info_label(struct unit *punit)
 {
-  gtk_frame_set_label(GTK_FRAME(unit_info_frame),
-		      get_unit_info_label_text1(punit));
+  GtkWidget *label;
+
+  label = gtk_frame_get_label_widget(GTK_FRAME(unit_info_frame));
+  gtk_label_set_text(GTK_LABEL(label),
+		     get_unit_info_label_text1(punit));
+
   gtk_label_set_text(GTK_LABEL(unit_info_label),
 		     get_unit_info_label_text2(punit));
 

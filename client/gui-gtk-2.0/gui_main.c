@@ -60,6 +60,7 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
+#include "messagewin.h"
 #include "optiondlg.h"
 #include "options.h"
 #include "spaceshipdlg.h"
@@ -579,6 +580,8 @@ static void setup_widgets(void)
   struct Sprite *sprite;
   GtkCellRenderer *rend;
 
+  GtkWidget *notebook, *messages;
+
   main_tips = gtk_tooltips_new();
 
   /* the window is divided into two panes. "top" and "message window" */ 
@@ -669,7 +672,7 @@ static void setup_widgets(void)
   avbox = detached_widget_fill(ahbox);
 
   /* Info on player's civilization, when game is running. */
-  frame = gtk_frame_new(NULL);
+  frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(avbox), frame, FALSE, FALSE, 0);
 
   main_frame_civ_name = frame;
@@ -792,7 +795,7 @@ static void setup_widgets(void)
  
   /* Selected unit status */
 
-  unit_info_frame = gtk_frame_new(NULL);
+  unit_info_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(avbox), unit_info_frame, FALSE, FALSE, 0);
     
   unit_info_label = gtk_label_new("\n\n\n");
@@ -871,13 +874,21 @@ static void setup_widgets(void)
   gtk_paned_pack2(GTK_PANED(paned), sbox, TRUE, TRUE);
   avbox = detached_widget_fill(sbox);
 
+  notebook = gtk_notebook_new();
+  gtk_box_pack_start(GTK_BOX(avbox), notebook, TRUE, TRUE, 0);
+
+  vbox = gtk_vbox_new(FALSE, 0);
+
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_ALWAYS);
-  gtk_box_pack_start(GTK_BOX(avbox), sw, TRUE, TRUE, 0);
   gtk_widget_set_size_request(sw, 600, 100);
+  gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 0);
+
+  label = gtk_label_new_with_mnemonic("_Chat");
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, label);
 
   text = gtk_text_view_new();
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
@@ -898,7 +909,7 @@ static void setup_widgets(void)
 
   /* the chat line */
   inputline = gtk_entry_new();
-  gtk_box_pack_start(GTK_BOX(avbox), inputline, FALSE, FALSE, 3);
+  gtk_box_pack_start(GTK_BOX(vbox), inputline, FALSE, FALSE, 3);
 
   g_signal_connect(inputline, "activate", G_CALLBACK(inputline_return), NULL);
 
@@ -908,6 +919,9 @@ static void setup_widgets(void)
   g_signal_connect(inputline, "focus_out_event",
 		   G_CALLBACK(inputline_focus), GINT_TO_POINTER(0));
 
+  label = gtk_label_new_with_mnemonic("_Messages");
+  messages = create_meswin_area();
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), messages, label);
 
   /* Other things to take care of */
 
