@@ -2417,22 +2417,9 @@ static void present_units_page_pos_callback(GtkWidget * w, gpointer data)
 *****************************************************************/
 static void activate_all_units_callback(GtkWidget * w, gpointer data)
 {
-  struct city_dialog *pdialog = (struct city_dialog *) data;
-  int x = pdialog->pcity->x, y = pdialog->pcity->y;
-  struct unit_list *punit_list = &map_get_tile(x, y)->units;
-  struct unit *pmyunit = NULL;
+  struct city_dialog *pdialog = data;
 
-  if (unit_list_size(punit_list)) {
-    unit_list_iterate((*punit_list), punit) {
-      if (game.player_idx == punit->owner) {
-	pmyunit = punit;
-	request_new_unit_activity(punit, ACTIVITY_IDLE);
-      }
-    }
-    unit_list_iterate_end;
-    if (pmyunit)
-      set_unit_focus(pmyunit);
-  }
+  activate_all_units(pdialog->pcity->x, pdialog->pcity->y);
 }
 
 /****************************************************************

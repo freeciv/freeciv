@@ -45,4 +45,6 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
 void get_city_citizen_types(struct city *pcity, int index,
 			    enum citizen_type *citizens);
 
+void activate_all_units(int map_x, int map_y);
+
 #endif /* FC__CITYDLG_COMMON_H */

@@ -21,6 +21,7 @@
 #include "support.h"
 
 #include "citydlg_common.h"
+#include "control.h"
 #include "options.h"		/* for concise_city_production */
 #include "tilespec.h"		/* for is_isometric */
 
@@ -292,4 +293,25 @@ void get_city_citizen_types(struct city *pcity, int index,
   }
 
   assert(i == pcity->size);
+}
+
+/**************************************************************************
+  Activate all units on the given map tile.
+**************************************************************************/
+void activate_all_units(int map_x, int map_y)
+{
+  struct unit_list *punit_list = &map_get_tile(map_x, map_y)->units;
+  struct unit *pmyunit = NULL;
+
+  unit_list_iterate((*punit_list), punit) {
+    if (game.player_idx == punit->owner) {
+      /* Activate this unit. */
+      pmyunit = punit;
+      request_new_unit_activity(punit, ACTIVITY_IDLE);
+    }
+  } unit_list_iterate_end;
+  if (pmyunit) {
+    /* Put the focus on one of the activated units. */
+    set_unit_focus(pmyunit);
+  }
 }
