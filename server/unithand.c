@@ -1551,7 +1551,8 @@ void handle_unit_orders(struct player *pplayer,
 #endif
 
   assign_units_to_transporter(punit, TRUE);
-  if (execute_orders(punit) != GR_DIED) {
+  if (execute_orders(punit)) {
+    /* Looks like the unit survived. */
     send_unit_info(NULL, punit);
   }
 }

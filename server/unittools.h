@@ -82,6 +82,6 @@ bool do_paradrop(struct unit *punit, int dest_x, int dest_y);
 void assign_units_to_transporter(struct unit *ptrans, bool take_from_land);
 bool move_unit(struct unit *punit, int dest_x, int dest_y,
 	      bool transport_units, bool take_from_land, int move_cost);
-enum goto_result execute_orders(struct unit *punit);
+bool execute_orders(struct unit *punit);
 
 #endif  /* FC__UNITTOOLS_H */

@@ -900,7 +900,8 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (unit_has_orders(punit)) {
-    if (execute_orders(punit) == GR_DIED) {
+    if (!execute_orders(punit)) {
+      /* Unit died. */
       return;
     }
   }
@@ -3162,13 +3163,19 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   Executes a unit's orders stored in punit->orders.  The unit is put on idle
   if an action fails or if "patrol" is set and an enemy unit is encountered.
 
+  The return value will be TRUE if the unit lives, FALSE otherwise.  (This
+  function used to return a goto_result enumeration, declared in gotohand.h.
+  But this enumeration was never checked by the caller and just lead to
+  confusion.  All the caller really needs to know is if the unit lived or
+  died; everything else is handled internally within execute_orders.)
+
   If the orders are repeating the loop starts over at the beginning once it
   completes.  To avoid infinite loops on railroad we stop for this
   turn when the unit is back where it started, even if it have moves left.
 
   A unit will attack under orders only on its final action.
 ****************************************************************************/
-enum goto_result execute_orders(struct unit *punit)
+bool execute_orders(struct unit *punit)
 {
   int dest_x, dest_y;
   bool res, last_order;
@@ -3179,7 +3186,9 @@ enum goto_result execute_orders(struct unit *punit)
   assert(unit_has_orders(punit));
 
   freelog(LOG_DEBUG, "Executing orders for %s %d",
-	  unit_name(punit->type), punit->id);
+	  unit_name(punit->type), punit->id);   
+
+  /* Any time the orders are canceled we should give the player a message. */
 
   while (TRUE) {
     struct unit_order order;
@@ -3187,24 +3196,29 @@ enum goto_result execute_orders(struct unit *punit)
     if (punit->moves_left == 0) {
       /* FIXME: this check won't work when actions take 0 MP. */
       freelog(LOG_DEBUG, "  stopping because of no more move points");
-      return GR_OUT_OF_MOVEPOINTS;
+      return TRUE;
     }
 
     if (punit->done_moving) {
       freelog(LOG_DEBUG, "  stopping because we're done this turn");
-      return GR_WAITING;
+      return TRUE;
     }
 
     if (punit->orders.vigilant && maybe_cancel_patrol_due_to_enemy(punit)) {
       /* "Patrol" orders are stopped if an enemy is near. */
-      freelog(LOG_DEBUG, "  stopping because of nearby enemy");
-      return GR_FAILED;
+      freelog(LOG_DEBUG, "  stopping because of nearby enemy");               
+      free_unit_orders(punit);
+      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
+		       _("Game: Orders for %s aborted as there "
+			 "are units nearby."),
+		       unit_name(punit->type));
+      return TRUE;
     }
 
     if (moves_made == punit->orders.length) {
       /* For repeating orders, don't repeat more than once per turn. */
       freelog(LOG_DEBUG, "  stopping because we ran a round");
-      return GR_ARRIVED;
+      return TRUE;
     }
 
     last_order = (!punit->orders.repeat
@@ -3229,13 +3243,23 @@ enum goto_result execute_orders(struct unit *punit)
       /* Move unit */
       if (!MAPSTEP(dest_x, dest_y, punit->x, punit->y, order.dir)) {
 	freelog(LOG_DEBUG, "  move order sent us to invalid location");
-	return GR_FAILED;
+	free_unit_orders(punit);
+	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
+			 _("Game: Orders for %s aborted since they "
+			   "give an invalid location."),
+			 unit_name(punit->type));
+	return TRUE;
       }
 
       if (!last_order
 	  && maybe_cancel_goto_due_to_enemy(punit, dest_x, dest_y)) {
 	freelog(LOG_DEBUG, "  orders canceled because of enemy");
-	return GR_FAILED;
+	free_unit_orders(punit);
+	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
+			 _("Game: Orders for %s aborted as there "
+			   "are units in the way."),
+			 unit_name(punit->type));
+	return TRUE;
       }
 
       freelog(LOG_DEBUG, "  moving to %d,%d", dest_x, dest_y);
@@ -3243,34 +3267,41 @@ enum goto_result execute_orders(struct unit *punit)
 				     FALSE, !last_order);
       if (!player_find_unit_by_id(pplayer, unitid)) {
 	freelog(LOG_DEBUG, "  unit died while moving.");
-	return GR_DIED;
+	/* A player notification should already have been sent. */
+	return FALSE;
       }
 
       if (res && !same_pos(dest_x, dest_y, punit->x, punit->y)) {
 	/* Movement succeeded but unit didn't move. */
 	freelog(LOG_DEBUG, "  orders resulted in combat.");
-	return GR_FOUGHT;
+	return TRUE;
       }
 
       if (!res && punit->moves_left > 0) {
 	/* Movement failed (ZOC, etc.) */
 	freelog(LOG_DEBUG, "  attempt to move failed.");
-	return GR_FAILED;
+	free_unit_orders(punit);
+	notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
+			 _("Game: Orders for %s aborted because of "
+			   "failed move."),
+			 unit_name(punit->type));
+	return TRUE;
       }
 
       break;
     case ORDER_LAST:
       freelog(LOG_DEBUG, "  client sent invalid order!");
-      notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
+      free_unit_orders(punit);
+      notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_ORDERS,
 		       _("Game: Your %s has invalid orders."),
 		       unit_name(punit->type));
-      return GR_FAILED;
+      return TRUE;
     }
 
     if (last_order) {
       assert(punit->has_orders == FALSE);
       freelog(LOG_DEBUG, "  stopping because orders are complete");
-      return GR_ARRIVED;
+      return TRUE;
     }
 
     /* We succeeded in moving one step forward */
