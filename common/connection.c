@@ -113,6 +113,24 @@ void close_socket_set_callback(CLOSE_FUN fun)
   close_callback = fun;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static bool buffer_ensure_free_extra_space(struct socket_packet_buffer *buf,
+					   int extra_space)
+{
+  /* room for more? */
+  if (buf->nsize - buf->ndata < extra_space) {
+    buf->nsize = buf->ndata + extra_space;
+
+    /* added this check so we don't gobble up too much mem */
+    if (buf->nsize > MAX_LEN_BUFFER) {
+      return FALSE;
+    }
+    buf->data = (unsigned char *) fc_realloc(buf->data, buf->nsize);
+  }
+  return TRUE;
+}
 
 /**************************************************************************
   Read data from socket, and check if a packet is ready.
@@ -124,6 +142,11 @@ void close_socket_set_callback(CLOSE_FUN fun)
 int read_socket_data(int sock, struct socket_packet_buffer *buffer)
 {
   int didget;
+
+  if (!buffer_ensure_free_extra_space(buffer, MAX_LEN_PACKET)) {
+    freelog(LOG_ERROR, "can't grow buffer");
+    return -1;
+  }
 
   freelog(LOG_DEBUG, "try reading %d bytes", buffer->nsize - buffer->ndata);
   didget = my_readsocket(sock, (char *) (buffer->data + buffer->ndata),
@@ -278,23 +301,15 @@ static bool add_connection_data(struct connection *pc,
 
     freelog(LOG_DEBUG, "add %d bytes to %d (space=%d)", len, buf->ndata,
 	    buf->nsize);
-    /* room for more? */
-    if(buf->nsize - buf->ndata < len) {
-      buf->nsize = buf->ndata + len;
-
-      /* added this check so we don't gobble up too much mem */
-      if (buf->nsize > MAX_LEN_BUFFER) {
-	if (delayed_disconnect > 0) {
-	  pc->delayed_disconnect = TRUE;
-	  return TRUE;
-	} else {
-	  if (close_callback) {
-	    (*close_callback)(pc);
-	  }
-	  return FALSE;
-	}
+    if (!buffer_ensure_free_extra_space(buf, len)) {
+      if (delayed_disconnect > 0) {
+	pc->delayed_disconnect = TRUE;
+	return TRUE;
       } else {
-	buf->data = (unsigned char *)fc_realloc(buf->data, buf->nsize);
+	if (close_callback) {
+	  (*close_callback) (pc);
+	}
+	return FALSE;
       }
     }
     memcpy(buf->data + buf->ndata, data, len);
