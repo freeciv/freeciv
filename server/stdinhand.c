@@ -780,6 +780,9 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     if (!game.is_new_game) {
       check_player_government_rates(pplayer);
     }
+    /* Remove hidden dialogs from clients. This way the player can initiate
+     * new meeting */
+    cancel_all_meetings(pplayer);
   }
 
   if (server_state == RUN_GAME_STATE) {
