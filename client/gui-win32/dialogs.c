@@ -98,6 +98,8 @@ static int unit_to_use_to_connect;
 static int connect_unit_x,connect_unit_y;
 
 static HWND races_dlg;
+static HWND races_class;
+static HWND races_legend;
 int selected_leader_sex;
 int selected_style;
 struct fcwin_box *government_box;
@@ -273,12 +275,26 @@ static void update_radio_buttons(int id)
 }
 
 
+
+/**************************************************************************
+
+**************************************************************************/
+static void update_nation_info()
+{
+  SetWindowText(races_class, 
+		get_nation_by_idx(selected_nation)->class);
+  SetWindowText(races_legend,
+		get_nation_by_idx(selected_nation)->legend);
+}
+
+
 /**************************************************************************
 
 **************************************************************************/
 static void select_random_race(HWND hWnd)
 {
   selected_nation=myrand(game.playable_nation_count);
+  update_nation_info();
   update_radio_buttons(0);
 }
 
@@ -394,10 +410,12 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	  } else if ((id>=ID_RACESDLG_NATION_BASE)&&
 		     (id<ID_RACESDLG_NATION_BASE+game.playable_nation_count)) {
 	    selected_nation=id-ID_RACESDLG_NATION_BASE;
+	    update_nation_info();
 	    if (!name_edited) {
 	      select_random_leader(hWnd);
 	    }
 	    update_radio_buttons(id);
+    
 	  }
 
 	  break;
@@ -480,9 +498,21 @@ void popup_races_dialog(void)
   fcwin_box_add_groupbox(vbox,_("Select nation and name"),
 			 grp_box,WS_GROUP,TRUE,TRUE,5);
   add_nations(grp_box);
-  grp_box=fcwin_vbox_new(races_dlg,FALSE);
   
+  hbox = fcwin_hbox_new(races_dlg, FALSE);
+  fcwin_box_add_static(hbox, _("Class:"), 0, SS_LEFT, FALSE,FALSE, 0);
   
+  races_class = fcwin_box_add_static(hbox, "content", 0, SS_LEFT, TRUE, TRUE,5);
+  
+  fcwin_box_add_box(vbox, hbox, FALSE, FALSE, 0);
+ 
+  grp_box = fcwin_vbox_new(races_dlg, FALSE);
+  races_legend = fcwin_box_add_static(grp_box, "content\n\n\nc", SS_LEFT,
+				      0, FALSE, FALSE, 5);
+  fcwin_box_add_groupbox(vbox, _("Description"), grp_box,
+			 0, FALSE, FALSE, 5);
+
+  grp_box=fcwin_vbox_new(races_dlg,FALSE);  
   fcwin_box_add_groupbox(vbox,_("Your leader name"),grp_box,
 			 0,FALSE,FALSE,5);
   fcwin_box_add_combo(grp_box,10,ID_RACESDLG_LEADER,CBS_DROPDOWN,
@@ -527,9 +557,9 @@ void popup_races_dialog(void)
   CheckRadioButton(races_dlg,
 		   ID_RACESDLG_STYLE_BASE,ID_RACESDLG_STYLE_BASE+b_s_num-1,
 		   ID_RACESDLG_STYLE_BASE);
+  fcwin_set_box(races_dlg, vbox);
   select_random_race(races_dlg);
   select_random_leader(races_dlg);
-  fcwin_set_box(races_dlg,vbox);
   ShowWindow(races_dlg,SW_SHOWNORMAL);
 }
 
