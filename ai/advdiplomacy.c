@@ -360,7 +360,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
     } else {
       /* Very silly algorithm 2: Land map more worth the more cities
          we have, since we expose all of these to the enemy. */
-      worth -= 75 * city_list_size(&pplayer->cities);
+      worth -= 75 * MAX(city_list_size(&pplayer->cities), 3);
       /* Inflate numbers if not peace */
       if (!pplayers_in_peace(pplayer, aplayer)) {
         worth *= 3;
