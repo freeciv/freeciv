@@ -70,6 +70,12 @@ static int *river_map;
 
 #define HAS_POLES (map.temperature < 70 && !map.alltemperate  )
 
+/* these are the old parameters of terrains types do in %
+   TODO: this deppend of the hardcoded terrains
+   this has to work from a terrains rules-set */
+static int forest_pct = 0, desert_pct = 0, swamp_pct = 0, mountain_pct = 0,
+    jungle_pct = 0, river_pct = 0;
+ 
 /****************************************************************************
  * Conditions used mainly in rand_map_pos_characteristic()
  ****************************************************************************/
@@ -88,7 +94,7 @@ typedef enum { WC_ALL = 200, WC_DRY, WC_NDRY } wetness_c;
 static int hmap_low_level = 0;
 #define ini_hmap_low_level() \
 { \
-hmap_low_level = (2 * map.swampsize  * \
+hmap_low_level = (4 * swamp_pct  * \
      (hmap_max_level - hmap_shore_level)) / 100 + hmap_shore_level; \
 }
 /* should be used after having hmap_low_level initialized */
@@ -224,7 +230,7 @@ static bool terrain_is_too_high(int map_x, int map_y,int thill, int my_height)
 /**************************************************************************
   make_relief() will convert all squares that are higher than thill to
   mountains and hills. Note that thill will be adjusted according to
-  the map.mountains value, so increasing map.mountains will result in
+  the map.steepness value, so increasing map.mountains will result in
   more hills and mountains.
 **************************************************************************/
 static void make_relief(void)
@@ -232,7 +238,7 @@ static void make_relief(void)
   /* Calculate the mountain level.  map.mountains specifies the percentage
    * of land that is turned into hills and mountains. */
   hmap_mountain_level = ((hmap_max_level - hmap_shore_level)
-			 * (100 - map.mountains)) / 100 + hmap_shore_level;
+			 * (100 - map.steepness)) / 100 + hmap_shore_level;
 
   whole_map_iterate(x, y) {
     if (not_placed(x,y) &&
@@ -415,18 +421,13 @@ static void make_terrains(void)
     }
   } whole_map_iterate_end;
 
-  forests_count = total * map.forestsize
-       / ( map.forestsize + map.deserts + map.grasssize +  map.swampsize );
-  jungles_count = (MAX_COLATITUDE - TROPICAL_LEVEL) * forests_count 
-      /  (MAX_COLATITUDE * 2);
-  forests_count -= jungles_count;
+  forests_count = total * forest_pct / (100 - mountain_pct);
+  jungles_count = total * jungle_pct / (100 - mountain_pct);
+ 
+  deserts_count = total * desert_pct / (100 - mountain_pct); 
+  swamps_count = total * swamp_pct  / (100 - mountain_pct);
 
-  deserts_count = total * map.deserts
-       / ( map.forestsize + map.deserts + map.grasssize +  map.swampsize);
-  swamps_count = total * map.swampsize
-       / ( map.forestsize + map.deserts + map.grasssize +  map.swampsize);
-
-  /* grassland, tundra and plains is counted in map.grasssize */
+  /* grassland, tundra,arctic and plains is counted in plains_count */
   plains_count = total - forests_count - deserts_count
       - swamps_count - jungles_count;
 
@@ -438,7 +439,7 @@ static void make_terrains(void)
     PLACE_ONE_TYPE(jungles_count, forests_count , T_JUNGLE,
 		   WC_ALL, TT_TROPICAL, MC_NONE, 50);
     PLACE_ONE_TYPE(swamps_count, forests_count , T_SWAMP,
-		   WC_NDRY, TT_NFROZEN, MC_LOW, 50);
+		   WC_NDRY, TT_HOT, MC_LOW, 50);
     PLACE_ONE_TYPE(deserts_count, alt_deserts_count , T_DESERT,
 		   WC_DRY, TT_NFROZEN, MC_NLOW, 80);
     PLACE_ONE_TYPE(alt_deserts_count, plains_count , T_DESERT,
@@ -789,20 +790,15 @@ static void make_rivers(void)
   /* Formula to make the river density similar om different sized maps. Avoids
      too few rivers on large maps and too many rivers on small maps. */
   int desirable_riverlength =
-    map.riverlength *
-    /* This 10 is a conversion factor to take into account the fact that this
-     * river code was written when map.riverlength had a maximum value of 
-     * 1000 rather than the current 100 */
-    10 *
-    /* The size of the map (poles don't count). */
-    map_num_tiles() 
-      * (map.alltemperate ? 1.0 : 1.0 - 2.0 * ICE_BASE_LEVEL / MAX_COLATITUDE) *
-    /* Rivers need to be on land only. */
-    map.landpercent /
-    /* Adjustment value. Tested by me. Gives no rivers with 'set
-       rivers 0', gives a reasonable amount of rivers with default
-       settings and as many rivers as possible with 'set rivers 100'. */
-    0xD000; /* (= 53248 in decimal) */
+    river_pct *
+      /* The size of the map (poles counted in river_pct). */
+      map_num_tiles() *
+      /* Rivers need to be on land only. */
+      map.landpercent /
+      /* Adjustment value. Tested by me. Gives no rivers with 'set
+	 rivers 0', gives a reasonable amount of rivers with default
+	 settings and as many rivers as possible with 'set rivers 100'. */
+      5325;
 
   /* The number of river tiles that have been set. */
   int current_riverlength = 0;
@@ -1094,24 +1090,27 @@ void map_fractal_generate(bool autosize)
 }
 
 /**************************************************************************
- Convert terrain parameters from the server into percents for the generators
+ Convert parameters from the server into terrains percents parameters for
+ the generators
 **************************************************************************/
 static void adjust_terrain_param(void)
 {
-  int total;
-  int polar = ICE_BASE_LEVEL * 100 / MAX_COLATITUDE;
+  int polar = 2 * ICE_BASE_LEVEL * map.landpercent / MAX_COLATITUDE ;
+  float factor =(100.0 - polar - map.steepness * 0.8 ) / 10000;
 
-  total = map.mountains + map.deserts + map.forestsize + map.swampsize
-    + map.grasssize;
 
-  if (total != 100 - polar) {
-    map.forestsize = map.forestsize * (100 - polar) / total;
-    map.swampsize = map.swampsize * (100 - polar) / total;
-    map.mountains = map.mountains * (100 - polar) / total;
-    map.deserts = map.deserts * (100 - polar) / total;
-    map.grasssize = 100 - map.forestsize - map.swampsize - map.mountains 
-      - polar - map.deserts;
-  }
+  mountain_pct = factor * map.steepness * 90;
+  /* 40 % if wetness == 50 & */
+  forest_pct = factor * (map.wetness * 60 + 1000) ; 
+  jungle_pct = forest_pct * (MAX_COLATITUDE - TROPICAL_LEVEL)
+     /  (MAX_COLATITUDE * 2);
+  forest_pct -= jungle_pct;
+  /* 3 - 11 % */
+  river_pct = (100 - polar) * (3 + map.wetness / 12) / 100;
+  /* 6 %  if wetness == 50 && temperature == 50 */
+  swamp_pct = factor * (map.wetness * 6 + map.temperature * 6);
+  desert_pct = factor * (map.temperature * 10 + (100 - map.wetness) * 10) ;
+  
 }
 
 /**************************************************************************
@@ -1629,8 +1628,8 @@ static bool make_island(int islemass, int starters,
     if (pstate->totalmass > 3000)
       freelog(LOG_NORMAL, _("High landmass - this may take a few seconds."));
 
-    i = map.riverlength + map.mountains
-		+ map.deserts + map.forestsize + map.swampsize;
+    i = river_pct + mountain_pct
+		+ desert_pct + forest_pct + swamp_pct;
     i = i <= 90 ? 100 : i * 11 / 10;
     tilefactor = pstate->totalmass / i;
     riverbuck = -(long int) myrand(pstate->totalmass);
@@ -1693,27 +1692,27 @@ static bool make_island(int islemass, int starters,
 
     i *= tilefactor;
 
-    riverbuck += map.riverlength * i;
+    riverbuck += river_pct * i;
     fill_island_rivers(1, &riverbuck, pstate);
 
-    mountbuck += map.mountains * i;
+    mountbuck += mountain_pct * i;
     fill_island(20, &mountbuck,
 		3,1, 3,1,
 		T_HILLS, T_MOUNTAINS, T_HILLS, T_MOUNTAINS,
 		pstate);
-    desertbuck += map.deserts * i;
+    desertbuck += desert_pct * i;
     fill_island(40, &desertbuck,
-		map.deserts, map.deserts, map.deserts, map.deserts,
+		1, 1, 1, 1,
 		T_DESERT, T_DESERT, T_DESERT, T_TUNDRA,
 		pstate);
-    forestbuck += map.forestsize * i;
+    forestbuck += forest_pct * i;
     fill_island(60, &forestbuck,
-		map.forestsize, map.swampsize, map.forestsize, map.swampsize,
+		forest_pct, swamp_pct, forest_pct, swamp_pct,
 		T_FOREST, T_JUNGLE, T_FOREST, T_TUNDRA,
 		pstate);
-    swampbuck += map.swampsize * i;
+    swampbuck += swamp_pct * i;
     fill_island(80, &swampbuck,
-		map.swampsize, map.swampsize, map.swampsize, map.swampsize,
+		1, 1, 1, 1,
 		T_SWAMP, T_SWAMP, T_SWAMP, T_SWAMP,
 		pstate);
 

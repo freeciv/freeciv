@@ -314,37 +314,17 @@ struct settings_s settings[] = {
 	  N_("Amount of land vs ocean"), "", NULL,
 	  MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS)
 
-  GEN_INT("mountains", map.mountains,
+  GEN_INT("steepness", map.steepness,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Amount of hills/mountains"),
 	  N_("Small values give flat maps, higher values give more "
 	     "hills and mountains."), NULL,
-	  MAP_MIN_MOUNTAINS, MAP_MAX_MOUNTAINS, MAP_DEFAULT_MOUNTAINS)
+	  MAP_MIN_STEEPNESS, MAP_MAX_STEEPNESS, MAP_DEFAULT_STEEPNESS)
 
-  GEN_INT("rivers", map.riverlength,
-	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Amount of river squares"), "", NULL,
-	  MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS)
-
-  GEN_INT("grass", map.grasssize,
-	  SSET_MAP_GEN, SSET_ECOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Amount of grass squares"), "", NULL,
-	  MAP_MIN_GRASS, MAP_MAX_GRASS, MAP_DEFAULT_GRASS)
-
-  GEN_INT("forests", map.forestsize,
-	  SSET_MAP_GEN, SSET_ECOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Amount of forest squares"), "", NULL, 
-	  MAP_MIN_FORESTS, MAP_MAX_FORESTS, MAP_DEFAULT_FORESTS)
-
-  GEN_INT("swamps", map.swampsize,
-	  SSET_MAP_GEN, SSET_ECOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Amount of swamp squares"), "", NULL, 
-	  MAP_MIN_SWAMPS, MAP_MAX_SWAMPS, MAP_DEFAULT_SWAMPS)
-
-  GEN_INT("deserts", map.deserts,
-	  SSET_MAP_GEN, SSET_ECOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Amount of desert squares"), "", NULL, 
-	  MAP_MIN_DESERTS, MAP_MAX_DESERTS, MAP_DEFAULT_DESERTS)
+  GEN_INT("wetness", map.wetness,
+ 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
+ 	  N_("Amount of water on lands"), "", NULL, 
+ 	  MAP_MIN_WETNESS, MAP_MAX_WETNESS, MAP_DEFAULT_WETNESS)
 
   GEN_INT("mapseed", map.seed,
 	  SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,

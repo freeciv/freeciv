@@ -197,12 +197,8 @@ void map_init(void)
   map.riches                = MAP_DEFAULT_RICHES;
   map.huts                  = MAP_DEFAULT_HUTS;
   map.landpercent           = MAP_DEFAULT_LANDMASS;
-  map.grasssize             = MAP_DEFAULT_GRASS;
-  map.swampsize             = MAP_DEFAULT_SWAMPS;
-  map.deserts               = MAP_DEFAULT_DESERTS;
-  map.mountains             = MAP_DEFAULT_MOUNTAINS;
-  map.riverlength           = MAP_DEFAULT_RIVERS;
-  map.forestsize            = MAP_DEFAULT_FORESTS;
+  map.wetness               = MAP_DEFAULT_WETNESS;
+  map.steepness             = MAP_DEFAULT_STEEPNESS;
   map.generator             = MAP_DEFAULT_GENERATOR;
   map.tinyisles             = MAP_DEFAULT_TINYISLES;
   map.separatepoles         = MAP_DEFAULT_SEPARATE_POLES;

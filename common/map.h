@@ -163,17 +163,13 @@ struct civ_map {
   int riches;
   int huts;
   int landpercent;
-  int grasssize;
-  int swampsize;
-  int deserts;
-  int mountains;
-  int riverlength;
-  int forestsize;
   int generator;
   bool tinyisles;
   bool separatepoles;
   bool alltemperate;
   int temperature;
+  int wetness;
+  int steepness;
   int num_start_positions;
   bool have_specials;
   bool have_huts;
@@ -640,29 +636,13 @@ extern const int DIR_DY[8];
 #define MAP_MIN_RICHES           0
 #define MAP_MAX_RICHES           1000
 
-#define MAP_DEFAULT_MOUNTAINS    30
-#define MAP_MIN_MOUNTAINS        10
-#define MAP_MAX_MOUNTAINS        100
+#define MAP_DEFAULT_STEEPNESS    30
+#define MAP_MIN_STEEPNESS        0
+#define MAP_MAX_STEEPNESS        100
 
-#define MAP_DEFAULT_GRASS       35
-#define MAP_MIN_GRASS           20
-#define MAP_MAX_GRASS           100
-
-#define MAP_DEFAULT_SWAMPS       5
-#define MAP_MIN_SWAMPS           0
-#define MAP_MAX_SWAMPS           100
-
-#define MAP_DEFAULT_DESERTS      5
-#define MAP_MIN_DESERTS          0
-#define MAP_MAX_DESERTS          100
-
-#define MAP_DEFAULT_RIVERS       5
-#define MAP_MIN_RIVERS           0
-#define MAP_MAX_RIVERS           100
-
-#define MAP_DEFAULT_FORESTS      20
-#define MAP_MIN_FORESTS          0
-#define MAP_MAX_FORESTS          100
+#define MAP_DEFAULT_WETNESS      50
+#define MAP_MIN_WETNESS          0
+#define MAP_MAX_WETNESS          100
 
 #define MAP_DEFAULT_GENERATOR    1
 #define MAP_MIN_GENERATOR        1

@@ -3095,13 +3095,10 @@ void game_load(struct section_file *file)
       map.generator = secfile_lookup_int(file, "map.generator");
       map.seed = secfile_lookup_int(file, "map.seed");
       map.landpercent = secfile_lookup_int(file, "map.landpercent");
-      map.grasssize =
-	secfile_lookup_int_default(file, MAP_DEFAULT_GRASS, "map.grasssize");
-      map.swampsize = secfile_lookup_int(file, "map.swampsize");
-      map.deserts = secfile_lookup_int(file, "map.deserts");
-      map.riverlength = secfile_lookup_int(file, "map.riverlength");
-      map.mountains = secfile_lookup_int(file, "map.mountains");
-      map.forestsize = secfile_lookup_int(file, "map.forestsize");
+      map.wetness = secfile_lookup_int_default(file, MAP_DEFAULT_WETNESS,
+					       "map.wetness");
+      map.steepness = secfile_lookup_int_default(file, MAP_DEFAULT_STEEPNESS, 
+						 "map.steepness");
       map.have_huts = secfile_lookup_bool_default(file, TRUE,
 						  "map.have_huts");
       map.temperature =
@@ -3478,11 +3475,8 @@ void game_save(struct section_file *file)
     secfile_insert_int(file, map.seed, "map.seed");
     secfile_insert_int(file, map.landpercent, "map.landpercent");
     secfile_insert_int(file, map.riches, "map.riches");
-    secfile_insert_int(file, map.swampsize, "map.swampsize");
-    secfile_insert_int(file, map.deserts, "map.deserts");
-    secfile_insert_int(file, map.riverlength, "map.riverlength");
-    secfile_insert_int(file, map.mountains, "map.mountains");
-    secfile_insert_int(file, map.forestsize, "map.forestsize");
+    secfile_insert_int(file, map.wetness, "map.wetness");
+    secfile_insert_int(file, map.steepness, "map.steepness");
     secfile_insert_int(file, map.huts, "map.huts");
     secfile_insert_int(file, map.generator, "map.generator");
     secfile_insert_bool(file, map.have_huts, "map.have_huts");

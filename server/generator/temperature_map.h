@@ -29,7 +29,7 @@ typedef int temperature_type;
 #define TT_NFROZEN (TT_COLD | TT_TEMPERATE | TT_TROPICAL)
 #define TT_ALL (TT_FROZEN | TT_NFROZEN)
 #define TT_NHOT (TT_FROZEN | TT_COLD)
-#define TT_HOT (TT_TEMPERATE, TT_TROPICAL)
+#define TT_HOT (TT_TEMPERATE | TT_TROPICAL)
 
 bool temperature_is_initialized(void);
 bool tmap_is(int x, int y, temperature_type tt);
