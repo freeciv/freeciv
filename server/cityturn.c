@@ -182,6 +182,13 @@ void auto_arrange_workers(struct city *pcity)
   struct cm_result cmr;
   struct player *pplayer = city_owner(pcity);
 
+  /* See comment in freeze_workers(). */
+  if (pcity->server.workers_frozen > 0) {
+    pcity->server.needs_arrange = TRUE;
+    return;
+  }
+  pcity->server.needs_arrange = FALSE;
+
   cm_init_parameter(&cmp);
 
   /* HACK: make sure everything is up-to-date before continuing.  This may
