@@ -180,6 +180,9 @@ void reset_move_costs(int x, int y);
 #define map_adjust_y(Y) \
   (((Y)<0) ? 0 : (((Y)>=map.ysize) ? map.ysize-1 : (Y)))
 
+#define map_inx(x,y) \
+  ((x)+(y)*map.xsize)
+
 void map_calc_adjacent_xy(int x, int y, int *xx, int *yy);
 void map_calc_adjacent_xy_void(int x, int y, int *xx, int *yy);
 

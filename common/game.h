@@ -16,6 +16,8 @@
 #include "shared.h"
 #include "player.h"
 
+#define MAX_LEN_DEMOGRAPHY  16
+
 enum server_states { 
   PRE_GAME_STATE, 
   SELECT_RACES_STATE, 
@@ -99,6 +101,8 @@ struct civ_game {
     int nav;			/* AI convenience: tech_req for first
 				   non-trireme ferryboat */
   } rtech;
+
+  char demography[MAX_LEN_DEMOGRAPHY];
 };
 
 struct lvldat {
@@ -231,6 +235,8 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_SKILL_LEVEL 3      /* easy */
 #define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for old save games */
+
+#define GAME_DEFAULT_DEMOGRAPHY      "NASRLPEMOqr"
 
 #define GAME_START_YEAR -4000
 

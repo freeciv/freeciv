@@ -104,7 +104,9 @@ struct player_score {
   int wonders;
   int techs;
   int techout;
-  int landmass;
+  int landarea;
+  int settledarea;
+  int population;
   int cities;
   int units;
   int pollution;

@@ -10,6 +10,10 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -28,6 +32,7 @@
 #include "shared.h"
 #include "tech.h"
 #include "unit.h"
+#include "version.h"
 
 #include "cityhand.h" 
 #include "citytools.h"
@@ -199,6 +204,46 @@ void wonders_of_the_world(struct player *pplayer)
 	      "Wonders of the World", buffer);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+
+static int rank_population(struct player *pplayer)
+{
+  int basis=pplayer->score.population;
+  int place=1;
+  int i;
+  for (i=0;i<game.nplayers;i++) {
+    if (game.players[i].score.population>basis)
+      place++;
+  }
+  return place;
+}
+
+static int rank_landarea(struct player *pplayer)
+{
+  int basis=pplayer->score.landarea;
+  int place=1;
+  int i;
+  for (i=0;i<game.nplayers;i++) {
+    if (game.players[i].score.landarea>basis)
+      place++;
+  }
+  return place;
+}
+
+static int rank_settledarea(struct player *pplayer)
+{
+  int basis=pplayer->score.settledarea;
+  int place=1;
+  int i;
+  for (i=0;i<game.nplayers;i++) {
+    if (game.players[i].score.settledarea>basis)
+      place++;
+  }
+  return place;
+}
+
 static int rank_calc_research(struct player *pplayer)
 {
   return (pplayer->score.techout*100)/(1+research_time(pplayer));
@@ -294,16 +339,51 @@ static int rank_mil_service(struct player *pplayer)
   return place;
 }
 
-static char *number_to_string(int x)
+static char *value_units(char *val, char *uni)
 {
-  static char buf[4];
-  buf[3]=0;
-  if (x<0 || x>99) x=0;
-  sprintf(buf, "%dth",x);
-  if (x==1) { buf[1]='s'; buf[2]='t';}
-  if (x==2) { buf[1]='n'; buf[2]='d';}
-  if (x==3) { buf[1]='r'; buf[2]='d';}
-  return buf;
+  static char buf[64] = "??";
+
+  if ((strlen (val) + strlen (uni) + 1) > sizeof (buf))
+    {
+      return (buf);
+    }
+
+  sprintf (buf, "%s%s", val, uni);
+
+  return (buf);
+}
+
+static char *number_to_ordinal_string(int num, int parens)
+{
+  static char buf[16];
+  char *fmt;
+
+  fmt = parens ? "(%d%s)" : "%d%s";
+
+  switch (num)
+    {
+    case 1:
+      sprintf (buf, fmt, num, "st");
+      break;
+    case 2:
+      sprintf (buf, fmt, num, "nd");
+      break;
+    case 3:
+      sprintf (buf, fmt, num, "rd");
+      break;
+    default:
+      if (num > 0)
+	{
+	  sprintf (buf, fmt, num, "th");
+	}
+      else
+	{
+	  strcpy (buf, parens ? "(??th)" : "??th");
+	}
+      break;
+    }
+
+  return (buf);
 }
 
 void do_dipl_cost(struct player *pplayer)
@@ -319,115 +399,601 @@ void do_conquer_cost(struct player *pplayer)
   pplayer->research.researched -=(research_time(pplayer)*game.conquercost)/100;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+
+#define DEM_KEY_ROW_POPULATION        'N'
+#define DEM_KEY_ROW_LAND_AREA         'A'
+#define DEM_KEY_ROW_SETTLED_AREA      'S'
+#define DEM_KEY_ROW_RESEARCH_SPEED    'R'
+#define DEM_KEY_ROW_LITERACY          'L'
+#define DEM_KEY_ROW_PRODUCTION        'P'
+#define DEM_KEY_ROW_ECONOMICS         'E'
+#define DEM_KEY_ROW_MILITARY_SERVICE  'M'
+#define DEM_KEY_ROW_POLLUTION         'O'
+#define DEM_KEY_COL_QUANTITY          'q'
+#define DEM_KEY_COL_RANK              'r'
+
+enum dem_flag
+{
+  DEM_NONE = 0x00,
+  DEM_COL_QUANTITY = 0x01,
+  DEM_COL_RANK = 0x02,
+  DEM_ROW = 0xFF
+};
+
+struct dem_key
+{
+  char key;
+  char *name;
+  enum dem_flag flag;
+};
+
+static void dem_line_item (char *outptr, struct player *pplayer,
+			   char key, enum dem_flag selcols)
+{
+  static char *fmt_quan = " %-18s";
+  static char *fmt_rank = " %6s";
+
+  switch (key)
+    {
+    case DEM_KEY_ROW_POPULATION:
+      if (selcols & DEM_COL_QUANTITY)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_quan,
+		   int_to_text (pplayer->score.population));
+	}
+      if (selcols & DEM_COL_RANK)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_rank,
+		   number_to_ordinal_string(rank_population(pplayer), TRUE));
+	}
+      break;
+    case DEM_KEY_ROW_LAND_AREA:
+      if (selcols & DEM_COL_QUANTITY)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_quan,
+		   value_units (int_to_text (pplayer->score.landarea),
+				" sq. mi."));
+	}
+      if (selcols & DEM_COL_RANK)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_rank,
+		   number_to_ordinal_string(rank_landarea(pplayer), TRUE));
+	}
+      break;
+    case DEM_KEY_ROW_SETTLED_AREA:
+      if (selcols & DEM_COL_QUANTITY)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_quan,
+		   value_units (int_to_text (pplayer->score.settledarea),
+				" sq. mi."));
+	}
+      if (selcols & DEM_COL_RANK)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_rank,
+		   number_to_ordinal_string(rank_settledarea(pplayer), TRUE));
+	}
+      break;
+    case DEM_KEY_ROW_RESEARCH_SPEED:
+      if (selcols & DEM_COL_QUANTITY)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_quan,
+		   value_units (int_to_text (rank_calc_research(pplayer)),
+				"%"));
+	}
+      if (selcols & DEM_COL_RANK)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_rank,
+		   number_to_ordinal_string(rank_research(pplayer), TRUE));
+	}
+      break;
+    case DEM_KEY_ROW_LITERACY:
+      if (selcols & DEM_COL_QUANTITY)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_quan,
+		   value_units (int_to_text (rank_calc_literacy(pplayer)),
+				"%"));
+	}
+      if (selcols & DEM_COL_RANK)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_rank,
+		   number_to_ordinal_string(rank_literacy(pplayer), TRUE));
+	}
+      break;
+    case DEM_KEY_ROW_PRODUCTION:
+      if (selcols & DEM_COL_QUANTITY)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_quan,
+		   value_units (int_to_text (pplayer->score.mfg),
+				" M tons"));
+	}
+      if (selcols & DEM_COL_RANK)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_rank,
+		   number_to_ordinal_string(rank_production(pplayer), TRUE));
+	}
+      break;
+    case DEM_KEY_ROW_ECONOMICS:
+      if (selcols & DEM_COL_QUANTITY)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_quan,
+		   value_units (int_to_text (pplayer->score.bnp),
+				" M goods"));
+	}
+      if (selcols & DEM_COL_RANK)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_rank,
+		   number_to_ordinal_string(rank_economics(pplayer), TRUE));
+	}
+      break;
+    case DEM_KEY_ROW_MILITARY_SERVICE:
+      if (selcols & DEM_COL_QUANTITY)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_quan,
+		   value_units (int_to_text (rank_calc_mil_service(pplayer)),
+				" months"));
+	}
+      if (selcols & DEM_COL_RANK)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_rank,
+		   number_to_ordinal_string(rank_mil_service(pplayer), TRUE));
+	}
+      break;
+    case DEM_KEY_ROW_POLLUTION:
+      if (selcols & DEM_COL_QUANTITY)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_quan,
+		   value_units (int_to_text (pplayer->score.pollution),
+				" tons"));
+	}
+      if (selcols & DEM_COL_RANK)
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_rank,
+		   number_to_ordinal_string(rank_pollution(pplayer), TRUE));
+	}
+      break;
+    }
+}
+
+/*************************************************************************/
 
 void demographics_report(struct player *pplayer)
 {
   char civbuf[1024];
-  char buffer[4096];
-  char buf2[4096];
-  buffer[0]=0;
+  char buffer[4096] = "";
+  int inx;
+  int anyrows;
+  enum dem_flag selcols;
+  char *outptr = buffer;
+  static char *fmt_name = "%-18s";
+  static struct dem_key keytable[] =
+  {
+    { DEM_KEY_ROW_POPULATION,       "Population",       DEM_ROW },
+    { DEM_KEY_ROW_LAND_AREA,        "Land Area",        DEM_ROW },
+    { DEM_KEY_ROW_SETTLED_AREA,     "Settled Area",     DEM_ROW },
+    { DEM_KEY_ROW_RESEARCH_SPEED,   "Research Speed",   DEM_ROW },
+    { DEM_KEY_ROW_LITERACY,         "Literacy",         DEM_ROW },
+    { DEM_KEY_ROW_PRODUCTION,       "Production",       DEM_ROW },
+    { DEM_KEY_ROW_ECONOMICS,        "Economics",        DEM_ROW },
+    { DEM_KEY_ROW_MILITARY_SERVICE, "Military Service", DEM_ROW },
+    { DEM_KEY_ROW_POLLUTION,        "Pollution",        DEM_ROW },
+    { DEM_KEY_COL_QUANTITY,         "",                 DEM_COL_QUANTITY },
+    { DEM_KEY_COL_RANK,             "",                 DEM_COL_RANK }
+  };
 
-  sprintf(civbuf,"The %s of the %s",
-	  get_government_name(pplayer->government),
-	  get_race_name_plural(pplayer->race));
-
-  sprintf(buf2, "%-20s:%d%% (%s)\n", "Research Speed", rank_calc_research(pplayer), number_to_string(rank_research(pplayer)));
-  strcat(buffer, buf2);
-
-  sprintf(buf2, "%-20s:%d%% (%s)\n", "Literacy",rank_calc_literacy(pplayer), number_to_string(rank_literacy(pplayer)));
-  strcat(buffer, buf2);
-  sprintf(buf2, "%-20s:%d M. MFG (%s)\n", "Production",  pplayer->score.mfg, number_to_string(rank_production(pplayer)));
-  strcat(buffer, buf2);
-  sprintf(buf2, "%-20s:%d M. BNP (%s)\n", "Economics", pplayer->score.bnp, number_to_string(rank_economics(pplayer)));
-  strcat(buffer, buf2);
-  
-  sprintf(buf2, "%-20s:%d Months (%s)\n", "Military service", rank_calc_mil_service(pplayer), number_to_string(rank_mil_service(pplayer)));
-  strcat(buffer, buf2);
-
-  sprintf(buf2, "%-20s:%d Tons (%s)\n", "Pollution", pplayer->score.pollution, number_to_string(rank_pollution(pplayer)));
-  strcat(buffer, buf2);
-  
-  page_player(pplayer, "Demographics Report:",
-	      civbuf, buffer);
-}
-
-/* create a log file of the civilizations so you can see what was happening */
-/* never shall we fail to define void functions as void!! -- Syela */
-static void log_civ_score(void)
-{ 
-  int i,j,fom; /* fom == figure-of-merit */
-  static FILE *fp = NULL;
-
-  if (fp == NULL)
+  anyrows = FALSE;
+  selcols = DEM_NONE;
+  for (inx = 0; inx < (sizeof (keytable) / sizeof (keytable[0])); inx++)
     {
-      if (game.year > GAME_START_YEAR)
-	fp = fopen("civscore.log","a");
-      else
+      if (strchr (game.demography, keytable[inx].key))
 	{
-	  fp = fopen("civscore.log","w");
-	  if (fp == NULL)
-	    return;
-	  fprintf(fp,"0 pop\n");
-	  fprintf(fp,"1 bnp\n");
-	  fprintf(fp,"2 mfg\n");
-	  fprintf(fp,"3 cities\n");
-	  fprintf(fp,"4 techs\n");
-	  fprintf(fp,"5 munits\n");
-	  fprintf(fp,"6 settlers\n");
-	  fprintf(fp,"end\n");
-	  for (j = 0;j < game.nplayers;j++)
-	    fprintf(fp,"%d %s\n",j,game.players[j].name);
-	  fprintf(fp,"end\n");
+	  if (keytable[inx].flag == DEM_ROW)
+	    {
+	      anyrows = TRUE;
+	    }
+	  else
+	    {
+	      selcols |= keytable[inx].flag;
+	    }
 	}
     }
 
-  if (fp == NULL)
-    return;
-
-  for (i = 0;i <= 6;i++) {
-    for (j = 0;j < game.nplayers;j++) {
-      switch (i) { /* Standardized by Minister-of-style-conformity Syela */
-        case 0:
-	  fom = total_player_citizens(&game.players[j]);
-	  break;
-        case 1:
-	  fom = game.players[j].score.bnp;
-	  break;
-        case 2:
-	  fom = game.players[j].score.mfg;
-	  break;
-        case 3:
-	  fom = game.players[j].score.cities;
-	  break;
-        case 4:
-	  fom = game.players[j].score.techs;
-	  break;
-        case 5:
-	  fom = 0;
-	/* count up military units */
-	  unit_list_iterate(game.players[j].units, punit) 
-	    if (is_military_unit(punit))
-	      fom++;
-	  unit_list_iterate_end;
-	  break;
-        case 6:
-	  fom = 0;
-	/* count up settlers */
-	  unit_list_iterate(game.players[j].units, punit) 
-	    if (unit_flag(punit->type,F_SETTLERS))
-	      fom++;
-	  unit_list_iterate_end;
-	  break;
-        default:
-          fom = 0; /* -Wall demands we init this somewhere! */
-      }
-
-      fprintf(fp,"%d %d %d %d\n",i,j,game.year,fom);
+  if (!anyrows || (selcols == DEM_NONE))
+    {
+      page_player (pplayer,
+		   "Demographics Report:",
+		   "Sorry, the Demographics report is unavailable.",
+		   "");
+      return;
     }
-  }
 
-  fflush(fp);
+  sprintf (civbuf, "The %s of the %s",
+	   get_government_name (pplayer->government),
+	   get_race_name_plural (pplayer->race));
+
+  for (inx = 0; inx < (sizeof (keytable) / sizeof (keytable[0])); inx++)
+    {
+      if ((strchr (game.demography, keytable[inx].key)) &&
+	  (keytable[inx].flag == DEM_ROW))
+	{
+	  outptr = strchr (outptr, '\0');
+	  sprintf (outptr, fmt_name, keytable[inx].name);
+	  outptr = strchr (outptr, '\0');
+	  dem_line_item (outptr, pplayer, keytable[inx].key, selcols);
+	  outptr = strchr (outptr, '\0');
+	  strcpy (outptr, "\n");
+	}
+    }
+
+  page_player (pplayer, "Demographics Report:", civbuf, buffer);
 }
+
+/**************************************************************************
+Create a log file of the civilizations so you can see what was happening.
+**************************************************************************/
+
+static void log_civ_score(void)
+{ 
+  int fom; /* fom == figure-of-merit */
+  char *ptr;
+  char line[64];
+  int i, n, ln, ni;
+  int index, dummy;
+  char name[64];
+  int foms = 0;
+  int plrs = -1;
+  enum { SL_CREATE, SL_APPEND, SL_UNSPEC } oper = SL_UNSPEC;
+
+  static char *magic = "#FREECIV SCORELOG %s\n";
+  static char *logname = "civscore.log";
+  static char *endmark = "end";
+  static FILE *fp = NULL;
+  static int disabled = 0;
+
+  /* add new tags only at end of this list;
+     maintaining the order of old tags is critical */
+  static char *tags[] =
+  {
+    "pop",
+    "bnp",
+    "mfg",
+    "cities",
+    "techs",
+    "munits",
+    "settlers",     /* "original" tags end here */
+
+    "wonders",
+    "techout",
+    "landarea",
+    "settledarea",
+    "pollution",
+    "literacy",
+    "spaceship",    /* new 1.8.2 tags end here */
+
+    NULL            /* end of list */
+  };
+
+  if (disabled)
+    {
+      return;
+    }
+
+  if (!fp)
+    {
+      if (game.year == GAME_START_YEAR)
+	{
+	  oper = SL_CREATE;
+	}
+      else
+	{
+	  fp = fopen (logname, "r");
+	  if (!fp)
+	    {
+	      oper = SL_CREATE;
+	    }
+	  else
+	    {
+	      for (ln = 1; ; ln++)
+		{
+		  if (!(fgets (line, sizeof (line), fp)))
+		    {
+		      if (ferror (fp))
+			{
+			  freelog (LOG_NORMAL,
+				   "Can't read scorelog file header!");
+			}
+		      else
+			{
+			  freelog (LOG_NORMAL,
+				   "Unterminated scorelog file header!");
+			}
+		      goto log_civ_score_disable;
+		    }
+
+		  ptr = strchr (line, '\n');
+		  if (!ptr)
+		    {
+		      freelog (LOG_NORMAL,
+			       "Scorelog file line %d is too long!", ln);
+		      goto log_civ_score_disable;
+		    }
+		  *ptr = '\0';
+
+		  if (plrs < 0)
+		    {
+		      if ((ln == 1) && (line[0] == '#'))
+			{
+			  continue;
+			}
+
+		      if (0 == strcmp (line, endmark))
+			{
+			  plrs++;
+			}
+		      else
+			{
+			  if (!(tags[foms]))
+			    {
+			      freelog (LOG_NORMAL,
+				       "Too many entries in scorelog header!");
+			      goto log_civ_score_disable;
+			    }
+
+			  ni = sscanf (line, "%d %s", &index, name);
+			  if ((ni != 2) || (index != foms) ||
+			      (0 != strcmp (name, tags[foms])))
+			    {
+			      freelog (LOG_NORMAL,
+				       "Scorelog file line %d is bad!", ln);
+			      goto log_civ_score_disable;
+			    }
+
+			  foms++;
+			}
+		    }
+		  else
+		    {
+		      if (0 == strcmp (line, endmark))
+			{
+			  break;
+			}
+
+		      ni = sscanf (line, "%d %s", &index, name);
+		      if ((ni != 2) || (index != plrs))
+			{
+			  freelog (LOG_NORMAL,
+				   "Scorelog file line %d is bad!", ln);
+			  goto log_civ_score_disable;
+			}
+		      if (0 != strcmp (name, game.players[plrs].name))
+			{
+			  oper = SL_CREATE;
+			  break;
+			}
+
+		      plrs++;
+		    }
+		}
+
+	      if (oper == SL_UNSPEC)
+		{
+		  if (fseek (fp, -100, SEEK_END))
+		    {
+		      freelog (LOG_NORMAL,
+			       "Can't seek to end of scorelog file!");
+		      goto log_civ_score_disable;
+		    }
+
+		  if (!(fgets (line, sizeof (line), fp)))
+		    {
+		      if (ferror (fp))
+			{
+			  freelog (LOG_NORMAL,
+				   "Can't read scorelog file!");
+			}
+		      else
+			{
+			  freelog (LOG_NORMAL,
+				   "Unterminated scorelog file!");
+			}
+		      goto log_civ_score_disable;
+		    }
+		  ptr = strchr (line, '\n');
+		  if (!ptr)
+		    {
+		      freelog (LOG_NORMAL,
+			       "Scorelog file line is too long!");
+		      goto log_civ_score_disable;
+		    }
+		  *ptr = '\0';
+
+		  if (!(fgets (line, sizeof (line), fp)))
+		    {
+		      if (ferror (fp))
+			{
+			  freelog (LOG_NORMAL,
+				   "Can't read scorelog file!");
+			}
+		      else
+			{
+			  freelog (LOG_NORMAL,
+				   "Unterminated scorelog file!");
+			}
+		      goto log_civ_score_disable;
+		    }
+		  ptr = strchr (line, '\n');
+		  if (!ptr)
+		    {
+		      freelog (LOG_NORMAL,
+			       "Scorelog file line is too long!");
+		      goto log_civ_score_disable;
+		    }
+		  *ptr = '\0';
+
+		  ni = sscanf (line, "%d %d %d %d",
+			       &dummy, &dummy, &index, &dummy);
+		  if (ni != 4)
+		    {
+		      freelog (LOG_NORMAL,
+			       "Scorelog file line is bad!");
+		      goto log_civ_score_disable;
+		    }
+
+		  if (index >= game.year)
+		    {
+		      freelog (LOG_NORMAL,
+			       "Scorelog years overlap -- logging disabled!");
+		      goto log_civ_score_disable;
+		    }
+
+		  tags[foms] = NULL;
+		  oper = SL_APPEND;
+		}
+
+	      fclose (fp);
+	      fp = NULL;
+	    }
+	}
+
+      switch (oper)
+	{
+	case SL_CREATE:
+	  fp = fopen (logname, "w");
+	  if (!fp)
+	    {
+	      freelog (LOG_NORMAL, "Can't open scorelog file for creation!");
+	      goto log_civ_score_disable;
+	    }
+	  fprintf (fp, magic, VERSION_STRING);
+	  for (i = 0; tags[i]; i++)
+	    {
+	      fprintf (fp, "%d %s\n", i, tags[i]);
+	    }
+	  fprintf (fp, "%s\n", endmark);
+	  for (n = 0; n < game.nplayers; n++)
+	    {
+	      fprintf (fp, "%d %s\n", n, game.players[n].name);
+	    }
+	  fprintf (fp, "%s\n", endmark);
+	  break;
+	case SL_APPEND:
+	  fp = fopen (logname, "a");
+	  if (!fp)
+	    {
+	      freelog (LOG_NORMAL, "Can't open scorelog file for appending!");
+	      goto log_civ_score_disable;
+	    }
+	  break;
+	default:
+	  freelog (LOG_VERBOSE, "log_civ_score: bad operation");
+	  goto log_civ_score_disable;
+	}
+    }
+
+  for (i = 0; tags[i]; i++)
+    {
+      for (n = 0; n < game.nplayers; n++)
+	{
+	  switch (i)
+	    {
+	    case 0:
+	      fom = total_player_citizens (&(game.players[n]));
+	      break;
+	    case 1:
+	      fom = game.players[n].score.bnp;
+	      break;
+	    case 2:
+	      fom = game.players[n].score.mfg;
+	      break;
+	    case 3:
+	      fom = game.players[n].score.cities;
+	      break;
+	    case 4:
+	      fom = game.players[n].score.techs;
+	      break;
+	    case 5:
+	      fom = 0;
+	      /* count up military units */
+	      unit_list_iterate (game.players[n].units, punit)
+		if (is_military_unit (punit))
+		  fom++;
+	      unit_list_iterate_end;
+	      break;
+	    case 6:
+	      fom = 0;
+	      /* count up settlers */
+	      unit_list_iterate (game.players[n].units, punit)
+		if (unit_flag (punit->type, F_SETTLERS))
+		  fom++;
+	      unit_list_iterate_end;
+	      break;
+	    case 7:
+	      fom = game.players[n].score.wonders;
+	      break;
+	    case 8:
+	      fom = game.players[n].score.techout;
+	      break;
+	    case 9:
+	      fom = game.players[n].score.landarea;
+	      break;
+	    case 10:
+	      fom = game.players[n].score.settledarea;
+	      break;
+	    case 11:
+	      fom = game.players[n].score.pollution;
+	      break;
+	    case 12:
+	      fom = game.players[n].score.literacy;
+	      break;
+	    case 13:
+	      fom = game.players[n].score.spaceship;
+	      break;
+	    default:
+	      fom = 0; /* -Wall demands we init this somewhere! */
+	    }
+
+	  fprintf (fp, "%d %d %d %d\n", i, n, game.year, fom);
+	}
+    }
+
+  fflush (fp);
+
+  return;
+
+log_civ_score_disable:
+
+  if (fp)
+    {
+      fclose (fp);
+      fp = NULL;
+    }
+
+  disabled = 1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 
 void make_history_report(void)
 {

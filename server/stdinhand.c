@@ -442,6 +442,24 @@ static struct settings_s settings[] = {
     "  If all players have not hit \"end turn\" before this time is up, then the\n"
     "  turn ends automatically.  Zero means there is no timeout." },
 
+  { "demography", NULL,
+    SSET_META, SSET_TO_CLIENT,
+    0, 0, 0,
+    "What is in the Demographics report",
+    "  This should be a string of characters, each of which specifies the\n"
+    "  the inclusion of a line of information in the Demographics report.\n"
+    "  The characters and their meanings are:\n"
+    "      N = include Population           P = include Production\n"
+    "      A = include Land Area            E = include Economics\n"
+    "      S = include Settled Area         M = include Military Service\n"
+    "      R = include Research Speed       O = include Pollution\n"
+    "      L = include Literacy\n"
+    "  Additionally, the following characters control whether or not certain\n"
+    "  columns are displayed in the report:\n"
+    "      q = display \"quantity\" column    r = display \"rank\" column\n"
+    "  (The order of these characters is not significant, but their case is.)",
+    game.demography, GAME_DEFAULT_DEMOGRAPHY },
+
   { "saveturns", &game.save_nturns,
     SSET_META, SSET_SERVER_ONLY,
     0, 200, 10,
