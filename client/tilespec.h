@@ -108,6 +108,8 @@ enum cell_type {
   CELL_SINGLE, CELL_RECT
 };
 
+#define MAX_NUM_LAYERS 2
+
 struct terrain_drawing_data {
   char *name;
   char *mine_tag;
@@ -122,7 +124,7 @@ struct terrain_drawing_data {
     struct Sprite *base;
     struct Sprite *match[NUM_DIRECTION_NSEW];
     struct Sprite *cells[8][4]; /* 4 = up down left right */
-  } layer[2];
+  } layer[MAX_NUM_LAYERS];
 
   bool is_blended;
   struct Sprite *blend[4]; /* indexed by a direction4 */

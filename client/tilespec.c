@@ -792,7 +792,7 @@ bool tilespec_read_toplevel(const char *tileset_name)
 					    terrains[i]);
     terr->num_layers = secfile_lookup_int(file, "%s.num_layers",
 					  terrains[i]);
-    terr->num_layers = MAX(1, terr->num_layers);
+    terr->num_layers = CLIP(1, terr->num_layers, MAX_NUM_LAYERS);
 
     for (l = 0; l < terr->num_layers; l++) {
       terr->layer[l].is_tall
