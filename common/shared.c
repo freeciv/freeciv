@@ -362,7 +362,7 @@ void save_restore_random(void)
       memcpy(State,RandomState,sizeof(RANDOM_TYPE)*56);
       j=iRandJ; k=iRandK; x=iRandX;
    }
-   mode = mode+1 % 2;
+   mode = (mode+1) % 2;
 }
 
 /***************************************************************************
