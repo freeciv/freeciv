@@ -10975,7 +10975,7 @@ static int cmp_packet_unit_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_unit_info_100_fields, 32);
+BV_DEFINE(packet_unit_info_100_fields, 30);
 
 static struct packet_unit_info *receive_packet_unit_info_100(struct connection *pc, enum packet_type type)
 {
@@ -11110,11 +11110,18 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
     }
   }
   if (BV_ISSET(fields, 16)) {
+    
     {
+      int i;
+    
+      for (i = 0; i < O_MAX; i++) {
+        {
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->upkeep = readin;
+      real_packet->upkeep[i] = readin;
+    }
+      }
     }
   }
   if (BV_ISSET(fields, 17)) {
@@ -11122,7 +11129,7 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->upkeep_food = readin;
+      real_packet->occupy = readin;
     }
   }
   if (BV_ISSET(fields, 18)) {
@@ -11130,7 +11137,7 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->upkeep_gold = readin;
+      real_packet->goto_dest_x = readin;
     }
   }
   if (BV_ISSET(fields, 19)) {
@@ -11138,7 +11145,7 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->occupy = readin;
+      real_packet->goto_dest_y = readin;
     }
   }
   if (BV_ISSET(fields, 20)) {
@@ -11146,26 +11153,10 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->goto_dest_x = readin;
-    }
-  }
-  if (BV_ISSET(fields, 21)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->goto_dest_y = readin;
-    }
-  }
-  if (BV_ISSET(fields, 22)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
       real_packet->activity = readin;
     }
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 21)) {
     {
       int readin;
     
@@ -11173,8 +11164,8 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       real_packet->activity_target = readin;
     }
   }
-  real_packet->has_orders = BV_ISSET(fields, 24);
-  if (BV_ISSET(fields, 25)) {
+  real_packet->has_orders = BV_ISSET(fields, 22);
+  if (BV_ISSET(fields, 23)) {
     {
       int readin;
     
@@ -11182,7 +11173,7 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       real_packet->orders_length = readin;
     }
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 24)) {
     {
       int readin;
     
@@ -11190,9 +11181,9 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       real_packet->orders_index = readin;
     }
   }
-  real_packet->orders_repeat = BV_ISSET(fields, 27);
-  real_packet->orders_vigilant = BV_ISSET(fields, 28);
-  if (BV_ISSET(fields, 29)) {
+  real_packet->orders_repeat = BV_ISSET(fields, 25);
+  real_packet->orders_vigilant = BV_ISSET(fields, 26);
+  if (BV_ISSET(fields, 27)) {
     
     {
       int i;
@@ -11211,7 +11202,7 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 30)) {
+  if (BV_ISSET(fields, 28)) {
     
     {
       int i;
@@ -11230,7 +11221,7 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 31)) {
+  if (BV_ISSET(fields, 29)) {
     
     {
       int i;
@@ -11347,57 +11338,61 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 15);}
 
-  differ = (old->upkeep != real_packet->upkeep);
+
+    {
+      differ = (O_MAX != O_MAX);
+      if(!differ) {
+        int i;
+        for (i = 0; i < O_MAX; i++) {
+          if (old->upkeep[i] != real_packet->upkeep[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 16);}
 
-  differ = (old->upkeep_food != real_packet->upkeep_food);
+  differ = (old->occupy != real_packet->occupy);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 17);}
 
-  differ = (old->upkeep_gold != real_packet->upkeep_gold);
+  differ = (old->goto_dest_x != real_packet->goto_dest_x);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 18);}
 
-  differ = (old->occupy != real_packet->occupy);
+  differ = (old->goto_dest_y != real_packet->goto_dest_y);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 19);}
 
-  differ = (old->goto_dest_x != real_packet->goto_dest_x);
+  differ = (old->activity != real_packet->activity);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 20);}
 
-  differ = (old->goto_dest_y != real_packet->goto_dest_y);
+  differ = (old->activity_target != real_packet->activity_target);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 21);}
 
-  differ = (old->activity != real_packet->activity);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
-
-  differ = (old->activity_target != real_packet->activity_target);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
-
   differ = (old->has_orders != real_packet->has_orders);
   if(differ) {different++;}
-  if(packet->has_orders) {BV_SET(fields, 24);}
+  if(packet->has_orders) {BV_SET(fields, 22);}
 
   differ = (old->orders_length != real_packet->orders_length);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
+  if(differ) {BV_SET(fields, 23);}
 
   differ = (old->orders_index != real_packet->orders_index);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
+  if(differ) {BV_SET(fields, 24);}
 
   differ = (old->orders_repeat != real_packet->orders_repeat);
   if(differ) {different++;}
-  if(packet->orders_repeat) {BV_SET(fields, 27);}
+  if(packet->orders_repeat) {BV_SET(fields, 25);}
 
   differ = (old->orders_vigilant != real_packet->orders_vigilant);
   if(differ) {different++;}
-  if(packet->orders_vigilant) {BV_SET(fields, 28);}
+  if(packet->orders_vigilant) {BV_SET(fields, 26);}
 
 
     {
@@ -11413,7 +11408,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 29);}
+  if(differ) {BV_SET(fields, 27);}
 
 
     {
@@ -11429,7 +11424,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 30);}
+  if(differ) {BV_SET(fields, 28);}
 
 
     {
@@ -11445,7 +11440,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 31);}
+  if(differ) {BV_SET(fields, 29);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -11495,39 +11490,40 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
     dio_put_uint8(&dout, real_packet->unhappiness);
   }
   if (BV_ISSET(fields, 16)) {
-    dio_put_uint8(&dout, real_packet->upkeep);
+  
+    {
+      int i;
+
+      for (i = 0; i < O_MAX; i++) {
+        dio_put_uint8(&dout, real_packet->upkeep[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 17)) {
-    dio_put_uint8(&dout, real_packet->upkeep_food);
-  }
-  if (BV_ISSET(fields, 18)) {
-    dio_put_uint8(&dout, real_packet->upkeep_gold);
-  }
-  if (BV_ISSET(fields, 19)) {
     dio_put_uint8(&dout, real_packet->occupy);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint8(&dout, real_packet->goto_dest_x);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 19)) {
     dio_put_uint8(&dout, real_packet->goto_dest_y);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 20)) {
     dio_put_uint8(&dout, real_packet->activity);
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 21)) {
     dio_put_uint16(&dout, real_packet->activity_target);
   }
-  /* field 24 is folded into the header */
-  if (BV_ISSET(fields, 25)) {
+  /* field 22 is folded into the header */
+  if (BV_ISSET(fields, 23)) {
     dio_put_uint16(&dout, real_packet->orders_length);
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 24)) {
     dio_put_uint16(&dout, real_packet->orders_index);
   }
-  /* field 27 is folded into the header */
-  /* field 28 is folded into the header */
-  if (BV_ISSET(fields, 29)) {
+  /* field 25 is folded into the header */
+  /* field 26 is folded into the header */
+  if (BV_ISSET(fields, 27)) {
   
     {
       int i;
@@ -11537,7 +11533,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     } 
   }
-  if (BV_ISSET(fields, 30)) {
+  if (BV_ISSET(fields, 28)) {
   
     {
       int i;
@@ -11547,7 +11543,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     } 
   }
-  if (BV_ISSET(fields, 31)) {
+  if (BV_ISSET(fields, 29)) {
   
     {
       int i;

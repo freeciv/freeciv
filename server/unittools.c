@@ -260,7 +260,7 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
 
   unit_list_iterate_safe(pcity->units_supported, punit) {
 
-    if (pplayer->economic.gold + potential_gold < punit->upkeep_gold) {
+    if (pplayer->economic.gold + potential_gold < punit->upkeep[O_GOLD]) {
       /* We cannot upkeep this unit any longer and selling off city
        * improvements will not help so we will have to disband */
       assert(pplayer->economic.gold + potential_gold >= 0);
@@ -273,7 +273,7 @@ void pay_for_units(struct player *pplayer, struct city *pcity)
       /* Gold can get negative here as city improvements will be sold
        * afterwards to balance our budget. FIXME: Should units with gold 
        * upkeep give gold when they are disbanded? */
-      pplayer->economic.gold -= punit->upkeep_gold;
+      pplayer->economic.gold -= punit->upkeep[O_GOLD];
     }
   } unit_list_iterate_safe_end;
 }
@@ -1783,9 +1783,9 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->activity = punit->activity;
   packet->activity_count = punit->activity_count;
   packet->unhappiness = punit->unhappiness;
-  packet->upkeep = punit->upkeep;
-  packet->upkeep_food = punit->upkeep_food;
-  packet->upkeep_gold = punit->upkeep_gold;
+  output_type_iterate(o) {
+    packet->upkeep[o] = punit->upkeep[o];
+  } output_type_iterate_end;
   packet->ai = punit->ai.control;
   packet->fuel = punit->fuel;
   if (punit->goto_tile) {

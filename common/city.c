@@ -1094,7 +1094,9 @@ int city_gold_surplus(const struct city *pcity, int tax_total)
   } built_impr_iterate_end;
 
   unit_list_iterate(pcity->units_supported, punit) {
-    cost += punit->upkeep_gold;
+    /* FIXME: unlike food and shields, gold upkeep isn't subtracted off of
+     * the surplus directly when calculating unit support. */
+    cost += punit->upkeep[O_GOLD];
   } unit_list_iterate_end;
 
   return tax_total - cost;
@@ -2085,15 +2087,13 @@ static inline void city_support(struct city *pcity,
 
     /* Save old values so we can decide if the unit info should be resent */
     int old_unhappiness = this_unit->unhappiness;
-    int old_upkeep = this_unit->upkeep;
-    int old_upkeep_food = this_unit->upkeep_food;
-    int old_upkeep_gold = this_unit->upkeep_gold;
+    int old_upkeep = this_unit->upkeep[O_SHIELD];
+    int old_upkeep_food = this_unit->upkeep[O_FOOD];
+    int old_upkeep_gold = this_unit->upkeep[O_GOLD];
 
     /* set current upkeep on unit to zero */
     this_unit->unhappiness = 0;
-    this_unit->upkeep = 0;
-    this_unit->upkeep_food = 0;
-    this_unit->upkeep_gold = 0;
+    memset(this_unit->upkeep, 0, O_COUNT * sizeof(*this_unit->upkeep));
 
     /* This is how I think it should work (dwp)
      * Base happy cost (unhappiness) assumes unit is being aggressive;
@@ -2125,30 +2125,30 @@ static inline void city_support(struct city *pcity,
       adjust_city_free_cost(&free_shield, &shield_cost);
       if (shield_cost > 0) {
 	pcity->surplus[O_SHIELD] -= shield_cost;
-	this_unit->upkeep = shield_cost;
+	this_unit->upkeep[O_SHIELD] = shield_cost;
       }
     }
     if (food_cost > 0) {
       adjust_city_free_cost(&free_food, &food_cost);
       if (food_cost > 0) {
 	pcity->surplus[O_FOOD] -= food_cost;
-	this_unit->upkeep_food = food_cost;
+	this_unit->upkeep[O_FOOD] = food_cost;
       }
     }
     if (gold_cost > 0) {
       adjust_city_free_cost(&free_gold, &gold_cost);
       if (gold_cost > 0) {
-	/* FIXME: This is not implemented -- SKi */
-	this_unit->upkeep_gold = gold_cost;
+	/* FIXME: gold upkeep is subtracted off of the tax_total later. */
+	this_unit->upkeep[O_GOLD] = gold_cost;
       }
     }
 
     /* Send unit info if anything has changed */
     if (send_unit_info
         && (this_unit->unhappiness != old_unhappiness
-            || this_unit->upkeep != old_upkeep
-            || this_unit->upkeep_food != old_upkeep_food
-            || this_unit->upkeep_gold != old_upkeep_gold)) {
+            || this_unit->upkeep[O_SHIELD] != old_upkeep
+            || this_unit->upkeep[O_FOOD] != old_upkeep_food
+            || this_unit->upkeep[O_GOLD] != old_upkeep_gold)) {
       send_unit_info(unit_owner(this_unit), this_unit);
     }
   }

@@ -130,9 +130,7 @@ struct unit {
   int hp;
   int veteran;
   int unhappiness;
-  int upkeep;
-  int upkeep_food;
-  int upkeep_gold;
+  int upkeep[O_MAX];
   int fuel;
   int bribe_cost;
   struct unit_ai ai;

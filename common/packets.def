@@ -620,7 +620,7 @@ PACKET_UNIT_INFO=49; is-info,sc,lsend
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
   UINT8 movesleft, hp, fuel, activity_count;
-  UINT8 unhappiness, upkeep, upkeep_food, upkeep_gold, occupy;
+  UINT8 unhappiness, upkeep[O_MAX], occupy;
   COORD goto_dest_x,goto_dest_y;
   ACTIVITY activity;
   SPECIAL activity_target;

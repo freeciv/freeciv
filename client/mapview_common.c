@@ -956,12 +956,12 @@ void put_unit_city_overlays(struct unit *punit,
 			    struct canvas *pcanvas,
 			    int canvas_x, int canvas_y)
 {
-  int upkeep_food = CLIP(0, punit->upkeep_food, 2);
-  int upkeep_gold = CLIP(0, punit->upkeep_gold, 2);
+  int upkeep_food = CLIP(0, punit->upkeep[O_FOOD], 2);
+  int upkeep_gold = CLIP(0, punit->upkeep[O_GOLD], 2);
   int unhappy = CLIP(0, punit->unhappiness, 2);
 
   /* draw overlay pixmaps */
-  if (punit->upkeep > 0) {
+  if (punit->upkeep[O_SHIELD] > 0) {
     canvas_put_sprite_full(pcanvas, canvas_x, canvas_y,
 			   sprites.upkeep.shield);
   }

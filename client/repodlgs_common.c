@@ -113,7 +113,7 @@ void get_economy_report_units_data(struct unit_entry *entries,
 
 	if (punit->type == utype) {
 	  count++;
-	  partial_cost += punit->upkeep_gold;
+	  partial_cost += punit->upkeep[O_GOLD];
 	}
 
       } unit_list_iterate_end;

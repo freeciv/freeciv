@@ -1710,9 +1710,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   }
   punit->goto_tile = NULL;
   punit->veteran = veteran_level;
-  punit->upkeep = 0;
-  punit->upkeep_food = 0;
-  punit->upkeep_gold = 0;
+  memset(punit->upkeep, 0, O_COUNT * sizeof(*punit->upkeep));
   punit->unhappiness = 0;
   /* A unit new and fresh ... */
   punit->foul = FALSE;

@@ -94,12 +94,12 @@ static void get_units_report_data(struct units_entry *entries,
     (entries[pUnit->type].active_count)++;
     (total->active_count)++;
     if (pUnit->homecity) {
-      entries[pUnit->type].upkeep_shield += pUnit->upkeep;
-      total->upkeep_shield += pUnit->upkeep;
-      entries[pUnit->type].upkeep_food += pUnit->upkeep_food;
-      total->upkeep_food += pUnit->upkeep_food;
-      entries[pUnit->type].upkeep_gold += pUnit->upkeep_gold;
-      total->upkeep_gold += pUnit->upkeep_gold;
+      entries[pUnit->type].upkeep_shield += pUnit->upkeep[O_SHIELD];
+      total->upkeep_shield += pUnit->upkeep[O_SHIELD];
+      entries[pUnit->type].upkeep_food += pUnit->upkeep[O_FOOD];
+      total->upkeep_food += pUnit->upkeep[O_FOOD];
+      entries[pUnit->type].upkeep_gold += pUnit->upkeep[O_GOLD];
+      total->upkeep_gold += pUnit->upkeep[O_GOLD];
     }
   } unit_list_iterate_end;
     

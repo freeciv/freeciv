@@ -591,8 +591,9 @@ activeunits_report_dialog_update(void)
     unit_list_iterate(game.player_ptr->units, punit) {
       (unitarray[punit->type].active_count)++;
       if (punit->homecity) {
-        unitarray[punit->type].upkeep_shield += punit->upkeep;
-        unitarray[punit->type].upkeep_food += punit->upkeep_food;
+        unitarray[punit->type].upkeep_shield += punit->upkeep[O_SHIELD];
+        unitarray[punit->type].upkeep_food += punit->upkeep[O_FOOD];
+	/* TODO: gold upkeep */
       }
     }
 

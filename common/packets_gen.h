@@ -396,9 +396,7 @@ struct packet_unit_info {
   int fuel;
   int activity_count;
   int unhappiness;
-  int upkeep;
-  int upkeep_food;
-  int upkeep_gold;
+  int upkeep[O_MAX];
   int occupy;
   int goto_dest_x;
   int goto_dest_y;

@@ -93,9 +93,9 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   punit->activity = packet->activity;
   punit->activity_count = packet->activity_count;
   punit->unhappiness = packet->unhappiness;
-  punit->upkeep = packet->upkeep;
-  punit->upkeep_food = packet->upkeep_food;
-  punit->upkeep_gold = packet->upkeep_gold;
+  output_type_iterate(o) {
+    punit->upkeep[o] = packet->upkeep[o];
+  } output_type_iterate_end;
   punit->ai.control = packet->ai;
   punit->fuel = packet->fuel;
   if (is_normal_map_pos(packet->goto_dest_x, packet->goto_dest_y)) {
@@ -1175,18 +1175,12 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->unhappiness = packet_unit->unhappiness;
       repaint_city = TRUE;
     }
-    if (punit->upkeep != packet_unit->upkeep) {
-      punit->upkeep = packet_unit->upkeep;
-      repaint_city = TRUE;
-    }
-    if (punit->upkeep_food != packet_unit->upkeep_food) {
-      punit->upkeep_food = packet_unit->upkeep_food;
-      repaint_city = TRUE;
-    }
-    if (punit->upkeep_gold != packet_unit->upkeep_gold) {
-      punit->upkeep_gold = packet_unit->upkeep_gold;
-      repaint_city = TRUE;
-    }
+    output_type_iterate(o) {
+      if (punit->upkeep[o] != packet_unit->upkeep[o]) {
+	punit->upkeep[o] = packet_unit->upkeep[o];
+	repaint_city = TRUE;
+      }
+    } output_type_iterate_end;
     if (repaint_city) {
       if((pcity=find_city_by_id(punit->homecity))) {
 	refresh_city_dialog(pcity);
