@@ -563,6 +563,8 @@ enum direction8 {
   DIR8_SOUTHEAST = 7
 };
 
+BV_DEFINE(dir_vector, 8);
+
 /* return the reverse of the direction */
 #define DIR_REVERSE(dir) (7 - (dir))
 

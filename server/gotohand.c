@@ -447,7 +447,7 @@ case only relevant for GOTOs (see below). came_from is a bit-vector
 containing the directions we could have come from.
 **************************************************************************/
 static bool goto_zoc_ok(struct unit *punit, int src_x, int src_y,
-		       int dest_x, int dest_y, unsigned char came_from)
+		       int dest_x, int dest_y, dir_vector came_from)
 {
   if (can_step_taken_wrt_to_zoc
       (punit->type, unit_owner(punit), src_x, src_y, dest_x, dest_y))
@@ -482,7 +482,7 @@ static bool goto_zoc_ok(struct unit *punit, int src_x, int src_y,
 
     adjc_dir_iterate(src_x, src_y, x, y, dir) {
       /* if we didn't come from there */
-      if (((1 << dir) & came_from) == 0
+      if (!BV_ISSET(came_from, dir)
 	  && !is_ocean(map_get_terrain(x, y))
 	  /* and there is an enemy there */
 	  && is_enemy_unit_tile(map_get_tile(x, y), owner)) {
@@ -569,7 +569,8 @@ static bool find_the_shortest_path(struct unit *punit,
   int maxcost = MAXCOST;
   int move_cost, total_cost;
   int straight_dir = 0;	/* init to silence compiler warning */
-  static unsigned char local_vector[MAP_MAX_WIDTH][MAP_MAX_HEIGHT];
+  static dir_vector *local_vector = NULL;
+#define LOCAL_VECTOR(x, y) local_vector[map_pos_to_index((x), (y))]
   struct unit *pcargo;
   /* 
    * Land/air units use warmap.cost while sea units use
@@ -583,8 +584,11 @@ static bool find_the_shortest_path(struct unit *punit,
   if (same_pos(dest_x, dest_y, orig_x, orig_y)) {
     return TRUE;		/* [Kero] */
   }
-  
-  local_vector[orig_x][orig_y] = 0;
+
+  if (!local_vector) {
+    local_vector = fc_malloc(map.xsize * map.ysize * sizeof(*local_vector));
+  }
+  BV_CLR_ALL(LOCAL_VECTOR(orig_x, orig_y));
 
   init_warmap(punit->x, punit->y, move_type);
   warmap_cost = (move_type == SEA_MOVING) ? warmap.seacost : warmap.cost;
@@ -686,7 +690,7 @@ static bool find_the_shortest_path(struct unit *punit,
 	      move_cost = SINGLE_MOVE;
 	    }
 	  }
-	} else if (!goto_zoc_ok(punit, x, y, x1, y1, local_vector[x][y])) {
+	} else if (!goto_zoc_ok(punit, x, y, x1, y1, LOCAL_VECTOR(x, y))) {
 	  continue;
 	}
 
@@ -780,12 +784,13 @@ static bool find_the_shortest_path(struct unit *punit,
 	if (warmap_cost[map_pos_to_index(x1, y1)] > total_cost) {
 	  warmap_cost[map_pos_to_index(x1, y1)] = total_cost;
 	  add_to_mapqueue(total_cost, x1, y1);
-	  local_vector[x1][y1] = 1 << DIR_REVERSE(dir);
+	  BV_CLR_ALL(LOCAL_VECTOR(x1, y1));
+	  BV_SET(LOCAL_VECTOR(x1, y1), DIR_REVERSE(dir));
 	  freelog(LOG_DEBUG,
 		  "Candidate: %s from (%d, %d) to (%d, %d), cost %d",
 		  dir_get_name(dir), x, y, x1, y1, total_cost);
 	} else if (warmap_cost[map_pos_to_index(x1, y1)] == total_cost) {
-	  local_vector[x1][y1] |= 1 << DIR_REVERSE(dir);
+	  BV_SET(LOCAL_VECTOR(x1, y1), DIR_REVERSE(dir));
 	  freelog(LOG_DEBUG,
 		  "Co-Candidate: %s from (%d, %d) to (%d, %d), cost %d",
 		  dir_get_name(dir), x, y, x1, y1, total_cost);
@@ -823,7 +828,7 @@ static bool find_the_shortest_path(struct unit *punit,
       if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
 	  && !DIR_IS_CARDINAL(dir)) continue;
 
-      if (TEST_BIT(local_vector[x][y], dir)) {
+      if (BV_ISSET(LOCAL_VECTOR(x, y), dir)) {
 	move_cost = (move_type == SEA_MOVING)
 		? WARMAP_SEACOST(x1, y1)
 		: WARMAP_COST(x1, y1);
@@ -831,7 +836,7 @@ static bool find_the_shortest_path(struct unit *punit,
         add_to_mapqueue(MAXCOST-1 - move_cost, x1, y1);
 	/* Mark it on the warmap */
 	WARMAP_VECTOR(x1, y1) |= 1 << DIR_REVERSE(dir);	
-        local_vector[x][y] -= 1<<dir; /* avoid repetition */
+	BV_CLR(LOCAL_VECTOR(x, y), dir); /* avoid repetition */
 	freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
 		dir_get_name(DIR_REVERSE(dir)), x1, y1, x, y);
       }
