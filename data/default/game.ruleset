@@ -70,3 +70,14 @@ tech_cost_style = 0
 ; 3 - Technology cost is reduced depending on the number of normal
 ;     players (human and AI) which already know the tech.
 tech_leakage = 0
+
+; city_incite_cost = 
+; total_factor * (city_size) *
+; (base + (units_cost) * unit_factor + 
+;   (improvements_cost) * improvement_factor) 
+;  / (distance * 100)
+; See city_incite_cost() for more details
+[incite_cost]
+improvement_factor = 1
+unit_factor = 1
+total_factor = 100

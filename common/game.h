@@ -202,6 +202,12 @@ struct civ_game {
      */
     int global_init_techs[MAX_NUM_TECH_LIST];
   } rgame;
+  
+  struct {
+    int improvement_factor;
+    int unit_factor;
+    int total_factor;
+  } incite_cost;
 
   char demography[MAX_LEN_DEMOGRAPHY];
   char allow_take[MAX_LEN_ALLOW_TAKE];

@@ -2633,7 +2633,15 @@ static void load_ruleset_game()
     freelog(LOG_ERROR, "Switching to tech_leakage 0.");
     game.rgame.tech_leakage = 0;
   }
-
+    
+  /* City incite cost */
+  game.incite_cost.improvement_factor = 
+    secfile_lookup_int_default(&file, 1, "incite_cost.improvement_factor");
+  game.incite_cost.unit_factor = 
+    secfile_lookup_int_default(&file, 1, "incite_cost.unit_factor");
+  game.incite_cost.total_factor = 
+    secfile_lookup_int_default(&file, 100, "incite_cost.total_factor");
+  
   /*
    * Load global initial techs
    */

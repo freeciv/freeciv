@@ -1195,15 +1195,15 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   cost = city_owner(pcity)->economic.gold + 1000;
 
   unit_list_iterate(map_get_tile(pcity->x,pcity->y)->units, punit) {
-    cost += unit_type(punit)->build_cost;
+    cost += unit_type(punit)->build_cost * game.incite_cost.unit_factor;
   } unit_list_iterate_end;
 
   /* Buildings */
   built_impr_iterate(pcity, i) {
     if (!is_wonder(i)) {
-      cost += improvement_value(i);
+      cost += improvement_value(i) * game.incite_cost.improvement_factor;
     } else {
-      cost += improvement_value(i) * 2;
+      cost += improvement_value(i) * 2 * game.incite_cost.improvement_factor;
     }
   } built_impr_iterate_end;
 
@@ -1252,7 +1252,9 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
                 - pcity->ppl_unhappy[4]
                 - pcity->ppl_angry[4] * 3);
   cost *= size;
+  cost *= game.incite_cost.total_factor;
   cost = cost / (dist + 3);
+  cost /= 100;
 
   return cost;
 }
