@@ -257,19 +257,22 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     return;
   } /* AI cheats -- no penalty for switching from unit to improvement, etc. */
 
-  /* fallbacks should never happen anymore, but probably
-     could somehow. -- Syela */
+  /* I think fallbacks only happen with techlevel 0, and even then are rare.
+   * I haven't seen them, but I want to somewhat prepare for them anyway. 
+   * -- Syela */ 
+  /* Yes, they do happen with techlevel 0, which is now default. -- Per */
   freelog(LOG_VERBOSE, "Falling back - %s didn't want soldiers, settlers,"
                        " or buildings", pcity->name);
-  if (can_build_improvement(pcity, B_BARRACKS)) {
-    pcity->currently_building = B_BARRACKS;
+  if (best_role_unit(pcity, F_TRADE_ROUTE) != U_LAST) {
+    pcity->currently_building = best_role_unit(pcity, F_TRADE_ROUTE);
+    pcity->is_building_unit = TRUE;
+  } else if (can_build_improvement(pcity, B_CAPITAL)) {
+    pcity->currently_building = B_CAPITAL;
     pcity->is_building_unit = FALSE;
-  } else {
-    pcity->currently_building = best_role_unit(pcity, F_SETTLERS); /* yes, this could be truly bad */
+  } else if (best_role_unit(pcity, F_SETTLERS) != U_LAST) {
+    pcity->currently_building = best_role_unit(pcity, F_SETTLERS);
     pcity->is_building_unit = TRUE;
   }
-/* I think fallbacks only happen with techlevel 0, and even then are rare.
-I haven't seen them, but I want to somewhat prepare for them anyway. -- Syela */  
 }
 
 /************************************************************************** 
