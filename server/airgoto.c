@@ -18,6 +18,7 @@
 #include "log.h"
 #include "map.h"
 #include "mem.h"
+#include "pqueue.h"
 
 #include "gotohand.h"
 
@@ -61,192 +62,9 @@ static struct player_refuel_list {
   int moves_per_turn;
 } refuels;
 
-
 static void make_list_of_refuel_points(struct player *pplayer, 
                                        bool cities_only, 
                                        int moves_per_turn, int max_moves);
-
-#define PQDATUM int
-#define PQEMPTY -1
-/*
- *  Priority queue structure
- */
-struct pqueue {
-  int size;        /* number of occupied cells */
-  int avail;       /* total number of cells */
-  int step;        /* additional memory allocation step */
-  PQDATUM *cells;  /* contain pointers to data */
-  int *priorities; /* backup priorities (in case data is changed 
-                    * while in the queue */
-};
-
-/*------------------- Priority Queue (Heap) Handling ---------------------*/
-
-/**********************************************************************
- * pqinit: initialize the queue.
- *
- * q is a pointer to a priority queue, or NULL if the user
- * wishes to leave it to pqinit to allocate the queue.
- *
- * n is the numer of queue items for which memory should be 
- * preallocated, that is, the initial size of the item array the queue 
- * uses. If you insert more than n items to the queue, another n items 
- * will be allocated automatically.
- **********************************************************************/
-static struct pqueue *pqcreate(int n)
-{
-  struct pqueue *q;
-
-  q = fc_malloc(sizeof(struct pqueue));
-  q->cells = fc_malloc(sizeof(PQDATUM) * n);
-  q->priorities = fc_malloc(sizeof(int) * n);
-  q->avail = q->step = n;
-  q->size = 1;
-  return q;
-}
-
-/********************************************************************
- * Destructor for queue structures
- *******************************************************************/
-static void pqdestroy(struct pqueue *q)
-{
-  free(q->cells);
-  free(q->priorities);
-  free(q);
-}
-
-/********************************************************************
- * pqinsert: insert an item into the queue.
- *
- * q is the pointer to a priority queue.
- * d is the datum to be inserted.
- *
- * Return value:
- * Has the item been inserted (TRUE/FALSE)?
- ********************************************************************/
-static bool pqinsert(struct pqueue *q, PQDATUM datum, int datum_priority)
-{
-  int i, newsize;
-
-  if (!q) {
-    return FALSE;
-  }
-
-  /* allocate more memory if necessary */
-  if (q->size >= q->avail) {
-    PQDATUM *tmp_d;
-    int *tmp_p;
-    newsize = q->size + q->step;
-    if (!(tmp_d = fc_realloc(q->cells, sizeof(PQDATUM) * newsize))) {
-      return FALSE;
-    }
-    if (!(tmp_p = fc_realloc(q->priorities, sizeof(int) * newsize))) {
-      return FALSE;
-    }
-    q->cells = tmp_d;
-    q->priorities = tmp_p;
-    q->avail = newsize;
-  }
-
-  /* insert item */
-  i = q->size++;
-  while (i > 1 && q->priorities[i / 2] < datum_priority) {
-    q->cells[i] = q->cells[i / 2];
-    q->priorities[i] = q->priorities[i / 2];
-    i /= 2;
-  }
-  q->cells[i] = datum;
-  q->priorities[i] = datum_priority;
-  return TRUE;
-}
-
-/*******************************************************************
- * pqremove: remove the highest-ranking item from the queue.
- *
- * p is the pointer to a priority queue.
- *
- * Return value:
- *    non-NULL    The value of the item that has been removed.
- *    NULL        No item could be removed. Either the queue pointer
- *                provided was NULL, or the queue was empty.
- *******************************************************************/
-static PQDATUM pqremove(struct pqueue * q)
-{
-  PQDATUM tmp;
-  int tmp_priority;
-  PQDATUM top;
-  int i = 1, j;
-
-  if (!q || q->size == 1) {
-    return PQEMPTY;
-  }
-  top = q->cells[1];
-  q->size--;
-  tmp = q->cells[q->size];
-  tmp_priority = q->priorities[q->size];
-  while (i <= q->size / 2) {
-    j = 2 * i;
-    if (j < q->size && q->priorities[j] < q->priorities[j + 1]) {
-      j++;
-    }
-    if (q->priorities[j] <= tmp_priority) {
-      break;
-    }
-    q->cells[i] = q->cells[j];
-    q->priorities[i] = q->priorities[j];
-    i = j;
-  }
-  q->cells[i] = tmp;
-  q->priorities[i] = tmp_priority;
-  return top;
-}
-
-/*********************************************************************
- * pqpeek: access highest-ranking item without removing it.
- *
- * q is the pointer to a priority queue.
- *
- * Return values:
- *    non-NULL   Pointer to the data that was on the top
- *    NULL       Failure. Either the queue pointer provided was NULL,
- *               or the queue was empty.
- *********************************************************************/
-static PQDATUM pqpeek(struct pqueue * q)
-{
-  if (!q || q->size == 1) {
-    return PQEMPTY;
-  }
-
-  return q->cells[1];
-}
-
-#ifdef UNUSED
-/*******************************************************************
- * pqverify: verify the queue's self-consistency
- *
- * q is the pointer to the queue
- * priority is the priority evaluator call-back
- *******************************************************************/
-static bool pqverify(struct pqueue * q)
-{
-  int i;
-
-  for(i = 1; i <= (q->size - 1) / 2; i++) {
-    bool ok = ((i * 2 >= q->size 
-                || q->priorities[i] >= q->priorities[i * 2])
-               && (i * 2 + 1 >= q->size 
-                   || q->priorities[i] >= q->priorities[i * 2 + 1]));
-
-    if (!ok) {
-      return FALSE;
-    }
-  }
-
-  return TRUE;
-}
-#endif
-
-/*---------------- End of Priority Queue (Heap) Handling -----------------*/
 
 
 /*---------------- Refuel Points C/D and access --------------------------*/
@@ -396,7 +214,8 @@ struct pqueue *refuel_iterate_init(struct player *pplayer, int x, int y,
                                    int moves_per_turn, int max_fuel)
 {
   struct refuel *tmp;   
-  struct pqueue *rp_queue = pqcreate(MAP_MAX_WIDTH);
+  struct pqueue *rp_queue = pq_create(MAP_MAX_WIDTH);
+  short index;
 
   /* List of all refuel points of the player!  
    * TODO: Should cache the results */
@@ -414,12 +233,14 @@ struct pqueue *refuel_iterate_init(struct player *pplayer, int x, int y,
    * Note: starting position is in the head of refuels list */
   refuel_iterate_process(rp_queue, get_refuel_by_index(0));
 
-  tmp = get_refuel_by_index(pqpeek(rp_queue));
+  index = -1;
+  (void) pq_peek(rp_queue, &index);
+  tmp = get_refuel_by_index(index);
 
   if (tmp && same_pos(x, y, tmp->x, tmp->y)) {
     /* We should get the starting point twice 
      * in case we start on less than full fuel */
-    pqremove(rp_queue);
+    pq_remove(rp_queue, NULL);
     refuel_iterate_process(rp_queue, tmp);
   }
 
@@ -437,8 +258,11 @@ struct refuel *refuel_iterate_next(struct pqueue *rp_list)
   /* Get the next nearest point from the queue
    * (ignoring already processed ones) */
   do {
-    next_point 
-      = get_refuel_by_index(pqremove(rp_list));
+    short int index = -1;
+
+    (void) pq_remove(rp_list, &index);
+
+    next_point = get_refuel_by_index(index);
   } while(next_point != NULL && next_point->listed == RLS_ALREADY_NOT);
 
 
@@ -498,7 +322,7 @@ void refuel_iterate_process(struct pqueue *rp_list, struct refuel *pfrom)
         pto->turns = total_turns;
         
         /* Insert it into the queue.  No problem if it's already there */
-	(void) pqinsert(rp_list, k, queue_priority_function(pto));
+	pq_insert(rp_list, k, queue_priority_function(pto));
         pto->listed = RLS_YES;
         
         freelog(LOG_DEBUG, "Recorded (%i,%i) from (%i,%i) in (%d %d)", 
@@ -518,7 +342,7 @@ static void refuel_iterate_end(struct pqueue *rp_list)
    * -- it will be reused */
 
   /* Just destroy the queue */
-  pqdestroy(rp_list);
+  pq_destroy(rp_list);
 }
 
 /*----------------- End of Refuel Point List Iterators -------------------*/

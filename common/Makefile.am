@@ -59,6 +59,8 @@ libcivcommon_a_SOURCES = \
 		packets_lsend.h	\
 		player.c	\
 		player.h	\
+		pqueue.c	\
+		pqueue.h	\
 		mem.c           \
 		mem.h		\
 		rand.c		\
