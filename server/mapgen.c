@@ -50,7 +50,7 @@ int full_map(int x, int y)
 **************************************************************************/
 int arctic_y(int y)
 {
-  return (y < map.ysize*0.1 || y > map.ysize*0.9);
+  return (y < map.ysize/10 || y > map.ysize*9/10);
 }
 
 /**************************************************************************
@@ -58,7 +58,7 @@ int arctic_y(int y)
 **************************************************************************/
 int desert_y(int y)
 {
-  return (y > map.ysize*0.4  &&  y < map.ysize*0.6);
+  return (y > map.ysize*4/10  &&  y < map.ysize*6/10);
 }
 
 /**************************************************************************
@@ -80,9 +80,10 @@ void make_mountains(int thill)
 	if (full_map(x, y)>thill) 
 	    mount++;
     if (mount<((map.xsize*map.ysize)*map.mountains)/1000) 
-      thill*=0.95;
+      thill*=95;
     else 
-      thill*=1.05;
+      thill*=105;
+    thill/=100;
   }
   
   for (y=0;y<map.ysize;y++) 
@@ -103,9 +104,9 @@ void make_polar()
 {
   int y,x;
 
-  for (y=0;y<map.ysize*0.1;y++) {
+  for (y=0;y<map.ysize/10;y++) {
     for (x=0;x<map.xsize;x++) {
-      if ((full_map(x, y)+(map.ysize*0.1-y*25)>myrand(maxval) && map_get_terrain(x,y)==T_GRASSLAND) || y==0) { 
+      if ((full_map(x, y)+(map.ysize/10-y*25)>myrand(maxval) && map_get_terrain(x,y)==T_GRASSLAND) || y==0) { 
 	if (y<2)
 	  map_set_terrain(x, y, T_ARCTIC);
 	else
@@ -114,9 +115,9 @@ void make_polar()
       } 
     }
   }
-  for (y=map.ysize*0.9;y<map.ysize;y++) {
+  for (y=map.ysize*9/10;y<map.ysize;y++) {
     for (x=0;x<map.xsize;x++) {
-      if ((full_map(x, y)+(map.ysize*0.1-(map.ysize-y)*25)>myrand(maxval) && map_get_terrain(x, y)==T_GRASSLAND) || y==map.ysize-1) {
+      if ((full_map(x, y)+(map.ysize/10-(map.ysize-y)*25)>myrand(maxval) && map_get_terrain(x, y)==T_GRASSLAND) || y==map.ysize-1) {
 	if (y>map.ysize-3)
 	  map_set_terrain(x, y, T_ARCTIC);
 	else
@@ -155,7 +156,7 @@ void make_forest(int x, int y, int height, int diff)
     return;
 
   if (map_get_terrain(x, y)==T_GRASSLAND) {
-    if (y>map.ysize*0.42 && y<map.ysize*0.58 && myrand(100)>50)
+    if (y>map.ysize*42/100 && y<map.ysize*58/100 && myrand(100)>50)
       map_set_terrain(x, y, T_JUNGLE);
     else 
       map_set_terrain(x, y, T_FOREST);
@@ -185,7 +186,7 @@ void make_forests()
       make_forest(x,y, full_map(x, y), 25);
     }
     if (myrand(100)>75) {
-      y=(myrand((int)(map.ysize*0.2)))+map.ysize*0.4;
+      y=(myrand(map.ysize*2/10))+map.ysize*4/10;
       x=myrand(map.xsize);
       if (map_get_terrain(x, y)==T_GRASSLAND) {
 	make_forest(x,y, full_map(x, y), 25);
@@ -237,7 +238,7 @@ void make_deserts()
   j=0;
   while (i && j<1000) {
     j++;
-    y=myrand((int)(map.ysize*0.1))+map.ysize*0.45;
+    y=myrand(map.ysize/10)+map.ysize*45/100;
     x=myrand(map.xsize);
     if (map_get_terrain(x, y)==T_GRASSLAND) {
       make_desert(x,y, full_map(x, y), 50);
@@ -416,12 +417,13 @@ void make_land()
 	}
       }
     if (count>total)
-      tres=tres*1.1;
+      tres*=11;
     else
-      tres=tres*0.9;
+      tres*=9;
+    tres/=10;
   } while (abs(total-count)> maxval/40);
   make_passable();
-  make_mountains(maxval*0.8);
+  make_mountains(maxval*8/10);
   make_forests();
   make_swamps();
   make_deserts();
