@@ -771,11 +771,7 @@ static void create_danger_segment(struct pf_map *pf_map, enum direction8 dir,
 
   /* Allocating memory */
   if (d_node1->danger_segment) {
-    /* FIXME: it is probably a major bug that create_danger_segment gets
-     * called more than once per node.  Here we prevent a memory leak when
-     * it happens, but who knows what other problems it could cause?  See
-     * PR#10613. */
-    free(d_node1->danger_segment);
+    freelog(LOG_ERROR, "Possible memory leak in create_danger_segment");
   }
   d_node1->danger_segment = fc_malloc(length * sizeof(struct pf_danger_pos));
 
@@ -831,14 +827,16 @@ static int danger_adjust_cost(const struct pf_map *pf_map, int cost,
   return cost;
 }
 
-/*****************************************************************
+/*****************************************************************************
   Primary method for iterative path-finding in presence of danger
   Notes: 
   1. Whenever the path-finding stumbles upon a dangerous 
   location, it goes into a sub-Dijkstra which processes _only_ 
   dangerous locations, by means of a separate queue.  When this
   sub-Dijkstra reaches a safe location, it records the segment of
-  the path going across the dangerous terrain.
+  the path going across the dangerous terrain.  Hence danger_segment is an
+  extended (and reversed) version of the dir_to_here field.  It can be 
+  re-recorded multiple times as we find shorter and shorter routes.
   2. Waiting is realised by inserting the (safe) tile back into 
   the queue with a lower priority P.  This tile might pop back 
   sooner than P, because there might be several copies of it in 
@@ -856,7 +854,7 @@ static int danger_adjust_cost(const struct pf_map *pf_map, int cost,
   is one.  To gurantee the best (in terms of total_CC) safe segments 
   across danger, supply get_EC which returns small extra on 
   dangerous tiles.
-******************************************************************/
+*****************************************************************************/
 static bool danger_iterate_map(struct pf_map *pf_map)
 {
   mapindex_t index;
@@ -941,16 +939,16 @@ static bool danger_iterate_map(struct pf_map *pf_map)
 	  node1->cost = cost;
 	  node1->dir_to_here = dir;
           d_node1->step = loc_step + 1;
+          /* Clear the previously recorded path back */
+          if (d_node1->danger_segment) {
+            free(d_node1->danger_segment);
+            d_node1->danger_segment = NULL;
+          }
 	  if (d_node->is_dangerous) {
 	    /* Transition from red to blue, need to record the path back */
 	    create_danger_segment(pf_map, dir, d_node1, 
                                   d_node->segment_length);
 	  } else {
-	    /* Clear the path back */
-	    if (d_node1->danger_segment) {
-	      free(d_node1->danger_segment);
-	      d_node1->danger_segment = NULL;
-	    }
             /* We don't consider waiting to get to a safe tile as 
              * "real" waiting */
 	    d_node1->waited = FALSE;
