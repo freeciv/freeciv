@@ -159,7 +159,7 @@ static void popit(int xin, int yin, struct tile *ptile)
     XtVaSetValues(p, XtNx, x, XtNy, y, NULL);
 
     *cross_head = NULL;
-    for (i = 0; cross_list[i] >= 0; i++) {
+    for (i = 0; cross_list[i]; i++) {
       put_cross_overlay_tile(cross_list[i]);
     }
     XtAddCallback(p,XtNpopdownCallback,popupinfo_popdown_callback,
