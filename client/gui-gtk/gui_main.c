@@ -604,6 +604,7 @@ static void setup_widgets(void)
       text_style->text[GTK_STATE_INSENSITIVE]=
 					text_style->text[GTK_STATE_NORMAL];
       gtk_widget_set_style (text, text_style);
+      gtk_text_set_word_wrap(GTK_TEXT(text), 1);
 
       main_message_area = GTK_TEXT (text);
 
