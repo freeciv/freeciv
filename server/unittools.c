@@ -1564,6 +1564,12 @@ static void server_remove_unit(struct unit *punit)
   struct city *phomecity = find_city_by_id(punit->homecity);
   int punit_x = punit->x, punit_y = punit->y;
 
+#ifndef NDEBUG
+  unit_list_iterate(map_get_tile(punit->x, punit->y)->units, pcargo) {
+    assert(pcargo->transported_by != punit->id);
+  } unit_list_iterate_end;
+#endif
+
   /* Since settlers plot in new cities in the minimap before they
      are built, so that no two settlers head towards the same city
      spot, we need to ensure this reservation is cleared should
@@ -1633,56 +1639,95 @@ city supported, or player units, is ok.
 void wipe_unit_spec_safe(struct unit *punit, struct genlist_iterator *iter,
 			 bool wipe_cargo)
 {
-  /* No need to remove air units as they can still fly away */
-  if (is_ground_units_transport(punit)
-      && is_ocean(map_get_terrain(punit->x, punit->y))
-      && wipe_cargo) {
-    int x = punit->x;
-    int y = punit->y;
-    struct city *pcity = NULL;
+  int x = punit->x;
+  int y = punit->y;
 
-    int capacity =
-	ground_unit_transporter_capacity(x, y, unit_owner(punit));
-    capacity -= get_transporter_capacity(punit);
-
+  /* First pull all units off of the transporter. */
+  if (get_transporter_capacity(punit) > 0) {
     unit_list_iterate(map_get_tile(x, y)->units, pcargo) {
-      if (capacity >= 0)
-	break;
-      if (is_ground_unit(pcargo)) {
-	if (iter && ((struct unit*)ITERATOR_PTR((*iter))) == pcargo) {
-	  freelog(LOG_DEBUG, "iterating over %s in wipe_unit_safe",
-		  unit_name(pcargo->type));
-	  ITERATOR_NEXT((*iter));
-	}
-	/* Undisbandable units should be hard to get rid of. Drowning
-	   them in a trireme is too simple. Or too easy a way to lose an
-	   all-important unit, depending on the scenario. */
-	if (unit_flag(pcargo, F_UNDISBANDABLE)) {
-	  pcity = find_closest_owned_city(unit_owner(pcargo),
-			pcargo->x, pcargo->y, TRUE, NULL);
-	  if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
-	    notify_player_ex(unit_owner(punit), x, y, E_NOEVENT,
-			 _("Game: %s escaped the destruction of %s, and "
-			 "fled to %s."), unit_type(pcargo)->name,
-			 unit_type(punit)->name, pcity->name);
-	  }
-	}
-	if (!unit_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
-	  notify_player_ex(unit_owner(punit), x, y, E_UNIT_LOST,
-			 _("Game: %s lost when %s was lost."),
-			 unit_type(pcargo)->name,
-			 unit_type(punit)->name);
-	  gamelog(GAMELOG_UNITL, _("%s lose %s when %s lost"),
-		get_nation_name_plural(unit_owner(punit)->nation),
-		unit_type(pcargo)->name, unit_type(punit)->name);
-	  server_remove_unit(pcargo);
-	}
-	capacity++;
-      }
+      if (pcargo->transported_by == punit->id) {
+	pcargo->transported_by = -1;
+      } 
     } unit_list_iterate_end;
   }
 
+  /* No need to wipe the cargo unless it's a ground transporter. */
+  wipe_cargo &= is_ground_units_transport(punit);
+
+  /* Now remove the unit. */
   server_remove_unit(punit);
+
+  /* Finally reassign, bounce, or destroy all ground units at this location.
+   * There's no need to worry about air units; they can fly away. */
+  if (wipe_cargo
+      && is_ocean(map_get_terrain(x, y))
+      && !map_get_city(x, y)) {
+    struct city *pcity = NULL;
+    int capacity = ground_unit_transporter_capacity(x, y, unit_owner(punit));
+
+    /* Get rid of excess standard units. */
+    if (capacity < 0) {
+      unit_list_iterate_safe(map_get_tile(x, y)->units, pcargo) {
+	if (is_ground_unit(pcargo)
+	    && pcargo->transported_by == -1
+	    && !unit_flag(pcargo, F_UNDISBANDABLE)
+	    && !unit_flag(pcargo, F_GAMELOSS)) {
+	  server_remove_unit(pcargo);
+	  if (++capacity >= 0) {
+	    break;
+	  }
+	}
+      } unit_list_iterate_safe_end;
+    }
+
+    /* Get rid of excess undisbandable/gameloss units. */
+    if (capacity < 0) {
+      unit_list_iterate_safe(map_get_tile(x, y)->units, pcargo) {
+	if (is_ground_unit(pcargo) && pcargo->transported_by == -1) {
+	  if (unit_flag(pcargo, F_UNDISBANDABLE)) {
+	    pcity = find_closest_owned_city(unit_owner(pcargo),
+					    pcargo->x, pcargo->y, TRUE, NULL);
+	    if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
+	      notify_player_ex(unit_owner(punit), x, y, E_NOEVENT,
+			       _("Game: %s escaped the destruction of %s, and "
+				 "fled to %s."), unit_type(pcargo)->name,
+			       unit_type(punit)->name, pcity->name);
+	    }
+	  }
+	  if (!unit_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
+	    notify_player_ex(unit_owner(punit), x, y, E_UNIT_LOST,
+			     _("Game: %s lost when %s was lost."),
+			     unit_type(pcargo)->name,
+			     unit_type(punit)->name);
+	    gamelog(GAMELOG_UNITL, _("%s lose %s when %s lost"),
+		    get_nation_name_plural(unit_owner(punit)->nation),
+		    unit_type(pcargo)->name, unit_type(punit)->name);
+	    server_remove_unit(pcargo);
+	  }
+	  if (++capacity >= 0) {
+	    break;
+	  }
+	}
+      } unit_list_iterate_safe_end;
+    }
+
+    /* Reassign existing units.  This is an O(n^2) operation as written. */
+    unit_list_iterate(map_get_tile(x, y)->units, ptrans) {
+      if (is_ground_units_transport(ptrans)) {
+	int occupancy = get_transporter_occupancy(ptrans);
+
+	unit_list_iterate(map_get_tile(x, y)->units, pcargo) {
+	  if (occupancy >= get_transporter_capacity(ptrans)) {
+	    break;
+	  }
+	  if (is_ground_unit(pcargo) && pcargo->transported_by == -1) {
+	    pcargo->transported_by = ptrans->id;
+	    occupancy++;
+	  }
+	} unit_list_iterate_end;
+      }
+    } unit_list_iterate_end;
+  }
 }
 
 /**************************************************************************
