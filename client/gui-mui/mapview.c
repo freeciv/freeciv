@@ -79,10 +79,13 @@ IMPORT Object *main_terrain_text;
 IMPORT Object *main_hometown_text;
 IMPORT Object *main_unit_unit;
 IMPORT Object *main_map_area;
+IMPORT Object *main_turndone_button;
 
 extern int goto_state;
 extern int paradrop_state;
 extern int nuke_state;
+
+extern int seconds_to_turndone;
 
 /**************************************************************************
  Some support functions
@@ -115,7 +118,6 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 {
   static struct timer *anim_timer = NULL; 
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
-  int i;
 
   set_unit_focus_no_center(punit0);
   set_unit_focus_no_center(punit1);
@@ -192,26 +194,17 @@ void set_overview_dimensions(int x, int y)
 **************************************************************************/
 void update_turn_done_button(int do_restore)
 {
-/*
-   static int flip;
-   GdkGC      *fore, *back;
+  static int flip;
 
-   if(game.player_ptr->ai.control && !ai_manual_turn_done)
-   return;
-   if((do_restore && flip) || !do_restore)
-   { 
+  if (game.player_ptr->ai.control && !ai_manual_turn_done)
+    return;
 
-   fore = turn_done_button->style->bg_gc[GTK_STATE_NORMAL];
-   back = turn_done_button->style->light_gc[GTK_STATE_NORMAL];
-
-   turn_done_button->style->bg_gc[GTK_STATE_NORMAL] = back;
-   turn_done_button->style->light_gc[GTK_STATE_NORMAL] = fore;
-
-   gtk_expose_now(turn_done_button);
-
-   flip=!flip;
-   }
-*/
+  if ((do_restore && flip) || !do_restore)
+  {
+    if (!flip) set(main_turndone_button,MUIA_Background, MUII_FILL);
+    else set(main_turndone_button,MUIA_Background, MUII_ButtonBack);
+    flip = !flip;
+  }
 }
 
 /**************************************************************************
@@ -219,12 +212,7 @@ void update_turn_done_button(int do_restore)
 **************************************************************************/
 void update_timeout_label(void)
 {
-/*
- char buffer[512];
-
- sprintf(buffer, "%d", seconds_to_turndone);
- gtk_set_label(timeout_label, buffer);
-*/
+  settextf(main_timeout_text, "%d", seconds_to_turndone);
 }
 
 /**************************************************************************
@@ -505,7 +493,7 @@ void update_map_canvas_visible(void)
 **************************************************************************/
 void update_city_descriptions(void)
 {
-  /* UNIMPLEMENTED */
+  update_map_canvas_visible();
 }
 
 /**************************************************************************
