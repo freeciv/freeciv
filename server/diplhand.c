@@ -29,6 +29,7 @@
 #include <cityhand.h>
 #include <cityturn.h>
 #include <settlers.h>
+#include <mem.h>
 
 struct genlist treaties;
 int did_init_treaties;
@@ -321,7 +322,7 @@ void handle_diplomacy_init(struct player *pplayer,
     
     struct Treaty *ptreaty;
     
-    ptreaty=(struct Treaty *)malloc(sizeof(struct Treaty));
+    ptreaty=fc_malloc(sizeof(struct Treaty));
     init_treaty(ptreaty, plr0, plr1);
     genlist_insert(&treaties, ptreaty, 0);
     

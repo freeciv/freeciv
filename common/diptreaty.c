@@ -16,6 +16,7 @@
 #include <genlist.h>
 #include <player.h>
 #include <diptreaty.h>
+#include <mem.h>
 
 
 /****************************************************************
@@ -91,7 +92,7 @@ int add_clause(struct Treaty *ptreaty, struct player *pfrom,
     }
   }
    
-  pclause=malloc(sizeof(struct Clause));
+  pclause=fc_malloc(sizeof(struct Clause));
 
   pclause->type=type;
   pclause->from=pfrom;

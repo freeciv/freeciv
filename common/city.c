@@ -19,6 +19,7 @@
 #include <tech.h>
 #include <shared.h>
 #include <log.h>
+#include <mem.h>
 
 static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths);
 
@@ -1274,7 +1275,7 @@ void initialize_city_cache(void)
 
   if(citycache) free(citycache);
   citycachesize=128;
-  citycache=malloc(sizeof(*citycache) * citycachesize);
+  citycache=fc_malloc(sizeof(*citycache) * citycachesize);
   for(i=0;i<citycachesize;i++) citycache[i]=NULL;
 }
 
@@ -1288,7 +1289,7 @@ static void reallocate_cache(void)
   freelog(LOG_DEBUG,"Increasing max city id index from %d to %d",
        citycachesize,citycachesize*2);
   citycachesize*=2;
-  citycache=realloc(citycache,sizeof(*citycache)*citycachesize);
+  citycache=fc_realloc(citycache,sizeof(*citycache)*citycachesize);
   for(i=citycachesize/2;i<citycachesize;i++)  citycache[i]=NULL;
 }
 

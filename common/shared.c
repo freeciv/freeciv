@@ -16,6 +16,7 @@
 #include <ctype.h>
 
 #include <shared.h>
+#include <mem.h>
 
 #ifndef FREECIV_DATADIR
 #define FREECIV_DATADIR "data"
@@ -63,7 +64,7 @@ char *create_centered_string(char *s)
   if(maxlen<curlen)
     maxlen=curlen;
   
-  r=rn=(char *)malloc(nlines*(maxlen+1));
+  r=rn=fc_malloc(nlines*(maxlen+1));
   
   curlen=0;
   for(cp0=cp=s; *cp; cp++) {
@@ -198,17 +199,6 @@ char *get_sane_name(char *name)
   str[MAX_LENGTH_NAME-1]='\0';
   
   return str;
-}
-
-/***************************************************************
-...
-***************************************************************/
-char *mystrdup(char *str)
-{
-  char *dest=malloc(strlen(str)+1);
-  if(dest)
-    strcpy(dest, str);
-  return dest;
 }
 
 /***************************************************************

@@ -35,6 +35,7 @@
 #include <clinet.h>
 #include <map.h>
 #include <civclient.h>
+#include <mem.h>
 
 void send_unit_info(struct unit *punit);
 
@@ -206,7 +207,7 @@ void update_goto_dialog(Widget goto_list)
   else
       ncities_total=city_list_size(&game.player_ptr->cities);
 
-  city_name_ptrs=(char **)malloc(ncities_total*sizeof(char*));
+  city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));
   
   for(i=0, j=0; i<game.nplayers; i++) {
     if(!all_cities && i!=game.player_idx) continue;

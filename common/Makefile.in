@@ -106,6 +106,8 @@ libcivcommon_a_SOURCES = \
 		packets.h	\
 		player.c	\
 		player.h	\
+		mem.c           \
+		mem.h		\
 		shared.c	\
 		shared.h	\
 		spaceship.c	\
@@ -130,8 +132,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libcivcommon_a_LIBADD = 
 libcivcommon_a_OBJECTS =  capability.o city.o diptreaty.o game.o \
-genlist.o log.o map.o packets.o player.o shared.o spaceship.o tech.o \
-unit.o
+genlist.o log.o map.o packets.o player.o mem.o shared.o spaceship.o \
+tech.o unit.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
@@ -144,9 +146,9 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = tar
 GZIP = --best
 DEP_FILES =  .deps/capability.P .deps/city.P .deps/diptreaty.P \
-.deps/game.P .deps/genlist.P .deps/log.P .deps/map.P .deps/packets.P \
-.deps/player.P .deps/shared.P .deps/spaceship.P .deps/tech.P \
-.deps/unit.P
+.deps/game.P .deps/genlist.P .deps/log.P .deps/map.P .deps/mem.P \
+.deps/packets.P .deps/player.P .deps/shared.P .deps/spaceship.P \
+.deps/tech.P .deps/unit.P
 SOURCES = $(libcivcommon_a_SOURCES)
 OBJECTS = $(libcivcommon_a_OBJECTS)
 

@@ -38,6 +38,7 @@
 #include <settlers.h>
 #include <gamelog.h>
 #include <spacerace.h>
+#include <mem.h>
 
 void do_unit_goto(struct player *pplayer, struct unit *punit);
 
@@ -1101,7 +1102,7 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 
     }
 
-    pnewcity=(struct city *)malloc(sizeof(struct city));
+    pnewcity=fc_malloc(sizeof(struct city));
     make_partisans(pcity);
     *pnewcity=*pcity;
     remove_city(pcity);

@@ -41,6 +41,7 @@
 #include <optiondlg.h>
 #include <log.h>
 #include <cityrep.h>
+#include <mem.h>
 
 extern Widget toplevel, main_form;
 
@@ -716,8 +717,9 @@ void city_report_dialog_update(void)
       n_alloc *= 2;
       if (!n_alloc || n_alloc < n) n_alloc = n + 1;
       freelog(LOG_DEBUG, "city report n_alloc increased to %d", n_alloc);
-      cities_in_list = realloc(cities_in_list, n_alloc*sizeof(*cities_in_list));
-      city_list_text = realloc(city_list_text, n_alloc*sizeof(char*));
+      cities_in_list = fc_realloc(cities_in_list,
+				  n_alloc*sizeof(*cities_in_list));
+      city_list_text = fc_realloc(city_list_text, n_alloc*sizeof(char*));
       for(j=n_prev; j<n_alloc; j++)  city_list_text[j] = malloc(128);
     }
        

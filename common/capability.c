@@ -15,8 +15,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "mem.h"		/* mystrdup */
 #include "capability.h"
-#include "shared.h"		/* mystrdup */
 
 /* This routine returns true if the capability in cap appears
  * in the capability list in capstr.  The capabilities in capstr

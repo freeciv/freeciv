@@ -30,6 +30,7 @@
 #include <unit.h>
 #include <game.h>
 #include <colors.h>
+#include <mem.h>
 
 extern GtkWidget *	drawing;
 extern GtkWidget *	toplevel;
@@ -138,10 +139,7 @@ void load_tile_gfx(void)
 
   ntiles= (20*19) + (20*3) + (31*1) + 3 + (16*4) + 6 + (14*2);
 
-  if (!(tile_sprites=malloc(ntiles*sizeof(SPRITE *)))) {
-    freelog(LOG_FATAL, "couldn't malloc tile_sprites array");
-    exit(1);
-  }
+  tile_sprites=fc_malloc(ntiles*sizeof(SPRITE *));
 
   NORMAL_TILE_WIDTH=big_sprite->width/20;
   NORMAL_TILE_HEIGHT=big_sprite->height/18;
@@ -268,7 +266,7 @@ void load_tile_gfx(void)
 ***************************************************************************/
 SPRITE *ctor_sprite( GdkPixmap *mypixmap, int width, int height )
 {
-    SPRITE *mysprite = malloc( sizeof( SPRITE ) );
+    SPRITE *mysprite = fc_malloc(sizeof(SPRITE));
 
     mysprite->pixmap	= mypixmap;
     mysprite->width	= width;
@@ -284,7 +282,7 @@ SPRITE *ctor_sprite( GdkPixmap *mypixmap, int width, int height )
 SPRITE *ctor_sprite_mask( GdkPixmap *mypixmap, GdkPixmap *mask, 
 							int width, int height )
 {
-    SPRITE *mysprite = malloc( sizeof( SPRITE ) );
+    SPRITE *mysprite = fc_malloc(sizeof(SPRITE));
 
     mysprite->pixmap	= mypixmap;
     mysprite->mask	= mask;
@@ -326,10 +324,7 @@ struct Sprite *load_xpmfile(char *filename)
     exit(1);
   }
 
-  if(!(mysprite=malloc(sizeof(struct Sprite)))) {
-    freelog(LOG_FATAL, "failed mallocing sprite struct for %%s", filename);
-    exit(1);
-  }
+  mysprite=fc_malloc(sizeof(struct Sprite));
 
   w=im->rgb_width; h=im->rgb_height;
 

@@ -35,6 +35,7 @@
 #include <unittools.h>
 #include <gamehand.h>		/* send_game_info */
 #include <stdinhand.h>		/* set_ai_level_direct */
+#include <mem.h>
 
 /****************************************************************
 ...
@@ -940,7 +941,7 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
   if (cplayer==pplayer || cplayer==NULL) 
     return NULL;
 
-  pnewcity=(struct city *)malloc(sizeof(struct city));
+  pnewcity=fc_malloc(sizeof(struct city));
   *pnewcity=*pcity;
 
   pnewcity->id=get_next_id_number();

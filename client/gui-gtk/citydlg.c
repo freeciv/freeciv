@@ -37,6 +37,7 @@
 #include <graphics.h>
 #include <gui_stuff.h>
 #include <cityrep.h>
+#include <mem.h>
 
 extern GtkWidget *toplevel, *map_canvas;
 extern GdkWindow *root_window;
@@ -292,7 +293,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   GtkAccelGroup *accel=gtk_accel_group_new();
   GtkStyle *style;
 
-  pdialog=(struct city_dialog *)malloc(sizeof(struct city_dialog));
+  pdialog=fc_malloc(sizeof(struct city_dialog));
   pdialog->pcity=pcity;
 
   pdialog->shell=gtk_dialog_new();

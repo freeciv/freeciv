@@ -41,6 +41,7 @@
 #include <gui_stuff.h>
 #include <chatline.h>
 #include <capability.h>
+#include <mem.h>
 
 extern Widget toplevel;
 
@@ -244,7 +245,7 @@ int fill_diplomacy_city_menu(Widget popupmenu,
 			      struct player *plr0, struct player *plr1)
 {
   int i = 0, j = 0, n = city_list_size(&plr0->cities);
-  struct city **city_list_ptrs = (struct city **)malloc(sizeof(struct city*)*n);
+  struct city **city_list_ptrs = fc_malloc(sizeof(struct city*)*n);
 
   city_list_iterate(plr0->cities, pcity) {
     if(!city_got_effect(pcity, B_PALACE)){
@@ -281,7 +282,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   Widget entry;
   XtTranslations textfieldtranslations;
   
-  pdialog=(struct Diplomacy_dialog *)malloc(sizeof(struct Diplomacy_dialog));
+  pdialog=fc_malloc(sizeof(struct Diplomacy_dialog));
   genlist_insert(&diplomacy_dialogs, pdialog, 0);
   
   init_treaty(&pdialog->treaty, plr0, plr1);

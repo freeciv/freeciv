@@ -37,6 +37,7 @@
 #include <gui_stuff.h>
 #include <graphics.h>
 #include <civclient.h>
+#include <mem.h>
 
 extern Widget toplevel, main_form, map_canvas;
 
@@ -227,7 +228,7 @@ void notify_goto_find_widget(Widget w, int *x, int *y)
 void notify_goto_add_widget_coords(Widget w, int  x, int y)
 {
   struct widget_list *newwidget;
-  newwidget = (struct widget_list *)malloc(sizeof(struct widget_list));
+  newwidget = fc_malloc(sizeof(struct widget_list));
   newwidget->w = w;
   newwidget->x = x;
   newwidget->y = y;

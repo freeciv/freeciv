@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+
 #include <time.h>
 #include <sys/time.h>
 
@@ -20,7 +22,7 @@
 #include <map.h>
 #include <game.h>
 #include <shared.h>
-#include <assert.h>
+#include <mem.h>
 
 #define hmap(x,y) &height_map[(y)*map.xsize+map_adjust_x(x)]
 
@@ -826,11 +828,8 @@ void adjust_map(int minval)
 void init_workmap(void)
 {
   int x,y;
-  if(!(map.tiles=(struct tile*)malloc(map.xsize*map.ysize*
-				      sizeof(struct tile)))) {
-    freelog(LOG_FATAL, "malloc failed in mapgen");
-    exit(1);
-  }
+  
+  map.tiles=fc_malloc(map.xsize*map.ysize*sizeof(struct tile));
   for(y=0;y<map.ysize;y++)
      for(x=0;x<map.xsize;x++)
        tile_init(map_get_tile(x, y));
@@ -843,7 +842,7 @@ void mapgenerator1(void)
 {
   int x,y, i;
   int minval=5000000;
-  height_map=(int *) malloc (sizeof(int)*map.xsize*map.ysize);
+  height_map=fc_malloc (sizeof(int)*map.xsize*map.ysize);
 
   adjust_terrain_param();
   
@@ -1216,7 +1215,7 @@ static void makeisland(int islemass, int starters)
 static void initworld()
 {
   int x, y;
-  height_map =(int *) malloc (sizeof(int) * map.ysize * map.xsize);
+  height_map = fc_malloc(sizeof(int) * map.ysize * map.xsize);
   for (y = 0 ; y < map.ysize ; y++) 
     for (x = 0 ; x < map.xsize ; x++) {
       map_set_terrain(x, y, T_OCEAN);

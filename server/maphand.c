@@ -23,6 +23,7 @@
 #include <log.h>
 #include <ctype.h>
 #include <plrhand.h>           /* notify_player */
+#include <mem.h>
 
 
 char terrain_chars[]="adfghjm prst";
@@ -304,7 +305,7 @@ void send_map_info(struct player *dest)
 void map_save(struct section_file *file)
 {
   int i, x, y;
-  char *pbuf=(char *)malloc(map.xsize+1);
+  char *pbuf=fc_malloc(map.xsize+1);
 
   /* map.xsize and map.ysize (saved as map.width and map.height)
    * are now always saved in game_save()
@@ -417,11 +418,7 @@ void map_tiles_load(struct section_file *file)
   map.xsize=secfile_lookup_int(file, "map.width");
   map.ysize=secfile_lookup_int(file, "map.height");
 
-  if(!(map.tiles=(struct tile*)malloc(map.xsize*map.ysize*
-					 sizeof(struct tile)))) {
-    freelog(LOG_FATAL, "malloc failed in load_map");
-    exit(1);
-  }
+  map.tiles=fc_malloc(map.xsize*map.ysize*sizeof(struct tile));
 
   for(y=0; y<map.ysize; y++)
     for(x=0; x<map.xsize; x++)

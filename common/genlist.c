@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 #include <genlist.h>
+#include <mem.h>
 
 
 /************************************************************************
@@ -110,8 +111,7 @@ void genlist_insert(struct genlist *pgenlist, void *data, int pos)
 {
   if(!pgenlist->nelements) { /*list is empty, ignore pos */
     
-    struct genlist_link *plink=(struct genlist_link *)
-      malloc(sizeof(struct genlist_link));
+    struct genlist_link *plink=fc_malloc(sizeof(struct genlist_link));
 
     plink->dataptr=data;
     plink->next=&pgenlist->null_link;
@@ -122,8 +122,7 @@ void genlist_insert(struct genlist *pgenlist, void *data, int pos)
 
   }
   else {
-    struct genlist_link *plink=(struct genlist_link *)
-      malloc(sizeof(struct genlist_link));
+    struct genlist_link *plink=fc_malloc(sizeof(struct genlist_link));
     plink->dataptr=data;
 
 
@@ -226,7 +225,7 @@ void genlist_sort(struct genlist *pgenlist,
   }
   if(n > n_alloc) {
     n_alloc = n+10;
-    sortbuf = realloc(sortbuf, n_alloc*sizeof(void*));
+    sortbuf = fc_realloc(sortbuf, n_alloc*sizeof(void*));
   }
   
   genlist_iterator_init(&myiter, pgenlist, 0);

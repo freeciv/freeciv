@@ -39,6 +39,7 @@
 #include <clinet.h>
 #include <unit.h>
 #include <spaceshipdlg.h>
+#include <mem.h>
 
 enum MenuID {
   MENU_END_OF_LIST=0,
@@ -645,7 +646,7 @@ struct Menu *create_menu(char *name, struct MenuEntry entries[],
   int i;
   struct Menu *mymenu;
 
-  mymenu=(struct Menu *)malloc(sizeof(struct Menu));
+  mymenu=fc_malloc(sizeof(struct Menu));
 
   mymenu->button=XtVaCreateManagedWidget(name, 
 					 menuButtonWidgetClass, 

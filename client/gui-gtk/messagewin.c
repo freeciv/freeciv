@@ -32,6 +32,7 @@
 #include <citydlg.h>
 #include <gui_stuff.h>
 #include <colors.h>
+#include <mem.h>
 
 extern GtkWidget *toplevel;
 extern struct player_race races[];
@@ -206,10 +207,10 @@ static void meswin_allocate(void)
   
   if (messages_total+2 > messages_alloc) {
     messages_alloc = messages_total + 32;
-    string_ptrs = realloc(string_ptrs, messages_alloc*sizeof(char*));
-    xpos = realloc(xpos, messages_alloc*sizeof(int));
-    ypos = realloc(ypos, messages_alloc*sizeof(int));
-    event = realloc(event, messages_alloc*sizeof(int));
+    string_ptrs = fc_realloc(string_ptrs, messages_alloc*sizeof(char*));
+    xpos = fc_realloc(xpos, messages_alloc*sizeof(int));
+    ypos = fc_realloc(ypos, messages_alloc*sizeof(int));
+    event = fc_realloc(event, messages_alloc*sizeof(int));
     for( i=messages_total; i<messages_alloc; i++ ) {
       string_ptrs[i] = NULL;
       xpos[i] = 0;
@@ -252,7 +253,7 @@ void add_notify_window(struct packet_generic_message *packet)
   int nspc;
 
   meswin_allocate();
-  s = (char *)malloc(strlen(packet->message) + 50);
+  s = fc_malloc(strlen(packet->message) + 50);
   if (!strncmp(packet->message, "Game: ", 6)) 
    strcpy(s, packet->message + 6);
   else

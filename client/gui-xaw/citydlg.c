@@ -49,6 +49,7 @@
 #include <graphics.h>
 #include <optiondlg.h>		/* for toggle_callback */
 #include <cityrep.h>
+#include <mem.h>
 
 extern Display	*display;
 extern Widget toplevel, main_form, map_canvas;
@@ -321,7 +322,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, int make_modal)
   struct city_dialog *pdialog;
   XtTranslations textfieldtranslations;
   
-  pdialog=(struct city_dialog *)malloc(sizeof(struct city_dialog));
+  pdialog=fc_malloc(sizeof(struct city_dialog));
   pdialog->pcity=pcity;
 
   if(!icon_pixmap)

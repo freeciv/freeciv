@@ -33,6 +33,7 @@
 #include <helpdlg.h>
 #include <graphics.h>
 #include <spaceship.h>
+#include <mem.h>
 
 extern int SPACE_TILES;
 extern GdkGC *civ_gc, *fill_bg_gc;
@@ -169,7 +170,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   GtkWidget *hbox, *frame;
   GtkStyle *style;
   
-  pdialog=(struct spaceship_dialog *)malloc(sizeof(struct spaceship_dialog));
+  pdialog=fc_malloc(sizeof(struct spaceship_dialog));
   pdialog->pplayer=pplayer;
 
   pdialog->shell=gtk_dialog_new ();

@@ -28,6 +28,7 @@
 #include <gui_stuff.h>
 #include <chatline.h>
 #include <capability.h>
+#include <mem.h>
 
 extern GtkWidget *toplevel;
 
@@ -246,7 +247,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   struct Diplomacy_dialog *pdialog;
   GtkWidget *button,*label,*item,*table,*scrolled;
 
-  pdialog=(struct Diplomacy_dialog *)malloc(sizeof(struct Diplomacy_dialog));
+  pdialog=fc_malloc(sizeof(struct Diplomacy_dialog));
   genlist_insert(&diplomacy_dialogs, pdialog, 0);
   
   init_treaty(&pdialog->treaty, plr0, plr1);

@@ -22,6 +22,7 @@
 #include <packets.h>
 #include <log.h>
 #include <capability.h>
+#include <mem.h>
 
 char our_capability[MSG_SIZE];
 
@@ -432,7 +433,7 @@ recieve_packet_diplomacy_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_diplomacy_info *preq=
-    malloc(sizeof(struct packet_diplomacy_info));
+    fc_malloc(sizeof(struct packet_diplomacy_info));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -473,7 +474,7 @@ recieve_packet_diplomat_action(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_diplomat_action *preq=
-    malloc(sizeof(struct packet_diplomat_action));
+    fc_malloc(sizeof(struct packet_diplomat_action));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -511,7 +512,7 @@ recieve_packet_nuke_tile(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_nuke_tile *preq=
-    malloc(sizeof(struct packet_nuke_tile));
+    fc_malloc(sizeof(struct packet_nuke_tile));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -553,7 +554,7 @@ recieve_packet_unit_combat(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_unit_combat *preq=
-    malloc(sizeof(struct packet_unit_combat));
+    fc_malloc(sizeof(struct packet_unit_combat));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -596,7 +597,7 @@ recieve_packet_unit_request(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_unit_request *preq=
-    malloc(sizeof(struct packet_unit_request));
+    fc_malloc(sizeof(struct packet_unit_request));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -640,7 +641,7 @@ recieve_packet_player_request(struct connection *pc)
   unsigned char *cptr;
 	int length;
   struct packet_player_request *preq=
-    malloc(sizeof(struct packet_player_request));
+    fc_malloc(sizeof(struct packet_player_request));
 
   cptr=get_int16(pc->buffer.data, &length);
   cptr=get_int8(cptr, NULL);
@@ -688,7 +689,7 @@ recieve_packet_city_request(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_city_request *preq=
-    malloc(sizeof(struct packet_city_request));
+    fc_malloc(sizeof(struct packet_city_request));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -758,7 +759,7 @@ recieve_packet_player_info(struct connection *pc)
   unsigned char *cptr;
   int length;
   struct packet_player_info *pinfo=
-     malloc(sizeof(struct packet_player_info));
+     fc_malloc(sizeof(struct packet_player_info));
 
   cptr=get_int16(pc->buffer.data, &length);
   cptr=get_int8(cptr, NULL);
@@ -862,7 +863,7 @@ struct packet_game_info *recieve_packet_game_info(struct connection *pc)
   int i;
   unsigned char *cptr;
   struct packet_game_info *pinfo=
-     malloc(sizeof(struct packet_game_info));
+     fc_malloc(sizeof(struct packet_game_info));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -934,7 +935,7 @@ struct packet_map_info *recieve_packet_map_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_map_info *pinfo=
-     malloc(sizeof(struct packet_map_info));
+     fc_malloc(sizeof(struct packet_map_info));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -955,7 +956,7 @@ recieve_packet_tile_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_tile_info *packet=
-    malloc(sizeof(struct packet_tile_info));
+    fc_malloc(sizeof(struct packet_tile_info));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -974,7 +975,7 @@ recieve_packet_unittype_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_unittype_info *packet=
-    malloc(sizeof(struct packet_unittype_info));
+    fc_malloc(sizeof(struct packet_unittype_info));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1039,7 +1040,7 @@ recieve_packet_before_new_year(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_before_new_year *packet=
-    malloc(sizeof(struct packet_before_new_year));
+    fc_malloc(sizeof(struct packet_before_new_year));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1158,7 +1159,7 @@ recieve_packet_city_info(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_city_info *packet=
-    malloc(sizeof(struct packet_city_info));
+    fc_malloc(sizeof(struct packet_city_info));
   int length,data;
 
   cptr=get_int16(pc->buffer.data, &length);
@@ -1231,7 +1232,7 @@ recieve_packet_unit_info(struct connection *pc)
   int pack;
   int length;
   struct packet_unit_info *packet=
-    malloc(sizeof(struct packet_unit_info));
+    fc_malloc(sizeof(struct packet_unit_info));
 
   cptr=get_int16(pc->buffer.data, &length);
   cptr=get_int8(cptr, NULL);
@@ -1269,7 +1270,7 @@ recieve_packet_new_year(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_new_year *packet=
-    malloc(sizeof(struct packet_new_year));
+    fc_malloc(sizeof(struct packet_new_year));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1307,7 +1308,7 @@ struct packet_move_unit *recieve_packet_move_unit(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_move_unit *packet=
-    malloc(sizeof(struct packet_move_unit));
+    fc_malloc(sizeof(struct packet_move_unit));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1400,7 +1401,7 @@ recieve_packet_req_join_game(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_req_join_game *packet=
-    malloc(sizeof(struct packet_req_join_game));
+    fc_malloc(sizeof(struct packet_req_join_game));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1429,7 +1430,7 @@ recieve_packet_join_game_reply(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_join_game_reply *packet=
-    malloc(sizeof(struct packet_join_game_reply));
+    fc_malloc(sizeof(struct packet_join_game_reply));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1451,7 +1452,7 @@ recieve_packet_generic_message(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_generic_message *packet=
-    malloc(sizeof(struct packet_generic_message));
+    fc_malloc(sizeof(struct packet_generic_message));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1474,7 +1475,7 @@ recieve_packet_generic_integer(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_generic_integer *packet=
-    malloc(sizeof(struct packet_generic_integer));
+    fc_malloc(sizeof(struct packet_generic_integer));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1508,7 +1509,7 @@ recieve_packet_alloc_race(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_alloc_race *packet=
-    malloc(sizeof(struct packet_alloc_race));
+    fc_malloc(sizeof(struct packet_alloc_race));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1547,7 +1548,7 @@ recieve_packet_generic_values(struct connection *pc)
   unsigned char *cptr;
   int length;
   struct packet_generic_values *packet=
-    malloc(sizeof(struct packet_generic_values));
+    fc_malloc(sizeof(struct packet_generic_values));
 
   cptr=get_int16(pc->buffer.data, &length);
   cptr=get_int8(cptr, NULL);
@@ -1603,7 +1604,7 @@ recieve_packet_ruleset_unit(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_ruleset_unit *packet=
-    malloc(sizeof(struct packet_ruleset_unit));
+    fc_malloc(sizeof(struct packet_ruleset_unit));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1659,7 +1660,7 @@ recieve_packet_ruleset_tech(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_ruleset_tech *packet=
-    malloc(sizeof(struct packet_ruleset_tech));
+    fc_malloc(sizeof(struct packet_ruleset_tech));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1704,7 +1705,7 @@ recieve_packet_ruleset_building(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_ruleset_building *packet=
-    malloc(sizeof(struct packet_ruleset_building));
+    fc_malloc(sizeof(struct packet_ruleset_building));
 
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1764,7 +1765,7 @@ recieve_packet_spaceship_info(struct connection *pc)
   int tmp;
   unsigned char *cptr;
   struct packet_spaceship_info *packet=
-    malloc(sizeof(struct packet_spaceship_info));
+    fc_malloc(sizeof(struct packet_spaceship_info));
   
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);
@@ -1827,7 +1828,7 @@ recieve_packet_spaceship_action(struct connection *pc)
 {
   unsigned char *cptr;
   struct packet_spaceship_action *packet=
-    malloc(sizeof(struct packet_spaceship_action));
+    fc_malloc(sizeof(struct packet_spaceship_action));
   
   cptr=get_int16(pc->buffer.data, NULL);
   cptr=get_int8(cptr, NULL);

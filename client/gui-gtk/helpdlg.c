@@ -32,6 +32,7 @@
 #include <colors.h>
 #include <gui_stuff.h>
 #include <graphics.h>
+#include <mem.h>
 
 
 #define	HELP_UNIT_FONT		"-*-times-bold-r-*-*-14-*-*-*-*-*-*-*"
@@ -138,7 +139,7 @@ static struct help_item *new_help_item(int type)
 {
   struct help_item *pitem;
   
-  pitem = malloc(sizeof(struct help_item));
+  pitem = fc_malloc(sizeof(struct help_item));
   pitem->topic = NULL;
   pitem->text = NULL;
   pitem->type = type;

@@ -29,6 +29,7 @@
 #include <graphics.h>
 #include <colors.h>
 #include <climisc.h>
+#include <mem.h>
 
 extern int display_depth;
 extern Widget map_canvas;
@@ -135,10 +136,7 @@ void load_tile_gfx(void)
 
   ntiles= (20*19) + (20*3) + (31*1) + 3 + (16*4) + 6 + (14*2);
 
-  if(!(tile_sprites=malloc(ntiles*sizeof(struct Sprite *)))) {
-    freelog(LOG_FATAL, "couldn't malloc tile_sprites array");
-    exit(1);
-  }
+  tile_sprites=fc_malloc(ntiles*sizeof(struct Sprite *));
 
   NORMAL_TILE_WIDTH=big_sprite->width/20;
   NORMAL_TILE_HEIGHT=big_sprite->height/18;
@@ -269,7 +267,7 @@ void load_tile_gfx(void)
 ***************************************************************************/
 struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
 {
-  struct Sprite *mysprite=malloc(sizeof(struct Sprite));
+  struct Sprite *mysprite=fc_malloc(sizeof(struct Sprite));
   mysprite->pixmap=mypixmap;
   mysprite->width=width;
   mysprite->height=height;
@@ -283,7 +281,7 @@ struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
 struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
 				int width, int height)
 {
-  struct Sprite *mysprite=malloc(sizeof(struct Sprite));
+  struct Sprite *mysprite=fc_malloc(sizeof(struct Sprite));
   mysprite->pixmap=mypixmap;
   mysprite->mask=mask;
 
@@ -343,10 +341,7 @@ again:
     exit(1);
   }
 
-  if(!(mysprite=(struct Sprite *)malloc(sizeof(struct Sprite)))) {
-    freelog(LOG_FATAL, "failed mallocing sprite struct for %s", filename);
-    exit(1);
-  }
+  mysprite=fc_malloc(sizeof(struct Sprite));
   
   mysprite->pixmap=mypixmap;
   mysprite->mask=mask_bitmap;

@@ -43,6 +43,7 @@
 #include <gamelog.h>
 #include <log.h>
 #include <spacerace.h>
+#include <mem.h>
 
 extern struct advance advances[];
 extern struct player_race races[];
@@ -66,7 +67,8 @@ void historian_richest()
   int i;
   char buffer[4096];
   char buf2[4096];
-  struct player_score_entry *size=(struct player_score_entry *)malloc(sizeof(struct player_score_entry)*game.nplayers);
+  struct player_score_entry *size=
+    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
     size[i].value=game.players[i].economic.gold;
@@ -90,7 +92,8 @@ void historian_advanced()
   int i;
   char buffer[4096];
   char buf2[4096];
-  struct player_score_entry *size=(struct player_score_entry *)malloc(sizeof(struct player_score_entry)*game.nplayers);
+  struct player_score_entry *size=
+    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
     size[i].value=game.players[i].score.techs+game.players[i].future_tech;
@@ -114,7 +117,8 @@ void historian_military()
   int i;
   char buffer[4096];
   char buf2[4096];
-  struct player_score_entry *size=(struct player_score_entry *)malloc(sizeof(struct player_score_entry)*game.nplayers);
+  struct player_score_entry *size=
+    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
     size[i].value=game.players[i].score.units;
@@ -138,7 +142,8 @@ void historian_happiest()
   int i;
   char buffer[4096];
   char buf2[4096];
-  struct player_score_entry *size=(struct player_score_entry *)malloc(sizeof(struct player_score_entry)*game.nplayers);
+  struct player_score_entry *size=
+    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
     size[i].value=
@@ -163,7 +168,8 @@ void historian_largest()
   int i;
   char buffer[4096];
   char buf2[4096];
-  struct player_score_entry *size=(struct player_score_entry *)malloc(sizeof(struct player_score_entry)*game.nplayers);
+  struct player_score_entry *size=
+    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
     size[i].value=total_player_citizens(&game.players[i]);
@@ -192,7 +198,8 @@ int nr_wonders(struct city *pcity)
 
 void top_five_cities(struct player *pplayer)
 {
-  struct player_score_entry *size=(struct player_score_entry *)malloc(sizeof(struct player_score_entry)*5);
+  struct player_score_entry *size=
+    fc_malloc(sizeof(struct player_score_entry)*5);
   int i;
   char buffer[4096];
   char buf2[4096];
@@ -517,7 +524,8 @@ void show_ending()
   char buffer[4096];
   char buf2[4096];
 
-  struct player_score_entry *size=(struct player_score_entry *)malloc(sizeof(struct player_score_entry)*game.nplayers);
+  struct player_score_entry *size=
+    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
     size[i].value=civ_score(&game.players[i]);
@@ -1233,7 +1241,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   for(i=0; i<ncities; i++) { /* read the cities */
     struct city *pcity;
     
-    pcity=(struct city *)malloc(sizeof(struct city));
+    pcity=fc_malloc(sizeof(struct city));
     pcity->ai.ai_role = AICITY_NONE;
     pcity->ai.trade_want = 8; /* default value */
     memset(pcity->ai.building_want, 0, sizeof(pcity->ai.building_want));
@@ -1329,7 +1337,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
     struct unit *punit;
     struct city *pcity;
     
-    punit=(struct unit *)malloc(sizeof(struct unit));
+    punit=fc_malloc(sizeof(struct unit));
     punit->id=secfile_lookup_int(file, "player%d.u%d.id", plrno, i);
     alloc_id(punit->id);
     punit->owner=plrno;

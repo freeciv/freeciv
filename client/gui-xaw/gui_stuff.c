@@ -18,6 +18,8 @@
 #include <X11/StringDefs.h>
 #include <X11/Xaw/Form.h>
 
+#include "mem.h"
+
 extern Display	*display;
 extern int screen_number;
 extern GC civ_gc, font_gc;
@@ -140,8 +142,7 @@ Pixmap x_scale_pixmap(Pixmap src, int src_w, int src_h, int dst_w, int dst_h,
 		       dst_w, dst_h,
 		       xi_src->bitmap_pad, 0);
 
-  xi_dst->data=(char*)malloc(xi_dst->bytes_per_line * xi_dst->height);
-  memset(xi_dst->data, 0, xi_dst->bytes_per_line * xi_dst->height);
+  xi_dst->data=fc_calloc(xi_dst->bytes_per_line * xi_dst->height, 1);
 
   /* for each pixel in dst, calculate pixel offset in src */
   xadd=src_w/dst_w;

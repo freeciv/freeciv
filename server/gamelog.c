@@ -19,6 +19,7 @@
 #include <game.h>
 #include <map.h>
 #include <log.h>
+#include <mem.h>
 
 #include "gamelog.h"
 
@@ -76,10 +77,8 @@ void gamelog(int level, char *message, ...)
 void gamelog_map(void)
 {
   int x, y;
-  char *hline = calloc(map.xsize+1,sizeof(char));
+  char *hline = fc_calloc(map.xsize+1,sizeof(char));
 
-  if(!hline) return;
-  
   for (y=0;y<map.ysize;y++) {
     for (x=0;x<map.xsize;x++) {
       hline[x] = (map_get_terrain(x,y)==T_OCEAN) ? ' ' : '.';
@@ -105,12 +104,13 @@ void gamelog_save(void){
   int i;
   char buffer[4096];
   char buf2[4096];
-  struct player_score_entry *size=(struct player_score_entry *)malloc(sizeof(struct player_score_entry)*game.nplayers);
+  struct player_score_entry *size=
+    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
   for (i=0;i<game.nplayers;i++) {
     size[i].value=total_player_citizens(&game.players[i]);
     size[i].idx=i;
   }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), (void *)secompare1);
+  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare1);
   buffer[0]=0;
   for (i=0;i<game.nplayers;i++) {
     sprintf(buf2,"%2d: %s(%i)  ",i+1, get_race_name_plural(game.players[size[i].idx].race), size[i].value);

@@ -38,6 +38,7 @@
 #include <gotohand.h>
 #include <settlers.h>
 #include <gamelog.h>
+#include <mem.h>
 
 extern struct move_cost_map warmap;
 
@@ -1067,7 +1068,7 @@ void create_unit_full(struct player *pplayer, int x, int y, enum unit_type_id ty
 {
   struct unit *punit;
   struct city *pcity;
-  punit=(struct unit *)malloc(sizeof(struct unit));
+  punit=fc_malloc(sizeof(struct unit));
   punit->type=type;
   punit->id=get_next_id_number();
   punit->owner=pplayer->player_no;

@@ -26,6 +26,8 @@ libcivcommon_a_SOURCES = \
 		packets.h	\
 		player.c	\
 		player.h	\
+		mem.c           \
+		mem.h		\
 		shared.c	\
 		shared.h	\
 		spaceship.c	\

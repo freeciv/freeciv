@@ -119,6 +119,7 @@
 #include <registry.h>
 #include <log.h>
 #include <shared.h>
+#include <mem.h>
 
 /**************************************************************************
   Hashing registry lookups: (by dwp)
@@ -294,8 +295,8 @@ static void parse_commalist(struct flat_entry_list *entries, char *buffer,
     this_entry = strbuffermalloc(sizeof(struct section_entry));
     if (entries->n > entries->n_alloc) {
       entries->n_alloc = 2*entries->n+1;
-      entries->plist = realloc(entries->plist,
-			       entries->n_alloc*sizeof(struct section_entry*));
+      entries->plist = fc_realloc(entries->plist,
+				  entries->n_alloc*sizeof(struct section_entry*));
     }
     entries->plist[entries->n-1] = this_entry;
     this_entry->name = NULL;
@@ -1076,7 +1077,7 @@ static void secfilehash_build(struct section_file *file)
   int i;
   unsigned int uent, pow2;
 
-  hashd = file->hashd = malloc(sizeof(struct hash_data));
+  hashd = file->hashd = fc_malloc(sizeof(struct hash_data));
 
   /* Power of two which is larger than num_entries, then
      extra factor of 2 for breathing space: */
@@ -1092,11 +1093,8 @@ static void secfilehash_build(struct section_file *file)
   hashd->num_entries_hashbuild = file->num_entries;
   hashd->num_collisions = 0;
   
-  hashd->table = malloc(hashd->num_buckets*sizeof(struct hash_entry));
-  if (hashd==NULL || hashd->table==NULL) {
-    freelog(LOG_FATAL, "malloc error for hash table" );
-    exit(1);
-  }
+  hashd->table = fc_malloc(hashd->num_buckets*sizeof(struct hash_entry));
+
   for(i=0; i<hashd->num_buckets; i++) {
     hashd->table[i].data = NULL;
     hashd->table[i].key_val = NULL;
@@ -1177,7 +1175,7 @@ int *secfile_lookup_int_vec(struct section_file *my_section_file,
   if (*dimen == 0) {
     return NULL;
   }
-  res = malloc((*dimen)*sizeof(int));
+  res = fc_malloc((*dimen)*sizeof(int));
   for(j=0; j<(*dimen); j++) {
     res[j] = secfile_lookup_int(my_section_file, "%s,%d", buf, j);
   }
@@ -1209,7 +1207,7 @@ char **secfile_lookup_str_vec(struct section_file *my_section_file,
   if (*dimen == 0) {
     return NULL;
   }
-  res = malloc((*dimen)*sizeof(char*));
+  res = fc_malloc((*dimen)*sizeof(char*));
   for(j=0; j<(*dimen); j++) {
     res[j] = secfile_lookup_str(my_section_file, "%s,%d", buf, j);
   }
@@ -1225,7 +1223,7 @@ void alloc_strbuffer(void)
 {
   char *newbuf;
 
-  newbuf = malloc(64*1024);
+  newbuf = fc_malloc(64*1024);
 
   /* add a pointer back to the old buffer */
   *(char **)(newbuf)=strbuffer;

@@ -102,7 +102,6 @@ char *int_to_text(int nr);
 char *get_sane_name(char *name);
 char *textyear(int year);
 char *get_dot_separated_int(unsigned val);
-char *mystrdup(char *);
 int mystrcasecmp(char *str0, char *str1);
 char *mystrerror(int errnum);
 RANDOM_TYPE myrand(int size);

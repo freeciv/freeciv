@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 #include <stdio.h>
-#include <stdlib.h>		/* malloc,free */
+#include <stdlib.h>		/* free */
 #include <string.h>
 #include <assert.h>
 
@@ -21,6 +21,7 @@
 #include <map.h>
 #include <player.h>
 #include <log.h>
+#include <mem.h>
 
 struct unit_type unit_types[U_LAST];
 /* the unit_types array is now setup in:
@@ -1062,7 +1063,7 @@ static void precalc_one(int i, int (*func_has)(enum unit_type_id, int))
     }
   }
   if(n_with_role[i] > 0) {
-    with_role[i] = malloc(n_with_role[i]*sizeof(enum unit_type_id));
+    with_role[i] = fc_malloc(n_with_role[i]*sizeof(enum unit_type_id));
     for(j=0, u=0; u<U_LAST; u++) {
       if(unit_type_exists(u) && func_has(u, i)) {
 	with_role[i][j++] = u;

@@ -29,6 +29,7 @@
 #include <mapctrl.h>
 #include <gui_stuff.h>
 #include <civclient.h>
+#include <mem.h>
 
 
 extern GtkWidget *toplevel;
@@ -219,7 +220,7 @@ void notify_goto_find_widget(GtkWidget *w, int *x, int *y)
 void notify_goto_add_widget_coords(GtkWidget *w, int  x, int y)
 {
   struct widget_list *newwidget;
-  newwidget = (struct widget_list *)malloc(sizeof(struct widget_list));
+  newwidget = fc_malloc(sizeof(struct widget_list));
   newwidget->w = w;
   newwidget->x = x;
   newwidget->y = y;

@@ -23,6 +23,7 @@
 #include <packets.h>
 #include <clinet.h>
 #include <gui_stuff.h>
+#include <mem.h>
 
 extern Widget inputline_text, outputwindow_text;
 
@@ -62,7 +63,7 @@ void append_output_window(char *astring)
   char *newout, *rmcr;
   
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
-  newout=malloc(strlen(astring)+strlen(theoutput)+2);
+  newout=fc_malloc(strlen(astring)+strlen(theoutput)+2);
   strcpy(newout, theoutput);
   strcat(newout, "\n");
   strcat(newout, astring);

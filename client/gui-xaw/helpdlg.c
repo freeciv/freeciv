@@ -41,6 +41,7 @@
 #include <helpdlg.h>
 #include <dialogs.h>
 #include <graphics.h>
+#include <mem.h>
 
 extern int UNIT_TILES;
 extern Widget toplevel, main_form;
@@ -138,7 +139,7 @@ static struct help_item *new_help_item(int type)
 {
   struct help_item *pitem;
   
-  pitem = malloc(sizeof(struct help_item));
+  pitem = fc_malloc(sizeof(struct help_item));
   pitem->topic = NULL;
   pitem->text = NULL;
   pitem->type = type;

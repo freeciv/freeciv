@@ -34,6 +34,7 @@
 #include <settlers.h>
 #include <gamelog.h>
 #include <log.h>
+#include <mem.h>
 
 
 /**************************************************************************
@@ -83,7 +84,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   if(0) freelog(LOG_DEBUG, "Creating city %s", name);
   gamelog(GAMELOG_FOUNDC,"%s (%i, %i) founded by the %s", name, 
 	  x,y, get_race_name_plural(pplayer->race));
-  pcity=(struct city *)malloc(sizeof(struct city));
+  pcity=fc_malloc(sizeof(struct city));
 
   pcity->id=get_next_id_number();
   add_city_to_cache(pcity);

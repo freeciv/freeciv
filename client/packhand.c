@@ -40,6 +40,7 @@
 #include <helpdlg.h>		/* boot_help_texts */
 #include <spaceship.h>
 #include <spaceshipdlg.h>
+#include <mem.h>
 
 extern int seconds_to_turndone;
 extern int turn_gold_difference;
@@ -170,7 +171,7 @@ void handle_city_info(struct packet_city_info *packet)
 
   if(!pcity) {
     city_is_new=1;
-    pcity=(struct city *)malloc(sizeof(struct city));
+    pcity=fc_malloc(sizeof(struct city));
   }
   else
     city_is_new=0;
@@ -479,7 +480,7 @@ void handle_unit_info(struct packet_unit_info *packet)
   }
   
   else {      /* create new unit */
-    punit=(struct unit *)malloc(sizeof(struct unit));
+    punit=fc_malloc(sizeof(struct unit));
     
     punit->id=packet->id;
     punit->owner=packet->owner;
@@ -548,11 +549,8 @@ void handle_map_info(struct packet_map_info *pinfo)
   map.ysize=pinfo->ysize;
   map.is_earth=pinfo->is_earth;
 
-  if(!(map.tiles=(struct tile*)malloc(map.xsize*map.ysize*
-				      sizeof(struct tile)))) {
-    freelog(LOG_FATAL, "malloc failed in handle_map_info");
-    exit(1);
-  }
+  map.tiles=fc_malloc(map.xsize*map.ysize*sizeof(struct tile));
+
   for(y=0; y<map.ysize; y++)
     for(x=0; x<map.xsize; x++)
       tile_init(map_get_tile(x, y));
@@ -654,7 +652,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   if(!pplayer->conn){
     /* It is only the client that does this */
 
-    pplayer->conn = (struct connection *)malloc(sizeof(struct connection));
+    pplayer->conn = fc_malloc(sizeof(struct connection));
     pplayer->conn->sock = 0;
     pplayer->conn->used = 0;
     pplayer->conn->player = NULL;

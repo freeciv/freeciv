@@ -27,6 +27,7 @@
 #include <game.h>
 #include <player.h>
 #include <mapview.h>
+#include <mem.h>
 
 extern Widget toplevel, main_form;
 extern struct player_race races[];
@@ -149,7 +150,7 @@ void update_find_dialog(Widget find_list)
   for(i=0, ncities_total=0; i<game.nplayers; i++)
     ncities_total+=city_list_size(&game.players[i].cities);
 
-  city_name_ptrs=(char **)malloc(ncities_total*sizeof(char*));
+  city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));
   
   for(i=0, j=0; i<game.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity) 

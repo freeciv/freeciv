@@ -50,6 +50,8 @@
 #include <chatline.h>
 #include <game.h>
 #include <packhand.h>
+#include <mem.h>
+
 extern Widget toplevel, main_form, menu_form, below_menu_form, left_column_form;
 
 struct connection aconnection;
@@ -230,7 +232,8 @@ int get_meta_list(char *server, char **list, char *errbuf)
       sprintf(line,"%-35s %-5s %-7s %-9s %2s   %s",
               name,port,version,status,players,metastring);
       if(*list) free(*list);
-      *list=malloc(strlen(line)+1); strcpy(*list,line); list++;
+      *list=mystrdup(line);
+      list++;
     }
   }
   fclose(f);

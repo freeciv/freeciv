@@ -19,6 +19,7 @@
 #include <packets.h>
 #include <clinet.h>
 #include <gui_stuff.h>
+#include <mem.h>
 
 extern GtkWidget *text_scrollbar, *main_message_area;
 
