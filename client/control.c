@@ -856,31 +856,8 @@ void request_move_unit_direction(struct unit *punit, int dir)
 **************************************************************************/
 void request_new_unit_activity(struct unit *punit, enum unit_activity act)
 {
-  struct unit *ptrans;
-
   if (!can_client_issue_orders()) {
     return;
-  }
-
-  /* Load or unload the unit depending on the new activity.  Don't call
-   * request_unit_load or request_unit_unload since this can give a
-   * recursive loop. */
-  switch (act) {
-  case ACTIVITY_IDLE:
-    ptrans = find_unit_by_id(punit->transported_by);
-    if (can_unit_unload(punit, ptrans)
-	&& can_unit_survive_at_tile(punit, punit->tile)) {
-      dsend_packet_unit_unload(&aconnection, punit->id, ptrans->id);
-    }
-    break;
-  case ACTIVITY_SENTRY:
-    ptrans = find_transporter_for_unit(punit, punit->tile);
-    if (can_unit_load(punit, ptrans)) {
-      dsend_packet_unit_load(&aconnection, punit->id, ptrans->id);
-    }
-    break;
-  default:
-    break;
   }
 
   dsend_packet_unit_change_activity(&aconnection, punit->id, act,
