@@ -222,6 +222,8 @@ gtk_scale_pixmap(GdkPixmap *src, int src_w, int src_h, int dst_w, int dst_h,
 
   dst=gdk_pixmap_new(root_window, dst_w, dst_h, -1);
   gdk_draw_image(dst, civ_gc, xi_dst, 0, 0, 0, 0, dst_w, dst_h);
+  gdk_image_destroy(xi_src)
+  gdk_image_destroy(xi_dst)
 
   return dst;
 }
