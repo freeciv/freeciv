@@ -123,6 +123,13 @@ void set_unit_focus(struct unit *punit)
    */
   punit_focus = punit;
 
+  if (!can_client_change_view()) {
+    /* This function can be called to set the focus to NULL when
+     * disconnecting.  In this case we don't want any other actions! */
+    assert(punit == NULL);
+    return;
+  }
+
   if(punit) {
     auto_center_on_focus_unit();
 
