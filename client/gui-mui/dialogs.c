@@ -793,7 +793,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 
       if(diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_x, dest_y))
       {
-      	msg_dlg[i].label = _("_Investigate city (free)");
+      	msg_dlg[i].label = _("_Investigate city");
       	msg_dlg[i].function = (APTR)diplomat_investigate;
       	msg_dlg[i].data = NULL;
       	i++;

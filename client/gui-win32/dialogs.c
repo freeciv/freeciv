@@ -1587,16 +1587,16 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_x, dest_y))
        message_dialog_button_set_sensitive(shl,4,FALSE);
     }else{
-       shl=popup_message_dialog(root_window, /*"spydialog"*/
-				_("Choose Your Spy's Strategy"), buf,
- 			      _("Establish _Embassy"), diplomat_embassy_callback, 0,
- 			      _("_Investigate City (free)"), diplomat_investigate_callback, 0,
- 			      _("_Poison City"), spy_poison_callback,0,
- 			      _("Industrial _Sabotage"), spy_request_sabotage_list, 0,
- 			      _("Steal _Technology"), spy_steal_popup, 0,
- 			      _("Incite a _Revolt"), diplomat_incite_callback, 0,
- 			      _("_Cancel"), diplomat_cancel_callback, 0,
- 			      0);
+       shl = popup_message_dialog(root_window, /*"spydialog"*/
+		_("Choose Your Spy's Strategy"), buf,
+ 		_("Establish _Embassy"), diplomat_embassy_callback, 0,
+		_("_Investigate City"), diplomat_investigate_callback, 0,
+		_("_Poison City"), spy_poison_callback,0,
+ 		_("Industrial _Sabotage"), spy_request_sabotage_list, 0,
+ 		_("Steal _Technology"), spy_steal_popup, 0,
+ 		_("Incite a _Revolt"), diplomat_incite_callback, 0,
+ 		_("_Cancel"), diplomat_cancel_callback, 0,
+		0);
  
       if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_x, dest_y))
        message_dialog_button_set_sensitive(shl,0,FALSE);

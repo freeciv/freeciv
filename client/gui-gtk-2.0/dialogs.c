@@ -896,7 +896,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
        shl = popup_message_dialog(GTK_WINDOW(toplevel),
 	_("Choose Your Spy's Strategy"), buf,
 	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
-	_("_Investigate City (free)"), diplomat_investigate_callback, NULL,
+	_("_Investigate City"), diplomat_investigate_callback, NULL,
 	_("_Poison City"), spy_poison_callback, NULL,
 	_("Industrial _Sabotage"), spy_request_sabotage_list, NULL,
 	_("Steal _Technology"), spy_steal_popup, NULL,

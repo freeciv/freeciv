@@ -2486,8 +2486,8 @@ void popup_diplomat_dialog(struct unit *pUnit, int target_x, int target_y)
     if (diplomat_can_do_action(pUnit, DIPLOMAT_INVESTIGATE, target_x, target_y)) {
     
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    spy ? _("Investigate City (free)") : _("Investigate City"),
-			    diplomat_investigate_callback );
+			      _("Investigate City"),
+			      diplomat_investigate_callback);
       pBuf->data.city = pCity;
       set_wstate(pBuf, FC_WS_NORMAL);
   
