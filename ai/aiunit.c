@@ -2308,6 +2308,101 @@ static bool ai_ferry_findcargo(struct unit *punit)
 }
 
 /****************************************************************************
+  A helper for ai_manage_ferryboat.  Finds a city that wants a ferry.  It
+  might signal for the ferry using pcity->ai.choice.need_boat field or
+  it might simply be building a ferry of it's own.
+
+  The city found will be set as the goto destination.
+
+  TODO: lift the path off the map
+  TODO (possible): put this and ai_ferry_findcargo into one PF-loop.  This 
+  will save some code lines but will be faster in the rare cases when there
+  passengers that can not be reached ("false positive").
+****************************************************************************/
+static bool ai_ferry_find_interested_city(struct unit *pferry)
+{
+  /* Path-finding stuff */
+  struct pf_map *map;
+  struct pf_parameter parameter;
+  /* Early termination condition */
+  int turns_horizon = FC_INFINITY;
+  /* Future return value */
+  bool needed = FALSE;
+
+  UNIT_LOG(LOGLEVEL_FERRY, pferry, "Ferry looking for a city that needs it");
+
+  pft_fill_unit_parameter(&parameter, pferry);
+  /* We are looking for our own cities, no need to look into the unknown */
+  parameter.get_TB = no_fights_or_unknown;
+  parameter.omniscience = FALSE;
+  
+  map = pf_create_map(&parameter);
+  parameter.turn_mode = TM_WORST_TIME;
+
+  /* We want to consider the place we are currently in too, hence the 
+   * do-while loop */
+  do { 
+    struct pf_position pos;
+    struct city *pcity;
+
+    pf_next_get_position(map, &pos);
+    if (pos.turn >= turns_horizon) {
+      /* Won't be able to find anything better than what we have */
+      break;
+    }
+
+    pcity = map_get_city(pos.x, pos.y);
+    
+    if (pcity && pcity->owner == pferry->owner
+        && (pcity->ai.choice.need_boat 
+            || (pcity->is_building_unit
+		&& unit_has_role(pcity->currently_building, L_FERRYBOAT)))) {
+      bool really_needed = TRUE;
+      int turns = city_turns_to_build(pcity, pcity->currently_building,
+                                      pcity->is_building_unit, TRUE);
+
+      UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s (%d, %d) looks promising...", 
+               pcity->name, pcity->x, pcity->y);
+
+      if (pos.turn > turns && pcity->is_building_unit
+          && unit_has_role(pcity->currently_building, L_FERRYBOAT)) {
+        UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
+                 "will finish building its own ferry too soon", pcity->name);
+        continue;
+      }
+
+      if (turns >= turns_horizon) {
+        UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
+                 "has just started building", pcity->name);
+        continue;
+      }
+        
+      unit_list_iterate(map_get_tile(pos.x, pos.y)->units, aunit) {
+	if (aunit != pferry && aunit->owner == pferry->owner
+            && unit_has_role(aunit->type, L_FERRYBOAT)) {
+
+          UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
+                   "has another ferry", pcity->name);
+	  really_needed = FALSE;
+	  break;
+	}
+      } unit_list_iterate_end;
+
+      if (really_needed) {
+        UNIT_LOG(LOGLEVEL_FERRY, pferry, "will go to %s unless we "
+                 "find something better", pcity->name);
+        set_goto_dest(pferry, pos.x, pos.y);
+        turns_horizon = turns;
+        needed = TRUE;
+      }
+    }
+  } while (pf_next(map));
+
+  pf_destroy_map(map);
+  return needed;
+}
+
+/****************************************************************************
   It's about 12 feet square and has a capacity of almost 1000 pounds.
   It is well constructed of teak, and looks seaworthy.
 
@@ -2437,14 +2532,14 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
     return;
   }
 
-  CHECK_UNIT(punit);
-  
-  if (punit->moves_left == 0 
-      || !is_ocean(map_get_terrain(punit->x, punit->y))) {
+  /* Try to find a city that needs a ferry */
+  if (ai_ferry_find_interested_city(punit)) {
+    (void) ai_unit_goto(punit, goto_dest_x(punit), goto_dest_y(punit));
     return;
   }
-  
+
   (void) ai_manage_explorer(punit);
+  
   if (punit->moves_left > 0) {
     struct city *pcity = find_nearest_safe_city(punit);
     if (pcity) {

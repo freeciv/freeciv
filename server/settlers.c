@@ -1532,6 +1532,10 @@ void contemplate_new_city(struct city *pcity)
       want = -199;
   } unit_list_iterate_end;
 
+  /* Did we count on using an existing boat.  If yes we need to keep it
+   * in the city. */
+  pcity->ai.founder_boat = (ferryboat != NULL);
+
   if (gx == -1) {
     pcity->ai.founder_want = -want;
   } else {

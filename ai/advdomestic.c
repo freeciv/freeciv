@@ -35,6 +35,7 @@
 #include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"
+#include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 
@@ -996,9 +997,9 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     int want = pcity->ai.founder_want;
 
     if (want > choice->want) {
-      freelog(LOG_DEBUG, "%s (%d, %d) desires founders with passion %d",
-              pcity->name, pcity->x, pcity->y, want);
+      CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d", want);
       choice->want = want;
+      choice->need_boat = pcity->ai.founder_boat;
       choice->type = CT_NONMIL;
       ai_choose_role_unit(pplayer, pcity, choice, F_CITIES, want);
       

@@ -226,6 +226,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     pcity->ai.choice.choice = bestchoice.choice; /* we want to spend gold later */
     pcity->ai.choice.want = bestchoice.want; /* so that we spend it in the right city */
     pcity->ai.choice.type = bestchoice.type; /* instead of the one atop the list */
+    pcity->ai.choice.need_boat = bestchoice.need_boat;
   }
 
   if (bestchoice.want != 0) { /* Note - on fallbacks, will NOT get stopped building msg */
