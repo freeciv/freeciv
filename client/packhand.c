@@ -883,19 +883,34 @@ void handle_unit_info(struct packet_unit_info *packet)
 
       /* May change focus if focus unit gets a new activity.
          But if new activity is Idle, it means user specifically selected the unit */
-      if(punit == get_unit_in_focus() && packet->activity != ACTIVITY_IDLE)
+      if (punit == get_unit_in_focus() && packet->activity != ACTIVITY_IDLE) {
         check_focus = TRUE;
-
-      repaint_unit = TRUE;
-      if(wakeup_focus && (punit->owner==game.player_idx)
-                      && (punit->activity==ACTIVITY_SENTRY)) {
-        set_unit_focus(punit);
-        check_focus = FALSE;    /* and keep it */
-        /* RP: focus on (each) activated unit (e.g. when unloading a ship) */
       }
 
-      punit->activity=packet->activity;
-      punit->activity_target=packet->activity_target;
+      repaint_unit = TRUE;
+
+      /* Wakeup Focus */
+      if (wakeup_focus 
+          && punit->owner == game.player_idx
+          && punit->activity == ACTIVITY_SENTRY
+          && packet->activity == ACTIVITY_IDLE
+          && (!get_unit_in_focus()
+              /* only 1 wakeup focus per tile is useful */
+              || !same_pos(packet->x, packet->y,
+                           get_unit_in_focus()->x,
+                           get_unit_in_focus()->y))) {
+        set_unit_focus(punit);
+        check_focus = FALSE; /* and keep it */
+
+        /* Autocenter on Wakeup, regardless of the local option 
+         * "auto_center_on_unit". */
+        if (!tile_visible_and_not_on_border_mapcanvas(punit->x, punit->y)) {
+          center_tile_mapcanvas(punit->x, punit->y);
+        }
+      }
+
+      punit->activity = packet->activity;
+      punit->activity_target = packet->activity_target;
 
       if(punit->owner==game.player_idx) 
         refresh_unit_city_dialogs(punit);
