@@ -22,8 +22,9 @@
 #include <unistd.h>
 
 #include <exec/memory.h>
-#include <libraries/gadtools.h>
 #include <devices/timer.h>
+#include <intuition/sghooks.h>
+#include <libraries/gadtools.h>
 #include <libraries/mui.h>
 #include <mui/NListview_MCC.h>
 
@@ -204,6 +205,8 @@ static struct MsgPort *timer_port;
 static struct timerequest *timer_req;
 static ULONG timer_outstanding;
 
+static struct Hook main_chatline_hook;
+
 Object *menu_find_item(ULONG udata);
 
 /****************************************************************
@@ -332,6 +335,70 @@ void enable_turn_done_button(void)
   if (game.player_ptr->ai.control && !ai_manual_turn_done)
     user_ended_turn();
   set(main_turndone_button, MUIA_Disabled, !(!game.player_ptr->ai.control || ai_manual_turn_done));
+}
+
+/****************************************************************
+ Edit Hook for the Chatline String Gadget (Should create a new
+ subclass)
+*****************************************************************/
+static __asm __saveds int inputline_edit( register __a0 struct Hook *hook,
+                                    register __a1 ULONG *msg,
+                                    register __a2 struct SGWork *sgw)
+{
+  #define INPUTLINE_MAXLINES 20
+  #define INPUTLINE_MAXCHARS 256
+  static char lines[INPUTLINE_MAXLINES][INPUTLINE_MAXCHARS];
+  static int line;
+  static int maxline;
+
+  if (*msg != SGH_KEY) return 0;
+
+  if (sgw->EditOp == EO_ENTER)
+  {
+    if (line >= INPUTLINE_MAXLINES - 1 && line)
+    {
+      /* The end of the histrory buffer is reached */
+      CopyMem(lines[1],lines[0],INPUTLINE_MAXCHARS*(INPUTLINE_MAXLINES-1));
+      maxline = --line;
+    }
+
+    if (line < INPUTLINE_MAXLINES - 1)
+    {
+      /* Copy the current line to the history buffer */
+      mystrlcpy(&lines[line][0],sgw->WorkBuffer,INPUTLINE_MAXCHARS);
+      maxline = ++line;
+      lines[line][0] = 0;
+    }
+  } else
+  {
+    if (sgw->IEvent->ie_Class == IECLASS_RAWKEY)
+    {
+      switch (sgw->IEvent->ie_Code)
+      {
+        case  CURSORUP:
+	      if(line)
+	      {
+                line--;
+	        mystrlcpy(sgw->WorkBuffer,&lines[line][0],INPUTLINE_MAXCHARS);
+                sgw->Actions |= SGA_USE;
+                sgw->BufferPos = sgw->NumChars = strlen(sgw->WorkBuffer);
+	      }
+	      break;
+
+        case  CURSORDOWN:
+	      if (line < maxline)
+	      {
+                line++;
+	        mystrlcpy(sgw->WorkBuffer,&lines[line][0],INPUTLINE_MAXCHARS);
+                sgw->Actions |= SGA_USE;
+                sgw->BufferPos = sgw->NumChars = strlen(sgw->WorkBuffer);
+	      }
+	      break;
+      }	     
+    }
+  }
+
+  return 0;
 }
 
 /****************************************************************
@@ -843,7 +910,7 @@ static int init_gui(void)
 
   app = ApplicationObject,
     MUIA_Application_Title, "Freeciv Client",
-    MUIA_Application_Version, "$VER: civclient 1.9" __AMIGADATE__,
+    MUIA_Application_Version, "$VER: civclient 1.13" __AMIGADATE__,
     MUIA_Application_Copyright, "©1999,2000 by Sebastian Bauer",
     MUIA_Application_Author, "Sebastian Bauer",
     MUIA_Application_Description, "Client for Freeciv",
@@ -1351,6 +1418,10 @@ void ui_main(int argc, char *argv[])
 
       DoMethod(main_turndone_group, MUIM_Group_ExitChange);
       DoMethod(main_info_group, MUIM_Group_ExitChange);
+
+      /* Initialize the custom edit hook */
+      main_chatline_hook.h_Entry = (HOOKFUNC)inputline_edit;
+      set(main_chatline_string, MUIA_String_EditHook, &main_chatline_hook);
 
       set(main_wnd, MUIA_Window_Open, TRUE);
 
