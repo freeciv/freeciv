@@ -60,15 +60,16 @@ static GtkWidget *popupmenu, *goalmenu;
 
 /******************************************************************/
 static void create_economy_report_dialog(bool make_modal);
-static void economy_close_callback(GtkWidget * w, gpointer data);
-static void economy_selloff_callback(GtkWidget * w, gpointer data);
-static void economy_list_callback(GtkWidget * w, gint row, gint column);
-static void economy_list_ucallback(GtkWidget * w, gint row, gint column);
+static void economy_destroy_callback(GtkWidget *w, gpointer data);
+static void economy_command_callback(GtkWidget *w, gint response_id);
+static void economy_selection_callback(GtkTreeSelection *selection,
+				       gpointer data);
 static int economy_improvement_type[B_LAST];
 
 static GtkWidget *economy_dialog_shell = NULL;
 static GtkWidget *economy_label2;
-static GtkWidget *economy_list;
+static GtkListStore *economy_store;
+static GtkTreeSelection *economy_selection;
 static GtkWidget *sellall_command, *sellobsolete_command;
 static int economy_dialog_shell_is_modal;
 
@@ -541,16 +542,13 @@ void science_dialog_update(void)
 void popup_economy_report_dialog(bool make_modal)
 {
   if(!economy_dialog_shell) {
-      economy_dialog_shell_is_modal=make_modal;
-    
-      if(make_modal)
-	gtk_widget_set_sensitive(top_vbox, FALSE);
-      
-      create_economy_report_dialog(make_modal);
-      gtk_set_relative_position(toplevel, economy_dialog_shell, 10, 10);
+    economy_dialog_shell_is_modal = make_modal;
 
-      gtk_widget_show(economy_dialog_shell);
-   }
+    create_economy_report_dialog(make_modal);
+    gtk_set_relative_position(toplevel, economy_dialog_shell, 10, 10);
+  }
+
+  gtk_window_present(GTK_WINDOW(economy_dialog_shell));
 }
 
 
@@ -559,139 +557,168 @@ void popup_economy_report_dialog(bool make_modal)
 *****************************************************************/
 void create_economy_report_dialog(bool make_modal)
 {
-  GtkWidget *close_command, *scrolled;
-  static gchar *titles_[4] = { N_("Building Name"), N_("Count"),
-			      N_("Cost"), N_("U Total") };
+  static gchar *titles_[4] = {
+    N_("Building Name"),
+    N_("Count"),
+    N_("Cost"),
+    N_("U Total")
+  };
   static gchar **titles;
-  int    i;
-  GtkAccelGroup *accel=gtk_accel_group_new();
-
-  if (!titles) titles = intl_slist(4, titles_);
-  
-  economy_dialog_shell = gtk_dialog_new();
-  gtk_signal_connect( GTK_OBJECT(economy_dialog_shell),"delete_event",
-        GTK_SIGNAL_FUNC(economy_close_callback),NULL );
-//  gtk_accel_group_attach(accel, GTK_OBJECT(economy_dialog_shell));
-
-  gtk_window_set_title(GTK_WINDOW(economy_dialog_shell),_("Economy"));
-
-  economy_list = gtk_clist_new_with_titles( 4, titles );
-  gtk_clist_column_titles_passive(GTK_CLIST(economy_list));
-  scrolled = gtk_scrolled_window_new(NULL,NULL);
-  gtk_clist_set_selection_mode(GTK_CLIST (economy_list), GTK_SELECTION_EXTENDED);
-  gtk_container_add(GTK_CONTAINER(scrolled), economy_list);
-  gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scrolled ),
-  			  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-  gtk_widget_set_usize(economy_list, 300, 150);
-
-  for ( i = 0; i < 4; i++ )
-    gtk_clist_set_column_auto_resize(GTK_CLIST(economy_list),i,TRUE);
-
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->vbox ),
-        scrolled, TRUE, TRUE, 0 );
-
-  economy_label2 = gtk_label_new(_("Total Cost:"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->vbox ),
-        economy_label2, FALSE, FALSE, 0 );
-
-  close_command = gtk_button_new_with_label(_("Close"));
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->action_area ),
-        close_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( close_command, GTK_CAN_DEFAULT );
-  gtk_widget_grab_default( close_command );
-
-  sellobsolete_command = gtk_button_new_with_label(_("Sell Obsolete"));
-  gtk_widget_set_sensitive(sellobsolete_command, FALSE);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->action_area ),
-        sellobsolete_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( sellobsolete_command, GTK_CAN_DEFAULT );
-
-  sellall_command  = gtk_button_new_with_label(_("Sell All"));
-  gtk_widget_set_sensitive(sellall_command, FALSE);
-  gtk_box_pack_start( GTK_BOX( GTK_DIALOG(economy_dialog_shell)->action_area ),
-        sellall_command, TRUE, TRUE, 0 );
-  GTK_WIDGET_SET_FLAGS( sellall_command, GTK_CAN_DEFAULT );
-
-  gtk_signal_connect(GTK_OBJECT(economy_list), "select_row",
-	GTK_SIGNAL_FUNC(economy_list_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(economy_list), "unselect_row",
-	GTK_SIGNAL_FUNC(economy_list_ucallback), NULL);
-  gtk_signal_connect(GTK_OBJECT(close_command), "clicked",
-	GTK_SIGNAL_FUNC(economy_close_callback), NULL);
-  gtk_signal_connect(GTK_OBJECT(sellobsolete_command), "clicked",
-	GTK_SIGNAL_FUNC(economy_selloff_callback), GINT_TO_POINTER(FALSE));
-  gtk_signal_connect(GTK_OBJECT(sellall_command), "clicked",
-	GTK_SIGNAL_FUNC(economy_selloff_callback), GINT_TO_POINTER(TRUE));
-
-  gtk_widget_show_all( GTK_DIALOG(economy_dialog_shell)->vbox );
-  gtk_widget_show_all( GTK_DIALOG(economy_dialog_shell)->action_area );
-
-  gtk_widget_add_accelerator(close_command, "clicked",
-	accel, GDK_Escape, 0, GTK_ACCEL_VISIBLE);
-
-  economy_report_dialog_update();
-}
-
-
-
-/****************************************************************
-...
-*****************************************************************/
-void economy_list_callback(GtkWidget *w, gint row, gint column)
-{
   int i;
 
-  i=economy_improvement_type[row];
-  if(i>=0 && i<game.num_impr_types && !is_wonder(i))
-    gtk_widget_set_sensitive(sellobsolete_command, TRUE);
-    gtk_widget_set_sensitive(sellall_command, TRUE);
-  return;
-}
+  static GType model_types[4] = {
+    G_TYPE_STRING,
+    G_TYPE_INT,
+    G_TYPE_INT,
+    G_TYPE_INT
+  };
+  GtkWidget *view, *sw;
 
-/****************************************************************
-...
-*****************************************************************/
-void economy_list_ucallback(GtkWidget *w, gint row, gint column)
-{
+  if (!titles)
+    titles = intl_slist(4, titles_);
+  
+  economy_dialog_shell = gtk_dialog_new_with_buttons(_("Economy"),
+  	NULL,
+	0,
+	GTK_STOCK_CLOSE,
+	GTK_RESPONSE_CLOSE,
+	NULL);
+  gtk_dialog_set_default_response(GTK_DIALOG(economy_dialog_shell),
+	GTK_RESPONSE_CLOSE);
+
+  if (make_modal) {
+    gtk_window_set_transient_for(GTK_WINDOW(economy_dialog_shell),
+				 GTK_WINDOW(toplevel));
+    gtk_window_set_modal(GTK_WINDOW(economy_dialog_shell), TRUE);
+  }
+
+  economy_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
+
+  sw = gtk_scrolled_window_new(NULL,NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(economy_dialog_shell)->vbox),
+	sw, TRUE, TRUE, 0);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(economy_store));
+  g_object_unref(economy_store);
+  economy_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+  g_signal_connect(economy_selection, "changed",
+		   G_CALLBACK(economy_selection_callback), NULL);
+
+  for (i=0; i<4; i++) {
+    GtkCellRenderer *renderer;
+    GtkTreeViewColumn *col;
+
+    renderer = gtk_cell_renderer_text_new();
+      
+    col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
+	"text", i, NULL);
+
+    if (i > 0) {
+      GValue value = { 0, };
+
+      g_value_init(&value, G_TYPE_FLOAT);
+      g_value_set_float(&value, 1.0);
+      g_object_set_property(G_OBJECT(renderer), "xalign", &value);
+      g_value_unset(&value);
+
+      gtk_tree_view_column_set_alignment(col, 1.0);
+    }
+
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+  }
+  gtk_container_add(GTK_CONTAINER(sw), view);
+
+  economy_label2 = gtk_label_new(_("Total Cost:"));
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(economy_dialog_shell)->vbox),
+	economy_label2, FALSE, FALSE, 0);
+  gtk_misc_set_padding(GTK_MISC(economy_label2), 5, 5);
+
+  sellobsolete_command = gtk_button_new_with_mnemonic(_("Sell Obsolete"));
+  gtk_dialog_add_action_widget(GTK_DIALOG(economy_dialog_shell),
+			       sellobsolete_command, 1);
   gtk_widget_set_sensitive(sellobsolete_command, FALSE);
+
+  sellall_command = gtk_button_new_with_mnemonic(_("Sell All"));
+  gtk_dialog_add_action_widget(GTK_DIALOG(economy_dialog_shell),
+			       sellall_command, 2);
   gtk_widget_set_sensitive(sellall_command, FALSE);
+
+  g_signal_connect(economy_dialog_shell, "response",
+		   G_CALLBACK(economy_command_callback), NULL);
+  g_signal_connect(economy_dialog_shell, "destroy",
+		   G_CALLBACK(economy_destroy_callback), NULL);
+
+  economy_report_dialog_update();
+  gtk_window_set_default_size(GTK_WINDOW(economy_dialog_shell), -1, 350);
+
+  gtk_widget_show_all(GTK_DIALOG(economy_dialog_shell)->vbox);
+  gtk_widget_show_all(GTK_DIALOG(economy_dialog_shell)->action_area);
+
+  gtk_tree_view_focus(GTK_TREE_VIEW(view));
+}
+
+
+/****************************************************************
+...
+*****************************************************************/
+static void economy_selection_callback(GtkTreeSelection *selection,
+				       gpointer data)
+{
+  gint row;
+  int i;
+
+  if((row = gtk_tree_selection_get_row(selection)) == -1) {
+    gtk_widget_set_sensitive(sellobsolete_command, FALSE);
+    gtk_widget_set_sensitive(sellall_command, FALSE);
+    return;
+  }
+
+  i = economy_improvement_type[row];
+
+  if(i>=0 && i<game.num_impr_types && !is_wonder(i)) {
+    gtk_widget_set_sensitive(sellobsolete_command, TRUE);
+  }
+  gtk_widget_set_sensitive(sellall_command, TRUE);
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void economy_close_callback(GtkWidget *w, gpointer data)
+static void economy_destroy_callback(GtkWidget *w, gpointer data)
 {
-
-  if(economy_dialog_shell_is_modal)
-     gtk_widget_set_sensitive(top_vbox, TRUE);
-  gtk_widget_destroy(economy_dialog_shell);
-  economy_dialog_shell=NULL;
+  economy_dialog_shell = NULL;
 }
 
 /****************************************************************
 ...
 *****************************************************************/
-void economy_selloff_callback(GtkWidget *w, gpointer data)
+static void economy_command_callback(GtkWidget *w, gint response_id)
 {
-  int i,count=0,gold=0;
+  int i, count = 0, gold = 0;
   struct genlist_iterator myiter;
   struct city *pcity;
   struct packet_city_request packet;
-  char str[64];
-  GList              *selection;
-  gint                row;
+  gint row;
+  GtkWidget *shell;
 
-  while ((selection = GTK_CLIST(economy_list)->selection)) {
-    row = GPOINTER_TO_INT(selection->data);
+  switch (response_id) {
+    default:	gtk_widget_destroy(economy_dialog_shell);	return;
+    case 1:
+    case 2:
+  }
 
-  i=economy_improvement_type[row];
+  /* sell obsolete and sell all. */
+  row = gtk_tree_selection_get_row(economy_selection);
+  i = economy_improvement_type[row];
 
   genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
   for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
     pcity=(struct city *)ITERATOR_PTR(myiter);
+
     if(!pcity->did_sell && city_got_building(pcity, i) && 
-       (data ||
+       (response_id == 2 ||
 	improvement_obsolete(game.player_ptr,i) ||
         wonder_replacement(pcity, i) ))  {
 	count++; gold+=improvement_value(i);
@@ -700,17 +727,22 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
         send_packet_city_request(&aconnection, &packet, PACKET_CITY_SELL);
     }
   }
-  if(count)  {
-    my_snprintf(str, sizeof(str), _("Sold %d %s for %d gold"),
-		count, get_improvement_name(i), gold);
+
+  if (count > 0) {
+    shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
+	GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+	GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+	_("Sold %d %s for %d gold"), count, get_improvement_name(i), gold);
   } else {
-    my_snprintf(str, sizeof(str), _("No %s could be sold"),
-		get_improvement_name(i));
+    shell = gtk_message_dialog_new(GTK_WINDOW(economy_dialog_shell),
+	GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+	GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+	_("No %s could be sold"), get_improvement_name(i));
   }
-  gtk_clist_unselect_row(GTK_CLIST(economy_list),row,0);
-  popup_notify_dialog(_("Sell-Off:"),_("Results"),str);
-  }
-  return;
+  gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
+
+  gtk_dialog_run(GTK_DIALOG(shell));
+  gtk_widget_destroy(shell);
 }
 
 /****************************************************************
@@ -718,46 +750,36 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 void economy_report_dialog_update(void)
 {
-  if(delay_report_update) return;
-  if(economy_dialog_shell) {
+  if(!delay_report_update && economy_dialog_shell) {
     int tax, total, i, entries_used;
-    char   buf0 [64];
-    char   buf1 [64];
-    char   buf2 [64];
-    char   buf3 [64];
-    gchar *row  [4];
     char economy_total[48];
     struct improvement_entry entries[B_LAST];
+    GtkTreeIter it;
+    GValue value = { 0, };
 
-    gtk_clist_freeze(GTK_CLIST(economy_list));
-    gtk_clist_clear(GTK_CLIST(economy_list));
-
-    row[0] = buf0;
-    row[1] = buf1;
-    row[2] = buf2;
-    row[3] = buf3;
+    gtk_list_store_clear(economy_store);
 
     get_economy_report_data(entries, &entries_used, &total, &tax);
 
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
 
-      my_snprintf(buf0, sizeof(buf0), "%-20s", get_improvement_name(p->type));
-      my_snprintf(buf1, sizeof(buf1), "%5d", p->count);
-      my_snprintf(buf2, sizeof(buf2), "%5d", p->cost);
-      my_snprintf(buf3, sizeof(buf3), "%6d", p->total_cost);
-
-      gtk_clist_append(GTK_CLIST(economy_list), row);
+      gtk_list_store_append(economy_store, &it);
+      gtk_list_store_set(economy_store, &it,
+	1, p->count,
+	2, p->cost,
+	3, p->total_cost, -1);
+      g_value_init(&value, G_TYPE_STRING);
+      g_value_set_static_string(&value, get_improvement_name(p->type));
+      gtk_list_store_set_value(economy_store, &it, 0, &value);
+      g_value_unset(&value);
 
       economy_improvement_type[i] = p->type;
     }
 
     my_snprintf(economy_total, sizeof(economy_total),
-		_("Income:%6d    Total Costs: %6d"), tax, total); 
-    gtk_set_label(economy_label2, economy_total); 
-
-    gtk_widget_show_all(economy_list);
-    gtk_clist_thaw(GTK_CLIST(economy_list));
+		_("Income: %d    Total Costs: %d"), tax, total); 
+    gtk_label_set_text(GTK_LABEL(economy_label2), economy_total);
   }  
 }
 
@@ -800,8 +822,7 @@ static void activeunits_cell_data_func(GtkTreeViewColumn *col,
   if (!it)
     return;
 
-  gtk_tree_model_get(model, it, 0, &s, -1);
-  gtk_tree_model_get(model, it, 6, &b, -1);
+  gtk_tree_model_get(model, it, 0, &s, 6, &b, -1);
 
   g_value_init(&value, G_TYPE_BOOLEAN);
 
@@ -829,9 +850,9 @@ void create_activeunits_report_dialog(bool make_modal)
     N_("Food")
   };
   static gchar **titles;
-  int    i;
+  int i;
 
-  GType model_types[AU_COL+1] = {
+  static GType model_types[AU_COL+1] = {
     G_TYPE_STRING,
     G_TYPE_BOOLEAN,
     G_TYPE_INT,
@@ -840,7 +861,7 @@ void create_activeunits_report_dialog(bool make_modal)
     G_TYPE_INT,
     G_TYPE_BOOLEAN
   };
-  GtkWidget *view;
+  GtkWidget *view, *sw;
   GtkWidget *refresh_command;
 
   if (!titles)
@@ -862,7 +883,12 @@ void create_activeunits_report_dialog(bool make_modal)
   }
 
   activeunits_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
-  activeunits_report_dialog_update();
+
+  sw = gtk_scrolled_window_new(NULL,NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(activeunits_dialog_shell)->vbox),
+	sw, TRUE, TRUE, 0);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(activeunits_store));
   g_object_unref(activeunits_store);
@@ -902,8 +928,7 @@ void create_activeunits_report_dialog(bool make_modal)
 
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   }
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(activeunits_dialog_shell)->vbox),
-	view, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(sw), view);
 
   upgrade_command = gtk_button_new_with_mnemonic(_("_Upgrade"));
   gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
@@ -914,15 +939,18 @@ void create_activeunits_report_dialog(bool make_modal)
   gtk_dialog_add_action_widget(GTK_DIALOG(activeunits_dialog_shell),
 			       refresh_command, 2);
 
-  gtk_tree_view_focus(GTK_TREE_VIEW(view));
-
   g_signal_connect(activeunits_dialog_shell, "response",
 		   G_CALLBACK(activeunits_command_callback), NULL);
   g_signal_connect(activeunits_dialog_shell, "destroy",
 		   G_CALLBACK(activeunits_destroy_callback), NULL);
 
+  activeunits_report_dialog_update();
+  gtk_window_set_default_size(GTK_WINDOW(activeunits_dialog_shell), -1, 350);
+
   gtk_widget_show_all(GTK_DIALOG(activeunits_dialog_shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(activeunits_dialog_shell)->action_area);
+
+  gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
 /****************************************************************
@@ -967,8 +995,8 @@ static void activeunits_command_callback(GtkWidget *w, gint response_id)
 
   /* upgrade command. */
   row = gtk_tree_selection_get_row(activeunits_selection);
-
   ut1 = activeunits_type[row];
+
   if (!unit_type_exists(ut1))
     return;
 
