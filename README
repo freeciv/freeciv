@@ -1,10 +1,10 @@
                            =========================
-      		           Freeciv 1.6 documentation
+                           Freeciv 1.7 documentation
                            =========================
 		       
-This archive contains Freeciv version 1.6, a free Civilization clone for 
-Unix and X. This version only allows multiplayer games, and limited support
-for AI players.
+This archive contains Freeciv version 1.7, a free Civilization clone for X,
+primarily uder Unix.  It has support for many players over a network, and the
+AI is getting harder to beat every release.
 
 
 Compiling and installing:
@@ -12,10 +12,17 @@ Compiling and installing:
 Please read the file INSTALL for instructions on how to get Freeciv compiled 
 on your machine.  It's really not very hard.
 
-Please notice: Freeciv *must* be linked with the _real_ Athena widget 
-               library(libXaw), and not one of the substitutions like 
-               libXaw3d etc.  If Freeciv is linked with a substitute, the
-               client will crash.
+Please note: 
+
+Freeciv *must* be linked with the _real_ Athena widget library
+(libXaw), and not one of the substitutions such as libXaw3d or Nextaw.
+If Freeciv is linked with a substitute, the client will crash.
+
+This is important because Freeciv currently relies on an Xaw call that
+is not present in the (nicer looking) replacement widget sets. If you
+wish to use Xaw3d or Nextaw while still being able to play Freeciv, it
+is suggested that you use the Xaw-wrappers program.
+
 
 Starting a new game:
 ===================
@@ -96,7 +103,8 @@ And the game is on!
 Note:  If you don't want to send information to the metaserver when you start
 the game you can give the server the --nometa flag, or just -n for short.
 Also, for those people who have used older versions which had ai (eg, 1.5.4),
-you nolonger have to open a client to get ai to work.
+you no longer have to open a client to get ai to work.
+
 
 Playing the game:
 =================
@@ -143,8 +151,8 @@ end-year variable. This is nice when the winner is obvious, but you don't
 want to play through the boring 'cleanup phase'.
 
 
-Restoring games, and playing scenarios:
-=========================================
+Restoring games:
+================
 
 You can restore a saved game by using the '-f' server option, eg:
 
@@ -160,26 +168,11 @@ that the player uses the same name if they're to be allowed in.
 The server-op can now start the game with 's' as usual. Notice that
 additional players can join the game even if it has been started.
 
-Server autostart
+
+Server autostart:
 =================
 When the maximum number of players have connected, the server auto-starts.
 The maximum number of players can be set with the 'maxplayers' variable.
-
-
-Scenarios
-=======
-The procedure for loading a scenario is the same as for restoring a saved game.
-The scenarios are located in the 'freeciv/scenarios/' directory.
-
-As for saved games, you can start a scenario by using the '-f' server option.
-
-  % civserver -f scenarios/crecy-4.sav
-
-The server-op can get a list of allowed player-names in the scenery by
-typing 'l'.
-
-The server-op can then start the game with 's' as usual.
-Note: Read the .txt files in the scenarios/ directory.
 
 
 Bugs:
@@ -188,13 +181,14 @@ Should you find any bugs then please send us an email specifying what's
 wrong. It might be helpful for us if you specify which OS/version/compiler
 you're using.  (Try typing 'uname -a').
 
-The Freeciv team maintains a bug-list at the Freeciv homepage(address below).
-
+Bugs should be sent to the freeciv-dev mailing list.  The instructions for
+doing this can be found at the page below.
 
 Homepage:
 =========
 We maintain a homepage for the game at:
-  http://freeciv.ultraviolet.org/index.html
+
+  http://www.freeciv.org
 
 You should check out the page, as it contains much more information than
 this file and the online help. This is also where we'll inform people about 
@@ -206,16 +200,6 @@ New Releases:
 New releases will first be made available at:
   ftp://freeciv.ultraviolet.org/pub/freeciv
 
-Have fun and now go give'em hell!
+Have fun and now go give 'em hell!
 
 
-  Original authors:
-  
-     Allan Ove Kjeldbjerg - allan@daimi.aau.dk
-     Claus Leth Gregersen - leth@daimi.aau.dk
-     Peter Joachim Unold  - pjunold@daimi.aau.dk
-
-  Present administrators:
-
-     James Blackwell      - innocent@mercury.merconline.com
-     Mitch Davis          - mjd@alphalink.com.au
