@@ -21,7 +21,7 @@ if test "$CVS_DEPS" = "yes"; then
     exit
 fi
 
-@CLIENT_TRUE@CSUBDIRS="client client/@gui_sources@"
+@CLIENT_TRUE@CSUBDIRS="client client/agents client/@gui_sources@"
 @CLIENT_FALSE@CSUBDIRS=""
 
 @SERVER_TRUE@SSUBDIRS="ai server"
