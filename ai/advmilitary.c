@@ -1083,26 +1083,28 @@ the intrepid David Pfitzner discovered was in error. -- Syela */
 
 void establish_city_distances(struct player *pplayer, struct city *pcity)
 {
-  int dist;
-  int wondercity;
+  int dist, wonder_continent, moverate;
   Unit_Type_id freight;
-  int moverate;
+
 /* at this moment, our warmap is intact.  we need to do two things: */
 /* establish faraway for THIS city, and establish d_t_w_c for ALL cities */
 
-  if (!pcity->is_building_unit && is_wonder(pcity->currently_building))
-    wondercity = map_get_continent(pcity->x, pcity->y);
-  else wondercity = 0;
+  if (!pcity->is_building_unit && is_wonder(pcity->currently_building)) {
+    wonder_continent = map_get_continent(pcity->x, pcity->y);
+  } else {
+    wonder_continent = 0;
+  }
   freight = best_role_unit(pcity, F_CARAVAN);
   moverate = (freight==U_LAST) ? SINGLE_MOVE : get_unit_type(freight)->move_rate;
 
   pcity->ai.downtown = 0;
-  city_list_iterate(pplayer->cities, othercity)
+  city_list_iterate(pplayer->cities, othercity) {
     dist = warmap.cost[othercity->x][othercity->y];
-    if (wondercity && map_get_continent(othercity->x, othercity->y) == wondercity)
+    if (wonder_continent != 0
+	&& map_get_continent(othercity->x, othercity->y) == wonder_continent) {
       othercity->ai.distance_to_wonder_city = dist;
+    }
     dist += moverate - 1; dist /= moverate;
     pcity->ai.downtown += MAX(0, 5 - dist); /* four three two one fire */
-  city_list_iterate_end;
-  return;
+  } city_list_iterate_end;
 }
