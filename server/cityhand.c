@@ -544,7 +544,7 @@ void remove_trade_route(int c1, int c2)
 **************************************************************************/
 void remove_city(struct city *pcity)
 {
-  int o;
+  int o, x, y;
   struct packet_generic_integer packet;
   for (o=0; o<4; o++)
     remove_trade_route(pcity->trade[0], pcity->id);
@@ -555,5 +555,8 @@ void remove_city(struct city *pcity)
   unit_list_iterate(pcity->units_supported, punit) 
     wipe_unit(0, punit);
   unit_list_iterate_end;
+  city_map_iterate(x,y) {
+    set_worker_city(pcity, x, y, C_TILE_EMPTY);
+  }
   game_remove_city(pcity->id);
 }
