@@ -48,6 +48,19 @@
 extern struct advance advances[];
 extern struct player_race races[];
 
+#define RICHEST           0 
+#define ADVANCED          1
+#define MILITARY          2
+#define HAPPIEST          3
+#define LARGEST           4
+
+char *historian_message[]={
+    "Herodot's report on the RICHEST Civilizations in the World.",
+    "Herodot's report on the most ADVANCED Civilizations in the World.",
+    "Herodot's report on the most MILITARIZED Civilizations in the World.",
+    "Herodot's report on the HAPPIEST Civilizations in the World.",
+    "Herodot's report on the LARGEST Civilizations in the World."};
+
 void update_player_aliveness(struct player *pplayer);
 
 struct player_score_entry {
@@ -62,128 +75,47 @@ int secompare(const void *a, const void *b)
 
 char *greatness[]={"Magnificent", "Glorious", "Great", "Decent", "Mediocre", "Hilarious", "Worthless", "Pathetic", "Useless","Useless","Useless","Useless","Useless","Useless"};
 
-void historian_richest()
+void historian_generic(int which_news)
 {
-  int i;
+  int i,j=0;
   char buffer[4096];
   char buf2[4096];
   struct player_score_entry *size=
     fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
 
   for (i=0;i<game.nplayers;i++) {
-    size[i].value=game.players[i].economic.gold;
-    size[i].idx=i;
+	 if (game.players[i].is_alive) {
+         switch(which_news)
+	      {
+         case RICHEST:size[j].value=game.players[i].economic.gold;
+				break;
+	      case ADVANCED:size[j].value=game.players[i].score.techs
+								  +game.players[i].future_tech;
+             break;
+	      case MILITARY:size[j].value=game.players[i].score.units;
+				 break;
+         case HAPPIEST: size[j].value=
+      ((game.players[i].score.happy-game.players[i].score.unhappy)*1000)
+               /(1+total_player_citizens(&game.players[i]));
+		         break;
+	      case LARGEST:size[j].value=total_player_citizens(&game.players[i]);
+				   break;
+	      }
+         size[j].idx=i;
+			j++;
+	  } /* else the player is dead */
   }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
+  qsort(size, j, sizeof(struct player_score_entry), secompare);
   buffer[0]=0;
-  for (i=0;i<game.nplayers;i++) {
+  for (i=0;i<j;i++) {
     sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i],  
 	    get_race_name_plural(game.players[size[i].idx].race));
     strcat(buffer,buf2);
   }
   free(size);
-  page_player_generic(0, 
-    "Herodot's report on the RICHEST Civilizations in the World.", buffer,
-     BROADCAST_EVENT);
-}
+  page_player_generic(0,historian_message[which_news],
+	  buffer, BROADCAST_EVENT);
 
-void historian_advanced()
-{
-  int i;
-  char buffer[4096];
-  char buf2[4096];
-  struct player_score_entry *size=
-    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
-
-  for (i=0;i<game.nplayers;i++) {
-    size[i].value=game.players[i].score.techs+game.players[i].future_tech;
-    size[i].idx=i;
-  }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
-  buffer[0]=0;
-  for (i=0;i<game.nplayers;i++) {
-    sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i], get_race_name_plural(game.players[size[i].idx].race));
-    strcat(buffer,buf2);
-  }
-  free(size);
-  page_player_generic(0, 
-      "Herodot's report on the most ADVANCED Civilizations in the World.", buffer,
-       BROADCAST_EVENT);
-  
-}
-
-void historian_military()
-{
-  int i;
-  char buffer[4096];
-  char buf2[4096];
-  struct player_score_entry *size=
-    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
-
-  for (i=0;i<game.nplayers;i++) {
-    size[i].value=game.players[i].score.units;
-    size[i].idx=i;
-  }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
-  buffer[0]=0;
-  for (i=0;i<game.nplayers;i++) {
-    sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i], get_race_name_plural(game.players[size[i].idx].race));
-    strcat(buffer,buf2);
-  }
-  free(size);
-  page_player_generic(0, 
-     "Herodot's report on the most MILITARIZED Civilizations in the World.", buffer,
-      BROADCAST_EVENT);
-  
-}
-
-void historian_happiest()
-{
-  int i;
-  char buffer[4096];
-  char buf2[4096];
-  struct player_score_entry *size=
-    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
-
-  for (i=0;i<game.nplayers;i++) {
-    size[i].value=
-      ((game.players[i].score.happy-game.players[i].score.unhappy)*1000)
-      /(1+total_player_citizens(&game.players[i]));
-    size[i].idx=i;
-  }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
-  buffer[0]=0;
-  for (i=0;i<game.nplayers;i++) {
-    sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i], get_race_name_plural(game.players[size[i].idx].race));
-    strcat(buffer,buf2);
-  }
-  free(size);
-  page_player_generic(0, 
-     "Herodot's report on the HAPPIEST Civilizations in the World.", buffer,
-      BROADCAST_EVENT);
-}  
-
-void historian_largest()
-{
-  int i;
-  char buffer[4096];
-  char buf2[4096];
-  struct player_score_entry *size=
-    fc_malloc(sizeof(struct player_score_entry)*game.nplayers);
-
-  for (i=0;i<game.nplayers;i++) {
-    size[i].value=total_player_citizens(&game.players[i]);
-    size[i].idx=i;
-  }
-  qsort(size, game.nplayers, sizeof(struct player_score_entry), secompare);
-  buffer[0]=0;
-  for (i=0;i<game.nplayers;i++) {
-    sprintf(buf2,"%2d: The %s %s\n",i+1, greatness[i], get_race_name_plural(game.players[size[i].idx].race));
-    strcat(buffer,buf2);
-  }
-  free(size);
-  page_player_generic(0, "Herodot's report on the LARGEST Civilizations in the World.", 
-                      buffer,BROADCAST_EVENT);
 }
 
 int nr_wonders(struct city *pcity)
@@ -494,23 +426,8 @@ void make_history_report()
 
   time_to_report=myrand(20)+20;
 
-  switch (report) {
-  case 0:
-    historian_richest();
-    break;
-  case 1:
-    historian_advanced();
-    break;
-  case 2:
-    historian_largest();
-    break;
-  case 3:
-    historian_happiest();
-    break;
-  case 4:
-    historian_military();
-    break;
-  }
+  historian_generic(report);
+  
   report=(report+1)%5;
 }
 
