@@ -44,7 +44,7 @@ static void smooth_map(void);
 static void adjust_map(int minval);
 
 #define RIVERS_MAXTRIES 32767
-enum river_map_type {RS_BLOCKED = 1, RS_RIVER = 2};
+enum river_map_type {RS_BLOCKED = 0, RS_RIVER = 1};
 
 /* Array needed to mark tiles as blocked to prevent a river from
    falling into itself, and for storing rivers temporarly.
@@ -309,12 +309,12 @@ static int adjacent_terrain_tiles4(int x, int y,
 *********************************************************************/
 static int river_test_blocked(int x, int y)
 {
-  if (rmap(x, y) & RS_BLOCKED)
+  if (TEST_BIT(rmap(x, y), RS_BLOCKED))
     return TRUE;
 
   /* any un-blocked? */
   cartesian_adjacent_iterate(x, y, x1, y1) {
-    if (!(rmap(x1, y1) & RS_BLOCKED))
+    if (!TEST_BIT(rmap(x1, y1), RS_BLOCKED))
       return FALSE;
   } cartesian_adjacent_iterate_end;
 
@@ -396,10 +396,10 @@ static void river_blockmark(int x, int y)
   freelog(LOG_DEBUG, "Blockmarking (%d, %d) and adjacent tiles.",
 	  x, y);
 
-  rmap(x, y) |= RS_BLOCKED;
+  rmap(x, y) |= (1u << RS_BLOCKED);
 
   cartesian_adjacent_iterate(x, y, x1, y1) {
-    rmap(x1, y1) |= RS_BLOCKED;
+    rmap(x1, y1) |= (1u << RS_BLOCKED);
   } cartesian_adjacent_iterate_end;
 }
 
@@ -526,7 +526,7 @@ static bool make_river(int x, int y)
 
   while (TRUE) {
     /* Mark the current tile as river. */
-    rmap(x, y) |= RS_RIVER;
+    rmap(x, y) |= (1u << RS_RIVER);
     freelog(LOG_DEBUG,
 	    "The tile at (%d, %d) has been marked as river in river_map.\n",
 	    x, y);
@@ -730,7 +730,7 @@ static void make_rivers(void)
       /* Try to make a river. If it is OK, apply it to the map. */
       if (make_river(x, y)) {
 	whole_map_iterate(x1, y1) {
-	  if (rmap(x1, y1) & RS_RIVER) {
+	  if (TEST_BIT(rmap(x1, y1), RS_RIVER)) {
 	    if (terrain_control.river_style == R_AS_TERRAIN) {
 	      map_set_terrain(x1, y1, T_RIVER); /* Civ1 river style. */
 	    } else if (terrain_control.river_style == R_AS_SPECIAL) {
