@@ -39,6 +39,7 @@
 #include "inputdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "options.h"
 #include "repodlgs.h"
 #include "spaceship.h"
 #include "tilespec.h"

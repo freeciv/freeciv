@@ -42,6 +42,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdata.h"
+#include "options.h"
 #include "tilespec.h"
 
 #include "helpdlg.h"
