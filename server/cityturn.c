@@ -915,7 +915,9 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
   if (pcity->currently_building == B_CAPITAL) {
     assert(pcity->shield_surplus >= 0);
-    pplayer->economic.gold += pcity->shield_surplus;
+    /* pcity->before_change_shields already contains the surplus from
+     * this turn. */
+    pplayer->economic.gold += pcity->before_change_shields;
     pcity->before_change_shields = 0;
     pcity->shield_stock = 0;
   }
