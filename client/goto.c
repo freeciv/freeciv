@@ -415,7 +415,7 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 
       default:
 	move_cost = 0;	/* silence compiler warning */
-	freelog(LOG_FATAL, "Bad move_type in find_the_shortest_path().");
+	freelog(LOG_FATAL, "Bad move_type in create_goto_map().");
 	abort();
 	break;
       } /****** end switch ******/
