@@ -1398,11 +1398,12 @@ static void generate_ai_players(void)
     sz_strlcpy(pplayer->name, player_name);
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
-    freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
-            player_name);
+    pplayer->ai.skill_level = game.skill_level;
+    freelog(LOG_NORMAL, _("%s has been added as %s level AI-controlled player."),
+            player_name, name_of_skill_level(pplayer->ai.skill_level));
     notify_player(NULL,
-                  _("%s has been added as an AI-controlled player."),
-                  player_name);
+                  _("%s has been added as %s level AI-controlled player."),
+                  player_name, name_of_skill_level(pplayer->ai.skill_level));
 
     game.nplayers++;
 
@@ -1416,13 +1417,11 @@ static void generate_ai_players(void)
     pplayer->nation = nation;
     pplayer->city_style = get_nation_city_style(nation);
     pplayer->ai.control = TRUE;
-    pplayer->ai.skill_level = game.skill_level;
     if (check_nation_leader_name(nation, player_name)) {
       pplayer->is_male = get_nation_leader_sex(nation, player_name);
     } else {
       pplayer->is_male = (myrand(2) == 1);
     }
-    announce_ai_player(pplayer);
     set_ai_level_directer(pplayer, pplayer->ai.skill_level);
   }
   (void) send_server_info_to_metaserver(META_INFO);
