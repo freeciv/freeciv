@@ -243,6 +243,7 @@ struct city {
   int currently_building;
   
   Impr_Status improvements[B_LAST];
+  struct ceff_vector effects;
   
   struct worklist *worklist;
 

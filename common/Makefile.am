@@ -70,6 +70,8 @@ libcivcommon_a_SOURCES = \
 		spaceship.h	\
 		speclist.h	\
 		speclist_c.h	\
+		specvec.h	\
+		specvec_c.h	\
 		support.c	\
 		support.h	\
 		tech.c		\

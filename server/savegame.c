@@ -40,6 +40,7 @@
 #include "mapgen.h"
 #include "maphand.h"
 #include "meta.h"
+#include "plrhand.h"
 #include "ruleset.h"
 #include "spacerace.h"
 #include "srv_main.h"
@@ -566,10 +567,7 @@ static void player_load(struct player *plr, int plrno,
   char *p;
   char *savefile_options = get_savefile_options(file);
 
-  /* Initialise list of improvements with Player-wide equiv_range */
-  improvement_status_init(plr->improvements);
-
-  player_map_allocate(plr);
+  server_player_init(plr, 1);
 
   plr->ai.is_barbarian = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
                                                     plrno);
@@ -876,6 +874,9 @@ static void player_load(struct player *plr, int plrno,
     /* Initialise list of improvements with City- and Building-wide
        equiv_ranges */
     improvement_status_init(pcity->improvements);
+
+    /* Initialise city's vector of improvement effects. */
+    ceff_vector_init(&pcity->effects);
 
     for(x=0; x<game.num_impr_types; x++) {
       if (*p && *p++=='1') {
@@ -1960,6 +1961,12 @@ void game_load(struct section_file *file)
   if (!game.is_new_game) { /* If new game, this is done in srv_main.c */
     /* Initialise lists of improvements with World and Island equiv_ranges */
     improvement_status_init(game.improvements);
+
+    /* Blank vector of effects with world-wide range. */
+    geff_vector_free(&game.effects);
+
+    /* Blank vector of destroyed effects. */
+    geff_vector_free(&game.destroyed_effects);
   }
 
   map_load(file);

@@ -23,8 +23,10 @@
 #include "game.h"
 #include "government.h"
 #include "idex.h"
+#include "improvement.h"
 #include "log.h"
 #include "map.h"
+#include "mem.h"
 #include "rand.h"
 #include "shared.h"
 #include "support.h"
@@ -105,12 +107,65 @@ void player_init(struct player *plr)
 
   /* Initialise list of improvements with Player-wide equiv_range */
   improvement_status_init(plr->improvements);
-  /* Blank lists of Island-range improvements (these are initialised
-     elsewhere (server: player_map_allocate) */
+  /* Initialise vector of effects with player range. */
+  geff_vector_init(&plr->effects);
+
+  /* Blank lists of Island-range improvements and effects (these are
+     initialised by player_init_island_impr) */
   plr->island_improv = NULL;
+  plr->island_effects = NULL;
 
   plr->attribute_block.data = NULL;
   plr->attribute_block.length = 0;
+}
+
+/***************************************************************
+  Set up the player's lists of Island-range improvements and
+  effects. These lists must also be redimensioned (e.g. by
+  update_island_impr_effect) if the number of islands later
+  changes.
+***************************************************************/
+void player_init_island_imprs(struct player *plr, int numcont)
+{
+  int i;
+
+  player_free_island_imprs(plr, numcont);
+  if (game.num_impr_types>0) {
+    /* Initialise lists of improvements with island-wide equiv_range. */
+    if (plr->island_improv)
+      free(plr->island_improv);
+    plr->island_improv=fc_calloc((numcont+1)*game.num_impr_types,
+				 sizeof(Impr_Status));
+    for (i=0; i<=numcont; i++) {
+      improvement_status_init(&plr->island_improv[i*game.num_impr_types]);
+    }
+
+    /* Initialise lists of island-range effects. */
+    plr->island_effects=fc_calloc(numcont+1, sizeof(struct geff_vector));
+    for (i=0; i<=numcont; i++) {
+      geff_vector_init(&plr->island_effects[i]);
+    }
+  }
+}
+
+/***************************************************************
+  Frees the player's list of island-range improvements and
+  effects.
+***************************************************************/
+void player_free_island_imprs(struct player *plr, int numcont)
+{
+  int i;
+
+  if (plr->island_improv)
+    free(plr->island_improv);
+  if (plr->island_effects) {
+    for (i=0; i<=numcont; i++) {
+      geff_vector_free(&plr->island_effects[i]);
+    }
+    free(plr->island_effects);
+  }
+  plr->island_improv=NULL;
+  plr->island_effects=NULL;
 }
 
 /***************************************************************

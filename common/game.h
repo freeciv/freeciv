@@ -95,7 +95,10 @@ struct civ_game {
   int global_wonders[B_LAST];              /* contains city id's */
          /* global_wonders[] may also be (-1), or the id of a city
 	    which no longer exists, if the wonder has been destroyed */
-  Impr_Status improvements[B_LAST]; /* improvements with equiv_range==World */
+  Impr_Status improvements[B_LAST];        /* impr. with equiv_range==World */
+  struct geff_vector effects;		   /* effects with range==World */
+  struct geff_vector destroyed_effects;	   /* list of effects that have survived
+					      building destruction */
 
   int heating; /* Number of polluted squares. */
   int globalwarming; /* Total damage done. (counts towards a warming event.) */
@@ -244,6 +247,7 @@ void translate_data_names(void);
 
 struct player *get_player(int player_id);
 int get_num_human_and_ai_players(void);
+void update_island_impr_effect(int oldmax, int maxcont);
 
 void update_all_effects(void);
 

@@ -21,6 +21,16 @@
 
 #include "improvement.h"
 
+/* get 'struct ceff_vector' functions: */
+#define SPECVEC_TAG ceff
+#define SPECVEC_TYPE struct eff_city
+#include "specvec_c.h"
+
+/* get 'struct geff_vector' functions: */
+#define SPECVEC_TAG geff
+#define SPECVEC_TYPE struct eff_global
+#include "specvec_c.h"
+
 /**************************************************************************
 All the city improvements:
 Use get_improvement_type(id) to access the array.
@@ -297,7 +307,8 @@ static void fill_ranges_improv_lists(Impr_Status *implist[EFR_LAST],
 
   if (pplayer) {
     implist[EFR_PLAYER]=pplayer->improvements;
-    if (cont >= 0 && pplayer->island_improv) {
+    if (cont >= 0) {
+      assert(pplayer->island_improv);
       implist[EFR_ISLAND] = &pplayer->island_improv[cont*game.num_impr_types];
     }
   }

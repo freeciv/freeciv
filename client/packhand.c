@@ -367,8 +367,11 @@ void handle_city_info(struct packet_city_info *packet)
   if (city_is_new) {
     pcity->worklist = create_worklist();
 
-    /* Initialise list of improvements with City- or Building-wide equiv_range */
+    /* Initialise list of improvements with city/building wide equiv_range. */
     improvement_status_init(pcity->improvements);
+
+    /* Initialise city's vector of improvement effects. */
+    ceff_vector_init(&pcity->effects);
   }
   copy_worklist(pcity->worklist, &packet->worklist);
   pcity->did_buy=packet->did_buy;
@@ -564,7 +567,13 @@ void handle_short_city(struct packet_short_city *packet)
     pcity->ppl_angry[4]   = 0;
   }
 
-  if (city_is_new) improvement_status_init(pcity->improvements);
+  if (city_is_new) {
+    /* Initialise list of improvements with city/building wide equiv_range. */
+    improvement_status_init(pcity->improvements);
+
+    /* Initialise city's vector of improvement effects. */
+    ceff_vector_init(&pcity->effects);
+  }
 
   if (packet->capital) {
     if (pcity->improvements[B_PALACE]==I_NONE)
@@ -1040,7 +1049,13 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.nuclearwinter=pinfo->nuclearwinter;
   game.cooling=pinfo->cooling;
   if(get_client_state()!=CLIENT_GAME_RUNNING_STATE) {
-  	improvement_status_init(game.improvements);
+    improvement_status_init(game.improvements);
+
+    /* Free vector of effects with a worldwide range. */
+    geff_vector_init(&game.effects);
+    /* Free vector of destroyed effects. */
+    geff_vector_init(&game.destroyed_effects);
+
     game.player_idx = pinfo->player_idx;
     game.player_ptr = &game.players[game.player_idx];
   }
@@ -1095,6 +1110,11 @@ void handle_player_info(struct packet_player_info *pinfo)
   struct player *pplayer = &game.players[pinfo->playerno];
 
   sz_strlcpy(pplayer->name, pinfo->name);
+
+  if (!pplayer->island_improv) {   /* initialise new player */
+    client_init_player(pplayer);
+  }
+
   pplayer->nation=pinfo->nation;
   pplayer->is_male=pinfo->is_male;
 

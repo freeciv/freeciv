@@ -903,21 +903,11 @@ static void set_unknown_tiles_to_unsent(struct player *pplayer)
 ****************************************************************/
 void player_map_allocate(struct player *pplayer)
 {
-	int i;
-
   pplayer->private_map =
     fc_malloc(map.xsize*map.ysize*sizeof(struct player_tile));
   whole_map_iterate(x, y) {
     player_tile_init(x, y, pplayer);
   } whole_map_iterate_end;
-
-  /* Initialise lists of improvements with Island-wide equiv_range */
-  if (pplayer->island_improv) free(pplayer->island_improv);
-  pplayer->island_improv = fc_calloc((map.num_continents+1)*game.num_impr_types,
-                                     sizeof(Impr_Status));
-  for (i=0;i<=map.num_continents;i++) {
-    improvement_status_init(&pplayer->island_improv[i*game.num_impr_types]);
-  }
 }
 
 /***************************************************************

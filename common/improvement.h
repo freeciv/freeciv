@@ -183,6 +183,37 @@ struct impr_effect {
   enum tile_special_type aff_spec;	/* S_* bit mask of specials affected */
 };
 
+/* Status of a city's improvement effects (a bitfield: bit 0 set = first
+ * effect active, etc.)
+ */
+typedef unsigned Eff_Status;
+
+/* Maximum number of effects per improvement (this should not be more than
+ * the number of bits in the Eff_Status type)
+ */
+#define MAX_EFFECTS 16
+
+/* Keeps track of which improvement effects are active in a city.
+ */
+struct eff_city {
+  Impr_Type_id impr;   /* The ID of the improvement that confers the effects;
+			  if B_LAST, then this instance is unused and ready
+			  to be freed (or replaced with a new improvement */
+  Eff_Status active;   /* Which of the actual impr_effect effects are active */
+};
+
+/* Copy of eff_city effect activity for effects with Player-, Island-,
+ * and World- ranges
+ */
+struct eff_global {
+  struct eff_city eff; /* Should be updated whenever the corresponding
+			  structure in the improvement's home city is
+			  modified. */
+  int cityid;	       /* ID of the city that owns the improvment (if -1,
+			  then the effect has survived the city destruction,
+			  and should therefore be placed in the savefile) */
+};
+
 /* Type of improvement.
  * (Read from buildings.ruleset file.)
  */
@@ -208,6 +239,16 @@ struct impr_type {
 
 
 extern struct impr_type improvement_types[B_LAST];
+
+/* get 'struct ceff_vector' and related functions: */
+#define SPECVEC_TAG ceff
+#define SPECVEC_TYPE struct eff_city
+#include "specvec.h"
+
+/* get 'struct geff_vector' and related functions: */
+#define SPECVEC_TAG geff
+#define SPECVEC_TYPE struct eff_global
+#include "specvec.h"
 
 /* improvement effect functions */
 

@@ -1022,6 +1022,13 @@ static void load_ruleset_buildings(struct section_file *file)
 				    "%s.effect%d.type",
 				    sec[i], count);
 	 count++) ;
+
+    if (count>MAX_EFFECTS) {
+      freelog(LOG_FATAL, "For %s maximum number of effects (%d) exceeded",
+              b->name, MAX_EFFECTS);
+      exit(1);
+    }
+
     b->effect = fc_malloc((count + 1) * sizeof(b->effect[0]));
     k = 0;
     for (j = 0; j < count; j++) {

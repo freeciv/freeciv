@@ -50,13 +50,7 @@ used throughout the client.
 
 #include "climisc.h"
 
-/**************************************************************************
-...
-**************************************************************************/
-void client_remove_player(int plrno)
-{
-  game_renumber_players(plrno);
-}
+static void renumber_island_impr_effect(int old, int newnumber);
 
 /**************************************************************************
 ...
@@ -152,6 +146,7 @@ void climap_init_continents(void)
     ath_init(&recyc_conts, sizeof(int));
     recyc_init = 1;
   }
+  update_island_impr_effect(-1, 0);
   ath_free(&recyc_conts);
   recyc_ptr = NULL;
   max_cont_used = 0;
@@ -184,6 +179,7 @@ static int new_continent_num(void)
   } else {
     assert(max_cont_used<MAX_NUM_CONT);
     ret = ++max_cont_used;
+    update_island_impr_effect(max_cont_used-1, max_cont_used);
   }
   freelog(LOG_DEBUG, "clicont: new %d (max %d, recyc %d)",
 	  ret, max_cont_used, recyc_conts.n);
@@ -209,6 +205,8 @@ static void climap_renumber_continent(int x, int y, int newnumber)
   assert(map_get_terrain(x,y) != T_OCEAN);
   assert(old>0 && old<=max_cont_used);
   
+  renumber_island_impr_effect(old, newnumber);
+
   map_set_continent(x,y,newnumber);
   adjc_iterate(x, y, i, j) {
     if (tile_get_known(i, j) >= TILE_KNOWN_FOGGED
@@ -260,6 +258,23 @@ void climap_update_continents(int x, int y)
     freelog(LOG_DEBUG, "new client continent %d at (%d %d)",
 	    ptile->continent, x, y);
   }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void client_init_player(struct player *plr)
+{
+  player_init_island_imprs(plr, max_cont_used);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void client_remove_player(int plrno)
+{
+  player_free_island_imprs(get_player(plrno), max_cont_used);
+  game_renumber_players(plrno);
 }
 
 /**************************************************************************
@@ -986,4 +1001,35 @@ int num_present_units_in_city(struct city *pcity)
   } unit_list_iterate_end;
 
   return i;
+}
+
+/**************************************************************************
+  Moves all improvements from the 'old' continent to the 'new' one.
+**************************************************************************/
+void renumber_island_impr_effect(int old, int newnumber)
+{
+  int i, changed=FALSE;
+  Impr_Status *oldimpr, *newimpr;
+
+  players_iterate(plr) {
+    assert(plr->island_improv);
+    oldimpr=&plr->island_improv[game.num_impr_types*old];
+    newimpr=&plr->island_improv[game.num_impr_types*newnumber];
+
+    /* Move all city improvements across. */
+    for (i=0; i<game.num_impr_types; i++)
+      if (oldimpr[i]!=I_NONE) {
+	newimpr[i]=oldimpr[i];
+	oldimpr[i]=I_NONE;
+
+	/* Obsolete or redundant buildings don't change the effects. */
+	if (newimpr[i]==I_ACTIVE) {
+	  changed=TRUE;  
+	}
+      }
+  } players_iterate_end;
+
+  /* If anything was changed, then we need to update the effects. */
+  if (changed)
+    update_all_effects();
 }

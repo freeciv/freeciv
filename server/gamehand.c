@@ -17,6 +17,7 @@
 #include <assert.h>
 
 #include "fcintl.h"
+#include "improvement.h"
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
@@ -139,8 +140,14 @@ void init_new_game(void)
     }
   }
 
-  /* Initialise list of improvements with World-wide equiv_range */
+  /* Initialise list of improvements with world-wide equiv_range */
   improvement_status_init(game.improvements);
+
+  /* Free vector of effects with world-wide range. */
+  geff_vector_free(&game.effects);
+
+  /* Free vector of destroyed effects */
+  geff_vector_free(&game.destroyed_effects);
 }
 
 /**************************************************************************
