@@ -10,19 +10,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef __MESSAGEDLG_H
-#define __MESSAGEDLG_H
+#ifndef FC__MESSAGEDLG_H
+#define FC__MESSAGEDLG_H
 
-void init_messages_where(void);
 void popup_messageopt_dialog(void);
-
-/* for specifying which event messages go where: */
-#define NUM_MW 3
-#define MW_OUTPUT    1		/* add to the output window */
-#define MW_MESSAGES  2		/* add to the messages window */
-#define MW_POPUP     4		/* popup an individual window */
-
-extern unsigned int messages_where[];	/* OR-ed MW_ values [E_LAST] */
-extern char *message_text[];            /* [E_LAST] */
 
 #endif

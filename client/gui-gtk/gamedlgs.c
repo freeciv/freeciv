@@ -30,7 +30,6 @@
 #include <packets.h>
 #include <dialogs.h>
 #include <chatline.h>
-#include <messagedlg.h>
 #include <cityrep.h>
 #include <log.h>
 #include <options.h>

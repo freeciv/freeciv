@@ -39,7 +39,7 @@
 #include <menu.h>
 #include <connectdlg.h>
 #include <helpdlg.h>
-#include <messagedlg.h>
+#include <options.h>
 
 char server_host[512];
 char name[512];

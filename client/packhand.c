@@ -34,7 +34,7 @@
 #include <graphics.h>
 #include <menu.h>
 #include <events.h>
-#include <messagedlg.h>
+#include <options.h>
 #include <clinet.h>		/* aconnection */
 #include <capability.h>
 #include <helpdlg.h>		/* boot_help_texts */
@@ -46,9 +46,6 @@ extern int seconds_to_turndone;
 extern int turn_gold_difference;
 extern int last_turn_gold_amount;
 extern int did_advance_tech_this_turn;
-extern int ai_popup_windows;
-extern int ai_manual_turn_done;
-extern int wakeup_focus;
 extern char name[512];
 extern struct Sprite *intro_gfx_sprite;
 extern struct Sprite *radar_gfx_sprite;

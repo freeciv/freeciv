@@ -28,84 +28,17 @@
 #include <optiondlg.h>
 #include <dialogs.h>
 #include <gui_stuff.h>
+#include <options.h>
 
 extern GtkWidget *toplevel;
 
 extern struct connection aconnection;
-
-unsigned int messages_where[E_LAST];
-
-char *message_text[E_LAST]={
-  "Low Funds		    ",  	       /* E_LOW_ON_FUNDS */
-  "Pollution		    ",
-  "Global Warming	    ",
-  "Civil Disorder	    ",
-  "City Celebrating	    ",
-  "City Normal  	    ",
-  "City Growth  	    ",
-  "City Needs Aqueduct      ",
-  "Famine in City	    ",
-  "City Captured/Destroyed  ",
-  "Building Unavailable Item",
-  "Wonder Started	    ",
-  "Wonder Finished	    ",
-  "Improvement Built	    ",
-  "New Improvement Selected ",
-  "Forced Improvement Sale  ",
-  "Production Upgraded      ",
-  "Unit Built		    ",
-  "Unit Defender Destroyed  ",
-  "Unit Defender Survived   ",
-  "Collapse to Anarchy      ",
-  "Diplomat Actions - Enemy ",
-  "Tech from Great Library  ",
-  "Player Destroyed	    ",         /* E_DESTROYED */
-  "Improvement Bought	    ",         /* E_IMP_BUY */
-  "Improvement Sold	    ",         /* E_IMP_SOLD */
-  "Unit Bought  	    ",         /* E_UNIT_BUY */
-  "Wonder Stopped	    ",         /* E_WONDER_STOPPED */
-  "City Needs Aq Being Built",         /* E_CITY_AQ_BUILDING */
-  "Diplomat Actions - Own   ",  	/* E_MY_DIPLOMAT */
-  "Unit Attack Failed	    ",  	/* E_UNIT_LOST_ATT */
-  "Unit Attack Succeeded    ",  	/* E_UNIT_WIN_ATT */
-  "Suggest Growth Throttling",          /* E_CITY_GRAN_THROTTLE */
-};
-
-
-/****************************************************************
-... 
-*****************************************************************/
-void init_messages_where(void)
-{
-  int out_only[] = {E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY, E_MY_DIPLOMAT,
-		   E_UNIT_LOST_ATT, E_UNIT_WIN_ATT};
-  int i;
-
-  for(i=0; i<E_LAST; i++) {
-    messages_where[i] = MW_OUTPUT | MW_MESSAGES;
-  }
-  for(i=0; i<sizeof(out_only)/sizeof(int); i++) {
-    messages_where[out_only[i]] = MW_OUTPUT;
-  }
-}
 
 /*************************************************************************/
 GtkWidget *create_messageopt_dialog(void);
 void messageopt_ok_command_callback(GtkWidget *w, gpointer data);
 void messageopt_cancel_command_callback(GtkWidget *w, gpointer data);
 static GtkWidget *messageopt_toggles[E_LAST][NUM_MW];
-
-/**************************************************************************
-Comparison function for qsort; i1 and i2 are pointers to integers which
-index message_text[].
-**************************************************************************/
-int compar_message_texts(const void *i1, const void *i2)
-{
-  int j1 = *(const int*)i1;
-  int j2 = *(const int*)i2;
-  
-  return strcmp(message_text[j1], message_text[j2]);
-}
 
 /**************************************************************************
 ... 
