@@ -94,30 +94,38 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
   return 1;
 }
 
-int amortize(int b, int d)
+/**************************************************************************
+amortize(benefit, delay) returns benefit * ((MORT - 1)/MORT)^delay
+(^ = to the power of)
+
+Plus, it has tests to prevent the numbers getting too big.  It takes
+advantage of the fact that (23/24)^12 approximately = 3/5 to chug through
+delay in chunks of 12, and then does the remaining multiplications of (23/24).
+**************************************************************************/
+int amortize(int benefit, int delay)
 {
   int num = MORT - 1;
   int denom;
   int s = 1;
-  assert(d >= 0);
-  if (b < 0) { s = -1; b *= s; }
-  while (d && b) {
+  assert(delay >= 0);
+  if (benefit < 0) { s = -1; benefit *= s; }
+  while (delay && benefit) {
     denom = 1;
-    while (d >= 12 && !(b>>28) && !(denom>>27)) {
-      b *= 3;          /* this is a kluge but it is 99.9% accurate and saves time */
+    while (delay >= 12 && !(benefit>>28) && !(denom>>27)) {
+      benefit *= 3;          /* this is a kluge but it is 99.9% accurate and saves time */
       denom *= 5;      /* as long as MORT remains 24! -- Syela */
-      d -= 12;
+      delay -= 12;
     }
-    while (!(b>>25) && d && !(denom>>25)) {
-      b *= num;
+    while (!(benefit>>25) && delay && !(denom>>25)) {
+      benefit *= num;
       denom *= MORT;
-      d--;
+      delay--;
     }
-    if (denom > 1) {
-      b = (b + (denom/2)) / denom;
+    if (denom > 1) { /* The "+ (denom/2)" makes the rounding correct */
+      benefit = (benefit + (denom/2)) / denom;
     }
   }
-  return(b * s);
+  return(benefit * s);
 }
 
 void generate_minimap(void)
