@@ -290,7 +290,7 @@ void mapctrl_btn_overviewcanvas(XEvent *event)
   overview_to_map_pos(&xtile, &ytile, event->xbutton.x, event->xbutton.y);
 
   if(ev->button==Button1)
-    do_unit_goto(xtile,ytile);
+    do_map_click(xtile, ytile, SELECT_POPUP);
   else if(ev->button==Button3)
     center_tile_mapcanvas(xtile, ytile);
 }

@@ -368,7 +368,7 @@ gint butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev)
   if (can_client_change_view() && ev->button == 3) {
     center_tile_mapcanvas(xtile, ytile);
   } else if (can_client_issue_orders() && ev->button == 1) {
-    do_unit_goto(xtile, ytile);
+    do_map_click(xtile, ytile, SELECT_POPUP);
   }
 
   return TRUE;
