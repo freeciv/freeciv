@@ -74,25 +74,24 @@ static char when_char(int when)
  * Writes the map_char_expr expression for each position on the map.
  * map_char_expr is provided with the variables x,y to evaluate the
  * position. The 'type' argument is used for formatting by printf; for
- * instance it should be "%c" for characters.
+ * instance it should be "%c" for characters.  The data is printed in a
+ * native orientation to make it easier to read.  
  */
 #define WRITE_MAP_DATA(type, map_char_expr)        \
 {                                                  \
-  int x, y;                                        \
-  for (x = 0; x < map.xsize; x++) {                \
-    printf("%d", x % 10);                          \
+  int nat_x, nat_y;                                \
+  for (nat_x = 0; nat_x < map.xsize; nat_x++) {    \
+    printf("%d", nat_x % 10);                      \
   }                                                \
   putchar('\n');                                   \
-  for (y = 0; y < map.ysize; y++) {                \
-    printf("%d ", y % 10);                         \
-    for (x = 0; x < map.xsize; x++) {              \
-      if (regular_map_pos_is_normal(x, y)) {       \
-	printf(type, map_char_expr);               \
-      } else {                                     \
-	putchar(' ');                              \
-      }                                            \
+  for (nat_y = 0; nat_y < map.ysize; nat_y++) {    \
+    printf("%d ", nat_y % 10);                     \
+    for (nat_x = 0; nat_x < map.xsize; nat_x++) {  \
+      int x, y;                                    \
+      native_to_map_pos(&x, &y, nat_x,nat_y);      \
+      printf(type, map_char_expr);                 \
     }                                              \
-    printf(" %d\n", y % 10);                       \
+    printf(" %d\n", nat_y % 10);                   \
   }                                                \
 }
 
