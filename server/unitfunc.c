@@ -1629,29 +1629,39 @@ void maybe_make_veteran(struct unit *punit)
 **************************************************************************/
 void unit_versus_unit(struct unit *attacker, struct unit *defender)
 {
-  int attackpower=get_total_attack_power(attacker,defender);
-  int defensepower=get_total_defense_power(attacker,defender);
+  int attackpower = get_total_attack_power(attacker,defender);
+  int defensepower = get_total_defense_power(attacker,defender);
+  int attack_firepower = get_unit_type(attacker->type)->firepower;
+  int defense_firepower = get_unit_type(defender->type)->firepower;
 
-  freelog(LOG_VERBOSE, "attack:%d, defense:%d", attackpower, defensepower);
+  /* pearl harbour */
+  if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
+    defense_firepower = 1;
+
+  /* In land bombardment both units have their firepower reduced to 1 */
+  if (is_sailing_unit(attacker)
+      && map_get_terrain(defender->x, defender->y) != T_OCEAN
+      && is_ground_unit(defender)) {
+    attack_firepower = 1;
+    defense_firepower = 1;
+  }
+
+  freelog(LOG_VERBOSE, "attack:%d, defense:%d, attack firepower:%d, defense firepower:%d",
+	  attackpower, defensepower, attack_firepower, defense_firepower);
   if (!attackpower) {
       attacker->hp=0; 
   } else if (!defensepower) {
       defender->hp=0;
   }
   while (attacker->hp>0 && defender->hp>0) {
-    if (myrand(attackpower+defensepower)>= defensepower) {
-      defender->hp -= get_unit_type(attacker->type)->firepower
-	* game.firepower_factor;
+    if (myrand(attackpower+defensepower) >= defensepower) {
+      defender->hp -= attack_firepower * game.firepower_factor;
     } else {
-      if (is_sailing_unit(defender) && map_get_city(defender->x, defender->y))
-	attacker->hp -= game.firepower_factor;      /* pearl harbour */
-      else
-	attacker->hp -= get_unit_type(defender->type)->firepower
-	  * game.firepower_factor;
+      attacker->hp -= defense_firepower * game.firepower_factor;
     }
   }
-  if (attacker->hp<0) attacker->hp=0;
-  if (defender->hp<0) defender->hp=0;
+  if (attacker->hp<0) attacker->hp = 0;
+  if (defender->hp<0) defender->hp = 0;
 
   if (attacker->hp)
     maybe_make_veteran(attacker); 
