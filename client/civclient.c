@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
   attribute_flush();
   my_shutdown_network();
 
-  return 0;
+  exit(EXIT_SUCCESS);
 }
 
 

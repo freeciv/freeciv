@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
   logdebug_suppress_warning;
 
   /* done */
-  return 0;
+  exit(EXIT_SUCCESS);
 }
 
 #ifdef GENERATING_MAC
