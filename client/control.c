@@ -71,7 +71,7 @@ bool non_ai_unit_focus;
 
 /*************************************************************************/
 
-static struct unit *find_best_focus_candidate(void);
+static struct unit *find_best_focus_candidate(bool accept_current);
 static void store_focus(void);
 
 /**************************************************************************
@@ -198,28 +198,29 @@ struct unit *get_unit_in_focus(void)
  This function may be called from packhand.c, via update_unit_focus(),
  as a result of packets indicating change in activity for a unit. Also
  called when user press the "Wait" command.
+ 
+ FIXME: Add feature to focus only units of a certain category.
 **************************************************************************/
 void advance_unit_focus(void)
 {
   struct unit *punit_old_focus = punit_focus;
-  struct unit *candidate = find_best_focus_candidate();
+  struct unit *candidate = find_best_focus_candidate(FALSE);
 
   set_hover_state(NULL, HOVER_NONE);
 
   if(!candidate) {
+    /* First try for "waiting" units. */
     unit_list_iterate(game.player_ptr->units, punit) {
-      if(punit->focus_status == FOCUS_WAIT)
-    punit->focus_status = FOCUS_AVAIL;
-    } unit_list_iterate_end;
-    candidate = find_best_focus_candidate();
-    if (candidate == punit_focus) {
-      /* we don't want to same unit as before if there are any others */
-      candidate = find_best_focus_candidate();
-      if(!candidate) {
-    /* but if that is the only choice, take it: */
-    candidate = find_best_focus_candidate();
+      if(punit->focus_status == FOCUS_WAIT) {
+        punit->focus_status = FOCUS_AVAIL;
       }
-    }
+    } unit_list_iterate_end;
+    candidate = find_best_focus_candidate(FALSE);
+  }
+
+  /* Accept current focus unit as last resort. */
+  if (!candidate) {
+    candidate = find_best_focus_candidate(TRUE);
   }
 
   set_unit_focus(candidate);
@@ -244,11 +245,11 @@ void advance_unit_focus(void)
 }
 
 /**************************************************************************
-Find the nearest available unit for focus, excluding the current unit
-in focus (if any).  If the current focus unit is the only possible
-unit, or if there is no possible unit, returns NULL.
+ Find the nearest available unit for focus, excluding any current unit
+ in focus unless "accept_current" is TRUE.  If the current focus unit
+ is the only possible unit, or if there is no possible unit, returns NULL.
 **************************************************************************/
-static struct unit *find_best_focus_candidate(void)
+static struct unit *find_best_focus_candidate(bool accept_current)
 {
   struct unit *best_candidate;
   int best_dist = 99999;
@@ -260,22 +261,20 @@ static struct unit *find_best_focus_candidate(void)
   } else {
     get_center_tile_mapcanvas(&x, &y);
   }
-    
+
   best_candidate = NULL;
   unit_list_iterate(game.player_ptr->units, punit) {
-    if (punit != punit_focus) {
-      if (punit->focus_status == FOCUS_AVAIL
-	  && punit->activity == ACTIVITY_IDLE
-	  && punit->moves_left > 0
-	  && !punit->done_moving
-	  && !punit->ai.control) {
+    if ((punit != punit_focus || accept_current)
+      && punit->focus_status == FOCUS_AVAIL
+      && punit->activity == ACTIVITY_IDLE
+      && punit->moves_left > 0
+      && !punit->done_moving
+      && !punit->ai.control) {
         int d = sq_map_distance(punit->x, punit->y, x, y);
-
-	if (d < best_dist) {
-	  best_candidate = punit;
-	  best_dist = d;
-	}
-      }
+        if (d < best_dist) {
+          best_candidate = punit;
+          best_dist = d;
+        }
     }
   } unit_list_iterate_end;
   return best_candidate;
