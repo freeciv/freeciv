@@ -605,3 +605,63 @@ int wants_to_be_bigger(struct city *pcity)
   return 0;
 }
 
+/*
+ *  Units in a bought city are transferred to the new owner, units 
+ * supported by the city, but held in other cities are updated to
+ * reflect those cities as their new homecity.  Units supported 
+ * by the bought city, that are not in a city square are deleted.
+ * This is consistent with Civ2, but units just outside the bought
+ * city are deleted rather than transferred as in Civ2.
+ *
+ * - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
+ */
+
+void transfer_city_units(struct player *pplayer, struct player *pvictim, 
+			 struct city *pcity, struct city *vcity){
+
+  int x = vcity->x;
+  int y = vcity->y;
+
+  struct genlist_iterator myiter;
+
+  printf("Transferring City Units to new owner");
+
+  genlist_iterator_init(&myiter, &pvictim->units.list, 0);
+
+  for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
+    struct unit *vunit=(struct unit *)ITERATOR_PTR(myiter);
+
+    /* Is unit in the city? */
+    
+    if(same_pos(vunit->x, vunit->y, x, y)){
+      create_unit(pplayer, x, y, vunit->type, vunit->veteran,
+		  pcity->id);
+    }else{
+      if(vunit->homecity == vcity->id){
+	/* look up victim's cities and see if this unit is
+	   in one of them */
+	
+	struct city* new_home_city = 
+	  city_list_find_coor(&pvictim->cities, vunit->x, vunit->y);
+	
+	if(new_home_city){
+	  /* unit is in another city: make that the new homecity */
+	  
+	  create_unit(pvictim, vunit->x, vunit->y, vunit->type, 
+		      vunit->veteran, new_home_city->id);
+	}else{
+
+	  /* 
+	   * unit isn't in a city - Civ2 deletes it - seems like
+	   * a good idea to prevent the city being immediately
+	   * retaken.  We don't actually have to do anything here 
+	   * as remove_city deletes all supported units.
+	   */
+
+	  ;
+	  
+	}
+      }
+    }
+  }
+}

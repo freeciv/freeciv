@@ -692,7 +692,7 @@ void handle_unit_establish_trade(struct player *pplayer,
 **************************************************************************/
 void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 {
-  int i, x, y;
+  int i, x, y, old_id;
   int coins;
   struct city *pc2;
   struct player *cplayer;
@@ -742,6 +742,8 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     }
     /* now set things up for the new owner */
     
+    old_id = pnewcity->id;
+
     pnewcity->id=get_next_id_number();
     for (i = 0; i < B_LAST; i++) {
       if (is_wonder(i) && city_got_building(pnewcity, i))
@@ -752,6 +754,11 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
     unit_list_init(&pnewcity->units_supported);
     city_list_insert(&pplayer->cities, pnewcity);
     
+    /* Transfer wonders to new owner - Kris Bubendorfer*/
+
+    for(i = B_APOLLO;i <= B_WOMENS; i++)
+      if(game.global_wonders[i] == old_id)
+	game.global_wonders[i] = pnewcity->id;
     map_set_city(pnewcity->x, pnewcity->y, pnewcity);
 
     if ((get_invention(pplayer, A_RAILROAD)==TECH_KNOWN) &&

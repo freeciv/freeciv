@@ -78,25 +78,27 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, struct unit 
   rules:
   1) if there is a spy in the city the attempt will fail.
   2) if there has already been stolen from this city the attempt will fail
+
+  That is, you can only steal tech from a city once!  Ever.
+
 ****************************************************************************/
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city  *city)
+		       struct city  *pcity)
 {
   int tec;
   int i;
   int j=0;
-  struct player *target=&game.players[city->owner];
+  struct player *target=&game.players[pcity->owner];
+  struct player *cplayer = city_owner(pcity);
+
   if (pplayer==target)
     return;
+  
+  /* Check if the Diplomat/Spy succeeds against defending Diplomats or Spies */
+  /* - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>                     */
 
-  if (diplomat_on_tile(city->x, city->y)) {
-    notify_player_ex(pplayer, city->x, city->y, E_NOEVENT, 
-		     "Game: Your spy has been eliminated by a defending spy in %s.", city->name);
-    notify_player_ex(target, city->x, city->y, E_DIPLOMATED,
-		     "Game: A%s spy has been eliminated in %s..", n_if_vowel(get_race_name(target->race)[0]), city->name);
-    wipe_unit(0, pdiplomat);
-    return;
-  }
+  if(!diplomat_infiltrate_city(pplayer, cplayer, pdiplomat, pcity))
+    return;  /* failed against defending diplomats/spies */
   
   for (i=1;i<A_LAST;i++) {
     if (get_invention(pplayer, i)!=TECH_KNOWN && get_invention(target, i)== TECH_KNOWN) {
@@ -105,20 +107,20 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
   if (!j)
     if (target->future_tech > pplayer->future_tech) {
-      notify_player_ex(pplayer, city->x, city->y, E_NOEVENT,
+      notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
                       "Game: Your diplomat stole Future Tech. %d from %s",
                       ++(pplayer->future_tech), target->name);
-      notify_player_ex(target, city->x, city->y, E_DIPLOMATED,
+      notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
                       "Game: %s diplomat stole Future Tech. %d in %s.", 
-                      pplayer->name, pplayer->future_tech, city->name);
+                      pplayer->name, pplayer->future_tech, pcity->name);
       return;
     } else
 	  return;
-  if (city->steal) {
-    notify_player_ex(pplayer, city->x, city->y, E_NOEVENT,
-		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", city->name);
-    notify_player_ex(target, city->x, city->y, E_DIPLOMATED,
-		     "Game: %s diplomat failed in stealing technology in %s", pplayer->name, city->name);
+  if (pcity->steal) {
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
+		       "Game: Your diplomat was caught in the attempt of stealing technology in %s.", pcity->name);
+    notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
+		     "Game: %s diplomat failed in stealing technology in %s", pplayer->name, pcity->name);
     return;
   }
 
@@ -133,22 +135,22 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     printf("Bug in diplomat_a_tech\n");
     return;
   }
-  city->steal=1;
-  notify_player_ex(pplayer, city->x, city->y, E_NOEVENT,
+  pcity->steal=1;
+  notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		   "Game: Your diplomat stole %s from %s",
 		   advances[i].name, target->name); 
-  notify_player_ex(target, city->x, city->y, E_DIPLOMATED,
+  notify_player_ex(target, pcity->x, pcity->y, E_DIPLOMATED,
 		   "Game: %s diplomat stole %s in %s.", 
-		   pplayer->name, advances[i].name, city->name); 
+		   pplayer->name, advances[i].name, pcity->name); 
   if (i==A_RAILROAD) {
     struct city_list cl=pplayer->cities;
     struct genlist_iterator myiter;
     genlist_iterator_init(&myiter, &pplayer->cities.list, 0);
-    notify_player(pplayer, "Game: The people are pleased to hear that youre scientists finally know about railroads.\n      Workers spontaneously gather and upgrade all cities with railroads.",city->name);
+    notify_player(pplayer, "Game: The people are pleased to hear that your scientists finally know about railroads.\n      Workers spontaneously gather and upgrade all cities with railroads.", pcity->name);
     for(; ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
-      struct city *pcity=(struct city *)ITERATOR_PTR(myiter);
-      map_set_special(pcity->x, pcity->y, S_RAILROAD);
-      send_tile_info(0, pcity->x, pcity->y, TILE_KNOWN);
+      struct city *pcity1=(struct city *)ITERATOR_PTR(myiter);
+      map_set_special(pcity1->x, pcity1->y, S_RAILROAD);
+      send_tile_info(0, pcity1->x, pcity1->y, TILE_KNOWN);
     }
   }
   set_invention(pplayer, i, TECH_KNOWN);
@@ -162,6 +164,82 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     pplayer->research.researched=tec;
   }
 
+  /* Check if a spy survives her mission                 */
+  /* - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ> */
+  
+  diplomat_leave_city(pplayer, pdiplomat, pcity);
+}
+
+
+/**************************************************************************
+diplomat_infiltrate_city
+
+This code determines if a subverting diplomat/spy succeeds in infiltrating
+the city, that is - if there are defending diplomats/spies they have a 
+n-1/n chance of defeating the infiltrator.
+**************************************************************************/
+
+int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer, struct unit *pdiplomat, struct city *pcity)
+{
+  /* For EVERY diplomat/spy on a square, there is a 1/N chance of succeeding.
+   * This needs to be changed to take into account veteran status.
+   */
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)
+    if (unit_flag(punit->type, F_DIPLOMAT))
+      if (myrand(game.diplchance)) {
+	
+	/* Attacking Spy/Diplomat dies (N-1:N) */
+	
+	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+			 "Game: Your spy has been eliminated by a defending spy in %s.", pcity->name);
+	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
+			 "Game: A%s spy has been eliminated while attempting to subvert %s.", n_if_vowel(get_race_name(cplayer->race)[0]), pcity->name);
+	wipe_unit(0, pdiplomat);
+	return 0;
+      } else {
+	
+	/* Defending Spy/Diplomat dies (1:N) */
+	
+	notify_player_ex(cplayer, pcity->x, pcity->y, E_NOEVENT, 
+			 "Game: Your spy has been eliminated defending against a spy in %s.", pcity->name);
+	wipe_unit(0, punit);
+      }
+  
+  unit_list_iterate_end; 
+  return 1;
+}
+
+/**************************************************************************
+diplomat_leave_city
+
+This code determines if a subverting diplomat/spy survives infiltrating a 
+city.  A diplomats always dies, a spy has a 1/game.diplchance
+**************************************************************************/
+
+void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
+			 struct city *pcity)
+{
+  
+  if (pdiplomat->type == U_SPY && myrand(game.diplchance)) {
+      
+    /* Attacking Spy/Diplomat dies (N-1:N) chance */
+      
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+		     "Game: Your spy was captured after completing her mission in %s.", pcity->name);
+  } else {
+
+    /* Survived (1:N) chance */
+      
+    struct city *spyhome = find_city_by_id(pdiplomat->homecity);
+      
+    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
+		     "Game: Your spy has successfully completed her mission and returned unharmed to  %s.", spyhome->name);
+      
+    /* move back to home city */
+      
+    create_unit(pplayer, spyhome->x, spyhome->y, pdiplomat->type, 1,
+		pdiplomat->homecity);
+  }
   wipe_unit(0, pdiplomat);
 }
 
@@ -169,13 +247,14 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
  Inciting a revolution will fail if
  1) the attacked player is running a democracy
  2) the attacker don't have enough credits
- 3) there is a defending spy in the city
+ 3) 1/n probabilty of elminating a defending spy 
 **************************************************************************/
 void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city *pcity)
 {
   struct player *cplayer;
   struct city *pnewcity, *pc2;
   int i;
+
   if (!pcity)
     return;
  
@@ -193,14 +272,11 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
     
     return;
   }
-  if (diplomat_on_tile(pcity->x, pcity->y)) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		     "Game: Your spy has been eliminated by a defending spy in %s.", pcity->name);
-    notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-		     "Game: A%s spy has been eliminated in %s..", n_if_vowel(get_race_name(cplayer->race)[0]), pcity->name);
-    wipe_unit(0, pdiplomat);
-    return;
-  }
+
+  /* Check if the Diplomat/Spy succeeds against defending Diplomats or Spies */
+
+  if (!diplomat_infiltrate_city(pplayer, cplayer, pdiplomat, pcity))
+    return;  /* failed against defending diplomats/spies */
 
   pplayer->economic.gold-=pcity->incite_revolt_cost;
   if (pcity->size >1) {
@@ -214,12 +290,13 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
 		   "Game: %s has revolted, %s influence suspected", pcity->name, get_race_name(pplayer->race));
   pnewcity=(struct city *)malloc(sizeof(struct city));
   *pnewcity=*pcity;
-  remove_city(pcity);
+
   for (i=0;i<4;i++) {
     pc2=find_city_by_id(pnewcity->trade[i]);
     if (can_establish_trade_route(pnewcity, pc2))    
       establish_trade_route(pnewcity, pc2);
   }
+
   pnewcity->id=get_next_id_number();
   for (i = 0; i < B_LAST; i++) {
     if (is_wonder(i) && city_got_building(pnewcity, i))
@@ -228,20 +305,40 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, struct city
   pnewcity->owner=pplayer->player_no;
   unit_list_init(&pnewcity->units_supported);
   city_list_insert(&pplayer->cities, pnewcity);
+
+  /* Transfer units supported by this city to the new owner */
+
+  transfer_city_units(pplayer, cplayer, pnewcity, pcity);
+
+  /* Transfer wonders to new owner */
+
+  for(i = B_APOLLO;i <= B_WOMENS; i++)
+    if(game.global_wonders[i] == pcity->id)
+      game.global_wonders[i] = pnewcity->id;
+
+  /* buying a city should result in getting new tech from the victim too */
+  /* but not money!                                                      */
+
+  get_a_tech(pplayer, cplayer);
+   
   map_set_city(pnewcity->x, pnewcity->y, pnewcity);
   if ((get_invention(pplayer,A_RAILROAD)==TECH_KNOWN) &&
       (get_invention(cplayer, A_RAILROAD)!=TECH_KNOWN) &&
       (!(map_get_special(pnewcity->x, pnewcity->y)&S_RAILROAD))) {
-    notify_player(pplayer, "Game: The people in %s are stunned by youre technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
+    notify_player(pplayer, "Game: The people in %s are stunned by your technological insight!\n      Workers spontaneously gather and upgrade the city with railroads.",pnewcity->name);
     map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
     send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
   }
-  raze_city(pcity);
+
+  pnewcity->shield_stock=0;
+  remove_city(pcity);
   city_refresh(pnewcity);
   send_city_info(0, pnewcity, 0);
   send_player_info(pplayer, pplayer);
-  wipe_unit(0, pdiplomat);
-}
+
+  /* Check if a spy survives her mission */
+  diplomat_leave_city(pplayer, pdiplomat, pnewcity);
+}  
 
 /**************************************************************************
 Sabotage of enemy building, build order will fail if:
@@ -260,14 +357,10 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
   cplayer=city_owner(pcity);
   if (cplayer==pplayer ||cplayer==NULL) return;
 
-  if (diplomat_on_tile(pcity->x, pcity->y)) {
-    notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT, 
-		     "Game: Your spy has been eliminated by a defending spy in %s.", pcity->name);
-    notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
-		     "Game: A%s spy has been eliminated in %s.", n_if_vowel(get_race_name(cplayer->race)[0]), pcity->name);
-    wipe_unit(0, pdiplomat);
-    return;
-  }
+  /* Check if the Diplomat/Spy succeeds against defending Diplomats or Spies */
+
+  if (!diplomat_infiltrate_city(pplayer, cplayer, pdiplomat, pcity))
+    return;  /* failed against defending diplomats/spies */
 
   switch (myrand(2)) {
   case 0:
@@ -280,8 +373,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
     "Game: Your Diplomat succeeded destroying the production of %s in %s", 
     prod, pcity->name);
     notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED, 
-		     "Game: The production of %s was destroyed in %s, %s are suspected for the sabotage.", 
-		     prod, pcity->name, get_race_name_plural(cplayer->race));
+		     "Game: The production of %s was destroyed in %s, %s are suspected of sabotage.", 
+		     prod, pcity->name, get_race_name_plural(pplayer->race));
 
     break;
   case 1:
@@ -302,22 +395,24 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, struct ci
 			 get_improvement_name(building), pcity->name);
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 			 "Game: The %s destroyed %s in %s.", 
-			 get_race_name_plural(cplayer->race),
+			 get_race_name_plural(pplayer->race),
                          get_improvement_name(building), pcity->name);
       } else {
 	notify_player_ex(pplayer, pcity->x, pcity->y, E_NOEVENT,
 		      "Game: Your Diplomat was caught in the attempt of industrial sabotage!");
 	notify_player_ex(cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 			 "Game: You caught a%s %s diplomat in industrial sabotage!",
-		n_if_vowel(get_race_name(cplayer->race)[0]),
-		get_race_name(cplayer->race));
+		n_if_vowel(get_race_name(pplayer->race)[0]),
+		get_race_name(pplayer->race));
       }
     }
     break;
   }
   send_city_info(cplayer, pcity, 1);
 
-  wipe_unit(0, pdiplomat);
+  /* Check if a spy survives her mission */
+
+  diplomat_leave_city(pplayer, pdiplomat, pcity);
 }
 
 /***************************************************************************

@@ -340,6 +340,7 @@ void game_init(void)
   game.nplayers=0;
   game.techlevel   = GAME_DEFAULT_RESEARCHLEVEL;
   game.diplcost    = GAME_DEFAULT_DIPLCOST;
+  game.diplchance  = GAME_DEFAULT_DIPLCHANCE;
   game.freecost    = GAME_DEFAULT_FREECOST;
   game.conquercost = GAME_DEFAULT_CONQUERCOST;
   game.settlers    = GAME_DEFAULT_SETTLERS;

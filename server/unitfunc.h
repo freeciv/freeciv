@@ -16,10 +16,14 @@
 #include "packets.h"
 #include "unit.h"
 
+int diplomat_infiltrate_city(struct player *pplayer, struct player *cplayer,
+			     struct unit *pdiplomat, struct city *pcity);
+void diplomat_leave_city(struct player *pplayer, struct unit *pdiplomat,
+			 struct city *pcity);
 void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat, 
 		    struct unit *pvictim);
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city  *city);
+		       struct city  *pcity);
 void diplomat_incite(struct player *pplayer, struct unit *pdiplomat, 
 		     struct city *pcity);
 void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat, 

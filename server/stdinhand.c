@@ -113,6 +113,10 @@ struct proto_settings settings[] = {
     &game.diplcost, 0,
     GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST},
 
+  { "diplchance", "The 1:n chance of a diplomat/spy defeating a resident diplomat/spy while subverting or sabotaging a city.  Also the chance of a Spy returning from a sucessful mission",
+    &game.diplchance, 1,
+    GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE},
+
   { "freecost", "How many % of the price of researching a tech, does a tech cost when you get it for free.",
     &game.freecost, 0,
     GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST},

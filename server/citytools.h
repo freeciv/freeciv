@@ -52,6 +52,8 @@ int set_city_tax_bonus(struct city *pcity);
 int city_tax_bonus(struct city *pcity);
 int wants_to_be_bigger(struct city *pcity);
 int worst_worker_tile_value(struct city *pcity);
+void transfer_city_units(struct player *pplayer, struct player *pvictim, 
+			 struct city *pcity, struct city *vcity);
 #endif
 
 
