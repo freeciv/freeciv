@@ -1065,7 +1065,7 @@ static void loop(void)
 	  timer_outstanding--;
 	}
 
-	send_timer(0, 500000);
+	if (!timer_outstanding) send_timer(0, 500000);
 	CurrentTime(&secs, &mics);
 
 	handle_timer();
