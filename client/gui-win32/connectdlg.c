@@ -1059,11 +1059,11 @@ static void set_new_game_params(HWND win)
     mystrlcpy(apacket.message, "/hard", MAX_LEN_MSG-MAX_LEN_USERNAME+1);   
   }
   send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
- 
+#if 0 
   mystrlcpy(apacket.message, "/set autotoggle 1",
 	    MAX_LEN_MSG-MAX_LEN_USERNAME+1);
   send_packet_generic_message(&aconnection, PACKET_CHAT_MSG, &apacket);
-  
+#endif
   aifill=ScrollBar_GetPos(GetDlgItem(win,ID_AIFILL));
   my_snprintf(apacket.message, MAX_LEN_MSG-MAX_LEN_USERNAME+1,
 	      "/set aifill %d", aifill);
@@ -1079,7 +1079,7 @@ static void set_new_game_params(HWND win)
 /**************************************************************************
 
 **************************************************************************/
-static CALLBACK LONG new_game_proc(HWND win, UINT message,
+static LONG CALLBACK new_game_proc(HWND win, UINT message,
 				   WPARAM wParam, LPARAM lParam)
 {
   switch(message)
