@@ -25,6 +25,9 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
 #ifdef HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
@@ -166,7 +169,7 @@ int fc_lookup_host(const char *hostname, struct sockaddr_in *sock)
   }
 #endif
   hp = gethostbyname(hostname);
-  if (hp == NULL || hp->h_addrtype != AF_INET) {
+  if (!hp || hp->h_addrtype != AF_INET) {
     return 0;
   }
 
