@@ -611,6 +611,8 @@ static void player_load(struct player *plr, int plrno,
   for(i=0; i<game.num_tech_types; i++)
     set_invention(plr, i, (p[i]=='1') ? TECH_KNOWN : TECH_UNKNOWN);
 
+  update_research(plr);
+
   plr->reputation=secfile_lookup_int_default(file, GAME_DEFAULT_REPUTATION,
 					     "player%d.reputation", plrno);
   for(i=0; i<game.nplayers; i++) {
@@ -1992,8 +1994,6 @@ void game_load(struct section_file *file)
 
     /* Make sure everything is consistent. */
     players_iterate(pplayer) {
-      update_research(pplayer);
-
       unit_list_iterate(pplayer->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
 	  freelog(LOG_ERROR, "ERROR: Unit doing illegal activity in savegame!");
