@@ -217,7 +217,7 @@ int best_worker_tile_value(struct city *pcity)
 {
   int best = 0, tmp;
   city_map_iterate(x, y) {
-    if ((x == 2 || y == 2) ||
+    if ((x == 2 && y == 2) ||
 	(get_worker_city(pcity, x, y) == C_TILE_WORKER) ||
 	can_place_worker_here(pcity, x, y)) {
       tmp = city_tile_value(pcity, x, y, 0, 0);
