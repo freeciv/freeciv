@@ -463,10 +463,12 @@ int can_upgrade_unittype(struct player *pplayer, enum unit_type_id id)
   if (get_invention(pplayer, 
 		    unit_types[id].tech_requirement)!=TECH_KNOWN)
     return -1;
+  if (unit_types[id].obsoleted_by == -1)
+    return -1;
   if (get_invention(pplayer,
 		    unit_types[unit_types[id].obsoleted_by].tech_requirement)!=TECH_KNOWN) 
     return -1;
-  while (get_invention(pplayer, 
+  while (unit_types[id].obsoleted_by!=-1 && get_invention(pplayer, 
 		       unit_types[unit_types[id].obsoleted_by].tech_requirement)==TECH_KNOWN) {
     id = unit_types[id].obsoleted_by;
   }
