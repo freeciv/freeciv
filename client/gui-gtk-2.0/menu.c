@@ -1180,22 +1180,18 @@ void update_menus(void)
     GtkWidget *parent = gtk_item_factory_get_widget(item_factory, path);
 
     if (parent) {
-      int i;
-      GList *list, *iter, *iter_next;
+      GList *list, *iter;
 
       /* remove previous government entries. */
       list = gtk_container_get_children(GTK_CONTAINER(parent));
-      for (iter = g_list_nth(list, 2); iter; iter = iter_next) {
-	iter_next = iter->next;
+      for (iter = g_list_nth(list, 2); iter; iter = g_list_next(iter)) {
 	gtk_widget_destroy(GTK_WIDGET(iter->data));
       }
       g_list_free(list);
 
       /* add new government entries. */
-      for (i = 0; i < game.government_count; ++i) {
-        struct government *g = &governments[i];
-
-        if (i != game.government_when_anarchy) {
+      government_iterate(g) {
+        if (g->index != game.government_when_anarchy) {
           GtkWidget *item, *image;
           struct Sprite *gsprite;
 	  char buf[256];
@@ -1203,24 +1199,23 @@ void update_menus(void)
 	  my_snprintf(buf, sizeof(buf), _("%s..."), g->name);
           item = gtk_image_menu_item_new_with_label(buf);
 
-          gsprite = get_government(g->index)->sprite;
-          image = gtk_image_new_from_pixmap(gsprite->pixmap, gsprite->mask);
-          gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-
-          gtk_widget_show(image);
-          gtk_widget_show(item);
+	  if ((gsprite = g->sprite)) {
+	    image = gtk_image_new_from_pixmap(gsprite->pixmap, gsprite->mask);
+	    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+	    gtk_widget_show(image);
+	  }
 
           g_signal_connect(item, "activate",
             G_CALLBACK(government_callback), GINT_TO_POINTER(g->index));
 
-          if (!can_change_to_government(game.player_ptr, i)) {
+          if (!can_change_to_government(game.player_ptr, g->index)) {
             gtk_widget_set_sensitive(item, FALSE);
 	  }
 
           gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
           gtk_widget_show(item);
         }
-      }
+      } government_iterate_end;
     }
 
     menus_set_sensitive("<main>/_Reports", TRUE);
