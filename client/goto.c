@@ -412,7 +412,6 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 	move_cost = 0;	/* silence compiler warning */
 	freelog(LOG_FATAL, "Bad move_type in create_goto_map().");
 	abort();
-	break;
       } /****** end switch ******/
 
       /* Add the route to our warmap if it is worth keeping */

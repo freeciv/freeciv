@@ -1091,7 +1091,6 @@ void do_map_click(int xtile, int ytile)
     switch (hover_state) {
     case HOVER_NONE:
       abort(); /* well; shouldn't get here :) */
-      break;
     case HOVER_GOTO:
       do_unit_goto(xtile, ytile);
       break;

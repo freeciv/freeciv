@@ -795,7 +795,6 @@ static int find_the_shortest_path(struct unit *punit,
 	move_cost = MAXCOST;	/* silence compiler warning */
 	freelog(LOG_FATAL, "Bad move_type in find_the_shortest_path().");
 	abort();
-	break;
       } /****** end switch ******/
 
       /* Add the route to our warmap if it is worth keeping */

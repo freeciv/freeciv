@@ -914,7 +914,6 @@ char *unit_activity_text(struct unit *punit)
 	    punit->activity);
     exit(EXIT_FAILURE);
   }
-  return 0;
 }
 
 /**************************************************************************

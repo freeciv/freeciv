@@ -903,8 +903,6 @@ int ai_make_elvis(struct city *pcity)
     return val; /* much more useful! */
   } else
     return 0;
-
-  sync_cities();
 }
 
 /**************************************************************************

@@ -1793,13 +1793,11 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
   case AIUNIT_PILLAGE:
     handle_unit_activity_request(punit, ACTIVITY_PILLAGE);
     return; /* when you pillage, you have moves left, avoid later fortify */
-    break;
   case AIUNIT_EXPLORE:
     ai_manage_explorer(punit);
     break;
   default:
     abort();
-    break;
   }
 
   if ((punit = find_unit_by_id(id))) {
