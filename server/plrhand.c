@@ -931,16 +931,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 
   strcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
   plr->race=secfile_lookup_int(file, "player%d.race", plrno);
-#ifdef OLD
-  plr->government=secfile_lookup_int(file, "player%d.goverment", plrno);
-#else
-  /* FIXME: It might be a good idea to put code in here which searches
-   * for "goverment" to be compatible with older save files.
-   * Unfortunately, secfile_lookup_int doesn't indicate whether it
-   * didn't work - it just raises a fatal exception.  (mjd) 
-   */
   plr->government=secfile_lookup_int(file, "player%d.government", plrno);
-#endif
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
    
   strcpy(plr->addr, "---.---.---.---");
