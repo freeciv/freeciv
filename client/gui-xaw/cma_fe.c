@@ -77,7 +77,7 @@ struct city *current_city;
 char *initial_preset_list = N_("For information on\n"
 			       "the citizen governor and governor presets,\n"
 			       "including sample presets,\n"
-			       "see README.cma.")),
+			       "see README.cma.");
 
 
 static void update_cma_preset_list(void);
