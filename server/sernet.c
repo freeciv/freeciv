@@ -391,6 +391,7 @@ int sniff_packets(void)
 	    (void) send_server_info_to_metaserver(TRUE, FALSE);
 
             server_state = GAME_OVER_STATE;
+            force_end_of_sniff = TRUE;
             conn_list_iterate(game.est_connections, pconn) {
               lost_connection_to_client(pconn);
               close_connection(pconn);
