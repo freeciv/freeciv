@@ -42,7 +42,7 @@ struct tile {
   const int index; /* Index coordinate of the tile. */
   Terrain_type_id terrain;
   enum tile_special_type special;
-  struct city *city;
+  struct city *city;        /* city standing on the tile, NULL if none */
   struct unit_list units;
   unsigned int known;   /* A bitvector on the server side, an
 			   enum known_type on the client side.
