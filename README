@@ -17,11 +17,9 @@ adjustable parameters to make customizing games possible.
 Freeciv has been implemented completely independently of Civilization;
 you do not need to own Civilization to play Freeciv.
 
-Although the graphics are not as polished as those in Civilisation II,
+Although the graphics are not as polished as those in Civilization II,
 the rules are very complete, and our multiplayer and networking code is
-excellent.  At the moment however, we're lacking alliances
-A patch is ready but not yet tested.
-
+excellent.
 
 Web site:
 =========
@@ -141,13 +139,13 @@ Client:
   % civclient
 
   This assumes the server is running on the same machine.  If not, you
-  can either specify it on the command use with the '-server' option,
+  can either specify it on the command use with the '--server' option,
   or enter it into the first dialog box once the client starts.
 
   For example, suppose the server is running on a different machine
   called 'neptune'.  Then players would join with a command like:
 
-  % civclient -server neptune
+  % civclient --server neptune
 
   If you're the only human player, then only one client needs to be
   started.  In standard Unix fashion you can start the client
@@ -155,16 +153,19 @@ Client:
 
   % civclient &
 
-  Another option for the client you may like to try is the '-tiles'
+  Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
   different graphics for the map terrain, units, and so on).  The
-  distribution comes with two tilesets: the default set, and an
-  enhanced version of the original tiles, which may be specified 
-  by starting the client with:
+  distribution comes with two tilesets: the default set, and a set
+  called "trident" which uses smaller (and different) graphics.  
+  For example, start the client with:
 
-  % civclient -tiles classic
+  % civclient --tiles trident
 
-  Clients can be authorised to issue server commands.  To allow them
+  Other tilesets (including the previously included "classic/brunus" 
+  tileset) are available from the ftp site.  
+
+  Clients can be authorized to issue server commands.  To allow them
   to use informational commands only, type at the server prompt
 
   > cmdlevel info
@@ -179,10 +180,9 @@ Computer Players:
 
   > set aifill 7
 
-  After using the "s" server command to start the game, any players
-  which aren't controlled by humans will be AI players.  For the
-  above, if two human players had joined, 5 AI players would be
-  created.
+  After using the 'start' server command to start the game, any players 
+  which aren't controlled by humans will be AI players.  For the above, 
+  if two human players had joined, 5 AI players would be created.
 
   The second way is to explicitly create an AI with the 'create'
   server command.  For example:
@@ -204,10 +204,10 @@ Computer Players:
 
 Server:
 
-  When everybody has joined (use the (l)ist command to see who's in), 
-  start the game with the (s)start command:
+  When everybody has joined (use the "list" command to see who's in), 
+  start the game with the "start" command:
 
-  > s
+  > start
 
 
 And the game is on!
@@ -228,8 +228,8 @@ Caveats:
 
  1) Due to the inclusion of new features, different client and server
     versions are often incompatible.  Not all incompatibilities
-    can be caught and reported properly.  One example is a 1.8.0
-    client connecting to a 1.7.2 server: the client appears
+    can be caught and reported properly.  One example is a 1.8.0 (or
+    later) client connecting to a 1.7.2 server: the client appears
     to connect, but it never gets any messages from the server.
 
  2) If the Metaserver button in the connection dialog doesn't work,
@@ -239,11 +239,11 @@ Caveats:
     to http://proxy.myisp.com:8888/ before starting the client.
 
  3) The metaserver usually lists several servers (5-10 on average),
-    but only a few of them are 1.8.0.  This is due to noise elimination:
-    up to 1.7.2, civserver connected to the metaserver by default, and
-    as a consequence, most of the pre-1.8.0 servers appearing on the
-    metaserver are run by first-time users who haven't even read this
-    README file.
+    but only a few of them are 1.8.0 or later.  This is due to noise 
+    elimination: up to 1.7.2, civserver connected to the metaserver 
+    by default, and as a consequence, most of the pre-1.8.0 servers 
+    appearing on the metaserver are run by first-time users who haven't 
+    even read this README file.
 
 
 Playing the game:
@@ -257,8 +257,8 @@ like so:
 The Freeciv client works pretty much as you would expect from a
 multiplayer civilization game. That is, the players move at the same
 time.  There's a turn timeout value, which is by default set to 0
-seconds (no timeout).  The server-op can alter this value at any time
-with the 'set' command.
+seconds (no timeout).  The server operator can alter this value at 
+any time with the 'set' command.
 
 Have a look at the online help system. All three mouse-buttons are
 used, and documented in the help.
@@ -280,7 +280,8 @@ The server is smart enough to perform "name completion", so if you had
 typed "pet:", it will pick find a player name that matches the part of
 the name you typed.
 
-On newer servers (not standard 1.8.0) you can issue server commands:
+On newer servers (version 1.8.1 or later, or some development 1.8.0 
+versions) you can issue server commands from the client input line:
 
   /list
   /set settlers 4
@@ -316,8 +317,8 @@ There are three ways in which a game can end:
 3) A player builds and launches a spaceship, which reaches Alpha
    Centauri first.
 
-A score-table will be shown in all cases.  Hint: The server-op can set
-the final year while the game is still going by changing the
+A score-table will be shown in all cases.  Hint: The server operator 
+can set the final year while the game is still going by changing the
 'end-year' option.  This is nice when the winner is obvious, but you
 don't want to play through the boring 'cleanup phase'.
 
@@ -333,10 +334,10 @@ Now the players can rejoin the game:
   % civclient -n Alexander
   
 Notice how the player-name is specified with the -n option. It's vital
-that the player uses the same name as they had when the game started,
+that the player uses the same name as they had when the game was running,
 if they're to be allowed in.
 
-The game may then be restarted with 's' as usual.
+The game may then be restarted with the 'start' command as usual.
 
 
 Server autostart:
@@ -358,11 +359,12 @@ where the client or server was started.  You can direct log messages
 to a file instead of the screen with the "--log filename", or "-l
 filename" command line options.
 
-You can change the level of log messages displayed with "--debug
-level" or "-d level" (for the server) or "-de level" (for the client),
-where "level" is 0, 1, or 2.  0 means show fatal messages only, 1
-means show fatal and normal messages (the default), and 2 means show
-all fatal, normal, and debug messages.
+You can change the level of log messages displayed with "--debug 
+level" or "-d level" (or instead "-de level" for the Xaw client, since
+"-d" is ambiguous between "-debug" and "-display"), where "level" is 
+0, 1, or 2.  0 means show fatal messages only, 1 means show fatal and 
+normal messages (the default), and 2 means show all fatal, normal, and 
+debug messages.
 
 If you compiled with DEBUG defined (an easy way to do this is to 
 configure with --enable-debug), then you can get debug level messages 
