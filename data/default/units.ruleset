@@ -49,6 +49,11 @@ firepower_factor=1              ; convenient for Civ1
 ; uk_*          = upkeep costs, these are used as base values in the game
 ; flags         = special flag strings, as in common/unit.h,unit.c
 ; roles         = special role strings, as in common/unit.h,unit.c
+;
+; Following flag strings require extra fields:
+;  "Paratroopers"
+;   paratroopers_range = the maximal range the unit can be paradropped to
+;
 
 [unit_settlers]
 name          = "Settlers"
@@ -371,6 +376,8 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Paratroopers"
 roles         = "DefendOk"
+
+paratroopers_range = 10
 
 [unit_mech_inf]
 name          = "Mech. Inf."

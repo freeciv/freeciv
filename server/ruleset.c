@@ -567,6 +567,11 @@ static void load_ruleset_units(char *ruleset_subdir)
 	     u->name, sval, filename);
       }
       u->flags |= (1<<ival);
+
+      if(ival == F_PARATROOPERS) {
+        u->paratroopers_range = secfile_lookup_int(file,
+            "%s.paratroopers_range", sec[i]);
+      }
     }
     free(slist);
   }
@@ -1352,6 +1357,7 @@ static void send_ruleset_units(struct player *dest)
     packet.shield_cost = u->shield_cost;
     packet.food_cost = u->food_cost;
     packet.gold_cost = u->gold_cost;
+    packet.paratroopers_range = u->paratroopers_range;
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {

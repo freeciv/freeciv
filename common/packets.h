@@ -487,6 +487,8 @@ struct packet_ruleset_unit {
   int shield_cost; /* normal upkeep cost */
   int food_cost;   /* settler food cost */
   int gold_cost;   /* gold upkeep (n/a now, maybe later) */
+
+  int paratroopers_range; /* max range of paratroopers, F_PARATROOPERS */
 };
 
 struct packet_ruleset_tech {

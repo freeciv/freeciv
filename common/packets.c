@@ -1995,6 +1995,8 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_string(cptr, packet->name);
   cptr=put_string(cptr, packet->graphic_str);
   cptr=put_string(cptr, packet->graphic_alt);
+  if(unit_flag(packet->id, F_PARATROOPERS))
+    cptr=put_int16(cptr, packet->paratroopers_range);
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -2035,6 +2037,9 @@ receive_packet_ruleset_unit(struct connection *pc)
   iget_string(&iter, packet->name, sizeof(packet->name));
   iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
   iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
+  if(packet->flags & (1L<<F_PARATROOPERS))
+    iget_int16(&iter, &packet->paratroopers_range);
+  else packet->paratroopers_range=0;
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

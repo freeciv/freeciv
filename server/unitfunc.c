@@ -1482,7 +1482,8 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
 			if(map_get_known(x,y,pplayer)) {
         if(map_get_terrain(x,y) != T_OCEAN) {
 	        if(!is_enemy_unit_tile(x,y,punit->owner)) {
-            if(real_map_distance(punit->x, punit->y, x, y) <= 10) {
+            int range = get_unit_type(punit->type)->paratroopers_range;
+            if(real_map_distance(punit->x, punit->y, x, y) <= range) {
               struct city *start_city = map_get_city(punit->x, punit->y);
 	  		      struct city *dest_city = map_get_city(x, y);
               int ok=1;

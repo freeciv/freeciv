@@ -1081,6 +1081,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->shield_cost        = p->shield_cost;
   u->food_cost          = p->food_cost;
   u->gold_cost          = p->gold_cost;
+  u->paratroopers_range = p->paratroopers_range;
 
   tilespec_setup_unit_type(p->id);
 }

@@ -71,7 +71,7 @@ const char * const our_capability = our_capability_internal;
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
     " +terrainrulesets1 +governmentrulesets2 +num_units +tilespec" \
     " +ruleset_control +ask_pillage +gen_tech1 +nationsruleset" \
-    " +long_names +paratroopers"
+    " +long_names +paratroopers1"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
@@ -109,7 +109,8 @@ const char * const our_capability = our_capability_internal;
 
    "long_names" means that player names longer than 9 chars are allowed.
 
-   "paratroopers" is for the support of the "Paratroopers" unit flag
+   "paratroopers1" is for the support of the "Paratroopers" unit flag
+   and the paratroopers_range field
 */
 
 void init_our_capability(void)
