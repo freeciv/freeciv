@@ -663,11 +663,19 @@ void resolve_unit_stack(int x, int y)
        < map_distance(x, y, ccity->x, ccity->y)){
       teleport_unit_to_city(cunit, ccity, 0);
       flog(LOG_DEBUG,"Teleported %s's %s from (%d, %d) to %s",get_player(cunit->owner)->name, unit_name(cunit->type), x, y,ccity->name);
-      notify_player(get_player(cunit->owner), "Game: Teleported your %s from (%d, %d) to %s", unit_name(cunit->type), x, y,ccity->name);
+      if (0) {  /* too verbose --dwp */
+	notify_player(get_player(cunit->owner),
+		      "Game: Teleported your %s from (%d, %d) to %s",
+		      unit_name(cunit->type), x, y,ccity->name);
+      }
     }else{
       teleport_unit_to_city(punit, pcity, 0);
       flog(LOG_DEBUG,"Teleported %s's %s from (%d, %d) to %s",get_player(punit->owner)->name, unit_name(punit->type), x, y, pcity->name);
-      notify_player(get_player(punit->owner), "Game: Teleported your %s from (%d, %d) to %s", unit_name(punit->type), x, y, pcity->name);
+      if (0) {  /* too verbose --dwp */
+	notify_player(get_player(punit->owner),
+		      "Game: Teleported your %s from (%d, %d) to %s",
+		      unit_name(punit->type), x, y, pcity->name);
+      }
     }
     
     punit = unit_list_get(&map_get_tile(x, y)->units, 0);

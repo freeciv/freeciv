@@ -33,6 +33,7 @@
 #include <unitfunc.h>
 #include <settlers.h>
 #include <unittools.h>
+#include <gamehand.h>		/* send_game_info */
 
 /****************************************************************
 ...
@@ -638,7 +639,11 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     }else if(!kill_outside){
       
       flog(LOG_DEBUG,"Transfered %s at (%d, %d) from %s to %s", unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
-      notify_player(pvictim, "Game: Transfered %s at (%d, %d) from %s to %s", unit_name(vunit->type), x, y, pvictim->name, pplayer->name);
+      if (0) {  /* too verbose --dwp */
+	notify_player(pvictim, "Game: Transfered %s at (%d, %d) from %s to %s",
+		      unit_name(vunit->type), x, y,
+		      pvictim->name, pplayer->name);
+      }
       create_unit_full(pplayer, vunit->x, vunit->y, vunit->type, 
 		       vunit->veteran, pcity->id, vunit->moves_left,
 		       vunit->hp);
@@ -715,10 +720,11 @@ struct player *split_player(struct player *pplayer)
   cplayer->race = races_used[i];
   pick_ai_player_name(cplayer->race,cplayer->name);
 
-  cplayer->is_connected=0;
+  cplayer->is_connected = 0;
   cplayer->conn = NULL;
-  cplayer->government=G_ANARCHY;  
-  cplayer->capital=1;
+  cplayer->government = G_ANARCHY;  
+  pplayer->revolution = 1;
+  cplayer->capital = 1;
 
   /* Split the resources */
   
@@ -752,7 +758,8 @@ struct player *split_player(struct player *pplayer)
   
   /* change the original player */
 
-  pplayer->government = G_ANARCHY;  
+  pplayer->government = G_ANARCHY;
+  pplayer->revolution = 1;
   pplayer->economic.tax = PLAYER_DEFAULT_TAX_RATE;
   pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
   pplayer->economic.luxury = PLAYER_DEFAULT_LUXURY_RATE;
@@ -805,8 +812,19 @@ void civil_war(struct player *pplayer)
 {
   int i, j;
   struct city *pnewcity;
-  struct player *cplayer = split_player(pplayer);
+  struct player *cplayer;
 
+  cplayer = split_player(pplayer);
+
+  /* So that clients get the correct game.nplayers: */
+  send_game_info(0);
+  
+  /* Before units, cities, so clients know name of new race
+   * (for debugging etc).
+   */
+  send_player_info(cplayer,  NULL);
+  send_player_info(pplayer,  NULL); 
+  
   /* Now split the empire */
 
   flog(LOG_DEBUG,"%s's nation is thrust into civil war, created AI player %s", pplayer->name, cplayer->name);
@@ -851,9 +869,6 @@ void civil_war(struct player *pplayer)
     resolve_unit_stack(punit->x, punit->y);
   unit_list_iterate_end;
   
-  send_player_info(cplayer,  NULL); 
-  send_player_info(pplayer,  NULL); 
-
   notify_player(0, "Game: The capture of %s's capital and the destruction of the empire's administrative\n      structures have sparked a civil war.  Opportunists have flocked to the rebel cause,\n      and the upstart %s now holds power in %d rebel provinces.", pplayer->name, cplayer->name, city_list_size(&cplayer->cities));
     
 }  
