@@ -1203,7 +1203,7 @@ void popup_government_dialog(int governments,
   for (i = 0; i < governments; i++) {
     buttons[i].text = government[i]->name;
     buttons[i].callback = government_callback;
-    buttons[i].data = GINT_TO_POINTER(i);
+    buttons[i].data = GINT_TO_POINTER(government[i]->index);
     buttons[i].sensitive = can_change_to_government(game.player_ptr, i);
   }
 
