@@ -1168,14 +1168,10 @@ void draw_segment(int src_x, int src_y, int dir)
 {
   int dest_x, dest_y, is_real;
 
+  assert(get_drawn(src_x, src_y, dir) > 0);
+
   is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
   assert(is_real);
-
-  /* A previous line already marks the place */
-  if (get_drawn(src_x, src_y, dir)) {
-    increment_drawn(src_x, src_y, dir);
-    return;
-  }
 
   if (tile_visible_mapcanvas(src_x, src_y)) {
     put_line(map_canvas_store, src_x, src_y, dir);
@@ -1186,8 +1182,6 @@ void draw_segment(int src_x, int src_y, int dir)
     put_line(map_canvas_store, dest_x, dest_y, DIR_REVERSE(dir));
     put_line(XtWindow(map_canvas), dest_x, dest_y, DIR_REVERSE(dir));
   }
-
-  increment_drawn(src_x, src_y, dir);
 }
 
 /**************************************************************************

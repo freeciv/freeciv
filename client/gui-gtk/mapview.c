@@ -1656,24 +1656,15 @@ static void really_draw_segment(int src_x, int src_y, int dir,
 **************************************************************************/
 void draw_segment(int src_x, int src_y, int dir)
 {
+  assert(get_drawn(src_x, src_y, dir) > 0);
+
   if (is_isometric) {
-    increment_drawn(src_x, src_y, dir);
-    if (get_drawn(src_x, src_y, dir) > 1) {
-      return;
-    } else {
-      really_draw_segment(src_x, src_y, dir, TRUE, FALSE);
-    }
+    really_draw_segment(src_x, src_y, dir, TRUE, FALSE);
   } else {
     int dest_x, dest_y, is_real;
 
     is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
     assert(is_real);
-
-    /* A previous line already marks the place */
-    if (get_drawn(src_x, src_y, dir)) {
-      increment_drawn(src_x, src_y, dir);
-      return;
-    }
 
     if (tile_visible_mapcanvas(src_x, src_y)) {
       put_line(map_canvas_store, src_x, src_y, dir);
@@ -1683,8 +1674,6 @@ void draw_segment(int src_x, int src_y, int dir)
       put_line(map_canvas_store, dest_x, dest_y, DIR_REVERSE(dir));
       put_line(map_canvas->window, dest_x, dest_y, DIR_REVERSE(dir));
     }
-
-    increment_drawn(src_x, src_y, dir);
   }
 }
 

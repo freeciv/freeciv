@@ -1224,17 +1224,13 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       	int dir = data->segment_dir;
 	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
 
+	assert(get_drawn(src_x, src_y, dir) > 0);
+
 	if (is_isometric) {
-	  increment_drawn(src_x, src_y, dir);
-	  if (get_drawn(src_x, src_y, dir) > 1) {
-	    MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
-	    return 0;
-	  } else {
-	    really_draw_segment(data->map_layer->rp, 0, 0, src_x, src_y, dir,
-				FALSE);
-	    really_draw_segment(_rp(o), _mleft(o), _mtop(o), src_x, src_y,
-				dir, FALSE);
-	  }
+	  really_draw_segment(data->map_layer->rp, 0, 0, src_x, src_y, dir,
+			      FALSE);
+	  really_draw_segment(_rp(o), _mleft(o), _mtop(o), src_x, src_y,
+			      dir, FALSE);
 	} else {
 	  int dest_x, dest_y, is_real;
 
@@ -1242,20 +1238,15 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	  assert(is_real);
 
 	  /* A previous line already marks the place */
-	  if (get_drawn(src_x, src_y, dir)) {
-	    increment_drawn(src_x, src_y, dir);
-	  } else {
-	   if (tile_visible_mapcanvas(src_x, src_y)) {
-	      put_line(data->map_layer->rp, 0,0,src_x, src_y, dir);
-              put_line(_rp(o), _mleft(o),_mtop(o),src_x, src_y, dir);
-	    }
-	    if (tile_visible_mapcanvas(dest_x, dest_y)) {
-	      put_line(data->map_layer->rp, 0, 0,
-		       dest_x, dest_y, DIR_REVERSE(dir));
-	      put_line(_rp(o), _mleft(o), _mtop(o),
-		       dest_x, dest_y, DIR_REVERSE(dir));
-	    }
-	    increment_drawn(src_x, src_y, dir);
+	  if (tile_visible_mapcanvas(src_x, src_y)) {
+	    put_line(data->map_layer->rp, 0, 0, src_x, src_y, dir);
+	    put_line(_rp(o), _mleft(o), _mtop(o), src_x, src_y, dir);
+	  }
+	  if (tile_visible_mapcanvas(dest_x, dest_y)) {
+	    put_line(data->map_layer->rp, 0, 0,
+		     dest_x, dest_y, DIR_REVERSE(dir));
+	    put_line(_rp(o), _mleft(o), _mtop(o),
+		     dest_x, dest_y, DIR_REVERSE(dir));
 	  }
 	}
 
@@ -1265,63 +1256,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
       if (data->update == 9)
       {
-      	/* Undraw Segment */
-      	int src_x = data->segment_src_x;
-      	int src_y = data->segment_src_y;
-      	int dir = data->segment_dir;
-	APTR cliphandle = MUI_AddClipping(muiRenderInfo(o), _mleft(o), _mtop(o), _mwidth(o), _mheight(o));
-
-	int dest_x, dest_y, is_real;
-
-	is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
-	assert(is_real);
-
-	if (is_isometric) {
-	  assert(get_drawn(src_x, src_y, dir));
-	  decrement_drawn(src_x, src_y, dir);
-
-	  /* somewhat inefficient */
-	  if (!get_drawn(src_x, src_y, dir)) {
-	    update_map_canvas(MIN(src_x, dest_x), MIN(src_y, dest_y),
-			src_x == dest_x ? 1 : 2,
-			src_y == dest_y ? 1 : 2,
-			TRUE);
-	  }
-	} else {
-	  int drawn = get_drawn(src_x, src_y, dir);
-
-	  assert(drawn > 0);
-	  /* If we walk on a path twice it looks just like walking on it once. */
-	  if (drawn > 1) {
-	    decrement_drawn(src_x, src_y, dir);
-	  } else {
-	    decrement_drawn(src_x, src_y, dir);
-	    refresh_tile_mapcanvas(src_x, src_y, TRUE); /* !! */
-	    refresh_tile_mapcanvas(dest_x, dest_y, TRUE); /* !! */
-	    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
-	      int is_real;
-
-	      if (dir == DIR8_NORTHEAST) {
-		/* Since the tile doesn't have a middle we draw an extra pixel
-		   on the adjacent tile when drawing in this direction. */
-		dest_x = src_x + 1;
-		dest_y = src_y;
-		is_real = normalize_map_pos(&dest_x, &dest_y);
-		assert(is_real);
-		refresh_tile_mapcanvas(dest_x, dest_y, TRUE);	/* !! */
-	      } else if (dir == DIR8_SOUTHWEST) {	/* the same */
-		dest_x = src_x;
-		dest_y = src_y + 1;
-		is_real = normalize_map_pos(&dest_x, &dest_y);
-		assert(is_real);
-		refresh_tile_mapcanvas(dest_x, dest_y, TRUE);	/* !! */
-	      }
-	    }
-	  }
-	}
-
-	MUI_RemoveClipping(muiRenderInfo(o), cliphandle);
-	return 0;
+	/* now handled by undraw_segment in mapview_common */
       }
 
       if (data->update == 2)

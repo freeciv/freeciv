@@ -468,13 +468,7 @@ void undraw_segment(int src_x, int src_y, int dir)
 {
   int dest_x, dest_y;
 
-  assert(get_drawn(src_x, src_y, dir) > 0);
-
-  /* If we walk on a path twice it looks just like walking on it once. */
-  decrement_drawn(src_x, src_y, dir);
-  if (get_drawn(src_x, src_y, dir) > 0) {
-    return;
-  }
+  assert(get_drawn(src_x, src_y, dir) == 0);
 
   if (!MAPSTEP(dest_x, dest_y, src_x, src_y, dir)) {
     assert(0);

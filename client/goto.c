@@ -31,6 +31,7 @@
 #include "goto.h"
 
 static void undraw_line(void);
+static unsigned char *get_drawn_char(int x, int y, int dir);
 
 /**************************************************************************
 Various stuff for the goto routes
@@ -456,6 +457,36 @@ static void create_goto_map(struct unit *punit, int src_x, int src_y,
 }
 
 /**************************************************************************
+  Increments the number of segments at the location, and draws the
+  segment if necessary.
+**************************************************************************/
+static void increment_drawn(int src_x, int src_y, enum direction8 dir)
+{
+  /* don't overflow unsigned char. */
+  assert(*get_drawn_char(src_x, src_y, dir) < 255);
+  *get_drawn_char(src_x, src_y, dir) += 1;
+
+  if (get_drawn(src_x, src_y, dir) == 1) {
+    draw_segment(src_x, src_y, dir);
+  }
+}
+
+/**************************************************************************
+  Decrements the number of segments at the location, and clears the
+  segment if necessary.
+**************************************************************************/
+static void decrement_drawn(int src_x, int src_y, enum direction8 dir)
+{
+  /* don't underflow unsigned char. */
+  assert(*get_drawn_char(src_x, src_y, dir) > 0);
+  *get_drawn_char(src_x, src_y, dir) -= 1;
+
+  if (get_drawn(src_x, src_y, dir) == 0) {
+    undraw_segment(src_x, src_y, dir);
+  }
+}
+
+/**************************************************************************
 Insert a point and draw the line on the map.
 Will extend the array if needed.
 **************************************************************************/
@@ -488,7 +519,7 @@ static void goto_array_insert(int x, int y)
 
   dir = get_direction_for_step(old_x, old_y, x, y);
 
-  draw_segment(old_x, old_y, dir);
+  increment_drawn(old_x, old_y, dir);
 
   /* insert into array */
   goto_array[goto_array_index].x = x;
@@ -646,25 +677,6 @@ static unsigned char *get_drawn_char(int x, int y, int dir)
 /********************************************************************** 
 ...
 ***********************************************************************/
-void increment_drawn(int x, int y, int dir)
-{
-  /* don't overflow unsigned char. */
-  assert(*get_drawn_char(x, y, dir) < 255);
-  *get_drawn_char(x, y, dir) += 1;
-}
-
-/********************************************************************** 
-...
-***********************************************************************/
-void decrement_drawn(int x, int y, int dir)
-{
-  assert(*get_drawn_char(x, y, dir) > 0);
-  *get_drawn_char(x, y, dir) -= 1;
-}
-
-/********************************************************************** 
-...
-***********************************************************************/
 int get_drawn(int x, int y, int dir)
 {
   int dummy_x, dummy_y;
@@ -702,7 +714,7 @@ static void undraw_one(void)
   /* undraw the line segment */
 
   dir = get_direction_for_step(line_x, line_y, dest_x, dest_y);
-  undraw_segment(line_x, line_y, dir);
+  decrement_drawn(line_x, line_y, dir);
 
   assert(goto_array_index > 0);
   goto_array_index--;

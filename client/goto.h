@@ -36,8 +36,6 @@ bool goto_pop_waypoint(void);
 
 void draw_line(int dest_x, int dest_y);
 int get_drawn(int x, int y, int dir);
-void increment_drawn(int x, int y, int dir);
-void decrement_drawn(int x, int y, int dir);
 
 void send_patrol_route(struct unit *punit);
 void send_goto_route(struct unit *punit);

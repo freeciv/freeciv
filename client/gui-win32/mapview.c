@@ -1878,21 +1878,16 @@ static void put_line(HDC hdc, int x, int y,
 void draw_segment(int src_x, int src_y, int dir)
 {
   HDC hdc;
- 
-  
+
+  assert(get_drawn(src_x, src_y, dir) > 0);
+
   if (is_isometric) {
-    increment_drawn(src_x, src_y, dir);
-    if (get_drawn(src_x, src_y, dir) > 1) {
-      return;
-    } else {
-      HBITMAP old;
-      HDC mapstoredc;
-      mapstoredc=CreateCompatibleDC(NULL);
-      old=SelectObject(mapstoredc,mapstorebitmap);
-      really_draw_segment(mapstoredc,src_x, src_y, dir, TRUE, FALSE);
-      SelectObject(mapstoredc,old);
-      DeleteDC(mapstoredc);
-    }
+    HDC mapstoredc = CreateCompatibleDC(NULL);
+    HBITMAP old = SelectObject(mapstoredc, mapstorebitmap);
+
+    really_draw_segment(mapstoredc, src_x, src_y, dir, TRUE, FALSE);
+    SelectObject(mapstoredc, old);
+    DeleteDC(mapstoredc);
   } else {
     int dest_x, dest_y, is_real;
     HBITMAP old;
@@ -1900,11 +1895,6 @@ void draw_segment(int src_x, int src_y, int dir)
     is_real = MAPSTEP(dest_x, dest_y, src_x, src_y, dir);
     assert(is_real);
 
-    /* A previous line already marks the place */
-    if (get_drawn(src_x, src_y, dir)) {
-      increment_drawn(src_x, src_y, dir);
-      return;
-    }
     mapstoredc=CreateCompatibleDC(NULL);
     old=SelectObject(mapstoredc,mapstorebitmap);
     hdc=GetDC(map_window);
@@ -1919,7 +1909,6 @@ void draw_segment(int src_x, int src_y, int dir)
     ReleaseDC(map_window,hdc);
     SelectObject(mapstoredc,old);
     DeleteDC(mapstoredc);
-    increment_drawn(src_x, src_y, dir);
   }
 }
 
