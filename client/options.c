@@ -432,8 +432,10 @@ void load_general_options(void)
     /* fail silently */
     return;
   }
-  if (!section_file_load(&sf, name))
+  if (!section_file_load(&sf, name)) {
+    create_default_cma_presets();
     return;  
+  }
 
   /* a "secret" option for the lazy. TODO: make this saveable */
   sz_strlcpy(password, 
@@ -484,9 +486,13 @@ void load_general_options(void)
 
   /* Load cma presets. If cma.number_of_presets doesn't exist, don't load 
    * any, the order here should be reversed to keep the order the same */
-  num = secfile_lookup_int_default(&sf, 0, "cma.number_of_presets");
-  for (i = num - 1; i >= 0; i--) {
-    load_cma_preset(&sf, i);
+  num = secfile_lookup_int_default(&sf, -1, "cma.number_of_presets");
+  if (num == -1) {
+    create_default_cma_presets();
+  } else {
+    for (i = num - 1; i >= 0; i--) {
+      load_cma_preset(&sf, i);
+    }
   }
  
   section_file_free(&sf);

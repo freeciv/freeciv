@@ -370,3 +370,61 @@ const char *cmafec_get_result_descr(struct city *pcity,
   freelog(LOG_DEBUG, "\n%s", buffer);
   return buffer;
 }
+
+
+/**************************************************************************
+  Create default cma presets for a new user (or without configuration file)
+**************************************************************************/
+void create_default_cma_presets(void)
+{
+ int i;
+ struct cm_parameter parameters[] = {
+   { /* max food */
+     minimal_surplus: {0, 0, 0, 0, 0, 0},
+     require_happy: FALSE,
+     allow_disorder: FALSE,
+     allow_specialists: TRUE,
+     factor: {10, 1, 1, 1, 1, 1},
+     happy_factor: 0
+   }, { /* max prod */
+     minimal_surplus: {0, 0, 0, 0, 0, 0},
+     require_happy: FALSE,
+     allow_disorder: FALSE,
+     allow_specialists: TRUE,
+     factor: {1, 10, 1, 1, 1, 1},
+     happy_factor: 0
+   }, { /* max gold */
+     minimal_surplus: {0, 0, 0, 0, 0, 0},
+     require_happy: FALSE,
+     allow_disorder: FALSE,
+     allow_specialists: TRUE,
+     factor: {1, 1, 1, 10, 1, 1},
+     happy_factor: 0
+   }, { /* max science */
+     minimal_surplus: {0, 0, 0, 0, 0, 0},
+     require_happy: FALSE,
+     allow_disorder: FALSE,
+     allow_specialists: TRUE,
+     factor: {1, 1, 1, 1, 1, 10},
+     happy_factor: 0
+   }, { /* very happy */
+     minimal_surplus: {0, 0, 0, 0, 0, 0},
+     require_happy: FALSE,
+     allow_disorder: FALSE,
+     allow_specialists: TRUE,
+     factor: {1, 1, 1, 1, 1, 1},
+     happy_factor: 25
+   }   
+ };
+ const char* names[ARRAY_SIZE(parameters)] = {
+   N_("?cma:Max food"),
+   N_("?cma:Max production"),
+   N_("?cma:Max gold"),
+   N_("?cma:Max science"),
+   N_("?cma:Very happy")
+ };
+
+ for (i = ARRAY_SIZE(parameters) - 1; i >= 0; i--) {
+   cmafec_preset_add(Q_(names[i]), &parameters[i]);
+ }
+}
