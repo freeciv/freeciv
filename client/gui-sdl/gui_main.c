@@ -496,7 +496,7 @@ void ui_init(void)
 
   FREE(pInit_String->string16->text);
   pInit_String->string16->text =
-      convert_to_utf16(_("Oczekiwanie na rozpoczêcie gry"));
+      convert_to_utf16(_("Waiting for the beginning of the game"));
 
   init_gui_list(ID_WAITING_LABEL, pInit_String);
 }
@@ -520,18 +520,20 @@ void ui_main(int argc, char *argv[])
 					WF_DRAW_THEME_TRANSPARENT));
 
   pSellected_Widget->action = optiondlg_callback;
-  pSellected_Widget->string16 = create_str16_from_char(_("Opcje"), 12);
+  pSellected_Widget->string16 = create_str16_from_char(_("Options"), 12);
 
   add_to_gui_list(ID_CLIENT_OPTIONS, pSellected_Widget);
   pSellected_Widget = NULL;
 
   Init_Log_Window((Main.screen->w - 520) / 2, 25, 520, 130);
 
-  set_output_window_text(_("Freeciv to wolnodostêpne oprogramowanie, "
-			   "którego kopie mo¿esz rozdawaæ pod okre¶lonymi "
-			   "warunkami."));
-  set_output_window_text(_("Zobacz \"Kopiowanie\" w menu Pomoc... "
-			   "A teraz im dokop!!!"));
+  set_output_window_text(_("Freeciv is free software and you are welcome "
+			   "to distribute copies of "
+			   "it under certain conditions;"));
+  set_output_window_text(_(" See the \"Copying\" item on the Help"
+			   " menu."))
+  set_output_window_text(_("Now.. Go give'em hell!"))
+  
 
 
   Init_Input_Edit((Main.screen->w - 400) / 2, Main.screen->h - 60, 400,

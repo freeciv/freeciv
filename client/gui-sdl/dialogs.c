@@ -1829,8 +1829,8 @@ static void create_nations_dialog(void)
   pNations->change_sex_button->size.w = 100;
   pNations->change_sex_button->size.h = 22;
 
-  pNations->male_str = convert_to_utf16(_("Mê¿czyzna"));
-  pNations->female_str = convert_to_utf16(_("Kobieta"));
+  pNations->male_str = convert_to_utf16(_("Male"));
+  pNations->female_str = convert_to_utf16(_("Female"));
 
   /* ------- city style toggles ------- */
 

@@ -643,8 +643,7 @@ static int units_orders_city_dlg_callback(struct GUI *pButton)
   /* ----- */
   /* Activate unit, close dlg. */
   pBuf = create_icon_button_from_chars(NULL,
-				       _
-				       ("Aktywuj jednostkê i zamknij okno"),
+				       _("Activate unit, close dialog"),
 				       12, 0);
 
   i++;
@@ -3074,7 +3073,7 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
   SDL_Rect dest =
       { (pCityWindow->size.x + 10), (pCityWindow->size.y + 25), 0, 0 };
 
-  my_snprintf(cBuf, sizeof(cBuf), _("Penel informacyjny"));
+  my_snprintf(cBuf, sizeof(cBuf), _("Info Panel"));
   pStr = create_str16_from_char(cBuf, 10);
   pStr->forecol.r = 238;
   pStr->forecol.g = 156;
