@@ -55,7 +55,7 @@
 #include "cityicon.ico"
 
 #define NUM_UNITS_SHOWN  12
-#define NUM_CITIZENS_SHOWN 25
+#define NUM_CITIZENS_SHOWN 3
 
 
 struct city_dialog {
@@ -63,8 +63,8 @@ struct city_dialog {
   GtkWidget *shell;
   GtkWidget *main_form;
   GtkWidget *cityname_label;
-  GtkWidget *citizen_boxes		[NUM_CITIZENS_SHOWN];
-  GtkWidget *citizen_pixmaps		[NUM_CITIZENS_SHOWN];
+  GtkWidget *citizen_box;
+  GtkWidget *citizen_pixmap;
   GtkWidget *production_label;
   GtkWidget *output_label;
   GtkWidget *storage_label;
@@ -93,7 +93,8 @@ struct city_dialog {
   
   Impr_Type_id sell_id;
   
-  int citizen_type[NUM_CITIZENS_SHOWN];
+  int first_elvis, first_scientist, first_taxman;
+  int cwidth;
   int support_unit_ids[NUM_UNITS_SHOWN];
   int support_unit_pos;
   int present_unit_ids[NUM_UNITS_SHOWN];
@@ -140,10 +141,7 @@ static void show_units_callback(GtkWidget *w, gpointer data);
 static void unitupgrade_callback_yes	(GtkWidget *w, gpointer data);
 static void unitupgrade_callback_no	(GtkWidget *w, gpointer data);
 static void upgrade_callback	(GtkWidget *w, gpointer data);
-
-static gint elvis_callback	(GtkWidget *w, GdkEventButton *ev, gpointer data);
-static gint scientist_callback	(GtkWidget *w, GdkEventButton *ev, gpointer data);
-static gint taxman_callback	(GtkWidget *w, GdkEventButton *ev, gpointer data);
+static void citizens_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
 static gint present_units_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 static gint p_units_middle_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
@@ -405,17 +403,19 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
   /* "citizens" box */
   box=gtk_hbox_new(FALSE, 1);
   gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 0);
-  
-  for(i=0; i<NUM_CITIZENS_SHOWN; i++) {
-    pdialog->citizen_boxes[i]=gtk_event_box_new();
-    gtk_widget_set_events(pdialog->citizen_boxes[i], GDK_BUTTON_PRESS_MASK);
-    gtk_box_pack_start(GTK_BOX(box), pdialog->citizen_boxes[i], FALSE, FALSE,0);
 
-    pdialog->citizen_pixmaps[i]= gtk_pixcomm_new (root_window,
-					SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
-    gtk_container_add(GTK_CONTAINER(pdialog->citizen_boxes[i]),
-	pdialog->citizen_pixmaps[i]);
-  }
+  pdialog->citizen_box = gtk_event_box_new();
+  gtk_widget_set_events(pdialog->citizen_box, GDK_BUTTON_PRESS_MASK);
+  gtk_box_pack_start(GTK_BOX(box), pdialog->citizen_box, FALSE, FALSE, 0);
+  pdialog->citizen_pixmap = gtk_pixcomm_new(root_window,
+					    SMALL_TILE_WIDTH * NUM_CITIZENS_SHOWN,
+					    SMALL_TILE_HEIGHT);
+  gtk_container_add(GTK_CONTAINER(pdialog->citizen_box),
+		    pdialog->citizen_pixmap);
+  gtk_signal_connect(GTK_OBJECT(pdialog->citizen_box),
+		     "button_press_event", GTK_SIGNAL_FUNC(citizens_callback), pdialog);
+
+
   pdialog->sub_form=gtk_hbox_new(FALSE, 5);
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->sub_form, TRUE, TRUE, 0);
 
@@ -682,9 +682,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity, int make_modal
 
   for(i=0; i<B_LAST+1; i++)
       pdialog->improvlist_names_ptrs[i]=0;
-
-  for(i=0; i<NUM_CITIZENS_SHOWN; i++)
-    pdialog->citizen_type[i]=-1;
 
   refresh_city_dialog(pdialog->pcity);
 
@@ -1389,93 +1386,108 @@ void city_dialog_update_map(struct city_dialog *pdialog)
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   int i, n;
-  struct city *pcity=pdialog->pcity;
-
-  for(i=0, n=0; n<pcity->ppl_happy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=5 && pdialog->citizen_type[i]!=6) {
-      pdialog->citizen_type[i]=5+i%2;
-
-      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
-	get_citizen_sprite(pdialog->citizen_type[i]), 0, 0, TRUE);
-
-      gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
-
-      gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
-    }
-
-  for(n=0; n<pcity->ppl_content[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=3 && pdialog->citizen_type[i]!=4) {
-      pdialog->citizen_type[i]=3+i%2;
-
-      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
-	get_citizen_sprite(pdialog->citizen_type[i]), 0, 0, TRUE);
-
-      gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
-
-      gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
-    }
-
-  for(n=0; n<pcity->ppl_unhappy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=7 && pdialog->citizen_type[i]!=8) {
-      pdialog->citizen_type[i]=7+i%2;
-
-      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
-	get_citizen_sprite(pdialog->citizen_type[i]), 0, 0, TRUE);
-
-      gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
-
-      gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
-    }
-
-  for(n=0; n<pcity->ppl_elvis && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=0) {
-      pdialog->citizen_type[i]=0;
-
-      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
-	get_citizen_sprite(0), 0, 0, TRUE);
-
-      gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
-      gtk_signal_connect(GTK_OBJECT(pdialog->citizen_boxes[i]),
-	"button_press_event", GTK_SIGNAL_FUNC(elvis_callback), pdialog);
-
-      gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
-    }
-
-  for(n=0; n<pcity->ppl_scientist && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=1) {
-      pdialog->citizen_type[i]=1;
-
-      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
-	get_citizen_sprite(1), 0, 0, TRUE);
-
-      gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
-      gtk_signal_connect(GTK_OBJECT(pdialog->citizen_boxes[i]),
-	"button_press_event", GTK_SIGNAL_FUNC(scientist_callback), pdialog);
-
-      gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
-    }
-
-  for(n=0; n<pcity->ppl_taxman && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=2) {
-      pdialog->citizen_type[i]=2;
-
-      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
-	get_citizen_sprite(2), 0, 0, TRUE);
-
-      gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
-      gtk_signal_connect(GTK_OBJECT(pdialog->citizen_boxes[i]),
-	"button_press_event", GTK_SIGNAL_FUNC(taxman_callback), pdialog);
-
-      gtk_widget_set_sensitive(pdialog->citizen_boxes[i], TRUE);
-    }
-
-  for(; i<NUM_CITIZENS_SHOWN; i++) {
-    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]), TRUE);
-
-    gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
-
-    gtk_widget_set_sensitive(pdialog->citizen_boxes[i], FALSE);
+  struct city *pcity = pdialog->pcity;
+  int width;
+  /* If there is not enough space we stack the icons. We draw from left to right.
+     width is how far we go to the right for each drawn pixmap. The last icons is
+     always drawn in full, ans so has reserved SMALL_TILE_WIDTH pixels. */
+  if (pcity->size > 1) {
+    width = MIN(SMALL_TILE_WIDTH,
+		((NUM_CITIZENS_SHOWN-1) * SMALL_TILE_WIDTH)/(pcity->size-1));
+  } else {
+    width = SMALL_TILE_WIDTH;
   }
+  pdialog->cwidth = width;
+
+  gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap), TRUE);
+
+  i = 0; /* tracks the number of the citizen we are currently placing. */
+  for (n=0; n<pcity->ppl_happy[4]; n++, i++) {
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
+		       get_citizen_sprite(5 + i%2),
+		       i*width, 0, TRUE);
+  }
+ 
+  for (n=0; n<pcity->ppl_content[4]; n++, i++) {
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
+		       get_citizen_sprite(3 + i%2),
+		       i*width, 0, TRUE);
+  }
+
+  for (n=0; n<pcity->ppl_unhappy[4]; n++, i++) {
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
+		       get_citizen_sprite(7 + i%2),
+		       i*width, 0, TRUE);
+  }
+
+  pdialog->first_elvis = i;
+  for (n=0; n<pcity->ppl_elvis; n++, i++) {
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
+		       get_citizen_sprite(0),
+		       i*width, 0, TRUE);
+  }
+
+  pdialog->first_scientist = i;
+  for (n=0; n<pcity->ppl_scientist; n++, i++) {
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
+		       get_citizen_sprite(1),
+		       i*width, 0, TRUE);
+  }
+
+  pdialog->first_taxman = i;
+  for (n=0; n<pcity->ppl_taxman; n++, i++) {
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
+		       get_citizen_sprite(2),
+		       i*width, 0, TRUE);
+  }
+}
+
+/****************************************************************
+Somebody clicked our list of citizens. If they clicked a specialist
+then change the type of him, else do nothing.
+*****************************************************************/
+static void citizens_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
+{
+  struct city_dialog *pdialog = (struct city_dialog *)data;
+  struct city *pcity = pdialog->pcity;
+  struct packet_city_request packet;  
+  int citnum;
+  enum specialist_type type;
+
+  if (ev->x > (pcity->size-1) * pdialog->cwidth + SMALL_TILE_WIDTH)
+    return; /* no citizen that far to the right */
+
+  citnum = MIN(pcity->size-1, ev->x/pdialog->cwidth);
+
+  if (citnum >= pdialog->first_taxman) {
+    type = SP_TAXMAN;
+  } else if (citnum >= pdialog->first_scientist) {
+    type = SP_SCIENTIST;
+  } else if (citnum >= pdialog->first_elvis) {
+    type = SP_ELVIS;
+  } else {
+    return;
+  }
+ 
+  packet.city_id = pdialog->pcity->id;
+  packet.name[0] = '\0';
+  packet.worklist.name[0] = '\0';
+  packet.specialist_from = type;
+
+  switch (type) {
+  case SP_ELVIS:
+    packet.specialist_to = SP_SCIENTIST;
+    break;
+  case SP_SCIENTIST:
+    packet.specialist_to = SP_TAXMAN;
+    break;
+  case SP_TAXMAN:
+    packet.specialist_to = SP_ELVIS;
+    break;
+  }
+
+  send_packet_city_request(&aconnection, &packet,
+ 			   PACKET_CITY_CHANGE_SPECIALIST);
 }
 
 /****************************************************************
@@ -1738,69 +1750,6 @@ gint button_down_citymap(GtkWidget *w, GdkEventButton *ev)
     else if(pcity->city_map[xtile][ytile]==C_TILE_EMPTY)
       send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
   }
-  return TRUE;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static gint elvis_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
-{
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
-  
-  pdialog=(struct city_dialog *)data;
-
-  packet.city_id=pdialog->pcity->id;
-  packet.name[0]='\0';
-  packet.specialist_from=SP_ELVIS;
-  packet.specialist_to=SP_SCIENTIST;
-  packet.worklist.name[0] = '\0';
-  
-  send_packet_city_request(&aconnection, &packet, 
-			   PACKET_CITY_CHANGE_SPECIALIST);
-  return TRUE;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static gint scientist_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
-{
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
-  
-  pdialog=(struct city_dialog *)data;
-
-  packet.city_id=pdialog->pcity->id;
-  packet.name[0]='\0';
-  packet.specialist_from=SP_SCIENTIST;
-  packet.specialist_to=SP_TAXMAN;
-  packet.worklist.name[0] = '\0';
-  
-  send_packet_city_request(&aconnection, &packet, 
-			   PACKET_CITY_CHANGE_SPECIALIST);
-  return TRUE;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static gint taxman_callback(GtkWidget *w, GdkEventButton *ev, gpointer data)
-{
-  struct city_dialog *pdialog;
-  struct packet_city_request packet;
-  
-  pdialog=(struct city_dialog *)data;
-
-  packet.city_id=pdialog->pcity->id;
-  packet.name[0]='\0';
-  packet.specialist_from=SP_TAXMAN;
-  packet.specialist_to=SP_ELVIS;
-  packet.worklist.name[0] = '\0';
-  
-  send_packet_city_request(&aconnection, &packet, 
-			   PACKET_CITY_CHANGE_SPECIALIST);
   return TRUE;
 }
 
