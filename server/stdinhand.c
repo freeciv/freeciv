@@ -716,7 +716,7 @@ struct command {
 */
 enum command_id {
   /* old one-letter commands: */
-  CMD_START = 0,
+  CMD_START_GAME = 0,
   CMD_HELP,
   CMD_LIST,
   CMD_QUIT,
@@ -743,8 +743,8 @@ enum command_id {
   /* potentially harmful: */
   CMD_REMOVE,
   CMD_SAVE,
-  CMD_READ,
-  CMD_WRITE,
+  CMD_READ_SCRIPT,
+  CMD_WRITE_SCRIPT,
 
   /* undocumented */
   CMD_LOG,
@@ -2324,10 +2324,10 @@ void handle_stdin_input(struct player *caller, char *str)
 		_("The game must be running before you can see the score."));
     }
     break;
-  case CMD_READ:
+  case CMD_READ_SCRIPT:
     read_command(caller,arg);
     break;
-  case CMD_WRITE:
+  case CMD_WRITE_SCRIPT:
     write_command(caller,arg);
     break;
   case CMD_RFCSTYLE:	/* undocumented */
@@ -2339,7 +2339,7 @@ void handle_stdin_input(struct player *caller, char *str)
   case CMD_CMDLEVEL:
     cmdlevel_command(caller,arg);
     break;
-  case CMD_START:
+  case CMD_START_GAME:
     if(server_state==PRE_GAME_STATE) {
       int plrs=0;
       int i;
@@ -2664,7 +2664,7 @@ static void show_help(struct player *caller, char *arg)
 	_("normal P        - AI player will be normal"));
   cmd_reply_help(CMD_QUIT,
 	_("quit            - quit game and shutdown server"));
-  cmd_reply_help(CMD_READ,
+  cmd_reply_help(CMD_READ_SCRIPT,
 	_("read F          - process the server commands from file F"));
   cmd_reply_help(CMD_REMOVE,
 	_("remove P        - fully remove player from game"));
@@ -2679,13 +2679,13 @@ static void show_help(struct player *caller, char *arg)
   cmd_reply_help(CMD_SHOW,
 	_("show O          - list current value of server option O"));
   if(server_state==PRE_GAME_STATE) {
-    cmd_reply_help(CMD_START,
+    cmd_reply_help(CMD_START_GAME,
 	_("start           - start game"));
   } else {
-    cmd_reply_help(CMD_START,
+    cmd_reply_help(CMD_START_GAME,
 	_("start           - start game (unavailable: already running)"));
   }
-  cmd_reply_help(CMD_WRITE,
+  cmd_reply_help(CMD_WRITE_SCRIPT,
 	_("write F         - write current settings as server commands to F"));
   cmd_reply_help(CMD_HELP, horiz_line);
   cmd_reply_help(CMD_HELP,

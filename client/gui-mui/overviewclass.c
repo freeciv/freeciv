@@ -113,6 +113,8 @@ STATIC VOID Overview_HandleMouse(Object * o, struct Overview_Data *data, LONG x,
 	     TAG_DONE);
   }
 }
+
+/* TODO: Use overview_tile_color */
 STATIC LONG Overview_GetMapPen(struct Overview_Data *data, LONG x, LONG y)
 {
   struct tile *ptile = map_get_tile(x, y);

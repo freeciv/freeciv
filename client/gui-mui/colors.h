@@ -13,33 +13,8 @@
 #ifndef FC__COLORS_H
 #define FC__COLORS_H
 
-//#include <gtk/gtk.h>
+#include "colors_g.h"
 
-#define MAX_COLORS 256
-
-enum { 
-  COLOR_STD_BLACK, COLOR_STD_WHITE, COLOR_STD_RED,
-  COLOR_STD_YELLOW, COLOR_STD_CYAN,
-  COLOR_STD_GROUND, COLOR_STD_OCEAN,
-  COLOR_STD_RACE0, COLOR_STD_RACE1, COLOR_STD_RACE2,
-  COLOR_STD_RACE3, COLOR_STD_RACE4, COLOR_STD_RACE5,
-  COLOR_STD_RACE6, COLOR_STD_RACE7, COLOR_STD_RACE8,
-  COLOR_STD_RACE9, COLOR_STD_RACE10, COLOR_STD_RACE11,
-  COLOR_STD_RACE12, COLOR_STD_RACE13,
-
-  COLOR_STD_LAST
-};
-
-
-enum Display_color_type {
-  BW_DISPLAY, GRAYSCALE_DISPLAY, COLOR_DISPLAY
-};
-
-
-enum Display_color_type	get_visual		(void);
-void			init_color_system	(void);
-void			color_error		(void);
-
-//extern GdkColor *colors_standard[COLOR_STD_LAST];
+/*extern GdkColor *colors_standard[COLOR_STD_LAST];*/
 
 #endif  /* FC__COLORS_H */

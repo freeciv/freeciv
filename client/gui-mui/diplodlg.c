@@ -33,6 +33,7 @@
 
 #include "chatline.h"
 #include "clinet.h"
+#include "climisc.h"
 #include "diptreaty.h"
 #include "mapview.h"
 
@@ -66,6 +67,8 @@ struct Diplomacy_dialog {
   Object *plr1_thumb_sprite;
   Object *plr0_gold_integer;
   Object *plr1_gold_integer;
+  Object *plr0_pacts_button;
+  Object *plr0_pacts_menu;
 };
 
 void request_diplomacy_cancel_meeting(struct Treaty *treaty)
@@ -378,6 +381,47 @@ static void diplomacy_city( struct Diplomacy_data *data)
 }
 
 /****************************************************************
+ Add a diplomacy clause
+*****************************************************************/
+static void diplomacy_dialog_add_pact_clause(struct Diplomacy_data *data, int type)
+{
+  struct Diplomacy_dialog *pdialog = data->pdialog;
+  struct packet_diplomacy_info pa;
+  
+  pa.plrno0 = pdialog->treaty.plr0->player_no;
+  pa.plrno1 = pdialog->treaty.plr1->player_no;
+  pa.clause_type = type;
+  pa.plrno_from = pdialog->treaty.plr0->player_no;
+  pa.value = 0;
+  send_packet_diplomacy_info(&aconnection, PACKET_DIPLOMACY_CREATE_CLAUSE,
+			     &pa);
+}
+
+/****************************************************************
+ Callback for a ceasefire entry
+*****************************************************************/
+static void diplomacy_ceasefire(struct Diplomacy_data *data)
+{
+  diplomacy_dialog_add_pact_clause(data, CLAUSE_CEASEFIRE);
+}
+
+/****************************************************************
+ Callback for a peace entry
+*****************************************************************/
+static void diplomacy_peace(struct Diplomacy_data *data)
+{
+  diplomacy_dialog_add_pact_clause(data, CLAUSE_PEACE);
+}
+
+/****************************************************************
+ Callback for a alliance entry
+*****************************************************************/
+static void diplomacy_alliance(struct Diplomacy_data *data)
+{
+  diplomacy_dialog_add_pact_clause(data, CLAUSE_ALLIANCE);
+}
+
+/****************************************************************
  Creates the diplomacy dialog between two players
 *****************************************************************/
 struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
@@ -408,6 +452,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
                       Child, plr0_gold_text = TextObject, End,
                       Child, pdialog->plr0_gold_integer = MakeInteger(NULL),
                       End,
+                  Child, pdialog->plr0_pacts_button = MakeButton("Pacts"),
                   Child, HVSpace,
                   End,
               Child, VGroup, /* Middle */
@@ -535,6 +580,29 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
       set(pdialog->plr1_cities_button,MUIA_ContextMenu,menu_strip);
     }
 
+
+    pdialog->plr0_pacts_menu = menu_strip = MenustripObject,
+        Child, menu_title = MenuObjectT("Pacts"),
+            End,
+        End;
+
+    if(menu_strip)
+    {
+      Object *entry;
+      entry = MUI_MakeObject(MUIO_Menuitem,"Cease-fire",NULL,0,0);
+      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,4, MUIM_CallHook, &standart_hook, diplomacy_ceasefire, pdialog);
+      DoMethod(menu_title,MUIM_Family_AddTail, entry);
+
+      entry = MUI_MakeObject(MUIO_Menuitem,"Peace",NULL,0,0);
+      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,4, MUIM_CallHook, &standart_hook, diplomacy_peace, pdialog);
+      DoMethod(menu_title,MUIM_Family_AddTail, entry);
+
+      entry = MUI_MakeObject(MUIO_Menuitem,"Alliance",NULL,0,0);
+      DoMethod(entry,MUIM_Notify,MUIA_Menuitem_Trigger, MUIV_EveryTime, entry,4, MUIM_CallHook, &standart_hook, diplomacy_alliance, pdialog);
+      DoMethod(menu_title,MUIM_Family_AddTail, entry);
+      set(pdialog->plr0_pacts_button,MUIA_ContextMenu, menu_strip);
+    }
+
     settextf(plr0_text,"The %s offerings", get_nation_name(plr0->nation));
     settextf(plr1_text,"The %s offerings", get_nation_name(plr1->nation));
     settextf(plr0_gold_text,"Gold(max %d)", plr0->economic.gold);
@@ -580,32 +648,7 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
   
   for(;ITERATOR_PTR(myiter); ITERATOR_NEXT(myiter)) {
     struct Clause *pclause=(struct Clause *)ITERATOR_PTR(myiter);
-
-    switch(pclause->type) {
-     case CLAUSE_ADVANCE:
-      sprintf(buf, "The %s give %s",
-	      get_nation_name_plural(pclause->from->nation),
-	      advances[pclause->value].name);
-      break;
-    case CLAUSE_CITY:
-      sprintf(buf, "The %s give %s",
-	      get_nation_name_plural(pclause->from->nation),
-	      find_city_by_id(pclause->value)->name);
-      break;
-     case CLAUSE_GOLD:
-      sprintf(buf, "The %s give %d gold",
-	      get_nation_name_plural(pclause->from->nation),
-	      pclause->value);
-      break;
-     case CLAUSE_MAP: 
-      sprintf(buf, "The %s give their worldmap",
-	      get_nation_name_plural(pclause->from->nation));
-      break;
-     case CLAUSE_SEAMAP: 
-      sprintf(buf, "The %s give their seamap",
-	      get_nation_name_plural(pclause->from->nation));
-      break;
-    }
+    client_diplomacy_clause_string(buf, sizeof(buf), pclause);
     DoMethod(pdialog->clauses_listview,MUIM_NList_InsertSingle, buf, MUIV_NList_Insert_Bottom);
   }
 

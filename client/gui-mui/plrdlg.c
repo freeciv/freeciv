@@ -26,6 +26,7 @@
 #include "game.h"
 #include "packets.h"
 #include "player.h"
+#include "support.h"
 
 #include "chatline.h"
 #include "clinet.h"
@@ -44,6 +45,7 @@ STATIC Object *player_players_listview;
 STATIC Object *player_close_button;
 STATIC Object *player_intelligence_button;
 STATIC Object *player_meet_button;
+STATIC Object *player_war_button;
 STATIC Object *player_spaceship_button;
 STATIC struct Hook player_players_disphook;
 
@@ -89,6 +91,9 @@ __asm __saveds static void players_render(register __a2 char **array, register _
     static char idlebuf[32];
     static char statebuf[32];
     static char namebuf[32];
+    static char dsbuf[32];
+    static char repbuf[32];
+    const struct player_diplstate *pds;
 
     if (game.players[i].nturns_idle > 3)
       sprintf(idlebuf, "(idle %d turns)", game.players[i].nturns_idle - 1);
@@ -115,9 +120,31 @@ __asm __saveds static void players_render(register __a2 char **array, register _
     else
       sprintf(namebuf, "%-16s", game.players[i].name);
 
+
+
+    /* text for diplstate type and turns -- not applicable if this is me */
+    if (i == game.player_idx) {
+      strcpy(dsbuf, "-");
+    } else {
+      pds = player_get_diplstate(game.player_idx, i);
+      if (pds->type == DS_CEASEFIRE) {
+	my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
+		    diplstate_text(pds->type), pds->turns_left);
+      } else {
+	my_snprintf(dsbuf, sizeof(dsbuf), "%s",
+		    diplstate_text(pds->type));
+      }
+    }
+
+    /* text for reputation */
+    my_snprintf(repbuf, sizeof(repbuf),
+		reputation_text(game.players[i].reputation));
+
     *array++ = namebuf;
     *array++ = get_nation_name(game.players[i].nation);
     *array++ = player_has_embassy(game.player_ptr, &game.players[i]) ? "X" : " ";
+    *array++ = dsbuf;
+    *array++ = repbuf;
     *array++ = statebuf;
     *array++ = game.players[i].addr;
     *array = idlebuf;
@@ -127,6 +154,8 @@ __asm __saveds static void players_render(register __a2 char **array, register _
     *array++ = "Name";
     *array++ = "Nation";
     *array++ = "Embassy";
+    *array++ = "Dipl.State";
+    *array++ = "Reputation";
     *array++ = "State";
     *array++ = "Host";
     *array = "Idle";
@@ -153,6 +182,18 @@ static void players_active(void)
     else
       set(player_spaceship_button, MUIA_Disabled, TRUE);
 
+    switch(player_get_diplstate(game.player_idx, playerno)->type)
+    {
+      case DS_WAR:
+      case DS_NO_CONTACT:
+	   set(player_war_button, MUIA_Disabled, TRUE);
+           break;
+
+      default:
+	   set(player_war_button, MUIA_Disabled, game.player_idx == playerno);
+           break;
+    }
+
     if (pplayer->is_alive && player_has_embassy(game.player_ptr, pplayer))
     {
       if (pplayer->is_connected)
@@ -166,6 +207,7 @@ static void players_active(void)
 
   set(player_meet_button, MUIA_Disabled, TRUE);
   set(player_intelligence_button, MUIA_Disabled, TRUE);
+  set(player_war_button, MUIA_Disabled, TRUE);
 }
 
 /**************************************************************************
@@ -191,7 +233,6 @@ static void players_intelligence(void)
 *****************************************************************/
 static void players_meet(void)
 {
-/* players_meet_callback */
   LONG playerno;
   DoMethod(player_players_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &playerno);
 
@@ -211,6 +252,28 @@ static void players_meet(void)
 }
 
 /****************************************************************
+ Callback for the war button
+*****************************************************************/
+static void players_war(void)
+{
+  LONG playerno;
+  DoMethod(player_players_listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &playerno);
+
+  if (playerno)
+  {
+    playerno -= 100;
+
+    if (player_has_embassy(game.player_ptr, &game.players[playerno]))
+    {
+      struct packet_generic_integer pa;
+      pa.value = playerno;
+      send_packet_generic_integer(&aconnection, PACKET_PLAYER_CANCEL_PACT,
+				  &pa);
+    }
+  }
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 void create_players_dialog(void)
@@ -224,13 +287,14 @@ void create_players_dialog(void)
 	MUIA_NListview_NList, NListObject,
 	    MUIA_NList_DisplayHook, &player_players_disphook,
 	    MUIA_NList_Title, TRUE,
-	    MUIA_NList_Format, ",,,,,",
+	    MUIA_NList_Format, ",,,,,,,",
 	    End,
 	End,
 	Child, HGroup,
 	    Child, player_close_button = MakeButton("_Close"),
 	    Child, player_intelligence_button = MakeButton("_Intelligence"),
 	    Child, player_meet_button = MakeButton("_Meet"),
+	    Child, player_war_button = MakeButton("_Cancel Treaty"),
 	    Child, player_spaceship_button = MakeButton("_Spaceship"),
 	    End,
 	End,
@@ -245,6 +309,7 @@ void create_players_dialog(void)
     DoMethod(player_close_button, MUIM_Notify, MUIA_Pressed, FALSE, player_wnd, 3, MUIM_Set, MUIA_Window_Open, FALSE);
     DoMethod(player_intelligence_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_intelligence);
     DoMethod(player_meet_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_meet);
+    DoMethod(player_war_button, MUIM_Notify, MUIA_Pressed, FALSE, app, 3, MUIM_CallHook, &standart_hook, players_war);
     DoMethod(player_players_listview, MUIM_Notify, MUIA_NList_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &standart_hook, players_active);
     DoMethod(app, OM_ADDMEMBER, player_wnd);
   }

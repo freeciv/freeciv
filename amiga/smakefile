@@ -480,6 +480,7 @@ install:
   copy ${FREECIV_DIR}data/civ2/*.ruleset ${DESTDIR}/data/civ2
   copy ${FREECIV_DIR}data/classic/*.ruleset ${DESTDIR}/data/classic
   copy ${FREECIV_DIR}data/default/*.ruleset ${DESTDIR}/data/default
+  copy ${FREECIV_DIR}data/nation/*.ruleset ${DESTDIR}/data/nation
   copy ${FREECIV_DIR}data/misc/*.(ilbm|spec) ${DESTDIR}/data/misc
   copy ${FREECIV_DIR}data/scenario/*.sav ${DESTDIR}/data/scenario
   copy ${FREECIV_DIR}data/trident/*.(ilbm|ruleset|spec) ${DESTDIR}/data/trident

@@ -1,10 +1,10 @@
-Short:     Amiga Version 1.10 => Freeciv 1.10.1-devel
+Short:     Amiga Version 1.11 => Freeciv 1.10.3-devel (beta)
 Uploader:  sebauer@t-online.de (Sebastian Bauer)
 Author:    sebauer@t-online.de (Sebastian Bauer), Freeciv Development Team
 Type:      game/2play
-Kurz:      Amiga Version 1.10 => Freeciv 1.10.1-devel
+Kurz:      Amiga Version 1.11 => Freeciv 1.10.3-devel (beta)
 Requires:  OS 3.0, guigfx.library, MUI 3.8, NList, TCP/IP Stack
-Version:   1.10
+Version:   1.11
 
 Introduction
 ~~~~~~~~~~~~
@@ -80,12 +80,15 @@ Future
 
 Notes
 ~~~~~
-This developer version is incompatible with the previous version 1.5. That
+This developer version is incompatible with the previous version 1.10. That
 means with the included client you cannot connect to a old server. Also old
 clients cannot connect to the included server.
 
 History
 ~~~~~~~
+Version 1.11 (16.06.2000)
+ - corresponds to Freeciv 1.10.3-devel (beta)
+
 Version 1.10 (30.04.2000)
  - corresponds to latest Freeciv 1.10.1-devel
    (biggest new feature is the so called fox of war)

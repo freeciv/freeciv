@@ -1392,7 +1392,7 @@ static void unitsel_unit(struct unit **ppunit)
 {
   struct unit *punit = *ppunit;
 
-  if(punit) {
+  if(punit && punit->owner == game.player_idx) {
     request_new_unit_activity(punit, ACTIVITY_IDLE);
     set_unit_focus(punit);
   }
