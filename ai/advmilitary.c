@@ -34,12 +34,11 @@
 extern struct move_cost_map warmap;
 
 /********************************************************************** 
-... this function should assign a value to choice and want, where 
-    want is a value between 1 and 100.
-    if choice is A_NONE this advisor doesn't want any tech researched at
-    the moment
+ This function should assign a value to choice and want, where 
+ want is a value between 1 and 100.
+ if choice is A_NONE this advisor doesn't want any tech researched at
+ the moment
 ***********************************************************************/
-
 void military_advisor_choose_tech(struct player *pplayer,
 				  struct ai_choice *choice)
 {
@@ -48,8 +47,11 @@ void military_advisor_choose_tech(struct player *pplayer,
   /* this function haven't been implemented yet */
 }
 
+/********************************************************************** 
+Need positive feedback in m_a_c_b and bodyguard routines. -- Syela
+***********************************************************************/
 int assess_defense_quadratic(struct city *pcity)
-{ /* Need positive feedback in m_a_c_b and bodyguard routines. -- Syela */
+{
   int v, def, l;
   int igwall = 0; /* this can be an arg if needed, but seems unneeded */
   def = 0;
@@ -73,8 +75,11 @@ int assess_defense_quadratic(struct city *pcity)
   return(def * def);
 }
 
+/**************************************************************************
+one unit only, mostly for findjob; handling boats correctly 980803 -- Syela
+**************************************************************************/
 int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall)
-{ /* one unit only, mostly for findjob; handling boats correctly 980803 -- Syela */
+{
   int v;
   v = get_defense_power(punit) * punit->hp *
       (is_sailing_unit(punit) ? 1 : get_unit_type(punit->type)->firepower);
@@ -88,8 +93,11 @@ int assess_defense_unit(struct city *pcity, struct unit *punit, int igwall)
   return(0);
 }
 
+/********************************************************************** 
+ Most of the time we don't need/want positive feedback. -- Syela
+***********************************************************************/
 static int assess_defense_backend(struct city *pcity, int igwall)
-{ /* Most of the time we don't need/want positive feedback. -- Syela */
+{
   int def;
   def = 0;
   unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, punit)

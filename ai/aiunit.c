@@ -429,42 +429,52 @@ static struct city *wonder_on_continent(struct player *pplayer, int cont)
   return NULL;
 }
 
-static int should_unit_change_homecity(struct player *pplayer,
-				       struct unit *punit)
+/**************************************************************************
+Returns whether we stayed in the (eventual) city on the square to defend it.
+**************************************************************************/
+static int stay_and_defend_city(struct unit *punit)
 {
-  int val;
-  struct city *pcity;
+  struct city *pcity = map_get_city(punit->x, punit->y);
+  int has_defense = 0;
 
-  pcity = map_get_city(punit->x, punit->y);
-  if (!pcity) return(0);
-  if (pcity->id == punit->homecity) return(0);
-  if (pcity->owner != punit->owner) return(0);
-  else {
-    val = -1;
-    unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef)
-      if (assess_defense_unit(pcity, punit, 0) >= val &&
-         is_military_unit(pdef) && pdef != punit) val = 0;
-    unit_list_iterate_end;
- 
-    freelog(LOG_DEBUG, "Incity at (%d,%d).  Val = %d.", punit->x, punit->y, val);
-    if (val) { /* Guess I better stay / you can live at home now */
-      punit->ai.ai_role=AIUNIT_DEFEND_HOME;
+  printf("evaluating at %d,%d\n", punit->x, punit->y);
+  if (pcity)
+    printf("%s\n", pcity->name);
 
-      punit->ai.charge = 0; /* Very important, or will not stay -- Syela */
-/* change homecity to this city */
-      unit_list_insert(&pcity->units_supported, punit);
-      if ((pcity=player_find_city_by_id(pplayer, punit->homecity)))
-            unit_list_unlink(&pcity->units_supported, punit);
+  if (!pcity) return 0;
+  if (pcity->id == punit->homecity) return 0;
+  if (pcity->owner != punit->owner) return 0;
 
-      punit->homecity = map_get_city(punit->x, punit->y)->id;
-      send_unit_info(pplayer, punit);
-/* homecity changed */
-      return(1);
+  unit_list_iterate(map_get_tile(pcity->x, pcity->y)->units, pdef) {
+    if (assess_defense_unit(pcity, punit, 0) >= 0
+	&& pdef != punit
+	&& pdef->homecity == pcity->id) {
+      has_defense = 1;
     }
+  } unit_list_iterate_end;
+ 
+  printf("has_defense: %d\n", has_defense);
+  /* Guess I better stay / you can live at home now */
+  if (!has_defense) {
+    struct packet_unit_request packet;
+    punit->ai.ai_role = AIUNIT_DEFEND_HOME;
+
+    punit->ai.charge = 0; /* Very important, or will not stay -- Syela */
+    
+    /* change homecity to this city */
+    /* FIXME: it is stupid to change homecity if the unit has no homecity
+       in advance or the new city does not have enough shields to support it */
+    packet.unit_id = punit->id;
+    packet.city_id = pcity->id;
+    handle_unit_change_homecity(unit_owner(punit), &packet);
+    return 1;
   }
-  return(0);
+  return 0;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
 static int unit_belligerence_primitive(struct unit *punit)
 {
   int v;
@@ -1117,8 +1127,8 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     } else punit->ai.charge = 0;
   }
 
-/* ok, what if I'm somewhere new? - ugly, kludgy code by Syela */
-  if (should_unit_change_homecity(pplayer, punit)) {
+  /* ok, what if I'm somewhere new? - ugly, kludgy code by Syela */
+  if (stay_and_defend_city(punit)) {
     return;
   }
 
@@ -1580,7 +1590,7 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
         if (punit) flag = punit->moves_left; else flag = 0;
       }
       if (punit)
-         if (should_unit_change_homecity(pplayer, punit)) return;
+         if (stay_and_defend_city(punit)) return;
       ct--; /* infinite loops from railroads must be stopped */
     } while (flag && ct); /* want units to attack multiple times */
   } /* end if */
@@ -1798,33 +1808,36 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
 #endif
   
   switch (punit->ai.ai_role) {
-    case AIUNIT_AUTO_SETTLER:
-      punit->ai.ai_role = AIUNIT_NONE; 
-      break;
-    case AIUNIT_BUILD_CITY:
-      punit->ai.ai_role = AIUNIT_NONE; 
-      break;
-    case AIUNIT_DEFEND_HOME:
-      ai_military_gohome(pplayer, punit);
-      break;
-    case AIUNIT_ATTACK:
-      ai_military_attack(pplayer, punit);
-      break;
-    case AIUNIT_FORTIFY:
-      ai_military_gohome(pplayer, punit);
-      break;
-    case AIUNIT_RUNAWAY: 
-      break;
-    case AIUNIT_ESCORT: 
-      ai_military_bodyguard(pplayer, punit);
-      break;
-    case AIUNIT_PILLAGE:
-      handle_unit_activity_request(punit, ACTIVITY_PILLAGE);
-      return; /* when you pillage, you have moves left, avoid later fortify */
-      break;
-    case AIUNIT_EXPLORE:
-      ai_manage_explorer(punit);
-      break;
+  case AIUNIT_AUTO_SETTLER:
+    punit->ai.ai_role = AIUNIT_NONE; 
+    break;
+  case AIUNIT_BUILD_CITY:
+    punit->ai.ai_role = AIUNIT_NONE; 
+    break;
+  case AIUNIT_DEFEND_HOME:
+    ai_military_gohome(pplayer, punit);
+    break;
+  case AIUNIT_ATTACK:
+    ai_military_attack(pplayer, punit);
+    break;
+  case AIUNIT_FORTIFY:
+    ai_military_gohome(pplayer, punit);
+    break;
+  case AIUNIT_RUNAWAY: 
+    break;
+  case AIUNIT_ESCORT: 
+    ai_military_bodyguard(pplayer, punit);
+    break;
+  case AIUNIT_PILLAGE:
+    handle_unit_activity_request(punit, ACTIVITY_PILLAGE);
+    return; /* when you pillage, you have moves left, avoid later fortify */
+    break;
+  case AIUNIT_EXPLORE:
+    ai_manage_explorer(punit);
+    break;
+  default:
+    abort();
+    break;
   }
 
   if ((punit = find_unit_by_id(id))) {

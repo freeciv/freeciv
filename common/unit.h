@@ -45,13 +45,19 @@ enum diplomat_client_actions {
   DIPLOMAT_CLIENT_POPUP_DIALOG
 };
 
+enum ai_unit_task { AIUNIT_NONE, AIUNIT_AUTO_SETTLER, AIUNIT_BUILD_CITY,
+                    AIUNIT_DEFEND_HOME, AIUNIT_ATTACK, AIUNIT_FORTIFY,
+                    AIUNIT_RUNAWAY, AIUNIT_ESCORT, AIUNIT_EXPLORE,
+                    AIUNIT_PILLAGE };
+
 struct unit_ai {
-  int control;
-  int ai_role;
-  int ferryboat;
-  int passenger;
-  int bodyguard;
-  int charge; /* couldn't find a better synonym -- Syela */
+  int control; /* 0: not automated    1: automated */
+  enum ai_unit_task ai_role;
+  /* The following are all unit ids */
+  int ferryboat; /* the ferryboat assigned to us */
+  int passenger; /* the unit assigned to this ferryboat */
+  int bodyguard; /* the unit bodyguarding us */
+  int charge; /* the unit this unit is bodyguarding */
 };
 
 struct unit {
