@@ -1136,11 +1136,11 @@ static void setup_isledata(void)
       } else {
 	guard1+=5;
       }
-      freelog(LOG_NORMAL,
+      freelog(LOG_DEBUG,
 	      _("Map generator: not enough start positions, fixing."));
     }
   }
-  freelog(LOG_NORMAL, _("The map has %i starting positions on %i isles."),
+  freelog(LOG_DEBUG, _("The map has %i starting positions on %i isles."),
 	  starters, goodisles);
 }
 
