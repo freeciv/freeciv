@@ -595,7 +595,7 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
   /* until we have found the shortest path */
   do {
     get_from_warstack(warnodes, &x, &y);
-    warnodes++; /* points to buttom of stack */
+    warnodes++; /* points to bottom of stack */
     ptile = map_get_tile(x, y);
 
     /* Initiaze xx and yy to hold the adjacent tiles (this makes sure goto's
@@ -668,11 +668,22 @@ static int find_the_shortest_path(struct player *pplayer, struct unit *punit,
 	  goto_tile_cost(pplayer, punit, x, y, x1, y1, move_cost, restriction);
 
 	/* Again I wonder why the passengers work this way */
+	/* AI aims ennemy cities with goto even for ferryboats. 
+	   These lines force ferryboats to find a land adjacent to the 
+	   destination city to disembark its passengers. 
+	   It explains the line 
+           if (tile0->move_cost[k] == -3) add_to_stack(x1, y1);
+	   in the function really_generate_warmap */
+
 	if (x1 == dest_x && y1 == dest_y && passenger && move_cost < 60 &&
 	    !is_my_zoc(passenger, x, y))
 	  move_cost = 60; /* passenger cannot disembark */
 
 	/* Again I don't see how these help */
+	/* Here, the unit has to go back.
+	   For example, you can enter a zoc. But, not go through a zoc.
+	   That's why the cost is twice the normal one. */
+
 	if (!dir_ok(x, y, dest_x, dest_y, dir))
 	  move_cost += move_cost;
 
