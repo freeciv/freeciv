@@ -30,12 +30,12 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #
 # $Log$
-# Revision 1.23  2000/01/28 14:14:11  jjm
-# Update of German (de) translation.
+# Revision 1.24  2000/01/29 11:08:09  jjm
+# Update German (de) translation.
 # Patch submitted by Egbert Hinzen <garfy@ehinzen.de>.
 #
-# Revision 1.9.1.33  2000/01/27 12:30:16  egbert
-# includes patches until 00/01/27
+# Revision 1.9.1.34  2000/01/28 15:59:14  egbert
+# includes patches until 00/01/28
 #
 # Revision 1.9.1.29  2000/01/20 15:08:31  egbert
 # includes worklists
@@ -151,66 +151,66 @@ msgstr "Fliegerhorst"
 msgid "Out of memory trying to %s %lu bytes at line %d of %s."
 msgstr "Out of memory trying to %s %lu bytes at line %d of %s."
 
-#: common/shared.c:131
+#: common/shared.c:130
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Unvollständige Eingabe ('%s').\n"
 
-#: client/tilespec.c:174 common/shared.c:580
+#: client/tilespec.c:174 common/shared.c:579
 #, c-format
 msgid "Could not find readable file \"%s\" in data path."
 msgstr "Das File '%s' wurde nicht gefunden."
 
-#: client/tilespec.c:176 common/shared.c:582 server/ruleset.c:88
+#: client/tilespec.c:176 common/shared.c:581 server/ruleset.c:88
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr ""
 "Der Suchpfad kann über die Umgebungsvariable FREECIV_PATH gesetzt werden."
 
-#: client/tilespec.c:178 common/shared.c:584 server/ruleset.c:90
+#: client/tilespec.c:178 common/shared.c:583 server/ruleset.c:90
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Aktueller Suchpfad: '%s'"
 
-#: common/shared.c:619
+#: common/shared.c:618
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "*** DIESES PROGRAMM DARF AUS SICHERHEITSGRÜNDEN NICHT\n"
 "*** VON PRIVILIGIERTEN BENUTZERN (root) AUFEGERUFEN WERDEN!\n"
 
-#: common/shared.c:621
+#: common/shared.c:620
 msgid "Use a non-privileged account instead.\n"
 msgstr "*** Starten Sie es als 'normaler' Benutzer.\n"
 
 # ?
-#: common/shared.c:636
+#: common/shared.c:635
 msgid "exact match"
 msgstr ""
 
 # ?
-#: common/shared.c:637
+#: common/shared.c:636
 msgid "only match"
 msgstr ""
 
-#: common/shared.c:638
+#: common/shared.c:637
 msgid "ambiguous"
 msgstr "mehrdeutig"
 
-#: common/shared.c:639
+#: common/shared.c:638
 msgid "empty"
 msgstr "leer"
 
-#: common/shared.c:640
+#: common/shared.c:639
 msgid "too long"
 msgstr "zu lang"
 
 # ?
-#: common/shared.c:641
+#: common/shared.c:640
 msgid "non-match"
 msgstr ""
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: common/shared.c:701
+#: common/shared.c:700
 msgid "'Cause civilization should be free!"
 msgstr "Because civilization should be free!"
 
@@ -635,97 +635,108 @@ msgstr "%s Server"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Weitere Informationen zu Freeciv finden Sie auf %s."
 
-#: server/civserver.c:242
-msgid "  -f, --file F\t\tLoad saved game F\n"
-msgstr "  -f, --file D\t\tSpiel D laden\n"
+#: client/civclient.c:104 server/civserver.c:242
+#, c-format
+msgid ""
+"Usage: %s [option ...]\n"
+"Valid options are:\n"
+msgstr ""
+"Syntax: %s [option ...]\n"
+"Gültige Optionen sind:\n"
 
-#: server/civserver.c:243
-msgid "  -g, --gamelog F\tUse F as game logfile\n"
-msgstr "  -g, --gamelog D\tSpiel in Datei D protokollieren\n"
-
-#: server/civserver.c:244
+#: client/civclient.c:105 server/civserver.c:243
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tZeigt diesen Text\n"
 
+#: server/civserver.c:244
+msgid "  -r, --read FILE\tRead startup script FILE\n"
+msgstr "  -r, --read DATEI\tStartscript DATEI laden\n"
+
 #: server/civserver.c:245
-msgid "  -l, --log F\t\tUse F as logfile\n"
-msgstr "  -l, --log D\t\tLogfile D führen\n"
+msgid "  -f, --file FILE\tLoad saved game FILE\n"
+msgstr "  -f, --file DATEI\tGespeichertes Spiel DATEI laden\n"
 
 #: server/civserver.c:246
-msgid "  -m, --meta\t\tSend info to Metaserver\n"
-msgstr "  -m, --meta\t\tMetaserver benutzen\n"
+msgid "  -p, --port PORT\tListen for clients on port PORT\n"
+msgstr "  -p, --port PORT\tPortnummer PORT benutzen\n"
 
 #: server/civserver.c:247
-msgid "  -M, --Metaserver\tSet Metaserver address.\n"
-msgstr "  -M, --Metaserver A\tMetaserver A benutzen.\n"
+msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
+msgstr "  -g, --gamelog DATEI\tSpiel in DATEI protokollieren\n"
 
-#: server/civserver.c:248
-msgid "  -p, --port N\t\tconnect to port N\n"
-msgstr "  -p, --port N\t\tPort N benutzen\n"
+#: client/civclient.c:106 server/civserver.c:248
+msgid "  -l, --log FILE\tUse FILE as logfile\n"
+msgstr "  -l, --log DATEI\tDATEI als Logfile benutzen\n"
 
 #: server/civserver.c:249
-msgid "  -r, --read\t\tRead startup script\n"
-msgstr "  -r, --read\t\tStartscript laden\n"
+msgid "  -m, --meta\t\tSend info to metaserver\n"
+msgstr "  -m, --meta\t\tMetaserver benutzen\n"
 
 #: server/civserver.c:250
-msgid "  -s, --server H\tList this server as host H\n"
-msgstr "  -s, --server A\tServer als Host A anzeigen\n"
+msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
+msgstr "  -M, --Metaserver ADR\tMetaserveradresse ADR benutzen.\n"
 
-#: server/civserver.c:252
+#: server/civserver.c:251
+msgid "  -s, --server HOST\tList this server as host HOST\n"
+msgstr "  -s, --server HOST\tZeige diesen Server als HOST an\n"
+
+#: client/civclient.c:116 server/civserver.c:253
 msgid ""
-"  -d, --debug N\t\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
+"  -d, --debug NUM\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
 msgstr ""
-"  -d, --debug N\t\tSetze Debuglevel N (0,1,2,3 oder 3:Datei1,min,max:...)\n"
+"  -d, --debug NUM\tSetze Debugloglevel (0,1,2,3 oder 3:Datei1,min,max:...)\n"
 
-#: server/civserver.c:255
-msgid "  -d, --debug N\t\tSet debug log level (0,1,2)\n"
-msgstr "  -d, --debug N\t\tSetzte Debuglevel N (0,1,2)\n"
+#: client/civclient.c:119 server/civserver.c:256
+msgid "  -d, --debug NUM\tSet debug log level (0,1,2)\n"
+msgstr "  -d, --debug NUM\tSetze Debugloglevel (0,1,2)\n"
 
-#: server/civserver.c:257
+#: client/civclient.c:121 server/civserver.c:258
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
-#: client/civclient.c:106 server/civserver.c:258
+#. add client-specific usage information here
+#: client/gui-gtk/gui_main.c:160 client/gui-xaw/gui_main.c:227
+#: server/civserver.c:259
 #, c-format
 msgid "Report bugs to <%s>.\n"
 msgstr ""
 "Berichte über Fehler bitte an <%s> mailen;\n"
 "Übersetzungsfehler bitte an <freeciv-de@ehinzen.de> berichten.\n"
 
-#: server/civserver.c:292
+#: server/civserver.c:293
 #, c-format
 msgid "Loading saved game: %s"
 msgstr "Lade Spiel '%s'"
 
-#: server/civserver.c:296
+#: server/civserver.c:297
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Kann Datei '%s' nicht laden"
 
-#: server/civserver.c:316
+#: server/civserver.c:317
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Sende Informationen an den Metaserver [%s]"
 
 #. accept new players, wait for serverop to start..
-#: server/civserver.c:324
+#: server/civserver.c:325
 msgid "Now accepting new client connections."
 msgstr "Warte auf Spieler..."
 
-#: server/civserver.c:377
+#: server/civserver.c:378
 msgid "Last player has disconnected: will need to restart."
 msgstr ""
 "Der letzte Spieler hat die Verbindung unterbrochen: Neustart erforderlich."
 
-#: server/civserver.c:502
+#: server/civserver.c:503
 msgid "Game: The game is over..."
 msgstr "Spiel: Das Spiel ist beendet..."
 
-#: server/civserver.c:692
+#: server/civserver.c:693
 msgid "Game: Global warming has occurred!"
 msgstr "Spiel: Es ist zu globaler Erwärmung gekommen!"
 
-#: server/civserver.c:693
+#: server/civserver.c:694
 msgid ""
 "Game: Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
@@ -733,25 +744,25 @@ msgstr ""
 "Spiel: Küstengebiete wurden überflutet und große Teile des Graslands sind zu "
 "Wüsten geworden."
 
-#: server/civserver.c:792
+#: server/civserver.c:793
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Konnte das Spiel nicht in der Datei '%s' speichern"
 
-#: server/civserver.c:794
+#: server/civserver.c:795
 #, c-format
 msgid "Game saved as %s"
 msgstr "Spiel gespeichert als '%s'"
 
-#: server/civserver.c:821
+#: server/civserver.c:822
 msgid "The game is already running."
 msgstr "Das Spiel hat bereits angefangen."
 
-#: server/civserver.c:825
+#: server/civserver.c:826
 msgid "Starting game."
 msgstr "Spiel begonnen."
 
-#: server/civserver.c:1148
+#: server/civserver.c:1149
 #, c-format
 msgid ""
 "Another player named '%s' has already joined the game.  Please choose "
@@ -760,102 +771,102 @@ msgstr ""
 "Ein anderer Spieler nimmt bereits unter dem Namen '%s' am Spiel teil. Bitte "
 "einen anderen Namen wählen."
 
-#: server/civserver.c:1154
+#: server/civserver.c:1155
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s ist der %se Herrscher %s."
 
-#: server/civserver.c:1181
+#: server/civserver.c:1182
 msgid "Sorry, you can't play.  There are no nations left."
 msgstr ""
 "Mitspielen ist leider nicht möglich, da alle Staaten bereits vergeben sind."
 
-#: server/civserver.c:1184 server/civserver.c:1459
+#: server/civserver.c:1185 server/civserver.c:1460
 #, c-format
 msgid "Game full - %s was rejected."
 msgstr "Max. Spielerzahl anwesend - %s wurde abgewiesen."
 
-#: server/civserver.c:1236
+#: server/civserver.c:1237
 #, c-format
 msgid "<%s@%s> has rejoined the game."
 msgstr "<%s@%s> nimmt wieder am Spiel teil."
 
-#: server/civserver.c:1239
+#: server/civserver.c:1240
 #, c-format
 msgid "<%s@%s> has joined the game."
 msgstr "<%s@%s> nimmt am Spiel teil."
 
-#: server/civserver.c:1246
+#: server/civserver.c:1247
 #, c-format
 msgid "Game: Player <%s@%s> has reconnected."
 msgstr "Spiel: <%s@%s> ist wieder da."
 
-#: server/civserver.c:1250
+#: server/civserver.c:1251
 #, c-format
 msgid "Game: Player <%s@%s> has connected."
 msgstr "Spiel: <%s@%s> hat sich angemeldet."
 
-#: server/civserver.c:1270
+#: server/civserver.c:1271
 #, c-format
 msgid "Welcome to the %s Server running at %s."
 msgstr "Willkommen auf dem %s Server von %s."
 
-#: server/civserver.c:1273
+#: server/civserver.c:1274
 #, c-format
 msgid "Welcome to the %s Server."
 msgstr "Willkommen auf dem %s Server."
 
-#: server/civserver.c:1290
+#: server/civserver.c:1291
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Runden-Sperre aktiv: %s hat die Runde noch nicht beendet..."
 
-#: server/civserver.c:1306
+#: server/civserver.c:1307
 #, c-format
 msgid "There are currently %d players connected:"
 msgstr "Zur Zeit sind %d Spieler anwesend:"
 
-#: server/civserver.c:1309
+#: server/civserver.c:1310
 msgid "There is currently 1 player connected:"
 msgstr "Zur Zeit ist 1 Spieler anwesend:"
 
-#: server/civserver.c:1315 server/civserver.c:1331
+#: server/civserver.c:1316 server/civserver.c:1332
 msgid " (R.I.P.)"
 msgstr " (R.I.P.)"
 
-#: server/civserver.c:1316
+#: server/civserver.c:1317
 msgid " (AI mode)"
 msgstr " (KI Modus)"
 
-#: server/civserver.c:1322
+#: server/civserver.c:1323
 msgid "There is 1 other player:"
 msgstr "1 anderer Spieler ist anwesend:"
 
-#: server/civserver.c:1324
+#: server/civserver.c:1325
 #, c-format
 msgid "There are %d other players:"
 msgstr "%d andere Spieler sind anwesend:"
 
-#: server/civserver.c:1332
+#: server/civserver.c:1333
 msgid " (an AI player)"
 msgstr " (ein KI-Spieler)"
 
-#: server/civserver.c:1363
+#: server/civserver.c:1364
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s ist als KI-Spieler dazu gekommen."
 
-#: server/civserver.c:1365
+#: server/civserver.c:1366
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Spiel: Der KI-Spieler %s ist dazu gekommen."
 
-#: server/civserver.c:1400
+#: server/civserver.c:1401
 #, c-format
 msgid "Connection request from %s with client version %d.%d.%d%s"
 msgstr "%s (Client %d.%d.%d%s) erbittet Verbindung."
 
-#: server/civserver.c:1410
+#: server/civserver.c:1411
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -865,12 +876,12 @@ msgstr ""
 "Der Client hat nicht die vom Server benötigten Fähigkeiten.\n"
 "Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
 
-#: server/civserver.c:1417
+#: server/civserver.c:1418
 #, c-format
 msgid "%s was rejected: mismatched capabilities."
 msgstr "%s abgewiesen: inkompatible Version."
 
-#: server/civserver.c:1426
+#: server/civserver.c:1427
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -880,12 +891,12 @@ msgstr ""
 "Der Server hat nicht die vom Client benötigten Fähigkeiten.\n"
 "Server Version: %d.%d.%d%s Client Version: %d.%d.%d%s."
 
-#: server/civserver.c:1433
+#: server/civserver.c:1434
 #, c-format
 msgid "%s was rejected: mismatched capabilities"
 msgstr "%s abgewiesen: inkompatible Version."
 
-#: server/civserver.c:1458 server/civserver.c:1501
+#: server/civserver.c:1459 server/civserver.c:1502
 msgid "Sorry, you can't join.  The game is full."
 msgstr ""
 "Mitspielen ist leider nicht mehr möglich: Die max. Spielerzahl ist bereits "
@@ -896,84 +907,84 @@ msgstr ""
 #. * because they are used to identify players for various
 #. * server commands. --dwp
 #.
-#: server/civserver.c:1469
+#: server/civserver.c:1470
 msgid "Sorry, someone else already has that name."
 msgstr "Dieser Name ist bereits vergeben."
 
-#: server/civserver.c:1471
+#: server/civserver.c:1472
 #, c-format
 msgid "%s was rejected, name already used."
 msgstr "%s abgewiesen, der Name war bereits vergeben."
 
-#: server/civserver.c:1479
+#: server/civserver.c:1480
 #, c-format
 msgid "You can't join the game.  %s is already connected."
 msgstr "Du kannst nicht mitspielen. %s ist bereits hier."
 
-#: server/civserver.c:1482
+#: server/civserver.c:1483
 #, c-format
 msgid "%s was rejected."
 msgstr "%s abgewiesen."
 
-#: server/civserver.c:1491
+#: server/civserver.c:1492
 msgid "Sorry, you can't join.  The game is already running."
 msgstr "Du kannst leider nicht mitspielen. Das Spiel läuft bereits."
 
-#: server/civserver.c:1493
+#: server/civserver.c:1494
 #, c-format
 msgid "Game running - %s was rejected."
 msgstr "Spiel läuft - %s abgewiesen."
 
-#: server/civserver.c:1502
+#: server/civserver.c:1503
 #, c-format
 msgid "game full - %s was rejected."
 msgstr "Max. Spielerzahl bereits erreicht - %s abgewiesen."
 
-#: server/civserver.c:1524
+#: server/civserver.c:1525
 #, c-format
 msgid "Lost connection to %s."
 msgstr "Verbindung zu %s verloren."
 
-#: server/civserver.c:1526
+#: server/civserver.c:1527
 #, c-format
 msgid "Game: Lost connection to %s."
 msgstr "Spiel: Verbindung zu %s verloren."
 
-#: server/civserver.c:1535
+#: server/civserver.c:1536
 msgid "Lost connection to <unknown>."
 msgstr "Verbindung zu <unbekannt> verloren."
 
-#: server/civserver.c:1572
+#: server/civserver.c:1573
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Keine Staaten mehr verfügbar. KI-Spieler %s nicht generiert."
 
-#: server/civserver.c:1604
+#: server/civserver.c:1605
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Anzahl der Staaten kleiner als AIFILL; AIFILL auf %d reduziert."
 
-#: server/civserver.c:1626
+#: server/civserver.c:1627
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Fehler bei der Generierung eines neuen KI-Spielers: %s\n"
 
-#: server/civserver.c:1674
+#: server/civserver.c:1675
 #, c-format
 msgid "Player %d"
 msgstr "Spieler %d"
 
 #. no more unused nation
-#: server/civserver.c:1689
+#: server/civserver.c:1690
 msgid "Argh! ran out of nations!"
 msgstr "Keine Staaten mehr verfügbar!"
 
-#: server/civserver.c:1706
+#: server/civserver.c:1707
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI kontrolliert die %s unter %s."
 
-#: server/civserver.c:1712
+#: server/civserver.c:1713
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spiel: %s beherrscht die %s."
@@ -3368,7 +3379,7 @@ msgstr "Spiel: %s erfolgreich unterwandert; Regierung übernommen!"
 msgid "Game: %s has revolted, %s influence suspected."
 msgstr "Spiel: %s hat revoltiert, gehört jetzt vermutlich zu %s."
 
-#: server/unitfunc.c:767 server/unithand.c:1244
+#: server/unitfunc.c:767 server/unithand.c:1245
 #, c-format
 msgid ""
 "Game: The people in %s are stunned by your technological insight!\n"
@@ -3822,32 +3833,32 @@ msgid ""
 msgstr ""
 "Spiel: %s aus %s hat %s erreicht. Der Gewinn beläuft sich auf %d Goldstücke."
 
-#: server/unithand.c:1164
+#: server/unithand.c:1165
 #, c-format
 msgid "Game: You destroy %s completely."
 msgstr "Spiel: %s völlig zerstört."
 
-#: server/unithand.c:1166
+#: server/unithand.c:1167
 #, c-format
 msgid "Game: %s has been destroyed by %s."
 msgstr "Spiel: %s wurde von %s zerstört."
 
-#: server/unithand.c:1186
+#: server/unithand.c:1187
 #, c-format
 msgid "Game: You conquer %s, your lootings accumulate to %d gold!"
 msgstr "Spiel: %s erobert. Beute im Wert von %d Goldstücken gemacht!"
 
-#: server/unithand.c:1190
+#: server/unithand.c:1191
 #, c-format
 msgid "Game: %s conquered %s and looted %d gold from the city."
 msgstr "Spiel: %s eroberte %s und machte Beute im Wert von %d Goldstücken."
 
-#: server/unithand.c:1201
+#: server/unithand.c:1202
 #, c-format
 msgid "Game: You have liberated %s!! lootings accumulate to %d gold."
 msgstr "Spiel: %s befreit! Beute im Wert von %d Goldstücken gemacht."
 
-#: server/unithand.c:1206
+#: server/unithand.c:1207
 #, c-format
 msgid "Game: %s liberated %s and looted %d gold from the city."
 msgstr "Spiel: %s befreite %s und machte Beute im Wert von %d Goldstücken."
@@ -4024,65 +4035,37 @@ msgstr "derzeitiges Projekt"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Stand/Nötig/Runden/Preis)"
 
-#: client/civclient.c:78
+#: client/civclient.c:107
+msgid "  -n, --name NAME\tUse NAME as name\n"
+msgstr "  -n, --name NAME\tBenutze NAME als Alias\n"
+
+#: client/civclient.c:108
+msgid "  -p, --port PORT\tConnect to server port PORT\n"
+msgstr "  -p, --port PORT\tPortnummer PORT benutzen\n"
+
+#: client/civclient.c:109
+msgid "  -s, --server HOST\tConnect to the server at HOST\n"
+msgstr "  -s, --server HOST\tmit Server auf HOST verbinden\n"
+
+#: client/civclient.c:110
+msgid "  -t, --tiles DIR\tLook in data subdirectory DIR for tiles\n"
+msgstr "  -t, --tiles DIR\tTiles aus Unterverzeichnis DIR verwenden\n"
+
+#: client/civclient.c:112
+msgid "  -s, --sound FILE\tRead sound information from FILE\n"
+msgstr "  -s, --sound DATEI\tLese Soundinfo aus DATEI\n"
+
+#: client/civclient.c:114
+msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
+msgstr "  -m, --metaserver HOST\tmit Metaserver auf HOST verbinden\n"
+
+#: client/civclient.c:143
 #, c-format
-msgid ""
-"Usage: %s [-hlNpsv][--help] [--log] [--name] [--port]\n"
-"\t [--server] [--debug] [--version] [--tiles]\n"
-msgstr ""
-"Syntax: %s [-hlNpsv] [--help] [--log] [--name] [--port]\n"
-"           [--server] [--debug] [--version] [--tiles]\n"
-
-#: client/civclient.c:90
-msgid "This is the Freeciv client\n"
-msgstr ""
-" \n"
-"Freeciv clients\n"
-
-#: client/civclient.c:92
-msgid "  -help\t\tPrint a summary of the options\n"
-msgstr ""
-" \n"
-"  -h, --help\t\tdieser Text\n"
-
-#: client/civclient.c:93
-msgid "  -log F\tUse F as logfile\n"
-msgstr "  -l, --log D\t\tLogdatei D benutzen\n"
-
-#: client/civclient.c:94
-msgid "  -name N\tUse N as name\n"
-msgstr "  -n, --name T\t\tAlias T benutzen\n"
-
-#: client/civclient.c:95
-msgid "  -port N\tconnect to port N\n"
-msgstr "  -p, --port N\t\tPortnummer N benutzen\n"
-
-#: client/civclient.c:96
-msgid "  -server S\tConnect to the server at S\n"
-msgstr "  -s, --server A\tServer A benutzen\n"
-
-#: client/civclient.c:97
-msgid "  -metaserver A\tConnect to the metaserver at A\n"
-msgstr "      --metaserver A\tMetaserver A benutzen\n"
-
-#: client/civclient.c:99
-msgid "  -debug N\tSet debug log level (0,1,2,3,or 3:file1,min,max:...)\n"
-msgstr "  -debug N\t\tDebuglevel N (0,1,2,3 oder 3:Datei1,min,max:...)\n"
-
-#: client/civclient.c:102
-msgid "  -debug N\tSet debug log level (0,1,2)\n"
-msgstr "      --debug N\t\tDebuglevel N (0,1,2) setzen\n"
-
-#: client/civclient.c:104
-msgid "  -version\tPrint the version number\n"
-msgstr "  -v, --version\t\tVersionsnummer ausgeben\n"
-
-#: client/civclient.c:105
-msgid "  -tiles D\tLook in data subdirectory D for the tiles\n"
-msgstr "      --tiles U\t\tTiles aus Untervereichnis U verwenden\n"
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "Unbekannte Option: '%s'\n"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/civclient.c:295
+#: client/civclient.c:335
 msgid "Received unknown packet from server!"
 msgstr "Received unknown packet from server!"
 
@@ -5254,10 +5237,10 @@ msgstr "Gewünschte Spalten markieren:"
 #: client/gui-gtk/repodlgs.c:237 client/gui-gtk/repodlgs.c:541
 #: client/gui-gtk/repodlgs.c:805 client/gui-gtk/spaceshipdlg.c:223
 #: client/gui-gtk/wldlg.c:203 data/Freeciv:137 data/Freeciv:187
-#: data/Freeciv:497 data/Freeciv:542 data/Freeciv:1413 data/Freeciv:1528
-#: data/Freeciv:1622 data/Freeciv:1653 data/Freeciv:1788 data/Freeciv:1864
-#: data/Freeciv:1905 data/Freeciv:2261 data/Freeciv:2304 data/Freeciv:2904
-#: data/Freeciv:3068 data/Freeciv:3135
+#: data/Freeciv:463 data/Freeciv:497 data/Freeciv:542 data/Freeciv:1413
+#: data/Freeciv:1528 data/Freeciv:1622 data/Freeciv:1653 data/Freeciv:1788
+#: data/Freeciv:1864 data/Freeciv:1905 data/Freeciv:2261 data/Freeciv:2304
+#: data/Freeciv:2904 data/Freeciv:3068 data/Freeciv:3135
 msgid "Close"
 msgstr "Schließen"
 
@@ -5330,11 +5313,11 @@ msgstr "Beenden"
 msgid "Message:"
 msgstr "Nachricht:"
 
-#: client/gui-gtk/dialogs.c:328
+#: client/gui-gtk/dialogs.c:328 data/Freeciv:471
 msgid "Goto and Close"
 msgstr "Hingehen und Schließen"
 
-#: client/gui-gtk/dialogs.c:400 client/gui-xaw/dialogs.c:425
+#: client/gui-gtk/dialogs.c:400 client/gui-xaw/dialogs.c:428
 #, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
@@ -5349,7 +5332,7 @@ msgstr ""
 msgid "Bribe Enemy Unit"
 msgstr "Feindliche Einheit bestechen"
 
-#: client/gui-gtk/dialogs.c:407 client/gui-xaw/dialogs.c:434
+#: client/gui-gtk/dialogs.c:407 client/gui-xaw/dialogs.c:437
 #, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
@@ -5378,11 +5361,11 @@ msgstr "Stehlen"
 
 # ?
 #: client/gui-gtk/dialogs.c:726 client/gui-gtk/dialogs.c:822
-#: client/gui-xaw/dialogs.c:750 client/gui-xaw/dialogs.c:838
+#: client/gui-xaw/dialogs.c:753 client/gui-xaw/dialogs.c:841
 msgid "At Spy's Discretion"
 msgstr ""
 
-#: client/gui-gtk/dialogs.c:734 client/gui-xaw/dialogs.c:735
+#: client/gui-gtk/dialogs.c:734 client/gui-xaw/dialogs.c:738
 msgid "NONE"
 msgstr "NICHTS"
 
@@ -5398,11 +5381,11 @@ msgstr "Sabotiere Stadterweiterung"
 msgid "Sabotage"
 msgstr "Sabotiere"
 
-#: client/gui-gtk/dialogs.c:808 client/gui-xaw/dialogs.c:827
+#: client/gui-gtk/dialogs.c:808 client/gui-xaw/dialogs.c:830
 msgid "City Production"
 msgstr "Produktion ändern"
 
-#: client/gui-gtk/dialogs.c:938 client/gui-xaw/dialogs.c:974
+#: client/gui-gtk/dialogs.c:938 client/gui-xaw/dialogs.c:977
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -5416,7 +5399,7 @@ msgstr ""
 msgid "Incite a Revolt!"
 msgstr "Zu einer Revolte anstiften!"
 
-#: client/gui-gtk/dialogs.c:946 client/gui-xaw/dialogs.c:984
+#: client/gui-gtk/dialogs.c:946 client/gui-xaw/dialogs.c:987
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -5431,7 +5414,7 @@ msgid " Choose Your Diplomat's Strategy"
 msgstr "Strategie des Diplomaten wählen"
 
 #: client/gui-gtk/dialogs.c:983 client/gui-gtk/dialogs.c:1035
-#: client/gui-xaw/dialogs.c:1022 client/gui-xaw/dialogs.c:1071
+#: client/gui-xaw/dialogs.c:1025 client/gui-xaw/dialogs.c:1074
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Der Diplomat erwartet seine Anweisungen"
 
@@ -5461,7 +5444,7 @@ msgid "Choose Your Spy's Strategy"
 msgstr "Strategie des Spions wählen"
 
 #: client/gui-gtk/dialogs.c:1004 client/gui-gtk/dialogs.c:1036
-#: client/gui-xaw/dialogs.c:1043 client/gui-xaw/dialogs.c:1072
+#: client/gui-xaw/dialogs.c:1046 client/gui-xaw/dialogs.c:1075
 msgid "Sir, the spy is waiting for your command"
 msgstr "Der Spion erwartet seine Anweisungen"
 
@@ -5494,7 +5477,7 @@ msgstr "Feindliche Einheit unterwandern"
 msgid "Sabotage Enemy Unit"
 msgstr "Feindliche Einheit sabotieren"
 
-#: client/gui-gtk/dialogs.c:1122 client/gui-xaw/dialogs.c:1164
+#: client/gui-gtk/dialogs.c:1122 client/gui-xaw/dialogs.c:1167
 #, c-format
 msgid ""
 "Your caravan from %s reaches the city of %s.\n"
@@ -5531,7 +5514,7 @@ msgstr "Wähle die Regierungsform:"
 msgid "Revolution!"
 msgstr "Revolution!"
 
-#: client/gui-gtk/dialogs.c:1251 client/gui-xaw/dialogs.c:1269
+#: client/gui-gtk/dialogs.c:1251 client/gui-xaw/dialogs.c:1272
 msgid "You say you wanna revolution?"
 msgstr "Sicher?"
 
@@ -5580,19 +5563,19 @@ msgstr "weiblich"
 msgid "Select your city style"
 msgstr "Bauweise:"
 
-#: client/gui-gtk/dialogs.c:2041 client/gui-xaw/dialogs.c:2224
+#: client/gui-gtk/dialogs.c:2041 client/gui-xaw/dialogs.c:2227
 msgid "You must select a nation."
 msgstr "Es MUSS eine Nation gewählt werden."
 
-#: client/gui-gtk/dialogs.c:2046 client/gui-xaw/dialogs.c:2229
+#: client/gui-gtk/dialogs.c:2046 client/gui-xaw/dialogs.c:2232
 msgid "You must select your sex."
 msgstr "Es MUSS ein Geschlecht gewählt werden."
 
-#: client/gui-gtk/dialogs.c:2051 client/gui-xaw/dialogs.c:2234
+#: client/gui-gtk/dialogs.c:2051 client/gui-xaw/dialogs.c:2237
 msgid "You must select your city style."
 msgstr "Es MUSS eine Bauweise gewählt werden werden."
 
-#: client/gui-gtk/dialogs.c:2064 client/gui-xaw/dialogs.c:2248
+#: client/gui-gtk/dialogs.c:2064 client/gui-xaw/dialogs.c:2251
 msgid "You must type a legal name."
 msgstr "Es MUSS ein zulässiger Name eingegeben werden."
 
@@ -5734,62 +5717,11 @@ msgstr "_Gehe nach"
 msgid "_Cancel"
 msgstr "_Abbrechen"
 
-#: client/gui-gtk/gui_main.c:165
-#, c-format
-msgid ""
-"Usage: %s [option ...]\n"
-"Valid options are:\n"
-msgstr ""
-"Syntax: %s [option ...]\n"
-"Gültige Optionen sind:\n"
-
-#: client/gui-gtk/gui_main.c:166
-msgid "  -h, --help\t\tPrint a summary of the options.\n"
-msgstr "  -h, --help\t\tdieser Text\n"
-
-#: client/gui-gtk/gui_main.c:167
-msgid "  -l, --log=FILE\tUse FILE as logfile.\n"
-msgstr "  -l, --log=DATEI\tLogfile DATEI benutzen\n"
-
-#: client/gui-gtk/gui_main.c:168
-msgid "  -N, --Name=NAME\tUse NAME.\n"
-msgstr "  -N, --Name=NAME\tAlias NAME benutzen\n"
-
-#: client/gui-gtk/gui_main.c:169
-msgid "  -p, --port=PORT\tConnect to PORT.\n"
-msgstr " -p, --port=PORT\tPortnummer PORT benutzen\n"
-
-#: client/gui-gtk/gui_main.c:170
-msgid "  -s, --server=SERVER\tConnect to the server SERVER.\n"
-msgstr "  -s, --server=SERVER\tServer SERVER benutzen\n"
-
-#: client/gui-gtk/gui_main.c:171
-msgid "  -m, --metaserver=METASERVER\tSet metaserver address to METASERVER.\n"
-msgstr "  -m, --metaserver=METASERVER\tMetaserver METASERVER benutzen\n"
-
-#: client/gui-gtk/gui_main.c:173
-msgid ""
-"  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2,3,or 3:file1,min,max:...)\n"
-msgstr ""
-"  -d, --debug=LEVEL\tDebuglevel LEVEL (0,1,2,3 oder 3:Datei1,min,max:...)\n"
-
-#: client/gui-gtk/gui_main.c:176
-msgid "  -d, --debug=LEVEL\tSet debug log LEVEL (0,1,2).\n"
-msgstr "  -d, --debug=LEVEL\tDebuglevel LEVEL (0,1,2) setzen\n"
-
-#: client/gui-gtk/gui_main.c:178
-msgid "  -t, --tiles=DIR\tLook in directory DIR for the tiles.\n"
-msgstr "  -t, --tiles=DIR\tTiles aus Verzeichnis DIR verwenden\n"
-
-#: client/gui-gtk/gui_main.c:179
-msgid "  -v, --version\t\tPrint the version number.\n"
-msgstr "  -v, --version\t\tVersionsnummer ausgeben\n"
-
-#: client/gui-gtk/gui_main.c:468 data/Freeciv:2467
+#: client/gui-gtk/gui_main.c:408 data/Freeciv:2467
 msgid "Turn Done"
 msgstr "Fertig!"
 
-#: client/gui-gtk/gui_main.c:575 data/Freeciv:2702
+#: client/gui-gtk/gui_main.c:515 data/Freeciv:2702
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
@@ -5804,11 +5736,11 @@ msgstr ""
 "betreffen an <freeciv-de@ehinzen.de>.\n"
 " "
 
-#: client/gui-gtk/gui_main.c:628
+#: client/gui-gtk/gui_main.c:564
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk/gui_main.c:770 client/gui-xaw/gui_main.c:666
+#: client/gui-gtk/gui_main.c:706 client/gui-xaw/gui_main.c:656
 #, c-format
 msgid ""
 "%s People\n"
@@ -6848,42 +6780,42 @@ msgid "Failed reading XPM file: %s"
 msgstr "Failed reading XPM file: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:273
+#: client/gui-xaw/gui_main.c:297
 msgid "No version number in resources."
 msgstr "No version number in resources."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:274
+#: client/gui-xaw/gui_main.c:298
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 msgstr "You probably have an old (circa V1.0) Freeciv resource file somewhere."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:282
+#: client/gui-xaw/gui_main.c:306
 msgid "Game version does not match Resource version."
 msgstr "Game version does not match Resource version."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:283
+#: client/gui-xaw/gui_main.c:307
 #, c-format
 msgid "Game version: %s - Resource version: %s"
 msgstr "Game version: %s - Resource version: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:285
+#: client/gui-xaw/gui_main.c:309
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 msgstr ""
 "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
 
-#: client/gui-xaw/gui_main.c:291
+#: client/gui-xaw/gui_main.c:315
 msgid "Using fallback resources - which is OK"
 msgstr "Benutze Reserveressourcen - OK"
 
-#: client/gui-xaw/gui_main.c:331
+#: client/gui-xaw/gui_main.c:326
 msgid "Only color displays are supported for now..."
 msgstr "Z.Zt. werden nur Farbbildschirme unterstützt..."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/gui_main.c:356
+#: client/gui-xaw/gui_main.c:346
 #, c-format
 msgid "Failed loading font: %s"
 msgstr "Failed loading font: %s"
@@ -10293,7 +10225,7 @@ msgstr "Demokratie"
 #: data/civ1/governments.ruleset:504 data/civ1/governments.ruleset:505
 #: data/civ2/governments.ruleset:554 data/civ2/governments.ruleset:555
 #: data/default/governments.ruleset:504 data/default/governments.ruleset:505
-#: data/default/nations.ruleset:1017
+#: data/default/nations.ruleset:1038
 msgid "President"
 msgstr "Präsident"
 
@@ -10390,435 +10322,443 @@ msgstr "Kaiser"
 msgid "Imperatrix"
 msgstr "Kaiserin"
 
-#: data/default/nations.ruleset:95
+#: data/default/nations.ruleset:96
 msgid "Babylonian"
 msgstr "babylonisch"
 
-#: data/default/nations.ruleset:96
+#: data/default/nations.ruleset:97
 msgid "?plural:Babylonians"
 msgstr "?plural:Babylonier"
 
-#: data/default/nations.ruleset:124
+#: data/default/nations.ruleset:125
 msgid "German"
 msgstr "deutsch"
 
-#: data/default/nations.ruleset:125
+#: data/default/nations.ruleset:126
 msgid "?plural:Germans"
 msgstr "?plural:Deutschen"
 
-#: data/default/nations.ruleset:132
+#: data/default/nations.ruleset:133
 msgid "Chancellor"
 msgstr "Kanzler"
 
-#: data/default/nations.ruleset:133 data/default/nations.ruleset:379
+#: data/default/nations.ruleset:134 data/default/nations.ruleset:384
 msgid "Archbishop"
 msgstr "Erzbischof"
 
-#: data/default/nations.ruleset:165
+#: data/default/nations.ruleset:167
 msgid "Egyptian"
 msgstr "ägyptisch"
 
-#: data/default/nations.ruleset:166
+#: data/default/nations.ruleset:168
 msgid "?plural:Egyptians"
 msgstr "?plural:Ägypter"
 
-#: data/default/nations.ruleset:174
+#: data/default/nations.ruleset:176
 msgid "Pharaoh"
 msgstr "Pharao"
 
-#: data/default/nations.ruleset:175
+#: data/default/nations.ruleset:177
 msgid "Great Pharaoh"
 msgstr "Großer Pharao"
 
-#: data/default/nations.ruleset:199
+#: data/default/nations.ruleset:201
 msgid "American"
 msgstr "amerikanisch"
 
-#: data/default/nations.ruleset:200
+#: data/default/nations.ruleset:202
 msgid "?plural:Americans"
 msgstr "?plural:Amerikaner"
 
-#: data/default/nations.ruleset:208 data/default/nations.ruleset:1255
+#: data/default/nations.ruleset:210 data/default/nations.ruleset:1278
 msgid "Speaker"
 msgstr "Sprecher"
 
-#: data/default/nations.ruleset:209
+#: data/default/nations.ruleset:211
 msgid "Reverend"
 msgstr "Pfarrer"
 
-#: data/default/nations.ruleset:238
+#: data/default/nations.ruleset:241
 msgid "Greek"
 msgstr "griechisch"
 
-#: data/default/nations.ruleset:239
+#: data/default/nations.ruleset:242
 msgid "?plural:Greeks"
 msgstr "?plural:Griechen"
 
-#: data/default/nations.ruleset:246 data/default/nations.ruleset:481
-#: data/default/nations.ruleset:586 data/default/nations.ruleset:839
-#: data/default/nations.ruleset:872 data/default/nations.ruleset:915
-#: data/default/nations.ruleset:949 data/default/nations.ruleset:980
-#: data/default/nations.ruleset:1018 data/default/nations.ruleset:1157
-#: data/default/nations.ruleset:1197 data/default/nations.ruleset:1256
-#: data/default/nations.ruleset:1289
+#: data/default/nations.ruleset:249 data/default/nations.ruleset:490
+#: data/default/nations.ruleset:599 data/default/nations.ruleset:855
+#: data/default/nations.ruleset:889 data/default/nations.ruleset:933
+#: data/default/nations.ruleset:968 data/default/nations.ruleset:1000
+#: data/default/nations.ruleset:1039 data/default/nations.ruleset:1180
+#: data/default/nations.ruleset:1220 data/default/nations.ruleset:1279
+#: data/default/nations.ruleset:1312 data/default/nations.ruleset:1370
 msgid "Prime Minister"
 msgstr "Premierminister"
 
-#: data/default/nations.ruleset:276
+#: data/default/nations.ruleset:280
 msgid "Indian"
 msgstr "indisch"
 
-#: data/default/nations.ruleset:277
+#: data/default/nations.ruleset:281
 msgid "?plural:Indians"
 msgstr "?plural:Inder"
 
-#: data/default/nations.ruleset:285
+#: data/default/nations.ruleset:289
 msgid "Maharaja"
 msgstr "Maharadscha"
 
-#: data/default/nations.ruleset:308
+#: data/default/nations.ruleset:312
 msgid "Russian"
 msgstr "russisch"
 
-#: data/default/nations.ruleset:309
+#: data/default/nations.ruleset:313
 msgid "?plural:Russians"
 msgstr "?plural:Russen"
 
-#: data/default/nations.ruleset:317
+#: data/default/nations.ruleset:321
 msgid "Czar"
 msgstr "Zar"
 
-#: data/default/nations.ruleset:317
+#: data/default/nations.ruleset:321
 msgid "Czarina"
 msgstr "Zarin"
 
-#: data/default/nations.ruleset:318
+#: data/default/nations.ruleset:322
 msgid "Patriarch"
 msgstr "Patriarch"
 
-#: data/default/nations.ruleset:318
+#: data/default/nations.ruleset:322
 msgid "Matriarch"
 msgstr "Matriarch"
 
-#: data/default/nations.ruleset:343
+#: data/default/nations.ruleset:347
 msgid "Zulu"
 msgstr "zulunesisch"
 
-#: data/default/nations.ruleset:344
+#: data/default/nations.ruleset:348
 msgid "?plural:Zulus"
 msgstr "?plural:Zulus"
 
-#: data/default/nations.ruleset:370
+#: data/default/nations.ruleset:375
 msgid "French"
 msgstr "französisch"
 
-#: data/default/nations.ruleset:371
+#: data/default/nations.ruleset:376
 msgid "?plural:French"
 msgstr "?plural:Franzosen"
 
-#: data/default/nations.ruleset:378
+#: data/default/nations.ruleset:383
 msgid "Premier"
 msgstr "Premier"
 
-#: data/default/nations.ruleset:402
+#: data/default/nations.ruleset:408
 msgid "Aztec"
 msgstr "aztekisch"
 
-#: data/default/nations.ruleset:403
+#: data/default/nations.ruleset:409
 msgid "?plural:Aztecs"
 msgstr "?plural:Azteken"
 
-#: data/default/nations.ruleset:431
+#: data/default/nations.ruleset:437
 msgid "Chinese"
 msgstr "chinesisch"
 
-#: data/default/nations.ruleset:432
+#: data/default/nations.ruleset:438
 msgid "?plural:Chinese"
 msgstr "?plural:Chinesen"
 
-#: data/default/nations.ruleset:439
+#: data/default/nations.ruleset:445
 msgid "Chairman"
 msgstr "Vorsitzender"
 
-#: data/default/nations.ruleset:439
+#: data/default/nations.ruleset:445
 msgid "Chairperson"
 msgstr "Vorsitzender"
 
-#: data/default/nations.ruleset:473
+#: data/default/nations.ruleset:480
 msgid "English"
 msgstr "englisch"
 
-#: data/default/nations.ruleset:474
+#: data/default/nations.ruleset:481
 msgid "?plural:English"
 msgstr "?plural:Engländer"
 
-#: data/default/nations.ruleset:482
+#: data/default/nations.ruleset:491
 msgid "Lord Protector"
 msgstr "Schirmherr"
 
-#: data/default/nations.ruleset:482
+#: data/default/nations.ruleset:491
 msgid "Lady Protector"
 msgstr "Schirmherrin"
 
-#: data/default/nations.ruleset:513
+#: data/default/nations.ruleset:523
 msgid "Mongol"
 msgstr "mongolisch"
 
-#: data/default/nations.ruleset:514
+#: data/default/nations.ruleset:524
 msgid "?plural:Mongols"
 msgstr "?plural:Mongolen"
 
-#: data/default/nations.ruleset:521
+#: data/default/nations.ruleset:531
 msgid "Khan"
 msgstr "Khan"
 
-#: data/default/nations.ruleset:522
+#: data/default/nations.ruleset:532
 msgid "Great Khan"
 msgstr "Großer Khan"
 
-#: data/default/nations.ruleset:545
+#: data/default/nations.ruleset:556
 msgid "Turk"
 msgstr "türkisch"
 
-#: data/default/nations.ruleset:546
+#: data/default/nations.ruleset:557
 msgid "?plural:Turks"
 msgstr "?plural:Türken"
 
-#: data/default/nations.ruleset:554
+#: data/default/nations.ruleset:567
 msgid "Sultan"
 msgstr "Sultan"
 
-#: data/default/nations.ruleset:578
+#: data/default/nations.ruleset:591
 msgid "Spanish"
 msgstr "spanisch"
 
-#: data/default/nations.ruleset:579
+#: data/default/nations.ruleset:592
 msgid "?plural:Spanish"
 msgstr "?plural:Spanier"
 
-#: data/default/nations.ruleset:609
+#: data/default/nations.ruleset:622
 msgid "Persian"
 msgstr "persisch"
 
-#: data/default/nations.ruleset:610
+#: data/default/nations.ruleset:623
 msgid "?plural:Persians"
 msgstr "?plural:Perser"
 
-#: data/default/nations.ruleset:618
+#: data/default/nations.ruleset:631
 msgid "Shah"
 msgstr "Schah"
 
-#: data/default/nations.ruleset:643
+#: data/default/nations.ruleset:656
 msgid "Arab"
 msgstr "arabisch"
 
-#: data/default/nations.ruleset:644
+#: data/default/nations.ruleset:657
 msgid "?plural:Arabs"
 msgstr "?plural:Araber"
 
-#: data/default/nations.ruleset:652
+#: data/default/nations.ruleset:665
 msgid "Caliph"
 msgstr "Kalif"
 
-#: data/default/nations.ruleset:677
+#: data/default/nations.ruleset:690
 msgid "Carthaginian"
 msgstr "karthagisch"
 
-#: data/default/nations.ruleset:678
+#: data/default/nations.ruleset:691
 msgid "?plural:Carthaginians"
 msgstr "?plural:Karthager"
 
-#: data/default/nations.ruleset:708
+#: data/default/nations.ruleset:721
 msgid "Inca"
 msgstr "inkanesisch"
 
-#: data/default/nations.ruleset:709
+#: data/default/nations.ruleset:722
 msgid "?plural:Incas"
 msgstr "?plural:Inkas"
 
-#: data/default/nations.ruleset:717
+#: data/default/nations.ruleset:730
 msgid "Warlord"
 msgstr "Kriegsherr"
 
-#: data/default/nations.ruleset:741
+#: data/default/nations.ruleset:754
 msgid "Viking"
 msgstr "wikingisch"
 
-#: data/default/nations.ruleset:742
+#: data/default/nations.ruleset:755
 msgid "?plural:Vikings"
 msgstr "?plural:Wikinger"
 
-#: data/default/nations.ruleset:775
+#: data/default/nations.ruleset:789
 msgid "Polish"
 msgstr "polnisch"
 
-#: data/default/nations.ruleset:776
+#: data/default/nations.ruleset:790
 msgid "?plural:Polish"
 msgstr "?plural:Polen"
 
-#: data/default/nations.ruleset:804
+#: data/default/nations.ruleset:819
 msgid "Hungarian"
 msgstr "ungarisch"
 
-#: data/default/nations.ruleset:805
+#: data/default/nations.ruleset:820
 msgid "?plural:Hungarians"
 msgstr "?plural:Ungarn"
 
-#: data/default/nations.ruleset:831
+#: data/default/nations.ruleset:847
 msgid "Danish"
 msgstr "dänisch"
 
-#: data/default/nations.ruleset:832
+#: data/default/nations.ruleset:848
 msgid "?plural:Danes"
 msgstr "?plural:Dänen"
 
-#: data/default/nations.ruleset:864
+#: data/default/nations.ruleset:881
 msgid "Dutch"
 msgstr "holländisch"
 
-#: data/default/nations.ruleset:865
+#: data/default/nations.ruleset:882
 msgid "?plural:Dutch"
 msgstr "?plural:Holländer"
 
-#: data/default/nations.ruleset:907
+#: data/default/nations.ruleset:925
 msgid "Swedish"
 msgstr "schwedisch"
 
-#: data/default/nations.ruleset:908
+#: data/default/nations.ruleset:926
 msgid "?plural:Swedes"
 msgstr "?plural:Schweden"
 
-#: data/default/nations.ruleset:939
+#: data/default/nations.ruleset:958
 msgid "Japanese"
 msgstr "japanisch"
 
-#: data/default/nations.ruleset:940
+#: data/default/nations.ruleset:959
 msgid "?plural:Japanese"
 msgstr "?plural:Japaner"
 
-#: data/default/nations.ruleset:948
+#: data/default/nations.ruleset:967
 msgid "Shogun"
 msgstr "Shogun"
 
-#: data/default/nations.ruleset:971
+#: data/default/nations.ruleset:991
 msgid "Portuguese"
 msgstr "portugiesisch"
 
-#: data/default/nations.ruleset:972
+#: data/default/nations.ruleset:992
 msgid "?plural:Portuguese"
 msgstr "?plural:Portugiesen"
 
-#: data/default/nations.ruleset:1008
+#: data/default/nations.ruleset:1029
 msgid "Finnish"
 msgstr "finnisch"
 
-#: data/default/nations.ruleset:1009
+#: data/default/nations.ruleset:1030
 msgid "?plural:Finns"
 msgstr "?plural:Finnen"
 
-#: data/default/nations.ruleset:1057
+#: data/default/nations.ruleset:1079
 msgid "Sioux"
 msgstr "siouxisch"
 
-#: data/default/nations.ruleset:1058
+#: data/default/nations.ruleset:1080
 msgid "?plural:Sioux"
 msgstr "?plural:Sioux"
 
-#: data/default/nations.ruleset:1066
+#: data/default/nations.ruleset:1088
 msgid "Chief"
 msgstr "Häuptling"
 
-#: data/default/nations.ruleset:1067
+#: data/default/nations.ruleset:1089
 msgid "Great Chief"
 msgstr "Großer Häuptling"
 
-#: data/default/nations.ruleset:1089
+#: data/default/nations.ruleset:1111
 msgid "Czech"
 msgstr "tschechisch"
 
-#: data/default/nations.ruleset:1090
+#: data/default/nations.ruleset:1112
 msgid "?plural:Czechs"
 msgstr "?plural:Tschechen"
 
-#: data/default/nations.ruleset:1107
+#: data/default/nations.ruleset:1129
 msgid "Thane"
 msgstr "Thane"
 
-#: data/default/nations.ruleset:1107
+#: data/default/nations.ruleset:1129
 msgid "Prophetess"
 msgstr "Prophetin"
 
-#: data/default/nations.ruleset:1148
+#: data/default/nations.ruleset:1171
 msgid "Australian"
 msgstr "australisch"
 
-#: data/default/nations.ruleset:1149
+#: data/default/nations.ruleset:1172
 msgid "?plural:Australians"
 msgstr "?plural:Australier"
 
-#: data/default/nations.ruleset:1181
+#: data/default/nations.ruleset:1204
 msgid "Welsh"
 msgstr "walisisch"
 
-#: data/default/nations.ruleset:1182
+#: data/default/nations.ruleset:1205
 msgid "?plural:Welsh"
 msgstr "?plural:Waliser"
 
-#: data/default/nations.ruleset:1196
+#: data/default/nations.ruleset:1219
 msgid "Prince"
 msgstr "Prinz"
 
-#: data/default/nations.ruleset:1196
+#: data/default/nations.ruleset:1219
 msgid "Princess"
 msgstr "Prinzessin"
 
-#: data/default/nations.ruleset:1219
+#: data/default/nations.ruleset:1242
 msgid "Korean"
 msgstr "koreanisch"
 
-#: data/default/nations.ruleset:1220
+#: data/default/nations.ruleset:1243
 msgid "?plural:Koreans"
 msgstr "?plural:Koreaner"
 
-#: data/default/nations.ruleset:1246
+#: data/default/nations.ruleset:1269
 msgid "Scottish"
 msgstr "schottisch"
 
-#: data/default/nations.ruleset:1247
+#: data/default/nations.ruleset:1270
 msgid "?plural:Scottish"
 msgstr "?plural:Schotten"
 
-#: data/default/nations.ruleset:1280
+#: data/default/nations.ruleset:1303
 msgid "Israeli"
 msgstr "israelisch"
 
-#: data/default/nations.ruleset:1281
+#: data/default/nations.ruleset:1304
 msgid "?plural:Israelis"
 msgstr "?plural:Israelis"
 
-#: data/default/nations.ruleset:1310
+#: data/default/nations.ruleset:1337
 msgid "Argentine"
 msgstr "argentinisch"
 
-#: data/default/nations.ruleset:1311
+#: data/default/nations.ruleset:1338
 msgid "?plural:Argentines"
 msgstr "?plural:Argentinier"
 
-#: data/default/nations.ruleset:1335
+#: data/default/nations.ruleset:1362
+msgid "Canadian"
+msgstr "kanadisch"
+
+#: data/default/nations.ruleset:1363
+msgid "Canadians"
+msgstr "Kanadier"
+
+#: data/default/nations.ruleset:1397
 msgid "Olympic"
 msgstr "olympisch"
 
-#: data/default/nations.ruleset:1336
+#: data/default/nations.ruleset:1398
 msgid "?plural:Olympians"
 msgstr "?plural:Olympier"
 
 # ?
-#: data/default/nations.ruleset:1361
+#: data/default/nations.ruleset:1423
 msgid "Krevi"
 msgstr "krevisch"
 
 # ?
-#: data/default/nations.ruleset:1362
+#: data/default/nations.ruleset:1424
 msgid "?plural:Krevis"
 msgstr "?plural:Krevier"
 
