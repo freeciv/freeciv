@@ -264,6 +264,18 @@ Object *MakeCheck(STRPTR label, ULONG check)
   return (obj);
 }
 
+VOID DisposeAllChilds(Object *o)
+{
+  struct List *child_list = (struct List*)xget(o,MUIA_Group_ChildList);
+  Object *cstate = (Object *)child_list->lh_Head;
+  Object *child;
+
+  while ((child = (Object*)NextObject(&cstate)))
+  {
+    DoMethod(o,OM_REMMEMBER,child);
+    MUI_DisposeObject(child);
+  }
+}
 
 struct Hook civstandard_hook;
 

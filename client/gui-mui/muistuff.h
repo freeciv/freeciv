@@ -57,6 +57,8 @@ Object *MakeCycle(STRPTR label, STRPTR *array);
 Object *MakeRadio(STRPTR label, STRPTR *array);
 Object *MakeCheck(STRPTR label, ULONG check);
 
+VOID DisposeAllChilds(Object *o);
+
 extern struct Hook civstandard_hook;
 void init_civstandard_hook(void);
 
