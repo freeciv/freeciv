@@ -82,19 +82,15 @@ void global_warming(int effect)
 	switch (map_get_terrain(x, y)) {
 	case T_FOREST:
 	  effect--;
-	  map_set_terrain(x, y, T_JUNGLE);
-	  reset_move_costs(x, y);
-	  send_tile_info(0, x, y);
+	  change_terrain(x, y, T_JUNGLE);
+	  send_tile_info(NULL, x, y);
 	  break;
 	case T_DESERT:
 	case T_PLAINS:
 	case T_GRASSLAND:
 	  effect--;
-	  map_set_terrain(x, y, T_SWAMP);
-	  map_clear_special(x, y, S_FARMLAND);
-	  map_clear_special(x, y, S_IRRIGATION);
-	  reset_move_costs(x, y);
-	  send_tile_info(0, x, y);
+	  change_terrain(x, y, T_SWAMP);
+	  send_tile_info(NULL, x, y);
 	  break;
 	default:
 	  break;
@@ -105,9 +101,8 @@ void global_warming(int effect)
 	case T_GRASSLAND:
 	case T_FOREST:
 	  effect--;
-	  map_set_terrain(x, y, T_DESERT);
-	  reset_move_costs(x, y);
-	  send_tile_info(0, x, y);
+	  change_terrain(x, y, T_DESERT);
+	  send_tile_info(NULL, x, y);
 	  break;
 	default:
 	  break;
@@ -146,16 +141,14 @@ void nuclear_winter(int effect)
       case T_PLAINS:
       case T_GRASSLAND:
 	effect--;
-	map_set_terrain(x, y,
-			is_terrain_ecologically_wet(x, y) ? T_DESERT : T_TUNDRA);
-	reset_move_costs(x, y);
-	send_tile_info(0, x, y);
+	change_terrain(x, y,
+		       is_terrain_ecologically_wet(x, y) ? T_DESERT : T_TUNDRA);
+	send_tile_info(NULL, x, y);
 	break;
       case T_TUNDRA:
 	effect--;
-	map_set_terrain(x, y, T_ARCTIC);
-	reset_move_costs(x, y);
-	send_tile_info(0, x, y);
+	change_terrain(x, y, T_ARCTIC);
+	send_tile_info(NULL, x, y);
 	break;
       default:
 	break;

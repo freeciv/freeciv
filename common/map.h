@@ -238,6 +238,7 @@ int get_preferred_pillage(int pset);
 
 void map_irrigate_tile(int x, int y);
 void map_mine_tile(int x, int y);
+void change_terrain(int x, int y, enum tile_terrain_type type);
 void map_transform_tile(int x, int y);
 
 int map_build_road_time(int x, int y);

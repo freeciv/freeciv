@@ -813,6 +813,33 @@ void map_mine_tile(int x, int y)
 /***************************************************************
 ...
 ***************************************************************/
+void change_terrain(int x, int y, enum tile_terrain_type type)
+{
+  map_set_terrain(x, y, type);
+  if (type==T_OCEAN) {
+    clear_infrastructure(x, y);
+    clear_dirtiness(x, y);
+    map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
+					   rivers in oceans, don't clear this! */
+  }
+
+  reset_move_costs(x, y);
+
+  /* Clear mining/irrigation if resulting terrain type cannot support
+     that feature.  (With current rules, this should only clear mines,
+     but I'm including both cases in the most general form for possible
+     future ruleset expansion. -GJW) */
+  if (tile_types[type].mining_result != type)
+    map_clear_special(x, y, S_MINE);
+  if (tile_types[type].irrigation_result != type) {
+    map_clear_special(x, y, S_FARMLAND);
+    map_clear_special(x, y, S_IRRIGATION);
+  }
+}
+
+/***************************************************************
+...
+***************************************************************/
 void map_transform_tile(int x, int y)
 {
   enum tile_terrain_type now, result;
@@ -820,27 +847,8 @@ void map_transform_tile(int x, int y)
   now = map_get_terrain(x, y);
   result = tile_types[now].transform_result;
   
-  if (result != T_LAST) {
-    map_set_terrain(x, y, result);
-    if (result==T_OCEAN) {
-      clear_infrastructure(x, y);
-      clear_dirtiness(x, y);
-      map_clear_special(x, y, S_RIVER);	/* FIXME: When rest of code can handle
-					   rivers in oceans, don't clear this! */
-    }
-    reset_move_costs(x, y);
-  }
-
-  /* Clear mining/irrigation if resulting terrain type cannot support
-     that feature.  (With current rules, this should only clear mines,
-     but I'm including both cases in the most general form for possible
-     future ruleset expansion. -GJW) */
-  if (tile_types[result].mining_result != result)
-    map_clear_special(x, y, S_MINE);
-  if (tile_types[result].irrigation_result != result) {
-    map_clear_special(x, y, S_FARMLAND);
-    map_clear_special(x, y, S_IRRIGATION);
-  }
+  if (result != T_LAST)
+    change_terrain(x, y, result);
 }
 
 /***************************************************************
