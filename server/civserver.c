@@ -293,7 +293,7 @@ int main(int argc, char *argv[])
     freelog(LOG_NORMAL, _("Loading saved game: %s"), load_filename);
     loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
     uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
-    if(!section_file_load(&file, load_filename)) { 
+    if(!section_file_load_nodup(&file, load_filename)) { 
       freelog(LOG_FATAL, _("Couldn't load savefile: %s"), load_filename);
       exit(1);
     }

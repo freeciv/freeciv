@@ -360,7 +360,9 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
 /**************************************************************************
 ...
 **************************************************************************/
-int section_file_load(struct section_file *sf, const char *filename)
+static int section_file_load_dup(struct section_file *sf,
+				 const char *filename,
+				 int allow_duplicates)
 {
   struct inputfile *inf;
   struct section *psection = NULL;
@@ -530,10 +532,26 @@ int section_file_load(struct section_file *sf, const char *filename)
   ath_free(&columns_tab);
   
   if(DO_HASH) {
-    secfilehash_build(sf, 0);
+    secfilehash_build(sf, allow_duplicates);
   }
     
   return 1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+int section_file_load(struct section_file *sf, const char *filename)
+{
+  return section_file_load_dup(sf, filename, 1);
+}
+
+/**************************************************************************
+  Load a section_file, but disallow (die on) duplicate entries.
+**************************************************************************/
+int section_file_load_nodup(struct section_file *sf, const char *filename)
+{
+  return section_file_load_dup(sf, filename, 0);
 }
 
 /**************************************************************************
@@ -1111,9 +1129,14 @@ static void secfilehash_insert(struct section_file *file,
   hentry = secfilehash_lookup(file, key, &hash_val);
   if (hentry->key_val != NULL) {
     if (file->hashd->allow_duplicates) {
+      hentry->data->used = 1;
       file->hashd->num_duplicates++;
       /* Fall-through, to replace entry; could 'return' here and
-	 then first entry would be used and following ones ignored. */
+	 then first entry would be used and following ones ignored.
+	 Need to mark the replaced one as used or else it will show
+	 up when we iterate the sections and entries (since hash
+	 lookup will never find it to mark it as used).
+      */
     } else {
       freelog(LOG_FATAL, "Tried to insert same value twice: %s (sectionfile %s)",
 	      key, secfile_filename(file));
