@@ -762,7 +762,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Partial_Invis", "No_Land_Attack"
-roles         = ""
+roles         = "Hunter"
 helptext      = _("\
 Submarines have a very high strategic value, but have a weak\
  defence.\

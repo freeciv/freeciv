@@ -591,7 +591,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
-roles         = "AttackFast", "Hut", "Barbarian"
+roles         = "AttackFast", "Hut", "Barbarian", "Hunter"
 
 [unit_chariot]
 name          = _("Chariot")
@@ -619,7 +619,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
-roles         = "AttackFast", "Hut"
+roles         = "AttackFast", "Hut", "Hunter"
 
 [unit_elephants]
 name          = _("Elephants")
@@ -704,7 +704,7 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
 roles         = "AttackFast", "HutTech", "BarbarianTech",
-                "BarbarianBuildTech", "BarbarianSeaTech"
+                "BarbarianBuildTech", "BarbarianSeaTech", "Hunter"
 
 [unit_dragoons]
 name          = _("Dragoons")
@@ -732,7 +732,8 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Horse"
-roles         = "AttackFast", "BarbarianBuildTech", "BarbarianSeaTech"
+roles         = "AttackFast", "BarbarianBuildTech", "BarbarianSeaTech",
+                "Hunter"
 
 [unit_cavalry]
 name          = _("Cavalry")
@@ -760,7 +761,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackFast"
+roles         = "AttackFast", "Hunter"
 
 [unit_armor]
 name          = _("Armor")
@@ -788,7 +789,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = "AttackFast"
+roles         = "AttackFast", "Hunter"
 
 [unit_catapult]
 name          = _("Catapult")
@@ -1166,7 +1167,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = ""
+roles         = "Hunter"
 
 [unit_ironclad]
 name          = _("Ironclad")
@@ -1194,7 +1195,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = ""
+roles         = "Hunter"
 
 [unit_destroyer]
 name          = _("Destroyer")
@@ -1222,7 +1223,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = ""
-roles         = ""
+roles         = "Hunter"
 helptext      = _("\
 TIP:  A very fast unit, which is very useful for hunting down enemy\
  Transports.\
@@ -1339,7 +1340,7 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Partial_Invis", 
 	        "Missile_Carrier", "No_Land_Attack"
-roles         = ""
+roles         = "Hunter"
 helptext      = _("\
 Submarines have a very high strategic value, but have a weak\
  defence.\
