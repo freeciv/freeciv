@@ -433,11 +433,7 @@ int sniff_packets(void)
       /* send data about the previous run */
       send_ping_times_to_all();
 
-      conn_list_iterate(game.game_connections, pconn) {
-	if (!pconn->used) {
-	  continue;
-	}
-
+      conn_list_iterate(game.all_connections, pconn) {
 	if ((timer_list_size(pconn->server.ping_timers) > 0
 	     &&
 	     read_timer_seconds(timer_list_get(pconn->server.ping_timers, 0))
@@ -460,15 +456,13 @@ int sniff_packets(void)
     }
 
     /* if we've waited long enough after a failure, respond to the client */
-    for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
-      struct connection *pconn = &connections[i];
-
+    conn_list_iterate(game.all_connections, pconn) {
       if (pconn->server.status == AS_FAILED
           && pconn->server.authentication_stop > 0
           && time(NULL) >= pconn->server.authentication_stop) {
         unfail_authentication(pconn);
       }
-    }
+    } conn_list_iterate_end
 
     /* Don't wait if timeout == -1 (i.e. on auto games) */
     if (server_state != PRE_GAME_STATE && game.timeout == -1) {
