@@ -144,7 +144,8 @@ void be_free_sprite(struct Sprite *sprite);
 /* ===== other ===== */
 void be_init(const struct ct_size *screen_size, bool fullscreen);
 bool be_supports_fullscreen(void);
-void be_next_event(struct be_event *event, struct timeval *timeout);
+void be_next_non_blocking_event(struct be_event *event);
+void be_next_blocking_event(struct be_event *event, struct timeval *timeout);
 void be_add_net_input(int sock);
 void be_remove_net_input(void);
 void be_copy_osda_to_screen(struct osda *src);

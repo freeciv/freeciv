@@ -216,23 +216,34 @@ static inline bool copy_event(struct be_event *event, SDL_Event *sdl_event)
 /*************************************************************************
   ...
 *************************************************************************/
-void be_next_event(struct be_event *event, struct timeval *timeout)
+void be_next_non_blocking_event(struct be_event *event)
 {
-  /*
-   * There are 3 event sources
-   * 1) data on the network socket
-   * 2) timeout
-   * 3) SDL keyboard and mouse events
-   */
+  SDL_Event sdl_event;
+
+  event->type = BE_NO_EVENT;
+
+  while (SDL_PollEvent(&sdl_event)) {
+    if (copy_event(event, &sdl_event)) {
+      break;
+    }
+  }
+}
+
+/*************************************************************************
+  ...
+*************************************************************************/
+void be_next_blocking_event(struct be_event *event, struct timeval *timeout)
+{
   Uint32 timeout_end =
       SDL_GetTicks() + timeout->tv_sec * 1000 + timeout->tv_usec / 1000;
 
   for (;;) {
-    SDL_Event sdl_event;
 
-    event->type = BE_NO_EVENT;
-    event->key.key = 0;
-    event->key.type = NUM_BE_KEYS;
+    /* Test for already queued events like mouse and keyboard */
+    be_next_non_blocking_event(event);
+    if (event->type != BE_NO_EVENT) {
+      return;
+    }
 
     /* Test the network socket. */
     if (other_fd != -1) {
@@ -240,7 +251,6 @@ void be_next_event(struct be_event *event, struct timeval *timeout)
       int ret;
       struct timeval zero_timeout;
 
-      /* No event available: block on input socket until one is */
       FD_ZERO(&readfds);
       FD_ZERO(&exceptfds);
 
@@ -259,23 +269,10 @@ void be_next_event(struct be_event *event, struct timeval *timeout)
       }
     }
 
-    /* The timeout */
+    /* Test for the timeout */
     if (SDL_GetTicks() >= timeout_end) {
       event->type = BE_TIMEOUT;
       return;
-    }
-
-    /* Normal SDL events */
-    while (SDL_PollEvent(&sdl_event)) {
-      if (copy_event(event, &sdl_event)) {
-#if 0
-        /* For debugging sdl slowness - remove me when done */
-        if (event->type == BE_KEY_PRESSED) {
-          printf("sending event %d:%d\n", event->key.key, event->key.type);
-        }
-#endif
-        return;
-      }
     }
 
     /* Wait 10ms and do polling */

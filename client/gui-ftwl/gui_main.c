@@ -312,11 +312,7 @@ void update_conn_list_dialog(void)
   function should be called sometimes soon, and passed the 'data' pointer
   as its data.
 ****************************************************************************/
-void add_idle_callback(void (callback)(void *), void *data)
+void add_idle_callback(void (callback) (void *), void *data)
 {
-  /* PORTME */
-
-  /* This is a reasonable fallback if it's not ported. */
-  freelog(LOG_DEBUG, "Unimplemented add_idle_callback.");
-  (callback)(data);
+  sw_add_timeout(-1, callback, data);
 }

@@ -219,7 +219,7 @@ static bool copy_event(struct be_event *event, XEvent * xevent)
 /*************************************************************************
   ...
 *************************************************************************/
-void be_next_event(struct be_event *event, struct timeval *timeout)
+void be_next_non_blocking_event(struct be_event *event)
 {
   XEvent xevent;
 
@@ -227,7 +227,6 @@ restart:
   event->type = BE_NO_EVENT;
 
   if (XCheckMaskEvent(display, -1 /*all events */ , &xevent)) {
-    //printf("got event %d\n", xevent.type);
     if (copy_event(event, &xevent)) {
       return;
     } else {
@@ -235,45 +234,51 @@ restart:
       goto restart;
     }
   }
+}
 
-  sw_paint_all();
+/*************************************************************************
+  ...
+*************************************************************************/
+void be_next_blocking_event(struct be_event *event, struct timeval *timeout)
+{
+  fd_set readfds, exceptfds;
+  int ret, highest = x11fd;
 
-  {
-    fd_set readfds, exceptfds;
-    int ret, highest = x11fd;
+restart:
+  event->type = BE_NO_EVENT;
 
-    /* No event available: block on input socket until one is */
-    FD_ZERO(&readfds);
-    FD_SET(x11fd, &readfds);
+  /* No event available: block on input socket until one is */
+  FD_ZERO(&readfds);
+  FD_SET(x11fd, &readfds);
 
-    FD_ZERO(&exceptfds);
+  FD_ZERO(&exceptfds);
 
-    if (other_fd != -1) {
-      FD_SET(other_fd, &readfds);
-      FD_SET(other_fd, &exceptfds);
-      if (other_fd > highest) {
-	highest = other_fd;
-      }
+  if (other_fd != -1) {
+    FD_SET(other_fd, &readfds);
+    FD_SET(other_fd, &exceptfds);
+    if (other_fd > highest) {
+      highest = other_fd;
     }
+  }
 
-    ret = select(highest + 1, &readfds, NULL, &exceptfds, timeout);
-    if (ret == 0) {
-      // timed out
-      event->type = BE_TIMEOUT;
-    } else if (ret > 0) {
-      if (other_fd != -1 && (FD_ISSET(other_fd, &readfds) ||
-			     FD_ISSET(other_fd, &exceptfds))) {
-	event->type = BE_DATA_OTHER_FD;
-	event->socket = other_fd;
-	return;
-      }
-      /* new data on the x11 fd */
-      goto restart;
-    } else if (errno == EINTR) {
-      goto restart;
-    } else {
-      assert(0);
+  ret = select(highest + 1, &readfds, NULL, &exceptfds, timeout);
+  if (ret == 0) {
+    // timed out
+    event->type = BE_TIMEOUT;
+  } else if (ret > 0) {
+    if (other_fd != -1 && (FD_ISSET(other_fd, &readfds) ||
+			   FD_ISSET(other_fd, &exceptfds))) {
+      event->type = BE_DATA_OTHER_FD;
+      event->socket = other_fd;
     }
+    /* 
+     * New data on the x11 fd. return with BE_NO_EVENT and let the
+     * caller handle it. 
+     */
+  } else if (errno == EINTR) {
+    goto restart;
+  } else {
+    assert(0);
   }
 }
 

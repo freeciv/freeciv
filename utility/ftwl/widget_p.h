@@ -188,6 +188,7 @@ extern struct sw_widget *root_window;
 extern struct widget_list *deferred_destroyed_widgets;
 
 void handle_callbacks(void);
+void handle_idle_callbacks(void);
 void get_select_timeout(struct timeval *timeout);
 
 struct sw_widget *create_widget(struct sw_widget *parent,

@@ -323,6 +323,76 @@ void handle_destroyed_widgets(void)
 /*************************************************************************
   ...
 *************************************************************************/
+static void handle_event(const struct be_event *event,
+			 void (*input_callback) (int socket))
+{
+  switch (event->type) {
+  case BE_DATA_OTHER_FD:
+    input_callback(event->socket);
+    break;
+  case BE_EXPOSE:
+    flush_all_to_screen();
+    break;
+  case BE_TIMEOUT:
+    handle_callbacks();
+    break;
+
+  case BE_MOUSE_MOTION:
+    {
+      struct sw_widget *widget = search_widget(&event->position, EV_MOUSE);
+
+      handle_mouse_motion(widget, &event->position);
+    }
+    break;
+
+  case BE_MOUSE_PRESSED:
+    {
+      struct sw_widget *widget = search_widget(&event->position, EV_MOUSE);
+
+      handle_mouse_press(widget, &event->position, event->button,
+			 event->state);
+    }
+    break;
+
+  case BE_MOUSE_RELEASED:
+    {
+      struct sw_widget *widget = search_widget(&event->position, EV_MOUSE);
+
+      handle_mouse_release(widget, &event->position, event->button);
+    }
+    break;
+
+  case BE_KEY_PRESSED:
+    {
+      bool handled = FALSE;
+      struct sw_widget *widget;
+
+      assert(ct_key_is_valid(&event->key));
+
+      if (selected_widget_gets_keyboard && selected_widget) {
+	widget = selected_widget;
+      } else {
+	widget = search_widget(&event->position, EV_KEYBOARD);
+      }
+      if (widget && widget->key) {
+	handled = widget->key(widget, &event->key, widget->key_data);
+      }
+      if (!handled) {
+	handled = deliver_key(&event->key);
+      }
+      if (!handled) {
+	printf("WARNING: unhandled key stroke\n");
+      }
+    }
+    break;
+  case BE_NO_EVENT:
+    break;
+  }
+}
+
+/*************************************************************************
+  ...
+*************************************************************************/
 void sw_mainloop(void (*input_callback)(int socket))
 {
   sw_paint_all();
@@ -331,74 +401,31 @@ void sw_mainloop(void (*input_callback)(int socket))
     struct be_event event;
     struct timeval timeout;
 
-    handle_callbacks();
-
-    get_select_timeout(&timeout);    
-    be_next_event(&event, &timeout);
-
-    switch (event.type) {
-    case BE_DATA_OTHER_FD:
-      input_callback(event.socket);
-      break;
-    case BE_EXPOSE:
-      flush_all_to_screen();
-      break;
-    case BE_TIMEOUT:
+    while (TRUE) {
       handle_callbacks();
-      break;
 
-    case BE_MOUSE_MOTION:
-      {
-	struct sw_widget *widget =
-	    search_widget(&event.position, EV_MOUSE);
-
-	handle_mouse_motion(widget, &event.position);
+      be_next_non_blocking_event(&event);
+      if (event.type == BE_NO_EVENT) {
+	break;
       }
-      break;
+      handle_event(&event, input_callback);
+    }
 
-    case BE_MOUSE_PRESSED:
-      {
-	struct sw_widget *widget =
-	    search_widget(&event.position, EV_MOUSE);
+    /* No events queued. We are idle. */
+    handle_idle_callbacks();
 
-	handle_mouse_press(widget, &event.position, event.button, event.state);
-      }
-      break;
+    /* 
+     * Since the next step may take some while, we update the screen
+     * to make the user happy.
+     */
+    sw_paint_all();
 
-    case BE_MOUSE_RELEASED:
-      {
-	struct sw_widget *widget =
-	    search_widget(&event.position, EV_MOUSE);
+    /* Wait for the server, the network or the timeout */
+    get_select_timeout(&timeout);    
+    be_next_blocking_event(&event, &timeout);
 
-	handle_mouse_release(widget, &event.position, event.button);
-      }
-      break;
-
-    case BE_KEY_PRESSED:
-      {
-	bool handled = FALSE;
-	struct sw_widget *widget;
-
-	assert(ct_key_is_valid(&event.key));
-
-	if (selected_widget_gets_keyboard && selected_widget) {
-	  widget = selected_widget;
-	} else {
-	  widget = search_widget(&event.position, EV_KEYBOARD);
-	}
-	if (widget && widget->key) {
-	  handled = widget->key(widget, &event.key, widget->key_data);
-	}
-	if (!handled) {
-	  handled = deliver_key(&event.key);
-	}
-	if (!handled) {
-	  printf("WARNING: unhandled key stroke\n");
-	}
-      }
-      break;
-    case BE_NO_EVENT:
-      break;
+    if (event.type != BE_NO_EVENT) {
+      handle_event(&event, input_callback);
     }
   }
 }
