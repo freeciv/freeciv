@@ -1179,49 +1179,6 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
     } adjc_dir_iterate_end;
   } gui_rect_iterate_end;
 
-  /* Draw citymap overlays on top. */
-  gui_rect_iterate(gui_x0, gui_y0, width, height,
-		   ptile, pedge, pcorner, gui_x, gui_y) {
-    const int canvas_x2 = gui_x - mapview.gui_x0;
-    const int canvas_y2 = gui_y - mapview.gui_y0;
-
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
-      struct unit *punit;
-      struct city *pcity;
-      int city_x, city_y;
-
-      pcity = find_city_or_settler_near_tile(ptile, &punit);
-      if (pcity
-	  && pcity->client.colored
-	  && map_to_city_map(&city_x, &city_y, pcity, ptile)) {
-	enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
-	int index = pcity->client.color_index % NUM_CITY_COLORS;
-
-	switch (worker) {
-	case C_TILE_EMPTY:
-	  canvas_put_sprite_full(mapview.store,
-				 canvas_x2, canvas_y2,
-				 sprites.city.unworked_tile_overlay.p[index]);
-	  break;
-	case C_TILE_WORKER:
-	  canvas_put_sprite_full(mapview.store,
-				 canvas_x2, canvas_y2,
-				 sprites.city.worked_tile_overlay.p[index]);
-	  break;
-	case C_TILE_UNAVAILABLE:
-	  break;
-	}
-      } else if (punit && punit->client.colored) {
-	int index = punit->client.color_index % NUM_CITY_COLORS;
-
-	/* Draw citymap overlay for settlers. */
-	canvas_put_sprite_full(mapview.store,
-			       canvas_x2, canvas_y2,
-			       sprites.city.unworked_tile_overlay.p[index]);
-      }
-    }
-  } gui_rect_iterate_end;
-
   show_city_descriptions(canvas_x, canvas_y, width, height);
 
   if (!full) {

@@ -2734,16 +2734,19 @@ static int fill_irrigation_sprite_array(struct tileset *t,
 }
 
 /**************************************************************************
-  Fill in the city tile output sprites for the tile.
+  Fill in the city overlays for the tile.  This includes the citymap
+  overlays on the mapview as well as the tile output sprites.
 **************************************************************************/
-static int fill_city_tile_output_sprite_array(struct tileset *t,
-					      struct drawn_sprite *sprs,
-					      const struct tile *ptile,
-					      const struct city *citymode)
+static int fill_city_overlays_sprite_array(struct tileset *t,
+					   struct drawn_sprite *sprs,
+					   const struct tile *ptile,
+					   const struct city *citymode)
 {
   const struct city *pcity;
+  struct unit *psettler;
   struct drawn_sprite *saved_sprs = sprs;
   int city_x, city_y;
+  const int NUM_CITY_COLORS = sprites.city.worked_tile_overlay.size;
 
   if (!ptile || tile_get_known(ptile) == TILE_UNKNOWN) {
     return 0;
@@ -2752,27 +2755,49 @@ static int fill_city_tile_output_sprite_array(struct tileset *t,
   if (citymode) {
     pcity = citymode;
   } else {
-    pcity = find_city_near_tile(ptile);
-    if (!pcity || !pcity->client.colored) {
-      return 0;
-    }
+    pcity = find_city_or_settler_near_tile(ptile, &psettler);
   }
 
-  if (map_to_city_map(&city_x, &city_y, pcity, ptile)
-      && get_worker_city(pcity, city_x, city_y) == C_TILE_WORKER) {
-    int food = city_get_output_tile(city_x, city_y, pcity, O_FOOD);
-    int shields = city_get_output_tile(city_x, city_y, pcity, O_SHIELD);
-    int trade = city_get_output_tile(city_x, city_y, pcity, O_TRADE);
-    const int ox = t->is_isometric ? NORMAL_TILE_WIDTH / 3 : 0;
-    const int oy = t->is_isometric ? -NORMAL_TILE_HEIGHT / 3 : 0;
+  if (pcity && map_to_city_map(&city_x, &city_y, pcity, ptile)) {
+    if (!citymode && pcity->client.colored) {
+      /* Add citymap overlay for a city. */
+      enum city_tile_type worker = get_worker_city(pcity, city_x, city_y);
+      int index = pcity->client.color_index % NUM_CITY_COLORS;
 
-    food = CLIP(0, food, NUM_TILES_DIGITS - 1);
-    shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
-    trade = CLIP(0, trade, NUM_TILES_DIGITS - 1);
+      switch (worker) {
+      case C_TILE_EMPTY:
+	ADD_SPRITE_SIMPLE(sprites.city.unworked_tile_overlay.p[index]);
+	break;
+      case C_TILE_WORKER:
+	ADD_SPRITE_SIMPLE(sprites.city.worked_tile_overlay.p[index]);
+	break;
+      case C_TILE_UNAVAILABLE:
+	break;
+      }
+    }
 
-    ADD_SPRITE(sprites.city.tile_foodnum[food], TRUE, ox, oy);
-    ADD_SPRITE(sprites.city.tile_shieldnum[shields], TRUE, ox, oy);
-    ADD_SPRITE(sprites.city.tile_tradenum[trade], TRUE, ox, oy);
+    if (get_worker_city(pcity, city_x, city_y) == C_TILE_WORKER
+	&& (citymode || pcity->client.colored)) {
+      /* Add on the tile output sprites. */
+      int food = city_get_output_tile(city_x, city_y, pcity, O_FOOD);
+      int shields = city_get_output_tile(city_x, city_y, pcity, O_SHIELD);
+      int trade = city_get_output_tile(city_x, city_y, pcity, O_TRADE);
+      const int ox = t->is_isometric ? NORMAL_TILE_WIDTH / 3 : 0;
+      const int oy = t->is_isometric ? -NORMAL_TILE_HEIGHT / 3 : 0;
+
+      food = CLIP(0, food, NUM_TILES_DIGITS - 1);
+      shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
+      trade = CLIP(0, trade, NUM_TILES_DIGITS - 1);
+
+      ADD_SPRITE(sprites.city.tile_foodnum[food], TRUE, ox, oy);
+      ADD_SPRITE(sprites.city.tile_shieldnum[shields], TRUE, ox, oy);
+      ADD_SPRITE(sprites.city.tile_tradenum[trade], TRUE, ox, oy);
+    }
+  } else if (psettler && psettler->client.colored) {
+    /* Add citymap overlay for a unit. */
+    int index = psettler->client.color_index % NUM_CITY_COLORS;
+
+    ADD_SPRITE_SIMPLE(sprites.city.unworked_tile_overlay.p[index]);
   }
 
   return sprs - saved_sprs;
@@ -3486,7 +3511,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_OVERLAYS:
-    sprs += fill_city_tile_output_sprite_array(t, sprs, ptile, citymode);
+    sprs += fill_city_overlays_sprite_array(t, sprs, ptile, citymode);
     if (ptile && map_deco[ptile->index].crosshair > 0) {
       ADD_SPRITE_SIMPLE(sprites.user.attention);
     }
