@@ -67,7 +67,7 @@ binary-arch: checkroot build
 	install -p -m 644 debian/copyright ${DOCDIR}
 	install -p -m 644 debian/changelog ${DOCDIR}/changelog.Debian
 	gzip -9v ${DOCDIR}/changelog.Debian
-	install -p -m 644 CHANGES ${DOCDIR}/changelog
+	install -p -m 644 ChangeLog ${DOCDIR}/changelog
 	gzip -9v ${DOCDIR}/changelog
 	install -p -m 644 README ${DOCDIR}
 	install -p -m 644 CREDITS ${DOCDIR}
