@@ -140,7 +140,8 @@ int wonder_replacement(struct city *pcity, enum improvement_type_id id)
       return 1;
     break;
   case B_CATHEDRAL:
-    if (city_affected_by_wonder(pcity, B_MICHELANGELO))
+    if (improvement_variant(B_MICHELANGELO)==0
+	&& city_affected_by_wonder(pcity, B_MICHELANGELO))
       return 1;
     break;
   case B_CITY:  

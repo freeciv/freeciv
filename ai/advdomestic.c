@@ -268,7 +268,8 @@ void ai_eval_buildings(struct city *pcity)
 /* rationale: If cost is N and benefit is N gold per MORT turns, want is
 TRADE_WEIGHTING * 100 / MORT.  This is comparable, thus the same weight -- Syela */
 
-  if (could_build_improvement(pcity, B_CATHEDRAL) && !built_elsewhere(pcity, B_MICHELANGELO))
+  if (could_build_improvement(pcity, B_CATHEDRAL) && 
+      (improvement_variant(B_MICHELANGELO)==1 || !built_elsewhere(pcity, B_MICHELANGELO)))
     values[B_CATHEDRAL] = building_value(get_cathedral_power(pcity), pcity, val);
   else if (tech_exists(game.rtech.cathedral_plus) &&
 	   get_invention(pplayer, game.rtech.cathedral_plus) != TECH_KNOWN)
@@ -449,9 +450,19 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
         values[i] = building_value(2, pcity, val);
       if (i == B_RICHARDS) /* ignoring pollu, I don't think it matters here -- Syela */
         values[i] = (pcity->size + 1) * SHIELD_WEIGHTING;
-      if (i == B_MICHELANGELO && !city_got_building(pcity, B_CATHEDRAL))
-        values[i] = building_value(get_cathedral_power(pcity), pcity, val);
-      
+      if (i == B_MICHELANGELO) {
+	/* Note: Mich not built, so get_cathedral_power() doesn't include its effect. */
+        if (improvement_variant(B_MICHELANGELO)==0 &&
+	    !city_got_building(pcity, B_CATHEDRAL)) {
+	  /* Assumes Mich will act as the Cath that is not in this city. */
+          values[i] = building_value(get_cathedral_power(pcity), pcity, val);
+	} else if (improvement_variant(B_MICHELANGELO)==1 &&
+		   city_got_building(pcity, B_CATHEDRAL)) {
+	  /* Assumes Mich will double the power of the Cath that is in this city. */
+          values[i] = building_value(get_cathedral_power(pcity), pcity, val);
+	}
+      }
+
       /* The following is probably wrong if B_ORACLE req is
 	 not the same as game.rtech.temple_plus (was A_MYSTICISM)
 	 --dwp */

@@ -132,6 +132,8 @@ int get_cathedral_power(struct city *pcity)
    power--;
   if (get_invention(p, game.rtech.cathedral_plus/*A_THEOLOGY*/) == TECH_KNOWN)
    power++;
+  if (improvement_variant(B_MICHELANGELO)==1 && city_affected_by_wonder(pcity, B_MICHELANGELO))
+   power*=2;
   return power;
 }
 

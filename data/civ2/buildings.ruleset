@@ -895,6 +895,7 @@ Counts as having a Cathedral in each of your cities. \
  This makes 3 unhappy citizens content in each city.\
 ")
 ; auto-help tech
+; Variant 1: Double effects of Cathedrals.
 
 [building_oracle]
 name        = _("Oracle")

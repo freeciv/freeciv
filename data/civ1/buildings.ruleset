@@ -830,12 +830,14 @@ obsolete_by = "Communism"
 is_wonder   = 1
 build_cost  = 300
 upkeep      = 0
-variant     = 0
+variant     = 1
 helptext    = _("\
-Counts as having a Cathedral in each of your cities. \
- This makes 3 unhappy citizens content in each city.\
+Double effects of Cathedrals.\
 ")
 ; auto-help tech
+; Variant 0: Counts as having a Cathedral in each of your cities.
+; This makes 3 unhappy citizens content in each city.
+
 
 [building_oracle]
 name        = _("Oracle")

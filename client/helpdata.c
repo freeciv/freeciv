@@ -609,7 +609,8 @@ void helptext_wonder(char *buf, int which,
     sprintf(buf+strlen(buf), "%s  ", _(imp->helptext));
   }
   if(which==B_MICHELANGELO) {
-    helptext_cathedral_techs(buf+strlen(buf));
+    if (improvement_variant(B_MICHELANGELO)==0)
+      helptext_cathedral_techs(buf+strlen(buf));
   }
   if (strcmp(user_text, "")!=0) {
     sprintf(buf+strlen(buf), "\n\n%s", user_text);

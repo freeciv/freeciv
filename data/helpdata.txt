@@ -1234,7 +1234,8 @@ world (such as the Hanging Gardens, J.S. Bach's Cathedral, the Cure \
 for Cancer, Shakespeare's Theatre, and, of course, the Women's \
 Suffrage; note, however, that the Michelangelo's Chapel will not \
 have an effect in this case, since it counts as a Cathedral in every \
-city), or converting part of your trade into luxuries.\
+city or double effects of Cathedrals, depending on ruleset), or \
+converting part of your trade into luxuries.\
 ")
 ;For more details check city_refresh() in server/cityturn.c
 
