@@ -743,8 +743,8 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity,
   from both sides coexisting on the same squares.  This routine resolves 
   this by teleporting the units in multiowner stacks to the closest city.
 
-  That is, if a unit is closer to it's city than the coexistent enemy unit
-  then the enemy unit is teleported home.
+  That is, if a unit is closer to its city than the coexistent enemy unit,
+  then the enemy unit is teleported to its owner's closest city.
 
                          - Kris Bubendorfer
 
@@ -774,8 +774,8 @@ void resolve_unit_stack(int x, int y, int verbose)
 
     if (pcity && ccity) {
       /* Both unit owners have cities; teleport unit farthest from its
-	 owner's city home. This also makes sure we get no loops from
-	 when we resolve the stack inside a city. */
+	 owner's city to that city. This also makes sure we get no loops
+	 from when we resolve the stack inside a city. */
       if (map_distance(x, y, pcity->x, pcity->y) 
 	  < map_distance(x, y, ccity->x, ccity->y))
 	teleport_unit_to_city(cunit, ccity, 0, verbose);
@@ -783,10 +783,10 @@ void resolve_unit_stack(int x, int y, int verbose)
 	teleport_unit_to_city(punit, pcity, 0, verbose);
     } else {
       /* At least one of the unit owners doesn't have any cities;
-	 if the other owner has any cities we teleport his units home.
-	 We take care not to teleport the unit to the original square,
-	 as that would cause the while loop in this function to
-	 potentially never stop. */
+	 if the other owner has any cities we teleport his units to
+	 the closest. We take care not to teleport the unit to the
+	 original square, as that would cause the while loop in this
+	 function to potentially never stop. */
       if (pcity) {
 	if (same_pos(x, y, pcity->x, pcity->y))
 	  disband_stack_conflict_unit(cunit, verbose);
