@@ -45,6 +45,7 @@
 #include "version.h"
 
 #include "citytools.h"
+#include "commands.h"
 #include "connecthand.h"
 #include "console.h"
 #include "diplhand.h"
