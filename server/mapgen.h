@@ -17,7 +17,6 @@ void map_fractal_generate(void);
 int is_water_adjacent(int x, int y);
 void flood_it(int loaded);
 void choose_start_positions(void);
-
-
+void adjust_terrain_param();
 
 #endif

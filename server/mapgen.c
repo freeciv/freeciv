@@ -10,30 +10,30 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#include <log.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
 
+#include <log.h>
 #include <map.h>
 #include <game.h>
 #include <shared.h>
-
-#include <aitools.h>
 #include <assert.h>
+
+#define hmap(x,y) &height_map[(y)*map.xsize+map_adjust_x(x)]
+
 void make_huts(int number);
 void add_specials(int prob);
 void mapgenerator1(void);
 void mapgenerator2(void);
 void mapgenerator3(void);
-void spread(int spr);
+void mapgenerator4(void);
 void smooth_map();
-void add_height(int x,int y, int radius);
 void adjust_map(int minval);
 void init_workmap(void);
-int *height_map;
 
+int *height_map;
 int maxval=0;
 int forests=0;
 
@@ -44,22 +44,6 @@ int forests=0;
 int full_map(int x, int y)
 {
   return height_map[y*map.xsize+x];
-}
-
-/**************************************************************************
- is this y coordinate in the arctic zone?
-**************************************************************************/
-int arctic_y(int y)
-{
-  return (y < map.ysize/10 || y > map.ysize*9/10);
-}
-
-/**************************************************************************
- Is this y coordinate in the desert zone?
-**************************************************************************/
-int desert_y(int y)
-{
-  return (y > map.ysize*4/10  &&  y < map.ysize*6/10);
 }
 
 /**************************************************************************
@@ -506,6 +490,9 @@ void flood_it(int loaded)
   int oldisles, goodisles;
   int guard1=0;
 
+  if (map.generator != 1) return;      /* 2,3 and 4 have fixed number of starters */
+  /* means: goodies is not initialized for 2,3,4. doesn't matter now, since unused*/
+
   for (y=0;y<map.ysize;y++)
     for (x=0;x<map.xsize;x++)
       map_set_continent(x, y, 0);
@@ -513,17 +500,16 @@ void flood_it(int loaded)
   flood_fill(0,map.ysize-1,2);         /* ... */
   for (y=0;y<map.ysize;y++)
     for (x=0;x<map.xsize;x++) 
-      if (!map_get_continent(x, y) && map_get_terrain(x, y)!=T_OCEAN) {
+      if (!map_get_continent(x, y) && map_get_terrain(x, y)!=T_OCEAN ) {
+	if(isles>=MAP_NCONT) isles= MAP_NCONT-1; 
 	islands[isles].goodies=0;
 	flood_fill(x,y,isles);
 	islands[isles].starters=0;
 	islands[isles].x=x;
 	islands[isles].y=y;
-	isles++;
+	isles++; 
       }
  
-/* fnord -- Syela */
-
   if (loaded)                 /* only make the continents if loaded game*/
     return;
 
@@ -669,7 +655,7 @@ void choose_start_positions(void)
 	}
       }
     }
-  } 
+  }
 }
 
 /**************************************************************************
@@ -690,13 +676,16 @@ void map_fractal_generate(void)
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.generator != 0) {
     init_workmap();
-    if (map.generator == 3 ){
+    /* if one mapgenerator fails, it will choose another mapgenerator */
+    /* with a lower number to try again */
+    if (map.generator == 4 )
+      mapgenerator4();
+    if (map.generator == 3 )
       mapgenerator3();
-    } else if( map.generator == 2 ){
+    if( map.generator == 2 )
       mapgenerator2();
-    } else {
+    if( map.generator == 1 )
       mapgenerator1();
-    }
     filter_land();
   }
 
@@ -708,10 +697,61 @@ void map_fractal_generate(void)
   save_restore_random();
 }
 
+
+/**************************************************************************
+ readjust terrain counts so that it makes sense for mapgen 1, 2, 3 and 4
+ idea: input is the number of terrain
+ mapgen 1 needs custom parameters, 
+ mapgen 2 and 3 and 4 use percents, currently.
+ Ultimately, I hope all parameters below will be weights,
+ with the defaults set to a percentage;
+ Placing deserts and swamps may cause some problems.
+
+ This function needs to be called from the server everytime a
+ a parameter changes.
+ It will be called again at game start, too.
+**************************************************************************/
+void adjust_terrain_param(){
+  int total;
+
+  /*!PS: I don't have the time to have several test runs */
+  /* to find a mapping from percents to generator 1 settings. */
+
+  if(map.generator==1){
+    /*map.riverlength*= 10; */
+    /*I leave this out, people will get too upset 
+      if they have to change all their scripts */
+    return;
+  }
+
+  map.riverlength/= 10;/* left in */
+
+  total = map.riverlength + map.mountains
+    + map.deserts + map.forestsize 
+    + map.swampsize + map.grasssize
+    + map.deserts;
+
+  if(total>100){
+    map.riverlength= map.riverlength*100/total;
+    map.mountains= map.mountains*100/total;
+    map.forestsize= map.forestsize*100/total;
+    map.swampsize= map.swampsize*100/total;
+    map.deserts= map.deserts*100/total;
+
+    total = map.grasssize+ map.riverlength + map.mountains
+    + map.deserts + map.forestsize 
+    + map.swampsize + 0
+    + map.deserts;
+
+    map.grasssize= 100 - total;
+  }
+}
+
+
 /**************************************************************************
   this next block is only for debug purposes and could be removed
 **************************************************************************/
-char terrai_chars[] = {'a','D', 'F', 'g', 'h', 'j', 'M', '*', 'p', 'R', '%','T', 'U' };
+char terrai_chars[] = {'a','D', 'F', 'g', 'h', 'j', 'M', '.', 'p', 'R', 's','T', 'U' };
 
 void print_map(void)
 {
@@ -730,6 +770,19 @@ void print_hmap(void)
   for (y=0;y<20;y++) {
     for (x=0;x<20;x++) {
       putchar(terrai_chars[height_map[y*20+x]]);
+    }
+    puts("");
+  }
+}
+
+void print_imap(void)
+{ char tohex[16]="0123456789abcdef";
+  int x,y,i;
+  for (y=0;y<map.ysize;y++) {
+    for (x=0;x<map.xsize;x++) {
+      i=map_get_continent(x, y);
+      putchar(tohex[i>>4]);
+      putchar(tohex[i&15]);
     }
     puts("");
   }
@@ -766,652 +819,6 @@ void init_workmap(void)
        tile_init(map_get_tile(x, y));
 }
 
-/*****************************************************************************
-  The rest of this file is only used in  mapgenerator 2, and should not be 
-  confused with the previous stuff.
-*****************************************************************************/
-int ymax = 20;
-int xmax = 20;
-int size = 100;
-int startsize = 100;
-int xs; 
-int ys;
-int dx;
-int dy;
-
-long int landmass;/* long int so that multiplication results fit */
-
-/* statics for fillisland, initialized by setup fill island */
-
-long int riversbucket=0;
-long int mountainsbucket=0;
-long int hillsbucket=0;
-long int forestbucket=0;
-long int mixedbucket=0;
-
-long int riverscapacity=0;
-long int mountainscapacity=0;
-long int hillscapacity=0;
-long int forestcapacity=0;
-long int mixedcapacity=0;
-
-int riversstep=0;
-int mountainsstep=0;
-int hillsstep=0;
-int foreststep=0;
-int mixedstep=0;
-
-/**************************************************************************
-  This sets up a line drawer so that numbers of terrain will match
-**************************************************************************/
-void setup_fillisland(void)
-{
-  long int total=0;  
-  long int swampsize, deserts, mountains, forestsize, riverlength;
-
-  swampsize = ((map.xsize*map.ysize)*map.swampsize+500)/1000;
-  deserts   = ((map.xsize*map.ysize)*map.deserts+500)/1000;
-  mountains = ((map.xsize*map.ysize)*map.mountains+500)/1000;
-  forestsize= ((map.xsize*map.ysize)*map.forestsize+500)/1000;
-  riverlength= map.riverlength;
-
-  total+= swampsize;
-  total+= deserts;
-  total+= riverlength;
-  total+= mountains;
-  total+= forestsize;
-  /* mixed = deserts + swamps */
-
-  if(4*total>3*landmass) /* never allow more than 3/4 strange stuff */{
-    swampsize   = ( swampsize*3*landmass )/( 4*total );
-    deserts     = ( deserts*3*landmass )/( 4*total );
-    riverlength = ( riverlength*3*landmass )/( 4*total );
-    mountains   = ( mountains*3*landmass )/( 4*total );
-    forestsize  = ( forestsize*3*landmass )/( 4*total );
-  }
- 
-  riversstep   = riverlength;
-  mountainsstep= (1*mountains+2)/3;
-  hillsstep    = (2*mountains+1)/3;
-  foreststep   = forestsize;
-  mixedstep    = swampsize+deserts;
-
-  riverscapacity   = (landmass*3)/4;
-  mountainscapacity= (landmass*3)/4;
-  hillscapacity    = (landmass*3)/4;
-  forestcapacity   = (landmass*3)/4;
-  mixedcapacity    = (landmass*3)/4;
-
-  /* centered regular line 
-  riversbucket    = (-riverscapacity)/2;
-  mountainsbucket = (-mountainscapacity)/2;
-  hillsbucket     = (-hillscapacity)/2;
-  forestbucket    = (-forestcapacity)/2;
-  mixedbucket     = (-mixedcapacity)/2;
-  */
-
-  /* randomized line */
-  riversbucket    = - myrand(riverscapacity);
-  mountainsbucket = - myrand(mountainscapacity);
-  hillsbucket     = - myrand(hillscapacity);
-  forestbucket    = - myrand(forestcapacity);
-  mixedbucket     = - myrand(mixedcapacity);
-}
-
-/**************************************************************************
-  a wrapper
-**************************************************************************/
-int mini_map(int x, int y)
-{
-  return height_map[y*xmax + x];
-}
-
-/**************************************************************************
-  fill an island with different types of terrain,
-**************************************************************************/
-void fillisland(int xp, int yp)
-{
-  /* defaults reflect the setup of the original generator2 */
-  int rivers = 1;
-  int mountains = 3;
-  int hills = 6; 
-  int forest = 10;
-  int mixed  = 5;
-  int x,y;
-  int dir=-1;
-  
-  int fudge= 0; /* fudge factor to compensate programming errors (if >0) */
-                  
-  /* what we do is draw chunks of lines */
-  if(size>0) fudge=size;
-  riversbucket    += riversstep*(startsize-fudge);
-  mountainsbucket += mountainsstep*(startsize-fudge);
-  hillsbucket     += hillsstep*(startsize-fudge);
-  forestbucket    += foreststep*(startsize-fudge);
-  mixedbucket     += mixedstep*(startsize-fudge);  
-
-  if( riversbucket>0 )
-    { /* is optimizer able to compress x=a%b; y=a/b; to one divmod asm ?! */
-      rivers      = riversbucket/riverscapacity; 
-      rivers++;
-      riversbucket-= rivers*riverscapacity; 
-    }
-  else 
-    rivers=0;
-
-  if( mountainsbucket>0 )
-    { 
-      mountains      = mountainsbucket/mountainscapacity; 
-      mountains++;
-      mountainsbucket-= mountains*mountainscapacity; 
-    }
-  else 
-    mountains=0;
-
-  if( hillsbucket>0 )
-    { 
-      hills      = hillsbucket/hillscapacity; 
-      hills++;
-      hillsbucket-= hills*hillscapacity; 
-    }
-  else 
-    hills=0;
-
-  if( forestbucket>0 )
-    { 
-      forest      = forestbucket/forestcapacity; 
-      forest++; 
-      forestbucket-= forest*forestcapacity; 
-    }
-  else 
-    forest=0;
-
-  if( mixedbucket>0 )
-    { 
-      mixed      = mixedbucket/mixedcapacity; 
-      mixed++;
-      mixedbucket-= mixed*mixedcapacity; 
-    }
-  else 
-    mixed=0;
-
-  /* printf("line: %i/%i\th%i f%i r%i M%i m%i\n",
-	 startsize,size,hills,forest,rivers,mountains,mixed); */
- 
-  x = xp + xmax / 2;
-  y = yp + ymax / 2;
-
-  while (rivers >0) {
-    x = myrand(xmax) + xp;
-    y = myrand(ymax) + yp;
-    if (map_get_terrain(x,y) == T_GRASSLAND &&
-	( !is_terrain_near_tile(x, y, T_OCEAN) || !myrand(6) )
-	) {
-      dir = myrand(4);
-      map_set_terrain(x, y, T_RIVER); mixed--;
-      rivers--;
-
-
-      while (!is_terrain_near_tile(x, y, T_OCEAN)) {
-	switch (dir) {
-	case 0:
-	  x--;
-	  break;
-	case 1:
-	  y--;
-	  break;
-	case 2:
-	  x++;
-	  break;
-	case 3:
-	  y++;
-	  break;
-	}
-	if (map_get_terrain(x,y) == T_GRASSLAND ){ 
-	  map_set_terrain(x,y, T_RIVER); mixed--;
-	  rivers--;
-	}
-	else 
-	  break;
-
-	if (is_terrain_near_tile(x, y, T_OCEAN)) 
-	  break;
-
-	switch ((dir + myrand(3) - 1 + 4)%4) {
-	case 0:
-	  x--;
-	  break;
-	case 1:
-	  y--;
-	  break;
-	case 2:
-	  x++;
-	  break;
-	case 3:
-	  y++;
-	}
-	if (map_get_terrain(x,y) == T_GRASSLAND ){
-	  map_set_terrain(x,y, T_RIVER); mixed--;
-	  rivers--;
-	}
-	else
-	  break;
-      }
-    }
-  }
-
-
-  while (mountains >0) {
-    x = myrand(xmax) + xp;
-    y = myrand(ymax) + yp;
-    if (map_get_terrain(x,y) == T_GRASSLAND &&
-	( !is_terrain_near_tile(x, y, T_OCEAN) || !myrand(6) )
-       ) {
-      map_set_terrain(x, y, T_MOUNTAINS);
-      mountains--;
-    }    
-  }
-
-  while (hills >0) {
-    x = myrand(xmax) + xp;
-    y = myrand(ymax) + yp;
-    if (map_get_terrain(x,y) == T_GRASSLAND &&
-	( !is_terrain_near_tile(x, y, T_OCEAN) || !myrand(6) )
-       ) {
-      map_set_terrain(x, y, T_HILLS);
-      hills--;
-    }    
-  }
-
-  while (forest >0) {
-    x = myrand(xmax-1) + xp;
-    y = myrand(ymax-1) + yp;
-    if (map_get_terrain(x,y) == T_GRASSLAND) {
-      map_set_terrain(x, y, T_FOREST);
-      forest--;
-      if (forest>0 && map_get_terrain(x+1,y) == T_GRASSLAND && myrand(3)) {
-	map_set_terrain(x+1, y, T_FOREST);
-	forest--;
-      }
-      if (forest>0 && map_get_terrain(x,y+1) == T_GRASSLAND && myrand(3)) {
-	map_set_terrain(x, y+1, T_FOREST);
-	forest--;
-      }
-      if (forest>0 && map_get_terrain(x+1,y+1) == T_GRASSLAND && myrand(3)) {
-	map_set_terrain(x+1, y+1, T_FOREST);
-	forest--;
-      }
-    }    
-  }
-
-  while (mixed > 0) {
-    x = myrand(xmax) + xp;
-    y = myrand(ymax) + yp;
-    if (map_get_terrain(x,y) == T_GRASSLAND) {
-      if (arctic_y(y)) {
-	map_set_terrain(x, y, T_TUNDRA);
-	mixed--;
-      } else if (desert_y(y) && is_terrain_near_tile(x, y, T_OCEAN)) {
-	map_set_terrain(x, y, T_DESERT);
-	mixed--;
-	if (mixed>0 && map_get_terrain(x+1,y) == T_GRASSLAND && myrand(3)) {
-	  map_set_terrain(x+1, y, T_DESERT);
-	  mixed--;
-	}
-	if (mixed>0 && map_get_terrain(x,y+1) == T_GRASSLAND && myrand(3)) {
-	  map_set_terrain(x, y+1, T_DESERT);
-	  mixed--;
-	}
-	if (mixed>0 && map_get_terrain(x+1,y+1) == T_GRASSLAND && myrand(3)) {
-	  map_set_terrain(x+1, y+1, T_DESERT);
-	  mixed--;
-	}
-      } else {
-	if (desert_y(y))
-	  map_set_terrain(x, y, T_JUNGLE);
-	else 
-	  map_set_terrain(x, y, T_SWAMP);
-	mixed--;
-      }
-    }
-  }
-
-  for (y = 0; y < ymax; y++)
-    for (x = 0; x < ymax; x++) {
-      if (map_get_terrain(xp +x, yp+y) == T_GRASSLAND && !myrand(3)) {
-	map_set_terrain(xp+x, y+yp, T_PLAINS);
-      }
-    }
-}
-
-/**************************************************************************
-  copy the newly created island to the real map, notice that T_OCEAN is
-  used as mask so other island won't get destroyed.
-**************************************************************************/
-void placeisland(int xp, int yp)
-{
-  int x,y;
-  for (y = 0 ; y < dy ; y++) 
-    for (x = 0 ; x < dx ; x++) {
-      if (mini_map(xs+x, y+ys) != T_OCEAN) 
-	map_set_terrain(xp + x, yp + y, mini_map(xs+x, ys+y));
-    }
-}
-
-/**************************************************************************
-  is there a neighbour square in the 4 basic directions?
-**************************************************************************/
-int neighbour(int x, int y)
-{
-  if ( x == 0 || x == xmax - 1 || y==0 || y == ymax -1) return 0;
-  return (mini_map(x+1, y) + mini_map(x-1, y) + mini_map(x, y+1) + mini_map(x, y-1));
-}
-
-/**************************************************************************
-  is there a neighbour square in any of the 8 directions?
-**************************************************************************/
-int neighbour8(int x, int y)
-{
-  if ( x == 0 || x == xmax - 1 || y==0 || y == ymax -1) return 0;
-  return(neighbour(x,y) + mini_map(x+1, y-1) + mini_map(x-1, y-1) + mini_map(x+1, y+1) + mini_map(x-1, y+1));
-}
-
-/**************************************************************************
-  we need this to convert tbe 0 based ocean representation to 2 
-**************************************************************************/
-void floodocean(int x, int y)
-{
-  if (x < 0 || x == xmax) return;
-  if (y < 0 || y == ymax) return;
-  if (mini_map(x,y) == 0) {
-    height_map[y*xmax + x] = 2;
-    floodocean(x - 1, y);
-    floodocean(x + 1, y);
-    floodocean(x , y - 1);
-    floodocean(x , y + 1);
-  }
-}
-
-/**************************************************************************
-  this procedure will generate 1 island
-**************************************************************************/
-void makeisland(void)
-{
-  int x,y;
-  
-  if( xmax*ymax/2< size )
-    {    
-     freelog(LOG_NORMAL,"island too large(%i)\n",startsize);
-     size= (xmax-1)*(ymax-1)/2;
-    }
-
-  xs = xmax/2 -1;
-  ys = ymax/2 -1;
-  dx = 3;
-  dy = 3;
-  for (y = 0 ; y < ymax ; y++) {
-    for (x = 0 ; x < xmax ; x++) {
-      height_map[y * xmax + x]=0;
-    }
-  }
-  startsize= size;
-  height_map[(ymax/2)*xmax + xmax/2] = 1;
-  while (size > 0) {
-    x = myrand(dx) + xs;
-    y = myrand(dy) + ys;
-    if (mini_map(x, y) == 0 && neighbour(x,y)) {
-      height_map[y*xmax + x] = 1;
-      size--;
-      if (x <= xs) {
-	xs--;
-	dx++;
-      }
-      if (x == xs+dx - 1) dx++;
-      if (y <= ys) {
-	ys--;
-	dy++;
-      }
-      if (y == ys+dy - 1) dy++;
-    }
-  }
-  for (y = 0 ; y < ymax - 1; y++) 
-    for (x = 0; x < xmax - 1; x++) {
-      if (neighbour8(x, y) == 1 && mini_map(x, y) == 1) {
-	height_map[y*xmax + x] = 0;
-	size--;
-      }
-    }
-  floodocean(0,0);
-  for (y = 0 ; y < ymax; y++) 
-    for (x = 0; x < xmax; x++) {
-      if (mini_map(x, y) == 0) {
-	height_map[y*xmax + x] = 1;
-	size++;
-      }
-      if (mini_map(x, y) == 1) 
-	height_map[y*xmax + x] = T_GRASSLAND;
-      else 
-	height_map[y*xmax + x] = T_OCEAN;
-    }
-}
-
-/**************************************************************************
-  this procedure finds a place to drop the current island
-**************************************************************************/
-int findislandspot(int *xplace, int *yplace)
-{
-  int x, y;
-  int rx, ry;
-  int taken;
-  int tries;
-  tries = 100;
-  while( tries-->0 ) {
-    rx = myrand(map.xsize);
-    ry = myrand(map.ysize-dy-6) + 3;
-    taken = 0;
-    for (y = 0; y < dy && !taken; y++)
-      for (x = 0; x < dx && !taken; x++) {
-	  if (map_get_terrain(rx + x, ry + y) != T_OCEAN) {
-	    taken = 1;
-	  }
-	}
-    if (!taken) {
-      *xplace = rx;
-      *yplace = ry;
-      return 1;
-    }
-  }
-  return 0;
-}
-
-/**************************************************************************
-  this is mapgenerator2. The highlevel routine that ties the knots together
-**************************************************************************/
-
-void mapgenerator2()
-{
-  int i,j=0;
-  int xp,yp;
-  int x,y;
-  long int islandmass;
-  int islands;
-
-  if( game.nplayers<=3 )
-    islands= 2*game.nplayers+1;
-  else 
-    islands= 7;
-
-  landmass= ( map.xsize * (map.ysize-6) * map.landpercent+50 )/100;
-  /* we need a factor of 7/10 or sth. like that because the coast
-     of islands actually takes up lots of space too */
-  islandmass= ( (landmass*7)/10+islands-1 )/islands;
-
-  if( map.xsize < 40 || map.ysize < 25 || map.landpercent>50 || islandmass>350 )
-    { freelog(LOG_NORMAL,"falling back to generator 1\n"); mapgenerator1(); return; }
-
-  if(islandmass<6)
-    islandmass= 6;
-  if(islandmass>350)
-    islandmass=350;/* !PS: cough */
-
-  while( (xmax*ymax)<3*islandmass)
-    { xmax++; ymax++; }
-   
-  height_map =(int *) malloc (sizeof(int)*xmax*ymax);
-
-  for (y = 0 ; y < map.ysize ; y++) 
-    for (x = 0 ; x < map.xsize ; x++) {
-      map_set_terrain(x,y, T_OCEAN);
-    }
-  for (x = 0 ; x < map.xsize; x++) {
-    map_set_terrain(x,0, T_ARCTIC);
-    if (myrand(100)>50) 
-      map_set_terrain(x,1, T_ARCTIC);
-    map_set_terrain(x, map.ysize-1, T_ARCTIC);
-    if (myrand(100)>50) 
-      map_set_terrain(x,map.ysize-2, T_ARCTIC);
-  }
-  
-  setup_fillisland();
-
-    i= islands;
-    while( i>0 &&  ++j<500 ) {
-      size = islandmass;
-     makeisland();
-      if( findislandspot(&xp, &yp) )
-	{
-	  placeisland(xp, yp);
-	  fillisland(xp, yp);
-	  i--;
-	}
-    }
-
-  if(j==500)
-    freelog(LOG_NORMAL, "generator 2 didn't place all islands; %i islands not placed.", i );
-  
-    /*  print_map();*/
-  free(height_map);
-}
-
-/**************************************************************************
- this is mapgenerator3. Works exactly as 2, with additional small islands
-**************************************************************************/
-void mapgenerator3()
-{
-  int i,j=0;
-  int xp,yp;
-  int x,y;
-  long int islandmass, massleft;
-  long int maxmassdiv6=20;
-  int bigislands;
-
-  bigislands= game.nplayers;
-
-  landmass= ( map.xsize * (map.ysize-6) * map.landpercent )/100;
-  /* subtracting the arctics */
-  if( landmass>3*map.ysize+game.nplayers*3 ){
-    landmass-= 3*map.ysize;
-  }
-
-  massleft= landmass;
-  islandmass= (landmass +bigislands-1 )/(3*bigislands);
-  if(islandmass<4*maxmassdiv6 )
-    islandmass= (landmass +bigislands-1 )/(2*bigislands);
-  if(islandmass<3*maxmassdiv6 && game.nplayers*2<landmass )
-    islandmass= (landmass)/(bigislands);
-
-  if( map.xsize < 40 || map.ysize < 40 || map.landpercent>80 )
-    { freelog(LOG_NORMAL,"falling back to generator 2"); mapgenerator2(); return; }
-
-  if(map.landpercent>50)
-    { freelog(LOG_NORMAL,"high landmass - this may take a few seconds"); }
-
-  if(islandmass<2)
-    islandmass= 2;
-  if(islandmass>maxmassdiv6*6)
-    islandmass= maxmassdiv6*6;/* !PS: let's try this */
-
-
-  while( xmax*ymax < 3*islandmass )
-    { xmax++; ymax++; }
-  height_map =(int *) malloc (sizeof(int)*xmax*ymax);
-
-  for (y = 0 ; y < map.ysize ; y++) 
-    for (x = 0 ; x < map.xsize ; x++) {
-      map_set_terrain(x,y, T_OCEAN);
-    }
-  for (x = 0 ; x < map.xsize; x++) {
-    map_set_terrain(x,0, T_ARCTIC);
-    if (myrand(100)>50) 
-      map_set_terrain(x,1, T_ARCTIC);
-    map_set_terrain(x, map.ysize-1, T_ARCTIC);
-    if (myrand(100)>50) 
-      map_set_terrain(x,map.ysize-2, T_ARCTIC);
-  }
-  
-  setup_fillisland();
-
-    i= 0;
-    while( i<bigislands && massleft>0 && ++j<500 ) {
-      size = islandmass;
-      makeisland();
-      if( findislandspot(&xp, &yp) )
-	{
-	  placeisland(xp, yp);
-	  fillisland(xp, yp);
-	  i++;
-	  massleft-= islandmass;
-	}
-    }
-
-  if(j==500)
-    freelog(LOG_NORMAL, "generator 3 didn't place all big islands.");
-
-  free(height_map);
-
-  islandmass= islandmass/3;
-  if(islandmass<20)
-    islandmass= (islandmass*11)/8;
-  /*!PS: I'd like to mult by 3/2, but starters might make trouble then*/
-  if(islandmass<2)
-    islandmass= 2;
-
-  xmax= 13; ymax=13;
-  while( xmax*ymax < 3*islandmass )
-    { xmax++; ymax++; }
-  height_map =(int *) malloc (sizeof(int)*xmax*ymax);
-
-  /* !PS: the limit for isles is 100, but I get 
-     "failed writing data to socket" for i close 100 */
-    while( i<80 && massleft>0 && ++j< 1500 ) {
-      if(j<1000)
-	size = myrand((islandmass+1)/2+1)+islandmass/2;
-      else
-	size = myrand((islandmass+1)/2+1);
-      if(size<2) size=2;
-      makeisland();
-      if( findislandspot(&xp, &yp) )
-	{
-	  placeisland(xp, yp);
-	  fillisland(xp, yp);
-	  i++;
-	  massleft-= startsize;
-	}
-    }
-
-  if(j==1500)
-    freelog(LOG_NORMAL, "generator 3 left %li landmass unplaced.",massleft);
-
-    /*  print_map();*/
-  free(height_map);
-
-  /* !PS: problem left to solve: make sure players start on big islands */
-  /* make big islands further apart ? => new algorithm */
-}
-
-
-
-
 /**************************************************************************
   mapgenerator1, highlevel function, that calls all the previous functions
 **************************************************************************/
@@ -1421,6 +828,7 @@ void mapgenerator1(void)
   int minval=5000000;
   height_map=(int *) malloc (sizeof(int)*map.xsize*map.ysize);
 
+  adjust_terrain_param();
   
   for (y=0;y<map.ysize;y++) {
     for (x=0;x<map.xsize;x++) {
@@ -1530,3 +938,467 @@ void add_specials(int prob)
     }
 }
 
+/**************************************************************************
+  globals for generator 2 & 3
+**************************************************************************/
+static int isleindex, n, e, s, w;
+static long int totalmass; /* better a global than a duplicate formula */
+
+int is_cold(int x, int y){
+  return ( y * 5 < map.ysize || y * 5 > map.ysize * 4 );
+}
+
+/**************************************************************************
+  fill an island with up four types of terrains, rivers have extra code
+**************************************************************************/
+static void fillisland(int coast, long int *bucket,
+		       int warm0_weight, int warm1_weight, 
+		       int cold0_weight, int cold1_weight, 
+		enum tile_terrain_type warm0, enum tile_terrain_type warm1,
+		enum tile_terrain_type cold0, enum tile_terrain_type cold1)
+{
+  int x, y, i, k, capac;
+  long int failsafe;
+
+  if (*bucket <= 0 ) return;
+  capac = totalmass;
+  i = *bucket / capac;
+  i++;
+  *bucket -= i * capac;
+
+  k= i;
+  failsafe= i*(s-n)*(e-w);
+  if(failsafe<0){ failsafe= -failsafe; }
+
+  if(warm0_weight+warm1_weight+cold0_weight+cold1_weight<=0)
+    i= 0;
+
+  while (i && failsafe--) {
+    y = myrand(s - n) + n;
+    x = myrand(e - w) + w;
+    if (map_get_continent(x,y) == isleindex &&
+		map_get_terrain(x,y) == T_GRASSLAND) {
+
+      /* the first condition helps make terrain more contiguous,
+	 the second lets it avoid the coast: */
+      if ( ( i*3>k*2 
+	     || is_terrain_near_tile(x,y,warm0) 
+	     || is_terrain_near_tile(x,y,warm1) 
+	     || myrand(100)<50 
+	     || is_terrain_near_tile(x,y,cold0) 
+	     || is_terrain_near_tile(x,y,cold1) 
+	     )
+	  &&( !is_terrain_near_tile(x, y, T_OCEAN) || myrand(100) < coast )
+	  )
+        if (cold1 != T_RIVER)
+          if ( is_cold(x,y) )
+            map_set_terrain(x, y, (myrand(cold0_weight+cold1_weight)<cold0_weight) 
+			    ? cold0 : cold1);
+          else
+            map_set_terrain(x, y, (myrand(warm0_weight+warm1_weight)<warm0_weight) 
+			    ? warm0 : warm1);
+        else
+          if (is_water_adjacent_to_tile(x, y) &&
+            count_terrain_near_tile(x, y, T_RIVER) < 3)
+              map_set_terrain(x, y, T_RIVER);
+      if (map_get_terrain(x,y) != T_GRASSLAND) i--;
+    }
+  }
+}
+
+static long int checkmass;
+
+/**************************************************************************
+  finds a place and drop the island created when called with islemass != 0
+**************************************************************************/
+static int placeisland()
+{
+  int x, y, xo, yo, i=0;
+  yo = myrand(map.ysize)+n-s;
+  xo = myrand(map.xsize)+w-e;
+  y = n + s / 2;
+  x = w + e / 2;
+
+  /* this helps a lot for maps with high landmass */
+  for (y = n, x = w ; y < s && x < e ; y++, x++)
+    if (*hmap(x, y) && is_coastline(x + xo - w, y + yo - n))
+      return 0;
+		       
+  for (y = n ; y < s ; y++)
+    for (x = w ; x < e ; x++)
+      if (*hmap(x, y) && is_coastline(x + xo - w, y + yo - n))
+        return 0;
+
+  for (y = n ; y < s ; y++) 
+    for (x = w ; x < e ; x++) {
+      if (*hmap(x, y)) {
+
+	checkmass--; 
+	if(checkmass<=0) 
+	 { freelog(LOG_NORMAL,"mapgen.c: mass doesn't sum up."); return i; }
+
+        map_set_terrain(xo + x - w, yo + y - n, T_GRASSLAND);
+        map_set_continent(xo + x - w, yo + y - n, isleindex);
+        i++;
+      }
+    }
+  s += yo - n;
+  e += xo - w;
+  n = yo;
+  w = xo;
+  return i;
+}
+
+/**************************************************************************
+  finds a place and drop the island created when called with islemass != 0
+**************************************************************************/
+static int createisland(int islemass)
+{
+  int x, y, i;
+  long int tries=islemass*(2+islemass/20)+99;
+
+#include <string.h>
+
+  memset(hmap(0,0), '\0', sizeof(int) * map.xsize * map.ysize);
+  y = map.ysize / 2;
+  x = map.xsize / 2;
+  *hmap(x, y) = 1;
+  n = y - 1; w = x - 1;
+  s = y + 2; e = x + 2;
+  i = islemass - 1;
+  while (i && tries-->0) {
+    y = myrand(s - n) + n;
+    x = myrand(e - w) + w;
+    if ((!*hmap(x, y)) && (
+		*hmap(x+1, y) || *hmap(x-1, y) ||
+		*hmap(x, y+1) || *hmap(x, y-1) )) {
+      *hmap(x, y) = 1;
+      i--;
+      if (y >= s - 1 && s < map.ysize - 2) s++;
+      if (x >= e - 1 && e < map.xsize - 2) e++;
+      if (y <= n && n > 2) n--;
+      if (x <= w && w > 2) w--;
+    }
+    if (i < islemass / 10) {
+      for (y = n ; y < s ; y++)
+        for (x = w ; x < e ; x++)
+          if ((!*hmap(x, y)) && i && (
+		*hmap(x+1, y) && *hmap(x-1, y) &&
+		*hmap(x, y+1) && *hmap(x, y-1) )) {
+            *hmap(x, y) = 1;
+            i--; 
+          }
+    }
+  }
+  if(tries<=0)
+    freelog(LOG_NORMAL,"createisland ended early with %d/%d.",islemass-i,islemass);
+
+  
+  tries= map.xsize*(long int)map.ysize/4;/* on a 40x60 map, there are 2400 places */
+  while (!(i = placeisland()) && --tries);
+  return i;
+}
+
+static long int totalweight;
+/**************************************************************************
+  make an island, fill every tile type except plains
+  note: you have to create big islands first.
+**************************************************************************/
+static void makeisland(int islemass, int starters)
+{
+  static long int tilefactor, balance, lastplaced;/* int may be only 2 byte ! */
+  static long int riverbuck, mountbuck, desertbuck, forestbuck, swampbuck;
+
+  int i;
+
+  if (!islemass) {
+					/* setup initial static parameters */
+    balance = 0;
+    isleindex = 3; /* 0= none, 1= arctic, 2= antarctic */
+
+    checkmass= totalmass;
+
+    /* caveat: this should really be sent to all players */
+    if(totalmass>3000)
+      freelog(LOG_NORMAL,"high landmass - this may take a few seconds");
+
+    i = map.riverlength + map.mountains
+		+ map.deserts + map.forestsize + map.swampsize;
+    i = i <= 90 ? 100 : i * 11 / 10;
+    tilefactor = totalmass / i;
+    riverbuck = -myrand(totalmass);
+    mountbuck = -myrand(totalmass);
+    desertbuck = -myrand(totalmass);
+    forestbuck = -myrand(totalmass);
+    swampbuck = -myrand(totalmass);
+    lastplaced = totalmass;
+  } else {
+
+   /* makes the islands here */
+    islemass = islemass - balance;
+
+    /* don't create continents without a number */
+    if(isleindex>=MAP_NCONT)
+      return;
+
+    if(islemass>lastplaced+1+lastplaced/50)/*don't create big isles we can't place*/
+      islemass= lastplaced+1+lastplaced/50;
+
+    /* isle creation does not perform well for nonsquare islands */
+    if(islemass>(map.ysize-6)*(map.ysize-6))
+      islemass= (map.ysize-6)*(map.ysize-6);
+
+    if(islemass>(map.xsize-2)*(map.xsize-2))
+      islemass= (map.xsize-2)*(map.xsize-2);
+
+    i = islemass;
+    if (i <= 0) return;
+    islands[isleindex].starters = starters;
+
+    freelog(LOG_DEBUG,"island %i",isleindex);
+
+    while (!createisland(i--) && i*10>islemass );
+    i++;
+    lastplaced= i;
+    if(i*10>islemass){
+      balance = i - islemass;
+    }else{
+      balance = 0;
+    }
+
+    freelog(LOG_DEBUG,"ini=%d,plc=%d,bal=%d,tot=%d",islemass,i,balance,checkmass);
+
+    i *= tilefactor;
+    riverbuck += map.riverlength / 10 * i;
+    fillisland(1, &riverbuck,
+	       1,1,1,1,
+		T_RIVER, T_RIVER, T_RIVER, T_RIVER);
+    mountbuck += map.mountains * i;
+    fillisland(20, &mountbuck,
+	       3,1, 3,1,
+		T_HILLS, T_MOUNTAINS, T_HILLS, T_MOUNTAINS);
+    desertbuck += map.deserts * i;
+    fillisland(40, &desertbuck,
+	       map.deserts, map.deserts, map.deserts, map.deserts,
+		T_DESERT, T_DESERT, T_DESERT, T_TUNDRA);
+    forestbuck += map.forestsize * i;
+    fillisland(60, &forestbuck,
+	       map.forestsize, map.swampsize, map.forestsize, map.swampsize,
+		T_FOREST, T_JUNGLE, T_FOREST, T_TUNDRA);
+    swampbuck += map.swampsize * i;
+    fillisland(80, &swampbuck,
+	       map.swampsize, map.swampsize, map.swampsize, map.swampsize,
+		T_SWAMP, T_SWAMP, T_SWAMP, T_SWAMP);
+    isleindex++;
+  }
+}
+
+/**************************************************************************
+  fill ocean and make polar
+**************************************************************************/
+static void initworld()
+{
+  int x, y;
+  height_map =(int *) malloc (sizeof(int) * map.ysize * map.xsize);
+  for (y = 0 ; y < map.ysize ; y++) 
+    for (x = 0 ; x < map.xsize ; x++) {
+      map_set_terrain(x, y, T_OCEAN);
+      map_set_continent(x, y, 0);
+    }
+  for (x = 0 ; x < map.xsize; x++) {
+    map_set_terrain(x, 0, myrand(9) ? T_ARCTIC : T_TUNDRA);
+    map_set_continent(x, 0, 1);
+    if (!myrand(9)) {
+      map_set_terrain(x, 1, myrand(9) ? T_TUNDRA : T_ARCTIC);
+      map_set_continent(x, 1, 1);
+    }
+    map_set_terrain(x, map.ysize-1, myrand(9) ? T_ARCTIC : T_TUNDRA);
+    map_set_continent(x, map.ysize-1, 2);
+    if (!myrand(9)) {
+      map_set_terrain(x, map.ysize-2, myrand(9) ? T_TUNDRA : T_ARCTIC);
+      map_set_continent(x, map.ysize-2, 2);
+    }
+  }
+  makeisland(0, 0);
+  islands[2].starters = 0;
+  islands[1].starters = 0;
+  islands[0].starters = 0;
+}  
+
+/**************************************************************************
+  island base map generators
+**************************************************************************/
+void mapgenerator2()
+{
+  int i;
+  int spares= 1; 
+  /* constant that makes up that an island actually needs additional space */
+
+  if (map.landpercent > 85) {
+    map.generator = 1;
+    return;
+  }
+
+  adjust_terrain_param();
+  totalmass = ( (map.ysize-6-spares) * map.landpercent * (map.xsize-spares) ) / 100;
+
+  /*!PS: The weights NEED to sum up to totalweight (dammit) */
+  /* copying the flow of the makeisland loops is the safest way */
+  totalweight= 0;
+  for (i = game.nplayers ; i ; i--)
+    totalweight+= 70;
+  for (i = game.nplayers ; i ; i--)
+    totalweight+= 20;
+  for (i = game.nplayers ; i ; i--)
+    totalweight+= 10;
+
+  initworld();
+
+  for (i = game.nplayers ; i ; i--)
+    makeisland(70*totalmass/totalweight, 2);
+  for (i = game.nplayers ; i ; i--)
+    makeisland(20*totalmass/totalweight, 0);
+  for (i = game.nplayers ; i ; i--)
+    makeisland(10*totalmass/totalweight, 0);
+  make_plains();  
+  free(height_map);
+
+  if(checkmass>map.xsize+map.ysize+totalweight)
+    freelog(LOG_DEBUG,"%ld mass left unplaced",checkmass);
+}
+
+
+/* On popular demand, this tries to mimick the generator 3 */
+/* as best as possible */
+void mapgenerator3()
+{
+  int spares= 1;
+  int j=0;
+  
+  long int islandmass,landmass, size;
+  long int maxmassdiv6=20;
+  int bigislands;
+
+  if ( map.landpercent > 80) {
+    map.generator = 2;
+    return;
+  }
+
+  adjust_terrain_param();
+  totalmass = ( (map.ysize-6-spares) * map.landpercent * (map.xsize-spares) ) / 100;
+
+
+  bigislands= game.nplayers;
+
+  landmass= ( map.xsize * (map.ysize-6) * map.landpercent )/100;
+  /* subtracting the arctics */
+  if( landmass>3*map.ysize+game.nplayers*3 ){
+    landmass-= 3*map.ysize;
+  }
+
+
+  islandmass= (landmass)/(3*bigislands);
+  if(islandmass<4*maxmassdiv6 )
+    islandmass= (landmass)/(2*bigislands);
+  if(islandmass<3*maxmassdiv6 && game.nplayers*2<landmass )
+    islandmass= (landmass)/(bigislands);
+
+  if( map.xsize < 40 || map.ysize < 40 || map.landpercent>80 )
+    { freelog(LOG_NORMAL,"falling back to generator 2"); mapgenerator2(); return; }
+
+  if(islandmass<2)
+    islandmass= 2;
+  if(islandmass>maxmassdiv6*6)
+    islandmass= maxmassdiv6*6;/* !PS: let's try this */
+
+  initworld();
+
+    while( isleindex-2<=bigislands && checkmass>islandmass && ++j<500 ) {
+      makeisland(islandmass,1);
+    }
+
+  if(j==500){
+    freelog(LOG_NORMAL, "generator 3 didn't place all big islands.");
+  }
+  
+  islandmass= (islandmass*11)/8;
+  /*!PS: I'd like to mult by 3/2, but starters might make trouble then*/
+  if(islandmass<2)
+    islandmass= 2;
+
+
+    while( isleindex<=MAP_NCONT-20 && checkmass>islandmass && ++j< 1500 ) {
+      if(j<1000)
+	size = myrand((islandmass+1)/2+1)+islandmass/2;
+      else
+	size = myrand((islandmass+1)/2+1);
+      if(size<2) size=2;
+
+      makeisland(size, (isleindex-2<=game.nplayers)?1:0 );
+    }
+
+  if(j==1500)
+    freelog(LOG_NORMAL, "generator 3 left %li landmass unplaced.",checkmass);
+  else if(checkmass>map.xsize+map.ysize+totalweight)
+    freelog(LOG_DEBUG,"%ld mass left unplaced",checkmass);
+
+}
+
+void mapgenerator4()
+{
+  int bigweight=70;
+  int spares= 1;
+  int i;
+
+  /* no islands with mass >> sqr(min(xsize,ysize)) */
+
+  i = game.nplayers / 2;
+  if ( game.nplayers<2 || map.landpercent > 80) {
+    map.generator = 3;
+    return;
+  }
+
+  if(map.landpercent>60)
+    bigweight=30;
+  else if(map.landpercent>40)
+    bigweight=50;
+  else
+    bigweight=70;
+
+  spares= (map.landpercent-5)/30;
+
+  adjust_terrain_param();
+  totalmass = ( (map.ysize-6-spares) * map.landpercent * (map.xsize-spares) ) / 100;
+
+  /*!PS: The weights NEED to sum up to totalweight (dammit) */
+  totalweight= 0;
+  if (game.nplayers % 2)
+    totalweight+= bigweight*3;
+  else
+    i++;
+  while (--i)
+    totalweight+= bigweight*2;
+  for (i = game.nplayers ; i ; i--)
+    totalweight+= 20;
+  for (i = game.nplayers ; i ; i--)
+    totalweight+= 10;
+
+  initworld();
+
+  i = game.nplayers / 2;
+  if (game.nplayers % 2)
+    makeisland(bigweight*3, 3);
+  else
+    i++;
+  while (--i)
+    makeisland(bigweight*2*totalmass/totalweight, 2);
+  for (i = game.nplayers ; i ; i--)
+    makeisland(20*totalmass/totalweight, 0);
+  for (i = game.nplayers ; i ; i--)
+    makeisland(10*totalmass/totalweight, 0);
+  make_plains();  
+  free(height_map);
+
+  if(checkmass>map.xsize+map.ysize+totalweight)
+    freelog(LOG_DEBUG,"%ld mass left unplaced",checkmass);
+}

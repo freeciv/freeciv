@@ -118,8 +118,11 @@ struct settings_s settings[] = {
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR,
     "Method used to generate map",
-    "  1 = standard, 2 = large islands, 3 = large islands plus small islands.\n"
-    "  Note: values 2 and 3 generate \"fairer\" (but more boring?) maps.\n"
+    "  1 = standard,\n"
+    "  2 = equally sized large islands with one player each.\n"
+    "  3 = equally sized large islands plus small islands.\n"
+    "  4 = equally sized large islands with two players on every island.\n"
+    "  Note: values 2,3 and 4 generate \"fairer\" (but more boring) maps.\n"
     "  (Zero indicates a scenario map.)" },
 
   { "landmass", &map.landpercent,
@@ -137,6 +140,11 @@ struct settings_s settings[] = {
     SSET_MAP_GEN, SSET_TO_CLIENT,
     MAP_MIN_RIVERS, MAP_MAX_RIVERS, MAP_DEFAULT_RIVERS,
     "Amount of river squares", "" },
+
+  { "grass", &map.grasssize, 
+    SSET_MAP_GEN, SSET_TO_CLIENT,
+    MAP_MIN_GRASS, MAP_MAX_GRASS, MAP_DEFAULT_GRASS,
+    "Amount of grass squares", "" },
 
   { "forests", &map.forestsize, 
     SSET_MAP_GEN, SSET_TO_CLIENT,
@@ -174,7 +182,9 @@ struct settings_s settings[] = {
   { "specials", &map.riches, 
     SSET_MAP_ADD, SSET_TO_CLIENT,
     MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES,
-    "Amount of \"special\" resource squares", "" },
+    "Amount of \"special\" resource squares", 
+    "Special resources improve the basic terrain type they are on.\n" 
+    "The server variable's scale is parts per thousand." },
 
   { "huts", &map.huts, 
     SSET_MAP_ADD, SSET_TO_CLIENT,
@@ -937,6 +947,8 @@ void set_command(char *str)
       *(op->value) = val;
       if (sset_is_to_client(cmd)) {
 	notify_player(0, "Option: %s has been set to %d.", command, val);
+	/* canonify map generator settings( all of which are int ) */
+	adjust_terrain_param();
       }
     } else {
       puts("Value out of range. Usage: set <option> <value>.");

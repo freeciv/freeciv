@@ -88,6 +88,7 @@ struct civ_map {
   int is_earth;
   int huts;
   int landpercent;
+  int grasssize;
   int swampsize;
   int deserts;
   int mountains;
@@ -144,6 +145,8 @@ int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2);
 int map_move_cost(struct unit *punit, int x1, int y1);
 struct tile_type *get_tile_type(enum tile_terrain_type type);
 int is_terrain_near_tile(int x, int y, enum tile_terrain_type t);
+int isnt_terrain_near_tile(int x, int y, enum tile_terrain_type t);
+int count_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int is_coastline(int x,int y);
 int terrain_is_clean(int x, int y);
 int is_at_coast(int x, int y);
@@ -162,18 +165,14 @@ void map_irrigate_tile(int x, int y);
 void map_mine_tile(int x, int y);
 void map_transform_tile(int x, int y);
 
+#define MAP_NCONT 255
 extern struct civ_map map;
-extern struct isledata islands[100];
+extern struct isledata islands[MAP_NCONT];
 
 int map_build_road_time(int x, int y);
 int map_build_irrigation_time(int x, int y);
 int map_build_mine_time(int x, int y);
 int map_transform_time(int x, int y);
-
-
-#define MAP_DEFAULT_MOUNTAINS    40
-#define MAP_MIN_MOUNTAINS        10
-#define MAP_MAX_MOUNTAINS        100
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0
@@ -196,14 +195,22 @@ int map_transform_time(int x, int y);
 #define MAP_MAX_SEED             GAME_MAX_RANDSEED
 
 #define MAP_DEFAULT_LANDMASS     30
-#define MAP_MIN_LANDMASS         20
-#define MAP_MAX_LANDMASS         80
+#define MAP_MIN_LANDMASS         15
+#define MAP_MAX_LANDMASS         85
 
 #define MAP_DEFAULT_RICHES       250
 #define MAP_MIN_RICHES           0
 #define MAP_MAX_RICHES           1000
 
-#define MAP_DEFAULT_SWAMPS       10
+#define MAP_DEFAULT_MOUNTAINS    30
+#define MAP_MIN_MOUNTAINS        10
+#define MAP_MAX_MOUNTAINS        100
+
+#define MAP_DEFAULT_GRASS       35
+#define MAP_MIN_GRASS           20
+#define MAP_MAX_GRASS           100
+
+#define MAP_DEFAULT_SWAMPS       5
 #define MAP_MIN_SWAMPS           0
 #define MAP_MAX_SWAMPS           100
 
@@ -215,13 +222,13 @@ int map_transform_time(int x, int y);
 #define MAP_MIN_RIVERS           0
 #define MAP_MAX_RIVERS           1000
 
-#define MAP_DEFAULT_FORESTS      25
+#define MAP_DEFAULT_FORESTS      20
 #define MAP_MIN_FORESTS          0
 #define MAP_MAX_FORESTS          100
 
 #define MAP_DEFAULT_GENERATOR    1
 #define MAP_MIN_GENERATOR        1
-#define MAP_MAX_GENERATOR        3
+#define MAP_MAX_GENERATOR        4
 
 #define GAME_DEFAULT_GOLD        50
 #define GAME_MIN_GOLD            0

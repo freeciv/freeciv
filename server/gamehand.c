@@ -341,6 +341,7 @@ int game_load(struct section_file *file)
       map.generator = secfile_lookup_int(file, "map.generator");
       map.seed = secfile_lookup_int(file, "map.seed");
       map.landpercent = secfile_lookup_int(file, "map.landpercent");
+      map.grasssize = secfile_lookup_int_default(file, MAP_DEFAULT_GRASS, "map.grasssize");
       map.swampsize = secfile_lookup_int(file, "map.swampsize");
       map.deserts = secfile_lookup_int(file, "map.deserts");
       map.riverlength = secfile_lookup_int(file, "map.riverlength");

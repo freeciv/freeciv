@@ -52,7 +52,7 @@ struct tile_type tile_types[T_LAST]=
     T_LAST,0,      T_LAST,0,	T_DESERT,24}
 };
 
-struct isledata islands[100];
+struct isledata islands[MAP_NCONT];
 
 struct tile void_tile;
 
@@ -95,6 +95,7 @@ void map_init(void)
   map.is_earth=0;
   map.huts=MAP_DEFAULT_HUTS;
   map.landpercent=MAP_DEFAULT_LANDMASS;
+  map.grasssize=MAP_DEFAULT_GRASS;
   map.swampsize=MAP_DEFAULT_SWAMPS;
   map.deserts=MAP_DEFAULT_DESERTS;
   map.mountains=MAP_DEFAULT_MOUNTAINS;
@@ -135,7 +136,10 @@ int sq_map_distance(int x0, int y0, int x1, int y1)
   return (((y1 - y0) * (y1 - y0)) + tmp * tmp);
 }
 /***************************************************************
-...
+ The following two function should always be used, such
+ that hand optimizations need only be performed once.
+ using isnt_ is faster than using is_ sometimes.
+ is terrain close diagonally or gridwise ?
 ***************************************************************/
 int map_distance(int x0, int y0, int x1, int y1)
 {
@@ -152,15 +156,48 @@ int map_distance(int x0, int y0, int x1, int y1)
 ***************************************************************/
 int is_terrain_near_tile(int x, int y, enum tile_terrain_type t)
 {
-  if (map_get_terrain(x, y+1)==t)   return 1;
-  if (map_get_terrain(x-1, y-1)==t) return 1;
-  if (map_get_terrain(x-1, y)==t)   return 1;
   if (map_get_terrain(x-1, y+1)==t) return 1;
   if (map_get_terrain(x+1, y-1)==t) return 1;
-  if (map_get_terrain(x+1, y)==t)   return 1;
+  if (map_get_terrain(x-1, y-1)==t) return 1;
   if (map_get_terrain(x+1, y+1)==t) return 1;
+  if (map_get_terrain(x, y+1)==t)   return 1;
+  if (map_get_terrain(x-1, y)==t)   return 1;
+  if (map_get_terrain(x+1, y)==t)   return 1;
   if (map_get_terrain(x, y-1)==t)   return 1;
   return 0;
+}
+
+/***************************************************************
+ is no terrain close diagonally or gridwise ?
+***************************************************************/
+int isnt_terrain_near_tile(int x, int y, enum tile_terrain_type t)
+{
+  if (map_get_terrain(x-1, y+1)!=t) return 1;
+  if (map_get_terrain(x+1, y-1)!=t) return 1;
+  if (map_get_terrain(x-1, y-1)!=t) return 1;
+  if (map_get_terrain(x+1, y+1)!=t) return 1;
+  if (map_get_terrain(x, y+1)!=t)   return 1;
+  if (map_get_terrain(x-1, y)!=t)   return 1;
+  if (map_get_terrain(x+1, y)!=t)   return 1;
+  if (map_get_terrain(x, y-1)!=t)   return 1;
+  return 0;
+}
+
+/***************************************************************
+  counts tiles close to x,y having terrain t
+***************************************************************/
+int count_terrain_near_tile(int x, int y, enum tile_terrain_type t)
+{
+  int rval= 0;
+  if (map_get_terrain(x, y+1)==t)   rval++;
+  if (map_get_terrain(x-1, y-1)==t) rval++;
+  if (map_get_terrain(x-1, y)==t)   rval++;
+  if (map_get_terrain(x-1, y+1)==t) rval++;
+  if (map_get_terrain(x+1, y-1)==t) rval++;
+  if (map_get_terrain(x+1, y)==t)   rval++;
+  if (map_get_terrain(x+1, y+1)==t) rval++;
+  if (map_get_terrain(x, y-1)==t)   rval++;
+  return rval;
 }
 
 /***************************************************************
@@ -178,6 +215,7 @@ int is_at_coast(int x, int y)
 
 int is_coastline(int x,int y) 
 {
+  /*if (map_get_terrain(x,y)!=T_OCEAN)   return 0;*/
   if (map_get_terrain(x-1,y)!=T_OCEAN)   return 1;
   if (map_get_terrain(x-1,y-1)!=T_OCEAN) return 1;
   if (map_get_terrain(x-1,y+1)!=T_OCEAN) return 1;
