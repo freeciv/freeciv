@@ -2297,11 +2297,10 @@ static void hut_get_gold(struct unit *punit, int cred)
 static void hut_get_tech(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  int res_ed, res_ing, new_tech;
+  int res_ed, res_ing;
+  Tech_Type_id new_tech;
+  const char *tech_name;
   
-  notify_player_ex(pplayer, punit->x, punit->y, E_HUT_TECH,
-		   _("Game: You found ancient scrolls of wisdom."));
-
   /* Save old values, choose tech, then restore old values: */
   res_ed = pplayer->research.bulbs_researched;
   res_ing = pplayer->research.researching;
@@ -2311,26 +2310,21 @@ static void hut_get_tech(struct unit *punit)
   
   pplayer->research.bulbs_researched = res_ed;
   pplayer->research.researching = res_ing;
- 
-  if (!is_future_tech(new_tech)) {
-    const char *tech_name = advances[new_tech].name;
-    notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
-		     _("Game: You gain knowledge about %s."), tech_name);
 
-    gamelog(GAMELOG_TECH,"%s discover %s (Hut)",
+  tech_name = get_tech_name(pplayer, new_tech);
+  notify_player_ex(pplayer, punit->x, punit->y, E_HUT_TECH,
+		   _("Game: You found %s in ancient scrolls of wisdom."),
+		   tech_name);
+  gamelog(GAMELOG_TECH, _("%s discover %s (Hut)"),
 	    get_nation_name_plural(pplayer->nation), tech_name);
+  notify_embassies(pplayer, NULL, _("Game: The %s have aquired %s"
+				    " from ancient scrolls of wisdom."),
+		   get_nation_name_plural(pplayer->nation), tech_name);
 
-    notify_embassies(pplayer, NULL,
-		     _("Game: The %s have aquired %s"
-		       " from ancient scrolls of wisdom."),
-		     get_nation_name_plural(pplayer->nation), tech_name);
-
+  if (!is_future_tech(new_tech)) {
     found_new_tech(pplayer, new_tech, FALSE, TRUE);
   } else {
     found_new_future_tech(pplayer);
-    notify_player(pplayer,
-		  _("Game: You gain knowledge about Future Tech. %d."),
-		  pplayer->future_tech);
   }
   do_free_cost(pplayer);
 }
