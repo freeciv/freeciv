@@ -72,11 +72,11 @@ void load_intro_gfx(void)
   intro_gfx_sprite=load_xpmfile(datafilename("intro.xpm"));
   radar_gfx_sprite=load_xpmfile(datafilename("radar.xpm"));
 
-  w=XTextWidth(main_font_struct, vers, strlen(vers));
+  w=XTextWidth(main_font_struct, WORD_VERSION, strlen(WORD_VERSION));
 	
   XDrawString(display, radar_gfx_sprite->pixmap, font_gc, 
 	      160/2-w/2, 40, 
-	      vers, strlen(vers));
+	      WORD_VERSION, strlen(WORD_VERSION));
   
   sprintf(s, "%d.%d.%d", MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION);
   w=XTextWidth(main_font_struct, s, strlen(s));

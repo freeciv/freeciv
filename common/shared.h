@@ -29,8 +29,10 @@
 
 #if MINOR_VERSION < 7
 #define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING" (beta release)"
+#define WORD_VERSION "betatest version"
 #else
 #define FREECIV_NAME_VERSION "Freeciv version "##VERSION_STRING
+#define WORD_VERSION "version"
 #endif
 
 /* Capabilities: Author: Mitch Davis (mjd@alphalink.com.au)
