@@ -1063,20 +1063,13 @@ static int ai_military_findvictim(struct unit *punit, int *dest_x, int *dest_y)
 **************************************************************************/
 static struct unit *ai_military_rampage(struct unit *punit, int threshold)
 {
-  int x, y, moves_left, id = punit->id;
+  int x, y, id = punit->id;
+  int count = punit->moves_left + 1; /* break any infinite loops */
 
-  while (punit && punit->moves_left > 0
+  while (punit && punit->moves_left > 0 && count-- > 0
          && ai_military_findvictim(punit, &x, &y) >= threshold) {
-    moves_left = punit->moves_left;
     ai_unit_attack(punit, x, y);
     punit = find_unit_by_id(id);
-    if (punit) {
-      if (moves_left == punit->moves_left) {
-        /* We were unable to move - avoid infinite loop! */
-        UNIT_LOG(LOG_DEBUG, punit, "Unable to move/attack at (%d, %d)", x, y);
-        return punit;
-      }
-    }
   }
   return punit;
 }
