@@ -905,10 +905,6 @@ static void remove_tiny_islands(void)
 **************************************************************************/
 static void assign_continent_flood(int x, int y, int nr)
 {
-  if (y < 0 || y >= map.ysize) {
-    return;
-  }
-
   if (map_get_continent(x, y) != 0) {
     return;
   }
