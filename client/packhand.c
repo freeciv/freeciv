@@ -410,12 +410,14 @@ void handle_unit_info(struct packet_unit_info *packet)
   struct unit *punit;
   int repaint_unit;
   int repaint_city;		/* regards unit's homecity */
-  
-  repaint_unit=0;
-  repaint_city=0;
-  punit=unit_list_find(&game.players[packet->owner].units, packet->id);
-  
+
+
+  repaint_unit = 0;
+  repaint_city = 0;
+  punit = unit_list_find(&game.players[packet->owner].units, packet->id);
+
   if(punit) {
+    int dest_x,dest_y;
     if((punit->activity!=packet->activity)         /* change activity */
        || (punit->activity_target!=packet->activity_target)) { /*   or act's target */
       repaint_unit=1;
@@ -477,11 +479,12 @@ void handle_unit_info(struct packet_unit_info *packet)
       struct city *pcity;
       pcity=map_get_city(punit->x, punit->y);
       
-      if(tile_is_known(packet->x, packet->y)) {
+      if(tile_is_known(packet->x, packet->y) == TILE_KNOWN) {
 	do_move_unit(punit, packet);
 	update_unit_focus();
       }
       else {
+	do_move_unit(punit, packet); /* nice to see where a unit is going */
 	unit_list_unlink(&game.players[packet->owner].units, punit);
 	unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
 	if(punit->homecity && (pcity=find_city_by_id(punit->homecity))) {
@@ -548,8 +551,16 @@ void handle_unit_info(struct packet_unit_info *packet)
     punit->goto_dest_y=packet->goto_dest_y;
     punit->paradropped=packet->paradropped;
     punit->connecting=packet->connecting;
-  }
   
+    dest_x = packet->x;
+    dest_y = packet->y;
+    /*fog of war*/
+    if (!(tile_is_known(punit->x,punit->y) == TILE_KNOWN)) {
+      client_remove_unit(packet->id);
+      refresh_tile_mapcanvas(dest_x, dest_y, 1);
+    }
+  }
+
   else {      /* create new unit */
     punit=fc_malloc(sizeof(struct unit));
     
@@ -959,57 +970,93 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
 }
 
 /**************************************************************************
-...
+I am quite sure this code can be made to look nicer. But it should not draw
+too many tiles unless the special on a tile is changed, in which case it
+redraws all the surrounding tiles.
 **************************************************************************/
 void handle_tile_info(struct packet_tile_info *packet)
 {
-  int old_known;
+  struct tile *ptile = map_get_tile(packet->x, packet->y);
+  enum known_type old_known = ptile->known;
+  int tile_changed = 0;
 
-  struct tile *ptile=map_get_tile(packet->x, packet->y);
+  if (ptile->terrain != packet->type) { /*terrain*/
+    tile_changed = 1;
+    ptile->terrain = packet->type;
+  }
+  if (ptile->special != packet->special) { /*add-on*/
+    tile_changed = 1;
+    ptile->special = packet->special;
+  }
+  ptile->known = packet->known;
 
-  old_known=ptile->known;
-
-  ptile->terrain=packet->type;
-  ptile->special=packet->special;
-
-  ptile->known=packet->known;
-
-  if(packet->known >= TILE_KNOWN && old_known < TILE_KNOWN
-     && ptile->terrain != T_OCEAN)
-    climap_update_continents(packet->x, packet->y);
-  
-  if(get_client_state()==CLIENT_GAME_RUNNING_STATE && packet->known>=TILE_KNOWN) {
-    refresh_tile_mapcanvas(packet->x, packet->y, 1); 
-    if(old_known<TILE_KNOWN) { 
-      int known;
-      
-      known=tile_is_known(packet->x-1, packet->y);
-      if(known>=TILE_KNOWN && known!=ptile->known)
-	refresh_tile_mapcanvas(packet->x-1, packet->y, 1); 
-
-      known=tile_is_known(packet->x+1, packet->y);
-      if(known>=TILE_KNOWN && known!=ptile->known)
-	refresh_tile_mapcanvas(packet->x+1, packet->y, 1); 
-
-      known=tile_is_known(packet->x, packet->y-1);
-      if(known>=TILE_KNOWN && known!=ptile->known)
-	refresh_tile_mapcanvas(packet->x, packet->y-1, 1); 
-
-      known=tile_is_known(packet->x, packet->y+1);
-      if(known>=TILE_KNOWN && known!=ptile->known)
-	refresh_tile_mapcanvas(packet->x, packet->y+1, 1); 
+  /* fog of war remove units */
+  if (ptile->known == TILE_KNOWN_FOGGED && old_known == TILE_KNOWN) {
+    unit_list_iterate(ptile->units, punit) {
+      client_remove_unit(punit->id);
     }
-    else { /* happens so seldom(new roads etc) so refresh'em all */
-      refresh_tile_mapcanvas(packet->x-1, packet->y, 1); 
-      refresh_tile_mapcanvas(packet->x+1, packet->y, 1); 
-      refresh_tile_mapcanvas(packet->x, packet->y-1, 1); 
-      refresh_tile_mapcanvas(packet->x, packet->y+1, 1); 
+    unit_list_iterate_end;
+  }
+
+  if(packet->known >= TILE_KNOWN_FOGGED && old_known < TILE_KNOWN_FOGGED
+     && ptile->terrain != T_OCEAN) {
+    climap_update_continents(packet->x, packet->y);
+  }
+
+  if(get_client_state()==CLIENT_GAME_RUNNING_STATE &&
+	/* just discovered */
+     ((old_known != packet->known && packet->known >= TILE_KNOWN_FOGGED)
+	/* we need to update because the drawings are outdated */
+      || (tile_changed && packet->known >= TILE_KNOWN_FOGGED))) {
+    refresh_tile_mapcanvas(packet->x, packet->y, 1);
+
+    if(old_known<TILE_KNOWN_FOGGED && !tile_changed /*handled later*/ ) {
+      int known;
+      /* update furry edges next to unknown territory*/
+      known=tile_is_known(packet->x-1, packet->y);
+      if(known>=TILE_KNOWN_FOGGED) {
+	refresh_tile_mapcanvas(packet->x-1, packet->y, 1); 
+      }
+      known=tile_is_known(packet->x+1, packet->y);
+      if(known>=TILE_KNOWN_FOGGED) {
+	refresh_tile_mapcanvas(packet->x+1, packet->y, 1); 
+      }
+      known=tile_is_known(packet->x, packet->y-1);
+      if(known>=TILE_KNOWN_FOGGED) {
+	refresh_tile_mapcanvas(packet->x, packet->y-1, 1); 
+      }
+      known=tile_is_known(packet->x, packet->y+1);
+      if(known>=TILE_KNOWN_FOGGED) {
+	refresh_tile_mapcanvas(packet->x, packet->y+1, 1); 
+      }
+    }
+    if (tile_changed) {
+      /* happens so seldom(new roads etc) so refresh'em all */
+      if (old_known >= TILE_KNOWN_FOGGED) {
+	refresh_tile_mapcanvas(packet->x-1, packet->y, 1); 
+	refresh_tile_mapcanvas(packet->x+1, packet->y, 1); 
+	refresh_tile_mapcanvas(packet->x, packet->y-1, 1); 
+	refresh_tile_mapcanvas(packet->x, packet->y+1, 1); 
+      }
       /* jjm@codewell.com 30dec1998a */
       refresh_tile_mapcanvas(packet->x-1, packet->y+1, 1); 
       refresh_tile_mapcanvas(packet->x+1, packet->y+1, 1); 
       refresh_tile_mapcanvas(packet->x+1, packet->y-1, 1); 
       refresh_tile_mapcanvas(packet->x-1, packet->y-1, 1); 
     }
+  }
+  if (tile_changed && packet->known == TILE_UNKNOWN && old_known != TILE_UNKNOWN) {
+    /* we need to update because the adjacent drawings are outdated */
+    /* happens so seldom(new roads etc) so refresh'em all */
+    refresh_tile_mapcanvas(packet->x-1, packet->y, 1); 
+    refresh_tile_mapcanvas(packet->x+1, packet->y, 1); 
+    refresh_tile_mapcanvas(packet->x, packet->y-1, 1); 
+    refresh_tile_mapcanvas(packet->x, packet->y+1, 1); 
+    /* jjm@codewell.com 30dec1998a */
+    refresh_tile_mapcanvas(packet->x-1, packet->y+1, 1); 
+    refresh_tile_mapcanvas(packet->x+1, packet->y+1, 1); 
+    refresh_tile_mapcanvas(packet->x+1, packet->y-1, 1); 
+    refresh_tile_mapcanvas(packet->x-1, packet->y-1, 1); 
   }
 }
 

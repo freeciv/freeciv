@@ -221,6 +221,8 @@ sea movement at the point it's called.  This led to a problem with the
 warmap (but not the GOTOmap warmap) which meant the AI was very reluctant
 to use ferryboats.  I really should have identified this sooner. -- Syela */
 
+  map_unfog_city_area(pcity);
+
   send_adjacent_cities(pcity);
   send_city_info(0, pcity, 0);
 /* fnord -- Syela */
@@ -831,6 +833,9 @@ void remove_city(struct city *pcity)
   dealloc_id(pcity->id);
   x = pcity->x; y = pcity->y;
 /* DO NOT remove city from minimap here. -- Syela */
+  
+  map_fog_city_area(pcity);
+
   game_remove_city(pcity);
   reset_move_costs(x, y);
 }

@@ -343,7 +343,7 @@ static void ai_new_spend_gold(struct player *pplayer)
 			    unit_types[punit->type].name, unit_types[id].name,
 			    pcity->name, cost);
               punit->type = id;
-              send_unit_info(0, punit, 0);
+              send_unit_info(0, punit);
               send_player_info(pplayer, pplayer);
               bestchoice.want = 0; /* no reason to buy unit we already made */
               pcity->ai.choice.want = 0; /* or deal with this city again */
@@ -472,7 +472,7 @@ static void ai_new_spend_gold(struct player *pplayer)
 		      unit_types[punit->type].name, unit_types[id].name,
 		      pcity->name, cost);
         punit->type = id;
-        send_unit_info(0, punit, 0);
+        send_unit_info(0, punit);
         send_player_info(pplayer, pplayer);
       } /* end if upgrade */
     unit_list_iterate_end;

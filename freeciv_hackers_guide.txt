@@ -200,7 +200,7 @@ diplomacy loses link. I'm not sure the server Treaty is removed, making
 it impossible to establish a new Treaty between the two players -PU]
 
 =========================================================================
-Map 
+Map and fog of war
 =========================================================================
 The map is maintained in a pretty straightforward C array, containing
 X*Y tiles. However the 'known' field needs a comment.
@@ -211,22 +211,100 @@ struct tile {
   ...
 };
 
-One the server the known fields is considered to be a bitvector, one
+On the server the known fields is considered to be a bitvector, one
 bit for each player, 0==tile unknown, 1==tile known.
 On the client this field contains one of the following 3 values:
 
 enum known_type {
- TILE_UNKNOWN, TILE_KNOWN_NODRAW, TILE_KNOWN
+ TILE_UNKNOWN, TILE_KNOWN_FOGGED, TILE_KNOWN
 };
 
-The values TILE_UNKNOWN, TILE_KNOWN is straightforward. 
-TILE_KNOWN_NODRAW however is a special value, given to all unknown tiles,
-sharing border with a known. Because of how the tile-drawing system works,
-the client has to know the terrain and specials of such tiles.
+The values TILE_UNKNOWN, TILE_KNOWN are straightforward. TILE_FOGGED
+is a tile of which the user knows the terrain (inclusive cities, roads,
+ etc...).
+
+Because of how the tile-drawing system works, the client has to know the
+terrain and specials of tiles adjacent to TILE_KNOWN and TILE_KNOWN_FOGGED
+tiles. This is done by sending the adjacent tiles with the value
+TILE_UNKNOWN. To keep track of which tiles have been sent and for fast
+lookup the server has a bitvector sent similar to known. [You could do
+this by seeing if the tile in question already have a known tile adjacent,
+in which case the value would already would have been sent.]
+
+We keep track of fog of war by counting the number of units and cities
+[and nifty future things like radar outposts] of each client that can
+see the tile. This requires a number per player, per tile, so each tile
+has a short[]. Every time a unit/city/miscellaneous can observe a tile
+1 is added to its player's number at the tile, and when it can't observe
+any more (killed/moved/pillaged) 1 is subtracted. In addition to the
+initialization/loading of a game this array is manipulated with the
+void unfog_area(struct player *pplayer, int x, int y, int len)
+and
+void fog_area(struct player *pplayer, int x, int y, int len)
+functions. "int len" is the radius of the area that should be
+fogged/unfogged, ie a len of 1 is a normal unit. In addition to keeping
+track of fog of war, these functions also make sure to reveal TILE_UNKNOWN
+tiles you get near, and send info about TILE_UNKNOWN tiles near that the
+client need for te drawing. They then send the tiles to
+void send_tile_info(struct player *dest, int x, int y)
+which then sets the correct known_type and sends the tile to the client.
+There are a number of functions like 
+void teleport_unit_sight_points(int src_x, int src_y, int dest_x, int dest_y,
+				struct unit* punit)
+and
+void map_unfog_city_area(struct city *pcity)
+that can be called for specific purposes like, say, moving a unit's sight
+point when you move the unit. These all call fog_area and unfog_area in
+turn.
+
+[Beware of using map_adjust_y. If you have a 80x50 map and then iterate
+around the tile 40,49 you can get values like 40,50, which is not a
+tile. if you map_adjust the y value it will return 40,49 . If you then
+think this should count as a unit seeing tile 40,49 and add a sight
+point for it at 40,49 fog of war gets out of sync. This will usually
+result in a wrap error on some point, as you unfog a square twice and it
+wraps around to 65536. This should get caught by the server and the error
+reported. I suggest using the is_real_tile function to test the tiles.
+unfog_area and fog_area tests their tiles this way. Remember to recode
+the is_real_tile function when we switch to isometric view.]
+
+If you want to just show the terrain and cities of the square the
+function show_area does this. The tiles remain fogged.
+If you play without fog of war all the values of the seen arrays are
+initialized to 1. So you are using the exact same code, you just never
+get down to 0. As changes in the "fogginess" of the tiles are only sent
+to the client when the value shifts between zero and non-zero, no
+redundant packages are sent. You can even switch fog of war on/off
+in game just by adding/subtracting 1 to all the tiles.
+
+[An alternative solution would be to give each tile a list
+of the units and cities that observe it. IMO this would not be any
+easier than just counting, and would have no benefits. The current
+solution also gives the possibility to reveal squares as you like,
+say near a radar tower tile special. Very flexible.]
 
 [If I were to recode this, I'd drop the ugly TILE_KNOWN_NODRAW value,
 and have the server tell me exactly which kind of graphics should be
-drawn at each tile. -PU]
+drawn at each tile. -PU [Removed, but we still send the tiles. It
+seemed wise to remove it as it was really misused in the clients with
+people calling tile_is_known(x,y), which would return true for
+TILE_KNOWN_NODRAW... -Thue]]
+
+[Right now tile updating (terrain and cities, not units) are sent to
+players even if they see the tile as fogged. If we were to have real
+fog of war each player would have his own map on the server with the
+tiles as he sees them. This should be done. This will also be cleaner
+as the number of maps can be malloc'ed. The values of the seen vectors
+should be moved here, as they are currently statically allocated to
+MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS]
+
+[The barbarians and the ai take their map info directly from the server,
+so they can currently ignore fog of war, and they do so. I really think
+that the ideal AI wouldn't be cheating like this.]
+
+If there is anything I have explained inadequately in this section you
+can ask me on <thue@diku.dk>.
+-Thue
 
 =========================================================================
 Client GUI- Athena 

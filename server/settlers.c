@@ -80,7 +80,7 @@ static int ai_do_build_city(struct player *pplayer, struct unit *punit)
     for (x=0;x<5;x++) {
       if ((x==0 || x==4) && (y==0 || y==4)) 
         continue;
-      light_square(pplayer, x+pcity->x-2, y+pcity->y-2, 0);
+      show_area(pplayer, x+pcity->x-2, y+pcity->y-2, 0);
     }
   return 1;
 }
@@ -502,6 +502,7 @@ static int is_wet(struct player *pplayer, int x, int y)
   enum tile_terrain_type t;
   enum tile_special_type s;
 
+  /*FIXME: this info could be outdated as we only check known and not know_and_seen*/
   if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) return 0;
 
   t=map_get_terrain(x,y);
@@ -749,7 +750,7 @@ int auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int 
   punit->goto_dest_x=map_adjust_x(x);
   punit->goto_dest_y=map_adjust_y(y);
   set_unit_activity(punit, ACTIVITY_GOTO);
-  send_unit_info(0, punit, 0);
+  send_unit_info(0, punit);
   do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
   return 1;
 }
@@ -1234,7 +1235,7 @@ improving those tiles, and then immigrating shortly thereafter. -- Syela
         return(0);
       }
       set_unit_activity(punit, best_act);
-      send_unit_info(0, punit, 0);
+      send_unit_info(0, punit);
       return(0);
     }
   }

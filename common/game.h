@@ -62,7 +62,7 @@ struct civ_game {
   char *startmessage;
   int player_idx;
   struct player *player_ptr;
-  struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];   
+  struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int global_advances[A_LAST];             /* a counter */
   int global_wonders[B_LAST];              /* contains city id's */
          /* global_wonders[] may also be (-1), or the id of a city
@@ -84,7 +84,10 @@ struct civ_game {
   int add_to_size_limit;
   int spacerace;
   int turnblock;
-  
+  int fogofwar;
+  int fogofwar_old;	/* as the fog_of_war bit get changed by setting
+			   the server we need to remember the old setting */
+
   int num_unit_types;
   int num_tech_types;  /* including A_NONE */
 
@@ -204,6 +207,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_DIPLCOST        0
 #define GAME_MIN_DIPLCOST            0
 #define GAME_MAX_DIPLCOST            100
+
+#define GAME_DEFAULT_FOGOFWAR        1
+#define GAME_MIN_FOGOFWAR            0
+#define GAME_MAX_FOGOFWAR            1
 
 #define GAME_DEFAULT_DIPLCHANCE      80
 #define GAME_MIN_DIPLCHANCE          1

@@ -16,6 +16,7 @@
 #include "packets.h"
 #include "unit.h"
 
+void server_remove_unit(struct unit *punit);
 void handle_unit_goto_tile(struct player *pplayer, 
 			   struct packet_unit_request *req);
 void handle_unit_connect(struct player *pplayer, 
@@ -63,5 +64,8 @@ void handle_unit_paradrop_to(struct player *pplayer,
 void handle_move_unit(struct player *pplayer, struct packet_move_unit *pmove);
 void handle_incite_inq(struct player *pplayer,
 		       struct packet_generic_integer *packet);
+void send_all_known_units(struct player *dest);
+void upgrade_unit(struct unit *punit, Unit_Type_id to_unit);
 
 #endif  /* FC__UNITHAND_H */
+

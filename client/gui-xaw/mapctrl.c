@@ -124,7 +124,7 @@ static void popit(int xin, int yin, int xtile, int ytile)
   struct tile *ptile=map_get_tile(xtile, ytile);
 
   
-  if(ptile->known>=TILE_KNOWN) {
+  if(ptile->known>=TILE_KNOWN_FOGGED) {
     Widget p=XtCreatePopupShell("popupinfo", simpleMenuWidgetClass,
 				map_canvas, NULL, 0);
     my_snprintf(s, sizeof(s), _("Terrain: %s"),

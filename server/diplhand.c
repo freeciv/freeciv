@@ -275,12 +275,13 @@ void handle_diplomacy_create_clause(struct player *pplayer,
    *                           - Kris Bubendorfer
    */
 
+  /*FIXME: might be unneccesary because creating the city will show us*/
   if(packet->clause_type == CLAUSE_CITY){
     struct city *pcity = find_city_by_id(packet->value);
     if(pcity && !map_get_known(pcity->x, pcity->y, plr1))
-      lighten_area(plr1, pcity->x, pcity->y);
+      show_area(plr1, pcity->x, pcity->y,2);
   }
-  
+
   if((ptreaty=find_treaty(plr0, plr1))) {
     if(add_clause(ptreaty, pgiver, packet->clause_type, packet->value)) {
       send_packet_diplomacy_info(plr0->conn, 

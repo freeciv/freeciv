@@ -18,25 +18,45 @@
 struct player;
 struct section_file;
 
-void relight_square_if_known(int x, int y);
+void global_warming(int effect);
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdest);
 void give_citymap_from_player_to_player(struct city *pcity,
 					struct player *pfrom, struct player *pdest);
 void send_all_known_tiles(struct player *dest);
-void send_tile_info(struct player *dest, int x, int y, enum known_type type);
-void lighten_tile(struct player *dest, int x, int y);
-void lighten_area(struct player *pplayer, int x, int y);
-void light_square(struct player *pplayer, int x, int y, int len);
-void send_map_info(struct player *dest);
-void global_warming(int effect);
-
+void send_tile_info(struct player *dest, int x, int y);
+void unfog_area(struct player *pplayer, int x, int y, int len);
+void send_NODRAW_tiles(struct player *pplayer, int x, int y, int len);
+void fog_area(struct player *pplayer, int x, int y, int len);
 void upgrade_city_rails(struct player *pplayer, int discovery);
-
+void send_map_info(struct player *dest);
 void map_save(struct section_file *file);
 void map_startpos_load(struct section_file *file);
 void map_tiles_load(struct section_file *file);
 void map_load(struct section_file *file);
 void map_rivers_overlay_load(struct section_file *file);
+void teleport_unit_sight_points(int src_x, int src_y, int dest_x, int dest_y,
+				struct unit* punit);
+void map_fog_city_area(struct city *pcity);
+void map_unfog_city_area(struct city *pcity);
+void remove_unit_sight_points(struct unit *punit);
+void update_tile_if_seen(int x, int y);
+void show_area(struct player *pplayer,int x, int y, int len);
+void map_unfog_pseudo_city_area(struct player *pplayer, int x,int y);
+void map_fog_pseudo_city_area(struct player *pplayer, int x,int y);
+void unfog_map_for_ai_players(void);
+void unfog_map_for_player(struct player *pplayer);
+
+int map_get_known(int x, int y, struct player *pplayer);
+void map_set_known(int x, int y, struct player *pplayer);
+void map_clear_known(int x, int y, struct player *pplayer);
+int map_get_seen(int x, int y, struct player *pplayer);
+int map_get_known_and_seen(int x, int y, struct player *pplayer);
+int map_get_sent(int x, int y, struct player *pplayer);
+void map_set_sent(int x, int y, struct player *pplayer);
+void map_clear_sent(int x, int y, struct player *pplayer);
+void map_know_all(struct player *pplayer);
+void map_know_and_see_all(struct player *pplayer);
+void set_unknown_tiles_to_unsent(struct player *pplayer);
 
 #endif  /* FC__MAPHAND_H */

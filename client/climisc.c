@@ -202,7 +202,7 @@ static void climap_renumber_continent(int x, int y, int new)
   old = map_get_continent(x,y);
 
   /* some sanity checks: */
-  assert(tile_is_known(x,y) >= TILE_KNOWN);
+  assert(tile_is_known(x,y) >= TILE_KNOWN_FOGGED);
   assert(map_get_terrain(x,y) != T_OCEAN);
   assert(old>0 && old<=max_cont_used);
   
@@ -210,7 +210,7 @@ static void climap_renumber_continent(int x, int y, int new)
   for(i=x-1; i<=x+1; i++) {
     for(j=y-1; j<=y+1; j++) {
       if(!(i==x && j==y) && j>=0 && j<map.ysize
-	 && tile_is_known(i,j)>=TILE_KNOWN
+	 && tile_is_known(i,j)>=TILE_KNOWN_FOGGED
 	 && map_get_terrain(i,j)!=T_OCEAN
 	 && map_get_continent(i,j)==old) {
 	climap_renumber_continent(i,j,new);
@@ -237,7 +237,7 @@ void climap_update_continents(int x, int y)
   for(i=x-1; i<=x+1; i++) {
     for(j=y-1; j<=y+1; j++) {
       if(!(i==x && j==y) && j>=0 && j<map.ysize
-	 && tile_is_known(i,j)>=TILE_KNOWN
+	 && tile_is_known(i,j)>=TILE_KNOWN_FOGGED
 	 && map_get_terrain(i,j)!=T_OCEAN) {
 	con = map_get_continent(i,j);
 	if(this_con==-1) {

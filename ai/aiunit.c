@@ -288,7 +288,7 @@ static int should_unit_change_homecity(struct player *pplayer,
             unit_list_unlink(&pcity->units_supported, punit);
 
       punit->homecity = map_get_city(punit->x, punit->y)->id;
-      send_unit_info(pplayer, punit, 0);
+      send_unit_info(pplayer, punit);
 /* homecity changed */
       return(1);
     }
@@ -1498,7 +1498,7 @@ static void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 	do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);
       if (!unit_list_find(&pplayer->units, id)) return; /* oops! */
       punit->goto_dest_x = x; punit->goto_dest_y = y;
-      send_unit_info(pplayer, punit, 0); /* to get the crosshairs right -- Syela */
+      send_unit_info(pplayer, punit); /* to get the crosshairs right -- Syela */
     } else {
       freelog(LOG_DEBUG, "Ferryboat %d@(%d,%d) stalling.",
 		    punit->id, punit->x, punit->y);

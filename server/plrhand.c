@@ -48,6 +48,7 @@
 #include "spacerace.h"
 #include "unitfunc.h" 
 #include "unittools.h"
+#include "unithand.h"
 
 #include "aicity.h"
 #include "aihand.h"
@@ -1290,8 +1291,9 @@ void show_map_to_all(void)
 
   for (i=0;i<game.nplayers;i++) {
     pplayer = &game.players[i];
-    map_know_all(pplayer);
+    map_know_and_see_all(pplayer);
     send_all_known_tiles(pplayer);
+    send_all_known_units(pplayer);
   }
 }
 
@@ -1378,8 +1380,9 @@ static void update_player_aliveness(struct player *pplayer)
         gamelog(GAMELOG_GENO, "%s civilization destroyed",
                 get_nation_name(pplayer->nation));
       }
-      map_know_all(pplayer);
+      map_know_and_see_all(pplayer);
       send_all_known_tiles(pplayer);
+      send_all_known_units(pplayer);
     }
   }
 }
@@ -2162,6 +2165,9 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
       secfile_lookup_int_default(file, CITYOPT_DEFAULT,
 				 "player%d.c%d.options", plrno, i);
     
+    /* adding the cities contribution to fog-of-war */
+    map_unfog_pseudo_city_area(&game.players[plrno],pcity->x,pcity->y);
+
     unit_list_init(&pcity->units_supported);
 
     /* Initialize pcity->city_map[][], using set_worker_city() so that
@@ -2278,6 +2284,10 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
 					    plrno, i);
     punit->paradropped=secfile_lookup_int_default(file, 0, "player%d.u%d.paradropped",
                                                   plrno, i);
+
+    /* allocate the units contribution to fog of war */
+    unfog_area(&game.players[punit->owner],
+	       punit->x,punit->y,get_unit_type(punit->type)->vision_range);
 
     unit_list_insert_back(&plr->units, punit);
 

@@ -70,9 +70,11 @@ const char * const our_capability = our_capability_internal;
  * are not directly related to the capability strings discussed here.)
  */
 
-#define CAPABILITY "+1.10"
+#define CAPABILITY "+1.10 +fog_of_war"
 
 /* "+1.10" is protocol for 1.10.0 stable release
+
+   "fog_of_war" is protocol extension for Fog of War.
 */
 
 void init_our_capability(void)

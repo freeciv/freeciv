@@ -654,7 +654,7 @@ STATIC ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
   struct unit *punit;
   struct tile *ptile = map_get_tile(xtile, ytile);
 
-  if (ptile->known >= TILE_KNOWN)
+  if (ptile->known >= TILE_KNOWN_FOGGED)
   {
     Object *group;
 
@@ -1735,7 +1735,7 @@ STATIC ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 
       ptile = map_get_tile(x, y);
 
-      if (ptile->known >= TILE_KNOWN)
+      if (ptile->known >= TILE_KNOWN_FOGGED)
       {
 	Object *menu_title;
 	static char title[256];

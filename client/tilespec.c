@@ -550,6 +550,7 @@ static void tilespec_lookup_sprite_tags(void)
   SET_SPRITE(tx.village,    "tx.village");
   SET_SPRITE(tx.fortress,   "tx.fortress");
   SET_SPRITE(tx.airbase,    "tx.airbase");
+  SET_SPRITE(tx.fog,        "tx.fog");
 
   for(i=0; i<NUM_DIRECTION_NSEW; i++) {
     my_snprintf(buffer, sizeof(buffer), "tx.s_river_%s", nsew_str(i));
@@ -916,8 +917,8 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
 
   ptile=map_get_tile(abs_x0, abs_y0);
   punit=get_unit_in_focus();
-  
-  if(abs_y0>=map.ysize || ptile->known<TILE_KNOWN) {
+
+  if(abs_y0>=map.ysize || ptile->known<TILE_KNOWN_FOGGED) {
     return 0;
   }
 
@@ -942,7 +943,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
       }
     }
   }
-    
+
   ttype=map_get_terrain(abs_x0, abs_y0);
   ttype_east=map_get_terrain(abs_x0+1, abs_y0);
   ttype_west=map_get_terrain(abs_x0-1, abs_y0);
@@ -1135,6 +1136,7 @@ int fill_tile_sprite_array(struct Sprite **sprs, int abs_x0, int abs_y0, int cit
   if(tspecial & S_FORTRESS) *sprs++ = sprites.tx.fortress;
   if(tspecial & S_AIRBASE) *sprs++ = sprites.tx.airbase;
   if(tspecial & S_POLLUTION) *sprs++ = sprites.tx.pollution;
+  if(ptile->known==TILE_KNOWN_FOGGED) *sprs++ = sprites.tx.fog;
 
   if(!citymode) {
     tileno = INDEX_NSEW((tile_is_known(abs_x0, abs_y0-1)==TILE_UNKNOWN),

@@ -542,8 +542,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
       dx=1;
     if(smooth_move_units)
       move_unit_map_canvas(punit, x, y, dx, pinfo->y - punit->y);
-    /*else*/
-      refresh_tile_mapcanvas(x, y, 1);
+    refresh_tile_mapcanvas(x, y, 1);
   }
     
   punit->x=pinfo->x;
@@ -564,7 +563,7 @@ void do_move_unit(struct unit *punit, struct packet_unit_info *pinfo)
     }
   }
   
-  if(!was_carried)
+  if(!was_carried && tile_is_known(punit->x,punit->y) == TILE_KNOWN)
     refresh_tile_mapcanvas(punit->x, punit->y, 1);
 
   if(get_unit_in_focus()==punit) update_menus();

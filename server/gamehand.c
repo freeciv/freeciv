@@ -124,12 +124,12 @@ void init_new_game(void)
     }
     /* Civ 1 exposes a single square radius of the map to start the game. */
     /* Civ 2 exposes a "city radius". -AJS */
-    light_square(&game.players[i], x, y, 1);
+    show_area(&game.players[i], x, y, 1);
     if (game.civstyle==2) {
-      light_square(&game.players[i], x-1, y, 1);
-      light_square(&game.players[i], x+1, y, 1);
-      light_square(&game.players[i], x, y-1, 1);
-      light_square(&game.players[i], x, y+1, 1);
+      show_area(&game.players[i], x-1, y, 1);
+      show_area(&game.players[i], x+1, y, 1);
+      show_area(&game.players[i], x, y-1, 1);
+      show_area(&game.players[i], x, y+1, 1);
     }
     for (j=0;j<game.settlers;j++) 
       create_unit(&game.players[i], x, y, get_role_unit(F_CITIES,0), 0, 0, -1);
@@ -328,6 +328,9 @@ void game_load(struct section_file *file)
     game.civstyle = secfile_lookup_int(file, "game.civstyle");
     game.save_nturns = secfile_lookup_int(file, "game.save_nturns");
   }
+
+  game.fogofwar = secfile_lookup_int_default(file, 0, "game.fogofwar");
+  game.fogofwar_old = game.fogofwar;
 
   if ((game.version == 10604 && section_file_lookup(file,"savefile.options"))
       || (game.version > 10604)) 
@@ -558,6 +561,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.cityfactor, "game.cityfactor");
   secfile_insert_int(file, game.civilwarsize, "game.civilwarsize");
   secfile_insert_int(file, game.diplcost, "game.diplcost");
+  secfile_insert_int(file, game.fogofwar, "game.fogofwar");
   secfile_insert_int(file, game.freecost, "game.freecost");
   secfile_insert_int(file, game.conquercost, "game.conquercost");
   secfile_insert_int(file, game.foodbox, "game.foodbox");
@@ -649,3 +653,5 @@ void game_save(struct section_file *file)
   map_save(file);
 
 }
+
+

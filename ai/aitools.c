@@ -27,6 +27,7 @@
 #include "cityhand.h"
 #include "citytools.h"
 #include "cityturn.h"
+#include "maphand.h"
 #include "plrhand.h"
 #include "unittools.h"
 

@@ -110,6 +110,10 @@ static void handle_request_join_game(struct connection *pconn,
 				     struct packet_req_join_game *request);
 static void handle_turn_done(int player_no);
 static void send_select_nation(struct player *pplayer);
+static void enable_fog_of_war_player(struct player *pplayer);
+static void disable_fog_of_war_player(struct player *pplayer);
+static void enable_fog_of_war(void);
+static void disable_fog_of_war(void);
 
 #ifdef GENERATING_MAC
 static void Mac_options(int *argc, char *argv[]);
@@ -157,12 +161,12 @@ int num_nations_avail;
 int main(int argc, char *argv[])
 {
   int h=0, v=0, no_meta=1;
+  int xitr, yitr,i,notfog;
   char *log_filename=NULL;
   char *gamelog_filename=NULL;
   char *load_filename=NULL;
   char *script_filename=NULL;
   char *option=NULL;
-  int i;
   int save_counter=0;
   int loglevel=LOG_NORMAL;
 
@@ -412,7 +416,6 @@ main_start_players:
   send_server_info_to_metaserver(1,0);
 
   if(game.is_new_game) {
-    int i;
     for(i=0; i<game.nplayers; i++) {
       init_tech(&game.players[i], game.tech);
       player_limit_to_government_rates(&game.players[i]);
@@ -441,16 +444,35 @@ main_start_players:
     }
   }
   
+  /* Initialize fog of war. */
+  notfog = !game.fogofwar;
+  for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
+    for (xitr = 0; xitr < map.xsize; xitr++)
+      for (yitr = 0; yitr < map.ysize; yitr++)
+	map_get_tile(xitr,yitr)->seen[i] += notfog;
+  game.fogofwar_old = game.fogofwar;
+  
   send_all_info(0);
-
-  if(game.is_new_game) 
+  
+  if(game.is_new_game)
     init_new_game();
 
   game.is_new_game = 0;
 
   send_game_state(0, CLIENT_GAME_RUNNING_STATE);
-  
+
   while(server_state==RUN_GAME_STATE) {
+    /* See if the value of fog of war has changed */
+    if (game.fogofwar != game.fogofwar_old) {
+      if (game.fogofwar == 1) {
+	enable_fog_of_war();
+	game.fogofwar_old = 1;
+      } else {
+	disable_fog_of_war();
+	game.fogofwar_old = 0;
+      }
+    }
+
     force_end_of_sniff=0;
     freelog(LOG_DEBUG, "Shuffleplayers");
     shuffle_players();
@@ -635,6 +657,7 @@ static void send_all_info(struct player *dest)
   send_player_info(0, dest);
   send_spaceship_info(0, dest);
   send_all_known_tiles(dest);
+  send_all_known_units(dest);
 }
 
 #ifdef UNUSED
@@ -675,9 +698,8 @@ static void do_apollo_program(void)
     pplayer=city_owner(pcity);
     
     for(i=0; i<game.nplayers; i++) {
-      city_list_iterate(game.players[i].cities, pcity)
-	
-	light_square(pplayer, pcity->x, pcity->y, 0);
+      city_list_iterate(game.players[i].cities, pcity)	
+	show_area(pplayer, pcity->x, pcity->y, 0);
       city_list_iterate_end;
     }
   }
@@ -1739,6 +1761,53 @@ static void announce_ai_player (struct player *pplayer) {
   	     _("Game: %s rules the %s."), pplayer->name,
                     get_nation_name_plural(pplayer->nation));
 
+}
+
+/*************************************************************************
+...
+*************************************************************************/
+void enable_fog_of_war_player(struct player *pplayer)
+{
+  int x,y;
+  for (x = 0; x < map.xsize; x++)
+    for (y = 0; y < map.ysize; y++)
+      map_get_tile(x,y)->seen[pplayer->player_no] -= 1;
+  send_all_known_tiles(pplayer);
+}
+
+/*************************************************************************
+...
+*************************************************************************/
+void enable_fog_of_war(void)
+{
+  int o;
+  for (o = 0; o < game.nplayers; o++)
+    enable_fog_of_war_player(&game.players[o]);
+}
+
+/*************************************************************************
+...
+*************************************************************************/
+void disable_fog_of_war_player(struct player *pplayer)
+{
+  int x,y;
+  for (x = 0; x < map.xsize; x++) {
+    for (y = 0; y < map.ysize; y++) {
+      map_get_tile(x,y)->seen[pplayer->player_no] += 1;
+    }
+  }
+  send_all_known_tiles(pplayer);
+  send_all_known_units(pplayer);
+}
+
+/*************************************************************************
+...
+*************************************************************************/
+void disable_fog_of_war(void)
+{
+  int o;
+  for (o = 0; o < game.nplayers; o++)
+    disable_fog_of_war_player(&game.players[o]);
 }
 
 #ifdef GENERATING_MAC

@@ -21,6 +21,7 @@
 #include "mem.h"
 #include "rand.h"
 
+#include "maphand.h"
 #include "settlers.h"
 #include "unitfunc.h"
 #include "unithand.h"
@@ -804,7 +805,7 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
   int k, possible = 0;
   if (same_pos(punit->x, punit->y, x, y)) return 1;
   if (is_ground_unit(punit) && 
-          (omni || map_get_known(x, y, pplayer))) {
+          (omni || map_get_known_and_seen(x, y, pplayer))) {
     if (map_get_terrain(x, y) == T_OCEAN) {
       if (is_transporter_with_free_space(pplayer, x, y)) {
         for (k = 0; k < 8; k++) {
@@ -826,9 +827,10 @@ int goto_is_sane(struct player *pplayer, struct unit *punit, int x, int y, int o
       }
     }
     return(possible);
-  } else if (is_sailing_unit(punit) && (omni || map_get_known(x, y, pplayer)) &&
-       map_get_terrain(x, y) != T_OCEAN && !map_get_city(x, y) &&
-       !is_terrain_near_tile(x, y, T_OCEAN)) {
+  } else if (is_sailing_unit(punit) &&
+	     (omni || map_get_known_and_seen(x, y, pplayer)) &&
+	     map_get_terrain(x, y) != T_OCEAN && !map_get_city(x, y) &&
+	     !is_terrain_near_tile(x, y, T_OCEAN)) {
     return(0);
   } /* end pre-emption subroutine. */
   return(1);
@@ -857,12 +859,12 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
       !goto_is_sane(pplayer, punit, punit->goto_dest_x, punit->goto_dest_y, 0)) {
     punit->activity=ACTIVITY_IDLE;
     punit->connecting = 0;
-    send_unit_info(0, punit, 0);
+    send_unit_info(0, punit);
     return;
   }
 
   if(!punit->moves_left) {
-    send_unit_info(0, punit, 0);
+    send_unit_info(0, punit);
     return;
   }
 
@@ -878,7 +880,7 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
 		unit_types[punit->type].name, punit->id,
 		punit->x, punit->y);
 	/* punit->activity=ACTIVITY_IDLE;*/
-	send_unit_info(0, punit, 0);
+	send_unit_info(0, punit);
 	return;
       }
       freelog(LOG_DEBUG, "Going %s", d[k]);
@@ -890,7 +892,7 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
 	freelog(LOG_DEBUG, "Couldn't handle it.");
 	if(punit->moves_left) {
 	  punit->activity=ACTIVITY_IDLE;
-	  send_unit_info(0, punit, 0);
+	  send_unit_info(0, punit);
 	  return;
 	};
       } else {
@@ -901,7 +903,7 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
 
       if(punit->x!=x || punit->y!=y) {
 	freelog(LOG_DEBUG, "Aborting, out of movepoints.");
-	send_unit_info(0, punit, 0);
+	send_unit_info(0, punit);
 	return; /* out of movepoints */
       }
 
@@ -937,7 +939,7 @@ different but should still pre-empt calculation of impossible GOTO's. -- Syela *
 
   punit->activity=ACTIVITY_IDLE;
   punit->connecting=0;
-  send_unit_info(0, punit, 0);
+  send_unit_info(0, punit);
 }
 
 /**************************************************************************

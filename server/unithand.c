@@ -65,7 +65,7 @@ void handle_unit_goto_tile(struct player *pplayer,
 
     set_unit_activity(punit, ACTIVITY_GOTO);
 
-    send_unit_info(0, punit, 0);
+    send_unit_info(0, punit);
       
     do_unit_goto(pplayer, punit, GOTO_MOVE_ANY);  
   }
@@ -89,7 +89,7 @@ void handle_unit_connect(struct player *pplayer,
       set_unit_activity(punit, req->activity_type);
       punit->connecting = 1;
 
-      send_unit_info(0, punit, 0);
+      send_unit_info(0, punit);
 
       /* avoid wasting first turn if unit cannot do the activity
 	 on the starting tile */
@@ -115,20 +115,19 @@ void handle_upgrade_unittype_request(struct player *pplayer,
     return;
   }
   cost = unit_upgrade_price(pplayer, packet->type, to_unit);
+  connection_do_buffer(pplayer->conn);
   unit_list_iterate(pplayer->units, punit) {
     if (cost > pplayer->economic.gold)
       break;
     if (punit->type == packet->type && map_get_city(punit->x, punit->y)) {
       pplayer->economic.gold -= cost;
-      if (punit->hp==get_unit_type(punit->type)->hp) {
-	punit->hp=get_unit_type(to_unit)->hp;
-      }
-      punit->type = to_unit;
-      send_unit_info(0, punit, 0);
+      
+      upgrade_unit(punit, to_unit);
       upgraded++;
     }
   }
   unit_list_iterate_end;
+  connection_do_unbuffer(pplayer->conn);
   if (upgraded > 0) {
     notify_player(pplayer, _("Game: %d %s upgraded to %s for %d credits."), 
 		  upgraded, unit_types[packet->type].name, 
@@ -170,10 +169,7 @@ void handle_unit_upgrade_request(struct player *pplayer,
     return;
   }
   pplayer->economic.gold -= cost;
-  if(punit->hp==get_unit_type(punit->type)->hp) 
-    punit->hp=get_unit_type(to_unit)->hp;
-  punit->type = to_unit;
-  send_unit_info(0, punit, 0);
+  upgrade_unit(punit, to_unit);
   send_player_info(pplayer, pplayer);
   notify_player(pplayer, _("Game: %s upgraded to %s for %d credits."), 
 		unit_name(from_unit), unit_name(to_unit), cost);
@@ -294,7 +290,7 @@ void handle_unit_change_homecity(struct player *pplayer,
 	unit_list_unlink(&pcity->units_supported, punit);
       
       punit->homecity=req->city_id;
-      send_unit_info(pplayer, punit, 0);
+      send_unit_info(pplayer, punit);
     }
   }
 }
@@ -423,9 +419,9 @@ void handle_unit_build_city(struct player *pplayer,
     if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
       map_set_special(punit->x, punit->y, S_RAILROAD);
   }
-  send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+  send_tile_info(0, punit->x, punit->y);
   create_city(pplayer, punit->x, punit->y, name);
-  game_remove_unit(req->unit_id);
+  server_remove_unit(punit);
 }
 
 /**************************************************************************
@@ -548,8 +544,8 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
   combat.make_winner_veteran=pwinner->veteran?1:0;
   
   for(o=0; o<game.nplayers; o++)
-    if(map_get_known(punit->x, punit->y, &game.players[o]) ||
-       map_get_known(def_x, def_y, &game.players[o]))
+    if(map_get_known_and_seen(punit->x, punit->y, &game.players[o]) ||
+       map_get_known_and_seen(def_x, def_y, &game.players[o]))
       send_packet_unit_combat(game.players[o].conn, &combat);
 
   nearcity1 = dist_nearest_city(get_player(pwinner->owner), def_x, def_y, 0, 0);
@@ -632,7 +628,7 @@ void handle_unit_attack_request(struct player *pplayer, struct unit *punit,
     }
   }
 
-  send_unit_info(0, pwinner, 0);
+  send_unit_info(0, pwinner);
 }
 
 /**************************************************************************
@@ -650,7 +646,7 @@ int handle_unit_enter_hut(struct unit *punit)
   }
 
   map_get_tile(punit->x, punit->y)->special^=S_HUT;
-  send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+  send_tile_info(0, punit->x, punit->y);
 
   if ((game.civstyle==2) && is_air_unit(punit)) {
     notify_player_ex(pplayer, punit->x, punit->y, E_NOEVENT,
@@ -750,7 +746,7 @@ int handle_unit_enter_hut(struct unit *punit)
 	if (player_knows_techs_with_flag(pplayer, TF_RAILROAD))
 	  map_set_special(punit->x, punit->y, S_RAILROAD);
       }
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      send_tile_info(0, punit->x, punit->y);
 
       create_city(pplayer, punit->x, punit->y, city_name_suggestion(pplayer));
     } else {
@@ -785,7 +781,7 @@ static void wakeup_neighbor_sentries(struct player *pplayer,
 		(punit->activity == ACTIVITY_SENTRY))
 	      {
 		set_unit_activity(punit, ACTIVITY_IDLE);
-		send_unit_info(0,punit,0);
+		send_unit_info(0,punit);
 	      }
 	  }
 	  unit_list_iterate_end;
@@ -910,10 +906,12 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
 
     connection_do_buffer(pplayer->conn);
 
-    /* light the squares the unit is entering */
-    light_square(pplayer, dest_x, dest_y, 
-		 get_unit_type(punit->type)->vision_range);
-    
+    src_x=punit->x;
+    src_y=punit->y;
+
+    /* show new land and update fog-of-war */
+    teleport_unit_sight_points(src_x,src_y,dest_x,dest_y,punit);
+
     /* ok now move the unit */
 
     if (punit->ai.ferryboat) {
@@ -934,18 +932,16 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
         transport_units = 0;
     }
     
-    src_x=punit->x;
-    src_y=punit->y;
 
     unit_list_unlink(&map_get_tile(src_x, src_y)->units, punit);
-    
     if(get_transporter_capacity(punit) && transport_units) {
         transporter_cargo_to_unitlist(punit, &cargolist);
         
         unit_list_iterate(cargolist, pcarried) { 
             pcarried->x=dest_x;
             pcarried->y=dest_y;
-            send_unit_info(0, pcarried, 1);
+            send_unit_info_to_onlookers(0, pcarried,src_x,src_y);
+	    teleport_unit_sight_points(src_x,src_y,dest_x,dest_y,pcarried);
         }
         unit_list_iterate_end;
     }
@@ -963,7 +959,7 @@ is the source of the problem.  Hopefully we won't abort() now. -- Syela */
       set_unit_activity(punit, ACTIVITY_SENTRY);
     }
 
-    send_unit_info(0, punit, 1);
+    send_unit_info_to_onlookers(0, punit, src_x, src_y);
     
     unit_list_insert(&map_get_tile(dest_x, dest_y)->units, punit);
     
@@ -1140,7 +1136,7 @@ int handle_unit_establish_trade(struct player *pplayer,
 **************************************************************************/
 void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 {
-  int i, n, x, y, old_id;
+  int i, n, old_id;
   int coins;
   struct player *cplayer;
   if(pplayer->player_no!=pcity->owner) {
@@ -1262,20 +1258,12 @@ void handle_unit_enter_city(struct player *pplayer, struct city *pcity)
 		      " the city with railroads."),
 		    pnewcity->name);
       map_set_special(pnewcity->x, pnewcity->y, S_RAILROAD);
-      send_tile_info(0, pnewcity->x, pnewcity->y, TILE_KNOWN);
+      send_tile_info(0, pnewcity->x, pnewcity->y);
     }
 
     raze_city(pnewcity);
 
-    if (pplayer->ai.control) { /* let there be light! */
-      for (y=0;y<5;y++) {
-        for (x=0;x<5;x++) {
-          if ((x==0 || x==4) && (y==0 || y==4))
-            continue;
-          light_square(pplayer, x+pnewcity->x-2, y+pnewcity->y-2, 0);
-        }
-      }
-    }
+    map_unfog_city_area(pnewcity);
 
     reestablish_city_trade_routes(pnewcity); 
 
@@ -1301,7 +1289,7 @@ void handle_unit_auto_request(struct player *pplayer,
     return;
 
   punit->ai.control=1;
-  send_unit_info(pplayer, punit, 0);
+  send_unit_info(pplayer, punit);
 }
 
 /**************************************************************************
@@ -1319,7 +1307,7 @@ static void handle_unit_activity_dependencies(struct unit *punit,
 	  if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	      (punit2->activity_target == prereq)) {
 	    set_unit_activity(punit2, ACTIVITY_IDLE);
-	    send_unit_info(0, punit2, 0);
+	    send_unit_info(0, punit2);
 	  }
 	unit_list_iterate_end;
       }
@@ -1337,7 +1325,7 @@ void handle_unit_activity_request(struct player *pplayer, struct unit *punit,
     enum unit_activity old_activity = punit->activity;
     int old_target = punit->activity_target;
     set_unit_activity(punit, new_activity);
-    send_unit_info(0, punit, 0);
+    send_unit_info(0, punit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
@@ -1354,7 +1342,7 @@ void handle_unit_activity_request_targeted(struct player *pplayer,
     enum unit_activity old_activity = punit->activity;
     int old_target = punit->activity_target;
     set_unit_activity_targeted(punit, new_activity, new_target);
-    send_unit_info(0, punit, 0);
+    send_unit_info(0, punit);
     handle_unit_activity_dependencies(punit, old_activity, old_target);
   }
 }
@@ -1370,7 +1358,7 @@ void handle_unit_unload_request(struct player *pplayer,
     unit_list_iterate(map_get_tile(punit->x, punit->y)->units, punit2) {
       if(punit2->activity==ACTIVITY_SENTRY) {
 	set_unit_activity(punit2, ACTIVITY_IDLE);
-	send_unit_info(0, punit2, 0);
+	send_unit_info(0, punit2);
       }
     }
     unit_list_iterate_end;
@@ -1402,3 +1390,48 @@ void handle_unit_paradrop_to(struct player *pplayer,
   }
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+void server_remove_unit(struct unit *punit)
+{
+  remove_unit_sight_points(punit);
+  game_remove_unit(punit->id);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void send_all_known_units(struct player *dest)
+{
+  int o,p;
+  for(p=0; p<game.nplayers; p++)  /* send the players units */
+    for(o=0; o<game.nplayers; o++)           /* dests */
+      if(!dest || &game.players[o]==dest) {
+	struct player *unitowner = &game.players[p];
+	struct player *pplayer = &game.players[o];
+	unit_list_iterate(unitowner->units,punit)
+	  send_unit_info(pplayer, punit);
+	unit_list_iterate_end;
+      }
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void upgrade_unit(struct unit *punit, Unit_Type_id to_unit)
+{
+  struct player *pplayer = &game.players[punit->owner];
+  int range = get_unit_type(punit->type)->vision_range;
+
+  if (punit->hp==get_unit_type(punit->type)->hp) {
+    punit->hp=get_unit_type(to_unit)->hp;
+  }
+
+  connection_do_buffer(pplayer->conn);
+  punit->type = to_unit;
+  unfog_area(pplayer,punit->x,punit->y, get_unit_type(to_unit)->vision_range);
+  fog_area(pplayer,punit->x,punit->y,range);
+  send_unit_info(0, punit);
+  connection_do_unbuffer(pplayer->conn);
+}

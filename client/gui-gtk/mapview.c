@@ -1263,7 +1263,7 @@ void pixmap_put_tile(GdkDrawable *pm, int x, int y, int abs_x0, int abs_y0,
 
   } else
   {
-    /* tile is unknow */
+    /* tile is unknown */
     pixmap_put_black_tile(pm,x,y);
   }
 }

@@ -15,6 +15,7 @@
 
 #include "player.h"
 #include "unit.h"
+#include "game.h"
 
 struct Sprite;			/* opaque; client-gui specific */
 
@@ -43,7 +44,7 @@ enum tile_terrain_type {
 #define T_COUNT (T_UNKNOWN)
 
 enum known_type {
- TILE_UNKNOWN, TILE_KNOWN_NODRAW, TILE_KNOWN
+ TILE_UNKNOWN, TILE_KNOWN_FOGGED, TILE_KNOWN
 };
 
 struct map_position {
@@ -55,11 +56,17 @@ struct tile {
   enum tile_special_type special;
   struct city *city;
   struct unit_list units;
-  unsigned short known;
+  unsigned short known;   /* A bitvector on the server side, an
+			     enum known_type on the client side.
+			     Player_no is index */
+  unsigned short sent;    /* Indicates if  the client know the tile
+			     as TILE_KNOWN_NODRAW. A bitvector like known.
+			     Not used on the client side. */
   short assigned; /* these can save a lot of CPU usage -- Syela */
   struct city *worked;      /* city working tile, or NULL if none */
   signed short continent;
   signed char move_cost[8]; /* don't know if this helps! */
+  unsigned short seen[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 };
 
 
@@ -208,10 +215,7 @@ void map_set_special(int x, int y, enum tile_special_type spe);
 void map_clear_special(int x, int y, enum tile_special_type spe);
 void tile_init(struct tile *ptile);
 enum known_type tile_is_known(int x, int y);
-int map_get_known(int x, int y, struct player *pplayer);
-void map_set_known(int x, int y, struct player *pplayer);
-void map_clear_known(int x, int y, struct player *pplayer);
-void map_know_all(struct player *pplayer);
+int is_real_tile(int x, int y);
 
 int is_water_adjacent_to_tile(int x, int y);
 int is_tiles_adjacent(int x0, int y0, int x1, int y1);
@@ -255,6 +259,7 @@ extern struct civ_map map;
 
 extern struct terrain_misc terrain_control;
 extern struct tile_type tile_types[T_LAST];
+
 
 #define MAP_DEFAULT_HUTS         50
 #define MAP_MIN_HUTS             0

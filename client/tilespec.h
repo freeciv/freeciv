@@ -137,6 +137,7 @@ struct named_sprites {
       *village,
       *fortress,
       *airbase,
+      *fog,
       *spec_river[NUM_DIRECTION_NSEW],
       *coast_cape[NUM_DIRECTION_NSEW],	      /* first unused */
       *darkness[NUM_DIRECTION_NSEW],         /* first unused */

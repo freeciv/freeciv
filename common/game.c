@@ -651,9 +651,8 @@ struct unit *game_find_unit_by_id(int unit_id)
 }
 
 
-
 /**************************************************************************
-...
+If called from server use the wrapper void server_remove_unit(punit);
 **************************************************************************/
 void game_remove_unit(int unit_id)
 {
@@ -667,7 +666,7 @@ void game_remove_unit(int unit_id)
     freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	   unit_id, get_nation_name(get_player(punit->owner)->nation),
 	   unit_name(punit->type), punit->x, punit->y, punit->homecity);
-    
+
     pcity=player_find_city_by_id(get_player(punit->owner), punit->homecity);
     if(pcity)
       unit_list_unlink(&pcity->units_supported, punit);
@@ -741,6 +740,8 @@ void game_init(void)
   game.civstyle    = GAME_DEFAULT_CIVSTYLE;
   game.razechance  = GAME_DEFAULT_RAZECHANCE;
   game.spacerace   = GAME_DEFAULT_SPACERACE;
+  game.fogofwar    = GAME_DEFAULT_FOGOFWAR;
+  game.fogofwar_old= game.fogofwar;
   game.barbarianrate  = GAME_DEFAULT_BARBARIANRATE;
   game.onsetbarbarian = GAME_DEFAULT_ONSETBARBARIAN;
   game.occupychance= GAME_DEFAULT_OCCUPYCHANCE;

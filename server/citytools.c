@@ -674,8 +674,6 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       create_unit_full(pplayer, vunit->x, vunit->y, vunit->type, 
 		       vunit->veteran, pcity->id, vunit->moves_left,
 		       vunit->hp);
-      lighten_area(pplayer, vunit->x,vunit->y);
-
     }
     wipe_unit_spec_safe(0, vunit, NULL, 0);
   } unit_list_iterate_end;
@@ -1039,6 +1037,7 @@ struct city *transfer_city(struct player *pplayer, struct player *cplayer,
 
   give_citymap_from_player_to_player(pnewcity, cplayer, pplayer);
 
+  map_unfog_city_area(pnewcity);
   return pnewcity;
 }
 

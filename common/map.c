@@ -950,13 +950,17 @@ int is_tiles_adjacent(int x0, int y0, int x1, int y1)
 ***************************************************************/
 void tile_init(struct tile *ptile)
 {
+  int i;
   ptile->terrain=T_UNKNOWN;
   ptile->special=S_NO_SPECIAL;
   ptile->known=0;
+  ptile->sent=0;
   ptile->city=NULL;
   unit_list_init(&ptile->units);
   ptile->worked = NULL; /* pointer to city working tile */
   ptile->assigned = 0; /* bitvector */
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++)
+    ptile->seen[i] = 0;
 }
 
 
@@ -1062,53 +1066,12 @@ void map_set_city(int x, int y, struct city *pcity)
 
 
 /***************************************************************
-...
-***************************************************************/
-int map_get_known(int x, int y, struct player *pplayer)
-{
-  return ((map.tiles+map_adjust_x(x)+
-	   map_adjust_y(y)*map.xsize)->known)&(1u<<pplayer->player_no);
-}
-
-/***************************************************************
-...
+Only for use on the client side
 ***************************************************************/
 enum known_type tile_is_known(int x, int y)
 {
   return ((map.tiles+map_adjust_x(x)+
 	   map_adjust_y(y)*map.xsize)->known);
-}
-
-
-/***************************************************************
-...
-***************************************************************/
-void map_set_known(int x, int y, struct player *pplayer)
-{
-  (map.tiles+map_adjust_x(x)+
-   map_adjust_y(y)*map.xsize)->known|=(1u<<pplayer->player_no);
-}
-
-/***************************************************************
-...
-***************************************************************/
-void map_clear_known(int x, int y, struct player *pplayer)
-{
-  (map.tiles+map_adjust_x(x)+
-   map_adjust_y(y)*map.xsize)->known&=~(1u<<pplayer->player_no);
-}
-
-/***************************************************************
-...
-***************************************************************/
-void map_know_all(struct player *pplayer)
-{
-  int x, y;
-  for (x = 0; x < map.xsize; ++x) {
-    for (y = 0; y < map.ysize; ++y) {
-      map_set_known(x, y, pplayer);
-    }
-  }
 }
 
 /***************************************************************
@@ -1119,4 +1082,13 @@ int same_pos(int x1, int y1, int x2, int y2)
 {
   return (map_adjust_x(x1) == map_adjust_x(x2)
 	  && map_adjust_y(y1) == map_adjust_y(y2)); 
+}
+
+/***************************************************************
+If we just adjust we might light a tile twice; That would be a
+Mayor problem with fog of war
+***************************************************************/
+int is_real_tile(int x, int y)
+{
+  return y >= 0 && y < map.ysize;
 }

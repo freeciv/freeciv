@@ -652,7 +652,7 @@ int enemies_at(struct unit *punit, int x, int y)
     if (j < 0 || j >= map.ysize) continue;
     for (i = x - 1; i <= x + 1; i++) {
       if (same_pos(i, j, x, y)) continue; /* after some contemplation */
-      if (!pplayer->ai.control && !map_get_known(x, y, pplayer)) continue;
+      if (!pplayer->ai.control && !map_get_known_and_seen(x, y, pplayer)) continue;
       if (is_enemy_city_tile(i, j, punit->owner)) return 1;
       unit_list_iterate(map_get_tile(i, j)->units, enemy)
         if (enemy->owner != punit->owner &&
@@ -692,7 +692,9 @@ Teleport punit to city at cost specified.  Returns success.
 
 int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
 {
+  int src_x = punit->x,src_y = punit->y;
   if(pcity->owner == punit->owner){
+    teleport_unit_sight_points(punit->x,punit->y,pcity->x,pcity->y,punit);
     unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
     punit->x = pcity->x;
     punit->y = pcity->y;
@@ -702,7 +704,7 @@ int teleport_unit_to_city(struct unit *punit, struct city *pcity, int mov_cost)
       punit->moves_left -= mov_cost;
     
     unit_list_insert(&map_get_tile(pcity->x, pcity->y)->units, punit);
-    send_unit_info(0, punit, 1);
+    send_unit_info_to_onlookers(0, punit, src_x,src_y);
 
     return 1;
   }
@@ -789,4 +791,3 @@ void resolve_unit_stack(int x, int y, int verbose)
     unit_list_iterate_end;
   }
 }
-

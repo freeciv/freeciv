@@ -488,6 +488,14 @@ static struct settings_s settings[] = {
  * to duplicate its previous behaviour (and note diplchance is only used
  * in the server, so it is "safe" to change).  --dwp
  */
+  { "fogofwar", &game.fogofwar,
+    SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
+    GAME_MIN_FOGOFWAR, GAME_MAX_FOGOFWAR, GAME_DEFAULT_FOGOFWAR,
+    N_("Whether to enable fog of war"),
+    N_("If this is set to 1, only those units within the sightrange of your own "
+       "units will be revealed to you.  You will still see terrain changes, such "
+       "as roads, on all discovered land.") },
+
   { "diplchance", &game.diplchance,
     SSET_RULES_FLEXIBLE, SSET_TO_CLIENT,
     GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE,

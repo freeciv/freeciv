@@ -247,7 +247,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
   if( land_cnt >= 3 ) {           /* enough land, scatter guys around */
     unit_list_iterate(map_get_tile(x, y)->units, punit2) {
       if( punit2->owner == me ) {
-        send_unit_info( 0, punit2, 0);
+        send_unit_info( 0, punit2);
         do { 
           do rand_neighbour(x, y, &xu, &yu); 
           while( !is_free_land(xu, yu, me) );
@@ -262,7 +262,7 @@ int unleash_barbarians(struct player* victim, int x, int y)
       int xb = -1, yb = -1;
       unit_list_iterate(map_get_tile(x, y)->units, punit2)
         if( punit2->owner == me ) {
-          send_unit_info( 0, punit2, 0);
+          send_unit_info( 0, punit2);
           while(1) {
 	    rand_neighbour(x, y, &xu, &yu);
 	    if( can_unit_move_to_tile(punit2, xu, yu, TRUE) ) break;
@@ -288,12 +288,13 @@ int unleash_barbarians(struct player* victim, int x, int y)
           alive = 0;
         }
         else
-          send_unit_info( 0, punit2, 0);
+          send_unit_info( 0, punit2);
       unit_list_iterate_end;
     }
   }
 
-  light_square(barbarians, xu, yu, 3);
+  /* FIXME: I don't know if this is needed*/
+  show_area(barbarians, xu, yu, 3);
 
   return alive;
 }
@@ -419,18 +420,18 @@ static void try_summon_barbarians(void)
   }
 
   unit_list_iterate(map_get_tile(x,y)->units, punit2)
-    send_unit_info(0, punit2, 0);
+    send_unit_info(0, punit2);
   unit_list_iterate_end;
 
   /* to let them know where to get you */
-  light_square(barbarians, xu, yu, 3);
-  light_square(barbarians, pc->x, pc->y, 3);
+  show_area(barbarians, xu, yu, 3);
+  show_area(barbarians, pc->x, pc->y, 3);
 
   /* There should probably be a different message about Sea Raiders */
   if( is_land_barbarian(barbarians) )
     notify_player_ex( victim, xu, yu, E_UPRISING, _("Native unrest near %s led by %s."),
                       pc->name, barbarians->name);
-  else if( map_get_known(xu, yu, victim) )
+  else if( map_get_known_and_seen(xu, yu, victim) )
     notify_player_ex( victim, xu, yu, E_UPRISING, _("Sea raiders seen near %s!"),
                       pc->name);
 }

@@ -381,6 +381,7 @@ tiles = { "row", "column", "tag"
  12, 14, "tx.village"
  12, 15, "tx.fortress"
  13, 16, "tx.airbase"
+ 13, 17, "tx.fog"
 
 ; Unit activity letters:  (note unit icons have just "u.")
 

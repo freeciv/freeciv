@@ -168,7 +168,7 @@ void diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   if (!unit_flag (pdiplomat->type, F_SPY)) {
     wipe_unit (0, pdiplomat);
   } else {
-    send_unit_info (pplayer, pdiplomat, 0);
+    send_unit_info (pplayer, pdiplomat);
   }
 }
 
@@ -256,7 +256,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   if (!unit_flag (pdiplomat->type, F_SPY)) {
     wipe_unit (0, pdiplomat);
   } else {
-    send_unit_info (pplayer, pdiplomat, 0);
+    send_unit_info (pplayer, pdiplomat);
   }
 }
 
@@ -306,7 +306,7 @@ void spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 
   /* Sabotage the unit by removing half its remaining hit points. */
   pvictim->hp /= 2;
-  send_unit_info (0, pvictim, 0);
+  send_unit_info (0, pvictim);
 
   /* Notify everybody involved. */
   notify_player_ex (pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
@@ -379,12 +379,10 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   freelog (LOG_DEBUG, "bribe-unit: succeeded");
 
-  /* Convert the unit to your cause. */
+  /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
   create_unit_full (pplayer, pvictim->x, pvictim->y,
 		    pvictim->type, pvictim->veteran, pdiplomat->homecity,
 		    pvictim->moves_left, pvictim->hp);
-  light_square (pplayer, pvictim->x, pvictim->y,
-		(get_unit_type (pvictim->type))->vision_range);
 
   /* Notify everybody involved. */
   notify_player_ex (pplayer, pvictim->x, pvictim->y, E_MY_DIPLOMAT,
@@ -410,7 +408,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     pdiplomat->moves_left = 0;
   }
   if (unit_list_find (&pplayer->units, diplomat_id)) {
-    send_unit_info (pplayer, pdiplomat, 0);
+    send_unit_info (pplayer, pdiplomat);
   }
 
   /* Update clients. */
@@ -520,7 +518,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 			_("Game: No new technology found in %s."),
 			pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->x, pcity->y);
-      send_unit_info (pplayer, pdiplomat, 0);
+      send_unit_info (pplayer, pdiplomat);
       freelog (LOG_DEBUG, "steal-tech: nothing to steal");
       return;
     }
@@ -558,7 +556,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 			unit_name (pdiplomat->type),
 			advances[technology].name, pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->x, pcity->y);
-      send_unit_info (pplayer, pdiplomat, 0);
+      send_unit_info (pplayer, pdiplomat);
       freelog (LOG_DEBUG, "steal-tech: target technology not found: %d (%s)",
 	       technology, advances[technology].name);
       return;
@@ -770,7 +768,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		     " the city with railroads."),
 		   pnewcity->name);
     map_set_special (pnewcity->x, pnewcity->y, S_RAILROAD);
-    send_tile_info (0, pnewcity->x, pnewcity->y, TILE_KNOWN);
+    send_tile_info (0, pnewcity->x, pnewcity->y);
   }
 
   /* Update city stuff. */
@@ -881,7 +879,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			  " sabotage in %s."), 
 			unit_name (pdiplomat->type), pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->x, pcity->y);
-      send_unit_info (pplayer, pdiplomat, 0);
+      send_unit_info (pplayer, pdiplomat);
       freelog (LOG_DEBUG, "sabotage: random: nothing to do");
       return;
     }
@@ -921,7 +919,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			  _("Game: You cannot sabotage a wonder or a %s!"),
 			  improvement_types[B_PALACE].name);
 	diplomat_charge_movement (pdiplomat, pcity->x, pcity->y);
-	send_unit_info (pplayer, pdiplomat, 0);
+	send_unit_info (pplayer, pdiplomat);
 	freelog (LOG_DEBUG, "sabotage: disallowed target improvement: %d (%s)",
 	       improvement, get_improvement_name (improvement));
 	return;
@@ -933,7 +931,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 			unit_name (pdiplomat->type),
 			get_improvement_name (improvement), pcity->name);
       diplomat_charge_movement (pdiplomat, pcity->x, pcity->y);
-      send_unit_info (pplayer, pdiplomat, 0);
+      send_unit_info (pplayer, pdiplomat);
       freelog (LOG_DEBUG, "sabotage: target improvement not found: %d (%s)",
 	       improvement, get_improvement_name (improvement));
       return;
@@ -1137,7 +1135,7 @@ void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
       struct city *spyhome = find_city_by_id (pdiplomat->homecity);
 
       if (!spyhome) {
-	send_unit_info (pplayer, pdiplomat, 0);
+	send_unit_info (pplayer, pdiplomat);
 	freelog (LOG_NORMAL, "Bug in diplomat_escape: Unhomed Spy.");
 	return;
       }
@@ -1152,7 +1150,7 @@ void diplomat_escape (struct player *pplayer, struct unit *pdiplomat,
 
       /* being teleported costs all movement */
       if (!teleport_unit_to_city (pdiplomat, spyhome, -1)) {
-	send_unit_info (pplayer, pdiplomat, 0);
+	send_unit_info (pplayer, pdiplomat);
 	freelog (LOG_NORMAL, "Bug in diplomat_escape: Spy can't teleport.");
 	return;
       }
@@ -1255,22 +1253,20 @@ void player_restore_units(struct player *pplayer)
       if (leonardo &&
 	  (upgrade_type=can_upgrade_unittype(pplayer, punit->type))!=-1
 	  && !upgrade_would_strand(punit, upgrade_type)) {
-	if (punit->hp==get_unit_type(punit->type)->hp) 
-	  punit->hp = get_unit_type(upgrade_type)->hp;
 	notify_player(pplayer,
 		      _("Game: %s has upgraded %s to %s%s."),
 		      improvement_types[B_LEONARDO].name,
 		      get_unit_type(punit->type)->name,
 		      get_unit_type(upgrade_type)->name,
 		      get_location_str_in(pplayer, punit->x, punit->y, ", "));
-	punit->type = upgrade_type;
 	punit->veteran = 0;
+	upgrade_unit(punit,upgrade_type);
 	leonardo = leonardo_variant;
       }
     }
     unit_list_iterate_end;
   }
-  
+
   /* Temporarily use 'fuel' on Carriers and Subs to keep track
      of numbers of supported Air Units:   --dwp */
   unit_list_iterate(pplayer->units, punit) {
@@ -1280,7 +1276,7 @@ void player_restore_units(struct player *pplayer)
     }
   }
   unit_list_iterate_end;
-  
+
   unit_list_iterate(pplayer->units, punit) {
     unit_restore_hitpoints(pplayer, punit);
     unit_restore_movepoints(pplayer, punit);
@@ -1683,7 +1679,8 @@ void create_unit_full(struct player *pplayer, int x, int y,
   /* ditto for connecting units */
   punit->connecting = 0;
 
-  send_unit_info(0, punit, 0);
+  unfog_area(pplayer,x,y,get_unit_type(punit->type)->vision_range);
+  send_unit_info(0, punit);
 }
 
 
@@ -1695,7 +1692,7 @@ void create_unit_full(struct player *pplayer, int x, int y,
 void send_remove_unit(struct player *pplayer, int unit_id)
 {
   int o;
-  
+
   struct packet_generic_integer packet;
 
   packet.value=unit_id;
@@ -1793,7 +1790,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
 	      map_get_tile(punit->x, punit->y)));
 	if (what != S_NO_SPECIAL) {
 	  map_clear_special(punit->x, punit->y, what);
-	  send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+	  send_tile_info(0, punit->x, punit->y);
 	  set_unit_activity(punit, ACTIVITY_IDLE);
 	}
       }
@@ -1806,10 +1803,10 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
         if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	    (punit2->activity_target == what_pillaged)) {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
-	  send_unit_info(0, punit2, 0);
+	  send_unit_info(0, punit2);
 	}
       unit_list_iterate_end;
-      send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+      send_tile_info(0, punit->x, punit->y);
     }
   }
 
@@ -1875,7 +1872,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
   }
 
   if (unit_activity_done) {
-    send_tile_info(0, punit->x, punit->y, TILE_KNOWN);
+    send_tile_info(0, punit->x, punit->y);
     unit_list_iterate (map_get_tile (punit->x, punit->y)->units, punit2)
       if (punit2->activity == activity) {
 	if (punit2->connecting) {
@@ -1886,7 +1883,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
 	else {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
 	}
-	send_unit_info(0, punit2, 0);
+	send_unit_info(0, punit2);
       }
     unit_list_iterate_end;
   }
@@ -1907,7 +1904,7 @@ void update_unit_activity(struct player *pplayer, struct unit *punit)
      is_ground_unit(punit))
     set_unit_activity(punit, ACTIVITY_SENTRY);
 
-  send_unit_info(0, punit, 0);
+  send_unit_info(0, punit);
 }
 
 
@@ -1939,7 +1936,7 @@ void do_nuke_tile(int x, int y)
   else if ((map_get_terrain(x,y)!=T_OCEAN && map_get_terrain(x,y)<=T_TUNDRA) &&
            (!(map_get_special(x,y)&S_POLLUTION)) && myrand(2)) { 
     map_set_special(x,y, S_POLLUTION);
-    send_tile_info(0, x, y, TILE_KNOWN);
+    send_tile_info(0, x, y);
   }
 }
 
@@ -1964,9 +1961,10 @@ Move the unit if possible
 **************************************************************************/
 int try_move_unit(struct unit *punit, int dest_x, int dest_y) 
 {
-  if (myrand(1+map_move_cost(punit, dest_x, dest_y))>punit->moves_left && punit->moves_left<unit_move_rate(punit)) {
+  if (myrand(1+map_move_cost(punit, dest_x, dest_y))>punit->moves_left &&
+      punit->moves_left<unit_move_rate(punit)) {
     punit->moves_left=0;
-    send_unit_info(&game.players[punit->owner], punit, 0);
+    send_unit_info(&game.players[punit->owner], punit);
   }
   return punit->moves_left;
 }
@@ -1995,7 +1993,7 @@ int do_airline(struct unit *punit, int x, int y)
   unit_list_insert(&map_get_tile(x, y)->units, punit);
 
   connection_do_buffer(game.players[punit->owner].conn);
-  send_unit_info(&game.players[punit->owner], punit, 0);
+  send_unit_info(&game.players[punit->owner], punit);
   send_city_info(&game.players[city1->owner], city1, 0);
   send_city_info(&game.players[city2->owner], city2, 0);
   notify_player_ex(&game.players[punit->owner], punit->x, punit->y, E_NOEVENT,
@@ -2029,8 +2027,7 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
               int ok=1;
 
               /* light the squares the unit is entering */
-              light_square(pplayer, x, y, 
-                  get_unit_type(punit->type)->vision_range);
+	      teleport_unit_sight_points(punit->x, punit->y, x, y, punit);
 
               unit_list_unlink(&map_get_tile(punit->x, punit->y)->units, punit);
               punit->x = x; punit->y = y;
@@ -2046,7 +2043,7 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
                 punit->moves_left -= get_unit_type(punit->type)->paratroopers_mr_sub;
                 if(punit->moves_left < 0) punit->moves_left = 0;
                 punit->paradropped = 1;
-                send_unit_info(0, punit, 0);
+                send_unit_info(0, punit);
 
                 if(start_city) {
                   send_city_info(pplayer, start_city, 0);
@@ -2066,7 +2063,8 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
 				 _("Game: Too far for this unit."));
             }
           }
-      	  else {
+      	  else {  /*FIXME: this is a fog-of-war cheat.
+		    You get to know if there is an enemy on the tile*/
     	      notify_player_ex(&game.players[punit->owner], x, y, E_NOEVENT,
 			       _("Game: Cannot paradrop because there are"
 				 " enemy units on the destination location."));
@@ -2089,7 +2087,7 @@ int do_paradrop(struct player *pplayer, struct unit *punit, int x, int y)
   }
 
   if(!paradropped)
-    send_unit_info(0, punit, 0);
+    send_unit_info(0, punit);
 
   connection_do_unbuffer(pplayer->conn);
   return 0;
@@ -2199,7 +2197,6 @@ void place_partisans(struct city *pcity,int count)
   while(count && total)  {
     for(i=0,x=myrand(total)+1;x;i++) if(ok[i]) x--;
     ok[--i]=0; x=(i/5)-2+pcity->x; y=(i%5)-2+pcity->y;
-    light_square(city_owner(pcity), map_adjust_x(x), map_adjust_y(y), 0);
     create_unit(&game.players[pcity->owner], map_adjust_x(x), map_adjust_y(y),
 		get_role_unit(L_PARTISAN,0), 0, 0, -1);
     count--; total--;
@@ -2286,7 +2283,7 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
 	      get_unit_type(punit2->type)->name,
 	      get_unit_type(punit->type)->name);
       send_remove_unit(0, punit2->id);
-      game_remove_unit(punit2->id);
+      server_remove_unit(punit2);
     }
     unit_list_iterate_end;
     unit_list_unlink_all(&list);
@@ -2297,17 +2294,17 @@ void wipe_unit_spec_safe(struct player *dest, struct unit *punit,
     /* Get a handle on the unit's home city before the unit is wiped */
     struct city *pcity = find_city_by_id(punit->homecity);
     if (pcity) {
-       game_remove_unit(punit->id);
+       server_remove_unit(punit);
        city_refresh(pcity);
        send_city_info(dest, pcity, 0);
     } else {
       /* can this happen? --dwp */
       freelog(LOG_NORMAL, "Can't find homecity of unit at (%d,%d)",
 	      punit->x, punit->y);
-      game_remove_unit(punit->id);
+      server_remove_unit(punit);
     }
   } else {
-    game_remove_unit(punit->id);
+    server_remove_unit(punit);
   }
 }
 
@@ -2372,7 +2369,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 	    get_nation_name_plural(destroyer->nation));
     
     send_remove_unit(0, punit->id);
-    game_remove_unit(punit->id);
+    server_remove_unit(punit);
   }
   else {
     notify_player_ex(pplayer, punit->x, punit->y, E_UNIT_LOST,
@@ -2394,7 +2391,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 		get_unit_type(punit2->type)->name,
 		get_nation_name_plural(destroyer->nation));
 	send_remove_unit(0, punit2->id);
-	game_remove_unit(punit2->id);
+	server_remove_unit(punit2);
     }
     unit_list_iterate_end;
   } 
@@ -2404,8 +2401,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   send the unit to the players who need the info 
   dest = NULL means all players, dosend means send even if the player 
   can't see the unit.
+  x and y is where the unit came from, so that the info can be send there too
 **************************************************************************/
-void send_unit_info(struct player *dest, struct unit *punit, int dosend)
+void send_unit_info_to_onlookers(struct player *dest, struct unit *punit, int x, int y)
 {
   int o;
   struct packet_unit_info info;
@@ -2435,8 +2433,20 @@ void send_unit_info(struct player *dest, struct unit *punit, int dosend)
 
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest)
-      if(dosend || map_get_known(info.x, info.y, &game.players[o]))
-	 send_packet_unit_info(game.players[o].conn, &info);
+      if(map_get_known_and_seen(info.x, info.y, &game.players[o]) ||
+	 map_get_known_and_seen(x,y, &game.players[o])){
+	send_packet_unit_info(game.players[o].conn, &info);
+      }
+}
+
+/**************************************************************************
+  send the unit to the players who need the info 
+  dest = NULL means all players, dosend means send even if the player 
+  can't see the unit.
+**************************************************************************/
+void send_unit_info(struct player *dest, struct unit *punit)
+{
+  send_unit_info_to_onlookers(dest, punit, punit->x,punit->y);
 }
 
 /**************************************************************************
