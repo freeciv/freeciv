@@ -360,7 +360,7 @@ Keyboard:
   i: (I)rrigate tile
   l: Go/air(l)ift to city
   m: (M)ine tile
-  o: terrain transform
+  o: transf(o)rm terrain
   p: clean (p)ollution
   P: (P)illage tile
   r: Build (r)oad/railroad
@@ -1261,8 +1261,10 @@ TIP: A very fast unit, which is very useful for hunting down enemy
 We've chosen not to implement these fierce animals.
 ---
 # Engineers
-Engineers are just like Settlers, except they work twice as fast and
-move twice as fast.
+Engineers are similar to Settlers, but they work twice as fast and
+move twice as fast.  Engineers may also perform major terrain
+transformations (for example, converting Tundra into Desert) which
+are beyond the capabilities of Settlers.
 
 TIP 1: Upgrade Settlers to Engineers when possible, as Engineers
        require the same resources as ordinary Settlers.
@@ -1644,59 +1646,64 @@ type as well as city improvements and wonders.
 # Arctic
 Food: 0.  Shields: 0.  Trade: 0.  Movement: 2.  Defense: 1.
 With Seals, Arctic squares will produce 2 Food.
-Arctic squares cannot be irrigated or mined.
+Arctic squares cannot be irrigated or mined.  They may be
+transformed to Tundra by Engineers.
 ---
 # Desert
 Food: 0.  Shields: 1.  Trade: 0.  Movement: 1.  Defense: 1.
 With an Oasis, Desert squares will produce 3 Food.
 Deserts can be mined or irrigated (but not both at the same time).
+They may be transformed to Plains by Engineers.
 ---
 # Forest
 Food: 1.  Shields: 2.  Trade: 0.  Movement: 2.  Defense: 1.5.
 With Game, Forest squares will produce 2 extra Food.
 Forests can be irrigated, which converts them to Plains.  Forests
-cannot be mined.
+cannot be mined.  They may be transformed to Grassland by Engineers.
 ---
 # Grassland
 Food: 2.  Shields: 0.  Trade: 0.  Movement: 1.  Defense: 1.
 With Resources, Grassland squares will produce 1 Shield.
 Grasslands can be irrigated.  If mined, Grasslands will be converted
-to Forest.
+to Forest.  They may be transformed to Hills by Engineers.
 ---
 # Hills
 Food: 1.  Shields: 0.  Trade: 0.  Movement: 2.  Defense: 2.
 With Coals, Hills squares will produce 2 Shields.
 Hills can be irrigated or mined (but not both at the same time).
+They may be transformed to Plains by Engineers.
 ---
 # Jungle
 Food: 1.  Shields: 0.  Trade: 0.  Movement: 2.  Defense: 1.5.
 With Gems, Jungle squares will produce 4 Trade.
 Jungles can be irrigated, which converts them to Grassland, or
-mined, which converts them to Forest.
+mined, which converts them to Forest.  They may be transformed to
+Plains by Engineers.
 ---
 # Mountains
 Food: 0.  Shields: 1.  Trade: 0.  Movement: 3.  Defense: 3.
 With Gold, Mountain squares will produce 5 Trade.
-Mountains can be mined, but not irrigated.
+Mountains can be mined, but not irrigated.  They may be transformed
+to Hills by Engineers.
 ---
 # Ocean
 Food: 1.  Shields: 0.  Trade: 2.  Movement: boat.  Defense: 1.
 With Fish, Ocean squares will produce 2 extra Food.
 Only sea units (Triremes and other boats) can travel on the Ocean.
-Ocean squares can never be polluted.
+Ocean squares can never be polluted or transformed.
 ---
 # Plains
 Food: 1.  Shields: 1.  Trade: 0.  Movement: 1.  Defense: 1.
 With Horses, Plains squares will produce 2 extra Food.
 Plains can be irrigated.  If mined, Plains will be converted to
-Forest.
+Forest.  They may be transformed to Grassland by Engineers.
 ---
 # River
 Food: 2.  Shields: 0.  Trade: 1.  Movement: 1(*).  Defense: 1.5.
 Units moving from one River square to another River square act as
 though there were a road joining them.
 With Resources, River squares will produce 1 Shield.
-Rivers can be irrigated but not mined.
+Rivers can be irrigated but not mined or transformed.
 Roads and railroads can only be built on River squares if your
 civilization has learned Bridge Building technology.
 ---
@@ -1704,12 +1711,14 @@ civilization has learned Bridge Building technology.
 Food: 1.  Shields: 0.  Trade: 0.  Movement: 2.  Defense: 1.5.
 With Oil, Swamp squares will produce 4 Shields.
 Swamps can be irrigated, which converts them to Grassland, or mined,
-which converts them to Forest.
+which converts them to Forest.  They may be transformed to Plains by
+Engineers.
 ---
 # Tundra
 Food: 1.  Shields: 0.  Trade: 0.  Movement: 1.  Defense: 1.
 With Game, Tundra squares will produce 2 extra Food.
-Tundra cannot be irrigated or mined.
+Tundra cannot be irrigated or mined.  It may be transformed to
+Desert by Engineers.
 %% In Civ2, Tundra can be irrigated (don't know about mining).
 ---
 # Terrain Alterations
