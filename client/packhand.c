@@ -296,6 +296,8 @@ void handle_game_state(struct packet_generic_integer *packet)
     
     free_intro_radar_sprites();
     agents_game_start();
+  } else if(get_client_state() == CLIENT_GAME_OVER_STATE) {
+    reports_thaw();
   }
 }
 

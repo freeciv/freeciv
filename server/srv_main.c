@@ -1969,6 +1969,8 @@ main_start_players:
   /*** Where the action is. ***/
   main_loop();
 
+  send_game_state(&game.est_connections, CLIENT_GAME_OVER_STATE);
+
   report_scores(TRUE);
   show_map_to_all();
   notify_player(NULL, _("Game: The game is over..."));
