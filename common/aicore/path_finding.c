@@ -124,7 +124,12 @@ static struct pf_path *danger_get_path(struct pf_map *pf_map, int x, int y);
 ********************************************************************/
 static int get_turn(const struct pf_map *pf_map, int cost)
 {
-  return (cost / pf_map->params->move_rate);
+  /* Negative cost can happen when a unit initially has more MP than its
+   * move-rate (due to wonders transfer etc).  Although this may be a bug, 
+   * we'd better be ready.
+   *
+   * Note that cost==0 corresponds to the current turn with full MP. */
+  return (cost < 0 ? 0 : cost / pf_map->params->move_rate);
 }
 
 /********************************************************************
@@ -132,7 +137,9 @@ static int get_turn(const struct pf_map *pf_map, int cost)
 ********************************************************************/
 static int get_moves_left(const struct pf_map *pf_map, int cost)
 {
-  return (pf_map->params->move_rate - (cost % pf_map->params->move_rate));
+  /* Cost may be negative; see get_turn(). */
+  return (cost < 0 ? pf_map->params->move_rate - cost
+          : pf_map->params->move_rate - (cost % pf_map->params->move_rate));
 }
 
 /********************************************************************
@@ -297,11 +304,8 @@ bool pf_next(struct pf_map *pf_map)
 	cost = adjust_cost(pf_map, cost);
       }
 
-      /* Total cost at xy1 */
+      /* Total cost at xy1.  Cost may be negative; see get_turn(). */
       cost += node->cost;
-
-      /* check for overflow */
-      assert(cost >= 0);
 
       /* Evaluate the extra cost of the destination,
        * if it's relevant */
@@ -393,10 +397,11 @@ struct pf_map *pf_create_map(const struct pf_parameter *const parameter)
   init_node(pf_map, &pf_map->lattice[pf_map->index], pf_map->x,
             pf_map->y);
   /* This makes calculations of turn/moves_left more convenient, but we 
-   * need to subtract this value before we return cost to the user */
+   * need to subtract this value before we return cost to the user.  Note
+   * that cost may be negative if moves_left_initially > move_rate
+   * (see get_turn()). */
   pf_map->lattice[pf_map->index].cost = pf_map->params->move_rate
       - pf_map->params->moves_left_initially;
-  assert(pf_map->lattice[pf_map->index].cost >= 0);
   pf_map->lattice[pf_map->index].extra_cost = 0;
   if (pf_map->params->is_pos_dangerous) {
     /* The starting point is safe */
