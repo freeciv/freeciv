@@ -1123,9 +1123,10 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     }
       
   for(n=0; n<pcity->ppl_unhappy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=7) {
-      xaw_set_bitmap(pdialog->citizen_labels[i], get_citizen_pixmap(7));
-      pdialog->citizen_type[i]=7;
+    if(pdialog->citizen_type[i]!=7 && pdialog->citizen_type[i]!=8) {
+      pdialog->citizen_type[i]=7+i%2;
+      xaw_set_bitmap(pdialog->citizen_labels[i],
+		     get_citizen_pixmap(pdialog->citizen_type[i]));
       XtRemoveAllCallbacks(pdialog->citizen_labels[i], XtNcallback);
       XtSetSensitive(pdialog->citizen_labels[i], FALSE);
     }

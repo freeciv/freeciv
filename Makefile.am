@@ -21,5 +21,6 @@ endif
 
 SUBDIRS=	$(DSUBDIRS) intl common $(SSUBDIRS) $(CSUBDIRS) po 
 
-EXTRA_DIST=	PEOPLE BUGS HOWTOPLAY README.AI README.rulesets \
-		civ ser freeciv_hackers_guide.txt config.mac.h
+EXTRA_DIST=	PEOPLE BUGS HOWTOPLAY freeciv_hackers_guide.txt \
+		README.AI README.rulesets README.graphics \
+		civ ser config.mac.h

@@ -12,7 +12,7 @@
 
 [datafile]
 description="Default governments data for Freeciv (as Civ2, minus fundamentalism)"
-options="1.8.2"
+options="1.8.2 +tilespec"
 
 [governments]
 count=6
@@ -41,16 +41,14 @@ required_tech = { "government",       "tech"
                   "Democracy",        "Democracy"
 };
 
-; Icon offsets from GOVERNMENT_TILES in small.xpm:
-; (Would be nice to do this better...)
-graphic = { "government",  "offset"
-                "Anarchy",          0
-                "Despotism",        1
-                "Monarchy",         2
-                "Communism",        3
-;               "Fundamentalism",   21  ;-)
-                "Republic",         4
-                "Democracy",        5
+graphic = { "government",  "pref",   "alt"
+                "Anarchy",          "gov.anarchy",        "-"
+                "Despotism",        "gov.despotism",      "-"
+                "Monarchy",         "gov.monarchy",       "-"
+                "Communism",        "gov.communism",      "-"
+;               "Fundamentalism",   "gov.fundamentalism", "-"
+                "Republic",         "gov.republic",       "-"
+                "Democracy",        "gov.democracy",      "-"
 };
 
 ; Unit upkeep cost factors:

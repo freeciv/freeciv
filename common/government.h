@@ -17,6 +17,7 @@
 
 struct city;
 struct player;
+struct Sprite;			/* opaque; client-gui specific */
 
 #define G_MAGIC (127)		/* magic constant, used as flag value */
 
@@ -54,8 +55,9 @@ struct ruler_title
 struct government
 {
   int   index;			/* index into governments[] array */
-  char *name;			/* government name */
-  int   graphic;		/* offset in government icons */
+  char  name[MAX_LEN_NAME];	/* government name */
+  char  graphic_str[MAX_LEN_NAME];
+  char  graphic_alt[MAX_LEN_NAME];
   int   required_tech;		/* tech required to change to this gov */
 
   struct ruler_title *ruler_title;  /* ruler titles */
@@ -115,6 +117,8 @@ struct government
   /* other flags: bits in enum government_flag_id order,
      use government_has_flag() to access */
   int   flags;
+
+  struct Sprite *sprite;
 };
 
 extern struct government *governments;
@@ -136,7 +140,5 @@ char *get_government_name(int type);
 char *get_ruler_title(int gov, int male, int race);
 
 int can_change_to_government(struct player *pplayer, int government);
-
-int government_graphic(int gov);
 
 #endif  /* FC__GOVERNMENT_H */

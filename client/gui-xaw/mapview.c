@@ -32,6 +32,7 @@
 #include "graphics.h"
 #include "gui_stuff.h"
 #include "mapctrl.h"
+#include "tilespec.h"
 
 #include "mapview.h"
 
@@ -84,7 +85,8 @@ int num_units_below = MAX_NUM_UNITS_BELOW;
 
 extern int goto_state;
 
-static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y, int tileno);
+static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
+ 				    struct Sprite *ssprite);
 static void show_city_names(void);
 
 /* the intro picture is held in this pixmap, which is scaled to
@@ -340,8 +342,7 @@ void update_unit_pix_label(struct unit *punit)
     
     if(ITERATOR_PTR(myiter)) {
       if(!showing_arrow) {
-	xaw_set_bitmap(more_arrow_label, 
-		       get_tile_sprite(RIGHT_ARROW_TILE)->pixmap);
+	xaw_set_bitmap(more_arrow_label, sprites.right_arrow->pixmap);
 	showing_arrow=1;
       }
     }
@@ -371,7 +372,7 @@ void update_unit_pix_label(struct unit *punit)
 **************************************************************************/
 Pixmap get_thumb_pixmap(int onoff)
 {
-  return get_tile_sprite(THUMB_TILES+!onoff)->pixmap;
+  return sprites.treaty_thumb[!!onoff]->pixmap;
 }
 
 /**************************************************************************
@@ -379,7 +380,8 @@ Pixmap get_thumb_pixmap(int onoff)
 **************************************************************************/
 Pixmap get_citizen_pixmap(int frame)
 {
-  return get_tile_sprite(PEOPLE_TILES+frame)->pixmap;
+  frame = CLIP(0, frame, NUM_TILES_CITIZEN-1);
+  return sprites.citizen[frame]->pixmap;
 }
 
 
@@ -388,16 +390,39 @@ Pixmap get_citizen_pixmap(int frame)
 **************************************************************************/
 void set_bulb_sol_government(int bulb, int sol, int government)
 {
-  int gov_graphic = GOVERNMENT_TILES + government_graphic(government);
+  struct Sprite *gov_sprite;
   
-  if (bulb <0) bulb = 0;
-  if (gov_graphic > RIGHT_ARROW_TILE) gov_graphic = RIGHT_ARROW_TILE;
+  bulb = CLIP(0, bulb, NUM_TILES_PROGRESS-1);
+  sol  = CLIP(0, sol, NUM_TILES_PROGRESS-1);
   
-  xaw_set_bitmap(bulb_label, get_tile_sprite(BULB_TILES+bulb)->pixmap);
+  xaw_set_bitmap(bulb_label, sprites.bulb[bulb]->pixmap);
+  xaw_set_bitmap(sun_label, sprites.warming[sol]->pixmap);
 
-  xaw_set_bitmap(sun_label, get_tile_sprite(SUN_TILES+sol)->pixmap);
-  
-  xaw_set_bitmap(government_label, get_tile_sprite(gov_graphic)->pixmap);
+  if (game.government_count==0) {
+    /* not sure what to do here */
+    gov_sprite = sprites.citizen[7]; 
+  } else {
+    gov_sprite = get_government(government)->sprite;
+  }
+
+  if (gov_sprite)
+    xaw_set_bitmap(government_label, gov_sprite->pixmap);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static struct Sprite *get_city_race_flag_sprite(struct city *pcity)
+{
+  return races[game.players[pcity->owner].race].flag_sprite;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+static struct Sprite *get_unit_race_flag_sprite(struct unit *punit)
+{
+  return races[game.players[punit->owner].race].flag_sprite;
 }
 
 /**************************************************************************
@@ -865,33 +890,35 @@ void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile)
 		   NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
   }
   else if(!flags_are_transparent) {	/* observe transparency here, too! */
-    mysprite=get_tile_sprite(game.players[pcity->owner].race+FLAG_TILES);
+    mysprite=get_city_race_flag_sprite(pcity);
     XCopyArea(display, mysprite->pixmap, pm, civ_gc, 0, 0,
 	      mysprite->width, mysprite->height, 
 	      xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);
-  } else
-	  pixmap_put_overlay_tile(pm,xtile,ytile,game.players[pcity->owner].race+FLAG_TILES);
-  
-  pixmap_put_overlay_tile(pm, xtile, ytile, CITY_TILE+
-			  city_got_citywalls(pcity));
+  }
+  else {
+    pixmap_put_overlay_tile(pm,xtile,ytile, get_city_race_flag_sprite(pcity));
+  }
+
+  pixmap_put_overlay_tile(pm, xtile, ytile,
+			  (city_got_citywalls(pcity)
+			   ? sprites.tx.city_walls
+			   : sprites.tx.city));
 
   if(genlist_size(&((map_get_tile(pcity->x, pcity->y))->units.list)) > 0)
-    {
-      pixmap_put_overlay_tile(pm, xtile, ytile, OCCUPIED_TILE);
-    }
+    pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.occupied);
 
-  if(pcity->size>=10)
-    pixmap_put_overlay_tile(pm, xtile, ytile, NUMBER_MSD_TILES+
-			    pcity->size/10);
-  pixmap_put_overlay_tile(pm, xtile, ytile, NUMBER_TILES+pcity->size%10);
+  if(pcity->size>=10) {
+    pixmap_put_overlay_tile(pm, xtile, ytile,
+			    sprites.city.size_tens[pcity->size/10]);
+  }
+  pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.size[pcity->size%10]);
 
   if(map_get_special(pcity->x, pcity->y) & S_POLLUTION)
-    pixmap_put_overlay_tile(pm, xtile, ytile, POLLUTION_TILE);
+    pixmap_put_overlay_tile(pm, xtile, ytile, sprites.tx.pollution);
 
   if(city_unhappy(pcity))
-    pixmap_put_overlay_tile(pm, xtile, ytile, CITY_FLASH_TILE);
+    pixmap_put_overlay_tile(pm, xtile, ytile, sprites.city.disorder);
   
-
 }
 
 
@@ -901,10 +928,13 @@ void put_city_pixmap(struct city *pcity, Pixmap pm, int xtile, int ytile)
 void put_city_tile_output(Pixmap pm, int x, int y, 
 			  int food, int shield, int trade)
 {
+  food = CLIP(0, food, NUM_TILES_DIGITS-1);
+  trade = CLIP(0, trade, NUM_TILES_DIGITS-1);
+  shield = CLIP(0, shield, NUM_TILES_DIGITS-1);
   
-  pixmap_put_overlay_tile(pm, x, y,  FOOD_NUMBERS+food);
-  pixmap_put_overlay_tile(pm, x, y, SHIELD_NUMBERS+shield);
-  pixmap_put_overlay_tile(pm, x, y,  TRADE_NUMBERS+trade);
+  pixmap_put_overlay_tile(pm, x, y, sprites.city.tile_foodnum[food]);
+  pixmap_put_overlay_tile(pm, x, y, sprites.city.tile_shieldnum[shield]);
+  pixmap_put_overlay_tile(pm, x, y, sprites.city.tile_tradenum[trade]);
 }
 
 
@@ -914,6 +944,7 @@ void put_city_tile_output(Pixmap pm, int x, int y,
 void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
 {
   struct Sprite *mysprite;
+  int ihp;
 
   if(use_solid_color_behind_units) {
     XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_RACE0+
@@ -925,85 +956,98 @@ void put_unit_pixmap(struct unit *punit, Pixmap pm, int xtile, int ytile)
   else {
     if(flags_are_transparent) {
       pixmap_put_overlay_tile(pm, xtile, ytile, 
-			      game.players[punit->owner].race+FLAG_TILES);
+			      get_unit_race_flag_sprite(punit));
     } else {
-      mysprite=get_tile_sprite(game.players[punit->owner].race+FLAG_TILES);
+      mysprite=get_unit_race_flag_sprite(punit);
       XCopyArea(display, mysprite->pixmap, pm, civ_gc, 0, 0,
 		mysprite->width, mysprite->height, 
 		xtile*NORMAL_TILE_WIDTH, ytile*NORMAL_TILE_HEIGHT);
     };
   }
     
-  pixmap_put_overlay_tile(pm, xtile, ytile, get_unit_type(punit->type)->graphics+UNIT_TILES);
+  pixmap_put_overlay_tile(pm, xtile, ytile,
+			  get_unit_type(punit->type)->sprite);
 
   if(punit->activity!=ACTIVITY_IDLE) {
-    int tileno=0;
+    struct Sprite *s = NULL;
     switch(punit->activity) {
     case ACTIVITY_MINE:
-      tileno=M_TILE;
+      s = sprites.unit.mine;
       break;
     case ACTIVITY_POLLUTION:
-     case ACTIVITY_PILLAGE:
-      tileno=P_TILE;
+      s = sprites.unit.pollution;
+      break;
+    case ACTIVITY_PILLAGE:
+      s = sprites.unit.pillage;
       break;
     case ACTIVITY_ROAD:
     case ACTIVITY_RAILROAD:
-      tileno=R_TILE;
+      s = sprites.unit.road;
       break;
     case ACTIVITY_IRRIGATE:
-      tileno=I_TILE;
+      s = sprites.unit.irrigate;
       break;
     case ACTIVITY_EXPLORE:
-      tileno=X_TILE;
+      s = sprites.unit.auto_explore;
       break;
     case ACTIVITY_FORTIFY:
+      s = sprites.unit.fortify;
+      break;
     case ACTIVITY_FORTRESS:
-      tileno=F_TILE;
+      s = sprites.unit.fortress;
       break;
     case ACTIVITY_SENTRY:
-      tileno=S_TILE;
+      s = sprites.unit.sentry;
       break;
-     case ACTIVITY_GOTO:
-      tileno=G_TILE;
+    case ACTIVITY_GOTO:
+      s = sprites.unit.go_to;
       break;
-     case ACTIVITY_TRANSFORM:
-      tileno=O_TILE;
-     default:
+    case ACTIVITY_TRANSFORM:
+      s = sprites.unit.transform;
+    default:
       break;
     }
-
-    pixmap_put_overlay_tile(pm, xtile, ytile, tileno);
+    pixmap_put_overlay_tile(pm, xtile, ytile, s);
   }
 
-  if(punit->ai.control)
-    pixmap_put_overlay_tile(pm, xtile, ytile, AUTO_TILE);
+  if(punit->ai.control) {
+    if(is_military_unit(punit)) {
+      pixmap_put_overlay_tile(pm, xtile, ytile, sprites.unit.auto_attack);
+    } else {
+      pixmap_put_overlay_tile(pm, xtile, ytile, sprites.unit.auto_settler);
+    }
+  }
 
-  pixmap_put_overlay_tile(pm, xtile, ytile, HP_BAR_TILES+
-			  (11*(get_unit_type(punit->type)->hp-punit->hp))/
-			  (get_unit_type(punit->type)->hp));
+  ihp = ((NUM_TILES_HP_BAR-1)*punit->hp) / get_unit_type(punit->type)->hp;
+  ihp = CLIP(0, ihp, NUM_TILES_HP_BAR-1);
+  pixmap_put_overlay_tile(pm, xtile, ytile, sprites.unit.hp_bar[ihp]);
 }
 
 
 /**************************************************************************
-...
+  ...
+  FIXME: 
+  For now only two food, one shield and two masks can be drawn per unit,
+  the proper way to do this is probably something like what Civ II does.
+  (One food/shield/mask drawn N times, possibly one top of itself. -- SKi 
 **************************************************************************/
 void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 {
+  int upkeep_food = CLIP(0, punit->upkeep_food, 2);
+  int unhappy = CLIP(0, punit->unhappiness, 2);
+ 
   /* wipe the slate clean */
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
   XFillRectangle(display, pm, fill_bg_gc, 0, NORMAL_TILE_WIDTH, 
 		 NORMAL_TILE_HEIGHT, NORMAL_TILE_HEIGHT+SMALL_TILE_HEIGHT);
 
   /* draw overlay pixmaps */
-  /* FIXME: see comment in gtk version */
-  if (punit->upkeep_food > 0)
-    pixmap_put_overlay_tile (pm, 0, 1, (CITY_FOOD_TILES +
-					(punit->upkeep_food > 1 ? 1 : 0)));
   if (punit->upkeep > 0)
-    pixmap_put_overlay_tile (pm, 0, 1, CITY_SHIELD_TILE);
-  if (punit->unhappiness > 0)
-    pixmap_put_overlay_tile (pm, 0, 1, (CITY_MASK_TILES +
-					(punit->unhappiness > 1 ? 1 : 0)));
+    pixmap_put_overlay_tile(pm, 0, 1, sprites.upkeep.shield);
+  if (upkeep_food > 0)
+    pixmap_put_overlay_tile(pm, 0, 1, sprites.upkeep.food[upkeep_food-1]);
+  if (unhappy > 0)
+    pixmap_put_overlay_tile(pm, 0, 1, sprites.upkeep.unhappy[unhappy-1]);
 }
 
 
@@ -1012,17 +1056,11 @@ void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
 **************************************************************************/
 void put_nuke_mushroom_pixmaps(int abs_x0, int abs_y0)
 {
-  int i, x, y;
-  static int nuke_tiles[9]= {
-    NUKE_TILE0, NUKE_TILE1, NUKE_TILE2,
-    NUKE_TILE3, NUKE_TILE4, NUKE_TILE5,
-    NUKE_TILE6, NUKE_TILE7, NUKE_TILE8,
-  };
+  int x, y;
   
-  
-  for(i=0, y=0; y<3; y++)
+  for(y=0; y<3; y++)
     for(x=0; x<3; x++) {
-     struct Sprite *mysprite=get_tile_sprite(nuke_tiles[i++]);
+      struct Sprite *mysprite = sprites.explode.nuke[y][x];
       XCopyArea(display, mysprite->pixmap, XtWindow(map_canvas), 
 		civ_gc, 
 		0, 0, 
@@ -1120,7 +1158,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       if(!citymode || punit->owner!=game.player_idx) {
 	put_unit_pixmap(punit, pm, x, y);
 	if(unit_list_size(&ptile->units)>1)
-	  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
+	  pixmap_put_overlay_tile(pm, x, y, sprites.unit.stack);
 	return;
       }
     }
@@ -1161,133 +1199,98 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
   tspecial_south_west=map_get_special(abs_x0-1, abs_y0+1);
   tspecial_north_west=map_get_special(abs_x0-1, abs_y0-1);
 
-  tileno=tile_types[ttype].graphic_base;
-
-  switch(ttype) {
-  case T_OCEAN:
-    tileno+=(ttype_north!=T_OCEAN) ? 1 : 0;
-    tileno+=(ttype_east!=T_OCEAN)  ? 2 : 0;
-    tileno+=(ttype_south!=T_OCEAN) ? 4 : 0;
-    tileno+=(ttype_west!=T_OCEAN)  ? 8 : 0;
-    break;
-
-  case T_RIVER:
-    tileno=tile_types[T_RIVER].graphic_base;
-    tileno+=(ttype_north==T_RIVER || ttype_north==T_OCEAN) ? 1 : 0;
-    tileno+=(ttype_east==T_RIVER  || ttype_east== T_OCEAN) ? 2 : 0;
-    tileno+=(ttype_south==T_RIVER || ttype_south==T_OCEAN) ? 4 : 0;
-    tileno+=(ttype_west==T_RIVER  || ttype_west== T_OCEAN) ? 8 : 0;
-    break;
-
-  case T_MOUNTAINS:
-  case T_HILLS:
-  case T_FOREST:
-    if(ttype_west==ttype && ttype_east==ttype)
-      tileno+=2;
-    else if(ttype_west==ttype)
-      tileno+=3;
-    else if(ttype_east==ttype)
-      tileno++;
-    break;
-
-  case T_GRASSLAND:
-  case T_DESERT:
-  case T_ARCTIC:
-  case T_JUNGLE:
-  case T_PLAINS:
-  case T_SWAMP:
-  case T_TUNDRA:
-    tileno+=(ttype_north!=ttype) ? 1 : 0;
-    tileno+=(ttype_east!=ttype)  ? 2 : 0;
-    tileno+=(ttype_south!=ttype) ? 4 : 0;
-    tileno+=(ttype_west!=ttype)  ? 8 : 0;
-    break;
-
-
+  if(map.is_earth &&
+     abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) {
+    mysprite = sprites.tx.denmark[abs_y0-den_y][abs_x0-34];
+  } else {
+    tileno = INDEX_NSEW((ttype_north==ttype),
+			(ttype_south==ttype),
+			(ttype_east==ttype),	
+			(ttype_west==ttype));
+    if(ttype==T_RIVER) {
+      tileno |= INDEX_NSEW((ttype_north==T_OCEAN),
+			   (ttype_south==T_OCEAN),
+			   (ttype_east==T_OCEAN),
+			   (ttype_west==T_OCEAN));
+    }
+    mysprite = get_tile_type(ttype)->sprite[tileno];
   }
 
-  if(map.is_earth &&
-     (terrain_control.denmark_base<NO_SUCH_GRAPHIC) &&
-     abs_x0>=34 && abs_x0<=36 && abs_y0>=den_y && abs_y0<=den_y+1) 
-    tileno=(abs_y0-den_y)*3+abs_x0-34+terrain_control.denmark_base;
-
-  mysprite=get_tile_sprite(tileno);
-  
-  XCopyArea(display, mysprite->pixmap, pm, 
-	    civ_gc, 0, 0,
-	    mysprite->width, mysprite->height, 
-	    x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
-
+  if (mysprite) {
+    XCopyArea(display, mysprite->pixmap, pm, 
+	      civ_gc, 0, 0,
+	      mysprite->width, mysprite->height, 
+	      x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
+  }
 
   if(ttype==T_OCEAN) {
-    if (terrain_control.corner_base<NO_SUCH_GRAPHIC) {
-      tileno=terrain_control.corner_base-1;
-      if((ttype_north==T_OCEAN && ttype_east==T_OCEAN && 
-	  ttype_north_east!=T_OCEAN))
-	tileno+=1;
-      if((ttype_east==T_OCEAN && ttype_south==T_OCEAN && 
-	  ttype_south_east!=T_OCEAN))
-	tileno+=2;
-      if((ttype_south==T_OCEAN && ttype_west==T_OCEAN && 
-	  ttype_south_west!=T_OCEAN))
-	tileno+=4;
-      if((ttype_north==T_OCEAN && ttype_west==T_OCEAN && 
-	  ttype_north_west!=T_OCEAN))
-	tileno+=8;
+    tileno = INDEX_NSEW((ttype_north==T_OCEAN && ttype_east==T_OCEAN && 
+			 ttype_north_east!=T_OCEAN),
+			(ttype_south==T_OCEAN && ttype_west==T_OCEAN && 
+			 ttype_south_west!=T_OCEAN),
+			(ttype_east==T_OCEAN && ttype_south==T_OCEAN && 
+			 ttype_south_east!=T_OCEAN),
+			(ttype_north==T_OCEAN && ttype_west==T_OCEAN && 
+			 ttype_north_west!=T_OCEAN));
+    if(tileno!=0) 
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.coast_cape[tileno]);
 
-      if(tileno!=terrain_control.corner_base-1)
-	pixmap_put_overlay_tile(pm, x, y, tileno);
-    }
-
-    if (terrain_control.outlet_base<NO_SUCH_GRAPHIC) {
-      if(tspecial_north&S_RIVER || ttype_north==T_RIVER)
-	pixmap_put_overlay_tile(pm, x, y, terrain_control.outlet_base+0);
-      if(tspecial_west&S_RIVER || ttype_west==T_RIVER)
-	pixmap_put_overlay_tile(pm, x, y, terrain_control.outlet_base+1);
-      if(tspecial_south&S_RIVER || ttype_south==T_RIVER)
-	pixmap_put_overlay_tile(pm, x, y, terrain_control.outlet_base+2);
-      if(tspecial_east&S_RIVER || ttype_east==T_RIVER)
-	pixmap_put_overlay_tile(pm, x, y, terrain_control.outlet_base+3);
-    }
+    if(tspecial_north&S_RIVER || ttype_north==T_RIVER)
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.river_outlet[DIR_NORTH]);
+    if(tspecial_west&S_RIVER || ttype_west==T_RIVER)
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.river_outlet[DIR_WEST]);
+    if(tspecial_south&S_RIVER || ttype_south==T_RIVER)
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.river_outlet[DIR_SOUTH]);
+    if(tspecial_east&S_RIVER || ttype_east==T_RIVER)
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.river_outlet[DIR_EAST]);
   }
 
-  if ((tspecial&S_RIVER) && ((tileno=terrain_control.river_base)<NO_SUCH_GRAPHIC)) {
-    tileno+=(tspecial_north&S_RIVER || ttype_north==T_OCEAN) ? 1 : 0;
-    tileno+=(tspecial_east&S_RIVER  || ttype_east==T_OCEAN) ? 2 : 0;
-    tileno+=(tspecial_south&S_RIVER || ttype_south==T_OCEAN) ? 4 : 0;
-    tileno+=(tspecial_west&S_RIVER  || ttype_west== T_OCEAN) ? 8 : 0;
-
-    pixmap_put_overlay_tile(pm, x, y, tileno);
+  if (tspecial&S_RIVER) {
+    tileno = INDEX_NSEW((tspecial_north&S_RIVER || ttype_north==T_OCEAN),
+			(tspecial_south&S_RIVER || ttype_south==T_OCEAN),
+			(tspecial_east&S_RIVER  || ttype_east==T_OCEAN),
+			(tspecial_west&S_RIVER  || ttype_west== T_OCEAN));
+    pixmap_put_overlay_tile(pm, x, y, sprites.tx.spec_river[tileno]);
   }
 
   if(tspecial & S_IRRIGATION) {
     if(tspecial & S_FARMLAND)
-      pixmap_put_overlay_tile(pm, x, y, FARMLAND_TILE);
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.farmland);
     else
-      pixmap_put_overlay_tile(pm, x, y, IRRIGATION_TILE);
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.irrigation);
   }
 
   if((tspecial & S_ROAD) || (tspecial & S_RAILROAD)) {
-    rail_card_tileno+=(tspecial_north&S_RAILROAD) ? (rail_card_count++, 1) : 0;
-    rail_card_tileno+=(tspecial_east&S_RAILROAD)  ? (rail_card_count++, 2) : 0;
-    rail_card_tileno+=(tspecial_south&S_RAILROAD) ? (rail_card_count++, 4) : 0;
-    rail_card_tileno+=(tspecial_west&S_RAILROAD)  ? (rail_card_count++, 8) : 0;
-
-    road_card_tileno+=(tspecial_north&S_ROAD) ? (road_card_count++, 1) : 0;
-    road_card_tileno+=(tspecial_east&S_ROAD)  ? (road_card_count++, 2) : 0;
-    road_card_tileno+=(tspecial_south&S_ROAD) ? (road_card_count++, 4) : 0;
-    road_card_tileno+=(tspecial_west&S_ROAD)  ? (road_card_count++, 8) : 0;
-
-    rail_semi_tileno+=(tspecial_north_east&S_RAILROAD) ? (rail_semi_count++, 1) : 0;
-    rail_semi_tileno+=(tspecial_south_east&S_RAILROAD) ? (rail_semi_count++, 2) : 0;
-    rail_semi_tileno+=(tspecial_south_west&S_RAILROAD) ? (rail_semi_count++, 4) : 0;
-    rail_semi_tileno+=(tspecial_north_west&S_RAILROAD) ? (rail_semi_count++, 8) : 0;
-
-    road_semi_tileno+=(tspecial_north_east&S_ROAD) ? (road_semi_count++, 1) : 0;
-    road_semi_tileno+=(tspecial_south_east&S_ROAD) ? (road_semi_count++, 2) : 0;
-    road_semi_tileno+=(tspecial_south_west&S_ROAD) ? (road_semi_count++, 4) : 0;
-    road_semi_tileno+=(tspecial_north_west&S_ROAD) ? (road_semi_count++, 8) : 0;
-
+    int n, s, e, w;
+    
+    n = !!(tspecial_north&S_RAILROAD);
+    s = !!(tspecial_south&S_RAILROAD);
+    e = !!(tspecial_east&S_RAILROAD);
+    w = !!(tspecial_west&S_RAILROAD);
+    rail_card_count = n + s + e + w;
+    rail_card_tileno = INDEX_NSEW(n,s,e,w);
+    
+    n = !!(tspecial_north&S_ROAD);
+    s = !!(tspecial_south&S_ROAD);
+    e = !!(tspecial_east&S_ROAD);
+    w = !!(tspecial_west&S_ROAD);
+    road_card_count = n + s + e + w;
+    road_card_tileno = INDEX_NSEW(n,s,e,w);
+    
+    n = !!(tspecial_north_east&S_RAILROAD);
+    s = !!(tspecial_south_west&S_RAILROAD);
+    e = !!(tspecial_south_east&S_RAILROAD);
+    w = !!(tspecial_north_west&S_RAILROAD);
+    rail_semi_count = n + s + e + w;
+    rail_semi_tileno = INDEX_NSEW(n,s,e,w);
+    
+    n = !!(tspecial_north_east&S_ROAD);
+    s = !!(tspecial_south_west&S_ROAD);
+    e = !!(tspecial_south_east&S_ROAD);
+    w = !!(tspecial_north_west&S_ROAD);
+    road_semi_count = n + s + e + w;
+    road_semi_tileno = INDEX_NSEW(n,s,e,w);
+    
     if(tspecial & S_RAILROAD) {
       road_card_tileno&=~rail_card_tileno;
       road_semi_tileno&=~rail_semi_tileno;
@@ -1298,47 +1301,55 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
 
     if(road_semi_count > road_card_count) {
       if(road_card_tileno!=0) {
-	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+road_card_tileno);
+	pixmap_put_overlay_tile(pm, x, y,
+				sprites.road.cardinal[road_card_tileno]);
       }
       if(road_semi_tileno!=0 && draw_diagonal_roads) {
-	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+16+road_semi_tileno);
+	pixmap_put_overlay_tile(pm, x, y,
+				sprites.road.diagonal[road_semi_tileno]);
       }
     } else {
       if(road_semi_tileno!=0 && draw_diagonal_roads) {
-	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+16+road_semi_tileno);
+	pixmap_put_overlay_tile(pm, x, y,
+				sprites.road.diagonal[road_semi_tileno]);
       }
       if(road_card_tileno!=0) {
-	pixmap_put_overlay_tile(pm, x, y, ROAD_TILES+road_card_tileno);
+	pixmap_put_overlay_tile(pm, x, y, 
+				sprites.road.cardinal[road_card_tileno]);
       }
     }
 
     if(rail_semi_count > rail_card_count) {
       if(rail_card_tileno!=0) {
-	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+rail_card_tileno);
+	pixmap_put_overlay_tile(pm, x, y,
+				sprites.rail.cardinal[rail_card_tileno]);
       }
       if(rail_semi_tileno!=0 && draw_diagonal_roads) {
-	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+16+rail_semi_tileno);
+	pixmap_put_overlay_tile(pm, x, y,
+				sprites.rail.diagonal[rail_semi_tileno]);
       }
     } else {
       if(rail_semi_tileno!=0 && draw_diagonal_roads) {
-	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+16+rail_semi_tileno);
+	pixmap_put_overlay_tile(pm, x, y,
+				sprites.rail.diagonal[rail_semi_tileno]);
       }
       if(rail_card_tileno!=0) {
-	pixmap_put_overlay_tile(pm, x, y, RAIL_TILES+rail_card_tileno);
+	pixmap_put_overlay_tile(pm, x, y,
+				sprites.rail.cardinal[rail_card_tileno]);
       }
     }
   }
 
   if(tspecial & S_SPECIAL_1)
-     pixmap_put_overlay_tile(pm, x, y, tile_types[ttype].graphic_special_1);
+    pixmap_put_overlay_tile(pm, x, y, tile_types[ttype].special[0].sprite);
   else if(tspecial & S_SPECIAL_2)
-     pixmap_put_overlay_tile(pm, x, y, tile_types[ttype].graphic_special_2);
+    pixmap_put_overlay_tile(pm, x, y, tile_types[ttype].special[1].sprite);
 
   if(tspecial & S_MINE) {
     if(ttype==T_HILLS || ttype==T_MOUNTAINS)
-      pixmap_put_overlay_tile(pm, x, y, HILLMINE_TILE);
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.mine);
     else /* desert */
-      pixmap_put_overlay_tile(pm, x, y, DESERTMINE_TILE);
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.oil_mine);
   }
 
   if (tspecial & S_RAILROAD) {
@@ -1346,37 +1357,32 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
     if (draw_diagonal_roads)
       adjacent |= rail_semi_tileno;
     if (!adjacent)
-      pixmap_put_overlay_tile(pm, x, y, RAIL_TILES);
+      pixmap_put_overlay_tile(pm, x, y, sprites.rail.isolated);
   }
   else if (tspecial & S_ROAD) {
     int adjacent = (rail_card_tileno | road_card_tileno);
     if (draw_diagonal_roads)
       adjacent |= (rail_semi_tileno | road_semi_tileno);
     if (!adjacent)
-      pixmap_put_overlay_tile(pm, x, y, ROAD_TILES);
+      pixmap_put_overlay_tile(pm, x, y, sprites.road.isolated);
   }
 
   if(tspecial & S_HUT)
-    pixmap_put_overlay_tile(pm, x, y, HUT_TILE);
+    pixmap_put_overlay_tile(pm, x, y, sprites.tx.village);
     
   if(tspecial & S_FORTRESS)
-    pixmap_put_overlay_tile(pm, x, y, FORTRESS_TILE);
+    pixmap_put_overlay_tile(pm, x, y, sprites.tx.fortress);
 
   if(tspecial & S_POLLUTION)
-    pixmap_put_overlay_tile(pm, x, y, POLLUTION_TILE);
+    pixmap_put_overlay_tile(pm, x, y, sprites.tx.pollution);
 
-  if(!citymode && (terrain_control.border_base<NO_SUCH_GRAPHIC)) {
-    tileno=terrain_control.border_base;
-    if(tile_is_known(abs_x0, abs_y0-1)==TILE_UNKNOWN)
-      tileno+=1;
-    if(tile_is_known(abs_x0+1, abs_y0)==TILE_UNKNOWN)
-      tileno+=2;
-    if(tile_is_known(abs_x0, abs_y0+1)==TILE_UNKNOWN)
-      tileno+=4;
-    if(tile_is_known(abs_x0-1, abs_y0)==TILE_UNKNOWN)
-      tileno+=8;
-    if(tileno!=terrain_control.border_base)
-      pixmap_put_overlay_tile(pm, x, y, tileno);
+  if(!citymode) {
+    tileno = INDEX_NSEW((tile_is_known(abs_x0, abs_y0-1)==TILE_UNKNOWN),
+			(tile_is_known(abs_x0, abs_y0+1)==TILE_UNKNOWN),
+			(tile_is_known(abs_x0+1, abs_y0)==TILE_UNKNOWN),
+			(tile_is_known(abs_x0-1, abs_y0)==TILE_UNKNOWN));
+    if (tileno) 
+      pixmap_put_overlay_tile(pm, x, y, sprites.tx.darkness[tileno]);
   }
 
   if(flags_are_transparent) {  /* transparent flags -> draw city or unit last */
@@ -1389,7 +1395,7 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
       if(!citymode || punit->owner!=game.player_idx) {
 	put_unit_pixmap(punit, pm, x, y);
 	if(unit_list_size(&ptile->units)>1)  
-	  pixmap_put_overlay_tile(pm, x, y, PLUS_TILE);
+	  pixmap_put_overlay_tile(pm, x, y, sprites.unit.stack);
       }
     }
   }
@@ -1399,9 +1405,10 @@ void pixmap_put_tile(Pixmap pm, int x, int y, int abs_x0, int abs_y0,
 /**************************************************************************
 ...
 **************************************************************************/
-static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y, int tileno)
+static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
+ 				    struct Sprite *ssprite)
 {
-  struct Sprite *ssprite=get_tile_sprite(tileno);
+  if (!ssprite) return;
       
   XSetClipOrigin(display, civ_gc, x*NORMAL_TILE_WIDTH, y*NORMAL_TILE_HEIGHT);
   XSetClipMask(display, civ_gc, ssprite->mask);
@@ -1423,7 +1430,7 @@ void put_cross_overlay_tile(int x,int y)
 
   if(tile_visible_mapcanvas(x, y)) {
     pixmap_put_overlay_tile(XtWindow(map_canvas),map_canvas_adjust_x(x),
-                            map_canvas_adjust_y(y),CROSS_TILE);
+			    map_canvas_adjust_y(y), sprites.user.attention);
   }
 }
 

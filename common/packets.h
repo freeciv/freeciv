@@ -428,7 +428,8 @@ Specify all the fields of a struct unit_type
 struct packet_ruleset_unit {
   int id;			/* index for unit_types[] */
   char name[MAX_LEN_NAME];
-  int graphics;
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
   int move_type;
   int build_cost;
   int attack_strength;
@@ -470,8 +471,8 @@ struct packet_ruleset_terrain {
   int id;			/* index for tile_types[] */
 
   char terrain_name[MAX_LEN_NAME];
-  int graphic_base;
-  int graphic_count;
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
 
   int movement_cost;
   int defense_bonus;
@@ -481,16 +482,20 @@ struct packet_ruleset_terrain {
   int trade;
 
   char special_1_name[MAX_LEN_NAME];
-  int graphic_special_1;
   int food_special_1;
   int shield_special_1;
   int trade_special_1;
 
   char special_2_name[MAX_LEN_NAME];
-  int graphic_special_2;
   int food_special_2;
   int shield_special_2;
   int trade_special_2;
+
+  /* above special stuff could go in here --dwp */
+  struct {
+    char graphic_str[MAX_LEN_NAME];
+    char graphic_alt[MAX_LEN_NAME];
+  } special[2];
 
   int road_trade_incr;
   int road_time;
@@ -511,7 +516,6 @@ struct packet_ruleset_government {
   int id;
       
   int required_tech;
-  int graphic;
   int max_rate;
   int civil_war;
   int martial_law_max;
@@ -556,6 +560,8 @@ struct packet_ruleset_government {
   int ruler_title_count;
        
   char name[MAX_LEN_NAME];
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
 };
 struct packet_ruleset_government_ruler_title {
   int gov;

@@ -1,0 +1,37 @@
+
+[tilespec]
+
+; Format and options of this tilespec file:
+options = "+tilespec1"
+
+; A simple name for the tileset specified by this file:
+name = "Engels"
+
+; TODO: add more overall information fields on tiles, 
+; eg, description, authors, colors, etc.
+
+; Basic tile sizes:
+normal_tile_width  = 45
+normal_tile_height = 45
+small_tile_width   = 15
+small_tile_height  = 20
+
+; Should flags be drawn as transparent:  (else opaque)
+flags_are_transparent = 1
+
+; These are special because they get freed and reloaded
+; as required:
+main_intro_file    = "intro.xpm"
+minimap_intro_file = "radar.xpm"
+
+; Below, the graphics spec files; must be somewhere (anywhere) in 
+; the data path. Order may be important for color allocation on 
+; low-color systems.
+files = 
+  "default/tiles.xpm.spec",
+  "default/small.xpm.spec",
+  "default/units.xpm.spec",
+  "default/flags.xpm.spec",
+  "default/roads.xpm.spec",
+  "default/space.xpm.spec",
+  "default/treaty.xpm.spec"

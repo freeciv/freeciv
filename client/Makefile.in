@@ -110,7 +110,7 @@ bin_PROGRAMS = civclient
 
 INCLUDES = -I$(srcdir)/include -I$(top_srcdir)/common -I../intl @CLIENT_CFLAGS@
 
-civclient_SOURCES =  	civclient.c		climisc.c		clinet.c		control.c		helpdata.c		packhand.c		options.c
+civclient_SOURCES =  	civclient.c		climisc.c		clinet.c		control.c		helpdata.c		packhand.c		options.c		tilespec.c
 
 
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLDEPS@
@@ -130,7 +130,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 civclient_OBJECTS =  civclient.o climisc.o clinet.o control.o helpdata.o \
-packhand.o options.o
+packhand.o options.o tilespec.o
 civclient_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -145,7 +145,8 @@ TAR = tar
 GZIP_ENV = --best
 DIST_SUBDIRS =  gui-gtk gui-xaw include
 DEP_FILES =  .deps/civclient.P .deps/climisc.P .deps/clinet.P \
-.deps/control.P .deps/helpdata.P .deps/options.P .deps/packhand.P
+.deps/control.P .deps/helpdata.P .deps/options.P .deps/packhand.P \
+.deps/tilespec.P
 SOURCES = $(civclient_SOURCES)
 OBJECTS = $(civclient_OBJECTS)
 

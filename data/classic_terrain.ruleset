@@ -12,7 +12,7 @@
 
 [datafile]
 description="Classic tile_type data for Freeciv"
-options="1.8.2"
+options="1.8.2 +tilespec"
 
 [options]
 river_style=1        ; 1 means Civ1-style, 2 means Civ2-style
@@ -66,13 +66,6 @@ pollution_shield_penalty=50
 ; percent subtracted from trade production if square is polluted
 pollution_trade_penalty=50
 
-[graphics]
-border_base=260      ; 999 means no such tiles
-corner_base=0        ; 999 means no such tiles
-river_base=999       ; 999 means no such tiles
-outlet_base=176      ; 999 means no such tiles
-denmark_base=212     ; 999 means no such tiles
-
 ; Below: The individual terrain types, one per section.
 ; For now, the number of such sections must be kept the same (=12).
 ; Also, terrains should be in the same order as defined in common/map.h,
@@ -84,20 +77,25 @@ denmark_base=212     ; 999 means no such tiles
 ; Notes:
 ;
 ; terrain_name         = name as seen by user; if "unused", it is not used
-; graphic_base         = index of base tile in tiles.xpm
-; graphic_count        = count of tiles for this terrain
+; graphic              = preferred base graphics tag in tilespec; must have
+;                        tags with extensions _n0s0e0e0 etc.
+; graphic_alt          = alternate graphics tag if preferred is not found;
+;                        should be a standard tag if preferred is not;
+;			 otherwise may be "-"
 ; movement_cost        = typically 1 to 3
 ; defense_bonus        = 10 times actual; typically 10 to 30 (1.0 to 3.0)
 ; food                 = normal food production
 ; shield               = normal shield production
 ; trade                = normal trade production
 ; special_1_name       = name of special; if "none", special is not used
-; graphic_special_1    = index of tile in tiles.xpm
+; graphic_special_1    = full tilespec tag
+; graphic_special_1a   = alternate
 ; food_special_1       = special (1) food production
 ; shield_special_1     = special (1) shield production
 ; trade_special_1      = special (1) trade production
 ; special_2_name       = name of special; if "none", special is not used
-; graphic_special_2    = index of tile in tiles.xpm
+; graphic_special_2    = full tilespec tag
+; graphic_special_2a   = alternate
 ; food_special_2       = special (2) food production
 ; shield_special_2     = special (2) shield production
 ; trade_special_2      = special (2) trade production
@@ -122,20 +120,22 @@ denmark_base=212     ; 999 means no such tiles
 
 [terrain_arctic]
 terrain_name         = "Arctic"
-graphic_base         = 60
-graphic_count        = 16
+graphic              = "t.arctic"
+graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 10
 food                 = 0
 shield               = 0
 trade                = 0
 special_1_name       = "Seals"
-graphic_special_1    = 220
+graphic_special_1    = "ts.seals"
+graphic_special_1a   = "-"
 food_special_1       = 2
 shield_special_1     = 0
 trade_special_1      = 0
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -152,20 +152,22 @@ transform_time       = 24
 
 [terrain_desert]
 terrain_name         = "Desert"
-graphic_base         = 40
-graphic_count        = 16
+graphic              = "t.desert"
+graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10
 food                 = 0
 shield               = 1
 trade                = 0
 special_1_name       = "Oasis"
-graphic_special_1    = 221
+graphic_special_1    = "ts.oasis"
+graphic_special_1a   = "-"
 food_special_1       = 3
 shield_special_1     = 1
 trade_special_1      = 0
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -182,20 +184,22 @@ transform_time       = 24
 
 [terrain_forest]
 terrain_name         = "Forest"
-graphic_base         = 204
-graphic_count        = 4
+graphic              = "t.forest"
+graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 15
 food                 = 1
 shield               = 2
 trade                = 0
 special_1_name       = "Game"
-graphic_special_1    = 222
+graphic_special_1    = "ts.forest_game"
+graphic_special_1a   = "-"
 food_special_1       = 3
 shield_special_1     = 2
 trade_special_1      = 0
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -212,20 +216,22 @@ transform_time       = 24
 
 [terrain_grassland]
 terrain_name         = "Grassland"
-graphic_base         = 20
-graphic_count        = 16
+graphic              = "t.grassland"
+graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10
 food                 = 2
 shield               = 0
 trade                = 0
 special_1_name       = "Resources"
-graphic_special_1    = 223
+graphic_special_1    = "ts.grassland_resources"
+graphic_special_1a   = "-"
 food_special_1       = 2
 shield_special_1     = 1
 trade_special_1      = 0
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -242,20 +248,22 @@ transform_time       = 24
 
 [terrain_hills]
 terrain_name         = "Hills"
-graphic_base         = 200
-graphic_count        = 4
+graphic              = "t.hills"
+graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 20
 food                 = 1
 shield               = 0
 trade                = 0
-special_1_name       = "Coals"
-graphic_special_1    = 224
+special_1_name       = "Coal"
+graphic_special_1    = "ts.coal"
+graphic_special_1a   = "-"
 food_special_1       = 1
 shield_special_1     = 2
 trade_special_1      = 0
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -272,20 +280,22 @@ transform_time       = 24
 
 [terrain_jungle]
 terrain_name         = "Jungle"
-graphic_base         = 80
-graphic_count        = 16
+graphic              = "t.jungle"
+graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 15
 food                 = 1
 shield               = 0
 trade                = 0
 special_1_name       = "Gems"
-graphic_special_1    = 225
+graphic_special_1    = "ts.gems"
+graphic_special_1a   = "-"
 food_special_1       = 1
 shield_special_1     = 0
 trade_special_1      = 4
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -302,20 +312,22 @@ transform_time       = 24
 
 [terrain_mountains]
 terrain_name         = "Mountains"
-graphic_base         = 208
-graphic_count        = 4
+graphic              = "t.mountains"
+graphic_alt	     = "-"
 movement_cost        = 3
 defense_bonus        = 30
 food                 = 0
 shield               = 1
 trade                = 0
 special_1_name       = "Gold"
-graphic_special_1    = 226
+graphic_special_1    = "ts.gold"
+graphic_special_1a   = "-"
 food_special_1       = 0
 shield_special_1     = 1
 trade_special_1      = 5
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -332,20 +344,22 @@ transform_time       = 24
 
 [terrain_ocean]
 terrain_name         = "Ocean"
-graphic_base         = 180
-graphic_count        = 16
+graphic              = "t.ocean"
+graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10
 food                 = 1
 shield               = 0
 trade                = 2
 special_1_name       = "Fish"
-graphic_special_1    = 227
+graphic_special_1    = "ts.fish"
+graphic_special_1a   = "-"
 food_special_1       = 3
 shield_special_1     = 0
 trade_special_1      = 2
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -362,20 +376,22 @@ transform_time       = 0
 
 [terrain_plains]
 terrain_name         = "Plains"
-graphic_base         = 100
-graphic_count        = 16
+graphic              = "t.plains"
+graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10
 food                 = 1
 shield               = 1
 trade                = 0
 special_1_name       = "Horses"
-graphic_special_1    = 228
+graphic_special_1    = "ts.horses"
+graphic_special_1a   = "-"
 food_special_1       = 3
 shield_special_1     = 1
 trade_special_1      = 0
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -392,20 +408,22 @@ transform_time       = 24
 
 [terrain_river]
 terrain_name         = "River"
-graphic_base         = 160
-graphic_count        = 16
+graphic              = "t.t_river"
+graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 15
 food                 = 2
 shield               = 0
 trade                = 1
 special_1_name       = "Resources"
-graphic_special_1    = 229
+graphic_special_1    = "ts.river_resources"
+graphic_special_1a   = "-"
 food_special_1       = 2
 shield_special_1     = 1
 trade_special_1      = 1
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -422,20 +440,22 @@ transform_time       = 0
 
 [terrain_swamp]
 terrain_name         = "Swamp"
-graphic_base         = 120
-graphic_count        = 16
+graphic              = "t.swamp"
+graphic_alt	     = "-"
 movement_cost        = 2
 defense_bonus        = 15
 food                 = 1
 shield               = 0
 trade                = 0
 special_1_name       = "Oil"
-graphic_special_1    = 230
+graphic_special_1    = "ts.oil"
+graphic_special_1a   = "-"
 food_special_1       = 1
 shield_special_1     = 4
 trade_special_1      = 0
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0
@@ -452,20 +472,22 @@ transform_time       = 24
 
 [terrain_tundra]
 terrain_name         = "Tundra"
-graphic_base         = 140
-graphic_count        = 16
+graphic              = "t.tundra"
+graphic_alt	     = "-"
 movement_cost        = 1
 defense_bonus        = 10
 food                 = 1
 shield               = 0
 trade                = 0
 special_1_name       = "Game"
-graphic_special_1    = 231
+graphic_special_1    = "ts.tundra_game"
+graphic_special_1a   = "-"
 food_special_1       = 3
 shield_special_1     = 0
 trade_special_1      = 0
 special_2_name       = "none"
-graphic_special_2    = 000
+graphic_special_2    = "-"
+graphic_special_2a   = "-"
 food_special_2       = 0
 shield_special_2     = 0
 trade_special_2      = 0

@@ -19,6 +19,7 @@
 struct player;
 struct city;
 struct government;
+struct Sprite;			/* opaque; client-gui specific */
 
 enum unit_type_id {
   U_FIRST=0,
@@ -146,7 +147,9 @@ enum unit_role_id {
 
 struct unit_type {
   char name[MAX_LEN_NAME];
-  int graphics;
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
+  struct Sprite *sprite;
   enum unit_move_type move_type;
   int build_cost;
   int attack_strength;

@@ -37,6 +37,8 @@
 #define MAX(x,y) (((x)>(y))?(x):(y))
 #define MIN(x,y) (((x)<(y))?(x):(y))
 #endif
+#define CLIP(lower,this,upper) \
+    ((this)<(lower)?(lower):(this)>(upper)?(upper):(this))
 
 #define WIPEBIT(val, no) ((~(-1<<no))&val)  |   ((  (-1<<(no+1)) &val) >>1)
 

@@ -1869,7 +1869,6 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_int8(buffer+2, PACKET_RULESET_UNIT);
   
   cptr=put_int8(cptr, packet->id);
-  cptr=put_int8(cptr, packet->graphics);
   cptr=put_int8(cptr, packet->move_type);
   cptr=put_int16(cptr, packet->build_cost);
   cptr=put_int8(cptr, packet->attack_strength);
@@ -1889,6 +1888,8 @@ int send_packet_ruleset_unit(struct connection *pc,
   cptr=put_int8(cptr, packet->food_cost);
   cptr=put_int8(cptr, packet->gold_cost);
   cptr=put_string(cptr, packet->name);
+  cptr=put_string(cptr, packet->graphic_str);
+  cptr=put_string(cptr, packet->graphic_alt);
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1907,7 +1908,6 @@ receive_packet_ruleset_unit(struct connection *pc)
   pack_iter_init(&iter, pc);
 
   iget_int8(&iter, &packet->id);
-  iget_int8(&iter, &packet->graphics);
   iget_int8(&iter, &packet->move_type);
   iget_int16(&iter, &packet->build_cost);
   iget_int8(&iter, &packet->attack_strength);
@@ -1928,6 +1928,8 @@ receive_packet_ruleset_unit(struct connection *pc)
   iget_int8(&iter, &packet->food_cost);
   iget_int8(&iter, &packet->gold_cost);
   iget_string(&iter, packet->name, sizeof(packet->name));
+  iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
+  iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -2029,25 +2031,22 @@ receive_packet_ruleset_building(struct connection *pc)
 int send_packet_ruleset_terrain(struct connection *pc,
 				struct packet_ruleset_terrain *packet)
 {
+  int i;
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_RULESET_TERRAIN);
 
   cptr=put_int8(cptr, packet->id);
   cptr=put_string(cptr, packet->terrain_name);
-  cptr=put_int16(cptr, packet->graphic_base);
-  cptr=put_int16(cptr, packet->graphic_count);
   cptr=put_int8(cptr, packet->movement_cost);
   cptr=put_int8(cptr, packet->defense_bonus);
   cptr=put_int8(cptr, packet->food);
   cptr=put_int8(cptr, packet->shield);
   cptr=put_int8(cptr, packet->trade);
   cptr=put_string(cptr, packet->special_1_name);
-  cptr=put_int16(cptr, packet->graphic_special_1);
   cptr=put_int8(cptr, packet->food_special_1);
   cptr=put_int8(cptr, packet->shield_special_1);
   cptr=put_int8(cptr, packet->trade_special_1);
   cptr=put_string(cptr, packet->special_2_name);
-  cptr=put_int16(cptr, packet->graphic_special_2);
   cptr=put_int8(cptr, packet->food_special_2);
   cptr=put_int8(cptr, packet->shield_special_2);
   cptr=put_int8(cptr, packet->trade_special_2);
@@ -2061,6 +2060,12 @@ int send_packet_ruleset_terrain(struct connection *pc,
   cptr=put_int8(cptr, packet->mining_time);
   cptr=put_int8(cptr, packet->transform_result);
   cptr=put_int8(cptr, packet->transform_time);
+  cptr=put_string(cptr, packet->graphic_str);
+  cptr=put_string(cptr, packet->graphic_alt);
+  for(i=0; i<2; i++) {
+    cptr=put_string(cptr, packet->special[i].graphic_str);
+    cptr=put_string(cptr, packet->special[i].graphic_alt);
+  }
 
   put_int16(buffer, cptr-buffer);
 
@@ -2073,6 +2078,7 @@ int send_packet_ruleset_terrain(struct connection *pc,
 struct packet_ruleset_terrain *
 receive_packet_ruleset_terrain(struct connection *pc)
 {
+  int i;
   struct pack_iter iter;
   struct packet_ruleset_terrain *packet=
     fc_malloc(sizeof(struct packet_ruleset_terrain));
@@ -2081,20 +2087,16 @@ receive_packet_ruleset_terrain(struct connection *pc)
 
   iget_int8(&iter, &packet->id);
   iget_string(&iter, packet->terrain_name, sizeof(packet->terrain_name));
-  iget_int16(&iter, &packet->graphic_base);
-  iget_int16(&iter, &packet->graphic_count);
   iget_int8(&iter, &packet->movement_cost);
   iget_int8(&iter, &packet->defense_bonus);
   iget_int8(&iter, &packet->food);
   iget_int8(&iter, &packet->shield);
   iget_int8(&iter, &packet->trade);
   iget_string(&iter, packet->special_1_name, sizeof(packet->special_1_name));
-  iget_int16(&iter, &packet->graphic_special_1);
   iget_int8(&iter, &packet->food_special_1);
   iget_int8(&iter, &packet->shield_special_1);
   iget_int8(&iter, &packet->trade_special_1);
   iget_string(&iter, packet->special_2_name, sizeof(packet->special_2_name));
-  iget_int16(&iter, &packet->graphic_special_2);
   iget_int8(&iter, &packet->food_special_2);
   iget_int8(&iter, &packet->shield_special_2);
   iget_int8(&iter, &packet->trade_special_2);
@@ -2108,6 +2110,15 @@ receive_packet_ruleset_terrain(struct connection *pc)
   iget_int8(&iter, &packet->mining_time);
   iget_int8(&iter, (int*)&packet->transform_result);
   iget_int8(&iter, &packet->transform_time);
+  
+  iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
+  iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
+  for(i=0; i<2; i++) {
+    iget_string(&iter, packet->special[i].graphic_str,
+		sizeof(packet->special[i].graphic_str));
+    iget_string(&iter, packet->special[i].graphic_alt,
+		sizeof(packet->special[i].graphic_alt));
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -2140,11 +2151,6 @@ int send_packet_ruleset_terrain_control(struct connection *pc,
   cptr=put_int16(cptr, packet->pollution_food_penalty);
   cptr=put_int16(cptr, packet->pollution_shield_penalty);
   cptr=put_int16(cptr, packet->pollution_trade_penalty);
-  cptr=put_int16(cptr, packet->border_base);
-  cptr=put_int16(cptr, packet->corner_base);
-  cptr=put_int16(cptr, packet->river_base);
-  cptr=put_int16(cptr, packet->outlet_base);
-  cptr=put_int16(cptr, packet->denmark_base);
 
   put_int16(buffer, cptr-buffer);
 
@@ -2180,11 +2186,6 @@ receive_packet_ruleset_terrain_control(struct connection *pc)
   iget_int16(&iter, &packet->pollution_food_penalty);
   iget_int16(&iter, &packet->pollution_shield_penalty);
   iget_int16(&iter, &packet->pollution_trade_penalty);
-  iget_int16(&iter, &packet->border_base);
-  iget_int16(&iter, &packet->corner_base);
-  iget_int16(&iter, &packet->river_base);
-  iget_int16(&iter, &packet->outlet_base);
-  iget_int16(&iter, &packet->denmark_base);
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);
@@ -2203,7 +2204,6 @@ int send_packet_ruleset_government(struct connection *pc,
   cptr=put_int8(cptr, packet->id);
   
   cptr=put_int8(cptr, packet->required_tech);
-  cptr=put_int8(cptr, packet->graphic);
   cptr=put_int8(cptr, packet->max_rate);
   cptr=put_int8(cptr, packet->civil_war);
   cptr=put_int8(cptr, packet->martial_law_max);
@@ -2248,6 +2248,8 @@ int send_packet_ruleset_government(struct connection *pc,
   cptr=put_int8(cptr, packet->ruler_title_count);
 
   cptr=put_string(cptr, packet->name);
+  cptr=put_string(cptr, packet->graphic_str);
+  cptr=put_string(cptr, packet->graphic_alt);
 
   freelog(LOG_DEBUG, "send gov %s", packet->name);
 
@@ -2286,7 +2288,6 @@ receive_packet_ruleset_government(struct connection *pc)
   iget_int8(&iter, &packet->id);
   
   iget_int8(&iter, &packet->required_tech);
-  iget_int8(&iter, &packet->graphic);
   iget_int8(&iter, &packet->max_rate);
   iget_int8(&iter, &packet->civil_war);
   iget_int8(&iter, &packet->martial_law_max);
@@ -2332,6 +2333,8 @@ receive_packet_ruleset_government(struct connection *pc)
   iget_int8(&iter, &packet->ruler_title_count);
 
   iget_string(&iter, packet->name, sizeof(packet->name));
+  iget_string(&iter, packet->graphic_str, sizeof(packet->graphic_str));
+  iget_string(&iter, packet->graphic_alt, sizeof(packet->graphic_alt));
   
   freelog(LOG_DEBUG, "recv gov %s", packet->name);
 

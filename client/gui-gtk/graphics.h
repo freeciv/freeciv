@@ -29,12 +29,6 @@ struct Sprite
 };
 
 
-SPRITE *	load_xpmfile		(const char *filename);
-void		free_sprite		(SPRITE *s);
-
-SPRITE *	get_tile_sprite		(int tileno);
-void		load_tile_gfx		(void);
-
 GdkPixmap *	create_overlay_unit	(int i);
 
 #endif  /* FC__GRAPHICS_H */

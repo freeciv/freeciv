@@ -67,6 +67,7 @@
 #include "repodlgs.h"
 #include "resources.h"
 #include "spaceshipdlg.h"
+#include "tilespec.h"
 
 #include "gui_main.h"
 
@@ -78,7 +79,6 @@ extern String fallback_resources[];
 extern char name[];
 extern char server_host[];
 extern int  server_port;
-extern char *tile_set_dir;
 
 extern int num_units_below;
 
@@ -323,6 +323,7 @@ void ui_main(int argc, char *argv[])
   Pixmap icon_pixmap; 
   XtTranslations TextFieldTranslations;
   Dimension w,h;
+  char *tile_set_name = NULL;
   
   /* include later - pain to see the warning at every run */
   /* XtSetLanguageProc(NULL, (XtLanguageProc)NULL, NULL); */
@@ -386,7 +387,7 @@ void ui_main(int argc, char *argv[])
     server_port=DEFAULT_SOCK_PORT;
 
   if(appResources.tileset)
-    tile_set_dir=appResources.tileset; 
+    tile_set_name=appResources.tileset; 
   
   boot_help_texts();		/* after log_init */
 
@@ -450,9 +451,9 @@ void ui_main(int argc, char *argv[])
     gray25=XCreateBitmapFromData(display,root_window,d2,4,4);
   }
 
-  /* get NORMAL_TILE_WIDTH etc, small.xpm, required for setup_widgets: */
-  load_tile_gfx_first();
-
+  /* get tile sizes etc, required for setup_widgets: */
+  tilespec_read_toplevel(tile_set_name);
+  
   /* 135 below is rough value (could be more intelligent) --dwp */
   num_units_below = 135/(int)NORMAL_TILE_WIDTH;
   num_units_below = MIN(num_units_below,MAX_NUM_UNITS_BELOW);
@@ -462,8 +463,7 @@ void ui_main(int argc, char *argv[])
      setup_widgets() has enough colors available:  (on 256-colour systems)
   */
   setup_widgets();
-
-  load_tile_gfx_rest();
+  tilespec_load_tiles();
   load_intro_gfx();
   load_cursors();
 
@@ -476,6 +476,13 @@ void ui_main(int argc, char *argv[])
 
   XtAppAddActions(app_context, Actions, XtNumber(Actions));
 
+  /* Do this outside setup_widgets() so after tiles are loaded */
+  for(i=0;i<10;i++)  {
+    XtVaSetValues(econ_label[i], XtNbitmap,
+		  get_citizen_pixmap(i<5?1:2), NULL);
+    XtAddCallback(econ_label[i], XtNcallback, taxrates_callback,
+		  (XtPointer)i);  
+  }
 		
   XtAddCallback(map_horizontal_scrollbar, XtNjumpProc, 
 		scrollbar_jump_callback, NULL);
@@ -602,19 +609,18 @@ void setup_widgets(void)
 				       NULL);   
 
 
-  
+
+  /* Don't put the citizens in here yet because not loaded yet */
   for(i=0;i<10;i++)  {
     econ_label[i] = XtVaCreateManagedWidget("econlabels",
 					    commandWidgetClass,
 					    left_column_form,
-					    XtNbitmap, 
-					      get_citizen_pixmap(i<5?1:2),
+					    XtNwidth, SMALL_TILE_WIDTH,
+					    XtNheight, SMALL_TILE_HEIGHT,
 					    i?XtNfromHoriz:NULL, 
 					    i?econ_label[i-1]:NULL,
 					    XtNhorizDistance, 1,
 					    NULL);  
-    XtAddCallback(econ_label[i], XtNcallback, taxrates_callback,
-		  (XtPointer)i);  
   }
 
   turn_done_button = XtVaCreateManagedWidget("turndonebutton", 

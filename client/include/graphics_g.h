@@ -41,19 +41,21 @@
  * noticed at all! :-) (mjd)
  */
 
- /*
-#define NORMAL_TILE_WIDTH  30
-#define NORMAL_TILE_HEIGHT 30
- */
 extern int NORMAL_TILE_WIDTH;
 extern int NORMAL_TILE_HEIGHT;
-
-#define SMALL_TILE_WIDTH   15
-#define SMALL_TILE_HEIGHT  20
+extern int SMALL_TILE_WIDTH;
+extern int SMALL_TILE_HEIGHT;
 
 void load_intro_gfx(void);
 void load_cursors(void);
 
 void free_intro_radar_sprites(void);
+
+struct Sprite;			/* opaque type, real type is gui-dep */
+
+struct Sprite *load_xpmfile(const char *filename);
+struct Sprite *crop_sprite(struct Sprite *source,
+			   int x, int y, int width, int height);
+void free_sprite(struct Sprite *s);
 
 #endif  /* FC__GRAPHICS_G_H */

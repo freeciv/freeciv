@@ -321,7 +321,8 @@ static void load_ruleset_units(char *ruleset_subdir)
   char *sval, **slist, **sec;
 
   filename = openload_ruleset_file(file, ruleset_subdir, "units");
-  datafile_options = check_ruleset_capabilities(file, "+1.8.2a", filename);
+  datafile_options
+    = check_ruleset_capabilities(file, "+1.8.2a +tilespec", filename);
   section_file_lookup(file,"datafile.description"); /* unused */
 
   max_hp =
@@ -382,8 +383,12 @@ static void load_ruleset_units(char *ruleset_subdir)
       exit(1);
     }
     u->move_type = ival;
-    u->graphics =
-      secfile_lookup_int(file,"%s.graphic", sec[i]);
+    
+    strncpy(u->graphic_str, secfile_lookup_str(file,"%s.graphic", sec[i]),
+	    sizeof(u->graphic_str)-1);
+    strncpy(u->graphic_alt, secfile_lookup_str(file,"%s.graphic_alt", sec[i]),
+	    sizeof(u->graphic_alt)-1);
+    
     u->build_cost =
       secfile_lookup_int(file,"%s.build_cost", sec[i]);
     u->attack_strength =
@@ -603,11 +608,12 @@ static void load_ruleset_terrain(char *ruleset_subdir)
   char *filename, *datafile_options;
   int nval;
   char **sec;
-  int i;
+  int i, j;
   struct tile_type *t;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "terrain");
-  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
+  datafile_options
+    = check_ruleset_capabilities(&file, "+1.8.2 +tilespec", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* options */
@@ -651,19 +657,6 @@ static void load_ruleset_terrain(char *ruleset_subdir)
   terrain_control.pollution_trade_penalty =
     secfile_lookup_int_default(&file, 50, "parameters.pollution_trade_penalty");
 
-  /* graphics */
-
-  terrain_control.border_base =
-    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.border_base");
-  terrain_control.corner_base =
-    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.corner_base");
-  terrain_control.river_base =
-    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.river_base");
-  terrain_control.outlet_base =
-    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.outlet_base");
-  terrain_control.denmark_base =
-    secfile_lookup_int_default(&file, NO_SUCH_GRAPHIC, "graphics.denmark_base");
-
   /* terrain names */
 
   sec = secfile_get_secnames_prefix(&file, "terrain_", &nval);
@@ -689,8 +682,10 @@ static void load_ruleset_terrain(char *ruleset_subdir)
     {
       t = &(tile_types[i]);
 
-      t->graphic_base = secfile_lookup_int(&file, "%s.graphic_base", sec[i]);
-      t->graphic_count = secfile_lookup_int(&file, "%s.graphic_count", sec[i]);
+      strncpy(t->graphic_str, secfile_lookup_str(&file,"%s.graphic", sec[i]),
+	      sizeof(t->graphic_str)-1);
+      strncpy(t->graphic_alt, secfile_lookup_str(&file,"%s.graphic_alt", sec[i]),
+	    sizeof(t->graphic_alt)-1);
 
       t->movement_cost = secfile_lookup_int(&file, "%s.movement_cost", sec[i]);
       t->defense_bonus = secfile_lookup_int(&file, "%s.defense_bonus", sec[i]);
@@ -701,17 +696,23 @@ static void load_ruleset_terrain(char *ruleset_subdir)
 
       strcpy(t->special_1_name, secfile_lookup_str(&file, "%s.special_1_name", sec[i]));
       if (0 == strcmp(t->special_1_name, "none")) *(t->special_1_name) = '\0';
-      t->graphic_special_1 = secfile_lookup_int(&file, "%s.graphic_special_1", sec[i]);
       t->food_special_1 = secfile_lookup_int(&file, "%s.food_special_1", sec[i]);
       t->shield_special_1 = secfile_lookup_int(&file, "%s.shield_special_1", sec[i]);
       t->trade_special_1 = secfile_lookup_int(&file, "%s.trade_special_1", sec[i]);
 
       strcpy(t->special_2_name, secfile_lookup_str(&file, "%s.special_2_name", sec[i]));
       if (0 == strcmp(t->special_2_name, "none")) *(t->special_2_name) = '\0';
-      t->graphic_special_2 = secfile_lookup_int(&file, "%s.graphic_special_2", sec[i]);
       t->food_special_2 = secfile_lookup_int(&file, "%s.food_special_2", sec[i]);
       t->shield_special_2 = secfile_lookup_int(&file, "%s.shield_special_2", sec[i]);
       t->trade_special_2 = secfile_lookup_int(&file, "%s.trade_special_2", sec[i]);
+      for(j=0; j<2; j++) {
+	strncpy(t->special[j].graphic_str,
+		secfile_lookup_str(&file,"%s.graphic_special_%d", sec[i], j+1),
+		sizeof(t->special[j].graphic_str)-1);
+	strncpy(t->special[j].graphic_alt,
+		secfile_lookup_str(&file,"%s.graphic_special_%da", sec[i], j+1),
+		sizeof(t->special[j].graphic_alt)-1);
+      }
 
       t->road_trade_incr =
 	secfile_lookup_int(&file, "%s.road_trade_incr", sec[i]);
@@ -752,7 +753,8 @@ static void load_ruleset_governments(char *ruleset_subdir)
   char *c;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "governments");
-  datafile_options = check_ruleset_capabilities(&file, "+1.8.2", filename);
+  datafile_options
+    = check_ruleset_capabilities(&file, "+1.8.2 +tilespec", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   game.government_count = secfile_lookup_int(&file, "governments.count");
@@ -773,7 +775,7 @@ static void load_ruleset_governments(char *ruleset_subdir)
       exit(1);
     }
     g->index = i;
-    g->name  = mystrdup(c);
+    strncpy(g->name, c, sizeof(g->name)-1);
   }
 
   /* read default government -- SKi */
@@ -815,11 +817,16 @@ static void load_ruleset_governments(char *ruleset_subdir)
     ++i;
   }
 
-  /* get graphics offsets */
+  /* get graphics tags */
   i = 0;
   while ((c = secfile_lookup_str_default(&file, NULL, "governments.graphic%d.government", i)) != NULL) {
     g = find_government_by_name(c);
-    g->graphic = secfile_lookup_int(&file, "governments.graphic%d.offset", i);
+    strncpy(g->graphic_str,
+	    secfile_lookup_str(&file, "governments.graphic%d.pref", i),
+	    sizeof(g->graphic_str)-1);
+    strncpy(g->graphic_alt,
+	    secfile_lookup_str(&file, "governments.graphic%d.alt", i),
+	    sizeof(g->graphic_alt)-1);
     ++i;
   }
 
@@ -1061,7 +1068,8 @@ static void send_ruleset_units(struct player *dest)
   for(u=unit_types; u<unit_types+game.num_unit_types; u++) {
     packet.id = u-unit_types;
     strcpy(packet.name, u->name);
-    packet.graphics = u->graphics;
+    strcpy(packet.graphic_str, u->graphic_str);
+    strcpy(packet.graphic_alt, u->graphic_alt);
     packet.move_type = u->move_type;
     packet.build_cost = u->build_cost;
     packet.attack_strength = u->attack_strength;
@@ -1146,7 +1154,7 @@ static void send_ruleset_terrain(struct player *dest)
 {
   struct packet_ruleset_terrain packet;
   struct tile_type *t;
-  int i, to;
+  int i, j, to;
 
   for (to = 0; to < game.nplayers; to++)      /* dests */
     {
@@ -1163,8 +1171,8 @@ static void send_ruleset_terrain(struct player *dest)
       packet.id = i;
 
       strcpy (packet.terrain_name, t->terrain_name);
-      packet.graphic_base = t->graphic_base;
-      packet.graphic_count = t->graphic_count;
+      strcpy(packet.graphic_str, t->graphic_str);
+      strcpy(packet.graphic_alt, t->graphic_alt);
 
       packet.movement_cost = t->movement_cost;
       packet.defense_bonus = t->defense_bonus;
@@ -1174,16 +1182,19 @@ static void send_ruleset_terrain(struct player *dest)
       packet.trade = t->trade;
 
       strcpy (packet.special_1_name, t->special_1_name);
-      packet.graphic_special_1 = t->graphic_special_1;
       packet.food_special_1 = t->food_special_1;
       packet.shield_special_1 = t->shield_special_1;
       packet.trade_special_1 = t->trade_special_1;
 
       strcpy (packet.special_2_name, t->special_2_name);
-      packet.graphic_special_2 = t->graphic_special_2;
       packet.food_special_2 = t->food_special_2;
       packet.shield_special_2 = t->shield_special_2;
       packet.trade_special_2 = t->trade_special_2;
+
+      for(j=0; j<2; j++) {
+	strcpy(packet.special[j].graphic_str, t->special[j].graphic_str);
+	strcpy(packet.special[j].graphic_alt, t->special[j].graphic_alt);
+      }
 
       packet.road_trade_incr = t->road_trade_incr;
       packet.road_time = t->road_time;
@@ -1227,7 +1238,6 @@ static void send_ruleset_governments(struct player *dest)
     gov.id                 = i;
 
     gov.required_tech    = g->required_tech;
-    gov.graphic          = g->graphic;
     gov.max_rate         = g->max_rate;
     gov.civil_war        = g->civil_war;
     gov.martial_law_max  = g->martial_law_max;
@@ -1270,7 +1280,9 @@ static void send_ruleset_governments(struct player *dest)
     for (p_title = g->ruler_title, j = 0; p_title->male_title != NULL; ++p_title, ++j);
     gov.ruler_title_count = j;
     
-    strcpy (gov.name, g->name);
+    strcpy(gov.name, g->name);
+    strcpy(gov.graphic_str, g->graphic_str);
+    strcpy(gov.graphic_alt, g->graphic_alt);
     
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {

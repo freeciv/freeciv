@@ -19,6 +19,7 @@
 #include "spaceship.h"
 
 struct tile;
+struct Sprite;			/* opaque; client-gui specific */
 
 #define PLAYER_DEFAULT_TAX_RATE 50
 #define PLAYER_DEFAULT_SCIENCE_RATE 50
@@ -52,6 +53,7 @@ enum handicap_type {
 struct player_race {
   char name[MAX_LEN_NAME];
   char name_plural[MAX_LEN_NAME];
+  char flag_graphic_str[MAX_LEN_NAME];
   int attack;     /* c 0 = optimize for food, 2 =  optimize for prod  */
                   /* c0 = large amount of buildings, 2 = units */
 /* attack has been un-implemented for the time being. -- Syela */
@@ -78,6 +80,7 @@ struct player_race {
     int wonder;
     int government;
   } goals;
+  struct Sprite *flag_sprite;
 };
 
 struct player_economic {

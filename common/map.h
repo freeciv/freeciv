@@ -16,6 +16,10 @@
 #include "player.h"
 #include "unit.h"
 
+struct Sprite;			/* opaque; client-gui specific */
+
+#define NUM_DIRECTION_NSEW 16
+
 enum terrain_river_type {
   R_AS_TERRAIN=1, R_AS_SPECIAL=2
 };
@@ -84,15 +88,7 @@ struct terrain_misc
   int pollution_food_penalty;          /* % subtr. from food if polluted */
   int pollution_shield_penalty;        /* % subtr. from shield if polluted */
   int pollution_trade_penalty;         /* % subtr. from trade if polluted */
-  /* graphics */
-  int border_base;    /* NO_SUCH_GRAPHIC (999) means no such tiles */
-  int corner_base;    /* NO_SUCH_GRAPHIC (999) means no such tiles */
-  int river_base;     /* NO_SUCH_GRAPHIC (999) means no such tiles */
-  int outlet_base;    /* NO_SUCH_GRAPHIC (999) means no such tiles */
-  int denmark_base;   /* NO_SUCH_GRAPHIC (999) means no such tiles */
 };
-
-#define NO_SUCH_GRAPHIC (999)
 
 /****************************************************************
 tile_type for each terrain type
@@ -101,8 +97,9 @@ expand with government bonuses??
 
 struct tile_type {
   char terrain_name[MAX_LEN_NAME];     /* "" if unused */
-  int graphic_base;
-  int graphic_count;
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
+  struct Sprite *sprite[NUM_DIRECTION_NSEW];
 
   int movement_cost;
   int defense_bonus;
@@ -112,16 +109,22 @@ struct tile_type {
   int trade;
 
   char special_1_name[MAX_LEN_NAME];   /* "" if none */
-  int graphic_special_1;
   int food_special_1;
   int shield_special_1;
   int trade_special_1;
 
   char special_2_name[MAX_LEN_NAME];   /* "" if none */
-  int graphic_special_2;
   int food_special_2;
   int shield_special_2;
   int trade_special_2;
+
+  /* I would put the above special data in this struct too,
+     but don't want to make unnecessary changes right now --dwp */
+  struct {
+    char graphic_str[MAX_LEN_NAME];
+    char graphic_alt[MAX_LEN_NAME];
+    struct Sprite *sprite;
+  } special[2];
 
   int road_trade_incr;
   int road_time;

@@ -1,0 +1,122 @@
+----------------------------------------------------------------------
+Freeciv Graphics, and Tile Specification Files
+----------------------------------------------------------------------
+
+Using Graphics:
+---------------
+
+To use different graphics with Freeciv, use the '--tiles' argument to
+the Freeciv client.  Eg, to use the 'trident' graphics, start the
+client as:
+  
+    civclient --tiles trident
+
+What Freeciv actually does in this case is look for a file called
+'trident.tilespec' somewhere in your Freeciv data path.  (See the file
+INSTALL for some information on the Freeciv data path.)  That tilespec
+file contains information telling Freeciv which graphics files to use,
+and what those graphics files contain.
+
+That is all you need to know to use alternative graphics provided by
+Freeciv or by third-party add-ons.  The rest of this file describes
+(though not fully) the contents of the tilespec file and related
+files.  This is intended as developer reference, and for people
+wanting to create/compile alternative tilesets and modpacks for
+Freeciv.
+
+----------------------------------------------------------------------
+Overview:
+---------
+
+The purpose of the 'tilespec' file and related 'spec' files is to
+allow the detailed layout of the graphics within the files to be
+flexible and not hard-coded into Freeciv, and to allow add-ons to
+conveniently provide additional graphics.
+
+There are two layers to the tilespec files:
+
+The top-level file is named, eg: 'default.tilespec'.  The basename of
+this file (here, 'default') corresponds to the parameter of the
+'--tiles' command-line argument for the Freeciv client, as described
+above.
+
+The top-level tilespec file contains general information on the full
+tileset, and a list of files which specify information about the
+individual graphics files.  These filenames must be located somewhere
+in the data path, though not necessarily the same place as the
+top-level tilespec file.  Note that with this system the number and
+contents of the referenced files are completely flexible at this
+level.
+
+An exception is that the intro graphics must be in individual files,
+as listed in the tilespec file, because Freeciv treats these
+specially: these graphics are freed after the game starts, and
+reloaded later as necessary.
+
+----------------------------------------------------------------------
+Individual spec files:
+----------------------
+
+Each spec file describes one graphics file (currently xpm format only)
+as specified in the spec file.  The graphics file must be in the
+Freeciv data path, but not necessarily "near" the spec file.  (Thus
+you could have multiple spec files using a single graphics file in
+different ways.)
+
+The main data described in the spec file is in sections named
+[grid_*], where * is some arbitrary tag (but unique within each file).
+A grid corresponds to a regular rectangular array of tiles.  In
+general one may have multiple grids in one file, but the default
+tilesets usually only have one per file.  (Multiple grids would be
+useful to have different size tiles in the same file.)  Each grid
+defines an origin (top left) and spacing, both in terms of pixels, and
+then refers to individual tiles of the grid by row and column.  The
+origin, and rows and columns, are counted as (0,0) = top left.
+
+Each individual tile is given a "tag", which is a string which is
+referenced in the code and/or from ruleset files.  A grid may be
+sparse, with some elements unused (simply don't mention their row and
+column), and a single tile may have multiple tags (eg, to use the same
+graphic for multiple purposes in the game): just specify a list of
+comma-separated strings.
+
+----------------------------------------------------------------------
+Tag uniqueness and tag prefixes:
+--------------------------------
+
+An important requirement is that there must be no duplicated tags
+across all the graphics files (those referenced from the top-level
+tilespec file).  That is, each tag must be unique.  (This is because
+the tags are used to reference the graphics, and for non-unique tags
+Freeciv would not know which graphic to use.)  To assist in
+maintaining this uniqueness, there is a rough prefix system used for
+standard tags:
+
+  f.	      national flags
+  r.	      road/rail
+  s.	      general "small"
+  u.	      unit images
+  t.	      basic terrain types (with _n0s0e0w0 to _n1s1e1w1)
+  ts.	      terrain special resources
+  tx.	      extra terrain-related
+  gov.	      government types
+  unit.	      unit overlays: hp, stack, activities (goto, fortify etc)
+  upkeep.     unit upkeep and unhappiness
+  city.	      city related (city size, tile-prod., disorder, occupied)
+  citizen.    citizens, including specialists
+  explode.    explosion graphics (nuke explosion)
+  spaceship.  spaceship components
+  treaty.     treaty thumbs
+  user.	      crosshairs (in general: user interface?)
+
+In general, graphics tags hard-wired into Freeciv _must_ be provided
+by the spec files, or the client will refuse to start.  Graphics tags
+provided by ruleset files (at least for the "standard" rulesets)
+should also be provided, but generally the client will continue even
+if they are not, though the results may not be satisfactory for the
+user.  To work properly tags should correspond to appropriately sized
+graphics.  (The basic size may vary, as specified in the top-level
+tilespec file, but the individual tiles should be consistent with
+those sizes and/or the usage of those graphics.)
+  
+----------------------------------------------------------------------

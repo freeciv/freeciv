@@ -32,52 +32,34 @@
 
 #include "climisc.h"
 #include "colors.h"
+#include "mapview_g.h"
+#include "tilespec.h"
 
 #include "graphics.h"
-#include "mapview_g.h"
 
 #include "goto_cursor.xbm"
 #include "goto_cursor_mask.xbm"
 
 extern int display_depth;
-extern Widget map_canvas;
 extern Display *display;
 extern GC fill_bg_gc;
 extern GC civ_gc, font_gc;
 extern Colormap cmap;
-extern Widget toplevel;
 extern Window root_window;
 extern XFontStruct *main_font_struct;
 extern int use_solid_color_behind_units;
 
-struct Sprite **tile_sprites;
 struct Sprite *intro_gfx_sprite;
 struct Sprite *radar_gfx_sprite;
-int UNIT_TILES, SPACE_TILES, FLAG_TILES;
 int NORMAL_TILE_WIDTH;
 int NORMAL_TILE_HEIGHT;
-
-/* jjm@codewell.com 30dec1998a
-   Moved road and rail tiles to roads.xpm; added tiles for diagonals.
-*/
-int ROAD_TILES;
-int RAIL_TILES;
+int SMALL_TILE_WIDTH;
+int SMALL_TILE_HEIGHT;
 
 Cursor goto_cursor;
 
-static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height);
 static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
-				       int width, int height);
-
-
-/***************************************************************************
-...
-***************************************************************************/
-struct Sprite *get_tile_sprite(int tileno)
-{
-  return tile_sprites[tileno];
-}
-
+ 				       int width, int height);
 
 /***************************************************************************
 ...
@@ -87,8 +69,8 @@ void load_intro_gfx(void)
   int w;
   char s[64];
 
-  intro_gfx_sprite=load_xpmfile(datafilename_required("intro.xpm"));
-  radar_gfx_sprite=load_xpmfile(datafilename_required("radar.xpm"));
+  intro_gfx_sprite=load_xpmfile(main_intro_filename);
+  radar_gfx_sprite=load_xpmfile(minimap_intro_filename);
 
   w=XTextWidth(main_font_struct, WORD_VERSION, strlen(WORD_VERSION));
 	
@@ -102,13 +84,11 @@ void load_intro_gfx(void)
 	      160/2-w/2, 60, s, strlen(s));
 }
 
-
 /***************************************************************************
 return newly allocated sprite cropped from source
 ***************************************************************************/
-static struct Sprite *crop_sprite(struct Sprite *source,
-				  int x, int y,
-				  int width, int height)
+struct Sprite *crop_sprite(struct Sprite *source,
+			   int x, int y, int width, int height)
 {
   GC plane_gc;
   Pixmap mypixmap, mask;
@@ -126,177 +106,6 @@ static struct Sprite *crop_sprite(struct Sprite *source,
   XFreeGC(display, plane_gc);
 
   return ctor_sprite_mask(mypixmap, mask, width, height);
-}
-
-/* This stores the index so far in global tile_sprites
-   between the end of load_tile_gfx_first() and the start
-   of load_tile_gfx_rest():
-*/
-static int tiles_i;
-
-/***************************************************************************
-  Load tiles.xpm and small.xpm; these are necessary before we can
-  call setup_widgets.  Note that these two files must _not_ exhaust
-  the colormap (on 256 color systems) or setup_widgets will likely
-  dump core.
-  Initialises globals:
-     tile_sprites, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT.
-  Fills in tile_sprites for tiles.xpm and small.xpm graphics.   
-***************************************************************************/
-void load_tile_gfx_first(void)
-{
-  int i, x, y, ntiles, a;
-  struct Sprite *big_sprite, *small_sprite;
-
-  big_sprite   = load_xpmfile(tilefilename("tiles.xpm"));
-  small_sprite = load_xpmfile(tilefilename("small.xpm"));
-
-  ntiles = (20*ROWS_TILES) + (20*ROWS_UNITS) + (31*ROWS_SMALL) +
-    (3*ROWS_TREATY) + (16*ROWS_ROADS) + (6*ROWS_SPACE) + (14*ROWS_FLAGS);
-
-  tile_sprites=fc_malloc(ntiles*sizeof(struct Sprite *));
-
-  NORMAL_TILE_WIDTH=big_sprite->width/20;
-  NORMAL_TILE_HEIGHT=big_sprite->height/ROWS_TILES;
-
-  i=0;
-  for(y=0, a=0; a<ROWS_TILES && y<big_sprite->height; a++, y+=NORMAL_TILE_HEIGHT) {
-    for(x=0; x<big_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      tile_sprites[i++] = crop_sprite(big_sprite, x, y,
-				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT); 
-    }
-  }
-
-  if(small_sprite->width != SMALL_TILE_WIDTH*31 ||
-     small_sprite->height != SMALL_TILE_HEIGHT*ROWS_SMALL)  {
-    freelog(LOG_FATAL, "XPM file small.xpm is the wrong size!");
-    freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
-         SMALL_TILE_WIDTH*31,SMALL_TILE_HEIGHT*ROWS_SMALL,
-	 small_sprite->width, small_sprite->height);
-    exit(1);
-  }
-  for(x=0, y=0; x<small_sprite->width; x+=SMALL_TILE_WIDTH) {
-    Pixmap mypixmap;
-    
-    mypixmap=XCreatePixmap(display, root_window, 
-			   SMALL_TILE_WIDTH, 
-			   SMALL_TILE_HEIGHT, 
-			   display_depth);
-    XCopyArea(display, small_sprite->pixmap, mypixmap, civ_gc, 
-	      x, y, SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT, 0 ,0);
-    
-    tile_sprites[i++]=ctor_sprite(mypixmap, 
-				  SMALL_TILE_WIDTH, SMALL_TILE_HEIGHT);
-  }
-  free_sprite(big_sprite);
-  free_sprite(small_sprite);
-  tiles_i = i;
-}
-
-/***************************************************************************
-  Load the rest of the xpm files: those which are not required
-  for setup_widgets().
-***************************************************************************/
-void load_tile_gfx_rest(void)
-{
-  int i = tiles_i;
-  int x, y;
-  struct Sprite *unit_sprite, *treaty_sprite;
-  struct Sprite *roads_sprite, *space_sprite, *flags_sprite;
-  int row;
-
-  unit_sprite  = load_xpmfile(tilefilename("units.xpm"));
-  treaty_sprite= load_xpmfile(tilefilename("treaty.xpm"));
-  roads_sprite = load_xpmfile(tilefilename("roads.xpm"));
-  space_sprite = load_xpmfile(tilefilename("space.xpm"));
-  flags_sprite = load_xpmfile(tilefilename("flags.xpm"));
-
-  {
-    Pixmap mypixmap;
-
-    mypixmap=XCreatePixmap(display, root_window, 30,30, display_depth);
-    XCopyArea(display, treaty_sprite->pixmap, mypixmap, civ_gc, 0,0, 30,30, 0,0);
-    tile_sprites[i++]=ctor_sprite(mypixmap, 30,30);
-    mypixmap=XCreatePixmap(display, root_window, 30,30, display_depth);
-    XCopyArea(display, treaty_sprite->pixmap, mypixmap, civ_gc, 30,0, 30,30, 0,0);
-    tile_sprites[i++]=ctor_sprite(mypixmap, 30,30);
-/*  mypixmap=XCreatePixmap(display, root_window, 300,30, display_depth);
-    XCopyArea(display, treaty_sprite->pixmap, mypixmap, civ_gc, 60,0, 300,30, 0,0);
-    tile_sprites[i++]=ctor_sprite(mypixmap, 300,30); */
-  }
-
-  if(unit_sprite->width != NORMAL_TILE_WIDTH*20 ||
-     unit_sprite->height != NORMAL_TILE_HEIGHT*ROWS_UNITS)  {
-    freelog(LOG_FATAL, "XPM file units.xpm is the wrong size!");
-    freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
-         NORMAL_TILE_WIDTH*20,NORMAL_TILE_HEIGHT*ROWS_UNITS,
-	 unit_sprite->width, unit_sprite->height);
-    exit(1);
-  }
-
-  UNIT_TILES = i;
-  for(y=0; y<unit_sprite->height; y+=NORMAL_TILE_HEIGHT) {
-    for(x=0; x<unit_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      tile_sprites[i++] = crop_sprite(unit_sprite, x, y,
-				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    }
-  }
-
-  if(roads_sprite->width != NORMAL_TILE_WIDTH*16 ||
-     roads_sprite->height != NORMAL_TILE_HEIGHT*ROWS_ROADS)  {
-    freelog(LOG_FATAL, "XPM file roads.xpm is the wrong size!");
-    freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
-         NORMAL_TILE_WIDTH*16,NORMAL_TILE_HEIGHT*ROWS_ROADS,
-	 roads_sprite->width, roads_sprite->height);
-    exit(1);
-  }
-  /* jjm@codewell.com 30dec1998a */
-  for(y=0, row=0; y<roads_sprite->height; y+=NORMAL_TILE_HEIGHT, row++) {
-    if (row==0) ROAD_TILES = i;
-    if (row==2) RAIL_TILES = i;
-    for(x=0; x<roads_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      tile_sprites[i++] = crop_sprite(roads_sprite, x, y,
-				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    }
-  }
- 
-  if (space_sprite->width != space_sprite->height * 6)  {
-    freelog(LOG_FATAL, "XPM file space.xpm is the wrong width!");
-    freelog(LOG_FATAL, "Expected 6 * height (%d), got %d",
- 	    space_sprite->height * 6, space_sprite->width);
-    exit(1);
-  }
-
-  SPACE_TILES = i;
-  
-  for (x = 0; x < space_sprite->width; x += space_sprite->height) {
-    tile_sprites[i++] = crop_sprite(space_sprite, x, 0,
-				    space_sprite->height,
-				    space_sprite->height);
-  }
-
-  if(flags_sprite->width != NORMAL_TILE_WIDTH*14 ||
-     flags_sprite->height != NORMAL_TILE_HEIGHT*ROWS_FLAGS)  {
-    freelog(LOG_FATAL, "XPM file flags.xpm is the wrong size!");
-    freelog(LOG_FATAL, "Expected %dx%d, got %dx%d",
-         NORMAL_TILE_WIDTH*14,NORMAL_TILE_HEIGHT*ROWS_FLAGS,
-	 flags_sprite->width, flags_sprite->height);
-    exit(1);
-  }
-
-  FLAG_TILES = i;
-  for(y=0; y<flags_sprite->height; y+=NORMAL_TILE_HEIGHT) {
-    for(x=0; x<flags_sprite->width; x+=NORMAL_TILE_WIDTH) {
-      tile_sprites[i++] = crop_sprite(flags_sprite, x, y,
-				      NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    }
-  }
-  
-  free_sprite(unit_sprite);
-  free_sprite(treaty_sprite);
-  free_sprite(roads_sprite);
-  free_sprite(space_sprite);
-  free_sprite(flags_sprite);
 }
 
 /***************************************************************************
@@ -325,6 +134,7 @@ void load_cursors(void)
   XFreePixmap(display, mask);
 }
 
+#ifdef UNUSED
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -337,12 +147,13 @@ static struct Sprite *ctor_sprite(Pixmap mypixmap, int width, int height)
   mysprite->has_mask=0;
   return mysprite;
 }
+#endif
 
 /***************************************************************************
 ...
 ***************************************************************************/
 static struct Sprite *ctor_sprite_mask(Pixmap mypixmap, Pixmap mask, 
-				int width, int height)
+				       int width, int height)
 {
   struct Sprite *mysprite=fc_malloc(sizeof(struct Sprite));
   mysprite->pixmap=mypixmap;
@@ -371,7 +182,6 @@ void dtor_sprite(struct Sprite *mysprite)
 
 }
 #endif
-
 
 
 /***************************************************************************
@@ -424,6 +234,7 @@ void free_sprite(struct Sprite *s)
   free(s);
 }
 
+
 /***************************************************************************
 ...
 ***************************************************************************/
@@ -450,7 +261,7 @@ Pixmap create_overlay_unit(int i)
 
   /* If we're using flags, put one on the tile */
   if(!use_solid_color_behind_units)  {
-    struct Sprite *flag=get_tile_sprite(game.player_ptr->race + FLAG_TILES);
+    struct Sprite *flag=races[game.player_ptr->race].flag_sprite;
 
     XSetClipOrigin(display, civ_gc, 0,0);
     XSetClipMask(display, civ_gc, flag->mask);
@@ -461,7 +272,7 @@ Pixmap create_overlay_unit(int i)
 
   /* Finally, put a picture of the unit in the tile */
   if(i<game.num_unit_types) {
-    struct Sprite *s=get_tile_sprite(get_unit_type(i)->graphics+UNIT_TILES);
+    struct Sprite *s=get_unit_type(i)->sprite;
 
     XSetClipOrigin(display,civ_gc,0,0);
     XSetClipMask(display,civ_gc,s->mask);

@@ -1048,12 +1048,11 @@ void city_dialog_update_citizens(struct city_dialog *pdialog)
     }
 
   for(n=0; n<pcity->ppl_unhappy[4] && i<NUM_CITIZENS_SHOWN; n++, i++)
-    if(pdialog->citizen_type[i]!=7) {
+    if(pdialog->citizen_type[i]!=7 && pdialog->citizen_type[i]!=8) {
+      pdialog->citizen_type[i]=7+i%2;
 
       gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmaps[i]),
-	get_citizen_sprite(7), 0, 0, TRUE);
-
-      pdialog->citizen_type[i]=7;
+	get_citizen_sprite(pdialog->citizen_type[i]), 0, 0, TRUE);
 
       gtk_signal_handlers_destroy(GTK_OBJECT(pdialog->citizen_boxes[i]));
       gtk_widget_set_sensitive(pdialog->citizen_boxes[i], FALSE);

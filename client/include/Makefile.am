@@ -31,4 +31,5 @@ noinst_HEADERS = \
 	plrdlg_g.h	\
 	ratesdlg.h	\
 	repodlgs_g.h	\
-	spaceshipdlg_g.h
+	spaceshipdlg_g.h \
+	tilespec.h

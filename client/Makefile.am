@@ -35,7 +35,8 @@ civclient_SOURCES = \
 	control.c	\
 	helpdata.c	\
 	packhand.c	\
-	options.c
+	options.c	\
+	tilespec.c
 
 civclient_DEPENDENCIES = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLDEPS@
 civclient_LDADD        = @gui_sources@/libguiclient.a ../common/libcivcommon.a @INTLLIBS@ @gui_sources@/libguiclient.a ../common/libcivcommon.a @CLIENT_LIBS@

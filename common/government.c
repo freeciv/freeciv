@@ -228,16 +228,3 @@ int can_change_to_government(struct player *pplayer, int government)
 }
 
 
-/***************************************************************
-  Return graphic offset for this government.  This may be
-  called before governments setup, in which case returns 0.
-***************************************************************/
-int government_graphic(int gov)
-{
-  if (game.government_count > 0) {
-    return get_government(gov)->graphic;
-  } else {
-    return 0;
-  }
-}
-

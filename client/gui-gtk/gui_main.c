@@ -51,6 +51,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "spaceshipdlg.h"
+#include "tilespec.h"
 
 #include "gui_main.h"
 
@@ -70,7 +71,7 @@ extern SPRITE *		radar_gfx_sprite;
 extern char	server_host	[];
 extern char	name		[];
 extern int	server_port;
-extern char *	tile_set_dir;
+static char *	tile_set_name;
 
 extern enum client_states	client_state;
 
@@ -220,7 +221,7 @@ static void parse_options(int argc, char **argv)
       }
     }
     else if ((option = get_option("--tiles",argv,&i,argc)) != NULL)
-      tile_set_dir=option;
+      tile_set_name=option;
     i += 1;
   }
 
@@ -421,13 +422,13 @@ static void setup_widgets(void)
           gtk_signal_connect( GTK_OBJECT( ebox ), "button_press_event",
               GTK_SIGNAL_FUNC(taxrates_callback), (gpointer)i);
 
-          econ_label[i] = gtk_pixmap_new(get_tile_sprite(SUN_TILES)->pixmap,NULL);
+          econ_label[i] = gtk_pixmap_new(sprites.warming[0]->pixmap, NULL);
           gtk_container_add( GTK_CONTAINER( ebox ), econ_label[i] );
       }
 
-      bulb_label      = gtk_pixmap_new(get_tile_sprite(BULB_TILES)->pixmap,NULL);
-      sun_label       = gtk_pixmap_new(get_tile_sprite(SUN_TILES)->pixmap,NULL);
-      government_label= gtk_pixmap_new(get_tile_sprite(GOVERNMENT_TILES)->pixmap,NULL);
+      bulb_label      = gtk_pixmap_new(sprites.bulb[0]->pixmap, NULL);
+      sun_label       = gtk_pixmap_new(sprites.warming[0]->pixmap, NULL);
+      government_label= gtk_pixmap_new(sprites.citizen[7]->pixmap, NULL);
       timeout_label   = gtk_label_new("");
 
       for (i=5; i<9; i++)
@@ -491,7 +492,7 @@ static void setup_widgets(void)
       gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]), TRUE);
     }
 
-    more_arrow_pixmap=gtk_pixmap_new(get_tile_sprite(RIGHT_ARROW_TILE)->pixmap, NULL);
+    more_arrow_pixmap=gtk_pixmap_new(sprites.right_arrow->pixmap, NULL);
     gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
   }
 
@@ -589,7 +590,9 @@ void ui_main(int argc, char **argv)
   gtk_init(&argc, &argv);
 
   boot_help_texts();	       /* after log_init */
-
+  
+  tilespec_read_toplevel(tile_set_name); /* get tile sizes etc */
+  
   display_color_type=get_visual();
 
   toplevel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -652,7 +655,7 @@ void ui_main(int argc, char **argv)
     gdk_gc_set_foreground(mask_bg_gc, &pixel);
   }
 
-  load_tile_gfx();
+  tilespec_load_tiles();
 
   /* 135 below is rough value (could be more intelligent) --dwp */
   num_units_below = 135/(int)NORMAL_TILE_WIDTH;

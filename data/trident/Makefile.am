@@ -5,8 +5,12 @@ pkgdatadir = $(datadir)/@PACKAGE@/trident
 
 pkgdata_DATA =          \
 	flags.xpm	\
+	flags.xpm.spec	\
 	roads.xpm	\
+	roads.xpm.spec	\
 	tiles.xpm	\
-	units.xpm
+	tiles.xpm.spec	\
+	units.xpm	\
+	units.xpm.spec
 
 EXTRA_DIST = $(pkgdata_DATA)

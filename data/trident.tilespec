@@ -1,0 +1,37 @@
+
+[tilespec]
+
+; Format and options of this tilespec file:
+options = "+tilespec1"
+
+; A simple name for the tileset specified by this file:
+name = "trident"
+
+; TODO: add more overall information fields on tiles, 
+; eg, description, authors, colors, etc.
+
+; Basic tile sizes:
+normal_tile_width  = 30
+normal_tile_height = 30
+small_tile_width   = 15
+small_tile_height  = 20
+
+; Should flags be drawn as transparent:  (else opaque)
+flags_are_transparent = 1
+
+; These are special because they get freed and reloaded
+; as required:
+main_intro_file    = "intro.xpm"
+minimap_intro_file = "radar.xpm"
+
+; Below, the graphics spec files; must be somewhere (anywhere) in 
+; the data path. Order may be important for color allocation on 
+; low-color systems.
+files = 
+  "trident/tiles.xpm.spec",
+  "default/small.xpm.spec",
+  "trident/units.xpm.spec",
+  "trident/flags.xpm.spec",
+  "trident/roads.xpm.spec",
+  "default/space.xpm.spec",
+  "default/treaty.xpm.spec"

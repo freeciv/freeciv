@@ -47,20 +47,16 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "repodlgs.h"
+#include "tilespec.h"
 
 #include "spaceshipdlg.h"
 
-extern int SPACE_TILES;
 extern GC civ_gc, fill_bg_gc;
 
 extern Display *display;
 extern Widget toplevel, main_form;
 extern int display_depth;
 extern struct connection aconnection;
-
-/* These are the order of the tiles in space.xpm: */
-enum spaceship_pix { SSHIP_SOLAR_PANELS, SSHIP_LIFE_SUPPORT, SSHIP_HABITATION,
-		     SSHIP_STRUCTURAL, SSHIP_FUEL, SSHIP_PROPULSION };
 
 struct spaceship_dialog {
   struct player *pplayer;
@@ -211,8 +207,8 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 			    pdialog->main_form,
 			    "exposeProc", (XtArgVal)spaceship_image_canvas_expose,
 			    "exposeProcData", (XtArgVal)pdialog,
-			    XtNwidth,  get_tile_sprite(SPACE_TILES)->width * 7,
-			    XtNheight, get_tile_sprite(SPACE_TILES)->height * 7,
+			    XtNwidth,  sprites.spaceship.habitation->width * 7,
+			    XtNheight, sprites.spaceship.habitation->height * 7,
 			    NULL);
 
   pdialog->info_label=
@@ -297,7 +293,7 @@ parts differently.
 void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 {
   int i, j, k, x, y;  
-  struct Sprite *sprite=get_tile_sprite(SPACE_TILES);
+  struct Sprite *sprite = sprites.spaceship.habitation;   /* for size */
   struct player_spaceship *ship = &pdialog->pplayer->spaceship;
 
   XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
@@ -315,10 +311,9 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     x = modules_info[i].x * sprite->width  / 4 - sprite->width / 2;
     y = modules_info[i].y * sprite->height / 4 - sprite->height / 2;
 
-    sprite = get_tile_sprite(SPACE_TILES +
-			     (k==0?SSHIP_HABITATION:
-			      k==1?SSHIP_LIFE_SUPPORT:
-			      SSHIP_SOLAR_PANELS));
+    sprite = (k==0 ? sprites.spaceship.habitation :
+	      k==1 ? sprites.spaceship.life_support :
+	             sprites.spaceship.solar_panels);
     XSetClipOrigin(display, civ_gc, x, y);
     XSetClipMask(display, civ_gc, sprite->mask);
     XCopyArea(display, sprite->pixmap, XtWindow(pdialog->image_canvas), 
@@ -338,7 +333,7 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     x = components_info[i].x * sprite->width  / 4 - sprite->width / 2;
     y = components_info[i].y * sprite->height / 4 - sprite->height / 2;
 
-    sprite = get_tile_sprite(SPACE_TILES + (k==0?SSHIP_FUEL:SSHIP_PROPULSION));
+    sprite = (k==0) ? sprites.spaceship.fuel : sprites.spaceship.propulsion;
 
     XSetClipOrigin(display, civ_gc, x, y);
     XSetClipMask(display, civ_gc, sprite->mask);
@@ -349,7 +344,7 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     XSetClipMask(display,civ_gc,None);
   }
 
-  sprite = get_tile_sprite(SPACE_TILES + SSHIP_STRUCTURAL);
+  sprite = sprites.spaceship.structural;
 
   for (i=0; i < NUM_SS_STRUCTURALS; i++) {
     if (!ship->structure[i])

@@ -100,7 +100,7 @@ VERSION = @VERSION@
 gui_sources = @gui_sources@
 l = @l@
 
-pkgdata_DATA = Freeciv		classic_terrain.ruleset		helpdata.txt		earth-80x50.sav 	earth-160x90.sav 	europe.sav		civ1.serv		civ2.serv		intro.xpm		radar.xpm
+pkgdata_DATA = Freeciv		classic_terrain.ruleset		default.tilespec 	trident.tilespec 	helpdata.txt		earth-80x50.sav 	earth-160x90.sav 	europe.sav		civ1.serv		civ2.serv		intro.xpm		radar.xpm
 
 
 EXTRA_DIST = $(pkgdata_DATA)

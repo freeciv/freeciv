@@ -10,11 +10,18 @@ pkgdata_DATA =          \
 	units.ruleset	\
 	buildings.ruleset \
 	flags.xpm	\
+	flags.xpm.spec	\
 	roads.xpm	\
+	roads.xpm.spec	\
 	small.xpm	\
+	small.xpm.spec	\
 	space.xpm	\
+	space.xpm.spec	\
 	tiles.xpm	\
+	tiles.xpm.spec	\
 	treaty.xpm	\
-	units.xpm
+	treaty.xpm.spec	\
+	units.xpm	\
+	units.xpm.spec
 
 EXTRA_DIST = $(pkgdata_DATA)

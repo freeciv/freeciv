@@ -3,6 +3,8 @@
 
 pkgdata_DATA = Freeciv	\
 	classic_terrain.ruleset	\
+	default.tilespec \
+	trident.tilespec \
 	helpdata.txt	\
 	earth-80x50.sav \
 	earth-160x90.sav\

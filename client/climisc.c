@@ -43,48 +43,7 @@ used throughout the client.
 
 #include "climisc.h"
 
-char *tile_set_dir=NULL;
-
 extern struct connection aconnection;
-
-/**************************************************************************
-  Search for the requested xpm file
-**************************************************************************/
-char *tilefilename(char *name)
-{
-  static char filename[256];
-  char *dname;
-
-  /* first search tileset directory */
-  if(tile_set_dir)  {
-    strcpy(filename, tile_set_dir);
-    if(filename[strlen(filename)-1]!='/') strcat(filename,"/");
-    strcat(filename, name);
-    dname = datafilename(filename);
-    if (dname) return dname;
-  }
-
-  /* wasn't in tileset directory or no tileset specified, use default */
-  sprintf(filename, "default/%s", name);
-  dname = datafilename(filename);
-
-  /* might as well die now rather than pass the problem on: */
-  if (!dname) {
-    freelog(LOG_FATAL, "Could not find readable tile file \"%s\"", name);
-    if (tile_set_dir) {
-      freelog(LOG_FATAL, "Looked in \"%s\" and \"default\" subdirs in data path",
-	      tile_set_dir);
-    } else {
-      freelog(LOG_FATAL, "Looked in \"default\" subdir in data path");
-    }
-    freelog(LOG_FATAL, "The data path may be set via"
-	               " the environment variable FREECIV_PATH");
-    freelog(LOG_FATAL, "Current data path is: \"%s\"", datafilename(NULL));
-    exit(1);
-  }
-  return dname;
-}
-
 
 /**************************************************************************
 ...

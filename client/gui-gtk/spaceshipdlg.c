@@ -34,19 +34,15 @@
 #include "mapview.h"
 #include "repodlgs.h"
 #include "spaceship.h"
+#include "tilespec.h"
 
 #include "spaceshipdlg.h"
 
-extern int SPACE_TILES;
 extern GdkGC *civ_gc, *fill_bg_gc;
 
 extern GtkWidget *toplevel;
 extern GdkWindow *root_window;
 extern struct connection aconnection;
-
-/* These are the order of the tiles in space.xpm: */
-enum spaceship_pix { SSHIP_SOLAR_PANELS, SSHIP_LIFE_SUPPORT, SSHIP_HABITATION,
-		    SSHIP_STRUCTURAL, SSHIP_FUEL, SSHIP_PROPULSION };
 
 struct spaceship_dialog {
   struct player *pplayer;
@@ -192,8 +188,8 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
 
   pdialog->image_canvas=gtk_drawing_area_new();
   gtk_drawing_area_size(GTK_DRAWING_AREA(pdialog->image_canvas),
-                        get_tile_sprite(SPACE_TILES)->width*7,
-			get_tile_sprite(SPACE_TILES)->height*7);
+                        sprites.spaceship.habitation->width*7,
+                        sprites.spaceship.habitation->height*7);
   gtk_widget_set_events(pdialog->image_canvas, GDK_EXPOSURE_MASK);
   gtk_signal_connect(GTK_OBJECT(pdialog->image_canvas), "expose_event",
         GTK_SIGNAL_FUNC(spaceship_image_canvas_expose), pdialog);
@@ -293,7 +289,7 @@ parts differently.
 void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
 {
   int i, j, k, x, y;  
-  struct Sprite *sprite=get_tile_sprite(SPACE_TILES);
+  struct Sprite *sprite = sprites.spaceship.habitation;   /* for size */
   struct player_spaceship *ship = &pdialog->pplayer->spaceship;
 
   gdk_gc_set_foreground(fill_bg_gc, colors_standard[COLOR_STD_BLACK]);
@@ -311,10 +307,9 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     x = modules_info[i].x * sprite->width  / 4 - sprite->width / 2;
     y = modules_info[i].y * sprite->height / 4 - sprite->height / 2;
 
-    sprite = get_tile_sprite(SPACE_TILES +
-			    (k==0?SSHIP_HABITATION:
-			     k==1?SSHIP_LIFE_SUPPORT:
-			     SSHIP_SOLAR_PANELS));
+    sprite = (k==0 ? sprites.spaceship.habitation :
+	      k==1 ? sprites.spaceship.life_support :
+	             sprites.spaceship.solar_panels);
     gdk_gc_set_clip_origin(civ_gc, x, y);
     gdk_gc_set_clip_mask(civ_gc, sprite->mask);
     gdk_draw_pixmap(pdialog->image_canvas->window, civ_gc, sprite->pixmap, 
@@ -334,7 +329,7 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     x = components_info[i].x * sprite->width  / 4 - sprite->width / 2;
     y = components_info[i].y * sprite->height / 4 - sprite->height / 2;
 
-    sprite = get_tile_sprite(SPACE_TILES + (k==0?SSHIP_FUEL:SSHIP_PROPULSION));
+    sprite = (k==0) ? sprites.spaceship.fuel : sprites.spaceship.propulsion;
 
     gdk_gc_set_clip_origin(civ_gc, x, y);
     gdk_gc_set_clip_mask(civ_gc, sprite->mask);
@@ -345,7 +340,7 @@ void spaceship_dialog_update_image(struct spaceship_dialog *pdialog)
     gdk_gc_set_clip_mask(civ_gc,NULL);
   }
 
-  sprite = get_tile_sprite(SPACE_TILES + SSHIP_STRUCTURAL);
+  sprite = sprites.spaceship.structural;
 
   for (i=0; i < NUM_SS_STRUCTURALS; i++) {
     if (!ship->structure[i])

@@ -45,6 +45,7 @@
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 #include "spaceshipdlg_g.h"
+#include "tilespec.h"
 
 #include "packhand.h"
 
@@ -1013,7 +1014,8 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u = get_unit_type(p->id);
 
   strcpy(u->name, p->name);
-  u->graphics           = p->graphics;
+  strcpy(u->graphic_str, p->graphic_str);
+  strcpy(u->graphic_alt, p->graphic_alt);
   u->move_type          = p->move_type;
   u->build_cost         = p->build_cost;
   u->attack_strength    = p->attack_strength;
@@ -1032,6 +1034,8 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->shield_cost        = p->shield_cost;
   u->food_cost          = p->food_cost;
   u->gold_cost          = p->gold_cost;
+
+  tilespec_setup_unit_type(p->id);
 }
 
 /**************************************************************************
@@ -1086,7 +1090,6 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->index             = p->id;
 
   gov->required_tech     = p->required_tech;
-  gov->graphic           = p->graphic;
   gov->max_rate          = p->max_rate;
   gov->civil_war         = p->civil_war;
   gov->martial_law_max   = p->martial_law_max;
@@ -1128,10 +1131,14 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 
   gov->flags               = p->flags;
     
-  gov->name                = mystrdup(p->name);
+  strcpy(gov->name, p->name);
+  strcpy(gov->graphic_str, p->graphic_str);
+  strcpy(gov->graphic_alt, p->graphic_alt);
 
   gov->ruler_title         = fc_calloc(p->ruler_title_count + 1,
 				       sizeof(struct ruler_title));
+  
+  tilespec_setup_government(p->id);
 }
 void handle_ruleset_government_ruler_title
   (struct packet_ruleset_government_ruler_title *p)
@@ -1154,25 +1161,30 @@ void handle_ruleset_government_ruler_title
 void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 {
   struct tile_type *t = &(tile_types[p->id]);
+  int j;
 
   strcpy(t->terrain_name, p->terrain_name);
-  t->graphic_base = p->graphic_base;
-  t->graphic_count = p->graphic_count;
+  strcpy(t->graphic_str, p->graphic_str);
+  strcpy(t->graphic_alt, p->graphic_alt);
   t->movement_cost = p->movement_cost;
   t->defense_bonus = p->defense_bonus;
   t->food = p->food;
   t->shield = p->shield;
   t->trade = p->trade;
   strcpy(t->special_1_name, p->special_1_name);
-  t->graphic_special_1 = p->graphic_special_1;
   t->food_special_1 = p->food_special_1;
   t->shield_special_1 = p->shield_special_1;
   t->trade_special_1 = p->trade_special_1;
   strcpy(t->special_2_name, p->special_2_name);
-  t->graphic_special_2 = p->graphic_special_2;
   t->food_special_2 = p->food_special_2;
   t->shield_special_2 = p->shield_special_2;
   t->trade_special_2 = p->trade_special_2;
+
+  for(j=0; j<2; j++) {
+    strcpy(t->special[j].graphic_str, p->special[j].graphic_str);
+    strcpy(t->special[j].graphic_alt, p->special[j].graphic_alt);
+  }
+
   t->road_time = p->road_time;
   t->road_trade_incr = p->road_trade_incr;
   t->irrigation_result = p->irrigation_result;
@@ -1183,6 +1195,8 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   t->mining_time = p->mining_time;
   t->transform_result = p->transform_result;
   t->transform_time = p->transform_time;
+  
+  tilespec_setup_tile_type(p->id);
 }
 
 /**************************************************************************
@@ -1207,11 +1221,6 @@ void handle_ruleset_terrain_control(struct terrain_misc *p)
   terrain_control.pollution_food_penalty = p->pollution_food_penalty;
   terrain_control.pollution_shield_penalty = p->pollution_shield_penalty;
   terrain_control.pollution_trade_penalty = p->pollution_trade_penalty;
-  terrain_control.border_base = p->border_base;
-  terrain_control.corner_base = p->corner_base;
-  terrain_control.river_base = p->river_base;
-  terrain_control.outlet_base = p->outlet_base;
-  terrain_control.denmark_base = p->denmark_base;
 }
 
 /**************************************************************************

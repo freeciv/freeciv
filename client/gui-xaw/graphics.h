@@ -24,13 +24,6 @@ struct Sprite {
   int has_mask;
 };
 
-struct Sprite *load_xpmfile(const char *filename);
-void free_sprite(struct Sprite *s);
-
-struct Sprite *get_tile_sprite(int tileno);
-void load_tile_gfx_first(void);
-void load_tile_gfx_rest(void);
-
 Pixmap create_overlay_unit(int i);
 
 #endif  /* FC__GRAPHICS_H */
