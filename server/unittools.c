@@ -622,14 +622,15 @@ int can_place_partisan(int x, int y)
 
 int enemies_at(struct unit *punit, int x, int y)
 {
-  int i, j, a = 0, d;
-  int db;
+  int i, j, a = 0, d, db;
   struct player *pplayer = get_player(punit->owner);
+
+  if (is_friendly_city_tile(x, y, punit->owner)) return 0;
+
   db = get_tile_type(map_get_terrain(x, y))->defense_bonus;
   if (map_get_special(x, y) & S_RIVER)
     db += (db * terrain_control.river_defense_bonus) / 100;
   d = unit_vulnerability_virtual(punit) * db;
-  if (is_friendly_city_tile(x, y, punit->owner)) return 0;
   for (j = y - 1; j <= y + 1; j++) {
     if (j < 0 || j >= map.ysize) continue;
     for (i = x - 1; i <= x + 1; i++) {
