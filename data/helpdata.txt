@@ -361,17 +361,6 @@ the game and reconnect, use the name you chose for your ruler,
 not your original nickname!  If the server is reporting on the
 metaserver, the player names can be found there.
 ---
-#Chatline
-The client has a primitive chat interface.  The lines you type
-are sent to all players, except:
-
-  + Messages starting with 'foo:' are private messages to the
-    player named 'foo'; player names can be abbreviated.
-
-  + Messages starting with '/' are interpreted as server commands
-    (if the server is recent enough; regular 1.8.0 servers are not)
-    and executed, if you have the required access rights.
----
 #Controls
 Mouse:
 ======
@@ -408,6 +397,17 @@ Keyboard:
   W: (W)akeup sentried units on tile
   t: Show (T)iles city is using (mouse over or near city)
   x: auto-e(X)plore
+---
+#Chatline
+The client has a primitive chat interface.  The lines you type
+are sent to all players, except:
+
+  + Messages starting with 'foo:' are private messages to the
+    player named 'foo'; player names can be abbreviated.
+
+  + Messages starting with '/' are interpreted as server commands
+    (if the server is recent enough; regular 1.8.0 servers are not)
+    and executed, if you have the required access rights.
 ---
 #Strategy and tactics
 While every game is different, there's a basic strategy which most

@@ -196,8 +196,8 @@ struct MenuEntry reports_menu_entries[]={
 
 struct MenuEntry help_menu_entries[]={
     { "Help Connecting",   MENU_HELP_CONNECTING, 0},
-    { "Help Chatline",     MENU_HELP_CHATLINE, 0},
     { "Help Controls",     MENU_HELP_CONTROLS, 0},
+    { "Help Chatline",     MENU_HELP_CHATLINE, 0},
     { "Help Playing",      MENU_HELP_PLAYING, 0},
     { "Help Improvements", MENU_HELP_IMPROVEMENTS, 0},
     { "Help Units",        MENU_HELP_UNITS, 0},

@@ -575,6 +575,8 @@ static GtkItemFactoryEntry menu_items[]	=
     MENU_HELP_CONNECTING						      },
   { "/Help/Help Controls",		NULL,		help_menu_callback,
     MENU_HELP_CONTROLS							      },
+  { "/Help/Help Chatline",		NULL,		help_menu_callback,
+    MENU_HELP_CHATLINE							      },
   { "/Help/Help Playing",		NULL,		help_menu_callback,
     MENU_HELP_PLAYING							      },
   { "/Help/Help Improvements",		NULL,		help_menu_callback,
