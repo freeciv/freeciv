@@ -75,7 +75,15 @@ void init_new_game(void)
       flog(LOG_DEBUG, "Removed hut on start position for %s",
 	  game.players[i].name);
     }
+    /* Civ 1 exposes a single square radius of the map to start the game. */
+    /* Civ 2 exposes a "city radius". -AJS */
     light_square(&game.players[i], x, y, 1);
+    if (game.civstyle==2) {
+      light_square(&game.players[i], x-1, y, 1);
+      light_square(&game.players[i], x+1, y, 1);
+      light_square(&game.players[i], x, y-1, 1);
+      light_square(&game.players[i], x, y+1, 1);
+    }
     for (j=0;j<game.settlers;j++) 
       create_unit(&game.players[i], x, y, U_SETTLERS, 0, 0, -1);
     for (j=0;j<game.explorer;j++) 
