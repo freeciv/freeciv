@@ -28,6 +28,7 @@
 #include <proto/graphics.h>
 
 #include "city.h"
+#include "colors.h"
 #include "fcintl.h"
 #include "game.h"
 #include "genlist.h"
@@ -200,16 +201,16 @@ ULONG GetTechBG(int tech)
   switch(get_invention(game.player_ptr, tech))
   {
   case TECH_KNOWN:
-    bg = 0x0074a874; /* green */
+    bg = GetColorRGB(COLOR_MUI_TECHKNOWN); /* green */
     break;
   case TECH_REACHABLE:
-    bg = 0x00d4d074; /* yellow */
+    bg = GetColorRGB(COLOR_MUI_TECHREACHABLE); /* yellow */
     break;
   case TECH_UNKNOWN:
-    bg = 0x00c89898; /* red */
+    bg = GetColorRGB(COLOR_MUI_TECHUNKNOWN); /* red */
     break;
   default:
-    bg = 0x00ffffff; /* white */
+    bg = GetColorRGB(COLOR_STD_WHITE); /* white */
   }
   return bg;
 }

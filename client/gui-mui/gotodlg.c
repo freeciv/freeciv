@@ -73,7 +73,10 @@ void goto_cities_active(void)
   if (pcity)
   {
     struct unit *punit = get_unit_in_focus();
-/*    center_tile_mapcanvas(pdestcity->x, pdestcity->y); */
+// remove me
+#if DISABLED
+    center_tile_mapcanvas(pdestcity->x, pdestcity->y);
+#endif
     if (punit && unit_can_airlift_to(punit, pcity))
     {
       set(goto_airlift_button, MUIA_Disabled, FALSE);

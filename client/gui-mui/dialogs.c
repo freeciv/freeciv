@@ -318,7 +318,7 @@ HOOKPROTONH(advance_display, void, char **array, APTR msg)
 ...
 *****************************************************************/
 static void create_advances_list(struct player *pplayer,
-				struct player *pvictim/*, int make_modal*/)
+				struct player *pvictim)
 {
   Object *listview,*steal_button,*cancel_button,*wnd;
   static struct Hook disphook;
@@ -415,8 +415,7 @@ HOOKPROTONH(imprv_display, void, char **array, APTR which)
 /****************************************************************
 ...
 *****************************************************************/
-static void create_improvements_list(/*struct player *pplayer,*/
-				     struct city *pcity/*, int make_modal*/)
+static void create_improvements_list(struct city *pcity)
 {  
   Object *listview,*steal_button,*cancel_button,*wnd;
   static struct Hook disphook;
@@ -728,7 +727,7 @@ static void spy_request_sabotage_list(struct popup_message_data *data)
 *****************************************************************/
 void popup_sabotage_dialog(struct city *pcity)
 {
-  create_improvements_list(/*game.player_ptr,*/ pcity/*, 1*/);
+  create_improvements_list(pcity);
 }
 
 /****************************************************************
@@ -745,11 +744,7 @@ static void spy_steal(struct popup_message_data *data)
   if(pvcity)
   {
     pvictim = city_owner(pvcity);
-/* it is concievable that pvcity will not be found, because something
-has happened to the city during latency.  Therefore we must initialize
-pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
-
-    create_advances_list(game.player_ptr, pvictim/*, 1*/);/*spy_tech_shell_is_modal);*/
+    create_advances_list(game.player_ptr, pvictim);
   }
 }
 
@@ -774,7 +769,7 @@ static void spy_sabotage_unit(struct popup_message_data *data)
 *****************************************************************/
 void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y)
 {
-  /* Vereinfachen! */
+  /* optimize */
   struct city *pcity;
   struct unit *ptunit;
 
@@ -1814,7 +1809,10 @@ void popup_races_dialog(void)
 *****************************************************************/
 void popdown_races_dialog(void)
 {
-  if(nations_wnd) set(nations_wnd,MUIA_Window_Open,FALSE);
+  if(nations_wnd)
+  {
+    set(nations_wnd,MUIA_Window_Open,FALSE);
+  }
 }
 
 /****************************************************************
@@ -1822,7 +1820,8 @@ void popdown_races_dialog(void)
 *****************************************************************/
 void races_toggles_set_sensitive(int bits1, int bits2)
 {
-/*
+// remove me
+#ifdef DISABLED
   int i, selected, mybits;
 
   mybits=bits1;
@@ -1847,7 +1846,7 @@ void races_toggles_set_sensitive(int bits1, int bits2)
 
   if((selected=races_buttons_get_current())==-1)
      return;
-*/
+#endif
 }
 
 /****************************************************************

@@ -178,7 +178,6 @@ static void space_launch(struct spaceship_dialog ** ppdialog)
   packet.action = SSHIP_ACT_LAUNCH;
   packet.num = 0;
   send_packet_spaceship_action(&aconnection, &packet);
-  /* close_spaceship_dialog((struct spaceship_dialog *)data); */
 }
 
 /****************************************************************

@@ -17,7 +17,12 @@ char *inet_ntoa(struct in_addr addr);
 int ioctl(int fd, unsigned int request, char *argp);
 #include <proto/socket.h>
 #include <proto/usergroup.h>
-#ifndef __VBCC__
+#ifdef __VBCC__
+int read(int fd, char *buf, int len);
+int write(int fd, char *buf, int len);
+void close(int fd);
+int stricmp(const char *a, const char *b);
+#else
 #include <fcntl.h>
 #endif
 

@@ -54,9 +54,6 @@ struct Worklistview_Data
   struct Hook display_hook;
   struct city *pcity;
   char buf[256];
-
-/*  STRPTR title;*/
-
   BOOL current_targets;
 };
 
@@ -234,11 +231,6 @@ static ULONG Worklistview_New(struct IClass *cl, Object * o, struct opSet *msg)
     struct TagItem *ti;
     if ((ti = FindTagItem(MUIA_Worklistview_CurrentTargets, msg->ops_AttrList)))
       data->current_targets = ti->ti_Data;
-
-/*
-    if ((ti = FindTagItem(MUIA_NList_Title, msg->ops_AttrList)))
-      data->title = (STRPTR)ti->ti_Data;
-*/
 
     if (data->current_targets)
     {
@@ -428,16 +420,10 @@ void worklist_populate_targets(struct Worklist_Data *data)
     can_eventually_build = could_player_eventually_build_improvement(pplr,i);
 
     /* If there's a city, can the city build the improvement? */
-    if (data->pcity)
-    {
+    if (data->pcity) {
       can_build = can_build && can_build_improvement(data->pcity, i);
-    /* !!! Note, this is an "issue":
-       I'm not performing this check right now b/c I've heard that the
-       can_build_* stuff in common/city.c is in flux. */
-      /*
       can_eventually_build = can_eventually_build &&
-	can_eventually_build_improvement(pdialog->pcity, id);
-	*/
+	can_eventually_build_improvement(data->pcity, i);
     }
     
     if (( advanced_tech && can_eventually_build) ||
@@ -460,14 +446,10 @@ void worklist_populate_targets(struct Worklist_Data *data)
     can_eventually_build = can_player_eventually_build_unit(pplr,i);
 
     /* If there's a city, can the city build the improvement? */
-    if (data->pcity)
-    {
-      can_build = can_build && can_build_unit(data->pcity, i);
-    /* !!! Note, this is another "issue" (same as above). */
-      /*
+    if (data->pcity) {
+      can_build = can_build && can_build_improvement(data->pcity, i);
       can_eventually_build = can_eventually_build &&
-	can_eventually_build_unit(pdialog->pcity, id);
-	*/
+	can_eventually_build_improvement(data->pcity, i);
     }
 
     if (( advanced_tech && can_eventually_build) ||
@@ -748,7 +730,6 @@ static ULONG Worklist_New(struct IClass *cl, Object * o, struct opSet *msg)
 
 static VOID Worklist_Dispose(struct IClass * cl, Object * o, Msg msg)
 {
-/*  struct Worklist_Data *data = (struct Worklist_Data *) INST_DATA(cl, o); */
   DoSuperMethodA(cl, o, msg);
 }
 

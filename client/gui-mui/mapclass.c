@@ -38,6 +38,7 @@
 #include "civclient.h"
 #include "citydlg.h"
 #include "control.h"
+#include "colors.h"
 #include "dialogs.h"
 #include "goto.h"
 #include "graphics.h"
@@ -209,12 +210,13 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
       cross_head->y = ytile;
       cross_head++;
       cross_head->x = -1;
-/*
-   for (i = 0; cross_list[i].x >= 0; i++)
-   {
-   put_cross_overlay_tile(cross_list[i].x,cross_list[i].y);
-   }
- */
+// remove or fix me
+#ifdef DISABLED
+      for (i = 0; cross_list[i].x >= 0; i++)
+      {
+        put_cross_overlay_tile(cross_list[i].x,cross_list[i].y);
+      }
+#endif
     }
   }
 
@@ -911,6 +913,7 @@ static ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
   APTR dh;
+  int i;
 
   if (!DoSuperMethodA(cl, o, msg))
     return FALSE;
@@ -921,6 +924,15 @@ static ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
   data->worker_colors[0] = data->yellow_pen = ObtainBestPenA(cm, 0xffffffff, 0xffffffff, 0, NULL);
   data->worker_colors[1] = data->cyan_pen = ObtainBestPenA(cm, 0, 0xffffffff, 0xc8c8c8c8, NULL);
   data->worker_colors[2] = data->red_pen = ObtainBestPenA(cm, 0xffffffff, 0, 0, NULL);
+
+  for (i=0;i<COLOR_MUI_LAST;i++)
+  {
+    ULONG r,g,b;
+    r = MAKECOLOR32((GetColorRGB(i)>>16)&0xFF);
+    g = MAKECOLOR32((GetColorRGB(i)>> 8)&0xFF);
+    b = MAKECOLOR32((GetColorRGB(i))&0xFF);
+    colors_pen[i] = ObtainBestPenA(cm, r, g, b, 0); /* global in colors.c */
+  }
 
   data->intro_gfx_sprite = load_sprite(main_intro_filename, FALSE);
   data->radar_gfx_sprite = load_sprite(minimap_intro_filename, FALSE);
@@ -939,7 +951,7 @@ static ULONG Map_Setup(struct IClass * cl, Object * o, Msg msg)
 	InstallLayerInfoHook(data->unit_layerinfo, LAYERS_NOBACKFILL);
 	if ((data->unit_layer = CreateBehindHookLayer(data->unit_layerinfo, data->unit_bitmap, 0, 0, UNIT_TILE_WIDTH * 3 - 1, UNIT_TILE_HEIGHT * 3 - 1, LAYERSIMPLE, LAYERS_NOBACKFILL, NULL)))
 	{
-	  if (render_sprites( /*_screen(o),*/ dh))
+	  if (render_sprites(dh))
 	  {
 	    MUI_RequestIDCMP(o, IDCMP_MOUSEBUTTONS|IDCMP_MOUSEMOVE);
 	    return TRUE;
@@ -957,6 +969,7 @@ static ULONG Map_Cleanup(struct IClass * cl, Object * o, Msg msg)
 {
   struct Map_Data *data = (struct Map_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
+  int i;
 
   MUI_RejectIDCMP(o, IDCMP_MOUSEBUTTONS|IDCMP_MOUSEMOVE);
 
@@ -999,6 +1012,9 @@ static ULONG Map_Cleanup(struct IClass * cl, Object * o, Msg msg)
 
   cm = _screen(o)->ViewPort.ColorMap;
 
+  for (i=0;i<COLOR_MUI_LAST;i++)
+    ReleasePen(cm, colors_pen[i]); /* global in colors.c */
+
   ReleasePen(cm, data->black_pen);
   ReleasePen(cm, data->white_pen);
   ReleasePen(cm, data->yellow_pen);
@@ -1013,12 +1029,12 @@ static ULONG Map_AskMinMax(struct IClass * cl, Object * o, struct MUIP_AskMinMax
   DoSuperMethodA(cl, o, (Msg) msg);
 
   msg->MinMaxInfo->MinWidth += 2;
-  msg->MinMaxInfo->DefWidth += 200;	/*get_normal_tile_height()*5;*/
+  msg->MinMaxInfo->DefWidth += 200;	/*get_normal_tile_height()*5; *DISABLED* */
 
   msg->MinMaxInfo->MaxWidth += MUI_MAXMAX;
 
   msg->MinMaxInfo->MinHeight += 2;
-  msg->MinMaxInfo->DefHeight += 100;	/*get_normal_tile_height()*5;*/
+  msg->MinMaxInfo->DefHeight += 100;	/*get_normal_tile_height()*5; *DISABLED* */
 
   msg->MinMaxInfo->MaxHeight += MUI_MAXMAX;
   return 0;
@@ -1125,7 +1141,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
       	return 0;
       }
 
-// following is disabled. Needs to be fixed.
+// implement me
 #ifdef DISABLED
       if (data->update == 6)
       {
@@ -1320,7 +1336,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 	    normalize_map_pos(&dest_x, &dest_y);
 	    refresh_tile_mapcanvas(dest_x, dest_y, 1); /* !! */
 	    if (NORMAL_TILE_WIDTH%2 == 0 || NORMAL_TILE_HEIGHT%2 == 0) {
-	      if (dir == 2) { /* Since the tle doesn't have a middle we draw an extra pixel
+	      if (dir == 2) { /* Since the tile doesn't have a middle we draw an extra pixel
 				 on the adjacent tile when drawing in this direction. */
 		dest_x = src_x + 1;
 		dest_y = src_y;
@@ -1354,7 +1370,7 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
     if (drawmap)
     {
       int x,y,width,height,write_to_screen;
-      int blit_all = 0; /* blt the whole map */
+      int blit_all = 0; /* blit the whole map */
 
       if ((msg->flags & MADF_DRAWUPDATE) && (data->update == 1))
       {
@@ -1454,54 +1470,54 @@ static ULONG Map_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
 
 	/*** First refresh the tiles above the area to remove the old tiles'
 	     overlapping gfx ***/
-	put_one_tile(/*_rp(o)*/data->map_layer->rp, x-1, y-1, D_B_LR); /* top_left corner */
+	put_one_tile(data->map_layer->rp, x-1, y-1, D_B_LR); /* top_left corner */
 
 	for (i=0; i<height-1; i++) { /* left side - last tile. */
 	  int x1 = x - 1;
 	  int y1 = y + i;
-	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_MB_LR);
+	  put_one_tile(data->map_layer->rp, x1, y1, D_MB_LR);
 	}
 
-	put_one_tile(/*_rp(o)*/data->map_layer->rp,x-1, y+height-1, D_TMB_R); /* last tile left side. */
+	put_one_tile(data->map_layer->rp,x-1, y+height-1, D_TMB_R); /* last tile left side. */
 
 	for (i=0; i<width-1; i++) { /* top side */
 	  int x1 = x + i;
 	  int y1 = y - 1;
-	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_MB_LR);
+	  put_one_tile(data->map_layer->rp, x1, y1, D_MB_LR);
 	}
 
 	if (width > 1) /* last tile top side. */
-	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x + width-1, y-1, D_TMB_L);
+	  put_one_tile(data->map_layer->rp, x + width-1, y-1, D_TMB_L);
 	else
-	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x + width-1, y-1, D_MB_L);
+	  put_one_tile(data->map_layer->rp, x + width-1, y-1, D_MB_L);
 
 	/*** Now draw the tiles to be refreshed, from the top down to get the
 	     overlapping areas correct ***/
 	for (x_itr = x; x_itr < x+width; x_itr++) {
 	  for (y_itr = y; y_itr < y+height; y_itr++) {
-	   put_one_tile(/*_rp(o)*/data->map_layer->rp,x_itr, y_itr, D_FULL);
+	   put_one_tile(data->map_layer->rp,x_itr, y_itr, D_FULL);
 	  }
 	}
 
 	/*** Then draw the tiles underneath to refresh the parts of them that
 	     overlap onto the area just drawn ***/
-	put_one_tile(/*_rp(o)*/data->map_layer->rp,x, y+height, D_TM_R);  /* bottom side */
+	put_one_tile(data->map_layer->rp,x, y+height, D_TM_R);  /* bottom side */
 	for (i=1; i<width; i++) {
 	  int x1 = x + i;
 	  int y1 = y + height;
-	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_TM_R);
-	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_T_L);
+	  put_one_tile(data->map_layer->rp, x1, y1, D_TM_R);
+	  put_one_tile(data->map_layer->rp, x1, y1, D_T_L);
 	}
 
-	put_one_tile(/*_rp(o)*/data->map_layer->rp,x+width, y, D_TM_L); /* right side */
+	put_one_tile(data->map_layer->rp,x+width, y, D_TM_L); /* right side */
 	for (i=1; i < height; i++) {
 	  int x1 = x + width;
 	  int y1 = y + i;
-	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_TM_L);
-	  put_one_tile(/*_rp(o)*/data->map_layer->rp, x1, y1, D_T_R);
+	  put_one_tile(data->map_layer->rp, x1, y1, D_TM_L);
+	  put_one_tile(data->map_layer->rp, x1, y1, D_T_R);
 	}
 
-	put_one_tile(/*_rp(o)*/data->map_layer->rp, x+width, y+height, D_T_LR); /* right-bottom corner */
+	put_one_tile(data->map_layer->rp, x+width, y+height, D_T_LR); /* right-bottom corner */
 
 	/*** Draw the goto line on top of the whole thing. Done last as
 	     we want it completely on top. ***/
@@ -2022,12 +2038,14 @@ static ULONG Map_PutCityWorkers(struct IClass * cl, Object * o, struct MUIP_Map_
 
   return 0;
 }
-/*
+
+// fix me
+#ifdef DISABLED
 static ULONG Map_PutCrossTile(struct IClass * cl, Object * o, struct MUIP_Map_PutCrossTile * msg)
 {
   return NULL;
 }
-*/
+#endif
 
 static ULONG Map_DrawMushroom(struct IClass * cl, Object *o, struct MUIP_Map_DrawMushroom *msg)
 {
@@ -2111,8 +2129,12 @@ DISPATCHERPROTO(Map_Dispatcher)
   case MUIM_Map_PutCityWorkers:
     return Map_PutCityWorkers(cl, obj, (struct MUIP_Map_PutCityWorkers *) msg);
   case MUIM_Map_PutCrossTile:
-/*    return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);*/
+// implement me
+#ifdef DISABLED
+    return Map_PutCrossTile(cl, obj, (struct MUIP_Map_PutCrossTile *) msg);
+#else
     return 0;
+#endif
   case MUIM_Map_ExplodeUnit:
     return Map_ExplodeUnit(cl, obj, (struct MUIP_Map_ExplodeUnit *) msg);
   case MUIM_Map_DrawMushroom:
@@ -2241,7 +2263,10 @@ static ULONG CityMap_Set(struct IClass * cl, Object * o, struct opSet * msg)
 	if (newcity != data->pcity)
 	{
 	  data->pcity = newcity;
-/*          MUI_Redraw(o,MADF_DRAWUPDATE); */
+// remove me
+#ifdef DISABLED
+          MUI_Redraw(o,MADF_DRAWUPDATE);
+#endif
 	}
       }
       break;
@@ -2363,12 +2388,27 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
       city_map_iterate(x, y) {
 	int map_x = pcity->x + x - 2;
 	int map_y = pcity->y + y - 2;
-	if (normalize_map_pos(&map_x, &map_y) && tile_is_known(map_x, map_y)) {
+	if (normalize_map_pos(&map_x, &map_y) && tile_is_known(map_x, map_y))
+	{
 	  int canvas_x, canvas_y;
 	  city_get_canvas_xy(x, y, &canvas_x, &canvas_y);
-	  if (pcity->city_map[x][y]==C_TILE_UNAVAILABLE) {
-/*	    pixmap_frame_tile_red(pdialog->map_canvas_store,
-				     canvas_x, canvas_y);*/
+
+          canvas_x += _mleft(o);
+          canvas_y += _mtop(o);
+	  if(pcity->city_map[x][y]==C_TILE_UNAVAILABLE)
+	  {
+	    SetAPen(rp, data->red_color);
+            Move(rp,canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y); /* top --> right */
+            Draw(rp,canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2-1);
+
+            Move(rp,canvas_x+NORMAL_TILE_WIDTH/2, canvas_y); /* top --> left */
+            Draw(rp,canvas_x, canvas_y+NORMAL_TILE_HEIGHT/2-1);
+
+            Move(rp,canvas_x+NORMAL_TILE_WIDTH/2-1, canvas_y+NORMAL_TILE_HEIGHT-1); /* bottom --> right */
+            Draw(rp,canvas_x+NORMAL_TILE_WIDTH-1, canvas_y+NORMAL_TILE_HEIGHT/2);
+
+            Move(rp,canvas_x+NORMAL_TILE_WIDTH/2, canvas_y+NORMAL_TILE_HEIGHT-1); /* bottom --> left */
+            Draw(rp,canvas_x, canvas_y+NORMAL_TILE_HEIGHT/2);
           }
         }
       } city_map_iterate_end;
@@ -2410,9 +2450,9 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	        {
 	          SetAPen(rp, data->red_color);
 	          Move(rp, x1, y1);
-	          Draw(rp, x2-1, y1);
-	          Draw(rp, x2-1, y2-1);
-	          Draw(rp, x1, y2-1);
+	          Draw(rp, x2, y1);
+	          Draw(rp, x2, y2);
+	          Draw(rp, x1, y2);
 	          Draw(rp, x1, y1 + 1);
 	        }
 	      }
@@ -2814,12 +2854,16 @@ static ULONG Sprite_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg)
     RectFill(_rp(o), _mleft(o),_mtop(o),_mright(o),_mbottom(o));
   }
 
-  if (data->transparent)
-    put_sprite_overlay(_rp(o), data->sprite, _mleft(o), _mtop(o));
-  else
-    put_sprite(_rp(o), data->sprite, _mleft(o), _mtop(o));
+  if(data->sprite)
+  {
+    if (data->transparent)
+      put_sprite_overlay(_rp(o), data->sprite, _mleft(o), _mtop(o));
+    else
+      put_sprite(_rp(o), data->sprite, _mleft(o), _mtop(o));
+  }
   if (data->overlay_sprite)
     put_sprite_overlay(_rp(o), data->overlay_sprite, _mleft(o), _mtop(o));
+
   return 0;
 }
 

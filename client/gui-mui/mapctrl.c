@@ -51,8 +51,6 @@
 
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
-/* Color to use to display the workers */
-static int city_workers_color=COLOR_STD_WHITE;
 
 /****************************************************************
 ...

@@ -226,7 +226,7 @@ static ULONG ColorText_AskMinMax(struct IClass * cl, Object * o, struct MUIP_Ask
   if(data->contents)
     width = TextLength(&rp,data->contents, strlen(data->contents)) + data->innerleft + data->innerright;
   else
-    width = 10; /* something higher tha 0 */
+    width = 10; /* something higher than 0 */
 
   height = _font(o)->tf_YSize + data->innertop + data->innerbottom;;
 

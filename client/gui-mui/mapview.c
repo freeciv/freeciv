@@ -68,6 +68,7 @@ map, and I added 1 (using the EXTRA_BOTTOM_ROW constant).
 
 -Thue
 */
+
 /* If we have isometric view we need to be able to scroll a little extra down.
    The places that needs to be adjusted are the same as above. */
 #define EXTRA_BOTTOM_ROW (is_isometric ? 6 : 1)
@@ -611,8 +612,8 @@ void set_map_xy_start(int new_map_view_x0, int new_map_view_y0)
 **************************************************************************/
 void center_tile_mapcanvas(int x, int y)
 {
-  int map_view_x0 = xget(main_map_area, MUIA_Map_HorizFirst);
-  int map_view_y0 = xget(main_map_area, MUIA_Map_VertFirst);
+  int map_view_x0;
+  int map_view_y0;
   int map_canvas_store_twidth = get_map_x_visible();
   int map_canvas_store_theight = get_map_y_visible();
 
@@ -630,22 +631,19 @@ void center_tile_mapcanvas(int x, int y)
       map.ysize + EXTRA_BOTTOM_ROW - map_canvas_store_theight :
       map_view_y0;
   } else {
-    int new_map_view_x0, new_map_view_y0;
-
-    new_map_view_x0=map_adjust_x(x-map_canvas_store_twidth/2);
-    new_map_view_y0=map_adjust_y(y-map_canvas_store_theight/2);
-    if (new_map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight)
-      new_map_view_y0=
-	map_adjust_y(map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight);
-
-    map_view_x0=new_map_view_x0;
-    map_view_y0=new_map_view_y0;
+    map_view_x0=map_adjust_x(x-map_canvas_store_twidth/2);
+    map_view_y0=map_adjust_y(y-map_canvas_store_theight/2);
+    if (map_view_y0>map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight)
+      map_view_y0=map_adjust_y(map.ysize+EXTRA_BOTTOM_ROW-map_canvas_store_theight);
   }
 
   set_map_xy_start(map_view_x0, map_view_y0);
-/*  update_map_canvas_visible();
+// remove me
+#ifdef DISABLED
+  update_map_canvas_visible();
   update_map_canvas_scrollbars();
-  refresh_overview_viewrect();*/
+  refresh_overview_viewrect();
+#endif
 }
 
 /**************************************************************************

@@ -63,7 +63,7 @@ static STRPTR *help_research_entries;
 
 int delay_report_update = 0;
 
-static void create_trade_report_dialog(void/*int make_modal*/);
+static void create_trade_report_dialog(void);
 void create_activeunits_report_dialog(int make_modal);
 
 /******************************************************************
@@ -191,7 +191,6 @@ static void science_research(ULONG * newresearch)
     else
     {
       request_player_research(to);
-/*      DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents, _("(%ld steps)"), tech_goal_turns(game.player_ptr, to)); */
     }
   }
 }
@@ -503,7 +502,7 @@ HOOKPROTONH(trade_imprv_render, void, char **array, struct trade_imprv_entry *en
 void popup_economy_report_dialog(int make_modal)
 {
   if (!trade_wnd)
-    create_trade_report_dialog(/*make_modal*/);
+    create_trade_report_dialog();
   if (trade_wnd)
   {
     economy_report_dialog_update();
@@ -553,7 +552,7 @@ static void trade_sell(int *data)
   }
 }
 
-static void create_trade_report_dialog(void/*int make_modal*/)
+static void create_trade_report_dialog(void)
 {
   if (trade_wnd)
     return;

@@ -56,22 +56,6 @@ static struct ObjectTree_Node *CreateObjectPooled( APTR pool, Object *o)
   return node;
 }
 
-/*
-static ULONG Tree_Length(struct ObjectTree_Node *node)
-{
-  struct ObjectTree_Node *n = (struct ObjectTree_Node *)List_First(&node->list);
-  ULONG max_depth = 0;
-
-  while(n)
-  {
-    ULONG new_depth = Tree_Length(n);
-    if(new_depth > max_depth) max_depth = new_depth;
-    n = (struct ObjectTree_Node *)Node_Next(n);
-  }
-  return max_depth+1;
-}
-*/
-
 static LONG ObjectTree_CalcHeight(struct ObjectTree_Node *node)
 {
   struct ObjectTree_Node *n = (struct ObjectTree_Node *)List_First(&node->list);

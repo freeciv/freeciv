@@ -185,19 +185,6 @@ ULONG DoSuperNew(struct IClass *cl, Object * obj, ULONG tag1,...)
   return (DoSuperMethod(cl, obj, OM_NEW, &tag1, NULL));
 }
 
-/*
-   Object *MakeImageButton(ULONG image)
-   {
-   return ImageObject,ImageButtonFrame,
-   MUIA_Image_Spec,image,
-   MUIA_Background, MUII_ButtonBack,
-   MUIA_InputMode, MUIV_InputMode_RelVerify,
-   MUIA_Image_FreeVert, TRUE,
-   End;
-
-   }
- */
-
 Object *MakeMenu(struct NewMenu * menu)
 {
   return MUI_MakeObject(MUIO_MenustripNM, menu, MUIO_MenustripNM_CommandKeyCheck);

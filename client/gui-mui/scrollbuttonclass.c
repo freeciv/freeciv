@@ -40,15 +40,11 @@ struct ScrollButton_Data
 
 static ULONG ScrollButton_New(struct IClass * cl, Object * o, struct opSet * msg)
 {
-  if ((o = (Object *) DoSuperNew(cl, o,
+  return (Object *) DoSuperNew(cl, o,
   		ButtonFrame,
   		MUIA_InputMode,MUIV_InputMode_RelVerify,
   		MUIA_Background, MUII_ButtonBack,
-		TAG_MORE, msg->ops_AttrList)))
-  {
-/*    struct ScrollButton_Data *data = (struct ScrollButton_Data *) INST_DATA(cl, o);*/
-  }
-  return (ULONG) o;
+		TAG_MORE, msg->ops_AttrList);
 }
 
 static ULONG ScrollButton_Get(struct IClass * cl, Object * o, struct opGet * msg)

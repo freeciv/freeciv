@@ -30,11 +30,6 @@
 #include <libraries/mui.h>
 #include <mui/NListview_MCC.h>
 
-/*
-#include <mui/tearoffpanel_mcc.h>
-#include <mui/tearoffbay_mcc.h>
-*/
-
 #include <clib/alib_protos.h>
 #include <clib/exec_protos.h>
 #include <clib/muimaster_protos.h>
@@ -73,6 +68,7 @@
 #include "menu_g.h"
 #include "messagedlg.h"
 #include "messagewin.h"
+#include "optiondlg.h"
 #include "options.h"
 #include "plrdlg.h"
 #include "ratesdlg.h"
@@ -93,8 +89,6 @@
 #include "scrollbuttonclass.h"
 #include "transparentstringclass.h"
 #include "worklistclass.h"
-
-void popup_option_dialog(void);	/* gamedlg.c */
 
 /**************************************************************************
   Print extra usage information, including one line help on each option,
@@ -1239,16 +1233,6 @@ void update_menus(void) /* from menu.c */
     menu_title_sensitive(MENU_ORDER, FALSE);
     menu_title_sensitive(MENU_VIEW, FALSE);
     menu_title_sensitive(MENU_KINGDOM, FALSE);
-
-    menu_entry_sensitive(MENU_GAME_OPTIONS, 0);
-    menu_entry_sensitive(MENU_GAME_MSG_OPTIONS, 0);
-    menu_entry_sensitive(MENU_GAME_SAVE_SETTINGS, 0);
-    menu_entry_sensitive(MENU_GAME_PLAYERS, 0);
-    menu_entry_sensitive(MENU_GAME_MESSAGES, 0);
-    menu_entry_sensitive(MENU_GAME_SERVER_OPTIONS1, 1);
-    menu_entry_sensitive(MENU_GAME_SERVER_OPTIONS2, 1);
-    menu_entry_sensitive(MENU_GAME_OUTPUT_LOG, 1);
-    menu_entry_sensitive(MENU_GAME_CLEAR_OUTPUT, 1);
   }
   else
   {
@@ -1270,17 +1254,6 @@ void update_menus(void) /* from menu.c */
     menu_title_sensitive(MENU_ORDER, punit ? TRUE : FALSE);
     menu_title_sensitive(MENU_VIEW, TRUE);
     menu_title_sensitive(MENU_KINGDOM, TRUE);
-
-    menu_entry_sensitive(MENU_GAME_OPTIONS, TRUE);
-    menu_entry_sensitive(MENU_GAME_MSG_OPTIONS, TRUE);
-    menu_entry_sensitive(MENU_GAME_SAVE_SETTINGS, TRUE);
-    menu_entry_sensitive(MENU_GAME_PLAYERS, TRUE);
-    menu_entry_sensitive(MENU_GAME_MESSAGES, TRUE);
-    menu_entry_sensitive(MENU_GAME_SERVER_OPTIONS1, TRUE);
-    menu_entry_sensitive(MENU_GAME_SERVER_OPTIONS2, TRUE);
-    menu_entry_sensitive(MENU_GAME_OUTPUT_LOG, TRUE);
-    menu_entry_sensitive(MENU_GAME_CLEAR_OUTPUT, TRUE);
-    menu_entry_sensitive(MENU_GAME_DISCONNECT, TRUE);
 
     menu_entry_sensitive(MENU_REPORT_SPACESHIP, (game.player_ptr->spaceship.state != SSHIP_NONE));
 

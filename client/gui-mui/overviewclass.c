@@ -419,8 +419,7 @@ static ULONG Overview_Setup(struct IClass * cl, Object * o, Msg msg)
     return FALSE;
 
   data->ov_ScaleX = 2;
-  data->ov_ScaleY = 2;		/* * _dri(o)->dri_Resolution.X/_dri(o)->dri_Resolution.Y; */
-/*      if(data->ov_ScaleY<1) data->ov_ScaleY = 1; */
+  data->ov_ScaleY = 2;
 
   data->ov_BufferWidth = ((data->ov_MapWidth * data->ov_ScaleX + 15) / 16) * 16;
   data->ov_BufferHeight = data->ov_MapHeight * data->ov_ScaleY;

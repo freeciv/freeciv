@@ -15,6 +15,15 @@
 
 #include "colors_g.h"
 
-/* nothing to add */
+enum color_mui {
+COLOR_MUI_TECHKNOWN = COLOR_STD_LAST,
+COLOR_MUI_TECHREACHABLE, COLOR_MUI_TECHUNKNOWN,
+COLOR_MUI_LAST };
+
+extern long colors_rgb[COLOR_MUI_LAST];
+extern long colors_pen[COLOR_MUI_LAST];
+
+#define GetColorRGB(c)    colors_rgb[c]
+#define GetColorPen(c)    colors_pen[c]
 
 #endif  /* FC__COLORS_H */

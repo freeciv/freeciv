@@ -180,20 +180,11 @@ static void worklist_report_list( struct worklist_report_dialog **ppdialog)
   DoMethod(pdialog->listview, MUIM_NList_GetEntry, MUIV_NList_GetEntry_Active, &selection);
 
   if (!selection)
-  {
-/*
-    set(pdialog->edit_button, MUIA_Disabled, TRUE);
-    set(pdialog->name_string, MUIA_Disabled, TRUE);
-*/
     return;
-  }
   selection--;
 
-/*  set(pdialog->edit_button, MUIA_Disabled, FALSE);*/
-
   SetAttrs(pdialog->name_string,
-     MUIA_String_Contents, pdialog->pplr->worklists[selection].name,
-     /*MUIA_Disabled, FALSE,*/ TAG_DONE);
+     MUIA_String_Contents, pdialog->pplr->worklists[selection].name, TAG_DONE);
 }
 
 /****************************************************************

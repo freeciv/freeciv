@@ -160,17 +160,20 @@ static void request_city_change_specialist(struct city *pcity, int from, int to)
 *****************************************************************/
 static void request_city_toggle_worker(struct city *pcity, int xtile, int ytile)
 {
-  struct packet_city_request packet;
-  packet.city_id = pcity->id;
-  packet.worker_x = xtile;
-  packet.worker_y = ytile;
-  packet.name[0] = '\0';
-  packet.worklist.name[0] = '\0';
+  if(is_valid_city_coords(xtile, ytile))
+  {
+    struct packet_city_request packet;
+    packet.city_id = pcity->id;
+    packet.worker_x = xtile;
+    packet.worker_y = ytile;
+    packet.name[0] = '\0';
+    packet.worklist.name[0] = '\0';
 
-  if (pcity->city_map[xtile][ytile] == C_TILE_WORKER)
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_SPECIALIST);
-  else if (pcity->city_map[xtile][ytile] == C_TILE_EMPTY)
-    send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
+    if (pcity->city_map[xtile][ytile] == C_TILE_WORKER)
+      send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_SPECIALIST);
+    else if (pcity->city_map[xtile][ytile] == C_TILE_EMPTY)
+      send_packet_city_request(&aconnection, &packet, PACKET_CITY_MAKE_WORKER);
+  }
 }
 /****************************************************************
  ...
@@ -1451,7 +1454,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 *****************************************************************/
 static void city_dialog_update_pollution(struct city_dialog *pdialog)
 {
-  /* TODO: differnt colors? */
+  /* TODO: different colors? */
   char *fmt;
   if (pdialog->pcity->pollution >= 10) fmt = MUIX_B"%3ld";
   else fmt = "%3ld";
