@@ -530,7 +530,7 @@ void players_meet_callback(GtkWidget *w, gpointer data)
   if(!(selection=GTK_CLIST(players_list)->selection))
     return;
 
-  row=(gint)selection->data;
+  row = GPOINTER_TO_INT(selection->data);
   player_index = LI_2_PI(row);
 
   if(player_has_embassy(game.player_ptr, &game.players[player_index])) {
@@ -561,7 +561,7 @@ void players_war_callback(GtkWidget *w, gpointer data)
   else {
     struct packet_generic_integer pa;    
 
-    row = (gint)selection->data;
+    row = GPOINTER_TO_INT(selection->data);
     player_index = LI_2_PI(row);
 
     pa.value = player_index;
@@ -584,7 +584,7 @@ void players_vision_callback(GtkWidget *w, gpointer data)
   else {
     struct packet_generic_integer pa;    
 
-    row = (gint)selection->data;
+    row = GPOINTER_TO_INT(selection->data);
     player_index = LI_2_PI(row);
 
     pa.value = player_index;
@@ -605,7 +605,7 @@ void players_intel_callback(GtkWidget *w, gpointer data)
   if(!(selection=GTK_CLIST(players_list)->selection))
       return;
 
-  row=(gint)selection->data;
+  row = GPOINTER_TO_INT(selection->data);
   player_index = LI_2_PI(row);
 
   if(player_has_embassy(game.player_ptr, &game.players[player_index]))
@@ -624,7 +624,7 @@ void players_sship_callback(GtkWidget *w, gpointer data)
   if(!(selection=GTK_CLIST(players_list)->selection))
       return;
 
-  row=(gint)selection->data;
+  row = GPOINTER_TO_INT(selection->data);
   player_index = LI_2_PI(row);
 
   popup_spaceship_dialog(&game.players[player_index]);

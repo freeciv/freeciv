@@ -436,7 +436,7 @@ void meswin_goto_callback(GtkWidget *w, gpointer data)
   if (!(selection=GTK_CLIST(meswin_list)->selection))
       return;
 
-  row = (gint)selection->data;
+  row = GPOINTER_TO_INT(selection->data);
 
   if(xpos[row]!=-1 && ypos[row]!=-1)
     center_tile_mapcanvas(xpos[row], ypos[row]);
@@ -456,7 +456,7 @@ void meswin_popcity_callback(GtkWidget *w, gpointer data)
   if (!(selection=GTK_CLIST(meswin_list)->selection))
       return;
 
-  row = (gint)selection->data;
+  row = GPOINTER_TO_INT(selection->data);
 
   x = xpos[row];
   y = ypos[row];

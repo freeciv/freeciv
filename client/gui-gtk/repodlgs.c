@@ -340,7 +340,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 {
   gchar *a_str, *b_str;
   gchar text_a[512], text_b[512];
-  gint a=(gint)a_p, b=(gint)b_p;
+  gint a = GPOINTER_TO_INT(a_p), b = GPOINTER_TO_INT(b_p);
 
   if(a < game.num_tech_types) {
     a_str=advances[a].name;
@@ -388,14 +388,14 @@ void science_dialog_update(void)
   /* collect all researched techs in sorting_list */
   for(i=A_FIRST; i<game.num_tech_types; i++) {
     if ((get_invention(game.player_ptr, i)==TECH_KNOWN)) {
-      sorting_list = g_list_append(sorting_list,(gpointer)i);
+      sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));
     }
   }
 
   /* sort them, and install them in the list */
   sorting_list = g_list_sort(sorting_list, cmp_func);
   for(i=0; i<g_list_length(sorting_list); i++) {
-    j = (gint)g_list_nth_data(sorting_list, i);
+    j = GPOINTER_TO_INT(g_list_nth_data(sorting_list, i));
     row[0] = advances[j].name;
     gtk_clist_append(GTK_CLIST(science_list[i%4]), row);
   }
@@ -430,13 +430,13 @@ void science_dialog_update(void)
 
       if (i==game.player_ptr->research.researching)
 	hist=i;
-      sorting_list = g_list_append(sorting_list,(gpointer)i);
+      sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));
     }
   } else {
-    sorting_list = g_list_append(sorting_list, 
-				 (gpointer)(game.num_tech_types+
-					    (game.player_ptr->future_tech)
-					    +1));
+    sorting_list = g_list_append(sorting_list,
+				 GINT_TO_POINTER(game.num_tech_types + 1 +
+						 game.player_ptr->
+						 future_tech));
   }
 
   /* sort the list and build from it the menu */
@@ -444,11 +444,12 @@ void science_dialog_update(void)
   for (i = 0; i < g_list_length(sorting_list); i++) {
     gchar *data;
 
-    if((gint)g_list_nth_data(sorting_list, i) < game.num_tech_types) {
-      data=advances[(gint)g_list_nth_data(sorting_list, i)].name;
+    if (GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)) <
+	game.num_tech_types) {
+      data=advances[GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))].name;
     } else {
       my_snprintf(text, sizeof(text), _("Researching Future Tech. %d"),
-		  (gint)g_list_nth_data(sorting_list, i)
+		  GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))
 		  - game.num_tech_types);
       data=text;
     }
@@ -463,7 +464,7 @@ void science_dialog_update(void)
 
   gtk_widget_show_all(popupmenu);
   gtk_menu_set_active(GTK_MENU(popupmenu),
-		      g_list_index(sorting_list,(gpointer)hist));
+		      g_list_index(sorting_list, GINT_TO_POINTER(hist)));
   g_list_free(sorting_list);
   sorting_list = NULL;
 
@@ -492,14 +493,15 @@ void science_dialog_update(void)
        tech_goal_turns(game.player_ptr, i) < 11) {
       if (i==game.player_ptr->ai.tech_goal)
 	hist=i;
-      sorting_list = g_list_append(sorting_list,(gpointer)i);
+      sorting_list = g_list_append(sorting_list, GINT_TO_POINTER(i));
     }
   }
 
   /* sort the list and build from it the menu */
   sorting_list = g_list_sort(sorting_list, cmp_func);
   for (i = 0; i < g_list_length(sorting_list); i++) {
-    gchar *data=advances[(gint)g_list_nth_data(sorting_list, i)].name;
+    gchar *data =
+	advances[GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))].name;
 
     item = gtk_menu_item_new_with_label(data);
     gtk_menu_append(GTK_MENU(goalmenu), item);
@@ -509,8 +511,8 @@ void science_dialog_update(void)
   }
 
   gtk_widget_show_all(goalmenu);
-  gtk_menu_set_active(GTK_MENU(goalmenu), 
-		      g_list_index(sorting_list,(gpointer)hist));
+  gtk_menu_set_active(GTK_MENU(goalmenu),
+		      g_list_index(sorting_list, GINT_TO_POINTER(hist)));
   g_list_free(sorting_list);
   sorting_list = NULL;
 
@@ -673,9 +675,8 @@ void economy_selloff_callback(GtkWidget *w, gpointer data)
   GList              *selection;
   gint                row;
 
-  while((selection = GTK_CLIST(economy_list)->selection) != NULL)
-  {
-  row = (gint)selection->data;
+  while ((selection = GTK_CLIST(economy_list)->selection) != NULL) {
+    row = GPOINTER_TO_INT(selection->data);
 
   i=economy_improvement_type[row];
 
@@ -923,7 +924,7 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
   if ( !( selection = GTK_CLIST( activeunits_list )->selection ) )
       return;
 
-  row = (gint)selection->data;
+  row = GPOINTER_TO_INT(selection->data);
 
   ut1 = activeunits_type[row];
   if (!(unit_type_exists (ut1)))
@@ -939,9 +940,11 @@ void activeunits_upgrade_callback(GtkWidget *w, gpointer data)
 	  unit_upgrade_price(game.player_ptr, ut1, ut2),
 	  game.player_ptr->economic.gold);
 
-  popup_message_dialog(top_vbox, /*"upgradedialog"*/_("Upgrade Obsolete Units"), buf,
-        	       _("Yes"), upgrade_callback_yes, (gpointer)(activeunits_type[row]),
-        	       _("No"), upgrade_callback_no, 0, 0);
+  popup_message_dialog(top_vbox, /*"upgradedialog" */
+		       _("Upgrade Obsolete Units"), buf, _("Yes"),
+		       upgrade_callback_yes,
+		       GINT_TO_POINTER(activeunits_type[row]), _("No"),
+		       upgrade_callback_no, 0, 0);
 }
 
 /****************************************************************

@@ -164,7 +164,8 @@ static struct city *get_selected_city(void)
   if (!(selection=GTK_CLIST(goto_list)->selection))
     return 0;
   
-  gtk_clist_get_text(GTK_CLIST(goto_list), (gint)selection->data, 0, &string);
+  gtk_clist_get_text(GTK_CLIST(goto_list),
+		     GPOINTER_TO_INT(selection->data), 0, &string);
 
   len = strlen(string);
   if(len>3 && strcmp(string+len-3, "(A)")==0) {

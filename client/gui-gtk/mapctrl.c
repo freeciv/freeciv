@@ -74,11 +74,11 @@ static void name_new_city_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
-  input_dialog_create(toplevel, /*"shellnewcityname"*/_("Build New City"),
-			_("What should we call our new city?"),
-			suggestname,
-			name_new_city_callback, (gpointer)punit->id,
-			name_new_city_callback, (gpointer)0);
+  input_dialog_create(toplevel, /*"shellnewcityname" */
+		      _("Build New City"),
+		      _("What should we call our new city?"), suggestname,
+		      name_new_city_callback, GINT_TO_POINTER(punit->id),
+		      name_new_city_callback, (gpointer) 0);
 }
 
 /**************************************************************************

@@ -556,7 +556,7 @@ void rename_worklist_callback(GtkWidget *w, gpointer data)
   if (! selection)
     return;
 
-  pdialog->wl_idx = (int)selection->data;
+  pdialog->wl_idx = GPOINTER_TO_INT(selection->data);
 
   input_dialog_create(worklist_report_shell,
 		      _("Rename Worklist"),
@@ -643,7 +643,7 @@ void delete_worklist_callback(GtkWidget *w, gpointer data)
     if (!pdialog->pplr->worklists[i].is_valid)
       break;
 
-  for (j = (int)selection->data; j < i-1; j++) {
+  for (j = GPOINTER_TO_INT(selection->data); j < i - 1; j++) {
     copy_worklist(&packet.worklist, &pdialog->pplr->worklists[j+1]);
     packet.wl_idx = j;
 
@@ -673,7 +673,7 @@ void edit_worklist_callback(GtkWidget *w, gpointer data)
   if (! selection)
     return;
 
-  pdialog->wl_idx = (int)selection->data;
+  pdialog->wl_idx = GPOINTER_TO_INT(selection->data);
 
   popup_worklist(pdialog->worklist_ptr[pdialog->wl_idx], NULL, 
 		 worklist_report_shell,
@@ -908,7 +908,7 @@ void worklist_insert_callback(GtkWidget *w, gpointer data)
   if (! listSelection)
     where = MAX_LEN_WORKLIST;
   else
-    where = (int)listSelection->data;
+    where = GPOINTER_TO_INT(listSelection->data);
 
   worklist_insert_common_callback(pdialog, availSelection, where);
 }
@@ -927,7 +927,7 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
   if (! availSelection)
     return;
 
-  idx = (int)availSelection->data;
+  idx = GPOINTER_TO_INT(availSelection->data);
 
   /* Pick out the target and its type. */
   target = pdialog->worklist_avail_ids[idx];
@@ -978,7 +978,7 @@ void worklist_delete_callback(GtkWidget *w, gpointer data)
   if (! selection)
     return;
 
-  k = (int)selection->data;
+  k = GPOINTER_TO_INT(selection->data);
 
   /* Find the last element in the worklist */
   for (i = 0; i < MAX_LEN_WORKLIST; i++)
@@ -1043,7 +1043,7 @@ void worklist_up_callback(GtkWidget *w, gpointer data)
   if (! selection)
     return;
 
-  idx = (int)selection->data;
+  idx = GPOINTER_TO_INT(selection->data);
 
   if (idx == 0)
     return;
@@ -1066,7 +1066,7 @@ void worklist_down_callback(GtkWidget *w, gpointer data)
   if (! selection)
     return;
 
-  idx = (int)selection->data;
+  idx = GPOINTER_TO_INT(selection->data);
 
   if (idx == MAX_LEN_WORKLIST-1 ||
       pdialog->worklist_ids[idx+1] == WORKLIST_END)
@@ -1158,7 +1158,7 @@ void worklist_worklist_help_callback(GtkWidget *w, gpointer data)
 
   selection = GTK_CLIST(pdialog->worklist)->selection;
   if (selection) {
-    cid cid = pdialog->worklist_ids[(int) selection->data];
+    cid cid = pdialog->worklist_ids[GPOINTER_TO_INT(selection->data)];
     id = cid_id(cid);
     is_unit = cid_is_unit(cid);
   } else {
@@ -1178,12 +1178,14 @@ void worklist_avail_help_callback(GtkWidget *w, gpointer data)
 
   selection = GTK_CLIST(pdialog->avail)->selection;
   if(selection) {
-    if ((int)selection->data >= pdialog->worklist_avail_num_targets) {
+    if (GPOINTER_TO_INT(selection->data) >=
+	pdialog->worklist_avail_num_targets) {
       /* target is a global worklist id */
       id = -1;
     } else {
-      id = pdialog->worklist_avail_ids[(int)selection->data];
-      is_unit = (int)selection->data >= pdialog->worklist_avail_num_improvements;
+      id = pdialog->worklist_avail_ids[GPOINTER_TO_INT(selection->data)];
+      is_unit = GPOINTER_TO_INT(selection->data) >=
+	  pdialog->worklist_avail_num_improvements;
     }
   } else {
     id = -1;

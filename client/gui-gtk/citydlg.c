@@ -1694,15 +1694,17 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
     gtk_pixcomm_changed(GTK_PIXCOMM(support_pixmap->data));
     
-    support_id->data = (gpointer)punit->id;
+    support_id->data = GINT_TO_POINTER(punit->id);
     
     gtk_signal_handlers_destroy(GTK_OBJECT(support_box->data));
     gtk_signal_connect(GTK_OBJECT(support_box->data),
 		       "button_press_event",
-		       GTK_SIGNAL_FUNC(support_units_callback), (gpointer)punit->id);
+		       GTK_SIGNAL_FUNC(support_units_callback),
+		       GINT_TO_POINTER(punit->id));
     gtk_signal_connect(GTK_OBJECT(support_box->data),
 		       "button_release_event",
-		       GTK_SIGNAL_FUNC(s_units_middle_callback), (gpointer)punit->id);
+		       GTK_SIGNAL_FUNC(s_units_middle_callback),
+		       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive((GtkWidget*)support_box->data, TRUE);
 
     support_box = support_box->next;
@@ -1796,15 +1798,17 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
     gtk_pixcomm_changed(GTK_PIXCOMM(present_pixmap->data));
     
-    present_id->data = (gpointer)punit->id;
+    present_id->data = GINT_TO_POINTER(punit->id);
     
     gtk_signal_handlers_destroy(GTK_OBJECT(present_box->data));
     gtk_signal_connect(GTK_OBJECT(present_box->data),
 		       "button_press_event",
-		       GTK_SIGNAL_FUNC(present_units_callback), (gpointer)punit->id);
+		       GTK_SIGNAL_FUNC(present_units_callback),
+                       GINT_TO_POINTER(punit->id));
     gtk_signal_connect(GTK_OBJECT(present_box->data),
 		       "button_release_event",
-		       GTK_SIGNAL_FUNC(p_units_middle_callback), (gpointer)punit->id);
+		       GTK_SIGNAL_FUNC(p_units_middle_callback),
+                       GINT_TO_POINTER(punit->id));
     gtk_widget_set_sensitive(present_box->data, TRUE);
 
     present_box = present_box->next;
@@ -2063,13 +2067,12 @@ static void upgrade_callback(GtkWidget *w, gpointer data)
 	       "Treasury contains %d gold."),
 	       unit_types[ut1].name, unit_types[ut2].name,
 	       value, game.player_ptr->economic.gold);
-	popup_message_dialog(top_vbox, 
-			     /*"upgradedialog"*/_("Upgrade Obsolete Units"), buf,
-			     _("_Yes"),
-			       unitupgrade_callback_yes, (gpointer)(punit->id),
-			     _("_No"),
-			       unitupgrade_callback_no, 0,
-			     NULL);
+	popup_message_dialog(top_vbox,
+			     /*"upgradedialog" */
+			     _("Upgrade Obsolete Units"), buf, _("_Yes"),
+			     unitupgrade_callback_yes,
+			     GINT_TO_POINTER(punit->id), _("_No"),
+			     unitupgrade_callback_no, 0, NULL);
       } else {
 	my_snprintf(buf, sizeof(buf), _("Upgrading %s to %s costs %d gold.\n"
 	       "Treasury contains %d gold."),
@@ -2098,7 +2101,7 @@ static void change_to_callback(GtkWidget *w, gpointer data)
 
   if((selection=GTK_CLIST(pdialog->change_list)->selection)) {
     struct packet_city_request packet;
-    gint row=(gint)selection->data;
+    gint row = GPOINTER_TO_INT(selection->data);
 
     packet.city_id=pdialog->pcity->id;
     packet.name[0]='\0';
@@ -2140,7 +2143,7 @@ static void change_help_callback(GtkWidget *w, gpointer data)
 
   if((selection=GTK_CLIST(pdialog->change_list)->selection)) {
     char *text;
-    gint row = (gint)selection->data;
+    gint row = GPOINTER_TO_INT(selection->data);
     int idx = pdialog->change_list_ids[row];
     int is_unit = (row >= pdialog->change_list_num_improvements);
     
@@ -2490,7 +2493,7 @@ static void sell_callback(GtkWidget *w, gpointer data)
 
   if((selection=GTK_CLIST(pdialog->improvement_list)->selection)) {
     int i, n;
-    gint row=(gint)selection->data;
+    gint row = GPOINTER_TO_INT(selection->data);
 
     for(i=0, n=0; i<game.num_impr_types; i++)
       if(pdialog->pcity->improvements[i]) {

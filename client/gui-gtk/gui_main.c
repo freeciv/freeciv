@@ -480,8 +480,9 @@ static void setup_widgets(void)
 
           gtk_table_attach_defaults(GTK_TABLE(table), ebox, i, i + 1, 0, 1);
 
-          gtk_signal_connect( GTK_OBJECT( ebox ), "button_press_event",
-              GTK_SIGNAL_FUNC(taxrates_callback), (gpointer)i);
+	  gtk_signal_connect(GTK_OBJECT(ebox), "button_press_event",
+			     GTK_SIGNAL_FUNC(taxrates_callback),
+			     GINT_TO_POINTER(i));
 
           econ_label[i] = gtk_pixmap_new(get_citizen_pixmap(i<5?1:2), NULL);
 	  gtk_pixmap_set_build_insensitive(GTK_PIXMAP(econ_label[i]), FALSE);
@@ -563,9 +564,10 @@ static void setup_widgets(void)
       unit_below_pixmap_button[i]=gtk_event_box_new();
       gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
         unit_below_pixmap[i]);
-      gtk_signal_connect(GTK_OBJECT(unit_below_pixmap_button[i]), 
-         "button_press_event",
-        GTK_SIGNAL_FUNC(select_pixmap_callback),(gpointer)(i));
+      gtk_signal_connect(GTK_OBJECT(unit_below_pixmap_button[i]),
+			 "button_press_event",
+			 GTK_SIGNAL_FUNC(select_pixmap_callback),
+			 GINT_TO_POINTER(i));
       
       gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
     	  i, i+1, 1, 2);
