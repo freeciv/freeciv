@@ -491,6 +491,23 @@ bool ai_manage_explorer(struct unit *punit)
   return FALSE;
 }
 
+/*********************************************************************
+  In the words of Syela: "Using funky fprime variable instead of f in
+  the denom, so that def=1 units are penalized correctly."
+
+  Translation (GB): build_cost_balanced is used in the denominator of
+  the want equation (see, e.g.  find_something_to_kill) instead of
+  just build_cost to make AI build more balanced units (with def > 1).
+*********************************************************************/
+int build_cost_balanced(Unit_Type_id type)
+{
+  struct unit_type *ptype = get_unit_type(type);
+
+  return 2 * ptype->build_cost * ptype->attack_strength /
+      (ptype->attack_strength + ptype->defense_strength);
+}
+
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1442,9 +1459,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
   if (unit_flag(punit, F_IGTER)) m *= SINGLE_MOVE;
   maxd = MIN(6, m) * THRESHOLD + 1;
   f = unit_type(punit)->build_cost;
-  fprime = f * 2 * unit_type(punit)->attack_strength /
-           (unit_type(punit)->attack_strength +
-            unit_type(punit)->defense_strength);
+  fprime = build_cost_balanced(punit->type);
 
   generate_warmap(map_get_city(*x, *y), punit);
                              /* most flexible but costs milliseconds */

@@ -608,9 +608,7 @@ static void process_attacker_want(struct player *pplayer,
           !unit_type_flag(i, F_IGWALL) && !city_got_citywalls(acity)) d *= 9; 
 
       f = unit_types[i].build_cost;
-      fprime = f * 2 * unit_types[i].attack_strength /
-           (unit_types[i].attack_strength +
-            unit_types[i].defense_strength);
+      fprime = build_cost_balanced(i);
 
       if (acity) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
       else g = 1;
@@ -812,9 +810,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
     if (is_ground_unit(myunit) && !sanity && !boatid)
       needferry = 40; /* cost of ferry */
     f = unit_types[v].build_cost;
-    fprime = f * 2 * unit_types[v].attack_strength /
-           (unit_types[v].attack_strength +
-            unit_types[v].defense_strength);
+    fprime = build_cost_balanced(v);
 
     if (acity) g = unit_list_size(&(map_get_tile(acity->x, acity->y)->units)) + 1;
     else g = 1;

@@ -32,6 +32,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                             int *x, int *y);
 int find_beachhead(struct unit *punit, int dest_x, int dest_y, int *x, int *y);
 
+int build_cost_balanced(Unit_Type_id type);
 int unit_belligerence_basic(struct unit *punit);
 int unit_belligerence(struct unit *punit);
 int unit_vulnerability_basic(struct unit *punit, struct unit *pdef);
