@@ -25,7 +25,10 @@
 #include <stdlib.h>		/* size_t */
 #include <stdarg.h>
 
-int my_snprintf(char *str, size_t n, const char *format, ...);
+#include "attribute.h"
+
+int my_snprintf(char *str, size_t n, const char *format, ...)
+     fc__attribute((format (printf, 3, 4)));
 
 int my_vsnprintf(char *str, size_t n, const char *format, va_list ap );
 
