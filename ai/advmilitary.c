@@ -793,12 +793,14 @@ unit_types[pdef->type].name, pdef->x, pdef->y, a, b, c, d, e, fstk, f);
           choice->type = 1;
           choice->want = e;
         }
-        if (is_sailing_unit(myunit) && !city_got_building(pcity, B_PORT)) {
-          if (get_invention(pplayer, A_AMPHIBIOUS) == TECH_KNOWN) {
+        if (is_sailing_unit(myunit) && improvement_exists(B_PORT)
+	    && !city_got_building(pcity, B_PORT)) {
+	  int tech = get_improvement_type(B_PORT)->tech_requirement;
+          if (get_invention(pplayer, tech) == TECH_KNOWN) {
             choice->choice = B_PORT;
             choice->want = e;
             choice->type = 0;
-          } else pplayer->ai.tech_want[A_AMPHIBIOUS] += e;
+          } else pplayer->ai.tech_want[tech] += e;
         }
       }
     }
