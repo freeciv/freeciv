@@ -2,8 +2,12 @@
 
 name=_("Swedish")
 plural=_("?plural:Swedes")
-leader="Gustav Vasa", "Erik", "Karl", "Christine"
-leader_sex="Male", "Male", "Male", "Female"
+
+leader=
+  "Erik Segergäll", "Olof Skötkonung", "Gustav Vasa", "Erik", "Karl",
+  "Christine"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
 flag="f.sweden"
 flag_alt = "-"
 city_style = "European"
@@ -21,12 +25,71 @@ tech_goals = "Map Making", "The Republic", "Trade", "Gunpowder"
 wonder="Magellan's Expedition"
 government="Democracy"
 
+;  Kort upplysning om ortnamnens betydelser och ursprung
+;  =====================================================
+;
+;  BIRKA betyder Björkö
+;
+;  BORG (källa: Våra ord)
+;    fornsvenska islänska <borg>; gemensamt germanskt ord (tyska
+;    <Burg>, engelska <Borough>), besläktat med [berg]
+;
+;  HULT (källa: Våra ord)
+;    skogsdunge, liten skog: fornsvenska <hult>, isländska <holt>;
+;    gemensamt germanskt ord (tyska <Holz> trä, skog) med släktingar i
+;    ett flertal andra indoeuropeiska språk
+;
+;  HUS
+;    fornsvenska isländska <hús>; gemensamt germanskt ord (tyska
+;    <Haus>, engelska <house>) av dunkelt ursprung; jämför [hos],
+;    [hysa]
+;
+;  KIRUNA samiska <giron>, fjällripa
+;
+;  KÖPING (källa: Våra ord)
+;    fornsvenska <køpunger> handelsplats; jämför isländska <kaupangr>,
+;    sammansättning av [köpa] och <-angr> (fornsvenska <-anger>) äng,
+;    gräsplats
+;
+;  JOKK samiska bäck
+;
+;  OR flodmynning (i till exempel <Orsa>)
+;
+;  SAL (källa: Våra ord)
+;    fornsvenska <sal>, isländska <salr>; gemensamt germanskt ord
+;    (tyska <Saal>), troligen med grundbetydelsen 'stort hus för
+;    gästabud; boning' (i ortnamn till exempel <Sala>, <Uppsala>)
+;
+;  TORP (källa: Våra ord)
+;    fornsvenska isländska <þorp> liten utgård, nyodling; gård, by,
+;    norska <torp>; gemensamt germanskt ord (tyska <Dorf> by, se
+;    [tölp]), möjligen med grundbetydelsen 'hus'
+;
+;  TUN (källa: Våra ord)
+;    gårdsplats (om fornnordiska förhållanden): av isländska <tún>
+;    inhägnad jord, hemmaägor (i svenska ortnamn som <Tuna>, <Sigtuna>
+;    med flera); gemensamt germanskt ord (tyska <Zaun> gärdesgård,
+;    engelska <town> stad) med ursprunglig betydelse 'hägnad,
+;    gärdsgård' (gotländska <tun> gärdsgård) och med motsvarighet i
+;    keltiska språk
+
 cities =
- "Stockholm", "Uppsala", "Sollentuna", "Sigtuna", "Birka",
- "Norrköping", "Linköping", "Örebro", "Gävle", "Västerås",
- "Göteborg", "Karlstad", "Växjö", "Kalmar", "Visby",
- "Malmö", "Helsingborg", "Ystad",  "Lund", "Luleå", "Kiruna",
- "Halmstad", "Östersund", "Nyköping", "Söderhamn", "Sundsvall",
- "Piteå", "Skellefteå", "Umeå", "Jönköping", "Kristianstad",
- "Karlskrona", "Mora", "Oskarshamn", "Hässleholm", "Falun",
- "Viborg", "Holmgård", "Orsa", "Trollhättan", "Jokkmokk"
+ "Uppsala", "Sigtuna", "Sollentuna", "Husaby", "Falun", "Mora",
+ "Visby", "Viborg", "Gävle", "Göteborg", "Karlstad", "Kalmar",
+ "Helsingborg", "Ystad", "Lund", "Halmstad", "Kristianstad",
+ "Karlskrona", "Trollhättan", "Åstorp"
+
+river_cities =
+  "Örebro", "Luleå", "Piteå", "Skellefteå", "Umeå", "Jokkmokk", "Åhus"
+
+coastal_river_cities = "Orsa"
+
+grassland_cities = "Linköping", "Norrköping", "Jönköping", "Nyköping"
+
+coastal_cities =
+  "Birka", "Holmgård", "Stockholm", "Malmö", "Växjö", "Hässleholm",
+  "Östersund", "Oskarshamn", "Söderhamn", "Sundsvall"
+
+hills_cities = "Västerås", "Kiruna"
+
+forest_cities = "Karlskoga", "Hultsfred", "Skoghall"
