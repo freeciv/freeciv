@@ -120,7 +120,9 @@ GtkWidget *	timeout_label;
 GtkWidget *	turn_done_button;
 
 GtkWidget *	unit_pixmap;
+GtkWidget *     unit_pixmap_button;
 GtkWidget *	unit_below_pixmap		[MAX_NUM_UNITS_BELOW];
+GtkWidget *     unit_below_pixmap_button        [MAX_NUM_UNITS_BELOW];
 GtkWidget *	more_arrow_pixmap;
 
 gint		gtk_interval_id;
@@ -134,6 +136,8 @@ gint		gdk_input_id;
 
 GdkWindow *	root_window;
 
+int unit_ids[MAX_NUM_UNITS_BELOW]; /* ids of the units displayed on
+                                     the left */
 
 enum Display_color_type		display_color_type;
 
@@ -271,6 +275,21 @@ static GtkWidget *detached_widget_new(GtkWidget **avbox)
     *avbox = gtk_vbox_new( FALSE, 0 );
     gtk_box_pack_start( GTK_BOX( ahbox ), *avbox, TRUE, TRUE, 0 );
     return ahbox;
+}
+
+static void select_pixmap_callback(GtkWidget *w, GdkEvent *ev, int i) 
+{
+  struct unit *punit;
+
+  if (i == -1)  /* unit currently selected */
+    return;
+  if (unit_ids[i] == 0) /* no unit displayed at this place */
+    return;
+  punit=find_unit_by_id(unit_ids[i]);
+  if(punit) { /* should always be true at this point */
+     request_new_unit_activity(punit, ACTIVITY_IDLE);
+     set_unit_focus(punit);
+  }
 }
 
 /**************************************************************************
@@ -426,13 +445,25 @@ static void setup_widgets(void)
     gtk_table_set_col_spacings(GTK_TABLE(table), 2);
 
     unit_pixmap=gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-    gtk_table_attach_defaults( GTK_TABLE(table), unit_pixmap, 0, 1, 0, 1 );
     gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap), TRUE);
+    unit_pixmap_button=gtk_event_box_new();
+    gtk_container_add(GTK_CONTAINER(unit_pixmap_button),unit_pixmap);
+    gtk_table_attach_defaults( GTK_TABLE(table), unit_pixmap_button, 
+       0, 1, 0, 1 );
+    gtk_signal_connect(GTK_OBJECT(unit_pixmap_button), "button_press_event",
+       GTK_SIGNAL_FUNC(select_pixmap_callback),(gpointer)(-1));
 
     for (i=0; i<num_units_below; i++)
     {
       unit_below_pixmap[i]=gtk_pixcomm_new(root_window, NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
-      gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap[i],
+      unit_below_pixmap_button[i]=gtk_event_box_new();
+      gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
+        unit_below_pixmap[i]);
+      gtk_signal_connect(GTK_OBJECT(unit_below_pixmap_button[i]), 
+         "button_press_event",
+        GTK_SIGNAL_FUNC(select_pixmap_callback),(gpointer)(i));
+      
+      gtk_table_attach_defaults(GTK_TABLE(table), unit_below_pixmap_button[i],
     	  i, i+1, 1, 2);
       gtk_widget_set_usize(unit_below_pixmap[i],
             NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);

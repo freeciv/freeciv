@@ -69,6 +69,8 @@ int num_units_below = MAX_NUM_UNITS_BELOW;
 extern int goto_state;
 extern int paradrop_state;
 extern int nuke_state;
+extern int unit_ids[MAX_NUM_UNITS_BELOW]; /* ids of the units displayed on
+                                            the left */
 
 extern GtkWidget *	main_frame_civ_name;
 extern GtkWidget *	main_label_info;
@@ -366,7 +368,6 @@ void update_unit_pix_label(struct unit *punit)
   /* what initialises these statics? */
   static enum unit_activity uactivity = ACTIVITY_UNKNOWN;
   static int utemplate = U_LAST;
-  static int unit_ids[MAX_NUM_UNITS_BELOW];
   static int showing_arrow=0;
   struct genlist_iterator myiter;
   
