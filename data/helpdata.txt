@@ -1204,7 +1204,14 @@ half (rounded up) for Engineers, and they can be reduced further by \
 stockpiling several Settlers/Engineers, doing teamwork.\
 "), "\
 $TerrainAlterations\
-"
+", _("\
+City centers (the tile a city is on) are special.  A city center is \
+worked for free in the default rules. When a city is built a road is \
+automatically put on the city, and a railroad will also be placed there \
+whenever possible.  City centers are auto-irrigated: they get the \
+benefits of irrigation, although they are not actually irrigated. \
+Finally the city center may have a ruleset-dependent minimum for \
+food, shield, and trade output.")
 
 [help_pillaging]
 name = _("  Pillaging")
