@@ -94,7 +94,7 @@ msgstr "Pollution"
 
 #: common/map.c:57
 msgid "Hut"
-msgstr ""
+msgstr "Hutte"
 
 #: common/map.c:58 common/map.c:665 common/unit.c:750
 msgid "Fortress"
@@ -118,7 +118,7 @@ msgstr "Base aérienne"
 
 #: common/map.c:63 common/unit.c:758
 msgid "Fallout"
-msgstr ""
+msgstr "Retombée"
 
 #: common/mem.c:38
 #, c-format
@@ -367,12 +367,12 @@ msgstr ""
 #: ai/aicity.c:240 server/cityhand.c:557
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
-msgstr "Jeu : les %s ont cessé la construction de %s dans %s."
+msgstr "Jeu : les %s ont cessé la construction de %s à %s."
 
 #: ai/aicity.c:249 server/cityhand.c:599
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
-msgstr "Jeu : les %s ont commencé la construction de %s dans %s."
+msgstr "Jeu : les %s ont commencé la construction de %s à %s."
 
 #: ai/aicity.c:357 ai/aicity.c:485
 #, c-format
@@ -1655,17 +1655,17 @@ msgstr "Le fichier de règles nécessite des options qui ne sont pas suportées : "
 #: server/ruleset.c:1913
 #, c-format
 msgid "Bad value %i for min_dist_bw_cities. Using 2."
-msgstr ""
+msgstr "%i : mauvaise valeur pour min_dist_bw_cities. Valeur utilisée : 2."
 
 #: server/ruleset.c:1927
 #, c-format
 msgid "Bad value %s for hut_overflight. Using \"Frighten\"."
-msgstr ""
+msgstr "%s : mauvaise valeur pour hut_overflight. Valeur utilisée : \"Frighten\"."
 
 #: server/ruleset.c:1941
 #, c-format
 msgid "Bad value %s for nuke_contamination. Using \"Pollution\"."
-msgstr ""
+msgstr "%s : mauvaise valeur pour nuke_contamination. Valeur utilisée : \"Pollution\"."
 
 #: server/ruleset.c:2309
 msgid "Loading rulesets"
@@ -1905,11 +1905,11 @@ msgstr "Nombre initial d'explorateurs par joueur"
 
 #: server/stdinhand.c:276
 msgid "Area where initial units are located"
-msgstr ""
+msgstr "Emplacement des unités initiales"
 
 #: server/stdinhand.c:277
 msgid "This is half the length of a side of the square within which the initial units are dispersed."
-msgstr ""
+msgstr "C'est la moitié de la longueur d'une face du carré à l'intérieur duquel les unités initiales sont dispersées."
 
 #: server/stdinhand.c:283
 msgid "Starting gold per player"
@@ -2070,6 +2070,10 @@ msgid ""
 "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
 "See also README.rulesets."
 msgstr ""
+"Règle quelques règles de base. 1 pour le style de Civ1, 2 pour Civ2.\n"
+"Pour l'instant, cette option affecte les règles suivantes :\n"
+"  - Apollo montre la carte entière dans Civ2, seulement les villes dans Civ1.\n"
+"Voir aussi le fichier README.rulesets."
 
 #: server/stdinhand.c:478
 msgid "Chance of moving into tile after attack"
@@ -2237,11 +2241,11 @@ msgstr ""
 
 #: server/stdinhand.c:638
 msgid "Savegame compression level"
-msgstr ""
+msgstr "Niveau de compression des fichiers de sauvegarde"
 
 #: server/stdinhand.c:639
 msgid "If non-zero, saved games will be compressed using zlib (gzip format).  Larger values will give better compression but take longer.  If the maximum is zero this server was not compiled to use zlib."
-msgstr ""
+msgstr "Si cette valeur est différente de zéro, les parties sauvées seront compressées en utilisant zlib (format gzip). Des valeurs plus élevées donnent une meilleure compression mais prennent plus de temps. Si le maximum est zéro, ce serveur n'a pas été compilé pour utiliser zlib."
 
 #: server/stdinhand.c:646
 msgid "Whether to log player statistics"
@@ -6344,7 +6348,7 @@ msgstr "Dépolluer"
 
 #: client/gui-gtk/menu.c:567 client/gui-xaw/menu.c:158
 msgid "Clean Nuclear Fallout"
-msgstr ""
+msgstr "Retombées nucléaires propres"
 
 #: client/gui-gtk/menu.c:571 client/gui-xaw/menu.c:160
 msgid "Fortify"
@@ -7871,7 +7875,7 @@ msgstr "Les unités qui ont été endommagées dans un combat se regénèrent chaque t
 
 #: data/helpdata.txt:793
 msgid "Depending upon server options, any set of unit types may reduce the population of a City without City Walls by one point upon a successful attack."
-msgstr ""
+msgstr "En fonction des options du serveur, chaque ensemble de types d'unités peut réduire d'un point la population d'une ville sans Remparts en cas d'attaque victorieuse."
 
 #: data/helpdata.txt:804
 msgid "When one unit attacks another unit, either the attacker will be destroyed, or the defender will be destroyed -- never both (unless the attacker was a missile).  The outcome depends on several factors, including chance."
@@ -8663,7 +8667,7 @@ msgstr "Temple"
 
 #: data/civ1/buildings.ruleset:1039 data/civ2/buildings.ruleset:1024 data/default/buildings.ruleset:1220
 msgid "Makes one unhappy citizen content.  Both the Mysticism advance and the Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 citizens are made content."
-msgstr "Rend un habitant malheureux content. Le Mysticisme et la merveille de l'Oracle doublent cet effet. Ensemble, ce sont 4 habitants qui sont rendus contents."
+msgstr "Rend content un habitant malheureux. Le Mysticisme et la merveille de l'Oracle doublent cet effet. Ensemble, ce sont 4 habitants qui sont rendus contents."
 
 #: data/civ1/buildings.ruleset:1046 data/civ1/techs.ruleset:559 data/civ2/buildings.ruleset:1031 data/civ2/techs.ruleset:559 data/default/buildings.ruleset:1227 data/default/techs.ruleset:559
 msgid "University"
@@ -8755,7 +8759,7 @@ msgstr "Jardins Suspendus"
 
 #: data/civ1/buildings.ruleset:1301 data/civ2/buildings.ruleset:1286 data/default/buildings.ruleset:1484
 msgid "Makes one content citizen happy in every city. Makes two extra content citizens happy in the city containing the Hanging Gardens (that is, a total of 3).  In the unlikely event where there are no content citizens to get the effect of Hanging Gardens, the wonder applies to unhappy citizens (making them content instead)."
-msgstr "Rend un habitant content heureux dans chaque ville. Rend deux habitants contents heureux dans la ville possèdant les Jardins Suspendus (soit un total de 3). Dans le cas où il n'y aurait pas d'habitants contents pour bénéficier des effets des Jardins Suspendus, cette merveille agit sur les habitants malheureux (les rendant contents)."
+msgstr "Rend heureux un habitant content dans chaque ville. Rend heureux deux habitants contents dans la ville possèdant les Jardins Suspendus (soit un total de 3). Dans le cas où il n'y aurait pas d'habitants contents pour bénéficier des effets des Jardins Suspendus, cette merveille agit sur les habitants malheureux (les rendant contents)."
 
 #: data/civ1/buildings.ruleset:1310 data/civ2/buildings.ruleset:1295 data/default/buildings.ruleset:1493
 msgid "Hoover Dam"
@@ -8834,7 +8838,7 @@ msgstr "Ambassade de Marco Polo"
 
 #: data/civ1/buildings.ruleset:1525 data/civ2/buildings.ruleset:1501 data/default/buildings.ruleset:1700
 msgid "The player who owns it gets an embassy with all players."
-msgstr "Le joueur qui la possède obtient une ambassade chez tous chaque joueur."
+msgstr "Le joueur qui la possède obtient une ambassade chez tous les joueurs."
 
 #: data/civ1/buildings.ruleset:1530 data/civ2/buildings.ruleset:1506 data/default/buildings.ruleset:1705
 msgid "Michelangelo's Chapel"
