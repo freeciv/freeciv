@@ -380,8 +380,7 @@ int sniff_packets(void)
       return 2;
     }
 
-
-    /* quit server if no players for 'srvarg.quitidle' seconds */
+    /* end server if no players for 'srvarg.quitidle' seconds */
     if (srvarg.quitidle != 0 && server_state != PRE_GAME_STATE) {
       static time_t last_noplayers;
       if(conn_list_size(&game.est_connections) == 0) {
@@ -392,8 +391,11 @@ int sniff_packets(void)
 	    freelog(LOG_NORMAL, srvarg.metaserver_info_line);
 	    (void) send_server_info_to_metaserver(TRUE, FALSE);
 
-	    close_connections_and_socket();
-	    exit(EXIT_SUCCESS);
+            server_state = GAME_OVER_STATE;
+            conn_list_iterate(game.est_connections, pconn) {
+              lost_connection_to_client(pconn);
+              close_connection(pconn);
+            } conn_list_iterate_end;
 	  }
 	} else {
 	  last_noplayers = time(NULL);
@@ -437,11 +439,6 @@ int sniff_packets(void)
     /* Don't wait if timeout == -1 (i.e. on auto games) */
     if (server_state != PRE_GAME_STATE && game.timeout == -1) {
       (void) send_server_info_to_metaserver(FALSE, FALSE);
-
-      /* kick out of the srv_main loop */
-      if (server_state == GAME_OVER_STATE) {
-	server_state = PRE_GAME_STATE;
-      }
       return 0;
     }
 

@@ -115,7 +115,7 @@ static bool handle_request_join_game(struct connection *pconn,
 static void handle_turn_done(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
 static void check_for_full_turn_done(void);
-
+static void srv_loop(void);
 
 /* this is used in strange places, and is 'extern'd where
    needed (hence, it is not 'extern'd in srv_main.h) */
@@ -1852,8 +1852,6 @@ static void main_loop(void)
 **************************************************************************/
 void srv_main(void)
 {
-  int i;
-
   /* make sure it's initialized */
   if (!has_been_srv_init) {
     srv_init();
@@ -1894,13 +1892,55 @@ void srv_main(void)
   (void) send_server_info_to_metaserver(TRUE, FALSE);
 
   /* accept new players, wait for serverop to start..*/
-  server_state=PRE_GAME_STATE;
+  server_state = PRE_GAME_STATE;
 
   /* load a script file */
   if (srvarg.script_filename
       && !read_init_script(NULL, srvarg.script_filename)) {
     exit(EXIT_FAILURE);
   }
+
+  /* Run server loop */
+  while (TRUE) {
+    srv_loop();
+    if (game.timeout == -1) {
+      game_free();
+      close_connections_and_socket();
+      exit(EXIT_SUCCESS);
+    }
+
+    send_game_state(&game.est_connections, CLIENT_GAME_OVER_STATE);
+    report_scores(TRUE);
+    show_map_to_all();
+    notify_player(NULL, _("Game: The game is over..."));
+    gamelog(GAMELOG_NORMAL, _("The game is over!"));
+    if (game.save_nturns > 0) {
+      save_game_auto();
+    }
+
+    /* Remain in GAME_OVER_STATE until players log out */
+    while (conn_list_size(&game.est_connections) > 0) {
+      (void) sniff_packets();
+    }
+
+    /* Reset server */
+    server_game_free();
+    game_init();
+    game.is_new_game = TRUE;
+    server_state = PRE_GAME_STATE;
+  }
+
+  /* Technically, we won't ever get here... */
+  game_free();
+  close_connections_and_socket();
+}
+
+/**************************************************************************
+  Server loop, run to set up one game.
+**************************************************************************/
+static void srv_loop(void)
+{
+  int i;
 
   freelog(LOG_NORMAL, _("Now accepting new client connections."));
   while(server_state == PRE_GAME_STATE) {
@@ -2076,22 +2116,6 @@ main_start_players:
 
   /*** Where the action is. ***/
   main_loop();
-
-  send_game_state(&game.est_connections, CLIENT_GAME_OVER_STATE);
-
-  report_scores(TRUE);
-  show_map_to_all();
-  notify_player(NULL, _("Game: The game is over..."));
-  gamelog(GAMELOG_NORMAL, _("The game is over!"));
-  if (game.save_nturns > 0) save_game_auto();
-
-  while (server_state == GAME_OVER_STATE) {
-    force_end_of_sniff = FALSE;
-    sniff_packets();
-  }
-
-  close_connections_and_socket();
-  server_game_free();
 }
 
 /**************************************************************************
