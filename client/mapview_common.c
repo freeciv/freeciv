@@ -1157,29 +1157,6 @@ void put_one_tile(struct canvas *pcanvas, int map_x, int map_y,
 			 canvas_x, canvas_y,
 			 NORMAL_TILE_WIDTH, NORMAL_TILE_HEIGHT);
   }
-
-  if (!citymode && goto_is_active()) {
-    /* put any goto lines on the tile. */
-    if (is_real) {
-      enum direction8 dir;
-
-      for (dir = 0; dir < 8; dir++) {
-	if (is_drawn_line(map_x, map_y, dir)) {
-	  draw_segment(map_x, map_y, dir);
-	}
-      }
-    }
-
-    /* Some goto lines overlap onto the tile... */
-    if (NORMAL_TILE_WIDTH % 2 == 0 || NORMAL_TILE_HEIGHT % 2 == 0) {
-      int line_x = map_x - 1, line_y = map_y;
-
-      if (normalize_map_pos(&line_x, &line_y)
-	  && is_drawn_line(line_x, line_y, DIR8_NORTHEAST)) {
-	draw_segment(line_x, line_y, DIR8_NORTHEAST);
-      }
-    }
-  }
 }
 
 /**************************************************************************
@@ -1441,18 +1418,6 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
     gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
       put_tile_iso(map_x, map_y, draw);
     } gui_rect_iterate_end;
-
-    /* Draw the goto lines on top of the whole thing. This is done last as
-     * we want it completely on top. */
-    gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
-      if (normalize_map_pos(&map_x, &map_y)) {
-	adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
-	  if (is_drawn_line(map_x, map_y, dir)) {
-	    draw_segment(map_x, map_y, dir);
-	  }
-	} adjc_dir_iterate_end;
-      }
-    } gui_rect_iterate_end;
   } else {
     /* not isometric */
     gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
@@ -1463,6 +1428,19 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       put_tile(map_x, map_y);
     } gui_rect_iterate_end;
   }
+
+  /* Draw the goto lines on top of the whole thing. This is done last as
+   * we want it completely on top. */
+  gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
+    if (((draw & D_B) || (draw & D_M))
+	&& normalize_map_pos(&map_x, &map_y)) {
+      adjc_dir_iterate(map_x, map_y, adjc_x, adjc_y, dir) {
+	if (is_drawn_line(map_x, map_y, dir)) {
+	  draw_segment(map_x, map_y, dir);
+	}
+      } adjc_dir_iterate_end;
+    }
+  } gui_rect_iterate_end;
 
   /* Draw citymap overlays on top. */
   gui_rect_iterate(gui_x0, gui_y0, width, height, map_x, map_y, draw) {
