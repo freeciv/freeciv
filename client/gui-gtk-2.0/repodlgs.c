@@ -53,7 +53,10 @@
 /******************************************************************/
 
 static void create_science_dialog(bool make_modal);
-static void science_help_callback(GtkTreeSelection *ts, GtkTreeModel *model);
+static void science_help_callback(GtkTreeView *view,
+      				  GtkTreePath *arg1,
+				  GtkTreeViewColumn *arg2,
+				  gpointer data);
 static void science_change_callback(GtkWidget * widget, gpointer data);
 static void science_goal_callback(GtkWidget * widget, gpointer data);
 
@@ -255,8 +258,8 @@ void create_science_dialog(bool make_modal)
 	"text", 0, NULL);
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
 
-    g_signal_connect(selection, "changed",
-		     G_CALLBACK(science_help_callback), science_model[i]);
+    g_signal_connect(view, "row_activated",
+	G_CALLBACK(science_help_callback), NULL);
   }
 
   gui_dialog_show_all(science_dialog_shell);
@@ -327,24 +330,24 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void science_help_callback(GtkTreeSelection *ts, GtkTreeModel *model)
+static void science_help_callback(GtkTreeView *view,
+      				  GtkTreePath *arg1,
+				  GtkTreeViewColumn *arg2,
+				  gpointer data)
 {
-  GtkTreeIter it;
+  GtkTreeModel *model = gtk_tree_view_get_model(view);
 
-  if (!gtk_tree_selection_get_selected(ts, NULL, &it))
-    return;
-
-  gtk_tree_selection_unselect_all(ts);
-
-  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active)
-  {
+  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
+    GtkTreeIter it;
     char *s;
 
+    gtk_tree_model_get_iter(model, &it, arg1);
     gtk_tree_model_get(model, &it, 0, &s, -1);
-    if (*s != '\0')
+    if (*s != '\0') {
       popup_help_dialog_typed(s, HELP_TECH);
-    else
+    } else {
       popup_help_dialog_string(HELP_TECHS_ITEM);
+    }
   }
 }
 
