@@ -110,8 +110,9 @@ static void client_remove_all_cli_conn(void);
 **************************************************************************/
 int main(int argc, char *argv[])
 {
-  int i;
-  int loglevel;
+  int i, loglevel;
+  int ui_options = 0;
+  bool ui_separator = FALSE;
   char *logfile=NULL;
   char *option=NULL;
 
@@ -125,7 +126,10 @@ int main(int argc, char *argv[])
   i = 1;
 
   while (i < argc) {
-   if (is_option("--help", argv[i])) {
+   if (ui_separator) {
+     argv[1 + ui_options] = argv[i];
+     ui_options++;
+   } else if (is_option("--help", argv[i])) {
     fprintf(stderr, _("Usage: %s [option ...]\n"
 		      "Valid options are:\n"), argv[0]);
     fprintf(stderr, _("  -a, --autoconnect\tSkip connect dialog\n"));
@@ -148,6 +152,9 @@ int main(int argc, char *argv[])
     fprintf(stderr, _("  -t, --tiles FILE\t"
 		      "Use data file FILE.tilespec for tiles\n"));
     fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+    fprintf(stderr, _("      --\t\t"
+		      "Pass any following options to the UI.\n"
+		      "\t\t\tTry \"%s -- --help\" for more.\n"), argv[0]);
     exit(EXIT_SUCCESS);
    } else if (is_option("--version",argv[i])) {
     fprintf(stderr, "%s %s\n", freeciv_name_version(), client_string);
@@ -177,12 +184,18 @@ int main(int argc, char *argv[])
       }
    } else if ((option = get_option("--tiles", argv, &i, argc)))
       sz_strlcpy(tile_set_name, option);
-   else { 
+   else if (is_option("--", argv[i])) {
+     ui_separator = TRUE;
+   } else { 
       fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       exit(EXIT_FAILURE);
    }
    i++;
   } /* of while */
+
+  /* Remove all options except those intended for the UI. */
+  argv[1 + ui_options] = NULL;
+  argc = 1 + ui_options;
 
   log_init(logfile, loglevel, NULL);
 
@@ -225,7 +238,6 @@ int main(int argc, char *argv[])
   audio_play_music("music_start", NULL);
 
   /* run gui-specific client */
-
   ui_main(argc, argv);
 
   /* termination */
