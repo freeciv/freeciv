@@ -27,7 +27,7 @@
    for as long as required (typically, the life of the hash table).
    (Otherwise, to allocate keys internally would either have to restrict
    key type (e.g., strings), or have user-supplied function to duplicate
-   a key type.)
+   a key type.  See further comments below.)
 
    User-supplied functions required are:
    
@@ -46,6 +46,48 @@
    Resize hash table when deemed necessary by making and populating
    a new table.
 
+
+   * More on memory management of keys and user-data:
+   
+   The above scheme of key memory management may cause some difficulties
+   in ensuring that keys are freed appropriately, since the caller may
+   need to keep another copy of the key pointer somewhere to be able to
+   free it.  Possible approaches within the current hash implementation:
+
+   - Allocate keys using sbuffer, and free them all together when done;
+     this is the approach taken in registry and tilespec.
+   - Store the keys within the "object" being stored as user-data in the
+     hash.  Then when the data is returned by hash_delete or hash_replace,
+     the key is available to be freed (or can just be freed as part of
+     deleting the "object").  (This is done in registry hsec, but the
+     allocation is still via sbuffer.)
+   - Keep another hash from object pointers to key pointers?!  Seems a
+     bit too perverse...
+
+   Possible implementation changes to avoid/reduce this problem:
+
+   - As noted above, could restrict key type (e.g., strings), or pass
+     in more function pointers and user data to allow duplicating and
+     freeing keys within hash table code.
+   - Have some mechanism to allow external access to the key pointers
+     in the hash table, especially when deleting/replacing elements
+     -- and when freeing the hash table?
+
+   Actually, there are some potential problems with memory management
+   of the user-data pointers too:
+   
+   - If may have multiple keys pointing to the same data, cannot just
+     free the data when deleted/replaced from hash.  (Eg, tilespec;
+     eg, could reference count.)
+   - When hash table as whole is deleted, need other access to user-data
+     pointers if they need to be freed.
+
+   Approaches:
+
+   - Don't have hash table as only access to user-data.
+   - Allocate user-data using sbuffer.
+
+   
 ***************************************************************************/
 
 #include <string.h>
