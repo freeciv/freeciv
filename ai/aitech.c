@@ -102,7 +102,7 @@ static Tech_Type_id get_wonder_tech(struct player *plr)
   int building = get_nation_by_plr(plr)->goals.wonder;
   
   if (improvement_exists(building)
-      && !game.global_wonders[building]
+      && game.global_wonders[building] == 0
       && !wonder_obsolete(building)) {
     Tech_Type_id tech = improvement_types[building].tech_req;
 
@@ -157,7 +157,7 @@ static void ai_next_tech_goal_default(struct player *pplayer,
 static void adjust_tech_choice(struct player *pplayer, struct ai_choice *cur, 
 			       struct ai_choice *best, int advisor)
 {
-  if (cur->want) {
+  if (cur->want != 0) {
     leader_adjust_tech_choice(pplayer, cur, advisor);
     copy_if_better_choice(cur, best);
   }    
@@ -183,7 +183,7 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
   memset(goal_values, 0, sizeof(goal_values));
   for (i = A_FIRST; i < game.num_tech_types; i++) {
     j = num_unknown_techs_for_goal(pplayer, i);
-    if (j) { /* if we already got it we don't want it */
+    if (j > 0) { /* if we already got it we don't want it */
       values[i] += pplayer->ai.tech_want[i];
       for (k = A_FIRST; k < game.num_tech_types; k++) {
 	if (is_tech_a_req_for_goal(pplayer, k, i)) {
@@ -194,7 +194,7 @@ static void ai_select_tech(struct player *pplayer, struct ai_choice *choice,
   }
 
   for (i = A_FIRST; i < game.num_tech_types; i++) {
-    if (num_unknown_techs_for_goal(pplayer, i)) {
+    if (num_unknown_techs_for_goal(pplayer, i) > 0) {
       for (k = A_FIRST; k < game.num_tech_types; k++) {
 	if (is_tech_a_req_for_goal(pplayer, k, i)) {
           goal_values[i] += values[k];
@@ -275,7 +275,7 @@ void ai_next_tech_goal(struct player *pplayer)
   if (bestchoice.want == 0) {/* remove when the ai is done */
     ai_next_tech_goal_default(pplayer, &bestchoice); 
   }
-  if (bestchoice.want) 
+  if (bestchoice.want != 0) 
     pplayer->ai.tech_goal = bestchoice.choice;
 }
 

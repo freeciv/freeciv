@@ -304,12 +304,12 @@ int settler_eats(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-int is_building_other_wonder(struct city *pc)
+bool is_building_other_wonder(struct city *pc)
 {
   struct player *pplayer = city_owner(pc);
   city_list_iterate(pplayer->cities, pcity) 
     if ((pc != pcity) && !(pcity->is_building_unit) && is_wonder(pcity->currently_building) && map_get_continent(pcity->x, pcity->y) == map_get_continent(pc->x, pc->y))
-      return pcity->currently_building; /* why return 1? -- Syela */
+      return TRUE;
   city_list_iterate_end;
   return FALSE;
 }

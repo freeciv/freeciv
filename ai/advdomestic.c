@@ -101,9 +101,9 @@ static int impr_happy_val(int happy, struct city *pcity, int tileval)
 	  pcity->name, pcity->ppl_unhappy[0], pcity->ppl_unhappy[4], sad);
 
   /* The cost of the elvises. */
-  while (happy && elvis) { happy--; elvis--; value += tileval; }
+  while (happy > 0 && elvis > 0) { happy--; elvis--; value += tileval; }
   /* The cost of the rebels. */
-  while (happy && sad) { happy--; sad--; value += SADVAL; }
+  while (happy > 0 && sad > 0) { happy--; sad--; value += SADVAL; }
   
   /* Desperately seeking Colosseum - we need happy improvements urgently. */
   if (city_unhappy(pcity))
@@ -111,7 +111,7 @@ static int impr_happy_val(int happy, struct city *pcity, int tileval)
   
   /* Usage of (happy && content) led to a lack of foresight, especially
    * re: Chapel -- Syela */
-  while (happy) { happy--; value += SADVAL; }
+  while (happy > 0) { happy--; value += SADVAL; }
   
   freelog(LOG_DEBUG, "%s: %d elvis %d sad %d content %d size %d val",
 		pcity->name, pcity->ppl_elvis, pcity->ppl_unhappy[4],
@@ -255,7 +255,7 @@ static int pollution_benefit(struct player *pplayer, struct city *pcity,
   
   /* Subtract cost of future pollution. */
   
-  if (pollution) {
+  if (pollution > 0) {
     int amortized = amortize(weight, 100 / pollution);
   
     cost -= ((amortized * weight) / (MAX(1, weight - amortized))) / 64;
@@ -302,7 +302,7 @@ void ai_eval_buildings(struct city *pcity)
 /* as long as they aren't rated above Settlers and Laws is above Pottery -- Syela*/
   i = (pcity->size * 2) + settler_eats(pcity);
   i -= pcity->food_prod; /* amazingly left out for a week! -- Syela */
-  if (i > 0 && !pcity->ppl_scientist && !pcity->ppl_taxman) hunger = i + 1;
+  if (i > 0 && pcity->ppl_scientist == 0 && pcity->ppl_taxman == 0) hunger = i + 1;
   else hunger = 1;
 
   memset(values, 0, sizeof(values)); /* clear to initialize */
@@ -340,7 +340,7 @@ void ai_eval_buildings(struct city *pcity)
              acity->currently_building == B_SUNTZU) j += prod;
     k++;
   city_list_iterate_end;
-  if (!k) freelog(LOG_FATAL,
+  if (k == 0) freelog(LOG_FATAL,
 		  "Gonna crash, 0 k, looking at %s (ai_eval_buildings)",
 		  pcity->name);
   /* rationale: barracks effectively double prod while building military units */
@@ -600,7 +600,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
         values[id] = bar;
       if (id == B_WOMENS) {
         unit_list_iterate(pcity->units_supported, punit)
-          if (punit->unhappiness) values[id] += t * 2;
+          if (punit->unhappiness > 0) values[id] += t * 2;
         unit_list_iterate_end;
       }
 
@@ -613,7 +613,7 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
   }
 
   for (id=0;id<game.num_impr_types;id++) {
-    if (values[id]) {
+    if (values[id] != 0) {
       freelog(LOG_DEBUG, "%s wants %s with desire %d.",
 	      pcity->name, get_improvement_name(id), values[id]);
     }
@@ -789,7 +789,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   }
 
   /* FIXME: rather !is_valid_choice() --rwetmore */
-  if (!choice->want) {
+  if (choice->want == 0) {
     /* Oh dear, better think of something! */
     unit_type = best_role_unit(pcity, F_CARAVAN);
     

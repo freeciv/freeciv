@@ -60,7 +60,7 @@ struct city *dist_nearest_city(struct player *pplayer, int x, int y,
 
     city_list_iterate(pplay->cities, pcity)
       if (real_map_distance(x, y, pcity->x, pcity->y) < dist &&
-         (everywhere || !con || con == map_get_continent(pcity->x, pcity->y)) &&
+         (everywhere || con == 0 || con == map_get_continent(pcity->x, pcity->y)) &&
          (!pplayer || map_get_known(pcity->x, pcity->y, pplayer))) {
         dist = real_map_distance(x, y, pcity->x, pcity->y);
         pc = pcity;
@@ -141,7 +141,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
        (!pcity->is_building_unit && is_wonder(pcity->currently_building) &&
        pcity->shield_stock >= improvement_value(i) / 2) ||
        (!is_building_other_wonder(pcity) &&
-        !pcity->ai.grave_danger && /* otherwise caravans will be killed! */
+        pcity->ai.grave_danger == 0 && /* otherwise caravans will be killed! */
         pcity->ai.downtown * cities >= downtown &&
         pcity->ai.danger * cities <= danger)) { /* too many restrictions? */
 /* trying to keep wonders in safe places with easy caravan access -- Syela */
@@ -158,7 +158,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
     }
   }
 
-  if (want) {
+  if (want != 0) {
     freelog(LOG_DEBUG, "AI_Chosen: %s with desire = %d for %s",
 	    get_improvement_name(id), want, pcity->name);
   } else {
@@ -178,7 +178,7 @@ Now generalised somewhat for government rulesets, though I'm not sure
 whether it is fully general for all possible parameters/combinations.
  --dwp
 **********************************************************************/
-int ai_assess_military_unhappiness(struct city *pcity,
+bool ai_assess_military_unhappiness(struct city *pcity,
 				   struct government *g)
 {
   int free_happy;
@@ -188,7 +188,7 @@ int ai_assess_military_unhappiness(struct city *pcity,
 
   /* bail out now if happy_cost is 0 */
   if (g->unit_happy_cost_factor == 0) {
-    return 0;
+    return FALSE;
   }
   
   free_happy  = citygov_free_happy(pcity, g);
@@ -228,7 +228,7 @@ int ai_assess_military_unhappiness(struct city *pcity,
   unit_list_iterate_end;
  
   if (unhap < 0) unhap = 0;
-  return unhap;
+  return unhap > 0;
 }
 
 #ifndef NEW_GOV_EVAL		/* needs updating before enabled --dwp */

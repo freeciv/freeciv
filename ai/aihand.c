@@ -176,7 +176,7 @@ static void ai_manage_taxes(struct player *pplayer)
 
   pplayer->ai.est_upkeep = expense;
 
-  if (!trade) { /* can't return right away - thanks for the evidence, Muzz */
+  if (trade == 0) { /* can't return right away - thanks for the evidence, Muzz */
     city_list_iterate(pplayer->cities, pcity) 
       if (ai_fix_unhappy(pcity) && ai_fuzzy(pplayer, TRUE))
         ai_scientists_taxmen(pcity);
@@ -206,7 +206,7 @@ static void ai_manage_taxes(struct player *pplayer)
       tot = 0;
       for (i = 0; i <= 10; i++) {
         if (pcity->trade_prod * i * city_tax_bonus(pcity) >= n * 100) {
-	  if (!tot) freelog(LOG_DEBUG, "%s celebrates at %d.",
+	  if (tot == 0) freelog(LOG_DEBUG, "%s celebrates at %d.",
 			    pcity->name, i * 10);
           hhjj[i] += (pcity->was_happy ? m : m/2);
           tot++;
@@ -229,7 +229,7 @@ static void ai_manage_taxes(struct player *pplayer)
 
     for (i = 1; i <= pcity->size; i++) {
       m = ai_make_elvis(pcity);
-      if (m) {
+      if (m != 0) {
         waste[i] = waste[i-1] + m;
       } else {
         while (i <= pcity->size) {
