@@ -79,6 +79,9 @@ EXTRA_DIST=	acconfig.old			\
 		m4/imlib.m4			\
 		m4/isc-posix.m4			\
 		m4/lcmessage.m4			\
+		m4/lib-ld.m4			\
+		m4/lib-link.m4			\
+		m4/lib-prefix.m4		\
 		m4/ngettext.m4			\
 		m4/progtest.m4			\
 		m4/readline.m4			\
