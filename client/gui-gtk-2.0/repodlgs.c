@@ -107,7 +107,6 @@ static int activeunits_dialog_shell_is_modal;
 
 /******************************************************************/
 static void create_endgame_report(struct packet_endgame_report *packet);
-static void endgame_destroy_callback(GtkObject *object, gpointer data);
 
 static GtkListStore *scores_store;
 static GtkWidget *endgame_report_shell;
@@ -115,6 +114,10 @@ static GtkWidget *scores_list;
 static GtkWidget *sw;
 
 #define NUM_SCORE_COLS 14                
+
+/******************************************************************/
+static GtkWidget *settable_options_dialog_shell;
+
 /******************************************************************/
 
 /******************************************************************
@@ -1297,7 +1300,7 @@ static void create_endgame_report(struct packet_endgame_report *packet)
 
   gtk_window_set_default_size(GTK_WINDOW(endgame_report_shell), 700, 420);
   g_signal_connect(endgame_report_shell, "destroy",
-                   G_CALLBACK(endgame_destroy_callback), NULL);
+		   G_CALLBACK(gtk_widget_destroyed), &endgame_report_shell);
   g_signal_connect_swapped(endgame_report_shell, "response",
                            G_CALLBACK(gtk_widget_destroy), 
                            GTK_OBJECT(endgame_report_shell));
@@ -1365,13 +1368,6 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
   }
   gtk_window_present(GTK_WINDOW(endgame_report_shell));
 }
-/**************************************************************************
-  Close the endgame report.
-**************************************************************************/
-static void endgame_destroy_callback(GtkObject *object, gpointer data)
-{
-  endgame_report_shell = NULL;
-}
 
 /*************************************************************************
   helper function for server options dialog
@@ -1424,24 +1420,33 @@ static void settable_options_callback(GtkWidget *win, gint rid, GtkWidget *w)
 }
 
 /*************************************************************************
-  Server options dialog
+  Server options dialog.
 *************************************************************************/
-void popup_settable_options_dialog(void)
+static void create_settable_options_dialog(void)
 {
   GtkWidget *win, *book, **vbox, *label, *prev_widget = NULL;
   GtkTooltips *tips;
-  bool *used = fc_malloc(num_options_categories * sizeof(bool));
+  bool *used;
   int i;
+
+  used = fc_malloc(num_options_categories * sizeof(bool));
 
   for(i = 0; i < num_options_categories; i++){
     used[i] = FALSE;
   }
 
   tips = gtk_tooltips_new();
-  win = gtk_dialog_new();
+  settable_options_dialog_shell = gtk_dialog_new_with_buttons(_("Game Options"),
+      NULL, 0,
+      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+      GTK_STOCK_OK, GTK_RESPONSE_OK,
+      NULL);
+  win = settable_options_dialog_shell;
+
+  gtk_dialog_set_has_separator(GTK_DIALOG(win), FALSE);
+  g_signal_connect(settable_options_dialog_shell, "destroy",
+		   G_CALLBACK(gtk_widget_destroyed), &settable_options_dialog_shell);
   setup_dialog(win, toplevel);
-  gtk_window_set_title(GTK_WINDOW(win), _("Game Options"));
-  gtk_window_set_position(GTK_WINDOW(win), GTK_WIN_POS_MOUSE);
 
   /* create a notebook for the options */
   book = gtk_notebook_new();
@@ -1541,10 +1546,18 @@ void popup_settable_options_dialog(void)
   g_signal_connect(win, "response",
 		   G_CALLBACK(settable_options_callback), prev_widget);
 
-  gtk_dialog_add_buttons(GTK_DIALOG(win),
-			 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			 GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
-
   gtk_widget_show_all(GTK_DIALOG(win)->vbox);
-  gtk_window_present(GTK_WINDOW(win));
 }
+
+/**************************************************************************
+  Show a dialog with the server options.
+**************************************************************************/
+void popup_settable_options_dialog(void)
+{
+  if (!settable_options_dialog_shell) {
+    create_settable_options_dialog();
+    gtk_window_set_position(GTK_WINDOW(settable_options_dialog_shell), GTK_WIN_POS_MOUSE);
+  }
+  gtk_window_present(GTK_WINDOW(settable_options_dialog_shell));
+}
+
