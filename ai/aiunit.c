@@ -2842,6 +2842,9 @@ static void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
   if ((unit_flag(punit, F_DIPLOMAT))
       || (unit_flag(punit, F_SPY))) {
+    if (punit->moves_left <= 0) {
+      return;
+    }
     ai_manage_diplomat(pplayer, punit);
     return;
   } else if (unit_flag(punit, F_SETTLERS)

@@ -57,6 +57,7 @@
 #include "aidiplomat.h"
 
 #define LOG_DIPLOMAT LOG_DEBUG
+#define LOG_DIPLOMAT_BUILD LOG_DEBUG
 
 static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
                                   struct city **ctarget, int *move_dist);
@@ -111,16 +112,16 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
     Unit_Type_id u = best_role_unit(pcity, F_DIPLOMAT);
 
     if (u < U_LAST) {
-       freelog(LOG_DIPLOMAT, "A defensive diplomat will be built in city %s.",
-           pcity->name);
+       freelog(LOG_DIPLOMAT_BUILD, 
+               "A defensive diplomat will be built in city %s.", pcity->name);
        choice->want = 16000; /* diplomat more important than soldiers */
        pcity->ai.urgency = 1;
        choice->type = CT_DEFENDER;
        choice->choice = u;
     } else if (num_role_units(F_DIPLOMAT) > 0) {
       /* We don't know diplomats yet... */
-      freelog(LOG_DIPLOMAT, "A defensive diplomat is wanted badly in city %s.",
-           pcity->name);
+      freelog(LOG_DIPLOMAT_BUILD,
+              "A defensive diplomat is wanted badly in city %s.", pcity->name);
       u = get_role_unit(F_DIPLOMAT, 0);
       /* 3000 is a just a large number, but not hillariously large as the
          previously used one. This is important for diplomacy later - Per */
@@ -196,12 +197,11 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     /* Probability to lose our unit */
     p_failure = (unit_type_flag(u, F_SPY) ? 100 - p_success : 100);
 
-    time_to_dest /= ut->move_rate;
     time_to_dest *= (time_to_dest/2); /* No long treks, please */
 
     /* Almost kill_desire */
     want = (p_success * gain - p_failure * loss) / 100
-           - SHIELD_WEIGHTING * time_to_dest;
+           - SHIELD_WEIGHTING * (time_to_dest / ut->move_rate);
     if (want <= 0) {
       return;
     }
@@ -209,19 +209,22 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     want = military_amortize(pplayer, pcity, want, time_to_dest, 
                              ut->build_cost);
 
-    if (!player_has_embassy(pplayer, city_owner(acity))) {
-        freelog(LOG_DIPLOMAT, "A diplomat desired in %s to establish an "
-                          "embassy with %s in %s", pcity->name,
-                          city_owner(acity)->name, acity->name);
-        want = MAX(want, 99);
+    if (!player_has_embassy(pplayer, city_owner(acity))
+        && want < 99) {
+        freelog(LOG_DIPLOMAT_BUILD,
+                "A diplomat desired in %s to establish an embassy with %s "
+                "in %s", pcity->name, city_owner(acity)->name, acity->name);
+        want = 99;
     }
     if (want > choice->want) {
-      freelog(LOG_DIPLOMAT, 
-              "%s,%s: %s is desired with want %d (was %d) to spy "
-              "in %s (incite desire %d, tech theft desire %d)",
-              pplayer->name, pcity->name, ut->name, want, choice->want,
-              acity->name, gain_incite, gain_theft);
-      choice->want = want; 
+      freelog(LOG_DIPLOMAT_BUILD,
+              "%s, %s: %s is desired with want %d to spy in %s (incite "
+              "want %d cost %d gold %d, tech theft want %d, ttd %d)",
+              pplayer->name, pcity->name, ut->name, want, acity->name, 
+              gain_incite, incite_cost, 
+              pplayer->economic.gold - pplayer->ai.est_upkeep, 
+              gain_theft, time_to_dest);
+      choice->want = want;
       choice->type = CT_NONMIL; /* so we don't build barracks for it */
       choice->choice = u;
       BV_SET(ai->stats.diplomat_reservations, acity->id);
