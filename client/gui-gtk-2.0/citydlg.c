@@ -588,6 +588,22 @@ static GtkWidget *create_city_info_table(GtkWidget **info_label)
   return hbox;
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static GtkWidget *create_mini_stockbutton(const gchar *stock)
+{
+  GtkWidget *image;
+  GtkWidget *button;
+  
+  button = gtk_button_new();
+  image = gtk_image_new_from_stock(stock, GTK_ICON_SIZE_MENU);
+
+  gtk_container_add(GTK_CONTAINER(button), image);
+  gtk_widget_show(image);
+  return button;
+}
+
 /****************************************************************
                   **** Overview page **** 
 *****************************************************************/
@@ -711,13 +727,13 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_box_pack_end(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 
   pdialog->overview.supported_unit_button[0] =
-      gtk_button_new_with_label(_("<"));
+      create_mini_stockbutton(GTK_STOCK_GO_BACK);
   gtk_box_pack_start(GTK_BOX(vbox),
 		     pdialog->overview.supported_unit_button[0], TRUE,
 		     TRUE, 0);
 
   pdialog->overview.supported_unit_button[1] =
-      gtk_button_new_with_label(_(">"));
+      create_mini_stockbutton(GTK_STOCK_GO_FORWARD);
   gtk_box_pack_start(GTK_BOX(vbox),
 		     pdialog->overview.supported_unit_button[1], TRUE,
 		     TRUE, 0);
@@ -767,13 +783,13 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 
   pdialog->overview.present_unit_button[0] =
-      gtk_button_new_with_label(_("<"));
+      create_mini_stockbutton(GTK_STOCK_GO_BACK);
   gtk_box_pack_start(GTK_BOX(vbox),
 		     pdialog->overview.present_unit_button[0], TRUE, TRUE,
 		     0);
 
   pdialog->overview.present_unit_button[1] =
-      gtk_button_new_with_label(_(">"));
+      create_mini_stockbutton(GTK_STOCK_GO_FORWARD);
   gtk_box_pack_start(GTK_BOX(vbox),
 		     pdialog->overview.present_unit_button[1], TRUE, TRUE,
 		     0);
@@ -979,12 +995,12 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
   gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 
   pdialog->unit.supported_unit_button[0] =
-      gtk_button_new_with_label(_("<"));
+      create_mini_stockbutton(GTK_STOCK_GO_BACK);
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->unit.supported_unit_button[0],
 		     TRUE, TRUE, 0);
 
   pdialog->unit.supported_unit_button[1] =
-      gtk_button_new_with_label(_(">"));
+      create_mini_stockbutton(GTK_STOCK_GO_FORWARD);
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->unit.supported_unit_button[1],
 		     TRUE, TRUE, 0);
 
@@ -1038,11 +1054,13 @@ static void create_and_append_units_page(struct city_dialog *pdialog)
   vbox = gtk_vbox_new(FALSE, 1);	/* prev/next buttons */
   gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 0);
 
-  pdialog->unit.present_unit_button[0] = gtk_button_new_with_label(_("<"));
+  pdialog->unit.present_unit_button[0] =
+      create_mini_stockbutton(GTK_STOCK_GO_BACK);
   gtk_box_pack_start(GTK_BOX(vbox),
 		     pdialog->unit.present_unit_button[0], TRUE, TRUE, 0);
 
-  pdialog->unit.present_unit_button[1] = gtk_button_new_with_label(_(">"));
+  pdialog->unit.present_unit_button[1] =
+      create_mini_stockbutton(GTK_STOCK_GO_FORWARD);
   gtk_box_pack_start(GTK_BOX(vbox),
 		     pdialog->unit.present_unit_button[1], TRUE, TRUE, 0);
 
@@ -1843,7 +1861,8 @@ static void city_dialog_update_map(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_building(struct city_dialog *pdialog)
 {
-  char buf[32], buf2[200], *descr;
+  char buf[32], buf2[200];
+  const char *descr;
   struct city *pcity = pdialog->pcity;
   gdouble pct;
   int cost;
@@ -2803,7 +2822,7 @@ static void buy_callback(GtkWidget * w, gpointer data)
 {
   struct city_dialog *pdialog;
   int value;
-  char *name;
+  const char *name;
   char buf[512];
 
   pdialog = (struct city_dialog *) data;

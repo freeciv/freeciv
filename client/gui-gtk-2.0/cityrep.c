@@ -855,7 +855,7 @@ static void buy_iterate(GtkTreeModel *model, GtkTreePath *path,
 {
   struct city *pcity;
   int value;
-  char *name;
+  const char *name;
   char buf[512];
   gpointer res;
 
@@ -944,17 +944,6 @@ static void popup_iterate(GtkTreeModel *model, GtkTreePath *path,
 static void city_popup_callback(GtkWidget *w, gpointer data)
 {
   gtk_tree_selection_selected_foreach(city_selection, popup_iterate, NULL);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void city_report_list_callback(GtkWidget *w, gint row, gint col,
-				      GdkEvent *ev, gpointer data)
-{
-  /* Pops up a city when it's double-clicked */
-  if(ev && ev->type==GDK_2BUTTON_PRESS)
-    city_popup_callback(w, data);
 }
 
 /****************************************************************

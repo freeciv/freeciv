@@ -802,7 +802,7 @@ static int create_improvements_list(struct player *pplayer,
 
   built_impr_iterate(pcity, i) {
     if(i != B_PALACE && !is_wonder(i)) {
-      row[0] = get_impr_name_ex(pcity, i);
+      row[0] = (char *) get_impr_name_ex(pcity, i);
       gtk_clist_append(GTK_CLIST(spy_improvements_list), row);
       improvement_type[j++] = i;
     }  
@@ -1547,8 +1547,8 @@ void message_dialog_button_set_sensitive(GtkWidget *shl, char *bname,int state)
 /****************************************************************
 ...
 *****************************************************************/
-GtkWidget *popup_message_dialog(GtkWidget *parent, char *dialogname,
-				char *text, ...)
+GtkWidget *popup_message_dialog(GtkWidget *parent, const char *dialogname,
+				const char *text, ...)
 {
   va_list args;
   GtkWidget *dshell, *button, *dlabel, *vbox;
