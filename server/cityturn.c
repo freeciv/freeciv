@@ -76,7 +76,7 @@ static void nullify_caravan_and_disband_plus(struct city *pcity);
 static void worker_loop(struct city *pcity, int *foodneed,
 			int *prodneed, int *workers);
 
-static int advisor_choose_build(struct player *pplayer, struct city *pcity);
+static void advisor_choose_build(struct player *pplayer, struct city *pcity);
 
 /**************************************************************************
 ...
@@ -613,7 +613,7 @@ static void city_populate(struct city *pcity)
 /**************************************************************************
 ...
 **************************************************************************/
-static bool advisor_choose_build(struct player *pplayer, struct city *pcity)
+static void advisor_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice choice;
   int i;
@@ -631,16 +631,16 @@ static bool advisor_choose_build(struct player *pplayer, struct city *pcity)
 
   if (id!=-1 && id != B_LAST && want > 0) {
     change_build_target(pplayer, pcity, id, FALSE, E_IMP_AUTO);
-    return TRUE; /* making something.  return value = 1 */
+    /* making something. */    
+    return;
   }
 
   for (i=0;i<game.num_impr_types;i++)
     if(can_build_improvement(pcity, i) && i != B_PALACE) { /* build something random, undecided */
       pcity->currently_building=i;
       pcity->is_building_unit = FALSE;
-      return FALSE;
+      return;
     }
-  return FALSE;
 }
 
 /**************************************************************************

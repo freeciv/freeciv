@@ -752,10 +752,9 @@ Handles all transactions in relation to transferring a city.
 The kill_outside and transfer_unit_verbose arguments are passed to
 transfer_city_units(), which is called in the middle of the function.
 ***********************************************************************/
-struct city *transfer_city(struct player *ptaker,
-			   struct city *pcity, int kill_outside,
-			   bool transfer_unit_verbose, bool resolve_stack,
-			   bool raze)
+void transfer_city(struct player *ptaker, struct city *pcity,
+		   int kill_outside, bool transfer_unit_verbose,
+		   bool resolve_stack, bool raze)
 {
   struct map_position *resolve_list = NULL;
   int i, no_units = 0;
@@ -906,7 +905,6 @@ struct city *transfer_city(struct player *ptaker,
   }
 
   sync_cities();
-  return pcity;
 }
 
 /**************************************************************************

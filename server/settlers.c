@@ -785,7 +785,8 @@ bool is_ok_city_spot(int x, int y)
 /**************************************************************************
   simply puts the settler unit into goto
 **************************************************************************/
-bool auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int y)
+void auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x,
+			  int y)
 {
   CHECK_MAP_POS(x, y);
   punit->goto_dest_x = x;
@@ -793,7 +794,6 @@ bool auto_settler_do_goto(struct player *pplayer, struct unit *punit, int x, int
   set_unit_activity(punit, ACTIVITY_GOTO);
   send_unit_info(NULL, punit);
   do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-  return TRUE;
 }
 
 /**************************************************************************

@@ -50,10 +50,9 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 			 struct unit_list *units, struct city *pcity,
 			 struct city *exclude_city,
 			 int kill_outside, bool verbose);
-struct city *transfer_city(struct player *ptaker,
-			   struct city *pcity, int kill_outside,
-			   bool transfer_unit_verbose, bool resolve_stack,
-			   bool raze);
+void transfer_city(struct player *ptaker, struct city *pcity,
+		   int kill_outside, bool transfer_unit_verbose,
+		   bool resolve_stack, bool raze);
 struct city *find_closest_owned_city(struct player *pplayer, int x, int y,
 				     bool sea_required, struct city *pexclcity);
 void handle_unit_enter_city(struct unit *punit, struct city *pcity);

@@ -308,7 +308,6 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
       case CLAUSE_CITY:
 	{
 	  struct city *pcity = find_city_by_id(pclause->value);
-	  struct city *pnewcity = NULL;
 
 	  if (!pcity) {
 	    freelog(LOG_NORMAL,
@@ -323,11 +322,7 @@ void handle_diplomacy_accept_treaty(struct player *pplayer,
 	  notify_player(pgiver, _("Game: You give city of %s to %s."),
 			pcity->name, pdest->name);
 
-	  pnewcity = transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE);
-	  if (!pnewcity) {
-	    freelog(LOG_NORMAL, "Transfer city returned no city - skipping clause.");
-	    break;
-	  }
+	  transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE);
 	  break;
 	}
       case CLAUSE_CEASEFIRE:

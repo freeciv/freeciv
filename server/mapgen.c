@@ -888,21 +888,18 @@ static void remove_tiny_islands(void)
 /**************************************************************************
  Number this tile and recursive adjacent tiles with specified
  continent number, by flood-fill algorithm.
- Returns 1 if tile successfully assigned this number.
 **************************************************************************/
-static bool assign_continent_flood(int x, int y, int nr)
+static void assign_continent_flood(int x, int y, int nr)
 {
-  if (y<0 || y>=map.ysize)              return FALSE;
-  if (map_get_continent(x, y) != 0)     return FALSE;
-  if (map_get_terrain(x, y) == T_OCEAN) return FALSE;
+  if (y<0 || y>=map.ysize)              return;
+  if (map_get_continent(x, y) != 0)     return;
+  if (map_get_terrain(x, y) == T_OCEAN) return;
 
   map_set_continent(x, y, nr);
 
   adjc_iterate(x, y, x1, y1) {
     assign_continent_flood(x1, y1, nr);
   } adjc_iterate_end;
-
-  return TRUE;
 }
 
 /**************************************************************************

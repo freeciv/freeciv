@@ -1722,7 +1722,6 @@ determined randomly.
 void civil_war(struct player *pplayer)
 {
   int i, j;
-  struct city *pnewcity;
   struct player *cplayer;
 
   cplayer = split_player(pplayer);
@@ -1758,11 +1757,11 @@ void civil_war(struct player *pplayer)
 	 a unit from another city, and both cities join the rebellion. We
 	 resolved stack conflicts for each city we would teleport the first
 	 of the units we met since the other would have another owner */
-	pnewcity = transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE);
+	transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE);
 	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
-		pnewcity->name, cplayer->name);
+		pcity->name, cplayer->name);
 	notify_player(pplayer, _("Game: %s declares allegiance to %s."),
-		      pnewcity->name,cplayer->name);
+		      pcity->name,cplayer->name);
 	i--;
       }
     }

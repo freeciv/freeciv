@@ -97,7 +97,7 @@
 
 static void begin_turn(void);
 static void before_end_year(void);
-static int end_turn(void);
+static void end_turn(void);
 static void send_all_info(struct conn_list *dest);
 static void ai_start_turn(void);
 static int is_game_over(void);
@@ -113,7 +113,7 @@ static bool handle_request_join_game(struct connection *pconn,
 				    struct packet_req_join_game *req);
 static void handle_turn_done(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
-static bool check_for_full_turn_done(void);
+static void check_for_full_turn_done(void);
 
 
 /* this is used in strange places, and is 'extern'd where
@@ -409,7 +409,7 @@ static void begin_turn(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static bool end_turn(void)
+static void end_turn(void)
 {
   int i;
 
@@ -445,7 +445,6 @@ static bool end_turn(void)
   send_player_turn_notifications(NULL);
   freelog(LOG_DEBUG, "Turn ended.");
   game.turn_start = time(NULL);
-  return TRUE;
 }
 
 /**************************************************************************
@@ -871,25 +870,24 @@ bool handle_packet_input(struct connection *pconn, char *packet, int type)
 /**************************************************************************
 ...
 **************************************************************************/
-static bool check_for_full_turn_done(void)
+static void check_for_full_turn_done(void)
 {
   /* fixedlength is only applicable if we have a timeout set */
   if (game.fixedlength && game.timeout != 0)
-    return FALSE;
+    return;
 
   players_iterate(pplayer) {
     if (game.turnblock) {
       if (!pplayer->ai.control && pplayer->is_alive && !pplayer->turn_done)
-        return FALSE;
+        return;
     } else {
       if(pplayer->is_connected && pplayer->is_alive && !pplayer->turn_done) {
-        return FALSE;
+        return;
       }
     }
   } players_iterate_end;
 
   force_end_of_sniff = TRUE;
-  return TRUE;
 }
 
 /**************************************************************************
