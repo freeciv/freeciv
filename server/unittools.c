@@ -1453,29 +1453,21 @@ void resolve_unit_stack(int x, int y, bool verbose)
     }
   } /* end while */
 
-  /* There is only one allied units left on this square.  If there is not 
-     enough transporter capacity left send surplus to the closest friendly 
-     city. */
-  punit = unit_list_get(&(ptile->units), 0);
+  /* There are only allied units left on this square.  If there is not enough 
+     transporter capacity left, send surplus to the closest friendly city. */
+  unit_list_iterate_safe(ptile->units, aunit) {
+    if (ground_unit_transporter_capacity(x, y, unit_owner(aunit)) < 0
+        && is_ground_unit(aunit)) {
+      struct city *acity =
+                find_closest_owned_city(unit_owner(aunit), x, y, FALSE, NULL);
 
-  if (is_ocean(ptile->terrain)) {
-  START:
-    unit_list_iterate(ptile->units, vunit) {
-      if (ground_unit_transporter_capacity(x, y, unit_owner(punit)) < 0) {
- 	unit_list_iterate(ptile->units, wunit) {
- 	  if (is_ground_unit(wunit) && wunit->owner == vunit->owner) {
-	    struct city *wcity =
-		find_closest_owned_city(unit_owner(wunit), x, y, FALSE, NULL);
- 	    if (wcity)
- 	      (void) teleport_unit_to_city(wunit, wcity, 0, verbose);
- 	    else
- 	      disband_stack_conflict_unit(wunit, verbose);
- 	    goto START;
- 	  }
- 	} unit_list_iterate_end; /* End of find a unit from that player to disband*/
+      if (acity) {
+        (void) teleport_unit_to_city(aunit, acity, 0, verbose);
+      } else {
+        disband_stack_conflict_unit(aunit, verbose);
       }
-    } unit_list_iterate_end; /* End of find a player */
-  }
+    }
+  } unit_list_iterate_safe_end;
 }
 
 /**************************************************************************
