@@ -545,6 +545,33 @@ int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j)
   } else return(-1);
 }
 
+int ai_calc_transform(struct city *pcity, struct player *pplayer, int i, int j)
+{
+  int m, x = pcity->x + i - 2, y = pcity->y + j - 2;
+  struct tile *ptile = map_get_tile(x, y);
+
+  enum tile_terrain_type t = ptile->terrain;
+  struct tile_type *type = get_tile_type(t);
+  int s = ptile->special;
+  enum tile_terrain_type r = type->transform_result;
+  
+  if ((t == T_ARCTIC || t == T_DESERT || t == T_JUNGLE || t == T_SWAMP  || 
+       t == T_TUNDRA || t == T_MOUNTAINS) && r != T_LAST) {
+    ptile->terrain = r;
+
+    if (get_tile_type(r)->mining_result != r) 
+      map_clear_special(x, y, S_MINE);
+
+    if (get_tile_type(r)->irrigation_result != r) 
+      map_clear_special(x, y, S_IRRIGATION);
+
+    m = city_tile_value(pcity, i, j, 0, 0);
+    ptile->terrain = t;
+    ptile->special = s;
+    return(m);
+  } else return(-1);
+}
+
 int road_bonus(int x, int y, int spc)
 {
   int m = 0, k;
@@ -833,6 +860,23 @@ and the prioritization of useless (b <= 0) activities are his. -- Syela
 		  "Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d",
 		  gx, gy, best_newv, x, y, newv, d, b);
 	  best_act = ACTIVITY_IRRIGATE;
+	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
+        }
+
+	newv = pcity->ai.transform[i][j];
+        if (newv >= oldv) { /* worth evaluating */
+          b = MAX((newv - oldv)*64, MORT);
+          d = (map_transform_time(x, y) * 3 + mv_rate - 1) / mv_rate
+	    + mv_turns;
+          a = amortize(b, d);
+          newv = ((a * b) / (MAX(1, b - a)))/64;
+        } else newv = 0;
+        if ((newv > best_newv || (newv == best_newv && oldv > best_oldv))
+	    && ai_fuzzy(pplayer, 1)) {
+	  freelog(LOG_DEBUG,
+		  "Replacing (%d, %d) = %d with (%d, %d) I=%d d=%d, b=%d",
+		  gx, gy, best_newv, x, y, newv, d, b);
+	  best_act = ACTIVITY_TRANSFORM;
 	  best_newv=newv; gx=x; gy=y; best_oldv=oldv;
         }
 
@@ -1165,6 +1209,7 @@ void initialize_infrastructure_cache(struct city *pcity)
     pcity->ai.detox[i][j] = ai_calc_pollution(pcity, pplayer, i, j);
     pcity->ai.mine[i][j] = ai_calc_mine(pcity, pplayer, i, j);
     pcity->ai.irrigate[i][j] = ai_calc_irrigate(pcity, pplayer, i, j);
+    pcity->ai.transform[i][j] = ai_calc_transform(pcity, pplayer, i, j);
     pcity->ai.road[i][j] = ai_calc_road(pcity, pplayer, i, j);
 /* gonna handle road_bo dynamically for now since it can change
 as punits arrive at adjacent tiles and start laying road -- Syela */

@@ -37,6 +37,7 @@ int ai_calc_mine(struct city *pcity, struct player *pplayer, int i, int j);
 int ai_calc_road(struct city *pcity, struct player *pplayer, int i, int j);
 int ai_calc_railroad(struct city *pcity, struct player *pplayer, int i, int j);
 int ai_calc_irrigate(struct city *pcity, struct player *pplayer, int i, int j);
+int ai_calc_transform(struct city *pcity, struct player *pplayer, int i, int j);
 int in_city_radius(int x, int y);
 int is_ok_city_spot(int x, int y); /* laughable, really. */
 int make_dy(int y1, int y2);

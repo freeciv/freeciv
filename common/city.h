@@ -119,7 +119,7 @@ struct ai_city {
   struct ai_choice choice; /* to spend gold in the right place only */
   int downtown; /* distance from neighbours, for locating wonders wisely */
   int distance_to_wonder_city; /* wondercity will set this for us, avoiding paradox */
-  signed short int detox[5][5], mine[5][5], irrigate[5][5], road[5][5], railroad[5][5];
+  signed short int detox[5][5], mine[5][5], irrigate[5][5], road[5][5], railroad[5][5], transform[5][5];
 /* caching these so that CPU usage is O(cities) instead of O(cities^2) -- Syela */
   signed short int tile_value[5][5]; /* caching these will help too. */
   int settler_want; /* so we can contemplate with warmap fresh and decide later */
