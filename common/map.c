@@ -443,7 +443,7 @@ int is_special_close(int x, int y)
   int x1,y1;
   for (x1=x-1;x1<x+2;x1++)
     for (y1=y-1;y1<=y+2;y1++) 
-      if(map_get_tile(x1,y1)->special)
+      if(map_get_tile(x1,y1)->special&(S_SPECIAL_1 | S_SPECIAL_2))
 	return 1;
   return 0;
 }
