@@ -76,7 +76,6 @@ If barbarian player already exists, return player pointer.
 If barbarians are dead, revive them with a new leader :-)
 Dead barbarians forget the map and lose the money.
 **************************************************************************/
-
 static struct player *create_barbarian_player(bool land)
 {
   int newplayer = game.nplayers;
@@ -123,14 +122,20 @@ static struct player *create_barbarian_player(bool land)
   barbarians->turn_done = TRUE;
 
   /* Do the ai */
-
   barbarians->ai.control = TRUE;
-  if( land )
+  if (land) {
     barbarians->ai.barbarian_type = LAND_BARBARIAN;
-  else
+  } else {
     barbarians->ai.barbarian_type = SEA_BARBARIAN;
+  }
   set_ai_level_directer(barbarians, game.skill_level);
   init_tech(barbarians, game.tech);
+
+  /* Ensure that we are at war with everyone else */
+  players_iterate(pplayer) {
+    pplayer->diplstates[barbarians->player_no].type = DS_WAR;
+    barbarians->diplstates[pplayer->player_no].type = DS_WAR;
+  } players_iterate_end;
 
   game.nplayers++;
   game.nbarbarians++;

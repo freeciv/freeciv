@@ -751,7 +751,7 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
   square_iterate(x, y, radius, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
 
-    if (pcity && pcity->owner != punit->owner
+    if (pcity && pplayers_at_war(city_owner(pcity), unit_owner(punit))
 	&& (pcity->ai.invasion & which) != which
 	&& (want_attack || !has_defense(pcity))) {
       pcity->ai.invasion |= which;
@@ -815,7 +815,9 @@ int military_amortize(int value, int delay, int build_cost)
 }
 
 /**************************************************************************
- this is still pretty dopey but better than the original -- Syela
+  Calculates the values of nearby units to see if we can expect any
+  help in our attack. Note that is includes the units of allied players
+  in this calculation.
 **************************************************************************/
 static int reinforcements_value(struct unit *punit, int x, int y)
 {
@@ -823,7 +825,8 @@ static int reinforcements_value(struct unit *punit, int x, int y)
   square_iterate(x, y, 1, i, j) {
     struct tile *ptile = map_get_tile(i, j);
     unit_list_iterate(ptile->units, aunit) {
-      if (aunit == punit || aunit->owner != punit->owner) continue;
+      if (aunit == punit
+	|| !pplayers_allied(unit_owner(punit), unit_owner(aunit))) continue;
       val += (unit_belligerence_basic(aunit));
     } unit_list_iterate_end;
   } square_iterate_end;
@@ -832,7 +835,8 @@ static int reinforcements_value(struct unit *punit, int x, int y)
 }
 
 /********************************************************************** 
-  ...
+  FIXME: Should this function take allied units into considerations?
+  Currently it does not do this. - Per
 ***********************************************************************/
 static int city_reinforcements_cost_and_value(struct city *pcity, struct unit *punit)
 { 
@@ -886,7 +890,7 @@ static int reinforcements_cost(struct unit *punit, int x, int y)
 #endif
 
 /*************************************************************************
-...
+  TODO: We should maybe include allied units in the calculations - Per
 **************************************************************************/
 static bool is_my_turn(struct unit *punit, struct unit *pdef)
 {
@@ -1035,10 +1039,7 @@ static int ai_military_findvictim(struct player *pplayer, struct unit *punit,
       /* No defender... */
      
       /* ...and free foreign city waiting for us. Who would resist! */
-      /* TODO: When diplomacy is implemented, don't capture enemy cities so
-       * enthusiastically. -- mike, pasky */
-      if (pcity && pcity->owner != pplayer->player_no
-          && is_non_allied_city_tile(map_get_tile(x1, y1), pplayer)
+      if (pcity && pplayers_at_war(pplayer, city_owner(pcity))
           && is_ground_unit(punit)
           && map_get_terrain(punit->x, punit->y) != T_OCEAN) {
         SET_BEST(99999);
@@ -1554,8 +1555,8 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
 
 /* this is horrible, but I need to do something like this somewhere. -- Syela */
   players_iterate(aplayer) {
-    if (aplayer == pplayer) continue;
     /* AI will try to conquer only enemy cities. -- Nb */
+    if (!pplayers_at_war(pplayer, aplayer)) continue;
     city_list_iterate(aplayer->cities, acity)
       city_reinforcements_cost_and_value(acity, punit);
       acity->ai.invasion = 0;
@@ -1628,7 +1629,7 @@ learning steam engine, even though ironclads would be very useful. -- Syela */
 
   handicap=ai_handicap(pplayer, H_TARGETS);
   players_iterate(aplayer) {
-    if (aplayer != pplayer) { /* enemy */
+    if (pplayers_at_war(pplayer, aplayer)) { /* enemy */
       city_list_iterate(aplayer->cities, acity)
         if (handicap && !map_get_known(acity->x, acity->y, pplayer)) continue;
         sanity = (goto_is_sane(punit, acity->x, acity->y, TRUE) &&
@@ -1840,22 +1841,28 @@ the city itself.  This is a little weird, but it's the best we can do. -- Syela 
 }
 
 /********************************************************************** 
-...
+  Find safe harbour (preferably with PORT). An allied player's city is
+  just as good as one of our own, since both replenish our hitpoints and
+  reduce unhappiness.
 ***********************************************************************/
 static bool find_nearest_friendly_port(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   int best = 6 * THRESHOLD + 1, cur;
   generate_warmap(map_get_city(punit->x, punit->y), punit);
-  city_list_iterate(pplayer->cities, pcity)
-    cur = warmap.seacost[pcity->x][pcity->y];
-    if (city_got_building(pcity, B_PORT)) cur /= 3;
-    if (cur < best) {
-      punit->goto_dest_x = pcity->x;
-      punit->goto_dest_y = pcity->y;
-      best = cur;
+  players_iterate(aplayer) {
+    if (pplayers_allied(pplayer,aplayer)) {
+      city_list_iterate(aplayer->cities, pcity) {
+        cur = warmap.seacost[pcity->x][pcity->y];
+        if (city_got_building(pcity, B_PORT)) cur /= 3;
+        if (cur < best) {
+          punit->goto_dest_x = pcity->x;
+          punit->goto_dest_y = pcity->y;
+          best = cur;
+        }
+      } city_list_iterate_end;
     }
-  city_list_iterate_end;
+  } players_iterate_end;
   if (best > 6 * THRESHOLD) return FALSE;
   freelog(LOG_DEBUG, "Friendly port nearest to (%d,%d) is %s@(%d,%d) [%d]",
 		punit->x, punit->y,
@@ -1940,7 +1947,9 @@ static void ai_military_attack(struct player *pplayer,struct unit *punit)
 }
 
 /*************************************************************************
-...
+  Use caravans for building wonders, or send caravans to establish
+  trade with a city on the same continent, owned by yourself or an
+  ally.
 **************************************************************************/
 static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 {
@@ -1973,20 +1982,22 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
     } else {
        /* A caravan without a home?  Kinda strange, but it might happen.  */
        pcity=player_find_city_by_id(pplayer, punit->homecity);
-       city_list_iterate(pplayer->cities,pdest) {
-         if (pcity && can_establish_trade_route(pcity, pdest)
-             && map_get_continent(pcity->x, pcity->y) 
+       players_iterate(aplayer) {
+         if (pplayers_at_war(pplayer, aplayer)) continue;
+         city_list_iterate(pplayer->cities,pdest) {
+           if (pcity && can_establish_trade_route(pcity, pdest)
+               && map_get_continent(pcity->x, pcity->y) 
                                 == map_get_continent(pdest->x, pdest->y)) {
-           tradeval=trade_between_cities(pcity, pdest);
-           if (tradeval != 0) {
-             if (best < tradeval) {
-               best=tradeval;
-               best_city=pdest->id;
+             tradeval=trade_between_cities(pcity, pdest);
+             if (tradeval != 0) {
+               if (best < tradeval) {
+                 best=tradeval;
+                 best_city=pdest->id;
+               }
              }
            }
-         }
-       } city_list_iterate_end;
-
+         } city_list_iterate_end;
+       } players_iterate_end;
        pcity = player_find_city_by_id(pplayer, best_city);
 
        if (pcity) {
@@ -2471,7 +2482,10 @@ static void ai_manage_diplomat(struct player *pplayer, struct unit *pdiplomat)
     continent=map_get_continent(pdiplomat->x, pdiplomat->y);
     handicap = ai_handicap(pplayer, H_TARGETS);
     players_iterate(aplayer) {
-      if (aplayer == pplayer) continue;
+      /* don't target ourselves or friendly players that we already
+         have embassies with */
+      if ((!pplayers_at_war(pplayer, aplayer))
+          && (player_has_embassy(pplayer, aplayer))) continue;
       /* sneaky way of avoiding foul diplomat capture  -AJS */
       has_emb=player_has_embassy(pplayer, aplayer) || pdiplomat->foul;
       city_list_iterate(aplayer->cities, acity)

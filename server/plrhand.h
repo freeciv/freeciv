@@ -37,7 +37,6 @@ void handle_player_cancel_pact(struct player *pplayer, int other_player);
 void make_contact(struct player *pplayer1, struct player *pplayer2, int x,
 		  int y);
 void maybe_make_first_contact(int x, int y, struct player *pplayer);
-void neutralize_ai_player(struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);

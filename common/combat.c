@@ -228,7 +228,7 @@ struct city *sdi_defense_close(struct player *owner, int x, int y)
 {
   square_iterate(x, y, 2, x1, y1) {
     struct city *pcity = map_get_city(x1, y1);
-    if (pcity && (city_owner(pcity) != owner)
+    if (pcity && (!pplayers_allied(city_owner(pcity), owner))
 	&& city_got_building(pcity, B_SDI)) return pcity;
   } square_iterate_end;
 

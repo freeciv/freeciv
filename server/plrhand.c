@@ -1416,32 +1416,6 @@ void maybe_make_first_contact(int x, int y, struct player *pplayer)
   } square_iterate_end;
 }
 
-/***************************************************************************
-FIXME: This is a kluge to keep the AI working for the moment.
-When the AI is taught to handle diplomacy, remove this and the call to it.
-***************************************************************************/
-void neutralize_ai_player(struct player *pplayer)
-{
-  int other_player;
-  /* To make sure the rulesets are loaded we must do this.
-     If the game is a new game all players (inclusive ai's) would be
-     DS_NO_CONTACT, which is just as good as war.
-  */
-  if (game.is_new_game)
-    return;
-
-  for (other_player = 0; other_player < game.nplayers; other_player++) {
-    struct player *pother = get_player(other_player);
-    if (!pother->is_alive || pplayer == pother
-	|| pplayer_get_diplstate(pplayer, pother)->type == DS_NO_CONTACT)
-      continue;
-    while (pplayers_non_attack(pplayer, pother)
-	   || pplayers_allied(pplayer, pother)) {
-      handle_player_cancel_pact(pplayer, pother->player_no);
-    }
-  }
-}
-
 /**************************************************************************
   Setup pconn as a client connected to pplayer:
   Updates pconn->player, pplayer->connections, pplayer->is_connected.

@@ -1357,8 +1357,10 @@ bool enemies_at(struct unit *punit, int x, int y)
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = map_get_tile(x,y)->city;
 
-  if (pcity && pcity->owner == punit->owner)
-     return FALSE;
+  if (pcity && pplayers_allied(city_owner(pcity), unit_owner(punit))
+      && !is_non_allied_unit_tile(map_get_tile(x,y), pplayer)) {
+    return FALSE;
+  }
 
   db = get_tile_type(map_get_terrain(x, y))->defense_bonus;
   if (map_has_special(x, y, S_RIVER))

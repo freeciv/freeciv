@@ -630,7 +630,7 @@ static void player_load(struct player *plr, int plrno,
 					     "player%d.reputation", plrno);
   for(i=0; i<game.nplayers; i++) {
     plr->diplstates[i].type = 
-      secfile_lookup_int_default(file, DS_NEUTRAL,
+      secfile_lookup_int_default(file, DS_WAR,
 				 "player%d.diplstate%d.type", plrno, i);
     plr->diplstates[i].turns_left = 
       secfile_lookup_int_default(file, -2,
@@ -1975,27 +1975,6 @@ void game_load(struct section_file *file)
     for(i=0; i<game.nplayers; i++) {
       player_map_load(&game.players[i], i, file); 
     }
-
-    /* 
-     * FIXME: This is a kluge to keep the AI working until it can
-     * handle diplomacy.
-     *
-     * When loading old savegames the diplstate is set to DS_NEUTRAL,
-     * so we need to set it to DS_WAR for the AIs for now.
-     */
-    players_iterate(pplayer) {
-      if (pplayer->ai.control) {
-	players_iterate(pother) {
-	  if (pplayer != pother &&
-	      pplayer->diplstates[pother->player_no].type != DS_NO_CONTACT) {
-	    pplayer->diplstates[pother->player_no].type =
-		pother->diplstates[pplayer->player_no].type = DS_WAR;
-	    pplayer->diplstates[pother->player_no].turns_left =
-		pother->diplstates[pplayer->player_no].turns_left = 16;
-	  }
-	} players_iterate_end;
-      }
-    } players_iterate_end;
 
     /* We do this here since if the did it in player_load, player 1
        would try to unfog (unloaded) player 2's map when player 1's units

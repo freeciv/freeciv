@@ -411,8 +411,8 @@ static bool is_already_assigned(struct unit *myunit, struct player *pplayer, int
 /* I'm still not sure this is exactly right -- Syela */
     unit_list_iterate(map_get_tile(x, y)->units, punit)
       if (myunit==punit) continue;
-      if (punit->owner!=pplayer->player_no)
-        return TRUE;
+      if (!pplayers_allied(unit_owner(punit), pplayer))
+        return TRUE; /* oops, tile is occupied! */
       if (unit_flag(punit, F_SETTLERS) && unit_flag(myunit, F_SETTLERS))
         return TRUE;
     unit_list_iterate_end;
