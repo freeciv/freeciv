@@ -595,13 +595,13 @@ static void global_rename_callback(GtkWidget * w, gpointer data)
 
   preport->wl_idx = GPOINTER_TO_INT(selection->data);
 
-  input_dialog_create(report_dialog->shell,
+  input_dialog_create(GTK_WINDOW(report_dialog->shell),
 		      _("Rename Worklist"),
 		      _("What should the new name be?"),
 		      preport->pplr->worklists[preport->wl_idx].name,
-		      (void *) global_rename_sub_callback,
+		      G_CALLBACK(global_rename_sub_callback),
 		      (gpointer) preport,
-		      (void *) global_rename_sub_callback,
+		      G_CALLBACK(global_rename_sub_callback),
 		      (gpointer) NULL);
 }
 

@@ -48,13 +48,6 @@ const char *input_dialog_get_input(GtkWidget *button)
 *****************************************************************/
 void input_dialog_destroy(GtkWidget *button)
 {
-  GtkWidget *parent;
-
-  parent=gtk_object_get_data(GTK_OBJECT(button->parent->parent->parent),
-	"parent");
-
-  gtk_widget_set_sensitive(parent, TRUE);
-
   gtk_widget_destroy(button->parent->parent->parent);
 }
 
@@ -62,64 +55,43 @@ void input_dialog_destroy(GtkWidget *button)
 /****************************************************************
 ...
 *****************************************************************/
-static gint input_dialog_del_callback(GtkWidget *w, GdkEvent *ev, gpointer data)
-{
-  gtk_widget_set_sensitive((GtkWidget *)data, TRUE);
-  return FALSE;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-GtkWidget *input_dialog_create(GtkWidget *parent, char *dialogname, 
+GtkWidget *input_dialog_create(GtkWindow *parent, char *dialogname, 
 			   char *text, char *postinputtest,
-			   void *ok_callback, gpointer ok_cli_data, 
-			   void *cancel_callback, gpointer cancel_cli_data)
+			   GCallback ok_callback, gpointer ok_cli_data, 
+			   GCallback cancel_callback, gpointer cancel_cli_data)
 {
   GtkWidget *shell, *label, *input, *ok, *cancel;
   
-  gtk_widget_set_sensitive(parent, FALSE);
-  
-  shell=gtk_dialog_new();
-  gtk_signal_connect(GTK_OBJECT(shell),"delete_event",
-	GTK_SIGNAL_FUNC(input_dialog_del_callback), parent);
+  shell = gtk_dialog_new_with_buttons(dialogname,
+        parent,
+        GTK_DIALOG_MODAL,
+        NULL);
+  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
 
-  gtk_window_set_title(GTK_WINDOW(shell), dialogname);
-  
-  gtk_container_border_width(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), 5);
-
-  label=gtk_frame_new(text);
+  label = gtk_frame_new(text);
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->vbox), label, TRUE, TRUE, 0);
 
-  input=gtk_entry_new();
+  input = gtk_entry_new();
   gtk_container_add(GTK_CONTAINER(label), input);
-  gtk_entry_set_text(GTK_ENTRY(input),postinputtest);
-  
-  gtk_signal_connect(GTK_OBJECT(input), "activate",
-	GTK_SIGNAL_FUNC(ok_callback), ok_cli_data);
+  gtk_entry_set_text(GTK_ENTRY(input), postinputtest);
 
-  ok=gtk_button_new_with_label(_("Ok"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->action_area),
-	ok, TRUE, TRUE, 0);
-  gtk_signal_connect(GTK_OBJECT(ok), "clicked",
-	GTK_SIGNAL_FUNC(ok_callback), ok_cli_data);
+  g_signal_connect(input, "activate", ok_callback, ok_cli_data);
 
-  cancel=gtk_button_new_with_label(_("Cancel"));
-  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(shell)->action_area),
-	cancel, TRUE, TRUE, 0);
-  gtk_signal_connect(GTK_OBJECT(cancel), "clicked",
-	GTK_SIGNAL_FUNC(cancel_callback), cancel_cli_data);
+  cancel = gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_CANCEL,
+    GTK_RESPONSE_CANCEL);
+  ok = gtk_dialog_add_button(GTK_DIALOG(shell), GTK_STOCK_OK,
+    GTK_RESPONSE_OK);
+
+  g_signal_connect(ok, "clicked", ok_callback, ok_cli_data);
+  g_signal_connect(cancel, "clicked", cancel_callback, cancel_cli_data);
 
   gtk_widget_grab_focus(input);
-    
-  gtk_set_relative_position(parent, shell, 10, 10);
 
-  gtk_object_set_data(GTK_OBJECT(shell), "iinput",input);
-  gtk_object_set_data(GTK_OBJECT(shell), "parent",parent);
+  gtk_object_set_data(GTK_OBJECT(shell), "iinput", input);
 
   gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(shell)->action_area);
   gtk_widget_show(shell);
-  
+
   return shell;
 }
