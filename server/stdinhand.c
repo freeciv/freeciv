@@ -454,6 +454,7 @@ static struct settings_s settings[] = {
        "  - In Civ2, cities cannot be built next to each other.\n"
        "  - In Civ2, overflight of a hut causes it to disappear.\n"
        "  - In Civ2, cities on mountains produce some food.\n"
+       "  - Apollo shows whole map in Civ2, only cities in Civ1.\n"
        "See also README.rulesets and the techs, units, buildings and "
        "terrain options.") },
 

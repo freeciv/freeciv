@@ -696,11 +696,15 @@ static void do_apollo_program(void)
   if ((cityid=game.global_wonders[B_APOLLO]) && 
       (pcity=find_city_by_id(cityid))) {
     pplayer=city_owner(pcity);
-    
-    for(i=0; i<game.nplayers; i++) {
-      city_list_iterate(game.players[i].cities, pcity)	
-	show_area(pplayer, pcity->x, pcity->y, 0);
-      city_list_iterate_end;
+    if (game.civstyle == 1) {
+      for(i=0; i<game.nplayers; i++) {
+	city_list_iterate(game.players[i].cities, pcity)
+	  show_area(pplayer, pcity->x, pcity->y, 0);
+	city_list_iterate_end;
+      }
+    } else {
+      map_know_all(pplayer);
+      send_all_known_tiles(pplayer);
     }
   }
 }

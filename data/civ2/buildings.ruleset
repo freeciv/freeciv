@@ -641,7 +641,7 @@ build_cost  = 600
 upkeep      = 0
 variant     = 0
 helptext    = _("\
-All cities on the map become visible for the player who owns it. \
+Entire map becomes visible for the player who owns it. \
  It allows all players to start building spaceship parts (assuming\
  they have researched the necessary technologies).\
 ")
