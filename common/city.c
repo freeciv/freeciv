@@ -251,7 +251,7 @@ bool wonder_replacement(struct city *pcity, Impr_Type_id id)
 const char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
 {
   static char buffer[256];
-  char *state = NULL;
+  const char *state = NULL;
 
   if (pcity) {
     switch (pcity->improvements[id]) {

@@ -559,33 +559,53 @@ bool can_unit_do_connect (struct unit *punit, enum unit_activity activity)
 }
 
 /**************************************************************************
-Return name of activity in static buffer
+  Return the name of the activity in a static buffer.
 **************************************************************************/
-char* get_activity_text (int activity)
+const char *get_activity_text(enum unit_activity activity)
 {
-  char *text;
-
+  /* The switch statement has just the activities listed with no "default"
+   * handling.  This enables the compiler to detect missing entries
+   * automatically, and still handles everything correctly. */
   switch (activity) {
-  case ACTIVITY_IDLE:		text = _("Idle"); break;
-  case ACTIVITY_POLLUTION:	text = _("Pollution"); break;
-  case ACTIVITY_ROAD:		text = _("Road"); break;
-  case ACTIVITY_MINE:		text = _("Mine"); break;
-  case ACTIVITY_IRRIGATE:	text = _("Irrigation"); break;
-  case ACTIVITY_FORTIFYING:	text = _("Fortifying"); break;
-  case ACTIVITY_FORTIFIED:	text = _("Fortified"); break;
-  case ACTIVITY_FORTRESS:	text = _("Fortress"); break;
-  case ACTIVITY_SENTRY:		text = _("Sentry"); break;
-  case ACTIVITY_RAILROAD:	text = _("Railroad"); break;
-  case ACTIVITY_PILLAGE:	text = _("Pillage"); break;
-  case ACTIVITY_GOTO:		text = _("Goto"); break;
-  case ACTIVITY_EXPLORE:	text = _("Explore"); break;
-  case ACTIVITY_TRANSFORM:	text = _("Transform"); break;
-  case ACTIVITY_AIRBASE:	text = _("Airbase"); break;
-  case ACTIVITY_FALLOUT:	text = _("Fallout"); break;
-  default:			text = _("Unknown"); break;
+  case ACTIVITY_IDLE:
+    return _("Idle");
+  case ACTIVITY_POLLUTION:
+    return _("Pollution");
+  case ACTIVITY_ROAD:
+    return _("Road");
+  case ACTIVITY_MINE:
+    return _("Mine");
+  case ACTIVITY_IRRIGATE:
+    return _("Irrigation");
+  case ACTIVITY_FORTIFYING:
+    return _("Fortifying");
+  case ACTIVITY_FORTIFIED:
+    return _("Fortified");
+  case ACTIVITY_FORTRESS:
+    return _("Fortress");
+  case ACTIVITY_SENTRY:
+    return _("Sentry");
+  case ACTIVITY_RAILROAD:
+    return _("Railroad");
+  case ACTIVITY_PILLAGE:
+    return _("Pillage");
+  case ACTIVITY_GOTO:
+    return _("Goto");
+  case ACTIVITY_EXPLORE:
+    return _("Explore");
+  case ACTIVITY_TRANSFORM:
+    return _("Transform");
+  case ACTIVITY_AIRBASE:
+    return _("Airbase");
+  case ACTIVITY_FALLOUT:
+    return _("Fallout");
+  case ACTIVITY_UNKNOWN:
+  case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_LAST:
+    break;
   }
 
-  return text;
+  return _("Unknown");
 }
 
 /****************************************************************************
@@ -1000,12 +1020,12 @@ enum tile_special_type get_unit_tile_pillage_set(int x, int y)
 }
 
 /**************************************************************************
- ...
+  Return text describing the current unit's activity.
 **************************************************************************/
 const char *unit_activity_text(struct unit *punit)
 {
   static char text[64];
-  char *moves_str;
+  const char *moves_str;
    
   switch(punit->activity) {
    case ACTIVITY_IDLE:

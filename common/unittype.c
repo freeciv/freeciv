@@ -279,39 +279,41 @@ const char *unit_class_name(Unit_Class_id id)
 **************************************************************************/
 const char *get_units_with_flag_string(int flag)
 {
-  int count=num_role_units(flag);
+  int count = num_role_units(flag);
 
-  if(count==1)
-    return mystrdup(unit_name(get_role_unit(flag,0)));
+  if (count == 1) {
+    return mystrdup(unit_name(get_role_unit(flag, 0)));
+  }
 
-  if(count > 0) {
+  if (count > 0) {
     struct astring astr;
 
     astr_init(&astr);
-    astr_minsize(&astr,1);
+    astr_minsize(&astr, 1);
     astr.str[0] = 0;
 
-    while((count--) > 0) {
-      int u = get_role_unit(flag,count);
+    while ((count--) > 0) {
+      int u = get_role_unit(flag, count);
       const char *unitname = unit_name(u);
 
       /* there should be something like astr_append() */
-      astr_minsize(&astr,astr.n+strlen(unitname));
-      strcat(astr.str,unitname);
+      astr_minsize(&astr, astr.n + strlen(unitname));
+      strcat(astr.str, unitname);
 
-      if(count==1) {
-	char *and_str = _(" and ");
-        astr_minsize(&astr,astr.n+strlen(and_str));
+      if (count == 1) {
+	const char *and_str = _(" and ");
+
+        astr_minsize(&astr, astr.n + strlen(and_str));
         strcat(astr.str, and_str);
-      }
-      else {
-        if(count != 0) {
-	  char *and_comma = Q_("?and:, ");
+      } else {
+        if (count != 0) {
+	  const char *and_comma = Q_("?and:, ");
 
 	  astr_minsize(&astr, astr.n + strlen(and_comma));
 	  strcat(astr.str, and_comma);
-        }
-        else return astr.str;
+        } else {
+	  return astr.str;
+	}
       }
     }
   }

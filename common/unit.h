@@ -256,7 +256,7 @@ bool can_unit_paradrop(struct unit *punit);
 bool can_unit_bombard(struct unit *punit);
 bool can_unit_change_homecity(struct unit *punit);
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity);
-char* get_activity_text (int activity);
+const char *get_activity_text(enum unit_activity activity);
 bool can_unit_continue_current_activity(struct unit *punit);
 bool can_unit_do_activity(struct unit *punit, enum unit_activity activity);
 bool can_unit_do_activity_targeted(struct unit *punit,
