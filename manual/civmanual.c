@@ -201,7 +201,11 @@ static bool manual_command(void)
 	  fprintf(doc, "<pre>%s</pre></td></tr></table>", _(cmd->synopsis));
 	}
 	fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
-		cmdlevel_name(cmd->level));
+		cmdlevel_name(cmd->game_level));
+	if (cmd->game_level != cmd->pregame_level) {
+	  fprintf(doc, _("<p class=\"level\">Pregame level: %s</p>\n\n"),
+		  cmdlevel_name(cmd->pregame_level));
+	}
 	if (cmd->extra_help) {
 	  static struct astring abuf = ASTRING_INIT;
 	  const char *help = _(cmd->extra_help);

@@ -16,7 +16,8 @@
 **************************************************************************/
 struct command {
   const char *name;       /* name - will be matched by unique prefix   */
-  enum cmdlevel_id level; /* access level required to use the command  */
+  enum cmdlevel_id game_level; /* access level to use the command, in-game  */
+  enum cmdlevel_id pregame_level; /* access level to use, in pregame */
   const char *synopsis;	  /* one or few-line summary of usage */
   const char *short_help; /* one line (about 70 chars) description */
   const char *extra_help; /* extra help information; will be line-wrapped */

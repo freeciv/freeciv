@@ -23,7 +23,7 @@
 
 /* Commands must match the values in enum command_id. */
 const struct command commands[] = {
-  {"start",	ALLOW_CTRL,
+  {"start",	ALLOW_CTRL, ALLOW_CTRL,
    "start",
    N_("Start the game, or restart after loading a savegame."),
    N_("This command starts the game.  When starting a new game, "
@@ -37,7 +37,7 @@ const struct command commands[] = {
       "is no longer available, since it would have no effect.")
   },
 
-  {"help",	ALLOW_INFO,
+  {"help",	ALLOW_INFO, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("help\n"
       "help commands\n"
@@ -54,7 +54,7 @@ const struct command commands[] = {
       "The argument may be abbreviated where unambiguous.")
   },
 
-  {"list",	ALLOW_INFO,
+  {"list",	ALLOW_INFO, ALLOW_INFO,
    "list\n"
    "list players\n"
    "list connections",
@@ -62,11 +62,11 @@ const struct command commands[] = {
    N_("Show a list of players, or a list of connections to the server.  "
       "The argument may be abbreviated, and defaults to 'players' if absent.")
   },
-  {"quit",	ALLOW_HACK,
+  {"quit",	ALLOW_HACK, ALLOW_HACK,
    "quit",
    N_("Quit the game and shutdown the server."), NULL
   },
-  {"cut",	ALLOW_CTRL,
+  {"cut",	ALLOW_CTRL, ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("cut <connection-name>"),
    N_("Cut a client's connection to server."),
@@ -75,7 +75,7 @@ const struct command commands[] = {
       "is removed from the game, otherwise there is no effect on the player.  "
       "Note that this command now takes connection names, not player names.")
   },
-  {"explain",	ALLOW_INFO,
+  {"explain",	ALLOW_INFO, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("explain\n"
       "explain <option-name>"),
@@ -85,7 +85,7 @@ const struct command commands[] = {
       "gives a list of options (like 'help options'), and with an argument "
       "it gives help for a particular option (like 'help <option-name>').")
   },
-  {"show",	ALLOW_INFO,
+  {"show",	ALLOW_INFO, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("show\n"
       "show <option-name>\n"
@@ -95,19 +95,19 @@ const struct command commands[] = {
       "used by clients).  With an argument, show only the named option, "
       "or options with that prefix.")
   },
-  {"score",	ALLOW_CTRL,
+  {"score",	ALLOW_CTRL, ALLOW_CTRL,
    "score",
    N_("Show current scores."),
    N_("For each connected client, pops up a window showing the current "
       "player scores.")
   },
-  {"wall",	ALLOW_HACK,
+  {"wall",	ALLOW_HACK, ALLOW_HACK,
    N_("wall <message>"),
    N_("Send message to all connections."),
    N_("For each connected client, pops up a window showing the message "
       "entered.")
   },
-  {"vote",	ALLOW_INFO,
+  {"vote",	ALLOW_INFO, ALLOW_INFO,
    N_("vote yes|no [vote number]"),
    N_("Cast a vote."),
       /* xgettext:no-c-format */
@@ -121,17 +121,17 @@ const struct command commands[] = {
       "vote against it.  If one full turn elapses the vote may pass in any "
       "case if nobody votes against it.")
   },
-  {"debug",	ALLOW_CTRL,
+  {"debug",	ALLOW_CTRL, ALLOW_CTRL,
    N_("debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> ]"),
    N_("Turn on or off AI debugging of given entity."),
    N_("Print AI debug information about given entity and turn continous "
       "debugging output for this entity on or off."),
   },
-  {"set",	ALLOW_CTRL,
+  {"set",	ALLOW_CTRL, ALLOW_INFO,
    N_("set <option-name> <value>"),
    N_("Set server option."), NULL
   },
-  {"team",	ALLOW_CTRL,
+  {"team",	ALLOW_CTRL, ALLOW_INFO,
    N_("team <player> [team]"),
    N_("Change, add or remove a player's team affiliation."),
    N_("Sets a player as member of a team. If no team specified, the "
@@ -140,29 +140,29 @@ const struct command commands[] = {
       "vision and embassies, and fight together to achieve team victory "
       "with averaged individual scores.")
   },
-  {"rulesetdir", ALLOW_CTRL,
+  {"rulesetdir", ALLOW_CTRL, ALLOW_INFO,
    N_("rulesetdir <directory>"),
    N_("Choose new ruleset directory or modpack."),
    N_("Choose new ruleset directory or modpack. Calling this\n "
       "without any arguments will show you the currently selected "
       "ruleset.")
   },
-  {"metamessage", ALLOW_CTRL,
+  {"metamessage", ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("metainfo <meta-line>"),
    N_("Set metaserver info line."), NULL
   },
-  {"metatopic", ALLOW_CTRL,
+  {"metatopic", ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("metatopic <meta-line>"),
    N_("Set metaserver topic line."), NULL
   },
-  {"metapatches", ALLOW_HACK,
+  {"metapatches", ALLOW_HACK, ALLOW_HACK,
    /* TRANS: translate text between <> only */
    N_("metapatch <meta-line>"),
    N_("Set metaserver patches line."), NULL
   },
-  {"metaconnection",	ALLOW_HACK,
+  {"metaconnection",	ALLOW_HACK, ALLOW_HACK,
    "metaconnection u|up\n"
    "metaconnection d|down\n"
    "metaconnection ?",
@@ -171,17 +171,17 @@ const struct command commands[] = {
       "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
       "'metaconnection up' or 'metac u' brings the metaserver connection up.")
   },
-  {"metaserver",ALLOW_HACK,
+  {"metaserver",ALLOW_HACK, ALLOW_HACK,
    /* TRANS: translate text between <> only */
    N_("metaserver <address>"),
    N_("Set address (URL) for metaserver to report to."), NULL
   },
-  {"aitoggle",	ALLOW_CTRL,
+  {"aitoggle",	ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("aitoggle <player-name>"),
    N_("Toggle AI status of player."), NULL
   },
-  {"take",    ALLOW_INFO,
+  {"take",    ALLOW_INFO, ALLOW_INFO,
    /* TRANS: translate text between [] and <> only */
    N_("take [connection-name] <player-name>"),
    N_("Take over a player's place in the game."),
@@ -189,7 +189,7 @@ const struct command commands[] = {
       "other connections to take over a player. If you're not one of these, "
       "only the <player-name> argument is allowed")
   },
-  {"observe",    ALLOW_INFO,
+  {"observe",    ALLOW_INFO, ALLOW_INFO,
    /* TRANS: translate text between [] only */
    N_("observe [connection-name] [player-name]"),
    N_("Observe a player or the whole game."),
@@ -199,27 +199,27 @@ const struct command commands[] = {
       "player-name or the connection uses no arguments, then the connection "
       "is attached to a global observer.")
   },
-  {"detach",    ALLOW_INFO,
+  {"detach",    ALLOW_INFO, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("detach <connection-name>"),
    N_("detach from a player."),
    N_("Only the console and connections with cmdlevel 'hack' can force "
       "other connections to detach from a player.")
   },
-  {"create",	ALLOW_CTRL,
+  {"create",	ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("create <player-name>"),
    N_("Create an AI player with a given name."),
    N_("The 'create' command is only available before the game has "
       "been started.")
   },
-  {"away",	ALLOW_INFO,
+  {"away",	ALLOW_INFO, ALLOW_INFO,
    N_("away\n"
       "away"),
    N_("Set yourself in away mode. The AI will watch your back."),
    N_("The AI will govern your nation but do minimal changes."),
   },
-  {"novice",	ALLOW_CTRL,
+  {"novice",	ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("novice\n"
       "novice <player-name>"),
@@ -228,7 +228,7 @@ const struct command commands[] = {
       "sets the default level for any new AI players to 'novice'.  With an "
       "argument, sets the skill level for that player only.")
   },
-  {"easy",	ALLOW_CTRL,
+  {"easy",	ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("easy\n"
       "easy <player-name>"),
@@ -237,7 +237,7 @@ const struct command commands[] = {
       "sets the default level for any new AI players to 'easy'.  With an "
       "argument, sets the skill level for that player only.")
   },
-  {"normal",	ALLOW_CTRL,
+  {"normal",	ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("normal\n"
       "normal <player-name>"),
@@ -246,7 +246,7 @@ const struct command commands[] = {
       "sets the default level for any new AI players to 'normal'.  With an "
       "argument, sets the skill level for that player only.")
   },
-  {"hard",	ALLOW_CTRL,
+  {"hard",	ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("hard\n"
       "hard <player-name>"),
@@ -255,7 +255,7 @@ const struct command commands[] = {
       "sets the default level for any new AI players to 'hard'.  With an "
       "argument, sets the skill level for that player only.")
   },
-  {"experimental",	ALLOW_CTRL,
+  {"experimental",	ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("experimental\n"
       "experimental <player-name>"),
@@ -266,7 +266,7 @@ const struct command commands[] = {
       "FOR TESTING OF NEW AI FEATURES! For ordinary servers, this option "
       "has no effect.")
   },
-  {"cmdlevel",	ALLOW_HACK,  /* confusing to leave this at ALLOW_CTRL */
+  {"cmdlevel",	ALLOW_HACK, ALLOW_HACK, /* confusing at ALLOW_CTRL */
    /* TRANS: translate text between <> only */
    N_("cmdlevel\n"
       "cmdlevel <level>\n"
@@ -294,14 +294,13 @@ const struct command commands[] = {
       "Note that this command now takes connection names, not player names."
       )
   },
-  {"firstlevel", ALLOW_INFO,  /* Not really "informational", but needs to
-				 be ALLOW_INFO to be useful. */
+  {"firstlevel", ALLOW_INFO, ALLOW_INFO,
    "firstlevel",
    N_("Grab the 'first come' command access level."),
    N_("If 'cmdlevel first come' has been used to set a special 'first come'\n"
       "command access level, this is the command to grab it with.")
   },
-  {"timeoutincrease", ALLOW_CTRL, 
+  {"timeoutincrease", ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("timeoutincrease <turn> <turninc> <value> <valuemult>"), 
    N_("See \"help timeoutincrease\"."),
@@ -309,21 +308,21 @@ const struct command commands[] = {
       "to <turn> and multiply <value> by <valuemult>.  Use this command in "
       "concert with the option \"timeout\". Defaults are 0 0 0 1")
   },
-  {"endgame",	ALLOW_CTRL,
+  {"endgame",	ALLOW_CTRL, ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("endgame <player1 player2 player3 ...>"),
    N_("End the game.  If players are listed, these win the game."),
    N_("This command ends the game immediately and credits the given players, "
       "if any, with winning it.")
   },
-  {"remove",	ALLOW_CTRL,
+  {"remove",	ALLOW_CTRL, ALLOW_INFO,
    /* TRANS: translate text between <> only */
    N_("remove <player-name>"),
    N_("Fully remove player from game."),
    N_("This *completely* removes a player from the game, including "
       "all cities and units etc.  Use with care!")
   },
-  {"save",	ALLOW_HACK,
+  {"save",	ALLOW_HACK, ALLOW_HACK,
    /* TRANS: translate text between <> only */
    N_("save\n"
       "save <file-name>"),
@@ -335,7 +334,7 @@ const struct command commands[] = {
       "    --file <filename>\n"
       "and use the 'start' command once players have reconnected.")
   },
-  {"load",      ALLOW_HACK,
+  {"load",      ALLOW_HACK, ALLOW_HACK,
    /* TRANS: translate text between <> only */
    N_("load\n"
       "load <file-name>"),
@@ -343,21 +342,21 @@ const struct command commands[] = {
    N_("Load a game from <file-name>. Any current data including players, "
       "rulesets and server options are lost.\n")
   },
-  {"read",	ALLOW_HACK,
+  {"read",	ALLOW_HACK, ALLOW_HACK,
    /* TRANS: translate text between <> only */
    N_("read <file-name>"),
    N_("Process server commands from file."), NULL
   },
-  {"write",	ALLOW_HACK,
+  {"write",	ALLOW_HACK, ALLOW_HACK,
    /* TRANS: translate text between <> only */
    N_("write <file-name>"),
    N_("Write current settings as server commands to file."), NULL
   },
-  {"rfcstyle",	ALLOW_HACK,
+  {"rfcstyle",	ALLOW_HACK, ALLOW_HACK,
    "rfcstyle",
    N_("Switch server output between 'RFC-style' and normal style."), NULL
   },
-  {"serverid",	ALLOW_INFO,
+  {"serverid",	ALLOW_INFO, ALLOW_INFO,
    N_("serverid"),
    N_("Simply returns the id of the server."),
   }

@@ -277,6 +277,18 @@ void stdinhand_free(void)
 }
 
 /**************************************************************************
+  Return the access level of a command.
+**************************************************************************/
+static enum cmdlevel_id access_level(enum command_id cmd)
+{
+  if (server_state == PRE_GAME_STATE) {
+    return commands[cmd].pregame_level;
+  } else {
+    return commands[cmd].game_level;
+  }
+}
+
+/**************************************************************************
   Whether the caller can use the specified command. caller == NULL means 
   console.
 **************************************************************************/
@@ -285,7 +297,7 @@ static bool may_use(struct connection *caller, enum command_id cmd)
   if (!caller) {
     return TRUE;  /* on the console, everything is allowed */
   }
-  return (caller->access_level >= commands[cmd].level);
+  return caller->access_level >= access_level(cmd);
 }
 
 /**************************************************************************
@@ -312,7 +324,8 @@ static bool may_set_option(struct connection *caller, int option_idx)
   } else {
     int level = caller->access_level;
     return ((level == ALLOW_HACK)
-	    || (level == ALLOW_CTRL && sset_is_to_client(option_idx)));
+	    || (level >= access_level(CMD_SET) 
+                && sset_is_to_client(option_idx)));
   }
 }
 
@@ -3313,11 +3326,12 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return FALSE;
   }
 
+  /* Use a vote to elevate access from info to ctrl? */
   if (caller 
       && caller->player
       && !check
       && caller->access_level == ALLOW_INFO
-      && commands[cmd].level == ALLOW_CTRL) {
+      && access_level(cmd) == ALLOW_CTRL) {
     int idx = caller->player->player_no;
 
     /* If we already have a vote going, cancel it in favour of the new
@@ -3349,8 +3363,8 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   }
   if (caller
       && !(check && caller->access_level >= ALLOW_INFO 
-           && commands[cmd].level == ALLOW_CTRL)
-      && caller->access_level < commands[cmd].level) {
+           && access_level(cmd) == ALLOW_CTRL)
+      && caller->access_level < access_level(cmd)) {
     cmd_reply(cmd, caller, C_FAIL,
 	      _("You are not allowed to use this command."));
     return FALSE;
@@ -3369,9 +3383,10 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
   while(i>0 && my_isspace(arg[i]))
     arg[i--]='\0';
 
-  if (!check && commands[cmd].level > ALLOW_INFO) {
+  if (!check && commands[cmd].game_level > ALLOW_INFO) {
     /*
-     * this command will affect the game - inform all players
+     * this command will affect the game - inform all players.
+     * We quite purposely do not use access_level() here.
      *
      * use command,arg instead of str because of the trailing
      * newline in str when it comes from the server command line
@@ -3704,7 +3719,11 @@ static void show_help_command(struct connection *caller,
 		     "%s%s", syn, _(cmd->synopsis));
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
-	    _("Level: %s"), cmdlevel_name(cmd->level));
+	    _("Level: %s"), cmdlevel_name(cmd->game_level));
+  if (cmd->game_level != cmd->pregame_level) {
+    cmd_reply(help_cmd, caller, C_COMMENT,
+	      _("Pregame level: %s"), cmdlevel_name(cmd->pregame_level));
+  }
   if (cmd->extra_help) {
     static struct astring abuf = ASTRING_INIT;
     const char *help = _(cmd->extra_help);
