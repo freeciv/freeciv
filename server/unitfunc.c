@@ -285,7 +285,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 			" of spying.  The %s welcome future diplomatic"
 			" efforts providing the Ambassador is reputable."),
 		      unit_name (pdiplomat->type),
-		      pcity->name, get_nation_name_plural (pplayer->nation));
+		      pcity->name, get_nation_name_plural (cplayer->nation));
     notify_player_ex (cplayer, pcity->x, pcity->y, E_DIPLOMATED,
 		      _("You executed a %s the %s had sent to establish"
 			" an embassy in %s"),
