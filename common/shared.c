@@ -1344,6 +1344,7 @@ char *convert_data_string_malloc(const char *text)
            "you are using the latin1 character set, some characters\n"
            "may not be displayed properly.  You can download iconv\n"
            "at http://gnu.org/."));
+   }
 #endif
   return mystrdup(text);
 #endif
