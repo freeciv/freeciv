@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.12.4\n"
-"POT-Creation-Date: 2002-07-22 13:38+0200\n"
-"PO-Revision-Date: 2002-07-22 13:40+0200\n"
+"POT-Creation-Date: 2002-07-23 13:01+0200\n"
+"PO-Revision-Date: 2002-07-23 13:05+0200\n"
 "Last-Translator: Pieter J. Kersten <kersten@dia.eur.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -462,27 +462,27 @@ msgstr ""
 "Freeciv %s wordt vrijgegeven in\n"
 "%s, op %s"
 
-#: ai/aicity.c:211 server/citytools.c:1840
+#: ai/aicity.c:209 server/citytools.c:1840
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Spel: De %s zijn gestopt met het bouwen van %s in %s."
 
-#: ai/aicity.c:220 server/citytools.c:1882
+#: ai/aicity.c:218 server/citytools.c:1882
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Spel: De %s zijn begonnen met het bouwen van %s in %s."
 
-#: ai/aicity.c:337 ai/aicity.c:480
+#: ai/aicity.c:335 ai/aicity.c:478
 #, c-format
 msgid "Game: %s upgraded to %s in %s for %d gold."
 msgstr "Spel: %s opgewaardeerd naar %s in %s voor %d goud."
 
-#: ai/aicity.c:362
+#: ai/aicity.c:360
 #, c-format
 msgid "Game: %s disbanded in %s."
 msgstr "Spel: %s ontbonden in %s."
 
-#: ai/aicity.c:712
+#: ai/aicity.c:710
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Spel: %s verkoopt %s (niet nodig) voor %d."
@@ -919,7 +919,7 @@ msgstr "Dit is de server voor %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "U kunt veel leren over Freeciv op %s"
 
-#: server/civserver.c:129 client/civclient.c:127
+#: server/civserver.c:129 client/civclient.c:118
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -928,14 +928,14 @@ msgstr ""
 "Gebruik: %s [optie ...]\n"
 "Geldige opties zijn:\n"
 
-#: server/civserver.c:131 client/civclient.c:131
+#: server/civserver.c:131 client/civclient.c:122
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug GETAL\tZet debug-logniveau (0 tot 4,of 4:bestand1,min,"
 "max:...)\n"
 
-#: server/civserver.c:134 client/civclient.c:134
+#: server/civserver.c:134 client/civclient.c:125
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug GETAL\tZet debug-logniveau (0 tot 3)\n"
 
@@ -947,7 +947,7 @@ msgstr "  -f, --file BESTAND\tLaad opgeslagen spel BESTAND\n"
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog BESTAND\tGebruik BESTAND als spel logbestand\n"
 
-#: server/civserver.c:138 client/civclient.c:136
+#: server/civserver.c:138 client/civclient.c:127
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tGeef een samenvatting van de opties\n"
 
@@ -955,7 +955,7 @@ msgstr "  -h, --help\t\tGeef een samenvatting van de opties\n"
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -i, --info INFO\t\tExtra info voor de metaserver\n"
 
-#: server/civserver.c:140 client/civclient.c:137
+#: server/civserver.c:140 client/civclient.c:128
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log BESTAND\tGebruik BESTAND als logbestand\n"
 
@@ -980,7 +980,7 @@ msgstr ""
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read BESTAND\tLees startscript BESTAND\n"
 
-#: server/civserver.c:147 client/civclient.c:148
+#: server/civserver.c:147 client/civclient.c:139
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tToon het versienummer\n"
 
@@ -2333,7 +2333,7 @@ msgstr "Spel: Het %s ruimteschip is aangekomen op Alfa Centauri."
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr "Het %s ruimteschip is aangekomen op Alfa Centauri."
 
-#: server/srv_main.c:326
+#: server/srv_main.c:327
 #, c-format
 msgid ""
 "Game: Concerned citizens point out that the cease-fire with %s will run out "
@@ -2342,7 +2342,7 @@ msgstr ""
 "Spel: Bezorgde burgers wijzen u erop dat de wapenstilstand met %s binnenkort "
 "zal aflopen."
 
-#: server/srv_main.c:332
+#: server/srv_main.c:333
 #, c-format
 msgid ""
 "Game: The cease-fire with %s has run out. You are now neutral towards the %s."
@@ -2350,118 +2350,118 @@ msgstr ""
 "Spel: De wapenstilstand met %s is afgelopen. U bent nu neutraal tegenover de "
 "%s."
 
-#: server/srv_main.c:485
+#: server/srv_main.c:489
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Kon spel niet als %s bewaren"
 
-#: server/srv_main.c:487
+#: server/srv_main.c:491
 #, c-format
 msgid "Game saved as %s"
 msgstr "Spel bewaard als %s"
 
-#: server/srv_main.c:517
+#: server/srv_main.c:521
 msgid "The game is already running."
 msgstr "Het spel is al begonnen."
 
-#: server/srv_main.c:521
+#: server/srv_main.c:525
 msgid "Starting game."
 msgstr "Spel begint."
 
-#: server/srv_main.c:659
+#: server/srv_main.c:663
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Ontving een pakket van type %d van een dode speler of observator"
 
-#: server/srv_main.c:911
+#: server/srv_main.c:915
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
 msgstr "Probeerde een natie te alloceren buiten SELECT_RACES_STATE!"
 
-#: server/srv_main.c:919
+#: server/srv_main.c:923
 msgid "Please choose a non-blank name."
 msgstr "Kies alstublieft een niet-lege naam."
 
-#: server/srv_main.c:943
+#: server/srv_main.c:947
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Er is al een speler met de naam '%s'. Kies alstublieft een andere naam."
 
-#: server/srv_main.c:951
+#: server/srv_main.c:955
 #, c-format
 msgid "Game: %s is the %s ruler %s."
 msgstr "Spel: %s is de %s heerser %s."
 
-#: server/srv_main.c:980
+#: server/srv_main.c:984
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Geen naties meer over: Verwijder speler %s."
 
-#: server/srv_main.c:983
+#: server/srv_main.c:987
 msgid "Game: Sorry, there are no nations left."
 msgstr "Spel: Sorry, er zijn geen naties meer over."
 
-#: server/srv_main.c:1033
+#: server/srv_main.c:1037
 #, c-format
 msgid "%s has joined as player %s."
 msgstr "%s doet mee als speler %s."
 
-#: server/srv_main.c:1038
+#: server/srv_main.c:1042
 #, c-format
 msgid "Game: Connection %s from %s has joined as player %s."
 msgstr "Spel: Verbinding %s van %s doet mee als speler %s."
 
-#: server/srv_main.c:1059
+#: server/srv_main.c:1063
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
 msgstr "Welkom bij de %s Server, draaiend op %s, poort %d."
 
-#: server/srv_main.c:1062
+#: server/srv_main.c:1066
 #, c-format
 msgid "Welcome to the %s Server at port %d."
 msgstr "Welkom bij de %s Server op poort %d."
 
-#: server/srv_main.c:1073
+#: server/srv_main.c:1077
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Wissel-beurt spel: wacht tot %s zijn zet heeft gedaan..."
 
-#: server/srv_main.c:1116
+#: server/srv_main.c:1120
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s is toegevoegd als een KI-gestuurde speler."
 
-#: server/srv_main.c:1119
+#: server/srv_main.c:1123
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Spel: %s is toegevoegd als een KI-gestuurde speler."
 
-#: server/srv_main.c:1207
+#: server/srv_main.c:1211
 #, c-format
 msgid "Invalid name '%s'"
 msgstr "Ongeldige naam '%s'"
 
-#: server/srv_main.c:1209
+#: server/srv_main.c:1213
 #, c-format
 msgid "Rejected connection from %s with invalid name."
 msgstr "Weigerde verbinding vanaf %s met ongeldige naam."
 
-#: server/srv_main.c:1215
+#: server/srv_main.c:1219
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "Verzoek tot verbinding van %s van %s"
 
-#: server/srv_main.c:1219
+#: server/srv_main.c:1223
 #, c-format
 msgid "Connection request from %s from %s (connection named %s)"
 msgstr "Verzoek tot verbinding van %s van %s (verbinding heet %s)"
 
-#: server/srv_main.c:1223
+#: server/srv_main.c:1227
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s heeft client versie %d.%d.%d%s"
 
-#: server/srv_main.c:1233
+#: server/srv_main.c:1237
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
@@ -2470,12 +2470,12 @@ msgstr ""
 "De client mist een mogelijkheid die deze server nodig heeft.\n"
 "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
 
-#: server/srv_main.c:1240 server/srv_main.c:1255
+#: server/srv_main.c:1244 server/srv_main.c:1259
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "%s is geweigerd: Afwijkende mogelijkheden."
 
-#: server/srv_main.c:1248
+#: server/srv_main.c:1252
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
@@ -2484,170 +2484,170 @@ msgstr ""
 "De server mist een mogelijkheid die de client nodig heeft.\n"
 "Server versie: %d.%d.%d%s Client versie: %d.%d.%d%s. Opwaarderen kan helpen!"
 
-#: server/srv_main.c:1264
+#: server/srv_main.c:1268
 msgid "Sorry, no observation of barbarians in this game."
 msgstr "Sorry, geen waarnemers van barbaren in dit spel."
 
-#: server/srv_main.c:1267
+#: server/srv_main.c:1271
 #, c-format
 msgid "%s was rejected: No observation of barbarians."
 msgstr "%s is geweigerd: Geen waarnemers van barbaren."
 
-#: server/srv_main.c:1273
+#: server/srv_main.c:1277
 msgid "Sorry, no observation of dead players in this game."
 msgstr "Sorry, geen waarnemers van dode spelers in dit spel."
 
-#: server/srv_main.c:1276
+#: server/srv_main.c:1280
 #, c-format
 msgid "%s was rejected: No observation of dead players."
 msgstr "%s is geweigerd: Geen waarnemers van dode spelers."
 
-#: server/srv_main.c:1282
+#: server/srv_main.c:1286
 msgid "Sorry, no observation of AI players in this game."
 msgstr "Sorry, geen waarnemers van KI-spelers in dit spel."
 
-#: server/srv_main.c:1285
+#: server/srv_main.c:1289
 #, c-format
 msgid "%s was rejected: No observation of AI players."
 msgstr "%s is geweigerd: Geen waarnemers van KI-spelers."
 
-#: server/srv_main.c:1291
+#: server/srv_main.c:1295
 msgid "Sorry, no reconnections to human-mode players in this game."
 msgstr ""
 "Sorry, geen verbindingsherstel met menselijke-modus spelers in dit spel."
 
-#: server/srv_main.c:1294
+#: server/srv_main.c:1298
 #, c-format
 msgid "%s was rejected: No reconnection to human players."
 msgstr "%s is geweigerd: Geen verbindingsherstel met menselijke spelers."
 
-#: server/srv_main.c:1312
+#: server/srv_main.c:1316
 msgid "Sorry, someone else already has that name."
 msgstr "Sorry, iemand anders gebruikt die naam al."
 
-#: server/srv_main.c:1314
+#: server/srv_main.c:1318
 #, c-format
 msgid "%s was rejected: Name %s already used."
 msgstr "%s is geweigerd, Naam %s is al in gebruik."
 
-#: server/srv_main.c:1319
+#: server/srv_main.c:1323
 #, c-format
 msgid "Sorry, %s is already connected."
 msgstr "Sorry, %s is al verbonden."
 
-#: server/srv_main.c:1322
+#: server/srv_main.c:1326
 #, c-format
 msgid "%s was rejected: %s already connected."
 msgstr "%s is geweigerd, %s heeft al verbinding."
 
-#: server/srv_main.c:1353
+#: server/srv_main.c:1357
 msgid "Sorry, the game is already running."
 msgstr "Sorry, het spel is al begonnen."
 
-#: server/srv_main.c:1354
+#: server/srv_main.c:1358
 #, c-format
 msgid "%s was rejected: Game running and unknown name %s."
 msgstr "%s is geweigerd: Spel begonnen en onbekende naam %s."
 
-#: server/srv_main.c:1360
+#: server/srv_main.c:1364
 msgid "Sorry, the game is full."
 msgstr "Sorry, het spel is vol."
 
-#: server/srv_main.c:1361
+#: server/srv_main.c:1365
 #, c-format
 msgid "%s was rejected: Maximum number of players reached."
 msgstr "%s is geweigerd: Maximum aantal spelers bereikt."
 
-#: server/srv_main.c:1367
+#: server/srv_main.c:1371
 msgid "Sorry, no new players allowed in this game."
 msgstr "Sorry, geen nieuwe spelers toegestaan in dit spel."
 
-#: server/srv_main.c:1368
+#: server/srv_main.c:1372
 #, c-format
 msgid "%s was rejected: No connections as new player."
 msgstr "%s is geweigerd: Geen verbindingen als nieuwe speler."
 
-#: server/srv_main.c:1390
+#: server/srv_main.c:1394
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Verbinding verbroken: %s."
 
-#: server/srv_main.c:1399
+#: server/srv_main.c:1403
 #, c-format
 msgid "Game: Lost connection: %s."
 msgstr "Spel: Verbinding verbroken: %s."
 
-#: server/srv_main.c:1485
+#: server/srv_main.c:1489
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Geen naties meer.  KI-gestuurde speler %s niet gemaakt."
 
-#: server/srv_main.c:1526
+#: server/srv_main.c:1530
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Aantal naties kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1533
+#: server/srv_main.c:1537
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Maxplayer kleiner dan aifill: aifill teruggebracht naar %d."
 
-#: server/srv_main.c:1547
+#: server/srv_main.c:1551
 #, c-format
 msgid "Error creating new ai player: %s\n"
 msgstr "Fout bij maken nieuwe KI-speler: %s\n"
 
-#: server/srv_main.c:1606
+#: server/srv_main.c:1610
 #, c-format
 msgid "Player %d"
 msgstr "Speler %d"
 
-#: server/srv_main.c:1621
+#: server/srv_main.c:1625
 msgid "Argh! ran out of nations!"
 msgstr "Nee hè, geen naties meer!"
 
-#: server/srv_main.c:1636
+#: server/srv_main.c:1640
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "KI bestuurt de %s geregeerd door %s."
 
-#: server/srv_main.c:1642
+#: server/srv_main.c:1646
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Spel: %s regeert de %s."
 
-#: server/srv_main.c:1761
+#: server/srv_main.c:1765
 msgid "Starting new log"
 msgstr "Begin nieuw log"
 
-#: server/srv_main.c:1787
+#: server/srv_main.c:1791
 #, c-format
 msgid "Loading saved game: %s"
 msgstr "Laad opgeslagen spel: %s"
 
-#: server/srv_main.c:1791
+#: server/srv_main.c:1795
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Kon opgeslagen spel niet laden: %s"
 
-#: server/srv_main.c:1808
+#: server/srv_main.c:1812
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Zend info naar metaserver [%s]"
 
-#: server/srv_main.c:1824
+#: server/srv_main.c:1828
 msgid "Now accepting new client connections."
 msgstr "Accepteer nu nieuwe client-verbindingen."
 
-#: server/srv_main.c:1885
+#: server/srv_main.c:1889
 msgid "Last player has disconnected: will need to restart."
 msgstr "Laatste speler heeft opgehangen: zal moeten herstarten."
 
-#: server/srv_main.c:1976
+#: server/srv_main.c:1980
 msgid "Game: The game is over..."
 msgstr "Spel: Het spel is voorbij..."
 
-#: server/srv_main.c:1977
+#: server/srv_main.c:1981
 msgid "The game is over!"
 msgstr "Het spel is voorbij!"
 
@@ -3031,8 +3031,8 @@ msgstr ""
 "de huidige spelregelset wanneer het spel start."
 
 #: server/stdinhand.c:479
-msgid "Sets number of turns between rapture effect."
-msgstr "Stelt aantal beurten tussen extase-effect in."
+msgid "Number of turns between rapture effect"
+msgstr "Aantal beurten tussen extase-effect"
 
 #: server/stdinhand.c:480
 msgid ""
@@ -5639,49 +5639,49 @@ msgstr "In Aanbouw"
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Voorraad,Doel,Zetten,Koop)"
 
-#: client/civclient.c:129
+#: client/civclient.c:120
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tSla verbindingsdialoog over\n"
 
-#: client/civclient.c:138
+#: client/civclient.c:129
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tVerbind met de metaserver op HOST\n"
 
-#: client/civclient.c:140
+#: client/civclient.c:131
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAAM\tGebruik NAAM als naam\n"
 
-#: client/civclient.c:141
+#: client/civclient.c:132
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port POORT\tVerbind met server poort POORT\n"
 
-#: client/civclient.c:142
+#: client/civclient.c:133
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tGebruik PLUGIN voor geluidsuitvoer %s\n"
 
-#: client/civclient.c:144
+#: client/civclient.c:135
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tVerbind met de server op HOST\n"
 
-#: client/civclient.c:145
+#: client/civclient.c:136
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound BESTAND\tLees geluids info van BESTAND\n"
 
-#: client/civclient.c:146
+#: client/civclient.c:137
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles BESTAND\tKijk in data bestand BESTAND voor vlakken\n"
 
-#: client/civclient.c:179
+#: client/civclient.c:170
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Niet-herkende optie: \"%s\"\n"
 
-#: client/civclient.c:574
+#: client/civclient.c:579
 msgid "Game started."
 msgstr "Spel begonnen."
 
-#: client/civclient.c:597
+#: client/civclient.c:602
 msgid "There was an error while auto connecting; aborting."
 msgstr ""
 "Er trad een fout op bij het automatisch maken van een verbinding; afbreken."
@@ -6232,434 +6232,462 @@ msgstr "%s%d ontevreden"
 msgid "%s%d gold"
 msgstr "%s%d goud"
 
-#: client/options.c:62
+#: client/options.c:78
+msgid "Default player's username"
+msgstr "Standaard spelersnaam"
+
+#: client/options.c:79
+msgid "Default server"
+msgstr "Standaard server"
+
+#: client/options.c:80
+msgid "Default server's port"
+msgstr "Standaard serverpoort"
+
+#: client/options.c:81
+msgid "Default metaserver"
+msgstr "Standaard metaserver"
+
+#: client/options.c:82
+msgid "Default tileset"
+msgstr "Standaard vlakkenset"
+
+#: client/options.c:83
+msgid "Default name of sound set"
+msgstr "Standaard geluidenset"
+
+#: client/options.c:84
+msgid "Default sound plugin"
+msgstr "Standaard geluids-plugin"
+
+#: client/options.c:86
 msgid "Solid unit background color"
 msgstr "Vaste achtergrondkleur voor eenheid"
 
-#: client/options.c:63
+#: client/options.c:87
 msgid "Sound bell at new turn"
 msgstr "Luid bel bij nieuwe zet"
 
-#: client/options.c:64
+#: client/options.c:88
 msgid "Smooth unit moves"
 msgstr "Vloeiende bewegingen eenheid"
 
-#: client/options.c:65
+#: client/options.c:89
 msgid "Smooth unit move steps"
 msgstr "Vloeiende bewegingen eenheid"
 
-#: client/options.c:66
+#: client/options.c:90
 msgid "Show combat animation"
 msgstr "Toon gevechts animatie"
 
-#: client/options.c:67
+#: client/options.c:91
 msgid "Popup dialogs in AI Mode"
 msgstr "Popup dialogen in KI modus"
 
-#: client/options.c:68
+#: client/options.c:92
 msgid "Manual Turn Done in AI Mode"
 msgstr "Handmatig Beurt Klaar in KI modus"
 
-#: client/options.c:69
+#: client/options.c:93
 msgid "Auto Center on Units"
 msgstr "Auto Centreer Eenheden"
 
-#: client/options.c:70
+#: client/options.c:94
 msgid "Auto Center on Combat"
 msgstr "Auto Centreer op Gevecht"
 
-#: client/options.c:71
+#: client/options.c:95
 msgid "Focus on Awakened Units"
 msgstr "Focus op Ontwaakte Eenheden"
 
-#: client/options.c:72
+#: client/options.c:96
 msgid "Draw Diagonal Roads/Rails"
 msgstr "Teken Diagonale (Spoor)Wegen"
 
-#: client/options.c:73
+#: client/options.c:97
 msgid "Center map when Popup city"
 msgstr "Centeer kaart bij Popup stad"
 
-#: client/options.c:74
+#: client/options.c:98
 msgid "Concise City Production"
 msgstr "Beknopte Stads Produktie"
 
-#: client/options.c:75
+#: client/options.c:99
 msgid "End Turn when done moving"
 msgstr "Einde Beurt als klaar met verplaatsen"
 
-#: client/options.c:76
+#: client/options.c:100
 msgid "Use Alt/Meta for accelerators (GTK only)"
 msgstr "Gebruik Alt/Meta voor sneltoetsen (alleen GTK)"
 
-#: client/options.c:142
+#: client/options.c:167
 msgid "City: Building Unavailable Item"
 msgstr "Stad: Bouw Niet-beschikbare Eenheid"
 
-#: client/options.c:143
+#: client/options.c:168
 msgid "City: Captured/Destroyed"
 msgstr "Stad: Veroverd/Vernietigd"
 
-#: client/options.c:144
+#: client/options.c:169
 msgid "City: Celebrating"
 msgstr "Stad: Festiviteiten"
 
-#: client/options.c:145
+#: client/options.c:170
 msgid "City: Civil Disorder"
 msgstr "Stad: Onlusten"
 
-#: client/options.c:146
+#: client/options.c:171
 msgid "City: Famine"
 msgstr "Stad: Hongersnood"
 
-#: client/options.c:147
+#: client/options.c:172
 msgid "City: Famine Feared"
 msgstr "Stad: Hongersnood gevreesd"
 
-#: client/options.c:148
+#: client/options.c:173
 msgid "City: Growth"
 msgstr "Stad: Groei"
 
-#: client/options.c:149
+#: client/options.c:174
 msgid "City: May Soon Grow"
 msgstr "Stad: Kan binnenkort groeien"
 
-#: client/options.c:150
+#: client/options.c:175
 msgid "City: Needs Aqueduct"
 msgstr "Stad: Heb aquaduct nodig"
 
-#: client/options.c:151
+#: client/options.c:176
 msgid "City: Needs Aqueduct Being Built"
 msgstr "Stad: Heb aquaduct in aanbouw nodig"
 
-#: client/options.c:152
+#: client/options.c:177
 msgid "City: Normal"
 msgstr "Stad: Normaal"
 
-#: client/options.c:153
+#: client/options.c:178
 msgid "City: Nuked"
 msgstr "Stad: Geatomiseerd"
 
-#: client/options.c:154
+#: client/options.c:179
 msgid "City: Released from CMA"
 msgstr "Stad: Bevrijdt van burgemeester"
 
-#: client/options.c:155
+#: client/options.c:180
 msgid "City: Suggest Growth Throttling"
 msgstr "Stad: Adviseer Groeibeperking"
 
-#: client/options.c:156
+#: client/options.c:181
 msgid "City: Transfer"
 msgstr "Stad: Verplaatsen"
 
-#: client/options.c:157
+#: client/options.c:182
 msgid "City: Was Built"
 msgstr "Stad: Gesticht"
 
-#: client/options.c:158
+#: client/options.c:183
 msgid "City: Worklist Events"
 msgstr "Stad: Werklijstgebeurtenissen"
 
-#: client/options.c:159
+#: client/options.c:184
 msgid "Civ: Barbarian Uprising"
 msgstr "Civ: Barbaarse opstand"
 
-#: client/options.c:160
+#: client/options.c:185
 msgid "Civ: Civil War"
 msgstr "Civ: Burgeroorlog"
 
-#: client/options.c:161
+#: client/options.c:186
 msgid "Civ: Collapse to Anarchy"
 msgstr "Civ: Ineenstorting naar Anarchie"
 
-#: client/options.c:162
+#: client/options.c:187
 msgid "Civ: First Contact"
 msgstr "Civ: Eerste contact"
 
-#: client/options.c:163
+#: client/options.c:188
 msgid "Civ: Learned New Government"
 msgstr "Civ: Leerde nieuwe regeringvorm"
 
-#: client/options.c:164
+#: client/options.c:189
 msgid "Civ: Low Funds"
 msgstr "Civ: Krap bij kas"
 
-#: client/options.c:165
+#: client/options.c:190
 msgid "Civ: Pollution"
 msgstr "Civ: Verontreiniging"
 
-#: client/options.c:166
+#: client/options.c:191
 msgid "Civ: Revolt Ended"
 msgstr "Civ: Opstand Beëindigd"
 
-#: client/options.c:167
+#: client/options.c:192
 msgid "Civ: Revolt Started"
 msgstr "Civ: Opstand Begonnen"
 
-#: client/options.c:168
+#: client/options.c:193
 msgid "Civ: Spaceship Events"
 msgstr "Civ: Ruimteschipgebeurtenissen"
 
-#: client/options.c:169
+#: client/options.c:194
 msgid "Diplomat Action: Bribe"
 msgstr "Diplomatieke Aktie: Omkoping"
 
-#: client/options.c:170
+#: client/options.c:195
 msgid "Diplomat Action: Caused Incident"
 msgstr "Diplomatieke Aktie: Schandaal veroorzaakt"
 
-#: client/options.c:171
+#: client/options.c:196
 msgid "Diplomat Action: Escape"
 msgstr "Diplomatieke Aktie: Vlucht"
 
-#: client/options.c:172
+#: client/options.c:197
 msgid "Diplomat Action: Embassy"
 msgstr "Diplomatieke Aktie: Ambassade"
 
-#: client/options.c:173
+#: client/options.c:198
 msgid "Diplomat Action: Failed"
 msgstr "Diplomatieke Aktie: Gefaald"
 
-#: client/options.c:174
+#: client/options.c:199
 msgid "Diplomat Action: Incite"
 msgstr "Diplomatieke Aktie: Opstand"
 
-#: client/options.c:175
+#: client/options.c:200
 msgid "Diplomat Action: Poison"
 msgstr "Diplomatieke Aktie: Vergiftig"
 
-#: client/options.c:176
+#: client/options.c:201
 msgid "Diplomat Action: Sabotage"
 msgstr "Diplomatieke Aktie: Sabotage"
 
-#: client/options.c:177
+#: client/options.c:202
 msgid "Diplomat Action: Theft"
 msgstr "Diplomatieke Aktie: Diefstal"
 
-#: client/options.c:178
+#: client/options.c:203
 msgid "Enemy Diplomat: Bribe"
 msgstr "Vijandelijke Diplomaat: Omkoping"
 
-#: client/options.c:179
+#: client/options.c:204
 msgid "Enemy Diplomat: Embassy"
 msgstr "Vijandelijke Diplomaat: Ambassade"
 
-#: client/options.c:180
+#: client/options.c:205
 msgid "Enemy Diplomat: Failed"
 msgstr "Vijandelijke Diplomaat: Gefaald"
 
-#: client/options.c:181
+#: client/options.c:206
 msgid "Enemy Diplomat: Incite"
 msgstr "Vijandelijke Diplomaat: Opstand"
 
-#: client/options.c:182
+#: client/options.c:207
 msgid "Enemy Diplomat: Poison"
 msgstr "Vijandelijke Diplomaat: Vergif"
 
-#: client/options.c:183
+#: client/options.c:208
 msgid "Enemy Diplomat: Sabotage"
 msgstr "Vijandelijke Diplomaat: Sabotage"
 
-#: client/options.c:184
+#: client/options.c:209
 msgid "Enemy Diplomat: Theft"
 msgstr "Vijandelijke Diplomaat: Diefstal"
 
-#: client/options.c:185
+#: client/options.c:210
 msgid "Game: Broadcast Report"
 msgstr "Spel: Omroepbericht"
 
-#: client/options.c:186
+#: client/options.c:211
 msgid "Game: Game Ended"
 msgstr "Spel: Spel beëindigd"
 
-#: client/options.c:187
+#: client/options.c:212
 msgid "Game: Game Started"
 msgstr "Spel: Spel begonnen"
 
-#: client/options.c:188
+#: client/options.c:213
 msgid "Game: Message from Server Operator"
 msgstr "Spel: Bericht van de Server Operator"
 
-#: client/options.c:189
+#: client/options.c:214
 msgid "Game: Nation Selected"
 msgstr "Spel: Natie Gekozen"
 
-#: client/options.c:190
+#: client/options.c:215
 msgid "Game: Player Destroyed"
 msgstr "Spel: Speler Vernietigd"
 
-#: client/options.c:191
+#: client/options.c:216
 msgid "Game: Report"
 msgstr "Spel: Rapport"
 
-#: client/options.c:192
+#: client/options.c:217
 msgid "Game: Turn Bell"
 msgstr "Spel: Beurt Bel"
 
-#: client/options.c:193
+#: client/options.c:218
 msgid "Game: Year Advance"
 msgstr "Spel: Jaar Vooruitgang"
 
-#: client/options.c:194
+#: client/options.c:219
 msgid "Global: Eco-Disaster"
 msgstr "Spel: Milieuramp"
 
-#: client/options.c:195
+#: client/options.c:220
 msgid "Global: Nuke Detonated"
 msgstr "Spel: Kernbom Ontploft"
 
-#: client/options.c:196
+#: client/options.c:221
 msgid "Hut: Barbarians in a Hut Roused"
 msgstr "Hut: Barbaren in een Hut Ontketend"
 
-#: client/options.c:197
+#: client/options.c:222
 msgid "Hut: City Founded from Hut"
 msgstr "Hut: Stad gesticht vanuit Hut"
 
-#: client/options.c:198
+#: client/options.c:223
 msgid "Hut: Gold Found in Hut"
 msgstr "Hut: Goud Gevonden in Hut"
 
-#: client/options.c:199
+#: client/options.c:224
 msgid "Hut: Killed by Barbarians in a Hut"
 msgstr "Hut: Vermoord door Barbaren in een Hut"
 
-#: client/options.c:200
+#: client/options.c:225
 msgid "Hut: Mercenaries Found in Hut"
 msgstr "Hut: Huurlingen Gevonden in Hut"
 
-#: client/options.c:201
+#: client/options.c:226
 msgid "Hut: Settler Found in Hut"
 msgstr "Hut: Kolonisten Gevonden in Hut"
 
-#: client/options.c:202
+#: client/options.c:227
 msgid "Hut: Tech Found in Hut"
 msgstr "Hut: Technologie Gevonden in Hut"
 
-#: client/options.c:203
+#: client/options.c:228
 msgid "Hut: Unit Spared by Barbarians"
 msgstr "Hut: Eenheid Gespaard door Barbaren"
 
-#: client/options.c:204
+#: client/options.c:229
 msgid "Improvement: Bought"
 msgstr "Verbetering: Gekocht"
 
-#: client/options.c:205
+#: client/options.c:230
 msgid "Improvement: Built"
 msgstr "Verbetering: Gebouwd"
 
-#: client/options.c:206
+#: client/options.c:231
 msgid "Improvement: Forced to Sell"
 msgstr "Verbetering: Verplicht te verkopen"
 
-#: client/options.c:207
+#: client/options.c:232
 msgid "Improvement: New Improvement Selected"
 msgstr "Verbetering: Niewe Verbetering Gekozen"
 
-#: client/options.c:208
+#: client/options.c:233
 msgid "Improvement: Sold"
 msgstr "Verbetering: Verkocht"
 
-#: client/options.c:209
+#: client/options.c:234
 msgid "Tech: Learned From Great Library"
 msgstr "Tech: Geleerd van Grote Bibliotheek"
 
-#: client/options.c:210
+#: client/options.c:235
 msgid "Tech: Learned New Tech"
 msgstr "Tech: Nieuwe technologie geleerd"
 
-#: client/options.c:211
+#: client/options.c:236
 msgid "Treaty: Alliance"
 msgstr "Verdrag: Alliantie"
 
-#: client/options.c:212
+#: client/options.c:237
 msgid "Treaty: Broken"
 msgstr "Verdrag: Verbroken"
 
-#: client/options.c:213
+#: client/options.c:238
 msgid "Treaty: Ceasefire"
 msgstr "Verdrag: Wapenstilstand"
 
-#: client/options.c:214
+#: client/options.c:239
 msgid "Treaty: Peace"
 msgstr "Verdrag: Vrede"
 
-#: client/options.c:215
+#: client/options.c:240
 msgid "Treaty: Shared Vision"
 msgstr "Verdrag: Gedeelde waarneming"
 
-#: client/options.c:216
+#: client/options.c:241
 msgid "Unit: Attack Failed"
 msgstr "Eenheid: Aanval mislukt"
 
-#: client/options.c:217
+#: client/options.c:242
 msgid "Unit: Attack Succeeded"
 msgstr "Eenheid: Aanval gelukt"
 
-#: client/options.c:218
+#: client/options.c:243
 msgid "Unit: Bought"
 msgstr "Eenheid: Gekocht"
 
-#: client/options.c:219
+#: client/options.c:244
 msgid "Unit: Built"
 msgstr "Eenheid: Gebouwd"
 
-#: client/options.c:220
+#: client/options.c:245
 msgid "Unit: Defender Destroyed"
 msgstr "Eenheid: Verdediger vernietigd"
 
-#: client/options.c:221
+#: client/options.c:246
 msgid "Unit: Defender Survived"
 msgstr "Eenheid: Verdediger overleefde"
 
-#: client/options.c:222
+#: client/options.c:247
 msgid "Unit: Production Upgraded"
 msgstr "Eenheid: Produktie opgewaardeerd"
 
-#: client/options.c:223
+#: client/options.c:248
 msgid "Unit: Relocated"
 msgstr "Eenheid: Herverdeeld"
 
-#: client/options.c:224
+#: client/options.c:249
 msgid "Wonder: Finished"
 msgstr "Wonder: Voltooid"
 
-#: client/options.c:225
+#: client/options.c:250
 msgid "Wonder: Made Obsolete"
 msgstr "Wonder: Verouderd geraakt"
 
-#: client/options.c:226
+#: client/options.c:251
 msgid "Wonder: Started"
 msgstr "Wonder: Begonnen"
 
-#: client/options.c:227
+#: client/options.c:252
 msgid "Wonder: Stopped"
 msgstr "Wonder: Gestopt"
 
-#: client/options.c:228
+#: client/options.c:253
 msgid "Wonder: Will Finish Next Turn"
 msgstr "Wonder: Zal volgende beurt voltooid zijn"
 
-#: client/options.c:353
+#: client/options.c:378
 msgid "Cannot find your home directory"
 msgstr "Kan uw home directory niet vinden"
 
-#: client/options.c:474
+#: client/options.c:504
 msgid "Save failed, cannot find a filename."
 msgstr "Opslaan mislukt, kan geen bestandsnaam vinden."
 
-#: client/options.c:523
+#: client/options.c:556
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "Als u een snelkeuze met de hand toevoegt, wijzig dan ook \"number_of_presets"
 "\""
 
-#: client/options.c:534
+#: client/options.c:567
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Opslaan mislukt, kan niet schrijven naar bestand %s"
 
-#: client/options.c:537
+#: client/options.c:570
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Instellingen opgeslagen in bestand %s"
@@ -7817,7 +7845,7 @@ msgstr "Bericht:"
 #: client/gui-gtk-2.0/wldlg.c:202 client/gui-gtk/cityrep.c:1380
 #: client/gui-gtk/dialogs.c:204 client/gui-gtk/dialogs.c:329
 #: client/gui-gtk/dialogs.c:693 client/gui-gtk/dialogs.c:791
-#: client/gui-gtk/dialogs.c:1746 client/gui-gtk/gamedlgs.c:444
+#: client/gui-gtk/dialogs.c:1746 client/gui-gtk/gamedlgs.c:457
 #: client/gui-gtk/helpdlg.c:612 client/gui-gtk/inteldlg.c:176
 #: client/gui-gtk/repodlgs.c:203 client/gui-gtk/repodlgs.c:579
 #: client/gui-gtk/repodlgs.c:812 client/gui-gtk/spaceshipdlg.c:206
@@ -7827,7 +7855,7 @@ msgstr "Bericht:"
 #: client/gui-win32/dialogs.c:683 client/gui-win32/dialogs.c:1294
 #: client/gui-win32/dialogs.c:1508 client/gui-win32/helpdlg.c:424
 #: client/gui-win32/inteldlg.c:153 client/gui-win32/messagewin.c:187
-#: client/gui-win32/optiondlg.c:111 client/gui-win32/plrdlg.c:368
+#: client/gui-win32/optiondlg.c:121 client/gui-win32/plrdlg.c:368
 #: client/gui-win32/repodlgs.c:291 client/gui-win32/repodlgs.c:467
 #: client/gui-win32/repodlgs.c:721 client/gui-win32/spaceshipdlg.c:234
 #: client/gui-win32/wldlg.c:306 data/Freeciv:145 data/Freeciv:195
@@ -8381,8 +8409,8 @@ msgstr "Op slot"
 msgid "%s max rate: %d%%"
 msgstr "%s max waarde: %d%%"
 
-#: client/gui-gtk-2.0/gamedlgs.c:396 client/gui-gtk/gamedlgs.c:415
-#: client/gui-mui/gamedlgs.c:320 client/gui-win32/optiondlg.c:81
+#: client/gui-gtk-2.0/gamedlgs.c:401 client/gui-gtk/gamedlgs.c:420
+#: client/gui-mui/gamedlgs.c:320 client/gui-win32/optiondlg.c:85
 #: data/Freeciv:1229
 msgid "Set local options"
 msgstr "Zet lokale opties"
@@ -10156,7 +10184,7 @@ msgstr "Ververs"
 #: client/gui-gtk/repodlgs.c:908 client/gui-mui/dialogs.c:228
 #: client/gui-win32/repodlgs.c:587 client/gui-xaw/citydlg.c:2612
 #: client/gui-xaw/cityrep.c:665 client/gui-xaw/messagedlg.c:72
-#: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:193
+#: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:198
 #: client/gui-xaw/wldlg.c:1226 data/Freeciv:2143 data/Freeciv:2157
 #: data/Freeciv:2176 data/Freeciv:2356 data/Freeciv:2380 data/Freeciv:2399
 #: data/Freeciv:2410
@@ -10166,7 +10194,7 @@ msgstr "Ja"
 #: client/gui-gtk/repodlgs.c:910 client/gui-mui/dialogs.c:229
 #: client/gui-win32/repodlgs.c:589 client/gui-xaw/citydlg.c:2612
 #: client/gui-xaw/cityrep.c:665 client/gui-xaw/messagedlg.c:72
-#: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:193
+#: client/gui-xaw/optiondlg.c:73 client/gui-xaw/optiondlg.c:198
 #: client/gui-xaw/wldlg.c:1226 data/Freeciv:2159 data/Freeciv:2178
 #: data/Freeciv:2358 data/Freeciv:2382 data/Freeciv:2401 data/Freeciv:2412
 msgid "No"
