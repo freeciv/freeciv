@@ -335,7 +335,7 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
     return keypress;
   }
 
-  if (is_isometric) {
+  if (is_isometric && !client_is_observer()) {
     switch (ev->keyval) {
       case GDK_Up:
       case GDK_KP_Up:
@@ -399,7 +399,7 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
       default:
         return FALSE;
     }
-  } else {
+  } else if (!client_is_observer()) {
     switch (ev->keyval) {
       case GDK_Up:
       case GDK_KP_Up:
@@ -1004,6 +1004,9 @@ void ui_main(int argc, char **argv)
   set_client_state(CLIENT_PRE_GAME_STATE);
 
   gtk_main();
+
+  free_color_system();
+  tilespec_free_tiles();
 }
 
 /**************************************************************************

@@ -445,7 +445,7 @@ static void create_option_dialog(void)
       break;
     case COT_INT:
       label = gtk_label_new(_(o->description));
-      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
       o->p_gui_data = gtk_entry_new_with_max_length(5);
       gtk_widget_set_usize(o->p_gui_data, 45, 0);
@@ -453,7 +453,7 @@ static void create_option_dialog(void)
       break;
     case COT_STR:
       label = gtk_label_new(_(o->description));
-      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+      gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
       gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, i, i+1);
       if (o->p_string_vals) {
         o->p_gui_data = gtk_combo_new();

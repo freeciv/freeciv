@@ -1331,18 +1331,6 @@ void update_city_descriptions(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void draw_shadowed_string(GdkDrawable *drawable,
-				 GdkGC *black_gc,
-				 GdkGC *white_gc,
-				 gint x, gint y, PangoLayout *layout)
-{
-  gdk_draw_layout(drawable, black_gc, x + 1, y + 1, layout);
-  gdk_draw_layout(drawable, white_gc, x, y, layout);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static void show_desc_at_tile(PangoLayout *layout, int x, int y)
 {
   static char buffer[512];
@@ -1359,7 +1347,7 @@ static void show_desc_at_tile(PangoLayout *layout, int x, int y)
       pango_layout_set_text(layout, buffer, -1);
 
       pango_layout_get_pixel_extents(layout, &rect, NULL);
-      draw_shadowed_string(map_canvas->window,
+      gtk_draw_shadowed_string(map_canvas->window,
 			   toplevel->style->black_gc,
 			   toplevel->style->white_gc,
 			   canvas_x + NORMAL_TILE_WIDTH / 2 - rect.width / 2,
@@ -1381,7 +1369,7 @@ static void show_desc_at_tile(PangoLayout *layout, int x, int y)
 	pango_layout_set_text(layout, buffer, -1);
 
 	pango_layout_get_pixel_extents(layout, &rect, NULL);
-	draw_shadowed_string(map_canvas->window,
+	gtk_draw_shadowed_string(map_canvas->window,
 			   toplevel->style->black_gc,
 			   toplevel->style->white_gc,
 			   canvas_x + NORMAL_TILE_WIDTH / 2 - rect.width / 2,
