@@ -2,7 +2,7 @@
 [game]
 version=10702
 server_state=0
-metastring="Earth(Large)"
+metastring="Scenario v1: Earth(Large)"
 gold=50
 tech=3
 skill_level=5

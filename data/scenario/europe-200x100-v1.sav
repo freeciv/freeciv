@@ -2,7 +2,7 @@
 [game]
 version=10702
 server_state=0
-metastring="Scenario: Europe v1.1"
+metastring="Scenario v1: Europe v1.1"
 gold=50
 tech=3
 skill_level=5
@@ -186,4 +186,3 @@ t096="  ppppphhmmmmdddddddddddhhhhdddddddddddddddddddddddddddhhhdddhdppp        
 t097=" ppppphhhdddddddddddddddddddddddddddddddddddddddddddddhhdddddddppp                                                                    pphpddddddddddddddddddddddddddddddddddddddd                       "
 t098="ppddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddp                                                                    ppphdddddddddddddddddddddddddddddddddddddddd                       "
 t099="ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddp                                                                    phhddddddddddddddddddddddddddddddddddddddddd                       "
-

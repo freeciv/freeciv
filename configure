@@ -6450,6 +6450,7 @@ trap 'rm -fr `echo "Makefile
 	  data/civ1/Makefile 
 	  data/civ2/Makefile 
 	  data/trident/Makefile 
+	  data/scenario/Makefile 
 	  common/Makefile 
 	  ai/Makefile 
 	  client/Makefile 
@@ -6604,6 +6605,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
 	  data/civ1/Makefile 
 	  data/civ2/Makefile 
 	  data/trident/Makefile 
+	  data/scenario/Makefile 
 	  common/Makefile 
 	  ai/Makefile 
 	  client/Makefile 

@@ -6,9 +6,6 @@ pkgdata_DATA = Freeciv	\
 	default.tilespec \
 	trident.tilespec \
 	helpdata.txt	\
-	earth-80x50.sav \
-	earth-160x90.sav\
-	europe.sav	\
 	civ1.serv	\
 	civ2.serv	\
 	intro.xpm	\
@@ -16,4 +13,4 @@ pkgdata_DATA = Freeciv	\
 
 EXTRA_DIST = $(pkgdata_DATA)
 
-SUBDIRS = default civ1 civ2 trident
+SUBDIRS = default civ1 civ2 trident scenario
