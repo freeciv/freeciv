@@ -3260,10 +3260,8 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
 
   /* Is it a comment or a blank line? */
   /* line is comment if the first non-whitespace character is '#': */
-  for (cptr_s = str; *cptr_s != '\0' && my_isspace(*cptr_s); cptr_s++) {
-    /* nothing */
-  }
-  if(*cptr_s == 0 || *cptr_s == '#') {
+  cptr_s = skip_leading_spaces(str);
+  if (*cptr_s == '\0' || *cptr_s == '#') {
     return FALSE;
   }
 
@@ -3344,9 +3342,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return FALSE;
   }
 
-  for (; *cptr_s != '\0' && my_isspace(*cptr_s); cptr_s++) {
-    /* nothing */
-  }
+  cptr_s = skip_leading_spaces(cptr_s);
   sz_strlcpy(arg, cptr_s);
 
   cut_comment(arg);

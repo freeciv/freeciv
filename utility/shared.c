@@ -261,11 +261,13 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
     }
 
     /* strip start/end quotes if they exist */
-    if ((str[0] == '"' && str[len - 1] == '"')
-	|| (str[0] == '\'' && str[len - 1] == '\'')) {
-      len -= 2;
-      padlength = 1;		/* to set the string past the end quote */
-      str++;
+    if (len >= 2) {
+      if ((str[0] == '"' && str[len - 1] == '"')
+	  || (str[0] == '\'' && str[len - 1] == '\'')) {
+	len -= 2;
+	padlength = 1;		/* to set the string past the end quote */
+	str++;
+      }
     }
   
     tokens[token] = fc_malloc(len + 1);
