@@ -1082,8 +1082,18 @@ static bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
   /* We start with i = 1 for i = 0 is our present position */
   for (i = 1; i < path->length; i++) {
     int x = path->positions[i].x, y = path->positions[i].y;
+    bool result;
 
-    if (!ai_unit_attack(punit, x, y)) {
+    /* We use ai_unit_move() for everything but the last step
+     * of the way so that we abort if unexpected opposition
+     * shows up. Any enemy on the target tile is expected to
+     * be our target and any attack there intentional. */
+    if (i == path->length) {
+      result = ai_unit_attack(punit, x, y);
+    } else {
+      result = ai_unit_move(punit, x, y);
+    }
+    if (!result) {
       /* Died... */
       return FALSE;
     }
