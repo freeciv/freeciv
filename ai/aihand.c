@@ -145,7 +145,7 @@ void ai_do_last_activities(struct player *pplayer)
   
 void ai_before_work(struct player *pplayer)
 {
-  ai_update_player_island_info(pplayer);
+  ; /* all instances of fnord and references thereto have been deleted. -- Syela */
 }
 
 
@@ -236,8 +236,6 @@ void ai_manage_taxes(struct player *pplayer)
   int x, y, waste[40]; /* waste with N elvises */
   int elvises[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   int hhjj[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-  int food_weighting[3] = { 18, 18, 17 }; 
-  int shield_weighting[3] = { 17, 17, 18 }; 
 
 /* NOTE: 8 is the default ai.trade_want; that's where that comes from -- Syela */
  
@@ -271,7 +269,7 @@ void ai_manage_taxes(struct player *pplayer)
         if (pcity->trade_prod * i >= n && pcity->food_surplus > 0) {
           hhjj[i] += (pcity->size * (city_got_building(pcity,B_GRANARY) ? 3 : 2) *
               game.foodbox / 2 - pcity->food_stock) *
-              food_weighting[get_race(pplayer)->attack] / pcity->size *
+              FOOD_WEIGHTING / pcity->size *
               (pcity->was_happy ? 4 : 2); /* maybe should be ? 4 : 2 */
 /* was ? 4 : 3, which led to FAR too many short celebrations -- Syela */
         }
@@ -294,9 +292,9 @@ void ai_manage_taxes(struct player *pplayer)
    lots of luxury, like with pcity->size = 12 and only a temple */
 
     memset(waste, 0, sizeof(waste));
-    tot = pcity->food_prod * food_weighting[get_race(pplayer)->attack] * 4 /
+    tot = pcity->food_prod * FOOD_WEIGHTING * 4 /
             pcity->size + pcity->trade_prod * pcity->ai.trade_want +
-            pcity->shield_prod * shield_weighting[get_race(pplayer)->attack];
+            pcity->shield_prod * SHIELD_WEIGHTING;
 
     for (i = 1; i <= pcity->size; i++) {
       m = ai_make_elvis(pcity);
