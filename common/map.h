@@ -123,7 +123,7 @@ struct tile_type {
 /* The direction8 gives the 8 possible directions.  These may be used in
  * a number of ways, for instance as an index into the DIR_DX/DIR_DY
  * arrays.  Not all directions may be valid; see is_valid_dir and
- * DIR_IS_CARDINAL. */
+ * is_cardinal_dir. */
 enum direction8 {
   /* The DIR8/direction8 naming system is used to avoid conflict with
    * DIR4/direction4 in client/tilespec.h
@@ -580,32 +580,11 @@ struct unit_order {
 /* return the reverse of the direction */
 #define DIR_REVERSE(dir) (7 - (dir))
 
-/* is the direction "cardinal"?  Cardinal directions
- * (also called cartesian) are the four main ones */
-static inline bool DIR_IS_CARDINAL(enum direction8 dir)
-{
-  switch (dir) {
-  case DIR8_NORTH:
-  case DIR8_SOUTH:
-  case DIR8_EAST:
-  case DIR8_WEST:
-    return TRUE;
-  case DIR8_SOUTHEAST:
-  case DIR8_NORTHWEST:
-    /* These directions are cardinal in hexagonal topologies. */
-    return topo_has_flag(TF_HEX) && !topo_has_flag(TF_ISO);
-  case DIR8_NORTHEAST:
-  case DIR8_SOUTHWEST:
-    /* These directions are cardinal in iso-hex topologies. */
-    return topo_has_flag(TF_HEX) && topo_has_flag(TF_ISO);
-  }
-  return FALSE;
-}
-
 enum direction8 dir_cw(enum direction8 dir);
 enum direction8 dir_ccw(enum direction8 dir);
 const char* dir_get_name(enum direction8 dir);
 bool is_valid_dir(enum direction8 dir);
+bool is_cardinal_dir(enum direction8 dir);
 
 extern const int DIR_DX[8];
 extern const int DIR_DY[8];

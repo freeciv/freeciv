@@ -415,7 +415,7 @@ void map_init_topology(bool set_sizes)
       map.valid_dirs[map.num_valid_dirs] = dir;
       map.num_valid_dirs++;
     }
-    if (DIR_IS_CARDINAL(dir)) {
+    if (is_cardinal_dir(dir)) {
       map.cardinal_dirs[map.num_cardinal_dirs] = dir;
       map.num_cardinal_dirs++;
     }
@@ -1778,9 +1778,11 @@ bool is_valid_dir(enum direction8 dir)
   switch (dir) {
   case DIR8_SOUTHEAST:
   case DIR8_NORTHWEST:
+    /* These directions are invalid in hex topologies. */
     return !(topo_has_flag(TF_HEX) && !topo_has_flag(TF_ISO));
   case DIR8_NORTHEAST:
   case DIR8_SOUTHWEST:
+    /* These directions are invalid in iso-hex topologies. */
     return !(topo_has_flag(TF_HEX) && topo_has_flag(TF_ISO));
   case DIR8_NORTH:
   case DIR8_EAST:
@@ -1790,6 +1792,32 @@ bool is_valid_dir(enum direction8 dir)
   default:
     return FALSE;
   }
+}
+
+/**************************************************************************
+  Returns TRUE iff the given direction is a cardinal one.
+
+  Cardinal directions are those in which adjacent tiles share an edge not
+  just a vertex.
+**************************************************************************/
+bool is_cardinal_dir(enum direction8 dir)
+{
+  switch (dir) {
+  case DIR8_NORTH:
+  case DIR8_SOUTH:
+  case DIR8_EAST:
+  case DIR8_WEST:
+    return TRUE;
+  case DIR8_SOUTHEAST:
+  case DIR8_NORTHWEST:
+    /* These directions are cardinal in iso-hex topologies. */
+    return topo_has_flag(TF_HEX) && topo_has_flag(TF_ISO);
+  case DIR8_NORTHEAST:
+  case DIR8_SOUTHWEST:
+    /* These directions are cardinal in hexagonal topologies. */
+    return topo_has_flag(TF_HEX) && !topo_has_flag(TF_ISO);
+  }
+  return FALSE;
 }
 
 /**************************************************************************
@@ -1832,7 +1860,7 @@ int get_direction_for_step(int start_x, int start_y, int end_x, int end_y)
 **************************************************************************/
 bool is_move_cardinal(int start_x, int start_y, int end_x, int end_y)
 {
-  return DIR_IS_CARDINAL(get_direction_for_step(start_x, start_y,
+  return is_cardinal_dir(get_direction_for_step(start_x, start_y,
 						end_x, end_y));
 }
 

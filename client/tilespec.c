@@ -2176,7 +2176,8 @@ static int fill_road_rail_sprite_array(struct drawn_sprite *sprs,
     road_near[dir] = contains_special(tspecial_near[dir], S_ROAD);
     rail_near[dir] = contains_special(tspecial_near[dir], S_RAILROAD);
 
-    if (draw_diagonal_roads || DIR_IS_CARDINAL(map_to_gui_dir(dir))) {
+    if (draw_diagonal_roads
+	|| is_cardinal_tileset_dir(map_to_gui_dir(dir))) {
       /* Draw rail/road if there is a connection from this tile to the
        * adjacent tile.  But don't draw road if there is also a rail
        * connection. */

@@ -314,7 +314,7 @@ static int likely_ocean(int x, int y, struct player *pplayer)
   sum = 50;
   adjc_dir_iterate(x, y, x1, y1, dir) {
     if (map_is_known(x1, y1, pplayer)) {
-      if (DIR_IS_CARDINAL(dir)) {
+      if (is_cardinal_dir(dir)) {
 	/* If a tile is cardinally adjacent, we can tell if the 
 	 * central tile is ocean or not by the appearance of
 	 * the adjacent tile. So, given that we can tell, 

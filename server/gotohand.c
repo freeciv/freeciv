@@ -635,7 +635,9 @@ static bool find_the_shortest_path(struct unit *punit,
        try to move to are x1,y1 */
     adjc_dir_iterate(x, y, x1, y1, dir) {
       if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
-	  && !DIR_IS_CARDINAL(dir)) continue;
+	  && !is_cardinal_dir(dir)) {
+	continue;
+      }
 
       pdesttile = map_get_tile(x1, y1);
 
@@ -835,7 +837,7 @@ static bool find_the_shortest_path(struct unit *punit,
 
     adjc_dir_iterate(x, y, x1, y1, dir) {
       if ((restriction == GOTO_MOVE_CARDINAL_ONLY)
-	  && !DIR_IS_CARDINAL(dir)) continue;
+	  && !is_cardinal_dir(dir)) continue;
 
       if (BV_ISSET(LOCAL_VECTOR(x, y), dir)) {
 	move_cost = (move_type == SEA_MOVING)
@@ -930,7 +932,7 @@ static int find_a_direction(struct unit *punit,
     if (base_get_direction_for_step(punit->x, punit->y, dest_x, dest_y, &dir)
 	&& TEST_BIT(WARMAP_VECTOR(punit->x, punit->y), dir)
 	&& !(restriction == GOTO_MOVE_CARDINAL_ONLY
-	     && !DIR_IS_CARDINAL(dir))) {
+	     && !is_cardinal_dir(dir))) {
       return dir;
     }
   }
@@ -955,7 +957,7 @@ static int find_a_direction(struct unit *punit,
      */
     if (!TEST_BIT(WARMAP_VECTOR(punit->x, punit->y), dir)
 	|| ((restriction == GOTO_MOVE_CARDINAL_ONLY)
-	    && !DIR_IS_CARDINAL(dir))) {
+	    && !is_cardinal_dir(dir))) {
       /* make sure we don't select it later */
       fitness[dir] = DONT_SELECT_ME_FITNESS;
       continue;
