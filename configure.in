@@ -1,0 +1,54 @@
+dnl configure.in for freeciv
+dnl Process this file with autoconf to produce a configure script.
+
+dnl Initialize with some random file to ensure the source is here.
+AC_INIT(common/game.c)
+AM_INIT_AUTOMAKE(freeciv, 1.5.4cvs)
+AM_CONFIG_HEADER(config.h)
+
+dnl Evaluate options. Example:
+dnl AC_ARG_ENABLE(debug,
+dnl 	[  --enable-debug           include debugging code],
+dnl 	AC_DEFINE(DEBUG)
+dnl )
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_RANLIB
+
+dnl Checks for libraries.
+AC_PATH_XTRA
+CFLAGS="$CFLAGS $X_CFLAGS"
+LIBS="$LIBS $X_LIBS"
+if test "$x_includes"; then
+	dnl -I$x_includes/X11 is needed because freeciv #includes
+	dnl <xpm.h>, not <X11/xpm.h>
+	CFLAGS="$CFLAGS -I$x_includes -I$x_includes/X11"
+fi
+
+AC_CHECK_LIB(X11, XOpenDisplay, , AC_MSG_ERROR("Need X11"), $X_LIBS)
+AC_CHECK_LIB(Xpm, XpmReadFileToPixmap, , AC_MSG_ERROR("Need xpm library"), $X_LIBS)
+AC_CHECK_LIB(Xmu,main)
+AC_CHECK_LIB(Xext,XShapeCombineMask)
+AC_CHECK_LIB(Xaw,main)
+AC_CHECK_LIB(Xt,main)
+AC_CHECK_LIB(Xpm,XpmReadFileToPixmap)
+AC_CHECK_LIB(socket,main)
+AC_CHECK_LIB(nsl,main)
+AC_CHECK_LIB(nls,main)
+
+dnl Checks for library functions.
+AC_TYPE_SIGNAL
+AC_FUNC_VPRINTF
+AC_CHECK_FUNCS(gethostname select socket strerror)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(sys/time.h unistd.h)
+AC_CHECK_HEADERS(xpm.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_HEADER_TIME
+
+AC_OUTPUT(Makefile data/Makefile common/Makefile ai/Makefile client/Makefile server/Makefile)
