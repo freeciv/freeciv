@@ -619,9 +619,9 @@ int sniff_packets(void)
   }
   con_prompt_off();
 
-  if(game.timeout != 0
-     && (time(NULL)>game.turn_start + game.timeout))
+  if (game.timeout != 0 && (time(NULL) > game.turn_start + game.timeout)) {
     return 0;
+  }
   return 1;
 }
 

@@ -1720,6 +1720,8 @@ static void main_loop(void)
     end_turn();
     freelog(LOG_DEBUG, "Gamenextyear");
     game_advance_year();
+    freelog(LOG_DEBUG, "Updatetimeout");
+    update_timeout();
     check_spaceship_arrivals();
     freelog(LOG_DEBUG, "Sendplayerinfo");
     send_player_info(NULL, NULL);

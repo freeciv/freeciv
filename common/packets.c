@@ -2028,9 +2028,12 @@ int send_packet_game_info(struct connection *pc,
   cptr=put_uint16(cptr, pinfo->gold);
   cptr=put_uint32(cptr, pinfo->tech);
   cptr=put_uint8(cptr, pinfo->researchcost);
-
   cptr=put_uint32(cptr, pinfo->skill_level);
-  cptr=put_uint16(cptr, pinfo->timeout);
+  if (has_capability("u32timeout", pc->capability)) {
+    cptr=put_uint32(cptr, pinfo->timeout);
+  } else {
+    cptr=put_uint16(cptr, pinfo->timeout);
+  }
   cptr=put_uint32(cptr, pinfo->end_year);
   cptr=put_uint32(cptr, pinfo->year);
   cptr=put_uint8(cptr, pinfo->min_players);
@@ -2087,7 +2090,11 @@ struct packet_game_info *receive_packet_game_info(struct connection *pc)
   iget_uint32(&iter, &pinfo->tech);
   iget_uint8(&iter, &pinfo->researchcost);
   iget_uint32(&iter, &pinfo->skill_level);
-  iget_uint16(&iter, &pinfo->timeout);
+  if (has_capability("u32timeout", pc->capability)) {
+    iget_uint32(&iter, &pinfo->timeout);
+  } else {
+    iget_uint16(&iter, &pinfo->timeout);
+  }
   iget_uint32(&iter, &pinfo->end_year);
   iget_uint32(&iter, &pinfo->year);
   iget_uint8(&iter, &pinfo->min_players);

@@ -60,6 +60,11 @@ struct civ_game {
   int tech;
   int skill_level;
   int timeout;
+  int timeoutint;     /* increase timeout every N turns... */
+  int timeoutinc;     /* ... by this amount ... */
+  int timeoutincmult; /* ... and multiply timeoutinc by this amount ... */
+  int timeoutintinc;  /* ... and increase timeoutint by this amount */
+  int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
   int tcptimeout;
   int netwait;
   time_t last_ping;
@@ -361,6 +366,11 @@ extern bool is_server;
 #define GAME_DEFAULT_AUTO_AI_TOGGLE  FALSE
 
 #define GAME_DEFAULT_TIMEOUT         0
+#define GAME_DEFAULT_TIMEOUTINT      0
+#define GAME_DEFAULT_TIMEOUTINTINC   0
+#define GAME_DEFAULT_TIMEOUTINC      0
+#define GAME_DEFAULT_TIMEOUTINCMULT  1
+
 #ifndef NDEBUG
 #define GAME_MIN_TIMEOUT             -1
 #else

@@ -248,3 +248,55 @@ void send_game_info(struct conn_list *dest)
   }
   conn_list_iterate_end;
 }
+
+/**************************************************************************
+  adjusts game.timeout based on various server options
+
+  timeoutint: adjust game.timeout every timeoutint turns
+  timeoutinc: adjust game.timeout by adding timeoutinc to it.
+  timeoutintinc: every time we adjust game.timeout, we add timeoutintinc
+                 to timeoutint.
+  timeoutincmult: every time we adjust game.timeout, we multiply timeoutinc
+                  by timeoutincmult
+**************************************************************************/
+int update_timeout(void)
+{
+  /* if there's no timer or we're doing autogame, do nothing */
+  if (game.timeout < 1 || game.timeoutint == 0) {
+    return game.timeout;
+  }
+
+  if (game.timeoutcounter >= game.timeoutint) {
+    game.timeout += game.timeoutinc;
+    game.timeoutinc *= game.timeoutincmult;
+
+    game.timeoutcounter = 1;
+    game.timeoutint += game.timeoutintinc;
+
+    if (game.timeout > GAME_MAX_TIMEOUT) {
+      notify_conn_ex(&game.est_connections, -1, -1, E_NOEVENT,
+		     _("The turn timeout has exceeded its maximum value, "
+		       "fixing at its maximum"));
+      freelog(LOG_DEBUG, "game.timeout exceeded maximum value");
+      game.timeout = GAME_MAX_TIMEOUT;
+      game.timeoutint = 0;
+      game.timeoutinc = 0;
+    } else if (game.timeout < 0) {
+      notify_conn_ex(&game.est_connections, -1, -1, E_NOEVENT,
+		     _("The turn timeout is smaller than zero, "
+		       "fixing at zero."));
+      freelog(LOG_DEBUG, "game.timeout less than zero");
+      game.timeout = 0;
+    }
+  } else {
+    game.timeoutcounter++;
+  }
+
+  freelog(LOG_DEBUG, "timeout=%d, inc=%d incmult=%d\n   "
+	  "int=%d, intinc=%d, turns till next=%d",
+	  game.timeout, game.timeoutinc, game.timeoutincmult,
+	  game.timeoutint, game.timeoutintinc,
+	  game.timeoutint - game.timeoutcounter);
+
+  return game.timeout;
+}

@@ -646,6 +646,11 @@ void game_init(void)
   game.tech          = GAME_DEFAULT_TECHLEVEL;
   game.skill_level   = GAME_DEFAULT_SKILL_LEVEL;
   game.timeout       = GAME_DEFAULT_TIMEOUT;
+  game.timeoutint    = GAME_DEFAULT_TIMEOUTINT;
+  game.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;
+  game.timeoutinc    = GAME_DEFAULT_TIMEOUTINC;
+  game.timeoutincmult= GAME_DEFAULT_TIMEOUTINCMULT;
+  game.timeoutcounter= 1;
   game.tcptimeout    = GAME_DEFAULT_TCPTIMEOUT;
   game.netwait       = GAME_DEFAULT_NETWAIT;
   game.last_ping     = 0;

@@ -22,4 +22,6 @@ void send_game_info(struct conn_list *dest);
 void send_game_state(struct conn_list *dest, int state);
 void send_start_turn_to_clients(void);
 
+int update_timeout(void);
+
 #endif  /* FC__GAMEHAND_H */

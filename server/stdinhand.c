@@ -105,7 +105,8 @@ enum sset_type {
   SSET_BOOL, SSET_INT, SSET_STRING
 };
 
-#define SSET_MAX_LEN  16	/* max setting name length (plus nul) */
+#define SSET_MAX_LEN  16             /* max setting name length (plus nul) */
+#define TOKEN_DELIMITERS " \t\n,"
 
 struct settings_s {
   char *name;
@@ -660,14 +661,16 @@ static struct settings_s settings[] = {
 	   N_("If all players have not hit \"Turn Done\" before this "
 	      "time is up, then the turn ends automatically. Zero "
 	      "means there is no timeout. In DEBUG servers, a timeout "
-	      "of -1 sets the autogame test mode."), NULL, 
+	      "of -1 sets the autogame test mode. Use this with the command "
+              "\"timeoutincrease\" to have a dynamic timer."), NULL, 
 	   GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 #else
   GEN_INT( "timeout", game.timeout, SSET_META, SSET_TO_CLIENT,
 	   N_("Maximum seconds per turn"),
 	   N_("If all players have not hit \"Turn Done\" before this "
 	      "time is up, then the turn ends automatically. Zero "
-	      "means there is no timeout."), NULL, 
+	      "means there is no timeout. Use this with the command "
+              "\"timeoutincrease\" to have a dynamic timer."), NULL, 
 	   GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 #endif
 
@@ -894,6 +897,7 @@ enum command_id {
   CMD_HARD,
   CMD_CMDLEVEL,
   CMD_FIRSTLEVEL,
+  CMD_TIMEOUT,
 
   /* potentially harmful: */
   CMD_END_GAME,
@@ -1105,10 +1109,14 @@ static const struct command commands[] = {
    "firstlevel",
    N_("Grab the 'first come' command access level."),
    N_("If 'cmdlevel first come' has been used to set a special 'first come'\n"
-      "command access level, this is the command to grab it with."
-      )
+      "command access level, this is the command to grab it with.")
   },
-
+  {"timeoutincrease", ALLOW_CTRL, "timeoutincrease <turn> <turninc> <value> "
+   "<valuemult>", N_("See \"help timeoutincrease\"."),
+   N_("Every <turn> turns, add <value> to timeout timer, then add <turninc> "
+      "to <turn> and multiply <value> by <valuemult>.  Use this command in "
+      "concert with the option \"timeout\". Defaults are 0 0 0 1")
+  },
   {"endgame",	ALLOW_CTRL,
    "endgame",
    N_("End the game."),
@@ -2197,6 +2205,49 @@ static void firstlevel_command(struct connection *caller)
 static const char *optname_accessor(int i) {
   return settings[i].name;
 }
+
+/**************************************************************************
+  Set timeout options.
+**************************************************************************/
+static void timeout_command(struct connection *caller, char *str) 
+{
+  char buf[MAX_LEN_CONSOLE_LINE];
+  char *arg[4];
+  int i = 0, ntokens;
+  int *timeouts[4];
+
+  timeouts[0] = &game.timeoutint;
+  timeouts[1] = &game.timeoutintinc;
+  timeouts[2] = &game.timeoutinc;
+  timeouts[3] = &game.timeoutincmult;
+
+  sz_strlcpy(buf, str);
+  ntokens = get_tokens(buf, arg, 4, TOKEN_DELIMITERS);
+
+  for (i = 0; i < ntokens; i++) {
+    if (sscanf(arg[i], "%d", timeouts[i]) != 1) {
+      cmd_reply(CMD_TIMEOUT, caller, C_FAIL, _("Invalid argument %d."),
+		i + 1);
+    }
+    free(arg[i]);
+  }
+
+  if (ntokens == 0) {
+    cmd_reply(CMD_TIMEOUT, caller, C_SYNTAX, _("Usage: timeoutincrease "
+					       "<turn> <turnadd> "
+					       "<value> <valuemult>."));
+    return;
+  }
+
+  cmd_reply(CMD_TIMEOUT, caller, C_OK, _("Dynamic timeout set to "
+					 "%d %d %d %d"),
+	    game.timeoutint, game.timeoutintinc,
+	    game.timeoutinc, game.timeoutincmult);
+
+  /* if we set anything here, reset the counter */
+  game.timeoutcounter = 1;
+}
+
 /**************************************************************************
 Find option index by name. Return index (>=0) on success, -1 if no
 suitable options were found, -2 if several matches were found.
@@ -2803,7 +2854,8 @@ static void cut_comment(char *str)
 **************************************************************************/
 void handle_stdin_input(struct connection *caller, char *str)
 {
-  char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
+  char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE],
+      allargs[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   int i;
   enum command_id cmd;
 
@@ -2871,6 +2923,10 @@ void handle_stdin_input(struct connection *caller, char *str)
   sz_strlcpy(arg, cptr_s);
 
   cut_comment(arg);
+
+  /* keep this before we cut everything after a space */
+  sz_strlcpy(allargs, cptr_s);
+  cut_comment(allargs);
 
   i=strlen(arg)-1;
   while(i>0 && isspace(arg[i]))
@@ -2970,6 +3026,9 @@ void handle_stdin_input(struct connection *caller, char *str)
     break;
   case CMD_FIRSTLEVEL:
     firstlevel_command(caller);
+    break;
+  case CMD_TIMEOUT:
+    timeout_command(caller, allargs);
     break;
   case CMD_START_GAME:
     if (server_state==PRE_GAME_STATE) {
