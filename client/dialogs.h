@@ -41,4 +41,7 @@ void popup_diplomat_dialog(struct unit *punit, int dest_x, int dest_y);
 
 void free_bitmap_destroy_callback(Widget w, XtPointer client_data, 
 				  XtPointer call_data);
+void destroy_me_callback(Widget w, XtPointer client_data, 
+			 XtPointer call_data);
+
 #endif

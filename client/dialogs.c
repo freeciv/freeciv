@@ -1173,3 +1173,13 @@ void free_bitmap_destroy_callback(Widget w, XtPointer client_data,
   XtVaGetValues(w,XtNbitmap,&pm,NULL);
   if(pm) XFreePixmap(XtDisplay(w),pm);
 }
+
+/**************************************************************************
+  Destroys its widget.  Usefull for a popdown callback on pop-ups that
+  won't get resused.
+**************************************************************************/
+void destroy_me_callback(Widget w, XtPointer client_data, 
+			 XtPointer call_data)
+{
+  XtDestroyWidget(w);
+}
