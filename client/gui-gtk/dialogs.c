@@ -1755,8 +1755,8 @@ void races_buttons_callback( GtkWidget *w, gpointer data )
   /* perform a minimum of sanity test on the name */
   packet.race_no=selected;
   packet.is_male = selected_sex;
-  strncpy(packet.name, (char*)s, MAX_LEN_USERNAME);
-  packet.name[MAX_LEN_USERNAME-1]='\0';
+  strncpy(packet.name, (char*)s, MAX_LEN_NAME);
+  packet.name[MAX_LEN_NAME-1]='\0';
   
   if(!get_sane_name(packet.name)) {
     append_output_window("You must type a legal name.");

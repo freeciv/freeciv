@@ -1653,11 +1653,12 @@ int send_packet_req_join_game(struct connection *pc, struct
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
   cptr=put_int8(buffer+2, PACKET_REQUEST_JOIN_GAME);
-  cptr=put_string(cptr, request->name);
+  cptr=put_string(cptr, request->short_name);
   cptr=put_int32(cptr, request->major_version);
   cptr=put_int32(cptr, request->minor_version);
   cptr=put_int32(cptr, request->patch_version);
   cptr=put_string(cptr, request->capability);
+  cptr=put_string(cptr, request->name);
   put_int16(buffer, cptr-buffer);
 
   return send_connection_data(pc, buffer, cptr-buffer);
@@ -1730,11 +1731,16 @@ receive_packet_req_join_game(struct connection *pc)
 
   pack_iter_init(&iter, pc);
 
-  iget_string(&iter, packet->name, sizeof(packet->name));
+  iget_string(&iter, packet->short_name, sizeof(packet->short_name));
   iget_int32(&iter, &packet->major_version);
   iget_int32(&iter, &packet->minor_version);
   iget_int32(&iter, &packet->patch_version);
   iget_string(&iter, packet->capability, sizeof(packet->capability));
+  if (pack_iter_remaining(&iter)) {
+    iget_string(&iter, packet->name, sizeof(packet->name));
+  } else {
+    strcpy(packet->name, packet->short_name);
+  }
 
   pack_iter_end(&iter, pc);
   remove_packet_from_buffer(&pc->buffer);

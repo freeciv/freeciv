@@ -1312,6 +1312,7 @@ void accept_new_player(char *name, struct connection *pconn)
    */
   
   strcpy(pplayer->name, name);
+  strcpy(pplayer->username, name);
   pplayer->conn = pconn;
   pplayer->is_connected = (pconn!=NULL);
   if (pconn) {
@@ -1383,7 +1384,8 @@ static void handle_request_join_game(struct connection *pconn,
     return;
   }
 
-  if((pplayer=find_player_by_name(req->name))) {
+  if( (pplayer=find_player_by_name(req->name)) || 
+      (pplayer=find_player_by_user(req->name))     ) {
     if(!pplayer->conn) {
       pplayer->conn=pconn;
       pplayer->is_connected=1;

@@ -1656,6 +1656,7 @@ void player_load(struct player *plr, int plrno, struct section_file *file)
   */
 
   strcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
+  strcpy(plr->username, secfile_lookup_str_default(file, "", "player%d.username", plrno));
   plr->race=secfile_lookup_int(file, "player%d.race", plrno);
   plr->government=secfile_lookup_int(file, "player%d.government", plrno);
   plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
@@ -1926,6 +1927,7 @@ void player_save(struct player *plr, int plrno, struct section_file *file)
   struct player_spaceship *ship = &plr->spaceship;
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
+  secfile_insert_str(file, plr->username, "player%d.username", plrno);
   secfile_insert_int(file, plr->race, "player%d.race", plrno);
   secfile_insert_int(file, plr->government, "player%d.government", plrno);
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);

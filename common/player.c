@@ -101,6 +101,7 @@ void player_init(struct player *plr)
   plr->player_no=plr-game.players;
 
   strcpy(plr->name, "YourName");
+  strcpy(plr->username, "UserName");
   plr->is_male = 1;
   plr->government=game.default_government;
   plr->race=MAX_NUM_NATIONS;
@@ -142,6 +143,20 @@ struct player *find_player_by_name(char *name)
 
   for(i=0; i<game.nplayers; i++)
      if(!mystrcasecmp(name, game.players[i].name))
+	return &game.players[i];
+
+  return 0;
+}
+
+/***************************************************************
+Find player by its user name (not player/leader name)
+***************************************************************/
+struct player *find_player_by_user(char *name)
+{
+  int i;
+
+  for(i=0; i<game.nplayers; i++)
+     if(!mystrcasecmp(name, game.players[i].username))
 	return &game.players[i];
 
   return 0;

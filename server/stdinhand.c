@@ -564,7 +564,7 @@ static PlayerNameStatus test_player_name(char* name)
 
   if (!len) {
       return PNameEmpty;
-  } else if (len > 9) {
+  } else if (len > MAX_LEN_NAME-1) {
       return PNameTooLong;
   }
 
@@ -1938,9 +1938,10 @@ void show_players(struct player *caller)
       else {
 	if (game.players[i].conn) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
-		"%s is connected from %s",
+		"%s (human, %s) is connected from %s",
 		game.players[i].name,
-		game.players[i].addr); 
+                game.players[i].username,
+		game.players[i].addr);
 	} else {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT,
 		"%s is not connected",

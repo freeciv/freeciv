@@ -1837,8 +1837,8 @@ void races_buttons_callback(Widget w, XtPointer client_data,
   /* perform a minimum of sanity test on the name */
   packet.race_no=selected;
   packet.is_male = selected_sex? 0: 1;     /* first button is male */
-  strncpy(packet.name, (char*)dp, MAX_LEN_USERNAME);
-  packet.name[MAX_LEN_USERNAME-1]='\0';
+  strncpy(packet.name, (char*)dp, MAX_LEN_NAME);
+  packet.name[MAX_LEN_NAME-1]='\0';
   
   if(!get_sane_name(packet.name)) {
     append_output_window("You must type a legal name.");

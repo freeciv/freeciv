@@ -160,6 +160,7 @@ enum cmdlevel_id {    /* access levels for users to issue commands        */
 struct player {
   int player_no;
   char name[MAX_LEN_NAME];
+  char username[MAX_LEN_NAME];
   int is_male;
   int government;
   Nation_Type_id race;
@@ -185,6 +186,7 @@ struct player {
 
 void player_init(struct player *plr);
 struct player *find_player_by_name(char *name);
+struct player *find_player_by_user(char *name);
 void player_set_unit_focus_status(struct player *pplayer);
 int player_has_embassy(struct player *pplayer, struct player *pplayer2);
 

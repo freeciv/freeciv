@@ -135,11 +135,13 @@ int connect_to_server(char *name, char *hostname, int port, char *errbuf)
 
   /* now send join_request package */
 
-  strcpy(req.name, name);
+  strncpy(req.short_name, name, MAX_LEN_USERNAME);
+  req.short_name[MAX_LEN_USERNAME-1] = '\0';
   req.major_version=MAJOR_VERSION;
   req.minor_version=MINOR_VERSION;
   req.patch_version=PATCH_VERSION;
   strcpy(req.capability, our_capability);
+  strcpy(req.name, name);
 
   send_packet_req_join_game(&aconnection, &req);
   

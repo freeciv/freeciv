@@ -70,7 +70,8 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.8 caravan1 nuke clientcommands" \
     " +terrainrulesets1 +governmentrulesets2 +num_units +tilespec" \
-    " +ruleset_control +ask_pillage +gen_tech +nationsruleset"
+    " +ruleset_control +ask_pillage +gen_tech +nationsruleset" \
+    " +long_names"
 
 /* "caravan1" means the server automatically establishes a traderoute
    when a caravan type unit moves into an enemy city.  For older
@@ -104,7 +105,8 @@ const char * const our_capability = our_capability_internal;
 
    "nationsruleset" is for new nations.ruleset changes;
    this implies/requires/replaces old "citynamesuggest" tag.
-   
+
+   "long_names" means that player names longer than 9 chars are allowed.
 */
 
 void init_our_capability(void)

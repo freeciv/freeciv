@@ -312,13 +312,17 @@ struct packet_city_info {
 /*********************************************************
  this packet is the very first packet send by the client.
  the player hasn't been accepted yet.
+ 'short_name' is the same as 'name', but possibly truncated
+ (can only add long name at end, to avoid problems with
+ connection to/from older versions)
 *********************************************************/
 struct packet_req_join_game {
-  char name[MAX_LEN_USERNAME];
+  char short_name[MAX_LEN_USERNAME];
   int major_version;
   int minor_version;
   int patch_version;
   char capability[MAX_LEN_CAPSTR];
+  char name[MAX_LEN_NAME];
 };
 
 
