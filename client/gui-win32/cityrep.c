@@ -276,13 +276,11 @@ static void get_city_table_header(char *text[], int n)
 {
   struct city_report_spec *spec;
   int i;
-  printf("get_table_header\n");
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     my_snprintf(text[i], n, "%*s\n%*s",
             NEG_VAL(spec->width), spec->title1 ? _(spec->title1): "",
             NEG_VAL(spec->width), spec->title2 ? _(spec->title2): "");
   }
-  printf("get_table_header end\n");
 }             
                   
 /**************************************************************************
@@ -441,7 +439,7 @@ static void cityrep_change(HWND hWnd)
 			      &cityids[0],selcount,&max_changemenu_id);
   GetWindowRect(GetDlgItem(hWnd,ID_CITYREP_CHANGE),&rc);
   menu_shown=popup;
-  TrackPopupMenu(popup,0,rc.top,rc.left,0,hWnd,NULL);
+  TrackPopupMenu(popup,0,rc.left,rc.top,0,hWnd,NULL);
 }
 
 /**************************************************************************
@@ -760,7 +758,7 @@ static void cityrep_changeall(HWND hWnd)
 		     WS_VSCROLL | WS_VISIBLE | LBS_HASSTRINGS,
 		     TRUE,TRUE,10);
   fcwin_box_add_button(vbox,_("Change"),ID_PRODCHANGE_CHANGE,0,
-		       TRUE,TRUE,15);
+		       FALSE,FALSE,15);
   fcwin_box_add_box(hbox,vbox,TRUE,TRUE,5);
   vbox=fcwin_vbox_new(hDlg,FALSE);
   fcwin_box_add_static(vbox,_("To:"),0,SS_LEFT,FALSE,FALSE,5);
@@ -768,7 +766,7 @@ static void cityrep_changeall(HWND hWnd)
 		     WS_VISIBLE | LBS_HASSTRINGS,
 		     TRUE,TRUE,10);
   fcwin_box_add_button(vbox,_("Cancel"),ID_PRODCHANGE_CANCEL,0,
-		       TRUE,TRUE,15);
+		       FALSE,FALSE,15);
   fcwin_box_add_box(hbox,vbox,TRUE,TRUE,5);
 
   selected_cid = -1;
@@ -781,7 +779,7 @@ static void cityrep_changeall(HWND hWnd)
 						 selid));
   }
 
-  cids_used = collect_all_buildings_or_improvements_cid(cids);
+  cids_used = collect_cids2(cids);
   name_and_sort_items(cids, cids_used, items, 0);
 
   hLst = GetDlgItem(hDlg, ID_PRODCHANGE_FROM);
@@ -847,7 +845,6 @@ static void list_setsize(LPRECT setsize,void *data)
   button_h=(list_singlechar.bottom-list_singlechar.top)*2+5;
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     if (!sort_buttons[i]) continue;
-    printf("list: x: %d\n",x);
     w=spec->width>0?spec->width:-spec->width;
     w=MAX(w,strlen(spec->title1 ? _(spec->title1): ""));
     w=MAX(w,strlen(spec->title2 ? _(spec->title2): ""));
