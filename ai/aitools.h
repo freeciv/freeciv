@@ -13,21 +13,6 @@
 #ifndef __AITOOLS_H
 #define __AITOOLS_H
 
-
-struct point  {
-  int x, y;
-};
-
-struct square {
-  int top, left, bottom, right;
-};
-
-struct aiislandglobal  {
-  struct point center; /* "center" tile on island */
-  struct square loc; 
-  int shared;        /* how many players have cities on this island */
-};
-
 #ifndef __CITY_H
 
 struct ai_choice {
@@ -38,41 +23,14 @@ struct ai_choice {
 
 #endif
 
-struct ai_map_struct {
-  struct aiislandglobal island_data[100];
-  int nr_islands;
-  int *city_value;
-};
 #include <player.h>
-
-#define ISLAND_ITERATE(n) { int x,y;  \
-  for (y = ai_map.island_data[n].loc.top; y < ai_map.island_data[n].loc.bottom; y++) \
-    for (x = ai_map.island_data[n].loc.left; x < ai_map.island_data[n].loc.right; x++) \
-      if (map_get_continent(x, y) == n) 
-	
-#define ISLAND_END }
-
-
-
-void ai_init_island_info(int nr_islands);
-
-
-int map_get_city_value(int x, int y);
-void map_set_city_value(int x, int y, int val);
-
-int is_free_work_tile(struct player *pplayer, int x, int y);
 
 struct city *dist_nearest_enemy_city(struct player *pplayer, int x, int y);
 struct unit *dist_nearest_enemy_unit(struct player *pplayer, int x, int y);
-void ai_update_player_island_info(struct player *pplayer);
-void ai_calculate_city_value(int isle);
-int ai_military_findtarget(struct player *pplayer,struct unit *punit);
 
 void ai_government_change(struct player *pplayer, int gov);
 
 int ai_gold_reserve(struct player *pplayer);
-
-extern struct ai_map_struct ai_map;
 
 void adjust_choice(int type, struct ai_choice *choice);
 void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best);
