@@ -1825,24 +1825,19 @@ void move_unit_map_canvas(struct unit *punit,
 
 /**************************************************************************
   Find the "best" city to associate with the selected tile.
-    a.  A city working the tile is the best
-    b.  If another player is working the tile, return NULL.
-    c.  If no city is working the tile, choose a city that could work
-        the tile.
-    d.  If multiple cities could work it, choose the most recently
-        "looked at".
-    e.  If none of the cities were looked at last, choose "randomly".
-    f.  If no cities can work it, return NULL.
+    a.  If a city is working the tile, return that city.
+    b.  If another player's city is working the tile, return NULL.
+    c.  If any selected cities are within range, return the closest one.
+    d.  If any cities are within range, return the closest one.
+    e.  If nobody can work it, return NULL.
 **************************************************************************/
 struct city *find_city_near_tile(int x, int y)
 {
-  struct city *pcity = map_get_tile(x, y)->worked, *pcity2;
-  static struct city *last_pcity = NULL;
+  struct city *pcity = map_get_tile(x, y)->worked, *closest_city;
 
   if (pcity) {
     if (pcity->owner == game.player_idx) {
       /* rule a */
-      last_pcity = pcity;
       return pcity;
     } else {
       /* rule b */
@@ -1850,30 +1845,33 @@ struct city *find_city_near_tile(int x, int y)
     }
   }
 
-  pcity2 = NULL;		/* rule f */
+  /* rule e */
+  closest_city = NULL;
+
   city_map_checked_iterate(x, y, city_x, city_y, map_x, map_y) {
     pcity = map_get_city(map_x, map_y);
     if (pcity && pcity->owner == game.player_idx
 	&& get_worker_city(pcity, CITY_MAP_SIZE - 1 - city_x,
 			   CITY_MAP_SIZE - 1 - city_y) == C_TILE_EMPTY) {
-      /* rule c */
       /*
        * Note, we must explicitly check if the tile is workable (with
        * get_worker_city(), above) since it is possible that another
        * city (perhaps an unseen enemy city) may be working it,
        * causing it to be marked as C_TILE_UNAVAILABLE.
        */
-      if (pcity == last_pcity) {
-	return pcity;		/* rule d */
+      
+      if (map_get_tile(pcity->x, pcity->y)->client.hilite == HILITE_CITY) {
+	/* rule c */
+	return pcity;
       }
-      pcity2 = pcity;
+      if (!closest_city) {
+	closest_city = pcity;
+      }
     }
-  }
-  city_map_checked_iterate_end;
+  } city_map_checked_iterate_end;
 
-  /* rule e */
-  last_pcity = pcity2;
-  return pcity2;
+  /* rule d */
+  return closest_city;
 }
 
 /**************************************************************************
