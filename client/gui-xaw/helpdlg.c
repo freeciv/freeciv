@@ -787,7 +787,7 @@ static void help_update_improvement(const struct help_item *pitem,
     xaw_set_label(help_improvement_upkeep_data, "0 ");
     xaw_set_label(help_improvement_variant_data,"0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
-    create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3);
+    create_tech_tree(help_tech_tree, 0, A_LAST, 3);
   }
   set_title_topic(pitem);
   helptext_improvement(buf, which, pitem->text);
