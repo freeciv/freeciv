@@ -349,6 +349,9 @@ void load_options(void)
     for (s=buffer; *s && isspace(*s); s++) ;
     if(!*s) continue;
 
+    /* ignore [client] header */
+    if (*s == '[') continue;
+
     /* parse value */
     s = strstr(buffer, "=");
     if (s == NULL || sscanf(s+1, "%d", &val) != 1) {
@@ -408,6 +411,8 @@ void save_options(void)
 
   fprintf(option_file, "# settings file for freeciv client version %s\n#\n",
 	  VERSION_STRING);
+  
+  fprintf(option_file, "[client]\n");
 
   for (o=opts; o->name; o++) {
     fprintf(option_file, "%s = %d\n", o->name, *(o->var));
