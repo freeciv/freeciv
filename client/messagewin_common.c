@@ -109,8 +109,8 @@ void add_notify_window(char *message, struct tile *ptile,
 		       enum event_type event)
 {
   const size_t min_msg_len = 50;
-  const char *game_prefix1 = "Game: ";
-  const char *game_prefix2 = _("Game: ");
+  const char *game_prefix1 = "";
+  const char *game_prefix2 = _("");
   size_t gp_len1 = strlen(game_prefix1);
   size_t gp_len2 = strlen(game_prefix2);
   size_t msg_len = strlen(message);

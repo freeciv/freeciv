@@ -159,7 +159,7 @@ void client_change_all(cid x, cid y)
   int last_request_id = 0;
 
   my_snprintf(buf, sizeof(buf),
-	      _("Game: Changing production of every %s into %s."),
+	      _("Changing production of every %s into %s."),
 	      fr_is_unit ? get_unit_type(fr_id)->name :
 	      get_improvement_name(fr_id),
 	      to_is_unit ? get_unit_type(to_id)->
@@ -1016,7 +1016,7 @@ void cityrep_buy(struct city *pcity)
 
     assert(!pcity->is_building_unit);
     my_snprintf(buf, sizeof(buf),
-		_("Game: You don't buy %s in %s!"),
+		_("You don't buy %s in %s!"),
 		improvement_types[pcity->currently_building].name,
 		pcity->name);
     append_output_window(buf);
@@ -1036,7 +1036,7 @@ void cityrep_buy(struct city *pcity)
     }
 
     my_snprintf(buf, sizeof(buf),
-		_("Game: %s costs %d gold and you only have %d gold."),
+		_("%s costs %d gold and you only have %d gold."),
 		name, value, game.player_ptr->economic.gold);
     append_output_window(buf);
   }

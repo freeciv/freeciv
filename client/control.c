@@ -745,7 +745,7 @@ void request_unit_unload_all(struct unit *punit)
   struct unit *plast = NULL;
 
   if(get_transporter_capacity(punit) == 0) {
-    append_output_window(_("Game: Only transporter units can be unloaded."));
+    append_output_window(_("Only transporter units can be unloaded."));
     return;
   }
 
@@ -951,7 +951,7 @@ void request_unit_auto(struct unit *punit)
   if (can_unit_do_auto(punit)) {
     dsend_packet_unit_auto(&aconnection, punit->id);
   } else {
-    append_output_window(_("Game: Only settler units and military units"
+    append_output_window(_("Only settler units and military units"
 			   " in cities can be put in auto-mode."));
   }
 }
@@ -1023,7 +1023,7 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 void request_unit_nuke(struct unit *punit)
 {
   if(!unit_flag(punit, F_NUCLEAR)) {
-    append_output_window(_("Game: Only nuclear units can do this."));
+    append_output_window(_("Only nuclear units can do this."));
     return;
   }
   if(punit->moves_left == 0)
@@ -1040,7 +1040,7 @@ void request_unit_nuke(struct unit *punit)
 void request_unit_paradrop(struct unit *punit)
 {
   if(!unit_flag(punit, F_PARATROOPERS)) {
-    append_output_window(_("Game: Only paratrooper units can do this."));
+    append_output_window(_("Only paratrooper units can do this."));
     return;
   }
   if(!can_unit_paradrop(punit))
@@ -1463,7 +1463,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     case HOVER_NUKE:
       if (3 * real_map_distance(punit->tile, ptile)
 	  > punit->moves_left) {
-        append_output_window(_("Game: Too far for this unit."));
+        append_output_window(_("Too far for this unit."));
       } else {
 	do_unit_goto(ptile);
 	/* note that this will be executed by the server after the goto */
@@ -1670,7 +1670,7 @@ void do_unit_goto(struct tile *ptile)
       if (ptile == dest_tile) {
 	send_goto_route(punit);
       } else {
-	append_output_window(_("Game: Didn't find a route to the destination!"));
+	append_output_window(_("Didn't find a route to the destination!"));
       }
     }
   }
@@ -1700,7 +1700,7 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 void do_unit_patrol_to(struct unit *punit, struct tile *ptile)
 {
   if (is_air_unit(punit)) {
-    append_output_window(_("Game: Sorry, airunit patrol not yet implemented."));
+    append_output_window(_("Sorry, airunit patrol not yet implemented."));
     return;
   } else {
     struct tile *dest_tile;
@@ -1710,7 +1710,7 @@ void do_unit_patrol_to(struct unit *punit, struct tile *ptile)
     if (ptile == dest_tile) {
       send_patrol_route(punit);
     } else {
-      append_output_window(_("Game: Didn't find a route to the destination!"));
+      append_output_window(_("Didn't find a route to the destination!"));
     }
   }
 
@@ -1724,7 +1724,7 @@ void do_unit_connect(struct unit *punit, struct tile *ptile,
 		     enum unit_activity activity)
 {
   if (is_air_unit(punit)) {
-    append_output_window(_("Game: Sorry, airunit connect "
+    append_output_window(_("Sorry, airunit connect "
 			   "not yet implemented."));
   } else {
     struct tile *dest_tile;
@@ -1734,7 +1734,7 @@ void do_unit_connect(struct unit *punit, struct tile *ptile,
     if (same_pos(dest_tile, ptile)) {
       send_connect_route(punit, activity);
     } else {
-      append_output_window(_("Game: Didn't find a route to "
+      append_output_window(_("Didn't find a route to "
 			     "the destination!"));
     }
   }
@@ -1779,7 +1779,7 @@ void key_center_capital(void)
     center_tile_mapcanvas(capital->tile);
     put_cross_overlay_tile(capital->tile);
   } else {
-    append_output_window(_("Game: Oh my! You seem to have no capital!"));
+    append_output_window(_("Oh my! You seem to have no capital!"));
   }
 }
 
