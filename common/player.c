@@ -333,7 +333,7 @@ int player_knows_improvement_tech(struct player *pplayer,
 {
   int t;
   if (!improvement_exists(id)) return 0;
-  t = get_improvement_type(id)->tech_requirement;
+  t = get_improvement_type(id)->tech_req;
   return (get_invention(pplayer, t) == TECH_KNOWN);
 }
 

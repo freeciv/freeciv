@@ -934,7 +934,7 @@ static void show_city_descriptions(void)
 	if (draw_city_productions && (pcity->owner==game.player_idx)) {
 	  int turns;
 	  struct unit_type *punit_type;
-	  struct improvement_type *pimpr_type;
+	  struct impr_type *pimpr_type;
 	  char *name;
 	  char buffer[512];
 

@@ -1231,7 +1231,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 **************************************************************************/
 void handle_ruleset_building(struct packet_ruleset_building *p)
 {
-  struct improvement_type *b;
+  struct impr_type *b;
 
   if(p->id < 0 || p->id >= B_LAST) {
     freelog(LOG_NORMAL,
@@ -1242,15 +1242,148 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b = &improvement_types[p->id];
 
   sz_strlcpy(b->name, p->name);
-  b->is_wonder        = p->is_wonder;
-  b->tech_requirement = p->tech_requirement;
-  b->build_cost       = p->build_cost;      
-  b->shield_upkeep    = p->shield_upkeep;   
-  b->obsolete_by      = p->obsolete_by;     
-  b->variant          = p->variant;         
- 
+  b->tech_req = p->tech_req;
+  b->bldg_req = p->bldg_req;
+  free(b->terr_gate);
+  b->terr_gate = p->terr_gate;		/* pointer assignment */
+  free(b->spec_gate);
+  b->spec_gate = p->spec_gate;		/* pointer assignment */
+  b->equiv_range = p->equiv_range;
+  free(b->equiv_dupl);
+  b->equiv_dupl = p->equiv_dupl;	/* pointer assignment */
+  free(b->equiv_repl);
+  b->equiv_repl = p->equiv_repl;	/* pointer assignment */
+  b->obsolete_by = p->obsolete_by;
+  b->is_wonder = p->is_wonder;
+  b->build_cost = p->build_cost;
+  b->upkeep = p->upkeep;
+  b->sabotage = p->sabotage;
+  free(b->effect);
+  b->effect = p->effect;		/* pointer assignment */
+  b->variant = p->variant;	/* FIXME: remove when gen-impr obsoletes */
   free(b->helptext);
-  b->helptext = p->helptext;	/* pointer assignment */
+  b->helptext = p->helptext;		/* pointer assignment */
+
+#ifdef DEBUG
+  if(p->id == B_LAST-1) {
+    int id;
+    for (id = 0; id < B_LAST; id++) {
+      int inx;
+      b = &improvement_types[id];
+      freelog(LOG_DEBUG, "Impr: %s...",
+	      b->name);
+      freelog(LOG_DEBUG, "  tech_req    %2d/%s",
+	      b->tech_req,
+	      (b->tech_req == A_LAST) ?
+	      "Never" :
+	      advances[b->tech_req].name);
+      freelog(LOG_DEBUG, "  bldg_req    %2d/%s",
+	      b->bldg_req,
+	      (b->bldg_req == B_LAST) ?
+	      "None" :
+	      improvement_types[b->bldg_req].name);
+      freelog(LOG_DEBUG, "  terr_gate...");
+      for (inx = 0; b->terr_gate[inx] != T_LAST; inx++) {
+	freelog(LOG_DEBUG, "    %2d/%s",
+		b->terr_gate[inx], get_terrain_name(b->terr_gate[inx]));
+      }
+      freelog(LOG_DEBUG, "  spec_gate...");
+      for (inx = 0; b->spec_gate[inx] != S_NO_SPECIAL; inx++) {
+	freelog(LOG_DEBUG, "    %2d/%s",
+		b->spec_gate[inx], get_special_name(b->spec_gate[inx]));
+      }
+      freelog(LOG_DEBUG, "  equiv_range %2d/%s",
+	      b->equiv_range, effect_range_name(b->equiv_range));
+      freelog(LOG_DEBUG, "  equiv_dupl...");
+      for (inx = 0; b->equiv_dupl[inx] != B_LAST; inx++) {
+	freelog(LOG_DEBUG, "    %2d/%s",
+		b->equiv_dupl[inx], improvement_types[b->equiv_dupl[inx]].name);
+      }
+      freelog(LOG_DEBUG, "  equiv_repl...");
+      for (inx = 0; b->equiv_repl[inx] != B_LAST; inx++) {
+	freelog(LOG_DEBUG, "    %2d/%s",
+		b->equiv_repl[inx], improvement_types[b->equiv_repl[inx]].name);
+      }
+      freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
+	      b->obsolete_by, advances[b->obsolete_by].name);
+      freelog(LOG_DEBUG, "  is_wonder   %2d", b->is_wonder);
+      freelog(LOG_DEBUG, "  build_cost %3d", b->build_cost);
+      freelog(LOG_DEBUG, "  upkeep      %2d", b->upkeep);
+      freelog(LOG_DEBUG, "  sabotage   %3d", b->sabotage);
+      freelog(LOG_DEBUG, "  effect...");
+      for (inx = 0; b->effect[inx].type != EFT_LAST; inx++) {
+	char buf[1024], *ptr;
+	ptr = buf;
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " %d/%s",
+		    b->effect[inx].type,
+		    effect_type_name(b->effect[inx].type));
+	ptr = strchr(ptr, '\0');
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " range=%d/%s",
+		    b->effect[inx].range,
+		    effect_range_name(b->effect[inx].range));
+	ptr = strchr(ptr, '\0');
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " amount=%d",
+		    b->effect[inx].amount);
+	ptr = strchr(ptr, '\0');
+	freelog(LOG_DEBUG, "   %2d. %s", inx, buf);
+	ptr = buf;
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " cond_bldg=%d/%s",
+		    b->effect[inx].cond_bldg,
+		    (b->effect[inx].cond_bldg == B_LAST) ?
+		    "Uncond." :
+		    improvement_types[b->effect[inx].cond_bldg].name);
+	ptr = strchr(ptr, '\0');
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " cond_gov=%d/%s",
+		    b->effect[inx].cond_gov,
+		    (b->effect[inx].cond_gov == game.government_count) ?
+		    "Uncond." :
+		    get_government_name(b->effect[inx].cond_gov));
+	ptr = strchr(ptr, '\0');
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " cond_adv=%d/%s",
+		    b->effect[inx].cond_adv,
+		    (b->effect[inx].cond_adv == A_NONE) ?
+		    "Uncond." :
+		    (b->effect[inx].cond_adv == A_LAST) ?
+		    "Never" :
+		    advances[b->effect[inx].cond_adv].name);
+	ptr = strchr(ptr, '\0');
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " cond_eff=%d/%s",
+		    b->effect[inx].cond_eff,
+		    (b->effect[inx].cond_eff == EFT_LAST) ?
+		    "Uncond." :
+		    effect_type_name(b->effect[inx].cond_eff));
+	ptr = strchr(ptr, '\0');
+	freelog(LOG_DEBUG, "       %s", buf);
+	ptr = buf;
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " aff_unit=%d/%s",
+		    b->effect[inx].aff_unit,
+		    (b->effect[inx].aff_unit == UCL_LAST) ?
+		    "All" :
+		    unit_class_name(b->effect[inx].aff_unit));
+	ptr = strchr(ptr, '\0');
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " aff_terr=%d/%s",
+		    b->effect[inx].aff_terr,
+		    (b->effect[inx].aff_terr == T_LAST) ?
+		    "None" :
+		    (b->effect[inx].aff_terr == T_UNKNOWN) ?
+		    "All" :
+		    get_terrain_name(b->effect[inx].aff_terr));
+	ptr = strchr(ptr, '\0');
+	my_snprintf(ptr, sizeof(buf)-(ptr-buf), " aff_spec=%04X/%s",
+		    b->effect[inx].aff_spec,
+		    (b->effect[inx].aff_spec == 0) ?
+		    "None" :
+		    (b->effect[inx].aff_spec == S_ALL) ?
+		    "All" :
+		    get_special_name(b->effect[inx].aff_spec));
+	ptr = strchr(ptr, '\0');
+	freelog(LOG_DEBUG, "       %s", buf);
+      }
+      freelog(LOG_DEBUG, "  variant     %2d", b->variant);	/* FIXME: remove when gen-impr obsoletes */
+      freelog(LOG_DEBUG, "  helptext    %s", b->helptext);
+    }
+  }
+#endif
 }
 
 /**************************************************************************

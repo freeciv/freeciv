@@ -839,7 +839,7 @@ did I realize the magnitude of my transgression.  How despicable. -- Syela */
         }
         if (is_sailing_unit(myunit) && improvement_exists(B_PORT)
 	    && !city_got_building(pcity, B_PORT)) {
-	  int tech = get_improvement_type(B_PORT)->tech_requirement;
+	  int tech = get_improvement_type(B_PORT)->tech_req;
           if (get_invention(pplayer, tech) == TECH_KNOWN) {
             choice->choice = B_PORT;
             choice->want = e;

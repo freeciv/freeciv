@@ -106,7 +106,7 @@ static int get_wonder_tech(struct player *plr)
     return A_NONE;
   if (game.global_wonders[building] || wonder_obsolete(building)) 
     return A_NONE;
-  tech = improvement_types[building].tech_requirement;
+  tech = improvement_types[building].tech_req;
   if (!tech_exists(tech))
     return A_NONE;
   if (get_invention(plr, tech) == TECH_KNOWN)

@@ -1045,7 +1045,7 @@ STATIC VOID Map_ReallyShowCityDescriptions(Object *o, struct Map_Data *data)
 	  {
 	    int turns, y_offset;
 	    struct unit_type *punit_type;
-	    struct improvement_type *pimprovement_type;
+	    struct impr_type *pimprovement_type;
 	    static char buffer[256];
 
 	    turns = city_turns_to_build(pcity, pcity->currently_building,

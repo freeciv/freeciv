@@ -92,6 +92,9 @@ static int  pack_iter_remaining(struct pack_iter *piter);
 static unsigned char *put_uint8(unsigned char *buffer, int val);
 static unsigned char *put_uint32(unsigned char *buffer, int val);
 
+static unsigned char *put_uint8_vec8(unsigned char *buffer, int *val, int stop);
+static unsigned char *put_uint16_vec8(unsigned char *buffer, int *val, int stop);
+
 static unsigned char *put_bit_string(unsigned char *buffer, char *str);
 static unsigned char *put_city_map(unsigned char *buffer, char *str);
 static unsigned char *put_tech_list(unsigned char *buffer, int *techs);
@@ -100,6 +103,9 @@ static unsigned char *put_tech_list(unsigned char *buffer, int *techs);
 static void iget_uint8(struct pack_iter *piter, int *val);
 static void iget_uint16(struct pack_iter *piter, int *val);
 static void iget_uint32(struct pack_iter *piter, int *val);
+
+static void iget_uint8_vec8(struct pack_iter *piter, int **val, int stop);
+static void iget_uint16_vec8(struct pack_iter *piter, int **val, int stop);
 
 static void iget_string(struct pack_iter *piter, char *mystring, int navail);
 static void iget_bit_string(struct pack_iter *piter, char *str, int navail);
@@ -111,6 +117,9 @@ static void iget_tech_list(struct pack_iter *piter, int *techs);
 static unsigned char *get_uint8(unsigned char *buffer, int *val);
 static unsigned char *get_uint16(unsigned char *buffer, int *val);
 static unsigned char *get_uint32(unsigned char *buffer, int *val);
+
+static unsigned char *get_uint8_vec8(unsigned char *buffer, int **val, int stop);
+static unsigned char *get_uint16_vec8(unsigned char *buffer, int **val, int stop);
 
 static unsigned int swab_uint16(unsigned int val);
 static unsigned int swab_uint32(unsigned int val);
@@ -551,6 +560,134 @@ static unsigned char *put_uint32(unsigned char *buffer, int val)
 #define put_sint32(b,v) put_uint32(b,v)
 
 /**************************************************************************
+  Gets a vector of uint8 values; at most 2^8-1 elements.
+  Allocates the return value.
+  val can be NULL meaning just read past.
+**************************************************************************/
+static unsigned char *get_uint8_vec8(unsigned char *buffer, int **val, int stop)
+{
+  int count, inx;
+  buffer = get_uint8(buffer, &count);
+  if (val) {
+    *val = fc_malloc((count + 1) * sizeof(int));
+  }
+  for (inx = 0; inx < count; inx++) {
+    buffer = get_uint8(buffer, val ? &((*val)[inx]) : NULL);
+  }
+  if (val) {
+    (*val)[inx] = stop;
+  }
+  return buffer;
+}
+
+/**************************************************************************
+  Gets a vector of sint8 values; at most 2^8-1 elements.
+  Allocates the return value.
+  val can be NULL meaning just read past.
+**************************************************************************/
+#ifdef SIGNED_INT_FUNCTIONS
+static unsigned char *get_sint8_vec8(unsigned char *buffer, int **val, int stop)
+{
+  int count, inx;
+  buffer = get_uint8(buffer, &count);
+  if (val) {
+    *val = fc_malloc((count + 1) * sizeof(int));
+  }
+  for (inx = 0; inx < count; inx++) {
+    buffer = get_sint8(buffer, val ? &((*val)[inx]) : NULL);
+  }
+  if (val) {
+    (*val)[inx] = stop;
+  }
+  return buffer;
+}
+#endif
+
+/**************************************************************************
+  Puts a vector of sint8 values; at most 2^8-1 elements.
+  val can be NULL meaning same as zero-length vector.
+**************************************************************************/
+static unsigned char *put_uint8_vec8(unsigned char *buffer, int *val, int stop)
+{
+  unsigned char *pcount = buffer;
+  int count;
+  buffer = put_uint8(buffer, 0);
+  if (val) {
+    for (count = 0; *val != stop; count++, val++) {
+      buffer = put_uint8(buffer, *val);
+    }
+    put_uint8(pcount, count);
+  }
+  return buffer;
+}
+
+#define put_sint8_vec8(b,v,s) put_uint8_vec8(b,v,s)
+
+/**************************************************************************
+  Gets a vector of uint16 values; at most 2^8-1 elements.
+  Allocates the return value.
+  val can be NULL meaning just read past.
+**************************************************************************/
+static unsigned char *get_uint16_vec8(unsigned char *buffer, int **val, int stop)
+{
+  int count, inx;
+  buffer = get_uint8(buffer, &count);
+  if (val) {
+    *val = fc_malloc((count + 1) * sizeof(int));
+  }
+  for (inx = 0; inx < count; inx++) {
+    buffer = get_uint16(buffer, val ? &((*val)[inx]) : NULL);
+  }
+  if (val) {
+    (*val)[inx] = stop;
+  }
+  return buffer;
+}
+
+/**************************************************************************
+  Gets a vector of sint16 values; at most 2^8-1 elements.
+  Allocates the return value.
+  val can be NULL meaning just read past.
+**************************************************************************/
+#ifdef SIGNED_INT_FUNCTIONS
+static unsigned char *get_sint16_vec8(unsigned char *buffer, int **val, int stop)
+{
+  int count, inx;
+  buffer = get_uint8(buffer, &count);
+  if (val) {
+    *val = fc_malloc((count + 1) * sizeof(int));
+  }
+  for (inx = 0; inx < count; inx++) {
+    buffer = get_sint16(buffer, val ? &((*val)[inx]) : NULL);
+  }
+  if (val) {
+    (*val)[inx] = stop;
+  }
+  return buffer;
+}
+#endif
+
+/**************************************************************************
+  Puts a vector of sint16 values; at most 2^8-1 elements.
+  val can be NULL meaning same as zero-length vector.
+**************************************************************************/
+static unsigned char *put_uint16_vec8(unsigned char *buffer, int *val, int stop)
+{
+  unsigned char *pcount = buffer;
+  int count;
+  buffer = put_uint8(buffer, 0);
+  if (val) {
+    for (count = 0; *val != stop; count++, val++) {
+      buffer = put_uint16(buffer, *val);
+    }
+    put_uint8(pcount, count);
+  }
+  return buffer;
+}
+
+#define put_sint16_vec8(b,v,s) put_uint16_vec8(b,v,s)
+
+/**************************************************************************
   Like get_uint8, but using a pack_iter.
   Sets *val to zero for short packets.
   val can be NULL meaning just read past.
@@ -663,6 +800,108 @@ static void iget_sint32(struct pack_iter *piter, int *val)
   if (val && piter->swap_bytes) {
     swab_puint32(val);
   }
+}
+#endif
+
+/**************************************************************************
+  Like get_uint8_vec8, but using a pack_iter.
+  Sets *val to NULL for short packets.
+  val can be NULL meaning just read past.
+**************************************************************************/
+static void iget_uint8_vec8(struct pack_iter *piter, int **val, int stop)
+{
+  int count;
+  assert(piter);
+  if (pack_iter_remaining(piter) < 1) {
+    piter->short_packet = 1;
+    if (val) *val = NULL;
+    return;
+  }
+  get_uint8(piter->ptr, &count);	/* don't move pointer past uint8 */
+  count += 1;				/* adjust to include count uint8 */
+  if (pack_iter_remaining(piter) < count) {
+    piter->short_packet = 1;
+    if (val) *val = NULL;
+    return;
+  }
+  piter->ptr = get_uint8_vec8(piter->ptr, val, stop);
+}
+
+/**************************************************************************
+  Like get_sint8_vec8, but using a pack_iter.
+  Sets *val to NULL for short packets.
+  val can be NULL meaning just read past.
+**************************************************************************/
+#ifdef SIGNED_INT_FUNCTIONS
+static void iget_sint8_vec8(struct pack_iter *piter, int **val, int stop)
+{
+  int count;
+  assert(piter);
+  if (pack_iter_remaining(piter) < 1) {
+    piter->short_packet = 1;
+    if (val) *val = NULL;
+    return;
+  }
+  get_uint8(piter->ptr, &count);	/* don't move pointer past uint8 */
+  count += 1;				/* adjust to include count uint8 */
+  if (pack_iter_remaining(piter) < count) {
+    piter->short_packet = 1;
+    if (val) *val = NULL;
+    return;
+  }
+  piter->ptr = get_sint8_vec8(piter->ptr, val, stop);
+}
+#endif
+
+/**************************************************************************
+  Like get_uint16_vec8, but using a pack_iter.
+  Sets *val to NULL for short packets.
+  val can be NULL meaning just read past.
+**************************************************************************/
+static void iget_uint16_vec8(struct pack_iter *piter, int **val, int stop)
+{
+  int count;
+  assert(piter);
+  if (pack_iter_remaining(piter) < 1) {
+    piter->short_packet = 1;
+    if (val) *val = NULL;
+    return;
+  }
+  get_uint8(piter->ptr, &count);	/* don't move pointer past uint8 */
+  count *= 2;				/* number of bytes in vector */
+  count += 1;				/* adjust to include count uint8 */
+  if (pack_iter_remaining(piter) < count) {
+    piter->short_packet = 1;
+    if (val) *val = NULL;
+    return;
+  }
+  piter->ptr = get_uint16_vec8(piter->ptr, val, stop);
+}
+
+/**************************************************************************
+  Like get_sint16_vec8, but using a pack_iter.
+  Sets *val to NULL for short packets.
+  val can be NULL meaning just read past.
+**************************************************************************/
+#ifdef SIGNED_INT_FUNCTIONS
+static void iget_sint16_vec8(struct pack_iter *piter, int **val, int stop)
+{
+  int count;
+  assert(piter);
+  if (pack_iter_remaining(piter) < 1) {
+    piter->short_packet = 1;
+    if (val) *val = NULL;
+    return;
+  }
+  get_uint8(piter->ptr, &count);	/* don't move pointer past uint8 */
+  count *= 2;				/* number of bytes in vector */
+  count += 1;				/* adjust to include count uint8 */
+  if (pack_iter_remaining(piter) < count) {
+    piter->short_packet = 1;
+    if (val) *val = NULL;
+    return;
+  }
+  piter->ptr = get_sint16_vec8(piter->ptr, val, stop);
 }
 #endif
 
@@ -2422,15 +2661,39 @@ int send_packet_ruleset_building(struct connection *pc,
 			     struct packet_ruleset_building *packet)
 {
   unsigned char buffer[MAX_LEN_PACKET], *cptr;
+  struct impr_effect *eff;
+  int count;
+
   cptr=put_uint8(buffer+2, PACKET_RULESET_BUILDING);
-  
+
   cptr=put_uint8(cptr, packet->id);
-  cptr=put_uint8(cptr, packet->is_wonder);
-  cptr=put_uint8(cptr, packet->tech_requirement);
-  cptr=put_uint16(cptr, packet->build_cost);
-  cptr=put_uint8(cptr, packet->shield_upkeep);
+  cptr=put_uint8(cptr, packet->tech_req);
+  cptr=put_uint8(cptr, packet->bldg_req);
+  cptr=put_uint8_vec8(cptr, (int *)packet->terr_gate, T_LAST);
+  cptr=put_uint16_vec8(cptr, (int *)packet->spec_gate, S_NO_SPECIAL);
+  cptr=put_uint8(cptr, packet->equiv_range);
+  cptr=put_uint8_vec8(cptr, packet->equiv_dupl, B_LAST);
+  cptr=put_uint8_vec8(cptr, packet->equiv_repl, B_LAST);
   cptr=put_uint8(cptr, packet->obsolete_by);
-  cptr=put_uint8(cptr, packet->variant);
+  cptr=put_uint8(cptr, packet->is_wonder);
+  cptr=put_uint16(cptr, packet->build_cost);
+  cptr=put_uint8(cptr, packet->upkeep);
+  cptr=put_uint8(cptr, packet->sabotage);
+  for (count = 0, eff = packet->effect; eff->type != EFT_LAST; count++, eff++) ;
+  cptr=put_uint8(cptr, count);
+  for (eff = packet->effect; eff->type != EFT_LAST; eff++) {
+    cptr=put_uint8(cptr, eff->type);
+    cptr=put_uint8(cptr, eff->range);
+    cptr=put_sint16(cptr, eff->amount);
+    cptr=put_uint8(cptr, eff->cond_bldg);
+    cptr=put_uint8(cptr, eff->cond_gov);
+    cptr=put_uint8(cptr, eff->cond_adv);
+    cptr=put_uint8(cptr, eff->cond_eff);
+    cptr=put_uint8(cptr, eff->aff_unit);
+    cptr=put_uint8(cptr, eff->aff_terr);
+    cptr=put_uint16(cptr, eff->aff_spec);
+  }
+  cptr=put_uint8(cptr, packet->variant);	/* FIXME: remove when gen-impr obsoletes */
   cptr=put_string(cptr, packet->name);
 
   /* This must be last, so client can determine length: */
@@ -2451,17 +2714,39 @@ receive_packet_ruleset_building(struct connection *pc)
   struct pack_iter iter;
   struct packet_ruleset_building *packet=
     fc_malloc(sizeof(struct packet_ruleset_building));
-  int len;
+  int len, inx, count;
 
   pack_iter_init(&iter, pc);
 
   iget_uint8(&iter, &packet->id);
-  iget_uint8(&iter, &packet->is_wonder);
-  iget_uint8(&iter, &packet->tech_requirement);
-  iget_uint16(&iter, &packet->build_cost);
-  iget_uint8(&iter, &packet->shield_upkeep);
+  iget_uint8(&iter, &packet->tech_req);
+  iget_uint8(&iter, &packet->bldg_req);
+  iget_uint8_vec8(&iter, (int **)&packet->terr_gate, T_LAST);
+  iget_uint16_vec8(&iter, (int **)&packet->spec_gate, S_NO_SPECIAL);
+  iget_uint8(&iter, (int *)&packet->equiv_range);
+  iget_uint8_vec8(&iter, &packet->equiv_dupl, B_LAST);
+  iget_uint8_vec8(&iter, &packet->equiv_repl, B_LAST);
   iget_uint8(&iter, &packet->obsolete_by);
-  iget_uint8(&iter, &packet->variant);
+  iget_uint8(&iter, &packet->is_wonder);
+  iget_uint16(&iter, &packet->build_cost);
+  iget_uint8(&iter, &packet->upkeep);
+  iget_uint8(&iter, &packet->sabotage);
+  iget_uint8(&iter, &count);
+  packet->effect = fc_malloc((count + 1) * sizeof(struct impr_effect));
+  for (inx = 0; inx < count; inx++) {
+    iget_uint8(&iter, (int *)&(packet->effect[inx].type));
+    iget_uint8(&iter, (int *)&(packet->effect[inx].range));
+    iget_sint16(&iter, &(packet->effect[inx].amount));
+    iget_uint8(&iter, &(packet->effect[inx].cond_bldg));
+    iget_uint8(&iter, &(packet->effect[inx].cond_gov));
+    iget_uint8(&iter, &(packet->effect[inx].cond_adv));
+    iget_uint8(&iter, (int *)&(packet->effect[inx].cond_eff));
+    iget_uint8(&iter, (int *)&(packet->effect[inx].aff_unit));
+    iget_uint8(&iter, (int *)&(packet->effect[inx].aff_terr));
+    iget_uint16(&iter, (int *)&(packet->effect[inx].aff_spec));
+  }
+  packet->effect[count].type = EFT_LAST;
+  iget_uint8(&iter, &packet->variant);	/* FIXME: remove when gen-impr obsoletes */
   iget_string(&iter, packet->name, sizeof(packet->name));
 
   len = pack_iter_remaining(&iter);

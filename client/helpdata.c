@@ -528,7 +528,7 @@ static void helptext_cathedral_techs(char *buf)
 *****************************************************************/
 void helptext_improvement(char *buf, int which, const char *user_text)
 {
-  struct improvement_type *imp = &improvement_types[which];
+  struct impr_type *imp = &improvement_types[which];
   
   assert(buf&&user_text);
   buf[0] = '\0';
@@ -592,7 +592,7 @@ void helptext_improvement(char *buf, int which, const char *user_text)
 void helptext_wonder(char *buf, int which,
 			    const char *user_text)
 {
-  struct improvement_type *imp = &improvement_types[which];
+  struct impr_type *imp = &improvement_types[which];
   
   assert(buf&&user_text);
   buf[0] = '\0';

@@ -771,20 +771,20 @@ static void help_update_improvement(const struct help_item *pitem,
   create_help_page(HELP_IMPROVEMENT);
   
   if (which<B_LAST) {
-    struct improvement_type *imp = &improvement_types[which];
+    struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d ", imp->build_cost);
     xaw_set_label(help_improvement_cost_data, buf);
-    sprintf(buf, "%d ", imp->shield_upkeep);
+    sprintf(buf, "%d ", imp->upkeep);
     xaw_set_label(help_improvement_upkeep_data, buf);
     sprintf(buf, "%d ", imp->variant);
     xaw_set_label(help_improvement_variant_data, buf);
-    if (imp->tech_requirement == A_LAST) {
+    if (imp->tech_req == A_LAST) {
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
-		    advances[imp->tech_requirement].name);
+		    advances[imp->tech_req].name);
     }
-    create_tech_tree(help_tech_tree, 0, imp->tech_requirement, 3);
+    create_tech_tree(help_tech_tree, 0, imp->tech_req, 3);
   }
   else {
     xaw_set_label(help_improvement_cost_data, "0 ");
@@ -809,20 +809,20 @@ static void help_update_wonder(const struct help_item *pitem,
   create_help_page(HELP_WONDER);
 
   if (which<B_LAST) {
-    struct improvement_type *imp = &improvement_types[which];
+    struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d ", imp->build_cost);
     xaw_set_label(help_improvement_cost_data, buf);
     sprintf(buf, "%d ", imp->variant);
     xaw_set_label(help_wonder_variant_data, buf);
-    if (imp->tech_requirement == A_LAST) {
+    if (imp->tech_req == A_LAST) {
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
-		    advances[imp->tech_requirement].name);
+		    advances[imp->tech_req].name);
     }
     xaw_set_label(help_wonder_obsolete_data,
 		  advances[imp->obsolete_by].name);
-    create_tech_tree(help_tech_tree, 0, imp->tech_requirement, 3);
+    create_tech_tree(help_tech_tree, 0, imp->tech_req, 3);
   }
   else {
     /* can't find wonder */
@@ -913,7 +913,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     helptext_tech(buf, i, pitem->text);
 
     for(j=0; j<B_LAST; ++j) {
-      if(i==improvement_types[j].tech_requirement) 
+      if(i==improvement_types[j].tech_req) 
 	sprintf(buf+strlen(buf), _("Allows %s.\n"),
 		improvement_types[j].name);
       if(i==improvement_types[j].obsolete_by)

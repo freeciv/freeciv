@@ -132,7 +132,7 @@ static void ai_manage_buildings(struct player *pplayer)
   if (g->index != game.default_government
       && g->index != game.government_when_anarchy) {
     for (i = 0; i < B_LAST; i++) {
-      j = improvement_types[i].tech_requirement;
+      j = improvement_types[i].tech_req;
       if (get_invention(pplayer, j) != TECH_KNOWN)
         pplayer->ai.tech_want[j] += values[i];
     }

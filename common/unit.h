@@ -62,6 +62,21 @@ enum unit_move_type {
   LAND_MOVING = 1, SEA_MOVING, HELI_MOVING, AIR_MOVING
 };
 
+/* Classes for unit types.
+ * (These must correspond to unit_class_names[] in unit.c.)
+ */
+enum unit_class_id {
+  UCL_AIR,
+  UCL_HELICOPTER,
+  UCL_LAND,
+  UCL_MISSILE,
+  UCL_NUCLEAR,
+  UCL_SEA,
+  UCL_LAST	/* keep this last */
+};
+
+typedef enum unit_class_id Unit_Class_id;
+
 enum unit_focus_status {
   FOCUS_AVAIL, FOCUS_WAIT, FOCUS_DONE  
 };
@@ -235,6 +250,7 @@ struct unit_type {
 extern struct unit_type unit_types[U_LAST];
 
 char *unit_name(Unit_Type_id id);
+char *unit_class_name(Unit_Class_id id);
 
 struct unit *unit_list_find(struct unit_list *This, int id);
 
@@ -314,6 +330,7 @@ int unit_type_exists(Unit_Type_id id);
 Unit_Type_id find_unit_type_by_name(char *s);
 
 enum unit_move_type unit_move_type_from_str(char *s);
+Unit_Class_id unit_class_from_str(char *s);
 enum unit_flag_id unit_flag_from_str(char *s);
 enum unit_role_id unit_role_from_str(char *s);
 

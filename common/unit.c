@@ -61,6 +61,14 @@ static char *role_names[] = {
   "BarbarianBuild", "BarbarianBuildTech", "BarbarianLeader",
   "BarbarianSea", "BarbarianSeaTech"
 };
+static char *unit_class_names[] = {
+  "Air",
+  "Helicopter",
+  "Land",
+  "Missile",
+  "Nuclear",
+  "Sea"
+};
 
 /***************************************************************
 ...
@@ -515,6 +523,18 @@ int unit_value(Unit_Type_id id)
 char *unit_name(Unit_Type_id id)
 {
   return (unit_types[id].name);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+char *unit_class_name(Unit_Class_id id)
+{
+  if ((id >= 0) && (id < UCL_LAST)) {
+    return unit_class_names[id];
+  } else {
+    return "";
+  }
 }
 
 /**************************************************************************
@@ -1310,6 +1330,25 @@ enum unit_move_type unit_move_type_from_str(char *s)
     }
   }
   return 0;
+}
+
+/**************************************************************************
+  Convert Unit_Class_id names to enum; case insensitive;
+  returns UCL_LAST if can't match.
+**************************************************************************/
+Unit_Class_id unit_class_from_str(char *s)
+{
+  Unit_Class_id i;
+
+  assert(sizeof(unit_class_names)/sizeof(unit_class_names[0])==UCL_LAST);
+
+  for (i = 0; i < UCL_LAST; i++) {
+    if (mystrcasecmp(unit_class_names[i], s)==0) {
+      return i;
+    }
+  }
+
+  return UCL_LAST;
 }
 
 /**************************************************************************

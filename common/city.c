@@ -14,6 +14,7 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -61,11 +62,98 @@ The improvement_types array is now setup in:
    client/packhand.c (for the client)
 *****************************************************************/
 
-struct improvement_type improvement_types[B_LAST];
+struct impr_type improvement_types[B_LAST];
 
 char **misc_city_names; 
 
 struct citystyle *city_styles = NULL;
+
+
+/* Names of effect ranges.
+ * (These must correspond to enum effect_range_id in city.h.)
+ */
+static char *effect_range_names[] = {
+  "None",
+  "Building",
+  "City",
+  "Island",
+  "Player",
+  "World"
+};
+
+/* Names of effect types.
+ * (These must correspond to enum effect_type_id in city.h.)
+ */
+static char *effect_type_names[] = {
+  "Adv_Parasite",
+  "Airlift",
+  "Any_Government",
+  "Barb_Attack",
+  "Barb_Defend",
+  "Capital_City",
+  "Capital_Exists",
+  "Enable_Nuke",
+  "Enable_Space",
+  "Enemy_Peaceful",
+  "Food_Add_Tile",
+  "Food_Bonus",
+  "Food_Inc_Tile",
+  "Food_Per_Tile",
+  "Give_Imm_Adv",
+  "Growth_Food",
+  "Have_Embassies",
+  "Improve_Rep",
+  "Luxury_Bonus",
+  "Luxury_Pct",
+  "Make_Content",
+  "Make_Content_Mil",
+  "Make_Content_Pct",
+  "Make_Happy",
+  "May_Declare_War",
+  "No_Anarchy",
+  "No_Sink_Deep",
+  "Nuke_Proof",
+  "Pollu_Adj",
+  "Pollu_Adj_Pop",
+  "Pollu_Adj_Prod",
+  "Pollu_Decrease",
+  "Prod_Add_Tile",
+  "Prod_Bonus",
+  "Prod_Inc_Tile",
+  "Prod_Per_Tile",
+  "Prod_To_Gold",
+  "Reduce_Corrupt",
+  "Reduce_Waste",
+  "Reveal_Cities",
+  "Reveal_Map",
+  "Revolt_Dist",
+  "Science_Bonus",
+  "Science_Pct",
+  "Size_Unlimit",
+  "Slow_Global_Warm",
+  "Space_Part",
+  "Spy_Resistant",
+  "Tax_Bonus",
+  "Tax_Pct",
+  "Trade_Add_Tile",
+  "Trade_Bonus",
+  "Trade_Inc_Tile",
+  "Trade_Per_Tile",
+  "Trade_Route_Pct",
+  "Unit_Defend",
+  "Unit_Move",
+  "Unit_No_Lose_Pop",
+  "Unit_Recover",
+  "Unit_Repair",
+  "Unit_Vet_Combat",
+  "Unit_Veteran",
+  "Upgrade_Units",
+  "Upgrade_One_Step",
+  "Upgrade_One_Leap",
+  "Upgrade_All_Step",
+  "Upgrade_All_Leap",
+  "Upkeep_Free"
+};
 
 /**************************************************************************
   Set the worker on the citymap.  Also sets the worked field in the map.
@@ -118,6 +206,72 @@ int map_to_city_x(struct city *pcity, int x)
 int map_to_city_y(struct city *pcity, int y)
 {
 	return y-pcity->y+2;
+}
+
+/**************************************************************************
+  Convert effect range names to enum; case insensitive;
+  returns EFR_LAST if can't match.
+**************************************************************************/
+Eff_Range_id effect_range_from_str(char *str)
+{
+  Eff_Range_id ret_id;
+
+  assert(sizeof(effect_range_names)/sizeof(effect_range_names[0])==EFR_LAST);
+
+  for (ret_id = 0; ret_id < EFR_LAST; ret_id++) {
+    if (0 == mystrcasecmp(effect_range_names[ret_id], str)) {
+      return ret_id;
+    }
+  }
+
+  return EFR_LAST;
+}
+
+/**************************************************************************
+  Return effect range name; NULL if bad id.
+**************************************************************************/
+char *effect_range_name(Eff_Range_id id)
+{
+  assert(sizeof(effect_range_names)/sizeof(effect_range_names[0])==EFR_LAST);
+
+  if (id < EFR_LAST) {
+    return effect_range_names[id];
+  } else {
+    return NULL;
+  }
+}
+
+/**************************************************************************
+  Convert effect type names to enum; case insensitive;
+  returns EFT_LAST if can't match.
+**************************************************************************/
+Eff_Type_id effect_type_from_str(char *str)
+{
+  Eff_Type_id ret_id;
+
+  assert(sizeof(effect_type_names)/sizeof(effect_type_names[0])==EFT_LAST);
+
+  for (ret_id = 0; ret_id < EFT_LAST; ret_id++) {
+    if (0 == mystrcasecmp(effect_type_names[ret_id], str)) {
+      return ret_id;
+    }
+  }
+
+  return EFT_LAST;
+}
+
+/**************************************************************************
+  Return effect type name; NULL if bad id.
+**************************************************************************/
+char *effect_type_name(Eff_Type_id id)
+{
+  assert(sizeof(effect_type_names)/sizeof(effect_type_names[0])==EFT_LAST);
+
+  if (id < EFT_LAST) {
+    return effect_type_names[id];
+  } else {
+    return NULL;
+  }
 }
 
 /****************************************************************
@@ -221,7 +375,7 @@ Returns 1 if the improvement_type "exists" in this game, 0 otherwise.
 An improvement_type doesn't exist if one of:
 - id is out of range;
 - the improvement_type has been flagged as removed by setting its
-  tech_requirement to A_LAST;
+  tech_req to A_LAST;
 - it is a space part, and the spacerace is not enabled.
 Arguably this should be called improvement_type_exists, but that's too long.
 **************************************************************************/
@@ -234,7 +388,7 @@ int improvement_exists(Impr_Type_id id)
       && !game.spacerace)
     return 0;
 
-  return (improvement_types[id].tech_requirement!=A_LAST);
+  return (improvement_types[id].tech_req!=A_LAST);
 }
 
 /**************************************************************************
@@ -253,7 +407,7 @@ Impr_Type_id find_improvement_by_name(char *s)
 }
 
 /**************************************************************************
-...
+FIXME: remove when gen-impr obsoletes
 **************************************************************************/
 int improvement_variant(Impr_Type_id id)
 {
@@ -323,7 +477,7 @@ int is_wonder_useful(Impr_Type_id id)
 ...
 **************************************************************************/
 
-struct improvement_type *get_improvement_type(Impr_Type_id id)
+struct impr_type *get_improvement_type(Impr_Type_id id)
 {
   return &improvement_types[id];
 }
@@ -408,7 +562,7 @@ int could_player_eventually_build_improvement(struct player *p,
     return 0;
 
   /* You can't build an improvement if it's tech requirement is Never. */
-  /*   if (improvement_types[id].tech_requirement == A_LAST) return 0; */
+  /*   if (improvement_types[id].tech_req == A_LAST) return 0; */
   /* This is what "exists" means, done by improvement_exists() above --dwp */
   
   if (id == B_SSTRUCTURAL || id == B_SCOMP || id == B_SMODULE) {
@@ -439,7 +593,7 @@ int could_player_build_improvement(struct player *p, Impr_Type_id id)
     return 0;
 
   /* Make sure we have the tech /now/.*/
-  if (get_invention(p, improvement_types[id].tech_requirement) == TECH_KNOWN)
+  if (get_invention(p, improvement_types[id].tech_req) == TECH_KNOWN)
     return 1;
   return 0;
 }
@@ -655,10 +809,10 @@ int improvement_upkeep(struct city *pcity, int i)
     return 0;
   if (is_wonder(i))
     return 0;
-  if (improvement_types[i].shield_upkeep == 1 &&
+  if (improvement_types[i].upkeep == 1 &&
       city_affected_by_wonder(pcity, B_ASMITHS)) 
     return 0;
-  return (improvement_types[i].shield_upkeep);
+  return (improvement_types[i].upkeep);
 }
 
 /**************************************************************************
@@ -670,9 +824,9 @@ static int improvement_upkeep_asmiths(struct city *pcity, int i, int asmiths)
     return 0;
   if (is_wonder(i))
     return 0;
-  if (asmiths && improvement_types[i].shield_upkeep == 1) 
+  if (asmiths && improvement_types[i].upkeep == 1) 
     return 0;
-  return (improvement_types[i].shield_upkeep);
+  return (improvement_types[i].upkeep);
 }
 
 /**************************************************************************

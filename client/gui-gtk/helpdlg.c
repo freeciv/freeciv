@@ -648,17 +648,17 @@ static void help_update_improvement(const struct help_item *pitem,
   create_help_page(HELP_IMPROVEMENT);
   
   if (which<B_LAST) {
-    struct improvement_type *imp = &improvement_types[which];
+    struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d", imp->build_cost);
     gtk_set_label(help_ilabel[1], buf);
-    sprintf(buf, "%d", imp->shield_upkeep);
+    sprintf(buf, "%d", imp->upkeep);
     gtk_set_label(help_ilabel[3], buf);
-    if (imp->tech_requirement == A_LAST) {
+    if (imp->tech_req == A_LAST) {
       gtk_set_label(help_ilabel[5], _("(Never)"));
     } else {
-      gtk_set_label(help_ilabel[5], advances[imp->tech_requirement].name);
+      gtk_set_label(help_ilabel[5], advances[imp->tech_req].name);
     }
-/*    create_tech_tree(help_improvement_tree, 0, imp->tech_requirement, 3);*/
+/*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
     gtk_set_label(help_ilabel[1], "0");
@@ -688,16 +688,16 @@ static void help_update_wonder(const struct help_item *pitem,
   create_help_page(HELP_WONDER);
 
   if (which<B_LAST) {
-    struct improvement_type *imp = &improvement_types[which];
+    struct impr_type *imp = &improvement_types[which];
     sprintf(buf, "%d", imp->build_cost);
     gtk_set_label(help_wlabel[1], buf);
-    if (imp->tech_requirement == A_LAST) {
+    if (imp->tech_req == A_LAST) {
       gtk_set_label(help_wlabel[3], _("(Never)"));
     } else {
-      gtk_set_label(help_wlabel[3], advances[imp->tech_requirement].name);
+      gtk_set_label(help_wlabel[3], advances[imp->tech_req].name);
     }
     gtk_set_label(help_wlabel[5], advances[imp->obsolete_by].name);
-/*    create_tech_tree(help_improvement_tree, 0, imp->tech_requirement, 3);*/
+/*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
     /* can't find wonder */
@@ -824,7 +824,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_container_add(GTK_CONTAINER(help_vbox), w);
 
     for(j=0; j<B_LAST; ++j) {
-      if(i==improvement_types[j].tech_requirement) {
+      if(i==improvement_types[j].tech_req) {
         hbox = gtk_hbox_new(FALSE, 0);
         gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
         w = gtk_label_new(_("Allows "));

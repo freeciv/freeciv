@@ -14,38 +14,13 @@
 #define FC__MAP_H
 
 #include "player.h"
+#include "terrain.h"
 #include "unit.h"
 #include "game.h"
 
 struct Sprite;			/* opaque; client-gui specific */
 
 #define NUM_DIRECTION_NSEW 16
-
-enum terrain_river_type {
-  R_AS_TERRAIN=1, R_AS_SPECIAL=2
-};
-
-enum special_river_move {
-  RMV_NORMAL=0, RMV_FAST_STRICT=1, RMV_FAST_RELAXED=2, RMV_FAST_ALWAYS=3
-};
-
-enum tile_special_type {
-  S_NO_SPECIAL=0, S_SPECIAL_1=1, S_ROAD=2, S_IRRIGATION=4, S_RAILROAD=8,
-  S_MINE=16, S_POLLUTION=32, S_HUT=64, S_FORTRESS=128, S_SPECIAL_2=256,
-  S_RIVER=512, S_FARMLAND=1024, S_AIRBASE=2048
-};
-
-enum tile_terrain_type {
-  T_ARCTIC, T_DESERT, T_FOREST, T_GRASSLAND, T_HILLS, T_JUNGLE, 
-  T_MOUNTAINS, T_OCEAN, T_PLAINS, T_RIVER, T_SWAMP, T_TUNDRA, T_UNKNOWN,
-  T_LAST
-};
-#define T_FIRST (T_ARCTIC)
-#define T_COUNT (T_UNKNOWN)
-
-enum known_type {
- TILE_UNKNOWN, TILE_KNOWN_FOGGED, TILE_KNOWN
-};
 
 struct map_position {
   int x,y;
@@ -223,6 +198,9 @@ int tile_move_cost(struct unit *punit, int x1, int y1, int x2, int y2);
 int map_move_cost(struct unit *punit, int x1, int y1);
 struct tile_type *get_tile_type(enum tile_terrain_type type);
 enum tile_terrain_type get_terrain_by_name(char * name);
+char *get_terrain_name(enum tile_terrain_type type);
+enum tile_special_type get_special_by_name(char * name);
+char *get_special_name(enum tile_special_type type);
 int is_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int isnt_terrain_near_tile(int x, int y, enum tile_terrain_type t);
 int count_terrain_near_tile(int x, int y, enum tile_terrain_type t);

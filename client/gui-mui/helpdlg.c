@@ -570,14 +570,14 @@ static void help_update_improvement(const struct help_item *pitem,
   if (which < B_LAST)
   {
     char *text;
-    struct improvement_type *imp = &improvement_types[which];
+    struct impr_type *imp = &improvement_types[which];
 
     DoMethod(help_imprv_cost_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->build_cost);
-    DoMethod(help_imprv_upkeep_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->shield_upkeep);
-    if (imp->tech_requirement == A_LAST)
+    DoMethod(help_imprv_upkeep_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->upkeep);
+    if (imp->tech_req == A_LAST)
       text = "(Never)";
     else
-      text = advances[imp->tech_requirement].name;
+      text = advances[imp->tech_req].name;
     set(help_imprv_needs_button, MUIA_Text_Contents, text);
   }
 
@@ -598,14 +598,14 @@ static void help_update_wonder(const struct help_item *pitem,
   if (which < B_LAST)
   {
     char *text;
-    struct improvement_type *imp = &improvement_types[which];
+    struct impr_type *imp = &improvement_types[which];
 
     DoMethod(help_wonder_cost_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->build_cost);
 
-    if (imp->tech_requirement == A_LAST)
+    if (imp->tech_req == A_LAST)
       text = "(Never)";
     else
-      text = advances[imp->tech_requirement].name;
+      text = advances[imp->tech_req].name;
     set(help_wonder_needs_button, MUIA_Text_Contents, text);
     set(help_wonder_obsolete_button, MUIA_Text_Contents, advances[imp->obsolete_by].name);
   }
@@ -700,7 +700,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	for (j = 0; j < B_LAST; ++j)
 	{
 	  Object *o, *button;
-	  if (i != improvement_types[j].tech_requirement)
+	  if (i != improvement_types[j].tech_req)
 	    continue;
 
 	  o = HGroup,

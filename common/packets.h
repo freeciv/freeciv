@@ -546,12 +546,20 @@ struct packet_ruleset_tech {
 struct packet_ruleset_building {
   int id;			/* index for improvement_types[] */
   char name[MAX_LEN_NAME];
+  Tech_Type_id tech_req;
+  Impr_Type_id bldg_req;
+  enum tile_terrain_type *terr_gate;
+  enum tile_special_type *spec_gate;
+  Eff_Range_id equiv_range;
+  Impr_Type_id *equiv_dupl;
+  Impr_Type_id *equiv_repl;
+  Tech_Type_id obsolete_by;
   int is_wonder;
-  int tech_requirement;
   int build_cost;
-  int shield_upkeep;
-  int obsolete_by;
-  int variant;
+  int upkeep;
+  int sabotage;
+  struct impr_effect *effect;
+  int variant;		/* FIXME: remove when gen-impr obsoletes */
   char *helptext;		/* same as for packet_ruleset_unit, above */
 };
 

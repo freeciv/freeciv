@@ -39,6 +39,25 @@ static struct tile void_tile;
 struct terrain_misc terrain_control;
 struct tile_type tile_types[T_LAST];
 
+/* Names of specials.
+ * (These must correspond to enum tile_special_type in terrain.h.)
+ */
+static char *tile_special_type_names[] =
+{
+  "Special1",
+  "Road",
+  "Irrigation",
+  "Railroad",
+  "Mine",
+  "Pollution",
+  "Hut",
+  "Fortress",
+  "Special2",
+  "River",
+  "Farmland",
+  "Airbase"
+};
+
 /***************************************************************
   Return a (static) string with terrain name;
   eg: "Hills"
@@ -144,14 +163,63 @@ struct tile_type *get_tile_type(enum tile_terrain_type type)
 enum tile_terrain_type get_terrain_by_name(char * name)
 {
   enum tile_terrain_type tt;
-  for (tt = T_FIRST; tt < T_COUNT; tt++)
-    {
-      if (0 == strcmp (tile_types[tt].terrain_name, name))
-	{
-	  break;
-	}
+  for (tt = T_FIRST; tt < T_COUNT; tt++) {
+    if (0 == strcmp (tile_types[tt].terrain_name, name)) {
+      break;
     }
-  return (tt);
+  }
+  return tt;
+}
+
+/***************************************************************
+...
+***************************************************************/
+char *get_terrain_name(enum tile_terrain_type type)
+{
+  if (type < T_COUNT) {
+    return get_tile_type(type)->terrain_name;
+  } else {
+    return NULL;
+  }
+}
+
+/***************************************************************
+...
+***************************************************************/
+enum tile_special_type get_special_by_name(char * name)
+{
+  int inx;
+  enum tile_special_type st = 1;
+
+  for (inx = 0;
+       inx < sizeof(tile_special_type_names)/sizeof(tile_special_type_names[0]);
+       inx++) {
+    if (0 == strcmp(name, tile_special_type_names[inx])) {
+      return st;
+    }
+    st <<= 1;
+  }
+
+  return S_NO_SPECIAL;
+}
+
+/***************************************************************
+...
+***************************************************************/
+char *get_special_name(enum tile_special_type type)
+{
+  int inx;
+
+  for (inx = 0;
+       inx < sizeof(tile_special_type_names)/sizeof(tile_special_type_names[0]);
+       inx++) {
+    if (type & 0x1) {
+      return tile_special_type_names[inx];
+    }
+    type >>= 1;
+  }
+
+  return NULL;
 }
 
 /***************************************************************

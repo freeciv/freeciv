@@ -971,7 +971,7 @@ static void show_city_descriptions(void)
 	if (draw_city_productions && (pcity->owner==game.player_idx)) {
 	  int turns, y_offset;
 	  struct unit_type *punit_type;
-	  struct improvement_type *pimprovement_type;
+	  struct impr_type *pimprovement_type;
 
 	  turns = city_turns_to_build(pcity, pcity->currently_building,
 				      pcity->is_building_unit);

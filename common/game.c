@@ -836,7 +836,7 @@ int game_next_year(int year)
   spaceshipparts= 0;
   if (game.spacerace) {
     for(i=0; parts[i] < B_LAST; i++) {
-      int t = improvement_types[parts[i]].tech_requirement;
+      int t = improvement_types[parts[i]].tech_req;
       if(tech_exists(t) && game.global_advances[t]) 
 	spaceshipparts++;
     }
@@ -976,7 +976,7 @@ void translate_data_names(void)
     sz_strlcpy(tthis->name, Q_(tthis->name_orig));
   }
   for (i=0; i<B_LAST; i++) {
-    struct improvement_type *tthis = &improvement_types[i];
+    struct impr_type *tthis = &improvement_types[i];
     sz_strlcpy(tthis->name_orig, tthis->name);
     sz_strlcpy(tthis->name, Q_(tthis->name_orig));
   }

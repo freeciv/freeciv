@@ -15,12 +15,18 @@
 
 #include "genlist.h"
 #include "shared.h"		/* MAX_LEN_NAME */
+#include "tech.h"
+#include "terrain.h"
 #include "unit.h"		/* struct unit_list */
 #include "worklist.h"
 
 struct player;
 struct government;
 
+
+/* Improvement types.
+ * (This will later not be an enum.)
+ */
 enum improvement_type_id {
   B_AIRPORT=0, B_AQUEDUCT, B_BANK, B_BARRACKS, B_BARRACKS2, B_BARRACKS3, 
   B_CATHEDRAL, B_CITY, B_COASTAL, B_COLOSSEUM, B_COURTHOUSE,  B_FACTORY, 
@@ -38,20 +44,140 @@ enum improvement_type_id {
   B_CAPITAL, B_LAST
 };
 
-typedef enum improvement_type_id Impr_Type_id;
-/* This will later not be an enum */
+typedef int Impr_Type_id;
 
-struct improvement_type {
+/* Range of effects.
+ * Used in equiv_range and effect.range fields.
+ * (These must correspond to effect_range_names[] in city.c.)
+ */
+enum effect_range_id {
+  EFR_NONE,
+  EFR_BUILDING,
+  EFR_CITY,
+  EFR_ISLAND,
+  EFR_PLAYER,
+  EFR_WORLD,
+  EFR_LAST	/* keep this last */
+};
+
+typedef enum effect_range_id Eff_Range_id;
+
+/* Type of effects.
+ * Used in effect.type field.
+ * (These must correspond to effect_type_names[] in city.c.)
+ */
+enum effect_type_id {
+  EFT_ADV_PARASITE,
+  EFT_AIRLIFT,
+  EFT_ANY_GOVERNMENT,
+  EFT_BARB_ATTACK,
+  EFT_BARB_DEFEND,
+  EFT_CAPITAL_CITY,
+  EFT_CAPITAL_EXISTS,
+  EFT_ENABLE_NUKE,
+  EFT_ENABLE_SPACE,
+  EFT_ENEMY_PEACEFUL,
+  EFT_FOOD_ADD_TILE,
+  EFT_FOOD_BONUS,
+  EFT_FOOD_INC_TILE,
+  EFT_FOOD_PER_TILE,
+  EFT_GIVE_IMM_ADV,
+  EFT_GROWTH_FOOD,
+  EFT_HAVE_EMBASSIES,
+  EFT_IMPROVE_REP,
+  EFT_LUXURY_BONUS,
+  EFT_LUXURY_PCT,
+  EFT_MAKE_CONTENT,
+  EFT_MAKE_CONTENT_MIL,
+  EFT_MAKE_CONTENT_PCT,
+  EFT_MAKE_HAPPY,
+  EFT_MAY_DECLARE_WAR,
+  EFT_NO_ANARCHY,
+  EFT_NO_SINK_DEEP,
+  EFT_NUKE_PROOF,
+  EFT_POLLU_ADJ,
+  EFT_POLLU_ADJ_POP,
+  EFT_POLLU_ADJ_PROD,
+  EFT_POLLU_DECREASE,
+  EFT_PROD_ADD_TILE,
+  EFT_PROD_BONUS,
+  EFT_PROD_INC_TILE,
+  EFT_PROD_PER_TILE,
+  EFT_PROD_TO_GOLD,
+  EFT_REDUCE_CORRUPT,
+  EFT_REDUCE_WASTE,
+  EFT_REVEAL_CITIES,
+  EFT_REVEAL_MAP,
+  EFT_REVOLT_DIST,
+  EFT_SCIENCE_BONUS,
+  EFT_SCIENCE_PCT,
+  EFT_SIZE_UNLIMIT,
+  EFT_SLOW_GLOBAL_WARM,
+  EFT_SPACE_PART,
+  EFT_SPY_RESISTANT,
+  EFT_TAX_BONUS,
+  EFT_TAX_PCT,
+  EFT_TRADE_ADD_TILE,
+  EFT_TRADE_BONUS,
+  EFT_TRADE_INC_TILE,
+  EFT_TRADE_PER_TILE,
+  EFT_TRADE_ROUTE_PCT,
+  EFT_UNIT_DEFEND,
+  EFT_UNIT_MOVE,
+  EFT_UNIT_NO_LOSE_POP,
+  EFT_UNIT_RECOVER,
+  EFT_UNIT_REPAIR,
+  EFT_UNIT_VET_COMBAT,
+  EFT_UNIT_VETERAN,
+  EFT_UPGRADE_UNITS,
+  EFT_UPGRADE_ONE_STEP,
+  EFT_UPGRADE_ONE_LEAP,
+  EFT_UPGRADE_ALL_STEP,
+  EFT_UPGRADE_ALL_LEAP,
+  EFT_UPKEEP_FREE,
+  EFT_LAST	/* keep this last */
+};
+
+typedef enum effect_type_id Eff_Type_id;
+
+/* An effect conferred by an improvement.
+ */
+struct impr_effect {
+  Eff_Type_id type;
+  Eff_Range_id range;
+  int amount;
+  Impr_Type_id cond_bldg;		/* B_LAST = unconditional */
+  int cond_gov;				/* game.government_count = unconditional */
+  Tech_Type_id cond_adv;		/* A_NONE = unconditional; A_LAST = never */
+  Eff_Type_id cond_eff;			/* EFT_LAST = unconditional */
+  Unit_Class_id aff_unit;		/* UCL_LAST = all */
+  enum tile_terrain_type aff_terr;	/* T_UNKNOWN = all; T_LAST = none */
+  enum tile_special_type aff_spec;	/* S_* bit mask of specials affected */
+};
+
+/* Type of improvement.
+ * (Read from buildings.ruleset file.)
+ */
+struct impr_type {
   char name[MAX_LEN_NAME];
-  char name_orig[MAX_LEN_NAME];	      /* untranslated */
+  char name_orig[MAX_LEN_NAME];		/* untranslated */
+  Tech_Type_id tech_req;		/* A_LAST = never; A_NONE = always */
+  Impr_Type_id bldg_req;		/* B_LAST = none required */
+  enum tile_terrain_type *terr_gate;	/* list; T_LAST terminated */
+  enum tile_special_type *spec_gate;	/* list; S_NO_SPECIAL terminated */
+  Eff_Range_id equiv_range;
+  Impr_Type_id *equiv_dupl;		/* list; B_LAST terminated */
+  Impr_Type_id *equiv_repl;		/* list; B_LAST terminated */
+  Tech_Type_id obsolete_by;		/* A_NONE = never obsolete */
   int is_wonder;
-  int tech_requirement;
   int build_cost;
-  int shield_upkeep;
-  int obsolete_by;
-  int variant;
+  int upkeep;
+  int sabotage;
+  struct impr_effect *effect;		/* list; .type==EFT_LAST terminated */
+  int variant;			/* FIXME: remove when gen-impr obsoletes */
   char *helptext;
 };
+
 
 enum specialist_type {
   SP_ELVIS, SP_SCIENTIST, SP_TAXMAN
@@ -236,7 +362,7 @@ extern struct citystyle *city_styles;
 #define city_list_iterate_end  LIST_ITERATE_END
 
 
-extern struct improvement_type improvement_types[B_LAST];
+extern struct impr_type improvement_types[B_LAST];
 extern char **misc_city_names;
 
 /* properties */
@@ -250,17 +376,24 @@ int city_unhappy(struct city *pcity);                /* anarchy??? */
 int city_celebrating(struct city *pcity);            /* love the king ??? */
 int city_rapture_grow(struct city *pcity);
 
+/* improvement effect functions */
+
+Eff_Range_id effect_range_from_str(char *str);
+char *effect_range_name(Eff_Range_id id);
+Eff_Type_id effect_type_from_str(char *str);
+char *effect_type_name(Eff_Type_id id);
+
 /* improvement functions */
 
 int improvement_value(Impr_Type_id id);
 int improvement_obsolete(struct player *pplayer, Impr_Type_id id);
-struct improvement_type *get_improvement_type(Impr_Type_id id);
+struct impr_type *get_improvement_type(Impr_Type_id id);
 int wonder_obsolete(Impr_Type_id id);
 int is_wonder_useful(Impr_Type_id id);
 int is_wonder(Impr_Type_id id);
 int improvement_exists(Impr_Type_id id);
 Impr_Type_id find_improvement_by_name(char *s);
-int improvement_variant(Impr_Type_id id);
+int improvement_variant(Impr_Type_id id);	/* FIXME: remove when gen-impr obsoletes */
 
 /* player related improvement and unit functions */
 
@@ -270,7 +403,6 @@ int can_player_build_improvement(struct player *p, Impr_Type_id id);
 int can_player_build_unit_direct(struct player *p, Unit_Type_id id);
 int can_player_build_unit(struct player *p, Unit_Type_id id);
 int can_player_eventually_build_unit(struct player *p, Unit_Type_id id);
-
 
 /* city related improvement and unit functions */
 

@@ -72,7 +72,7 @@ const char * const our_capability = our_capability_internal;
 
 #define CAPABILITY "+1.10 +fog_of_war +fortify_two_step +get_sabotage_list \
 ocean_reclamation +dipl_cli_pop_dlg advance_focus_packet +30players \
-submarine_flags"
+submarine_flags +gen_impr"
 
 /* "+1.10" is protocol for 1.10.0 stable release
 
@@ -96,6 +96,8 @@ submarine_flags"
 
    "submarine_flags" is F_SUBMARINE split into F_PARTIAL_INVIS,
    F_MISSILE_CARRIER, F_NO_LAND_ATTACK
+
+   "gen_impr" is protocol extension for generalized improvements.
 */
 
 void init_our_capability(void)

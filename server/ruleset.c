@@ -40,12 +40,22 @@ static char *openload_ruleset_file(struct section_file *file,
 				   char *subdir, char *whichset);
 static char *check_ruleset_capabilities(struct section_file *file,
 					char *required,	char *filename);
-static int lookup_unit_type(struct section_file *file, char *prefix,
-			    char *entry, int required, char *filename,
-			    char *description);
+
 static int lookup_tech(struct section_file *file, char *prefix,
 		       char *entry, int required, char *filename,
 		       char *description);
+static void lookup_tech_list(struct section_file *file, char *prefix,
+			     char *entry, int *output, char *filename);
+static int lookup_unit_type(struct section_file *file, char *prefix,
+			    char *entry, int required, char *filename,
+			    char *description);
+static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
+				     char *entry, int required, char *filename,
+				     char *description);
+static int lookup_government(struct section_file *file, char *entry,
+			     char *filename);
+static int lookup_city_cost(struct section_file *file, char *prefix,
+			    char *entry, char *filename);
 static char *lookup_helptext(struct section_file *file, char *prefix);
 
 static enum tile_terrain_type lookup_terrain(char *name, int tthis);
@@ -135,39 +145,6 @@ static char *check_ruleset_capabilities(struct section_file *file,
 
 /**************************************************************************
  Lookup a string prefix.entry in the file and return the corresponding
- unit_type id.  If (!required), return -1 if match "None" or can't match.
- If (required), die if can't match.
- If description is not NULL, it is used in the warning message
- instead of prefix (eg pass unit->name instead of prefix="units2.u27")
-**************************************************************************/
-static int lookup_unit_type(struct section_file *file, char *prefix,
-			    char *entry, int required, char *filename,
-			    char *description)
-{
-  char *sval;
-  int i;
-  
-  sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
-  if (!required && strcmp(sval, "None")==0) {
-    i = -1;
-  } else {
-    i = find_unit_type_by_name(sval);
-    if (i==U_LAST) {
-      freelog((required?LOG_FATAL:LOG_NORMAL),
-	   "for %s %s couldn't match unit_type \"%s\" (%s)",
-	   (description?description:prefix), entry, sval, filename);
-      if (required) {
-	exit(1);
-      } else {
-	i = -1;
-      }
-    }
-  }
-  return i;
-}
-
-/**************************************************************************
- Lookup a string prefix.entry in the file and return the corresponding
  advances id.  If (!required), return A_LAST if match "Never" or can't match.
  If (required), die if can't match.  Note the first tech should have
  name "None" so that will always match.
@@ -253,6 +230,71 @@ static void lookup_tech_list(struct section_file *file, char *prefix,
 }
 
 /**************************************************************************
+ Lookup a string prefix.entry in the file and return the corresponding
+ unit_type id.  If (!required), return -1 if match "None" or can't match.
+ If (required), die if can't match.
+ If description is not NULL, it is used in the warning message
+ instead of prefix (eg pass unit->name instead of prefix="units2.u27")
+**************************************************************************/
+static int lookup_unit_type(struct section_file *file, char *prefix,
+			    char *entry, int required, char *filename,
+			    char *description)
+{
+  char *sval;
+  int i;
+  
+  sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
+  if (!required && strcmp(sval, "None")==0) {
+    i = -1;
+  } else {
+    i = find_unit_type_by_name(sval);
+    if (i==U_LAST) {
+      freelog((required?LOG_FATAL:LOG_NORMAL),
+	   "for %s %s couldn't match unit_type \"%s\" (%s)",
+	   (description?description:prefix), entry, sval, filename);
+      if (required) {
+	exit(1);
+      } else {
+	i = -1;
+      }
+    }
+  }
+  return i;
+}
+
+/**************************************************************************
+ Lookup a string prefix.entry in the file and return the corresponding
+ Impr_Type_id.  If (!required), return B_LAST if match "None" or can't match.
+ If (required), die if can't match.
+ If description is not NULL, it is used in the warning message
+ instead of prefix (eg pass impr->name instead of prefix="imprs2.b27")
+**************************************************************************/
+static Impr_Type_id lookup_impr_type(struct section_file *file, char *prefix,
+				     char *entry, int required, char *filename,
+				     char *description)
+{
+  char *sval;
+  int id;
+
+  sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
+  if (!required && strcmp(sval, "None")==0) {
+    id = B_LAST;
+  } else {
+    id = find_improvement_by_name(sval);
+    if (id==B_LAST) {
+      freelog((required?LOG_FATAL:LOG_NORMAL),
+	   "for %s %s couldn't match impr_type \"%s\" (%s)",
+	   (description?description:prefix), entry, sval, filename);
+      if (required) {
+	exit(1);
+      }
+    }
+  }
+
+  return id;
+}
+
+/**************************************************************************
   Lookup entry in the file and return the corresponding government index;
   dies if can't find/match.  filename is for error message.
 **************************************************************************/
@@ -313,24 +355,6 @@ static char *lookup_helptext(struct section_file *file, char *prefix)
   return NULL;
 }
 
-#ifdef UNUSED
-/**************************************************************************
- Return the index of the name in the list, or -1
-**************************************************************************/
-static int match_name_from_list(char *name, char **list, int n_list)
-{
-  int i;
-
-  for(i=0; i<n_list; i++) {
-    if(strcmp(name,list[i])==0) {
-      return i;
-    }
-  }
-  return -1;
-}
-#endif
-
-
 /**************************************************************************
  Lookup a terrain name in the tile_types array; return its index.
 **************************************************************************/
@@ -357,6 +381,7 @@ static enum tile_terrain_type lookup_terrain(char *name, int tthis)
 
   return (T_UNKNOWN);
 }
+
 
 /**************************************************************************
   ...  
@@ -768,7 +793,7 @@ static void load_ruleset_units(char *ruleset_subdir)
     freelog(LOG_DEBUG, "partisan tech is %s", advances[j].name);
   }
 }
-  
+
 /**************************************************************************
 ...  
 **************************************************************************/
@@ -776,12 +801,13 @@ static void load_ruleset_buildings(char *ruleset_subdir)
 {
   struct section_file file;
   char *filename, *datafile_options;
-  char **sec;
-  int i, j, nval;
-  struct improvement_type *b;
+  char **sec, *item, **list;
+  int i, j, k, nval, count, problem;
+  struct impr_type *b;
+  struct impr_effect *e;
 
   filename = openload_ruleset_file(&file, ruleset_subdir, "buildings");
-  datafile_options = check_ruleset_capabilities(&file, "+1.9", filename);
+  datafile_options = check_ruleset_capabilities(&file, "+1.10.1", filename);
   section_file_lookup(&file,"datafile.description"); /* unused */
 
   /* The names: */
@@ -791,44 +817,284 @@ static void load_ruleset_buildings(char *ruleset_subdir)
     freelog(LOG_FATAL, "Bad number of buildings %d (%s)", nval, filename);
     exit(1);
   }
-
-  for( i=0, j=0; i<B_LAST; i++ ) {
+  for (i = 0; i < nval; i++) {
     b = &improvement_types[i];
-    
     sz_strlcpy(b->name, secfile_lookup_str(&file, "%s.name", sec[i]));
-    b->is_wonder = secfile_lookup_int(&file, "%s.is_wonder", sec[i]);
-    b->tech_requirement = lookup_tech(&file, sec[i], "tech_req",
-				      0, filename, b->name);
+    b->name_orig[0] = '\0';
+  }
 
-    b->obsolete_by = lookup_tech(&file, sec[i], "obsolete_by", 
+  for (i = 0; i < nval; i++) {
+    b = &improvement_types[i];
+
+    b->tech_req = lookup_tech(&file, sec[i], "tech_req", 0, filename, b->name);
+
+    b->bldg_req = lookup_impr_type(&file, sec[i], "bldg_req", 0, filename, b->name);
+
+    list = secfile_lookup_str_vec(&file, &count, "%s.terr_gate", sec[i]);
+    b->terr_gate = fc_malloc((count + 1) * sizeof(b->terr_gate[0]));
+    k = 0;
+    for (j = 0; j < count; j++) {
+      b->terr_gate[k] = get_terrain_by_name(list[j]);
+      if (b->terr_gate[k] >= T_UNKNOWN) {
+	freelog(LOG_NORMAL,
+		"for %s terr_gate[%d] couldn't match terrain \"%s\" (%s)",
+		b->name, j, list[j], filename);
+      } else {
+	k++;
+      }
+    }
+    b->terr_gate[k] = T_LAST;
+
+    list = secfile_lookup_str_vec(&file, &count, "%s.spec_gate", sec[i]);
+    b->spec_gate = fc_malloc((count + 1) * sizeof(b->spec_gate[0]));
+    k = 0;
+    for (j = 0; j < count; j++) {
+      b->spec_gate[k] = get_special_by_name(list[j]);
+      if (b->spec_gate[k] == S_NO_SPECIAL) {
+	freelog(LOG_NORMAL,
+		"for %s spec_gate[%d] couldn't match special \"%s\" (%s)",
+		b->name, j, list[j], filename);
+      } else {
+	k++;
+      }
+    }
+    b->spec_gate[k] = S_NO_SPECIAL;
+
+    item = secfile_lookup_str(&file, "%s.equiv_range", sec[i]);
+    b->equiv_range = effect_range_from_str(item);
+    if (b->equiv_range == EFR_LAST) {
+      freelog(LOG_NORMAL,
+	      "for %s equiv_range couldn't match range \"%s\" (%s)",
+	      b->name, item, filename);
+      b->equiv_range = EFR_NONE;
+    }
+
+    list = secfile_lookup_str_vec(&file, &count, "%s.equiv_dupl", sec[i]);
+    b->equiv_dupl = fc_malloc((count + 1) * sizeof(b->equiv_dupl[0]));
+    k = 0;
+    for (j = 0; j < count; j++) {
+      b->equiv_dupl[k] = find_improvement_by_name(list[j]);
+      if (b->equiv_dupl[k] == B_LAST) {
+	freelog(LOG_NORMAL,
+		"for %s equiv_dupl[%d] couldn't match improvement \"%s\" (%s)",
+		b->name, j, list[j], filename);
+      } else {
+	k++;
+      }
+    }
+    b->equiv_dupl[k] = B_LAST;
+
+    list = secfile_lookup_str_vec(&file, &count, "%s.equiv_repl", sec[i]);
+    b->equiv_repl = fc_malloc((count + 1) * sizeof(b->equiv_repl[0]));
+    k = 0;
+    for (j = 0; j < count; j++) {
+      b->equiv_repl[k] = find_improvement_by_name(list[j]);
+      if (b->equiv_repl[k] == B_LAST) {
+	freelog(LOG_NORMAL,
+		"for %s equiv_repl[%d] couldn't match improvement \"%s\" (%s)",
+		b->name, j, list[j], filename);
+      } else {
+	k++;
+      }
+    }
+    b->equiv_repl[k] = B_LAST;
+
+    b->obsolete_by = lookup_tech(&file, sec[i], "obsolete_by",
 				 0, filename, b->name);
-    if (b->obsolete_by==A_LAST || !tech_exists(b->obsolete_by)) {
+    if ((b->obsolete_by == A_LAST) || !tech_exists(b->obsolete_by)) {
       b->obsolete_by = A_NONE;
     }
 
+    b->is_wonder = secfile_lookup_int(&file, "%s.is_wonder", sec[i]);
+
     b->build_cost = secfile_lookup_int(&file, "%s.build_cost", sec[i]);
-    b->shield_upkeep = secfile_lookup_int(&file, "%s.upkeep", sec[i]);
-    b->variant = secfile_lookup_int(&file, "%s.variant", sec[i]);
-    
+
+    b->upkeep = secfile_lookup_int(&file, "%s.upkeep", sec[i]);
+
+    b->sabotage = secfile_lookup_int(&file, "%s.sabotage", sec[i]);
+
+    for (count = 0;
+	 secfile_lookup_str_default(&file,
+				    NULL,
+				    "%s.effect%d.type",
+				    sec[i], count);
+	 count++) ;
+    b->effect = fc_malloc((count + 1) * sizeof(b->effect[0]));
+    k = 0;
+    for (j = 0; j < count; j++) {
+      e = &b->effect[k];
+      problem = FALSE;
+
+      item = secfile_lookup_str(&file, "%s.effect%d.type", sec[i], j);
+      e->type = effect_type_from_str(item);
+      if (e->type == EFT_LAST) {
+	freelog(LOG_NORMAL,
+		"for %s effect[%d].type couldn't match type \"%s\" (%s)",
+		b->name, j, item, filename);
+	problem = TRUE;
+      }
+
+      item =
+	secfile_lookup_str_default(&file, "None", "%s.effect%d.range", sec[i], j);
+      e->range = effect_range_from_str(item);
+      if (e->range == EFR_LAST) {
+	freelog(LOG_NORMAL,
+		"for %s effect[%d].range couldn't match range \"%s\" (%s)",
+		b->name, j, item, filename);
+	problem = TRUE;
+      }
+
+      e->amount =
+	secfile_lookup_int_default(&file, 0, "%s.effect%d.amount", sec[i], j);
+
+      item =
+	secfile_lookup_str_default(&file, "", "%s.effect%d.cond_bldg", sec[i], j);
+      if (*item) {
+	e->cond_bldg = find_improvement_by_name(item);
+	if (e->cond_bldg == B_LAST) {
+	  freelog(LOG_NORMAL,
+		  "for %s effect[%d].cond_bldg couldn't match improvement \"%s\" (%s)",
+		  b->name, j, item, filename);
+	  problem = TRUE;
+	}
+      } else {
+	e->cond_bldg = B_LAST;
+      }
+
+      item =
+	secfile_lookup_str_default(&file, "", "%s.effect%d.cond_gov", sec[i], j);
+      if (*item) {
+	struct government *g = find_government_by_name(item);
+	if (!g) {
+	  freelog(LOG_NORMAL,
+		  "for %s effect[%d].cond_gov couldn't match government \"%s\" (%s)",
+		  b->name, j, item, filename);
+	  e->cond_gov = game.government_count;
+	  problem = TRUE;
+	} else {
+	  e->cond_gov = g->index;
+	}
+      } else {
+	e->cond_gov = game.government_count;
+      }
+
+      item =
+	secfile_lookup_str_default(&file, "None", "%s.effect%d.cond_adv", sec[i], j);
+      if (*item) {
+	e->cond_adv = find_tech_by_name(item);
+	if (e->cond_adv == A_LAST) {
+	  freelog(LOG_NORMAL,
+		  "for %s effect[%d].cond_adv couldn't match tech \"%s\" (%s)",
+		  b->name, j, item, filename);
+	  problem = TRUE;
+	}
+      } else {
+	e->cond_adv = A_NONE;
+      }
+
+      item =
+	secfile_lookup_str_default(&file, "", "%s.effect%d.cond_eff", sec[i], j);
+      if (*item) {
+	e->cond_eff = effect_type_from_str(item);
+	if (e->cond_eff == EFT_LAST) {
+	  freelog(LOG_NORMAL,
+		  "for %s effect[%d].cond_eff couldn't match effect \"%s\" (%s)",
+		  b->name, j, item, filename);
+	  problem = TRUE;
+	}
+      } else {
+	e->cond_eff = EFT_LAST;
+      }
+
+      item =
+	secfile_lookup_str_default(&file, "", "%s.effect%d.aff_unit", sec[i], j);
+      if (*item) {
+	e->aff_unit = unit_class_from_str(item);
+	if (e->aff_unit == UCL_LAST) {
+	  freelog(LOG_NORMAL,
+		  "for %s effect[%d].aff_unit couldn't match class \"%s\" (%s)",
+		  b->name, j, item, filename);
+	  problem = TRUE;
+	}
+      } else {
+	e->aff_unit = UCL_LAST;
+      }
+
+      item =
+	secfile_lookup_str_default(&file, "", "%s.effect%d.aff_terr", sec[i], j);
+      if (*item) {
+	if (0 == strcmp("None", item)) {
+	  e->aff_terr = T_LAST;
+	} else {
+	  e->aff_terr = get_terrain_by_name(item);
+	  if (e->aff_terr >= T_UNKNOWN) {
+	    freelog(LOG_NORMAL,
+		    "for %s effect[%d].aff_terr couldn't match terrain \"%s\" (%s)",
+		    b->name, j, item, filename);
+	    e->aff_terr = T_LAST;
+	    problem = TRUE;
+	  }
+	}
+      } else {
+	e->aff_terr = T_UNKNOWN;
+      }
+
+      item =
+	secfile_lookup_str_default(&file, "", "%s.effect%d.aff_spec", sec[i], j);
+      if (*item) {
+	if (0 == strcmp("None", item)) {
+	  e->aff_spec = S_NO_SPECIAL;
+	} else {
+	  e->aff_spec = get_special_by_name(item);
+	  if (e->aff_spec == S_NO_SPECIAL) {
+	    freelog(LOG_NORMAL,
+		    "for %s effect[%d].aff_spec couldn't match special \"%s\" (%s)",
+		    b->name, j, item, filename);
+	    problem = TRUE;
+	  }
+	}
+      } else {
+	e->aff_spec = S_ALL;
+      }
+
+      if (!problem) {
+	k++;
+      }
+    }
+    b->effect[k].type = EFT_LAST;
+
+    /* FIXME: remove when gen-impr obsoletes */
+    b->variant = secfile_lookup_int_default(&file, 0, "%s.variant", sec[i]);
+
     b->helptext = lookup_helptext(&file, sec[i]);
   }
 
   /* Some more consistency checking: */
-  for( i=0; i<B_LAST; i++ ) {
+  for (i = 0; i < B_LAST; i++) {
     b = &improvement_types[i];
     if (improvement_exists(i)) {
-      if (!tech_exists(b->tech_requirement)) {
+      if (!tech_exists(b->tech_req)) {
 	freelog(LOG_NORMAL, "improvement \"%s\": depends on removed tech \"%s\" (%s)",
-	     b->name, advances[b->tech_requirement].name, filename);
-	b->tech_requirement = A_LAST;
+		b->name, advances[b->tech_req].name, filename);
+	b->tech_req = A_LAST;
       }
       if (!tech_exists(b->obsolete_by)) {
 	freelog(LOG_NORMAL, "improvement \"%s\": obsoleted by removed tech \"%s\" (%s)",
-	     b->name, advances[b->obsolete_by].name, filename);
+		b->name, advances[b->obsolete_by].name, filename);
 	b->obsolete_by = A_NONE;
+      }
+      for (j = 0; b->effect[j].type != EFT_LAST; j++) {
+	if (!tech_exists(b->effect[j].cond_adv)) {
+	  freelog(LOG_NORMAL,
+		  "improvement \"%s\": effect conditional on removed tech \"%s\" (%s)",
+		  b->name, advances[b->effect[j].cond_adv].name, filename);
+	  b->effect[j].cond_adv = A_LAST;
+	}
       }
     }
   }
+
+  /* FIXME: remove all of the following when gen-impr implemented... */
 
   game.aqueduct_size = secfile_lookup_int(&file, "b_special.aqueduct_size");
   game.sewer_size = secfile_lookup_int(&file, "b_special.sewer_size");
@@ -1687,19 +1953,27 @@ static void send_ruleset_techs(struct player *dest)
 static void send_ruleset_buildings(struct player *dest)
 {
   struct packet_ruleset_building packet;
-  struct improvement_type *b;
+  struct impr_type *b;
   int to;
 
   for(b=improvement_types; b<improvement_types+B_LAST; b++) {
     packet.id = b-improvement_types;
     sz_strlcpy(packet.name, b->name_orig);
-    packet.is_wonder = b->is_wonder;
-    packet.tech_requirement = b->tech_requirement;
-    packet.build_cost = b->build_cost;
-    packet.shield_upkeep = b->shield_upkeep;
+    packet.tech_req = b->tech_req;
+    packet.bldg_req = b->bldg_req;
+    packet.terr_gate = b->terr_gate;		/* pointer assignment */
+    packet.spec_gate = b->spec_gate;		/* pointer assignment */
+    packet.equiv_range = b->equiv_range;
+    packet.equiv_dupl = b->equiv_dupl;		/* pointer assignment */
+    packet.equiv_repl = b->equiv_repl;		/* pointer assignment */
     packet.obsolete_by = b->obsolete_by;
-    packet.variant = b->variant;
-    packet.helptext = b->helptext;   /* pointer assignment */
+    packet.is_wonder = b->is_wonder;
+    packet.build_cost = b->build_cost;
+    packet.upkeep = b->upkeep;
+    packet.sabotage = b->sabotage;
+    packet.effect = b->effect;			/* pointer assignment */
+    packet.variant = b->variant;	/* FIXME: remove when gen-impr obsoletes */
+    packet.helptext = b->helptext;		/* pointer assignment */
 
     for(to=0; to<game.nplayers; to++) {           /* dests */
       if(dest==0 || get_player(to)==dest) {
@@ -1943,9 +2217,9 @@ void load_rulesets(void)
   load_ruleset_cities(game.ruleset.cities);
   load_ruleset_governments(game.ruleset.governments);
   load_ruleset_units(game.ruleset.units);
+  load_ruleset_terrain(game.ruleset.terrain);
   load_ruleset_buildings(game.ruleset.buildings);
   load_ruleset_nations(game.ruleset.nations);
-  load_ruleset_terrain(game.ruleset.terrain);
   translate_data_names();
 }
 
@@ -1966,8 +2240,8 @@ void send_rulesets(struct player *dest)
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);
   send_ruleset_units(dest);
-  send_ruleset_buildings(dest);
   send_ruleset_terrain(dest);
+  send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);
 

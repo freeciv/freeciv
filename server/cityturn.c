@@ -1356,7 +1356,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
     if (city_got_building(pcity, i)) {
       if (is_wonder(i)) {
 	if (wonder_obsolete(i)) {
-	  switch (improvement_types[i].shield_upkeep) {
+	  switch (improvement_types[i].upkeep) {
 	  case 1:
 	    pplayer->economic.gold+=3;
 	    break;
