@@ -89,25 +89,6 @@ STATIC ULONG ColorText_Dispose(struct IClass * cl, Object * o, Msg msg)
   return DoSuperMethodA(cl, o, msg);
 }
 
-/*
-STATIC ULONG ColorText_Set(struct IClass *cl, Object * o, struct opSet *msg)
-{
-  struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
-  struct TagItem *tl = msg->ops_AttrList;
-  struct TagItem *ti;
-
-  while ((ti = NextTagItem(&tl)))
-  {
-    switch (ti->ti_Tag)
-    {
-      case MUIA_ColorText_Contents:
-      	   break;
-    }
-  }
-  return DoSuperMethodA(cl, o, (Msg) msg);
-}
-*/
-
 STATIC ULONG ColorText_Get(struct IClass * cl, Object * o, struct opGet * msg)
 {
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
@@ -128,7 +109,6 @@ STATIC ULONG ColorText_Setup(struct IClass * cl, Object * o, Msg msg)
 {
   struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
   struct ColorMap *cm;
-/*  Object *temp;*/
 
   if (!DoSuperMethodA(cl, o, msg))
     return FALSE;
@@ -147,18 +127,6 @@ STATIC ULONG ColorText_Setup(struct IClass * cl, Object * o, Msg msg)
   data->innertop=1;
   data->innerright=2;
   data->innerbottom=1;
-
-/*
-  temp = TextObject,End;
-
-  if (temp)
-  {
-    data->innerleft = xget(temp, MUIA_InnerLeft);
-    data->innertop = xget(temp, MUIA_InnerTop);
-    data->innerright = xget(temp, MUIA_InnerRight);
-    data->innerbottom = xget(temp, MUIA_InnerBottom);
-    MUI_DisposeObject(temp);
-  }*/
 
   return TRUE;
 }
@@ -185,7 +153,11 @@ STATIC ULONG ColorText_AskMinMax(struct IClass * cl, Object * o, struct MUIP_Ask
   InitRastPort(&rp);
   SetFont(&rp,_font(o));
 
-  width = TextLength(&rp,data->contents, strlen(data->contents)) + data->innerleft + data->innerright;
+  if(data->contents)
+    width = TextLength(&rp,data->contents, strlen(data->contents)) + data->innerleft + data->innerright;
+  else
+    width = 10; /* something higher tha 0 */
+
   height = _font(o)->tf_YSize + data->innertop + data->innerbottom;;
 
   msg->MinMaxInfo->MinWidth += width;
@@ -211,7 +183,35 @@ STATIC ULONG ColorText_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * m
 
   SetAPen(_rp(o), _pens(o)[MPEN_TEXT]);
   Move(_rp(o),_mleft(o)+data->innerleft,_mtop(o)+_font(o)->tf_Baseline+data->innertop);
-  Text(_rp(o),data->contents, strlen(data->contents));
+  if(data->contents)
+    Text(_rp(o),data->contents, strlen(data->contents));
+  return 0;
+}
+
+STATIC ULONG ColorText_Set(struct IClass *cl, Object * o, struct opSet *msg)
+{
+  struct ColorText_Data *data = (struct ColorText_Data *) INST_DATA(cl, o);
+  struct TagItem *tl = msg->ops_AttrList;
+  struct TagItem *ti;
+
+  while ((ti = NextTagItem(&tl)))
+  {
+      switch (ti->ti_Tag)
+      {
+	case  MUIA_ColorText_Contents:
+	      if(data->contents) FreeVec(data->contents);
+	      data->contents = StrCopy((STRPTR)ti->ti_Data);
+      	      break;
+
+        case  MUIA_ColorText_Background:
+              data->bgcol = ti->ti_Data;
+              data->ownbg = TRUE;
+	      break;
+      }
+  }
+/*
+  return ColorText_Draw(cl, o, (struct MUIP_Draw *) msg);
+      if(data->ownbg) set(o,MUIA_FillArea,FALSE);*/
   return 0;
 }
 
@@ -225,10 +225,8 @@ DISPATCHERPROTO(ColorText_Dispatcher)
     return ColorText_Dispose(cl, obj, msg);
   case OM_GET:
     return ColorText_Get(cl, obj, (struct opGet *) msg);
-/*
   case OM_SET:
     return ColorText_Set(cl, obj, (struct opSet *) msg);
-*/
   case MUIM_Setup:
     return ColorText_Setup(cl, obj, msg);
   case MUIM_Cleanup:
@@ -237,7 +235,6 @@ DISPATCHERPROTO(ColorText_Dispatcher)
     return ColorText_AskMinMax(cl, obj, (struct MUIP_AskMinMax *) msg);
   case MUIM_Draw:
     return ColorText_Draw(cl, obj, (struct MUIP_Draw *) msg);
-
   }
   return (DoSuperMethodA(cl, obj, msg));
 }

@@ -193,11 +193,10 @@ static Object *MakeHelpButton(STRPTR label, enum help_page_type type)
 }
 
 /****************************************************************
- Creates a tech help button
+ Creates tech button background color
 *****************************************************************/
-static Object *MakeHelpButtonTech(int tech)
+static ULONG GetTechBG(int tech)
 {
-  Object *button;
   ULONG bg;
 
   switch(get_invention(game.player_ptr, tech))
@@ -208,23 +207,73 @@ static Object *MakeHelpButtonTech(int tech)
   case TECH_REACHABLE:
     bg = 0x00ffff00; /* yellow */
     break;
-  default: /* also TECH_UNKNOWN */
+  case TECH_UNKNOWN:
     bg = 0x00ff0000; /* red */
+    break;
+  default:
+    bg = 0x00ffffff; /* white */
   }
+  return bg;
+}
 
-  button = ColorTextObject,
+#define TECHTYPE_NOTSET		A_LAST+2
+#define TECHTYPE_NONE		A_LAST+1
+
+/****************************************************************
+ Creates tech button text
+*****************************************************************/
+static char *GetTechText(int tech)
+{
+  char *text;
+
+  if(tech == A_LAST)
+    text = "(Never)";
+  else if(tech == TECHTYPE_NONE)
+    text = "None";
+  else
+    text = advances[tech].name;
+
+  return text;
+}
+
+
+
+/****************************************************************
+ Creates a tech button
+*****************************************************************/
+static Object *MakeTechButton(int tech)
+{
+  return ColorTextObject,
     ButtonFrame,
     MUIA_UserData, HELP_TECH,
     MUIA_Weight, 0,
-    MUIA_ColorText_Background, bg,
-    MUIA_ColorText_Contents, advances[tech].name,
+    tech == TECHTYPE_NOTSET ? TAG_IGNORE : MUIA_ColorText_Background, GetTechBG(tech),
+    tech == TECHTYPE_NOTSET ? TAG_IGNORE : MUIA_ColorText_Contents, GetTechText(tech),
     MUIA_InputMode, MUIV_InputMode_RelVerify,
     End;
+}
 
-  if(button)
-  {
+/****************************************************************
+ Update a tech button
+*****************************************************************/
+void UpdateTechButton(Object *o, int tech)
+{
+  SetAttrs(o,
+    MUIA_ColorText_Background, GetTechBG(tech),
+    MUIA_ColorText_Contents, GetTechText(tech),
+    TAG_DONE);
+}
+
+/****************************************************************
+ Creates a tech help button
+*****************************************************************/
+static Object *MakeHelpButtonTech(int tech)
+{
+  Object *button;
+
+  if((button = MakeTechButton(tech)))
     DoMethod(button, MUIM_Notify, MUIA_Pressed, FALSE, app, 4, MUIM_CallHook, &civstandard_hook, help_hyperlink, button);
-  }
+
   return button;
 }
 
@@ -341,7 +390,6 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
 {
   Object *o;
   APTR leaf = 0;
-  ULONG bg;
 
   char label[MAX_LEN_NAME+3];
   if(!tech_exists(tech))
@@ -349,18 +397,6 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
     Object *o = MakeButton("Removed");
     DoMethod(tree, MUIM_ObjectTree_AddNode,NULL,o);
     return;
-  }
-
-  switch(get_invention(game.player_ptr, tech))
-  {
-  case TECH_KNOWN:
-    bg = 0x0000ff00; /* green */
-    break;
-  case TECH_REACHABLE:
-    bg = 0x00ffff00; /* yellow */
-    break;
-  default: /* also TECH_UNKNOWN */
-    bg = 0x00ff0000; /* red */
   }
   
   sprintf(label,"%s:%d",advances[tech].name,
@@ -370,7 +406,7 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
       ButtonFrame,
       MUIA_UserData, tech,
       MUIA_Weight, 0,
-      MUIA_ColorText_Background, bg,
+      MUIA_ColorText_Background, GetTechBG(tech),
       MUIA_ColorText_Contents, label,
       MUIA_InputMode, MUIV_InputMode_RelVerify,
       MUIA_CycleChain, 1,
@@ -388,8 +424,6 @@ static void create_tech_tree(Object *tree, APTR parent, int tech, int levels)
     if(advances[tech].req[1]!=A_NONE)
       create_tech_tree(tree, leaf, advances[tech].req[1], levels);
   }
-  
-  
 }
 
 /****************************************************************
@@ -458,7 +492,7 @@ static void create_help_page(enum help_page_type type)
 	Child, MakeLabel("Upkeep:"),
 	Child, help_imprv_upkeep_text = TextObject, End,
 	Child, MakeLabel("Needs:"),
-	Child, help_imprv_needs_button = MakeButton(""),
+	Child, help_imprv_needs_button = MakeTechButton(TECHTYPE_NOTSET),
 	End;
 
       if (help_page_group)
@@ -472,9 +506,9 @@ static void create_help_page(enum help_page_type type)
 	Child, MakeLabel("Cost:"),
 	Child, help_wonder_cost_text = TextObject, End,
 	Child, MakeLabel("Needs:"),
-	Child, help_wonder_needs_button = MakeButton(""),
+	Child, help_wonder_needs_button = MakeTechButton(TECHTYPE_NOTSET),
 	Child, MakeLabel("Obsolete by:"),
-	Child, help_wonder_obsolete_button = MakeButton(""),
+	Child, help_wonder_obsolete_button = MakeTechButton(TECHTYPE_NOTSET),
 	End;
 
       if (help_page_group)
@@ -536,7 +570,7 @@ static void create_help_page(enum help_page_type type)
 	    Child, HSpace(0),
 	    Child, HSpace(0),
 	    Child, MakeLabel("Needs:"),
-	    Child, help_unit_needs_button = MakeButton(""),
+	    Child, help_unit_needs_button = MakeTechButton(TECHTYPE_NOTSET),
 	    Child, MakeLabel("Obsolete by: "),
 	    Child, help_unit_obsolete_button = MakeButton(""),
 	    End,
@@ -580,16 +614,11 @@ static void help_update_improvement(const struct help_item *pitem,
 
   if (which < B_LAST)
   {
-    char *text;
     struct impr_type *imp = &improvement_types[which];
 
     DoMethod(help_imprv_cost_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->build_cost);
     DoMethod(help_imprv_upkeep_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->upkeep);
-    if (imp->tech_req == A_LAST)
-      text = "(Never)";
-    else
-      text = advances[imp->tech_req].name;
-    set(help_imprv_needs_button, MUIA_Text_Contents, text);
+    UpdateTechButton(help_imprv_needs_button, imp->tech_req);
   }
 
   helptext_improvement(buf, which, pitem->text);
@@ -608,23 +637,18 @@ static void help_update_wonder(const struct help_item *pitem,
 
   if (which < B_LAST)
   {
-    char *text;
     struct impr_type *imp = &improvement_types[which];
 
     DoMethod(help_wonder_cost_text, MUIM_SetAsString, MUIA_Text_Contents, "%ld", imp->build_cost);
 
-    if (imp->tech_req == A_LAST)
-      text = "(Never)";
-    else
-      text = advances[imp->tech_req].name;
-    set(help_wonder_needs_button, MUIA_Text_Contents, text);
-    set(help_wonder_obsolete_button, MUIA_Text_Contents, advances[imp->obsolete_by].name);
+    UpdateTechButton(help_wonder_needs_button, imp->tech_req);
+    UpdateTechButton(help_wonder_obsolete_button, imp->obsolete_by);
   }
   else
   {
     set(help_wonder_cost_text, MUIA_Text_Contents, "0");
-    set(help_wonder_needs_button, MUIA_Text_Contents, "(Never)");
-    set(help_wonder_obsolete_button, MUIA_Text_Contents, "None");
+    set(help_wonder_needs_button, MUIA_Text_Contents, A_LAST);
+    set(help_wonder_obsolete_button, MUIA_Text_Contents, TECHTYPE_NONE);
   }
 
   helptext_wonder(buf, which, pitem->text);
@@ -655,14 +679,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     settextf(help_unit_vision_text, "%ld", utype->vision_range);
     set(help_unit_basic_upkeep_text, MUIA_Text_Contents, helptext_unit_upkeep_str(i));
 
-    if (utype->tech_requirement == A_LAST)
-      text = "(Never)";
-    else
-      text = advances[utype->tech_requirement].name;
-    SetAttrs(help_unit_needs_button,
-	     MUIA_Text_Contents, text,
-	     MUIA_UserData, HELP_TECH,
-	     TAG_DONE);
+    UpdateTechButton(help_unit_needs_button, utype->tech_requirement);
 
     if (utype->obsoleted_by == -1)
       text = "None";
