@@ -2457,10 +2457,10 @@ static void load_ruleset_nations(struct section_file *file)
 
     /* class and legend */
 
-    pl->class =
+    pl->category =
 	mystrdup(secfile_lookup_str_default(file, "", "%s.class", sec[i]));
-    if (check_strlen(pl->class, MAX_LEN_NAME, "Class '%s' is too long")) {
-      pl->class[MAX_LEN_NAME - 1] = '\0';
+    if (check_strlen(pl->category, MAX_LEN_NAME, "Class '%s' is too long")) {
+      pl->category[MAX_LEN_NAME - 1] = '\0';
     }
 
     pl->legend =
@@ -3101,7 +3101,7 @@ static void send_ruleset_nations(struct conn_list *dest)
     }
     packet.city_style = n->city_style;
     memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));
-    sz_strlcpy(packet.class, n->class);
+    sz_strlcpy(packet.category, n->category);
     sz_strlcpy(packet.legend, n->legend);
 
     lsend_packet_ruleset_nation(dest, &packet);

@@ -2593,10 +2593,10 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   }
   pl->city_style = p->city_style;
 
-  if (p->class[0] != '\0') {
-    pl->class = mystrdup(p->class);
+  if (p->category[0] != '\0') {
+    pl->category = mystrdup(p->category);
   } else {
-    pl->class = mystrdup("Other");
+    pl->category = mystrdup("Other");
   }
 
   if (p->legend[0] != '\0') {

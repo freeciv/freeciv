@@ -1823,7 +1823,7 @@ void create_races_dialog(void)
 
     /* Find the nation's class. */
     for (class_id = 1; class_id < num_classes; class_id++) {
-      if (strcmp(nation->class, class_names[class_id]) == 0) {
+      if (strcmp(nation->category, class_names[class_id]) == 0) {
 	found = TRUE;
 	break;
       }
@@ -1832,7 +1832,7 @@ void create_races_dialog(void)
     /* Append a new class. */
     if (!found && num_classes < MAX_NUM_ITEMS) {
       class_id = num_classes++;
-      class_names[class_id] = nation->class;
+      class_names[class_id] = nation->category;
     }
 
     /* Add the nation to the class list. */
@@ -2213,7 +2213,7 @@ static void races_toggles_callback(GtkWidget * w, gpointer race_id_p)
   gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(races_by_name[class_id])->entry),
 		     get_nation_by_idx(selected_nation)->name);
   gtk_label_set_text(GTK_LABEL(class[class_id]),
-		     get_nation_by_idx(selected_nation)->class);
+		     get_nation_by_idx(selected_nation)->category);
   gtk_label_set_text(GTK_LABEL(legend[class_id]),
 		     get_nation_by_idx(selected_nation)->legend);
 

@@ -279,7 +279,7 @@ static void update_radio_buttons(int id)
 static void update_nation_info()
 {
   SetWindowText(races_class, 
-		get_nation_by_idx(selected_nation)->class);
+		get_nation_by_idx(selected_nation)->category);
   SetWindowText(races_legend,
 		get_nation_by_idx(selected_nation)->legend);
 }

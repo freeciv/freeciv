@@ -76,7 +76,7 @@ struct nation_type {
   int city_style;
   struct city_name *city_names;		/* The default city names. */
   struct Sprite *flag_sprite;
-  char *class;				/* may be empty */
+  char *category;				/* may be empty */
   char *legend;				/* may be empty */
 
   /* civilwar_nations is a NO_NATION_SELECTED-terminated list of index of

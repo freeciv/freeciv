@@ -1652,7 +1652,7 @@ static void create_races_dialog(void)
     g_value_unset(&value);
 
     g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, Q_(nation->class));
+    g_value_set_static_string(&value, Q_(nation->category));
     gtk_list_store_set_value(store, &it, 4, &value);
     g_value_unset(&value);
   }

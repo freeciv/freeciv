@@ -4144,8 +4144,8 @@ void popup_races_dialog(void)
     pText_Name = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - 4);
     SDL_SetAlpha(pText_Name, 0x0, 0x0);
     
-    if (pNation->class && *(pNation->class) != '\0') {
-      copy_chars_to_string16(pStr, pNation->class);
+    if (pNation->category && *(pNation->category) != '\0') {
+      copy_chars_to_string16(pStr, pNation->category);
       change_ptsize16(pStr, 10);
       pText_Class = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - 4);
       SDL_SetAlpha(pText_Class, 0x0, 0x0);

@@ -228,7 +228,7 @@ void popup_races_dialog(void)
 
     string = ct_string_create(STYLE_ITALIC, 14,
 			      ct_extend_std_color(COLOR_STD_BLACK),
-			      COLOR_EXT_GRAY, Q_(nation->class));
+			      COLOR_EXT_GRAY, Q_(nation->category));
     label = sw_label_create_text(root_window, string);
     sw_list_set_item(nations_list, 2, i, label);    
   }

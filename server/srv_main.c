@@ -1236,11 +1236,11 @@ static char* find_common_class(void)
       continue;  
     }
     nation = get_nation_by_idx(pplayer->nation);
-    assert(nation->class != NULL);
+    assert(nation->category != NULL);
     if (class == NULL) {
        /* Set the class. */
-      class = nation->class;
-    } else if (strcmp(nation->class, class) != 0) {
+      class = nation->category;
+    } else if (strcmp(nation->category, class) != 0) {
       /* Multiple classes are already being used. */
       return NULL;
     }
@@ -1263,7 +1263,7 @@ static Nation_Type_id select_random_nation(const char* class)
     struct nation_type *nation = get_nation_by_idx(i);
 
     if (nations_available[i]
-	&& (class == NULL || strcmp(nation->class, class) == 0)) {
+	&& (class == NULL || strcmp(nation->category, class) == 0)) {
       available[count] = i;
       count++;
     }
