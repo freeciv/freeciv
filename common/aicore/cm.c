@@ -681,17 +681,8 @@ static void calc_fitness(struct city *pcity,
   *minor_fitness = 0;
 
   for (i = 0; i < NUM_STATS; i++) {
-    int base;
-    if (parameter->factor_target == FT_SURPLUS) {
-      base = result->surplus[i];
-    } else if (parameter->factor_target == FT_EXTRA) {
-      base = parameter->minimal_surplus[i] - result->surplus[i];
-    } else {
-      base = 0;
-      assert(0);
-    }
-
-    *major_fitness += base * parameter->factor[i];
+    assert(parameter->factor_target == FT_SURPLUS);
+    *major_fitness += result->surplus[i] * parameter->factor[i];
     *minor_fitness += result->surplus[i];
   }
 
