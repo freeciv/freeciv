@@ -730,6 +730,38 @@ static void create_danger_segment(struct pf_map *pf_map, enum direction8 dir,
   assert(!pf_map->d_lattice[index].is_dangerous);
 }
 
+/**********************************************************************
+  Adjust cost taking into account possibility of making the move
+**********************************************************************/
+static int danger_adjust_cost(const struct pf_map *pf_map, int cost, 
+                              bool to_danger, int moves_left)
+{
+
+  if (cost == PF_IMPOSSIBLE_MC) {
+    return PF_IMPOSSIBLE_MC;
+  }
+
+  cost = MIN(cost, pf_map->params->move_rate);
+
+  if (pf_map->params->turn_mode == TM_BEST_TIME) {
+    if (to_danger && cost >= moves_left) {
+      /* We would have to end the turn on a dangerous tile! */
+      return PF_IMPOSSIBLE_MC;
+    }
+  } else {
+    /* Default is TM_WORST_TIME.  
+     * It should be specified explicitly though! */
+    if (cost > moves_left
+        || (to_danger && cost == moves_left)) {
+      /* This move is impossible (at least without waiting) 
+       * or we would end our turn on a dangerous tile */
+      return PF_IMPOSSIBLE_MC;
+    }
+  }
+
+  return cost;
+}
+
 /*****************************************************************
   Primary method for iterative path-finding in presence of danger
   Notes: 
@@ -812,27 +844,12 @@ static bool danger_iterate_map(struct pf_map *pf_map)
       } else {
 	cost = pf_map->params->get_MC(pf_map->x, pf_map->y, dir, x1, y1,
 				      pf_map->params);
+        cost = danger_adjust_cost(pf_map, cost, d_node1->is_dangerous,
+                                  get_moves_left(pf_map, loc_cost));
+        
 	if (cost == PF_IMPOSSIBLE_MC) {
+          /* This move is deemed impossible */
 	  continue;
-	}
-
-        /* FIXME: Separate this into adjust_cost_danger and add 
-         * cost = MIN(cost, move_rate) */
-	if (pf_map->params->turn_mode == TM_BEST_TIME) {
-	  if (d_node1->is_dangerous
-	      && cost >= get_moves_left(pf_map, loc_cost)) {
-	    /* We would have to end the turn on a dangerous tile! */
-	    continue;
-	  }
-        } else {
-	  /* Default is TM_WORST_TIME.  
-	   * It should be specified explicitly though! */
-	  if (cost > get_moves_left(pf_map, loc_cost)
-	      || (d_node1->is_dangerous
-		  && cost == get_moves_left(pf_map, loc_cost))) {
-	    /* This move is impossible (at least without waiting) */
-	    continue;
-	  }
 	}
       }
 
