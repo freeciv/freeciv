@@ -698,6 +698,14 @@ void update_city_descriptions(void)
 }
 
 /**************************************************************************
+  If necessary, clear the city descriptions out of the buffer.
+**************************************************************************/
+void prepare_show_city_descriptions(void)
+{
+  /* Nothing to do */
+}
+
+/**************************************************************************
 Draw at x = left of string, y = top of string.
 **************************************************************************/
 static void draw_shadowed_string(XFontStruct * font, GC font_gc,

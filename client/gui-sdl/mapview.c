@@ -810,11 +810,11 @@ void update_city_descriptions(void)
 }
 
 /**************************************************************************
-  Clear city description Drawed on screen/buffer.
+  If necessary, clear the city descriptions out of the buffer.
 **************************************************************************/
-void clear_city_descriptions(void)
+void prepare_show_city_descriptions(void)
 {
-  SDL_FillRect( Main.text , NULL , 0x0 );
+  SDL_FillRect(Main.text, NULL, 0x0);
 }
 
 /**************************************************************************

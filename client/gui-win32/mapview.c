@@ -709,6 +709,14 @@ update_city_descriptions(void)
 }
 
 /**************************************************************************
+  If necessary, clear the city descriptions out of the buffer.
+**************************************************************************/
+void prepare_show_city_descriptions(void)
+{
+  /* Nothing to do */
+}
+
+/**************************************************************************
 
 **************************************************************************/
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y)

@@ -702,6 +702,8 @@ void show_city_descriptions(void)
     return;
   }
 
+  prepare_show_city_descriptions();
+
   get_mapview_dimensions(&map_view_x0, &map_view_y0, &map_win_width,
 			 &map_win_height);
   map_tile_width = (map_win_width - 1) / NORMAL_TILE_WIDTH + 1;

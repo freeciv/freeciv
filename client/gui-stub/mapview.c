@@ -244,6 +244,14 @@ void update_city_descriptions(void)
 }
 
 /**************************************************************************
+  If necessary, clear the city descriptions out of the buffer.
+**************************************************************************/
+void prepare_show_city_descriptions(void)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
   Draw a cross-hair overlay on a tile.
 **************************************************************************/
 void put_cross_overlay_tile(int map_x, int map_y)

@@ -37,6 +37,7 @@ void overview_update_tile(int x, int y);
 void center_tile_mapcanvas(int x, int y);
 
 void show_city_desc(struct city *pcity, int canvas_x, int canvas_y);
+void prepare_show_city_descriptions(void);
 
 void put_one_tile(int map_x, int map_y, int canvas_x, int canvas_y);
 void gui_map_put_tile_iso(int map_x, int map_y,
