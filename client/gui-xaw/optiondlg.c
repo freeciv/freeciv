@@ -98,8 +98,9 @@ void create_option_dialog(void)
 {
   Widget option_form, option_label;
   Widget option_ok_command, option_cancel_command;
-  Widget option_name, option_value=0;
+  Widget option_value, longest_label=0;
   client_option *o;
+  long len, longest_len = 0;
   
   option_dialog_shell =
     I_T(XtCreatePopupShell("optionpopup", transientShellWidgetClass,
@@ -112,31 +113,47 @@ void create_option_dialog(void)
   option_label =
     I_L(XtVaCreateManagedWidget("optionlabel", labelWidgetClass, 
 				option_form, NULL));
-  
+
+  option_value = option_label; /* init the prev-Widget */
   for (o=options; o->name; ++o) {
-    Widget vert = (o==options) ? option_label : option_value;
-    option_name = 
+    const char *descr = _(o->description);
+    option_value = 
       XtVaCreateManagedWidget("label", labelWidgetClass, option_form,
-			      XtNlabel, _(o->description),
-			      XtNfromVert, vert,
+			      XtNlabel, descr,
+			      XtNfromVert, option_value,
 			      NULL);
+    len = strlen(descr);
+    if (len > longest_len) {
+      longest_len = len;
+      longest_label = option_value;
+    }
+    /* Remember widget so we can reset the vertical position; need to
+     * do this because labels and toggles etc have different heights.
+     */
+    o->p_gui_data = (void*) option_value; 
+  }
+
+  option_value = option_label; /* init the prev-Widget */
+  for (o=options; o->name; ++o) {
+    XtVaSetValues((Widget) o->p_gui_data, XtNfromVert, option_value, NULL);
     switch (o->type) {
     case COT_BOOL:
       option_value =
 	XtVaCreateManagedWidget("toggle", toggleWidgetClass, option_form,
-				XtNfromHoriz, option_name,
-				XtNfromVert, vert,
+				XtNfromHoriz, longest_label,
+				XtNfromVert, option_value,
 				NULL);
       XtAddCallback(option_value, XtNcallback, toggle_callback, NULL);
       break;
     case COT_INT:
       option_value =
 	XtVaCreateManagedWidget("input", asciiTextWidgetClass, option_form,
-				XtNfromHoriz, option_name,
-				XtNfromVert, vert,
+				XtNfromHoriz, longest_label,
+				XtNfromVert, option_value,
 				NULL);
       break;
     }
+    /* store the final widget */
     o->p_gui_data = (void*) option_value;
   }
 

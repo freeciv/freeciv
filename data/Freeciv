@@ -1248,7 +1248,8 @@ Freeciv*messageoptcol1.fromVert:  messageoptexpl
 Freeciv*messageoptcol2.fromVert:  messageoptexpl
 Freeciv*messageoptcol2.fromHoriz: messageoptcol1
 
-Freeciv*messageoptcolhead.label: _("                          Out: Mes: Pop:")
+Freeciv*messageoptspacehead.label: \ 
+Freeciv*messageoptcolhead.label: _("Out: Mes: Pop:")
 
 Freeciv*messageoptokcommand.label:     _("Ok")
 Freeciv*messageoptokcommand.fromVert:  messageoptcol1

@@ -85,11 +85,12 @@ void popup_messageopt_dialog(void)
 **************************************************************************/
 Widget create_messageopt_dialog(void)
 {
-  Widget shell,form,title,explanation,ok,cancel,col1,col2;
-  Widget colhead1, colhead2;
-  Widget label,last_label=0;
+  Widget shell,form,title,explanation,ok,cancel,col[2];
+  Widget colhead[2], space_head[2];
+  Widget label[E_LAST];
+  Widget longest_label[2] = { 0, 0 };
   Widget toggle=0;
-  int i, j;
+  int i, j, len, longest_len = 0;
   
   shell = I_T(XtCreatePopupShell("messageoptpopup",
 				 transientShellWidgetClass,
@@ -107,45 +108,66 @@ Widget create_messageopt_dialog(void)
 					    labelWidgetClass,
 					    form, NULL));
 
-  col1 = XtVaCreateManagedWidget("messageoptcol1",
+  col[0] = XtVaCreateManagedWidget("messageoptcol1",
   				 formWidgetClass,
 				 form, NULL);
 
-  col2 = XtVaCreateManagedWidget("messageoptcol2",
+  col[1] = XtVaCreateManagedWidget("messageoptcol2",
   				 formWidgetClass,
 				 form, NULL);
+
+  for(i=0; i<2; i++) {
+    /* space_head labels are "empty" labels in column heading which are
+     * used so that we can arrange the constraints without loops.
+     * They essentially act as vertical filler.
+     */
+    space_head[i] = XtVaCreateManagedWidget("messageoptspacehead",
+					    labelWidgetClass,
+					    col[i], NULL);
   
-  colhead1 = I_L(XtVaCreateManagedWidget("messageoptcolhead",
-					 labelWidgetClass,
-					 col1, NULL));
-
-  colhead2 = I_L(XtVaCreateManagedWidget("messageoptcolhead",
-					 labelWidgetClass,
-					 col2, NULL));
+    colhead[i] = I_L(XtVaCreateManagedWidget("messageoptcolhead",
+					     labelWidgetClass,
+					     col[i], NULL));
+  }
 
   for(i=0;i<E_LAST;i++)  {
     int top_line = (!i || i==E_LAST/2);
-    int is_col1 = i<E_LAST/2;
-    label = XtVaCreateManagedWidget("label",
-				    labelWidgetClass,
-				    is_col1?col1:col2,
-				    XtNlabel, _(message_text[sorted_events[i]]),
-				    XtNfromVert, top_line?
-				    is_col1?colhead1:colhead2:last_label,
-				    NULL);
+    int icol = (i>=E_LAST/2);
+    const char *text = _(message_text[sorted_events[i]]);
+    label[i] = XtVaCreateManagedWidget("label",
+				       labelWidgetClass,
+				       col[icol],
+				       XtNlabel, text,
+				       XtNfromVert,
+				       top_line?space_head[icol]:label[i-1],
+				       NULL);
+    len = strlen(text);
+    if (top_line || len > longest_len) {
+      longest_len = len;
+      longest_label[icol] = label[i];
+    }
+  }
+
+  /* Align the column headings: */
+  for(i=0; i<2; i++) {
+    XtVaSetValues(colhead[i], XtNfromHoriz, longest_label[i], NULL);
+  }
+
+  for(i=0;i<E_LAST;i++)  {
+    int top_line = (!i || i==E_LAST/2);
+    int icol = (i>=E_LAST/2);
+    Widget vert = top_line?space_head[icol]:label[i-1];
     for(j=0; j<NUM_MW; j++) {
       toggle = XtVaCreateManagedWidget("toggle",
 				       toggleWidgetClass,
-				       is_col1?col1:col2,
-				       XtNfromHoriz, (j==0?label:toggle),
-				       XtNfromVert, top_line?
-				       is_col1?colhead1:colhead2:last_label,
+				       col[icol],
+				       XtNfromHoriz,
+				       (j==0?longest_label[icol]:toggle),
+				       XtNfromVert, vert,
 				       NULL);
       XtAddCallback(toggle, XtNcallback, toggle_callback, NULL);
       messageopt_toggles[sorted_events[i]][j]=toggle;
     }
-
-    last_label=label; 
   }
 
   ok = I_L(XtVaCreateManagedWidget("messageoptokcommand",
