@@ -1371,6 +1371,10 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
   } else {
     con_write(rfc_status, "%s%s", prefix, line);
   }
+
+  if (rfc_status == C_OK) {
+    notify_player(NULL, "Game: %s", line);
+  }
 }
 /**************************************************************************
   va_list version which allow embedded newlines, and each line is sent
@@ -1410,6 +1414,7 @@ static void cmd_reply_prefix(enum command_id cmd, struct connection *caller,
   vcmd_reply_prefix(cmd, caller, rfc_status, prefix, format, ap);
   va_end(ap);
 }
+
 /**************************************************************************
   var-args version as above, no prefix
 **************************************************************************/
@@ -1527,10 +1532,10 @@ static void metaconnection_command(struct connection *caller, char *arg)
   if ((*arg == '\0') ||
       (0 == strcmp (arg, "?"))) {
     if (server_is_open) {
-      cmd_reply(CMD_METACONN, caller, C_OK,
+      cmd_reply(CMD_METACONN, caller, C_COMMENT,
 		_("Metaserver connection is open."));
     } else {
-      cmd_reply(CMD_METACONN, caller, C_OK,
+      cmd_reply(CMD_METACONN, caller, C_COMMENT,
 		_("Metaserver connection is closed."));
     }
   } else if ((0 == mystrcasecmp(arg, "u")) ||
@@ -1673,7 +1678,6 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 
   pplayer->ai.control = !pplayer->ai.control;
   if (pplayer->ai.control) {
-    notify_player(NULL, _("Game: %s is now AI-controlled."), pplayer->name);
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under AI control."), pplayer->name);
     if (pplayer->ai.skill_level==0) {
@@ -1690,7 +1694,6 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     if (server_state == RUN_GAME_STATE)
       assess_danger_player(pplayer);
   } else {
-    notify_player(NULL, _("Game: %s is now human."), pplayer->name);
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under human control."), pplayer->name);
 
@@ -2102,7 +2105,7 @@ static void cmdlevel_command(struct connection *caller, char *str)
 		  _("Command access level set to '%s' for connection %s."),
 		  cmdlevel_name(level), pconn->name);
       } else {
-	cmd_reply(CMD_CMDLEVEL, caller, C_OK,
+	cmd_reply(CMD_CMDLEVEL, caller, C_FAIL,
 		  _("Command access level could not be set to '%s' for "
 		    "connection %s."),
 		  cmdlevel_name(level), pconn->name);
@@ -2112,44 +2115,36 @@ static void cmdlevel_command(struct connection *caller, char *str)
     
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	      _("Default command access level set to '%s'."),
-	      cmdlevel_name(level));
-    notify_player(NULL, _("Game: All players now have access level '%s'."),
-		  cmdlevel_name(level));
+		_("Command access level set to '%s' for new players."),
+		cmdlevel_name(level));
     if (level > first_access_level) {
       first_access_level = level;
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("'First come' command access level also raised to '%s'."),
+		_("Command access level set to '%s' for first player to grab it."),
 		cmdlevel_name(level));
     }
   }
   else if (strcmp(arg_name,"new") == 0) {
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	      _("Default command access level set to '%s'."),
-	      cmdlevel_name(level));
-    notify_player(NULL,
-		  _("Game: New connections will have access level '%s'."),
-		  cmdlevel_name(level));
+		_("Command access level set to '%s' for new players."),
+		cmdlevel_name(level));
     if (level > first_access_level) {
       first_access_level = level;
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("'First come' command access level also raised to '%s'."),
+		_("Command access level set to '%s' for first player to grab it."),
 		cmdlevel_name(level));
     }
   }
   else if (strcmp(arg_name,"first") == 0) {
     first_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-	      _("'First come' command access level set to '%s'."),
-	      cmdlevel_name(level));
-    notify_player(NULL,
-		  _("Game: 'First come' command access level set to '%s'."),
-		  cmdlevel_name(level));
+		_("Command access level set to '%s' for first player to grab it."),
+		cmdlevel_name(level));
     if (level < default_access_level) {
       default_access_level = level;
       cmd_reply(CMD_CMDLEVEL, caller, C_OK,
-		_("Default command access level also lowered to '%s'."),
+		_("Command access level set to '%s' for new players."),
 		cmdlevel_name(level));
     }
   }
@@ -2191,11 +2186,9 @@ static void firstlevel_command(struct connection *caller)
   } else {
     caller->access_level = first_access_level;
     cmd_reply(CMD_FIRSTLEVEL, caller, C_OK,
-	_("Your command access level has been increased to '%s'."),
-		cmdlevel_name(first_access_level));
-    notify_player(NULL, _("Game: Connection '%s' has grabbed "
-			  "'first come' access level, '%s'."),
-		  caller->name, cmdlevel_name(first_access_level));
+	_("Command access level '%s' has been grabbed by connection %s."),
+		cmdlevel_name(first_access_level),
+		caller->name);
   }
 }
 
@@ -2454,13 +2447,33 @@ void set_ai_level_directer(struct player *pplayer, int level)
 }
 
 /******************************************************************
-  Set an AI level, with feedback to console only.
+  Translate an AI level back to its CMD_* value.
+  If we just used /set ailevel <num> we wouldn't have to do this - rp
+******************************************************************/
+static enum command_id cmd_of_level(level)
+{
+  switch(level) {
+    case 3 : return CMD_EASY;
+    case 5 : return CMD_NORMAL;
+    case 7 : return CMD_HARD;
+#ifdef DEBUG
+    case 10 : return CMD_EXPERIMENTAL;
+#endif
+  }
+  assert(FALSE);
+  return CMD_EXPERIMENTAL; /* to satisfy compiler */
+}
+
+/******************************************************************
+  Set an AI level from the server prompt.
 ******************************************************************/
 void set_ai_level_direct(struct player *pplayer, int level)
 {
   set_ai_level_directer(pplayer,level);
-  con_write(C_OK, _("%s is now %s."),
+  cmd_reply(cmd_of_level(level), NULL, C_OK,
+	_("Player '%s' now has AI skill level '%s'."),
 	pplayer->name, name_of_skill_level(level));
+  
 }
 
 /******************************************************************
@@ -2470,42 +2483,36 @@ static void set_ai_level(struct connection *caller, char *name, int level)
 {
   enum m_pre_result match_result;
   struct player *pplayer;
-  /* kludge - these commands ought to be 'set' options really - rp */
-  enum command_id cmd = CMD_EASY;
 
   assert(level > 0 && level < 11);
-
-  switch(level) {
-    case 3 : cmd=CMD_EASY; break;
-    case 5 : cmd=CMD_NORMAL; break;
-    case 7 : cmd=CMD_HARD; break;
-#ifdef DEBUG
-    case 10 : cmd=CMD_EXPERIMENTAL; break;
-#endif
-  }
 
   pplayer=find_player_by_name_prefix(name, &match_result);
 
   if (pplayer) {
     if (pplayer->ai.control) {
       set_ai_level_directer(pplayer, level);
-      notify_player(NULL, _("Game: Player '%s' now has skill level '%s'."),
+      cmd_reply(cmd_of_level(level), caller, C_OK,
+		_("Player '%s' now has AI skill level '%s'."),
 		pplayer->name, name_of_skill_level(level));
     } else {
-      cmd_reply(cmd, caller, C_FAIL,
+      cmd_reply(cmd_of_level(level), caller, C_FAIL,
 		_("%s is not controlled by the AI."), pplayer->name);
     }
   } else if(match_result == M_PRE_EMPTY) {
     players_iterate(pplayer) {
       if (pplayer->ai.control) {
 	set_ai_level_directer(pplayer, level);
+        cmd_reply(cmd_of_level(level), caller, C_OK,
+		_("Player '%s' now has AI skill level '%s'."),
+		pplayer->name, name_of_skill_level(level));
       }
     } players_iterate_end;
-    notify_player(NULL, _("Game: AI players now have skill level '%s'."),
-	name_of_skill_level(level));
     game.skill_level = level;
+    cmd_reply(cmd_of_level(level), caller, C_OK,
+		_("Default AI skill level set to '%s'."),
+		name_of_skill_level(level));
   } else {
-    cmd_reply_no_such_player(cmd, caller, name, match_result);
+    cmd_reply_no_such_player(cmd_of_level(level), caller, name, match_result);
   }
 }
 
@@ -2802,7 +2809,6 @@ static void set_command(struct connection *caller, char *str)
 static void fix_command(struct connection *caller, char *str, int cmd_enum)
 {
   char buf[MAX_LEN_CONSOLE_LINE], *arg[1];
-  char msg[500];
   int opt, ntokens;
 
   assert(cmd_enum == CMD_FIX || cmd_enum == CMD_UNFIX);
@@ -2846,27 +2852,32 @@ static void fix_command(struct connection *caller, char *str, int cmd_enum)
 
   if (!may_set_option(caller, opt)) {
     if (cmd_enum == CMD_FIX) {
-      sz_strlcpy(msg, _("You are not allowed to set option '%s', so you " 
-                        "may not prevent it from being set, either."));
+      cmd_reply(cmd_enum, caller, C_FAIL,
+		_("You are not allowed to set option '%s', so you "
+		"may not prevent it from being set, either."),
+		settings[opt].name);
     } else {
-      sz_strlcpy(msg, _("You are not allowed to set option '%s', so you "
-                        "may not allow it to be set, either."));
+      cmd_reply(cmd_enum, caller, C_FAIL,
+		_("You are not allowed to set option '%s', so you "
+		"may not allow it to be set, either."),
+		settings[opt].name);
     }
-    cmd_reply(cmd_enum, caller, C_FAIL, msg, settings[opt].name);
     return;
   }
 
   if (cmd_enum == CMD_FIX) {
     sset_is_fixed[opt] = TRUE;
-    sz_strlcpy(msg, _("Option: '%s' now cannot be modified "
-                      "after the game has started."));
+    cmd_reply(cmd_enum, caller, C_OK,
+		_("Option: '%s' now cannot be modified "
+                "after the game has started."),
+		settings[opt].name);
   } else {
     sset_is_fixed[opt] = FALSE;
-    sz_strlcpy(msg,_("Option: '%s' may now be modified "
-                     "after the game has started."));
+    cmd_reply(cmd_enum, caller, C_OK,
+		_("Option: '%s' may now be modified "
+                "after the game has started."),
+		settings[opt].name);
   }
-  notify_player(NULL, msg, settings[opt].name);
-  if (!caller) cmd_reply(cmd_enum, caller, C_OK, msg, settings[opt].name);
 }
 
 /**************************************************************************
