@@ -205,7 +205,7 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
   cids_used = collect_cids1(cids, selected_cities,
 			    num_selected_cities, append_units,
 			    append_wonders, change_prod, test_func);
-  name_and_sort_items(cids, cids_used, items, change_prod);
+  name_and_sort_items(cids, cids_used, items, change_prod, NULL);
 
   for (item = 0; item < cids_used; item++) {
     MENUITEMINFO iteminfo;
@@ -780,7 +780,7 @@ static void cityrep_changeall(HWND hWnd)
   }
 
   cids_used = collect_cids2(cids);
-  name_and_sort_items(cids, cids_used, items, 0);
+  name_and_sort_items(cids, cids_used, items, 0, NULL);
 
   hLst = GetDlgItem(hDlg, ID_PRODCHANGE_FROM);
   for (i = 0; i < cids_used; i++) {
@@ -791,7 +791,7 @@ static void cityrep_changeall(HWND hWnd)
   }
 
   cids_used = collect_cids3(cids);
-  name_and_sort_items(cids, cids_used, items, 1);
+  name_and_sort_items(cids, cids_used, items, 1, NULL);
 
   hLst = GetDlgItem(hDlg, ID_PRODCHANGE_TO);
   for (i = 0; i < cids_used; i++) {

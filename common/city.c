@@ -257,20 +257,29 @@ int wonder_replacement(struct city *pcity, Impr_Type_id id)
 char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
 {
   static char buffer[256];
-  char *state = Q_("?wonder:w");
-  if (wonder_replacement(pcity, id)) {
-    my_snprintf(buffer, sizeof(buffer), "%s(*)",
-		get_improvement_type(id)->name);
-    return buffer;
-  }
-  if (!is_wonder(id)) 
-    return get_improvement_name(id);
+  char *state = NULL;
 
-  if (game.global_wonders[id]) state = Q_("?built:B");
-  if (wonder_obsolete(id)) state = Q_("?obsolete:O");
-  my_snprintf(buffer, sizeof(buffer), "%s(%s)",
-	      get_improvement_type(id)->name, state); 
-  return buffer;
+  if (pcity) {
+    switch (pcity->improvements[id]) {
+    case I_REDUNDANT:	state = Q_("?redundant:*");	break;
+    case I_OBSOLETE:	state = Q_("?obsolete:O");	break;
+    default:						break;
+    }
+  } else if (is_wonder(id)) {
+    if (game.global_wonders[id]) {
+      state = Q_("?built:B");
+    } else {
+      state = Q_("?wonder:w");
+    }
+  }
+  
+  if (state) {
+    my_snprintf(buffer, sizeof(buffer), "%s(%s)",
+		get_improvement_name(id), state); 
+    return buffer;
+  } else {
+    return get_improvement_name(id);
+  }
 }
 
 /**************************************************************************

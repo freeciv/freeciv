@@ -700,7 +700,7 @@ static int my_cmp(const void *p1, const void *p2)
  * section 4: wonders
  */
 void name_and_sort_items(int *pcids, int num_cids, struct item *items,
-			 int show_cost)
+			 int show_cost, struct city *pcity)
 {
   int i;
 
@@ -712,22 +712,21 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
     pitem->cid = pcids[i];
 
     if (is_unit) {
-      cost = get_unit_type(id)->build_cost;
       name = get_unit_name(id);
+      cost = get_unit_type(id)->build_cost;
       pitem->section = unit_type_flag(id, F_NONMIL) ? 2 : 3;
     } else {
+      name = get_impr_name_ex(pcity, id);
       if (id == B_CAPITAL) {
 	cost = -1;
 	pitem->section = 1;
       } else {
 	cost = get_improvement_type(id)->build_cost;
-	pitem->section = 0;
-      }
-      if (is_wonder(id)) {
-	name = get_impr_name_ex(find_palace(game.player_ptr), id);
-	pitem->section = 4;
-      } else {
-	name = get_improvement_name(id);
+	if (is_wonder(id)) {
+      	  pitem->section = 4;
+        } else {
+	  pitem->section = 0;
+	}
       }
     }
 
@@ -925,7 +924,7 @@ int collect_wids1(wid * dest_wids, struct city *pcity, int wl_first,
 
   /* Fill in improvements and units */
   cids_used = collect_cids4(cids, pcity, advanced_tech);
-  name_and_sort_items(cids, cids_used, items, 0);
+  name_and_sort_items(cids, cids_used, items, 0, pcity);
 
   for (item = 0; item < cids_used; item++) {
     cid cid = items[item].cid;

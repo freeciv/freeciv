@@ -215,7 +215,7 @@ static void append_impr_or_unit_to_menu_sub(GtkWidget * menu,
   cids_used = collect_cids1(cids, selected_cities,
 			    num_selected_cities, append_units,
 			    append_wonders, change_prod, test_func);
-  name_and_sort_items(cids, cids_used, items, change_prod);
+  name_and_sort_items(cids, cids_used, items, change_prod, NULL);
 
   for (item = 0; item < cids_used; item++) {
     GtkWidget *w = gtk_menu_item_new_with_label(items[item].descr);
@@ -822,7 +822,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
     }
 
     cids_used = collect_cids2(cids);
-    name_and_sort_items(cids, cids_used, items, 0);
+    name_and_sort_items(cids, cids_used, items, 0, NULL);
 
     for (i = 0; i < cids_used; i++) {
       char *buf[1];
@@ -865,7 +865,7 @@ static void city_change_all_callback(GtkWidget * w, gpointer data)
     gtk_widget_set_usize(city_change_all_to_list, -2, 300);
 
     cids_used = collect_cids3(cids);
-    name_and_sort_items(cids, cids_used, items, 1);
+    name_and_sort_items(cids, cids_used, items, 1, NULL);
 
     for (i = 0; i < cids_used; i++) {
       char *buf[1];

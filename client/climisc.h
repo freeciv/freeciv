@@ -90,7 +90,7 @@ struct item {
 };
 
 void name_and_sort_items(int *pcids, int num_cids, struct item *items,
-			 int show_cost);
+			 int show_cost, struct city *pcity);
 int collect_cids1(cid * dest_cids, struct city **selected_cities,
 		 int num_selected_cities, int append_units,
 		 int append_wonders, int change_prod,

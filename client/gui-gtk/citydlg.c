@@ -1963,7 +1963,7 @@ static void city_dialog_update_improvement_list(struct city_dialog
   }
 
   cids_used = collect_cids5(cids, pdialog->pcity);
-  name_and_sort_items(cids, cids_used, items, 0);
+  name_and_sort_items(cids, cids_used, items, 0, pdialog->pcity);
 
   gtk_clist_freeze(GTK_CLIST(pdialog->overview.improvement_list));
   gtk_clist_clear(GTK_CLIST(pdialog->overview.improvement_list));
@@ -3084,7 +3084,7 @@ static void change_callback(GtkWidget * w, gpointer data)
   gtk_clist_clear(GTK_CLIST(pdialog->change_list));
 
   cids_used = collect_cids4(cids, pdialog->pcity, 0);
-  name_and_sort_items(cids, cids_used, items, 1);
+  name_and_sort_items(cids, cids_used, items, 1, pdialog->pcity);
 
   for (item = 0; item < cids_used; item++) {
     cid cid = items[item].cid;
