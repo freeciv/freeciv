@@ -13,9 +13,6 @@
 #ifndef __AITOOLS_H
 #define __AITOOLS_H
 
-void ai_calculate_city_value(int isle);
-int ai_military_findtarget(struct player *pplayer,struct unit *punit);
-
 
 struct point  {
   int x, y;
