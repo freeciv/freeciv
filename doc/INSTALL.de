@@ -4,7 +4,7 @@ Die Installation von Freeciv
 
 Diese Datei beschreibt die Compilierung und Installation von Freeciv.
 
-Stand: 06.02.01
+Stand: 22.05.01
 
 
 0. Voraussetzungen:
@@ -39,6 +39,9 @@ sollte man es einfach ausprobieren.
    übersetzt werden, es sei denn, configure wird mit der Option
    "--disable-cvs-deps" option aufgerufen (siehe auch den nächsten Abschnitt).
 
+   Es ist vor gekommen, daß gcc mit der Option -O3 Freeciv falsch kompiliert
+   hat. Dagegen gab es über Kompilationen mit -O2 keine negativen Berichte.
+
  - Ein "make"
  
    Wie auch beim Compiler wird hier hauptsächlich die GNU-Version eingesetzt,
@@ -66,12 +69,14 @@ Widget Library" ("Xaw") und einen für Gtk+ (das Widget Set von/für
 "The Gimp"). Beide Clients haben unterschiedliche Anforderungen, auf
 die weiter unten eingegangen wird. Das System sollte mindestens eine
 der beiden Listen erfüllen (es sei denn, man will auf dem Rechner nur
-einen Server für ein Freeciv-Spiel bereitstellen)
+einen Server für ein Freeciv-Spiel bereitstellen).
+
+Außerdem existiert ein nativer Client für den Amiga
 
 ACHTUNG: Einige Distributionen/Systeme besitzen getrennte Pakete für
 die eigentlichen Libraries und die zur Programmentwicklung nötigen
 Dateien. D.h., daß man auf diesen Distributionen die entsprechenden
-"developement"-Pakete installieren muß (gilt z.B. für Debian GNU/Linux,
+"development"-Pakete installieren muß (gilt z.B. für Debian GNU/Linux,
 RedHat Linux und SuSE Linux).
 
 1a. Anforderungen des Xaw-Clients:
@@ -105,7 +110,7 @@ RedHat Linux und SuSE Linux).
    
    Es gibt noch andere Varianten von Xaw, z.B. Nextaw. Freeciv arbeitet
    nicht mit diesen zusammen, aber es sollte möglich sein, Freeciv für
-   diese Biblitotheken wie für Xaw3d zu verändern. Eine andere
+   diese Bibliotheken wie für Xaw3d zu verändern. Eine andere
    Möglichkeit wäre die Verwendung von "xaw_wrappers", obwohl dies wohl
    weit über die eigentliche Verwendung des Skriptes geht.
    
@@ -141,7 +146,7 @@ RedHat Linux und SuSE Linux).
    
    Sollte Glib nicht vorhanden sein, bekommt man es hier:
 
-     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.8.tar.gz
+     ftp://ftp.gtk.org/pub/gtk/v1.2/glib-1.2.10.tar.gz
 
    (Hinweis: Wenn glib schon nicht vorhanden ist, ist es auch sehr
    wahrscheinlich, daß gtk+ auch nicht vorhanden ist. gtk+ liegt an
@@ -152,13 +157,13 @@ RedHat Linux und SuSE Linux).
    Gtk+ wurde für The Gimp entworfen und entwickelt. Seitdem hat es
    sich Popularität als ein einfach zu programmierendes, freies
    Toolkit erworben. Zu Gtk+ gehört auch Gdk, das grundlegende
-   Zeichenfunktionen, Fenster, Clipping usw. zur Verfügung stellt.
+   Zeichen-Funktionen, Fenster, Clipping usw. zur Verfügung stellt.
    
    Freeciv benötigt Gtk+ mit der Version >=1.2.1
    
    Sollte Gtk+ nicht vorhanden sein, bekommt man es hier:
    	
-     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.8.tar.gz
+     ftp://ftp.gtk.org/pub/gtk/v1.2/gtk+-1.2.10.tar.gz
      
  - Die Imlib Library
  
@@ -170,10 +175,10 @@ RedHat Linux und SuSE Linux).
    Falls configure sagt, daß Imlib nicht vorhanden ist, bekommt man es
    hier:
 
-     ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.8.1.tar.gz
+     ftp://ftp.gnome.org/pub/GNOME/stable/sources/imlib/imlib-1.9.10.tar.gz
 
    (Laut Dokumentation benötigt Imlib für bestimmte Features (z.B. für
-   die Unterstüzung von PNG-Grafiken) weitere Libraries - diese sind
+   die Unterstützung von PNG-Grafiken) weitere Libraries - diese sind
    für Freeciv allerdings nicht nötig).
    
 Compiliert man selbst, sollte (oder muß) folgende Reihenfolge
@@ -202,14 +207,14 @@ Hilfe zu den verschiedenen Optionen von configure gibt es mit --help:
   
 Beim Compilieren von Entwicklerversionen oder CVS-Abzügen ohne GNU
 make oder gcc muß configure mit der Option "--disable-cvs-deps"
-aufgrufen werden, besonders wenn man cc und make unter Solaris
+aufgerufen werden, besonders wenn man cc und make unter Solaris
 benutzt.
    
 Dadurch wird die automatische Überprüfung der Abhängigkeiten der
 Quelldateien untereinander außer Kraft gesetzt. Wenn danach eine
 Headerdatei (*.h) verändert wurde, sollte vor dem nächsten Aufruf
 von "make" auch noch ein "make clean" durchgeführt werden, um sicher
-zu gehen, daß alle Datein korrekt übersetzt werden.
+zu gehen, daß alle Dateien korrekt übersetzt werden.
    
 Bei Stable-Release-Versionen hat die Option "--disable-cvs-deps"
 keine Wirkung.
@@ -252,21 +257,21 @@ folgenden Schritte durchführen:
   - Beim Xaw-Client: Sind Xaw und die Xpm-Library installiert?
     Kann configure diese finden? Auch hier gilt: die Libraries
     sollten in den Standardverzeichnissen installiert oder aber
-    configure der Installtionsort mit den passenden Optionen
+    configure der Installationsort mit den passenden Optionen
     mitgeteilt werden. (siehe auch ./configure --help)
 
   - Für Probleme, die mit "gettext" zusammenhängen, gibt es im
-    Abschnitt über "NLS" (Native Language Support, weiter unten)
+    Abschnitt über "NLS" ("Unterstützung der Landessprache", weiter unten)
     evtl. Work-Arounds.
     
   - Fehler den Entwicklern mitteilen, damit diese zum nächsten Release
     beseitigt werden können (die Fehler ;-) !!
     
     Dazu schickt man eine Mail an die Mailingliste freeciv-dev, in der
-    man in ENGLISCH beschreibt, was man getan hat und wie/welcher Fehler
-    auftrat. Hilfreich wäre auch, wenn die Ausgabe des configure-Skripts, sowie
+    man beschreibt, was man getan hat und wie/welcher Fehler auftrat.
+    Hilfreich wäre auch, wenn die Ausgabe des configure-Skripts, sowie
     der Inhalt der Dateien "config.status", "config.cache" und
-    "config.log" mitschickt werden. Diese Dateien werden von configure
+    "config.log" mitgeschickt werden. Diese Dateien werden von configure
     erstellt.
     
     Mehr zur Mailingliste freeciv-dev gibt es unter
@@ -285,12 +290,12 @@ die Eingabe von "make" (oder vorzugsweise "gmake") geschehen.
 
 Sollte trotzdem ein Problem auftreten, sollte man die Hinweise in der
 Datei BUGS zu rate ziehen. Sollte das Problem mit "gettext"
-zusammenhängen, lesen Sie bitte den Abschnitt über NLS (Native Language
-Support, weiter unten) für evtl. Work-Arounds
+zusammenhängen, lesen Sie bitte den Abschnitt über NLS ("Unterstützung
+der Landessprache", weiter unten) für evtl. Work-Arounds
 
 Nach dem Compiliervorgang erhält man die folgenden wichtigen
 "Ergebnisse":
-  - Die zwei Programme "clien/civclient" und "server/civserver".
+  - Die zwei Programme "client/civclient" und "server/civserver".
   - Das Verzeichnis "data/", welches die Szenarien und Grafiken
     enthält.
   - Das Verzeichnis "po/", welches die Lokalisierungsdateien enthält
@@ -337,20 +342,19 @@ Beispiele:
  % FREECIV_PATH="/usr/game/freeciv/data:./data"; export FREECIV_PATH
  (für die sh, bash, ksh, zsh etc.)
 
-Wie oben schon erwähnt muss Freeciv installiert sein, um andere Sprachen
+Wie oben schon erwähnt muß Freeciv installiert sein, um andere Sprachen
 als Englisch benutzen zu können. Näheres in README und README.de
 
 Wenn man den Xaw-Client benutzt, sollte man die Datei data/Freeciv in
 das app-defaults Verzeichnis kopieren. (Normalerweise in
 /usr/lib/X11/app-defaults)
 
-5. Reinier's Solaris Installation Notes:
-========================================
-(Hinweise zur Installation unter Solaris)
+5. Reiniers Hinweise zur Installation unter Solaris
+===================================================
 
 Von Hause aus kommt Solaris (Version 2.5 und höher) mit einem eigenen X
 (in /usr/openwin), einem eigenen make (in /usr/ccs/bin/make) und einem
-eigenen Compiler (seperat zu erwerben), der, falls vorhanden, unter
+eigenen Compiler (separat zu erwerben), der, falls vorhanden, unter
 /opt/SUNWspro/bin liegt.
 Solaris stellt von sich aus keine libXpm zur Verfügung, die für den
 Xaw-Client benötigt wird; des weiteren auch nichts, was für die Imlib,
@@ -395,9 +399,8 @@ nur GNU Tools benutzt werden. Des weiteren compiliert Freeciv auch unter
 MIT X und bestimmten Kombinationen aus GNU und Sun-Tools, wobei das
 genaue Vorgehen von der lokalen Installation abhängt.
 
-6. Reinier's libXpm Solaris Installation Notes:
-===============================================
-(Hinweise zur Installation der libXpm unter Solaris)
+6. Reinier's Installationshinweise  zur libXpm unter Solaris:
+=============================================================
 
 Als ich root auf meinem Solarissystem war, wollte ich trotzdem keine
 Third-party Software als root installieren. Das ist eine schlechte
@@ -420,7 +423,7 @@ Vorraussetzungen:
 
 Der Ablauf:
 
- - Sourcen besorgen, untar-en, in das source-Verzeichnis wechslen und
+ - Sourcen besorgen, untar-en, in das source-Verzeichnis wechseln und
    folgende Zeilen eingeben:
 
     % setenv MYXPMDEST /usr/local   # Xpm-Zielverzeichnis
@@ -444,7 +447,7 @@ Der Ablauf:
   Optionen -I/-L/-R entsprechend gesetzt werden.
 	
 
-7. NLS (Unterstützung von lokalisierten Programmtexten)
+7. NLS (Unterstützung der Landessprache)
 =======================================================
 
 Freeciv benutzt "gettext", um die (alternativ zur Standardsprache,
@@ -481,4 +484,50 @@ ausprobieren:
    gettext zu installieren. Sie können diese Version hier downloaden:
 
      ftp://prep.ai.mit.edu/gnu/gettext/gettext-0.10.35.tar.gz
-     
+
+
+8. Unterstützung von Readline
+=============================
+
+Freeciv unterstützt optional die Unterstützung der Readline-Library
+
+Mit der Unterstützung der Readline-Library wird es im Server möglich
+ - die Backspace-Taste zu benutzen
+ - sich mit den Cursortasten in der Eingabezeile hin- und herzubewegen
+ - mit TAB Befehle und Befehlsargumente wie auf der Shell automatisch zu
+   vervollständigen, z.B. wenn Tab gedrückt wird, dann vervollständigt der
+   Server das Wort, falls es nur eine mögliche Auswahl gibt.
+ - sich mit den Cursortasten durch eine History der eingegebenen Kommandos zu
+   bewegen
+ - usw.
+
+Das configure-skript prüft automatisch, ob readline installiert ist. Wenn ja,
+wird readline automatisch in den Server eincompiliert, wenn nicht, wird der
+Server ohne weitere Kommentare ohne readline compiliert.
+Die benötigte Version von readline ist >=4.2
+Sie können configure dazu "zwingen", readline zu benutzen, indem sie configure
+die Option "--with-readline" mitgeben:
+
+ % ./configure --with-readline
+
+Bei einigen Linux-Distributionen (und evtl. auch andere Betriebssystemen) ist
+readline in der Version 4 nicht korrekt installiert, und zwar so, daß
+readline nicht konfiguriert ist, seine dynamischen Abhängigkeiten zu
+deklarieren. In diesem Fall wird sich configure so verhalten, als ob readline
+nicht installiert ist und wird ohne deren Unterstützung kompilieren. Unter
+Un*x kann man nachprüfen, ob readline korrekt installiert ist durch:
+
+ % ldd /usr/lib/libreadline.so
+
+Dabei sollten so etwas wie folgende Zeilen ausgegeben werden:
+
+   libncurses.so.5 => /lib/libncurses.so.5 (0x4002e000)
+   libc.so.6 => /lib/libc.so.6 (0x4006e000)
+   /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x2aaaa000)
+
+(/usr/lib/readline.so ist durch den Pfad zu Ihrer readline-Library zu
+ersetzen). Wenn die Abhängigkeit zu curses (oder etwas vergleichbarem)
+aufgeführt ist, sollte es funktionieren. Falls nicht, und freeciv configure
+kann readline nicht zum laufen bewegen, dann ist readline nicht richtig
+installiert. In diesem Fall ist es unter Umständen angebracht, demjenigen, der
+für Ihre readline-Library verantwortlich ist, einen Bugreport zu schicken.
