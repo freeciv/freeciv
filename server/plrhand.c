@@ -1637,7 +1637,8 @@ void choose_tech(struct player *plr, int tech)
     plr->research.before_researched = plr->research.researched;
     plr->research.changed_from = plr->research.researching;
     /* subtract a penalty because we changed subject */
-    plr->research.researched -= ((plr->research.researched * game.techpenalty) / 100);
+    if (plr->research.researched > 0)
+      plr->research.researched -= ((plr->research.researched * game.techpenalty) / 100);
   } else if (tech == plr->research.changed_from) {
     plr->research.researched = plr->research.before_researched;
     plr->research.changed_from = -1;
