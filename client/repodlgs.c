@@ -1106,7 +1106,7 @@ void trade_selloff_callback(Widget w, XtPointer client_data,
   genlist_iterator_init(&myiter, &game.player_ptr->cities.list, 0);
   for(; ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter)) {
     pcity=(struct city *)ITERATOR_PTR(myiter);
-    if(city_got_building(pcity, i) &&
+    if(!pcity->did_sell && city_got_building(pcity, i) && 
        (client_data ||
 	improvement_obsolete(game.player_ptr,i) ||
         wonder_replacement(pcity, i) ))  {
@@ -1120,7 +1120,7 @@ void trade_selloff_callback(Widget w, XtPointer client_data,
   if(count)  {
     sprintf(str,"Sold %d %s for %d gold",count,get_improvement_name(i),gold);
   } else {
-    sprintf(str,"No %s obsolete",get_improvement_name(i));
+    sprintf(str,"No %s could be sold",get_improvement_name(i));
   };
   popup_notify_dialog("Sell-Off Results",str);
   return;
