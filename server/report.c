@@ -1037,7 +1037,7 @@ log_civ_score_disable:
 #undef GOOD_PLAYER
 
 /**************************************************************************
-...
+  ...
 **************************************************************************/
 void make_history_report(void)
 {
@@ -1045,21 +1045,24 @@ void make_history_report(void)
   static int time_to_report=20;
 
   players_iterate(pplayer) {
-    civ_score(pplayer);
+    (void) civ_score(pplayer);
   } players_iterate_end;
 
-  if (game.scorelog)
+  if (game.scorelog) {
     log_civ_score();
+  }
 
-  if (game.nplayers==1)
+  if (game.nplayers == 1) {
     return;
+  }
 
   time_to_report--;
 
-  if (time_to_report>0) 
+  if (time_to_report > 0) {
     return;
+  }
 
-  time_to_report=myrand(20)+20;
+  time_to_report=myrand(20) + 20;
 
   historian_generic(report);
   

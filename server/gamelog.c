@@ -32,40 +32,52 @@
 int gamelog_level;		/* also accessed from stdinhand.c */
 static char *gamelog_filename;
 
+/* Stuff for gamelog_save() */
+struct player_score_entry {
+  int idx;
+  int value;
+};
+
 /**************************************************************************
-filename can be NULL, which means no logging.
-***************************************************************************/
+  Filename can be NULL, which means no logging.
+**************************************************************************/
 void gamelog_init(char *filename)
 {
   gamelog_level = GAMELOG_FULL;
   gamelog_filename = filename;
 }
 
-/**************************************************************************/
+/**************************************************************************
+  ...
+**************************************************************************/
 void gamelog_set_level(int level)
 {
   gamelog_level = level;
 }
 
-/**************************************************************************/
+/**************************************************************************
+  ...
+**************************************************************************/
 void gamelog(int level, const char *message, ...)
 {
   va_list args;
   char buf[512];
   FILE *fs;
 
-  if (!gamelog_filename)
+  if (!gamelog_filename) {
     return;
-  if (level > gamelog_level)
+  }
+  if (level > gamelog_level) {
     return;
+  }
 
-  fs=fopen(gamelog_filename, "a");
+  fs = fopen(gamelog_filename, "a");
   if (!fs) {
     freelog(LOG_FATAL, _("Couldn't open gamelogfile \"%s\" for appending."), 
 	    gamelog_filename);
     exit(EXIT_FAILURE);
   }
-  
+
   va_start(args, message);
   my_vsnprintf(buf, sizeof(buf), message, args);
   if (level == GAMELOG_MAP) {
@@ -90,11 +102,13 @@ void gamelog(int level, const char *message, ...)
   fclose(fs);
 }
 
-
+/**************************************************************************
+  ...
+**************************************************************************/
 void gamelog_map(void)
 {
   int nat_x, nat_y, map_x, map_y;
-  char *hline = fc_calloc(map.xsize+1, sizeof(char));
+  char *hline = fc_calloc(map.xsize + 1, sizeof(char));
 
   for (nat_y = 0; nat_y < map.ysize; nat_y++) {
     for (nat_x = 0; nat_x < map.xsize; nat_x++) {
@@ -106,25 +120,25 @@ void gamelog_map(void)
   free(hline);
 }
 
-/*Stuff for gamelog_save()*/
-struct player_score_entry {
-  int idx;
-  int value;
-};
-
+/**************************************************************************
+  ...
+**************************************************************************/
 static int secompare1(const void *a, const void *b)
 {
   return (((const struct player_score_entry *)b)->value -
 	  ((const struct player_score_entry *)a)->value);
 }
 
-void gamelog_save(void){
-  /* lifted from historian_largest() */
+/**************************************************************************
+  Every time we save the game, we also output to the gamelog the score
+  and status info.
+**************************************************************************/
+void gamelog_save(void) {
   int i, count = 0;
   char buffer[4096];
-  struct player_score_entry *size=
+  struct player_score_entry *size =
     fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
-  struct player_score_entry *rank=
+  struct player_score_entry *rank =
     fc_malloc(sizeof(struct player_score_entry) * game.nplayers);
 
   players_iterate(pplayer) {
