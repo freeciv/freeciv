@@ -1,14 +1,89 @@
-===========================
-Willkommen bei Freeciv 1.14
-===========================
+==========================
+Willkommen bei Freeciv 2.0
+==========================
 
-Dies ist Version 1.14.0.
+Dies ist Version 2.0.
 
-Dank geht an alle unsere Entwickler, die daran gearbeitet haben.
+Dank geht an alle unsere Entwickler, die daran hart gearbeitet haben.
 
 Diese Version enthält eine Menge Änderungen, die unten skizziert sind. 
 Diejenigen, die an den Einzelheiten der Änderungen interessiert sind,
 sollten einen Blick in die ChangeLog Datei werfen.
+
+
+ÄNDERUNGEN SEIT VERSION 1.14.0
+
+ - Spielerauthentifizierung mit der Möglichkeit, Passwörter zu verwenden.
+ - Die KI wurde stark verbessert, und macht keine 'doppelten' Züge mehr.
+ - KI-Spieler verwenden Diplomatie, mit Dir und gegen Dich.
+ - Neuer Schwierigkeitsgrad: Anfänger. Die KI ist hierbei in ihren
+   Möglichkeiten stark eingeschränkt.
+ - Neue Einheiten: AWACS und Arbeiter
+ - Isometrische und hexagonale Karten. Sie können in alle Richtungen
+   verbunden sein.
+ - Es gibt jetzt Ländergrenzen. Einheiten innerhalb der Landesgrenzen rufen
+   in der Republik und der Demokratie keine Unzufriedenheit mehr hervor.
+ - Möglichkeiten zur Modpack-Erstellung stark erweitert: Gebäude können
+   angepaßt und als Voraussetzung für Einheiten verwendet werden,
+   Technologien auf einzelne Nationen beschränkt, geteilte Technologie-
+   bäume, Unterhalt in Gold für Einheiten, Geländeauszeichnungen und viele
+   weitere Optionen.
+ - In den Civ1- und Civ2-Regeln gibt es jetzt Müll (nicht in den Standard-
+   regeln).
+ - Das automatische Erkunden wird intelligenter.
+ - Weniger Popup-Fenster; beispielsweise kann die neue Regierung direkt aus
+   dem Menü gewählt werden.
+ - Unterstützung für Civ3-Grafiken.
+ - 'Pos1'-Taste zentriert ihre Hauptstadt auf der Karte.
+ - Neue 'Einschiffen'- und 'Ausschiffen'-Befehle für den Transport von
+   Einheiten.
+ - Der Server kann direkt aus dem Client heraus gestartet und Optionen
+   gesetzt werden.
+ - Ein diplomatisches Treffen (Konferenz) ist möglich innerhalb von 20
+   Zügen, nachdem sich die Einheiten das letzte Mal begegnet sind; hierbei
+   kann die Eröffnung einer Botschaft gewährt werden.
+ - Es ist nicht mehr möglich, mit einem Spieler alliiert zu sein, der sich
+   im Krieg mit einem anderen Verbündeten befindet.
+ - Globale Beobachter können das gesamte Spiel beobachten.
+ - Das Anstiften zur Revolte ist kostspieliger. Wenn die Stadt nahe der
+   Hauptstadt liegt, oder Einheiten und Gebäude enthält, sind die Kosten
+   deutlich höher.
+ - Das Töten eines feindlichen Diplomaten kostet jetzt einen Bewegungspunkt.
+ - Art und Anzahl der Starteinheiten kann eingestellt werden.
+ - Der Server kann an eine bestimmte IP gebunden werden.
+ - Der Client findet Server im LAN mittels Multicast.
+ - Die Netzwerkdaten werden komprimiert und verringert.
+ - Einheiten haben jetzt mehrere, konfigurierbare Veteranenlevel.
+ - Teammitglieder forschen nun gemeinsam am selben Ziel. Die
+   Team-Vereinbarung kann gekündigt werden.
+ - Einheiten können auch ohne Tastatur, mittels Drag 'n Drop bewegt werden.
+ - Der Server hat einen Abstimmungsmodus für Optionen. Ein Befehl benötigt
+   50% Zustimmung.
+ - An Land gehen von Einheiten (außerhalb von Städten) kostet alle
+   Bewegungspunkte.
+ - Der GTK2 Client kann im Vollbildmodus laufen.
+ - Mit dem 'endgame'-Kommando kann der Sieg zwischen mehreren Spielern
+   aufgeteilt werden.
+ - Die Kartengröße wird jetzt neu mit der Option 'size' eingestellt.
+ - Die Schweizer, Afghanische, Äthiopische, Assyrische, Kolumbianische,
+   Elbische, Galizische, Hobbische, Indonesische, Kambodschanische,
+   Malaysische, Marsianische, Nigerianische, Quebecische, Sumerische,
+   Taiwanesische, Österreichische, Belgische, Phönizische und Mexikanische
+   Nation wurden hinzugefügt.
+ - Neues Wunder: Der Eiffelturm. Verbessert das Verhältnis zu KI-Spielern
+   und die Reputation.
+ - Die Voraussetzungen für einige Gebäude wurden geändert.
+ - Zeichensätze werden zwischen Client und Server konvertiert. Alle
+   Regeldateien sind nun in UTF-8.
+ - Die Ressource Wal ergibt nur noch 2 Nahrung, 1 Schild und 2 Handel.
+ - Neuer Metaserver.
+ - Neues ALSA-Soundplugin.
+ - Die Namen der bei einem Bürgerkrieg entstehenden Nationen hängen nun von
+   Ursprungsnation ab.
+ - Die Forschungskosten wurden verdoppelt, und ebenso der Effekt von
+   Bibliotheken usw.
+ - Viele weitere kleinere Änderungen, und große Änderungen unter der Haube.
+
 
 ÄNDERUNGEN SEIT VERSION 1.13.0
 
