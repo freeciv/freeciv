@@ -4,7 +4,7 @@ name=_("French")
 plural=_("?plural:French")
 leader="Napoleon", "Charlemagne", "Louis XIV", "Charles de Gaulle",
        "Vercingetorix", "Chlodwig", "Charles Martel"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="f.france"
 flag_alt = "-"
 city_style = "European"

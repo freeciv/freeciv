@@ -2,7 +2,7 @@
 
 name=_("Babylonian")
 plural=_("?plural:Babylonians")
-leader="Hammurabi", "Sargon", "Nebuchadnezzar", "Tiglath-Pileser",
+leader="Hammurabi", "Sargon", "Nebuchadnezzar", "Tiglath-Pileser"
 leader_sex="Male", "Male", "Male", "Male"
 flag = "f.iraq_old"
 flag_alt = "-"
