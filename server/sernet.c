@@ -715,12 +715,13 @@ static const char *makeup_connection_name(int *id)
 ********************************************************************/
 static int server_accept_connection(int sockfd)
 {
-
-# if defined(__VMS) && !defined(_DECC_V4_SOURCE)
-    size_t fromlen;
-# else
+  /* This used to have size_t for some platforms.  If this is necessary
+   * it should be done with a configure check not a platform check. */
+#ifdef HAVE_SOCKLEN_T
   socklen_t fromlen;
-# endif
+#else
+  int fromlen;
+#endif
 
   int new_sock;
   union my_sockaddr fromend;
