@@ -681,7 +681,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
   struct city *capital;
   int revolt_cost;
-  struct city *pnewcity;
 
   /* Fetch target civilization's player.  Sanity checks. */
   if (!pcity)
@@ -773,18 +772,19 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		    _("Game: %s has revolted, %s influence suspected."),
 		    pcity->name, get_nation_name (pplayer->nation));
 
-  /*
-   * Transfer city and units supported by this city (that
-   * are within one square of the city) to the new owner.
-   */
   pcity->shield_stock = 0;
-  pnewcity = transfer_city (pplayer, cplayer, pcity, 1, 1, 1, 0);
 
   /* You get a technology advance, too! */
   get_a_tech (pplayer, cplayer);
 
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape (pplayer, pdiplomat, pcity);
+
+  /* Transfer city and units supported by this city (that
+     are within one square of the city) to the new owner.
+     Remember that pcity is destroyed as part of the transfer,
+     Which is why we do this last */
+  transfer_city (pplayer, cplayer, pcity, 1, 1, 1, 0);
 }  
 
 /**************************************************************************
