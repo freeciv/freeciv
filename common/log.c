@@ -90,8 +90,13 @@ int log_parse_level_str(char *level_str)
   }
 
   c = level_str;
-  if (c[0] == '4' && c[1] == ':') {
-    level = 4;
+  if (c[0] == ('0' + LOG_DEBUG) && c[1] == ':') {
+    level = LOG_DEBUG;
+    if (max_level < LOG_DEBUG) {
+      fprintf(stderr, _("Freeciv must be compiled with the DEBUG flag"
+			" to use debug level %d.\n"), LOG_DEBUG);
+      return -1;
+    }
   } else {
     fprintf(stderr, _("Badly formed log level argument \"%s\".\n"), level_str);
     return -1;
