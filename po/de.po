@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-11 22:03+0200\n"
+"POT-Creation-Date: 2004-07-12 11:12+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: Freeciv Uebersetzer <freeciv.de@freelists.org>\n"
@@ -3007,11 +3007,10 @@ msgstr ""
 msgid "Nation %s (used by %s) isn't available."
 msgstr "Die Nation %s (verwendet von %s) ist nicht verfügbar."
 
-# ?
 #: server/savegame.c:1040
 #, c-format
 msgid "Unsupported city style found in player%d section. Changed to %s"
-msgstr ""
+msgstr "Stadtbild in player%d Sektion kann nicht angezeigt werden, wähle %s"
 
 #: server/savegame.c:1174
 #, c-format
@@ -3022,18 +3021,18 @@ msgstr ""
 "Verbotene Allianzstruktur festgestellt: Die Allianz zwischen %s und %s wird "
 "zu einem Frieden zurückgestuft."
 
-#: server/savegame.c:2166
+#: server/savegame.c:2171
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Das abgespeicherte Spiel ist zu alt (< 1.9.0)."
 
-#: server/savegame.c:2343
+#: server/savegame.c:2348
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Das im abgespeicherten Spiel benutzte 'terrain ruleset' wird nicht mehr "
 "unterstützt."
 
-#: server/savegame.c:2352
+#: server/savegame.c:2357
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -3603,6 +3602,18 @@ msgid ""
 "    a   = Fast attack unit (eg. Horsemen)\n"
 "    A   = Strong attack unit (eg. Catapult)\n"
 msgstr ""
+"Diese Zeichenkette gibt die zu Spielbeginn vorhandenen Einheiten an. Ein "
+"Stadtgründer muss mindestens enthalten sein. Bedeutung der Zeichen:\n"
+"    c   = Stadtgründer (z.B. Siedler)\n"
+"    w   = Arbeiter (z.B. Ingenieur)\n"
+"    x   = Kundschafter (z.B. Kundschafter)\n"
+"    k   = Spielentscheidende Einheit (z.B. König)\n"
+"    s   = Diplomat (z.B. Diplomat)\n"
+"    f   = Fährschiff (z.B. Trireme)\n"                         
+"    d   = Verteidiger (z.B. Krieger)\n"                  
+"    D   = Guter Verteidiger (z.B. Phalanx)\n"
+"    a   = Schneller Angreifer (z.B. Reiter)\n"
+"    A   = Starker Angreifer (z.B. Katapult)\n"
 
 #: server/stdinhand.c:435
 msgid "Area where initial units are located"
@@ -4003,8 +4014,9 @@ msgid ""
 "When changing government an intermission period of the specified length, in "
 "turns, occur. Setting this value to 0 will give a random length of 1-6 turns."
 msgstr ""
-"Beim Wechsel der Regierungsform gibt es eine Zwischenperiode von der angegebenen "
-"Anzahl Runden. Der Wert Null gibt eine zufällige Dauer von 1-6 Runden."
+"Beim Wechsel der Regierungsform gibt es eine Zwischenperiode von der "
+"angegebenen Anzahl Runden. Der Wert Null gibt eine zufällige Dauer von 1-6 "
+"Runden."
 
 #: server/stdinhand.c:720
 msgid "Whether to enable fog of war"
@@ -4553,15 +4565,17 @@ msgstr ""
 "Auf jedem angeschlossenen Client wird ein Fenster mit der eingegebenen "
 "Nachricht geöffnet."
 
-# ?
+# ? code buggy
 #: server/stdinhand.c:1210
 msgid "vote yes|no [vote number]"
 msgstr ""
 
+# ? code buggy
 #: server/stdinhand.c:1211
 msgid "Start or participate in a vote."
-msgstr "Starte oder nimm an einer Wahl teil."
+msgstr ""
 
+# ? code buggy
 #: server/stdinhand.c:1213
 #, no-c-format
 msgid ""
@@ -4573,19 +4587,22 @@ msgid ""
 "votes have been cast for or against."
 msgstr ""
 
+# ? buggy code
 #: server/stdinhand.c:1222
 msgid "debug <player <player> | city <x> <y> | units <x> <y> | unit <id>>"
 msgstr ""
 
 #: server/stdinhand.c:1223
 msgid "Turn on or off AI debugging of given entity."
-msgstr "Fehlersuche für KI für die Größe ein- oder ausschalten."
+msgstr "Fehlersuche für KI für ein Element ein- oder ausschalten."
 
 #: server/stdinhand.c:1224
 msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
 msgstr ""
+"Gibt Informationen zur KI Fehlersuche für das gegebene Spielelement aus und "
+"schaltet die fortlaufende Ausgabe ein oder aus."
 
 #: server/stdinhand.c:1228
 msgid "set <option-name> <value>"
@@ -5074,11 +5091,14 @@ msgstr "Serverausgabe ändern: 'RFC-Stl' oder 'Standard-Stil'"
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr ""
+"Der Befehl '%s' wurde in der Abstimmung mit %d to %d angenommen, "
+"bei %d Enthaltungen."
 
 #: server/stdinhand.c:1536
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
-msgstr ""
+msgstr "Der Befehl '%s' wurde in der Abstimmung mit %d gegen %d abgelehnt, "
+"bei %d Enthaltungen."
 
 #: server/stdinhand.c:1649
 msgid "(ambiguous)"
@@ -5518,15 +5538,15 @@ msgstr ""
 #: server/stdinhand.c:3246
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
-msgstr ""
+msgstr "Abstimmung %d über den Befehl '%s': %d dafür, %d dagegen"
 
 #: server/stdinhand.c:3252
 msgid "There are no votes going on."
-msgstr ""
+msgstr "Keine laufenden Abstimmungen."
 
 #: server/stdinhand.c:3273
 msgid "No legal last vote."
-msgstr ""
+msgstr "Die letzte Abstimmung war ungültig."
 
 #: server/stdinhand.c:3278
 msgid "Value must be integer."
@@ -5535,7 +5555,7 @@ msgstr "Wert muß ganzzahlig sein."
 #: server/stdinhand.c:3289
 #, c-format
 msgid "No such vote (%d), last is %d"
-msgstr ""
+msgstr "Keine Abstimmung Nr. %d, letzte Abstimmung ist Nr. %d"
 
 #: server/stdinhand.c:3294
 #, c-format
@@ -5545,8 +5565,9 @@ msgstr "Sie haben für '%s' gestimmt."
 #: server/stdinhand.c:3298
 #, c-format
 msgid "You voted against \"%s\""
-msgstr ""
+msgstr "Sie haben gegen '%s' gestimmt."
 
+# ? buggy code
 #: server/stdinhand.c:3325
 msgid ""
 "Undefined arguments. Usage: debug <player <player> | city <x> <y> | units "
@@ -5560,12 +5581,12 @@ msgstr "Befehl kann nur nach Spielbeginn verwendet werden."
 #: server/stdinhand.c:3358 server/stdinhand.c:3388
 #, c-format
 msgid "%s no longer debugged"
-msgstr ""
+msgstr "Fehlersuche für %s ausgeschaltet."
 
 #: server/stdinhand.c:3362
 #, c-format
 msgid "%s debugged"
-msgstr ""
+msgstr "Fehlersuche für %s eingeschaltet."
 
 #: server/stdinhand.c:3374 server/stdinhand.c:3402
 msgid "Value 2 & 3 must be integer."
@@ -5573,21 +5594,21 @@ msgstr "Werte 2 und 3 müssen ganzzahlig sein."
 
 #: server/stdinhand.c:3378 server/stdinhand.c:3406
 msgid "Bad map coordinates."
-msgstr ""
+msgstr "Falsche Koordinaten."
 
 #: server/stdinhand.c:3383
 msgid "No city at this coordinate."
-msgstr ""
+msgstr "Keine Stadt an diesen Koordinaten."
 
 #: server/stdinhand.c:3412 server/stdinhand.c:3438
 #, c-format
 msgid "%s's %s no longer debugged."
-msgstr ""
+msgstr "Fehlersuche für %ss %s ausgeschaltet."
 
 #: server/stdinhand.c:3416 server/stdinhand.c:3442
 #, c-format
 msgid "%s's %s debugged."
-msgstr ""
+msgstr "Fehlersuche für %ss %s eingeschaltet."
 
 #: server/stdinhand.c:3429
 msgid "Value 2 must be integer."
@@ -5596,7 +5617,7 @@ msgstr "Wert 2 muß ganzzahlig sein."
 #: server/stdinhand.c:3433
 #, c-format
 msgid "Unit %d does not exist."
-msgstr ""
+msgstr "Einheit %d existiert nicht."
 
 #: server/stdinhand.c:3489
 msgid "Undefined argument.  Usage: set <option> <value>."
@@ -5801,12 +5822,12 @@ msgstr "Unbekannter Befehl. '%shelp' gibt nähere Informationen."
 
 #: server/stdinhand.c:4300
 msgid "Your new vote cancelled your previous vote."
-msgstr ""
+msgstr "Deine Wahl wurde abgeändert."
 
 #: server/stdinhand.c:4308
 #, c-format
 msgid "New vote, no. %d, by %s: %s."
-msgstr ""
+msgstr "Neue Abstimmung Nr. %d von %s über den Befehl: %s"
 
 #: server/stdinhand.c:4328
 msgid "You are not allowed to use this command."
@@ -5823,12 +5844,13 @@ msgstr "Punktestände können erst nach Spielbeginn angesehen werden."
 #: server/stdinhand.c:4482
 #, c-format
 msgid "But %s is dead!"
-msgstr ""
+msgstr "Aber %s ist tot!"
 
 #: server/stdinhand.c:4501
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
+"Spiel wird beendet. Der Server startet neu, wenn sich alle Clients abgemeldet haben."
 
 #: server/stdinhand.c:4511
 msgid "Cannot end the game: no game running."
@@ -6028,6 +6050,8 @@ msgid ""
 "at least one city founder.  Try \n"
 "\"help startunits\"."
 msgstr ""
+"Die Zeichenkette für die Starteinheiten enthält keinen Stadtgründer.\n"
+"Hilfe mit 'help startunits'."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/unithand.c:153
@@ -6113,6 +6137,7 @@ msgstr "Spiel: %s hinzugefügt, um beim Wachstum von %s zu helfen."
 msgid "Game: Let's not build a city with such a stupid name."
 msgstr "Spiel: Eine Stadt sollte keinen solchen Namen haben."
 
+# ? zweimal %s?
 #: server/unithand.c:730
 #, c-format
 msgid "Game: Your bombarding %s%s became more experienced!"
@@ -6224,6 +6249,8 @@ msgstr "Spiel: Diese Truppenart kann keine Stadt einnehmen."
 msgid ""
 "Game: A transported unit is not allied to all units or city on target tile."
 msgstr ""
+"Spiel: Eine transportierte Einheit ist nicht mit allen Einheiten oder der Stadt "
+"auf dem Zielfeld alliiert."
 
 #: server/unithand.c:1205
 #, c-format
@@ -6304,7 +6331,7 @@ msgstr "Spiel: %s ging auf unsicherem Gelände verloren."
 #: server/unittools.c:353
 #, c-format
 msgid "%s unit lost on unsafe terrain"
-msgstr ""
+msgstr "%s ging auf unsicherem Gelände verloren"
 
 #: server/unittools.c:380
 #, c-format
@@ -6324,7 +6351,7 @@ msgstr "%s verlieren eine Einheit %s (Treibstoff)"
 #: server/unittools.c:610
 #, c-format
 msgid "Game: Your %s became more experienced!"
-msgstr ""
+msgstr "Spiel: Dein %s sammelte Erfahrung!"
 
 #: server/unittools.c:888
 #, c-format
@@ -6386,23 +6413,22 @@ msgstr "Spiel: Habe %s nach %s teleportiert."
 msgid "Game: Disbanded your %s."
 msgstr "Spiel: Einheit %s aufgelöst."
 
-# ?
 #: server/unittools.c:1586
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
-msgstr ""
+msgstr "Konnte %s nicht verteidigen, %s hat das Spiel verloren."
 
 #: server/unittools.c:1588
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
-"Durch den Verlust von %s ist das Spiel verloren.Seien Sie das nächste Mal "
+"Durch den Verlust von %s ist das Spiel verloren. Seien Sie das nächste Mal "
 "vorsichtiger!"
 
 #: server/unittools.c:1590
 #, c-format
 msgid "Player %s lost a game loss unit and died"
-msgstr "Spieler %s hat eine entscheidene Einheit verloren und ist tot."
+msgstr "Spieler %s hat die spielentscheidene Einheit verloren und ist tot."
 
 #: server/unittools.c:1679
 #, c-format
@@ -6589,7 +6615,7 @@ msgstr ""
 #: server/unittools.c:3001
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
-msgstr ""
+msgstr "Spiel: Befehle für %s verworfen, das Ziel ist ungültig."
 
 #: server/unittools.c:3011
 #, c-format
@@ -6599,7 +6625,7 @@ msgstr "Spiel: %s konnte Befehl nicht ausführen, da Einheiten im Weg sind."
 #: server/unittools.c:3037
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
-msgstr ""
+msgstr "Spiel: Befehle für %s verworfen, da der Zug nicht ausgeführt werden konnte."
 
 #: server/unittools.c:3047
 #, c-format
@@ -6608,7 +6634,7 @@ msgstr "Spiel: Befehle für %s sind ungültig."
 
 #: client/attribute.c:277
 msgid "Old attributes detected and removed."
-msgstr ""
+msgstr "Alte Attribute wurden entfernt."
 
 #: client/audio.c:131
 #, c-format
@@ -7360,6 +7386,8 @@ msgid ""
 "Couldn't connect to the server. We probably couldn't start it from here. "
 "You'll have to start one manually. Sorry..."
 msgstr ""
+"Kann nicht mit dem Server verbinden, wahrscheinlich konnte er von hier "
+"nicht gestartet werden. Bitte starte den Server von Hand."
 
 #: client/connectdlg_common.c:295
 msgid "We have control of the server (command access level hack)"
@@ -7626,12 +7654,12 @@ msgstr "* 50%% Verlustrisiko, falls am Rundenende auf hoher See.\n"
 #: client/helpdata.c:700
 #, c-format
 msgid "* The discovery of %s reduces the risk to 25%%.\n"
-msgstr ""
+msgstr "* Die Entdeckung von %s reduziert das Risiko auf 25%%.\n"
 
 #: client/helpdata.c:705
 #, c-format
 msgid "* %s reduces the risk to 12%%.\n"
-msgstr ""
+msgstr "* %s reduziert das Risiko auf 12%%.\n"
 
 #: client/helpdata.c:751
 msgid " or "
@@ -7694,12 +7722,12 @@ msgstr "* Marine-Einheiten erhalten einen zusätzlichen Bewegungspunkt.\n"
 #: client/helpdata.c:831
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-msgstr ""
+msgstr "* Reduziert die Gefahr, Schiffe auf hoher See zu verlieren, auf 25%%.\n"
 
 #: client/helpdata.c:834
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-msgstr ""
+msgstr "* Reduziert die Gefahr, Schiffe auf hoher See zu verlieren, auf 12%%.\n"
 
 #: client/helpdata.c:837
 #, c-format
@@ -7828,7 +7856,7 @@ msgstr "Akustisches Zeichen zu Beginn einer neuen Runde"
 
 #: client/options.c:97
 msgid "Unit movement animation time (milliseconds)"
-msgstr ""
+msgstr "Zeitdauer für Animation der Einheiten (Millisekunden)"
 
 #: client/options.c:98 client/gui-sdl/optiondlg.c:1014
 msgid "Show combat animation"
@@ -8200,7 +8228,7 @@ msgstr "Einheit: Verteidiger überlebt"
 
 #: client/options.c:264
 msgid "Unit: Became More Veteran"
-msgstr ""
+msgstr "Einheit: Verbesserter Veteranenstatus"
 
 #: client/options.c:265
 msgid "Unit: Production Upgraded"
@@ -8212,7 +8240,7 @@ msgstr "Einheit: Ortswechsel"
 
 #: client/options.c:267
 msgid "Unit: Orders / goto events"
-msgstr ""
+msgstr "Einheit: Befehle / Gehe nach"
 
 #: client/options.c:268
 msgid "Wonder: Finished"
@@ -8385,7 +8413,7 @@ msgstr "Server"
 
 #: client/plrdlg_common.c:213
 msgid "?Player_dlg:Idle"
-msgstr ""
+msgstr "Untätig"
 
 #: client/plrdlg_common.c:214 client/gui-gtk/plrdlg.c:143
 msgid "Ping"
@@ -8460,7 +8488,7 @@ msgstr "Kleine Siedlung"
 
 #: client/text.c:165
 msgid "Our Territory"
-msgstr ""
+msgstr "Unser Gebiet"
 
 #. TRANS: "Polish territory (5 turn ceasefire)"
 #: client/text.c:171
@@ -8610,11 +8638,10 @@ msgstr "Gold: %d"
 msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "Ste: %d Lux: %d For: %d"
 
-# ?
 #: client/text.c:489
 #, c-format
 msgid "Turns to target: %d"
-msgstr ""
+msgstr "Runden zum Ziel: %d"
 
 #: client/text.c:519
 #, c-format
@@ -8749,6 +8776,7 @@ msgstr "No usable default tileset found, aborting!"
 msgid "Trying \"%s\" tileset."
 msgstr "Verwende tileset '%s'."
 
+# CK: nicht übersetzt.
 #: client/tilespec.c:277
 #, c-format
 msgid ""
@@ -8757,6 +8785,10 @@ msgid ""
 "file options: %s\n"
 "supported options: %s"
 msgstr ""
+"%s file appears incompatible:\n"
+"file: \"%s\"\n"
+"file options: %s\n"   
+"supported options: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/tilespec.c:285
@@ -8805,32 +8837,38 @@ msgstr ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
 
+# CK: nicht übersetzt
 #: client/tilespec.c:763
 msgid "Invalid darkness style set in tileset."
-msgstr ""
+msgstr "Invalid darkness style set in tileset."
 
+# CK: nicht übersetzt
 #: client/tilespec.c:908
 #, c-format
 msgid ""
 "Error in %s layer %d: you cannot have tall terrain or\n"
 "a sprite offset with a cell-based drawing method."
 msgstr ""
+"Error in %s layer %d: you cannot have tall terrain or\n"
+"a sprite offset with a cell-based drawing method."
 
+# CK: nicht übersetzt
 #: client/tilespec.c:1075
 #, c-format
 msgid "No graphics for specialist %s."
-msgstr ""
+msgstr "No graphics for specialist %s."
 
+# CK: nicht übersetzt
 #: client/tilespec.c:1107
 #, c-format
 msgid "No graphics for citizen %s."
-msgstr ""
+msgstr "No graphics for citizen %s."
 
-# ?
+# CK: nicht übersetzt
 #: client/tilespec.c:1423
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
-msgstr ""
+msgstr "Don't have graphics tags %s or %s for %s %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/tilespec.c:2989
@@ -9561,7 +9599,7 @@ msgstr "Lade..."
 
 #: client/gui-gtk-2.0/connectdlg.c:576
 msgid "Choose Saved Game to Load"
-msgstr ""
+msgstr "Wähle zu ladendes Spiel"
 
 #: client/gui-gtk-2.0/connectdlg.c:588
 msgid "Welcome to Freeciv"
@@ -9613,7 +9651,7 @@ msgstr "Anzahl der Spieler:"
 
 #: client/gui-gtk-2.0/connectdlg.c:847
 msgid "AI skill level:"
-msgstr ""
+msgstr "KI Stärke:"
 
 #: client/gui-gtk-2.0/connectdlg.c:882 client/gui-gtk-2.0/dialogs.c:1485
 #: client/gui-gtk-2.0/wldlg.c:979 client/gui-gtk/plrdlg.c:140
@@ -9700,7 +9738,7 @@ msgstr "Kommentar"
 
 #: client/gui-gtk-2.0/connectdlg.c:1033 client/gui-gtk/connectdlg.c:491
 msgid "Local Area Network"
-msgstr ""
+msgstr "Lokales Netzwerk"
 
 #: client/gui-gtk-2.0/connectdlg.c:1169 client/gui-gtk/connectdlg.c:639
 #: client/gui-mui/connectdlg.c:272 client/gui-sdl/connectdlg.c:1167
@@ -10200,7 +10238,7 @@ msgstr "Gold:"
 
 #: client/gui-gtk-2.0/diplodlg.c:562 client/gui-gtk-2.0/diplodlg.c:618
 msgid "_Add Clause..."
-msgstr ""
+msgstr "Neue Klausel..."
 
 #: client/gui-gtk-2.0/diplodlg.c:858 client/gui-gtk/diplodlg.c:894
 #: client/gui-mui/diplodlg.c:382 client/gui-sdl/diplodlg.c:421
@@ -10275,7 +10313,7 @@ msgstr "Karte mit Laufbalken anzeigen"
 
 #: client/gui-gtk-2.0/gui_main.c:131 client/gui-gtk/gui_main.c:129
 msgid "Keyboardless goto"
-msgstr ""
+msgstr "Mausgesteuerte GeheNach Funktion"
 
 #: client/gui-gtk-2.0/gui_main.c:132
 msgid "Keep dialogs on top"
@@ -10283,11 +10321,11 @@ msgstr "Dialoge immer sichtbar"
 
 #: client/gui-gtk-2.0/gui_main.c:133
 msgid "Show worklist task icons"
-msgstr ""
+msgstr "Zeige Icons in der Arbeitsliste"
 
 #: client/gui-gtk-2.0/gui_main.c:134 client/gui-sdl/optiondlg.c:634
 msgid "Fullscreen Mode"
-msgstr ""
+msgstr "Ganzer Bildschirm"
 
 #: client/gui-gtk-2.0/gui_main.c:527 client/gui-gtk-2.0/gui_main.c:1102
 #: client/gui-gtk/gui_main.c:380 client/gui-gtk/gui_main.c:851
@@ -10759,6 +10797,8 @@ msgid ""
 "A local server is still running. Use \"Connect to Network Game\" to connect "
 "to it."
 msgstr ""
+"Es läuft noch ein lokaler Server. Benutze 'Mit Netzwerkspiel verbinden' um "
+"die Verbindung herzustellen."
 
 #: client/gui-gtk-2.0/menu.c:606 client/gui-gtk/menu.c:584
 #: client/gui-win32/menu.c:280
@@ -11549,7 +11589,7 @@ msgstr "_Alles verkaufen"
 #: client/gui-gtk-2.0/repodlgs.c:774
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr ""
+msgstr "Soll %s wirklich verkauft werden?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:776
 msgid "Sell Improvements"
@@ -11610,7 +11650,7 @@ msgstr "aktiv"
 
 #: client/gui-gtk-2.0/repodlgs.c:1026
 msgid "Find _Nearest"
-msgstr ""
+msgstr "Finde nächste"
 
 #: client/gui-gtk-2.0/repodlgs.c:1032 client/gui-mui/repodlgs.c:785
 msgid "_Upgrade"
@@ -13643,7 +13683,7 @@ msgstr "Name der Arbeitsliste"
 #: client/gui-sdl/chatline.c:458
 #, c-format
 msgid "Total users logged in : %d"
-msgstr ""
+msgstr "Anzahl der angemeldeten Benutzer : %d"
 
 #: client/gui-sdl/chatline.c:499
 msgid ""
@@ -13738,6 +13778,7 @@ msgstr "Verkaufen?"
 msgid "Options panel"
 msgstr "Optionenpanel"
 
+# ?
 #: client/gui-sdl/citydlg.c:2076
 #, c-format
 msgid "Unit maintenance panel (%d %s)"
@@ -13749,11 +13790,13 @@ msgid_plural "units"
 msgstr[0] "Einheit"
 msgstr[1] "Einheiten"
 
+# ?
 #: client/gui-sdl/citydlg.c:2137
 #, c-format
 msgid "Garrison Panel (%d %s)"
 msgstr ""
 
+# ?
 #: client/gui-sdl/citydlg.c:2189
 msgid "Info Panel"
 msgstr ""
@@ -13802,7 +13845,7 @@ msgstr "Produktion : %d (%d) pro Runde"
 #: client/gui-sdl/citydlg.c:2858
 #, c-format
 msgid "?production:Support : %d"
-msgstr ""
+msgstr "Unterhalt : %d"
 
 #: client/gui-sdl/citydlg.c:2895
 #, c-format
@@ -13845,7 +13888,7 @@ msgstr "Stadtwachstum : nie"
 #: client/gui-sdl/citydlg.c:3137
 #, c-format
 msgid "City shrinks : %d %s"
-msgstr ""
+msgstr "Stadt schrumpft : %d %s"
 
 #: client/gui-sdl/citydlg.c:3138 client/gui-sdl/citydlg.c:3142
 #: client/gui-sdl/citydlg.c:3449 client/gui-sdl/cityrep.c:527
@@ -13893,10 +13936,12 @@ msgstr "- von ASV gesteuert."
 msgid "Information panel"
 msgstr "Informationspanel"
 
+# ?
 #: client/gui-sdl/citydlg.c:3843
 msgid "Garrison panel"
 msgstr ""
 
+# ?
 #: client/gui-sdl/citydlg.c:3855
 msgid "Maintenance panel"
 msgstr ""
@@ -13919,7 +13964,6 @@ msgstr "Größe"
 
 # ?
 #: client/gui-sdl/cityrep.c:161
-#, fuzzy
 msgid ""
 "time\n"
 "to grow"
@@ -14023,13 +14067,14 @@ msgstr ""
 
 #: client/gui-sdl/connectdlg.c:1077
 msgid "Join LAN Server"
-msgstr ""
+msgstr "Verbinde mit LAN-Server"
 
 #: client/gui-sdl/connectdlg.c:1087 client/gui-sdl/optiondlg.c:2050
 #: client/gui-sdl/optiondlg.c:2086 data/Freeciv:1221
 msgid "Options"
 msgstr "Optionen"
 
+# ?
 #: client/gui-sdl/connectdlg.c:1142
 msgid "SDLClient welcomes you..."
 msgstr ""
@@ -14039,8 +14084,8 @@ msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
 msgstr ""
-"Freeciv ist freie Software und darf unter bestimmten Bedingungen kopiert "
-"und weitergegeben werden;"
+"Freeciv ist freie Software und darf unter bestimmten Bedingungen kopiert und "
+"weitergegeben werden;"
 
 #: client/gui-sdl/connectdlg.c:1147
 msgid "See the \"Copying\" item on the Help menu."
@@ -14105,6 +14150,8 @@ msgid ""
 "\n"
 "Our Territory"
 msgstr ""
+"\n"
+"Unser Gebiet"
 
 #: client/gui-sdl/dialogs.c:940 client/gui-sdl/mapview.c:662
 #, c-format
@@ -14149,6 +14196,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
+# ?
 #. TRANS: "\nCity: <name> (<nation>,<diplomatic_state>)"
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/dialogs.c:976 client/gui-sdl/mapview.c:726
@@ -14159,34 +14207,31 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/dialogs.c:985
-#, fuzzy
 msgid "Terrain : UNKNOWN"
-msgstr "Gelände: %s"
+msgstr "Gelände: UNBEKANNT"
 
 #: client/gui-sdl/dialogs.c:1293
 #, fuzzy
 msgid "Advanced Menu"
 msgstr "Forschungsergebnisse"
 
+# ?
 #: client/gui-sdl/dialogs.c:1346
 #, c-format
 msgid "Zoom to : %s"
 msgstr ""
 
 #: client/gui-sdl/dialogs.c:1384
-#, fuzzy
 msgid "Change C.M.A Settings"
-msgstr "Lokale Einstellungen speichern"
+msgstr "Ändere ASV-Einstellung"
 
 #: client/gui-sdl/dialogs.c:1405
-#, fuzzy
 msgid "Goto here"
-msgstr "Gehe nach"
+msgstr "Gehe hierher"
 
 #: client/gui-sdl/dialogs.c:1416
-#, fuzzy
 msgid "Patrol here"
-msgstr "Patrouillieren"
+msgstr "Patrouilliere hier"
 
 #: client/gui-sdl/dialogs.c:1429
 #, fuzzy
@@ -14198,15 +14243,17 @@ msgstr "Verbinden"
 msgid "Paradrop here"
 msgstr "Fallschirmspringen"
 
+# ?
 #: client/gui-sdl/dialogs.c:1498 client/gui-sdl/dialogs.c:1614
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
 msgstr ""
 
+# ? M?
 #: client/gui-sdl/dialogs.c:1516 client/gui-sdl/dialogs.c:1641
 #, fuzzy, c-format
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr "A:%d V:%d FK:%d TP:%d0%%"
+msgstr "%s %s %s (A:%d V:%d M:%d FK:%d) TP:%d%%"
 
 #: client/gui-sdl/dialogs.c:1586
 #, fuzzy
@@ -14216,7 +14263,7 @@ msgstr "_Einheiten stationieren"
 #: client/gui-sdl/dialogs.c:1672
 #, c-format
 msgid "View Civiliopedia entry for %s"
-msgstr ""
+msgstr "Civiliopedia Eintrag für %s ansehen"
 
 #: client/gui-sdl/dialogs.c:1850
 #, fuzzy, c-format
@@ -14226,7 +14273,7 @@ msgstr "Karawane ist angekommen"
 #: client/gui-sdl/dialogs.c:1873
 #, c-format
 msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-msgstr ""
+msgstr "Handelsroute mit %s (%d F&G + %d Handel)"
 
 #: client/gui-sdl/dialogs.c:1879
 #, fuzzy, c-format
@@ -14290,6 +14337,7 @@ msgstr "Weltkarte"
 msgid "Sea map"
 msgstr "Seekarte"
 
+# ?
 #: client/gui-sdl/diplodlg.c:1078
 #, c-format
 msgid "%s incident !"
@@ -14297,13 +14345,13 @@ msgstr ""
 
 #: client/gui-sdl/diplodlg.c:1094
 msgid "Shall we declare WAR on them?"
-msgstr ""
+msgstr "Sollen wir ihnen den KRIEG erklären?"
 
 #: client/gui-sdl/diplodlg.c:1207
-#, fuzzy
 msgid "Foreign Minister"
-msgstr "Premierminister"
+msgstr "Aussenminister"
 
+# ?
 #: client/gui-sdl/diplodlg.c:1223
 #, c-format
 msgid ""
@@ -14313,7 +14361,7 @@ msgstr ""
 
 #: client/gui-sdl/diplodlg.c:1240
 msgid "Declare WAR"
-msgstr ""
+msgstr "KRIEG erklären"
 
 #: client/gui-sdl/diplodlg.c:1242 client/gui-win32/plrdlg.c:359
 msgid "Cancel Treaty"
@@ -14331,82 +14379,93 @@ msgstr "Konferenz"
 
 #: client/gui-sdl/diplodlg.c:1296
 msgid "Send him back"
-msgstr ""
+msgstr "Zurückschicken"
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:186
 #, c-format
 msgid "load_surf: Failed to load graphic file %s!"
-msgstr ""
+msgstr "load_surf: Failed to load graphic file %s!"
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:194
 #, c-format
 msgid "load_surf: Unable to convert file %s into screen's format!"
-msgstr ""
+msgstr "load_surf: Unable to convert file %s into screen's format!"
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:216
 #, c-format
 msgid "load_surf_with_flags: Unable to load file %s."
-msgstr ""
+msgstr "load_surf_with_flags: Unable to load file %s."
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:222
 #, c-format
 msgid "Unable to convert image from file %s into format %d."
-msgstr ""
+msgstr "Unable to convert image from file %s into format %d."
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:247
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
-msgstr ""
+msgstr "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:847
 #, c-format
 msgid "Unable to initialize SDL library: %s"
-msgstr ""
+msgstr "Unable to initialize SDL library: %s"
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:856
 #, c-format
 msgid "Unable to initialize  SDL_ttf library: %s"
-msgstr ""
+msgstr "Unable to initialize  SDL_ttf library: %s"
 
 #: client/gui-sdl/graphics.c:894
 #, c-format
 msgid "No available mode for this resolution : %d x %d %d bpp"
-msgstr ""
+msgstr "Kein Modus verfügbar für diese Auflösung: %d x %d %d bpp"
 
 #: client/gui-sdl/graphics.c:897
 msgid "Setting default resolution to : 640 x 480 16 bpp SW"
-msgstr ""
+msgstr "Setze Standardauflösung auf: 640 x 480 16 bpp SW"
 
 #: client/gui-sdl/graphics.c:904
 #, c-format
 msgid "Unable to set this resolution: %d x %d %d bpp %s"
-msgstr ""
+msgstr "Kann diese Auflösung nicht setzen: %d x %d %d bpp %s"
 
 #: client/gui-sdl/graphics.c:912
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
-msgstr ""
+msgstr "Setze Auflösung auf: %d x %d %d bpp"
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:3711
 #, c-format
 msgid "load_surf: Unable to load graphic file %s!"
-msgstr ""
+msgstr "load_surf: Unable to load graphic file %s!"
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:3722
 #, c-format
 msgid "%s load with own %d bpp format !"
-msgstr ""
+msgstr "%s load with own %d bpp format !"
 
+# CK: nicht übersetzt
 #: client/gui-sdl/graphics.c:3727
 #, c-format
 msgid "%s (%d bpp) load with screen (%d bpp) format !"
-msgstr ""
+msgstr "%s (%d bpp) load with screen (%d bpp) format !"
 
 #: client/gui-sdl/gui_main.c:154
 #, c-format
 msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
-msgstr ""
+msgstr "  -f,  --fullscreen\tAnzeige auf ganzem Bildschirm\n"
 
+# ?
 #: client/gui-sdl/gui_main.c:155
 #, c-format
 msgid ""
@@ -14414,6 +14473,7 @@ msgid ""
 "BeOS)\n"
 msgstr ""
 
+# ?
 #: client/gui-sdl/gui_main.c:709
 #, c-format
 msgid "Using Video Output: %s"
@@ -14421,20 +14481,20 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:752
 msgid "Initializing Client"
-msgstr ""
+msgstr "Client wird initialisiert"
 
 #: client/gui-sdl/gui_main.c:763
 msgid "Waiting for the beginning of the game"
-msgstr ""
+msgstr "Warte auf Spielbeginn"
 
 #: client/gui-sdl/gui_string.c:145
 msgid "Error in create_string16: Aborting ..."
-msgstr ""
+msgstr "Error in create_string16: Aborting ..."
 
 #: client/gui-sdl/gui_string.c:208
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't blit text to display: %s"
-msgstr "Kann Datei '%s' nicht laden"
+msgstr ""
 
 #: client/gui-sdl/gui_string.c:246
 #, c-format
@@ -14479,7 +14539,7 @@ msgstr ""
 #: client/gui-sdl/inteldlg.c:131
 #, fuzzy, c-format
 msgid "Intelligence Information about %s Spaceship"
-msgstr "Geheimdienstinformationen über das %se Imperium"
+msgstr "Geheimdienstinformationen über das Raumschiff der %s"
 
 #: client/gui-sdl/inteldlg.c:158
 #, c-format
@@ -14489,6 +14549,10 @@ msgid ""
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: %s(%d/%d)"
 msgstr ""
+"Herrscher: %s %s  Regierung: %s\n"
+"Hauptstadt: %s  Gold: %d\n"
+"Steuern: %d%% Forschung: %d%% Luxus: %d%%\n"
+"Erforscht: %s(%d/%d)"
 
 #: client/gui-sdl/inteldlg.c:218
 msgid "Their techs that we don't have :"
@@ -14496,44 +14560,43 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:256
 msgid "Show Unit Info Window"
-msgstr ""
+msgstr "Zeige Einheiten"
 
 #: client/gui-sdl/mapctrl.c:311 client/gui-sdl/mapctrl.c:1493
 msgid "Hide Unit Info Window"
-msgstr ""
+msgstr "Verberge Einheiten"
 
 #: client/gui-sdl/mapctrl.c:364
 msgid "Show MiniMap"
-msgstr ""
+msgstr "Zeige Übersichtskarte"
 
 #: client/gui-sdl/mapctrl.c:438 client/gui-sdl/mapctrl.c:1616
 msgid "Hide MiniMap"
-msgstr ""
+msgstr "Verberge Übersichtskarte"
 
 #: client/gui-sdl/mapctrl.c:483
 msgid "Show Log (F10)"
-msgstr ""
+msgstr "Zeige Nachrichten (F10)"
 
 #: client/gui-sdl/mapctrl.c:486 client/gui-sdl/mapctrl.c:1583
 msgid "Hide Log (F10)"
-msgstr ""
+msgstr "Verberge Nachrichten (F10)"
 
 #: client/gui-sdl/mapctrl.c:627
 msgid "Single Tile Width"
-msgstr ""
+msgstr "Felderbreite"
 
 #: client/gui-sdl/mapctrl.c:631
 msgid "Single Tile Height"
-msgstr ""
+msgstr "Felderhöhe"
 
 #: client/gui-sdl/mapctrl.c:639
 msgid "Scale Minimap"
-msgstr ""
+msgstr "Skaliere Übersichtskarte"
 
 #: client/gui-sdl/mapctrl.c:693 client/gui-sdl/mapctrl.c:940
-#, fuzzy
 msgid "Exit"
-msgstr "Bearbeiten"
+msgstr "Ende"
 
 #: client/gui-sdl/mapctrl.c:888
 #, fuzzy
@@ -14547,26 +14610,23 @@ msgstr "Lastwagen"
 
 #: client/gui-sdl/mapctrl.c:901
 msgid "Scale Unit Info"
-msgstr ""
+msgstr "Skaliere Einheiteninfo"
 
 #: client/gui-sdl/mapctrl.c:1435
-#, fuzzy
 msgid "Economy (F5)"
-msgstr "Wirtschaft"
+msgstr "Wirtschaft (F5)"
 
 #: client/gui-sdl/mapctrl.c:1449
-#, fuzzy
 msgid "Research (F6)"
-msgstr "_Erforsche"
+msgstr "Forschung (F6)"
 
 #: client/gui-sdl/mapctrl.c:1465
-#, fuzzy
 msgid "Revolution (Shift + R)"
-msgstr "Revolution"
+msgstr "Revolution (Shift + R)"
 
 #: client/gui-sdl/mapctrl.c:1530
 msgid "End Turn (Enter)"
-msgstr ""
+msgstr "Rundenende (Enter)"
 
 #: client/gui-sdl/mapctrl.c:1545
 #, fuzzy
@@ -14581,13 +14641,12 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/mapctrl.c:1572
-#, fuzzy
 msgid "Units (F2)"
-msgstr "Einheiten: "
+msgstr "Einheiten (F2)"
 
 #: client/gui-sdl/mapctrl.c:1594
 msgid "Toggle Minimap Mode (Shift + \\)"
-msgstr ""
+msgstr "Übersichtsmodus wechseln (Shift + \\)"
 
 #: client/gui-sdl/mapctrl.c:2164 client/gui-win32/connectdlg.c:1161
 #: client/gui-win32/inputdlg.c:145
@@ -14600,6 +14659,9 @@ msgid ""
 "as a result.  If you see this message often, please\n"
 "report it to freeciv-dev@freeciv.org."
 msgstr ""
+"Der SDL Ereignispuffer ist voll; als Folge können Grafikfehler\n"
+"auftreten. Wenn diese Meldung öfter erscheint, bitte an\n"
+"freeciv-dev@freeciv.org berichten."
 
 #: client/gui-sdl/mapview.c:433
 #, c-format
@@ -14607,6 +14669,8 @@ msgid ""
 "Revolution (Shift + R)\n"
 "%s"
 msgstr ""
+"Revolution (Shift + R)\n"
+"%s"
 
 #: client/gui-sdl/mapview.c:466
 #, fuzzy, c-format
@@ -14666,21 +14730,20 @@ msgid ""
 "End of Turn\n"
 "(Press Enter)"
 msgstr ""
+"Rundenende\n"   
+"(Enter drücken)"
 
 #: client/gui-sdl/mapview.c:2239
 msgid "sprite is NULL"
 msgstr ""
 
 #: client/gui-sdl/menu.c:368
-#, fuzzy
 msgid "No orders"
-msgstr "Landesgrenzen"
+msgstr "Keine Befehle"
 
-#
 #: client/gui-sdl/menu.c:443
-#, fuzzy
 msgid "Goto City"
-msgstr "Aktivieren"
+msgstr "Gehe nach Stadt"
 
 #: client/gui-sdl/menu.c:453 client/gui-win32/gotodlg.c:166 data/Freeciv:1134
 msgid "Airlift"
@@ -14692,12 +14755,10 @@ msgid "Goto location"
 msgstr "Gehe nach"
 
 #: client/gui-sdl/menu.c:494
-#, fuzzy
 msgid "Auto-Explore"
 msgstr "Automatisch erkunden"
 
 #: client/gui-sdl/menu.c:505 client/gui-sdl/menu.c:1180
-#, fuzzy
 msgid "Auto-Attack"
 msgstr "Automatisch angreifen"
 
