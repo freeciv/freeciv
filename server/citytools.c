@@ -832,6 +832,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     struct city *pother_city = find_city_by_id(pcity->trade[i]);
     if (pother_city) {
+      reality_check_city(ptaker, pother_city->tile);
       update_dumb_city(ptaker, pother_city);
       send_city_info(ptaker, pother_city);
     }
@@ -1463,7 +1464,7 @@ is NULL, this function calls map_get_city(x,y) (it is ok if this
 returns NULL).
 
 Sometimes a player's map contain a city that doesn't actually exist. Use
-reality_check_city(pplayer, x,y) to update that. Remember to NOT send info
+reality_check_city(pplayer, ptile) to update that. Remember to NOT send info
 about a city to a player who thinks the tile contains another city. If you
 want to update the clients info of the tile you must use
 reality_check_city(pplayer, ptile) first. This is generally taken care of
@@ -1608,7 +1609,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 /**************************************************************************
 updates a players knowledge about a city. If the player_tile already
 contains a city it must be the same city (avoid problems by always calling
-reality_check city first)
+reality_check_city() first)
 
 Returns TRUE iff anything has changed for the player city (i.e., if the
 client needs to be updated with a *short* city packet).  This information
