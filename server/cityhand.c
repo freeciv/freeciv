@@ -340,6 +340,12 @@ void handle_city_change(struct player *pplayer, int city_id, int build_id,
     return;
   }
 
+  if (pcity->is_building_unit == is_build_id_unit_id
+      && pcity->currently_building == build_id) {
+    /* The client probably shouldn't send such a packet. */
+    return;
+  }
+
    if (is_build_id_unit_id && !can_build_unit(pcity, build_id))
      return;
    if (!is_build_id_unit_id && !can_build_improvement(pcity, build_id))
