@@ -1948,7 +1948,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   int id = punit->id;
   int ct = 10;
 
-  assert(punit);
+  assert(punit != NULL);
   if (punit->activity == ACTIVITY_GOTO) {
     return;
   }
@@ -2230,8 +2230,6 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
 {
   int id = punit->id;
 
-  assert(punit);
-
   if (punit->activity != ACTIVITY_IDLE)
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
 
@@ -2251,7 +2249,6 @@ static void ai_manage_military(struct player *pplayer, struct unit *punit)
   }
 #endif
 
-  assert(punit);  
   switch (punit->ai.ai_role) {
   case AIUNIT_AUTO_SETTLER:
   case AIUNIT_BUILD_CITY:

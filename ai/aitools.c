@@ -90,9 +90,9 @@ static void ai_unit_bodyguard_move(int unitid, int x, int y)
   struct unit *punit;
   struct player *pplayer;
 
-  assert(bodyguard);
+  assert(bodyguard != NULL);
   pplayer = unit_owner(bodyguard);
-  assert(pplayer);
+  assert(pplayer != NULL);
   punit = find_unit_by_id(bodyguard->ai.charge);
   assert(punit);
 
@@ -145,7 +145,7 @@ void ai_unit_attack(struct unit *punit, int x, int y)
   struct packet_move_unit pmove;
   int sanity = punit->id;
 
-  assert(punit);
+  assert(punit != NULL);
   assert(unit_owner(punit)->ai.control);
   assert(is_normal_map_pos(x, y));
   assert(is_tiles_adjacent(punit->x, punit->y, x, y));
@@ -177,7 +177,7 @@ bool ai_unit_move(struct unit *punit, int x, int y)
   struct player *pplayer = unit_owner(punit);
   struct tile *ptile = map_get_tile(x,y);
 
-  assert(punit);
+  assert(punit != NULL);
   assert(unit_owner(punit)->ai.control);
   assert(is_normal_map_pos(x, y));
   assert(is_tiles_adjacent(punit->x, punit->y, x, y));

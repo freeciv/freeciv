@@ -843,7 +843,8 @@ static int unit_foodbox_cost(struct unit *punit)
   if (punit->id == 0) {
     /* It is a virtual unit, so must start in a city... */
     struct city *pcity = map_get_city(punit->x, punit->y);
-    assert(pcity);
+
+    assert(pcity != NULL);
     cost = city_granary_size(pcity->size);
     if (city_got_effect(pcity, B_GRANARY)) { cost /= 2; }
   }
