@@ -3,6 +3,14 @@ TODO:
  - goto should be looked at, unit with moves left after goto is not active 
    anylonger.
 
+1.5.5 
+-Enemy unit stacks now show a "+" in the corner. Unit stacks are of course
+still not viewable
+
+-Submarines can no longer attack land based tiles. Thanks Peter!
+
+-Optimization in the AI code, in particular auto-settlers. 
+
 1.5.4 
 - Small, very basic ai has been included. It needs a lot of work. Any
 volunteers? 
