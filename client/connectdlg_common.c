@@ -37,7 +37,6 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <sys/wait.h>
 
 #include "fcintl.h"
-#include "log.h"
 #include "mem.h"
 #include "netintf.h"
 #include "rand.h"
