@@ -369,31 +369,30 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 { /* I prefer the ai_choice as a return value; gcc prefers it as an arg -- Syela */
   int i;
   int id = B_LAST;
-  int j = 0, k = 0, dis;
+  int prod = 0, danger = 0, downtown = 0, cities = 0;
   int want=0;
-  struct city *capital;
   struct player *plr;
         
   plr = &game.players[pcity->owner];
-  capital=find_palace(plr);
-  if (capital) dis = real_map_distance(capital->x, capital->y, pcity->x, pcity->y);
-  else dis = 999; /* we have better things to do when we have no capital */
      
   /* too bad plr->score isn't kept up to date. */
   city_list_iterate(plr->cities, acity)
-    j += pcity->shield_prod;
-    k++;
+    prod += pcity->shield_prod;
+    danger += pcity->ai.danger;
+    downtown += pcity->ai.downtown;
+    cities++;
   city_list_iterate_end;
-  if (!k) printf("Gonna crash, 0 k, looking at %s (ai_adv_ch_bu)\n", pcity->name);
  
   for(i=0; i<B_LAST; i++) {
     if (!is_wonder(i) ||  (!built_elsewhere(pcity, i) &&
         !is_building_other_wonder(pcity) &&
 /* city_got_building(pcity, B_TEMPLE) && - too much to ask for, I think */
         !pcity->ai.grave_danger && /* otherwise caravans will be killed! */
-/* might be OK if I forced all AI players to take mysticism early */
-        dis < 12 && pcity->shield_prod >= j / k)) { /* too many restrictions? */
+/*        pcity->shield_prod * cities >= prod &&         this shouldn't matter much */
+        pcity->ai.downtown * cities >= downtown &&
+        pcity->ai.danger * cities <= danger)) { /* too many restrictions? */
 /* trying to keep wonders in safe places with easy caravan access -- Syela */
+/* new code 980620; old code proved grossly inadequate after extensive testing -- Syela */
       if(pcity->ai.building_want[i]>want) {
 /* we have to do the can_build check to avoid Built Granary.  Now Building Granary. */
         if (can_build_improvement(pcity, i)) {
