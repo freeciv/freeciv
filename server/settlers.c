@@ -775,21 +775,6 @@ Unit_Type_id find_boat(struct player *pplayer, int *x, int *y, int cap)
     }
   unit_list_iterate_end;
   if (id != 0) return(id);
-#ifdef ALLOW_VIRTUAL_BOATS
-  city_list_iterate(pplayer->cities, pcity)
-    if (pcity->is_building_unit &&
-        unit_types[pcity->currently_building].transport_capacity &&
-        !unit_flag(pcity->currently_building, F_CARRIER) &&
-	!unit_flag(pcity->currently_building, F_MISSILE_CARRIER)) {
-      if (WARMAP_COST(pcity->x, pcity->y) < best) {
-        id = pcity->id;
-        best = WARMAP_COST(pcity->x, pcity->y);
-        *x = pcity->x;
-        *y = pcity->y;
-      }
-    }
-  city_list_iterate_end;
-#endif
   return(id);
 }
 
