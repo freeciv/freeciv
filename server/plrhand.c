@@ -827,7 +827,10 @@ void handle_player_rates(struct player *pplayer,
     pplayer->economic.tax=preq->tax;
     pplayer->economic.luxury=preq->luxury;
     pplayer->economic.science=preq->science;
+    connection_do_buffer(pplayer->conn);
     send_player_info(pplayer, pplayer);
+    global_city_refresh(pplayer);
+    connection_do_unbuffer(pplayer->conn);
   }
 }
 
