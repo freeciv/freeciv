@@ -125,9 +125,10 @@ static gint timer_id;                               /*       ditto        */
 static gint gdk_input_id;
 
 client_option gui_options[] = {
-  GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators")),
-  GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars")),
-  GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto")),
+  GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators"),
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars"), COC_INTERFACE),
+  GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto"), COC_INTERFACE),
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 

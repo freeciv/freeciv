@@ -133,14 +133,22 @@ GtkWidget *flake_ebox;
 GtkWidget *government_ebox;
 
 client_option gui_options[] = {
-  GEN_BOOL_OPTION(meta_accelerators,	N_("Use Alt/Meta for accelerators")),
-  GEN_BOOL_OPTION(map_scrollbars,	N_("Show Map Scrollbars")),
-  GEN_BOOL_OPTION(keyboardless_goto,	N_("Keyboardless goto")),
-  GEN_BOOL_OPTION(dialogs_on_top,	N_("Keep dialogs on top")),
-  GEN_BOOL_OPTION(show_task_icons,	N_("Show worklist task icons")),
-  GEN_BOOL_OPTION(fullscreen_mode,	N_("Fullscreen Mode")),
-  GEN_BOOL_OPTION(enable_tabs,		N_("Enable status report tabs")),
-  GEN_BOOL_OPTION(solid_unit_icon_bg,	N_("Solid unit icon background color"))
+  GEN_BOOL_OPTION(meta_accelerators, N_("Use Alt/Meta for accelerators"),
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(map_scrollbars, N_("Show Map Scrollbars"),
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(keyboardless_goto, N_("Keyboardless goto"),
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(dialogs_on_top, N_("Keep dialogs on top"),
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(show_task_icons, N_("Show worklist task icons"),
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(fullscreen_mode, N_("Fullscreen Mode"),
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(enable_tabs, N_("Enable status report tabs"),
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(solid_unit_icon_bg,N_("Solid unit icon background color"),
+		  COC_INTERFACE)
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 

@@ -55,9 +55,18 @@ enum client_option_type {
   COT_STR
 };
 
+enum client_option_class {
+  COC_GRAPHICS,
+  COC_INTERFACE,
+  COC_MISCELLANEOUS
+};
+
+extern const char *client_option_class_names[];
+
 typedef struct client_option {
   const char *name;
   const char *description;
+  enum client_option_class class;
   enum client_option_type type;
   int *p_int_value;
   bool *p_bool_value;
@@ -76,16 +85,14 @@ typedef struct client_option {
 } client_option;
 extern client_option *options;
 
-#define GEN_INT_OPTION(oname, desc) { #oname, desc, COT_INT, \
-                                      &oname, NULL, NULL, 0, NULL, \
-                                       NULL, NULL }
-#define GEN_BOOL_OPTION(oname, desc) { #oname, desc, COT_BOOL, \
-                                       NULL, &oname, NULL, 0, NULL, \
-                                       NULL, NULL }
-#define GEN_STR_OPTION(oname, desc, str_defaults, callback) \
-                                    { #oname, desc, COT_STR, \
-                                      NULL, NULL, oname, sizeof(oname), \
-                                      callback, str_defaults, NULL }
+#define GEN_INT_OPTION(oname, desc, class) { #oname, desc, class, COT_INT, \
+                                             &oname, NULL, NULL, 0, NULL, \
+                                             NULL, NULL }
+#define GEN_BOOL_OPTION(oname, desc, class) \
+  { #oname, desc, class, COT_BOOL, NULL, &oname, NULL, 0, NULL, NULL, NULL }
+#define GEN_STR_OPTION(oname, desc, class, str_defaults, callback) \
+  { #oname, desc, class, COT_STR, NULL, NULL, oname, sizeof(oname), \
+    callback, str_defaults, NULL }
 
 extern int num_options;
 
