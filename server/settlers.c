@@ -396,7 +396,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
     ptile->terrain = new_terrain;
     map_clear_special(map_x, map_y, S_MINE);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
-    ptile->terrain = new_terrain;
+    ptile->terrain = old_terrain;
     ptile->special = old_special;
     return goodness;
   } else if (old_terrain == new_terrain
@@ -1219,6 +1219,12 @@ void initialize_infrastructure_cache(struct player *pplayer)
 
     city_map_checked_iterate(pcity->x, pcity->y,
 			     city_x, city_y, map_x, map_y) {
+#ifndef NDEBUG
+      struct tile *ptile = map_get_tile(map_x, map_y);
+      enum tile_terrain_type old_terrain = ptile->terrain;
+      enum tile_special_type old_special = ptile->special;
+#endif
+
       pcity->ai.detox[city_x][city_y]
 	= ai_calc_pollution(pcity, city_x, city_y, best, map_x, map_y);
       pcity->ai.derad[city_x][city_y] =
@@ -1237,6 +1243,9 @@ void initialize_infrastructure_cache(struct player *pplayer)
 	= ai_calc_road(pcity, pplayer, city_x, city_y, map_x, map_y);
       pcity->ai.railroad[city_x][city_y] =
 	ai_calc_railroad(pcity, pplayer, city_x, city_y, map_x, map_y);
+
+      /* Make sure nothing was accidentally changed by these calculations. */
+      assert(old_terrain == ptile->terrain && old_special == ptile->special);
     } city_map_checked_iterate_end;
   } city_list_iterate_end;
 }
