@@ -160,7 +160,15 @@ fallout_trade_penalty=50
 ; flags                = General flags for this terrain:
 ;   - NoBarbs          = Barbarians will not be spawned here.
 ;   - NoPollution      = Pollution will not be put on this terrain type.
+;   - NoCities         = Cities may not be built or found on this terrain.
 ;   - Starter          = Players will only be started on "Starter" terrain.
+;   - CanHaveRiver     = Set to 1 if this terrain can have river on it (the
+;                        actual chance of river generation is controlled
+;                        separately).
+;   - UnsafeCoast      = This terrain does not provide a safe coast for
+;                        F_TRIRIEME units.
+;   - Unsafe           = This terrain is unsafe for alll units that travel
+;                        on it.
 ;   - Oceanic          = This is an "ocean" terrain.  This has a big effect
 ;                        on gameplay.  Naval units can move on oceanic terrain,
 ;                        while land units cannot.  Oceanic tiles can be used
@@ -169,9 +177,6 @@ fallout_trade_penalty=50
 ;                        units.  Most terrain improvements can only be built
 ;                        on land.  Oceanic terrain has no zones of control.
 ;                        The list goes on.
-;   - CanHaveRiver     = Set to 1 if this terrain can have river on it (the
-;                        actual chance of river generation is controlled
-;                        separately).
 ; helptext	       = optional help text string; should escape all raw 
 ;		         newlines so that xgettext parsing works
 
