@@ -584,7 +584,15 @@ static int ai_rampage_want(struct unit *punit, int x, int y)
       int vuln = unit_def_rating_sq(punit, pdef);
       int benefit = stack_cost(pdef);
       int loss = unit_build_shield_cost(punit->type);
-      
+      double chance = unit_win_chance(punit, pdef);
+
+      if (chance < 0.005) {
+        /* Forget it! At least a tiny chance is needed here... */
+        UNIT_LOG(LOG_DEBUG, punit, "Rampage: No chance against %s(%d,%d)!",
+                 unit_name(pdef->type), pdef->x, pdef->y);
+        return 0;
+      }
+
       attack *= attack;
       
       /* If the victim is in the city/fortress, we correct the benefit
