@@ -745,7 +745,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   ntitles = ARRAY_SIZE(titles) - (pcity ? 0 : 1);
  
   /* create shell. */ 
-  editor = gtk_vbox_new(FALSE, 0);
+  editor = gtk_vbox_new(FALSE, 6);
   g_signal_connect(editor, "destroy", G_CALLBACK(worklist_destroy), pwl);
   g_object_set_data(G_OBJECT(editor), "data", ptr);
 
@@ -850,7 +850,7 @@ GtkWidget *create_worklist(struct worklist *pwl, struct city *pcity)
   /* add bottom menu and buttons. */
   bbox = gtk_hbutton_box_new();
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
-  gtk_container_set_border_width(GTK_CONTAINER(bbox), 6);
+  gtk_box_set_spacing(GTK_BOX(bbox), 10);
   gtk_box_pack_start(GTK_BOX(editor), bbox, FALSE, FALSE, 0);
   
   menubar = gtk_menu_bar_new();
