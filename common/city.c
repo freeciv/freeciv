@@ -267,7 +267,7 @@ char *get_impr_name_ex(struct city *pcity, Impr_Type_id id)
     default:						break;
     }
   } else if (is_wonder(id)) {
-    if (game.global_wonders[id]) {
+    if (game.global_wonders[id] != 0) {
       state = Q_("?built:B");
     } else {
       state = Q_("?wonder:w");
@@ -304,7 +304,7 @@ int city_buy_cost(struct city *pcity)
     if(is_wonder(pcity->currently_building))
       cost*=2;
   }
-  if(!build)
+  if(build == 0)
     cost*=2;
   return cost;
 }
@@ -466,7 +466,7 @@ bool city_got_building(struct city *pcity,  Impr_Type_id id)
   if (!improvement_exists(id))
     return FALSE;
   else 
-    return (pcity->improvements[id]);
+    return (pcity->improvements[id] != I_NONE);
 }
 
 /**************************************************************************
@@ -580,9 +580,9 @@ int base_city_get_shields_tile(int x, int y, struct city *pcity,
   if (tile_t==T_OCEAN && city_got_building(pcity, B_OFFSHORE))
     s++;
   /* government shield bonus & penalty */
-  if (s)
+  if (s > 0)
     s += (is_celebrating ? g->celeb_shield_bonus : g->shield_bonus);
-  if (before_penalty && s > before_penalty)
+  if (before_penalty > 0 && s > before_penalty)
     s--;
   if (BOOL_VAL(spec_t & S_POLLUTION))
     s-=(s*terrain_control.pollution_shield_penalty)/100; /* The shields here are icky */
@@ -617,7 +617,7 @@ int get_trade_tile(int x, int y)
   if (BOOL_VAL(spec_t & S_ROAD)) {
     t += (get_tile_type(tile_t))->road_trade_incr;
   }
-  if (t) {
+  if (t > 0) {
     if (BOOL_VAL(spec_t & S_RAILROAD))
       t+=(t*terrain_control.rail_trade_bonus)/100;
 
@@ -668,7 +668,7 @@ int base_city_get_trade_tile(int x, int y, struct city *pcity,
   if (BOOL_VAL(spec_t & S_ROAD)) {
     t += (get_tile_type(tile_t))->road_trade_incr;
   }
-  if (t) {
+  if (t > 0) {
     int before_penalty = (is_celebrating ? g->celeb_trade_before_penalty
 			  : g->trade_before_penalty);
     
@@ -677,7 +677,7 @@ int base_city_get_trade_tile(int x, int y, struct city *pcity,
 
     /* Civ1 specifically documents that Railroad trade increase is before 
      * Democracy/Republic [government in general now -- SKi] bonus  -AJS */
-    if (t)
+    if (t > 0)
       t += (is_celebrating ? g->celeb_trade_bonus : g->trade_bonus);
 
     if(city_affected_by_wonder(pcity, B_COLLOSSUS)) 
@@ -686,7 +686,7 @@ int base_city_get_trade_tile(int x, int y, struct city *pcity,
       t+=(t*terrain_control.road_superhighway_trade_bonus)/100;
  
     /* government trade penalty -- SKi */
-    if (before_penalty && t > before_penalty) 
+    if (before_penalty > 0 && t > before_penalty) 
       t--;
     if (BOOL_VAL(spec_t & S_POLLUTION))
       t-=(t*terrain_control.pollution_trade_penalty)/100; /* The trade here is dirty */
@@ -793,9 +793,9 @@ int base_city_get_food_tile(int x, int y, struct city *pcity,
   if (BOOL_VAL(spec_t & S_RAILROAD))
     f+=(f*terrain_control.rail_food_bonus)/100;
 
-  if (f)
+  if (f > 0)
     f += (is_celebrating ? g->celeb_food_bonus : g->food_bonus);
-  if (before_penalty && f > before_penalty) 
+  if (before_penalty > 0 && f > before_penalty) 
     f--;
 
   if (BOOL_VAL(spec_t & S_POLLUTION))
@@ -885,7 +885,7 @@ int city_num_trade_routes(struct city *pcity)
 {
   int i,n;
   for(i=0,n=0; i<4; i++)
-    if(pcity->trade[i]) n++;
+    if(pcity->trade[i] != 0) n++;
   
   return n;
 }
@@ -1045,7 +1045,7 @@ bool city_rapture_grow(struct city *pcity)
 **************************************************************************/
 struct city *city_list_find_id(struct city_list *This, int id)
 {
-  if(id) {
+  if(id != 0) {
     struct genlist_iterator myiter;
 
     genlist_iterator_init(&myiter, &This->list, 0);
@@ -1209,7 +1209,7 @@ int city_change_production_penalty(struct city *pcity,
     new_class=TYPE_NORMAL_IMPROVEMENT;
 
   put_penalty = (orig_class != new_class &&
-                 game_next_year(pcity->turn_last_built) < game.year)? 1 : 0;
+                 game_next_year(pcity->turn_last_built) < game.year);
 
   if (put_penalty)
     shield_stock_after_adjustment = pcity->before_change_shields/2;
@@ -1422,7 +1422,7 @@ void id_to_info_row(char *buf[], int column_size, int id, bool is_unit,
 
 	if (is_wonder(id)) {
 	  state = _("Wonder");
-	  if (game.global_wonders[id])
+	  if (game.global_wonders[id] != 0)
 	    state = _("Built");
 	  if (wonder_obsolete(id))
 	    state = _("Obsolete");
@@ -1454,7 +1454,7 @@ static int content_citizens(struct player *pplayer)
 
   if (cities > basis) {
     content--;
-    if (step)
+    if (step != 0)
       content -= (cities - basis - 1) / step;
     /* the first penalty is at (basis + 1) cities;
        the next is at (basis + step + 1), _not_ (basis + step) */
@@ -1571,7 +1571,7 @@ static void set_tax_income(struct city *pcity)
     }
   }
 
-  while (rate) {
+  while (rate > 0) {
     if (get_gov_pcity(pcity)->index != game.government_when_anarchy) {
       tax += tax_rate;
       sci += sci_rate;
@@ -1579,17 +1579,17 @@ static void set_tax_income(struct city *pcity)
     } else {			/* ANARCHY */
       lux += 100;
     }
-    if (tax >= 100 && rate) {
+    if (tax >= 100 && rate > 0) {
       tax -= 100;
       pcity->tax_total++;
       rate--;
     }
-    if (sci >= 100 && rate) {
+    if (sci >= 100 && rate > 0) {
       sci -= 100;
       pcity->science_total++;
       rate--;
     }
-    if (lux >= 100 && rate) {
+    if (lux >= 100 && rate > 0) {
       lux -= 100;
       pcity->luxury_total++;
       rate--;
@@ -1668,22 +1668,22 @@ static void citizen_happy_luxury(struct city *pcity)
      angry citizen are eliminated first,
      then content are made happy, then unhappy content, etc.  
      each conversions costs 2 luxuries. */
-  while (x >= 2 && pcity->ppl_angry[1]) {
+  while (x >= 2 && pcity->ppl_angry[1] > 0) {
     pcity->ppl_angry[1]--;
     pcity->ppl_unhappy[1]++;
     x -= 2;
   }
-  while (x >= 2 && pcity->ppl_content[1]) {
+  while (x >= 2 && pcity->ppl_content[1] > 0) {
     pcity->ppl_content[1]--;
     pcity->ppl_happy[1]++;
     x -= 2;
   }
-  while (x >= 4 && pcity->ppl_unhappy[1]) {
+  while (x >= 4 && pcity->ppl_unhappy[1] > 0) {
     pcity->ppl_unhappy[1]--;
     pcity->ppl_happy[1]++;
     x -= 4;
   }
-  if (x >= 2 && pcity->ppl_unhappy[1]) {
+  if (x >= 2 && pcity->ppl_unhappy[1] > 0) {
     pcity->ppl_unhappy[1]--;
     pcity->ppl_content[1]++;
     x -= 2;
@@ -1696,12 +1696,12 @@ static void citizen_happy_luxury(struct city *pcity)
 **************************************************************************/
 static void citizen_happy_units(struct city *pcity, int unhap)
 {
-  while (unhap > 0 && pcity->ppl_content[3]) {
+  while (unhap > 0 && pcity->ppl_content[3] > 0) {
     pcity->ppl_content[3]--;
     pcity->ppl_unhappy[3]++;
     unhap--;
   }
-  while (unhap >= 2 && pcity->ppl_happy[3]) {
+  while (unhap >= 2 && pcity->ppl_happy[3] > 0) {
     pcity->ppl_happy[3]--;
     pcity->ppl_unhappy[3]++;
     unhap -= 2;
@@ -1738,12 +1738,12 @@ static void citizen_happy_buildings(struct city *pcity)
     faces += get_cathedral_power(pcity);
   /* make people content (but not happy):
      get rid of angry first, then make unhappy content. */
-  while (faces && pcity->ppl_angry[2]) {
+  while (faces > 0 && pcity->ppl_angry[2] > 0) {
     pcity->ppl_angry[2]--;
     pcity->ppl_unhappy[2]++;
     faces--;
   }
-  while (faces && pcity->ppl_unhappy[2]) {
+  while (faces > 0 && pcity->ppl_unhappy[2] > 0) {
     pcity->ppl_unhappy[2]--;
     pcity->ppl_content[2]++;
     faces--;
@@ -1773,7 +1773,7 @@ static void citizen_happy_wonders(struct city *pcity)
     bonus += 1;
     if (city_got_building(pcity, B_HANGING))
       bonus += 2;
-    while (bonus && pcity->ppl_content[4]) {
+    while (bonus > 0 && pcity->ppl_content[4] > 0) {
       pcity->ppl_content[4]--;
       pcity->ppl_happy[4]++;
       bonus--;
@@ -1786,12 +1786,12 @@ static void citizen_happy_wonders(struct city *pcity)
   if (city_affected_by_wonder(pcity, B_CURE))
     bonus += 1;
   /* get rid of angry first, then make unhappy content */
-  while (bonus && pcity->ppl_angry[4]) {
+  while (bonus > 0 && pcity->ppl_angry[4] > 0) {
     pcity->ppl_angry[4]--;
     pcity->ppl_unhappy[4]++;
     bonus--;
   }
-  while (bonus && pcity->ppl_unhappy[4]) {
+  while (bonus > 0 && pcity->ppl_unhappy[4] > 0) {
     pcity->ppl_unhappy[4]--;
     pcity->ppl_content[4]++;
     bonus--;
@@ -1931,12 +1931,12 @@ static void city_support(struct city *pcity)
     unit_list_iterate_end;
     city_units *= g->martial_law_per;
     /* get rid of angry first, then make unhappy content */
-    while (city_units > 0 && pcity->ppl_angry[3]) {
+    while (city_units > 0 && pcity->ppl_angry[3] > 0) {
       pcity->ppl_angry[3]--;
       pcity->ppl_unhappy[3]++;
       city_units--;
     }
-    while (city_units > 0 && pcity->ppl_unhappy[3]) {
+    while (city_units > 0 && pcity->ppl_unhappy[3] > 0) {
       pcity->ppl_unhappy[3]--;
       pcity->ppl_content[3]++;
       city_units--;
@@ -2085,7 +2085,7 @@ int city_corruption(struct city *pcity, int trade)
   if (g->corruption_level == 0) {
     return trade_penalty;
   }
-  if (g->fixed_corruption_distance) {
+  if (g->fixed_corruption_distance != 0) {
     dist = g->fixed_corruption_distance;
   } else {
     capital = find_palace(city_owner(pcity));

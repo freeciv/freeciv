@@ -242,7 +242,7 @@ void *get_packet_from_connection(struct connection *pc, int *ptype, bool *presul
   int len, type;
   *presult = FALSE;
 
-  if (pc->used==0)
+  if (!pc->used)
     return NULL;		/* connection was closed, stop reading */
   
   if(pc->buffer->ndata<3)

@@ -59,7 +59,7 @@ const char blank_addr_str[] = "---.---.---.---";
    If it is set the disconnection of conns is posponed. This is sometimes
    neccesary as removing a random connection while we are iterating through
    a connection list might corrupt the list. */
-bool delayed_disconnect = FALSE;
+int delayed_disconnect = 0;
   
 /**************************************************************************
   Command access levels for client-side use; at present, they are only
@@ -162,7 +162,7 @@ static int write_socket_data(struct connection *pc,
   int start, nput, nblock;
 
   if (pc->delayed_disconnect) {
-    if (delayed_disconnect) {
+    if (delayed_disconnect > 0) {
       return 0;
     } else {
       if (close_callback) {
@@ -188,7 +188,7 @@ static int write_socket_data(struct connection *pc,
     }
 
     if (FD_ISSET(pc->sock, &exceptfs)) {
-      if (delayed_disconnect) {
+      if (delayed_disconnect > 0) {
 	pc->delayed_disconnect = TRUE;
 	return 0;
       } else {
@@ -208,7 +208,7 @@ static int write_socket_data(struct connection *pc,
 	  break;
 	}
 #endif
-	if (delayed_disconnect) {
+	if (delayed_disconnect > 0) {
 	  pc->delayed_disconnect = TRUE;
 	  return 0;
 	} else {
@@ -236,11 +236,11 @@ static int write_socket_data(struct connection *pc,
 **************************************************************************/
 void flush_connection_send_buffer_all(struct connection *pc)
 {
-  if(pc && pc->used && pc->send_buffer->ndata) {
+  if(pc && pc->used && pc->send_buffer->ndata > 0) {
     write_socket_data(pc, pc->send_buffer, 0);
     if (pc->notify_of_writable_data) {
       pc->notify_of_writable_data(pc, pc->send_buffer
-				  && pc->send_buffer->ndata);
+				  && pc->send_buffer->ndata > 0);
     }
   }
 }
@@ -266,7 +266,7 @@ static bool add_connection_data(struct connection *pc, unsigned char *data,
 			       int len)
 {
   if (pc && pc->delayed_disconnect) {
-    if (delayed_disconnect) {
+    if (delayed_disconnect > 0) {
       return TRUE;
     } else {
       if (close_callback) {
@@ -287,7 +287,7 @@ static bool add_connection_data(struct connection *pc, unsigned char *data,
 
       /* added this check so we don't gobble up too much mem */
       if (buf->nsize > MAX_LEN_BUFFER) {
-	if (delayed_disconnect) {
+	if (delayed_disconnect > 0) {
 	  pc->delayed_disconnect = TRUE;
 	  return TRUE;
 	} else {
@@ -313,7 +313,7 @@ static bool add_connection_data(struct connection *pc, unsigned char *data,
 void send_connection_data(struct connection *pc, unsigned char *data, int len)
 {
   if (pc && pc->used) {
-    if(pc->send_buffer->do_buffer_sends) {
+    if(pc->send_buffer->do_buffer_sends > 0) {
       flush_connection_send_buffer_packets(pc);
       if (!add_connection_data(pc, data, len)) {
 	freelog(LOG_ERROR, "cut connection %s due to huge send buffer (1)",
@@ -477,7 +477,7 @@ const char *conn_description(const struct connection *pconn)
 
   buffer[0] = '\0';
 
-  if (*pconn->name) {
+  if (*pconn->name != '\0') {
     my_snprintf(buffer, sizeof(buffer), _("%s from %s"),
 		pconn->name, pconn->addr); 
   } else {

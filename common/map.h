@@ -637,12 +637,12 @@ extern const int CAR_DIR_DY[4];
 #define MAP_MIN_GENERATOR        1
 #define MAP_MAX_GENERATOR        4
 
-#define MAP_DEFAULT_TINYISLES    0
-#define MAP_MIN_TINYISLES        0
-#define MAP_MAX_TINYISLES        1
+#define MAP_DEFAULT_TINYISLES    FALSE
+#define MAP_MIN_TINYISLES        FALSE
+#define MAP_MAX_TINYISLES        TRUE
 
-#define MAP_DEFAULT_SEPARATE_POLES   1
-#define MAP_MIN_SEPARATE_POLES       0
-#define MAP_MAX_SEPARATE_POLES       1
+#define MAP_DEFAULT_SEPARATE_POLES   TRUE
+#define MAP_MIN_SEPARATE_POLES       FALSE
+#define MAP_MAX_SEPARATE_POLES       TRUE
 
 #endif  /* FC__MAP_H */

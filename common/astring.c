@@ -90,7 +90,7 @@ void astr_free(struct astring *astr)
   assert(astr != NULL);
   assert(astr->n_alloc>=0);
   
-  if (astr->n_alloc) {
+  if (astr->n_alloc > 0) {
     assert(astr->str != NULL);
     free(astr->str);
   }
@@ -148,7 +148,7 @@ void ath_free(struct athing *ath)
   assert(ath->n_alloc>=0);
   size = ath->size;
   
-  if (ath->n_alloc) {
+  if (ath->n_alloc > 0) {
     assert(ath->ptr != NULL);
     free(ath->ptr);
   }

@@ -259,14 +259,14 @@ char *get_units_with_flag_string(int flag)
   if(count==1)
     return mystrdup(unit_name(get_role_unit(flag,0)));
 
-  if(count) {
+  if(count > 0) {
     struct astring astr;
 
     astr_init(&astr);
     astr_minsize(&astr,1);
     astr.str[0] = 0;
 
-    while(count--) {
+    while((count--) > 0) {
       int u = get_role_unit(flag,count);
       char *unitname = unit_name(u);
 
@@ -418,7 +418,7 @@ bool can_player_build_unit_direct(struct player *p, Unit_Type_id id)
 {
   if (!unit_type_exists(id))
     return FALSE;
-  if (unit_type_flag(id, F_NUCLEAR) && !game.global_wonders[B_MANHATTEN])
+  if (unit_type_flag(id, F_NUCLEAR) && game.global_wonders[B_MANHATTEN] == 0)
     return FALSE;
   if (unit_type_flag(id, F_FANATIC)
       && !government_has_flag(get_gov_pplayer(p), G_FANATIC_TROOPS))

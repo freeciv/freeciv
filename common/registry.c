@@ -303,7 +303,7 @@ void section_file_check_unused(struct section_file *file, const char *filename)
 
   section_list_iterate(*file->sections, psection) {
     entry_list_iterate(psection->entries, pentry) {
-      if (!pentry->used) {
+      if (pentry->used == 0) {
 	if (any == 0 && filename) {
 	  freelog(LOG_NORMAL, "Unused entries in file %s:", filename);
 	  any = 1;
@@ -343,7 +343,7 @@ static struct entry *new_entry(struct sbuffer *sb, const char *name,
       freelog(LOG_DEBUG, "entry %s %d", name, pentry->ivalue);
     }
   }
-  pentry->used = 0;
+  pentry->used = FALSE;
   return pentry;
 }
 	
@@ -605,11 +605,11 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
 	if(!SAVE_TABLES) break;
 	
 	c = first = pentry->name;
-	if(!*c || !isalpha(*c)) break;
-	for( ; *c && isalpha(*c); c++);
+	if(*c == '\0' || !isalpha(*c)) break;
+	for( ; *c != '\0' && isalpha(*c); c++);
 	if(strncmp(c,"0.",2) != 0) break;
 	c+=2;
-	if(!*c || !isalnum(*c)) break;
+	if(*c == '\0' || !isalnum(*c)) break;
 
 	offset = c - first;
 	first[offset-2] = '\0';
@@ -696,7 +696,7 @@ bool section_file_save(struct section_file *my_section_file, const char *filenam
   
   moutstr(NULL);		/* free internal buffer */
 
-  if (fz_ferror(fs)) {
+  if (fz_ferror(fs) != 0) {
     freelog(LOG_ERROR, "Error before closing %s: %s", filename,
 	    fz_strerror(fs));
     fz_fclose(fs);
@@ -948,8 +948,7 @@ bool section_file_lookup(struct section_file *my_section_file,
   my_vsnprintf(buf, sizeof(buf), path, ap);
   va_end(ap);
 
-  return BOOL_VAL(section_file_lookup_internal(my_section_file, buf) !=
-		  NULL);
+  return section_file_lookup_internal(my_section_file, buf) != NULL;
 }
 
 
@@ -1270,7 +1269,7 @@ static char *minstrdup(struct sbuffer *sb, const char *str)
   char *dest = sbuf_malloc(sb, strlen(str)+1);
   char *d2=dest;
   if(dest) {
-    while (*str) {
+    while (*str != '\0') {
       if (*str=='\\') {
 	str++;
 	if (*str=='\\') {
@@ -1320,7 +1319,7 @@ static char *moutstr(char *str)
   }
   
   len = strlen(str)+1;
-  for(c=str; *c; c++) {
+  for(c=str; *c != '\0'; c++) {
     if (*c == '\n' || *c == '\\' || *c == '\"') {
       len++;
     }
@@ -1331,7 +1330,7 @@ static char *moutstr(char *str)
   }
   
   dest = buf;
-  while(*str) {
+  while(*str != '\0') {
     if (*str == '\n' || *str == '\\' || *str == '\"') {
       *dest++ = '\\';
       if (*str == '\n') {

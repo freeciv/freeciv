@@ -127,7 +127,7 @@ int log_parse_level_str(char *level_str)
       c++;
       pc = c;
       c = strchr(c, ',');
-      if (c && *pc && *(c+1)) {
+      if (c && *pc != '\0' && c[1] != '\0') {
 	c[0] = '\0';
 	logd_files[i].min = atoi(pc);
 	logd_files[i].max = atoi(c+1);

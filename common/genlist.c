@@ -61,7 +61,7 @@ void *genlist_get(struct genlist *pgenlist, int idx)
 ************************************************************************/
 void genlist_unlink_all(struct genlist *pgenlist)
 {
-  if(pgenlist->nelements) {
+  if(pgenlist->nelements > 0) {
     struct genlist_link *plink=pgenlist->head_link, *plink2;
 
     do {
@@ -84,7 +84,7 @@ void genlist_unlink_all(struct genlist *pgenlist)
 ************************************************************************/
 void genlist_unlink(struct genlist *pgenlist, void *punlink)
 {
-  if(pgenlist->nelements) {
+  if(pgenlist->nelements > 0) {
     struct genlist_link *plink=pgenlist->head_link;
     
     while(plink!=&pgenlist->null_link && plink->dataptr!=punlink)
@@ -117,7 +117,7 @@ void genlist_unlink(struct genlist *pgenlist, void *punlink)
 ************************************************************************/
 void genlist_insert(struct genlist *pgenlist, void *data, int pos)
 {
-  if(!pgenlist->nelements) { /*list is empty, ignore pos */
+  if(pgenlist->nelements == 0) { /*list is empty, ignore pos */
     
     struct genlist_link *plink=(struct genlist_link *)
       	      	      	      	  fc_malloc(sizeof(struct genlist_link));
@@ -194,11 +194,11 @@ find_genlist_position(struct genlist *pgenlist, int pos)
     return &pgenlist->null_link;
 
   if(pos<pgenlist->nelements/2)   /* fastest to do forward search */
-    for(plink=pgenlist->head_link; pos; pos--)
+    for(plink=pgenlist->head_link; pos != 0; pos--)
       plink=plink->next;
  
   else                           /* fastest to do backward search */
-    for(plink=pgenlist->tail_link,pos=pgenlist->nelements-pos-1; pos; pos--)
+    for(plink=pgenlist->tail_link,pos=pgenlist->nelements-pos-1; pos != 0; pos--)
       plink=plink->prev;
  
   return plink;

@@ -474,7 +474,7 @@ the "ai_fuzzy(pplayer," part, and read the previous example as:
 **************************************************************************/
 bool ai_fuzzy(struct player *pplayer, bool normal_decision)
 {
-  if (!pplayer->ai.control || !pplayer->ai.fuzzy) return normal_decision;
+  if (!pplayer->ai.control || pplayer->ai.fuzzy == 0) return normal_decision;
   if (myrand(1000) >= pplayer->ai.fuzzy) return normal_decision;
   return !normal_decision;
 }

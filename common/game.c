@@ -300,8 +300,8 @@ static void build_landarea_map_expand(struct claim_map *pcmap)
   midedge = &(pcmap->edges[map.xsize * map.ysize]);
 
   for (accum = 1, turn = 1; accum > 0; turn++) {
-    thisedge = (turn & 0x1) ? pcmap->edges : midedge;
-    nextedge = (turn & 0x1) ? midedge : pcmap->edges;
+    thisedge = ((turn & 0x1) == 1) ? pcmap->edges : midedge;
+    nextedge = ((turn & 0x1) == 1) ? midedge : pcmap->edges;
 
     for (accum = 0; thisedge->x >= 0; thisedge++) {
       x = thisedge->x;
@@ -807,7 +807,7 @@ int game_next_year(int year)
   if (game.spacerace) {
     for(i=0; parts[i] < B_LAST; i++) {
       int t = improvement_types[parts[i]].tech_req;
-      if(tech_exists(t) && game.global_advances[t]) 
+      if (tech_exists(t) && game.global_advances[t] != 0)
 	spaceshipparts++;
     }
   }

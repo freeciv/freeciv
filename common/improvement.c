@@ -365,7 +365,7 @@ bool wonder_obsolete(Impr_Type_id id)
 { 
   if (improvement_types[id].obsolete_by==A_NONE)
     return FALSE;
-  return (game.global_advances[improvement_types[id].obsolete_by]);
+  return (game.global_advances[improvement_types[id].obsolete_by] != 0);
 }
 
 /**************************************************************************
@@ -409,7 +409,7 @@ bool could_player_eventually_build_improvement(struct player *p,
     while ((type = peffect->type) != EFT_LAST) {
       if (type == EFT_SPACE_PART) {
       	/* TODO: remove this */
-	if (!game.global_wonders[B_APOLLO])
+	if (game.global_wonders[B_APOLLO] == 0)
 	  return FALSE;
         if (p->spaceship.state >= SSHIP_LAUNCHED)
 	  return FALSE;
@@ -425,7 +425,7 @@ bool could_player_eventually_build_improvement(struct player *p,
   }
   if (is_wonder(id)) {
     /* Can't build wonder if already built */
-    if (game.global_wonders[id]) return FALSE;
+    if (game.global_wonders[id] != 0) return FALSE;
   } else {
     /* Can't build if obsolette */
     if (improvement_obsolete(p, id)) return FALSE;

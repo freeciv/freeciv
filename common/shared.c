@@ -83,7 +83,7 @@ char *create_centered_string(char *s)
   int curlen = 0;
   int nlines = 1;
 
-  for(cp=s; *cp; cp++) {
+  for(cp=s; *cp != '\0'; cp++) {
     if(*cp!='\n')
       curlen++;
     else {
@@ -99,7 +99,7 @@ char *create_centered_string(char *s)
   r=rn=fc_malloc(nlines*(maxlen+1));
   
   curlen=0;
-  for(cp0=cp=s; *cp; cp++) {
+  for(cp0=cp=s; *cp != '\0'; cp++) {
     if(*cp!='\n')
       curlen++;
     else {
@@ -274,7 +274,7 @@ char *get_sane_name(char *name)
   char *cp;
 
   /* must not be NULL or empty */
-  if (!name || !(*name)) {
+  if (!name || *name == '\0') {
     return NULL; 
   }
 
@@ -285,7 +285,7 @@ char *get_sane_name(char *name)
 
   /* must be composed entirely of printable ISO 8859-1 characters */
   for (cp = name; is_iso_latin1(*cp); cp++) ;
-  if (*cp) {
+  if (*cp != '\0') {
     return NULL; 
   }
 
@@ -341,7 +341,7 @@ int compare_strings_ptrs(const void *first, const void *second)
 char *skip_leading_spaces(char *s)
 {
   assert(s!=NULL);
-  while(*s && isspace(*s)) {
+  while(*s != '\0' && isspace(*s)) {
     s++;
   }
   return s;
@@ -358,7 +358,7 @@ void remove_leading_spaces(char *s)
   assert(s!=NULL);
   t = skip_leading_spaces(s);
   if (t != s) {
-    while (*t) {
+    while (*t != '\0') {
       *s++ = *t++;
     }
     *s = '\0';
@@ -376,7 +376,7 @@ void remove_trailing_spaces(char *s)
   
   assert(s!=NULL);
   len = strlen(s);
-  if (len) {
+  if (len > 0) {
     t = s + len -1;
     while(isspace(*t)) {
       *t = '\0';
@@ -426,7 +426,7 @@ int wordwrap_string(char *s, int len)
   /* At top of this loop, s points to the rest of string,
    * either at start or after inserted newline: */
  top:
-  if (s && *s && slen > len) {
+  if (s && *s != '\0' && slen > len) {
     char *c;
 
     num_lines++;
@@ -451,7 +451,7 @@ int wordwrap_string(char *s, int len)
     }
 
     /* couldn't find a good break; settle for a bad one... */
-    for(c=s+len+1; *c; c++) {
+    for (c = s + len + 1; *c != '\0'; c++) {
       if (isspace(*c)) {
 	*c = '\n';
 	slen -= c+1 - s;
@@ -791,7 +791,7 @@ void init_nls(void)
       grouping = &m;
     } else {
       size_t len;
-      for (len = 0; lc->grouping[len] && lc->grouping[len] != CHAR_MAX; len++)
+      for (len = 0; lc->grouping[len] != '\0' && lc->grouping[len] != CHAR_MAX; len++)
 	;
       len++;
       grouping = fc_malloc(len);

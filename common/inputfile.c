@@ -236,7 +236,7 @@ static void inf_close_partial(struct inputfile *inf)
 
   freelog(LOG_DEBUG, "inputfile: sub-closing \"%s\"", inf->filename);
 
-  if (fz_ferror(inf->fp)) {
+  if (fz_ferror(inf->fp) != 0) {
     freelog(LOG_ERROR, "Error before closing %s: %s", inf->filename,
 	    fz_strerror(inf->fp));
     fz_fclose(inf->fp);
@@ -336,7 +336,7 @@ static bool check_include(struct inputfile *inf)
   /* skip any whitespace: */
   inf->cur_line_pos = len;
   c = inf->cur_line.str + len;
-  while (*c && isspace(*c)) c++;
+  while (*c != '\0' && isspace(*c)) c++;
 
   if (*c != '\"') {
     inf_die(inf, "Did not find opening doublequote for '*include' line");
@@ -345,7 +345,7 @@ static bool check_include(struct inputfile *inf)
   inf->cur_line_pos = c - inf->cur_line.str;
 
   bare_name = c;
-  while (*c && *c!='\"') c++;
+  while (*c != '\0' && *c != '\"') c++;
   if (*c != '\"') {
     inf_die(inf, "Did not find closing doublequote for '*include' line");
   }
@@ -353,7 +353,7 @@ static bool check_include(struct inputfile *inf)
   inf->cur_line_pos = c - inf->cur_line.str;
 
   /* check rest of line is well-formed: */
-  while (*c && isspace(*c) && !my_is_comment(*c)) c++;
+  while (*c != '\0' && isspace(*c) && !my_is_comment(*c)) c++;
   if (!(*c=='\0' || my_is_comment(*c))) {
     inf_die(inf, "Junk after filename for '*include' line");
   }
@@ -468,7 +468,7 @@ static bool read_a_line(struct inputfile *inf)
   inf->line_num++;
   inf->cur_line_pos = 0;
 
-  astr_minsize(&inf->copy_line, inf->cur_line.n + (inf->cur_line.n==0));
+  astr_minsize(&inf->copy_line, inf->cur_line.n + ((inf->cur_line.n == 0) ? 1 : 0));
   strcpy(inf->copy_line.str, inf->cur_line.str);
 
   if (check_include(inf)) {
@@ -619,7 +619,7 @@ static const char *get_token_section_name(struct inputfile *inf)
   if (*c++ != '[')
     return NULL;
   start = c;
-  while (*c && *c != ']') {
+  while (*c != '\0' && *c != ']') {
     c++;
   }
   if (*c != ']')
@@ -641,19 +641,19 @@ static const char *get_token_entry_name(struct inputfile *inf)
   assert(have_line(inf));
 
   c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c && isspace(*c)) {
+  while(*c != '\0' && isspace(*c)) {
     c++;
   }
-  if (!*c)
+  if (*c == '\0')
     return NULL;
   start = c;
-  while (*c && !isspace(*c) && *c != '=' && !my_is_comment(*c)) {
+  while (*c != '\0' && !isspace(*c) && *c != '=' && !my_is_comment(*c)) {
     c++;
   }
-  if (!(*c && (isspace(*c) || *c == '='))) 
+  if (!(*c != '\0' && (isspace(*c) || *c == '='))) 
     return NULL;
   end = c;
-  while (*c && *c != '=' && !my_is_comment(*c)) {
+  while (*c != '\0' && *c != '=' && !my_is_comment(*c)) {
     c++;
   }
   if (*c != '=') {
@@ -677,7 +677,7 @@ static const char *get_token_eol(struct inputfile *inf)
 
   if (!at_eol(inf)) {
     c = inf->cur_line.str + inf->cur_line_pos;
-    while(*c && isspace(*c)) {
+    while(*c != '\0' && isspace(*c)) {
       c++;
     }
     if (*c != '\0' && !my_is_comment(*c))
@@ -704,7 +704,7 @@ static const char *get_token_white_char(struct inputfile *inf,
   assert(have_line(inf));
 
   c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c && isspace(*c)) {
+  while(*c != '\0' && isspace(*c)) {
     c++;
   }
   if (*c != target)
@@ -751,20 +751,20 @@ static const char *get_token_value(struct inputfile *inf)
   assert(have_line(inf));
 
   c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c && isspace(*c)) {
+  while(*c != '\0' && isspace(*c)) {
     c++;
   }
-  if (!*c)
+  if (*c == '\0')
     return NULL;
 
   if (*c == '-' || isdigit(*c)) {
     /* a number: */
     start = c++;
-    while(*c && isdigit(*c)) {
+    while(*c != '\0' && isdigit(*c)) {
       c++;
     }
     /* check that the trailing stuff is ok: */
-    if (!(!*c || *c == ',' || isspace(*c) || my_is_comment(*c))) {
+    if (!(*c == '\0' || *c == ',' || isspace(*c) || my_is_comment(*c))) {
       return NULL;
     }
     /* If its a comma, we don't want to obliterate it permanently,
@@ -784,10 +784,10 @@ static const char *get_token_value(struct inputfile *inf)
   if (*c == '_' && *(c+1) == '(') {
     has_i18n_marking = TRUE;
     c += 2;
-    while(*c && isspace(*c)) {
+    while(*c != '\0' && isspace(*c)) {
       c++;
     }
-    if (!*c)
+    if (*c == '\0')
       return NULL;
   }
 

@@ -278,7 +278,7 @@ const char *get_special_name(enum tile_special_type type)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(tile_special_type_names); i++) {
-    if (type & 0x1) {
+    if ((type & 0x1) == 1) {
       return tile_special_type_names[i];
     }
     type >>= 1;

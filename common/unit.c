@@ -264,7 +264,7 @@ int get_transporter_capacity(struct unit *punit)
 **************************************************************************/
 bool is_ground_units_transport(struct unit *punit)
 {
-  return (get_transporter_capacity(punit)
+  return (get_transporter_capacity(punit) > 0
 	  && !unit_flag(punit, F_MISSILE_CARRIER)
 	  && !unit_flag(punit, F_CARRIER));
 }
@@ -274,7 +274,7 @@ bool is_ground_units_transport(struct unit *punit)
 **************************************************************************/
 bool is_air_units_transport(struct unit *punit)
 {
-  return (get_transporter_capacity(punit)
+  return (get_transporter_capacity(punit) > 0
 	  && (unit_flag(punit, F_MISSILE_CARRIER)
 	      || unit_flag(punit, F_CARRIER)));
 }
@@ -851,7 +851,7 @@ char *unit_activity_text(struct unit *punit)
        int rate,f;
        rate=unit_type(punit)->move_rate/SINGLE_MOVE;
        f=((punit->fuel)-1);
-       if(punit->moves_left%SINGLE_MOVE) {
+      if ((punit->moves_left % SINGLE_MOVE) != 0) {
 	 if(punit->moves_left/SINGLE_MOVE>0) {
 	   my_snprintf(text, sizeof(text), "%s: (%d)%d %d/%d", moves_str,
 		       ((rate*f)+(punit->moves_left/SINGLE_MOVE)),
@@ -868,7 +868,7 @@ char *unit_activity_text(struct unit *punit)
 		     punit->moves_left/SINGLE_MOVE);
        }
      } else {
-       if(punit->moves_left%SINGLE_MOVE) {
+      if ((punit->moves_left % SINGLE_MOVE) != 0) {
 	 if(punit->moves_left/SINGLE_MOVE>0) {
 	   my_snprintf(text, sizeof(text), "%s: %d %d/%d", moves_str,
 		       punit->moves_left/SINGLE_MOVE, punit->moves_left%SINGLE_MOVE,

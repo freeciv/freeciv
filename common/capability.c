@@ -26,7 +26,7 @@
       start++;								\
     }									\
     /* skip to end of token */						\
-    for (end = start; *end && !isspace(*end) && *end != ','; end++)	\
+    for (end = start; *end != '\0' && !isspace(*end) && *end != ','; end++) \
       ;									\
   }
 

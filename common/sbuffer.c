@@ -94,7 +94,7 @@ static void sbuf_align(struct sbuffer *sb)
   assert(sb && (sb->offset>0));
   
   align_offset = sb->offset % SBUF_ALIGN_SIZE;
-  if (align_offset) {
+  if (align_offset != 0) {
     sb->offset += SBUF_ALIGN_SIZE - align_offset;
   }
 }

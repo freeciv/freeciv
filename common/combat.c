@@ -474,7 +474,7 @@ struct unit *get_defender(struct unit *attacker, int x, int y)
     }
   } unit_list_iterate_end;
 
-  if (count && !bestdef) {
+  if (count > 0 && !bestdef) {
     struct unit *debug_unit = unit_list_get(&map_get_tile(x, y)->units, 0);
     freelog(LOG_ERROR, "Get_def bugged at (%d,%d). The most likely course"
 	    " is a unit on an ocean square without a transport. The owner"
