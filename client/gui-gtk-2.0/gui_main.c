@@ -181,6 +181,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 					    gpointer data);
 static gint timer_callback(gpointer data);
 gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev, gpointer data);
+static gboolean quit_dialog_callback(void);
 
 /**************************************************************************
 ...
@@ -1052,7 +1053,8 @@ void ui_main(int argc, char **argv)
   
   gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
 
-  g_signal_connect(toplevel, "delete_event", G_CALLBACK(gtk_main_quit), NULL);
+  g_signal_connect(toplevel, "delete_event",
+      G_CALLBACK(quit_dialog_callback), NULL);
 
   /* Disable GTK+ cursor key focus movement */
   sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
@@ -1443,3 +1445,53 @@ void remove_net_input(void)
   gtk_input_remove(input_id);
   gdk_window_set_cursor(root_window, NULL);
 }
+
+/****************************************************************
+  This is the response callback for the dialog with the message:
+  Are you sure you want to quit?
+****************************************************************/
+static void quit_dialog_response(GtkWidget *dialog, gint response)
+{
+  gtk_widget_destroy(dialog);
+  if (response == GTK_RESPONSE_YES) {
+    exit(EXIT_SUCCESS);
+  }
+}
+
+/****************************************************************
+  Popups the dialog with the message:
+  Are you sure you want to quit?
+****************************************************************/
+void popup_quit_dialog(void)
+{
+  static GtkWidget *dialog;
+
+  if (!dialog) {
+    dialog = gtk_message_dialog_new(NULL,
+	0,
+	GTK_MESSAGE_WARNING,
+	GTK_BUTTONS_YES_NO,
+	_("Are you sure you want to quit?"));
+    setup_dialog(dialog, toplevel);
+
+    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
+
+    g_signal_connect(dialog, "response", 
+	G_CALLBACK(quit_dialog_response), NULL);
+    g_signal_connect(dialog, "destroy",
+	G_CALLBACK(gtk_widget_destroyed), &dialog);
+  }
+
+  gtk_window_present(GTK_WINDOW(dialog));
+}
+
+/****************************************************************
+  Popups the quit dialog.
+****************************************************************/
+static gboolean quit_dialog_callback(void)
+{
+  popup_quit_dialog();
+  /* Stop emission of event. */
+  return TRUE;
+}
+

@@ -95,5 +95,6 @@ gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev);
 gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev, gpointer data);
 
 void reset_unit_table(void);
+void popup_quit_dialog(void);
 
 #endif  /* FC__GUI_MAIN_H */
