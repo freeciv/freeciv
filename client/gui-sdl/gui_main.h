@@ -45,7 +45,6 @@
 #define CF_CHANGE_TAXRATE_LUX_BLOCK	0x4000
 #define CF_CHANGE_TAXRATE_SCI_BLOCK	0x8000
 #define CF_CIV3_CITY_TEXT_STYLE	0x10000
-#define CF_TERRAIN_CELLS_CREATED	0x20000
 
 extern struct Sdl Main;
 extern struct GUI *pSellected_Widget;

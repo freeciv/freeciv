@@ -429,26 +429,6 @@ static int optiondlg_callback(struct GUI *pButton)
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-const char *liczebniki(int liczba, const char *lpoj,
-		       const char *lmno234, const char *lmno)
-{
-
-  if (liczba == 1) {
-    return lpoj;
-  } else {
-    int licz100 = liczba % 100, licz10 = liczba % 10;
-    if (((liczba < 12) || (liczba > 14)) &&
-	((licz100 < 12) || (licz100 > 14)) &&
-	((licz10 > 1) && (licz10 < 5))) {
-      return lmno234;
-    }
-  }
-
-  return lmno;
-}
 
 /* ============ Freeciv native game function =========== */
 
@@ -558,10 +538,6 @@ void ui_main(int argc, char *argv[])
 
   refresh_fullscreen();
 
-  /* disable for default becouse is buggy */
-  draw_fog_of_war = FALSE;
-  SDL_Client_Flags &= ~CF_TERRAIN_CELLS_CREATED;
-  
   set_client_state(CLIENT_PRE_GAME_STATE);
 
   gui_main_loop();

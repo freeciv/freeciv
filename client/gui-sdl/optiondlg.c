@@ -826,9 +826,20 @@ static int draw_city_productions_callback(struct GUI *pWidget)
 static int draw_terrain_callback(struct GUI *pWidget)
 {
   redraw_icon(pWidget);
-  refresh_rect(pWidget->size);
+  add_refresh_rect( pWidget->size );
   draw_terrain ^= 1;
-  draw_coastline = FALSE;
+  /* check draw_coastline checkbox state */
+  if ( get_wstate( pWidget->prev->prev ) == WS_NORMAL )
+  {
+    set_wstate( pWidget->prev->prev , WS_DISABLED );
+  }
+  else
+  {
+    set_wstate( pWidget->prev->prev , WS_NORMAL );
+  }
+  redraw_icon(pWidget->prev->prev);
+  add_refresh_rect(pWidget->prev->prev->size);
+  refresh_rects();
   return -1;
 }
 

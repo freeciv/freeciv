@@ -41,7 +41,7 @@
 #include "gui_tilespec.h"
 
 extern char *pDataPath;
-extern SDL_Surface *pDitherMasks[4];
+extern SDL_Surface *pDitherMask;
 /*******************************************************************************
  * reload small citizens "style" icons.
  *******************************************************************************/
@@ -624,13 +624,10 @@ void tilespec_setup_theme(void)
   /* ================================================== */
   /* Map Dithering */
   
-  for ( i=0; i<4; i++) {
-    my_snprintf(buf,sizeof(buf), "%s/theme/default/dither_mask%d.png", pDataPath, i );	  
-    pDitherMasks[i] = load_surf(buf);
-    assert(pDitherMasks[i]);	  
-  }
-
-
+  my_snprintf(buf,sizeof(buf), "%s/theme/default/dither_mask.png", pDataPath );	  
+  pDitherMask = load_surf(buf);
+  assert(pDitherMask);	  
+  
   return;
 }
 
