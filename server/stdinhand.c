@@ -31,6 +31,7 @@
 
 #include "astring.h"
 #include "capability.h"
+#include "cm.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -3744,6 +3745,7 @@ void load_command(struct connection *caller, char *arg)
   server_game_free();
 
   game_init();
+  cm_init();
 
   loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
   uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
