@@ -76,16 +76,12 @@ int building_value(int max, struct city *pcity, int val)
   i = max;
   while (i && elvis) { i--; elvis--; j += val; }
   while (i && sad) { i--; sad--; j += 16; }
-  i -= MIN(pcity->ppl_content[0], i); /* prevent the happy overdose */
-  while (i && bored) { i--; bored--; j += 16; } /* 16 is debatable value */
   if (city_unhappy(pcity)) j += 16 * (sad + bored); /* Desperately seeking Colosseum */
+  while (i) { i--; j += 16; } /* 16 is debatable value */
+/* using (i && bored) led to a lack of foresight, especially re: Chapel -- Syela */
 /*  printf("%s: %d elvis %d sad %d bored %d size %d max %d val\n",
     pcity->name, pcity->ppl_elvis, pcity->ppl_unhappy[4],
     pcity->ppl_content[4], pcity->size, max, j);  */
-
-/* should be better now.  Problem was that the AI had MICHELANGELO keeping
-everyone content, and then built BACH anyway.  Now the AI should know that
-it has a buffer before it suffers unhappiness and not build BACH -- Syela */
 
   return(j);
 }
@@ -453,11 +449,12 @@ someone learning Metallurgy, and the AI collapsing.  I hate the WALL. -- Syela *
         get_improvement_name(i), values[i]); */
     if (!is_wonder(i)) values[i] -= improvement_upkeep(pcity, i) * t;
     values[i] *= 100;
+    if (!is_wonder(i)) { /* trying to buy fewer improvements */
+      values[i] *= SHIELD_WEIGHTING;
+      values[i] /= MORT;
+    }
     j = improvement_value(i);
-/*    if (pcity->currently_building == i && !pcity->is_building_unit) {
-      j -= pcity->shield_stock;
-      if (j < 1) j == 1;
-    } commented out for now -- Syela */
+/* handle H_PROD here? -- Syela */
     pcity->ai.building_want[i] = values[i] / j;
   }
 

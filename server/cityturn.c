@@ -246,8 +246,7 @@ void citizen_happy_buildings(struct city *pcity)
     pcity->ppl_content[2]++;
     faces--;
   }
-  pcity->ppl_content[0] = faces; /* this won't be needed, so I'm hijacking it -- Syela */
-  pcity->ppl_content[0] -= pcity->ppl_elvis; /* otherwise this gets messed up */
+/* no longer hijacking ppl_content[0]; seems no longer to be helpful -- Syela */
   /* TV doesn't make people happy just content...
  
   while (faces && pcity->ppl_content[2]) { 
