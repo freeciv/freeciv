@@ -483,34 +483,22 @@ struct city *sdi_defense_close(int owner, int x, int y)
 
 /**************************************************************************
   returns a unit type for the goodie huts
-  Note: it's possible to get Gunpowder before Chivalry;
-  Also note: myrand(num) returns 0 to (num-1) inclusive
 **************************************************************************/
 int find_a_unit_type()
- {
-  int num;
-  
-  num = 3;
-  if (game.global_advances[A_CHIVALRY])
-    num++;
-  if (game.global_advances[A_GUNPOWDER]) 
-    num++;
+{
+  int which[U_LAST];
+  int i, num=0, iunit;
 
-  switch (myrand(num)) {
-  case 0:
-    return U_LEGION;
-  case 1:
-    return U_HORSEMEN;
-  case 2:
-    return U_CHARIOT;
-  case 3:
-    return (game.global_advances[A_CHIVALRY]) ? U_KNIGHTS : U_MUSKETEERS;
-  case 4:
-    return U_MUSKETEERS;
-  default:
-    printf("problem in find_a_unit_type\n");
-    return U_HORSEMEN;
+  for(i=0; i<num_role_units(L_HUT); i++) {
+    which[num++] = get_role_unit(L_HUT, i);
   }
+  for(i=0; i<num_role_units(L_HUT_TECH); i++) {
+    iunit = get_role_unit(L_HUT_TECH, i);
+    if (game.global_advances[get_unit_type(iunit)->tech_requirement]) {
+      which[num++] = iunit;
+    }
+  }
+  return which[myrand(num)];
 }
 
 /**************************************************************************

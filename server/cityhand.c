@@ -156,16 +156,7 @@ void create_city(struct player *pplayer, int x, int y, char *name)
   pcity->is_building_unit=1;
   pcity->did_buy=-1; /* code so we get a different message */
   pcity->airlift=0;
-  if (can_build_unit(pcity, U_RIFLEMEN))
-      pcity->currently_building=U_RIFLEMEN;
-  else if (can_build_unit(pcity, U_MUSKETEERS))
-      pcity->currently_building=U_MUSKETEERS;
-  else if (can_build_unit(pcity, U_PIKEMEN))
-      pcity->currently_building=U_PIKEMEN;
-  else if (can_build_unit(pcity, U_PHALANX))
-      pcity->currently_building=U_PHALANX;
-  else
-      pcity->currently_building=U_WARRIORS;
+  pcity->currently_building=best_role_unit(pcity, L_FIRSTBUILD);
 
   for (y = 0; y < CITY_MAP_SIZE; y++)
     for (x = 0; x < CITY_MAP_SIZE; x++)

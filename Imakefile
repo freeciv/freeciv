@@ -40,6 +40,7 @@ SERVER_OBJS= server/civserver.o server/sernet.o server/unithand.o \
 	     server/gotohand.o server/diplhand.o server/meta.o \
 	     server/registry.o server/mapgen.o server/cityturn.o \
 	     server/citytools.o server/settlers.o server/gamelog.o \
+	     server/ruleset.o \
 	     ai/aihand.o ai/aitools.o ai/aicity.o ai/aiunit.o ai/aitech.o \
 	     ai/advleader.o ai/advmilitary.o ai/advtrade.o ai/advscience.o \
 	     ai/advdomestic.o ai/advforeign.o ai/advattitude.o ai/advisland.o

@@ -59,6 +59,7 @@
 #include <capability.h>
 #include <settlers.h>
 #include <events.h>
+#include <ruleset.h>
 
 void show_ending();
 void end_game();
@@ -263,8 +264,11 @@ int main(int argc, char *argv[])
       exit(1);
     }
     game.scenario=game_load(&file);
-    section_file_check_unused(&file, load_filename);
-    section_file_free(&file);
+    if(game.scenario!=1) {
+      /* these are already done if game.scenario==1 */
+      section_file_check_unused(&file, load_filename);
+      section_file_free(&file);
+    }
    /* game.scenario: 0=normal savegame, 1=everything but players,
        2=just tile map and startpositions, 3=just tile map
        (Except that actually game_load returns 0 for a pre-start
@@ -305,6 +309,11 @@ int main(int argc, char *argv[])
     sniff_packets();
 
   send_server_info_to_metaserver(1);
+
+  if(is_new_game) {
+    load_rulesets();
+    /* otherwise rulesets were loaded when savegame was loaded */
+  }
   
   for(i=0; i<R_LAST;i++) {
       races_avail[i]=i;
@@ -353,8 +362,6 @@ int main(int argc, char *argv[])
     flood_it(1);
   gamelog_map();
   /* start the game */
-
-  set_civ_style(game.civstyle);
 
   server_state=RUN_GAME_STATE;
   send_server_info_to_metaserver(1);
@@ -562,6 +569,7 @@ dest can be NULL meaning all players
 **************************************************************************/
 void send_all_info(struct player *dest)
 {
+  send_rulesets(dest);
   send_game_info(dest);
   send_map_info(dest);
   send_player_info(0, dest);

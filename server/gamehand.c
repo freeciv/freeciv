@@ -32,13 +32,14 @@
 #include <capability.h>
 #include <time.h>
 #include <log.h>
+#include <ruleset.h>
 
 extern char metaserver_info_line[];
 extern RANDOM_TYPE RandomState[];
 extern int iRandJ, iRandK, iRandX; 
 extern int rand_init;
 
-#define SAVEFILE_OPTIONS "1.7, startoptions, unirandom, spacerace"
+#define SAVEFILE_OPTIONS "1.7 startoptions unirandom spacerace rulesets"
 
 /**************************************************************************
 ...
@@ -85,9 +86,9 @@ void init_new_game(void)
       light_square(&game.players[i], x, y+1, 1);
     }
     for (j=0;j<game.settlers;j++) 
-      create_unit(&game.players[i], x, y, U_SETTLERS, 0, 0, -1);
+      create_unit(&game.players[i], x, y, get_role_unit(F_SETTLERS,0), 0, 0, -1);
     for (j=0;j<game.explorer;j++) 
-      create_unit(&game.players[i], x, y, U_EXPLORER, 0, 0, -1);
+      create_unit(&game.players[i], x, y, get_role_unit(L_EXPLORER,0), 0, 0, -1);
   }
 }
 
@@ -159,6 +160,14 @@ void send_game_info(struct player *dest)
     ginfo.global_advances[i]=game.global_advances[i];
   for(i=0; i<B_LAST; i++)
     ginfo.global_wonders[i]=game.global_wonders[i];
+
+  ginfo.aqueduct_size = game.aqueduct_size;
+  ginfo.sewer_size = game.sewer_size;
+  ginfo.rtech.get_bonus_tech = game.rtech.get_bonus_tech;
+  ginfo.rtech.boat_fast = game.rtech.boat_fast;
+  ginfo.rtech.cathedral_plus = game.rtech.cathedral_plus;
+  ginfo.rtech.cathedral_minus = game.rtech.cathedral_minus;
+  ginfo.rtech.colosseum_plus = game.rtech.colosseum_plus;
 
   for(o=0; o<game.nplayers; o++)           /* dests */
     if(!dest || &game.players[o]==dest) {
@@ -308,6 +317,15 @@ int game_load(struct section_file *file)
     rand_init=1;
   }
 
+  if (has_capability("rulesets",savefile_options)) {
+    strcpy(game.ruleset.techs,
+	   secfile_lookup_str(file, "game.ruleset.techs"));
+    strcpy(game.ruleset.units,
+	   secfile_lookup_str(file, "game.ruleset.units"));
+    strcpy(game.ruleset.buildings,
+	   secfile_lookup_str(file, "game.ruleset.buildings"));
+  }
+
   if (has_capability("spacerace", savefile_options))
     game.spacerace = secfile_lookup_int(file, "game.spacerace");
 
@@ -355,6 +373,16 @@ int game_load(struct section_file *file)
   for(i=0; i<game.nplayers; i++) {
     player_load(&game.players[i], i, file); 
   }
+  
+  /* Load rulesets: this has to be after finding game.ruleset strings,
+   * (above) and before doing initialize_globals, city_refresh() below.
+   * But we need to free the current savefile first, because of
+   * the way strbuffermalloc is implemented in registry.c  -- dwp
+   */
+  section_file_check_unused(file, NULL);
+  section_file_free(file);
+  load_rulesets();
+
   initialize_globals();
   apply_unit_ordering();
 
@@ -420,6 +448,9 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.diplchance, "game.diplchance");
   secfile_insert_int(file, game.aqueductloss, "game.aqueductloss");
   secfile_insert_int(file, game.randseed, "game.randseed");
+  secfile_insert_str(file, game.ruleset.techs, "game.ruleset.techs");
+  secfile_insert_str(file, game.ruleset.units, "game.ruleset.units");
+  secfile_insert_str(file, game.ruleset.buildings, "game.ruleset.buildings");
 
   if (1) {
     /* Now always save these, so the server options reflect the

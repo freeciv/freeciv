@@ -468,7 +468,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 		   "Game: %s has revolted, %s influence suspected", pcity->name, 
 		   get_race_name(pplayer->race));
 
-
   /* Transfer city and units supported by this city to the new owner */
 
   pnewcity = transfer_city(pplayer,cplayer,pcity);
@@ -1408,7 +1407,7 @@ void place_partisans(struct city *pcity,int count)
     for(i=0,x=myrand(total)+1;x;i++) if(ok[i]) x--;
     ok[--i]=0; x=(i/5)-2+pcity->x; y=(i%5)-2+pcity->y;
     create_unit(&game.players[pcity->owner], map_adjust_x(x), map_adjust_y(y),
-		U_PARTISAN, 0, 0, -1);
+		get_role_unit(L_PARTISAN,0), 0, 0, -1);
     count--; total--;
   }
 }
@@ -1425,6 +1424,8 @@ void place_partisans(struct city *pcity,int count)
 void make_partisans(struct city *pcity)
 {
   int partisans;
+  if (num_role_units(L_PARTISAN)==0)
+    return;
   if (!game.global_advances[A_GUERILLA] || pcity->original != pcity->owner)
     return;
   if (get_invention(city_owner(pcity), A_COMMUNISM) != TECH_KNOWN 

@@ -737,8 +737,10 @@ int auto_settler_findwork(struct player *pplayer, struct unit *punit)
   struct ai_choice choice;	/* for nav want only */
 
   choice.type = 1;
-  choice.choice = U_CARAVEL;	/* first non-trireme boat */
   choice.want = 0;		/* will change as needed */
+  choice.choice = get_role_unit(L_FERRYBOAT, -1);
+  /* was U_CARAVEL (first non-trireme boat?) but gets set
+   * properly later anyway */
 
   if (punit->id) food_cost = 30;
   else {
@@ -1268,9 +1270,9 @@ void contemplate_settling(struct player *pplayer, struct city *pcity)
   virtualunit.owner = pplayer->player_no;
   virtualunit.x = pcity->x;
   virtualunit.y = pcity->y;
-  virtualunit.type = (can_build_unit(pcity, U_ENGINEERS) ? U_ENGINEERS : U_SETTLERS);
+  virtualunit.type = best_role_unit(pcity, F_SETTLERS);
   virtualunit.moves_left = unit_types[virtualunit.type].move_rate;
-  virtualunit.hp = 20;  
+  virtualunit.hp = unit_types[virtualunit.type].hp;  
   want = auto_settler_findwork(pplayer, &virtualunit);
   unit_list_iterate(pplayer->units, qpass)
     if (qpass->ai.ferryboat == pcity->id) want = -199;

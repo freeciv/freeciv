@@ -31,6 +31,8 @@ civserver_SOURCES = \
 		plrhand.h	\
 		registry.c	\
 		registry.h	\
+		ruleset.c	\
+		ruleset.h	\
 		sernet.c	\
 		sernet.h	\
 		settlers.c	\
