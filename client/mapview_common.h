@@ -213,6 +213,8 @@ enum update_type {
 void refresh_tile_mapcanvas(struct tile *ptile, bool write_to_screen);
 void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 			    bool write_to_screen);
+void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
+			    bool full_refresh, bool write_to_screen);
 
 enum color_std get_grid_color(const struct tile *ptile, enum direction8 dir);
 

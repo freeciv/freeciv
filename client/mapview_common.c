@@ -94,10 +94,11 @@ void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
      * of the 't' overlays or the citymap outlines.  The above check could
      * be more rigorous so that no update is done unless it's needed...
      *
-     * HACK: The +2 below accounts for grid lines that may actually be on a
-     * tile outside of the city radius. */
-    int width = get_citydlg_canvas_width() + 2;
-    int height = get_citydlg_canvas_height() + 2;
+     * HACK: The addition below accounts for grid lines that may actually
+     * be on a tile outside of the city radius.  This is similar to what's
+     * done in refresh_tile_mapcanvas. */
+    int width = get_citydlg_canvas_width() + NORMAL_TILE_WIDTH;
+    int height = get_citydlg_canvas_height() + NORMAL_TILE_HEIGHT;
     int canvas_x, canvas_y;
 
     tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
@@ -112,6 +113,48 @@ void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
       update_map_canvas(canvas_x, canvas_y,
 			UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
     } 
+  }
+  if (write_to_screen) {
+    flush_dirty();
+  }
+  overview_update_tile(ptile);
+}
+
+/**************************************************************************
+  Refreshes a single city on the map canvas.
+
+  If full_refresh is given then the citymap area and the city text will
+  also be refreshed.  Otherwise only the base city sprite is refreshed.
+**************************************************************************/
+void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
+			    bool full_refresh, bool write_to_screen)
+{
+  if (full_refresh && (draw_map_grid || draw_borders)) {
+    /* We have to make sure we update any workers on the map grid, then
+     * redraw the city descriptions on top of them.  So we calculate the
+     * rectangle covered by the city's map, and update that.  Then we
+     * queue up a city description redraw for later.
+     *
+     * HACK: The addition below accounts for grid lines that may actually
+     * be on a tile outside of the city radius.  This is similar to what's
+     * done in refresh_tile_mapcanvas. */
+    int canvas_x, canvas_y;
+    int width = get_citydlg_canvas_width() + NORMAL_TILE_WIDTH;
+    int height = get_citydlg_canvas_height() + NORMAL_TILE_HEIGHT;
+
+    (void) tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
+
+    update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
+		      canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
+		      width, height);
+  } else {
+    int canvas_x, canvas_y;
+
+    if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
+      canvas_y += NORMAL_TILE_HEIGHT - UNIT_TILE_HEIGHT;
+      update_map_canvas(canvas_x, canvas_y,
+			UNIT_TILE_WIDTH, UNIT_TILE_HEIGHT);
+    }
   }
   if (write_to_screen) {
     flush_dirty();

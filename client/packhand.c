@@ -584,25 +584,8 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     }
   }
 
-  if ((draw_map_grid || draw_borders) && can_client_change_view()) {
-    /* We have to make sure we update any workers on the map grid, then
-     * redraw the city descriptions on top of them.  So we calculate the
-     * rectangle covered by the city's map, and update that.  Then we
-     * queue up a city description redraw for later.
-     *
-     * HACK: The addition below accounts for grid lines that may actually
-     * be on a tile outside of the city radius.  This is similar to what's
-     * done in refresh_tile_mapcanvas. */
-    int canvas_x, canvas_y;
-    int width = get_citydlg_canvas_width() + NORMAL_TILE_WIDTH;
-    int height = get_citydlg_canvas_height() + NORMAL_TILE_HEIGHT;
 
-    (void) tile_to_canvas_pos(&canvas_x, &canvas_y, pcity->tile);
-
-    update_map_canvas(canvas_x - (width - NORMAL_TILE_WIDTH) / 2,
-		      canvas_y - (height - NORMAL_TILE_HEIGHT) / 2,
-		      width, height);
-  } else {
+  if (can_client_change_view()) {
     refresh_tile_mapcanvas(pcity->tile, FALSE);
   }
 
@@ -1111,7 +1094,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
 	  if (pcity->client.occupied != new_occupied) {
 	    pcity->client.occupied = new_occupied;
-	    refresh_tile_mapcanvas(pcity->tile, FALSE);
+	    refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
 	  }
 	}
 
@@ -1126,7 +1109,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  /* Unit moved into a city - obviously it's occupied. */
 	  if (!pcity->client.occupied) {
 	    pcity->client.occupied = TRUE;
-	    refresh_tile_mapcanvas(pcity->tile, FALSE);
+	    refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
 	  }
 	}
 
