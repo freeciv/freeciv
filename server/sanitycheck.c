@@ -142,6 +142,8 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 
   assert(pcity->size >= 1);
   assert(is_normal_map_pos(pcity->x, pcity->y));
+  assert(!terrain_has_flag(map_get_terrain(pcity->x, pcity->y),
+			   TER_NO_CITIES));
 
   unit_list_iterate(pcity->units_supported, punit) {
     assert(punit->homecity == pcity->id);

@@ -439,7 +439,7 @@ mining_shield_incr   = 0
 mining_time          = 0
 transform_result     = "no"
 transform_time       = 0
-flags                = "Oceanic", "NoPollution", "UnsafeCoast"
+flags                = "Oceanic", "NoPollution", "UnsafeCoast", "NoCities"
 helptext	     = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\

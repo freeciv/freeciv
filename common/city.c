@@ -945,15 +945,14 @@ int base_city_get_food_tile(int city_x, int city_y, const struct city *pcity,
 **************************************************************************/
 bool city_can_be_built_here(int x, int y, struct unit *punit)
 {
-  if (punit) {
-    enum unit_move_type move_type = unit_type(punit)->move_type;
+  if (punit && punit->transported_by != -1) {
+    /* Transported units cannot build cities. */
+    return FALSE;
+  }
 
-    /* We allow land units to build land cities and sea units to build
-     * ocean cities. */
-    if ((move_type == LAND_MOVING && is_ocean(map_get_terrain(x, y)))
-	|| (move_type == SEA_MOVING && !is_ocean(map_get_terrain(x, y)))) {
-      return FALSE;
-    }
+  if (terrain_has_flag(map_get_terrain(x, y), TER_NO_CITIES)) {
+    /* No cities on this terrain. */
+    return FALSE;
   }
 
   /* game.rgame.min_dist_bw_cities minimum is 1, meaning adjacent is okay */

@@ -952,7 +952,7 @@ bool can_unit_do_activity_targeted_at(struct unit *punit,
 	    && (is_ocean(ptile->terrain)
 		|| !is_ocean(type->transform_result)
 		|| can_channel_land(map_x, map_y))
-	    && (!is_ocean(type->transform_result)
+	    && (!terrain_has_flag(type->transform_result, TER_NO_CITIES)
 		|| !(map_get_city(map_x, map_y)))
 	    && unit_flag(punit, F_TRANSFORM));
 
