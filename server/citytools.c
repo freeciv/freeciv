@@ -595,47 +595,32 @@ int wants_to_be_bigger(struct city *pcity)
  */
 
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
-			 struct city *pcity, struct city *vcity){
-
+			 struct city *pcity, struct city *vcity)
+{
   int x = vcity->x;
   int y = vcity->y;
 
-  printf("Transferring City Units to new owner");
+  /* Transfer units in the city to the new owner */
+  unit_list_iterate(map_get_tile(x, y)->units, vunit)  {
+    create_unit(pplayer, x, y, vunit->type, vunit->veteran,
+		pcity->id, vunit->moves_left);
+    wipe_unit(0, vunit);
+  } unit_list_iterate_end;
 
-  unit_list_iterate(pvictim->units, vunit)
-    /* Is unit in the city? */
-    
-    if(same_pos(vunit->x, vunit->y, x, y)){
-      create_unit(pplayer, x, y, vunit->type, vunit->veteran,
-		  pcity->id, vunit->moves_left);
-      wipe_unit(0, vunit);
-    }else{
-      if(vunit->homecity == vcity->id){
-	/* look up victim's cities and see if this unit is
-	   in one of them */
+  /* Any remaining units supported by the city are either given new home
+   * cities or destroyed */
+  unit_list_iterate(vcity->units_supported, vunit) {
+    struct city* new_home_city = map_get_city(vunit->x, vunit->y);
+    if(new_home_city)  {
+      /* unit is in another city: make that the new homecity */
 	
-	struct city* new_home_city = 
-	  city_list_find_coor(&pvictim->cities, vunit->x, vunit->y);
-	
-	if(new_home_city){
-	  /* unit is in another city: make that the new homecity */
-	  
-	  create_unit(pvictim, vunit->x, vunit->y, vunit->type, 
-		      vunit->veteran, new_home_city->id, vunit->moves_left);
+      create_unit(pvictim, vunit->x, vunit->y, vunit->type, 
+		  vunit->veteran, new_home_city->id, vunit->moves_left);
 
-	}else{
-
-	  /* 
-	   * unit isn't in a city - Civ2 deletes it - seems like
-	   * a good idea to prevent the city being immediately
-	   * retaken.  We don't actually have to do anything here 
-	   * as remove_city deletes all supported units.
-	   */
-	 
-	  wipe_unit(0, vunit);
-	  
-	}
-      }
     }
-  unit_list_iterate_end;
+    /* unit isn't in a city - Civ2 deletes it - seems like a good idea to
+     * prevent the city being immediately retaken.  We don't actually have to
+     * do anything here as remove_city deletes all supported units.  */
+    wipe_unit(0, vunit);
+  } unit_list_iterate_end;
 }
