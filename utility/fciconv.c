@@ -38,12 +38,19 @@ static bool is_init = FALSE;
 static char convert_buffer[4096];
 
 #ifdef HAVE_ICONV
-static char *local_encoding, *data_encoding, *internal_encoding;
+static const char *local_encoding, *data_encoding, *internal_encoding;
+#else
+/* Hack to confuse the compiler into working. */
+#  define local_encoding get_local_encoding()
+#  define data_encoding get_local_encoding()
+#  define internal_encoding get_local_encoding()
 #endif
 
 /***************************************************************************
   Must be called during the initialization phase of server and client to
   initialize the character encodings to be used.
+
+  Pass an internal encoding of NULL to use the local encoding internally.
 ***************************************************************************/
 void init_character_encodings(char *my_internal_encoding)
 {
@@ -112,18 +119,40 @@ void init_character_encodings(char *my_internal_encoding)
   is_init = TRUE;
 }
 
+/***************************************************************************
+  Return the data encoding (usually UTF-8).
+***************************************************************************/
 const char *get_data_encoding(void)
 {
   assert(is_init);
   return data_encoding;
 }
 
+/***************************************************************************
+  Return the local encoding (dependent on the system).
+***************************************************************************/
 const char *get_local_encoding(void)
 {
+#ifdef HAVE_ICONV
   assert(is_init);
   return local_encoding;
+#else
+#  ifdef HAVE_LIBCHARSET
+  return locale_charset();
+#  else
+#    ifdef HAVE_LANGINFO_CODESET
+  return nl_langinfo(CODESET);
+#    else
+  return "";
+#    endif
+#  endif
+#endif
 }
 
+/***************************************************************************
+  Return the internal encoding.  This depends on the server or GUI being
+  used.
+***************************************************************************/
 const char *get_internal_encoding(void)
 {
   assert(is_init);
@@ -221,6 +250,7 @@ static char *convert_string(const char *text,
   if (buf) {
     strncpy(buf, text, bufsz);
     buf[bufsz - 1] = '\0';
+    return buf;
   } else {
     return mystrdup(text);
   }
@@ -258,7 +288,7 @@ static CONV_FUNC_BUFFER(internal, local)
 static CONV_FUNC_STATIC(internal, local)
 
 /***************************************************************************
-  Do a printf in the currently bound codeset.
+  Do a fprintf from the internal charset into the local charset.
 ***************************************************************************/
 void fc_fprintf(FILE *stream, const char *format, ...)
 {
