@@ -164,6 +164,23 @@ static bool shared_vision_is_safe(struct player* pplayer,
 }
 
 /********************************************************************** 
+  Checks if player1 can agree on ceasefire with player2
+  This function should only be used for ai players
+**********************************************************************/
+static bool ai_players_can_agree_on_ceasefire(struct player* player1,
+                                              struct player* player2)
+{
+  struct ai_data *ai1;
+  ai1 = ai_data_get(player1);
+  return (ai1->diplomacy.target != player2 && 
+          (player1 == ai1->diplomacy.alliance_leader ||
+           !pplayers_at_war(player2, ai1->diplomacy.alliance_leader)) &&
+	  player1->ai.love[player2->player_no] > -40 &&
+	  (ai1->diplomacy.target == NULL || 
+	   !pplayers_allied(ai1->diplomacy.target, player2)));
+}
+
+/********************************************************************** 
   Evaluate gold worth of a single clause in a treaty. Note that it
   sometimes matter a great deal who is giving what to whom, and
   sometimes (such as with treaties) it does not matter at all.
@@ -329,8 +346,13 @@ static int ai_goldequiv_clause(struct player *pplayer,
                       - ai->diplomacy.req_love_for_alliance);
       }
     } else {
-      worth = greed(pplayer->ai.love[aplayer->player_no]
-                    - ai->diplomacy.req_love_for_ceasefire);
+      if (pplayer->ai.control && aplayer->ai.control &&
+         ai_players_can_agree_on_ceasefire(pplayer, aplayer)) {
+	 worth = 0;
+      } else {
+        worth = greed(pplayer->ai.love[aplayer->player_no]
+                      - ai->diplomacy.req_love_for_ceasefire);
+      }
     }
   break;
 
