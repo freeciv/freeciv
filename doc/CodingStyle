@@ -213,6 +213,11 @@ int foo(struct city *pcity)
   -Wmissing-declarations -Wstrict-prototypes -Wnested-externs" if you
   use gcc.
 
+- Header files should be compatible with C++ but code (.c) files need not
+  be.  This means some C++ keywords (like "this" or "class") may not be
+  used in header files.  It also means casts on void pointers (which should
+  be avoided in C files) must be used in headers.
+
 - If you send patches, use "diff -u" (or "diff -r -u", or "cvs diff -u").
   For further information, see
   <http://www.freeciv.org/index.php/How_to_Contribute>.

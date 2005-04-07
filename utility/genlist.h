@@ -90,27 +90,35 @@ void genlist_sort(struct genlist *pgenlist,
    where the pointers in the list are really pointers to "atype".
    Eg, see speclist.h, which is what this is really for.
 */
-#define TYPED_LIST_ITERATE(atype, typed_list, var) {       \
-  struct genlist_link *myiter = (typed_list)->list->head_link;\
-  atype *var;                                              \
-  for(; ITERATOR_PTR(myiter);) {                           \
-    var = ITERATOR_PTR(myiter);				   \
+#define TYPED_LIST_ITERATE(atype, typed_list, var)			    \
+{									    \
+  struct genlist_link *myiter = (typed_list)->list->head_link;		    \
+  atype *var;								    \
+									    \
+  for (; ITERATOR_PTR(myiter);) {					    \
+    var = (atype *)ITERATOR_PTR(myiter);				    \
     ITERATOR_NEXT(myiter);
 
 /* Balance for above: */ 
-#define LIST_ITERATE_END  }}
+#define LIST_ITERATE_END						    \
+  }									    \
+}
 
 
 /* Same, but iterate backwards: */
-#define TYPED_LIST_ITERATE_REV(atype, typed_list, var) {   \
-  struct genlist_link *myiter = (typed_list)->list->tail_link;\
-  atype *var;                                              \
-  for(; ITERATOR_PTR(myiter);) {                           \
-    var = ITERATOR_PTR(myiter);				   \
+#define TYPED_LIST_ITERATE_REV(atype, typed_list, var)			    \
+{									    \
+  struct genlist_link *myiter = (typed_list)->list->tail_link;		    \
+  atype *var;								    \
+									    \
+  for (; ITERATOR_PTR(myiter);) {					    \
+    var = (atype *)ITERATOR_PTR(myiter);				    \
     ITERATOR_PREV(myiter);
  
 /* Balance for above: */ 
-#define LIST_ITERATE_REV_END  }}
+#define LIST_ITERATE_REV_END						    \
+  }									    \
+}
 
 
 #endif  /* FC__GENLIST_H */

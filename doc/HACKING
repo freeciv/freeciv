@@ -33,8 +33,8 @@ po: translations
 ai: the ai, later linked into the server.
 
 Freeciv is written in C.  Header files should be compatible with C++ so
-that C++ add-ons (particularly new clients) are possible.  This mostly
-means avoiding C++ keywords (like "this" and "class").
+that C++ add-ons (particularly new clients) are possible.  See the
+CodingStyle file for more.
 
 ===========================================================================
 Server

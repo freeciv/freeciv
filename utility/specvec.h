@@ -93,7 +93,8 @@ static inline void SPECVEC_FOO(_vector_reserve) (SPECVEC_VECTOR *tthis,
   if (size > tthis->size_alloc) {
     size_t new_size = MAX(size, tthis->size_alloc * 2);
 
-    tthis->p = fc_realloc(tthis->p, new_size * sizeof(*tthis->p));
+    tthis->p = (SPECVEC_TYPE *)fc_realloc(tthis->p,
+					  new_size * sizeof(*tthis->p));
     tthis->size_alloc = new_size;
   }
   tthis->size = size;

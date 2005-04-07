@@ -79,7 +79,7 @@ SPECLIST_LIST {
 
 static inline SPECLIST_LIST *SPECLIST_FOO(_list_new) (void)
 {
-  SPECLIST_LIST *speclist = fc_malloc(sizeof(*speclist));
+  SPECLIST_LIST *speclist = (SPECLIST_LIST *)fc_malloc(sizeof(*speclist));
 
   speclist->list = genlist_new();
   return speclist;
@@ -102,7 +102,7 @@ static inline int SPECLIST_FOO(_list_size) (const SPECLIST_LIST *tthis)
 
 static inline SPECLIST_TYPE *SPECLIST_FOO(_list_get) (const SPECLIST_LIST *tthis, int index)
 {
-  return genlist_get(tthis->list, index);
+  return (SPECLIST_TYPE *)genlist_get(tthis->list, index);
 }
 
 static inline void SPECLIST_FOO(_list_append) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
