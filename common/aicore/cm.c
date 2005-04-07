@@ -492,6 +492,7 @@ static const struct cm_tile_type *tile_type_get(const struct cm_state *state,
 ****************************************************************************/
 static const struct cm_tile *tile_get(const struct cm_tile_type *ptype, int j)
 {
+  assert(!ptype->is_specialist);
   assert(j >= 0);
   assert(j < ptype->tiles.size);
   return &ptype->tiles.p[j];
