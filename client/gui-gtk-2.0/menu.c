@@ -1256,7 +1256,7 @@ void update_menus(void)
 	  my_snprintf(buf, sizeof(buf), _("%s..."), g->name);
           item = gtk_image_menu_item_new_with_label(buf);
 
-	  if ((gsprite = g->sprite)) {
+	  if ((gsprite = get_government_sprite(tileset, g))) {
 	    image = gtk_image_new_from_pixbuf(sprite_get_pixbuf(gsprite));
 	    gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
 	    gtk_widget_show(image);

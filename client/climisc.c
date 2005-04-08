@@ -375,7 +375,9 @@ struct sprite *client_cooling_sprite(void)
 struct sprite *client_government_sprite(void)
 {
   if (can_client_change_view() && game.government_count > 0) {
-    return get_government(game.player_ptr->government)->sprite;
+    struct government *gov = get_government(game.player_ptr->government);
+
+    return get_government_sprite(tileset, gov);
   } else {
     /* HACK: the UNHAPPY citizen is used for the government
      * when we don't know any better. */

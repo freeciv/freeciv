@@ -130,6 +130,7 @@ struct named_sprites {
 
   struct sprite *tech[A_LAST];
   struct sprite *building[B_LAST];
+  struct sprite *government[G_MAGIC];
 
   struct citizen_graphic {
     /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
@@ -2481,8 +2482,9 @@ void tileset_setup_government(struct tileset *t, int id)
 {
   struct government *gov = get_government(id);
   
-  gov->sprite = lookup_sprite_tag_alt(t, gov->graphic_str, gov->graphic_alt,
-				      TRUE, "government", gov->name);
+  t->sprites.government[id]
+    = lookup_sprite_tag_alt(t, gov->graphic_str, gov->graphic_alt,
+			    TRUE, "government", gov->name);
   
   /* should probably do something if NULL, eg generic default? */
 }
@@ -4219,6 +4221,20 @@ struct sprite *get_building_sprite(const struct tileset *t, Impr_Type_id b)
     return NULL;
   }
   return t->sprites.building[b];
+}
+
+
+/****************************************************************************
+  Return the sprite for the government.
+****************************************************************************/
+struct sprite *get_government_sprite(const struct tileset *t,
+				     const struct government *gov)
+{
+  if (!gov || gov->index < 0 || gov->index >= game.government_count) {
+    assert(0);
+    return NULL;
+  }
+  return t->sprites.government[gov->index];
 }
 
 /**************************************************************************

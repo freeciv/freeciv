@@ -18,8 +18,6 @@
 #include "fc_types.h"
 #include "requirements.h"
 
-struct sprite;			/* opaque; client-gui specific */
-
 #define G_MAGIC (127)		/* magic constant, used as flag value */
 
 /* special values for free_* fields -- SKi */
@@ -123,8 +121,6 @@ struct government
      use government_has_flag() to access */
   int   flags;
 
-  struct sprite *sprite;
-  
   char *helptext;
 };
 
