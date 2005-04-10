@@ -4211,7 +4211,7 @@ struct sprite *get_nation_flag_sprite(const struct tileset *t,
 **************************************************************************/
 struct sprite *get_tech_sprite(const struct tileset *t, Tech_Type_id tech)
 {
-  if (tech <= 0 || tech >= game.num_tech_types) {
+  if (tech < 0 || tech >= game.num_tech_types) {
     assert(0);
     return NULL;
   }
@@ -4223,7 +4223,7 @@ struct sprite *get_tech_sprite(const struct tileset *t, Tech_Type_id tech)
 **************************************************************************/
 struct sprite *get_building_sprite(const struct tileset *t, Impr_Type_id b)
 {
-  if (b <= 0 || b >= game.num_impr_types) {
+  if (b < 0 || b >= B_LAST || b >= game.num_impr_types) {
     assert(0);
     return NULL;
   }
