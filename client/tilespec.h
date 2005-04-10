@@ -184,6 +184,7 @@ struct sprite *get_tech_sprite(const struct tileset *t, Tech_Type_id tech);
 struct sprite *get_building_sprite(const struct tileset *t, Impr_Type_id b);
 struct sprite *get_government_sprite(const struct tileset *t,
 				     const struct government *gov);
+struct sprite *get_unittype_sprite(const struct tileset *t, Unit_Type_id id);
 struct sprite *get_sample_city_sprite(const struct tileset *t,
 				      int city_style);
 struct sprite *get_arrow_sprite(const struct tileset *t);

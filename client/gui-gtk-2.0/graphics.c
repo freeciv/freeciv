@@ -106,9 +106,9 @@ void create_overlay_unit(struct canvas *pcanvas, int i)
 {
   int x1, x2, y1, y2;
   int width, height;
-  struct unit_type *type = get_unit_type(i);
+  struct sprite *sprite = get_unittype_sprite(tileset, i);
 
-  sprite_get_bounding_box(type->sprite, &x1, &y1, &x2, &y2);
+  sprite_get_bounding_box(sprite, &x1, &y1, &x2, &y2);
   if (pcanvas->type == CANVAS_PIXBUF) {
     width = gdk_pixbuf_get_width(pcanvas->v.pixbuf);
     height = gdk_pixbuf_get_height(pcanvas->v.pixbuf);
@@ -124,7 +124,7 @@ void create_overlay_unit(struct canvas *pcanvas, int i)
   }
 
   /* Finally, put a picture of the unit in the tile */
-  canvas_put_sprite(pcanvas, 0, 0, type->sprite, 
+  canvas_put_sprite(pcanvas, 0, 0, sprite, 
       (x2 + x1 - width) / 2, (y1 + y2 - height) / 2, 
       tileset_full_tile_width(tileset) - (x2 + x1 - width) / 2, 
       tileset_full_tile_height(tileset) - (y1 + y2 - height) / 2);

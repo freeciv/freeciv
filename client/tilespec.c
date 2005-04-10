@@ -131,6 +131,7 @@ struct named_sprites {
   struct sprite *tech[A_LAST];
   struct sprite *building[B_LAST];
   struct sprite *government[G_MAGIC];
+  struct sprite *unittype[U_LAST];
 
   struct citizen_graphic {
     /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
@@ -2220,9 +2221,10 @@ static struct sprite* lookup_sprite_tag_alt(struct tileset *t,
 void tileset_setup_unit_type(struct tileset *t, int id)
 {
   struct unit_type *ut = get_unit_type(id);
-  
-  ut->sprite = lookup_sprite_tag_alt(t, ut->graphic_str, ut->graphic_alt,
-				     TRUE, "unit_type", ut->name);
+
+  t->sprites.unittype[id]
+    = lookup_sprite_tag_alt(t, ut->graphic_str, ut->graphic_alt,
+			    TRUE, "unit_type", ut->name);
 
   /* should maybe do something if NULL, eg generic default? */
 }
@@ -2647,7 +2649,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  ADD_SPRITE(unit_type(punit)->sprite, TRUE,
+  ADD_SPRITE(t->sprites.unittype[punit->type], TRUE,
 	     FULL_TILE_X_OFFSET + t->unit_offset_x,
 	     FULL_TILE_Y_OFFSET + t->unit_offset_y);
 
@@ -4223,7 +4225,6 @@ struct sprite *get_building_sprite(const struct tileset *t, Impr_Type_id b)
   return t->sprites.building[b];
 }
 
-
 /****************************************************************************
   Return the sprite for the government.
 ****************************************************************************/
@@ -4235,6 +4236,18 @@ struct sprite *get_government_sprite(const struct tileset *t,
     return NULL;
   }
   return t->sprites.government[gov->index];
+}
+
+/****************************************************************************
+  Return the sprite for the unit type (the base "unit" sprite).
+****************************************************************************/
+struct sprite *get_unittype_sprite(const struct tileset *t, Unit_Type_id id)
+{
+  if (id < 0 || id >= game.num_unit_types) {
+    assert(0);
+    return NULL;
+  }
+  return t->sprites.unittype[id];
 }
 
 /**************************************************************************

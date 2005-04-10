@@ -1575,9 +1575,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
       cid_decode(items[item].cid, &is_unit, &id);
       if (is_unit) {
-        struct unit_type *unit_type = get_unit_type(id);
-	name = unit_type->name;
-	sprite = unit_type->sprite;
+	name = unit_name(id);
+	sprite = get_unittype_sprite(tileset, id);
       } else {
 	name = get_improvement_name(id);
 	sprite = get_building_sprite(tileset, id);

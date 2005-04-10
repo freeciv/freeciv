@@ -17,8 +17,6 @@
 
 #include "fc_types.h"
 
-struct sprite;			/* opaque; client-gui specific */
-
 typedef int Unit_Type_id;
 /*
   Above typedef replaces old "enum unit_type_id" (since no longer
@@ -179,7 +177,6 @@ struct unit_type {
   char sound_move_alt[MAX_LEN_NAME];
   char sound_fight[MAX_LEN_NAME];
   char sound_fight_alt[MAX_LEN_NAME];
-  struct sprite *sprite;
   enum unit_move_type move_type;
   int build_cost;			/* Use wrappers to access this. */
   int pop_cost;  /* number of workers the unit contains (e.g., settlers, engineers)*/
