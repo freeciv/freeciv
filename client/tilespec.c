@@ -1144,7 +1144,6 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   enum direction8 dir;
   struct tileset *t = tileset_new();
 
-  tileset = t; /* HACK: because some functions still use the global value. */
   fname = tilespec_fullname(tileset_name);
   freelog(LOG_VERBOSE, "tilespec file is %s", fname);
 
@@ -1445,11 +1444,17 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   t->sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
   for (i = 0; i < num_spec_files; i++) {
     struct specfile *sf = fc_malloc(sizeof(*sf));
+    char *dname;
 
     freelog(LOG_DEBUG, "spec file %s", spec_filenames[i]);
     
     sf->big_sprite = NULL;
-    sf->file_name = mystrdup(datafilename_required(spec_filenames[i]));
+    dname = datafilename(spec_filenames[i]);
+    if (!dname) {
+      tileset_free(t);
+      return NULL;
+    }
+    sf->file_name = mystrdup(dname);
     scan_specfile(t, sf, duplicates_ok);
 
     specfile_list_prepend(t->specfiles, sf);
