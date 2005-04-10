@@ -615,13 +615,17 @@ int city_set_worklist(struct city *pcity, struct worklist *pworklist)
   return dsend_packet_city_worklist(&aconnection, pcity->id, &copy);
 }
 
+
 /**************************************************************************
-  Insert an item into the city's worklist.
+  Insert an item into the city's queue.  This function will send new
+  production requests to the server but will NOT send the new worklist
+  to the server - the caller should call city_set_worklist() if the
+  function returns TRUE.
 
   Note that the queue DOES include the current production.
 **************************************************************************/
-bool city_queue_insert(struct city *pcity, int position,
-		       bool item_is_unit, int item_id)
+static bool base_city_queue_insert(struct city *pcity, int position,
+				   bool item_is_unit, int item_id)
 {
   if (position == 0) {
     int old_id;
@@ -641,7 +645,6 @@ bool city_queue_insert(struct city *pcity, int position,
       return FALSE;
     }
 
-    city_set_worklist(pcity, &pcity->worklist);
     city_change_production(pcity, item_is_unit, item_id);
   } else if (position >= 1
 	     && position <= worklist_length(&pcity->worklist)) {
@@ -656,7 +659,6 @@ bool city_queue_insert(struct city *pcity, int position,
 			 position - 1)) {
       return FALSE;
     }
-    city_set_worklist(pcity, &pcity->worklist);
   } else {
     /* Insert at end. */
     if (item_is_unit && !can_eventually_build_unit(pcity, item_id)) {
@@ -668,9 +670,73 @@ bool city_queue_insert(struct city *pcity, int position,
     if (!worklist_append(&pcity->worklist, item_id, item_is_unit)) {
       return FALSE;
     }
-    city_set_worklist(pcity, &pcity->worklist);
   }
   return TRUE;
+}
+
+/**************************************************************************
+  Insert an item into the city's queue.
+
+  Note that the queue DOES include the current production.
+**************************************************************************/
+bool city_queue_insert(struct city *pcity, int position,
+		       bool item_is_unit, int item_id)
+{
+  if (base_city_queue_insert(pcity, position, item_is_unit, item_id)) {
+    city_set_worklist(pcity, &pcity->worklist);
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+  Clear the queue (all entries except the first one since that can't be
+  cleared).
+
+  Note that the queue DOES include the current production.
+**************************************************************************/
+bool city_queue_clear(struct city *pcity)
+{
+  int i;
+
+  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    pcity->worklist.wlefs[i] = WEF_END;
+    pcity->worklist.wlids[i] = 0;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Insert the worklist into the city's queue at the given position.
+
+  Note that the queue DOES include the current production.
+**************************************************************************/
+bool city_queue_insert_worklist(struct city *pcity, int position,
+				struct worklist *worklist)
+{
+  bool success = FALSE;
+
+  if (worklist_length(worklist) == 0) {
+    return TRUE;
+  }
+
+  worklist_iterate(worklist, id, is_unit) {
+    if (base_city_queue_insert(pcity, position, is_unit, id)) {
+      if (position > 0) {
+	/* Move to the next position (unless position == -1 in which case
+	 * we're appending. */
+	position++;
+      }
+      success = TRUE;
+    }
+  } worklist_iterate_end;
+
+  if (success) {
+    city_set_worklist(pcity, &pcity->worklist);
+  }
+
+  return success;
 }
 
 /**************************************************************************

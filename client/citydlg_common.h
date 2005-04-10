@@ -72,6 +72,9 @@ int city_change_production(struct city *pcity, bool is_unit, int build_id);
 int city_set_worklist(struct city *pcity, struct worklist *pworklist);
 bool city_queue_insert(struct city *pcity, int position,
 		       bool item_is_unit, int item_id);
+bool city_queue_clear(struct city *pcity);
+bool city_queue_insert_worklist(struct city *pcity, int position,
+				struct worklist *worklist);
 void city_get_queue(struct city *pcity, struct worklist *pqueue);
 void city_set_queue(struct city *pcity, struct worklist *pqueue);
 bool city_can_buy(const struct city *pcity);
