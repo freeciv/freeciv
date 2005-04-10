@@ -1780,33 +1780,30 @@ static inline int make_citizens_happy(int *from, int *to, int count)
 /**************************************************************************
   Create content, unhappy and angry citizens.
 **************************************************************************/
-static void citizen_base_mood(struct city *pcity,
+static void citizen_base_mood(struct player *pplayer, int specialists,
 			      int *happy, int *content,
-			      int *unhappy, int *angry)
+			      int *unhappy, int *angry, int size)
 {
-  /* Number of specialists in city */
-  int specialists = city_specialists(pcity);
-
   /* This is the number of citizens that may start out content, depending
    * on empire size and game's city unhappysize. This may be bigger than
    * the size of the city, since this is a potential. */
-  int base_content = content_citizens(city_owner(pcity));
+  int base_content = content_citizens(pplayer);
 
   /* Create content citizens. Take specialists from their ranks. */
-  *content = MAX(0, MIN(pcity->size, base_content) - specialists);
+  *content = MAX(0, MIN(size, base_content) - specialists);
 
   /* Create angry citizens only if we have a negative number of possible
    * content citizens. This happens when empires grow really big. */
   if (game.angrycitizen == FALSE) {
     *angry = 0;
   } else {
-    *angry = MIN(MAX(0, -base_content), pcity->size - specialists);
+    *angry = MIN(MAX(0, -base_content), size - specialists);
   }
 
   /* Create unhappy citizens. In the beginning, all who are not content,
    * specialists or angry are unhappy. This is changed by luxuries and 
    * buildings later. */
-  *unhappy = (pcity->size - specialists - *content - *angry);
+  *unhappy = (size - specialists - *content - *angry);
 
   /* No one is born happy. */
   *happy = 0;
@@ -2132,7 +2129,7 @@ static inline void city_support(struct city *pcity,
 
   /* Add base amounts for building upkeep and citizen consumption. */
   pcity->usage[O_GOLD] += city_building_upkeep(pcity, O_GOLD);
-  pcity->usage[O_FOOD] += 2 * pcity->size;
+  pcity->usage[O_FOOD] += FOOD_COST * pcity->size;
 
   /*
    * If you modify anything here these places might also need updating:
@@ -2246,6 +2243,7 @@ void generic_city_refresh(struct city *pcity,
 			  void (*send_unit_info) (struct player * pplayer,
 						  struct unit * punit))
 {
+  struct player *pplayer = city_owner(pcity);
   int prev_tile_trade = pcity->citizen_base[O_TRADE];
 
   if (full_refresh) {
@@ -2255,8 +2253,9 @@ void generic_city_refresh(struct city *pcity,
   }
   get_citizen_output(pcity, pcity->citizen_base); /* Calculate output from citizens. */
   set_city_production(pcity);
-  citizen_base_mood(pcity, &pcity->ppl_happy[0], &pcity->ppl_content[0],
-                    &pcity->ppl_unhappy[0], &pcity->ppl_angry[0]);
+  citizen_base_mood(pplayer, city_specialists(pcity), &pcity->ppl_happy[0], 
+                    &pcity->ppl_content[0], &pcity->ppl_unhappy[0], 
+                    &pcity->ppl_angry[0], pcity->size);
   pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
   happy_copy(pcity, 1);
