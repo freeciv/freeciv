@@ -851,7 +851,7 @@ GtkWidget *create_network_page(void)
   g_signal_connect(button, "clicked",
       G_CALLBACK(main_callback), NULL);
 
-  button = gtk_button_new_from_stock(GTK_STOCK_OK);
+  button = gtk_button_new_with_mnemonic(_("C_onnect"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
       G_CALLBACK(connect_callback), NULL);
