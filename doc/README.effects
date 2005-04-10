@@ -153,6 +153,14 @@ cumulative.  For many effects this is undesirable.
 "Regen_Reputation" - Increase your reputation by AMOUNT units (out of 1000)
                   per turn
 
+"Slow_Down_Timeline" - Slow down the timeline based on the AMOUNT.  If
+                       AMOUNT >= 3 the timeline will be 1 year/turn; with
+                       AMOUNT == 2 it is 2 years/turn; with
+                       AMOUNT == 1 it is 5 years/turn; with
+                       AMOUNT <= 0 the timeline is unaffected.
+                       The effect will be ignored if game.spacerace isn't
+                       set.
+
 
 .range may be one of: 
              "None", "Local", "Adjacent", "City", "Continent",

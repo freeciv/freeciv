@@ -105,6 +105,7 @@ enum effect_type {
   EFT_NO_INCITE,
   EFT_REGEN_REPUTATION,
   EFT_GAIN_AI_LOVE,
+  EFT_SLOW_DOWN_TIMELINE,
   EFT_LAST	/* keep this last */
 };
 

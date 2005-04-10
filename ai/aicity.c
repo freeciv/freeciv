@@ -326,6 +326,10 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_WASTE_PCT:
 	  break;
 
+      case EFT_SLOW_DOWN_TIMELINE:
+	/* AI doesn't care about these. */
+	break;
+
 	/* WAG evaluated effects */
 	case EFT_INCITE_DIST_PCT:
 	  if (palace) {

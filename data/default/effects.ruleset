@@ -625,6 +625,30 @@ reqs	=
       "Building", "Space Structural", "City"
     }
 
+[effect_plastics_slowdown]
+name    = "Slow_Down_Timeline"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Tech", "Plastics", "World"
+    }
+
+[effect_superconductor_slowdown]
+name    = "Slow_Down_Timeline"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Tech", "Superconductors", "World"
+    }
+
+[effect_spaceflight_slowdown]
+name    = "Slow_Down_Timeline"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Tech", "Space Flight", "World"
+    }
+
 [effect_stock_exchange]
 name	= "Tax_Bonus"
 value	= 50

@@ -374,7 +374,8 @@ void initialize_globals(void)
 ***************************************************************/
 int game_next_year(int year)
 {
-  int spaceshipparts, space_parts[3] = {0, 0, 0};
+  const int slowdown = (game.spacerace
+			? get_world_bonus(EFT_SLOW_DOWN_TIMELINE) : 0);
 
   if (year == 1) /* hacked it to get rid of year 0 */
     year = 0;
@@ -392,38 +393,15 @@ int game_next_year(int year)
    * about 1900 AD
    */
 
-  /* Count how many of the different spaceship parts we can build.  Note this
-   * operates even if Enable_Space is not active. */
-  if (game.spacerace) {
-    impr_type_iterate(impr) {
-      Tech_Type_id t = improvement_types[impr].tech_req;
-
-      if (!improvement_exists(impr)) {
-	continue;
-      }
-      if (building_has_effect(impr, EFT_SS_STRUCTURAL)
-	  && tech_exists(t) && game.global_advances[t] != 0) {
-	space_parts[0] = 1;
-      }
-      if (building_has_effect(impr, EFT_SS_COMPONENT)
-	  && tech_exists(t) && game.global_advances[t] != 0) {
-	space_parts[1] = 1;
-      }
-      if (building_has_effect(impr, EFT_SS_MODULE)
-	  && tech_exists(t) && game.global_advances[t] != 0) {
-	space_parts[2] = 1;
-      }
-    } impr_type_iterate_end;
-  }
-  spaceshipparts = space_parts[0] + space_parts[1] + space_parts[2];
-
-  if( year >= 1900 || ( spaceshipparts>=3 && year>0 ) )
+  /* Note the slowdown operates even if Enable_Space is not active.  See
+   * README.effects for specifics. */
+  if (year >= 1900 || (slowdown >= 3 && year > 0)) {
     year += 1;
-  else if( year >= 1750 || spaceshipparts>=2 )
+  } else if (year >= 1750 || slowdown >= 2) {
     year += 2;
-  else if( year >= 1500 || spaceshipparts>=1 )
+  } else if (year >= 1500 || slowdown >= 1) {
     year += 5;
-  else if( year >= 1000 )
+  } else if( year >= 1000 )
     year += 10;
   else if( year >= 0 )
     year += 20;
