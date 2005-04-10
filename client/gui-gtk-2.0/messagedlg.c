@@ -57,7 +57,7 @@ static void create_messageopt_dialog(void)
   GtkWidget *form, *explanation;
   int n, i, j;
   
-  gui_dialog_new(&shell, GTK_NOTEBOOK(bottom_notebook));
+  gui_dialog_new(&shell, GTK_NOTEBOOK(top_notebook));
   gui_dialog_set_title(shell, _("Message Options"));
 
   gui_dialog_set_default_size(shell, -1, 450);
@@ -68,15 +68,15 @@ static void create_messageopt_dialog(void)
   explanation = gtk_label_new(NULL);
   gtk_label_set_markup(GTK_LABEL(explanation),
     _("Where to display messages?\n"
-      "\t<b>Out</b>put window ;\n"
-      "\t<b>Mes</b>sages window ;\n"
-      "\t<b>Pop</b>up individual window"));
+      "<b>Out</b>put window ; "
+      "<b>Mes</b>sages window ; "
+      "<b>Pop</b>up individual window"));
   gtk_widget_set_name(explanation, "comment label");
-  gtk_box_pack_start(GTK_BOX(shell->vbox), explanation, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(shell->vbox), explanation, FALSE, FALSE, 4);
   gtk_widget_show(explanation);	
 
-  form = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(shell->vbox), form, TRUE, TRUE, 5);
+  form = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(shell->vbox), form, TRUE, TRUE, 0);
 
   for (n=0; n<NUM_LISTS; n++) {
     model[n] = gtk_list_store_new(5,
@@ -108,13 +108,16 @@ static void create_messageopt_dialog(void)
     GtkWidget *view, *sw;
     GtkCellRenderer *renderer;
     gint col;
+    GtkTreeViewColumn *column;
 
     view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(model[n]));
     g_object_unref(model[n]);
 
     renderer = gtk_cell_renderer_text_new();
-    col = gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-	-1, _("Event"), renderer, "text", 3, NULL);
+    column = gtk_tree_view_column_new_with_attributes(_("Event"),
+	renderer, "text", 3, NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
+    gtk_tree_view_column_set_expand(column, TRUE);
 
     renderer = gtk_cell_renderer_toggle_new();
     g_object_set_data(G_OBJECT(renderer), "column", GINT_TO_POINTER(0));
@@ -143,7 +146,7 @@ static void create_messageopt_dialog(void)
     gtk_container_add(GTK_CONTAINER(sw), view);
 
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				   GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+				   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
     gtk_box_pack_start(GTK_BOX(form), sw, TRUE, TRUE, 0);
 
     gtk_tree_view_focus(GTK_TREE_VIEW(view));

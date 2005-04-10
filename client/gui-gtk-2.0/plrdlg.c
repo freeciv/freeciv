@@ -283,7 +283,7 @@ void create_players_dialog(void)
 {
   int i;
   GtkWidget *sep, *sw;
-  GtkWidget *menubar, *menu, *item;
+  GtkWidget *menubar, *menu, *item, *vbox;
 
   gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook));
   gui_dialog_set_title(players_dialog_shell, _("Players"));
@@ -376,11 +376,19 @@ void create_players_dialog(void)
 		                 GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
   gtk_container_add(GTK_CONTAINER(sw), players_list);
 
-  menubar = gtk_menu_bar_new();
-  gtk_box_pack_start(GTK_BOX(players_dialog_shell->vbox), menubar,
-		     FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(players_dialog_shell->vbox), sw,
-		     TRUE, TRUE, 5);
+		     TRUE, TRUE, 0);
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  sep = gtk_hseparator_new();
+  gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, FALSE, 0);
+
+  menubar = gtk_menu_bar_new();
+  gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 0);
+
+  gui_dialog_add_widget(players_dialog_shell, vbox);
+  gtk_box_set_child_packing(GTK_BOX(players_dialog_shell->action_area), 
+      vbox, FALSE, FALSE, 0, GTK_PACK_END);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Player"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);

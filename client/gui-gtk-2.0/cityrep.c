@@ -93,8 +93,7 @@ static void popup_first_menu(GtkMenuShell *menu, gpointer data);
 static void popup_next_menu(GtkMenuShell *menu, gpointer data);
 
 static GtkWidget *city_center_command, *city_popup_command, *city_buy_command;
-static GtkWidget *city_change_command;
-static GtkWidget *city_last_command, *city_first_command, *city_next_command;
+static GtkWidget *city_production_command;
 
 
 static GtkWidget *change_improvements_item;
@@ -667,28 +666,36 @@ static void update_view_menu(GtkWidget *show_item)
 *****************************************************************/
 static GtkWidget *create_city_report_menubar(void)
 {
-  GtkWidget *menubar, *item;
+  GtkWidget *vbox, *sep, *menubar, *menu, *item;
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  sep = gtk_hseparator_new();
+  gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, FALSE, 0);
 
   menubar = gtk_menu_bar_new();
+  gtk_box_pack_start(GTK_BOX(vbox), menubar, TRUE, TRUE, 0);
   
-  item = gtk_menu_item_new_with_mnemonic(_("Chan_ge"));
+  item = gtk_menu_item_new_with_mnemonic(_("Pro_duction"));
+  city_production_command = item;
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
-  city_change_command = item;
+
+  menu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+
+  item = gtk_menu_item_new_with_mnemonic(_("Chan_ge"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   create_change_menu(item);
 
   item = gtk_menu_item_new_with_mnemonic(_("Add _First"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
-  city_first_command = item;
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   create_first_menu(item);
 
   item = gtk_menu_item_new_with_mnemonic(_("Add _Next"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
-  city_next_command = item;
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   create_next_menu(item);
 
   item = gtk_menu_item_new_with_mnemonic(_("Add _Last"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
-  city_last_command = item;
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   create_last_menu(item);
 
   item = gtk_menu_item_new_with_mnemonic(_("_Select"));
@@ -698,7 +705,7 @@ static GtkWidget *create_city_report_menubar(void)
   item = gtk_menu_item_new_with_mnemonic(_("S_how"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   update_view_menu(item);
-  return menubar;
+  return vbox;
 }
 
 /****************************************************************
@@ -785,8 +792,7 @@ static void create_city_report_dialog(bool make_modal)
 
   /* menubar */
   menubar = create_city_report_menubar();
-  gtk_box_pack_start(GTK_BOX(city_dialog_shell->vbox),
-	menubar, FALSE, FALSE, 0);
+  gui_dialog_add_widget(city_dialog_shell, menubar);
 
   /* buttons */
   w = gui_dialog_add_stockbutton(city_dialog_shell, GTK_STOCK_ZOOM_FIT,
@@ -1557,18 +1563,13 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
   n = gtk_tree_selection_count_selected_rows(selection);
 
   if (n == 0) {
-    gtk_widget_set_sensitive(city_change_command, FALSE);
-    gtk_widget_set_sensitive(city_last_command, FALSE);
-    gtk_widget_set_sensitive(city_first_command, FALSE);
-    gtk_widget_set_sensitive(city_next_command, FALSE);
+    gtk_widget_set_sensitive(city_production_command, FALSE);
     gtk_widget_set_sensitive(city_center_command, FALSE);
     gtk_widget_set_sensitive(city_popup_command, FALSE);
     gtk_widget_set_sensitive(city_buy_command, FALSE);
   } else {
-    gtk_widget_set_sensitive(city_change_command, can_client_issue_orders());
-    gtk_widget_set_sensitive(city_last_command, can_client_issue_orders());
-    gtk_widget_set_sensitive(city_first_command, can_client_issue_orders());
-    gtk_widget_set_sensitive(city_next_command, can_client_issue_orders());
+    gtk_widget_set_sensitive(city_production_command,
+			     can_client_issue_orders());
     gtk_widget_set_sensitive(city_center_command, TRUE);
     gtk_widget_set_sensitive(city_popup_command, TRUE);
     gtk_widget_set_sensitive(city_buy_command, can_client_issue_orders());
