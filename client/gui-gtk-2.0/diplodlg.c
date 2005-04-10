@@ -528,8 +528,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
   gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
   g_object_set_data(G_OBJECT(spin), "plr", plr0);
-  g_signal_connect_after(spin, "activate",
-      			 G_CALLBACK(diplo_dialog_returnkey), pdialog);
+  g_signal_connect_after(spin, "value-changed",
+			 G_CALLBACK(diplo_dialog_returnkey), pdialog);
 
   label = g_object_new(GTK_TYPE_LABEL,
     "use-underline", TRUE,
@@ -584,8 +584,8 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
   gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
   g_object_set_data(G_OBJECT(spin), "plr", plr1);
-  g_signal_connect_after(spin, "activate",
-      			 G_CALLBACK(diplo_dialog_returnkey), pdialog);
+  g_signal_connect_after(spin, "value-changed",
+			 G_CALLBACK(diplo_dialog_returnkey), pdialog);
 
   label = g_object_new(GTK_TYPE_LABEL,
     "use-underline", TRUE,
@@ -841,7 +841,6 @@ static void diplo_dialog_returnkey(GtkWidget *w, gpointer data)
 					     pdialog->treaty.plr1->
 					     player_no, pgiver->player_no,
 					     CLAUSE_GOLD, amount);
-    gtk_spin_button_set_value(GTK_SPIN_BUTTON(w), 0.0);
   } else {
     append_output_window(_("Invalid amount of gold specified."));
   }
