@@ -729,8 +729,16 @@ void city_set_queue(struct city *pcity, struct worklist *pqueue)
 **************************************************************************/
 bool city_can_buy(const struct city *pcity)
 {
+  /* See really_handle_city_buy() in the server.  However this function
+   * doesn't allow for error messages.  It doesn't check the cost of
+   * buying; that's handled separately (and with an error message). */
   return (can_client_issue_orders()
+	  && pcity
+	  && pcity->owner == game.player_idx
+	  && pcity->turn_founded != game.turn
 	  && !pcity->did_buy
+	  && get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) <= 0
+	  && !(pcity->is_building_unit && pcity->anarchy != 0)
 	  && city_buy_cost(pcity) > 0);
 }
 

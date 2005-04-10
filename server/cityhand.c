@@ -210,6 +210,8 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   const char *name;
   int cost, total;
 
+  /* This function corresponds to city_can_buy() in the client. */
+
   assert(pcity && player_owns_city(pplayer, pcity));
  
   if (pcity->turn_founded == game.turn) {
