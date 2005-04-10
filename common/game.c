@@ -265,7 +265,6 @@ void game_init(void)
   game.default_government = G_MAGIC;        /* flag */
   game.government_when_anarchy = G_MAGIC;   /* flag */
 
-  game.default_building = B_LAST;
   game.palace_building = B_LAST;
   game.land_defend_building = B_LAST;
 

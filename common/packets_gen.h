@@ -947,7 +947,6 @@ struct packet_ruleset_control {
   bool happyborders;
   bool slow_invasions;
   char team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
-  Impr_Type_id default_building;
 };
 
 struct packet_single_want_hack_req {

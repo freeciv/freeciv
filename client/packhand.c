@@ -2119,8 +2119,6 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
     mystrlcpy(team_get_by_id(i)->name, packet->team_name[i],
               MAX_LEN_NAME);
   }
-
-  game.default_building = packet->default_building;
 }
 
 /**************************************************************************

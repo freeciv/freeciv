@@ -26023,7 +26023,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_control_100_fields, 19);
+BV_DEFINE(packet_ruleset_control_100_fields, 18);
 
 static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct connection *pc, enum packet_type type)
 {
@@ -26174,14 +26174,6 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       }
     }
   }
-  if (BV_ISSET(fields, 18)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->default_building = readin;
-    }
-  }
 
   clone = fc_malloc(sizeof(*clone));
   *clone = *real_packet;
@@ -26312,10 +26304,6 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 17);}
 
-  differ = (old->default_building != real_packet->default_building);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
-
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -26378,9 +26366,6 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
         dio_put_string(&dout, real_packet->team_name[i]);
       }
     } 
-  }
-  if (BV_ISSET(fields, 18)) {
-    dio_put_uint8(&dout, real_packet->default_building);
   }
 
 

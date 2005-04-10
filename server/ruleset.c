@@ -1358,19 +1358,6 @@ static void load_ruleset_buildings(struct section_file *file)
     }
   } impr_type_iterate_end;
 
-  item = secfile_lookup_str(file, "b_special.default");
-  if (*item != '\0') {
-    game.default_building = find_improvement_by_name(item);
-    if (game.default_building == B_LAST) {
-      freelog(LOG_ERROR,
-	      /* TRANS: Obscure ruleset error */
-	      _("Bad value \"%s\" for b_special.default (%s)"),
-	      item, filename);
-    }
-  } else {
-    game.default_building = B_LAST;
-  }
-
   free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
@@ -1844,8 +1831,6 @@ static void send_ruleset_control(struct conn_list *dest)
   for(i = 0; i < MAX_NUM_TEAMS; i++) {
     sz_strlcpy(packet.team_name[i], team_get_by_id(i)->name);
   }
-
-  packet.default_building = game.default_building;
 
   lsend_packet_ruleset_control(dest, &packet);
 }

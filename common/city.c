@@ -2552,8 +2552,30 @@ struct city *create_city_virtual(const struct player *pplayer,
       pcity->is_building_unit = TRUE;
       pcity->currently_building = u;
     } else {
-      pcity->is_building_unit = FALSE;
-      pcity->currently_building = game.default_building;
+      bool found = FALSE;
+
+      /* Just pick the first available item. */
+
+      impr_type_iterate(id) {
+	if (can_build_improvement_direct(pcity, id)) {
+	  found = TRUE;
+	  pcity->is_building_unit = FALSE;
+	  pcity->currently_building = id;
+	  break;
+	}
+      } impr_type_iterate_end;
+
+      if (!found) {
+	unit_type_iterate(id) {
+	  if (can_build_unit_direct(pcity, id)) {
+	    found = TRUE;
+	    pcity->is_building_unit = TRUE;
+	    pcity->currently_building = id;
+	  }
+	} unit_type_iterate_end;
+      }
+
+      assert(found);
     }
   }
   pcity->turn_founded = game.turn;

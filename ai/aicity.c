@@ -925,9 +925,6 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     if (best_role_unit(pcity, F_TRADE_ROUTE) != U_LAST) {
       pcity->ai.choice.choice = best_role_unit(pcity, F_TRADE_ROUTE);
       pcity->ai.choice.type = CT_NONMIL;
-    } else if (can_build_improvement(pcity, game.default_building)) {
-      pcity->ai.choice.choice = game.default_building;
-      pcity->ai.choice.type = CT_BUILDING;
     } else if (best_role_unit(pcity, F_SETTLERS) != U_LAST) {
       pcity->ai.choice.choice = best_role_unit(pcity, F_SETTLERS);
       pcity->ai.choice.type = CT_NONMIL;
