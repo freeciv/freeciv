@@ -74,6 +74,7 @@ void do_dipl_cost(struct player *pplayer)
 {
   pplayer->research.bulbs_researched -=
       (total_bulbs_required(pplayer) * game.diplcost) / 100;
+  pplayer->research.changed_from = -1;
 }
 
 /**************************************************************************
@@ -83,6 +84,7 @@ void do_free_cost(struct player *pplayer)
 {
   pplayer->research.bulbs_researched -=
       (total_bulbs_required(pplayer) * game.freecost) / 100;
+  pplayer->research.changed_from = -1;
 }
 
 /**************************************************************************
@@ -92,6 +94,7 @@ void do_conquer_cost(struct player *pplayer)
 {
   pplayer->research.bulbs_researched -=
       (total_bulbs_required(pplayer) * game.conquercost) / 100;
+  pplayer->research.changed_from = -1;
 }
 
 /**************************************************************************
