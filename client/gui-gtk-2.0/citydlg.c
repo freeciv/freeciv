@@ -376,8 +376,6 @@ void refresh_city_dialog(struct city *pcity)
   if (city_owner(pcity) == game.player_ptr) {
     bool have_present_units =
 	(unit_list_size(pcity->tile->units) > 0);
-    gboolean sensitive;
-
     refresh_worklist(pdialog->production.worklist);
 
     city_dialog_update_information(pdialog->happiness.info_ebox,
@@ -389,15 +387,8 @@ void refresh_city_dialog(struct city *pcity)
     gtk_widget_set_sensitive(pdialog->show_units_command,
 			     can_client_issue_orders() &&
 			     have_present_units);
-
-    sensitive = (city_buy_cost(pdialog->pcity) > 0
-	&& can_client_issue_orders());
-    gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
-    gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
   } else {
     /* Set the buttons we do not want live while a Diplomat investigates */
-    gtk_widget_set_sensitive(pdialog->overview.buy_command, FALSE);
-    gtk_widget_set_sensitive(pdialog->production.buy_command, FALSE);
     gtk_widget_set_sensitive(pdialog->show_units_command, FALSE);
   }
 }
