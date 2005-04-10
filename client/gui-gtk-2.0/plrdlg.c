@@ -390,7 +390,34 @@ void create_players_dialog(void)
   gtk_box_set_child_packing(GTK_BOX(players_dialog_shell->action_area), 
       vbox, FALSE, FALSE, 0, GTK_PACK_END);
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Player"));
+  item = gtk_menu_item_new_with_mnemonic(_("S_how"));
+  menu = create_show_menu();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+
+  item = gtk_menu_item_new_with_mnemonic(_("_AI"));
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
+
+  menu = gtk_menu_new();
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Toggle AI Mode"));
+  g_signal_connect(item, "activate",
+      G_CALLBACK(players_ai_toggle_callback), NULL);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+  sep = gtk_separator_menu_item_new();
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
+
+  for (i = 0; i < NUM_SKILL_LEVELS; i++) {
+    item = gtk_menu_item_new_with_label(_(skill_level_names[i]));
+    g_signal_connect(item, "activate",
+	G_CALLBACK(players_ai_skill_callback), GUINT_TO_POINTER(i));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  }
+  gtk_widget_show_all(menu);
+
+  item = gtk_menu_item_new_with_mnemonic(_("_Diplomacy"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
 
   menu = gtk_menu_new();
@@ -423,33 +450,6 @@ void create_players_dialog(void)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_sship_command);
 
 
-  item = gtk_menu_item_new_with_mnemonic(_("_AI"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
-
-  menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-
-  item = gtk_menu_item_new_with_mnemonic(_("_Toggle AI Mode"));
-  g_signal_connect(item, "activate",
-      G_CALLBACK(players_ai_toggle_callback), NULL);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-  sep = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
-
-  for (i = 0; i < NUM_SKILL_LEVELS; i++) {
-    item = gtk_menu_item_new_with_label(_(skill_level_names[i]));
-    g_signal_connect(item, "activate",
-	G_CALLBACK(players_ai_skill_callback), GUINT_TO_POINTER(i));
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  }
-  gtk_widget_show_all(menu);
-
-
-  item = gtk_menu_item_new_with_mnemonic(_("S_how"));
-  menu = create_show_menu();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
 
   gui_dialog_show_all(players_dialog_shell);
 
