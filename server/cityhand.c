@@ -76,7 +76,9 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
       || from < 0 || from >= SP_COUNT
       || !city_can_use_specialist(pcity, to)
       || pcity->specialists[from] == 0) {
-    freelog(LOG_ERROR, "Error in specialist change request from client.");
+    /* This could easily just be due to clicking faster on the specialist
+     * than the server can cope with. */
+    freelog(LOG_VERBOSE, "Error in specialist change request from client.");
     return;
   }
 
