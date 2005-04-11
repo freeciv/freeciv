@@ -848,25 +848,28 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
     }
 
     switch (psource->type) {
-      case REQ_NONE:
-	break;
-      case REQ_TECH:
-	mystrlcat(buf, advances[psource->value.tech].name, buf_len);
-	break;
-      case REQ_GOV:
-	mystrlcat(buf, get_government_name(psource->value.gov), buf_len);
-	break;
-      case REQ_BUILDING:
-	mystrlcat(buf, get_improvement_name(psource->value.building), buf_len);
-	break;
-      case REQ_SPECIAL:
-	mystrlcat(buf, get_special_name(psource->value.special), buf_len);
-	break;
-      case REQ_TERRAIN:
-	mystrlcat(buf, get_terrain_name(psource->value.terrain), buf_len);
-	break;
-      case REQ_LAST:
-	break;
+    case REQ_NONE:
+      break;
+    case REQ_TECH:
+      mystrlcat(buf, advances[psource->value.tech].name, buf_len);
+      break;
+    case REQ_GOV:
+      mystrlcat(buf, get_government_name(psource->value.gov), buf_len);
+      break;
+    case REQ_BUILDING:
+      mystrlcat(buf, get_improvement_name(psource->value.building), buf_len);
+      break;
+    case REQ_SPECIAL:
+      mystrlcat(buf, get_special_name(psource->value.special), buf_len);
+      break;
+    case REQ_TERRAIN:
+      mystrlcat(buf, get_terrain_name(psource->value.terrain), buf_len);
+      break;
+    case REQ_NATION:
+      mystrlcat(buf, get_nation_name(psource->value.nation), buf_len);
+      break;
+    case REQ_LAST:
+      break;
     }
   } requirement_list_iterate_end;
 }

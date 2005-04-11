@@ -37,9 +37,6 @@
 
 #define MAX_NUM_NATION_GROUPS 128
 
-typedef int Nation_Type_id;
-typedef int Team_Type_id;
-
 /*
  * The city_name structure holds information about a default choice for
  * the city name.  The "name" field is, of course, just the name for

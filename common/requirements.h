@@ -26,6 +26,7 @@ enum req_source_type {
   REQ_BUILDING,
   REQ_SPECIAL,
   REQ_TERRAIN,
+  REQ_NATION,
   REQ_LAST
 };
 
@@ -51,6 +52,7 @@ struct req_source {
     Impr_Type_id building;              /* source building */
     enum tile_special_type special;     /* source special */
     Terrain_type_id terrain;            /* source terrain type */
+    Nation_Type_id nation;              /* source nation type */
   } value;                              /* source value */
 };
 

@@ -33,7 +33,8 @@ static const char *req_source_type_names[] = {
   "Gov",
   "Building",
   "Special",
-  "Terrain"
+  "Terrain",
+  "Nation"
 };
 
 /* Names of requirement ranges. These must correspond to enum req_range in
@@ -127,6 +128,12 @@ struct req_source req_source_from_str(const char *type, const char *value)
       return source;
     }
     break;
+  case REQ_NATION:
+    source.value.nation = find_nation_by_name(value);
+    if (source.value.nation != NO_NATION_SELECTED) {
+      return source;
+    }
+    break;
   case REQ_LAST:
     break;
   }
@@ -164,6 +171,9 @@ struct req_source req_source_from_values(int type, int value)
   case REQ_TERRAIN:
     source.value.terrain = value;
     return source;
+  case REQ_NATION:
+    source.value.nation = value;
+    return source;
   case REQ_LAST:
     return source;
   }
@@ -200,6 +210,9 @@ void req_source_get_values(struct req_source *source, int *type, int *value)
     return;
   case REQ_TERRAIN:
     *value = source->value.terrain;
+    return;
+  case REQ_NATION:
+    *value = source->value.nation;
     return;
   case REQ_LAST:
     break;
@@ -240,6 +253,7 @@ struct requirement req_from_str(const char *type,
       break;
     case REQ_GOV:
     case REQ_TECH:
+    case REQ_NATION:
       req.range = REQ_RANGE_PLAYER;
       break;
     }
@@ -258,6 +272,10 @@ struct requirement req_from_str(const char *type,
   case REQ_BUILDING:
     /* FIXME: sanity checking */
     invalid = FALSE;
+    break;
+  case REQ_NATION:
+    invalid = (req.range != REQ_RANGE_PLAYER
+	       && req.range != REQ_RANGE_WORLD);
     break;
   case REQ_NONE:
     invalid = FALSE;
@@ -559,6 +577,36 @@ static bool is_terrain_in_range(const struct tile *target_tile,
 }
 
 /****************************************************************************
+  Is there a nation within range of the target?
+****************************************************************************/
+static bool is_nation_in_range(const struct player *target_player,
+			       enum req_range range, bool survives,
+			       Nation_Type_id nation)
+{
+  switch (range) {
+  case REQ_RANGE_PLAYER:
+    return target_player && target_player->nation == nation;
+  case REQ_RANGE_WORLD:
+    /* FIXME: inefficient */
+    players_iterate(pplayer) {
+      if (pplayer->nation == nation && (pplayer->is_alive || survives)) {
+	return TRUE;
+      }
+    } players_iterate_end;
+    return FALSE;
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_CITY:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_LAST:
+    break;
+  }
+
+  assert(0);
+  return FALSE;
+}
+
+/****************************************************************************
   Checks the requirement to see if it is active on the given target.
 
   target gives the type of the target
@@ -606,6 +654,9 @@ bool is_req_active(const struct player *target_player,
     return is_terrain_in_range(target_tile,
 			       req->range, req->survives,
 			       req->source.value.terrain);
+  case REQ_NATION:
+    return is_nation_in_range(target_player, req->range, req->survives,
+			      req->source.value.nation);
   case REQ_LAST:
     break;
   }

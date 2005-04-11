@@ -170,11 +170,12 @@ cumulative.  For many effects this is undesirable.
 .survives  = 1 if effect survives destruction (wonders only)
 	    (if unspecified, 0 (doesn't survive) is assumed)
 .req_type  = The type of the requirement; one of:
-             "None" (default), "Tech", "Gov", "Building", "Special", "Terrain"
+             "None" (default), "Tech", "Gov", "Building", "Special",
+             "Terrain", "Nation"
 .req       = The requirement.  The effect will not be active unless this
              requirement is met.  This is a string containing the name of
-             the technology, government, building, tile special, or tile
-             terrain that is required.  The requirement applies to the
-             target of the effect (not the source).
+             the technology, government, building, tile special, tile
+             terrain, or nation that is required.  The requirement applies
+             to the target of the effect (not the source).
 
 See data/default/buildings.ruleset for examples.

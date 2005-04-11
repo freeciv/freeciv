@@ -46,6 +46,8 @@ typedef int Terrain_type_id;
 typedef int Specialist_type_id;
 typedef int Impr_Type_id;
 typedef enum output_type Output_type_id;
+typedef int Nation_Type_id;
+typedef int Team_Type_id;
 
 struct city;
 struct government;

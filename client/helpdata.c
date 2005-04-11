@@ -182,6 +182,10 @@ static void insert_requirement(struct requirement *req,
     cat_snprintf(buf, bufsz, _("Requires the %s terrain.\n\n"),
 		 get_terrain_name(req->source.value.terrain));
     return;
+  case REQ_NATION:
+    cat_snprintf(buf, bufsz, _("Requires the %s nation.\n\n"),
+		 get_nation_name(req->source.value.nation));
+    return;
   }
   assert(0);
 }
