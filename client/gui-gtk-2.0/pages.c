@@ -31,17 +31,18 @@
 #include "support.h"
 #include "version.h"
 
-#include "chatline.h"
 #include "civclient.h"
 #include "clinet.h"
-#include "connectdlg.h"
 #include "connectdlg_common.h"
+#include "packhand.h"
+
+#include "chatline.h"
+#include "connectdlg.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "packhand.h"
 #include "pages.h"
-
+#include "plrdlg.h" /* for get_flag() */
 
 GtkWidget *start_message_area;
 GtkListStore *conn_model;       
@@ -1426,46 +1427,6 @@ static void nation_start_callback(void)
   send_start_saved_game();
 }
 
-#define MIN_DIMENSION 5
-/**************************************************************************
- FIXME: this is somewhat duplicated in plrdlg.c, 
-        should be somewhere else and non-static
-**************************************************************************/
-static GdkPixbuf *get_flag(const struct nation_type *nation)
-{
-  int x0, y0, x1, y1, w, h;
-  GdkPixbuf *im, *im2;
-  struct sprite *flag;
-
-  flag = get_nation_flag_sprite(tileset, nation);
-
-  if (!flag) {
-    return NULL;
-  }
-
-  /* calculate the bounding box ... */
-  sprite_get_bounding_box(flag, &x0, &y0, &x1, &y1);
-
-  assert(x0 != -1);
-  assert(y0 != -1);
-  assert(x1 != -1);
-  assert(y1 != -1);
-
-  w = (x1 - x0) + 1;
-  h = (y1 - y0) + 1;
-
-  /* if the flag is smaller then 5 x 5, something is wrong */
-  assert(w >= MIN_DIMENSION && h >= MIN_DIMENSION);
-
-  /* get the pixbuf and crop*/
-  im = gdk_pixbuf_new_subpixbuf(sprite_get_pixbuf(flag), x0, y0, w, h);
-  im2 = gdk_pixbuf_copy(im);
-  g_object_unref(im);
-
-  /* and finaly store the scaled flag pixbuf in the static flags array */
-  return im2;
-}
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1496,7 +1457,7 @@ static void update_nation_page(struct packet_game_load *packet)
 
     /* set flag if we've got one to set. */
     if (packet->nations[i] != NO_NATION_SELECTED) {
-      GdkPixbuf *flag = get_flag(get_nation_by_idx(packet->nations[i]));
+      GdkPixbuf *flag = get_flag(packet->nations[i]);
 
       if (flag) {
 	gtk_list_store_set(nation_store, &iter, 1, flag, -1);

@@ -482,13 +482,13 @@ void create_players_dialog(void)
 /**************************************************************************
  Builds the flag pixmap.
 **************************************************************************/
-static GdkPixbuf *get_flag(struct nation_type *nation)
+GdkPixbuf *get_flag(Nation_Type_id nation)
 {
   int x0, y0, x1, y1, w, h;
   GdkPixbuf *im, *im2;
   struct sprite *flag;
 
-  flag = nation->flag_sprite;
+  flag = get_nation_flag_sprite(tileset, nation);
 
   /* calculate the bounding box ... */
   sprite_get_bounding_box(flag, &x0, &y0, &x1, &y1);
@@ -535,7 +535,7 @@ static void build_row(GtkTreeIter *it, int i)
 	gtk_list_store_set(store, it, k, p, -1);
 	break;
       case COL_FLAG:
-        pixbuf = get_flag(get_nation_by_plr(plr));
+        pixbuf = get_flag(plr->nation);
         gtk_list_store_set(store, it, k, pixbuf, -1);
         g_object_unref(pixbuf);
 	break;

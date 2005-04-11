@@ -1611,7 +1611,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group, in
 
     gtk_list_store_append(store, &it);
 
-    s = crop_blankspace(nation->flag_sprite);
+    s = crop_blankspace(get_nation_flag_sprite(tileset, i));
     img = sprite_get_pixbuf(s);
     gtk_list_store_set(store, &it, 0, i, 1, FALSE, 2, img, -1);
     free_sprite(s);

@@ -133,6 +133,8 @@ struct named_sprites {
   struct sprite *government[G_MAGIC];
   struct sprite *unittype[U_LAST];
 
+  struct sprite_vector nation_flag;
+
   struct citizen_graphic {
     /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
      * sprites, as defined by the tileset. */
@@ -2154,6 +2156,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   /* no other place to initialize these variables */
   t->sprites.city.tile_wall = NULL;
   t->sprites.city.tile = NULL;
+  sprite_vector_init(&t->sprites.nation_flag);
 }
 
 /**************************************************************************
@@ -2507,32 +2510,37 @@ void tileset_setup_nation_flag(struct tileset *t, int id)
 		  nation->flag_graphic_alt,
 		  "f.unknown", NULL};
   int i;
+  struct sprite *sprite = NULL;
 
-  nation->flag_sprite = NULL;
-  for (i = 0; tags[i] && !nation->flag_sprite; i++) {
-    nation->flag_sprite = load_sprite(t, tags[i]);
+  for (i = 0; tags[i] && !sprite; i++) {
+    sprite = load_sprite(t, tags[i]);
   }
-  if (!nation->flag_sprite) {
+  if (!sprite) {
     /* Should never get here because of the f.unknown fallback. */
     freelog(LOG_FATAL, "No national flag for %s.", nation->name);
     exit(EXIT_FAILURE);
   }
+
+  sprite_vector_reserve(&t->sprites.nation_flag, game.nation_count);
+  t->sprites.nation_flag.p[id] = sprite;
 }
 
 /**********************************************************************
   Return the flag graphic to be used by the city.
 ***********************************************************************/
-static struct sprite *get_city_nation_flag_sprite(const struct city *pcity)
+static struct sprite *get_city_nation_flag_sprite(const struct tileset *t,
+						  const struct city *pcity)
 {
-  return get_nation_by_plr(city_owner(pcity))->flag_sprite;
+  return get_nation_flag_sprite(t, city_owner(pcity)->nation);
 }
 
 /**********************************************************************
   Return a sprite for the national flag for this unit.
 ***********************************************************************/
-static struct sprite *get_unit_nation_flag_sprite(const struct unit *punit)
+static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
+						  const struct unit *punit)
 {
-  return get_nation_by_plr(unit_owner(punit))->flag_sprite;
+  return get_nation_flag_sprite(t, unit_owner(punit)->nation);
 }
 
 /**************************************************************************
@@ -2646,7 +2654,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
 
   if (backdrop) {
     if (!solid_color_behind_units) {
-      ADD_SPRITE(get_unit_nation_flag_sprite(punit), TRUE,
+      ADD_SPRITE(get_unit_nation_flag_sprite(t, punit), TRUE,
 		 FULL_TILE_X_OFFSET + t->flag_offset_x,
 		 FULL_TILE_Y_OFFSET + t->flag_offset_y);
     } else {
@@ -3783,7 +3791,7 @@ int fill_sprite_array(struct tileset *t,
     /* City.  Some city sprites are drawn later. */
     if (pcity && draw_cities) {
       if (!solid_color_behind_units) {
-	ADD_SPRITE(get_city_nation_flag_sprite(pcity), TRUE,
+	ADD_SPRITE(get_city_nation_flag_sprite(t, pcity), TRUE,
 		   FULL_TILE_X_OFFSET + t->flag_offset_x,
 		   FULL_TILE_Y_OFFSET + t->flag_offset_y);
       }
@@ -4163,6 +4171,7 @@ void tileset_free_tiles(struct tileset *t)
   } specfile_list_iterate_end;
 
   sprite_vector_free(&t->sprites.explode.unit);
+  sprite_vector_free(&t->sprites.nation_flag);
 }
 
 /**************************************************************************
@@ -4201,9 +4210,13 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
   Return the sprite for the nation.
 **************************************************************************/
 struct sprite *get_nation_flag_sprite(const struct tileset *t,
-				      const struct nation_type *nation)
+				      Nation_Type_id nation)
 {
-  return nation ? nation->flag_sprite : NULL;
+  if (nation < 0 || nation >= game.nation_count) {
+    assert(0);
+    return NULL;
+  }
+  return t->sprites.nation_flag.p[nation];
 }
 
 /**************************************************************************

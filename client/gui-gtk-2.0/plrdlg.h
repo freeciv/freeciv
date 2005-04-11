@@ -17,4 +17,7 @@
 
 void popdown_players_dialog(void);
 
+/* Misc helper functions */
+GdkPixbuf *get_flag(Nation_Type_id nation);
+
 #endif  /* FC__PLRDLG_H */
