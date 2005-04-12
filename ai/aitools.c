@@ -296,7 +296,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
   
   /* Dead unit shouldn't reach this point */
   CHECK_UNIT(punit);
-  
+
   return (same_pos(punit->tile, dest_tile) 
           || is_tiles_adjacent(punit->tile, dest_tile));
 }

@@ -1190,6 +1190,7 @@ void ai_manage_cities(struct player *pplayer)
 {
   pplayer->ai.maxbuycost = 0;
 
+  TIMING_LOG(AIT_EMERGENCY, TIMER_START);
   city_list_iterate(pplayer->cities, pcity) {
     if (CITY_EMERGENCY(pcity)) {
       auto_arrange_workers(pcity); /* this usually helps */
@@ -1201,23 +1202,32 @@ void ai_manage_cities(struct player *pplayer)
     ai_sell_obsolete_buildings(pcity);
     sync_cities();
   } city_list_iterate_end;
+  TIMING_LOG(AIT_EMERGENCY, TIMER_STOP);
 
+  TIMING_LOG(AIT_BUILDINGS, TIMER_START);
   ai_manage_buildings(pplayer);
+  TIMING_LOG(AIT_BUILDINGS, TIMER_STOP);
 
   /* Initialize the infrastructure cache, which is used shortly. */
   initialize_infrastructure_cache(pplayer);
   city_list_iterate(pplayer->cities, pcity) {
     /* Note that this function mungs the seamap, but we don't care */
+    TIMING_LOG(AIT_CITY_MILITARY, TIMER_START);
     military_advisor_choose_build(pplayer, pcity, &pcity->ai.choice);
+    TIMING_LOG(AIT_CITY_MILITARY, TIMER_STOP);
     /* Will record its findings in pcity->settler_want */ 
+    TIMING_LOG(AIT_CITY_TERRAIN, TIMER_START);
     contemplate_terrain_improvements(pcity);
+    TIMING_LOG(AIT_CITY_TERRAIN, TIMER_STOP);
 
+    TIMING_LOG(AIT_CITY_SETTLERS, TIMER_START);
     if (pcity->ai.next_founder_want_recalc <= game.turn) {
       /* Will record its findings in pcity->founder_want */ 
       contemplate_new_city(pcity);
       /* Avoid recalculating all the time.. */
       pcity->ai.next_founder_want_recalc = game.turn + myrand(RECALC_SPEED) + RECALC_SPEED;
-    } 
+    }
+    TIMING_LOG(AIT_CITY_SETTLERS, TIMER_STOP);
   } city_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity) {

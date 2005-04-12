@@ -451,6 +451,8 @@ static unsigned int assess_danger(struct city *pcity)
   int igwall_threat = 0;
   struct tile *ptile = pcity->tile;
 
+  TIMING_LOG(AIT_DANGER, TIMER_START);
+
   memset(&danger, 0, sizeof(danger));
 
   generate_warmap(pcity, NULL);	/* generates both land and sea maps */
@@ -588,6 +590,8 @@ static unsigned int assess_danger(struct city *pcity)
 
   pcity->ai.danger = danger[0];
   pcity->ai.urgency = urgency;
+
+  TIMING_LOG(AIT_DANGER, TIMER_STOP);
 
   return urgency;
 }

@@ -168,7 +168,7 @@ static void movemap_check_ferry(struct tile *ptile1, int id,
 **************************************************************************/
 void ai_data_movemap_recalculate(void)
 {
-  TIMING_LOG(LOG_DEBUG, NULL, "Generating movemap");
+  TIMING_LOG(AIT_MOVEMAP, TIMER_START);
 
   /* Clean the slate */
   whole_map_iterate(ptile) {
@@ -224,7 +224,7 @@ void ai_data_movemap_recalculate(void)
     }
   } whole_map_iterate_end;
 
-  TIMING_LOG(LOG_DEBUG, NULL, "Done generating movemap");
+  TIMING_LOG(AIT_MOVEMAP, TIMER_STOP);
 }
 
 /**************************************************************************
@@ -398,7 +398,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   /*** Threats ***/
 
-  TIMING_LOG(LOG_DEBUG, pplayer, "Generating aidata");
+  TIMING_LOG(AIT_AIDATA, TIMER_START);
 
   ai->num_continents    = map.num_continents;
   ai->num_oceans        = map.num_oceans;
@@ -668,8 +668,12 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
     ai->wants_no_science = FALSE;
   }
 
+  TIMING_LOG(AIT_AIDATA, TIMER_STOP);
+
   /* Government */
+  TIMING_LOG(AIT_GOVERNMENT, TIMER_START);
   ai_best_government(pplayer);
+  TIMING_LOG(AIT_GOVERNMENT, TIMER_STOP);
 }
 
 /**************************************************************************

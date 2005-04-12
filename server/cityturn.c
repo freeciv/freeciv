@@ -188,6 +188,7 @@ void auto_arrange_workers(struct city *pcity)
     pcity->server.needs_arrange = TRUE;
     return;
   }
+  TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_START);
 
   /* Freeze the workers and make sure all the tiles around the city
    * are up to date.  Then thaw, but hackishly make sure that thaw
@@ -273,6 +274,7 @@ void auto_arrange_workers(struct city *pcity)
   sanity_check_city(pcity);
 
   city_refresh(pcity);
+  TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_STOP);
 }
 
 /**************************************************************************

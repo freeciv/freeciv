@@ -123,7 +123,7 @@ const struct command commands[] = {
   },
   {"debug",	ALLOW_CTRL,
    N_("debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> "
-      "| tech <player> | timing ]"),
+      "| tech <player> | timing | info]"),
    N_("Turn on or off AI debugging of given entity."),
    N_("Print AI debug information about given entity and turn continous "
       "debugging output for this entity on or off."),

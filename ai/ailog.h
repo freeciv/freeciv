@@ -32,6 +32,45 @@ struct ai_data;
 #define LOGLEVEL_PLAYER LOG_DEBUG
 #define LOGLEVEL_TECH LOG_DEBUG
 
+enum ai_timer {
+  AIT_ALL,
+  AIT_MOVEMAP,
+  AIT_UNITS,
+  AIT_SETTLERS,
+  AIT_WORKERS,
+  AIT_AIDATA,
+  AIT_GOVERNMENT,
+  AIT_TAXES,
+  AIT_CITIES,
+  AIT_CITIZEN_ARRANGE,
+  AIT_BUILDINGS,
+  AIT_DANGER,
+  AIT_TECH,
+  AIT_FSTK,
+  AIT_DEFENDERS,
+  AIT_CARAVAN,
+  AIT_HUNTER,
+  AIT_AIRLIFT,
+  AIT_DIPLOMAT,
+  AIT_AIRUNIT,
+  AIT_EXPLORER,
+  AIT_EMERGENCY,
+  AIT_CITY_MILITARY,
+  AIT_CITY_TERRAIN,
+  AIT_CITY_SETTLERS,
+  AIT_ATTACK,
+  AIT_MILITARY,
+  AIT_RECOVER,
+  AIT_BODYGUARD,
+  AIT_FERRY,
+  AIT_RAMPAGE,
+  AIT_LAST
+};
+
+enum ai_timer_activity  {
+  TIMER_START, TIMER_STOP
+};
+
 void TECH_LOG(int level, struct player *pplayer, Tech_Type_id id,
               const char *msg, ...)
      fc__attribute((format (printf, 4, 5)));
@@ -43,6 +82,7 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
 void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
      fc__attribute((format (printf, 3, 4)));
 void BODYGUARD_LOG(int level, struct unit *punit, const char *msg);
-void TIMING_LOG(int level, struct player *pplayer, const char *msg);
+void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity);
+void TIMING_RESULTS(void);
 
 #endif  /* FC__AILOG_H */

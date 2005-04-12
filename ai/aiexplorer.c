@@ -277,6 +277,8 @@ bool ai_manage_explorer(struct unit *punit)
     return FALSE; /* too dangerous */
   }
 
+  TIMING_LOG(AIT_EXPLORER, TIMER_START);
+
   pft_fill_unit_parameter(&parameter, punit);
   parameter.get_TB = no_fights_or_unknown;
   /* When exploring, even AI should pretend to not cheat. */
@@ -342,6 +344,8 @@ bool ai_manage_explorer(struct unit *punit)
     }
   }
   pf_destroy_map(map);
+
+  TIMING_LOG(AIT_EXPLORER, TIMER_STOP);
 
   /* Go to the best tile found. */
   if (best_tile != NULL) {

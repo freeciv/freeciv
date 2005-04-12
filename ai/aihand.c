@@ -286,7 +286,6 @@ void ai_best_government(struct player *pplayer)
   }
 
   if (ai->govt_reeval == 0) {
-    TIMING_LOG(LOG_DEBUG, pplayer, "Finding best government");
     government_iterate(gov) {
       int val = 0;
       int dist, i;
@@ -432,15 +431,18 @@ static void ai_manage_government(struct player *pplayer)
 **************************************************************************/
 void ai_do_first_activities(struct player *pplayer)
 {
+  TIMING_LOG(AIT_ALL, TIMER_START);
   assess_danger_player(pplayer);
   /* TODO: Make assess_danger save information on what is threatening
    * us and make ai_mange_units and Co act upon this information, trying
    * to eliminate the source of danger */
 
-  TIMING_LOG(LOG_DEBUG, pplayer, "Manage units");
+  TIMING_LOG(AIT_UNITS, TIMER_START);
   ai_manage_units(pplayer); 
-  TIMING_LOG(LOG_DEBUG, pplayer, "All first activities done");
+  TIMING_LOG(AIT_UNITS, TIMER_STOP);
   /* STOP.  Everything else is at end of turn. */
+
+  TIMING_LOG(AIT_ALL, TIMER_STOP);
 }
 
 /**************************************************************************
@@ -453,17 +455,22 @@ void ai_do_first_activities(struct player *pplayer)
 **************************************************************************/
 void ai_do_last_activities(struct player *pplayer)
 {
-  TIMING_LOG(LOG_DEBUG, pplayer, "Manage government");
+  TIMING_LOG(AIT_ALL, TIMER_START);
+
   ai_manage_government(pplayer);
-  TIMING_LOG(LOG_DEBUG, pplayer, "Manage taxes");
+  TIMING_LOG(AIT_TAXES, TIMER_START);
   ai_manage_taxes(pplayer); 
-  TIMING_LOG(LOG_DEBUG, pplayer, "Manage cities");
+  TIMING_LOG(AIT_TAXES, TIMER_STOP);
+  TIMING_LOG(AIT_CITIES, TIMER_START);
   ai_manage_cities(pplayer);
-  TIMING_LOG(LOG_DEBUG, pplayer, "Manage tech, space and aidata cleanup");
+  TIMING_LOG(AIT_CITIES, TIMER_STOP);
+  TIMING_LOG(AIT_TECH, TIMER_START);
   ai_manage_tech(pplayer); 
+  TIMING_LOG(AIT_TECH, TIMER_STOP);
   ai_manage_spaceship(pplayer);
   ai_data_phase_done(pplayer);
-  TIMING_LOG(LOG_DEBUG, pplayer, "Last activities done");
+
+  TIMING_LOG(AIT_ALL, TIMER_STOP);
 }
 
 /**************************************************************************

@@ -699,7 +699,8 @@ static bool ai_military_rampage(struct unit *punit, int thresh_adj,
 {
   int count = punit->moves_left + 1; /* break any infinite loops */
   struct pf_path *path = NULL;
-  
+
+  TIMING_LOG(AIT_RAMPAGE, TIMER_START);  
   CHECK_UNIT(punit);
 
   assert(thresh_adj <= thresh_move);
@@ -718,6 +719,7 @@ static bool ai_military_rampage(struct unit *punit, int thresh_adj,
 
   assert(!path);
 
+  TIMING_LOG(AIT_RAMPAGE, TIMER_STOP);
   return (count >= 0);
 }
 
@@ -985,6 +987,7 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     return;
   }
 
+  TIMING_LOG(AIT_BODYGUARD, TIMER_START);
   if (unit_role_defender(punit->type)) {
     /* 
      * This is a defending unit that doesn't need to stay put.
@@ -1002,14 +1005,13 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
       ai_unit_new_role(punit, AIUNIT_ESCORT, acity->tile);
       punit->ai.charge = acity->id;
       BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend city");
-      return;
     } else if (aunit) {
       ai_unit_new_role(punit, AIUNIT_ESCORT, aunit->tile);
       punit->ai.charge = aunit->id;
       BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend unit");
-      return;
     }
   }
+  TIMING_LOG(AIT_BODYGUARD, TIMER_STOP);
 }
 
 /********************************************************************** 
@@ -1242,6 +1244,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
      *  probably low on HP */
     return 0;
   }
+
+  TIMING_LOG(AIT_FSTK, TIMER_START);
 
   /*** Part 1: Calculate targets ***/
   /* This horrible piece of code attempts to calculate the attractiveness of
@@ -1573,6 +1577,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       }
     } unit_list_iterate_end;
   } players_iterate_end;
+
+  TIMING_LOG(AIT_FSTK, TIMER_STOP);
 
   return(best);
 }
@@ -1926,6 +1932,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
      we must make sure that previously reserved ferry is freed. */
   aiferry_clear_boat(punit);
 
+  TIMING_LOG(AIT_HUNTER, TIMER_START);
   /* Try hunting with this unit */
   if (ai_hunter_qualify(pplayer, punit)) {
     int result, sanity = punit->id;
@@ -1933,12 +1940,15 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
     UNIT_LOG(LOGLEVEL_HUNT, punit, "is qualified as hunter");
     result = ai_hunter_manage(pplayer, punit);
     if (!find_unit_by_id(sanity)) {
+      TIMING_LOG(AIT_HUNTER, TIMER_STOP);
       return; /* died */
     }
     if (result == -1) {
       (void) ai_hunter_manage(pplayer, punit); /* More carnage */
+      TIMING_LOG(AIT_HUNTER, TIMER_STOP);
       return;
     } else if (result >= 1) {
+      TIMING_LOG(AIT_HUNTER, TIMER_STOP);
       return; /* Done moving */
     } else if (punit->ai.ai_role == AIUNIT_HUNTER) {
       /* This should be very rare */
@@ -1947,6 +1957,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
   } else if (punit->ai.ai_role == AIUNIT_HUNTER) {
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
+  TIMING_LOG(AIT_HUNTER, TIMER_STOP);
 
   /* Do we have a specific job for this unit? If not, we default
    * to attack. */
@@ -1958,20 +1969,28 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
     assert(FALSE); /* This is not the place for this role */
     break;
   case AIUNIT_DEFEND_HOME:
+    TIMING_LOG(AIT_DEFENDERS, TIMER_START);
     ai_military_defend(pplayer, punit);
+    TIMING_LOG(AIT_DEFENDERS, TIMER_STOP);
     break;
   case AIUNIT_ATTACK:
   case AIUNIT_NONE:
+    TIMING_LOG(AIT_ATTACK, TIMER_START);
     ai_military_attack(pplayer, punit);
+    TIMING_LOG(AIT_ATTACK, TIMER_STOP);
     break;
   case AIUNIT_ESCORT: 
+    TIMING_LOG(AIT_BODYGUARD, TIMER_START);
     ai_military_bodyguard(pplayer, punit);
+    TIMING_LOG(AIT_BODYGUARD, TIMER_STOP);
     break;
   case AIUNIT_EXPLORE:
     punit->ai.done = !(ai_manage_explorer(punit) && punit->moves_left > 0);
     break;
   case AIUNIT_RECOVER:
+    TIMING_LOG(AIT_RECOVER, TIMER_START);
     ai_manage_hitpoint_recovery(punit);
+    TIMING_LOG(AIT_RECOVER, TIMER_STOP);
     break;
   case AIUNIT_HUNTER:
     assert(FALSE); /* dealt with above */
@@ -2071,7 +2090,9 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
   if ((unit_flag(punit, F_DIPLOMAT))
       || (unit_flag(punit, F_SPY))) {
+    TIMING_LOG(AIT_DIPLOMAT, TIMER_START);
     ai_manage_diplomat(pplayer, punit);
+    TIMING_LOG(AIT_DIPLOMAT, TIMER_STOP);
     return;
   } else if (unit_flag(punit, F_SETTLERS)
 	     ||unit_flag(punit, F_CITIES)) {
@@ -2079,7 +2100,9 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   } else if (unit_flag(punit, F_TRADE_ROUTE)
              || unit_flag(punit, F_HELP_WONDER)) {
+    TIMING_LOG(AIT_CARAVAN, TIMER_START);
     ai_manage_caravan(pplayer, punit);
+    TIMING_LOG(AIT_CARAVAN, TIMER_STOP);
     return;
   } else if (unit_has_role(punit->type, L_BARBARIAN_LEADER)) {
     ai_manage_barbarian_leader(pplayer, punit);
@@ -2087,11 +2110,15 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
   } else if (get_transporter_capacity(punit) > 0
              && !unit_flag(punit, F_MISSILE_CARRIER)
              && punit->ai.ai_role != AIUNIT_HUNTER) {
+    TIMING_LOG(AIT_FERRY, TIMER_START);
     ai_manage_ferryboat(pplayer, punit);
+    TIMING_LOG(AIT_FERRY, TIMER_STOP);
     return;
   } else if (is_air_unit(punit)
              && punit->ai.ai_role != AIUNIT_ESCORT) {
+    TIMING_LOG(AIT_AIRUNIT, TIMER_START);
     ai_manage_airunit(pplayer, punit);
+    TIMING_LOG(AIT_AIRUNIT, TIMER_STOP);
     return;
   } else if (is_heli_unit(punit)) {
     /* TODO: We can try using air-unit code for helicopters, just
@@ -2099,7 +2126,9 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     punit->ai.done = TRUE; /* we did our best, which was ... nothing */
     return;
   } else if (is_military_unit(punit)) {
+    TIMING_LOG(AIT_MILITARY, TIMER_START);
     ai_manage_military(pplayer,punit); 
+    TIMING_LOG(AIT_MILITARY, TIMER_STOP);
     return;
   } else {
     int id = punit->id;
@@ -2176,7 +2205,9 @@ static void ai_set_defenders(struct player *pplayer)
 **************************************************************************/
 void ai_manage_units(struct player *pplayer) 
 {
+  TIMING_LOG(AIT_AIRLIFT, TIMER_START);
   ai_airlift(pplayer);
+  TIMING_LOG(AIT_AIRLIFT, TIMER_STOP);
 
   /* Clear previous orders, if desirable, here. */
   unit_list_iterate(pplayer->units, punit) {

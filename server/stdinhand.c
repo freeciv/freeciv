@@ -2221,7 +2221,7 @@ static bool debug_command(struct connection *caller, char *str,
   int ntokens = 0, i;
   const char *usage = _("Undefined arguments. Usage: debug <diplomacy "
 			"<player> | city <x> <y> | units <x> <y> | "
-			"unit <id> | tech <player> | timing>.");
+			"unit <id> | tech <player> | timing | info>.");
 
   if (server_state != RUN_GAME_STATE) {
     cmd_reply(CMD_DEBUG, caller, C_SYNTAX,
@@ -2283,6 +2283,22 @@ static bool debug_command(struct connection *caller, char *str,
                 pplayer->name);
       /* TODO: print some info about the player here */
     }
+  } else if (strcmp(arg[0], "info") == 0) {
+    int cities = 0, players = 0, units = 0, citizens = 0;
+    players_iterate(plr) {
+      players++;
+      city_list_iterate(plr->cities, pcity) {
+        cities++;
+        citizens += pcity->size;
+      } city_list_iterate_end;
+      unit_list_iterate(plr->units, punit) {
+        units++;
+      } unit_list_iterate_end;
+    } players_iterate_end;
+    freelog(LOG_NORMAL, "players=%d cities=%d citizens=%d units=%d",
+            players, cities, citizens, units);
+    notify_conn(game.est_connections, "players=%d cities=%d citizens=%d "
+                "units=%d", players, cities, citizens, units);
   } else if (strcmp(arg[0], "city") == 0) {
     int x, y;
     struct tile *ptile;
@@ -2342,13 +2358,7 @@ static bool debug_command(struct connection *caller, char *str,
       }
     } unit_list_iterate_end;
   } else if (strcmp(arg[0], "timing") == 0) {
-    if (srvarg.timing_debug) {
-      cmd_reply(CMD_DEBUG, caller, C_OK, _("AI timing deactivated"));
-      srvarg.timing_debug = FALSE;
-  } else {
-      srvarg.timing_debug = TRUE;
-      cmd_reply(CMD_DEBUG, caller, C_OK, _("AI timing activated"));
-    }
+    TIMING_RESULTS();
   } else if (strcmp(arg[0], "unit") == 0) {
     int id;
     struct unit *punit;

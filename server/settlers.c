@@ -1085,14 +1085,18 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
   /*** Try find some work ***/
 
   if (unit_flag(punit, F_SETTLERS)) {
+    TIMING_LOG(AIT_WORKERS, TIMER_START);
     best_impr = evaluate_improvements(punit, &best_act, &best_tile);
+    TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
   if (unit_flag(punit, F_CITIES) && pplayer->ai.control) {
     /* may use a boat: */
+    TIMING_LOG(AIT_SETTLERS, TIMER_START);
     find_best_city_placement(punit, &result, TRUE, FALSE);
     UNIT_LOG(LOG_SETTLER, punit, "city want %d (impr want %d)", result.result,
              best_impr);
+    TIMING_LOG(AIT_SETTLERS, TIMER_STOP);
     if (result.result > best_impr) {
       if (map_get_city(result.tile)) {
         UNIT_LOG(LOG_SETTLER, punit, "immigrates to %s (%d, %d)", 

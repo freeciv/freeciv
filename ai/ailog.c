@@ -17,6 +17,7 @@
 
 #include <stdarg.h>
 
+#include "astring.h"
 #include "city.h"
 #include "log.h"
 #include "shared.h"
@@ -30,6 +31,9 @@
 
 #include "aidata.h"
 #include "ailog.h"
+
+static struct timer *aitimer[AIT_LAST][2];
+static int recursion[AIT_LAST];
 
 /* General AI logging functions */
 
@@ -253,36 +257,81 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
   Measure the time between the calls.  Used to see where in the AI too
   much CPU is being used.
 **************************************************************************/
-void TIMING_LOG(int level, struct player *pplayer, const char *msg)
+void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity)
 {
-  char buffer[500];
-  int minlevel = MIN(LOGLEVEL_BODYGUARD, level);
-  static struct timer *t = NULL;
   static int turn = -1;
+  int i;
 
-  if (t == NULL) {
-    t = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
+  if (turn == -1) {
+    for (i = 0; i < AIT_LAST; i++) {
+      aitimer[i][0] = new_timer(TIMER_CPU, TIMER_ACTIVE);
+      aitimer[i][1] = new_timer(TIMER_CPU, TIMER_ACTIVE);
+      recursion[i] = 0;
+    }
   }
 
-  if (srvarg.timing_debug) {
-    minlevel = LOG_NORMAL;
-  } else if (minlevel > fc_log_level) {
-    clear_timer_start(t);
-    return;
-  }
-
-  /* So that the first log won't be displayed ridiculously high */
-  if (turn != game.turn) {
+  if (game.turn != turn) {
     turn = game.turn;
-    clear_timer_start(t);
+    for (i = 0; i < AIT_LAST; i++) {
+      clear_timer(aitimer[i][0]);
+    }
+    assert(activity == TIMER_START);
   }
 
-  my_snprintf(buffer, sizeof(buffer), "... %g seconds. %s: ",
-              read_timer_seconds(t), pplayer ? pplayer->name : "(all)");
-  clear_timer_start(t);
-  cat_snprintf(buffer, sizeof(buffer), msg);
-  if (srvarg.timing_debug) {
-    notify_conn(game.est_connections, buffer);
+  if (activity == TIMER_START && recursion[timer] == 0) {
+    start_timer(aitimer[timer][0]);
+    start_timer(aitimer[timer][1]);
+    recursion[timer]++;
+  } else if (activity == TIMER_STOP && recursion[timer] == 1) {
+    stop_timer(aitimer[timer][0]);
+    stop_timer(aitimer[timer][1]);
+    recursion[timer]--;
   }
-  freelog(minlevel, buffer);
+}
+
+/**************************************************************************
+  Print results
+**************************************************************************/
+void TIMING_RESULTS(void)
+{
+  char buf[200];
+
+#define OUT(text, which)                                                 \
+  my_snprintf(buf, sizeof(buf), "  %s: %g sec turn, %g sec game", text,  \
+           read_timer_seconds(aitimer[which][0]),                        \
+           read_timer_seconds(aitimer[which][1]));                       \
+  freelog(LOG_NORMAL, buf);                                              \
+  notify_conn(game.est_connections, buf);
+
+  freelog(LOG_NORMAL, "  --- AI timing results ---");
+  notify_conn(game.est_connections, "  --- AI timing results ---");
+  OUT("Total AI time", AIT_ALL);
+  OUT("Movemap", AIT_MOVEMAP);
+  OUT("Units", AIT_UNITS);
+  OUT(" - Military", AIT_MILITARY);
+  OUT(" - Attack", AIT_ATTACK);
+  OUT(" - Defense", AIT_DEFENDERS);
+  OUT(" - Ferry", AIT_FERRY);
+  OUT(" - Rampage", AIT_RAMPAGE);
+  OUT(" - Bodyguard", AIT_BODYGUARD);
+  OUT(" - Recover", AIT_RECOVER);
+  OUT(" - Caravan", AIT_CARAVAN);
+  OUT(" - Hunter", AIT_HUNTER);
+  OUT(" - Airlift", AIT_AIRLIFT);
+  OUT(" - Diplomat", AIT_DIPLOMAT);
+  OUT(" - Air", AIT_AIRUNIT);
+  OUT(" - Explore", AIT_EXPLORER);
+  OUT("fstk", AIT_FSTK);
+  OUT("Settlers", AIT_SETTLERS);
+  OUT("Workers", AIT_WORKERS);
+  OUT("Government", AIT_GOVERNMENT);
+  OUT("Taxes", AIT_TAXES);
+  OUT("Cities", AIT_CITIES);
+  OUT(" - Buildings", AIT_BUILDINGS);
+  OUT(" - Danger", AIT_DANGER);
+  OUT(" - Worker want", AIT_CITY_TERRAIN);
+  OUT(" - Military want", AIT_CITY_MILITARY);
+  OUT(" - Settler want", AIT_CITY_SETTLERS);
+  OUT("Citizen arrange", AIT_CITIZEN_ARRANGE);
+  OUT("Tech", AIT_TECH);
 }
