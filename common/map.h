@@ -50,7 +50,6 @@ struct tile {
   int assigned; /* these can save a lot of CPU usage -- Syela */
   struct city *worked;      /* city working tile, or NULL if none */
   Continent_id continent;
-  signed char move_cost[8]; /* don't know if this helps! */
   struct player *owner;     /* Player owning this tile, or NULL. */
   char *spec_sprite;
 };
@@ -167,9 +166,6 @@ int get_direction_for_step(const struct tile *src_tile,
 
 void map_set_continent(struct tile *ptile, Continent_id val);
 Continent_id map_get_continent(const struct tile *ptile);
-
-void initialize_move_costs(void);
-void reset_move_costs(struct tile *ptile);
 
 /* Number of index coordinates (for sanity checks and allocations) */
 #define MAP_INDEX_SIZE (map.xsize * map.ysize)
@@ -332,6 +328,7 @@ bool is_tiles_adjacent(const struct tile *ptile0, const struct tile *ptile1);
 bool is_move_cardinal(const struct tile *src_tile,
 		      const struct tile *dst_tile);
 int map_move_cost(struct unit *punit, const struct tile *ptile);
+int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1);
 enum tile_special_type get_special_by_name(const char * name);
 const char *get_special_name(enum tile_special_type type);
 bool is_safe_ocean(const struct tile *ptile);

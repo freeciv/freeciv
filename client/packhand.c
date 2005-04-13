@@ -219,7 +219,6 @@ void handle_city_remove(int city_id)
 
   ptile = pcity->tile;
   client_remove_city(pcity);
-  reset_move_costs(ptile);
 
   /* update menus if the focus unit is on the tile. */
   if (get_unit_in_focus()) {
@@ -625,8 +624,6 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 	    get_nation_name(city_owner(pcity)->nation),
 	    pcity->name, pcity->id, TILE_XY(pcity->tile));
   }
-
-  reset_move_costs(pcity->tile);
 }
 
 /**************************************************************************
@@ -1944,8 +1941,6 @@ void handle_tile_info(struct packet_tile_info *packet)
       tile_changed = TRUE;
     }
   }
-
-  reset_move_costs(ptile);
 
   if (ptile->known <= TILE_KNOWN_FOGGED && old_known == TILE_KNOWN) {
     /* This is an error.  So first we log the error, then make an assertion.

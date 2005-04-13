@@ -315,15 +315,25 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_move_rate(punit));
         } else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
-	  move_cost = (ptile->move_cost[dir] != 0 ? SINGLE_MOVE : 0);
-        else if (punit)
-	  move_cost = MIN(ptile->move_cost[dir], unit_move_rate(punit));
-	/* else c = ptile->move_cost[k]; 
-	   This led to a bad bug where a unit in a swamp was considered too far away */
-        else { /* we have a city */
-	  int tmp = tile1->move_cost[DIR_REVERSE(dir)];
-          move_cost = (ptile->move_cost[dir] + tmp +
-		       (ptile->move_cost[dir] > tmp ? 1 : 0))/2;
+	  move_cost = (map_move_cost_ai(ptile, tile1) != 0
+		       ? SINGLE_MOVE : 0);
+        else if (punit) {
+	  const int tmp1 = map_move_cost_ai(ptile, tile1);
+	  const int tmp2 = unit_move_rate(punit);
+
+	  move_cost = MIN(tmp1, tmp2);
+#if 0
+	} else {
+	  c = ptile->move_cost[k]; 
+	  /* This led to a bad bug where a unit in a swamp was considered
+	   * too far away. */
+#endif
+        } else {
+	  /* we have a city */
+	  const int tmp1 = map_move_cost_ai(tile1, ptile);
+	  const int tmp2 = map_move_cost_ai(ptile, tile1);
+
+          move_cost = (tmp2 + tmp1 + (tmp2 > tmp1 ? 1 : 0)) / 2;
         }
 
         move_cost += cost;
@@ -342,7 +352,8 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	     can move between we allow for shore bombardment/transport
 	     to inland positions/etc. */
           WARMAP_SEACOST(tile1) = move_cost;
-	  if (ptile->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP) {
+	  if (map_move_cost_ai(ptile, tile1)
+	      == MOVE_COST_FOR_VALID_SEA_STEP) {
 	    add_to_mapqueue(move_cost, tile1);
 	  }
 	}
@@ -647,9 +658,11 @@ static bool find_the_shortest_path(struct unit *punit,
 	  int base_cost = get_tile_type(pdesttile->terrain)->movement_cost * SINGLE_MOVE;
 	  move_cost = igter ? 1 : MIN(base_cost, unit_move_rate(punit));
 	} else if (igter)
-	  move_cost = (psrctile->move_cost[dir] != 0 ? SINGLE_MOVE : 0);
+	  move_cost = (map_move_cost_ai(psrctile, pdesttile) != 0
+		       ? SINGLE_MOVE : 0);
 	else
-	  move_cost = MIN(psrctile->move_cost[dir], unit_move_rate(punit));
+	  move_cost = MIN(map_move_cost_ai(psrctile, pdesttile),
+			  unit_move_rate(punit));
 
 	if (!pplayer->ai.control && !map_is_known(tile1, pplayer)) {
 	  /* Don't go into the unknown. 5*SINGLE_MOVE is an arbitrary deterrent. */
@@ -709,7 +722,8 @@ static bool find_the_shortest_path(struct unit *punit,
 	  continue; /* No need for all the calculations */
 
 	/* allow ships to target a shore */
-	if (psrctile->move_cost[dir] != MOVE_COST_FOR_VALID_SEA_STEP
+	if (map_move_cost_ai(psrctile, pdesttile)
+	    != MOVE_COST_FOR_VALID_SEA_STEP
 	    && !same_pos(tile1, dest_tile)) {
 	  continue;
 	} else if (unit_loss_pct(unit_owner(punit), tile1, punit) > 0) {
@@ -982,7 +996,7 @@ static int find_a_direction(struct unit *punit,
     if (is_ground_unit(punit)) {
       /* assuming move is valid, but what if unit is trying to board? 
 	 -- GB */
-      base_move_cost = punit->tile->move_cost[dir];
+      base_move_cost = map_move_cost_ai(punit->tile, ptile);
     } else {
       base_move_cost = SINGLE_MOVE;
     }

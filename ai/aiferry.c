@@ -248,7 +248,7 @@ static int combined_land_sea_move(const struct tile *src_tile,
     move_cost = PF_IMPOSSIBLE_MC;
   } else {
     /* Land-to-Land */
-    move_cost = src_tile->move_cost[dir];
+    move_cost = map_move_cost_ai(src_tile, tgt_tile);
   }
 
   return move_cost;

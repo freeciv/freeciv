@@ -800,7 +800,6 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* The units themselves are allready freed by transfer_city_units. */
   unit_list_unlink_all(old_city_units);
   unit_list_free(old_city_units);
-  reset_move_costs(pcity->tile);
 
   if (resolve_stack) {
     resolve_unit_stacks(pgiver, ptaker, transfer_unit_verbose);
@@ -994,13 +993,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
   map_clear_special(ptile, S_FORTRESS);
   update_tile_knowledge(ptile);
 
-  reset_move_costs(ptile);
-/* I stupidly thought that setting S_ROAD took care of this, but of course
-the city_id isn't set when S_ROAD is set, so reset_move_costs doesn't allow
-sea movement at the point it's called.  This led to a problem with the
-warmap (but not the GOTOmap warmap) which meant the AI was very reluctant
-to use ferryboats.  I really should have identified this sooner. -- Syela */
-
   pcity->synced = FALSE;
   send_city_info(NULL, pcity);
   sync_cities(); /* Will also send pcity. */
@@ -1133,8 +1125,6 @@ void remove_city(struct city *pcity)
   } players_iterate_end;
 
   map_fog_pseudo_city_area(pplayer, ptile);
-
-  reset_move_costs(ptile);
 
   /* Update available tiles in adjacent cities. */
   map_city_radius_iterate(ptile, tile1) {

@@ -967,7 +967,6 @@ void map_irrigate_tile(struct tile *ptile)
        * rivers in oceans, don't clear this! */
       map_clear_special(ptile, S_RIVER);
     }
-    reset_move_costs(ptile);
   }
   map_clear_special(ptile, S_MINE);
 }
@@ -994,7 +993,6 @@ void map_mine_tile(struct tile *ptile)
        * rivers in oceans, don't clear this! */
       map_clear_special(ptile, S_RIVER);
     }
-    reset_move_costs(ptile);
   }
   map_clear_special(ptile, S_FARMLAND);
   map_clear_special(ptile, S_IRRIGATION);
@@ -1012,8 +1010,6 @@ void change_terrain(struct tile *ptile, Terrain_type_id type)
     map_clear_special(ptile, S_RIVER);	/* FIXME: When rest of code can handle
 					   rivers in oceans, don't clear this! */
   }
-
-  reset_move_costs(ptile);
 
   /* Clear mining/irrigation if resulting terrain type cannot support
      that feature.  (With current rules, this should only clear mines,
@@ -1123,27 +1119,31 @@ static int tile_move_cost_ptrs(struct unit *punit,
   return(get_tile_type(t2->terrain)->movement_cost*SINGLE_MOVE);
 }
 
-/***************************************************************
-  tile_move_cost_ai is used to fill the move_cost array of struct
-  tile. The cached values of this array are used in server/gotohand.c
-  and client/goto.c. tile_move_cost_ai returns the move cost as
+/****************************************************************************
+  map_move_cost_ai returns the move cost as
   calculated by tile_move_cost_ptrs (with no unit pointer to get
   unit-independent results) EXCEPT if either of the source or
   destination tile is an ocean tile. Then the result of the method
   shows if a ship can take the step from the source position to the
   destination position (return value is MOVE_COST_FOR_VALID_SEA_STEP)
-  or not (return value is maxcost).
+  or not.  An arbitrarily high value will be returned if the move is
+  impossible.
 
-  A ship can take the step if:
-    - both tiles are ocean or
-    - one of the tiles is ocean and the other is a city or is unknown
-***************************************************************/
-static int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
-			     int maxcost)
+  FIXME: this function can't be used for air units because it returns
+  sea<->land moves as impossible.
+****************************************************************************/
+int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1)
 {
+  const int maxcost = 72; /* Arbitrary. */
+
   assert(!is_server
 	 || (tile0->terrain != T_UNKNOWN && tile1->terrain != T_UNKNOWN));
 
+  /* A ship can take the step if:
+   * - both tiles are ocean or
+   * - one of the tiles is ocean and the other is a city or is unknown
+   *
+   * Note tileX->terrain will only be T_UNKNOWN at the client. */
   if (is_ocean(tile0->terrain) && is_ocean(tile1->terrain)) {
     return MOVE_COST_FOR_VALID_SEA_STEP;
   }
@@ -1159,69 +1159,13 @@ static int tile_move_cost_ai(struct tile *tile0, struct tile *tile1,
   }
 
   if (is_ocean(tile0->terrain) || is_ocean(tile1->terrain)) {
+    /* FIXME: Shouldn't this return MOVE_COST_FOR_VALID_AIR_STEP?
+     * Note that MOVE_COST_FOR_VALID_AIR_STEP is currently equal to
+     * MOVE_COST_FOR_VALID_SEA_STEP. */
     return maxcost;
   }
 
   return tile_move_cost_ptrs(NULL, tile0, tile1);
-}
-
-/***************************************************************
- ...
-***************************************************************/
-static void debug_log_move_costs(const char *str, struct tile *tile0)
-{
-  /* the %x don't work so well for oceans, where
-     move_cost[]==-3 ,.. --dwp
-  */
-  freelog(LOG_DEBUG, "%s (%d, %d) [%x%x%x%x%x%x%x%x]", str,
-	  tile0->x, tile0->y,
-	  tile0->move_cost[0], tile0->move_cost[1],
-	  tile0->move_cost[2], tile0->move_cost[3],
-	  tile0->move_cost[4], tile0->move_cost[5],
-	  tile0->move_cost[6], tile0->move_cost[7]);
-}
-
-/***************************************************************
-  Recalculate tile->move_cost[] for (x,y), and for adjacent
-  tiles in direction back to (x,y).  That is, call this when
-  something has changed on (x,y), eg roads, city, transform, etc.
-***************************************************************/
-void reset_move_costs(struct tile *ptile)
-{
-  int maxcost = 72; /* should be big enough without being TOO big */
-
-  debug_log_move_costs("Resetting move costs for", ptile);
-
-  /* trying to move off the screen is the default */
-  memset(ptile->move_cost, maxcost, sizeof(ptile->move_cost));
-
-  adjc_dir_iterate(ptile, tile1, dir) {
-    ptile->move_cost[dir] = tile_move_cost_ai(ptile, tile1, maxcost);
-    /* reverse: not at all obfuscated now --dwp */
-    tile1->move_cost[DIR_REVERSE(dir)] =
-	tile_move_cost_ai(tile1, ptile, maxcost);
-  } adjc_dir_iterate_end;
-  debug_log_move_costs("Reset move costs for", ptile);
-}
-
-/***************************************************************
-  Initialize tile->move_cost[] for all tiles, where move_cost[i]
-  is the unit-independent cost to move _from_ that tile, to
-  adjacent tile in direction specified by i.
-***************************************************************/
-void initialize_move_costs(void)
-{
-  int maxcost = 72; /* should be big enough without being TOO big */
-
-  whole_map_iterate(ptile) {
-    /* trying to move off the screen is the default */
-    memset(ptile->move_cost, maxcost, sizeof(ptile->move_cost));
-
-    adjc_dir_iterate(ptile, tile1, dir) {
-      ptile->move_cost[dir] = tile_move_cost_ai(ptile, tile1, maxcost);
-    }
-    adjc_dir_iterate_end;
-  } whole_map_iterate_end;
 }
 
 /***************************************************************
@@ -1315,10 +1259,6 @@ bool contains_special(enum tile_special_type set,
 void map_set_special(struct tile *ptile, enum tile_special_type spe)
 {
   ptile->special |= spe;
-
-  if (contains_special(spe, S_ROAD) || contains_special(spe, S_RAILROAD)) {
-    reset_move_costs(ptile);
-  }
 }
 
 /***************************************************************
@@ -1327,10 +1267,6 @@ void map_set_special(struct tile *ptile, enum tile_special_type spe)
 void map_clear_special(struct tile *ptile, enum tile_special_type spe)
 {
   ptile->special &= ~spe;
-
-  if (contains_special(spe, S_ROAD) || contains_special(spe, S_RAILROAD)) {
-    reset_move_costs(ptile);
-  }
 }
 
 /***************************************************************

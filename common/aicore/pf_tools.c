@@ -65,7 +65,7 @@ static int seamove_no_bombard(const struct tile *ptile, enum direction8 dir,
 			      struct pf_parameter *param)
 {
   /* MOVE_COST_FOR_VALID_SEA_STEP means ships can move between */
-  if (ptile->move_cost[dir] == MOVE_COST_FOR_VALID_SEA_STEP
+  if (map_move_cost_ai(ptile, ptile1) == MOVE_COST_FOR_VALID_SEA_STEP
       && !is_non_allied_city_tile(ptile1, param->owner)) {
     return SINGLE_MOVE;
   } else {
@@ -140,7 +140,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
       move_cost = get_tile_type(terrain1)->movement_cost * SINGLE_MOVE;
     }
   } else {
-    move_cost = ptile->move_cost[dir];
+    move_cost = map_move_cost_ai(ptile, ptile1);
   }
 
   return move_cost;
@@ -189,7 +189,7 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
       move_cost = SINGLE_MOVE;
     } else {
       /* Normal move */
-      move_cost = src_tile->move_cost[dir];
+      move_cost = map_move_cost_ai(src_tile, tgt_tile);
     }
   }
 
@@ -225,7 +225,7 @@ static int land_overlap_move(const struct tile *ptile, enum direction8 dir,
   } else if (is_ocean(ptile->terrain)) {
     move_cost = get_tile_type(terrain1)->movement_cost * SINGLE_MOVE;
   } else {
-    move_cost = ptile->move_cost[dir];
+    move_cost = map_move_cost_ai(ptile, ptile1);
   }
 
   return move_cost;
@@ -287,7 +287,8 @@ static int igter_move_unit(const struct tile *ptile, enum direction8 dir,
       move_cost = MOVE_COST_ROAD;
     }
   } else {
-    move_cost = (ptile->move_cost[dir] != 0 ? MOVE_COST_ROAD : 0);
+    move_cost = (map_move_cost_ai(ptile, ptile1) != 0
+		 ? MOVE_COST_ROAD : 0);
   }
   return move_cost;
 }

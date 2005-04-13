@@ -1908,7 +1908,6 @@ main_start_players:
     gamelog(GAMELOG_TEAM, pteam);
   } team_iterate_end;
 
-  initialize_move_costs(); /* this may be the wrong place to do this */
   init_settlers(); /* create minimap and other settlers.c data */
   ai_data_movemap_init();
 

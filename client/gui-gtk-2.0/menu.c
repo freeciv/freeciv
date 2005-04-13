@@ -1196,7 +1196,6 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   /* Restore the original state of the tile. */
   ptile->terrain = old_terrain;
   ptile->special = old_special;
-  reset_move_costs(ptile);
 
   return text;
 }

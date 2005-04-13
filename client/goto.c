@@ -102,7 +102,6 @@ void init_client_goto(void)
       DRAWN(ptile, dir) = 0;
     }
   } whole_map_iterate_end;
-  initialize_move_costs();
 
   is_init = TRUE;
 }
