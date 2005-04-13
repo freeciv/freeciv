@@ -14,6 +14,7 @@
 #define FC__GUI_MAIN_H
 
 #define ID_TURNDONE 26
+#define ID_ESCAPE 27
 
 #define ID_MAPWINDOW 28
 #define ID_OUTPUTWINDOW 29
