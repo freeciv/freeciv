@@ -77,6 +77,7 @@ enum wl_report_ids {
   ID_OK=IDOK,
   ID_CANCEL=IDCANCEL,
   ID_LIST=100,
+  ID_WORKLIST,
   ID_EDIT,
   ID_RENAME,
   ID_INSERT,
@@ -644,6 +645,10 @@ LONG CALLBACK worklist_editor_proc(HWND hwnd,UINT message,WPARAM wParam,
 	  (nmlv->hdr.code==NM_DBLCLK)&&(avail_sel>=0)) {
 	worklist_insert_item(peditor,wl_sel,avail_sel);
 	
+      } else if ((nmlv->hdr.idFrom == ID_WORKLIST)
+		 && (nmlv->hdr.code == NM_DBLCLK)
+		 && (wl_sel >= 0)) {
+	worklist_remove_item(peditor, wl_sel);
       }
     }
     break;
@@ -698,7 +703,8 @@ static struct worklist_editor *create_worklist_editor(struct worklist *pwl,
   vbox=fcwin_vbox_new(peditor->win,FALSE);
   fcwin_box_add_groupbox(hbox2,_("Current worklist"),vbox,SS_LEFT,
 		       TRUE,TRUE,0);
-  peditor->worklist=fcwin_box_add_listview(vbox,5,0,LVS_REPORT | LVS_SINGLESEL,
+  peditor->worklist=fcwin_box_add_listview(vbox, 5, ID_WORKLIST,
+					   LVS_REPORT | LVS_SINGLESEL,
 					   TRUE,TRUE,0);
   hbox=fcwin_hbox_new(peditor->win,TRUE);
   fcwin_box_add_button(hbox,_("Up"),ID_UP,0,TRUE,TRUE,0);
