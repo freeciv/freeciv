@@ -582,6 +582,10 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   dio_get_uint8(&din, &version);
   assert(version == 2);
 
+  /* Initialize the parameter (includes some AI-only fields that aren't
+   * touched below). */
+  cm_init_parameter(parameter);
+
   output_type_iterate(i) {
     dio_get_sint16(&din, &parameter->minimal_surplus[i]);
     dio_get_sint16(&din, &parameter->factor[i]);
@@ -590,9 +594,6 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   dio_get_sint16(&din, &parameter->happy_factor);
   dio_get_uint8(&din, &dummy); /* Dummy value; used to be factor_target. */
   dio_get_bool8(&din, &parameter->require_happy);
-  /* These options are only for server-AI use. */
-  parameter->allow_disorder = FALSE;
-  parameter->allow_specialists = TRUE;
 
   return TRUE;
 }
