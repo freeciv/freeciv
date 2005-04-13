@@ -910,7 +910,7 @@ static const char **get_data_dirs(int *num_dirs)
   The suffixes are removed from the filenames before the list is
   returned.
 ***************************************************************************/
-const char **datafilelist(const char* suffix)
+char **datafilelist(const char* suffix)
 {
   const char **dirs = get_data_dirs(NULL);
   char **file_list = NULL;
@@ -990,7 +990,7 @@ const char **datafilelist(const char* suffix)
   file_list = fc_realloc(file_list, (num_matches + 1) * sizeof(*file_list));
   file_list[num_matches] = NULL;
 
-  return (const char **)file_list;
+  return file_list;
 }
 
 /***************************************************************************

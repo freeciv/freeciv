@@ -644,7 +644,7 @@ const char **get_tileset_list(void)
   if (!tileset_list) {
     /* Note: this means you must restart the client after installing a new
        tileset. */
-    tileset_list = datafilelist(TILESPEC_SUFFIX);
+    tileset_list = (const char **)datafilelist(TILESPEC_SUFFIX);
   }
 
   return tileset_list;

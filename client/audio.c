@@ -88,7 +88,7 @@ const char **get_soundset_list(void)
   if (!audio_list) {
     /* Note: this means you must restart the client after installing a new
        soundset. */
-    audio_list = datafilelist(SNDSPEC_SUFFIX);
+    audio_list = (const char **)datafilelist(SNDSPEC_SUFFIX);
   }
 
   return audio_list;

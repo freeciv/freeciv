@@ -511,7 +511,7 @@ const char *new_challenge_filename(struct connection *pc)
 static void send_ruleset_choices(struct connection *pc)
 {
   struct packet_ruleset_choices packet;
-  static const char **rulesets = NULL;
+  static char **rulesets = NULL;
   int i;
 
   if (pc->access_level != ALLOW_HACK) {
