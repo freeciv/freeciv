@@ -200,7 +200,8 @@ static ACCEL numpadaccel[]={
   { FVIRTKEY,VK_UP,IDM_NUMPAD8},
   { FVIRTKEY,VK_NUMPAD9,IDM_NUMPAD9},
   { FVIRTKEY,VK_PRIOR,IDM_NUMPAD9},
-  { FVIRTKEY,VK_RETURN,ID_TURNDONE}};
+  { FVIRTKEY,VK_RETURN,ID_TURNDONE},
+  { FVIRTKEY,VK_ESCAPE,ID_ESCAPE}};
 static ACCEL menuaccel[MAX_ACCEL];
 static int accelcount;
 enum unit_activity road_activity;   
@@ -852,7 +853,10 @@ void handle_menu(int code)
       EnableWindow(turndone_button,FALSE);
       user_ended_turn();
       break;
-
+    case ID_ESCAPE:
+      key_cancel_action();
+      break;
+      
 
     case IDM_HELP_LANGUAGES:
       popup_help_dialog_string(HELP_LANGUAGES_ITEM);
