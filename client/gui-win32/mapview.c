@@ -518,47 +518,111 @@ void prepare_show_city_descriptions(void)
 void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 		    struct city *pcity, int *width, int *height)
 {
-  char buffer[500];
-  int y_offset;
-  HDC hdc;
-  HBITMAP old;
+  char buffer[512], buffer2[32];
+  enum color_std growth_color;
+  RECT name_rect, growth_rect, prod_rect;
+  int extra_width = 0, total_width, total_height;
 
-  /* TODO: hdc should be stored statically */
-  /* FIXME: we should draw to the given pcanvas. */
-  hdc = CreateCompatibleDC(NULL);
-  old = SelectObject(hdc, mapstorebitmap);
+  HDC hdc;
+  HGDIOBJ old = NULL;
+
+  name_rect.left   = 0;
+  name_rect.right  = 0;
+  name_rect.top    = 0;
+  name_rect.bottom = 0;
+
+  growth_rect.left   = 0;
+  growth_rect.right  = 0;
+  growth_rect.top    = 0;
+  growth_rect.bottom = 0;
+
+  prod_rect.left   = 0;
+  prod_rect.right  = 0;
+  prod_rect.top    = 0;
+  prod_rect.bottom = 0;
+
+  if (pcanvas->hdc) {
+    hdc = pcanvas->hdc;
+  } else if (pcanvas->bitmap) {
+    hdc = CreateCompatibleDC(NULL);
+    old = SelectObject(hdc, pcanvas->bitmap);
+  } else {
+    hdc = GetDC(root_window);
+  }
+
   SetBkMode(hdc,TRANSPARENT);
 
   *width = *height = 0;
 
-  y_offset = canvas_y + NORMAL_TILE_HEIGHT;
-  if (draw_city_names && pcity->name) {
+  canvas_x += NORMAL_TILE_WIDTH / 2;
+  canvas_y += NORMAL_TILE_HEIGHT;
+
+  if (draw_city_names) {
     RECT rc;
 
-    /* FIXME: draw city growth as well, using
-     * get_city_mapview_name_and_growth() */
+    rc.left   = 0;
+    rc.right  = 0;
+    rc.top    = 0;
+    rc.bottom = 0;
 
-    DrawText(hdc, pcity->name, strlen(pcity->name), &rc, DT_CALCRECT);
-    rc.left = canvas_x + NORMAL_TILE_WIDTH / 2 - 10;
-    rc.right = rc.left + 20;
-    rc.bottom -= rc.top;
-    rc.top = y_offset;
-    rc.bottom += rc.top;
+    get_city_mapview_name_and_growth(pcity, buffer, sizeof(buffer),
+				     buffer2, sizeof(buffer2), &growth_color);
+
+    DrawText(hdc, buffer, strlen(buffer), &name_rect, DT_CALCRECT);
+
+    if (buffer2[0] != '\0') {
+      DrawText(hdc, buffer2, strlen(buffer2), &growth_rect, DT_CALCRECT);
+      /* HACK: put a character's worth of space between the two strings. */
+      DrawText(hdc, "M", 1, &rc, DT_CALCRECT);
+      extra_width = rc.right;
+    }
+    total_width = name_rect.right + extra_width + growth_rect.right;
+    total_height = MAX(name_rect.bottom, growth_rect.bottom);
+
+    rc.left   = canvas_x - total_width / 2;
+    rc.right  = rc.left + name_rect.right;
+    rc.top    = canvas_y;
+    rc.bottom = rc.top + total_height;
+
     SetTextColor(hdc, RGB(0, 0, 0));
-    DrawText(hdc, pcity->name, strlen(pcity->name), &rc,
-	     DT_NOCLIP | DT_CENTER);
+    DrawText(hdc, buffer, strlen(buffer), &rc, DT_NOCLIP);
+    
     rc.left++;
     rc.top--;
     rc.right++;
     rc.bottom--;
+
     SetTextColor(hdc, RGB(255, 255, 255));
+
     DrawText(hdc, pcity->name, strlen(pcity->name), &rc,
 	     DT_NOCLIP | DT_CENTER);
 
-    *width = rc.right - rc.left + 1;
-    *height = rc.bottom - rc.top + 2;
+    if (buffer2[0] != '\0') {
+      rc.left   = canvas_x - total_width / 2 + name_rect.right + extra_width;
+      rc.right  = rc.left + growth_rect.right;
+      rc.top    = canvas_y + total_height - growth_rect.bottom;
+      rc.bottom = rc.top + total_height;
 
-    y_offset = rc.bottom + 2;
+      SetTextColor(hdc, RGB(0, 0, 0));
+      DrawText(hdc, buffer2, strlen(buffer2), &rc, DT_NOCLIP);
+
+      rc.left++;
+      rc.top--;
+      rc.right++;
+      rc.bottom--;
+
+      /* FIXME: use correct color */
+      if (growth_color == COLOR_STD_WHITE) {
+	SetTextColor(hdc, RGB(255, 255, 255));
+      } else {	/* COLOR_STD_RED */
+	SetTextColor(hdc, RGB(255, 0, 0));
+      }
+      DrawText(hdc, buffer2, strlen(buffer2), &rc, DT_NOCLIP);
+    }
+    canvas_y += total_height + 2;
+
+    *width = MAX(*width, total_width);
+    *height += total_height + 3;
   }
 
   if (draw_city_productions && pcity->owner == game.player_idx) {
@@ -567,10 +631,10 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
     get_city_mapview_production(pcity, buffer, sizeof(buffer));
       
     DrawText(hdc, buffer, strlen(buffer), &rc, DT_CALCRECT);
-    rc.left = canvas_x + NORMAL_TILE_WIDTH / 2 - 10;
+    rc.left = canvas_x - 10;
     rc.right = rc.left + 20;
     rc.bottom -= rc.top;
-    rc.top = y_offset;
+    rc.top = canvas_y;
     rc.bottom += rc.top; 
     SetTextColor(hdc, RGB(0, 0, 0));
     DrawText(hdc, buffer, strlen(buffer), &rc, DT_NOCLIP | DT_CENTER);
@@ -585,8 +649,14 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
     *height += rc.bottom - rc.top + 1;
   }
 
-  SelectObject(hdc, old);
-  DeleteDC(hdc);
+  if (!pcanvas->hdc) {
+    if (pcanvas->bitmap) {
+      SelectObject(hdc, old);
+      DeleteDC(hdc);
+    } else {
+      ReleaseDC(root_window, hdc);
+    }
+  }
 }
 
 /**************************************************************************
