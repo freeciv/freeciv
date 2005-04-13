@@ -100,6 +100,21 @@ enum impr_genus_id impr_genus_from_str(const char *s)
   return i;
 }
 
+/****************************************************************************
+  Inialize building structures.
+****************************************************************************/
+void improvements_init(void)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(improvement_types); i++) {
+    /* HACK: this field is declared const to keep anyone from changing
+     * them.  But we have to set it somewhere!  This should be the only
+     * place. */
+    *(int *)&improvement_types[i].index = i;
+  }
+}
+
 /**************************************************************************
   Frees the memory associated with this improvement.
 **************************************************************************/

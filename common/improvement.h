@@ -65,6 +65,7 @@ enum impr_genus_id {
 
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
+  const int index;  /* Index in improvement_types array */
   enum impr_genus_id genus;		/* genus; e.g. GreatWonder */
   const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];		/* untranslated */
@@ -95,6 +96,7 @@ const char *impr_range_name(enum impr_range id);
 enum impr_genus_id impr_genus_from_str(const char *s);
 
 /* improvement functions */
+void improvements_init(void);
 void improvements_free(void);
 struct impr_type *get_improvement_type(Impr_Type_id id);
 bool improvement_exists(Impr_Type_id id);

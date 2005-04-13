@@ -169,6 +169,7 @@ struct veteran_type {
 };
 
 struct unit_type {
+  const int index;
   const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];
@@ -265,6 +266,7 @@ Unit_Type_id best_role_unit_for_player(const struct player *pplayer,
 Unit_Type_id first_role_unit_for_player(const struct player *pplayer,
 					int role);
 
+void unit_types_init(void);
 void unit_types_free(void);
 
 #define unit_type_iterate(m_i)                                                \

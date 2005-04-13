@@ -613,6 +613,21 @@ bool techs_have_fixed_costs()
 	  && game.rgame.tech_leakage == 0);
 }
 
+/****************************************************************************
+  Inialize tech structures.
+****************************************************************************/
+void techs_init(void)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(advances); i++) {
+    /* HACK: this field is declared const to keep anyone from changing
+     * them.  But we have to set it somewhere!  This should be the only
+     * place. */
+    *(int *)&advances[i].index = i;
+  }
+}
+
 /***************************************************************
  De-allocate resources associated with the given tech.
 ***************************************************************/

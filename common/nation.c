@@ -206,8 +206,17 @@ struct nation_type *get_nation_by_idx(Nation_Type_id nation)
 ***************************************************************/
 void nations_alloc(int num)
 {
-  nations = (struct nation_type *)fc_calloc(num, sizeof(struct nation_type));
+  int i;
+
+  nations = fc_calloc(num, sizeof(nations[0]));
   game.nation_count = num;
+
+  for (i = 0; i < num; i++) {
+    /* HACK: this field is declared const to keep anyone from changing
+     * them.  But we have to set it somewhere!  This should be the only
+     * place. */
+    *(int *)&nations[i].index = i;
+  }
 }
 
 /***************************************************************

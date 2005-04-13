@@ -279,6 +279,9 @@ void game_init(void)
 
   init_our_capability();    
   map_init();
+  improvements_init();
+  techs_init();
+  unit_types_init();
   idex_init();
   cm_init();
   

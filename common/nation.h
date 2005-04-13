@@ -71,6 +71,7 @@ struct nation_group {
 };
 
 struct nation_type {
+  const int index;
   /* Pointer values are allocated on load then freed in free_nations(). */
   const char *name; /* Translated string - doesn't need freeing. */
   const char *name_plural; /* Translated string - doesn't need freeing. */

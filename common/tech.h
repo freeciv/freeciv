@@ -79,6 +79,7 @@ enum tech_state {
 };
 
 struct advance {
+  const int index; /* Tech index in tech array. */
   const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
@@ -140,6 +141,7 @@ const char *get_tech_name(const struct player *pplayer, Tech_Type_id tech);
 
 void precalc_tech_data(void);
 
+void techs_init(void);
 void techs_free(void);
 
 extern struct advance advances[];

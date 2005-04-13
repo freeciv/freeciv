@@ -629,6 +629,21 @@ Unit_Type_id first_role_unit_for_player(const struct player *pplayer,
   return U_LAST;
 }
 
+/****************************************************************************
+  Inialize unit-type structures.
+****************************************************************************/
+void unit_types_init(void)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
+    /* HACK: this field is declared const to keep anyone from changing
+     * them.  But we have to set it somewhere!  This should be the only
+     * place. */
+    *(int *)&unit_types[i].index = i;
+  }
+}
+
 /**************************************************************************
   Frees the memory associated with this unit type.
 **************************************************************************/
