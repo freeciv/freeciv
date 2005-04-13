@@ -3138,10 +3138,15 @@ static void send_load_game_info(bool load_successful)
 /**************************************************************************
   ...
 **************************************************************************/
-bool load_command(struct connection *caller, char *arg, bool check)
+bool load_command(struct connection *caller, char *filename, bool check)
 {
   struct timer *loadtimer, *uloadtimer;  
   struct section_file file;
+  char arg[strlen(filename) + 1];
+
+  /* We make a local copy because the parameter might be a pointer to 
+   * srvarg.load_filename, which we edit down below. */
+  sz_strlcpy(arg, filename);
 
   if (!arg || arg[0] == '\0') {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage: load <filename>"));
