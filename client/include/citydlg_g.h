@@ -17,7 +17,7 @@
 
 #include "citydlg_common.h"
 
-void popup_city_dialog(struct city *pcity, bool make_modal);
+void popup_city_dialog(struct city *pcity);
 void popdown_city_dialog(struct city *pcity);
 void popdown_all_city_dialogs(void);
 void refresh_city_dialog(struct city *pcity);

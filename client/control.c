@@ -1471,7 +1471,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
   }
   /* Otherwise use popups. */
   else if (pcity && can_player_see_city_internals(game.player_ptr, pcity)) {
-    popup_city_dialog(pcity, FALSE);
+    popup_city_dialog(pcity);
   }
   else if (unit_list_size(ptile->units) == 0 && !pcity
            && punit_focus) {

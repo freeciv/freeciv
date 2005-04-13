@@ -186,7 +186,7 @@ static void notify_goto_response(GtkWidget *w, gint response)
     }
 
     if (pcity) {
-      popup_city_dialog(pcity, 0);
+      popup_city_dialog(pcity);
     }
     break;
   }

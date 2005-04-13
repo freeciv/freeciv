@@ -603,7 +603,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
       (!game.player_ptr->ai.control)) {
     update_menus();
     if (!city_dialog_is_open(pcity)) {
-      popup_city_dialog(pcity, FALSE);
+      popup_city_dialog(pcity);
     }
   }
 

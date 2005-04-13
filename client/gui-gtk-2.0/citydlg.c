@@ -169,8 +169,6 @@ struct city_dialog {
   Impr_Type_id sell_id;
 
   int cwidth;
-
-  bool is_modal;
 };
 
 static GtkRcStyle *info_label_style[NUM_INFO_STYLES] = { NULL, NULL, NULL };
@@ -198,8 +196,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog);
 static void create_and_append_cma_page(struct city_dialog *pdialog);
 static void create_and_append_settings_page(struct city_dialog *pdialog);
 
-static struct city_dialog *create_city_dialog(struct city *pcity,
-					      bool make_modal);
+static struct city_dialog *create_city_dialog(struct city *pcity);
 
 static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
@@ -414,12 +411,12 @@ void refresh_unit_city_dialogs(struct unit *punit)
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_city_dialog(struct city *pcity, bool make_modal)
+void popup_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
 
   if (!(pdialog = get_city_dialog(pcity))) {
-    pdialog = create_city_dialog(pcity, make_modal);
+    pdialog = create_city_dialog(pcity);
   }
 
   gtk_window_present(GTK_WINDOW(pdialog->shell));
@@ -1175,8 +1172,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 /****************************************************************
 ...
 *****************************************************************/
-static struct city_dialog *create_city_dialog(struct city *pcity,
-					      bool make_modal)
+static struct city_dialog *create_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
 
@@ -1315,8 +1311,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity,
 
   /* need to do this every time a new dialog is opened. */
   city_dialog_update_prev_next();
-
-  pdialog->is_modal = make_modal;
 
   gtk_widget_show_all(GTK_DIALOG(pdialog->shell)->vbox);
   gtk_widget_show_all(GTK_DIALOG(pdialog->shell)->action_area);

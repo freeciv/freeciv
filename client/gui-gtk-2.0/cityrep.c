@@ -1028,7 +1028,7 @@ static void popup_iterate(GtkTreeModel *model, GtkTreePath *path,
     center_tile_mapcanvas(pcity->tile);
   }
 
-  popup_city_dialog(pcity, 0);
+  popup_city_dialog(pcity);
 }
 
 /****************************************************************
