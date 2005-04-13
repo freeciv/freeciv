@@ -403,14 +403,12 @@ const char *unit_description(struct unit *punit)
 }
 
 /****************************************************************************
-  Returns the text to display in the science dialog.
+  Return total expected bulbs.
 ****************************************************************************/
-const char *science_dialog_text(void)
+static int get_bulbs_per_turn(int *pours, int *ptheirs)
 {
-  int turns_to_advance;
   struct player *plr = game.player_ptr;
   int ours = 0, theirs = 0;
-  INIT;
 
   /* Sum up science */
   players_iterate(pplayer) {
@@ -424,6 +422,27 @@ const char *science_dialog_text(void)
       theirs += pplayer->bulbs_last_turn;
     }
   } players_iterate_end;
+
+  if (pours) {
+    *pours = ours;
+  }
+  if (ptheirs) {
+    *ptheirs = theirs;
+  }
+  return ours + theirs;
+}
+
+/****************************************************************************
+  Returns the text to display in the science dialog.
+****************************************************************************/
+const char *science_dialog_text(void)
+{
+  int turns_to_advance;
+  struct player *plr = game.player_ptr;
+  int ours, theirs;
+  INIT;
+
+  get_bulbs_per_turn(&ours, &theirs);
 
   if (ours == 0 && theirs == 0) {
     add(_("Progress: no research"));
@@ -445,6 +464,39 @@ const char *science_dialog_text(void)
 	    "%d pts/turn from team)",
 	    turns_to_advance), turns_to_advance, ours, theirs);
   }
+  RETURN;
+}
+
+/****************************************************************************
+  Set the science-goal-label text as if we're researching the given goal.
+****************************************************************************/
+const char *get_science_goal_text(Tech_Type_id goal)
+{
+  int steps = num_unknown_techs_for_goal(game.player_ptr, goal);
+  int bulbs = total_bulbs_required_for_goal(game.player_ptr, goal);
+  int bulbs_needed = bulbs, turns;
+  int perturn = get_bulbs_per_turn(NULL, NULL);
+  char buf1[256], buf2[256], buf3[256];
+  INIT;
+
+  if (is_tech_a_req_for_goal(game.player_ptr,
+			     game.player_ptr->research->researching, goal)) {
+    bulbs_needed -= game.player_ptr->research->bulbs_researched;
+  }
+
+  my_snprintf(buf1, sizeof(buf1),
+	      PL_("%d step", "%d steps", steps), steps);
+  my_snprintf(buf2, sizeof(buf2),
+	      PL_("%d bulb", "%d bulbs", bulbs), bulbs);
+  if (perturn > 0) {
+    turns = (bulbs_needed + perturn - 1) / perturn;
+    my_snprintf(buf3, sizeof(buf3),
+		PL_("%d turn", "%d turns", turns), turns);
+  } else {
+    my_snprintf(buf3, sizeof(buf3), _("never"));
+  }
+  add_line("(%s - %s - %s)", buf1, buf2, buf3);
+
   RETURN;
 }
 

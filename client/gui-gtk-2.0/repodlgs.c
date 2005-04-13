@@ -307,7 +307,6 @@ void science_change_callback(GtkWidget *widget, gpointer data)
 *****************************************************************/
 void science_goal_callback(GtkWidget *widget, gpointer data)
 {
-  char text[512];
   size_t to = (size_t) data;
 
   if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
@@ -317,11 +316,8 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
     science_dialog_update();
   }
   else {  
-    int steps = num_unknown_techs_for_goal(game.player_ptr, to);
-    my_snprintf(text, sizeof(text),
-		PL_("(%d step)", "(%d steps)", steps), steps);
-    gtk_label_set_text(GTK_LABEL(science_goal_label), text);
-
+    gtk_label_set_text(GTK_LABEL(science_goal_label),
+		       get_science_goal_text(to));
     dsend_packet_player_tech_goal(&aconnection, to);
   }
 }
@@ -391,7 +387,6 @@ void science_dialog_update(void)
   GtkWidget *item;
   GList *sorting_list = NULL, *it;
   gdouble pct;
-  int steps;
   GtkSizeGroup *group1, *group2;
 
   if (is_report_dialogs_frozen()) {
@@ -512,11 +507,8 @@ void science_dialog_update(void)
   gtk_widget_set_sensitive(science_goal_menu_button,
 			   can_client_issue_orders());
   
-  steps = num_unknown_techs_for_goal(game.player_ptr,
-				     game.player_ptr->ai.tech_goal);
-  my_snprintf(text, sizeof(text), PL_("(%d step)", "(%d steps)", steps),
-	      steps);
-  gtk_label_set_text(GTK_LABEL(science_goal_label), text);
+  gtk_label_set_text(GTK_LABEL(science_goal_label),
+		     get_science_goal_text(game.player_ptr->ai.tech_goal));
 
   if (game.player_ptr->ai.tech_goal == A_UNSET) {
     item = gtk_menu_item_new_with_label(get_tech_name(game.player_ptr,
