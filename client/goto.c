@@ -399,7 +399,7 @@ static int get_activity_time(const struct tile *ptile,
     if (ttype->irrigation_time == 0) {
       return -1;
     }
-    if (map_has_special(ptile, S_MINE)) {
+    if (tile_has_special(ptile, S_MINE)) {
       /* Don't overwrite mines. */
       return -1;
     }
@@ -496,11 +496,11 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 
   /* Special cases: get_MC function doesn't know that we would have built
    * a road (railroad) on src tile by that time */
-  if (map_has_special(dest_tile, S_ROAD)) {
+  if (tile_has_special(dest_tile, S_ROAD)) {
     move_cost = MOVE_COST_ROAD;
   }
   if (connect_activity == ACTIVITY_RAILROAD
-      && map_has_special(dest_tile, S_RAILROAD)) {
+      && tile_has_special(dest_tile, S_RAILROAD)) {
     move_cost = MOVE_COST_RAIL;
   }
 
@@ -926,7 +926,7 @@ void send_connect_route(struct unit *punit, enum unit_activity activity)
   for (i = 0; i < path->length; i++) {
     switch (activity) {
     case ACTIVITY_IRRIGATE:
-      if (!map_has_special(old_tile, S_IRRIGATION)) {
+      if (!tile_has_special(old_tile, S_IRRIGATION)) {
 	/* Assume the unit can irrigate or we wouldn't be here. */
 	p.orders[p.length] = ORDER_ACTIVITY;
 	p.activity[p.length] = ACTIVITY_IRRIGATE;
@@ -935,14 +935,14 @@ void send_connect_route(struct unit *punit, enum unit_activity activity)
       break;
     case ACTIVITY_ROAD:
     case ACTIVITY_RAILROAD:
-      if (!map_has_special(old_tile, S_ROAD)) {
+      if (!tile_has_special(old_tile, S_ROAD)) {
 	/* Assume the unit can build the road or we wouldn't be here. */
 	p.orders[p.length] = ORDER_ACTIVITY;
 	p.activity[p.length] = ACTIVITY_ROAD;
 	p.length++;
       }
       if (activity == ACTIVITY_RAILROAD) {
-	if (!map_has_special(old_tile, S_RAILROAD)) {
+	if (!tile_has_special(old_tile, S_RAILROAD)) {
 	  /* Assume the unit can build the rail or we wouldn't be here. */
 	  p.orders[p.length] = ORDER_ACTIVITY;
 	  p.activity[p.length] = ACTIVITY_RAILROAD;

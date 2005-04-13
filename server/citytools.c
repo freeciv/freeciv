@@ -172,7 +172,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
    * we _only_ multiplied (or divided), then cities that had more
    * terrain labels would have their priorities hurt (or helped).
    */
-  goodness = map_has_special(ptile, S_RIVER) ?
+  goodness = tile_has_special(ptile, S_RIVER) ?
 	      city_name->river : -city_name->river;
   if (goodness > 0) {
     priority /= mult_factor;
@@ -870,7 +870,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   if (terrain_control.may_road
       && player_knows_techs_with_flag (ptaker, TF_RAILROAD)
-      && !map_has_special(pcity->tile, S_RAILROAD)) {
+      && !tile_has_special(pcity->tile, S_RAILROAD)) {
     notify_player(ptaker,
 		  _("The people in %s are stunned by your"
 		    " technological insight!\n"
@@ -979,7 +979,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   auto_arrange_workers(pcity);
 
   /* Put vision back to normal, if fortress acted as a watchtower */
-  if (map_has_special(ptile, S_FORTRESS)) {
+  if (tile_has_special(ptile, S_FORTRESS)) {
     /* This could be a helper function. */
     unit_list_iterate((ptile)->units, punit) {
       struct player *owner = unit_owner(punit);

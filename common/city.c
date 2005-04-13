@@ -516,7 +516,7 @@ bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id)
   }
 
   for (;*spec_gate!=S_NO_SPECIAL;spec_gate++) {
-    if (map_has_special(pcity->tile, *spec_gate) ||
+    if (tile_has_special(pcity->tile, *spec_gate) ||
         is_special_near_tile(pcity->tile, *spec_gate)) {
       return TRUE;
     }

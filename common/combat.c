@@ -91,7 +91,7 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
 
   /* 2. Only fighters can attack planes, except in city or airbase attacks */
   if (!unit_flag(punit, F_FIGHTER) && is_air_unit(pdefender)
-      && !(pcity || map_has_special(dest_tile, S_AIRBASE))) {
+      && !(pcity || tile_has_special(dest_tile, S_AIRBASE))) {
     return FALSE;
   }
 
@@ -321,7 +321,7 @@ bool unit_really_ignores_citywalls(const struct unit *punit)
 **************************************************************************/
 bool unit_on_fortress(const struct unit *punit)
 {
-  return map_has_special(punit->tile, S_FORTRESS);
+  return tile_has_special(punit->tile, S_FORTRESS);
 }
 
 /**************************************************************************
@@ -385,7 +385,7 @@ int get_defense_power(const struct unit *punit)
   int db, power = base_get_defense_power(punit);
 
   db = get_tile_type(punit->tile->terrain)->defense_bonus;
-  if (map_has_special(punit->tile, S_RIVER)) {
+  if (tile_has_special(punit->tile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
   power = (power * db) / 10;
@@ -463,7 +463,7 @@ static int defense_multiplication(Unit_Type_id att_type,
     }
   }
 
-  if (map_has_special(ptile, S_FORTRESS) && !pcity) {
+  if (tile_has_special(ptile, S_FORTRESS) && !pcity) {
     defensepower +=
 	(defensepower * terrain_control.fortress_defense_bonus) / 100;
   }
@@ -493,7 +493,7 @@ int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
   }
 
   db = get_tile_type(t)->defense_bonus;
-  if (map_has_special(ptile, S_RIVER)) {
+  if (tile_has_special(ptile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
   defensepower *= db;
@@ -641,7 +641,7 @@ struct unit *get_attacker(const struct unit *defender,
 bool is_stack_vulnerable(const struct tile *ptile)
 {
   return !(ptile->city != NULL
-           || map_has_special(ptile, S_FORTRESS)
-           || map_has_special(ptile, S_AIRBASE)
+           || tile_has_special(ptile, S_FORTRESS)
+           || tile_has_special(ptile, S_AIRBASE)
            || !game.rgame.killstack);
 }

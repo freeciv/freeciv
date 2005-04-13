@@ -1185,7 +1185,7 @@ update_menus(void)
       if (unit_flag(punit, F_TRADE_ROUTE)) {
 	my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Make Trade Route") "\tR");
       } else if (unit_flag(punit, F_SETTLERS)) {
-	if (map_has_special(punit->tile, S_ROAD)) {
+	if (tile_has_special(punit->tile, S_ROAD)) {
 	  roadtext = N_("Build Railroad") "\tR";
 	  road_activity = ACTIVITY_RAILROAD;  
 	} else {
@@ -1203,7 +1203,7 @@ update_menus(void)
 	  && tinfo->irrigation_result != ttype) {
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
-      } else if (map_has_special(punit->tile, S_IRRIGATION)
+      } else if (tile_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
 	sz_strlcpy(irrtext, N_("Build Farmland") "\tI");

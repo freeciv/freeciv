@@ -113,7 +113,7 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
   }
 
   /* Don't start on a hut. */
-  if (map_has_special(ptile, S_HUT)) {
+  if (tile_has_special(ptile, S_HUT)) {
     return FALSE;
   }
 

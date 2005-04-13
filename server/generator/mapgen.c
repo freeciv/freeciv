@@ -828,7 +828,7 @@ static void make_rivers(void)
 	!is_ocean(map_get_terrain(ptile))
 
 	/* Don't start a river on river. */
-	&& !map_has_special(ptile, S_RIVER)
+	&& !tile_has_special(ptile, S_RIVER)
 
 	/* Don't start a river on a tile is surrounded by > 1 river +
 	   ocean tile. */
@@ -1208,8 +1208,8 @@ static void make_huts(int number)
 static bool is_special_close(struct tile *ptile)
 {
   square_iterate(ptile, 1, tile1) {
-    if (map_has_special(tile1, S_SPECIAL_1)
-	|| map_has_special(tile1, S_SPECIAL_2)) {
+    if (tile_has_special(tile1, S_SPECIAL_1)
+	|| tile_has_special(tile1, S_SPECIAL_2)) {
       return TRUE;
     }
   } square_iterate_end;

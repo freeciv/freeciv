@@ -451,7 +451,7 @@ void update_menus(void)
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
 			  (get_tile_type(tinfo->irrigation_result))->terrain_name);
       }
-      else if (map_has_special(punit->tile, S_IRRIGATION) &&
+      else if (tile_has_special(punit->tile, S_IRRIGATION) &&
 	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_FARMLAND, NULL);
@@ -488,7 +488,7 @@ void update_menus(void)
 			  TEXT_ORDER_POLLUTION_POLLUTION, NULL);
       }
 
-      if (map_has_special(punit->tile, S_ROAD)) {
+      if (tile_has_special(punit->tile, S_ROAD)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_ROAD,
 			  TEXT_ORDER_ROAD_RAILROAD, NULL);
       } else {

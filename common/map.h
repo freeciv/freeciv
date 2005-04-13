@@ -306,8 +306,6 @@ enum known_type map_get_known(const struct tile *ptile,
 			      const struct player *pplayer);
 
 /* special testing */
-bool map_has_special(const struct tile *ptile,
-		     enum tile_special_type to_test_for);
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type to_test_for);
 bool contains_special(enum tile_special_type all,

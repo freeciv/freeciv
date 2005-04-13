@@ -193,7 +193,7 @@ Used only in global_warming() and nuclear_winter() below.
 **************************************************************************/
 static bool is_terrain_ecologically_wet(struct tile *ptile)
 {
-  return (map_has_special(ptile, S_RIVER)
+  return (tile_has_special(ptile, S_RIVER)
 	  || is_ocean_near_tile(ptile)
 	  || is_special_near_tile(ptile, S_RIVER));
 }
@@ -858,7 +858,7 @@ void remove_unit_sight_points(struct unit *punit)
   freelog(LOG_DEBUG, "Removing unit sight points at  %i,%i",
 	  TILE_XY(punit->tile));
 
-  if (map_has_special(punit->tile, S_FORTRESS)
+  if (tile_has_special(punit->tile, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
     fog_area(pplayer, ptile, get_watchtower_vision(punit));
   else
@@ -1474,7 +1474,7 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
   map_clear_special(ptile, S_RIVER);
 
   cardinal_adjc_iterate(ptile, tile1) {
-    if (map_has_special(tile1, S_RIVER)) {
+    if (tile_has_special(tile1, S_RIVER)) {
       bool ocean_near = FALSE;
       cardinal_adjc_iterate(tile1, tile2) {
         if (is_ocean(map_get_terrain(tile2)))

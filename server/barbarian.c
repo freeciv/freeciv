@@ -384,7 +384,7 @@ static void try_summon_barbarians(void)
   }
   freelog(LOG_DEBUG, "Barbarians are willing to fight");
 
-  if (map_has_special(utile, S_HUT)) {
+  if (tile_has_special(utile, S_HUT)) {
     /* remove the hut in place of uprising */
     map_clear_special(utile, S_HUT);
     update_tile_knowledge(utile);

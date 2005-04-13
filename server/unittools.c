@@ -413,7 +413,7 @@ void player_restore_units(struct player *pplayer)
       /* 7) Automatically refuel air units in cities, airbases, and
        *    transporters (carriers). */
       if (map_get_city(punit->tile)
-	  || map_has_special(punit->tile, S_AIRBASE)
+	  || tile_has_special(punit->tile, S_AIRBASE)
 	  || punit->transported_by != -1) {
 	punit->fuel=unit_type(punit)->fuel;
       }
@@ -461,7 +461,7 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
   if(is_heli_unit(punit)) {
     struct city *pcity = map_get_city(punit->tile);
     if(!pcity) {
-      if (!map_has_special(punit->tile, S_AIRBASE))
+      if (!tile_has_special(punit->tile, S_AIRBASE))
         punit->hp-=unit_type(punit)->hp/10;
     }
   }
@@ -1188,7 +1188,7 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
 
   /* Calculate how well we can defend at (x,y) */
   db = get_tile_type(map_get_terrain(ptile))->defense_bonus;
-  if (map_has_special(ptile, S_RIVER))
+  if (tile_has_special(ptile, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   d = unit_def_rating_basic_sq(punit) * db;
 
@@ -1411,7 +1411,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
   }
 
   /* save old vision range */
-  if (map_has_special(punit->tile, S_FORTRESS)
+  if (tile_has_special(punit->tile, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
     range = get_watchtower_vision(punit);
   else
@@ -1428,7 +1428,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
   conn_list_do_buffer(pplayer->connections);
 
   /* apply new vision range */
-  if (map_has_special(punit->tile, S_FORTRESS)
+  if (tile_has_special(punit->tile, S_FORTRESS)
       && unit_profits_of_watchtower(punit)) {
     change_vision_range(pplayer, punit->tile, range, get_watchtower_vision(punit));
   } else {
@@ -1511,7 +1511,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
     send_city_info(pplayer, pcity);
   }
 
-  if (map_has_special(ptile, S_FORTRESS)
+  if (tile_has_special(ptile, S_FORTRESS)
       && unit_profits_of_watchtower(punit)) {
     unfog_area(pplayer, punit->tile, get_watchtower_vision(punit));
   } else {
@@ -2090,12 +2090,12 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 
   if (!is_ocean(map_get_terrain(ptile)) && myrand(2) == 1) {
     if (game.rgame.nuke_contamination == CONTAMINATION_POLLUTION) {
-      if (!map_has_special(ptile, S_POLLUTION)) {
+      if (!tile_has_special(ptile, S_POLLUTION)) {
 	map_set_special(ptile, S_POLLUTION);
 	update_tile_knowledge(ptile);
       }
     } else {
-      if (!map_has_special(ptile, S_FALLOUT)) {
+      if (!tile_has_special(ptile, S_FALLOUT)) {
 	map_set_special(ptile, S_FALLOUT);
 	update_tile_knowledge(ptile);
       }
@@ -2602,7 +2602,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
       enum unit_move_type move_type = unit_type(penemy)->move_type;
       Terrain_type_id terrain = map_get_terrain(ptile);
 
-      if (map_has_special(ptile, S_FORTRESS)
+      if (tile_has_special(ptile, S_FORTRESS)
 	  && unit_profits_of_watchtower(penemy))
 	range = get_watchtower_vision(penemy);
       else
@@ -2695,7 +2695,7 @@ static void handle_unit_move_consequences(struct unit *punit,
     }
 
     /* entering/leaving a fortress */
-    if (map_has_special(dst_tile, S_FORTRESS)
+    if (tile_has_special(dst_tile, S_FORTRESS)
 	&& homecity
 	&& is_friendly_city_near(unit_owner(punit), dst_tile)
 	&& !senthome) {
@@ -2703,7 +2703,7 @@ static void handle_unit_move_consequences(struct unit *punit,
       send_city_info(pplayer, homecity);
     }
 
-    if (map_has_special(src_tile, S_FORTRESS)
+    if (tile_has_special(src_tile, S_FORTRESS)
 	&& homecity
 	&& is_friendly_city_near(unit_owner(punit), src_tile)
 	&& !senthome) {
@@ -2956,7 +2956,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
    * being moved at a time (e.g., bounce unit) and they are not done in the
    * right order.  This is probably not a bug. */
 
-  if (map_has_special(pdesttile, S_HUT)) {
+  if (tile_has_special(pdesttile, S_HUT)) {
     return unit_enter_hut(punit);
   } else {
     return TRUE;
@@ -2995,7 +2995,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   int range;
   struct player *pplayer = unit_owner(punit);
 
-  if (map_has_special(punit->tile, S_FORTRESS)
+  if (tile_has_special(punit->tile, S_FORTRESS)
       && unit_profits_of_watchtower(punit))
     range = get_watchtower_vision(punit);
   else

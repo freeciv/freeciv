@@ -1170,7 +1170,7 @@ static void check_pollution(struct city *pcity)
       }
 
       if (!terrain_has_flag(map_get_terrain(ptile), TER_NO_POLLUTION)
-	  && !map_has_special(ptile, S_POLLUTION)) {
+	  && !tile_has_special(ptile, S_POLLUTION)) {
 	map_set_special(ptile, S_POLLUTION);
 	update_tile_knowledge(ptile);
 	notify_player_ex(city_owner(pcity), pcity->tile,

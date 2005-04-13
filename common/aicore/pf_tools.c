@@ -535,7 +535,7 @@ static bool air_is_pos_dangerous(const struct tile *ptile,
     return FALSE;
   }
 
-  if (map_has_special(ptile, S_AIRBASE)) {
+  if (tile_has_special(ptile, S_AIRBASE)) {
     /* All airbases are considered non-dangerous, although non-allied ones
      * are inaccessible. */
     return FALSE;

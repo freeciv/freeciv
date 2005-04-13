@@ -952,7 +952,7 @@ void map_irrigate_tile(struct tile *ptile)
   result = tile_types[now].irrigation_result;
 
   if (now == result) {
-    if (map_has_special(ptile, S_IRRIGATION)) {
+    if (tile_has_special(ptile, S_IRRIGATION)) {
       map_set_special(ptile, S_FARMLAND);
     } else {
       map_set_special(ptile, S_IRRIGATION);
@@ -1279,15 +1279,6 @@ void map_set_terrain(struct tile *ptile, Terrain_type_id ter)
 enum tile_special_type map_get_special(const struct tile *ptile)
 {
   return ptile->special;
-}
-
-/***************************************************************
- Returns TRUE iff the given special is found at the given map
- position.
-***************************************************************/
-bool map_has_special(const struct tile *ptile, enum tile_special_type special)
-{
-  return contains_special(ptile->special, special);
 }
 
 /***************************************************************

@@ -71,7 +71,7 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
    * other cases, huts are avoided as start positions).  Remove any such hut,
    * and make sure to tell the client, since we may have already sent this
    * tile (with the hut) earlier: */
-  if (map_has_special(ptile, S_HUT)) {
+  if (tile_has_special(ptile, S_HUT)) {
     map_clear_special(ptile, S_HUT);
     update_tile_knowledge(ptile);
     freelog(LOG_VERBOSE, "Removed hut on start position for %s",

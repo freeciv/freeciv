@@ -1409,7 +1409,7 @@ void update_menus(void)
       if (unit_flag(punit, F_TRADE_ROUTE))
 	menus_rename("<main>/_Orders/Build _Road", _("Make Trade _Route"));
       else if (unit_flag(punit, F_SETTLERS)) {
-	if (map_has_special(punit->tile, S_ROAD)) {
+	if (tile_has_special(punit->tile, S_ROAD)) {
 	  roadtext = _("Build _Railroad");
 	  road_activity=ACTIVITY_RAILROAD;  
 	} 
@@ -1429,7 +1429,7 @@ void update_menus(void)
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		    get_tile_change_menu_text(punit->tile,
 					      ACTIVITY_IRRIGATE));
-      } else if (map_has_special(punit->tile, S_IRRIGATION)
+      } else if (tile_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
 	sz_strlcpy(irrtext, _("Bu_ild Farmland"));

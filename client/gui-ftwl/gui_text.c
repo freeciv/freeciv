@@ -309,7 +309,7 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
       && (tinfo->irrigation_result != ttype)) {
     my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		(get_tile_type(tinfo->irrigation_result))->terrain_name);
-  } else if (map_has_special(punit->tile, S_IRRIGATION)
+  } else if (tile_has_special(punit->tile, S_IRRIGATION)
 	     && player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
     sz_strlcpy(irrtext, _("Bu_ild Farmland"));
   }

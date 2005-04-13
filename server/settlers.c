@@ -226,7 +226,7 @@ static int ai_calc_pollution(struct city *pcity, int city_x, int city_y,
 {
   int goodness;
 
-  if (!map_has_special(ptile, S_POLLUTION)) {
+  if (!tile_has_special(ptile, S_POLLUTION)) {
     return -1;
   }
   map_clear_special(ptile, S_POLLUTION);
@@ -256,7 +256,7 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 {
   int goodness;
 
-  if (!map_has_special(ptile, S_FALLOUT)) {
+  if (!tile_has_special(ptile, S_FALLOUT)) {
     return -1;
   }
   map_clear_special(ptile, S_FALLOUT);
@@ -937,7 +937,7 @@ static int evaluate_improvements(struct unit *punit,
 				&best_newv, &best_oldv, best_act, best_tile,
 				ptile);
 
-	if (!map_has_special(ptile, S_ROAD)) {
+	if (!tile_has_special(ptile, S_ROAD)) {
 	  time = mv_turns
 	    + get_turns_for_activity_at(punit, ACTIVITY_ROAD, ptile);
 	  consider_settler_action(pplayer, ACTIVITY_ROAD,
@@ -957,7 +957,7 @@ static int evaluate_improvements(struct unit *punit,
 				    best_act, best_tile,
 				    ptile);
 	  }
-	} else if (!map_has_special(ptile, S_RAILROAD)
+	} else if (!tile_has_special(ptile, S_RAILROAD)
 		   && can_rr) {
 	  time = mv_turns
 	    + get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, ptile);
@@ -969,7 +969,7 @@ static int evaluate_improvements(struct unit *punit,
 				  ptile);
 	} /* end S_ROAD else */
 
-	if (map_has_special(ptile, S_POLLUTION)) {
+	if (tile_has_special(ptile, S_POLLUTION)) {
 	  time = mv_turns
 	    + get_turns_for_activity_at(punit, ACTIVITY_POLLUTION, ptile);
 	  consider_settler_action(pplayer, ACTIVITY_POLLUTION,
@@ -980,7 +980,7 @@ static int evaluate_improvements(struct unit *punit,
 				  ptile);
 	}
       
-	if (map_has_special(ptile, S_FALLOUT)) {
+	if (tile_has_special(ptile, S_FALLOUT)) {
 	  time = mv_turns
 	    + get_turns_for_activity_at(punit, ACTIVITY_FALLOUT, ptile);
 	  consider_settler_action(pplayer, ACTIVITY_FALLOUT,

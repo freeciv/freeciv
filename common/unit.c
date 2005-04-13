@@ -1382,7 +1382,7 @@ bool unit_being_aggressive(const struct unit *punit)
     return FALSE;
   }
   if (is_ground_unit(punit) &&
-      map_has_special(punit->tile, S_FORTRESS)) {
+      tile_has_special(punit->tile, S_FORTRESS)) {
     return !is_unit_near_a_friendly_city (punit);
   }
   

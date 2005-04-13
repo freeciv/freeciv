@@ -196,7 +196,7 @@ int count_terrain_near_tile(const struct tile *ptile,
 bool is_special_near_tile(const struct tile *ptile, enum tile_special_type spe)
 {
   adjc_iterate(ptile, adjc_tile) {
-    if (map_has_special(adjc_tile, spe)) {
+    if (tile_has_special(adjc_tile, spe)) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -214,7 +214,7 @@ int count_special_near_tile(const struct tile *ptile,
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (map_has_special(adjc_tile, spe)) {
+    if (tile_has_special(adjc_tile, spe)) {
       count++;
     }
     total++;
