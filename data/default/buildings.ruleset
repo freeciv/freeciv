@@ -50,21 +50,6 @@ options="1.10.1"
 ; build_cost	= production shields required to build
 ; upkeep	= monetary upkeep value
 ; sabotage	= percent chance of diplomat sabotage being successful
-; effect {	= list of effects; parameters are:
-;
-;   ( See doc/README.effects for information and a listing of effects. )
-;
-;   eff		= effect name; e.g. "Tax_Bonus"
-;   range	= effect range; one of:
-;		  "Local", "City", "Continent", "Player", "World".
-;		  by ommission the range is "City".
-;   value       = modifier value of effect; by ommission +1.
-;   type        = requirement type; one of:
-;		  "None", "Tech", "Gov", "Building", "Special", "Terrain".
-;		  by ommission the type is "None".
-;   req		= requirement data; varies with requirement type.
-;
-; }		  the effects in the list are cumulative.
 ;
 ; */ <-- avoid gettext warnings
 
