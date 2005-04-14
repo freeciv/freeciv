@@ -215,6 +215,11 @@ void handle_game_load(struct packet_game_load *packet)
     row[3] = _("Human");
     fcwin_listview_add_row(players_listview, 0, 4, row);
   }
+
+  ListView_SetColumnWidth(players_listview, 0, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(players_listview, 1, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(players_listview, 2, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(players_listview, 3, LVSCW_AUTOSIZE);
 }
 
 /**************************************************************************
@@ -521,6 +526,13 @@ static int get_lanservers(HWND list)
     } server_list_iterate_end;
   }
 
+  ListView_SetColumnWidth(list, 0, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 1, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 2, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 3, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 4, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 5, LVSCW_AUTOSIZE);
+
   num_lanservers_timer++;
   if (num_lanservers_timer == 50) {
     finish_lanserver_scan();
@@ -560,6 +572,13 @@ static int get_meta_list(HWND list, char *errbuf, int n_errbuf)
     fcwin_listview_add_row(list, 0, 6, row);
   } server_list_iterate_end;
   
+  ListView_SetColumnWidth(list, 0, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 1, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 2, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 3, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 4, LVSCW_AUTOSIZE);
+  ListView_SetColumnWidth(list, 5, LVSCW_AUTOSIZE);
+
   delete_server_list(server_list);
 
   return 0;
