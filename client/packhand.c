@@ -2227,8 +2227,10 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->name = b->name_orig;
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
-  b->tech_req = p->tech_req;
-  b->bldg_req = p->bldg_req;
+  for (i = 0; i < MAX_NUM_REQS; i++) {
+    b->req[i] = req_from_values(p->req_type[i], p->req_range[i],
+				p->req_survives[i], p->req_value[i]);
+  }
   b->obsolete_by = p->obsolete_by;
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
@@ -2255,15 +2257,6 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       b = &improvement_types[id];
       freelog(LOG_DEBUG, "Impr: %s...",
 	      b->name);
-      freelog(LOG_DEBUG, "  tech_req    %2d/%s",
-	      b->tech_req,
-	      (b->tech_req == A_LAST) ?
-	      "Never" : get_tech_name(game.player_ptr, b->tech_req));
-      freelog(LOG_DEBUG, "  bldg_req    %2d/%s",
-	      b->bldg_req,
-	      (b->bldg_req == B_LAST) ?
-	      "None" :
-	      improvement_types[b->bldg_req].name);
       freelog(LOG_DEBUG, "  terr_gate...");
       for (inx = 0; b->terr_gate[inx] != T_NONE; inx++) {
 	freelog(LOG_DEBUG, "    %2d/%s",

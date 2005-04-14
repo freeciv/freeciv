@@ -110,7 +110,7 @@ static bool manual_command(void)
 
   load_rulesets();
   for (manuals = 0; manuals < MANUAL_COUNT; manuals++) {
-    int i;
+    int i, r;
 
     my_snprintf(filename, sizeof(filename), "manual%d.html", manuals + 1);
 
@@ -306,9 +306,14 @@ static bool manual_command(void)
 	fprintf(doc, "<table>\n");
 	fprintf(doc, _("<tr><td>Cost: <td>%d</tr>\n"), pimpr->build_cost);
 	fprintf(doc, _("<tr><td>Upkeep: <td>%d</tr>\n"), pimpr->upkeep);
-	if (tech_exists(pimpr->tech_req)) {
-	  fprintf(doc, _("<tr><td>Tech required: <td>%s</tr>\n"),
-		  advances[pimpr->tech_req].name);
+	for (r = 0; r < MAX_NUM_REQS; r++) {
+	  struct requirement *req = pimpr->req + r;
+	  char text[512];
+
+	  if (req->source.type != REQ_NONE) {
+	    fprintf(doc, _("<tr><td>Requires: <td>%s</tr>\n"),
+		    get_req_source_text(&req->source, text, sizeof(text)));
+	  }
 	}
 	if (tech_exists(pimpr->obsolete_by)) {
 	  fprintf(doc, _("<tr><td>Obsoleted by: <td>%s</tr>\n"),
@@ -335,9 +340,9 @@ static bool manual_command(void)
 	fprintf(doc, "<table>\n");
 	fprintf(doc, _("<tr><td>Cost: <td>%d</tr>\n"), pimpr->build_cost);
 	fprintf(doc, _("<tr><td>Upkeep: <td>%d</tr>\n"), pimpr->upkeep);
-	if (tech_exists(pimpr->tech_req)) {
-	  fprintf(doc, _("<tr><td>Tech required: <td>%s</tr>\n"),
-		  advances[pimpr->tech_req].name);
+	if (tech_exists(pimpr->obsolete_by)) {
+	  fprintf(doc, _("<tr><td>Obsoleted by: <td>%s</tr>\n"),
+		  advances[pimpr->obsolete_by].name);
 	}
 	if (tech_exists(pimpr->obsolete_by)) {
 	  fprintf(doc, _("<tr><td>Obsoleted by: <td>%s</tr>\n"),

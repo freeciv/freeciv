@@ -396,9 +396,6 @@ player has a coastal city.
 **************************************************************************/
 bool can_player_build_unit_direct(const struct player *p, Unit_Type_id id)
 {
-  Impr_Type_id impr_req;
-  Tech_Type_id tech_req;
-
   CHECK_UNIT_TYPE(id);
   if (unit_type_flag(id, F_NUCLEAR)
       && !get_player_bonus(p, EFT_ENABLE_NUKE) > 0) {
@@ -432,9 +429,8 @@ bool can_player_build_unit_direct(const struct player *p, Unit_Type_id id)
   /* If the unit has a building requirement, we check to see if the player
    * can build that building.  Note that individual cities may not have
    * that building, so they still may not be able to build the unit. */
-  impr_req = unit_types[id].impr_requirement;
-  tech_req = get_improvement_type(impr_req)->tech_req;
-  if (impr_req != B_LAST && get_invention(p, tech_req) != TECH_KNOWN) {
+  if (!can_player_build_improvement_direct(p,
+					   unit_types[id].impr_requirement)) {
     return FALSE;
   }
 

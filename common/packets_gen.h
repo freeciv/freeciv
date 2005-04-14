@@ -877,9 +877,11 @@ struct packet_ruleset_building {
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
-  int tech_req;
+  int req_type[MAX_NUM_REQS];
+  int req_range[MAX_NUM_REQS];
+  int req_value[MAX_NUM_REQS];
+  bool req_survives[MAX_NUM_REQS];
   int obsolete_by;
-  Impr_Type_id bldg_req;
   Impr_Type_id replaced_by;
   int build_cost;
   int upkeep;

@@ -664,12 +664,3 @@ reqs	=
     { "type", "name", "range"
       "Building", "Women's Suffrage", "Player"
     }
-
-[effect_capitalization]
-name	= "Prod_To_Gold"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Capitalization", "City"
-    }
-

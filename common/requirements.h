@@ -111,4 +111,10 @@ int count_buildings_in_range(const struct player *target_player,
 			     enum req_range range, bool survives,
 			     Impr_Type_id source);
 
+/* Req-source helper functions. */
+bool are_req_sources_equal(const struct req_source *psource1,
+			   const struct req_source *psource2);
+char *get_req_source_text(const struct req_source *psource,
+			  char *buf, size_t bufsz);
+
 #endif  /* FC__REQUIREMENTS_H */

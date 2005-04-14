@@ -1148,8 +1148,12 @@ PACKET_RULESET_BUILDING=104;sc,lsend
   STRING name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
-  TECH tech_req, obsolete_by;
-  IMPROVEMENT bldg_req, replaced_by;
+  UINT8 req_type[MAX_NUM_REQS];
+  UINT8 req_range[MAX_NUM_REQS];
+  UINT8 req_value[MAX_NUM_REQS];
+  BOOL req_survives[MAX_NUM_REQS];
+  TECH obsolete_by;
+  IMPROVEMENT replaced_by;
   UINT16 build_cost;
   UINT8 upkeep, sabotage;
   STRING soundtag[MAX_LEN_NAME];

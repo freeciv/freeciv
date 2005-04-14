@@ -835,42 +835,20 @@ int get_current_construction_bonus(const struct city *pcity,
 }
 
 /**************************************************************************
+  Make user-friendly text for the source.  The text is put into a user
+  buffer.
 **************************************************************************/
 void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
 {
   buf[0] = '\0';
 
   requirement_list_iterate(peffect->reqs, preq) {
-    struct req_source *psource = &preq->source;
-
     if (buf[0] != '\0') {
       mystrlcat(buf, "+", buf_len);
     }
 
-    switch (psource->type) {
-    case REQ_NONE:
-      break;
-    case REQ_TECH:
-      mystrlcat(buf, advances[psource->value.tech].name, buf_len);
-      break;
-    case REQ_GOV:
-      mystrlcat(buf, get_government_name(psource->value.gov), buf_len);
-      break;
-    case REQ_BUILDING:
-      mystrlcat(buf, get_improvement_name(psource->value.building), buf_len);
-      break;
-    case REQ_SPECIAL:
-      mystrlcat(buf, get_special_name(psource->value.special), buf_len);
-      break;
-    case REQ_TERRAIN:
-      mystrlcat(buf, get_terrain_name(psource->value.terrain), buf_len);
-      break;
-    case REQ_NATION:
-      mystrlcat(buf, get_nation_name(psource->value.nation), buf_len);
-      break;
-    case REQ_LAST:
-      break;
-    }
+    get_req_source_text(&preq->source,
+			buf + strlen(buf), buf_len - strlen(buf));
   } requirement_list_iterate_end;
 }
 

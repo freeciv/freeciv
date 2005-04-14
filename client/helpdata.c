@@ -190,6 +190,72 @@ static void insert_requirement(struct requirement *req,
   assert(0);
 }
 
+/****************************************************************************
+  Append text for what this requirement source allows.  Something like
+
+    "Allows Communism government (with University technology).\n\n"
+    "Allows Mfg. Plant building (with Factory building).\n\n"
+
+  This should be called to generate helptext for every possible source
+  type.  Note this doesn't handle effects but rather production
+  requirements (currently only building reqs).
+****************************************************************************/
+static void insert_allows(struct req_source *psource,
+			  char *buf, size_t bufsz)
+{
+  int r1, r2, i;
+
+  buf[0] = '\0';
+
+  /* FIXME: show other data like range and survives. */
+#define COREQ_APPEND(s)							    \
+  (coreq_buf[0] != '\0'							    \
+   ? cat_snprintf(coreq_buf, sizeof(coreq_buf),        ", %s", (s))	    \
+   : sz_strlcpy(coreq_buf, (s)))
+
+
+  impr_type_iterate(impr_id) {
+    struct impr_type *building = get_improvement_type(impr_id);
+
+    for (r1 = 0; r1 < MAX_NUM_REQS; r1++) {
+      struct requirement *req = building->req + r1;
+
+      if (are_req_sources_equal(psource, &req->source)) {
+	char coreq_buf[512] = "";
+
+	for (r2 = 0; r2 < MAX_NUM_REQS; r2++) {
+	  struct requirement *coreq = building->req + r2;
+
+	  if (!are_req_sources_equal(psource, &coreq->source)) {
+	    char buf2[512];
+
+	    COREQ_APPEND(get_req_source_text(&coreq->source,
+					     buf2, sizeof(buf2)));
+	  }
+	}
+
+	/* Append other co-reqs. */
+	for (i = 0; building->terr_gate[i] != T_NONE; i++) {
+	  COREQ_APPEND(get_terrain_name(building->terr_gate[i]));
+	}
+	for (i = 0; building->spec_gate[i] != S_NO_SPECIAL; i++) {
+	  COREQ_APPEND(get_special_name(building->spec_gate[i]));
+	}
+
+	if (coreq_buf[0] == '\0') {
+	  cat_snprintf(buf, bufsz, _("Allows %s."), building->name);
+	} else {
+	  cat_snprintf(buf, bufsz, _("Allows %s (with %s)."),
+		       building->name, coreq_buf);
+	}
+	cat_snprintf(buf, bufsz, "\n");
+      }
+    }
+  } impr_type_iterate_end;
+
+#undef COREQ_APPEND
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -561,6 +627,8 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
 			const char *user_text)
 {
   struct impr_type *imp;
+  struct req_source source = {.type = REQ_BUILDING,
+			      .value.building = which};
 
   assert(buf);
   buf[0] = '\0';
@@ -601,38 +669,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
     cat_snprintf(buf, bufsz, "  ");
   }
 
-  impr_type_iterate(impr) {
-    const struct impr_type *b = get_improvement_type(impr);
-
-    if (improvement_exists(impr) && b->bldg_req == which) {
-      char req_buf[1024] = "";
-      int i;
-
-#define req_append(s)							    \
-      (req_buf[0] != '\0'						    \
-       ? cat_snprintf(req_buf, sizeof(req_buf),	", %s", (s))		    \
-       : sz_strlcpy(req_buf, (s)))
-
-      if (b->tech_req != A_NONE) {
-	req_append(get_tech_name(game.player_ptr, b->tech_req));
-      }
-
-      for (i = 0; b->terr_gate[i] != T_NONE; i++) {
-	req_append(get_terrain_name(b->terr_gate[i]));
-      }
-      for (i = 0; b->spec_gate[i] != S_NO_SPECIAL; i++) {
-	req_append(get_special_name(b->spec_gate[i]));
-      }
-#undef req_append
-
-      if (req_buf[0] != '\0') {
-	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"), b->name,
-		     req_buf);
-      } else {
-	cat_snprintf(buf, bufsz, _("* Allows %s.\n"), b->name);
-      }
-    }
-  } impr_type_iterate_end;
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
 
   unit_type_iterate(utype) {
     const struct unit_type *u = get_unit_type(utype);

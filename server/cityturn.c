@@ -679,21 +679,81 @@ static bool worklist_change_build_target(struct player *pplayer,
       /* Maybe this improvement has been obsoleted by something that
 	 we can build. */
       if (new_target == target) {
+	int j;
+	struct impr_type *building = get_improvement_type(target);
+	bool known = FALSE;
+
 	/* Nope, no use.  *sigh*  */
-	if (!player_knows_improvement_tech(pplayer, target)) {
-	  notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			   _("%s can't build %s from the worklist; "
-			     "tech not yet available.  Postponing..."),
-			   pcity->name,
-			   get_impr_name_ex(pcity, target));
-	} else if (improvement_types[target].bldg_req != B_LAST) {
-	  notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			   _("%s can't build %s from the worklist; "
-			     "need to have %s first.  Postponing..."),
-			   pcity->name,
-			   get_impr_name_ex(pcity, target),
-			   get_impr_name_ex(pcity, improvement_types[target].bldg_req));
-	} else {
+	for (j = 0; j < MAX_NUM_REQS; j++) {
+	  struct requirement *req = &building->req[j];
+
+	  if (req->source.type == REQ_NONE) {
+	    break;
+	  }
+	  if (!is_req_active(pplayer, pcity, 0, NULL, req)) {
+	    known = TRUE;
+	    switch (req->source.type) {
+	    case REQ_TECH:
+	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
+			       _("%s can't build %s from the worklist; "
+				 "tech %s not yet available.  Postponing..."),
+			       pcity->name,
+			       get_impr_name_ex(pcity, target),
+			       get_tech_name(pplayer,
+					     req->source.value.tech));
+	      break;
+	    case REQ_BUILDING:
+	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
+			       _("%s can't build %s from the worklist; "
+				 "need to have %s first.  Postponing..."),
+			       pcity->name,
+			       get_impr_name_ex(pcity, target),
+			       get_impr_name_ex(pcity,
+						req->source.value.building));
+	      break;
+	    case REQ_GOV:
+	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
+			       _("%s can't build %s from the worklist; "
+				 "it needs %s government.  Postponing..."),
+			       pcity->name,
+			       get_impr_name_ex(pcity, target),
+			       get_government_name(req->source.value.gov));
+	      break;
+	    case REQ_SPECIAL:
+	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
+			       _("%s can't build %s from the worklist; "
+				 "%s special is required.  Postponing..."),
+			       pcity->name,
+			       get_impr_name_ex(pcity, target),
+			       get_special_name(req->source.value.special));
+	      break;
+	    case REQ_TERRAIN:
+	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
+			       _("%s can't build %s from the worklist; "
+				 "%s terrain is required.  Postponing..."),
+			       pcity->name,
+			       get_impr_name_ex(pcity, target),
+			       get_terrain_name(req->source.value.terrain));
+	      break;
+	    case REQ_NATION:
+	      /* FIXME: we should skip rather than postpone, since we'll
+	       * never be able to meet this req... */
+	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
+			       _("%s can't build %s from the worklist; "
+				 "only %s may build this.  Postponing..."),
+			       pcity->name,
+			       get_impr_name_ex(pcity, target),
+			       get_nation_name(req->source.value.nation));
+	      break;
+	    case REQ_NONE:
+	    case REQ_LAST:
+	      assert(0);
+	      break;
+	    }
+	    break;
+	  }
+	}
+	if (!known) {
 	  /* This shouldn't happen...
 	     FIXME: make can_build_improvement() return a reason enum. */
 	  notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,

@@ -164,7 +164,7 @@ bool improvement_exists(Impr_Type_id id)
     return FALSE;
   }
 
-  return (improvement_types[id].tech_req!=A_LAST);
+  return TRUE;
 }
 
 /**************************************************************************
@@ -300,17 +300,24 @@ bool can_player_build_improvement_direct(const struct player *p,
 {
   struct impr_type *impr;
   bool space_part = FALSE;
+  int i;
 
   /* This also checks if tech req is Never */
   if (!improvement_exists(id)) {
     return FALSE;
   }
 
-  if (!player_knows_improvement_tech(p, id)) {
-    return FALSE;
-  }
-
   impr = get_improvement_type(id);
+
+  for (i = 0; i < MAX_NUM_REQS; i++) {
+    if (impr->req[i].source.type == REQ_NONE) {
+      break;
+    }
+    if (impr->req[i].range >= REQ_RANGE_PLAYER
+	&& !is_req_active(p, NULL, 0, NULL, &impr->req[i])) {
+      return FALSE;
+    }
+  }
 
   /* Check for space part construction.  This assumes that space parts have
    * no other effects. */

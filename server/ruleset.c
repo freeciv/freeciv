@@ -1257,6 +1257,8 @@ static void load_ruleset_buildings(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, "building_", &nval);
 
   for (i = 0; i < nval; i++) {
+    struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
+
     b = &improvement_types[i];
 
     item = secfile_lookup_str(file, "%s.genus", sec[i]);
@@ -1268,9 +1270,14 @@ static void load_ruleset_buildings(struct section_file *file)
       exit(EXIT_FAILURE);
     }
 
-    b->tech_req = lookup_tech(file, sec[i], "tech_req", FALSE, filename, b->name);
-
-    b->bldg_req = lookup_impr_type(file, sec[i], "bldg_req", FALSE, filename, b->name);
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      if (reqs->size > j) {
+	b->req[j] = reqs->p[j];
+      } else {
+	memset(&b->req[j], 0, sizeof(b->req[j]));
+	b->req[j].source.type = REQ_NONE;
+      }
+    }
 
     list = secfile_lookup_str_vec(file, &count, "%s.terr_gate", sec[i]);
     b->terr_gate = fc_malloc((count + 1) * sizeof(b->terr_gate[0]));
@@ -1342,12 +1349,6 @@ static void load_ruleset_buildings(struct section_file *file)
   impr_type_iterate(i) {
     b = &improvement_types[i];
     if (improvement_exists(i)) {
-      if (!tech_exists(b->tech_req)) {
-	freelog(LOG_ERROR,
-		"improvement \"%s\": depends on removed tech \"%s\" (%s)",
-		b->name, advances[b->tech_req].name, filename);
-	b->tech_req = A_LAST;
-      }
       if (b->obsolete_by != A_LAST
 	  && (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by))) {
 	freelog(LOG_ERROR,
@@ -2751,7 +2752,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     packet.id = tech_id;
     sz_strlcpy(packet.name, a->name_orig);
     sz_strlcpy(packet.graphic_str, a->graphic_str);
-    sz_strlcpy(packet.graphic_alt, a->graphic_alt);	  
+    sz_strlcpy(packet.graphic_alt, a->graphic_alt);
     packet.req[0] = a->req[0];
     packet.req[1] = a->req[1];
     packet.root_req = a->root_req;
@@ -2777,14 +2778,18 @@ static void send_ruleset_buildings(struct conn_list *dest)
   impr_type_iterate(i) {
     struct impr_type *b = &improvement_types[i];
     struct packet_ruleset_building packet;
+    int j;
 
     packet.id = i;
     packet.genus = b->genus;
     sz_strlcpy(packet.name, b->name_orig);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
-    packet.tech_req = b->tech_req;
-    packet.bldg_req = b->bldg_req;
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+      req_get_values(&b->req[j],
+		     &packet.req_type[j], &packet.req_range[j],
+		     &packet.req_survives[j], &packet.req_value[j]);
+    }
     packet.obsolete_by = b->obsolete_by;
     packet.replaced_by = b->replaced_by;
     packet.build_cost = b->build_cost;

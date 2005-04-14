@@ -217,29 +217,44 @@ Unit_Type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
   for (i = n - 1; i >= 0; i--) {
     Unit_Type_id iunit = get_role_unit(role, i);
     Tech_Type_id itech = get_unit_type(iunit)->tech_requirement;
-    Impr_Type_id iimpr = get_unit_type(iunit)->impr_requirement;
-    Tech_Type_id iimprtech = get_improvement_type(iimpr)->tech_req;
 
     if (can_build_unit(pcity, iunit)) {
       build_unit = iunit;
       break;
     } else if (can_eventually_build_unit(pcity, iunit)) {
       int cost = 0;
+      Impr_Type_id iimpr = get_unit_type(iunit)->impr_requirement;
 
       if (itech != A_LAST && get_invention(pplayer, itech) != TECH_KNOWN) {
         /* See if we want to invent this. */
         cost = total_bulbs_required_for_goal(pplayer, itech);
       }
       if (iimpr != B_LAST 
-          && get_invention(pplayer, iimprtech) != TECH_KNOWN) {
-        int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
+          && !can_player_build_improvement_direct(pplayer, iimpr)) {
+	int j;
+	struct impr_type *building = get_improvement_type(iimpr);
 
-        if (imprcost < cost || cost == 0) {
-          /* If we already have the primary tech (cost==0), or the building's
-           * tech is cheaper, go for the building's required tech. */
-          itech = iimprtech; /* get this first */
-        }
-        cost += imprcost;
+	for (j = 0; j < MAX_NUM_REQS; j++) {
+	  struct requirement *req = &building->req[j];
+
+	  if (req->source.type == REQ_NONE) {
+	    break;
+	  } else if (req->source.type == REQ_TECH
+		     && (get_invention(pplayer, req->source.value.tech)
+			 != TECH_KNOWN)) {
+	    int iimprtech = req->source.value.tech;
+	    int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
+
+	    if (imprcost < cost || cost == 0) {
+	      /* If we already have the primary tech (cost==0),
+	       * or the building's
+	       * tech is cheaper, go for the building's required tech. */
+	      itech = iimprtech; /* get this first */
+	      cost = 0;
+	    }
+	    cost += imprcost;
+	  }
+	}
       }
 
       if (cost < best_cost) {

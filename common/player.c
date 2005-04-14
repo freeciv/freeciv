@@ -484,22 +484,6 @@ struct city *find_palace(const struct player *pplayer)
 }
 
 /**************************************************************************
-  Each building type has one tech_req.  This function tells whether the
-  player knows it.
-**************************************************************************/
-bool player_knows_improvement_tech(const struct player *pplayer,
-				   Impr_Type_id id)
-{
-  int t;
-
-  if (!improvement_exists(id)) {
-    return FALSE;
-  }
-  t = get_improvement_type(id)->tech_req;
-  return (get_invention(pplayer, t) == TECH_KNOWN);
-}
-
-/**************************************************************************
   AI players may have handicaps - allowing them to cheat or preventing
   them from using certain algorithms.  This function returns whether the
   player has the given handicap.  Human players are assumed to have no

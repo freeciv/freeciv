@@ -685,15 +685,22 @@ static void help_update_improvement(const struct help_item *pitem,
   
   if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
+    int i;
+    char req_buf[512];
+
     sprintf(buf, "%d", impr_build_shield_cost(which));
     gtk_label_set_text(GTK_LABEL(help_ilabel[1]), buf);
     sprintf(buf, "%d", imp->upkeep);
     gtk_label_set_text(GTK_LABEL(help_ilabel[3]), buf);
-    if (imp->tech_req == A_LAST) {
-      gtk_label_set_text(GTK_LABEL(help_ilabel[5]), _("(Never)"));
-    } else {
-      gtk_label_set_text(GTK_LABEL(help_ilabel[5]),
-			 get_tech_name(game.player_ptr, imp->tech_req));
+
+    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+     * Currently it's limited to 1 req but this code is partially prepared
+     * to be extended.  Remember MAX_NUM_REQS is a compile-time
+     * definition. */
+    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+      gtk_label_set_text(GTK_LABEL(help_ilabel[5 + i]),
+			 get_req_source_text(&imp->req[i].source,
+					     req_buf, sizeof(req_buf)));
     }
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
@@ -722,13 +729,20 @@ static void help_update_wonder(const struct help_item *pitem,
 
   if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
+    int i;
+    char req_buf[512];
+
     sprintf(buf, "%d", impr_build_shield_cost(which));
     gtk_label_set_text(GTK_LABEL(help_wlabel[1]), buf);
-    if (imp->tech_req == A_LAST) {
-      gtk_label_set_text(GTK_LABEL(help_wlabel[3]), _("(Never)"));
-    } else {
-      gtk_label_set_text(GTK_LABEL(help_wlabel[3]),
-			 get_tech_name(game.player_ptr, imp->tech_req));
+
+    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+     * Currently it's limited to 1 req but this code is partially prepared
+     * to be extended.  Remember MAX_NUM_REQS is a compile-time
+     * definition. */
+    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+      gtk_label_set_text(GTK_LABEL(help_ilabel[3 + i]),
+			 get_req_source_text(&imp->req[i].source,
+					     req_buf, sizeof(req_buf)));
     }
     if (tech_exists(imp->obsolete_by)) {
       gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
@@ -896,15 +910,27 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_widget_show(w);
 
     impr_type_iterate(j) {
-      if(i==improvement_types[j].tech_req) {
-        hbox = gtk_hbox_new(FALSE, 0);
-        gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
-        w = gtk_label_new(_("Allows"));
-        gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        w = help_slink_new(improvement_types[j].name,
-			  is_great_wonder(j) ? HELP_WONDER : HELP_IMPROVEMENT);
-        gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-        gtk_widget_show_all(hbox);
+      int k;
+
+      /* FIXME: need a more general mechanism for this, since this
+       * helptext needs to be shown in all possible req source types. */
+      for (k = 0; k < MAX_NUM_REQS; k++) {
+	struct requirement *req = &improvement_types[j].req[k];
+
+	if (req->source.type == REQ_NONE) {
+	  break;
+	} else if (req->source.type == REQ_BUILDING
+		   && req->source.value.building == i) {
+	  hbox = gtk_hbox_new(FALSE, 0);
+	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+	  w = gtk_label_new(_("Allows"));
+	  gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+	  w = help_slink_new(improvement_types[j].name,
+			     is_great_wonder(j) ? HELP_WONDER
+			     : HELP_IMPROVEMENT);
+	  gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
+	  gtk_widget_show_all(hbox);
+	}
       }
       if(i==improvement_types[j].obsolete_by) {
         hbox = gtk_hbox_new(FALSE, 0);

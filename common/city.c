@@ -539,6 +539,7 @@ bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id)
 bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id)
 {
   const struct impr_type *building = get_improvement_type(id);
+  int i;
 
   if (!can_player_build_improvement_direct(city_owner(pcity), id)) {
     return FALSE;
@@ -552,9 +553,14 @@ bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id)
     return FALSE;
   }
 
-  if (building->bldg_req != B_LAST
-      && !city_got_building(pcity, building->bldg_req)) {
-    return FALSE;
+  for (i = 0; i < MAX_NUM_REQS; i++) {
+    if (building->req[i].source.type == REQ_NONE) {
+      break;
+    }
+    if (!is_req_active(city_owner(pcity), pcity, 0, NULL,
+		       &building->req[i])) {
+      return FALSE;
+    }
   }
 
   return TRUE;

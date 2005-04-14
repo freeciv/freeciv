@@ -699,3 +699,74 @@ bool are_reqs_active(const struct player *target_player,
 
   return TRUE;
 }
+
+
+/****************************************************************************
+  Return TRUE iff the two sources are equivalent.  Note this isn't the
+  same as an == or memcmp check.
+*****************************************************************************/
+bool are_req_sources_equal(const struct req_source *psource1,
+			   const struct req_source *psource2)
+{
+  if (psource1->type != psource2->type) {
+    return FALSE;
+  }
+  switch (psource1->type) {
+  case REQ_NONE:
+    return TRUE;
+  case REQ_TECH:
+    return psource1->value.tech == psource2->value.tech;
+  case REQ_GOV:
+    return psource1->value.gov == psource2->value.gov;
+  case REQ_BUILDING:
+    return psource1->value.building == psource2->value.building;
+  case REQ_SPECIAL:
+    return psource1->value.special == psource2->value.special;
+  case REQ_TERRAIN:
+    return psource1->value.terrain == psource2->value.terrain;
+  case REQ_NATION:
+    return psource1->value.nation == psource2->value.nation;
+  case REQ_LAST:
+    break;
+  }
+  assert(0);
+  return FALSE;
+}
+
+/****************************************************************************
+  Make user-friendly text for the source.  The text is put into a user
+  buffer which is also returned.
+*****************************************************************************/
+char *get_req_source_text(const struct req_source *psource,
+			  char *buf, size_t bufsz)
+{
+  buf[0] = '\0'; /* to be safe. */
+  switch (psource->type) {
+  case REQ_NONE:
+    mystrlcat(buf, _("(none)"), bufsz);
+    break;
+  case REQ_TECH:
+    mystrlcat(buf, advances[psource->value.tech].name, bufsz);
+    break;
+  case REQ_GOV:
+    mystrlcat(buf, get_government_name(psource->value.gov), bufsz);
+    break;
+  case REQ_BUILDING:
+    mystrlcat(buf, get_improvement_name(psource->value.building), bufsz);
+    break;
+  case REQ_SPECIAL:
+    mystrlcat(buf, get_special_name(psource->value.special), bufsz);
+    break;
+  case REQ_TERRAIN:
+    mystrlcat(buf, get_terrain_name(psource->value.terrain), bufsz);
+    break;
+  case REQ_NATION:
+    mystrlcat(buf, get_nation_name(psource->value.nation), bufsz);
+    break;
+  case REQ_LAST:
+    assert(0);
+    break;
+  }
+
+  return buf;
+}
