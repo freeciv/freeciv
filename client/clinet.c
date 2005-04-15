@@ -652,6 +652,8 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   f = my_querysocket(s, str, strlen(str));
 
   if (f == NULL) {
+    /* TRANS: This means a network error when trying to connect to
+     * the metaserver.  The message will be shown directly to the user. */
     (void) mystrlcpy(errbuf, _("Failed querying socket"), n_errbuf);
     return NULL;
   }
