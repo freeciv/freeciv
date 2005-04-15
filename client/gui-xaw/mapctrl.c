@@ -54,6 +54,7 @@
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
+#include "overview_common.h"
 #include "text.h"
 #include "tilespec.h"
 

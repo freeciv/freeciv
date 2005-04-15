@@ -127,7 +127,7 @@ struct city_dialog {
   int change_list_ids[B_LAST+1+U_LAST+1];
   int change_list_num_improvements;
 
-  int is_modal;
+  /*int is_modal;*/
 };
 
 #define SPECLIST_TAG dialog
@@ -142,7 +142,7 @@ static struct dialog_list *dialog_list = NULL;
 static bool dialog_list_has_been_initialised = FALSE;
 
 static struct city_dialog *get_city_dialog(struct city *pcity);
-static struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal);
+static struct city_dialog *create_city_dialog(struct city *pcity);
 static void close_city_dialog(struct city_dialog *pdialog);
 
 static void city_dialog_update_improvement_list(struct city_dialog *pdialog);
@@ -407,12 +407,12 @@ void refresh_unit_city_dialogs(struct unit *punit)
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_city_dialog(struct city *pcity, bool make_modal)
+void popup_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
   
   if(!(pdialog=get_city_dialog(pcity)))
-    pdialog=create_city_dialog(pcity, make_modal);
+    pdialog=create_city_dialog(pcity);
 
   xaw_set_relative_position(toplevel, pdialog->shell, 10, 10);
   XtPopup(pdialog->shell, XtGrabNone);
@@ -464,7 +464,7 @@ static void city_map_canvas_expose(Widget w, XEvent *event, Region exposed,
 
 #define LAYOUT_DEBUG 0
 
-struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
+struct city_dialog *create_city_dialog(struct city *pcity)
 {
   char *dummy_improvement_list[]={ 
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -507,7 +507,7 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
 
   pdialog->shell=
     XtVaCreatePopupShell(pcity->name,
-			 make_modal ? transientShellWidgetClass :
+/*			 make_modal ? transientShellWidgetClass :*/
 			 topLevelShellWidgetClass,
 			 toplevel, 
 			 XtNallowShellResize, True, 
@@ -1051,11 +1051,12 @@ struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
   XtRealizeWidget(pdialog->shell);
 
   refresh_city_dialog(pdialog->pcity);
-
+/*
   if(make_modal)
     XtSetSensitive(toplevel, FALSE);
   
   pdialog->is_modal=make_modal;
+*/
 
   XSetWMProtocols(display, XtWindow(pdialog->shell), &wm_delete_window, 1);
   XtOverrideTranslations(pdialog->shell, 
@@ -2315,8 +2316,10 @@ void close_city_dialog(struct city_dialog *pdialog)
   } unit_list_iterate_end;
   unit_list_unlink_all(pdialog->pcity->info_units_present);
 
+/*
   if(pdialog->is_modal)
     XtSetSensitive(toplevel, TRUE);
+*/
   free(pdialog);
   popdown_cma_dialog();
 }

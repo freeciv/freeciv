@@ -486,7 +486,7 @@ void city_popup_callback(Widget w, XtPointer client_data,
       if (center_when_popup_city) {
 	center_tile_mapcanvas(pcity->tile);
       }
-      popup_city_dialog(pcity, 0);
+      popup_city_dialog(pcity);
     }
   }
 }

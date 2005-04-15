@@ -514,7 +514,7 @@ Pixmap create_overlay_unit(int i)
 
   /* If we're using flags, put one on the tile */
   if(!solid_color_behind_units)  {
-    struct sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
+    struct sprite *flag=get_nation_flag_sprite(tileset,game.player_ptr->nation);
 
     XSetClipOrigin(display, civ_gc, 0,0);
     XSetClipMask(display, civ_gc, flag->mask);
@@ -525,7 +525,7 @@ Pixmap create_overlay_unit(int i)
 
   /* Finally, put a picture of the unit in the tile */
   if(i<game.num_unit_types) {
-    struct sprite *s=get_unit_type(i)->sprite;
+    struct sprite *s=get_unittype_sprite(tileset,i);
 
     XSetClipOrigin(display,civ_gc,0,0);
     XSetClipMask(display,civ_gc,s->mask);
