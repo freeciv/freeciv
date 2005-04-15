@@ -1750,12 +1750,17 @@ static void player_load(struct player *plr, int plrno,
   target_no = secfile_lookup_int_default(file, -1,
                                          "player%d.ai.target", plrno);
   ai->diplomacy.target = target_no == -1 ? NULL : &game.players[target_no];
-  plr->ai.tech_goal = load_technology(file, "player%d.ai.tech_goal", plrno);
-  if (plr->ai.tech_goal == A_NONE) {
+
+  /* Backwards-compatibility: the tech goal value is still stored in the
+   * "ai" section even though it was moved into the research struct. */
+  plr->research->tech_goal
+    = load_technology(file, "player%d.ai.tech_goal", plrno);
+
+  if (plr->research->tech_goal == A_NONE) {
     /* Old servers (1.14.1) saved both A_UNSET and A_NONE by 0
      * Here 0 means A_UNSET
      */
-    plr->ai.tech_goal = A_UNSET;
+    plr->research->tech_goal = A_UNSET;
   }
   /* Some sane defaults */
   plr->ai.handicap = 0;		/* set later */
@@ -2479,7 +2484,8 @@ static void player_save(struct player *plr, int plrno,
                      ai->diplomacy.target == NULL ? 
 		       -1 : ai->diplomacy.target->player_no,
 		     "player%d.ai.target", plrno);
-  save_technology(file, "player%d.ai.tech_goal", plrno, plr->ai.tech_goal);
+  save_technology(file, "player%d.ai.tech_goal",
+		  plrno, plr->research->tech_goal);
   secfile_insert_int(file, plr->ai.skill_level,
 		     "player%d.ai.skill_level", plrno);
   secfile_insert_int(file, plr->ai.barbarian_type, "player%d.ai.is_barbarian", plrno);

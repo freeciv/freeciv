@@ -140,19 +140,19 @@ science_dialog_update(void)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
         && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	    || i == game.player_ptr->ai.tech_goal)) {
+	    || i == game.player_ptr->research->tech_goal)) {
       id=ComboBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			    advances[i].name);
       ComboBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			 id,i);
-      if (i==game.player_ptr->ai.tech_goal)
+      if (i==game.player_ptr->research->tech_goal)
 	ComboBox_SetCurSel(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			   id);
       
     }
   }
   steps = num_unknown_techs_for_goal(game.player_ptr,
-                                     game.player_ptr->ai.tech_goal);
+                                     game.player_ptr->research->tech_goal);
   my_snprintf(text, sizeof(text),
 	      PL_("(%d step)", "(%d steps)", steps), steps);
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_STEPS),text);

@@ -350,8 +350,8 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
     unit_list_iterate_end;
   }
 
-  if (tech_found == plr->ai.tech_goal) {
-    plr->ai.tech_goal = A_UNSET;
+  if (tech_found == plr->research->tech_goal) {
+    plr->research->tech_goal = A_UNSET;
   }
 
   if (tech_found == plr->research->researching && next_tech == A_NONE) {
@@ -363,7 +363,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 			 "Our scientists focus on %s, goal is %s."),
 		       get_tech_name(plr, tech_found),
 		       get_tech_name(plr, plr->research->researching),
-		       get_tech_name(plr, plr->ai.tech_goal));
+		       get_tech_name(plr, plr->research->tech_goal));
     } else {
       if (plr->ai.control || !was_discovery) {
         choose_random_tech(plr);
@@ -554,7 +554,7 @@ static bool choose_goal_tech(struct player *plr)
 {
   int sub_goal;
 
-  sub_goal = get_next_tech(plr, plr->ai.tech_goal);
+  sub_goal = get_next_tech(plr, plr->research->tech_goal);
 
   if (sub_goal != A_UNSET) {
     plr->research->researching = sub_goal;
@@ -628,7 +628,7 @@ void choose_tech_goal(struct player *plr, int tech)
 {
   notify_player(plr, _("Technology goal is %s."),
 		get_tech_name(plr, tech));
-  plr->ai.tech_goal = tech;
+  plr->research->tech_goal = tech;
 }
 
 /**************************************************************************
@@ -830,7 +830,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech)
     if (pplayer != aplayer
         && pplayer->diplstates[aplayer->player_no].type == DS_TEAM
         && aplayer->is_alive
-        && aplayer->ai.tech_goal != tech) {
+        && aplayer->research->tech_goal != tech) {
       handle_player_tech_goal(aplayer, tech);
     }
   } players_iterate_end;
@@ -1588,7 +1588,7 @@ static void package_player_info(struct player *plr,
 
   if (info_level >= INFO_FULL
       || plr->diplstates[receiver->player_no].type == DS_TEAM) {
-    packet->tech_goal       = plr->ai.tech_goal;
+    packet->tech_goal       = plr->research->tech_goal;
   } else {
     packet->tech_goal       = A_UNSET;
   }
@@ -1602,8 +1602,8 @@ static void package_player_info(struct player *plr,
 	      && plr->research->researching != A_NONE)
 	     || is_future_tech(plr->research->researching)
              || plr->research->researching == A_UNSET));
-  assert((tech_exists(plr->ai.tech_goal) && plr->ai.tech_goal != A_NONE)
-	 || plr->ai.tech_goal == A_UNSET);
+  assert((tech_exists(plr->research->tech_goal) && plr->research->tech_goal != A_NONE)
+	 || plr->research->tech_goal == A_UNSET);
 }
 
 /**************************************************************************
@@ -1960,6 +1960,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->research->bulbs_researched = 0;
   cplayer->research->techs_researched = pplayer->research->techs_researched;
   cplayer->research->researching = pplayer->research->researching;
+  cplayer->research->tech_goal = pplayer->research->tech_goal;
 
   tech_type_iterate(i) {
     cplayer->research->inventions[i] = pplayer->research->inventions[i];
@@ -1971,7 +1972,6 @@ static struct player *split_player(struct player *pplayer)
   /* Do the ai */
 
   cplayer->ai.control = TRUE;
-  cplayer->ai.tech_goal = pplayer->ai.tech_goal;
   cplayer->ai.prev_gold = pplayer->ai.prev_gold;
   cplayer->ai.maxbuycost = pplayer->ai.maxbuycost;
   cplayer->ai.handicap = pplayer->ai.handicap;

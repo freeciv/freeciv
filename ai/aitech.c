@@ -142,7 +142,7 @@ static void ai_select_tech(struct player *pplayer,
   if (goal) {
     goal->choice = newgoal;
     goal->want = goal_values[newgoal] / num_cities_nonzero;
-    goal->current_want = goal_values[pplayer->ai.tech_goal] / num_cities_nonzero;
+    goal->current_want = goal_values[pplayer->research->tech_goal] / num_cities_nonzero;
     freelog(LOG_DEBUG,
 	    "Goal->choice = %s, goal->want = %d, goal_value = %d, "
 	    "num_cities_nonzero = %d",
@@ -187,11 +187,11 @@ void ai_manage_tech(struct player *pplayer)
   }
 
   /* crossing my fingers on this one! -- Syela (seems to have worked!) */
-  /* It worked, in particular, because the value it sets (ai.tech_goal)
+  /* It worked, in particular, because the value it sets (research->tech_goal)
    * is practically never used, see the comment for ai_next_tech_goal */
-  if (goal.choice != pplayer->ai.tech_goal) {
+  if (goal.choice != pplayer->research->tech_goal) {
     freelog(LOG_DEBUG, "%s change goal from %s (want=%d) to %s (want=%d)",
-	    pplayer->name, get_tech_name(pplayer, pplayer->ai.tech_goal), 
+	    pplayer->name, get_tech_name(pplayer, pplayer->research->tech_goal), 
 	    goal.current_want, get_tech_name(pplayer, goal.choice),
 	    goal.want);
     choose_tech_goal(pplayer, goal.choice);

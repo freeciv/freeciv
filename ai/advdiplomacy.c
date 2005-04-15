@@ -558,10 +558,10 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
         && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
         && (pclause->type != CLAUSE_ADVANCE 
             || game.rgame.tech_cost_style != 0
-            || pclause->value == pplayer->ai.tech_goal
+            || pclause->value == pplayer->research->tech_goal
             || pclause->value == pplayer->research->researching
             || is_tech_a_req_for_goal(pplayer, pclause->value, 
-                                      pplayer->ai.tech_goal))) {
+                                      pplayer->research->tech_goal))) {
       /* We accept the above list of clauses as gifts, even if we are
        * at war. We do not accept tech or cities since these can be used
        * against us, unless we know that we want this tech anyway, or

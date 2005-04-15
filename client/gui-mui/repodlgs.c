@@ -106,7 +106,7 @@ static void science_goal(ULONG * newgoal)
   int i;
   int to = -1;
 
-  if (game.player_ptr->ai.tech_goal == A_UNSET)
+  if (game.player_ptr->research->tech_goal == A_UNSET)
     if (help_goal_entries[*newgoal] == (STRPTR) advances[A_NONE].name)
       to = 0;
   for (i = A_FIRST; i < game.num_tech_types; i++)
@@ -228,7 +228,7 @@ void popup_science_dialog(bool make_modal)
 	&& num_unknown_techs_for_goal(game.player_ptr, i) < 11)
       j++;
   }
-  if (game.player_ptr->ai.tech_goal == A_UNSET) {
+  if (game.player_ptr->research->tech_goal == A_UNSET) {
     j++;
   }
 
@@ -237,7 +237,7 @@ void popup_science_dialog(bool make_modal)
     if ((help_goal_entries = (STRPTR *) malloc((j + 2) * sizeof(STRPTR))))
     {
       j = 0;
-      if (game.player_ptr->ai.tech_goal == A_UNSET) {
+      if (game.player_ptr->research->tech_goal == A_UNSET) {
 	help_goal_entries[j++] = advances[A_NONE].name;
       }
 
@@ -247,7 +247,7 @@ void popup_science_dialog(bool make_modal)
 	    advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
 	    num_unknown_techs_for_goal(game.player_ptr, i) < 11)
 	{
-	  if (i == game.player_ptr->ai.tech_goal)
+	  if (i == game.player_ptr->research->tech_goal)
 	    science_goal_active = j;
 	  help_goal_entries[j++] = advances[i].name;
 	}
@@ -354,7 +354,7 @@ void popup_science_dialog(bool make_modal)
     DoMethod(science_steps_text, MUIM_SetAsString, MUIA_Text_Contents,
 	     _("(%ld steps)"), num_unknown_techs_for_goal(game.player_ptr,
 							  game.player_ptr->
-							  ai.tech_goal));
+							  research->tech_goal));
 
     DoMethod(science_researched_group, MUIM_Group_InitChange);
     DoMethod(science_researched_group, MUIM_AutoGroup_DisposeChilds);

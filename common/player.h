@@ -94,6 +94,10 @@ struct player_research {
     int num_required_techs, bulbs_required;
   } inventions[A_LAST];
 
+  /* Tech goal (similar to worklists; when one tech is researched the next
+   * tech toward the goal will be chosen).  May be A_NONE. */
+  int tech_goal;
+
   /*
    * Cached values. Updated by update_research.
    */
@@ -129,7 +133,6 @@ struct player_ai {
    *  - any existing tech but not A_NONE or
    *  - A_UNSET.
    */
-  int tech_goal;
   int prev_gold;
   int maxbuycost;
   int est_upkeep; /* estimated upkeep of buildings in cities */

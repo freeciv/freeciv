@@ -219,7 +219,7 @@ void create_science_dialog(bool make_modal)
 		total_bulbs_required(game.player_ptr));
   }
 
-  if (game.player_ptr->ai.tech_goal == A_UNSET) {
+  if (game.player_ptr->research->tech_goal == A_UNSET) {
     my_snprintf(goal_text, sizeof(goal_text),
 		_("Goal: %s (%d steps)"),
 		advances[A_NONE].name,
@@ -227,9 +227,9 @@ void create_science_dialog(bool make_modal)
   } else {
     my_snprintf(goal_text, sizeof(goal_text),
 		_("Goal: %s (%d steps)"),
-		advances[game.player_ptr->ai.tech_goal].name,
+		advances[game.player_ptr->research->tech_goal].name,
 		num_unknown_techs_for_goal(game.player_ptr,
-					   game.player_ptr->ai.tech_goal));
+					   game.player_ptr->research->tech_goal));
   }
   
   for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
@@ -335,7 +335,7 @@ void create_science_dialog(bool make_modal)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
         && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	    || i == game.player_ptr->ai.tech_goal)) {
+	    || i == game.player_ptr->research->tech_goal)) {
       Widget entry=
       XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
 			      goalmenu, NULL);
@@ -497,7 +497,7 @@ void science_dialog_update(void)
 
     xaw_set_label(science_current_label, text);
 
-    if (game.player_ptr->ai.tech_goal == A_UNSET) {
+    if (game.player_ptr->research->tech_goal == A_UNSET) {
       my_snprintf(text, sizeof(text),
 		  _("Goal: %s (%d steps)"),
 		  advances[A_NONE].name,
@@ -505,9 +505,9 @@ void science_dialog_update(void)
     } else {
       my_snprintf(text, sizeof(text),
 		  _("Goal: %s (%d steps)"),
-		  advances[game.player_ptr->ai.tech_goal].name,
+		  advances[game.player_ptr->research->tech_goal].name,
 		  num_unknown_techs_for_goal(game.player_ptr,
-					    game.player_ptr->ai.tech_goal));
+					    game.player_ptr->research->tech_goal));
     }
 
     xaw_set_label(science_goal_label, text);
@@ -554,7 +554,7 @@ void science_dialog_update(void)
 	  && get_invention(game.player_ptr, i) != TECH_KNOWN
 	  && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
 	  && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	      || i == game.player_ptr->ai.tech_goal)) {
+	      || i == game.player_ptr->research->tech_goal)) {
 	Widget entry=
 	  XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
 				  goalmenu, NULL);

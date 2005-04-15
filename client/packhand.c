@@ -1515,13 +1515,13 @@ void handle_player_info(struct packet_player_info *pinfo)
   new_tech = read_player_info_techs(pplayer, pinfo->inventions);
 
   poptechup = (pplayer->research->researching != pinfo->researching
-               || pplayer->ai.tech_goal != pinfo->tech_goal);
+               || pplayer->research->tech_goal != pinfo->tech_goal);
   pplayer->bulbs_last_turn = pinfo->bulbs_last_turn;
   pplayer->research->bulbs_researched = pinfo->bulbs_researched;
   pplayer->research->techs_researched = pinfo->techs_researched;
   pplayer->research->researching=pinfo->researching;
   pplayer->future_tech=pinfo->future_tech;
-  pplayer->ai.tech_goal=pinfo->tech_goal;
+  pplayer->research->tech_goal=pinfo->tech_goal;
   
   if (can_client_change_view() && pplayer == game.player_ptr) {
     if (poptechup || new_tech) {

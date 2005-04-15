@@ -88,6 +88,7 @@ bool player_owns_city(const struct player *pplayer, const struct city *pcity)
 static void player_research_init(struct player_research* research)
 {
   memset(research, 0, sizeof(struct player_research));
+  research->tech_goal = A_UNSET;
   research->changed_from = -1;
 }
 
@@ -128,7 +129,6 @@ void player_init(struct player *plr)
   }
   plr->city_style=0;            /* should be first basic style */
   plr->ai.control=FALSE;
-  plr->ai.tech_goal = A_UNSET;
   plr->ai.handicap = 0;
   plr->ai.skill_level = 0;
   plr->ai.fuzzy = 0;

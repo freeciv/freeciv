@@ -2502,7 +2502,7 @@ void science_dialog_update(void)
     color = *get_game_colorRGB(COLOR_STD_WHITE);
       
     pWindow->prev->theme = get_tech_icon(game.player_ptr->research.researching);
-    pWindow->prev->prev->theme = get_tech_icon(game.player_ptr->ai.tech_goal);
+    pWindow->prev->prev->theme = get_tech_icon(game.player_ptr->research->tech_goal);
     
     /* redraw Window */
     redraw_group(pWindow, pWindow, 0);
@@ -2655,14 +2655,14 @@ void science_dialog_update(void)
     dest.y += 10;
     /* -------------------------------- */
     /* Goals */
-    if (game.player_ptr->ai.tech_goal != A_UNSET)
+    if (game.player_ptr->research->tech_goal != A_UNSET)
     {
       steps =
         num_unknown_techs_for_goal(game.player_ptr,
-				 game.player_ptr->ai.tech_goal);
+				 game.player_ptr->research->tech_goal);
       my_snprintf(cBuf, sizeof(cBuf), "%s ( %d %s )",
 	      get_tech_name(game.player_ptr,
-			    game.player_ptr->ai.tech_goal), steps,
+			    game.player_ptr->research->tech_goal), steps,
 	      PL_("step", "steps", steps));
 
       copy_chars_to_string16(pStr, cBuf);
@@ -2677,7 +2677,7 @@ void science_dialog_update(void)
 
       impr_type_iterate(imp) {
         pImpr = get_improvement_type(imp);
-        if (pImpr->tech_req == game.player_ptr->ai.tech_goal) {
+        if (pImpr->tech_req == game.player_ptr->research->tech_goal) {
           SDL_BlitSurface(GET_SURF(pImpr->sprite), NULL, pWindow->dst, &dest);
           dest.x += GET_SURF(pImpr->sprite)->w + 1;
         }
@@ -2687,7 +2687,7 @@ void science_dialog_update(void)
 
       unit_type_iterate(un) {
         pUnit = get_unit_type(un);
-        if (pUnit->tech_requirement == game.player_ptr->ai.tech_goal) {
+        if (pUnit->tech_requirement == game.player_ptr->research->tech_goal) {
 	  if (GET_SURF(pUnit->sprite)->w > 64) {
 	    float zoom = 64.0 / GET_SURF(pUnit->sprite)->w;
 	    SDL_Surface *pZoomed =
@@ -2981,7 +2981,7 @@ static int change_research_goal(struct GUI *pWidget)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
 	&& (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	    || i == game.player_ptr->ai.tech_goal)) {
+	    || i == game.player_ptr->research->tech_goal)) {
       count++;
     }
   }
@@ -3051,7 +3051,7 @@ static int change_research_goal(struct GUI *pWidget)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
 	&& ((num = num_unknown_techs_for_goal(game.player_ptr, i)) < 11
-	    || i == game.player_ptr->ai.tech_goal)) {
+	    || i == game.player_ptr->research->tech_goal)) {
     
       count++;
       my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s", advances[i].name, num,
@@ -3213,9 +3213,9 @@ void popup_science_dialog(bool make_modal)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pBuf);
 
   /* ------ */
-  if (game.player_ptr->ai.tech_goal != A_UNSET)
+  if (game.player_ptr->research->tech_goal != A_UNSET)
   {
-    pLogo = GET_SURF(advances[game.player_ptr->ai.tech_goal].sprite);
+    pLogo = GET_SURF(advances[game.player_ptr->research->tech_goal].sprite);
   } else {
     /* "None" icon */
     pLogo = pNone_Tech_Icon;
