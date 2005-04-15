@@ -83,7 +83,10 @@ GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store
 int overview_canvas_store_width = 2 * 80;
 int overview_canvas_store_height = 2 * 50;
 
-bool fullscreen_mode = TRUE;
+ /* Fullscreen is disabled by default for now because there's no way
+  * to toggle it in pregame. */
+bool fullscreen_mode = FALSE;
+
 bool enable_tabs = TRUE;
 bool solid_unit_icon_bg = FALSE;
 bool better_fog = TRUE;
