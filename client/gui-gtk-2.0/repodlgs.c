@@ -45,28 +45,25 @@
 #include "options.h"
 #include "packhand_gen.h"
 #include "control.h"
+#include "reqtree.h"
 #include "text.h"
 
+#include "canvas.h"
 #include "repodlgs_common.h"
 #include "repodlgs.h"
 
 /******************************************************************/
 
 static void create_science_dialog(bool make_modal);
-static void science_help_callback(GtkTreeView *view,
-      				  GtkTreePath *arg1,
-				  GtkTreeViewColumn *arg2,
-				  gpointer data);
 static void science_change_callback(GtkWidget * widget, gpointer data);
 static void science_goal_callback(GtkWidget * widget, gpointer data);
-
 /******************************************************************/
 static struct gui_dialog *science_dialog_shell = NULL;
 static GtkWidget *science_label;
 static GtkWidget *science_current_label, *science_goal_label;
 static GtkWidget *science_change_menu_button, *science_goal_menu_button;
 static GtkWidget *science_help_toggle;
-static GtkListStore *science_model[3];
+static GtkWidget *science_drawing_area;
 static int science_dialog_shell_is_modal;
 static GtkWidget *popupmenu, *goalmenu;
 
@@ -163,7 +160,99 @@ void popdown_science_dialog(void)
     gui_dialog_destroy(science_dialog_shell);
   }
 }
- 
+
+/****************************************************************************
+ Change tech goal, research or open help dialog
+****************************************************************************/
+static void button_release_event_callback(GtkWidget *widget,
+					  GdkEventButton *event,
+                                          gpointer *data)
+{
+  struct reqtree *tree = g_object_get_data(G_OBJECT(widget), "reqtree");
+  int x = event->x, y = event->y;
+  Tech_Type_id tech = get_tech_on_reqtree(tree, x, y);
+
+  if (tech == A_NONE) {
+    return;
+  }
+  if (event->button == 1) {
+    /* LMB: set research or research goal */
+    switch (get_invention(game.player_ptr, tech)) {
+    case TECH_REACHABLE:
+      dsend_packet_player_research(&aconnection, tech);
+      break;
+    case TECH_UNKNOWN:
+      dsend_packet_player_tech_goal(&aconnection, tech);
+      break;
+    case TECH_KNOWN:
+      break;
+    }
+  } else if (event->button == 3) {
+    /* RMB: get help */
+    /* FIXME: this should work for ctrl+LMB or shift+LMB (?) too */
+    popup_help_dialog_typed(get_tech_name(game.player_ptr, tech), HELP_TECH);
+  }
+}
+
+/****************************************************************************
+  Draw the invalidated portion of the reqtree.
+****************************************************************************/
+static void update_science_drawing_area(GtkWidget *widget, gpointer data)
+{
+  /* FIXME: this currently redraws everything! */
+  struct canvas canvas = {.type = CANVAS_PIXMAP,
+			  .v.pixmap = GTK_LAYOUT(widget)->bin_window};
+  struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
+  int width, height;
+
+  get_reqtree_dimensions(reqtree, &width, &height);
+  draw_reqtree(reqtree, &canvas, 0, 0, 0, 0, width, height);
+}
+
+/****************************************************************************
+  Return main widget of new technology diagram.
+  This is currently GtkScrolledWindow 
+****************************************************************************/
+static GtkWidget *create_reqtree_diagram(void)
+{
+  GtkWidget *sw;
+  struct reqtree *reqtree = create_reqtree();
+  GtkAdjustment* adjustment;
+  int width, height;
+  int x;
+
+  get_reqtree_dimensions(reqtree, &width, &height);
+
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  science_drawing_area = gtk_layout_new(NULL, NULL);
+  g_object_set_data_full(G_OBJECT(science_drawing_area), "reqtree", reqtree,
+			 (GDestroyNotify)destroy_reqtree);
+  g_signal_connect(G_OBJECT(science_drawing_area), "expose_event",
+		   G_CALLBACK(update_science_drawing_area), NULL);
+  g_signal_connect(G_OBJECT(science_drawing_area), "button-release-event",
+                   G_CALLBACK(button_release_event_callback), NULL);
+  gtk_widget_add_events(science_drawing_area,
+                        GDK_BUTTON_RELEASE_MASK | GDK_BUTTON2_MOTION_MASK | 
+			GDK_BUTTON3_MOTION_MASK);
+			 
+  gtk_layout_set_size(GTK_LAYOUT(science_drawing_area), width, height);
+
+  gtk_container_add(GTK_CONTAINER(sw), science_drawing_area);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				 GTK_POLICY_AUTOMATIC,
+				 GTK_POLICY_AUTOMATIC);
+
+  adjustment = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw));
+  
+  /* Center on currently researched node */
+  if (find_tech_on_reqtree(reqtree, game.player_ptr->research->researching,
+			   &x, NULL, NULL, NULL)) {
+    /* FIXME: this is just an approximation */
+    gtk_adjustment_set_value(adjustment, x - 100);
+  }
+
+  return sw;
+}
 
 /****************************************************************
 ...
@@ -171,7 +260,7 @@ void popdown_science_dialog(void)
 void create_science_dialog(bool make_modal)
 {
   GtkWidget *frame, *hbox, *w;
-  int i;
+  GtkWidget *science_diagram;
 
   gui_dialog_new(&science_dialog_shell, GTK_NOTEBOOK(top_notebook));
   gui_dialog_set_title(science_dialog_shell, _("Science"));
@@ -227,39 +316,9 @@ void create_science_dialog(bool make_modal)
 
   w = gtk_label_new("");
   gtk_box_pack_start(GTK_BOX(hbox), w, TRUE, FALSE, 0);
-
-  sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-      GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox), sw, TRUE, TRUE, 5);
-
-  hbox = gtk_hbox_new(TRUE, 0);
-  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), hbox);
-
-
-  for (i=0; i<ARRAY_SIZE(science_model); i++) {
-    GtkWidget *view;
-    GtkTreeSelection *selection;
-    GtkCellRenderer *renderer;
-    GtkTreeViewColumn *column;
-
-    science_model[i] = gtk_list_store_new(1, G_TYPE_STRING);
-    view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(science_model[i]));
-    gtk_box_pack_start(GTK_BOX(hbox), view, TRUE, TRUE, 0);
-    gtk_widget_set_name(view, "small font");
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-    g_object_unref(science_model[i]);
-    gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
-    gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
-
-    renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes(NULL, renderer,
-	"text", 0, NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(view), column);
-
-    g_signal_connect(view, "row_activated",
-	G_CALLBACK(science_help_callback), NULL);
-  }
+  
+  science_diagram = create_reqtree_diagram();
+  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox), science_diagram, TRUE, TRUE, 0);
 
   gui_dialog_show_all(science_dialog_shell);
 
@@ -325,30 +384,6 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void science_help_callback(GtkTreeView *view,
-      				  GtkTreePath *arg1,
-				  GtkTreeViewColumn *arg2,
-				  gpointer data)
-{
-  GtkTreeModel *model = gtk_tree_view_get_model(view);
-
-  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
-    GtkTreeIter it;
-    char *s;
-
-    gtk_tree_model_get_iter(model, &it, arg1);
-    gtk_tree_model_get(model, &it, 0, &s, -1);
-    if (*s != '\0') {
-      popup_help_dialog_typed(s, HELP_TECH);
-    } else {
-      popup_help_dialog_string(HELP_TECHS_ITEM);
-    }
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 {
   const gchar *a_str, *b_str;
@@ -382,7 +417,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 void science_dialog_update(void)
 {
   if(science_dialog_shell) {
-  int i, j, hist;
+  int i, hist;
   char text[512];
   GtkWidget *item;
   GList *sorting_list = NULL, *it;
@@ -393,12 +428,10 @@ void science_dialog_update(void)
     return;
   }
 
+  gtk_widget_queue_draw(science_drawing_area);
+
   gtk_label_set_text(GTK_LABEL(science_label), science_dialog_text());
-
-  for (i=0; i<ARRAY_SIZE(science_model); i++) {
-    gtk_list_store_clear(science_model[i]);
-  }
-
+  
   /* collect all researched techs in sorting_list */
   for(i=A_FIRST; i<game.num_tech_types; i++) {
     if ((get_invention(game.player_ptr, i)==TECH_KNOWN)) {
@@ -408,19 +441,6 @@ void science_dialog_update(void)
 
   /* sort them, and install them in the list */
   sorting_list = g_list_sort(sorting_list, cmp_func);
-  for(i=0; i<g_list_length(sorting_list); i++) {
-    GtkTreeIter it;
-    GValue value = { 0, };
-
-    j = GPOINTER_TO_INT(g_list_nth_data(sorting_list, i));
-    gtk_list_store_append(science_model[i%ARRAY_SIZE(science_model)], &it);
-
-    g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, get_tech_name(game.player_ptr, j));
-    gtk_list_store_set_value(science_model[i%ARRAY_SIZE(science_model)], &it,
-	0, &value);
-    g_value_unset(&value);
-  }
   g_list_free(sorting_list);
   sorting_list = NULL;
 
@@ -570,6 +590,7 @@ void science_dialog_update(void)
 	g_list_index(sorting_list, GINT_TO_POINTER(hist)));
   g_list_free(sorting_list);
   sorting_list = NULL;
+ 
   }
 }
 

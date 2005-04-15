@@ -263,8 +263,14 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 }
 
 static PangoLayout *layout;
-static PangoFontDescription **fonts[FONT_COUNT] = {&main_font,
-						   &city_productions_font};
+static struct {
+  PangoFontDescription **font;
+  bool shadowed;
+} fonts[FONT_COUNT] = {
+  {&main_font, TRUE},
+  {&city_productions_font, TRUE},
+  {&city_productions_font, FALSE} /* FIXME: should use separate font */
+};
 
 /****************************************************************************
   Return the size of the given text in the given font.  This size should
@@ -280,7 +286,7 @@ void get_text_size(int *width, int *height,
     layout = pango_layout_new(gdk_pango_context_get());
   }
 
-  pango_layout_set_font_description(layout, *fonts[font]);
+  pango_layout_set_font_description(layout, *fonts[font].font);
   pango_layout_set_text(layout, text, -1);
 
   pango_layout_get_pixel_extents(layout, &rect, NULL);
@@ -311,12 +317,18 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   }
 
   gdk_gc_set_foreground(civ_gc, colors_standard[color]);
-  pango_layout_set_font_description(layout, *fonts[font]);
+  pango_layout_set_font_description(layout, *fonts[font].font);
   pango_layout_set_text(layout, text, -1);
 
   pango_layout_get_pixel_extents(layout, &rect, NULL);
-  gtk_draw_shadowed_string(pcanvas->v.pixmap,
-			   toplevel->style->black_gc, civ_gc,
-			   canvas_x,
-			   canvas_y + PANGO_ASCENT(rect), layout);
+  if (fonts[font].shadowed) {
+    gtk_draw_shadowed_string(pcanvas->v.pixmap,
+			     toplevel->style->black_gc, civ_gc,
+			     canvas_x,
+			     canvas_y + PANGO_ASCENT(rect), layout);
+  } else {
+    gdk_draw_layout(pcanvas->v.pixmap, civ_gc,
+		    canvas_x, canvas_y + PANGO_ASCENT(rect),
+		    layout);
+  }
 }

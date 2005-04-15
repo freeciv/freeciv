@@ -54,6 +54,7 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 enum client_font {
   FONT_CITY_NAME,
   FONT_CITY_PROD,
+  FONT_REQTREE_TEXT,
   FONT_COUNT
 };
 void get_text_size(int *width, int *height,
