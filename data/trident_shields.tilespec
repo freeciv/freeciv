@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec3 +duplicates_ok"
+options = "+tilespec3 +duplicates_ok +Freeciv.Devel.2005.Apr.8"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident w/Shields"

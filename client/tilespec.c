@@ -382,7 +382,7 @@ struct tileset {
 
 struct tileset *tileset;
 
-#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok"
+#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.Apr.8"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -647,15 +647,32 @@ static bool is_cardinal_tileset_dir(const struct tileset *t,
 ***********************************************************************/
 const char **get_tileset_list(void)
 {
-  static const char **tileset_list = NULL;
+  static const char **tilesets = NULL;
 
-  if (!tileset_list) {
+  if (!tilesets) {
     /* Note: this means you must restart the client after installing a new
        tileset. */
-    tileset_list = (const char **)datafilelist(TILESPEC_SUFFIX);
+    char **list = datafilelist(TILESPEC_SUFFIX);
+    int i, count = 0;
+
+    for (i = 0; list[i]; i++) {
+      struct tileset *t = tileset_read_toplevel(list[i]);
+
+      if (t) {
+ 	tilesets = fc_realloc(tilesets, (count + 1) * sizeof(*tilesets));
+ 	tilesets[count] = list[i];
+ 	count++;
+ 	tileset_free(t);
+      } else {
+	free(list[i]);
+      }
+    }
+
+    tilesets = fc_realloc(tilesets, (count + 1) * sizeof(*tilesets));
+    tilesets[count] = NULL;
   }
 
-  return tileset_list;
+  return tilesets;
 }
 
 /**********************************************************************
@@ -696,7 +713,7 @@ static bool check_tilespec_capabilities(struct section_file *file,
   char *file_capstr = secfile_lookup_str(file, "%s.options", which);
   
   if (!has_capabilities(us_capstr, file_capstr)) {
-    freelog(LOG_ERROR, _("%s file appears incompatible:\n"
+    freelog(LOG_DEBUG, _("%s file appears incompatible:\n"
 			 "file: \"%s\"\n"
 			 "file options: %s\n"
 			 "supported options: %s"),
@@ -704,7 +721,7 @@ static bool check_tilespec_capabilities(struct section_file *file,
     return FALSE;
   }
   if (!has_capabilities(file_capstr, us_capstr)) {
-    freelog(LOG_ERROR, _("%s file claims required option(s)"
+    freelog(LOG_DEBUG, _("%s file claims required option(s)"
 			 " which we don't support:\n"
 			 "file: \"%s\"\n"
 			 "file options: %s\n"
