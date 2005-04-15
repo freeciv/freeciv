@@ -409,6 +409,14 @@ static struct sprite* lookup_sprite_tag_alt(struct tileset *t,
 
 
 /****************************************************************************
+  Return the name of the given tileset.
+****************************************************************************/
+const char *tileset_get_name(const struct tileset *t)
+{
+  return t->name;
+}
+
+/****************************************************************************
   Return whether the current tileset is isometric.
 ****************************************************************************/
 bool tileset_is_isometric(const struct tileset *t)
@@ -659,41 +667,20 @@ const char **get_tileset_list(void)
 ***********************************************************************/
 static char *tilespec_fullname(const char *tileset_name)
 {
-  const char *tileset_default;
-  char *fname, *dname;
+  if (tileset_name) {
+    char fname[strlen(tileset_name) + strlen(TILESPEC_SUFFIX) + 1], *dname;
 
-  if (isometric_view_supported()) {
-    tileset_default = "isotrident"; /* Do not i18n! --dwp */
-  } else {
-    tileset_default = "trident";    /* Do not i18n! --dwp */
+    my_snprintf(fname, sizeof(fname),
+		"%s%s", tileset_name, TILESPEC_SUFFIX);
+
+    dname = datafilename(fname);
+
+    if (dname) {
+      return mystrdup(dname);
+    }
   }
 
-  if (!tileset_name || tileset_name[0] == '\0') {
-    tileset_name = tileset_default;
-  }
-
-  /* Hack: this is the name of the tileset we're about to load.  We copy
-   * it here, since this is the only place where we know it.  Note this
-   * also means if you do "civ -t foo" this will change your *default*
-   * tileset to 'foo'. */
-  sz_strlcpy(default_tileset_name, tileset_name);
-
-  fname = fc_malloc(strlen(tileset_name) + strlen(TILESPEC_SUFFIX) + 1);
-  sprintf(fname, "%s%s", tileset_name, TILESPEC_SUFFIX);
-  
-  dname = datafilename(fname);
-  free(fname);
-
-  if (dname) {
-    return mystrdup(dname);
-  }
-
-  if (strcmp(tileset_name, tileset_default) == 0) {
-    freelog(LOG_FATAL, _("No usable default tileset found, aborting!"));
-    exit(EXIT_FAILURE);
-  }
-  freelog(LOG_ERROR, _("Trying \"%s\" tileset."), tileset_default);
-  return tilespec_fullname(tileset_default);
+  return NULL;
 }
 
 /**********************************************************************
@@ -761,6 +748,33 @@ static void tileset_free_toplevel(struct tileset *t)
 }
 
 /**********************************************************************
+  Read a new tilespec in when first starting the game.
+
+  Call this function with the (guessed) name of the tileset, when
+  starting the client.
+***********************************************************************/
+void tilespec_try_read(const char *tileset_name)
+{
+  if (!(tileset = tileset_read_toplevel(tileset_name))) {
+    const char *tileset_default;
+
+    if (isometric_view_supported()) {
+      tileset_default = "isotrident"; /* Do not i18n! --dwp */
+    } else {
+      tileset_default = "trident";    /* Do not i18n! --dwp */
+    }
+
+    freelog(LOG_ERROR, _("Trying \"%s\" tileset."), tileset_default);
+
+    if (!(tileset = tileset_read_toplevel(tileset_default))) {
+      freelog(LOG_FATAL, _("No usable default tileset found, aborting!"));
+      exit(EXIT_FAILURE);
+    }
+  }
+  sz_strlcpy(default_tileset_name, tileset_get_name(tileset));
+}
+
+/**********************************************************************
   Read a new tilespec in from scratch.
 
   Unlike the initial reading code, which reads pieces one at a time,
@@ -808,6 +822,7 @@ void tilespec_reread(const char *new_tileset_name)
       die("Failed to re-read the currently loaded tileset.");
     }
   }
+  sz_strlcpy(default_tileset_name, tileset->name);
   tileset_load_tiles(tileset);
 
   /* Step 3: Setup
@@ -1147,15 +1162,21 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   struct tileset *t = tileset_new();
 
   fname = tilespec_fullname(tileset_name);
+  if (!fname) {
+    tileset_free(t);
+    return NULL;
+  }
   freelog(LOG_VERBOSE, "tilespec file is %s", fname);
 
   if (!section_file_load(file, fname)) {
     freelog(LOG_ERROR, _("Could not open \"%s\"."), fname);
+    tileset_free(t);
     return NULL;
   }
 
   if (!check_tilespec_capabilities(file, "tilespec",
 				   TILESPEC_CAPSTR, fname)) {
+    tileset_free(t);
     return NULL;
   }
 
@@ -1189,7 +1210,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
     assert(tileset_name != NULL);
     section_file_free(file);
     free(fname);
-    return tileset_read_toplevel(NULL);
+    tileset_free(t);
+    return NULL;
   }
   if (!t->is_isometric && !overhead_view_supported()) {
     freelog(LOG_ERROR, _("Client does not support overhead view tilesets."
@@ -1197,7 +1219,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
     assert(tileset_name != NULL);
     section_file_free(file);
     free(fname);
-    return tileset_read_toplevel(NULL);
+    tileset_free(t);
+    return NULL;
   }
 
   /* Create arrays of valid and cardinal tileset dirs.  These depend
@@ -1311,6 +1334,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   terrains = secfile_get_secnames_prefix(file, "terrain_", &num_terrains);
   if (num_terrains == 0) {
     freelog(LOG_ERROR, "No terrain types supported by tileset.");
+    tileset_free(t);
     return NULL;
   }
 
@@ -1429,6 +1453,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
     if (!hash_insert(t->terrain_hash, terr->name, terr)) {
       freelog(LOG_NORMAL, "warning: duplicate terrain entry %s.",
 	      terrains[i]);
+      tileset_free(t);
       return NULL;
     }
   }
@@ -1439,6 +1464,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 					  "tilespec.files");
   if (num_spec_files == 0) {
     freelog(LOG_ERROR, "No tile files specified in \"%s\"", fname);
+    tileset_free(t);
     return NULL;
   }
 

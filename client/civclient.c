@@ -341,10 +341,7 @@ int main(int argc, char *argv[])
   helpdata_init();
   boot_help_texts();
 
-  if (!(tileset = tileset_read_toplevel(tileset_name))) {
-    /* get tile sizes etc */
-    exit(EXIT_FAILURE);
-  }
+  tilespec_try_read(tileset_name);
 
   audio_real_init(sound_set_name, sound_plugin_name);
   audio_play_music("music_start", NULL);

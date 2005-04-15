@@ -107,6 +107,7 @@ void tileset_free(struct tileset *tileset);
 void tileset_load_tiles(struct tileset *t);
 void tileset_free_tiles(struct tileset *t);
 
+void tilespec_try_read(const char *tileset_name);
 void tilespec_reread(const char *tileset_name);
 void tilespec_reread_callback(struct client_option *option);
 
@@ -208,6 +209,7 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      const struct unit *punit);
 
 /* Tileset accessor functions. */
+const char *tileset_get_name(const struct tileset *t);
 bool tileset_is_isometric(const struct tileset *t);
 int tileset_hex_width(const struct tileset *t);
 int tileset_hex_height(const struct tileset *t);
