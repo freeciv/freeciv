@@ -749,17 +749,31 @@ static void help_update_improvement(const struct help_item *pitem,
   
   if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
+    int i;
+    char req_buf[512];
+
     sprintf(buf, "%d ", impr_build_shield_cost(which));
     xaw_set_label(help_improvement_cost_data, buf);
     sprintf(buf, "%d ", imp->upkeep);
     xaw_set_label(help_improvement_upkeep_data, buf);
-    if (imp->tech_req == A_LAST) {
+    /*if (imp->tech_req == A_LAST) {
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
 		    advances[imp->tech_req].name);
+    }*/
+    
+    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+     * Currently it's limited to 1 req but this code is partially prepared
+     * to be extended.  Remember MAX_NUM_REQS is a compile-time
+     * definition. */
+    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+      xaw_set_label(help_improvement_req_data,
+                   get_req_source_text(&imp->req[i].source,
+                                       req_buf, sizeof(req_buf)));
     }
-    create_tech_tree(help_tech_tree, 0, imp->tech_req, 3);
+    create_tech_tree(help_tech_tree, 0, 
+                     imp->req[0].source.value.tech, 3);
   }
   else {
     xaw_set_label(help_improvement_cost_data, "0 ");
@@ -784,21 +798,36 @@ static void help_update_wonder(const struct help_item *pitem,
 
   if (which<game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
+    int i;
+    char req_buf[512];
+
     sprintf(buf, "%d ", impr_build_shield_cost(which));
     xaw_set_label(help_improvement_cost_data, buf);
-    if (imp->tech_req == A_LAST) {
+    /*if (imp->tech_req == A_LAST) {
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
 		    advances[imp->tech_req].name);
+    }*/
+
+     /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+      * Currently it's limited to 1 req but this code is partially prepared
+      * to be extended.  Remember MAX_NUM_REQS is a compile-time
+      * definition. */
+    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+      xaw_set_label(help_improvement_req_data,
+                   get_req_source_text(&imp->req[i].source,
+                                       req_buf, sizeof(req_buf)));
     }
+
     if (tech_exists(imp->obsolete_by)) {
       xaw_set_label(help_wonder_obsolete_data,
 		    advances[imp->obsolete_by].name);
     } else {
       xaw_set_label(help_wonder_obsolete_data, _("(Never)"));
     }
-    create_tech_tree(help_tech_tree, 0, imp->tech_req, 3);
+    create_tech_tree(help_tech_tree, 0, 
+                     imp->req[0].source.value.tech, 3);
   }
   else {
     /* can't find wonder */
@@ -888,9 +917,25 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     helptext_tech(buf, i, pitem->text);
 
     impr_type_iterate(j) {
-      if(i==improvement_types[j].tech_req) 
+      /*if(i==improvement_types[j].tech_req) 
 	sprintf(buf+strlen(buf), _("Allows %s.\n"),
 		improvement_types[j].name);
+      */
+       int k;
+ 
+       /* FIXME: need a more general mechanism for this, since this
+        * helptext needs to be shown in all possible req source types. */
+       for (k = 0; k < MAX_NUM_REQS; k++) {
+ 	struct requirement *req = &improvement_types[j].req[k];
+ 
+ 	if (req->source.type == REQ_NONE) {
+ 	  break;
+ 	} else if (req->source.type == REQ_BUILDING
+ 		   && req->source.value.building == i) {
+	  sprintf(buf+strlen(buf), _("Allows %s.\n"),
+                  improvement_types[j].name);
+        }
+       }
       if(i==improvement_types[j].obsolete_by)
 	sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
 		improvement_types[j].name);
