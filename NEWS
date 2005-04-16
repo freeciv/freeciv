@@ -10,63 +10,83 @@ This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
 
-WHAT'S CHANGED SINCE 1.14.0
- - Player authentication with optional passwords.
- - AI is much improved, and does not use 'double-move' any more.
- - AI now does diplomacy with you (and against you)
- - New difficulty level: Novice.  The AI will be severely 
-   handicapped in this difficulty.
- - New units: AWACS and Worker.
- - Isometric and hexagonal topologies. Wrap map in any direction.
- - There are now national borders.  Units inside your borders do
-   not cause unhappiness under Republic and Democracy.
- - Modpack options vastly improved: You can customize buildings,
-   add buildings as requirements to units, restrict technologies
-   to certain nations, have split technology trees, gold upkeep
-   for units, new units and terrain flags and lots of other options.
- - Civ1 and Civ2 rulesets now have waste.  Default ruleset does not.
- - Smarter autoexplorer code
- - Fewer popups (eg choose the new government from the menu directly)
- - Support for drawing civ3 graphics
- - 'Home' key centers on your capital
- - New 'load' and 'unload' commands for transporting units.
- - You can start the server and set server options from the client.
- - You can meet with other players for 20 turns after your units
-   have last met, and you can exchange embassies when meeting.
- - It is no longer possible for one player to be in alliance with
-   a player who is in war with another player you are allied with.
- - Global observer can observe the entire game.
- - Incite costs changed.  Now cities closer to the capital, with
-   units and with buildings, have much higher incite cost.
+WHAT'S CHANGED SINCE 1.14.2
+ - Research cost has doubled, effects of science buildings doubled. SETI
+   now improves Research Labs instead of giving free Research Labs to every
+   city. Isaac Newton's College now improves all the player's universities.
+ - New units: AWACS and Workers.
+ - New option: national borders.  Units inside your borders do not cause
+   unhappiness under Republic and Democracy.
+ - It is no longer possible for one player to be in alliance with a player
+   who is at war with another player you are allied with.
+ - The Civ2 ruleset now has waste.  Default ruleset does not.
+ - Incite costs changed, now cities closer to capital, with units and with
+   buildings have much higher incite cost.
  - Killing a defending diplomat now costs you 1 movement point.
- - Set number and type of starting units as server option.
- - You can bind the server to a given IP on multihomed hosts.
- - New client dialog which uses multicast to find servers on your LAN.
- - Compress network traffic and send only a delta (diff) of the data.
  - Units now have multiple, configurable veteran levels.
- - Team mates now pool their research and research as one. You may 
-   opt out and research individually by cancelling the 'Team' treaty.
- - Keyboardless or "drag and drop" goto.
+ - Team mates now pool their research. You may opt out and research
+   individually by cancelling the 'Team' treaty.
  - Server has voting on commands and options. You need over 50% of votes.
  - When moving a unit from a transport on an ocean tile to a land tile,
    you lose all movement points.
- - GTK2 client can now run in fullscreen mode.
- - You can specify a list of players using the 'endgame' command that
-   you would like to share victory with.
- - New method of settings map dimensions: Just use 'size'.
- - Add the Swiss, Afghanistan, Ethiopian, Assyrian, Columbian, Elvish,
-   Galician, Hobbits, Indonesian, Kampuchean, Malaysian, Martian,
-   Nigerian, Quebecois, Sumerian, Taiwanese, Austrian, Belgian,
-   Phoenician and Mexican nations.
+ - You can specify a list of players that you would like to share victory
+   with, using the 'endgame' command.
+ - Nations added: Swiss, Afghanistan, Ethiopian, Assyrian, Columbian,
+   Elvish, Galician, Hobbits, Indonesian, Kampuchean, Malaysian, Martian,
+   Nigerian, Quebecois, Sumerian, Taiwanese, Austrian, Belgian, Phoenician
+   and Mexican.
  - New wonder: The Eiffel Tower. Makes AIs love you and improves reputation.
  - The building requirements of several buildings have been changed.
- - Convert charsets as they are sent between client and server.  All
-   data files are now in UTF-8.
  - The whale special is reduced to 2 food, 1 shield and 2 trade.
- - New metaserver.
+ - Settlers / Workers / Engineers can never get veterancy.
+ - Trireme's high sea loss now considers veterancy level (green 50%,
+   veteran 25%, hardened 5%, elite 0%) before being divided by 2 if you
+   have Seafaring or 4 when you reach Navigation (previously only fixed
+   at 50% before being divided).
+ - Glacier terrain is now unsafe for land units (15% chance per turn of
+   being lost). Also doesn't count as coastline for Trireme safety or Fish
+   and Whale generation. Roads/railroads can be built but all units (worker
+   too) get 15% chance per turn of being lost any way!
+ - King Richard's Crusade is now made obsolete by Robotics (previously
+   Industrialization).
+ - Fixed tech costs based on the number of prerequisites of the tech
+   in the tech tree.
+ - Nations have preferred nations to fork off when civil war occurs.
+ - AI is much improved, and does not use 'double-move' any more.
+ - AI now conducts diplomacy with you (and against you).
+ - New difficulty level: Novice.  It severely handicaps the AI players.
+ - Smarter autoexplorer and autosettler code.
+ - Modpack options vastly improved: You can customize buildings,
+   add buildings as requirements to units, restrict technologies to certain
+   nations, have split technology trees, gold upkeep for units, new units
+   and terrain flags and lots of other options.  (This is still done by
+   editing configuration files with a text editor.)
+ - Fewer popups (eg choose the new government from the menu directly)
+ - Alternative map topologies, e.g., real support for isometric and
+   hexagonal maps and "donut" map wrapping.
+ - Incomplete support for drawing civ3 graphics.  See the civ3gfx tileset.
+ - Global observer can observe the entire game.
+ - New method of settings map dimensions: Just use 'size'.
+ - Modified map generators.
+ - Initial units can be selected with a server option.
+ - 'Home' key centers on your capital.
+ - Drag and drop goto.
+ - Player authentication with optional passwords.
+ - You can start the server and set server options from the client.
+ - You can meet with other players for 20 turns after your units have last
+   met, and you can exchange embassies when meeting.
+ - You can bind the server to a given IP on multihomed hosts.
+ - New client dialog which uses multicast to find servers on your LAN.
+ - Compress network traffic and send only a delta (diff) of the data.
+ - GTK2 client can now run in fullscreen mode.
+ - GTK2 is now the default client (the code base also features fully
+   functional GTK1, Xaw and native Win32 clients).
+ - Convert charsets as they are sent between client and server.  All data
+   files are now in UTF-8.
+ - New (and incompatible) metaserver.
  - New ALSA sound plugin.
- - The name of new nations created by civil war depends on original nation.
- - Researchcost doubled and science buildings are twice as good.
+ - The s(entry) command no longer doubles as a means to put units on
+   boats - use the new l(oad) command instead. 
  - Many more (smaller) changes, and massive changes under the hood.
 
 WHAT'S CHANGED SINCE 1.13.0
