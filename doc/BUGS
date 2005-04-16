@@ -72,6 +72,8 @@ KNOWN BUGS:
  - The Xaw client does not work well with the KDE window manager.
    Try using the GTK+ client or another window manager.
 
+ - There are some bugs with research in team mode.
+
 REPORTING A BUG:
 ================
 
