@@ -341,7 +341,7 @@ static void cityrep_popup(HWND hWnd)
     {
       pcity=(struct city *)ListBox_GetItemData(GetDlgItem(hWnd,ID_CITYREP_LIST),
 				cityids[i]);
-      popup_city_dialog(pcity,0);
+      popup_city_dialog(pcity);
     }
 }
 

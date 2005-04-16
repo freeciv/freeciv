@@ -475,17 +475,25 @@ static void help_update_improvement(const struct help_item *pitem,
  
   create_help_page(HELP_IMPROVEMENT);
  
-  if (which<B_LAST) {
+  if (which < game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
+    int i;
+    char req_buf[512];
+
     sprintf(buf, "%d", impr_build_shield_cost(which));
     SetWindowText(help_ilabel[1], buf);
     sprintf(buf, "%d", imp->upkeep);
     SetWindowText(help_ilabel[3], buf);
-    if (imp->tech_req == A_LAST) {
-      SetWindowText(help_ilabel[5], _("(Never)"));
-    } else {
-      SetWindowText(help_ilabel[5], advances[imp->tech_req].name);
-    }
+
+    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+     * Currently it's limited to 1 req but this code is partially prepared
+     * to be extended.  Remember MAX_NUM_REQS is a compile-time
+     * definition. */
+    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+      SetWindowText(help_ilabel[5 + i],
+		    get_req_source_text(&imp->req[i].source, req_buf,
+		    sizeof(req_buf)));
+    }			 
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
@@ -508,22 +516,26 @@ static void help_update_wonder(const struct help_item *pitem,
  
   create_help_page(HELP_WONDER);
  
-  if (which<B_LAST) {
+  if (which < game.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
+    int i;
+    char req_buf[512];
+
     sprintf(buf, "%d", impr_build_shield_cost(which));
     SetWindowText(help_ilabel[1], buf);
-    if (imp->tech_req == A_LAST) {
-      SetWindowText(help_ilabel[3], _("(Never)"));
-    } else {
-      SetWindowText(help_ilabel[3], advances[imp->tech_req].name);
-    }
-    if (tech_exists(imp->obsolete_by)) {
-      SetWindowText(help_ilabel[5], advances[imp->obsolete_by].name);
-    } else {
-      SetWindowText(help_ilabel[5], _("(Never)"));
-    }
+    sprintf(buf, "%d", imp->upkeep);
+    SetWindowText(help_ilabel[3], buf);
 
-    /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
+    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+     * Currently it's limited to 1 req but this code is partially prepared
+     * to be extended.  Remember MAX_NUM_REQS is a compile-time
+     * definition. */
+    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+      SetWindowText(help_ilabel[5 + i],
+		    get_req_source_text(&imp->req[i].source, req_buf,
+		    sizeof(req_buf)));
+    }
+/*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
     /* can't find wonder */
@@ -664,15 +676,10 @@ static void help_draw_unit(HDC hdc,int i)
   }
   FillRect(hdc,&rc,brush_std[bg_color]);
   
-  /* If we're using flags, put one on the tile */
-  if(!solid_color_behind_units)  {
-    struct sprite *flag=get_nation_by_plr(game.player_ptr)->flag_sprite;
-    draw_sprite(flag,hdc,unitpos.x,unitpos.y);
-  }
-  /* Finally, put a picture of the unit in the tile */
-  if(i<game.num_unit_types) {
-    struct sprite *s=get_unit_type(i)->sprite;
-    draw_sprite(s,hdc,unitpos.x,unitpos.y);
+  /* Put a picture of the unit in the tile */
+  if (i < game.num_unit_types) {
+    struct sprite *sprite = get_unittype_sprite(tileset, i);
+    draw_sprite(sprite, hdc, unitpos.x, unitpos.y);
   }
   
 }
@@ -755,14 +762,26 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     fcwin_box_add_static(helpdlg_page_vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
 
     impr_type_iterate(j) {
-      if(i==improvement_types[j].tech_req) {
-	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
-	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
-	fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-	fcwin_box_add_button(hbox,improvement_types[j].name,
-			     is_great_wonder(j)?
-			     ID_HELP_WONDER_LINK:ID_HELP_IMPROVEMENT_LINK,
-			     0,FALSE,FALSE,5);
+      int k;
+
+      /* FIXME: need a more general mechanism for this, since this
+       * helptext needs to be shown in all possible req source types. */
+      for (k = 0; k < MAX_NUM_REQS; k++) {
+	struct requirement *req = &improvement_types[j].req[k];
+
+	if (req->source.type == REQ_NONE) {
+	  break;
+	} else if (req->source.type == REQ_BUILDING
+		   && req->source.value.building == i) {
+	  hbox = fcwin_hbox_new(helpdlg_win, FALSE);
+	  fcwin_box_add_box(helpdlg_page_vbox, hbox, FALSE, FALSE, 5);
+	  fcwin_box_add_static(hbox, _("Allows "), 0, SS_LEFT, FALSE, FALSE,
+			       5);
+	  fcwin_box_add_button(hbox, improvement_types[j].name,
+			       is_great_wonder(j) ?
+			       ID_HELP_WONDER_LINK : ID_HELP_IMPROVEMENT_LINK,
+			       0 , FALSE, FALSE, 5);
+	}
       }
       if(i==improvement_types[j].obsolete_by) {
 	hbox=fcwin_hbox_new(helpdlg_win,FALSE);

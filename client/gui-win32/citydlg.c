@@ -119,7 +119,7 @@ static int city_map_height;
 static struct genlist *dialog_list;
 static int city_dialogs_have_been_initialised;
 struct city_dialog *get_city_dialog(struct city *pcity);
-struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal);   
+struct city_dialog *create_city_dialog(struct city *pcity);
 
 static void city_dialog_update_improvement_list(struct city_dialog *pdialog);
 static void city_dialog_update_supported_units(HDC hdc,struct city_dialog *pdialog);
@@ -1792,7 +1792,7 @@ static LONG APIENTRY CitydlgWndProc(HWND hWnd, UINT message,
 ...
 **************************************************************************/
 
-struct city_dialog *create_city_dialog(struct city *pcity, bool make_modal)
+struct city_dialog *create_city_dialog(struct city *pcity)
 {   
   struct city_dialog *pdialog;
   pdialog=fc_malloc(sizeof(struct city_dialog));
@@ -1851,13 +1851,12 @@ struct city_dialog *get_city_dialog(struct city *pcity)
 ...
 **************************************************************************/
 
-void
-popup_city_dialog(struct city *pcity, bool make_modal)
+void popup_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
  
   if(!(pdialog=get_city_dialog(pcity))) {
-    pdialog=create_city_dialog(pcity, make_modal); 
+    pdialog=create_city_dialog(pcity); 
   } else {
     SetFocus(pdialog->mainwindow);
   }
