@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-15 21:55+0200\n"
+"POT-Creation-Date: 2005-04-15 23:21-0400\n"
 "PO-Revision-Date: 1999-09-13 10:22+0200\n"
 "Last-Translator: Genevieve Gracian <ggracian@free.fr>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -7746,7 +7746,9 @@ msgstr ""
 msgid "Failed looking up host"
 msgstr "Échec de la recherche de la machine-hôte"
 
-#: client/clinet.c:660
+#. TRANS: This means a network error when trying to connect to
+#. * the metaserver.  The message will be shown directly to the user.
+#: client/clinet.c:662
 msgid "Failed querying socket"
 msgstr "Echec de la connexion réseau"
 
