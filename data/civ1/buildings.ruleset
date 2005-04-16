@@ -51,7 +51,7 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Banking", "Player"
-; Should require Marketplace?  I don't think so...
+; Should require Marketplace?  I don''t think so...
     }
 graphic		= "b.bank"
 graphic_alt	= "-"
@@ -387,7 +387,7 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Robotics", "Player"
-; Should require Factory?  I don't think so...
+; Should require Factory?  I don''t think so...
     }
 graphic		= "b.mfg_plant"
 graphic_alt	= "-"
@@ -660,7 +660,7 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "University", "Player"
-; Should require Library?  I don't think so...
+; Should require Library?  I don''t think so...
     }
 graphic		= "b.university"
 graphic_alt	= "-"
