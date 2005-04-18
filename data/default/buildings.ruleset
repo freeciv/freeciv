@@ -923,7 +923,7 @@ genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "University", "Player"
-      "Building", "Library", "Player"
+      "Building", "Library", "City"
     }
 graphic	= "b.university"
 graphic_alt	= "-"

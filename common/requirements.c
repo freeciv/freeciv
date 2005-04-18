@@ -261,6 +261,8 @@ struct requirement req_from_str(const char *type,
 
   req.survives = survives;
 
+  /* These checks match what combinations are supported inside
+   * is_req_active(). */
   switch (req.source.type) {
   case REQ_SPECIAL:
   case REQ_TERRAIN:
@@ -268,10 +270,16 @@ struct requirement req_from_str(const char *type,
 	       && req.range != REQ_RANGE_ADJACENT);
     break;
   case REQ_TECH:
+    invalid = (req.range < REQ_RANGE_PLAYER);
+    break;
   case REQ_GOV:
+    invalid = (req.range != REQ_RANGE_PLAYER);
+    break;
   case REQ_BUILDING:
-    /* FIXME: sanity checking */
-    invalid = FALSE;
+    invalid = ((req.range == REQ_RANGE_WORLD
+		&& !is_great_wonder(req.source.value.building))
+	       || (req.range > REQ_RANGE_CITY
+		   && !is_wonder(req.source.value.building)));
     break;
   case REQ_NATION:
     invalid = (req.range != REQ_RANGE_PLAYER
