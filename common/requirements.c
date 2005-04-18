@@ -438,11 +438,11 @@ static int num_city_buildings(const struct city *pcity, Impr_Type_id id)
   the number of available sources.  However not all source caches exist: if
   the cache doesn't exist then we return 0.
 ****************************************************************************/
-int count_buildings_in_range(const struct player *target_player,
-			     const struct city *target_city,
-			     Impr_Type_id target_building,
-			     enum req_range range, bool survives,
-			     Impr_Type_id source)
+static int count_buildings_in_range(const struct player *target_player,
+				    const struct city *target_city,
+				    Impr_Type_id target_building,
+				    enum req_range range, bool survives,
+				    Impr_Type_id source)
 {
   if (improvement_obsolete(target_player, source)) {
     return 0;
@@ -525,16 +525,11 @@ static bool is_special_in_range(const struct tile *target_tile,
 				enum tile_special_type special)
 
 {
-    /* The requirement is filled if the tile has the special. */
-  if (!target_tile) {
-    return FALSE;
-  }
-
   switch (range) {
   case REQ_RANGE_LOCAL:
-    return tile_has_special(target_tile, special);
+    return target_tile && tile_has_special(target_tile, special);
   case REQ_RANGE_ADJACENT:
-    return is_special_near_tile(target_tile, special);
+    return target_tile && is_special_near_tile(target_tile, special);
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
@@ -700,6 +695,39 @@ bool are_reqs_active(const struct player *target_player,
   return TRUE;
 }
 
+/****************************************************************************
+  Return TRUE if this is an "unchanging" requirement.  This means that
+  if a target can't meet the requirement now, it probably won't ever be able
+  to do so later.  This can be used to do requirement filtering when checking
+  if a target may "eventually" become available.
+
+  Note this isn't absolute.  Returning TRUE here just means that the
+  requirement probably can't be met.  In some cases (particularly terrains)
+  it may be wrong.
+*****************************************************************************/
+bool is_req_unchanging(const struct requirement *req)
+{
+  switch (req->source.type) {
+  case REQ_NATION:
+  case REQ_NONE:
+    return TRUE;
+  case REQ_TECH:
+  case REQ_GOV:
+  case REQ_BUILDING:
+    return FALSE;
+  case REQ_SPECIAL:
+  case REQ_TERRAIN:
+    /* Terrains and specials aren't really unchanging; in fact they're
+     * practically guaranteed to change.  We return TRUE here for historical
+     * reasons and so that the AI doesn't get confused (since the AI
+     * doesn't know how to meet special and terrain requirements). */
+    return TRUE;
+  case REQ_LAST:
+    break;
+  }
+  assert(0);
+  return TRUE;
+}
 
 /****************************************************************************
   Return TRUE iff the two sources are equivalent.  Note this isn't the

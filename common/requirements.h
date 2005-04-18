@@ -105,11 +105,7 @@ bool are_reqs_active(const struct player *target_player,
 		     const struct tile *target_tile,
 		     const struct requirement *reqs, int num_reqs);
 
-int count_buildings_in_range(const struct player *target_player,
-			     const struct city *target_city,
-			     Impr_Type_id target_building,
-			     enum req_range range, bool survives,
-			     Impr_Type_id source);
+bool is_req_unchanging(const struct requirement *req);
 
 /* Req-source helper functions. */
 bool are_req_sources_equal(const struct req_source *psource1,

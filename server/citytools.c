@@ -2034,14 +2034,14 @@ void check_city_workers(struct player *pplayer)
 }
 
 /**************************************************************************
-  For each city adjacent to (x,y), check if landlocked.  If so, sell all
-  improvements in the city that depend upon being next to an ocean tile.
-  (Should be called after any ocean to land terrain changes.
-  Assumes no city at (x,y).)
+  For each city adjacent to ptile, check all the buildings in the city.
+  Any which have unmet terrain requirements will be sold.  This is called
+  after any terrain changes (but this may be tied to the default ruleset).
 
-  N.B. Now uses info from buildings.ruleset to decide which buildings
-  to sell. In theory this could (should?) be generalised to sell
-  relevant buildings after any change of terrain/special type 
+  FIXME: This function isn't very general.  It would be better to check
+  each turn to make sure all requirements of all buildings of all cities
+  are met, and sell any buildings that can't be supported.  Terrains aren't
+  the only requirement that may disappear.
 **************************************************************************/
 void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 {
@@ -2053,26 +2053,26 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 
       /* Sell all buildings (but not Wonders) that must be next to the ocean */
       built_impr_iterate(pcity, impr) {
-        int i = 0;
+	int r;
 
         if (!can_city_sell_building(pcity, impr)) {
           continue;
         }
 
-        while (!is_ocean(improvement_types[impr].terr_gate[i])
-               && improvement_types[impr].terr_gate[i] != T_NONE) {
-          i++;
-        }
+	for (r = 0; r < MAX_NUM_REQS; r++) {
+	  struct requirement *req = &get_improvement_type(impr)->req[r];
 
-        if (is_ocean(improvement_types[impr].terr_gate[i])
-            && !city_has_terr_spec_gate(pcity, impr)) {
+	  if (req->source.type == REQ_TERRAIN
+	      && !is_req_active(city_owner(pcity), pcity, B_LAST, NULL,
+				req)) {
           do_sell_building(pplayer, pcity, impr);
           notify_player_ex(pplayer, tile1, E_IMP_SOLD,
                            _("You sell %s in %s (now landlocked)"
                              " for %d gold."),
                            get_improvement_name(impr), pcity->name,
                            impr_sell_gold(impr)); 
-        }
+	  }
+	}
       } built_impr_iterate_end;
     }
   } adjc_iterate_end;

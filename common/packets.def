@@ -1159,10 +1159,6 @@ PACKET_RULESET_BUILDING=104;sc,lsend
   STRING soundtag[MAX_LEN_NAME];
   STRING soundtag_alt[MAX_LEN_NAME];
   STRING helptext[MAX_LEN_PACKET];
-  UINT8 terr_gate_count;
-  TERRAIN terr_gate[255:terr_gate_count];
-  UINT8 spec_gate_count;
-  SPECIAL spec_gate[255:spec_gate_count];
 end
 
 PACKET_RULESET_TERRAIN=105;sc,lsend

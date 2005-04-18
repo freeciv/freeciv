@@ -497,42 +497,6 @@ struct player *city_owner(const struct city *pcity)
 }
 
 /**************************************************************************
- Returns 1 if the given city is next to or on one of the given building's
- terr_gate (terrain) or spec_gate (specials), or if the building has no
- terrain/special requirements.
-**************************************************************************/
-bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id)
-{
-  struct impr_type *impr;
-  Terrain_type_id *terr_gate;
-  enum tile_special_type *spec_gate;
-
-  impr = get_improvement_type(id);
-  spec_gate = impr->spec_gate;
-  terr_gate = impr->terr_gate;
-
-  if (*spec_gate == S_NO_SPECIAL && *terr_gate == T_NONE) {
-    return TRUE;
-  }
-
-  for (;*spec_gate!=S_NO_SPECIAL;spec_gate++) {
-    if (tile_has_special(pcity->tile, *spec_gate) ||
-        is_special_near_tile(pcity->tile, *spec_gate)) {
-      return TRUE;
-    }
-  }
-
-  for (; *terr_gate != T_NONE; terr_gate++) {
-    if (pcity->tile->terrain == *terr_gate
-        || is_terrain_near_tile(pcity->tile, *terr_gate)) {
-      return TRUE;
-    }
-  }
-
-  return FALSE;
-}
-
-/**************************************************************************
   Return whether given city can build given building, ignoring whether
   it is obsolete.
 **************************************************************************/
@@ -549,15 +513,11 @@ bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id)
     return FALSE;
   }
 
-  if (!city_has_terr_spec_gate(pcity, id)) {
-    return FALSE;
-  }
-
   for (i = 0; i < MAX_NUM_REQS; i++) {
     if (building->req[i].source.type == REQ_NONE) {
       break;
     }
-    if (!is_req_active(city_owner(pcity), pcity, 0, NULL,
+    if (!is_req_active(city_owner(pcity), pcity, 0, pcity->tile,
 		       &building->req[i])) {
       return FALSE;
     }
@@ -588,13 +548,26 @@ bool can_build_improvement(const struct city *pcity, Impr_Type_id id)
 bool can_eventually_build_improvement(const struct city *pcity,
 				      Impr_Type_id id)
 {
+  int r;
+  struct impr_type *building;
+
   /* Can the _player_ ever build this improvement? */
   if (!can_player_eventually_build_improvement(city_owner(pcity), id)) {
     return FALSE;
   }
 
-  if (!city_has_terr_spec_gate(pcity, id)) {
-    return FALSE;
+  /* Check for requirements that aren't met and that are unchanging (so
+   * they can never be met). */
+  building = get_improvement_type(id);
+  for (r = 0; r < MAX_NUM_REQS; r++) {
+    if (building->req[r].source.type == REQ_NONE) {
+      break;
+    }
+    if (is_req_unchanging(&building->req[r])
+	&& !is_req_active(city_owner(pcity), pcity, B_LAST, pcity->tile,
+			  &building->req[r])) {
+      return FALSE;
+    }
   }
 
   return TRUE;

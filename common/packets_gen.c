@@ -24915,7 +24915,7 @@ void lsend_packet_ruleset_city(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_building_100 cmp_const
 
-BV_DEFINE(packet_ruleset_building_100_fields, 21);
+BV_DEFINE(packet_ruleset_building_100_fields, 17);
 
 static struct packet_ruleset_building *receive_packet_ruleset_building_100(struct connection *pc, enum packet_type type)
 {
@@ -25068,60 +25068,6 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
   if (BV_ISSET(fields, 16)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
-  if (BV_ISSET(fields, 17)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->terr_gate_count = readin;
-    }
-  }
-  if (BV_ISSET(fields, 18)) {
-    
-    {
-      int i;
-    
-      if(real_packet->terr_gate_count > 255) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->terr_gate_count = 255;
-      }
-      for (i = 0; i < real_packet->terr_gate_count; i++) {
-        {
-      int readin;
-    
-      dio_get_sint16(&din, &readin);
-      real_packet->terr_gate[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 19)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->spec_gate_count = readin;
-    }
-  }
-  if (BV_ISSET(fields, 20)) {
-    
-    {
-      int i;
-    
-      if(real_packet->spec_gate_count > 255) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->spec_gate_count = 255;
-      }
-      for (i = 0; i < real_packet->spec_gate_count; i++) {
-        {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->spec_gate[i] = readin;
-    }
-      }
-    }
-  }
 
   clone = fc_malloc(sizeof(*clone));
   *clone = *real_packet;
@@ -25272,46 +25218,6 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 16);}
 
-  differ = (old->terr_gate_count != real_packet->terr_gate_count);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
-
-
-    {
-      differ = (old->terr_gate_count != real_packet->terr_gate_count);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->terr_gate_count; i++) {
-          if (old->terr_gate[i] != real_packet->terr_gate[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
-
-  differ = (old->spec_gate_count != real_packet->spec_gate_count);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
-
-
-    {
-      differ = (old->spec_gate_count != real_packet->spec_gate_count);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->spec_gate_count; i++) {
-          if (old->spec_gate[i] != real_packet->spec_gate[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
-
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -25396,32 +25302,6 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
   }
   if (BV_ISSET(fields, 16)) {
     dio_put_string(&dout, real_packet->helptext);
-  }
-  if (BV_ISSET(fields, 17)) {
-    dio_put_uint8(&dout, real_packet->terr_gate_count);
-  }
-  if (BV_ISSET(fields, 18)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->terr_gate_count; i++) {
-        dio_put_sint16(&dout, real_packet->terr_gate[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 19)) {
-    dio_put_uint8(&dout, real_packet->spec_gate_count);
-  }
-  if (BV_ISSET(fields, 20)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->spec_gate_count; i++) {
-        dio_put_uint16(&dout, real_packet->spec_gate[i]);
-      }
-    } 
   }
 
 

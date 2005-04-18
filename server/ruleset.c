@@ -1247,8 +1247,8 @@ static void load_building_names(struct section_file *file)
 **************************************************************************/
 static void load_ruleset_buildings(struct section_file *file)
 {
-  char **sec, *item, **list;
-  int i, j, k, nval, count;
+  char **sec, *item;
+  int i, j, nval;
   struct impr_type *b;
   const char *filename = secfile_filename(file);
 
@@ -1278,38 +1278,6 @@ static void load_ruleset_buildings(struct section_file *file)
 	b->req[j].source.type = REQ_NONE;
       }
     }
-
-    list = secfile_lookup_str_vec(file, &count, "%s.terr_gate", sec[i]);
-    b->terr_gate = fc_malloc((count + 1) * sizeof(b->terr_gate[0]));
-    k = 0;
-    for (j = 0; j < count; j++) {
-      b->terr_gate[k] = get_terrain_by_name(list[j]);
-      if (b->terr_gate[k] == T_UNKNOWN) {
-	freelog(LOG_ERROR,
-		"for %s terr_gate[%d] couldn't match terrain \"%s\" (%s)",
-		b->name, j, list[j], filename);
-      } else {
-	k++;
-      }
-    }
-    b->terr_gate[k] = T_NONE;
-    free(list);
-
-    list = secfile_lookup_str_vec(file, &count, "%s.spec_gate", sec[i]);
-    b->spec_gate = fc_malloc((count + 1) * sizeof(b->spec_gate[0]));
-    k = 0;
-    for (j = 0; j < count; j++) {
-      b->spec_gate[k] = get_special_by_name(list[j]);
-      if (b->spec_gate[k] == S_NO_SPECIAL) {
-	freelog(LOG_ERROR,
-		"for %s spec_gate[%d] couldn't match special \"%s\" (%s)",
-		b->name, j, list[j], filename);
-      } else {
-	k++;
-      }
-    }
-    b->spec_gate[k] = S_NO_SPECIAL;
-    free(list);
 
     b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by",
 				 FALSE, filename, b->name);
@@ -2803,15 +2771,6 @@ static void send_ruleset_buildings(struct conn_list *dest)
     } else {
       packet.helptext[0] = '\0';
     }
-
-#define T(elem,count,last) \
-    for (packet.count = 0; b->elem[packet.count] != last; packet.count++) { \
-      packet.elem[packet.count] =  b->elem[packet.count]; \
-    }
-
-    T(terr_gate, terr_gate_count, T_NONE);
-    T(spec_gate, spec_gate_count, S_NO_SPECIAL);
-#undef T
 
     lsend_packet_ruleset_building(dest, &packet);
   } impr_type_iterate_end;

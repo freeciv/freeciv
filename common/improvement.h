@@ -72,8 +72,6 @@ struct impr_type {
   char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   struct requirement req[MAX_NUM_REQS];
-  Terrain_type_id *terr_gate;	/* list; T_NONE terminated */
-  enum tile_special_type *spec_gate;	/* list; S_NO_SPECIAL terminated */
   Tech_Type_id obsolete_by;		/* A_LAST = never obsolete */
   Impr_Type_id replaced_by;		/* B_LAST = never replaced */
   int build_cost;			/* Use wrappers to access this. */

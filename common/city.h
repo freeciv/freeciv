@@ -378,7 +378,6 @@ bool city_rapture_grow(const struct city *pcity);
 
 /* city related improvement and unit functions */
 
-bool city_has_terr_spec_gate(const struct city *pcity, Impr_Type_id id); 
 int improvement_upkeep(const struct city *pcity, Impr_Type_id i); 
 bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id);
 bool can_build_improvement(const struct city *pcity, Impr_Type_id id);

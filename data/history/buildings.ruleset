@@ -33,8 +33,6 @@ reqs	=
     }
 graphic		= "b.airport"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 3
@@ -61,8 +59,6 @@ reqs	=
     }
 graphic		= "b.aqueduct"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 2
@@ -84,8 +80,6 @@ reqs	=
     }
 graphic		= "b.bank"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 3
@@ -107,8 +101,6 @@ reqs	=
     }
 graphic		= "b.barracks"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Gunpowder"
 replaced_by	= "Barracks II"
 build_cost	= 40
@@ -133,8 +125,6 @@ reqs	=
     }
 graphic		= "b.barracks"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Mobile Warfare"
 replaced_by	= "Barracks III"
 build_cost	= 40
@@ -159,8 +149,6 @@ reqs	=
     }
 graphic		= "b.barracks"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 40
 upkeep		= 1
@@ -184,8 +172,6 @@ reqs	=
     }
 graphic		= "b.cathedral"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 3
@@ -210,8 +196,6 @@ reqs	=
     }
 graphic		= "b.city_walls"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 0
@@ -232,11 +216,10 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Gunpowder", "Player"
+      "Terrain", "Ocean", "Adjacent"
     }
 graphic		= "b.coastal_defense"
 graphic_alt	= "-"
-terr_gate	= "Ocean"
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 1
@@ -257,8 +240,6 @@ reqs	=
     }
 graphic		= "b.colosseum"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 100
 upkeep		= 4
@@ -281,8 +262,6 @@ reqs	=
     }
 graphic		= "b.courthouse"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 1
@@ -305,8 +284,6 @@ reqs	=
     }
 graphic		= "b.factory"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 200
 upkeep		= 4
@@ -327,8 +304,6 @@ reqs	=
     }
 graphic		= "b.granary"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 1
@@ -350,11 +325,10 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Map Making", "Player"
+      "Terrain", "Ocean", "Adjacent"
     }
 graphic		= "b.harbour"
 graphic_alt	= "-"
-terr_gate	= "Ocean"
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 1
@@ -372,11 +346,11 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Electronics", "Player"
+      "Terrain", "Mountains", "Adjacent"
+      "Special", "River", "Adjacent"
     }
 graphic		= "b.hydro_plant"
 graphic_alt	= "-"
-terr_gate	= "Mountains"
-spec_gate	= "River"
 obsolete_by	= "None"
 build_cost	= 240
 upkeep		= 4
@@ -410,8 +384,6 @@ reqs	=
     }
 graphic		= "b.library"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 1
@@ -432,8 +404,6 @@ reqs	=
     }
 graphic		= "b.marketplace"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 1
@@ -454,8 +424,6 @@ reqs	=
     }
 graphic		= "b.mass_transit"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 4
@@ -478,8 +446,6 @@ reqs	=
     }
 graphic		= "b.mfg_plant"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 320
 upkeep		= 6
@@ -501,8 +467,6 @@ reqs	=
     }
 graphic		= "b.nuclear_plant"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 2
@@ -534,11 +498,10 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Miniaturization", "Player"
+      "Terrain", "Ocean", "Adjacent"
     }
 graphic		= "b.offshore_platform"
 graphic_alt	= "-"
-terr_gate	= "Ocean"
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 3
@@ -559,8 +522,6 @@ reqs	=
     }
 graphic		= "b.palace"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 100
 upkeep		= 0
@@ -589,8 +550,6 @@ reqs	=
     }
 graphic		= "b.police_station"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 60
 upkeep		= 2
@@ -612,11 +571,10 @@ genus           = "Improvement"
 reqs	=
     { "type", "name", "range"
       "Tech", "Amphibious Warfare", "Player"
+      "Terrain", "Ocean", "Adjacent"
     }
 graphic		= "b.port_facility"
 graphic_alt	= "-"
-terr_gate	= "Ocean"
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 3
@@ -638,8 +596,6 @@ reqs	=
     }
 graphic		= "b.power_plant"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 4
@@ -670,8 +626,6 @@ reqs	=
     }
 graphic		= "b.recycling_center"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 200
 upkeep		= 2
@@ -693,8 +647,6 @@ reqs	=
     }
 graphic		= "b.research_lab"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 3
@@ -717,8 +669,6 @@ reqs	=
     }
 graphic		= "b.sam_battery"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 100
 upkeep		= 2
@@ -739,8 +689,6 @@ reqs	=
     }
 graphic		= "b.sdi_defense"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 200
 upkeep		= 4
@@ -765,8 +713,6 @@ reqs	=
     }
 graphic		= "b.sewer_system"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 2
@@ -787,8 +733,6 @@ reqs	=
     }
 graphic		= "b.space_component"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 0
@@ -813,8 +757,6 @@ reqs	=
     }
 graphic		= "b.space_modules"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 320
 upkeep		= 0
@@ -848,8 +790,6 @@ reqs	=
     }
 graphic		= "b.space_structural"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 80
 upkeep		= 0
@@ -875,8 +815,6 @@ reqs	=
     }
 graphic		= "b.stock_exchange"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 4
@@ -898,8 +836,6 @@ reqs	=
     }
 graphic		= "b.super_highways"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 3
@@ -923,8 +859,6 @@ reqs	=
     }
 graphic		= "b.supermarket"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 120
 upkeep		= 3
@@ -947,8 +881,6 @@ reqs	=
     }
 graphic		= "b.temple"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 40
 upkeep		= 1
@@ -971,8 +903,6 @@ reqs	=
     }
 graphic		= "b.university"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 160
 upkeep		= 3
@@ -994,8 +924,6 @@ reqs	=
     }
 graphic		= "b.apollo_program"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
@@ -1017,8 +945,6 @@ reqs	=
     }
 graphic		= "b.asmiths_trading_co"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
@@ -1039,8 +965,6 @@ reqs	=
     }
 graphic		= "b.colossus"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Flight"
 build_cost	= 200
 upkeep		= 0
@@ -1061,8 +985,6 @@ reqs	=
     }
 graphic		= "b.copernicus_observatory"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 300
 upkeep		= 0
@@ -1083,8 +1005,6 @@ reqs	=
     }
 graphic		= "b.cure_for_cancer"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
@@ -1107,8 +1027,6 @@ reqs	=
     }
 graphic		= "b.darwins_voyage"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 300
 upkeep		= 0
@@ -1130,8 +1048,6 @@ reqs	=
     }
 graphic	= "b.eiffel_tower"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 100
 upkeep		= 0
@@ -1154,8 +1070,6 @@ reqs	=
     }
 graphic		= "b.great_library"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Electricity"
 build_cost	= 300
 upkeep		= 0
@@ -1176,8 +1090,6 @@ reqs	=
     }
 graphic		= "b.great_wall"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Metallurgy"
 build_cost	= 300
 upkeep		= 0
@@ -1200,8 +1112,6 @@ reqs	=
     }
 graphic		= "b.hanging_gardens"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Railroad"
 build_cost	= 200
 upkeep		= 0
@@ -1225,8 +1135,6 @@ reqs	=
     }
 graphic		= "b.hoover_dam"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
@@ -1247,8 +1155,6 @@ reqs	=
     }
 graphic		= "b.isaac_newtons_college"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
@@ -1269,8 +1175,6 @@ reqs	=
     }
 graphic		= "b.js_bachs_cathedral"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
@@ -1290,8 +1194,6 @@ reqs	=
     }
 graphic		= "b.king_richards_crusade"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Industrialization"
 build_cost	= 300
 upkeep		= 0
@@ -1312,8 +1214,6 @@ reqs	=
     }
 graphic		= "b.leonardos_workshop"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Automobile"
 build_cost	= 400
 upkeep		= 0
@@ -1333,8 +1233,6 @@ reqs	=
     }
 graphic		= "b.lighthouse"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Magnetism"
 build_cost	= 200
 upkeep		= 0
@@ -1356,8 +1254,6 @@ reqs	=
     }
 graphic		= "b.magellans_expedition"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
@@ -1377,8 +1273,6 @@ reqs	=
     }
 graphic		= "b.manhattan_project"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
@@ -1397,8 +1291,6 @@ reqs	=
     }
 graphic		= "b.marco_polos_embassy"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Communism"
 build_cost	= 200
 upkeep		= 0
@@ -1418,8 +1310,6 @@ reqs	=
     }
 graphic		= "b.michelangelos_chapel"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
@@ -1444,8 +1334,6 @@ reqs	=
     }
 graphic		= "b.oracle"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Theology"
 build_cost	= 300
 upkeep		= 0
@@ -1465,8 +1353,6 @@ reqs	=
     }
 graphic		= "b.pyramids"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 200
 upkeep		= 0
@@ -1488,8 +1374,6 @@ reqs	=
     }
 graphic		= "b.seti_program"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
@@ -1510,8 +1394,6 @@ reqs	=
     }
 graphic		= "b.shakespeares_theatre"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 300
 upkeep		= 0
@@ -1531,8 +1413,6 @@ reqs	=
     }
 graphic		= "b.statue_of_liberty"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 400
 upkeep		= 0
@@ -1554,8 +1434,6 @@ reqs	=
     }
 graphic		= "b.sun_tzus_war_academy"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "Mobile Warfare"
 build_cost	= 300
 upkeep		= 0
@@ -1577,8 +1455,6 @@ reqs	=
     }
 graphic		= "b.united_nations"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
@@ -1606,8 +1482,6 @@ reqs	=
     }
 graphic		= "b.womens_suffrage"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 600
 upkeep		= 0
@@ -1638,8 +1512,6 @@ reqs	=
     }
 graphic		= "b.capitalization"
 graphic_alt	= "-"
-;terr_gate	=
-;spec_gate	=
 obsolete_by	= "None"
 build_cost	= 999
 upkeep		= 0

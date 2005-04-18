@@ -2239,34 +2239,12 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   sz_strlcpy(b->soundtag, p->soundtag);
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
 
-#define T(elem,count,last) \
-  b->elem = fc_malloc(sizeof(*b->elem) * (p->count + 1)); \
-  for (i = 0; i < p->count; i++) { \
-    b->elem[i] = p->elem[i]; \
-  } \
-  b->elem[p->count] = last;
-
-  T(terr_gate, terr_gate_count, T_NONE);
-  T(spec_gate, spec_gate_count, S_NO_SPECIAL);
-#undef T
-
 #ifdef DEBUG
   if(p->id == game.num_impr_types-1) {
     impr_type_iterate(id) {
-      int inx;
       b = &improvement_types[id];
       freelog(LOG_DEBUG, "Impr: %s...",
 	      b->name);
-      freelog(LOG_DEBUG, "  terr_gate...");
-      for (inx = 0; b->terr_gate[inx] != T_NONE; inx++) {
-	freelog(LOG_DEBUG, "    %2d/%s",
-		b->terr_gate[inx], get_terrain_name(b->terr_gate[inx]));
-      }
-      freelog(LOG_DEBUG, "  spec_gate...");
-      for (inx = 0; b->spec_gate[inx] != S_NO_SPECIAL; inx++) {
-	freelog(LOG_DEBUG, "    %2d/%s",
-		b->spec_gate[inx], get_special_name(b->spec_gate[inx]));
-      }
       if (tech_exists(b->obsolete_by)) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
 		b->obsolete_by,

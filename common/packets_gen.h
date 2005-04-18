@@ -889,10 +889,6 @@ struct packet_ruleset_building {
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];
   char helptext[MAX_LEN_PACKET];
-  int terr_gate_count;
-  Terrain_type_id terr_gate[255];
-  int spec_gate_count;
-  enum tile_special_type spec_gate[255];
 };
 
 struct packet_ruleset_terrain {

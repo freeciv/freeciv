@@ -203,7 +203,7 @@ static void insert_requirement(struct requirement *req,
 static void insert_allows(struct req_source *psource,
 			  char *buf, size_t bufsz)
 {
-  int r1, r2, i;
+  int r1, r2;
 
   buf[0] = '\0';
 
@@ -232,14 +232,6 @@ static void insert_allows(struct req_source *psource,
 	    COREQ_APPEND(get_req_source_text(&coreq->source,
 					     buf2, sizeof(buf2)));
 	  }
-	}
-
-	/* Append other co-reqs. */
-	for (i = 0; building->terr_gate[i] != T_NONE; i++) {
-	  COREQ_APPEND(get_terrain_name(building->terr_gate[i]));
-	}
-	for (i = 0; building->spec_gate[i] != S_NO_SPECIAL; i++) {
-	  COREQ_APPEND(get_special_name(building->spec_gate[i]));
 	}
 
 	if (coreq_buf[0] == '\0') {

@@ -122,12 +122,6 @@ static void improvement_free(Impr_Type_id id)
 {
   struct impr_type *p = get_improvement_type(id);
 
-  free(p->terr_gate);
-  p->terr_gate = NULL;
-
-  free(p->spec_gate);
-  p->spec_gate = NULL;
-
   free(p->helptext);
   p->helptext = NULL;
 }
@@ -379,12 +373,32 @@ bool can_player_build_improvement(const struct player *p, Impr_Type_id id)
 bool can_player_eventually_build_improvement(const struct player *p,
 					     Impr_Type_id id)
 {
+  int r;
+  struct impr_type *building;
+
   if (!improvement_exists(id)) {
     return FALSE;
   }
   if (improvement_obsolete(p, id)) {
     return FALSE;
   }
+
+  /* Check for requirements that aren't met and that are unchanging (so
+   * they can never be met). */
+  building = get_improvement_type(id);
+  for (r = 0; r < MAX_NUM_REQS; r++) {
+    if (building->req[r].source.type == REQ_NONE) {
+      break;
+    }
+    if (building->req[r].range >= REQ_RANGE_PLAYER
+	&& is_req_unchanging(&building->req[r])
+	&& !is_req_active(p, NULL, B_LAST, NULL, &building->req[r])) {
+      return FALSE;
+    }
+  }
+  /* FIXME: should check some "unchanging" reqs here - like if there's
+   * a nation requirement, we can go ahead and check it now. */
+
   return TRUE;
 }
 
