@@ -618,9 +618,18 @@ static bool worklist_change_build_target(struct player *pplayer,
 	!can_build_unit(pcity, target)) {
       int new_target = unit_upgrades_to(pcity, target);
 
-      /* If the city can never build this unit or its descendants, drop it. */
-      if (!can_eventually_build_unit(pcity, new_target)) {
-	/* Nope, never in a million years. */
+      /* Maybe we can just upgrade the target to what the city /can/ build. */
+      if (new_target == U_NOT_OBSOLETED) {
+	/* Nope, we're stuck.  Dump this item from the worklist. */
+	notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
+			 _("%s can't build %s from the worklist; "
+			   "tech not yet available.  Postponing..."),
+			 pcity->name,
+			 get_unit_type(target)->name);
+	continue;
+      } else if (!can_eventually_build_unit(pcity, new_target)) {
+	/* If the city can never build this unit or its descendants,
+	 * drop it. */
 	notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			 _("%s can't build %s from the worklist.  "
 			   "Purging..."),
@@ -634,17 +643,6 @@ static bool worklist_change_build_target(struct player *pplayer,
 	/* Reset i to index to the now-next element. */
 	i--;
 	
-	continue;
-      }
-
-      /* Maybe we can just upgrade the target to what the city /can/ build. */
-      if (new_target == target) {
-	/* Nope, we're stuck.  Dump this item from the worklist. */
-	notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
-			 _("%s can't build %s from the worklist; "
-			   "tech not yet available.  Postponing..."),
-			 pcity->name,
-			 get_unit_type(target)->name);
 	continue;
       } else {
 	/* Yep, we can go after new_target instead.  Joy! */
@@ -885,7 +883,7 @@ static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
   Unit_Type_id check = id, latest_ok = id;
 
   if (!can_build_unit_direct(pcity, check)) {
-    return -1;
+    return U_NOT_OBSOLETED;
   }
   while ((check = unit_types[check].obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_build_unit_direct(pcity, check)) {
@@ -893,7 +891,7 @@ static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
     }
   }
   if (latest_ok == id) {
-    return -1; /* Can't upgrade */
+    return U_NOT_OBSOLETED; /* Can't upgrade */
   }
 
   return latest_ok;
