@@ -304,9 +304,6 @@ enum known_type map_get_known(const struct tile *ptile,
 /* special testing */
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type to_test_for);
-bool contains_special(enum tile_special_type all,
-		      enum tile_special_type to_test_for);
-
 
 bool is_singular_tile(const struct tile *ptile, int dist);
 bool normalize_map_pos(int *x, int *y);
@@ -329,8 +326,6 @@ bool is_move_cardinal(const struct tile *src_tile,
 		      const struct tile *dst_tile);
 int map_move_cost(struct unit *punit, const struct tile *ptile);
 int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1);
-enum tile_special_type get_special_by_name(const char * name);
-const char *get_special_name(enum tile_special_type type);
 bool is_safe_ocean(const struct tile *ptile);
 bool is_cardinally_adj_to_ocean(const struct tile *ptile);
 int get_tile_output_base(const struct tile *ptile, Output_type_id output);

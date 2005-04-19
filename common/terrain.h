@@ -153,7 +153,7 @@ struct tile_type {
 
 extern struct tile_type tile_types[MAX_NUM_TERRAINS];
 
-/* General accessor functions. */
+/* General terrain accessor functions. */
 struct tile_type *get_tile_type(Terrain_type_id type);
 Terrain_type_id get_terrain_by_name(const char * name);
 const char *get_terrain_name(Terrain_type_id type);
@@ -167,6 +167,12 @@ bool is_terrain_near_tile(const struct tile *ptile, Terrain_type_id t);
 int count_terrain_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
 			    Terrain_type_id t);
+
+/* General special accessor functions. */
+enum tile_special_type get_special_by_name(const char * name);
+const char *get_special_name(enum tile_special_type type);
+bool contains_special(enum tile_special_type all,
+		      enum tile_special_type to_test_for);
 
 /* Functions to operate on a terrain special. */
 bool is_special_near_tile(const struct tile *ptile,

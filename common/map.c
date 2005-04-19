@@ -55,26 +55,6 @@ struct terrain_misc terrain_control;
 const int DIR_DX[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
 const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 
-/* Names of specials.
- * (These must correspond to enum tile_special_type in terrain.h.)
- */
-static const char *tile_special_type_names[] =
-{
-  N_("Special1"),
-  N_("Road"),
-  N_("Irrigation"),
-  N_("Railroad"),
-  N_("Mine"),
-  N_("Pollution"),
-  N_("Hut"),
-  N_("Fortress"),
-  N_("Special2"),
-  N_("River"),
-  N_("Farmland"),
-  N_("Airbase"),
-  N_("Fallout")
-};
-
 /****************************************************************************
   Return a bitfield of the specials on the tile that are infrastructure.
 ****************************************************************************/
@@ -538,41 +518,6 @@ void map_free(void)
     free(map.tiles);
     map.tiles = NULL;
   }
-}
-
-/***************************************************************
-...
-***************************************************************/
-enum tile_special_type get_special_by_name(const char * name)
-{
-  int i;
-  enum tile_special_type st = 1;
-
-  for (i = 0; i < ARRAY_SIZE(tile_special_type_names); i++) {
-    if (0 == strcmp(name, tile_special_type_names[i]))
-      return st;
-      
-    st <<= 1;
-  }
-
-  return S_NO_SPECIAL;
-}
-
-/***************************************************************
-...
-***************************************************************/
-const char *get_special_name(enum tile_special_type type)
-{
-  int i;
-
-  for (i = 0; i < ARRAY_SIZE(tile_special_type_names); i++) {
-    if ((type & 0x1) == 1) {
-      return _(tile_special_type_names[i]);
-    }
-    type >>= 1;
-  }
-
-  return NULL;
 }
 
 /****************************************************************************
@@ -1232,25 +1177,6 @@ bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type special)
 {
   return contains_special(ptile->special, special);
-}
-  
-/***************************************************************
- Returns TRUE iff the given special is found in the given set.
-***************************************************************/
-bool contains_special(enum tile_special_type set,
-		      enum tile_special_type to_test_for)
-{
-  enum tile_special_type masked = set & to_test_for;
-
-  assert(0 == (int) S_NO_SPECIAL);
-
-  /*
-   * contains_special should only be called with one S_* in
-   * to_test_for.
-   */
-  assert(masked == S_NO_SPECIAL || masked == to_test_for);
-
-  return masked == to_test_for;
 }
 
 /***************************************************************
