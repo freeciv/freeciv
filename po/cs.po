@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-16 03:31-0400\n"
-"PO-Revision-Date: 2005-02-01 18:55+0100\n"
+"POT-Creation-Date: 2005-04-19 07:27+0200\n"
+"PO-Revision-Date: 2005-04-19 07:26+0100\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -292,10 +292,9 @@ msgstr ""
 "Námořní jednotky přidělované na začátku hry nejsou podporovány. Jednotka %s "
 "nebyla založena."
 
-#: common/requirements.c:746
-#, fuzzy
+#: common/requirements.c:774
 msgid "(none)"
-msgstr "žádný"
+msgstr "(žádný)"
 
 #. TRANS: Obscure ruleset error
 #: common/tech.c:112
@@ -510,7 +509,7 @@ msgstr ""
 #: utility/fciconv.c:203
 #, fuzzy, c-format
 msgid "Could not convert text from %s to %s: %s"
-msgstr "Nelze přečíst datový adresář %s: %s."
+msgstr "Nemohu otevřít převaděč z '%s' do '%s'"
 
 #: utility/log.c:84
 #, c-format
@@ -663,9 +662,9 @@ msgid "The %s have started building The %s in %s."
 msgstr "Hra: %s zahájili stavbu divu %s ve městě %s."
 
 #: ai/aicity.c:1264
-#, fuzzy, c-format
+#, c-format
 msgid "%s is selling %s (not needed) for %d."
-msgstr "Hra: %s prodal %s (nepotřebuje) za %d."
+msgstr "%s prodal %s (nepotřebuje) za %d."
 
 #: ai/advdiplomacy.c:298
 #, c-format
@@ -801,9 +800,9 @@ msgid "*%s (AI)* Peace in ... some other time"
 msgstr "*%s (řízen počítačem)* Mír .... hm, někdy jindy"
 
 #: ai/advdiplomacy.c:1223
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr "*%s (PO)* Vaše agrese proti našim spojencům byl váš poslední omyl!"
+msgstr "*%s (PO)* Vaše agrese proti %s byl váš poslední omyl!"
 
 #: ai/advdiplomacy.c:1247
 #, c-format
@@ -909,9 +908,9 @@ msgid "Can't buy units when city is in disorder."
 msgstr "Hra: Nelze kupovat jednotky pokud je ve městě nepokoj."
 
 #: server/cityhand.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr "Hra: %s stojí %d zlatých a vy máte pouze %d zlatých."
+msgstr "%d zlatých je potřeba a vy máte pouze %d zlatých."
 
 #: server/cityhand.c:355
 msgid "You have bought this turn, can't change."
@@ -1067,7 +1066,7 @@ msgstr "Hra: %s staví %s%s."
 msgid "%s is building %s."
 msgstr "Hra: %s staví %s."
 
-#: server/citytools.c:2071
+#: server/citytools.c:2070
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Hra: Prodal(a) jste %s v %s (nyní ve vnitrozemí) za %d zlatých."
@@ -1428,7 +1427,7 @@ msgstr "  -s, --saves ADRESÁŘ\tUloží hry do adresáře ADRESÁŘ\n"
 #: server/civserver.c:231
 #, fuzzy
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-msgstr "  -s, --server HOST\tPřipojit k serveru HOST\n"
+msgstr "GOAD ID aktivovaného serveru"
 
 #: server/civserver.c:232
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -2164,8 +2163,9 @@ msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "Přepne výstup serveru mezi 'RFC-stylem' a normálním stylem."
 
 #: server/commands.c:363
+#, fuzzy
 msgid "Simply returns the id of the server."
-msgstr ""
+msgstr "GOAD ID aktivovaného serveru"
 
 #: server/connecthand.c:84
 #, c-format
@@ -2956,9 +2956,9 @@ msgid "Metaserver: bad address: [%s:%d]."
 msgstr "Metaserver: špatná adresa: [%s:%d]."
 
 #: server/plrhand.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "%s acquired from %s!"
-msgstr "%s získal %d zlatých z %s"
+msgstr "%s získáno z %s!"
 
 #: server/plrhand.c:226
 #, c-format
@@ -3437,15 +3437,15 @@ msgid "Sorry, the Demographics report is unavailable."
 msgstr "Lituji, ale demografický přehled není k dispozici."
 
 #: server/report.c:732
-#, fuzzy, c-format
+#, c-format
 msgid "The %s of the %s (%s)"
-msgstr "%s %s"
+msgstr "%s %s (%s)"
 
 #: server/report.c:1087
 #, fuzzy, c-format
 msgid "%2d: The %s %s scored %d point\n"
 msgid_plural "%2d: The %s %s scored %d points\n"
-msgstr[0] "%2d: %s %s získal %d bod\n"
+msgstr[0] "Výjimka matematického koprocesoru (SIGFPE)"
 msgstr[1] "%2d: %s %s získal %d bod\n"
 msgstr[2] "%2d: %s %s získal %d bod\n"
 
@@ -3505,7 +3505,7 @@ msgstr "Datový soubor pravidel vyžaduje volbu(volby), které nepodporujeme:"
 #: server/ruleset.c:234
 #, fuzzy, c-format
 msgid "Section %s has unknown req: \"%s\" \"%s\" (%s)"
-msgstr "Stavba %s má neznámý typ předpokladu: \"%s\" (%s)"
+msgstr "Moniker má neznámou předponu"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:607
@@ -3514,50 +3514,50 @@ msgid "Unknown terrain %s in entry %s."
 msgstr "Neznámý terén %s v záznamu %s."
 
 #. TRANS: Obscure ruleset error.  "%s" is a filename.
-#: server/ruleset.c:1383
+#: server/ruleset.c:1351
 #, c-format
 msgid "Ruleset doesn't have any terrains (%s)"
 msgstr "Sada pravidel nemá žádné terény (%s)"
 
-#: server/ruleset.c:1453
+#: server/ruleset.c:1421
 msgid "Fortress vision range set to illegal value."
 msgstr ""
 
 #. TRANS: message for an obscure ruleset error.
-#: server/ruleset.c:1493
+#: server/ruleset.c:1461
 #, c-format
 msgid "Terrains %s and %s have the same identifier."
 msgstr "Terény %s a %s mají stejný identifikátor."
 
 #. TRANS: message for an obscure ruleset error.
-#: server/ruleset.c:1500
+#: server/ruleset.c:1468
 #, c-format
 msgid "'%c' cannot be used as a terrain identifier; it is reserved."
 msgstr "'%c' nemůže být použit jako identifikátor terénu, je rezervovaný."
 
 #. TRANS: message for an obscure ruleset error.
-#: server/ruleset.c:1587
+#: server/ruleset.c:1555
 #, c-format
 msgid "Terrain %s has unknown flag %s"
 msgstr "Terén %s má neznámý flag %s"
 
 #. TRANS: Obscure ruleset error
-#: server/ruleset.c:2477
+#: server/ruleset.c:2445
 #, fuzzy, c-format
 msgid "Section %s lists unknown effect type: \"%s\" (%s)"
 msgstr "Stavba %s má neznámý typ efektu: \"%s\" (%s)"
 
 #. TRANS: Obscure ruleset error
-#: server/ruleset.c:2512
+#: server/ruleset.c:2480
 msgid "Cannot find any palace building"
 msgstr "Nelze nalézt žádný palác"
 
 #. TRANS: Obscure ruleset error
-#: server/ruleset.c:2520
+#: server/ruleset.c:2488
 msgid "Cannot find any land defend building"
 msgstr "Nelze najít žádné obranné stavby"
 
-#: server/ruleset.c:3121
+#: server/ruleset.c:3080
 msgid "Loading rulesets"
 msgstr "Nahrávám pravidla"
 
@@ -5124,7 +5124,7 @@ msgstr "Maxplayers menší než aifill; aifill sníženo na %d."
 #: server/srv_main.c:1419 server/srv_main.c:1422
 #, fuzzy, c-format
 msgid "%s has been added as %s level AI-controlled player."
-msgstr "%s byl přidán jako počítačem ovládaný hráč."
+msgstr "Hra: %s byl přidán jako počítačem řízený hráč."
 
 #: server/srv_main.c:1429
 #, c-format
@@ -5293,7 +5293,7 @@ msgstr "Metaserver je nyní [%s]."
 #: server/stdinhand.c:662
 #, fuzzy, c-format
 msgid "Server id: %s"
-msgstr "Operátor serveru: %s"
+msgstr "Id %s je neznámé.\n"
 
 #: server/stdinhand.c:758
 msgid "The game cannot be saved before it is started."
@@ -5350,7 +5350,7 @@ msgstr "%s byl přidán jako počítačem ovládaný hráč."
 #: server/stdinhand.c:923
 #, fuzzy, c-format
 msgid "Error creating new AI player: %s."
-msgstr "Chyba vytvoření nového počítačem ovládaného hráče: %s\n"
+msgstr "Chyba vytvoření nového počítačem ovládaného hráče: %s."
 
 #: server/stdinhand.c:953
 msgid "Players cannot be removed once the game has started."
@@ -5711,22 +5711,22 @@ msgstr "Tento příkaz lze použít jednou po zahájení hry."
 #: server/stdinhand.c:2255
 #, fuzzy, c-format
 msgid "%s diplomacy no longer debugged"
-msgstr "%s se již neladí"
+msgstr "písmo 2 - Už se nepoužívá"
 
 #: server/stdinhand.c:2259
 #, fuzzy, c-format
 msgid "%s diplomacy debugged"
-msgstr "%s se ladí"
+msgstr "Diplomatické setkání"
 
 #: server/stdinhand.c:2278
 #, fuzzy, c-format
 msgid "%s tech no longer debugged"
-msgstr "%s se již neladí"
+msgstr "písmo 2 - Už se nepoužívá"
 
 #: server/stdinhand.c:2282
 #, fuzzy, c-format
 msgid "%s tech debugged"
-msgstr "%s se ladí"
+msgstr "Tech. budoucnosti %d"
 
 #: server/stdinhand.c:2312 server/stdinhand.c:2342
 msgid "Value 2 & 3 must be integer."
@@ -6025,7 +6025,7 @@ msgstr "Váš nový hlas zrušil vaše předchozí hlasování."
 #: server/stdinhand.c:3409
 #, fuzzy, c-format
 msgid "New vote (number %d) by %s: %s."
-msgstr "Nové hlasování, č. %d, od %s: %s."
+msgstr "P&ronajmout podle počtu domů"
 
 #: server/stdinhand.c:3429
 msgid "You are not allowed to use this command."
@@ -6928,12 +6928,12 @@ msgstr "Postaveno"
 #: client/citydlg_common.c:341
 #, fuzzy
 msgid "Great Wonder"
-msgstr "Div světa"
+msgstr "Div světa: Dokončen"
 
 #: client/citydlg_common.c:345
 #, fuzzy
 msgid "Small Wonder"
-msgstr "Dostupné divy světa"
+msgstr "Div světa: Dokončen"
 
 #: client/citydlg_common.c:364
 #, c-format
@@ -6943,12 +6943,12 @@ msgstr "%d/kolo"
 #: client/citydlg_common.c:393
 #, fuzzy, c-format
 msgid "%+4d : Citizens\n"
-msgstr "%s - %s obyvatel"
+msgstr "%s - %s obyvatel  ASM: %s"
 
 #: client/citydlg_common.c:400
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "Celkem obchod z obchodních cest: %d"
 
 #: client/citydlg_common.c:418
 #, fuzzy, c-format
@@ -6958,36 +6958,37 @@ msgstr "Neexistují obchodní cesty.\n"
 #: client/citydlg_common.c:427
 #, fuzzy, c-format
 msgid "%+4d : Building tithes\n"
-msgstr "Stavba jednotek"
+msgstr "Sestavuji pro cíl %s\n"
 
 #: client/citydlg_common.c:447
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
-msgstr ""
+msgstr " (pravidlo z \"%s\", řádek %d)"
 
 #: client/citydlg_common.c:458
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Waste\n"
-msgstr ""
+msgstr "?waste:Odp"
 
 #: client/citydlg_common.c:464
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Disorder\n"
-msgstr ""
+msgstr "?city_state:Občanský nepokoj"
 
 #: client/citydlg_common.c:470
-#, c-format
+#, fuzzy, c-format
 msgid "%+4d : Used\n"
-msgstr ""
+msgstr "použitá pole = %d\n"
 
 #: client/citydlg_common.c:475
+#, fuzzy
 msgid "==== : Adds up to\n"
-msgstr ""
+msgstr "Zálohuji %s do %s"
 
 #: client/citydlg_common.c:477
-#, c-format
+#, fuzzy, c-format
 msgid "%4d : Total surplus"
-msgstr ""
+msgstr "celkem přijmutých paketů: %d"
 
 #: client/cityrepdata.c:71
 msgid "?city_state:Rapture"
@@ -7271,14 +7272,14 @@ msgstr "Odpad"
 #: client/cityrepdata.c:492
 #, fuzzy
 msgid "?cma:Governor"
-msgstr "Guvernér"
+msgstr "%s - %s obyvatel  ASM: %s"
 
 #: client/cityrepdata.c:492 client/gui-gtk-2.0/cityrep.c:1211
 #: client/gui-gtk-2.0/cityrep.c:1484 client/gui-mui/citydlg.c:1374
 #: client/gui-win32/citydlg.c:723 data/Freeciv.in:1486 data/helpdata.txt:770
 #, fuzzy
 msgid "Citizen Governor"
-msgstr "Guvernér"
+msgstr "Není grafika pro obyvatele %s."
 
 #: client/cityrepdata.c:494 client/cityrepdata.c:495
 msgid "Currently Building"
@@ -7354,8 +7355,9 @@ msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr ""
 
 #: client/civclient.c:251 client/civclient.c:266
+#, fuzzy
 msgid "Try using --help.\n"
-msgstr ""
+msgstr "Neplatný příkaz (zkuste \"help\")\n"
 
 #: client/civclient.c:264
 #, c-format
@@ -7513,9 +7515,8 @@ msgstr "Selhal dotaz na hostitele"
 #. TRANS: This means a network error when trying to connect to
 #. * the metaserver.  The message will be shown directly to the user.
 #: client/clinet.c:657
-#, fuzzy
 msgid "Failed querying socket"
-msgstr "Selhalo vytvoření PNG struktury"
+msgstr "Selhal dotaz soketu"
 
 #: client/connectdlg_common.c:78
 msgid "novice"
@@ -7613,64 +7614,64 @@ msgstr "(Železnice a pevnosti vyžadují 3 kola bez ohledu na terén.)"
 msgid ""
 "Requires the %s technology.\n"
 "\n"
-msgstr "Nemůžeme zkoumat tuto technologii."
+msgstr "Žádná technologie"
 
 #: client/helpdata.c:170
 #, fuzzy, c-format
 msgid ""
 "Requires the %s government.\n"
 "\n"
-msgstr "Nemůžeme zkoumat tuto technologii."
+msgstr "Vládní budova"
 
 #: client/helpdata.c:174
 #, fuzzy, c-format
 msgid ""
 "Requires the %s building.\n"
 "\n"
-msgstr "Nemůžeme zkoumat tuto technologii."
+msgstr "Obecná budova"
 
 #: client/helpdata.c:178
 #, fuzzy, c-format
 msgid ""
 "Requires the %s terrain special.\n"
 "\n"
-msgstr "Nemůžeme zkoumat tuto technologii."
+msgstr "speciální blokový soubor"
 
 #: client/helpdata.c:182
 #, fuzzy, c-format
 msgid ""
 "Requires the %s terrain.\n"
 "\n"
-msgstr "Nemůžeme zkoumat tuto technologii."
+msgstr "Modifikace terénu"
 
 #: client/helpdata.c:186
 #, fuzzy, c-format
 msgid ""
 "Requires the %s nation.\n"
 "\n"
-msgstr "Nemůžeme zkoumat tuto technologii."
+msgstr "?nation:Přátelští"
 
-#: client/helpdata.c:246
+#: client/helpdata.c:238
 #, fuzzy, c-format
 msgid "Allows %s."
-msgstr "Umožňuje %s.\n"
+msgstr "* Umožňuje %s.\n"
 
-#: client/helpdata.c:248
+#: client/helpdata.c:240
 #, fuzzy, c-format
 msgid "Allows %s (with %s)."
-msgstr "Umožňuje %s (s %s).\n"
+msgstr "* Umožňuje %s (s %s).\n"
 
 #. TRANS: preserve single space at beginning
-#: client/helpdata.c:398
+#: client/helpdata.c:390
 msgid " Rivers"
 msgstr " Řeky"
 
-#: client/helpdata.c:555
+#: client/helpdata.c:547
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "Lituji, pro téma %s není nápověda.\n"
 
-#: client/helpdata.c:559
+#: client/helpdata.c:551
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -7681,57 +7682,57 @@ msgstr ""
 "Tato stránka byla vytvořena automaticky.\n"
 "\n"
 
-#: client/helpdata.c:649
+#: client/helpdata.c:641
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "* Objev %s způsobí, že %s zastarají.\n"
 
-#: client/helpdata.c:666
+#: client/helpdata.c:658
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "* Umožní všem hráčům s znalostí %s stavbu %s jednotek.\n"
 
-#: client/helpdata.c:679
+#: client/helpdata.c:671
 #, c-format
 msgid "* Allows %s (with %s).\n"
 msgstr "* Umožňuje %s (s %s).\n"
 
-#: client/helpdata.c:682
+#: client/helpdata.c:674
 #, c-format
 msgid "* Allows %s.\n"
 msgstr "* Umožňuje %s.\n"
 
-#: client/helpdata.c:750
+#: client/helpdata.c:742
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr ""
 
-#: client/helpdata.c:755
+#: client/helpdata.c:747
 #, c-format
 msgid "* May not be built in cities.\n"
 msgstr "* Nemůže se stavět ve městech.\n"
 
-#: client/helpdata.c:758
+#: client/helpdata.c:750
 #, c-format
 msgid "* Never has a home city.\n"
 msgstr "* Neměl nikdy domovské město.\n"
 
-#: client/helpdata.c:762
+#: client/helpdata.c:754
 #, c-format
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "* Ztracení této jednotky znamená prohru!\n"
 
-#: client/helpdata.c:766
+#: client/helpdata.c:758
 #, c-format
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "* Každý hráč může mít pouze jednu jednotku tohoto typu.\n"
 
-#: client/helpdata.c:769
+#: client/helpdata.c:761
 #, c-format
 msgid "* Requires %d population to build.\n"
 msgstr "* Vyžaduje %d populace pro stavbu.\n"
 
-#: client/helpdata.c:775
+#: client/helpdata.c:767
 #, c-format
 msgid "* Can carry and refuel %d air unit.\n"
 msgid_plural "* Can carry and refuel %d air units.\n"
@@ -7739,7 +7740,7 @@ msgstr[0] "* Může vézt a doplňovat palivo %d jednotce letectva.\n"
 msgstr[1] "* Může vézt a doplňovat palivo %d jednotky letectva.\n"
 msgstr[2] "* Může vézt a doplňovat palivo %d jednotek letectva.\n"
 
-#: client/helpdata.c:780
+#: client/helpdata.c:772
 #, fuzzy, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
@@ -7747,7 +7748,7 @@ msgstr[0] "Může nést a doplňovat palivo %d raketě.\n"
 msgstr[1] "Může nést a doplňovat palivo %d raketě.\n"
 msgstr[2] "Může nést a doplňovat palivo %d raketě.\n"
 
-#: client/helpdata.c:785
+#: client/helpdata.c:777
 #, c-format
 msgid "* Can carry %d ground unit across water.\n"
 msgid_plural "* Can carry %d ground units across water.\n"
@@ -7757,7 +7758,7 @@ msgstr[2] "* Může vézt %d pozemních jednotek přes vodu.\n"
 
 #. TRANS: "Manhattan" distance is the distance along gridlines, with
 #. * no diagonals allowed.
-#: client/helpdata.c:793
+#: client/helpdata.c:785
 #, c-format
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
@@ -7766,193 +7767,193 @@ msgstr ""
 "* Může zřizovat obchodní cesty (musí se přesunout do cílového města a musí "
 "být minimálně 9 polí od svého domovského města).\n"
 
-#: client/helpdata.c:800
+#: client/helpdata.c:792
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr "* Může pomoci se stavbou divů světa (přidá %d produkce).\n"
 
-#: client/helpdata.c:804
+#: client/helpdata.c:796
 #, c-format
 msgid "* May not be disbanded.\n"
 msgstr "* Nemůže být rozpuštěna.\n"
 
-#: client/helpdata.c:806
+#: client/helpdata.c:798
 #, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
 msgstr ""
 "* Může být rozložen ve městě, za účelem získání 50%% surovin potřebných k "
 "výrobě.\n"
 
-#: client/helpdata.c:810
+#: client/helpdata.c:802
 #, c-format
 msgid "* Can build new cities.\n"
 msgstr "* Může stavět nová města.\n"
 
-#: client/helpdata.c:813
+#: client/helpdata.c:805
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr "* Může zvýšit populaci o %d, pokud není město větší než %d.\n"
 
-#: client/helpdata.c:821
+#: client/helpdata.c:813
 #, c-format
 msgid "* Can build roads and railroads.\n"
 msgstr "* Může stavět cesty a železnice.\n"
 
-#: client/helpdata.c:822
+#: client/helpdata.c:814
 #, c-format
 msgid "* Can build mines on tiles.\n"
 msgstr "* Může stavět doly.\n"
 
-#: client/helpdata.c:823
+#: client/helpdata.c:815
 #, c-format
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* Může stavět závlahy.\n"
 
-#: client/helpdata.c:828
+#: client/helpdata.c:820
 #, c-format
 msgid "* Can build farmland.\n"
 msgstr "* Může stavět farmy.\n"
 
-#: client/helpdata.c:832
+#: client/helpdata.c:824
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "* Může stavět farmy (pokud je %s objeven).\n"
 
-#: client/helpdata.c:836
+#: client/helpdata.c:828
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "* Může postavit farmu (pokud je známo: %s).\n"
 
-#: client/helpdata.c:844
+#: client/helpdata.c:836
 #, c-format
 msgid "* Can build fortresses.\n"
 msgstr "* Může stavět pevnosti.\n"
 
-#: client/helpdata.c:848
+#: client/helpdata.c:840
 #, c-format
 msgid "* Can build fortresses (if %s is known).\n"
 msgstr "* Může postavit pevnosti (pokud je známa technologie %s).\n"
 
-#: client/helpdata.c:852
+#: client/helpdata.c:844
 #, c-format
 msgid "* Can build fortresses (if any of the following are known: %s).\n"
 msgstr "* Může postavit pevnosti (pokud je známo: %s).\n"
 
-#: client/helpdata.c:858
+#: client/helpdata.c:850
 #, c-format
 msgid "* Can clean pollution from tiles.\n"
 msgstr "* Může odstraňovat znečištění z terénu.\n"
 
-#: client/helpdata.c:860
+#: client/helpdata.c:852
 #, c-format
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* Může odstranit radioaktivní spad z terénu.\n"
 
-#: client/helpdata.c:863
+#: client/helpdata.c:855
 #, c-format
 msgid "* Can transform tiles.\n"
 msgstr "* Může transformovat terén.\n"
 
-#: client/helpdata.c:866
+#: client/helpdata.c:858
 #, c-format
 msgid "* Can build airbases.\n"
 msgstr "* Může stavět letiště.\n"
 
-#: client/helpdata.c:870
+#: client/helpdata.c:862
 #, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
 msgstr "* Může se opevnit, aby ziskal o 50%% vyšší obrannou sílu.\n"
 
-#: client/helpdata.c:874
+#: client/helpdata.c:866
 #, c-format
 msgid "* May pillage to destroy infrastructure from tiles.\n"
 msgstr "* Může plenit, tj. ničit intfrastrukturu.\n"
 
-#: client/helpdata.c:878
+#: client/helpdata.c:870
 #, c-format
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "* Může provádět diplomatické a navíc speciální špionážní akce.\n"
 
-#: client/helpdata.c:881
+#: client/helpdata.c:873
 #, c-format
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Může provádět diplomatické akce.\n"
 
-#: client/helpdata.c:885
+#: client/helpdata.c:877
 #, c-format
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "* Nikdy neprohraje v boji Diplomat proti Diplomatu.\n"
 
-#: client/helpdata.c:889
+#: client/helpdata.c:881
 #, c-format
 msgid "* May not be bribed.\n"
 msgstr "* Nemůže být podplacen.\n"
 
-#: client/helpdata.c:892
+#: client/helpdata.c:884
 #, c-format
 msgid "* Can attack enemy air units.\n"
 msgstr "* Může útočit na nepřátelské letectvo.\n"
 
-#: client/helpdata.c:895
+#: client/helpdata.c:887
 #, c-format
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr "* Je neviditelný, pokud není u nepřátelského města nebo jednotky.\n"
 
-#: client/helpdata.c:899
+#: client/helpdata.c:891
 #, c-format
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr "* Může útočit jen na jednotky na moři (není možný pozemní útok)\n"
 
-#: client/helpdata.c:904
+#: client/helpdata.c:896
 #, c-format
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares.\n"
 msgstr "* Může útoči přímo z lodi na pozemní jednotky a města.\n"
 
-#: client/helpdata.c:909
+#: client/helpdata.c:901
 #, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
 msgstr "* Může být vysazen z přátelského města (dosah: %d).\n"
 
-#: client/helpdata.c:913
+#: client/helpdata.c:905
 #, c-format
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr ""
 "* Získává dvojnásobnou obranu proti jednotkám specifikovaným jako "
 "'mounted' (jízda).\n"
 
-#: client/helpdata.c:918
+#: client/helpdata.c:910
 #, c-format
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Počítá se jako jízda (mounted) proti některým typům obránců.\n"
 
-#: client/helpdata.c:922
+#: client/helpdata.c:914
 #, c-format
 msgid "* A missile unit: gets used up in making an attack.\n"
 msgstr "Raketa: Je použita(ztracena) při útoku.\n"
 
-#: client/helpdata.c:925
+#: client/helpdata.c:917
 #, c-format
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Útokem tato jednotka ukončí tah.\n"
 
-#: client/helpdata.c:929
+#: client/helpdata.c:921
 #, c-format
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Útok této jednotky způsobí jaderný výbuch!\n"
 
-#: client/helpdata.c:933
+#: client/helpdata.c:925
 #, c-format
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "* Má dvojnásobnou palebnou sílu, pokud útočí na města.\n"
 
-#: client/helpdata.c:936
+#: client/helpdata.c:928
 #, c-format
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Ignoruje efekt městských hradeb.\n"
 
-#: client/helpdata.c:940
+#: client/helpdata.c:932
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
@@ -7961,47 +7962,47 @@ msgstr ""
 "* Provádí bombardování (%d za tah).  Tento typ útoku jenom zraní obránce "
 "(nikdy nezabije), ale není žádným rizikem pro útočníka.\n"
 
-#: client/helpdata.c:946
+#: client/helpdata.c:938
 #, c-format
 msgid "* Gets quintuple defence against missiles and aircraft.\n"
 msgstr "* Získává čtyřnásobnou obranu proti raketám a letadlům.\n"
 
-#: client/helpdata.c:950
+#: client/helpdata.c:942
 #, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* Ignoruje rerén. (považuje se za cestu).\n"
 
-#: client/helpdata.c:954
+#: client/helpdata.c:946
 #, c-format
 msgid "* Attacks with full strength even if less than one movement left.\n"
 msgstr "* Útočí s plnou silou, ikdyž mu zbývá míň času na pohyb.\n"
 
-#: client/helpdata.c:958
+#: client/helpdata.c:950
 #, c-format
 msgid "* Ignores zones of control.\n"
 msgstr "* Ignoruje ZOC (zony kontroly).\n"
 
-#: client/helpdata.c:961
+#: client/helpdata.c:953
 #, c-format
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* Není vojenskou jednotkou (nemůže utočit, neprosadí stanné právo).\n"
 
-#: client/helpdata.c:965
+#: client/helpdata.c:957
 #, c-format
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Zlá jednotka: působí jednoho nespokojeného ikdyž není agresivní.\n"
 
-#: client/helpdata.c:970
+#: client/helpdata.c:962
 #, c-format
 msgid "* Will never achieve veteran status.\n"
 msgstr "* Nemůže nikdy dosáhnout veterán stavu.\n"
 
-#: client/helpdata.c:973
+#: client/helpdata.c:965
 #, c-format
 msgid "* May become veteran through training or combat.\n"
 msgstr "* Může se stát vetránem během tréninku nebo boje.\n"
 
-#: client/helpdata.c:979
+#: client/helpdata.c:971
 #, c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
@@ -8010,40 +8011,40 @@ msgstr ""
 "* Musí končit kolo ve městě nebo u pevniny, nebo je 50%% pravděpodobnost "
 "ztráty v moři.\n"
 
-#: client/helpdata.c:983
+#: client/helpdata.c:975
 #, c-format
 msgid "* The discovery of %s reduces the risk to 25%%.\n"
 msgstr "* Vynález %s snižuje riziko na 25%%.\n"
 
-#: client/helpdata.c:988
+#: client/helpdata.c:980
 #, c-format
 msgid "* %s reduces the risk to 12%%.\n"
 msgstr "* %s snižuje riziko na 12%%.\n"
 
-#: client/helpdata.c:1035
+#: client/helpdata.c:1027
 msgid " or "
 msgstr " nebo "
 
-#: client/helpdata.c:1037
+#: client/helpdata.c:1029
 msgid "?or:, "
 msgstr "?or:, "
 
-#: client/helpdata.c:1049
+#: client/helpdata.c:1041
 #, fuzzy, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
-msgstr[0] "* Musí se vrátit do města nebo na pole kde je %s po %d tahu.\n"
+msgstr[0] "Musí se vrátit do města nebo na pole kde je %s po %d tahu.\n"
 msgstr[1] "* Musí se vrátit do města nebo na pole kde je %s po %d tahu.\n"
 msgstr[2] "* Musí se vrátit do města nebo na pole kde je %s po %d tahu.\n"
 
-#: client/helpdata.c:1083
+#: client/helpdata.c:1075
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
 msgstr ""
 "Pokud teď začneme zkoumat technologii %s, budeme potřebovat %d žárovek "
 "(bulbs)."
 
-#: client/helpdata.c:1088
+#: client/helpdata.c:1080
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
@@ -8052,141 +8053,141 @@ msgstr ""
 "Abychom ovládli technologii %s budeme před tím potřebovat získat %d "
 "jednodušší. Celý projekt spotřebuje %d žárovek (bulbs)."
 
-#: client/helpdata.c:1096
+#: client/helpdata.c:1088
 #, c-format
 msgid "You cannot research this technology."
 msgstr "Nemůžeme zkoumat tuto technologii."
 
-#: client/helpdata.c:1100
+#: client/helpdata.c:1092
 #, c-format
 msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
 "Toto číslo se může lišit v závislosti na tom, co zkoumají ostatní hráči.\n"
 
-#: client/helpdata.c:1114
+#: client/helpdata.c:1106
 #, c-format
 msgid "* Allows changing government to %s.\n"
 msgstr "* Umožňuje změnu státního zřízení na %s.\n"
 
-#: client/helpdata.c:1120
+#: client/helpdata.c:1112
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr ""
 "* První hráč, který vynalezne %s ziská okamžitě jednu technologii navíc.\n"
 
-#: client/helpdata.c:1125
+#: client/helpdata.c:1117
 #, c-format
 msgid "* Gives sea units one extra move.\n"
 msgstr "* Přidá všem námořním jednotkám navíc 1 pohybový bod.\n"
 
-#: client/helpdata.c:1127
+#: client/helpdata.c:1119
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
 msgstr "* Snižuje šanci ztráty lodi na otevřeném moři na 25%%.\n"
 
-#: client/helpdata.c:1130
+#: client/helpdata.c:1122
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
 msgstr "* Snižuje šanci ztráty lodi na otevřeném moři na 12%%.\n"
 
-#: client/helpdata.c:1133
+#: client/helpdata.c:1125
 #, c-format
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Zvýší znečištení produkované populací.\n"
 
-#: client/helpdata.c:1138
+#: client/helpdata.c:1130
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
 msgstr "* Umožňuje %s stavbu mostů přes řeky.\n"
 
-#: client/helpdata.c:1145
+#: client/helpdata.c:1137
 #, c-format
 msgid "* Allows %s to build fortresses.\n"
 msgstr "* Umožňuje %s stavbu pevností.\n"
 
-#: client/helpdata.c:1153
+#: client/helpdata.c:1145
 #, c-format
 msgid "* Allows %s to build airbases.\n"
 msgstr "* Umožňuje %s stavbu letišť.\n"
 
-#: client/helpdata.c:1162
+#: client/helpdata.c:1154
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* Umožňuje %s vylepšit cesty na železnice.\n"
 
-#: client/helpdata.c:1169
+#: client/helpdata.c:1161
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Umožňuje %s vylepšit závlahu na farmu.\n"
 
-#: client/helpdata.c:1198
+#: client/helpdata.c:1190
 #, c-format
 msgid "* Pollution cannot be generated on this terrain."
 msgstr ""
 
-#: client/helpdata.c:1203
+#: client/helpdata.c:1195
 #, fuzzy, c-format
 msgid "* You cannot build cities on this terrain."
 msgstr "Hra: Nemůžete uplácet jednotky tohoto národa."
 
-#: client/helpdata.c:1209
-#, c-format
+#: client/helpdata.c:1201
+#, fuzzy, c-format
 msgid "* The coastline of this terrain is unsafe."
-msgstr ""
+msgstr "* Pobřeží tohoto terénu je nebezpečné."
 
-#: client/helpdata.c:1214
-#, c-format
+#: client/helpdata.c:1206
+#, fuzzy, c-format
 msgid "* This terrain is unsafe for units to travel on."
-msgstr ""
+msgstr "* Tento terén je nebezpečný pro přesun jednotek."
 
-#: client/helpdata.c:1219
+#: client/helpdata.c:1211
 #, c-format
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr ""
 
-#: client/helpdata.c:1273
+#: client/helpdata.c:1265
 #, c-format
 msgid ""
 "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 "\n"
 msgstr ""
 
-#: client/helpdata.c:1277
+#: client/helpdata.c:1269
 #, c-format
 msgid ""
 "Has unlimited science/gold/luxuries rates.\n"
 "\n"
 msgstr ""
 
-#: client/helpdata.c:1280
+#: client/helpdata.c:1272
 #, c-format
 msgid ""
 "Chance of civil war is %d%% if you lose your capital.\n"
 "\n"
 msgstr ""
 
-#: client/helpdata.c:1284
+#: client/helpdata.c:1276
 #, c-format
 msgid ""
 "The first unhappy citizen in each city due to civilization size will appear "
 "when you have %d cities."
 msgstr ""
 
-#: client/helpdata.c:1288
+#: client/helpdata.c:1280
 #, c-format
 msgid ""
 "  Every %d cities after this will result in one more unhappy citizen in each "
 "city."
 msgstr ""
 
-#: client/helpdata.c:1293
+#: client/helpdata.c:1285
 #, c-format
 msgid ""
 "One unhappy citizen in each city due to civilization size will appear when "
 "you have %d cities."
 msgstr ""
 
-#: client/helpdata.c:1298
+#: client/helpdata.c:1290
 #, c-format
 msgid ""
 "\n"
@@ -8194,185 +8195,185 @@ msgid ""
 "Features:\n"
 msgstr ""
 
-#: client/helpdata.c:1301
+#: client/helpdata.c:1293
 #, c-format
 msgid ""
 "* You may impose martial law.  Each military unit inside a city, up to a "
 "maximum of %d, will force %d unhappy citizens to become content.\n"
 msgstr ""
 
-#: client/helpdata.c:1308
+#: client/helpdata.c:1300
 #, fuzzy, c-format
 msgid ""
 "* Military units away from home and field units will cause unhappiness.\n"
 msgstr "Vojenské jednotky v poli mohou způsobit nespokojenost. "
 
-#: client/helpdata.c:1312
+#: client/helpdata.c:1304
 #, c-format
 msgid ""
 "* Each of your cities will avoid as much unhappiness caused by units as its "
 "city size.\n"
 msgstr ""
 
-#: client/helpdata.c:1316
+#: client/helpdata.c:1308
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
 "caused by units.\n"
 msgstr ""
 
-#: client/helpdata.c:1324
+#: client/helpdata.c:1316
 #, c-format
 msgid ""
 "* Each of your cities will avoid paying for as much %s upkeep as their city "
 "size.\n"
 msgstr ""
 
-#: client/helpdata.c:1329
+#: client/helpdata.c:1321
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
 msgstr ""
 
-#: client/helpdata.c:1336
+#: client/helpdata.c:1328
 #, fuzzy, c-format
 msgid "* Military units cause %d times normal unhappiness.\n"
 msgstr "Vojenské jednotky v poli mohou způsobit nespokojenost. "
 
-#: client/helpdata.c:1345
+#: client/helpdata.c:1337
 #, c-format
 msgid "* You pay normal %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1349
+#: client/helpdata.c:1341
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1354
+#: client/helpdata.c:1346
 #, c-format
 msgid "* You do not pay %s upkeep for any of your units.\n"
 msgstr ""
 
-#: client/helpdata.c:1363
+#: client/helpdata.c:1355
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty.\n"
 msgstr ""
 
-#: client/helpdata.c:1368
+#: client/helpdata.c:1360
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
 "not celebrating.\n"
 msgstr ""
 
-#: client/helpdata.c:1378
+#: client/helpdata.c:1370
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
 "celebrating.\n"
 msgstr ""
 
-#: client/helpdata.c:1387
+#: client/helpdata.c:1379
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
 msgstr ""
 
-#: client/helpdata.c:1392
+#: client/helpdata.c:1384
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d additional %s when not "
 "celebrating.\n"
 msgstr ""
 
-#: client/helpdata.c:1402
+#: client/helpdata.c:1394
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d additional %s when "
 "celebrating.\n"
 msgstr ""
 
-#: client/helpdata.c:1410
-#, c-format
+#: client/helpdata.c:1402
+#, fuzzy, c-format
 msgid "* %s production will suffer waste.\n"
-msgstr ""
+msgstr "?cma:Max produkce"
 
-#: client/helpdata.c:1416
+#: client/helpdata.c:1408
 #, c-format
 msgid ""
 "* You may grow your cities by means of celebrations.  Your cities must be at "
 "least size %d before they can grown in this manner.\n"
 msgstr ""
 
-#: client/helpdata.c:1422
+#: client/helpdata.c:1414
 #, c-format
 msgid "* Diplomatic units will be veteran when built.\n"
 msgstr ""
 
-#: client/helpdata.c:1427
+#: client/helpdata.c:1419
 #, c-format
 msgid ""
 "* Government will fall into anarchy if any city is in disorder for more than "
 "two turns in a row.\n"
 msgstr ""
 
-#: client/helpdata.c:1432
+#: client/helpdata.c:1424
 #, c-format
 msgid "* Your units and cities cannot be bribed or incited.\n"
 msgstr ""
 
-#: client/helpdata.c:1438
+#: client/helpdata.c:1430
 #, c-format
 msgid "* Partisans appear when cities are taken by the enemy.  "
 msgstr ""
 
-#: client/helpdata.c:1442 client/helpdata.c:1451
-#, c-format
+#: client/helpdata.c:1434 client/helpdata.c:1443
+#, fuzzy, c-format
 msgid "Requires %s technology.  "
-msgstr ""
+msgstr "Žádná technologie"
 
-#: client/helpdata.c:1457
+#: client/helpdata.c:1449
 #, c-format
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr ""
 
-#: client/helpdata.c:1461
+#: client/helpdata.c:1453
 #, c-format
 msgid ""
 "* Has a senate that may throw the government into anarchy if war is declared "
 "while reputation is low.\n"
 msgstr ""
 
-#: client/helpdata.c:1466
+#: client/helpdata.c:1458
 #, fuzzy, c-format
 msgid "* Has no unhappy citizens.\n"
-msgstr "%d dalších nespokojených obyvatel."
+msgstr "Balíček nemá žádné %%description: %s\n"
 
-#: client/helpdata.c:1470
+#: client/helpdata.c:1462
 #, c-format
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr ""
 
-#: client/helpdata.c:1474
-#, c-format
+#: client/helpdata.c:1466
+#, fuzzy, c-format
 msgid "* Research costs doubled.\n"
-msgstr ""
+msgstr "Příjmy: %d    Celkem Výdaje: %d"
 
-#: client/helpdata.c:1481
+#: client/helpdata.c:1473
 #, fuzzy, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* Umožňuje %s stavbu letišť.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:1508
+#: client/helpdata.c:1500
 #, fuzzy, c-format
 msgid "%s%d %s"
 msgstr "%3d/%3d %s"
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:1516
+#: client/helpdata.c:1508
 #, c-format
 msgid "%s%d unhappy"
 msgstr "%s%d nespokojených"
@@ -8392,29 +8393,24 @@ msgid "Clipboard is empty."
 msgstr "Hra: Schránka je prázdná."
 
 #: client/options.c:82
-#, fuzzy
 msgid "Graphics"
-msgstr "Demografie"
+msgstr "Grafika"
 
 #: client/options.c:83
-#, fuzzy
 msgid "Sound"
-msgstr "Tahů"
+msgstr "Zvuk"
 
 #: client/options.c:84
-#, fuzzy
 msgid "Interface"
-msgstr "Interní"
+msgstr "Rozhraní"
 
 #: client/options.c:85
-#, fuzzy
 msgid "Network"
-msgstr "Síťové"
+msgstr "Síť"
 
 #: client/options.c:90
-#, fuzzy
 msgid "Login name"
-msgstr "Nahrát hru"
+msgstr "Přihlašovací jméno"
 
 #: client/options.c:91
 msgid ""
@@ -8423,9 +8419,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:96
-#, fuzzy
 msgid "Server"
-msgstr "nikdy"
+msgstr "Server"
 
 #: client/options.c:97
 msgid ""
@@ -8436,7 +8431,7 @@ msgstr ""
 #: client/options.c:102
 #, fuzzy
 msgid "Server port"
-msgstr "Možnosti s_erveru."
+msgstr "Port serveru:"
 
 #: client/options.c:103
 msgid ""
@@ -8836,9 +8831,8 @@ msgid "Turn Bell"
 msgstr "Hra: Konec tahu"
 
 #: client/options.c:329
-#, fuzzy
 msgid "Year Advance"
-msgstr "Technologie"
+msgstr "Další rok"
 
 #: client/options.c:330
 msgid "Global: Eco-Disaster"
@@ -9064,7 +9058,7 @@ msgstr "Mrtev"
 #: client/plrdlg_common.c:187
 #, fuzzy
 msgid "waiting"
-msgstr "Písmo"
+msgstr "Čekám..."
 
 #: client/plrdlg_common.c:189 client/gui-mui/plrdlg.c:119
 #: client/gui-win32/plrdlg.c:155 client/gui-xaw/plrdlg.c:238
@@ -9143,7 +9137,7 @@ msgstr "Ping"
 #: client/repodlgs_common.c:318
 #, fuzzy
 msgid "You cannot sell improvements."
-msgstr "Prodej Vylepšení"
+msgstr "Nemůžete stahovat cookies."
 
 #: client/repodlgs_common.c:334
 #, fuzzy, c-format
@@ -9153,18 +9147,18 @@ msgstr "Prodat %s za %d zlatých?"
 #: client/repodlgs_common.c:337
 #, fuzzy, c-format
 msgid "No %s could be sold."
-msgstr "Hra: Žádné jednotky nemohou být vylepšeny."
+msgstr "Nelze vytvořit spojení."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:356
 #, fuzzy
 msgid "You cannot disband units."
-msgstr "Hra: %s nemůžete uplatit!"
+msgstr "Nemůžete stahovat cookies."
 
 #: client/repodlgs_common.c:361
 #, fuzzy, c-format
 msgid "%s cannot be disbanded."
-msgstr "* Nemůže být rozpuštěna.\n"
+msgstr "%s nemůže být převzat."
 
 #: client/repodlgs_common.c:382
 #, fuzzy, c-format
@@ -9174,7 +9168,7 @@ msgstr "Hra: Rozpuštěn náš %s."
 #: client/repodlgs_common.c:385
 #, fuzzy, c-format
 msgid "No %s could be disbanded."
-msgstr "Hra: Žádné jednotky nemohou být vylepšeny."
+msgstr "Nelze vytvořit spojení."
 
 #: client/text.c:137
 msgid "?nation:Neutral"
@@ -9252,7 +9246,7 @@ msgstr "Naše území"
 #, fuzzy, c-format
 msgid "%s territory (%d turn ceasefire)"
 msgid_plural "%s territory (%d turn ceasefire)"
-msgstr[0] "%s území (%d tah příměří)"
+msgstr[0] "Zapnout ladění"
 msgstr[1] "%s území (%d tah příměří)"
 msgstr[2] "%s území (%d tah příměří)"
 
@@ -9278,7 +9272,7 @@ msgstr "Město: %s (%s)"
 #, fuzzy, c-format
 msgid "City: %s (%s, %d turn ceasefire)"
 msgid_plural "City: %s (%s, %d turn ceasefire)"
-msgstr[0] "Město: %s (%s, %d tah příměří)"
+msgstr[0] "Zapnout ladění"
 msgstr[1] "Město: %s (%s, %d tah příměří)"
 msgstr[2] "Město: %s (%s, %d tah příměří)"
 
@@ -9286,7 +9280,7 @@ msgstr[2] "Město: %s (%s, %d tah příměří)"
 #: client/text.c:208
 #, fuzzy, c-format
 msgid "City: %s (%s, %s)"
-msgstr "Město: %s (%s,%s)"
+msgstr "*Město:"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:215 client/gui-mui/mapclass.c:122
@@ -9320,7 +9314,7 @@ msgstr "Jednotka: %s(%s%s)"
 #, fuzzy, c-format
 msgid "Unit: %s (%s, %d turn ceasefire)"
 msgid_plural "Unit: %s (%s, %d turn ceasefire)"
-msgstr[0] "Jednotka: %s (%s, %d tah příměří)"
+msgstr[0] "Zapnout ladění"
 msgstr[1] "Jednotka: %s (%s, %d tah příměří)"
 msgstr[2] "Jednotka: %s (%s, %d tah příměří)"
 
@@ -9328,7 +9322,7 @@ msgstr[2] "Jednotka: %s (%s, %d tah příměří)"
 #: client/text.c:268
 #, fuzzy, c-format
 msgid "Unit: %s (%s, %s)"
-msgstr "Jednotka: %s (%s,%s)"
+msgstr "Jednotka"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:284
@@ -9399,7 +9393,7 @@ msgstr[2] "Průběh: %d tah/objev (%d bodů/tah, %d bodů/tah od týmu)"
 #, fuzzy, c-format
 msgid "%d step"
 msgid_plural "%d steps"
-msgstr[0] "(%d krok)"
+msgstr[0] "&Krokovat"
 msgstr[1] "(%d kroky)"
 msgstr[2] "(%d kroků)"
 
@@ -9430,12 +9424,12 @@ msgstr "Populace: %s"
 #: client/text.c:513
 #, fuzzy, c-format
 msgid "Year: %s (T%d)"
-msgstr "Rok: %s"
+msgstr "Rok"
 
 #: client/text.c:514
 #, fuzzy, c-format
 msgid "Gold: %d (%+d)"
-msgstr "Zlato: %d"
+msgstr "zlatá"
 
 #: client/text.c:516
 #, c-format
@@ -9445,7 +9439,7 @@ msgstr "Daně:%d Luxus:%d Věda:%d"
 #: client/text.c:520
 #, fuzzy, c-format
 msgid "Moving: %s"
-msgstr "v %s"
+msgstr "Přesouvám"
 
 #: client/text.c:560
 #, c-format
@@ -9471,7 +9465,7 @@ msgstr ""
 #: client/text.c:612
 #, fuzzy, c-format
 msgid "Pollution rate: %d%%"
-msgstr "Znečištění:   %3d"
+msgstr "Přenosová rychlost:"
 
 #: client/text.c:614
 #, c-format
@@ -9488,7 +9482,7 @@ msgstr ""
 #: client/text.c:629
 #, fuzzy, c-format
 msgid "Fallout rate: %d%%"
-msgstr "%s max úroveň: %d%%"
+msgstr "Přenosová rychlost:"
 
 #: client/text.c:631
 #, c-format
@@ -9527,7 +9521,7 @@ msgstr "Energie:        %5d %%"
 #, fuzzy, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
-msgstr[0] "Hmotnost:      %5d tuna"
+msgstr[0] "Přeneseno bajtů: %d"
 msgstr[1] "Hmotnost:      %5d tuna"
 msgstr[2] "Hmotnost:      %5d tuna"
 
@@ -9599,7 +9593,7 @@ msgstr "Stavby: "
 
 #: client/text.c:807 client/text.c:842
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: client/text.c:817 client/text.c:853
 msgid "None. "
@@ -9607,7 +9601,7 @@ msgstr "Žádné. "
 
 #: client/text.c:819 client/text.c:855
 msgid "."
-msgstr ""
+msgstr "."
 
 #: client/text.c:835
 msgid "Wonders: "
@@ -9901,9 +9895,8 @@ msgid "_Happiness"
 msgstr "_Spokojenost"
 
 #: client/gui-gtk-2.0/citydlg.c:996
-#, fuzzy
 msgid "_Governor"
-msgstr "Guvernér"
+msgstr "_Guvernér"
 
 #: client/gui-gtk-2.0/citydlg.c:1019
 msgid "_Settings"
@@ -9962,7 +9955,7 @@ msgstr "Spokojenost"
 #: client/gui-gtk-2.0/citydlg.c:1039 client/gui-mui/citydlg.c:1382
 #, fuzzy
 msgid "Governor page"
-msgstr "Guvernér"
+msgstr "Přírůstek o stránku"
 
 #: client/gui-gtk-2.0/citydlg.c:1040
 msgid "This Settings page"
@@ -10313,12 +10306,12 @@ msgstr "Oslavuje"
 #: client/gui-gtk-2.0/cma_fe.c:459
 #, fuzzy
 msgid "Governor Enabl_ed"
-msgstr "Guvernér"
+msgstr "-e  --ed  Vytvoří skript pro ed."
 
 #: client/gui-gtk-2.0/cma_fe.c:464
 #, fuzzy
 msgid "Governor Disabl_ed"
-msgstr "Guvernér"
+msgstr "-e  --ed  Vytvoří skript pro ed."
 
 #: client/gui-gtk-2.0/cma_fe.c:532 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:431
@@ -10598,7 +10591,7 @@ msgstr ""
 #: client/gui-gtk-2.0/dialogs.c:978
 #, fuzzy, c-format
 msgid "Help build _Wonder (%d remaining)"
-msgstr "Pomoci se stavbou _divu světa"
+msgstr "Pomoci se stavbou _divu světa (%d zbývá)"
 
 #: client/gui-gtk-2.0/dialogs.c:983 client/gui-win32/dialogs.c:1000
 msgid "Help build _Wonder"
@@ -10837,58 +10830,75 @@ msgid "Show Map Scrollbars"
 msgstr "Zobrazit posuvníky mapy"
 
 #: client/gui-gtk-2.0/gui_main.c:143
+#, fuzzy
 msgid "Disable this option to hide the scrollbars on the map view."
-msgstr ""
+msgstr "Zakázání této možnosti schová skrolovací lišty na mapě."
 
 #: client/gui-gtk-2.0/gui_main.c:147
 msgid "Keyboardless goto"
 msgstr "Pohyb bez klávesnice"
 
 #: client/gui-gtk-2.0/gui_main.c:148
+#, fuzzy
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
+"Pokud je zapnuta tato možnost, pak může být přesun zahájen levým kliknutím a "
+"podržením tlačítka myši při presunu na zvolenou lokaci na mapě."
 
 #: client/gui-gtk-2.0/gui_main.c:153
 msgid "Keep dialogs on top"
 msgstr "Nechat dialogy navrchu"
 
 #: client/gui-gtk-2.0/gui_main.c:154
+#, fuzzy
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
 msgstr ""
+"Pokud je toto povoleno, tak dialogová okna zůstanou nad hlavním oknem "
+"Freeciv. Zakázáním tohoto nedocílíte v celoobrazovkovém módu žádného efektu."
 
 #: client/gui-gtk-2.0/gui_main.c:158
 msgid "Show worklist task icons"
 msgstr "Zobrazovat ikony v seznamu prací"
 
 #: client/gui-gtk-2.0/gui_main.c:159
+#, fuzzy
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
 msgstr ""
+"Zakázáním tohoto se vypnou ikony v seznamu prací pro jednotky i stavby a "
+"záložka produkce v dialogu města."
 
 #: client/gui-gtk-2.0/gui_main.c:163
 msgid "Enable status report tabs"
 msgstr "Povolit záložky s hlášením stavu"
 
 #: client/gui-gtk-2.0/gui_main.c:164
+#, fuzzy
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
 msgstr ""
+"Když je zapnuta tato možnost, tak jsou dialogy hlášení zobrazovány jako "
+"samostatné záložky místo samostatných dialogů."
 
 #: client/gui-gtk-2.0/gui_main.c:169 client/gui-win32/gui_main.c:109
+#, fuzzy
 msgid "Better fog-of-war drawing"
-msgstr ""
+msgstr "Používat clonu války"
 
 #: client/gui-gtk-2.0/gui_main.c:170 client/gui-win32/gui_main.c:110
+#, fuzzy
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
 msgstr ""
+"Pokud je toto povoleno, použije se lepší metoda pro vykreslování clony "
+"války.  Není to pomalejší, ale spotřebuje to více paměti."
 
 #: client/gui-gtk-2.0/gui_main.c:535 client/gui-gtk-2.0/gui_main.c:1101
 msgid "Freeciv"
@@ -10901,7 +10911,7 @@ msgstr "Konec tahu"
 
 #: client/gui-gtk-2.0/gui_main.c:901
 msgid "Shift+Return"
-msgstr ""
+msgstr "Shift+Enter"
 
 #: client/gui-gtk-2.0/gui_main.c:933
 msgid "_Map"
@@ -10955,15 +10965,15 @@ msgid "Are you sure you want to quit?"
 msgstr "Jste si jisti, že chcete skončit?"
 
 #: client/gui-gtk-2.0/gui_stuff.c:445
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Close Tab:\n"
 "%s"
-msgstr ""
+msgstr "Zavřít kartu"
 
 #: client/gui-gtk-2.0/gui_stuff.c:445
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:122 client/gui-mui/citydlg.c:1373
 #: client/gui-mui/citydlg.c:1510 client/gui-win32/citydlg.c:723
@@ -11015,7 +11025,7 @@ msgstr "žádné maximum, "
 #, fuzzy, c-format
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
-msgstr[0] "%d jednotka max., "
+msgstr[0] "Maximální jednotka přenosu"
 msgstr[1] "%d jednotka max., "
 msgstr[2] "%d jednotka max., "
 
@@ -11304,17 +11314,17 @@ msgstr "_Možnosti zpráv"
 #: client/gui-gtk-2.0/menu.c:676
 #, fuzzy
 msgid "_Reload Tileset"
-msgstr "Sada dlaždic"
+msgstr "Načís&t sadu kachlí..."
 
 #: client/gui-gtk-2.0/menu.c:679
 #, fuzzy
 msgid "Save Options on _Exit"
-msgstr "Volby serveru (stávající)"
+msgstr "Uložit nastavení při ukončení"
 
 #: client/gui-gtk-2.0/menu.c:681
 #, fuzzy
 msgid "Sa_ve Options"
-msgstr "Možnosti hry"
+msgstr "_Uložit nastavení"
 
 #: client/gui-gtk-2.0/menu.c:685 client/gui-win32/menu.c:308
 msgid "_Initial Server Options"
@@ -11343,7 +11353,7 @@ msgstr "_Smazat Log"
 #: client/gui-gtk-2.0/menu.c:705
 #, fuzzy
 msgid "_Leave"
-msgstr "Od_ejít"
+msgstr "Opustit"
 
 #: client/gui-gtk-2.0/menu.c:707 client/gui-mui/connectdlg.c:226
 #: client/gui-mui/dialogs.c:1659 client/gui-win32/menu.c:318
@@ -11412,7 +11422,7 @@ msgstr "Zobrazit"
 #: client/gui-gtk-2.0/menu.c:737
 #, fuzzy
 msgid "City Outlines"
-msgstr "Možnosti města"
+msgstr "Vatikán"
 
 #: client/gui-gtk-2.0/menu.c:739 client/gui-win32/menu.c:336
 msgid "Map _Grid"
@@ -11482,7 +11492,7 @@ msgstr "Clona války"
 #: client/gui-gtk-2.0/menu.c:782
 #, fuzzy
 msgid "_Full Screen"
-msgstr "Fullscreen mód"
+msgstr "_Celá obrazovka"
 
 #: client/gui-gtk-2.0/menu.c:786
 msgid "_Center View"
@@ -11608,12 +11618,12 @@ msgstr "Závlaha (-I)"
 #: client/gui-gtk-2.0/menu.c:841
 #, fuzzy
 msgid "Go _to"
-msgstr "Jít"
+msgstr " (%s zbývá)"
 
 #: client/gui-gtk-2.0/menu.c:841
 #, fuzzy
 msgid "_Build city"
-msgstr "Založit město (_B)"
+msgstr "Založit město"
 
 #: client/gui-gtk-2.0/menu.c:843
 msgid "Patrol (_Q)"
@@ -12007,9 +12017,8 @@ msgid "Conf_irm Password:"
 msgstr "Heslo z_novu:"
 
 #: client/gui-gtk-2.0/pages.c:855
-#, fuzzy
 msgid "C_onnect"
-msgstr "Připojit"
+msgstr "Při_pojit"
 
 #: client/gui-gtk-2.0/pages.c:984
 msgid "_Number of Players (including AI):"
@@ -12022,7 +12031,7 @@ msgstr "Úroveň počítačem ovládaných hráčů:"
 #: client/gui-gtk-2.0/pages.c:1023
 #, fuzzy
 msgid "_Ruleset:"
-msgstr "Vládce:"
+msgstr "Zprávy, filtrované pravidly: %1"
 
 #: client/gui-gtk-2.0/pages.c:1031
 msgid "More Game _Options..."
@@ -13071,7 +13080,7 @@ msgstr "Obchodní bilance..."
 #: client/gui-mui/gui_main.c:293
 #, fuzzy
 msgid "Military Report..."
-msgstr "Vojenský přehled"
+msgstr "Předpověď počasí"
 
 #: client/gui-mui/gui_main.c:296 client/gui-xaw/menu.c:223
 msgid "Top Five Cities"
@@ -13411,10 +13420,7 @@ msgid ""
 msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
-msgstr[0] ""
-"%s\n"
-"(%d tah/objev)%s\n"
-"(%d tahů/objev)"
+msgstr[0] "Průběh: %d tah/objev (%d bodů/tah)"
 msgstr[1] ""
 "%s\n"
 "(%d tah/objev)%s\n"
@@ -13782,9 +13788,8 @@ msgid "Presets"
 msgstr "Předvolby"
 
 #: client/gui-win32/cma_fe.c:467
-#, fuzzy
 msgid "New"
-msgstr "_Nový"
+msgstr "Nový"
 
 #: client/gui-win32/cma_fe.c:470 client/gui-win32/wldlg.c:312
 #: data/Freeciv.in:2043 data/Freeciv.in:2185
@@ -13796,14 +13801,12 @@ msgid "Apply once"
 msgstr "Použít jednou"
 
 #: client/gui-win32/cma_fe.c:490
-#, fuzzy
 msgid "Control city"
-msgstr "Ovládat _město"
+msgstr "Ovládat město"
 
 #: client/gui-win32/cma_fe.c:492
-#, fuzzy
 msgid "Release city"
-msgstr "_Uvolnit město"
+msgstr "Uvolnit město"
 
 #: client/gui-win32/connectdlg.c:143
 msgid "Password:"
@@ -13970,8 +13973,9 @@ msgid "Airlift"
 msgstr "Letecký most"
 
 #: client/gui-win32/gui_main.c:115
+#, fuzzy
 msgid "Enable alpha blending"
-msgstr ""
+msgstr "%s vyžaduje alfa kanál"
 
 #: client/gui-win32/gui_main.c:116
 msgid ""
@@ -14258,7 +14262,7 @@ msgstr "Jsou podporovány pouze barevné obrazovky..."
 #: client/gui-xaw/gui_main.c:367 client/gui-xaw/gui_main.c:386
 #, fuzzy, c-format
 msgid "Unable to open fontset: %s"
-msgstr "Selhalo načtení fontu: %s"
+msgstr "Nemohu otevřít ikonu %s: %s\n"
 
 #: client/gui-xaw/gui_main.c:372 client/gui-xaw/gui_main.c:391
 #, c-format
@@ -14282,7 +14286,7 @@ msgid "Allows %s (with %s).\n"
 msgstr "Umožňuje %s (s %s).\n"
 
 #: client/gui-xaw/inteldlg.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "Intelligence Diplomacy Information for the %s Empire"
 msgstr "Informace výzvědné služby pro %s impérium"
 
@@ -14417,24 +14421,26 @@ msgstr "Celkem:                     %9d%9d%9d%9d"
 #: manual/civmanual.c:119
 #, fuzzy, c-format
 msgid "Could not write manual file %s."
-msgstr "Nelze zapisovat do souboru skriptu '%s'."
+msgstr "Nelze zapsat do dočasného souboru"
 
 #: manual/civmanual.c:127
 #, fuzzy, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
-msgstr "Freeciv výběr serveru"
+msgstr "Použití: fetchmail [přepínače] [server ...]\n"
 
 #: manual/civmanual.c:143
 #, fuzzy, c-format
 msgid "Level: %s.<br>"
-msgstr "Úroveň: %s"
+msgstr ""
+"<qt><b><br>H<br>T<br>M<br>L<br> <br>z<br>p<br>r<br>á<br>v<br>a</b></qt>"
 
 #: manual/civmanual.c:144
-#, c-format
+#, fuzzy, c-format
 msgid "Category: %s.<br>"
 msgstr ""
+"<qt><b><br>H<br>T<br>M<br>L<br> <br>z<br>p<br>r<br>á<br>v<br>a</b></qt>"
 
 #: manual/civmanual.c:147
 #, c-format
@@ -14442,14 +14448,14 @@ msgid "Can only be used in server console. "
 msgstr ""
 
 #: manual/civmanual.c:150
-#, c-format
+#, fuzzy, c-format
 msgid "Can be changed during a game. "
-msgstr ""
+msgstr "Jestli má být hra hratelná pomocí klávesnice."
 
 #: manual/civmanual.c:152
-#, c-format
+#, fuzzy, c-format
 msgid "Can <b>not</b> be changed during a game. "
-msgstr ""
+msgstr "Hra: Tento typ jednotky nemůže provést výsadek."
 
 #: manual/civmanual.c:157
 #, fuzzy, c-format
@@ -14459,11 +14465,11 @@ msgid ""
 msgstr "Hodnota: %d, Minimum: 0, Výchozí: %d, Maximum: 1"
 
 #: manual/civmanual.c:161 manual/civmanual.c:171
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
 "\n"
-msgstr ""
+msgstr "Chybí hodnota k nastavení pro klíč: `%s'\n"
 
 #: manual/civmanual.c:166
 #, fuzzy, c-format
@@ -14473,25 +14479,25 @@ msgid ""
 msgstr "Hodnota: %d, Minimum: %d, Výchozí: %d, Maximum: %d"
 
 #: manual/civmanual.c:176
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
-msgstr ""
+msgstr "Implicitní příst. práva :\n"
 
 #: manual/civmanual.c:179
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
 "\n"
-msgstr ""
+msgstr "Chybí hodnota k nastavení pro klíč: `%s'\n"
 
 #: manual/civmanual.c:188
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
-msgstr ""
+msgstr " Připojit k Freeciv serveru"
 
 #: manual/civmanual.c:194
 #, fuzzy, c-format
@@ -14510,25 +14516,25 @@ msgid ""
 msgstr ""
 
 #: manual/civmanual.c:201
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
-msgstr ""
+msgstr "Úroveň 2 - zastaveno"
 
 #: manual/civmanual.c:210
 #, fuzzy, c-format
 msgid ""
 "<p>Description:</p>\n"
 "\n"
-msgstr "Popis:"
+msgstr "Popis"
 
 #: manual/civmanual.c:217
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
-msgstr ""
+msgstr "<h1>Rychlá nápověda ke správě cookies</h1>"
 
 #: manual/civmanual.c:219
 #, c-format
@@ -14536,9 +14542,9 @@ msgid "<table border=1><tr><th>Terrain</th>"
 msgstr ""
 
 #: manual/civmanual.c:220
-#, c-format
+#, fuzzy, c-format
 msgid "<th>Food/ Shield/ Trade</th>"
-msgstr ""
+msgstr "Přebytek: Jídlo, Produkce, Obchod"
 
 #: manual/civmanual.c:221
 #, c-format
@@ -14563,81 +14569,81 @@ msgstr ""
 #: manual/civmanual.c:226
 #, fuzzy, c-format
 msgid "<th>Transform to</th>"
-msgstr "Transformovat na %s"
+msgstr "Soubor k transformaci"
 
 #: manual/civmanual.c:261
-#, c-format
+#, fuzzy, c-format
 msgid "</table><br><br><br><table border=1>"
-msgstr ""
+msgstr "Počet pixelů na hranicích tabulky."
 
 #: manual/civmanual.c:262
-#, c-format
+#, fuzzy, c-format
 msgid "<caption>Time to perform action</caption>"
-msgstr ""
+msgstr "_Dvakrát klikněte na titulek okna pro provedení této akce:"
 
 #: manual/civmanual.c:263
-#, c-format
+#, fuzzy, c-format
 msgid "<tr><th>Terrain</th>\n"
-msgstr ""
+msgstr "Transf_ormovat terén"
 
 #: manual/civmanual.c:264
-#, c-format
+#, fuzzy, c-format
 msgid "<th>Road</th><th>Irrigation</th>\n"
-msgstr ""
+msgstr "Terén       Cesta  Zavlažování    Důl            Transformace\n"
 
 #: manual/civmanual.c:265
-#, c-format
+#, fuzzy, c-format
 msgid "<th>Mining</th><th>Rail</th>\n"
-msgstr ""
+msgstr "Ces_ta k souboru"
 
 #: manual/civmanual.c:266
-#, c-format
+#, fuzzy, c-format
 msgid "<th>Airbase</th><th>Fortress</th>\n"
-msgstr ""
+msgstr "Pevnosti a letiště"
 
 #: manual/civmanual.c:267
-#, c-format
+#, fuzzy, c-format
 msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
-msgstr ""
+msgstr "* Může odstraňovat znečištění z terénu.\n"
 
 #: manual/civmanual.c:268
-#, c-format
+#, fuzzy, c-format
 msgid "<th>Transform</th></tr>\n"
-msgstr ""
+msgstr "/Zobrazení/S_trom"
 
 #: manual/civmanual.c:294
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
-msgstr ""
+msgstr "<h1>Rychlá nápověda ke správě cookies</h1>"
 
 #: manual/civmanual.c:307 manual/civmanual.c:341
-#, c-format
+#, fuzzy, c-format
 msgid "<tr><td>Cost: <td>%d</tr>\n"
-msgstr ""
+msgstr "<tr><td><i>Šířka pásma</i></td><td>%1 z %2 (%3%)</td></tr>"
 
 #: manual/civmanual.c:308 manual/civmanual.c:342
-#, c-format
+#, fuzzy, c-format
 msgid "<tr><td>Upkeep: <td>%d</tr>\n"
-msgstr ""
+msgstr "<tr><td><i>Šířka pásma</i></td><td>%1 z %2 (%3%)</td></tr>"
 
 #: manual/civmanual.c:314
-#, c-format
+#, fuzzy, c-format
 msgid "<tr><td>Requires: <td>%s</tr>\n"
-msgstr ""
+msgstr "<tr><td><i>Šířka pásma</i></td><td>%1 z %2 (%3%)</td></tr>"
 
 #: manual/civmanual.c:319 manual/civmanual.c:344 manual/civmanual.c:348
-#, c-format
+#, fuzzy, c-format
 msgid "<tr><td>Obsoleted by: <td>%s</tr>\n"
-msgstr ""
+msgstr "<tr><td><i>Požadavky na přerušení</i></td><td>%1</td></tr>"
 
 #: manual/civmanual.c:328
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
-msgstr ""
+msgstr "<h1>Rychlá nápověda ke správě cookies</h1>"
 
 #: data/Freeciv.in:111
 msgid "LAN Servers"
@@ -14656,9 +14662,8 @@ msgstr ""
 "Komentář"
 
 #: data/Freeciv.in:215
-#, fuzzy
 msgid "Diplomacy"
-msgstr "_Diplomacie"
+msgstr "Diplomacie"
 
 #: data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
@@ -14763,7 +14768,7 @@ msgstr "Nápověda:"
 #: data/Freeciv.in:1492
 #, fuzzy
 msgid "Citizen governor..."
-msgstr "Přehled měst..."
+msgstr "Není grafika pro obyvatele %s."
 
 #: data/Freeciv.in:1495
 msgid "Add Preset"
@@ -15028,9 +15033,9 @@ msgstr ""
 "Pokud naleznete nějakou chybu, prosím pošlete nám bugreport.  Nejlépe pomocí "
 "návštěvy Freeciv Bug Tracking System, na:\n"
 "\n"
-"  http://www.freeciv.org/cgi-bin/bugs\n"
+"  http://bugs.freeciv.org/\n"
 "\n"
-"nebo zasláním emailu na:  bugs@cvs.freeciv.org"
+"nebo zasláním emailu na:  bugs@freeciv.org"
 
 #: data/helpdata.txt:63
 msgid ""
@@ -16922,13 +16927,13 @@ msgstr ""
 "lehčí a rychlejší, aby dorazila dříve. (tj. co nejvíce pohonných jednotek, "
 "malo modulu...). Druhá možnost je rychle dobýt protivníkovo hlavní město."
 
-#: data/default/buildings.ruleset:54 data/civ2/buildings.ruleset:28
+#: data/default/buildings.ruleset:44 data/civ2/buildings.ruleset:28
 #: data/history/buildings.ruleset:28
 msgid "Airport"
 msgstr "Letiště"
 
-#: data/default/buildings.ruleset:70 data/civ2/buildings.ruleset:44
-#: data/history/buildings.ruleset:44
+#: data/default/buildings.ruleset:58 data/civ2/buildings.ruleset:42
+#: data/history/buildings.ruleset:42
 msgid ""
 "Allows a city to produce veteran air units.  Also, damaged air units which "
 "stay in town for one full turn without moving are completely restored.\n"
@@ -16945,13 +16950,13 @@ msgstr ""
 "jednoho města do druhého, spotřebuje mu však všechny pohybové jednotky. "
 "Jednotka musí mít před touto cestou nějaké body na pohyb k dispozici."
 
-#: data/default/buildings.ruleset:82 data/civ2/buildings.ruleset:56
-#: data/civ1/buildings.ruleset:28 data/history/buildings.ruleset:56
+#: data/default/buildings.ruleset:70 data/civ2/buildings.ruleset:54
+#: data/civ1/buildings.ruleset:28 data/history/buildings.ruleset:54
 msgid "Aqueduct"
 msgstr "Akvadukt"
 
-#: data/default/buildings.ruleset:98 data/civ2/buildings.ruleset:72
-#: data/history/buildings.ruleset:72
+#: data/default/buildings.ruleset:84 data/civ2/buildings.ruleset:68
+#: data/history/buildings.ruleset:68
 msgid ""
 "Allows a city to grow larger than size 8.  A Sewer System is also required "
 "for a city to grow larger than size 12."
@@ -16959,29 +16964,29 @@ msgstr ""
 "Umožní zvětšení města nad velikost 8. Kanalizace pak umožní zvětšení města "
 "nad velikost 12."
 
-#: data/default/buildings.ruleset:104 data/civ2/buildings.ruleset:78
-#: data/civ1/buildings.ruleset:49 data/history/buildings.ruleset:78
+#: data/default/buildings.ruleset:90 data/civ2/buildings.ruleset:74
+#: data/civ1/buildings.ruleset:47 data/history/buildings.ruleset:74
 msgid "Bank"
 msgstr "Banka"
 
-#: data/default/buildings.ruleset:122 data/civ2/buildings.ruleset:96
-#: data/civ1/buildings.ruleset:67 data/history/buildings.ruleset:96
+#: data/default/buildings.ruleset:106 data/civ2/buildings.ruleset:90
+#: data/civ1/buildings.ruleset:63 data/history/buildings.ruleset:90
 #, no-c-format
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
 msgstr "Spolu s tržištěm zajistí banka o 100% vyšší produkci blahobytu a daní."
 
-#: data/default/buildings.ruleset:128 data/civ2/buildings.ruleset:102
-#: data/civ1/buildings.ruleset:73 data/history/buildings.ruleset:102
+#: data/default/buildings.ruleset:112 data/civ2/buildings.ruleset:96
+#: data/civ1/buildings.ruleset:69 data/history/buildings.ruleset:96
 msgid "Barracks"
 msgstr "Kasárny"
 
-#: data/default/buildings.ruleset:145 data/default/buildings.ruleset:171
-#: data/default/buildings.ruleset:196 data/civ2/buildings.ruleset:118
-#: data/civ2/buildings.ruleset:143 data/civ2/buildings.ruleset:168
-#: data/history/buildings.ruleset:119 data/history/buildings.ruleset:145
-#: data/history/buildings.ruleset:170
+#: data/default/buildings.ruleset:127 data/default/buildings.ruleset:151
+#: data/default/buildings.ruleset:174 data/civ2/buildings.ruleset:110
+#: data/civ2/buildings.ruleset:133 data/civ2/buildings.ruleset:156
+#: data/history/buildings.ruleset:111 data/history/buildings.ruleset:135
+#: data/history/buildings.ruleset:158
 msgid ""
 "With a Barracks, each new land unit built in a city will automatically have "
 "Veteran status, which means that its attack and defence strengths are "
@@ -16993,23 +16998,23 @@ msgstr ""
 "útočnou sílu. Pokud pozemní jednotka stráví celý tah bez pohybu ve městě s "
 "kasárnami, bude její zdraví obnoveno v plné výši."
 
-#: data/default/buildings.ruleset:154 data/civ2/buildings.ruleset:127
-#: data/civ1/buildings.ruleset:98 data/history/buildings.ruleset:128
+#: data/default/buildings.ruleset:136 data/civ2/buildings.ruleset:119
+#: data/civ1/buildings.ruleset:92 data/history/buildings.ruleset:120
 msgid "Barracks II"
 msgstr "Kasárny II"
 
-#: data/default/buildings.ruleset:180 data/civ2/buildings.ruleset:152
-#: data/civ1/buildings.ruleset:123 data/history/buildings.ruleset:154
+#: data/default/buildings.ruleset:160 data/civ2/buildings.ruleset:142
+#: data/civ1/buildings.ruleset:115 data/history/buildings.ruleset:144
 msgid "Barracks III"
 msgstr "Kasárny III"
 
-#: data/default/buildings.ruleset:205 data/civ2/buildings.ruleset:177
-#: data/civ1/buildings.ruleset:148 data/history/buildings.ruleset:179
+#: data/default/buildings.ruleset:183 data/civ2/buildings.ruleset:165
+#: data/civ1/buildings.ruleset:138 data/history/buildings.ruleset:167
 msgid "Cathedral"
 msgstr "Katedrála"
 
-#: data/default/buildings.ruleset:222 data/civ2/buildings.ruleset:193
-#: data/history/buildings.ruleset:195
+#: data/default/buildings.ruleset:198 data/civ2/buildings.ruleset:179
+#: data/history/buildings.ruleset:181
 msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city.  The discovery of Theology increases the effect "
@@ -17021,13 +17026,13 @@ msgstr ""
 "udržovatelnost města. Objev Teologie zvýší efekt katedrály o dalšího "
 "obyvatele. Objev Socialismu efekt o jednoho obyvatele sníží."
 
-#: data/default/buildings.ruleset:232 data/civ2/buildings.ruleset:203
-#: data/civ1/buildings.ruleset:170 data/history/buildings.ruleset:205
+#: data/default/buildings.ruleset:208 data/civ2/buildings.ruleset:189
+#: data/civ1/buildings.ruleset:158 data/history/buildings.ruleset:191
 msgid "City Walls"
 msgstr "Hradby"
 
-#: data/default/buildings.ruleset:248 data/civ2/buildings.ruleset:219
-#: data/history/buildings.ruleset:221
+#: data/default/buildings.ruleset:222 data/civ2/buildings.ruleset:203
+#: data/history/buildings.ruleset:205
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
 "strength of units within the city against ground and helicopter units.  They "
@@ -17041,13 +17046,13 @@ msgstr ""
 "Městské hradby taky zamezí snižování populace města, je-li obránce v bojii "
 "zničen pozemní jednotkou."
 
-#: data/default/buildings.ruleset:257 data/civ2/buildings.ruleset:228
-#: data/history/buildings.ruleset:230
+#: data/default/buildings.ruleset:231 data/civ2/buildings.ruleset:212
+#: data/history/buildings.ruleset:214
 msgid "Coastal Defense"
 msgstr "Pobřežní pevnost"
 
-#: data/default/buildings.ruleset:273 data/civ2/buildings.ruleset:244
-#: data/history/buildings.ruleset:246
+#: data/default/buildings.ruleset:246 data/civ2/buildings.ruleset:227
+#: data/history/buildings.ruleset:229
 msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
@@ -17055,12 +17060,12 @@ msgstr ""
 "Zvyšují obrannou sílu jednotek ve městě 2x tím, že chrání před bombardováním "
 "města nepřátelskými loděmi."
 
-#: data/default/buildings.ruleset:279 data/civ2/buildings.ruleset:250
-#: data/civ1/buildings.ruleset:195 data/history/buildings.ruleset:252
+#: data/default/buildings.ruleset:252 data/civ2/buildings.ruleset:233
+#: data/civ1/buildings.ruleset:181 data/history/buildings.ruleset:235
 msgid "Colosseum"
 msgstr "Koloseum"
 
-#: data/default/buildings.ruleset:295 data/history/buildings.ruleset:268
+#: data/default/buildings.ruleset:266 data/history/buildings.ruleset:249
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)"
@@ -17068,12 +17073,12 @@ msgstr ""
 "Obveselí obyvatele města natolik, že získáte 3 spokojené obyvatele na úkor "
 "nespokojených. (4, po vynálezu elektřiny) "
 
-#: data/default/buildings.ruleset:303 data/civ2/buildings.ruleset:272
-#: data/civ1/buildings.ruleset:216 data/history/buildings.ruleset:276
+#: data/default/buildings.ruleset:274 data/civ2/buildings.ruleset:253
+#: data/civ1/buildings.ruleset:200 data/history/buildings.ruleset:257
 msgid "Courthouse"
 msgstr "Budova soudu"
 
-#: data/default/buildings.ruleset:319 data/civ2/buildings.ruleset:288
+#: data/default/buildings.ruleset:288 data/civ2/buildings.ruleset:267
 msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
@@ -17083,13 +17088,13 @@ msgstr ""
 "uklidní jednoho nespokojenejo obyvatele na spokojeného. Taky snižuje na "
 "polovinu efekt vzdálenosti od hlavního města, při výpočtech ceny revolucí."
 
-#: data/default/buildings.ruleset:327 data/civ2/buildings.ruleset:296
-#: data/civ1/buildings.ruleset:240 data/history/buildings.ruleset:300
+#: data/default/buildings.ruleset:296 data/civ2/buildings.ruleset:275
+#: data/civ1/buildings.ruleset:222 data/history/buildings.ruleset:279
 msgid "Factory"
 msgstr "Továrna"
 
-#: data/default/buildings.ruleset:343 data/civ2/buildings.ruleset:312
-#: data/civ1/buildings.ruleset:256 data/history/buildings.ruleset:316
+#: data/default/buildings.ruleset:310 data/civ2/buildings.ruleset:289
+#: data/civ1/buildings.ruleset:236 data/history/buildings.ruleset:293
 msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
@@ -17097,13 +17102,13 @@ msgstr ""
 "Zvýší produkci štítů města o 50%. Toto zvýšení však může citelně přispět ke "
 "znečistění ve městě."
 
-#: data/default/buildings.ruleset:349 data/civ2/buildings.ruleset:318
-#: data/civ1/buildings.ruleset:262 data/history/buildings.ruleset:322
+#: data/default/buildings.ruleset:316 data/civ2/buildings.ruleset:295
+#: data/civ1/buildings.ruleset:242 data/history/buildings.ruleset:299
 msgid "Granary"
 msgstr "Sýpka"
 
-#: data/default/buildings.ruleset:365 data/civ2/buildings.ruleset:334
-#: data/civ1/buildings.ruleset:278 data/history/buildings.ruleset:338
+#: data/default/buildings.ruleset:330 data/civ2/buildings.ruleset:309
+#: data/civ1/buildings.ruleset:256 data/history/buildings.ruleset:313
 msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
@@ -17113,13 +17118,13 @@ msgstr ""
 "nebo naplněna. To pomůže městu rychleji růst a lépe se vyrovnávat s "
 "hladomorem."
 
-#: data/default/buildings.ruleset:375 data/civ2/buildings.ruleset:344
-#: data/history/buildings.ruleset:348
+#: data/default/buildings.ruleset:340 data/civ2/buildings.ruleset:319
+#: data/history/buildings.ruleset:323
 msgid "Harbour"
 msgstr "Přístaviště"
 
-#: data/default/buildings.ruleset:391 data/civ2/buildings.ruleset:360
-#: data/history/buildings.ruleset:364
+#: data/default/buildings.ruleset:355 data/civ2/buildings.ruleset:334
+#: data/history/buildings.ruleset:338
 msgid ""
 "Gives one extra food resource on all Ocean squares.  The city needs to be "
 "coastal to build this improvement."
@@ -17127,12 +17132,12 @@ msgstr ""
 "Každé políčko moře dá o jednu jednotku jídla více. Jen pobřežní města je "
 "mohou stavit."
 
-#: data/default/buildings.ruleset:397 data/civ2/buildings.ruleset:366
-#: data/civ1/buildings.ruleset:288 data/history/buildings.ruleset:370
+#: data/default/buildings.ruleset:361 data/civ2/buildings.ruleset:340
+#: data/civ1/buildings.ruleset:266 data/history/buildings.ruleset:344
 msgid "Hydro Plant"
 msgstr "Hydroelektrárna"
 
-#: data/default/buildings.ruleset:414 data/history/buildings.ruleset:386
+#: data/default/buildings.ruleset:378 data/history/buildings.ruleset:360
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -17153,34 +17158,34 @@ msgstr ""
 "elektrárnu a Jadernou el. Město může postavit Hydroelektrárnu jen v případě, "
 "že je na (nebo hned vedle) kopci nebo řece."
 
-#: data/default/buildings.ruleset:433 data/civ2/buildings.ruleset:398
-#: data/civ1/buildings.ruleset:318 data/history/buildings.ruleset:405
+#: data/default/buildings.ruleset:397 data/civ2/buildings.ruleset:372
+#: data/civ1/buildings.ruleset:296 data/history/buildings.ruleset:379
 msgid "Library"
 msgstr "Knihovna"
 
-#: data/default/buildings.ruleset:450
+#: data/default/buildings.ruleset:412
 #, no-c-format
 msgid "Increases the science output in a city by 100%."
 msgstr "Zvyšuje vědecké zdroje ve městě o 100%."
 
-#: data/default/buildings.ruleset:455 data/civ2/buildings.ruleset:420
-#: data/civ1/buildings.ruleset:340 data/history/buildings.ruleset:427
+#: data/default/buildings.ruleset:417 data/civ2/buildings.ruleset:392
+#: data/civ1/buildings.ruleset:316 data/history/buildings.ruleset:399
 msgid "Marketplace"
 msgstr "Tržiště"
 
-#: data/default/buildings.ruleset:472 data/civ2/buildings.ruleset:437
-#: data/civ1/buildings.ruleset:357 data/history/buildings.ruleset:444
+#: data/default/buildings.ruleset:432 data/civ2/buildings.ruleset:407
+#: data/civ1/buildings.ruleset:331 data/history/buildings.ruleset:414
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
 msgstr "Zvyšuje spokojenost a příjmy z daní o 50%."
 
-#: data/default/buildings.ruleset:477 data/civ2/buildings.ruleset:442
-#: data/civ1/buildings.ruleset:362 data/history/buildings.ruleset:449
+#: data/default/buildings.ruleset:437 data/civ2/buildings.ruleset:412
+#: data/civ1/buildings.ruleset:336 data/history/buildings.ruleset:419
 msgid "Mass Transit"
 msgstr "Hromadná doprava"
 
-#: data/default/buildings.ruleset:493 data/civ2/buildings.ruleset:458
-#: data/civ1/buildings.ruleset:378 data/history/buildings.ruleset:465
+#: data/default/buildings.ruleset:451 data/civ2/buildings.ruleset:426
+#: data/civ1/buildings.ruleset:350 data/history/buildings.ruleset:433
 msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
@@ -17188,25 +17193,25 @@ msgstr ""
 "Nuluje znečištění produkované populací. Populace jednoduše nemá vliv na "
 "znečištění generované městem."
 
-#: data/default/buildings.ruleset:500 data/civ2/buildings.ruleset:465
-#: data/civ1/buildings.ruleset:385 data/history/buildings.ruleset:472
+#: data/default/buildings.ruleset:458 data/civ2/buildings.ruleset:433
+#: data/civ1/buildings.ruleset:357 data/history/buildings.ruleset:440
 msgid "Mfg. Plant"
 msgstr "Výrobní podnik (mfg. plant)"
 
-#: data/default/buildings.ruleset:518 data/civ2/buildings.ruleset:483
-#: data/civ1/buildings.ruleset:403 data/history/buildings.ruleset:490
+#: data/default/buildings.ruleset:474 data/civ2/buildings.ruleset:449
+#: data/civ1/buildings.ruleset:373 data/history/buildings.ruleset:456
 #, no-c-format
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
 msgstr "Spolu s Továrnou zvýší produkci ve městě o 100%."
 
-#: data/default/buildings.ruleset:524 data/civ2/buildings.ruleset:489
-#: data/civ1/buildings.ruleset:409 data/history/buildings.ruleset:496
+#: data/default/buildings.ruleset:480 data/civ2/buildings.ruleset:455
+#: data/civ1/buildings.ruleset:379 data/history/buildings.ruleset:462
 msgid "Nuclear Plant"
 msgstr "Jaderná elektrárna"
 
-#: data/default/buildings.ruleset:541 data/history/buildings.ruleset:512
+#: data/default/buildings.ruleset:495 data/history/buildings.ruleset:476
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -17224,13 +17229,13 @@ msgstr ""
 "Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
 "elektrárnu a Jadernou el. "
 
-#: data/default/buildings.ruleset:561 data/civ2/buildings.ruleset:523
-#: data/history/buildings.ruleset:532
+#: data/default/buildings.ruleset:515 data/civ2/buildings.ruleset:487
+#: data/history/buildings.ruleset:496
 msgid "Offshore Platform"
 msgstr "Těžební plošina"
 
-#: data/default/buildings.ruleset:577 data/civ2/buildings.ruleset:539
-#: data/history/buildings.ruleset:548
+#: data/default/buildings.ruleset:530 data/civ2/buildings.ruleset:502
+#: data/history/buildings.ruleset:511
 msgid ""
 "Adds 1 extra shield resource on all Ocean squares in a city.  The city needs "
 "to be coastal to build this improvement."
@@ -17238,13 +17243,13 @@ msgstr ""
 "Zvýší produkci štítů ve městě o 1 na všech políčcích moře. Město musí ležet "
 "na pobřeží, aby mohlo Těžební plošinu postavit."
 
-#: data/default/buildings.ruleset:583 data/civ2/buildings.ruleset:545
-#: data/civ1/buildings.ruleset:441 data/history/buildings.ruleset:554
+#: data/default/buildings.ruleset:536 data/civ2/buildings.ruleset:508
+#: data/civ1/buildings.ruleset:409 data/history/buildings.ruleset:517
 msgid "Palace"
 msgstr "Palác"
 
-#: data/default/buildings.ruleset:599 data/civ2/buildings.ruleset:561
-#: data/civ1/buildings.ruleset:457 data/history/buildings.ruleset:570
+#: data/default/buildings.ruleset:550 data/civ2/buildings.ruleset:522
+#: data/civ1/buildings.ruleset:423 data/history/buildings.ruleset:531
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -17265,13 +17270,13 @@ msgstr ""
 "občanskou válku. Ztráta hlavního města taky znamená ztrátu vesmírné lodi, ať "
 "je v jakémkoliv stavu."
 
-#: data/default/buildings.ruleset:613 data/civ2/buildings.ruleset:575
-#: data/history/buildings.ruleset:584
+#: data/default/buildings.ruleset:564 data/civ2/buildings.ruleset:536
+#: data/history/buildings.ruleset:545
 msgid "Police Station"
 msgstr "Policejní stanice"
 
-#: data/default/buildings.ruleset:629 data/civ2/buildings.ruleset:591
-#: data/history/buildings.ruleset:600
+#: data/default/buildings.ruleset:578 data/civ2/buildings.ruleset:550
+#: data/history/buildings.ruleset:559
 msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
@@ -17280,13 +17285,13 @@ msgstr ""
 "Snižuje nespokojenost vyvolanou vojenskými jednotkami mimo město o 2 pod "
 "Demokracií a o 1 pod Republikou. V ostatních státních zřízeních nemá efekt."
 
-#: data/default/buildings.ruleset:639 data/civ2/buildings.ruleset:598
-#: data/history/buildings.ruleset:610
+#: data/default/buildings.ruleset:588 data/civ2/buildings.ruleset:557
+#: data/history/buildings.ruleset:569
 msgid "Port Facility"
 msgstr "Přístav"
 
-#: data/default/buildings.ruleset:655 data/civ2/buildings.ruleset:614
-#: data/history/buildings.ruleset:626
+#: data/default/buildings.ruleset:603 data/civ2/buildings.ruleset:572
+#: data/history/buildings.ruleset:584
 msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
@@ -17294,12 +17299,12 @@ msgstr ""
 "Umožňuje městu stavit námořní jednotky se statusem veterán. Poškozené "
 "námořní jednotky, které stráví celý tah ve městě, budou vyléčeny na maximum."
 
-#: data/default/buildings.ruleset:662 data/civ2/buildings.ruleset:621
-#: data/civ1/buildings.ruleset:471 data/history/buildings.ruleset:633
+#: data/default/buildings.ruleset:610 data/civ2/buildings.ruleset:579
+#: data/civ1/buildings.ruleset:437 data/history/buildings.ruleset:591
 msgid "Power Plant"
 msgstr "Elektrárna"
 
-#: data/default/buildings.ruleset:680 data/history/buildings.ruleset:650
+#: data/default/buildings.ruleset:626 data/history/buildings.ruleset:606
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -17317,13 +17322,13 @@ msgstr ""
 "Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
 "elektrárnu a Jadernou el. "
 
-#: data/default/buildings.ruleset:695 data/civ2/buildings.ruleset:650
-#: data/civ1/buildings.ruleset:500 data/history/buildings.ruleset:665
+#: data/default/buildings.ruleset:641 data/civ2/buildings.ruleset:606
+#: data/civ1/buildings.ruleset:464 data/history/buildings.ruleset:621
 msgid "Recycling Center"
 msgstr "Recyklační centrum"
 
-#: data/default/buildings.ruleset:712 data/civ2/buildings.ruleset:667
-#: data/civ1/buildings.ruleset:517 data/history/buildings.ruleset:682
+#: data/default/buildings.ruleset:656 data/civ2/buildings.ruleset:621
+#: data/civ1/buildings.ruleset:479 data/history/buildings.ruleset:636
 #, no-c-format
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
@@ -17332,12 +17337,12 @@ msgstr ""
 "Postavením Recyklačního centra snížíte množství znečištění, produkovaného "
 "městem, o 66%."
 
-#: data/default/buildings.ruleset:718 data/civ2/buildings.ruleset:673
-#: data/history/buildings.ruleset:688
+#: data/default/buildings.ruleset:662 data/civ2/buildings.ruleset:627
+#: data/history/buildings.ruleset:642
 msgid "Research Lab"
 msgstr "Výzkumná laboratoř"
 
-#: data/default/buildings.ruleset:735
+#: data/default/buildings.ruleset:677
 msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 200%. Together with a Library and a University, a Research Lab "
@@ -17346,13 +17351,13 @@ msgstr ""
 "Spolu s knihovnou zrychlí výzkum o 200%. Spolu s knihovnou a univerzitou o "
 "450%."
 
-#: data/default/buildings.ruleset:743 data/civ2/buildings.ruleset:698
-#: data/history/buildings.ruleset:712
+#: data/default/buildings.ruleset:685 data/civ2/buildings.ruleset:650
+#: data/history/buildings.ruleset:664
 msgid "SAM Battery"
 msgstr "SAM Baterie"
 
-#: data/default/buildings.ruleset:759 data/civ2/buildings.ruleset:714
-#: data/history/buildings.ruleset:728
+#: data/default/buildings.ruleset:699 data/civ2/buildings.ruleset:664
+#: data/history/buildings.ruleset:678
 msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
@@ -17360,13 +17365,13 @@ msgstr ""
 "Zdvojnásobí obranyschopnost všem jednotkám ve městě proti leteckým "
 "jednotkám. (s výjimkou jaderných zbraní)"
 
-#: data/default/buildings.ruleset:765 data/civ2/buildings.ruleset:720
-#: data/civ1/buildings.ruleset:523 data/history/buildings.ruleset:734
+#: data/default/buildings.ruleset:705 data/civ2/buildings.ruleset:670
+#: data/civ1/buildings.ruleset:485 data/history/buildings.ruleset:684
 msgid "SDI Defense"
 msgstr "SDI obrana"
 
-#: data/default/buildings.ruleset:781 data/civ2/buildings.ruleset:736
-#: data/civ1/buildings.ruleset:539 data/history/buildings.ruleset:750
+#: data/default/buildings.ruleset:719 data/civ2/buildings.ruleset:684
+#: data/civ1/buildings.ruleset:499 data/history/buildings.ruleset:698
 msgid ""
 "Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
 "have no effect on the city.  Also, doubles defence against non-nuclear "
@@ -17375,13 +17380,13 @@ msgstr ""
 "Chrání město před útokem jaderných zbraní.  Jaderné útoky jsou jednoduše bez "
 "efektu v tomto městě.  Také zdvojnásobuje obranu proti konvenčním raketám."
 
-#: data/default/buildings.ruleset:790 data/civ2/buildings.ruleset:745
-#: data/history/buildings.ruleset:759
+#: data/default/buildings.ruleset:728 data/civ2/buildings.ruleset:693
+#: data/history/buildings.ruleset:707
 msgid "Sewer System"
 msgstr "Kanalizační systém"
 
-#: data/default/buildings.ruleset:807 data/civ2/buildings.ruleset:762
-#: data/history/buildings.ruleset:776
+#: data/default/buildings.ruleset:743 data/civ2/buildings.ruleset:708
+#: data/history/buildings.ruleset:722
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
@@ -17389,13 +17394,13 @@ msgstr ""
 "Umožní se městu rozrůst nad velikost 12. Samotný akvadukt je požadován před "
 "kanalizací a umožní městu růst nad velikost 8."
 
-#: data/default/buildings.ruleset:813 data/civ2/buildings.ruleset:800
-#: data/civ1/buildings.ruleset:548 data/history/buildings.ruleset:782
+#: data/default/buildings.ruleset:749 data/civ2/buildings.ruleset:744
+#: data/civ1/buildings.ruleset:508 data/history/buildings.ruleset:728
 msgid "Space Component"
 msgstr "Příslušenství vesmírné lodi. "
 
-#: data/default/buildings.ruleset:830 data/civ2/buildings.ruleset:816
-#: data/civ1/buildings.ruleset:564 data/history/buildings.ruleset:798
+#: data/default/buildings.ruleset:764 data/civ2/buildings.ruleset:758
+#: data/civ1/buildings.ruleset:522 data/history/buildings.ruleset:742
 msgid ""
 "Space Components can be differentiated into Propulsion and Fuel Components.  "
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
@@ -17411,13 +17416,13 @@ msgstr ""
 "Dříve, než budete moci stavět tyto díly, bude muset některá civilizace "
 "postavit div sveta Program Apollo."
 
-#: data/default/buildings.ruleset:840 data/civ2/buildings.ruleset:826
-#: data/civ1/buildings.ruleset:574 data/history/buildings.ruleset:808
+#: data/default/buildings.ruleset:774 data/civ2/buildings.ruleset:768
+#: data/civ1/buildings.ruleset:532 data/history/buildings.ruleset:752
 msgid "Space Module"
 msgstr "Modul vesmírné lodi"
 
-#: data/default/buildings.ruleset:857 data/civ2/buildings.ruleset:842
-#: data/civ1/buildings.ruleset:590 data/history/buildings.ruleset:824
+#: data/default/buildings.ruleset:789 data/civ2/buildings.ruleset:782
+#: data/civ1/buildings.ruleset:546 data/history/buildings.ruleset:766
 msgid ""
 "Space Modules are the most expensive parts of spaceships.  There are three "
 "different types of Space Module:\n"
@@ -17450,13 +17455,13 @@ msgstr ""
 "Dříve, než budete moci stavět tyto díly, bude muset některá civilizace "
 "postavit div sveta Program Apollo."
 
-#: data/default/buildings.ruleset:876 data/civ2/buildings.ruleset:861
-#: data/civ1/buildings.ruleset:609 data/history/buildings.ruleset:843
+#: data/default/buildings.ruleset:808 data/civ2/buildings.ruleset:801
+#: data/civ1/buildings.ruleset:565 data/history/buildings.ruleset:785
 msgid "Space Structural"
 msgstr "Konstrukce vesmírné lodi"
 
-#: data/default/buildings.ruleset:893 data/civ2/buildings.ruleset:877
-#: data/civ1/buildings.ruleset:625 data/history/buildings.ruleset:859
+#: data/default/buildings.ruleset:823 data/civ2/buildings.ruleset:815
+#: data/civ1/buildings.ruleset:579 data/history/buildings.ruleset:799
 msgid ""
 "Space Structurals form the base of your spaceship.  All other spaceship "
 "parts need to be connected to Structurals in order to function.  You can "
@@ -17472,13 +17477,13 @@ msgstr ""
 "Dříve, než budete moci stavět tyto díly, bude muset některá civilizace "
 "postavit div sveta Program Apollo."
 
-#: data/default/buildings.ruleset:903 data/civ2/buildings.ruleset:887
-#: data/history/buildings.ruleset:869
+#: data/default/buildings.ruleset:833 data/civ2/buildings.ruleset:825
+#: data/history/buildings.ruleset:809
 msgid "Stock Exchange"
 msgstr "Burza"
 
-#: data/default/buildings.ruleset:921 data/civ2/buildings.ruleset:905
-#: data/history/buildings.ruleset:887
+#: data/default/buildings.ruleset:849 data/civ2/buildings.ruleset:841
+#: data/history/buildings.ruleset:825
 #, no-c-format
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
@@ -17486,26 +17491,26 @@ msgid ""
 msgstr ""
 "Spolu s Tržištěm a Bankou Vám Burza zvedne blahobyt a zisk z daní o 150%"
 
-#: data/default/buildings.ruleset:927 data/civ2/buildings.ruleset:911
-#: data/history/buildings.ruleset:893
+#: data/default/buildings.ruleset:855 data/civ2/buildings.ruleset:847
+#: data/history/buildings.ruleset:831
 msgid "Super Highways"
 msgstr "Superdálnice"
 
-#: data/default/buildings.ruleset:944 data/civ2/buildings.ruleset:928
-#: data/history/buildings.ruleset:910
+#: data/default/buildings.ruleset:870 data/civ2/buildings.ruleset:862
+#: data/history/buildings.ruleset:846
 #, no-c-format
 msgid ""
 "Increases trade resources by 50% on all squares with roads or railroads."
 msgstr ""
 "Zvyšuje obchodní zdroje o 50% na všech polích s cestami nebo železnicí."
 
-#: data/default/buildings.ruleset:952 data/civ2/buildings.ruleset:934
-#: data/history/buildings.ruleset:918
+#: data/default/buildings.ruleset:878 data/civ2/buildings.ruleset:868
+#: data/history/buildings.ruleset:854
 msgid "Supermarket"
 msgstr "Supermarket"
 
-#: data/default/buildings.ruleset:969 data/civ2/buildings.ruleset:951
-#: data/history/buildings.ruleset:935
+#: data/default/buildings.ruleset:893 data/civ2/buildings.ruleset:883
+#: data/history/buildings.ruleset:869
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
@@ -17515,13 +17520,13 @@ msgstr ""
 "Zvyšuje produkci jídla každé obdělávané farmy kolem města. Farma je políčko, "
 "na kterém bylo podruhé vybudováno zavlažování."
 
-#: data/default/buildings.ruleset:976 data/civ2/buildings.ruleset:958
-#: data/civ1/buildings.ruleset:635 data/history/buildings.ruleset:942
+#: data/default/buildings.ruleset:900 data/civ2/buildings.ruleset:890
+#: data/civ1/buildings.ruleset:589 data/history/buildings.ruleset:876
 msgid "Temple"
 msgstr "Chrám"
 
-#: data/default/buildings.ruleset:992 data/civ2/buildings.ruleset:974
-#: data/civ1/buildings.ruleset:651 data/history/buildings.ruleset:958
+#: data/default/buildings.ruleset:914 data/civ2/buildings.ruleset:904
+#: data/civ1/buildings.ruleset:603 data/history/buildings.ruleset:890
 msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
@@ -17531,27 +17536,27 @@ msgstr ""
 "Mysticismus i div světa Věšírna zdvojnásobí efekt. S Mysticismem a věštírnou "
 "udělá chrám 4 spokojené lidi na úkor nespokojených."
 
-#: data/default/buildings.ruleset:999 data/civ2/buildings.ruleset:981
-#: data/civ1/buildings.ruleset:658 data/history/buildings.ruleset:965
+#: data/default/buildings.ruleset:921 data/civ2/buildings.ruleset:911
+#: data/civ1/buildings.ruleset:610 data/history/buildings.ruleset:897
 #: data/default/techs.ruleset:745 data/civ2/techs.ruleset:556
 #: data/civ1/techs.ruleset:553 data/history/techs.ruleset:558
 msgid "University"
 msgstr "Univerzita"
 
-#: data/default/buildings.ruleset:1017
+#: data/default/buildings.ruleset:937
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 250%."
 msgstr "Spolu s knihovnou zvýší rychlost výzkumu ve městě o 200%."
 
-#: data/default/buildings.ruleset:1023 data/civ2/buildings.ruleset:1005
-#: data/civ1/buildings.ruleset:682 data/history/buildings.ruleset:989
+#: data/default/buildings.ruleset:943 data/civ2/buildings.ruleset:933
+#: data/civ1/buildings.ruleset:632 data/history/buildings.ruleset:919
 msgid "Apollo Program"
 msgstr "Program Apollo"
 
-#: data/default/buildings.ruleset:1039 data/civ2/buildings.ruleset:1021
-#: data/history/buildings.ruleset:1005
+#: data/default/buildings.ruleset:957 data/civ2/buildings.ruleset:947
+#: data/history/buildings.ruleset:933
 msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
 "players to start building spaceship parts (assuming they have researched the "
@@ -17561,12 +17566,12 @@ msgstr ""
 "Apollo umožní všem hráčům zahájit stavbu vesmírné lodi, pokud jsou na "
 "dostatečné technologické úrovni."
 
-#: data/default/buildings.ruleset:1046 data/civ2/buildings.ruleset:1028
-#: data/history/buildings.ruleset:1012
+#: data/default/buildings.ruleset:964 data/civ2/buildings.ruleset:954
+#: data/history/buildings.ruleset:940
 msgid "A.Smith's Trading Co."
 msgstr "A.Smithova obch.spol."
 
-#: data/default/buildings.ruleset:1062
+#: data/default/buildings.ruleset:978
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -17574,13 +17579,13 @@ msgstr ""
 "Každé vybavení města, které potřebuje pro údržbu 1 jednotku (blbý překlad "
 "co?) bude s tímto divem světa zdarma ve všech městech."
 
-#: data/default/buildings.ruleset:1068 data/civ2/buildings.ruleset:1050
-#: data/civ1/buildings.ruleset:703 data/history/buildings.ruleset:1034
+#: data/default/buildings.ruleset:984 data/civ2/buildings.ruleset:974
+#: data/civ1/buildings.ruleset:651 data/history/buildings.ruleset:960
 msgid "Colossus"
 msgstr "Kolos"
 
-#: data/default/buildings.ruleset:1084 data/civ2/buildings.ruleset:1066
-#: data/civ1/buildings.ruleset:719 data/history/buildings.ruleset:1050
+#: data/default/buildings.ruleset:998 data/civ2/buildings.ruleset:988
+#: data/civ1/buildings.ruleset:665 data/history/buildings.ruleset:974
 msgid ""
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -17588,23 +17593,23 @@ msgstr ""
 "Každé políčko, které produkuje nějaké obchodní příležitosti, bude produkovat "
 "o 1 víc."
 
-#: data/default/buildings.ruleset:1090 data/civ2/buildings.ruleset:1072
-#: data/civ1/buildings.ruleset:725 data/history/buildings.ruleset:1056
+#: data/default/buildings.ruleset:1004 data/civ2/buildings.ruleset:994
+#: data/civ1/buildings.ruleset:671 data/history/buildings.ruleset:980
 msgid "Copernicus' Observatory"
 msgstr "Kopernikova observatoř"
 
-#: data/default/buildings.ruleset:1107 data/civ2/buildings.ruleset:1273
-#: data/civ1/buildings.ruleset:903 data/history/buildings.ruleset:1259
+#: data/default/buildings.ruleset:1019 data/civ2/buildings.ruleset:1177
+#: data/civ1/buildings.ruleset:835 data/history/buildings.ruleset:1165
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Zvyšuje vědecký výstup o 100% ve městě kde stojí."
 
-#: data/default/buildings.ruleset:1112 data/civ2/buildings.ruleset:1094
-#: data/civ1/buildings.ruleset:747 data/history/buildings.ruleset:1078
+#: data/default/buildings.ruleset:1024 data/civ2/buildings.ruleset:1014
+#: data/civ1/buildings.ruleset:691 data/history/buildings.ruleset:1000
 msgid "Cure For Cancer"
 msgstr "Lék proti rakovině"
 
-#: data/default/buildings.ruleset:1128
+#: data/default/buildings.ruleset:1038
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all your cities."
@@ -17612,13 +17617,13 @@ msgstr ""
 "Tato úžasná technologická vymoženost udělá jednoho občana spokojeného na "
 "úkor nespokojených v každém Vašem městě."
 
-#: data/default/buildings.ruleset:1136 data/civ2/buildings.ruleset:1116
-#: data/civ1/buildings.ruleset:769 data/history/buildings.ruleset:1102
+#: data/default/buildings.ruleset:1046 data/civ2/buildings.ruleset:1034
+#: data/civ1/buildings.ruleset:711 data/history/buildings.ruleset:1022
 msgid "Darwin's Voyage"
 msgstr "Darwinova cesta"
 
-#: data/default/buildings.ruleset:1152 data/civ2/buildings.ruleset:1132
-#: data/civ1/buildings.ruleset:785 data/history/buildings.ruleset:1118
+#: data/default/buildings.ruleset:1060 data/civ2/buildings.ruleset:1048
+#: data/civ1/buildings.ruleset:725 data/history/buildings.ruleset:1036
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -17627,12 +17632,12 @@ msgstr ""
 "Cesta Charlese Darwina odstartovala objev evoluce druhů, což způsobilo větší "
 "odvahu ve výzkumech.  Tento div dává dva okamžité vynálezy."
 
-#: data/default/buildings.ruleset:1159 data/civ2/buildings.ruleset:1139
-#: data/history/buildings.ruleset:1125
+#: data/default/buildings.ruleset:1067 data/civ2/buildings.ruleset:1055
+#: data/history/buildings.ruleset:1043
 msgid "Eiffel Tower"
 msgstr "Eiffelova věž"
 
-#: data/default/buildings.ruleset:1176 data/history/buildings.ruleset:1142
+#: data/default/buildings.ruleset:1082 data/history/buildings.ruleset:1058
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is increased while you "
@@ -17642,13 +17647,13 @@ msgstr ""
 "Vaše reputace a dobrá vůle vůči ostatním národům se zvýší, pokud vlastníte "
 "tento div. Reputace se navrací dvakrát rychleji než normálně."
 
-#: data/default/buildings.ruleset:1183 data/civ2/buildings.ruleset:1164
-#: data/civ1/buildings.ruleset:792 data/history/buildings.ruleset:1149
+#: data/default/buildings.ruleset:1089 data/civ2/buildings.ruleset:1078
+#: data/civ1/buildings.ruleset:732 data/history/buildings.ruleset:1065
 msgid "Great Library"
 msgstr "Velká knihovna"
 
-#: data/default/buildings.ruleset:1199 data/civ2/buildings.ruleset:1180
-#: data/civ1/buildings.ruleset:808 data/history/buildings.ruleset:1165
+#: data/default/buildings.ruleset:1103 data/civ2/buildings.ruleset:1092
+#: data/civ1/buildings.ruleset:746 data/history/buildings.ruleset:1079
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
@@ -17656,22 +17661,22 @@ msgstr ""
 "Civilizace, která postaví Velkou knihovnu získá každý vynález, který už "
 "znají alespoň dva ostatní národy."
 
-#: data/default/buildings.ruleset:1205 data/civ2/buildings.ruleset:1186
-#: data/civ1/buildings.ruleset:814 data/history/buildings.ruleset:1171
+#: data/default/buildings.ruleset:1109 data/civ2/buildings.ruleset:1098
+#: data/civ1/buildings.ruleset:752 data/history/buildings.ruleset:1085
 msgid "Great Wall"
 msgstr "Velká zeď"
 
-#: data/default/buildings.ruleset:1221
+#: data/default/buildings.ruleset:1123
 msgid "Works as a City Wall in all your cities."
 msgstr "Funguje jako Hradby v každém městě."
 
-#: data/default/buildings.ruleset:1229 data/civ2/buildings.ruleset:1209
-#: data/civ1/buildings.ruleset:837 data/history/buildings.ruleset:1195
+#: data/default/buildings.ruleset:1131 data/civ2/buildings.ruleset:1119
+#: data/civ1/buildings.ruleset:773 data/history/buildings.ruleset:1107
 msgid "Hanging Gardens"
 msgstr "Visuté zahrady"
 
-#: data/default/buildings.ruleset:1245 data/civ2/buildings.ruleset:1225
-#: data/civ1/buildings.ruleset:853 data/history/buildings.ruleset:1211
+#: data/default/buildings.ruleset:1145 data/civ2/buildings.ruleset:1133
+#: data/civ1/buildings.ruleset:787 data/history/buildings.ruleset:1121
 msgid ""
 "Makes one content citizen happy in every city. Makes two extra content "
 "citizens happy in the city containing the Hanging Gardens (that is, a total "
@@ -17684,13 +17689,13 @@ msgstr ""
 "ve městě nejsou spokojení lidé, efekt pracuje na nespokojených (činí "
 "jespokojenými)."
 
-#: data/default/buildings.ruleset:1254 data/civ2/buildings.ruleset:1234
-#: data/civ1/buildings.ruleset:862 data/history/buildings.ruleset:1220
+#: data/default/buildings.ruleset:1154 data/civ2/buildings.ruleset:1142
+#: data/civ1/buildings.ruleset:796 data/history/buildings.ruleset:1130
 msgid "Hoover Dam"
 msgstr "Hooverova hydroelektrárna"
 
-#: data/default/buildings.ruleset:1270 data/civ2/buildings.ruleset:1250
-#: data/history/buildings.ruleset:1236
+#: data/default/buildings.ruleset:1168 data/civ2/buildings.ruleset:1156
+#: data/history/buildings.ruleset:1144
 msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
@@ -17698,12 +17703,12 @@ msgstr ""
 "Funguje jako hydroelektrárna v každém městě. (to snižuje znečištění a "
 "zvyšuje efekt továren a výrobních podniků)"
 
-#: data/default/buildings.ruleset:1276 data/civ2/buildings.ruleset:1256
-#: data/civ1/buildings.ruleset:886 data/history/buildings.ruleset:1242
+#: data/default/buildings.ruleset:1174 data/civ2/buildings.ruleset:1162
+#: data/civ1/buildings.ruleset:820 data/history/buildings.ruleset:1150
 msgid "Isaac Newton's College"
 msgstr "Univerzita Izáka Newtona"
 
-#: data/default/buildings.ruleset:1293
+#: data/default/buildings.ruleset:1189
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -17711,23 +17716,23 @@ msgid ""
 msgstr ""
 "Zvyšuje vědecký výstup o 100% v každém městě, které ovládáme a má univerzitu."
 
-#: data/default/buildings.ruleset:1299 data/civ2/buildings.ruleset:1278
-#: data/civ1/buildings.ruleset:908 data/history/buildings.ruleset:1264
+#: data/default/buildings.ruleset:1195 data/civ2/buildings.ruleset:1182
+#: data/civ1/buildings.ruleset:840 data/history/buildings.ruleset:1170
 msgid "J.S. Bach's Cathedral"
 msgstr "Katedrála J.S. Bacha"
 
-#: data/default/buildings.ruleset:1315 data/civ2/buildings.ruleset:1294
-#: data/history/buildings.ruleset:1280
+#: data/default/buildings.ruleset:1209 data/civ2/buildings.ruleset:1196
+#: data/history/buildings.ruleset:1184
 msgid "Makes two unhappy citizens content in every city."
 msgstr "Učiní dva nespokojené lidi spokojenými v každém městě."
 
-#: data/default/buildings.ruleset:1320 data/civ2/buildings.ruleset:1299
-#: data/history/buildings.ruleset:1285
+#: data/default/buildings.ruleset:1214 data/civ2/buildings.ruleset:1201
+#: data/history/buildings.ruleset:1189
 msgid "King Richard's Crusade"
 msgstr "Křižáci krále Richarda"
 
-#: data/default/buildings.ruleset:1336 data/civ2/buildings.ruleset:1315
-#: data/history/buildings.ruleset:1301
+#: data/default/buildings.ruleset:1228 data/civ2/buildings.ruleset:1215
+#: data/history/buildings.ruleset:1203
 msgid ""
 "Adds one extra shield resource on every square around the city where it is "
 "built."
@@ -17735,22 +17740,22 @@ msgstr ""
 "Ve městě, které tento div postaví, se zvýší produkce štítů každého políčka o "
 "1."
 
-#: data/default/buildings.ruleset:1342 data/civ2/buildings.ruleset:1321
-#: data/history/buildings.ruleset:1307
+#: data/default/buildings.ruleset:1234 data/civ2/buildings.ruleset:1221
+#: data/history/buildings.ruleset:1209
 msgid "Leonardo's Workshop"
 msgstr "Leonardova dílna"
 
-#: data/default/buildings.ruleset:1358 data/civ2/buildings.ruleset:1337
-#: data/history/buildings.ruleset:1323
+#: data/default/buildings.ruleset:1248 data/civ2/buildings.ruleset:1235
+#: data/history/buildings.ruleset:1223
 msgid "Upgrades one obsolete unit per game turn."
 msgstr "Vylepší jednu zastaralou jednotku každý herní tah."
 
-#: data/default/buildings.ruleset:1363 data/civ2/buildings.ruleset:1342
-#: data/civ1/buildings.ruleset:930 data/history/buildings.ruleset:1328
+#: data/default/buildings.ruleset:1253 data/civ2/buildings.ruleset:1240
+#: data/civ1/buildings.ruleset:860 data/history/buildings.ruleset:1228
 msgid "Lighthouse"
 msgstr "Maják"
 
-#: data/default/buildings.ruleset:1379
+#: data/default/buildings.ruleset:1267
 msgid ""
 "Gives all your sea units 1 additional movement point and eliminates the risk "
 "of losing Triremes on the high seas.  Makes all your new sea units veterans "
@@ -17760,37 +17765,37 @@ msgstr ""
 "ztráty triméry na otevřeném moři. Všechny nově postavené lodě budou mít "
 "status veterán. "
 
-#: data/default/buildings.ruleset:1386 data/civ2/buildings.ruleset:1365
-#: data/civ1/buildings.ruleset:955 data/history/buildings.ruleset:1351
+#: data/default/buildings.ruleset:1274 data/civ2/buildings.ruleset:1261
+#: data/civ1/buildings.ruleset:883 data/history/buildings.ruleset:1249
 msgid "Magellan's Expedition"
 msgstr "Magellanova expedice"
 
-#: data/default/buildings.ruleset:1402
+#: data/default/buildings.ruleset:1288
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Přidá všem námořním jednotkám navíc 2 pohybové body."
 
-#: data/default/buildings.ruleset:1407 data/civ2/buildings.ruleset:1386
-#: data/civ1/buildings.ruleset:976 data/history/buildings.ruleset:1372
+#: data/default/buildings.ruleset:1293 data/civ2/buildings.ruleset:1280
+#: data/civ1/buildings.ruleset:902 data/history/buildings.ruleset:1268
 msgid "Manhattan Project"
 msgstr "Manhattanský projekt"
 
-#: data/default/buildings.ruleset:1427 data/civ2/buildings.ruleset:1406
-#: data/history/buildings.ruleset:1392
+#: data/default/buildings.ruleset:1311 data/civ2/buildings.ruleset:1298
+#: data/history/buildings.ruleset:1286
 msgid "Marco Polo's Embassy"
 msgstr "Vyslanectví Marca Pola"
 
-#: data/default/buildings.ruleset:1443 data/civ2/buildings.ruleset:1422
-#: data/history/buildings.ruleset:1408
+#: data/default/buildings.ruleset:1325 data/civ2/buildings.ruleset:1312
+#: data/history/buildings.ruleset:1300
 msgid "The player who owns it gets an embassy with all players."
 msgstr "Hráč, který ji vlastní, získá ambasádu u každého hráče."
 
-#: data/default/buildings.ruleset:1448 data/civ2/buildings.ruleset:1427
-#: data/civ1/buildings.ruleset:996 data/history/buildings.ruleset:1413
+#: data/default/buildings.ruleset:1330 data/civ2/buildings.ruleset:1317
+#: data/civ1/buildings.ruleset:920 data/history/buildings.ruleset:1305
 msgid "Michelangelo's Chapel"
 msgstr "Michelangelova kaple"
 
-#: data/default/buildings.ruleset:1464 data/civ2/buildings.ruleset:1443
-#: data/history/buildings.ruleset:1429
+#: data/default/buildings.ruleset:1344 data/civ2/buildings.ruleset:1331
+#: data/history/buildings.ruleset:1319
 msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city.  The discovery of Theology increases the "
@@ -17802,22 +17807,22 @@ msgstr ""
 "spokojenými v každém městě. Objev Teologie zvýš efekt katedrál o 1. Objev "
 "Socialismu efekt o 1 sníží."
 
-#: data/default/buildings.ruleset:1474 data/civ2/buildings.ruleset:1453
-#: data/civ1/buildings.ruleset:1017 data/history/buildings.ruleset:1439
+#: data/default/buildings.ruleset:1354 data/civ2/buildings.ruleset:1341
+#: data/civ1/buildings.ruleset:939 data/history/buildings.ruleset:1329
 msgid "Oracle"
 msgstr "Věštírna"
 
-#: data/default/buildings.ruleset:1490 data/history/buildings.ruleset:1455
+#: data/default/buildings.ruleset:1368 data/history/buildings.ruleset:1343
 #, fuzzy
 msgid "Makes two of your unhappy citizens content in every city with a temple."
 msgstr "Učiní dva nespokojené lidi spokojenými v každém městě."
 
-#: data/default/buildings.ruleset:1495 data/civ2/buildings.ruleset:1474
-#: data/civ1/buildings.ruleset:1038 data/history/buildings.ruleset:1460
+#: data/default/buildings.ruleset:1373 data/civ2/buildings.ruleset:1360
+#: data/civ1/buildings.ruleset:958 data/history/buildings.ruleset:1348
 msgid "Pyramids"
 msgstr "Pyramidy"
 
-#: data/default/buildings.ruleset:1511 data/history/buildings.ruleset:1476
+#: data/default/buildings.ruleset:1387 data/history/buildings.ruleset:1362
 #, fuzzy
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -17828,33 +17833,33 @@ msgstr ""
 "nebo naplněna. To pomůže městu rychleji růst a lépe se vyrovnávat s "
 "hladomorem."
 
-#: data/default/buildings.ruleset:1518 data/civ2/buildings.ruleset:1495
-#: data/civ1/buildings.ruleset:1061 data/history/buildings.ruleset:1483
+#: data/default/buildings.ruleset:1394 data/civ2/buildings.ruleset:1379
+#: data/civ1/buildings.ruleset:979 data/history/buildings.ruleset:1369
 msgid "SETI Program"
 msgstr "SETI Program"
 
-#: data/default/buildings.ruleset:1534
+#: data/default/buildings.ruleset:1408
 msgid "Boosts science production in each city with a Research Lab by 100%. "
 msgstr "Zvýší vědeckou produkci v každém městě s výzkumnou laboratoří o 100%."
 
-#: data/default/buildings.ruleset:1539 data/civ2/buildings.ruleset:1517
-#: data/civ1/buildings.ruleset:1083 data/history/buildings.ruleset:1505
+#: data/default/buildings.ruleset:1413 data/civ2/buildings.ruleset:1399
+#: data/civ1/buildings.ruleset:999 data/history/buildings.ruleset:1389
 msgid "Shakespeare's Theatre"
 msgstr "Shakespeareovo divadlo"
 
-#: data/default/buildings.ruleset:1555 data/civ2/buildings.ruleset:1533
-#: data/civ1/buildings.ruleset:1099 data/history/buildings.ruleset:1521
+#: data/default/buildings.ruleset:1427 data/civ2/buildings.ruleset:1413
+#: data/civ1/buildings.ruleset:1013 data/history/buildings.ruleset:1403
 msgid "Makes all unhappy citizens content, in the city where it is located."
 msgstr "Učiní spokojenými všechny nespokojené lidi ve městě, kde je postaveno."
 
-#: data/default/buildings.ruleset:1560 data/civ2/buildings.ruleset:1538
-#: data/history/buildings.ruleset:1526
+#: data/default/buildings.ruleset:1432 data/civ2/buildings.ruleset:1418
+#: data/history/buildings.ruleset:1408
 msgid "Statue of Liberty"
 msgstr "Socha svobody"
 
-#: data/default/buildings.ruleset:1576 data/civ2/buildings.ruleset:1554
-#: data/civ1/buildings.ruleset:1054 data/civ1/buildings.ruleset:1120
-#: data/history/buildings.ruleset:1542
+#: data/default/buildings.ruleset:1446 data/civ2/buildings.ruleset:1432
+#: data/civ1/buildings.ruleset:972 data/civ1/buildings.ruleset:1032
+#: data/history/buildings.ruleset:1422
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
@@ -17863,12 +17868,12 @@ msgstr ""
 "Umožní Vám zvolit si libovolný typ vlády, včetně těch, které jste ještě "
 "nevynalezli a bez přechodného období anarchie."
 
-#: data/default/buildings.ruleset:1583 data/civ2/buildings.ruleset:1561
-#: data/history/buildings.ruleset:1549
+#: data/default/buildings.ruleset:1453 data/civ2/buildings.ruleset:1439
+#: data/history/buildings.ruleset:1429
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzuova Bojová akademie"
 
-#: data/default/buildings.ruleset:1599 data/history/buildings.ruleset:1565
+#: data/default/buildings.ruleset:1467 data/history/buildings.ruleset:1443
 msgid ""
 "All your new ground units start at the first veteran level. The  chance of a "
 "unit getting the next veteran level after a battle  increases by half."
@@ -17876,22 +17881,22 @@ msgstr ""
 "Všechny vaše pozemní jednotky budou začínat na první urovni statusu veteran. "
 "Šance, že Vaše jednotka získá další úroveň po boji se o polovinu zvýší."
 
-#: data/default/buildings.ruleset:1606 data/civ2/buildings.ruleset:1584
-#: data/civ1/buildings.ruleset:1104 data/history/buildings.ruleset:1572
+#: data/default/buildings.ruleset:1474 data/civ2/buildings.ruleset:1460
+#: data/civ1/buildings.ruleset:1018 data/history/buildings.ruleset:1450
 msgid "United Nations"
 msgstr "Organizace spojených národů"
 
-#: data/default/buildings.ruleset:1622
+#: data/default/buildings.ruleset:1488
 msgid "All your units regain two extra hitpoints per turn."
 msgstr "Všechny jednotky se budou léčit každým tahem o 2 body zdraví."
 
-#: data/default/buildings.ruleset:1635 data/civ2/buildings.ruleset:1613
-#: data/civ1/buildings.ruleset:1132 data/history/buildings.ruleset:1601
+#: data/default/buildings.ruleset:1501 data/civ2/buildings.ruleset:1487
+#: data/civ1/buildings.ruleset:1044 data/history/buildings.ruleset:1477
 msgid "Women's Suffrage"
 msgstr "Volební právo žen"
 
-#: data/default/buildings.ruleset:1651 data/civ2/buildings.ruleset:1629
-#: data/history/buildings.ruleset:1617
+#: data/default/buildings.ruleset:1515 data/civ2/buildings.ruleset:1501
+#: data/history/buildings.ruleset:1491
 msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
@@ -17901,11 +17906,11 @@ msgstr ""
 "obyvatele z nespokojených pod Demokracií a jednoho pod Republikou. V "
 "ostatních typech vlády nemá vliv)"
 
-#: data/default/buildings.ruleset:1662 data/history/buildings.ruleset:1633
+#: data/default/buildings.ruleset:1526 data/history/buildings.ruleset:1507
 msgid "Coinage"
 msgstr "Ražba mincí"
 
-#: data/default/buildings.ruleset:1684 data/history/buildings.ruleset:1655
+#: data/default/buildings.ruleset:1546 data/history/buildings.ruleset:1527
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -17914,7 +17919,7 @@ msgstr ""
 "Toto není normální stavba. Veškerá aktuální produkce štítů, bude přeměněna "
 "na zisk (peníze)."
 
-#: data/civ2/buildings.ruleset:266
+#: data/civ2/buildings.ruleset:247
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)"
@@ -17922,7 +17927,7 @@ msgstr ""
 "Obveselí 3 nespokojené lidi ve městě a učiní je spokojenými. (4 po vynálezu "
 "elektroniky)"
 
-#: data/civ2/buildings.ruleset:382 data/civ1/buildings.ruleset:304
+#: data/civ2/buildings.ruleset:356 data/civ1/buildings.ruleset:282
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -17943,13 +17948,13 @@ msgstr ""
 "elektrárnu a Jadernou el. Město může postavit Hydroelektrárnu jen v případě, "
 "že je na (nebo hned vedle) kopci nebo řece."
 
-#: data/civ2/buildings.ruleset:415 data/civ1/buildings.ruleset:335
-#: data/history/buildings.ruleset:422
+#: data/civ2/buildings.ruleset:387 data/civ1/buildings.ruleset:311
+#: data/history/buildings.ruleset:394
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
 msgstr "Zvyšuje vědecké zdroje ve městě o 50%."
 
-#: data/civ2/buildings.ruleset:505 data/civ1/buildings.ruleset:425
+#: data/civ2/buildings.ruleset:469 data/civ1/buildings.ruleset:393
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -17967,7 +17972,7 @@ msgstr ""
 "Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
 "elektrárnu a Jadernou el. "
 
-#: data/civ2/buildings.ruleset:638 data/civ1/buildings.ruleset:488
+#: data/civ2/buildings.ruleset:594 data/civ1/buildings.ruleset:452
 #, no-c-format
 msgid ""
 "Increases the shield production of a Factory or Mfg. Plant in a city: a "
@@ -17985,7 +17990,7 @@ msgstr ""
 "Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
 "elektrárnu a Jadernou el. "
 
-#: data/civ2/buildings.ruleset:690 data/history/buildings.ruleset:704
+#: data/civ2/buildings.ruleset:642 data/history/buildings.ruleset:656
 msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
@@ -17994,11 +17999,11 @@ msgstr ""
 "Spolu s knihovnou zrychlí výzkum o 100%. Spolu s knihovnou a univerzitou o "
 "150%."
 
-#: data/civ2/buildings.ruleset:768
+#: data/civ2/buildings.ruleset:714
 msgid "Solar Plant"
 msgstr "Solární elektrárna"
 
-#: data/civ2/buildings.ruleset:785
+#: data/civ2/buildings.ruleset:729
 #, no-c-format
 msgid ""
 "Eliminates all pollution generated by production in a city.  It also "
@@ -18017,15 +18022,15 @@ msgstr ""
 "Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
 "elektrárnu, Jadernou el. nebo Solární elektrárnu. "
 
-#: data/civ2/buildings.ruleset:999 data/civ1/buildings.ruleset:676
-#: data/history/buildings.ruleset:983
+#: data/civ2/buildings.ruleset:927 data/civ1/buildings.ruleset:626
+#: data/history/buildings.ruleset:913
 #, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
 msgstr "Spolu s knihovnou zrychlí univerzita rychlost výzkumu o 100%."
 
-#: data/civ2/buildings.ruleset:1044 data/history/buildings.ruleset:1028
+#: data/civ2/buildings.ruleset:968 data/history/buildings.ruleset:954
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
@@ -18033,14 +18038,14 @@ msgstr ""
 "Každé vybavení města, které potřebuje pro údržbu 1 jednotku (blbý překlad "
 "co?) bude s tímto divem světa zdarma ve všech městech."
 
-#: data/civ2/buildings.ruleset:1089 data/civ1/buildings.ruleset:742
-#: data/history/buildings.ruleset:1073
+#: data/civ2/buildings.ruleset:1009 data/civ1/buildings.ruleset:686
+#: data/history/buildings.ruleset:995
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Zvyšuje vědecký výstup o 50% ve městě, kde je postavena."
 
-#: data/civ2/buildings.ruleset:1110 data/civ1/buildings.ruleset:763
-#: data/history/buildings.ruleset:1094
+#: data/civ2/buildings.ruleset:1028 data/civ1/buildings.ruleset:705
+#: data/history/buildings.ruleset:1014
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all cities."
@@ -18048,20 +18053,20 @@ msgstr ""
 "Tato úžasná technologická vymoženost udělá jednoho občana spokojeného na "
 "úkor nespokojených v každém Vašem městě."
 
-#: data/civ2/buildings.ruleset:1156
+#: data/civ2/buildings.ruleset:1070
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
 msgstr ""
 "Pokud je postaveno, názor na Vás se zlepší o 25% u všech ostatních národů."
 
-#: data/civ2/buildings.ruleset:1202 data/civ1/buildings.ruleset:830
-#: data/history/buildings.ruleset:1187
+#: data/civ2/buildings.ruleset:1112 data/civ1/buildings.ruleset:766
+#: data/history/buildings.ruleset:1099
 msgid "Works as a City Wall in all cities."
 msgstr "Funguje jako hradby ve všech městech."
 
-#: data/civ2/buildings.ruleset:1358 data/civ1/buildings.ruleset:946
-#: data/history/buildings.ruleset:1344
+#: data/civ2/buildings.ruleset:1254 data/civ1/buildings.ruleset:874
+#: data/history/buildings.ruleset:1242
 msgid ""
 "Gives all sea units 1 additional movement point and eliminates the risk of "
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
@@ -18071,19 +18076,19 @@ msgstr ""
 "šanci na ztrátu na otevřeném moři. Učiní všechny nově postavené lodě "
 "veterány. "
 
-#: data/civ2/buildings.ruleset:1381 data/history/buildings.ruleset:1367
+#: data/civ2/buildings.ruleset:1275 data/history/buildings.ruleset:1263
 msgid "Gives all sea units 2 additional movement points."
 msgstr "Každá námořní jednotka získá navíc 2 body k pohybu."
 
-#: data/civ2/buildings.ruleset:1469 data/civ1/buildings.ruleset:1033
+#: data/civ2/buildings.ruleset:1355 data/civ1/buildings.ruleset:953
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "Zdvojnásobí efekt chrámů ve všech městech."
 
-#: data/civ2/buildings.ruleset:1490
+#: data/civ2/buildings.ruleset:1374
 msgid "Counts as having a Granary in every city."
 msgstr "Počítají se jako sýpka v každém městě."
 
-#: data/civ2/buildings.ruleset:1511 data/history/buildings.ruleset:1499
+#: data/civ2/buildings.ruleset:1393 data/history/buildings.ruleset:1383
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
@@ -18091,7 +18096,7 @@ msgstr ""
 "Zvedne výzkum v každém městě s knihovnou o 50% (počítá se jako výzkumná "
 "laboratoř v každém městě)"
 
-#: data/civ2/buildings.ruleset:1577
+#: data/civ2/buildings.ruleset:1453
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
@@ -18099,15 +18104,15 @@ msgstr ""
 "Všechny Vaše nové jednotky budou veterány. Šance, že se jednotka po boji "
 "stane veteránem se zvýší z 50% na 100%."
 
-#: data/civ2/buildings.ruleset:1600 data/history/buildings.ruleset:1588
+#: data/civ2/buildings.ruleset:1474 data/history/buildings.ruleset:1464
 msgid "Units regain two extra hitpoints per turn."
 msgstr "Každá jednotka se bude uzdravovat o dva body za tah."
 
-#: data/civ2/buildings.ruleset:1637
+#: data/civ2/buildings.ruleset:1509
 msgid "Capitalization"
 msgstr "Kapitalizace"
 
-#: data/civ2/buildings.ruleset:1651
+#: data/civ2/buildings.ruleset:1521
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -18116,12 +18121,12 @@ msgstr ""
 "Toto není normální vylepšení. Místo toho je produkce štítů ve městě "
 "přeměněna na tvorbu zisku. (peníze)."
 
-#: data/civ1/buildings.ruleset:44
+#: data/civ1/buildings.ruleset:42
 msgid "Allows a city to grow larger than size 10."
 msgstr "Umožňuje městu růst na velikost větší než 10."
 
-#: data/civ1/buildings.ruleset:89 data/civ1/buildings.ruleset:114
-#: data/civ1/buildings.ruleset:139
+#: data/civ1/buildings.ruleset:83 data/civ1/buildings.ruleset:106
+#: data/civ1/buildings.ruleset:129
 msgid ""
 "With a Barracks, each new unit built in a city will automatically have "
 "Veteran status, which means that its attack and defence strengths are "
@@ -18132,7 +18137,7 @@ msgstr ""
 "status veterána, což znamená, že síla obrany i útoku se zvýší o 50%. Každá "
 "jednotka, která stráví bez pohybu tah ve městě, bude kompletně vyléčena."
 
-#: data/civ1/buildings.ruleset:164
+#: data/civ1/buildings.ruleset:152
 msgid ""
 "A Cathedral makes 4 unhappy citizens content in a city, making it easier to "
 "maintain order in that city."
@@ -18140,7 +18145,7 @@ msgstr ""
 "Katedrála učiní 4 nespokojené obyvatele spokojenými, což zlepší "
 "udržovatelnost města."
 
-#: data/civ1/buildings.ruleset:186
+#: data/civ1/buildings.ruleset:172
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
 "strength of units within the city against ground, sea, and helicopter "
@@ -18154,12 +18159,12 @@ msgstr ""
 "zamezí snižování populace města, je-li obránce v bojii zničen pozemní "
 "jednotkou."
 
-#: data/civ1/buildings.ruleset:211
+#: data/civ1/buildings.ruleset:195
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
 msgstr ""
 "Obveselí obyvatele města natolik, že učiní 3 nespokojené lidi spokojenými."
 
-#: data/civ1/buildings.ruleset:232 data/history/buildings.ruleset:292
+#: data/civ1/buildings.ruleset:214 data/history/buildings.ruleset:271
 msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
@@ -18169,7 +18174,7 @@ msgstr ""
 "nespokojených lidí o 1 a činí je spokojenými. Navíc snižuje vzdálenost od "
 "hlavního města v případě výpočtu ceny za převrat."
 
-#: data/civ1/buildings.ruleset:696
+#: data/civ1/buildings.ruleset:644
 msgid ""
 "All cities on the map become visible for the player who owns it.  It allows "
 "all players to start building spaceship parts (assuming they have researched "
@@ -18178,7 +18183,7 @@ msgstr ""
 "Budou odkryta všechna města na mapě pro majitele. Umožní všem hráčům zahájit "
 "stavbu vesmírné lodi (předpokladem je dostatečná technologická vyspělost)."
 
-#: data/civ1/buildings.ruleset:878
+#: data/civ1/buildings.ruleset:812
 msgid ""
 "Works as if you had a Hydro Plant in every city on the same continent where "
 "the wonder is built.  (This reduces pollution and increases the effects of "
@@ -18187,7 +18192,7 @@ msgstr ""
 "Funguje jako hydroelektrárna v každém městě na kontinentu kde stojí. (což "
 "snižuje znečistění a zvyšuje efekt továren a výrobních podniků)"
 
-#: data/civ1/buildings.ruleset:924
+#: data/civ1/buildings.ruleset:854
 msgid ""
 "Makes two unhappy citizens content in every city of yours on the same "
 "continent where the wonder is built."
@@ -18195,20 +18200,20 @@ msgstr ""
 "Učiní dva nespokonené lidi spokojenými v každém městě na stejném kontinentě "
 "kde je postaveno."
 
-#: data/civ1/buildings.ruleset:971
+#: data/civ1/buildings.ruleset:897
 msgid "Gives all sea units 1 additional movement point."
 msgstr "Přidá všem námořním jednotkám navíc 1 pohybový bod."
 
-#: data/civ1/buildings.ruleset:1012
+#: data/civ1/buildings.ruleset:934
 msgid "Double effects of Cathedrals, in all cities."
 msgstr "Zdvojnásobuje efekt katedrál ve všech městech."
 
-#: data/civ1/buildings.ruleset:1078
+#: data/civ1/buildings.ruleset:994
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "Zvýší vědeckou produkci v každém městě o 50%."
 
-#: data/civ1/buildings.ruleset:1148
+#: data/civ1/buildings.ruleset:1058
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -18219,34 +18224,30 @@ msgstr ""
 "způsobuje každá agresivní jednotka jen jednoho nespokojeného."
 
 #: data/default/cities.ruleset:24
-#, fuzzy
 msgid "elvis"
-msgstr "Elvisové"
+msgstr "elvis"
 
 #: data/default/cities.ruleset:24
-#, fuzzy
 msgid "scientist"
-msgstr "Vědci"
+msgstr "vědec"
 
 #: data/default/cities.ruleset:24
-#, fuzzy
 msgid "taxman"
-msgstr "Hejtman"
+msgstr "výběrčí daní"
 
 #: data/default/cities.ruleset:25
-#, fuzzy
 msgid "?Elvis:E"
-msgstr "Elvisové"
+msgstr "?Elvis:E"
 
 #: data/default/cities.ruleset:28
 #, fuzzy
 msgid "?Scientist:S"
-msgstr "?Scientists:V"
+msgstr "?Scientist:V"
 
 #: data/default/cities.ruleset:31
 #, fuzzy
 msgid "?Taxman:T"
-msgstr "?Taxmen:D"
+msgstr "?Taxman:D"
 
 #: data/default/cities.ruleset:55 data/nation/austrian.ruleset:5
 #: data/nation/bavarian.ruleset:5 data/nation/belgian.ruleset:5
@@ -18429,7 +18430,6 @@ msgid "Comrade"
 msgstr "Soudruh"
 
 #: data/default/governments.ruleset:332
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -18448,20 +18448,7 @@ msgstr ""
 "V socialismu nezávisí korupce na vzdálenosti od hlavního města. Všechny "
 "města (včetně hlavního) mají mírnou míru korupce. Navíc města dál než 10 "
 "políček od hlavního města se počítají jako ve vzdálenosti 10, pri výpočtu "
-"ceny povstání. (viz. jednotka Diplomat).\n"
-"\n"
-"Osadníci spotřebují jednu jednotku potravin na tah.\n"
-"\n"
-"Město získá 1 bod k obchodu na každé políčko, které produkuje alespoň 1 bod, "
-"pokud oslavuje. (viz. Spokojenost)\n"
-"\n"
-"Diplomati a špioni vytvoření pod socialismem jsou vždy veteráni. \n"
-"\n"
-"Socialistická města mohou podporovat až 3 jednotky, aniž by musela platit na "
-"jejich provoz. (každá další jednotka spotřebuje z produkce jeden štít)\n"
-"\n"
-"Můžete prosadit omezeně i stané právo. Vojenská jednotka ve městě (ale "
-"maximálně jen 3) udrží DVA nespokojené obyvatele spokojeným."
+"ceny povstání. (viz. jednotka Diplomat)."
 
 #: data/default/governments.ruleset:349 data/civ2/governments.ruleset:495
 #: data/civ1/governments.ruleset:406 data/history/governments.ruleset:411
@@ -19316,9 +19303,8 @@ msgstr "Spalování"
 
 #: data/default/techs.ruleset:185 data/civ2/techs.ruleset:136
 #: data/history/techs.ruleset:136
-#, fuzzy
 msgid "Reduces the effect of Cathedrals."
-msgstr "* Redukuje efekt katedrál.\n"
+msgstr "Redukuje efekt katedrál."
 
 #: data/default/techs.ruleset:188 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:138 data/history/techs.ruleset:139
@@ -19347,9 +19333,8 @@ msgstr "Elektřina"
 
 #: data/default/techs.ruleset:242 data/civ2/techs.ruleset:179
 #: data/history/techs.ruleset:179
-#, fuzzy
 msgid "Improves the effect of Colosseums."
-msgstr "* Vylepšuje efekt koloseí.\n"
+msgstr "Vylepšuje efekt koloseí."
 
 #: data/default/techs.ruleset:245 data/civ2/techs.ruleset:182
 #: data/civ1/techs.ruleset:180 data/history/techs.ruleset:182
@@ -19503,9 +19488,8 @@ msgstr "Mystika"
 
 #: data/default/techs.ruleset:507 data/civ2/techs.ruleset:378
 #: data/civ1/techs.ruleset:376 data/history/techs.ruleset:378
-#, fuzzy
 msgid "Improves the effect of Temples."
-msgstr "* Vylepšuje efekt chrámů.\n"
+msgstr "Vylepšuje efekt chrámů."
 
 #: data/default/techs.ruleset:510 data/civ2/techs.ruleset:381
 #: data/civ1/techs.ruleset:379 data/history/techs.ruleset:381
@@ -19647,9 +19631,8 @@ msgstr "Teologie"
 
 #: data/default/techs.ruleset:726 data/civ2/techs.ruleset:541
 #: data/history/techs.ruleset:543
-#, fuzzy
 msgid "Improves the effect of Cathedrals."
-msgstr "* Vylepšuje efekt katedrál.\n"
+msgstr "Vylepšuje efekt katedrál."
 
 #: data/default/techs.ruleset:729 data/civ2/techs.ruleset:544
 #: data/civ1/techs.ruleset:541 data/history/techs.ruleset:546
@@ -20619,14 +20602,12 @@ msgid "Fanatics"
 msgstr "Fanatici"
 
 #: data/civ2/units.ruleset:374
-#, fuzzy
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
 msgstr ""
-"Pouze fundametalistické národy je mohou stavit.\n"
-"\n"
-"Fundamentalistické národy jsou nvíc schopny udržovat fanatiky zdarma."
+"Fundamentalistické národy jsou schopny udržovat fanatiky bez nutnosti platit "
+"štíty."
 
 #: data/civ2/units.ruleset:625
 msgid "Elephants"
@@ -20956,7 +20937,7 @@ msgstr "?plural:Boerové"
 #: data/nation/zulu.ruleset:5
 #, fuzzy
 msgid "African"
-msgstr "Americký"
+msgstr "Středoafrická republika"
 
 #: data/nation/boer.ruleset:6
 msgid ""
@@ -21025,12 +21006,12 @@ msgstr "Ředitel-prezident"
 #: data/nation/byzantium.ruleset:4
 #, fuzzy
 msgid "Byzantine"
-msgstr "Bankovnictví"
+msgstr "Byzantské hudební symboly"
 
 #: data/nation/byzantium.ruleset:5
 #, fuzzy
 msgid "?plural:Byzantines"
-msgstr "?plural:Argentinci"
+msgstr "Forma plurálů:"
 
 #: data/nation/byzantium.ruleset:7
 msgid ""
@@ -22212,13 +22193,14 @@ msgid "Hetman"
 msgstr "Hejtman"
 
 #: data/nation/venezuelan.ruleset:3
+#, fuzzy
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: data/nation/venezuelan.ruleset:4
 #, fuzzy
 msgid "?plural:Venezolanos"
-msgstr "?plural:Keňanci"
+msgstr "Forma plurálů:"
 
 #: data/nation/venezuelan.ruleset:16
 #, fuzzy
