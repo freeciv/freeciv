@@ -192,6 +192,7 @@ struct player {
   int target_government;
   Nation_Type_id nation;
   Team_Type_id team;
+  bool is_started; /* Did the player click "start" yet? */
   bool phase_done;
   int nturns_idle;
   bool is_alive;

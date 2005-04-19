@@ -23,7 +23,7 @@
 
 /* Commands must match the values in enum command_id. */
 const struct command commands[] = {
-  {"start",	ALLOW_CTRL,
+  {"start",	ALLOW_INFO,
    "start",
    N_("Start the game, or restart after loading a savegame."),
    N_("This command starts the game.  When starting a new game, "
