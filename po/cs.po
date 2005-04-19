@@ -12,14 +12,13 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.0.0-cvs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-19 07:27+0200\n"
-"PO-Revision-Date: 2005-04-19 07:26+0100\n"
+"PO-Revision-Date: 2005-04-19 10:24+0200\n"
 "Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: common/city.c:254 client/cityrepdata.c:482
 #: client/gui-gtk-2.0/repodlgs.c:940 client/gui-mui/citydlg.c:1596
@@ -8362,9 +8361,9 @@ msgid "* Research costs doubled.\n"
 msgstr "Příjmy: %d    Celkem Výdaje: %d"
 
 #: client/helpdata.c:1473
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows you to build %s.\n"
-msgstr "* Umožňuje %s stavbu letišť.\n"
+msgstr "* Umožňuje stavbu %s.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
 #: client/helpdata.c:1500
@@ -8429,9 +8428,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:102
-#, fuzzy
 msgid "Server port"
-msgstr "Port serveru:"
+msgstr "Port serveru"
 
 #: client/options.c:103
 msgid ""
@@ -8452,9 +8450,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:115
-#, fuzzy
 msgid "Soundset"
-msgstr "Tahů"
+msgstr "Sada zvuků"
 
 #: client/options.c:116
 msgid ""
@@ -8463,9 +8460,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:121
-#, fuzzy
 msgid "Sound plugin"
-msgstr "Výchozí zvukový zasuvný modul"
+msgstr "Zvukový zasuvný modul"
 
 #: client/options.c:122
 msgid ""
@@ -9278,9 +9274,9 @@ msgstr[2] "Město: %s (%s, %d tah příměří)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:208
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %s)"
-msgstr "*Město:"
+msgstr "Město: %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:215 client/gui-mui/mapclass.c:122
@@ -9320,9 +9316,9 @@ msgstr[2] "Jednotka: %s (%s, %d tah příměří)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:268
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %s)"
-msgstr "Jednotka"
+msgstr "Jednotka: %s (%s, %s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:284
@@ -9400,10 +9396,7 @@ msgstr[2] "(%d kroků)"
 #: client/text.c:490
 #, c-format
 msgid "%d bulb"
-msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr ""
 
 #: client/text.c:494 client/agents/cma_fec.c:269 client/agents/cma_fec.c:312
 #: client/gui-gtk-2.0/citydlg.c:1435 client/gui-mui/citydlg.c:125
@@ -9422,14 +9415,14 @@ msgid "Population: %s"
 msgstr "Populace: %s"
 
 #: client/text.c:513
-#, fuzzy, c-format
+#, c-format
 msgid "Year: %s (T%d)"
-msgstr "Rok"
+msgstr "Rok: %s (T%d)"
 
 #: client/text.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "Gold: %d (%+d)"
-msgstr "zlatá"
+msgstr "Zlato: %d (%+d)"
 
 #: client/text.c:516
 #, c-format
@@ -10965,11 +10958,13 @@ msgid "Are you sure you want to quit?"
 msgstr "Jste si jisti, že chcete skončit?"
 
 #: client/gui-gtk-2.0/gui_stuff.c:445
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Close Tab:\n"
 "%s"
-msgstr "Zavřít kartu"
+msgstr ""
+"Zavřít kartu:\n"
+"%s"
 
 #: client/gui-gtk-2.0/gui_stuff.c:445
 msgid "Ctrl+W"
@@ -13417,15 +13412,12 @@ msgstr ""
 msgid ""
 "%s\n"
 "(%d turn/advance)"
-msgid_plural ""
 "%s\n"
 "(%d turns/advance)"
-msgstr[0] "Průběh: %d tah/objev (%d bodů/tah)"
-msgstr[1] ""
+msgstr "Průběh: %d tah/objev (%d bodů/tah)"
 "%s\n"
 "(%d tah/objev)%s\n"
 "(%d tahů/objev)"
-msgstr[2] ""
 "%s\n"
 "(%d tah/objev)%s\n"
 "(%d tahů/objev)"
@@ -13973,9 +13965,8 @@ msgid "Airlift"
 msgstr "Letecký most"
 
 #: client/gui-win32/gui_main.c:115
-#, fuzzy
 msgid "Enable alpha blending"
-msgstr "%s vyžaduje alfa kanál"
+msgstr "Povolit alfa blending"
 
 #: client/gui-win32/gui_main.c:116
 msgid ""
@@ -14419,28 +14410,28 @@ msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Celkem:                     %9d%9d%9d%9d"
 
 #: manual/civmanual.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write manual file %s."
-msgstr "Nelze zapsat do dočasného souboru"
+msgstr "Nelze zapsat manuálový soubor %s."
 
 #: manual/civmanual.c:127
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
-msgstr "Použití: fetchmail [přepínače] [server ...]\n"
+msgstr ""
+"<h1>Freeciv %s serverová nastavení</h1>\n"
+"\n"
 
 #: manual/civmanual.c:143
-#, fuzzy, c-format
+#, c-format
 msgid "Level: %s.<br>"
-msgstr ""
-"<qt><b><br>H<br>T<br>M<br>L<br> <br>z<br>p<br>r<br>á<br>v<br>a</b></qt>"
+msgstr "Úroveň: %s.<br>"
 
 #: manual/civmanual.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "Category: %s.<br>"
-msgstr ""
-"<qt><b><br>H<br>T<br>M<br>L<br> <br>z<br>p<br>r<br>á<br>v<br>a</b></qt>"
+msgstr "Kategorie: %s.<br>"
 
 #: manual/civmanual.c:147
 #, c-format
@@ -14448,9 +14439,9 @@ msgid "Can only be used in server console. "
 msgstr ""
 
 #: manual/civmanual.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Can be changed during a game. "
-msgstr "Jestli má být hra hratelná pomocí klávesnice."
+msgstr "Může být změněno během hry. "
 
 #: manual/civmanual.c:152
 #, fuzzy, c-format
@@ -14479,11 +14470,13 @@ msgid ""
 msgstr "Hodnota: %d, Minimum: %d, Výchozí: %d, Maximum: %d"
 
 #: manual/civmanual.c:176
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
-msgstr "Implicitní příst. práva :\n"
+msgstr ""
+"<p class=\"bounds\">Výchozí: \"%s\"</p>\n"
+"\n"
 
 #: manual/civmanual.c:179
 #, fuzzy, c-format
@@ -14493,18 +14486,22 @@ msgid ""
 msgstr "Chybí hodnota k nastavení pro klíč: `%s'\n"
 
 #: manual/civmanual.c:188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
-msgstr " Připojit k Freeciv serveru"
+msgstr ""
+"<h1>Freeciv %s serverové příkazy</h1>\n"
+"\n"
 
 #: manual/civmanual.c:194
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s%s  -  %s%s\n"
 "\n"
-msgstr "%s ve městě %s (%s)\n"
+msgstr ""
+"%s%s  -  %s%s\n"
+"\n"
 
 #: manual/civmanual.c:197
 #, c-format
@@ -14516,18 +14513,22 @@ msgid ""
 msgstr ""
 
 #: manual/civmanual.c:201
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
-msgstr "Úroveň 2 - zastaveno"
+msgstr ""
+"<p class=\"level\">Úroveň: %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:210
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p>Description:</p>\n"
 "\n"
-msgstr "Popis"
+msgstr ""
+"<p>Popis:</p>\n"
+"\n"
 
 #: manual/civmanual.c:217
 #, fuzzy, c-format
@@ -14567,14 +14568,14 @@ msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
 msgstr ""
 
 #: manual/civmanual.c:226
-#, fuzzy, c-format
+#, c-format
 msgid "<th>Transform to</th>"
-msgstr "Soubor k transformaci"
+msgstr "<th>Transformovat na</th>"
 
 #: manual/civmanual.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "</table><br><br><br><table border=1>"
-msgstr "Počet pixelů na hranicích tabulky."
+msgstr "</table><br><br><br><table border=1>"
 
 #: manual/civmanual.c:262
 #, fuzzy, c-format
@@ -14582,9 +14583,9 @@ msgid "<caption>Time to perform action</caption>"
 msgstr "_Dvakrát klikněte na titulek okna pro provedení této akce:"
 
 #: manual/civmanual.c:263
-#, fuzzy, c-format
+#, c-format
 msgid "<tr><th>Terrain</th>\n"
-msgstr "Transf_ormovat terén"
+msgstr "<tr><th>Terén</th>\n"
 
 #: manual/civmanual.c:264
 #, fuzzy, c-format
@@ -22203,14 +22204,13 @@ msgid "?plural:Venezolanos"
 msgstr "Forma plurálů:"
 
 #: data/nation/venezuelan.ruleset:16
-#, fuzzy
 msgid "Governador"
 msgstr "Guvernér"
 
 #: data/nation/venezuelan.ruleset:16
 #, fuzzy
 msgid "Governadora"
-msgstr "Guvernér"
+msgstr "Guvernérka"
 
 #: data/nation/venezuelan.ruleset:17
 #, fuzzy
@@ -22285,818 +22285,3 @@ msgstr ""
 "do jižní části začátkem roku 1700, podrobil si původní obyvatele a zápolil s "
 "Evropskými osadníky."
 
-#~ msgid "Bad value \"%s\" for b_special.default (%s)"
-#~ msgstr "Špatná hodnota \"%s\" pro b_special.default (%s)"
-
-#~ msgid "_Player"
-#~ msgstr "_Hráč"
-
-#~ msgid ""
-#~ "Eliminates all pollution generated by production in a city.  It also "
-#~ "increases the shield production of a Factory or Mfg. Plant in the city: a "
-#~ "Factory and a Solar Plant together give a 75% production bonus, and a "
-#~ "Factory, Mfg. Plant and Solar Plant together give a 150% production "
-#~ "bonus.\n"
-#~ "\n"
-#~ "A city can only have one Solar Plant, Hydro Plant, Power Plant, or "
-#~ "Nuclear Plant."
-#~ msgstr ""
-#~ "Eliminuje veškeré znečištění ve městě, způsobené produkcí.Zvyšuje "
-#~ "produkci města, pokud toto má Továrnu neno Výrobní podnik (mfg. plant). "
-#~ "Továrna s Jadernou el. zvýší produkci o 75%, Výrobní podnik s Jadernou "
-#~ "el. zvýší produkci o 150%.\n"
-#~ "\n"
-#~ "Město může mít jen jednu elektrárnu - Hydroelektrárnu, (klasickou) "
-#~ "elektrárnu, Jadernou el. nebo Solární elektrárnu. "
-
-#, fuzzy
-#~ msgid "Game: The %s have stopped building The %s in %s."
-#~ msgstr "Hra: %s přerušili stavbu divu %s ve městě %s."
-
-#, fuzzy
-#~ msgid "Game: The %s have started building The %s in %s."
-#~ msgstr "Hra: %s zahájili stavbu divu %s ve městě %s."
-
-#~ msgid "Your %s has been eliminated defending against a %s in %s."
-#~ msgstr "Hra: Váš %s byl zlikvidován při obraně před %s ve městě %s."
-
-#~ msgid ""
-#~ "notradesize must be always smaller than fulltradesize; keeping old value."
-#~ msgstr "notradesize musí být vždy menší než fulltradesize, neměním hodnotu."
-
-#~ msgid ""
-#~ "fulltradesize must be always bigger than notradesize; keeping old value."
-#~ msgstr "fulltradesize musí být vždy větší než notradesize, neměním hodnotu."
-
-#~ msgid "Range of vision for units in a fortress"
-#~ msgstr "Rozhled jednotek v pevnosti"
-
-#~ msgid ""
-#~ "If set to 1, it has no effect. If 2 or larger, the vision range of a unit "
-#~ "inside a fortress is set to this value, if the necessary invention has "
-#~ "been made. This invention is determined by the flag 'Watchtower' in the "
-#~ "techs ruleset. See also wtowerevision."
-#~ msgstr ""
-#~ "Nastaveno na 1 nemá žádný efekt. Pokud je nastaveno na 2 a víc, rozhled "
-#~ "jednotek uvnitř pevnosti je nastaven na tuto hodnotu, pokud byl potřebný "
-#~ "výzkum již učiněn. Tento výzkum má příznak 'Watchtover' v technických "
-#~ "pravidlech. Viz též wtowerevision."
-
-#~ msgid "Extra vision range for units in a fortress"
-#~ msgstr "Dodatečný rozhled jednotek v pevnosti"
-
-#~ msgid ""
-#~ "If set to 0, it has no effect. If larger than 0, the vision range of a "
-#~ "unit is raised by this value, if the unit is inside a fortress and the "
-#~ "invention determined by the flag 'Watchtower' in the techs ruleset has "
-#~ "been made. Always the larger value of wtowervision and wtowerevision will "
-#~ "be used. Also see wtowervision."
-#~ msgstr ""
-#~ "Nastaveno na 0 nemá efekt. Pokud je nastaveno na více jak 0, rozhled "
-#~ "jednotek je zvětšen o tuto hodnotu, pokud je jednotka v pevnosti a "
-#~ "příznak 'Watchtower' byl nastaven v technických pravidlech. Vždy bude "
-#~ "použita větší hodnota z wtowervision a wtowerevision. Viz též "
-#~ "wtowervision."
-
-#~ msgid "Sorry, airunit patrol not yet implemented."
-#~ msgstr "Hra: Lituji, hlídkování letectvem není ještě implementováno."
-
-#, fuzzy
-#~ msgid "Other"
-#~ msgstr "Bratr"
-
-#~ msgid "Class"
-#~ msgstr "Třída"
-
-#~ msgid "City improvements"
-#~ msgstr "Vylepšení města"
-
-#~ msgid "City _Overview"
-#~ msgstr "Přehled _města"
-
-#~ msgid "<"
-#~ msgstr "<"
-
-#~ msgid ">"
-#~ msgstr ">"
-
-#~ msgid "Acti_vate present units"
-#~ msgstr "Akti_vovat přítomné jednotky"
-
-#~ msgid "_Sentry idle units"
-#~ msgstr "_Strážit nečinné jednotky"
-
-#~ msgid "_List present units"
-#~ msgstr "_Seznam přítomných jednotek"
-
-#~ msgid "_Worklist"
-#~ msgstr "_Seznam prací"
-
-#~ msgid "CM_A"
-#~ msgstr "_ASM"
-
-#~ msgid "_Trade Routes"
-#~ msgstr "_Obchodní cesty"
-
-#~ msgid "Established trade routes"
-#~ msgstr "Zřízené obchodní trasy"
-
-#~ msgid "_Misc. Settings"
-#~ msgstr "_Ostatní nastavení"
-
-#~ msgid "City options"
-#~ msgstr "Možnosti města"
-
-#~ msgid "City name"
-#~ msgstr "Jméno města"
-
-#~ msgid "City of %s"
-#~ msgstr "Město %s"
-
-#~ msgid "Close dialog"
-#~ msgstr "Zavřít dialog"
-
-#~ msgid "%s - %s citizens"
-#~ msgstr "%s - %s obyvatel"
-
-#~ msgid " (worklist)"
-#~ msgstr " (seznam prací)"
-
-#~ msgid "Supported units (%d)"
-#~ msgstr "Podporovaných jednotek (%d)"
-
-#~ msgid "Present units (%d)"
-#~ msgstr "Přítomných jednotek (%d)"
-
-#~ msgid "Ca_ncel"
-#~ msgstr "Zr_ušit"
-
-#~ msgid "Sell (worth %d gold)"
-#~ msgstr "Prodat (hodnota %d zlatých)"
-
-#~ msgid "C_lose"
-#~ msgstr "Za_vřít"
-
-#~ msgid "_Change..."
-#~ msgstr "_Změnit..."
-
-#~ msgid "_Select..."
-#~ msgstr "_Vyberte..."
-
-#~ msgid "Con_figure..."
-#~ msgstr "Kon_figurovat..."
-
-#~ msgid "Add preset"
-#~ msgstr "Přidat předvolbu"
-
-#~ msgid "Delete preset"
-#~ msgstr "Smazat předvolbu"
-
-#~ msgid "Apply onc_e"
-#~ msgstr "Použít j_ednou"
-
-#~ msgid "Control c_ity"
-#~ msgstr "Ovládat _město"
-
-#~ msgid " Connect to Freeciv Server"
-#~ msgstr " Připojit k Freeciv serveru"
-
-#~ msgid "Message:"
-#~ msgstr "Zpráva:"
-
-#~ msgid "Nation:"
-#~ msgstr "Národ:"
-
-#~ msgid "Leader:"
-#~ msgstr "Vůdce:"
-
-#, fuzzy
-#~ msgid "Give embassy"
-#~ msgstr "Dát _ambasádu"
-
-#~ msgid "_Goto"
-#~ msgstr "_Jít"
-
-#~ msgid "Use Alt/Meta for accelerators"
-#~ msgstr "Použít Alt/Meta pro akcelerátory"
-
-#, fuzzy
-#~ msgid "Uses the Alt or Meta keys for keyboard accelerators."
-#~ msgstr "Použít Alt/Meta pro akcelerátory"
-
-#~ msgid "Reset Tree"
-#~ msgstr "Obnovit strom"
-
-#~ msgid "Expand Unknown"
-#~ msgstr "Rozšířit neznámé "
-
-#~ msgid "?techhelp:."
-#~ msgstr "?techhelp:."
-
-#~ msgid "_Local Options"
-#~ msgstr "_Lokální možnosti"
-
-#~ msgid "Messa_ge Options"
-#~ msgstr "Mož_nosti zpráv"
-
-#~ msgid "_Save Settings"
-#~ msgstr "_Ulož nastavení"
-
-#~ msgid "Server Opt _initial"
-#~ msgstr "Volby serveru _výchozí"
-
-#~ msgid "Server Opt _ongoing"
-#~ msgstr "Volby serveru _stávající"
-
-#~ msgid "_Export Log"
-#~ msgstr "_Export Logu"
-
-#~ msgid "_Revolution!"
-#~ msgstr "_Revoluce!"
-
-#~ msgid "Go|Airlift to City"
-#~ msgstr "Přesun/Letecký most do města"
-
-#~ msgid "_Disband Unit"
-#~ msgstr "Rozpustit je_dnotku"
-
-#~ msgid "Diplomat|Spy Actions"
-#~ msgstr "Diplomatické/špionážní akce"
-
-#~ msgid "Go/Air_lift to City"
-#~ msgstr "Přesun/Letecký most do města"
-
-#~ msgid "_Diplomat/Spy Actions"
-#~ msgstr "_Diplomatické/špionážní akce"
-
-#~ msgid ""
-#~ "Where to Display Messages\n"
-#~ "Out = Output window, Mes = Messages window,\n"
-#~ "Pop = Popup individual window"
-#~ msgstr ""
-#~ "Kde zobrazovat zprávy\n"
-#~ "Výs = Výstupní okno, Zpr = Zprávové okno,\n"
-#~ "Sam = Samostatné okno"
-
-#, fuzzy
-#~ msgid "Game: You need an embassy to establish a diplomatic meeting."
-#~ msgstr "Hra: Potřebujeme ambasádu pro diplomatická setkání."
-
-#~ msgid "Totals:                     %s%9d%s%9d%s%9d%s%9d%s%9d"
-#~ msgstr "Celkem:                     %s%9d%s%9d%s%9d%s%9d%s%9d"
-
-#~ msgid "Production worklist"
-#~ msgstr "Seznam prací produkce"
-
-#~ msgid ""
-#~ "Under Despotism, you are the absolute ruler of your people.  Your control "
-#~ "over your citizens is maintained largely by martial law.\n"
-#~ "\n"
-#~ "Despotism suffers the highest level of corruption of all forms of "
-#~ "government.\n"
-#~ "\n"
-#~ "Settlers consume 1 food per turn under Despotism.  Squares which would "
-#~ "normally yield more than 2 units of food, shields or trade suffer a 1-"
-#~ "unit penalty (e.g., an irrigated grassland square which would normally "
-#~ "yield 3 food only yields 2 food while you are under Despotic rule).  "
-#~ "(This penalty is removed if the city is celebrating; see Happiness.)\n"
-#~ "\n"
-#~ "The maximum rate you can set for science, tax or luxuries is 60%.\n"
-#~ "\n"
-#~ "Under Despotism, each of your cities can support a number of military "
-#~ "units equal to its size without paying shields for upkeep.  (Additional "
-#~ "units require 1 production shield each.)\n"
-#~ "\n"
-#~ "You may impose martial law under Despotism: each military unit inside a "
-#~ "city will keep one unhappy citizen content.  (Or at least, unhappy "
-#~ "citizens will act content, and will not cause disorder.)"
-#~ msgstr ""
-#~ "V despotismu jste absolutním vládcem nad lidem. Kontrolujete národ "
-#~ "zejména armádou.\n"
-#~ "\n"
-#~ "Despotismus trpí nejvyšší mírou korupce ze všech státních zřízení.\n"
-#~ "\n"
-#~ "Osadníci spotřebují 1 jednotku potravin na tah. Políčka, které normálně "
-#~ "produkují více jak 2 jednotky potravin, produkce nebo obchodu utrpí -1 "
-#~ "bod penalizaci (takže zavlažovaná pastvina bude produkovat místo "
-#~ "normálních 3 jednotek potravin jen 2) (což se neprojeví, pokud město "
-#~ "oslavuje. Kukněte v nápovědě na spokojenost)\n"
-#~ "\n"
-#~ "Maximální hodnota pro výzkum, daně nebo luxus je 60%.\n"
-#~ "\n"
-#~ "V despotismu může každé město podporovat stejné množství jednotek, jako "
-#~ "je jeho velikost, aniž by by platilo štíty za jejich údržbu. (každá další "
-#~ "jednotka potřebuje jeden štít každý tah).\n"
-#~ "\n"
-#~ "Můžete prosadit stané právo: každá jednotka ve městě udrží jednoho "
-#~ "nespokojeného obyvatele spokojeným. (nebo alespoň se budou chovat "
-#~ "poslušně a nebudou působit nepříjemnosti)"
-
-#~ msgid ""
-#~ "Under Monarchy, a king or queen serves as a hereditary figurehead for "
-#~ "your government.\n"
-#~ "\n"
-#~ "Monarchy suffers the same small amount of corruption that the Republic "
-#~ "does.\n"
-#~ "\n"
-#~ "Settlers consume 1 food per turn under Monarchy.\n"
-#~ "\n"
-#~ "If a city governed by a Monarchy is celebrating, it will receive a bonus "
-#~ "of 1 trade in each square which already produces at least 1 trade.  See "
-#~ "Happiness for details.\n"
-#~ "\n"
-#~ "The maximum rate you can set for science, tax or luxuries is 70%.\n"
-#~ "\n"
-#~ "Under Monarchy, your cities can support up to 3 military units without "
-#~ "paying shields for upkeep.  (Additional units require 1 production shield "
-#~ "each.)\n"
-#~ "\n"
-#~ "You may impose limited martial law under Monarchy: each military unit in "
-#~ "a city, up to a maximum of 3, will keep one unhappy citizen content."
-#~ msgstr ""
-#~ "V monarchii slouží král nebo královna jako dědičný symbol moci Vaší "
-#~ "vlády.\n"
-#~ "\n"
-#~ "Monarchie trpí stejně malým množstvím korupce jako republika.\n"
-#~ "\n"
-#~ "Osadníci spotřebují jednu jednotku potravin na tah.\n"
-#~ "\n"
-#~ "Pokud město pod monarchií oslavuje, obdrží bonus v podobě zvýšení obchodu "
-#~ "o 1, pokud již políčko nějaký obchod produkuje. (nahlédněte do nápovědy "
-#~ "ke Spokojenosti)\n"
-#~ "\n"
-#~ "Maximum, kolik můžete nastavit pro výzkum, daně nebo luxus je 70%.\n"
-#~ "\n"
-#~ "Pod monarchií mohou Vaše města podporovat až 3 jednotky, aniž by musely "
-#~ "platit na jejich provoz. (každá další jednotka spotřebuje z produkce "
-#~ "jeden štít)\n"
-#~ "\n"
-#~ "Můžete prosadit omezeně i stané právo. Vojenská jednotka ve městě (ale "
-#~ "maximálně jen 3) udrží jednoho nespokojeného spokojeným."
-
-#~ msgid ""
-#~ "A Communist government is based on the ideal that all people are equal.  "
-#~ "All goods are owned by the state, rather than by private citizens.  "
-#~ "Communism gives a balance between military and commercial styles of "
-#~ "government.\n"
-#~ "\n"
-#~ "Under Communism, corruption does not vary by distance from the capital; "
-#~ "all cities (including the capital) have a modest amount of corruption.  "
-#~ "In addition, Communist cities more than 10 squares away from the capital "
-#~ "are considered to be only 10 squares away when computing the cost of "
-#~ "inciting a revolt.  See Units, Diplomat.\n"
-#~ "\n"
-#~ "Settlers consume 1 food per turn under Communism.\n"
-#~ "\n"
-#~ "If a city governed by Communism is celebrating, it will receive a bonus "
-#~ "of 1 trade in each square which already produces at least 1 trade.  See "
-#~ "Happiness for details.\n"
-#~ "\n"
-#~ "The maximum rate you can set for science, tax or luxuries is 80%.\n"
-#~ "\n"
-#~ "Diplomats and Spies created under Communism are always veterans.\n"
-#~ "\n"
-#~ "Under Communism, your cities can support up to 3 military units without "
-#~ "paying shields for upkeep.  (Additional units require 1 production shield "
-#~ "each.)\n"
-#~ "\n"
-#~ "You impose limited but efficient martial law under Communism.  Each "
-#~ "military unit inside a city, up to a maximum of 3, will keep 2 unhappy "
-#~ "citizens content."
-#~ msgstr ""
-#~ "Socialismus je postaven na ideálu, že jsou si všichni lidé rovni. Všechno "
-#~ "je vlastněno raději státem než jednotlivci. Socialismus je v rovnováze "
-#~ "mezi militantním a komerčním stylem vlády.\n"
-#~ "\n"
-#~ "V socialismu nezávisí korupce na vzdálenosti od hlavního města. Všechny "
-#~ "města (včetně hlavního) mají mírnou míru korupce. Navíc města dál než 10 "
-#~ "políček od hlavního města se počítají jako ve vzdálenosti 10, pri výpočtu "
-#~ "ceny povstání. (viz. jednotka Diplomat).\n"
-#~ "\n"
-#~ "Osadníci spotřebují jednu jednotku potravin na tah.\n"
-#~ "\n"
-#~ "Město získá 1 bod k obchodu na každé políčko, které produkuje alespoň 1 "
-#~ "bod, pokud oslavuje. (viz. Spokojenost)\n"
-#~ "\n"
-#~ "Maximum pro vědu, daně a luxus je 80%. \n"
-#~ "\n"
-#~ "Diplomati a špioni vytvoření pod socialismem jsou vždy veteráni. \n"
-#~ "\n"
-#~ "Socialistická města mohou podporovat až 3 jednotky, aniž by musela platit "
-#~ "na jejich provoz. (každá další jednotka spotřebuje z produkce jeden "
-#~ "štít)\n"
-#~ "\n"
-#~ "Můžete prosadit omezeně i stané právo. Vojenská jednotka ve městě (ale "
-#~ "maximálně jen 3) udrží DVA nespokojené obyvatele spokojeným."
-
-#~ msgid ""
-#~ "Under a Republican government, citizens hold an election to select a "
-#~ "representative who will govern them; since elected leaders must remain "
-#~ "popular to remain in control, citizens are given a greater degree of "
-#~ "freedom.  Citizens under the Republic become unhappy easily, but the self-"
-#~ "sufficiency of your citizens allows high levels of trade.\n"
-#~ "\n"
-#~ "Cities under the Republic suffer a small amount of corruption.\n"
-#~ "\n"
-#~ "Settlers consume 2 food per turn under the Republic.  Squares with at "
-#~ "least 1 trade resource get a trade bonus of 1 under the Republic.\n"
-#~ "\n"
-#~ "Republican cities which are celebrating grow at a rate of 1 citizen per "
-#~ "turn; see Happiness for details.\n"
-#~ "\n"
-#~ "The maximum rate you can set for science, tax or luxuries is 80%.\n"
-#~ "\n"
-#~ "Under the Republic, military units require 1 production shield each for "
-#~ "upkeep.  In addition the following units are considered aggressive "
-#~ "units:\n"
-#~ "\n"
-#~ "- units with an attack strength greater than 0 which are not inside a "
-#~ "city or inside a fortress within 3 squares of a friendly city\n"
-#~ "\n"
-#~ "- air units (including missiles and helicopters, but not fighters) with "
-#~ "an attack strength greater than 0, regardless of their location\n"
-#~ "\n"
-#~ "The citizens of a city will tolerate 1 aggressive unit; subsequent units "
-#~ "will generate 1 unhappy citizen each."
-#~ msgstr ""
-#~ "V republice obyvatelé volí své zodpovědné zástupce, přičemž zvolení musí "
-#~ "zůstat oblíbení, aby mohli být u moci. Obyvatelé dostávají míru svobody, "
-#~ "jednodušeji se stávají nespokojenými, ale jejich samostatnost umožňuje "
-#~ "vyšší míru obchodu.\n"
-#~ "\n"
-#~ "Města v republice trpí malou měrou korupce.\n"
-#~ "\n"
-#~ "Osadníci spotřebují 2 jednotky potravin na tah. Políčka, která produkují "
-#~ "v obchodu alespoň 1 bod, získají jeden bod navíc.\n"
-#~ "\n"
-#~ "Města, která oslavují rostou o jednoho obyvatele za tah (viz "
-#~ "Spokojenost)\n"
-#~ "\n"
-#~ "Maximum pro vědu, daně a luxus je 80%.\n"
-#~ "\n"
-#~ "Vojenské jednotky spotřebují z produkce města jeden štít na údržbu. "
-#~ "Následující jednotky jsou považovány za agresivní: \n"
-#~ "\n"
-#~ " - Jednotky s útočnou silou vyšší jak 0, které nejsou ve městě nebo v "
-#~ "pevnosti maximalně 3 políčka od přátelského města.\n"
-#~ "\n"
-#~ " - letecké jednotky (včetně raket a vrtulníků s výjimkou stíhaček) s "
-#~ "útočnou silou vyšší jak 0, bez ohledu na jejich pozici. \n"
-#~ "\n"
-#~ "Obyvatelé budou tolerovat jednu agresivní jednotku. Každá další učiní "
-#~ "jednoho obyvatele nespokojeným."
-
-#~ msgid ""
-#~ "Under Democracy, citizens govern directly by voting on issues. Democracy "
-#~ "offers the highest possible level of trade, but also offers the most "
-#~ "potential for unhappiness.  There is no corruption during Democracy, but "
-#~ "citizens become very upset during wars.\n"
-#~ "\n"
-#~ "Settlers consume 2 food per turn under Democracy.  Squares with at least "
-#~ "1 trade resource get a trade bonus of 1 under Democracy.\n"
-#~ "\n"
-#~ "Democratic cities which are celebrating grow at a rate of 1 citizen per "
-#~ "turn; see Happiness for details.\n"
-#~ "\n"
-#~ "There are no taxation limits under Democracy; you can set science, tax or "
-#~ "luxuries to 100%.\n"
-#~ "\n"
-#~ "Under Democracy, military units require 1 production shield each for "
-#~ "upkeep.  In addition the following units generate unhappiness:\n"
-#~ "\n"
-#~ "- Units with an attack strength greater than 0 which are not inside a "
-#~ "city, or inside a fortress within 3 squares of a friendly city, generate "
-#~ "2 unhappy citizens.\n"
-#~ "\n"
-#~ "- Air units with an attack strength greater than 0 which are inside a "
-#~ "city generate only 1 unhappy citizen.  Fighters generate no unhappiness.\n"
-#~ "\n"
-#~ "If a city remains in disorder more than 2 turns under Democratic rule, "
-#~ "the citizens will spontaneously revolt and plunge your civilization into "
-#~ "Anarchy.\n"
-#~ "\n"
-#~ "Because (happy) citizens of Democracy believe strongly in the government, "
-#~ "their loyalty is unswerving.  Military units of Democratic civilizations "
-#~ "cannot be bribed, and Democratic cities cannot be incited to revolt by "
-#~ "enemy Diplomats and Spies."
-#~ msgstr ""
-#~ "Pod demokracií (kapitalismem) vládnou obyvatelé přímou volbou v případě "
-#~ "problémů. Demokracie sice umožňuje nejvyšší míru obchodu, ale taky "
-#~ "největší potenciál pro nespokojenost. V demokracii není korupce, ale lidé "
-#~ "jsou velmi naštvaní během válek.\n"
-#~ "\n"
-#~ "Osadníci spotřebují 2 jednotky jídla každý tah.Políčka, která produkují v "
-#~ "obchodu alespoň 1 bod, získají jeden bod navíc.\n"
-#~ "\n"
-#~ "Města, která oslavují rostou o jednoho obyvatele za tah (viz "
-#~ "Spokojenost).\n"
-#~ "\n"
-#~ "Není žádný limit na vědu, daně nebo luxus. Můžete kteroukoliv nastavit až "
-#~ "na 100%.\n"
-#~ "\n"
-#~ "Každá vojenská jednotka spotřebuje z produkce města jeden štít na údržbu. "
-#~ "Následující jednotky jsou považovány za agresivní a vyvolají "
-#~ "nespokojenost: \n"
-#~ "\n"
-#~ " - Jednotky s útočnou silou vyšší jak 0, které nejsou ve městě nebo v "
-#~ "pevnosti maximalně 3 políčka od přátelského města učiní nespokojenými 2 "
-#~ "obyvatele.\n"
-#~ "\n"
-#~ " - letecké jednotky (včetně raket a vrtulníků s výjimkou stíhaček) s "
-#~ "útočnou silou vyšší jak 0, bez ohledu na jejich pozici, vyvolají každá "
-#~ "jednoho nespokojeného. \n"
-#~ "\n"
-#~ "Pokud město zůstane déle jak dva tahy vzbouřené, obyvatelé spontánně "
-#~ "vyvolají revoluci a strhnou civilizaci do anarchie.\n"
-#~ "\n"
-#~ "Protože (spokojení) obyvatelé silně věří v jejich vládu, jejich loajalita "
-#~ "je nezlomná. Demokratické jednotky nemohou být podplaceny a demokratické "
-#~ "města nemohou být vyprovokována ke vzpouře nepřátelskými diplomaty."
-
-#~ msgid "Historical"
-#~ msgstr "Historický"
-
-#~ msgid "%s bought in %s for %d gold."
-#~ msgstr "Hra: %s - koupeno ve městě %s za %d zlatých."
-
-#~ msgid "%s lose %s (%i,%i)"
-#~ msgstr "%s prohra %s (%i,%i)"
-
-#~ msgid "%s (%i, %i) founded by the %s"
-#~ msgstr "%s (%i, %i) založeno %s"
-
-#~ msgid "%s (%s) (%i,%i) destroyed by %s"
-#~ msgstr "%s (%s) (%i,%i) zničili %s"
-
-#~ msgid "%s (%s) (%i,%i) conquered by %s"
-#~ msgstr "Město %s (%s) (%i,%i) dobyto hráčem %s"
-
-#~ msgid "%s (%s) (%i,%i) liberated by %s"
-#~ msgstr "Město %s (%s) (%i,%i) osvobozeno hráčem %s"
-
-#~ msgid "%s lose %s (famine)"
-#~ msgstr "%s ztratili %s (hladomor)"
-
-#, fuzzy
-#~ msgid "%s build %s in %s"
-#~ msgstr "Pouze v %s: %s\n"
-
-#, fuzzy
-#~ msgid "%s build %s in %s (%i,%i)"
-#~ msgstr "Pouze v %s: %s\n"
-
-#, fuzzy
-#~ msgid "%s (%i, %i) disbanded into %s by the %s"
-#~ msgstr "Krok do po instrukci"
-
-#~ msgid "  -i, --info INFO\tExtra info for the metaserver\n"
-#~ msgstr "  -m, --meta\t\tZašle informaci metaserveru\n"
-
-#~ msgid "%s and %s agree to a treaty"
-#~ msgstr "%s a %s uzavřeli dohodu"
-
-#~ msgid "%s acquire %s (Treaty) from %s"
-#~ msgstr "%s získali %s (Dohoda) od %s"
-
-#~ msgid "%s acquire the city %s from %s"
-#~ msgstr "%s získali město %s od %s."
-
-#~ msgid "%s agree on an alliance with %s"
-#~ msgstr "%s se dohodli na alianci s %s."
-
-#~ msgid "You start a research pool with %s."
-#~ msgstr "Hra: Zahájili jsme společný výzkum s %s."
-
-#, fuzzy
-#~ msgid "%s share vision with %s"
-#~ msgstr "Sdílet s ostatními společnostmi"
-
-#~ msgid "%s establish an embassy in %s (%s) (%i,%i)"
-#~ msgstr "%s zřídili ambasádu v %s (%s) (%i,%i)"
-
-#~ msgid "%s steals Future Tech. %d from the %s"
-#~ msgstr "Hra: Váš %s ukradl technologii budoucnosti %d hráči %s."
-
-#~ msgid "%s steals %s from the %s"
-#~ msgstr "Hra: %s ukradli %s od %s."
-
-#~ msgid "(%d,%d) land created from ocean"
-#~ msgstr "(%d,%d) vytvořena pevnina z oceánu"
-
-#~ msgid "(%d,%d) ocean created from land"
-#~ msgstr "(%d,%d) oceán vytvořen z pevniny"
-
-#~ msgid "%s acquired from a building!"
-#~ msgstr "Hra: %s získáno ze stavby!"
-
-#~ msgid "%s discover %s (building)"
-#~ msgstr "%s objevují %s (stavba)"
-
-#~ msgid "The %s have acquired %s from a building."
-#~ msgstr "Hra: %s získali %s ze stavby."
-
-#~ msgid "The feared barbarian leader %s is no more"
-#~ msgstr "Obávaný vůdce barbarů %s již není mezi živými"
-
-#~ msgid "%s civilization destroyed"
-#~ msgstr "%s civilizace zničena"
-
-#~ msgid "%s are first to learn %s"
-#~ msgstr "%s jako první objevili %s"
-
-#~ msgid "%s discover %s"
-#~ msgstr "%s objevují %s"
-
-#~ msgid "%s discover Future Tech %d"
-#~ msgstr "%s objevují technologii budoucnosti %d"
-
-#~ msgid "%s steal %s from %s"
-#~ msgstr "%s ukradl %s %s"
-
-#~ msgid "RATE CHANGE: %s %i %i %i"
-#~ msgstr "ZMĚNA ÚROVNĚ: %s %i %i %i"
-
-#~ msgid "%s form a %s"
-#~ msgstr "%s zformovali %s"
-
-#~ msgid "The %s revolt!"
-#~ msgstr "V %s vypukla revoluce!"
-
-#~ msgid "Group %s lists unknown building: \"%s\" (%s)"
-#~ msgstr "Skupina %s obsahuje neznámou stavbu \"%s\" (%s)"
-
-#~ msgid "Group %s lists bad range: \"%s\" (%s)"
-#~ msgstr "Skupina %s obsahuje špatný rozsah: \"%s\" (%s)"
-
-#~ msgid "Building %s lists bad range: \"%s\" (%s)"
-#~ msgstr "Stavba %s obsahuje šaptný rozsah: \"%s\" (%s)"
-
-#~ msgid "Building %s lists bad effect group: \"%s\" (%s)"
-#~ msgstr "Stavba %s obsahuje špatnou skupinu efektu: \"%s\" (%s)"
-
-#~ msgid "Building %s has missing requirement data (%s)"
-#~ msgstr "Stavbě %s chybí požadovaná data (%s)"
-
-#~ msgid "Whether angry citizens are enabled"
-#~ msgstr "Jsou možní naštvaní obyvatelé"
-
-#~ msgid ""
-#~ "Introduces angry citizens like in civilization II. Angry citizens have to "
-#~ "become unhappy before any other class of citizens may be considered. See "
-#~ "also unhappysize, cityfactor and governments."
-#~ msgstr ""
-#~ "Přidává naštvné obyvatele jako v Civilizaci II. Naštvaní obyvatelé musí "
-#~ "být alespoň nespokojenými, než se může počítat s ostatními obyvateli. Pro "
-#~ "podrobnosti se podívejte na proměnné unhappysize, cityfactor a v "
-#~ "nápověděna typy vlády."
-
-#~ msgid "Style of Civ rules"
-#~ msgstr "Styl pravidel podle Civilization"
-
-#~ msgid "Starting new log"
-#~ msgstr "Startuji nový log"
-
-#~ msgid "The game is over!"
-#~ msgstr "Hra je u konce!"
-
-#~ msgid "Cancel treaty in the players dialog first (F3)."
-#~ msgstr "Hra: Nejdříve zrušte dohodu, kterou s hráčem máte (F3)."
-
-#~ msgid "Can't attack %s because you are not at war with %s."
-#~ msgstr "Hra: Nelze zaútočit na %s dokud nevyhlásíte válku %s."
-
-#~ msgid "Can't attack %s's unit because you are not at war with %s."
-#~ msgstr "Hra: Nelze zaútočit na %s jednotku, dokud nevyhlásíme válku %s."
-
-#~ msgid "%s lose a %s (out of hp)"
-#~ msgstr "%s ztratili %s (síla)"
-
-#~ msgid "%s's %s lost at sea"
-#~ msgstr "%s %s ztracena v moři"
-
-#~ msgid "%s unit lost on unsafe terrain"
-#~ msgstr "%s jednotka ztracena v nebezpečném terénu"
-
-#~ msgid "%s lose a %s (fuel)"
-#~ msgstr "%s ztratili %s (palivo)"
-
-#~ msgid "Player %s lost a game loss unit and died"
-#~ msgstr "Hráč %s prohrál hru ztrátou jednotky a smrtí"
-
-#, fuzzy
-#~ msgid "%s lose %s when %s lost"
-#~ msgstr "Hra: Jednotka %s ztracena spolu s jednotkou %s."
-
-#, fuzzy
-#~ msgid "%s lose %s to the %s"
-#~ msgstr "Odkazuje na : %s\n"
-
-#~ msgid "%s discover %s (Hut)"
-#~ msgstr "%s objevují %s (Chýše)"
-
-#~ msgid "?Entertainers:E"
-#~ msgstr "?Entertainers:B"
-
-#~ msgid "CMA"
-#~ msgstr "ASM"
-
-#~ msgid "City Management Agent"
-#~ msgstr "Automatický Správce Města"
-
-#~ msgid "The parties resume the research pool"
-#~ msgstr "Partneři obnovili společný výzkum"
-
-#~ msgid "%s%d shield"
-#~ msgstr "%s%d štít"
-
-#~ msgid "%s%d food"
-#~ msgstr "%s%d jídlo"
-
-#~ msgid "%s%d gold"
-#~ msgstr "%s%d zlata"
-
-#~ msgid "Save the options when exiting the game"
-#~ msgstr "Uloží nastavení při ukončení hry"
-
-#~ msgid "Default player's login name"
-#~ msgstr "Výchozí uživatelské jméno hráče"
-
-#~ msgid "Default server's port"
-#~ msgstr "Výchozí port serveru"
-
-#~ msgid "Default metaserver"
-#~ msgstr "Výchozí metaserver"
-
-#~ msgid "Default name of sound set"
-#~ msgstr "Výchozí název zvukové sady"
-
-#~ msgid "Popup dialogs in AI Mode"
-#~ msgstr "Zobrazovat dialogová okna v AI módu"
-
-#~ msgid " with City Walls"
-#~ msgstr " s hradbami"
-
-#~ msgid "%s. "
-#~ msgstr "%s. "
-
-#~ msgid "CMA: You lost control of %s. Detaching from city."
-#~ msgstr "ASM: Ztratili jsme kontrolu nad městem %s. Odcházím z města."
-
-#~ msgid ""
-#~ "CMA: %s has changed and the calculated result can't be applied. Will "
-#~ "retry."
-#~ msgstr ""
-#~ "ASM: %s se změnil a vypočtený výsledek nemůže být proveden. Zkusí se to "
-#~ "znovu."
-
-#~ msgid ""
-#~ "CMA: %s has changed multiple times. This may be an error in Freeciv or "
-#~ "bad luck. The CMA will detach itself from the city now."
-#~ msgstr ""
-#~ "ASM: %s se změnil několikrát. To může být chyba ve Freeciv nebo smůla. "
-#~ "ASM nyní nebude ovládat město."
-
-#~ msgid "C_MA"
-#~ msgstr "AS_M"
-
-#~ msgid "Trade Ro_utes"
-#~ msgstr "Obchodní _cesty"
-
-#~ msgid "CMA page"
-#~ msgstr "ASM stránka"
-
-#~ msgid "Total trade from trade route %d"
-#~ msgstr "Celkem obchod z obchodní cesty %d"
-
-#~ msgid "Citizen Management Agent"
-#~ msgstr "Automatický Správce Města"
-
-#~ msgid "Granary: %3d/%-3d"
-#~ msgstr "Sýpka: %3d/%-3d"
-
-#~ msgid ""
-#~ "Food:    %2d (%+2d)\n"
-#~ "Prod:    %2d (%+2d)\n"
-#~ "Trade:   %2d (%+2d)"
-#~ msgstr ""
-#~ "Jídlo:      %3d (%+-4d)\n"
-#~ "Prod:      %3d (%+-4d)\n"
-#~ "Obchod: %3d (%+-4d)"
-
-#~ msgid ""
-#~ "Gold:    %2d (%+2d)\n"
-#~ "Luxury:  %2d\n"
-#~ "Science: %2d"
-#~ msgstr ""
-#~ "Zlato:    %2d (%+2d)\n"
-#~ "Luxus:  %2d\n"
-#~ "Věda: %2d"
-
-#~ msgid "(veteran)"
-#~ msgstr "(veterán)"
-
-#~ msgid "CMA..."
-#~ msgstr "ASM..."
-
-#~ msgid "Doubles the effect of Temples, in all your cities."
-#~ msgstr "Zdvojnásobuje efekt chrámů ve všech městech."
