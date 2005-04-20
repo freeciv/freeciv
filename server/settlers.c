@@ -16,6 +16,7 @@
 #endif
 
 #include <assert.h>
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -94,38 +95,15 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   terms this means we calculate how much less worth something is to us
   depending on how long it will take to complete.
 
-  amortize(benefit, delay) returns benefit * ((MORT - 1)/MORT)^delay
-  (^ = to the power of)
-
-  Plus, it has tests to prevent the numbers getting too big.  It takes
-  advantage of the fact that (23/24)^12 approximately = 3/5 to chug 
-  through delay in chunks of 12, and then does the remaining 
-  multiplications of (23/24).
+  This is based on a global interest rate as defined by the MORT value.
 **************************************************************************/
 int amortize(int benefit, int delay)
 {
-  int num = MORT - 1;
-  int denom;
-  int s = 1;
-  assert(delay >= 0);
-  if (benefit < 0) { s = -1; benefit *= s; }
-  while (delay > 0 && benefit != 0) {
-    denom = 1;
-    while (delay >= 12 && (benefit >> 28) == 0 && (denom >> 27) == 0) {
-      benefit *= 3;          /* this is a kluge but it is 99.9% accurate and saves time */
-      denom *= 5;      /* as long as MORT remains 24! -- Syela */
-      delay -= 12;
-    }
-    while ((benefit >> 25) == 0 && delay > 0 && (denom >> 25) == 0) {
-      benefit *= num;
-      denom *= MORT;
-      delay--;
-    }
-    if (denom > 1) { /* The "+ (denom/2)" makes the rounding correct */
-      benefit = (benefit + (denom/2)) / denom;
-    }
-  }
-  return(benefit * s);
+  double discount = 1.0 - 1.0 / ((double)MORT);
+
+  /* Note there's no rounding here.  We could round but it would probably
+   * be better just to return (and take) a double for the benefit. */
+  return benefit * pow(discount, delay);
 }
 
 /**************************************************************************
