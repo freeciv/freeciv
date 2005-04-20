@@ -744,35 +744,29 @@ static void consider_settler_action(struct player *pplayer,
 				    struct tile **best_tile,
                                     struct tile *ptile)
 {
-  int discount_value, base_value = 0;
-  int total_value;
   bool consider;
-
+  int total_value = 0, base_value = 0;
+  
   if (extra >= 0) {
     consider = TRUE;
   } else {
     consider = (new_tile_value > old_tile_value);
+    extra = 0;
   }
 
+  /* find the present value of the future benefit of this action */
   if (consider) {
-    int diff = new_tile_value - old_tile_value;
+    const int FACTOR = 1024;
 
-    /* The 64x is because we are dealing with small ints, usually from 0-20,
-     * which are insufficiently large to use directly in amortize().  Tiles
-     * which are not currently in use do not give us an improvement until
-     * a citizen works them, so they are reduced in value by 1/4. */
-    base_value = diff * (in_use ? 64 : 16) + extra * 64;
-    base_value = MAX(0, base_value);
+    base_value = new_tile_value - old_tile_value;
+    total_value = base_value * FACTOR;
+    if (!in_use) {
+      total_value /= 2;
+    }
+    total_value += extra * FACTOR;
 
-    discount_value = amortize(base_value, delay);
-
-    /* The total value is (roughly) equal to the base value multiplied by
-     * d / (1 - d), where d is the discount. (discount_value / base value)
-     * The MAX is a guard against the base value being greater or equal
-     * than the discount value, which would only happen if it or the 
-     * delay is <= 0. */
-    total_value = ((discount_value * base_value)
-		   / (MAX(1, base_value - discount_value))) / 64;
+    /* use factor to prevent rounding errors */
+    total_value = amortize(total_value, delay);
   } else {
     total_value = 0;
   }
