@@ -2053,6 +2053,8 @@ void unqueue_mapview_updates(bool write_to_screen)
       dirty_all();
       update_map_canvas(0, 0, mapview.store_width,
 			mapview.store_height);
+      /* Have to update the overview too, since some tiles may have changed. */
+      refresh_overview_canvas();
     } else {
       int min_x = mapview.width, min_y = mapview.height;
       int max_x = 0, max_y = 0;
