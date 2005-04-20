@@ -2164,7 +2164,8 @@ static void ai_set_defenders(struct player *pplayer)
 
       unit_list_iterate(pcity->tile->units, punit) {
        if ((punit->ai.ai_role == AIUNIT_NONE || emergency)
-           && punit->ai.ai_role != AIUNIT_DEFEND_HOME) {
+           && punit->ai.ai_role != AIUNIT_DEFEND_HOME
+           && punit->owner == pplayer->player_no) {
           int want = assess_defense_unit(pcity, punit, FALSE);
 
           if (want > best_want) {
