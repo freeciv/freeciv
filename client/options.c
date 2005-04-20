@@ -233,6 +233,7 @@ bool draw_borders = TRUE;
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }
 
 view_option view_options[] = {
+  VIEW_OPTION(draw_city_outlines),
   VIEW_OPTION(draw_map_grid),
   VIEW_OPTION(draw_city_names),
   VIEW_OPTION(draw_city_growth),
