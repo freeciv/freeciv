@@ -1029,8 +1029,9 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
 
   CHECK_UNIT(punit);
 
-  if (!pcity) {
+  if (!pcity || pcity->owner != pplayer->player_no) {
     pcity = punit->tile->city;
+    punit->ai.charge = 0; /* clear duty */
   }
 
   if (!pcity) {
