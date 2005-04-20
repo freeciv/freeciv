@@ -1158,6 +1158,10 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 		       canvas_x, canvas_y, width, height);
 
   mapview_layer_iterate(layer) {
+    if (layer == LAYER_CITYBAR) {
+      show_city_descriptions(canvas_x, canvas_y, width, height);
+      continue;
+    }
     gui_rect_iterate(gui_x0, gui_y0, width,
 		     height + (tileset_is_isometric(tileset)
 			       ? (tileset_tile_height(tileset) / 2) : 0),
@@ -1196,8 +1200,6 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
       }
     } adjc_dir_iterate_end;
   } gui_rect_iterate_end;
-
-  show_city_descriptions(canvas_x, canvas_y, width, height);
 
   if (!full) {
     /* Swap store and tmp_store back. */
@@ -1239,18 +1241,180 @@ void update_city_description(struct city *pcity)
 }
 
 /****************************************************************************
-  Draw a description for the given city.  This description may include the
-  name, turns-to-grow, production, and city turns-to-build (depending on
-  client options).
-
-  (canvas_x, canvas_y) gives the location on the given canvas at which to
-  draw the description.  This is the location of the city itself so the
-  text must be drawn underneath it.  pcity gives the city to be drawn,
-  while (*width, *height) should be set by show_ctiy_desc to contain the
-  width and height of the text block (centered directly underneath the
-  city's tile).
+  Draw a "full" citybar for the city.  This is a subcase of show_city_desc
+  (see that function for more info) for tilesets that have a full citybar.
 ****************************************************************************/
-static void show_city_desc(struct canvas *pcanvas,
+static void show_full_citybar(struct canvas *pcanvas,
+			      const int canvas_x0, const int canvas_y0,
+			      struct city *pcity, int *width, int *height)
+{
+  const struct citybar_sprites *citybar = get_citybar_sprites(tileset);
+  const bool line1 = draw_city_names;
+  const bool line2 = ((draw_city_productions || draw_city_growth)
+		      && pcity->owner == game.player_idx);
+  static char name[512], growth[32], prod[512], size[32];
+  enum color_std growth_color, owner_color;
+  struct {
+    int x, y, w, h;
+  } name_rect = {0, 0, 0, 0}, growth_rect = {0, 0, 0, 0},
+    prod_rect = {0, 0, 0, 0}, size_rect = {0, 0, 0, 0},
+    flag_rect = {0, 0, 0, 0}, occupy_rect = {0, 0, 0, 0},
+    food_rect = {0, 0, 0, 0}, shield_rect = {0, 0, 0, 0};
+  int width1 = 0, width2 = 0, height1 = 0, height2 = 0;
+  struct sprite *bg = citybar->background;
+  struct sprite *flag = get_city_flag_sprite(tileset, pcity);
+  struct sprite *occupy = NULL;
+  int bg_w, bg_h, x, y;
+  const int canvas_x = canvas_x0 + tileset_tile_width(tileset) / 2;
+  const int canvas_y = canvas_y0 + tileset_citybar_offset_y(tileset);
+  const int border = 6;
+  const enum client_font FONT_CITY_SIZE = FONT_CITY_NAME; /* TODO: new font */
+
+  get_sprite_dimensions(bg, &bg_w, &bg_h);
+  *width = *height = 0;
+
+  if (!line1 && !line2) {
+    return;
+  }
+
+  /* First: calculate rect dimensions (but not positioning). */
+  get_city_mapview_name_and_growth(pcity, name, sizeof(name),
+				   growth, sizeof(growth), &growth_color);
+  if (line1) {
+    my_snprintf(size, sizeof(size), "%d", pcity->size);
+
+    get_text_size(&size_rect.w, &size_rect.h, FONT_CITY_SIZE, size);
+    get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);
+
+    if (can_player_see_units_in_city(game.player_ptr, pcity)) {
+      int count = unit_list_size(pcity->tile->units);
+
+      count = CLIP(0, count, citybar->occupancy.size - 1);
+      occupy = citybar->occupancy.p[count];
+    } else {
+      if (pcity->client.occupied) {
+	occupy = citybar->occupied;
+      } else {
+	occupy = citybar->occupancy.p[0];
+      }
+    }
+
+    get_sprite_dimensions(flag, &flag_rect.w, &flag_rect.h);
+    get_sprite_dimensions(occupy, &occupy_rect.w, &occupy_rect.h);
+
+    width1 = (flag_rect.w + occupy_rect.w + name_rect.w
+	      + 2 * border + size_rect.w);
+    height1 = MAX(flag_rect.h,
+		  MAX(occupy_rect.h,
+		      MAX(name_rect.h + border,
+			  size_rect.h + border)));
+  }
+  if (line2) {
+    get_city_mapview_production(pcity, prod, sizeof(prod));
+    get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
+
+    get_sprite_dimensions(citybar->shields, &shield_rect.w, &shield_rect.h);
+
+    get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
+    get_sprite_dimensions(citybar->food, &food_rect.w, &food_rect.h);
+
+    width2 = (prod_rect.w + growth_rect.w + shield_rect.w + food_rect.w
+	      + 2 * border);
+    height2 = MAX(shield_rect.h,
+		  MAX(prod_rect.h + border,
+		      MAX(growth_rect.h + border,
+			  food_rect.h)));
+  }
+
+  *width = MAX(width1, width2);
+  *height = height1 + height2;
+
+  /* Next fill in X and Y locations. */
+  if (line1) {
+    flag_rect.x = canvas_x - *width / 2;
+    flag_rect.y = canvas_y + (height1 - flag_rect.h) / 2;
+
+    occupy_rect.x = flag_rect.x + flag_rect.w;
+    occupy_rect.y = canvas_y + (height1 - occupy_rect.h) / 2;
+
+    name_rect.x = canvas_x + (flag_rect.w + occupy_rect.w
+			      - name_rect.w - size_rect.w - border) / 2;
+    name_rect.y = canvas_y + (height1 - name_rect.h) / 2;
+
+    size_rect.x = canvas_x + (*width + 1) / 2 - size_rect.w - border / 2;
+    size_rect.y = canvas_y + (height1 - size_rect.h) / 2;
+  }
+  if (line2) {
+    shield_rect.x = canvas_x - *width / 2;
+    shield_rect.y = canvas_y + height1 + (height2 - shield_rect.h) / 2;
+
+    prod_rect.x = shield_rect.x + shield_rect.w + border / 2;
+    prod_rect.y = canvas_y + height1 + (height2 - prod_rect.h) / 2;
+
+    growth_rect.x = canvas_x + (*width + 1) / 2 - growth_rect.w - border / 2;
+    growth_rect.y = canvas_y + height1 + (height2 - growth_rect.h) / 2;
+
+    food_rect.x = growth_rect.x - border / 2 - food_rect.w;
+    food_rect.y = canvas_y + height1 + (height2 - food_rect.h) / 2;
+  }
+
+  /* Now draw. */
+  for (x = 0; x < *width; x += bg_w) {
+    for (y = 0; y < *height; y += bg_h) {
+      canvas_put_sprite(pcanvas, canvas_x - *width / 2 + x, canvas_y + y,
+			bg, 0, 0, *width - x, *height - y);
+    }
+  }
+  owner_color = player_color(city_owner(pcity));
+  if (line1) {
+    canvas_put_sprite_full(pcanvas, flag_rect.x, flag_rect.y, flag);
+    canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+		    flag_rect.x + flag_rect.w - 1, canvas_y,
+		    0, height1);
+    canvas_put_sprite_full(pcanvas, occupy_rect.x, occupy_rect.y, occupy);
+    canvas_put_text(pcanvas, name_rect.x, name_rect.y,
+		    FONT_CITY_NAME, COLOR_STD_WHITE, name);
+
+    canvas_put_rectangle(pcanvas, owner_color,
+			 size_rect.x - border / 2, canvas_y,
+			 size_rect.w + border, height1);
+    canvas_put_text(pcanvas, size_rect.x, size_rect.y,
+		    FONT_CITY_NAME, COLOR_STD_WHITE, size);
+  }
+  if (line2) {
+    canvas_put_sprite_full(pcanvas, shield_rect.x, shield_rect.y,
+			   citybar->shields);
+    canvas_put_text(pcanvas, prod_rect.x, prod_rect.y,
+		    FONT_CITY_PROD, COLOR_STD_WHITE, prod);
+    canvas_put_sprite_full(pcanvas, food_rect.x, food_rect.y, citybar->food);
+    canvas_put_text(pcanvas, growth_rect.x, growth_rect.y,
+		      FONT_CITY_PROD, growth_color, growth);
+  }
+  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+		  canvas_x - *width / 2, canvas_y,
+		  *width, 0);
+  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+		  canvas_x - *width / 2, canvas_y,
+		  0, *height);
+  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+		  canvas_x - *width / 2, canvas_y + *height - 1,
+		  *width, 0);
+  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+		  canvas_x - *width / 2 + *width, canvas_y,
+		  0, *height);
+  if (line1 && line2) {
+    canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+		    canvas_x - *width / 2, canvas_y + height1 - 1,
+		    *width, 0);
+  }
+}
+
+/****************************************************************************
+  Draw a "small" citybar for the city.  This is a subcase of show_city_desc
+  (see that function for more info) for tilesets that do not have a full
+  citybar.
+****************************************************************************/
+static void show_small_citybar(struct canvas *pcanvas,
 			   int canvas_x, int canvas_y,
 			   struct city *pcity, int *width, int *height)
 {
@@ -1269,7 +1433,7 @@ static void show_city_desc(struct canvas *pcanvas,
 
   if (draw_city_names) {
     get_city_mapview_name_and_growth(pcity, name, sizeof(name),
-				     growth, sizeof(growth), &growth_color);
+                                    growth, sizeof(growth), &growth_color);
 
     get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);
 
@@ -1281,13 +1445,13 @@ static void show_city_desc(struct canvas *pcanvas,
     total_width = name_rect.w + extra_width + growth_rect.w;
     total_height = MAX(name_rect.h, growth_rect.h);
     canvas_put_text(pcanvas,
-		    canvas_x - total_width / 2, canvas_y,
-		    FONT_CITY_NAME, COLOR_STD_WHITE, name);
+                   canvas_x - total_width / 2, canvas_y,
+                   FONT_CITY_NAME, COLOR_STD_WHITE, name);
     if (growth[0] != '\0') {
       canvas_put_text(pcanvas,
-		      canvas_x - total_width / 2 + name_rect.w + extra_width,
-		      canvas_y + total_height - growth_rect.h,
-		      FONT_CITY_PROD, growth_color, growth);
+                     canvas_x - total_width / 2 + name_rect.w + extra_width,
+                     canvas_y + total_height - growth_rect.h,
+                     FONT_CITY_PROD, growth_color, growth);
     }
     canvas_y += total_height + 3;
 
@@ -1302,11 +1466,34 @@ static void show_city_desc(struct canvas *pcanvas,
     total_height = prod_rect.h;
 
     canvas_put_text(pcanvas, canvas_x - total_width / 2, canvas_y,
-		    FONT_CITY_PROD, COLOR_STD_WHITE, prod);
+                   FONT_CITY_PROD, COLOR_STD_WHITE, prod);
 
     canvas_y += total_height;
     *width = MAX(*width, total_width);
     *height += total_height;
+  }
+}
+
+/****************************************************************************
+  Draw a description for the given city.  This description may include the
+  name, turns-to-grow, production, and city turns-to-build (depending on
+  client options).
+
+  (canvas_x, canvas_y) gives the location on the given canvas at which to
+  draw the description.  This is the location of the city itself so the
+  text must be drawn underneath it.  pcity gives the city to be drawn,
+  while (*width, *height) should be set by show_ctiy_desc to contain the
+  width and height of the text block (centered directly underneath the
+  city's tile).
+****************************************************************************/
+static void show_city_desc(struct canvas *pcanvas,
+			   int canvas_x, int canvas_y,
+			   struct city *pcity, int *width, int *height)
+{
+  if (tileset_is_full_citybar(tileset)) {
+    show_full_citybar(pcanvas, canvas_x, canvas_y, pcity, width, height);
+  } else {
+    show_small_citybar(pcanvas, canvas_x, canvas_y, pcity, width, height);
   }
 }
 
@@ -1919,7 +2106,7 @@ void unqueue_mapview_updates(bool write_to_screen)
 
 /**************************************************************************
   Fill the two buffers which information about the city which is shown
-  below it. It takes draw_city_names and draw_city_growth into account.
+  below it. It does not take draw_city_names/draw_city_growth into account.
 **************************************************************************/
 void get_city_mapview_name_and_growth(struct city *pcity,
 				      char *name_buffer,
@@ -1928,16 +2115,9 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 				      size_t growth_buffer_len,
 				      enum color_std *growth_color)
 {
-  if (!draw_city_names) {
-    name_buffer[0] = '\0';
-    growth_buffer[0] = '\0';
-    *growth_color = COLOR_STD_WHITE;
-    return;
-  }
-
   my_snprintf(name_buffer, name_buffer_len, pcity->name);
 
-  if (draw_city_growth && pcity->owner == game.player_idx) {
+  if (pcity->owner == game.player_idx) {
     int turns = city_turns_to_grow(pcity);
 
     if (turns == 0) {

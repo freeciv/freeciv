@@ -79,6 +79,7 @@ enum mapview_layer {
   LAYER_SPECIAL3,
   LAYER_GRID2,
   LAYER_OVERLAYS,
+  LAYER_CITYBAR,
   LAYER_FOCUS_UNIT,
   LAYER_GOTO,
   LAYER_COUNT
@@ -173,12 +174,23 @@ enum spaceship_part {
   SPACESHIP_COUNT
 };
 
+struct citybar_sprites {
+  struct sprite
+    *shields,
+    *food,
+    *occupied,
+    *background;
+  struct sprite_vector occupancy;
+};
+
 struct sprite *get_spaceship_sprite(const struct tileset *t,
 				    enum spaceship_part part);
 struct sprite *get_citizen_sprite(const struct tileset *t,
 				  struct citizen_type type,
 				  int citizen_index,
 				  const struct city *pcity);
+struct sprite *get_city_flag_sprite(const struct tileset *t,
+				    const struct city *pcity);
 struct sprite *get_nation_flag_sprite(const struct tileset *t,
 				      Nation_Type_id nation);
 struct sprite *get_tech_sprite(const struct tileset *t, Tech_Type_id tech);
@@ -197,6 +209,7 @@ struct sprite *get_nuke_explode_sprite(const struct tileset *t);
 struct sprite *get_cursor_sprite(const struct tileset *t,
 				 enum cursor_type cursor,
 				 int *hot_x, int *hot_y);
+const struct citybar_sprites *get_citybar_sprites(const struct tileset *t);
 struct sprite *get_icon_sprite(const struct tileset *t, enum icon_type icon);
 struct sprite *get_attention_crosshair_sprite(const struct tileset *t);
 struct sprite *get_indicator_sprite(const struct tileset *t,
@@ -219,6 +232,7 @@ int tileset_full_tile_width(const struct tileset *t);
 int tileset_full_tile_height(const struct tileset *t);
 int tileset_small_sprite_width(const struct tileset *t);
 int tileset_small_sprite_height(const struct tileset *t);
+bool tileset_is_full_citybar(const struct tileset *t);
 int tileset_citybar_offset_y(const struct tileset *t);
 const char *tileset_main_intro_filename(const struct tileset *t);
 const char *tileset_mini_intro_filename(const struct tileset *t);

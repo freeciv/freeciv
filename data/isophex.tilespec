@@ -34,6 +34,7 @@ unit_offset_x = 21
 unit_offset_y = 13
 
 ; offset the citybar text by this amount (from the city tile origin)
+is_full_citybar = 0
 citybar_offset_y = 20
 
 ; Hex data.

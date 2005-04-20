@@ -32,6 +32,7 @@ flag_offset_x = 0
 flag_offset_y = 0
 
 ; offset the citybar text by this amount (from the city tile origin)
+is_full_citybar = 0
 citybar_offset_y = 27
 
 ; Font size (points) to use to draw city names and productions:
