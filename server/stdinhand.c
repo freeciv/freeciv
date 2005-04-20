@@ -3663,6 +3663,9 @@ static bool start_command(struct connection *caller, char *name, bool check)
       return FALSE;
     } else if (check) {
       return TRUE;
+    } else if (!caller) {
+      start_game();
+      return TRUE;
     } else {
       int started = 0, notstarted = 0;
       const int percent_required = 100;
