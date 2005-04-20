@@ -189,7 +189,6 @@ struct unit {
 #define MOVE_COST_RIVER 1
 #define MOVE_COST_RAIL 0
 #define MOVE_COST_ROAD 1
-#define MOVE_COST_AIR 1
 
 #define unit_list_iterate_safe(unitlist, punit) \
 { \

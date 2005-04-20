@@ -1472,6 +1472,10 @@ static bool airspace_looks_safe(struct tile *ptile, struct player *pplayer)
  possible without running out of moves. It returns -1 if it is
  impossible.
 
+  Note that the 'moves' passed to this function should be the number of
+  steps the air unit has left.  The caller should *already* have
+  divided by SINGLE_MOVE.
+
 The function has 3 stages:
 Try to rule out the possibility in O(1) time              else
 Try to quickly verify in O(moves) time                    else
@@ -1493,6 +1497,7 @@ int air_can_move_between(int moves, struct tile *src_tile,
     return -1;
   }
   if (total_distance == 0) {
+    assert(moves >= 0);
     return moves;
   }
 
@@ -1524,7 +1529,8 @@ int air_can_move_between(int moves, struct tile *src_tile,
   if (dist == 1) {
     /* Looks like the O(n) quicksearch worked. */
     assert(real_map_distance(ptile, dest_tile) == 1);
-    return moves - total_distance * MOVE_COST_AIR;
+    assert(moves - total_distance >= 0);
+    return moves - total_distance;
   }
 
   /* 
@@ -1559,15 +1565,16 @@ int air_can_move_between(int moves, struct tile *src_tile,
       if (same_pos(tile1, dest_tile)) {
 	/* We're there! */
 	freelog(LOG_DEBUG, "air_can_move_between: movecost: %i",
-		WARMAP_COST(ptile) + MOVE_COST_AIR);
-	/* The -MOVE_COST_AIR is because we haven't taken the final
+		WARMAP_COST(ptile) + 1);
+	/* The -1 is because we haven't taken the final
 	   step yet. */
-	return moves - WARMAP_COST(ptile) - MOVE_COST_AIR;
+	assert(moves - WARMAP_COST(ptile) - 1 >= 0);
+	return moves - WARMAP_COST(ptile) - 1;
       }
 
       /* We refuse to goto through unsafe airspace. */
       if (airspace_looks_safe(tile1, pplayer)) {
-	int cost = WARMAP_COST(ptile) + MOVE_COST_AIR;
+	int cost = WARMAP_COST(ptile) + 1;
 
 	WARMAP_COST(tile1) = cost;
 
