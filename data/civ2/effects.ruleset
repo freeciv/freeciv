@@ -24,6 +24,15 @@ reqs    =
       "Government", "Fundamentalism", "Player"
     }
 
+; Nuclear power gives +1 moves to sea units
+[effect_nuclear_powered_boats]
+name	= "Sea_Move"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Nuclear Power", "Player"
+    }
+
 [effect_airport]
 name	= "Air_Veteran"
 value	= 1

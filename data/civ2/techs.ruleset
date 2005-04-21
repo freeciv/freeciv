@@ -393,7 +393,8 @@ flags    = ""
 name     = _("Nuclear Power")
 req1     = "Nuclear Fission"
 req2     = "Electronics"
-flags    = "Boat_Fast"
+flags    = ""
+helptext = _("Gives sea units one extra move.")
 
 [advance_philosophy]
 name     = _("Philosophy")

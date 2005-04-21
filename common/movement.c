@@ -59,14 +59,10 @@ int unit_move_rate(const struct unit *punit)
     /* Scale the MP based on how many MP the unit has. */
     move_rate = (base_move_rate * punit->hp) / unit_type(punit)->hp;
 
-    /* Add on effects bonus (Magellan's Expedition and Lighthouse). */
+    /* Add on effects bonus (Magellan's Expedition, Lighthouse,
+     * Nuclear Power). */
     move_rate += (get_player_bonus(unit_owner(punit), EFT_SEA_MOVE)
 		  * SINGLE_MOVE);
-
-    /* Check for special tech (Nuclear Power). */
-    if (player_knows_techs_with_flag(unit_owner(punit), TF_BOAT_FAST)) {
-      move_rate += SINGLE_MOVE;
-    }
 
     /* Don't let the move_rate be less than 2 unless the base_move_rate is
      * also less than 2. */

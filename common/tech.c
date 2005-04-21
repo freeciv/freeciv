@@ -38,7 +38,7 @@ struct advance advances[A_LAST];
 static int techcoststyle1[A_LAST];
 
 static const char *flag_names[] = {
-  "Bonus_Tech", "Boat_Fast", "Bridge", "Railroad", "Fortress",
+  "Bonus_Tech", "Bridge", "Railroad", "Fortress",
   "Watchtower", "Population_Pollution_Inc", "Trade_Revenue_Reduce",
   "Airbase", "Farmland", "Reduce_Trireme_Loss1", "Reduce_Trireme_Loss2", 
   "Build_Airborne"

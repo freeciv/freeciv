@@ -41,7 +41,6 @@ options="1.9"
 ; Following flag strings are possible
 ;
 ; "Bonus_Tech" = player gets extra tech if rearched first
-; "Boat_Fast" = all sea units get one extra move point
 ; "Bridge"   = "Settler" unit types can build bridges over rivers
 ; "Railroad" = "Settler" unit types can build rail roads
 ; "Farmland" = "Settler" unit types can build farmland
@@ -526,9 +525,10 @@ graphic_alt = "-"
 name     = _("Nuclear Power")
 req1     = "Nuclear Fission"
 req2     = "Electronics"
-flags    = "Boat_Fast"
+flags    = ""
 graphic     = "a.nuclear_power"
 graphic_alt = "-"
+helptext = _("Gives sea units one extra move.")
 
 [advance_philosophy]
 name     = _("Philosophy")

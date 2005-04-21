@@ -1117,8 +1117,6 @@ void helptext_tech(char *buf, int i, const char *user_text)
 				 "an immediate advance.\n"),
 	    get_tech_name(game.player_ptr, i));
   }
-  if (tech_flag(i, TF_BOAT_FAST))
-    sprintf(buf + strlen(buf), _("* Gives sea units one extra move.\n"));
   if (tech_flag(i, TF_REDUCE_TRIREME_LOSS1))
     sprintf(buf + strlen(buf), _("* Reduces the chance of losing boats "
 				 "on the high seas to 25%%.\n"));
