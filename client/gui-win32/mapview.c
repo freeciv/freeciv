@@ -255,11 +255,19 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   ReleaseDC(root_window,hdc);
 }
 
+/****************************************************************************
+  Return the dimensions of the area for the overview.
+****************************************************************************/
+void get_overview_area_dimensions(int *width, int *height)
+{
+  *width = overview_win_width;
+  *height = overview_win_height;
+}
+
 /**************************************************************************
 
 **************************************************************************/
-void
-map_size_changed(void)
+void overview_size_changed(void)
 {
   set_overview_win_dim(OVERVIEW_TILE_WIDTH * map.xsize,OVERVIEW_TILE_HEIGHT * map.ysize);
 }
