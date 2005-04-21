@@ -34,7 +34,8 @@ static const char *req_source_type_names[] = {
   "Building",
   "Special",
   "Terrain",
-  "Nation"
+  "Nation",
+  "MinSize"
 };
 
 /* Names of requirement ranges. These must correspond to enum req_range in
@@ -134,6 +135,12 @@ struct req_source req_source_from_str(const char *type, const char *value)
       return source;
     }
     break;
+  case REQ_MINSIZE:
+    source.value.minsize = atoi(value);
+    if (source.value.minsize > 0) {
+      return source;
+    }
+    break;
   case REQ_LAST:
     break;
   }
@@ -173,6 +180,9 @@ struct req_source req_source_from_values(int type, int value)
     return source;
   case REQ_NATION:
     source.value.nation = value;
+    return source;
+  case REQ_MINSIZE:
+    source.value.minsize = value;
     return source;
   case REQ_LAST:
     return source;
@@ -214,6 +224,9 @@ void req_source_get_values(struct req_source *source, int *type, int *value)
   case REQ_NATION:
     *value = source->value.nation;
     return;
+  case REQ_MINSIZE:
+    *value = source->value.minsize;
+    return;
   case REQ_LAST:
     break;
   }
@@ -251,6 +264,9 @@ struct requirement req_from_str(const char *type,
     case REQ_TERRAIN:
       req.range = REQ_RANGE_LOCAL;
       break;
+    case REQ_MINSIZE:
+      req.range = REQ_RANGE_CITY;
+      break;
     case REQ_GOV:
     case REQ_TECH:
     case REQ_NATION:
@@ -280,6 +296,9 @@ struct requirement req_from_str(const char *type,
 		&& !is_great_wonder(req.source.value.building))
 	       || (req.range > REQ_RANGE_CITY
 		   && !is_wonder(req.source.value.building)));
+    break;
+  case REQ_MINSIZE:
+    invalid = (req.range != REQ_RANGE_CITY);
     break;
   case REQ_NATION:
     invalid = (req.range != REQ_RANGE_PLAYER
@@ -660,6 +679,8 @@ bool is_req_active(const struct player *target_player,
   case REQ_NATION:
     return is_nation_in_range(target_player, req->range, req->survives,
 			      req->source.value.nation);
+  case REQ_MINSIZE:
+    return target_city && target_city->size >= req->source.value.minsize;
   case REQ_LAST:
     break;
   }
@@ -722,6 +743,7 @@ bool is_req_unchanging(const struct requirement *req)
   case REQ_TECH:
   case REQ_GOV:
   case REQ_BUILDING:
+  case REQ_MINSIZE:
     return FALSE;
   case REQ_SPECIAL:
   case REQ_TERRAIN:
@@ -762,6 +784,8 @@ bool are_req_sources_equal(const struct req_source *psource1,
     return psource1->value.terrain == psource2->value.terrain;
   case REQ_NATION:
     return psource1->value.nation == psource2->value.nation;
+  case REQ_MINSIZE:
+    return psource1->value.minsize == psource2->value.minsize;
   case REQ_LAST:
     break;
   }
@@ -798,6 +822,9 @@ char *get_req_source_text(const struct req_source *psource,
     break;
   case REQ_NATION:
     mystrlcat(buf, get_nation_name(psource->value.nation), bufsz);
+    break;
+  case REQ_MINSIZE:
+    cat_snprintf(buf, bufsz, "Size %d", psource->value.minsize);
     break;
   case REQ_LAST:
     assert(0);

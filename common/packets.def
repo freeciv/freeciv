@@ -991,7 +991,6 @@ PACKET_RULESET_GAME=97;sc,lsend
   UINT8 req_array_size; # Another hack to get around limitations of packgen
   STRING specialist_name[SP_MAX:num_specialist_types][MAX_LEN_NAME];
   STRING specialist_short_name[SP_MAX:num_specialist_types][MAX_LEN_NAME];
-  UINT8 specialist_min_size[SP_MAX:num_specialist_types];
   UINT8 specialist_bonus[SP_MAX * O_MAX:bonus_array_size];
   UINT8 specialist_req_type[SP_MAX * MAX_NUM_REQS:req_array_size];
   UINT8 specialist_req_range[SP_MAX * MAX_NUM_REQS:req_array_size];

@@ -737,7 +737,6 @@ struct packet_ruleset_game {
   int req_array_size;
   char specialist_name[SP_MAX][MAX_LEN_NAME];
   char specialist_short_name[SP_MAX][MAX_LEN_NAME];
-  int specialist_min_size[SP_MAX];
   int specialist_bonus[SP_MAX * O_MAX];
   int specialist_req_type[SP_MAX * MAX_NUM_REQS];
   int specialist_req_range[SP_MAX * MAX_NUM_REQS];

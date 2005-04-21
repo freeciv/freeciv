@@ -23,13 +23,22 @@ options="1.9"
 
 types = _("elvis"), _("scientist"), _("taxman")
 elvis_short_name = _("?Elvis:E")
-elvis_min_size = 0
+elvis_req	=
+    { "type", "name", "range"
+; Nothing
+    }
 elvis_bonus_luxury = 2
 scientist_short_name = _("?Scientist:S")
-scientist_min_size = 5
+scientist_req	=
+    { "type", "name", "range"
+      "MinSize", "5", "City"
+    }
 scientist_bonus_science = 3
 taxman_short_name = _("?Taxman:T")
-taxman_min_size = 5
+taxman_req	=
+    { "type", "name", "range"
+      "MinSize", "5", "City"
+    }
 taxman_bonus_gold = 3
 
 changable_tax = 1

@@ -171,11 +171,13 @@ cumulative.  For many effects this is undesirable.
 	    (if unspecified, 0 (doesn't survive) is assumed)
 .req_type  = The type of the requirement; one of:
              "None" (default), "Tech", "Gov", "Building", "Special",
-             "Terrain", "Nation"
+             "Terrain", "Nation", "MinSize"
 .req       = The requirement.  The effect will not be active unless this
              requirement is met.  This is a string containing the name of
              the technology, government, building, tile special, tile
-             terrain, or nation that is required.  The requirement applies
-             to the target of the effect (not the source).
+             terrain, or nation that is required.  For MinSize it is the
+             minimum (city) size at which the requirement is met.  The
+             requirement applies to the target of the effect (not
+             the source).
 
 See data/default/buildings.ruleset for examples.

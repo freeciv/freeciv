@@ -743,6 +743,13 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       get_impr_name_ex(pcity, target),
 			       get_nation_name(req->source.value.nation));
 	      break;
+	    case REQ_MINSIZE:
+	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
+			       _("%s can't build %s from the worklist; "
+				 "city must be of size %d.  Postponing..."),
+			       pcity->name, get_impr_name_ex(pcity, target),
+			       req->source.value.minsize);
+	      break;
 	    case REQ_NONE:
 	    case REQ_LAST:
 	      assert(0);

@@ -2521,7 +2521,6 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
     sz_strlcpy(game.rgame.specialists[sp].name, packet->specialist_name[sp]);
     sz_strlcpy(game.rgame.specialists[sp].short_name,
 	       packet->specialist_short_name[sp]);
-    game.rgame.specialists[sp].min_size = packet->specialist_min_size[sp];
     output_type_iterate(o) {
       bonus[o] = packet->specialist_bonus[sp * O_COUNT + o];
     } output_type_iterate_end;

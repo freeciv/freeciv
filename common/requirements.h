@@ -27,6 +27,7 @@ enum req_source_type {
   REQ_SPECIAL,
   REQ_TERRAIN,
   REQ_NATION,
+  REQ_MINSIZE, /* Minimum size: at city range means city size */
   REQ_LAST
 };
 
@@ -53,6 +54,7 @@ struct req_source {
     enum tile_special_type special;     /* source special */
     Terrain_type_id terrain;            /* source terrain type */
     Nation_Type_id nation;              /* source nation type */
+    int minsize;                        /* source minsize type */
   } value;                              /* source value */
 };
 

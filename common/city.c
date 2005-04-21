@@ -642,10 +642,6 @@ bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id)
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type)
 {
-  if (pcity->size < game.rgame.specialists[type].min_size) {
-    return FALSE;
-  }
-
   return are_reqs_active(city_owner(pcity), pcity, B_LAST, NULL,
 			 game.rgame.specialists[type].req, MAX_NUM_REQS);
 }

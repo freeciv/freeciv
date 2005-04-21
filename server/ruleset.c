@@ -2298,18 +2298,12 @@ static void load_ruleset_cities(struct section_file *file)
       = secfile_lookup_str_default(file, name,
 				   "specialist.%s_short_name", name);
     sz_strlcpy(game.rgame.specialists[i].short_name, short_name);
-    game.rgame.specialists[i].min_size
-      = secfile_lookup_int(file, "specialist.%s_min_size", name);
 
     output_type_iterate(o) {
       bonus[o] = secfile_lookup_int_default(file, 0,
 					    "specialist.%s_bonus_%s",
 					    name, get_output_identifier(o));
     } output_type_iterate_end;
-    if (game.rgame.specialists[i].min_size == 0
-	&& game.rgame.default_specialist == -1) {
-      game.rgame.default_specialist = i;
-    }
 
     for (j = 0; j < MAX_NUM_REQS; j++) {
       const char *type
@@ -2323,7 +2317,7 @@ static void load_ruleset_cities(struct section_file *file)
 				      "specialist.%s_req%d.survives",
 				      name, j);
       const char *value
-	= secfile_lookup_str_default(file, "", "specialist.%s_req%d.value",
+	= secfile_lookup_str_default(file, "", "specialist.%s_req%d.name",
 				     name, j);
       struct requirement req = req_from_str(type, range, survives, value); 
 
@@ -2335,6 +2329,11 @@ static void load_ruleset_cities(struct section_file *file)
       }
 
       game.rgame.specialists[i].req[j] = req;
+    }
+
+    if (game.rgame.specialists[i].req[0].source.type == REQ_NONE
+	&& game.rgame.default_specialist == -1) {
+      game.rgame.default_specialist = i;
     }
   }
   if (game.rgame.default_specialist == -1) {
@@ -3014,7 +3013,6 @@ static void send_ruleset_game(struct conn_list *dest)
     sz_strlcpy(misc_p.specialist_name[sp], game.rgame.specialists[sp].name);
     sz_strlcpy(misc_p.specialist_short_name[sp],
 	       game.rgame.specialists[sp].short_name);
-    misc_p.specialist_min_size[sp] = game.rgame.specialists[sp].min_size;
 
     output_type_iterate(o) {
       misc_p.specialist_bonus[sp * O_COUNT + o] = bonus[o];
