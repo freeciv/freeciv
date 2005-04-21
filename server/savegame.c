@@ -571,15 +571,21 @@ static void map_tiles_load(struct section_file *file)
   } whole_map_iterate_end;
 }
 
-/***************************************************************
-load the rivers overlay map from a savegame file
+/****************************************************************************
+  Load the rivers overlay map from a savegame file.
 
-(This does not need to be called from map_load(), because
- map_load() loads the rivers overlay along with the rest of
- the specials.  Call this only if you've already called
- map_tiles_load(), and want to overlay rivers defined as
- specials, rather than as terrain types.)
-***************************************************************/
+  A scenario may define the terrain of the map but not list the specials on
+  it (thus allowing users to control the placement of specials).  However
+  rivers are a special case and must be included in the map along with the
+  scenario.  Thus in those cases this function should be called to load
+  the river information separate from any other special data.
+
+  This does not need to be called from map_load(), because map_load() loads
+  the rivers overlay along with the rest of the specials.  Call this only
+  if you've already called map_tiles_load(), and want to load only the
+  rivers overlay but no other specials.  Scenarios that encode things this
+  way should have the "riversoverlay" capability.
+****************************************************************************/
 static void map_rivers_overlay_load(struct section_file *file)
 {
   /* Get the bits of the special flags which contain the river special
