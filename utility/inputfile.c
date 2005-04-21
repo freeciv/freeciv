@@ -607,16 +607,10 @@ static const char *get_token(struct inputfile *inf,
     if (INF_DEBUG_FOUND) {
       freelog(LOG_DEBUG, "inputfile: found %s '%s'", name, inf->token.str);
     }
-  } else {
-    if (!required) {
-      if (INF_DEBUG_NOT_FOUND) {
-	freelog(LOG_DEBUG, "inputfile: did not find %s", name);
-      }
-    } else {
-      /* should be varargs... */
-      freelog(LOG_ERROR, "Did not find required token: %s", name);
-      return NULL;
-    }
+  } else if (required) {
+    freelog(LOG_FATAL, "Did not find token %s in %s line %d", 
+            name, inf->filename, inf->line_num);
+    exit(EXIT_FAILURE);
   }
   return c;
 }
