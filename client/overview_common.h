@@ -43,7 +43,7 @@ void overview_to_map_pos(int *map_x, int *map_y,
 
 void refresh_overview_canvas(void);
 void overview_update_tile(struct tile *ptile);
-void set_overview_dimensions(int width, int height);
+void calculate_overview_dimensions(void);
 
 void center_tile_overviewcanvas(struct tile *ptile);
 

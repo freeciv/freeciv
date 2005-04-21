@@ -15,6 +15,9 @@
 #include <config.h>
 #endif
 
+#include "log.h"
+
+#include "civclient.h" /* can_client_change_view() */
 #include "climap.h"
 #include "control.h"
 #include "options.h"
@@ -263,23 +266,38 @@ void overview_update_tile(struct tile *ptile)
 /**************************************************************************
   Called if the map size is know or changes.
 **************************************************************************/
-void set_overview_dimensions(int width, int height)
+void calculate_overview_dimensions(void)
 {
-  int shift = 0; /* used to calculate shift in iso view */
+  int w, h;
+  int xfact = MAP_IS_ISOMETRIC ? 2 : 1;
 
-  /* Set the scale of the overview map.  This attempts to limit the overview
-   * to 120 pixels wide or high. */
-  if (MAP_IS_ISOMETRIC) {
-    OVERVIEW_TILE_SIZE = MIN(MAX(120 / width, 1), 120 / height + 1);
+  static int recursion = 0; /* Just to be safe. */
 
-    /* Clip half tile left and right.  See comment in map_to_overview_pos. */
-    shift = (!topo_has_flag(TF_WRAPX) ? -OVERVIEW_TILE_SIZE : 0);
-  } else {
-    OVERVIEW_TILE_SIZE = MIN(120 / width + 1, 120 / height + 1);
+  /* Clip half tile left and right.  See comment in map_to_overview_pos. */
+  int shift = (MAP_IS_ISOMETRIC && !topo_has_flag(TF_WRAPX)) ? -1 : 0;
+
+  if (recursion > 0 || map.xsize <= 0 || map.ysize <= 0) {
+    return;
   }
+  recursion++;
 
-  overview.height = OVERVIEW_TILE_HEIGHT * height;
-  overview.width = OVERVIEW_TILE_WIDTH * width + shift; 
+  get_overview_area_dimensions(&w, &h);
+
+  freelog(LOG_DEBUG, "Map size %d,%d - area size %d,%d",
+	  map.xsize, map.ysize, w, h);
+
+  /* Set the scale of the overview map.  This attempts to limit the
+   * overview to the size of the area available.
+   *
+   * It rounds up since this gives good results with the default settings.
+   * It may need tweaking if the panel resizes itself. */
+  OVERVIEW_TILE_SIZE = MIN((w - 1) / (map.xsize * xfact) + 1,
+			   (h - 1) / map.ysize + 1);
+  OVERVIEW_TILE_SIZE = MAX(OVERVIEW_TILE_SIZE, 1);
+
+  overview.width
+    = OVERVIEW_TILE_WIDTH * map.xsize + shift * OVERVIEW_TILE_SIZE; 
+  overview.height = OVERVIEW_TILE_HEIGHT * map.ysize;
 
   if (overview.store) {
     canvas_free(overview.store);
@@ -290,5 +308,11 @@ void set_overview_dimensions(int width, int height)
   update_map_canvas_scrollbars_size();
 
   /* Call gui specific function. */
-  map_size_changed();
+  overview_size_changed();
+
+  if (can_client_change_view()) {
+    refresh_overview_canvas();
+  }
+
+  recursion--;
 }

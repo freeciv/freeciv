@@ -29,7 +29,8 @@ void update_city_descriptions(void);
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 			 struct sprite *flake, struct sprite *gov);
 
-void map_size_changed(void);
+void overview_size_changed(void);
+void get_overview_area_dimensions(int *width, int *height);
 struct canvas *get_overview_window(void);
 
 void flush_mapcanvas(int canvas_x, int canvas_y,

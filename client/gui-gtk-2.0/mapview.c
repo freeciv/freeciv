@@ -228,10 +228,19 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 			    sprite_get_pixbuf(gov));
 }
 
+/****************************************************************************
+  Return the dimensions of the area (container widget; maximum size) for
+  the overview.
+****************************************************************************/
+void get_overview_area_dimensions(int *width, int *height)
+{
+  gdk_drawable_get_size(overview_canvas->window, width, height);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
-void map_size_changed(void)
+void overview_size_changed(void)
 {
   gtk_widget_set_size_request(overview_canvas,
 			      overview.width, overview.height);
