@@ -170,8 +170,8 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
       return FALSE;
     }
 
-    if (!same_pos(punit->tile, ptile)) {
-      /* Stopped (or maybe fought) */
+    if (!same_pos(punit->tile, ptile) || punit->moves_left <= 0) {
+      /* Stopped (or maybe fought) or ran out of moves */
       return TRUE;
     }
   }
@@ -256,7 +256,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
 {
   CHECK_UNIT(punit);
 
-  if (same_pos(dest_tile, punit->tile)) {
+  if (same_pos(dest_tile, punit->tile) || punit->moves_left <= 0) {
     /* Nowhere to go */
     return TRUE;
   }
@@ -341,6 +341,9 @@ bool ai_follow_path(struct unit *punit, struct pf_path *path,
   enum unit_activity activity = punit->activity;
   bool alive;
 
+  if (punit->moves_left <= 0) {
+    return TRUE;
+  }
   punit->goto_tile = ptile;
   handle_unit_activity_request(punit, ACTIVITY_GOTO);
   alive = ai_unit_execute_path(punit, path);

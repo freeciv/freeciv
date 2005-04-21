@@ -1127,7 +1127,8 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
 
   /*** Recurse if we want to found a city ***/
 
-  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY
+      && punit->moves_left > 0) {
     auto_settler_findwork(pplayer, punit);
   }
 }
@@ -1250,7 +1251,8 @@ void auto_settlers_player(struct player *pplayer)
     if ((punit->ai.control || pplayer->ai.control)
 	&& (unit_flag(punit, F_SETTLERS)
 	    || unit_flag(punit, F_CITIES))
-	&& !unit_has_orders(punit)) {
+	&& !unit_has_orders(punit)
+        && punit->moves_left > 0) {
       freelog(LOG_DEBUG, "%s's settler at (%d, %d) is ai controlled.",
 	      pplayer->name, TILE_XY(punit->tile)); 
       if (punit->activity == ACTIVITY_SENTRY) {
