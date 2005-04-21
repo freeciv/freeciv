@@ -32,8 +32,7 @@ struct government *governments = NULL;
 static const char *flag_names[] = {
   "Build_Veteran_Diplomats", "Revolution_When_Unhappy", "Has_Senate",
   "Unbribable", "Inspires_Partisans", "Rapture_City_Growth",
-  "Fanatic_Troops", "No_Unhappy_Citizens", "Convert_Tithes_To_Money",
-  "Reduced_Research"
+  "Fanatic_Troops", "No_Unhappy_Citizens", "Convert_Tithes_To_Money"
 };
 
 /***************************************************************

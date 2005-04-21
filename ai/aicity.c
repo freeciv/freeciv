@@ -318,10 +318,18 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_PROD_ADD_TILE:
 	case EFT_FOOD_PER_TILE:
 	case EFT_FOOD_ADD_TILE:
+      case EFT_FOOD_BONUS:
 	case EFT_PROD_BONUS:
+      case EFT_TRADE_BONUS:
 	case EFT_TAX_BONUS:
 	case EFT_SCIENCE_BONUS:
 	case EFT_LUXURY_BONUS:
+      case EFT_FOOD_BONUS_2:
+      case EFT_PROD_BONUS_2:
+      case EFT_TRADE_BONUS_2:
+      case EFT_TAX_BONUS_2:
+      case EFT_SCIENCE_BONUS_2:
+      case EFT_LUXURY_BONUS_2:
 	case EFT_CORRUPT_PCT:
 	case EFT_WASTE_PCT:
 	  break;

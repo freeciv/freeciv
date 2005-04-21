@@ -412,7 +412,7 @@ tech_req    = "Fundamentalism"
 graphic     = "gov.fundamentalism"
 graphic_alt = "-"
 flags       = "No_Unhappy_Citizens", "Convert_Tithes_To_Money", 
-              "Reduced_Research", "Fanatic_Troops"
+              "Fanatic_Troops"
 
 martial_law_max  = 0
 martial_law_per  = 0

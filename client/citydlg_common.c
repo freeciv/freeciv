@@ -384,7 +384,7 @@ void get_city_dialog_output_text(const struct city *pcity,
 				 char *buf, size_t bufsz)
 {
   int total = 0;
-  enum effect_type eft = get_output_bonus_effect(otype);
+  int priority;
   int tax[O_COUNT];
 
   buf[0] = '\0';
@@ -429,28 +429,32 @@ void get_city_dialog_output_text(const struct city *pcity,
     }
   }
 
-  if (eft != EFT_LAST) {
-    int base = total, bonus = 100;
-    struct effect_list *plist = effect_list_new();
+  for (priority = 0; priority < 2; priority++) {
+    enum effect_type eft = get_output_bonus_effect(otype, priority);
 
-    (void) get_city_bonus_effects(plist, pcity, eft);
+    if (eft != EFT_LAST) {
+      int base = total, bonus = 100;
+      struct effect_list *plist = effect_list_new();
 
-    effect_list_iterate(plist, peffect) {
-      char buf2[512];
-      int new_total;
+      (void) get_city_bonus_effects(plist, pcity, eft);
 
-      get_effect_req_text(peffect, buf2, sizeof(buf2));
+      effect_list_iterate(plist, peffect) {
+	char buf2[512];
+	int new_total;
 
-      bonus += peffect->value;
-      new_total = bonus * base / 100;
-      cat_snprintf(buf, bufsz,
-		   _("%+4d : Bonus from %s (%+d%%)\n"),
-		   (new_total - total), buf2,
-		   peffect->value);
-      total = new_total;
-    } effect_list_iterate_end;
-    effect_list_unlink_all(plist);
-    effect_list_free(plist);
+	get_effect_req_text(peffect, buf2, sizeof(buf2));
+
+	bonus += peffect->value;
+	new_total = bonus * base / 100;
+	cat_snprintf(buf, bufsz,
+		     _("%+4d : Bonus from %s (%+d%%)\n"),
+		     (new_total - total), buf2,
+		     peffect->value);
+	total = new_total;
+      } effect_list_iterate_end;
+      effect_list_unlink_all(plist);
+      effect_list_free(plist);
+    }
   }
 
   if (pcity->waste[otype] != 0) {

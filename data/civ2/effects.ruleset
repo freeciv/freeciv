@@ -16,6 +16,14 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+[effect_fundamentalism]
+name    = "Science_Bonus_2"
+value   = -50
+reqs    =
+    { "type", "name", "range"
+      "Government", "Fundamentalism", "Player"
+    }
+
 [effect_airport]
 name	= "Air_Veteran"
 value	= 1

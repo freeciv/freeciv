@@ -46,7 +46,7 @@ static const char *effect_type_names[EFT_LAST] = {
   "Enable_Nuke",
   "Enable_Space",
   "Food_Add_Tile",
-  /* TODO: "Food_Bonus", */
+  "Food_Bonus",
   /* TODO: "Food_Pct", */
   "Food_Inc_Tile",
   "Food_Per_Tile",
@@ -92,10 +92,16 @@ static const char *effect_type_names[EFT_LAST] = {
   "Tax_Bonus",
   /* TODO: "Tax_Pct", */
   "Trade_Add_Tile",
-  /* TODO: "Trade_Bonus", */
+  "Trade_Bonus",
   /* TODO: "Trade_Pct", */
   "Trade_Inc_Tile",
   "Trade_Per_Tile",
+  "Food_Bonus_2",
+  "Prod_Bonus_2",
+  "Trade_Bonus_2",
+  "Tax_Bonus_2",
+  "Luxury_Bonus_2",
+  "Science_Bonus_2",
   "Sea_Move",
   "Unit_No_Lose_Pop",
   "Unit_Recover",

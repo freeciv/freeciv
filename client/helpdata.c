@@ -1466,9 +1466,6 @@ void helptext_government(char *buf, int i, const char *user_text)
 	    _("* Buildings that normally confer "
 	      "bonuses against unhappiness will instead give gold.\n"));
   }
-  if (government_has_flag(gov, G_REDUCED_RESEARCH)) {
-    sprintf(buf + strlen(buf), _("* Research costs doubled.\n"));
-  }
   unit_type_iterate(ut) {
     struct unit_type *utype = get_unit_type(ut);
 

@@ -272,24 +272,47 @@ const char *get_output_name(Output_type_id output)
 /**************************************************************************
   Return the effect for the production bonus for this output type.
 **************************************************************************/
-inline enum effect_type get_output_bonus_effect(Output_type_id otype)
+inline enum effect_type get_output_bonus_effect(Output_type_id otype,
+						int priority)
 {
-  switch (otype) {
-  case O_SHIELD:
-    return EFT_PROD_BONUS;
-  case O_GOLD:
-    return EFT_TAX_BONUS;
-  case O_LUXURY:
-    return EFT_LUXURY_BONUS;
-  case O_SCIENCE:
-    return EFT_SCIENCE_BONUS;
-  case O_FOOD:
-  case O_TRADE:
-    return EFT_LAST;
-  case O_LAST:
+  switch (priority) {
+  case 0:
+    switch (otype) {
+    case O_FOOD:
+      return EFT_FOOD_BONUS;
+    case O_SHIELD:
+      return EFT_PROD_BONUS;
+    case O_TRADE:
+      return EFT_TRADE_BONUS;
+    case O_GOLD:
+      return EFT_TAX_BONUS;
+    case O_LUXURY:
+      return EFT_LUXURY_BONUS;
+    case O_SCIENCE:
+      return EFT_SCIENCE_BONUS;
+    case O_LAST:
+      break;
+    }
+    break;
+  case 1:
+    switch (otype) {
+    case O_FOOD:
+      return EFT_FOOD_BONUS_2;
+    case O_SHIELD:
+      return EFT_PROD_BONUS_2;
+    case O_TRADE:
+      return EFT_TRADE_BONUS_2;
+    case O_GOLD:
+      return EFT_TAX_BONUS_2;
+    case O_LUXURY:
+      return EFT_LUXURY_BONUS_2;
+    case O_SCIENCE:
+      return EFT_SCIENCE_BONUS_2;
+    case O_LAST:
+      break;
+    }
     break;
   }
-
   assert(0);
   return EFT_LAST;
 }
@@ -1558,16 +1581,14 @@ static int content_citizens(const struct player *pplayer)
 **************************************************************************/
 int get_city_output_bonus(const struct city *pcity, Output_type_id otype)
 {
-  enum effect_type eft = get_output_bonus_effect(otype);
-  int bonus = 100;
+  int bonus = 100, i;
 
-  if (eft != EFT_LAST) {
-    bonus += get_city_bonus(pcity, eft);
-  }
+  for (i = 0; i < 2; i++) {
+    enum effect_type eft = get_output_bonus_effect(otype, i);
 
-  if (otype == O_SCIENCE
-      && government_has_flag(get_gov_pcity(pcity), G_REDUCED_RESEARCH)) {
-    bonus /= 2;
+    if (eft != EFT_LAST) {
+      bonus = bonus * (100 + get_city_bonus(pcity, eft)) / 100;
+    }
   }
 
   return bonus;
