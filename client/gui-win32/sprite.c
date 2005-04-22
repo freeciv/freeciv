@@ -206,11 +206,21 @@ static void real_draw_sprite(struct sprite *sprite, HDC hdc, int x, int y,
 			     int w, int h, int src_x, int src_y, bool fog)
 {
   HDC src_hdc;
-  HBITMAP tmp;
-  HBITMAP hbmp;
+  HGDIOBJ tmp;
+  struct crect *bmpe;
   bool blend;
 
   if (!sprite) return;
+
+  if (src_x < 0) {
+    x -= src_x;
+    src_x = 0;
+  }
+
+  if (src_y < 0) {
+    y -= src_y;
+    src_y = 0;
+  }
 
   w = MIN(w, sprite->width  - src_x);
   h = MIN(h, sprite->height - src_y);
@@ -221,43 +231,49 @@ static void real_draw_sprite(struct sprite *sprite, HDC hdc, int x, int y,
     blend_bmp_to_hdc(hdc, x, y, w, h, sprite->pmimg, src_x, src_y);
     return;
   }
-  
-  if (fog) {
-    hbmp = getcachehbitmap(sprite->fog,   &(sprite->fog_cache_id));
-  } else if (blend) {
-    hbmp = getcachehbitmap(sprite->pmimg, &(sprite->pmimg_cache_id));
-  } else {
-    hbmp = getcachehbitmap(sprite->img,   &(sprite->img_cache_id));
-  }
 
-  src_hdc = CreateCompatibleDC(hdc);
-  tmp = SelectObject(src_hdc, hbmp);
+  if (fog) {
+    bmpe = getcachehbitmap(sprite->fog,   &(sprite->fog_cache_id));
+  } else if (blend) {
+    bmpe = getcachehbitmap(sprite->pmimg, &(sprite->pmimg_cache_id));
+  } else {
+    bmpe = getcachehbitmap(sprite->img,   &(sprite->img_cache_id));
+  }
 
   if (!fog && blend) {
     BLENDFUNCTION bf;
+
+    src_hdc = CreateCompatibleDC(hdc);
+    tmp = SelectObject(src_hdc, bmpe->hbmp);
+
     bf.BlendOp             = AC_SRC_OVER;
     bf.BlendFlags          = 0;
     bf.SourceConstantAlpha = 255;
     bf.AlphaFormat         = AC_SRC_ALPHA;
-    AlphaBlend(hdc, x, y, w, h, src_hdc, src_x, src_y, w, h, bf);
+    AlphaBlend(hdc, x, y, w, h, src_hdc,
+	       src_x + bmpe->x, src_y + bmpe->y, w, h, bf);
   } else if (sprite->mask) {
     HDC mask_hdc;
-    HBITMAP tmp2;
-    HBITMAP mask_hbmp;
+    HGDIOBJ tmp2;
+    HBITMAP mask = BITMAP2HBITMAP(sprite->mask);
 
-    mask_hbmp = getcachehbitmap(sprite->mask, &(sprite->mask_cache_id));
+    src_hdc = CreateCompatibleDC(hdc);
+    tmp = SelectObject(src_hdc, bmpe->hbmp);
 
     mask_hdc = CreateCompatibleDC(hdc);
-    tmp2 = SelectObject(mask_hdc, mask_hbmp);
+    tmp2 = SelectObject(mask_hdc, mask);
 
-    BitBlt(hdc, x, y, w, h, src_hdc,  src_x, src_y, SRCINVERT);
+    BitBlt(hdc, x, y, w, h, src_hdc,  src_x + bmpe->x, src_y + bmpe->y, SRCINVERT);
     BitBlt(hdc, x, y, w, h, mask_hdc, src_x, src_y, SRCAND);
-    BitBlt(hdc, x, y, w, h, src_hdc,  src_x, src_y, SRCINVERT);
+    BitBlt(hdc, x, y, w, h, src_hdc,  src_x + bmpe->x, src_y + bmpe->y, SRCINVERT);
 
     SelectObject(mask_hdc, tmp2);
     DeleteDC(mask_hdc);
+    DeleteObject(mask);
   } else {
-    BitBlt(hdc, x, y, w, h, src_hdc, src_x, src_y, SRCCOPY);
+    src_hdc = CreateCompatibleDC(hdc);
+    tmp = SelectObject(src_hdc, bmpe->hbmp);
+    BitBlt(hdc, x, y, w, h, src_hdc, src_x + bmpe->x, src_y + bmpe->y, SRCCOPY);
   }
 
   SelectObject(src_hdc, tmp);
@@ -296,6 +312,7 @@ void draw_sprite_part(struct sprite *sprite, HDC hdc, int x, int y, int w,
 **************************************************************************/
 void draw_fog(struct sprite *sprmask, HDC hdc, int x, int y)
 {
+#if 0
   HDC hdcmask;
   HDC hdcsrc;
 
@@ -330,5 +347,6 @@ void draw_fog(struct sprite *sprmask, HDC hdc, int x, int y)
 
   SelectObject(hdcmask, tempmask);
   DeleteDC(hdcmask);
+#endif
 }
 

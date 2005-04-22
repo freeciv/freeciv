@@ -36,17 +36,25 @@
 #include "tilespec.h"   
 
 #include "graphics.h"
-#define CACHE_SIZE 64
+#define MAX_HBMPS 16
+#define HBMP_SIZE 512
+#define MIN_CRECT_SIZE 16
 
-struct Bitmap_cache {
-  BITMAP *src;
-  HBITMAP hbmp;
-};
+#define SPECLIST_TAG crect
+#define SPECLIST_TYPE struct crect
+#include "speclist.h"
+
+#define crect_list_iterate(crectlist, pcrect) \
+    TYPED_LIST_ITERATE(struct crect, crectlist, pcrect)
+#define crect_list_iterate_end  LIST_ITERATE_END
+
+static struct crect_list *free_rects = NULL;
+static struct crect_list *used_rects = NULL;
+
+HBITMAP *used_hbmps = NULL;
+int hbmp_count = 0;
 
 extern HINSTANCE freecivhinst;
-
-static struct Bitmap_cache bitmap_cache[CACHE_SIZE];
-static int cache_id_count = 0;
 
 HCURSOR cursors[CURSOR_LAST];
 
@@ -283,24 +291,186 @@ HBITMAP BITMAP2HBITMAP(BITMAP *bmp)
 }
 
 /**************************************************************************
+  Flush the hbmp cache.
+**************************************************************************/
+static void flush_hbmp_cache()
+{
+  int i;
+
+  if (free_rects) {
+    crect_list_iterate(free_rects, pcrect) {
+      free(pcrect);
+    } crect_list_iterate_end;
+
+    crect_list_unlink_all(free_rects);
+
+    free(free_rects);
+  }
+
+  free_rects = crect_list_new();
+
+
+  if (used_rects) {
+    crect_list_iterate(used_rects, pcrect) {
+      free(pcrect);
+    } crect_list_iterate_end;
+
+    crect_list_unlink_all(used_rects);
+
+    free(used_rects);
+  }
+
+  used_rects = crect_list_new();
+
+
+  if (used_hbmps) {
+    for (i = 0; i < hbmp_count; i++) {
+      DeleteObject(used_hbmps[i]);
+    }
+  }
+
+  used_hbmps = fc_malloc(sizeof(*used_hbmps) * MAX_HBMPS);
+  hbmp_count = 0;
+}
+
+/**************************************************************************
   Retrieve an image from the HBITMAP cache, or if it is not there, place
   it into the cache and return it.
 **************************************************************************/
-HBITMAP getcachehbitmap(BITMAP *bmp, int *cache_id)
+struct crect *getcachehbitmap(BITMAP *bmp, int *cache_id)
 {
-  struct Bitmap_cache *bmpc;
+  struct crect *found;
+  HDC hdc;
 
-  bmpc = &bitmap_cache[*cache_id];
-  if ((*cache_id == -1) || (bmpc->src != bmp->bmBits)) {
-    cache_id_count++;
-    cache_id_count %= CACHE_SIZE;
-    *cache_id = cache_id_count;
-    bmpc = &bitmap_cache[cache_id_count];
-    DeleteObject(bmpc->hbmp);
-    bmpc->src = bmp->bmBits;
-    bmpc->hbmp = BITMAP2HBITMAP(bmp);
-  } 
-  return bmpc->hbmp;
+  if (!free_rects) {
+    flush_hbmp_cache();
+  }
+
+  found = crect_list_get(used_rects, *cache_id);
+  if ((*cache_id == -1) || (found->src != bmp)) {
+    HDC src_hdc;
+    HDC dst_hdc;
+    HBITMAP src_hbmp;
+    HGDIOBJ tmp_src, tmp_dst;
+
+    int x, y, w, h;
+
+    found = NULL;
+
+    w = bmp->bmWidth;
+    h = bmp->bmHeight;
+
+    assert(w <= HBMP_SIZE);
+    assert(h <= HBMP_SIZE);
+
+    /* Find an empty spot on an HBITMAP to use.  */
+    crect_list_iterate(free_rects, pcrect) {
+      if (pcrect->w >= w && pcrect->h >= h) {
+	found = pcrect;
+	break;
+      }
+    } crect_list_iterate_end;
+
+    /* If we're out of space, create a new HBITMAP and associated crect. */
+    if (!found) {
+      HBITMAP hbmp;
+
+      /* If we've used all our alloted HBITMAPs, flush the cache */
+      if (hbmp_count == MAX_HBMPS) {
+	flush_hbmp_cache();
+      }
+
+      hdc = GetDC(root_window);
+      hbmp = CreateCompatibleBitmap(hdc, HBMP_SIZE, HBMP_SIZE);
+      ReleaseDC(root_window, hdc);
+
+      found = fc_malloc(sizeof(*found));
+      found->src  = NULL;
+      found->hbmp = hbmp;
+      found->x    = 0;
+      found->y    = 0;
+      found->w    = HBMP_SIZE;
+      found->h    = HBMP_SIZE;
+
+      used_hbmps[hbmp_count] = hbmp;
+      hbmp_count++;
+    } else {
+      crect_list_unlink(free_rects, found);
+    }
+
+    x = found->x;
+    y = found->y;
+
+    /* Render the BITMAP onto the HBITMAP */
+    src_hbmp = BITMAP2HBITMAP(bmp);
+
+    hdc = GetDC(root_window);
+    src_hdc = CreateCompatibleDC(hdc);
+    dst_hdc = CreateCompatibleDC(hdc);
+    ReleaseDC(root_window, hdc);
+
+    tmp_src = SelectObject(src_hdc, src_hbmp);
+    tmp_dst = SelectObject(dst_hdc, found->hbmp);
+
+    BitBlt(dst_hdc, x, y, w, h, src_hdc, 0, 0, SRCCOPY);
+
+    SelectObject(src_hdc, tmp_src);
+    SelectObject(dst_hdc, tmp_dst);
+
+    DeleteDC(src_hdc);
+    DeleteDC(dst_hdc);
+
+    DeleteObject(src_hbmp);
+
+    /* Add the rect to the used list, and fill out the cache info. */
+    crect_list_append(used_rects, found);
+    *cache_id = crect_list_size(used_rects) - 1;
+    found->src = bmp;
+
+    /* Split the crect based on the size of the bitmap. */
+    if (w > h) {
+      struct crect *split;
+      if (found->w - w >= MIN_CRECT_SIZE && h >= MIN_CRECT_SIZE) {
+	split = fc_malloc(sizeof(*split));
+	split->hbmp = found->hbmp;		/* fffss */
+	split->x = found->x + w;		/* fffss */
+	split->y = found->y;			/* ..... */
+	split->w = found->w - w;		/* ..... */
+	split->h = h;				/* ..... */
+	crect_list_append(free_rects, split);
+      }
+      if (found->h - h >= MIN_CRECT_SIZE) {
+	split = fc_malloc(sizeof(*split));	
+	split->hbmp = found->hbmp;		/* fff.. */
+	split->x = found->x;			/* fff.. */
+	split->y = found->y + h;		/* sssss */
+	split->w = found->w;			/* sssss */
+	split->h = found->h - h;		/* sssss */
+	crect_list_append(free_rects, split);
+      }
+    } else {
+      struct crect *split;
+      if (found->h - h >= MIN_CRECT_SIZE && w >= MIN_CRECT_SIZE) {
+	split = fc_malloc(sizeof(*split));
+	split->hbmp = found->hbmp;		/* ff... */
+	split->x = found->x;			/* ff... */
+	split->y = found->y + h;		/* ff... */
+	split->w = w;				/* ss... */
+	split->h = found->h - h;		/* ss... */
+	crect_list_append(free_rects, split);
+      }
+      if (found->w - w >= MIN_CRECT_SIZE) {
+	split = fc_malloc(sizeof(*split));
+	split->hbmp = found->hbmp;		/* ffsss */
+	split->x = found->x + w;		/* ffsss */
+	split->y = found->y;			/* ffsss */
+	split->w = found->w - w;		/* ..sss */
+	split->h = found->h;			/* ..sss */
+	crect_list_append(free_rects, split);
+      }
+    }
+  }
+  return found;
 }
 
 /**************************************************************************
@@ -382,25 +552,13 @@ BITMAP *bmp_premult_alpha(BITMAP *bmp)
 **************************************************************************/
 BITMAP *bmp_generate_mask(BITMAP *bmp)
 {
-  BITMAP *mask = fc_malloc(sizeof(*mask));
+  BITMAP *mask = bmp_new(bmp->bmWidth, bmp->bmHeight);
   BYTE *src, *dst;
-  int row, col, bit_pos;
-
-  mask->bmType = 0;
-  mask->bmWidth = bmp->bmWidth;
-  mask->bmHeight = bmp->bmHeight;
-  mask->bmWidthBytes = (bmp->bmWidth + 7) / 8;
-  mask->bmPlanes = 1;
-  mask->bmBitsPixel = 1;
-
-  mask->bmBits = fc_malloc(mask->bmWidthBytes * mask->bmHeight);
-  memset(mask->bmBits, 0, mask->bmWidthBytes * mask->bmHeight);
-
-  src = (BYTE *)bmp->bmBits;
+  int row, col;
 
   for (row = 0; row < bmp->bmHeight; row++) {
+    src = (BYTE *)bmp->bmBits + bmp->bmWidthBytes * row;
     dst = (BYTE *)mask->bmBits + mask->bmWidthBytes * row;
-    bit_pos = 0;
     for (col = 0; col < bmp->bmWidth; col++) {
       bool pixel = FALSE;
       BYTE alpha = src[3];
@@ -428,17 +586,19 @@ BITMAP *bmp_generate_mask(BITMAP *bmp)
 	  pixel = TRUE;
       }
       if (pixel) {
-	*dst |= (128 >> bit_pos);
-      }
-      bit_pos++;
-      bit_pos %= 8;
-      if (bit_pos == 0) {
-	dst++;
+	*dst++ = 255;
+	*dst++ = 255;
+	*dst++ = 255;
+	*dst++ = 255;
+      } else {
+	*dst++ = 0;
+	*dst++ = 0;
+	*dst++ = 0;
+	*dst++ = 255;
       }
       src += 4;
     }
   }
-
 
   return mask;
 }

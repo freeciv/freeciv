@@ -15,6 +15,16 @@
 
 #include "graphics_g.h"
 
+struct crect
+{
+  BITMAP *src;
+  HBITMAP hbmp;
+  int x;
+  int y;
+  int w;
+  int h;
+};
+
 extern struct sprite *intro_gfx_sprite;
 extern struct sprite *radar_gfx_sprite;
 
@@ -23,7 +33,7 @@ void bmp_free(BITMAP *bmp);
 
 HBITMAP BITMAP2HBITMAP(BITMAP *bmp);
 BITMAP *HBITMAP2BITMAP(HBITMAP hbmp);
-HBITMAP getcachehbitmap(BITMAP *bmp, int *cache_id);
+struct crect *getcachehbitmap(BITMAP *bmp, int *cache_id);
 
 bool bmp_test_mask(BITMAP *bmp);
 bool bmp_test_alpha(BITMAP *bmp);
