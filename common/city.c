@@ -1106,11 +1106,14 @@ bool city_got_citywalls(const struct city *pcity)
 /**************************************************************************
   Return TRUE iff the city is happy.  A happy city will start celebrating
   soon.
+  A city can only be happy if half or more of the population is happy,
+  none of the population is unhappy or angry, and it has sufficient size.
 **************************************************************************/
 bool city_happy(const struct city *pcity)
 {
   return (pcity->ppl_happy[4] >= (pcity->size + 1) / 2 &&
-	  pcity->ppl_unhappy[4] == 0 && pcity->ppl_angry[4] == 0);
+	  pcity->ppl_unhappy[4] == 0 && pcity->ppl_angry[4] == 0) &&
+          pcity->size >= get_gov_pcity(pcity)->rapture_size;
 }
 
 /**************************************************************************
@@ -1124,7 +1127,8 @@ bool city_unhappy(const struct city *pcity)
 }
 
 /**************************************************************************
-  Return TRUE if the city was celebrating at the start of the turn.
+  Return TRUE if the city was celebrating at the start of the turn,
+  and it still has sufficient size to be in rapture.
 **************************************************************************/
 bool base_city_celebrating(const struct city *pcity)
 {
