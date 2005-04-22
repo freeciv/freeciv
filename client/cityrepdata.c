@@ -566,35 +566,185 @@ void init_city_report_game_data(void)
 }
 
 /**********************************************************************
-  This allows more intelligent sorting city report fields by column,
-  although it still does not give the preferred behavior for all
-  fields.
+  The following several functions allow intelligent sorting city report 
+  fields by column.  This doesn't necessarily do the right thing, but
+  it's better than sorting alphabetically.
 
-  The GUI can give us the two fields and we will try to guess if
-  they are text or numeric fields. It returns a number less then,
-  equal to, or greater than 0 if field1 is less than, equal to, or
-  greater than field2, respectively. If we are given two text
-  fields, we will compare them as text. If we are given one text and
-  one numerical field, we will place the numerical field first.
+  The GUI gives us two values to compare (as strings).  We try to split
+  them into an array of integer and string fields, then we compare
+  lexicographically.  Two integer fields are compared in the obvious
+  way, two character fields are compared alphabetically.  Arbitrarily, a
+  numeric field is sorted before a character field (for "justification"
+  note that numbers are before letters in the ASCII table).
 **********************************************************************/
-int cityrepfield_compare(const char *field1, const char *field2)
+
+/* A datum is one short string, or one number.
+   A datum_vector represents a long string of alternating strings and
+   numbers. */
+struct datum {
+  long numeric_value;
+  char *string_value;
+  bool is_numeric;
+};
+#define SPECVEC_TAG datum
+#include "specvec.h"
+
+/**********************************************************************
+  Init a datum from a substring.
+**********************************************************************/
+static void init_datum_string(struct datum *dat, const char *left, 
+                              const char *right)
 {
-  int scanned1, scanned2;
-  int number1, number2;
+  int len = right - left;
 
-  scanned1 = sscanf(field1, "%d", &number1);
-  scanned2 = sscanf(field2, "%d", &number2);
+  dat->is_numeric = FALSE;
+  dat->string_value = fc_malloc(len + 1);
+  memcpy(dat->string_value, left, len);
+  dat->string_value[len] = 0;
+}
 
-  if (scanned1 == 1 && scanned2 == 1) {
-    /* Both fields are numerical.  Compare them numerically. */
-    return number1 - number2;
-  } else if (scanned1 == 0 && scanned2 == 0) {
-    /* Both fields are text.  Compare them as strings. */
-    return strcmp(field1, field2);
-  } else {
-    /* One field is numerical and one field is text.  To preserve
-     * the logic of comparison sorting we must always sort one before
-     * the other. */
-    return scanned1 - scanned2;
+/**********************************************************************
+  Init a datum from a number (a long because we happen to use
+  strtol).
+**********************************************************************/
+static void init_datum_number(struct datum *dat, long val)
+{
+  dat->is_numeric = TRUE;
+  dat->numeric_value = val;
+}
+
+/**********************************************************************
+  Free the data associated with a datum -- that is, free the string if
+  it was allocated.
+**********************************************************************/
+static void free_datum(struct datum *dat)
+{
+  if(!dat->is_numeric) {
+    free(dat->string_value);
   }
+}
+
+/**********************************************************************
+  Compare two data items as described above:
+  - numbers in the obvious way
+  - strings alphabetically
+  - number < string for no good reason
+**********************************************************************/
+static int datum_compare(const struct datum *a, const struct datum *b)
+{
+  if(a->is_numeric == b->is_numeric) {
+    if(a->is_numeric) {
+      return a->numeric_value - b->numeric_value;
+    } else {
+      return strcmp(a->string_value, b->string_value);
+    }
+  } else {
+    if(a->is_numeric) {
+      return -1;
+  } else {
+      return 1;
+  }
+  }
+}
+
+/**********************************************************************
+  Compare two strings of data lexicographically.
+**********************************************************************/
+static int data_compare(const struct datum_vector *a, 
+    const struct datum_vector *b)
+{
+  int i, n;
+
+  n = MIN(a->size, b->size);
+
+  for(i = 0; i < n; i++) {
+    int cmp = datum_compare(&a->p[i], &b->p[i]);
+
+    if(cmp != 0) {
+      return cmp;
+    }
+  }
+
+  /* The first n fields match; whoever has more fields goes last.
+     If they have equal numbers, the two really are equal. */
+  return a->size - b->size;
+}
+
+
+/**********************************************************************
+  Split a string into a vector of datum.
+**********************************************************************/
+static void split_string(struct datum_vector *data, const char *str)
+{
+  const char *string_start;
+
+  datum_vector_init(data);
+  string_start = str;
+  while(*str) {
+    char *endptr;
+    long value;
+
+    value = strtol(str, &endptr, 0);
+    if(endptr == str) {
+      /* that wasn't an integer; go on */
+      str++;
+    } else {
+      /* that was an integer, so stop the string we were parsing, add 
+         it (unless it's empty), then add the integer we just parsed */
+      struct datum d;
+
+      if(str != string_start) {
+        init_datum_string(&d, string_start, str);
+        datum_vector_append(data, &d);
+      }
+
+      init_datum_number(&d, value);
+      datum_vector_append(data, &d);
+
+      /* finally, update the string position pointers */
+      string_start = str;
+      str = endptr;
+    }
+  }
+
+  /* if we have anything leftover then it's a string */
+  if(str != string_start) {
+    struct datum d;
+
+    init_datum_string(&d, string_start, str);
+    datum_vector_append(data, &d);
+  }
+}
+
+/**********************************************************************
+  Free every datum in the vector.
+**********************************************************************/
+static void free_data(struct datum_vector *data)
+{
+  int i;
+
+  for(i = 0; i < data->size; i++) {
+    free_datum(&data->p[i]);
+  }
+  datum_vector_free(data);
+}
+
+
+/**********************************************************************
+  The real function: split the two strings, and compare them.
+**********************************************************************/
+int cityrepfield_compare(const char *str1, const char *str2)
+{
+  struct datum_vector data1, data2;
+  int retval;
+
+  split_string(&data1, str1);
+  split_string(&data2, str2);
+
+  retval = data_compare(&data1, &data2);
+
+  free_data(&data1);
+  free_data(&data2);
+
+  return retval;
 }
