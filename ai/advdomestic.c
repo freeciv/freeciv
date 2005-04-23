@@ -160,8 +160,11 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   if (unit_type != U_LAST
       && est_food > utype_food_cost(get_unit_type(unit_type), gov)) {
-    /* settler_want calculated in settlers.c called from ai_manage_cities() */
-    int want = pcity->ai.settler_want;
+    /* The settler want is calculated in settlers.c called from
+     * ai_manage_cities.  The expand value is the % that the AI should
+     * value expansion (basically to handicap easier difficutly levels)
+     * and is set when the difficulty level is changed (stdinhand.c). */
+    int want = pcity->ai.settler_want * pplayer->ai.expand / 100;
 
     /* Allowing multiple settlers per city now. I think this is correct.
      * -- Syela */
