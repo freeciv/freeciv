@@ -20,7 +20,8 @@
 #include "gotohand.h"
 
 /* battle related */
-int find_a_unit_type(int role, int role_tech);
+Unit_Type_id find_a_unit_type(enum unit_role_id role,
+			      enum unit_role_id role_tech);
 bool maybe_make_veteran(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender,
 		      bool bombard);

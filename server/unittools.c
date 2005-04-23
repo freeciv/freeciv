@@ -94,18 +94,40 @@ static void change_vision_range(struct player *pplayer, struct tile *ptile,
 }
 
 /**************************************************************************
-  returns a unit type with a given role, use -1 if you don't want a tech 
-  role. Always try tech role and only if not available, return role unit.
+  Returns a unit type that matches the role_tech or role roles.
+
+  If role_tech is given, then we look at all units with this role
+  whose requirements are met by any player, and return a random one.  This
+  can be used to give a unit to barbarians taken from the set of most
+  advanced units researched by the 'real' players.
+
+  If role_tech is not give (-1) or if there are no matching unit types,
+  then we look at 'role' value and return a random matching unit type.
+
+  It is an error if there are no available units.  This function will
+  always return a valid unit.
 **************************************************************************/
-int find_a_unit_type(int role, int role_tech)
+Unit_Type_id find_a_unit_type(enum unit_role_id role,
+			      enum unit_role_id role_tech)
 {
   int which[U_LAST];
   int i, num=0;
 
   if (role_tech != -1) {
     for(i=0; i<num_role_units(role_tech); i++) {
-      int iunit = get_role_unit(role_tech, i);
-      if (game.global_advances[get_unit_type(iunit)->tech_requirement] >= 2) {
+      Unit_Type_id iunit = get_role_unit(role_tech, i);
+      const int minplayers = 2;
+      int players = 0;
+
+      /* Note, if there's only one player in the game this check will always
+       * fail. */
+      players_iterate(pplayer) {
+	if (!is_barbarian(pplayer)
+	    && can_player_build_unit_direct(pplayer, iunit)) {
+	  players++;
+	}
+      } players_iterate_end;
+      if (players > minplayers) {
 	which[num++] = iunit;
       }
     }
