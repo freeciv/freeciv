@@ -21390,7 +21390,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
         {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_uint32(&din, &readin);
       real_packet->specialist_req_value[i] = readin;
     }
       }
@@ -21991,7 +21991,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       int i;
 
       for (i = 0; i < real_packet->req_array_size; i++) {
-        dio_put_uint8(&dout, real_packet->specialist_req_value[i]);
+        dio_put_uint32(&dout, real_packet->specialist_req_value[i]);
       }
     } 
   }
@@ -22763,7 +22763,7 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
         {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_uint32(&din, &readin);
       real_packet->req_value[i] = readin;
     }
       }
@@ -23417,7 +23417,7 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
       int i;
 
       for (i = 0; i < MAX_NUM_REQS; i++) {
-        dio_put_uint8(&dout, real_packet->req_value[i]);
+        dio_put_uint32(&dout, real_packet->req_value[i]);
       }
     } 
   }
@@ -24566,7 +24566,7 @@ static struct packet_ruleset_city *receive_packet_ruleset_city_100(struct connec
         {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_uint32(&din, &readin);
       real_packet->req_value[i] = readin;
     }
       }
@@ -24766,7 +24766,7 @@ static int send_packet_ruleset_city_100(struct connection *pc, const struct pack
       int i;
 
       for (i = 0; i < MAX_NUM_REQS; i++) {
-        dio_put_uint8(&dout, real_packet->req_value[i]);
+        dio_put_uint32(&dout, real_packet->req_value[i]);
       }
     } 
   }
@@ -24958,7 +24958,7 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
         {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_uint32(&din, &readin);
       real_packet->req_value[i] = readin;
     }
       }
@@ -25220,7 +25220,7 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
       int i;
 
       for (i = 0; i < MAX_NUM_REQS; i++) {
-        dio_put_uint8(&dout, real_packet->req_value[i]);
+        dio_put_uint32(&dout, real_packet->req_value[i]);
       }
     } 
   }
