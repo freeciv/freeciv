@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-15 23:21-0400\n"
+"POT-Creation-Date: 2005-04-23 14:58-0400\n"
 "PO-Revision-Date: 2003-12-13 19:27+0100\n"
 "Last-Translator: David <david.gaya@terra.es>\n"
 "Language-Team: catalan\n"
@@ -144,115 +144,115 @@ msgstr ""
 "anteriors).  Si us plau, escull un altre servidor per al proper intent de "
 "connexió."
 
-#: common/player.c:535
+#: common/player.c:536
 msgid "?attitude:Genocidal"
 msgstr ""
 
-#: common/player.c:537
+#: common/player.c:538
 msgid "?attitude:Belligerent"
 msgstr ""
 
-#: common/player.c:539
+#: common/player.c:540
 #, fuzzy
 msgid "?attitude:Hostile"
 msgstr "?nation:Hostil"
 
-#: common/player.c:541
+#: common/player.c:542
 msgid "?attitude:Uncooperative"
 msgstr ""
 
-#: common/player.c:543
+#: common/player.c:544
 msgid "?attitude:Uneasy"
 msgstr ""
 
-#: common/player.c:545
+#: common/player.c:546
 #, fuzzy
 msgid "?attitude:Neutral"
 msgstr "?nation:Neutral"
 
-#: common/player.c:547
+#: common/player.c:548
 msgid "?attitude:Respectful"
 msgstr ""
 
-#: common/player.c:549
+#: common/player.c:550
 msgid "?attitude:Helpful"
 msgstr ""
 
-#: common/player.c:551
+#: common/player.c:552
 msgid "?attitude:Enthusiastic"
 msgstr ""
 
-#: common/player.c:553
+#: common/player.c:554
 msgid "?attitude:Admiring"
 msgstr ""
 
-#: common/player.c:556
+#: common/player.c:557
 msgid "?attitude:Worshipful"
 msgstr ""
 
-#: common/player.c:568
+#: common/player.c:569
 msgid "Spotless"
 msgstr "Impecable"
 
-#: common/player.c:570
+#: common/player.c:571
 msgid "Excellent"
 msgstr "Excel·lent"
 
-#: common/player.c:572
+#: common/player.c:573
 msgid "Honorable"
 msgstr "Honorable"
 
-#: common/player.c:574
+#: common/player.c:575
 msgid "Questionable"
 msgstr "Qüestionable"
 
-#: common/player.c:576
+#: common/player.c:577
 msgid "Dishonorable"
 msgstr "Poc honorable"
 
-#: common/player.c:578
+#: common/player.c:579
 msgid "Poor"
 msgstr "Pobre"
 
-#: common/player.c:580
+#: common/player.c:581
 msgid "Despicable"
 msgstr "Menyspreable"
 
-#: common/player.c:582
+#: common/player.c:583
 msgid "Atrocious"
 msgstr "Atroç"
 
-#: common/player.c:592
+#: common/player.c:593
 msgid "?diplomatic_state:Neutral"
 msgstr "Neutral"
 
-#: common/player.c:593
+#: common/player.c:594
 msgid "?diplomatic_state:War"
 msgstr "Guerra"
 
-#: common/player.c:594 client/gui-gtk-2.0/diplodlg.c:343
+#: common/player.c:595 client/gui-gtk-2.0/diplodlg.c:343
 #: client/gui-gtk/diplodlg.c:485 client/gui-mui/diplodlg.c:633
 #: client/gui-win32/diplodlg.c:306 client/gui-xaw/diplodlg.c:524
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Treva"
 
-#: common/player.c:595 client/gui-gtk-2.0/diplodlg.c:348
+#: common/player.c:596 client/gui-gtk-2.0/diplodlg.c:348
 #: client/gui-gtk/diplodlg.c:490 client/gui-mui/diplodlg.c:637
 #: client/gui-win32/diplodlg.c:307 client/gui-xaw/diplodlg.c:528
 msgid "?diplomatic_state:Peace"
 msgstr "Pau"
 
-#: common/player.c:596 client/gui-gtk-2.0/diplodlg.c:353
+#: common/player.c:597 client/gui-gtk-2.0/diplodlg.c:353
 #: client/gui-gtk/diplodlg.c:495 client/gui-mui/diplodlg.c:641
 #: client/gui-win32/diplodlg.c:308 client/gui-xaw/diplodlg.c:532
 msgid "?diplomatic_state:Alliance"
 msgstr "Aliança"
 
-#: common/player.c:597
+#: common/player.c:598
 msgid "?diplomatic_state:Never met"
 msgstr "Sense contacte"
 
-#: common/player.c:598
+#: common/player.c:599
 #, fuzzy
 msgid "?diplomatic_state:Team"
 msgstr "Pau"
@@ -5546,7 +5546,7 @@ msgstr "Temps màxim dinàmic fixat a %d %d %d %d"
 msgid "Option:"
 msgstr "Opció:"
 
-#: server/stdinhand.c:1505 server/stdinhand.c:3759
+#: server/stdinhand.c:1505 server/stdinhand.c:3788
 msgid "Description:"
 msgstr "Descripció:"
 
@@ -5977,18 +5977,18 @@ msgstr "tallant amb %s."
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s ara controla %s"
 
-#: server/stdinhand.c:2959 server/stdinhand.c:3973
+#: server/stdinhand.c:2959 server/stdinhand.c:4002
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Bàrbar"
 
-#: server/stdinhand.c:2960 server/stdinhand.c:3975 client/plrdlg_common.c:228
+#: server/stdinhand.c:2960 server/stdinhand.c:4004 client/plrdlg_common.c:228
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk/plrdlg.c:141
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/plrdlg.c:340
 msgid "AI"
 msgstr "IA"
 
-#: server/stdinhand.c:2960 server/stdinhand.c:3977
+#: server/stdinhand.c:2960 server/stdinhand.c:4006
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk-2.0/pages.c:1480
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/connectdlg.c:208
 msgid "Human"
@@ -6117,27 +6117,32 @@ msgstr "No es pot acabar la partida, no n'hi ha cap en joc."
 msgid "Not enough players, game will not start."
 msgstr "No hi ha jugadors suficients, la partida no començarà."
 
-#: server/stdinhand.c:3637
+#: server/stdinhand.c:3655
+#, fuzzy, c-format
+msgid "Waiting to start game: %d out of %d players are ready to start."
+msgstr "No es pot iniciar la partida. Ja s'ha iniciat."
+
+#: server/stdinhand.c:3666
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 "No es pot iniciar la partida. La partida està esperant a que es desconnectin "
 "tots els clients."
 
-#: server/stdinhand.c:3643
+#: server/stdinhand.c:3672
 msgid "Cannot start the game: it has already been started."
 msgstr "No es pot iniciar la partida. Ja s'ha iniciat."
 
-#: server/stdinhand.c:3648
+#: server/stdinhand.c:3677
 msgid "Cannot start the game: it is already running."
 msgstr "No es pot iniciar la partida. Ja s'està jugant."
 
-#: server/stdinhand.c:3677
+#: server/stdinhand.c:3706
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Tallant connexió %s."
 
-#: server/stdinhand.c:3696
+#: server/stdinhand.c:3725
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6175,91 +6180,91 @@ msgstr ""
 "  save   - per a guardar la partida actual\n"
 "  quit   - per a sortir"
 
-#: server/stdinhand.c:3731 server/stdinhand.c:3734
+#: server/stdinhand.c:3760 server/stdinhand.c:3763
 msgid "Command:"
 msgstr "Comanda:"
 
-#: server/stdinhand.c:3738
+#: server/stdinhand.c:3767
 msgid "Synopsis: "
 msgstr "Sinopsis: "
 
-#: server/stdinhand.c:3747
+#: server/stdinhand.c:3776
 #, c-format
 msgid "Level: %s"
 msgstr "Nivell: %s"
 
-#: server/stdinhand.c:3750
+#: server/stdinhand.c:3779
 #, fuzzy, c-format
 msgid "Pregame level: %s"
 msgstr "Nivell: %s"
 
-#: server/stdinhand.c:3776
+#: server/stdinhand.c:3805
 msgid "The following server commands are available:"
 msgstr "Estan disponibles les següents comandes de servidor:"
 
-#: server/stdinhand.c:3851
+#: server/stdinhand.c:3880
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "L'argument de l'ajuda '%s' és ambigu."
 
-#: server/stdinhand.c:3856
+#: server/stdinhand.c:3885
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Cap coincidència per a l'argument d'ajuda '%s'."
 
-#: server/stdinhand.c:3915
+#: server/stdinhand.c:3944
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Argument de llista incorrecte: '%s'. Prova '%shelp list'."
 
-#: server/stdinhand.c:3947
+#: server/stdinhand.c:3976
 msgid "List of players:"
 msgstr "Llista de jugadors:"
 
-#: server/stdinhand.c:3952
+#: server/stdinhand.c:3981
 msgid "<no players>"
 msgstr "<no hi ha cap jugador>"
 
-#: server/stdinhand.c:3969
+#: server/stdinhand.c:3998
 #, c-format
 msgid "user %s, "
 msgstr "usuari %s, "
 
-#: server/stdinhand.c:3980
+#: server/stdinhand.c:4009
 msgid ", Dead"
 msgstr ", Mort"
 
-#: server/stdinhand.c:3983
+#: server/stdinhand.c:4012
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", nivell de dificultat %s"
 
-#: server/stdinhand.c:3987
+#: server/stdinhand.c:4016
 #, c-format
 msgid ", nation %s"
 msgstr ", nació %s"
 
-#: server/stdinhand.c:3999
+#: server/stdinhand.c:4028
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] "connexió %d:"
 msgstr[1] "connexions %d:"
 
-#: server/stdinhand.c:4005
+#: server/stdinhand.c:4034
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s des de %s (nivell accés comanda %s), bufsize=%dkb"
 
-#: server/stdinhand.c:4010
+#: server/stdinhand.c:4039
 msgid " (observer mode)"
 msgstr "(mode observador)"
 
-#: server/stdinhand.c:4026
+#: server/stdinhand.c:4055
 msgid "List of connections to server:"
 msgstr "Llista de connexions al servidor:"
 
-#: server/stdinhand.c:4030
+#: server/stdinhand.c:4059
 msgid "<no connections>"
 msgstr "<no hi ha cap connexió>"
 
