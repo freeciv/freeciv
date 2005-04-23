@@ -23,7 +23,12 @@ struct overview {
   /* The following fields are controlled by mapview_common.c. */
   int map_x0, map_y0;
   int width, height;		/* Size in pixels. */
-  struct canvas *store;
+
+  /* Holds the map, unwrapped. */
+  struct canvas *map;
+
+  /* A backing store for the window itself, wrapped. */
+  struct canvas *window;
 };
 
 extern struct overview overview;

@@ -79,21 +79,21 @@ static void redraw_overview(void)
 {
   struct canvas *dest = get_overview_window();
 
-  if (!dest || !overview.store) {
+  if (!dest || !overview.map) {
     return;
   }
 
   {
-    struct canvas *src = overview.store;
+    struct canvas *src = overview.map, *dst = overview.window;
     int x = overview.map_x0 * OVERVIEW_TILE_SIZE;
     int y = overview.map_y0 * OVERVIEW_TILE_SIZE;
     int ix = overview.width - x;
     int iy = overview.height - y;
 
-    canvas_copy(dest, src, 0, 0, ix, iy, x, y);
-    canvas_copy(dest, src, 0, y, ix, 0, x, iy);
-    canvas_copy(dest, src, x, 0, 0, iy, ix, y);
-    canvas_copy(dest, src, x, y, 0, 0, ix, iy);
+    canvas_copy(dst, src, 0, 0, ix, iy, x, y);
+    canvas_copy(dst, src, 0, y, ix, 0, x, iy);
+    canvas_copy(dst, src, x, 0, 0, iy, ix, y);
+    canvas_copy(dst, src, x, y, 0, 0, ix, iy);
   }
 
   {
@@ -105,13 +105,16 @@ static void redraw_overview(void)
     for (i = 0; i < 4; i++) {
       int src_x = x[i];
       int src_y = y[i];
-      int dest_x = x[(i + 1) % 4];
-      int dest_y = y[(i + 1) % 4];
+      int dst_x = x[(i + 1) % 4];
+      int dst_y = y[(i + 1) % 4];
 
-      canvas_put_line(dest, COLOR_STD_WHITE, LINE_NORMAL, src_x, src_y,
-		      dest_x - src_x, dest_y - src_y);
+      canvas_put_line(overview.window, COLOR_STD_WHITE, LINE_NORMAL,
+		      src_x, src_y, dst_x - src_x, dst_y - src_y);
     }
   }
+
+  canvas_copy(dest, overview.window,
+	      0, 0, 0, 0, overview.width, overview.height);
 
   overview_dirty = FALSE;
 }
@@ -242,7 +245,7 @@ void overview_update_tile(struct tile *ptile)
 	if (overview_x > overview.width - OVERVIEW_TILE_WIDTH) {
 	  /* This tile is shown half on the left and half on the right
 	   * side of the overview.  So we have to draw it in two parts. */
-	  canvas_put_rectangle(overview.store, 
+	  canvas_put_rectangle(overview.map,
 			       overview_tile_color(ptile),
 			       overview_x - overview.width, overview_y,
 			       OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT); 
@@ -253,8 +256,8 @@ void overview_update_tile(struct tile *ptile)
 	overview_x -= OVERVIEW_TILE_SIZE;
       }
     } 
-    
-    canvas_put_rectangle(overview.store,
+
+    canvas_put_rectangle(overview.map,
 			 overview_tile_color(ptile),
 			 overview_x, overview_y,
 			 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
@@ -299,11 +302,13 @@ void calculate_overview_dimensions(void)
     = OVERVIEW_TILE_WIDTH * map.xsize + shift * OVERVIEW_TILE_SIZE; 
   overview.height = OVERVIEW_TILE_HEIGHT * map.ysize;
 
-  if (overview.store) {
-    canvas_free(overview.store);
+  if (overview.map) {
+    canvas_free(overview.map);
+    canvas_free(overview.window);
   }
-  overview.store = canvas_create(overview.width, overview.height);
-  canvas_put_rectangle(overview.store, COLOR_STD_BLACK,
+  overview.map = canvas_create(overview.width, overview.height);
+  overview.window = canvas_create(overview.width, overview.height);
+  canvas_put_rectangle(overview.map, COLOR_STD_BLACK,
 		       0, 0, overview.width, overview.height);
   update_map_canvas_scrollbars_size();
 
