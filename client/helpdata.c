@@ -230,7 +230,8 @@ static void insert_allows(struct req_source *psource,
 	for (r2 = 0; r2 < MAX_NUM_REQS; r2++) {
 	  struct requirement *coreq = building->req + r2;
 
-	  if (!are_req_sources_equal(psource, &coreq->source)) {
+	  if (coreq->source.type != REQ_NONE
+	      && !are_req_sources_equal(psource, &coreq->source)) {
 	    char buf2[512];
 
 	    COREQ_APPEND(get_req_source_text(&coreq->source,
