@@ -1660,6 +1660,11 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   set_units_in_combat(punit0, punit1);
 
+  /* Make sure we don't start out with fewer HP than we're supposed to
+   * end up with (which would cause the following loop to break). */
+  punit0->hp = MAX(punit0->hp, hp0);
+  punit1->hp = MAX(punit1->hp, hp1);
+
   unqueue_mapview_updates(TRUE);
   while (punit0->hp > hp0 || punit1->hp > hp1) {
     const int diff0 = punit0->hp - hp0, diff1 = punit1->hp - hp1;
