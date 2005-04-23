@@ -52,7 +52,7 @@ static void ai_choose_help_wonder(struct city *pcity,
                                   struct ai_data *ai)
 {
   struct player *pplayer = city_owner(pcity);
-  Continent_id continent = map_get_continent(pcity->tile);
+  Continent_id continent = tile_get_continent(pcity->tile);
   /* Total count of caravans available or already being built 
    * on this continent */
   int caravans = 0;
@@ -78,7 +78,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   /* Count existing caravans */
   unit_list_iterate(pplayer->units, punit) {
     if (unit_flag(punit, F_HELP_WONDER)
-        && map_get_continent(punit->tile) == continent)
+        && tile_get_continent(punit->tile) == continent)
       caravans++;
   } unit_list_iterate_end;
 
@@ -86,7 +86,7 @@ static void ai_choose_help_wonder(struct city *pcity,
   city_list_iterate(pplayer->cities, acity) {
     if (acity->is_building_unit
         && unit_type_flag(acity->currently_building, F_HELP_WONDER)
-        && map_get_continent(acity->tile) == continent) {
+        && tile_get_continent(acity->tile) == continent) {
       caravans++;
     }
   } city_list_iterate_end;

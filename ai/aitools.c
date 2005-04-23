@@ -204,7 +204,7 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
       danger += unit_att_rating(aunit);
     }
   } unit_list_iterate_end;
-  dcity = map_get_city(dest_tile);
+  dcity = tile_get_city(dest_tile);
   if (dcity && HOSTILE_PLAYER(pplayer, ai, city_owner(dcity))) {
     /* Assume enemy will build another defender, add it's attack strength */
     int d_type = ai_choose_defender_versus(dcity, punit->type);
@@ -809,7 +809,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   }
 
   /* Reserve city spot, _unless_ we want to add ourselves to a city. */
-  if (punit->ai.ai_role == AIUNIT_BUILD_CITY && !map_get_city(ptile)) {
+  if (punit->ai.ai_role == AIUNIT_BUILD_CITY && !tile_get_city(ptile)) {
     citymap_reserve_city_spot(ptile, punit->id);
   }
   if (punit->ai.ai_role == AIUNIT_HUNTER) {
@@ -1025,7 +1025,7 @@ struct city *dist_nearest_city(struct player *pplayer, struct tile *ptile,
 { 
   struct city *pc=NULL;
   int best_dist = -1;
-  Continent_id con = map_get_continent(ptile);
+  Continent_id con = tile_get_continent(ptile);
 
   players_iterate(pplay) {
     /* If "enemy" is set, only consider cities whose owner we're at
@@ -1041,7 +1041,7 @@ struct city *dist_nearest_city(struct player *pplayer, struct tile *ptile,
        * continent. */
       if ((best_dist == -1 || city_dist < best_dist)
 	  && (everywhere || con == 0
-	      || con == map_get_continent(pcity->tile))
+	      || con == tile_get_continent(pcity->tile))
 	  && (!pplayer || map_is_known(pcity->tile, pplayer))) {
 	best_dist = city_dist;
         pc = pcity;

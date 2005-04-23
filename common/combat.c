@@ -249,13 +249,13 @@ void get_modified_firepower(const struct unit *attacker,
 
   /* Check CityBuster flag */
   if (unit_flag(attacker, F_CITYBUSTER)
-      && map_get_city(defender->tile)) {
+      && tile_get_city(defender->tile)) {
     *att_fp *= 2;
   }
 
   /* pearl harbour - defender's firepower is reduced to one, 
    *                 attacker's is multiplied by two         */
-  if (is_sailing_unit(defender) && map_get_city(defender->tile)) {
+  if (is_sailing_unit(defender) && tile_get_city(defender->tile)) {
     *att_fp *= 2;
     *def_fp = 1;
   }
@@ -270,7 +270,7 @@ void get_modified_firepower(const struct unit *attacker,
 
   /* In land bombardment both units have their firepower reduced to 1 */
   if (is_sailing_unit(attacker)
-      && !is_ocean(map_get_terrain(defender->tile))
+      && !is_ocean(tile_get_terrain(defender->tile))
       && is_ground_unit(defender)) {
     *att_fp = 1;
     *def_fp = 1;
@@ -331,7 +331,7 @@ struct city *sdi_defense_close(const struct player *owner,
 			       const struct tile *ptile)
 {
   square_iterate(ptile, 2, ptile1) {
-    struct city *pcity = map_get_city(ptile1);
+    struct city *pcity = tile_get_city(ptile1);
     if (pcity && (!pplayers_allied(city_owner(pcity), owner))
 	&& get_city_bonus(pcity, EFT_NUKE_PROOF) > 0) {
       return pcity;
@@ -420,7 +420,7 @@ static int defense_multiplication(Unit_Type_id att_type,
 				  const struct tile *ptile,
 				  int defensepower, bool fortified)
 {
-  struct city *pcity = map_get_city(ptile);
+  struct city *pcity = tile_get_city(ptile);
   int mod;
 
   CHECK_UNIT_TYPE(def_type);
@@ -484,7 +484,7 @@ int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
 			      bool fortified, int veteran)
 {
   int defensepower = unit_types[def_type].defense_strength;
-  Terrain_type_id t = map_get_terrain(ptile);
+  Terrain_type_id t = tile_get_terrain(ptile);
   int db;
 
   if (unit_types[def_type].move_type == LAND_MOVING && is_ocean(t)) {

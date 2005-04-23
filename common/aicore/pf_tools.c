@@ -240,7 +240,7 @@ static int reverse_move_unit(const struct tile *tile0, enum direction8 dir,
 			     const struct tile *ptile,
 			     struct pf_parameter *param)
 {
-  int terrain0 = map_get_terrain(tile0);
+  int terrain0 = tile_get_terrain(tile0);
   int terrain1 = ptile->terrain;
   int move_cost = PF_IMPOSSIBLE_MC;
 
@@ -305,14 +305,14 @@ static int reverse_igter_move_unit(const struct tile *tile0,
 {
   int move_cost;
 
-  if (is_ocean(map_get_terrain(ptile))) {
+  if (is_ocean(tile_get_terrain(ptile))) {
     if (ground_unit_transporter_capacity(ptile, param->owner) > 0) {
       /* Landing */
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (is_ocean(map_get_terrain(tile0))) {
+  } else if (is_ocean(tile_get_terrain(tile0))) {
     /* Boarding */
     move_cost = MOVE_COST_ROAD;
   } else {
@@ -378,7 +378,7 @@ static int afraid_of_dark_forest(const struct tile *ptile,
 				 enum known_type known,
 				 struct pf_parameter *param)
 {
-  if (map_get_terrain(ptile) == T_FOREST) {
+  if (tile_get_terrain(ptile) == T_FOREST) {
     /* Willing to spend extra 2 turns to go around a forest tile */
     return PF_TURN_FACTOR * 2;
   }

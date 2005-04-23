@@ -397,7 +397,7 @@ static void control_callback(ULONG * value)
 	struct unit *punit;
 	if ((punit = get_unit_in_focus()))
 	{
-	  struct city *pcity = map_get_city(punit->tile);
+	  struct city *pcity = tile_get_city(punit->tile);
 	  if (pcity)
 	  {
 	    popup_city_dialog(pcity, 0);
@@ -1285,7 +1285,7 @@ void update_menus(void) /* from menu.c */
       menu_entry_sensitive(MENU_ORDER_DIPLOMAT_DLG, is_diplomat_unit(punit) &&
         diplomat_can_do_action(punit, DIPLOMAT_ANY_ACTION, punit->tile));
 
-      if (unit_flag(punit, F_CITIES) && map_get_city(punit->tile))
+      if (unit_flag(punit, F_CITIES) && tile_get_city(punit->tile))
       {
 	menu_entry_rename(MENU_ORDER_BUILD_CITY, _("Add to City"), FALSE);
       }

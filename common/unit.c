@@ -75,10 +75,10 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 				  enum diplomat_actions action, 
 				  const struct tile *ptile)
 {
-  struct city *pcity=map_get_city(ptile);
+  struct city *pcity=tile_get_city(ptile);
 
   if (action!=DIPLOMAT_MOVE
-      && is_ocean(map_get_terrain(pdiplomat->tile))) {
+      && is_ocean(tile_get_terrain(pdiplomat->tile))) {
     return FALSE;
   }
 
@@ -193,7 +193,7 @@ bool unit_can_help_build_wonder(const struct unit *punit,
 **************************************************************************/
 bool unit_can_help_build_wonder_here(const struct unit *punit)
 {
-  struct city *pcity = map_get_city(punit->tile);
+  struct city *pcity = tile_get_city(punit->tile);
 
   return pcity && unit_can_help_build_wonder(punit, pcity);
 }
@@ -208,7 +208,7 @@ bool unit_can_est_traderoute_here(const struct unit *punit)
   struct city *phomecity, *pdestcity;
 
   return (unit_flag(punit, F_TRADE_ROUTE)
-	  && (pdestcity = map_get_city(punit->tile))
+	  && (pdestcity = tile_get_city(punit->tile))
 	  && (phomecity = find_city_by_id(punit->homecity))
 	  && can_cities_trade(phomecity, pdestcity));
 }
@@ -382,7 +382,7 @@ bool can_unit_add_or_build_city(const struct unit *punit)
 enum add_build_city_result test_unit_add_or_build_city(const struct unit *
 						       punit)
 {
-  struct city *pcity = map_get_city(punit->tile);
+  struct city *pcity = tile_get_city(punit->tile);
   bool is_build = unit_flag(punit, F_CITIES);
   bool is_add = unit_flag(punit, F_ADD_TO_CITY);
   int new_pop;
@@ -496,7 +496,7 @@ bool can_unit_do_auto(const struct unit *punit)
     return TRUE;
   }
   if (is_military_unit(punit) && is_attack_unit(punit)
-      && map_get_city(punit->tile)) {
+      && tile_get_city(punit->tile)) {
     return TRUE;
   }
   return FALSE;
@@ -644,7 +644,7 @@ bool can_unit_paradrop(const struct unit *punit)
     return TRUE;
   }
 
-  if (!map_get_city(punit->tile)) {
+  if (!tile_get_city(punit->tile)) {
     return FALSE;
   }
 
@@ -769,7 +769,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 		    || !is_ocean(type->mining_result)
 		    || can_channel_land(ptile))
 		&& (!is_ocean(type->mining_result)
-		    || !map_get_city(ptile))))) {
+		    || !tile_get_city(ptile))))) {
       unit_list_iterate(ptile->units, tunit) {
 	if (tunit->activity == ACTIVITY_IRRIGATE) {
 	  return FALSE;
@@ -799,7 +799,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 		    || !is_ocean(type->irrigation_result)
 		    || can_channel_land(ptile))
 		&& (!is_ocean(type->irrigation_result)
-		    || !map_get_city(ptile))))) {
+		    || !tile_get_city(ptile))))) {
       unit_list_iterate(ptile->units, tunit) {
 	if (tunit->activity == ACTIVITY_MINE) {
 	  return FALSE;
@@ -821,7 +821,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
   case ACTIVITY_FORTRESS:
     return (unit_flag(punit, F_SETTLERS)
-	    && !map_get_city(ptile)
+	    && !tile_get_city(ptile)
 	    && player_knows_techs_with_flag(pplayer, TF_FORTRESS)
 	    && !tile_has_special(ptile, S_FORTRESS)
 	    && !is_ocean(ptile->terrain));
@@ -891,7 +891,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 		|| !is_ocean(type->transform_result)
 		|| can_channel_land(ptile))
 	    && (!terrain_has_flag(type->transform_result, TER_NO_CITIES)
-		|| !(map_get_city(ptile)))
+		|| !(tile_get_city(ptile)))
 	    && unit_flag(punit, F_TRANSFORM));
 
   case ACTIVITY_PATROL_UNUSED:
@@ -1313,7 +1313,7 @@ int unit_loss_pct(const struct player *pplayer, const struct tile *ptile,
   int loss_pct = 0;
 
   /* Units are never lost if they're inside cities. */
-  if (map_get_city(ptile)) {
+  if (tile_get_city(ptile)) {
     return 0; 
   }
 
@@ -1326,7 +1326,7 @@ int unit_loss_pct(const struct player *pplayer, const struct tile *ptile,
 
   /* All units may be lost on unsafe terrain.  (Actually air units are
    * exempt; see base_unsafe_terrain_loss_pct.) */
-  if (terrain_has_flag(map_get_terrain(ptile), TER_UNSAFE)) {
+  if (terrain_has_flag(tile_get_terrain(ptile), TER_UNSAFE)) {
     return loss_pct + base_unsafe_terrain_loss_pct(pplayer, punit);
   }
 
@@ -1373,12 +1373,12 @@ bool unit_being_aggressive(const struct unit *punit)
   if (!is_attack_unit(punit)) {
     return FALSE;
   }
-  if (map_get_city(punit->tile)) {
+  if (tile_get_city(punit->tile)) {
     return FALSE;
   }
   if (game.borders > 0
       && game.happyborders
-      && map_get_owner(punit->tile) == unit_owner(punit)) {
+      && tile_get_owner(punit->tile) == unit_owner(punit)) {
     return FALSE;
   }
   if (is_ground_unit(punit) &&
@@ -1550,7 +1550,7 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
       return UR_NO_MONEY;
     }
 
-    pcity = map_get_city(punit->tile);
+    pcity = tile_get_city(punit->tile);
     if (!pcity) {
       return UR_NOT_IN_CITY;
     }

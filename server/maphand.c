@@ -62,21 +62,21 @@ static int ocean_sizes[MAP_NCONT];
 static void assign_continent_flood(struct tile *ptile, bool is_land,
 				   int nr, bool skip_unsafe)
 {
-  if (map_get_continent(ptile) != 0) {
+  if (tile_get_continent(ptile) != 0) {
     return;
   }
   
-  if (skip_unsafe && terrain_has_flag(map_get_terrain(ptile), TER_UNSAFE)) {
+  if (skip_unsafe && terrain_has_flag(tile_get_terrain(ptile), TER_UNSAFE)) {
     /* FIXME: This should check a specialized flag, not the TER_UNSAFE
      * flag which may not even be present. */
     return;
   }
 
-  if (!XOR(is_land, is_ocean(map_get_terrain(ptile)))) {
+  if (!XOR(is_land, is_ocean(tile_get_terrain(ptile)))) {
     return;
   }
 
-  map_set_continent(ptile, nr);
+  tile_set_continent(ptile, nr);
   
   /* count the tile */
   if (nr < 0) {
@@ -102,11 +102,11 @@ static void recalculate_lake_surrounders(void)
   }
   
   whole_map_iterate(ptile) {
-    Continent_id cont = map_get_continent(ptile);
-    if (!is_ocean(map_get_terrain(ptile))) {
+    Continent_id cont = tile_get_continent(ptile);
+    if (!is_ocean(tile_get_terrain(ptile))) {
       adjc_iterate(ptile, tile2) {
-        Continent_id cont2 = map_get_continent(tile2);
-	if (is_ocean(map_get_terrain(tile2))) {
+        Continent_id cont2 = tile_get_continent(tile2);
+	if (is_ocean(tile_get_terrain(tile2))) {
 	  if (lake_surrounders[-cont2] == 0) {
 	    lake_surrounders[-cont2] = cont;
 	  } else if (lake_surrounders[-cont2] != cont) {
@@ -145,14 +145,14 @@ void assign_continent_numbers(bool skip_unsafe)
   map.num_oceans = 0;
 
   whole_map_iterate(ptile) {
-    map_set_continent(ptile, 0);
+    tile_set_continent(ptile, 0);
   } whole_map_iterate_end;
 
   /* Assign new numbers */
   whole_map_iterate(ptile) {
-    const Terrain_type_id ter = map_get_terrain(ptile);
+    const Terrain_type_id ter = tile_get_terrain(ptile);
 
-    if (map_get_continent(ptile) != 0) {
+    if (tile_get_continent(ptile) != 0) {
       /* Already assigned. */
       continue;
     }
@@ -213,7 +213,7 @@ void global_warming(int effect)
     struct tile *ptile;
 
     ptile = rand_map_pos();
-    old = map_get_terrain(ptile);
+    old = tile_get_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
       new = get_tile_type(old)->warmer_wetter_result;
     } else {
@@ -255,7 +255,7 @@ void nuclear_winter(int effect)
     struct tile *ptile;
 
     ptile = rand_map_pos();
-    old = map_get_terrain(ptile);
+    old = tile_get_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
       new = get_tile_type(old)->cooler_wetter_result;
     } else {
@@ -312,7 +312,7 @@ void upgrade_city_rails(struct player *pplayer, bool discovery)
   }
   
   city_list_iterate(pplayer->cities, pcity) {
-    map_set_special(pcity->tile, S_RAILROAD);
+    tile_set_special(pcity->tile, S_RAILROAD);
     update_tile_knowledge(pcity->tile);
   }
   city_list_iterate_end;
@@ -371,7 +371,7 @@ void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdes
 {
   buffer_shared_vision(pdest);
   whole_map_iterate(ptile) {
-    if (is_ocean(map_get_terrain(ptile))) {
+    if (is_ocean(tile_get_terrain(ptile))) {
       give_tile_info_from_player_to_player(pfrom, pdest, ptile);
     }
   } whole_map_iterate_end;
@@ -656,14 +656,14 @@ static void really_unfog_area(struct player *pplayer, struct tile *ptile)
 
   /* discover cities */ 
   reality_check_city(pplayer, ptile);
-  if ((pcity=map_get_city(ptile)))
+  if ((pcity=tile_get_city(ptile)))
     send_city_info(pplayer, pcity);
 
   /* If the tile was not known before we need to refresh the cities that
      can use the tile. */
   if (!old_known) {
     map_city_radius_iterate(ptile, tile1) {
-      pcity = map_get_city(tile1);
+      pcity = tile_get_city(tile1);
       if (pcity && city_owner(pcity) == pplayer) {
 	update_city_tile_status_map(pcity, ptile);
       }
@@ -887,7 +887,7 @@ static void really_show_area(struct player *pplayer, struct tile *ptile)
 
     /* remove old cities that exist no more */
     reality_check_city(pplayer, ptile);
-    if ((pcity = map_get_city(ptile))) {
+    if ((pcity = tile_get_city(ptile))) {
       /* as the tile may be fogged send_city_info won't do this for us */
       update_dumb_city(pplayer, pcity);
       send_city_info(pplayer, pcity);
@@ -903,7 +903,7 @@ static void really_show_area(struct player *pplayer, struct tile *ptile)
        can use the tile. */
     if (!old_known) {
       map_city_radius_iterate(ptile, tile1) {
-	pcity = map_get_city(tile1);
+	pcity = tile_get_city(tile1);
 	if (pcity && city_owner(pcity) == pplayer) {
 	  update_city_tile_status_map(pcity, ptile);
 	}
@@ -1228,7 +1228,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       reveal_pending_seen(pdest, ptile, 0);
 
       map_city_radius_iterate(ptile, tile1) {
-	struct city *pcity = map_get_city(tile1);
+	struct city *pcity = tile_get_city(tile1);
 	if (pcity && city_owner(pcity) == pdest) {
 	  update_city_tile_status_map(pcity, ptile);
 	}
@@ -1471,17 +1471,17 @@ void disable_fog_of_war(void)
 static void ocean_to_land_fix_rivers(struct tile *ptile)
 {
   /* clear the river if it exists */
-  map_clear_special(ptile, S_RIVER);
+  tile_clear_special(ptile, S_RIVER);
 
   cardinal_adjc_iterate(ptile, tile1) {
     if (tile_has_special(tile1, S_RIVER)) {
       bool ocean_near = FALSE;
       cardinal_adjc_iterate(tile1, tile2) {
-        if (is_ocean(map_get_terrain(tile2)))
+        if (is_ocean(tile_get_terrain(tile2)))
           ocean_near = TRUE;
       } cardinal_adjc_iterate_end;
       if (!ocean_near) {
-        map_set_special(ptile, S_RIVER);
+        tile_set_special(ptile, S_RIVER);
         return;
       }
     }
@@ -1499,7 +1499,7 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
 enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
                                                 Terrain_type_id oldter)
 {
-  Terrain_type_id newter = map_get_terrain(ptile);
+  Terrain_type_id newter = tile_get_terrain(ptile);
   enum ocean_land_change change_type = OLC_NONE;
 
   if (is_ocean(oldter) && !is_ocean(newter)) {
@@ -1559,7 +1559,7 @@ static struct city *map_get_adjc_city(struct tile *ptile)
 *************************************************************************/
 static bool is_claimed_ocean(struct tile *ptile, Continent_id *contp)
 {
-  Continent_id cont = map_get_continent(ptile);
+  Continent_id cont = tile_get_continent(ptile);
   Continent_id cont2, other;
   int ocean_tiles;
   
@@ -1572,7 +1572,7 @@ static bool is_claimed_ocean(struct tile *ptile, Continent_id *contp)
   other = 0;
   ocean_tiles = 0;
   adjc_iterate(ptile, tile2) {
-    cont2 = map_get_continent(tile2);
+    cont2 = tile_get_continent(tile2);
     if (cont2 == cont) {
       ocean_tiles++;
     } else {
@@ -1613,11 +1613,11 @@ static struct city *map_get_closest_city(struct tile *ptile)
     int distsq;		/* Squared distance to city */
     /* integer arithmetic equivalent of (borders+0.5)**2 */
     int cldistsq = game.borders * (game.borders + 1);
-    Continent_id cont = map_get_continent(ptile);
+    Continent_id cont = tile_get_continent(ptile);
 
-    if (!is_ocean(map_get_terrain(ptile)) || is_claimed_ocean(ptile, &cont)) {
+    if (!is_ocean(tile_get_terrain(ptile)) || is_claimed_ocean(ptile, &cont)) {
       cities_iterate(pcity) {
-	if (map_get_continent(pcity->tile) == cont) {
+	if (tile_get_continent(pcity->tile) == cont) {
           distsq = sq_map_distance(pcity->tile, ptile);
           if (distsq < cldistsq ||
                (distsq == cldistsq &&
@@ -1659,8 +1659,8 @@ static void map_update_borders_recalculate_position(struct tile *ptile)
       struct city *pccity = map_get_closest_city(tile1);
       struct player *new_owner = pccity ? get_player(pccity->owner) : NULL;
 
-      if (new_owner != map_get_owner(tile1)) {
-	map_set_owner(tile1, new_owner);
+      if (new_owner != tile_get_owner(tile1)) {
+	tile_set_owner(tile1, new_owner);
 	/* Note we call send_tile_info, not update_tile_knowledge here.
 	 * Borders information is sent to everyone who has seen the tile
 	 * before; it's not stored in the playermap. */
@@ -1706,7 +1706,7 @@ void map_update_borders_city_change(struct city *pcity)
 static void map_clear_borders(void)
 {
   whole_map_iterate(ptile) {
-    map_set_owner(ptile, NULL);
+    tile_set_owner(ptile, NULL);
   } whole_map_iterate_end;
 }
 
@@ -1726,7 +1726,7 @@ static void map_calculate_territory(void)
 	struct city *pccity = map_get_closest_city(ptile);
 
 	if (pccity) {
-	  map_set_owner(ptile, get_player(pccity->owner));
+	  tile_set_owner(ptile, get_player(pccity->owner));
 	}
       } iterate_outward_end;
     } cities_iterate_end;

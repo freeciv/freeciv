@@ -167,7 +167,7 @@ static LONG Overview_GetMapPen(struct Overview_Data *data, LONG x, LONG y)
     }
     else
     {
-      if ((pcity = map_get_city(x, y)))
+      if ((pcity = tile_get_city(x, y)))
       {
 	if (pcity->owner == game.player_idx)
 	{

@@ -180,7 +180,7 @@ int count_terrain_near_tile(const struct tile *ptile,
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (map_get_terrain(adjc_tile) == t) {
+    if (tile_get_terrain(adjc_tile) == t) {
       count++;
     }
     total++;
@@ -312,7 +312,7 @@ bool is_terrain_flag_near_tile(const struct tile *ptile,
 			       enum terrain_flag_id flag)
 {
   adjc_iterate(ptile, adjc_tile) {
-    if (terrain_has_flag(map_get_terrain(adjc_tile), flag)) {
+    if (terrain_has_flag(tile_get_terrain(adjc_tile), flag)) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -330,7 +330,7 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (terrain_has_flag(map_get_terrain(adjc_tile), flag)) {
+    if (terrain_has_flag(tile_get_terrain(adjc_tile), flag)) {
       count++;
     }
     total++;

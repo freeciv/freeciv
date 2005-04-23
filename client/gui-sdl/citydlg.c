@@ -4082,7 +4082,7 @@ void refresh_unit_city_dialogs(struct unit *pUnit)
 {
 
   struct city *pCity_sup = find_city_by_id(pUnit->homecity);
-  struct city *pCity_pre = map_get_city(pUnit->x, pUnit->y);
+  struct city *pCity_pre = tile_get_city(pUnit->x, pUnit->y);
 
   if (pCityDlg && ((pCityDlg->pCity == pCity_sup)
 		   || (pCityDlg->pCity == pCity_pre))) {

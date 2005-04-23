@@ -166,10 +166,10 @@ static void calc_effect(enum unit_activity activity, struct tile *ptile,
 
   switch (activity) {
   case ACTIVITY_ROAD:
-    map_set_special(ptile, S_ROAD);
+    tile_set_special(ptile, S_ROAD);
     break;
   case ACTIVITY_RAILROAD:
-    map_set_special(ptile, S_RAILROAD);
+    tile_set_special(ptile, S_RAILROAD);
     break;
   case ACTIVITY_MINE:
     map_mine_tile(ptile);
@@ -388,7 +388,7 @@ const char *mapview_get_terrain_info_text(struct tile *ptile)
     add_line(_("Minor Tribe Village"));
   }
   if (game.borders > 0) {
-    struct player *owner = map_get_owner(ptile);
+    struct player *owner = tile_get_owner(ptile);
     struct player_diplstate *ds = game.player_ptr->diplstates;
 
     if (owner == game.player_ptr){

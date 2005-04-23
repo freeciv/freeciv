@@ -251,7 +251,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   }
 
   /* Units in cities may be hidden. */
-  pcity = map_get_city(ptile);
+  pcity = tile_get_city(ptile);
   if (pcity && !can_player_see_units_in_city(pplayer, pcity)) {
     return FALSE;
   }
@@ -265,7 +265,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   /* Hiding units may only be seen by adjacent allied units or cities. */
   /* FIXME: shouldn't a check for shared vision be done here? */
   adjc_iterate(ptile, ptile1) {
-    struct city *pcity = map_get_city(ptile1);
+    struct city *pcity = tile_get_city(ptile1);
     if (pcity && pplayers_allied(city_owner(pcity), pplayer)) {
       return TRUE;
     }  
@@ -370,7 +370,7 @@ bool player_in_city_radius(const struct player *pplayer,
 {
   struct city *pcity;
   map_city_radius_iterate(ptile, ptile1) {
-    pcity = map_get_city(ptile1);
+    pcity = tile_get_city(ptile1);
     if (pcity && (pcity->owner == pplayer->player_no))
       return TRUE;
   } map_city_radius_iterate_end;
@@ -738,7 +738,7 @@ int player_in_territory(const struct player *pplayer,
    * to see if they're owned by the enemy. */
   unit_list_iterate(pplayer2->units, punit) {
     /* Get the owner of the tile/territory. */
-    struct player *owner = map_get_owner(punit->tile);
+    struct player *owner = tile_get_owner(punit->tile);
 
     if (owner == pplayer && can_player_see_unit(pplayer, punit)) {
       /* Found one! */

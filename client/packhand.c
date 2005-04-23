@@ -573,7 +573,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     pcity->info_units_supported = unit_list_new();
     pcity->info_units_present = unit_list_new();
     city_list_prepend(city_owner(pcity)->cities, pcity);
-    map_set_city(pcity->tile, pcity);
+    tile_set_city(pcity->tile, pcity);
     if(pcity->owner==game.player_idx)
       city_report_dialog_update();
 
@@ -1077,7 +1077,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (punit->type != packet_unit->type) {
       /* Unit type has changed (been upgraded) */
-      struct city *pcity = map_get_city(punit->tile);
+      struct city *pcity = tile_get_city(punit->tile);
       
       punit->type = packet_unit->type;
       repaint_unit = TRUE;
@@ -1099,7 +1099,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (!same_pos(punit->tile, packet_unit->tile)) { 
       /*** Change position ***/
-      struct city *pcity = map_get_city(punit->tile);
+      struct city *pcity = tile_get_city(punit->tile);
 
       old_tile = punit->tile;
       moved = TRUE;
@@ -1131,7 +1131,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  refresh_city_dialog(pcity);
       }
       
-      if((pcity=map_get_city(punit->tile)))  {
+      if((pcity=tile_get_city(punit->tile)))  {
 	if (can_player_see_units_in_city(game.player_ptr, pcity)) {
 	  /* Unit moved into a city - obviously it's occupied. */
 	  if (!pcity->client.occupied) {
@@ -1212,7 +1212,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     repaint_unit = (punit->transported_by == -1);
     agents_unit_new(punit);
 
-    if ((pcity = map_get_city(punit->tile))) {
+    if ((pcity = tile_get_city(punit->tile))) {
       /* The unit is in a city - obviously it's occupied. */
       pcity->client.occupied = TRUE;
     }

@@ -945,11 +945,11 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
     }
 
     if (draw_coastline && !draw_terrain) {
-      Terrain_type_id t1 = map_get_terrain(x, y), t2;
+      Terrain_type_id t1 = tile_get_terrain(x, y), t2;
       int x1 = x-1, y1 = y;
       SetAPen(rp,GetColorPen(COLOR_STD_OCEAN));
       if (normalize_map_pos(&x1, &y1)) {
-	t2 = map_get_terrain(x1, y1);
+	t2 = tile_get_terrain(x1, y1);
 	/* left side */
 	if (is_ocean(t1) ^ is_ocean(t2)) {
 	  Move(rp, canvas_x, canvas_y);
@@ -959,7 +959,7 @@ void put_tile(struct RastPort *rp, int x, int y, int canvas_x, int canvas_y, int
       /* top side */
       x1 = x; y1 = y-1;
       if (normalize_map_pos(&x1, &y1)) {
-	t2 = map_get_terrain(x1, y1);
+	t2 = tile_get_terrain(x1, y1);
 	if (is_ocean(t1) ^ is_ocean(t2)) {
 	  Move(rp, canvas_x, canvas_y);
 	  Draw(rp, canvas_x + tileset_tile_width(tileset)-1, canvas_y);
@@ -1245,10 +1245,10 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
   assert(is_real_map_pos(x, y));
   normalize_map_pos(&x, &y);
   fog = tile_get_known(x, y) == TILE_KNOWN_FOGGED && draw_fog_of_war;
-  pcity = map_get_city(x, y);
+  pcity = tile_get_city(x, y);
   punit = get_drawable_unit(x, y, citymode);
   pfocus = get_unit_in_focus();
-  special = map_get_special(x, y);
+  special = tile_get_special(x, y);
 
   if (solid_bg)
   {
@@ -1270,7 +1270,7 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
   }
 
   if (draw_terrain) {
-    if (is_ocean(map_get_terrain(x, y))) { /* coasts */
+    if (is_ocean(tile_get_terrain(x, y))) { /* coasts */
       int dx, dy;
 
       /* top */
@@ -1346,12 +1346,12 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
   }
 
   if (draw_coastline && !draw_terrain) {
-    Terrain_type_id t1 = map_get_terrain(x, y), t2;
+    Terrain_type_id t1 = tile_get_terrain(x, y), t2;
     int x1, y1;
     SetAPen(rp,GetColorPen(COLOR_STD_OCEAN));
     x1 = x; y1 = y-1;
     if (normalize_map_pos(&x1, &y1)) {
-      t2 = map_get_terrain(x1, y1);
+      t2 = tile_get_terrain(x1, y1);
       if (draw & D_M_R && (is_ocean(t1) ^ is_ocean(t2))) {
       	Move(rp, canvas_x + tileset_tile_width(tileset)/2, canvas_y);
       	Draw(rp, canvas_x + tileset_tile_width(tileset), canvas_y+tileset_tile_height(tileset)/2);
@@ -1359,7 +1359,7 @@ static void put_tile_iso(struct RastPort *rp, int x, int y,
     }
     x1 = x-1; y1 = y;
     if (normalize_map_pos(&x1, &y1)) {
-      t2 = map_get_terrain(x1, y1);
+      t2 = tile_get_terrain(x1, y1);
       if (draw & D_M_L && (is_ocean(t1) ^ is_ocean(t2))) {
       	Move(rp, canvas_x, canvas_y + tileset_tile_height(tileset)/2);
       	Draw(rp, canvas_x+tileset_tile_width(tileset)/2, canvas_y);

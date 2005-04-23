@@ -305,13 +305,13 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	if (WARMAP_COST(tile1) <= cost)
 	  continue; /* No need for all the calculations */
 
-        if (is_ocean(map_get_terrain(tile1))) {
+        if (is_ocean(tile_get_terrain(tile1))) {
           if (punit && ground_unit_transporter_capacity(tile1, pplayer) > 0)
 	    move_cost = SINGLE_MOVE;
           else
 	    continue;
 	} else if (is_ocean(ptile->terrain)) {
-	  int base_cost = get_tile_type(map_get_terrain(tile1))->movement_cost * SINGLE_MOVE;
+	  int base_cost = get_tile_type(tile_get_terrain(tile1))->movement_cost * SINGLE_MOVE;
 	  move_cost = igter ? MOVE_COST_ROAD : MIN(base_cost, unit_move_rate(punit));
         } else if (igter)
 	  /* NOT c = 1 (Syela) [why not? - Thue] */
@@ -495,7 +495,7 @@ static bool goto_zoc_ok(struct unit *punit, struct tile *src_tile,
     adjc_dir_iterate(src_tile, ptile, dir) {
       /* if we didn't come from there */
       if (!BV_ISSET(came_from, dir)
-	  && !is_ocean(map_get_terrain(ptile))
+	  && !is_ocean(tile_get_terrain(ptile))
 	  /* and there is an enemy there */
 	  && is_enemy_unit_tile(ptile, owner)) {
 	/* then it counts in the zoc claculation */
@@ -617,7 +617,7 @@ static bool find_the_shortest_path(struct unit *punit,
   if (move_type == SEA_MOVING) {
     pcargo = other_passengers(punit);
     if (pcargo)
-      if (is_ocean(map_get_terrain(dest_tile)) ||
+      if (is_ocean(tile_get_terrain(dest_tile)) ||
 	  !is_non_allied_unit_tile(dest_tile, unit_owner(pcargo))
 	  || is_allied_city_tile(dest_tile, unit_owner(pcargo))
 	  || unit_flag(pcargo, F_MARINES)
@@ -874,7 +874,7 @@ static bool is_coast_seen(struct tile *ptile, struct player *pplayer)
 
   adjc_iterate(ptile, adjc_tile) {
     /* Is there land here, and if so can we see it? */
-    if (!is_ocean(map_get_terrain(adjc_tile))
+    if (!is_ocean(tile_get_terrain(adjc_tile))
 	&& (ai_always_see_map || map_is_known(adjc_tile, pplayer))) {
       return TRUE;
     }
@@ -940,7 +940,7 @@ static int find_a_direction(struct unit *punit,
    */ 
   bool do_full_check = afraid_of_sinking; 
 
-  if (is_ocean(map_get_terrain(punit->tile))) {
+  if (is_ocean(tile_get_terrain(punit->tile))) {
     passenger = other_passengers(punit);
   } else {
     passenger = NULL;
@@ -976,7 +976,7 @@ static int find_a_direction(struct unit *punit,
   adjc_dir_iterate(punit->tile, ptile, dir) {
     int defence_multiplier, num_of_allied_units, best_friendly_defence,
 	base_move_cost;
-    struct city *pcity = map_get_city(ptile);
+    struct city *pcity = tile_get_city(ptile);
     struct unit *best_ally;
 
     /* 
@@ -1245,25 +1245,25 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
   switch (unit_type(punit)->move_type) {
 
   case LAND_MOVING:
-    if (is_ocean(map_get_terrain(ptile))) {
+    if (is_ocean(tile_get_terrain(ptile))) {
       /* Going to a sea tile, the target should be next to our continent 
        * and with a boat */
       if (ground_unit_transporter_capacity(ptile, pplayer) > 0) {
         adjc_iterate(ptile, tmp_tile) {
-          if (map_get_continent(tmp_tile) == map_get_continent(punit->tile))
+          if (tile_get_continent(tmp_tile) == tile_get_continent(punit->tile))
             /* The target is adjacent to our continent! */
             return TRUE;
         } adjc_iterate_end;
       }
     } else {
       /* Going to a land tile: better be our continent */
-      if (map_get_continent(punit->tile) == map_get_continent(ptile)) {
+      if (tile_get_continent(punit->tile) == tile_get_continent(ptile)) {
         return TRUE;
       } else {
         /* Well, it's not our continent, but maybe we are on a boat
          * adjacent to the target continent? */
 	adjc_iterate(punit->tile, tmp_tile) {
-	  if (map_get_continent(tmp_tile) == map_get_continent(ptile)) {
+	  if (tile_get_continent(tmp_tile) == tile_get_continent(ptile)) {
 	    return TRUE;
           }
 	} adjc_iterate_end;
@@ -1273,7 +1273,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     return FALSE;
 
   case SEA_MOVING:
-    if (is_ocean(map_get_terrain(ptile))
+    if (is_ocean(tile_get_terrain(ptile))
         || is_ocean_near_tile(ptile)) {
       /* The target is sea or is accessible from sea 
        * (allow for bombardment and visiting ports) */

@@ -179,7 +179,7 @@ static void notify_goto_response(GtkWidget *w, gint response)
     center_tile_mapcanvas(ptile);
     break;
   case 2:
-    pcity = map_get_city(ptile);
+    pcity = tile_get_city(ptile);
 
     if (center_when_popup_city) {
       center_tile_mapcanvas(ptile);
@@ -234,7 +234,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   } else {
     struct city *pcity;
 
-    pcity = map_get_city(ptile);
+    pcity = tile_get_city(ptile);
     gtk_widget_set_sensitive(popcity_command,
       (pcity && city_owner(pcity) == game.player_ptr));
   }
@@ -815,7 +815,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 
   diplomat_id = punit->id;
 
-  if ((pcity = map_get_city(dest_tile))) {
+  if ((pcity = tile_get_city(dest_tile))) {
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id = pcity->id;

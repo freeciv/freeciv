@@ -169,7 +169,7 @@ static struct player *create_barbarian_player(bool land)
 **************************************************************************/
 static bool is_free_land(struct tile *ptile, struct player *who)
 {
-  return (!is_ocean(map_get_terrain(ptile))
+  return (!is_ocean(tile_get_terrain(ptile))
 	  && !is_non_allied_unit_tile((ptile), who));
 }
 
@@ -178,7 +178,7 @@ static bool is_free_land(struct tile *ptile, struct player *who)
 **************************************************************************/
 static bool is_free_sea(struct tile *ptile, struct player *who)
 {
-  return (is_ocean(map_get_terrain(ptile))
+  return (is_ocean(tile_get_terrain(ptile))
 	  && !is_non_allied_unit_tile((ptile), who));
 }
 
@@ -293,7 +293,7 @@ bool unleash_barbarians(struct tile *ptile)
 static bool is_near_land(struct tile *tile0)
 {
   square_iterate(tile0, 4, ptile) {
-    if (!is_ocean(map_get_terrain(ptile))) {
+    if (!is_ocean(tile_get_terrain(ptile))) {
       return TRUE;
     }
   } square_iterate_end;
@@ -348,7 +348,7 @@ static void try_summon_barbarians(void)
    * gameplay. */
   ptile = rand_map_pos();
 
-  if (terrain_has_flag(map_get_terrain(ptile), TER_NO_BARBS)) {
+  if (terrain_has_flag(tile_get_terrain(ptile), TER_NO_BARBS)) {
     return;
   }
 
@@ -370,7 +370,7 @@ static void try_summon_barbarians(void)
   /* I think Sea Raiders can come out of unknown sea territory */
   if (!(utile = find_empty_tile_nearby(ptile))
       || (!map_is_known(utile, victim)
-	  && !is_ocean(map_get_terrain(utile)))
+	  && !is_ocean(tile_get_terrain(utile)))
       || !is_near_land(utile)) {
     return;
   }
@@ -386,11 +386,11 @@ static void try_summon_barbarians(void)
 
   if (tile_has_special(utile, S_HUT)) {
     /* remove the hut in place of uprising */
-    map_clear_special(utile, S_HUT);
+    tile_clear_special(utile, S_HUT);
     update_tile_knowledge(utile);
   }
 
-  if (!is_ocean(map_get_terrain(utile))) {
+  if (!is_ocean(tile_get_terrain(utile))) {
     /* land (disembark) barbarians */
     barbarians = create_barbarian_player(TRUE);
     if (city_list_size(victim->cities) > UPRISE_CIV_MOST) {

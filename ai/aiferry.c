@@ -763,7 +763,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
       break;
     }
 
-    pcity = map_get_city(pos.tile);
+    pcity = tile_get_city(pos.tile);
     
     if (pcity && pcity->owner == pferry->owner
         && (pcity->ai.choice.need_boat 
@@ -833,7 +833,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
 
   /* Try to recover hitpoints if we are in a city, before we do anything */
   if (punit->hp < unit_type(punit)->hp 
-      && (pcity = map_get_city(punit->tile))) {
+      && (pcity = tile_get_city(punit->tile))) {
     UNIT_LOG(LOGLEVEL_FERRY, punit, "waiting in %s to recover hitpoints", 
              pcity->name);
     punit->ai.done = TRUE;

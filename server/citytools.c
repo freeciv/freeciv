@@ -506,7 +506,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 		    unit_name(punit->type), tocity->name);
     }
   } else {
-    struct city *in_city = map_get_city(punit->tile);
+    struct city *in_city = tile_get_city(punit->tile);
     if (in_city) {
       freelog(LOG_VERBOSE, "Transfered %s in %s from %s to %s",
 	      unit_name(punit->type), in_city->name,
@@ -581,7 +581,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
   /* Any remaining units supported by the city are either given new home
      cities or maybe destroyed */
   unit_list_iterate_safe(units, vunit) {
-    struct city *new_home_city = map_get_city(vunit->tile);
+    struct city *new_home_city = tile_get_city(vunit->tile);
     if (new_home_city && new_home_city != exclude_city
 	&& city_owner(new_home_city) == unit_owner(vunit)) {
       /* unit is in another city: make that the new homecity,
@@ -876,7 +876,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 		    "      Workers spontaneously gather and upgrade"
 		    " the city with railroads."),
 		  pcity->name);
-    map_set_special(pcity->tile, S_RAILROAD);
+    tile_set_special(pcity->tile, S_RAILROAD);
     update_tile_knowledge(pcity->tile);
   }
 
@@ -905,9 +905,9 @@ void create_city(struct player *pplayer, struct tile *ptile,
   freelog(LOG_DEBUG, "Creating city %s", name);
 
   if (terrain_control.may_road) {
-    map_set_special(ptile, S_ROAD);
+    tile_set_special(ptile, S_ROAD);
     if (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
-      map_set_special(ptile, S_RAILROAD);
+      tile_set_special(ptile, S_RAILROAD);
       update_tile_knowledge(ptile);
     }
   }
@@ -944,7 +944,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   /* Before arranging workers to show unknown land */
   map_unfog_pseudo_city_area(pplayer, ptile);
 
-  map_set_city(ptile, pcity);
+  tile_set_city(ptile, pcity);
 
   city_list_prepend(pplayer->cities, pcity);
 
@@ -990,7 +990,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
       }
     } unit_list_iterate_end;
   }
-  map_clear_special(ptile, S_FORTRESS);
+  tile_clear_special(ptile, S_FORTRESS);
   update_tile_knowledge(ptile);
 
   pcity->synced = FALSE;
@@ -1038,7 +1038,7 @@ void remove_city(struct city *pcity)
   /* This is cutpasted with modifications from transfer_city_units. Yes, it is ugly.
      But I couldn't see a nice way to make them use the same code */
   unit_list_iterate_safe(pcity->units_supported, punit) {
-    struct city *new_home_city = map_get_city(punit->tile);
+    struct city *new_home_city = tile_get_city(punit->tile);
     ptile = punit->tile;
 
     if (new_home_city
@@ -1073,7 +1073,7 @@ void remove_city(struct city *pcity)
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
     moved = FALSE;
     adjc_iterate(ptile, tile1) {
-      if (is_ocean(map_get_terrain(tile1))) {
+      if (is_ocean(tile_get_terrain(tile1))) {
 	if (could_unit_move_to_tile(punit, tile1) == 1) {
 	  moved = handle_unit_move_request(punit, tile1, FALSE, TRUE);
 	  if (moved) {
@@ -1131,7 +1131,7 @@ void remove_city(struct city *pcity)
     /* For every tile the city could have used. */
     map_city_radius_iterate(tile1, tile2) {
       /* We see what cities are inside reach of the tile. */
-      struct city *pcity = map_get_city(tile2);
+      struct city *pcity = tile_get_city(tile2);
       if (pcity) {
 	update_city_tile_status_map(pcity, tile1);
       }
@@ -1273,7 +1273,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 			      struct packet_city_short_info *packet)
 {
   struct dumb_city *pdcity = map_get_player_tile(ptile, pplayer)->city;
-  struct city *pcity = map_get_city(ptile);
+  struct city *pcity = tile_get_city(ptile);
 
   packet->id = pdcity->id;
   packet->owner = pdcity->owner;
@@ -1440,8 +1440,8 @@ If (pviewer == NULL) this is for observers, who see everything (?)
 For this function dest may not be NULL.  See send_city_info() and
 broadcast_city_info().
 
-If pcity is non-NULL it should be same as map_get_city(x,y); if pcity
-is NULL, this function calls map_get_city(x,y) (it is ok if this
+If pcity is non-NULL it should be same as tile_get_city(x,y); if pcity
+is NULL, this function calls tile_get_city(x,y) (it is ok if this
 returns NULL).
 
 Sometimes a player's map contain a city that doesn't actually exist. Use
@@ -1460,7 +1460,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   struct dumb_city *pdcity;
 
   if (!pcity)
-    pcity = map_get_city(ptile);
+    pcity = tile_get_city(ptile);
   if (pcity)
     powner = city_owner(pcity);
 
@@ -1898,7 +1898,7 @@ static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
     struct tile *ptile = city_map_to_map(pcity, city_x, city_y);
 
     map_city_radius_iterate(ptile, tile1) {
-      struct city *pcity2 = map_get_city(tile1);
+      struct city *pcity2 = tile_get_city(tile1);
       if (pcity2 && pcity2 != pcity) {
 	int city_x2, city_y2;
 	bool is_valid;
@@ -2046,7 +2046,7 @@ void check_city_workers(struct player *pplayer)
 void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 {
   adjc_iterate(ptile, tile1) {
-    struct city *pcity = map_get_city(tile1);
+    struct city *pcity = tile_get_city(tile1);
 
     if (pcity && !is_ocean_near_tile(tile1)) {
       struct player *pplayer = city_owner(pcity);

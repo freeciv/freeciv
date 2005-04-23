@@ -1530,7 +1530,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
 
   diplomat_id=punit->id;
 
-  if ((pcity = map_get_city(ptile))){
+  if ((pcity = tile_get_city(ptile))){
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id=pcity->id;

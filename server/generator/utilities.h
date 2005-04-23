@@ -18,7 +18,7 @@
 
 /* Provide a block to convert from native to map coordinates.  For instance
  *   do_in_map_pos(mx, my, xn, yn) {
- *     map_set_terrain(mx, my, T_OCEAN);
+ *     tile_set_terrain(mx, my, T_OCEAN);
  *   } do_in_map_pos_end;
  * Note: that the map position is declared as const and can't be changed
  * inside the block.

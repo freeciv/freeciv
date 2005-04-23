@@ -72,7 +72,7 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
    * and make sure to tell the client, since we may have already sent this
    * tile (with the hut) earlier: */
   if (tile_has_special(ptile, S_HUT)) {
-    map_clear_special(ptile, S_HUT);
+    tile_clear_special(ptile, S_HUT);
     update_tile_knowledge(ptile);
     freelog(LOG_VERBOSE, "Removed hut on start position for %s",
 	    pplayer->name);
@@ -153,8 +153,8 @@ static struct tile *find_dispersed_position(struct player *pplayer,
     x = p->tile->x + myrand(2 * game.dispersion + 1) - game.dispersion;
     y = p->tile->y + myrand(2 * game.dispersion + 1) - game.dispersion;
   } while (!((ptile = map_pos_to_tile(x, y))
-             && map_get_continent(p->tile) == map_get_continent(ptile)
-             && !is_ocean(map_get_terrain(ptile))
+             && tile_get_continent(p->tile) == tile_get_continent(ptile)
+             && !is_ocean(tile_get_terrain(ptile))
              && !is_non_allied_unit_tile(ptile, pplayer)));
 
   return ptile;

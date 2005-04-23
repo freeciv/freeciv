@@ -61,12 +61,12 @@
  * (city_here) that exist within a given city list. */
 #define city_range_iterate(city_here, list, range, city)            \
 {                                                                   \
-  Continent_id continent = map_get_continent(city_here->tile);	    \
+  Continent_id continent = tile_get_continent(city_here->tile);	    \
   city_list_iterate(list, city) {                                   \
     if ((range == REQ_RANGE_CITY && city == city_here)              \
         || (range == REQ_RANGE_LOCAL && city == city_here)          \
         || (range == REQ_RANGE_CONTINENT                            \
-            && map_get_continent(city->tile) == continent)	    \
+            && tile_get_continent(city->tile) == continent)	    \
         || (range == REQ_RANGE_PLAYER)) {
 #define city_range_iterate_end \
   } } city_list_iterate_end; }
@@ -521,13 +521,13 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  if (ai_handicap(pplayer, H_DEFENSIVE)) {
 	    v += amount / 10; /* make AI slow */
 	  }
-	  if (is_ocean(map_get_terrain(pcity->tile))) {
-	    v += ai->threats.ocean[-map_get_continent(pcity->tile)]
+	  if (is_ocean(tile_get_terrain(pcity->tile))) {
+	    v += ai->threats.ocean[-tile_get_continent(pcity->tile)]
 		 ? amount/5 : amount/20;
 	  } else {
 	    adjc_iterate(pcity->tile, tile2) {
-	      if (is_ocean(map_get_terrain(tile2))) {
-		if (ai->threats.ocean[-map_get_continent(tile2)]) {
+	      if (is_ocean(tile_get_terrain(tile2))) {
+		if (ai->threats.ocean[-tile_get_continent(tile2)]) {
 		  v += amount/5;
 		  break;
 		}
@@ -660,7 +660,7 @@ static void calculate_city_clusters(struct player *pplayer)
     map = pf_create_map(&parameter);
 
     pf_iterator(map, pos) {
-      struct city *acity = map_get_city(pos.tile);
+      struct city *acity = tile_get_city(pos.tile);
 
       if (pos.total_MC > range) {
         break;
@@ -715,7 +715,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   map = pf_create_map(&parameter);
 
   pf_iterator(map, pos) {
-    struct city *acity = map_get_city(pos.tile);
+    struct city *acity = tile_get_city(pos.tile);
 
     if (pos.total_MC > maxrange) {
       break;

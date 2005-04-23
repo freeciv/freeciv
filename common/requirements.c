@@ -428,7 +428,7 @@ static int num_continent_buildings(const struct player *pplayer,
     const struct city *pcity;
 
     pcity = player_find_city_from_wonder(pplayer, building);
-    if (pcity && map_get_continent(pcity->tile) == continent) {
+    if (pcity && tile_get_continent(pcity->tile) == continent) {
       return 1;
     }
   } else {
@@ -495,7 +495,7 @@ static int count_buildings_in_range(const struct player *target_player,
     return target_player ? num_player_buildings(target_player, source) : 0;
   case REQ_RANGE_CONTINENT:
     if (target_player) {
-      int continent = map_get_continent(target_city->tile);
+      int continent = tile_get_continent(target_city->tile);
 
       return num_continent_buildings(target_player, continent, source);
     } else {

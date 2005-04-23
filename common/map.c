@@ -440,7 +440,7 @@ struct tile *index_to_tile(int index)
 /**************************************************************************
   Return the player who owns this tile (or NULL if none).
 **************************************************************************/
-struct player *map_get_owner(const struct tile *ptile)
+struct player *tile_get_owner(const struct tile *ptile)
 {
   return ptile->owner;
 }
@@ -448,7 +448,7 @@ struct player *map_get_owner(const struct tile *ptile)
 /**************************************************************************
   Set the owner of a tile (may be NULL).
 **************************************************************************/
-void map_set_owner(struct tile *ptile, struct player *owner)
+void tile_set_owner(struct tile *ptile, struct player *owner)
 {
   ptile->owner = owner;
 }
@@ -632,7 +632,7 @@ int map_distance(const struct tile *tile0, const struct tile *tile1)
 bool is_cardinally_adj_to_ocean(const struct tile *ptile)
 {
   cardinal_adjc_iterate(ptile, tile1) {
-    if (is_ocean(map_get_terrain(tile1))) {
+    if (is_ocean(tile_get_terrain(tile1))) {
       return TRUE;
     }
   } cardinal_adjc_iterate_end;
@@ -646,7 +646,7 @@ bool is_cardinally_adj_to_ocean(const struct tile *ptile)
 bool is_safe_ocean(const struct tile *ptile)
 {
   adjc_iterate(ptile, tile1) {
-    Terrain_type_id ter = map_get_terrain(tile1);
+    Terrain_type_id ter = tile_get_terrain(tile1);
     if (!terrain_has_flag(ter, TER_UNSAFE_COAST) && ter != T_UNKNOWN) {
       return TRUE;
     }
@@ -875,7 +875,7 @@ int map_activity_time(enum unit_activity activity, const struct tile *ptile)
 ***************************************************************/
 static void clear_infrastructure(struct tile *ptile)
 {
-  map_clear_special(ptile, S_INFRASTRUCTURE_MASK);
+  tile_clear_special(ptile, S_INFRASTRUCTURE_MASK);
 }
 
 /***************************************************************
@@ -883,7 +883,7 @@ static void clear_infrastructure(struct tile *ptile)
 ***************************************************************/
 static void clear_dirtiness(struct tile *ptile)
 {
-  map_clear_special(ptile, S_POLLUTION | S_FALLOUT);
+  tile_clear_special(ptile, S_POLLUTION | S_FALLOUT);
 }
 
 /***************************************************************
@@ -898,22 +898,22 @@ void map_irrigate_tile(struct tile *ptile)
 
   if (now == result) {
     if (tile_has_special(ptile, S_IRRIGATION)) {
-      map_set_special(ptile, S_FARMLAND);
+      tile_set_special(ptile, S_FARMLAND);
     } else {
-      map_set_special(ptile, S_IRRIGATION);
+      tile_set_special(ptile, S_IRRIGATION);
     }
   } else if (result != T_NONE) {
-    map_set_terrain(ptile, result);
+    tile_set_terrain(ptile, result);
     if (is_ocean(result)) {
       clear_infrastructure(ptile);
       clear_dirtiness(ptile);
 
       /* FIXME: When rest of code can handle
        * rivers in oceans, don't clear this! */
-      map_clear_special(ptile, S_RIVER);
+      tile_clear_special(ptile, S_RIVER);
     }
   }
-  map_clear_special(ptile, S_MINE);
+  tile_clear_special(ptile, S_MINE);
 }
 
 /***************************************************************
@@ -927,20 +927,20 @@ void map_mine_tile(struct tile *ptile)
   result = tile_types[now].mining_result;
   
   if (now == result) {
-    map_set_special(ptile, S_MINE);
+    tile_set_special(ptile, S_MINE);
   } else if (result != T_NONE) {
-    map_set_terrain(ptile, result);
+    tile_set_terrain(ptile, result);
     if (is_ocean(result)) {
       clear_infrastructure(ptile);
       clear_dirtiness(ptile);
 
       /* FIXME: When rest of code can handle
        * rivers in oceans, don't clear this! */
-      map_clear_special(ptile, S_RIVER);
+      tile_clear_special(ptile, S_RIVER);
     }
   }
-  map_clear_special(ptile, S_FARMLAND);
-  map_clear_special(ptile, S_IRRIGATION);
+  tile_clear_special(ptile, S_FARMLAND);
+  tile_clear_special(ptile, S_IRRIGATION);
 }
 
 /***************************************************************
@@ -948,11 +948,11 @@ void map_mine_tile(struct tile *ptile)
 ***************************************************************/
 void change_terrain(struct tile *ptile, Terrain_type_id type)
 {
-  map_set_terrain(ptile, type);
+  tile_set_terrain(ptile, type);
   if (is_ocean(type)) {
     clear_infrastructure(ptile);
     clear_dirtiness(ptile);
-    map_clear_special(ptile, S_RIVER);	/* FIXME: When rest of code can handle
+    tile_clear_special(ptile, S_RIVER);	/* FIXME: When rest of code can handle
 					   rivers in oceans, don't clear this! */
   }
 
@@ -962,10 +962,10 @@ void change_terrain(struct tile *ptile, Terrain_type_id type)
      future ruleset expansion. -GJW) */
   
   if (tile_types[type].mining_result != type)
-    map_clear_special(ptile, S_MINE);
+    tile_clear_special(ptile, S_MINE);
 
   if (tile_types[type].irrigation_result != type)
-    map_clear_special(ptile, S_FARMLAND | S_IRRIGATION);
+    tile_clear_special(ptile, S_FARMLAND | S_IRRIGATION);
 }
 
 /***************************************************************
@@ -1133,7 +1133,7 @@ bool is_tiles_adjacent(const struct tile *tile0, const struct tile *tile1)
 /***************************************************************
 ...
 ***************************************************************/
-Continent_id map_get_continent(const struct tile *ptile)
+Continent_id tile_get_continent(const struct tile *ptile)
 {
   return ptile->continent;
 }
@@ -1141,7 +1141,7 @@ Continent_id map_get_continent(const struct tile *ptile)
 /***************************************************************
 ...
 ***************************************************************/
-void map_set_continent(struct tile *ptile, Continent_id val)
+void tile_set_continent(struct tile *ptile, Continent_id val)
 {
   ptile->continent = val;
 }
@@ -1149,7 +1149,7 @@ void map_set_continent(struct tile *ptile, Continent_id val)
 /***************************************************************
 ...
 ***************************************************************/
-Terrain_type_id map_get_terrain(const struct tile *ptile)
+Terrain_type_id tile_get_terrain(const struct tile *ptile)
 {
   return ptile->terrain;
 }
@@ -1157,7 +1157,7 @@ Terrain_type_id map_get_terrain(const struct tile *ptile)
 /***************************************************************
 ...
 ***************************************************************/
-void map_set_terrain(struct tile *ptile, Terrain_type_id ter)
+void tile_set_terrain(struct tile *ptile, Terrain_type_id ter)
 {
   ptile->terrain = ter;
 }
@@ -1165,7 +1165,7 @@ void map_set_terrain(struct tile *ptile, Terrain_type_id ter)
 /***************************************************************
 ...
 ***************************************************************/
-enum tile_special_type map_get_special(const struct tile *ptile)
+enum tile_special_type tile_get_special(const struct tile *ptile)
 {
   return ptile->special;
 }
@@ -1182,7 +1182,7 @@ bool tile_has_special(const struct tile *ptile,
 /***************************************************************
 ...
 ***************************************************************/
-void map_set_special(struct tile *ptile, enum tile_special_type spe)
+void tile_set_special(struct tile *ptile, enum tile_special_type spe)
 {
   ptile->special |= spe;
 }
@@ -1190,7 +1190,7 @@ void map_set_special(struct tile *ptile, enum tile_special_type spe)
 /***************************************************************
 ...
 ***************************************************************/
-void map_clear_special(struct tile *ptile, enum tile_special_type spe)
+void tile_clear_special(struct tile *ptile, enum tile_special_type spe)
 {
   ptile->special &= ~spe;
 }
@@ -1198,7 +1198,7 @@ void map_clear_special(struct tile *ptile, enum tile_special_type spe)
 /***************************************************************
   Remove any specials which may exist at these map co-ordinates.
 ***************************************************************/
-void map_clear_all_specials(struct tile *ptile)
+void tile_clear_all_specials(struct tile *ptile)
 {
   ptile->special = S_NO_SPECIAL;
 }
@@ -1206,7 +1206,7 @@ void map_clear_all_specials(struct tile *ptile)
 /***************************************************************
 ...
 ***************************************************************/
-struct city *map_get_city(const struct tile *ptile)
+struct city *tile_get_city(const struct tile *ptile)
 {
   return ptile->city;
 }
@@ -1214,7 +1214,7 @@ struct city *map_get_city(const struct tile *ptile)
 /***************************************************************
 ...
 ***************************************************************/
-void map_set_city(struct tile *ptile, struct city *pcity)
+void tile_set_city(struct tile *ptile, struct city *pcity)
 {
   ptile->city = pcity;
 }

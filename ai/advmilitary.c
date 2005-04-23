@@ -801,7 +801,7 @@ static void process_attacker_want(struct city *pcity,
 {
   struct player *pplayer = city_owner(pcity);
   /* The enemy city.  acity == NULL means stray enemy unit */
-  struct city *acity = map_get_city(ptile);
+  struct city *acity = tile_get_city(ptile);
   bool shore = is_ocean_near_tile(pcity->tile);
   int orig_move_type = unit_types[best_choice->choice].move_type;
   int victim_count = 1;
@@ -1029,7 +1029,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
   best_choice.want = find_something_to_kill(pplayer, myunit, &ptile);
 
-  acity = map_get_city(ptile);
+  acity = tile_get_city(ptile);
 
   if (myunit->id != 0) {
     freelog(LOG_ERROR, "ERROR: Non-virtual unit in kill_something_with!");

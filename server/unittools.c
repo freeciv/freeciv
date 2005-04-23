@@ -412,7 +412,7 @@ void player_restore_units(struct player *pplayer)
 
       /* 7) Automatically refuel air units in cities, airbases, and
        *    transporters (carriers). */
-      if (map_get_city(punit->tile)
+      if (tile_get_city(punit->tile)
 	  || tile_has_special(punit->tile, S_AIRBASE)
 	  || punit->transported_by != -1) {
 	punit->fuel=unit_type(punit)->fuel;
@@ -459,7 +459,7 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
   punit->hp += get_player_bonus(pplayer, EFT_UNIT_RECOVER);
 
   if(is_heli_unit(punit)) {
-    struct city *pcity = map_get_city(punit->tile);
+    struct city *pcity = tile_get_city(punit->tile);
     if(!pcity) {
       if (!tile_has_special(punit->tile, S_AIRBASE))
         punit->hp-=unit_type(punit)->hp/10;
@@ -516,7 +516,7 @@ static int hp_gain_coord(struct unit *punit)
     hp=unit_type(punit)->hp/4;
   else
     hp=0;
-  if((pcity=map_get_city(punit->tile))) {
+  if((pcity=tile_get_city(punit->tile))) {
     if ((get_city_bonus(pcity, EFT_LAND_REGEN) > 0
 	 && is_ground_unit(punit))
 	|| (get_city_bonus(pcity, EFT_AIR_REGEN) > 0
@@ -642,7 +642,7 @@ static void update_unit_activity(struct unit *punit)
 	       get_tile_infrastructure_set(punit->tile));
 
 	if (what != S_NO_SPECIAL) {
-	  map_clear_special(punit->tile, what);
+	  tile_clear_special(punit->tile, what);
 	  update_tile_knowledge(punit->tile);
 	  set_unit_activity(punit, ACTIVITY_IDLE);
 	  check_adjacent_units = TRUE;
@@ -670,7 +670,7 @@ static void update_unit_activity(struct unit *punit)
                                      punit->activity_target) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
 
-      map_clear_special(punit->tile, what_pillaged);
+      tile_clear_special(punit->tile, what_pillaged);
       unit_list_iterate (punit->tile->units, punit2) {
         if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	    (punit2->activity_target == what_pillaged)) {
@@ -702,7 +702,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_POLLUTION) {
     if (total_activity (punit->tile, ACTIVITY_POLLUTION)
 	>= map_clean_pollution_time(punit->tile)) {
-      map_clear_special(punit->tile, S_POLLUTION);
+      tile_clear_special(punit->tile, S_POLLUTION);
       unit_activity_done = TRUE;
     }
   }
@@ -710,7 +710,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_FALLOUT) {
     if (total_activity (punit->tile, ACTIVITY_FALLOUT)
 	>= map_clean_fallout_time(punit->tile)) {
-      map_clear_special(punit->tile, S_FALLOUT);
+      tile_clear_special(punit->tile, S_FALLOUT);
       unit_activity_done = TRUE;
     }
   }
@@ -718,7 +718,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_FORTRESS) {
     if (total_activity (punit->tile, ACTIVITY_FORTRESS)
 	>= map_build_fortress_time(punit->tile)) {
-      map_set_special(punit->tile, S_FORTRESS);
+      tile_set_special(punit->tile, S_FORTRESS);
       unit_activity_done = TRUE;
       /* watchtower becomes effective */
       /* This could be a helper function. */
@@ -739,7 +739,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_AIRBASE) {
     if (total_activity (punit->tile, ACTIVITY_AIRBASE)
 	>= map_build_airbase_time(punit->tile)) {
-      map_set_special(punit->tile, S_AIRBASE);
+      tile_set_special(punit->tile, S_AIRBASE);
       unit_activity_done = TRUE;
     }
   }
@@ -747,7 +747,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_IRRIGATE) {
     if (total_activity (punit->tile, ACTIVITY_IRRIGATE) >=
         map_build_irrigation_time(punit->tile)) {
-      Terrain_type_id old = map_get_terrain(punit->tile);
+      Terrain_type_id old = tile_get_terrain(punit->tile);
       map_irrigate_tile(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
       unit_activity_done = TRUE;
@@ -758,7 +758,7 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity (punit->tile, ACTIVITY_ROAD)
 	+ total_activity (punit->tile, ACTIVITY_RAILROAD) >=
         map_build_road_time(punit->tile)) {
-      map_set_special(punit->tile, S_ROAD);
+      tile_set_special(punit->tile, S_ROAD);
       unit_activity_done = TRUE;
     }
   }
@@ -766,7 +766,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_RAILROAD) {
     if (total_activity (punit->tile, ACTIVITY_RAILROAD)
 	>= map_build_rail_time(punit->tile)) {
-      map_set_special(punit->tile, S_RAILROAD);
+      tile_set_special(punit->tile, S_RAILROAD);
       unit_activity_done = TRUE;
     }
   }
@@ -774,7 +774,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_MINE) {
     if (total_activity (punit->tile, ACTIVITY_MINE) >=
         map_build_mine_time(punit->tile)) {
-      Terrain_type_id old = map_get_terrain(punit->tile);
+      Terrain_type_id old = tile_get_terrain(punit->tile);
       map_mine_tile(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
       unit_activity_done = TRUE;
@@ -785,7 +785,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity==ACTIVITY_TRANSFORM) {
     if (total_activity (punit->tile, ACTIVITY_TRANSFORM) >=
         map_transform_time(punit->tile)) {
-      Terrain_type_id old = map_get_terrain(punit->tile);
+      Terrain_type_id old = tile_get_terrain(punit->tile);
       map_transform_tile(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
       unit_activity_done = TRUE;
@@ -1005,7 +1005,7 @@ static char *get_location_str(struct player *pplayer, struct tile *ptile, bool u
   static char buffer[MAX_LEN_NAME+64];
   struct city *incity, *nearcity;
 
-  incity = map_get_city(ptile);
+  incity = tile_get_city(ptile);
   if (incity) {
     if (use_at) {
       my_snprintf(buffer, sizeof(buffer), _(" at %s"), incity->name);
@@ -1095,7 +1095,7 @@ static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
     value = get_virtual_defense_power(U_LAST, u_type, ptile, FALSE, 0);
     value *= 10;
 
-    if (ptile->continent != map_get_continent(pcity->tile)) {
+    if (ptile->continent != tile_get_continent(pcity->tile)) {
       value /= 2;
     }
 
@@ -1187,7 +1187,7 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
   }
 
   /* Calculate how well we can defend at (x,y) */
-  db = get_tile_type(map_get_terrain(ptile))->defense_bonus;
+  db = get_tile_type(tile_get_terrain(ptile))->defense_bonus;
   if (tile_has_special(ptile, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   d = unit_def_rating_basic_sq(punit) * db;
@@ -1524,7 +1524,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 
   /* The unit may have changed the available tiles in nearby cities. */
   map_city_radius_iterate(ptile, ptile1) {
-    struct city *acity = map_get_city(ptile1);
+    struct city *acity = tile_get_city(ptile1);
 
     if (acity) {
       update_city_tile_status_map(acity, ptile);
@@ -1542,7 +1542,7 @@ and the city it was in.
 **************************************************************************/
 static void server_remove_unit(struct unit *punit)
 {
-  struct city *pcity = map_get_city(punit->tile);
+  struct city *pcity = tile_get_city(punit->tile);
   struct city *phomecity = find_city_by_id(punit->homecity);
   struct tile *unit_tile = punit->tile;
   struct player *unitowner = unit_owner(punit);
@@ -1589,7 +1589,7 @@ static void server_remove_unit(struct unit *punit)
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
   map_city_radius_iterate(unit_tile, ptile1) {
-    struct city *pcity = map_get_city(ptile1);
+    struct city *pcity = tile_get_city(ptile1);
     if (pcity) {
       update_city_tile_status_map(pcity, unit_tile);
     }
@@ -1647,8 +1647,8 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
   /* Finally reassign, bounce, or destroy all ground units at this location.
    * There's no need to worry about air units; they can fly away. */
   if (wipe_cargo
-      && is_ocean(map_get_terrain(ptile))
-      && !map_get_city(ptile)) {
+      && is_ocean(tile_get_terrain(ptile))
+      && !tile_get_city(ptile)) {
     struct city *pcity = NULL;
     int capacity = ground_unit_transporter_capacity(ptile, pplayer);
 
@@ -2054,7 +2054,7 @@ static void sentry_transported_idle_units(struct unit *ptrans)
 **************************************************************************/
 static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 {
-  struct city *pcity = map_get_city(ptile);
+  struct city *pcity = tile_get_city(ptile);
 
   unit_list_iterate(ptile->units, punit) {
     notify_player_ex(unit_owner(punit), ptile, E_UNIT_LOST,
@@ -2088,15 +2088,15 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
     city_reduce_size(pcity, pcity->size / 2);
   }
 
-  if (!is_ocean(map_get_terrain(ptile)) && myrand(2) == 1) {
+  if (!is_ocean(tile_get_terrain(ptile)) && myrand(2) == 1) {
     if (game.rgame.nuke_contamination == CONTAMINATION_POLLUTION) {
       if (!tile_has_special(ptile, S_POLLUTION)) {
-	map_set_special(ptile, S_POLLUTION);
+	tile_set_special(ptile, S_POLLUTION);
 	update_tile_knowledge(ptile);
       }
     } else {
       if (!tile_has_special(ptile, S_FALLOUT)) {
-	map_set_special(ptile, S_FALLOUT);
+	tile_set_special(ptile, S_FALLOUT);
 	update_tile_knowledge(ptile);
       }
     }
@@ -2212,7 +2212,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     }
   }
 
-  if (is_ocean(map_get_terrain(ptile))
+  if (is_ocean(tile_get_terrain(ptile))
       && is_ground_unit(punit)) {
     int srange = unit_type(punit)->vision_range;
 
@@ -2375,7 +2375,7 @@ static bool unit_enter_hut(struct unit *punit)
     return ok;
   }
 
-  map_clear_special(punit->tile, S_HUT);
+  tile_clear_special(punit->tile, S_HUT);
   update_tile_knowledge(punit->tile);
 
   if (game.rgame.hut_overflight==OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {
@@ -2600,7 +2600,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
     unit_list_iterate(ptile->units, penemy) {
       int range;
       enum unit_move_type move_type = unit_type(penemy)->move_type;
-      Terrain_type_id terrain = map_get_terrain(ptile);
+      Terrain_type_id terrain = tile_get_terrain(ptile);
 
       if (tile_has_special(ptile, S_FORTRESS)
 	  && unit_profits_of_watchtower(penemy))
@@ -2647,8 +2647,8 @@ static void handle_unit_move_consequences(struct unit *punit,
 					  struct tile *src_tile,
 					  struct tile *dst_tile)
 {
-  struct city *fromcity = map_get_city(src_tile);
-  struct city *tocity = map_get_city(dst_tile);
+  struct city *fromcity = tile_get_city(src_tile);
+  struct city *tocity = tile_get_city(dst_tile);
   struct city *homecity = NULL;
   struct player *pplayer = unit_owner(punit);
   /*  struct government *g = get_gov_pplayer(pplayer);*/
@@ -2665,7 +2665,7 @@ static void handle_unit_move_consequences(struct unit *punit,
      functions that only refreshed happiness. */
   if (!pplayer->ai.control) {
     /* might have changed owners or may be destroyed */
-    tocity = map_get_city(dst_tile);
+    tocity = tile_get_city(dst_tile);
 
     if (tocity) { /* entering a city */
       if (tocity->owner == punit->owner) {
@@ -2718,7 +2718,7 @@ static void handle_unit_move_consequences(struct unit *punit,
 
   /* First check cities near the source. */
   map_city_radius_iterate(src_tile, tile1) {
-    struct city *pcity = map_get_city(tile1);
+    struct city *pcity = tile_get_city(tile1);
 
     if (pcity && update_city_tile_status_map(pcity, src_tile)) {
       auto_arrange_workers(pcity);
@@ -2727,7 +2727,7 @@ static void handle_unit_move_consequences(struct unit *punit,
   } map_city_radius_iterate_end;
   /* Then check cities near the destination. */
   map_city_radius_iterate(dst_tile, tile1) {
-    struct city *pcity = map_get_city(tile1);
+    struct city *pcity = tile_get_city(tile1);
     if (pcity && update_city_tile_status_map(pcity, dst_tile)) {
       auto_arrange_workers(pcity);
       send_city_info(NULL, pcity);
@@ -2876,10 +2876,10 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     send_unit_info_to_onlookers(NULL, punit, punit->tile, TRUE);
   }
   
-  if ((pcity = map_get_city(psrctile))) {
+  if ((pcity = tile_get_city(psrctile))) {
     refresh_dumb_city(pcity);
   }
-  if ((pcity = map_get_city(pdesttile))) {
+  if ((pcity = tile_get_city(pdesttile))) {
     refresh_dumb_city(pcity);
   }
 

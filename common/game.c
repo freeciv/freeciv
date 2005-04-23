@@ -163,7 +163,7 @@ void game_remove_city(struct city *pcity)
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   } city_map_checked_iterate_end;
   city_list_unlink(city_owner(pcity)->cities, pcity);
-  map_set_city(pcity->tile, NULL);
+  tile_set_city(pcity->tile, NULL);
   idex_unregister_city(pcity);
   remove_city_virtual(pcity);
 }

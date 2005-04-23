@@ -2189,7 +2189,7 @@ static void player_load(struct player *plr, int plrno,
     pcity->ai.urgency = secfile_lookup_int_default(file, 0, 
 				"player%d.c%d.ai.urgency", plrno, i);
 
-    map_set_city(pcity->tile, pcity);
+    tile_set_city(pcity->tile, pcity);
 
     city_list_append(plr->cities, pcity);
   }
@@ -2349,8 +2349,8 @@ static void player_map_load(struct player *plr, int plrno,
       if (map_is_known_and_seen(ptile, plr)) {
 	update_player_tile_knowledge(plr, ptile);
 	reality_check_city(plr, ptile);
-	if (map_get_city(ptile)) {
-	  update_dumb_city(plr, map_get_city(ptile));
+	if (tile_get_city(ptile)) {
+	  update_dumb_city(plr, tile_get_city(ptile));
 	}
       }
     } whole_map_iterate_end;
@@ -2361,7 +2361,7 @@ static void player_map_load(struct player *plr, int plrno,
        without fog of war */
     whole_map_iterate(ptile) {
       if (map_is_known(ptile, plr)) {
-	struct city *pcity = map_get_city(ptile);
+	struct city *pcity = tile_get_city(ptile);
 	update_player_tile_last_seen(plr, ptile);
 	update_player_tile_knowledge(plr, ptile);
 	if (pcity)
@@ -3048,7 +3048,7 @@ static void check_city(struct city *pcity)
 	ptile = city_map_to_map(pcity, x, y);
 
 	map_city_radius_iterate(ptile, tile2) {
-	  struct city *pcity2 = map_get_city(tile2);
+	  struct city *pcity2 = tile_get_city(tile2);
 	  if (pcity2)
 	    check_city(pcity2);
 	} map_city_radius_iterate_end;
@@ -3591,7 +3591,7 @@ void game_load(struct section_file *file)
     unit_list_iterate_safe(pplayer->units, punit) {
       struct unit *ferry = find_unit_by_id(punit->transported_by);
 
-      if (is_ocean(map_get_terrain(punit->tile))
+      if (is_ocean(tile_get_terrain(punit->tile))
           && is_ground_unit(punit) && !ferry) {
         freelog(LOG_ERROR, "Removing %s's unferried %s in ocean at (%d, %d)",
                 pplayer->name, unit_name(punit->type), TILE_XY(punit->tile));

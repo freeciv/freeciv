@@ -275,7 +275,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
         if (pos.total_MC > missile->moves_left / SINGLE_MOVE) {
           break;
         }
-        if (map_get_city(pos.tile)
+        if (tile_get_city(pos.tile)
             || !can_unit_attack_tile(punit, pos.tile)) {
           continue;
         }

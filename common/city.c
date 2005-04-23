@@ -729,8 +729,8 @@ static int base_get_output_tile(const struct tile *ptile,
   assert(otype >= 0 && otype < O_LAST);
 
   /* create dummy tile which has the city center bonuses. */
-  tile.terrain = map_get_terrain(ptile);
-  tile.special = map_get_special(ptile);
+  tile.terrain = tile_get_terrain(ptile);
+  tile.special = tile_get_special(ptile);
 
   if (auto_water) {
     /* The center tile is auto-irrigated. */
@@ -986,7 +986,7 @@ int trade_between_cities(const struct city *pc1, const struct city *pc2)
 	     + pc2->citizen_base[O_TRADE] + 4) / 8;
 
     /* Double if on different continents. */
-    if (map_get_continent(pc1->tile) != map_get_continent(pc2->tile)) {
+    if (tile_get_continent(pc1->tile) != tile_get_continent(pc2->tile)) {
       bonus *= 2;
     }
 

@@ -542,7 +542,7 @@ void process_caravan_arrival(struct unit *punit)
     if (punit && (unit_can_help_build_wonder_here(punit)
 		  || unit_can_est_traderoute_here(punit))
 	&& (!game.player_ptr->ai.control)) {
-      struct city *pcity_dest = map_get_city(punit->tile);
+      struct city *pcity_dest = tile_get_city(punit->tile);
       struct city *pcity_homecity = find_city_by_id(punit->homecity);
       if (pcity_dest && pcity_homecity) {
 	popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
@@ -658,7 +658,7 @@ static bool is_activity_on_tile(struct tile *ptile,
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity) 
 {
   struct player *pplayer = unit_owner(punit);
-  Terrain_type_id terrain = map_get_terrain(punit->tile);
+  Terrain_type_id terrain = tile_get_terrain(punit->tile);
   struct tile_type *ttype = get_tile_type(terrain);
 
   /* HACK: This code duplicates that in
@@ -905,7 +905,7 @@ void request_unit_disband(struct unit *punit)
 **************************************************************************/
 void request_unit_change_homecity(struct unit *punit)
 {
-  struct city *pcity=map_get_city(punit->tile);
+  struct city *pcity=tile_get_city(punit->tile);
   
   if (pcity) {
     dsend_packet_unit_change_homecity(&aconnection, punit->id, pcity->id);
@@ -917,7 +917,7 @@ void request_unit_change_homecity(struct unit *punit)
 **************************************************************************/
 void request_unit_upgrade(struct unit *punit)
 {
-  struct city *pcity=map_get_city(punit->tile);
+  struct city *pcity=tile_get_city(punit->tile);
 
   if (pcity) {
     dsend_packet_unit_upgrade(&aconnection, punit->id);
@@ -984,7 +984,7 @@ void request_unit_unload(struct unit *pcargo)
 **************************************************************************/
 void request_unit_caravan_action(struct unit *punit, enum packet_type action)
 {
-  if (!map_get_city(punit->tile)) {
+  if (!tile_get_city(punit->tile)) {
     return;
   }
 
@@ -1425,7 +1425,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 **************************************************************************/
 void do_map_click(struct tile *ptile, enum quickselect_type qtype)
 {
-  struct city *pcity = map_get_city(ptile);
+  struct city *pcity = tile_get_city(ptile);
   struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);
   bool maybe_goto = FALSE;
 
@@ -1825,7 +1825,7 @@ void key_unit_diplomat_actions(void)
   struct city *pcity;		/* need pcity->id */
   if (punit_focus
      && is_diplomat_unit(punit_focus)
-     && (pcity = map_get_city(punit_focus->tile))
+     && (pcity = tile_get_city(punit_focus->tile))
      && !diplomat_dialog_is_open()    /* confusing otherwise? */
      && diplomat_can_do_action(punit_focus, DIPLOMAT_ANY_ACTION,
 			       punit_focus->tile))

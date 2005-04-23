@@ -1648,7 +1648,7 @@ static bool is_full_ocean(Terrain_type_id t, int x, int y)
   {
     Terrain_type_id ter;
     adjc_iterate(x, y, x1, y1) {
-      ter = map_get_terrain(x1, y1);
+      ter = tile_get_terrain(x1, y1);
       if (!is_ocean(ter) && ter != T_UNKNOWN) {
         return FALSE;
       }
@@ -2006,7 +2006,7 @@ void real_blink_active_unit(void)
 	next_x = pUnit->x;
 	next_y = pUnit->y + 1;
 	if(normalize_map_pos(&next_x, &next_y)) {
-	  if(draw_cities && (pCity = map_get_city(next_x, next_y))) {
+	  if(draw_cities && (pCity = tile_get_city(next_x, next_y))) {
 	    put_city_pixmap_draw(pCity, pBlinkSurfaceB,
 			  -HALF_tileset_tile_width(tileset), HALF_tileset_tile_height(tileset));
 	  } else {
@@ -2020,7 +2020,7 @@ void real_blink_active_unit(void)
 	next_x = pUnit->x + 1;
 	next_y = pUnit->y;
 	if(normalize_map_pos(&next_x, &next_y)) {
-	  if((pCity = map_get_city(next_x, next_y)) && draw_cities) {
+	  if((pCity = tile_get_city(next_x, next_y)) && draw_cities) {
 	    put_city_pixmap_draw(pCity, pBlinkSurfaceB,
 			  HALF_tileset_tile_width(tileset), HALF_tileset_tile_height(tileset));
 	  } else {
@@ -2039,7 +2039,7 @@ void real_blink_active_unit(void)
 	next_x = pUnit->x + 1;
 	next_y = pUnit->y + 1;
 	if(normalize_map_pos(&next_x, &next_y)) {
-	  if(draw_cities && (pCity = map_get_city(next_x, next_y))) {
+	  if(draw_cities && (pCity = tile_get_city(next_x, next_y))) {
 	    put_city_pixmap_draw(pCity, pBlinkSurfaceB, 0, tileset_tile_height(tileset));
 	  } else {
 	    put_unit_pixmap_draw(get_drawable_unit(next_x, next_y, 0),
@@ -2202,7 +2202,7 @@ static SDL_Surface * create_iso_city_map(struct city *pCity)
 	  /* draw map cell */
 	  draw_map_cell(pDest, dest.x, dest.y, real_col, real_row, 1);
 	  if (get_worker_city(pCity, col, row) == C_TILE_UNAVAILABLE &&
-	      map_get_terrain(real_col, real_row) != T_UNKNOWN) {
+	      tile_get_terrain(real_col, real_row) != T_UNKNOWN) {
 	    if (!pTile) {
 	      
 	      /* fill pTile with Mask Color */
@@ -2504,7 +2504,7 @@ static void fill_dither_buffers(SDL_Surface **pDitherBufs, int x, int y,
   for (dir = 0; dir < 8; dir++) {
   
     if (MAPSTEP(x1, y1, x, y, dir)) {
-      __ter[dir] = map_get_terrain(x1, y1);
+      __ter[dir] = tile_get_terrain(x1, y1);
     } else {
       /* We draw the edges of the map as if the same terrain just
        * continued off the edge of the map. */

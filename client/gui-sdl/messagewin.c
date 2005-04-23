@@ -96,7 +96,7 @@ static int msg_callback(struct GUI *pWidget)
 	
     int x = pMsg->x;
     int y = pMsg->y;
-    struct city *pCity = map_get_city(x, y);
+    struct city *pCity = tile_get_city(x, y);
 
     if (center_when_popup_city) {
       center_tile_mapcanvas(x, y);

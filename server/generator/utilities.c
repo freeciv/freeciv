@@ -79,7 +79,7 @@ void map_unset_placed(struct tile *ptile)
 void set_all_ocean_tiles_placed(void) 
 {
   whole_map_iterate(ptile) {
-    if (is_ocean(map_get_terrain(ptile))) {
+    if (is_ocean(tile_get_terrain(ptile))) {
       map_set_placed(ptile);
     }
   } whole_map_iterate_end;

@@ -668,8 +668,8 @@ static void update_focus_tile_list2(void)
     item->info_text=mystrdup(mapview_get_terrain_info_text(ptile));
   }
 
-  if (map_get_city(ptile)) {
-    struct city *pcity=map_get_city(ptile);
+  if (tile_get_city(ptile)) {
+    struct city *pcity=tile_get_city(ptile);
     struct tile_list2_item *item = &tile_list2.item[tile_list2.items];
 
     tile_list2.items++;
@@ -1309,7 +1309,7 @@ static void fill_actions(void)
     }
 
     if (can_unit_add_or_build_city(punit)) {
-      if (map_get_city(punit->tile)) {
+      if (tile_get_city(punit->tile)) {
 	ADD("unit_add_to_city");
       } else {
 	ADD("unit_build_city");

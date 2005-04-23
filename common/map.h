@@ -164,8 +164,8 @@ bool base_get_direction_for_step(const struct tile *src_tile,
 int get_direction_for_step(const struct tile *src_tile,
 			   const struct tile *dst_tile);
 
-void map_set_continent(struct tile *ptile, Continent_id val);
-Continent_id map_get_continent(const struct tile *ptile);
+void tile_set_continent(struct tile *ptile, Continent_id val);
+Continent_id tile_get_continent(const struct tile *ptile);
 
 /* Number of index coordinates (for sanity checks and allocations) */
 #define MAP_INDEX_SIZE (map.xsize * map.ysize)
@@ -283,16 +283,16 @@ struct tile *map_pos_to_tile(int x, int y);
 struct tile *native_pos_to_tile(int nat_x, int nat_y);
 struct tile *index_to_tile(int index);
 
-struct player *map_get_owner(const struct tile *ptile);
-void map_set_owner(struct tile *ptile, struct player *pplayer);
-struct city *map_get_city(const struct tile *ptile);
-void map_set_city(struct tile *ptile, struct city *pcity);
-Terrain_type_id map_get_terrain(const struct tile *ptile);
-enum tile_special_type map_get_special(const struct tile *ptile);
-void map_set_terrain(struct tile *ptile, Terrain_type_id ter);
-void map_set_special(struct tile *ptile, enum tile_special_type spe);
-void map_clear_special(struct tile *ptile, enum tile_special_type spe);
-void map_clear_all_specials(struct tile *ptile);
+struct player *tile_get_owner(const struct tile *ptile);
+void tile_set_owner(struct tile *ptile, struct player *pplayer);
+struct city *tile_get_city(const struct tile *ptile);
+void tile_set_city(struct tile *ptile, struct city *pcity);
+Terrain_type_id tile_get_terrain(const struct tile *ptile);
+enum tile_special_type tile_get_special(const struct tile *ptile);
+void tile_set_terrain(struct tile *ptile, Terrain_type_id ter);
+void tile_set_special(struct tile *ptile, enum tile_special_type spe);
+void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
+void tile_clear_all_specials(struct tile *ptile);
 
 bool is_real_map_pos(int x, int y);
 bool is_normal_map_pos(int x, int y);

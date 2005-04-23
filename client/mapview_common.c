@@ -1840,7 +1840,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   closest_city = NULL;
 
   city_map_checked_iterate(ptile, city_x, city_y, tile1) {
-    pcity = map_get_city(tile1);
+    pcity = tile_get_city(tile1);
     if (pcity && pcity->owner == game.player_idx
 	&& get_worker_city(pcity, CITY_MAP_SIZE - 1 - city_x,
 			   CITY_MAP_SIZE - 1 - city_y) == C_TILE_EMPTY) {

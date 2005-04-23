@@ -568,7 +568,7 @@ void gamelog(int level, ...)
         for (nat_x = 0; nat_x < map.xsize; nat_x++) {
           struct tile *ptile = native_pos_to_tile(nat_x, nat_y);
 
-          mapline[i++] = is_ocean(map_get_terrain(ptile)) ? ' ' : '.';
+          mapline[i++] = is_ocean(tile_get_terrain(ptile)) ? ' ' : '.';
         }
         mapline[i++] = '\n';
       }

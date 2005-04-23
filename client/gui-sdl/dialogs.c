@@ -2415,7 +2415,7 @@ void popup_diplomat_dialog(struct unit *pUnit, int target_x, int target_y)
   }
   
   is_unit_move_blocked = TRUE;
-  pCity = map_get_city(target_x, target_y);
+  pCity = tile_get_city(target_x, target_y);
   spy = unit_flag(pUnit, F_SPY);
   
   pDiplomat_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));

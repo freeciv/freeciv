@@ -335,7 +335,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
     struct player *aplayer;
     bool can_incite;
 
-    acity = map_get_city(pos.tile);
+    acity = tile_get_city(pos.tile);
 
     if (!acity) {
       continue;
@@ -381,7 +381,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
   int best_dist = 30; /* any city closer than this is better than none */
   int best_urgency = 0;
   struct city *ctarget = NULL;
-  struct city *pcity = map_get_city(punit->tile);
+  struct city *pcity = tile_get_city(punit->tile);
 
   if (pcity 
       && count_diplomats_on_tile(pcity->tile) == 1
@@ -395,7 +395,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
     struct player *aplayer;
     int dipls, urgency;
 
-    acity = map_get_city(pos.tile);
+    acity = tile_get_city(pos.tile);
     if (!acity) {
       continue;
     }
@@ -459,7 +459,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
     if (!pvictim
         || !HOSTILE_PLAYER(pplayer, ai, unit_owner(pvictim))
         || unit_list_size(ptile->units) > 1
-        || map_get_city(pos.tile)
+        || tile_get_city(pos.tile)
         || government_has_flag(get_gov_pplayer(unit_owner(pvictim)),
                                G_UNBRIBABLE)) {
       continue;
@@ -558,7 +558,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   parameter.get_zoc = NULL; /* kludge */
   map = pf_create_map(&parameter);
 
-  pcity = map_get_city(punit->tile);
+  pcity = tile_get_city(punit->tile);
 
   /* Look for someone to bribe */
   if (!ai_diplomat_bribe_nearby(pplayer, punit, map)) {
@@ -568,7 +568,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   }
 
   /* If we are the only diplomat in a threatened city, then stay to defend */
-  pcity = map_get_city(punit->tile); /* we may have moved */
+  pcity = tile_get_city(punit->tile); /* we may have moved */
   if (pcity && count_diplomats_on_tile(punit->tile) == 1
       && (pcity->ai.diplomat_threat || pcity->ai.urgency > 0)) {
     UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
@@ -584,7 +584,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       || punit->ai.ai_role == AIUNIT_DEFEND_HOME) {
     bool failure = FALSE;
 
-    ctarget = map_get_city(punit->goto_tile);
+    ctarget = tile_get_city(punit->goto_tile);
     if (pf_get_position(map, punit->goto_tile, &pos)
         && ctarget) {
       if (same_pos(ctarget->tile, punit->tile)) {

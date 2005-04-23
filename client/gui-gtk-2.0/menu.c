@@ -1397,7 +1397,7 @@ void update_menus(void)
       if (unit_flag(punit, F_HELP_WONDER))
 	menus_rename("<main>/_Orders/_Build City", _("Help _Build Wonder"));
       else if (unit_flag(punit, F_CITIES)) {
-	if (map_get_city(punit->tile))
+	if (tile_get_city(punit->tile))
 	  menus_rename("<main>/_Orders/_Build City", _("Add to City (_B)"));
 	else
 	  menus_rename("<main>/_Orders/_Build City", _("_Build City"));

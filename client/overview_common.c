@@ -44,7 +44,7 @@ static enum color_std overview_tile_color(struct tile *ptile)
 
   if (tile_get_known(ptile) == TILE_UNKNOWN) {
     return COLOR_STD_BLACK;
-  } else if ((pcity = map_get_city(ptile))) {
+  } else if ((pcity = tile_get_city(ptile))) {
     if (pcity->owner == game.player_idx) {
       return COLOR_STD_WHITE;
     } else {

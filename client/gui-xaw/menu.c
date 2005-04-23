@@ -437,7 +437,7 @@ void update_menus(void)
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_NUKE,
                            unit_flag(punit, F_NUCLEAR));
 
-      if (unit_flag(punit, F_CITIES) && map_get_city(punit->tile)) {
+      if (unit_flag(punit, F_CITIES) && tile_get_city(punit->tile)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_BUILD_CITY,
 			  TEXT_ORDER_CITY_ADD_TO, NULL);
       } else {

@@ -55,8 +55,8 @@
 static void check_specials(void)
 {
   whole_map_iterate(ptile) {
-    Terrain_type_id terrain = map_get_terrain(ptile);
-    enum tile_special_type special = map_get_special(ptile);
+    Terrain_type_id terrain = tile_get_terrain(ptile);
+    enum tile_special_type special = tile_get_special(ptile);
 
     if (contains_special(special, S_RAILROAD))
       SANITY_CHECK(contains_special(special, S_ROAD));
@@ -117,8 +117,8 @@ static void check_misc(void)
 static void check_map(void)
 {
   whole_map_iterate(ptile) {
-    struct city *pcity = map_get_city(ptile);
-    int cont = map_get_continent(ptile), x, y;
+    struct city *pcity = tile_get_city(ptile);
+    int cont = tile_get_continent(ptile), x, y;
 
     CHECK_INDEX(ptile->index);
     CHECK_MAP_POS(ptile->x, ptile->y);
@@ -130,18 +130,18 @@ static void check_map(void)
     index_to_native_pos(&x, &y, ptile->index);
     SANITY_CHECK(x == ptile->nat_x && y == ptile->nat_y);
 
-    if (is_ocean(map_get_terrain(ptile))) {
+    if (is_ocean(tile_get_terrain(ptile))) {
       SANITY_CHECK(cont < 0);
       adjc_iterate(ptile, tile1) {
-	if (is_ocean(map_get_terrain(tile1))) {
-	  SANITY_CHECK(map_get_continent(tile1) == cont);
+	if (is_ocean(tile_get_terrain(tile1))) {
+	  SANITY_CHECK(tile_get_continent(tile1) == cont);
 	}
       } adjc_iterate_end;
     } else {
       SANITY_CHECK(cont > 0);
       adjc_iterate(ptile, tile1) {
-	if (!is_ocean(map_get_terrain(tile1))) {
-	  SANITY_CHECK(map_get_continent(tile1) == cont);
+	if (!is_ocean(tile_get_terrain(tile1))) {
+	  SANITY_CHECK(tile_get_continent(tile1) == cont);
 	}
       } adjc_iterate_end;
     }
@@ -173,7 +173,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   struct player *pplayer = city_owner(pcity);
 
   SANITY_CHECK(pcity->size >= 1);
-  SANITY_CHECK(!terrain_has_flag(map_get_terrain(pcity->tile),
+  SANITY_CHECK(!terrain_has_flag(tile_get_terrain(pcity->tile),
 			   TER_NO_CITIES));
 
   unit_list_iterate(pcity->units_supported, punit) {
@@ -187,7 +187,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
     struct tile *ptile;
 
     if ((ptile = city_map_to_map(pcity, x, y))) {
-      struct player *owner = map_get_owner(ptile);
+      struct player *owner = tile_get_owner(ptile);
 
       switch (get_worker_city(pcity, x, y)) {
       case C_TILE_EMPTY:
@@ -345,7 +345,7 @@ static void check_units(void) {
 		get_activity_text(punit->activity));
       }
 
-      pcity = map_get_city(ptile);
+      pcity = tile_get_city(ptile);
       if (pcity) {
 	SANITY_CHECK(pplayers_allied(city_owner(pcity), pplayer));
       }

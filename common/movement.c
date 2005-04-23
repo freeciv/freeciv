@@ -241,7 +241,7 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     return FALSE;
   }
 
-  if (map_get_city(ptile)) {
+  if (tile_get_city(ptile)) {
     return TRUE;
   }
 
@@ -283,11 +283,11 @@ bool can_step_taken_wrt_to_zoc(Unit_Type_id type,
   if (is_allied_unit_tile(dst_tile, unit_owner)) {
     return TRUE;
   }
-  if (map_get_city(src_tile) || map_get_city(dst_tile)) {
+  if (tile_get_city(src_tile) || tile_get_city(dst_tile)) {
     return TRUE;
   }
-  if (is_ocean(map_get_terrain(src_tile))
-      || is_ocean(map_get_terrain(dst_tile))) {
+  if (is_ocean(tile_get_terrain(src_tile))
+      || is_ocean(tile_get_terrain(dst_tile))) {
     return TRUE;
   }
   return (is_my_zoc(unit_owner, src_tile)

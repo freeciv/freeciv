@@ -1171,7 +1171,7 @@ update_menus(void)
 	my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Help Build Wonder")
 		       "\tB");
       } else if (unit_flag(punit, F_CITIES)) {
-	if (map_get_city(punit->tile)) {
+	if (tile_get_city(punit->tile)) {
 	  my_rename_menu(menu, IDM_ORDERS_BUILD_CITY, N_("Add to City")
 			 "\tB");
 	} else {

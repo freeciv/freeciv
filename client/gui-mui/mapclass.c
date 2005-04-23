@@ -109,7 +109,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
 	DoMethod(group, OM_ADDMEMBER, text_obj);
       }
 
-      if ((pcity = map_get_city(xtile, ytile)))
+      if ((pcity = tile_get_city(xtile, ytile)))
       {
 	my_snprintf(s, sizeof(s), _("City: %s(%s)"), pcity->name,
 		    get_nation_name(city_owner(pcity)->nation));
@@ -1625,7 +1625,7 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	Object *menu_title;
 	static char title[256];
 
-	pcity = map_get_city(x, y);
+	pcity = tile_get_city(x, y);
 	punit = find_visible_unit(ptile);
 	focus = get_unit_in_focus();
 
@@ -2926,7 +2926,7 @@ static ULONG PresentUnit_ContextMenuBuild(struct IClass * cl, Object * o, struct
       if (context_menu)
       {
       	Object *entry;
-      	struct city *pcity = map_get_city(punit->tile);
+      	struct city *pcity = tile_get_city(punit->tile);
 
 	if ((entry = MUI_MakeObject(MUIO_Menuitem, _("Activate"), NULL, MUIO_Menuitem_CopyStrings, 0)))
 	{

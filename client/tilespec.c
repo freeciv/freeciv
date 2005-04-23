@@ -2701,16 +2701,16 @@ static void build_tile_data(const struct tile *ptile,
 {
   enum direction8 dir;
 
-  *tspecial = map_get_special(ptile);
-  *ttype = map_get_terrain(ptile);
+  *tspecial = tile_get_special(ptile);
+  *ttype = tile_get_terrain(ptile);
 
   /* Loop over all adjacent tiles.  We should have an iterator for this. */
   for (dir = 0; dir < 8; dir++) {
     struct tile *tile1 = mapstep(ptile, dir);
 
     if (tile1 && tile_get_known(tile1) != TILE_UNKNOWN) {
-      tspecial_near[dir] = map_get_special(tile1);
-      ttype_near[dir] = map_get_terrain(tile1);
+      tspecial_near[dir] = tile_get_special(tile1);
+      ttype_near[dir] = tile_get_terrain(tile1);
     } else {
       /* We draw the edges of the (known) map as if the same terrain just
        * continued off the edge of the map. */
@@ -3252,7 +3252,7 @@ static int fill_blending_sprite_array(const struct tileset *t,
 				      Terrain_type_id *ttype_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
-  Terrain_type_id ttype = map_get_terrain(ptile);
+  Terrain_type_id ttype = tile_get_terrain(ptile);
 
   if (t->is_isometric && t->sprites.terrain[ttype]->is_blended) {
     enum direction4 dir;
@@ -3557,7 +3557,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
 
     for (i = 0; i < NUM_EDGE_TILES; i++) {
       const struct tile *tile = pedge->tile[i];
-      struct player *powner = tile ? map_get_owner(tile) : NULL;
+      struct player *powner = tile ? tile_get_owner(tile) : NULL;
       int dummy_x, dummy_y;
 
       known[i] = tile && tile_get_known(tile) != TILE_UNKNOWN;
@@ -3623,8 +3623,8 @@ static int fill_grid_sprite_array(const struct tileset *t,
     }
 
     if (draw_borders && game.borders > 0 && known[0] && known[1]) {
-      struct player *owner0 = map_get_owner(pedge->tile[0]);
-      struct player *owner1 = map_get_owner(pedge->tile[1]);
+      struct player *owner0 = tile_get_owner(pedge->tile[0]);
+      struct player *owner1 = tile_get_owner(pedge->tile[1]);
 
       if (owner0 != owner1) {
 	if (owner0) {

@@ -74,7 +74,7 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
 
   handle_unit_build_city(pplayer, punit->id,
 			 city_name_suggestion(pplayer, ptile));
-  pcity = map_get_city(ptile);
+  pcity = tile_get_city(ptile);
   if (!pcity) {
     freelog(LOG_ERROR, "%s: Failed to build city at (%d, %d)", 
             pplayer->name, TILE_XY(ptile));
@@ -207,9 +207,9 @@ static int ai_calc_pollution(struct city *pcity, int city_x, int city_y,
   if (!tile_has_special(ptile, S_POLLUTION)) {
     return -1;
   }
-  map_clear_special(ptile, S_POLLUTION);
+  tile_clear_special(ptile, S_POLLUTION);
   goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
-  map_set_special(ptile, S_POLLUTION);
+  tile_set_special(ptile, S_POLLUTION);
 
   /* FIXME: need a better way to guarantee pollution is cleaned up. */
   goodness = (goodness + best + 50) * 2;
@@ -237,9 +237,9 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
   if (!tile_has_special(ptile, S_FALLOUT)) {
     return -1;
   }
-  map_clear_special(ptile, S_FALLOUT);
+  tile_clear_special(ptile, S_FALLOUT);
   goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
-  map_set_special(ptile, S_FALLOUT);
+  tile_set_special(ptile, S_FALLOUT);
 
   /* FIXME: need a better way to guarantee fallout is cleaned up. */
   if (!pplayer->ai.control) {
@@ -267,13 +267,13 @@ static bool is_wet(struct player *pplayer, struct tile *ptile)
     return FALSE;
   }
 
-  terrain = map_get_terrain(ptile);
+  terrain = tile_get_terrain(ptile);
   if (is_ocean(terrain)) {
     /* TODO: perhaps salt water should not be usable for irrigation? */
     return TRUE;
   }
 
-  special = map_get_special(ptile);
+  special = tile_get_special(ptile);
   if (contains_special(special, S_RIVER)
       || contains_special(special, S_IRRIGATION)) {
     return TRUE;
@@ -334,7 +334,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
       return -1;
     }
     ptile->terrain = new_terrain;
-    map_clear_special(ptile, S_MINE);
+    tile_clear_special(ptile, S_MINE);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
     ptile->terrain = old_terrain;
     ptile->special = old_special;
@@ -345,8 +345,8 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
     /* The tile is currently unirrigated; irrigating it would put an
      * S_IRRIGATE on it replacing any S_MINE already there.  Calculate
      * the benefit of doing so. */
-    map_clear_special(ptile, S_MINE);
-    map_set_special(ptile, S_IRRIGATION);
+    tile_clear_special(ptile, S_MINE);
+    tile_set_special(ptile, S_IRRIGATION);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
     ptile->special = old_special;
     assert(ptile->terrain == old_terrain);
@@ -359,9 +359,9 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
     /* The tile is currently irrigated; irrigating it more puts an
      * S_FARMLAND on it.  Calculate the benefit of doing so. */
     assert(!tile_has_special(ptile, S_MINE));
-    map_set_special(ptile, S_FARMLAND);
+    tile_set_special(ptile, S_FARMLAND);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
-    map_clear_special(ptile, S_FARMLAND);
+    tile_clear_special(ptile, S_FARMLAND);
     assert(ptile->terrain == old_terrain && ptile->special == old_special);
     return goodness;
   } else {
@@ -397,8 +397,8 @@ static int ai_calc_mine(struct city *pcity,
       return -1;
     }
     ptile->terrain = new_terrain;
-    map_clear_special(ptile, S_IRRIGATION);
-    map_clear_special(ptile, S_FARMLAND);
+    tile_clear_special(ptile, S_IRRIGATION);
+    tile_clear_special(ptile, S_FARMLAND);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
     ptile->terrain = old_terrain;
     ptile->special = old_special;
@@ -408,9 +408,9 @@ static int ai_calc_mine(struct city *pcity,
     /* The tile is currently unmined; mining it would put an S_MINE on it
      * replacing any S_IRRIGATION/S_FARMLAND already there.  Calculate
      * the benefit of doing so. */
-    map_clear_special(ptile, S_IRRIGATION);
-    map_clear_special(ptile, S_FARMLAND);
-    map_set_special(ptile, S_MINE);
+    tile_clear_special(ptile, S_IRRIGATION);
+    tile_clear_special(ptile, S_FARMLAND);
+    tile_set_special(ptile, S_MINE);
     goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
     ptile->special = old_special;
     assert(ptile->terrain == old_terrain);
@@ -464,11 +464,11 @@ static int ai_calc_transform(struct city *pcity,
   ptile->terrain = new_terrain;
 
   if (get_tile_type(new_terrain)->mining_result != new_terrain) {
-    map_clear_special(ptile, S_MINE);
+    tile_clear_special(ptile, S_MINE);
   }
   if (get_tile_type(new_terrain)->irrigation_result != new_terrain) {
-    map_clear_special(ptile, S_FARMLAND);
-    map_clear_special(ptile, S_IRRIGATION);
+    tile_clear_special(ptile, S_FARMLAND);
+    tile_clear_special(ptile, S_IRRIGATION);
   }
     
   goodness = city_tile_value(pcity, city_x, city_y, 0, 0);
@@ -627,7 +627,7 @@ static int ai_calc_road(struct city *pcity, struct player *pplayer,
 	  || player_knows_techs_with_flag(pplayer, TF_BRIDGE))
       && !tile_has_special(ptile, S_ROAD)) {
 
-    /* HACK: calling map_set_special here will have side effects, so we
+    /* HACK: calling tile_set_special here will have side effects, so we
      * have to set it manually. */
     assert((ptile->special & S_ROAD) == 0);
     ptile->special |= S_ROAD;
@@ -669,7 +669,7 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
       && !tile_has_special(ptile, S_RAILROAD)) {
     old_special = ptile->special;
 
-    /* HACK: calling map_set_special here will have side effects, so we
+    /* HACK: calling tile_set_special here will have side effects, so we
      * have to set it manually. */
     ptile->special |= (S_ROAD | S_RAILROAD);
 
@@ -800,7 +800,7 @@ static int unit_foodbox_cost(struct unit *punit)
 
   if (punit->id == 0) {
     /* It is a virtual unit, so must start in a city... */
-    struct city *pcity = map_get_city(punit->tile);
+    struct city *pcity = tile_get_city(punit->tile);
 
     /* The default is to lose 100%.  The growth bonus reduces this. */
     int foodloss_pct = 100 - get_city_bonus(pcity, EFT_GROWTH_FOOD);
@@ -840,11 +840,11 @@ static int evaluate_improvements(struct unit *punit,
 				 enum unit_activity *best_act,
 				 struct tile **best_tile)
 {
-  struct city *mycity = map_get_city(punit->tile);
+  struct city *mycity = tile_get_city(punit->tile);
   struct player *pplayer = unit_owner(punit);
   bool in_use;			/* true if the target square is being used
 				   by one of our cities */
-  Continent_id ucont     = map_get_continent(punit->tile);
+  Continent_id ucont     = tile_get_continent(punit->tile);
   int mv_rate         = unit_type(punit)->move_rate;
   int mv_turns;			/* estimated turns to move to target square */
   int oldv;			/* current value of consideration tile */
@@ -872,7 +872,7 @@ static int evaluate_improvements(struct unit *punit,
 	continue;
       }
       in_use = (get_worker_city(pcity, i, j) == C_TILE_WORKER);
-      if (map_get_continent(ptile) == ucont
+      if (tile_get_continent(ptile) == ucont
 	  && WARMAP_COST(ptile) <= THRESHOLD * mv_rate
 	  && !BV_CHECK_MASK(TERRITORY(ptile), my_enemies)
 	  /* pretty good, hope it's enough! -- Syela */
@@ -1070,9 +1070,9 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
              best_impr);
     TIMING_LOG(AIT_SETTLERS, TIMER_STOP);
     if (result.result > best_impr) {
-      if (map_get_city(result.tile)) {
+      if (tile_get_city(result.tile)) {
         UNIT_LOG(LOG_SETTLER, punit, "immigrates to %s (%d, %d)", 
-                 map_get_city(result.tile)->name, TILE_XY(result.tile));
+                 tile_get_city(result.tile)->name, TILE_XY(result.tile));
       } else {
         UNIT_LOG(LOG_SETTLER, punit, "makes city at (%d, %d)", 
                  TILE_XY(result.tile));

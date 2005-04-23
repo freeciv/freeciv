@@ -113,7 +113,7 @@ void cityresult_fill(struct player *pplayer,
                      struct ai_data *ai,
                      struct cityresult *result)
 {
-  struct city *pcity = map_get_city(result->tile);
+  struct city *pcity = tile_get_city(result->tile);
   int sum = 0;
   bool virtual_city = FALSE;
   int curr_govt = pplayer->government;
@@ -296,7 +296,7 @@ static int defense_bonus(struct cityresult *result, struct ai_data *ai)
 {
   /* Defense modification (as tie breaker mostly) */
   int defense_bonus = 
-            get_tile_type(map_get_terrain(result->tile))->defense_bonus;
+            get_tile_type(tile_get_terrain(result->tile))->defense_bonus;
   if (tile_has_special(result->tile, S_RIVER)) {
     defense_bonus +=
         (defense_bonus * terrain_control.river_defense_bonus) / 100;
@@ -378,7 +378,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
                               struct unit *punit, struct tile *ptile,
                               struct cityresult *result)
 {  
-  struct city *pcity = map_get_city(ptile);
+  struct city *pcity = tile_get_city(ptile);
 
   assert(punit && ai && pplayer && result);
 
@@ -582,7 +582,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
 
   if (ferry 
       || (use_virt_boat && is_ocean_near_tile(punit->tile) 
-          && map_get_city(punit->tile))) {
+          && tile_get_city(punit->tile))) {
     if (!ferry) {
       /* No boat?  Get a virtual one! */
       Unit_Type_id boattype

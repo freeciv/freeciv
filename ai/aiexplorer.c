@@ -42,7 +42,7 @@ static int likely_ocean(struct tile *ptile, struct player *pplayer)
 
   if (map_is_known(ptile, pplayer)) {
     /* we've seen the tile already. */
-    return (is_ocean(map_get_terrain(ptile)) ? 100 : 0);
+    return (is_ocean(tile_get_terrain(ptile)) ? 100 : 0);
   }
   
   /* Now we're going to do two things at once. We're going to see if
@@ -59,14 +59,14 @@ static int likely_ocean(struct tile *ptile, struct player *pplayer)
 	 * central tile is ocean or not by the appearance of
 	 * the adjacent tile. So, given that we can tell, 
 	 * it's fair to look at the actual tile. */
-        return (is_ocean(map_get_terrain(ptile)) ? 100 : 0);
+        return (is_ocean(tile_get_terrain(ptile)) ? 100 : 0);
       } else {
 	/* We're diagonal to the tile in question. So we can't
 	 * be sure what the central tile is, but the central
 	 * tile is likely to be the same as the nearby tiles. 
 	 * If all 4 are water, return 90; if all 4 are land, 
 	 * return 10. */
-        sum += (is_ocean(map_get_terrain(ptile1)) ? 10 : -10);
+        sum += (is_ocean(tile_get_terrain(ptile1)) ? 10 : -10);
       }
     }
   } adjc_dir_iterate_end;
@@ -177,7 +177,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
    * the tile has a hut, don't go there. */
   if ((unit_flag(punit, F_TRIREME) && 
        is_likely_trireme_loss(pplayer, ptile))
-      || map_get_city(ptile)
+      || tile_get_city(ptile)
       || (is_barbarian(pplayer) && tile_has_special(ptile, S_HUT))) {
     return 0;
   }
