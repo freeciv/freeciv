@@ -150,8 +150,11 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
           || get_unit_type(unit_type)->pop_cost == 0)
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(get_unit_type(unit_type),
 			 	                    gov, O_FOOD)) {
-    /* settler_want calculated in settlers.c called from ai_manage_cities() */
-    int want = pcity->ai.settler_want;
+    /* The settler want is calculated in settlers.c called from
+     * ai_manage_cities.  The expand value is the % that the AI should
+     * value expansion (basically to handicap easier difficutly levels)
+     * and is set when the difficulty level is changed (stdinhand.c). */
+    int want = pcity->ai.settler_want * pplayer->ai.expand / 100;
 
     if (ai->wonder_city == pcity->id) {
       want /= 5;
