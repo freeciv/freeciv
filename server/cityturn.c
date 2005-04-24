@@ -552,9 +552,14 @@ static void city_populate(struct city *pcity)
 	return;
       }
     } unit_list_iterate_safe_end;
-    notify_player_ex(city_owner(pcity), pcity->tile, E_CITY_FAMINE,
-		     _("Famine causes population loss in %s."),
-		     pcity->name);
+    if (pcity->size > 1) {
+      notify_player_ex(city_owner(pcity), pcity->tile, E_CITY_FAMINE,
+		       _("Famine causes population loss in %s."),
+		       pcity->name);
+    } else {
+      notify_player_ex(city_owner(pcity), pcity->tile, E_CITY_FAMINE,
+		       _("Famine destroys %s entirely."), pcity->name);
+    }
     pcity->food_stock = (city_granary_size(pcity->size - 1)
 			 * granary_savings(pcity)) / 100;
     city_reduce_size(pcity, 1);
