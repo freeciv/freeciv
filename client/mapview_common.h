@@ -226,8 +226,6 @@ bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile);
 struct tile *canvas_pos_to_tile(int canvas_x, int canvas_y);
 struct tile *canvas_pos_to_nearest_tile(int canvas_x, int canvas_y);
 
-void get_mapview_corners(int x[4], int y[4]);
-
 void get_mapview_scroll_window(int *xmin, int *ymin,
 			       int *xmax, int *ymax,
 			       int *xsize, int *ysize);

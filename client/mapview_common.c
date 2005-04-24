@@ -471,7 +471,6 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
   const int width = mapview.width, height = mapview.height;
   int common_x0, common_x1, common_y0, common_y1;
   int update_x0, update_x1, update_y0, update_y1;
-  struct tile *map_center;
 
   /* Then update everything.  This does some tricky math to avoid having
    * to do unnecessary redraws in update_map_canvas.  This makes for ugly
@@ -544,8 +543,7 @@ static void base_set_mapview_origin(int gui_x0, int gui_y0)
     update_map_canvas(0, 0, mapview.store_width, mapview.store_height);
   }
 
-  map_center = get_center_tile_mapcanvas();
-  center_tile_overviewcanvas(map_center);
+  center_tile_overviewcanvas();
   if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
     create_line_at_mouse_pos();
   }
@@ -2150,71 +2148,6 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 }
 
 /**************************************************************************
-  Find the corners of the mapview, in overview coordinates.  Used to draw
-  the "mapview window" rectangle onto the overview.
-**************************************************************************/
-void get_mapview_corners(int x[4], int y[4])
-{
-  int map_x0, map_y0;
-
-  base_canvas_to_map_pos(&map_x0, &map_y0, 0, 0);
-  map_to_overview_pos(&x[0], &y[0], map_x0, map_y0);
-
-  /* Note: these calculations operate on overview coordinates as if they
-   * are natural.  Corners may be off by one tile, however. */
-
-  if (tileset_is_isometric(tileset) && !MAP_IS_ISOMETRIC) {
-    /* We start with the west corner. */
-
-    /* North */
-    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview.tile_width;
-    y[1] = y[0] - OVERVIEW_TILE_HEIGHT * mapview.tile_width;
-
-    /* East */
-    x[2] = x[1] + OVERVIEW_TILE_WIDTH * mapview.tile_height;
-    y[2] = y[1] + OVERVIEW_TILE_HEIGHT * mapview.tile_height;
-
-    /* South */
-    x[3] = x[0] + OVERVIEW_TILE_WIDTH * mapview.tile_height;
-    y[3] = y[0] + OVERVIEW_TILE_HEIGHT * mapview.tile_height;
-  } else if (!tileset_is_isometric(tileset) && MAP_IS_ISOMETRIC) {
-    /* We start with the west corner.  Note the X scale is smaller. */
-
-    /* North */
-    x[1] = x[0] + OVERVIEW_TILE_WIDTH * mapview.tile_width / 2;
-    y[1] = y[0] + OVERVIEW_TILE_HEIGHT * mapview.tile_width;
-
-    /* East */
-    x[2] = x[1] - OVERVIEW_TILE_WIDTH * mapview.tile_height / 2;
-    y[2] = y[1] + OVERVIEW_TILE_HEIGHT * mapview.tile_height;
-
-    /* South */
-    x[3] = x[2] - OVERVIEW_TILE_WIDTH * mapview.tile_width / 2;
-    y[3] = y[2] - OVERVIEW_TILE_HEIGHT * mapview.tile_width;
-  } else {
-    /* We start with the northwest corner. */
-    int screen_width = mapview.tile_width;
-    int screen_height = mapview.tile_height * (tileset_is_isometric(tileset)
-					       ? 2 : 1);
-
-    /* Northeast */
-    x[1] = x[0] + OVERVIEW_TILE_WIDTH * screen_width - 1;
-    y[1] = y[0];
-
-    /* Southeast */
-    x[2] = x[1];
-    y[2] = y[0] + OVERVIEW_TILE_HEIGHT * screen_height - 1;
-
-    /* Southwest */
-    x[3] = x[0];
-    y[3] = y[2];
-  }
-
-  freelog(LOG_DEBUG, "(%d,%d)->(%d,%x)->(%d,%d)->(%d,%d)",
-	  x[0], y[0], x[1], y[1], x[2], y[2], x[3], y[3]);
-}
-
-/**************************************************************************
   Returns TRUE if cached drawing is possible.  If the mapview is too large
   we have to turn it off.
 **************************************************************************/
@@ -2353,7 +2286,7 @@ bool map_canvas_resized(int width, int height)
   if (map_exists() && can_client_change_view()) {
     if (tile_size_changed) {
       update_map_canvas_visible();
-      center_tile_overviewcanvas(get_center_tile_mapcanvas());
+      center_tile_overviewcanvas();
       unqueue_mapview_updates(TRUE);
       redrawn = TRUE;
     }

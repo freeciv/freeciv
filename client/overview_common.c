@@ -35,6 +35,69 @@ struct overview overview;
 static bool overview_dirty = FALSE;
 
 /****************************************************************************
+  Translate from gui to natural coordinate systems.  This provides natural
+  coordinates as a floating-point value so there is no loss of information
+  in the resulting values.
+****************************************************************************/
+static void gui_to_natural_pos(const struct tileset *t,
+			       double *ntl_x, double *ntl_y,
+			       int gui_x, int gui_y)
+{
+  const double gui_xd = gui_x, gui_yd = gui_y;
+  const double W = tileset_tile_width(t), H = tileset_tile_height(t);
+  double map_x, map_y;
+
+  /* First convert to map positions.  This ignores hex conversions; we're
+   * not looking for an exact tile. */
+  if (tileset_is_isometric(t)) {
+    /* Includes hex cases. */
+    map_x = (gui_xd * H + gui_yd * W) / (W * H);
+    map_y = (gui_yd * W - gui_xd * H) / (W * H);
+  } else {
+    map_x = gui_xd / W;
+    map_y = gui_yd / H;
+  }
+
+  /* Now convert to natural positions.  Note this assumes the macro form
+   * of the conversion will work with floating-point values. */
+  MAP_TO_NATURAL_POS(ntl_x, ntl_y, map_x, map_y);
+
+}
+
+/****************************************************************************
+  Translate from gui to overview coordinate systems.
+****************************************************************************/
+static void gui_to_overview_pos(const struct tileset *t,
+				int *ovr_x, int *ovr_y,
+				int gui_x, int gui_y)
+{
+  double ntl_x, ntl_y;
+
+  gui_to_natural_pos(t, &ntl_x, &ntl_y, gui_x, gui_y);
+
+  /* Now convert straight to overview coordinates. */
+  *ovr_x = floor((ntl_x - (double)overview.map_x0) * OVERVIEW_TILE_SIZE);
+  *ovr_y = floor((ntl_y - (double)overview.map_y0) * OVERVIEW_TILE_SIZE);
+
+  /* Now do additional adjustments.  See map_to_overview_pos(). */
+  if (topo_has_flag(TF_WRAPX)) {
+    *ovr_x = FC_WRAP(*ovr_x, NATURAL_WIDTH * OVERVIEW_TILE_SIZE);
+  } else {
+    if (MAP_IS_ISOMETRIC) {
+      /* HACK: For iso-maps that don't wrap in the X direction we clip
+       * a half-tile off of the left and right of the overview.  This
+       * means some tiles only are halfway shown.  However it means we
+       * don't show any unreal tiles, which we'd otherwise be doing.  The
+       * rest of the code can't handle unreal tiles in the overview. */
+      *ovr_x -= OVERVIEW_TILE_SIZE;
+    }
+  }
+  if (topo_has_flag(TF_WRAPY)) {
+    *ovr_y = FC_WRAP(*ovr_y, NATURAL_HEIGHT * OVERVIEW_TILE_SIZE);
+  }
+}
+
+/****************************************************************************
   Return color for overview map tile.
 ****************************************************************************/
 static enum color_std overview_tile_color(struct tile *ptile)
@@ -78,6 +141,7 @@ static enum color_std overview_tile_color(struct tile *ptile)
 static void redraw_overview(void)
 {
   struct canvas *dest = get_overview_window();
+  int i, x[4], y[4];
 
   if (!dest || !overview.map) {
     return;
@@ -96,21 +160,24 @@ static void redraw_overview(void)
     canvas_copy(dst, src, x, y, 0, 0, ix, iy);
   }
 
-  {
-    int i;
-    int x[4], y[4];
+  gui_to_overview_pos(tileset, &x[0], &y[0],
+		      mapview.gui_x0, mapview.gui_y0);
+  gui_to_overview_pos(tileset, &x[1], &y[1],
+		      mapview.gui_x0 + mapview.width, mapview.gui_y0);
+  gui_to_overview_pos(tileset, &x[2], &y[2],
+		      mapview.gui_x0 + mapview.width,
+		      mapview.gui_y0 + mapview.height);
+  gui_to_overview_pos(tileset, &x[3], &y[3],
+		      mapview.gui_x0, mapview.gui_y0 + mapview.height);
 
-    get_mapview_corners(x, y);
+  for (i = 0; i < 4; i++) {
+    int src_x = x[i];
+    int src_y = y[i];
+    int dst_x = x[(i + 1) % 4];
+    int dst_y = y[(i + 1) % 4];
 
-    for (i = 0; i < 4; i++) {
-      int src_x = x[i];
-      int src_y = y[i];
-      int dst_x = x[(i + 1) % 4];
-      int dst_y = y[(i + 1) % 4];
-
-      canvas_put_line(overview.window, COLOR_STD_WHITE, LINE_NORMAL,
-		      src_x, src_y, dst_x - src_x, dst_y - src_y);
-    }
+    canvas_put_line(overview.window, COLOR_STD_WHITE, LINE_NORMAL,
+		    src_x, src_y, dst_x - src_x, dst_y - src_y);
   }
 
   canvas_copy(dest, overview.window,
@@ -139,29 +206,48 @@ void flush_dirty_overview(void)
   }
 }
 
+/****************************************************************************
+  Equivalent to FC_WRAP, but it works for doubles.
+****************************************************************************/
+static double wrap_double(double value, double wrap)
+{
+  while (value < 0) {
+    value += wrap;
+  }
+  while (value >= wrap) {
+    value -= wrap;
+  }
+  return value;
+}
+
 /**************************************************************************
   Center the overview around the mapview.
 **************************************************************************/
-void center_tile_overviewcanvas(struct tile *ptile)
+void center_tile_overviewcanvas(void)
 {
-  /* The overview coordinates are equivalent to (scaled) natural
-   * coordinates. */
-  do_in_natural_pos(ntl_x, ntl_y, ptile->x, ptile->y) {
-    /* NOTE: this embeds the map wrapping in the overview code.  This is
-     * basically necessary for the overview to be efficiently
-     * updated. */
-    if (topo_has_flag(TF_WRAPX)) {
-      overview.map_x0 = FC_WRAP(ntl_x - NATURAL_WIDTH / 2, NATURAL_WIDTH);
-    } else {
-      overview.map_x0 = 0;
-    }
-    if (topo_has_flag(TF_WRAPY)) {
-      overview.map_y0 = FC_WRAP(ntl_y - NATURAL_HEIGHT / 2, NATURAL_HEIGHT);
-    } else {
-      overview.map_y0 = 0;
-    }
-    redraw_overview();
-  } do_in_natural_pos_end;
+  double ntl_x, ntl_y;
+
+  gui_to_natural_pos(tileset, &ntl_x, &ntl_y,
+		     mapview.gui_x0 + mapview.width / 2,
+		     mapview.gui_y0 + mapview.height / 2);
+
+  /* NOTE: this embeds the map wrapping in the overview code.  This is
+   * basically necessary for the overview to be efficiently
+   * updated. */
+  if (topo_has_flag(TF_WRAPX)) {
+    overview.map_x0 = wrap_double(ntl_x - (double)NATURAL_WIDTH / 2.0,
+				  NATURAL_WIDTH);
+  } else {
+    overview.map_x0 = 0;
+  }
+  if (topo_has_flag(TF_WRAPY)) {
+    overview.map_y0 = wrap_double(ntl_y - (double)NATURAL_HEIGHT / 2.0,
+				  NATURAL_HEIGHT);
+  } else {
+    overview.map_y0 = 0;
+  }
+
+  redraw_overview();
 }
 
 /**************************************************************************

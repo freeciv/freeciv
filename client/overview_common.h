@@ -21,7 +21,7 @@
 /* Holds all information about the overview aka minimap. */
 struct overview {
   /* The following fields are controlled by mapview_common.c. */
-  int map_x0, map_y0;
+  double map_x0, map_y0; /* Origin of the overview, in natural coords. */
   int width, height;		/* Size in pixels. */
 
   /* Holds the map, unwrapped. */
@@ -50,7 +50,7 @@ void refresh_overview_canvas(void);
 void overview_update_tile(struct tile *ptile);
 void calculate_overview_dimensions(void);
 
-void center_tile_overviewcanvas(struct tile *ptile);
+void center_tile_overviewcanvas(void);
 
 void flush_dirty_overview(void);
 
