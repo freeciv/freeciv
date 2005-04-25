@@ -65,10 +65,20 @@ Pixmap scaled_intro_pixmap;
 int scaled_intro_pixmap_width, scaled_intro_pixmap_height;
 
 
+/****************************************************************************
+  Return the dimensions of the area (container widget; maximum size) for
+  the overview.
+****************************************************************************/
+void get_overview_area_dimensions(int *width, int *height)
+{
+  XtVaGetValues(left_column_form, XtNheight, &height, NULL);
+  XtVaGetValues(below_menu_form, XtNwidth, &width, NULL);
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
-void map_size_changed(void)
+void overview_size_changed(void)
 {
   Dimension h, w;
 
