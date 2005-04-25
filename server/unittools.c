@@ -2742,16 +2742,17 @@ static void handle_unit_move_consequences(struct unit *punit,
   map_city_radius_iterate(src_tile, tile1) {
     struct city *pcity = tile_get_city(tile1);
 
-    if (pcity && update_city_tile_status_map(pcity, src_tile)) {
-      auto_arrange_workers(pcity);
+    if (pcity) {
+      update_city_tile_status_map(pcity, src_tile);
       send_city_info(NULL, pcity);
     }
   } map_city_radius_iterate_end;
   /* Then check cities near the destination. */
   map_city_radius_iterate(dst_tile, tile1) {
     struct city *pcity = tile_get_city(tile1);
-    if (pcity && update_city_tile_status_map(pcity, dst_tile)) {
-      auto_arrange_workers(pcity);
+
+    if (pcity) {
+      update_city_tile_status_map(pcity, dst_tile);
       send_city_info(NULL, pcity);
     }
   } map_city_radius_iterate_end;

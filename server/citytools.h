@@ -82,7 +82,7 @@ void city_thaw_workers(struct city *pcity);
 bool city_can_work_tile(struct city *pcity, int city_x, int city_y);
 void server_remove_worker_city(struct city *pcity, int city_x, int city_y);
 void server_set_worker_city(struct city *pcity, int city_x, int city_y);
-bool update_city_tile_status_map(struct city *pcity, struct tile *ptile);
+void update_city_tile_status_map(struct city *pcity, struct tile *ptile);
 void sync_cities(void);
 bool can_place_worker_here(struct city *pcity, int city_x, int city_y);
 void check_city_workers(struct player *pplayer);

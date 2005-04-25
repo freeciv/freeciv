@@ -61,7 +61,7 @@ static char *search_for_city_name(struct tile *ptile, struct city_name *city_nam
 				  struct player *pplayer);
 static void server_set_tile_city(struct city *pcity, int city_x, int city_y,
 				 enum city_tile_type type);
-static bool update_city_tile_status(struct city *pcity, int city_x,
+static void update_city_tile_status(struct city *pcity, int city_x,
 				    int city_y);
 
 /****************************************************************************
@@ -1939,19 +1939,17 @@ void server_set_worker_city(struct city *pcity, int city_x, int city_y)
   Updates the worked status of the tile (in map coordinates) for the city.
   If the status changes auto_arrange_workers may be called.  The caller needs
   to call sync_cities afterward for the affected city to be synced with the
-  client.
+  client.  auto_arrange_workers may be called within this function if a
+  worker is displaced.
 
-  It is safe to pass an out-of-range tile to this function.  The function
-  returns TRUE if the tile is made unavailable.
+  It is safe to pass an out-of-range tile to this function.
 ****************************************************************************/
-bool update_city_tile_status_map(struct city *pcity, struct tile *ptile)
+void update_city_tile_status_map(struct city *pcity, struct tile *ptile)
 {
   int city_x, city_y;
 
   if (map_to_city_map(&city_x, &city_y, pcity, ptile)) {
-    return update_city_tile_status(pcity, city_x, city_y);
-  } else {
-    return FALSE;
+    update_city_tile_status(pcity, city_x, city_y);
   }
 }
 
@@ -1960,15 +1958,12 @@ Updates the worked status of a tile.
 city_x, city_y is in city map coords.
 You need to call sync_cities for the affected cities to be synced with the
 client.
-
-Returns TRUE iff a tile got available.
 **************************************************************************/
-static bool update_city_tile_status(struct city *pcity, int city_x,
+static void update_city_tile_status(struct city *pcity, int city_x,
 				    int city_y)
 {
   enum city_tile_type current;
   bool is_available;
-  bool result = FALSE;
 
   assert(is_valid_city_coords(city_x, city_y));
 
@@ -1989,7 +1984,9 @@ static bool update_city_tile_status(struct city *pcity, int city_x,
   case C_TILE_UNAVAILABLE:
     if (is_available) {
       server_set_tile_city(pcity, city_x, city_y, C_TILE_EMPTY);
-      result = TRUE;
+      /* We used to do an auto_arrange_workers in this case also.  But
+       * that's a bad idea since it will spuriously move around workers that
+       * have already been carefully placed. */
     }
     break;
 
@@ -1999,8 +1996,6 @@ static bool update_city_tile_status(struct city *pcity, int city_x,
     }
     break;
   }
-
-  return result;
 }
 
 /**************************************************************************
