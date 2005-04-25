@@ -437,22 +437,6 @@ struct tile *index_to_tile(int index)
   }
 }
 
-/**************************************************************************
-  Return the player who owns this tile (or NULL if none).
-**************************************************************************/
-struct player *tile_get_owner(const struct tile *ptile)
-{
-  return ptile->owner;
-}
-
-/**************************************************************************
-  Set the owner of a tile (may be NULL).
-**************************************************************************/
-void tile_set_owner(struct tile *ptile, struct player *owner)
-{
-  ptile->owner = owner;
-}
-
 /***************************************************************
 ...
 ***************************************************************/
@@ -1128,95 +1112,6 @@ int map_move_cost(struct unit *punit, const struct tile *ptile)
 bool is_tiles_adjacent(const struct tile *tile0, const struct tile *tile1)
 {
   return real_map_distance(tile0, tile1) == 1;
-}
-
-/***************************************************************
-...
-***************************************************************/
-Continent_id tile_get_continent(const struct tile *ptile)
-{
-  return ptile->continent;
-}
-
-/***************************************************************
-...
-***************************************************************/
-void tile_set_continent(struct tile *ptile, Continent_id val)
-{
-  ptile->continent = val;
-}
-
-/***************************************************************
-...
-***************************************************************/
-Terrain_type_id tile_get_terrain(const struct tile *ptile)
-{
-  return ptile->terrain;
-}
-
-/***************************************************************
-...
-***************************************************************/
-void tile_set_terrain(struct tile *ptile, Terrain_type_id ter)
-{
-  ptile->terrain = ter;
-}
-
-/***************************************************************
-...
-***************************************************************/
-enum tile_special_type tile_get_special(const struct tile *ptile)
-{
-  return ptile->special;
-}
-
-/***************************************************************
- Returns TRUE iff the given tile has the given special.
-***************************************************************/
-bool tile_has_special(const struct tile *ptile,
-		      enum tile_special_type special)
-{
-  return contains_special(ptile->special, special);
-}
-
-/***************************************************************
-...
-***************************************************************/
-void tile_set_special(struct tile *ptile, enum tile_special_type spe)
-{
-  ptile->special |= spe;
-}
-
-/***************************************************************
-...
-***************************************************************/
-void tile_clear_special(struct tile *ptile, enum tile_special_type spe)
-{
-  ptile->special &= ~spe;
-}
-
-/***************************************************************
-  Remove any specials which may exist at these map co-ordinates.
-***************************************************************/
-void tile_clear_all_specials(struct tile *ptile)
-{
-  ptile->special = S_NO_SPECIAL;
-}
-
-/***************************************************************
-...
-***************************************************************/
-struct city *tile_get_city(const struct tile *ptile)
-{
-  return ptile->city;
-}
-
-/***************************************************************
-...
-***************************************************************/
-void tile_set_city(struct tile *ptile, struct city *pcity)
-{
-  ptile->city = pcity;
 }
 
 /***************************************************************

@@ -21,6 +21,7 @@
 #include "game.h"
 #include "player.h"
 #include "terrain.h"
+#include "tile.h"
 #include "unit.h"
 
 /*
@@ -30,38 +31,6 @@
  */
 #define MOVE_COST_FOR_VALID_SEA_STEP	(-3)
 #define MOVE_COST_FOR_VALID_AIR_STEP	(-3)
-
-/* Convenience macro for accessing tile coordinates.  This should only be
- * used for debugging. */
-#define TILE_XY(ptile) ((ptile) ? (ptile)->x : -1), \
-                       ((ptile) ? (ptile)->y : -1)
-
-struct tile {
-  const int x, y; /* Cartesian (map) coordinates of the tile. */
-  const int nat_x, nat_y; /* Native coordinates of the tile. */
-  const int index; /* Index coordinate of the tile. */
-  Terrain_type_id terrain;
-  enum tile_special_type special;
-  struct city *city;        /* city standing on the tile, NULL if none */
-  struct unit_list *units;
-  unsigned int known;   /* A bitvector on the server side, an
-			   enum known_type on the client side.
-			   Player_no is index */
-  int assigned; /* these can save a lot of CPU usage -- Syela */
-  struct city *worked;      /* city working tile, or NULL if none */
-  Continent_id continent;
-  struct player *owner;     /* Player owning this tile, or NULL. */
-  char *spec_sprite;
-};
-
-/* get 'struct tile_list' and related functions: */
-#define SPECLIST_TAG tile
-#define SPECLIST_TYPE struct tile
-#include "speclist.h"
-
-#define tile_list_iterate(tile_list, ptile) \
-    TYPED_LIST_ITERATE(struct tile, tile_list, ptile)
-#define tile_list_iterate_end  LIST_ITERATE_END
 
 /****************************************************************
 miscellaneous terrain information
@@ -163,9 +132,6 @@ bool base_get_direction_for_step(const struct tile *src_tile,
 				 enum direction8 *dir);
 int get_direction_for_step(const struct tile *src_tile,
 			   const struct tile *dst_tile);
-
-void tile_set_continent(struct tile *ptile, Continent_id val);
-Continent_id tile_get_continent(const struct tile *ptile);
 
 /* Number of index coordinates (for sanity checks and allocations) */
 #define MAP_INDEX_SIZE (map.xsize * map.ysize)
@@ -283,27 +249,12 @@ struct tile *map_pos_to_tile(int x, int y);
 struct tile *native_pos_to_tile(int nat_x, int nat_y);
 struct tile *index_to_tile(int index);
 
-struct player *tile_get_owner(const struct tile *ptile);
-void tile_set_owner(struct tile *ptile, struct player *pplayer);
-struct city *tile_get_city(const struct tile *ptile);
-void tile_set_city(struct tile *ptile, struct city *pcity);
-Terrain_type_id tile_get_terrain(const struct tile *ptile);
-enum tile_special_type tile_get_special(const struct tile *ptile);
-void tile_set_terrain(struct tile *ptile, Terrain_type_id ter);
-void tile_set_special(struct tile *ptile, enum tile_special_type spe);
-void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
-void tile_clear_all_specials(struct tile *ptile);
-
 bool is_real_map_pos(int x, int y);
 bool is_normal_map_pos(int x, int y);
 
 /* implemented in server/maphand.c and client/climisc.c */
 enum known_type map_get_known(const struct tile *ptile,
 			      const struct player *pplayer);
-
-/* special testing */
-bool tile_has_special(const struct tile *ptile,
-		      enum tile_special_type to_test_for);
 
 bool is_singular_tile(const struct tile *ptile, int dist);
 bool normalize_map_pos(int *x, int *y);

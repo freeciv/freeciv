@@ -55,6 +55,8 @@ libcivcommon_a_SOURCES = \
 		tech.h		\
 		terrain.c	\
 		terrain.h	\
+		tile.c		\
+		tile.h		\
 		unit.c		\
 		unit.h		\
 		unittype.c	\
